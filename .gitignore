@@ -1,2 +1,11 @@
 Build/
 bin/
+.vs/
+*.vcxproj
+*.filters
+*.user
+AutoEngine/Debug/
+AutoEngineAPI/Debug/
+Debug/
+EmptyProject/glad.c
+Auto.sln
