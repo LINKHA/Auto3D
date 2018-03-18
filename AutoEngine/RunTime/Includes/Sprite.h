@@ -11,5 +11,13 @@ public:
 	~Sprite();
 	
 };
+Sprite::Sprite()
+{
+}
+
+Sprite::~Sprite()
+{
+}
+
 AUTO_END
 #endif // SPRITE_H_

@@ -13,6 +13,19 @@ public:
 	BaseCompontent();
 	~BaseCompontent();
 };
+
+BaseCompontent::BaseCompontent()
+{
+
+}
+BaseCompontent:: ~BaseCompontent()
+{
+
+}
+
+
+
+
 AUTO_END
 
 #endif // BASECOMPONTENT_H_

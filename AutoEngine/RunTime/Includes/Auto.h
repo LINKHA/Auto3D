@@ -2,7 +2,7 @@
 #define AUTO_H_
 
 #include <assert.h>
-
+#include <string>
 //namespace AutoEngine
 #define AUTO_BEGIN			namespace AutoEngine {
 #define AUTO_END			}
@@ -78,6 +78,8 @@
 
 
 
+//
+#define AutoString std::string
 
 
 

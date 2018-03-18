@@ -1,10 +1,6 @@
 #include "BaseSprite.h"
 
 
-
-
-
-
 AUTO_BEGIN
 class BaseCompontent;
 

@@ -2,18 +2,36 @@
 
 
 SCRIPT_BEGIN
-
-ScriptManager::ScriptManager()
+struct MatchByNameFilter
 {
-}
+	const char* name;
+	bool Match(BaseScript* script) { return script->GetScriptClassName() == name; }
+};
 
-
-ScriptManager::~ScriptManager()
+struct MatchByClassFilter
 {
-}
+	//ScriptingClassPtr m_class;
+	//bool Match(BaseScript* script) { return script->GetClass() == m_class; }
+};
 
-BaseScript* ScriptManager::FindScript(const std::string& className)
+
+template<typename T>
+BaseScript* FindScript(ScriptManager::Scripts& scripts , T& filter)
 {
-	return nullptr;
+	ScriptManager::Scripts::iterator i, next;
+	for (i = scripts.begin(); i != scripts.end(); i = next)
+	{
+		next = i; next++;
+		BaseScript* script = *i;
+		if (script == NULL)
+		{
+			scripts.erase(i);
+		}
+		else if(filter.Match(script))
+		{
+			return script;
+		}
+	}
+	return NULL;
 }
 SCRIPT_END

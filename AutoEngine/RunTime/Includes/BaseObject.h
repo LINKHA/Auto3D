@@ -11,7 +11,7 @@ class PPtr
 {
 	UInt32 m_InstanceID;
 	static const char* GetTypeString();//{ return typeid(T).name(); }
-protected:
+public:
 	PPtr(int instanceID) { m_InstanceID = instanceID; }
 	PPtr(const T* o) { AssignObject(o); }
 	PPtr(const PPtr<T>& o) { m_InstanceID = o.m_InstanceID; }

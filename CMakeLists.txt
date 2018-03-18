@@ -10,6 +10,7 @@ add_subdirectory(./AutoEngine)
 add_subdirectory(./AutoEngineAPI)
 
 include_directories(${CMAKE_SOURCE_DIR}/AutoEngine/RunTime/Includes)
+include_directories(${CMAKE_SOURCE_DIR}/AutoEngineAPI)
 
 link_directories(${CMAKE_SOURCE_DIR}/lib)
 link_libraries(glfw3 opengl32 assimpd)

@@ -15,7 +15,9 @@
 #include "shader.h"
 #include "model.h"
 #include "Applacation.h"
+#include "AScene.h"
 
+#include "WorkSpace.h"
 #define __OPENGL__
 
 
