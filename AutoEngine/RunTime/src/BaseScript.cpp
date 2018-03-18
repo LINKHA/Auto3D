@@ -6,8 +6,8 @@ BaseScript::BaseScript()
 {
 }
 
-
 BaseScript::~BaseScript()
 {
 }
+
 SCRIPT_END

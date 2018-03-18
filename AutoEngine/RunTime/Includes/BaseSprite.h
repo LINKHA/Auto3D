@@ -1,25 +1,22 @@
 #ifndef BASESPRITE_H_
 #define BASESPRITE_H_
 
-#include <vector>
-
 #include "Auto.h"
-
 #include "Transform.h"
-
+#include "stl_use.h"
 
 
 
 AUTO_BEGIN
-class BaseSprite
+class BaseSprite :public Object
 {
 public:
 	BaseSprite();
 	~BaseSprite();
-	void addComponent(const CBaseCompontent& compontent);
+	void addComponent(const BaseCompontent& compontent);
 
 private:
-	std::vector <CBaseCompontent> compontents;
+	AUTO_LIST(BaseCompontent) compontents;
 };
 AUTO_END
 #endif // BASESPRITE_H_

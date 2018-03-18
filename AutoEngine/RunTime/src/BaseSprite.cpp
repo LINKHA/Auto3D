@@ -6,7 +6,7 @@
 
 
 AUTO_BEGIN
-class CBaseCompontent;
+class BaseCompontent;
 
 
 BaseSprite::BaseSprite()
@@ -19,7 +19,7 @@ BaseSprite::~BaseSprite()
 {
 }
 
-void BaseSprite::addComponent(const CBaseCompontent& compontent)
+void BaseSprite::addComponent(const BaseCompontent& compontent)
 {
 	compontents.push_back(compontent);
 }

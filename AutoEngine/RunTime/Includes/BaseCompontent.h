@@ -2,16 +2,16 @@
 #define C_BASECOMPONTENT_H_
 
 #include "Auto.h"
-
+#include "BaseObject.h"
 
 
 
 AUTO_BEGIN
-class CBaseCompontent
+class BaseCompontent : public Object
 {
 public:
-	CBaseCompontent();
-	~CBaseCompontent();
+	BaseCompontent();
+	~BaseCompontent();
 };
 AUTO_END
 

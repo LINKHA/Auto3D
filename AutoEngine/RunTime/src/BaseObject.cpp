@@ -2,9 +2,18 @@
 
 AUTO_BEGIN
 
+
+//////////////////////////////////////////////////////////////////////////
 //class PPtr
-template<class T>
-inline void PPtr<T>::AssignObject(const BaseObject* o)
+//////////////////////////////////////////////////////////////////////////
+
+template<class T> inline
+const char * PPtr<T>::GetTypeString()
+{
+	return T::GetPPtrTypeString();
+}
+template<class T> inline
+void PPtr<T>::AssignObject(const Object* o)
 {
 	if (o == NULL)
 		m_InstanceID = 0;
@@ -12,12 +21,33 @@ inline void PPtr<T>::AssignObject(const BaseObject* o)
 		m_InstanceID = o->GetInstanceID();
 }
 
+template<class T> inline
+bool PPtr<T>::IsNull() const
+{
+	T* o = *this;
+	return o == NULL;
+}
+
+template<class T> inline
+bool PPtr<T>::IsValid() const
+{
+	T* casted = *this;
+	return casted != NULL;
+}
 
 
 
-BaseObject::BaseObject()
+
+//////////////////////////////////////////////////////////////////////////
+//class BaseObjeect
+//////////////////////////////////////////////////////////////////////////
+Object::~Object()
+{
+	assert(m_InstanceID == 0);
+}
+
+Object::Object()
 {}
-BaseObject::~BaseObject()
-{}
+
 AUTO_END
 
