@@ -1,8 +1,8 @@
 #ifndef C_SCRIPT_H_
 #define C_SCRIPT_H_
-#include "ScriptCompontent.h"
+#include "ScriptComponent.h"
 SCRIPT_BEGIN
-class CScript :public AUTO::ScriptCompontent
+class CScript :public AUTO::ScriptComponent
 {
 public:
 	CScript();

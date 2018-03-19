@@ -1,11 +1,11 @@
 #ifndef TRANSFORM_H_
 #define TRANSFORM_H_
-#include "BaseCompontent.h"
+#include "BaseComponent.h"
 #include "Math/Vector3.h"
 
 
 AUTO_BEGIN
-class Transform : public BaseCompontent
+class Transform : public BaseComponent
 {
 public:
 	Transform();

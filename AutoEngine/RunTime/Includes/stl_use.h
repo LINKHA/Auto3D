@@ -10,8 +10,8 @@
 
 #define AUTO_LIST(t) std::list<t>
 #define AUTO_SET(t)	std::set<t,std::less<t>>
-
-
+#define AUTO_MAP(key, value)	std::map<key,value,std::less<key>>
+#define AUTO_VECTOR(t) std::vector<t>
 
 
 

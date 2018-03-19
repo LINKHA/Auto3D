@@ -12,11 +12,34 @@ class BaseSprite :public Object
 {
 public:
 	BaseSprite();
-	~BaseSprite();
-	void addComponent(const BaseCompontent& compontent);
+	~BaseSprite(); 
+	typedef AUTO_VECTOR(BaseComponent *) ComponentsArray;
 
+
+
+	void enable();
+	void destory();
+
+	void SetLayer(int layerIndex);
+	int GetLayer() const { return m_Layer; }
+
+	void addComponent(BaseComponent* Component);	//init addComponent
+	void enableComponent();								//Make the component enable
+	void dynAddComponent();								//Dynamic add component
+	void getComponent();
+
+	int GetComponentIndex(BaseComponent *component);
+
+	int getComponentSize() { return m_Components.size(); }
+
+	const BaseSprite& getSprite()const { return *this; }
+	BaseSprite getSprite() { return *this; }
 private:
-	AUTO_LIST(BaseCompontent) compontents;
+	ComponentsArray m_Components;
+	UInt32 m_Layer;
+	UInt16 m_Tag;
+	bool m_IsActive;
+
 };
 AUTO_END
 #endif // BASESPRITE_H_

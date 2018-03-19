@@ -2,7 +2,8 @@
 #define SPRITE_H_
 
 #include "BaseSprite.h"
-
+#include "Component.h"
+#include "stl_use.h"
 AUTO_BEGIN
 class Sprite: public BaseSprite
 {
@@ -10,14 +11,10 @@ public:
 	Sprite();
 	~Sprite();
 	
+private:
+	
 };
-Sprite::Sprite()
-{
-}
 
-Sprite::~Sprite()
-{
-}
 
 AUTO_END
 #endif // SPRITE_H_

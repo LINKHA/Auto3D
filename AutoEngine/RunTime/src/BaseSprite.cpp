@@ -2,12 +2,12 @@
 
 
 AUTO_BEGIN
-class BaseCompontent;
+class BaseComponent;
 
 
 BaseSprite::BaseSprite()
 {
-	addComponent(Transform());
+
 }
 
 
@@ -15,8 +15,12 @@ BaseSprite::~BaseSprite()
 {
 }
 
-void BaseSprite::addComponent(const BaseCompontent& compontent)
+void BaseSprite::addComponent(BaseComponent* Component)
 {
-	compontents.push_back(compontent);
+	AssertIf(Component == NULL);
+	{
+		m_Components.push_back(Component);
+	}
+	
 }
 AUTO_END

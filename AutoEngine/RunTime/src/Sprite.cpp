@@ -2,6 +2,14 @@
 
 
 AUTO_BEGIN
+Sprite::Sprite()
+{
+}
+
+Sprite::~Sprite()
+{
+}
+
 
 
 

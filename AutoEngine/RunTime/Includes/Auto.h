@@ -48,7 +48,6 @@
 //Assert
 #define AssertIf(x) assert(!(x))
 
-
 //Alarm level 
 #define AU_ERROR -1
 #define AU_NORMAL 0
