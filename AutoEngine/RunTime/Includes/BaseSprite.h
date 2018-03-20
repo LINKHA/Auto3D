@@ -13,8 +13,7 @@ class BaseSprite :public Object
 public:
 	BaseSprite();
 	~BaseSprite(); 
-	typedef AUTO_VECTOR(BaseComponent *) ComponentsArray;
-
+	typedef TEMP_VECTOR(BaseComponent *) ComponentsArray;
 
 
 	void enable();
@@ -30,7 +29,7 @@ public:
 
 	int GetComponentIndex(BaseComponent *component);
 
-	int getComponentSize() { return m_Components.size(); }
+	//int getComponentSize() { return m_Components.size(); }
 
 	const BaseSprite& getSprite()const { return *this; }
 	BaseSprite getSprite() { return *this; }

@@ -1,5 +1,5 @@
-#ifndef ADDRESS_H_
-#define ADDRESS_H_
+#ifndef LOAD_ASSERT_H_
+#define LOAD_ASSERT_H_
 
 #include "model.h"
 #include "stb_image.h"
@@ -15,4 +15,4 @@
 
 
 
-#endif // !ADDRESS_H_
+#endif // !LOAD_ASSERT_H_
