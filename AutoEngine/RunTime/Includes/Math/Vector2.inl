@@ -1,4 +1,4 @@
-#include "Vector2.h"
+#include "Vector2.hpp"
 
 inline float Vector2::Length() const
 {

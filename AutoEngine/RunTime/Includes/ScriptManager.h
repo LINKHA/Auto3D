@@ -13,8 +13,8 @@ class ScriptManager
 {
 public:
 
-	typedef AUTO_SET(PPtr<BaseScript>) Scripts;
-	typedef AUTO_SET(BaseScript*) AllScript;
+	typedef _SET(PPtr<BaseScript>) Scripts;
+	typedef _SET(BaseScript*) AllScript;
 
 };
 SCRIPT_END

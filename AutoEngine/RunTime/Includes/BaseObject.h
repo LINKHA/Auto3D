@@ -1,7 +1,7 @@
 #ifndef BASE_OBJECT_H_
 #define BASE_OBJECT_H_
 #include "Auto.h"
-
+#include "DefineLabels.h"
 
 AUTO_BEGIN
 class Object;
@@ -47,17 +47,17 @@ public:
 	UInt32 GetInstanceID() const						{ AssertIf(m_InstanceID == 0); return m_InstanceID; }
 
 	virtual char const* GetName() const					{ return ""; };
-	virtual void SetName(char const* name){}
+	virtual void SetName(char const* name)				{}
+	virtual LabelClassDefine const GetClassID() const	{ return m_ClassID; }
+	virtual void SetClassID(UInt32 class_id)			{}
 
 	static const char* GetPPtrTypeString()				{ return "PPtr<Object>"; }
 	static const char* GetClassStringStatic()			{ return "Object"; }
 private:
 	UInt32 m_InstanceID;
+	LabelClassDefine m_ClassID;
 
 	//Object(const Object& o);							// Disallow copy constructor
-
-
-
 
 };
 AUTO_END

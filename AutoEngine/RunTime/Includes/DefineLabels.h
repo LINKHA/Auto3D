@@ -1,7 +1,7 @@
 #ifndef ALLOCATOR_LABELS_H_
 #define ALLOCATOR_LABELS_H_
 
-enum LabelDefine
+enum LabelClassDefine
 {
 #define DO_LABEL(NAME) NAME##ID,
 

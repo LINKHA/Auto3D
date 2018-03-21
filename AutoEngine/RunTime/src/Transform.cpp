@@ -3,7 +3,7 @@
 AUTO_BEGIN
 Transform::Transform()
 	: position(Vector3())
-	, rotation(Vector3())
+	, rotation(Quaternion())
 	, scale (Vector3(1, 1, 1))
 {
 }

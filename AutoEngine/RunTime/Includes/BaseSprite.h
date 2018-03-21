@@ -6,14 +6,13 @@
 #include "stl_use.h"
 
 
-
 AUTO_BEGIN
 class BaseSprite :public Object
 {
 public:
 	BaseSprite();
 	~BaseSprite(); 
-	typedef TEMP_VECTOR(BaseComponent *) ComponentsArray;
+	typedef AUTO_VECTOR(LabelClassDefine,BaseComponent *) ComponentsArray;
 
 
 	void enable();

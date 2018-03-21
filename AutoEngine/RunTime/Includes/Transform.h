@@ -1,7 +1,7 @@
 #ifndef TRANSFORM_H_
 #define TRANSFORM_H_
 #include "BaseComponent.h"
-#include "Math/Vector3.h"
+#include "Math/AUMath.h"
 
 
 AUTO_BEGIN
@@ -10,8 +10,9 @@ class Transform : public BaseComponent
 public:
 	Transform();
 	~Transform();
+
 	Vector3 position;
-	Vector3 rotation;
+	Quaternion rotation;
 	Vector3 scale;
 };
 AUTO_END
