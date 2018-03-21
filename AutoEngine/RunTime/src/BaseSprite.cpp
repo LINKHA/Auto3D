@@ -19,7 +19,7 @@ void BaseSprite::addComponent(BaseComponent* Component)
 {
 	AssertIf(Component == NULL);
 	{
-		//m_Components.push_back(Component);
+		m_Components.push_back(_PAIR(Component->getClassID,Component));
 	}
 	
 }

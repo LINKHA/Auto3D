@@ -37,6 +37,8 @@ public:
 	Vector2&    operator*=(const Vector2& rhs);				// multiply each element and update this object
 	Vector2     operator/(const float scale) const;			// inverse scale
 	Vector2&    operator/=(const float scale);				// scale and update this object
+	Vector2&	operator=(const Vector2& rhs);
+
 
 	bool        operator==(const Vector2& rhs) const;		// exact compare, no epsilon
 	bool        operator!=(const Vector2& rhs) const;		// exact compare, no epsilon
