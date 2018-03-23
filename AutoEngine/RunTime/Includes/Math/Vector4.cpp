@@ -1,22 +1,15 @@
-#include "Vector4.hpp"
+#include "Vector4.h"
 
-
-
-
-Vector4 & Vector4::Normalize()
-{
-	float xxyyzzww = x * x + y * y + z * z + w * w;
-	float invLength = 1.0 / sqrt(xxyyzzww);
-	x *= invLength;
-	y *= invLength;
-	z *= invLength;
-	w *= invLength;
-	return *this;
-}
+MATH_BEGIN
 
 inline Vector4 Vector4::operator-() const
 {
 	return Vector4(-x,-y,-z,-w);
+}
+
+inline Vector4 Vector4::operator-(const Vector4 & rhs) const
+{
+	return Vector4(x - rhs.x, y - rhs.y, z - rhs.z, w - rhs.w);
 }
 
 inline Vector4 Vector4::operator+(const Vector4 & rhs) const
@@ -38,7 +31,6 @@ inline Vector4 Vector4::operator/(const float scale) const
 {
 	return Vector4(x / scale, y / scale, z / scale, w / scale);
 }
-
 
 inline Vector4& Vector4::operator=(const Vector4 & rhs)
 {
@@ -69,6 +61,16 @@ inline Vector4 & Vector4::operator/=(const float scale)
 	x /= scale; y /= scale; z /= scale; w /= scale; return *this;
 }
 
+const float& Vector4::operator[] (int i)const
+{
+	DebugAssertIf(i < 0 || i > 3); return (&x)[i];
+}
+
+float& Vector4::operator[] (int i)
+{
+	DebugAssertIf(i < 0 || i > 3); return (&x)[i];
+}
+
 inline bool  Vector4::operator==(const Vector4 & rhs)const
 {
 	return (x == rhs.x) && (y == rhs.y) && (z == rhs.z) && (w == rhs.w);
@@ -91,3 +93,4 @@ inline bool Vector4::operator<(const Vector4 & rhs) const
 	if (w > rhs.w) return false;
 	return false;
 }
+MATH_END

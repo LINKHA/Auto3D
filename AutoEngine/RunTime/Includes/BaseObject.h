@@ -1,6 +1,7 @@
 #ifndef BASE_OBJECT_H_
 #define BASE_OBJECT_H_
 #include "Auto.h"
+#include "LogAssert.h"
 #include "DefineLabels.h"
 
 AUTO_BEGIN

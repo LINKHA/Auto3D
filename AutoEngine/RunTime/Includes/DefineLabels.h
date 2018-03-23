@@ -6,7 +6,7 @@ enum LabelClassDefine
 #define DO_LABEL(NAME) NAME##ID,
 
 	DO_LABEL(Default)
-	DO_LABEL(Permanent)
+	DO_LABEL(BaseCompontent)
 	DO_LABEL(NewDelete)
 	DO_LABEL(MallocFree)
 	DO_LABEL(Thread)

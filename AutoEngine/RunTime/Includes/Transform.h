@@ -5,6 +5,7 @@
 
 
 AUTO_BEGIN
+USING_MATH
 class Transform : public BaseComponent
 {
 public:

@@ -45,8 +45,7 @@
 	#define SCRIPT			AutoScript
 #endif // !SCRIPT
 
-//Assert
-#define AssertIf(x) assert(!(x))
+
 
 //Alarm level 
 #define AU_ERROR -1
