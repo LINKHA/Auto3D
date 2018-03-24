@@ -11,5 +11,6 @@
 
 //Assert
 #define AssertIf(x) assert(!(x))
+#define Assert(x)	assert(x)
 
 #endif // 
