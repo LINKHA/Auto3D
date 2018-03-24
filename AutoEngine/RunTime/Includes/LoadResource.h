@@ -1,5 +1,5 @@
-#ifndef LOAD_ASSERT_H_
-#define LOAD_ASSERT_H_
+#ifndef LOAD_RESOURCE_H_
+#define LOAD_RESOURCE_H_
 
 #include "model.h"
 #include "stb_image.h"
