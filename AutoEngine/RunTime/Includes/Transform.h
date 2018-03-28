@@ -3,9 +3,9 @@
 #include "BaseComponent.h"
 #include "Math/AUMath.h"
 
-
-AUTO_BEGIN
 USING_MATH
+AUTO_BEGIN
+
 class Transform : public BaseComponent
 {
 public:
@@ -13,7 +13,7 @@ public:
 	~Transform();
 
 	Vector3 position;
-	Quaternion rotation;
+	MATH::Quaternion rotation;
 	Vector3 scale;
 };
 AUTO_END

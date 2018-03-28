@@ -6,7 +6,6 @@
 
 
 
-AUTO_BEGIN
 
 
 
@@ -16,5 +15,6 @@ public:
 	FileManager();
 	~FileManager();
 };
-AUTO_END
+
+
 #endif // !FILE_MANAGER_H

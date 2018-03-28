@@ -77,7 +77,7 @@
 
 
 //
-#define AutoString std::string
+#define _String std::string
 
 
 

@@ -12,14 +12,14 @@ class BaseScript : public Object
 public:
 	BaseScript();
 	~BaseScript();
-	virtual const AutoString GetScriptClassName() const { return m_ClassName; }
-	virtual const void SetScriptClassName(AutoString name) { m_ClassName = name; }
+	virtual const _String GetScriptClassName() const { return m_ClassName; }
+	virtual const void SetScriptClassName(_String name) { m_ClassName = name; }
 	
 private:
 
 	const BaseScript* m_ScriptCache;
 
-	AutoString m_ClassName;
+	_String m_ClassName;
 };
 
 SCRIPT_END

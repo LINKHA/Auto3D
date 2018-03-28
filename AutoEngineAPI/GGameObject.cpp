@@ -1,4 +1,4 @@
-#include "AGameObject.h"
+#include "GGameObject.h"
 
 AUTO_API_BEGIN
 

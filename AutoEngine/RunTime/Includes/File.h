@@ -1,12 +1,20 @@
 #ifndef FILE_H_
 #define FILE_H_
 
+#include <windows.h>
+
 #include "Auto.h"
+#include "stl_use.h"
+#include "LogAssert.h"
+
+
+#define kPathMaxSize MAX_PATH * 4
+
 
 class File
 {
 	int							m_Position;
-	std::string					m_Path;
+	_String						m_Path;
 	bool						m_Open;
 	FILE*						m_File;
 	HANDLE						m_FileHandle;
@@ -16,7 +24,10 @@ public:
 	File();
 	virtual ~File();
 
-	bool Open(const std::string& path, Permission perm, AutoBehavior behavior = kNormalBehavior);
+	enum Permission { kReadPermission = 0, kWritePermission = 1, kReadWritePermission = 2, kAppendPermission = 3 };
+	enum ATBehavior { kNormalBehavior = 0, kSilentReturnOnOpenFail = 1 << 0, kRetryOnOpenFail = 1 << 1 };
+
+	bool Open(const std::string& path, Permission perm, ATBehavior behavior = kNormalBehavior);
 	bool Close();
 
 	int Read(void* buffer, int size);
@@ -27,6 +38,11 @@ public:
 	bool SetFileLength(int size);
 	int GetFileLength();
 	int GetPosition() const { return m_Position; }
+
+	static void SetCurrentDirectory(const std::string & path);
+	static const _String& GetCurrentDirectory();
+	static void CleanUpClass();
+
 };
 
 #endif // !FILE_H_
