@@ -54,3 +54,18 @@ bool File::Open(const std::string & path, Permission perm, ATBehavior behavior)
 	}
 	return false;
 }
+bool File::Close()
+{
+	if (m_File != NULL)
+	{
+		if (fclose(m_File) != 0)
+		{
+			
+			
+		}
+		m_File = NULL;
+	}
+
+	m_Path.clear();
+	return true;
+}

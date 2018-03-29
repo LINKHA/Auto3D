@@ -13,10 +13,10 @@ inline Vector2 Vector2::operator-() const
 	return Vector2(-x, -y);
 }
 
-inline Vector2 Vector2::operator+(const Vector2 & rhs) const
+/*inline Vector2 Vector2::operator+(const Vector2 & rhs) const
 {
 	return Vector2(x + rhs.x, y + rhs.y);
-}
+}*/
 
 inline Vector2 Vector2::operator-(const Vector2 & rhs) const
 {

@@ -40,10 +40,10 @@ public:
 class Object 
 {
 protected:
-	virtual ~Object();
+	virtual ~Object()									{ assert(m_InstanceID == 0); }
 public:
 
-	Object();
+	Object() {}
 
 	UInt32 GetInstanceID() const						{ AssertIf(m_InstanceID == 0); return m_InstanceID; }
 

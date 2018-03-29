@@ -18,7 +18,7 @@ public:
 	const float* GetPtr()const { return &x; }
 	// operators
 	Vector2     operator-()const;							
-	Vector2     operator+(const Vector2& rhs) const;		
+	inline Vector2 operator+(const Vector2& rhs) const		{ return Vector2(x + rhs.x, y + rhs.y); }
 	Vector2     operator-(const Vector2& rhs) const;		
 	Vector2     operator*(const float scale) const;			
 	Vector2     operator*(const Vector2& rhs) const;		
