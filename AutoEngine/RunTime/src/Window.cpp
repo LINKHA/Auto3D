@@ -3,6 +3,7 @@
 
 
 AUTO_BEGIN
+
 //define funcation
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
@@ -17,6 +18,8 @@ Window::Window()
 #ifdef __APPLE__
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
+	Color tempColor(m_DrawColorData[0], m_DrawColorData[1], m_DrawColorData[2], m_DrawColorData[3]);
+	DrawColor = tempColor;
 }
 
 
@@ -26,7 +29,7 @@ Window::~Window()
 
 void Window::drawWindow()
 {
-	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glClearColor(DrawColor.r, DrawColor.g, DrawColor.b, DrawColor.a);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)

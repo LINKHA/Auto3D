@@ -9,7 +9,7 @@ AUTO_BEGIN
 class BaseTexture : public Object
 {
 protected:
-	//TextureID		m_TexID;
+	TextureID		m_TexID;
 	int		        m_UsageMode;
 	int				m_ColorSpace;
 	// Used by movie textures so that 0..1 range covers only the

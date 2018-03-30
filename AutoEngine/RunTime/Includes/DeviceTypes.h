@@ -1,6 +1,7 @@
 #ifndef DEVICE_TYPES_H_
 #define DEVICE_TYPES_H_
 
+AUTO_BEGIN
 struct TextureID
 {
 	explicit TextureID() : m_ID(0) { }
@@ -23,6 +24,6 @@ enum TextureDimension
 	kTexDimCount, // keep this last!
 	kTexDimForce32Bit = 0x7fffffff
 };
-
+AUTO_END
 
 #endif //!DEVICE_TYPES_H_
