@@ -4,13 +4,19 @@
 
 AUTO_BEGIN
 
-//define funcation
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+	// make sure the viewport matches the new window dimensions; note that width and 
+	// height will be significantly larger than specified on retina displays.
+	glViewport(0, 0, width, height);
+}
+
 
 //public funcation
 Window::Window()
 	:window(nullptr)
 {
+	DrawColor = Color(m_DrawColorData[0], m_DrawColorData[1], m_DrawColorData[2], m_DrawColorData[3]);
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -18,13 +24,13 @@ Window::Window()
 #ifdef __APPLE__
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
-	Color tempColor(m_DrawColorData[0], m_DrawColorData[1], m_DrawColorData[2], m_DrawColorData[3]);
-	DrawColor = tempColor;
+	
 }
 
 
 Window::~Window()
 {
+	
 }
 
 void Window::drawWindow()
@@ -43,9 +49,8 @@ GLFWwindow* Window::createWindow()
 
 	if (window == NULL)
 	{
-		//Logger::("Failed to create GLFW window")
+		ErrorString("Failed to create GLFW window");
 		glfwTerminate();
-		//Windw Err Close 
 	}
 
 	glfwMakeContextCurrent(window);
@@ -59,11 +64,5 @@ void Window::destoryWindow()
 }
 
 
-//No member funcation
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-	// make sure the viewport matches the new window dimensions; note that width and 
-	// height will be significantly larger than specified on retina displays.
-	glViewport(0, 0, width, height);
-}
+
 AUTO_END

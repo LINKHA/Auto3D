@@ -22,15 +22,14 @@ public:
 	GLFWwindow* createWindow();
 	void destoryWindow();
 private:
-	//void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 	// member
 	GLFWwindow* window;
 	Color DrawColor;
 	// settings
-	const unsigned int SCR_WIDTH = 800;
-	const unsigned int SCR_HEIGHT = 600;
-	const char * Title_Name = "Bot V1.0";
-	const float m_DrawColorData[4] = {0.5f,0.5f,1.0f,1.0f };
+	unsigned int SCR_WIDTH = 800;
+	unsigned int SCR_HEIGHT = 600;
+	char * Title_Name = "Bot V1.0";
+	float m_DrawColorData[4] = {0.5f,0.5f,1.0f,1.0f };
 
 };
 AUTO_END

@@ -4,7 +4,7 @@
 #include "OpenGLGather.h"
 
 //Helper Header Files
-#include "Applacation.h"
+#include "Application.h"
 #include "AScene.h"
 
 USING_AUTO

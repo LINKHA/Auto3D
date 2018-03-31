@@ -14,7 +14,7 @@
 #include "camera.h"
 #include "shader.h"
 #include "model.h"
-#include "Applacation.h"
+#include "Application.h"
 #include "AScene.h"
 
 #include "WorkSpace.h"
