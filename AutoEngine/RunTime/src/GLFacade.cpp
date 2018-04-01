@@ -2,11 +2,3 @@
 
 
 
-GLFacade::GLFacade()
-{
-}
-
-
-GLFacade::~GLFacade()
-{
-}

@@ -3,6 +3,7 @@
 #include "Window.h"
 #include "OpenGLGather.h"
 #include "Auto.h"
+#include "InputManager.h"
 AUTO_BEGIN
 class Application 
 {

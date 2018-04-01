@@ -37,10 +37,18 @@ int Application::init()
 	return AU_NORMAL;
 }
 
+void processInput(GLFWwindow *window)
+{
+	if (GLGetKey(window, KEY_ESCAPE) == S_PRESS)
+		GLCloseWindow(window);
+}
+
 int Application::runLoop()
 {
-	while (!glfwWindowShouldClose(glfwWindow))
+	while (!GLShouldCloseWindow(glfwWindow))
 	{
+		processInput(glfwWindow);
+
 		window.drawWindow();
 	}
 	return AU_NORMAL;

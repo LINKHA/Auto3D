@@ -1,6 +1,6 @@
 #ifndef WINDOW_H_
 #define WINDOW_H_
-#include "OpenGLGather.h"
+#include "GLFacade.h"
 #include "btConfig.h"
 #include "Auto.h"
 #include "Math/Color.h"
