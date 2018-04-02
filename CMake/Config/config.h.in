@@ -1,2 +1,3 @@
-const char * source_path = "${CMAKE_SOURCE_DIR}";
-const char * project_path = "${PROJECT_BINARY_DIR}";
+#pragma once
+const char * source_dictionary = "${CMAKE_SOURCE_DIR}";
+const char * build_dictionary = "${PROJECT_BINARY_DIR}";

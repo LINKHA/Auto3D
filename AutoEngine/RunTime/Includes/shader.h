@@ -10,7 +10,7 @@
 #include <iostream>
 
 #include "Auto.h"
-
+#include "LogAssert.h"
 
 
 
@@ -61,7 +61,7 @@ public:
 		}
 		catch (std::ifstream::failure e)
 		{
-			std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
+			ErrorString("file not succefully read \n");
 		}
 		const char* vShaderCode = vertexCode.c_str();
 		const char * fShaderCode = fragmentCode.c_str();
@@ -103,6 +103,18 @@ public:
 			glDeleteShader(geometry);
 
 	}
+
+
+	Shader(std::string vertexPath, std::string fragmentPath, std::string geometryPath) 
+	{
+		Shader(vertexPath.c_str(), fragmentPath.c_str(), geometryPath.c_str());
+	}
+
+	Shader(const std::string vertexPath, const std::string fragmentPath)
+	{
+		Shader(vertexPath.c_str(), fragmentPath.c_str());
+	}
+
 	// activate the shader
 	// ------------------------------------------------------------------------
 	void use()

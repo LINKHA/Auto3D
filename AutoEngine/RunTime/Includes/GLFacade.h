@@ -45,16 +45,22 @@ static void GLViewPort(UInt32 rectX, UInt32 rectY, UInt32 width, UInt32 height)
 	glViewport(rectX, rectY, width, height);
 }
 /**
-* @brief : runloop needful function
+* @brief :get events
 */
-static void GLRunApplication(GLFWwindow* window)
+static void GLPollEvents()
+{
+	glfwPollEvents();
+}
+/**
+* @brief : swap buffers function
+*/
+static void GLSwapBuffers(GLFWwindow* window)
 {
 	///Exchange color buffer to show in scren
 	/// -------------------------------------------------------------------------------
 	glfwSwapBuffers(window);
-	///get event
-	/// -------------------------------------------------------------------------------
-	glfwPollEvents();
+	
+	
 }
 /**
 * @brief : Accept a buffer bit buffer Bitto specify the buffer 

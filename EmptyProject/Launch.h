@@ -11,10 +11,9 @@
 #include "OpenGLGather.h"
 
 //Helper Header Files
-#include "camera.h"
-#include "shader.h"
-#include "model.h"
-#include "Application.h"
+#include "Camera.h"
+#include "Shader.h"
+#include "Model.h"
 #include "AScene.h"
 
 #include "WorkSpace.h"

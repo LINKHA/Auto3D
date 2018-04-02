@@ -1,6 +1,6 @@
-#ifndef BT_CONFIG_H_
-#define BT_CONFIG_H_
-
+#ifndef AT_CONFIG_H_
+#define AT_CONFIG_H_
+#include <string>
 
 /**
 * @ WINDOW_DOT_USE
@@ -14,7 +14,14 @@
 #endif
 
 
-
+class AtConfig
+{
+public:
+	const static std::string source_path;
+	const static std::string build_path;
+	const static std::string shader_path;
+	
+};
 
 
 

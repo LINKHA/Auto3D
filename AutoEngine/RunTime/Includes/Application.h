@@ -4,7 +4,13 @@
 #include "OpenGLGather.h"
 #include "Auto.h"
 #include "InputManager.h"
+#include "Shader.h"
+#include "stb_image.h"
+#include "AtConfig.h"
+#include <string.h>
+
 AUTO_BEGIN
+
 class Application 
 {
 public:

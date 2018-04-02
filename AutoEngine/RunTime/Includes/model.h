@@ -1,4 +1,3 @@
-#pragma once
 #ifndef MODEL_H
 #define MODEL_H
 
@@ -12,8 +11,8 @@
 
 
 #include "stb_image.h"
-#include "mesh.h"
-#include "shader.h"
+#include "Mesh.h"
+#include "Shader.h"
 
 
 #include <string>

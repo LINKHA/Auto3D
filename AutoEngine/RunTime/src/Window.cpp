@@ -30,10 +30,13 @@ Window::~Window()
 void Window::drawWindow()
 {
 	GLClearColor(DrawColor);
-	/// swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-	/// -------------------------------------------------------------------------------
-	GLRunApplication(window);
 
+}
+void Window::runLoopOver()
+{	
+	GLSwapBuffers(window);
+	/*get Events*/
+	GLPollEvents();
 }
 GLFWwindow* Window::createWindow()
 {

@@ -1,7 +1,7 @@
 #ifndef WINDOW_H_
 #define WINDOW_H_
 #include "GLFacade.h"
-#include "btConfig.h"
+#include "AtConfig.h"
 #include "Auto.h"
 #include "Math/Color.h"
 
@@ -19,6 +19,7 @@ public:
 	Window();
 	~Window();
 	void drawWindow();
+	void runLoopOver();
 	GLFWwindow* createWindow();
 	void destoryWindow();
 private:
@@ -28,8 +29,8 @@ private:
 	// settings
 	unsigned int SCR_WIDTH = 800;
 	unsigned int SCR_HEIGHT = 600;
-	char * Title_Name = "Bot V1.0";
-	float m_DrawColorData[4] = {0.5f,0.5f,1.0f,1.0f };
+	char * Title_Name = "Auto V1.0";
+	float m_DrawColorData[4] = {0.8f,0.2f,1.0f,1.0f };
 
 };
 AUTO_END
