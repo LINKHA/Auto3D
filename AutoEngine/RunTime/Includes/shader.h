@@ -105,15 +105,13 @@ public:
 	}
 
 
-	Shader(std::string vertexPath, std::string fragmentPath, std::string geometryPath) 
-	{
-		Shader(vertexPath.c_str(), fragmentPath.c_str(), geometryPath.c_str());
-	}
+	Shader(const std::string vertexPath, const std::string fragmentPath, const std::string geometryPath)
+		:Shader(vertexPath.c_str(), fragmentPath.c_str(), geometryPath.c_str())
+	{}
 
 	Shader(const std::string vertexPath, const std::string fragmentPath)
-	{
-		Shader(vertexPath.c_str(), fragmentPath.c_str());
-	}
+		:Shader(vertexPath.c_str(), fragmentPath.c_str())
+	{}
 
 	// activate the shader
 	// ------------------------------------------------------------------------

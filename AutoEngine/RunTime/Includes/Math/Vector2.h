@@ -4,7 +4,6 @@
 #include "AUMathBase.h"
 #include "LogAssert.h"
 
-//MATH_BEGIN
 MATH_BEGIN
 struct Vector2
 {
@@ -17,26 +16,26 @@ public:
 	float* GetPtr() { return &x; }
 	const float* GetPtr()const { return &x; }
 	// operators
-	Vector2     operator-()const;							
+	inline Vector2 operator-()const							{ return Vector2(-x, -y); }
 	inline Vector2 operator+(const Vector2& rhs) const		{ return Vector2(x + rhs.x, y + rhs.y); }
-	Vector2     operator-(const Vector2& rhs) const;		
-	Vector2     operator*(const float scale) const;			
-	Vector2     operator*(const Vector2& rhs) const;		
-	Vector2     operator/(const float scale) const;		
+	inline Vector2 operator-(const Vector2& rhs) const		{ return Vector2(x - rhs.x, y - rhs.y); }
+	inline Vector2 operator*(const float scale) const		{ return Vector2(x * scale, y*scale); }
+	inline Vector2 operator*(const Vector2& rhs) const		{ return Vector2(x*rhs.x, y*rhs.y); }
+	inline Vector2 operator/(const float scale) const		{ return Vector2(x / scale, y / scale); }
 
-	Vector2&    operator/=(const float scale);				
-	Vector2&	operator=(const Vector2& rhs);
-	Vector2&    operator+=(const Vector2& rhs);				
-	Vector2&    operator-=(const Vector2& rhs);				
-	Vector2&    operator*=(const float scale);				
-	Vector2&    operator*=(const Vector2& rhs);				
+	inline Vector2&	operator=(const Vector2& rhs)			{ x = rhs.x; y = rhs.y; return *this; }
+	inline Vector2& operator/=(const float scale)			{ x /= scale; y /= scale; return *this; }
+	inline Vector2& operator+=(const Vector2& rhs)			{ x += rhs.x; y += rhs.y; return *this; }
+	inline Vector2& operator-=(const Vector2& rhs)			{ x -= rhs.x; y -= rhs.y; return *this; }
+	inline Vector2& operator*=(const float scale)			{ x *= scale; y *= scale; return *this; }
+	inline Vector2& operator*=(const Vector2& rhs)			{ x *= rhs.x; y *= rhs.y; return *this; }
 
-	const float& operator[] (int i)const;
-	float&		operator[] (int i);
+	const float& operator[] (int i)const					{ DebugAssertIf(i < 0 || i > 1); return (&x)[i]; }
+	float&	operator[] (int i)								{ DebugAssertIf(i < 0 || i > 1); return (&x)[i]; }
 
-	bool        operator==(const Vector2& rhs) const;		
-	bool        operator!=(const Vector2& rhs) const;		
-	bool        operator<(const Vector2& rhs) const;		
+	inline bool operator==(const Vector2& rhs) const		{ return (x == rhs.x) && (y == rhs.y); }
+	inline bool operator!=(const Vector2& rhs) const		{ return (x != rhs.x) || (y != rhs.y); }
+	inline bool operator<(const Vector2& rhs) const			{ if (x < rhs.x) return true; if (x > rhs.x) return false; if (y < rhs.y) return true; if (y > rhs.y) return false; return false; }
 
 	float x;
 	float y;

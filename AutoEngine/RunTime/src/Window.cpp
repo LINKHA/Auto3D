@@ -12,6 +12,7 @@ void size_callback(GLFWwindow* window, int width, int height)
 }
 
 
+
 //public funcation
 Window::Window()
 	:window(nullptr)

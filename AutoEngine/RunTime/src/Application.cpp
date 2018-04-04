@@ -45,8 +45,6 @@ void processInput(GLFWwindow *window)
 int Application::runLoop()
 {
 
-
-	Shader ourShader((AtConfig::shader_path + "AUTO_texture.vs").c_str(), (AtConfig::shader_path + "AUTO_texture.fs").c_str());
 	Shader ourShader( AtConfig::shader_path + "AUTO_texture.vs", AtConfig::shader_path + "AUTO_texture.fs" );
 
 
@@ -104,11 +102,14 @@ int Application::runLoop()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	// 为当前绑定的纹理对象设置过滤方式
 	/*
-	GL_NEARSET 选择最近的颜色(边缘锯齿)
+	GL_NEAREST 选择最近的颜色(边缘锯齿)
 	GL_LINEAR  基于纹理坐标附件的纹理像素计算差值 (边缘模糊)
 	*/
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+
+
 
 	int width, height, nrChannels;
 	/*
@@ -135,6 +136,10 @@ int Application::runLoop()
 		std::cout << "Failed to load texture" << std::endl;
 	}
 	stbi_image_free(data);
+
+
+
+
 
 	while (!GLShouldCloseWindow(glfwWindow))
 	{
