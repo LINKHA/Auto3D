@@ -40,7 +40,7 @@ public:
 class Object 
 {
 protected:
-	virtual ~Object()									{ assert(m_InstanceID == 0); }
+	//virtual ~Object()									{ assert(m_InstanceID == 0); }
 public:
 
 	Object() {}

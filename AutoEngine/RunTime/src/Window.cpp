@@ -8,7 +8,7 @@ void size_callback(GLFWwindow* window, int width, int height)
 {
 	// make sure the viewport matches the new window dimensions; note that width and 
 	// height will be significantly larger than specified on retina displays.
-	GLViewPort(0, 0, width, height);
+	GrViewPort(0, 0, width, height);
 }
 
 
@@ -18,7 +18,7 @@ Window::Window()
 	:window(nullptr)
 {
 	DrawColor = Color(m_DrawColorData[0], m_DrawColorData[1], m_DrawColorData[2], m_DrawColorData[3]);
-	GLInit(3, 3);
+	GrInit(3, 3);
 	
 }
 
@@ -30,26 +30,29 @@ Window::~Window()
 
 void Window::drawWindow()
 {
-	GLClearColor(DrawColor);
-
+	GrClearColor(DrawColor);
+	
 }
 void Window::runLoopOver()
 {	
-	GLSwapBuffers(window);
+	GrSwapBuffers(window);
 	/*get Events*/
-	GLPollEvents();
+	GrPollEvents();
 }
 GLFWwindow* Window::createWindow()
 {
-	GLCreateWindow(&window, SCR_WIDTH, SCR_HEIGHT, Title_Name);
+	GrCreateWindow(&window, SCR_WIDTH, SCR_HEIGHT, Title_Name);
 
-	GLFrameSizeCallBack(window, size_callback);
+	GrFrameSizeCallBack(window, size_callback);
 
 	return window;
 }
+/**
+* @brief delete all resource
+*/
 void Window::destoryWindow()
 {
-	GLDeleteResource();
+	GrDeleteResource();
 }
 
 

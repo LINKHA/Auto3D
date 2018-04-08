@@ -3,6 +3,12 @@
 #include "BaseObject.h"
 #include "DeviceTypes.h"
 #include "stl_use.h"
+#include "Math/AUMath.h"
+#include "OpenGLGather.h"
+#include "stb_image.h"
+#include "Shader.h"
+#include "AtConfig.h"
+
 
 AUTO_BEGIN
 
@@ -23,16 +29,18 @@ protected:
 
 public:
 	BaseTexture();
+	~BaseTexture();
+	//virtual bool MainThreadCleanup();
 
-	virtual bool MainThreadCleanup();
+	//virtual void Reset();
 
-	virtual void Reset();
+	//virtual void CheckConsistency();
 
-	virtual void CheckConsistency();
-
-	virtual TextureDimension GetDimension() const = 0;
-
+	//virtual TextureDimension GetDimension() const = 0;
+	//virtual void draw() = 0;
 	//virtual bool ExtractImage(ImageReference* image, int imageIndex = 0) const = 0;
+
+
 
 };
 

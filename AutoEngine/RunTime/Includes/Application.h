@@ -7,11 +7,13 @@
 #include "Shader.h"
 #include "stb_image.h"
 #include "AtConfig.h"
+#include "Math/AUMath.h"
+#include "Texture2D.h"
 #include <string.h>
 
 AUTO_BEGIN
-
 class Application 
+
 {
 public:
 	

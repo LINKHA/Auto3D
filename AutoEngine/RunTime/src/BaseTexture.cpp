@@ -8,4 +8,9 @@ BaseTexture::BaseTexture()
 
 
 
+
+BaseTexture::~BaseTexture()
+{
+}
+
 AUTO_END
