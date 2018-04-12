@@ -2,20 +2,21 @@
 #define IMAGE_H_
 
 #include "Auto.h"
+#include "Math/Color.h"
+#include "BaseObject.h"
 
 
 
+USING_MATH
+AUTO_BEGIN
 class ImageReference
 {
-protected:
+public:
 	UInt32	m_Format;
 	Int32	m_Width;
 	Int32	m_Height;
-	Int32	m_RowBytes;
-	UInt8*	m_Image;
-
-public:
-
+	Int32   m_Channels;
+	imageRecord	m_Image;
 	enum ClearMode
 	{
 		CLEAR_COLOR = 1,
@@ -41,29 +42,27 @@ public:
 	ImageReference ClipImage(int x, int y, int width, int height) const;
 
 	UInt8* GetImageData() const { return m_Image; }
-	int GetRowBytes() const { return m_RowBytes; }
-	//UInt8* GetRowPtr(int y) const { DebugAssertIf(y >= m_Height || y < 0); return m_Image + m_RowBytes * y; }
 	int GetWidth() const { return m_Width; }
 	int GetHeight() const { return m_Height; }
+	int GetChannels() const { return m_Channels; }
 	//TextureFormat GetFormat() const { return (TextureFormat)m_Format; }
-
 	void BlitImage(const ImageReference& source, BlitMode mode = BLIT_COPY);
 	void BlitImage(int x, int y, const ImageReference& source);
-
-	//void ClearImage(const ColorRGBA32& color, ClearMode mode = CLEAR_COLOR_ALPHA);
+	void ClearImage(const Color& color, ClearMode mode = CLEAR_COLOR_ALPHA);
 	void FlipImageY();
-
 	bool IsValidImage() const;
-
-	//bool NeedsReformat(int width, int height, TextureFormat format) const;
 };
 
 
-class Image
+
+class Image : public ImageReference 
 {
 public:
-	Image();
+	Image(int width, int height);
+
+	Image() {}
+
 	~Image();
 };
-
+AUTO_END
 #endif //!IMAGE_H_

@@ -16,8 +16,6 @@ enum {
 };
 
 void enableVertexAttribs(UInt32 flags);
-
-void text();
-
+void bindTexture2D(GLuint textureID);
 
 #endif //!GL_STATE_CACHE_H_

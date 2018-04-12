@@ -1,12 +1,6 @@
 #include "GLStateCache.h"
 
 
-static UInt32 beforeVerIndex = 0;  
-static GLuint s_VAO = 0;
-static GLuint s_VBO = 0;
-static GLuint s_EBO = 0;
-
-
 
 void enableVertexAttribs(UInt32 verIndex)
 {
@@ -14,19 +8,16 @@ void enableVertexAttribs(UInt32 verIndex)
 	{
 		unsigned int bit = 1 << i;
 		bool enabled = (verIndex & bit) != 0;
-		bool enabledBefore = (beforeVerIndex & bit) != 0;
-		if (enabled != enabledBefore)
-		{
-			if (enabled)
-				glEnableVertexAttribArray(i);
-			else
-				glDisableVertexAttribArray(i);
-		}
+		if (enabled)
+			glEnableVertexAttribArray(i);
+		else
+			glDisableVertexAttribArray(i);
+
 	}
-	beforeVerIndex = verIndex;
 }
-void text()
+
+void bindTexture2D(GLuint textureID)
 {
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
+	glGenTextures(1, &textureID);
+	glBindTexture(GL_TEXTURE_2D, textureID);
 }

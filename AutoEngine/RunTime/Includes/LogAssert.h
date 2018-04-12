@@ -42,7 +42,6 @@ inline const char* LogTypeToString(LogType type)
 
 
 
-
 #define DebugAssertIf(x)	do { (void)sizeof(x); } while(0)
 #define DebugAssert(x) 		do { (void)sizeof(x); } while(0)
 #define DebugAssertMsg(x, ...) {  }

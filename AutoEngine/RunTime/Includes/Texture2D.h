@@ -2,6 +2,7 @@
 #define TEXTURE_2D_H_
 #include "BaseTexture.h"
 #include "GLStateCache.h"
+#include "LoadResource.h"
 USING_MATH
 AUTO_BEGIN
 class Texture2D : public BaseTexture
@@ -24,6 +25,11 @@ public:
 
 
 protected:
+
+	float width;		
+
+	float height;
+
 	int _pixelsWide;
 
 	/** height in pixels */
@@ -46,8 +52,11 @@ protected:
 
 private:
 	Shader m_shader;
-	unsigned int VBO, VAO, EBO;
-	unsigned int texture;
+	
+	unsigned int t_VBO, t_VAO, t_EBO;
+	unsigned int textureData;
+
+	//Image * image;
 };
 
 AUTO_END

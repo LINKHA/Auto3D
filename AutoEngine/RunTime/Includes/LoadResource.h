@@ -3,6 +3,10 @@
 
 #include "model.h"
 #include "stb_image.h"
+#include "stl_use.h"
+#include "Image.h"
+#include <string>
+AUTO_BEGIN
 
 
 
@@ -10,9 +14,8 @@
 //Load Shader Address
 
 //Load Resource Address 
-#define TEXTURE_LOAD( path , width , height , nrChannels ) stbi_load("../Resource/" ## path, width, height, nrChannels, 0);
+Image * localImageLoad(PInt8 path);
 
 
-
-
+AUTO_END
 #endif // !LOAD_ASSERT_H_

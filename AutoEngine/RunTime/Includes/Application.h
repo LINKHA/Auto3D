@@ -5,7 +5,6 @@
 #include "Auto.h"
 #include "InputManager.h"
 #include "Shader.h"
-#include "stb_image.h"
 #include "AtConfig.h"
 #include "Math/AUMath.h"
 #include "Texture2D.h"
