@@ -1,8 +1,11 @@
 #include "Texture2D.h"
 
 AUTO_BEGIN
+
+
+
 Texture2D::Texture2D()
-	:m_shader(Shader(AtConfig::shader_path + "AUTO_texture.vs", AtConfig::shader_path + "AUTO_texture.fs"))
+	:m_shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs", AtConfig::shader_path + "au_texture_transform.aufs"))
 {
 }
 Texture2D::Texture2D(const Shader& shader)
@@ -60,12 +63,8 @@ void Texture2D::draw(const Vector3 & vec)
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	bindTexture2D(textureData);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	
+	//setNearestParameters();
+	setLinerParameters();
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	
 	Image * image = localImageLoad("Resource/texture/square.jpg");
@@ -73,12 +72,13 @@ void Texture2D::draw(const Vector3 & vec)
 	if (image->m_Image)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image->m_Width, image->m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, image->m_Image);
-		glGenerateMipmap(GL_TEXTURE_2D);
+		generateMipmap();
 	}
 	else
 	{
 		ErrorString("Failed to load texture");
-	}
+	} 
+
 	//stbi_image_free(image->m_Image);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -86,20 +86,90 @@ void Texture2D::draw(const Vector3 & vec)
 
 void Texture2D::pushToRunloop()
 {
+	
+
 	m_shader.use();
+
+	//updateData(Vector3(0.5, 0.5, 0.5));
+	float scaleAmount = sin(glfwGetTime());
+
+	m_transform = glm::translate(m_transform, glm::vec3(0.0, 0.0 ,0.0));
+	m_transform = glm::scale(m_transform, glm::vec3(scaleAmount, scaleAmount, scaleAmount));
+	
+
+	unsigned int transformLoc = glGetUniformLocation(m_shader.ID, "transform");
+	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(m_transform));
+
 	glBindTexture(GL_TEXTURE_2D, textureData);
 	glBindVertexArray(t_VAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
+
+	//init transform
+	m_transform = glm::mat4(1,0,0,0,  
+							0,1,0,0,  
+							0,0,1,0,  
+							0,0,0,1);
 }
 
 void Texture2D::updateData(const Vector3& position)
 {
-
+	m_transform = glm::scale(m_transform, glm::vec3(0.5, 0.5, 0.5));
 }
 
 void Texture2D::updateData(const Vector2& position)
 {
 
 }
+
+
+//////////////////////////////////////////////////////////////////////////
+//Image conpontent to use
+void Texture2D::setLinerParameters()
+{
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	if (is_Mipmaps)
+	{
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+	}
+	else
+	{
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	}
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+}
+
+void Texture2D::setNearestParameters()
+{
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	if (is_Mipmaps)
+	{
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+	}
+	else
+	{
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	}
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+}
+
+void Texture2D::setTexParameters(const TexParams & params)
+{
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, params.wrapS);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, params.wrapT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, params.minFilter);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, params.magFilter);
+}
+
+void Texture2D::generateMipmap()
+{
+	glGenerateMipmap(GL_TEXTURE_2D);
+	is_Mipmaps = true;
+}
+
+
+
+
 AUTO_END

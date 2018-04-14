@@ -1,6 +1,6 @@
 #ifndef APPLICATION_H_
 #define APPLICATION_H_
-#include "Window.h"
+#include "GLWindow.h"
 #include "OpenGLGather.h"
 #include "Auto.h"
 #include "InputManager.h"
@@ -26,7 +26,7 @@ public:
 	// get Window
 private:
 	//Member
-	Window window;
+	GLWindow window;
 	GLFWwindow* glfwWindow;
 	static Application * m_pApplication;
 

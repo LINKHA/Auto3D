@@ -1,5 +1,5 @@
-#ifndef WINDOW_H_
-#define WINDOW_H_
+#ifndef GL_WINDOW_H_
+#define GL_WINDOW_H_
 #include "GrFacade.h"
 #include "AtConfig.h"
 #include "Auto.h"
@@ -13,11 +13,11 @@ USING_MATH
 AUTO_BEGIN
 
 
-class Window
+class GLWindow
 {
 public:
-	Window();
-	~Window();
+	GLWindow();
+	~GLWindow();
 	void drawWindow();
 	void runLoopOver();
 	GLFWwindow* createWindow();
@@ -34,4 +34,4 @@ private:
 
 };
 AUTO_END
-#endif // WINDOW_H_
+#endif // GL_WINDOW_H_

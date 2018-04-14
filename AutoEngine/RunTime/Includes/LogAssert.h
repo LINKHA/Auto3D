@@ -2,6 +2,7 @@
 #define LOG_ASSERT_H_
 #include <string>
 #include <cstdio>
+#include <iostream>
 enum LogType
 {
 	/// LogType used for Errors.

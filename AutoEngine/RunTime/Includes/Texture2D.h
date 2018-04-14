@@ -8,6 +8,15 @@ AUTO_BEGIN
 class Texture2D : public BaseTexture
 {
 public:
+	typedef struct _TexParams {
+		GLuint    minFilter;
+		GLuint    magFilter;
+		GLuint    wrapS;
+		GLuint    wrapT;
+	}TexParams;
+
+public:
+
 	Texture2D();
 	Texture2D(const Shader& shader);
 	virtual ~Texture2D();
@@ -22,7 +31,14 @@ public:
 	void updateData(const Vector3& position);
 	void updateData(const Vector2& position);
 //	void updateData(const Texture& texture);
+	
+	void setLinerParameters();
 
+	void setNearestParameters();
+
+	void setTexParameters(const TexParams& params);
+
+	void generateMipmap();
 
 protected:
 
@@ -30,32 +46,16 @@ protected:
 
 	float height;
 
-	int _pixelsWide;
-
-	/** height in pixels */
-	int _pixelsHigh;
-
-	/** texture name */
-	GLuint _name;
-
-	/** texture max S */
-	GLfloat _maxS;
-
-	/** texture max T */
-	GLfloat _maxT;
-
-	/** whether or not the texture has their Alpha premultiplied */
-	bool _hasPremultipliedAlpha;
-
-	/** whether or not the texture has mip maps*/
-	bool _hasMipmaps;
+	bool is_Mipmaps;
 
 private:
 	Shader m_shader;
 	
 	unsigned int t_VBO, t_VAO, t_EBO;
-	unsigned int textureData;
 
+	unsigned int textureData; 
+
+	glm::mat4 m_transform;
 	//Image * image;
 };
 

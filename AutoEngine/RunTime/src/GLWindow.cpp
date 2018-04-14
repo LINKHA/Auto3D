@@ -1,4 +1,4 @@
-#include "Window.h"
+#include "GLWindow.h"
 
 
 
@@ -14,7 +14,7 @@ void size_callback(GLFWwindow* window, int width, int height)
 
 
 //public funcation
-Window::Window()
+GLWindow::GLWindow()
 	:window(nullptr)
 {
 	DrawColor = Color(m_DrawColorData[0], m_DrawColorData[1], m_DrawColorData[2], m_DrawColorData[3]);
@@ -23,23 +23,23 @@ Window::Window()
 }
 
 
-Window::~Window()
+GLWindow::~GLWindow()
 {
 	
 }
 
-void Window::drawWindow()
+void GLWindow::drawWindow()
 {
 	GrClearColor(DrawColor);
 	
 }
-void Window::runLoopOver()
+void GLWindow::runLoopOver()
 {	
 	GrSwapBuffers(window);
 	/*get Events*/
 	GrPollEvents();
 }
-GLFWwindow* Window::createWindow()
+GLFWwindow* GLWindow::createWindow()
 {
 	GrCreateWindow(&window, SCR_WIDTH, SCR_HEIGHT, Title_Name);
 
@@ -50,7 +50,7 @@ GLFWwindow* Window::createWindow()
 /**
 * @brief delete all resource
 */
-void Window::destoryWindow()
+void GLWindow::destoryWindow()
 {
 	GrDeleteResource();
 }
