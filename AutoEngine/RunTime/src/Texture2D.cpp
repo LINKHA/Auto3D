@@ -95,34 +95,25 @@ void Texture2D::pushToRunloop()
 	float scaleAmount = (float)sin(glfwGetTime());
 
 	
+	m_transform.setPosition(Vector3(0.5f, 0.5f, 0.0f));
+	m_transform.setRotation(Vector3(0.0, 0.0f, 90.0f));
+	//m_transform.setRotation(90.0f, Vector3::zAxis));
+	m_transform.setScale(Vector3(scaleAmount));
 
 
-	translate(m_transform, Vector3(0.5f, 0.5f, 0.0f));
-	//rotation(m_transform, Vector3(0.0, 0.0f, 90.0f));
-	rotation(m_transform, 90.0f, Vector3::zAxis);
-	m_transform.m_transform *= m_transform.m_rotation.toMatrix4();
-	scale(m_transform, Vector3(scaleAmount, scaleAmount, scaleAmount));
-	
+	m_transform.updateTransform();
+
 	unsigned int transformLoc = glGetUniformLocation(m_shader.ID, "transform");
-	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(m_transform.m_transform));
+	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(m_transform.getTransformMat()));
 	glBindTexture(GL_TEXTURE_2D, textureData);
 	glBindVertexArray(t_VAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
 	//init transform
-	m_transform.m_transform = Matrix4x4::identity;
+	m_transform.identity();
 }
 
-void Texture2D::updateData(const Vector3& position)
-{
-	
-}
-
-void Texture2D::updateData(const Vector2& position)
-{
-
-}
 
 
 //////////////////////////////////////////////////////////////////////////

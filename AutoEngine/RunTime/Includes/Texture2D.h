@@ -29,10 +29,6 @@ public:
 	//void draw(Rect rec);
 
 	void pushToRunloop();
-
-	void updateData(const Vector3& position);
-	void updateData(const Vector2& position);
-//	void updateData(const Texture& texture);
 	
 	void setLinerParameters();
 
@@ -58,8 +54,6 @@ private:
 	unsigned int textureData; 
 
 	Transform m_transform;
-	//glm::mat4 m_transform;
-	//Image * image;
 };
 
 AUTO_END

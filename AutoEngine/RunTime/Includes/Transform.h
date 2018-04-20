@@ -9,82 +9,30 @@ AUTO_BEGIN
 class Transform
 {
 private:
-	
 	Vector3 m_position = Vector3();
-	
 	Vector3 m_scale = Vector3(1.0f);
-public:
-	glm::mat4 m_transform; 
+	glm::mat4 m_transform;
 	Quaternion m_rotation = Quaternion();
+protected:
+	void translate(const Vector3& position);
+	void rotation(const Vector3& Euler);
+	void rotation(float Angle, const Vector3& axis);
+	void scale(const Vector3& scale);
+public:
+	
 	Transform(){}
-	void setPosition(const Vector3& position) 
-	{
-		m_position = position;
-	}
-	void SetRotation(const Quaternion& rotation)
-	{
-		m_rotation = rotation;
-	}
-	void SetRotation(const Vector3& euler)
-	{
-		m_rotation.setValueWithEuler(euler);
-	}
-	void SetRotation(float Angle, const Vector3& axis)
-	{
-		m_rotation.setValueWithAngleAxis(Angle, axis);
-	}
-	void SetScale(const Vector3& scale)
-	{
-		m_scale = scale;
-	}
-	void SetScale(float scale)
-	{
-		m_scale = Vector3(scale);
-	}
-	/*
-	void updateTransform()
-	{
-		m_transform =translate(m_position);
-		m_transform =scale(m_transform, m_scale); // TODO: order is off here for some reason, figure out why
-		m_transform =rotate(m_transform, m_rotation.xyz, m_rotation.w);
-	}*/
+	void setPosition(const Vector3& position);
+	void setRotation(const Quaternion& rotation);
+	void setRotation(const Vector3& euler);
+	void setRotation(float Angle, const Vector3& axis);
+	void setScale(const Vector3& scale);
+	void setScale(float scale);
+	
+	glm::mat4 getTransformMat();
+	void updateTransform();
+
+	void identity();
 
 };
-static void translate(Transform& tranOperate, const Vector3& position)
-{
-	tranOperate.m_transform = glm::translate(tranOperate.m_transform, glm::vec3(position.x, position.y, position.z));
-}
-
-static void rotation(Transform& tranOperate, const Vector3& Euler)
-{
-	tranOperate.m_rotation.setValueWithEuler(Euler);
-}
-static void rotation(Transform& tranOperate, float Angle, const Vector3& axis)
-{
-	tranOperate.m_rotation.setValueWithAngleAxis(Angle, axis);
-}
-static void scale(Transform& tranOperate, const Vector3& scale)
-{
-	tranOperate.m_transform = glm::scale(tranOperate.m_transform, glm::vec3(scale.x, scale.y, scale.z));
-}
-/*
-static void translate(Transform& tranOperate, const Vector3& position)
-{
-	tranOperate.m_transform = glm::translate(tranOperate.m_transform, glm::vec3(position.x, position.y, position.z));
-}
-
-static void rotation(Transform& tranOperate, const Vector3& Euler)
-{
-	tranOperate.m_rotation.setValueWithEuler(Euler);
-}
-static void rotation(Transform& tranOperate, float Angle, const Vector3& axis)
-{
-	tranOperate.m_rotation.setValueWithAngleAxis(Angle, axis);
-}
-static void scale(Transform& tranOperate, const Vector3& scale)
-{
-	tranOperate.m_transform = glm::scale(tranOperate.m_transform, glm::vec3(scale.x, scale.y, scale.z));
-}
-*/
 AUTO_END
 #endif // TRANSFORM_H_
