@@ -3,6 +3,7 @@
 #include "AUMathBase.h"
 #include "Vector3.h"
 #include "Matrix3x3.h"
+#include "OpenGLGather.h"
 MATH_BEGIN
 
 struct Vector3;
@@ -64,7 +65,14 @@ public:
 	Matrix4x4& operator = (const struct Matrix3x3& m);
 	Matrix4x4& operator *= (const Matrix4x4& inM);
 
-	static const Matrix4x4 identity;
+
+	/* the  identity mat4x4
+	|1,0,0,0|
+	|0,1,0,0|
+	|0,0,1,0|
+	|0,0,0,1|
+	*/
+	static const glm::mat4 Matrix4x4::identity;
 };
 
 MATH_END

@@ -1,7 +1,7 @@
 #include "Matrix4x4.h"
 MATH_BEGIN
 
-
+const glm::mat4 Matrix4x4::identity = glm::mat4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
 
 Matrix4x4::Matrix4x4(const Matrix3x3 &other)
 {

@@ -3,6 +3,8 @@
 #include "BaseTexture.h"
 #include "GLStateCache.h"
 #include "LoadResource.h"
+#include "Transform.h"
+
 USING_MATH
 AUTO_BEGIN
 class Texture2D : public BaseTexture
@@ -55,7 +57,8 @@ private:
 
 	unsigned int textureData; 
 
-	glm::mat4 m_transform;
+	Transform m_transform;
+	//glm::mat4 m_transform;
 	//Image * image;
 };
 

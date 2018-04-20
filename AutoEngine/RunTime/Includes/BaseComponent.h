@@ -15,15 +15,6 @@ public:
 	int getClassID();
 };
 
-BaseComponent::BaseComponent()
-{
-
-}
-BaseComponent:: ~BaseComponent()
-{
-
-}
-
 
 
 

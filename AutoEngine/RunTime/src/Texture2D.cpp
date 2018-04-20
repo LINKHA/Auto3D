@@ -6,10 +6,12 @@ AUTO_BEGIN
 
 Texture2D::Texture2D()
 	:m_shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs", AtConfig::shader_path + "au_texture_transform.aufs"))
+	, m_transform(Transform())
 {
 }
 Texture2D::Texture2D(const Shader& shader)
 	:m_shader(shader)
+	, m_transform(Transform())
 {
 }
 
@@ -90,31 +92,31 @@ void Texture2D::pushToRunloop()
 
 	m_shader.use();
 
-	//updateData(Vector3(0.5, 0.5, 0.5));
-	float scaleAmount = sin(glfwGetTime());
+	float scaleAmount = (float)sin(glfwGetTime());
 
-	m_transform = glm::translate(m_transform, glm::vec3(0.0, 0.0 ,0.0));
-	m_transform = glm::scale(m_transform, glm::vec3(scaleAmount, scaleAmount, scaleAmount));
 	
 
-	unsigned int transformLoc = glGetUniformLocation(m_shader.ID, "transform");
-	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(m_transform));
 
+	translate(m_transform, Vector3(0.5f, 0.5f, 0.0f));
+	//rotation(m_transform, Vector3(0.0, 0.0f, 90.0f));
+	rotation(m_transform, 90.0f, Vector3::zAxis);
+	m_transform.m_transform *= m_transform.m_rotation.toMatrix4();
+	scale(m_transform, Vector3(scaleAmount, scaleAmount, scaleAmount));
+	
+	unsigned int transformLoc = glGetUniformLocation(m_shader.ID, "transform");
+	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(m_transform.m_transform));
 	glBindTexture(GL_TEXTURE_2D, textureData);
 	glBindVertexArray(t_VAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
 	//init transform
-	m_transform = glm::mat4(1,0,0,0,  
-							0,1,0,0,  
-							0,0,1,0,  
-							0,0,0,1);
+	m_transform.m_transform = Matrix4x4::identity;
 }
 
 void Texture2D::updateData(const Vector3& position)
 {
-	m_transform = glm::scale(m_transform, glm::vec3(0.5, 0.5, 0.5));
+	
 }
 
 void Texture2D::updateData(const Vector2& position)

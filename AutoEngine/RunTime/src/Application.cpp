@@ -47,15 +47,15 @@ int Application::runLoop()
 
 	
 	Texture2D d;
-	//Texture2D s;
+	Texture2D s;
 	//Texture2D d1;
 	//Texture2D s1;
 	Vector2 vec(0.5f,0.5f);
-	//Vector2 vec2(-0.5f, -0.5f);
+	Vector2 vec2(-0.5f, -0.5f);
 	//Vector2 vec3(-0.5f, 0.5f);
 	//Vector2 vec4(0.5f, -0.5f);
 	d.draw(vec);
-	//s.draw(vec2);
+	s.draw(vec2);
 	//d1.draw(vec3);
 	//s1.draw(vec4);
 
@@ -70,7 +70,7 @@ int Application::runLoop()
 		window.drawWindow();
 
 		d.pushToRunloop();
-		//s.pushToRunloop();
+		s.pushToRunloop();
 		//d1.pushToRunloop();
 		//s1.pushToRunloop();
 

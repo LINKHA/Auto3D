@@ -9,6 +9,7 @@ struct Vector3
 {
 public:
 	Vector3(): x(0.0), y(0.0), z(0.0) {}
+	Vector3(float value) :x(value),y(value),z(value){}
 	Vector3(const Vector3& vec){ x = vec.x; y = vec.y; z = vec.z; }
 	Vector3(float xPos, float yPos, float zPos) : x(xPos) , y(yPos) , z(zPos) {}
 
