@@ -28,6 +28,8 @@ int Application::run()
 
 int Application::init()
 {
+	cout<<Monitors::getInstance()->getMonitorsWidthIndex(2);
+
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		ErrorString("Failed to initialize GLAD \n");

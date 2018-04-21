@@ -8,6 +8,7 @@
 #include "AtConfig.h"
 #include "Math/AUMath.h"
 #include "Texture2D.h"
+#include "Monitors.h"
 #include <string.h>
 
 AUTO_BEGIN
