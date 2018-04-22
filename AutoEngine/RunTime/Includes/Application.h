@@ -9,11 +9,11 @@
 #include "Math/AUMath.h"
 #include "Texture2D.h"
 #include "Monitors.h"
+#include "Application.h"
 #include <string.h>
 
 AUTO_BEGIN
-class Application 
-
+class Application  : public Singleton<Application>
 {
 public:
 	
@@ -23,19 +23,12 @@ public:
 	virtual int finish();
 	virtual int runLoop();
 	//virtual bool callBackMessage();
-	static Application* getInstance();
 	// get Window
+	Application();
 private:
 	//Member
 	GLWindow window;
 	GLFWwindow* glfwWindow;
-	static Application * m_pApplication;
-
-	//Prevent being called 
-	Application();
-	Application(const Application&) {}
-	Application& operator=(const Application&) {}
-
 };
 AUTO_END
 #endif // APPLICATION_H_

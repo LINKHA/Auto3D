@@ -1,17 +1,19 @@
 #include "Application.h"
 AUTO_BEGIN
 
-Application * Application::m_pApplication = nullptr;
-
+//Application * Application::m_pApplication = nullptr;
+template<> Application* Singleton<Application>::m_instance = nullptr;
 
 Application::~Application()
 {
-	Assert(this == m_pApplication);
-	m_pApplication = nullptr;
+	//Assert(this == m_pApplication);
+	//m_pApplication = nullptr;
 }
 /*
 * @Application::run
-* this is Engine important funcation
+* this is Engine important funcation,
+* Determine the number of frames based on the speed of this function
+* Run once per frame
 */
 int Application::run()
 {
@@ -28,8 +30,9 @@ int Application::run()
 
 int Application::init()
 {
-	cout<<Monitors::getInstance()->getMonitorsWidthIndex(2);
-
+	Print(Monitors::Instance().getMonitorsCount());
+	Print(Monitors::Instance().getMonitorsWidthIndex(1));
+	
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		ErrorString("Failed to initialize GLAD \n");
@@ -91,6 +94,7 @@ int Application::finish()
 }
 
 ///Static
+/*
 Application* Application::getInstance()
 {
 	if (m_pApplication == nullptr)
@@ -98,14 +102,14 @@ Application* Application::getInstance()
 		m_pApplication = new Application();
 	}
 	return m_pApplication;
-}
+}*/
 
 ///Private
 Application::Application()
 {
 	window = GLWindow();
 	glfwWindow = window.createWindow();
-	Assert(!m_pApplication);
-	m_pApplication = this;
+	//Assert(!m_pApplication);
+	//m_pApplication = this;
 }
 AUTO_END

@@ -13,5 +13,5 @@ WorkSpace::~WorkSpace()
 
 int WorkSpace::Launch()
 {
-	return Application::getInstance()->run();
+	return Application::Instance().run();
 }
