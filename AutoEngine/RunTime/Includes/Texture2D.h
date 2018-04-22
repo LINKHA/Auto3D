@@ -4,7 +4,7 @@
 #include "GLStateCache.h"
 #include "LoadResource.h"
 #include "Transform.h"
-
+#include "Camera.h"
 USING_MATH
 AUTO_BEGIN
 class Texture2D : public BaseTexture
@@ -54,6 +54,8 @@ private:
 	unsigned int textureData; 
 
 	Transform m_transform;
+
+	//Camera m_camera;
 };
 
 AUTO_END

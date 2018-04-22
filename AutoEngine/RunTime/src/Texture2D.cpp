@@ -1,13 +1,43 @@
 #include "Texture2D.h"
 
 AUTO_BEGIN
+Camera m_camera(glm::vec3(0.0f, 0.0f, 3.0f));
+float lastX = 800 / 2.0;
+float lastY = 600 / 2.0;
+bool firstMouse = true;
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+	if (firstMouse)
+	{
+		lastX = xpos;
+		lastY = ypos;
+		firstMouse = false;
+	}
 
+	float xoffset = xpos - lastX;
+	float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+
+	lastX = xpos;
+	lastY = ypos;
+
+	m_camera.ProcessMouseMovement(xoffset, yoffset);
+}
+
+// glfw: whenever the mouse scroll wheel scrolls, this callback is called
+// ----------------------------------------------------------------------
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+	m_camera.ProcessMouseScroll(yoffset);
+}
 
 Texture2D::Texture2D()
 	:m_shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs", AtConfig::shader_path + "au_texture_transform.aufs"))
 	, m_transform(Transform())
 {
+	m_camera = Camera(glm::vec3(0.0f, 0.0f, 3.0f));
 }
 Texture2D::Texture2D(const Shader& shader)
 	:m_shader(shader)
@@ -31,11 +61,11 @@ void Texture2D::draw(const Vector2& vec)
 void Texture2D::draw(const Vector3 & vec)
 {
 	GLfloat vertices[] = {
-		// positions											// texture coords
-		vec.x + 0.5f, vec.y + 0.5f,  					1.0f, 1.0f, // top right
-		vec.x + 0.5f, vec.y + -0.5f,					1.0f, 0.0f, // bottom right
-		vec.x + -0.5f,vec.y + -0.5f,					0.0f, 0.0f, // bottom left
-		vec.x + -0.5f,vec.y + 0.5f,						0.0f, 1.0f  // top left 
+		// positions			// texture coords
+		0.5f, 0.5f, 0.0f, 			1.0f, 1.0f, // top right
+		0.5f, -0.5f,0.0f,			1.0f, 0.0f, // bottom right
+		-0.5f,-0.5f,0.0f,			0.0f, 0.0f, // bottom left
+		-0.5f,0.5f,	0.0f,			0.0f, 1.0f  // top left 
 	};
 	unsigned int indices[] = {
 		0, 1, 3, // first triangle
@@ -55,8 +85,8 @@ void Texture2D::draw(const Vector3 & vec)
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, t_EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 
 	enableVertexAttribs(VERTEX_ATTRIB_POSITION | VERTEX_ATTRIB_COLOR);
 
@@ -93,18 +123,37 @@ void Texture2D::pushToRunloop()
 	m_shader.use();
 
 	float scaleAmount = (float)sin(glfwGetTime());
-
+	
 	
 	m_transform.setPosition(Vector3(0.5f, 0.5f, 0.0f));
-	m_transform.setRotation(Vector3(0.0, 0.0f, 90.0f));
+//	m_transform.setRotation(Vector3(60.0f, 0.0f, 0.0));
+//	m_transform.setRotation(-55.0f, Vector3::xAxis);
 	//m_transform.setRotation(90.0f, Vector3::zAxis));
-	m_transform.setScale(Vector3(scaleAmount));
+//	m_transform.setScale(Vector3(scaleAmount));
 
 
 	m_transform.updateTransform();
+	glm::mat4 model;
+	glm::mat4 view;
+	glm::mat4 projection;
 
-	unsigned int transformLoc = glGetUniformLocation(m_shader.ID, "transform");
-	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(m_transform.getTransformMat()));
+
+	model = m_transform.getTransformMat();
+	//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+	//projection = glm::perspective(45.0f, (float)800 / (float)600, 0.1f, 100.0f);
+	////projection = glm::ortho(-4.0f, 4.0f, -3.0f, 3.0f, 0.1f, 100.0f);
+
+
+	view = m_camera.GetViewMatrix();
+	projection = glm::perspective(m_camera.Zoom, (float)800 / (float)600, 0.1f, 100.0f);
+
+
+
+
+	m_shader.setMat4("model", model);
+	m_shader.setMat4("view", view);
+	m_shader.setMat4("projection", projection);
+
 	glBindTexture(GL_TEXTURE_2D, textureData);
 	glBindVertexArray(t_VAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

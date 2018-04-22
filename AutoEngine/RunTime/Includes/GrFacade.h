@@ -140,6 +140,15 @@ static void GrFrameSizeCallBack(GLFWwindow* window, GLFWframebuffersizefun cbfun
 #ifdef __DIRECTX__
 #endif
 }
+static void GrCursorPosCallback(GLFWwindow* window, GLFWcursorposfun cbfun)
+{
+#ifdef __OPENGL__
+	glfwSetCursorPosCallback(window, cbfun);
+#endif
+
+#ifdef __DIRECTX__
+#endif
+}
 /**
 * @brief : Close or dont use judge
 */

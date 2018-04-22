@@ -5,8 +5,6 @@ template<> Monitors* Singleton<Monitors>::m_instance = nullptr;
 
 Monitors::~Monitors()
 {
-	//Assert(this == m_Monitors);
-	//m_Monitors = nullptr;
 	ppMonitor = nullptr;
 }
 

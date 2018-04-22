@@ -1,13 +1,10 @@
 #include "Application.h"
 AUTO_BEGIN
 
-//Application * Application::m_pApplication = nullptr;
 template<> Application* Singleton<Application>::m_instance = nullptr;
 
 Application::~Application()
 {
-	//Assert(this == m_pApplication);
-	//m_pApplication = nullptr;
 }
 /*
 * @Application::run
@@ -52,15 +49,15 @@ int Application::runLoop()
 
 	
 	Texture2D d;
-	Texture2D s;
+	//Texture2D s;
 	//Texture2D d1;
 	//Texture2D s1;
 	Vector2 vec(0.5f,0.5f);
-	Vector2 vec2(-0.5f, -0.5f);
+	//Vector2 vec2(-0.5f, -0.5f);
 	//Vector2 vec3(-0.5f, 0.5f);
 	//Vector2 vec4(0.5f, -0.5f);
 	d.draw(vec);
-	s.draw(vec2);
+	//s.draw(vec2);
 	//d1.draw(vec3);
 	//s1.draw(vec4);
 
@@ -75,7 +72,7 @@ int Application::runLoop()
 		window.drawWindow();
 
 		d.pushToRunloop();
-		s.pushToRunloop();
+	//	s.pushToRunloop();
 		//d1.pushToRunloop();
 		//s1.pushToRunloop();
 
@@ -93,23 +90,10 @@ int Application::finish()
 	return AU_NORMAL;
 }
 
-///Static
-/*
-Application* Application::getInstance()
-{
-	if (m_pApplication == nullptr)
-	{
-		m_pApplication = new Application();
-	}
-	return m_pApplication;
-}*/
-
-///Private
 Application::Application()
 {
 	window = GLWindow();
 	glfwWindow = window.createWindow();
-	//Assert(!m_pApplication);
-	//m_pApplication = this;
+
 }
 AUTO_END

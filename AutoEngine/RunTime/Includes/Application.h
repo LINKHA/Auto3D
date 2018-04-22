@@ -23,10 +23,8 @@ public:
 	virtual int finish();
 	virtual int runLoop();
 	//virtual bool callBackMessage();
-	// get Window
 	Application();
 private:
-	//Member
 	GLWindow window;
 	GLFWwindow* glfwWindow;
 };
