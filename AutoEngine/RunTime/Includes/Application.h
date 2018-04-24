@@ -24,9 +24,12 @@ public:
 	virtual int runLoop();
 	//virtual bool callBackMessage();
 	Application();
+
+	Camera m_camera;
 private:
 	GLWindow window;
 	GLFWwindow* glfwWindow;
+	
 };
 AUTO_END
 #endif // APPLICATION_H_

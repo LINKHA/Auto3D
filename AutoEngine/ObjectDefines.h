@@ -1,0 +1,21 @@
+#ifndef OBJECT_DEFINES_H_
+#define OBJECT_DEFINES_H_
+
+
+#define REGISTER_DERIVED_CLASS()
+
+
+
+
+#define REGISTER_DERIVED_ABSTRACT_CLASS()
+
+
+
+
+
+
+
+
+
+
+#endif // OBJECT_DEFINES_H_

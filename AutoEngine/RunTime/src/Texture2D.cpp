@@ -1,43 +1,12 @@
 #include "Texture2D.h"
 
 AUTO_BEGIN
-Camera m_camera(glm::vec3(0.0f, 0.0f, 3.0f));
-float lastX = 800 / 2.0;
-float lastY = 600 / 2.0;
-bool firstMouse = true;
-void mouse_callback(GLFWwindow* window, double xpos, double ypos);
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
-void mouse_callback(GLFWwindow* window, double xpos, double ypos)
-{
-	if (firstMouse)
-	{
-		lastX = xpos;
-		lastY = ypos;
-		firstMouse = false;
-	}
-
-	float xoffset = xpos - lastX;
-	float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
-
-	lastX = xpos;
-	lastY = ypos;
-
-	m_camera.ProcessMouseMovement(xoffset, yoffset);
-}
-
-// glfw: whenever the mouse scroll wheel scrolls, this callback is called
-// ----------------------------------------------------------------------
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
-{
-	m_camera.ProcessMouseScroll(yoffset);
-}
 
 Texture2D::Texture2D()
 	:m_shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs", AtConfig::shader_path + "au_texture_transform.aufs"))
 	, m_transform(Transform())
 {
-	m_camera = Camera(glm::vec3(0.0f, 0.0f, 3.0f));
 }
 Texture2D::Texture2D(const Shader& shader)
 	:m_shader(shader)
@@ -144,8 +113,8 @@ void Texture2D::pushToRunloop()
 	////projection = glm::ortho(-4.0f, 4.0f, -3.0f, 3.0f, 0.1f, 100.0f);
 
 
-	view = m_camera.GetViewMatrix();
-	projection = glm::perspective(m_camera.Zoom, (float)800 / (float)600, 0.1f, 100.0f);
+	view = Application::Instance().m_camera.GetViewMatrix();
+	projection = glm::perspective(Application::Instance().m_camera.Zoom, (float)800 / (float)600, 0.1f, 100.0f);
 
 
 

@@ -5,6 +5,7 @@
 #include "LoadResource.h"
 #include "Transform.h"
 #include "Camera.h"
+#include "Application.h"
 USING_MATH
 AUTO_BEGIN
 class Texture2D : public BaseTexture
