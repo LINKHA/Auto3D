@@ -39,13 +39,13 @@ void processInput(GLFWwindow *window)
 	if (GrGetKey(window, KEY_ESCAPE) == S_PRESS)
 		GrCloseWindow(window);
 
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+	if (glfwGetKey(window, KEY_W) == S_PRESS)
 		Application::Instance().m_camera.ProcessKeyboard(FORWARD, 0.001);
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+	if (glfwGetKey(window, KEY_S) == S_PRESS)
 		Application::Instance().m_camera.ProcessKeyboard(BACKWARD, 0.001);
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+	if (glfwGetKey(window, KEY_A) == S_PRESS)
 		Application::Instance().m_camera.ProcessKeyboard(LEFT, 0.001);
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+	if (glfwGetKey(window, KEY_D) == S_PRESS)
 		Application::Instance().m_camera.ProcessKeyboard(RIGHT, 0.001);
 	/*
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
@@ -103,7 +103,6 @@ int Application::init()
 
 int Application::runLoop()
 {
-
 	
 	Texture2D d;
 	//Texture2D s;

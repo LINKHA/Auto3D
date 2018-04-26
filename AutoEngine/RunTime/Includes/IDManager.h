@@ -5,17 +5,6 @@
 #define COMP_ID_ADD(x)	 11 ## x
 #define SCENE_ID_ADD(x)	 100 ## x
 
-
-
-
-
-
-
-
-
-
-
-
 class IDManager
 {
 public:

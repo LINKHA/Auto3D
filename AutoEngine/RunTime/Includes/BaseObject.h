@@ -2,16 +2,23 @@
 #define BASE_OBJECT_H_
 #include "Auto.h"
 #include "LogAssert.h"
-#include "DefineLabels.h"
+#include "ClassID.h"
+#include "stl_use.h"
+#include "ObjectDefines.h"
 
 AUTO_BEGIN
+
 class Object;
+
+
+
+
 
 template<class T>
 class PPtr
 {
 	UInt32 m_InstanceID;
-	static const char* GetTypeString();//{ return typeid(T).name(); }
+	static const char* GetTypeString();
 public:
 	PPtr(int instanceID) { m_InstanceID = instanceID; }
 	PPtr(const T* o) { AssignObject(o); }
@@ -37,29 +44,73 @@ public:
 	bool IsValid()const;
 };
 
+
+
+
+
 class Object 
 {
 protected:
-	//virtual ~Object()									{ assert(m_InstanceID == 0); }
+	virtual ~Object()									{ }
 public:
+	struct RTTI
+	{
+		RTTI*                    base;// super rtti class
+		//Object::FactoryFunction* factory;// the factory function of the class
+		int                      classID;
+		std::string              className;
+		int                      size;// sizeof (Class)
+		bool                     isAbstract;// is the class Abstract?
+	};
 
-	Object() {}
+	Object();
 
-	UInt32 GetInstanceID() const						{ AssertIf(m_InstanceID == 0); return m_InstanceID; }
+	ClassIDType GetClassID() const						{ AssertIf(m_InstanceID == 0); return (ClassIDType)m_ClassID; }
+	void SetInstanceID(int inID)						{ m_InstanceID = inID; }
+	Int32 GetInstanceID() const							{ AssertIf(m_InstanceID == 0); return m_InstanceID; }
+	
 
 	virtual char const* GetName() const					{ return ""; };
-	virtual void SetName(char const* name)				{}
-	virtual LabelClassDefine const GetClassID() const	{ return m_ClassID; }
-	virtual void SetClassID(UInt32 class_id)			{}
+	virtual void SetName(char const* name)				{ }
+	
 
-	static const char* GetPPtrTypeString()				{ return "PPtr<Object>"; }
+	static int GetClassIDStatic()						{ return ClassID(Object); }
 	static const char* GetClassStringStatic()			{ return "Object"; }
-private:
-	UInt32 m_InstanceID;
-	LabelClassDefine m_ClassID;
+	static const char* GetPPtrTypeString()				{ return "PPtr<Object>"; }
+	static bool IsAbstract()							{ return true; }
 
-	//Object(const Object& o);							// Disallow copy constructor
+	template<class TransferFunction>
+	void Transfer(TransferFunction& transfer);
+
+	const std::string& Object::GetClassName()const;
+	static const std::string& Object::ClassIDToString(int ID);
+
+	static int StringToClassID(const std::string& classString);
+	static int StringToClassID(const char* classString);
+private:
+	Int32 m_InstanceID;
+
+	enum Bits
+	{
+		kMemLabelBits = 13,
+		kIsRootOwnerBits = 1,
+		kTemporaryFlagsBits = 1,
+		kHideFlagsBits = 4,
+		kIsPersistentBits = 1,
+		kClassIDBits = 12
+	};
+
+	UInt32			m_MemLabel		: kMemLabelBits;       // 13 bits
+	UInt32			m_IsRootOwner	: kIsRootOwnerBits;    // 14 bits
+	UInt32			m_TemporaryFlags: kTemporaryFlagsBits; // 15 bits
+	UInt32			m_HideFlags		: kHideFlagsBits;      // 19 bits
+	UInt32			m_IsPersistent	: kIsPersistentBits;   // 20 bits
+	UInt32			m_ClassID		: kClassIDBits;		   // 32 bits
 
 };
+
+
 AUTO_END
 #endif // !BASE_OBJECT_H_
+
+

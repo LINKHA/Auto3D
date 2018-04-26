@@ -55,21 +55,25 @@
 
 //Define Data type
 #define Int8 char 
+#define SInt8 signed char 
 #define PInt8 Int8*
 #define UInt8 unsigned Int8
 #define PUInt8 UInt8*
 
 #define Int16 short
+#define SInt16 signed short
 #define PInt16 Int16*
 #define UInt16 unsigned Int16
 #define PUInt16 UInt16*
 
 #define Int32 int
+#define SInt32 signed int
 #define PInt32 Int32*
 #define UInt32 unsigned Int32
 #define PUInt32 UInt32*
 
 #define Int64 __int64
+#define SInt64 signed __int64
 #define PInt64 Int64*
 #define UInt64 unsigned Int64
 #define PUInt64 UInt64*

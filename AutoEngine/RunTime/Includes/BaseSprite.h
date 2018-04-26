@@ -12,7 +12,7 @@ class BaseSprite :public Object
 public:
 	BaseSprite();
 	~BaseSprite(); 
-	typedef AUTO_VECTOR(LabelClassDefine,BaseComponent *) ComponentsArray;
+	typedef AUTO_VECTOR(ClassIDType,BaseComponent *) ComponentsArray;
 
 
 	void enable();
