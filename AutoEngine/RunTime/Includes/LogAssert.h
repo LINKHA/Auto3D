@@ -36,7 +36,7 @@ inline const char* LogTypeToString(LogType type)
 	default:                return "";
 	}
 }
-#define DebugStringToFile(format,type)	 std::cout << __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(type) << " : " << format <<  std::endl;
+#define DebugStringToFile(format,type)	do { std::cout << __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(type) << " : " << format <<  std::endl; } while(0)
 #define ErrorIfString(term,x)	do { if (term) DebugStringToFile (x,LogType_Error); } while(0)
 #define ErrorString(x)			do { DebugStringToFile (x,LogType_Error); }while(0)
 #define WarningIfString(term,x)	do { if (term) DebugStringToFile (x,LogType_Warning)}while(0)

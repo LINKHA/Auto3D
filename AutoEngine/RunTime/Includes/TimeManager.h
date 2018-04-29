@@ -39,8 +39,7 @@ public:
 
 		RealTime();
 	};
-	
-
+	RealTime GetRealTime();
 
 
 
@@ -49,16 +48,18 @@ public:
 	void SetTime(double time);
 	void ResetTime();
 	void SetPause(bool pause);
-	bool StepFixedTime();
-	RealTime GetRealTime();
+	void SetMaximumDeltaTime(float maxStep);
+	void SetTimeScale(float scale);
+	//bool StepFixedTime();
+
 
 
 	//virtual void CheckConsistency();
-	//virtual void Update();
+	virtual void Update();
 
 
 	inline double	GetCurTime() const				{ return m_ActiveTime.m_CurFrameTime; }
-	inline double	GetTimeSinceLevelLoad() const	{ return m_ActiveTime.m_CurFrameTime + m_LevelLoadOffset; }
+//	inline double	GetTimeSinceLevelLoad() const	{ return m_ActiveTime.m_CurFrameTime + m_LevelLoadOffset; }
 	inline float	GetDeltaTime() const			{ return m_ActiveTime.m_DeltaTime; }
 	inline float 	GetSmoothDeltaTime()  const		{ return m_ActiveTime.m_SmoothDeltaTime; }
 
@@ -66,10 +67,18 @@ private:
 	TimeHolder  m_FixedTime;
 	TimeHolder  m_DynamicTime;
 	TimeHolder  m_ActiveTime;
+
 	RealTime	m_RealTime;
 
 	bool		is_Pause;
-	double      m_LevelLoadOffset;
+
+
+//	double      m_LevelLoadOffset;
+	float		m_MaximumTimestep;
+	float		m_TimeSpeedScale;//1.0 is real time 0.5 is low time(range 0,100)
+
+	bool		m_FirstFrame;// Don't do anything to delta time the first frame!
+
 };
 AUTO_END
 #endif //!TIMER_H_

@@ -27,8 +27,14 @@ MATH_BEGIN
 template<typename T>
 static inline T max(T v1, T v2) { return v1 > v2 ? v1 : v2; }
 
+template<>
+static inline float max(float v1, float v2) { return v1 > v2 ? v1 : v2; }
+
 template<typename T>
 static inline T min(T v1, T v2) { return v1 < v2 ? v1 : v2; }
+
+template<>
+static inline float min(float v1, float v2) { return v1 < v2 ? v1 : v2; }
 
 template<typename T>
 static inline T abs(const T &r)

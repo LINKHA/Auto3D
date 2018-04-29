@@ -91,7 +91,7 @@ void Texture2D::pushToRunloop()
 
 	m_shader.use();
 
-	float scaleAmount = (float)sin(glfwGetTime());
+	float scaleAmount = (float)sin(GrGetTime());
 	
 	
 	m_transform.setPosition(Vector3(0.5f, 0.5f, 0.0f));

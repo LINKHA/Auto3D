@@ -197,8 +197,18 @@ static int GrGetKey(GLFWwindow* window,int key)
 #ifdef __DIRECTX__
 #endif
 }
+/**
+* @brief Get Time from Applacation load
+*/
+static double GrGetTime()
+{
+#ifdef __OPENGL__
+	return glfwGetTime();
+#endif
 
-
+#ifdef __DIRECTX__
+#endif
+}
 
 AUTO_END
 

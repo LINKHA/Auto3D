@@ -40,13 +40,13 @@ void processInput(GLFWwindow *window)
 	if (GrGetKey(window, KEY_ESCAPE) == BUTTON_PRESS)
 		GrCloseWindow(window);
 
-	if (glfwGetKey(window, KEY_W) == BUTTON_PRESS)
+	if (GrGetKey(window, KEY_W) == BUTTON_PRESS)
 		Application::Instance().m_camera.ProcessKeyboard(FORWARD, 0.001);
-	if (glfwGetKey(window, KEY_S) == BUTTON_PRESS)
+	if (GrGetKey(window, KEY_S) == BUTTON_PRESS)
 		Application::Instance().m_camera.ProcessKeyboard(BACKWARD, 0.001);
-	if (glfwGetKey(window, KEY_A) == BUTTON_PRESS)
+	if (GrGetKey(window, KEY_A) == BUTTON_PRESS)
 		Application::Instance().m_camera.ProcessKeyboard(LEFT, 0.001);
-	if (glfwGetKey(window, KEY_D) == BUTTON_PRESS)
+	if (GrGetKey(window, KEY_D) == BUTTON_PRESS)
 		Application::Instance().m_camera.ProcessKeyboard(RIGHT, 0.001);
 	/*
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
@@ -109,12 +109,14 @@ int Application::runLoop()
 	Vector2 vec(0.5f,0.5f);
 	d.draw(vec);
 
-
 	
 
 	while (!GrShouldCloseWindow(glfwWindow))
 	{
-		LogString(TimeManager::Instance().GetRealTime().Second);
+		
+		//LogString(TimeManager::Instance().GetRealTime().Second);
+		TimeManager::Instance().Update();
+		Print(TimeManager::Instance().GetCurTime());
 
 		//////////////////////////
 		processInput(glfwWindow);
