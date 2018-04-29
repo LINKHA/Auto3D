@@ -9,6 +9,7 @@ enum ClassIDType
 	DO_CLASS_ID(GameManager,1)
 	DO_CLASS_ID(LevelGameManager, 2)
 	DO_CLASS_ID(GlobalGameManager, 3)
+	DO_CLASS_ID(TimeManager, 4)
 
 
 	CLASS_ID_Count

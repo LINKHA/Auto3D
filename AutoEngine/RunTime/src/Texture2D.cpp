@@ -95,10 +95,10 @@ void Texture2D::pushToRunloop()
 	
 	
 	m_transform.setPosition(Vector3(0.5f, 0.5f, 0.0f));
-//	m_transform.setRotation(Vector3(60.0f, 0.0f, 0.0));
+	m_transform.setRotation(Vector3(0.0f, 0.0f, 90.0f));
 //	m_transform.setRotation(-55.0f, Vector3::xAxis);
 	//m_transform.setRotation(90.0f, Vector3::zAxis));
-//	m_transform.setScale(Vector3(scaleAmount));
+	m_transform.setScale(Vector3(scaleAmount));
 
 
 	m_transform.updateTransform();

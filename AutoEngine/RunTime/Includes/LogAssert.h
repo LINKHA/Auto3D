@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <iostream>
 #include <assert.h>
+
 enum LogType
 {
 	/// LogType used for Errors.
@@ -35,12 +36,12 @@ inline const char* LogTypeToString(LogType type)
 	default:                return "";
 	}
 }
-#define DebugStringToFile(format,type)	printf("%s(%d) : %s : " format "\n",__FILE__, __LINE__,LogTypeToString(type)) 
+#define DebugStringToFile(format,type)	 std::cout << __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(type) << " : " << format <<  std::endl;
 #define ErrorIfString(term,x)	do { if (term) DebugStringToFile (x,LogType_Error); } while(0)
 #define ErrorString(x)			do { DebugStringToFile (x,LogType_Error); }while(0)
 #define WarningIfString(term,x)	do { if (term) DebugStringToFile (x,LogType_Warning)}while(0)
 #define WarningString(x)		do { DebugStringToFile (x,LogType_Warning);}while(0)	
-#define LogString(x)			do { DebugStringToFile( x,LogType_Log);} while(0)
+#define LogString(x)			do { DebugStringToFile(x,LogType_Log);} while(0)
 #define Print(x)				do { std::cout<<x<<std::endl; }while(0)
 
 

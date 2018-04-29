@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "TimeManager.h"
 AUTO_BEGIN
 
 template<> Application* Singleton<Application>::m_instance = nullptr;
@@ -36,16 +37,16 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 
 void processInput(GLFWwindow *window)
 {
-	if (GrGetKey(window, KEY_ESCAPE) == S_PRESS)
+	if (GrGetKey(window, KEY_ESCAPE) == BUTTON_PRESS)
 		GrCloseWindow(window);
 
-	if (glfwGetKey(window, KEY_W) == S_PRESS)
+	if (glfwGetKey(window, KEY_W) == BUTTON_PRESS)
 		Application::Instance().m_camera.ProcessKeyboard(FORWARD, 0.001);
-	if (glfwGetKey(window, KEY_S) == S_PRESS)
+	if (glfwGetKey(window, KEY_S) == BUTTON_PRESS)
 		Application::Instance().m_camera.ProcessKeyboard(BACKWARD, 0.001);
-	if (glfwGetKey(window, KEY_A) == S_PRESS)
+	if (glfwGetKey(window, KEY_A) == BUTTON_PRESS)
 		Application::Instance().m_camera.ProcessKeyboard(LEFT, 0.001);
-	if (glfwGetKey(window, KEY_D) == S_PRESS)
+	if (glfwGetKey(window, KEY_D) == BUTTON_PRESS)
 		Application::Instance().m_camera.ProcessKeyboard(RIGHT, 0.001);
 	/*
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
@@ -105,32 +106,22 @@ int Application::runLoop()
 {
 	
 	Texture2D d;
-	//Texture2D s;
-	//Texture2D d1;
-	//Texture2D s1;
 	Vector2 vec(0.5f,0.5f);
-	//Vector2 vec2(-0.5f, -0.5f);
-	//Vector2 vec3(-0.5f, 0.5f);
-	//Vector2 vec4(0.5f, -0.5f);
 	d.draw(vec);
-	//s.draw(vec2);
-	//d1.draw(vec3);
-	//s1.draw(vec4);
+
 
 	
 
 	while (!GrShouldCloseWindow(glfwWindow))
 	{
+		LogString(TimeManager::Instance().GetRealTime().Second);
 
 		//////////////////////////
 		processInput(glfwWindow);
-
 		window.drawWindow();
 
+
 		d.pushToRunloop();
-	//	s.pushToRunloop();
-		//d1.pushToRunloop();
-		//s1.pushToRunloop();
 
 		window.runLoopOver();
 	}

@@ -8,9 +8,9 @@
 //The key or mouse button was pressed.
 enum KeyButtonStatus 
 {
-	S_RELEASE                =0,
-	S_PRESS                  =1,
-	S_REPEAT                 =2
+	BUTTON_RELEASE                =0,
+	BUTTON_PRESS                  =1,
+	BUTTON_REPEAT                 =2
 };
 enum AxisType 
 {
