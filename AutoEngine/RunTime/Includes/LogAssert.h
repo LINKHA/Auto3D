@@ -4,6 +4,14 @@
 #include <cstdio>
 #include <iostream>
 #include <assert.h>
+#define AUTO_DEBUG 1
+
+#if AUTO_DEBUG 
+#else
+#pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
+#endif
+
+#define TIME_MANAGER_DEBUG 0
 
 enum LogType
 {
