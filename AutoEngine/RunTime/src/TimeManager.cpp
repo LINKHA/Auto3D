@@ -78,7 +78,7 @@ void TimeManager::ResetTime()
 	m_ActiveTime = m_DynamicTime;
 
 
-//	m_LevelLoadOffset = 0.0F;
+//	m_LevelLoadOffset = 0.0f;
 }
 
 void TimeManager::SetPause(bool pause)

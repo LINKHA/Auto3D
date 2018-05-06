@@ -5,10 +5,6 @@
 #include "Auto.h"
 #include "Math/Color.h"
 
-#if WINDOW_DOT_USE
-//#pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
-#endif
-
 USING_MATH
 AUTO_BEGIN
 
