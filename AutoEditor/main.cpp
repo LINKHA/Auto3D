@@ -1,14 +1,16 @@
 #include "AutoEditor.h"
 #include <QtWidgets/QApplication>
-#include "Application.h"
+#include "OpenGLWindow.h"
+//#include "Application.h"
 
-USING_AUTO
+#define AUTO_EDITOR
+//USING_AUTO
 
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
-	AutoEditor w;
+	OpenGLWindow w;
 	w.show();
-	return Application::Instance().run();
-	//return a.exec();
+	//return Application::Instance().run();
+	return a.exec();
 }

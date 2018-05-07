@@ -25,9 +25,9 @@ QT_BEGIN_NAMESPACE
 class Ui_AutoEditorClass
 {
 public:
+    QWidget *centralWidget;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
-    QWidget *centralWidget;
     QStatusBar *statusBar;
 
     void setupUi(QMainWindow *AutoEditorClass)
@@ -35,15 +35,16 @@ public:
         if (AutoEditorClass->objectName().isEmpty())
             AutoEditorClass->setObjectName(QStringLiteral("AutoEditorClass"));
         AutoEditorClass->resize(600, 400);
-        menuBar = new QMenuBar(AutoEditorClass);
-        menuBar->setObjectName(QStringLiteral("menuBar"));
-        AutoEditorClass->setMenuBar(menuBar);
-        mainToolBar = new QToolBar(AutoEditorClass);
-        mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
-        AutoEditorClass->addToolBar(mainToolBar);
         centralWidget = new QWidget(AutoEditorClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         AutoEditorClass->setCentralWidget(centralWidget);
+        menuBar = new QMenuBar(AutoEditorClass);
+        menuBar->setObjectName(QStringLiteral("menuBar"));
+        menuBar->setGeometry(QRect(0, 0, 600, 23));
+        AutoEditorClass->setMenuBar(menuBar);
+        mainToolBar = new QToolBar(AutoEditorClass);
+        mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
+        AutoEditorClass->addToolBar(Qt::TopToolBarArea, mainToolBar);
         statusBar = new QStatusBar(AutoEditorClass);
         statusBar->setObjectName(QStringLiteral("statusBar"));
         AutoEditorClass->setStatusBar(statusBar);
