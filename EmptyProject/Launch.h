@@ -13,7 +13,7 @@
 //Helper Header Files
 #include "Camera.h"
 #include "Shader.h"
-#include "Model.h"
+#include "ModelCommand.h"
 #include "AScene.h"
 
 #include "WorkSpace.h"

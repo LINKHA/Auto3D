@@ -10,6 +10,8 @@ USING_MATH
 AUTO_BEGIN
 class Texture2D : public BaseTexture
 {
+	REGISTER_DERIVED_CLASS(Texture2D, BaseTexture);
+	DECLARE_OBJECT_SERIALIZE(Texture2D);
 public:
 	typedef struct _TexParams {
 		GLuint    minFilter;
@@ -21,16 +23,14 @@ public:
 public:
 
 	Texture2D();
-	Texture2D(const Shader& shader);
-	virtual ~Texture2D();
+	Texture2D(_String imagePath, const Transform& transform = Transform());
+	Texture2D(_String imagePath, const Shader& shader, const Transform& transform = Transform());
 
-
-	void draw(const Vector2& vec);
-	void draw(const Vector3& vec);
+	void draw();
 	//void draw(Rect rec);
 
 	void pushToRunloop();
-	
+
 	void setLinerParameters();
 
 	void setNearestParameters();
@@ -41,21 +41,25 @@ public:
 
 protected:
 
-	float width;		
+	float width;
 
 	float height;
 
 	bool is_Mipmaps;
 
 private:
-	Shader m_shader;
-	
+
 	unsigned int t_VBO, t_VAO, t_EBO;
 
-	unsigned int textureData; 
+	unsigned int textureData;
 
 	Transform m_transform;
 
+	Shader m_shader;
+
+	_String m_ImagePath;
+
+	//char *m_Image;
 	//Camera m_camera;
 };
 

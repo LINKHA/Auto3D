@@ -1,20 +1,26 @@
 #include "Texture2D.h"
-
 AUTO_BEGIN
 
 
 Texture2D::Texture2D()
-	:m_shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs", AtConfig::shader_path + "au_texture_transform.aufs"))
+	: m_ImagePath("Resource/texture/square.jpg")
+	, m_shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs", AtConfig::shader_path + "au_texture_transform.aufs"))
 	, m_transform(Transform())
 {
 }
-Texture2D::Texture2D(const Shader& shader)
-	:m_shader(shader)
-	, m_transform(Transform())
+Texture2D::Texture2D(_String imagePath, const Transform& transform)
+	: m_ImagePath(imagePath)
+	, m_shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs", AtConfig::shader_path + "au_texture_transform.aufs"))
+	, m_transform(transform)
+{
+
+}
+Texture2D::Texture2D(_String imagePath, const Shader & shader, const Transform & transform)
+	: m_ImagePath(imagePath)
+	, m_shader(shader)
+	, m_transform(transform)
 {
 }
-
-
 Texture2D::~Texture2D()
 {
 	glDeleteVertexArrays(1, &t_VAO);
@@ -22,12 +28,8 @@ Texture2D::~Texture2D()
 	glDeleteBuffers(1, &t_EBO);
 }
 
-void Texture2D::draw(const Vector2& vec)
-{
-	draw(Vector3(vec.x, vec.y, 0.0f));
-}
 
-void Texture2D::draw(const Vector3 & vec)
+void Texture2D::draw()
 {
 	GLfloat vertices[] = {
 		// positions			// texture coords
@@ -67,18 +69,17 @@ void Texture2D::draw(const Vector3 & vec)
 	//setNearestParameters();
 	setLinerParameters();
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	
-	Image * image = localImageLoad("Resource/texture/square.jpg");
+	Image * image = localImageLoad((char*)m_ImagePath.data());
 
-	if (image->m_Image)
+	if (image->Value)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image->m_Width, image->m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, image->m_Image);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image->Width, image->Height, 0, GL_RGB, GL_UNSIGNED_BYTE, image->Value);
 		generateMipmap();
 	}
 	else
 	{
 		ErrorString("Failed to load texture");
-	} 
+	}
 
 	//stbi_image_free(image->m_Image);
 
@@ -87,41 +88,38 @@ void Texture2D::draw(const Vector3 & vec)
 
 void Texture2D::pushToRunloop()
 {
-	
+
 
 	m_shader.use();
 
 	float scaleAmount = (float)sin(GrGetTime());
-	
-	
+
+
 	m_transform.setPosition(Vector3(0.5f, 0.5f, 0.0f));
 	m_transform.setRotation(Vector3(0.0f, 0.0f, 90.0f));
-//	m_transform.setRotation(-55.0f, Vector3::xAxis);
+	//	m_transform.setRotation(-55.0f, Vector3::xAxis);
 	//m_transform.setRotation(90.0f, Vector3::zAxis));
 	m_transform.setScale(Vector3(scaleAmount));
 
 
 	m_transform.updateTransform();
-	glm::mat4 model;
-	glm::mat4 view;
-	glm::mat4 projection;
+	glm::mat4 modelMat;
+	glm::mat4 viewMat;
+	glm::mat4 projectionMat;
 
 
-	model = m_transform.getTransformMat();
+	modelMat = m_transform.getTransformMat();
 	//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
 	//projection = glm::perspective(45.0f, (float)800 / (float)600, 0.1f, 100.0f);
 	////projection = glm::ortho(-4.0f, 4.0f, -3.0f, 3.0f, 0.1f, 100.0f);
 
 
-	view = Application::Instance().m_camera.GetViewMatrix();
-	projection = glm::perspective(Application::Instance().m_camera.Zoom, (float)800 / (float)600, 0.1f, 100.0f);
+	viewMat = Application::Instance().m_camera.GetViewMatrix();
+	projectionMat = glm::perspective(Application::Instance().m_camera.Zoom, (float)800 / (float)600, 0.1f, 100.0f);
 
-
-
-
-	m_shader.setMat4("model", model);
-	m_shader.setMat4("view", view);
-	m_shader.setMat4("projection", projection);
+	m_shader.setMat4("model", modelMat);
+	m_shader.setMat4("view", viewMat);
+	m_shader.setMat4("projection", projectionMat);
 
 	glBindTexture(GL_TEXTURE_2D, textureData);
 	glBindVertexArray(t_VAO);

@@ -1,17 +1,18 @@
-#ifndef MODEL_H
-#define MODEL_H
+#ifndef MODEL_COMMAND_H
+#define MODEL_COMMAND_H
 
 #include <glad.h> 
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <stb_image.h>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
 
-#include "stb_image.h"
-#include "Mesh.h"
+
+#include "MeshCommand.h"
 #include "Shader.h"
 
 
@@ -29,29 +30,32 @@ using namespace std;
 
 AUTO_BEGIN 
 unsigned int TextureFromFile(const char *path, const string &directory, bool gamma = false);
-class Model
+class ModelCommand
 {
 public:
+	
 	/*  Model Data */
 	vector<Texture> textures_loaded;	// stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
-	vector<Mesh> meshes;
+	vector<MeshCommand> meshes;
 	string directory;
 	bool gammaCorrection;
-
+	string path;
 	/*  Functions   */
 	// constructor, expects a filepath to a 3D model.
-	Model(string const &path, bool gamma = false) : gammaCorrection(gamma)
+	ModelCommand() {}
+	ModelCommand(string const &tpath, bool tgamma = false) 
+		: gammaCorrection(tgamma)
+		, path(tpath)
 	{
-		loadModel(path);
+		loadModel(tpath);
 	}
-
 	// draws the model, and thus all its meshes
 	void Draw(Shader shader)
 	{
 		for (unsigned int i = 0; i < meshes.size(); i++)
 			meshes[i].Draw(shader);
 	}
-
+	
 private:
 	/*  Functions   */
 	// loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.
@@ -92,7 +96,7 @@ private:
 
 	}
 
-	Mesh processMesh(aiMesh *mesh, const aiScene *scene)
+	MeshCommand processMesh(aiMesh *mesh, const aiScene *scene)
 	{
 		// data to fill
 		vector<Vertex> vertices;
@@ -169,7 +173,7 @@ private:
 		textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
 		// return a mesh object created from the extracted mesh data
-		return Mesh(vertices, indices, textures);
+		return MeshCommand(vertices, indices, textures);
 	}
 
 	// checks all material textures of a given type and loads the textures if they're not loaded yet.
@@ -205,7 +209,5 @@ private:
 		return textures;
 	}
 };
-
-
 AUTO_END
 #endif

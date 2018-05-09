@@ -3,10 +3,11 @@
 AUTO_BEGIN
 
 AUTO_HASH_MAP(PInt8, Image*) imageQueue;
+AUTO_HASH_MAP(PInt8, ModelCommand) modelQueue;
 
 class Image;
-
-Image * localImageLoad(PInt8 path)
+class ModelCommand;
+Image* localImageLoad(PInt8 path)
 {
 	Image* image = nullptr;
 	auto it = imageQueue.find(path);
@@ -18,8 +19,8 @@ Image * localImageLoad(PInt8 path)
 	else
 	{
 		image = new (std::nothrow)Image();
-		imageRecord t = stbi_load(path, &image->m_Width, &image->m_Height, &image->m_Channels, 0);
-		image->m_Image = t;
+		imageRecord t = stbi_load(path, &image->Width, &image->Height, &image->Channels, 0);
+		image->Value = t;
 		imageQueue.emplace(M_PAIR(path, image));
 		//stbi_image_free(t);
 	}
@@ -27,9 +28,24 @@ Image * localImageLoad(PInt8 path)
 }
 void freeImage(Image * image)
 {
-	stbi_image_free(image->m_Image);
+	stbi_image_free(image->Value);
 }
 
+ModelCommand localModelLoad(PInt8 path)
+{
+	ModelCommand model;
+	auto it = modelQueue.find(path);
+	if (it != modelQueue.end())
+	{
+		model = (modelQueue.find(path))->second;
+	}
+	else
+	{
+		model = ModelCommand(path);
+		modelQueue.emplace(M_PAIR(path, model));
+	}
+	return model;
+}
 
 
 AUTO_END

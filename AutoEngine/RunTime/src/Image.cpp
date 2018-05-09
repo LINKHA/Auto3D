@@ -8,8 +8,8 @@ AUTO_BEGIN
 
 Image::Image(int width, int height)
 {
-	m_Height = height;
-	m_Width = width;
+	Height = height;
+	Width = width;
 
 }
 

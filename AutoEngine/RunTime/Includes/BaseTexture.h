@@ -14,6 +14,8 @@ AUTO_BEGIN
 
 class BaseTexture : public Object
 {
+	REGISTER_DERIVED_CLASS(BaseTexture, Object);
+	DECLARE_OBJECT_SERIALIZE(BaseTexture);
 protected:
 	TextureID		m_TexID;
 	int		        m_UsageMode;
@@ -29,7 +31,6 @@ protected:
 
 public:
 	BaseTexture();
-	~BaseTexture();
 	//virtual bool MainThreadCleanup();
 
 	//virtual void Reset();

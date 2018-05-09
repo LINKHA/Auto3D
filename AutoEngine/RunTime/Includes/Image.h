@@ -12,11 +12,11 @@ AUTO_BEGIN
 class ImageReference
 {
 public:
-	UInt32	m_Format;
-	Int32	m_Width;
-	Int32	m_Height;
-	Int32   m_Channels;
-	imageRecord	m_Image;
+	UInt32	Format;
+	Int32	Width;
+	Int32	Height;
+	Int32   Channels;
+	imageRecord	Value;
 	enum ClearMode
 	{
 		CLEAR_COLOR = 1,
@@ -31,7 +31,7 @@ public:
 		BLIT_BILINEAR_SCALE,
 	};
 
-	ImageReference() { m_Image = NULL; m_Width = 0; m_Height = 0; m_Format = 0; }
+	ImageReference() { Value = NULL; Width = 0; Height = 0; Format = 0; }
 	//ImageReference(int width, int height, int rowbytes, TextureFormat format, void* image);
 	//ImageReference(int width, int height, TextureFormat format);
 
@@ -41,10 +41,10 @@ public:
 	// Returns a subpart of the image
 	ImageReference ClipImage(int x, int y, int width, int height) const;
 
-	UInt8* GetImageData() const { return m_Image; }
-	int GetWidth() const { return m_Width; }
-	int GetHeight() const { return m_Height; }
-	int GetChannels() const { return m_Channels; }
+	UInt8* GetImageData() const { return Value; }
+	int GetWidth() const { return Width; }
+	int GetHeight() const { return Height; }
+	int GetChannels() const { return Channels; }
 	//TextureFormat GetFormat() const { return (TextureFormat)m_Format; }
 	void BlitImage(const ImageReference& source, BlitMode mode = BLIT_COPY);
 	void BlitImage(int x, int y, const ImageReference& source);

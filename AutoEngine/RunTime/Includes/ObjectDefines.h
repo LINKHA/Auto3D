@@ -9,8 +9,8 @@ public: \
 	static const char* GetClassStringStatic ()	{ return #x; }\
 	static const char* GetPPtrTypeString ()		{ return "PPtr<"#x">"; }\
 	typedef y Super;\
-protected: \
 	virtual ~x (); \
+protected: \
 public:
 // Every abstract class that is derived from object has to place this inside the class Declaration
 #define	REGISTER_DERIVED_ABSTRACT_CLASS(x, y) \
@@ -20,8 +20,8 @@ public: \
 	static const char* GetClassStringStatic ()	{ return #x; }\
 	static const char* GetPPtrTypeString ()		{ return "PPtr<"#x">"; }\
 	typedef y Super; \
-protected: \
 	virtual ~x (); \
+protected: \
 public:
 
 

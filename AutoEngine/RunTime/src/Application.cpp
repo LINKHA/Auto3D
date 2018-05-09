@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "TimeManager.h"
+
 AUTO_BEGIN
 
 template<> Application* Singleton<Application>::m_instance = nullptr;
@@ -39,7 +40,7 @@ void processInput(GLFWwindow *window)
 {
 	if (GrGetKey(window, KEY_ESCAPE) == BUTTON_PRESS)
 		GrCloseWindow(window);
-
+	/*
 	if (GrGetKey(window, KEY_W) == BUTTON_PRESS)
 		Application::Instance().m_camera.ProcessKeyboard(FORWARD, 0.001);
 	if (GrGetKey(window, KEY_S) == BUTTON_PRESS)
@@ -47,16 +48,16 @@ void processInput(GLFWwindow *window)
 	if (GrGetKey(window, KEY_A) == BUTTON_PRESS)
 		Application::Instance().m_camera.ProcessKeyboard(LEFT, 0.001);
 	if (GrGetKey(window, KEY_D) == BUTTON_PRESS)
-		Application::Instance().m_camera.ProcessKeyboard(RIGHT, 0.001);
-	/*
+		Application::Instance().m_camera.ProcessKeyboard(RIGHT, 0.001);*/
+	
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		Application::Instance().m_camera.ProcessKeyboard(FORWARD, deltaTime);
+		Application::Instance().m_camera.ProcessKeyboard(FORWARD, TimeManager::Instance().GetDeltaTime() * 2);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		Application::Instance().m_camera.ProcessKeyboard(BACKWARD, deltaTime);
+		Application::Instance().m_camera.ProcessKeyboard(BACKWARD, TimeManager::Instance().GetDeltaTime() * 2);
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		Application::Instance().m_camera.ProcessKeyboard(LEFT, deltaTime);
+		Application::Instance().m_camera.ProcessKeyboard(LEFT, TimeManager::Instance().GetDeltaTime() * 2);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		Application::Instance().m_camera.ProcessKeyboard(RIGHT, deltaTime);*/
+		Application::Instance().m_camera.ProcessKeyboard(RIGHT, TimeManager::Instance().GetDeltaTime() * 2);
 
 }
 
@@ -85,8 +86,8 @@ int Application::run()
 int Application::init()
 {
 	m_camera = Camera(glm::vec3(0.0f, 0.0f, 3.0f));
-	Print(Monitors::Instance().getMonitorsCount());
-	Print(Monitors::Instance().getMonitorsWidthIndex(1));
+	//Print(Monitors::Instance().getMonitorsCount());
+	//Print(Monitors::Instance().getMonitorsWidthIndex(1));
 	glfwSetCursorPosCallback(glfwWindow, mouse_callback);
 	glfwSetScrollCallback(glfwWindow, scroll_callback);
 
@@ -94,7 +95,7 @@ int Application::init()
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
-		ErrorString("Failed to initialize GLAD \n");
+		ErrorString("Failed to initialize GLAD from Engine\n");
 		return AU_ERROR;
 	}
 	return AU_NORMAL;
@@ -105,25 +106,27 @@ int Application::init()
 int Application::runLoop()
 {
 	
-	Texture2D d;
-	Vector2 vec(0.5f,0.5f);
-	d.draw(vec);
-
+	//Texture2D d;
+	//d.draw();
+	glEnable(GL_DEPTH_TEST);
+	Mesh m;
+	m.draw();
 	
 
 	while (!GrShouldCloseWindow(glfwWindow))
 	{
-		
-		//LogString(TimeManager::Instance().GetRealTime().Second);
 		TimeManager::Instance().Update();
-		Print(TimeManager::Instance().GetCurTime());
 
+		//LogString(TimeManager::Instance().GetRealTime().Second);
+		//Print(TimeManager::Instance().GetCurTime());
+		//Print(TimeManager::Instance().GetDeltaTime());
 		//////////////////////////
 		processInput(glfwWindow);
 		window.drawWindow();
 
 
-		d.pushToRunloop();
+		//d.pushToRunloop();
+		m.pushToRunloop();
 
 		window.runLoopOver();
 	}
