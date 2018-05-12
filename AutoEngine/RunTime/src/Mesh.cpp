@@ -41,9 +41,9 @@ void Mesh::pushToRunloop()
 	m_shader.setMat4("projection", projectionMat);
 	m_shader.setMat4("view", viewMat);
 	m_shader.setMat4("model", modelMat);
-
+	m_shader.setVec4("ourColor", 0.0f, 0.0f, 0.5f, 1.0f);
 	model.Draw(m_shader);
-	//m_transform.identity();
+	m_transform.identity();
 }
 
 AUTO_END

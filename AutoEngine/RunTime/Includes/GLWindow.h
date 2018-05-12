@@ -26,7 +26,6 @@ private:
 	unsigned int SCR_WIDTH = 800;
 	unsigned int SCR_HEIGHT = 600;
 	char * Title_Name = "Auto V0.0";
-	float m_DrawColorData[4] = {0.5f,1.0f,0.5f,1.0f };
 
 
 };

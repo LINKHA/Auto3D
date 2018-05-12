@@ -12,7 +12,6 @@ class BaseComponent : public Object
 public:
 	BaseComponent();
 	~BaseComponent();
-	int getClassID();
 };
 
 

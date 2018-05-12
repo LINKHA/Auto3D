@@ -1,6 +1,6 @@
 #include "Application.h"
 #include "TimeManager.h"
-
+#include "Sprite.h"
 AUTO_BEGIN
 
 template<> Application* Singleton<Application>::m_instance = nullptr;
@@ -40,25 +40,14 @@ void processInput(GLFWwindow *window)
 {
 	if (GrGetKey(window, KEY_ESCAPE) == BUTTON_PRESS)
 		GrCloseWindow(window);
-	/*
 	if (GrGetKey(window, KEY_W) == BUTTON_PRESS)
-		Application::Instance().m_camera.ProcessKeyboard(FORWARD, 0.001);
-	if (GrGetKey(window, KEY_S) == BUTTON_PRESS)
-		Application::Instance().m_camera.ProcessKeyboard(BACKWARD, 0.001);
-	if (GrGetKey(window, KEY_A) == BUTTON_PRESS)
-		Application::Instance().m_camera.ProcessKeyboard(LEFT, 0.001);
-	if (GrGetKey(window, KEY_D) == BUTTON_PRESS)
-		Application::Instance().m_camera.ProcessKeyboard(RIGHT, 0.001);*/
-	
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		Application::Instance().m_camera.ProcessKeyboard(FORWARD, TimeManager::Instance().GetDeltaTime() * 2);
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+	if (GrGetKey(window, KEY_S) == BUTTON_PRESS)
 		Application::Instance().m_camera.ProcessKeyboard(BACKWARD, TimeManager::Instance().GetDeltaTime() * 2);
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+	if (GrGetKey(window, KEY_A) == BUTTON_PRESS)
 		Application::Instance().m_camera.ProcessKeyboard(LEFT, TimeManager::Instance().GetDeltaTime() * 2);
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+	if (GrGetKey(window, KEY_D) == BUTTON_PRESS)
 		Application::Instance().m_camera.ProcessKeyboard(RIGHT, TimeManager::Instance().GetDeltaTime() * 2);
-
 }
 
 Application::~Application()
@@ -98,6 +87,7 @@ int Application::init()
 		ErrorString("Failed to initialize GLAD from Engine\n");
 		return AU_ERROR;
 	}
+	glEnable(GL_DEPTH_TEST);
 	return AU_NORMAL;
 }
 
@@ -106,12 +96,13 @@ int Application::init()
 int Application::runLoop()
 {
 	
-	//Texture2D d;
-	//d.draw();
-	glEnable(GL_DEPTH_TEST);
-	Mesh m;
-	m.draw();
-	
+	Texture2D tex;
+	tex.setColor(Color(0.5f, 0.5f, 0.5f));
+	tex.draw();
+	//Mesh m("Resource/object/base/Cube.FBX");
+	//Mesh m;
+	//m.draw();
+
 
 	while (!GrShouldCloseWindow(glfwWindow))
 	{
@@ -123,10 +114,15 @@ int Application::runLoop()
 		//////////////////////////
 		processInput(glfwWindow);
 		window.drawWindow();
+		///Accept a buffer bit buffer Bitto specify the buffer to be emptied
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-		//d.pushToRunloop();
-		m.pushToRunloop();
+
+
+		tex.pushToRunloop();
+		//m.pushToRunloop();
+
 
 		window.runLoopOver();
 	}

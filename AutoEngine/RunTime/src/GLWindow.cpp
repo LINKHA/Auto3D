@@ -17,9 +17,10 @@ void size_callback(GLFWwindow* window, int width, int height)
 
 //public funcation
 GLWindow::GLWindow()
-	:window(nullptr)
+	: window(nullptr)
+	, DrawColor(Color(1.0f, 1.0f, 1.0f))
 {
-	DrawColor = Color(m_DrawColorData[0], m_DrawColorData[1], m_DrawColorData[2], m_DrawColorData[3]);
+	
 	GrInit(3, 3);
 	
 }

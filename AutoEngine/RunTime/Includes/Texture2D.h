@@ -39,6 +39,7 @@ public:
 
 	void generateMipmap();
 
+	void setColor(const Color& color);
 protected:
 
 	float width;
@@ -59,8 +60,7 @@ private:
 
 	_String m_ImagePath;
 
-	//char *m_Image;
-	//Camera m_camera;
+	Color m_color;
 };
 
 AUTO_END

@@ -15,6 +15,10 @@ enum ClassIDType
 	DO_CLASS_ID(Mesh, 11)
 	DO_CLASS_ID(BaseTexture, 12)
 	DO_CLASS_ID(Texture2D, 13)
+	DO_CLASS_ID(BaseLight, 14)
+	DO_CLASS_ID(AmbientLighting, 15)
+	
+	
 	CLASS_ID_Count
 };
 

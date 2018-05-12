@@ -2,16 +2,17 @@
 #define COLOR_H
 #include <algorithm>
 #include "Math/FloatConversion.h"
+#include "Vector3.h"
 MATH_BEGIN
 class Color
 {
 public:
 	float	r, g, b, a;
 
-	Color() {}
+	Color() : r(1.0f), g(1.0f), b(1.0f), a(1.0f) {}
 	Color(float inR, float inG, float inB, float inA = 1.0f) : r(inR), g(inG), b(inB), a(inA) {}
 	explicit Color(const float* c) : r(c[0]), g(c[1]), b(c[2]), a(c[3]) {}
-
+	explicit Color(const Vector3& c) : r(c.x), g(c.y), b(c.z), a(1.0f) {}
 	template<class TransferFunction>
 	void Transfer(TransferFunction& transfer);
 

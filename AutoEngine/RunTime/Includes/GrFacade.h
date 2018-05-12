@@ -102,8 +102,6 @@ static void GrClearColor(const Color& color)
 #ifdef __OPENGL__
 	///Fill in the color set in glClearColor
 	glClearColor(color.r, color.g, color.b, color.a);
-	///Accept a buffer bit buffer Bitto specify the buffer to be emptied
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 #endif
 
 #ifdef __DIRECTX__

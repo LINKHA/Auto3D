@@ -6,12 +6,14 @@ Texture2D::Texture2D()
 	: m_ImagePath("Resource/texture/square.jpg")
 	, m_shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs", AtConfig::shader_path + "au_texture_transform.aufs"))
 	, m_transform(Transform())
+	, m_color(Color())
 {
 }
 Texture2D::Texture2D(_String imagePath, const Transform& transform)
 	: m_ImagePath(imagePath)
 	, m_shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs", AtConfig::shader_path + "au_texture_transform.aufs"))
 	, m_transform(transform)
+	, m_color(Color())
 {
 
 }
@@ -19,6 +21,7 @@ Texture2D::Texture2D(_String imagePath, const Shader & shader, const Transform &
 	: m_ImagePath(imagePath)
 	, m_shader(shader)
 	, m_transform(transform)
+	, m_color(Color())
 {
 }
 Texture2D::~Texture2D()
@@ -95,11 +98,11 @@ void Texture2D::pushToRunloop()
 	float scaleAmount = (float)sin(GrGetTime());
 
 
-	m_transform.setPosition(Vector3(0.5f, 0.5f, 0.0f));
-	m_transform.setRotation(Vector3(0.0f, 0.0f, 90.0f));
+	//m_transform.setPosition(Vector3(0.5f, 0.5f, 0.0f));
+	//m_transform.setRotation(Vector3(0.0f, 0.0f, 90.0f));
 	//	m_transform.setRotation(-55.0f, Vector3::xAxis);
 	//m_transform.setRotation(90.0f, Vector3::zAxis));
-	m_transform.setScale(Vector3(scaleAmount));
+	//m_transform.setScale(Vector3(scaleAmount));
 
 
 	m_transform.updateTransform();
@@ -120,7 +123,7 @@ void Texture2D::pushToRunloop()
 	m_shader.setMat4("model", modelMat);
 	m_shader.setMat4("view", viewMat);
 	m_shader.setMat4("projection", projectionMat);
-
+	m_shader.setVec4("ourColor", m_color.r, m_color.g, m_color.b,m_color.a);
 	glBindTexture(GL_TEXTURE_2D, textureData);
 	glBindVertexArray(t_VAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -176,6 +179,11 @@ void Texture2D::generateMipmap()
 {
 	glGenerateMipmap(GL_TEXTURE_2D);
 	is_Mipmaps = true;
+}
+
+void Texture2D::setColor(const Color & color)
+{
+	m_color = color;
 }
 
 
