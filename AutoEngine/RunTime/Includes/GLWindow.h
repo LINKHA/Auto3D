@@ -14,10 +14,10 @@ class GLWindow
 public:
 	GLWindow();
 	~GLWindow();
-	void drawWindow();
-	void runLoopOver();
-	GLFWwindow* createWindow();
-	void destoryWindow();
+	void DrawWindow();
+	void RunLoopOver();
+	GLFWwindow* CreateGameWindow();
+	void DestoryWindow();
 private:
 	// member
 	GLFWwindow* window;

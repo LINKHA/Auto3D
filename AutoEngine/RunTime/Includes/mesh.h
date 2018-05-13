@@ -17,9 +17,9 @@ public:
 	Mesh(_String m_meshPath, const Transform& transform = Transform());
 	Mesh(_String m_meshPath, const Shader& shader, const Transform& transform = Transform());
 
-	void draw();
+	void Draw();
 
-	void pushToRunloop();
+	void PushToRunloop();
 
 private:
 

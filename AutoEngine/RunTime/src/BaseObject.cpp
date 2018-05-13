@@ -50,6 +50,7 @@ bool PPtr<T>::IsValid() const
 Object::Object()
 {
 	m_InstanceID = 0;
+	m_ClassID = 0;
 }
 const std::string& Object::GetClassName()const
 {

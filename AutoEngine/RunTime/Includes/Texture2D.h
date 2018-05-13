@@ -26,20 +26,20 @@ public:
 	Texture2D(_String imagePath, const Transform& transform = Transform());
 	Texture2D(_String imagePath, const Shader& shader, const Transform& transform = Transform());
 
-	void draw();
+	void Draw();
 	//void draw(Rect rec);
 
-	void pushToRunloop();
+	void PushToRunloop();
 
-	void setLinerParameters();
+	void SetLinerParameters();
 
-	void setNearestParameters();
+	void SetNearestParameters();
 
-	void setTexParameters(const TexParams& params);
+	void SetTexParameters(const TexParams& params);
 
-	void generateMipmap();
+	void GenerateMipmap();
 
-	void setColor(const Color& color);
+	void SetColor(const Color& color);
 protected:
 
 	float width;

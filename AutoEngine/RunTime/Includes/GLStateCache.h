@@ -15,7 +15,7 @@ enum {
 	VERTEX_SIZE
 };
 
-void enableVertexAttribs(UInt32 flags);
-void bindTexture2D(GLuint textureID);
+void EnableVertexAttribs(UInt32 flags);
+void BindTexture2D(GLuint textureID);
 
 #endif //!GL_STATE_CACHE_H_

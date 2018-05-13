@@ -1,13 +1,9 @@
-#ifndef BASE_COMPONENT_H_
-#define BASE_COMPONENT_H_
-
-#include "Auto.h"
+#ifndef COMPONENT_H_
+#define COMPONENT_H_
 #include "BaseObject.h"
 
-
-
 AUTO_BEGIN
-class BaseComponent : public Object
+class BaseComponent
 {
 public:
 	BaseComponent();
@@ -15,8 +11,8 @@ public:
 };
 
 
-
-
 AUTO_END
 
-#endif // BASE_COMPONENT_H_
+
+
+#endif // COMPONENT_H_

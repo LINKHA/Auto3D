@@ -8,12 +8,12 @@ public:
 	~Renderer();
 
 
-	void render();
+	void Render();
 
-	void clean();
+	void Clean();
 
-	void clear();
+	void Clear();
 
-	void renderLoop();
+	void RenderLoop();
 };
 #endif // !BASE_RENDERER_H_

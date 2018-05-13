@@ -18,10 +18,10 @@ class Application  : public Singleton<Application>
 public:
 	
 	virtual ~Application();
-	virtual int init();
-	virtual int run();
-	virtual int finish();
-	virtual int runLoop();
+	virtual int Init();
+	virtual int Run();
+	virtual int Finish();
+	virtual int RunLoop();
 	//virtual bool callBackMessage();
 	Application();
 

@@ -31,18 +31,18 @@ GLWindow::~GLWindow()
 	
 }
 
-void GLWindow::drawWindow()
+void GLWindow::DrawWindow()
 {
 	GrClearColor(DrawColor);
 	
 }
-void GLWindow::runLoopOver()
+void GLWindow::RunLoopOver()
 {	
 	GrSwapBuffers(window);
 	/*get Events*/
 	GrPollEvents();
 }
-GLFWwindow* GLWindow::createWindow()
+GLFWwindow* GLWindow::CreateGameWindow()
 {
 	GrCreateWindow(&window, SCR_WIDTH, SCR_HEIGHT, Title_Name);
 
@@ -53,7 +53,7 @@ GLFWwindow* GLWindow::createWindow()
 /**
 * @brief delete all resource
 */
-void GLWindow::destoryWindow()
+void GLWindow::DestoryWindow()
 {
 	GrDeleteResource();
 }

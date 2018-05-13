@@ -12,12 +12,12 @@ Renderer::~Renderer()
 }
 
 
-void Renderer::clear()
+void Renderer::Clear()
 {
 	
 }
 
-void Renderer::renderLoop()
+void Renderer::RenderLoop()
 {
 
 

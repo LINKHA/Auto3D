@@ -1,6 +1,5 @@
 #ifndef OBJECT_DEFINES_H_
 #define OBJECT_DEFINES_H_
-
 // Every non-abstract class that is derived from object has to place this inside the class Declaration
 #define	REGISTER_DERIVED_CLASS(x,y) \
 public: \
@@ -11,6 +10,7 @@ public: \
 	typedef y Super;\
 	virtual ~x (); \
 protected: \
+	void ClassInit()							{ SetClassID(ClassID(x)); }\
 public:
 // Every abstract class that is derived from object has to place this inside the class Declaration
 #define	REGISTER_DERIVED_ABSTRACT_CLASS(x, y) \
@@ -21,7 +21,8 @@ public: \
 	static const char* GetPPtrTypeString ()		{ return "PPtr<"#x">"; }\
 	typedef y Super; \
 	virtual ~x (); \
-protected: \
+protected:\
+	void ClassInit()							{ SetClassID(ClassID(x)); }\
 public:
 
 

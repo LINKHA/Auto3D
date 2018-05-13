@@ -18,12 +18,12 @@ Monitors::Monitors()
 	}
 }
 
-Int32 Monitors::getMonitorsCount()
+Int32 Monitors::GetMonitorsCount()
 {
 	return monitorCount;
 }
 
-Int32 Monitors::getMonitorsHeightWithIndex(int index)
+Int32 Monitors::GetMonitorsHeightWithIndex(int index)
 {
 	if (index > monitorCount - 1)
 	{
@@ -33,7 +33,7 @@ Int32 Monitors::getMonitorsHeightWithIndex(int index)
 	return mnitors.at(index).second;
 }
 
-Int32 Monitors::getMonitorsWidthIndex(int index)
+Int32 Monitors::GetMonitorsWidthIndex(int index)
 {
 	if (index > monitorCount-1)
 	{

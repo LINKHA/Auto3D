@@ -11,13 +11,15 @@ enum ClassIDType
 	DO_CLASS_ID(GlobalGameManager, 3)
 	DO_CLASS_ID(TimeManager, 4)
 
+	DO_CLASS_ID(Node, 8)
+	DO_CLASS_ID(Sprite, 9)
 	DO_CLASS_ID(BaseMesh, 10)
 	DO_CLASS_ID(Mesh, 11)
 	DO_CLASS_ID(BaseTexture, 12)
 	DO_CLASS_ID(Texture2D, 13)
 	DO_CLASS_ID(BaseLight, 14)
 	DO_CLASS_ID(AmbientLighting, 15)
-	
+	DO_CLASS_ID(Component,16)
 	
 	CLASS_ID_Count
 };

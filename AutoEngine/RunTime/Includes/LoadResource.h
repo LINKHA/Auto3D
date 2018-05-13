@@ -14,8 +14,9 @@ AUTO_BEGIN
 //Load Shader Address
 
 //Load Resource Address 
-Image * localImageLoad(PInt8 path);
-ModelCommand localModelLoad(PInt8 path);
+Image * LocalImageLoad(PInt8 path);
+ModelCommand LocalModelLoad(PInt8 path);
+void FreeImage(Image * image);
 
 AUTO_END
 #endif // !LOAD_ASSERT_H_

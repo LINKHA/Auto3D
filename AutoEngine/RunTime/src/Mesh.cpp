@@ -22,28 +22,28 @@ Mesh::Mesh(_String meshPath, const Shader& shader, const Transform& transform )
 Mesh::~Mesh()
 {
 }
-void Mesh::draw()
+void Mesh::Draw()
 {
-	model = localModelLoad((char*)m_meshPath.data());
+	model = LocalModelLoad((char*)m_meshPath.data());
 }
-void Mesh::pushToRunloop()
+void Mesh::PushToRunloop()
 {
-	m_shader.use();
+	m_shader.Use();
 
 	glm::mat4 modelMat;
 	glm::mat4 viewMat;
 	glm::mat4 projectionMat;
 	
-	modelMat = m_transform.getTransformMat();
+	modelMat = m_transform.GetTransformMat();
 	viewMat = Application::Instance().m_camera.GetViewMatrix();
 	projectionMat = glm::perspective(Application::Instance().m_camera.Zoom, (float)800 / (float)600, 0.1f, 100.0f);
 	
-	m_shader.setMat4("projection", projectionMat);
-	m_shader.setMat4("view", viewMat);
-	m_shader.setMat4("model", modelMat);
-	m_shader.setVec4("ourColor", 0.0f, 0.0f, 0.5f, 1.0f);
+	m_shader.SetMat4("projection", projectionMat);
+	m_shader.SetMat4("view", viewMat);
+	m_shader.SetMat4("model", modelMat);
+	m_shader.SetVec4("ourColor", 0.0f, 0.0f, 0.5f, 1.0f);
 	model.Draw(m_shader);
-	m_transform.identity();
+	m_transform.Identity();
 }
 
 AUTO_END

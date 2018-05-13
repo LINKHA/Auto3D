@@ -15,8 +15,8 @@ struct Quaternion
 	Quaternion(const Vector3& euler);
 	Quaternion(float angle, const Vector3& axis);
 
-	void setValueWithEuler(const Vector3& euler);
-	void setValueWithAngleAxis(float angle, const Vector3& axis);
+	void SetValueWithEuler(const Vector3& euler);
+	void SetValueWithAngleAxis(float angle, const Vector3& axis);
 
 	glm::mat4 toMatrix4()
 	{

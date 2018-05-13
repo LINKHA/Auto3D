@@ -59,21 +59,22 @@ Application::~Application()
 * Determine the number of frames based on the speed of this function
 * Run once per frame
 */
-int Application::run()
+int Application::Run()
 {
-	if (init() == AU_ERROR)
+	if (Init() == AU_ERROR)
 	{
 		return AU_ERROR;
 	}
-	if (runLoop() == AU_ERROR)
+	if (RunLoop() == AU_ERROR)
 	{
 		return AU_ERROR;
 	}
-	return finish();
+	return Finish();
 }
 
-int Application::init()
+int Application::Init()
 {
+	stbi_set_flip_vertically_on_load(true);
 	m_camera = Camera(glm::vec3(0.0f, 0.0f, 3.0f));
 	//Print(Monitors::Instance().getMonitorsCount());
 	//Print(Monitors::Instance().getMonitorsWidthIndex(1));
@@ -93,15 +94,15 @@ int Application::init()
 
 
 
-int Application::runLoop()
+int Application::RunLoop()
 {
 	
 	Texture2D tex;
-	tex.setColor(Color(0.5f, 0.5f, 0.5f));
-	tex.draw();
-	//Mesh m("Resource/object/base/Cube.FBX");
+	tex.SetColor(Color(0.5f, 0.5f, 0.5f));
+	tex.Draw();
+	Mesh m("Resource/object/base/Cube.FBX");
 	//Mesh m;
-	//m.draw();
+	m.Draw();
 
 
 	while (!GrShouldCloseWindow(glfwWindow))
@@ -113,27 +114,27 @@ int Application::runLoop()
 		//Print(TimeManager::Instance().GetDeltaTime());
 		//////////////////////////
 		processInput(glfwWindow);
-		window.drawWindow();
+		window.DrawWindow();
 		///Accept a buffer bit buffer Bitto specify the buffer to be emptied
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
 
 
-		tex.pushToRunloop();
-		//m.pushToRunloop();
+		tex.PushToRunloop();
+		m.PushToRunloop();
 
 
-		window.runLoopOver();
+		window.RunLoopOver();
 	}
 
 
 	return AU_NORMAL;
 }
-int Application::finish()
+int Application::Finish()
 {
 
-	window.destoryWindow();
+	window.DestoryWindow();
 	glfwWindow = nullptr;
 	return AU_NORMAL;
 }
@@ -141,7 +142,7 @@ int Application::finish()
 Application::Application()
 {
 	window = GLWindow();
-	glfwWindow = window.createWindow();
+	glfwWindow = window.CreateGameWindow();
 
 }
 AUTO_END

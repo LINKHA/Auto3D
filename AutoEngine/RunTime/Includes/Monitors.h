@@ -19,9 +19,9 @@ public:
 	Monitors();
 	~Monitors();
 	AUTO_VECTOR(int,int) mnitors;
-	Int32 getMonitorsCount();
-	Int32 getMonitorsHeightWithIndex(int index);
-	Int32 getMonitorsWidthIndex(int index);
+	Int32 GetMonitorsCount();
+	Int32 GetMonitorsHeightWithIndex(int index);
+	Int32 GetMonitorsWidthIndex(int index);
 
 
 };

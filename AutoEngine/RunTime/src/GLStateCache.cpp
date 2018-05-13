@@ -2,7 +2,7 @@
 
 
 
-void enableVertexAttribs(UInt32 verIndex)
+void EnableVertexAttribs(UInt32 verIndex)
 {
 	for (int i = 0; i < VERTEX_SIZE; i++)
 	{
@@ -16,7 +16,7 @@ void enableVertexAttribs(UInt32 verIndex)
 	}
 }
 
-void bindTexture2D(GLuint textureID)
+void BindTexture2D(GLuint textureID)
 {
 	glGenTextures(1, &textureID);
 	glBindTexture(GL_TEXTURE_2D, textureID);

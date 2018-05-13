@@ -10,17 +10,13 @@ AUTO_BEGIN
 
 class Object;
 
-
-
-
-
 template<class T>
 class PPtr
 {
 	UInt32 m_InstanceID;
 	static const char* GetTypeString();
 public:
-	PPtr(int instanceID) { m_InstanceID = instanceID; }
+	explicit PPtr(int instanceID) { m_InstanceID = instanceID; }
 	PPtr(const T* o) { AssignObject(o); }
 	PPtr(const PPtr<T>& o) { m_InstanceID = o.m_InstanceID; }
 	PPtr() { m_InstanceID = 0; }
@@ -36,14 +32,15 @@ public:
 	bool operator== (const PPtr& p)const { return m_InstanceID == p.m_InstanceID; }
 	bool operator!= (const PPtr& p)const { return m_InstanceID != p.m_InstanceID; }
 
+	// MSVC gets confused whether it should use operator bool(), or operator T* with implicit
+	// comparison to NULL. So we add explicit functions and use them instead.
+	bool IsNull() const;
+	bool IsValid() const;
+
 	operator T* () const;
 	T* operator-> ()const;
 	T& operator* ()const;
-
-	bool IsNull()const;
-	bool IsValid()const;
 };
-
 
 
 
@@ -66,6 +63,7 @@ public:
 	Object();
 
 	ClassIDType GetClassID() const						{ AssertIf(m_InstanceID == 0); return (ClassIDType)m_ClassID; }
+	void SetClassID(ClassIDType classId)				{ m_ClassID = classId; }
 	void SetInstanceID(int inID)						{ m_InstanceID = inID; }
 	Int32 GetInstanceID() const							{ AssertIf(m_InstanceID == 0); return m_InstanceID; }
 	
@@ -89,23 +87,7 @@ public:
 	static int StringToClassID(const char* classString);
 private:
 	Int32 m_InstanceID;
-
-	enum Bits
-	{
-		kMemLabelBits = 13,
-		kIsRootOwnerBits = 1,
-		kTemporaryFlagsBits = 1,
-		kHideFlagsBits = 4,
-		kIsPersistentBits = 1,
-		kClassIDBits = 12
-	};
-
-	UInt32			m_MemLabel		: kMemLabelBits;       // 13 bits
-	UInt32			m_IsRootOwner	: kIsRootOwnerBits;    // 14 bits
-	UInt32			m_TemporaryFlags: kTemporaryFlagsBits; // 15 bits
-	UInt32			m_HideFlags		: kHideFlagsBits;      // 19 bits
-	UInt32			m_IsPersistent	: kIsPersistentBits;   // 20 bits
-	UInt32			m_ClassID		: kClassIDBits;		   // 32 bits
+	Int32 m_ClassID;
 
 };
 
