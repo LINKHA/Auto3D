@@ -1,12 +1,12 @@
 #include "Application.h"
 #include "TimeManager.h"
-#include "Sprite.h"
+#include "GameObject.h"
 AUTO_BEGIN
 
 template<> Application* Singleton<Application>::m_instance = nullptr;
 
-float lastX = 800 / 2.0;
-float lastY = 600 / 2.0;
+float lastX = 800 / 2.0f;
+float lastY = 600 / 2.0f;
 bool firstMouse = true;
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);

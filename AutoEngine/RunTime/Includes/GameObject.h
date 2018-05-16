@@ -3,12 +3,10 @@
 #include "BaseObject.h"
 #include "stl_use.h"
 
-
 AUTO_BEGIN
-#define GetComponent(x) GetSprite().GetComponentT<x>(ClassID (x))
+#define GetComponent(x) GetGameObject().GetComponentT<x>(ClassID (x))
 
-class Sprite;
-class Component;
+class GameObject;
 class Node :public Object
 {
 	REGISTER_DERIVED_CLASS(Node, Object);
@@ -16,20 +14,17 @@ class Node :public Object
 public:
 	Node();
 	typedef int arrayIndex;
-	typedef _VECTOR(Sprite) SpriteNodeArray;
+	typedef _VECTOR(GameObject) GameObjectNodeArray;
 protected:
-	SpriteNodeArray m_Childs;
+	GameObjectNodeArray m_Childs;
 	UInt32 m_Layer;
 	UInt16 m_Tag;
 	bool m_IsActive;
 public:
-
-
-
-	virtual void AddChild(const Sprite& node);
+	virtual void AddChild(const GameObject& node);
 	virtual void RemoveChild(arrayIndex index);
-	virtual Sprite GetChild(arrayIndex index);
-	virtual SpriteNodeArray GetAllChild();
+	virtual GameObject GetChild(arrayIndex index);
+	virtual GameObjectNodeArray GetAllChild();
 
 };
 
@@ -40,29 +35,33 @@ class Component : public Object
 	REGISTER_DERIVED_ABSTRACT_CLASS(Component, Object);
 	DECLARE_OBJECT_SERIALIZE(Component);
 private:
-	Sprite* m_sprite;
+	GameObject* m_GameObject;
 public:
 	Component();
 
-	Sprite& GetSprite() { return *m_sprite; }
-	const Sprite& GetSprite() const { return *m_sprite; }
-	Sprite* GetSpritePtr() { return m_sprite; }
-	Sprite* GetSpritePtr() const { return m_sprite; }
+	GameObject& GetGameObject() { return *m_GameObject; }
+	const GameObject& GetGameObject() const { return *m_GameObject; }
+	GameObject* GetGameObjectePtr() { return m_GameObject; }
+	GameObject* GetGameObjectPtr() const { return m_GameObject; }
+
+	void MountComponent(GameObject* gameObject, Component& com);
+	void MountComponent(GameObject* gameObject, Component* com);
+
 private:
-	friend class Sprite;
+	friend class GameObject;
 };
 
-class Sprite: public Node
+class GameObject: public Node
 {
-	REGISTER_DERIVED_CLASS(Sprite, Node);
-	DECLARE_OBJECT_SERIALIZE(Sprite);
+	REGISTER_DERIVED_CLASS(GameObject, Node);
+	DECLARE_OBJECT_SERIALIZE(GameObject);
 public:
 	typedef AUTO_VECTOR(ClassIDType, Component) ComponentsArray;
 
 protected:
 	ComponentsArray m_Components;
 public:
-	Sprite();
+	GameObject();
 	void Enable();
 	void Destory();
 
@@ -95,10 +94,10 @@ public:
 		return m_Components[index].second;
 	}
 
-	int GetComponentSize() { return m_Components.size(); }
+	int GetComponentSize() { return (int)m_Components.size(); }
 
-	const Sprite& GetSprite()const	{ return *this; }
-	Sprite& GetSprite()				{ return *this; }
+	const GameObject& GetGameObject()const	{ return *this; }
+	GameObject& GetGameObject()				{ return *this; }
 
 	Component QueryComponent(int classID) const
 	{

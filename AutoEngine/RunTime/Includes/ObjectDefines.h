@@ -31,6 +31,7 @@ public:
 	static const char* GetTypeString ()	 { return GetClassStringStatic(); }\
 	template<class TransferFunction> void Transfer (TransferFunction& transfer);
 
+#define GET_SET(TYPE,PROP_NAME,VAR_NAME)	void Set##PROP_NAME (TYPE val) { VAR_NAME = val; }	const TYPE Get##PROP_NAME () const {return (const TYPE)VAR_NAME; }
 
 
 
