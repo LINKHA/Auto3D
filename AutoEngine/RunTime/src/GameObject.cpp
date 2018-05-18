@@ -37,35 +37,92 @@ Node::GameObjectNodeArray Node::GetAllChild()
 //////////////////////////////////////////////////////////////////////////
 Component::Component()
 {
-}
 
-void Component::MountComponent(GameObject* gameObject, Component& com)
+}
+Component::~Component()
 {
-	m_GameObject = gameObject;
-	//m_GameObject.addComponent(com);
 }
-void Component::MountComponent(GameObject* gameObject, Component* com)
+GameObject& Component::GetGameObject()
 {
-	m_GameObject = gameObject;
-	//m_GameObject.addComponent(com);
+	return *m_gameObject.ptr;
+}
+const GameObject& Component::GetGameObject() const
+{
+	return *m_gameObject.ptr;
+}
+GameObject* Component::GetGameObjectePtr()
+{
+	return m_gameObject.ptr;
+}
+GameObject* Component::GetGameObjectPtr() const
+{
+	return m_gameObject.ptr;
 }
 
-
-
+void Component::MountComponent(GameObject& gameObject)
+{
+	m_gameObject.ptr = &gameObject;
+}
 //////////////////////////////////////////////////////////////////////////
 //GameObject
 //////////////////////////////////////////////////////////////////////////
 GameObject::GameObject()
 {
+	m_Transform.ptr = new Transform();
 }
 
 GameObject::~GameObject()
 {
 }
 
+void GameObject::AddComponent(Component& com)
+{
+	m_Components.push_back(M_PAIR(com.GetClassID(), com));
+	com.MountComponent(*this);
+}
+void GameObject::RemoveComponentAtIndex(int index)
+{
+	ComponentsArray::iterator it = m_Components.begin() + index;
 
+	m_Components.erase(it);
+
+
+}
+template<class T> inline
+T& GameObject::GetComponentT(int compareClassID) const
+{
+	Component* com;
+	com = QueryComponent(compareClassID);
+	AssertIf(com == NULL);
+	return *static_cast<T*> (com);
+}
+
+inline  Component& GameObject::GetComponentIndex(int index)
+{
+	return m_Components[index].second;
+}
+
+int GameObject::GetComponentSize() { return (int)m_Components.size(); }
+
+const GameObject& GameObject::GetGameObject()const { return *this; }
+GameObject& GameObject::GetGameObject() { return *this; }
+
+Component GameObject::QueryComponent(int classID) const
+{
+	for (auto it = m_Components.begin(); it != m_Components.end(); it++)
+	{
+		if (it->first == classID)
+			return it->second;
+	}
+	ErrorString("File find component of ClassId.");
+	//nullptr
+	return *(Component*)NULL;
+}
+
+Transform * GameObject::GetTransformPtr()
+{
+	return m_Transform.ptr;
+}
 
 
 AUTO_END
-
-

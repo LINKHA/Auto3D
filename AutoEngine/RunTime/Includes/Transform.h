@@ -2,7 +2,6 @@
 #define TRANSFORM_H_
 #include "Math/AUMath.h"
 #include "OpenGLGather.h"
-
 USING_MATH
 AUTO_BEGIN
 class Transform
@@ -21,18 +20,17 @@ protected:
 public:
 	
 	Transform();
+	~Transform();
 	void SetPosition(const Vector3& position);
 	void SetRotation(const Quaternion& rotation);
 	void SetRotation(const Vector3& euler);
 	void SetRotation(float Angle, const Vector3& axis);
 	void SetScale(const Vector3& scale);
 	void SetScale(float scale);
-	
+
 	glm::mat4 GetTransformMat();
 	void UpdateTransform();
-
 	void Identity();
-
 };
 AUTO_END
 #endif // TRANSFORM_H_

@@ -96,13 +96,20 @@ int Application::Init()
 
 int Application::RunLoop()
 {
-	
 	Texture2D tex;
 	tex.SetColor(Color(0.5f, 0.5f, 0.5f));
+	GameObject obj;
+	obj.AddComponent(tex);
 	tex.Draw();
-	Mesh m("Resource/object/base/Cube.FBX");
-	//Mesh m;
-	m.Draw();
+
+	Mesh mesh("Resource/object/base/Cube.FBX");
+	//Mesh mesh;
+	GameObject meshObj;
+	meshObj.AddComponent(mesh);
+	mesh.Draw();
+
+	
+	
 
 
 	while (!GrShouldCloseWindow(glfwWindow))
@@ -118,14 +125,25 @@ int Application::RunLoop()
 		///Accept a buffer bit buffer Bitto specify the buffer to be emptied
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
-
+		
+		float scaleAmount = (float)sin(GrGetTime());
+		obj.GetTransformPtr()->SetPosition(Vector3(0.5f, 0.5f, 0.0f));
+		obj.GetTransformPtr()->SetRotation(Vector3(0.0f, 0.0f, 90.0f));
+		//	obj.GetTransformPtr()->setRotation(-55.0f, Vector3::xAxis);
+		obj.GetTransformPtr()->SetRotation(90.0f, Vector3::zAxis);
+		obj.GetTransformPtr()->SetScale(Vector3(scaleAmount));
+		obj.GetTransformPtr()->UpdateTransform();
+		
 
 		tex.PushToRunloop();
-		m.PushToRunloop();
+		mesh.PushToRunloop();
 
 
 		window.RunLoopOver();
+
+
+		obj.GetTransformPtr()->Identity();
+		meshObj.GetTransformPtr()->Identity();
 	}
 
 

@@ -1,16 +1,23 @@
 #ifndef TEXTURE_2D_H_
 #define TEXTURE_2D_H_
-#include "BaseTexture.h"
+#include "Texture.h"
 #include "GLStateCache.h"
 #include "LoadResource.h"
 #include "Transform.h"
 #include "Camera.h"
 #include "Application.h"
+#include "GameObject.h"
 USING_MATH
 AUTO_BEGIN
-class Texture2D : public BaseTexture
+
+#define TEXTURE_DEBUG 0
+
+#if TEXTURE_DEBUG
+
+#else
+class Texture2D : public Texture
 {
-	REGISTER_DERIVED_CLASS(Texture2D, BaseTexture);
+	REGISTER_DERIVED_CLASS(Texture2D, Object);
 	DECLARE_OBJECT_SERIALIZE(Texture2D);
 public:
 	typedef struct _TexParams {
@@ -19,49 +26,35 @@ public:
 		GLuint    wrapS;
 		GLuint    wrapT;
 	}TexParams;
-
+	
 public:
 
 	Texture2D();
-	Texture2D(_String imagePath, const Transform& transform = Transform());
-	Texture2D(_String imagePath, const Shader& shader, const Transform& transform = Transform());
+	Texture2D(_String imagePath);
+	Texture2D(_String imagePath, const Shader& shader);
 
 	void Draw();
-	//void draw(Rect rec);
-
+	//void Draw(Rect rec);
 	void PushToRunloop();
-
-	void SetLinerParameters();
-
+	void SetLinerParameters(); 
 	void SetNearestParameters();
-
 	void SetTexParameters(const TexParams& params);
-
 	void GenerateMipmap();
-
 	void SetColor(const Color& color);
 protected:
 
 	float width;
-
 	float height;
-
 	bool is_Mipmaps;
 
 private:
 
 	unsigned int t_VBO, t_VAO, t_EBO;
-
 	unsigned int textureData;
-
-	Transform m_transform;
-
 	Shader m_shader;
-
-	_String m_ImagePath;
-
 	Color m_color;
+	_String m_ImagePath;
 };
-
+#endif //TEXTURE_DEBUG
 AUTO_END
 #endif //!TEXTURE_2D_H_

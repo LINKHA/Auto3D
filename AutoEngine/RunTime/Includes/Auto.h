@@ -94,6 +94,4 @@
 typedef int objectID;
 typedef int classID;
 typedef PUInt8 imageRecord;
-
-
 #endif // BOT_H_

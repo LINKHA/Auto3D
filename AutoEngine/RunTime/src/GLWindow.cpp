@@ -18,7 +18,7 @@ void size_callback(GLFWwindow* window, int width, int height)
 //public funcation
 GLWindow::GLWindow()
 	: window(nullptr)
-	, DrawColor(Color(1.0f, 1.0f, 1.0f))
+	, DrawColor(Color(0.0f, 0.0f, 0.0f))
 {
 	
 	GrInit(3, 3);

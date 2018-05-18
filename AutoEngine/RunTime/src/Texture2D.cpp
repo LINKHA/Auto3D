@@ -1,27 +1,21 @@
 #include "Texture2D.h"
 AUTO_BEGIN
 
-
+#if TEXTURE_DEBUG
+#else
 Texture2D::Texture2D()
 	: m_ImagePath("Resource/texture/square.jpg")
 	, m_shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs", AtConfig::shader_path + "au_texture_transform.aufs"))
-	, m_transform(Transform())
-	, m_color(Color())
 {
 }
-Texture2D::Texture2D(_String imagePath, const Transform& transform)
+Texture2D::Texture2D(_String imagePath)
 	: m_ImagePath(imagePath)
 	, m_shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs", AtConfig::shader_path + "au_texture_transform.aufs"))
-	, m_transform(transform)
-	, m_color(Color())
 {
-
 }
-Texture2D::Texture2D(_String imagePath, const Shader & shader, const Transform & transform)
+Texture2D::Texture2D(_String imagePath, const Shader & shader)
 	: m_ImagePath(imagePath)
 	, m_shader(shader)
-	, m_transform(transform)
-	, m_color(Color())
 {
 }
 Texture2D::~Texture2D()
@@ -34,6 +28,7 @@ Texture2D::~Texture2D()
 
 void Texture2D::Draw()
 {
+	
 	GLfloat vertices[] = {
 		// positions			// texture coords
 		0.5f, 0.5f, 0.0f, 			1.0f, 1.0f, // top right
@@ -92,34 +87,22 @@ void Texture2D::Draw()
 void Texture2D::PushToRunloop()
 {
 
-
+	
 	m_shader.Use();
 
-	float scaleAmount = (float)sin(GrGetTime());
+	//m_transform.ptr = GetGameObject().GetTransformPtr();
 
-
-	m_transform.SetPosition(Vector3(0.5f, 0.5f, 0.0f));
-	m_transform.SetRotation(Vector3(0.0f, 0.0f, 90.0f));
-	//	m_transform.setRotation(-55.0f, Vector3::xAxis);
-	m_transform.SetRotation(90.0f, Vector3::zAxis);
-	m_transform.SetScale(Vector3(scaleAmount));
-
-
-	m_transform.UpdateTransform();
 	glm::mat4 modelMat;
 	glm::mat4 viewMat;
 	glm::mat4 projectionMat;
 
-
-	modelMat = m_transform.GetTransformMat();
-	//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-	//projection = glm::perspective(45.0f, (float)800 / (float)600, 0.1f, 100.0f);
-	////projection = glm::ortho(-4.0f, 4.0f, -3.0f, 3.0f, 0.1f, 100.0f);
-
-
+	if (GetGameObject().GetTransformPtr())
+		modelMat = GetGameObject().GetTransformPtr()->GetTransformMat();
+	else
+		modelMat = Matrix4x4::identity;
 	viewMat = Application::Instance().m_camera.GetViewMatrix();
 	projectionMat = glm::perspective(Application::Instance().m_camera.Zoom, (float)800 / (float)600, 0.1f, 100.0f);
-
+////projectionMat = glm::ortho(-4.0f, 4.0f, -3.0f, 3.0f, 0.1f, 100.0f);
 	m_shader.SetMat4("model", modelMat);
 	m_shader.SetMat4("view", viewMat);
 	m_shader.SetMat4("projection", projectionMat);
@@ -128,9 +111,6 @@ void Texture2D::PushToRunloop()
 	glBindVertexArray(t_VAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
-
-	//init transform
-	m_transform.Identity();
 }
 
 
@@ -186,7 +166,7 @@ void Texture2D::SetColor(const Color & color)
 	m_color = color;
 }
 
-
+#endif //TEXTURE_DEBUG
 
 
 AUTO_END

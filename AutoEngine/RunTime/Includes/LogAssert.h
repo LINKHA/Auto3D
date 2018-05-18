@@ -5,6 +5,8 @@
 #include <iostream>
 #include <assert.h>
 #define AUTO_DEBUG 1
+#define AUTO_RELEASE !AUTO_DEBUG
+
 
 #if AUTO_DEBUG 
 #else

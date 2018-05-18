@@ -2,14 +2,14 @@
 #define SPRITE_H_
 #include "BaseObject.h"
 #include "stl_use.h"
-
+#include "Transform.h"
 AUTO_BEGIN
 #define GetComponent(x) GetGameObject().GetComponentT<x>(ClassID (x))
 
 class GameObject;
 class Node :public Object
 {
-	REGISTER_DERIVED_CLASS(Node, Object);
+	REGISTER_DERIVED_ABSTRACT_CLASS(Node, Object);
 	DECLARE_OBJECT_SERIALIZE(Node);
 public:
 	Node();
@@ -28,92 +28,53 @@ public:
 
 };
 
-
+class GameObject;
 
 class Component : public Object
 {
 	REGISTER_DERIVED_ABSTRACT_CLASS(Component, Object);
 	DECLARE_OBJECT_SERIALIZE(Component);
 private:
-	GameObject* m_GameObject;
+	Ptr(GameObject, m_gameObject);
 public:
 	Component();
+	GameObject& GetGameObject();
+	const GameObject& GetGameObject() const;
+	GameObject* GetGameObjectePtr();
+	GameObject* GetGameObjectPtr() const;
 
-	GameObject& GetGameObject() { return *m_GameObject; }
-	const GameObject& GetGameObject() const { return *m_GameObject; }
-	GameObject* GetGameObjectePtr() { return m_GameObject; }
-	GameObject* GetGameObjectPtr() const { return m_GameObject; }
-
-	void MountComponent(GameObject* gameObject, Component& com);
-	void MountComponent(GameObject* gameObject, Component* com);
-
-private:
-	friend class GameObject;
+	void MountComponent(GameObject& gameObject);
 };
 
-class GameObject: public Node
+class GameObject : public Node
 {
 	REGISTER_DERIVED_CLASS(GameObject, Node);
 	DECLARE_OBJECT_SERIALIZE(GameObject);
 public:
 	typedef AUTO_VECTOR(ClassIDType, Component) ComponentsArray;
 
-protected:
+private:
 	ComponentsArray m_Components;
+	Ptr(Transform, m_Transform);
 public:
 	GameObject();
 	void Enable();
 	void Destory();
 
-	void SetLayer(int layerIndex);
-	int GetLayer() const { return m_Layer; }
+	//void SetLayer(int layerIndex);
+	//int GetLayer() const { return m_Layer; }
 
-	void AddComponent(const Component& com)
-	{
-		m_Components.push_back(M_PAIR(com.GetClassID(), com));
-	}
-	void RemoveComponentAtIndex(int index)
-	{
-		ComponentsArray::iterator it = m_Components.begin() + index;
+	void AddComponent(Component& com);
+	void RemoveComponentAtIndex(int index);
+	template<class T> inline T& GetComponentT(int compareClassID) const;
+	inline  Component& GetComponentIndex(int index);
+	int GetComponentSize();
 
-		m_Components.erase(it);
+	const GameObject& GetGameObject()const;
+	GameObject& GetGameObject();
 
-
-	}
-	template<class T> inline
-	T& GetComponentT(int compareClassID) const
-	{
-		Component* com;
-		com = QueryComponent(compareClassID);
-		AssertIf(com == NULL);
-		return *static_cast<T*> (com);
-	}
-
-	inline  Component& GetComponentIndex(int index)
-	{
-		return m_Components[index].second;
-	}
-
-	int GetComponentSize() { return (int)m_Components.size(); }
-
-	const GameObject& GetGameObject()const	{ return *this; }
-	GameObject& GetGameObject()				{ return *this; }
-
-	Component QueryComponent(int classID) const
-	{
-		for (auto it = m_Components.begin(); it != m_Components.end(); it++)
-		{
-			if (it->first == classID)
-				return it->second;
-		}
-		ErrorString("File find component of ClassId.");
-		//nullptr
-		return *(Component*)NULL;
-	}
-
-private:
-	friend class Component;
+	Component QueryComponent(int classID) const;
+	Transform * GetTransformPtr();
 };
-
 AUTO_END
 #endif // SPRITE_H_

@@ -13,9 +13,9 @@ enum ClassIDType
 
 	DO_CLASS_ID(Node, 8)
 	DO_CLASS_ID(GameObject, 9)
-	DO_CLASS_ID(BaseMesh, 10)
+
 	DO_CLASS_ID(Mesh, 11)
-	DO_CLASS_ID(BaseTexture, 12)
+	DO_CLASS_ID(Texture, 12)
 	DO_CLASS_ID(Texture2D, 13)
 
 	DO_CLASS_ID(BaseLight, 14)
@@ -26,7 +26,7 @@ enum ClassIDType
 
 
 	DO_CLASS_ID(Component,20)
-	
+	DO_CLASS_ID(Transform,21)
 	CLASS_ID_Count
 };
 

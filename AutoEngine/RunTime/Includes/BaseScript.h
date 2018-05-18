@@ -7,7 +7,7 @@
 SCRIPT_BEGIN
 USING_AUTO
 
-class BaseScript : public Object
+class BaseScript
 {
 public:
 	BaseScript();

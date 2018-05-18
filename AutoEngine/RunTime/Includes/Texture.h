@@ -1,6 +1,6 @@
 #ifndef BASE_TEXTURE_H_
 #define BASE_TEXTURE_H_
-#include "BaseObject.h"
+#include "GameObject.h"
 #include "DeviceTypes.h"
 #include "stl_use.h"
 #include "Math/AUMath.h"
@@ -12,10 +12,10 @@
 
 AUTO_BEGIN
 
-class BaseTexture : public Object
+class Texture : public Component
 {
-	REGISTER_DERIVED_CLASS(BaseTexture, Object);
-	DECLARE_OBJECT_SERIALIZE(BaseTexture);
+	REGISTER_DERIVED_ABSTRACT_CLASS(Texture, Object);
+	DECLARE_OBJECT_SERIALIZE(Texture);
 protected:
 	TextureID		m_TexID;
 	int		        m_UsageMode;
@@ -30,7 +30,7 @@ protected:
 	//_VECTOR(ShaderLab::TexEnv*) m_TexEnvUsers;
 
 public:
-	BaseTexture();
+	Texture();
 	//virtual bool MainThreadCleanup();
 
 	//virtual void Reset();

@@ -15,7 +15,7 @@
 
 
 AUTO_BEGIN
-class Shader
+struct Shader
 {
 public:
 	unsigned int ID;

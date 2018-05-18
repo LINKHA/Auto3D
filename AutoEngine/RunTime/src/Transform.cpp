@@ -7,6 +7,8 @@ Transform::Transform()
 	, m_rotation(Quaternion())
 	, m_scale(Vector3(1.0f))
 {}
+Transform::~Transform()
+{}
 void Transform::Translate(const Vector3& position)
 {
 	m_transform = glm::translate(m_transform, glm::vec3(position.x, position.y, position.z));
@@ -68,5 +70,3 @@ void Transform::Identity()
 
 
 AUTO_END
-
-
