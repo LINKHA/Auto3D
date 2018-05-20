@@ -41,14 +41,6 @@ struct _x##Message{\
 };\
 _x##Message y;
 
-
-
-
-
-
-
-
-
 #define GET_SET(TYPE,PROP_NAME,VAR_NAME)	void Set##PROP_NAME (TYPE val) { VAR_NAME = val; }	const TYPE Get##PROP_NAME () const {return (const TYPE)VAR_NAME; }
 
 

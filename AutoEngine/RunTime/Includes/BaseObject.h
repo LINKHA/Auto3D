@@ -93,5 +93,3 @@ private:
 
 AUTO_END
 #endif // !BASE_OBJECT_H_
-
-

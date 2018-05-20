@@ -1,7 +1,5 @@
 #include "GLWindow.h"
 
-
-
 AUTO_BEGIN
 
 void size_callback(GLFWwindow* window, int width, int height)
@@ -11,24 +9,17 @@ void size_callback(GLFWwindow* window, int width, int height)
 	GrViewPort(0, 0, width, height);
 }
 
-
-
-
-
 //public funcation
 GLWindow::GLWindow()
 	: window(nullptr)
-	, DrawColor(Color(0.0f, 0.0f, 0.0f))
+	
 {
-	
 	GrInit(3, 3);
-	
+	DrawColor.Set(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
-
 GLWindow::~GLWindow()
-{
-	
+{	
 }
 
 void GLWindow::DrawWindow()

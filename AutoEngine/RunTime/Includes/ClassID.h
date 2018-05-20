@@ -27,6 +27,11 @@ enum ClassIDType
 
 	DO_CLASS_ID(Component,20)
 	DO_CLASS_ID(Transform,21)
+
+
+	DO_CLASS_ID(TextMesh, 22)
+
+
 	CLASS_ID_Count
 };
 

@@ -40,7 +40,10 @@ public:
 	void SetNearestParameters();
 	void SetTexParameters(const TexParams& params);
 	void GenerateMipmap();
+
 	void SetColor(const Color& color);
+	void SetColor(const Vector3& vec);
+	void SetColor(float r, float g, float b, float a = 1.0f);
 protected:
 
 	float width;
@@ -52,7 +55,7 @@ private:
 	unsigned int t_VBO, t_VAO, t_EBO;
 	unsigned int textureData;
 	Shader m_shader;
-	Color m_color;
+	Color m_Color;
 	_String m_ImagePath;
 };
 #endif //TEXTURE_DEBUG

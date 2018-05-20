@@ -106,7 +106,7 @@ void Texture2D::PushToRunloop()
 	m_shader.SetMat4("model", modelMat);
 	m_shader.SetMat4("view", viewMat);
 	m_shader.SetMat4("projection", projectionMat);
-	m_shader.SetVec4("ourColor", m_color.r, m_color.g, m_color.b,m_color.a);
+	m_shader.SetVec4("ourColor", m_Color.r, m_Color.g, m_Color.b, m_Color.a);
 	glBindTexture(GL_TEXTURE_2D, textureData);
 	glBindVertexArray(t_VAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -161,9 +161,18 @@ void Texture2D::GenerateMipmap()
 	is_Mipmaps = true;
 }
 
-void Texture2D::SetColor(const Color & color)
+void Texture2D::SetColor(const Color& color)
 {
-	m_color = color;
+	m_Color.Set(color.r, color.g, color.b, color.a);
+}
+
+void Texture2D::SetColor(const Vector3& vec)
+{
+	m_Color.Set(vec.x, vec.y, vec.z, 1.0f);
+}
+void Texture2D::SetColor(float r, float g, float b, float a)
+{
+	m_Color.Set(r, g, b, a);
 }
 
 #endif //TEXTURE_DEBUG

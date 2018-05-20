@@ -1,13 +1,10 @@
 #ifndef MESH_COMMAND_H
 #define MESH_COMMAND_H
 
-#include <glad.h> // holds all OpenGL type declarations
-
+#include <glad.h> 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-
 #include "Shader.h"
-
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -117,13 +114,13 @@ private:
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
 
 		// set the vertex attribute pointers
-		// 顶点位置
+		// vertex position
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-		// 顶点法线
+		// vertex normal
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
-		// 顶点纹理坐标
+		// vertex texture position
 		glEnableVertexAttribArray(2);
 		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexCoords));
 		// vertex tangent

@@ -60,12 +60,10 @@ bool File::Close()
 	{
 		if (fclose(m_File) != 0)
 		{
-			
-			
+
 		}
 		m_File = NULL;
 	}
-
 	m_Path.clear();
 	return true;
 }

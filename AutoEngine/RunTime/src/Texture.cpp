@@ -4,11 +4,7 @@ AUTO_BEGIN
 
 Texture::Texture()
 {
-
 }
-
-
-
 
 Texture::~Texture()
 {
