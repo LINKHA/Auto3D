@@ -28,9 +28,16 @@ public:
 	void SetScale(const Vector3& scale);
 	void SetScale(float scale);
 
+	Vector3 GetPosition();
+	Quaternion GetRotation();
+	Vector3 GetScale();
+
 	glm::mat4 GetTransformMat();
 	void UpdateTransform();
 	void Identity();
 };
 AUTO_END
 #endif // TRANSFORM_H_
+
+
+

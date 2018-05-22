@@ -25,9 +25,9 @@ public:
 	//virtual bool callBackMessage();
 	Application();
 
-	FPSCamera m_camera;
-private:
 	GLWindow window;
+private:
+
 	GLFWwindow* glfwWindow;
 	
 };

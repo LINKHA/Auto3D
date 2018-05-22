@@ -2,6 +2,8 @@
 #define SINGLETON_H_
 #include "Auto.h"
 #include "LogAssert.h"
+#define SINGLETON_INSTANCE(x) template<> x* Singleton<x>::m_instance = nullptr
+#define INSTANCE(x)	x::Instance()
 
 AUTO_BEGIN
 

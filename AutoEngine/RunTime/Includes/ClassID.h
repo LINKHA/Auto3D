@@ -6,11 +6,13 @@ enum ClassIDType
 {
 	DO_CLASS_ID(Default, -1)
 	DO_CLASS_ID(Object, 0)
+
 	DO_CLASS_ID(GameManager, 1)
 	DO_CLASS_ID(LevelGameManager, 2)
 	DO_CLASS_ID(GlobalGameManager, 3)
 	DO_CLASS_ID(TimeManager, 4)
 	DO_CLASS_ID(MotionManager,5)
+	DO_CLASS_ID(CameraManager,6)
 
 	DO_CLASS_ID(Node, 8)
 	DO_CLASS_ID(GameObject, 9)

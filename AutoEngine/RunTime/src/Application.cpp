@@ -6,52 +6,7 @@
 #include "MotionSpace.h"
 AUTO_BEGIN
 
-template<> Application* Singleton<Application>::m_instance = nullptr;
-
-float lastX = 800 / 2.0f;
-float lastY = 600 / 2.0f;
-bool firstMouse = true;
-void mouse_callback(GLFWwindow* window, double xpos, double ypos);
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
-
-void mouse_callback(GLFWwindow* window, double xpos, double ypos)
-{
-	if (firstMouse)
-	{
-		lastX = xpos;
-		lastY = ypos;
-		firstMouse = false;
-	}
-
-	float xoffset = xpos - lastX;
-	float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
-
-	lastX = xpos;
-	lastY = ypos;
-
-	Application::Instance().m_camera.ProcessMouseMovement(xoffset, yoffset);
-}
-
-// glfw: whenever the mouse scroll wheel scrolls, this callback is called
-// ----------------------------------------------------------------------
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
-{
-	Application::Instance().m_camera.ProcessMouseScroll(yoffset);
-}
-
-void processInput(GLFWwindow *window)
-{
-	if (GrGetKey(window, KEY_ESCAPE) == BUTTON_PRESS)
-		GrCloseWindow(window);
-	if (GrGetKey(window, KEY_W) == BUTTON_PRESS)
-		Application::Instance().m_camera.ProcessKeyboard(FORWARD, TimeManager::Instance().GetDeltaTime() * 2);
-	if (GrGetKey(window, KEY_S) == BUTTON_PRESS)
-		Application::Instance().m_camera.ProcessKeyboard(BACKWARD, TimeManager::Instance().GetDeltaTime() * 2);
-	if (GrGetKey(window, KEY_A) == BUTTON_PRESS)
-		Application::Instance().m_camera.ProcessKeyboard(LEFT, TimeManager::Instance().GetDeltaTime() * 2);
-	if (GrGetKey(window, KEY_D) == BUTTON_PRESS)
-		Application::Instance().m_camera.ProcessKeyboard(RIGHT, TimeManager::Instance().GetDeltaTime() * 2);
-}
+SINGLETON_INSTANCE(Application);
 
 Application::~Application()
 {
@@ -80,13 +35,9 @@ int Application::Init()
 	
 
 	stbi_set_flip_vertically_on_load(true);
-	m_camera = FPSCamera(glm::vec3(0.0f, 0.0f, 3.0f));
+
 	//Print(Monitors::Instance().getMonitorsCount());
 	//Print(Monitors::Instance().getMonitorsWidthIndex(1));
-	glfwSetCursorPosCallback(glfwWindow, mouse_callback);
-	glfwSetScrollCallback(glfwWindow, scroll_callback);
-
-	glfwSetInputMode(glfwWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
@@ -94,6 +45,8 @@ int Application::Init()
 		return AU_ERROR;
 	}
 	glEnable(GL_DEPTH_TEST);
+	MotionSpace::Instance().SetWindow(glfwWindow);
+	MotionSpace::Instance().Awake();
 
 	return AU_NORMAL;
 }
@@ -104,27 +57,6 @@ int Application::RunLoop()
 {
 	MotionSpace::Instance().Start();
 
-	Mesh mesh("Resource/object/base/Cube.FBX");
-	mesh.SetColor(Color(0.5f, 0.8f, 0.3f));
-
-	GameObject meshObj;
-	meshObj.AddComponent(mesh);
-	mesh.Start();
-	//////////////////////////////////////////////////////////////////////////
-	////Mesh mesh;
-	//TextMesh meshText;
-	//meshText.SetColor(Color(0.8f, 0.8f, 0.3f));
-
-	//GameObject meshtextObj;
-	//meshtextObj.AddComponent(meshText);
-	//meshText.Draw();
-	//////////////////////////////////////////////////////////////////////////
-	Texture2D tex;
-	tex.SetColor(Color(0.5f, 0.5f, 0.5f));
-	GameObject obj;
-	obj.AddComponent(tex);
-	tex.Start();
-	//////////////////////////////////////////////////////////////////////////
 	while (!GrShouldCloseWindow(glfwWindow))
 	{
 		TimeManager::Instance().Update();
@@ -133,39 +65,20 @@ int Application::RunLoop()
 		//Print(TimeManager::Instance().GetCurTime());
 		//Print(TimeManager::Instance().GetDeltaTime());
 		//////////////////////////
-		processInput(glfwWindow);
+		
 		window.DrawWindow();
 		///Accept a buffer bit buffer Bitto specify the buffer to be emptied
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		//processInput(glfwWindow);
+		//t_processInput(glfwWindow);
 		MotionSpace::Instance().Update();
 
-		float scaleAmount = (float)sin(GrGetTime());
-		//////////////////////////////////////////////////////////////////////////
-		obj.GetTransformPtr()->SetPosition(Vector3(1.5f, 1.5f, 0.0f));
-		obj.GetTransformPtr()->SetRotation(Vector3(0.0f, 0.0f, 90.0f));
-		//	obj.GetTransformPtr()->setRotation(-55.0f, Vector3::xAxis);
-		obj.GetTransformPtr()->SetRotation(90.0f, Vector3::zAxis);
-		obj.GetTransformPtr()->SetScale(Vector3(scaleAmount));
-		//Update Transform
-		obj.GetTransformPtr()->UpdateTransform();
-
-		meshObj.GetTransformPtr()->SetPosition(Vector3(0.0f, 0.0f, -1.0f));
-		meshObj.GetTransformPtr()->UpdateTransform();
-
-
-		//meshtextObj.GetTransformPtr()->SetPosition(Vector3(-1.5f, -1.5f, 0.0f));
-		//meshtextObj.GetTransformPtr()->UpdateTransform();
-		//////////////////////////////////////////////////////////////////////////
-		tex.Update();
-		//meshText.PushToRunloop();
-		mesh.Update();
+	
 		//////////////////////////////////////////////////////////////////////////
 		window.RunLoopOver();
 		//////////////////////////////////////////////////////////////////////////
-		obj.GetTransformPtr()->Identity();
-		meshObj.GetTransformPtr()->Identity();
-		//meshtextObj.GetTransformPtr()->Identity();
+		MotionSpace::Instance().Finish();
 	}
 
 
@@ -181,7 +94,6 @@ int Application::Finish()
 
 Application::Application()
 {
-	window = GLWindow();
 	glfwWindow = window.CreateGameWindow();
 
 }

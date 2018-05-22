@@ -1,13 +1,19 @@
 #include "FPSCamera.h"
-
+#include "CameraManager.h"
 AUTO_BEGIN
 
 FPSCamera::FPSCamera(glm::vec3 position,glm::vec3 up ,float yaw , float pitch)
-	: Front(glm::vec3(0.0f, 0.0f, -1.0f)),
-	MovementSpeed(SPEED),
-	MouseSensitivity(SENSITIVTY),
-	Zoom(ZOOM)
+	: Front(glm::vec3(0.0f, 0.0f, -1.0f))
+	, MovementSpeed(SPEED)
+	, MouseSensitivity(SENSITIVTY)
+	, Zoom(ZOOM)
+	, firstMouse(true)
 {
+
+	INSTANCE(CameraManager).CameraArray.emplace(INSTANCE(CameraManager).CameraArray.size(),this);
+	//Problem need use Set<Camera*>
+	Print(INSTANCE(CameraManager).CameraArray.size());
+
 	Position = position;
 	WorldUp = up;
 	Yaw = yaw;
@@ -16,10 +22,11 @@ FPSCamera::FPSCamera(glm::vec3 position,glm::vec3 up ,float yaw , float pitch)
 }
 
 FPSCamera::FPSCamera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch)
-	: Front(glm::vec3(0.0f, 0.0f, -1.0f)),
-	MovementSpeed(SPEED),
-	MouseSensitivity(SENSITIVTY),
-	Zoom(ZOOM)
+	: Front(glm::vec3(0.0f, 0.0f, -1.0f))
+	, MovementSpeed(SPEED)
+	, MouseSensitivity(SENSITIVTY)
+	, Zoom(ZOOM)
+	, firstMouse(true)
 {
 	Position = glm::vec3(posX, posY, posZ);
 	WorldUp = glm::vec3(upX, upY, upZ);
@@ -96,4 +103,6 @@ void FPSCamera::updateCameraVectors()
 	Right = glm::normalize(glm::cross(Front, WorldUp));  // Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
 	Up = glm::normalize(glm::cross(Right, Front));
 }
+
+
 AUTO_END

@@ -50,7 +50,18 @@ void Transform::SetScale(float scale)
 {
 	m_scale = Vector3(scale);
 }
-
+Vector3 Transform::GetPosition()
+{
+	return m_position;
+}
+Quaternion Transform::GetRotation()
+{
+	return m_rotation;
+}
+Vector3 Transform::GetScale()
+{
+	return m_scale;
+}
 glm::mat4 Transform::GetTransformMat()
 {
 	return m_transform;

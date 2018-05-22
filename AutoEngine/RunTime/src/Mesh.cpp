@@ -1,5 +1,5 @@
 #include "Mesh.h"
-
+#include "CameraManager.h"
 AUTO_BEGIN
 #if  MESH_DEBUG
 Mesh::Mesh()
@@ -36,8 +36,8 @@ void Mesh::Update()
 		modelMat = GetGameObject().GetTransformPtr()->GetTransformMat();
 	else
 		modelMat = Matrix4x4::identity;
-	viewMat = Application::Instance().m_camera.GetViewMatrix();
-	projectionMat = glm::perspective(Application::Instance().m_camera.Zoom, (float)800 / (float)600, 0.1f, 100.0f);
+	viewMat = INSTANCE(CameraManager).CameraArray.find(0)->second->GetViewMatrix();
+	projectionMat = glm::perspective(INSTANCE(CameraManager).CameraArray.find(0)->second->Zoom, (float)800 / (float)600, 0.1f, 100.0f);
 	m_shader.SetMat4("model", modelMat);
 	m_shader.SetMat4("view", viewMat);
 	m_shader.SetMat4("projection", projectionMat);
@@ -45,8 +45,7 @@ void Mesh::Update()
 	m_shader.SetVec3("ourColor", m_Color.r, m_Color.g, m_Color.b);
 	m_shader.SetVec3("lightColor", 1.0f, 1.0f, 1.0f);
 	m_shader.SetVec3("lightPos", 2.5f, 2.0f, 1.0f);
-	m_shader.SetVec3("viewPos", Application::Instance().m_camera.Position);
-	//std::cout << Application::Instance().m_camera.Position.x<<" "<< Application::Instance().m_camera.Position.y << " " << Application::Instance().m_camera.Position.z <<std::endl;
+	m_shader.SetVec3("viewPos", INSTANCE(CameraManager).CameraArray.find(0)->second->Position);
 	m_Model.Draw(m_shader);
 }
 void Mesh::SetColor(const Color& color)

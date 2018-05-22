@@ -17,6 +17,7 @@ public:
 		//Level Managers
 		kSceneManager,
 		kRenderManager,
+		kCameraManager,
 		kManagerCount
 	};
 
