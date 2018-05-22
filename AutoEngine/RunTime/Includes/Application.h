@@ -11,6 +11,7 @@
 #include "Monitors.h"
 #include "Application.h"
 #include "Mesh.h"
+#include "FPSCamera.h"
 AUTO_BEGIN
 class Application  : public Singleton<Application>
 {
@@ -24,7 +25,7 @@ public:
 	//virtual bool callBackMessage();
 	Application();
 
-	Camera m_camera;
+	FPSCamera m_camera;
 private:
 	GLWindow window;
 	GLFWwindow* glfwWindow;

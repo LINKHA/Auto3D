@@ -33,9 +33,8 @@ public:
 	Texture2D(_String imagePath);
 	Texture2D(_String imagePath, const Shader& shader);
 
-	void Draw();
-	//void Draw(Rect rec);
-	void PushToRunloop();
+	void Start();
+	void Update();
 	void SetLinerParameters(); 
 	void SetNearestParameters();
 	void SetTexParameters(const TexParams& params);

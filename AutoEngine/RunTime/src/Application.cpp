@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "TextMesh.h"
 #include "Shader.h"
+#include "MotionSpace.h"
 AUTO_BEGIN
 
 template<> Application* Singleton<Application>::m_instance = nullptr;
@@ -76,8 +77,10 @@ int Application::Run()
 
 int Application::Init()
 {
+	
+
 	stbi_set_flip_vertically_on_load(true);
-	m_camera = Camera(glm::vec3(0.0f, 0.0f, 3.0f));
+	m_camera = FPSCamera(glm::vec3(0.0f, 0.0f, 3.0f));
 	//Print(Monitors::Instance().getMonitorsCount());
 	//Print(Monitors::Instance().getMonitorsWidthIndex(1));
 	glfwSetCursorPosCallback(glfwWindow, mouse_callback);
@@ -91,6 +94,7 @@ int Application::Init()
 		return AU_ERROR;
 	}
 	glEnable(GL_DEPTH_TEST);
+
 	return AU_NORMAL;
 }
 
@@ -98,13 +102,14 @@ int Application::Init()
 
 int Application::RunLoop()
 {
-	
+	MotionSpace::Instance().Start();
+
 	Mesh mesh("Resource/object/base/Cube.FBX");
 	mesh.SetColor(Color(0.5f, 0.8f, 0.3f));
 
 	GameObject meshObj;
 	meshObj.AddComponent(mesh);
-	mesh.Draw();
+	mesh.Start();
 	//////////////////////////////////////////////////////////////////////////
 	////Mesh mesh;
 	//TextMesh meshText;
@@ -118,7 +123,7 @@ int Application::RunLoop()
 	tex.SetColor(Color(0.5f, 0.5f, 0.5f));
 	GameObject obj;
 	obj.AddComponent(tex);
-	tex.Draw();
+	tex.Start();
 	//////////////////////////////////////////////////////////////////////////
 	while (!GrShouldCloseWindow(glfwWindow))
 	{
@@ -132,6 +137,8 @@ int Application::RunLoop()
 		window.DrawWindow();
 		///Accept a buffer bit buffer Bitto specify the buffer to be emptied
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		MotionSpace::Instance().Update();
 
 		float scaleAmount = (float)sin(GrGetTime());
 		//////////////////////////////////////////////////////////////////////////
@@ -150,9 +157,9 @@ int Application::RunLoop()
 		//meshtextObj.GetTransformPtr()->SetPosition(Vector3(-1.5f, -1.5f, 0.0f));
 		//meshtextObj.GetTransformPtr()->UpdateTransform();
 		//////////////////////////////////////////////////////////////////////////
-		tex.PushToRunloop();
+		tex.Update();
 		//meshText.PushToRunloop();
-		mesh.PushToRunloop();
+		mesh.Update();
 		//////////////////////////////////////////////////////////////////////////
 		window.RunLoopOver();
 		//////////////////////////////////////////////////////////////////////////

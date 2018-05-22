@@ -8,38 +8,27 @@
 #include "stb_image.h"
 #include "Shader.h"
 #include "AtConfig.h"
-
+#include "Motion.h"
 
 AUTO_BEGIN
 
-class Texture : public Component
+class Texture : public Motion
 {
 	REGISTER_DERIVED_ABSTRACT_CLASS(Texture, Object);
 	DECLARE_OBJECT_SERIALIZE(Texture);
+	
 protected:
 	TextureID		m_TexID;
 	int		        m_UsageMode;
 	int				m_ColorSpace;
-	// Used by movie textures so that 0..1 range covers only the
-	// movie portion. For all other textures this is (1,1).
 	float			m_UVScaleX, m_UVScaleY;
-	// Texel size. This is 1/size for all textures.
 	float			m_TexelSizeX, m_TexelSizeY;
 
-	//???
-	//_VECTOR(ShaderLab::TexEnv*) m_TexEnvUsers;
 
 public:
 	Texture();
-	//virtual bool MainThreadCleanup();
-
-	//virtual void Reset();
-
-	//virtual void CheckConsistency();
-
-	//virtual TextureDimension GetDimension() const = 0;
-	//virtual void draw() = 0;
-	//virtual bool ExtractImage(ImageReference* image, int imageIndex = 0) const = 0;
+	virtual void Start() {}
+	virtual void Update() {}
 
 
 

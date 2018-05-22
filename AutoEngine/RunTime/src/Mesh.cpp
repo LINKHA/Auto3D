@@ -21,11 +21,11 @@ Mesh::Mesh(_String meshPath, const Shader& shader)
 Mesh::~Mesh()
 {
 }
-void Mesh::Draw()
+void Mesh::Start()
 {
 	m_Model = LocalModelLoad((char*)m_meshPath.data());
 }
-void Mesh::PushToRunloop()
+void Mesh::Update()
 {
 	m_shader.Use();
 
@@ -45,6 +45,8 @@ void Mesh::PushToRunloop()
 	m_shader.SetVec3("ourColor", m_Color.r, m_Color.g, m_Color.b);
 	m_shader.SetVec3("lightColor", 1.0f, 1.0f, 1.0f);
 	m_shader.SetVec3("lightPos", 2.5f, 2.0f, 1.0f);
+	m_shader.SetVec3("viewPos", Application::Instance().m_camera.Position);
+	//std::cout << Application::Instance().m_camera.Position.x<<" "<< Application::Instance().m_camera.Position.y << " " << Application::Instance().m_camera.Position.z <<std::endl;
 	m_Model.Draw(m_shader);
 }
 void Mesh::SetColor(const Color& color)
@@ -80,11 +82,11 @@ Mesh::Mesh(_String meshPath, const Shader& shader)
 Mesh::~Mesh()
 {
 }
-void Mesh::Draw()
+void Mesh::Start()
 {
 	m_Model = LocalModelLoad((char*)m_meshPath.data());
 }
-void Mesh::PushToRunloop()
+void Mesh::Update()
 {
 	m_shader.Use();
 

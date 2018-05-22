@@ -4,12 +4,13 @@
 #define DO_CLASS_ID(x,ID) ClassID(x) = ID,
 enum ClassIDType
 {
-	DO_CLASS_ID(Default,-1)
+	DO_CLASS_ID(Default, -1)
 	DO_CLASS_ID(Object, 0)
-	DO_CLASS_ID(GameManager,1)
+	DO_CLASS_ID(GameManager, 1)
 	DO_CLASS_ID(LevelGameManager, 2)
 	DO_CLASS_ID(GlobalGameManager, 3)
 	DO_CLASS_ID(TimeManager, 4)
+	DO_CLASS_ID(MotionManager,5)
 
 	DO_CLASS_ID(Node, 8)
 	DO_CLASS_ID(GameObject, 9)
@@ -25,13 +26,18 @@ enum ClassIDType
 
 
 
-	DO_CLASS_ID(Component,20)
-	DO_CLASS_ID(Transform,21)
+	DO_CLASS_ID(Component, 20)
+	DO_CLASS_ID(Transform, 21)
 
 
 	DO_CLASS_ID(TextMesh, 22)
 
+	DO_CLASS_ID(Camera, 25)
+	DO_CLASS_ID(FPSCamera, 26)
 
+
+	
+	DO_CLASS_ID(Motion,27)
 	CLASS_ID_Count
 };
 

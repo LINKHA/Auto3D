@@ -2,29 +2,28 @@
 #define MESH_H_
 #include "Shader.h"
 #include "ModelCommand.h"
-#include "GameObject.h"
 #include "Transform.h"
 #include "Application.h"
 #include "AtConfig.h"
 #include "LoadResource.h"
 #include "Math/Color.h"
-
+#include "Motion.h"
 #define MESH_DEBUG 1
 
 AUTO_BEGIN
 #if  MESH_DEBUG
 
-class Mesh : public Component
+class Mesh : public Motion
 {
-	REGISTER_DERIVED_CLASS(Mesh, Component);
+	REGISTER_DERIVED_CLASS(Mesh, Motion);
 	DECLARE_OBJECT_SERIALIZE(Mesh);
 public:
 	Mesh();
 	Mesh(_String m_meshPath);
 	Mesh(_String m_meshPath, const Shader& shader);
 
-	void Draw();
-	void PushToRunloop();
+	void Start();
+	void Update();
 
 	void SetColor(const Color& color);
 	void SetColor(const Vector3& vec);
@@ -37,17 +36,17 @@ private:
 	Color m_Color;
 };
 #else
-class Mesh : public Component
+class Mesh : public Motion
 {
-	REGISTER_DERIVED_CLASS(Mesh, Component);
+	REGISTER_DERIVED_CLASS(Mesh, Motion);
 	DECLARE_OBJECT_SERIALIZE(Mesh);
 public:
 	Mesh();
 	Mesh(_String m_meshPath);
 	Mesh(_String m_meshPath, const Shader& shader);
 
-	void Draw();
-	void PushToRunloop();
+	void Start();
+	void Update();
 
 	void SetColor(const Color& color);
 	void SetColor(const Vector3& vec);

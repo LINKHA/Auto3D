@@ -20,7 +20,8 @@ class LevelGameManager : public GameManager
 public:
 	REGISTER_DERIVED_ABSTRACT_CLASS(LevelGameManager, GameManager);
 	DECLARE_OBJECT_SERIALIZE(LevelGameManager);
-	virtual char const* GetName() const { return GetClassName().c_str(); }
+	// Mistake to window GetClassNameW(need chang from Object GetClassName())
+	//virtual char const* GetName() const { return GetClassName().c_str(); }
 	LevelGameManager();
 };
 
@@ -29,7 +30,7 @@ class GlobalGameManager : public GameManager
 public:
 	REGISTER_DERIVED_ABSTRACT_CLASS(GlobalGameManager, GameManager);
 	DECLARE_OBJECT_SERIALIZE(GlobalGameManager);
-	virtual char const* GetName() const { return GetClassName().c_str(); }
+	//virtual char const* GetName() const { return GetClassName().c_str(); }
 	GlobalGameManager();
 };
 

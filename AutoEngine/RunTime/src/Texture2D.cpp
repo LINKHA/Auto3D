@@ -26,7 +26,7 @@ Texture2D::~Texture2D()
 }
 
 
-void Texture2D::Draw()
+void Texture2D::Start()
 {
 	
 	GLfloat vertices[] = {
@@ -84,7 +84,7 @@ void Texture2D::Draw()
 	/////////////////////////////////////////////////////////////////////////////////////////////
 }
 
-void Texture2D::PushToRunloop()
+void Texture2D::Update()
 {
 
 	

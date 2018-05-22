@@ -12,6 +12,7 @@ public:
 		//Global Managers
 		kTimeManager,
 		kScriptMapper,
+		kMotionManager,
 		kGlobalManagerCount,
 		//Level Managers
 		kSceneManager,
