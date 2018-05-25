@@ -1,6 +1,8 @@
 #include "MotionSpace.h"
 #include "TimeManager.h"
-#include "CameraManager.h"
+#include "RenderManager.h"
+#include "Camera.h"
+
 AUTO_BEGIN
 
 SINGLETON_INSTANCE(MotionSpace);
@@ -11,7 +13,7 @@ Mesh* mesh;
 GameObject* meshObj;
 Texture2D* tex;
 GameObject* obj;
-FPSCamera* cam;
+Camera* cam;
 GameObject* camObj;
 
 float lastX = 800 / 2.0f;
@@ -47,13 +49,13 @@ void processInput(GLFWwindow *window)
 	if (GrGetKey(window, KEY_ESCAPE) == BUTTON_PRESS)
 		GrCloseWindow(window);
 	if (GrGetKey(window, KEY_W) == BUTTON_PRESS)
-		INSTANCE(CameraManager).CameraArray.find(0)->second->ProcessKeyboard(FORWARD, TimeManager::Instance().GetDeltaTime() * 2);
+		INSTANCE(RenderManager).CameraArray.find(0)->second->ProcessKeyboard(FORWARD, TimeManager::Instance().GetDeltaTime() * 2);
 	if (GrGetKey(window, KEY_S) == BUTTON_PRESS)
-		INSTANCE(CameraManager).CameraArray.find(0)->second->ProcessKeyboard(BACKWARD, TimeManager::Instance().GetDeltaTime() * 2);
+		INSTANCE(RenderManager).CameraArray.find(0)->second->ProcessKeyboard(BACKWARD, TimeManager::Instance().GetDeltaTime() * 2);
 	if (GrGetKey(window, KEY_A) == BUTTON_PRESS)
-		INSTANCE(CameraManager).CameraArray.find(0)->second->ProcessKeyboard(LEFT, TimeManager::Instance().GetDeltaTime() * 2);
+		INSTANCE(RenderManager).CameraArray.find(0)->second->ProcessKeyboard(LEFT, TimeManager::Instance().GetDeltaTime() * 2);
 	if (GrGetKey(window, KEY_D) == BUTTON_PRESS)
-		INSTANCE(CameraManager).CameraArray.find(0)->second->ProcessKeyboard(RIGHT, TimeManager::Instance().GetDeltaTime() * 2);
+		INSTANCE(RenderManager).CameraArray.find(0)->second->ProcessKeyboard(RIGHT, TimeManager::Instance().GetDeltaTime() * 2);
 }
 
 
@@ -80,18 +82,16 @@ void MotionSpace::Awake()
 
 void MotionSpace::Start()
 {
-	
-
-	cam = new FPSCamera(glm::vec3(0.0f, 0.0f, 3.0f));
+	cam = new Camera(Vector3(0.0f, 0.0f, 3.0f));
+	//cam = new Camera(Vector3(0.0f, 0.0f, 3.0f).ToGLM());
 	camObj = new GameObject();
+	camObj->GetTransformPtr()->SetPosition(Vector3(0.0f, 0.0f, 3.0f));
 	camObj->AddComponent(*cam);
 	cam->Start();
 
 	glfwSetCursorPosCallback(glfwWindow, mouseCallBack);
 	glfwSetScrollCallback(glfwWindow, scrollCallBack);
-
 	glfwSetInputMode(glfwWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
 
 	mesh = new Mesh("Resource/object/base/Cube.FBX");
 	mesh->SetColor(Color(0.5f, 0.8f, 0.3f));

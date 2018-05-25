@@ -1,5 +1,5 @@
 #include "TextMesh.h"
-#include "CameraManager.h"
+#include "RenderManager.h"
 AUTO_BEGIN
 TextMesh::TextMesh()
 	: m_shader(Shader(AtConfig::shader_path + "au_text_model.auvs", AtConfig::shader_path + "au_text_model.aufs"))
@@ -80,8 +80,8 @@ void TextMesh::PushToRunloop()
 		modelMat = GetGameObject().GetTransformPtr()->GetTransformMat();
 	else
 		modelMat = Matrix4x4::identity;
-	viewMat = INSTANCE(CameraManager).CameraArray.find(0)->second->GetViewMatrix();
-	projectionMat = glm::perspective(INSTANCE(CameraManager).CameraArray.find(0)->second->Zoom, (float)800 / (float)600, 0.1f, 100.0f);
+	viewMat = INSTANCE(RenderManager).CameraArray.find(0)->second->GetViewMatrix();
+	projectionMat = glm::perspective(INSTANCE(RenderManager).CameraArray.find(0)->second->Zoom, (float)800 / (float)600, 0.1f, 100.0f);
 	////projectionMat = glm::ortho(-4.0f, 4.0f, -3.0f, 3.0f, 0.1f, 100.0f);
 
 	m_shader.SetVec3("objectColor", m_Color.r, m_Color.g, m_Color.b);

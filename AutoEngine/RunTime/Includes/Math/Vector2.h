@@ -15,6 +15,8 @@ public:
 	void Set(float inX, float inY) { x = inX; y = inY; }
 	float* GetPtr() { return &x; }
 	const float* GetPtr()const { return &x; }
+	
+	glm::vec2 ToGLM() { return glm::vec2(x, y); }
 	// operators
 	inline Vector2 operator-()const							{ return Vector2(-x, -y); }
 	inline Vector2 operator+(const Vector2& rhs) const		{ return Vector2(x + rhs.x, y + rhs.y); }
@@ -44,6 +46,7 @@ public:
 	static const Vector2	xAxis;
 	static const Vector2	yAxis;
 };
+inline Vector2 ToAuto(glm::vec2 vec) { return Vector2(vec.x, vec.y); }
 
 inline float Dot(const Vector2& lhs, const Vector2& rhs) { return lhs.x * rhs.x + lhs.y * rhs.y; }
 

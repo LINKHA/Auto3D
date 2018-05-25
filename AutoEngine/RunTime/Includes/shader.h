@@ -11,9 +11,9 @@
 
 #include "Auto.h"
 #include "LogAssert.h"
+#include "Math/AUMath.h"
 
-
-
+USING_MATH
 AUTO_BEGIN
 struct Shader
 {
@@ -142,6 +142,10 @@ public:
 	{
 		glUniform2fv(glGetUniformLocation(ID, name.c_str()), 1, &value[0]);
 	}
+	void SetVec2(const std::string &name, const Vector2 &value) const
+	{
+		//glUniform2fv(glGetUniformLocation(ID, name.c_str()), 1, &value[0]);
+	}
 	void SetVec2(const std::string &name, float x, float y) const
 	{
 		glUniform2f(glGetUniformLocation(ID, name.c_str()), x, y);
@@ -151,6 +155,10 @@ public:
 	{
 		glUniform3fv(glGetUniformLocation(ID, name.c_str()), 1, &value[0]);
 	}
+	void SetVec3(const std::string &name, const Vector3 &value) const
+	{
+		//glUniform3fv(glGetUniformLocation(ID, name.c_str()), 1, &value[0]);
+	}
 	void SetVec3(const std::string &name, float x, float y, float z) const
 	{
 		glUniform3f(glGetUniformLocation(ID, name.c_str()), x, y, z);
@@ -159,6 +167,10 @@ public:
 	void SetVec4(const std::string &name, const glm::vec4 &value) const
 	{
 		glUniform4fv(glGetUniformLocation(ID, name.c_str()), 1, &value[0]);
+	}
+	void SetVec4(const std::string &name, const Vector4 &value) const
+	{
+		//glUniform4fv(glGetUniformLocation(ID, name.c_str()), 1, &value[0]);
 	}
 	void SetVec4(const std::string &name, float x, float y, float z, float w)
 	{

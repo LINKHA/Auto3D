@@ -9,9 +9,7 @@
 #include "Math/AUMath.h"
 #include "Texture2D.h"
 #include "Monitors.h"
-#include "Application.h"
-#include "Mesh.h"
-#include "FPSCamera.h"
+
 AUTO_BEGIN
 class Application  : public Singleton<Application>
 {

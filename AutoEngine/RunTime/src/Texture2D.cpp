@@ -1,5 +1,5 @@
 #include "Texture2D.h"
-#include "CameraManager.h"
+#include "RenderManager.h"
 AUTO_BEGIN
 
 #if TEXTURE_DEBUG
@@ -100,9 +100,9 @@ void Texture2D::Update()
 		modelMat = GetGameObject().GetTransformPtr()->GetTransformMat();
 	else
 		modelMat = Matrix4x4::identity;
-	viewMat = INSTANCE(CameraManager).CameraArray.find(0)->second->GetViewMatrix();
-	projectionMat = glm::perspective(INSTANCE(CameraManager).CameraArray.find(0)->second->Zoom, (float)800 / (float)600, 0.1f, 100.0f);
-	////projectionMat = glm::ortho(-4.0f, 4.0f, -3.0f, 3.0f, 0.1f, 100.0f);
+	viewMat = INSTANCE(RenderManager).CameraArray.find(0)->second->GetViewMatrix();
+	projectionMat = glm::perspective(INSTANCE(RenderManager).CameraArray.find(0)->second->Zoom, (float)800 / (float)600, 0.1f, 100.0f);
+	//projectionMat = glm::ortho(-4.0f, 4.0f, -3.0f, 3.0f, 0.1f, 100.0f);
 	m_shader.SetMat4("model", modelMat);
 	m_shader.SetMat4("view", viewMat);
 	m_shader.SetMat4("projection", projectionMat);

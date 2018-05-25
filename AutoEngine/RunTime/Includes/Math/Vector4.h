@@ -20,6 +20,7 @@ public:
 	float* GetPtr() { return &x; }
 	const float* GetPtr() const { return &x; }
 
+	glm::vec4 ToGLM() { return glm::vec4(x, y, z, w); }
 	inline Vector4 operator-()const							{ return Vector4(-x, -y, -z, -w); }
 	inline Vector4 operator-(const Vector4& rhs)const		{ return Vector4(x - rhs.x, y - rhs.y, z - rhs.z, w - rhs.w); }
 	inline Vector4 operator+(const Vector4& rhs)const		{ return Vector4(x + rhs.x, y + rhs.y, z + rhs.z, w + rhs.w); }
@@ -41,9 +42,8 @@ public:
 	inline bool operator!=(const Vector4& rhs)const			{ return (x != rhs.x) || (y != rhs.y) || (z != rhs.z) || (w != rhs.w); }
 	inline bool operator<(const Vector4& rhs)const			{ if (x < rhs.x) return true; if (x > rhs.x) return false; if (y < rhs.y) return true; if (y > rhs.y) return false; if (z < rhs.z) return true; if (z > rhs.z) return false; if (w < rhs.x) return true; if (w > rhs.w) return false; return false; }
 
-
-	
 };
+inline Vector4 ToAuto(glm::vec4 vec) { return Vector4(vec.x, vec.y, vec.z, vec.w); }
 
 inline float Dot(const Vector4& lhs, const Vector4& rhs) { return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z + lhs.w * rhs.w; }
 

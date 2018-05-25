@@ -4,7 +4,8 @@
 #include <math.h>
 #include <string.h>
 #include "Auto.h"
-
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
 #define MATH_DEG					0.0174532925f				//One degree equals several radians
 #define MATH_RAD					57.29577951f				//One Radian equals several angles

@@ -19,6 +19,7 @@ public:
 	float* GetPtr() { return &x; }
 	const float* GetPtr()const { return &x; }
 
+	glm::vec3 ToGLM() { return glm::vec3(x, y, z); }
 	inline Vector3 operator-()const							{ return Vector3(-x, -y, -z); };
 	inline Vector3 operator+(const Vector3& rhs) const		{ return Vector3(x + rhs.x, y + rhs.y, z + rhs.z); }
 	inline Vector3 operator-(const Vector3& rhs) const		{ return Vector3(x - rhs.x, y - rhs.y, z - rhs.z); }
@@ -50,7 +51,7 @@ public:
 	static const Vector3 yAxis;
 	static const Vector3 zAxis;
 };
-
+inline Vector3 ToAuto(glm::vec3 vec)										{ return Vector3(vec.x, vec.y, vec.z); }
 
 inline float Dot(const Vector3& lhs, const Vector3& rhs)					{ return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z; }
 
@@ -70,7 +71,7 @@ inline bool IsNormalized(const Vector3& vec)								{ return Magnitude(vec) == 1
 
 inline Vector3 Abs(const Vector3& v)										{ return Vector3(abs(v.x), abs(v.y),abs(v.z)); }
 
-inline Vector3 Cross(const Vector3& lhs, const Vector3& rhs);
+inline Vector3 Cross(const Vector3& lhs, const Vector3& rhs)				{ return Vector3(lhs.y * rhs.z - lhs.z * rhs.y, lhs.z * rhs.x - lhs.x * rhs.z, lhs.x * rhs.y - lhs.y * rhs.x); }
 
 Vector3 RotateTowards(const Vector3& lhs, const Vector3& rhs, float maxAngle, float maxMagnitude);
 

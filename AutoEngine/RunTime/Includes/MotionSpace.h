@@ -4,6 +4,9 @@
 #include "ObjectDefines.h"
 #include "Singleton.h"
 #include "Mesh.h"
+#include "Math/AUMath.h"
+
+USING_MATH
 AUTO_BEGIN
 /**
 * @brief Singleton class
