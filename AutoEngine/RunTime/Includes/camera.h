@@ -9,22 +9,15 @@
 #include "Math/RectT.h"
 #include "Math/Matrix4x4.h"
 
-
-
 USING_MATH
 AUTO_BEGIN
-
 class RenderLoop;
-
 // Default camera values
-
 const float PITCH = 0.0f;
 const float SPEED = 2.5f;
 const float SENSITIVTY = 0.1f;
-
 const float YAW = -90.0f;
 const float ZOOM = 45.0f;
-
 enum CameraMovement
 {
 	FORWARD,
@@ -74,7 +67,10 @@ public:
 	void SetBackgroundColor(const Color& color) { m_BackGroundColor = color; }
 	SortMode GetSortMode() const { return m_SortMode; }
 	void SetSortMode(SortMode m) { m_SortMode = m; }
+	bool GetEnable() { return m_Enable; }
+	void SetEnable(bool e) { m_Enable = e; }
 
+	void Render();
 	glm::mat4 GetViewMatrix();
 
 	void ProcessKeyboard(CameraMovement direction, float deltaTime);
@@ -88,10 +84,8 @@ protected:
 	Color				m_BackGroundColor;
 	Rectf				m_Rect;
 	SortMode			m_SortMode;
+	bool				m_Enable;
+	bool				m_IsRendering;
 };
-
-
-
 AUTO_END
-
 #endif //!CAMERA_H_

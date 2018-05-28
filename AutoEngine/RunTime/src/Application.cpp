@@ -70,8 +70,6 @@ int Application::RunLoop()
 		///Accept a buffer bit buffer Bitto specify the buffer to be emptied
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		//processInput(glfwWindow);
-		//t_processInput(glfwWindow);
 		MotionSpace::Instance().Update();
 
 	

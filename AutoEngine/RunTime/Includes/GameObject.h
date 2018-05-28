@@ -5,7 +5,6 @@
 #include "Transform.h"
 AUTO_BEGIN
 #define GetComponent(x) GetGameObject().GetComponentT<x>(ClassID (x))
-
 class GameObject;
 class Node :public Object
 {
@@ -74,7 +73,17 @@ public:
 	GameObject& GetGameObject();
 
 	Component QueryComponent(int classID) const;
-	Transform * GetTransformPtr();
+	Transform& GetTransform()const;
+	Transform * GetTransformPtr()const;
 };
+
+template<class T> inline
+T& GameObject::GetComponentT(int compareClassID) const
+{
+	Component* com;
+	com = QueryComponent(compareClassID);
+	AssertIf(com == NULL);
+	return *static_cast<T*> (com);
+}
 AUTO_END
 #endif // SPRITE_H_

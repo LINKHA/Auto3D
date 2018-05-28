@@ -12,9 +12,7 @@ class RenderManager :public LevelGameManager, public Singleton<RenderManager>
 	
 public:
 	AUTO_HASH_MAP(int, Camera*) CameraArray;
-
 	RenderManager();
-	void RenderOffscreenCameras();
 	void RenderCameras();
 	Camera &GetCurrentCamera() {  return *m_CurrentCamera; }
 	Camera* GetCurrentCameraPtr() { return m_CurrentCamera; }
@@ -22,12 +20,14 @@ public:
 
 	void AddCamera(Camera *c);
 	void RemoveCamera(Camera *c);
-
+private:
+	void DelayedAddRemoveCameras();
 private:
 	Camera*			m_CurrentCamera;
 	CameraContainer m_Cameras;
 	CameraContainer m_CamerasToAdd;
 	CameraContainer m_CamerasToRemove;
+	//Run render now
 	bool			m_InsideRenderOrCull;
 };
 AUTO_END

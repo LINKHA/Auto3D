@@ -88,14 +88,7 @@ void GameObject::RemoveComponentAtIndex(int index)
 
 
 }
-template<class T> inline
-T& GameObject::GetComponentT(int compareClassID) const
-{
-	Component* com;
-	com = QueryComponent(compareClassID);
-	AssertIf(com == NULL);
-	return *static_cast<T*> (com);
-}
+
 
 inline  Component& GameObject::GetComponentIndex(int index)
 {
@@ -119,7 +112,12 @@ Component GameObject::QueryComponent(int classID) const
 	return *(Component*)NULL;
 }
 
-Transform * GameObject::GetTransformPtr()
+Transform& GameObject::GetTransform() const
+{
+	return *m_Transform.ptr;
+}
+
+Transform * GameObject::GetTransformPtr()const
 {
 	return m_Transform.ptr;
 }

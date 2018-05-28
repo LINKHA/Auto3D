@@ -123,24 +123,24 @@ void MotionSpace::Update()
 
 	float scaleAmount = (float)sin(GrGetTime());
 	//////////////////////////////////////////////////////////////////////////
-	obj->GetTransformPtr()->SetPosition(Vector3(1.5f, 1.5f, 0.0f));
-	obj->GetTransformPtr()->SetRotation(Vector3(0.0f, 0.0f, 90.0f));
+	obj->GetTransform().SetPosition(Vector3(1.5f, 1.5f, 0.0f));
+	obj->GetTransform().SetRotation(Vector3(0.0f, 0.0f, 90.0f));
 	//	obj.GetTransformPtr()->setRotation(-55.0f, Vector3::xAxis);
-	obj->GetTransformPtr()->SetRotation(90.0f, Vector3::zAxis);
-	obj->GetTransformPtr()->SetScale(Vector3(scaleAmount));
+	obj->GetTransform().SetRotation(90.0f, Vector3::zAxis);
+	obj->GetTransform().SetScale(Vector3(scaleAmount));
 	//Update Transform
-	obj->GetTransformPtr()->UpdateTransform();
+	obj->GetTransform().UpdateTransform();
 
-	meshObj->GetTransformPtr()->SetPosition(Vector3(0.0f, 0.0f, -1.0f));
-	meshObj->GetTransformPtr()->UpdateTransform();
+	meshObj->GetTransform().SetPosition(Vector3(0.0f, 0.0f, -1.0f));
+	meshObj->GetTransform().UpdateTransform();
 
 
 	//meshtextObj.GetTransformPtr()->SetPosition(Vector3(-1.5f, -1.5f, 0.0f));
 	//meshtextObj.GetTransformPtr()->UpdateTransform();
 	//////////////////////////////////////////////////////////////////////////
+	//Into camera loop
 	cam->Update();
 	tex->Update();
-	//meshText.PushToRunloop();
 	mesh->Update();
 }
 void MotionSpace::FixUpdate()
@@ -149,8 +149,8 @@ void MotionSpace::FixUpdate()
 }
 void MotionSpace::Finish()
 {
-	obj->GetTransformPtr()->Identity();
-	meshObj->GetTransformPtr()->Identity();
+	obj->GetTransform().Identity();
+	meshObj->GetTransform().Identity();
 	//meshtextObj.GetTransformPtr()->Identity();
 }
 

@@ -14,7 +14,6 @@ Camera::Camera(Vector3 position, glm::vec3 up, float yaw, float pitch)
 	m_RenderLoop = CreateRenderLoop(*this);
 
 	INSTANCE(RenderManager).CameraArray.emplace(INSTANCE(RenderManager).CameraArray.size(), this);
-	//Problem need use Set<Camera*>
 	Print(INSTANCE(RenderManager).CameraArray.size());
 
 	Position = position.ToGLM();
@@ -32,6 +31,11 @@ Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float u
 	, Zoom(ZOOM)
 	, firstMouse(true)
 {
+	m_RenderLoop = CreateRenderLoop(*this);
+
+	INSTANCE(RenderManager).CameraArray.emplace(INSTANCE(RenderManager).CameraArray.size(), this);
+	Print(INSTANCE(RenderManager).CameraArray.size());
+
 	Position = glm::vec3(posX, posY, posZ);
 	WorldUp = glm::vec3(upX, upY, upZ);
 	Yaw = yaw;
@@ -47,6 +51,11 @@ void Camera::Reset()
 
 }
 
+
+void Camera::Render()
+{
+	m_IsRendering = true;
+}
 
 glm::mat4 Camera::GetViewMatrix()
 {
