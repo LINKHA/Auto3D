@@ -76,8 +76,8 @@ void TextMesh::PushToRunloop()
 	glm::mat4 viewMat;
 	glm::mat4 projectionMat;
 
-	if (GetGameObject().GetTransformPtr())
-		modelMat = GetGameObject().GetTransformPtr()->GetTransformMat();
+	if (GetGameObjectPtr())
+		modelMat = GetGameObject().GetComponent(Transform).GetTransformMat();
 	else
 		modelMat = Matrix4x4::identity;
 	viewMat = INSTANCE(RenderManager).CameraArray.find(0)->second->GetViewMatrix();

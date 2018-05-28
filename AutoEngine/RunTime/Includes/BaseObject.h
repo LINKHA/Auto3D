@@ -61,7 +61,7 @@ public:
 
 	Object();
 
-	ClassIDType GetClassID() const						{ /*AssertIf(m_InstanceID == 0);*/ return (ClassIDType)m_ClassID; }
+	virtual int GetClassID() const						{ return ClassID(Object); }
 	void SetClassID(ClassIDType classId)				{ m_ClassID = classId; }
 	void SetInstanceID(int inID)						{ m_InstanceID = inID; }
 	Int32 GetInstanceID() const							{ AssertIf(m_InstanceID == 0); return m_InstanceID; }

@@ -7,6 +7,7 @@ public: \
 	static bool IsAbstract ()					{ return false; }\
 	static const char* GetClassStringStatic ()	{ return #x; }\
 	static const char* GetPPtrTypeString ()		{ return "PPtr<"#x">"; }\
+	virtual int GetClassID() const				{ return ClassID (x); }\
 	typedef y Super;\
 	virtual ~x (); \
 protected: \
@@ -19,6 +20,7 @@ public: \
 	static bool IsAbstract ()					{ return true; }\
 	static const char* GetClassStringStatic ()	{ return #x; }\
 	static const char* GetPPtrTypeString ()		{ return "PPtr<"#x">"; }\
+	virtual int GetClassID() const				{ return ClassID (x); }\
 	typedef y Super; \
 	virtual ~x (); \
 protected:\

@@ -1,13 +1,11 @@
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-
 #include "Auto.h"
 #include "Motion.h"
 #include "Math/RectT.h"
 #include "Math/Matrix4x4.h"
+#include "Math/Color.h"
 
 USING_MATH
 AUTO_BEGIN
@@ -63,7 +61,7 @@ public:
 
 	float GetDepth() const { return m_Depth; }
 	void SetDepth(float depth) { m_Depth = depth; }
-	Color GetBackgroundColor() const { return m_BackGroundColor; }
+	Color GetBackgroundColor() const{ return m_BackGroundColor; }
 	void SetBackgroundColor(const Color& color) { m_BackGroundColor = color; }
 	SortMode GetSortMode() const { return m_SortMode; }
 	void SetSortMode(SortMode m) { m_SortMode = m; }

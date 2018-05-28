@@ -2,10 +2,13 @@
 #define TRANSFORM_H_
 #include "Math/AUMath.h"
 #include "OpenGLGather.h"
+#include "Motion.h"
 USING_MATH
 AUTO_BEGIN
-class Transform
+class Transform : public Motion
 {
+	REGISTER_DERIVED_CLASS(Transform, Motion);
+	DECLARE_OBJECT_SERIALIZE(Transform);
 private:
 	Vector3 m_position;
 	Quaternion m_rotation ;
@@ -20,7 +23,6 @@ protected:
 public:
 	
 	Transform();
-	~Transform();
 	void SetPosition(const Vector3& position);
 	void SetRotation(const Quaternion& rotation);
 	void SetRotation(const Vector3& euler);
@@ -35,6 +37,9 @@ public:
 	glm::mat4 GetTransformMat();
 	void UpdateTransform();
 	void Identity();
+
+	void Start() {}
+	void Update() {}
 };
 AUTO_END
 #endif // TRANSFORM_H_

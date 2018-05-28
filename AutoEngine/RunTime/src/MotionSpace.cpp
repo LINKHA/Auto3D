@@ -85,8 +85,11 @@ void MotionSpace::Start()
 	cam = new Camera(Vector3(0.0f, 0.0f, 3.0f));
 	//cam = new Camera(Vector3(0.0f, 0.0f, 3.0f).ToGLM());
 	camObj = new GameObject();
-	camObj->GetTransformPtr()->SetPosition(Vector3(0.0f, 0.0f, 3.0f));
-	camObj->AddComponent(*cam);
+	camObj->GetComponent(Transform).SetPosition(Vector3(0.0f, 0.0f, 3.0f));
+	
+	//camObj->GetTransformPtr()->SetPosition(Vector3(0.0f, 0.0f, 3.0f));
+	
+	camObj->AddComponent(cam);
 	cam->Start();
 
 	glfwSetCursorPosCallback(glfwWindow, mouseCallBack);
@@ -97,7 +100,7 @@ void MotionSpace::Start()
 	mesh->SetColor(Color(0.5f, 0.8f, 0.3f));
 
 	meshObj = new GameObject();
-	meshObj->AddComponent(*mesh);
+	meshObj->AddComponent(mesh);
 	mesh->Start();
 	//////////////////////////////////////////////////////////////////////////
 	////Mesh mesh;
@@ -112,7 +115,7 @@ void MotionSpace::Start()
 	obj = new GameObject();
 	tex->SetColor(Color(0.5f, 0.5f, 0.5f));
 
-	obj->AddComponent(*tex);
+	obj->AddComponent(tex);
 	tex->Start();
 	//////////////////////////////////////////////////////////////////////////
 }
@@ -123,16 +126,16 @@ void MotionSpace::Update()
 
 	float scaleAmount = (float)sin(GrGetTime());
 	//////////////////////////////////////////////////////////////////////////
-	obj->GetTransform().SetPosition(Vector3(1.5f, 1.5f, 0.0f));
-	obj->GetTransform().SetRotation(Vector3(0.0f, 0.0f, 90.0f));
+	obj->GetComponent(Transform).SetPosition(Vector3(1.5f, 1.5f, 0.0f));
+	obj->GetComponent(Transform).SetRotation(Vector3(0.0f, 0.0f, 90.0f));
 	//	obj.GetTransformPtr()->setRotation(-55.0f, Vector3::xAxis);
-	obj->GetTransform().SetRotation(90.0f, Vector3::zAxis);
-	obj->GetTransform().SetScale(Vector3(scaleAmount));
+	obj->GetComponent(Transform).SetRotation(90.0f, Vector3::zAxis);
+	obj->GetComponent(Transform).SetScale(Vector3(scaleAmount));
 	//Update Transform
-	obj->GetTransform().UpdateTransform();
+	obj->GetComponent(Transform).UpdateTransform();
 
-	meshObj->GetTransform().SetPosition(Vector3(0.0f, 0.0f, -1.0f));
-	meshObj->GetTransform().UpdateTransform();
+	meshObj->GetComponent(Transform).SetPosition(Vector3(0.0f, 0.0f, -1.0f));
+	meshObj->GetComponent(Transform).UpdateTransform();
 
 
 	//meshtextObj.GetTransformPtr()->SetPosition(Vector3(-1.5f, -1.5f, 0.0f));
@@ -149,8 +152,8 @@ void MotionSpace::FixUpdate()
 }
 void MotionSpace::Finish()
 {
-	obj->GetTransform().Identity();
-	meshObj->GetTransform().Identity();
+	obj->GetComponent(Transform).Identity();
+	meshObj->GetComponent(Transform).Identity();
 	//meshtextObj.GetTransformPtr()->Identity();
 }
 

@@ -2,10 +2,11 @@
 #define SPRITE_H_
 #include "BaseObject.h"
 #include "stl_use.h"
-#include "Transform.h"
+
 AUTO_BEGIN
-#define GetComponent(x) GetGameObject().GetComponentT<x>(ClassID (x))
+#define GetComponent(x) GetComponentT<x>(ClassID (x))
 class GameObject;
+class Transform;
 class Node :public Object
 {
 	REGISTER_DERIVED_ABSTRACT_CLASS(Node, Object);
@@ -26,8 +27,6 @@ public:
 	virtual GameObjectNodeArray GetAllChild();
 
 };
-
-class GameObject;
 
 class Component : public Object
 {
@@ -50,20 +49,19 @@ class GameObject : public Node
 	REGISTER_DERIVED_CLASS(GameObject, Node);
 	DECLARE_OBJECT_SERIALIZE(GameObject);
 public:
-	typedef AUTO_VECTOR(ClassIDType, Component) ComponentsArray;
+	typedef AUTO_VECTOR(int, Component*) ComponentsArray;
 
 private:
 	ComponentsArray m_Components;
-	Ptr(Transform, m_Transform);
 public:
 	GameObject();
-	void Enable();
+	void Enable(bool enable) { m_Enable = enable; }
 	void Destory();
 
 	//void SetLayer(int layerIndex);
 	//int GetLayer() const { return m_Layer; }
 
-	void AddComponent(Component& com);
+	void AddComponent(Component* com);
 	void RemoveComponentAtIndex(int index);
 	template<class T> inline T& GetComponentT(int compareClassID) const;
 	inline  Component& GetComponentIndex(int index);
@@ -72,18 +70,22 @@ public:
 	const GameObject& GetGameObject()const;
 	GameObject& GetGameObject();
 
-	Component QueryComponent(int classID) const;
-	Transform& GetTransform()const;
-	Transform * GetTransformPtr()const;
+	Component* QueryComponent(int classID) const;
+
+private:
+	bool m_Enable;
 };
 
-template<class T> inline
-T& GameObject::GetComponentT(int compareClassID) const
+template<class T> inline T& GameObject::GetComponentT(int compareClassID) const
 {
 	Component* com;
 	com = QueryComponent(compareClassID);
 	AssertIf(com == NULL);
 	return *static_cast<T*> (com);
+}
+inline Component& GameObject::GetComponentIndex(int index)
+{
+	return *m_Components[index].second;
 }
 AUTO_END
 #endif // SPRITE_H_

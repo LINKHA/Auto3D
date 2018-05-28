@@ -1,5 +1,5 @@
 #include "GameObject.h"
-
+#include "Transform.h"
 
 AUTO_BEGIN
 //////////////////////////////////////////////////////////////////////////
@@ -35,13 +35,8 @@ Node::GameObjectNodeArray Node::GetAllChild()
 //////////////////////////////////////////////////////////////////////////
 //Component
 //////////////////////////////////////////////////////////////////////////
-Component::Component()
-{
-
-}
-Component::~Component()
-{
-}
+Component::Component(){}
+Component::~Component(){}
 GameObject& Component::GetGameObject()
 {
 	return *m_gameObject.ptr;
@@ -68,39 +63,37 @@ void Component::MountComponent(GameObject& gameObject)
 //////////////////////////////////////////////////////////////////////////
 GameObject::GameObject()
 {
-	m_Transform.ptr = new Transform();
+	AddComponent(new Transform());
 }
 
 GameObject::~GameObject()
 {
 }
 
-void GameObject::AddComponent(Component& com)
+void GameObject::AddComponent(Component* com)
 {
-	m_Components.push_back(M_PAIR(com.GetClassID(), com));
-	com.MountComponent(*this);
+	m_Components.push_back(M_PAIR(com->GetClassID(), com));
+	com->MountComponent(*this);
 }
 void GameObject::RemoveComponentAtIndex(int index)
 {
 	ComponentsArray::iterator it = m_Components.begin() + index;
-
 	m_Components.erase(it);
-
-
 }
 
-
-inline  Component& GameObject::GetComponentIndex(int index)
-{
-	return m_Components[index].second;
+int GameObject::GetComponentSize() 
+{ 
+	return (int)m_Components.size(); 
 }
-
-int GameObject::GetComponentSize() { return (int)m_Components.size(); }
-
-const GameObject& GameObject::GetGameObject()const { return *this; }
-GameObject& GameObject::GetGameObject() { return *this; }
-
-Component GameObject::QueryComponent(int classID) const
+const GameObject& GameObject::GetGameObject()const 
+{ 
+	return *this; 
+}
+GameObject& GameObject::GetGameObject() 
+{ 
+	return *this; 
+}
+Component* GameObject::QueryComponent(int classID) const
 {
 	for (auto it = m_Components.begin(); it != m_Components.end(); it++)
 	{
@@ -108,19 +101,7 @@ Component GameObject::QueryComponent(int classID) const
 			return it->second;
 	}
 	ErrorString("File find component of ClassId.");
-	//nullptr
-	return *(Component*)NULL;
+	return nullptr;
 }
-
-Transform& GameObject::GetTransform() const
-{
-	return *m_Transform.ptr;
-}
-
-Transform * GameObject::GetTransformPtr()const
-{
-	return m_Transform.ptr;
-}
-
 
 AUTO_END
