@@ -18,8 +18,8 @@ public:
 	~MotionSpace();
 	void SetWindow(GLFWwindow* glfwWindow);
 	void Awake();
-	void Start(); // use
-	void Update(); // use
+	void Start(); 
+	void Update(); 
 	void FixUpdate();
 	void Finish();
 };

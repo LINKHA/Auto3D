@@ -42,6 +42,17 @@ public:
 	GameObject* GetGameObjectPtr() const;
 
 	void MountComponent(GameObject& gameObject);
+
+	void Enable(bool enable) { m_Enable = enable; }
+	bool GetEnable() { return m_Enable; }
+
+	virtual void Awake() {}
+	virtual void Start() {}
+	virtual void Update() {}
+	virtual void FixUpdate() {}
+	virtual void Finish() {}
+private:
+	bool m_Enable;
 };
 
 class GameObject : public Node
@@ -55,7 +66,9 @@ private:
 	ComponentsArray m_Components;
 public:
 	GameObject();
+	GameObject(Transform* transform);
 	void Enable(bool enable) { m_Enable = enable; }
+	bool GetEnable() { return m_Enable; }
 	void Destory();
 
 	//void SetLayer(int layerIndex);
@@ -71,7 +84,7 @@ public:
 	GameObject& GetGameObject();
 
 	Component* QueryComponent(int classID) const;
-
+	ComponentsArray& GetComponentsArray(){ return m_Components; }
 private:
 	bool m_Enable;
 };

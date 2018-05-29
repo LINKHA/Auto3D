@@ -16,8 +16,4 @@ Motion::~Motion()
 {
 }
 
-void Motion::Enable(bool enable)
-{
-	m_enable = enable;
-}
 AUTO_END

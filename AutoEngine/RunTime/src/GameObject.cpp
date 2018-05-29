@@ -1,6 +1,6 @@
 #include "GameObject.h"
 #include "Transform.h"
-
+#include "GameObjectManager.h"
 AUTO_BEGIN
 //////////////////////////////////////////////////////////////////////////
 //Node
@@ -35,7 +35,9 @@ Node::GameObjectNodeArray Node::GetAllChild()
 //////////////////////////////////////////////////////////////////////////
 //Component
 //////////////////////////////////////////////////////////////////////////
-Component::Component(){}
+Component::Component()
+	: m_Enable(true)
+{}
 Component::~Component(){}
 GameObject& Component::GetGameObject()
 {
@@ -62,10 +64,17 @@ void Component::MountComponent(GameObject& gameObject)
 //GameObject
 //////////////////////////////////////////////////////////////////////////
 GameObject::GameObject()
+	: m_Enable(true)
 {
 	AddComponent(new Transform());
+	INSTANCE(GameObjectManager).AddGameObject(this);
 }
-
+GameObject::GameObject(Transform* transform)
+	: m_Enable(true)
+{
+	AddComponent(transform);
+	INSTANCE(GameObjectManager).AddGameObject(this);
+}
 GameObject::~GameObject()
 {
 }
@@ -103,5 +112,4 @@ Component* GameObject::QueryComponent(int classID) const
 	ErrorString("File find component of ClassId.");
 	return nullptr;
 }
-
 AUTO_END

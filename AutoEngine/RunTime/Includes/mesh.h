@@ -7,15 +7,15 @@
 #include "AtConfig.h"
 #include "LoadResource.h"
 #include "Math/Color.h"
-#include "Motion.h"
+#include "GameObject.h"
 #define MESH_DEBUG 1
 
 AUTO_BEGIN
 #if  MESH_DEBUG
 
-class Mesh : public Motion
+class Mesh : public Component
 {
-	REGISTER_DERIVED_CLASS(Mesh, Motion);
+	REGISTER_DERIVED_CLASS(Mesh, Component);
 	DECLARE_OBJECT_SERIALIZE(Mesh);
 public:
 	Mesh();

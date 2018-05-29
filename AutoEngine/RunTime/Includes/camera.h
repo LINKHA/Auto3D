@@ -2,7 +2,7 @@
 #define CAMERA_H_
 
 #include "Auto.h"
-#include "Motion.h"
+#include "GameObject.h"
 #include "Math/RectT.h"
 #include "Math/Matrix4x4.h"
 #include "Math/Color.h"
@@ -30,9 +30,9 @@ enum SortMode
 	kSortPerspective = 1,
 	kSortOrthographic = 2,
 };
-class Camera : public Motion
+class Camera : public Component
 {
-	REGISTER_DERIVED_ABSTRACT_CLASS(Camera, Motion);
+	REGISTER_DERIVED_ABSTRACT_CLASS(Camera, Component);
 	DECLARE_OBJECT_SERIALIZE(Camera);
 public:
 	// Camera Attributes

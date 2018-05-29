@@ -1,6 +1,7 @@
 #include "MotionSpace.h"
 #include "TimeManager.h"
 #include "RenderManager.h"
+#include "GameObjectManager.h"
 #include "Camera.h"
 
 AUTO_BEGIN
@@ -83,14 +84,10 @@ void MotionSpace::Awake()
 void MotionSpace::Start()
 {
 	cam = new Camera(Vector3(0.0f, 0.0f, 3.0f));
-	//cam = new Camera(Vector3(0.0f, 0.0f, 3.0f).ToGLM());
 	camObj = new GameObject();
 	camObj->GetComponent(Transform).SetPosition(Vector3(0.0f, 0.0f, 3.0f));
-	
-	//camObj->GetTransformPtr()->SetPosition(Vector3(0.0f, 0.0f, 3.0f));
-	
+
 	camObj->AddComponent(cam);
-	cam->Start();
 
 	glfwSetCursorPosCallback(glfwWindow, mouseCallBack);
 	glfwSetScrollCallback(glfwWindow, scrollCallBack);
@@ -101,7 +98,6 @@ void MotionSpace::Start()
 
 	meshObj = new GameObject();
 	meshObj->AddComponent(mesh);
-	mesh->Start();
 	//////////////////////////////////////////////////////////////////////////
 	////Mesh mesh;
 	//TextMesh meshText;
@@ -116,8 +112,8 @@ void MotionSpace::Start()
 	tex->SetColor(Color(0.5f, 0.5f, 0.5f));
 
 	obj->AddComponent(tex);
-	tex->Start();
 	//////////////////////////////////////////////////////////////////////////
+	INSTANCE(GameObjectManager).ModeRunGameObject(StartMode);
 }
 void MotionSpace::Update()
 {
@@ -128,7 +124,7 @@ void MotionSpace::Update()
 	//////////////////////////////////////////////////////////////////////////
 	obj->GetComponent(Transform).SetPosition(Vector3(1.5f, 1.5f, 0.0f));
 	obj->GetComponent(Transform).SetRotation(Vector3(0.0f, 0.0f, 90.0f));
-	//	obj.GetTransformPtr()->setRotation(-55.0f, Vector3::xAxis);
+	//obj->GetComponent(Transform).setRotation(-55.0f, Vector3::xAxis);
 	obj->GetComponent(Transform).SetRotation(90.0f, Vector3::zAxis);
 	obj->GetComponent(Transform).SetScale(Vector3(scaleAmount));
 	//Update Transform
@@ -136,15 +132,11 @@ void MotionSpace::Update()
 
 	meshObj->GetComponent(Transform).SetPosition(Vector3(0.0f, 0.0f, -1.0f));
 	meshObj->GetComponent(Transform).UpdateTransform();
-
-
 	//meshtextObj.GetTransformPtr()->SetPosition(Vector3(-1.5f, -1.5f, 0.0f));
 	//meshtextObj.GetTransformPtr()->UpdateTransform();
 	//////////////////////////////////////////////////////////////////////////
 	//Into camera loop
-	cam->Update();
-	tex->Update();
-	mesh->Update();
+	INSTANCE(GameObjectManager).ModeRunGameObject(UpdateMode);
 }
 void MotionSpace::FixUpdate()
 {

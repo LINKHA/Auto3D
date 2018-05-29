@@ -14,7 +14,7 @@ enum ClassIDType
 	DO_CLASS_ID(MotionManager,5)
 	DO_CLASS_ID(CameraManager,6)
 	DO_CLASS_ID(RenderManager,7)
-	DO_CLASS_ID(ComponentManager, 8)
+	DO_CLASS_ID(GameObjectManager, 8)
 	
 	DO_CLASS_ID(Node, 9)
 	DO_CLASS_ID(GameObject, 10)

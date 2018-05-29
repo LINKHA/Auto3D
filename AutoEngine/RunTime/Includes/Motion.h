@@ -13,20 +13,19 @@ class MotionManager : public GlobalGameManager ,public Singleton<MotionManager>
 	MotionManager();
 };
 
-
+class Component;
 class Motion : public Component
 {
 	REGISTER_DERIVED_ABSTRACT_CLASS(Motion, Component);
 	DECLARE_OBJECT_SERIALIZE(Motion);
 public:
 	Motion();
-	void Enable(bool enable);
-	void AddToManager();
-	void RemoveFromManager();
+	void Enable(bool enable) { m_enable = enable; }
+	bool GetEnable() { return m_enable; }
 
 	virtual void Awake() {}
-	virtual void Start() = 0;
-	virtual void Update() = 0;
+	virtual void Start() {}
+	virtual void Update() {}
 	virtual void FixUpdate() {}
 	virtual void Finish() {}
 private:

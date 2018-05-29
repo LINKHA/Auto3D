@@ -18,7 +18,7 @@ public:
 		kSceneManager,
 		kRenderManager,
 		kCameraManager,
-		kComponentManager,
+		kGameObjectManager,
 		kManagerCount
 	};
 

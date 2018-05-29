@@ -2,12 +2,12 @@
 #define TRANSFORM_H_
 #include "Math/AUMath.h"
 #include "OpenGLGather.h"
-#include "Motion.h"
+#include "GameObject.h"
 USING_MATH
 AUTO_BEGIN
-class Transform : public Motion
+class Transform : public Component
 {
-	REGISTER_DERIVED_CLASS(Transform, Motion);
+	REGISTER_DERIVED_CLASS(Transform, Component);
 	DECLARE_OBJECT_SERIALIZE(Transform);
 private:
 	Vector3 m_position;

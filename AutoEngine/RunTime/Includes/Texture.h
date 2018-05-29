@@ -8,13 +8,13 @@
 #include "stb_image.h"
 #include "Shader.h"
 #include "AtConfig.h"
-#include "Motion.h"
+#include "GameObject.h"
 
 AUTO_BEGIN
 
-class Texture : public Motion
+class Texture : public Component
 {
-	REGISTER_DERIVED_ABSTRACT_CLASS(Texture, Object);
+	REGISTER_DERIVED_ABSTRACT_CLASS(Texture, Component);
 	DECLARE_OBJECT_SERIALIZE(Texture);
 	
 protected:
