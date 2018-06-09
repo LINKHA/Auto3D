@@ -11,7 +11,6 @@
 #define MESH_DEBUG 1
 
 AUTO_BEGIN
-#if  MESH_DEBUG
 
 class Mesh : public Component
 {
@@ -23,8 +22,8 @@ public:
 	Mesh(_String m_meshPath, const Shader& shader);
 
 	void Start();
-	void Update();
-
+	void Update(Camera * cam);
+	void Finish() {}
 	void SetColor(const Color& color);
 	void SetColor(const Vector3& vec);
 	void SetColor(float r, float g, float b, float a = 1.0f);
@@ -35,29 +34,6 @@ private:
 	_String m_meshPath;
 	Color m_Color;
 };
-#else
-class Mesh : public Motion
-{
-	REGISTER_DERIVED_CLASS(Mesh, Motion);
-	DECLARE_OBJECT_SERIALIZE(Mesh);
-public:
-	Mesh();
-	Mesh(_String m_meshPath);
-	Mesh(_String m_meshPath, const Shader& shader);
 
-	void Start();
-	void Update();
-
-	void SetColor(const Color& color);
-	void SetColor(const Vector3& vec);
-	void SetColor(float r, float g, float b, float a = 1.0f);
-private:
-
-	Shader m_shader;
-	ModelCommand m_Model;
-	_String m_meshPath;
-	Color m_Color;
-};
-#endif //MESH_DEBUG
 AUTO_END
 #endif // !MESH_H_

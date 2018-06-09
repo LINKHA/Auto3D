@@ -22,11 +22,7 @@ public:
 	virtual int RunLoop();
 	//virtual bool callBackMessage();
 	Application();
-
-	GLWindow window;
 private:
-
-	GLFWwindow* glfwWindow;
 	
 };
 AUTO_END

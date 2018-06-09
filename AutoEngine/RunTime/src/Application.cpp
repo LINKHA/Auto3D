@@ -1,12 +1,14 @@
 #include "Application.h"
 #include "TimeManager.h"
 #include "GameObject.h"
-#include "TextMesh.h"
 #include "Shader.h"
 #include "MotionSpace.h"
+#include "RenderManager.h"
 AUTO_BEGIN
 
 SINGLETON_INSTANCE(Application);
+
+GLFWwindow* glfwWindow;
 
 Application::~Application()
 {
@@ -45,7 +47,6 @@ int Application::Init()
 		return AU_ERROR;
 	}
 	glEnable(GL_DEPTH_TEST);
-	MotionSpace::Instance().SetWindow(glfwWindow);
 	MotionSpace::Instance().Awake();
 
 	return AU_NORMAL;
@@ -59,24 +60,25 @@ int Application::RunLoop()
 
 	while (!GrShouldCloseWindow(glfwWindow))
 	{
-		TimeManager::Instance().Update();
+		INSTANCE(TimeManager).Update();
 
 		//LogString(TimeManager::Instance().GetRealTime().Second);
 		//Print(TimeManager::Instance().GetCurTime());
 		//Print(TimeManager::Instance().GetDeltaTime());
 		//////////////////////////
 		
-		window.DrawWindow();
+		INSTANCE(GLWindow).DrawWindow();
 		///Accept a buffer bit buffer Bitto specify the buffer to be emptied
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		MotionSpace::Instance().Update();
+		INSTANCE(RenderManager).RenderCameras();
+		//INSTANCE(MotionSpace).Update();
+		//INSTANCE(MotionSpace).Finish();
 
-	
 		//////////////////////////////////////////////////////////////////////////
-		window.RunLoopOver();
+		INSTANCE(GLWindow).RunLoopOver();
 		//////////////////////////////////////////////////////////////////////////
-		MotionSpace::Instance().Finish();
+		
 	}
 
 
@@ -85,14 +87,14 @@ int Application::RunLoop()
 int Application::Finish()
 {
 
-	window.DestoryWindow();
+	INSTANCE(GLWindow).DestoryWindow();
 	glfwWindow = nullptr;
 	return AU_NORMAL;
 }
 
 Application::Application()
 {
-	glfwWindow = window.CreateGameWindow();
-
+	INSTANCE(GLWindow).CreateGameWindow();
+	glfwWindow = INSTANCE(GLWindow).GetGLWindow();
 }
 AUTO_END

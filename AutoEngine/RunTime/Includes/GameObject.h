@@ -7,6 +7,7 @@ AUTO_BEGIN
 #define GetComponent(x) GetComponentT<x>(ClassID (x))
 class GameObject;
 class Transform;
+class Camera;
 class Node :public Object
 {
 	REGISTER_DERIVED_ABSTRACT_CLASS(Node, Object);
@@ -38,7 +39,7 @@ public:
 	Component();
 	GameObject& GetGameObject();
 	const GameObject& GetGameObject() const;
-	GameObject* GetGameObjectePtr();
+	GameObject* GetGameObjectPtr();
 	GameObject* GetGameObjectPtr() const;
 
 	void MountComponent(GameObject& gameObject);
@@ -48,7 +49,7 @@ public:
 
 	virtual void Awake() {}
 	virtual void Start() {}
-	virtual void Update() {}
+	virtual void Update(Camera * cam = nullptr) {}
 	virtual void FixUpdate() {}
 	virtual void Finish() {}
 private:

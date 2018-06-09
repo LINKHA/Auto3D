@@ -6,11 +6,11 @@ class RenderLoop;
 
 struct RenderLoopContext  
 {
-	Camera*			m_Camera;
-	RenderLoop*		m_RenderLoop; 
+	Camera*			camera;
+	RenderLoop*		renderLoop; 
 
-	int				m_RenderQueueStart;
-	int				m_RenderQueueEnd;
+	int				renderQueueStart;
+	int				renderQueueEnd;
 };
 class RenderLoop
 {
@@ -18,12 +18,12 @@ private:
 	RenderLoopContext m_Context;
 public:
 	RenderLoop(Camera& camera);
+	void RunLoop();
 	~RenderLoop();
 };
 
 RenderLoop* CreateRenderLoop(Camera& camera);
 void DeleteRenderLoop(RenderLoop* loop);
-void RunRenderLoop(RenderLoop& loop);
 void CleanUpAfterRenderLoop(RenderLoop& loop);
 
 AUTO_END

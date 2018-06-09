@@ -47,7 +47,7 @@ const GameObject& Component::GetGameObject() const
 {
 	return *m_gameObject.ptr;
 }
-GameObject* Component::GetGameObjectePtr()
+GameObject* Component::GetGameObjectPtr()
 {
 	return m_gameObject.ptr;
 }

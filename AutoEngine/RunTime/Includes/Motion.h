@@ -5,7 +5,7 @@
 
 AUTO_BEGIN
 
-
+class Camera;
 class MotionManager : public GlobalGameManager ,public Singleton<MotionManager>
 {
 	REGISTER_DERIVED_CLASS(MotionManager, GlobalGameManager);
@@ -25,7 +25,8 @@ public:
 
 	virtual void Awake() {}
 	virtual void Start() {}
-	virtual void Update() {}
+	virtual void Update(Camera & cam) {}
+	virtual void Update(Camera * cam) {}
 	virtual void FixUpdate() {}
 	virtual void Finish() {}
 private:

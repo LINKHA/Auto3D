@@ -21,6 +21,7 @@ void RenderManager::RenderCameras()
 		{
 			m_CurrentCamera = cam;
 			cam->Render();
+
 		}
 	}
 	m_InsideRenderOrCull = false;

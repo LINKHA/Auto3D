@@ -34,10 +34,10 @@ static void GrInit(int verMajor,int verMinor)
 /**
 * @brief : Create a Window use Point window to set
 */
-static void GrCreateWindow(GLFWwindow** window , UInt32 width,UInt32 height, char * titleName)
+static void GrCreateWindow(GLFWwindow** window , UInt32 width,UInt32 height, char * titleName,GLFWmonitor * moitor)
 {
 #ifdef __OPENGL__
-	*window = glfwCreateWindow(width, height, titleName, NULL, NULL);
+	*window = glfwCreateWindow(width, height, titleName, moitor, NULL);
 
 	if (*window == NULL)
 	{

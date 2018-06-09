@@ -4,30 +4,34 @@
 #include "AtConfig.h"
 #include "Auto.h"
 #include "Math/Color.h"
-
+#include "Singleton.h"
+#include "Math/RectT.h"
 USING_MATH
 AUTO_BEGIN
 
-
-class GLWindow
+class GLWindow : public Singleton<GLWindow>
 {
 public:
 	GLWindow();
 	~GLWindow();
 	void DrawWindow();
 	void RunLoopOver();
-	GLFWwindow* CreateGameWindow();
 	void DestoryWindow();
+
+	void CreateGameWindow();
+	GLFWwindow* GetGLWindow() { return window; }
+	RectInt GetWindowRect() { return WindowRect; }
+	char* GetTitle() { return TitleName; }
+	bool GetScreenFullorNot() { return true; }
 private:
 	// member
 	GLFWwindow* window;
 	Color DrawColor;
 	// settings
-	unsigned int SCR_WIDTH = 800;
-	unsigned int SCR_HEIGHT = 600;
-	char * Title_Name = "Auto V0.0";
-
-
+	RectInt WindowRect;
+	char * TitleName = "Auto V0.0";
+	bool isFullScreen = false;
+	bool isCenter = true;
 };
 AUTO_END
 #endif // GL_WINDOW_H_

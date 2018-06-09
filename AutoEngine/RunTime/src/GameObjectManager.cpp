@@ -1,5 +1,6 @@
 #include "GameObjectManager.h"
-
+#include "Transform.h"
+#include "Camera.h"
 AUTO_BEGIN
 
 SINGLETON_INSTANCE(GameObjectManager);
@@ -39,7 +40,7 @@ void GameObjectManager::RemoveGameObject(GameObject * obj)
 		m_GameObjects.remove(obj);
 	}
 }
-void GameObjectManager::ModeRunGameObject(GameObjectRunMode runMode)
+void GameObjectManager::ModeRunGameObject(GameObjectRunMode runMode,Camera * cam)
 {
 	if (runMode == DefaultMode)
 	{
@@ -52,17 +53,20 @@ void GameObjectManager::ModeRunGameObject(GameObjectRunMode runMode)
 		GameObject* obj = *i;
 		if (obj && obj->GetEnable())
 		{
-#define TEMP_ITERATOR for (AUTO_VECTOR(int, Component*)::iterator i = obj->GetComponentsArray().begin(); i != obj->GetComponentsArray().end(); i++)
+#define TEMP_ITERATOR for (AUTO_VECTOR(int, Component*)::iterator k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++)
 			if (runMode == AwakeMode) 
-				TEMP_ITERATOR{ if (i->second->GetEnable()) i->second->Awake();}
+				TEMP_ITERATOR{ if (k->second->GetEnable()) k->second->Awake();}
 			else if (runMode == StartMode)
-				TEMP_ITERATOR{ if (i->second->GetEnable()) i->second->Start(); }
+				TEMP_ITERATOR{ if (k->second->GetEnable()) k->second->Start(); }
 			else if (runMode == UpdateMode)
-				TEMP_ITERATOR{ if (i->second->GetEnable()) i->second->Update(); }
+				TEMP_ITERATOR{ if (k->second->GetEnable()) k->second->Update(cam); }
 			else if (runMode == FixUpdateMode)
-				TEMP_ITERATOR{ if (i->second->GetEnable()) i->second->FixUpdate(); }
+				TEMP_ITERATOR{ if (k->second->GetEnable()) k->second->FixUpdate(); }
 			else if (runMode == FinishMode)
-				TEMP_ITERATOR{ if (i->second->GetEnable()) i->second->Finish(); }
+			{
+				obj->GetComponent(Transform).Identity();
+				TEMP_ITERATOR{ if (k->second->GetEnable()) k->second->Finish(); }
+			}
 			else 
 				ErrorString("GameObejct fail to Run.");
 #undef TEMP_ITERATOR

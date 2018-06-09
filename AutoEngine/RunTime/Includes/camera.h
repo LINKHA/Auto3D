@@ -30,6 +30,7 @@ enum SortMode
 	kSortPerspective = 1,
 	kSortOrthographic = 2,
 };
+
 class Camera : public Component
 {
 	REGISTER_DERIVED_ABSTRACT_CLASS(Camera, Component);
@@ -48,16 +49,16 @@ public:
 	float MovementSpeed;
 	float MouseSensitivity;
 	float Zoom;
-
+	Rectf ViewRect;
+	float Near;
+	float Far;
 private:
 	bool firstMouse;
 public:
 	Camera(Vector3 position = Vector3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH);
 	Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch);
-
-	virtual void Update() {}
-	virtual void Start() {}
 	virtual void Reset();
+	void Render();
 
 	float GetDepth() const { return m_Depth; }
 	void SetDepth(float depth) { m_Depth = depth; }
@@ -67,23 +68,23 @@ public:
 	void SetSortMode(SortMode m) { m_SortMode = m; }
 	bool GetEnable() { return m_Enable; }
 	void SetEnable(bool e) { m_Enable = e; }
-
-	void Render();
+	RectInt GetScreenRect() { return windowRect; }
+	
 	glm::mat4 GetViewMatrix();
-
 	void ProcessKeyboard(CameraMovement direction, float deltaTime);
 	void ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch = true);
 	void ProcessMouseScroll(float yoffset);
+
 private:
 	void updateCameraVectors();
 protected:
 	RenderLoop*			m_RenderLoop;
 	float				m_Depth;
 	Color				m_BackGroundColor;
-	Rectf				m_Rect;
 	SortMode			m_SortMode;
 	bool				m_Enable;
 	bool				m_IsRendering;
+	RectInt				windowRect;
 };
 AUTO_END
 #endif //!CAMERA_H_

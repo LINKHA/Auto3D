@@ -21,7 +21,7 @@ public:
 		Reset();
 	}
 
-	RectT(T inX, T inY, T iWidth, T iHeight)	{ x = inX; width = iWidth; y = inY; height = iHeight; }
+	RectT(T inX, T inY, T iWidth, T iHeight)	{ x = inX;  y = inY; width = iWidth; height = iHeight; }
 
 	T GetRight() const							{ return x + width; }
 	T GetBottom() const							{ return y + height; }

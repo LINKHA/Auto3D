@@ -5,7 +5,7 @@
 #include "Singleton.h"
 #include "Mesh.h"
 #include "Math/AUMath.h"
-
+#include "Camera.h"
 USING_MATH
 AUTO_BEGIN
 /**
@@ -19,7 +19,7 @@ public:
 	void SetWindow(GLFWwindow* glfwWindow);
 	void Awake();
 	void Start(); 
-	void Update(); 
+	void Update(Camera* camera); 
 	void FixUpdate();
 	void Finish();
 };

@@ -1,7 +1,7 @@
 #include "Camera.h"
 #include "RenderLoop.h"
 #include "RenderManager.h"
-
+#include "GLWindow.h"
 AUTO_BEGIN
 
 Camera::Camera(Vector3 position, glm::vec3 up, float yaw, float pitch)
@@ -10,7 +10,12 @@ Camera::Camera(Vector3 position, glm::vec3 up, float yaw, float pitch)
 	, MouseSensitivity(SENSITIVTY)
 	, Zoom(ZOOM)
 	, firstMouse(true)
+	, Near(0.1)
+	, Far(100)
+	, windowRect(INSTANCE(GLWindow).GetWindowRect())
+	, m_Enable(true)
 {
+
 	m_RenderLoop = CreateRenderLoop(*this);
 
 	INSTANCE(RenderManager).CameraArray.emplace(INSTANCE(RenderManager).CameraArray.size(), this);
@@ -22,6 +27,10 @@ Camera::Camera(Vector3 position, glm::vec3 up, float yaw, float pitch)
 	WorldUp = up;
 	Yaw = yaw;
 	Pitch = pitch;
+
+	ViewRect.width = 1;
+	ViewRect.height = 1;
+
 	updateCameraVectors();
 }
 Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch)
@@ -30,6 +39,10 @@ Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float u
 	, MouseSensitivity(SENSITIVTY)
 	, Zoom(ZOOM)
 	, firstMouse(true)
+	, Near(0.1)
+	, Far(100)
+	, windowRect(INSTANCE(GLWindow).GetWindowRect())
+	, m_Enable(true)
 {
 	m_RenderLoop = CreateRenderLoop(*this);
 
@@ -40,6 +53,10 @@ Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float u
 	WorldUp = glm::vec3(upX, upY, upZ);
 	Yaw = yaw;
 	Pitch = pitch;
+
+	ViewRect.width = 1;
+	ViewRect.height = 1;
+
 	updateCameraVectors();
 }
 Camera::~Camera()
@@ -54,13 +71,12 @@ void Camera::Reset()
 
 void Camera::Render()
 {
-	m_IsRendering = true;
+	m_RenderLoop->RunLoop();
 }
 
 glm::mat4 Camera::GetViewMatrix()
 {
 	//Position = GetGameObject().GetTransformPtr()->GetPosition().ToGLM();
-
 	return glm::lookAt(Position, Position + Front, Up);
 }
 

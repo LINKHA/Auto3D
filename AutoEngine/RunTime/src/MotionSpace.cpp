@@ -8,8 +8,6 @@ AUTO_BEGIN
 
 SINGLETON_INSTANCE(MotionSpace);
 
-GLFWwindow* glfwWindow;
-
 Mesh* mesh;
 GameObject* meshObj;
 Texture2D* tex;
@@ -69,12 +67,6 @@ MotionSpace::~MotionSpace()
 {
 }
 
-
-void MotionSpace::SetWindow(GLFWwindow* s_glfwWindow)
-{
-	glfwWindow = s_glfwWindow;
-}
-
 void MotionSpace::Awake()
 {
 	
@@ -89,9 +81,9 @@ void MotionSpace::Start()
 
 	camObj->AddComponent(cam);
 
-	glfwSetCursorPosCallback(glfwWindow, mouseCallBack);
-	glfwSetScrollCallback(glfwWindow, scrollCallBack);
-	glfwSetInputMode(glfwWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetCursorPosCallback(INSTANCE(GLWindow).GetGLWindow(), mouseCallBack);
+	glfwSetScrollCallback(INSTANCE(GLWindow).GetGLWindow(), scrollCallBack);
+	glfwSetInputMode(INSTANCE(GLWindow).GetGLWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	mesh = new Mesh("Resource/object/base/Cube.FBX");
 	mesh->SetColor(Color(0.5f, 0.8f, 0.3f));
@@ -115,9 +107,9 @@ void MotionSpace::Start()
 	//////////////////////////////////////////////////////////////////////////
 	INSTANCE(GameObjectManager).ModeRunGameObject(StartMode);
 }
-void MotionSpace::Update()
+void MotionSpace::Update(Camera* camera)
 {
-	processInput(glfwWindow);
+	processInput(INSTANCE(GLWindow).GetGLWindow());
 
 
 	float scaleAmount = (float)sin(GrGetTime());
@@ -136,7 +128,7 @@ void MotionSpace::Update()
 	//meshtextObj.GetTransformPtr()->UpdateTransform();
 	//////////////////////////////////////////////////////////////////////////
 	//Into camera loop
-	INSTANCE(GameObjectManager).ModeRunGameObject(UpdateMode);
+	INSTANCE(GameObjectManager).ModeRunGameObject(UpdateMode, camera);
 }
 void MotionSpace::FixUpdate()
 {
@@ -144,9 +136,7 @@ void MotionSpace::FixUpdate()
 }
 void MotionSpace::Finish()
 {
-	obj->GetComponent(Transform).Identity();
-	meshObj->GetComponent(Transform).Identity();
-	//meshtextObj.GetTransformPtr()->Identity();
+	INSTANCE(GameObjectManager).ModeRunGameObject(FinishMode);
 }
 
 AUTO_END

@@ -4,9 +4,9 @@
 #include "GameManager.h"
 #include "GameObject.h"
 #include "Singleton.h"
-
 AUTO_BEGIN
 class Component;
+class Camera;
 enum GameObjectRunMode
 {
 	DefaultMode	= -1,
@@ -27,7 +27,7 @@ public:
 	void AddGameObject(GameObject * obj);
 	void RemoveGameObject(GameObject * obj);
 
-	void ModeRunGameObject(GameObjectRunMode runMode);
+	void ModeRunGameObject(GameObjectRunMode runMode,Camera * cam = nullptr);
 	
 private:
 	void DelayAddRemoveGameObject();

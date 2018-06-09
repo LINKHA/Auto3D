@@ -23,15 +23,8 @@ protected:
 	int				m_ColorSpace;
 	float			m_UVScaleX, m_UVScaleY;
 	float			m_TexelSizeX, m_TexelSizeY;
-
-
 public:
 	Texture();
-	virtual void Start() {}
-	virtual void Update() {}
-
-
-
 };
 
 AUTO_END
