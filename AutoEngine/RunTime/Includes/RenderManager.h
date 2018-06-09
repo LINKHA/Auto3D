@@ -11,8 +11,8 @@ class RenderManager :public LevelGameManager, public Singleton<RenderManager>
 	typedef _LIST(Camera*) CameraContainer;
 	
 public:
-	AUTO_HASH_MAP(int, Camera*) CameraArray;
 	RenderManager();
+
 	void RenderCameras();
 	Camera &GetCurrentCamera() {  return *m_CurrentCamera; }
 	Camera* GetCurrentCameraPtr() { return m_CurrentCamera; }

@@ -15,11 +15,14 @@ GameObject* obj;
 Camera* cam;
 GameObject* camObj;
 
-float lastX = 800 / 2.0f;
-float lastY = 600 / 2.0f;
+Camera* cam2;
+GameObject* camObj2;
+
 bool firstMouse = true;
 
-
+RectInt rect = INSTANCE(GLWindow).GetWindowRectInt();
+float lastX = rect.width;
+float lastY = rect.height;
 
 void mouseCallBack(GLFWwindow* window, double xpos, double ypos)
 {
@@ -48,13 +51,13 @@ void processInput(GLFWwindow *window)
 	if (GrGetKey(window, KEY_ESCAPE) == BUTTON_PRESS)
 		GrCloseWindow(window);
 	if (GrGetKey(window, KEY_W) == BUTTON_PRESS)
-		INSTANCE(RenderManager).CameraArray.find(0)->second->ProcessKeyboard(FORWARD, TimeManager::Instance().GetDeltaTime() * 2);
+		cam->ProcessKeyboard(FORWARD, TimeManager::Instance().GetDeltaTime() * 2);
 	if (GrGetKey(window, KEY_S) == BUTTON_PRESS)
-		INSTANCE(RenderManager).CameraArray.find(0)->second->ProcessKeyboard(BACKWARD, TimeManager::Instance().GetDeltaTime() * 2);
+		cam->ProcessKeyboard(BACKWARD, TimeManager::Instance().GetDeltaTime() * 2);
 	if (GrGetKey(window, KEY_A) == BUTTON_PRESS)
-		INSTANCE(RenderManager).CameraArray.find(0)->second->ProcessKeyboard(LEFT, TimeManager::Instance().GetDeltaTime() * 2);
+		cam->ProcessKeyboard(LEFT, TimeManager::Instance().GetDeltaTime() * 2);
 	if (GrGetKey(window, KEY_D) == BUTTON_PRESS)
-		INSTANCE(RenderManager).CameraArray.find(0)->second->ProcessKeyboard(RIGHT, TimeManager::Instance().GetDeltaTime() * 2);
+		cam->ProcessKeyboard(RIGHT, TimeManager::Instance().GetDeltaTime() * 2);
 }
 
 
@@ -76,10 +79,18 @@ void MotionSpace::Awake()
 void MotionSpace::Start()
 {
 	cam = new Camera(Vector3(0.0f, 0.0f, 3.0f));
+	cam->SetViewRect(0, 0, 0.5f, 0.5f);
 	camObj = new GameObject();
 	camObj->GetComponent(Transform).SetPosition(Vector3(0.0f, 0.0f, 3.0f));
 
 	camObj->AddComponent(cam);
+
+	cam2 = new Camera(Vector3(0.0f, 0.0f, 5.0f));
+	cam2->SetViewRect(0.5f, 0.5f, 0.5f, 0.5f);
+	camObj2 = new GameObject();
+	camObj2->GetComponent(Transform).SetPosition(Vector3(0.0f, 0.0f, 3.0f));
+
+	camObj2->AddComponent(cam2);
 
 	glfwSetCursorPosCallback(INSTANCE(GLWindow).GetGLWindow(), mouseCallBack);
 	glfwSetScrollCallback(INSTANCE(GLWindow).GetGLWindow(), scrollCallBack);
@@ -91,20 +102,13 @@ void MotionSpace::Start()
 	meshObj = new GameObject();
 	meshObj->AddComponent(mesh);
 	//////////////////////////////////////////////////////////////////////////
-	////Mesh mesh;
-	//TextMesh meshText;
-	//meshText.SetColor(Color(0.8f, 0.8f, 0.3f));
-
-	//GameObject meshtextObj;
-	//meshtextObj.AddComponent(meshText);
-	//meshText.Draw();
-	//////////////////////////////////////////////////////////////////////////
 	tex = new Texture2D();
 	obj = new GameObject();
 	tex->SetColor(Color(0.5f, 0.5f, 0.5f));
 
 	obj->AddComponent(tex);
 	//////////////////////////////////////////////////////////////////////////
+
 	INSTANCE(GameObjectManager).ModeRunGameObject(StartMode);
 }
 void MotionSpace::Update(Camera* camera)
@@ -124,10 +128,7 @@ void MotionSpace::Update(Camera* camera)
 
 	meshObj->GetComponent(Transform).SetPosition(Vector3(0.0f, 0.0f, -1.0f));
 	meshObj->GetComponent(Transform).UpdateTransform();
-	//meshtextObj.GetTransformPtr()->SetPosition(Vector3(-1.5f, -1.5f, 0.0f));
-	//meshtextObj.GetTransformPtr()->UpdateTransform();
 	//////////////////////////////////////////////////////////////////////////
-	//Into camera loop
 	INSTANCE(GameObjectManager).ModeRunGameObject(UpdateMode, camera);
 }
 void MotionSpace::FixUpdate()

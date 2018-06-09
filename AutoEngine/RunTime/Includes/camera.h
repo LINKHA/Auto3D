@@ -66,10 +66,10 @@ public:
 	void SetBackgroundColor(const Color& color) { m_BackGroundColor = color; }
 	SortMode GetSortMode() const { return m_SortMode; }
 	void SetSortMode(SortMode m) { m_SortMode = m; }
-	bool GetEnable() { return m_Enable; }
+	bool GetEnable()const { return m_Enable; }
 	void SetEnable(bool e) { m_Enable = e; }
-	RectInt GetScreenRect() { return windowRect; }
-	
+	void SetViewRect(float x, float y, float w, float h) { ViewRect = Rectf(x, y, w, h); }
+	void SetViewRect(const Rectf& rectf) { ViewRect = rectf; }
 	glm::mat4 GetViewMatrix();
 	void ProcessKeyboard(CameraMovement direction, float deltaTime);
 	void ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch = true);
@@ -84,7 +84,6 @@ protected:
 	SortMode			m_SortMode;
 	bool				m_Enable;
 	bool				m_IsRendering;
-	RectInt				windowRect;
 };
 AUTO_END
 #endif //!CAMERA_H_

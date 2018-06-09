@@ -20,7 +20,8 @@ public:
 
 	void CreateGameWindow();
 	GLFWwindow* GetGLWindow() { return window; }
-	RectInt GetWindowRect() { return WindowRect; }
+	RectInt GetWindowRectInt() { return WindowRect; }
+	void UpdateWindowRectInt(float width, float height) { WindowRect.width = width; WindowRect.height = height; }
 	char* GetTitle() { return TitleName; }
 	bool GetScreenFullorNot() { return true; }
 private:

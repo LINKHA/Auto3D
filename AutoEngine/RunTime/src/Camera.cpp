@@ -12,25 +12,15 @@ Camera::Camera(Vector3 position, glm::vec3 up, float yaw, float pitch)
 	, firstMouse(true)
 	, Near(0.1)
 	, Far(100)
-	, windowRect(INSTANCE(GLWindow).GetWindowRect())
 	, m_Enable(true)
+	, ViewRect(Rectf(0.0f,0.0f,1.0f,1.0f))
 {
 
 	m_RenderLoop = CreateRenderLoop(*this);
-
-	INSTANCE(RenderManager).CameraArray.emplace(INSTANCE(RenderManager).CameraArray.size(), this);
-	Print(INSTANCE(RenderManager).CameraArray.size());
-
 	Position = position.ToGLM();
-	//Position = GetGameObject().GetTransformPtr()->GetPosition();
-
 	WorldUp = up;
 	Yaw = yaw;
 	Pitch = pitch;
-
-	ViewRect.width = 1;
-	ViewRect.height = 1;
-
 	updateCameraVectors();
 }
 Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch)
@@ -41,22 +31,14 @@ Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float u
 	, firstMouse(true)
 	, Near(0.1)
 	, Far(100)
-	, windowRect(INSTANCE(GLWindow).GetWindowRect())
 	, m_Enable(true)
+	, ViewRect(Rectf(0.0f, 0.0f, 1.0f, 1.0f))
 {
 	m_RenderLoop = CreateRenderLoop(*this);
-
-	INSTANCE(RenderManager).CameraArray.emplace(INSTANCE(RenderManager).CameraArray.size(), this);
-	Print(INSTANCE(RenderManager).CameraArray.size());
-
 	Position = glm::vec3(posX, posY, posZ);
 	WorldUp = glm::vec3(upX, upY, upZ);
 	Yaw = yaw;
 	Pitch = pitch;
-
-	ViewRect.width = 1;
-	ViewRect.height = 1;
-
 	updateCameraVectors();
 }
 Camera::~Camera()
@@ -68,7 +50,6 @@ void Camera::Reset()
 
 }
 
-
 void Camera::Render()
 {
 	m_RenderLoop->RunLoop();
@@ -76,7 +57,6 @@ void Camera::Render()
 
 glm::mat4 Camera::GetViewMatrix()
 {
-	//Position = GetGameObject().GetTransformPtr()->GetPosition().ToGLM();
 	return glm::lookAt(Position, Position + Front, Up);
 }
 

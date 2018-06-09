@@ -13,9 +13,18 @@ RenderLoop::RenderLoop(Camera& camera)
 RenderLoop::~RenderLoop()
 {
 }
+
 void RenderLoop::RunLoop()
 {
-	INSTANCE(MotionSpace).Update(m_Context.camera);
+	Camera * cam = m_Context.camera;
+	RectInt rect = INSTANCE(GLWindow).GetWindowRectInt();
+	GrViewPort(
+		cam->ViewRect.x * rect.width,
+		cam->ViewRect.y * rect.height,
+		cam->ViewRect.width * rect.width,
+		cam->ViewRect.height * rect.height
+	);
+	INSTANCE(MotionSpace).Update(cam);
 	INSTANCE(MotionSpace).Finish();
 }
 RenderLoop * CreateRenderLoop(Camera & camera)

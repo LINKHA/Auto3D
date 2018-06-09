@@ -56,8 +56,7 @@ int Application::Init()
 
 int Application::RunLoop()
 {
-	MotionSpace::Instance().Start();
-
+	INSTANCE(MotionSpace).Start();
 	while (!GrShouldCloseWindow(glfwWindow))
 	{
 		INSTANCE(TimeManager).Update();

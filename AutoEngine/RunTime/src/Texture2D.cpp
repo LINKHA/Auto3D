@@ -92,25 +92,20 @@ void Texture2D::Update(Camera * cam)
 	}
 	m_shader.Use();
 
-	//m_transform.ptr = GetGameObject().GetTransformPtr();
-
 	glm::mat4 modelMat;
 	glm::mat4 viewMat;
 	glm::mat4 projectionMat;
-	/*Camera * cam;
-	if (INSTANCE(RenderManager).CameraArray.find(0)->second)
-		cam = INSTANCE(RenderManager).CameraArray.find(0)->second;
-	else
-	{
-		ErrorString("Fail to find Camera.");
-		return;
-	}*/
+
 	if (GetGameObjectPtr())
 		modelMat = GetGameObject().GetComponent(Transform).GetTransformMat();
 	else
 		modelMat = Matrix4x4::identity;
 	viewMat = cam->GetViewMatrix();
-	projectionMat = glm::perspective(cam->Zoom, (float)cam->GetScreenRect().width / (float)cam->GetScreenRect().height, cam->Near, cam->Far);
+	RectInt rect = INSTANCE(GLWindow).GetWindowRectInt();
+	projectionMat = glm::perspective(cam->Zoom,
+		((float)rect.width * (float)cam->ViewRect.width) /
+		((float)rect.height * (float)cam->ViewRect.height),
+		cam->Near, cam->Far);
 	//projectionMat = glm::ortho(-4.0f, 4.0f, -3.0f, 3.0f, 0.1f, 100.0f);
 	m_shader.SetMat4("model", modelMat);
 	m_shader.SetMat4("view", viewMat);

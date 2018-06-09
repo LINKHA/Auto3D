@@ -11,6 +11,7 @@ RenderManager::RenderManager()
 RenderManager::~RenderManager()
 {
 }
+
 void RenderManager::RenderCameras()
 {
 	m_InsideRenderOrCull = true;

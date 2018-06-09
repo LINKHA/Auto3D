@@ -6,9 +6,7 @@ SINGLETON_INSTANCE(GLWindow);
 
 void size_callback(GLFWwindow* window, int width, int height)
 {
-	// make sure the viewport matches the new window dimensions; note that width and 
-	// height will be significantly larger than specified on retina displays.
-	GrViewPort(0, 0, width, height);
+	INSTANCE(GLWindow).UpdateWindowRectInt(width, height);
 }
 
 //public funcation

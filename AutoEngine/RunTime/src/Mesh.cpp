@@ -37,20 +37,19 @@ void Mesh::Update(Camera * cam)
 	glm::mat4 modelMat;
 	glm::mat4 viewMat;
 	glm::mat4 projectionMat;
-	//Camera * cam;
-	//if(INSTANCE(RenderManager).CameraArray.find(0)->second)
-	//	cam = INSTANCE(RenderManager).CameraArray.find(0)->second;
-	//else
-	//{
-	//	ErrorString("Fail to find Camera.");
-	//	return;
-	//}
+
 	if (GetGameObjectPtr())		//if gameObject not empty
 		modelMat = GetGameObject().GetComponent(Transform).GetTransformMat();
 	else
 		modelMat = Matrix4x4::identity;
 	viewMat = cam->GetViewMatrix();
-	projectionMat = glm::perspective(cam->Zoom, (float)cam->GetScreenRect().width / (float)cam->GetScreenRect().height, cam->Near, cam->Far);
+
+	RectInt rect = INSTANCE(GLWindow).GetWindowRectInt();
+	projectionMat = glm::perspective(cam->Zoom,
+		((float)rect.width * (float)cam->ViewRect.width) /
+		((float)rect.height * (float)cam->ViewRect.height),
+		cam->Near, cam->Far);
+
 	m_shader.SetMat4("model", modelMat);
 	m_shader.SetMat4("view", viewMat);
 	m_shader.SetMat4("projection", projectionMat);
@@ -58,7 +57,7 @@ void Mesh::Update(Camera * cam)
 	m_shader.SetVec3("ourColor", m_Color.r, m_Color.g, m_Color.b);
 	m_shader.SetVec3("lightColor", 1.0f, 1.0f, 1.0f);
 	m_shader.SetVec3("lightPos", 2.5f, 2.0f, 1.0f);
-	m_shader.SetVec3("viewPos", INSTANCE(RenderManager).CameraArray.find(0)->second->Position);
+	m_shader.SetVec3("viewPos", cam->Position);
 	m_Model.Draw(m_shader);
 }
 void Mesh::SetColor(const Color& color)

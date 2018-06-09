@@ -8,7 +8,6 @@
 #include "LoadResource.h"
 #include "Math/Color.h"
 #include "GameObject.h"
-#define MESH_DEBUG 1
 
 AUTO_BEGIN
 
@@ -23,7 +22,6 @@ public:
 
 	void Start();
 	void Update(Camera * cam);
-	void Finish() {}
 	void SetColor(const Color& color);
 	void SetColor(const Vector3& vec);
 	void SetColor(float r, float g, float b, float a = 1.0f);
