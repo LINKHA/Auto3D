@@ -38,9 +38,6 @@ public:
 	void UpdateTransform();
 	void Identity();
 
-	void Start() {}
-	void Update() {}
-	void Finish() {}
 };
 AUTO_END
 #endif // TRANSFORM_H_

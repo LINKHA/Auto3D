@@ -16,7 +16,7 @@ public:
 	Int32	Width;
 	Int32	Height;
 	Int32   Channels;
-	imageRecord	Value;
+	unsigned char *	Value;
 	enum ClearMode
 	{
 		CLEAR_COLOR = 1,
@@ -58,10 +58,8 @@ public:
 class Image : public ImageReference 
 {
 public:
+	Image();
 	Image(int width, int height);
-
-	Image() {}
-
 	~Image();
 };
 AUTO_END

@@ -15,9 +15,6 @@ GameObject* obj;
 Camera* cam;
 GameObject* camObj;
 
-Camera* cam2;
-GameObject* camObj2;
-
 bool firstMouse = true;
 
 RectInt rect = INSTANCE(GLWindow).GetWindowRectInt();
@@ -38,6 +35,7 @@ void mouseCallBack(GLFWwindow* window, double xpos, double ypos)
 
 	lastX = xpos;
 	lastY = ypos;
+
 
 	cam->ProcessMouseMovement(xoffset, yoffset);
 }
@@ -79,42 +77,36 @@ void MotionSpace::Awake()
 void MotionSpace::Start()
 {
 	cam = new Camera(Vector3(0.0f, 0.0f, 3.0f));
-	cam->SetViewRect(0, 0, 0.5f, 0.5f);
 	camObj = new GameObject();
 	camObj->GetComponent(Transform).SetPosition(Vector3(0.0f, 0.0f, 3.0f));
 
 	camObj->AddComponent(cam);
 
-	cam2 = new Camera(Vector3(0.0f, 0.0f, 5.0f));
-	cam2->SetViewRect(0.5f, 0.5f, 0.5f, 0.5f);
-	camObj2 = new GameObject();
-	camObj2->GetComponent(Transform).SetPosition(Vector3(0.0f, 0.0f, 3.0f));
-
-	camObj2->AddComponent(cam2);
 
 	glfwSetCursorPosCallback(INSTANCE(GLWindow).GetGLWindow(), mouseCallBack);
 	glfwSetScrollCallback(INSTANCE(GLWindow).GetGLWindow(), scrollCallBack);
 	glfwSetInputMode(INSTANCE(GLWindow).GetGLWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
-	mesh = new Mesh("Resource/object/base/Cube.FBX");
-	mesh->SetColor(Color(0.5f, 0.8f, 0.3f));
-
-	meshObj = new GameObject();
-	meshObj->AddComponent(mesh);
 	//////////////////////////////////////////////////////////////////////////
 	tex = new Texture2D();
 	obj = new GameObject();
-	tex->SetColor(Color(0.5f, 0.5f, 0.5f));
+	//tex->SetColor(Color(0.5f, 0.5f, 0.5f));
 
 	obj->AddComponent(tex);
 	//////////////////////////////////////////////////////////////////////////
+
+	//mesh = new Mesh("Resource/object/base/Cube.FBX");
+	mesh = new Mesh();
+	//mesh->SetColor(Color(0.5f, 0.8f, 0.3f));
+
+	meshObj = new GameObject();
+	meshObj->AddComponent(mesh);
+	
 
 	INSTANCE(GameObjectManager).ModeRunGameObject(StartMode);
 }
 void MotionSpace::Update(Camera* camera)
 {
 	processInput(INSTANCE(GLWindow).GetGLWindow());
-
 
 	float scaleAmount = (float)sin(GrGetTime());
 	//////////////////////////////////////////////////////////////////////////

@@ -6,39 +6,38 @@ AUTO_BEGIN
 
 Camera::Camera(Vector3 position, glm::vec3 up, float yaw, float pitch)
 	: Front(glm::vec3(0.0f, 0.0f, -1.0f))
-	, MovementSpeed(SPEED)
-	, MouseSensitivity(SENSITIVTY)
-	, Zoom(ZOOM)
+	, MovementSpeed(2.5f)
+	, MouseSensitivity(0.1f)
+	, Zoom(45.0f)
 	, firstMouse(true)
-	, Near(0.1)
-	, Far(100)
+	, Near(0.1f)
+	, Far(100.0f)
 	, m_Enable(true)
 	, ViewRect(Rectf(0.0f,0.0f,1.0f,1.0f))
+	, WorldUp(up)
+	, Yaw(yaw)
+	, Pitch(pitch)
 {
-
 	m_RenderLoop = CreateRenderLoop(*this);
 	Position = position.ToGLM();
-	WorldUp = up;
-	Yaw = yaw;
-	Pitch = pitch;
 	updateCameraVectors();
 }
 Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch)
 	: Front(glm::vec3(0.0f, 0.0f, -1.0f))
-	, MovementSpeed(SPEED)
-	, MouseSensitivity(SENSITIVTY)
-	, Zoom(ZOOM)
+	, MovementSpeed(2.5f)
+	, MouseSensitivity(0.1f)
+	, Zoom(45.0f)
 	, firstMouse(true)
-	, Near(0.1)
-	, Far(100)
+	, Near(0.1f)
+	, Far(100.0f)
 	, m_Enable(true)
 	, ViewRect(Rectf(0.0f, 0.0f, 1.0f, 1.0f))
+	, WorldUp(glm::vec3(upX, upY, upZ))
+	, Yaw(yaw)
+	, Pitch(pitch)
 {
 	m_RenderLoop = CreateRenderLoop(*this);
 	Position = glm::vec3(posX, posY, posZ);
-	WorldUp = glm::vec3(upX, upY, upZ);
-	Yaw = yaw;
-	Pitch = pitch;
 	updateCameraVectors();
 }
 Camera::~Camera()

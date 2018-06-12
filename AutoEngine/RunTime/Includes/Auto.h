@@ -93,5 +93,4 @@
 //
 typedef int objectID;
 typedef int classID;
-typedef PUInt8 imageRecord;
 #endif // AUTO_H_

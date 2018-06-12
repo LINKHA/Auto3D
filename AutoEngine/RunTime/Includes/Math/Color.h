@@ -4,6 +4,10 @@
 #include "Math/FloatConversion.h"
 #include "Vector3.h"
 MATH_BEGIN
+#define RED_COLOR Color(1.0f , 0 , 0)
+#define GREEN_COLOR	Color(0 , 1.0f , 0)
+#define BLUE_COLOR Color(0 , 0 , 1.0f)
+
 struct Color
 {
 public:

@@ -70,7 +70,7 @@ void Texture2D::Start()
 
 	if (image->Value)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image->Width, image->Height, 0, GL_RGB, GL_UNSIGNED_BYTE, image->Value);
+		glTexImage2D(GL_TEXTURE_2D, 0, image->Format, image->Width, image->Height, 0, image->Format, GL_UNSIGNED_BYTE, image->Value);
 		GenerateMipmap();
 	}
 	else

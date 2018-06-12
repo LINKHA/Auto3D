@@ -10,12 +10,7 @@
 USING_MATH
 AUTO_BEGIN
 class RenderLoop;
-// Default camera values
-const float PITCH = 0.0f;
-const float SPEED = 2.5f;
-const float SENSITIVTY = 0.1f;
-const float YAW = -90.0f;
-const float ZOOM = 45.0f;
+
 enum CameraMovement
 {
 	FORWARD,
@@ -55,8 +50,8 @@ public:
 private:
 	bool firstMouse;
 public:
-	Camera(Vector3 position = Vector3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH);
-	Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch);
+	Camera(Vector3 position = Vector3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = -90.0f, float pitch = 0.0f);
+	Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw = -90.0f, float pitch = 0.0f);
 	virtual void Reset();
 	void Render();
 
