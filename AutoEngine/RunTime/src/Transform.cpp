@@ -30,6 +30,11 @@ void Transform::SetPosition(const Vector3& position)
 {
 	m_position = position;
 }
+void Transform::SetPosition(float x,float y,float z)
+{
+	m_position.Set(x, y, z);
+}
+
 void Transform::SetRotation(const Quaternion& rotation)
 {
 	m_rotation = rotation;

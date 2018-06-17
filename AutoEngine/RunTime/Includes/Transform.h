@@ -24,6 +24,7 @@ public:
 	
 	Transform();
 	void SetPosition(const Vector3& position);
+	void SetPosition(float x, float y, float z);
 	void SetRotation(const Quaternion& rotation);
 	void SetRotation(const Vector3& euler);
 	void SetRotation(float Angle, const Vector3& axis);

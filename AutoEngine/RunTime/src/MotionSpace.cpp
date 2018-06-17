@@ -89,7 +89,7 @@ void MotionSpace::Start()
 
 	cam = new Camera(Vector3(0.0f, 0.0f, 3.0f));
 	camObj = new GameObject();
-	camObj->GetComponent(Transform).SetPosition(Vector3(0.0f, 0.0f, 3.0f));
+	camObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 
 	camObj->AddComponent(cam);
 
@@ -102,8 +102,10 @@ void MotionSpace::Start()
 	
 	
 	lightObj = new GameObject();
+	lightObj->GetComponent(Transform).SetPosition(2.0f,0.1f,0.0f);
 	light = new Light(Directional);
-	light->ambient = Vector3(0.3f, 0.3f, 0.3f);
+	//light->ambient.Set(0.3f, 0.3f, 0.3f);
+	light->direction.Set(-1.0f, 0.0f, 0.0f);
 	lightObj->AddComponent(light);
 	
 	//////////////////////////////////////////////////////////////////////////
@@ -130,7 +132,7 @@ void MotionSpace::Update(Camera* camera)
 
 	float scaleAmount = (float)sin(GrGetTime());
 	//////////////////////////////////////////////////////////////////////////
-	obj->GetComponent(Transform).SetPosition(Vector3(1.5f, 1.5f, 0.0f));
+	obj->GetComponent(Transform).SetPosition(1.5f, 1.5f, 0.0f);
 	//obj->GetComponent(Transform).SetRotation(Vector3(0.0f, 0.0f, 90.0f));
 	////obj->GetComponent(Transform).setRotation(-55.0f, Vector3::xAxis);
 	//obj->GetComponent(Transform).SetRotation(90.0f, Vector3::zAxis);
@@ -138,7 +140,7 @@ void MotionSpace::Update(Camera* camera)
 	////Update Transform
 	obj->GetComponent(Transform).UpdateTransform();
 
-	meshObj->GetComponent(Transform).SetPosition(Vector3(0.0f, 0.0f, -1.0f));
+	meshObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, -1.0f);
 	meshObj->GetComponent(Transform).UpdateTransform();
 	//////////////////////////////////////////////////////////////////////////
 	INSTANCE(GameObjectManager).ModeRunGameObject(UpdateMode, camera);
