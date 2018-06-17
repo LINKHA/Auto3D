@@ -50,13 +50,10 @@ public:
 	void SetPause(bool pause);
 	void SetMaximumDeltaTime(float maxStep);
 	void SetTimeScale(float scale);
+
 	//bool StepFixedTime();
-
-
-
 	//virtual void CheckConsistency();
 	virtual void Update();
-
 
 	inline double	GetCurTime() const				{ return m_ActiveTime.m_CurFrameTime; }
 //	inline double	GetTimeSinceLevelLoad() const	{ return m_ActiveTime.m_CurFrameTime + m_LevelLoadOffset; }

@@ -9,8 +9,9 @@
 #include "Math/Color.h"
 #include "GameObject.h"
 #include "AuMaterial.h"
+
+#define MESH_DEBUG 1
 AUTO_BEGIN
-#define MESH_DEBUG 0
 #if MESH_DEBUG
 class Mesh : public Component
 {
@@ -23,17 +24,16 @@ public:
 
 	void Start();
 	void Update(Camera * cam);
-	void SetColor(const Color& color);
-	void SetColor(const Vector3& vec);
-	void SetColor(float r, float g, float b, float a = 1.0f);
-	void SetMaterial(const Material& m);
+	Material& GetMaterial() { return m_Material; }
+private:
+	void drawMaterial();
+	void drawLight();
 private:
 
 	Shader m_shader;
 	Material m_Material;
 	ModelCommand m_Model;
 	_String m_meshPath;
-	Color m_Color;
 };
 #else 
 class Mesh : public Component

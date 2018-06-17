@@ -3,17 +3,26 @@
 #include "RenderManager.h"
 #include "GameObjectManager.h"
 #include "Camera.h"
-
+#include "BaseLight.h"
 AUTO_BEGIN
 
 SINGLETON_INSTANCE(MotionSpace);
 
+
+
+
 Mesh* mesh;
 GameObject* meshObj;
+
+Light* light;
+GameObject* lightObj;
+
 Texture2D* tex;
 GameObject* obj;
+
 Camera* cam;
 GameObject* camObj;
+
 
 bool firstMouse = true;
 
@@ -76,6 +85,8 @@ void MotionSpace::Awake()
 
 void MotionSpace::Start()
 {
+	
+
 	cam = new Camera(Vector3(0.0f, 0.0f, 3.0f));
 	camObj = new GameObject();
 	camObj->GetComponent(Transform).SetPosition(Vector3(0.0f, 0.0f, 3.0f));
@@ -87,20 +98,29 @@ void MotionSpace::Start()
 	glfwSetScrollCallback(INSTANCE(GLWindow).GetGLWindow(), scrollCallBack);
 	glfwSetInputMode(INSTANCE(GLWindow).GetGLWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	//////////////////////////////////////////////////////////////////////////
-	tex = new Texture2D();
-	obj = new GameObject();
-	//tex->SetColor(Color(0.5f, 0.5f, 0.5f));
 
-	obj->AddComponent(tex);
+	
+	
+	lightObj = new GameObject();
+	light = new Light(Directional);
+	light->ambient = Vector3(0.3f, 0.3f, 0.3f);
+	lightObj->AddComponent(light);
+	
 	//////////////////////////////////////////////////////////////////////////
-
-	//mesh = new Mesh("Resource/object/base/Cube.FBX");
-	mesh = new Mesh();
-	//mesh->SetColor(Color(0.5f, 0.8f, 0.3f));
+	mesh = new Mesh("Resource/object/base/Cube.FBX");
+	//mesh = new Mesh();
+	mesh->GetMaterial().color.Set(0.5f, 0.8f, 0.3f);
 
 	meshObj = new GameObject();
 	meshObj->AddComponent(mesh);
 	
+	//////////////////////////////////////////////////////////////////////////
+	tex = new Texture2D("Resource/texture/wood.jpg");
+	obj = new GameObject();
+	tex->SetColor(Color(0.5f, 0.5f, 0.5f));
+
+	obj->AddComponent(tex);
+	//////////////////////////////////////////////////////////////////////////
 
 	INSTANCE(GameObjectManager).ModeRunGameObject(StartMode);
 }
@@ -111,11 +131,11 @@ void MotionSpace::Update(Camera* camera)
 	float scaleAmount = (float)sin(GrGetTime());
 	//////////////////////////////////////////////////////////////////////////
 	obj->GetComponent(Transform).SetPosition(Vector3(1.5f, 1.5f, 0.0f));
-	obj->GetComponent(Transform).SetRotation(Vector3(0.0f, 0.0f, 90.0f));
-	//obj->GetComponent(Transform).setRotation(-55.0f, Vector3::xAxis);
-	obj->GetComponent(Transform).SetRotation(90.0f, Vector3::zAxis);
-	obj->GetComponent(Transform).SetScale(Vector3(scaleAmount));
-	//Update Transform
+	//obj->GetComponent(Transform).SetRotation(Vector3(0.0f, 0.0f, 90.0f));
+	////obj->GetComponent(Transform).setRotation(-55.0f, Vector3::xAxis);
+	//obj->GetComponent(Transform).SetRotation(90.0f, Vector3::zAxis);
+	//obj->GetComponent(Transform).SetScale(Vector3(scaleAmount));
+	////Update Transform
 	obj->GetComponent(Transform).UpdateTransform();
 
 	meshObj->GetComponent(Transform).SetPosition(Vector3(0.0f, 0.0f, -1.0f));

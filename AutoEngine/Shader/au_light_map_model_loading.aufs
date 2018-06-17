@@ -6,14 +6,13 @@ in vec3 Normal;
 in vec3 FragPos;
 
 struct Material {
-    sampler2D diffuse;
+    sampler2D texture_diffuse1;
     vec3 specular;
     float shininess;
 }; 
 
 uniform Material material;
 
-uniform sampler2D texture_diffuse1;
 uniform vec3 ourColor;
 uniform vec3 lightColor;
 uniform vec3 lightPos;

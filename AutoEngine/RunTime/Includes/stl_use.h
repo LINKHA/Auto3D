@@ -22,6 +22,7 @@
 #define AUTO_VECTOR(id,value)		std::vector<std::pair<id,value>>
 #define AUTO_MAP(key, value)		std::map<key,value,std::less<key>>
 #define AUTO_HASH_MAP(key, value)	std::unordered_map<key,value>
+
 /**
 *内存管理器(未完成暂时未进行使用)
 */

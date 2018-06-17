@@ -17,8 +17,8 @@ public:
 		//Level Managers
 		kSceneManager,
 		kRenderManager,
-		kCameraManager,
 		kGameObjectManager,
+		kLightManager,
 		kManagerCount
 	};
 

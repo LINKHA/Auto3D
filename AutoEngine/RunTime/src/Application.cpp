@@ -47,7 +47,7 @@ int Application::Init()
 		return AU_ERROR;
 	}
 	glEnable(GL_DEPTH_TEST);
-	MotionSpace::Instance().Awake();
+	INSTANCE(MotionSpace).Awake();
 
 	return AU_NORMAL;
 }
@@ -71,9 +71,6 @@ int Application::RunLoop()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		INSTANCE(RenderManager).RenderCameras();
-		//INSTANCE(MotionSpace).Update();
-		//INSTANCE(MotionSpace).Finish();
-
 		//////////////////////////////////////////////////////////////////////////
 		INSTANCE(GLWindow).RunLoopOver();
 		//////////////////////////////////////////////////////////////////////////

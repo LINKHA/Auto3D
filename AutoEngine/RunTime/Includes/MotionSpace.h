@@ -6,6 +6,7 @@
 #include "Mesh.h"
 #include "Math/AUMath.h"
 #include "Camera.h"
+#include "LightManager.h"
 USING_MATH
 AUTO_BEGIN
 /**

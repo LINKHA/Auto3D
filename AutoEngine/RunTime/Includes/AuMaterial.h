@@ -7,10 +7,10 @@
 #include "Image.h"
 USING_MATH
 AUTO_BEGIN
-struct Material 
+struct Material
 {
-public:
-	Material(const Vector3& ambi = Vector3(1.0f, 1.0f, 1.0f),const Vector3& diff = Vector3(1.0f, 1.0f, 1.0f), const Vector3& specr = Vector3(1.0f, 1.0f, 1.0f), float shin = 32.0f);
+	Material();
+	Color color;
 	Vector3 ambient;
 	Vector3 diffuse;
 	Vector3 specular;
