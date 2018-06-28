@@ -45,6 +45,7 @@ inline bool IsNormalized(const Vector2& vec)							{ return MATH::IsNormalized(v
 inline Vector2 Abs(const Vector2& v)									{ return MATH::Abs(v); }
 inline float Angle(const Vector2& lhs, const Vector2& rhs)				{ return MATH::Angle(lhs, rhs); }
 
+
 struct MVector3	: public Vector3
 {
 public:

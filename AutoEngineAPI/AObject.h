@@ -4,7 +4,6 @@
 
 AUTO_API_BEGIN
 
-
 class AObject
 {
 public:

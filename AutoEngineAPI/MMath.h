@@ -25,6 +25,7 @@ public:
 	template<typename T, typename E> static inline T lerp(T const  & a, T const  & b, E x)		{ return a + (b - a)*x; }
 	static inline float clamp01(float const&x)								{ return (x > 1 ? 1 : (0 > x) ? 0 : x); }
 	static inline float clamp11(float const&x)								{ return (x > 1 ? 1 : (-1 > x) ? -1 : x); }
+
 };
 AUTO_API_END
 #endif // MATH_F_H_

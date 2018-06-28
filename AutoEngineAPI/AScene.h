@@ -14,8 +14,5 @@ public:
 };
 
 
-
-
-
 AUTO_API_END
 #endif //!A_SCENE_H_

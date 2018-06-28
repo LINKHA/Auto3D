@@ -16,4 +16,5 @@ void AObject::Instantiate(AObject obj)
 	
 }
 
+
 AUTO_API_END

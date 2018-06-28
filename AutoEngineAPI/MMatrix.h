@@ -16,6 +16,7 @@ struct MMatrix4x4 : public Matrix4x4
 {
 public:
 	
+
 };
 
 AUTO_API_END
