@@ -1,3 +1,1 @@
 #include "LogAssert.h"
-
-

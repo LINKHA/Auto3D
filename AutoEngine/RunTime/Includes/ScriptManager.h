@@ -5,6 +5,7 @@
 #include "BaseScript.h"
 #include "BaseObject.h"
 
+
 SCRIPT_BEGIN
 USING_AUTO
 class BaseScript;

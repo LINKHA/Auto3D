@@ -1,6 +1,5 @@
 #include "ScriptManager.h"
 
-
 SCRIPT_BEGIN
 struct MatchByNameFilter
 {

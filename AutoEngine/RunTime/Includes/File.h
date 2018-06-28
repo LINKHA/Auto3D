@@ -2,11 +2,9 @@
 #define FILE_H_
 
 #include <windows.h>
-
 #include "Auto.h"
 #include "stl_use.h"
 #include "LogAssert.h"
-
 
 #define kPathMaxSize MAX_PATH * 4
 

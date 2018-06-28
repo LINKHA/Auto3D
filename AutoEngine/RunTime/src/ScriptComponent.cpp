@@ -1,6 +1,5 @@
 #include "ScriptComponent.h"
 
-
 AUTO_BEGIN
 ScriptComponent::ScriptComponent()
 {

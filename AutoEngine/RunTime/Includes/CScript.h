@@ -2,6 +2,7 @@
 #define C_SCRIPT_H_
 #include "ScriptComponent.h"
 SCRIPT_BEGIN
+
 class CScript :public AUTO::ScriptComponent
 {
 public:

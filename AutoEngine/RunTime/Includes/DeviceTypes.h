@@ -1,6 +1,7 @@
 #ifndef DEVICE_TYPES_H_
 #define DEVICE_TYPES_H_
 
+
 AUTO_BEGIN
 struct TextureID
 {

@@ -3,7 +3,6 @@
 #include <string.h>
 #include <glad.h>
 
-
 static void* get_proc(const char *namez);
 
 #ifdef _WIN32

@@ -13,7 +13,4 @@
 #include "Quaternion.h"
 
 
-
-
-
 #endif //!AU_MATH_H_

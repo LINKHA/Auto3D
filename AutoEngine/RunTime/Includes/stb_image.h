@@ -40,7 +40,7 @@
       - SIMD acceleration on x86/x64 (SSE2) and ARM (NEON)
 
    Full documentation under "DOCUMENTATION" below.
-
+   
 
 LICENSE
 

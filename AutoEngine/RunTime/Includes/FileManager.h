@@ -5,10 +5,6 @@
 #include "config.h"
 
 
-
-
-
-
 class FileManager
 {
 public:

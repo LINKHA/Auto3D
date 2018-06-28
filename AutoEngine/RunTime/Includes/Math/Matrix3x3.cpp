@@ -1,7 +1,6 @@
 #include "Matrix3x3.h"
 
 
-
 MATH_BEGIN
 Matrix3x3::Matrix3x3(const Matrix4x4 & other)
 {

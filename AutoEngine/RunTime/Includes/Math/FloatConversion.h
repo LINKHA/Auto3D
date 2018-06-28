@@ -9,7 +9,6 @@ inline UInt32 FloorfToIntPos(float f)
 	DebugAssertIf(f < 0 || f > UINT_MAX);
 	return (UInt32)f;
 }
-
 inline UInt32 RoundfToIntPos(float f)
 {
 	return FloorfToIntPos(f + 0.5f);

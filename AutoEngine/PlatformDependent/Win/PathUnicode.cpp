@@ -1,7 +1,5 @@
 #include "PathUnicode.h"
 
-
-
 namespace detail {
 
 	static void ConvertSeparatorsToUnity(char* pathName)
