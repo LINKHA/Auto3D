@@ -2,6 +2,7 @@
 #define RAND_H_
 #include "AUMathBase.h"
 
+
 MATH_BEGIN
 class Rand
 {

@@ -1,5 +1,6 @@
 #include "WinUnicode.h"
 
+
 // Old and dangerous interface.
 void UTF8ToWide(const char* utf8, wchar_t* outBuffer, int outBufferSize)
 {

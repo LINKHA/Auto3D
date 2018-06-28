@@ -4,6 +4,7 @@
 #include "Vector3.h"
 #include "Matrix4x4.h"
 MATH_BEGIN
+
 struct Matrix3x3
 {
 public:

@@ -3,6 +3,7 @@
 
 SCRIPT_BEGIN
 
+
 CScript::CScript()
 {
 }
