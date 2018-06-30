@@ -8,9 +8,6 @@ AUTO_BEGIN
 
 SINGLETON_INSTANCE(MotionSpace);
 
-
-
-
 Mesh* mesh;
 GameObject* meshObj;
 
