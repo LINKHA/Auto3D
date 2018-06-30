@@ -1,6 +1,6 @@
 #include "RenderLoop.h"
 #include "RenderManager.h"
-#include "MotionSpace.h"
+#include "BaseSpace.h"
 AUTO_BEGIN
 
 RenderLoop::RenderLoop(Camera& camera)
@@ -24,8 +24,8 @@ void RenderLoop::RunLoop()
 		cam->ViewRect.width * rect.width,
 		cam->ViewRect.height * rect.height
 	);
-	INSTANCE(MotionSpace).Update(cam);
-	INSTANCE(MotionSpace).Finish();
+	INSTANCE(BaseSpace).Update(cam);
+	INSTANCE(BaseSpace).Finish();
 }
 RenderLoop * CreateRenderLoop(Camera & camera)
 {

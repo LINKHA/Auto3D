@@ -40,7 +40,7 @@ void GameObjectManager::RemoveGameObject(GameObject * obj)
 		m_GameObjects.remove(obj);
 	}
 }
-void GameObjectManager::ModeRunGameObject(GameObjectRunMode runMode,Camera * cam)
+void GameObjectManager::ModeRunGameObject(RunMode runMode,Camera * cam)
 {
 	if (runMode == DefaultMode)
 	{

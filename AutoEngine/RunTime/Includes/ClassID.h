@@ -29,6 +29,7 @@ enum ClassIDType
 	DO_CLASS_ID(Camera, 21)
 	DO_CLASS_ID(ScriptComponent, 22)
 
+	DO_CLASS_ID(MotionSpace,30)
 	CLASS_ID_Count
 };
 

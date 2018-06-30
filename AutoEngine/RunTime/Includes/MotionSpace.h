@@ -1,30 +1,29 @@
-#ifndef MOTION_SPACE_H_
-#define MOTION_SPACE_H_
+#ifndef BASE_SPACE_H_
+#define BASE_SPACE_H_
 #include "Auto.h"
-#include "ObjectDefines.h"
+#include "stl_use.h"
 #include "Singleton.h"
-#include "Mesh.h"
-#include "Math/AUMath.h"
 #include "Camera.h"
-#include "LightManager.h"
-USING_MATH
+#include "Mode.h"
 AUTO_BEGIN
-/**
-* @brief Singleton class
-*/
-class MotionSpace : public Singleton<MotionSpace>
+class MotionSpace : Object
 {
+	REGISTER_DERIVED_ABSTRACT_CLASS(MotionSpace, Object);
+	DECLARE_OBJECT_SERIALIZE(MotionSpace);
 public:
 	MotionSpace();
-	~MotionSpace();
-	void SetWindow(GLFWwindow* glfwWindow);
-	void Awake();
-	void Start(); 
-	void Update(Camera* camera); 
-	void FixUpdate();
-	void Finish();
+	virtual void Awake() {}
+	virtual void Start() {}
+	virtual void Update() {}
+	virtual void FixUpdate() {}
+	virtual void Finish() {}
 };
-
+class SpaceManager : public Singleton<SpaceManager>
+{
+public:
+	_VECTOR(MotionSpace*) spaces;
+	void RegisterSpace(MotionSpace* space);
+	void ModeRunSpace(RunMode runMode);
+};
 AUTO_END
-
-#endif // !MOTION_SPACE_H_
+#endif // BASE_SPACE_H_

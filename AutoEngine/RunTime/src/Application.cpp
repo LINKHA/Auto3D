@@ -2,7 +2,7 @@
 #include "TimeManager.h"
 #include "GameObject.h"
 #include "Shader.h"
-#include "MotionSpace.h"
+#include "BaseSpace.h"
 #include "RenderManager.h"
 AUTO_BEGIN
 
@@ -47,7 +47,7 @@ int Application::Init()
 		return AU_ERROR;
 	}
 	glEnable(GL_DEPTH_TEST);
-	INSTANCE(MotionSpace).Awake();
+	INSTANCE(BaseSpace).Awake();
 
 	return AU_NORMAL;
 }
@@ -56,7 +56,7 @@ int Application::Init()
 
 int Application::RunLoop()
 {
-	INSTANCE(MotionSpace).Start();
+	INSTANCE(BaseSpace).Start();
 	while (!GrShouldCloseWindow(glfwWindow))
 	{
 		INSTANCE(TimeManager).Update();

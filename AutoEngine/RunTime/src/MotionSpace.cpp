@@ -1,168 +1,49 @@
 #include "MotionSpace.h"
-#include "TimeManager.h"
-#include "RenderManager.h"
-#include "GameObjectManager.h"
-#include "Camera.h"
-#include "BaseLight.h"
+
+
 AUTO_BEGIN
-
-SINGLETON_INSTANCE(MotionSpace);
-
-Mesh* mesh;
-GameObject* meshObj;
-
-Light* light;
-GameObject* lightObj;
-
-Light* light2;
-GameObject* lightObj2;
-
-Light* light3;
-GameObject* lightObj3;
-
-Texture2D* tex;
-GameObject* obj;
-
-Camera* cam;
-GameObject* camObj;
-
-
-bool firstMouse = true;
-
-RectInt rect = INSTANCE(GLWindow).GetWindowRectInt();
-float lastX = rect.width;
-float lastY = rect.height;
-
-void mouseCallBack(GLFWwindow* window, double xpos, double ypos)
-{
-	if (firstMouse)
-	{
-		lastX = xpos;
-		lastY = ypos;
-		firstMouse = false;
-	}
-
-	float xoffset = xpos - lastX;
-	float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
-
-	lastX = xpos;
-	lastY = ypos;
-
-
-	cam->ProcessMouseMovement(xoffset, yoffset);
-}
-void scrollCallBack(GLFWwindow* window, double xoffset, double yoffset)
-{
-	cam->ProcessMouseScroll(yoffset);
-}
-
-void processInput(GLFWwindow *window)
-{
-	if (GrGetKey(window, KEY_ESCAPE) == BUTTON_PRESS)
-		GrCloseWindow(window);
-	if (GrGetKey(window, KEY_W) == BUTTON_PRESS)
-		cam->ProcessKeyboard(FORWARD, TimeManager::Instance().GetDeltaTime() * 2);
-	if (GrGetKey(window, KEY_S) == BUTTON_PRESS)
-		cam->ProcessKeyboard(BACKWARD, TimeManager::Instance().GetDeltaTime() * 2);
-	if (GrGetKey(window, KEY_A) == BUTTON_PRESS)
-		cam->ProcessKeyboard(LEFT, TimeManager::Instance().GetDeltaTime() * 2);
-	if (GrGetKey(window, KEY_D) == BUTTON_PRESS)
-		cam->ProcessKeyboard(RIGHT, TimeManager::Instance().GetDeltaTime() * 2);
-}
-
-
+SINGLETON_INSTANCE(SpaceManager);
 MotionSpace::MotionSpace()
 {
+	INSTANCE(SpaceManager).RegisterSpace(this);
 }
-
-
 MotionSpace::~MotionSpace()
 {
 }
-
-void MotionSpace::Awake()
+//////////////////////////////////////////////////////////////////////////
+//Class::SpaceRunMode
+//////////////////////////////////////////////////////////////////////////
+void SpaceManager::RegisterSpace(MotionSpace * space)
 {
-	
+	spaces.push_back(space);
 }
-
-
-void MotionSpace::Start()
+void SpaceManager::ModeRunSpace(RunMode runMode)
 {
-	
-
-	cam = new Camera(Vector3(0.0f, 0.0f, 3.0f));
-	camObj = new GameObject();
-	camObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
-
-	camObj->AddComponent(cam);
-
-	glfwSetCursorPosCallback(INSTANCE(GLWindow).GetGLWindow(), mouseCallBack);
-	glfwSetScrollCallback(INSTANCE(GLWindow).GetGLWindow(), scrollCallBack);
-	glfwSetInputMode(INSTANCE(GLWindow).GetGLWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	//////////////////////////////////////////////////////////////////////////
-
-	
-	
-	lightObj = new GameObject();
-	lightObj->GetComponent(Transform).SetPosition(2.0f,0.0f,0.0f);
-	light = new Light(Point);
-	lightObj->AddComponent(light);
-	//////////////////////////////////////////////////////////////////////////
-	lightObj2 = new GameObject();
-	lightObj2->GetComponent(Transform).SetPosition(-2.0f, 0.0f, -0.5f);
-	light2 = new Light(Spot);
-	light2->direction.Set(1.0f, 0.0f, 0.0f);
-	lightObj2->AddComponent(light2);
-	//////////////////////////////////////////////////////////////////////////
-	lightObj3 = new GameObject();
-	light3 = new Light(Directional);
-	light->ambient.Set(0.1f, 0.1f, 0.1f);
-	light3->direction.Set(0.0f, -1.0f, 0.0f);
-	lightObj3->AddComponent(light3);
-	//////////////////////////////////////////////////////////////////////////
-	mesh = new Mesh("Resource/object/base/Cube.FBX");
-	//mesh = new Mesh();
-	mesh->GetMaterial().color.Set(0.5f, 0.8f, 0.3f);
-
-	meshObj = new GameObject();
-	meshObj->AddComponent(mesh);
-	
-	//////////////////////////////////////////////////////////////////////////
-	tex = new Texture2D("Resource/texture/wood.jpg");
-	obj = new GameObject();
-	tex->SetColor(Color(0.5f, 0.5f, 0.5f));
-
-	obj->AddComponent(tex);
-	//////////////////////////////////////////////////////////////////////////
-
-	INSTANCE(GameObjectManager).ModeRunGameObject(StartMode);
+	if (runMode == DefaultMode)
+	{
+		ErrorString("Space fail to Run.");
+		return;
+	}
+	for (auto i = spaces.begin(); i != spaces.end(); i++)
+	{
+		MotionSpace* space = *i;
+		if (space)
+		{
+			if (runMode == AwakeMode)
+				space->Awake();
+			else if (runMode == StartMode)
+				space->Start();
+			else if (runMode == UpdateMode)
+				space->Update();
+			else if (runMode == FixUpdateMode)
+				space->FixUpdate();
+			else if (runMode == FinishMode)
+				space->Finish();
+			else
+				ErrorString("Space fail to Run.");
+		}
+	}
 }
-void MotionSpace::Update(Camera* camera)
-{
-	processInput(INSTANCE(GLWindow).GetGLWindow());
-
-	float scaleAmount = (float)sin(GrGetTime());
-	//////////////////////////////////////////////////////////////////////////
-	obj->GetComponent(Transform).SetPosition(1.5f, 1.5f, 0.0f);
-	//obj->GetComponent(Transform).SetRotation(Vector3(0.0f, 0.0f, 90.0f));
-	////obj->GetComponent(Transform).setRotation(-55.0f, Vector3::xAxis);
-	//obj->GetComponent(Transform).SetRotation(90.0f, Vector3::zAxis);
-	//obj->GetComponent(Transform).SetScale(Vector3(scaleAmount));
-	////Update Transform
-	obj->GetComponent(Transform).UpdateTransform();
-
-	meshObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, -1.0f);
-	meshObj->GetComponent(Transform).UpdateTransform();
-	//////////////////////////////////////////////////////////////////////////
-	INSTANCE(GameObjectManager).ModeRunGameObject(UpdateMode, camera);
-}
-void MotionSpace::FixUpdate()
-{
-
-}
-void MotionSpace::Finish()
-{
-	INSTANCE(GameObjectManager).ModeRunGameObject(FinishMode);
-}
-
 AUTO_END
+
+

@@ -4,18 +4,10 @@
 #include "GameManager.h"
 #include "GameObject.h"
 #include "Singleton.h"
+#include "Mode.h"
 AUTO_BEGIN
 class Component;
 class Camera;
-enum GameObjectRunMode
-{
-	DefaultMode	= -1,
-	AwakeMode,
-	StartMode,
-	UpdateMode,
-	FixUpdateMode,
-	FinishMode,
-};
 class GameObjectManager : public LevelGameManager,public Singleton<GameObjectManager>
 {
 	REGISTER_DERIVED_ABSTRACT_CLASS(GameObjectManager, LevelGameManager);
@@ -27,7 +19,7 @@ public:
 	void AddGameObject(GameObject * obj);
 	void RemoveGameObject(GameObject * obj);
 
-	void ModeRunGameObject(GameObjectRunMode runMode,Camera * cam = nullptr);
+	void ModeRunGameObject(RunMode runMode,Camera * cam = nullptr);
 	
 private:
 	void DelayAddRemoveGameObject();
