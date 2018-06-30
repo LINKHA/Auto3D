@@ -96,7 +96,6 @@ void MotionSpace::Start()
 
 	camObj->AddComponent(cam);
 
-
 	glfwSetCursorPosCallback(INSTANCE(GLWindow).GetGLWindow(), mouseCallBack);
 	glfwSetScrollCallback(INSTANCE(GLWindow).GetGLWindow(), scrollCallBack);
 	glfwSetInputMode(INSTANCE(GLWindow).GetGLWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);

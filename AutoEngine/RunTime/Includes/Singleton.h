@@ -6,7 +6,6 @@
 #define INSTANCE(x)	x::Instance()
 
 AUTO_BEGIN
-
 /*
 * Template class for creating single-instance global classes.
 */

@@ -1,10 +1,11 @@
 #include "ScriptManager.h"
 
-SCRIPT_BEGIN
+AUTO_BEGIN
+
 struct MatchByNameFilter
 {
 	const char* name;
-	bool Match(BaseScript* script) { return script->GetScriptClassName() == name; }
+	bool Match(ScriptComponent* script) { return script->GetClassStringStatic() == name; }
 };
 
 struct MatchByClassFilter
@@ -13,15 +14,15 @@ struct MatchByClassFilter
 	//bool Match(BaseScript* script) { return script->GetClass() == m_class; }
 };
 
-
+SINGLETON_INSTANCE(ScriptComponent);
 template<typename T>
-BaseScript* FindScript(ScriptManager::Scripts& scripts , T& filter)
+ScriptComponent* FindScript(ScriptManager::Scripts& scripts , T& filter)
 {
 	ScriptManager::Scripts::iterator i, next;
 	for (i = scripts.begin(); i != scripts.end(); i = next)
 	{
 		next = i; next++;
-		BaseScript* script = *i;
+		ScriptComponent* script = *i;
 		if (script == NULL)
 		{
 			scripts.erase(i);
@@ -33,4 +34,4 @@ BaseScript* FindScript(ScriptManager::Scripts& scripts , T& filter)
 	}
 	return NULL;
 }
-SCRIPT_END
+AUTO_END
