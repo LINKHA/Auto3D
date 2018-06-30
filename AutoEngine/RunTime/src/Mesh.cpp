@@ -80,47 +80,65 @@ void Mesh::drawMaterial()
 void Mesh::drawLight()
 {
 	auto& t_lights= lights.GetAllLights();
+	int dir = 0;
+	int point = 0;
+	int spot = 0;
 	for (auto it = t_lights.begin(); it != t_lights.end(); it++)
 	{
 		Light * t = *it;
 		Vector3 ligthtPosition= t->GetGameObject().GetComponent(Transform).GetPosition();
 		m_shader.SetVec3("lightPos", ligthtPosition);
+
 		switch (t->GetType())
 		{
 			case Directional:
-				m_shader.SetVec3("dirLight.color", t->color);
-				m_shader.SetVec3("dirLight.direction", t->direction);
-				m_shader.SetVec3("dirLight.ambient", t->ambient);
-				m_shader.SetVec3("dirLight.diffuse", t->diffuse);
-				m_shader.SetVec3("dirLight.specular", t->specular);
+				if (dir >= 4)break;
+				m_shader.SetVec3("dirLight[" + to_string(dir) + "].color", t->color);
+				m_shader.SetVec3("dirLight[" + to_string(dir) + "].direction", t->direction);
+				m_shader.SetVec3("dirLight[" + to_string(dir) + "].ambient", t->ambient);
+				m_shader.SetVec3("dirLight[" + to_string(dir) + "].diffuse", t->diffuse);
+				m_shader.SetVec3("dirLight[" + to_string(dir) + "].specular", t->specular);
+				dir++;
 				break;
 			case Point:
-				m_shader.SetVec3("pointLight.color", t->color);
-				m_shader.SetVec3("pointLight.position", ligthtPosition);
-				m_shader.SetFloat("pointLight.constant", t->constant);
-				m_shader.SetFloat("pointLight.linear", t->linear);
-				m_shader.SetFloat("pointLight.quadratic", t->quadratic);
-				m_shader.SetVec3("pointLight.ambient", t->ambient);
-				m_shader.SetVec3("pointLight.diffuse", t->diffuse);
-				m_shader.SetVec3("pointLight.specular", t->specular);
+				if (point >= 8)break;
+				m_shader.SetVec3("pointLight[" + to_string( point) + "].color", t->color);
+				m_shader.SetVec3("pointLight[" + to_string(point) + "].position", ligthtPosition);
+				m_shader.SetFloat("pointLight[" + to_string(point) + "].constant", t->constant);
+				m_shader.SetFloat("pointLight[" + to_string(point) + "].linear", t->linear);
+				m_shader.SetFloat("pointLight[" + to_string(point) + "].quadratic", t->quadratic);
+				m_shader.SetVec3("pointLight[" + to_string(point) + "].ambient", t->ambient);
+				m_shader.SetVec3("pointLight[" + to_string(point) + "].diffuse", t->diffuse);
+				m_shader.SetVec3("pointLight[" + to_string(point) + "].specular", t->specular);
+				point++;
 				break;
 			case Spot:
-				m_shader.SetVec3("spotLight.color", t->color);
-				m_shader.SetVec3("spotLight.position", ligthtPosition);
-				m_shader.SetVec3("spotLight.direction", t->direction);
-				m_shader.SetFloat("spotLight.cutOff", t->cutOff);
-				m_shader.SetFloat("spotLight.outerCutOff", t->outerCutOff);
-				m_shader.SetFloat("spotLight.constant", t->constant);
-				m_shader.SetFloat("spotLight.linear", t->linear);
-				m_shader.SetFloat("spotLight.quadratic", t->quadratic);
-				m_shader.SetVec3("spotLight.ambient", t->ambient);
-				m_shader.SetVec3("spotLight.diffuse", t->diffuse);
-				m_shader.SetVec3("spotLight.specular", t->specular);
+				
+				if (spot >= 4)break;
+				m_shader.SetVec3("spotLight[" + to_string(spot) + "].color", t->color);
+				m_shader.SetVec3("spotLight[" + to_string(spot) + "].position", ligthtPosition);
+				m_shader.SetVec3("spotLight[" + to_string(spot) + "].direction", t->direction);
+				m_shader.SetFloat("spotLight[" + to_string(spot) + "].cutOff", t->cutOff);
+				m_shader.SetFloat("spotLight[" + to_string(spot) + "].outerCutOff", t->outerCutOff);
+				m_shader.SetFloat("spotLight[" + to_string(spot) + "].constant", t->constant);
+				m_shader.SetFloat("spotLight[" + to_string(spot) + "].linear", t->linear);
+				m_shader.SetFloat("spotLight[" + to_string(spot) + "].quadratic", t->quadratic);
+				m_shader.SetVec3("spotLight[" + to_string(spot) + "].ambient", t->ambient);
+				m_shader.SetVec3("spotLight[" + to_string(spot) + "].diffuse", t->diffuse);
+				m_shader.SetVec3("spotLight[" + to_string(spot) + "].specular", t->specular);
+				spot++;
 				break;
 			default:
 				WarningString("Fail to set light!");
 		}
 	}
+	m_shader.SetBool("dirBool", (bool)dir);
+	m_shader.SetBool("pointBool", (bool)point);
+	m_shader.SetBool("spotBool", (bool)spot);
+
+	m_shader.SetInt("dirNum", dir);
+	m_shader.SetInt("pointNum", point);
+	m_shader.SetInt("spotNum", spot);
 }
 
 #else	//Light Model

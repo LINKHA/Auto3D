@@ -50,9 +50,9 @@ struct SpotLight {
 };
 
 uniform Material material;
-uniform DirLight dirLight;
-uniform PointLight pointLight;
-uniform SpotLight spotLight;
+uniform DirLight dirLight[4];
+uniform PointLight pointLight[8];
+uniform SpotLight spotLight[4];
 
 uniform bool dirBool;
 uniform bool pointBool;
@@ -74,15 +74,23 @@ void main()
 {   
     vec3 norm = normalize(Normal);
     vec3 viewDir = normalize(viewPos - FragPos);					
-    
+    vec3 result = vec3(0,0,0);
+
 	if(dirBool)
 	{
-		vec3 result = CalcDirLight(dirLight,norm,viewDir);
+		for(int i=0;i<dirNum;i++)
+			result += CalcDirLight(dirLight[i],norm,viewDir);
 	}
-	vec3 result = CalcDirLight(dirLight,norm,viewDir);
-
-	//vec3 result = CalcPointLight(pointLight,norm, FragPos, viewDir);
-	//vec3 result = CalcSpotLight(spotLight, norm, FragPos, viewDir);    
+	if(pointBool)
+	{
+		for(int i=0;i<pointNum;i++)
+			result += CalcPointLight(pointLight[i],norm, FragPos, viewDir);
+	}
+	if(spotBool)
+	{
+		for(int i=0;i<spotNum;i++)
+			result += CalcSpotLight(spotLight[i], norm, FragPos, viewDir);
+	} 
     FragColor = vec4(result, 1.0);
 }
 

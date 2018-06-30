@@ -14,6 +14,12 @@ GameObject* meshObj;
 Light* light;
 GameObject* lightObj;
 
+Light* light2;
+GameObject* lightObj2;
+
+Light* light3;
+GameObject* lightObj3;
+
 Texture2D* tex;
 GameObject* obj;
 
@@ -99,12 +105,21 @@ void MotionSpace::Start()
 	
 	
 	lightObj = new GameObject();
-	lightObj->GetComponent(Transform).SetPosition(2.0f,0.1f,0.0f);
-	light = new Light(Directional);
-	//light->ambient.Set(0.3f, 0.3f, 0.3f);
-	light->direction.Set(-1.0f, 0.0f, 0.0f);
+	lightObj->GetComponent(Transform).SetPosition(2.0f,0.0f,0.0f);
+	light = new Light(Point);
 	lightObj->AddComponent(light);
-	
+	//////////////////////////////////////////////////////////////////////////
+	lightObj2 = new GameObject();
+	lightObj2->GetComponent(Transform).SetPosition(-2.0f, 0.0f, -0.5f);
+	light2 = new Light(Spot);
+	light2->direction.Set(1.0f, 0.0f, 0.0f);
+	lightObj2->AddComponent(light2);
+	//////////////////////////////////////////////////////////////////////////
+	lightObj3 = new GameObject();
+	light3 = new Light(Directional);
+	light->ambient.Set(0.1f, 0.1f, 0.1f);
+	light3->direction.Set(0.0f, -1.0f, 0.0f);
+	lightObj3->AddComponent(light3);
 	//////////////////////////////////////////////////////////////////////////
 	mesh = new Mesh("Resource/object/base/Cube.FBX");
 	//mesh = new Mesh();
