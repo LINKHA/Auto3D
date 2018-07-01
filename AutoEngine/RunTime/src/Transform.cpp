@@ -53,7 +53,11 @@ void Transform::SetScale(const Vector3& scale)
 }
 void Transform::SetScale(float scale)
 {
-	m_scale = Vector3(scale);
+	m_scale.Set(scale, scale, scale);
+}
+void Transform::SetScale(float scaleX, float scaleY, float scaleZ)
+{
+	m_scale.Set(scaleX, scaleY, scaleZ);
 }
 Vector3 Transform::GetPosition()
 {

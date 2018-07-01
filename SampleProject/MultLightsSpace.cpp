@@ -8,19 +8,19 @@
 #include "FreeCamera.h"
 
 
-Mesh* mesh;
-GameObject* meshObj;
+Mesh* mu_mesh;
+GameObject* mu_meshObj;
 
-Light* light;
-GameObject* lightObj;
+Light* mu_light;
+GameObject* mu_lightObj;
 
-Light* light2;
-GameObject* lightObj2;
+Light* mu_light2;
+GameObject* mu_lightObj2;
 
-Light* light3;
-GameObject* lightObj3;
+Light* mu_light3;
+GameObject* mu_lightObj3;
 
-GameObject* camObj;
+GameObject* mu_camObj;
 
 MultLightsSpace::MultLightsSpace()
 {}
@@ -29,41 +29,38 @@ MultLightsSpace::~MultLightsSpace()
 
 void MultLightsSpace::Start()
 {
-	camObj = new GameObject();
+	mu_camObj = new GameObject();
 	FreeCamera * freeCamera = new FreeCamera();
-	camObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
-	camObj->AddComponent(freeCamera);
+	mu_camObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
+	mu_camObj->AddComponent(freeCamera);
 	//////////////////////////////////////////////////////////////////////////
-	lightObj = new GameObject();
-	lightObj->GetComponent(Transform).SetPosition(2.0f, 0.0f, 0.0f);
-	light = new Light(Point);
-	lightObj->AddComponent(light);
+	mu_lightObj = new GameObject();
+	mu_lightObj->GetComponent(Transform).SetPosition(2.0f, 0.0f, 0.0f);
+	mu_light = new Light(Point);
+	mu_lightObj->AddComponent(mu_light);
 	//////////////////////////////////////////////////////////////////////////
-	lightObj2 = new GameObject();
-	lightObj2->GetComponent(Transform).SetPosition(-2.0f, 0.0f, -0.5f);
-	light2 = new Light(Spot);
-	light2->direction.Set(1.0f, 0.0f, 0.0f);
-	lightObj2->AddComponent(light2);
+	mu_lightObj2 = new GameObject();
+	mu_lightObj2->GetComponent(Transform).SetPosition(-2.0f, 0.0f, -0.5f);
+	mu_light2 = new Light(Spot);
+	mu_light2->direction.Set(1.0f, 0.0f, 0.0f);
+	mu_lightObj2->AddComponent(mu_light2);
 	//////////////////////////////////////////////////////////////////////////
-	lightObj3 = new GameObject();
-	light3 = new Light(Directional);
-	light->ambient.Set(0.1f, 0.1f, 0.1f);
-	light3->direction.Set(0.0f, -1.0f, 0.0f);
-	lightObj3->AddComponent(light3);
+	mu_lightObj3 = new GameObject();
+	mu_light3 = new Light(Directional);
+	mu_light->ambient.Set(0.1f, 0.1f, 0.1f);
+	mu_light3->direction.Set(0.0f, -1.0f, 0.0f);
+	mu_lightObj3->AddComponent(mu_light3);
 	//////////////////////////////////////////////////////////////////////////
-	mesh = new Mesh("Resource/object/base/Cube.FBX");
-	//mesh = new Mesh();
-	mesh->GetMaterial().color.Set(0.5f, 0.8f, 0.3f);
-
-	meshObj = new GameObject();
-	meshObj->AddComponent(mesh);
+	mu_mesh = new Mesh("Resource/object/base/Cube.FBX");
+	mu_mesh->GetMaterial().color.Set(0.5f, 0.8f, 0.3f);
+	mu_meshObj = new GameObject();
+	mu_meshObj->AddComponent(mu_mesh);
 	//////////////////////////////////////////////////////////////////////////
 }
 
 void MultLightsSpace::Update()
 {
-	meshObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, -1.0f);
-	//meshObj->GetComponent(Transform).UpdateTransform();
+	mu_meshObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, -1.0f);
 }
 
 int MultLightsSpace::Launch()

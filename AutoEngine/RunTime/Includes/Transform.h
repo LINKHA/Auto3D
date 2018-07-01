@@ -30,7 +30,7 @@ public:
 	void SetRotation(float Angle, const Vector3& axis);
 	void SetScale(const Vector3& scale);
 	void SetScale(float scale);
-
+	void SetScale(float scaleX, float scaleY, float scaleZ);
 	Vector3 GetPosition();
 	Quaternion GetRotation();
 	Vector3 GetScale();

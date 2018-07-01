@@ -4,6 +4,7 @@
 #include "Shader.h"
 #include "BaseSpace.h"
 #include "RenderManager.h"
+#include "DepthSet.h"
 AUTO_BEGIN
 
 SINGLETON_INSTANCE(Application);
@@ -34,7 +35,7 @@ int Application::Run()
 
 int Application::Init()
 {
-	
+	INSTANCE(BaseSpace).Awake();
 
 	stbi_set_flip_vertically_on_load(true);
 
@@ -47,7 +48,8 @@ int Application::Init()
 		return AU_ERROR;
 	}
 	glEnable(GL_DEPTH_TEST);
-	INSTANCE(BaseSpace).Awake();
+	glDepthFunc(INSTANCE(DepthSet).Mode);
+	
 
 	return AU_NORMAL;
 }
