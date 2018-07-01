@@ -21,7 +21,7 @@ public:
 	Mesh(_String m_meshPath, const Shader& shader);
 
 	void Start();
-	void Update(Camera * cam);
+	void Draw(Camera * cam);
 	Material& GetMaterial() { return m_Material; }
 private:
 	void drawMaterial();

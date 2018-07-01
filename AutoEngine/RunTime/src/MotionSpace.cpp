@@ -39,6 +39,8 @@ void SpaceManager::ModeRunSpace(RunMode runMode)
 				space->FixUpdate();
 			else if (runMode == FinishMode)
 				space->Finish();
+			else if (runMode == DrawMode)
+				space->Draw();
 			else
 				ErrorString("Space fail to Run.");
 		}

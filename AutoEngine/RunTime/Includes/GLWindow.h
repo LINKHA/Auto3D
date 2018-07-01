@@ -30,7 +30,7 @@ private:
 	Color DrawColor;
 	// settings
 	RectInt WindowRect;
-	char * TitleName = "Auto V0.0";
+	char * TitleName;
 	bool isFullScreen = false;
 	bool isCenter = true;
 };

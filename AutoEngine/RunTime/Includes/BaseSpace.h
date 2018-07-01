@@ -19,9 +19,10 @@ public:
 	~BaseSpace();
 	void Awake();
 	void Start(); 
-	void Update(Camera* camera); 
+	void Update(); 
 	void FixUpdate();
 	void Finish();
+	void Draw(Camera* camera);
 };
 
 AUTO_END

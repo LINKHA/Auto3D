@@ -59,13 +59,18 @@ void GameObjectManager::ModeRunGameObject(RunMode runMode,Camera * cam)
 			else if (runMode == StartMode)
 				TEMP_ITERATOR{ if (k->second->GetEnable()) k->second->Start(); }
 			else if (runMode == UpdateMode)
-				TEMP_ITERATOR{ if (k->second->GetEnable()) k->second->Update(cam); }
+				TEMP_ITERATOR{ if (k->second->GetEnable()) k->second->Update(); }
 			else if (runMode == FixUpdateMode)
 				TEMP_ITERATOR{ if (k->second->GetEnable()) k->second->FixUpdate(); }
 			else if (runMode == FinishMode)
 			{
-				obj->GetComponent(Transform).Identity();
 				TEMP_ITERATOR{ if (k->second->GetEnable()) k->second->Finish(); }
+			}
+			else if (runMode == DrawMode)
+			{
+				obj->GetComponent(Transform).UpdateTransform();
+				TEMP_ITERATOR{ if (k->second->GetEnable()) k->second->Draw(cam); }
+				obj->GetComponent(Transform).Identity();
 			}
 			else 
 				ErrorString("GameObejct fail to Run.");

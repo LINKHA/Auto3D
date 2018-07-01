@@ -28,7 +28,7 @@ void Mesh::Start()
 {
 	m_Model = LocalModelLoad((char*)m_meshPath.data());
 }
-void Mesh::Update(Camera * cam)
+void Mesh::Draw(Camera * cam)
 {
 	if (cam == nullptr)
 	{

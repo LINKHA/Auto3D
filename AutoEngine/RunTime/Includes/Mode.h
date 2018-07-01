@@ -8,5 +8,6 @@ enum RunMode
 	UpdateMode,
 	FixUpdateMode,
 	FinishMode,
+	DrawMode,
 };
 #endif //!MODE_H_

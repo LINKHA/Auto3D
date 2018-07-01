@@ -36,7 +36,7 @@ int Application::Init()
 {
 	
 
-	//stbi_set_flip_vertically_on_load(true);
+	stbi_set_flip_vertically_on_load(true);
 
 	//Print(Monitors::Instance().getMonitorsCount());
 	//Print(Monitors::Instance().getMonitorsWidthIndex(1));
@@ -74,7 +74,7 @@ int Application::RunLoop()
 		//////////////////////////////////////////////////////////////////////////
 		INSTANCE(GLWindow).RunLoopOver();
 		//////////////////////////////////////////////////////////////////////////
-		
+		INSTANCE(BaseSpace).Finish();
 	}
 
 

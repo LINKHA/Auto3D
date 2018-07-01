@@ -11,7 +11,7 @@ public:
 	ScriptComponent();
 	virtual void Awake() {}
 	virtual void Start() {}
-	virtual void Update(Camera * cam = nullptr) {}
+	virtual void Update() {}
 	virtual void FixUpdate() {}
 	virtual void Finish() {}
 };

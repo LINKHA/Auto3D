@@ -29,7 +29,8 @@ public:
 	Texture2D(_String imagePath, const Shader& shader);
 
 	void Start();
-	void Update(Camera * cam);
+	void Draw(Camera * cam);
+
 	void SetLinerParameters();
 	void SetNearestParameters();
 	void SetTexParameters(const TexParams& params);

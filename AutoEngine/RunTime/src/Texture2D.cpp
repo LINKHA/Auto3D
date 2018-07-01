@@ -83,7 +83,7 @@ void Texture2D::Start()
 	/////////////////////////////////////////////////////////////////////////////////////////////
 }
 
-void Texture2D::Update(Camera * cam)
+void Texture2D::Draw(Camera * cam)
 {
 	if (cam == nullptr)
 	{
@@ -116,9 +116,6 @@ void Texture2D::Update(Camera * cam)
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
-
-
-
 //////////////////////////////////////////////////////////////////////////
 //Image conpontent to use
 void Texture2D::SetLinerParameters()

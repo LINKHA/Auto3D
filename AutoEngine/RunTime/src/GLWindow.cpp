@@ -15,7 +15,7 @@ GLWindow::GLWindow()
 {
 	GrInit(3, 3);
 	DrawColor.Set(0.0f, 0.0f, 0.0f, 1.0f);
-
+	TitleName = "Auto V0.0";
 	WindowRect.x = 0;
 	WindowRect.y = 0;
 	WindowRect.width = 800;

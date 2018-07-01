@@ -49,9 +49,10 @@ public:
 
 	virtual void Awake() {}
 	virtual void Start() {}
-	virtual void Update(Camera * cam = nullptr) {}
+	virtual void Update() {}
 	virtual void FixUpdate() {}
 	virtual void Finish() {}
+	virtual void Draw(Camera* camera=nullptr){}
 private:
 	bool m_Enable;
 };
