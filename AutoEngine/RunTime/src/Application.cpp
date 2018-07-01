@@ -48,7 +48,8 @@ int Application::Init()
 		return AU_ERROR;
 	}
 	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(INSTANCE(DepthSet).Mode);
+	glEnable(GL_STENCIL_TEST);
+	glDepthFunc(GL_LESS);
 	
 
 	return AU_NORMAL;
@@ -70,7 +71,7 @@ int Application::RunLoop()
 		
 		INSTANCE(GLWindow).DrawWindow();
 		///Accept a buffer bit buffer Bitto specify the buffer to be emptied
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 		INSTANCE(RenderManager).RenderCameras();
 		//////////////////////////////////////////////////////////////////////////

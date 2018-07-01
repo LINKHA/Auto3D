@@ -1,14 +1,14 @@
 #pragma once
 #include "MotionSpace.h"
+	
 USING_AUTO
-
-class MultLightsSpace : public MotionSpace
+class StencilTestSpace : public MotionSpace
 {
 public:
-	MultLightsSpace();
-	~MultLightsSpace();
+	StencilTestSpace();
+	~StencilTestSpace();
+	void Awake()override;
 	void Start()override;
 	void Update()override;
 	int Launch();
-};
-
+};	

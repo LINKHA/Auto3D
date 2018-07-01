@@ -10,7 +10,7 @@ DepthTestSpace::~DepthTestSpace()
 {}
 void DepthTestSpace::Awake()
 {
-	INSTANCE(DepthSet).SetMode(DEPTH_ALWAYS);
+	//INSTANCE(DepthSet).SetMode(DEPTH_ALWAYS);
 }
 void DepthTestSpace::Start()
 {

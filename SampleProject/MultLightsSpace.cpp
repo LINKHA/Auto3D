@@ -54,13 +54,14 @@ void MultLightsSpace::Start()
 	mu_mesh = new Mesh("Resource/object/base/Cube.FBX");
 	mu_mesh->GetMaterial().color.Set(0.5f, 0.8f, 0.3f);
 	mu_meshObj = new GameObject();
+	mu_meshObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, -1.0f);
 	mu_meshObj->AddComponent(mu_mesh);
 	//////////////////////////////////////////////////////////////////////////
 }
 
 void MultLightsSpace::Update()
 {
-	mu_meshObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, -1.0f);
+	
 }
 
 int MultLightsSpace::Launch()
