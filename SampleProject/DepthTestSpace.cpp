@@ -31,11 +31,13 @@ void DepthTestSpace::Start()
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	GameObject * obj2 = new GameObject();
 	Mesh * box = new Mesh("Resource/object/base/Cube.FBX");
+	box->useDepth = false;
 	obj2->AddComponent(box);
 	obj2->GetComponent(Transform).SetPosition(1.0f, 0.5f, 3.0f);
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	GameObject * obj3 = new GameObject();
 	Mesh * box2 = new Mesh("Resource/object/base/Cube.FBX");
+	box2->useDepth = false;
 	obj3->AddComponent(box2);
 	obj3->GetComponent(Transform).SetPosition(3.0f, 0.5f, 2.0f);
 }

@@ -18,8 +18,8 @@ GLWindow::GLWindow()
 	TitleName = "Auto V0.0";
 	WindowRect.x = 0;
 	WindowRect.y = 0;
-	WindowRect.width = 800;
-	WindowRect.height = 600;
+	WindowRect.width = 1200;
+	WindowRect.height = 800;
 }
 
 GLWindow::~GLWindow()

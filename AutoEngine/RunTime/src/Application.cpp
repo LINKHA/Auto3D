@@ -48,9 +48,7 @@ int Application::Init()
 		return AU_ERROR;
 	}
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_STENCIL_TEST);
 	glDepthFunc(GL_LESS);
-	
 
 	return AU_NORMAL;
 }
