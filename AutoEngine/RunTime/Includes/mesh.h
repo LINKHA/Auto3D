@@ -17,8 +17,8 @@ class Mesh : public Component
 	DECLARE_OBJECT_SERIALIZE(Mesh);
 public:
 	Mesh();
-	Mesh(_String m_meshPath);
-	Mesh(_String m_meshPath, const Shader& shader);
+	Mesh(char* meshPath);
+	Mesh(char* meshPath, const Shader& shader);
 
 	void Start();
 	void Draw(Camera * cam);
@@ -39,7 +39,7 @@ private:
 	Shader m_shader;
 	Material m_Material;
 	ModelCommand m_Model;
-	_String m_meshPath;
+	Ptr(char,m_meshPath);
 	GLenum m_sfail; GLenum m_dpfail; GLenum m_dppass;
 	GLenum m_func; GLint m_ref; GLuint m_mask;
 	GLuint m_mas;

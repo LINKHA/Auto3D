@@ -6,36 +6,35 @@ AUTO_BEGIN
 LightManager& lights = INSTANCE(LightManager);
 
 Mesh::Mesh()
-	: m_meshPath("Resource/object/nanosuit/nanosuit.obj")
-	, m_shader(Shader(AtConfig::shader_path + "au_test_light_model_loading.auvs", AtConfig::shader_path + "au_test_light_model_loading.aufs"))
+	: m_shader(Shader(AtConfig::shader_path + "au_test_light_model_loading.auvs", AtConfig::shader_path + "au_test_light_model_loading.aufs"))
 	, useStencil(false)
 	, useDepth(true)
 	, useBlend(false)
 {
+	m_meshPath.ptr = "Resource/object/nanosuit/nanosuit.obj";
 }
-
-Mesh::Mesh(_String meshPath)
-	: m_meshPath(meshPath)
-	, m_shader(Shader(AtConfig::shader_path + "au_test_light_model_loading.auvs", AtConfig::shader_path + "au_test_light_model_loading.aufs"))
+Mesh::Mesh(char* meshPath)
+	: m_shader(Shader(AtConfig::shader_path + "au_test_light_model_loading.auvs", AtConfig::shader_path + "au_test_light_model_loading.aufs"))
 	, useStencil(false)
 	, useDepth(true)
 	, useBlend(false)
 {
+	m_meshPath.ptr = meshPath;
 }
-Mesh::Mesh(_String meshPath, const Shader& shader)
-	: m_meshPath(meshPath)
-	, m_shader(shader)
+Mesh::Mesh(char* meshPath, const Shader& shader)
+	: m_shader(shader)
 	, useStencil(false)
 	, useDepth(true)
 	, useBlend(false)
 {
+	m_meshPath.ptr = meshPath;
 }
 Mesh::~Mesh()
 {
 }
 void Mesh::Start()
 {
-	m_Model = LocalModelLoad((char*)m_meshPath.data());
+	m_Model = LocalModelLoad(m_meshPath.ptr);
 }
 void Mesh::Draw(Camera * cam)
 {

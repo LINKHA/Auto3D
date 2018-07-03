@@ -30,7 +30,7 @@ void TextureSpace::Start()
 	obj2->GetComponent(Transform).SetPosition(0.0f, 0.0f, 0.0f);
 	obj2->AddComponent(tex2);
 
-	Texture2D * tex3 = new Texture2D("Resource/texture/glass.png");
+	Texture2D * tex3 = new Texture2D("Resource/texture/window.png");
 	tex3->useBlend = true;
 	tex3->useDepth = false;
 	GameObject * obj3 = new GameObject();

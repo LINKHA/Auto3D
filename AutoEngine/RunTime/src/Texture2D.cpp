@@ -2,29 +2,29 @@
 #include "RenderManager.h"
 AUTO_BEGIN
 
-Texture2D::Texture2D()
-	: m_ImagePath("Resource/texture/square.jpg")
-	, m_shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs", AtConfig::shader_path + "au_texture_transform.aufs"))
+Texture2D::Texture2D() 
+	: m_shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs", AtConfig::shader_path + "au_texture_transform.aufs"))
 	, useStencil(false)
 	, useDepth(true)
 	, useBlend(false)
 {
+	m_ImagePath.ptr = "Resource/texture/square.jpg";
 }
-Texture2D::Texture2D(_String imagePath)
-	: m_ImagePath(imagePath)
-	, m_shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs", AtConfig::shader_path + "au_texture_transform.aufs"))
+Texture2D::Texture2D(char* imagePath)
+	: m_shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs", AtConfig::shader_path + "au_texture_transform.aufs"))
 	, useStencil(false)
 	, useDepth(true)
 	, useBlend(false)
 {
+	m_ImagePath.ptr = imagePath;
 }
-Texture2D::Texture2D(_String imagePath, const Shader & shader)
-	: m_ImagePath(imagePath)
-	, m_shader(shader)
+Texture2D::Texture2D(char* imagePath, const Shader & shader)
+	: m_shader(shader)
 	, useStencil(false)
 	, useDepth(true)
 	, useBlend(false)
 {
+	m_ImagePath.ptr = imagePath;
 }
 Texture2D::~Texture2D()
 {
@@ -36,7 +36,7 @@ Texture2D::~Texture2D()
 
 void Texture2D::Start()
 {
-	
+
 	GLfloat vertices[] = {
 		// positions			// texture coords
 		0.5f, 0.5f, 0.0f, 			1.0f, 1.0f, // top right
@@ -72,9 +72,9 @@ void Texture2D::Start()
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	BindTexture2D(textureData);
 
-	
+
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	m_image.ptr = LocalImageLoad((char*)m_ImagePath.data());
+	m_image.ptr = LocalImageLoad(m_ImagePath.ptr);
 	//SetNearestParameters();
 	SetLinerParameters();
 	if (m_image.ptr->Value)
@@ -88,7 +88,7 @@ void Texture2D::Start()
 	}
 
 
-	
+
 	//stbi_image_free(image->m_Image);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -181,7 +181,7 @@ void Texture2D::Draw(Camera * cam)
 //Image conpontent to use
 void Texture2D::SetLinerParameters()
 {
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_image.ptr->Format == GL_RGBA ? GL_CLAMP_TO_EDGE :  GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_image.ptr->Format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_image.ptr->Format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
 	if (is_Mipmaps)
 	{
@@ -196,7 +196,7 @@ void Texture2D::SetLinerParameters()
 
 void Texture2D::SetNearestParameters()
 {
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_image.ptr->Format == GL_RGBA? GL_CLAMP_TO_EDGE : GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_image.ptr->Format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_image.ptr->Format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
 	if (is_Mipmaps)
 	{
@@ -257,6 +257,5 @@ void Texture2D::DepthFunc(GLenum func)
 {
 	m_depthfunc = func;
 }
-
 
 AUTO_END

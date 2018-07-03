@@ -10,6 +10,7 @@
 USING_MATH
 AUTO_BEGIN
 
+
 class Texture2D : public Texture
 {
 	REGISTER_DERIVED_CLASS(Texture2D, Texture);
@@ -25,8 +26,8 @@ public:
 public:
 
 	Texture2D();
-	Texture2D(_String imagePath);
-	Texture2D(_String imagePath, const Shader& shader);
+	Texture2D(char* imagePath);
+	Texture2D(char* imagePath, const Shader& shader);
 
 	void Start();
 	void Draw(Camera * cam);
@@ -59,7 +60,7 @@ private:
 	unsigned int textureData;
 	Shader m_shader;
 	Color m_Color;
-	_String m_ImagePath;
+	Ptr(char,m_ImagePath);
 	Ptr(Image, m_image);
 	GLenum m_sfail; GLenum m_dpfail; GLenum m_dppass;
 	GLenum m_func; GLint m_ref; GLuint m_mask;

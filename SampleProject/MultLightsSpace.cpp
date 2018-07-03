@@ -8,8 +8,7 @@
 #include "FreeCamera.h"
 
 
-Mesh* mu_mesh;
-GameObject* mu_meshObj;
+
 
 Light* mu_light;
 GameObject* mu_lightObj;
@@ -51,12 +50,23 @@ void MultLightsSpace::Start()
 	mu_light3->direction.Set(0.0f, -1.0f, 0.0f);
 	mu_lightObj3->AddComponent(mu_light3);
 	//////////////////////////////////////////////////////////////////////////
-	mu_mesh = new Mesh("Resource/object/base/Cube.FBX");
-	mu_mesh->GetMaterial().color.Set(0.5f, 0.8f, 0.3f);
-	mu_meshObj = new GameObject();
-	mu_meshObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, -1.0f);
-	mu_meshObj->AddComponent(mu_mesh);
+	Mesh * mesh = new Mesh("Resource/object/base/Cube.FBX");
+	mesh->GetMaterial().color.Set(0.5f, 0.8f, 0.3f);
+	GameObject * meshObj = new GameObject();
+	meshObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, -1.0f);
+	meshObj->AddComponent(mesh);
 	//////////////////////////////////////////////////////////////////////////
+	Mesh * mesh2 = new Mesh("Resource/object/base/Cone.FBX");
+	mesh2->GetMaterial().color.Set(0.5f, 0.8f, 0.3f);
+	GameObject * meshObj2 = new GameObject();
+	meshObj2->GetComponent(Transform).SetPosition(0.0f, 0.0f, 1.0f);
+	meshObj2->AddComponent(mesh2);
+	//////////////////////////////////////////////////////////////////////////
+	Mesh * mesh3 = new Mesh("Resource/object/base/Cone.FBX");
+	mesh3->GetMaterial().color.Set(0.5f, 0.8f, 0.3f);
+	GameObject * meshObj3 = new GameObject();
+	meshObj3->GetComponent(Transform).SetPosition(0.0f, 0.0f, 2.0f);
+	meshObj3->AddComponent(mesh3);
 }
 
 void MultLightsSpace::Update()
