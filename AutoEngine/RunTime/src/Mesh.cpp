@@ -10,6 +10,7 @@ Mesh::Mesh()
 	, m_shader(Shader(AtConfig::shader_path + "au_test_light_model_loading.auvs", AtConfig::shader_path + "au_test_light_model_loading.aufs"))
 	, useStencil(false)
 	, useDepth(true)
+	, useBlend(false)
 {
 }
 
@@ -18,6 +19,7 @@ Mesh::Mesh(_String meshPath)
 	, m_shader(Shader(AtConfig::shader_path + "au_test_light_model_loading.auvs", AtConfig::shader_path + "au_test_light_model_loading.aufs"))
 	, useStencil(false)
 	, useDepth(true)
+	, useBlend(false)
 {
 }
 Mesh::Mesh(_String meshPath, const Shader& shader)
@@ -25,6 +27,7 @@ Mesh::Mesh(_String meshPath, const Shader& shader)
 	, m_shader(shader)
 	, useStencil(false)
 	, useDepth(true)
+	, useBlend(false)
 {
 }
 Mesh::~Mesh()

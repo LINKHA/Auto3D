@@ -39,6 +39,14 @@ public:
 	void SetColor(const Color& color);
 	void SetColor(const Vector3& vec);
 	void SetColor(float r, float g, float b, float a = 1.0f);
+
+	bool useStencil;
+	bool useDepth;
+	bool useBlend;
+	void StencilOp(GLenum sfail, GLenum dpfail, GLenum dppass);
+	void StencilFunc(GLenum func, GLint ref, GLuint mask);
+	void StencilMask(GLuint mask);
+	void DepthFunc(GLenum func);
 protected:
 
 	float width;
@@ -53,6 +61,10 @@ private:
 	Color m_Color;
 	_String m_ImagePath;
 	Ptr(Image, m_image);
+	GLenum m_sfail; GLenum m_dpfail; GLenum m_dppass;
+	GLenum m_func; GLint m_ref; GLuint m_mask;
+	GLuint m_mas;
+	GLenum m_depthfunc;
 };
 
 AUTO_END

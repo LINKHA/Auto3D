@@ -5,16 +5,25 @@ AUTO_BEGIN
 Texture2D::Texture2D()
 	: m_ImagePath("Resource/texture/square.jpg")
 	, m_shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs", AtConfig::shader_path + "au_texture_transform.aufs"))
+	, useStencil(false)
+	, useDepth(true)
+	, useBlend(false)
 {
 }
 Texture2D::Texture2D(_String imagePath)
 	: m_ImagePath(imagePath)
 	, m_shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs", AtConfig::shader_path + "au_texture_transform.aufs"))
+	, useStencil(false)
+	, useDepth(true)
+	, useBlend(false)
 {
 }
 Texture2D::Texture2D(_String imagePath, const Shader & shader)
 	: m_ImagePath(imagePath)
 	, m_shader(shader)
+	, useStencil(false)
+	, useDepth(true)
+	, useBlend(false)
 {
 }
 Texture2D::~Texture2D()
@@ -27,7 +36,7 @@ Texture2D::~Texture2D()
 
 void Texture2D::Start()
 {
-
+	
 	GLfloat vertices[] = {
 		// positions			// texture coords
 		0.5f, 0.5f, 0.0f, 			1.0f, 1.0f, // top right
@@ -78,6 +87,8 @@ void Texture2D::Start()
 		WarningString("Failed to load texture");
 	}
 
+
+	
 	//stbi_image_free(image->m_Image);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -85,6 +96,40 @@ void Texture2D::Start()
 
 void Texture2D::Draw(Camera * cam)
 {
+	if (useDepth)
+	{
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(m_depthfunc);
+	}
+	else
+	{
+		glDisable(GL_DEPTH_TEST);
+	}
+	if (useStencil)
+	{
+		glEnable(GL_STENCIL_TEST);
+		void StencilOp(GLenum sfail, GLenum dpfail, GLenum dppass);
+		void StencilFunc(GLenum func, GLint ref, GLuint mask);
+		void StencilMask(GLuint mask);
+		if (m_sfail)
+			glStencilOp(m_sfail, m_dpfail, m_dppass);
+		else
+			glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+		if (m_func)
+			glStencilFunc(m_func, m_ref, m_mask);
+		else
+			glStencilFunc(GL_ALWAYS, 1, 0xFF);
+
+		glStencilMask(m_mas);
+
+	}
+	if (useBlend)
+	{
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	}
+
+
 	if (cam == nullptr)
 	{
 		WarningString("Fail to find camera");
@@ -115,6 +160,22 @@ void Texture2D::Draw(Camera * cam)
 	glBindVertexArray(t_VAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
+
+	if (useStencil)
+	{
+		glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+		glDisable(GL_STENCIL_TEST);
+		glStencilMask(0xFF);
+	}
+	if (!useDepth)
+		glEnable(GL_DEPTH_TEST);
+	else
+		glDepthFunc(GL_LESS);
+	if (useBlend)
+	{
+		glDisable(GL_BLEND);
+
+	}
 }
 //////////////////////////////////////////////////////////////////////////
 //Image conpontent to use
@@ -174,6 +235,27 @@ void Texture2D::SetColor(const Vector3& vec)
 void Texture2D::SetColor(float r, float g, float b, float a)
 {
 	m_Color.Set(r, g, b, a);
+}
+
+void Texture2D::StencilOp(GLenum sfail, GLenum dpfail, GLenum dppass)
+{
+	m_sfail = sfail;
+	m_dpfail = dpfail;
+	m_dppass = dppass;
+}
+void Texture2D::StencilFunc(GLenum func, GLint ref, GLuint mask)
+{
+	m_func = func;
+	m_ref = ref;
+	m_mask = mask;
+}
+void Texture2D::StencilMask(GLuint mask)
+{
+	m_mas = mask;
+}
+void Texture2D::DepthFunc(GLenum func)
+{
+	m_depthfunc = func;
 }
 
 

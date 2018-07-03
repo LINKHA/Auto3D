@@ -23,11 +23,26 @@ void TextureSpace::Start()
 	tex1->SetColor(Color(0.5f, 0.5f, 0.5f));
 	te_obj->AddComponent(tex1);
 
-	Texture2D * tex2 = new Texture2D("Resource/texture/grass.png");
-	GameObject * obj = new GameObject();
-	tex2->SetColor(Color(0.5f, 0.5f, 0.5f));
-	obj->AddComponent(tex2);
+	Texture2D * tex2 = new Texture2D("Resource/texture/window.png");
+	tex2->useBlend = true;
+	tex2->useDepth = false;
+	GameObject * obj2 = new GameObject();
+	obj2->GetComponent(Transform).SetPosition(0.0f, 0.0f, 0.0f);
+	obj2->AddComponent(tex2);
 
+	Texture2D * tex3 = new Texture2D("Resource/texture/glass.png");
+	tex3->useBlend = true;
+	tex3->useDepth = false;
+	GameObject * obj3 = new GameObject();
+	obj3->GetComponent(Transform).SetPosition(0.2f, 0.0f, -1.0f);
+	obj3->AddComponent(tex3);
+
+	Texture2D * tex4 = new Texture2D("Resource/texture/window.png");
+	tex4->useBlend = true;
+	tex4->useDepth = false;
+	GameObject * obj4 = new GameObject();
+	obj4->GetComponent(Transform).SetPosition(-0.2f, 0.0f, -2.0f);
+	obj4->AddComponent(tex4);
 }
 void TextureSpace::Update()
 {

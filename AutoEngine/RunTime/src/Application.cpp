@@ -50,6 +50,7 @@ int Application::Init()
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
+
 	return AU_NORMAL;
 }
 

@@ -23,8 +23,10 @@ public:
 	void Start();
 	void Draw(Camera * cam);
 	Material& GetMaterial() { return m_Material; }
+
 	bool useStencil;
 	bool useDepth;
+	bool useBlend;
 	void StencilOp(GLenum sfail, GLenum dpfail, GLenum dppass);
 	void StencilFunc(GLenum func, GLint ref, GLuint mask);
 	void StencilMask(GLuint mask);
