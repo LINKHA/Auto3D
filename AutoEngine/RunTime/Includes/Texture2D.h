@@ -52,6 +52,7 @@ private:
 	Shader m_shader;
 	Color m_Color;
 	_String m_ImagePath;
+	Ptr(Image, m_image);
 };
 
 AUTO_END

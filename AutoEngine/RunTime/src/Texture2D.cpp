@@ -63,14 +63,14 @@ void Texture2D::Start()
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	BindTexture2D(textureData);
 
-	//setNearestParameters();
-	SetLinerParameters();
+	
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	Image * image = LocalImageLoad((char*)m_ImagePath.data());
-
-	if (image->Value)
+	m_image.ptr = LocalImageLoad((char*)m_ImagePath.data());
+	//SetNearestParameters();
+	SetLinerParameters();
+	if (m_image.ptr->Value)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, image->Format, image->Width, image->Height, 0, image->Format, GL_UNSIGNED_BYTE, image->Value);
+		glTexImage2D(GL_TEXTURE_2D, 0, m_image.ptr->Format, m_image.ptr->Width, m_image.ptr->Height, 0, m_image.ptr->Format, GL_UNSIGNED_BYTE, m_image.ptr->Value);
 		GenerateMipmap();
 	}
 	else
@@ -120,8 +120,8 @@ void Texture2D::Draw(Camera * cam)
 //Image conpontent to use
 void Texture2D::SetLinerParameters()
 {
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_image.ptr->Format == GL_RGBA ? GL_CLAMP_TO_EDGE :  GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_image.ptr->Format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
 	if (is_Mipmaps)
 	{
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
@@ -135,8 +135,8 @@ void Texture2D::SetLinerParameters()
 
 void Texture2D::SetNearestParameters()
 {
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_image.ptr->Format == GL_RGBA? GL_CLAMP_TO_EDGE : GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_image.ptr->Format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
 	if (is_Mipmaps)
 	{
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
