@@ -4,7 +4,6 @@
 #include "Shader.h"
 #include "BaseSpace.h"
 #include "RenderManager.h"
-#include "DepthSet.h"
 AUTO_BEGIN
 
 SINGLETON_INSTANCE(Application);

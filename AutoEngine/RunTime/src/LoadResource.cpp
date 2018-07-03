@@ -63,7 +63,7 @@ Image* LocalImageLoad(PInt8 path)
 			image->Format = GL_RGBA;
 		image->Value = t;
 		imageQueue.emplace(M_PAIR(path, image));	
-		//stbi_image_free(t);
+		
 	}
 	
 	return image;

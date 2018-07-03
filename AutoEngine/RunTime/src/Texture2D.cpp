@@ -2,6 +2,18 @@
 #include "RenderManager.h"
 AUTO_BEGIN
 
+GLfloat vertices[] = {
+	// positions			// texture coords
+	0.5f, 0.5f, 0.0f, 			1.0f, 1.0f, // top right
+	0.5f, -0.5f,0.0f,			1.0f, 0.0f, // bottom right
+	-0.5f,-0.5f,0.0f,			0.0f, 0.0f, // bottom left
+	-0.5f,0.5f,	0.0f,			0.0f, 1.0f  // top left 
+};
+unsigned int indices[] = {
+	0, 1, 3, // first triangle
+	1, 2, 3  // second triangle
+};
+
 Texture2D::Texture2D() 
 	: m_shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs", AtConfig::shader_path + "au_texture_transform.aufs"))
 	, useStencil(false)
@@ -36,19 +48,6 @@ Texture2D::~Texture2D()
 
 void Texture2D::Start()
 {
-
-	GLfloat vertices[] = {
-		// positions			// texture coords
-		0.5f, 0.5f, 0.0f, 			1.0f, 1.0f, // top right
-		0.5f, -0.5f,0.0f,			1.0f, 0.0f, // bottom right
-		-0.5f,-0.5f,0.0f,			0.0f, 0.0f, // bottom left
-		-0.5f,0.5f,	0.0f,			0.0f, 1.0f  // top left 
-	};
-	unsigned int indices[] = {
-		0, 1, 3, // first triangle
-		1, 2, 3  // second triangle
-	};
-
 	/////////////////////////////////////////////////////////////////////////////////////////////
 
 	glGenVertexArrays(1, &t_VAO);
@@ -70,8 +69,9 @@ void Texture2D::Start()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	BindTexture2D(textureData);
 
+	glGenTextures(1, &textureData);
+	glBindTexture(GL_TEXTURE_2D, textureData);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	m_image.ptr = LocalImageLoad(m_ImagePath.ptr);
@@ -86,7 +86,6 @@ void Texture2D::Start()
 	{
 		WarningString("Failed to load texture");
 	}
-
 
 
 	//stbi_image_free(image->m_Image);
@@ -135,6 +134,7 @@ void Texture2D::Draw(Camera * cam)
 		WarningString("Fail to find camera");
 		return;
 	}
+	glBindTexture(GL_TEXTURE_2D, textureData);
 	m_shader.Use();
 
 	glm::mat4 modelMat;
@@ -156,7 +156,7 @@ void Texture2D::Draw(Camera * cam)
 	m_shader.SetMat4("view", viewMat);
 	m_shader.SetMat4("projection", projectionMat);
 	m_shader.SetVec4("ourColor", m_Color.r, m_Color.g, m_Color.b, m_Color.a);
-	glBindTexture(GL_TEXTURE_2D, textureData);
+	
 	glBindVertexArray(t_VAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);

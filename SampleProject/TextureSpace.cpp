@@ -3,6 +3,8 @@
 #include "GameObject.h"
 #include "FreeCamera.h"
 #include "TimeManager.h"
+#include "Mesh.h"
+#include "BaseLight.h"
 GameObject* te_obj;
 
 TextureSpace::TextureSpace()
@@ -13,6 +15,7 @@ TextureSpace::~TextureSpace()
 }
 void TextureSpace::Start()
 {
+
 	GameObject* camObj = new GameObject();
 	FreeCamera* freeCamera = new FreeCamera();
 	camObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
@@ -43,6 +46,18 @@ void TextureSpace::Start()
 	GameObject * obj4 = new GameObject();
 	obj4->GetComponent(Transform).SetPosition(-0.2f, 0.0f, -2.0f);
 	obj4->AddComponent(tex4);
+
+	Texture2D * tex5 = new Texture2D("Resource/texture/grass.png");
+	tex5->useBlend = true;
+	GameObject * obj5 = new GameObject();
+	obj5->GetComponent(Transform).SetPosition(-0.2f, 0.0f, -3.0f);
+	obj5->AddComponent(tex5);
+
+	Texture2D * tex6 = new Texture2D("Resource/texture/grass.png");
+	tex6->useBlend = false;
+	GameObject * obj6 = new GameObject();
+	obj6->GetComponent(Transform).SetPosition(-0.2f, 0.0f, -4.0f);
+	obj6->AddComponent(tex6);
 }
 void TextureSpace::Update()
 {

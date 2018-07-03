@@ -15,9 +15,3 @@ void EnableVertexAttribs(UInt32 verIndex)
 
 	}
 }
-
-void BindTexture2D(GLuint textureID)
-{
-	glGenTextures(1, &textureID);
-	glBindTexture(GL_TEXTURE_2D, textureID);
-}
