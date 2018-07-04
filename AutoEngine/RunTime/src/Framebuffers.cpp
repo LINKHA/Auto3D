@@ -2,12 +2,12 @@
 
 AUTO_BEGIN
 
-Framebuffers::Framebuffers()
+FrameBuffers::FrameBuffers()
 {
 }
 
 
-Framebuffers::~Framebuffers()
+FrameBuffers::~FrameBuffers()
 {
 }
 

@@ -4,6 +4,7 @@
 #include "Shader.h"
 #include "BaseSpace.h"
 #include "RenderManager.h"
+#include "FrameBuffersScreen.h"
 AUTO_BEGIN
 
 SINGLETON_INSTANCE(Application);
@@ -58,24 +59,36 @@ int Application::Init()
 int Application::RunLoop()
 {
 	INSTANCE(BaseSpace).Start();
+	if (INSTANCE(FrameBuffersScreen).GetEnable())
+	{
+		INSTANCE(FrameBuffersScreen).Start();
+	}
 	while (!GrShouldCloseWindow(glfwWindow))
 	{
+		
 		INSTANCE(TimeManager).Update();
 
 		//LogString(TimeManager::Instance().GetRealTime().Second);
 		//Print(TimeManager::Instance().GetCurTime());
 		//Print(TimeManager::Instance().GetDeltaTime());
 		//////////////////////////
-		
+		if (INSTANCE(FrameBuffersScreen).GetEnable())
+		{
+			INSTANCE(FrameBuffersScreen).DrawStart();
+		}
 		INSTANCE(GLWindow).DrawWindow();
 		///Accept a buffer bit buffer Bitto specify the buffer to be emptied
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-
+		
 		INSTANCE(RenderManager).RenderCameras();
 		//////////////////////////////////////////////////////////////////////////
 		INSTANCE(GLWindow).RunLoopOver();
 		//////////////////////////////////////////////////////////////////////////
 		INSTANCE(BaseSpace).Finish();
+		if (INSTANCE(FrameBuffersScreen).GetEnable())
+		{
+			INSTANCE(FrameBuffersScreen).DrawEnd();
+		}
 	}
 
 

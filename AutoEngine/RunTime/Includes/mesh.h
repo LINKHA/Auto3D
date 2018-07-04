@@ -35,7 +35,7 @@ private:
 	void drawMaterial();
 	void drawLight();
 private:
-	unsigned int framebuffer;
+
 
 	Shader m_shader;
 	Material m_Material;

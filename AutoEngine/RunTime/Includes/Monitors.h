@@ -5,6 +5,8 @@
 #include "stl_use.h"
 #include "LogAssert.h"
 #include "Singleton.h"
+#include "Math/Vector2.h"
+USING_MATH
 AUTO_BEGIN
 /**
 * @brief : Singleton class
@@ -22,7 +24,7 @@ public:
 	Int32 GetMonitorsCount();
 	Int32 GetMonitorsHeightWithIndex(int index);
 	Int32 GetMonitorsWidthIndex(int index);
-
+	Vector2& GetMonitorsSizeIndex(int index);
 
 };
 AUTO_END

@@ -3,11 +3,11 @@
 #include "Auto.h"
 AUTO_BEGIN
 
-class Framebuffers
+class FrameBuffers
 {
 public:
-	Framebuffers();
-	~Framebuffers();
+	FrameBuffers();
+	~FrameBuffers();
 };
 
 AUTO_END	

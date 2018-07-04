@@ -3,15 +3,6 @@
 #include "LightManager.h"
 AUTO_BEGIN
 
-float quadVertices[] = { 
-	-1.0f,  1.0f,  0.0f, 1.0f,
-	-1.0f, -1.0f,  0.0f, 0.0f,
-	1.0f, -1.0f,  1.0f, 0.0f,
-
-	-1.0f,  1.0f,  0.0f, 1.0f,
-	1.0f, -1.0f,  1.0f, 0.0f,
-	1.0f,  1.0f,  1.0f, 1.0f
-};
 
 LightManager& lights = INSTANCE(LightManager);
 
@@ -44,6 +35,7 @@ Mesh::~Mesh()
 }
 void Mesh::Start()
 {
+	//////////////////////////////////////////////////////////////////////////
 	m_Model = LocalModelLoad(m_meshPath.ptr);
 }
 void Mesh::Draw(Camera * cam)

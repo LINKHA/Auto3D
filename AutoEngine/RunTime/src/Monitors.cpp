@@ -43,4 +43,14 @@ Int32 Monitors::GetMonitorsWidthIndex(int index)
 	return mnitors.at(index).first;
 }
 
+Vector2 & Monitors::GetMonitorsSizeIndex(int index)
+{
+	if (index > monitorCount - 1)
+	{
+		WarningString("Fail to get monitors size index(Maybe index beyond the limit)");
+	}
+	Vector2 t(mnitors.at(index).first, mnitors.at(index).second);
+	return t;
+}
+
 AUTO_END
