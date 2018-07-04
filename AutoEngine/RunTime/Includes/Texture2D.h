@@ -58,6 +58,7 @@ private:
 
 	unsigned int t_VBO, t_VAO, t_EBO;
 	unsigned int textureData;
+	
 	Shader m_shader;
 	Color m_Color;
 	Ptr(char,m_ImagePath);

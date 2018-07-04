@@ -3,6 +3,16 @@
 #include "LightManager.h"
 AUTO_BEGIN
 
+float quadVertices[] = { 
+	-1.0f,  1.0f,  0.0f, 1.0f,
+	-1.0f, -1.0f,  0.0f, 0.0f,
+	1.0f, -1.0f,  1.0f, 0.0f,
+
+	-1.0f,  1.0f,  0.0f, 1.0f,
+	1.0f, -1.0f,  1.0f, 0.0f,
+	1.0f,  1.0f,  1.0f, 1.0f
+};
+
 LightManager& lights = INSTANCE(LightManager);
 
 Mesh::Mesh()
@@ -76,7 +86,9 @@ void Mesh::Draw(Camera * cam)
 			glStencilMask(m_mas);
 
 	}
-	
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+
 	if (GetGameObjectPtr())		//if gameObject not empty
 		modelMat = GetGameObject().GetComponent(Transform).GetTransformMat();
 	else
@@ -108,6 +120,9 @@ void Mesh::Draw(Camera * cam)
 		glEnable(GL_DEPTH_TEST);
 	else 
 		glDepthFunc(GL_LESS);
+
+	glCullFace(GL_FRONT);	
+	glDisable(GL_CULL_FACE);	
 }
 
 void Mesh::drawMaterial()
