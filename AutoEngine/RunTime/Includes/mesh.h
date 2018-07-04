@@ -20,8 +20,8 @@ public:
 	Mesh(char* meshPath);
 	Mesh(char* meshPath, const Shader& shader);
 
-	void Start();
-	void Draw(Camera * cam);
+	void Start()override;
+	void Draw(Camera * cam = nullptr)override;
 	Material& GetMaterial() { return m_Material; }
 
 	bool useStencil;

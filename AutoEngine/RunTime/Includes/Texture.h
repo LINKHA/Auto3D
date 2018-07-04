@@ -25,6 +25,8 @@ protected:
 	float			m_TexelSizeX, m_TexelSizeY;
 public:
 	Texture();
+	void Start()override;
+	void Draw(Camera * cam = nullptr)override;
 };
 
 AUTO_END

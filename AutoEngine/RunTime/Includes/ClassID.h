@@ -16,7 +16,7 @@ enum ClassIDType
 	DO_CLASS_ID(GameObjectManager, 8)
 	DO_CLASS_ID(LightManager, 9)
 	DO_CLASS_ID(ScriptManager, 10)
-
+	
 	DO_CLASS_ID(Node, 13)
 	DO_CLASS_ID(GameObject, 14)
 
@@ -28,6 +28,9 @@ enum ClassIDType
 	DO_CLASS_ID(Light, 20)
 	DO_CLASS_ID(Camera, 21)
 	DO_CLASS_ID(ScriptComponent, 22)
+	DO_CLASS_ID(Texture3D, 23)
+	DO_CLASS_ID(SkyBox, 24)
+
 
 	DO_CLASS_ID(MotionSpace,30)
 	CLASS_ID_Count

@@ -29,8 +29,8 @@ public:
 	Texture2D(char* imagePath);
 	Texture2D(char* imagePath, const Shader& shader);
 
-	void Start();
-	void Draw(Camera * cam);
+	void Start()override;
+	void Draw(Camera * cam)override;
 
 	void SetLinerParameters();
 	void SetNearestParameters();
