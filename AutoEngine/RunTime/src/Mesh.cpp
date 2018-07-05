@@ -11,6 +11,7 @@ Mesh::Mesh()
 	, useStencil(false)
 	, useDepth(true)
 	, useBlend(false)
+	, m_userShader(false)
 {
 	m_meshPath.ptr = "Resource/object/nanosuit/nanosuit.obj";
 }
@@ -19,6 +20,7 @@ Mesh::Mesh(char* meshPath)
 	, useStencil(false)
 	, useDepth(true)
 	, useBlend(false)
+	, m_userShader(false)
 {
 	m_meshPath.ptr = meshPath;
 }
@@ -27,6 +29,7 @@ Mesh::Mesh(char* meshPath, const Shader& shader)
 	, useStencil(false)
 	, useDepth(true)
 	, useBlend(false)
+	, m_userShader(true)
 {
 	m_meshPath.ptr = meshPath;
 }
@@ -97,10 +100,14 @@ void Mesh::Draw(Camera * cam)
 	m_shader.SetMat4("view", viewMat);
 	m_shader.SetMat4("projection", projectionMat);
 	m_shader.SetVec3("viewPos", cam->Position);
-	
-	drawMaterial();
-	drawLight();
-
+	/**/
+	//m_shader.SetFloat("time", glfwGetTime());
+	/**/
+	if (!m_userShader)
+	{
+		drawMaterial();
+		drawLight();
+	}
 	m_Model.Draw(m_shader);
 	if (useStencil)
 	{

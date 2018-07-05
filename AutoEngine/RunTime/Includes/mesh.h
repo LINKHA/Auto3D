@@ -35,8 +35,6 @@ private:
 	void drawMaterial();
 	void drawLight();
 private:
-
-
 	Shader m_shader;
 	Material m_Material;
 	ModelCommand m_Model;
@@ -45,6 +43,8 @@ private:
 	GLenum m_func; GLint m_ref; GLuint m_mask;
 	GLuint m_mas;
 	GLenum m_depthfunc;
+private:
+	bool m_userShader;
 };
 
 AUTO_END
