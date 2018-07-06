@@ -5,7 +5,6 @@
 #include "Mesh.h"
 #include "Prefab.h"
 #include "InstanceBeltLine.h"
-#include "Prefabs.h"
 MassInstantiationSpace::MassInstantiationSpace()
 {
 }
