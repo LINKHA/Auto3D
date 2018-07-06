@@ -13,7 +13,7 @@ Mesh::Mesh()
 	, useBlend(false)
 	, m_userShader(false)
 {
-	m_meshPath.ptr = "Resource/object/nanosuit/nanosuit.obj";
+	m_meshPath.ptr = "Resource/object/base/Cube.FBX";
 }
 Mesh::Mesh(char* meshPath)
 	: m_shader(Shader(AtConfig::shader_path + "au_test_light_model_loading.auvs", AtConfig::shader_path + "au_test_light_model_loading.aufs"))

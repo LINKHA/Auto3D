@@ -2,6 +2,7 @@
 #include "ScriptComponent.h"
 #include "GameObject.h"
 #include "Camera.h"
+#include "ObjectDefines.h"
 USING_AUTO
 
 class FreeCamera : public ScriptComponent
@@ -11,6 +12,5 @@ public:
 	~FreeCamera();
 	void Start()override;
 	void Update()override;
-	
 };
 
