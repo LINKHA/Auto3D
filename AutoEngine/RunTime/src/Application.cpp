@@ -5,6 +5,8 @@
 #include "BaseSpace.h"
 #include "RenderManager.h"
 #include "FrameBuffersScreen.h"
+#include "MSAA.h"
+#include "../../EngineSetting/Optimize.h"
 AUTO_BEGIN
 
 SINGLETON_INSTANCE(Application);
@@ -36,7 +38,7 @@ int Application::Run()
 int Application::Init()
 {
 	INSTANCE(BaseSpace).Awake();
-
+	glfwWindowHint(GLFW_SAMPLES, 4);
 	//stbi_set_flip_vertically_on_load(true);
 
 	//Print(Monitors::Instance().getMonitorsCount());
@@ -49,6 +51,10 @@ int Application::Init()
 	}
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
+#if MSAA_POINT
+	glEnable(GL_MULTISAMPLE);
+#endif // MSAA_POINT
+	
 
 
 	return AU_NORMAL;
@@ -58,6 +64,9 @@ int Application::Init()
 
 int Application::RunLoop()
 {
+#if MSAA_OPPSCREEN_POINT
+	INSTANCE(MSAA).Start(MSAA_OPPSCREEN_POINT);
+#endif
 	INSTANCE(BaseSpace).Start();
 	if (INSTANCE(FrameBuffersScreen).GetEnable())
 	{
@@ -72,10 +81,14 @@ int Application::RunLoop()
 		//Print(TimeManager::Instance().GetCurTime());
 		//Print(TimeManager::Instance().GetDeltaTime());
 		//////////////////////////
+#if MSAA_OPPSCREEN_POINT
+		INSTANCE(MSAA).UpdateStart();
+#endif 
 		if (INSTANCE(FrameBuffersScreen).GetEnable())
 		{
 			INSTANCE(FrameBuffersScreen).DrawStart();
 		}
+		
 		INSTANCE(GLWindow).DrawWindow();
 		///Accept a buffer bit buffer Bitto specify the buffer to be emptied
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
@@ -89,6 +102,9 @@ int Application::RunLoop()
 		{
 			INSTANCE(FrameBuffersScreen).DrawEnd();
 		}
+#if MSAA_OPPSCREEN_POINT
+		INSTANCE(MSAA).UpdateEnd();
+#endif 
 	}
 
 

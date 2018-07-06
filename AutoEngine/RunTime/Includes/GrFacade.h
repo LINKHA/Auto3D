@@ -6,7 +6,7 @@
 #include "OpenGLGather.h"
 #include "LogAssert.h"
 #include "Math/Color.h"
-
+#include "../../EngineSetting/Optimize.h"
 #define __OPENGL__
 
 USING_MATH
@@ -22,10 +22,14 @@ static void GrInit(int verMajor,int verMinor)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, verMajor);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, verMinor);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);	
-	#ifdef __APPLE__
+#if MSAA_POINT
+	glfwWindowHint(GLFW_SAMPLES, MSAA_POINT);
+#endif //MSAA_POINT
+#ifdef __APPLE__
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-	#endif
-#endif
+#endif //__APPLE__
+
+#endif //__OPENGL__
 
 #ifdef __DIRECTX__
 #endif
