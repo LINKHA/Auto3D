@@ -4,8 +4,13 @@
 #include "AtConfig.h"
 #include "GLWindow.h"
 AUTO_BEGIN
-
-float quadVertices[] = {
+Shader shader;
+Shader shaderBlur;
+Shader shaderEdgeDetection;
+Shader shaderGrayscale;
+Shader shaderInversion;
+Shader shaderSharpen;
+float fb_quadVertices[] = {
 	-1.0f,  1.0f,  0.0f, 1.0f,
 	-1.0f, -1.0f,  0.0f, 0.0f,
 	1.0f, -1.0f,  1.0f, 0.0f,
@@ -14,18 +19,6 @@ float quadVertices[] = {
 	1.0f, -1.0f,  1.0f, 0.0f,
 	1.0f,  1.0f,  1.0f, 1.0f
 };
-unsigned int framebuffer;
-unsigned int quadVAO, quadVBO;
-unsigned int textureColorbuffer;
-unsigned int rbo;
-
-Shader shader;
-Shader shaderBlur;
-Shader shaderEdgeDetection;
-Shader shaderGrayscale;
-Shader shaderInversion;
-Shader shaderSharpen;
-
 
 SINGLETON_INSTANCE(FrameBuffersScreen);
 FrameBuffersScreen::FrameBuffersScreen()
@@ -49,11 +42,11 @@ FrameBuffersScreen::~FrameBuffersScreen()
 
 void FrameBuffersScreen::Start()
 {
-	glGenVertexArrays(1, &quadVAO);
-	glGenBuffers(1, &quadVBO);
-	glBindVertexArray(quadVAO);
-	glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
+	glGenVertexArrays(1, &fb_quadVAO);
+	glGenBuffers(1, &fb_quadVBO);
+	glBindVertexArray(fb_quadVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, fb_quadVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(fb_quadVertices), &fb_quadVertices, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(1);
@@ -65,21 +58,21 @@ void FrameBuffersScreen::Start()
 	RectInt screenSize = INSTANCE(GLWindow).GetWindowRectInt();
 	
 
-	glGenFramebuffers(1, &framebuffer);
-	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+	glGenFramebuffers(1, &fb_framebuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, fb_framebuffer);
 
-	glGenTextures(1, &textureColorbuffer);
-	glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
+	glGenTextures(1, &fb_textureColorbuffer);
+	glBindTexture(GL_TEXTURE_2D, fb_textureColorbuffer);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, screenSize.width, screenSize.height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorbuffer, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, fb_textureColorbuffer, 0);
 	
 	
-	glGenRenderbuffers(1, &rbo);
-	glBindRenderbuffer(GL_RENDERBUFFER, rbo);
+	glGenRenderbuffers(1, &fb_rbo);
+	glBindRenderbuffer(GL_RENDERBUFFER, fb_rbo);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, screenSize.width, screenSize.height); 
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo); 
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, fb_rbo);
 																							
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		ErrorString("Framebuffer is not complete!");
@@ -87,7 +80,7 @@ void FrameBuffersScreen::Start()
 }
 void FrameBuffersScreen::DrawStart()
 {
-	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, fb_framebuffer);
 	glEnable(GL_DEPTH_TEST);
 }
 void FrameBuffersScreen::DrawEnd()
@@ -95,8 +88,8 @@ void FrameBuffersScreen::DrawEnd()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glDisable(GL_DEPTH_TEST); 
 	m_shader.Use();
-	glBindVertexArray(quadVAO);
-	glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
+	glBindVertexArray(fb_quadVAO);
+	glBindTexture(GL_TEXTURE_2D, fb_textureColorbuffer);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 void FrameBuffersScreen::SetEffect(BuffersMode mode)

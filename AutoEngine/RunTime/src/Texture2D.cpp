@@ -147,11 +147,24 @@ void Texture2D::Draw(Camera * cam)
 		modelMat = Matrix4x4::identity;
 	viewMat = cam->GetViewMatrix();
 	RectInt rect = INSTANCE(GLWindow).GetWindowRectInt();
-	projectionMat = glm::perspective(cam->Zoom,
-		((float)rect.width * (float)cam->ViewRect.width) /
-		((float)rect.height * (float)cam->ViewRect.height),
-		cam->Near, cam->Far);
-	//projectionMat = glm::ortho(-4.0f, 4.0f, -3.0f, 3.0f, 0.1f, 100.0f);
+	if (cam->GetSortMode() == kSortPerspective)
+	{
+		projectionMat = glm::perspective(cam->Zoom,
+			((float)rect.width * (float)cam->ViewRect.width) /
+			((float)rect.height * (float)cam->ViewRect.height),
+			cam->Near, cam->Far);
+	}
+	else if (cam->GetSortMode() == kSortOrthographic)
+	{
+		float t = ((float)rect.width * (float)cam->ViewRect.width) /
+			((float)rect.height * (float)cam->ViewRect.height);
+		projectionMat = glm::ortho(-t, t, -1.0f, 1.0f, cam->Near, cam->Far);
+	}
+	else
+	{
+		ErrorString("Fail load projection mat");
+	}
+
 	m_shader.SetMat4("model", modelMat);
 	m_shader.SetMat4("view", viewMat);
 	m_shader.SetMat4("projection", projectionMat);

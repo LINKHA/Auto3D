@@ -17,6 +17,7 @@ Camera::Camera(Vector3 position, glm::vec3 up, float yaw, float pitch)
 	, WorldUp(up)
 	, Yaw(yaw)
 	, Pitch(pitch)
+	, m_SortMode(kSortPerspective)
 {
 	m_RenderLoop = CreateRenderLoop(*this);
 	Position = position.ToGLM();
@@ -35,6 +36,7 @@ Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float u
 	, WorldUp(glm::vec3(upX, upY, upZ))
 	, Yaw(yaw)
 	, Pitch(pitch)
+	, m_SortMode(kSortPerspective)
 {
 	m_RenderLoop = CreateRenderLoop(*this);
 	Position = glm::vec3(posX, posY, posZ);

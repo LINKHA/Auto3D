@@ -30,6 +30,13 @@ public:
 private:
 	bool m_enable;
 	Shader m_shader;
+private:
+	unsigned int fb_framebuffer;
+	unsigned int fb_quadVAO, fb_quadVBO;
+	unsigned int fb_textureColorbuffer;
+	unsigned int fb_rbo;
+private:
+
 };
 AUTO_END
 #endif // FRAME_BUFFERS_SCREEN_H_

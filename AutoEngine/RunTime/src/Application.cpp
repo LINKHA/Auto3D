@@ -51,6 +51,7 @@ int Application::Init()
 	}
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
+	glEnable(GL_FRAMEBUFFER_SRGB);
 #if MSAA_POINT
 	glEnable(GL_MULTISAMPLE);
 #endif // MSAA_POINT
@@ -84,6 +85,7 @@ int Application::RunLoop()
 #if MSAA_OPPSCREEN_POINT
 		INSTANCE(MSAA).UpdateStart();
 #endif 
+
 		if (INSTANCE(FrameBuffersScreen).GetEnable())
 		{
 			INSTANCE(FrameBuffersScreen).DrawStart();

@@ -14,12 +14,7 @@ float ms_quadVertices[] = {
 	1.0f, -1.0f,  1.0f, 0.0f,
 	1.0f,  1.0f,  1.0f, 1.0f
 };
-unsigned int ms_quadVAO, ms_quadVBO;
-unsigned int ms_framebuffer;
-unsigned int ms_textureColorBufferMultiSampled;
-unsigned int ms_rbo;
-unsigned int ms_screenTexture;
-unsigned int ms_intermediateFBO;
+
 RectInt ms_rect = INSTANCE(GLWindow).GetWindowRectInt();
 
 MSAA::MSAA()
@@ -30,18 +25,15 @@ MSAA::MSAA()
 MSAA::~MSAA()
 {
 }
-void MSAA::Antialiasing()
+
+void MSAA::Start(int samplingPointCount)
 {
-	if (m_SamplingPointCount <= 0)
+	m_SamplingPointCount = samplingPointCount;
+	if (samplingPointCount <= 0)
 	{
 		WarningString("Fail to antialiasing with sampling point count subter 0");
 		return;
 	}
-
-}
-
-void MSAA::Start(int count)
-{
 	glGenVertexArrays(1, &ms_quadVAO);
 	glGenBuffers(1, &ms_quadVBO);
 	glBindVertexArray(ms_quadVAO);
@@ -57,13 +49,13 @@ void MSAA::Start(int count)
 
 	glGenTextures(1, &ms_textureColorBufferMultiSampled);
 	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, ms_textureColorBufferMultiSampled);
-	glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, count, GL_RGB, ms_rect.width, ms_rect.height, GL_TRUE);
+	glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samplingPointCount, GL_RGB, ms_rect.width, ms_rect.height, GL_TRUE);
 	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, ms_textureColorBufferMultiSampled, 0);
 
 	glGenRenderbuffers(1, &ms_rbo);
 	glBindRenderbuffer(GL_RENDERBUFFER, ms_rbo);
-	glRenderbufferStorageMultisample(GL_RENDERBUFFER, count, GL_DEPTH24_STENCIL8, ms_rect.width , ms_rect.height);
+	glRenderbufferStorageMultisample(GL_RENDERBUFFER, samplingPointCount, GL_DEPTH24_STENCIL8, ms_rect.width , ms_rect.height);
 	glBindRenderbuffer(GL_RENDERBUFFER, 0);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, ms_rbo);
 
@@ -87,6 +79,11 @@ void MSAA::Start(int count)
 }
 void MSAA::UpdateStart()
 {
+	if (m_SamplingPointCount <= 0)
+	{
+		WarningString("Fail to antialiasing with sampling point count subter 0");
+		return;
+	}
 	glBindFramebuffer(GL_FRAMEBUFFER, ms_framebuffer);
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -94,6 +91,11 @@ void MSAA::UpdateStart()
 }
 void MSAA::UpdateEnd()
 {
+	if (m_SamplingPointCount <= 0)
+	{
+		WarningString("Fail to antialiasing with sampling point count subter 0");
+		return;
+	}
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, ms_framebuffer);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, ms_intermediateFBO);
 	glBlitFramebuffer(0, 0, ms_rect.width, ms_rect.height, 0, 0, ms_rect.width, ms_rect.height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
