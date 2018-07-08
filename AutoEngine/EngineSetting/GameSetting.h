@@ -3,12 +3,18 @@
 
 enum Tag
 {
-	
+	Default,
+	Player,
+	Enemy,
+	Wall,
+	Button,
 };
 
 enum Layout
 {
-
+	BackGround,
+	Wall,
+	Player,
 };
 
 #endif //!GAME_SETTING_H_

@@ -8,11 +8,6 @@ struct MatchByNameFilter
 	bool Match(ScriptComponent* script) { return script->GetClassStringStatic() == name; }
 };
 
-struct MatchByClassFilter
-{
-	//ScriptingClassPtr m_class;
-	//bool Match(BaseScript* script) { return script->GetClass() == m_class; }
-};
 
 SINGLETON_INSTANCE(ScriptComponent);
 template<typename T>

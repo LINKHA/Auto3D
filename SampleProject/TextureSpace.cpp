@@ -4,7 +4,7 @@
 #include "FreeCamera.h"
 #include "TimeManager.h"
 #include "Mesh.h"
-#include "BaseLight.h"
+#include "Light.h"
 GameObject* te_obj;
 
 TextureSpace::TextureSpace()

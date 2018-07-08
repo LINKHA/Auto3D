@@ -2,7 +2,7 @@
 #include "Application.h"
 #include "Mesh.h"
 #include "FreeCamera.h"
-#include "BaseLight.h"
+#include "Light.h"
 StencilTestSpace::StencilTestSpace()
 {
 }

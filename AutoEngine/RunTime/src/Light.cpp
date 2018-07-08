@@ -1,4 +1,4 @@
-#include "BaseLight.h"
+#include "Light.h"
 #include "LogAssert.h"
 
 AUTO_BEGIN

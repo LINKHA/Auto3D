@@ -4,7 +4,7 @@
 #include "Application.h"
 #include "Mesh.h"
 #include "Shader.h"
-#include "BaseLight.h"
+#include "Light.h"
 VertexExplodeSpace::VertexExplodeSpace()
 {
 }

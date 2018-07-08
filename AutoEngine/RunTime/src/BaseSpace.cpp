@@ -3,7 +3,7 @@
 #include "RenderManager.h"
 #include "GameObjectManager.h"
 #include "Camera.h"
-#include "BaseLight.h"
+#include "Light.h"
 #include "MotionSpace.h"
 AUTO_BEGIN
 

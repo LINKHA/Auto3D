@@ -2,7 +2,7 @@
 #define LIGHT_MANAGER_H_
 
 #include "GameManager.h"
-#include "BaseLight.h"
+#include "Light.h"
 #include "Singleton.h"
 AUTO_BEGIN
 class Light;

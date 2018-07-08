@@ -6,6 +6,7 @@
 #include "RenderManager.h"
 #include "FrameBuffersScreen.h"
 #include "MSAA.h"
+#include "Shadow.h"
 #include "../../EngineSetting/Optimize.h"
 AUTO_BEGIN
 
@@ -39,10 +40,7 @@ int Application::Init()
 {
 	INSTANCE(BaseSpace).Awake();
 	glfwWindowHint(GLFW_SAMPLES, 4);
-	//stbi_set_flip_vertically_on_load(true);
-
-	//Print(Monitors::Instance().getMonitorsCount());
-	//Print(Monitors::Instance().getMonitorsWidthIndex(1));
+	stbi_set_flip_vertically_on_load(true);
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
@@ -69,6 +67,9 @@ int Application::RunLoop()
 	INSTANCE(MSAA).Start(MSAA_OPPSCREEN_POINT);
 #endif
 	INSTANCE(BaseSpace).Start();
+	//////////////////////////////////////////////////////////////////////////
+	//INSTANCE(Shadow).Start();
+	//////////////////////////////////////////////////////////////////////////
 	if (INSTANCE(FrameBuffersScreen).GetEnable())
 	{
 		INSTANCE(FrameBuffersScreen).Start();
@@ -77,10 +78,6 @@ int Application::RunLoop()
 	{
 		
 		INSTANCE(TimeManager).Update();
-
-		//LogString(TimeManager::Instance().GetRealTime().Second);
-		//Print(TimeManager::Instance().GetCurTime());
-		//Print(TimeManager::Instance().GetDeltaTime());
 		//////////////////////////
 #if MSAA_OPPSCREEN_POINT
 		INSTANCE(MSAA).UpdateStart();
@@ -95,10 +92,13 @@ int Application::RunLoop()
 		///Accept a buffer bit buffer Bitto specify the buffer to be emptied
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		
+		//////////////////////////////////////////////////////////////////////////
+		//INSTANCE(Shadow).Update();
+		//////////////////////////////////////////////////////////////////////////
+
+
 		INSTANCE(RenderManager).RenderCameras();
-		//////////////////////////////////////////////////////////////////////////
 		INSTANCE(GLWindow).RunLoopOver();
-		//////////////////////////////////////////////////////////////////////////
 		INSTANCE(BaseSpace).Finish();
 		if (INSTANCE(FrameBuffersScreen).GetEnable())
 		{

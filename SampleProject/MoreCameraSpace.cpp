@@ -5,7 +5,7 @@
 #include "TimeManager.h"
 #include "Mesh.h"
 #include "FreeCamera.h"
-#include "BaseLight.h"
+#include "Light.h"
 MoreCameraSpace::MoreCameraSpace()
 {
 }

@@ -1,6 +1,6 @@
 #include "AntiAliasingSpace.h"
 #include "Application.h"
-#include "BaseLight.h"
+#include "Light.h"
 #include "FreeCamera.h"
 #include "Mesh.h"
 AntiAliasingSpace::AntiAliasingSpace()

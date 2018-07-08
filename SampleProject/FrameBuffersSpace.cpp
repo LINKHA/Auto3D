@@ -2,7 +2,7 @@
 #include "Application.h"
 #include "Mesh.h"
 #include "FreeCamera.h"
-#include "BaseLight.h"
+#include "Light.h"
 #include "FrameBuffersScreen.h"
 #include "TimeManager.h"
 FrameBuffersSpace::FrameBuffersSpace()

@@ -1,6 +1,6 @@
 #include "MassInstantiationSpace.h"
 #include "Application.h"
-#include "BaseLight.h"
+#include "Light.h"
 #include "FreeCamera.h"
 #include "Mesh.h"
 #include "Prefab.h"
