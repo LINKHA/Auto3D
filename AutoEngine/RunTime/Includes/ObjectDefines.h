@@ -35,13 +35,13 @@ public:
 
 
 #define Ptr(x,y)\
-struct _##x##Message{\
+struct _##y##Message{\
 	x * ptr;\
-	_##x##Message()\
+	_##y##Message()\
 		:ptr(nullptr){}\
-	~_##x##Message(){/*SAFE_DELETE(ptr);*/}\
+	~_##y##Message(){/*SAFE_DELETE(ptr);*/}\
 };\
-_##x##Message y;
+_##y##Message y;
 
 #define GET_SET(TYPE,PROP_NAME,VAR_NAME)	void Set##PROP_NAME (TYPE val) { VAR_NAME = val; }	const TYPE Get##PROP_NAME () const {return (const TYPE)VAR_NAME; }
 
