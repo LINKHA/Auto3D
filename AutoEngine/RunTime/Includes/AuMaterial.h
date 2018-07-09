@@ -10,15 +10,16 @@ AUTO_BEGIN
 struct Material
 {
 	Material();
+	Material(char * path);
+	unsigned int diffuseMap;
 	Color color;
 	Vector3 ambient;
 	Vector3 diffuse;
 	Vector3 specular;
 	float shininess;
-	Image * image;
+	bool isTexture;
 
-	void SetImage(char* path);
-	
+	void SetImage(char * path);
 	
 };
 AUTO_END

@@ -8,6 +8,7 @@
 #include "MSAA.h"
 #include "Shadow.h"
 #include "../../EngineSetting/Optimize.h"
+
 AUTO_BEGIN
 
 SINGLETON_INSTANCE(Application);
@@ -47,6 +48,15 @@ int Application::Init()
 		ErrorString("Failed to initialize GLAD from Engine\n");
 		return AU_ERROR;
 	}
+
+	/*GLFWimage images[2];
+	int width, height, nrComponents;
+	
+	images[0].pixels = stbi_load("my_icon.png", &width, &height, &nrComponents, 0);
+	images[1] = load_icon("my_icon_small.png");
+	glfwSetWindowIcon(INSTANCE(GLWindow).GetGLWindow(), 2, images);*/
+
+
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 	glEnable(GL_FRAMEBUFFER_SRGB);

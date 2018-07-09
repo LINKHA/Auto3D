@@ -1,5 +1,8 @@
 #include "GLWindow.h"
 #include "Monitors.h"
+#include "Icon.h"
+#include "AtConfig.h"
+
 AUTO_BEGIN
 
 SINGLETON_INSTANCE(GLWindow);
@@ -65,9 +68,10 @@ void GLWindow::CreateGameWindow()
 	}
 	GLFWmonitor* pMonitor = isFullScreen ? glfwGetPrimaryMonitor() : NULL;
 	GrCreateWindow(&window, WindowRect.width, WindowRect.height, TitleName, pMonitor);
-
 	glfwSetWindowPos(window, WindowRect.x - WindowRect.width/2, WindowRect.y - WindowRect.height / 2);
 	GrFrameSizeCallBack(window, size_callback);
+
+	//icon_load(window, AtConfig::source_path + "logo.png");
 }
 
 

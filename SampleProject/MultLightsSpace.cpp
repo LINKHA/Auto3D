@@ -51,6 +51,7 @@ void MultLightsSpace::Start()
 	mu_lightObj3->AddComponent(mu_light3);
 	//////////////////////////////////////////////////////////////////////////
 	Mesh * mesh = new Mesh("Resource/object/base/Cube.FBX");
+	mesh->GetMaterial().SetImage("Resource/texture/wood.jpg");
 	mesh->GetMaterial().color.Set(0.5f, 0.8f, 0.3f);
 	GameObject * meshObj = new GameObject();
 	meshObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, -1.0f);

@@ -28,7 +28,7 @@ void MassInstantiationSpace::Start()
 	srand(glfwGetTime()); 
 	float radius = 150.0;
 	float offset = 25.0f;
-	for (unsigned int i = 0; i < amount; i++)
+	for (int i = 0; i < amount; i++)
 	{
 		glm::mat4 model;
 		float angle = (float)i / (float)amount * 360.0f;
