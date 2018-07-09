@@ -15,7 +15,6 @@ Shadow::Shadow()
 		, AtConfig::shader_path + "au_shadow_mapping.aufs")
 	,m_ShadowMapDepth(AtConfig::shader_path + "au_shadow_mapping_depth.auvs"
 		, AtConfig::shader_path + "au_shadow_mapping_depth.aufs")
-	
 {}
 Shadow::~Shadow()
 {}
@@ -83,16 +82,20 @@ void Shadow::Draw(Camera* camera)
 	lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
 	lightView = glm::lookAt(lightPos, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
 	lightSpaceMatrix = lightProjection * lightView;
-	// render scene from light's point of view
-	m_ShadowMapDepth.Use();
-	m_ShadowMapDepth.SetMat4("lightSpaceMatrix", lightSpaceMatrix);
+	
 	
 	glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
 	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, woodTexture);
+
+	// render scene from light's point of view
+	m_ShadowMapDepth.Use();
+	m_ShadowMapDepth.SetMat4("lightSpaceMatrix", lightSpaceMatrix);
+	/////////////////////////////////////////////////////////////////////////////////////////////
 	renderScene(m_ShadowMapDepth);
+	/////////////////////////////////////////////////////////////////////////////////////////////
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 
@@ -105,6 +108,7 @@ void Shadow::Draw(Camera* camera)
 	// --------------------------------------------------------------
 	glViewport(0, 0, t.width, t.height);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	/////////////////////////////////////////////////////////////////////////////////////////////
 	m_ShadowMap.Use();
 	glm::mat4 projection = glm::perspective(camera->Zoom, (float)t.width / (float)t.height, 0.1f, 100.0f);
 	glm::mat4 view = camera->GetViewMatrix();
@@ -119,6 +123,7 @@ void Shadow::Draw(Camera* camera)
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, depthMap);
 	renderScene(m_ShadowMap);
+	/////////////////////////////////////////////////////////////////////////////////////////////
 }
 
 // renders the 3D scene

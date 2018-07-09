@@ -44,6 +44,9 @@ public:
 	Vector3 diffuse;
 	Vector3 specular;
 
+	float nearPlane;
+	float farPlane;
+
 private:
 	ModelCommand		model;
 	int					m_Type;						//Light Type

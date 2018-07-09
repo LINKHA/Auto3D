@@ -1,6 +1,5 @@
 #include "Light.h"
 #include "LogAssert.h"
-
 AUTO_BEGIN
 
 Light::Light()
@@ -8,6 +7,7 @@ Light::Light()
 Light::Light(LightType type)
 	: m_Type(type)
 {
+
 	ambient.Set(0.3f, 0.3f, 0.3f);
 	diffuse.Set(1.0f, 1.0f, 1.0f);
 	specular.Set(0.7f, 0.7f, 0.7f);
@@ -19,6 +19,9 @@ Light::Light(LightType type)
 	linear = 0.09f;
 	quadratic = 0.032f;
 
+
+	nearPlane = 1.0f;
+	farPlane = 7.5f;
 	AddToManager();
 }
 Light::~Light()
