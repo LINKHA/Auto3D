@@ -1,23 +1,19 @@
 #pragma once
 #include "Auto.h"
-#include "GLStateCache.h"
-#include "Shader.h"
+#include "Singleton.h"
 AUTO_BEGIN
-class Camera;
-class ShadowTest
+class ShadowTest : public Singleton<ShadowTest>
 {
 public:
 	ShadowTest();
 	~ShadowTest();
-	void Start();
-	void UpdateStart(Camera * camera);
-	void UpdateEnd(Camera * camera);
-private:
-	Shader m_shadowShader;
-	GLuint m_depthMapFBO;
-	GLuint m_depthMap;
-private:
+
+	void BindDepathMap();
 	int shadowWidth;
 	int shadowHeight;
+
+	unsigned int depthMapFBO;
+	unsigned int depthMap;
+
 };
 AUTO_END

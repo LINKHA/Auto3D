@@ -16,8 +16,7 @@ private:
 	Shader m_ShadowMapDepth;
 	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
 	glm::vec3 lightPos;
-	unsigned int depthMapFBO;
-	unsigned int depthMap;
+
 };
 AUTO_END
 #endif //!SHADOW_H_

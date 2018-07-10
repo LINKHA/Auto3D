@@ -1,5 +1,4 @@
-#ifndef MESH_H_
-#define MESH_H_
+#pragma once
 #include "Shader.h"
 #include "ModelCommand.h"
 #include "Transform.h"
@@ -10,18 +9,15 @@
 #include "GameObject.h"
 #include "AuMaterial.h"
 
-
-
 AUTO_BEGIN
-
-class Mesh : public Component
+class MeshShadowTest : public Component
 {
-	REGISTER_DERIVED_CLASS(Mesh, Component);
-	DECLARE_OBJECT_SERIALIZE(Mesh);
 public:
-	Mesh();
-	Mesh(char* meshPath);
-	Mesh(char* meshPath, const Shader& shader);
+	MeshShadowTest();
+	MeshShadowTest(char* meshPath);
+	MeshShadowTest(char* meshPath, const Shader& shader);
+	~MeshShadowTest();
+
 
 	void Start()override;
 	void Draw(Camera * cam = nullptr)override;
@@ -39,6 +35,7 @@ private:
 	void drawLight();
 private:
 	Shader m_shader;
+	Shader m_ShadowMapDepth;
 	Material m_Material;
 	ModelCommand m_Model;
 	Ptr(char, m_meshPath);
@@ -48,7 +45,8 @@ private:
 	GLenum m_depthfunc;
 private:
 	bool m_userShader;
+	unsigned int cubeVAO;
+	unsigned int cubeVBO;
 };
 
 AUTO_END
-#endif // !MESH_H_
