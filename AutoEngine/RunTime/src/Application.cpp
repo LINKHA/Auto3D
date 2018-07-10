@@ -49,13 +49,6 @@ int Application::Init()
 		return AU_ERROR;
 	}
 
-	/*GLFWimage images[2];
-	int width, height, nrComponents;
-	
-	images[0].pixels = stbi_load("my_icon.png", &width, &height, &nrComponents, 0);
-	images[1] = load_icon("my_icon_small.png");
-	glfwSetWindowIcon(INSTANCE(GLWindow).GetGLWindow(), 2, images);*/
-
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
@@ -77,9 +70,7 @@ int Application::RunLoop()
 	INSTANCE(MSAA).Start(MSAA_OPPSCREEN_POINT);
 #endif
 	INSTANCE(BaseSpace).Start();
-	//////////////////////////////////////////////////////////////////////////
-	//INSTANCE(Shadow).Start();
-	//////////////////////////////////////////////////////////////////////////
+
 	if (INSTANCE(FrameBuffersScreen).GetEnable())
 	{
 		INSTANCE(FrameBuffersScreen).Start();
@@ -101,11 +92,6 @@ int Application::RunLoop()
 		INSTANCE(GLWindow).DrawWindow();
 		///Accept a buffer bit buffer Bitto specify the buffer to be emptied
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-		
-		//////////////////////////////////////////////////////////////////////////
-		//INSTANCE(Shadow).Update();
-		//////////////////////////////////////////////////////////////////////////
-
 
 		INSTANCE(RenderManager).RenderCameras();
 		INSTANCE(GLWindow).RunLoopOver();

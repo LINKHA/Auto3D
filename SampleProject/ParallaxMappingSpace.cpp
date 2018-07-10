@@ -1,15 +1,15 @@
-#include "NormalMappingSpace.h"
+#include "ParallaxMappingSpace.h"
 #include "Application.h"
 #include "Light.h"
 #include "FreeCamera.h"
 #include "Mesh.h"
 #include "TextureMap.h"
-NormalMappingSpace::NormalMappingSpace()
+ParallaxMappingSpace::ParallaxMappingSpace()
 {}
-NormalMappingSpace::~NormalMappingSpace()
+ParallaxMappingSpace::~ParallaxMappingSpace()
 {}
 
-void NormalMappingSpace::Start()
+void ParallaxMappingSpace::Start()
 {
 	GameObject * cameraObj = new GameObject();
 	FreeCamera * camera = new FreeCamera();
@@ -22,16 +22,17 @@ void NormalMappingSpace::Start()
 
 	GameObject * normalObj = new GameObject();
 	TextureMap * normal = new TextureMap();
+	normal->useParallax = true;
 	normalObj->AddComponent(normal);
-	
+
 
 }
 
-void NormalMappingSpace::Update()
+void ParallaxMappingSpace::Update()
 {
 }
 
-int NormalMappingSpace::Launch()
+int ParallaxMappingSpace::Launch()
 {
 	return INSTANCE(Application).Run();
 }

@@ -200,6 +200,18 @@ static int GrGetKey(GLFWwindow* window,int key)
 #endif
 }
 /**
+* @brief Get Mouse Key return KeyButtonStatus
+*/
+static int GrGetMouseButton(GLFWwindow* window, int key)
+{
+#ifdef __OPENGL__
+	return glfwGetMouseButton(window, key);
+#endif
+
+#ifdef __DIRECTX__
+#endif
+}
+/**
 * @brief Get Time from Applacation load
 */
 static double GrGetTime()

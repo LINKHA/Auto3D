@@ -5,7 +5,7 @@
 #include "GameObjectManager.h"
 #include "Camera.h"
 #include "Light.h"
-
+#include "Input.h"
 GameObject* freeCameraObject;
 Camera * freeCamera;
 bool firstMouse = true;
@@ -39,6 +39,9 @@ void scrollCallBack(GLFWwindow* window, double xoffset, double yoffset)
 
 void processInput(GLFWwindow *window)
 {
+	if (Input::GetKeyButtonDown(KEY_P))
+		GrCloseWindow(window);
+
 	if (GrGetKey(window, KEY_ESCAPE) == BUTTON_PRESS)
 		GrCloseWindow(window);
 	if (GrGetKey(window, KEY_W) == BUTTON_PRESS)
