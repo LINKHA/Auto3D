@@ -1,5 +1,5 @@
 #include "FrameBuffersScreen.h"
-#include "GLStateCache.h"
+#include "OpenGLGather.h"
 #include "Monitors.h"
 #include "AtConfig.h"
 #include "GLWindow.h"

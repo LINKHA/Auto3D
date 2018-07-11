@@ -101,30 +101,12 @@ void Mesh::Draw(Camera * cam)
 	else
 		modelMat = Matrix4x4::identity;
 	viewMat = cam->GetViewMatrix();
-
-	RectInt rect = INSTANCE(GLWindow).GetWindowRectInt();
-	if (cam->GetSortMode() == kSortPerspective)
-	{
-		projectionMat = glm::perspective(cam->Zoom,
-			((float)rect.width * (float)cam->ViewRect.width) /
-			((float)rect.height * (float)cam->ViewRect.height),
-			cam->Near, cam->Far);
-	}
-	else if (cam->GetSortMode() == kSortOrthographic)
-	{
-		float t = ((float)rect.width * (float)cam->ViewRect.width) /
-			((float)rect.height * (float)cam->ViewRect.height);
-		projectionMat = glm::ortho(-t, t, -1.0f, 1.0f, cam->Near, cam->Far);
-	}
-	else
-	{
-		ErrorString("Fail load projection mat");
-	}
+	projectionMat = cam->GetProjectionMatrix();
 
 	m_shader.SetMat4("model", modelMat);
 	m_shader.SetMat4("view", viewMat);
 	m_shader.SetMat4("projection", projectionMat);
-	m_shader.SetVec3("viewPos", cam->Position);
+	m_shader.SetVec3("viewPos", cam->GetPosition());
 
 	/**/
 	//m_shader.SetFloat("time", glfwGetTime());

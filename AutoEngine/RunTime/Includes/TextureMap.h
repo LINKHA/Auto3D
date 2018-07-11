@@ -2,7 +2,7 @@
 #define TEXTURE_MAP_H_
 #include "Texture.h"
 #include "Texture.h"
-#include "GLStateCache.h"
+#include "OpenGLGather.h"
 #include "LoadResource.h"
 #include "Transform.h"
 #include "Camera.h"

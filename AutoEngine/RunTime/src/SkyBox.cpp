@@ -44,10 +44,7 @@ void SkyBox::Draw(Camera * cam)
 	}
 	glm::mat4 viewMat = cam->GetViewMatrix(); 
 	RectInt rect = INSTANCE(GLWindow).GetWindowRectInt();
-	glm::mat4 projectionMat = glm::perspective(cam->Zoom,
-		((float)rect.width * (float)cam->ViewRect.width) /
-		((float)rect.height * (float)cam->ViewRect.height),
-		cam->Near, cam->Far);
+	glm::mat4 projectionMat = cam->GetProjectionMatrix();
 	glDepthFunc(GL_LEQUAL);  
 	m_shader.Use();
 	viewMat = glm::mat4(glm::mat3(cam->GetViewMatrix()));

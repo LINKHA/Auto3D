@@ -94,12 +94,12 @@ void Shadow::Draw(Camera* camera)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	m_ShadowMap.Use();
-	glm::mat4 projection = glm::perspective(camera->Zoom, (float)t.width / (float)t.height, 0.1f, 100.0f);
+	glm::mat4 projection = camera->GetProjectionMatrix();
 	glm::mat4 view = camera->GetViewMatrix();
 	m_ShadowMap.SetMat4("projection", projection);
 	m_ShadowMap.SetMat4("view", view);
 	// set light uniforms
-	m_ShadowMap.SetVec3("viewPos", camera->Position);
+	m_ShadowMap.SetVec3("viewPos", camera->GetPosition());
 	m_ShadowMap.SetVec3("lightPos", lightPos);
 	m_ShadowMap.SetMat4("lightSpaceMatrix", lightSpaceMatrix);
 	glActiveTexture(GL_TEXTURE0);

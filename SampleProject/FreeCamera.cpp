@@ -65,7 +65,7 @@ FreeCamera::~FreeCamera()
 void FreeCamera::Start()
 {
 	freeCamera = new Camera(Vector3(0.0f, 0.0f, 3.0f));
-	freeCamera->Far = 1000.0f;
+	freeCamera->SetFar(1000.0f);
 	freeCameraObject = new GameObject();
 	freeCameraObject->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 

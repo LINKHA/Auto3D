@@ -3,6 +3,9 @@
 #include "VertexData.h"
 #include "GameObject.h"
 #include "Transform.h"
+#include "OpenGLGather.h"
+#include "LoadResource.h"
+#include "GLWindow.h"
 AUTO_BEGIN
 
 Sprite::Sprite()
@@ -129,24 +132,7 @@ void Sprite::Draw(Camera * cam)
 	else
 		modelMat = Matrix4x4::identity;
 	viewMat = cam->GetViewMatrix();
-	RectInt rect = INSTANCE(GLWindow).GetWindowRectInt();
-	if (cam->GetSortMode() == kSortPerspective)
-	{
-		projectionMat = glm::perspective(cam->Zoom,
-			((float)rect.width * (float)cam->ViewRect.width) /
-			((float)rect.height * (float)cam->ViewRect.height),
-			cam->Near, cam->Far);
-	}
-	else if (cam->GetSortMode() == kSortOrthographic)
-	{
-		float t = ((float)rect.width * (float)cam->ViewRect.width) /
-			((float)rect.height * (float)cam->ViewRect.height);
-		projectionMat = glm::ortho(-t, t, -1.0f, 1.0f, cam->Near, cam->Far);
-	}
-	else
-	{
-		ErrorString("Fail load projection mat");
-	}
+	projectionMat = cam->GetProjectionMatrix();
 
 	m_shader.SetMat4("model", modelMat);
 	m_shader.SetMat4("view", viewMat);

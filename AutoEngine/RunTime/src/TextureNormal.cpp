@@ -98,23 +98,7 @@ void TextureNormal::Draw(Camera * cam)
 		modelMat = Matrix4x4::identity;
 	viewMat = cam->GetViewMatrix();
 	RectInt rect = INSTANCE(GLWindow).GetWindowRectInt();
-	if (cam->GetSortMode() == kSortPerspective)
-	{
-		projectionMat = glm::perspective(cam->Zoom,
-			((float)rect.width * (float)cam->ViewRect.width) /
-			((float)rect.height * (float)cam->ViewRect.height),
-			cam->Near, cam->Far);
-	}
-	else if (cam->GetSortMode() == kSortOrthographic)
-	{
-		float t = ((float)rect.width * (float)cam->ViewRect.width) /
-			((float)rect.height * (float)cam->ViewRect.height);
-		projectionMat = glm::ortho(-t, t, -1.0f, 1.0f, cam->Near, cam->Far);
-	}
-	else
-	{
-		ErrorString("Fail load projection mat");
-	}
+	projectionMat = cam->GetProjectionMatrix();
 
 	m_shader.SetMat4("model", modelMat);
 	m_shader.SetMat4("view", viewMat);
@@ -123,7 +107,7 @@ void TextureNormal::Draw(Camera * cam)
 	//m_shader.SetVec4("ourColor", m_Color.r, m_Color.g, m_Color.b, m_Color.a);
 	glm::vec3 lightPos(0.5f, 1.0f, 0.3f);
 
-	m_shader.SetVec3("viewPos", cam->Position);
+	m_shader.SetVec3("viewPos", cam->GetPosition());
 	m_shader.SetVec3("lightPos", lightPos);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_image);

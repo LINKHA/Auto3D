@@ -165,32 +165,14 @@ void MeshShadowTest::Draw(Camera * cam)
 
 	
 	m_shader.Use();
-	
-	viewMat = cam->GetViewMatrix();
 
-	RectInt rect = INSTANCE(GLWindow).GetWindowRectInt();
-	if (cam->GetSortMode() == kSortPerspective)
-	{
-		projectionMat = glm::perspective(cam->Zoom,
-			((float)rect.width * (float)cam->ViewRect.width) /
-			((float)rect.height * (float)cam->ViewRect.height),
-			cam->Near, cam->Far);
-	}
-	else if (cam->GetSortMode() == kSortOrthographic)
-	{
-		float t = ((float)rect.width * (float)cam->ViewRect.width) /
-			((float)rect.height * (float)cam->ViewRect.height);
-		projectionMat = glm::ortho(-t, t, -1.0f, 1.0f, cam->Near, cam->Far);
-	}
-	else
-	{
-		ErrorString("Fail load projection mat");
-	}
+	viewMat = cam->GetViewMatrix();
+	projectionMat = cam->GetProjectionMatrix();
 
 	m_shader.SetMat4("model", modelMat);
 	m_shader.SetMat4("view", viewMat);
 	m_shader.SetMat4("projection", projectionMat);
-	m_shader.SetVec3("viewPos", cam->Position);
+	m_shader.SetVec3("viewPos", cam->GetPosition());
 	m_shader.SetVec3("lightPos", glm::vec3(-2.0f, 4.0f, -1.0f));
 	m_shader.SetMat4("lightSpaceMatrix", lightSpaceMatrix);
 

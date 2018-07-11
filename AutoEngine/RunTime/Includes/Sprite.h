@@ -1,7 +1,9 @@
 #ifndef SPRITE_H_
 #define SPRITE_H_
 #include "Texture2D.h"
+
 AUTO_BEGIN
+class Image;
 class Sprite : public Texture2D
 {
 	REGISTER_DERIVED_CLASS(Sprite, Texture2D);

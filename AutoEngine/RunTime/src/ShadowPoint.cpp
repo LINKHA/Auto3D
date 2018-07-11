@@ -65,13 +65,13 @@ void ShadowPoint::Draw(Camera* camera)
 	glViewport(0, 0, t.width, t.height);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	m_ShadowMap.Use();
-	glm::mat4 projection = glm::perspective(camera->Zoom, (float)t.width / (float)t.height, 0.1f, 100.0f);
+	glm::mat4 projection = camera->GetProjectionMatrix();
 	glm::mat4 view = camera->GetViewMatrix();
 	m_ShadowMap.SetMat4("projection", projection);
 	m_ShadowMap.SetMat4("view", view);
 	// set lighting uniforms
 	m_ShadowMap.SetVec3("lightPos", lightPos);
-	m_ShadowMap.SetVec3("viewPos", camera->Position);
+	m_ShadowMap.SetVec3("viewPos", camera->GetPosition());
 	m_ShadowMap.SetInt("shadows", true); // enable/disable shadows by pressing 'SPACE'
 	m_ShadowMap.SetFloat("far_plane", far_plane);
 	glActiveTexture(GL_TEXTURE0);

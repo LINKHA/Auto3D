@@ -1,11 +1,11 @@
 #ifndef MONITORS_H_
 #define MONITORS_H_
 #include "Auto.h"
-#include "GLStateCache.h"
 #include "stl_use.h"
 #include "LogAssert.h"
 #include "Singleton.h"
 #include "Math/Vector2.h"
+#include "OpenGLGather.h"
 USING_MATH
 AUTO_BEGIN
 /**

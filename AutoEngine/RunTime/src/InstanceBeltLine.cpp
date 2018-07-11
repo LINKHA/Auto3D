@@ -47,15 +47,12 @@ void InstanceBeltLine::Draw(Camera * cam)
 {
 	RectInt rect = INSTANCE(GLWindow).GetWindowRectInt();
 
-	glm::mat4 projection = glm::perspective(cam->Zoom,
-		((float)rect.width * (float)cam->ViewRect.width) /
-		((float)rect.height * (float)cam->ViewRect.height),
-		cam->Near, cam->Far);
-	glm::mat4 view = cam->GetViewMatrix();
+	glm::mat4 projectionMat = cam->GetProjectionMatrix();
+	glm::mat4 viewMat = cam->GetViewMatrix();
 
 	m_Shader.Use();
-	m_Shader.SetMat4("projection", projection);
-	m_Shader.SetMat4("view", view);
+	m_Shader.SetMat4("projection", projectionMat);
+	m_Shader.SetMat4("view", viewMat);
 	m_Shader.SetInt("texture_diffuse1", 0);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_Model.textures_loaded[0].id); 

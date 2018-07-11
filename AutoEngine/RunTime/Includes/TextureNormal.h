@@ -2,7 +2,6 @@
 #define TEXTURE_NORMAL_H_
 #include "Texture.h"
 #include "Texture.h"
-#include "GLStateCache.h"
 #include "LoadResource.h"
 #include "Transform.h"
 #include "Camera.h"
