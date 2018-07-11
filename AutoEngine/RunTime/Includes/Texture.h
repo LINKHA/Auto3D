@@ -9,12 +9,12 @@
 #include "Shader.h"
 #include "AtConfig.h"
 #include "GameObject.h"
-
+#include "RanderComponent.h"
 AUTO_BEGIN
 
-class Texture : public Component
+class Texture : public RanderComponent
 {
-	REGISTER_DERIVED_ABSTRACT_CLASS(Texture, Component);
+	REGISTER_DERIVED_ABSTRACT_CLASS(Texture, RanderComponent);
 	DECLARE_OBJECT_SERIALIZE(Texture);
 	
 protected:
@@ -25,8 +25,12 @@ protected:
 	float			m_TexelSizeX, m_TexelSizeY;
 public:
 	Texture();
-	void Start()override;
-	void Draw(Camera * cam = nullptr)override;
+	virtual void Awake() {}
+	virtual void Start() {}
+	virtual void Update() {}
+	virtual void FixUpdate() {}
+	virtual void Finish() {}
+	virtual void Draw(Camera* camera = nullptr) {}
 };
 
 AUTO_END

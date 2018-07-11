@@ -34,7 +34,13 @@ enum ClassIDType
 
 
 	DO_CLASS_ID(MotionSpace, 30)
-	DO_CLASS_ID(Prefab,31)
+	DO_CLASS_ID(Prefab, 31)
+
+	DO_CLASS_ID(TextureMap, 32)
+	DO_CLASS_ID(TextureNormal, 33)
+	DO_CLASS_ID(TextureParallax, 34)
+	DO_CLASS_ID(RanderComponent, 35)
+	DO_CLASS_ID(Sprite, 36)
 	CLASS_ID_Count
 };
 

@@ -3,6 +3,7 @@
 #include "Monitors.h"
 #include "AtConfig.h"
 #include "GLWindow.h"
+#include "VertexData.h"
 AUTO_BEGIN
 Shader shader;
 Shader shaderBlur;
@@ -10,15 +11,7 @@ Shader shaderEdgeDetection;
 Shader shaderGrayscale;
 Shader shaderInversion;
 Shader shaderSharpen;
-float fb_quadVertices[] = {
-	-1.0f,  1.0f,  0.0f, 1.0f,
-	-1.0f, -1.0f,  0.0f, 0.0f,
-	1.0f, -1.0f,  1.0f, 0.0f,
 
-	-1.0f,  1.0f,  0.0f, 1.0f,
-	1.0f, -1.0f,  1.0f, 0.0f,
-	1.0f,  1.0f,  1.0f, 1.0f
-};
 
 SINGLETON_INSTANCE(FrameBuffersScreen);
 FrameBuffersScreen::FrameBuffersScreen()
@@ -46,7 +39,7 @@ void FrameBuffersScreen::Start()
 	glGenBuffers(1, &fb_quadVBO);
 	glBindVertexArray(fb_quadVAO);
 	glBindBuffer(GL_ARRAY_BUFFER, fb_quadVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(fb_quadVertices), &fb_quadVertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(frame_quad_vertices), &frame_quad_vertices, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(1);

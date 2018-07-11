@@ -3,7 +3,7 @@
 #include "Light.h"
 #include "FreeCamera.h"
 #include "Mesh.h"
-#include "TextureMap.h"
+#include "TextureParallax.h"
 ParallaxMappingSpace::ParallaxMappingSpace()
 {}
 ParallaxMappingSpace::~ParallaxMappingSpace()
@@ -21,8 +21,7 @@ void ParallaxMappingSpace::Start()
 	lightObj->AddComponent(light);*/
 
 	GameObject * normalObj = new GameObject();
-	TextureMap * normal = new TextureMap();
-	normal->useParallax = true;
+	TextureParallax * normal = new TextureParallax();
 	normalObj->AddComponent(normal);
 
 

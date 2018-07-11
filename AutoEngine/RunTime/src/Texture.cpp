@@ -9,13 +9,6 @@ Texture::Texture()
 Texture::~Texture()
 {
 }
-void Texture::Start()
-{
-}
-
-void Texture::Draw(Camera * cam)
-{
-}
 
 AUTO_END
 

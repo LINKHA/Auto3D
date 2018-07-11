@@ -10,70 +10,20 @@
 #include "GameObject.h"
 AUTO_BEGIN
 
-class TextureMap : public Texture
+class TextureMap : public Texture2D
 {
-public:
-	typedef struct _TexParams {
-		GLuint    minFilter;
-		GLuint    magFilter;
-		GLuint    wrapS;
-		GLuint    wrapT;
-	}TexParams;
+	REGISTER_DERIVED_CLASS(TextureMap, Texture2D);
+	DECLARE_OBJECT_SERIALIZE(TextureMap);
 
 public:
 
 	TextureMap();
-	TextureMap(char* imagePath);
-	TextureMap(char* imagePath, const Shader& shader);
-	~TextureMap();
 	void Start()override;
 	void Draw(Camera * cam)override;
 
 
 	void SetTexParameters(const TexParams& params);
-	void GenerateMipmap();
 
-	void SetColor(const Color& color);
-	void SetColor(const Vector3& vec);
-	void SetColor(float r, float g, float b, float a = 1.0f);
-
-	bool useStencil;
-	bool useDepth;
-	bool useBlend;
-
-	bool useParallax;
-	void StencilOp(GLenum sfail, GLenum dpfail, GLenum dppass);
-	void StencilFunc(GLenum func, GLint ref, GLuint mask);
-	void StencilMask(GLuint mask);
-	void DepthFunc(GLenum func);
-
-	
-protected:
-
-	float width;
-	float height;
-	bool is_Mipmaps;
-
-private:
-
-	unsigned int t_VBO, t_VAO;
-	unsigned int textureData;
-
-	Shader m_shader;
-	Color m_Color;
-	Ptr(char, m_ImagePath);
-	Ptr(char, m_ImageNormalPath);
-	Ptr(char, m_ImageParallaxPath);
-	unsigned int m_image;
-	unsigned int m_imageNormal;
-	unsigned int m_imageParallax;
-	GLenum m_sfail; GLenum m_dpfail; GLenum m_dppass;
-	GLenum m_func; GLint m_ref; GLuint m_mask;
-	GLuint m_mas;
-	GLenum m_depthfunc;
-
-	
-	void renderQuad();
 };
 
 AUTO_END

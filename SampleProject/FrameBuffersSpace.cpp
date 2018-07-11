@@ -5,6 +5,7 @@
 #include "Light.h"
 #include "FrameBuffersScreen.h"
 #include "TimeManager.h"
+#include "Sprite.h"
 FrameBuffersSpace::FrameBuffersSpace()
 {
 }
@@ -22,21 +23,21 @@ void FrameBuffersSpace::Start()
 	camObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 	camObj->AddComponent(freeCamera);
 
-	Texture2D * tex2 = new Texture2D("Resource/texture/window.png");
+	Sprite * tex2 = new Sprite("Resource/texture/window.png");
 	tex2->useBlend = true;
 	tex2->useDepth = false;
 	GameObject * obj2 = new GameObject();
 	obj2->GetComponent(Transform).SetPosition(0.0f, 0.0f, 0.0f);
 	obj2->AddComponent(tex2);
 
-	Texture2D * tex3 = new Texture2D("Resource/texture/window.png");
+	Sprite * tex3 = new Sprite("Resource/texture/window.png");
 	tex3->useBlend = true;
 	tex3->useDepth = false;
 	GameObject * obj3 = new GameObject();
 	obj3->GetComponent(Transform).SetPosition(0.2f, 0.0f, -1.0f);
 	obj3->AddComponent(tex3);
 
-	Texture2D * tex5 = new Texture2D("Resource/texture/grass.png");
+	Sprite * tex5 = new Sprite("Resource/texture/grass.png");
 	tex5->useBlend = true;
 	GameObject * obj5 = new GameObject();
 	obj5->GetComponent(Transform).SetPosition(-0.2f, 0.0f, -3.0f);

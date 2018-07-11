@@ -7,16 +7,15 @@
 #include "AtConfig.h"
 #include "LoadResource.h"
 #include "Math/Color.h"
-#include "GameObject.h"
 #include "AuMaterial.h"
-
+#include "RanderComponent.h"
 
 
 AUTO_BEGIN
 
-class Mesh : public Component
+class Mesh : public RanderComponent
 {
-	REGISTER_DERIVED_CLASS(Mesh, Component);
+	REGISTER_DERIVED_CLASS(Mesh, RanderComponent);
 	DECLARE_OBJECT_SERIALIZE(Mesh);
 public:
 	Mesh();

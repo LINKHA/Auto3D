@@ -41,7 +41,7 @@ int Application::Init()
 {
 	INSTANCE(BaseSpace).Awake();
 	glfwWindowHint(GLFW_SAMPLES, 4);
-	stbi_set_flip_vertically_on_load(true);
+	//stbi_set_flip_vertically_on_load(true);
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{

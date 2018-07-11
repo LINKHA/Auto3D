@@ -3,7 +3,6 @@
 #include "Texture.h"
 #include "GLStateCache.h"
 #include "LoadResource.h"
-#include "Transform.h"
 #include "Camera.h"
 #include "Application.h"
 #include "GameObject.h"
@@ -13,7 +12,7 @@ AUTO_BEGIN
 
 class Texture2D : public Texture
 {
-	REGISTER_DERIVED_CLASS(Texture2D, Texture);
+	REGISTER_DERIVED_ABSTRACT_CLASS(Texture2D, Texture);
 	DECLARE_OBJECT_SERIALIZE(Texture2D);
 public:
 	typedef struct _TexParams {
@@ -26,20 +25,10 @@ public:
 public:
 
 	Texture2D();
-	Texture2D(char* imagePath);
-	Texture2D(char* imagePath, const Shader& shader);
-
+	
 	void Start()override;
 	void Draw(Camera * cam)override;
 
-	void SetLinerParameters();
-	void SetNearestParameters();
-	void SetTexParameters(const TexParams& params);
-	void GenerateMipmap();
-
-	void SetColor(const Color& color);
-	void SetColor(const Vector3& vec);
-	void SetColor(float r, float g, float b, float a = 1.0f);
 
 	bool useStencil;
 	bool useDepth;
@@ -49,20 +38,6 @@ public:
 	void StencilMask(GLuint mask);
 	void DepthFunc(GLenum func);
 protected:
-
-	float width;
-	float height;
-	bool is_Mipmaps;
-
-private:
-
-	unsigned int t_VBO, t_VAO, t_EBO;
-	unsigned int textureData;
-	
-	Shader m_shader;
-	Color m_Color;
-	Ptr(char,m_ImagePath);
-	Ptr(Image, m_image);
 	GLenum m_sfail; GLenum m_dpfail; GLenum m_dppass;
 	GLenum m_func; GLint m_ref; GLuint m_mask;
 	GLuint m_mas;

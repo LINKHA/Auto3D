@@ -3,7 +3,7 @@
 #include "Light.h"
 #include "FreeCamera.h"
 #include "Mesh.h"
-#include "TextureMap.h"
+#include "TextureNormal.h"
 NormalMappingSpace::NormalMappingSpace()
 {}
 NormalMappingSpace::~NormalMappingSpace()
@@ -21,7 +21,7 @@ void NormalMappingSpace::Start()
 	lightObj->AddComponent(light);*/
 
 	GameObject * normalObj = new GameObject();
-	TextureMap * normal = new TextureMap();
+	TextureNormal * normal = new TextureNormal();
 	normalObj->AddComponent(normal);
 	
 

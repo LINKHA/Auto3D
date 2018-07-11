@@ -1,5 +1,5 @@
 #include "TextureSpace.h"
-#include "Texture2D.h"
+#include "Sprite.h"
 #include "GameObject.h"
 #include "FreeCamera.h"
 #include "TimeManager.h"
@@ -21,39 +21,39 @@ void TextureSpace::Start()
 	camObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 	camObj->AddComponent(freeCamera);
 
-	Texture2D* tex1 = new Texture2D("Resource/texture/square.jpg");
+	Sprite* tex1 = new Sprite("Resource/texture/square.jpg");
 	te_obj = new GameObject();
 	tex1->SetColor(Color(0.5f, 0.5f, 0.5f));
 	te_obj->AddComponent(tex1);
 
-	Texture2D * tex2 = new Texture2D("Resource/texture/window.png");
+	Sprite * tex2 = new Sprite("Resource/texture/window.png");
 	tex2->useBlend = true;
 	tex2->useDepth = false;
 	GameObject * obj2 = new GameObject();
 	obj2->GetComponent(Transform).SetPosition(0.0f, 0.0f, 0.0f);
 	obj2->AddComponent(tex2);
 
-	Texture2D * tex3 = new Texture2D("Resource/texture/window.png");
+	Sprite * tex3 = new Sprite("Resource/texture/window.png");
 	tex3->useBlend = true;
 	tex3->useDepth = false;
 	GameObject * obj3 = new GameObject();
 	obj3->GetComponent(Transform).SetPosition(0.2f, 0.0f, -1.0f);
 	obj3->AddComponent(tex3);
 
-	Texture2D * tex4 = new Texture2D("Resource/texture/window.png");
+	Sprite * tex4 = new Sprite("Resource/texture/window.png");
 	tex4->useBlend = true;
 	tex4->useDepth = false;
 	GameObject * obj4 = new GameObject();
 	obj4->GetComponent(Transform).SetPosition(-0.2f, 0.0f, -2.0f);
 	obj4->AddComponent(tex4);
 
-	Texture2D * tex5 = new Texture2D("Resource/texture/grass.png");
+	Sprite * tex5 = new Sprite("Resource/texture/grass.png");
 	tex5->useBlend = true;
 	GameObject * obj5 = new GameObject();
 	obj5->GetComponent(Transform).SetPosition(-0.2f, 0.0f, -3.0f);
 	obj5->AddComponent(tex5);
 
-	Texture2D * tex6 = new Texture2D("Resource/texture/grass.png");
+	Sprite * tex6 = new Sprite("Resource/texture/grass.png");
 	tex6->useBlend = false;
 	GameObject * obj6 = new GameObject();
 	obj6->GetComponent(Transform).SetPosition(-0.2f, 0.0f, -4.0f);

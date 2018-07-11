@@ -1,6 +1,6 @@
 #ifndef DEVICE_TYPES_H_
 #define DEVICE_TYPES_H_
-
+#include "Auto.h"
 
 AUTO_BEGIN
 struct TextureID
