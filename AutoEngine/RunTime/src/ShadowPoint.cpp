@@ -1,145 +1,129 @@
-#include "Shadow.h"
+#include "ShadowPoint.h"
 #include "AtConfig.h"
+#include "stb_image.h"
+#include "ShadowTest.h"
 #include "GLWindow.h"
 #include "Camera.h"
-#include "ShadowTest.h"
-#include "stb_image.h"
 AUTO_BEGIN
-
-
-
-Shadow::Shadow()
-	:m_ShadowMap(AtConfig::shader_path + "au_shadow_mapping.auvs"
-		, AtConfig::shader_path + "au_shadow_mapping.aufs")
-	,m_ShadowMapDepth(AtConfig::shader_path + "au_shadow_mapping_depth.auvs"
-		, AtConfig::shader_path + "au_shadow_mapping_depth.aufs")
+ShadowPoint::ShadowPoint()
+	:m_ShadowMap(AtConfig::shader_path + "au_point_shadows.auvs"
+		, AtConfig::shader_path + "au_point_shadows.aufs")
+	, m_ShadowMapDepth(AtConfig::shader_path + "au_point_shadows_depth.auvs"
+		, AtConfig::shader_path + "au_point_shadows_depth.aufs"
+		, AtConfig::shader_path + "au_point_shadows_depth.augs")
 {}
-Shadow::~Shadow()
+ShadowPoint::~ShadowPoint()
 {}
 
-void Shadow::Start()
+void ShadowPoint::Start()
 {
-	/////////////////////////////////////////////////////////////////////////////////////////////
-	float planeVertices[] = {
-		// positions            // normals         // texcoords
-		25.0f, -0.5f,  25.0f,  0.0f, 1.0f, 0.0f,  25.0f,  0.0f,
-		-25.0f, -0.5f,  25.0f,  0.0f, 1.0f, 0.0f,   0.0f,  0.0f,
-		-25.0f, -0.5f, -25.0f,  0.0f, 1.0f, 0.0f,   0.0f, 25.0f,
-
-		25.0f, -0.5f,  25.0f,  0.0f, 1.0f, 0.0f,  25.0f,  0.0f,
-		-25.0f, -0.5f, -25.0f,  0.0f, 1.0f, 0.0f,   0.0f, 25.0f,
-		25.0f, -0.5f, -25.0f,  0.0f, 1.0f, 0.0f,  25.0f, 25.0f
-	};
-	// plane VAO
-	unsigned int planeVBO;
-	glGenVertexArrays(1, &planeVAO);
-	glGenBuffers(1, &planeVBO);
-	glBindVertexArray(planeVAO);
-	glBindBuffer(GL_ARRAY_BUFFER, planeVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(planeVertices), planeVertices, GL_STATIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-	glBindVertexArray(0);
-
-	woodTexture = loadTexture("Resource/texture/wood.jpg");
 	// configure depth map FBO
 	// -----------------------
-	
-	INSTANCE(ShadowTest).BindDepathMap();
+	woodTexture = loadTexture("Resource/texture/wood.jpg");
 
+	INSTANCE(ShadowTest).BindPointDepathMap();
+
+	// shader configuration
+	// --------------------
 	m_ShadowMap.Use();
 	m_ShadowMap.SetInt("diffuseTexture", 0);
-	m_ShadowMap.SetInt("shadowMap", 1);
-
-	lightPos = glm::vec3(-2.0f, 4.0f, -1.0f);
+	m_ShadowMap.SetInt("depthMap", 1);
+	lightPos = glm::vec3(0.0f, 0.0f, 0.0f);
 }
-void Shadow::Draw(Camera* camera)
+void ShadowPoint::Draw(Camera* camera)
 {
-	glm::mat4 lightProjection, lightView;
-	glm::mat4 lightSpaceMatrix;
-	float near_plane = 1.0f, far_plane = 7.5f;
-	lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
-	lightView = glm::lookAt(lightPos, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
-	lightSpaceMatrix = lightProjection * lightView;
-	
-	
-	glViewport(0, 0, INSTANCE(ShadowTest).shadowWidth, INSTANCE(ShadowTest).shadowHeight);
-	glBindFramebuffer(GL_FRAMEBUFFER, INSTANCE(ShadowTest).depthMapFBO);
-	glClear(GL_DEPTH_BUFFER_BIT);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, woodTexture);
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// render scene from light's point of view
+	int shadowWidth = INSTANCE(ShadowTest).shadowWidth;
+	int shadowHeight = INSTANCE(ShadowTest).shadowHeight;
+	float near_plane = 1.0f;
+	float far_plane = 25.0f;
+	glm::mat4 shadowProj = glm::perspective(90.0f, (float)shadowWidth / (float)shadowHeight, near_plane, far_plane);
+	std::vector<glm::mat4> shadowTransforms;
+	shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
+	shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
+	shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f)));
+	shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f)));
+	shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
+	shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
+	glViewport(0, 0, shadowWidth, shadowHeight);
+	glBindFramebuffer(GL_FRAMEBUFFER, INSTANCE(ShadowTest).depthPointMapFBO);
+	glClear(GL_DEPTH_BUFFER_BIT);
 	m_ShadowMapDepth.Use();
-	m_ShadowMapDepth.SetMat4("lightSpaceMatrix", lightSpaceMatrix);
-	/////////////////////////////////////////////////////////////////////////////////////////////
+	for (unsigned int i = 0; i < 6; ++i)
+		m_ShadowMapDepth.SetMat4("shadowMatrices[" + std::to_string(i) + "]", shadowTransforms[i]);
+	m_ShadowMapDepth.SetFloat("far_plane", far_plane);
+	m_ShadowMapDepth.SetVec3("lightPos", lightPos);
 	renderScene(m_ShadowMapDepth);
-	/////////////////////////////////////////////////////////////////////////////////////////////
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-
-	// reset viewport
+	// 2. render scene as normal 
+	// -------------------------
 	RectInt t = INSTANCE(GLWindow).GetWindowRectInt();
 	glViewport(0, 0, t.width, t.height);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	// 2. render scene as normal using the generated depth/shadow map  
-	// --------------------------------------------------------------
-	glViewport(0, 0, t.width, t.height);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	/////////////////////////////////////////////////////////////////////////////////////////////
 	m_ShadowMap.Use();
 	glm::mat4 projection = glm::perspective(camera->Zoom, (float)t.width / (float)t.height, 0.1f, 100.0f);
 	glm::mat4 view = camera->GetViewMatrix();
 	m_ShadowMap.SetMat4("projection", projection);
 	m_ShadowMap.SetMat4("view", view);
-	// set light uniforms
-	m_ShadowMap.SetVec3("viewPos", camera->Position);
+	// set lighting uniforms
 	m_ShadowMap.SetVec3("lightPos", lightPos);
-	m_ShadowMap.SetMat4("lightSpaceMatrix", lightSpaceMatrix);
+	m_ShadowMap.SetVec3("viewPos", camera->Position);
+	m_ShadowMap.SetInt("shadows", true); // enable/disable shadows by pressing 'SPACE'
+	m_ShadowMap.SetFloat("far_plane", far_plane);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, woodTexture);
 	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, INSTANCE(ShadowTest).depthMap);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, INSTANCE(ShadowTest).depthPointmap);
 	renderScene(m_ShadowMap);
-	/////////////////////////////////////////////////////////////////////////////////////////////
 }
-
 // renders the 3D scene
 // --------------------
-void Shadow::renderScene(const Shader &shader)
+void ShadowPoint::renderScene(const Shader &shader)
 {
-	// floor
+	// room cube
 	glm::mat4 model;
+	model = glm::scale(model, glm::vec3(5.0f));
 	shader.SetMat4("model", model);
-	glBindVertexArray(planeVAO);
-	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glDisable(GL_CULL_FACE); // note that we disable culling here since we render 'inside' the cube instead of the usual 'outside' which throws off the normal culling methods.
+	shader.SetInt("reverse_normals", 1); // A small little hack to invert normals when drawing cube from the inside so lighting still works.
+	renderCube();
+	shader.SetInt("reverse_normals", 0); // and of course disable it
+	glEnable(GL_CULL_FACE);
 	// cubes
 	model = glm::mat4();
-	model = glm::translate(model, glm::vec3(0.0f, 1.5f, 0.0));
+	model = glm::translate(model, glm::vec3(4.0f, -3.5f, 0.0));
 	model = glm::scale(model, glm::vec3(0.5f));
 	shader.SetMat4("model", model);
 	renderCube();
 	model = glm::mat4();
-	model = glm::translate(model, glm::vec3(2.0f, 0.0f, 1.0));
+	model = glm::translate(model, glm::vec3(2.0f, 3.0f, 1.0));
+	model = glm::scale(model, glm::vec3(0.75f));
+	shader.SetMat4("model", model);
+	renderCube();
+	model = glm::mat4();
+	model = glm::translate(model, glm::vec3(-3.0f, -1.0f, 0.0));
 	model = glm::scale(model, glm::vec3(0.5f));
 	shader.SetMat4("model", model);
 	renderCube();
 	model = glm::mat4();
-	model = glm::translate(model, glm::vec3(-1.0f, 0.0f, 2.0));
+	model = glm::translate(model, glm::vec3(-1.5f, 1.0f, 1.5));
+	model = glm::scale(model, glm::vec3(0.5f));
+	shader.SetMat4("model", model);
+	renderCube();
+	model = glm::mat4();
+	model = glm::translate(model, glm::vec3(-1.5f, 2.0f, -3.0));
 	model = glm::rotate(model, glm::radians(60.0f), glm::normalize(glm::vec3(1.0, 0.0, 1.0)));
-	model = glm::scale(model, glm::vec3(0.25));
+	model = glm::scale(model, glm::vec3(0.75f));
 	shader.SetMat4("model", model);
 	renderCube();
 }
 
 unsigned int cubeVAO = 0;
 unsigned int cubeVBO = 0;
-void Shadow::renderCube()
+void ShadowPoint::renderCube()
 {
 	// initialize (if necessary)
 	if (cubeVAO == 0)
@@ -209,7 +193,7 @@ void Shadow::renderCube()
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindVertexArray(0);
 }
-unsigned int Shadow::loadTexture(char const * path)
+unsigned int ShadowPoint::loadTexture(char const * path)
 {
 	unsigned int textureID;
 	glGenTextures(1, &textureID);
@@ -245,6 +229,4 @@ unsigned int Shadow::loadTexture(char const * path)
 
 	return textureID;
 }
-
-
 AUTO_END

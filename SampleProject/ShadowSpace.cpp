@@ -4,6 +4,7 @@
 #include "FreeCamera.h"
 #include "Mesh.h"
 #include "Shadow.h"
+#include "ShadowPoint.h"
 #include "MeshShadowTest.h"
 #include "ShadowTest.h"
 ShadowSpace::ShadowSpace()
@@ -41,8 +42,11 @@ void ShadowSpace::Start()
 	meshObj3->GetComponent(Transform).SetPosition(4.0f, 2.0f, 0.0f);*/
 
 	GameObject * shadowObj = new GameObject();
-	Shadow * shadow = new Shadow();
+	//Shadow * shadow = new Shadow();
+	ShadowPoint * shadow = new ShadowPoint();
 	shadowObj->AddComponent(shadow);
+
+
 }
 
 void ShadowSpace::Update()

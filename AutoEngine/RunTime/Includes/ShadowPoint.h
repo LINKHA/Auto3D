@@ -1,14 +1,12 @@
-#ifndef SHADOW_H_
-#define SHADOW_H_
-#include "Auto.h"
-#include "Shader.h"
+#pragma once
 #include "GameObject.h"
+#include "Shader.h"
 AUTO_BEGIN
-class Shadow : public Component
+class ShadowPoint : public Component
 {
 public:
-	Shadow();
-	virtual ~Shadow();
+	ShadowPoint();
+	~ShadowPoint();
 	void Start()override;
 	void Draw(Camera* camera = nullptr)override;
 private:
@@ -20,7 +18,8 @@ private:
 	unsigned int loadTexture(const char *path);
 	void renderScene(const Shader &shader);
 	void renderCube();
-};
-AUTO_END
-#endif //!SHADOW_H_
 
+
+};
+
+AUTO_END

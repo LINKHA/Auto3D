@@ -9,11 +9,14 @@ public:
 	~ShadowTest();
 
 	void BindDepathMap();
+	void BindPointDepathMap();
 	int shadowWidth;
 	int shadowHeight;
 
 	unsigned int depthMapFBO;
 	unsigned int depthMap;
 
+	unsigned int depthPointMapFBO;
+	unsigned int depthPointmap;
 };
 AUTO_END
