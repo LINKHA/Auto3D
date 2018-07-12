@@ -41,6 +41,10 @@ enum ClassIDType
 	DO_CLASS_ID(TextureParallax, 34)
 	DO_CLASS_ID(RanderComponent, 35)
 	DO_CLASS_ID(Sprite, 36)
+
+	DO_CLASS_ID(LightPoint, 37)
+	DO_CLASS_ID(LightDirectional, 38)
+	DO_CLASS_ID(LightSpot, 39)
 	CLASS_ID_Count
 };
 

@@ -5,7 +5,7 @@
 #include "TimeManager.h"
 #include "Mesh.h"
 #include "FreeCamera.h"
-#include "Light.h"
+#include "LightPoint.h"
 MoreCameraSpace::MoreCameraSpace()
 {
 }
@@ -34,7 +34,7 @@ void MoreCameraSpace::Start()
 	//////////////////////////////////////////////////////////////////////////
 	GameObject * lightObj = new GameObject();
 	lightObj->GetComponent(Transform).SetPosition(2.0f, 0.0f, 0.0f);
-	Light * light = new Light(Point);
+	Light * light = new LightPoint();
 	lightObj->AddComponent(light);
 	//////////////////////////////////////////////////////////////////////////
 	Mesh* mesh = new Mesh("Resource/object/base/Cube.FBX");

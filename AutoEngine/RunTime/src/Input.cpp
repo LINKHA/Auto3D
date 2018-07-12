@@ -15,12 +15,10 @@ bool Input::GetKeyButtonDown(int index)
 {
 	return GrGetKey(INSTANCE(GLWindow).GetGLWindow(), index) == BUTTON_PRESS;
 }
-
 bool Input::GetKeyButtonRelease(int index)
 {
 	return GrGetKey(INSTANCE(GLWindow).GetGLWindow(), index) == BUTTON_RELEASE;
 }
-
 bool Input::GetKeyButtonRepeat(int index)
 {
 	return GrGetKey(INSTANCE(GLWindow).GetGLWindow(), index) == BUTTON_REPEAT;

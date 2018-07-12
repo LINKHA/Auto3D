@@ -1,8 +1,9 @@
 #include "AntiAliasingSpace.h"
 #include "Application.h"
-#include "Light.h"
+#include "LightDirectional.h"
 #include "FreeCamera.h"
 #include "Mesh.h"
+
 AntiAliasingSpace::AntiAliasingSpace()
 {}
 AntiAliasingSpace::~AntiAliasingSpace()
@@ -16,7 +17,7 @@ void AntiAliasingSpace::Start()
 	cameraObj->AddComponent(camera);
 
 	GameObject * lightObj = new GameObject();
-	Light * light = new Light(Directional);
+	Light * light = new LightDirectional();
 	lightObj->AddComponent(light);
 
 	GameObject * meshObj = new GameObject();

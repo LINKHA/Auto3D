@@ -23,12 +23,10 @@ class Light : public Component
 	DECLARE_OBJECT_SERIALIZE(Light);
 public:
 	Light();
-	Light(LightType type);
 	LightType GetType() const { return static_cast<LightType>(m_Type); }
 
 	void AddToManager();
 	void RemoveFromManager();
-	void ComputeLight();
 
 	Color color;
 
@@ -47,8 +45,7 @@ public:
 	float nearPlane;
 	float farPlane;
 
-private:
-	ModelCommand		model;
+protected:
 	int					m_Type;						//Light Type
 };
 

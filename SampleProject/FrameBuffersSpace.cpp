@@ -2,7 +2,7 @@
 #include "Application.h"
 #include "Mesh.h"
 #include "FreeCamera.h"
-#include "Light.h"
+#include "LightPoint.h"
 #include "FrameBuffersScreen.h"
 #include "TimeManager.h"
 #include "Sprite.h"
@@ -44,7 +44,7 @@ void FrameBuffersSpace::Start()
 	obj5->AddComponent(tex5);
 
 	GameObject * lightObj = new GameObject();
-	Light * light = new Light(Point);
+	Light * light = new LightPoint();
 	//light->ambient.Set(0.1f, 0.1f, 0.1f);
 	//light->direction.Set(0.0f, -1.0f, 0.0f);
 	lightObj->AddComponent(light);

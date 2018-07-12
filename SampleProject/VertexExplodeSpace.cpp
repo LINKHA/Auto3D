@@ -4,7 +4,7 @@
 #include "Application.h"
 #include "Mesh.h"
 #include "Shader.h"
-#include "Light.h"
+#include "LightPoint.h"
 VertexExplodeSpace::VertexExplodeSpace()
 {
 }
@@ -21,7 +21,7 @@ void VertexExplodeSpace::Start()
 	cameraObj->AddComponent(camera);
 
 	GameObject * lightObj = new GameObject();
-	Light * light = new Light(Point);
+	Light * light = new LightPoint();
 	lightObj->AddComponent(light);
 
 

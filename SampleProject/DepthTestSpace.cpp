@@ -2,7 +2,7 @@
 #include "Application.h"
 #include "Mesh.h"
 #include "FreeCamera.h"
-#include "Light.h"
+#include "LightDirectional.h"
 DepthTestSpace::DepthTestSpace()
 {}
 DepthTestSpace::~DepthTestSpace()
@@ -15,7 +15,7 @@ void DepthTestSpace::Start()
 {
 	GameObject * lightObj = new GameObject();
 	lightObj->GetComponent(Transform).SetPosition(2.0f, 5.0f, 0.0f);
-	Light * light = new Light(Directional);
+	Light * light = new LightDirectional();
 	lightObj->AddComponent(light);
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	GameObject * camObj = new GameObject();

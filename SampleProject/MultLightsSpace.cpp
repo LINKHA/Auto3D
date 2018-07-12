@@ -6,7 +6,9 @@
 #include "Camera.h"
 #include "Light.h"
 #include "FreeCamera.h"
-
+#include "LightDirectional.h"
+#include "LightSpot.h"
+#include "LightPoint.h"
 
 
 
@@ -35,17 +37,17 @@ void MultLightsSpace::Start()
 	//////////////////////////////////////////////////////////////////////////
 	mu_lightObj = new GameObject();
 	mu_lightObj->GetComponent(Transform).SetPosition(2.0f, 0.0f, 0.0f);
-	mu_light = new Light(Point);
+	mu_light = new LightPoint();
 	mu_lightObj->AddComponent(mu_light);
 	//////////////////////////////////////////////////////////////////////////
 	mu_lightObj2 = new GameObject();
 	mu_lightObj2->GetComponent(Transform).SetPosition(-2.0f, 0.0f, -0.5f);
-	mu_light2 = new Light(Spot);
+	mu_light2 = new LightSpot();
 	mu_light2->direction.Set(1.0f, 0.0f, 0.0f);
 	mu_lightObj2->AddComponent(mu_light2);
 	//////////////////////////////////////////////////////////////////////////
 	mu_lightObj3 = new GameObject();
-	mu_light3 = new Light(Directional);
+	mu_light3 = new LightDirectional();
 	mu_light->ambient.Set(0.1f, 0.1f, 0.1f);
 	mu_light3->direction.Set(0.0f, -1.0f, 0.0f);
 	mu_lightObj3->AddComponent(mu_light3);
