@@ -47,38 +47,7 @@ void TextureParallax::Start()
 void TextureParallax::Draw(Camera * cam)
 {
 	Super::Draw(cam);
-	if (useDepth)
-	{
-		glEnable(GL_DEPTH_TEST);
-		glDepthFunc(m_depthfunc);
-	}
-	else
-	{
-		glDisable(GL_DEPTH_TEST);
-	}
-	if (useStencil)
-	{
-		glEnable(GL_STENCIL_TEST);
-		void StencilOp(GLenum sfail, GLenum dpfail, GLenum dppass);
-		void StencilFunc(GLenum func, GLint ref, GLuint mask);
-		void StencilMask(GLuint mask);
-		if (m_sfail)
-			glStencilOp(m_sfail, m_dpfail, m_dppass);
-		else
-			glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-		if (m_func)
-			glStencilFunc(m_func, m_ref, m_mask);
-		else
-			glStencilFunc(GL_ALWAYS, 1, 0xFF);
-
-		glStencilMask(m_mas);
-
-	}
-	if (useBlend)
-	{
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	}
+	GLApply();
 
 
 	if (cam == nullptr)
@@ -117,22 +86,7 @@ void TextureParallax::Draw(Camera * cam)
 	glBindTexture(GL_TEXTURE_2D, m_imageParallax);
 
 	renderQuad();
-
-	if (useStencil)
-	{
-		glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
-		glDisable(GL_STENCIL_TEST);
-		glStencilMask(0xFF);
-	}
-	if (!useDepth)
-		glEnable(GL_DEPTH_TEST);
-	else
-		glDepthFunc(GL_LESS);
-	if (useBlend)
-	{
-		glDisable(GL_BLEND);
-
-	}
+	GLOriginal();
 }
 
 void TextureParallax::SetColor(const Color& color)

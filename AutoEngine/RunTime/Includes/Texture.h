@@ -10,9 +10,10 @@
 #include "AtConfig.h"
 #include "GameObject.h"
 #include "RanderComponent.h"
+#include "GLTextureEnable.h"
 AUTO_BEGIN
 
-class Texture : public RanderComponent
+class Texture : public RanderComponent , public GLTextureEnable
 {
 	REGISTER_DERIVED_ABSTRACT_CLASS(Texture, RanderComponent);
 	DECLARE_OBJECT_SERIALIZE(Texture);

@@ -9,28 +9,19 @@ LightManager& lights = INSTANCE(LightManager);
 Mesh::Mesh()
 	: m_shader(Shader(AtConfig::shader_path + "au_light_map_model_loading.auvs"
 		, AtConfig::shader_path + "au_light_map_model_loading.aufs"))
-	, useStencil(false)
-	, useDepth(true)
-	, useBlend(false)
 	, m_userShader(false)
 {
 	m_meshPath.ptr = "Resource/object/base/Cube.FBX";
 
 }
 Mesh::Mesh(char* meshPath)
-	: useStencil(false)
-	, useDepth(true)
-	, useBlend(false)
-	, m_userShader(false)
+	: m_userShader(false)
 {
 	m_meshPath.ptr = meshPath;
 	
 }
 Mesh::Mesh(char* meshPath, const Shader& shader)
 	: m_shader(shader)
-	, useStencil(false)
-	, useDepth(true)
-	, useBlend(false)
 	, m_userShader(true)
 {
 	m_meshPath.ptr = meshPath;
@@ -66,35 +57,7 @@ void Mesh::Draw(Camera * cam)
 	glm::mat4 viewMat;
 	glm::mat4 projectionMat;
 
-	if (useDepth)
-	{
-		glEnable(GL_DEPTH_TEST);
-		glDepthFunc(m_depthfunc);
-	}
-	else
-	{
-		glDisable(GL_DEPTH_TEST);
-	}
-	if (useStencil)
-	{
-		glEnable(GL_STENCIL_TEST);
-		void StencilOp(GLenum sfail, GLenum dpfail, GLenum dppass);
-		void StencilFunc(GLenum func, GLint ref, GLuint mask);
-		void StencilMask(GLuint mask);
-		if (m_sfail)
-			glStencilOp(m_sfail, m_dpfail, m_dppass);
-		else
-			glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-		if (m_func)
-			glStencilFunc(m_func, m_ref, m_mask);
-		else
-			glStencilFunc(GL_ALWAYS, 1, 0xFF);
-
-		glStencilMask(m_mas);
-
-	}
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
+	GLApply();
 
 	if (GetGameObjectPtr())		//if gameObject not empty
 		modelMat = GetGameObject().GetComponent(Transform).GetTransformMat();
@@ -107,29 +70,14 @@ void Mesh::Draw(Camera * cam)
 	m_shader.SetMat4("view", viewMat);
 	m_shader.SetMat4("projection", projectionMat);
 	m_shader.SetVec3("viewPos", cam->GetPosition());
-
-	/**/
-	//m_shader.SetFloat("time", glfwGetTime());
-	/**/
 	if (!m_userShader)
 	{
 		drawMaterial();
 		drawLight();
 	}
 	m_Model.Draw(m_shader);
-	if (useStencil)
-	{
-		glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
-		glDisable(GL_STENCIL_TEST);
-		glStencilMask(0xFF);
-	}
-	if (!useDepth)
-		glEnable(GL_DEPTH_TEST);
-	else
-		glDepthFunc(GL_LESS);
 
-	glCullFace(GL_FRONT);
-	glDisable(GL_CULL_FACE);
+	GLOriginal();
 }
 
 void Mesh::drawMaterial()
@@ -213,25 +161,4 @@ void Mesh::drawLight()
 	m_shader.SetInt("pointNum", point);
 	m_shader.SetInt("spotNum", spot);
 }
-void Mesh::StencilOp(GLenum sfail, GLenum dpfail, GLenum dppass)
-{
-	m_sfail = sfail;
-	m_dpfail = dpfail;
-	m_dppass = dppass;
-}
-void Mesh::StencilFunc(GLenum func, GLint ref, GLuint mask)
-{
-	m_func = func;
-	m_ref = ref;
-	m_mask = mask;
-}
-void Mesh::StencilMask(GLuint mask)
-{
-	m_mas = mask;
-}
-void Mesh::DepthFunc(GLenum func)
-{
-	m_depthfunc = func;
-}
-
 AUTO_END

@@ -29,7 +29,7 @@ void StencilTestSpace::Start()
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	GameObject * obj2 = new GameObject();
 	Mesh * box1 = new Mesh("Resource/object/base/Cube.FBX");
-	box1->useStencil = true;
+	box1->EnableStencil(true);
 	box1->StencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 	box1->StencilFunc(GL_ALWAYS, 1, 0xFF);
 	box1->StencilMask(0xFF);
@@ -39,7 +39,7 @@ void StencilTestSpace::Start()
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	GameObject * obj3 = new GameObject();
 	Mesh * box2 = new Mesh("Resource/object/base/Cube.FBX");
-	box2->useStencil = true;
+	box2->EnableStencil(true);
 	box2->StencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 	box2->StencilFunc(GL_NOTEQUAL, 1, 0xFF);
 	box2->StencilMask(0x00);

@@ -89,7 +89,9 @@
 #define SAFE_RETAIN(p)           do { if(p) { (p)->retain(); } } while(0)
 #define BREAK_IF(cond)           if(cond) break
 
-
+#define ABSTRACT_CLASS class
+#define INTERFACE_CLASS class
+#define TOOL_CLASS class
 //
 typedef int objectID;
 typedef int classID;
