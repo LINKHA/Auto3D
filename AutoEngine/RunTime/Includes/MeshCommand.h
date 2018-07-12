@@ -59,7 +59,6 @@ public:
 		unsigned int specularNr = 1;
 		unsigned int normalNr = 1;
 		unsigned int heightNr = 1;
-		//Print(textures.size());
 		for (unsigned int i = 0; i < textures.size(); i++)
 		{
 			glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
@@ -96,7 +95,6 @@ public:
 
 		// always good practice to set everything back to defaults once configured.
 		glActiveTexture(GL_TEXTURE0);
-		glActiveTexture(GL_TEXTURE1);
 	}
 	
 private:

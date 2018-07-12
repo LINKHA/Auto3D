@@ -8,7 +8,7 @@ class Camera;
 class InstanceBeltLine : public Component
 {
 public:
-	InstanceBeltLine(const ModelCommand& model,const Shader& shader, glm::mat4* modelMat, int count);
+	InstanceBeltLine(const ModelCommand& model,const Shader& shader, glm::mat4* modelMat,int count);
 	~InstanceBeltLine();
 	void Start()override;
 	void Draw(Camera * camera = nullptr)override;

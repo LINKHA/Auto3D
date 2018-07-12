@@ -1,8 +1,6 @@
 #ifndef RAND_H_
 #define RAND_H_
 #include "AUMathBase.h"
-
-
 MATH_BEGIN
 class Rand
 {
@@ -44,7 +42,16 @@ public:
 	{
 		return GetFloat() * 2.0f - 1.0f;
 	}
-
+	// random number between 0 and RAND_MAX
+	int GetInt(int t = RAND_MAX)
+	{
+		return t * GetFloat();
+	}
+	// random number between -RAND_MAX and RAND_MAX
+	int GetSignedInt(int t = RAND_MAX)
+	{
+		return t * GetSignedFloat();
+	}
 	void SetSeed(UInt32 seed)
 	{
 		x = seed;

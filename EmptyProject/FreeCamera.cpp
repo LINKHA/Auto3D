@@ -4,7 +4,6 @@
 #include "RenderManager.h"
 #include "GameObjectManager.h"
 #include "Camera.h"
-#include "BaseLight.h"
 
 Camera *freeCamera;
 GameObject* freeCameraObject;

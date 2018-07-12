@@ -5,6 +5,9 @@
 #include "Mesh.h"
 #include "Prefab.h"
 #include "InstanceBeltLine.h"
+#include "Math/Rand.h"
+#include "TimeManager.h"
+USING_MATH
 MassInstantiationSpace::MassInstantiationSpace()
 {
 }
@@ -14,34 +17,30 @@ MassInstantiationSpace::~MassInstantiationSpace()
 
 void MassInstantiationSpace::Awake()
 {
-	/*GameObject * prefabObj = new GameObject();
-	Mesh * mesh = new Mesh();
-	prefabObj->AddComponent(mesh);
-
-	Prefab p(prefabObj);*/
 }
 void MassInstantiationSpace::Start()
 {
 	glm::mat4* modelMatrices;
 	int amount = 10000;
 	modelMatrices = new glm::mat4[amount];
-	srand(glfwGetTime()); 
+	Rand rand(INSTANCE(TimeManager).GetRealTime().Second);
+
 	float radius = 150.0;
 	float offset = 25.0f;
 	for (int i = 0; i < amount; i++)
 	{
 		glm::mat4 model;
 		float angle = (float)i / (float)amount * 360.0f;
-		float displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
+		float displacement = (rand.GetInt() % (int)(2 * offset * 100)) / 100.0f - offset;
 		float x = sin(angle) * radius + displacement;
-		displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
+		displacement = (rand.GetInt() % (int)(2 * offset * 100)) / 100.0f - offset;
 		float y = displacement * 0.4f;
-		displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
+		displacement = (rand.GetInt() % (int)(2 * offset * 100)) / 100.0f - offset;
 		float z = cos(angle) * radius + displacement;
 		model = glm::translate(model, glm::vec3(x, y, z));
-		float scale = (rand() % 20) / 100.0f + 0.05;
+		float scale = (rand.GetInt() % 20) / 100.0f + 0.05;
 		model = glm::scale(model, glm::vec3(scale));
-		float rotAngle = (rand() % 360);
+		float rotAngle = (rand.GetInt() % 360);
 		model = glm::rotate(model, rotAngle, glm::vec3(0.4f, 0.6f, 0.8f));
 		modelMatrices[i] = model;
 	}

@@ -6,7 +6,7 @@
 
 AUTO_BEGIN
 
-InstanceBeltLine::InstanceBeltLine(const ModelCommand& model, const Shader& shader, glm::mat4* modelMat, int count)
+InstanceBeltLine::InstanceBeltLine(const ModelCommand& model, const Shader& shader, glm::mat4* modelMat,int count)
 	:m_Model(model)
 	,m_Shader(shader)
 	,m_ModelMatrices(modelMat)

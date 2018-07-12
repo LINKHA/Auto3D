@@ -1,6 +1,6 @@
 #include "ShadowSpace.h"
 #include "Application.h"
-#include "Light.h"
+#include "LightDirectional.h"
 #include "FreeCamera.h"
 #include "Mesh.h"
 #include "Shadow.h"
@@ -19,9 +19,15 @@ void ShadowSpace::Start()
 	cameraObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 	cameraObj->AddComponent(camera);
 
-	/*GameObject * lightObj = new GameObject();
-	Light * light = new Light(Directional);
-	lightObj->AddComponent(light);*/
+	//GameObject * lightObj = new GameObject();
+	//Light * light = new LightDirectional();
+	//lightObj->AddComponent(light);
+
+	//GameObject * meshObj = new GameObject();
+	//Mesh * mesh = new Mesh("Resource/object/base/Cube.FBX");
+	//mesh->GetMaterial().SetImage("Resource/texture/wood.jpg");
+	//meshObj->AddComponent(mesh);
+	//meshObj->GetComponent(Transform).SetPosition(0.0f, 2.0f, 0.0f);
 
 	/*GameObject * meshObj = new GameObject();
 	MeshShadowTest * mesh = new MeshShadowTest("Resource/object/base/Cube.FBX");
@@ -42,10 +48,19 @@ void ShadowSpace::Start()
 	meshObj3->GetComponent(Transform).SetPosition(4.0f, 2.0f, 0.0f);*/
 
 	GameObject * shadowObj = new GameObject();
-	//Shadow * shadow = new Shadow();
-	ShadowPoint * shadow = new ShadowPoint();
+	Shadow * shadow = new Shadow(0);
+	//ShadowPoint * shadow = new ShadowPoint();
 	shadowObj->AddComponent(shadow);
 
+	GameObject * shadowObj1 = new GameObject();
+	Shadow * shadow1 = new Shadow(1);
+	//ShadowPoint * shadow = new ShadowPoint();
+	shadowObj1->AddComponent(shadow1);
+
+	GameObject * shadowObj2= new GameObject();
+	Shadow * shadow2 = new Shadow(2);
+	//ShadowPoint * shadow = new ShadowPoint();
+	shadowObj2->AddComponent(shadow2);
 
 }
 
