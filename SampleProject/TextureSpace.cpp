@@ -4,7 +4,7 @@
 #include "FreeCamera.h"
 #include "TimeManager.h"
 #include "Mesh.h"
-#include "Light.h"
+#include "LightPoint.h"
 GameObject* te_obj;
 
 TextureSpace::TextureSpace()
@@ -58,6 +58,17 @@ void TextureSpace::Start()
 	GameObject * obj6 = new GameObject();
 	obj6->GetComponent(Transform).SetPosition(-0.2f, 0.0f, -4.0f);
 	obj6->AddComponent(tex6);
+
+	GameObject * lightObj = new GameObject();
+	Light * light = new LightPoint();
+	lightObj->AddComponent(light);
+	//////////////////////////////////////////////////////////////////////////
+	Mesh * mesh = new Mesh("Resource/object/base/Cube.FBX");
+	mesh->GetMaterial().color.Set(0.5f, 0.8f, 0.3f);
+	//mesh->GetMaterial().SetImage("Resource/texture/window.png");
+	GameObject * meshObj = new GameObject();
+	meshObj->GetComponent(Transform).SetPosition(1.0f, 0.0f, 0.0f);
+	meshObj->AddComponent(mesh);
 }
 void TextureSpace::Update()
 {

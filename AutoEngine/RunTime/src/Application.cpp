@@ -85,9 +85,8 @@ int Application::RunLoop()
 #endif 
 
 		if (INSTANCE(FrameBuffersScreen).GetEnable())
-		{
 			INSTANCE(FrameBuffersScreen).DrawStart();
-		}
+		
 		
 		INSTANCE(GLWindow).DrawWindow();
 		///Accept a buffer bit buffer Bitto specify the buffer to be emptied
@@ -96,10 +95,10 @@ int Application::RunLoop()
 		INSTANCE(RenderManager).RenderCameras();
 		INSTANCE(GLWindow).RunLoopOver();
 		INSTANCE(BaseSpace).Finish();
+
 		if (INSTANCE(FrameBuffersScreen).GetEnable())
-		{
 			INSTANCE(FrameBuffersScreen).DrawEnd();
-		}
+		
 #if MSAA_OPPSCREEN_POINT
 		INSTANCE(MSAA).UpdateEnd();
 #endif 

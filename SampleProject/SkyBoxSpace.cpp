@@ -4,7 +4,7 @@
 #include "FreeCamera.h"
 #include "SkyBox.h"
 #include "Mesh.h"
-#include "Light.h"
+#include "LightDirectional.h"
 SkyBoxSpace::SkyBoxSpace()
 {
 }
@@ -26,7 +26,7 @@ void SkyBoxSpace::Start()
 	skyBoxObj->AddComponent(skybox);
 
 	GameObject * lightObj = new GameObject();
-	Light * light = new Light();
+	Light * light = new LightDirectional();
 	lightObj->AddComponent(light);
 
 	GameObject * meshObj = new GameObject();

@@ -7,22 +7,20 @@
 #include "TimeManager.h"
 #include "Sprite.h"
 FrameBuffersSpace::FrameBuffersSpace()
-{
-}
-
-
+{}
 FrameBuffersSpace::~FrameBuffersSpace()
-{
-}
+{}
+
+
 void FrameBuffersSpace::Start()
 {
 	INSTANCE(FrameBuffersScreen).Enable(true);
-	INSTANCE(FrameBuffersScreen).SetEffect(Blur);
+
 	GameObject* camObj = new GameObject();
 	FreeCamera* freeCamera = new FreeCamera();
 	camObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 	camObj->AddComponent(freeCamera);
-
+	
 	Sprite * tex2 = new Sprite("Resource/texture/window.png");
 	tex2->EnableBlend(true);
 	tex2->EnableDepth(false);
@@ -45,12 +43,11 @@ void FrameBuffersSpace::Start()
 
 	GameObject * lightObj = new GameObject();
 	Light * light = new LightPoint();
-	//light->ambient.Set(0.1f, 0.1f, 0.1f);
-	//light->direction.Set(0.0f, -1.0f, 0.0f);
 	lightObj->AddComponent(light);
 	//////////////////////////////////////////////////////////////////////////
 	Mesh * mesh = new Mesh("Resource/object/base/Cube.FBX");
 	mesh->GetMaterial().color.Set(0.5f, 0.8f, 0.3f);
+	//mesh->GetMaterial().SetImage("Resource/texture/window.png");
 	GameObject * meshObj = new GameObject();
 	meshObj->GetComponent(Transform).SetPosition(1.0f, 0.0f, 0.0f);
 	meshObj->AddComponent(mesh);

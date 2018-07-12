@@ -31,10 +31,10 @@ private:
 	bool m_enable;
 	Shader m_shader;
 private:
-	unsigned int fb_framebuffer;
-	unsigned int fb_quadVAO, fb_quadVBO;
-	unsigned int fb_textureColorbuffer;
-	unsigned int fb_rbo;
+	unsigned int m_framebuffer;
+	unsigned int m_quadVAO, m_quadVBO;
+	unsigned int m_textureColorbuffer;
+	unsigned int m_rbo;
 private:
 
 };
