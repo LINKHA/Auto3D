@@ -4,7 +4,7 @@
 #include "Shader.h"
 #include "GameObject.h"
 AUTO_BEGIN
-#define SHADOW_DEBUG 1
+#define SHADOW_DEBUG 0
 #if SHADOW_DEBUG
 
 class Shadow : public Component
