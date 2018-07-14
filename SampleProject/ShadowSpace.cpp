@@ -5,7 +5,6 @@
 #include "Mesh.h"
 #include "Shadow.h"
 #include "ShadowPoint.h"
-#include "MeshShadowTest.h"
 #include "ShadowTest.h"
 ShadowSpace::ShadowSpace()
 {}

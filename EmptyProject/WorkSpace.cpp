@@ -1,6 +1,6 @@
 #include "WorkSpace.h"
 #include "Application.h"
-#include "Light.h"
+#include "LightDirectional.h"
 #include "FreeCamera.h"
 #include "Mesh.h"
 WorkSpace::WorkSpace()
@@ -16,7 +16,7 @@ void WorkSpace::Start()
 	cameraObj->AddComponent(camera);
 
 	GameObject * lightObj = new GameObject();
-	Light * light = new Light(Directional);
+	Light * light = new LightDirectional();
 	lightObj->AddComponent(light);
 
 	GameObject * meshObj = new GameObject();

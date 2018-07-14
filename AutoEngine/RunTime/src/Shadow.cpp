@@ -18,6 +18,7 @@ Shadow::~Shadow()
 void Shadow::Start()
 {
 	INSTANCE(ShadowTest).BindDepathMap();
+
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	mesh = new MeshShadow(0);
 	mesh1 = new MeshShadow(1);
