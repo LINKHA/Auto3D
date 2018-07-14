@@ -87,6 +87,7 @@ public:
 
 	Component* QueryComponent(int classID) const;
 	ComponentsArray& GetComponentsArray(){ return m_Components; }
+
 private:
 	bool m_Enable;
 };

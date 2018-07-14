@@ -46,27 +46,12 @@ void ShadowSpace::Start()
 	mesh3->GetMaterial().SetImage("Resource/texture/wood.jpg");
 	meshObj3->AddComponent(mesh3);
 	meshObj3->GetComponent(Transform).SetPosition(4.0f, 2.0f, 0.0f);*/
-#if SHADOW_DEBUG
+
 	GameObject * shadowObj = new GameObject();
-	Shadow * shadow = new Shadow(0);
+	Shadow * shadow = new Shadow();
 	//ShadowPoint * shadow = new ShadowPoint();
 	shadowObj->AddComponent(shadow);
 
-	GameObject * shadowObj1 = new GameObject();
-	Shadow * shadow1 = new Shadow(1);
-	//ShadowPoint * shadow = new ShadowPoint();
-	shadowObj1->AddComponent(shadow1);
-
-	GameObject * shadowObj2= new GameObject();
-	Shadow * shadow2 = new Shadow(2);
-	//ShadowPoint * shadow = new ShadowPoint();
-	shadowObj2->AddComponent(shadow2);
-#else
-	GameObject * shadowObj2= new GameObject();
-	Shadow * shadow2 = new Shadow();
-	//ShadowPoint * shadow = new ShadowPoint();
-	shadowObj2->AddComponent(shadow2);
-#endif
 }
 
 void ShadowSpace::Update()
