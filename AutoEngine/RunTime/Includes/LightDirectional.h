@@ -1,5 +1,4 @@
-#ifndef LIGHT_DIRECTIONAL_H_
-#define LIGHT_DIRECTIONAL_H_
+#pragma once
 #include "Light.h"
 
 AUTO_BEGIN
@@ -18,4 +17,3 @@ public:
 	Vector3 specular;*/
 };
 AUTO_END
-#endif //!LIGHT_DIRECTIOINAL

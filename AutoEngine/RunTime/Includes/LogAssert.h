@@ -1,5 +1,4 @@
-#ifndef LOG_ASSERT_H_
-#define LOG_ASSERT_H_
+#pragma once
 #include <string>
 #include <cstdio>
 #include <iostream>
@@ -12,8 +11,6 @@
 #else
 #pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
 #endif
-
-#define TIME_MANAGER_DEBUG 0
 
 enum LogType
 {
@@ -62,5 +59,3 @@ inline const char* LogTypeToString(LogType type)
 //Assert
 #define AssertIf(x) assert(!(x))
 #define Assert(x)	assert(x)
-
-#endif // 

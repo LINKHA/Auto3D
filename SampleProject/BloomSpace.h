@@ -1,5 +1,4 @@
-#ifndef BLOOM_SPACE_H_
-#define BLOOM_SPACE_H_
+#pragma once
 #include "MotionSpace.h"
 
 USING_AUTO
@@ -13,5 +12,3 @@ public:
 	void Update()override;
 	int Launch();
 };
-
-#endif // BLOOM_SPACE_H_

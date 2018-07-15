@@ -1,6 +1,4 @@
-#ifndef FILE_H_
-#define FILE_H_
-
+#pragma once
 #include <windows.h>
 #include "Auto.h"
 #include "stl_use.h"
@@ -42,5 +40,3 @@ public:
 	static void CleanUpClass();
 
 };
-
-#endif // !FILE_H_

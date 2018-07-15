@@ -1,5 +1,4 @@
-#ifndef INPUT_MANAGER_H_
-#define INPUT_MANAGER_H_
+#pragma once
 #include "GrFacade.h"
 
 
@@ -199,8 +198,3 @@ enum JoystickKey
 	 JOYSTICK_16            =15,
 	 JOYSTICK_LAST          =JOYSTICK_16
 };
-
-
-
-
-#endif //! INPUT_MANAGER_H_

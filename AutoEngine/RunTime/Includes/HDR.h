@@ -1,5 +1,4 @@
-#ifndef HDR_H_
-#define HDR_H_
+#pragma once
 #include "GameObject.h"
 #include "Camera.h"
 #include "Shader.h"
@@ -28,4 +27,3 @@ private:
 
 AUTO_END
 
-#endif // HDR_H_

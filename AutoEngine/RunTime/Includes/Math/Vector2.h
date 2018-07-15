@@ -1,6 +1,4 @@
-#ifndef VECTOR_2_H_
-#define VECTOR_2_H_
-
+#pragma once
 #include "AUMathBase.h"
 #include "LogAssert.h"
 
@@ -68,4 +66,3 @@ inline float Angle(const Vector2& lhs, const Vector2& rhs) { return acos(min(1.0
 
 MATH_END
 
-#endif // VECTOR_2_H_

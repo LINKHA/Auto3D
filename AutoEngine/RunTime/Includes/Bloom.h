@@ -1,5 +1,4 @@
-#ifndef BLOOM_H_
-#define BLOOM_H_
+#pragma once
 #include "GameObject.h"
 #include "Shader.h"
 AUTO_BEGIN
@@ -47,5 +46,3 @@ private:
 };
 
 AUTO_END
-
-#endif // BLOOM_H_

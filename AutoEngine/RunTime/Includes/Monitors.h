@@ -1,5 +1,4 @@
-#ifndef MONITORS_H_
-#define MONITORS_H_
+#pragma once
 #include "Auto.h"
 #include "stl_use.h"
 #include "LogAssert.h"
@@ -28,4 +27,3 @@ public:
 
 };
 AUTO_END
-#endif // !MONITORS_H_

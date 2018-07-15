@@ -1,5 +1,4 @@
-#ifndef BASE_OBJECT_H_
-#define BASE_OBJECT_H_
+#pragma once
 #include "Auto.h"
 #include "LogAssert.h"
 #include "ClassID.h"
@@ -92,4 +91,3 @@ private:
 
 
 AUTO_END
-#endif // !BASE_OBJECT_H_

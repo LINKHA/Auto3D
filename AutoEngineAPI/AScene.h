@@ -1,5 +1,4 @@
-#ifndef A_SCENE_H_
-#define A_SCENE_H_
+#pragma once
 #include "Auto.h"
 
 
@@ -15,4 +14,3 @@ public:
 
 
 AUTO_API_END
-#endif //!A_SCENE_H_

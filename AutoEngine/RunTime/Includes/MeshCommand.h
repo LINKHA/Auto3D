@@ -1,6 +1,4 @@
-#ifndef MESH_COMMAND_H
-#define MESH_COMMAND_H
-
+#pragma once
 #include <glad.h> 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -142,4 +140,4 @@ private:
 	}
 };
 AUTO_END
-#endif
+

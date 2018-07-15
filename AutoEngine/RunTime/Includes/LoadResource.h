@@ -1,5 +1,4 @@
-#ifndef LOAD_RESOURCE_H_
-#define LOAD_RESOURCE_H_
+#pragma once
 #include <string>
 #include "ModelCommand.h"
 #include "stb_image.h"
@@ -18,4 +17,4 @@ void FreeImage(Image * image);
 unsigned int LoadCubemap(_VECTOR(_String) faces);
 
 AUTO_END
-#endif // !LOAD_ASSERT_H_
+

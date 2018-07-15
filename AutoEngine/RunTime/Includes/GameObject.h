@@ -1,5 +1,4 @@
-#ifndef GAME_OBJECT_H_
-#define GAME_OBJECT_H_
+#pragma once
 #include "BaseObject.h"
 #include "stl_use.h"
 
@@ -104,4 +103,3 @@ inline Component& GameObject::GetComponentIndex(int index)
 	return *m_Components[index].second;
 }
 AUTO_END
-#endif // GAME_OBJECT_H_

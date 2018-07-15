@@ -1,5 +1,4 @@
-#ifndef BASE_SPACE_H_
-#define BASE_SPACE_H_
+#pragma once
 #include "Auto.h"
 #include "stl_use.h"
 #include "Singleton.h"
@@ -27,4 +26,4 @@ public:
 	void ModeRunSpace(RunMode runMode);
 };
 AUTO_END
-#endif // BASE_SPACE_H_
+

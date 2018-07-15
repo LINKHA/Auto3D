@@ -1,6 +1,4 @@
-#ifndef GANE_MANAGER_H_
-#define GANE_MANAGER_H_
-
+#pragma once
 #include "BaseObject.h"
 #include "Singleton.h"
 AUTO_BEGIN
@@ -35,4 +33,4 @@ public:
 };
 
 AUTO_END
-#endif // GANE_MANAGER_H_
+

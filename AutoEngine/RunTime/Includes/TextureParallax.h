@@ -1,5 +1,4 @@
-#ifndef TEXTURE_PARALLAX_H_
-#define TEXTURE_PARALLAX_H_
+#pragma once
 #include "Texture.h"
 #include "Texture.h"
 #include "LoadResource.h"
@@ -42,5 +41,3 @@ private:
 };
 
 AUTO_END
-
-#endif //!TEXTURE_PARALLAX_H_

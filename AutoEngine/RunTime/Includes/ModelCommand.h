@@ -1,6 +1,4 @@
-#ifndef MODEL_COMMAND_H
-#define MODEL_COMMAND_H
-
+#pragma once
 #include <glad.h> 
 
 #include <glm/glm.hpp>
@@ -212,4 +210,4 @@ private:
 	}
 };
 AUTO_END
-#endif
+

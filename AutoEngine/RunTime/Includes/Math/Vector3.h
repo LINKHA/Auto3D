@@ -1,5 +1,4 @@
-#ifndef VECTOR_3_H_
-#define VECTOR_3_H_
+#pragma once
 #include "AUMathBase.h"
 #include "LogAssert.h"
 
@@ -79,4 +78,3 @@ Vector3 MoveTowards(const Vector3& lhs, const Vector3& rhs, float clampedDistanc
 
 MATH_END
 
-#endif // VECTOR_3_H_

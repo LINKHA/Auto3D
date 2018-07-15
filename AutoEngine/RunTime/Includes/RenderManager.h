@@ -1,5 +1,4 @@
-#ifndef RENDER_MANAGER_H_
-#define RENDER_MANAGER_H_
+#pragma once
 #include "Singleton.h"
 #include "GameManager.h"
 #include "Camera.h"
@@ -31,4 +30,3 @@ private:
 	bool			m_InsideRenderOrCull;
 };
 AUTO_END
-#endif //!RENDER_MANAGER_H_

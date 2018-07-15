@@ -1,5 +1,4 @@
-#ifndef SPRITE_H_
-#define SPRITE_H_
+#pragma once
 #include "Texture2D.h"
 
 AUTO_BEGIN
@@ -39,4 +38,3 @@ private:
 	bool is_Mipmaps;
 };
 AUTO_END
-#endif

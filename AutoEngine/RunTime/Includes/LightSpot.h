@@ -1,5 +1,4 @@
-#ifndef LIGHT_SPOT_H_
-#define LIGHT_SPOT_H_
+#pragma once
 #include "Light.h"
 
 AUTO_BEGIN
@@ -26,5 +25,3 @@ public:
 };
 
 AUTO_END
-
-#endif // !LIGHT_SPOT_H_

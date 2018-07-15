@@ -1,6 +1,4 @@
-#ifndef FILE_MANAGER_H
-#define	FILE_MANAGER_H
-
+#pragma once
 #include "Auto.h"
 #include "config.h"
 
@@ -12,5 +10,3 @@ public:
 	~FileManager();
 };
 
-
-#endif // !FILE_MANAGER_H

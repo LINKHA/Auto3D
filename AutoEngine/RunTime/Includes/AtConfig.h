@@ -1,5 +1,4 @@
-#ifndef AT_CONFIG_H_
-#define AT_CONFIG_H_
+#pragma once
 #include <string>
 
 /**
@@ -23,7 +22,3 @@ public:
 	
 };
 
-
-
-
-#endif // BT_CONFIG_H_

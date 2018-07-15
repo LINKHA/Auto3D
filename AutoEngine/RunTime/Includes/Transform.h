@@ -1,5 +1,4 @@
-#ifndef TRANSFORM_H_
-#define TRANSFORM_H_
+#pragma once
 #include "Math/AUMath.h"
 #include "OpenGLGather.h"
 #include "GameObject.h"
@@ -41,7 +40,7 @@ public:
 
 };
 AUTO_END
-#endif // TRANSFORM_H_
+
 
 
 

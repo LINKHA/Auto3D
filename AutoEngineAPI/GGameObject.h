@@ -1,5 +1,4 @@
-#ifndef G_GAME_OBJECT_H_
-#define G_GAME_OBJECT_H_
+#pragma once
 
 #include "Auto.h"
 
@@ -11,4 +10,4 @@ public:
 
 };
 AUTO_API_END
-#endif // G_GAME_OBJECT_H_
+

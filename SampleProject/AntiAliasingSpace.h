@@ -1,5 +1,4 @@
-#ifndef ANTI_AliASING_SPACE_H_
-#define ANTI_AliASING_SPACE_H_
+#pragma once
 #include "MotionSpace.h"
 USING_AUTO
 class AntiAliasingSpace : public MotionSpace
@@ -11,5 +10,5 @@ public:
 	void Update()override;
 	int Launch();
 };
-#endif //!ANTI_AliASING_SPACE_H_
+
 

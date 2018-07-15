@@ -1,6 +1,4 @@
-#ifndef QUATERNION_H
-#define QUATERNION_H
-
+#pragma once
 #include "AUMath.h"
 #include "Auto.h"
 #include "glm/gtx/quaternion.hpp"
@@ -28,5 +26,5 @@ struct Quaternion
 
 
 MATH_END
-#endif //!QUATERNION_H
+
 

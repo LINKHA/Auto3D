@@ -1,5 +1,4 @@
-#ifndef CURSOR_H_
-#define CURSOR_H_
+#pragma once
 #include "Singleton.h"
 AUTO_BEGIN
 /**
@@ -17,4 +16,3 @@ public:
 };
 
 AUTO_END
-#endif //!CURSOR_H_

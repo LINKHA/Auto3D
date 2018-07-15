@@ -1,5 +1,4 @@
-#ifndef FRAME_BUFFERS_SCREEN_H_
-#define FRAME_BUFFERS_SCREEN_H_
+#pragma once
 #include "Auto.h"
 #include "Math/Vector2.h"
 #include "Shader.h"
@@ -39,4 +38,4 @@ private:
 
 };
 AUTO_END
-#endif // FRAME_BUFFERS_SCREEN_H_
+

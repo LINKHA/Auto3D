@@ -1,5 +1,4 @@
-#ifndef VERTEX_DATA_H_
-#define VERTEX_DATA_H_
+#pragma once
 
 static float shadow_vertices[] = {
 	// back face
@@ -112,5 +111,3 @@ static float skybox_vertices[] = {
 	-1.0f, -1.0f,  1.0f,
 	1.0f, -1.0f,  1.0f
 };
-
-#endif // VERTEX_DATA_H_

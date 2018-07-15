@@ -1,5 +1,4 @@
-#ifndef SKY_BOX_H_
-#define SKY_BOX_H_
+#pragma once
 #include "Texture3D.h"
 
 AUTO_BEGIN
@@ -22,4 +21,4 @@ private:
 };
 
 AUTO_END
-#endif // SKY_BOX_H_
+

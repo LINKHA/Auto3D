@@ -1,5 +1,4 @@
-#ifndef AU_MATH_BASE_H_
-#define AU_MATH_BASE_H_
+#pragma once
 #include <memory>
 #include <math.h>
 #include <string.h>
@@ -124,4 +123,4 @@ static inline float clamp11(float const&x)
 //Smooth
 
 MATH_END
-#endif // !AU_MATH_BASE_H_
+

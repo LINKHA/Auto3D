@@ -1,5 +1,4 @@
-#ifndef MESH_CUBE_H_
-#define MESH_CUBE_H_
+#pragma once
 #include "Shader.h"
 #include "ModelCommand.h"
 #include "Transform.h"
@@ -34,4 +33,4 @@ private:
 };
 
 AUTO_END
-#endif // !MESH_CUBE_H_
+

@@ -1,6 +1,4 @@
-#ifndef FLOAT_CONVERSION_H_
-#define FLOAT_CONVERSION_H_
-
+#pragma once
 #include "Math/AUMathBase.h"
 #include "LogAssert.h"
 MATH_BEGIN
@@ -25,4 +23,3 @@ inline int NormalizedToByte(float f)
 
 MATH_END
 
-#endif // !FLOAT_CONVERSION_H_

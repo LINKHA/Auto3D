@@ -1,5 +1,4 @@
-#ifndef INPUT_H_
-#define INPUT_H_
+#pragma once
 #include "Auto.h"
 #include "InputManager.h"
 AUTO_BEGIN
@@ -18,4 +17,4 @@ public:
 };
 
 AUTO_END
-#endif //!INPUT_H_
+

@@ -1,5 +1,4 @@
-#ifndef TEXTURE_MAP_H_
-#define TEXTURE_MAP_H_
+#pragma once
 #include "Texture.h"
 #include "Texture.h"
 #include "OpenGLGather.h"
@@ -27,5 +26,3 @@ public:
 };
 
 AUTO_END
-
-#endif //!TEXTURE_MAP_H_

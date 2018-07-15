@@ -1,5 +1,4 @@
-#ifndef CLASS_ID_H_
-#define CLASS_ID_H_
+#pragma once
 #define ClassID(x)		  CLASS_##x
 #define DO_CLASS_ID(x,ID) ClassID(x) = ID,
 enum ClassIDType
@@ -48,6 +47,3 @@ enum ClassIDType
 	CLASS_ID_Count
 };
 
-
-
-#endif // !CLASS_ID_H_

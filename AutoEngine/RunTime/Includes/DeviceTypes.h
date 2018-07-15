@@ -1,5 +1,4 @@
-#ifndef DEVICE_TYPES_H_
-#define DEVICE_TYPES_H_
+#pragma once
 #include "Auto.h"
 
 AUTO_BEGIN
@@ -26,5 +25,3 @@ enum TextureDimension
 	kTexDimForce32Bit = 0x7fffffff
 };
 AUTO_END
-
-#endif //!DEVICE_TYPES_H_

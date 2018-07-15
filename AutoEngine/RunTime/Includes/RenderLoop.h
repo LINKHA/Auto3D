@@ -1,5 +1,4 @@
-#ifndef RENDER_LOOP_H_
-#define RENDER_LOOP_H_
+#pragma once
 #include "Camera.h"
 AUTO_BEGIN
 class RenderLoop;
@@ -27,4 +26,3 @@ void DeleteRenderLoop(RenderLoop* loop);
 void CleanUpAfterRenderLoop(RenderLoop& loop);
 
 AUTO_END
-#endif // !RENDER_LOOP_H_

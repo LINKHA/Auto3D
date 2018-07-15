@@ -1,5 +1,4 @@
-#ifndef RECT_T_H_
-#define RECT_T_H_
+#pragma once
 #include "Auto.h"
 #include "AUMathBase.h"
 #include "Vector2.h"
@@ -50,4 +49,3 @@ typedef RectT<float> Rectf;
 typedef RectT<int> RectInt;
 
 MATH_END
-#endif //!RECT_T_H_

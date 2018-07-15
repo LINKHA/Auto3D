@@ -1,5 +1,4 @@
-#ifndef TIMER_H_
-#define TIMER_H_
+#pragma once
 #include "Singleton.h"
 #include "GameManager.h"
 #include "Math/AUMathBase.h"
@@ -78,5 +77,5 @@ private:
 
 };
 AUTO_END
-#endif //!TIMER_H_
+
 

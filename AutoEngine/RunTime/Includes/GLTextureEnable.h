@@ -1,5 +1,4 @@
-#ifndef GL_ENABLE_H_
-#define GL_ENABLE_H_
+#pragma once
 #include "OpenGLGather.h"
 #include "Auto.h"
 AUTO_BEGIN
@@ -31,4 +30,4 @@ protected:
 	bool m_useBlend;
 };
 AUTO_END
-#endif // !GL_ENABLE_H_
+

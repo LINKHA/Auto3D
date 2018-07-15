@@ -1,5 +1,4 @@
-#ifndef PARALLAX_MAPPING_SPACE_H_
-#define PARALLAX_MAPPING_SPACE_H_
+#pragma once
 #include "MotionSpace.h"
 USING_AUTO
 class ParallaxMappingSpace : public MotionSpace
@@ -11,5 +10,5 @@ public:
 	void Update()override;
 	int Launch();
 };
-#endif //!PARALLAX_MAPPING_SPACE_H_
+
 

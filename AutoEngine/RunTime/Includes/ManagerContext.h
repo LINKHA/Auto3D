@@ -1,5 +1,4 @@
-#ifndef MANAGER_CONTEXT_H_
-#define MANAGER_CONTEXT_H_
+#pragma once
 #include "BaseObject.h"
 
 AUTO_BEGIN
@@ -28,4 +27,4 @@ public:
 	int		m_ManagerClassIDs[kManagerCount];
 };
 AUTO_END
-#endif //!MANAGER_CONTEXT_H_
+

@@ -1,5 +1,4 @@
-#ifndef SHADOW_SPACE_H_
-#define SHADOW_SPACE_H_
+#pragma once
 #include "MotionSpace.h"
 USING_AUTO
 class ShadowSpace : public MotionSpace
@@ -11,5 +10,5 @@ public:
 	void Update()override;
 	int Launch();
 };
-#endif //!WORK_SPACE_H_
+
 

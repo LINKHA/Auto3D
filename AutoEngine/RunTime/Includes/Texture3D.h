@@ -1,5 +1,4 @@
-#ifndef TEXTURE_3D_H_
-#define TEXTURE_3D_H_
+#pragma once
 #include "Texture.h"
 
 AUTO_BEGIN
@@ -15,4 +14,3 @@ public:
 };
 
 AUTO_END
-#endif //!TEXTURE_3D_H_

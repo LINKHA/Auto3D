@@ -1,5 +1,4 @@
-#ifndef GL_WINDOW_H_
-#define GL_WINDOW_H_
+#pragma once
 #include "GrFacade.h"
 #include "AtConfig.h"
 #include "Auto.h"
@@ -35,4 +34,4 @@ private:
 	bool isCenter = true;
 };
 AUTO_END
-#endif // GL_WINDOW_H_
+

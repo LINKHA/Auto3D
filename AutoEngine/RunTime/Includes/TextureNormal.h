@@ -1,5 +1,4 @@
-#ifndef TEXTURE_NORMAL_H_
-#define TEXTURE_NORMAL_H_
+#pragma once
 #include "Texture.h"
 #include "Texture.h"
 #include "LoadResource.h"
@@ -41,5 +40,3 @@ private:
 };
 
 AUTO_END
-
-#endif //!TEXTURE_NORMAL_H_

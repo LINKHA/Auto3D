@@ -1,6 +1,4 @@
-#ifndef GAME_OBJECT_MANAGER_H_
-#define GAME_OBJECT_MANAGER_H_
-
+#pragma once
 #include "GameManager.h"
 #include "GameObject.h"
 #include "Singleton.h"
@@ -31,4 +29,3 @@ private:
 	bool				m_InsideRun;
 };
 AUTO_END
-#endif // !GAME_OBJECT_MANAGER_H_

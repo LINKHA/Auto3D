@@ -1,5 +1,4 @@
-#ifndef BASE_TEXTURE_H_
-#define BASE_TEXTURE_H_
+#pragma once
 #include "GameObject.h"
 #include "DeviceTypes.h"
 #include "stl_use.h"
@@ -36,4 +35,3 @@ public:
 
 AUTO_END
 
-#endif // !BASE_TEXTURE_H_

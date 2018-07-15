@@ -1,5 +1,4 @@
-#ifndef RENDER_COMPONENT_H_
-#define RENDER_COMPONENT_H_
+#pragma once
 #include "GameObject.h"
 #include "OpenGLGather.h"
 AUTO_BEGIN
@@ -20,5 +19,3 @@ public:
 };
 
 AUTO_END
-
-#endif //!RENDER_COMPONENT_H_

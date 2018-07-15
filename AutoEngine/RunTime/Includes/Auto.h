@@ -1,6 +1,4 @@
-#ifndef AUTO_H_
-#define AUTO_H_
-
+#pragma once
 #include <assert.h>
 #include <string>
 //namespace AutoEngine
@@ -95,4 +93,4 @@
 //
 typedef int objectID;
 typedef int classID;
-#endif // AUTO_H_
+

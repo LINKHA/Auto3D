@@ -1,5 +1,4 @@
-#ifndef SINGLETON_H_
-#define SINGLETON_H_
+#pragma once
 #include "Auto.h"
 #include "LogAssert.h"
 #define SINGLETON_INSTANCE(x) template<> x* Singleton<x>::m_instance = nullptr
@@ -65,4 +64,3 @@ public:
 };
 
 AUTO_END
-#endif //!SINGLETON_H_

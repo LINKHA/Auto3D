@@ -1,5 +1,4 @@
-#ifndef APPLICATION_H_
-#define APPLICATION_H_
+#pragma once
 #include "GLWindow.h"
 #include "OpenGLGather.h"
 #include "Auto.h"
@@ -26,4 +25,4 @@ private:
 	
 };
 AUTO_END
-#endif // APPLICATION_H_
+

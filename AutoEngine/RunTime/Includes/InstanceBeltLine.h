@@ -1,5 +1,4 @@
-#ifndef INSTANCE_BELT_LINE_H_
-#define INSTANCE_BELT_LINE_H_
+#pragma once
 #include "GameObject.h"
 #include "ModelCommand.h"
 #include "Shader.h"
@@ -22,4 +21,3 @@ private:
 	glm::mat4* m_ModelMatrices;
 };
 AUTO_END
-#endif //!INSTANCE_BELT_LINE_H_

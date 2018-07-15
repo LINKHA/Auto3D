@@ -1,5 +1,4 @@
-#ifndef M_MATH_H_
-#define M_MATH_H_
+#pragma once
 #include "Auto.h"
 #include "Math/AUMathBase.h"
 #include "Math/AUMath.h"
@@ -28,4 +27,3 @@ public:
 
 };
 AUTO_API_END
-#endif // MATH_F_H_

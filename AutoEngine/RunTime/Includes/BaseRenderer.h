@@ -1,6 +1,4 @@
-#ifndef BASE_RENDERER_H_
-#define BASE_RENDERER_H_
-
+#pragma once
 class BaseRenderer 
 {
 public:
@@ -8,4 +6,3 @@ public:
 	~BaseRenderer();
 };
 
-#endif // !BASE_RENDERER_H_

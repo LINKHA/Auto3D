@@ -1,5 +1,4 @@
-#ifndef NORMAL_MAPPING_SPACE_H_
-#define NORMAL_MAPPING_SPACE_H_
+#pragma once
 #include "MotionSpace.h"
 USING_AUTO
 class NormalMappingSpace : public MotionSpace
@@ -11,5 +10,4 @@ public:
 	void Update()override;
 	int Launch();
 };
-#endif //!NORMAL_MAPPING_SPACE_H_
 

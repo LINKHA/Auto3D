@@ -1,5 +1,4 @@
-#ifndef PRE_LOAD_MANAGER_H_
-#define PRE_LOAD_MANAGER_H_
+#pragma once
 #include "GameManager.h"
 #include "Singleton.h"
 #include "stl_use.h"
@@ -19,4 +18,4 @@ private:
 	PreContainer m_Prefabs;
 };
 AUTO_END
-#endif //!PRE_LOAD_MANAGER_H_
+

@@ -1,6 +1,4 @@
-#ifndef CAMERA_H_
-#define CAMERA_H_
-
+#pragma once
 #include "Auto.h"
 #include "GameObject.h"
 #include "Math/RectT.h"
@@ -103,4 +101,3 @@ protected:
 	bool				m_IsRendering;
 };
 AUTO_END
-#endif //!CAMERA_H_

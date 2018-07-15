@@ -1,5 +1,4 @@
-#ifndef MSAA_H_
-#define MSAA_H_
+#pragma once
 #include "Auto.h"
 #include "Singleton.h"
 #include "Shader.h"
@@ -25,4 +24,3 @@ private:
 	unsigned int ms_intermediateFBO;
 };
 AUTO_END
-#endif // !MSAA_H_

@@ -1,5 +1,4 @@
-#ifndef AU_MATERIAL_H_
-#define AU_MATERIAL_H_
+#pragma once
 
 #include "Auto.h"
 #include "Math/AUMath.h"
@@ -23,4 +22,3 @@ struct Material
 	
 };
 AUTO_END
-#endif // AU_MATERIAL_H_

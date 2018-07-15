@@ -1,5 +1,4 @@
-#ifndef ICON_H_
-#define ICON_H_
+#pragma once
 #include "OpenGLGather.h"
 #include "stb_image.h"
 
@@ -17,5 +16,3 @@ void icon_load(GLFWwindow* window, std::string path)
 	glfwSetWindowIcon(window, 2 ,images);
 }
 
-
-#endif // !ICON_H_

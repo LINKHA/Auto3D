@@ -1,7 +1,4 @@
-#ifndef GL_FACADE_H_
-#define GL_FACADE_H_
-
-
+#pragma once
 #include "Auto.h"
 #include "OpenGLGather.h"
 #include "LogAssert.h"
@@ -225,5 +222,3 @@ static double GrGetTime()
 }
 
 AUTO_END
-
-#endif // !GL_FACADE_H_

@@ -1,5 +1,4 @@
-#ifndef LIGHT_MANAGER_H_
-#define LIGHT_MANAGER_H_
+#pragma once
 
 #include "GameManager.h"
 #include "Light.h"
@@ -25,4 +24,4 @@ private:
 	Light*	m_LastMainLight;
 };
 AUTO_END
-#endif // !LIGHT_MANAGER_H_
+

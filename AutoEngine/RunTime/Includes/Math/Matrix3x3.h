@@ -1,5 +1,4 @@
-#ifndef MATRIX_3X3_H_
-#define MATRIX_3X3_H_
+#pragma once
 #include "AUMathBase.h"
 #include "Vector3.h"
 #include "Matrix4x4.h"
@@ -48,4 +47,4 @@ public:
 };
 
 MATH_END
-#endif //!MATRIX_3X3_H_
+

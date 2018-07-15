@@ -1,5 +1,4 @@
-#ifndef SCRIPT_COMPONENT_H_
-#define SCRIPT_COMPONENT_H_
+#pragma once
 #include "GameObject.h"
 
 AUTO_BEGIN
@@ -18,4 +17,3 @@ public:
 
 AUTO_END
 
-#endif // SCRIPT_COMPONENT_H_

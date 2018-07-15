@@ -1,5 +1,4 @@
-#ifndef COLOR_H
-#define COLOR_H
+#pragma once
 #include <algorithm>
 #include "Math/FloatConversion.h"
 #include "Vector3.h"
@@ -66,5 +65,5 @@ inline Color Lerp(const Color& c0, const Color& c1, float t)
 }
 
 MATH_END
-#endif
+
 

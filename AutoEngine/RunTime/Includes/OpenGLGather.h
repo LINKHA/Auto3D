@@ -1,6 +1,4 @@
-#ifndef OPENGL_GATHER_H_
-#define OPENGL_GATHER_H_
-
+#pragma once
 // OpenGL
 #include "glad.h"
 #include "glfw/glfw3.h"
@@ -40,7 +38,3 @@ static void EnableVertexAttribs(unsigned int verIndex)
 }
 
 static void BindTexture2D(GLuint textureID);
-
-
-
-#endif //OPENGL_GATHER_H_

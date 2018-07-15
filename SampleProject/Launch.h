@@ -1,6 +1,4 @@
-#ifndef LAUNCH_H_ 
-#define LAUNCH_H_
-
+#pragma once
 
 // Windows Header Files
 #include <windows.h>
@@ -29,7 +27,3 @@
 //
 //#endif //_WIN32
 
-
-
-
-#endif // !LAUNCH_H_

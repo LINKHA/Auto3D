@@ -1,6 +1,4 @@
-#ifndef M_VECTOR_H_ 
-#define M_VECTOR_H_
-
+#pragma once
 #include "MMath.h"
 
 
@@ -59,4 +57,3 @@ public:
 };
 
 AUTO_API_END
-#endif // !#endif // 

@@ -1,5 +1,4 @@
-#ifndef A_OBJECT_H_
-#define A_OBJECT_H_
+#pragma once
 #include "Auto.h"
 
 AUTO_API_BEGIN
@@ -12,5 +11,5 @@ public:
 	static void Instantiate(AObject obj);
 };
 AUTO_API_END
-#endif //!A_OBJECT_H_
+
 

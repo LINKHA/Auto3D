@@ -1,5 +1,4 @@
-#ifndef LIGHT_POINT_H_
-#define LIGHT_POINT_H_
+#pragma once
 #include "Light.h"
 AUTO_BEGIN
 class LightPoint : public Light
@@ -21,4 +20,3 @@ private:
 };
 
 AUTO_END
-#endif //!LIGHT_POINT_H_

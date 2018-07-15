@@ -1,5 +1,4 @@
-#ifndef MODE_H_
-#define MODE_H_
+#pragma once
 enum RunMode
 {
 	DefaultMode = -1,
@@ -21,4 +20,3 @@ enum DepthMode
 	DEPTH_NOTEQUAL = 0x0205,	//When the fragment depth value is not equal to the depth value of the buffer, it passes the test.
 	DEPTH_GEQUAL = 0x0206,	//Pass the test when the fragment depth value is greater than the depth value of the buffer
 };
-#endif //!MODE_H_

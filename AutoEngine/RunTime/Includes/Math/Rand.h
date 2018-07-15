@@ -1,5 +1,4 @@
-#ifndef RAND_H_
-#define RAND_H_
+#pragma once
 #include "AUMathBase.h"
 MATH_BEGIN
 class Rand
@@ -68,6 +67,3 @@ private:
 };
 MATH_END
 
-
-
-#endif

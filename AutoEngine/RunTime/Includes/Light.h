@@ -1,5 +1,4 @@
-#ifndef BASE_LIGHT_H_
-#define BASE_LIGHT_H_
+#pragma once
 #include "Math/Vector3.h"
 #include "Math/Color.h"
 #include "GameObject.h"
@@ -50,4 +49,4 @@ protected:
 };
 
 AUTO_END
-#endif //!BASE_LIGHT_H_
+

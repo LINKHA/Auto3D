@@ -1,5 +1,4 @@
-#ifndef TEXTURE_2D_H_
-#define TEXTURE_2D_H_
+#pragma once
 #include "Texture.h"
 
 AUTO_BEGIN
@@ -29,4 +28,3 @@ public:
 };
 
 AUTO_END
-#endif //!TEXTURE_2D_H_

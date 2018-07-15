@@ -1,6 +1,4 @@
-#ifndef VECTOR_4_H
-#define VECTOR_4_H
-
+#pragma once
 #include "AUMathBase.h"
 #include "LogAssert.h"
 
@@ -50,5 +48,3 @@ inline float Dot(const Vector4& lhs, const Vector4& rhs) { return lhs.x * rhs.x 
 inline Vector4 Lerp(const Vector4& from, const Vector4& to, float t) { return lerp(from, to, t); }
 
 MATH_END
-
-#endif //VECTOR_4_H 

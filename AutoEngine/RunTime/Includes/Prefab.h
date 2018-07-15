@@ -1,5 +1,4 @@
-#ifndef PRE_FAB_H_
-#define PRE_FAB_H_
+#pragma once
 #include "BaseObject.h"
 #include "GameObject.h"
 AUTO_BEGIN
@@ -15,4 +14,3 @@ private:
 };
 
 AUTO_END
-#endif // !PRE_FAB_H_

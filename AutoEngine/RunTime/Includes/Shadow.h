@@ -1,5 +1,4 @@
-#ifndef SHADOW_H_
-#define SHADOW_H_
+#pragma once
 #include "Auto.h"
 #include "Shader.h"
 #include "GameObject.h"
@@ -27,5 +26,5 @@ private:
 };
 
 AUTO_END
-#endif //!SHADOW_H_
+
 

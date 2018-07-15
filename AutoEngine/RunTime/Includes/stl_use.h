@@ -1,5 +1,4 @@
-#ifndef STL_USE_H_
-#define STL_USE_H_
+#pragma once
 #include <list>
 #include <vector>
 #include <set>
@@ -78,6 +77,3 @@
 //};
 //
 
-
-
-#endif //! STL_USE_H_

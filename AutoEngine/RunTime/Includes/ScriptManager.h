@@ -1,5 +1,4 @@
-#ifndef SCRIPT_MANAGER_H_
-#define SCRIPT_MANAGER_H_
+#pragma once
 #include "config.h"
 #include "stl_use.h"
 #include "ScriptComponent.h"
@@ -18,4 +17,4 @@ public:
 
 };
 AUTO_END
-#endif // !SCRIPT_MANAGER_H_
+

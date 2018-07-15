@@ -1,6 +1,4 @@
-#ifndef GAME_SETTING_H_
-#define GAME_SETTING_H_
-
+#pragma once
 enum Tag
 {
 	Default,
@@ -16,5 +14,3 @@ enum Layout
 	Wall,
 	Player,
 };
-
-#endif //!GAME_SETTING_H_
