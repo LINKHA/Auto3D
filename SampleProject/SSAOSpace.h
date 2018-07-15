@@ -1,11 +1,11 @@
 #pragma  once
 #include "MotionSpace.h"
 USING_AUTO
-class WorkSpace : public MotionSpace
+class SSAOSpace : public MotionSpace
 {
 public:
-	WorkSpace();
-	~WorkSpace();
+	SSAOSpace();
+	~SSAOSpace();
 	void Start()override;
 	void Update()override;
 	int Launch();

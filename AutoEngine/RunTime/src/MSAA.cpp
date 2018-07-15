@@ -1,6 +1,6 @@
 #include "MSAA.h"
 #include "OpenGLGather.h"
-#include "Math/RectT.h"
+#include "Math/Rect.h"
 #include "GLWindow.h"
 USING_MATH
 AUTO_BEGIN

@@ -8,6 +8,8 @@ public: \
 	static const char* GetPPtrTypeString ()		{ return "PPtr<"#x">"; }\
 	virtual int GetClassID() const				{ return ClassID (x); }\
 	typedef y Super;\
+	using ClassName = x;\
+	using SuperName = y;\
 	virtual ~x (); \
 protected: \
 	void ClassInit()							{ SetClassID(ClassID(x)); }\
@@ -21,6 +23,8 @@ public: \
 	static const char* GetPPtrTypeString ()		{ return "PPtr<"#x">"; }\
 	virtual int GetClassID() const				{ return ClassID (x); }\
 	typedef y Super; \
+	using ClassName = x;\
+	using SuperName = y;\
 	virtual ~x (); \
 protected:\
 	void ClassInit()							{ SetClassID(ClassID(x)); }\

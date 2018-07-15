@@ -4,7 +4,7 @@
 #include "Auto.h"
 #include "Math/Color.h"
 #include "Singleton.h"
-#include "Math/RectT.h"
+#include "Math/Rect.h"
 USING_MATH
 AUTO_BEGIN
 

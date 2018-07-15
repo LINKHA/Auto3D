@@ -4,10 +4,10 @@
 #include "Vector2.h"
 MATH_BEGIN
 template <typename T>
-struct RectT
+struct Rect
 {
 public:
-	typedef RectT<T> RectType;
+	typedef Rect<T> RectType;
 	typedef float BaseType;
 
 	T x;
@@ -15,12 +15,12 @@ public:
 	T width;
 	T height;
 
-	RectT()
+	Rect()
 	{
 		Reset();
 	}
 
-	RectT(T inX, T inY, T iWidth, T iHeight)	{ x = inX;  y = inY; width = iWidth; height = iHeight; }
+	Rect(T inX, T inY, T iWidth, T iHeight)	{ x = inX;  y = inY; width = iWidth; height = iHeight; }
 
 	T GetRight() const							{ return x + width; }
 	T GetBottom() const							{ return y + height; }
@@ -45,7 +45,7 @@ public:
 	bool operator == (const RectType& r)const { return x == r.x && y == r.y && width == r.width && height == r.height; }
 	bool operator != (const RectType& r)const { return x != r.x || y != r.y || width != r.width || height != r.height; }
 };
-typedef RectT<float> Rectf;
-typedef RectT<int> RectInt;
+typedef Rect<float> Rectf;
+typedef Rect<int> RectInt;
 
 MATH_END
