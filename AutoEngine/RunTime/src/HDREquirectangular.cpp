@@ -17,8 +17,8 @@ glm::vec3 lightColors[] = {
 	glm::vec3(300.0f, 300.0f, 300.0f)
 };
 HDREquirectangular::HDREquirectangular()
-	:pbrShader(AtConfig::shader_path + "au_pbr.auvs"
-		, AtConfig::shader_path + "au_pbr.aufs")
+	:pbrShader(AtConfig::shader_path + "au_hdr_pbr.auvs"
+		, AtConfig::shader_path + "au_hdr_pbr.aufs")
 	,equirectangularToCubemapShader(AtConfig::shader_path + "au_pbr_cubemap.auvs"
 		, AtConfig::shader_path + "au_equirectangular_to_cubemap.aufs")
 	,backgroundShader(AtConfig::shader_path + "au_pbr_background.auvs"
