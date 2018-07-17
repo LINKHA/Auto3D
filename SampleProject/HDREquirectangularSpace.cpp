@@ -3,6 +3,7 @@
 #include "LightDirectional.h"
 #include "FreeCamera.h"
 #include "HDREquirectangular.h"
+#include "HDREquirectangularTexture.h"
 HDREquirectangularSpace::HDREquirectangularSpace()
 {}
 HDREquirectangularSpace::~HDREquirectangularSpace()
@@ -16,7 +17,8 @@ void HDREquirectangularSpace::Start()
 	cameraObj->AddComponent(camera);
 
 	GameObject * hdrObj = new GameObject();
-	HDREquirectangular * hdr = new HDREquirectangular();
+//	HDREquirectangular * hdr = new HDREquirectangular();
+	HDREquirectangularTexture * hdr = new HDREquirectangularTexture();
 	hdrObj->AddComponent(hdr);
 
 }

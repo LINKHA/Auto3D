@@ -13,6 +13,8 @@ private:
 	Shader pbrShader;
 	Shader equirectangularToCubemapShader;
 	Shader irradianceShader;
+	Shader prefilterShader;
+	Shader brdfShader;
 	Shader backgroundShader;
 	int nrRows = 7;
 	int nrColumns = 7;
@@ -23,7 +25,7 @@ private:
 	unsigned int captureFBO;
 	unsigned int captureRBO;
 
-	int width, height, nrComponents;
+	
 	
 	unsigned int hdrTexture;
 
@@ -35,8 +37,15 @@ private:
 	unsigned int sphereVAO = 0;
 	unsigned int indexCount;
 
+	unsigned int quadVAO = 0;
+	unsigned int quadVBO;
 	void renderSphere();
 	void renderCube();
+	void renderQuad();
+
+	unsigned int prefilterMap;
+	unsigned int brdfLUTTexture;
+	unsigned int irradianceMap;
 };
 
 AUTO_END
