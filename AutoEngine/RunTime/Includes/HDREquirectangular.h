@@ -12,6 +12,7 @@ public:
 private:
 	Shader pbrShader;
 	Shader equirectangularToCubemapShader;
+	Shader irradianceShader;
 	Shader backgroundShader;
 	int nrRows = 7;
 	int nrColumns = 7;
