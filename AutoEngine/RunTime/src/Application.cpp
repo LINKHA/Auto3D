@@ -8,7 +8,7 @@
 #include "MSAA.h"
 #include "Shadow.h"
 #include "../../EngineSetting/Optimize.h"
-
+#include "GLDebug.h"
 AUTO_BEGIN
 
 SINGLETON_INSTANCE(Application);
@@ -48,6 +48,9 @@ int Application::Init()
 		ErrorString("Failed to initialize GLAD from Engine\n");
 		return AU_ERROR;
 	}
+
+	GLint flags; glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
+	
 
 
 	glEnable(GL_DEPTH_TEST);
