@@ -23,7 +23,7 @@ private:
 	unsigned int captureRBO;
 
 	int width, height, nrComponents;
-	float *data;
+	
 	unsigned int hdrTexture;
 
 	unsigned int envCubemap;

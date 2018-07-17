@@ -33,6 +33,9 @@ HDREquirectangular::~HDREquirectangular()
 
 void HDREquirectangular::Start()
 {
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LEQUAL); // set depth function to less than AND equal for skybox depth trick.
+
 	pbrShader.Use();
 	pbrShader.SetVec3("albedo", 0.5f, 0.0f, 0.0f);
 	pbrShader.SetFloat("ao", 1.0f);
@@ -51,7 +54,7 @@ void HDREquirectangular::Start()
 	// pbr: load the HDR environment map
 	// ---------------------------------
 	stbi_set_flip_vertically_on_load(true);
-	data = stbi_loadf("Resource/texture/hdr/newport_loft.hdr", &width, &height, &nrComponents, 0);
+	float *data = stbi_loadf("Resource/texture/hdr/newport_loft.hdr", &width, &height, &nrComponents, 0);
 	if (data)
 	{
 		glGenTextures(1, &hdrTexture);
@@ -84,7 +87,7 @@ void HDREquirectangular::Start()
 
 	// pbr: set up projection and view matrices for capturing data onto the 6 cubemap face directions
 	// ----------------------------------------------------------------------------------------------
-	glm::mat4 captureProjection = glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 10.0f);
+	glm::mat4 captureProjection = glm::perspective(90.0f, 1.0f, 0.1f, 10.0f);
 	glm::mat4 captureViews[] =
 	{
 		glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f,  0.0f,  0.0f), glm::vec3(0.0f, -1.0f,  0.0f)),
@@ -119,10 +122,6 @@ void HDREquirectangular::Start()
 	// --------------------------------------------------
 	
 
-	// then before rendering, configure the viewport to the original framebuffer's screen dimensions
-	int scrWidth, scrHeight;
-	glfwGetFramebufferSize(INSTANCE(GLWindow).GetGLWindow(), &scrWidth, &scrHeight);
-	glViewport(0, 0, scrWidth, scrHeight);
 }
 
 void HDREquirectangular::Draw(Camera* camera)
@@ -130,11 +129,19 @@ void HDREquirectangular::Draw(Camera* camera)
 	glm::mat4 projection = camera->GetProjectionMatrix();
 	pbrShader.Use();
 	pbrShader.SetMat4("projection", projection);
+	backgroundShader.Use();
+	backgroundShader.SetMat4("projection", projection);
+
+	// then before rendering, configure the viewport to the original framebuffer's screen dimensions
+	int scrWidth, scrHeight;
+	glfwGetFramebufferSize(INSTANCE(GLWindow).GetGLWindow(), &scrWidth, &scrHeight);
+	glViewport(0, 0, scrWidth, scrHeight);
+
+	pbrShader.Use();
 	glm::mat4 view = camera->GetViewMatrix();
 	pbrShader.SetMat4("view", view);
 	pbrShader.SetVec3("camPos", camera->GetPosition());
-	backgroundShader.Use();
-	backgroundShader.SetMat4("projection", projection);
+
 	glm::mat4 model;
 
 	for (int row = 0; row < nrRows; ++row)

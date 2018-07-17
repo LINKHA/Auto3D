@@ -15,13 +15,9 @@ void HDREquirectangularSpace::Start()
 	cameraObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 	cameraObj->AddComponent(camera);
 
-	GameObject * lightObj = new GameObject();
-	Light * light = new LightDirectional();
-	lightObj->AddComponent(light);
-
-	GameObject * meshObj = new GameObject();
-	HDREquirectangular * mesh = new HDREquirectangular();
-	meshObj->AddComponent(mesh);
+	GameObject * hdrObj = new GameObject();
+	HDREquirectangular * hdr = new HDREquirectangular();
+	hdrObj->AddComponent(hdr);
 
 }
 
