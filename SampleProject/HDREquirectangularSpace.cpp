@@ -18,7 +18,7 @@ void HDREquirectangularSpace::Start()
 
 	GameObject * hdrObj = new GameObject();
 	HDREquirectangular * hdr = new HDREquirectangular();
-//	HDREquirectangularTexture * hdr = new HDREquirectangularTexture();
+	//HDREquirectangularTexture * hdr = new HDREquirectangularTexture();
 	hdrObj->AddComponent(hdr);
 
 }

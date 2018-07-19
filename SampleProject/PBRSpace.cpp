@@ -18,8 +18,8 @@ void PBRSpace::Start()
 	cameraObj->AddComponent(camera);
 
 	GameObject * pbrObj = new GameObject();
-	//PBR * pbr = new PBR();
-	PBRTexture * pbr = new PBRTexture();
+	PBR * pbr = new PBR();
+	//PBRTexture * pbr = new PBRTexture();
 	pbrObj->AddComponent(pbr);
 
 }

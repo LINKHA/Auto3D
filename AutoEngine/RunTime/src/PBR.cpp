@@ -2,13 +2,13 @@
 #include "AtConfig.h"
 #include "Camera.h"
 AUTO_BEGIN
-glm::vec3 lightPositions[] = {
+glm::vec3 p_lightPositions[] = {
 	glm::vec3(-10.0f,  10.0f, 10.0f),
 	glm::vec3(10.0f,  10.0f, 10.0f),
 	glm::vec3(-10.0f, -10.0f, 10.0f),
 	glm::vec3(10.0f, -10.0f, 10.0f),
 };
-glm::vec3 lightColors[] = {
+glm::vec3 p_lightColors[] = {
 	glm::vec3(300.0f, 300.0f, 300.0f),
 	glm::vec3(300.0f, 300.0f, 300.0f),
 	glm::vec3(300.0f, 300.0f, 300.0f),
@@ -161,12 +161,12 @@ void PBR::Draw(Camera * camera)
 	// render light source (simply re-render sphere at light positions)
 	// this looks a bit off as we use the same shader, but it'll make their positions obvious and 
 	// keeps the codeprint small.
-	for (unsigned int i = 0; i < sizeof(lightPositions) / sizeof(lightPositions[0]); ++i)
+	for (unsigned int i = 0; i < sizeof(p_lightPositions) / sizeof(p_lightPositions[0]); ++i)
 	{
-		glm::vec3 newPos = lightPositions[i] + glm::vec3(sin(glfwGetTime() * 5.0) * 5.0, 0.0, 0.0);
-		newPos = lightPositions[i];
+		glm::vec3 newPos = p_lightPositions[i] + glm::vec3(sin(glfwGetTime() * 5.0) * 5.0, 0.0, 0.0);
+		newPos = p_lightPositions[i];
 		m_shader.SetVec3("lightPositions[" + std::to_string(i) + "]", newPos);
-		m_shader.SetVec3("lightColors[" + std::to_string(i) + "]", lightColors[i]);
+		m_shader.SetVec3("lightColors[" + std::to_string(i) + "]", p_lightColors[i]);
 
 		model = glm::mat4();
 		model = glm::translate(model, newPos);

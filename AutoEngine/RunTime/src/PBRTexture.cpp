@@ -128,11 +128,11 @@ void PBRTexture::Start()
 	m_shader.SetInt("metallicMap", 2);
 	m_shader.SetInt("roughnessMap", 3);
 	m_shader.SetInt("aoMap", 4);
-	albedo = LocalTextureLoad("resource/texture/pbr/albedo.png");
-	normal = LocalTextureLoad("resource/texture/pbr/normal.png");
-	metallic = LocalTextureLoad("resource/texture/pbr/metallic.png");
-	roughness = LocalTextureLoad("resource/texture/pbr/roughness.png");
-	ao = LocalTextureLoad("resource/texture/pbr/ao.png");
+	albedo = LocalTextureLoad("resource/texture/pbr/gold/albedo.png");
+	normal = LocalTextureLoad("resource/texture/pbr/gold/normal.png");
+	metallic = LocalTextureLoad("resource/texture/pbr/gold/metallic.png");
+	roughness = LocalTextureLoad("resource/texture/pbr/gold/roughness.png");
+	ao = LocalTextureLoad("resource/texture/pbr/gold/ao.png");
 
 }
 void PBRTexture::Draw(Camera * camera)
