@@ -14,13 +14,14 @@ public:
 	void UpdateEnd();
 private:
 	Shader m_Shader;
-	int m_SamplingPointCount;
+	int m_samplingPointCount;
 private:
-	unsigned int ms_quadVAO, ms_quadVBO;
-	unsigned int ms_framebuffer;
-	unsigned int ms_textureColorBufferMultiSampled;
-	unsigned int ms_rbo;
-	unsigned int ms_screenTexture;
-	unsigned int ms_intermediateFBO;
+	unsigned int m_quadVAO, m_quadVBO;
+	unsigned int m_framebuffer;
+	unsigned int m_textureColorBufferMultiSampled;
+	unsigned int m_rbo;
+	unsigned int m_screenTexture;
+	unsigned int m_intermediateFBO;
+	
 };
 AUTO_END

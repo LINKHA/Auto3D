@@ -5,7 +5,7 @@
 #include "VertexData.h"
 #include "RenderManager.h"
 AUTO_BEGIN
-
+SINGLETON_INSTANCE(SkyManager);
 SkyBox::SkyBox()
 {
 }
@@ -16,6 +16,7 @@ SkyBox::~SkyBox()
 }
 void SkyBox::Start()
 {
+	INSTANCE(SkyManager).AddSkyBox(this);
 	m_shader = Shader(AtConfig::shader_path + "au_skybox.auvs", AtConfig::shader_path + "au_skybox.aufs");
 	glGenVertexArrays(1, &m_skyboxVAO);
 	glGenBuffers(1, &m_skyboxVBO);

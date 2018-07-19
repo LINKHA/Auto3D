@@ -122,7 +122,7 @@ unsigned int LocalHdrLoad(PInt8 path)
 {
 	unsigned int hdrTexture;
 	int width, height, nrComponents;
-	float *data = stbi_loadf("Resource/texture/hdr/Alexs_Apt_2k.hdr", &width, &height, &nrComponents, 0);
+	float *data = stbi_loadf(path, &width, &height, &nrComponents, 0);
 	if (data)
 	{
 		glGenTextures(1, &hdrTexture);

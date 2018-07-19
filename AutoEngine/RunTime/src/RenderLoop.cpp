@@ -24,7 +24,7 @@ void RenderLoop::RunLoop()
 		cam->GetViewRect().width * rect.width,
 		cam->GetViewRect().height * rect.height
 	);
-	INSTANCE(BaseSpace).Update();
+	
 	INSTANCE(BaseSpace).Draw();
 }
 RenderLoop * CreateRenderLoop(Camera & camera)

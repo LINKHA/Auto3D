@@ -1,13 +1,13 @@
-#include "RanderComponent.h"
+#include "RenderComponent.h"
 
 AUTO_BEGIN
 
-RanderComponent::RanderComponent()
+RenderComponent::RenderComponent()
 {
 }
 
 
-RanderComponent::~RanderComponent()
+RenderComponent::~RenderComponent()
 {
 }
 

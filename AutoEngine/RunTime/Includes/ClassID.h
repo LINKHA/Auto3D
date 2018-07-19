@@ -38,7 +38,7 @@ enum ClassIDType
 	DO_CLASS_ID(TextureMap, 32)
 	DO_CLASS_ID(TextureNormal, 33)
 	DO_CLASS_ID(TextureParallax, 34)
-	DO_CLASS_ID(RanderComponent, 35)
+	DO_CLASS_ID(RenderComponent, 35)
 	DO_CLASS_ID(Sprite, 36)
 
 	DO_CLASS_ID(LightPoint, 37)

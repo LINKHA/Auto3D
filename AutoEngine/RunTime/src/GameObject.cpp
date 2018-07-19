@@ -1,6 +1,6 @@
 #include "GameObject.h"
-#include "Transform.h"
 #include "GameObjectManager.h"
+#include "Transform.h"
 AUTO_BEGIN
 //////////////////////////////////////////////////////////////////////////
 //Node

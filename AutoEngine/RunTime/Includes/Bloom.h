@@ -39,9 +39,6 @@ private:
 	unsigned int quadVAO = 0;
 	unsigned int quadVBO;
 
-	void renderCube();
-	void renderQuad();
-
 
 };
 

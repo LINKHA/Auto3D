@@ -1,6 +1,6 @@
 #pragma once
 
-static float shadow_vertices[] = {
+static const float shadow_vertices[] = {
 	// back face
 	-1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
 	1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f, // top-right
@@ -52,12 +52,12 @@ static float texture_vertices[] = {
 	-0.5f,-0.5f,0.0f,			0.0f, 0.0f, // bottom left
 	-0.5f,0.5f,	0.0f,			0.0f, 1.0f  // top left 
 };
-static unsigned int texture_indices[] = {
+static const unsigned int texture_indices[] = {
 	0, 1, 3, // first triangle
 	1, 2, 3  // second triangle
 };
 /////////////////////////////////////////////////////////////////////////////////////////////
-static float frame_quad_vertices[] = {
+static const float quad_vertices[] = {
 	-1.0f,  1.0f,  0.0f, 1.0f,
 	-1.0f, -1.0f,  0.0f, 0.0f,
 	1.0f, -1.0f,  1.0f, 0.0f,
@@ -68,7 +68,7 @@ static float frame_quad_vertices[] = {
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-static float skybox_vertices[] = {
+static const float skybox_vertices[] = {
 	-1.0f,  1.0f, -1.0f,
 	-1.0f, -1.0f, -1.0f,
 	1.0f, -1.0f, -1.0f,

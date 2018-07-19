@@ -7,7 +7,7 @@
 #include "LoadResource.h"
 #include "Math/Color.h"
 #include "AuMaterial.h"
-#include "RanderComponent.h"
+#include "RenderComponent.h"
 #include "GLMeshEnable.h"
 
 AUTO_BEGIN

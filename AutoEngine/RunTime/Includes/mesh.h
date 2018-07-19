@@ -7,14 +7,14 @@
 #include "LoadResource.h"
 #include "Math/Color.h"
 #include "AuMaterial.h"
-#include "RanderComponent.h"
+#include "RenderComponent.h"
 #include "GLMeshEnable.h"
 
 AUTO_BEGIN
 
-class Mesh : public RanderComponent ,public GLMeshEnable
+class Mesh : public RenderComponent,public GLMeshEnable
 {
-	REGISTER_DERIVED_CLASS(Mesh, RanderComponent);
+	REGISTER_DERIVED_CLASS(Mesh, RenderComponent);
 	DECLARE_OBJECT_SERIALIZE(Mesh);
 public:
 	Mesh();

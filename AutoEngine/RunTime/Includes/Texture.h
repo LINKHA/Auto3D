@@ -8,13 +8,13 @@
 #include "Shader.h"
 #include "AtConfig.h"
 #include "GameObject.h"
-#include "RanderComponent.h"
+#include "RenderComponent.h"
 #include "GLTextureEnable.h"
 AUTO_BEGIN
 
-class Texture : public RanderComponent , public GLTextureEnable
+class Texture : public RenderComponent, public GLTextureEnable
 {
-	REGISTER_DERIVED_ABSTRACT_CLASS(Texture, RanderComponent);
+	REGISTER_DERIVED_ABSTRACT_CLASS(Texture, RenderComponent);
 	DECLARE_OBJECT_SERIALIZE(Texture);
 	
 protected:

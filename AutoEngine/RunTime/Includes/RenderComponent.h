@@ -3,12 +3,12 @@
 #include "OpenGLGather.h"
 AUTO_BEGIN
 
-class RanderComponent : public Component
+class RenderComponent : public Component
 {
-	REGISTER_DERIVED_ABSTRACT_CLASS(RanderComponent, Component);
-	DECLARE_OBJECT_SERIALIZE(RanderComponent);
+	REGISTER_DERIVED_ABSTRACT_CLASS(RenderComponent, Component);
+	DECLARE_OBJECT_SERIALIZE(RenderComponent);
 public:
-	RanderComponent();
+	RenderComponent();
 	virtual void Awake() {}
 	virtual void Start() {}
 	virtual void Update() {}

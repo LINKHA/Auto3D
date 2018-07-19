@@ -1,6 +1,6 @@
 #pragma once
 #include "Texture3D.h"
-
+#include "Singleton.h"
 AUTO_BEGIN
 
 class SkyBox : public Texture3D
@@ -12,6 +12,7 @@ public:
 
 	void Start()override;
 	void Draw()override;
+	unsigned int GetTexture() { return m_cubemapTexture; }
 private:
 	unsigned int m_cubemapTexture;
 
@@ -20,5 +21,12 @@ private:
 	unsigned int m_skyboxVBO;
 };
 
+struct SkyManager : public Singleton<SkyManager>
+{
+	void AddSkyBox(SkyBox* skybox) { m_skybox = skybox; }
+	SkyBox * GetSkyBox() { return m_skybox; }
+private:
+	SkyBox * m_skybox;
+};
 AUTO_END
 
