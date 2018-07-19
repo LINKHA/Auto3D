@@ -16,6 +16,7 @@ public:
 	Camera &GetCurrentCamera() {  return *m_CurrentCamera; }
 	Camera* GetCurrentCameraPtr() { return m_CurrentCamera; }
 	void SetCurrentCamera(Camera *c) { m_CurrentCamera = c; }
+	CameraContainer & GetAllCamera() { return m_Cameras; }
 
 	void AddCamera(Camera *c);
 	void RemoveCamera(Camera *c);

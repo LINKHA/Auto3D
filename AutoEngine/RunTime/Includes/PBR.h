@@ -14,10 +14,10 @@ public:
 	void Draw(Camera * camera = nullptr)override;
 private:
 	Shader m_shader;
+
+	unsigned int sphereVAO = 0;
+	unsigned int indexCount;
 	
-	int nrRows = 7;
-	int nrColumns = 7;
-	float spacing = 2.5;
 };
 
 AUTO_END

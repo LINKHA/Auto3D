@@ -21,7 +21,6 @@ void PBRSpace::Start()
 	PBR * pbr = new PBR();
 	//PBRTexture * pbr = new PBRTexture();
 	pbrObj->AddComponent(pbr);
-
 }
 
 void PBRSpace::Update()

@@ -2,37 +2,18 @@
 #include "GameObject.h"
 #include "Shader.h"
 AUTO_BEGIN
-class HDREquirectangularTexture : public Component
+class PBRTextureMaterial : public Component
 {
 public:
-	HDREquirectangularTexture();
-	~HDREquirectangularTexture();
+	PBRTextureMaterial();
+	~PBRTextureMaterial();
 	void Start()override;
 	void Draw(Camera* camera = nullptr)override;
 private:
 	Shader pbrShader;
-	Shader equirectangularToCubemapShader;
-	Shader irradianceShader;
-	Shader prefilterShader;
-	Shader brdfShader;
-	Shader backgroundShader;
-
-	unsigned int envCubemap;
-	unsigned int irradianceMap;
-	unsigned int prefilterMap;
-	unsigned int brdfLUTTexture;
-
-	unsigned int cubeVAO = 0;
-	unsigned int cubeVBO = 0;
 
 	unsigned int sphereVAO = 0;
 	unsigned int indexCount;
-
-	unsigned int quadVAO = 0;
-	unsigned int quadVBO;
-	void renderSphere();
-	void renderCube();
-	void renderQuad();
 
 	unsigned int ironAlbedoMap;
 	unsigned int ironNormalMap;

@@ -2,8 +2,10 @@
 #include "Application.h"
 #include "LightDirectional.h"
 #include "FreeCamera.h"
-#include "HDREquirectangular.h"
-#include "HDREquirectangularTexture.h"
+#include "PBRMaterial.h"
+#include "PBRTextureMaterial.h"
+#include "HDRSkybox.h"
+
 HDREquirectangularSpace::HDREquirectangularSpace()
 {}
 HDREquirectangularSpace::~HDREquirectangularSpace()
@@ -16,15 +18,22 @@ void HDREquirectangularSpace::Start()
 	cameraObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 	cameraObj->AddComponent(camera);
 
-	GameObject * hdrObj = new GameObject();
-	HDREquirectangular * hdr = new HDREquirectangular();
-	//HDREquirectangularTexture * hdr = new HDREquirectangularTexture();
-	hdrObj->AddComponent(hdr);
+
+	GameObject * skyboxObj = new GameObject();
+	HDRSkyBox * skybox = new HDRSkyBox();
+	skyboxObj->AddComponent(skybox);
+
+
+	GameObject * pbrObj = new GameObject();
+	//PBRMaterial * pbr = new PBRMaterial();
+	PBRTextureMaterial * pbr = new PBRTextureMaterial();
+	pbrObj->AddComponent(pbr);
 
 }
 
 void HDREquirectangularSpace::Update()
 {
+	
 }
 
 int HDREquirectangularSpace::Launch()

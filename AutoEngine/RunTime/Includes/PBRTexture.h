@@ -16,13 +16,8 @@ public:
 private:
 	Shader m_shader;
 
-	int nrRows = 7;
-	int nrColumns = 7;
-	float spacing = 2.5;
-
 	unsigned int sphereVAO = 0;
 	unsigned int indexCount;
-	void renderSphere();
 
 	unsigned int albedo;
 	unsigned int normal;
