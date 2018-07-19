@@ -10,7 +10,7 @@ public:
 	InstanceBeltLine(const ModelCommand& model,const Shader& shader, glm::mat4* modelMat,int count);
 	~InstanceBeltLine();
 	void Start()override;
-	void Draw(Camera * camera = nullptr)override;
+	void Draw()override;
 	void SetCount(int count) { m_Count = count; }
 	void SetShader(const Shader& shader) { m_Shader = shader; }
 	void SetModel(const ModelCommand& model) { m_Model = model; }

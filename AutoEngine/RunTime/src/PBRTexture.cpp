@@ -3,6 +3,7 @@
 #include "Camera.h"
 #include "LoadResource.h"
 #include "BaseMesh.h"
+#include "RenderManager.h"
 AUTO_BEGIN
 glm::vec3 t_lightPositions[] = {
 	glm::vec3(-10.0f,  10.0f, 10.0f),
@@ -42,14 +43,14 @@ void PBRTexture::Start()
 	ao = LocalTextureLoad("resource/texture/pbr/gold/ao.png");
 
 }
-void PBRTexture::Draw(Camera * camera)
+void PBRTexture::Draw()
 {
-	glm::mat4 projection = camera->GetProjectionMatrix();
+	glm::mat4 projection = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
 	m_shader.Use();
 	m_shader.SetMat4("projection", projection);
-	glm::mat4 view = camera->GetViewMatrix();
+	glm::mat4 view = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
 	m_shader.SetMat4("view", view);
-	m_shader.SetVec3("camPos", camera->GetPosition());
+	m_shader.SetVec3("camPos", INSTANCE(RenderManager).GetCurrentCamera().GetPosition());
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, albedo);

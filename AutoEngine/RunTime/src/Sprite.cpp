@@ -79,11 +79,11 @@ void Sprite::Start()
 	/////////////////////////////////////////////////////////////////////////////////////////////
 }
 
-void Sprite::Draw(Camera * cam)
+void Sprite::Draw()
 {
 	GLApply();
 
-	if (cam == nullptr)
+	if (INSTANCE(RenderManager).GetCurrentCameraPtr() == nullptr)
 	{
 		WarningString("Fail to find camera");
 		return;
@@ -99,8 +99,8 @@ void Sprite::Draw(Camera * cam)
 		modelMat = GetGameObject().GetComponent(Transform).GetTransformMat();
 	else
 		modelMat = Matrix4x4::identity;
-	viewMat = cam->GetViewMatrix();
-	projectionMat = cam->GetProjectionMatrix();
+	viewMat = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
+	projectionMat = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
 
 	m_shader.SetMat4("model", modelMat);
 	m_shader.SetMat4("view", viewMat);

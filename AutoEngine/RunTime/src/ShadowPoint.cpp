@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "VertexData.h"
 #include "LoadResource.h"
+#include "RenderManager.h"
 AUTO_BEGIN
 ShadowPoint::ShadowPoint()
 	:m_ShadowMap(AtConfig::shader_path + "au_point_shadows.auvs"
@@ -32,7 +33,7 @@ void ShadowPoint::Start()
 	m_ShadowMap.SetInt("depthMap", 1);
 	lightPos = glm::vec3(0.0f, 0.0f, 0.0f);
 }
-void ShadowPoint::Draw(Camera* camera)
+void ShadowPoint::Draw()
 {
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -66,13 +67,13 @@ void ShadowPoint::Draw(Camera* camera)
 	glViewport(0, 0, t.width, t.height);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	m_ShadowMap.Use();
-	glm::mat4 projection = camera->GetProjectionMatrix();
-	glm::mat4 view = camera->GetViewMatrix();
+	glm::mat4 projection = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
+	glm::mat4 view = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
 	m_ShadowMap.SetMat4("projection", projection);
 	m_ShadowMap.SetMat4("view", view);
 	// set lighting uniforms
 	m_ShadowMap.SetVec3("lightPos", lightPos);
-	m_ShadowMap.SetVec3("viewPos", camera->GetPosition());
+	m_ShadowMap.SetVec3("viewPos", INSTANCE(RenderManager).GetCurrentCamera().GetPosition());
 	m_ShadowMap.SetInt("shadows", true); // enable/disable shadows by pressing 'SPACE'
 	m_ShadowMap.SetFloat("far_plane", far_plane);
 	glActiveTexture(GL_TEXTURE0);

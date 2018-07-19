@@ -8,7 +8,7 @@ public:
 	ShadowPoint();
 	~ShadowPoint();
 	void Start()override;
-	void Draw(Camera* camera = nullptr)override;
+	void Draw()override;
 private:
 	Shader m_ShadowMap;
 	Shader m_ShadowMapDepth;

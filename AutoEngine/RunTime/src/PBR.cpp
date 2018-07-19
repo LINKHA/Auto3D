@@ -2,6 +2,7 @@
 #include "AtConfig.h"
 #include "Camera.h"
 #include "BaseMesh.h"
+#include "RenderManager.h"
 AUTO_BEGIN
 glm::vec3 p_lightPositions[] = {
 	glm::vec3(-10.0f,  10.0f, 10.0f),
@@ -32,14 +33,14 @@ void PBR::Start()
 	m_shader.SetVec3("albedo", 0.5f, 0.0f, 0.0f);
 	m_shader.SetFloat("ao", 1.0f);
 }
-void PBR::Draw(Camera * camera)
+void PBR::Draw()
 {
-	glm::mat4 projection = camera->GetProjectionMatrix();
+	glm::mat4 projection = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
 	m_shader.Use();
 	m_shader.SetMat4("projection", projection);
-	glm::mat4 view = camera->GetViewMatrix();
+	glm::mat4 view = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
 	m_shader.SetMat4("view", view);
-	m_shader.SetVec3("camPos", camera->GetPosition());
+	m_shader.SetVec3("camPos", INSTANCE(RenderManager).GetCurrentCamera().GetPosition());
 
 	glm::mat4 model;
 

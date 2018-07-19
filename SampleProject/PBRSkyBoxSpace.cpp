@@ -1,4 +1,4 @@
-#include "HDREquirectangularSpace.h"
+#include "PBRSkyBoxSpace.h"
 #include "Application.h"
 #include "LightDirectional.h"
 #include "FreeCamera.h"
@@ -6,12 +6,12 @@
 #include "PBRTextureMaterial.h"
 #include "HDRSkybox.h"
 
-HDREquirectangularSpace::HDREquirectangularSpace()
+PBRSkyBoxSpace::PBRSkyBoxSpace()
 {}
-HDREquirectangularSpace::~HDREquirectangularSpace()
+PBRSkyBoxSpace::~PBRSkyBoxSpace()
 {}
 
-void HDREquirectangularSpace::Start()
+void PBRSkyBoxSpace::Start()
 {
 	GameObject * cameraObj = new GameObject();
 	FreeCamera * camera = new FreeCamera();
@@ -25,18 +25,18 @@ void HDREquirectangularSpace::Start()
 
 
 	GameObject * pbrObj = new GameObject();
-	//PBRMaterial * pbr = new PBRMaterial();
-	PBRTextureMaterial * pbr = new PBRTextureMaterial();
+	PBRMaterial * pbr = new PBRMaterial();
+	//PBRTextureMaterial * pbr = new PBRTextureMaterial();
 	pbrObj->AddComponent(pbr);
 
 }
 
-void HDREquirectangularSpace::Update()
+void PBRSkyBoxSpace::Update()
 {
 	
 }
 
-int HDREquirectangularSpace::Launch()
+int PBRSkyBoxSpace::Launch()
 {
 	return INSTANCE(Application).Run();
 }

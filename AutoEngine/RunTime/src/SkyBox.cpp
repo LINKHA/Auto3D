@@ -3,6 +3,7 @@
 #include "GLWindow.h"
 #include "Camera.h"
 #include "VertexData.h"
+#include "RenderManager.h"
 AUTO_BEGIN
 
 SkyBox::SkyBox()
@@ -35,19 +36,14 @@ void SkyBox::Start()
 	};
 	m_cubemapTexture = LoadCubemap(faces);
 }
-void SkyBox::Draw(Camera * cam)
+void SkyBox::Draw()
 {
-	if (cam == nullptr)
-	{
-		WarningString("Fail to find camera");
-		return;
-	}
-	glm::mat4 viewMat = cam->GetViewMatrix(); 
+	glm::mat4 viewMat = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
 	RectInt rect = INSTANCE(GLWindow).GetWindowRectInt();
-	glm::mat4 projectionMat = cam->GetProjectionMatrix();
+	glm::mat4 projectionMat = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
 	glDepthFunc(GL_LEQUAL);  
 	m_shader.Use();
-	viewMat = glm::mat4(glm::mat3(cam->GetViewMatrix()));
+	viewMat = glm::mat4(glm::mat3(INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix()));
 	m_shader.SetMat4("view", viewMat);
 	m_shader.SetMat4("projection", projectionMat);
 	glBindVertexArray(m_skyboxVAO);

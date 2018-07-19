@@ -6,6 +6,7 @@
 #include "LoadResource.h"
 #include "BaseMesh.h"
 #include "HDRSkyBox.h"
+#include "RenderManager.h"
 AUTO_BEGIN
 glm::vec3 lightPositions[] = {
 	glm::vec3(-10.0f,  10.0f, 10.0f),
@@ -40,16 +41,16 @@ void PBRMaterial::Start()
 	pbrShader.SetFloat("ao", 1.0f);
 }
 
-void PBRMaterial::Draw(Camera* camera)
+void PBRMaterial::Draw()
 {
 	//////////////////////////////////////////////////////////////////////////
-	glm::mat4 projection = camera->GetProjectionMatrix();
+	glm::mat4 projection = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
 	
 	pbrShader.Use();
 	pbrShader.SetMat4("projection", projection);
-	glm::mat4 view = camera->GetViewMatrix();
+	glm::mat4 view = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
 	pbrShader.SetMat4("view", view);
-	pbrShader.SetVec3("camPos", camera->GetPosition());
+	pbrShader.SetVec3("camPos", INSTANCE(RenderManager).GetCurrentCamera().GetPosition());
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, INSTANCE(SkyBoxManager).GetSkyBox()->irradianceMap);
 	glActiveTexture(GL_TEXTURE1);

@@ -8,7 +8,7 @@ public:
 	PBRMaterial();
 	~PBRMaterial();
 	void Start()override;
-	void Draw(Camera* camera = nullptr)override;
+	void Draw()override;
 private:
 	Shader pbrShader;
 

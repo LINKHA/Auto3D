@@ -40,7 +40,7 @@ void GameObjectManager::RemoveGameObject(GameObject * obj)
 		m_GameObjects.remove(obj);
 	}
 }
-void GameObjectManager::ModeRunGameObject(RunMode runMode,Camera * cam)
+void GameObjectManager::ModeRunGameObject(RunMode runMode)
 {
 	if (runMode == DefaultMode)
 	{
@@ -69,7 +69,7 @@ void GameObjectManager::ModeRunGameObject(RunMode runMode,Camera * cam)
 			else if (runMode == DrawMode)
 			{
 				obj->GetComponent(Transform).UpdateTransform();
-				TEMP_ITERATOR{ if (k->second->GetEnable()) k->second->Draw(cam); }
+				TEMP_ITERATOR{ if (k->second->GetEnable()) k->second->Draw(); }
 				obj->GetComponent(Transform).Identity();
 			}
 			else 

@@ -13,7 +13,7 @@ Texture3D::~Texture3D()
 void Texture3D::Start()
 {
 }
-void Texture3D::Draw(Camera * cam)
+void Texture3D::Draw()
 {
 }
 AUTO_END

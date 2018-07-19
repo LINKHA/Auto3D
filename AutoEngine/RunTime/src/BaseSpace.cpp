@@ -44,10 +44,10 @@ void BaseSpace::Finish()
 	INSTANCE(SpaceManager).ModeRunSpace(FinishMode);
 	INSTANCE(GameObjectManager).ModeRunGameObject(FinishMode);
 }
-void BaseSpace::Draw(Camera* camera)
+void BaseSpace::Draw()
 {
 	INSTANCE(SpaceManager).ModeRunSpace(DrawMode);
-	INSTANCE(GameObjectManager).ModeRunGameObject(DrawMode, camera);
+	INSTANCE(GameObjectManager).ModeRunGameObject(DrawMode);
 }
 
 AUTO_END

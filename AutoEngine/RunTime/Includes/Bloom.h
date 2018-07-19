@@ -9,7 +9,7 @@ public:
 	Bloom();
 	~Bloom();
 	void Start()override;
-	void Draw(Camera* camera = nullptr);
+	void Draw()override;
 private:
 	Shader m_shader;
 	Shader m_shaderLight;

@@ -11,7 +11,7 @@ public:
 	SkyBox();
 
 	void Start()override;
-	void Draw(Camera * cam)override;
+	void Draw()override;
 private:
 	unsigned int m_cubemapTexture;
 

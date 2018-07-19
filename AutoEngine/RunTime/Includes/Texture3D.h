@@ -10,7 +10,7 @@ class Texture3D : public Texture
 public:
 	Texture3D();
 	void Start()override;
-	void Draw(Camera * cam = nullptr)override;
+	void Draw()override;
 };
 
 AUTO_END

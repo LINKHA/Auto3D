@@ -17,7 +17,7 @@ public:
 	void AddGameObject(GameObject * obj);
 	void RemoveGameObject(GameObject * obj);
 
-	void ModeRunGameObject(RunMode runMode,Camera * cam = nullptr);
+	void ModeRunGameObject(RunMode runMode);
 	
 private:
 	void DelayAddRemoveGameObject();

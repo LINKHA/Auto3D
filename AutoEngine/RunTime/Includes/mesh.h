@@ -22,7 +22,7 @@ public:
 	Mesh(char* meshPath, const Shader& shader);
 
 	void Start()override;
-	void Draw(Camera * cam = nullptr)override;
+	void Draw()override;
 	Material& GetMaterial() { return m_Material; }
 
 private:

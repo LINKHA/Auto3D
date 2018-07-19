@@ -18,7 +18,7 @@ public:
 
 	TextureMap();
 	void Start()override;
-	void Draw(Camera * cam)override;
+	void Draw()override;
 
 
 	void SetTexParameters(const TexParams& params);

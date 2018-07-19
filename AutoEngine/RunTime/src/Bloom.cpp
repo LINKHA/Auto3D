@@ -3,6 +3,7 @@
 #include "LoadResource.h"
 #include "GLWindow.h"
 #include "Camera.h"
+#include "RenderManager.h"
 AUTO_BEGIN
 
 void Bloom::renderCube()
@@ -197,12 +198,12 @@ void Bloom::Start()
 	m_shaderBloomFinal.SetInt("scene", 0);
 	m_shaderBloomFinal.SetInt("bloomBlur", 1);
 }
-void Bloom::Draw(Camera* camera)
+void Bloom::Draw()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, hdrFBO);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glm::mat4 projection = camera->GetProjectionMatrix();
-	glm::mat4 view = camera->GetViewMatrix();
+	glm::mat4 projection = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
+	glm::mat4 view = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
 	glm::mat4 model;
 	m_shader.Use();
 	m_shader.SetMat4("projection", projection);
@@ -215,7 +216,7 @@ void Bloom::Draw(Camera* camera)
 		m_shader.SetVec3("lights[" + std::to_string(i) + "].Position", lightPositions[i]);
 		m_shader.SetVec3("lights[" + std::to_string(i) + "].Color", lightColors[i]);
 	}
-	m_shader.SetVec3("viewPos", camera->GetPosition());
+	m_shader.SetVec3("viewPos", INSTANCE(RenderManager).GetCurrentCamera().GetPosition());
 	// create one large cube that acts as the floor
 	model = glm::mat4();
 	model = glm::translate(model, glm::vec3(0.0f, -1.0f, 0.0));

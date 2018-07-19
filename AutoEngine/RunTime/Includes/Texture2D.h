@@ -23,7 +23,7 @@ public:
 	virtual void Update() {}
 	virtual void FixUpdate() {}
 	virtual void Finish() {}
-	virtual void Draw(Camera* camera = nullptr) {}
+	virtual void Draw() {}
 
 };
 

@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "LoadResource.h"
 #include "BaseMesh.h"
+#include "RenderManager.h"
 AUTO_BEGIN
 glm::vec3 lightPositions[] = {
 	glm::vec3(-10.0f,  10.0f, 10.0f),
@@ -84,17 +85,17 @@ void PBRTextureMaterial::Start()
 
 }
 
-void PBRTextureMaterial::Draw(Camera* camera)
+void PBRTextureMaterial::Draw()
 {
 	//////////////////////////////////////////////////////////////////////////
-	glm::mat4 projection = camera->GetProjectionMatrix();
+	glm::mat4 projection = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
 
 	pbrShader.Use();
 	pbrShader.SetMat4("projection", projection);
 	glm::mat4 model;
-	glm::mat4 view = camera->GetViewMatrix();
+	glm::mat4 view = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
 	pbrShader.SetMat4("view", view);
-	pbrShader.SetVec3("camPos", camera->GetPosition());
+	pbrShader.SetVec3("camPos", INSTANCE(RenderManager).GetCurrentCamera().GetPosition());
 
 	// bind pre-computed IBL data
 	glActiveTexture(GL_TEXTURE0);

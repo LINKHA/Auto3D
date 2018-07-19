@@ -1,11 +1,11 @@
 #pragma  once
 #include "MotionSpace.h"
 USING_AUTO
-class HDREquirectangularSpace : public MotionSpace
+class PBRSkyBoxSpace : public MotionSpace
 {
 public:
-	HDREquirectangularSpace();
-	~HDREquirectangularSpace();
+	PBRSkyBoxSpace();
+	~PBRSkyBoxSpace();
 	void Start()override;
 	void Update()override;
 	int Launch();

@@ -2,6 +2,7 @@
 #include "AtConfig.h"
 #include "LoadResource.h"
 #include "GLWindow.h"
+#include "RenderManager.h"
 AUTO_BEGIN
 
 bool hdr = true;
@@ -178,12 +179,12 @@ void HDR::Start()
 	m_hdrShader.SetInt("hdrBuffer", 0);
 }
 
-void HDR::Draw(Camera * camera)
+void HDR::Draw()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, hdrFBO);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glm::mat4 projection = camera->GetProjectionMatrix();
-	glm::mat4 view = camera->GetViewMatrix();
+	glm::mat4 projection = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
+	glm::mat4 view = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
 	m_shader.Use();
 	m_shader.SetMat4("projection", projection);
 	m_shader.SetMat4("view", view);
@@ -195,7 +196,7 @@ void HDR::Draw(Camera * camera)
 		m_shader.SetVec3("lights[" + std::to_string(i) + "].Position", lightPositions[i]);
 		m_shader.SetVec3("lights[" + std::to_string(i) + "].Color", lightColors[i]);
 	}
-	m_shader.SetVec3("viewPos", camera->GetPosition());
+	m_shader.SetVec3("viewPos", INSTANCE(RenderManager).GetCurrentCamera().GetPosition());
 	// render tunnel
 	glm::mat4 model = glm::mat4();
 	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 25.0));

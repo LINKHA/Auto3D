@@ -190,9 +190,9 @@ void HDRSkyBox::Start()
 
 
 }
-void HDRSkyBox::Draw(Camera * camera)
+void HDRSkyBox::Draw()
 {
-	glm::mat4 projection = camera->GetProjectionMatrix();
+	glm::mat4 projection = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
 	m_backgroundShader.Use();
 	m_backgroundShader.SetMat4("projection", projection);
 
@@ -201,7 +201,7 @@ void HDRSkyBox::Draw(Camera * camera)
 	glfwGetFramebufferSize(INSTANCE(GLWindow).GetGLWindow(), &scrWidth, &scrHeight);
 	glViewport(0, 0, scrWidth, scrHeight);
 
-	glm::mat4 view = camera->GetViewMatrix();
+	glm::mat4 view = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
 	m_backgroundShader.SetMat4("view", view);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, envCubemap);

@@ -11,7 +11,7 @@ public:
 	~SSAO();
 
 	void Start()override;
-	void Draw(Camera* camera = nullptr);
+	void Draw()override;
 
 private:
 	Shader m_shaderGeometryPass;

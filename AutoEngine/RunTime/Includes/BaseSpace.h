@@ -21,7 +21,7 @@ public:
 	void Update(); 
 	void FixUpdate();
 	void Finish();
-	void Draw(Camera* camera);
+	void Draw();
 };
 
 AUTO_END

@@ -11,7 +11,7 @@ public:
 	PBR();
 	~PBR();
 	void Start()override;
-	void Draw(Camera * camera = nullptr)override;
+	void Draw()override;
 private:
 	Shader m_shader;
 

@@ -12,7 +12,7 @@ TextureMap::~TextureMap()
 void TextureMap::Start()
 {}
 
-void TextureMap::Draw(Camera * cam)
+void TextureMap::Draw()
 {}
 void TextureMap::SetTexParameters(const TexParams & params)
 {

@@ -18,7 +18,7 @@ public:
 	TextureParallax(char* imagePath);
 	TextureParallax(char* imagePath, const Shader& shader);
 	void Start()override;
-	void Draw(Camera * cam)override;
+	void Draw()override;
 
 	void SetColor(const Color& color);
 	void SetColor(const Vector3& vec);

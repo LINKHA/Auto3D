@@ -10,8 +10,8 @@ class HDR : public Component
 public:
 	HDR();
 	~HDR();
-	void Start();
-	void Draw(Camera * camera = nullptr)override;
+	void Start()override;
+	void Draw()override;
 private:
 	Shader m_shader;
 	Shader m_hdrShader;

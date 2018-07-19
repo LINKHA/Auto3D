@@ -9,7 +9,7 @@ public:
 	HDRSkyBox();
 	~HDRSkyBox();
 	void Start()override;
-	void Draw(Camera * cam)override;
+	void Draw()override;
 	void AddToCamera(Camera * camera){}
 private:
 	Shader m_equirectangularToCubemapShader;

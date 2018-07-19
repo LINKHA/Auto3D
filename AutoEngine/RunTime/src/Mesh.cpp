@@ -44,9 +44,9 @@ void Mesh::Start()
 	//////////////////////////////////////////////////////////////////////////
 	m_Model = LocalModelLoad(m_meshPath.ptr);
 }
-void Mesh::Draw(Camera * cam)
+void Mesh::Draw()
 {
-	if (cam == nullptr)
+	if (INSTANCE(RenderManager).GetCurrentCameraPtr() == nullptr)
 	{
 		WarningString("Fail to find camera");
 		return;
@@ -63,13 +63,13 @@ void Mesh::Draw(Camera * cam)
 		modelMat = GetGameObject().GetComponent(Transform).GetTransformMat();
 	else
 		modelMat = Matrix4x4::identity;
-	viewMat = cam->GetViewMatrix();
-	projectionMat = cam->GetProjectionMatrix();
+	viewMat = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
+	projectionMat = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
 
 	m_shader.SetMat4("model", modelMat);
 	m_shader.SetMat4("view", viewMat);
 	m_shader.SetMat4("projection", projectionMat);
-	m_shader.SetVec3("viewPos", cam->GetPosition());
+	m_shader.SetVec3("viewPos", INSTANCE(RenderManager).GetCurrentCamera().GetPosition());
 	if (!m_userShader)
 	{
 		drawMaterial();

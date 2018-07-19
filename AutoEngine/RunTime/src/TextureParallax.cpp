@@ -44,17 +44,10 @@ void TextureParallax::Start()
 	/////////////////////////////////////////////////////////////////////////////////////////////
 }
 
-void TextureParallax::Draw(Camera * cam)
+void TextureParallax::Draw()
 {
-	Super::Draw(cam);
 	GLApply();
 
-
-	if (cam == nullptr)
-	{
-		WarningString("Fail to find camera");
-		return;
-	}
 	//glBindTexture(GL_TEXTURE_2D, textureData);
 	m_shader.Use();
 
@@ -66,8 +59,8 @@ void TextureParallax::Draw(Camera * cam)
 		modelMat = GetGameObject().GetComponent(Transform).GetTransformMat();
 	else
 		modelMat = Matrix4x4::identity;
-	viewMat = cam->GetViewMatrix();
-	projectionMat = cam->GetProjectionMatrix();
+	viewMat = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
+	projectionMat = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
 
 	m_shader.SetMat4("model", modelMat);
 	m_shader.SetMat4("view", viewMat);
@@ -76,7 +69,7 @@ void TextureParallax::Draw(Camera * cam)
 	//m_shader.SetVec4("ourColor", m_Color.r, m_Color.g, m_Color.b, m_Color.a);
 	glm::vec3 lightPos(0.5f, 1.0f, 0.3f);
 
-	m_shader.SetVec3("viewPos", cam->GetPosition());
+	m_shader.SetVec3("viewPos", INSTANCE(RenderManager).GetCurrentCamera().GetPosition());
 	m_shader.SetVec3("lightPos", lightPos);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_image);
