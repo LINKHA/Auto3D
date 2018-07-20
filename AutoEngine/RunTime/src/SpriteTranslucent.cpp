@@ -1,0 +1,213 @@
+#include "SpriteTranslucent.h"
+#include "RenderManager.h"
+#include "VertexData.h"
+#include "GameObject.h"
+#include "Transform.h"
+#include "OpenGLGather.h"
+#include "LoadResource.h"
+#include "GLWindow.h"
+AUTO_BEGIN
+
+SINGLETON_INSTANCE(SpriteTranslucentManager);
+
+SpriteTranslucent::SpriteTranslucent()
+	: m_shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs"
+		, AtConfig::shader_path + "au_texture_transform.aufs"))
+{
+	m_ImagePath.ptr = "Resource/texture/square.jpg";
+}
+SpriteTranslucent::SpriteTranslucent(char* imagePath)
+	: m_shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs"
+		, AtConfig::shader_path + "au_texture_transform.aufs"))
+{
+	m_ImagePath.ptr = imagePath;
+}
+SpriteTranslucent::SpriteTranslucent(char* imagePath, const Shader & shader)
+	: m_shader(shader)
+{
+	m_ImagePath.ptr = imagePath;
+}
+SpriteTranslucent::~SpriteTranslucent()
+{
+	glDeleteVertexArrays(1, &t_VAO);
+	glDeleteBuffers(1, &t_VBO);
+	glDeleteBuffers(1, &t_EBO);
+}
+
+
+void SpriteTranslucent::Start()
+{
+	/////////////////////////////////////////////////////////////////////////////////////////////
+
+	glGenVertexArrays(1, &t_VAO);
+	glBindVertexArray(t_VAO);
+	glGenBuffers(1, &t_VBO);
+	glGenBuffers(1, &t_EBO);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////
+
+	glBindBuffer(GL_ARRAY_BUFFER, t_VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(texture_vertices), texture_vertices, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, t_EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(texture_vertices), texture_indices, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+
+	EnableVertexAttribs(VERTEX_ATTRIB_POSITION | VERTEX_ATTRIB_COLOR);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+	/////////////////////////////////////////////////////////////////////////////////////////////
+
+	glGenTextures(1, &textureData);
+	glBindTexture(GL_TEXTURE_2D, textureData);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	m_image.ptr = LocalImageLoad(m_ImagePath.ptr);
+	//SetNearestParameters();
+	SetLinerParameters();
+	if (m_image.ptr->Value)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, m_image.ptr->Format, m_image.ptr->Width, m_image.ptr->Height, 0, m_image.ptr->Format, GL_UNSIGNED_BYTE, m_image.ptr->Value);
+		GenerateMipmap();
+	}
+	else
+	{
+		WarningString("Failed to load texture");
+	}
+
+	INSTANCE(SpriteTranslucentManager).AddSprite(this);
+	//stbi_image_free(m_image.ptr->Value);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////
+}
+
+void  SpriteTranslucent::Draw()
+{
+
+}
+
+void SpriteTranslucent::DrawTranslucentSprite()
+{
+	GLApply();
+	glBindTexture(GL_TEXTURE_2D, textureData);
+	m_shader.Use();
+
+	glm::mat4 modelMat;
+	glm::mat4 viewMat;
+	glm::mat4 projectionMat;
+
+	if (GetGameObjectPtr())
+		modelMat = GetGameObject().GetComponent(Transform).GetTransformMat();
+	else
+		modelMat = Matrix4x4::identity;
+	viewMat = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
+	projectionMat = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
+
+	m_shader.SetMat4("model", modelMat);
+	m_shader.SetMat4("view", viewMat);
+	m_shader.SetMat4("projection", projectionMat);
+	m_shader.SetVec4("ourColor", m_Color.r, m_Color.g, m_Color.b, m_Color.a);
+
+	glBindVertexArray(t_VAO);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+
+	GLOriginal();
+}
+void SpriteTranslucent::SetColor(const Color& color)
+{
+	m_Color.Set(color.r, color.g, color.b, color.a);
+}
+
+void SpriteTranslucent::SetColor(const Vector3& vec)
+{
+	m_Color.Set(vec.x, vec.y, vec.z, 1.0f);
+}
+void SpriteTranslucent::SetColor(float r, float g, float b, float a)
+{
+	//SpriteTranslucent.Set(r, g, b, a);
+}
+
+//////////////////////////////////////////////////////////////////////////
+//Image conpontent to use
+void SpriteTranslucent::SetLinerParameters()
+{
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_image.ptr->Format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_image.ptr->Format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+	if (is_Mipmaps)
+	{
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+	}
+	else
+	{
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	}
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+}
+
+void SpriteTranslucent::SetNearestParameters()
+{
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_image.ptr->Format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_image.ptr->Format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+	if (is_Mipmaps)
+	{
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+	}
+	else
+	{
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	}
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+}
+
+void SpriteTranslucent::SetTexParameters(const TexParams & params)
+{
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, params.wrapS);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, params.wrapT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, params.minFilter);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, params.magFilter);
+}
+
+void SpriteTranslucent::GenerateMipmap()
+{
+	glGenerateMipmap(GL_TEXTURE_2D);
+	is_Mipmaps = true;
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+void SpriteTranslucentManager::AddSprite(SpriteTranslucent * sprite)
+{
+	sprites.push_back(sprite);
+}
+void SpriteTranslucentManager::ComputeMap()
+{
+	Camera & t_camera = INSTANCE(RenderManager).GetCurrentCamera();
+	for (unsigned int i = 0; i < sprites.size(); i++)
+	{
+		float distance = glm::length(t_camera.GetPosition() - sorted[i]->GetGameObject().GetComponent(Transform).GetPosition().ToGLM());
+		sorted[distance] = sprites[i];
+	}
+}
+
+//reverse_iterator to render target
+void SpriteTranslucentManager::RenderSprite()
+{
+	Camera & t_camera = INSTANCE(RenderManager).GetCurrentCamera();
+	for (unsigned int i = 0; i < sprites.size(); i++)
+	{
+		//Print(t_camera.GetPosition().z);
+		float distance = glm::length(t_camera.GetPosition() - sprites[i]->GetGameObject().GetComponent(Transform).GetPosition().ToGLM());
+		
+		sorted[distance] = sprites[i];
+	}
+	for (std::map<float, SpriteTranslucent*>::reverse_iterator it = sorted.rbegin(); it != sorted.rend(); ++it)
+	{
+		it->second->GetGameObject().GetComponent(Transform).UpdateTransform();
+		it->second->DrawTranslucentSprite();
+		it->second->GetGameObject().GetComponent(Transform).Identity();
+	}
+	sorted.clear();
+}
+AUTO_END

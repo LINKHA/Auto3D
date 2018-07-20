@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "Light.h"
 #include "MotionSpace.h"
+#include "SpriteTranslucent.h"
 AUTO_BEGIN
 
 SINGLETON_INSTANCE(BaseSpace);
@@ -48,6 +49,7 @@ void BaseSpace::Draw()
 {
 	INSTANCE(SpaceManager).ModeRunSpace(DrawMode);
 	INSTANCE(GameObjectManager).ModeRunGameObject(DrawMode);
+	INSTANCE(SpriteTranslucentManager).RenderSprite();
 }
 
 AUTO_END
