@@ -30,23 +30,23 @@ namespace detail {
 	struct wide_to_multi_byte
 	{
 		explicit wide_to_multi_byte(UINT codepage)
-			: m_CodePage(codepage)
+			: _CodePage(codepage)
 		{}
 
 		int get_length(const wchar_t* wide, std::size_t length) const
 		{
-			return ::WideCharToMultiByte(m_CodePage, 0, wide, static_cast<int>(length), NULL, 0, NULL, NULL);
+			return ::WideCharToMultiByte(_CodePage, 0, wide, static_cast<int>(length), NULL, 0, NULL, NULL);
 		}
 
 		void convert(const wchar_t* wide, std::size_t length, std::string& dest) const
 		{
 			// Convert the given wide string to char format
-			::WideCharToMultiByte(m_CodePage, 0, wide, static_cast<int>(length), &dest.front(),
+			::WideCharToMultiByte(_CodePage, 0, wide, static_cast<int>(length), &dest.front(),
 				static_cast<int>(dest.size()), NULL, NULL);
 		}
 
 	private:
-		UINT m_CodePage;
+		UINT _CodePage;
 	};
 
 	template<typename SourceString, typename DestString, typename Converter>

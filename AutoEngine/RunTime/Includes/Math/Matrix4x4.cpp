@@ -5,54 +5,54 @@ const glm::mat4 Matrix4x4::identity = glm::mat4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1,
 
 Matrix4x4::Matrix4x4(const Matrix3x3 &other)
 {
-	m_Data[0] = other.m_Data[0];
-	m_Data[1] = other.m_Data[1];
-	m_Data[2] = other.m_Data[2];
-	m_Data[3] = 0.0f;
+	data[0] = other.data[0];
+	data[1] = other.data[1];
+	data[2] = other.data[2];
+	data[3] = 0.0f;
 
-	m_Data[4] = other.m_Data[3];
-	m_Data[5] = other.m_Data[4];
-	m_Data[6] = other.m_Data[5];
-	m_Data[7] = 0.0f;
+	data[4] = other.data[3];
+	data[5] = other.data[4];
+	data[6] = other.data[5];
+	data[7] = 0.0f;
 
-	m_Data[8] = other.m_Data[6];
-	m_Data[9] = other.m_Data[7];
-	m_Data[10] = other.m_Data[8];
-	m_Data[11] = 0.0f;
+	data[8] = other.data[6];
+	data[9] = other.data[7];
+	data[10] = other.data[8];
+	data[11] = 0.0f;
 
-	m_Data[12] = 0.0f;
-	m_Data[13] = 0.0f;
-	m_Data[14] = 0.0f;
-	m_Data[15] = 1.0f;
+	data[12] = 0.0f;
+	data[13] = 0.0f;
+	data[14] = 0.0f;
+	data[15] = 1.0f;
 }
 
 Matrix4x4::Matrix4x4(const float data[16])
 {
 	for (int i = 0; i<16; i++)
-		m_Data[i] = data[i];
+		this->data[i] = data[i];
 }
 
 Matrix4x4& Matrix4x4::operator = (const Matrix3x3& other)
 {
-	m_Data[0] = other.m_Data[0];
-	m_Data[1] = other.m_Data[1];
-	m_Data[2] = other.m_Data[2];
-	m_Data[3] = 0.0f;
+	data[0] = other.data[0];
+	data[1] = other.data[1];
+	data[2] = other.data[2];
+	data[3] = 0.0f;
 
-	m_Data[4] = other.m_Data[3];
-	m_Data[5] = other.m_Data[4];
-	m_Data[6] = other.m_Data[5];
-	m_Data[7] = 0.0f;
+	data[4] = other.data[3];
+	data[5] = other.data[4];
+	data[6] = other.data[5];
+	data[7] = 0.0f;
 
-	m_Data[8] = other.m_Data[6];
-	m_Data[9] = other.m_Data[7];
-	m_Data[10] = other.m_Data[8];
-	m_Data[11] = 0.0f;
+	data[8] = other.data[6];
+	data[9] = other.data[7];
+	data[10] = other.data[8];
+	data[11] = 0.0f;
 
-	m_Data[12] = 0.0f;
-	m_Data[13] = 0.0f;
-	m_Data[14] = 0.0f;
-	m_Data[15] = 1.0f;
+	data[12] = 0.0f;
+	data[13] = 0.0f;
+	data[14] = 0.0f;
+	data[15] = 1.0f;
 	return *this;
 }
 

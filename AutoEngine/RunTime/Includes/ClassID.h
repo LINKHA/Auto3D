@@ -10,7 +10,7 @@ enum ClassIDType
 	DO_CLASS_ID(LevelGameManager, 2)
 	DO_CLASS_ID(GlobalGameManager, 3)
 	DO_CLASS_ID(TimeManager, 4)
-	DO_CLASS_ID(MotionManager, 5)
+
 	DO_CLASS_ID(RenderManager, 7)
 	DO_CLASS_ID(GameObjectManager, 8)
 	DO_CLASS_ID(LightManager, 9)

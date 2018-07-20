@@ -14,7 +14,7 @@ struct RenderLoopContext
 class RenderLoop
 {
 private:
-	RenderLoopContext m_Context;
+	RenderLoopContext _context;
 public:
 	RenderLoop(Camera& camera);
 	void RunLoop();

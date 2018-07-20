@@ -1,7 +1,7 @@
 #pragma once
 #include "Singleton.h"
 #include "GameManager.h"
-#include "Math/AUMathBase.h"
+#include "Math/MathBase.h"
 #include <Windows.h>
 
 USING_MATH
@@ -20,21 +20,21 @@ public:
 
 	struct TimeHolder
 	{
-		double m_CurFrameTime;
-		double m_LastFrameTime;
-		float m_DeltaTime;
-		float m_SmoothDeltaTime;
+		double curFrameTime;
+		double lastFrameTime;
+		float deltaTime;
+		float smoothDeltaTime;
 
 		TimeHolder();
 	};
 	struct RealTime
 	{
-		int Year;
-		int Month;
-		int Day;
-		int Hour;
-		int Minute;
-		int Second;
+		int year;
+		int month;
+		int day;
+		int hour;
+		int minute;
+		int second;
 
 		RealTime();
 	};
@@ -54,26 +54,26 @@ public:
 	//virtual void CheckConsistency();
 	virtual void Update();
 
-	inline double	GetCurTime() const				{ return m_ActiveTime.m_CurFrameTime; }
-//	inline double	GetTimeSinceLevelLoad() const	{ return m_ActiveTime.m_CurFrameTime + m_LevelLoadOffset; }
-	inline float	GetDeltaTime() const			{ return m_ActiveTime.m_DeltaTime; }
-	inline float 	GetSmoothDeltaTime()  const		{ return m_ActiveTime.m_SmoothDeltaTime; }
+	inline double	GetCurTime() const				{ return _activeTime.curFrameTime; }
+//	inline double	GetTimeSinceLevelLoad() const	{ return _activeTime.curFrameTime + m_LevelLoadOffset; }
+	inline float	GetDeltaTime() const			{ return _activeTime.deltaTime; }
+	inline float 	GetSmoothDeltaTime()  const		{ return _activeTime.smoothDeltaTime; }
 
 private:
-	TimeHolder  m_FixedTime;
-	TimeHolder  m_DynamicTime;
-	TimeHolder  m_ActiveTime;
+	TimeHolder  _fixedTime;
+	TimeHolder  _dynamicTime;
+	TimeHolder  _activeTime;
 
-	RealTime	m_RealTime;
+	RealTime	_realTime;
 
-	bool		is_Pause;
+	bool		_isPause;
 
 
 //	double      m_LevelLoadOffset;
-	float		m_MaximumTimestep;
-	float		m_TimeSpeedScale;//1.0 is real time 0.5 is low time(range 0,100)
+	float		_maximumTimestep;
+	float		_timeSpeedScale;//1.0 is real time 0.5 is low time(range 0,100)
 
-	bool		m_FirstFrame;// Don't do anything to delta time the first frame!
+	bool		_firstFrame;// Don't do anything to delta time the first frame!
 
 };
 AUTO_END

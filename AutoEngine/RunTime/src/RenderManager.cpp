@@ -14,69 +14,69 @@ RenderManager::~RenderManager()
 
 void RenderManager::RenderCameras()
 {
-	m_InsideRenderOrCull = true;
-	for (CameraContainer::iterator i = m_Cameras.begin(); i != m_Cameras.end(); i++)
+	_insideRenderOrCull = true;
+	for (CameraContainer::iterator i = _cameras.begin(); i != _cameras.end(); i++)
 	{
 		Camera* cam = *i;
 		if (cam && cam->GetEnable())
 		{
-			m_CurrentCamera = cam;
+			_currentCamera = cam;
 			cam->Render();
 		}
 	}
-	m_InsideRenderOrCull = false;
+	_insideRenderOrCull = false;
 	DelayedAddRemoveCameras();
 }
 void RenderManager::AddCamera(Camera * c)
 {
-	Assert(c != NULL);
-	if (m_InsideRenderOrCull)
+	assert(c != NULL);
+	if (_insideRenderOrCull)
 	{
-		m_CamerasToRemove.remove(c);
-		m_CamerasToAdd.push_back(c);
+		_camerasToRemove.remove(c);
+		_camerasToAdd.push_back(c);
 		return;
 	}
-	m_CamerasToAdd.remove(c);
-	m_CamerasToRemove.remove(c);
+	_camerasToAdd.remove(c);
+	_camerasToRemove.remove(c);
 
-	m_Cameras.remove(c);
+	_cameras.remove(c);
 
-	CameraContainer &t_queue = m_Cameras;
+	CameraContainer &queue = _cameras;
 
-	for (CameraContainer::iterator i = t_queue.begin(); i != t_queue.end(); i++)
+	for (CameraContainer::iterator i = queue.begin(); i != queue.end(); i++)
 	{
 		Camera* curCamera = *i;
 		if (curCamera && curCamera->GetDepth() > c->GetDepth())
 		{
-			t_queue.insert(i, c);
+			queue.insert(i, c);
 			return;
 		}
 	}
-	t_queue.push_back(c);
+	queue.push_back(c);
 }
 
 void RenderManager::RemoveCamera(Camera * c)
 {
-	Assert(c != NULL);
-	m_CamerasToAdd.remove(c);
-	m_CamerasToRemove.remove(c);
+	assert(c != NULL);
+	_camerasToAdd.remove(c);
+	_camerasToRemove.remove(c);
 
-	if (m_InsideRenderOrCull)
+	if (_insideRenderOrCull)
 	{
-		m_CamerasToRemove.push_back(c);
+		_camerasToRemove.push_back(c);
 	}
 	else
 	{
-		m_Cameras.remove(c);
+		_cameras.remove(c);
 	}
 
-	Camera* currentCamera = m_CurrentCamera;
+	Camera* currentCamera = _currentCamera;
 	if (currentCamera == c)
 	{
-		if (m_Cameras.empty())
-			m_CurrentCamera = NULL;
+		if (_cameras.empty())
+			_currentCamera = NULL;
 		else
-			m_CurrentCamera = m_Cameras.front(); 
+			_currentCamera = _cameras.front(); 
 	}
 }
 
@@ -84,20 +84,20 @@ void RenderManager::RemoveCamera(Camera * c)
 ///Privete
 void RenderManager::DelayedAddRemoveCameras()
 {
-	DebugAssertIf(m_InsideRenderOrCull);
-	for (CameraContainer::iterator i = m_CamerasToRemove.begin(); i != m_CamerasToRemove.end(); /**/)
+	DebugAssertIf(_insideRenderOrCull);
+	for (CameraContainer::iterator i = _camerasToRemove.begin(); i != _camerasToRemove.end(); /**/)
 	{
 		Camera* cam = *i;
 		++i; // increment iterator before removing camera; as it changes the list
 		RemoveCamera(cam);
 	}
-	m_CamerasToRemove.clear();
-	for (CameraContainer::iterator i = m_CamerasToAdd.begin(); i != m_CamerasToAdd.end(); /**/)
+	_camerasToRemove.clear();
+	for (CameraContainer::iterator i = _camerasToAdd.begin(); i != _camerasToAdd.end(); /**/)
 	{
 		Camera* cam = *i;
 		++i; // increment iterator before adding camera; as it changes the list
 		AddCamera(cam);
 	}
-	m_CamerasToAdd.clear();
+	_camerasToAdd.clear();
 }
 AUTO_END

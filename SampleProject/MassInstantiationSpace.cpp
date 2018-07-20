@@ -23,7 +23,7 @@ void MassInstantiationSpace::Start()
 	glm::mat4* modelMatrices;
 	int amount = 10000;
 	modelMatrices = new glm::mat4[amount];
-	Rand rand(INSTANCE(TimeManager).GetRealTime().Second);
+	Rand rand(INSTANCE(TimeManager).GetRealTime().second);
 
 	float radius = 150.0;
 	float offset = 25.0f;

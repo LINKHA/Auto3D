@@ -16,10 +16,10 @@ public:
 	typedef int arrayIndex;
 	typedef _VECTOR(GameObject) GameObjectNodeArray;
 protected:
-	GameObjectNodeArray m_Childs;
-	UInt32 m_Layer;
-	UInt16 m_Tag;
-	bool m_IsActive;
+	GameObjectNodeArray _childs;
+	UInt32 _layer;
+	UInt16 _tag;
+	bool _isActive;
 public:
 	virtual void AddChild(const GameObject& node);
 	virtual void RemoveChild(arrayIndex index);
@@ -33,7 +33,7 @@ class Component : public Object
 	REGISTER_DERIVED_ABSTRACT_CLASS(Component, Object);
 	DECLARE_OBJECT_SERIALIZE(Component);
 private:
-	Ptr(GameObject, m_gameObject);
+	Ptr(GameObject, _gameObject);
 public:
 	Component();
 	GameObject& GetGameObject();
@@ -43,8 +43,8 @@ public:
 
 	void MountComponent(GameObject& gameObject);
 
-	void Enable(bool enable) { m_Enable = enable; }
-	bool GetEnable() { return m_Enable; }
+	void Enable(bool enable) { _isEnable = enable; }
+	bool GetEnable() { return _isEnable; }
 
 	virtual void Awake() {}
 	virtual void Start() {}
@@ -53,7 +53,7 @@ public:
 	virtual void Finish() {}
 	virtual void Draw(){}
 private:
-	bool m_Enable;
+	bool _isEnable;
 };
 
 class GameObject : public Node
@@ -64,12 +64,12 @@ public:
 	typedef AUTO_VECTOR(int, Component*) ComponentsArray;
 
 private:
-	ComponentsArray m_Components;
+	ComponentsArray _components;
 public:
 	GameObject();
 	GameObject(Transform* transform);
-	void Enable(bool enable) { m_Enable = enable; }
-	bool GetEnable() { return m_Enable; }
+	void Enable(bool enable) { _isEnable = enable; }
+	bool GetEnable() { return _isEnable; }
 	void Destory();
 
 	//void SetLayer(int layerIndex);
@@ -85,10 +85,10 @@ public:
 	GameObject& GetGameObject();
 
 	Component* QueryComponent(int classID) const;
-	ComponentsArray& GetComponentsArray(){ return m_Components; }
+	ComponentsArray& GetComponentsArray(){ return _components; }
 
 private:
-	bool m_Enable;
+	bool _isEnable;
 };
 
 template<class T> inline T& GameObject::GetComponentT(int compareClassID) const
@@ -100,6 +100,6 @@ template<class T> inline T& GameObject::GetComponentT(int compareClassID) const
 }
 inline Component& GameObject::GetComponentIndex(int index)
 {
-	return *m_Components[index].second;
+	return *_components[index].second;
 }
 AUTO_END

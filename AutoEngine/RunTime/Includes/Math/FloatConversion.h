@@ -1,5 +1,5 @@
 #pragma once
-#include "Math/AUMathBase.h"
+#include "Math/MathBase.h"
 #include "LogAssert.h"
 MATH_BEGIN
 inline UInt32 FloorfToIntPos(float f)

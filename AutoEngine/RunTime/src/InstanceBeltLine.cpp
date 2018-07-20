@@ -7,10 +7,10 @@
 AUTO_BEGIN
 
 InstanceBeltLine::InstanceBeltLine(const ModelCommand& model, const Shader& shader, glm::mat4* modelMat,int count)
-	:m_Model(model)
-	,m_Shader(shader)
-	,m_ModelMatrices(modelMat)
-	,m_Count(count)
+	:_model(model)
+	,_shader(shader)
+	,_modelMatrices(modelMat)
+	,_count(count)
 {
 }
 InstanceBeltLine::~InstanceBeltLine()
@@ -21,10 +21,10 @@ void InstanceBeltLine::Start()
 	unsigned int buffer;
 	glGenBuffers(1, &buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, buffer);
-	glBufferData(GL_ARRAY_BUFFER, m_Count * sizeof(glm::mat4), &m_ModelMatrices[0], GL_STATIC_DRAW);
-	for (unsigned int i = 0; i < m_Model.meshes.size(); i++)
+	glBufferData(GL_ARRAY_BUFFER, _count * sizeof(glm::mat4), &_modelMatrices[0], GL_STATIC_DRAW);
+	for (unsigned int i = 0; i < _model.meshes.size(); i++)
 	{
-		unsigned int VAO = m_Model.meshes[i].VAO;
+		unsigned int VAO = _model.meshes[i].VAO;
 		glBindVertexArray(VAO);
 		glEnableVertexAttribArray(3);
 		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)0);
@@ -50,16 +50,16 @@ void InstanceBeltLine::Draw()
 	glm::mat4 projectionMat = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
 	glm::mat4 viewMat = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
 
-	m_Shader.Use();
-	m_Shader.SetMat4("projection", projectionMat);
-	m_Shader.SetMat4("view", viewMat);
-	m_Shader.SetInt("texture_diffuse1", 0);
+	_shader.Use();
+	_shader.SetMat4("projection", projectionMat);
+	_shader.SetMat4("view", viewMat);
+	_shader.SetInt("texture_diffuse1", 0);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_Model.textures_loaded[0].id); 
-	for (unsigned int i = 0; i < m_Model.meshes.size(); i++)
+	glBindTexture(GL_TEXTURE_2D, _model.textures_loaded[0].id); 
+	for (unsigned int i = 0; i < _model.meshes.size(); i++)
 	{
-		glBindVertexArray(m_Model.meshes[i].VAO);
-		glDrawElementsInstanced(GL_TRIANGLES, m_Model.meshes[i].indices.size(), GL_UNSIGNED_INT, 0, m_Count);
+		glBindVertexArray(_model.meshes[i].VAO);
+		glDrawElementsInstanced(GL_TRIANGLES, _model.meshes[i].indices.size(), GL_UNSIGNED_INT, 0, _count);
 		glBindVertexArray(0);
 	}
 

@@ -10,7 +10,7 @@ public:
 	Prefab(GameObject * gameObject);
 	Prefab(GameObject& gameObject);
 private:
-	GameObject * m_GameObject;
+	GameObject * _gameObject;
 };
 
 AUTO_END

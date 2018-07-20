@@ -1,5 +1,5 @@
 #pragma once
-#include "AUMath.h"
+#include "Math.h"
 #include "Auto.h"
 #include "glm/gtx/quaternion.hpp"
 MATH_BEGIN

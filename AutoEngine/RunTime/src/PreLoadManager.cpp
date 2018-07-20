@@ -15,10 +15,10 @@ PreLoadManager::~PreLoadManager()
 
 void PreLoadManager::AddPrefab(Prefab * prefab)
 {
-	m_Prefabs.push_back(prefab);
+	_prefabs.push_back(prefab);
 }
 void PreLoadManager::RemovePrefab(Prefab * prefab)
 {
-	m_Prefabs.remove(prefab);
+	_prefabs.remove(prefab);
 }
 AUTO_END

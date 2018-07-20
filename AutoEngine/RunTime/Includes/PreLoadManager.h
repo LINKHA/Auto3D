@@ -13,9 +13,9 @@ public:
 	PreLoadManager();
 	void AddPrefab(Prefab * prefab);
 	void RemovePrefab(Prefab * prefab);
-	PreContainer GetPrefabs() { return m_Prefabs; }
+	PreContainer GetPrefabs() { return _prefabs; }
 private:
-	PreContainer m_Prefabs;
+	PreContainer _prefabs;
 };
 AUTO_END
 

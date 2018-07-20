@@ -1,5 +1,5 @@
 #pragma once
-#include "AUMathBase.h"
+#include "MathBase.h"
 MATH_BEGIN
 class Rand
 {

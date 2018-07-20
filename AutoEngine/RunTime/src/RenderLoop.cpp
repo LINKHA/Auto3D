@@ -5,8 +5,8 @@ AUTO_BEGIN
 
 RenderLoop::RenderLoop(Camera& camera)
 {
-	m_Context.camera = &camera;
-	m_Context.renderLoop = this;
+	_context.camera = &camera;
+	_context.renderLoop = this;
 	INSTANCE(RenderManager).AddCamera(&camera);
 }
 
@@ -16,7 +16,7 @@ RenderLoop::~RenderLoop()
 
 void RenderLoop::RunLoop()
 {
-	Camera * cam = m_Context.camera;
+	Camera * cam = _context.camera;
 	RectInt rect = INSTANCE(GLWindow).GetWindowRectInt();
 	GrViewPort(
 		cam->GetViewRect().x * rect.width,

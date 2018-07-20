@@ -5,11 +5,10 @@ public: \
 	static int GetClassIDStatic ()				{ return ClassID (x); }\
 	static bool IsAbstract ()					{ return false; }\
 	static const char* GetClassStringStatic ()	{ return #x; }\
-	static const char* GetPPtrTypeString ()		{ return "PPtr<"#x">"; }\
+	static const char* GetSharedPtrTypeString (){ return "SharedPtr<"#x">"; }\
 	virtual int GetClassID() const				{ return ClassID (x); }\
-	typedef y Super;\
-	using ClassName = x;\
-	using SuperName = y;\
+	using This = x;\
+	using Super = y;\
 	virtual ~x (); \
 protected: \
 	void ClassInit()							{ SetClassID(ClassID(x)); }\
@@ -20,11 +19,10 @@ public: \
 	static int GetClassIDStatic ()				{ return ClassID (x); } \
 	static bool IsAbstract ()					{ return true; }\
 	static const char* GetClassStringStatic ()	{ return #x; }\
-	static const char* GetPPtrTypeString ()		{ return "PPtr<"#x">"; }\
+	static const char* GetSharedPtrTypeString (){ return "SharedPtr<"#x">"; }\
 	virtual int GetClassID() const				{ return ClassID (x); }\
-	typedef y Super; \
-	using ClassName = x;\
-	using SuperName = y;\
+	using This = x;\
+	using Super = y;\
 	virtual ~x (); \
 protected:\
 	void ClassInit()							{ SetClassID(ClassID(x)); }\

@@ -28,11 +28,7 @@ class Camera : public Component
 {
 	REGISTER_DERIVED_CLASS(Camera, Component);
 	DECLARE_OBJECT_SERIALIZE(Camera);
-public:
-	// Camera Attributes
-	
-private:
-	bool firstMouse;
+
 public:
 	Camera(Vector3 position = Vector3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = -90.0f, float pitch = 0.0f);
 	Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw = -90.0f, float pitch = 0.0f);
@@ -43,61 +39,63 @@ public:
 	void ProcessMouseScroll(float yoffset);
 	glm::mat4 GetViewMatrix();
 	glm::mat4 GetProjectionMatrix();
-	float GetDepth() const { return m_Depth; }
-	void SetDepth(float depth) { m_Depth = depth; }
+	float GetDepth() const { return _depth; }
+	void SetDepth(float depth) { _depth = depth; }
 
-	Color GetBackgroundColor() const{ return m_BackGroundColor; }
-	void SetBackgroundColor(const Color& color) { m_BackGroundColor = color; }
+	Color GetBackgroundColor() const{ return _backGroundColor; }
+	void SetBackgroundColor(const Color& color) { _backGroundColor = color; }
 
-	SortMode GetSortMode() const { return m_SortMode; }
-	void SetSortMode(SortMode m) { m_SortMode = m; }
+	SortMode GetSortMode() const { return _sortMode; }
+	void SetSortMode(SortMode m) { _sortMode = m; }
 
-	bool GetEnable()const { return m_Enable; }
-	void SetEnable(bool e) { m_Enable = e; }
+	bool GetEnable()const { return _isEnable; }
+	void SetEnable(bool e) { _isEnable = e; }
 
-	void SetViewRect(float x, float y, float w, float h) { m_ViewRect = Rectf(x, y, w, h); }
-	void SetViewRect(const Rectf& rectf) { m_ViewRect = rectf; }
-	Rectf& GetViewRect() { return m_ViewRect; }
+	void SetViewRect(float x, float y, float w, float h) { _viewRect = Rectf(x, y, w, h); }
+	void SetViewRect(const Rectf& rectf) { _viewRect = rectf; }
+	Rectf& GetViewRect() { return _viewRect; }
 
-	void SetNear(float snear) { m_Near = snear; }
-	float GetNear() { return m_Near; }
+	void SetNear(float snear) { _near = snear; }
+	float GetNear() { return _near; }
 
-	void SetFar(float sfar) { m_Far = sfar; }
-	float GetFar() { return m_Far; }
+	void SetFar(float sfar) { _far = sfar; }
+	float GetFar() { return _far; }
 
-	void SetZoom(float zoom) { m_Zoom = zoom; }
-	float GetZoom() { return m_Zoom; }
+	void SetZoom(float zoom) { _zoom = zoom; }
+	float GetZoom() { return _zoom; }
 
-	glm::vec3 GetPosition() { return m_Position; }
+	glm::vec3 GetPosition() { return _position; }
 
-	void SetSpeed(float speed) { m_MovementSpeed = speed; }
+	void SetSpeed(float speed) { _movementSpeed = speed; }
 	
-	void SetSensitivity(float sen) { m_MouseSensitivity = sen; }
+	void SetSensitivity(float sen) { _mouseSensitivity = sen; }
 private:
 	void updateCameraVectors();
 private:
-	glm::vec3 m_Position;
-	float m_Zoom;
-	Rectf m_ViewRect;
-	float m_Near;
-	float m_Far;
-	float m_MovementSpeed;
-	float m_MouseSensitivity;
+	glm::vec3 _position;
+	float _zoom;
+	Rectf _viewRect;
+	float _near;
+	float _far;
+	float _movementSpeed;
+	float _mouseSensitivity;
 
 	//Variables used in internal calculations
-	glm::vec3 m_Front;
-	glm::vec3 m_Up;
-	glm::vec3 m_Right;
-	glm::vec3 m_WorldUp;
-	float m_Yaw;
-	float m_Pitch;
+	glm::vec3 _front;
+	glm::vec3 _up;
+	glm::vec3 _right;
+	glm::vec3 _worldUp;
+	float _yaw;
+	float _pitch;
+	
 	//////////////////////////////////////////////////////////////////////////
 protected:
-	RenderLoop*			m_RenderLoop;
-	float				m_Depth;
-	Color				m_BackGroundColor;
-	SortMode			m_SortMode;
-	bool				m_Enable;
-	bool				m_IsRendering;
+	RenderLoop*			_renderLoop;
+	float				_depth;
+	Color				_backGroundColor;
+	SortMode			_sortMode;
+	bool				_isEnable;
+	bool				_isRendering;
+	bool				_isFirstMouse;
 };
 AUTO_END

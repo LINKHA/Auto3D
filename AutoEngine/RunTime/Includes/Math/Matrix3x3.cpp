@@ -4,17 +4,17 @@
 MATH_BEGIN
 Matrix3x3::Matrix3x3(const Matrix4x4 & other)
 {
-	m_Data[0] = other.m_Data[0];
-	m_Data[1] = other.m_Data[1];
-	m_Data[2] = other.m_Data[2];
+	data[0] = other.data[0];
+	data[1] = other.data[1];
+	data[2] = other.data[2];
 
-	m_Data[3] = other.m_Data[4];
-	m_Data[4] = other.m_Data[5];
-	m_Data[5] = other.m_Data[6];
+	data[3] = other.data[4];
+	data[4] = other.data[5];
+	data[5] = other.data[6];
 
-	m_Data[6] = other.m_Data[8];
-	m_Data[7] = other.m_Data[9];
-	m_Data[8] = other.m_Data[10];
+	data[6] = other.data[8];
+	data[7] = other.data[9];
+	data[8] = other.data[10];
 }
 
 Matrix3x3& Matrix3x3::SetZero()
@@ -52,24 +52,24 @@ Matrix3x3 & Matrix3x3::SetOrthoNormalBasisInverse(const Vector3 & inX, const Vec
 
 Matrix3x3 & Matrix3x3::operator=(const Matrix4x4 & other)
 {
-	m_Data[0] = other.m_Data[0];
-	m_Data[1] = other.m_Data[1];
-	m_Data[2] = other.m_Data[2];
+	data[0] = other.data[0];
+	data[1] = other.data[1];
+	data[2] = other.data[2];
 
-	m_Data[3] = other.m_Data[4];
-	m_Data[4] = other.m_Data[5];
-	m_Data[5] = other.m_Data[6];
+	data[3] = other.data[4];
+	data[4] = other.data[5];
+	data[5] = other.data[6];
 
-	m_Data[6] = other.m_Data[8];
-	m_Data[7] = other.m_Data[9];
-	m_Data[8] = other.m_Data[10];
+	data[6] = other.data[8];
+	data[7] = other.data[9];
+	data[8] = other.data[10];
 	return *this;
 }
 
 Matrix3x3& Matrix3x3::operator *= (float f)
 {
 	for (int i = 0; i < 9; i++)
-		m_Data[i] *= f;
+		data[i] *= f;
 	return *this;
 }
 Matrix3x3& Matrix3x3::operator *= (const Matrix3x3& inM)

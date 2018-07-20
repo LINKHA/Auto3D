@@ -1,5 +1,5 @@
 #pragma once
-#include "AUMathBase.h"
+#include "MathBase.h"
 #include "Vector3.h"
 #include "Matrix3x3.h"
 #include "OpenGLGather.h"
@@ -13,16 +13,16 @@ struct Quaternion;
 struct Matrix4x4
 {
 public:
-	float m_Data[16];
+	float data[16];
 
 	Matrix4x4() {}
 	Matrix4x4(const struct Matrix3x3& m);
 	Matrix4x4(const float data[16]);
 
-	float& Get(int row, int column)					{ return m_Data[row + (column * 4)]; }
-	const float& Get(int row, int column)const		{ return m_Data[row + (column * 4)]; }
-	float* GetPtr()									{ return m_Data; }
-	const float* GetPtr() const						{ return m_Data; }
+	float& Get(int row, int column)					{ return data[row + (column * 4)]; }
+	const float& Get(int row, int column)const		{ return data[row + (column * 4)]; }
+	float* GetPtr()									{ return data; }
+	const float* GetPtr() const						{ return data; }
 
 
 	Matrix4x4& SetIdentity();
@@ -58,8 +58,8 @@ public:
 
 	bool IsIdentity(float epsilon = MATH_EPSILON) const;
 
-	float& operator [] (int row)					{ return m_Data[row]; }
-	float operator [] (int row) const				{ return m_Data[row]; }
+	float& operator [] (int row)					{ return data[row]; }
+	float operator [] (int row) const				{ return data[row]; }
 
 	Matrix4x4& operator = (const struct Matrix3x3& m);
 	Matrix4x4& operator *= (const Matrix4x4& inM);

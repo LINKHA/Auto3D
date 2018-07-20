@@ -9,7 +9,7 @@
 
 #include "Auto.h"
 #include "LogAssert.h"
-#include "Math/AUMath.h"
+#include "Math/Math.h"
 
 USING_MATH
 AUTO_BEGIN

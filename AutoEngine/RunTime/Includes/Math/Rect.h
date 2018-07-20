@@ -1,6 +1,6 @@
 #pragma once
 #include "Auto.h"
-#include "AUMathBase.h"
+#include "MathBase.h"
 #include "Vector2.h"
 MATH_BEGIN
 template <typename T>

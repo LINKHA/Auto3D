@@ -9,12 +9,12 @@
 
 class File
 {
-	int							m_Position;
-	_String						m_Path;
-	bool						m_Open;
-	FILE*						m_File;
-	HANDLE						m_FileHandle;
-	_VECTOR(unsigned char)		m_Data;
+	int							_position;
+	_String						_path;
+	bool						_open;
+	FILE*						_file;
+	HANDLE						_fileHandle;
+	_VECTOR(unsigned char)		_data;
 
 public:
 	File();
@@ -33,7 +33,7 @@ public:
 	bool Write(int pos, const void* buffer, int size);
 	bool SetFileLength(int size);
 	int GetFileLength();
-	int GetPosition() const { return m_Position; }
+	int GetPosition() const { return _position; }
 
 	static void SetCurrentDirectory(const std::string & path);
 	static const _String& GetCurrentDirectory();

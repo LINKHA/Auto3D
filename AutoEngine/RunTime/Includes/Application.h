@@ -5,7 +5,7 @@
 #include "InputManager.h"
 #include "Shader.h"
 #include "AtConfig.h"
-#include "Math/AUMath.h"
+#include "Math/Math.h"
 #include "Texture2D.h"
 #include "Monitors.h"
 

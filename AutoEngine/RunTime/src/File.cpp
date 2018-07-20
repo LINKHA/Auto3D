@@ -39,14 +39,14 @@ HANDLE OpenFileWithPath(const _String& path, File::Permission permission)
 }
 
 
-File::File() { m_File = NULL; m_Position = 0; }
+File::File() { _file = NULL; _position = 0; }
 
-File::~File() { AssertIf(m_File != NULL); }
+File::~File() { AssertIf(_file != NULL); }
 
 bool File::Open(const std::string & path, Permission perm, ATBehavior behavior)
 {
 	Close();
-	m_Path = path;
+	_path = path;
 	int retryCount = 5;
 	while (true)
 	{
@@ -56,14 +56,14 @@ bool File::Open(const std::string & path, Permission perm, ATBehavior behavior)
 }
 bool File::Close()
 {
-	if (m_File != NULL)
+	if (_file != NULL)
 	{
-		if (fclose(m_File) != 0)
+		if (fclose(_file) != 0)
 		{
 
 		}
-		m_File = NULL;
+		_file = NULL;
 	}
-	m_Path.clear();
+	_path.clear();
 	return true;
 }

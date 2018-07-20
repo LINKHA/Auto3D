@@ -1,5 +1,5 @@
 #pragma once
-#include "AUMathBase.h"
+#include "MathBase.h"
 #include "LogAssert.h"
 
 MATH_BEGIN

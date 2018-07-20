@@ -11,13 +11,13 @@ public:
 	~InstanceBeltLine();
 	void Start()override;
 	void Draw()override;
-	void SetCount(int count) { m_Count = count; }
-	void SetShader(const Shader& shader) { m_Shader = shader; }
-	void SetModel(const ModelCommand& model) { m_Model = model; }
+	void SetCount(int count) { _count = count; }
+	void SetShader(const Shader& shader) { _shader = shader; }
+	void SetModel(const ModelCommand& model) { _model = model; }
 private:
-	Shader m_Shader;
-	ModelCommand m_Model;
-	unsigned int m_Count;
-	glm::mat4* m_ModelMatrices;
+	Shader _shader;
+	ModelCommand _model;
+	unsigned int _count;
+	glm::mat4* _modelMatrices;
 };
 AUTO_END

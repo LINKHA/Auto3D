@@ -1,40 +1,39 @@
 #include "TimeManager.h"
 #include "GrFacade.h"
 AUTO_BEGIN
-
-template<> TimeManager* Singleton<TimeManager>::m_instance = nullptr;
-SYSTEMTIME  m_sysTime;
+SINGLETON_INSTANCE(TimeManager);
+SYSTEMTIME  sysTime;
 
 
 TimeManager::TimeHolder::TimeHolder()
-	: m_CurFrameTime(0)
-	, m_LastFrameTime(0)
-	, m_DeltaTime(0)
-	, m_SmoothDeltaTime(0)
+	: curFrameTime(0)
+	, lastFrameTime(0)
+	, deltaTime(0)
+	, smoothDeltaTime(0)
 {}
 
 TimeManager::RealTime::RealTime()
 {
-	GetLocalTime(&m_sysTime);
-	Year = m_sysTime.wYear;
-	Month = m_sysTime.wMonth;
-	Day = m_sysTime.wDay;
-	Hour = m_sysTime.wHour;
-	Minute = m_sysTime.wMinute;
-	Second = m_sysTime.wSecond;
+	GetLocalTime(&sysTime);
+	year = sysTime.wYear;
+	month = sysTime.wMonth;
+	day = sysTime.wDay;
+	hour = sysTime.wHour;
+	minute = sysTime.wMinute;
+	second = sysTime.wSecond;
 }
 
 
 TimeManager::RealTime TimeManager::GetRealTime()
 {
-	GetLocalTime(&m_sysTime);
-	m_RealTime.Year = m_sysTime.wYear;
-	m_RealTime.Month = m_sysTime.wMonth;
-	m_RealTime.Day = m_sysTime.wDay;
-	m_RealTime.Hour = m_sysTime.wHour;
-	m_RealTime.Minute = m_sysTime.wMinute;
-	m_RealTime.Second = m_sysTime.wSecond;
-	return m_RealTime;
+	GetLocalTime(&sysTime);
+	_realTime.year = sysTime.wYear;
+	_realTime.month = sysTime.wMonth;
+	_realTime.day = sysTime.wDay;
+	_realTime.hour = sysTime.wHour;
+	_realTime.minute = sysTime.wMinute;
+	_realTime.second = sysTime.wSecond;
+	return _realTime;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,18 +41,18 @@ TimeManager::TimeManager()
 	: Super()
 {
 
-	m_RealTime = RealTime();
+	_realTime = RealTime();
 
-	m_DynamicTime.m_CurFrameTime = 0.0f;
-	m_DynamicTime.m_LastFrameTime = 0.0f;
-	m_DynamicTime.m_DeltaTime = 0.0f;
-	m_DynamicTime.m_SmoothDeltaTime = 0.0f;
+	_dynamicTime.curFrameTime = 0.0f;
+	_dynamicTime.lastFrameTime = 0.0f;
+	_dynamicTime.deltaTime = 0.0f;
+	_dynamicTime.smoothDeltaTime = 0.0f;
 
 	//m_FixedTime.m_CurFrameTime = 0.0f;
 	//m_FixedTime.m_LastFrameTime = 0.0f;
-	m_ActiveTime = m_DynamicTime;
+	_activeTime = _dynamicTime;
 
-	is_Pause = false;
+	_isPause = false;
 
 //	m_LevelLoadOffset = 0.0f;
 }
@@ -61,21 +60,21 @@ TimeManager::TimeManager()
 
 void TimeManager::SetTime(double time)
 {
-	m_DynamicTime.m_LastFrameTime = m_DynamicTime.m_CurFrameTime;
-	m_DynamicTime.m_CurFrameTime = time;
-	m_DynamicTime.m_DeltaTime = m_DynamicTime.m_CurFrameTime - m_DynamicTime.m_LastFrameTime;
-	m_ActiveTime = m_DynamicTime;
+	_dynamicTime.lastFrameTime = _dynamicTime.curFrameTime;
+	_dynamicTime.curFrameTime = time;
+	_dynamicTime.deltaTime = _dynamicTime.curFrameTime - _dynamicTime.lastFrameTime;
+	_activeTime = _dynamicTime;
 }
 void TimeManager::ResetTime()
 {
-	m_DynamicTime.m_CurFrameTime = 0.0f;
-	m_DynamicTime.m_LastFrameTime = 0.0f;
-	m_DynamicTime.m_DeltaTime = 0.0f;
-	m_DynamicTime.m_SmoothDeltaTime = 0.0f;
+	_dynamicTime.curFrameTime = 0.0f;
+	_dynamicTime.lastFrameTime = 0.0f;
+	_dynamicTime.deltaTime = 0.0f;
+	_dynamicTime.smoothDeltaTime = 0.0f;
 
 //	m_FixedTime.m_CurFrameTime = 0.0f;
 //	m_FixedTime.m_LastFrameTime = 0.0f;
-	m_ActiveTime = m_DynamicTime;
+	_activeTime = _dynamicTime;
 
 
 //	m_LevelLoadOffset = 0.0f;
@@ -83,18 +82,18 @@ void TimeManager::ResetTime()
 
 void TimeManager::SetPause(bool pause)
 {
-	is_Pause = pause;
+	_isPause = pause;
 }
 void TimeManager::SetMaximumDeltaTime(float maxStep)
 {
-	m_MaximumTimestep = max<float>(maxStep, m_FixedTime.m_DeltaTime);
+	_maximumTimestep = max<float>(maxStep, _fixedTime.deltaTime);
 }
 
 void TimeManager::SetTimeScale(float scale)
 {
 	bool is_OutRange = scale <= 100 && scale >= 0.0f;
 	if (is_OutRange)
-		m_TimeSpeedScale = scale;
+		_timeSpeedScale = scale;
 	else
 		ErrorString("time speed scale is out of range.Range(0~100).");
 
@@ -102,9 +101,9 @@ void TimeManager::SetTimeScale(float scale)
 
 void TimeManager::Update()
 {
-	if (m_FirstFrame)
+	if (_firstFrame)
 	{
-		m_FirstFrame = false;
+		_firstFrame = false;
 		return;
 	}
 	double time = GrGetTime();

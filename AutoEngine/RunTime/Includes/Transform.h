@@ -1,5 +1,5 @@
 #pragma once
-#include "Math/AUMath.h"
+#include "Math/Math.h"
 #include "OpenGLGather.h"
 #include "GameObject.h"
 USING_MATH

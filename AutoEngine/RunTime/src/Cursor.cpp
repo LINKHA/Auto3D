@@ -1,7 +1,6 @@
 #include "Cursor.h"
 AUTO_BEGIN
-template<> Cursor* Singleton<Cursor>::m_instance = nullptr;
-
+SINGLETON_INSTANCE(Cursor);
 Cursor::Cursor()
 {
 }

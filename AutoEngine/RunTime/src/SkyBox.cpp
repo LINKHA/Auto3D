@@ -17,11 +17,11 @@ SkyBox::~SkyBox()
 void SkyBox::Start()
 {
 	INSTANCE(SkyManager).AddSkyBox(this);
-	m_shader = Shader(AtConfig::shader_path + "au_skybox.auvs", AtConfig::shader_path + "au_skybox.aufs");
-	glGenVertexArrays(1, &m_skyboxVAO);
-	glGenBuffers(1, &m_skyboxVBO);
-	glBindVertexArray(m_skyboxVAO);
-	glBindBuffer(GL_ARRAY_BUFFER, m_skyboxVBO);
+	_shader = Shader(AtConfig::shader_path + "au_skybox.auvs", AtConfig::shader_path + "au_skybox.aufs");
+	glGenVertexArrays(1, &_skyboxVAO);
+	glGenBuffers(1, &_skyboxVBO);
+	glBindVertexArray(_skyboxVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, _skyboxVBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(skybox_vertices), &skybox_vertices, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
@@ -35,7 +35,7 @@ void SkyBox::Start()
 	"Resource/skybox/arrakisday_rt.tga",
 	"Resource/skybox/arrakisday_lf.tga"
 	};
-	m_cubemapTexture = LoadCubemap(faces);
+	_cubemapTexture = LoadCubemap(faces);
 }
 void SkyBox::Draw()
 {
@@ -43,13 +43,13 @@ void SkyBox::Draw()
 	RectInt rect = INSTANCE(GLWindow).GetWindowRectInt();
 	glm::mat4 projectionMat = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
 	glDepthFunc(GL_LEQUAL);  
-	m_shader.Use();
+	_shader.Use();
 	viewMat = glm::mat4(glm::mat3(INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix()));
-	m_shader.SetMat4("view", viewMat);
-	m_shader.SetMat4("projection", projectionMat);
-	glBindVertexArray(m_skyboxVAO);
+	_shader.SetMat4("view", viewMat);
+	_shader.SetMat4("projection", projectionMat);
+	glBindVertexArray(_skyboxVAO);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubemapTexture);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, _cubemapTexture);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindVertexArray(0);
 	glDepthFunc(GL_LESS);

@@ -1,7 +1,7 @@
 #pragma once
 #include "Auto.h"
 #include "LogAssert.h"
-#define SINGLETON_INSTANCE(x) template<> x* Singleton<x>::m_instance = nullptr
+#define SINGLETON_INSTANCE(x) template<> x* Singleton<x>::_instance = nullptr
 #define INSTANCE(x)	x::Instance()
 
 AUTO_BEGIN
@@ -22,18 +22,18 @@ private:
 	Singleton& operator=(const Singleton<T> &);
 	
 protected:
-	static T* m_instance;
+	static T* _instance;
 	
 public:
 	Singleton()
 	{
-		Assert(!m_instance);
-		m_instance = static_cast<T*>(this);
+		assert(!_instance);
+		_instance = static_cast<T*>(this);
 	}
 	~Singleton()
 	{
-		Assert(m_instance);  
-		m_instance = nullptr;
+		assert(_instance);  
+		_instance = nullptr;
 	}
 	/**
 	* @brief : get instance
@@ -41,11 +41,11 @@ public:
 	*/
 	static T& Instance()
 	{
-		if (m_instance == nullptr)
+		if (_instance == nullptr)
 		{
-			m_instance = new T();
+			_instance = new T();
 		}
-		return *m_instance;
+		return *_instance;
 	}
 	/**
 	* @brief : get point* instance
@@ -53,14 +53,14 @@ public:
 	*/
 	static T* InstancePtr()
 	{
-		if (m_instance == nullptr)
+		if (_instance == nullptr)
 		{
-			m_instance = new T();
+			_instance = new T();
 		}
-		return m_instance;
+		return _instance;
 	}
 
-	typedef T classType;
+	using ClassType = T;
 };
 
 AUTO_END

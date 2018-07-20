@@ -7,27 +7,27 @@ class RenderManager :public LevelGameManager, public Singleton<RenderManager>
 {
 	REGISTER_DERIVED_ABSTRACT_CLASS(RenderManager, LevelGameManager);
 	DECLARE_OBJECT_SERIALIZE(RenderManager);
-	typedef _LIST(Camera*) CameraContainer;
+	using CameraContainer = _LIST(Camera*);
 	
 public:
 	RenderManager();
 
 	void RenderCameras();
-	Camera &GetCurrentCamera() {  return *m_CurrentCamera; }
-	Camera* GetCurrentCameraPtr() { return m_CurrentCamera; }
-	void SetCurrentCamera(Camera *c) { m_CurrentCamera = c; }
-	CameraContainer & GetAllCamera() { return m_Cameras; }
+	Camera &GetCurrentCamera() {  return *_currentCamera; }
+	Camera* GetCurrentCameraPtr() { return _currentCamera; }
+	void SetCurrentCamera(Camera *c) { _currentCamera = c; }
+	CameraContainer & GetAllCamera() { return _cameras; }
 
 	void AddCamera(Camera *c);
 	void RemoveCamera(Camera *c);
 private:
 	void DelayedAddRemoveCameras();
 private:
-	Camera*			m_CurrentCamera;
-	CameraContainer m_Cameras;
-	CameraContainer m_CamerasToAdd;
-	CameraContainer m_CamerasToRemove;
+	Camera*			_currentCamera;
+	CameraContainer _cameras;
+	CameraContainer _camerasToAdd;
+	CameraContainer _camerasToRemove;
 	//Run render now
-	bool			m_InsideRenderOrCull;
+	bool			_insideRenderOrCull;
 };
 AUTO_END

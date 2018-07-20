@@ -1,7 +1,6 @@
 #pragma once
 #include "Auto.h"
-#include "Math/AUMathBase.h"
-#include "Math/AUMath.h"
+#include "Math/Math.h"
 
 USING_MATH
 AUTO_API_BEGIN

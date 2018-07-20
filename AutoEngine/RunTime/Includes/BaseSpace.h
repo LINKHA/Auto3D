@@ -3,7 +3,7 @@
 #include "ObjectDefines.h"
 #include "Singleton.h"
 #include "Mesh.h"
-#include "Math/AUMath.h"
+#include "Math/Math.h"
 #include "Camera.h"
 #include "LightManager.h"
 USING_MATH

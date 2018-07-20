@@ -12,21 +12,21 @@ public:
 
 	void Start()override;
 	void Draw()override;
-	unsigned int GetTexture() { return m_cubemapTexture; }
+	unsigned int GetTexture() { return _cubemapTexture; }
 private:
-	unsigned int m_cubemapTexture;
+	unsigned int _cubemapTexture;
 
-	Shader m_shader;
-	unsigned int m_skyboxVAO;
-	unsigned int m_skyboxVBO;
+	Shader _shader;
+	unsigned int _skyboxVAO;
+	unsigned int _skyboxVBO;
 };
 
 struct SkyManager : public Singleton<SkyManager>
 {
-	void AddSkyBox(SkyBox* skybox) { m_skybox = skybox; }
-	SkyBox * GetSkyBox() { return m_skybox; }
+	void AddSkyBox(SkyBox* skybox) { _skybox = skybox; }
+	SkyBox * GetSkyBox() { return _skybox; }
 private:
-	SkyBox * m_skybox;
+	SkyBox * _skybox;
 };
 AUTO_END
 

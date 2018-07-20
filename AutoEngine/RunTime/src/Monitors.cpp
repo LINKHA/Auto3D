@@ -1,8 +1,7 @@
 #include "Monitors.h"
 
 AUTO_BEGIN
-template<> Monitors* Singleton<Monitors>::m_instance = nullptr;
-
+SINGLETON_INSTANCE(Monitors);
 Monitors::~Monitors()
 {
 	ppMonitor = nullptr;

@@ -9,68 +9,68 @@ Node::Node() {}
 Node::~Node() {}
 void Node::AddChild(const GameObject& node)
 {
-	m_Childs.push_back(node);
+	_childs.push_back(node);
 }
 void Node::RemoveChild(arrayIndex index)
 {
-	if (m_Childs.begin() + index <= m_Childs.end())
-		m_Childs.erase(m_Childs.begin() + index);
+	if (_childs.begin() + index <= _childs.end())
+		_childs.erase(_childs.begin() + index);
 	else
 		ErrorString("File remove child,the index is exceed child count.\n");
 }
 GameObject Node::GetChild(arrayIndex index)
 {
-	if (m_Childs.begin() + index >= m_Childs.end())
+	if (_childs.begin() + index >= _childs.end())
 	{
 		ErrorString("File get child,the index is exceed child count.\n");
-		return m_Childs.at(m_Childs.size());
+		return _childs.at(_childs.size());
 	}
-	return m_Childs.at(index);
+	return _childs.at(index);
 }
 Node::GameObjectNodeArray Node::GetAllChild()
 {
-	return m_Childs;
+	return _childs;
 }
 
 //////////////////////////////////////////////////////////////////////////
 //Component
 //////////////////////////////////////////////////////////////////////////
 Component::Component()
-	: m_Enable(true)
+	: _isEnable(true)
 {}
 Component::~Component(){}
 GameObject& Component::GetGameObject()
 {
-	return *m_gameObject.ptr;
+	return *_gameObject.ptr;
 }
 const GameObject& Component::GetGameObject() const
 {
-	return *m_gameObject.ptr;
+	return *_gameObject.ptr;
 }
 GameObject* Component::GetGameObjectPtr()
 {
-	return m_gameObject.ptr;
+	return _gameObject.ptr;
 }
 GameObject* Component::GetGameObjectPtr() const
 {
-	return m_gameObject.ptr;
+	return _gameObject.ptr;
 }
 
 void Component::MountComponent(GameObject& gameObject)
 {
-	m_gameObject.ptr = &gameObject;
+	_gameObject.ptr = &gameObject;
 }
 //////////////////////////////////////////////////////////////////////////
 //GameObject
 //////////////////////////////////////////////////////////////////////////
 GameObject::GameObject()
-	: m_Enable(true)
+	: _isEnable(true)
 {
 	AddComponent(new Transform());
 	INSTANCE(GameObjectManager).AddGameObject(this);
 }
 GameObject::GameObject(Transform* transform)
-	: m_Enable(true)
+	: _isEnable(true)
 {
 	AddComponent(transform);
 	INSTANCE(GameObjectManager).AddGameObject(this);
@@ -81,18 +81,18 @@ GameObject::~GameObject()
 
 void GameObject::AddComponent(Component* com)
 {
-	m_Components.push_back(M_PAIR(com->GetClassID(), com));
+	_components.push_back(M_PAIR(com->GetClassID(), com));
 	com->MountComponent(*this);
 }
 void GameObject::RemoveComponentAtIndex(int index)
 {
-	ComponentsArray::iterator it = m_Components.begin() + index;
-	m_Components.erase(it);
+	ComponentsArray::iterator it = _components.begin() + index;
+	_components.erase(it);
 }
 
 int GameObject::GetComponentSize() 
 { 
-	return (int)m_Components.size(); 
+	return (int)_components.size();
 }
 const GameObject& GameObject::GetGameObject()const 
 { 
@@ -104,7 +104,7 @@ GameObject& GameObject::GetGameObject()
 }
 Component* GameObject::QueryComponent(int classID) const
 {
-	for (auto it = m_Components.begin(); it != m_Components.end(); it++)
+	for (auto it = _components.begin(); it != _components.end(); it++)
 	{
 		if (it->first == classID)
 			return it->second;

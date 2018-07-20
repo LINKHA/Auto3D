@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "DeviceTypes.h"
 #include "stl_use.h"
-#include "Math/AUMath.h"
+#include "Math/Math.h"
 #include "OpenGLGather.h"
 #include "stb_image.h"
 #include "Shader.h"

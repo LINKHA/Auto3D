@@ -23,8 +23,8 @@ public:
 
 	ManagerContext();
 	void InitializeClasses();
-	Object*	m_Managers[kManagerCount];
-	int		m_ManagerClassIDs[kManagerCount];
+	Object*	_managers[kManagerCount];
+	int		_managerClassIDs[kManagerCount];
 };
 AUTO_END
 
