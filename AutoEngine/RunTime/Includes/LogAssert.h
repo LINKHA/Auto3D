@@ -51,11 +51,3 @@ inline const char* LogTypeToString(LogType type)
 #define LogString(x)			do { DebugStringToFile(x,LogType_Log);} while(0)
 #define Print(x)				do { std::cout<<x<<std::endl; }while(0)
 
-
-#define DebugAssertIf(x)	do { (void)sizeof(x); } while(0)
-#define DebugAssert(x) 		do { (void)sizeof(x); } while(0)
-#define DebugAssertMsg(x, ...) {  }
-
-//Assert
-#define AssertIf(x) assert(!(x))
-#define Assert(x)	assert(x)

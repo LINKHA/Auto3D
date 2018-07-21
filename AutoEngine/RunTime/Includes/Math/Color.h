@@ -32,10 +32,9 @@ public:
 	const float* GetPtr() const								{ return &r; }
 	Color& operator += (const Color &inRGBA)				{ r += inRGBA.r; g += inRGBA.g; b += inRGBA.b; a += inRGBA.a; return *this; }
 	Color& operator *= (const Color &inRGBA)				{ r *= inRGBA.r; g *= inRGBA.g; b *= inRGBA.b; a *= inRGBA.a; return *this; }
-private:
-	// intentionally undefined
-	bool operator == (const Color& inRGB) const;
-	bool operator != (const Color& inRGB) const;
+	// Deleted function
+	bool operator == (const Color& inRGB) const = delete;
+	bool operator != (const Color& inRGB) const = delete;
 };
 
 

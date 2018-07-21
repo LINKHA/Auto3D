@@ -56,31 +56,58 @@ void Camera::Render()
 	_renderLoop->RunLoop();
 }
 
-glm::mat4 Camera::GetViewMatrix()
+glm::mat4& Camera::GetViewMatrix()
 {
-	return glm::lookAt(_position, _position + _front, _up);
+	_viewMatrix = glm::lookAt(_position, _position + _front, _up);
+	return _viewMatrix;
 }
-glm::mat4 Camera::GetProjectionMatrix()
+glm::mat4& Camera::GetProjectionMatrix()
 {
 	RectInt rect = INSTANCE(GLWindow).GetWindowRectInt();
 	if (_sortMode == kSortPerspective)
 	{
-		glm::mat4 projectionMat = glm::perspective(_zoom,
+		_projectionMatrix = glm::perspective(_zoom,
 			((float)rect.width * (float)_viewRect.width) /
 			((float)rect.height * (float)_viewRect.height),
 			_near, _far);
-		return projectionMat;
+		return _projectionMatrix;
 	}
 	else if (_sortMode == kSortOrthographic)
 	{
 		float t = ((float)rect.width * (float)_viewRect.width) /
 			((float)rect.height * (float)_viewRect.height);
-		glm::mat4 projectionMat = glm::ortho(-t, t, -1.0f, 1.0f, _near, _far);
-		return projectionMat;
+		_projectionMatrix = glm::ortho(-t, t, -1.0f, 1.0f, _near, _far);
+		return _projectionMatrix;
 	}
 	else
 		ErrorString("Fail to set projection matrix");
 }
+//
+//glm::mat4 Camera::GetViewMatrix()
+//{
+//	return glm::lookAt(_position, _position + _front, _up);
+//}
+//glm::mat4 Camera::GetProjectionMatrix()
+//{
+//	RectInt rect = INSTANCE(GLWindow).GetWindowRectInt();
+//	if (_sortMode == kSortPerspective)
+//	{
+//		glm::mat4 projectionMat = glm::perspective(_zoom,
+//			((float)rect.width * (float)_viewRect.width) /
+//			((float)rect.height * (float)_viewRect.height),
+//			_near, _far);
+//		return projectionMat;
+//	}
+//	else if (_sortMode == kSortOrthographic)
+//	{
+//		float t = ((float)rect.width * (float)_viewRect.width) /
+//			((float)rect.height * (float)_viewRect.height);
+//		glm::mat4 projectionMat = glm::ortho(-t, t, -1.0f, 1.0f, _near, _far);
+//		return projectionMat;
+//	}
+//	else
+//		ErrorString("Fail to set projection matrix");
+//}
 // Processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
 void Camera::ProcessKeyboard(CameraMovement direction, float deltaTime)
 {

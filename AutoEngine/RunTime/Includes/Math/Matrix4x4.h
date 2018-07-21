@@ -42,12 +42,12 @@ public:
 	void SetTRS(const Vector3& pos, const Quaternion& q, const Vector3& s);
 	void SetTRInverse(const Vector3& pos, const Quaternion& q);
 
-	Vector3 GetAxisX() const;
-	Vector3 GetAxisY() const;
-	Vector3 GetAxisZ() const;
-	Vector3 GetPosition() const;
-	Vector4 GetRow(int row) const;
-	Vector4 GetColumn(int col) const;
+	Vector3& GetAxisX() const;
+	Vector3& GetAxisY() const;
+	Vector3& GetAxisZ() const;
+	Vector3& GetPosition() const;
+	Vector4& GetRow(int row) const;
+	Vector4& GetColumn(int col) const;
 	// these set only these components of the matrix, everything else is untouched!
 	void SetAxisX(const Vector3& v);
 	void SetAxisY(const Vector3& v);

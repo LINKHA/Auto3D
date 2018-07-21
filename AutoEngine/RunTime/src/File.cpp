@@ -41,7 +41,7 @@ HANDLE OpenFileWithPath(const _String& path, File::Permission permission)
 
 File::File() { _file = NULL; _position = 0; }
 
-File::~File() { AssertIf(_file != NULL); }
+File::~File() { assert(_file == NULL); }
 
 bool File::Open(const std::string & path, Permission perm, ATBehavior behavior)
 {

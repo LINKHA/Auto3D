@@ -84,7 +84,7 @@ void ShadowPoint::Draw()
 }
 // renders the 3D scene
 // --------------------
-void ShadowPoint::renderScene(const Shader &shader)
+void ShadowPoint::renderScene(const Shader& shader)
 {
 	// room cube
 	glm::mat4 model;

@@ -34,9 +34,9 @@ public:
 
 	bool IsEmpty() const						{ return width <= 0 || height <= 0; }
 	void SetPosition(const Vector2& position)	{ x = position.x; y = position.y; }
-	Vector2 GetPosition() const					{ return Vector2(x, y); }
+	Vector2& GetPosition() const					{ return Vector2(x, y); }
 	void SetSize(const Vector2& size)			{ width = size.x; height = size.y; }
-	Vector2 GetSize() const						{ return Vector2(width, height); }
+	Vector2& GetSize() const						{ return Vector2(width, height); }
 	void Reset()								{ x = y = width = height = 0; }
 	void Set(T inX, T inY, T iWidth, T iHeight) { x = inX; width = iWidth; y = inY; height = iHeight; }
 	

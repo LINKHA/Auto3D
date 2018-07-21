@@ -25,9 +25,9 @@ void RenderManager::RenderCameras()
 		}
 	}
 	_insideRenderOrCull = false;
-	DelayedAddRemoveCameras();
+	delayedAddRemoveCameras();
 }
-void RenderManager::AddCamera(Camera * c)
+void RenderManager::AddCamera(Camera* c)
 {
 	assert(c != NULL);
 	if (_insideRenderOrCull)
@@ -55,7 +55,7 @@ void RenderManager::AddCamera(Camera * c)
 	queue.push_back(c);
 }
 
-void RenderManager::RemoveCamera(Camera * c)
+void RenderManager::RemoveCamera(Camera* c)
 {
 	assert(c != NULL);
 	_camerasToAdd.remove(c);
@@ -82,9 +82,9 @@ void RenderManager::RemoveCamera(Camera * c)
 
 
 ///Privete
-void RenderManager::DelayedAddRemoveCameras()
+void RenderManager::delayedAddRemoveCameras()
 {
-	DebugAssertIf(_insideRenderOrCull);
+	assert(!_insideRenderOrCull);
 	for (CameraContainer::iterator i = _camerasToRemove.begin(); i != _camerasToRemove.end(); /**/)
 	{
 		Camera* cam = *i;

@@ -27,7 +27,7 @@ GameObject& Node::GetChild(int index)
 	}
 	return _childs.at(index);
 }
-Node::GameObjectNodeArray Node::GetAllChild()
+Node::GameObjectNodeArray& Node::GetAllChild()
 {
 	return _childs;
 }

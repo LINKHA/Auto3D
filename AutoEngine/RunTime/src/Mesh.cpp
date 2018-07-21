@@ -75,7 +75,7 @@ void Mesh::Draw()
 		drawMaterial();
 		drawLight();
 	}
-	_model.Draw(_shader);
+	_model->Draw(_shader);
 
 	GLOriginal();
 }

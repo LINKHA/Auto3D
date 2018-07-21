@@ -17,7 +17,7 @@ public:
 	virtual void AddChild(const GameObject& node);
 	virtual void RemoveChild(int index);
 	virtual GameObject& GetChild(int index);
-	virtual GameObjectNodeArray GetAllChild();
+	virtual GameObjectNodeArray& GetAllChild();
 
 protected:
 	GameObjectNodeArray _childs;
@@ -93,7 +93,7 @@ template<class T> inline T& GameObject::GetComponentT(int compareClassID) const
 {
 	Component* com;
 	com = QueryComponent(compareClassID);
-	AssertIf(com == NULL);
+	assert(com != NULL);
 	return *static_cast<T*> (com);
 }
 inline Component& GameObject::GetComponentIndex(int index)

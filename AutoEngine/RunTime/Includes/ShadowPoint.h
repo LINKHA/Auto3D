@@ -15,8 +15,8 @@ private:
 	glm::vec3 lightPos;
 	unsigned int woodTexture;
 	unsigned int planeVAO;
-	unsigned int loadTexture(const char *path);
-	void renderScene(const Shader &shader);
+	unsigned int loadTexture(const char* path);
+	void renderScene(const Shader& shader);
 	void renderCube();
 
 

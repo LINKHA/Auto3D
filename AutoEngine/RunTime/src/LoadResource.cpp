@@ -3,10 +3,8 @@
 AUTO_BEGIN
 
 AUTO_HASH_MAP(PInt8, Image*) imageQueue;
-AUTO_HASH_MAP(PInt8, ModelCommand) modelQueue;
+AUTO_HASH_MAP(PInt8, ModelCommand*) modelQueue;
 
-class Image;
-class ModelCommand;
 unsigned int LocalTextureLoad(PInt8 path)
 {
 	unsigned int textureID;
@@ -73,9 +71,9 @@ void FreeImage(Image * image)
 	stbi_image_free(image->value);
 }
 
-ModelCommand LocalModelLoad(PInt8 path)
+ModelCommand* LocalModelLoad(PInt8 path)
 {
-	ModelCommand model;
+	ModelCommand* model;
 	auto it = modelQueue.find(path);
 	if (it != modelQueue.end())
 	{
@@ -83,7 +81,7 @@ ModelCommand LocalModelLoad(PInt8 path)
 	}
 	else
 	{
-		model = ModelCommand(path);
+		model = new ModelCommand(path);
 		modelQueue.emplace(path, model);
 	}
 	return model;

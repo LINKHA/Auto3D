@@ -22,7 +22,7 @@ public:
 	~MeshShadow();
 	void Start();
 	void Draw(const Shader &shader);
-	void Draw2(Camera * camera, glm::vec3 lightPos, glm::mat4 lightSpaceMatrix);
+	void Draw2(Camera* camera, glm::vec3 lightPos, glm::mat4 lightSpaceMatrix);
 
 private:
 	Shader _shader;

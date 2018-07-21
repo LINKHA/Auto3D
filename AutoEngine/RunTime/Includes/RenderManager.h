@@ -13,15 +13,15 @@ public:
 	RenderManager();
 
 	void RenderCameras();
-	Camera &GetCurrentCamera() {  return *_currentCamera; }
+	Camera& GetCurrentCamera() {  return *_currentCamera; }
 	Camera* GetCurrentCameraPtr() { return _currentCamera; }
-	void SetCurrentCamera(Camera *c) { _currentCamera = c; }
-	CameraContainer & GetAllCamera() { return _cameras; }
+	void SetCurrentCamera(Camera* c) { _currentCamera = c; }
+	CameraContainer& GetAllCamera() { return _cameras; }
 
-	void AddCamera(Camera *c);
-	void RemoveCamera(Camera *c);
+	void AddCamera(Camera* c);
+	void RemoveCamera(Camera* c);
 private:
-	void DelayedAddRemoveCameras();
+	void delayedAddRemoveCameras();
 private:
 	Camera*			_currentCamera;
 	CameraContainer _cameras;

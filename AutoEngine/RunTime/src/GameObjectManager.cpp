@@ -12,32 +12,32 @@ GameObjectManager::~GameObjectManager()
 {
 }
 
-void GameObjectManager::AddGameObject(GameObject * obj)
+void GameObjectManager::AddGameObject(GameObject* obj)
 {
-	Assert(obj != NULL);
-	if (m_InsideRun)
+	assert(obj != NULL);
+	if (_isInsideRun)
 	{
-		m_GameObjectsToRemove.remove(obj);
-		m_GameObjectsToAdd.push_back(obj);
+		_gameObjectsToRemove.remove(obj);
+		_gameObjectsToAdd.push_back(obj);
 		return;
 	}
-	m_GameObjectsToAdd.remove(obj);
-	m_GameObjectsToRemove.remove(obj);
-	m_GameObjects.push_back(obj);
+	_gameObjectsToAdd.remove(obj);
+	_gameObjectsToRemove.remove(obj);
+	_gameObjects.push_back(obj);
 }
 
-void GameObjectManager::RemoveGameObject(GameObject * obj)
+void GameObjectManager::RemoveGameObject(GameObject* obj)
 {
-	Assert(obj != NULL);
-	m_GameObjectsToAdd.remove(obj);
-	m_GameObjectsToRemove.remove(obj);
-	if (m_InsideRun)
+	assert(obj != NULL);
+	_gameObjectsToAdd.remove(obj);
+	_gameObjectsToRemove.remove(obj);
+	if (_isInsideRun)
 	{
-		m_GameObjectsToRemove.push_back(obj);
+		_gameObjectsToRemove.push_back(obj);
 	}
 	else
 	{
-		m_GameObjects.remove(obj);
+		_gameObjects.remove(obj);
 	}
 }
 void GameObjectManager::ModeRunGameObject(RunMode runMode)
@@ -47,8 +47,8 @@ void GameObjectManager::ModeRunGameObject(RunMode runMode)
 		ErrorString("GameObejct fail to Run.");
 		return;
 	}
-	m_InsideRun = true;
-	for (GameObjectContainer::iterator i = m_GameObjects.begin(); i != m_GameObjects.end(); i++)
+	_isInsideRun = true;
+	for (GameObjectContainer::iterator i = _gameObjects.begin(); i != _gameObjects.end(); i++)
 	{
 		GameObject* obj = *i;
 		if (obj && obj->GetEnable())
@@ -77,29 +77,29 @@ void GameObjectManager::ModeRunGameObject(RunMode runMode)
 #undef TEMP_ITERATOR
 		}
 	}
-	m_InsideRun = false;
-	DelayAddRemoveGameObject();
+	_isInsideRun = false;
+	delayAddRemoveGameObject();
 }
 
 
 ///Private
-void GameObjectManager::DelayAddRemoveGameObject()
+void GameObjectManager::delayAddRemoveGameObject()
 {
-	DebugAssertIf(m_InsideRun);
-	for (GameObjectContainer::iterator i = m_GameObjectsToRemove.begin(); i != m_GameObjectsToRemove.end(); /**/)
+	assert(!_isInsideRun);
+	for (GameObjectContainer::iterator i = _gameObjectsToRemove.begin(); i != _gameObjectsToRemove.end(); /**/)
 	{
 		GameObject* obj = *i;
 		++i; 
 		RemoveGameObject(obj);
 	}
-	m_GameObjectsToRemove.clear();
-	for (GameObjectContainer::iterator i = m_GameObjectsToAdd.begin(); i != m_GameObjectsToAdd.end(); /**/)
+	_gameObjectsToRemove.clear();
+	for (GameObjectContainer::iterator i = _gameObjectsToAdd.begin(); i != _gameObjectsToAdd.end(); /**/)
 	{
 		GameObject* obj = *i;
 		++i; 
 		AddGameObject(obj);
 	}
-	m_GameObjectsToAdd.clear();
+	_gameObjectsToAdd.clear();
 }
 
 

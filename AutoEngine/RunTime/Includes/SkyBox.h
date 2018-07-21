@@ -24,9 +24,9 @@ private:
 struct SkyManager : public Singleton<SkyManager>
 {
 	void AddSkyBox(SkyBox* skybox) { _skybox = skybox; }
-	SkyBox * GetSkyBox() { return _skybox; }
+	SkyBox* GetSkyBox() { return _skybox; }
 private:
-	SkyBox * _skybox;
+	SkyBox* _skybox;
 };
 AUTO_END
 

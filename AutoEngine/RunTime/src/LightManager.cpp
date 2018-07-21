@@ -11,13 +11,13 @@ LightManager::~LightManager()
 }
 void LightManager::AddLight(Light* source)
 {
-	DebugAssert(source);
+	assert(source);
 	//Maybe Delay add?
 	_lights.push_back(source);
 }
 void LightManager::RemoveLight(Light* source)
 {
-	DebugAssert(source);
+	assert(source);
 	for (Lights::iterator it = _lights.begin(); it != _lights.end(); ++it)
 	{
 		if (*it = source)
@@ -27,7 +27,7 @@ void LightManager::RemoveLight(Light* source)
 		}
 	}
 	if (_lastMainLight == source)
-		_lastMainLight = NULL;
+		_lastMainLight = nullptr;
 }
 int LightManager::Size()
 {

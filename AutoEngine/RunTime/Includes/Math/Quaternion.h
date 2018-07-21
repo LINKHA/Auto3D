@@ -10,7 +10,7 @@ struct Quaternion
 	glm::quat value;
 
 	Quaternion() { value = glm::quat(); }
-	Quaternion(const Vector3& euler);
+	explicit Quaternion(const Vector3& euler);
 	Quaternion(float angle, const Vector3& axis);
 
 	void SetValueWithEuler(const Vector3& euler);

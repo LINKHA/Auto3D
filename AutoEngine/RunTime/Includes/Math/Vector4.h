@@ -33,8 +33,8 @@ public:
 	inline Vector4& operator*=(const Vector4& rhs)			{ x *= rhs.x; y *= rhs.y; z *= rhs.z; w *= rhs.w; return *this; }
 	inline Vector4& operator/=(const float scale)			{ x /= scale; y /= scale; z /= scale; w /= scale; return *this; }
 
-	const float& operator[] (int i)const					{ DebugAssertIf(i < 0 || i > 3); return (&x)[i]; }
-	float& operator[] (int i)								{ DebugAssertIf(i < 0 || i > 3); return (&x)[i]; }
+	const float& operator[] (int i)const					{ assert(i >= 0 && i <= 3); return (&x)[i]; }
+	float& operator[] (int i)								{ assert(i >= 0 && i <= 3); return (&x)[i]; }
 	
 	inline bool operator==(const Vector4& rhs)const			{ return (x == rhs.x) && (y == rhs.y) && (z == rhs.z) && (w == rhs.w); }
 	inline bool operator!=(const Vector4& rhs)const			{ return (x != rhs.x) || (y != rhs.y) || (z != rhs.z) || (w != rhs.w); }

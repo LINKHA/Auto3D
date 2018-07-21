@@ -7,10 +7,10 @@ class Prefab : public Object
 	REGISTER_DERIVED_CLASS(Prefab, Object);
 	DECLARE_OBJECT_SERIALIZE(Prefab);
 public:
-	Prefab(GameObject * gameObject);
+	Prefab(GameObject* gameObject);
 	Prefab(GameObject& gameObject);
 private:
-	GameObject * _gameObject;
+	GameObject* _gameObject;
 };
 
 AUTO_END

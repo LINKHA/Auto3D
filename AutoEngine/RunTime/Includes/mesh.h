@@ -31,7 +31,7 @@ private:
 private:
 	Shader _shader;
 	Material _material;
-	ModelCommand _model;
+	ModelCommand* _model;
 	Ptr(char, _meshPath);
 private:
 	bool _isUserShader;

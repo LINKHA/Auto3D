@@ -13,11 +13,11 @@ PreLoadManager::~PreLoadManager()
 {
 }
 
-void PreLoadManager::AddPrefab(Prefab * prefab)
+void PreLoadManager::AddPrefab(Prefab* prefab)
 {
 	_prefabs.push_back(prefab);
 }
-void PreLoadManager::RemovePrefab(Prefab * prefab)
+void PreLoadManager::RemovePrefab(Prefab* prefab)
 {
 	_prefabs.remove(prefab);
 }

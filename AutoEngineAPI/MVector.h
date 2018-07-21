@@ -28,8 +28,8 @@ public:
 	inline MVector2&    operator-=(const MVector2& rhs)				{ x -= rhs.x; y -= rhs.y; return *this; }
 	inline MVector2&    operator*=(const float scale)				{ x *= scale; y *= scale; return *this; }
 	inline MVector2&    operator*=(const MVector2& rhs)				{ x *= rhs.x; y *= rhs.y; return *this; }
-	const float&		operator[] (int i)const						{ DebugAssertIf(i < 0 || i > 1); return (&x)[i]; }
-	float&				operator[] (int i)							{ DebugAssertIf(i < 0 || i > 1); return (&x)[i]; }
+	const float&		operator[] (int i)const						{ assert(i >= 0 && i <= 1); return (&x)[i]; }
+	float&				operator[] (int i)							{ assert(i >= 0 && i <= 1); return (&x)[i]; }
 	inline bool			operator==(const MVector2& rhs) const		{ return (x == rhs.x) && (y == rhs.y); }
 	inline bool			operator!=(const MVector2& rhs) const		{ return (x != rhs.x) || (y != rhs.y); }
 };

@@ -37,12 +37,12 @@ public:
 	void ProcessKeyboard(CameraMovement direction, float deltaTime);
 	void ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch = true);
 	void ProcessMouseScroll(float yoffset);
-	glm::mat4 GetViewMatrix();
-	glm::mat4 GetProjectionMatrix();
+	glm::mat4& GetViewMatrix();
+	glm::mat4& GetProjectionMatrix();
 	float GetDepth() const { return _depth; }
 	void SetDepth(float depth) { _depth = depth; }
 
-	Color GetBackgroundColor() const{ return _backGroundColor; }
+	Color& GetBackgroundColor(){ return _backGroundColor; }
 	void SetBackgroundColor(const Color& color) { _backGroundColor = color; }
 
 	SortMode GetSortMode() const { return _sortMode; }
@@ -64,7 +64,7 @@ public:
 	void SetZoom(float zoom) { _zoom = zoom; }
 	float GetZoom() { return _zoom; }
 
-	glm::vec3 GetPosition() { return _position; }
+	glm::vec3& GetPosition() { return _position; }
 
 	void SetSpeed(float speed) { _movementSpeed = speed; }
 	
@@ -88,6 +88,8 @@ private:
 	float _yaw;
 	float _pitch;
 	
+	glm::mat4 _viewMatrix;
+	glm::mat4 _projectionMatrix;
 	//////////////////////////////////////////////////////////////////////////
 protected:
 	RenderLoop*			_renderLoop;

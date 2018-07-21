@@ -24,6 +24,8 @@ class RefCounted
 {
 public:
 	RefCounted();
+	//RefCounted(const RefCounted& rhs) = delete;
+	//RefCounted& operator =(const RefCounted& rhs) = delete;
 	virtual ~RefCounted();
 	void AddRef();
 	void ReleaseRef();
@@ -33,10 +35,7 @@ public:
 	RefCount* RefCountPtr() { return _refCount; }
 
 private:
-	/// Prevent copy construction.
-	//RefCounted(const RefCounted& rhs);
-	/// Prevent assignment.
-	//RefCounted& operator =(const RefCounted& rhs);
+	
 
 	/// Pointer to the reference count structure.
 	RefCount* _refCount;
