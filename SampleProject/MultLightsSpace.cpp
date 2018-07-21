@@ -9,7 +9,7 @@
 #include "LightDirectional.h"
 #include "LightSpot.h"
 #include "LightPoint.h"
-
+#include "SampleSet.h"
 
 
 Light* mu_light;
@@ -81,3 +81,6 @@ int MultLightsSpace::Launch()
 {
 	return INSTANCE(Application).Run();
 }
+#if uMultLightsSpace
+AUTO_APPLICATION_MAIN(MultLightsSpace)
+#endif

@@ -3,6 +3,7 @@
 #include "LightDirectional.h"
 #include "FreeCamera.h"
 #include "Mesh.h"
+#include "SampleSet.h"
 
 AntiAliasingSpace::AntiAliasingSpace()
 {}
@@ -34,3 +35,6 @@ int AntiAliasingSpace::Launch()
 {
 	return INSTANCE(Application).Run();
 }
+#if uAntiAliasingSpace
+AUTO_APPLICATION_MAIN(AntiAliasingSpace)
+#endif 

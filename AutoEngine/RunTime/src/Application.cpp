@@ -15,6 +15,11 @@ SINGLETON_INSTANCE(Application);
 
 GLFWwindow* glfwWindow;
 
+Application::Application()
+{
+	INSTANCE(GLWindow).CreateGameWindow();
+	glfwWindow = INSTANCE(GLWindow).GetGLWindow();
+}
 Application::~Application()
 {
 }
@@ -134,9 +139,4 @@ int Application::Finish()
 	return AU_NORMAL;
 }
 
-Application::Application()
-{
-	INSTANCE(GLWindow).CreateGameWindow();
-	glfwWindow = INSTANCE(GLWindow).GetGLWindow();
-}
 AUTO_END

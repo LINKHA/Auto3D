@@ -5,6 +5,7 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "LightPoint.h"
+#include "SampleSet.h"
 VertexExplodeSpace::VertexExplodeSpace()
 {
 }
@@ -43,3 +44,6 @@ int VertexExplodeSpace::Launch()
 {
 	return INSTANCE(Application).Run();
 }
+#if uVertexExplodeSpace
+AUTO_APPLICATION_MAIN(VertexExplodeSpace)
+#endif

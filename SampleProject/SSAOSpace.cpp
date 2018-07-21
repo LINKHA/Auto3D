@@ -4,6 +4,7 @@
 #include "FreeCamera.h"
 #include "Mesh.h"
 #include "SSAO.h"
+#include "SampleSet.h"
 SSAOSpace::SSAOSpace()
 {}
 SSAOSpace::~SSAOSpace()
@@ -30,3 +31,6 @@ int SSAOSpace::Launch()
 {
 	return INSTANCE(Application).Run();
 }
+#if uSSAOSpace
+AUTO_APPLICATION_MAIN(SSAOSpace)
+#endif 

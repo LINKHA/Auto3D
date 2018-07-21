@@ -3,6 +3,7 @@
 #include "Mesh.h"
 #include "FreeCamera.h"
 #include "LightDirectional.h"
+#include "SampleSet.h"
 StencilTestSpace::StencilTestSpace()
 {
 }
@@ -55,3 +56,6 @@ int StencilTestSpace::Launch()
 {
 	return INSTANCE(Application).Run();
 }
+#if uStencilTestSpace
+AUTO_APPLICATION_MAIN(StencilTestSpace)
+#endif 

@@ -4,6 +4,7 @@
 #include "FreeCamera.h"
 #include "Mesh.h"
 #include "TextureNormal.h"
+#include "SampleSet.h"
 NormalMappingSpace::NormalMappingSpace()
 {}
 NormalMappingSpace::~NormalMappingSpace()
@@ -35,3 +36,6 @@ int NormalMappingSpace::Launch()
 {
 	return INSTANCE(Application).Run();
 }
+#if uNormalMappingSpace
+AUTO_APPLICATION_MAIN(NormalMappingSpace)
+#endif

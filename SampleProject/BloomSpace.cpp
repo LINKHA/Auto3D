@@ -4,6 +4,7 @@
 #include "FreeCamera.h"
 #include "Mesh.h"
 #include "Bloom.h"
+#include "SampleSet.h"
 BloomSpace::BloomSpace()
 {}
 BloomSpace::~BloomSpace()
@@ -30,3 +31,6 @@ int BloomSpace::Launch()
 {
 	return INSTANCE(Application).Run();
 }
+#if uBloomSpace
+AUTO_APPLICATION_MAIN(BloomSpace)
+#endif

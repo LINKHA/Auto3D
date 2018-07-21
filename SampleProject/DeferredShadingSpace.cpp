@@ -4,7 +4,7 @@
 #include "FreeCamera.h"
 #include "Mesh.h"
 #include "DeferredShading.h"
-
+#include "SampleSet.h"
 DeferredShadingSpace::DeferredShadingSpace()
 {
 }
@@ -34,3 +34,6 @@ int DeferredShadingSpace::Launch()
 {
 	return INSTANCE(Application).Run();
 }
+#if uDeferredShadingSpace
+AUTO_APPLICATION_MAIN(DeferredShadingSpace)
+#endif 

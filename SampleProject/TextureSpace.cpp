@@ -6,6 +6,7 @@
 #include "Mesh.h"
 #include "LightPoint.h"
 #include "SpriteTranslucent.h"
+#include "SampleSet.h"
 GameObject* te_obj;
 
 TextureSpace::TextureSpace()
@@ -88,3 +89,6 @@ int TextureSpace::Launch()
 {
 	return INSTANCE(Application).Run();
 }
+#if uTextureSpace
+AUTO_APPLICATION_MAIN(TextureSpace)
+#endif 

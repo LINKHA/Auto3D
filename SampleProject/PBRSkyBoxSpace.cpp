@@ -5,7 +5,7 @@
 #include "PBRMaterial.h"
 #include "PBRTextureMaterial.h"
 #include "HDRSkybox.h"
-
+#include "SampleSet.h"
 PBRSkyBoxSpace::PBRSkyBoxSpace()
 {}
 PBRSkyBoxSpace::~PBRSkyBoxSpace()
@@ -40,3 +40,6 @@ int PBRSkyBoxSpace::Launch()
 {
 	return INSTANCE(Application).Run();
 }
+#if uPBRSkyBoxSpace
+AUTO_APPLICATION_MAIN(PBRSkyBoxSpace)
+#endif 

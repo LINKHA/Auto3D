@@ -4,6 +4,7 @@
 #include "FreeCamera.h"
 #include "Mesh.h"
 #include "TextureParallax.h"
+#include "SampleSet.h"
 ParallaxMappingSpace::ParallaxMappingSpace()
 {}
 ParallaxMappingSpace::~ParallaxMappingSpace()
@@ -35,3 +36,6 @@ int ParallaxMappingSpace::Launch()
 {
 	return INSTANCE(Application).Run();
 }
+#if uParallaxMappingSpace
+AUTO_APPLICATION_MAIN(ParallaxMappingSpace)
+#endif

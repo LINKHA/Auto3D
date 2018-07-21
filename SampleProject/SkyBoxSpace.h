@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MotionSpace.h"
+#include "Launch.h"
 USING_AUTO
 
 class SkyBoxSpace : public MotionSpace
@@ -12,4 +13,3 @@ public:
 	void Update()override;
 	int Launch();
 };
-

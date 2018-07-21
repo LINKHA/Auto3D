@@ -5,6 +5,7 @@
 #include "Mesh.h"
 #include "LightDirectional.h"
 #include "HDR.h"
+#include "SampleSet.h"
 HDRSpace::HDRSpace()
 {}
 HDRSpace::~HDRSpace()
@@ -32,3 +33,6 @@ int HDRSpace::Launch()
 {
 	return INSTANCE(Application).Run();
 }
+#if uHDRSpace
+AUTO_APPLICATION_MAIN(HDRSpace)
+#endif

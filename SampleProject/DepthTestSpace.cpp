@@ -3,6 +3,7 @@
 #include "Mesh.h"
 #include "FreeCamera.h"
 #include "LightDirectional.h"
+#include "SampleSet.h"
 DepthTestSpace::DepthTestSpace()
 {}
 DepthTestSpace::~DepthTestSpace()
@@ -49,3 +50,6 @@ int DepthTestSpace::Launch()
 {
 	return INSTANCE(Application).Run();
 }
+#if uDepthTestSpace
+AUTO_APPLICATION_MAIN(DepthTestSpace)
+#endif

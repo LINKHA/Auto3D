@@ -5,6 +5,7 @@
 #include "Mesh.h"
 #include "PBR.h"
 #include "PBRTexture.h"
+#include "SampleSet.h"
 PBRSpace::PBRSpace()
 {}
 PBRSpace::~PBRSpace()
@@ -31,3 +32,6 @@ int PBRSpace::Launch()
 {
 	return INSTANCE(Application).Run();
 }
+#if uPBRSpace
+AUTO_APPLICATION_MAIN(PBRSpace)
+#endif 

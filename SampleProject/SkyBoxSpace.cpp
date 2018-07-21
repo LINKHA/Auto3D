@@ -6,6 +6,7 @@
 #include "Mesh.h"
 #include "LightDirectional.h"
 #include "SkyBoxReflectMesh.h"
+#include "SampleSet.h"
 SkyBoxSpace::SkyBoxSpace()
 {
 }
@@ -58,3 +59,6 @@ int SkyBoxSpace::Launch()
 {
 	return INSTANCE(Application).Run();
 }
+#if uSkyBoxSpace
+AUTO_APPLICATION_MAIN(SkyBoxSpace)
+#endif 

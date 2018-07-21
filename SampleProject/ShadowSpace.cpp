@@ -6,6 +6,8 @@
 #include "Shadow.h"
 #include "ShadowPoint.h"
 #include "ShadowTest.h"
+#include "SampleSet.h"
+
 ShadowSpace::ShadowSpace()
 {}
 ShadowSpace::~ShadowSpace()
@@ -61,3 +63,6 @@ int ShadowSpace::Launch()
 {
 	return INSTANCE(Application).Run();
 }
+#if uShadowSpace
+AUTO_APPLICATION_MAIN(ShadowSpace)
+#endif 

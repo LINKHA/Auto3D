@@ -7,6 +7,7 @@
 #include "InstanceBeltLine.h"
 #include "Math/Rand.h"
 #include "TimeManager.h"
+#include "SampleSet.h"
 USING_MATH
 MassInstantiationSpace::MassInstantiationSpace()
 {
@@ -64,3 +65,6 @@ int MassInstantiationSpace::Launch()
 {
 	return INSTANCE(Application).Run();
 }
+#if uMassInstantiationSpace
+AUTO_APPLICATION_MAIN(MassInstantiationSpace)
+#endif

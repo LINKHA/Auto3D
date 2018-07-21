@@ -6,6 +6,7 @@
 #include "Mesh.h"
 #include "FreeCamera.h"
 #include "LightPoint.h"
+#include "SampleSet.h"
 MoreCameraSpace::MoreCameraSpace()
 {
 }
@@ -49,3 +50,6 @@ int MoreCameraSpace::Launch()
 {
 	return INSTANCE(Application).Run();
 }
+#if uMoreCameraSpace
+AUTO_APPLICATION_MAIN(MoreCameraSpace)
+#endif

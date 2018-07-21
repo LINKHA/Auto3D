@@ -6,6 +6,7 @@
 #include "FrameBuffersScreen.h"
 #include "TimeManager.h"
 #include "Sprite.h"
+#include "SampleSet.h"
 FrameBuffersSpace::FrameBuffersSpace()
 {}
 FrameBuffersSpace::~FrameBuffersSpace()
@@ -89,3 +90,6 @@ int FrameBuffersSpace::Launch()
 {
 	return INSTANCE(Application).Run();
 }
+#if uFrameBuffersSpace
+AUTO_APPLICATION_MAIN(FrameBuffersSpace)
+#endif
