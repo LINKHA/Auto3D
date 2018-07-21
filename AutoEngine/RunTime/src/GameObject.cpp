@@ -11,14 +11,14 @@ void Node::AddChild(const GameObject& node)
 {
 	_childs.push_back(node);
 }
-void Node::RemoveChild(arrayIndex index)
+void Node::RemoveChild(int index)
 {
 	if (_childs.begin() + index <= _childs.end())
 		_childs.erase(_childs.begin() + index);
 	else
 		ErrorString("File remove child,the index is exceed child count.\n");
 }
-GameObject Node::GetChild(arrayIndex index)
+GameObject& Node::GetChild(int index)
 {
 	if (_childs.begin() + index >= _childs.end())
 	{
@@ -81,7 +81,7 @@ GameObject::~GameObject()
 
 void GameObject::AddComponent(Component* com)
 {
-	_components.push_back(M_PAIR(com->GetClassID(), com));
+	_components.push_back(M_PAIR(com->GetClassIDVirtual(), com));
 	com->MountComponent(*this);
 }
 void GameObject::RemoveComponentAtIndex(int index)
@@ -92,7 +92,7 @@ void GameObject::RemoveComponentAtIndex(int index)
 
 int GameObject::GetComponentSize() 
 { 
-	return (int)_components.size();
+	return static_cast<int>(_components.size());
 }
 const GameObject& GameObject::GetGameObject()const 
 { 

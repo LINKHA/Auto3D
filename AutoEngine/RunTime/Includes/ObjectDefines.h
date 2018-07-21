@@ -2,38 +2,32 @@
 // Every non-abstract class that is derived from object has to place this inside the class Declaration
 #define	REGISTER_DERIVED_CLASS(x,y) \
 public: \
-	static int GetClassIDStatic ()				{ return ClassID (x); }\
-	static bool IsAbstract ()					{ return false; }\
-	static const char* GetClassStringStatic ()	{ return #x; }\
-	static const char* GetSharedPtrTypeString (){ return "SharedPtr<"#x">"; }\
-	virtual int GetClassID() const				{ return ClassID (x); }\
 	using This = x;\
 	using Super = y;\
-	virtual ~x (); \
-protected: \
-	void ClassInit()							{ SetClassID(ClassID(x)); }\
-public:
+	~x (); \
+	static int GetClassIDStatic ()						{ return ClassID (x); }\
+	static bool IsAbstractStatic ()						{ return false; }\
+	static const char* GetClassStringStatic ()			{ return #x; }\
+	static const char* GetSharedPtrTypeStringStatic ()	{ return "SharedPtr<"#x">"; }\
+
 // Every abstract class that is derived from object has to place this inside the class Declaration
 #define	REGISTER_DERIVED_ABSTRACT_CLASS(x, y) \
 public: \
-	static int GetClassIDStatic ()				{ return ClassID (x); } \
-	static bool IsAbstract ()					{ return true; }\
-	static const char* GetClassStringStatic ()	{ return #x; }\
-	static const char* GetSharedPtrTypeString (){ return "SharedPtr<"#x">"; }\
-	virtual int GetClassID() const				{ return ClassID (x); }\
-	using This = x;\
-	using Super = y;\
+	using This = x; \
+	using Super = y; \
 	virtual ~x (); \
-protected:\
-	void ClassInit()							{ SetClassID(ClassID(x)); }\
-public:
-
+	static int GetClassIDStatic ()						{ return ClassID (x); } \
+	static bool IsAbstractStatic ()						{ return true; }\
+	static const char* GetClassStringStatic ()			{ return #x; }\
+	static const char* GetSharedPtrTypeStringStatic ()	{ return "SharedPtr<"#x">"; }\
 
 // Should be placed in every serializable object derived class
 #define DECLARE_OBJECT_SERIALIZE(x)\
-	static const char* GetTypeString ()	 { return GetClassStringStatic(); }\
-	template<class TransferFunction> void Transfer (TransferFunction& transfer);
-
+public: \
+	static const char* GetTypeString ()					{ return GetClassStringStatic(); }\
+	virtual int GetClassIDVirtual() const				{ return ClassID (x); }\
+	virtual const char* GetClassStringVirtual()			{ return #x; }\
+	virtual const char* GetSharedPtrTypeStringVirtual()	{ return "SharedPtr<"#x">"; }
 
 #define Ptr(x,y)\
 struct _##y##Message{\

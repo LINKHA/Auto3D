@@ -44,6 +44,13 @@ enum ClassIDType
 	DO_CLASS_ID(LightPoint, 37)
 	DO_CLASS_ID(LightDirectional, 38)
 	DO_CLASS_ID(LightSpot, 39)
+
+	DO_CLASS_ID(Engine,40)
+
+
+
+	DO_CLASS_ID(debug_test, 100)
+	
 	CLASS_ID_Count
 };
 

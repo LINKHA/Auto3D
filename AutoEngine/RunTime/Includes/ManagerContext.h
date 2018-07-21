@@ -1,6 +1,5 @@
 #pragma once
-#include "BaseObject.h"
-
+#include "Auto.h"
 AUTO_BEGIN
 class Object;
 class ManagerContext

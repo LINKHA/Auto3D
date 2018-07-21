@@ -1,5 +1,5 @@
 #pragma once
-#include "BaseObject.h"
+#include "Object.h"
 #include "Singleton.h"
 AUTO_BEGIN
 

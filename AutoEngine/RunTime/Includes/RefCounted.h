@@ -34,9 +34,9 @@ public:
 
 private:
 	/// Prevent copy construction.
-	RefCounted(const RefCounted& rhs);
+	//RefCounted(const RefCounted& rhs);
 	/// Prevent assignment.
-	RefCounted& operator =(const RefCounted& rhs);
+	//RefCounted& operator =(const RefCounted& rhs);
 
 	/// Pointer to the reference count structure.
 	RefCount* _refCount;

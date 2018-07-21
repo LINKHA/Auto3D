@@ -1,4 +1,4 @@
-#include "BaseObject.h"
+#include "Object.h"
 
 AUTO_BEGIN
 typedef AUTO_MAP(Int32, Object::RTTI) RTTIMap;
@@ -19,7 +19,7 @@ Object::Object()
 }
 const std::string& Object::GetClassName()const
 {
-	return Object::ClassIDToString(GetClassID());
+	return Object::ClassIDToString(GetClassIDVirtual());
 }
 const std::string& Object::ClassIDToString(int ID)
 {
@@ -31,10 +31,6 @@ const std::string& Object::ClassIDToString(int ID)
 		return it->second.className;
 }
 
-template<class TransferFunction>
-inline void Object::Transfer(TransferFunction & transfer)
-{
-}
 
 int Object::StringToClassID(const std::string & classString)
 {

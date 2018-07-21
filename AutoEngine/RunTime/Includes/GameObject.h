@@ -1,5 +1,5 @@
 #pragma once
-#include "BaseObject.h"
+#include "Object.h"
 #include "stl_use.h"
 
 AUTO_BEGIN
@@ -11,21 +11,19 @@ class Node :public Object
 {
 	REGISTER_DERIVED_ABSTRACT_CLASS(Node, Object);
 	DECLARE_OBJECT_SERIALIZE(Node);
+	using GameObjectNodeArray = _VECTOR(GameObject);
 public:
 	Node();
-	typedef int arrayIndex;
-	typedef _VECTOR(GameObject) GameObjectNodeArray;
+	virtual void AddChild(const GameObject& node);
+	virtual void RemoveChild(int index);
+	virtual GameObject& GetChild(int index);
+	virtual GameObjectNodeArray GetAllChild();
+
 protected:
 	GameObjectNodeArray _childs;
 	UInt32 _layer;
 	UInt16 _tag;
 	bool _isActive;
-public:
-	virtual void AddChild(const GameObject& node);
-	virtual void RemoveChild(arrayIndex index);
-	virtual GameObject GetChild(arrayIndex index);
-	virtual GameObjectNodeArray GetAllChild();
-
 };
 
 class Component : public Object
@@ -61,13 +59,13 @@ class GameObject : public Node
 	REGISTER_DERIVED_CLASS(GameObject, Node);
 	DECLARE_OBJECT_SERIALIZE(GameObject);
 public:
-	typedef AUTO_VECTOR(int, Component*) ComponentsArray;
+	using ComponentsArray = AUTO_VECTOR(int, Component*);
 
 private:
 	ComponentsArray _components;
 public:
 	GameObject();
-	GameObject(Transform* transform);
+	explicit GameObject(Transform* transform);
 	void Enable(bool enable) { _isEnable = enable; }
 	bool GetEnable() { return _isEnable; }
 	void Destory();

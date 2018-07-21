@@ -1,5 +1,5 @@
 #pragma once
-#include "BaseObject.h"
+#include "Object.h"
 #include "GameObject.h"
 AUTO_BEGIN
 class Prefab : public Object

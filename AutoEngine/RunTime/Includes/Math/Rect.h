@@ -7,8 +7,8 @@ template <typename T>
 struct Rect
 {
 public:
-	typedef Rect<T> RectType;
-	typedef float BaseType;
+	using RectType = Rect<T>;
+	using BaseType = float;
 
 	T x;
 	T y;
@@ -45,7 +45,7 @@ public:
 	bool operator == (const RectType& r)const { return x == r.x && y == r.y && width == r.width && height == r.height; }
 	bool operator != (const RectType& r)const { return x != r.x || y != r.y || width != r.width || height != r.height; }
 };
-typedef Rect<float> Rectf;
-typedef Rect<int> RectInt;
+using Rectf = Rect<float>;
+using RectInt = Rect<int>;
 
 MATH_END

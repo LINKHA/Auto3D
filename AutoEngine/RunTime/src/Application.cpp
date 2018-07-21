@@ -26,15 +26,23 @@ Application::~Application()
 */
 int Application::Run()
 {
-	if (Init() == AU_ERROR)
+	try 
 	{
-		return AU_ERROR;
+		if (Init() == AU_ERROR)
+		{
+			return AU_ERROR;
+		}
+		if (RunLoop() == AU_ERROR)
+		{
+			return AU_ERROR;
+		}
+		return Finish();
 	}
-	if (RunLoop() == AU_ERROR)
+	catch (std::bad_alloc&)
 	{
-		return AU_ERROR;
+		ErrorString("An application that has an out-of-memory condition will exit immediately.");
+		return EXIT_FAILURE;
 	}
-	return Finish();
 }
 
 int Application::Init()

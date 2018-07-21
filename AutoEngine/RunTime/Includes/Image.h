@@ -1,7 +1,6 @@
 #pragma once
 #include "Auto.h"
 #include "Math/Color.h"
-#include "BaseObject.h"
 
 
 

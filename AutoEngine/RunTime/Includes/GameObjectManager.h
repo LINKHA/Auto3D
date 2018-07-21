@@ -10,7 +10,7 @@ class GameObjectManager : public LevelGameManager,public Singleton<GameObjectMan
 {
 	REGISTER_DERIVED_ABSTRACT_CLASS(GameObjectManager, LevelGameManager);
 	DECLARE_OBJECT_SERIALIZE(GameObjectManager);
-	typedef _LIST(GameObject*)	GameObjectContainer;
+	using GameObjectContainer = _LIST(GameObject*);
 
 public:
 	GameObjectManager();

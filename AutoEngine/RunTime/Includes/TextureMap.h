@@ -1,6 +1,5 @@
 #pragma once
-#include "Texture.h"
-#include "Texture.h"
+#include "Texture2D.h"
 #include "OpenGLGather.h"
 #include "LoadResource.h"
 #include "Transform.h"

@@ -1,16 +1,16 @@
 #pragma once
 enum Tag
 {
-	Default,
-	Player,
-	Enemy,
-	Wall,
-	Button,
+	kDefault,
+	kPlayer,
+	kEnemy,
+	kWall,
+	kButton,
 };
 
 enum Layout
 {
-	BackGround,
-	Wall,
-	Player,
+	kBackGround,
+	kWall,
+	kPlayer,
 };
