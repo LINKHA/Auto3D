@@ -11,9 +11,9 @@ AUTO_BEGIN
 
 enum LightType
 {
-	Directional,
-	Point,
-	Spot
+	kDirectional,
+	kPoint,
+	kSpot
 };
 
 class Light : public Component
@@ -22,7 +22,7 @@ class Light : public Component
 	DECLARE_OBJECT_SERIALIZE(Light);
 public:
 	Light();
-	LightType GetType() const { return static_cast<LightType>(m_Type); }
+	LightType GetType() const { return static_cast<LightType>(_type); }
 
 	void AddToManager();
 	void RemoveFromManager();
@@ -45,7 +45,7 @@ public:
 	float farPlane;
 
 protected:
-	int					m_Type;						//Light Type
+	int					_type;
 };
 
 AUTO_END

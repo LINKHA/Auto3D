@@ -4,7 +4,7 @@
 AUTO_BEGIN
 LightPoint::LightPoint()
 {
-	m_Type = Point;
+	_type = kPoint;
 	color.Set(1.0f, 1.0f, 1.0f);
 	constant = 1.0f;
 	linear = 0.09f;

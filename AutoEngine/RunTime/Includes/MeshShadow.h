@@ -25,10 +25,10 @@ public:
 	void Draw2(Camera * camera, glm::vec3 lightPos, glm::mat4 lightSpaceMatrix);
 
 private:
-	Shader m_shader;
-	unsigned int m_woodTexture;
-	unsigned int m_VAO ;
-	unsigned int m_VBO;
+	Shader _shader;
+	unsigned int _woodTexture;
+	unsigned int _VAO ;
+	unsigned int _VBO;
 	
 };
 

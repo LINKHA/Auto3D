@@ -3,88 +3,88 @@
 AUTO_BEGIN
 
 Transform::Transform()
-	: m_position(Vector3())
-	, m_rotation(Quaternion())
-	, m_scale(Vector3(1.0f))
+	: _position(Vector3())
+	, _rotation(Quaternion())
+	, _scale(Vector3(1.0f))
 {}
 Transform::~Transform()
 {}
 void Transform::Translate(const Vector3& position)
 {
-	m_transform = glm::translate(m_transform, glm::vec3(position.x, position.y, position.z));
+	_transform = glm::translate(_transform, glm::vec3(position.x, position.y, position.z));
 }
 void Transform::Rotation(const Vector3& Euler)
 {
-	m_rotation.SetValueWithEuler(Euler);
+	_rotation.SetValueWithEuler(Euler);
 }
 void Transform::Rotation(float Angle, const Vector3& axis)
 {
-	m_rotation.SetValueWithAngleAxis(Angle, axis);
+	_rotation.SetValueWithAngleAxis(Angle, axis);
 }
 void Transform::Scale(const Vector3& scale)
 {
-	m_transform = glm::scale(m_transform, glm::vec3(scale.x, scale.y, scale.z));
+	_transform = glm::scale(_transform, glm::vec3(scale.x, scale.y, scale.z));
 }
 //public
 void Transform::SetPosition(const Vector3& position)
 {
-	m_position = position;
+	_position = position;
 }
 void Transform::SetPosition(float x,float y,float z)
 {
-	m_position.Set(x, y, z);
+	_position.Set(x, y, z);
 }
 
 void Transform::SetRotation(const Quaternion& rotation)
 {
-	m_rotation = rotation;
+	_rotation = rotation;
 }
 void Transform::SetRotation(const Vector3& euler)
 {
-	m_rotation.SetValueWithEuler(euler);
+	_rotation.SetValueWithEuler(euler);
 }
 void Transform::SetRotation(float Angle, const Vector3& axis)
 {
-	m_rotation.SetValueWithAngleAxis(Angle, axis);
+	_rotation.SetValueWithAngleAxis(Angle, axis);
 }
 void Transform::SetScale(const Vector3& scale)
 {
-	m_scale = scale;
+	_scale = scale;
 }
 void Transform::SetScale(float scale)
 {
-	m_scale.Set(scale, scale, scale);
+	_scale.Set(scale, scale, scale);
 }
 void Transform::SetScale(float scaleX, float scaleY, float scaleZ)
 {
-	m_scale.Set(scaleX, scaleY, scaleZ);
+	_scale.Set(scaleX, scaleY, scaleZ);
 }
-Vector3 Transform::GetPosition()
+Vector3& Transform::GetPosition()
 {
-	return m_position;
+	return _position;
 }
-Quaternion Transform::GetRotation()
+Quaternion& Transform::GetRotation()
 {
-	return m_rotation;
+	return _rotation;
 }
-Vector3 Transform::GetScale()
+Vector3& Transform::GetScale()
 {
-	return m_scale;
+	return _scale;
 }
-glm::mat4 Transform::GetTransformMat()
+glm::mat4& Transform::GetTransformMat()
 {
-	return m_transform;
+	return _transform;
 }
 void Transform::UpdateTransform()
 {
-	Translate(m_position);
-	m_transform *= m_rotation.toMatrix4();
-	Scale(m_scale);
+	Translate(_position);
+	_transform *= _rotation.toMatrix4();
+	Scale(_scale);
 }
 
 void Transform::Identity()
 {
-	m_transform = Matrix4x4::identity;
+	_transform = Matrix4x4::identity;
 }
 
 

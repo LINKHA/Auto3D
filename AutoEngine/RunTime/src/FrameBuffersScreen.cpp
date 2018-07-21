@@ -15,8 +15,8 @@ Shader shaderSharpen;
 
 SINGLETON_INSTANCE(FrameBuffersScreen);
 FrameBuffersScreen::FrameBuffersScreen()
-	:m_enable(false)
-	,m_shader(Shader(AtConfig::shader_path + "au_framebuffers_screen.auvs",
+	:_enable(false)
+	,_shader(Shader(AtConfig::shader_path + "au_framebuffers_screen.auvs",
 		AtConfig::shader_path + "au_framebuffers_screen.aufs"))
 {
 	shader = Shader(AtConfig::shader_path + "au_framebuffers_screen.auvs",AtConfig::shader_path + "au_framebuffers_screen.aufs");
@@ -29,46 +29,46 @@ FrameBuffersScreen::FrameBuffersScreen()
 }
 FrameBuffersScreen::~FrameBuffersScreen()
 {
-	glDeleteVertexArrays(1, &m_quadVAO);
-	glDeleteBuffers(1, &m_quadVBO);
+	glDeleteVertexArrays(1, &_quadVAO);
+	glDeleteBuffers(1, &_quadVBO);
 }
 
 
 
 void FrameBuffersScreen::Start()
 {
-	glGenVertexArrays(1, &m_quadVAO);
-	glGenBuffers(1, &m_quadVBO);
-	glBindVertexArray(m_quadVAO);
-	glBindBuffer(GL_ARRAY_BUFFER, m_quadVBO);
+	glGenVertexArrays(1, &_quadVAO);
+	glGenBuffers(1, &_quadVBO);
+	glBindVertexArray(_quadVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, _quadVBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(quad_vertices), &quad_vertices, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
 
-	m_shader.Use();
-	m_shader.SetInt("screenTexture", 0);
+	_shader.Use();
+	_shader.SetInt("screenTexture", 0);
 
 	RectInt screenSize = INSTANCE(GLWindow).GetWindowRectInt();
 	
 
-	glGenFramebuffers(1, &m_framebuffer);
-	glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffer);
+	glGenFramebuffers(1, &_framebuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
 
-	glGenTextures(1, &m_textureColorbuffer);
-	glBindTexture(GL_TEXTURE_2D, m_textureColorbuffer);
+	glGenTextures(1, &_textureColorbuffer);
+	glBindTexture(GL_TEXTURE_2D, _textureColorbuffer);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, screenSize.width, screenSize.height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_textureColorbuffer, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _textureColorbuffer, 0);
 	
 	
-	glGenRenderbuffers(1, &m_rbo);
-	glBindRenderbuffer(GL_RENDERBUFFER, m_rbo);
+	glGenRenderbuffers(1, &_rbo);
+	glBindRenderbuffer(GL_RENDERBUFFER, _rbo);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, screenSize.width, screenSize.height); 
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_rbo);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, _rbo);
 																							
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		ErrorString("Framebuffer is not complete!");
@@ -76,7 +76,7 @@ void FrameBuffersScreen::Start()
 }
 void FrameBuffersScreen::DrawStart()
 {
-	glBindFramebuffer(GL_FRAMEBUFFER, m_framebuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
 	glEnable(GL_DEPTH_TEST);
 }
 void FrameBuffersScreen::DrawEnd()
@@ -84,40 +84,40 @@ void FrameBuffersScreen::DrawEnd()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glDisable(GL_DEPTH_TEST); 
 	
-	glBindVertexArray(m_quadVAO);
-	glBindTexture(GL_TEXTURE_2D, m_textureColorbuffer);
-	m_shader.Use();
+	glBindVertexArray(_quadVAO);
+	glBindTexture(GL_TEXTURE_2D, _textureColorbuffer);
+	_shader.Use();
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 void FrameBuffersScreen::SetEffect(BuffersMode mode)
 {
 	switch (mode)
 	{
-	case Default:
-		m_shader = shader;
+	case kDefault:
+		_shader = shader;
 		break;
-	case Blur:
-		m_shader = shaderBlur;
+	case kBlur:
+		_shader = shaderBlur;
 		break;
-	case Edge_detection:
-		m_shader = shaderEdgeDetection;
+	case kEdge_detection:
+		_shader = shaderEdgeDetection;
 		break;
-	case Grayscale:
-		m_shader = shaderGrayscale;
+	case kGrayscale:
+		_shader = shaderGrayscale;
 		break;
-	case Inversion:
-		m_shader = shaderInversion;
+	case kInversion:
+		_shader = shaderInversion;
 		break;
-	case Sharpen:
-		m_shader = shaderSharpen;
+	case kSharpen:
+		_shader = shaderSharpen;
 		break;
 	default:
-		m_shader = shader;
+		_shader = shader;
 		break;
 	}
 }
 void FrameBuffersScreen::SetEffect(const Shader& shader)
 {
-	m_shader = shader;
+	_shader = shader;
 }
 AUTO_END

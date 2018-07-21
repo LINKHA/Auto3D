@@ -15,13 +15,13 @@ public:
 	void AddLight(Light* source);
 	void RemoveLight(Light* source);
 	int Size();
-	Lights& GetAllLights() { return m_Lights; }
-	const Light* GetLastMainLight() { return m_LastMainLight; }
-	void IsRender(bool b) { m_RenderOrCull = b; }
+	Lights& GetAllLights() { return _lights; }
+	const Light* GetLastMainLight() { return _lastMainLight; }
+	void IsRender(bool b) { _isRenderOrCull = b; }
 private:
-	bool		m_RenderOrCull;
-	Lights		m_Lights;
-	Light*	m_LastMainLight;
+	bool		_isRenderOrCull;
+	Lights		_lights;
+	Light*		_lastMainLight;
 };
 AUTO_END
 

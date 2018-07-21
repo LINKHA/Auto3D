@@ -7,12 +7,12 @@ USING_MATH
 AUTO_BEGIN
 enum BuffersMode
 {
-	Default,
-	Blur,
-	Edge_detection,
-	Grayscale,
-	Inversion,
-	Sharpen,
+	kDefault,
+	kBlur,
+	kEdge_detection,
+	kGrayscale,
+	kInversion,
+	kSharpen,
 };
 class FrameBuffersScreen : public Singleton<FrameBuffersScreen>
 {
@@ -24,16 +24,16 @@ public:
 	void Start();
 	void DrawStart();
 	void DrawEnd();
-	void Enable(bool enable) { m_enable = enable; }
-	bool GetEnable() { return m_enable; }
+	void Enable(bool enable) { _enable = enable; }
+	bool GetEnable() { return _enable; }
 private:
-	bool m_enable;
-	Shader m_shader;
+	bool _enable;
+	Shader _shader;
 private:
-	unsigned int m_framebuffer;
-	unsigned int m_quadVAO, m_quadVBO;
-	unsigned int m_textureColorbuffer;
-	unsigned int m_rbo;
+	unsigned int _framebuffer;
+	unsigned int _quadVAO, _quadVBO;
+	unsigned int _textureColorbuffer;
+	unsigned int _rbo;
 private:
 
 };

@@ -26,15 +26,15 @@ public:
 
 private:
 
-	unsigned int t_VBO, t_VAO;
-	unsigned int textureData;
+	unsigned int _VBO, _VAO;
+	unsigned int _textureData;
 
-	Shader m_shader;
-	Color m_Color;
-	Ptr(char, m_ImagePath);
-	Ptr(char, m_ImageNormalPath);
-	unsigned int m_image;
-	unsigned int m_imageNormal;
+	Shader _shader;
+	Color _color;
+	Ptr(char, _imagePath);
+	Ptr(char, _imageNormalPath);
+	unsigned int _image;
+	unsigned int _imageNormal;
 
 	void renderQuad();
 };

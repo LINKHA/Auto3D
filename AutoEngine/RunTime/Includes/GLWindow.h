@@ -18,20 +18,20 @@ public:
 	void DestoryWindow();
 
 	void CreateGameWindow();
-	GLFWwindow* GetGLWindow() { return window; }
-	RectInt GetWindowRectInt() { return WindowRect; }
-	void UpdateWindowRectInt(float width, float height) { WindowRect.width = width; WindowRect.height = height; }
-	char* GetTitle() { return TitleName; }
+	GLFWwindow* GetGLWindow() { return _window; }
+	RectInt GetWindowRectInt() { return _windowRect; }
+	void UpdateWindowRectInt(float width, float height) { _windowRect.width = width; _windowRect.height = height; }
+	char* GetTitle() { return _titleName; }
 	bool GetScreenFullorNot() { return true; }
 private:
 	// member
-	GLFWwindow* window;
-	Color DrawColor;
+	GLFWwindow* _window;
+	Color _drawColor;
 	// settings
-	RectInt WindowRect;
-	char * TitleName;
-	bool isFullScreen = false;
-	bool isCenter = true;
+	RectInt _windowRect;
+	char* _titleName;
+	bool _isFullScreen = false;
+	bool _isCenter = true;
 };
 AUTO_END
 

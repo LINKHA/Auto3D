@@ -63,22 +63,22 @@ void FrameBuffersSpace::Update()
 		switch (i)
 		{
 		case 0:
-			INSTANCE(FrameBuffersScreen).SetEffect(Default);
+			INSTANCE(FrameBuffersScreen).SetEffect(kDefault);
 			break;
 		case 1:
-			INSTANCE(FrameBuffersScreen).SetEffect(Blur);
+			INSTANCE(FrameBuffersScreen).SetEffect(kBlur);
 			break;
 		case 2:
-			INSTANCE(FrameBuffersScreen).SetEffect(Edge_detection);
+			INSTANCE(FrameBuffersScreen).SetEffect(kEdge_detection);
 			break;
 		case 3:
-			INSTANCE(FrameBuffersScreen).SetEffect(Grayscale);
+			INSTANCE(FrameBuffersScreen).SetEffect(kGrayscale);
 			break;
 		case 4:
-			INSTANCE(FrameBuffersScreen).SetEffect(Inversion);
+			INSTANCE(FrameBuffersScreen).SetEffect(kInversion);
 			break;
 		case 5:
-			INSTANCE(FrameBuffersScreen).SetEffect(Sharpen);
+			INSTANCE(FrameBuffersScreen).SetEffect(kSharpen);
 			break;
 		}
 	}

@@ -7,42 +7,42 @@ AUTO_BEGIN
 LightManager& lights = INSTANCE(LightManager);
 
 Mesh::Mesh()
-	: m_shader(Shader(AtConfig::shader_path + "au_light_map_model_loading.auvs"
+	: _shader(Shader(AtConfig::shader_path + "au_light_map_model_loading.auvs"
 		, AtConfig::shader_path + "au_light_map_model_loading.aufs"))
-	, m_userShader(false)
+	, _isUserShader(false)
 {
-	m_meshPath.ptr = "Resource/object/base/Cube.FBX";
+	_meshPath.ptr = "Resource/object/base/Cube.FBX";
 
 }
 Mesh::Mesh(char* meshPath)
-	: m_userShader(false)
+	: _isUserShader(false)
 {
-	m_meshPath.ptr = meshPath;
+	_meshPath.ptr = meshPath;
 	
 }
 Mesh::Mesh(char* meshPath, const Shader& shader)
-	: m_shader(shader)
-	, m_userShader(true)
+	: _shader(shader)
+	, _isUserShader(true)
 {
-	m_meshPath.ptr = meshPath;
+	_meshPath.ptr = meshPath;
 }
 Mesh::~Mesh()
 {
 }
 void Mesh::Start()
 {
-	if (m_Material.isTexture)
+	if (_material.isTexture)
 	{
-		m_shader = Shader(AtConfig::shader_path + "au_light_map_model_loading.auvs"
+		_shader = Shader(AtConfig::shader_path + "au_light_map_model_loading.auvs"
 			, AtConfig::shader_path + "au_light_map_model_loading.aufs");
 	}
 	else
 	{
-		m_shader = Shader(AtConfig::shader_path + "au_light_model_loading.auvs"
+		_shader = Shader(AtConfig::shader_path + "au_light_model_loading.auvs"
 			, AtConfig::shader_path + "au_light_model_loading.aufs");
 	}
 	//////////////////////////////////////////////////////////////////////////
-	m_Model = LocalModelLoad(m_meshPath.ptr);
+	_model = LocalModelLoad(_meshPath.ptr);
 }
 void Mesh::Draw()
 {
@@ -51,7 +51,7 @@ void Mesh::Draw()
 		WarningString("Fail to find camera");
 		return;
 	}
-	m_shader.Use();
+	_shader.Use();
 
 	glm::mat4 modelMat;
 	glm::mat4 viewMat;
@@ -66,16 +66,16 @@ void Mesh::Draw()
 	viewMat = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
 	projectionMat = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
 
-	m_shader.SetMat4("model", modelMat);
-	m_shader.SetMat4("view", viewMat);
-	m_shader.SetMat4("projection", projectionMat);
-	m_shader.SetVec3("viewPos", INSTANCE(RenderManager).GetCurrentCamera().GetPosition());
-	if (!m_userShader)
+	_shader.SetMat4("model", modelMat);
+	_shader.SetMat4("view", viewMat);
+	_shader.SetMat4("projection", projectionMat);
+	_shader.SetVec3("viewPos", INSTANCE(RenderManager).GetCurrentCamera().GetPosition());
+	if (!_isUserShader)
 	{
 		drawMaterial();
 		drawLight();
 	}
-	m_Model.Draw(m_shader);
+	_model.Draw(_shader);
 
 	GLOriginal();
 }
@@ -85,17 +85,17 @@ void Mesh::drawMaterial()
 
 	// shader configuration
 	// --------------------
-	if (m_Material.isTexture)
+	if (_material.isTexture)
 	{
-		m_shader.SetInt("material.color", 0);
+		_shader.SetInt("material.color", 0);
 	}
 	else
 	{
-		m_shader.SetVec3("material.color", m_Material.color.r, m_Material.color.g, m_Material.color.b);
+		_shader.SetVec3("material.color", _material.color.r, _material.color.g, _material.color.b);
 	}
-	m_shader.SetVec3("material.diffuse", m_Material.diffuse);
-	m_shader.SetVec3("material.specular", m_Material.specular);
-	m_shader.SetFloat("material.shininess", m_Material.shininess);
+	_shader.SetVec3("material.diffuse", _material.diffuse);
+	_shader.SetVec3("material.specular", _material.specular);
+	_shader.SetFloat("material.shininess", _material.shininess);
 }
 
 void Mesh::drawLight()
@@ -108,57 +108,57 @@ void Mesh::drawLight()
 	{
 		Light * t = *it;
 		Vector3 ligthtPosition = t->GetGameObject().GetComponent(Transform).GetPosition();
-		m_shader.SetVec3("lightPos", ligthtPosition);
+		_shader.SetVec3("lightPos", ligthtPosition);
 
 		switch (t->GetType())
 		{
-		case Directional:
+		case kDirectional:
 			if (dir >= 4)break;
-			m_shader.SetVec3("dirLight[" + to_string(dir) + "].color", t->color);
-			m_shader.SetVec3("dirLight[" + to_string(dir) + "].direction", t->direction);
-			m_shader.SetVec3("dirLight[" + to_string(dir) + "].ambient", t->ambient);
-			m_shader.SetVec3("dirLight[" + to_string(dir) + "].diffuse", t->diffuse);
-			m_shader.SetVec3("dirLight[" + to_string(dir) + "].specular", t->specular);
+			_shader.SetVec3("dirLight[" + to_string(dir) + "].color", t->color);
+			_shader.SetVec3("dirLight[" + to_string(dir) + "].direction", t->direction);
+			_shader.SetVec3("dirLight[" + to_string(dir) + "].ambient", t->ambient);
+			_shader.SetVec3("dirLight[" + to_string(dir) + "].diffuse", t->diffuse);
+			_shader.SetVec3("dirLight[" + to_string(dir) + "].specular", t->specular);
 			dir++;
 			break;
-		case Point:
+		case kPoint:
 			if (point >= 8)break;
-			m_shader.SetVec3("pointLight[" + to_string(point) + "].color", t->color);
-			m_shader.SetVec3("pointLight[" + to_string(point) + "].position", ligthtPosition);
-			m_shader.SetFloat("pointLight[" + to_string(point) + "].constant", t->constant);
-			m_shader.SetFloat("pointLight[" + to_string(point) + "].linear", t->linear);
-			m_shader.SetFloat("pointLight[" + to_string(point) + "].quadratic", t->quadratic);
-			m_shader.SetVec3("pointLight[" + to_string(point) + "].ambient", t->ambient);
-			m_shader.SetVec3("pointLight[" + to_string(point) + "].diffuse", t->diffuse);
-			m_shader.SetVec3("pointLight[" + to_string(point) + "].specular", t->specular);
+			_shader.SetVec3("pointLight[" + to_string(point) + "].color", t->color);
+			_shader.SetVec3("pointLight[" + to_string(point) + "].position", ligthtPosition);
+			_shader.SetFloat("pointLight[" + to_string(point) + "].constant", t->constant);
+			_shader.SetFloat("pointLight[" + to_string(point) + "].linear", t->linear);
+			_shader.SetFloat("pointLight[" + to_string(point) + "].quadratic", t->quadratic);
+			_shader.SetVec3("pointLight[" + to_string(point) + "].ambient", t->ambient);
+			_shader.SetVec3("pointLight[" + to_string(point) + "].diffuse", t->diffuse);
+			_shader.SetVec3("pointLight[" + to_string(point) + "].specular", t->specular);
 			point++;
 			break;
-		case Spot:
+		case kSpot:
 
 			if (spot >= 4)break;
-			m_shader.SetVec3("spotLight[" + to_string(spot) + "].color", t->color);
-			m_shader.SetVec3("spotLight[" + to_string(spot) + "].position", ligthtPosition);
-			m_shader.SetVec3("spotLight[" + to_string(spot) + "].direction", t->direction);
-			m_shader.SetFloat("spotLight[" + to_string(spot) + "].cutOff", t->cutOff);
-			m_shader.SetFloat("spotLight[" + to_string(spot) + "].outerCutOff", t->outerCutOff);
-			m_shader.SetFloat("spotLight[" + to_string(spot) + "].constant", t->constant);
-			m_shader.SetFloat("spotLight[" + to_string(spot) + "].linear", t->linear);
-			m_shader.SetFloat("spotLight[" + to_string(spot) + "].quadratic", t->quadratic);
-			m_shader.SetVec3("spotLight[" + to_string(spot) + "].ambient", t->ambient);
-			m_shader.SetVec3("spotLight[" + to_string(spot) + "].diffuse", t->diffuse);
-			m_shader.SetVec3("spotLight[" + to_string(spot) + "].specular", t->specular);
+			_shader.SetVec3("spotLight[" + to_string(spot) + "].color", t->color);
+			_shader.SetVec3("spotLight[" + to_string(spot) + "].position", ligthtPosition);
+			_shader.SetVec3("spotLight[" + to_string(spot) + "].direction", t->direction);
+			_shader.SetFloat("spotLight[" + to_string(spot) + "].cutOff", t->cutOff);
+			_shader.SetFloat("spotLight[" + to_string(spot) + "].outerCutOff", t->outerCutOff);
+			_shader.SetFloat("spotLight[" + to_string(spot) + "].constant", t->constant);
+			_shader.SetFloat("spotLight[" + to_string(spot) + "].linear", t->linear);
+			_shader.SetFloat("spotLight[" + to_string(spot) + "].quadratic", t->quadratic);
+			_shader.SetVec3("spotLight[" + to_string(spot) + "].ambient", t->ambient);
+			_shader.SetVec3("spotLight[" + to_string(spot) + "].diffuse", t->diffuse);
+			_shader.SetVec3("spotLight[" + to_string(spot) + "].specular", t->specular);
 			spot++;
 			break;
 		default:
 			WarningString("Fail to set light!");
 		}
 	}
-	m_shader.SetBool("dirBool", (bool)dir);
-	m_shader.SetBool("pointBool", (bool)point);
-	m_shader.SetBool("spotBool", (bool)spot);
+	_shader.SetBool("dirBool", (bool)dir);
+	_shader.SetBool("pointBool", (bool)point);
+	_shader.SetBool("spotBool", (bool)spot);
 
-	m_shader.SetInt("dirNum", dir);
-	m_shader.SetInt("pointNum", point);
-	m_shader.SetInt("spotNum", spot);
+	_shader.SetInt("dirNum", dir);
+	_shader.SetInt("pointNum", point);
+	_shader.SetInt("spotNum", spot);
 }
 AUTO_END

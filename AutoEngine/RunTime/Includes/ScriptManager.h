@@ -12,8 +12,8 @@ class ScriptManager : public GlobalGameManager , Singleton<ScriptManager>
 	REGISTER_DERIVED_CLASS(ScriptManager, GlobalGameManager);
 	DECLARE_OBJECT_SERIALIZE(ScriptManager);
 public:
-	typedef _SET(ScriptComponent) Scripts;
-	typedef _SET(ScriptComponent*) AllScript;
+	using Scripts = _SET(ScriptComponent) ;
+	using AllScript = _SET(ScriptComponent*);
 
 };
 AUTO_END

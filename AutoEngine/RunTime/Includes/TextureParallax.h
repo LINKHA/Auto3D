@@ -25,17 +25,17 @@ public:
 	void SetColor(float r, float g, float b, float a = 1.0f);
 private:
 
-	unsigned int t_VBO, t_VAO;
-	unsigned int textureData;
+	unsigned int _VBO, _VAO;
+	unsigned int _textureData;
 
-	Shader m_shader;
-	Color m_Color;
-	Ptr(char, m_ImagePath);
-	Ptr(char, m_ImageNormalPath);
-	Ptr(char, m_ImageParallaxPath);
-	unsigned int m_image;
-	unsigned int m_imageNormal;
-	unsigned int m_imageParallax;
+	Shader _shader;
+	Color _color;
+	Ptr(char, _imagePath);
+	Ptr(char, _imageNormalPath);
+	Ptr(char, _imageParallaxPath);
+	unsigned int _image;
+	unsigned int _imageNormal;
+	unsigned int _imageParallax;
 
 	void renderQuad();
 };

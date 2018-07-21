@@ -9,9 +9,8 @@ Image::Image()
 {}
 Image::Image(int width, int height)
 {
-	Height = height;
-	Width = width;
-
+	ImageReference::height = height;
+	ImageReference::width = width;
 }
 Image::~Image()
 {

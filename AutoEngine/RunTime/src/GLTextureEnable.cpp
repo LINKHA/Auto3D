@@ -3,9 +3,9 @@
 
 AUTO_BEGIN
 GLTextureEnable::GLTextureEnable()
-	: m_useStencil(false)
-	, m_useDepth(true)
-	, m_useBlend(false)
+	: _useStencil(false)
+	, _useDepth(true)
+	, _useBlend(false)
 {
 }
 
@@ -15,31 +15,31 @@ GLTextureEnable::~GLTextureEnable()
 }
 void GLTextureEnable::GLApply()
 {
-	if (m_useDepth)
+	if (_useDepth)
 	{
 		glEnable(GL_DEPTH_TEST);
-		glDepthFunc(m_depthfunc);
+		glDepthFunc(_depthfunc);
 	}
 	else
 	{
 		glDisable(GL_DEPTH_TEST);
 	}
-	if (m_useStencil)
+	if (_useStencil)
 	{
 		glEnable(GL_STENCIL_TEST);
-		if (m_sfail)
-			glStencilOp(m_sfail, m_dpfail, m_dppass);
+		if (_sfail)
+			glStencilOp(_sfail, _dpfail, _dppass);
 		else
 			glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-		if (m_func)
-			glStencilFunc(m_func, m_ref, m_mask);
+		if (_func)
+			glStencilFunc(_func, _ref, _mask);
 		else
 			glStencilFunc(GL_ALWAYS, 1, 0xFF);
 
-		glStencilMask(m_mas);
+		glStencilMask(_mas);
 
 	}
-	if (m_useBlend)
+	if (_useBlend)
 	{
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -47,17 +47,17 @@ void GLTextureEnable::GLApply()
 }
 void GLTextureEnable::GLOriginal()
 {
-	if (m_useStencil)
+	if (_useStencil)
 	{
 		glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
 		glDisable(GL_STENCIL_TEST);
 		glStencilMask(0xFF);
 	}
-	if (!m_useDepth)
+	if (!_useDepth)
 		glEnable(GL_DEPTH_TEST);
 	else
 		glDepthFunc(GL_LESS);
-	if (m_useBlend)
+	if (_useBlend)
 	{
 		glDisable(GL_BLEND);
 
@@ -66,22 +66,22 @@ void GLTextureEnable::GLOriginal()
 
 void GLTextureEnable::StencilOp(GLenum sfail, GLenum dpfail, GLenum dppass)
 {
-	m_sfail = sfail;
-	m_dpfail = dpfail;
-	m_dppass = dppass;
+	_sfail = sfail;
+	_dpfail = dpfail;
+	_dppass = dppass;
 }
 void GLTextureEnable::StencilFunc(GLenum func, GLint ref, GLuint mask)
 {
-	m_func = func;
-	m_ref = ref;
-	m_mask = mask;
+	_func = func;
+	_ref = ref;
+	_mask = mask;
 }
 void GLTextureEnable::StencilMask(GLuint mask)
 {
-	m_mas = mask;
+	_mas = mask;
 }
 void GLTextureEnable::DepthFunc(GLenum func)
 {
-	m_depthfunc = func;
+	_depthfunc = func;
 }
 AUTO_END

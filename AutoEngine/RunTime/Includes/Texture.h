@@ -18,11 +18,13 @@ class Texture : public RenderComponent, public GLTextureEnable
 	DECLARE_OBJECT_SERIALIZE(Texture);
 	
 protected:
-	TextureID		m_TexID;
-	int		        m_UsageMode;
-	int				m_ColorSpace;
-	float			m_UVScaleX, m_UVScaleY;
-	float			m_TexelSizeX, m_TexelSizeY;
+	TextureID		_texID;
+	int		        _usageMode;
+	int				_colorSpace;
+	float			_uVScaleX;
+	float			_uVScaleY;
+	float			_texelSizeX;
+	float			_texelSizeY;
 public:
 	Texture();
 	virtual void Awake() {}

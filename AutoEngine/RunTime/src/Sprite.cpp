@@ -9,27 +9,27 @@
 AUTO_BEGIN
 
 Sprite::Sprite()
-	: m_shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs"
+	: _shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs"
 		, AtConfig::shader_path + "au_texture_transform.aufs"))
 {
-	m_ImagePath.ptr = "Resource/texture/square.jpg";
+	_imagePath.ptr = "Resource/texture/square.jpg";
 }
 Sprite::Sprite(char* imagePath)
-	: m_shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs"
+	: _shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs"
 		, AtConfig::shader_path + "au_texture_transform.aufs"))
 {
-	m_ImagePath.ptr = imagePath;
+	_imagePath.ptr = imagePath;
 }
 Sprite::Sprite(char* imagePath, const Shader & shader)
-	: m_shader(shader)
+	: _shader(shader)
 {
-	m_ImagePath.ptr = imagePath;
+	_imagePath.ptr = imagePath;
 }
 Sprite::~Sprite()
 {
-	glDeleteVertexArrays(1, &t_VAO);
-	glDeleteBuffers(1, &t_VBO);
-	glDeleteBuffers(1, &t_EBO);
+	glDeleteVertexArrays(1, &_VAO);
+	glDeleteBuffers(1, &_VBO);
+	glDeleteBuffers(1, &_EBO);
 }
 
 
@@ -37,16 +37,16 @@ void Sprite::Start()
 {
 	/////////////////////////////////////////////////////////////////////////////////////////////
 
-	glGenVertexArrays(1, &t_VAO);
-	glBindVertexArray(t_VAO);
-	glGenBuffers(1, &t_VBO);
-	glGenBuffers(1, &t_EBO);
+	glGenVertexArrays(1, &_VAO);
+	glBindVertexArray(_VAO);
+	glGenBuffers(1, &_VBO);
+	glGenBuffers(1, &_EBO);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 
-	glBindBuffer(GL_ARRAY_BUFFER, t_VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, _VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(texture_vertices), texture_vertices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, t_EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(texture_vertices), texture_indices, GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
@@ -57,16 +57,16 @@ void Sprite::Start()
 	glBindVertexArray(0);
 	/////////////////////////////////////////////////////////////////////////////////////////////
 
-	glGenTextures(1, &textureData);
-	glBindTexture(GL_TEXTURE_2D, textureData);
+	glGenTextures(1, &_textureData);
+	glBindTexture(GL_TEXTURE_2D, _textureData);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	m_image.ptr = LocalImageLoad(m_ImagePath.ptr);
+	_image.ptr = LocalImageLoad(_imagePath.ptr);
 	//SetNearestParameters();
 	SetLinerParameters();
-	if (m_image.ptr->Value)
+	if (_image.ptr->value)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, m_image.ptr->Format, m_image.ptr->Width, m_image.ptr->Height, 0, m_image.ptr->Format, GL_UNSIGNED_BYTE, m_image.ptr->Value);
+		glTexImage2D(GL_TEXTURE_2D, 0, _image.ptr->format, _image.ptr->width, _image.ptr->height, 0, _image.ptr->format, GL_UNSIGNED_BYTE, _image.ptr->value);
 		GenerateMipmap();
 	}
 	else
@@ -88,8 +88,8 @@ void Sprite::Draw()
 		WarningString("Fail to find camera");
 		return;
 	}
-	glBindTexture(GL_TEXTURE_2D, textureData);
-	m_shader.Use();
+	glBindTexture(GL_TEXTURE_2D, _textureData);
+	_shader.Use();
 
 	glm::mat4 modelMat;
 	glm::mat4 viewMat;
@@ -102,12 +102,12 @@ void Sprite::Draw()
 	viewMat = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
 	projectionMat = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
 
-	m_shader.SetMat4("model", modelMat);
-	m_shader.SetMat4("view", viewMat);
-	m_shader.SetMat4("projection", projectionMat);
-	m_shader.SetVec4("ourColor", m_Color.r, m_Color.g, m_Color.b, m_Color.a);
+	_shader.SetMat4("model", modelMat);
+	_shader.SetMat4("view", viewMat);
+	_shader.SetMat4("projection", projectionMat);
+	_shader.SetVec4("ourColor", _color.r, _color.g, _color.b, _color.a);
 
-	glBindVertexArray(t_VAO);
+	glBindVertexArray(_VAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
@@ -115,25 +115,25 @@ void Sprite::Draw()
 }
 void Sprite::SetColor(const Color& color)
 {
-	m_Color.Set(color.r, color.g, color.b, color.a);
+	_color.Set(color.r, color.g, color.b, color.a);
 }
 
 void Sprite::SetColor(const Vector3& vec)
 {
-	m_Color.Set(vec.x, vec.y, vec.z, 1.0f);
+	_color.Set(vec.x, vec.y, vec.z, 1.0f);
 }
 void Sprite::SetColor(float r, float g, float b, float a)
 {
-	m_Color.Set(r, g, b, a);
+	_color.Set(r, g, b, a);
 }
 
 //////////////////////////////////////////////////////////////////////////
 //Image conpontent to use
 void Sprite::SetLinerParameters()
 {
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_image.ptr->Format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_image.ptr->Format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
-	if (is_Mipmaps)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _image.ptr->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _image.ptr->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+	if (_isMipmaps)
 	{
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
 	}
@@ -146,9 +146,9 @@ void Sprite::SetLinerParameters()
 
 void Sprite::SetNearestParameters()
 {
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_image.ptr->Format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_image.ptr->Format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
-	if (is_Mipmaps)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _image.ptr->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _image.ptr->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+	if (_isMipmaps)
 	{
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
 	}
@@ -170,6 +170,6 @@ void Sprite::SetTexParameters(const TexParams & params)
 void Sprite::GenerateMipmap()
 {
 	glGenerateMipmap(GL_TEXTURE_2D);
-	is_Mipmaps = true;
+	_isMipmaps = true;
 }
 AUTO_END

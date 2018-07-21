@@ -26,15 +26,14 @@ public:
 	void SetTexParameters(const TexParams& params);
 	void GenerateMipmap();
 private:
-	unsigned int t_VBO, t_VAO, t_EBO;
-	unsigned int textureData;
+	unsigned int _VBO, _VAO, _EBO;
+	unsigned int _textureData;
 
-	Shader m_shader;
-	Color m_Color;
-	Ptr(char, m_ImagePath);
-	Ptr(Image, m_image);
+	Shader _shader;
+	Color _color;
+	Ptr(char, _imagePath);
+	Ptr(Image, _image);
 
-
-	bool is_Mipmaps;
+	bool _isMipmaps;
 };
 AUTO_END

@@ -4,7 +4,7 @@
 AUTO_BEGIN
 LightDirectional::LightDirectional()
 {
-	m_Type = Directional;
+	_type = kDirectional;
 	color.Set(1.0f, 1.0f, 1.0f);
 	direction.Set(0.5f, -0.5f, -0.0f);
 	ambient.Set(0.3f, 0.3f, 0.3f);

@@ -4,41 +4,41 @@ AUTO_BEGIN
 
 
 TextureParallax::TextureParallax()
-	: t_VAO(0)
+	: _VAO(0)
 {
-	m_ImagePath.ptr = "Resource/texture/bricks.jpg";
-	m_ImageNormalPath.ptr = "Resource/texture/bricks_normal.jpg";
-	m_ImageParallaxPath.ptr = "Resource/texture/bricks_disp.jpg";
+	_imagePath.ptr = "Resource/texture/bricks.jpg";
+	_imageNormalPath.ptr = "Resource/texture/bricks_normal.jpg";
+	_imageParallaxPath.ptr = "Resource/texture/bricks_disp.jpg";
 }
 TextureParallax::TextureParallax(char* imagePath)
-	: t_VAO(0)
+	: _VAO(0)
 {
-	m_ImagePath.ptr = imagePath;
+	_imagePath.ptr = imagePath;
 }
 TextureParallax::TextureParallax(char* imagePath, const Shader & shader)
-	: m_shader(shader)
-	, t_VAO(0)
+	: _shader(shader)
+	, _VAO(0)
 {
-	m_ImagePath.ptr = imagePath;
+	_imagePath.ptr = imagePath;
 }
 TextureParallax::~TextureParallax()
 {
-	glDeleteVertexArrays(1, &t_VAO);
-	glDeleteBuffers(1, &t_VBO);
+	glDeleteVertexArrays(1, &_VAO);
+	glDeleteBuffers(1, &_VBO);
 }
 
 
 void TextureParallax::Start()
 {
 	Super::Start();
-	m_image = LocalTextureLoad(m_ImagePath.ptr);
-	m_imageNormal = LocalTextureLoad(m_ImageNormalPath.ptr);
-	m_imageParallax = LocalTextureLoad(m_ImageParallaxPath.ptr);
-	m_shader = Shader(AtConfig::shader_path + "au_parallax_mapping.auvs", AtConfig::shader_path + "au_parallax_mapping.aufs");
-	m_shader.Use();
-	m_shader.SetInt("diffuseMap", 0);
-	m_shader.SetInt("normalMap", 1);
-	m_shader.SetInt("depthMap", 2);
+	_image = LocalTextureLoad(_imagePath.ptr);
+	_imageNormal = LocalTextureLoad(_imageNormalPath.ptr);
+	_imageParallax = LocalTextureLoad(_imageParallaxPath.ptr);
+	_shader = Shader(AtConfig::shader_path + "au_parallax_mapping.auvs", AtConfig::shader_path + "au_parallax_mapping.aufs");
+	_shader.Use();
+	_shader.SetInt("diffuseMap", 0);
+	_shader.SetInt("normalMap", 1);
+	_shader.SetInt("depthMap", 2);
 	//stbi_image_free(m_image.ptr->Value);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,7 +49,7 @@ void TextureParallax::Draw()
 	GLApply();
 
 	//glBindTexture(GL_TEXTURE_2D, textureData);
-	m_shader.Use();
+	_shader.Use();
 
 	glm::mat4 modelMat;
 	glm::mat4 viewMat;
@@ -62,21 +62,21 @@ void TextureParallax::Draw()
 	viewMat = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
 	projectionMat = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
 
-	m_shader.SetMat4("model", modelMat);
-	m_shader.SetMat4("view", viewMat);
-	m_shader.SetMat4("projection", projectionMat);
-	m_shader.SetFloat("heightScale", 0.2f);
+	_shader.SetMat4("model", modelMat);
+	_shader.SetMat4("view", viewMat);
+	_shader.SetMat4("projection", projectionMat);
+	_shader.SetFloat("heightScale", 0.2f);
 	//m_shader.SetVec4("ourColor", m_Color.r, m_Color.g, m_Color.b, m_Color.a);
 	glm::vec3 lightPos(0.5f, 1.0f, 0.3f);
 
-	m_shader.SetVec3("viewPos", INSTANCE(RenderManager).GetCurrentCamera().GetPosition());
-	m_shader.SetVec3("lightPos", lightPos);
+	_shader.SetVec3("viewPos", INSTANCE(RenderManager).GetCurrentCamera().GetPosition());
+	_shader.SetVec3("lightPos", lightPos);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_image);
+	glBindTexture(GL_TEXTURE_2D, _image);
 	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, m_imageNormal);
+	glBindTexture(GL_TEXTURE_2D, _imageNormal);
 	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, m_imageParallax);
+	glBindTexture(GL_TEXTURE_2D, _imageParallax);
 
 	renderQuad();
 	GLOriginal();
@@ -84,22 +84,22 @@ void TextureParallax::Draw()
 
 void TextureParallax::SetColor(const Color& color)
 {
-	m_Color.Set(color.r, color.g, color.b, color.a);
+	_color.Set(color.r, color.g, color.b, color.a);
 }
 
 void TextureParallax::SetColor(const Vector3& vec)
 {
-	m_Color.Set(vec.x, vec.y, vec.z, 1.0f);
+	_color.Set(vec.x, vec.y, vec.z, 1.0f);
 }
 void TextureParallax::SetColor(float r, float g, float b, float a)
 {
-	m_Color.Set(r, g, b, a);
+	_color.Set(r, g, b, a);
 }
 
 //Private
 void TextureParallax::renderQuad()
 {
-	if (t_VAO == 0)
+	if (_VAO == 0)
 	{
 		// positions
 		glm::vec3 pos1(-1.0f, 1.0f, 0.0f);
@@ -168,10 +168,10 @@ void TextureParallax::renderQuad()
 			pos4.x, pos4.y, pos4.z, nm.x, nm.y, nm.z, uv4.x, uv4.y, tangent2.x, tangent2.y, tangent2.z, bitangent2.x, bitangent2.y, bitangent2.z
 		};
 		// configure plane VAO
-		glGenVertexArrays(1, &t_VAO);
-		glGenBuffers(1, &t_VBO);
-		glBindVertexArray(t_VAO);
-		glBindBuffer(GL_ARRAY_BUFFER, t_VBO);
+		glGenVertexArrays(1, &_VAO);
+		glGenBuffers(1, &_VBO);
+		glBindVertexArray(_VAO);
+		glBindBuffer(GL_ARRAY_BUFFER, _VBO);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void*)0);
@@ -184,7 +184,7 @@ void TextureParallax::renderQuad()
 		glEnableVertexAttribArray(4);
 		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void*)(11 * sizeof(float)));
 	}
-	glBindVertexArray(t_VAO);
+	glBindVertexArray(_VAO);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glBindVertexArray(0);
 }

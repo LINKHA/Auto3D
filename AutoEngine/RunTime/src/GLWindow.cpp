@@ -14,15 +14,15 @@ void size_callback(GLFWwindow* window, int width, int height)
 
 //public funcation
 GLWindow::GLWindow()
-	: window(nullptr)
+	: _window(nullptr)
 {
 	GrInit(3, 3);
-	DrawColor.Set(0.0f, 0.0f, 0.0f, 1.0f);
-	TitleName = "Auto V0.0";
-	WindowRect.x = 0;
-	WindowRect.y = 0;
-	WindowRect.width = 1280;
-	WindowRect.height = 720;
+	_drawColor.Set(0.0f, 0.0f, 0.0f, 1.0f);
+	_titleName = "Auto V0.0";
+	_windowRect.x = 0;
+	_windowRect.y = 0;
+	_windowRect.width = 1280;
+	_windowRect.height = 720;
 }
 
 GLWindow::~GLWindow()
@@ -31,12 +31,12 @@ GLWindow::~GLWindow()
 
 void GLWindow::DrawWindow()
 {
-	GrClearColor(DrawColor);
+	GrClearColor(_drawColor);
 	
 }
 void GLWindow::RunLoopOver()
 {	
-	GrSwapBuffers(window);
+	GrSwapBuffers(_window);
 	/*get Events*/
 	GrPollEvents();
 }
@@ -50,26 +50,26 @@ void GLWindow::DestoryWindow()
 
 void GLWindow::CreateGameWindow()
 {
-	int t_Width, t_Height;
-	t_Width = INSTANCE(Monitors).GetMonitorsWidthIndex(0);
-	t_Height = INSTANCE(Monitors).GetMonitorsHeightWithIndex(0);
-	if (isFullScreen)
+	int width, height;
+	width = INSTANCE(Monitors).GetMonitorsWidthIndex(0);
+	height = INSTANCE(Monitors).GetMonitorsHeightWithIndex(0);
+	if (_isFullScreen)
 	{
-		WindowRect.width = t_Width;
-		WindowRect.height = t_Height;
+		_windowRect.width = width;
+		_windowRect.height = height;
 	}
 	else
 	{
-		if (isCenter)
+		if (_isCenter)
 		{
-			WindowRect.x = t_Width / 2;
-			WindowRect.y = t_Height / 2;
+			_windowRect.x = width / 2;
+			_windowRect.y = height / 2;
 		}
 	}
-	GLFWmonitor* pMonitor = isFullScreen ? glfwGetPrimaryMonitor() : NULL;
-	GrCreateWindow(&window, WindowRect.width, WindowRect.height, TitleName, pMonitor);
-	glfwSetWindowPos(window, WindowRect.x - WindowRect.width/2, WindowRect.y - WindowRect.height / 2);
-	GrFrameSizeCallBack(window, size_callback);
+	GLFWmonitor* pMonitor = _isFullScreen ? glfwGetPrimaryMonitor() : NULL;
+	GrCreateWindow(&_window, _windowRect.width, _windowRect.height, _titleName, pMonitor);
+	glfwSetWindowPos(_window, _windowRect.x - _windowRect.width/2, _windowRect.y - _windowRect.height / 2);
+	GrFrameSizeCallBack(_window, size_callback);
 
 	//icon_load(window, AtConfig::source_path + "logo.png");
 }

@@ -23,18 +23,18 @@ public:
 
 	void Start()override;
 	void Draw()override;
-	Material& GetMaterial() { return m_Material; }
+	Material& GetMaterial() { return _material; }
 
 private:
 	void drawMaterial();
 	void drawLight();
 private:
-	Shader m_shader;
-	Material m_Material;
-	ModelCommand m_Model;
-	Ptr(char, m_meshPath);
+	Shader _shader;
+	Material _material;
+	ModelCommand _model;
+	Ptr(char, _meshPath);
 private:
-	bool m_userShader;
+	bool _isUserShader;
 };
 
 AUTO_END

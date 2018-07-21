@@ -54,14 +54,14 @@ Image* LocalImageLoad(PInt8 path)
 	{
 		image = new (std::nothrow)Image();
 		int nrComponents;
-		unsigned char * t = stbi_load(path, &image->Width, &image->Height, &nrComponents, 0);
+		unsigned char * t = stbi_load(path, &image->width, &image->height, &nrComponents, 0);
 		if (nrComponents == 1)
-			image->Format = GL_RED;
+			image->format = GL_RED;
 		else if (nrComponents == 3)
-			image->Format = GL_RGB;
+			image->format = GL_RGB;
 		else if (nrComponents == 4)
-			image->Format = GL_RGBA;
-		image->Value = t;
+			image->format = GL_RGBA;
+		image->value = t;
 		imageQueue.emplace(M_PAIR(path, image));	
 		
 	}
@@ -70,7 +70,7 @@ Image* LocalImageLoad(PInt8 path)
 }
 void FreeImage(Image * image)
 {
-	stbi_image_free(image->Value);
+	stbi_image_free(image->value);
 }
 
 ModelCommand LocalModelLoad(PInt8 path)

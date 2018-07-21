@@ -9,10 +9,10 @@ class Transform : public Component
 	REGISTER_DERIVED_CLASS(Transform, Component);
 	DECLARE_OBJECT_SERIALIZE(Transform);
 private:
-	Vector3 m_position;
-	Quaternion m_rotation ;
-	Vector3 m_scale;
-	glm::mat4 m_transform;
+	Vector3 _position;
+	Quaternion _rotation ;
+	Vector3 _scale;
+	glm::mat4 _transform;
 	
 protected:
 	void Translate(const Vector3& position);
@@ -30,11 +30,11 @@ public:
 	void SetScale(const Vector3& scale);
 	void SetScale(float scale);
 	void SetScale(float scaleX, float scaleY, float scaleZ);
-	Vector3 GetPosition();
-	Quaternion GetRotation();
-	Vector3 GetScale();
+	Vector3& GetPosition();
+	Quaternion& GetRotation();
+	Vector3& GetScale();
 
-	glm::mat4 GetTransformMat();
+	glm::mat4& GetTransformMat();
 	void UpdateTransform();
 	void Identity();
 
