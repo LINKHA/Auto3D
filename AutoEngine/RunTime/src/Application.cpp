@@ -141,42 +141,41 @@ int Application::RunLoop()
 //	}
 	SDL_Event event;
 	bool quit = false;
-	//while (!quit)
-	//{
-		while (!quit && SDL_PollEvent(&event)) {
+	while (!quit)
+	{
+		while (SDL_PollEvent(&event)) {
 			if (event.type == SDL_QUIT) {
 				quit = true;
 			}
-			INSTANCE(TimeManager).Update();
-			//////////////////////////
-#if MSAA_OPPSCREEN_POINT
-			INSTANCE(MSAA).UpdateStart();
-#endif 
-
-			if (INSTANCE(FrameBuffersScreen).GetEnable())
-				INSTANCE(FrameBuffersScreen).DrawStart();
-
-
-			INSTANCE(GLWindow).DrawWindow();
-			///Accept a buffer bit buffer Bitto specify the buffer to be emptied
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-
-			INSTANCE(RenderManager).RenderCameras();
-			INSTANCE(BaseSpace).Update();
-
-			INSTANCE(GLWindow).RunLoopOver();
-			INSTANCE(BaseSpace).Finish();
-
-			if (INSTANCE(FrameBuffersScreen).GetEnable())
-				INSTANCE(FrameBuffersScreen).DrawEnd();
-
-#if MSAA_OPPSCREEN_POINT
-			INSTANCE(MSAA).UpdateEnd();
-#endif 
 		}
 
-		
-	//}
+		INSTANCE(TimeManager).Update();
+		//////////////////////////
+#if MSAA_OPPSCREEN_POINT
+		INSTANCE(MSAA).UpdateStart();
+#endif 
+
+		if (INSTANCE(FrameBuffersScreen).GetEnable())
+			INSTANCE(FrameBuffersScreen).DrawStart();
+
+
+		INSTANCE(GLWindow).DrawWindow();
+		///Accept a buffer bit buffer Bitto specify the buffer to be emptied
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
+		INSTANCE(RenderManager).RenderCameras();
+		INSTANCE(BaseSpace).Update();
+
+		INSTANCE(GLWindow).RunLoopOver();
+		INSTANCE(BaseSpace).Finish();
+
+		if (INSTANCE(FrameBuffersScreen).GetEnable())
+			INSTANCE(FrameBuffersScreen).DrawEnd();
+
+#if MSAA_OPPSCREEN_POINT
+		INSTANCE(MSAA).UpdateEnd();
+#endif 
+	}
 
 	return AU_NORMAL;
 }
