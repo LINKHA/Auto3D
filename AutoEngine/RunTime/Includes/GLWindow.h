@@ -22,7 +22,6 @@ public:
 	void DestoryWindow();
 
 	void CreateGameWindow();
-	//GLFWwindow* GetGLWindow() { return _window; }
 	SDL_Window* GetGLWindow() { return _window; }
 	RectInt GetWindowRectInt() { return _windowRect; }
 	void UpdateWindowRectInt(float width, float height) { _windowRect.width = width; _windowRect.height = height; }

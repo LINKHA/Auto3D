@@ -109,46 +109,24 @@ int Application::RunLoop()
 	{
 		INSTANCE(FrameBuffersScreen).Start();
 	}
-//	while (!GrShouldCloseWindow(glfwWindow))
-//	{
-//		
-//		INSTANCE(TimeManager).Update();
-//		//////////////////////////
-//#if MSAA_OPPSCREEN_POINT
-//		INSTANCE(MSAA).UpdateStart();
-//#endif 
-//
-//		if (INSTANCE(FrameBuffersScreen).GetEnable())
-//			INSTANCE(FrameBuffersScreen).DrawStart();
-//		
-//		
-//		INSTANCE(GLWindow).DrawWindow();
-//		///Accept a buffer bit buffer Bitto specify the buffer to be emptied
-//		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-//
-//		INSTANCE(RenderManager).RenderCameras();
-//		INSTANCE(BaseSpace).Update();
-//
-//		INSTANCE(GLWindow).RunLoopOver();
-//		INSTANCE(BaseSpace).Finish();
-//
-//		if (INSTANCE(FrameBuffersScreen).GetEnable())
-//			INSTANCE(FrameBuffersScreen).DrawEnd();
-//		
-//#if MSAA_OPPSCREEN_POINT
-//		INSTANCE(MSAA).UpdateEnd();
-//#endif 
-//	}
+
 	SDL_Event event;
 	bool quit = false;
 	while (!quit)
 	{
-		while (SDL_PollEvent(&event)) {
-			if (event.type == SDL_QUIT) {
+		while (SDL_PollEvent(&event))
+		{
+			 if (event.type == SDL_QUIT) 
+			 {
 				quit = true;
-			}
+			 }
+			 const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
+			 if (currentKeyStates[SDL_SCANCODE_ESCAPE])
+			 {
+				 quit = true;
+			 }
 		}
-
+		
 		INSTANCE(TimeManager).Update();
 		//////////////////////////
 #if MSAA_OPPSCREEN_POINT

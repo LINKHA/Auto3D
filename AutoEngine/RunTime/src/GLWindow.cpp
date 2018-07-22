@@ -38,7 +38,7 @@ void GLWindow::RunLoopOver()
 {	
 	//GrSwapBuffers(_window);
 	SDL_GL_SwapWindow(_window);
-	/*get Events*/
+	
 }
 /**
 * @brief delete all resource
@@ -54,8 +54,8 @@ void GLWindow::CreateGameWindow()
 	int width, height;
 	//width = INSTANCE(Monitors).GetMonitorsWidthIndex(0);
 	//height = INSTANCE(Monitors).GetMonitorsHeightWithIndex(0);
-	width = 800;
-	height = 600;
+	width = 1920;
+	height = 1080;
 	if (_isFullScreen)
 	{
 		_windowRect.width = width;
@@ -71,12 +71,11 @@ void GLWindow::CreateGameWindow()
 	}
 
 
-	/*GLFWmonitor* pMonitor = _isFullScreen ? glfwGetPrimaryMonitor() : NULL;
-	GrCreateWindow(&_window, _windowRect.width, _windowRect.height, _titleName, pMonitor);
-	glfwSetWindowPos(_window, _windowRect.x - _windowRect.width/2, _windowRect.y - _windowRect.height / 2);
-	GrFrameSizeCallBack(_window, size_callback);*/
-	//_window = SDL_CreateWindow(_titleName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, _windowRect.width, _windowRect.height, SDL_WINDOW_SHOWN);
-	//_context = SDL_GL_CreateContext(_window);
+	//GLFWmonitor* pMonitor = _isFullScreen ? glfwGetPrimaryMonitor() : NULL;
+	//GrCreateWindow(&_window, _windowRect.width, _windowRect.height, _titleName, pMonitor);
+	//glfwSetWindowPos(_window, _windowRect.x - _windowRect.width/2, _windowRect.y - _windowRect.height / 2);
+	//GrFrameSizeCallBack(_window, size_callback);
+
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		ErrorString("Couldn't initialize SDL");
@@ -105,6 +104,7 @@ void GLWindow::CreateGameWindow()
 			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 			_windowRect.width, _windowRect.height, SDL_WINDOW_OPENGL
 		);
+		SDL_SetWindowPosition(_window, _windowRect.x - _windowRect.width / 2, _windowRect.y - _windowRect.height / 2);
 	}
 	if (_window == NULL)
 		ErrorString("Couldn't set video mode");
@@ -112,6 +112,9 @@ void GLWindow::CreateGameWindow()
 	_context = SDL_GL_CreateContext(_window);
 	if (_context == NULL)
 		ErrorString("Failed to create OpenGL context");
+
+	
+
 }
 
 
