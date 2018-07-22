@@ -10,19 +10,17 @@ int main() \
 #endif
 
 #ifdef __DIRECTX_11__
-#define AUTO_MAIN(space) \
+#define AUTO_MAIN(function) \
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd) \
 { \
-	space* work;\
-	return work->Launch;\
+	return function;\
 }
 #endif 
 
 #ifdef __DIRECTX_12__
-#define AUTO_MAIN(space) \
+#define AUTO_MAIN(function) \
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd) \
 { \
-	space* work;\
-	return work->Launch;\
+	return function;\
 }
 #endif 

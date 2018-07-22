@@ -11,7 +11,7 @@
 #define uMultLightsSpace 0
 #define uPBRSpace 0
 #define uPBRSkyBoxSpace 0
-#define uShadowSpace 1
+#define uShadowSpace 0
 #define uSkyBoxSpace 0
 #define uSSAOSpace 0
 #define uStencilTestSpace 0
