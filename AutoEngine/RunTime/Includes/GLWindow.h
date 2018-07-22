@@ -1,5 +1,9 @@
 #pragma once
 #include "GrFacade.h"
+
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_opengl.h"
+
 #include "AtConfig.h"
 #include "Auto.h"
 #include "Math/Color.h"
@@ -18,14 +22,17 @@ public:
 	void DestoryWindow();
 
 	void CreateGameWindow();
-	GLFWwindow* GetGLWindow() { return _window; }
+	//GLFWwindow* GetGLWindow() { return _window; }
+	SDL_Window* GetGLWindow() { return _window; }
 	RectInt GetWindowRectInt() { return _windowRect; }
 	void UpdateWindowRectInt(float width, float height) { _windowRect.width = width; _windowRect.height = height; }
 	char* GetTitle() { return _titleName; }
 	bool GetScreenFullorNot() { return true; }
 private:
-	// member
-	GLFWwindow* _window;
+	//GLFWwindow* _window;
+	SDL_Window * _window;
+	SDL_GLContext _context;
+
 	Color _drawColor;
 	// settings
 	RectInt _windowRect;

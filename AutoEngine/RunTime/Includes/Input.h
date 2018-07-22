@@ -7,13 +7,13 @@ class Input
 public:
 	Input();
 	~Input();
-	static bool GetKeyButtonDown(int index);
-	static bool GetKeyButtonRelease(int index);
-	static bool GetKeyButtonRepeat(int index);
+	//static bool GetKeyButtonDown(int index);
+	//static bool GetKeyButtonRelease(int index);
+	//static bool GetKeyButtonRepeat(int index);
 
-	static bool GetMouseButtonDown(int index);
-	static bool GetMouseButtonRelease(int index);
-	static bool GetMouseButtonRepeat(int index);
+	//static bool GetMouseButtonDown(int index);
+	//static bool GetMouseButtonRelease(int index);
+	//static bool GetMouseButtonRepeat(int index);
 };
 
 AUTO_END

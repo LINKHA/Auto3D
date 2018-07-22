@@ -1,26 +1,22 @@
 #pragma once
 #include <Windows.h>
-#define __OPENGL__
-#ifdef __OPENGL__
+#ifdef _MSC_VER
+#include <crtdbg.h>
+#endif
+
+#if defined(_MSC_VER) && defined(_DEBUG)
 #define AUTO_MAIN(function) \
-int main() \
+int main(int argc, char** argv) \
 { \
 	return function;\
 }
 #endif
 
-#ifdef __DIRECTX_11__
+#if defined(__ANDROID__) || defined(IOS)
 #define AUTO_MAIN(function) \
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd) \
+extern "C" __attribute__((visibility("default"))) int SDL_main(int argc, char** argv); \
+int SDL_main(int argc, char** argv) \
 { \
-	return function;\
-}
-#endif 
-
-#ifdef __DIRECTX_12__
-#define AUTO_MAIN(function) \
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd) \
-{ \
-	return function;\
+    return function; \
 }
 #endif 

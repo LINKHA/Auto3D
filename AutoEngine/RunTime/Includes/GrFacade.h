@@ -187,7 +187,8 @@ static void GrCloseWindow(GLFWwindow* window)
 /**
 * @brief Get Key return KeyButtonStatus
 */
-static int GrGetKey(GLFWwindow* window,int key)
+
+static int GrGetKey(GLFWwindow* window, int key)
 {
 #ifdef __OPENGL__
 	return glfwGetKey(window, key);
@@ -196,6 +197,7 @@ static int GrGetKey(GLFWwindow* window,int key)
 #ifdef __DIRECTX__
 #endif
 }
+
 /**
 * @brief Get Mouse Key return KeyButtonStatus
 */

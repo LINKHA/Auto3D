@@ -197,8 +197,9 @@ void HDRSkyBox::Draw()
 	m_backgroundShader.SetMat4("projection", projection);
 
 	// then before rendering, configure the viewport to the original framebuffer's screen dimensions
-	int scrWidth, scrHeight;
-	glfwGetFramebufferSize(INSTANCE(GLWindow).GetGLWindow(), &scrWidth, &scrHeight);
+	int scrWidth = 1024, scrHeight = 1024;
+	//glfwGetFramebufferSize(INSTANCE(GLWindow).GetGLWindow(), &scrWidth, &scrHeight);
+	
 	glViewport(0, 0, scrWidth, scrHeight);
 
 	glm::mat4 view = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();

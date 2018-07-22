@@ -46,7 +46,7 @@ enum ClassIDType
 	DO_CLASS_ID(LightSpot, 39)
 
 	DO_CLASS_ID(Engine,40)
-
+	DO_CLASS_ID(Graphics,41)
 
 
 	DO_CLASS_ID(debug_test, 100)
