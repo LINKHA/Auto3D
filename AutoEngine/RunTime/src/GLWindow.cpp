@@ -92,27 +92,26 @@ void GLWindow::CreateGameWindow()
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
 	// Create the window
-	//if (SCREEN_FULLSCREEN) {
+	if (_isFullScreen) {
 		_window = SDL_CreateWindow(
 			_titleName,
 			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 			0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_OPENGL
 		);
-	/*}
+	}
 	else {
 		_window = SDL_CreateWindow(
 			_titleName,
 			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-			SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL
+			_windowRect.width, _windowRect.height, SDL_WINDOW_OPENGL
 		);
-	}*/
+	}
 	if (_window == NULL)
 		ErrorString("Couldn't set video mode");
 
 	_context = SDL_GL_CreateContext(_window);
 	if (_context == NULL)
 		ErrorString("Failed to create OpenGL context");
-	//_context
 }
 
 

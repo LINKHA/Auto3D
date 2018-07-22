@@ -14,11 +14,9 @@ AUTO_BEGIN
 SINGLETON_INSTANCE(Application);
 
 //GLFWwindow* glfwWindow;
-SDL_Window* glfwWindow;
 Application::Application()
 {
 	INSTANCE(GLWindow).CreateGameWindow();
-	glfwWindow = INSTANCE(GLWindow).GetGLWindow();
 }
 Application::~Application()
 {
@@ -54,6 +52,9 @@ int Application::Init()
 {
 	INSTANCE(BaseSpace).Awake();
 	//glfwWindowHint(GLFW_SAMPLES, 4);
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
 
 	//stbi_set_flip_vertically_on_load(true);
 
@@ -70,7 +71,7 @@ int Application::Init()
 	SDL_GL_SetSwapInterval(1);
 
 	int w, h;
-	SDL_GetWindowSize(glfwWindow, &w, &h);
+	SDL_GetWindowSize(INSTANCE(GLWindow).GetGLWindow(), &w, &h);
 	glViewport(0, 0, w, h);
 	glClearColor(0.0f, 0.5f, 1.0f, 0.0f);
 
@@ -140,36 +141,42 @@ int Application::RunLoop()
 //	}
 	SDL_Event event;
 	bool quit = false;
-	while (!quit)
-	{
-
-		INSTANCE(TimeManager).Update();
-		//////////////////////////
+	//while (!quit)
+	//{
+		while (!quit && SDL_PollEvent(&event)) {
+			if (event.type == SDL_QUIT) {
+				quit = true;
+			}
+			INSTANCE(TimeManager).Update();
+			//////////////////////////
 #if MSAA_OPPSCREEN_POINT
-		INSTANCE(MSAA).UpdateStart();
+			INSTANCE(MSAA).UpdateStart();
 #endif 
 
-		if (INSTANCE(FrameBuffersScreen).GetEnable())
-			INSTANCE(FrameBuffersScreen).DrawStart();
+			if (INSTANCE(FrameBuffersScreen).GetEnable())
+				INSTANCE(FrameBuffersScreen).DrawStart();
 
 
-		INSTANCE(GLWindow).DrawWindow();
-		///Accept a buffer bit buffer Bitto specify the buffer to be emptied
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+			INSTANCE(GLWindow).DrawWindow();
+			///Accept a buffer bit buffer Bitto specify the buffer to be emptied
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-		INSTANCE(RenderManager).RenderCameras();
-		INSTANCE(BaseSpace).Update();
+			INSTANCE(RenderManager).RenderCameras();
+			INSTANCE(BaseSpace).Update();
 
-		INSTANCE(GLWindow).RunLoopOver();
-		INSTANCE(BaseSpace).Finish();
+			INSTANCE(GLWindow).RunLoopOver();
+			INSTANCE(BaseSpace).Finish();
 
-		if (INSTANCE(FrameBuffersScreen).GetEnable())
-			INSTANCE(FrameBuffersScreen).DrawEnd();
+			if (INSTANCE(FrameBuffersScreen).GetEnable())
+				INSTANCE(FrameBuffersScreen).DrawEnd();
 
 #if MSAA_OPPSCREEN_POINT
-		INSTANCE(MSAA).UpdateEnd();
+			INSTANCE(MSAA).UpdateEnd();
 #endif 
-	}
+		}
+
+		
+	//}
 
 	return AU_NORMAL;
 }
@@ -177,7 +184,6 @@ int Application::Finish()
 {
 
 	INSTANCE(GLWindow).DestoryWindow();
-	glfwWindow = nullptr;
 	return AU_NORMAL;
 }
 
