@@ -4,17 +4,17 @@ AUTO_BEGIN
 SINGLETON_INSTANCE(Monitors);
 Monitors::~Monitors()
 {
-	ppMonitor = nullptr;
+	//ppMonitor = nullptr;
 }
 
 Monitors::Monitors()
 {
-	ppMonitor = glfwGetMonitors(&monitorCount);
+	/*ppMonitor = glfwGetMonitors(&monitorCount);
 	for (int i = 0; i < monitorCount; i++)
 	{
 		const GLFWvidmode * mode = glfwGetVideoMode(ppMonitor[i]);
 		mnitors.push_back(M_PAIR(mode->width, mode->height));
-	}
+	}*/
 }
 
 Int32 Monitors::GetMonitorsCount()

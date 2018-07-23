@@ -108,10 +108,10 @@ int Application::RunLoop()
 
 	while (1)
 	{
-		INSTANCE(Input).Update();
-
-
 		INSTANCE(TimeManager).Update();
+		//Print(TimeManager::Instance().GetDeltaTime());
+		INSTANCE(Input).Update();
+		
 		//////////////////////////
 #if MSAA_OPPSCREEN_POINT
 		INSTANCE(MSAA).UpdateStart();
@@ -132,13 +132,7 @@ int Application::RunLoop()
 		INSTANCE(BaseSpace).Finish();
 
 
-
-
 		INSTANCE(Input).EndFrame();
-
-
-
-
 
 
 		if (INSTANCE(FrameBuffersScreen).GetEnable())

@@ -112,7 +112,8 @@ glm::mat4& Camera::GetProjectionMatrix()
 void Camera::ProcessKeyboard(CameraMovement direction, float deltaTime)
 {
 	float velocity = _movementSpeed * deltaTime;
-	if (direction == FORWARD)
+	std::cout << velocity << std::endl;
+	if (direction == FORWARD) 
 		_position += _front * velocity;
 	if (direction == BACKWARD)
 		_position -= _front * velocity;

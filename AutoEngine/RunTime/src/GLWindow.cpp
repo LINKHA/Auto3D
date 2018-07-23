@@ -7,10 +7,10 @@ AUTO_BEGIN
 
 SINGLETON_INSTANCE(GLWindow);
 
-void size_callback(GLFWwindow* window, int width, int height)
-{
-	INSTANCE(GLWindow).UpdateWindowRectInt(width, height);
-}
+//void size_callback(GLFWwindow* window, int width, int height)
+//{
+//	INSTANCE(GLWindow).UpdateWindowRectInt(width, height);
+//}
 
 //public funcation
 GLWindow::GLWindow()
@@ -31,7 +31,7 @@ GLWindow::~GLWindow()
 
 void GLWindow::DrawWindow()
 {
-	GrClearColor(_drawColor);
+	//GrClearColor(_drawColor);
 	
 }
 void GLWindow::RunLoopOver()
@@ -54,8 +54,8 @@ void GLWindow::CreateGameWindow()
 	int width, height;
 	//width = INSTANCE(Monitors).GetMonitorsWidthIndex(0);
 	//height = INSTANCE(Monitors).GetMonitorsHeightWithIndex(0);
-	width = 1920;
-	height = 1080;
+	width = 1280;
+	height = 720;
 	if (_isFullScreen)
 	{
 		_windowRect.width = width;
@@ -75,7 +75,6 @@ void GLWindow::CreateGameWindow()
 	//GrCreateWindow(&_window, _windowRect.width, _windowRect.height, _titleName, pMonitor);
 	//glfwSetWindowPos(_window, _windowRect.x - _windowRect.width/2, _windowRect.y - _windowRect.height / 2);
 	//GrFrameSizeCallBack(_window, size_callback);
-
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		ErrorString("Couldn't initialize SDL");
@@ -113,7 +112,6 @@ void GLWindow::CreateGameWindow()
 	if (_context == NULL)
 		ErrorString("Failed to create OpenGL context");
 
-	
 
 }
 

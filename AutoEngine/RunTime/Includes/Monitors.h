@@ -13,7 +13,7 @@ AUTO_BEGIN
 class Monitors : public Singleton<Monitors>
 {
 private:
-	GLFWmonitor** ppMonitor;
+	//GLFWmonitor** ppMonitor;
 	Int32 monitorCount;
 
 public:

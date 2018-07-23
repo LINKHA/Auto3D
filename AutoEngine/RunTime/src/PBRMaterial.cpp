@@ -7,6 +7,7 @@
 #include "BaseMesh.h"
 #include "HDRSkyBox.h"
 #include "RenderManager.h"
+#include "TimeManager.h"
 AUTO_BEGIN
 glm::vec3 lightPositions[] = {
 	glm::vec3(-10.0f,  10.0f, 10.0f),
@@ -91,7 +92,7 @@ void PBRMaterial::Draw()
 	// keeps the codeprint small.
 	for (unsigned int i = 0; i < sizeof(lightPositions) / sizeof(lightPositions[0]); ++i)
 	{
-		glm::vec3 newPos = lightPositions[i] + glm::vec3(sin(glfwGetTime() * 5.0) * 5.0, 0.0, 0.0);
+		glm::vec3 newPos = lightPositions[i] + glm::vec3(sin(INSTANCE(TimeManager).GetCurTime() * 5.0) * 5.0, 0.0, 0.0);
 		newPos = lightPositions[i];
 		pbrShader.SetVec3("lightPositions[" + std::to_string(i) + "]", newPos);
 		pbrShader.SetVec3("lightColors[" + std::to_string(i) + "]", lightColors[i]);

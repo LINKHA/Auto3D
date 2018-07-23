@@ -77,7 +77,7 @@ void TextureSpace::Start()
 }
 void TextureSpace::Update()
 {
-	float scaleAmount = (float)sin(GrGetTime());
+	float scaleAmount = (float)sin(INSTANCE(TimeManager).GetCurTime());
 	Transform& t = te_obj->GetComponent(Transform);
 ////	t.SetPosition(1.0f, 1.0f, 0.0f);
 	t.SetRotation(Vector3(0.0f, 0.0f, 90.0f));

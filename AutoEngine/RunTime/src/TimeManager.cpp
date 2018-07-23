@@ -1,5 +1,6 @@
 #include "TimeManager.h"
 #include "GrFacade.h"
+#include "SDL2/SDL.h"
 AUTO_BEGIN
 SINGLETON_INSTANCE(TimeManager);
 SYSTEMTIME  sysTime;
@@ -106,8 +107,8 @@ void TimeManager::Update()
 		_firstFrame = false;
 		return;
 	}
-	double time = GrGetTime();
-	SetTime(time);
+	double time = SDL_GetTicks();
+	SetTime(time/1000);
 }
 
 

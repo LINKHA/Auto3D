@@ -4,6 +4,7 @@
 #include "LoadResource.h"
 #include "BaseMesh.h"
 #include "RenderManager.h"
+#include "TimeManager.h"
 AUTO_BEGIN
 glm::vec3 t_lightPositions[] = {
 	glm::vec3(-10.0f,  10.0f, 10.0f),
@@ -89,7 +90,7 @@ void PBRTexture::Draw()
 	// keeps the codeprint small.
 	for (unsigned int i = 0; i < sizeof(t_lightPositions) / sizeof(t_lightPositions[0]); ++i)
 	{
-		glm::vec3 newPos = t_lightPositions[i] + glm::vec3(sin(glfwGetTime() * 5.0) * 5.0, 0.0, 0.0);
+		glm::vec3 newPos = t_lightPositions[i] + glm::vec3(sin(INSTANCE(TimeManager).GetCurTime() * 5.0) * 5.0, 0.0, 0.0);
 		newPos = t_lightPositions[i];
 		m_shader.SetVec3("lightPositions[" + std::to_string(i) + "]", newPos);
 		m_shader.SetVec3("lightColors[" + std::to_string(i) + "]", t_lightColors[i]);

@@ -1,8 +1,8 @@
 #pragma once
-#include "GrFacade.h"
+//#include "GrFacade.h"
 
 #include "SDL2/SDL.h"
-#include "SDL2/SDL_opengl.h"
+//#include "SDL2/SDL_opengl.h"
 
 #include "AtConfig.h"
 #include "Auto.h"

@@ -1,8 +1,10 @@
 #include "Input.h"
 #include "SDL2/SDL.h"
+#include "GLWindow.h"
 AUTO_BEGIN
 SINGLETON_INSTANCE(Input);
 Input::Input()
+	:_isMouseMove(false)
 {
 }
 
@@ -13,35 +15,28 @@ Input::~Input()
 
 void Input::HandleWindowEvents()
 {
-	SDL_Event _event;
-	while (SDL_PollEvent(&_event))
-	{
-		if (_event.type == SDL_QUIT)
-		{
-		
-		}
-		if (_event.type == SDL_KEYDOWN)
-		{
-			if (_event.key.keysym.sym == SDLK_a)
-			{
-				Print(1);
-			}
-			if (_event.key.keysym.sym == SDLK_s)
-			{
 
-				Print(2);
-			}
 
-		}
-	}
 }
 
 void Input::Update()
 {
 	SDL_Event evt;
 	while (SDL_PollEvent(&evt))
+	{
 		HandleSDLEvent(&evt);
+		int MidX = 1280 / 2;   //middle of the screen
+		int MidY = 720 / 2;
+		int tmpx, tmpy;
+		SDL_GetMouseState(&tmpx, &tmpy); //get the current position of the cursor
+		//camYaw += mousevel * (MidX - tmpx);   //get the rotation, for example, if the mouse current position is 315, than 5*0.2, this is for Y
+		//camPitch += mousevel * (MidY - tmpy); //this is for X
+		//lockCamera();
+		//SDL_WarpMouse(MidX, MidY);       //move back the cursor to the center of the screen
+		SDL_WarpMouseInWindow(INSTANCE(GLWindow).GetGLWindow(), MidX, MidY);
 
+	}
+		
 }
 
 void Input::HandleSDLEvent(void* sdlEvent)
@@ -50,12 +45,23 @@ void Input::HandleSDLEvent(void* sdlEvent)
 	switch (evt.type)
 	{
 	case SDL_KEYDOWN:
-		//SendEvent
-		SetKey(evt.key.keysym.sym,true);
-		break;
+		SetKey(evt.key.keysym.sym,true); break;
 	case SDL_KEYUP:
-		SetKey(evt.key.keysym.sym, false);
-		//SendEvent
+		SetKey(evt.key.keysym.sym, false); break;
+	case SDL_MOUSEMOTION:
+		int x, y;
+		SDL_GetMouseState(&x, &y);
+		_mousePosition.x = x;
+		_mousePosition.y = y;
+		_mouseMove.x = evt.motion.xrel;
+		_mouseMove.y = -evt.motion.yrel;
+		_isMouseMove = true;
+	case SDL_MOUSEBUTTONDOWN:
+
+	case SDL_MOUSEBUTTONUP:
+
+	case SDL_MOUSEWHEEL:
+
 	case SDL_QUIT:
 		break;
 	}
@@ -76,6 +82,9 @@ void Input::SetKey(int key, bool newState)
 void Input::EndFrame()
 {
 	_keysDown.clear();
+	_mouseMove.x = 0;
+	_mouseMove.y = 0;
+	_isMouseMove = false;
 }
 
 bool Input::GetKeyDown(int key)

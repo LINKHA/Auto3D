@@ -10,12 +10,12 @@
 #define uMoreCameraSpace 0
 #define uMultLightsSpace 0
 #define uPBRSpace 0
-#define uPBRSkyBoxSpace 0
+#define uPBRSkyBoxSpace 1
 #define uShadowSpace 0
 #define uSkyBoxSpace 0
 #define uSSAOSpace 0
 #define uStencilTestSpace 0
-#define uTextureSpace 1
+#define uTextureSpace 0
 #define uNormalMappingSpace 0
 #define uParallaxMappingSpace 0
 #define uVertexExplodeSpace 0
