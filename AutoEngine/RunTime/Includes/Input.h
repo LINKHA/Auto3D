@@ -2,6 +2,7 @@
 #include "Auto.h"
 #include "InputManager.h"
 #include "stl_use.h"
+#include "Singleton.h"
 AUTO_BEGIN
 struct JoystickState
 {
@@ -10,25 +11,25 @@ struct JoystickState
 	_VECTOR(bool)	_buttons;
 	_VECTOR(bool)	_buttonPress;
 };
-class Input
+class Input : public Singleton<Input>
 {
 public:
 	Input();
 	~Input();
-	/*static bool GetKeyButtonDown(int index);
-	static bool GetKeyButtonRelease(int index);
-	static bool GetKeyButtonRepeat(int index);
 
-	static bool GetMouseButtonDown(int index);
-	static bool GetMouseButtonRelease(int index);
-	static bool GetMouseButtonRepeat(int index);*/
+	void HandleWindowEvents();
+	void Update();
+	void SetKey(int key, bool newState);
+	void EndFrame();
 
+	bool GetKeyDown(int key);
+	bool GetKeyPress(int key);
+private:
+	void HandleSDLEvent(void* sdlEvent);
 	
-	
-	//bool GetKeyDown(int key) const { return _buttons; }
-	//bool GetKeyPress(int key) const {}
-	_VECTOR(bool)	_buttonDown;
-	_VECTOR(bool)	_buttonPress;
+private:
+	_SET(int)	_keysDown;
+	_SET(int)	_keysPress;
 };
 
 AUTO_END

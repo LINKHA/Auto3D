@@ -9,6 +9,7 @@
 #include "Shadow.h"
 #include "../../EngineSetting/Optimize.h"
 #include "GLDebug.h"
+#include "Input.h"
 AUTO_BEGIN
 
 SINGLETON_INSTANCE(Application);
@@ -58,11 +59,6 @@ int Application::Init()
 
 	//stbi_set_flip_vertically_on_load(true);
 
-	/*if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-	{
-		ErrorString("Failed to initialize GLAD from Engine\n");
-		return AU_ERROR;
-	}*/
 	if (!gladLoadGLLoader(SDL_GL_GetProcAddress))
 	{
 		ErrorString("Failed to initialize GLAD from Engine\n");
@@ -72,8 +68,8 @@ int Application::Init()
 
 	int w, h;
 	SDL_GetWindowSize(INSTANCE(GLWindow).GetGLWindow(), &w, &h);
-	glViewport(0, 0, w, h);
-	glClearColor(0.0f, 0.5f, 1.0f, 0.0f);
+	//glViewport(0, 0, w, h);
+	//glClearColor(0.0f, 0.5f, 1.0f, 0.0f);
 
 	GLint flags; glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
 	if (flags & GL_CONTEXT_FLAG_DEBUG_BIT)
@@ -110,23 +106,11 @@ int Application::RunLoop()
 		INSTANCE(FrameBuffersScreen).Start();
 	}
 
-	SDL_Event event;
-	bool quit = false;
-	while (!quit)
+	while (1)
 	{
-		while (SDL_PollEvent(&event))
-		{
-			 if (event.type == SDL_QUIT) 
-			 {
-				quit = true;
-			 }
-			 const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
-			 if (currentKeyStates[SDL_SCANCODE_ESCAPE])
-			 {
-				 quit = true;
-			 }
-		}
-		
+		INSTANCE(Input).Update();
+
+
 		INSTANCE(TimeManager).Update();
 		//////////////////////////
 #if MSAA_OPPSCREEN_POINT
@@ -146,6 +130,16 @@ int Application::RunLoop()
 
 		INSTANCE(GLWindow).RunLoopOver();
 		INSTANCE(BaseSpace).Finish();
+
+
+
+
+		INSTANCE(Input).EndFrame();
+
+
+
+
+
 
 		if (INSTANCE(FrameBuffersScreen).GetEnable())
 			INSTANCE(FrameBuffersScreen).DrawEnd();
