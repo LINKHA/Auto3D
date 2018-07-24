@@ -34,11 +34,11 @@ PBRTextureMaterial::~PBRTextureMaterial()
 void PBRTextureMaterial::Start()
 {
 
-	glEnable(GL_DEPTH_TEST);
-	// set depth function to less than AND equal for skybox depth trick.
-	glDepthFunc(GL_LEQUAL);
-	// enable seamless cubemap sampling for lower mip levels in the pre-filter map.
-	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+	//glEnable(GL_DEPTH_TEST);
+	//// set depth function to less than AND equal for skybox depth trick.
+	//glDepthFunc(GL_LEQUAL);
+	//// enable seamless cubemap sampling for lower mip levels in the pre-filter map.
+	//glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
 	pbrShader.Use();
 	pbrShader.SetInt("irradianceMap", 0);

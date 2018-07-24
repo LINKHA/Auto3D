@@ -49,5 +49,5 @@ inline const char* LogTypeToString(LogType type)
 #define WarningIfString(term,x)	do { if (term) DebugStringToFile (x,LogType_Warning)}while(0)
 #define WarningString(x)		do { DebugStringToFile (x,LogType_Warning);}while(0)	
 #define LogString(x)			do { DebugStringToFile(x,LogType_Log);} while(0)
-#define Print(x)				do { std::cout<<x<<std::endl; }while(0)
+#define Print(x)				do { DebugStringToFile(x,LogType_Log); }while(0)
 

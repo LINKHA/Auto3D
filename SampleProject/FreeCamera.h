@@ -3,8 +3,8 @@
 #include "GameObject.h"
 #include "Camera.h"
 #include "ObjectDefines.h"
-USING_AUTO
 
+USING_AUTO
 class FreeCamera : public ScriptComponent
 {
 public:
@@ -12,5 +12,9 @@ public:
 	~FreeCamera();
 	void Start()override;
 	void Update()override;
+	GameObject* freeCameraObject;
+	Camera * freeCamera;
+private:
+	void processInput();
 };
 

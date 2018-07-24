@@ -38,7 +38,7 @@ void GLWindow::RunLoopOver()
 {	
 	//GrSwapBuffers(_window);
 	SDL_GL_SwapWindow(_window);
-	
+
 }
 /**
 * @brief delete all resource
@@ -54,8 +54,8 @@ void GLWindow::CreateGameWindow()
 	int width, height;
 	//width = INSTANCE(Monitors).GetMonitorsWidthIndex(0);
 	//height = INSTANCE(Monitors).GetMonitorsHeightWithIndex(0);
-	width = 1280;
-	height = 720;
+	width = 1920;
+	height = 1080;
 	if (_isFullScreen)
 	{
 		_windowRect.width = width;
@@ -81,7 +81,7 @@ void GLWindow::CreateGameWindow()
 	atexit(SDL_Quit);
 	SDL_GL_LoadLibrary(NULL); // Default OpenGL is fine.
 
-							  // Request an OpenGL 4.5 context (should be core)
+							  // Request an OpenGL 4.3 context (should be core)
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);

@@ -25,8 +25,8 @@ void PBRSkyBoxSpace::Start()
 
 
 	GameObject * pbrObj = new GameObject();
-	PBRMaterial * pbr = new PBRMaterial();
-	//PBRTextureMaterial * pbr = new PBRTextureMaterial();
+	//PBRMaterial * pbr = new PBRMaterial();
+	PBRTextureMaterial * pbr = new PBRTextureMaterial();
 	pbrObj->AddComponent(pbr);
 
 }

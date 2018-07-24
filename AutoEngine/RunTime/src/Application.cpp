@@ -66,8 +66,8 @@ int Application::Init()
 	}
 	SDL_GL_SetSwapInterval(1);
 
-	int w, h;
-	SDL_GetWindowSize(INSTANCE(GLWindow).GetGLWindow(), &w, &h);
+	//int w, h;
+	//SDL_GetWindowSize(INSTANCE(GLWindow).GetGLWindow(), &w, &h);
 	//glViewport(0, 0, w, h);
 	//glClearColor(0.0f, 0.5f, 1.0f, 0.0f);
 
@@ -105,13 +105,14 @@ int Application::RunLoop()
 	{
 		INSTANCE(FrameBuffersScreen).Start();
 	}
-
-	while (1)
+	bool quitFlag = true;
+	while (quitFlag)
 	{
 		INSTANCE(TimeManager).Update();
 		//Print(TimeManager::Instance().GetDeltaTime());
 		INSTANCE(Input).Update();
-		
+		if (INSTANCE(Input).GetKeyDown(SDLK_ESCAPE))
+			quitFlag = false;
 		//////////////////////////
 #if MSAA_OPPSCREEN_POINT
 		INSTANCE(MSAA).UpdateStart();
@@ -124,7 +125,7 @@ int Application::RunLoop()
 		INSTANCE(GLWindow).DrawWindow();
 		///Accept a buffer bit buffer Bitto specify the buffer to be emptied
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-
+		//glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		INSTANCE(RenderManager).RenderCameras();
 		INSTANCE(BaseSpace).Update();
 

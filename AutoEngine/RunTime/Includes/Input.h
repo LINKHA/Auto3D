@@ -22,6 +22,7 @@ public:
 	void HandleWindowEvents();
 	void Update();
 	void SetKey(int key, bool newState);
+	void SetWheel(int delta);
 	void EndFrame();
 
 	bool GetKeyDown(int key);
@@ -29,16 +30,25 @@ public:
 	Vector2& GetMousePosition() { return _mousePosition; }
 	Vector2& GetMouseMove()		{ return _mouseMove; }
 	bool IsMouseMove()			{ return _isMouseMove; }
+	int GetMouseWheelMove()		{ return _mouseMoveWheel; }
+	int GetMouseWheelOffset()	{ return _mouseWheelOffset; }
+	void LockCursor(int x, int y);
+	void LockCursorInCenter();
+	void ShowCursor(bool enable);
 private:
-	void HandleSDLEvent(void* sdlEvent);
-	
+	void handleSDLEvent(void* sdlEvent);
+	void lockCursor(int x, int y);
 private:
 	_SET(int)	_keysDown;
 	_SET(int)	_keysPress;
 	Vector2		_mousePosition;
 	Vector2		_lastMousePosition;
 	Vector2		_mouseMove;
+	int			_mouseWheelOffset{};
+	int			_mouseMoveWheel{};
 	bool		_isMouseMove;
+	bool		_isLockCursor;
+	Vector2		_lockMousePosition;
 };
 
 AUTO_END

@@ -82,37 +82,10 @@ glm::mat4& Camera::GetProjectionMatrix()
 	else
 		ErrorString("Fail to set projection matrix");
 }
-//
-//glm::mat4 Camera::GetViewMatrix()
-//{
-//	return glm::lookAt(_position, _position + _front, _up);
-//}
-//glm::mat4 Camera::GetProjectionMatrix()
-//{
-//	RectInt rect = INSTANCE(GLWindow).GetWindowRectInt();
-//	if (_sortMode == kSortPerspective)
-//	{
-//		glm::mat4 projectionMat = glm::perspective(_zoom,
-//			((float)rect.width * (float)_viewRect.width) /
-//			((float)rect.height * (float)_viewRect.height),
-//			_near, _far);
-//		return projectionMat;
-//	}
-//	else if (_sortMode == kSortOrthographic)
-//	{
-//		float t = ((float)rect.width * (float)_viewRect.width) /
-//			((float)rect.height * (float)_viewRect.height);
-//		glm::mat4 projectionMat = glm::ortho(-t, t, -1.0f, 1.0f, _near, _far);
-//		return projectionMat;
-//	}
-//	else
-//		ErrorString("Fail to set projection matrix");
-//}
-// Processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
+
 void Camera::ProcessKeyboard(CameraMovement direction, float deltaTime)
 {
 	float velocity = _movementSpeed * deltaTime;
-	std::cout << velocity << std::endl;
 	if (direction == FORWARD) 
 		_position += _front * velocity;
 	if (direction == BACKWARD)

@@ -10,7 +10,7 @@
 #define uMoreCameraSpace 0
 #define uMultLightsSpace 0
 #define uPBRSpace 0
-#define uPBRSkyBoxSpace 1
+#define uPBRSkyBoxSpace 0
 #define uShadowSpace 0
 #define uSkyBoxSpace 0
 #define uSSAOSpace 0
