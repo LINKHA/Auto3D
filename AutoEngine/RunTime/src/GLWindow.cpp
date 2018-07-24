@@ -16,7 +16,7 @@ SINGLETON_INSTANCE(GLWindow);
 GLWindow::GLWindow()
 	: _window(nullptr)
 {
-	_drawColor.Set(0.0f, 0.0f, 0.0f, 1.0f);
+	_drawColor.Set(0.0f, 0.0f, 0.0f, 0.0f);
 	_titleName = "Auto V0.0";
 	_windowRect.x = 0;
 	_windowRect.y = 0;
@@ -32,13 +32,13 @@ GLWindow::~GLWindow()
 void GLWindow::DrawWindow()
 {
 	//GrClearColor(_drawColor);
+	glClearColor(_drawColor.r, _drawColor.g, _drawColor.b, _drawColor.a);
 	
 }
 void GLWindow::RunLoopOver()
 {	
 	//GrSwapBuffers(_window);
 	SDL_GL_SwapWindow(_window);
-
 }
 /**
 * @brief delete all resource
@@ -90,14 +90,16 @@ void GLWindow::CreateGameWindow()
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
 	// Create the window
-	if (_isFullScreen) {
+	if (_isFullScreen) 
+	{
 		_window = SDL_CreateWindow(
 			_titleName,
 			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 			0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_OPENGL
 		);
 	}
-	else {
+	else 
+	{
 		_window = SDL_CreateWindow(
 			_titleName,
 			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
@@ -111,8 +113,12 @@ void GLWindow::CreateGameWindow()
 	_context = SDL_GL_CreateContext(_window);
 	if (_context == NULL)
 		ErrorString("Failed to create OpenGL context");
+	
+	
+	SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
 
-
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
 }
 
 

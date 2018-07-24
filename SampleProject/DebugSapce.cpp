@@ -11,16 +11,10 @@ DebugSapce::~DebugSapce()
 
 void DebugSapce::Start()
 {
-	GameObject* obj = new GameObject();
-	Component* debug = new debug_test();
-	Print(debug->GetSharedPtrTypeStringVirtual());
-	obj->AddComponent(debug);
 }
-
 void DebugSapce::Update()
 {
 }
-
 int DebugSapce::Launch()
 {
 	return INSTANCE(Application).Run();

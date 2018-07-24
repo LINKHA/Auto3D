@@ -1,7 +1,6 @@
 #pragma once
 // OpenGL
 #include "glad.h"
-//#include "glfw/glfw3.h"
 #include "SDL2/SDL.h"
 
 

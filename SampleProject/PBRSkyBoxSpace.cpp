@@ -6,6 +6,7 @@
 #include "PBRTextureMaterial.h"
 #include "HDRSkybox.h"
 #include "SampleSet.h"
+#include "Sprite.h"
 PBRSkyBoxSpace::PBRSkyBoxSpace()
 {}
 PBRSkyBoxSpace::~PBRSkyBoxSpace()
@@ -18,6 +19,7 @@ void PBRSkyBoxSpace::Start()
 	cameraObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 	cameraObj->AddComponent(camera);
 
+	
 
 	GameObject * skyboxObj = new GameObject();
 	HDRSkyBox * skybox = new HDRSkyBox();
@@ -25,8 +27,8 @@ void PBRSkyBoxSpace::Start()
 
 
 	GameObject * pbrObj = new GameObject();
-	//PBRMaterial * pbr = new PBRMaterial();
-	PBRTextureMaterial * pbr = new PBRTextureMaterial();
+	PBRMaterial * pbr = new PBRMaterial();
+	//PBRTextureMaterial * pbr = new PBRTextureMaterial();
 	pbrObj->AddComponent(pbr);
 
 }

@@ -13,17 +13,20 @@ Sprite::Sprite()
 		, AtConfig::shader_path + "au_texture_transform.aufs"))
 {
 	_imagePath.ptr = "Resource/texture/square.jpg";
+	_color.Set(1.0f, 1.0f, 1.0f, 1.0f);
 }
 Sprite::Sprite(char* imagePath)
 	: _shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs"
 		, AtConfig::shader_path + "au_texture_transform.aufs"))
 {
 	_imagePath.ptr = imagePath;
+	_color.Set(1.0f, 1.0f, 1.0f, 1.0f);
 }
 Sprite::Sprite(char* imagePath, const Shader & shader)
 	: _shader(shader)
 {
 	_imagePath.ptr = imagePath;
+	_color.Set(1.0f, 1.0f, 1.0f, 1.0f);
 }
 Sprite::~Sprite()
 {
@@ -81,7 +84,7 @@ void Sprite::Start()
 
 void Sprite::Draw()
 {
-	GLApply();
+	//GLApply();
 
 	if (INSTANCE(RenderManager).GetCurrentCameraPtr() == nullptr)
 	{
@@ -111,7 +114,7 @@ void Sprite::Draw()
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
-	GLOriginal();
+	//GLOriginal();
 }
 void Sprite::SetColor(const Color& color)
 {
