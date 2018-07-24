@@ -5,7 +5,8 @@
 #include "Mesh.h"
 #include "TextureNormal.h"
 #include "SampleSet.h"
-NormalMappingSpace::NormalMappingSpace()
+NormalMappingSpace::NormalMappingSpace(Ambient* ambient)
+	:MotionSpace(ambient)
 {}
 NormalMappingSpace::~NormalMappingSpace()
 {}

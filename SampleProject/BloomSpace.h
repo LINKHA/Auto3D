@@ -6,7 +6,7 @@ USING_AUTO
 class BloomSpace : public MotionSpace
 {
 public:
-	BloomSpace();
+	explicit BloomSpace(Ambient* ambient);
 	~BloomSpace();
 	void Start()override;
 	void Update()override;

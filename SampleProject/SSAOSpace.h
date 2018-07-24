@@ -4,7 +4,7 @@ USING_AUTO
 class SSAOSpace : public MotionSpace
 {
 public:
-	SSAOSpace();
+	explicit SSAOSpace(Ambient* ambient);
 	~SSAOSpace();
 	void Start()override;
 	void Update()override;

@@ -4,7 +4,7 @@ USING_AUTO
 class ShadowSpace : public MotionSpace
 {
 public:
-	ShadowSpace();
+	explicit ShadowSpace(Ambient* ambient);
 	~ShadowSpace();
 	void Start()override;
 	void Update()override;

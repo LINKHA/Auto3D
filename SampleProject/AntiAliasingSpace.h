@@ -4,7 +4,7 @@ USING_AUTO
 class AntiAliasingSpace : public MotionSpace
 {
 public:
-	AntiAliasingSpace();
+	explicit AntiAliasingSpace(Ambient* ambient);
 	~AntiAliasingSpace();
 	void Start()override;
 	void Update()override;

@@ -4,7 +4,7 @@ USING_AUTO
 class ParallaxMappingSpace : public MotionSpace
 {
 public:
-	ParallaxMappingSpace();
+	explicit ParallaxMappingSpace(Ambient* ambient);
 	~ParallaxMappingSpace();
 	void Start()override;
 	void Update()override;

@@ -4,7 +4,8 @@
 #include "FreeCamera.h"
 #include "debug_test.h"
 #include "SampleSet.h"
-DebugSapce::DebugSapce()
+DebugSapce::DebugSapce(Ambient* ambient)
+	:MotionSpace(ambient)
 {}
 DebugSapce::~DebugSapce()
 {}

@@ -9,7 +9,8 @@
 #include "SampleSet.h"
 GameObject* te_obj;
 
-TextureSpace::TextureSpace()
+TextureSpace::TextureSpace(Ambient* ambient)
+	:MotionSpace(ambient)
 {
 }
 TextureSpace::~TextureSpace()

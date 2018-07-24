@@ -6,7 +6,8 @@
 #include "LightDirectional.h"
 #include "HDR.h"
 #include "SampleSet.h"
-HDRSpace::HDRSpace()
+HDRSpace::HDRSpace(Ambient* ambient)
+	:MotionSpace(ambient)
 {}
 HDRSpace::~HDRSpace()
 {}

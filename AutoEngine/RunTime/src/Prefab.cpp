@@ -2,15 +2,12 @@
 #include "PreLoadManager.h"
 AUTO_BEGIN
 
-Prefab::Prefab(GameObject* gameObject)
-	:_gameObject(gameObject)
+Prefab::Prefab(Ambient* ambient)
+	:Super(ambient)
 {
 	INSTANCE(PreLoadManager).AddPrefab(this);
 }
-Prefab::Prefab(GameObject& gameObject)
-	: _gameObject(&gameObject)
-{
-}
+
 
 Prefab::~Prefab()
 {}

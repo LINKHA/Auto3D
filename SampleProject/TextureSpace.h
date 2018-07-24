@@ -6,7 +6,7 @@ USING_AUTO
 class TextureSpace : public MotionSpace
 {
 public:
-	TextureSpace();
+	explicit TextureSpace(Ambient* ambient);
 	~TextureSpace();
 	void Start()override;
 	void Update()override;

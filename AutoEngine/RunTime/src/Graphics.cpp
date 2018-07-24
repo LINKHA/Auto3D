@@ -2,7 +2,8 @@
 
 
 AUTO_BEGIN
-Graphics::Graphics()
+Graphics::Graphics(Ambient* ambient)
+	:Super(ambient)
 {
 }
 

@@ -5,7 +5,8 @@
 #include "Mesh.h"
 #include "Bloom.h"
 #include "SampleSet.h"
-BloomSpace::BloomSpace()
+BloomSpace::BloomSpace(Ambient* ambient)
+	:MotionSpace(ambient)
 {}
 BloomSpace::~BloomSpace()
 {}

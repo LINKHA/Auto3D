@@ -10,7 +10,7 @@ class MotionSpace : Object
 	REGISTER_DERIVED_ABSTRACT_CLASS(MotionSpace, Object);
 	DECLARE_OBJECT_SERIALIZE(MotionSpace);
 public:
-	MotionSpace();
+	explicit MotionSpace(Ambient* ambient);
 	virtual void Awake() {}
 	virtual void Start() {}
 	virtual void Update() {}

@@ -9,7 +9,8 @@
 #include "TimeManager.h"
 #include "SampleSet.h"
 USING_MATH
-MassInstantiationSpace::MassInstantiationSpace()
+MassInstantiationSpace::MassInstantiationSpace(Ambient* ambient)
+	:MotionSpace(ambient)
 {
 }
 MassInstantiationSpace::~MassInstantiationSpace()

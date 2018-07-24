@@ -1,5 +1,5 @@
 #include "Object.h"
-
+#include "Ambient.h"
 AUTO_BEGIN
 typedef AUTO_MAP(Int32, Object::RTTI) RTTIMap;
 typedef AUTO_MAP(char*, SInt32) StringToClassIDMap;
@@ -12,7 +12,8 @@ static StringToClassIDMap*						gStringToClassID = NULL;
 //class BaseObjeect
 //////////////////////////////////////////////////////////////////////////
 
-Object::Object()
+Object::Object(Ambient* ambient)
+	:_ambient(ambient)
 {
 	_instanceID = 0;
 	_classID = 0;

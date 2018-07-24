@@ -7,7 +7,8 @@
 #include "LightDirectional.h"
 #include "SkyBoxReflectMesh.h"
 #include "SampleSet.h"
-SkyBoxSpace::SkyBoxSpace()
+SkyBoxSpace::SkyBoxSpace(Ambient* ambient)
+	:MotionSpace(ambient)
 {
 }
 

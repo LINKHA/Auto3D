@@ -12,11 +12,13 @@ GameManager::~GameManager()
 {
 }
 
-LevelGameManager::LevelGameManager() : Super() { }
+LevelGameManager::LevelGameManager()
+{ }
 LevelGameManager::~LevelGameManager(){}
 
 
-GlobalGameManager::GlobalGameManager() : Super() { }
+GlobalGameManager::GlobalGameManager()
+{ }
 GlobalGameManager::~GlobalGameManager(){}
 AUTO_END
 

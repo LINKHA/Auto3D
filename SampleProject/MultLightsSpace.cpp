@@ -23,7 +23,8 @@ GameObject* mu_lightObj3;
 
 GameObject* mu_camObj;
 
-MultLightsSpace::MultLightsSpace()
+MultLightsSpace::MultLightsSpace(Ambient* ambient)
+	:MotionSpace(ambient)
 {}
 MultLightsSpace::~MultLightsSpace()
 {}

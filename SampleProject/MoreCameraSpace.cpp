@@ -7,7 +7,8 @@
 #include "FreeCamera.h"
 #include "LightPoint.h"
 #include "SampleSet.h"
-MoreCameraSpace::MoreCameraSpace()
+MoreCameraSpace::MoreCameraSpace(Ambient* ambient)
+	:MotionSpace(ambient)
 {
 }
 MoreCameraSpace::~MoreCameraSpace()

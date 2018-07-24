@@ -1,11 +1,15 @@
 #include "GameObject.h"
 #include "GameObjectManager.h"
 #include "Transform.h"
+#include "Ambient.h"
+
 AUTO_BEGIN
 //////////////////////////////////////////////////////////////////////////
 //Node
 //////////////////////////////////////////////////////////////////////////
-Node::Node() {}
+Node::Node(Ambient* ambient)
+	:Super(ambient)
+{}
 Node::~Node() {}
 void Node::AddChild(const GameObject& node)
 {
@@ -38,6 +42,10 @@ Node::GameObjectNodeArray& Node::GetAllChild()
 Component::Component()
 	: _isEnable(true)
 {}
+Component::Component(Ambient* ambient)
+	: Super(ambient)
+	, _isEnable(true)
+{}
 Component::~Component(){}
 GameObject& Component::GetGameObject()
 {
@@ -64,15 +72,16 @@ void Component::MountComponent(GameObject& gameObject)
 //GameObject
 //////////////////////////////////////////////////////////////////////////
 GameObject::GameObject()
-	: _isEnable(true)
+	:_isEnable(true)
 {
 	AddComponent(new Transform());
 	INSTANCE(GameObjectManager).AddGameObject(this);
 }
-GameObject::GameObject(Transform* transform)
-	: _isEnable(true)
+GameObject::GameObject(Ambient* ambient)
+	: Super(ambient)
+	,_isEnable(true)
 {
-	AddComponent(transform);
+	AddComponent(new Transform());
 	INSTANCE(GameObjectManager).AddGameObject(this);
 }
 GameObject::~GameObject()

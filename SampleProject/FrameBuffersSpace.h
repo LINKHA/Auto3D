@@ -5,7 +5,7 @@ USING_AUTO
 class FrameBuffersSpace : public MotionSpace
 {
 public:
-	FrameBuffersSpace();
+	explicit FrameBuffersSpace(Ambient* ambient);
 	~FrameBuffersSpace();
 	void Start()override;
 	void Update()override;

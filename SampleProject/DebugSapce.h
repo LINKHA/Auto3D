@@ -4,7 +4,7 @@ USING_AUTO
 class DebugSapce : public MotionSpace
 {
 public:
-	DebugSapce();
+	explicit DebugSapce(Ambient* ambient);
 	~DebugSapce();
 	void Start()override;
 	void Update()override;

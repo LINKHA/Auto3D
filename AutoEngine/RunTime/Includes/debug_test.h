@@ -6,7 +6,7 @@ class debug_test : public Component
 	REGISTER_DERIVED_CLASS(debug_test, Component);
 	DECLARE_OBJECT_SERIALIZE(debug_test);
 public:
-	debug_test();
+	explicit debug_test(Ambient* ambient);
 	void Start()override;
 };
 

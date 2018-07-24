@@ -4,7 +4,7 @@ USING_AUTO
 class DepthTestSpace : public MotionSpace
 {
 public:
-	DepthTestSpace();
+	explicit DepthTestSpace(Ambient* ambient);
 	~DepthTestSpace();
 	void Awake()override;
 	void Start()override;

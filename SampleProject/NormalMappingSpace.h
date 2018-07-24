@@ -4,7 +4,7 @@ USING_AUTO
 class NormalMappingSpace : public MotionSpace
 {
 public:
-	NormalMappingSpace();
+	explicit NormalMappingSpace(Ambient* ambient);
 	~NormalMappingSpace();
 	void Start()override;
 	void Update()override;

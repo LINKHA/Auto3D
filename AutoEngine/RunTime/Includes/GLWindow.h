@@ -28,12 +28,9 @@ public:
 	char* GetTitle() { return _titleName; }
 	bool GetScreenFullorNot() { return true; }
 private:
-	//GLFWwindow* _window;
 	SDL_Window * _window;
 	SDL_GLContext _context;
-
 	Color _drawColor;
-	// settings
 	RectInt _windowRect;
 	char* _titleName;
 	bool _isFullScreen = false;

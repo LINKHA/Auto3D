@@ -4,7 +4,7 @@ USING_AUTO
 class DeferredShadingSpace : public MotionSpace
 {
 public:
-	DeferredShadingSpace();
+	explicit DeferredShadingSpace(Ambient* ambient);
 	~DeferredShadingSpace();
 	void Start()override;
 	void Update()override;

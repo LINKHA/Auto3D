@@ -5,7 +5,8 @@
 #include "Mesh.h"
 #include "DeferredShading.h"
 #include "SampleSet.h"
-DeferredShadingSpace::DeferredShadingSpace()
+DeferredShadingSpace::DeferredShadingSpace(Ambient* ambient)
+	:MotionSpace(ambient)
 {
 }
 

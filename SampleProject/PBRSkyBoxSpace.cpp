@@ -7,7 +7,8 @@
 #include "HDRSkybox.h"
 #include "SampleSet.h"
 #include "Sprite.h"
-PBRSkyBoxSpace::PBRSkyBoxSpace()
+PBRSkyBoxSpace::PBRSkyBoxSpace(Ambient* ambient)
+	:MotionSpace(ambient)
 {}
 PBRSkyBoxSpace::~PBRSkyBoxSpace()
 {}

@@ -5,7 +5,7 @@ USING_AUTO
 class MultLightsSpace : public MotionSpace
 {
 public:
-	MultLightsSpace();
+	explicit MultLightsSpace(Ambient* ambient);
 	~MultLightsSpace();
 	void Start()override;
 	void Update()override;

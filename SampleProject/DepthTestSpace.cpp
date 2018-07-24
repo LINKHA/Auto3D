@@ -4,7 +4,8 @@
 #include "FreeCamera.h"
 #include "LightDirectional.h"
 #include "SampleSet.h"
-DepthTestSpace::DepthTestSpace()
+DepthTestSpace::DepthTestSpace(Ambient* ambient)
+	:MotionSpace(ambient)
 {}
 DepthTestSpace::~DepthTestSpace()
 {}

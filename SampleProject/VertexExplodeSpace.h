@@ -6,7 +6,7 @@ USING_AUTO
 class VertexExplodeSpace : public MotionSpace
 {
 public:
-	VertexExplodeSpace();
+	explicit VertexExplodeSpace(Ambient* ambient);
 	~VertexExplodeSpace();
 	void Start()override;
 	void Update()override;

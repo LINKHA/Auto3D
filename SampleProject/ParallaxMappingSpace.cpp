@@ -5,7 +5,8 @@
 #include "Mesh.h"
 #include "TextureParallax.h"
 #include "SampleSet.h"
-ParallaxMappingSpace::ParallaxMappingSpace()
+ParallaxMappingSpace::ParallaxMappingSpace(Ambient* ambient)
+	:MotionSpace(ambient)
 {}
 ParallaxMappingSpace::~ParallaxMappingSpace()
 {}

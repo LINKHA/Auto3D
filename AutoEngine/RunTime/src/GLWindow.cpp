@@ -2,15 +2,11 @@
 #include "Monitors.h"
 #include "Icon.h"
 #include "AtConfig.h"
-
+#include "../../EngineSetting/Optimize.h"
 AUTO_BEGIN
 
 SINGLETON_INSTANCE(GLWindow);
 
-//void size_callback(GLFWwindow* window, int width, int height)
-//{
-//	INSTANCE(GLWindow).UpdateWindowRectInt(width, height);
-//}
 
 //public funcation
 GLWindow::GLWindow()
@@ -31,13 +27,11 @@ GLWindow::~GLWindow()
 
 void GLWindow::DrawWindow()
 {
-	//GrClearColor(_drawColor);
 	glClearColor(_drawColor.r, _drawColor.g, _drawColor.b, _drawColor.a);
 	
 }
 void GLWindow::RunLoopOver()
 {	
-	//GrSwapBuffers(_window);
 	SDL_GL_SwapWindow(_window);
 }
 /**
@@ -45,36 +39,16 @@ void GLWindow::RunLoopOver()
 */
 void GLWindow::DestoryWindow()
 {
-	//GrDeleteResource();
-
+	SDL_GL_DeleteContext(_context);
+	_context = nullptr;
+	SDL_DestroyWindow(_window);
+	_window = nullptr;
+	SDL_Quit();
 }
 
 void GLWindow::CreateGameWindow()
 {
-	int width, height;
-	//width = INSTANCE(Monitors).GetMonitorsWidthIndex(0);
-	//height = INSTANCE(Monitors).GetMonitorsHeightWithIndex(0);
-	width = 1920;
-	height = 1080;
-	if (_isFullScreen)
-	{
-		_windowRect.width = width;
-		_windowRect.height = height;
-	}
-	else
-	{
-		if (_isCenter)
-		{
-			_windowRect.x = width / 2;
-			_windowRect.y = height / 2;
-		}
-	}
-
-
-	//GLFWmonitor* pMonitor = _isFullScreen ? glfwGetPrimaryMonitor() : NULL;
-	//GrCreateWindow(&_window, _windowRect.width, _windowRect.height, _titleName, pMonitor);
-	//glfwSetWindowPos(_window, _windowRect.x - _windowRect.width/2, _windowRect.y - _windowRect.height / 2);
-	//GrFrameSizeCallBack(_window, size_callback);
+	
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		ErrorString("Couldn't initialize SDL");
@@ -88,6 +62,13 @@ void GLWindow::CreateGameWindow()
 	// Also request a depth buffer
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+
+	//MSAA
+#if MSAA_POINT
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, MSAA_POINT);
+#endif // MSAA_POINT
 
 	// Create the window
 	if (_isFullScreen) 
@@ -105,20 +86,33 @@ void GLWindow::CreateGameWindow()
 			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 			_windowRect.width, _windowRect.height, SDL_WINDOW_OPENGL
 		);
-		SDL_SetWindowPosition(_window, _windowRect.x - _windowRect.width / 2, _windowRect.y - _windowRect.height / 2);
+		
 	}
+
 	if (_window == NULL)
 		ErrorString("Couldn't set video mode");
-
+	
+	
 	_context = SDL_GL_CreateContext(_window);
 	if (_context == NULL)
 		ErrorString("Failed to create OpenGL context");
-	
-	
-	SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
-	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
-
-	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
+	SDL_Rect rect;
+	SDL_GetDisplayBounds(0, &rect);
+	if (_isFullScreen)
+	{
+		_windowRect.width = rect.w;
+		_windowRect.height = rect.h;
+	}
+	else
+	{
+		if (_isCenter)
+		{
+			_windowRect.x = rect.w / 2;
+			_windowRect.y = rect.h / 2;
+		}
+	}
+	SDL_SetWindowSize(_window, _windowRect.width, _windowRect.height);
+	SDL_SetWindowPosition(_window, _windowRect.x - _windowRect.width / 2, _windowRect.y - _windowRect.height / 2);
 }
 
 

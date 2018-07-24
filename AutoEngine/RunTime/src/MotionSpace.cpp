@@ -3,7 +3,8 @@
 
 AUTO_BEGIN
 SINGLETON_INSTANCE(SpaceManager);
-MotionSpace::MotionSpace()
+MotionSpace::MotionSpace(Ambient* ambient)
+	:Super(ambient)
 {
 	INSTANCE(SpaceManager).RegisterSpace(this);
 }

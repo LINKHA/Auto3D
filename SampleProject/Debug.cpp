@@ -18,8 +18,12 @@
 #include "NormalMappingSpace.h"
 #include "ParallaxMappingSpace.h"
 #include "VertexExplodeSpace.h"
+#include "Ambient.h"
 int main(int argc, char** argv)
 {
+	Ambient* ambient = new Ambient();
+
+
 	//AntiAliasingSpace work;
 	//DebugSapce work;
 	//DeferredShadingSpace work;
@@ -36,7 +40,7 @@ int main(int argc, char** argv)
 	//SkyBoxSpace work;
 	//SSAOSpace work;
 	//StencilTestSpace work;
-	TextureSpace work;
+	TextureSpace work(ambient);
 	//NormalMappingSpace work;
 	//ParallaxMappingSpace work;
 	//VertexExplodeSpace work;

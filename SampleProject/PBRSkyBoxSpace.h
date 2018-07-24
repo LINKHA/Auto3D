@@ -4,7 +4,7 @@ USING_AUTO
 class PBRSkyBoxSpace : public MotionSpace
 {
 public:
-	PBRSkyBoxSpace();
+	explicit PBRSkyBoxSpace(Ambient* ambient);
 	~PBRSkyBoxSpace();
 	void Start()override;
 	void Update()override;

@@ -4,7 +4,7 @@ USING_AUTO
 class PBRSpace : public MotionSpace
 {
 public:
-	PBRSpace();
+	explicit PBRSpace(Ambient* ambient);
 	~PBRSpace();
 	void Start()override;
 	void Update()override;

@@ -5,8 +5,9 @@
 #include "stl_use.h"
 #include "ObjectDefines.h"
 #include "RefCounted.h"
-AUTO_BEGIN
 
+AUTO_BEGIN
+class Ambient;
 class Object : public RefCounted
 {
 protected:
@@ -21,8 +22,8 @@ public:
 		int                      size;// sizeof (Class)
 		bool                     isAbstract;// is the class Abstract?
 	};
-
-	Object();
+	Object() {}
+	explicit Object(Ambient* ambient);
 
 	
 	void SetClassID(ClassIDType classId)				{ _classID = classId; }
@@ -50,9 +51,9 @@ public:
 private:
 	Int32 _instanceID;
 	Int32 _classID;
-
+	Ambient * _ambient;
 };
-class Ambient;
+
 class ObjectFactory : public RefCounted
 {
 public:

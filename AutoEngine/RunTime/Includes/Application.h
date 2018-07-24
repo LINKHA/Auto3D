@@ -15,13 +15,13 @@ public:
 	Application();
 	virtual ~Application();
 	virtual int Init();
-	virtual int Finish();
+	virtual int Awake();
 	virtual int RunLoop();
-
+	virtual int Finish();
+	virtual void ErrorExit();
 	int Run();
-protected:
-	SharedPtr<Engine> _engine;
 private:
+	SharedPtr<Engine> _engine;
 	
 };
 #define AUTO_APPLICATION_MAIN(className) \

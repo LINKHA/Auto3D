@@ -4,7 +4,8 @@
 #include "FreeCamera.h"
 #include "LightDirectional.h"
 #include "SampleSet.h"
-StencilTestSpace::StencilTestSpace()
+StencilTestSpace::StencilTestSpace(Ambient* ambient)
+	:MotionSpace(ambient)
 {
 }
 StencilTestSpace::~StencilTestSpace()

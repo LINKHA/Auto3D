@@ -7,7 +7,8 @@
 #include "TimeManager.h"
 #include "Sprite.h"
 #include "SampleSet.h"
-FrameBuffersSpace::FrameBuffersSpace()
+FrameBuffersSpace::FrameBuffersSpace(Ambient* ambient)
+	:MotionSpace(ambient)
 {}
 FrameBuffersSpace::~FrameBuffersSpace()
 {}

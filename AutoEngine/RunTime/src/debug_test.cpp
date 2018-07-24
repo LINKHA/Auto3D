@@ -2,7 +2,8 @@
 
 
 AUTO_BEGIN
-debug_test::debug_test()
+debug_test::debug_test(Ambient* ambient)
+	:Super(ambient)
 {
 }
 

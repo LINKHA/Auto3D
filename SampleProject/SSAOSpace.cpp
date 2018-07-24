@@ -5,7 +5,8 @@
 #include "Mesh.h"
 #include "SSAO.h"
 #include "SampleSet.h"
-SSAOSpace::SSAOSpace()
+SSAOSpace::SSAOSpace(Ambient* ambient)
+	:MotionSpace(ambient)
 {}
 SSAOSpace::~SSAOSpace()
 {}

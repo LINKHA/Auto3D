@@ -13,17 +13,15 @@ AUTO_BEGIN
 class Monitors : public Singleton<Monitors>
 {
 private:
-	//GLFWmonitor** ppMonitor;
 	Int32 monitorCount;
-
 public:
 	Monitors();
 	~Monitors();
 	AUTO_VECTOR(int,int) mnitors;
 	Int32 GetMonitorsCount();
-	Int32 GetMonitorsHeightWithIndex(int index);
-	Int32 GetMonitorsWidthIndex(int index);
-	Vector2& GetMonitorsSizeIndex(int index);
+	Int32 GetMonitorsHeight(int index);
+	Int32 GetMonitorsWidth(int index);
+	Vector2 GetMonitorsSize(int index);
 
 };
 AUTO_END

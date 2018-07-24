@@ -5,7 +5,7 @@ USING_AUTO
 class MoreCameraSpace : public MotionSpace
 {
 public:
-	MoreCameraSpace();
+	explicit MoreCameraSpace(Ambient* ambient);
 	~MoreCameraSpace();
 	void Start()override;
 	void Update()override;

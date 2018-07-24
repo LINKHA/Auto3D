@@ -6,7 +6,7 @@ USING_AUTO
 class MassInstantiationSpace : public MotionSpace
 {
 public:
-	MassInstantiationSpace();
+	explicit MassInstantiationSpace(Ambient* ambient);
 	~MassInstantiationSpace();
 	void Awake()override;
 	void Start()override;

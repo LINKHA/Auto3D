@@ -8,7 +8,8 @@
 #include "ShadowTest.h"
 #include "SampleSet.h"
 
-ShadowSpace::ShadowSpace()
+ShadowSpace::ShadowSpace(Ambient* ambient)
+	:MotionSpace(ambient)
 {}
 ShadowSpace::~ShadowSpace()
 {}

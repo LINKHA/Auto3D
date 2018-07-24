@@ -45,12 +45,6 @@
 
 
 
-//Alarm level 
-#define AU_ERROR -1
-#define AU_NORMAL 0
-#define AU_WARNNING 1
-
-
 //Define Data type
 #define Int8 char 
 #define SInt8 signed char 

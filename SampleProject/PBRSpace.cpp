@@ -6,7 +6,8 @@
 #include "PBR.h"
 #include "PBRTexture.h"
 #include "SampleSet.h"
-PBRSpace::PBRSpace()
+PBRSpace::PBRSpace(Ambient* ambient)
+	:MotionSpace(ambient)
 {}
 PBRSpace::~PBRSpace()
 {}

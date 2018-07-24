@@ -7,13 +7,15 @@ AUTO_BEGIN
 class GameObject;
 class Transform;
 class Camera;
+class Ambient;
 class Node :public Object
 {
 	REGISTER_DERIVED_ABSTRACT_CLASS(Node, Object);
 	DECLARE_OBJECT_SERIALIZE(Node);
 	using GameObjectNodeArray = _VECTOR(GameObject);
 public:
-	Node();
+	Node() {}
+	explicit Node(Ambient* ambient);
 	virtual void AddChild(const GameObject& node);
 	virtual void RemoveChild(int index);
 	virtual GameObject& GetChild(int index);
@@ -34,6 +36,7 @@ private:
 	Ptr(GameObject, _gameObject);
 public:
 	Component();
+	explicit Component(Ambient* ambient);
 	GameObject& GetGameObject();
 	const GameObject& GetGameObject() const;
 	GameObject* GetGameObjectPtr();
@@ -65,7 +68,7 @@ private:
 	ComponentsArray _components;
 public:
 	GameObject();
-	explicit GameObject(Transform* transform);
+	explicit GameObject(Ambient* ambient);
 	void Enable(bool enable) { _isEnable = enable; }
 	bool GetEnable() { return _isEnable; }
 	void Destory();
@@ -93,7 +96,7 @@ template<class T> inline T& GameObject::GetComponentT(int compareClassID) const
 {
 	Component* com;
 	com = QueryComponent(compareClassID);
-	assert(com != NULL);
+	assert(com != nullptr);
 	return *static_cast<T*> (com);
 }
 inline Component& GameObject::GetComponentIndex(int index)

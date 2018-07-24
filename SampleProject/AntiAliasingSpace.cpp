@@ -5,7 +5,8 @@
 #include "Mesh.h"
 #include "SampleSet.h"
 
-AntiAliasingSpace::AntiAliasingSpace()
+AntiAliasingSpace::AntiAliasingSpace(Ambient* ambient)
+	:MotionSpace(ambient)
 {}
 AntiAliasingSpace::~AntiAliasingSpace()
 {}

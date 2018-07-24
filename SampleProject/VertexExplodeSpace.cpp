@@ -6,7 +6,8 @@
 #include "Shader.h"
 #include "LightPoint.h"
 #include "SampleSet.h"
-VertexExplodeSpace::VertexExplodeSpace()
+VertexExplodeSpace::VertexExplodeSpace(Ambient* ambient)
+	:MotionSpace(ambient)
 {
 }
 

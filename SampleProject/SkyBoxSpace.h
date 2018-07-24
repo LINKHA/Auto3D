@@ -7,7 +7,7 @@ USING_AUTO
 class SkyBoxSpace : public MotionSpace
 {
 public:
-	SkyBoxSpace();
+	explicit SkyBoxSpace(Ambient* ambient);
 	~SkyBoxSpace();
 	void Start()override;
 	void Update()override;
