@@ -6,9 +6,8 @@
 #include "OpenGLGather.h"
 #include "LoadResource.h"
 #include "GLWindow.h"
+#include "SpriteSort.h"
 AUTO_BEGIN
-
-SINGLETON_INSTANCE(SpriteTranslucentManager);
 
 SpriteTranslucent::SpriteTranslucent()
 	: _shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs"
@@ -76,7 +75,7 @@ void SpriteTranslucent::Start()
 		WarningString("Failed to load texture");
 	}
 
-	INSTANCE(SpriteTranslucentManager).AddSprite(this);
+	INSTANCE(SpriteSort).AddSprite(this);
 	//stbi_image_free(m_image.ptr->Value);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -173,41 +172,5 @@ void SpriteTranslucent::GenerateMipmap()
 {
 	glGenerateMipmap(GL_TEXTURE_2D);
 	_isMipmaps = true;
-}
-
-
-//////////////////////////////////////////////////////////////////////////
-void SpriteTranslucentManager::AddSprite(SpriteTranslucent * sprite)
-{
-	_sprites.push_back(sprite);
-}
-void SpriteTranslucentManager::ComputeMap()
-{
-	Camera & t_camera = INSTANCE(RenderManager).GetCurrentCamera();
-	for (unsigned int i = 0; i < _sprites.size(); i++)
-	{
-		float distance = glm::length(t_camera.GetPosition() - _sorted[i]->GetGameObject().GetComponent(Transform).GetPosition().ToGLM());
-		_sorted[distance] = _sprites[i];
-	}
-}
-
-//reverse_iterator to render target
-void SpriteTranslucentManager::RenderSprite()
-{
-	Camera & camera = INSTANCE(RenderManager).GetCurrentCamera();
-	for (unsigned int i = 0; i < _sprites.size(); i++)
-	{
-		//Print(t_camera.GetPosition().z);
-		float distance = glm::length(camera.GetPosition() - _sprites[i]->GetGameObject().GetComponent(Transform).GetPosition().ToGLM());
-		
-		_sorted[distance] = _sprites[i];
-	}
-	for (std::map<float, SpriteTranslucent*>::reverse_iterator it = _sorted.rbegin(); it != _sorted.rend(); ++it)
-	{
-		it->second->GetGameObject().GetComponent(Transform).UpdateTransform();
-		it->second->DrawTranslucentSprite();
-		it->second->GetGameObject().GetComponent(Transform).Identity();
-	}
-	_sorted.clear();
 }
 AUTO_END

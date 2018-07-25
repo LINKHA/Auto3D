@@ -1,21 +1,16 @@
 #pragma once
 #include "Auto.h"
-#include "ObjectDefines.h"
-#include "Singleton.h"
-#include "Mesh.h"
-#include "Math/Math.h"
-#include "Camera.h"
-#include "LightManager.h"
-USING_MATH
+#include "GameManager.h"
 AUTO_BEGIN
 /**
 * @brief Singleton class
 */
-class BaseSpace : public Singleton<BaseSpace>
+class BaseSpace : public LevelGameManager
 {
+	REGISTER_DERIVED_CLASS(BaseSpace, LevelGameManager);
+	DECLARE_OBJECT_SERIALIZE(BaseSpace);
 public:
-	BaseSpace();
-	~BaseSpace();
+	explicit BaseSpace(Ambient* ambient);
 	void Awake();
 	void Start(); 
 	void Update(); 

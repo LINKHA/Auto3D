@@ -18,11 +18,12 @@
 #include "NormalMappingSpace.h"
 #include "ParallaxMappingSpace.h"
 #include "VertexExplodeSpace.h"
-#include "Ambient.h"
+#include "Application.h"
 int main(int argc, char** argv)
 {
-	Ambient* ambient = new Ambient();
-
+	
+	INSTANCE(Application);
+	Ambient* ambient = INSTANCE(Application)._ambient;
 
 	//AntiAliasingSpace work;
 	//DebugSapce work;

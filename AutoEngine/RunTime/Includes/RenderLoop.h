@@ -1,27 +1,22 @@
 #pragma once
 #include "Camera.h"
+#include "Object.h"
 AUTO_BEGIN
-class RenderLoop;
 
-struct RenderLoopContext  
+class RenderLoop : public Object
 {
-	Camera*			camera;
-	RenderLoop*		renderLoop; 
-
-	int				renderQueueStart;
-	int				renderQueueEnd;
-};
-class RenderLoop
-{
+	REGISTER_DERIVED_CLASS(RenderLoop, Object);
+	DECLARE_OBJECT_SERIALIZE(RenderLoop);
 private:
-	RenderLoopContext _context;
+	Camera *		_camera;
+	int				_renderQueueStart;
+	int				_renderQueueEnd;
 public:
-	RenderLoop(Camera& camera);
+	RenderLoop(Ambient* ambient,Camera& camera);
 	void RunLoop();
-	~RenderLoop();
 };
 
-RenderLoop* CreateRenderLoop(Camera& camera);
+RenderLoop* CreateRenderLoop(Ambient* ambient,Camera& camera);
 void DeleteRenderLoop(RenderLoop* loop);
 void CleanUpAfterRenderLoop(RenderLoop& loop);
 

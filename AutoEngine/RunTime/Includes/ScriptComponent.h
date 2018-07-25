@@ -7,7 +7,7 @@ class ScriptComponent :public Component
 	REGISTER_DERIVED_ABSTRACT_CLASS(ScriptComponent, Component);
 	DECLARE_OBJECT_SERIALIZE(ScriptComponent);
 public:
-	ScriptComponent();
+	ScriptComponent(Ambient* ambient);
 	virtual void Awake() {}
 	virtual void Start() {}
 	virtual void Update() {}

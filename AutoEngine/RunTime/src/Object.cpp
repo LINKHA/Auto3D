@@ -52,5 +52,9 @@ int Object::StringToClassID(const char * classString)
 	else
 		return i->second;
 }
+Object* Object::GetSubSystem(_String type) const
+{
+	return _ambient->GetSubSystem(type);
+}
 AUTO_END
 

@@ -48,11 +48,17 @@ public:
 
 	static int StringToClassID(const std::string& classString);
 	static int StringToClassID(const char* classString);
+
+	Object* GetSubSystem(_String type)const;
+	template<typename T> T* GetSubSystem() const;
+	Ambient* _ambient;
+protected:
+	
 private:
 	Int32 _instanceID;
 	Int32 _classID;
-	Ambient * _ambient;
 };
+template <class T> T* Object::GetSubSystem() const { return static_cast<T*>(Object::GetSubSystem(T::GetClassStringStatic())); }
 
 class ObjectFactory : public RefCounted
 {

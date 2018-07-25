@@ -4,27 +4,9 @@
 #include "GLWindow.h"
 AUTO_BEGIN
 
-Camera::Camera(Vector3 position, glm::vec3 up, float yaw, float pitch)
-	: _front(glm::vec3(0.0f, 0.0f, -1.0f))
-	, _movementSpeed(2.5f)
-	, _mouseSensitivity(0.1f)
-	, _zoom(45.0f)
-	, _isFirstMouse(true)
-	, _near(0.1f)
-	, _far(100.0f)
-	, _isEnable(true)
-	, _viewRect(Rectf(0.0f,0.0f,1.0f,1.0f))
-	, _worldUp(up)
-	, _yaw(yaw)
-	, _pitch(pitch)
-	, _sortMode(kSortPerspective)
-{
-	_renderLoop = CreateRenderLoop(*this);
-	_position = position.ToGLM();
-	updateCameraVectors();
-}
-Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch)
-	: _front(glm::vec3(0.0f, 0.0f, -1.0f))
+Camera::Camera(Ambient* ambient)
+	:Super(ambient)
+	, _front(glm::vec3(0.0f, 0.0f, -1.0f))
 	, _movementSpeed(2.5f)
 	, _mouseSensitivity(0.1f)
 	, _zoom(45.0f)
@@ -33,15 +15,16 @@ Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float u
 	, _far(100.0f)
 	, _isEnable(true)
 	, _viewRect(Rectf(0.0f, 0.0f, 1.0f, 1.0f))
-	, _worldUp(glm::vec3(upX, upY, upZ))
-	, _yaw(yaw)
-	, _pitch(pitch)
+	, _worldUp(glm::vec3(0.0f, 1.0f, 0.0f))
+	, _yaw(-90.0f)
+	, _pitch(0.0f)
 	, _sortMode(kSortPerspective)
 {
-	_renderLoop = CreateRenderLoop(*this);
-	_position = glm::vec3(posX, posY, posZ);
+	_renderLoop = CreateRenderLoop(ambient,*this);
+	_position = Vector3(0.0f, 0.0f, 0.0f).ToGLM();
 	updateCameraVectors();
 }
+
 Camera::~Camera()
 {
 	DeleteRenderLoop(_renderLoop);

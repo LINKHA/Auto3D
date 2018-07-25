@@ -47,6 +47,9 @@ enum ClassIDType
 
 	DO_CLASS_ID(Engine,40)
 	DO_CLASS_ID(Graphics,41)
+	DO_CLASS_ID(Renderer, 42)
+	DO_CLASS_ID(BaseSpace, 43)
+	DO_CLASS_ID(RenderLoop, 44)
 
 
 	DO_CLASS_ID(debug_test, 100)

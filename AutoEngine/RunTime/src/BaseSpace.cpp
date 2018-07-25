@@ -1,16 +1,11 @@
 #include "BaseSpace.h"
-#include "TimeManager.h"
-#include "RenderManager.h"
 #include "GameObjectManager.h"
-#include "Camera.h"
-#include "Light.h"
 #include "MotionSpace.h"
-#include "SpriteTranslucent.h"
+#include "SpriteSort.h"
 AUTO_BEGIN
 
-SINGLETON_INSTANCE(BaseSpace);
-
-BaseSpace::BaseSpace()
+BaseSpace::BaseSpace(Ambient* ambient)
+	:Super(ambient)
 {
 }
 
@@ -49,7 +44,7 @@ void BaseSpace::Draw()
 {
 	INSTANCE(SpaceManager).ModeRunSpace(DrawMode);
 	INSTANCE(GameObjectManager).ModeRunGameObject(DrawMode);
-	INSTANCE(SpriteTranslucentManager).RenderSprite();
+	INSTANCE(SpriteSort).RenderSprite();
 }
 
 AUTO_END

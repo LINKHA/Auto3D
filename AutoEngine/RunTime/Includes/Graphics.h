@@ -1,13 +1,14 @@
 #pragma once
-#include "Object.h"
+#include "GameManager.h"
 #include "Ambient.h"
 AUTO_BEGIN
-class Graphics : public Object
+class Graphics : public GlobalGameManager
 {
-	REGISTER_DERIVED_CLASS(Graphics, Object);
+	REGISTER_DERIVED_CLASS(Graphics, GlobalGameManager);
 	DECLARE_OBJECT_SERIALIZE(Graphics);
 public:
 	explicit Graphics(Ambient* ambient);
+	void Init();
 };
 
 AUTO_END

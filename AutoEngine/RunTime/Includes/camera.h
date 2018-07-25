@@ -28,10 +28,8 @@ class Camera : public Component
 {
 	REGISTER_DERIVED_CLASS(Camera, Component);
 	DECLARE_OBJECT_SERIALIZE(Camera);
-
 public:
-	Camera(Vector3 position = Vector3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = -90.0f, float pitch = 0.0f);
-	Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw = -90.0f, float pitch = 0.0f);
+	explicit Camera(Ambient* ambient);
 	virtual void Reset();
 	void Render();
 	void ProcessKeyboard(CameraMovement direction, float deltaTime);

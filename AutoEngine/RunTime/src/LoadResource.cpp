@@ -46,7 +46,7 @@ Image* LocalImageLoad(PInt8 path)
 	auto it = imageQueue.find(path);
 	if (it != imageQueue.end()) 
 	{
-		image = (imageQueue.find(path))->second;
+		image = it->second;
 	}
 	else
 	{
@@ -77,7 +77,7 @@ ModelCommand* LocalModelLoad(PInt8 path)
 	auto it = modelQueue.find(path);
 	if (it != modelQueue.end())
 	{
-		model = (modelQueue.find(path))->second;
+		model = it->second;
 	}
 	else
 	{

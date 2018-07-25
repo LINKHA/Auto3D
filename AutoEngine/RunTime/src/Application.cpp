@@ -2,16 +2,12 @@
 #include "stb_image.h"
 AUTO_BEGIN
 
-
-//Alarm level 
-
-
 SINGLETON_INSTANCE(Application);
 Application::Application()
 {
 	INSTANCE(GLWindow).CreateGameWindow();
-	AUTO::Ambient* ambient = new AUTO::Ambient();
-	_engine = new Engine(ambient);
+	_ambient = new AUTO::Ambient();
+	_engine = new Engine(_ambient);
 }
 Application::~Application()
 {

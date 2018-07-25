@@ -2,6 +2,7 @@
 #include "Texture2D.h"
 #include "Singleton.h"
 #include "stl_use.h"
+#include "SpriteSort.h"
 AUTO_BEGIN
 class Image;
 class SpriteTranslucent : public Texture2D
@@ -38,15 +39,5 @@ private:
 
 
 	bool _isMipmaps;
-};
-class SpriteTranslucentManager : public Singleton<SpriteTranslucentManager>
-{
-private:
-	std::vector<SpriteTranslucent*> _sprites;
-	std::map<float, SpriteTranslucent*> _sorted;
-public:
-	void AddSprite(SpriteTranslucent * sprite);
-	void ComputeMap();
-	void RenderSprite();
 };
 AUTO_END

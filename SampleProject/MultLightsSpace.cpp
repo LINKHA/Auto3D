@@ -10,7 +10,7 @@
 #include "LightSpot.h"
 #include "LightPoint.h"
 #include "SampleSet.h"
-
+#include "Mesh.h"
 
 Light* mu_light;
 GameObject* mu_lightObj;

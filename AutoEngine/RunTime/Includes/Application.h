@@ -20,15 +20,15 @@ public:
 	virtual int Finish();
 	virtual void ErrorExit();
 	int Run();
+	Ambient* _ambient;
 private:
 	SharedPtr<Engine> _engine;
-	
 };
 #define AUTO_APPLICATION_MAIN(className) \
 int runApplication() \
 { \
-    SharedPtr<AUTO::Ambient> context(new AUTO::Ambient()); \
-    className work;\
+    SharedPtr<AUTO::Ambient> ambient(new AUTO::Ambient()); \
+    className work(ambient);\
     return work.Launch(); \
 } \
 AUTO_MAIN(runApplication());

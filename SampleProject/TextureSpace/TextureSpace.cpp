@@ -3,12 +3,11 @@
 #include "GameObject.h"
 #include "FreeCamera.h"
 #include "TimeManager.h"
-#include "Mesh.h"
 #include "LightPoint.h"
 #include "SpriteTranslucent.h"
-#include "SampleSet.h"
+#include "Application.h"
 GameObject* te_obj;
-TextureSpace::TextureSpace(AUTO::Ambient* ambient)
+TextureSpace::TextureSpace(Ambient* ambient)
 	:MotionSpace(ambient)
 {
 }
@@ -26,30 +25,22 @@ void TextureSpace::Start()
 	GameObject * lightObj = new GameObject();
 	Light * light = new LightPoint();
 	lightObj->AddComponent(light);
-	//////////////////////////////////////////////////////////////////////////
-	Mesh * mesh = new Mesh("Resource/object/base/Cube.FBX");
-	mesh->GetMaterial().color.Set(0.5f, 0.8f, 0.3f);
-	//mesh->GetMaterial().SetImage("Resource/texture/window.png");
-	GameObject * meshObj = new GameObject();
-	meshObj->GetComponent(Transform).SetPosition(1.0f, 0.0f, 0.0f);
-	meshObj->AddComponent(mesh);
 
-
-	SpriteTranslucent * tex2 = new SpriteTranslucent("Resource/texture/window.png");
+	SpriteTranslucent * tex2 = new SpriteTranslucent("../Resource/texture/window.png");
 	tex2->EnableBlend(true);
 	//tex2->EnableDepth(false);
 	GameObject * obj2 = new GameObject();
 	obj2->GetComponent(Transform).SetPosition(0.0f, 0.0f, 0.0f);
 	obj2->AddComponent(tex2);
 
-	SpriteTranslucent * tex3 = new SpriteTranslucent("Resource/texture/window.png");
+	SpriteTranslucent * tex3 = new SpriteTranslucent("../Resource/texture/window.png");
 	tex3->EnableBlend(true);
 	//tex3->EnableDepth(false);
 	GameObject * obj3 = new GameObject();
 	obj3->GetComponent(Transform).SetPosition(0.2f, 0.0f, -1.0f);
 	obj3->AddComponent(tex3);
 
-	SpriteTranslucent * tex4 = new SpriteTranslucent("Resource/texture/window.png");
+	SpriteTranslucent * tex4 = new SpriteTranslucent("../Resource/texture/window.png");
 	tex4->EnableBlend(true);
 	//tex4->EnableDepth(false);
 	GameObject * obj4 = new GameObject();
@@ -57,18 +48,18 @@ void TextureSpace::Start()
 	obj4->AddComponent(tex4);
 
 
-	Sprite* tex1 = new Sprite("Resource/texture/square.jpg");
+	Sprite* tex1 = new Sprite("../Resource/texture/square.jpg");
 	te_obj = new GameObject();
 	tex1->SetColor(Color(0.5f, 0.5f, 0.5f));
 	te_obj->AddComponent(tex1);
 
-	Sprite * tex5 = new Sprite("Resource/texture/grass.png");
+	Sprite * tex5 = new Sprite("../Resource/texture/grass.png");
 	//tex5->EnableBlend(true);
 	GameObject * obj5 = new GameObject();
 	obj5->GetComponent(Transform).SetPosition(-0.2f, 0.0f, -3.0f);
 	obj5->AddComponent(tex5);
 
-	Sprite * tex6 = new Sprite("Resource/texture/grass.png");
+	Sprite * tex6 = new Sprite("../Resource/texture/grass.png");
 	//tex6->EnableBlend(true);
 	GameObject * obj6 = new GameObject();
 	obj6->GetComponent(Transform).SetPosition(-0.2f, 0.0f, -4.0f);
@@ -85,10 +76,9 @@ void TextureSpace::Update()
 	t.SetRotation(90.0f, Vector3::zAxis);
 	t.SetScale(Vector3(scaleAmount));
 }
+
 int TextureSpace::Launch()
 {
 	return INSTANCE(Application).Run();
 }
-#if uTextureSpace
 AUTO_APPLICATION_MAIN(TextureSpace)
-#endif 

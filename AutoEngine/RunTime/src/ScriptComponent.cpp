@@ -1,7 +1,8 @@
 #include "ScriptComponent.h"
 
 AUTO_BEGIN
-ScriptComponent::ScriptComponent()
+ScriptComponent::ScriptComponent(Ambient* ambient)
+	:Super(ambient)
 {
 }
 

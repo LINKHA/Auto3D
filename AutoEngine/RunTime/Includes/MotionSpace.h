@@ -5,7 +5,7 @@
 #include "Camera.h"
 #include "Mode.h"
 AUTO_BEGIN
-class MotionSpace : Object
+class MotionSpace : public Object
 {
 	REGISTER_DERIVED_ABSTRACT_CLASS(MotionSpace, Object);
 	DECLARE_OBJECT_SERIALIZE(MotionSpace);

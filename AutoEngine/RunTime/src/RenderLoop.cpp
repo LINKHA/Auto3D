@@ -1,12 +1,14 @@
 #include "RenderLoop.h"
 #include "RenderManager.h"
 #include "BaseSpace.h"
+#include "GLWindow.h"
+#include "BaseSpace.h"
 AUTO_BEGIN
 
-RenderLoop::RenderLoop(Camera& camera)
+RenderLoop::RenderLoop(Ambient* ambient,Camera& camera)
+	:Super(ambient)
 {
-	_context.camera = &camera;
-	_context.renderLoop = this;
+	_camera = &camera;
 	INSTANCE(RenderManager).AddCamera(&camera);
 }
 
@@ -16,19 +18,20 @@ RenderLoop::~RenderLoop()
 
 void RenderLoop::RunLoop()
 {
-	Camera * cam = _context.camera;
+	//Camera * cam = _camera;
 	RectInt rect = INSTANCE(GLWindow).GetWindowRectInt();
 	glViewport(
-		cam->GetViewRect().x * rect.width,
-		cam->GetViewRect().y * rect.height,
-		cam->GetViewRect().width * rect.width,
-		cam->GetViewRect().height * rect.height
+		_camera->GetViewRect().x * rect.width,
+		_camera->GetViewRect().y * rect.height,
+		_camera->GetViewRect().width * rect.width,
+		_camera->GetViewRect().height * rect.height
 	);
-	INSTANCE(BaseSpace).Draw();
+	//INSTANCE(BaseSpace).Draw();
+	GetSubSystem<BaseSpace>()->Draw();
 }
-RenderLoop * CreateRenderLoop(Camera & camera)
+RenderLoop * CreateRenderLoop(Ambient* ambient,Camera & camera)
 {
-	return new RenderLoop(camera);
+	return new RenderLoop(ambient,camera);
 }
 
 void DeleteRenderLoop(RenderLoop * loop)
