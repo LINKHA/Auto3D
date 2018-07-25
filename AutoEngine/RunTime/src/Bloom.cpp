@@ -26,8 +26,8 @@ Bloom::~Bloom()
 
 void Bloom::Start()
 {
-	woodTexture = LocalTextureLoad("Resource/texture/wood.jpg");
-	containerTexture = LocalTextureLoad("Resource/texture/wood.jpg");
+	woodTexture = LocalTextureLoad("../Resource/texture/wood.jpg");
+	containerTexture = LocalTextureLoad("../Resource/texture/wood.jpg");
 
 	glGenFramebuffers(1, &hdrFBO);
 	glBindFramebuffer(GL_FRAMEBUFFER, hdrFBO);

@@ -27,8 +27,8 @@ void FreeCamera::processInput()
 }
 
 
-FreeCamera::FreeCamera(AUTO::Ambient* ambient)
-	:_ambient(ambient)
+FreeCamera::FreeCamera(Ambient* ambient)
+	:ScriptComponent(ambient)
 {
 }
 FreeCamera::~FreeCamera()

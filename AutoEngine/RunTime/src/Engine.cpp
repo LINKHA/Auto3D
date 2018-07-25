@@ -35,7 +35,8 @@ void Engine::Init()
 	GetSubSystem<BaseSpace>()->Awake();
 	GetSubSystem<Graphics>()->Init();
 
-	
+	glEnable(GL_DEPTH);
+	glEnable(GL_LESS);
 
 	if (INSTANCE(FrameBuffersScreen).GetEnable())
 	{

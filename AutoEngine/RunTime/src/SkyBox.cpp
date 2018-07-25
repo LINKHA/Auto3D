@@ -28,12 +28,12 @@ void SkyBox::Start()
 
 	_VECTOR(_String) faces
 	{
-	"Resource/skybox/arrakisday_ft.tga",
-	"Resource/skybox/arrakisday_bk.tga",
-	"Resource/skybox/arrakisday_up.tga",
-	"Resource/skybox/arrakisday_dn.tga",
-	"Resource/skybox/arrakisday_rt.tga",
-	"Resource/skybox/arrakisday_lf.tga"
+	"../Resource/skybox/arrakisday_ft.tga",
+	"../Resource/skybox/arrakisday_bk.tga",
+	"../Resource/skybox/arrakisday_up.tga",
+	"../Resource/skybox/arrakisday_dn.tga",
+	"../Resource/skybox/arrakisday_rt.tga",
+	"../Resource/skybox/arrakisday_lf.tga"
 	};
 	_cubemapTexture = LoadCubemap(faces);
 }

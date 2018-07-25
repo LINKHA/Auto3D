@@ -31,7 +31,7 @@ void Shadow::Start()
 	mesh2->Start();
 	mesh3->Start();
 
-	woodTexture = LocalTextureLoad("Resource/texture/wood.jpg");
+	woodTexture = LocalTextureLoad("../Resource/texture/wood.jpg");
 
 	lightPos = glm::vec3(-2.0f, 4.0f, -1.0f);
 }

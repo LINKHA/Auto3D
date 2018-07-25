@@ -6,9 +6,9 @@ AUTO_BEGIN
 TextureParallax::TextureParallax()
 	: _VAO(0)
 {
-	_imagePath.ptr = "Resource/texture/bricks.jpg";
-	_imageNormalPath.ptr = "Resource/texture/bricks_normal.jpg";
-	_imageParallaxPath.ptr = "Resource/texture/bricks_disp.jpg";
+	_imagePath.ptr = "../Resource/texture/bricks.jpg";
+	_imageNormalPath.ptr = "../Resource/texture/bricks_normal.jpg";
+	_imageParallaxPath.ptr = "../Resource/texture/bricks_disp.jpg";
 }
 TextureParallax::TextureParallax(char* imagePath)
 	: _VAO(0)

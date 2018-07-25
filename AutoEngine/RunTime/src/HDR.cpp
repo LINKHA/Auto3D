@@ -17,7 +17,7 @@ HDR::~HDR()
 
 void HDR::Start()
 {
-	woodTexture = LocalTextureLoad("Resource/texture/wood.jpg"); 
+	woodTexture = LocalTextureLoad("../Resource/texture/wood.jpg"); 
 
 	glGenFramebuffers(1, &hdrFBO);
 	// create floating point color buffer

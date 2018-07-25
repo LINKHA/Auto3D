@@ -22,7 +22,7 @@ SSAO::~SSAO()
 
 void SSAO::Start()
 {
-	nanosuit = ModelCommand(("resource/object/nanosuit/nanosuit.obj"));
+	nanosuit = ModelCommand(("../Resource/object/nanosuit/nanosuit.obj"));
 
 	glGenFramebuffers(1, &gBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
