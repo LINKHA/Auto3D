@@ -6,7 +6,7 @@ AUTO_BEGIN
 class HDRSkyBox : public Texture3D
 {
 public:
-	HDRSkyBox();
+	explicit HDRSkyBox(Ambient* ambient);
 	~HDRSkyBox();
 	void Start()override;
 	void Draw()override;

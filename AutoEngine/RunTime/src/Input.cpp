@@ -2,10 +2,10 @@
 #include "SDL2/SDL.h"
 #include "GLWindow.h"
 AUTO_BEGIN
-SINGLETON_INSTANCE(Input);
-Input::Input()
-	:_isMouseMove(false)
-	,_isLockCursor(false)
+Input::Input(Ambient* ambient)
+	: Super(ambient)
+	, _isMouseMove(false)
+	, _isLockCursor(false)
 {
 }
 

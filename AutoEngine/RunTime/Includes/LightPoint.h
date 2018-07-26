@@ -6,7 +6,7 @@ class LightPoint : public Light
 	REGISTER_DERIVED_CLASS(LightPoint, Light);
 	DECLARE_OBJECT_SERIALIZE(LightPoint);
 public:
-	LightPoint();
+	explicit LightPoint(Ambient* ambi);
 private:
 
 	/*Color color;

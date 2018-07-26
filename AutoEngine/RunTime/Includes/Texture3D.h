@@ -9,6 +9,7 @@ class Texture3D : public Texture
 	DECLARE_OBJECT_SERIALIZE(Texture3D);
 public:
 	Texture3D();
+	explicit Texture3D(Ambient* ambient);
 	void Start()override;
 	void Draw()override;
 };

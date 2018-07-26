@@ -2,7 +2,8 @@
 #include "LogAssert.h"
 AUTO_BEGIN
 
-Light::Light()
+Light::Light(Ambient* ambi)
+	:Super(ambi)
 {
 	AddToManager();
 }

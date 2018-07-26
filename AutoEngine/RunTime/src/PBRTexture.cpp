@@ -3,8 +3,8 @@
 #include "Camera.h"
 #include "LoadResource.h"
 #include "BaseMesh.h"
-#include "RenderManager.h"
-#include "TimeManager.h"
+#include "Renderer.h"
+#include "Time.h"
 AUTO_BEGIN
 glm::vec3 t_lightPositions[] = {
 	glm::vec3(-10.0f,  10.0f, 10.0f),
@@ -46,12 +46,12 @@ void PBRTexture::Start()
 }
 void PBRTexture::Draw()
 {
-	glm::mat4 projection = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
+	glm::mat4 projection = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
 	m_shader.Use();
 	m_shader.SetMat4("projection", projection);
-	glm::mat4 view = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
+	glm::mat4 view = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
 	m_shader.SetMat4("view", view);
-	m_shader.SetVec3("camPos", INSTANCE(RenderManager).GetCurrentCamera().GetPosition());
+	m_shader.SetVec3("camPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, albedo);
@@ -90,7 +90,7 @@ void PBRTexture::Draw()
 	// keeps the codeprint small.
 	for (unsigned int i = 0; i < sizeof(t_lightPositions) / sizeof(t_lightPositions[0]); ++i)
 	{
-		glm::vec3 newPos = t_lightPositions[i] + glm::vec3(sin(INSTANCE(TimeManager).GetCurTime() * 5.0) * 5.0, 0.0, 0.0);
+		glm::vec3 newPos = t_lightPositions[i] + glm::vec3(sin(GetSubSystem<Time>()->GetCurTime() * 5.0) * 5.0, 0.0, 0.0);
 		newPos = t_lightPositions[i];
 		m_shader.SetVec3("lightPositions[" + std::to_string(i) + "]", newPos);
 		m_shader.SetVec3("lightColors[" + std::to_string(i) + "]", t_lightColors[i]);

@@ -1,8 +1,9 @@
 #include "MeshShadow.h"
-#include "RenderManager.h"
+#include "Renderer.h"
 #include "LightManager.h"
 #include "VertexData.h"
 #include "ShadowTest.h"
+#include "Camera.h"
 AUTO_BEGIN
 
 
@@ -88,7 +89,7 @@ void MeshShadow::Draw(const Shader &shader)
 	}
 	
 }
-void MeshShadow::Draw2(Camera * camera,glm::vec3 lightPos,glm::mat4 lightSpaceMatrix)
+void MeshShadow::Draw2(Camera* camera,glm::vec3 lightPos,glm::mat4 lightSpaceMatrix)
 {
 	_shader.Use();
 	glm::mat4 projection = camera->GetProjectionMatrix();

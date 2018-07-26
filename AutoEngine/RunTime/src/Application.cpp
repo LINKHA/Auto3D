@@ -6,8 +6,7 @@ SINGLETON_INSTANCE(Application);
 Application::Application()
 {
 	INSTANCE(GLWindow).CreateGameWindow();
-	_ambient = new AUTO::Ambient();
-	_engine = new Engine(_ambient);
+	
 }
 Application::~Application()
 {
@@ -18,10 +17,11 @@ Application::~Application()
 * Determine the number of frames based on the speed of this function
 * Run once per frame
 */
-int Application::Run()
+int Application::Run(Ambient* ambient)
 {
 	try 
 	{
+		_engine = new Engine(ambient);
 		if (Init() == APP_ERROR)
 		{
 			ErrorExit();

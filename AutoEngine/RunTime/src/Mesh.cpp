@@ -1,5 +1,5 @@
 #include "Mesh.h"
-#include "RenderManager.h"
+#include "Renderer.h"
 #include "LightManager.h"
 AUTO_BEGIN
 
@@ -46,11 +46,6 @@ void Mesh::Start()
 }
 void Mesh::Draw()
 {
-	if (INSTANCE(RenderManager).GetCurrentCameraPtr() == nullptr)
-	{
-		WarningString("Fail to find camera");
-		return;
-	}
 	_shader.Use();
 
 	glm::mat4 modelMat;
@@ -63,13 +58,13 @@ void Mesh::Draw()
 		modelMat = GetGameObject().GetComponent(Transform).GetTransformMat();
 	else
 		modelMat = Matrix4x4::identity;
-	viewMat = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
-	projectionMat = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
+	viewMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
+	projectionMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
 
 	_shader.SetMat4("model", modelMat);
 	_shader.SetMat4("view", viewMat);
 	_shader.SetMat4("projection", projectionMat);
-	_shader.SetVec3("viewPos", INSTANCE(RenderManager).GetCurrentCamera().GetPosition());
+	_shader.SetVec3("viewPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
 	if (!_isUserShader)
 	{
 		drawMaterial();

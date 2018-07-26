@@ -1,4 +1,4 @@
-#include "AuMaterial.h"
+#include "Material.h"
 #include "LoadResource.h"
 
 AUTO_BEGIN

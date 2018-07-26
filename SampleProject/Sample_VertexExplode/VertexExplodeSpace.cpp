@@ -36,7 +36,7 @@ void VertexExplodeSpace::Start()
 
 	GameObject * meshObj2 = new GameObject();
 	Mesh * mesh2 = new Mesh("../Resource/object/base/Cube.FBX");
-	meshObj->AddComponent(mesh2);
+	meshObj2->AddComponent(mesh2);
 }
 void VertexExplodeSpace::Update()
 {}

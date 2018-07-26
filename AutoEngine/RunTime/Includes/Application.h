@@ -19,8 +19,8 @@ public:
 	virtual int RunLoop();
 	virtual int Finish();
 	virtual void ErrorExit();
-	int Run();
-	Ambient* _ambient;
+	int Run(Ambient* ambient);
+	
 private:
 	SharedPtr<Engine> _engine;
 };

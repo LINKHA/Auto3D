@@ -57,7 +57,11 @@ void GameObjectManager::ModeRunGameObject(RunMode runMode)
 			if (runMode == AwakeMode) 
 				TEMP_ITERATOR{ if (k->second->GetEnable()) k->second->Awake();}
 			else if (runMode == StartMode)
-				TEMP_ITERATOR{ if (k->second->GetEnable()) k->second->Start(); }
+				TEMP_ITERATOR
+				{ 
+					if (k->second->GetEnable()) 
+						k->second->Start(); 
+				}
 			else if (runMode == UpdateMode)
 				TEMP_ITERATOR{ if (k->second->GetEnable()) k->second->Update(); }
 			else if (runMode == FixUpdateMode)

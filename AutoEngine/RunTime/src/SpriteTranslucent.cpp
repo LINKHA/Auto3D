@@ -1,5 +1,5 @@
 #include "SpriteTranslucent.h"
-#include "RenderManager.h"
+#include "Renderer.h"
 #include "VertexData.h"
 #include "GameObject.h"
 #include "Transform.h"
@@ -75,7 +75,7 @@ void SpriteTranslucent::Start()
 		WarningString("Failed to load texture");
 	}
 
-	INSTANCE(SpriteSort).AddSprite(this);
+	GetSubSystem<SpriteSort>()->AddSprite(this);
 	//stbi_image_free(m_image.ptr->Value);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -100,8 +100,8 @@ void SpriteTranslucent::DrawTranslucentSprite()
 		modelMat = GetGameObject().GetComponent(Transform).GetTransformMat();
 	else
 		modelMat = Matrix4x4::identity;
-	viewMat = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
-	projectionMat = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
+	viewMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
+	projectionMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
 
 	_shader.SetMat4("model", modelMat);
 	_shader.SetMat4("view", viewMat);

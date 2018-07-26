@@ -3,7 +3,7 @@
 #include "GLWindow.h"
 #include "Camera.h"
 #include "VertexData.h"
-#include "RenderManager.h"
+#include "Renderer.h"
 AUTO_BEGIN
 SINGLETON_INSTANCE(SkyManager);
 SkyBox::SkyBox()
@@ -39,12 +39,12 @@ void SkyBox::Start()
 }
 void SkyBox::Draw()
 {
-	glm::mat4 viewMat = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
+	glm::mat4 viewMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
 	RectInt rect = INSTANCE(GLWindow).GetWindowRectInt();
-	glm::mat4 projectionMat = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
+	glm::mat4 projectionMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
 	glDepthFunc(GL_LEQUAL);  
 	_shader.Use();
-	viewMat = glm::mat4(glm::mat3(INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix()));
+	viewMat = glm::mat4(glm::mat3(GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix()));
 	_shader.SetMat4("view", viewMat);
 	_shader.SetMat4("projection", projectionMat);
 	glBindVertexArray(_skyboxVAO);

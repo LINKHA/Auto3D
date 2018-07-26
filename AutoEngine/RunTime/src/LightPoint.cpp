@@ -2,7 +2,8 @@
 
 
 AUTO_BEGIN
-LightPoint::LightPoint()
+LightPoint::LightPoint(Ambient* ambi)
+	:Super(ambi)
 {
 	_type = kPoint;
 	color.Set(1.0f, 1.0f, 1.0f);

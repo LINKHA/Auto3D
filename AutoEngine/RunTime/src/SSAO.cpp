@@ -1,7 +1,7 @@
 #include "SSAO.h"
 #include "GLWindow.h"
 #include "Camera.h"
-#include "RenderManager.h"
+#include "Renderer.h"
 #include "BaseMesh.h"
 AUTO_BEGIN
 SSAO::SSAO()
@@ -143,8 +143,8 @@ void SSAO::Draw()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glm::mat4 projection = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
-	glm::mat4 view = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
+	glm::mat4 projection = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
+	glm::mat4 view = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
 	glm::mat4 model;
 	m_shaderGeometryPass.Use();
 	m_shaderGeometryPass.SetMat4("projection", projection);
@@ -202,7 +202,7 @@ void SSAO::Draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	m_shaderLightingPass.Use();
 	// send light relevant uniforms
-	glm::vec3 lightPosView = glm::vec3(INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix() * glm::vec4(lightPos, 1.0));
+	glm::vec3 lightPosView = glm::vec3(GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix() * glm::vec4(lightPos, 1.0));
 	m_shaderLightingPass.SetVec3("light.Position", lightPosView);
 	m_shaderLightingPass.SetVec3("light.Color", lightColor);
 	// Update attenuation parameters

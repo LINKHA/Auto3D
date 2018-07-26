@@ -2,7 +2,8 @@
 
 AUTO_BEGIN
 
-Texture2D::Texture2D() 
+Texture2D::Texture2D(Ambient* ambient)
+	:Super(ambient)
 {}
 Texture2D::~Texture2D()
 {}

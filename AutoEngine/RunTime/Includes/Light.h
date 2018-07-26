@@ -22,6 +22,7 @@ class Light : public Component
 	DECLARE_OBJECT_SERIALIZE(Light);
 public:
 	Light();
+	explicit Light(Ambient* ambi);
 	LightType GetType() const { return static_cast<LightType>(_type); }
 
 	void AddToManager();

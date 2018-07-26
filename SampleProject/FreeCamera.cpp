@@ -1,7 +1,6 @@
 #include "FreeCamera.h"
 #include "BaseSpace.h"
-#include "TimeManager.h"
-#include "RenderManager.h"
+#include "Time.h"
 #include "GameObjectManager.h"
 #include "Camera.h"
 #include "Light.h"
@@ -11,19 +10,19 @@
 void FreeCamera::processInput()
 {
 	
-	if (INSTANCE(Input).GetKeyPress(SDLK_w))
-		freeCamera->ProcessKeyboard(FORWARD, TimeManager::Instance().GetDeltaTime());
-	if (INSTANCE(Input).GetKeyPress(SDLK_s))
-		freeCamera->ProcessKeyboard(BACKWARD, TimeManager::Instance().GetDeltaTime());
-	if (INSTANCE(Input).GetKeyPress(SDLK_a))
-		freeCamera->ProcessKeyboard(LEFT, TimeManager::Instance().GetDeltaTime());
-	if (INSTANCE(Input).GetKeyPress(SDLK_d))
-		freeCamera->ProcessKeyboard(RIGHT, TimeManager::Instance().GetDeltaTime());
-	if (INSTANCE(Input).IsMouseMove())
+	if (GetSubSystem<Input>()->GetKeyPress(SDLK_w))
+		freeCamera->ProcessKeyboard(FORWARD, GetSubSystem<Time>()->GetDeltaTime());
+	if (GetSubSystem<Input>()->GetKeyPress(SDLK_s))
+		freeCamera->ProcessKeyboard(BACKWARD, GetSubSystem<Time>()->GetDeltaTime());
+	if (GetSubSystem<Input>()->GetKeyPress(SDLK_a))
+		freeCamera->ProcessKeyboard(LEFT, GetSubSystem<Time>()->GetDeltaTime());
+	if (GetSubSystem<Input>()->GetKeyPress(SDLK_d))
+		freeCamera->ProcessKeyboard(RIGHT, GetSubSystem<Time>()->GetDeltaTime());
+	if (GetSubSystem<Input>()->IsMouseMove())
 	{
-		freeCamera->ProcessMouseMovement(INSTANCE(Input).GetMouseMove().x, INSTANCE(Input).GetMouseMove().y);
+		freeCamera->ProcessMouseMovement(GetSubSystem<Input>()->GetMouseMove().x, GetSubSystem<Input>()->GetMouseMove().y);
 	}
-	freeCamera->ProcessMouseScroll(INSTANCE(Input).GetMouseWheelOffset());
+	freeCamera->ProcessMouseScroll(GetSubSystem<Input>()->GetMouseWheelOffset());
 }
 
 
@@ -39,13 +38,13 @@ void FreeCamera::Start()
 {
 	freeCamera = new Camera(_ambient);
 	freeCamera->SetFar(1000.0f);
-	freeCameraObject = new GameObject();
+	freeCameraObject = new GameObject(_ambient);
 	freeCameraObject->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 
 	freeCameraObject->AddComponent(freeCamera);
 
-	INSTANCE(Input).ShowCursor(false);
-	INSTANCE(Input).LockCursorInCenter();
+	GetSubSystem<Input>()->ShowCursor(false);
+	GetSubSystem<Input>()->LockCursorInCenter();
 	
 }
 void FreeCamera::Update()

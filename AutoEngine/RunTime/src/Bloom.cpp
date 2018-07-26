@@ -3,7 +3,7 @@
 #include "LoadResource.h"
 #include "GLWindow.h"
 #include "Camera.h"
-#include "RenderManager.h"
+#include "Renderer.h"
 #include "BaseMesh.h"
 AUTO_BEGIN
 
@@ -104,8 +104,8 @@ void Bloom::Draw()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, hdrFBO);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glm::mat4 projection = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
-	glm::mat4 view = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
+	glm::mat4 projection = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
+	glm::mat4 view = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
 	glm::mat4 model;
 	m_shader.Use();
 	m_shader.SetMat4("projection", projection);
@@ -118,7 +118,7 @@ void Bloom::Draw()
 		m_shader.SetVec3("lights[" + std::to_string(i) + "].Position", lightPositions[i]);
 		m_shader.SetVec3("lights[" + std::to_string(i) + "].Color", lightColors[i]);
 	}
-	m_shader.SetVec3("viewPos", INSTANCE(RenderManager).GetCurrentCamera().GetPosition());
+	m_shader.SetVec3("viewPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
 	// create one large cube that acts as the floor
 	model = glm::mat4();
 	model = glm::translate(model, glm::vec3(0.0f, -1.0f, 0.0));

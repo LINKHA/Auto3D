@@ -44,7 +44,7 @@ void BaseSpace::Draw()
 {
 	INSTANCE(SpaceManager).ModeRunSpace(DrawMode);
 	INSTANCE(GameObjectManager).ModeRunGameObject(DrawMode);
-	INSTANCE(SpriteSort).RenderSprite();
+	GetSubSystem<SpriteSort>()->RenderSprite();
 }
 
 AUTO_END

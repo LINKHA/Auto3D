@@ -10,7 +10,8 @@ class Sprite : public Texture2D
 public:
 
 	Sprite();
-	Sprite(char* imagePath);
+	explicit Sprite(Ambient* ambient);
+	Sprite(Ambient* ambient,char* imagePath);
 	Sprite(char* imagePath, const Shader& shader);
 
 	void Start()override;

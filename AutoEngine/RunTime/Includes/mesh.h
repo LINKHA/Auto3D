@@ -6,7 +6,7 @@
 #include "AtConfig.h"
 #include "LoadResource.h"
 #include "Math/Color.h"
-#include "AuMaterial.h"
+#include "Material.h"
 #include "RenderComponent.h"
 #include "GLMeshEnable.h"
 

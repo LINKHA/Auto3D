@@ -2,8 +2,8 @@
 #include "AtConfig.h"
 #include "Camera.h"
 #include "BaseMesh.h"
-#include "RenderManager.h"
-#include "TimeManager.h"
+#include "Renderer.h"
+#include "Time.h"
 AUTO_BEGIN
 glm::vec3 p_lightPositions[] = {
 	glm::vec3(-10.0f,  10.0f, 10.0f),
@@ -18,8 +18,9 @@ glm::vec3 p_lightColors[] = {
 	glm::vec3(300.0f, 300.0f, 300.0f)
 };
 
-PBR::PBR()
-	:m_shader(AtConfig::shader_path + "au_pbr.auvs"
+PBR::PBR(Ambient* ambient)
+	: Component(ambient)
+	, m_shader(AtConfig::shader_path + "au_pbr.auvs"
 		, AtConfig::shader_path + "au_pbr.aufs")
 {
 }
@@ -36,12 +37,12 @@ void PBR::Start()
 }
 void PBR::Draw()
 {
-	glm::mat4 projection = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
+	glm::mat4 projection = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
 	m_shader.Use();
 	m_shader.SetMat4("projection", projection);
-	glm::mat4 view = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
+	glm::mat4 view = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
 	m_shader.SetMat4("view", view);
-	m_shader.SetVec3("camPos", INSTANCE(RenderManager).GetCurrentCamera().GetPosition());
+	m_shader.SetVec3("camPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
 
 	glm::mat4 model;
 
@@ -73,7 +74,7 @@ void PBR::Draw()
 	// keeps the codeprint small.
 	for (unsigned int i = 0; i < sizeof(p_lightPositions) / sizeof(p_lightPositions[0]); ++i)
 	{
-		glm::vec3 newPos = p_lightPositions[i] + glm::vec3(sin(INSTANCE(TimeManager).GetCurTime() * 5.0) * 5.0, 0.0, 0.0);
+		glm::vec3 newPos = p_lightPositions[i] + glm::vec3(sin(GetSubSystem<Time>()->GetCurTime() * 5.0) * 5.0, 0.0, 0.0);
 		newPos = p_lightPositions[i];
 		m_shader.SetVec3("lightPositions[" + std::to_string(i) + "]", newPos);
 		m_shader.SetVec3("lightColors[" + std::to_string(i) + "]", p_lightColors[i]);

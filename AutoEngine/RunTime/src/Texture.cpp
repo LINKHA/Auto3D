@@ -6,9 +6,13 @@ Texture::Texture()
 {
 }
 
+Texture::Texture(Ambient * ambient)
+	:Super(ambient)
+{
+}
+
 Texture::~Texture()
 {
 }
 
 AUTO_END
-

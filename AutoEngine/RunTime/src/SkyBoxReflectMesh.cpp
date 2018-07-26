@@ -1,9 +1,10 @@
 #include "SkyBoxReflectMesh.h"
 #include "AtConfig.h"
-#include "RenderManager.h"
+#include "Renderer.h"
 #include "SkyBox.h"
 #include "GameObject.h"
 #include "Transform.h"
+
 AUTO_BEGIN
 SkyBoxReflectMesh::SkyBoxReflectMesh()
 	: m_shader(AtConfig::shader_path + "au_skybox_cube.auvs"
@@ -82,8 +83,8 @@ void SkyBoxReflectMesh::Draw()
 {
 	
 	glm::mat4 modelMat;
-	glm::mat4 viewMat = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
-	glm::mat4 projectionMat = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
+	glm::mat4 viewMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
+	glm::mat4 projectionMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
 
 	if (GetGameObjectPtr())		//if gameObject not empty
 		modelMat = GetGameObject().GetComponent(Transform).GetTransformMat();
@@ -93,7 +94,7 @@ void SkyBoxReflectMesh::Draw()
 	m_shader.SetMat4("model", modelMat);
 	m_shader.SetMat4("view", viewMat);
 	m_shader.SetMat4("projection", projectionMat);
-	m_shader.SetVec3("cameraPos", INSTANCE(RenderManager).GetCurrentCamera().GetPosition());
+	m_shader.SetVec3("cameraPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
 	glBindVertexArray(cubeVAO);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, INSTANCE(SkyManager).GetSkyBox()->GetTexture());

@@ -1,5 +1,5 @@
 #include "RenderLoop.h"
-#include "RenderManager.h"
+#include "Renderer.h"
 #include "BaseSpace.h"
 #include "GLWindow.h"
 #include "BaseSpace.h"
@@ -9,7 +9,7 @@ RenderLoop::RenderLoop(Ambient* ambient,Camera& camera)
 	:Super(ambient)
 {
 	_camera = &camera;
-	INSTANCE(RenderManager).AddCamera(&camera);
+	GetSubSystem<Renderer>()->AddCamera(&camera);
 }
 
 RenderLoop::~RenderLoop()

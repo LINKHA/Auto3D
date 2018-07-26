@@ -4,11 +4,12 @@
 #include "Camera.h"
 #include "VertexData.h"
 #include "BaseMesh.h"
-#include "RenderManager.h"
+#include "Renderer.h"
 AUTO_BEGIN
 SINGLETON_INSTANCE(SkyBoxManager);
-HDRSkyBox::HDRSkyBox()
-	: m_equirectangularToCubemapShader(AtConfig::shader_path + "au_hdr_skybox_cubemap.auvs"
+HDRSkyBox::HDRSkyBox(Ambient* ambient)
+	: Texture3D(ambient)
+	, m_equirectangularToCubemapShader(AtConfig::shader_path + "au_hdr_skybox_cubemap.auvs"
 		, AtConfig::shader_path + "au_hdr_skybox_equirectangular_to_cubemap.aufs")
 	, m_irradianceShader(AtConfig::shader_path + "au_hdr_skybox_cubemap.auvs"
 		, AtConfig::shader_path + "au_hdr_skybox_irradiance_convolution.aufs")
@@ -192,14 +193,14 @@ void HDRSkyBox::Start()
 }
 void HDRSkyBox::Draw()
 {
-	glm::mat4 projection = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
+	glm::mat4 projection = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
 	m_backgroundShader.Use();
 	m_backgroundShader.SetMat4("projection", projection);
 
 	glViewport(0, 0, INSTANCE(GLWindow).GetWindowRectInt().width
 		, INSTANCE(GLWindow).GetWindowRectInt().height);
 
-	glm::mat4 view = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
+	glm::mat4 view = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
 	m_backgroundShader.SetMat4("view", view);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, envCubemap);

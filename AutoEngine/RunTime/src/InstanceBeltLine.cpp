@@ -3,7 +3,7 @@
 #include "Math/Rect.h"
 #include "GLWindow.h"
 #include "Camera.h"
-#include "RenderManager.h"
+#include "Renderer.h"
 AUTO_BEGIN
 
 InstanceBeltLine::InstanceBeltLine(const ModelCommand& model, const Shader& shader, glm::mat4* modelMat,int count)
@@ -47,8 +47,8 @@ void InstanceBeltLine::Draw()
 {
 	RectInt rect = INSTANCE(GLWindow).GetWindowRectInt();
 
-	glm::mat4 projectionMat = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
-	glm::mat4 viewMat = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
+	glm::mat4 projectionMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
+	glm::mat4 viewMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
 
 	_shader.Use();
 	_shader.SetMat4("projection", projectionMat);

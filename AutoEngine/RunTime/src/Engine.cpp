@@ -1,18 +1,22 @@
 #include "Engine.h"
-#include "TimeManager.h"
+#include "Time.h"
 #include "GameObject.h"
 
-#include "RenderManager.h"
+
 #include "FrameBuffersScreen.h"
 #include "MSAA.h"
 #include "Shadow.h"
 #include "../../EngineSetting/Optimize.h"
 
 #include "Input.h"
-
 #include "Renderer.h"
 #include "Graphics.h"
 #include "BaseSpace.h"
+
+
+
+//Temp
+#include "SpriteSort.h"
 AUTO_BEGIN
 
 Engine::Engine(Ambient* ambient)
@@ -22,6 +26,13 @@ Engine::Engine(Ambient* ambient)
 	_ambient->RegisterSubSystem(new Renderer(_ambient));
 	_ambient->RegisterSubSystem(new Graphics(_ambient));
 	_ambient->RegisterSubSystem(new BaseSpace(_ambient));
+	_ambient->RegisterSubSystem(new Time(_ambient));
+	_ambient->RegisterSubSystem(new Input(_ambient));
+
+
+
+	//Temp Sub
+	_ambient->RegisterSubSystem(new SpriteSort(_ambient));
 }
 
 
@@ -50,9 +61,9 @@ void Engine::Init()
 }
 void Engine::RunFrame()
 {
-	INSTANCE(TimeManager).Update();
-	INSTANCE(Input).Update();
-	if (INSTANCE(Input).GetKeyDown(SDLK_ESCAPE))
+	GetSubSystem<Time>()->Update();
+	GetSubSystem<Input>()->Update();
+	if (GetSubSystem<Input>()->GetKeyDown(SDLK_ESCAPE))
 		_isExiting = true;
 	//////////////////////////
 #if MSAA_OPPSCREEN_POINT
@@ -66,10 +77,11 @@ void Engine::RunFrame()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	///Accept a buffer bit buffer Bitto specify the buffer to be emptied
 	GetSubSystem<BaseSpace>()->Update();
-	INSTANCE(RenderManager).RenderCameras();
+	GetSubSystem<Renderer>()->RenderCameras();
+
 	GetSubSystem<BaseSpace>()->Finish();
 	
-	INSTANCE(Input).EndFrame();
+	GetSubSystem<Input>()->EndFrame();
 	INSTANCE(GLWindow).RunLoopOver();
 
 	if (INSTANCE(FrameBuffersScreen).GetEnable())

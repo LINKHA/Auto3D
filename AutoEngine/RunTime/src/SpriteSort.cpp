@@ -1,12 +1,12 @@
 #include "SpriteSort.h"
-#include "RenderManager.h"
+#include "Renderer.h"
 #include "GameObject.h"
 #include "Transform.h"
 #include "SpriteTranslucent.h"
 AUTO_BEGIN
-SINGLETON_INSTANCE(SpriteSort);
 
-SpriteSort::SpriteSort()
+SpriteSort::SpriteSort(Ambient* ambient)
+	:Super(ambient)
 {
 }
 
@@ -20,10 +20,10 @@ void SpriteSort::AddSprite(SpriteTranslucent * sprite)
 }
 void SpriteSort::ComputeMap()
 {
-	Camera & t_camera = INSTANCE(RenderManager).GetCurrentCamera();
+	Camera& camera = GetSubSystem<Renderer>()->GetCurrentCamera();
 	for (unsigned int i = 0; i < _sprites.size(); i++)
 	{
-		float distance = glm::length(t_camera.GetPosition() - _sorted[i]->GetGameObject().GetComponent(Transform).GetPosition().ToGLM());
+		float distance = glm::length(camera.GetPosition() - _sorted[i]->GetGameObject().GetComponent(Transform).GetPosition().ToGLM());
 		_sorted[distance] = _sprites[i];
 	}
 }
@@ -31,7 +31,7 @@ void SpriteSort::ComputeMap()
 //reverse_iterator to render target
 void SpriteSort::RenderSprite()
 {
-	Camera & camera = INSTANCE(RenderManager).GetCurrentCamera();
+	Camera& camera = GetSubSystem<Renderer>()->GetCurrentCamera();
 	for (unsigned int i = 0; i < _sprites.size(); i++)
 	{
 		//Print(t_camera.GetPosition().z);

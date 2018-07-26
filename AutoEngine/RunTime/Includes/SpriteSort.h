@@ -1,14 +1,15 @@
 #pragma once
-#include "Singleton.h"
 #include "Auto.h"
 #include "stl_use.h"
+#include "ManagerTool.h"
 AUTO_BEGIN
 class SpriteTranslucent;
-class SpriteSort : public Singleton<SpriteSort>
+class SpriteSort : public ManagerTool
 {
+	REGISTER_DERIVED_CLASS(SpriteSort, ManagerTool);
+	DECLARE_OBJECT_SERIALIZE(SpriteSort);
 public:
-	SpriteSort();
-	~SpriteSort();
+	explicit SpriteSort(Ambient* ambient);
 	void AddSprite(SpriteTranslucent * sprite);
 	void ComputeMap();
 	void RenderSprite();

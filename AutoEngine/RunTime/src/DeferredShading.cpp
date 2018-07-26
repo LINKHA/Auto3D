@@ -2,7 +2,7 @@
 #include "AtConfig.h"
 #include "GLWindow.h"
 #include "Camera.h"
-#include "RenderManager.h"
+#include "Renderer.h"
 #include "BaseMesh.h"
 AUTO_BEGIN
 DeferredShading::DeferredShading()
@@ -101,8 +101,8 @@ void DeferredShading::Draw()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glm::mat4 projection = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
-	glm::mat4 view = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
+	glm::mat4 projection = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
+	glm::mat4 view = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
 	glm::mat4 model;
 	m_shaderGeometryPass.Use();
 	m_shaderGeometryPass.SetMat4("projection", projection);
@@ -143,7 +143,7 @@ void DeferredShading::Draw()
 		float radius = (-linear + std::sqrt(linear * linear - 4 * quadratic * (constant - (256.0f / 5.0f) * maxBrightness))) / (2.0f * quadratic);
 		m_shaderLightingPass.SetFloat("lights[" + std::to_string(i) + "].Radius", radius);
 	}
-	m_shaderLightingPass.SetVec3("viewPos", INSTANCE(RenderManager).GetCurrentCamera().GetPosition());
+	m_shaderLightingPass.SetVec3("viewPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
 	// finally render quad
 	renderQuad(&quadVAO,&quadVBO);
 

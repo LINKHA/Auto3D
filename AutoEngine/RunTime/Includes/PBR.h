@@ -8,7 +8,7 @@ AUTO_BEGIN
 class PBR : public Component
 {
 public:
-	PBR();
+	explicit PBR(Ambient* ambient);
 	~PBR();
 	void Start()override;
 	void Draw()override;

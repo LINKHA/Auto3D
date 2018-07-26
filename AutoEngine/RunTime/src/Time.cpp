@@ -1,18 +1,15 @@
-#include "TimeManager.h"
+#include "Time.h"
 #include "SDL2/SDL.h"
 AUTO_BEGIN
-SINGLETON_INSTANCE(TimeManager);
 SYSTEMTIME  sysTime;
-
-
-TimeManager::TimeHolder::TimeHolder()
+Time::TimeHolder::TimeHolder()
 	: curFrameTime(0)
 	, lastFrameTime(0)
 	, deltaTime(0)
 	, smoothDeltaTime(0)
 {}
 
-TimeManager::RealTime::RealTime()
+Time::RealTime::RealTime()
 {
 	GetLocalTime(&sysTime);
 	year = sysTime.wYear;
@@ -24,7 +21,7 @@ TimeManager::RealTime::RealTime()
 }
 
 
-TimeManager::RealTime TimeManager::GetRealTime()
+Time::RealTime Time::GetRealTime()
 {
 	GetLocalTime(&sysTime);
 	_realTime.year = sysTime.wYear;
@@ -37,10 +34,9 @@ TimeManager::RealTime TimeManager::GetRealTime()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-TimeManager::TimeManager()
-	: Super()
+Time::Time(Ambient* ambient)
+	: Super(ambient)
 {
-
 	_realTime = RealTime();
 
 	_dynamicTime.curFrameTime = 0.0f;
@@ -58,14 +54,14 @@ TimeManager::TimeManager()
 }
 
 
-void TimeManager::SetTime(double time)
+void Time::SetTime(double time)
 {
 	_dynamicTime.lastFrameTime = _dynamicTime.curFrameTime;
 	_dynamicTime.curFrameTime = time;
 	_dynamicTime.deltaTime = _dynamicTime.curFrameTime - _dynamicTime.lastFrameTime;
 	_activeTime = _dynamicTime;
 }
-void TimeManager::ResetTime()
+void Time::ResetTime()
 {
 	_dynamicTime.curFrameTime = 0.0f;
 	_dynamicTime.lastFrameTime = 0.0f;
@@ -80,16 +76,16 @@ void TimeManager::ResetTime()
 //	m_LevelLoadOffset = 0.0f;
 }
 
-void TimeManager::SetPause(bool pause)
+void Time::SetPause(bool pause)
 {
 	_isPause = pause;
 }
-void TimeManager::SetMaximumDeltaTime(float maxStep)
+void Time::SetMaximumDeltaTime(float maxStep)
 {
 	_maximumTimestep = max<float>(maxStep, _fixedTime.deltaTime);
 }
 
-void TimeManager::SetTimeScale(float scale)
+void Time::SetTimeScale(float scale)
 {
 	bool is_OutRange = scale <= 100 && scale >= 0.0f;
 	if (is_OutRange)
@@ -99,7 +95,7 @@ void TimeManager::SetTimeScale(float scale)
 
 }
 
-void TimeManager::Update()
+void Time::Update()
 {
 	if (_firstFrame)
 	{
@@ -111,6 +107,6 @@ void TimeManager::Update()
 }
 
 
-TimeManager::~TimeManager(){}
+Time::~Time(){}
 AUTO_END
 

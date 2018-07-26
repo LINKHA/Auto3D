@@ -2,7 +2,7 @@
 #include "Auto.h"
 #include "InputManager.h"
 #include "stl_use.h"
-#include "Singleton.h"
+#include "GameManager.h"
 #include "Math/Vector2.h"
 AUTO_BEGIN
 USING_MATH
@@ -13,11 +13,16 @@ struct JoystickState
 	_VECTOR(bool)	_buttons;
 	_VECTOR(bool)	_buttonPress;
 };
-class Input : public Singleton<Input>
+/**
+* @brief : SubSystem class
+*/
+class Input : public GlobalGameManager
 {
+	REGISTER_DERIVED_CLASS(Input, GlobalGameManager);
+	DECLARE_OBJECT_SERIALIZE(Input);
 public:
-	Input();
-	~Input();
+	explicit Input(Ambient* ambient);
+
 
 	void HandleWindowEvents();
 	void Update();

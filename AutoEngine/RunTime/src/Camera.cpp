@@ -1,6 +1,5 @@
 #include "Camera.h"
 #include "RenderLoop.h"
-#include "RenderManager.h"
 #include "GLWindow.h"
 AUTO_BEGIN
 

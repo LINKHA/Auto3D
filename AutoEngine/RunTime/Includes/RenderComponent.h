@@ -9,6 +9,7 @@ class RenderComponent : public Component
 	DECLARE_OBJECT_SERIALIZE(RenderComponent);
 public:
 	RenderComponent();
+	RenderComponent(Ambient*  ambient);
 	virtual void Awake() {}
 	virtual void Start() {}
 	virtual void Update() {}

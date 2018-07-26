@@ -14,17 +14,15 @@
 #include "Shader.h"
 #include "LogAssert.h"
 
-#include <string>
 #include <fstream>
 #include <sstream>
 #include <iostream>
-#include <map>
-#include <vector>
+
+#include "stl_use.h"
 
 
 
-
-using namespace std;
+//using namespace std;
 
 AUTO_BEGIN 
 unsigned int TextureFromFile(const char *path, const string &directory, bool gamma = false);

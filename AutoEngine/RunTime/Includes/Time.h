@@ -1,5 +1,4 @@
 #pragma once
-#include "Singleton.h"
 #include "GameManager.h"
 #include "Math/MathBase.h"
 #include <Windows.h>
@@ -7,15 +6,13 @@
 USING_MATH
 AUTO_BEGIN
 /**
-* @brief : Singleton class
+* @brief : SubSystem class
 */
-
-
-class TimeManager : public GlobalGameManager, public Singleton<TimeManager>
+class Time : public GlobalGameManager
 {
 public:
-	REGISTER_DERIVED_ABSTRACT_CLASS(TimeManager, GlobalGameManager);
-	DECLARE_OBJECT_SERIALIZE(TimeManager);
+	REGISTER_DERIVED_CLASS(Time, GlobalGameManager);
+	DECLARE_OBJECT_SERIALIZE(Time);
 
 
 	struct TimeHolder
@@ -42,7 +39,7 @@ public:
 
 
 
-	TimeManager();
+	explicit Time(Ambient* ambient);
 
 	void SetTime(double time);
 	void ResetTime();

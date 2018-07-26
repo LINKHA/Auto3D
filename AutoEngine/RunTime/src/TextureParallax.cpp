@@ -1,5 +1,5 @@
 #include "TextureParallax.h"
-#include "RenderManager.h"
+#include "Renderer.h"
 AUTO_BEGIN
 
 
@@ -59,8 +59,8 @@ void TextureParallax::Draw()
 		modelMat = GetGameObject().GetComponent(Transform).GetTransformMat();
 	else
 		modelMat = Matrix4x4::identity;
-	viewMat = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
-	projectionMat = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
+	viewMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
+	projectionMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
 
 	_shader.SetMat4("model", modelMat);
 	_shader.SetMat4("view", viewMat);
@@ -69,7 +69,7 @@ void TextureParallax::Draw()
 	//m_shader.SetVec4("ourColor", m_Color.r, m_Color.g, m_Color.b, m_Color.a);
 	glm::vec3 lightPos(0.5f, 1.0f, 0.3f);
 
-	_shader.SetVec3("viewPos", INSTANCE(RenderManager).GetCurrentCamera().GetPosition());
+	_shader.SetVec3("viewPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
 	_shader.SetVec3("lightPos", lightPos);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, _image);

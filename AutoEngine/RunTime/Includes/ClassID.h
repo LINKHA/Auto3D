@@ -9,7 +9,7 @@ enum ClassIDType
 	DO_CLASS_ID(GameManager, 1)
 	DO_CLASS_ID(LevelGameManager, 2)
 	DO_CLASS_ID(GlobalGameManager, 3)
-	DO_CLASS_ID(TimeManager, 4)
+	DO_CLASS_ID(Time, 4)
 
 	DO_CLASS_ID(RenderManager, 7)
 	DO_CLASS_ID(GameObjectManager, 8)
@@ -50,7 +50,10 @@ enum ClassIDType
 	DO_CLASS_ID(Renderer, 42)
 	DO_CLASS_ID(BaseSpace, 43)
 	DO_CLASS_ID(RenderLoop, 44)
-
+	DO_CLASS_ID(Input,45)
+	DO_CLASS_ID(ManagerTool, 46)
+	DO_CLASS_ID(SpriteSort, 47)
+	
 
 	DO_CLASS_ID(debug_test, 100)
 	

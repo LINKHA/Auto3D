@@ -6,7 +6,7 @@
 #include "stb_image.h"
 #include "VertexData.h"
 #include "LoadResource.h"
-#include "RenderManager.h"
+#include "Renderer.h"
 AUTO_BEGIN
 
 Shadow::Shadow()
@@ -66,10 +66,10 @@ void Shadow::Draw()
 	glViewport(0, 0, t.width, t.height);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	mesh->Draw2(INSTANCE(RenderManager).GetCurrentCameraPtr(), lightPos, lightSpaceMatrix);
-	mesh1->Draw2(INSTANCE(RenderManager).GetCurrentCameraPtr(), lightPos, lightSpaceMatrix);
-	mesh2->Draw2(INSTANCE(RenderManager).GetCurrentCameraPtr(), lightPos, lightSpaceMatrix);
-	mesh3->Draw2(INSTANCE(RenderManager).GetCurrentCameraPtr(), lightPos, lightSpaceMatrix);
+	mesh->Draw2(GetSubSystem<Renderer>()->GetCurrentCameraPtr(), lightPos, lightSpaceMatrix);
+	mesh1->Draw2(GetSubSystem<Renderer>()->GetCurrentCameraPtr(), lightPos, lightSpaceMatrix);
+	mesh2->Draw2(GetSubSystem<Renderer>()->GetCurrentCameraPtr(), lightPos, lightSpaceMatrix);
+	mesh3->Draw2(GetSubSystem<Renderer>()->GetCurrentCameraPtr(), lightPos, lightSpaceMatrix);
 	
 }
 

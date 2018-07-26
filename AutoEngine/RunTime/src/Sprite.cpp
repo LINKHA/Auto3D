@@ -1,5 +1,5 @@
 #include "Sprite.h"
-#include "RenderManager.h"
+#include "Renderer.h"
 #include "VertexData.h"
 #include "GameObject.h"
 #include "Transform.h"
@@ -15,8 +15,17 @@ Sprite::Sprite()
 	_imagePath.ptr = "Resource/texture/square.jpg";
 	_color.Set(1.0f, 1.0f, 1.0f, 1.0f);
 }
-Sprite::Sprite(char* imagePath)
-	: _shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs"
+Sprite::Sprite(Ambient* ambient)
+	:Super(ambient)
+	, _shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs"
+		, AtConfig::shader_path + "au_texture_transform.aufs"))
+{
+	_imagePath.ptr = "Resource/texture/square.jpg";
+	_color.Set(1.0f, 1.0f, 1.0f, 1.0f);
+}
+Sprite::Sprite(Ambient* ambient,char* imagePath)
+	: Super(ambient)
+	, _shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs"
 		, AtConfig::shader_path + "au_texture_transform.aufs"))
 {
 	_imagePath.ptr = imagePath;
@@ -84,13 +93,8 @@ void Sprite::Start()
 
 void Sprite::Draw()
 {
-	//GLApply();
+	GLApply();
 
-	if (INSTANCE(RenderManager).GetCurrentCameraPtr() == nullptr)
-	{
-		WarningString("Fail to find camera");
-		return;
-	}
 	glBindTexture(GL_TEXTURE_2D, _textureData);
 	_shader.Use();
 
@@ -102,8 +106,8 @@ void Sprite::Draw()
 		modelMat = GetGameObject().GetComponent(Transform).GetTransformMat();
 	else
 		modelMat = Matrix4x4::identity;
-	viewMat = INSTANCE(RenderManager).GetCurrentCamera().GetViewMatrix();
-	projectionMat = INSTANCE(RenderManager).GetCurrentCamera().GetProjectionMatrix();
+	viewMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
+	projectionMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
 
 	_shader.SetMat4("model", modelMat);
 	_shader.SetMat4("view", viewMat);
@@ -114,7 +118,7 @@ void Sprite::Draw()
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
-	//GLOriginal();
+	GLOriginal();
 }
 void Sprite::SetColor(const Color& color)
 {

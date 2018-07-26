@@ -1,5 +1,4 @@
 #include "TextureMap.h"
-#include "RenderManager.h"
 AUTO_BEGIN
 
 
