@@ -1,6 +1,6 @@
 #include "HDRSkyBox.h"
 #include "LoadResource.h"
-#include "GLWindow.h"
+#include "GameWindow.h"
 #include "Camera.h"
 #include "VertexData.h"
 #include "BaseMesh.h"
@@ -197,8 +197,8 @@ void HDRSkyBox::Draw()
 	m_backgroundShader.Use();
 	m_backgroundShader.SetMat4("projection", projection);
 
-	glViewport(0, 0, INSTANCE(GLWindow).GetWindowRectInt().width
-		, INSTANCE(GLWindow).GetWindowRectInt().height);
+	glViewport(0, 0, GetSubSystem<GameWindow>()->GetWindowRectInt().width
+		, GetSubSystem<GameWindow>()->GetWindowRectInt().height);
 
 	glm::mat4 view = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
 	m_backgroundShader.SetMat4("view", view);

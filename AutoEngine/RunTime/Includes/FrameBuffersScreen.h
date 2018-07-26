@@ -2,7 +2,7 @@
 #include "Auto.h"
 #include "Math/Vector2.h"
 #include "Shader.h"
-#include "Singleton.h"
+#include "Object.h"
 USING_MATH
 AUTO_BEGIN
 enum BuffersMode
@@ -14,11 +14,13 @@ enum BuffersMode
 	kInversion,
 	kSharpen,
 };
-class FrameBuffersScreen : public Singleton<FrameBuffersScreen>
+class FrameBuffersScreen : public Object
 {
+	REGISTER_DERIVED_CLASS(FrameBuffersScreen, Object);
+	DECLARE_OBJECT_SERIALIZE(FrameBuffersScreen);
 public:
-	FrameBuffersScreen();
-	~FrameBuffersScreen();
+	explicit FrameBuffersScreen(Ambient* ambient);
+
 	void SetEffect(BuffersMode mode);
 	void SetEffect(const Shader& shader);
 	void Start();

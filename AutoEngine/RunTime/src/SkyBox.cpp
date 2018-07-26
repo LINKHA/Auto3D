@@ -1,6 +1,6 @@
 #include "SkyBox.h"
 #include "LoadResource.h"
-#include "GLWindow.h"
+#include "GameWindow.h"
 #include "Camera.h"
 #include "VertexData.h"
 #include "Renderer.h"
@@ -40,7 +40,7 @@ void SkyBox::Start()
 void SkyBox::Draw()
 {
 	glm::mat4 viewMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
-	RectInt rect = INSTANCE(GLWindow).GetWindowRectInt();
+	RectInt rect = GetSubSystem<GameWindow>()->GetWindowRectInt();
 	glm::mat4 projectionMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
 	glDepthFunc(GL_LEQUAL);  
 	_shader.Use();

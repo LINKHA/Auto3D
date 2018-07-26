@@ -2,7 +2,7 @@
 #include "OpenGLGather.h"
 #include "Monitors.h"
 #include "AtConfig.h"
-#include "GLWindow.h"
+#include "GameWindow.h"
 #include "VertexData.h"
 AUTO_BEGIN
 Shader shader;
@@ -12,13 +12,14 @@ Shader shaderGrayscale;
 Shader shaderInversion;
 Shader shaderSharpen;
 
-
-SINGLETON_INSTANCE(FrameBuffersScreen);
-FrameBuffersScreen::FrameBuffersScreen()
-	:_enable(false)
-	,_shader(Shader(AtConfig::shader_path + "au_framebuffers_screen.auvs",
-		AtConfig::shader_path + "au_framebuffers_screen.aufs"))
+FrameBuffersScreen::FrameBuffersScreen(Ambient* ambient)
+	:Super(ambient)
+	,_enable(false)
+//	,_shader(Shader(AtConfig::shader_path + "au_framebuffers_screen.auvs",
+//		AtConfig::shader_path + "au_framebuffers_screen.aufs"))
 {
+	_shader = Shader(AtConfig::shader_path + "au_framebuffers_screen.auvs",
+		AtConfig::shader_path + "au_framebuffers_screen.aufs");
 	shader = Shader(AtConfig::shader_path + "au_framebuffers_screen.auvs",AtConfig::shader_path + "au_framebuffers_screen.aufs");
 	shaderBlur = Shader(AtConfig::shader_path + "au_framebuffers_screen.auvs",AtConfig::shader_path + "au_framebuffers_screen_blur.aufs");
 	shaderEdgeDetection = Shader(AtConfig::shader_path + "au_framebuffers_screen.auvs",AtConfig::shader_path + "au_framebuffers_screen_edge_detection.aufs");
@@ -50,7 +51,7 @@ void FrameBuffersScreen::Start()
 	_shader.Use();
 	_shader.SetInt("screenTexture", 0);
 
-	RectInt screenSize = INSTANCE(GLWindow).GetWindowRectInt();
+	RectInt screenSize = GetSubSystem<GameWindow>()->GetWindowRectInt();
 	
 
 	glGenFramebuffers(1, &_framebuffer);

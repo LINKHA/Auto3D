@@ -1,6 +1,6 @@
 #include "Input.h"
 #include "SDL2/SDL.h"
-#include "GLWindow.h"
+#include "GameWindow.h"
 AUTO_BEGIN
 Input::Input(Ambient* ambient)
 	: Super(ambient)
@@ -109,7 +109,7 @@ bool Input::GetKeyPress(int key)
 }
 void Input::lockCursor(int x,int y)
 {
-	SDL_WarpMouseInWindow(INSTANCE(GLWindow).GetGLWindow(), x, y);
+	SDL_WarpMouseInWindow(GetSubSystem<GameWindow>()->GetGLWindow(), x, y);
 }
 void Input::LockCursor(int x, int y)
 {
@@ -119,8 +119,8 @@ void Input::LockCursor(int x, int y)
 }
 void Input::LockCursorInCenter()
 {
-	_lockMousePosition.x = INSTANCE(GLWindow).GetWindowRectInt().width / 2;
-	_lockMousePosition.y = INSTANCE(GLWindow).GetWindowRectInt().height / 2;
+	_lockMousePosition.x = GetSubSystem<GameWindow>()->GetWindowRectInt().width / 2;
+	_lockMousePosition.y = GetSubSystem<GameWindow>()->GetWindowRectInt().height / 2;
 	_isLockCursor = true;
 }
 void Input::ShowCursor(bool enable)

@@ -1,7 +1,7 @@
 #include "RenderLoop.h"
 #include "Renderer.h"
 #include "BaseSpace.h"
-#include "GLWindow.h"
+#include "GameWindow.h"
 #include "BaseSpace.h"
 AUTO_BEGIN
 
@@ -19,7 +19,7 @@ RenderLoop::~RenderLoop()
 void RenderLoop::RunLoop()
 {
 	//Camera * cam = _camera;
-	RectInt rect = INSTANCE(GLWindow).GetWindowRectInt();
+	RectInt rect = GetSubSystem<GameWindow>()->GetWindowRectInt();
 	glViewport(
 		_camera->GetViewRect().x * rect.width,
 		_camera->GetViewRect().y * rect.height,

@@ -1,7 +1,7 @@
 #include "Bloom.h"
 #include "AtConfig.h"
 #include "LoadResource.h"
-#include "GLWindow.h"
+#include "GameWindow.h"
 #include "Camera.h"
 #include "Renderer.h"
 #include "BaseMesh.h"
@@ -33,7 +33,7 @@ void Bloom::Start()
 	glBindFramebuffer(GL_FRAMEBUFFER, hdrFBO);
 
 	glGenTextures(2, colorBuffers);
-	RectInt t = INSTANCE(GLWindow).GetWindowRectInt();
+	RectInt t = GetSubSystem<GameWindow>()->GetWindowRectInt();
 	for (unsigned int i = 0; i < 2; i++)
 	{
 		glBindTexture(GL_TEXTURE_2D, colorBuffers[i]);

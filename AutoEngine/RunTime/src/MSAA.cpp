@@ -1,14 +1,14 @@
 #include "MSAA.h"
 #include "OpenGLGather.h"
 #include "Math/Rect.h"
-#include "GLWindow.h"
+#include "GameWindow.h"
 #include "VertexData.h"
 USING_MATH
 AUTO_BEGIN
-SINGLETON_INSTANCE(MSAA);
 
-MSAA::MSAA()
-	:m_Shader(AtConfig::shader_path + "au_anti_aliasing_offscreen.auvs"
+MSAA::MSAA(Ambient* ambient)
+	:ManagerTool(ambient)
+	,m_Shader(AtConfig::shader_path + "au_anti_aliasing_offscreen.auvs"
 		, AtConfig::shader_path + "au_anti_aliasing_offscreen.aufs")
 {
 	
@@ -19,7 +19,7 @@ MSAA::~MSAA()
 
 void MSAA::Start(int samplingPointCount)
 {
-	RectInt m_rect = INSTANCE(GLWindow).GetWindowRectInt();
+	RectInt m_rect = GetSubSystem<GameWindow>()->GetWindowRectInt();
 	m_samplingPointCount = samplingPointCount;
 	if (samplingPointCount <= 0)
 	{
@@ -83,7 +83,7 @@ void MSAA::UpdateStart()
 }
 void MSAA::UpdateEnd()
 {
-	RectInt m_rect = INSTANCE(GLWindow).GetWindowRectInt();
+	RectInt m_rect = GetSubSystem<GameWindow>()->GetWindowRectInt();
 	if (m_samplingPointCount <= 0)
 	{
 		WarningString("Fail to antialiasing with sampling point count subter 0");

@@ -1,7 +1,7 @@
 #include "PBRTextureMaterial.h"
 #include "AtConfig.h"
 #include "stb_image.h"
-#include "GLWindow.h"
+#include "GameWindow.h"
 #include "Camera.h"
 #include "LoadResource.h"
 #include "BaseMesh.h"

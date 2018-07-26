@@ -1,5 +1,6 @@
 #include "TextureNormal.h"
 #include "Renderer.h"
+#include "GameWindow.h"
 AUTO_BEGIN
 
 
@@ -59,7 +60,7 @@ void TextureNormal::Draw()
 	else
 		modelMat = Matrix4x4::identity;
 	viewMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
-	RectInt rect = INSTANCE(GLWindow).GetWindowRectInt();
+	RectInt rect = GetSubSystem<GameWindow>()->GetWindowRectInt();
 	projectionMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
 
 	_shader.SetMat4("model", modelMat);

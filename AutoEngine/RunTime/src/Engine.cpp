@@ -12,10 +12,10 @@
 #include "Renderer.h"
 #include "Graphics.h"
 #include "BaseSpace.h"
+#include "GameWindow.h"
 
 
-
-//Temp
+//Temp include
 #include "SpriteSort.h"
 AUTO_BEGIN
 
@@ -28,11 +28,15 @@ Engine::Engine(Ambient* ambient)
 	_ambient->RegisterSubSystem(new BaseSpace(_ambient));
 	_ambient->RegisterSubSystem(new Time(_ambient));
 	_ambient->RegisterSubSystem(new Input(_ambient));
-
-
+	_ambient->RegisterSubSystem(new GameWindow(_ambient));
 
 	//Temp Sub
 	_ambient->RegisterSubSystem(new SpriteSort(_ambient));
+	//_ambient->RegisterSubSystem(new FrameBuffersScreen(_ambient));
+	//_ambient->RegisterSubSystem(new MSAA(_ambient));
+
+
+	GetSubSystem<GameWindow>()->CreateGameWindow();
 }
 
 
@@ -49,14 +53,14 @@ void Engine::Init()
 	glEnable(GL_DEPTH);
 	glEnable(GL_LESS);
 
-	if (INSTANCE(FrameBuffersScreen).GetEnable())
-	{
-		INSTANCE(FrameBuffersScreen).Start();
-	}
+	//if (GetSubSystem<FrameBuffersScreen>()->GetEnable())
+	//{
+	//	GetSubSystem<FrameBuffersScreen>()->Start();
+	//}
 
-#if MSAA_OPPSCREEN_POINT
-	INSTANCE(MSAA).Start(MSAA_OPPSCREEN_POINT);
-#endif
+//#if MSAA_OPPSCREEN_POINT
+//	GetSubSystem<MSAA>()->Start(MSAA_OPPSCREEN_POINT);
+//#endif
 	GetSubSystem<BaseSpace>()->Start();
 }
 void Engine::RunFrame()
@@ -66,34 +70,32 @@ void Engine::RunFrame()
 	if (GetSubSystem<Input>()->GetKeyDown(SDLK_ESCAPE))
 		_isExiting = true;
 	//////////////////////////
-#if MSAA_OPPSCREEN_POINT
-	INSTANCE(MSAA).UpdateStart();
-#endif 
+//#if MSAA_OPPSCREEN_POINT
+//	GetSubSystem<MSAA>()->UpdateStart();
+//#endif 
 
-	if (INSTANCE(FrameBuffersScreen).GetEnable())
-		INSTANCE(FrameBuffersScreen).DrawStart();
+	/*if (GetSubSystem<FrameBuffersScreen>()->GetEnable())
+		GetSubSystem<FrameBuffersScreen>()->DrawStart();*/
 
-	INSTANCE(GLWindow).DrawWindow();
+	GetSubSystem<GameWindow>()->DrawWindow();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	///Accept a buffer bit buffer Bitto specify the buffer to be emptied
 	GetSubSystem<BaseSpace>()->Update();
 	GetSubSystem<Renderer>()->RenderCameras();
-
 	GetSubSystem<BaseSpace>()->Finish();
-	
 	GetSubSystem<Input>()->EndFrame();
-	INSTANCE(GLWindow).RunLoopOver();
+	GetSubSystem<GameWindow>()->RunLoopOver();
 
-	if (INSTANCE(FrameBuffersScreen).GetEnable())
-		INSTANCE(FrameBuffersScreen).DrawEnd();
-
-#if MSAA_OPPSCREEN_POINT
-	INSTANCE(MSAA).UpdateEnd();
-#endif 
+	//if (GetSubSystem<FrameBuffersScreen>()->GetEnable())
+	//	GetSubSystem<FrameBuffersScreen>()->DrawEnd();
+//
+//#if MSAA_OPPSCREEN_POINT
+//	GetSubSystem<MSAA).UpdateEnd();
+//#endif 
 	
 }
 void Engine::Exit() 
 {
-	INSTANCE(GLWindow).DestoryWindow();
+	GetSubSystem<GameWindow>()->DestoryWindow();
 }
 AUTO_END

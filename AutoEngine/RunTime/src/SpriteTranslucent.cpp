@@ -5,7 +5,6 @@
 #include "Transform.h"
 #include "OpenGLGather.h"
 #include "LoadResource.h"
-#include "GLWindow.h"
 #include "SpriteSort.h"
 AUTO_BEGIN
 

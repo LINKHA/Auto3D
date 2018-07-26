@@ -1,6 +1,6 @@
 #pragma once
-#include "GLWindow.h"
 #include "OpenGLGather.h"
+#include "Singleton.h"
 #include "Auto.h"
 #include "AtConfig.h"
 #include "Ptr.h"

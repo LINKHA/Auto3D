@@ -5,8 +5,6 @@ AUTO_BEGIN
 SINGLETON_INSTANCE(Application);
 Application::Application()
 {
-	INSTANCE(GLWindow).CreateGameWindow();
-	
 }
 Application::~Application()
 {

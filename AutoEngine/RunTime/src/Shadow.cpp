@@ -1,6 +1,6 @@
 #include "Shadow.h"
 #include "AtConfig.h"
-#include "GLWindow.h"
+#include "GameWindow.h"
 #include "Camera.h"
 #include "ShadowTest.h"
 #include "stb_image.h"
@@ -59,7 +59,7 @@ void Shadow::Draw()
 	mesh3->Draw(m_ShadowMapDepth);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	RectInt t = INSTANCE(GLWindow).GetWindowRectInt();
+	RectInt t = GetSubSystem<GameWindow>()->GetWindowRectInt();
 	glViewport(0, 0, t.width, t.height);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

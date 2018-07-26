@@ -1,8 +1,6 @@
 #include "PBRMaterial.h"
 #include "AtConfig.h"
 #include "stb_image.h"
-#include "GLWindow.h"
-#include "Camera.h"
 #include "LoadResource.h"
 #include "BaseMesh.h"
 #include "HDRSkyBox.h"

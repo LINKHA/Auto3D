@@ -1,12 +1,12 @@
 #pragma once
 #include "Auto.h"
-#include "Singleton.h"
+#include "ManagerTool.h"
 #include "Shader.h"
 AUTO_BEGIN
-class MSAA : public Singleton<MSAA>
+class MSAA : public ManagerTool
 {
 public:
-	MSAA();
+	explicit MSAA(Ambient* ambient);
 	~MSAA();
 
 	void Start(int samplingPointCount);
