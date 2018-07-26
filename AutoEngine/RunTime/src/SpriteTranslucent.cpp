@@ -15,8 +15,9 @@ SpriteTranslucent::SpriteTranslucent()
 {
 	_imagePath.ptr = "Resource/texture/square.jpg";
 }
-SpriteTranslucent::SpriteTranslucent(char* imagePath)
-	: _shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs"
+SpriteTranslucent::SpriteTranslucent(Ambient* ambient, char* imagePath)
+	: Texture2D(ambient)
+	, _shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs"
 		, AtConfig::shader_path + "au_texture_transform.aufs"))
 {
 	_imagePath.ptr = imagePath;
