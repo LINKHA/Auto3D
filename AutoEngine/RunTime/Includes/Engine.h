@@ -14,6 +14,8 @@ public:
 	void RunFrame();
 	void Exit();
 	bool IsExiting()const { return _isExiting; }
+	
+	void Render();
 private:
 	bool _isExiting;
 };

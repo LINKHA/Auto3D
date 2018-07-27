@@ -11,4 +11,5 @@ Graphics::Graphics(Ambient* ambient)
 Graphics::~Graphics()
 {
 }
+
 AUTO_END

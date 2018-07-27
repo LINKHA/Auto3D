@@ -1,7 +1,8 @@
 #include "ManagerContext.h"
 
-#include "TimeManager.h"
+#include "Time.h"
 AUTO_BEGIN
+#define INIT_MANAGER(x) _managerClassIDs[k##x] = Object::StringToClassID (#x); 
 ManagerContext::ManagerContext()
 {
 	for (int i = 0; i < kManagerCount; i++)
@@ -14,7 +15,7 @@ void ManagerContext::InitializeClasses()
 	{
 		_managerClassIDs[i] = -1;
 	}
-	#define INIT_MANAGER(x) _managerClassIDs[k##x] = Object::StringToClassID (#x); 
 	INIT_MANAGER(TimeManager)
 }
+#undef INIT_MANAGER
 AUTO_END

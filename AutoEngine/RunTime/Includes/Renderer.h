@@ -12,7 +12,7 @@ class Renderer : public LevelGameManager
 public:
 	explicit Renderer(Ambient* ambient);
 
-	void RenderCameras();
+	void Render();
 	Camera& GetCurrentCamera() { return *_currentCamera; }
 	Camera* GetCurrentCameraPtr() { return _currentCamera; }
 	void SetCurrentCamera(Camera* c) { _currentCamera = c; }

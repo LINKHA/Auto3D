@@ -23,7 +23,7 @@ Renderer::~Renderer()
 {
 }
 
-void Renderer::RenderCameras()
+void Renderer::Render()
 {
 	_insideRenderOrCull = true;
 	for (CameraContainer::iterator i = _cameras.begin(); i != _cameras.end(); i++)
