@@ -2,6 +2,7 @@
 #include "Monitors.h"
 #include "Icon.h"
 #include "AtConfig.h"
+#include "stb_image.h"
 #include "../../EngineSetting/Optimize.h"
 AUTO_BEGIN
 
@@ -61,6 +62,7 @@ void GameWindow::CreateGameWindow()
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
+
 	//MSAA
 #if MSAA_POINT
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
@@ -111,8 +113,67 @@ void GameWindow::CreateGameWindow()
 	}
 	SDL_SetWindowSize(_window, _windowRect.width, _windowRect.height);
 	SDL_SetWindowPosition(_window, _windowRect.x - _windowRect.width / 2, _windowRect.y - _windowRect.height / 2);
+	
 }
 
+void GameWindow::CreateIcon()
+{
+	SDL_Surface *surface;     
+	surface = SetIcon();
+	SDL_SetWindowIcon(_window, surface);
+	SDL_FreeSurface(surface);
+}
+SDL_Surface* GameWindow::SetIcon()
+{
+	int req_format = STBI_rgb_alpha;
+	int width, height, orig_format;
+	//unsigned char* data = stbi_load((AtConfig::source_path + "Restource/logo.png").c_str(), &width, &height, &orig_format, 0);
+	unsigned char* data = stbi_load("../Resource/texture/logo.png", &width, &height, &orig_format, 0);
+	if (!data) {
+		SDL_Log("Loading image failed: %s", stbi_failure_reason());
+		exit(1);
+	}
 
+	// Set up the pixel format color masks for RGB(A) byte arrays.
+	// Only STBI_rgb (3) and STBI_rgb_alpha (4) are supported here!
+	Uint32 rmask, gmask, bmask, amask;
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+	int shift = (req_format == STBI_rgb) ? 8 : 0;
+	rmask = 0xff000000 >> shift;
+	gmask = 0x00ff0000 >> shift;
+	bmask = 0x0000ff00 >> shift;
+	amask = 0x000000ff >> shift;
+#else // little endian, like x86
+	rmask = 0x000000ff;
+	gmask = 0x0000ff00;
+	bmask = 0x00ff0000;
+	amask = (req_format == STBI_rgb) ? 0 : 0xff000000;
+#endif
 
+	int depth, pitch;
+	if (req_format == STBI_rgb) {
+		depth = 24;
+		pitch = 3 * width; // 3 bytes per pixel * pixels per row
+	}
+	else { // STBI_rgb_alpha (RGBA)
+		depth = 32;
+		pitch = 4 * width;
+	}
+
+	SDL_Surface* surf = SDL_CreateRGBSurfaceFrom((void*)data, width, height, depth, pitch,
+		rmask, gmask, bmask, amask);
+
+	if (surf == NULL) {
+		SDL_Log("Creating surface failed: %s", SDL_GetError());
+		stbi_image_free(data);
+		exit(1);
+	}
+
+	return surf;
+	// when you don't need the surface anymore, free it..
+	//SDL_FreeSurface(surf);
+	// .. *and* the data used by the surface!
+	//stbi_image_free(data);
+
+}
 AUTO_END

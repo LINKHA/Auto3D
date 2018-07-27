@@ -26,6 +26,8 @@ public:
 	void UpdateWindowRectInt(float width, float height) { _windowRect.width = width; _windowRect.height = height; }
 	char* GetTitle() { return _titleName; }
 	bool GetScreenFullorNot() { return true; }
+	SDL_Surface* SetIcon();
+	void CreateIcon();
 private:
 	SDL_Window * _window;
 	SDL_GLContext _context;
