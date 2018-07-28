@@ -1,6 +1,6 @@
 #include "DeferredShading.h"
 #include "AtConfig.h"
-#include "GameWindow.h"
+#include "Graphics.h"
 #include "Camera.h"
 #include "Renderer.h"
 #include "BaseMesh.h"
@@ -30,7 +30,7 @@ void DeferredShading::Start()
 	objectPositions.push_back(glm::vec3(0.0, -3.0, 3.0));
 	objectPositions.push_back(glm::vec3(3.0, -3.0, 3.0));
 
-	RectInt t = GetSubSystem<GameWindow>()->GetWindowRectInt();
+	RectInt t = GetSubSystem<Graphics>()->GetWindowRectInt();
 
 
 	glGenFramebuffers(1, &gBuffer);
@@ -154,7 +154,7 @@ void DeferredShading::Draw()
 											   // blit to default framebuffer. Note that this may or may not work as the internal formats of both the FBO and default framebuffer have to match.
 											   // the internal formats are implementation defined. This works on all of my systems, but if it doesn't on yours you'll likely have to write to the 		
 											   // depth buffer in another shader stage (or somehow see to match the default framebuffer's internal format with the FBO's internal format).
-	RectInt t = GetSubSystem<GameWindow>()->GetWindowRectInt();
+	RectInt t = GetSubSystem<Graphics>()->GetWindowRectInt();
 	glBlitFramebuffer(0, 0, t.width, t.height, 0, 0, t.width, t.height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 

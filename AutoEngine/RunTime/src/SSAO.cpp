@@ -1,5 +1,5 @@
 #include "SSAO.h"
-#include "GameWindow.h"
+#include "Graphics.h"
 #include "Camera.h"
 #include "Renderer.h"
 #include "BaseMesh.h"
@@ -26,7 +26,7 @@ void SSAO::Start()
 
 	glGenFramebuffers(1, &gBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
-	RectInt t = GetSubSystem<GameWindow>()->GetWindowRectInt();
+	RectInt t = GetSubSystem<Graphics>()->GetWindowRectInt();
 	glGenTextures(1, &gPosition);
 	glBindTexture(GL_TEXTURE_2D, gPosition);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, t.width ,t.height, 0, GL_RGB, GL_FLOAT, NULL);

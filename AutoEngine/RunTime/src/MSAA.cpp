@@ -1,7 +1,7 @@
 #include "MSAA.h"
 #include "OpenGLGather.h"
 #include "Math/Rect.h"
-#include "GameWindow.h"
+#include "Graphics.h"
 #include "VertexData.h"
 
 AUTO_BEGIN
@@ -19,7 +19,7 @@ MSAA::~MSAA()
 
 void MSAA::Start(int samplingPointCount)
 {
-	RectInt m_rect = GetSubSystem<GameWindow>()->GetWindowRectInt();
+	RectInt m_rect = GetSubSystem<Graphics>()->GetWindowRectInt();
 	m_samplingPointCount = samplingPointCount;
 	if (samplingPointCount <= 0)
 	{
@@ -83,7 +83,7 @@ void MSAA::UpdateStart()
 }
 void MSAA::UpdateEnd()
 {
-	RectInt m_rect = GetSubSystem<GameWindow>()->GetWindowRectInt();
+	RectInt m_rect = GetSubSystem<Graphics>()->GetWindowRectInt();
 	if (m_samplingPointCount <= 0)
 	{
 		WarningString("Fail to antialiasing with sampling point count subter 0");

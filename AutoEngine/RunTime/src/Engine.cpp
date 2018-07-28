@@ -1,5 +1,4 @@
 #include "Engine.h"
-
 #include "GameObject.h"
 #include "Shadow.h"
 #include "../../EngineSetting/Optimize.h"
@@ -8,7 +7,6 @@
 #include "Renderer.h"
 #include "Graphics.h"
 #include "BaseSpace.h"
-#include "GameWindow.h"
 #include "Time.h"
 
 //Temp include
@@ -26,15 +24,17 @@ Engine::Engine(Ambient* ambient)
 	_ambient->RegisterSubSystem(new BaseSpace(_ambient));
 	_ambient->RegisterSubSystem(new Time(_ambient));
 	_ambient->RegisterSubSystem(new Input(_ambient));
-	_ambient->RegisterSubSystem(new GameWindow(_ambient));
 
 	//Temp Sub
 	_ambient->RegisterSubSystem(new SpriteSort(_ambient));
 	//_ambient->RegisterSubSystem(new FrameBuffersScreen(_ambient));
 	//_ambient->RegisterSubSystem(new MSAA(_ambient));
-
-
-	GetSubSystem<GameWindow>()->CreateGameWindow();
+	auto* graphics = GetSubSystem<Graphics>();
+	graphics->CreateGameWindow();
+#ifdef _OPENGL_4_PLUS_
+	graphics->CreateGlContext();
+#endif
+	graphics->InitGameWindowPos();
 }
 
 
@@ -44,16 +44,12 @@ Engine::~Engine()
 
 void Engine::Init()
 {
-
-
+	GetSubSystem<Graphics>()->RegisterDebug();
 	GetSubSystem<BaseSpace>()->Awake();
-	GetSubSystem<Graphics>()->Init();
-
 	//if (GetSubSystem<FrameBuffersScreen>()->GetEnable())
 	//{
 	//	GetSubSystem<FrameBuffersScreen>()->Start();
 	//}
-
 //#if MSAA_OPPSCREEN_POINT
 //	GetSubSystem<MSAA>()->Start(MSAA_OPPSCREEN_POINT);
 //#endif
@@ -64,7 +60,6 @@ void Engine::RunFrame()
 	auto* baseSpace = GetSubSystem<BaseSpace>();
 	auto* input = GetSubSystem<Input>();
 	auto* time = GetSubSystem<Time>();
-	auto* window = GetSubSystem<GameWindow>();
 	auto* renderer = GetSubSystem<Renderer>();
 
 	time->Update();
@@ -78,21 +73,13 @@ void Engine::RunFrame()
 
 	/*if (GetSubSystem<FrameBuffersScreen>()->GetEnable())
 		GetSubSystem<FrameBuffersScreen>()->DrawStart();*/
-
-	
-	
-	
-	///Accept a buffer bit buffer Bitto specify the buffer to be emptied
-
 	baseSpace->Update();
 
 	Render();
-	
+
 	///End
 	baseSpace->Finish();
 	input->EndFrame();
-	window->RunLoopOver();
-
 	//if (GetSubSystem<FrameBuffersScreen>()->GetEnable())
 	//	GetSubSystem<FrameBuffersScreen>()->DrawEnd();
 //
@@ -103,17 +90,14 @@ void Engine::RunFrame()
 }
 void Engine::Exit() 
 {
-	GetSubSystem<GameWindow>()->DestoryWindow();
+	GetSubSystem<Graphics>()->DestoryWindow();
 }
 void Engine::Render()
 {
 	auto* graphics = GetSubSystem<Graphics>();
 	if (!graphics->BeginFrame())
 		return;
-
-	
 	GetSubSystem<Renderer>()->Render();
-
 	graphics->EndFrame();
 }
 AUTO_END

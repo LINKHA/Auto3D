@@ -2,7 +2,7 @@
 #include "OpenGLGather.h"
 #include "Monitors.h"
 #include "AtConfig.h"
-#include "GameWindow.h"
+#include "Graphics.h"
 #include "VertexData.h"
 AUTO_BEGIN
 Shader shader;
@@ -51,7 +51,7 @@ void FrameBuffersScreen::Start()
 	_shader.Use();
 	_shader.SetInt("screenTexture", 0);
 
-	RectInt screenSize = GetSubSystem<GameWindow>()->GetWindowRectInt();
+	RectInt screenSize = GetSubSystem<Graphics>()->GetWindowRectInt();
 	
 
 	glGenFramebuffers(1, &_framebuffer);

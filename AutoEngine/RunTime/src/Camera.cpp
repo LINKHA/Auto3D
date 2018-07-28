@@ -1,6 +1,6 @@
 #include "Camera.h"
 #include "RenderLoop.h"
-#include "GameWindow.h"
+#include "Graphics.h"
 AUTO_BEGIN
 
 Camera::Camera(Ambient* ambient)
@@ -45,7 +45,7 @@ glm::mat4& Camera::GetViewMatrix()
 }
 glm::mat4& Camera::GetProjectionMatrix()
 {
-	RectInt rect = GetSubSystem<GameWindow>()->GetWindowRectInt();
+	RectInt rect = GetSubSystem<Graphics>()->GetWindowRectInt();
 	if (_sortMode == kSortPerspective)
 	{
 		_projectionMatrix = glm::perspective(_zoom,

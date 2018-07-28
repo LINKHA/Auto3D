@@ -1,7 +1,7 @@
 #include "InstanceBeltLine.h"
 #include "ModelCommand.h"
 #include "Math/Rect.h"
-#include "GameWindow.h"
+#include "Graphics.h"
 #include "Camera.h"
 #include "Renderer.h"
 AUTO_BEGIN
@@ -45,7 +45,7 @@ void InstanceBeltLine::Start()
 }
 void InstanceBeltLine::Draw()
 {
-	RectInt rect = GetSubSystem<GameWindow>()->GetWindowRectInt();
+	RectInt rect = GetSubSystem<Graphics>()->GetWindowRectInt();
 
 	glm::mat4 projectionMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
 	glm::mat4 viewMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();

@@ -6,7 +6,7 @@
 #include "Application.h"
 #include "Transform.h"
 #include "../FreeCamera.h"
-#include "GameWindow.h"
+#include "Graphics.h"
 GameObject* te_obj;
 TextureSpace::TextureSpace(Ambient* ambient)
 	:MotionSpace(ambient)
@@ -17,7 +17,7 @@ TextureSpace::~TextureSpace()
 }
 void TextureSpace::Start()
 {
-	GetSubSystem<GameWindow>()->CreateIcon();
+	GetSubSystem<Graphics>()->CreateIcon();
 
 	GameObject* camObj = new GameObject(_ambient);
 	FreeCamera* freeCamera = new FreeCamera(_ambient);

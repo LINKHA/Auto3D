@@ -27,6 +27,7 @@
 	#define SCRIPT			AutoScript
 #endif // !SCRIPT
 
+#define _OPENGL_4_PLUS_
 
 
 //Define Data type

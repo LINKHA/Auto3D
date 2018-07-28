@@ -1,7 +1,7 @@
 #include "HDR.h"
 #include "AtConfig.h"
 #include "LoadResource.h"
-#include "GameWindow.h"
+#include "Graphics.h"
 #include "Renderer.h"
 #include "BaseMesh.h"
 AUTO_BEGIN
@@ -25,7 +25,7 @@ void HDR::Start()
 	glGenTextures(1, &colorBuffer);
 	glBindTexture(GL_TEXTURE_2D, colorBuffer);
 
-	RectInt t = GetSubSystem<GameWindow>()->GetWindowRectInt();
+	RectInt t = GetSubSystem<Graphics>()->GetWindowRectInt();
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, t.width, t.height, 0, GL_RGBA, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

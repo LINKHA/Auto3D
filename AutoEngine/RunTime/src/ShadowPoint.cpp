@@ -2,7 +2,7 @@
 #include "AtConfig.h"
 #include "stb_image.h"
 #include "ShadowTest.h"
-#include "GameWindow.h"
+#include "Graphics.h"
 #include "Camera.h"
 #include "VertexData.h"
 #include "LoadResource.h"
@@ -63,7 +63,7 @@ void ShadowPoint::Draw()
 
 	// 2. render scene as normal 
 	// -------------------------
-	RectInt t = GetSubSystem<GameWindow>()->GetWindowRectInt();
+	RectInt t = GetSubSystem<Graphics>()->GetWindowRectInt();
 	glViewport(0, 0, t.width, t.height);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	m_ShadowMap.Use();
