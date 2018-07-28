@@ -4,7 +4,7 @@
 
 
 
-USING_MATH
+
 AUTO_BEGIN
 class ImageReference
 {

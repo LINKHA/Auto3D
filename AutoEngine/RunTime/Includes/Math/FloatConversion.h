@@ -1,7 +1,7 @@
 #pragma once
 #include "Math/MathBase.h"
 #include "LogAssert.h"
-MATH_BEGIN
+AUTO_BEGIN
 inline UInt32 FloorfToIntPos(float f)
 {
 	assert(f >= 0 && f <= UINT_MAX);
@@ -21,5 +21,5 @@ inline int NormalizedToByte(float f)
 	return RoundfToIntPos(f * 255.0f);
 }
 
-MATH_END
+AUTO_END
 

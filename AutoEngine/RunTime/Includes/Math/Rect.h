@@ -2,7 +2,7 @@
 #include "Auto.h"
 #include "MathBase.h"
 #include "Vector2.h"
-MATH_BEGIN
+AUTO_BEGIN
 template <typename T>
 struct Rect
 {
@@ -48,4 +48,4 @@ public:
 using Rectf = Rect<float>;
 using RectInt = Rect<int>;
 
-MATH_END
+AUTO_END

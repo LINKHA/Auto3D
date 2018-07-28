@@ -2,7 +2,7 @@
 #include "Math.h"
 #include "Auto.h"
 #include "glm/gtx/quaternion.hpp"
-MATH_BEGIN
+AUTO_BEGIN
 
 
 struct Quaternion
@@ -25,6 +25,6 @@ struct Quaternion
 };
 
 
-MATH_END
+AUTO_END
 
 

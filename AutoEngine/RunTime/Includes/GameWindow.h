@@ -6,7 +6,7 @@
 #include "Math/Color.h"
 #include "GameManager.h"
 #include "Math/Rect.h"
-USING_MATH
+
 AUTO_BEGIN
 class GameWindow : public GlobalGameManager
 {

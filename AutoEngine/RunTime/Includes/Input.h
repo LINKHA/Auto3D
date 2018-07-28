@@ -4,8 +4,10 @@
 #include "stl_use.h"
 #include "GameManager.h"
 #include "Math/Vector2.h"
+
+
 AUTO_BEGIN
-USING_MATH
+
 struct JoystickState
 {
 	bool GetButtonDown(unsigned index)const { return index < _buttons.size() ? _buttons[index] : false; }

@@ -2,7 +2,7 @@
 #include "Auto.h"
 #include "Math/Math.h"
 
-USING_MATH
+USING_AUTO
 AUTO_API_BEGIN
 class MMath
 {

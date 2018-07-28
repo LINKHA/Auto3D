@@ -11,7 +11,7 @@
 #include "LogAssert.h"
 #include "Math/Math.h"
 
-USING_MATH
+
 AUTO_BEGIN
 struct Shader
 {

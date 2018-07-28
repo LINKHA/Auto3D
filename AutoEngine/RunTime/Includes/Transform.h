@@ -2,7 +2,7 @@
 #include "Math/Math.h"
 #include "OpenGLGather.h"
 #include "GameObject.h"
-USING_MATH
+
 AUTO_BEGIN
 class Transform : public Component
 {

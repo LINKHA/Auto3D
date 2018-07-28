@@ -6,7 +6,7 @@
 #include "ModelCommand.h"
 #include "LightManager.h"
 #include "Transform.h"
-USING_MATH
+
 AUTO_BEGIN
 
 enum LightType

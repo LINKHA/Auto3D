@@ -2,7 +2,7 @@
 #include "MathBase.h"
 #include "LogAssert.h"
 
-MATH_BEGIN
+AUTO_BEGIN
 struct Vector4
 {
 public:
@@ -47,4 +47,4 @@ inline float Dot(const Vector4& lhs, const Vector4& rhs) { return lhs.x * rhs.x 
 
 inline Vector4 Lerp(const Vector4& from, const Vector4& to, float t) { return lerp(from, to, t); }
 
-MATH_END
+AUTO_END

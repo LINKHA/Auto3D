@@ -4,7 +4,7 @@
 #include "Math/Math.h"
 #include "ObjectDefines.h"
 #include "Image.h"
-USING_MATH
+
 AUTO_BEGIN
 struct Material
 {

@@ -5,7 +5,7 @@
 #include "Math/Matrix4x4.h"
 #include "Math/Color.h"
 #include "HDRSkyBox.h"
-USING_MATH
+
 AUTO_BEGIN
 class RenderLoop;
 

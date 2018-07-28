@@ -1,6 +1,6 @@
 #include "Vector3.h"
 
-MATH_BEGIN
+AUTO_BEGIN
 const Vector3 Vector3::zero = Vector3(0, 0, 0);
 const Vector3 Vector3::one = Vector3(1.0f, 1.0f, 1.0f);
 const Vector3 Vector3::xAxis = Vector3(1, 0, 0);
@@ -125,4 +125,4 @@ Vector3 MoveTowards(const Vector3& lhs, const Vector3& rhs, float clampedDistanc
 //}
 
 
-MATH_END
+AUTO_END

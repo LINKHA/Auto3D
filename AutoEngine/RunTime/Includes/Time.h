@@ -3,7 +3,7 @@
 #include "Math/MathBase.h"
 #include <Windows.h>
 
-USING_MATH
+
 AUTO_BEGIN
 /**
 * @brief : SubSystem class

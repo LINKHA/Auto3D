@@ -2,10 +2,8 @@
 #include <algorithm>
 #include "Math/FloatConversion.h"
 #include "Vector3.h"
-MATH_BEGIN
-#define RED_COLOR Color(1.0f , 0 , 0)
-#define GREEN_COLOR	Color(0 , 1.0f , 0)
-#define BLUE_COLOR Color(0 , 0 , 1.0f)
+AUTO_BEGIN
+
 
 struct Color
 {
@@ -35,6 +33,10 @@ public:
 	// Deleted function
 	bool operator == (const Color& inRGB) const = delete;
 	bool operator != (const Color& inRGB) const = delete;
+
+	static const Color Color::RED;
+	static const Color Color::GREEN;
+	static const Color Color::BLUE;
 };
 
 
@@ -63,6 +65,6 @@ inline Color Lerp(const Color& c0, const Color& c1, float t)
 	return (1.0f - t) * c0 + t * c1;
 }
 
-MATH_END
+AUTO_END
 
 

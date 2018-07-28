@@ -13,22 +13,6 @@
 #define USING_API_AUTO		using namespace AutoEngineAPI;
 #define AUTO_API			AutoEngineAPI
 
-//namespace AUMath
-#ifndef MATH_BEGIN
-	#define MATH_BEGIN		namespace AutoMath {
-#endif //!MATH_BEGIN
-#ifndef MATH_END
-	#define MATH_END		}
-#endif//!MATH_END
-#ifndef USING_MATH
-	#define USING_MATH		using namespace AutoMath;
-#endif//!USING_MATH
-#ifndef MATH
-	#define MATH			AutoMath
-#endif//!MATH
-
-
-
 //namespace AutoScript
 #ifndef SCRIPT_BEGIN
 	#define SCRIPT_BEGIN	namespace AutoScript {

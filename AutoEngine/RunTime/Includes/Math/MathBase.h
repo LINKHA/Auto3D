@@ -15,7 +15,8 @@
 #define MATH_PI						3.14159265358979323846f		//pi
 #define MATH_PI_2f					1.57079632679489661923f		//pi/2
 #define MATH_PI_4f					0.785398163397448309616f	//pi/4
-
+static const unsigned MATH_MIN_UNSIGNED = 0x00000000;
+static const unsigned MATH_MAX_UNSIGNED = 0xffffffff;
 //abandon use Rand class
 //#define MATH_RANDOM_MINUS1_1()      ((2.0f*((float)rand()/RAND_MAX))-1.0f)      // Returns a random float between -1 and 1.
 //#define MATH_RANDOM_0_1()           ((float)rand()/RAND_MAX)                    // Returns a random float between 0 and 1.
@@ -24,7 +25,7 @@
 #define MATH_CLAMP_0_1(x)			( x > 1 ? 1 :( 0 > x)? 0 : x)				
 #define MATH_CLAMP_1_1(x)			( x > 1 ? 1 :( -1 > x)? -1 : x)			
 
-MATH_BEGIN
+AUTO_BEGIN
 template<typename T>
 static inline T max(T v1, T v2) { return v1 > v2 ? v1 : v2; }
 
@@ -122,5 +123,5 @@ static inline float clamp11(float const&x)
 
 //Smooth
 
-MATH_END
+AUTO_END
 

@@ -3,7 +3,7 @@
 #include "Math/Vector2.h"
 #include "Shader.h"
 #include "Object.h"
-USING_MATH
+
 AUTO_BEGIN
 enum BuffersMode
 {

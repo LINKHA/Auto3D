@@ -5,7 +5,7 @@
 #include "Singleton.h"
 #include "Math/Vector2.h"
 #include "OpenGLGather.h"
-USING_MATH
+
 AUTO_BEGIN
 /**
 * @brief : Singleton class

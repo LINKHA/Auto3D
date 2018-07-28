@@ -1,6 +1,6 @@
 #include "Vector4.h"
 
-MATH_BEGIN
+AUTO_BEGIN
 
 
-MATH_END
+AUTO_END

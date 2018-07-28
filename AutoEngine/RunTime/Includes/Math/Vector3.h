@@ -2,7 +2,7 @@
 #include "MathBase.h"
 #include "LogAssert.h"
 
-MATH_BEGIN
+AUTO_BEGIN
 
 struct Vector3
 {
@@ -76,5 +76,5 @@ Vector3 RotateTowards(const Vector3& lhs, const Vector3& rhs, float maxAngle, fl
 
 Vector3 MoveTowards(const Vector3& lhs, const Vector3& rhs, float clampedDistance);
 
-MATH_END
+AUTO_END
 

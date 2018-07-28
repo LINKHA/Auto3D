@@ -2,7 +2,7 @@
 #include "MMath.h"
 
 
-USING_MATH;
+USING_AUTO;
 AUTO_API_BEGIN
 
 

@@ -3,7 +3,7 @@
 #include "Math/Rect.h"
 #include "GameWindow.h"
 #include "VertexData.h"
-USING_MATH
+
 AUTO_BEGIN
 
 MSAA::MSAA(Ambient* ambient)
