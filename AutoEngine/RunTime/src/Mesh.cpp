@@ -6,22 +6,25 @@ AUTO_BEGIN
 
 LightManager& lights = INSTANCE(LightManager);
 
-Mesh::Mesh()
-	: _shader(Shader(AtConfig::shader_path + "au_light_map_model_loading.auvs"
+Mesh::Mesh(Ambient* ambient)
+	:Super(ambient)
+	, _shader(Shader(AtConfig::shader_path + "au_light_map_model_loading.auvs"
 		, AtConfig::shader_path + "au_light_map_model_loading.aufs"))
 	, _isUserShader(false)
 {
 	_meshPath.ptr = "Resource/object/base/Cube.FBX";
 
 }
-Mesh::Mesh(char* meshPath)
-	: _isUserShader(false)
+Mesh::Mesh(Ambient* ambient,char* meshPath)
+	: Super(ambient)
+	, _isUserShader(false)
 {
 	_meshPath.ptr = meshPath;
 	
 }
-Mesh::Mesh(char* meshPath, const Shader& shader)
-	: _shader(shader)
+Mesh::Mesh(Ambient* ambient,char* meshPath, const Shader& shader)
+	: Super(ambient)
+	, _shader(shader)
 	, _isUserShader(true)
 {
 	_meshPath.ptr = meshPath;

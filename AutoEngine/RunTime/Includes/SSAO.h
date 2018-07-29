@@ -7,7 +7,7 @@ AUTO_BEGIN
 class SSAO : public Component
 {
 public:
-	SSAO();
+	SSAO(Ambient* ambient);
 	~SSAO();
 
 	void Start()override;

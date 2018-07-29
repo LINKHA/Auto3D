@@ -21,6 +21,10 @@ public:
 	void CreateIcon();
 	void DestoryWindow();
 	SDL_Surface* SetIcon();
+	bool IsInitialized();
+	bool IsDeviceLost();
+
+
 
 	RectInt GetWindowRectInt() { return _windowRect; }
 	void UpdateWindowRectInt(float width, float height) { _windowRect.width = width; _windowRect.height = height; }

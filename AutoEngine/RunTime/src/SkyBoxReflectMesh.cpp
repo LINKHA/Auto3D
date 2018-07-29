@@ -6,13 +6,15 @@
 #include "Transform.h"
 
 AUTO_BEGIN
-SkyBoxReflectMesh::SkyBoxReflectMesh()
-	: m_shader(AtConfig::shader_path + "au_skybox_cube.auvs"
+SkyBoxReflectMesh::SkyBoxReflectMesh(Ambient* ambient)
+	: RenderComponent(ambient)
+	, m_shader(AtConfig::shader_path + "au_skybox_cube.auvs"
 		, AtConfig::shader_path + "au_skybox_cube.aufs")
 {
 }
-SkyBoxReflectMesh::SkyBoxReflectMesh(const Shader& shader )
-	: m_shader(shader)
+SkyBoxReflectMesh::SkyBoxReflectMesh(Ambient* ambient, const Shader& shader )
+	: RenderComponent(ambient)
+	, m_shader(shader)
 {
 }
 

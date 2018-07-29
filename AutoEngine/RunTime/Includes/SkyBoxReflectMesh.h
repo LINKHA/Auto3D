@@ -5,8 +5,8 @@ AUTO_BEGIN
 class SkyBoxReflectMesh : public RenderComponent
 {
 public:
-	SkyBoxReflectMesh(); 
-	SkyBoxReflectMesh(const Shader& shader);
+	SkyBoxReflectMesh(Ambient* ambient); 
+	SkyBoxReflectMesh(Ambient* ambient,const Shader& shader);
 	~SkyBoxReflectMesh();
 	void Start()override;
 	void Draw()override;

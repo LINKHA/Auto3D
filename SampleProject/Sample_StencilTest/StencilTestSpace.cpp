@@ -13,23 +13,23 @@ StencilTestSpace::~StencilTestSpace()
 
 void StencilTestSpace::Start()
 {
-	GameObject * lightObj = new GameObject();
+	GameObject * lightObj = new GameObject(_ambient);
 	lightObj->GetComponent(Transform).SetPosition(2.0f, 5.0f, 0.0f);
-	Light * light = new LightDirectional();
+	Light * light = new LightDirectional(_ambient);
 	lightObj->AddComponent(light);
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	GameObject * camObj = new GameObject();
+	GameObject * camObj = new GameObject(_ambient);
 	FreeCamera * cam = new FreeCamera(_ambient);
 	camObj->AddComponent(cam);
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	GameObject * obj1 = new GameObject();
-	Mesh * plane = new Mesh("../Resource/object/base/Cube.FBX");
+	GameObject * obj1 = new GameObject(_ambient);
+	Mesh * plane = new Mesh(_ambient,"../Resource/object/base/Cube.FBX");
 	plane->GetMaterial().color.Set(0.5f, 0.5f, 0.5f);
 	obj1->AddComponent(plane);
 	obj1->GetComponent(Transform).SetScale(10.0f, 0.1f, 10.0f);
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	GameObject * obj2 = new GameObject();
-	Mesh * box1 = new Mesh("../Resource/object/base/Cube.FBX");
+	GameObject * obj2 = new GameObject(_ambient);
+	Mesh * box1 = new Mesh(_ambient,"../Resource/object/base/Cube.FBX");
 	box1->EnableStencil(true);
 	box1->StencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 	box1->StencilFunc(GL_ALWAYS, 1, 0xFF);
@@ -38,8 +38,8 @@ void StencilTestSpace::Start()
 	obj2->AddComponent(box1);
 	obj2->GetComponent(Transform).SetPosition(1.0f, 0.5f, 3.0f);
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	GameObject * obj3 = new GameObject();
-	Mesh * box2 = new Mesh("../Resource/object/base/Cube.FBX");
+	GameObject * obj3 = new GameObject(_ambient);
+	Mesh * box2 = new Mesh(_ambient,"../Resource/object/base/Cube.FBX");
 	box2->EnableStencil(true);
 	box2->StencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 	box2->StencilFunc(GL_NOTEQUAL, 1, 0xFF);
@@ -54,6 +54,6 @@ void StencilTestSpace::Update()
 }
 int StencilTestSpace::Launch()
 {
-	return INSTANCE(Application).Run();
+	return INSTANCE(Application).Run(_ambient);
 }
 AUTO_APPLICATION_MAIN(StencilTestSpace)

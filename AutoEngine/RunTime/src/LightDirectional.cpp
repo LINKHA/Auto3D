@@ -2,7 +2,8 @@
 
 
 AUTO_BEGIN
-LightDirectional::LightDirectional()
+LightDirectional::LightDirectional(Ambient* ambi)
+	:Super(ambi)
 {
 	_type = kDirectional;
 	color.Set(1.0f, 1.0f, 1.0f);

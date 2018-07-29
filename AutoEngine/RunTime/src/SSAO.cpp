@@ -4,8 +4,9 @@
 #include "Renderer.h"
 #include "BaseMesh.h"
 AUTO_BEGIN
-SSAO::SSAO()
-	: m_shaderGeometryPass(AtConfig::shader_path + "au_ssao_geometry.auvs"
+SSAO::SSAO(Ambient* ambient)
+	:Component(ambient)
+	, m_shaderGeometryPass(AtConfig::shader_path + "au_ssao_geometry.auvs"
 		, AtConfig::shader_path + "au_ssao_geometry.aufs")
 	, m_shaderLightingPass(AtConfig::shader_path + "au_ssao.auvs"
 		, AtConfig::shader_path + "au_ssao_lighting.aufs")

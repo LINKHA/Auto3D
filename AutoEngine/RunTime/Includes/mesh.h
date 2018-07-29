@@ -17,9 +17,9 @@ class Mesh : public RenderComponent,public GLMeshEnable
 	REGISTER_DERIVED_CLASS(Mesh, RenderComponent);
 	DECLARE_OBJECT_SERIALIZE(Mesh);
 public:
-	Mesh();
-	Mesh(char* meshPath);
-	Mesh(char* meshPath, const Shader& shader);
+	explicit Mesh(Ambient* ambient);
+	Mesh(Ambient* ambient,char* meshPath);
+	Mesh(Ambient* ambient,char* meshPath, const Shader& shader);
 
 	void Start()override;
 	void Draw()override;

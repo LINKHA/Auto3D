@@ -1,23 +1,13 @@
 #include "Renderer.h"
 #include "Camera.h"
+#include "Graphics.h"
 AUTO_BEGIN
 
 
 Renderer::Renderer(Ambient* ambient)
 	:Super(ambient)
 {
-	_insideRenderOrCull = true;
-	for (CameraContainer::iterator i = _cameras.begin(); i != _cameras.end(); i++)
-	{
-		Camera* cam = *i;
-		if (cam && cam->GetEnable())
-		{
-			_currentCamera = cam;
-			cam->Render();
-		}
-	}
-	_insideRenderOrCull = false;
-	delayedAddRemoveCameras();
+	
 }
 Renderer::~Renderer()
 {
@@ -25,6 +15,8 @@ Renderer::~Renderer()
 
 void Renderer::Render()
 {
+	auto* graphics = GetSubSystem<Graphics>();
+	assert(graphics && graphics->IsInitialized() && !graphics->IsDeviceLost());
 	_insideRenderOrCull = true;
 	for (CameraContainer::iterator i = _cameras.begin(); i != _cameras.end(); i++)
 	{
