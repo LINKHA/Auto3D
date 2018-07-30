@@ -6,8 +6,8 @@
 #include "Prefab.h"
 #include "InstanceBeltLine.h"
 #include "Math/Rand.h"
-#include "TimeManager.h"
-USING_MATH
+#include "Time.h"
+
 MassInstantiationSpace::MassInstantiationSpace(Ambient* ambient)
 	:MotionSpace(ambient)
 {
@@ -24,7 +24,7 @@ void MassInstantiationSpace::Start()
 	glm::mat4* modelMatrices;
 	int amount = 10000;
 	modelMatrices = new glm::mat4[amount];
-	Rand rand(INSTANCE(TimeManager).GetRealTime().second);
+	Rand rand(GetSubSystem<Time>()->GetRealTime().second);
 
 	float radius = 150.0;
 	float offset = 25.0f;
@@ -46,13 +46,13 @@ void MassInstantiationSpace::Start()
 		modelMatrices[i] = model;
 	}
 
-	GameObject * cameraObj = new GameObject();
+	GameObject * cameraObj = new GameObject(_ambient);
 	FreeCamera * camera = new FreeCamera(_ambient);
 	cameraObj->AddComponent(camera);
 	
-	GameObject * beltLineObj = new GameObject();
+	GameObject * beltLineObj = new GameObject(_ambient);
 	InstanceBeltLine * line = 
-		new InstanceBeltLine(ModelCommand("../Resource/object/rock/rock.obj")
+		new InstanceBeltLine(_ambient,ModelCommand("../Resource/object/rock/rock.obj")
 			,Shader("asteroids.auvs", "asteroids.aufs"),
 			modelMatrices, amount);
 	beltLineObj->AddComponent(line);
@@ -63,6 +63,6 @@ void MassInstantiationSpace::Update()
 }
 int MassInstantiationSpace::Launch()
 {
-	return INSTANCE(Application).Run();
+	return INSTANCE(Application).Run(_ambient);
 }
 AUTO_APPLICATION_MAIN(MassInstantiationSpace)

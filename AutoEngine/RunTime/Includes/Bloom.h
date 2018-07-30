@@ -6,7 +6,7 @@ AUTO_BEGIN
 class Bloom : public Component
 {
 public:
-	Bloom();
+	explicit Bloom(Ambient* ambient);
 	~Bloom();
 	void Start()override;
 	void Draw()override;

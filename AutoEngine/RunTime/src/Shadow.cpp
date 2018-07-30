@@ -9,8 +9,9 @@
 #include "Renderer.h"
 AUTO_BEGIN
 
-Shadow::Shadow()
-	: m_ShadowMapDepth(AtConfig::shader_path + "au_shadow_mapping_depth.auvs"
+Shadow::Shadow(Ambient* ambient)
+	: Component(ambient)
+	, m_ShadowMapDepth(AtConfig::shader_path + "au_shadow_mapping_depth.auvs"
 		, AtConfig::shader_path + "au_shadow_mapping_depth.aufs")
 {}
 Shadow::~Shadow()
@@ -37,6 +38,7 @@ void Shadow::Start()
 }
 void Shadow::Draw()
 {
+
 	glm::mat4 lightProjection, lightView;
 	glm::mat4 lightSpaceMatrix;
 	float near_plane = 1.0f, far_plane = 7.5f;

@@ -19,8 +19,9 @@ glm::vec3 lightColors[] = {
 	glm::vec3(300.0f, 300.0f, 300.0f),
 	glm::vec3(300.0f, 300.0f, 300.0f)
 };
-PBRMaterial::PBRMaterial()
-	: pbrShader(AtConfig::shader_path + "au_pbr.auvs"
+PBRMaterial::PBRMaterial(Ambient* ambient)
+	: Component(ambient)
+	, pbrShader(AtConfig::shader_path + "au_pbr.auvs"
 		, AtConfig::shader_path + "au_pbr_hdr.aufs")
 {
 }

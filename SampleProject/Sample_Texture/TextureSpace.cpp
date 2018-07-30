@@ -17,7 +17,7 @@ TextureSpace::~TextureSpace()
 }
 void TextureSpace::Start()
 {
-	GetSubSystem<Graphics>()->CreateIcon();
+	
 
 	GameObject* camObj = new GameObject(_ambient);
 	FreeCamera* freeCamera = new FreeCamera(_ambient);

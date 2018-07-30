@@ -5,7 +5,7 @@ AUTO_BEGIN
 class PBRTextureMaterial : public Component
 {
 public:
-	PBRTextureMaterial();
+	explicit PBRTextureMaterial(Ambient* ambient);
 	~PBRTextureMaterial();
 	void Start()override;
 	void Draw()override;

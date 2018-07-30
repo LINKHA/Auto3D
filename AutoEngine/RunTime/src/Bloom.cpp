@@ -7,8 +7,9 @@
 #include "BaseMesh.h"
 AUTO_BEGIN
 
-Bloom::Bloom()
-	: m_shader(Shader(AtConfig::shader_path + "au_bloom.auvs"
+Bloom::Bloom(Ambient* ambient)
+	: Component(ambient)
+	, m_shader(Shader(AtConfig::shader_path + "au_bloom.auvs"
 		, AtConfig::shader_path + "au_bloom.aufs"))
 	, m_shaderLight(Shader(AtConfig::shader_path + "au_bloom.auvs"
 		, AtConfig::shader_path + "au_bloom_light_box.aufs"))

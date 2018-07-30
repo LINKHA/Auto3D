@@ -15,7 +15,7 @@ ShadowSpace::~ShadowSpace()
 
 void ShadowSpace::Start()
 {
-	GameObject * cameraObj = new GameObject();
+	GameObject * cameraObj = new GameObject(_ambient);
 	FreeCamera * camera = new FreeCamera(_ambient);
 	cameraObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 	cameraObj->AddComponent(camera);
@@ -48,9 +48,9 @@ void ShadowSpace::Start()
 	meshObj3->AddComponent(mesh3);
 	meshObj3->GetComponent(Transform).SetPosition(4.0f, 2.0f, 0.0f);*/
 
-	GameObject * shadowObj = new GameObject();
-	Shadow * shadow = new Shadow();
-	//ShadowPoint * shadow = new ShadowPoint();
+	GameObject * shadowObj = new GameObject(_ambient);
+	Shadow * shadow = new Shadow(_ambient);
+	//ShadowPoint * shadow = new ShadowPoint(_ambient);
 	shadowObj->AddComponent(shadow);
 
 }
@@ -61,6 +61,6 @@ void ShadowSpace::Update()
 
 int ShadowSpace::Launch()
 {
-	return INSTANCE(Application).Run();
+	return INSTANCE(Application).Run(_ambient);
 }
 AUTO_APPLICATION_MAIN(ShadowSpace)

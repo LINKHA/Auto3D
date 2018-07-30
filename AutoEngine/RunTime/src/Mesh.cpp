@@ -12,7 +12,7 @@ Mesh::Mesh(Ambient* ambient)
 		, AtConfig::shader_path + "au_light_map_model_loading.aufs"))
 	, _isUserShader(false)
 {
-	_meshPath.ptr = "Resource/object/base/Cube.FBX";
+	_meshPath.ptr = "../Resource/object/base/Cube.FBX";
 
 }
 Mesh::Mesh(Ambient* ambient,char* meshPath)

@@ -5,7 +5,7 @@ AUTO_BEGIN
 class PBRMaterial: public Component
 {
 public:
-	PBRMaterial();
+	explicit PBRMaterial(Ambient* ambient);
 	~PBRMaterial();
 	void Start()override;
 	void Draw()override;

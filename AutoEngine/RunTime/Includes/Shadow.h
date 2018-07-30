@@ -8,7 +8,7 @@ AUTO_BEGIN
 class Shadow : public Component
 {
 public:
-	Shadow();
+	explicit Shadow(Ambient* ambient);
 	virtual ~Shadow();
 	void Start()override;
 	void Draw()override;

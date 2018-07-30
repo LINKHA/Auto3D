@@ -3,7 +3,8 @@
 AUTO_BEGIN
 
 
-LightSpot::LightSpot()
+LightSpot::LightSpot(Ambient* ambi)
+	:Super(ambi)
 {
 	_type = kSpot;
 	color.Set(1.0f, 1.0f, 1.0f);

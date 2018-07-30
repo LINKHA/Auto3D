@@ -24,7 +24,7 @@ void SkyBoxSpace::Start()
 	cameraObj->AddComponent(camera);
 
 	GameObject * skyBoxObj = new GameObject(_ambient);
-	SkyBox * skybox = new SkyBox();
+	SkyBox * skybox = new SkyBox(_ambient);
 	skyBoxObj->AddComponent(skybox);
 
 	GameObject * lightObj = new GameObject(_ambient);
@@ -33,7 +33,7 @@ void SkyBoxSpace::Start()
 
 	GameObject * meshObj = new GameObject(_ambient);
 	Mesh * mesh = new Mesh(_ambient);
-	//mesh->GetMaterial().SetImage("Resource/texture/wood.jpg");
+	//mesh->GetMaterial().SetImage("../Resource/texture/wood.jpg");
 	mesh->GetMaterial().color = Color(0.0f, 0.0f, 1.0f);
 	meshObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, -0.5f);
 	meshObj->AddComponent(mesh);

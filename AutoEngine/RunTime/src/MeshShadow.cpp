@@ -39,7 +39,7 @@ void MeshShadow::Start()
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
-	_woodTexture = LocalTextureLoad("Resource/texture/wood.jpg");
+	_woodTexture = LocalTextureLoad("../Resource/texture/wood.jpg");
 	_shader.Use();
 	_shader.SetInt("diffuseTexture", 0);
 	_shader.SetInt("shadowMap", 1);

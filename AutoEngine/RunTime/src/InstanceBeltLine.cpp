@@ -6,8 +6,9 @@
 #include "Renderer.h"
 AUTO_BEGIN
 
-InstanceBeltLine::InstanceBeltLine(const ModelCommand& model, const Shader& shader, glm::mat4* modelMat,int count)
-	:_model(model)
+InstanceBeltLine::InstanceBeltLine(Ambient* ambient,const ModelCommand& model, const Shader& shader, glm::mat4* modelMat,int count)
+	:Component(ambient)
+	,_model(model)
 	,_shader(shader)
 	,_modelMatrices(modelMat)
 	,_count(count)

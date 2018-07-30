@@ -5,8 +5,9 @@
 #include "Renderer.h"
 #include "BaseMesh.h"
 AUTO_BEGIN
-DeferredShading::DeferredShading()
-	: m_shaderGeometryPass(AtConfig::shader_path + "au_g_buffer.auvs"
+DeferredShading::DeferredShading(Ambient* ambient)
+	: Component(ambient)
+	, m_shaderGeometryPass(AtConfig::shader_path + "au_g_buffer.auvs"
 		, AtConfig::shader_path + "au_g_buffer.aufs")
 	, m_shaderLightingPass(AtConfig::shader_path + "au_deffered_shading.auvs"
 		, AtConfig::shader_path + "au_deffered_shading.aufs")

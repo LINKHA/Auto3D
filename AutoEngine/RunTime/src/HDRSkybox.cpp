@@ -45,7 +45,7 @@ void HDRSkyBox::Start()
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, captureRBO);
 
 	stbi_set_flip_vertically_on_load(true);
-	hdrTexture = LocalHdrLoad("Resource/texture/hdr/Alexs_Apt_2k.hdr");
+	hdrTexture = LocalHdrLoad("../Resource/texture/hdr/Alexs_Apt_2k.hdr");
 
 	glGenTextures(1, &envCubemap);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, envCubemap);

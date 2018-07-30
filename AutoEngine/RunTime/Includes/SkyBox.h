@@ -8,7 +8,7 @@ class SkyBox : public Texture3D
 	REGISTER_DERIVED_CLASS(SkyBox, Texture3D);
 	DECLARE_OBJECT_SERIALIZE(SkyBox);
 public:
-	SkyBox();
+	explicit SkyBox(Ambient* ambient);
 
 	void Start()override;
 	void Draw()override;

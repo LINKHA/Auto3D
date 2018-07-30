@@ -14,21 +14,21 @@ PBRSkyBoxSpace::~PBRSkyBoxSpace()
 
 void PBRSkyBoxSpace::Start()
 {
-	GameObject * cameraObj = new GameObject();
+	GameObject * cameraObj = new GameObject(_ambient);
 	FreeCamera * camera = new FreeCamera(_ambient);
 	cameraObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 	cameraObj->AddComponent(camera);
 
 	
 
-	GameObject * skyboxObj = new GameObject();
-	HDRSkyBox * skybox = new HDRSkyBox();
+	GameObject * skyboxObj = new GameObject(_ambient);
+	HDRSkyBox * skybox = new HDRSkyBox(_ambient);
 	skyboxObj->AddComponent(skybox);
 
 
-	GameObject * pbrObj = new GameObject();
-	PBRMaterial * pbr = new PBRMaterial();
-	//PBRTextureMaterial * pbr = new PBRTextureMaterial();
+	GameObject * pbrObj = new GameObject(_ambient);
+	PBRMaterial * pbr = new PBRMaterial(_ambient);
+	//PBRTextureMaterial * pbr = new PBRTextureMaterial(_ambient);
 	pbrObj->AddComponent(pbr);
 
 }
@@ -40,6 +40,6 @@ void PBRSkyBoxSpace::Update()
 
 int PBRSkyBoxSpace::Launch()
 {
-	return INSTANCE(Application).Run();
+	return INSTANCE(Application).Run(_ambient);
 }
 AUTO_APPLICATION_MAIN(PBRSkyBoxSpace)

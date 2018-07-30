@@ -8,7 +8,7 @@ AUTO_BEGIN
 class DeferredShading : public Component
 {
 public:
-	DeferredShading();
+	explicit DeferredShading(Ambient* ambient);
 	~DeferredShading();
 	void Start()override;
 	void Draw()override;

@@ -17,6 +17,6 @@ void DebugSapce::Update()
 }
 int DebugSapce::Launch()
 {
-	return INSTANCE(Application).Run();
+	return INSTANCE(Application).Run(_ambient);
 }
 AUTO_APPLICATION_MAIN(DebugSapce)

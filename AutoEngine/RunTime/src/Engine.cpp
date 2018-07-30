@@ -46,6 +46,7 @@ void Engine::Init()
 {
 	GetSubSystem<Graphics>()->RegisterDebug();
 	GetSubSystem<BaseSpace>()->Awake();
+	GetSubSystem<Graphics>()->CreateIcon();
 	//if (GetSubSystem<FrameBuffersScreen>()->GetEnable())
 	//{
 	//	GetSubSystem<FrameBuffersScreen>()->Start();

@@ -19,8 +19,9 @@ glm::vec3 t_lightColors[] = {
 	glm::vec3(300.0f, 300.0f, 300.0f)
 };
 
-PBRTexture::PBRTexture()
-	:m_shader(AtConfig::shader_path + "au_pbr.auvs"
+PBRTexture::PBRTexture(Ambient* ambient)
+	:Component(ambient)
+	,m_shader(AtConfig::shader_path + "au_pbr.auvs"
 		, AtConfig::shader_path + "au_pbr_texture.aufs")
 {
 }
@@ -37,11 +38,11 @@ void PBRTexture::Start()
 	m_shader.SetInt("metallicMap", 2);
 	m_shader.SetInt("roughnessMap", 3);
 	m_shader.SetInt("aoMap", 4);
-	albedo = LocalTextureLoad("resource/texture/pbr/gold/albedo.png");
-	normal = LocalTextureLoad("resource/texture/pbr/gold/normal.png");
-	metallic = LocalTextureLoad("resource/texture/pbr/gold/metallic.png");
-	roughness = LocalTextureLoad("resource/texture/pbr/gold/roughness.png");
-	ao = LocalTextureLoad("resource/texture/pbr/gold/ao.png");
+	albedo = LocalTextureLoad("../resource/texture/pbr/gold/albedo.png");
+	normal = LocalTextureLoad("../resource/texture/pbr/gold/normal.png");
+	metallic = LocalTextureLoad("../resource/texture/pbr/gold/metallic.png");
+	roughness = LocalTextureLoad("../resource/texture/pbr/gold/roughness.png");
+	ao = LocalTextureLoad("../resource/texture/pbr/gold/ao.png");
 
 }
 void PBRTexture::Draw()

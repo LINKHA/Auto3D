@@ -19,8 +19,9 @@ glm::vec3 lightColors[] = {
 	glm::vec3(300.0f, 300.0f, 300.0f),
 	glm::vec3(300.0f, 300.0f, 300.0f)
 };
-PBRTextureMaterial::PBRTextureMaterial()
-	: pbrShader(AtConfig::shader_path + "au_pbr.auvs"
+PBRTextureMaterial::PBRTextureMaterial(Ambient* ambient)
+	: Component(ambient)
+	, pbrShader(AtConfig::shader_path + "au_pbr.auvs"
 		, AtConfig::shader_path + "au_pbr_hdr_trxture.aufs")
 {
 }
@@ -49,39 +50,39 @@ void PBRTextureMaterial::Start()
 	pbrShader.SetInt("roughnessMap", 6);
 	pbrShader.SetInt("aoMap", 7);
 
-	ironAlbedoMap = LocalTextureLoad("Resource/texture/pbr/gold/albedo.png");
-	ironNormalMap = LocalTextureLoad("Resource/texture/pbr/gold/normal.png");
-	ironMetallicMap = LocalTextureLoad("Resource/texture/pbr/gold/metallic.png");
-	ironRoughnessMap = LocalTextureLoad("Resource/texture/pbr/gold/roughness.png");
-	ironAOMap = LocalTextureLoad("Resource/texture/pbr/gold/ao.png");
+	ironAlbedoMap = LocalTextureLoad("../Resource/texture/pbr/gold/albedo.png");
+	ironNormalMap = LocalTextureLoad("../Resource/texture/pbr/gold/normal.png");
+	ironMetallicMap = LocalTextureLoad("../Resource/texture/pbr/gold/metallic.png");
+	ironRoughnessMap = LocalTextureLoad("../Resource/texture/pbr/gold/roughness.png");
+	ironAOMap = LocalTextureLoad("../Resource/texture/pbr/gold/ao.png");
 
 	// gold
-	goldAlbedoMap = LocalTextureLoad("Resource/texture/pbr/gold/albedo.png");
-	goldNormalMap = LocalTextureLoad("Resource/texture/pbr/gold/normal.png");
-	goldMetallicMap = LocalTextureLoad("Resource/texture/pbr/gold/metallic.png");
-	goldRoughnessMap = LocalTextureLoad("Resource/texture/pbr/gold/roughness.png");
-	goldAOMap = LocalTextureLoad("Resource/texture/pbr/gold/ao.png");
+	goldAlbedoMap = LocalTextureLoad("../Resource/texture/pbr/gold/albedo.png");
+	goldNormalMap = LocalTextureLoad("../Resource/texture/pbr/gold/normal.png");
+	goldMetallicMap = LocalTextureLoad("../Resource/texture/pbr/gold/metallic.png");
+	goldRoughnessMap = LocalTextureLoad("../Resource/texture/pbr/gold/roughness.png");
+	goldAOMap = LocalTextureLoad("../Resource/texture/pbr/gold/ao.png");
 
 	// grass
-	grassAlbedoMap = LocalTextureLoad("Resource/texture/pbr/gold/albedo.png");
-	grassNormalMap = LocalTextureLoad("Resource/texture/pbr/gold/normal.png");
-	grassMetallicMap = LocalTextureLoad("Resource/texture/pbr/gold/metallic.png");
-	grassRoughnessMap = LocalTextureLoad("Resource/texture/pbr/gold/roughness.png");
-	grassAOMap = LocalTextureLoad("Resource/texture/pbr/gold/ao.png");
+	grassAlbedoMap = LocalTextureLoad("../Resource/texture/pbr/gold/albedo.png");
+	grassNormalMap = LocalTextureLoad("../Resource/texture/pbr/gold/normal.png");
+	grassMetallicMap = LocalTextureLoad("../Resource/texture/pbr/gold/metallic.png");
+	grassRoughnessMap = LocalTextureLoad("../Resource/texture/pbr/gold/roughness.png");
+	grassAOMap = LocalTextureLoad("../Resource/texture/pbr/gold/ao.png");
 
 	// plastic
-	plasticAlbedoMap = LocalTextureLoad("Resource/texture/pbr/gold/albedo.png");
-	plasticNormalMap = LocalTextureLoad("Resource/texture/pbr/gold/normal.png");
-	plasticMetallicMap = LocalTextureLoad("Resource/texture/pbr/gold/metallic.png");
-	plasticRoughnessMap = LocalTextureLoad("Resource/texture/pbr/gold/roughness.png");
-	plasticAOMap = LocalTextureLoad("Resource/texture/pbr/gold/ao.png");
+	plasticAlbedoMap = LocalTextureLoad("../Resource/texture/pbr/gold/albedo.png");
+	plasticNormalMap = LocalTextureLoad("../Resource/texture/pbr/gold/normal.png");
+	plasticMetallicMap = LocalTextureLoad("../Resource/texture/pbr/gold/metallic.png");
+	plasticRoughnessMap = LocalTextureLoad("../Resource/texture/pbr/gold/roughness.png");
+	plasticAOMap = LocalTextureLoad("../Resource/texture/pbr/gold/ao.png");
 
 	// wall
-	wallAlbedoMap = LocalTextureLoad("Resource/texture/pbr/gold/albedo.png");
-	wallNormalMap = LocalTextureLoad("Resource/texture/pbr/gold/normal.png");
-	wallMetallicMap = LocalTextureLoad("Resource/texture/pbr/gold/metallic.png");
-	wallRoughnessMap = LocalTextureLoad("Resource/texture/pbr/gold/roughness.png");
-	wallAOMap = LocalTextureLoad("Resource/texture/pbr/gold/ao.png");
+	wallAlbedoMap = LocalTextureLoad("../Resource/texture/pbr/gold/albedo.png");
+	wallNormalMap = LocalTextureLoad("../Resource/texture/pbr/gold/normal.png");
+	wallMetallicMap = LocalTextureLoad("../Resource/texture/pbr/gold/metallic.png");
+	wallRoughnessMap = LocalTextureLoad("../Resource/texture/pbr/gold/roughness.png");
+	wallAOMap = LocalTextureLoad("../Resource/texture/pbr/gold/ao.png");
 
 }
 

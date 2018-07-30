@@ -4,7 +4,7 @@
 #include "../FreeCamera.h"
 #include "LightPoint.h"
 #include "FrameBuffersScreen.h"
-#include "TimeManager.h"
+#include "Time.h"
 #include "Sprite.h"
 FrameBuffersSpace::FrameBuffersSpace(Ambient* ambient)
 	:MotionSpace(ambient)
@@ -16,41 +16,41 @@ FrameBuffersSpace::~FrameBuffersSpace()
 void FrameBuffersSpace::Start()
 {
 	glEnable(GL_FRAMEBUFFER_SRGB);
-	INSTANCE(FrameBuffersScreen).Enable(true);
+	GetSubSystem<FrameBuffersScreen>()->Enable(true);
 
-	GameObject* camObj = new GameObject();
+	GameObject* camObj = new GameObject(_ambient);
 	FreeCamera* freeCamera = new FreeCamera(_ambient);
 	camObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 	camObj->AddComponent(freeCamera);
 	
-	Sprite * tex2 = new Sprite("../Resource/texture/window.png");
+	Sprite * tex2 = new Sprite(_ambient,"../Resource/texture/window.png");
 	tex2->EnableBlend(true);
 	tex2->EnableDepth(false);
-	GameObject * obj2 = new GameObject();
+	GameObject * obj2 = new GameObject(_ambient);
 	obj2->GetComponent(Transform).SetPosition(0.0f, 0.0f, 0.0f);
 	obj2->AddComponent(tex2);
 
-	Sprite * tex3 = new Sprite("../Resource/texture/window.png");
+	Sprite * tex3 = new Sprite(_ambient,"../Resource/texture/window.png");
 	tex3->EnableBlend(true);
 	tex3->EnableDepth(false);
-	GameObject * obj3 = new GameObject();
+	GameObject * obj3 = new GameObject(_ambient);
 	obj3->GetComponent(Transform).SetPosition(0.2f, 0.0f, -1.0f);
 	obj3->AddComponent(tex3);
 
-	Sprite * tex5 = new Sprite("../Resource/texture/grass.png");
+	Sprite * tex5 = new Sprite(_ambient,"../Resource/texture/grass.png");
 	tex5->EnableBlend(true);
-	GameObject * obj5 = new GameObject();
+	GameObject * obj5 = new GameObject(_ambient);
 	obj5->GetComponent(Transform).SetPosition(-0.2f, 0.0f, -3.0f);
 	obj5->AddComponent(tex5);
 
-	GameObject * lightObj = new GameObject();
-	Light * light = new LightPoint();
+	GameObject * lightObj = new GameObject(_ambient);
+	Light * light = new LightPoint(_ambient);
 	lightObj->AddComponent(light);
 	//////////////////////////////////////////////////////////////////////////
-	Mesh * mesh = new Mesh("../Resource/object/base/Cube.FBX");
+	Mesh * mesh = new Mesh(_ambient,"../Resource/object/base/Cube.FBX");
 	mesh->GetMaterial().color.Set(0.5f, 0.8f, 0.3f);
 	//mesh->GetMaterial().SetImage("Resource/texture/window.png");
-	GameObject * meshObj = new GameObject();
+	GameObject * meshObj = new GameObject(_ambient);
 	meshObj->GetComponent(Transform).SetPosition(1.0f, 0.0f, 0.0f);
 	meshObj->AddComponent(mesh);
 
@@ -58,7 +58,7 @@ void FrameBuffersSpace::Start()
 int oldi = 0;
 void FrameBuffersSpace::Update()
 {
-	int i =(int)INSTANCE(TimeManager).GetCurTime() % 6;
+	int i =(int)GetSubSystem<Time>()->GetCurTime() % 6;
 	Print(i);
 	if( oldi!= i)
 	{
@@ -66,22 +66,22 @@ void FrameBuffersSpace::Update()
 		switch (i)
 		{
 		case 0:
-			INSTANCE(FrameBuffersScreen).SetEffect(kDefault);
+			GetSubSystem<FrameBuffersScreen>()->SetEffect(kDefault);
 			break;
 		case 1:
-			INSTANCE(FrameBuffersScreen).SetEffect(kBlur);
+			GetSubSystem<FrameBuffersScreen>()->SetEffect(kBlur);
 			break;
 		case 2:
-			INSTANCE(FrameBuffersScreen).SetEffect(kEdge_detection);
+			GetSubSystem<FrameBuffersScreen>()->SetEffect(kEdge_detection);
 			break;
 		case 3:
-			INSTANCE(FrameBuffersScreen).SetEffect(kGrayscale);
+			GetSubSystem<FrameBuffersScreen>()->SetEffect(kGrayscale);
 			break;
 		case 4:
-			INSTANCE(FrameBuffersScreen).SetEffect(kInversion);
+			GetSubSystem<FrameBuffersScreen>()->SetEffect(kInversion);
 			break;
 		case 5:
-			INSTANCE(FrameBuffersScreen).SetEffect(kSharpen);
+			GetSubSystem<FrameBuffersScreen>()->SetEffect(kSharpen);
 			break;
 		}
 	}
@@ -90,6 +90,6 @@ void FrameBuffersSpace::Update()
 }
 int FrameBuffersSpace::Launch()
 {
-	return INSTANCE(Application).Run();
+	return INSTANCE(Application).Run(_ambient);
 }
 AUTO_APPLICATION_MAIN(FrameBuffersSpace)

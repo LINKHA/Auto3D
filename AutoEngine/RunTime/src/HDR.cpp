@@ -5,8 +5,9 @@
 #include "Renderer.h"
 #include "BaseMesh.h"
 AUTO_BEGIN
-HDR::HDR()
-	: m_shader(AtConfig::shader_path + "au_lighting.auvs"
+HDR::HDR(Ambient* ambient)
+	:Component(ambient)
+	, m_shader(AtConfig::shader_path + "au_lighting.auvs"
 		, AtConfig::shader_path + "au_lighting.aufs")
 	, m_hdrShader(AtConfig::shader_path + "au_hdr.auvs"
 		, AtConfig::shader_path + "au_hdr.aufs")

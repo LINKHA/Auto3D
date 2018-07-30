@@ -3,8 +3,9 @@
 AUTO_BEGIN
 
 
-TextureParallax::TextureParallax()
-	: _VAO(0)
+TextureParallax::TextureParallax(Ambient* ambient)
+	: TextureMap(ambient)
+	, _VAO(0)
 {
 	_imagePath.ptr = "../Resource/texture/bricks.jpg";
 	_imageNormalPath.ptr = "../Resource/texture/bricks_normal.jpg";

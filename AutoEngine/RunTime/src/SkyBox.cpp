@@ -6,7 +6,8 @@
 #include "Renderer.h"
 AUTO_BEGIN
 SINGLETON_INSTANCE(SkyManager);
-SkyBox::SkyBox()
+SkyBox::SkyBox(Ambient* ambient)
+	:Super(ambient)
 {
 }
 

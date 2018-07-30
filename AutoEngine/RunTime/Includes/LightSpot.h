@@ -8,7 +8,7 @@ class LightSpot : public Light
 	REGISTER_DERIVED_CLASS(LightSpot, Light);
 	DECLARE_OBJECT_SERIALIZE(LightSpot);
 public:
-	LightSpot();
+	explicit LightSpot(Ambient* ambient);
 
 public:
 	/*Color color;

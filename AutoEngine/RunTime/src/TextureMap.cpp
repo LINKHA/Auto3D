@@ -1,8 +1,10 @@
 #include "TextureMap.h"
 AUTO_BEGIN
 
-
 TextureMap::TextureMap()
+{}
+TextureMap::TextureMap(Ambient* ambient)
+	:Super(ambient)
 {}
 TextureMap::~TextureMap()
 {}

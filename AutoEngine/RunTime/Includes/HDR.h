@@ -8,7 +8,7 @@ AUTO_BEGIN
 class HDR : public Component
 {
 public:
-	HDR();
+	explicit HDR(Ambient* ambient);
 	~HDR();
 	void Start()override;
 	void Draw()override;
