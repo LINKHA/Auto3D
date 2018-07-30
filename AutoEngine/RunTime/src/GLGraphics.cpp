@@ -7,6 +7,87 @@
 
 #include "../../EngineSetting/Optimize.h"
 AUTO_BEGIN
+
+
+static const unsigned glFillMode[] =
+{
+	GL_FILL,
+	GL_LINE,
+	GL_POINT
+};
+
+static const unsigned glChangeMode[] =
+{
+	GL_STATIC_DRAW,	
+	GL_DYNAMIC_DRAW,
+	GL_STREAM_DRAW	
+};
+
+static const unsigned glBufferMode[] =
+{
+	GL_ARRAY_BUFFER ,
+	GL_ELEMENT_ARRAY_BUFFER 
+};
+
+static const unsigned glDepthMode[] =
+{
+	GL_ALWAYS,		
+	GL_NEVER,		
+	GL_LESS,		
+	GL_EQUAL,		
+	GL_LEQUAL,		
+	GL_GREATER,		
+	GL_NOTEQUAL,	
+	GL_GEQUAL	
+};
+
+static const unsigned glStencilOps[] =
+{
+	GL_KEEP,
+	GL_ZERO,
+	GL_REPLACE,
+	GL_INCR,
+	GL_INCR_WRAP,
+	GL_DECR,
+	GL_DECR_WRAP,
+	GL_INVERT
+};
+
+static const unsigned glBlendSrcFu[] =
+{
+	GL_ZERO,
+	GL_ONE,
+	GL_SRC_COLOR,
+	GL_ONE_MINUS_SRC_COLOR,
+	GL_SRC_ALPHA,
+	GL_ONE_MINUS_SRC_ALPHA,
+	GL_CONSTANT_COLOR,
+	GL_ONE_MINUS_CONSTANT_COLOR,
+	GL_CONSTANT_ALPHA,
+	GL_ONE_MINUS_CONSTANT_ALPHA
+};
+
+static const unsigned glBlendDestFu[] =
+{
+	GL_DST_COLOR,
+	GL_ONE_MINUS_DST_COLOR,
+	GL_DST_ALPHA,
+	GL_ONE_MINUS_DST_ALPHA
+};
+
+static const unsigned glBlendOp[] =
+{
+	GL_FUNC_ADD,
+	GL_FUNC_REVERSE_SUBTRACT
+};
+
+static const unsigned glElementTypes[] =
+{
+	GL_INT,
+	GL_FLOAT,
+	GL_UNSIGNED_BYTE
+};
+
 void Graphics::RegisterDebug()
 {
 	GLint flags;
@@ -21,14 +102,22 @@ void Graphics::RegisterDebug()
 }
 bool Graphics::BeginFrame()
 {
+	if (!IsInitialized() || IsDeviceLost())
+		return false;
 	glEnable(GL_DEPTH);
 	glEnable(GL_LESS);
+
 	SetColorWrite(true);
 	SetDepthWrite(true);
 	Clear(CLEAR_COLOR | CLEAR_DEPTH | CLEAR_STENCIL);
 	return true;
 }
-
+void Graphics::EndFrame()
+{
+	if (!IsInitialized())
+		return;
+	SDL_GL_SwapWindow(_window);
+}
 
 void Graphics::Clear(unsigned flags, const Color & color, float depth, unsigned stencil)
 {

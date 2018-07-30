@@ -3,3 +3,85 @@
 static const unsigned CLEAR_COLOR = 0x1;
 static const unsigned CLEAR_DEPTH = 0x2;
 static const unsigned CLEAR_STENCIL = 0x4;
+
+
+static const int MAX_TEXTURE_UNITS = 16;
+
+enum FillMode
+{
+	FI_FILL = 0,
+	FI_LINE = 1,
+	FI_POINT = 2
+};
+
+enum ChangeMode
+{
+	CH_STATIC_DRAW = 0,
+	CH_DYNAMIC_DRAW = 1,
+	CH_STREAM_DRAW = 2
+};
+
+enum BufferMode
+{
+	BU_ARRAY_BUFFER = 0,
+	BU_ELEMENT_ARRAY_BUFFER = 1
+};
+
+enum DepthMode
+{
+	DP_ALWAYS = 0,
+	DP_NEVER = 1,
+	DP_LESS = 2,
+	DP_EQUAL = 3,
+	DP_LEQUAL = 4,
+	DP_GREATER = 5,
+	DP_NOTEQUAL = 6,
+	DP_GEQUAL = 7
+};
+
+enum StencilOps
+{
+	ST_KEEP = 0,
+	ST_ZERO,
+	ST_REPLACE,
+	ST_INCR,
+	ST_INCR_WRAP,
+	ST_DECR,
+	ST_DECR_WRAP,
+	ST_INVERT
+};
+
+enum BlendSrcFu
+{
+	BL_SR_ZERO = 0,
+	BL_SR_ONE,
+	BL_SR_SRC_COLOR,
+	BL_SR_ONE_MINUS_SRC_COLOR,
+	BL_SR_SRC_ALPHA,
+	BL_SR_ONE_MINUS_SRC_ALPHA,
+	BL_SR_CONSTANT_COLOR,
+	BL_SR_ONE_MINUS_CONSTANT_COLOR,
+	BL_SR_CONSTANT_ALPHA,
+	BL_SR_ONE_MINUS_CONSTANT_ALPHA
+};
+
+enum BlendDestFu
+{
+	BL_DE_DST_COLOR = 0,
+	BL_DE_ONE_MINUS_DST_COLOR,
+	BL_DE_DST_ALPHA,
+	BL_DE_ONE_MINUS_DST_ALPHA
+};
+
+enum BlendOp
+{
+	BL_OP_FUNC_ADD = 0,
+	BL_OP_FUNC_REVERSE_SUBTRACT
+};
+
+enum ElementTypes
+{
+	EL_TY_INT = 0,
+	EL_TY_FLOAT,
+	EL_TY_UNSIGNED_BYTE
+};

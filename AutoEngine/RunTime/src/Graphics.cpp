@@ -158,10 +158,7 @@ void Graphics::DestoryWindow()
 	_window = nullptr;
 	SDL_Quit();
 }
-void Graphics::EndFrame()
-{
-	SDL_GL_SwapWindow(_window);
-}
+
 bool Graphics::IsInitialized()
 {
 	return _window != nullptr;
