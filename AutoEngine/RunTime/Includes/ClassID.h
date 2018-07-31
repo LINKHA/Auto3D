@@ -52,7 +52,7 @@ enum ClassIDType
 	DO_CLASS_ID(Input,45)
 	DO_CLASS_ID(ManagerTool, 46)
 	DO_CLASS_ID(SpriteSort, 47)
-	DO_CLASS_ID(GameWindow, 48)
+	DO_CLASS_ID(Geometry, 48)
 	DO_CLASS_ID(FrameBuffersScreen, 49)
 	
 

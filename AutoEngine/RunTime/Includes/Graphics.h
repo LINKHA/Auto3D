@@ -7,6 +7,7 @@
 #include "Auto.h"
 #include "Math/Color.h"
 #include "Math/Rect.h"
+#include "GraphicsDefines.h"
 AUTO_BEGIN
 class Graphics : public GlobalGameManager
 {
@@ -17,6 +18,7 @@ public:
 	void CreateGameWindow();
 	//Opengl only
 	void CreateGlContext();
+
 	void InitGameWindowPos();
 	void CreateIcon();
 	void DestoryWindow();
@@ -33,6 +35,10 @@ public:
 	SDL_Window* GetGameWindow() { return _window; }
 	void RegisterDebug();
 
+	void Draw(PrimitiveTypes type, unsigned vertexStart, unsigned vertexCount);
+	void Draw(PrimitiveTypes type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount);
+	void DrawInstanced(PrimitiveTypes type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount,unsigned instanceCount);
+	
 	bool BeginFrame();
 	void EndFrame();	
 	void Clear(unsigned flags , const Color& color = Color(0.0f, 0.0f, 0.0f, 0.0f), float depth = 1.0f, unsigned stencil = 0);
@@ -44,13 +50,16 @@ private:
 	Color _drawColor;
 	RectInt _windowRect;
 	char* _titleName;
-	bool _isFullScreen = false;
+	bool _isFullScreen = true;
 	bool _isCenter = true;
 
 
 	bool _colorWrite{};
 	bool _depthWrite{};
 	unsigned _stencilWriteMask{};
+
+	unsigned _numPrimitives{};
+	unsigned _numBatches{};
 };
 
 AUTO_END

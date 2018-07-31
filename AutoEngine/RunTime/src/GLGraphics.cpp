@@ -88,6 +88,42 @@ static const unsigned glElementTypes[] =
 	GL_UNSIGNED_BYTE
 };
 
+static void GetGLPrimitiveType(unsigned elementCount, PrimitiveTypes type, unsigned& primitiveCount, GLenum& glPrimitiveType)
+{
+	switch (type)
+	{
+	case TRIANGLE_LIST:
+		primitiveCount = elementCount / 3;
+		glPrimitiveType = GL_TRIANGLES;
+		break;
+
+	case LINE_LIST:
+		primitiveCount = elementCount / 2;
+		glPrimitiveType = GL_LINES;
+		break;
+
+	case POINT_LIST:
+		primitiveCount = elementCount;
+		glPrimitiveType = GL_POINTS;
+		break;
+
+	case TRIANGLE_STRIP:
+		primitiveCount = elementCount - 2;
+		glPrimitiveType = GL_TRIANGLE_STRIP;
+		break;
+
+	case LINE_STRIP:
+		primitiveCount = elementCount - 1;
+		glPrimitiveType = GL_LINE_STRIP;
+		break;
+
+	case TRIANGLE_FAN:
+		primitiveCount = elementCount - 2;
+		glPrimitiveType = GL_TRIANGLE_FAN;
+		break;
+	}
+}
+
 void Graphics::RegisterDebug()
 {
 	GLint flags;
@@ -169,6 +205,45 @@ void Graphics::SetDepthWrite(bool enable)
 		glDepthMask(enable ? GL_TRUE : GL_FALSE);
 		_depthWrite = enable;
 	}
+}
+void Graphics::Draw(PrimitiveTypes type,unsigned vertexStart,unsigned vertexCount)
+{
+	if (!vertexCount)
+		return;
+	unsigned primitiveCount;
+	GLenum glPrimitiveType;
+
+	GetGLPrimitiveType(vertexCount, type, primitiveCount, glPrimitiveType);
+	glDrawArrays(glPrimitiveType, vertexStart, vertexCount);
+
+	_numPrimitives += primitiveCount;
+	_numBatches++;
+}
+
+void Graphics::Draw(PrimitiveTypes type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount)
+{
+	//if (!indexCount || !indexBuffer_ || !indexBuffer_->GetGPUObjectName())
+	//	return;
+
+
+	//unsigned indexSize;// = _indexBuffer->GetIndexSize();
+	//unsigned primitiveCount;
+	//GLenum glPrimitiveType;
+
+	//GetGLPrimitiveType(indexCount, type, primitiveCount, glPrimitiveType);
+	//GLenum indexType = indexSize == sizeof(unsigned short) ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT;
+	//glDrawElements(glPrimitiveType, indexCount, indexType, reinterpret_cast<const GLvoid*>(indexStart * indexSize));
+
+	//_numPrimitives += primitiveCount;
+	//_numBatches++;
+}
+
+void Graphics::DrawInstanced(PrimitiveTypes type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount,
+	unsigned instanceCount)
+{
+	//glDrawElementsInstanced();
+	//_numPrimitives += primitiveCount;
+	//_numBatches++;
 }
 AUTO_END
 #endif //_OPENGL_4_PLUS_

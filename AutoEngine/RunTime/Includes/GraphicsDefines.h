@@ -1,5 +1,6 @@
 #pragma once
-
+#include "Auto.h"
+AUTO_BEGIN
 static const unsigned CLEAR_COLOR = 0x1;
 static const unsigned CLEAR_DEPTH = 0x2;
 static const unsigned CLEAR_STENCIL = 0x4;
@@ -7,7 +8,7 @@ static const unsigned CLEAR_STENCIL = 0x4;
 
 static const int MAX_TEXTURE_UNITS = 16;
 
-enum FillMode
+enum FillType
 {
 	FI_FILL = 0,
 	FI_LINE = 1,
@@ -85,3 +86,13 @@ enum ElementTypes
 	EL_TY_FLOAT,
 	EL_TY_UNSIGNED_BYTE
 };
+enum PrimitiveTypes
+{
+	TRIANGLE_LIST = 0,
+	LINE_LIST,
+	POINT_LIST,
+	TRIANGLE_STRIP,
+	LINE_STRIP,
+	TRIANGLE_FAN
+};
+AUTO_END
