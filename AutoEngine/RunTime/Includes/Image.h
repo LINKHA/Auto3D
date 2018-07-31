@@ -5,7 +5,7 @@
 
 
 
-AUTO_BEGIN
+namespace Auto3D {
 class ImageReference
 {
 public:
@@ -59,4 +59,4 @@ public:
 	Image(int width, int height);
 	~Image();
 };
-AUTO_END
+}

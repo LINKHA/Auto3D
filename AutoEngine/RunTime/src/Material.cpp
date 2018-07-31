@@ -1,7 +1,7 @@
 #include "Material.h"
 #include "LoadResource.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 Material::Material()
 	:isTexture(false)
 {
@@ -26,6 +26,6 @@ void Material::SetImage(char * path)
 	isTexture = true;
 	diffuseMap = LocalTextureLoad(path);
 }
-AUTO_END
+}
 
 

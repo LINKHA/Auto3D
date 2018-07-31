@@ -1,6 +1,6 @@
 #include "Prefab.h"
 #include "PreLoadManager.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 Prefab::Prefab(Ambient* ambient)
 	:Super(ambient)
@@ -13,4 +13,4 @@ Prefab::~Prefab()
 {}
 
 
-AUTO_END
+}

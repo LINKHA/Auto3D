@@ -1,7 +1,7 @@
 #pragma once
 #include "Object.h"
 #include "GameObject.h"
-AUTO_BEGIN
+namespace Auto3D {
 class Prefab : public Object
 {
 	REGISTER_DERIVED_CLASS(Prefab, Object);
@@ -12,4 +12,4 @@ private:
 	GameObject* _gameObject;
 };
 
-AUTO_END
+}

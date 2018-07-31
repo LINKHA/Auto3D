@@ -1,6 +1,6 @@
 #include "LightManager.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 SINGLETON_INSTANCE(LightManager);
 LightManager::LightManager()
 	:_isRenderOrCull(false)
@@ -33,4 +33,4 @@ int LightManager::Size()
 {
 	return _lights.size();
 }
-AUTO_END
+}

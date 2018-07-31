@@ -1,6 +1,6 @@
 #include "LoadResource.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 
 AUTO_HASH_MAP(PInt8, Image*) imageQueue;
 AUTO_HASH_MAP(PInt8, ModelCommand*) modelQueue;
@@ -140,6 +140,6 @@ unsigned int LocalHdrLoad(PInt8 path)
 	}
 	return hdrTexture;
 }
-AUTO_END
+}
 
 

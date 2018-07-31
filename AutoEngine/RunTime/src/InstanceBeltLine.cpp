@@ -4,7 +4,7 @@
 #include "Graphics.h"
 #include "Camera.h"
 #include "Renderer.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 InstanceBeltLine::InstanceBeltLine(Ambient* ambient,const ModelCommand& model, const Shader& shader, glm::mat4* modelMat,int count)
 	:Component(ambient)
@@ -65,4 +65,4 @@ void InstanceBeltLine::Draw()
 	}
 
 }
-AUTO_END
+}

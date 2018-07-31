@@ -4,7 +4,7 @@
 #define SINGLETON_INSTANCE(x) template<> x* Singleton<x>::_instance = nullptr
 #define INSTANCE(x)	x::Instance()
 
-AUTO_BEGIN
+namespace Auto3D {
 /*
 * Template class for creating single-instance global classes.
 */
@@ -63,4 +63,4 @@ public:
 	using ClassType = T;
 };
 
-AUTO_END
+}

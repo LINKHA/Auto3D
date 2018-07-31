@@ -3,7 +3,7 @@
 #include "Shader.h"
 #include "ModelCommand.h"
 #include <random>
-AUTO_BEGIN
+namespace Auto3D {
 class SSAO : public Component
 {
 public:
@@ -42,4 +42,4 @@ private:
 	unsigned int quadVAO = 0;
 	unsigned int quadVBO;
 };
-AUTO_END
+}

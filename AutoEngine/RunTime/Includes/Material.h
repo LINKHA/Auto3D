@@ -5,7 +5,7 @@
 #include "ObjectDefines.h"
 #include "Image.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 struct Material
 {
 	Material();
@@ -21,4 +21,4 @@ struct Material
 	void SetImage(char * path);
 	
 };
-AUTO_END
+}

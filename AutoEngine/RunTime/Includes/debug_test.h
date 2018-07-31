@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-AUTO_BEGIN
+namespace Auto3D {
 class debug_test : public Component
 {
 	REGISTER_DERIVED_CLASS(debug_test, Component);
@@ -10,4 +10,4 @@ public:
 	void Start()override;
 };
 
-AUTO_END	
+}	

@@ -1,6 +1,6 @@
 #pragma once
 #include "Object.h"
-AUTO_BEGIN
+namespace Auto3D {
 #define APP_ERROR -1
 #define APP_NORMAL 0
 #define APP_WARNNING 1
@@ -20,4 +20,4 @@ private:
 	bool _isExiting;
 };
 
-AUTO_END
+}

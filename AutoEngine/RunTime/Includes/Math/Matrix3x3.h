@@ -2,7 +2,7 @@
 #include "MathBase.h"
 #include "Vector3.h"
 #include "Matrix4x4.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 struct Matrix3x3
 {
@@ -46,5 +46,5 @@ public:
 
 };
 
-AUTO_END
+}
 

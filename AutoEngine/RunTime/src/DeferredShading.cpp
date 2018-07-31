@@ -4,7 +4,7 @@
 #include "Camera.h"
 #include "Renderer.h"
 #include "BaseMesh.h"
-AUTO_BEGIN
+namespace Auto3D {
 DeferredShading::DeferredShading(Ambient* ambient)
 	: Component(ambient)
 	, m_shaderGeometryPass(AtConfig::shader_path + "au_g_buffer.auvs"
@@ -174,4 +174,4 @@ void DeferredShading::Draw()
 		renderCube(&cubeVAO,&cubeVBO);
 	}
 }
-AUTO_END
+}

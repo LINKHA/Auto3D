@@ -4,7 +4,7 @@
 #include "Shader.h"
 #include "Object.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 enum BuffersMode
 {
 	kDefault,
@@ -39,5 +39,5 @@ private:
 private:
 
 };
-AUTO_END
+}
 

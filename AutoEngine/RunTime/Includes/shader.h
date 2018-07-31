@@ -12,7 +12,7 @@
 #include "Math/Math.h"
 
 
-AUTO_BEGIN
+namespace Auto3D {
 struct Shader
 {
 public:
@@ -221,4 +221,4 @@ private:
 		}
 	}
 };
-AUTO_END
+}

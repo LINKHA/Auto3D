@@ -9,7 +9,7 @@
 #include <iostream>
 #include <vector>
 using namespace std;
-AUTO_BEGIN
+namespace Auto3D {
 struct Vertex {
 	// position
 	glm::vec3 Position;
@@ -132,5 +132,5 @@ private:
 		glBindVertexArray(0);
 	}
 };
-AUTO_END
+}
 

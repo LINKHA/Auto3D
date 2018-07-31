@@ -1,5 +1,5 @@
 #include "TextureMap.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 TextureMap::TextureMap()
 {}
@@ -24,4 +24,4 @@ void TextureMap::SetTexParameters(const TexParams & params)
 }
 
 
-AUTO_END
+}

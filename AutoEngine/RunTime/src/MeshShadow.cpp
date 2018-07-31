@@ -4,7 +4,7 @@
 #include "VertexData.h"
 #include "ShadowTest.h"
 #include "Camera.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 
 //LightManager& lights = INSTANCE(LightManager);
@@ -106,4 +106,4 @@ void MeshShadow::Draw2(Camera* camera,glm::vec3 lightPos,glm::mat4 lightSpaceMat
 	glBindTexture(GL_TEXTURE_2D, INSTANCE(ShadowTest).depthMap);
 	Draw(_shader);
 }
-AUTO_END
+}

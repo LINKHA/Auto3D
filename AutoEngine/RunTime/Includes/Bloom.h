@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "Shader.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 class Bloom : public Component
 {
@@ -42,4 +42,4 @@ private:
 
 };
 
-AUTO_END
+}

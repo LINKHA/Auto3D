@@ -1,7 +1,7 @@
 #include "ManagerTool.h"
 
 
-AUTO_BEGIN
+namespace Auto3D {
 ManagerTool::ManagerTool(Ambient* ambient)
 	:Super(ambient)
 {
@@ -11,4 +11,4 @@ ManagerTool::ManagerTool(Ambient* ambient)
 ManagerTool::~ManagerTool()
 {
 }
-AUTO_END
+}

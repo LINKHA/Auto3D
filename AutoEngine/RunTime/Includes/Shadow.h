@@ -3,7 +3,7 @@
 #include "Shader.h"
 #include "GameObject.h"
 #include "MeshShadow.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 class Shadow : public Component
 {
@@ -25,6 +25,6 @@ private:
 	MeshShadow* mesh3;
 };
 
-AUTO_END
+}
 
 

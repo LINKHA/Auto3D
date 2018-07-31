@@ -3,7 +3,7 @@
 #include "Camera.h"
 #include "Renderer.h"
 #include "BaseMesh.h"
-AUTO_BEGIN
+namespace Auto3D {
 SSAO::SSAO(Ambient* ambient)
 	:Component(ambient)
 	, m_shaderGeometryPass(AtConfig::shader_path + "au_ssao_geometry.auvs"
@@ -222,4 +222,4 @@ void SSAO::Draw()
 	glBindTexture(GL_TEXTURE_2D, ssaoColorBufferBlur);
 	renderQuad(&quadVAO, &quadVBO);
 }
-AUTO_END
+}

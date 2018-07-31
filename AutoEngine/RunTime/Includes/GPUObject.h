@@ -1,10 +1,10 @@
 #pragma once
 #include "Auto.h"
-AUTO_BEGIN
+namespace Auto3D {
 class GPUObject
 {
 public:
 	GPUObject();
 	~GPUObject();
 };
-AUTO_END
+}

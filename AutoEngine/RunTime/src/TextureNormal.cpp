@@ -1,7 +1,7 @@
 #include "TextureNormal.h"
 #include "Renderer.h"
 #include "Graphics.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 
 TextureNormal::TextureNormal()
@@ -189,4 +189,4 @@ void TextureNormal::renderQuad()
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glBindVertexArray(0);
 }
-AUTO_END
+}

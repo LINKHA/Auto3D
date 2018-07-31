@@ -2,16 +2,16 @@
 #include <assert.h>
 #include <string>
 //namespace AutoEngine
-#define AUTO_BEGIN			namespace AutoEngine {
-#define AUTO_END			}
-#define USING_AUTO			using namespace AutoEngine;
-#define AUTO				AutoEngine
+//#define namespace Auto3D {			namespace Auto3D {
+//#define }			}
+//#define USING_AUTO			using namespace Auto3D;
+//#define AUTO				Auto3D
 
 //namespace AutoEngineAPI
-#define AUTO_API_BEGIN		namespace AutoEngineAPI {
+#define AUTO_API_BEGIN		namespace AutoAPI {
 #define AUTO_API_END		}
-#define USING_API_AUTO		using namespace AutoEngineAPI;
-#define AUTO_API			AutoEngineAPI
+#define USING_API_AUTO		using namespace AutoAPI;
+#define AUTO_API			AutoAPI
 
 //namespace AutoScript
 #ifndef SCRIPT_BEGIN
@@ -31,29 +31,29 @@
 
 
 //Define Data type
-#define Int8 char 
-#define SInt8 signed char 
-#define PInt8 Int8*
-#define UInt8 unsigned Int8
-#define PUInt8 UInt8*
+using Int8 = char;
+using SInt8 = signed char;
+using PInt8 = char*;
+using UInt8 = unsigned char;
+using PUInt8 = unsigned char*;
 
-#define Int16 short
-#define SInt16 signed short
-#define PInt16 Int16*
-#define UInt16 unsigned Int16
-#define PUInt16 UInt16*
+using Int16 = short;
+using SInt16 = signed short;
+using PInt16 = short*;
+using UInt16 = unsigned short;
+using PUInt16 = unsigned short*;
 
-#define Int32 int
-#define SInt32 signed int
-#define PInt32 Int32*
-#define UInt32 unsigned Int32
-#define PUInt32 UInt32*
+using Int32 = int;
+using SInt32 = signed int;
+using PInt32 = int*;
+using UInt32 = unsigned int;
+using PUInt32 = unsigned int*;
 
-#define Int64 __int64
-#define SInt64 signed __int64
-#define PInt64 Int64*
-#define UInt64 unsigned Int64
-#define PUInt64 UInt64*
+using Int64 = __int64;
+using SInt64 = signed __int64;
+using PInt64 = __int64*;
+using UInt64 = unsigned __int64;
+using PUInt64 = unsigned __int64*;
 //
 #define _String std::string
 

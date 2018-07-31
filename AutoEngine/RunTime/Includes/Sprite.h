@@ -1,7 +1,7 @@
 #pragma once
 #include "Texture2D.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 class Image;
 class Sprite : public Texture2D
 {
@@ -37,4 +37,4 @@ private:
 
 	bool _isMipmaps;
 };
-AUTO_END
+}

@@ -1,7 +1,7 @@
 #include "Input.h"
 #include "SDL2/SDL.h"
 #include "Graphics.h"
-AUTO_BEGIN
+namespace Auto3D {
 Input::Input(Ambient* ambient)
 	: Super(ambient)
 	, _isMouseMove(false)
@@ -132,4 +132,4 @@ void Input::ShowCursor(bool enable)
 	else
 		SDL_ShowCursor(SDL_QUERY);
 }
-AUTO_END
+}

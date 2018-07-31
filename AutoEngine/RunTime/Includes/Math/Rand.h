@@ -1,6 +1,6 @@
 #pragma once
 #include "MathBase.h"
-AUTO_BEGIN
+namespace Auto3D {
 class Rand
 {
 public:
@@ -65,5 +65,5 @@ private:
 	UInt32 x, y, z, w;
 
 };
-AUTO_END
+}
 

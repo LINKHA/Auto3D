@@ -1,6 +1,6 @@
 #include "LightSpot.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 
 
 LightSpot::LightSpot(Ambient* ambi)
@@ -23,4 +23,4 @@ LightSpot::LightSpot(Ambient* ambi)
 LightSpot::~LightSpot()
 {
 }
-AUTO_END
+}

@@ -7,7 +7,7 @@
 #include "VertexData.h"
 #include "LoadResource.h"
 #include "Renderer.h"
-AUTO_BEGIN
+namespace Auto3D {
 ShadowPoint::ShadowPoint()
 	:m_ShadowMap(AtConfig::shader_path + "au_point_shadows.auvs"
 		, AtConfig::shader_path + "au_point_shadows.aufs")
@@ -152,4 +152,4 @@ void ShadowPoint::renderCube()
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindVertexArray(0);
 }
-AUTO_END
+}

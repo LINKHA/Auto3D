@@ -3,7 +3,7 @@
 #include "BaseSpace.h"
 #include "Graphics.h"
 #include "BaseSpace.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 RenderLoop::RenderLoop(Ambient* ambient,Camera& camera)
 	:Super(ambient)
@@ -43,5 +43,5 @@ void CleanUpAfterRenderLoop(RenderLoop & loop)
 {
 }
 
-AUTO_END
+}
 

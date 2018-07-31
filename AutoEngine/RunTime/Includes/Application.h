@@ -7,7 +7,7 @@
 #include "Engine.h"
 #include "Launch.h"
 #include "Ambient.h"
-AUTO_BEGIN
+namespace Auto3D {
 class Application  : public Singleton<Application>
 {
 public:
@@ -27,12 +27,12 @@ private:
 #define AUTO_APPLICATION_MAIN(className) \
 int runApplication() \
 { \
-    SharedPtr<AUTO::Ambient> ambient(new AUTO::Ambient()); \
+    SharedPtr<Auto3D::Ambient> ambient(new Auto3D::Ambient()); \
     className work(ambient);\
     return work.Launch(); \
 } \
 AUTO_MAIN(runApplication());
 
 
-AUTO_END
+}
 

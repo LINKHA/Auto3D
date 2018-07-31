@@ -4,7 +4,7 @@
 #include "Singleton.h"
 #include "Camera.h"
 #include "Mode.h"
-AUTO_BEGIN
+namespace Auto3D {
 class MotionSpace : public Object
 {
 	REGISTER_DERIVED_ABSTRACT_CLASS(MotionSpace, Object);
@@ -25,5 +25,5 @@ public:
 	void RegisterSpace(MotionSpace* space);
 	void ModeRunSpace(RunMode runMode);
 };
-AUTO_END
+}
 

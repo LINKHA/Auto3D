@@ -10,7 +10,7 @@
 #include "RenderComponent.h"
 #include "GLMeshEnable.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 
 class Mesh : public RenderComponent,public GLMeshEnable
 {
@@ -37,5 +37,5 @@ private:
 	bool _isUserShader;
 };
 
-AUTO_END
+}
 

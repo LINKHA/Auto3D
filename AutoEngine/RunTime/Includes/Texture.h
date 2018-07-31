@@ -10,7 +10,7 @@
 #include "GameObject.h"
 #include "RenderComponent.h"
 #include "GLTextureEnable.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 class Texture : public RenderComponent, public GLTextureEnable
 {
@@ -36,5 +36,5 @@ public:
 	virtual void Draw() {}
 };
 
-AUTO_END
+}
 

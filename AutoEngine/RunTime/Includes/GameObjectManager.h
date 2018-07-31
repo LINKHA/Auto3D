@@ -3,7 +3,7 @@
 #include "GameObject.h"
 #include "Singleton.h"
 #include "Mode.h"
-AUTO_BEGIN
+namespace Auto3D {
 class GameObjectManager : public LevelGameManager,public Singleton<GameObjectManager>
 {
 	REGISTER_DERIVED_ABSTRACT_CLASS(GameObjectManager, LevelGameManager);
@@ -26,4 +26,4 @@ private:
 	//Update or Start now
 	bool				_isInsideRun;
 };
-AUTO_END
+}

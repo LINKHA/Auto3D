@@ -1,7 +1,7 @@
 #include "ShadowTest.h"
 #include "AtConfig.h"
 #include "Camera.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 SINGLETON_INSTANCE(ShadowTest);
 
@@ -54,4 +54,4 @@ void ShadowTest::BindPointDepathMap()
 	glReadBuffer(GL_NONE);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
-AUTO_END
+}

@@ -4,7 +4,7 @@
 #include "ModelCommand.h"
 #include "stl_use.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 class DeferredShading : public Component
 {
 public:
@@ -34,4 +34,4 @@ private:
 	unsigned int quadVBO;
 
 };
-AUTO_END
+}

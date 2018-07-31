@@ -1,7 +1,7 @@
 #include "Renderer.h"
 #include "Camera.h"
 #include "Graphics.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 
 Renderer::Renderer(Ambient* ambient)
@@ -103,4 +103,4 @@ void Renderer::delayedAddRemoveCameras()
 	}
 	_camerasToAdd.clear();
 }
-AUTO_END
+}

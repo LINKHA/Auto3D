@@ -3,7 +3,7 @@
 #include "Singleton.h"
 #include "stl_use.h"
 #include "SpriteSort.h"
-AUTO_BEGIN
+namespace Auto3D {
 class Image;
 class SpriteTranslucent : public Texture2D
 {
@@ -39,4 +39,4 @@ private:
 
 	bool _isMipmaps;
 };
-AUTO_END
+}

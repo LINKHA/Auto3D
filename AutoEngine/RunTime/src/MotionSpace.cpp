@@ -1,7 +1,7 @@
 #include "MotionSpace.h"
 
 
-AUTO_BEGIN
+namespace Auto3D {
 SINGLETON_INSTANCE(SpaceManager);
 MotionSpace::MotionSpace(Ambient* ambient)
 	:Super(ambient)
@@ -47,6 +47,6 @@ void SpaceManager::ModeRunSpace(RunMode runMode)
 		}
 	}
 }
-AUTO_END
+}
 
 

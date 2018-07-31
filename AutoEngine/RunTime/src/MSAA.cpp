@@ -4,7 +4,7 @@
 #include "Graphics.h"
 #include "VertexData.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 
 MSAA::MSAA(Ambient* ambient)
 	:ManagerTool(ambient)
@@ -105,4 +105,4 @@ void MSAA::UpdateEnd()
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 
 }
-AUTO_END
+}

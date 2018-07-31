@@ -1,6 +1,6 @@
 #include "Matrix3x3.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 Matrix3x3::Matrix3x3(const Matrix4x4 & other)
 {
 	data[0] = other.data[0];
@@ -96,4 +96,4 @@ Matrix3x3& Matrix3x3::operator *= (const Matrix4x4& inM)
 	}
 	return *this;
 }
-AUTO_END
+}

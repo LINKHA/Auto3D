@@ -1,7 +1,7 @@
 #include "Ambient.h"
 
 
-AUTO_BEGIN
+namespace Auto3D {
 Ambient::Ambient()
 {
 }
@@ -33,4 +33,4 @@ Object* Ambient::GetSubSystem(_String type)const
 	else
 		return nullptr;
 }
-AUTO_END
+}

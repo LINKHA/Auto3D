@@ -1,7 +1,7 @@
 #pragma once
 #include "Object.h"
 #include "GraphicsDefines.h"
-AUTO_BEGIN
+namespace Auto3D {
 class Graphics;
 class Geometry : public Object
 {
@@ -25,5 +25,5 @@ private:
 
 };
 
-AUTO_END
+}
 

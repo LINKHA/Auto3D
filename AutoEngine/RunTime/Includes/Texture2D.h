@@ -1,7 +1,7 @@
 #pragma once
 #include "Texture.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 class Texture2D : public Texture
 {
 	REGISTER_DERIVED_ABSTRACT_CLASS(Texture2D, Texture);
@@ -27,4 +27,4 @@ public:
 
 };
 
-AUTO_END
+}

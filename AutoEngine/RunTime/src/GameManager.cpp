@@ -2,7 +2,7 @@
 
 
 
-AUTO_BEGIN
+namespace Auto3D {
 
 
 GameManager::GameManager()
@@ -31,5 +31,5 @@ GlobalGameManager::GlobalGameManager(Ambient* ambient)
 	:Super(ambient)
 {}
 GlobalGameManager::~GlobalGameManager(){}
-AUTO_END
+}
 

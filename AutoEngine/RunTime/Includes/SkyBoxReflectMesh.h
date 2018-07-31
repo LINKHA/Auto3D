@@ -1,7 +1,7 @@
 #pragma once
 #include "RenderComponent.h"
 #include "Shader.h"
-AUTO_BEGIN
+namespace Auto3D {
 class SkyBoxReflectMesh : public RenderComponent
 {
 public:
@@ -15,4 +15,4 @@ private:
 	unsigned int cubeVAO, cubeVBO;
 };
 
-AUTO_END
+}

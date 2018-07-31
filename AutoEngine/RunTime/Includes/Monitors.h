@@ -6,7 +6,7 @@
 #include "Math/Vector2.h"
 #include "OpenGLGather.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 /**
 * @brief : Singleton class
 */
@@ -24,4 +24,4 @@ public:
 	Vector2 GetMonitorsSize(int index);
 
 };
-AUTO_END
+}

@@ -4,7 +4,7 @@
 #include "Graphics.h"
 #include "Renderer.h"
 #include "BaseMesh.h"
-AUTO_BEGIN
+namespace Auto3D {
 HDR::HDR(Ambient* ambient)
 	:Component(ambient)
 	, m_shader(AtConfig::shader_path + "au_lighting.auvs"
@@ -106,4 +106,4 @@ void HDR::Draw()
 	std::cout << "hdr: " << (hdr ? "on" : "off") << "| exposure: " << exposure << std::endl;
 }
 
-AUTO_END
+}

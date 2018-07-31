@@ -5,7 +5,7 @@
 #include "Transform.h"
 #include "OpenGLGather.h"
 #include "LoadResource.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 Sprite::Sprite()
 	: _shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs"
@@ -178,4 +178,4 @@ void Sprite::GenerateMipmap()
 	glGenerateMipmap(GL_TEXTURE_2D);
 	_isMipmaps = true;
 }
-AUTO_END
+}

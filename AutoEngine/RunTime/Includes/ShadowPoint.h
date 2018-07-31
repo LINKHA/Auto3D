@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "Shader.h"
-AUTO_BEGIN
+namespace Auto3D {
 class ShadowPoint : public Component
 {
 public:
@@ -22,4 +22,4 @@ private:
 
 };
 
-AUTO_END
+}

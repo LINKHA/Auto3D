@@ -1,7 +1,7 @@
 #pragma once
 #include "Camera.h"
 #include "Object.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 class RenderLoop : public Object
 {
@@ -20,4 +20,4 @@ RenderLoop* CreateRenderLoop(Ambient* ambient,Camera& camera);
 void DeleteRenderLoop(RenderLoop* loop);
 void CleanUpAfterRenderLoop(RenderLoop& loop);
 
-AUTO_END
+}

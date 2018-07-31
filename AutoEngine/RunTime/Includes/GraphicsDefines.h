@@ -1,6 +1,6 @@
 #pragma once
 #include "Auto.h"
-AUTO_BEGIN
+namespace Auto3D {
 static const unsigned CLEAR_COLOR = 0x1;
 static const unsigned CLEAR_DEPTH = 0x2;
 static const unsigned CLEAR_STENCIL = 0x4;
@@ -95,4 +95,4 @@ enum PrimitiveTypes
 	LINE_STRIP,
 	TRIANGLE_FAN
 };
-AUTO_END
+}

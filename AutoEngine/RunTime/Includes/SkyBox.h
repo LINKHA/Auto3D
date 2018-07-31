@@ -1,7 +1,7 @@
 #pragma once
 #include "Texture3D.h"
 #include "Singleton.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 class SkyBox : public Texture3D
 {
@@ -28,5 +28,5 @@ struct SkyManager : public Singleton<SkyManager>
 private:
 	SkyBox* _skybox;
 };
-AUTO_END
+}
 

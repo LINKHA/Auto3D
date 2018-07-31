@@ -1,7 +1,7 @@
 #pragma once
 #include "GameManager.h"
 #include "Camera.h"
-AUTO_BEGIN
+namespace Auto3D {
 class Ambient;
 class Renderer : public LevelGameManager
 {
@@ -31,4 +31,4 @@ private:
 	bool			_insideRenderOrCull;
 };
 
-AUTO_END
+}

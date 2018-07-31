@@ -1,6 +1,6 @@
 #include "Texture.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 
 Texture::Texture()
 {
@@ -15,4 +15,4 @@ Texture::~Texture()
 {
 }
 
-AUTO_END
+}

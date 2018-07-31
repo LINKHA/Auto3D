@@ -1,7 +1,7 @@
 #pragma once
 #include "Auto.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 struct TextureID
 {
 	explicit TextureID() : m_ID(0) { }
@@ -24,4 +24,4 @@ enum TextureDimension
 	kTexDimCount, // keep this last!
 	kTexDimForce32Bit = 0x7fffffff
 };
-AUTO_END
+}

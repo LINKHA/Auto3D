@@ -1,7 +1,7 @@
 #include "LightDirectional.h"
 
 
-AUTO_BEGIN
+namespace Auto3D {
 LightDirectional::LightDirectional(Ambient* ambi)
 	:Super(ambi)
 {
@@ -17,4 +17,4 @@ LightDirectional::LightDirectional(Ambient* ambi)
 LightDirectional::~LightDirectional()
 {
 }
-AUTO_END
+}

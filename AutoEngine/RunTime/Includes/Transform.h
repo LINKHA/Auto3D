@@ -3,7 +3,7 @@
 #include "OpenGLGather.h"
 #include "GameObject.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 class Transform : public Component
 {
 	REGISTER_DERIVED_CLASS(Transform, Component);
@@ -39,7 +39,7 @@ public:
 	void Identity();
 
 };
-AUTO_END
+}
 
 
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "Light.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 
 class LightDirectional : public Light
 {
@@ -16,4 +16,4 @@ public:
 	Vector3 diffuse;
 	Vector3 specular;*/
 };
-AUTO_END
+}

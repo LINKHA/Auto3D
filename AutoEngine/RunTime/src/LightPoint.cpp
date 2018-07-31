@@ -1,7 +1,7 @@
 #include "LightPoint.h"
 
 
-AUTO_BEGIN
+namespace Auto3D {
 LightPoint::LightPoint(Ambient* ambi)
 	:Super(ambi)
 {
@@ -19,4 +19,4 @@ LightPoint::LightPoint(Ambient* ambi)
 LightPoint::~LightPoint()
 {
 }
-AUTO_END
+}

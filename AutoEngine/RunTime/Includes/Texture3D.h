@@ -1,7 +1,7 @@
 #pragma once
 #include "Texture.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 
 class Texture3D : public Texture
 {
@@ -14,4 +14,4 @@ public:
 	void Draw()override;
 };
 
-AUTO_END
+}

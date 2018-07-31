@@ -1,6 +1,6 @@
 #include "Vector4.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 
 
-AUTO_END
+}

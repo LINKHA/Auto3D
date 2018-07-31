@@ -1,6 +1,6 @@
 #include "PreLoadManager.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 
 SINGLETON_INSTANCE(PreLoadManager);
 
@@ -21,4 +21,4 @@ void PreLoadManager::RemovePrefab(Prefab* prefab)
 {
 	_prefabs.remove(prefab);
 }
-AUTO_END
+}

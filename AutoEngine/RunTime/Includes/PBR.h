@@ -3,7 +3,7 @@
 #include "Shader.h"
 #include "OpenGLGather.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 
 class PBR : public Component
 {
@@ -20,4 +20,4 @@ private:
 	
 };
 
-AUTO_END
+}

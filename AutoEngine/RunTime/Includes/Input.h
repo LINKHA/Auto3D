@@ -6,7 +6,7 @@
 #include "Math/Vector2.h"
 
 
-AUTO_BEGIN
+namespace Auto3D {
 
 struct JoystickState
 {
@@ -58,5 +58,5 @@ private:
 	Vector2		_lockMousePosition;
 };
 
-AUTO_END
+}
 

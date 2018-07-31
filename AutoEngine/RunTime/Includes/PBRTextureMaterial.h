@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "Shader.h"
-AUTO_BEGIN
+namespace Auto3D {
 class PBRTextureMaterial : public Component
 {
 public:
@@ -50,4 +50,4 @@ private:
 	unsigned int wallAOMap;
 };
 
-AUTO_END
+}

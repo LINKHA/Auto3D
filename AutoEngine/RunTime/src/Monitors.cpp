@@ -1,6 +1,6 @@
 #include "Monitors.h"
 #include "SDL2/SDL.h"
-AUTO_BEGIN
+namespace Auto3D {
 SINGLETON_INSTANCE(Monitors);
 Monitors::~Monitors()
 {
@@ -55,4 +55,4 @@ Vector2 Monitors::GetMonitorsSize(int index)
 	return t;
 }
 
-AUTO_END
+}

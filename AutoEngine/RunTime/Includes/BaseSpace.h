@@ -1,7 +1,7 @@
 #pragma once
 #include "Auto.h"
 #include "GameManager.h"
-AUTO_BEGIN
+namespace Auto3D {
 /**
 * @brief Singleton class
 */
@@ -19,5 +19,5 @@ public:
 	void Draw();
 };
 
-AUTO_END
+}
 

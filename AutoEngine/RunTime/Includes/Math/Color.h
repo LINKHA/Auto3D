@@ -2,7 +2,7 @@
 #include <algorithm>
 #include "Math/FloatConversion.h"
 #include "Vector3.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 
 struct Color
@@ -65,6 +65,6 @@ inline Color Lerp(const Color& c0, const Color& c1, float t)
 	return (1.0f - t) * c0 + t * c1;
 }
 
-AUTO_END
+}
 
 

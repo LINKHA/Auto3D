@@ -4,7 +4,7 @@
 #include "AtConfig.h"
 #include "Graphics.h"
 #include "VertexData.h"
-AUTO_BEGIN
+namespace Auto3D {
 Shader shader;
 Shader shaderBlur;
 Shader shaderEdgeDetection;
@@ -121,4 +121,4 @@ void FrameBuffersScreen::SetEffect(const Shader& shader)
 {
 	_shader = shader;
 }
-AUTO_END
+}

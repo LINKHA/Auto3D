@@ -1,6 +1,6 @@
 #include "Application.h"
 #include "stb_image.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 SINGLETON_INSTANCE(Application);
 Application::Application()
@@ -76,4 +76,4 @@ int Application::Finish()
 {
 	 _engine->Exit();
 }
-AUTO_END
+}

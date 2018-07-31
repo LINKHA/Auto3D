@@ -1,7 +1,7 @@
 #include "GPUObject.h"
 
 
-AUTO_BEGIN
+namespace Auto3D {
 GPUObject::GPUObject()
 {
 }
@@ -10,4 +10,4 @@ GPUObject::GPUObject()
 GPUObject::~GPUObject()
 {
 }
-AUTO_END
+}

@@ -3,7 +3,7 @@
 #include "Shader.h"
 #include "OpenGLGather.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 
 class PBRTexture : public Component
 {
@@ -26,4 +26,4 @@ private:
 	unsigned int ao;
 };
 
-AUTO_END
+}

@@ -1,6 +1,6 @@
 #include "TextureParallax.h"
 #include "Renderer.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 
 TextureParallax::TextureParallax(Ambient* ambient)
@@ -189,4 +189,4 @@ void TextureParallax::renderQuad()
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glBindVertexArray(0);
 }
-AUTO_END
+}

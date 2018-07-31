@@ -3,7 +3,7 @@
 #include "Vector3.h"
 #include "Matrix3x3.h"
 #include "OpenGLGather.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 struct Vector3;
 struct Vector4;
@@ -74,6 +74,6 @@ public:
 	static const glm::mat4 Matrix4x4::identity;
 };
 
-AUTO_END
+}
 
 

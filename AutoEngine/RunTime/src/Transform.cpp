@@ -1,6 +1,6 @@
 #include "Transform.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 
 Transform::Transform()
 	: _position(Vector3())
@@ -89,4 +89,4 @@ void Transform::Identity()
 
 
 
-AUTO_END
+}

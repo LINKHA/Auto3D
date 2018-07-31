@@ -2,7 +2,7 @@
 #include "Object.h"
 #include "Singleton.h"
 #include "Ambient.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 ///Any game manager (eg. AudioManager, dynamicsmanager) that needs serialization
 ///LevelGameManagers are destroyed and reloaded from the new scene when loading a new scene.
@@ -37,5 +37,5 @@ public:
 	//virtual ~GlobalGameManager();
 };
 
-AUTO_END
+}
 

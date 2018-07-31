@@ -1,5 +1,5 @@
 #include "Matrix4x4.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 const glm::mat4 Matrix4x4::identity = glm::mat4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
 
@@ -72,4 +72,4 @@ Matrix4x4& Matrix4x4::operator *= (const Matrix4x4& inM1)
 	return *this;
 
 }
-AUTO_END
+}

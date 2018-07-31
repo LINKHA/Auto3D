@@ -5,7 +5,7 @@
 #include "BaseMesh.h"
 #include "Renderer.h"
 #include "Time.h"
-AUTO_BEGIN
+namespace Auto3D {
 glm::vec3 t_lightPositions[] = {
 	glm::vec3(-10.0f,  10.0f, 10.0f),
 	glm::vec3(10.0f,  10.0f, 10.0f),
@@ -103,4 +103,4 @@ void PBRTexture::Draw()
 		renderSphere(&sphereVAO, &indexCount);
 	}
 }
-AUTO_END
+}

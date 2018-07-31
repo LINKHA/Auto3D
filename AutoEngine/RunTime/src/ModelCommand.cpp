@@ -1,5 +1,5 @@
 #include "ModelCommand.h"
-AUTO_BEGIN
+namespace Auto3D {
 unsigned int TextureFromFile(const char *path, const string &directory, bool gamma)
 {
 	string filename = string(path);
@@ -36,4 +36,4 @@ unsigned int TextureFromFile(const char *path, const string &directory, bool gam
 	}
 	return textureID;
 }
-AUTO_END
+}

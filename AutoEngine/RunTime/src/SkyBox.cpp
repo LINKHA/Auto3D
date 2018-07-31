@@ -4,7 +4,7 @@
 #include "Camera.h"
 #include "VertexData.h"
 #include "Renderer.h"
-AUTO_BEGIN
+namespace Auto3D {
 SINGLETON_INSTANCE(SkyManager);
 SkyBox::SkyBox(Ambient* ambient)
 	:Super(ambient)
@@ -55,4 +55,4 @@ void SkyBox::Draw()
 	glBindVertexArray(0);
 	glDepthFunc(GL_LESS);
 }
-AUTO_END
+}

@@ -3,7 +3,7 @@
 
 
 
-USING_AUTO
+using namespace Auto3D;
 AUTO_API_BEGIN
 
 struct MVector2 : public Vector2
@@ -33,15 +33,15 @@ public:
 	inline bool			operator==(const MVector2& rhs) const		{ return (x == rhs.x) && (y == rhs.y); }
 	inline bool			operator!=(const MVector2& rhs) const		{ return (x != rhs.x) || (y != rhs.y); }
 };
-inline float Dot(const Vector2& lhs, const Vector2& rhs)				{ return AUTO::Dot(lhs, rhs); }
-inline float Magnitude(const Vector2& vec)								{ return AUTO::sqrt(AUTO::Dot(vec, vec)); }
-inline Vector2 & Normalize(const Vector2& vec)							{ return AUTO::Normalize(vec); }
-inline Vector2 Lerp(const Vector2& from, const Vector2& to, float t)	{ return AUTO::Lerp(from, to, t); }
-inline Vector2 Min(const Vector2& lhs, const Vector2& rhs)				{ return AUTO::Min(lhs, rhs); }
-inline Vector2 Max(const Vector2& lhs, const Vector2& rhs)				{ return AUTO::Max(lhs, rhs); }
-inline bool IsNormalized(const Vector2& vec)							{ return AUTO::IsNormalized(vec); }
-inline Vector2 Abs(const Vector2& v)									{ return AUTO::Abs(v); }
-inline float Angle(const Vector2& lhs, const Vector2& rhs)				{ return AUTO::Angle(lhs, rhs); }
+inline float Dot(const Vector2& lhs, const Vector2& rhs)				{ return Auto3D::Dot(lhs, rhs); }
+inline float Magnitude(const Vector2& vec)								{ return Auto3D::sqrt(Auto3D::Dot(vec, vec)); }
+inline Vector2 & Normalize(const Vector2& vec)							{ return Auto3D::Normalize(vec); }
+inline Vector2 Lerp(const Vector2& from, const Vector2& to, float t)	{ return Auto3D::Lerp(from, to, t); }
+inline Vector2 Min(const Vector2& lhs, const Vector2& rhs)				{ return Auto3D::Min(lhs, rhs); }
+inline Vector2 Max(const Vector2& lhs, const Vector2& rhs)				{ return Auto3D::Max(lhs, rhs); }
+inline bool IsNormalized(const Vector2& vec)							{ return Auto3D::IsNormalized(vec); }
+inline Vector2 Abs(const Vector2& v)									{ return Auto3D::Abs(v); }
+inline float Angle(const Vector2& lhs, const Vector2& rhs)				{ return Auto3D::Angle(lhs, rhs); }
 
 
 struct MVector3	: public Vector3

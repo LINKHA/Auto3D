@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 class ScriptComponent :public Component
 {
 	REGISTER_DERIVED_ABSTRACT_CLASS(ScriptComponent, Component);
@@ -15,5 +15,5 @@ public:
 	virtual void Finish() {}
 };
 
-AUTO_END
+}
 

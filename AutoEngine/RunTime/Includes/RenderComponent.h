@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "OpenGLGather.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 class RenderComponent : public Component
 {
@@ -19,4 +19,4 @@ public:
 
 };
 
-AUTO_END
+}

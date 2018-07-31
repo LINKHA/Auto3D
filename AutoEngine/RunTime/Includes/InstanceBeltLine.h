@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "ModelCommand.h"
 #include "Shader.h"
-AUTO_BEGIN
+namespace Auto3D {
 class Camera;
 class InstanceBeltLine : public Component
 {
@@ -20,4 +20,4 @@ private:
 	unsigned int _count;
 	glm::mat4* _modelMatrices;
 };
-AUTO_END
+}

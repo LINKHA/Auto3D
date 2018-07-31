@@ -1,7 +1,7 @@
 #pragma once
 #include "Auto.h"
 #include "stl_use.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 template <class T> class SharedPtr
 {
@@ -115,4 +115,4 @@ private:
  
 };
 
-AUTO_END
+}

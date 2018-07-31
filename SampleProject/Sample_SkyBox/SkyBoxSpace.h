@@ -2,7 +2,7 @@
 
 #include "MotionSpace.h"
 #include "Launch.h"
-USING_AUTO
+using namespace Auto3D;
 
 class SkyBoxSpace : public MotionSpace
 {

@@ -2,7 +2,7 @@
 #include "Auto.h"
 #include "ManagerTool.h"
 #include "Shader.h"
-AUTO_BEGIN
+namespace Auto3D {
 class MSAA : public ManagerTool
 {
 public:
@@ -24,4 +24,4 @@ private:
 	unsigned int m_intermediateFBO;
 	
 };
-AUTO_END
+}

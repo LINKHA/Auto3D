@@ -1,7 +1,7 @@
 #include "Mesh.h"
 #include "Renderer.h"
 #include "LightManager.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 
 LightManager& lights = INSTANCE(LightManager);
@@ -159,4 +159,4 @@ void Mesh::drawLight()
 	_shader.SetInt("pointNum", point);
 	_shader.SetInt("spotNum", spot);
 }
-AUTO_END
+}

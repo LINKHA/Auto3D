@@ -1,7 +1,7 @@
 #include "Texture3D.h"
 
 
-AUTO_BEGIN
+namespace Auto3D {
 Texture3D::Texture3D()
 {
 }
@@ -20,4 +20,4 @@ void Texture3D::Start()
 void Texture3D::Draw()
 {
 }
-AUTO_END
+}

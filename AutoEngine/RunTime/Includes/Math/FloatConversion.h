@@ -1,7 +1,7 @@
 #pragma once
 #include "Math/MathBase.h"
 #include "LogAssert.h"
-AUTO_BEGIN
+namespace Auto3D {
 inline UInt32 FloorfToIntPos(float f)
 {
 	assert(f >= 0 && f <= UINT_MAX);
@@ -21,5 +21,5 @@ inline int NormalizedToByte(float f)
 	return RoundfToIntPos(f * 255.0f);
 }
 
-AUTO_END
+}
 

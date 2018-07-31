@@ -7,7 +7,7 @@
 #include "Application.h"
 #include "GameObject.h"
 #include "TextureMap.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 class TextureParallax : public TextureMap
 {
@@ -40,4 +40,4 @@ private:
 	void renderQuad();
 };
 
-AUTO_END
+}

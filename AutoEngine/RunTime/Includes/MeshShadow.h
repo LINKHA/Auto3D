@@ -10,7 +10,7 @@
 #include "RenderComponent.h"
 #include "GLMeshEnable.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 
 class MeshShadow : public GLMeshEnable
 {
@@ -32,5 +32,5 @@ private:
 	
 };
 
-AUTO_END
+}
 

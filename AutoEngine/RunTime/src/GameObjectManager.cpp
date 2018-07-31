@@ -1,7 +1,7 @@
 #include "GameObjectManager.h"
 #include "Transform.h"
 #include "Camera.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 SINGLETON_INSTANCE(GameObjectManager);
 
@@ -107,4 +107,4 @@ void GameObjectManager::delayAddRemoveGameObject()
 }
 
 
-AUTO_END
+}

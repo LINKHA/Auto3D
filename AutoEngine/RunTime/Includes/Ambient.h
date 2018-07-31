@@ -3,7 +3,7 @@
 #include "Object.h"
 #include "stl_use.h"
 #include "Ptr.h"
-AUTO_BEGIN
+namespace Auto3D {
 class Ambient : public RefCounted
 {
 	friend class Object;
@@ -20,4 +20,4 @@ private:
 	AUTO_HASH_MAP(_String, SharedPtr<Object>) _subSystems;
 };
 template <typename T> T* Ambient::GetSubSystem() const { return static_cast<T*>(Ambient::GetSubSystem(T::GetClassStringStatic()));}
-AUTO_END
+}

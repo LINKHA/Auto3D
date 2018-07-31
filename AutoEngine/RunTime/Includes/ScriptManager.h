@@ -4,7 +4,7 @@
 #include "ScriptComponent.h"
 #include "GameManager.h"
 #include "Singleton.h"
-AUTO_BEGIN
+namespace Auto3D {
 class ScriptComponent;
 
 class ScriptManager : public GlobalGameManager , Singleton<ScriptManager>
@@ -16,5 +16,5 @@ public:
 	using AllScript = _SET(ScriptComponent*);
 
 };
-AUTO_END
+}
 

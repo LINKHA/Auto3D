@@ -1,6 +1,6 @@
 #pragma once
 #include "Light.h"
-AUTO_BEGIN
+namespace Auto3D {
 class LightPoint : public Light
 {
 	REGISTER_DERIVED_CLASS(LightPoint, Light);
@@ -19,4 +19,4 @@ private:
 
 };
 
-AUTO_END
+}

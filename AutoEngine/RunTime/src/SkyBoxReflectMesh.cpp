@@ -5,7 +5,7 @@
 #include "GameObject.h"
 #include "Transform.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 SkyBoxReflectMesh::SkyBoxReflectMesh(Ambient* ambient)
 	: RenderComponent(ambient)
 	, m_shader(AtConfig::shader_path + "au_skybox_cube.auvs"
@@ -103,4 +103,4 @@ void SkyBoxReflectMesh::Draw()
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindVertexArray(0);
 }
-AUTO_END
+}

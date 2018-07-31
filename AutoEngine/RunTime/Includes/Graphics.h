@@ -8,7 +8,7 @@
 #include "Math/Color.h"
 #include "Math/Rect.h"
 #include "GraphicsDefines.h"
-AUTO_BEGIN
+namespace Auto3D {
 class Graphics : public GlobalGameManager
 {
 	REGISTER_DERIVED_CLASS(Graphics, GlobalGameManager);
@@ -62,4 +62,4 @@ private:
 	unsigned _numBatches{};
 };
 
-AUTO_END
+}

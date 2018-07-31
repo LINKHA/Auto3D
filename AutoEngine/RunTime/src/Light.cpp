@@ -1,6 +1,6 @@
 #include "Light.h"
 #include "LogAssert.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 Light::Light(Ambient* ambi)
 	:Super(ambi)
@@ -18,4 +18,4 @@ void Light::RemoveFromManager()
 	INSTANCE(LightManager).RemoveLight(this);
 }
 
-AUTO_END
+}

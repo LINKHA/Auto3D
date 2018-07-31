@@ -3,7 +3,7 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include "SpriteTranslucent.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 SpriteSort::SpriteSort(Ambient* ambient)
 	:Super(ambient)
@@ -47,4 +47,4 @@ void SpriteSort::RenderSprite()
 	}
 	_sorted.clear();
 }
-AUTO_END
+}

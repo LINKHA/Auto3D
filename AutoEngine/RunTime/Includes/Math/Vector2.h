@@ -2,7 +2,7 @@
 #include "MathBase.h"
 #include "LogAssert.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 struct Vector2
 {
 public:
@@ -64,5 +64,5 @@ inline Vector2 Abs(const Vector2& v) { return Vector2(abs(v.x), abs(v.y)); }
 
 inline float Angle(const Vector2& lhs, const Vector2& rhs) { return acos(min(1.0f, max(-1.0f, Dot(lhs, rhs) / (Magnitude(lhs) * Magnitude(rhs))))); }
 
-AUTO_END
+}
 

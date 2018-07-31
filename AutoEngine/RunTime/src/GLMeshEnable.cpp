@@ -1,7 +1,7 @@
 #include "GLMeshEnable.h"
 
 
-AUTO_BEGIN
+namespace Auto3D {
 GLMeshEnable::GLMeshEnable()
 	: _useStencil(false)
 	, _useDepth(true)
@@ -85,4 +85,4 @@ void GLMeshEnable::DepthFunc(GLenum func)
 {
 	_depthfunc = func;
 }
-AUTO_END
+}

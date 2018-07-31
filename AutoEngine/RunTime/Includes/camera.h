@@ -6,7 +6,7 @@
 #include "Math/Color.h"
 #include "HDRSkyBox.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 class RenderLoop;
 
 enum CameraMovement
@@ -98,4 +98,4 @@ protected:
 	bool				_isRendering;
 	bool				_isFirstMouse;
 };
-AUTO_END
+}

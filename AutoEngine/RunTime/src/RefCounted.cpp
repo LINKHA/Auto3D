@@ -1,5 +1,5 @@
 #include "RefCounted.h"
-AUTO_BEGIN
+namespace Auto3D {
 RefCounted::RefCounted() :
 	_refCount(new RefCount())
 {
@@ -43,4 +43,4 @@ int RefCounted::WeakRefs() const
 {
 	return _refCount->weakRefs - 1;
 }
-AUTO_END
+}

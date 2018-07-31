@@ -1,6 +1,6 @@
 #include "ScriptManager.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 
 struct MatchByNameFilter
 {
@@ -29,4 +29,4 @@ ScriptComponent* FindScript(ScriptManager::Scripts& scripts , T& filter)
 	}
 	return NULL;
 }
-AUTO_END
+}

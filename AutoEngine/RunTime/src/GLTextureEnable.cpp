@@ -1,7 +1,7 @@
 #include "GLTextureEnable.h"
 
 
-AUTO_BEGIN
+namespace Auto3D {
 GLTextureEnable::GLTextureEnable()
 	: _useStencil(false)
 	, _useDepth(true)
@@ -84,4 +84,4 @@ void GLTextureEnable::DepthFunc(GLenum func)
 {
 	_depthfunc = func;
 }
-AUTO_END
+}

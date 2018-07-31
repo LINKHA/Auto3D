@@ -2,7 +2,7 @@
 #include "Auto.h"
 #include "stl_use.h"
 #include "ManagerTool.h"
-AUTO_BEGIN
+namespace Auto3D {
 class SpriteTranslucent;
 class SpriteSort : public ManagerTool
 {
@@ -17,4 +17,4 @@ private:
 	_VECTOR(SpriteTranslucent*) _sprites;
 	AUTO_MAP(float, SpriteTranslucent*) _sorted;
 };
-AUTO_END
+}

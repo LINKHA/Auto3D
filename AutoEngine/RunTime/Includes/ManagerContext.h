@@ -1,6 +1,6 @@
 #pragma once
 #include "Auto.h"
-AUTO_BEGIN
+namespace Auto3D {
 class Object;
 class ManagerContext
 {
@@ -25,5 +25,5 @@ public:
 	Object*	_managers[kManagerCount];
 	int		_managerClassIDs[kManagerCount];
 };
-AUTO_END
+}
 

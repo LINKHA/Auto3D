@@ -24,7 +24,7 @@
 
 //using namespace std;
 
-AUTO_BEGIN 
+namespace Auto3D { 
 unsigned int TextureFromFile(const char *path, const string &directory, bool gamma = false);
 class ModelCommand
 {
@@ -207,5 +207,5 @@ private:
 		return textures;
 	}
 };
-AUTO_END
+}
 

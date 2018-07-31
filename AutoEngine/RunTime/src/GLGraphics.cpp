@@ -6,7 +6,7 @@
 #include "GraphicsDefines.h"
 
 #include "../../EngineSetting/Optimize.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 
 static const unsigned glFillMode[] =
@@ -245,5 +245,5 @@ void Graphics::DrawInstanced(PrimitiveTypes type, unsigned indexStart, unsigned 
 	//_numPrimitives += primitiveCount;
 	//_numBatches++;
 }
-AUTO_END
+}
 #endif //_OPENGL_4_PLUS_

@@ -3,7 +3,7 @@
 #include "Transform.h"
 #include "Ambient.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 //////////////////////////////////////////////////////////////////////////
 //Node
 //////////////////////////////////////////////////////////////////////////
@@ -121,4 +121,4 @@ Component* GameObject::QueryComponent(int classID) const
 	ErrorString("File find component of ClassId.");
 	return nullptr;
 }
-AUTO_END
+}

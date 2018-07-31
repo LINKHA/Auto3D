@@ -1,7 +1,7 @@
 #pragma once
 #include "Auto.h"
 #include "Singleton.h"
-AUTO_BEGIN
+namespace Auto3D {
 class ShadowTest : public Singleton<ShadowTest>
 {
 public:
@@ -19,4 +19,4 @@ public:
 	unsigned int depthPointMapFBO;
 	unsigned int depthPointmap;
 };
-AUTO_END
+}

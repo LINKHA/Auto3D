@@ -2,7 +2,7 @@
 #include "Auto.h"
 #include "Math/Math.h"
 
-USING_AUTO
+using namespace Auto3D;
 AUTO_API_BEGIN
 class MMath
 {

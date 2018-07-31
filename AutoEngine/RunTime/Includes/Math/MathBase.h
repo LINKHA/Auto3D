@@ -6,15 +6,16 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
-#define MATH_DEG					0.0174532925f				//One degree equals several radians
-#define MATH_RAD					57.29577951f				//One Radian equals several angles
-#define MATH_FLOAT_SMALL            1.0e-37f				    //Infinite approach and 0
-#define MATH_TOLERANCE              2e-37f
-#define MATH_EPSILON                0.00001f					//A tiny floating point value (Read Only).
-#define MATH_E						2.71828182845904523536f		//e
-#define MATH_PI						3.14159265358979323846f		//pi
-#define MATH_PI_2f					1.57079632679489661923f		//pi/2
-#define MATH_PI_4f					0.785398163397448309616f	//pi/4
+namespace Auto3D {
+static const float MATH_DEG = 0.0174532925f;			//One degree equals several radians
+static const float MATH_RAD = 57.29577951f;				//One Radian equals several angles
+static const float MATH_FLOAT_SMALL = 1.0e-37f;		    //Infinite approach and 0
+static const float MATH_TOLERANCE = 2e-37f;
+static const float MATH_EPSILON = 0.00001f;				//A tiny floating point value (Read Only).
+static const float MATH_E = 2.71828182845904523536f	;	//e
+static const float MATH_PI = 3.14159265358979323846f;	//pi
+static const float MATH_PI_2f = 1.57079632679489661923f;//pi/2
+static const float MATH_PI_4f = 0.785398163397448309616f;//pi/4
 static const unsigned MATH_MIN_UNSIGNED = 0x00000000;
 static const unsigned MATH_MAX_UNSIGNED = 0xffffffff;
 //abandon use Rand class
@@ -25,7 +26,7 @@ static const unsigned MATH_MAX_UNSIGNED = 0xffffffff;
 #define MATH_CLAMP_0_1(x)			( x > 1 ? 1 :( 0 > x)? 0 : x)				
 #define MATH_CLAMP_1_1(x)			( x > 1 ? 1 :( -1 > x)? -1 : x)			
 
-AUTO_BEGIN
+
 template<typename T>
 static inline T max(T v1, T v2) { return v1 > v2 ? v1 : v2; }
 
@@ -123,5 +124,5 @@ static inline float clamp11(float const&x)
 
 //Smooth
 
-AUTO_END
+}
 

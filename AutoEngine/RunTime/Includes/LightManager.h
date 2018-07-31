@@ -3,7 +3,7 @@
 #include "GameManager.h"
 #include "Light.h"
 #include "Singleton.h"
-AUTO_BEGIN
+namespace Auto3D {
 class Light;
 class LightManager : public LevelGameManager ,public Singleton<LightManager>
 {
@@ -23,5 +23,5 @@ private:
 	Lights		_lights;
 	Light*		_lastMainLight;
 };
-AUTO_END
+}
 

@@ -1,7 +1,7 @@
 #include "Image.h"
 
 
-AUTO_BEGIN
+namespace Auto3D {
 
 
 
@@ -18,4 +18,4 @@ Image::~Image()
 }
 
 
-AUTO_END
+}

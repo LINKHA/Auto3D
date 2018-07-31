@@ -1,7 +1,7 @@
 #include "ManagerContext.h"
 
 #include "Time.h"
-AUTO_BEGIN
+namespace Auto3D {
 #define INIT_MANAGER(x) _managerClassIDs[k##x] = Object::StringToClassID (#x); 
 ManagerContext::ManagerContext()
 {
@@ -18,4 +18,4 @@ void ManagerContext::InitializeClasses()
 	INIT_MANAGER(TimeManager)
 }
 #undef INIT_MANAGER
-AUTO_END
+}

@@ -6,7 +6,7 @@
 #include "OpenGLGather.h"
 #include "LoadResource.h"
 #include "SpriteSort.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 SpriteTranslucent::SpriteTranslucent()
 	: _shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs"
@@ -173,4 +173,4 @@ void SpriteTranslucent::GenerateMipmap()
 	glGenerateMipmap(GL_TEXTURE_2D);
 	_isMipmaps = true;
 }
-AUTO_END
+}

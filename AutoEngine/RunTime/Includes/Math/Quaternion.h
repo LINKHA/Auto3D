@@ -2,7 +2,7 @@
 #include "Math.h"
 #include "Auto.h"
 #include "glm/gtx/quaternion.hpp"
-AUTO_BEGIN
+namespace Auto3D {
 
 
 struct Quaternion
@@ -25,6 +25,6 @@ struct Quaternion
 };
 
 
-AUTO_END
+}
 
 

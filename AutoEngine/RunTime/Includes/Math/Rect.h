@@ -2,7 +2,7 @@
 #include "Auto.h"
 #include "MathBase.h"
 #include "Vector2.h"
-AUTO_BEGIN
+namespace Auto3D {
 template <typename T>
 struct Rect
 {
@@ -48,4 +48,4 @@ public:
 using Rectf = Rect<float>;
 using RectInt = Rect<int>;
 
-AUTO_END
+}

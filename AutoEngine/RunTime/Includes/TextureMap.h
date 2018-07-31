@@ -6,7 +6,7 @@
 #include "Camera.h"
 #include "Application.h"
 #include "GameObject.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 class TextureMap : public Texture2D
 {
@@ -24,4 +24,4 @@ public:
 
 };
 
-AUTO_END
+}

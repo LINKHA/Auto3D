@@ -5,7 +5,7 @@
 #include "Camera.h"
 #include "Renderer.h"
 #include "BaseMesh.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 Bloom::Bloom(Ambient* ambient)
 	: Component(ambient)
@@ -212,4 +212,4 @@ void Bloom::Draw()
 	renderQuad(&quadVAO, &quadVBO);
 
 }
-AUTO_END
+}

@@ -3,7 +3,7 @@
 #include "Camera.h"
 #include "Shader.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 
 class HDR : public Component
 {
@@ -33,5 +33,5 @@ private:
 	std::vector<glm::vec3> lightColors;
 };
 
-AUTO_END
+}
 

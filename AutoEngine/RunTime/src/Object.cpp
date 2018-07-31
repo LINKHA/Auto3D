@@ -1,6 +1,6 @@
 #include "Object.h"
 #include "Ambient.h"
-AUTO_BEGIN
+namespace Auto3D {
 typedef AUTO_MAP(Int32, Object::RTTI) RTTIMap;
 typedef AUTO_MAP(char*, SInt32) StringToClassIDMap;
 
@@ -56,5 +56,5 @@ Object* Object::GetSubSystem(_String type) const
 {
 	return _ambient->GetSubSystem(type);
 }
-AUTO_END
+}
 

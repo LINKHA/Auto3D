@@ -1,6 +1,6 @@
 #include "RenderComponent.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 RenderComponent::RenderComponent(Ambient* ambient)
 	:Super(ambient)
 {
@@ -15,4 +15,4 @@ RenderComponent::~RenderComponent()
 {
 }
 
-AUTO_END
+}

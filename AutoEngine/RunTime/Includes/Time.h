@@ -4,7 +4,7 @@
 #include <Windows.h>
 
 
-AUTO_BEGIN
+namespace Auto3D {
 /**
 * @brief : SubSystem class
 */
@@ -73,6 +73,6 @@ private:
 	bool		_firstFrame;// Don't do anything to delta time the first frame!
 
 };
-AUTO_END
+}
 
 

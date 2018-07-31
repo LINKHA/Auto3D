@@ -2,7 +2,7 @@
 #include "MMath.h"
 
 
-USING_AUTO;
+using namespace Auto3D;
 AUTO_API_BEGIN
 
 

@@ -3,7 +3,7 @@
 #include "MotionSpace.h"
 //USING_AUTO
 
-USING_AUTO
+using namespace Auto3D;
 class TextureSpace : public MotionSpace
 {
 public:

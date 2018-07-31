@@ -7,7 +7,7 @@
 #include "LightManager.h"
 #include "Transform.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 
 enum LightType
 {
@@ -49,5 +49,5 @@ protected:
 	int					_type;
 };
 
-AUTO_END
+}
 

@@ -1,7 +1,7 @@
 #include "Graphics.h"
 #include "stb_image.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 Graphics::Graphics(Ambient* ambient)
 	:Super(ambient)
 	, _window(nullptr)
@@ -172,4 +172,4 @@ bool Graphics::IsDeviceLost()
 	return _context == nullptr;
 }
 
-AUTO_END
+}

@@ -1,7 +1,7 @@
 #include "Camera.h"
 #include "RenderLoop.h"
 #include "Graphics.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 Camera::Camera(Ambient* ambient)
 	:Super(ambient)
@@ -126,4 +126,4 @@ void Camera::updateCameraVectors()
 }
 
 
-AUTO_END
+}

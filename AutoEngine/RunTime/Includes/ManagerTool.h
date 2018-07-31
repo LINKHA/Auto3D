@@ -1,6 +1,6 @@
 #pragma once
 #include "Object.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 class ManagerTool : public Object
 {
@@ -11,4 +11,4 @@ public:
 
 };
 
-AUTO_END
+}

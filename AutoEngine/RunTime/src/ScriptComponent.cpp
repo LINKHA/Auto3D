@@ -1,6 +1,6 @@
 #include "ScriptComponent.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 ScriptComponent::ScriptComponent(Ambient* ambient)
 	:Super(ambient)
 {
@@ -10,4 +10,4 @@ ScriptComponent::ScriptComponent(Ambient* ambient)
 ScriptComponent::~ScriptComponent()
 {
 }
-AUTO_END
+}

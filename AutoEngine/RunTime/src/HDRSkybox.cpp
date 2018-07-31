@@ -5,7 +5,7 @@
 #include "BaseMesh.h"
 #include "Renderer.h"
 #include "Graphics.h"
-AUTO_BEGIN
+namespace Auto3D {
 SINGLETON_INSTANCE(SkyBoxManager);
 HDRSkyBox::HDRSkyBox(Ambient* ambient)
 	: Texture3D(ambient)
@@ -208,4 +208,4 @@ void HDRSkyBox::Draw()
 	renderCube(&cubeVAO, &cubeVBO);
 
 }
-AUTO_END
+}

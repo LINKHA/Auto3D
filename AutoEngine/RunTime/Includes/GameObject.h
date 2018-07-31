@@ -2,7 +2,7 @@
 #include "Object.h"
 #include "stl_use.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 #define GetComponent(x) GetComponentT<x>(ClassID (x))
 class GameObject;
 class Transform;
@@ -103,4 +103,4 @@ inline Component& GameObject::GetComponentIndex(int index)
 {
 	return *_components[index].second;
 }
-AUTO_END
+}

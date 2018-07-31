@@ -1,5 +1,5 @@
 #include "Geometry.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 
 Geometry::Geometry(Ambient* ambient)
@@ -12,4 +12,4 @@ Geometry::~Geometry()
 {
 }
 
-AUTO_END
+}

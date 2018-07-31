@@ -1,6 +1,6 @@
 #pragma once
 #include "Auto.h"
-AUTO_BEGIN
+namespace Auto3D {
 struct RefCount
 {
 	RefCount() :
@@ -40,4 +40,4 @@ private:
 	/// Pointer to the reference count structure.
 	RefCount* _refCount;
 };
-AUTO_END
+}

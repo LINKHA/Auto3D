@@ -3,7 +3,7 @@
 #include "Singleton.h"
 #include "stl_use.h"
 #include "Prefab.h"
-AUTO_BEGIN
+namespace Auto3D {
 class PreLoadManager : public GlobalGameManager , public Singleton<PreLoadManager>
 {
 	REGISTER_DERIVED_CLASS(PreLoadManager, GlobalGameManager);
@@ -17,5 +17,5 @@ public:
 private:
 	PreContainer _prefabs;
 };
-AUTO_END
+}
 

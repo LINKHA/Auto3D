@@ -13,7 +13,7 @@
 #include "SpriteSort.h"
 #include "FrameBuffersScreen.h"
 #include "MSAA.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 Engine::Engine(Ambient* ambient)
 	:Super(ambient)
@@ -101,4 +101,4 @@ void Engine::Render()
 	GetSubSystem<Renderer>()->Render();
 	graphics->EndFrame();
 }
-AUTO_END
+}

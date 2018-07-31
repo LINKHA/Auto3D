@@ -2,7 +2,7 @@
 #include "ScriptComponent.h"
 #include "GameObject.h"
 #include "Camera.h"
-USING_AUTO
+using namespace Auto3D;
 
 class FreeCamera : public ScriptComponent
 {

@@ -1,7 +1,7 @@
 #pragma once
 #include "Light.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 
 class LightSpot : public Light
 {
@@ -24,4 +24,4 @@ public:
 
 };
 
-AUTO_END
+}

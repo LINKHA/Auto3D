@@ -1,7 +1,7 @@
 #pragma once
 #include "OpenGLGather.h"
 #include "Auto.h"
-AUTO_BEGIN
+namespace Auto3D {
 TOOL_CLASS GLTextureEnable
 {
 public:
@@ -29,5 +29,5 @@ protected:
 	bool _useDepth;
 	bool _useBlend;
 };
-AUTO_END
+}
 

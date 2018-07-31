@@ -6,7 +6,7 @@
 #include "ObjectDefines.h"
 #include "RefCounted.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 class Ambient;
 class Object : public RefCounted
 {
@@ -72,4 +72,4 @@ public:
 	Ambient* _ambient;
 };
 
-AUTO_END
+}

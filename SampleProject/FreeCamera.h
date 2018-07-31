@@ -4,7 +4,7 @@
 #include "Camera.h"
 #include "ObjectDefines.h"
 
-USING_AUTO
+using namespace Auto3D;
 class FreeCamera : public ScriptComponent
 {
 public:

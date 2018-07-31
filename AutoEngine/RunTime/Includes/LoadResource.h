@@ -5,7 +5,7 @@
 #include "stl_use.h"
 #include "Image.h"
 
-AUTO_BEGIN
+namespace Auto3D {
 
 //Load Shader Address
 
@@ -17,5 +17,5 @@ void FreeImage(Image * image);
 unsigned int LoadCubemap(_VECTOR(_String) faces);
 unsigned int LocalHdrLoad(PInt8 path);
 
-AUTO_END
+}
 

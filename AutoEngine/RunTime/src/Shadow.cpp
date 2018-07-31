@@ -7,7 +7,7 @@
 #include "VertexData.h"
 #include "LoadResource.h"
 #include "Renderer.h"
-AUTO_BEGIN
+namespace Auto3D {
 
 Shadow::Shadow(Ambient* ambient)
 	: Component(ambient)
@@ -76,4 +76,4 @@ void Shadow::Draw()
 }
 
 
-AUTO_END
+}

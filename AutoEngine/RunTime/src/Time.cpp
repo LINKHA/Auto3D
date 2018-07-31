@@ -1,6 +1,6 @@
 #include "Time.h"
 #include "SDL2/SDL.h"
-AUTO_BEGIN
+namespace Auto3D {
 SYSTEMTIME  sysTime;
 Time::TimeHolder::TimeHolder()
 	: curFrameTime(0)
@@ -108,5 +108,5 @@ void Time::Update()
 
 
 Time::~Time(){}
-AUTO_END
+}
 
