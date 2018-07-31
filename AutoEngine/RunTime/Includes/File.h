@@ -3,7 +3,7 @@
 #include "Auto.h"
 #include "stl_use.h"
 #include "LogAssert.h"
-
+namespace Auto3D {
 #define kPathMaxSize MAX_PATH * 4
 
 
@@ -40,3 +40,5 @@ public:
 	static void CleanUpClass();
 
 };
+
+}

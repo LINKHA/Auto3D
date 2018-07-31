@@ -1,4 +1,5 @@
 #include "RefCounted.h"
+#include "LogAssert.h"
 namespace Auto3D {
 RefCounted::RefCounted() :
 	_refCount(new RefCount())
@@ -8,9 +9,9 @@ RefCounted::RefCounted() :
 
 RefCounted::~RefCounted()
 {
-	assert(_refCount);
-	assert(_refCount->refs == 0);
-	assert(_refCount->weakRefs > 0);
+	Assert(_refCount);
+	Assert(_refCount->refs == 0);
+	Assert(_refCount->weakRefs > 0);
 
 	_refCount->refs = -1;
 	(_refCount->weakRefs)--;
@@ -22,13 +23,13 @@ RefCounted::~RefCounted()
 
 void RefCounted::AddRef()
 {
-	assert(_refCount->refs >= 0);
+	Assert(_refCount->refs >= 0);
 	(_refCount->refs)++;
 }
 
 void RefCounted::ReleaseRef()
 {
-	assert(_refCount->refs > 0);
+	Assert(_refCount->refs > 0);
 	(_refCount->refs)--;
 	if (!_refCount->refs)
 		delete this;

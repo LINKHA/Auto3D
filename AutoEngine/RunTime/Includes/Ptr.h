@@ -43,11 +43,11 @@ public:
 		return *this;
 	}
 
-	T* operator ->() const { assert(_ptr); return _ptr; }
+	T* operator ->() const { Assert(_ptr); return _ptr; }
 
-	T& operator *() const { assert(_ptr); return *_ptr; }
+	T& operator *() const { Assert(_ptr); return *_ptr; }
 
-	T& operator [](int index) { assert(_ptr); return _ptr[index]; }
+	T& operator [](int index) { Assert(_ptr); return _ptr[index]; }
 
 	template <class U> bool operator <(const SharedPtr<U>& rhs) const { return _ptr < rhs._ptr; }
 

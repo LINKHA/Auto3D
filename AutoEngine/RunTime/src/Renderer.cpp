@@ -16,7 +16,7 @@ Renderer::~Renderer()
 void Renderer::Render()
 {
 	auto* graphics = GetSubSystem<Graphics>();
-	assert(graphics && graphics->IsInitialized() && !graphics->IsDeviceLost());
+	Assert(graphics && graphics->IsInitialized() && !graphics->IsDeviceLost());
 	_insideRenderOrCull = true;
 	for (CameraContainer::iterator i = _cameras.begin(); i != _cameras.end(); i++)
 	{
@@ -32,7 +32,7 @@ void Renderer::Render()
 }
 void Renderer::AddCamera(Camera* c)
 {
-	assert(c != NULL);
+	Assert(c != NULL);
 	if (_insideRenderOrCull)
 	{
 		_camerasToRemove.remove(c);
@@ -60,7 +60,7 @@ void Renderer::AddCamera(Camera* c)
 
 void Renderer::RemoveCamera(Camera* c)
 {
-	assert(c != NULL);
+	Assert(c != NULL);
 	_camerasToAdd.remove(c);
 	_camerasToRemove.remove(c);
 
@@ -87,7 +87,7 @@ void Renderer::RemoveCamera(Camera* c)
 ///Privete
 void Renderer::delayedAddRemoveCameras()
 {
-	assert(!_insideRenderOrCull);
+	Assert(!_insideRenderOrCull);
 	for (CameraContainer::iterator i = _camerasToRemove.begin(); i != _camerasToRemove.end(); /**/)
 	{
 		Camera* cam = *i;

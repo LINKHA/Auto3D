@@ -1,11 +1,6 @@
 #pragma once
-#include <assert.h>
+#include <Assert.h>
 #include <string>
-//namespace AutoEngine
-//#define namespace Auto3D {			namespace Auto3D {
-//#define }			}
-//#define USING_AUTO			using namespace Auto3D;
-//#define AUTO				Auto3D
 
 //namespace AutoEngineAPI
 #define AUTO_API_BEGIN		namespace AutoAPI {

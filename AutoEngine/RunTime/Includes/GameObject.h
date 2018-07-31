@@ -96,7 +96,7 @@ template<class T> inline T& GameObject::GetComponentT(int compareClassID) const
 {
 	Component* com;
 	com = QueryComponent(compareClassID);
-	assert(com != nullptr);
+	Assert(com != nullptr);
 	return *static_cast<T*> (com);
 }
 inline Component& GameObject::GetComponentIndex(int index)

@@ -27,12 +27,12 @@ protected:
 public:
 	Singleton()
 	{
-		assert(!_instance);
+		Assert(!_instance);
 		_instance = static_cast<T*>(this);
 	}
 	~Singleton()
 	{
-		assert(_instance);  
+		Assert(_instance);  
 		_instance = nullptr;
 	}
 	/**

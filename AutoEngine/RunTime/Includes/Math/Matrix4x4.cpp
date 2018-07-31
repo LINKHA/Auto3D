@@ -59,7 +59,7 @@ Matrix4x4& Matrix4x4::operator = (const Matrix3x3& other)
 
 Matrix4x4& Matrix4x4::operator *= (const Matrix4x4& inM1)
 {
-	assert(&inM1 != this);
+	Assert(&inM1 != this);
 	int i;
 	for (i = 0; i < 4; i++)
 	{

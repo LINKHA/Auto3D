@@ -2,11 +2,11 @@
 #include <string>
 #include <cstdio>
 #include <iostream>
-#include <assert.h>
+#include <Assert.h>
+
+namespace Auto3D {
 #define AUTO_DEBUG 1
 #define AUTO_RELEASE !AUTO_DEBUG
-
-
 #if AUTO_DEBUG 
 #else
 #pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
@@ -51,3 +51,15 @@ inline const char* LogTypeToString(LogType type)
 #define LogString(x)			do { DebugStringToFile(x,LogType_Log);} while(0)
 #define Print(x)				do { DebugStringToFile(x,LogType_Log); }while(0)
 
+#define Assert(condition){ \
+	if(!(condition)){ \
+		ErrorString("The breakpoint is triggered.");\
+		exit(EXIT_FAILURE);\
+	}\
+}
+
+
+
+
+
+}

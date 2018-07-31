@@ -10,7 +10,7 @@ struct RefCount
 	}
 	~RefCount()
 	{
-		// Set reference counts below zero to fire asserts if this object is still accessed
+		// Set reference counts below zero to fire Asserts if this object is still accessed
 		refs = -1;
 		weakRefs = -1;
 	}

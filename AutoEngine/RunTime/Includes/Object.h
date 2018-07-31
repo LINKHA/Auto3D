@@ -28,7 +28,7 @@ public:
 	
 	void SetClassID(ClassIDType classId)				{ _classID = classId; }
 	void SetInstanceID(int inID)						{ _instanceID = inID; }
-	Int32 GetInstanceID() const							{ assert(_instanceID != 0); return _instanceID; }
+	Int32 GetInstanceID() const							{ Assert(_instanceID != 0); return _instanceID; }
 
 
 	static int GetClassIDStatic()						{ return ClassID(Object); }
@@ -66,7 +66,7 @@ public:
 	explicit ObjectFactory(Ambient* ambient)
 		:_ambient(ambient)
 	{
-		assert(_ambient);
+		Assert(_ambient);
 	}
 
 	Ambient* _ambient;

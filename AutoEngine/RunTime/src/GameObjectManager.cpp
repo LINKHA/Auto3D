@@ -14,7 +14,7 @@ GameObjectManager::~GameObjectManager()
 
 void GameObjectManager::AddGameObject(GameObject* obj)
 {
-	assert(obj != NULL);
+	Assert(obj != NULL);
 	if (_isInsideRun)
 	{
 		_gameObjectsToRemove.remove(obj);
@@ -28,7 +28,7 @@ void GameObjectManager::AddGameObject(GameObject* obj)
 
 void GameObjectManager::RemoveGameObject(GameObject* obj)
 {
-	assert(obj != NULL);
+	Assert(obj != NULL);
 	_gameObjectsToAdd.remove(obj);
 	_gameObjectsToRemove.remove(obj);
 	if (_isInsideRun)
@@ -89,7 +89,7 @@ void GameObjectManager::ModeRunGameObject(RunMode runMode)
 ///Private
 void GameObjectManager::delayAddRemoveGameObject()
 {
-	assert(!_isInsideRun);
+	Assert(!_isInsideRun);
 	for (GameObjectContainer::iterator i = _gameObjectsToRemove.begin(); i != _gameObjectsToRemove.end(); /**/)
 	{
 		GameObject* obj = *i;

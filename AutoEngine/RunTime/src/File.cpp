@@ -1,6 +1,6 @@
 #include "File.h"
-
-
+#include "LogAssert.h"
+namespace Auto3D {
 HANDLE OpenFileWithPath(const _String& path, File::Permission permission)
 {
 	wchar_t widePath[kPathMaxSize];
@@ -41,7 +41,7 @@ HANDLE OpenFileWithPath(const _String& path, File::Permission permission)
 
 File::File() { _file = NULL; _position = 0; }
 
-File::~File() { assert(_file == NULL); }
+File::~File() { Assert(_file == NULL); }
 
 bool File::Open(const std::string & path, Permission perm, ATBehavior behavior)
 {
@@ -66,4 +66,6 @@ bool File::Close()
 	}
 	_path.clear();
 	return true;
+}
+
 }
