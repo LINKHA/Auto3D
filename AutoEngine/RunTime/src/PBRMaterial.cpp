@@ -1,5 +1,5 @@
 #include "PBRMaterial.h"
-#include "AtConfig.h"
+#include "Configs.h"
 #include "stb_image.h"
 #include "LoadResource.h"
 #include "BaseMesh.h"
@@ -21,8 +21,8 @@ glm::vec3 lightColors[] = {
 };
 PBRMaterial::PBRMaterial(Ambient* ambient)
 	: Component(ambient)
-	, pbrShader(AtConfig::shader_path + "au_pbr.auvs"
-		, AtConfig::shader_path + "au_pbr_hdr.aufs")
+	, pbrShader(shader_path + "au_pbr.auvs"
+		, shader_path + "au_pbr_hdr.aufs")
 {
 }
 

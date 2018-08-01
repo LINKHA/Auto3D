@@ -12,13 +12,8 @@
 	#define WINDOW_DOT_USE 1
 #endif
 
+extern const std::string source_path;
+extern const std::string build_path;
+extern const std::string shader_path;
 
-class AtConfig
-{
-public:
-	const static std::string source_path;
-	const static std::string build_path;
-	const static std::string shader_path;
-	
-};
 

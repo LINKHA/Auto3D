@@ -1,6 +1,7 @@
 #include "Mesh.h"
 #include "Renderer.h"
 #include "LightManager.h"
+#include "Configs.h"
 namespace Auto3D {
 
 
@@ -8,8 +9,8 @@ LightManager& lights = INSTANCE(LightManager);
 
 Mesh::Mesh(Ambient* ambient)
 	:Super(ambient)
-	, _shader(Shader(AtConfig::shader_path + "au_light_map_model_loading.auvs"
-		, AtConfig::shader_path + "au_light_map_model_loading.aufs"))
+	, _shader(Shader(shader_path + "au_light_map_model_loading.auvs"
+		, shader_path + "au_light_map_model_loading.aufs"))
 	, _isUserShader(false)
 {
 	_meshPath.ptr = "../Resource/object/base/Cube.FBX";
@@ -36,13 +37,13 @@ void Mesh::Start()
 {
 	if (_material.isTexture)
 	{
-		_shader = Shader(AtConfig::shader_path + "au_light_map_model_loading.auvs"
-			, AtConfig::shader_path + "au_light_map_model_loading.aufs");
+		_shader = Shader(shader_path + "au_light_map_model_loading.auvs"
+			, shader_path + "au_light_map_model_loading.aufs");
 	}
 	else
 	{
-		_shader = Shader(AtConfig::shader_path + "au_light_model_loading.auvs"
-			, AtConfig::shader_path + "au_light_model_loading.aufs");
+		_shader = Shader(shader_path + "au_light_model_loading.auvs"
+			, shader_path + "au_light_model_loading.aufs");
 	}
 	//////////////////////////////////////////////////////////////////////////
 	_model = LocalModelLoad(_meshPath.ptr);

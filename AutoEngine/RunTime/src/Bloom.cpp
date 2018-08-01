@@ -1,5 +1,5 @@
 #include "Bloom.h"
-#include "AtConfig.h"
+#include "Configs.h"
 #include "LoadResource.h"
 #include "Graphics.h"
 #include "Camera.h"
@@ -9,14 +9,14 @@ namespace Auto3D {
 
 Bloom::Bloom(Ambient* ambient)
 	: Component(ambient)
-	, m_shader(Shader(AtConfig::shader_path + "au_bloom.auvs"
-		, AtConfig::shader_path + "au_bloom.aufs"))
-	, m_shaderLight(Shader(AtConfig::shader_path + "au_bloom.auvs"
-		, AtConfig::shader_path + "au_bloom_light_box.aufs"))
-	, m_shaderBlur(Shader(AtConfig::shader_path + "au_bloom_blur.auvs"
-		, AtConfig::shader_path + "au_bloom_blur.aufs"))
-	, m_shaderBloomFinal(Shader(AtConfig::shader_path + "au_bloom_final.auvs"
-		, AtConfig::shader_path + "au_bloom_final.aufs"))
+	, m_shader(Shader(shader_path + "au_bloom.auvs"
+		, shader_path + "au_bloom.aufs"))
+	, m_shaderLight(Shader(shader_path + "au_bloom.auvs"
+		, shader_path + "au_bloom_light_box.aufs"))
+	, m_shaderBlur(Shader(shader_path + "au_bloom_blur.auvs"
+		, shader_path + "au_bloom_blur.aufs"))
+	, m_shaderBloomFinal(Shader(shader_path + "au_bloom_final.auvs"
+		, shader_path + "au_bloom_final.aufs"))
 {
 }
 

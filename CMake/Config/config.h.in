@@ -1,3 +1,3 @@
 #pragma once
-const char * source_dictionary = "${CMAKE_SOURCE_DIR}";
-const char * build_dictionary = "${PROJECT_BINARY_DIR}";
+static const char * source_dictionary = "${CMAKE_SOURCE_DIR}";
+static const char * build_dictionary = "${PROJECT_BINARY_DIR}";

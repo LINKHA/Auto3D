@@ -1,15 +1,14 @@
 #include "SkyBoxReflectMesh.h"
-#include "AtConfig.h"
 #include "Renderer.h"
 #include "SkyBox.h"
 #include "GameObject.h"
 #include "Transform.h"
-
+#include "Configs.h"
 namespace Auto3D {
 SkyBoxReflectMesh::SkyBoxReflectMesh(Ambient* ambient)
 	: RenderComponent(ambient)
-	, m_shader(AtConfig::shader_path + "au_skybox_cube.auvs"
-		, AtConfig::shader_path + "au_skybox_cube.aufs")
+	, m_shader(shader_path + "au_skybox_cube.auvs"
+		, shader_path + "au_skybox_cube.aufs")
 {
 }
 SkyBoxReflectMesh::SkyBoxReflectMesh(Ambient* ambient, const Shader& shader )

@@ -6,18 +6,19 @@
 #include "OpenGLGather.h"
 #include "LoadResource.h"
 #include "SpriteSort.h"
+#include "Configs.h"
 namespace Auto3D {
 
 SpriteTranslucent::SpriteTranslucent()
-	: _shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs"
-		, AtConfig::shader_path + "au_texture_transform.aufs"))
+	: _shader(Shader(shader_path + "au_texture_transform.auvs"
+		, shader_path + "au_texture_transform.aufs"))
 {
 	_imagePath.ptr = "Resource/texture/square.jpg";
 }
 SpriteTranslucent::SpriteTranslucent(Ambient* ambient, char* imagePath)
 	: Texture2D(ambient)
-	, _shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs"
-		, AtConfig::shader_path + "au_texture_transform.aufs"))
+	, _shader(Shader(shader_path + "au_texture_transform.auvs"
+		, shader_path + "au_texture_transform.aufs"))
 {
 	_imagePath.ptr = imagePath;
 }

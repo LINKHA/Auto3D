@@ -1,5 +1,4 @@
 #include "ShadowTest.h"
-#include "AtConfig.h"
 #include "Camera.h"
 namespace Auto3D {
 

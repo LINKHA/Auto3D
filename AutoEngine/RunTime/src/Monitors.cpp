@@ -10,14 +10,11 @@ Monitors::Monitors()
 {
 	SDL_Rect rect;
 	monitorCount = SDL_GetNumVideoDisplays();
-	Print(SDL_GetNumVideoDisplays());
 	for (int i = 0; i < monitorCount; i++)
 	{
 		SDL_GetDisplayBounds(i, &rect);
 		mnitors.push_back(M_PAIR(rect.w, rect.h));
 	}
-	
-	Print(monitorCount);
 }
 
 Int32 Monitors::GetMonitorsCount()

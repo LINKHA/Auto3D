@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "VertexData.h"
 #include "Renderer.h"
+#include "Configs.h"
 namespace Auto3D {
 SINGLETON_INSTANCE(SkyManager);
 SkyBox::SkyBox(Ambient* ambient)
@@ -18,7 +19,7 @@ SkyBox::~SkyBox()
 void SkyBox::Start()
 {
 	INSTANCE(SkyManager).AddSkyBox(this);
-	_shader = Shader(AtConfig::shader_path + "au_skybox.auvs", AtConfig::shader_path + "au_skybox.aufs");
+	_shader = Shader(shader_path + "au_skybox.auvs", shader_path + "au_skybox.aufs");
 	glGenVertexArrays(1, &_skyboxVAO);
 	glGenBuffers(1, &_skyboxVBO);
 	glBindVertexArray(_skyboxVAO);

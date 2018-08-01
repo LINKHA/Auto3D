@@ -6,7 +6,6 @@
 #include "OpenGLGather.h"
 #include "stb_image.h"
 #include "Shader.h"
-#include "AtConfig.h"
 #include "GameObject.h"
 #include "RenderComponent.h"
 #include "GLTextureEnable.h"

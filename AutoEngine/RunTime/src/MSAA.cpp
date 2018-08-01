@@ -3,13 +3,13 @@
 #include "Math/Rect.h"
 #include "Graphics.h"
 #include "VertexData.h"
-
+#include "Configs.h"
 namespace Auto3D {
 
 MSAA::MSAA(Ambient* ambient)
 	:ManagerTool(ambient)
-	,m_Shader(AtConfig::shader_path + "au_anti_aliasing_offscreen.auvs"
-		, AtConfig::shader_path + "au_anti_aliasing_offscreen.aufs")
+	,m_Shader(shader_path + "au_anti_aliasing_offscreen.auvs"
+		, shader_path + "au_anti_aliasing_offscreen.aufs")
 {
 	
 }

@@ -1,6 +1,7 @@
 #include "TextureNormal.h"
 #include "Renderer.h"
 #include "Graphics.h"
+#include "Configs.h"
 namespace Auto3D {
 
 
@@ -33,7 +34,7 @@ void TextureNormal::Start()
 	Super::Start();
 	_image = LocalTextureLoad(_imagePath.ptr);
 	_imageNormal = LocalTextureLoad(_imageNormalPath.ptr);
-	_shader = Shader(AtConfig::shader_path + "au_normal_mapping.auvs", AtConfig::shader_path + "au_normal_mapping.aufs");
+	_shader = Shader(shader_path + "au_normal_mapping.auvs", shader_path + "au_normal_mapping.aufs");
 
 	_shader.Use();
 	_shader.SetInt("diffuseMap", 0);

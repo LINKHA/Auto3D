@@ -1,7 +1,7 @@
 #include "FrameBuffersScreen.h"
 #include "OpenGLGather.h"
 #include "Monitors.h"
-#include "AtConfig.h"
+#include "Configs.h"
 #include "Graphics.h"
 #include "VertexData.h"
 namespace Auto3D {
@@ -15,17 +15,17 @@ Shader shaderSharpen;
 FrameBuffersScreen::FrameBuffersScreen(Ambient* ambient)
 	:Super(ambient)
 	,_enable(false)
-//	,_shader(Shader(AtConfig::shader_path + "au_framebuffers_screen.auvs",
-//		AtConfig::shader_path + "au_framebuffers_screen.aufs"))
+//	,_shader(Shader(shader_path + "au_framebuffers_screen.auvs",
+//		shader_path + "au_framebuffers_screen.aufs"))
 {
-	_shader = Shader(AtConfig::shader_path + "au_framebuffers_screen.auvs",
-		AtConfig::shader_path + "au_framebuffers_screen.aufs");
-	shader = Shader(AtConfig::shader_path + "au_framebuffers_screen.auvs",AtConfig::shader_path + "au_framebuffers_screen.aufs");
-	shaderBlur = Shader(AtConfig::shader_path + "au_framebuffers_screen.auvs",AtConfig::shader_path + "au_framebuffers_screen_blur.aufs");
-	shaderEdgeDetection = Shader(AtConfig::shader_path + "au_framebuffers_screen.auvs",AtConfig::shader_path + "au_framebuffers_screen_edge_detection.aufs");
-	shaderGrayscale = Shader(AtConfig::shader_path + "au_framebuffers_screen.auvs",AtConfig::shader_path + "au_framebuffers_screen_grayscale.aufs");
-	shaderInversion = Shader(AtConfig::shader_path + "au_framebuffers_screen.auvs",AtConfig::shader_path + "au_framebuffers_screen_inversion.aufs");
-	shaderSharpen = Shader(AtConfig::shader_path + "au_framebuffers_screen.auvs",AtConfig::shader_path + "au_framebuffers_screen_sharpen.aufs");
+	_shader = Shader(shader_path + "au_framebuffers_screen.auvs",
+		shader_path + "au_framebuffers_screen.aufs");
+	shader = Shader(shader_path + "au_framebuffers_screen.auvs",shader_path + "au_framebuffers_screen.aufs");
+	shaderBlur = Shader(shader_path + "au_framebuffers_screen.auvs",shader_path + "au_framebuffers_screen_blur.aufs");
+	shaderEdgeDetection = Shader(shader_path + "au_framebuffers_screen.auvs",shader_path + "au_framebuffers_screen_edge_detection.aufs");
+	shaderGrayscale = Shader(shader_path + "au_framebuffers_screen.auvs",shader_path + "au_framebuffers_screen_grayscale.aufs");
+	shaderInversion = Shader(shader_path + "au_framebuffers_screen.auvs",shader_path + "au_framebuffers_screen_inversion.aufs");
+	shaderSharpen = Shader(shader_path + "au_framebuffers_screen.auvs",shader_path + "au_framebuffers_screen_sharpen.aufs");
 
 }
 FrameBuffersScreen::~FrameBuffersScreen()

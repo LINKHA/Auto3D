@@ -1,5 +1,5 @@
 #include "ShadowPoint.h"
-#include "AtConfig.h"
+#include "Configs.h"
 #include "stb_image.h"
 #include "ShadowTest.h"
 #include "Graphics.h"
@@ -9,11 +9,11 @@
 #include "Renderer.h"
 namespace Auto3D {
 ShadowPoint::ShadowPoint()
-	:m_ShadowMap(AtConfig::shader_path + "au_point_shadows.auvs"
-		, AtConfig::shader_path + "au_point_shadows.aufs")
-	, m_ShadowMapDepth(AtConfig::shader_path + "au_point_shadows_depth.auvs"
-		, AtConfig::shader_path + "au_point_shadows_depth.aufs"
-		, AtConfig::shader_path + "au_point_shadows_depth.augs")
+	:m_ShadowMap(shader_path + "au_point_shadows.auvs"
+		, shader_path + "au_point_shadows.aufs")
+	, m_ShadowMapDepth(shader_path + "au_point_shadows_depth.auvs"
+		, shader_path + "au_point_shadows_depth.aufs"
+		, shader_path + "au_point_shadows_depth.augs")
 {}
 ShadowPoint::~ShadowPoint()
 {}

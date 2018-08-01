@@ -1,5 +1,5 @@
 #include "PBRTexture.h"
-#include "AtConfig.h"
+#include "Configs.h"
 #include "Camera.h"
 #include "LoadResource.h"
 #include "BaseMesh.h"
@@ -21,8 +21,8 @@ glm::vec3 t_lightColors[] = {
 
 PBRTexture::PBRTexture(Ambient* ambient)
 	:Component(ambient)
-	,m_shader(AtConfig::shader_path + "au_pbr.auvs"
-		, AtConfig::shader_path + "au_pbr_texture.aufs")
+	,m_shader(shader_path + "au_pbr.auvs"
+		, shader_path + "au_pbr_texture.aufs")
 {
 }
 

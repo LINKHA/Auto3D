@@ -101,7 +101,7 @@ SDL_Surface* Graphics::SetIcon()
 {
 	int req_format = STBI_rgb_alpha;
 	int width, height, orig_format;
-	//unsigned char* data = stbi_load((AtConfig::source_path + "Restource/logo.png").c_str(), &width, &height, &orig_format, 0);
+	//unsigned char* data = stbi_load((source_path + "Restource/logo.png").c_str(), &width, &height, &orig_format, 0);
 	unsigned char* data = stbi_load("../Resource/texture/logo.png", &width, &height, &orig_format, 0);
 	if (!data) {
 		SDL_Log("Loading image failed: %s", stbi_failure_reason());

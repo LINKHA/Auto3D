@@ -2,7 +2,6 @@
 #include "OpenGLGather.h"
 #include "Singleton.h"
 #include "Auto.h"
-#include "AtConfig.h"
 #include "Ptr.h"
 #include "Engine.h"
 #include "Launch.h"

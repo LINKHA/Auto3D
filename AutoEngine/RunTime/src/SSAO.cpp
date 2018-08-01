@@ -3,17 +3,18 @@
 #include "Camera.h"
 #include "Renderer.h"
 #include "BaseMesh.h"
+#include "Configs.h"
 namespace Auto3D {
 SSAO::SSAO(Ambient* ambient)
 	:Component(ambient)
-	, m_shaderGeometryPass(AtConfig::shader_path + "au_ssao_geometry.auvs"
-		, AtConfig::shader_path + "au_ssao_geometry.aufs")
-	, m_shaderLightingPass(AtConfig::shader_path + "au_ssao.auvs"
-		, AtConfig::shader_path + "au_ssao_lighting.aufs")
-	, m_shaderSSAO(AtConfig::shader_path + "au_ssao.auvs"
-		, AtConfig::shader_path + "au_ssao.aufs")
-	, m_shaderSSAOBlur(AtConfig::shader_path + "au_ssao.auvs"
-		, AtConfig::shader_path + "au_ssao_blur.aufs")
+	, m_shaderGeometryPass(shader_path + "au_ssao_geometry.auvs"
+		, shader_path + "au_ssao_geometry.aufs")
+	, m_shaderLightingPass(shader_path + "au_ssao.auvs"
+		, shader_path + "au_ssao_lighting.aufs")
+	, m_shaderSSAO(shader_path + "au_ssao.auvs"
+		, shader_path + "au_ssao.aufs")
+	, m_shaderSSAOBlur(shader_path + "au_ssao.auvs"
+		, shader_path + "au_ssao_blur.aufs")
 {	
 }
 SSAO::~SSAO()

@@ -3,7 +3,6 @@
 #include "ModelCommand.h"
 #include "Transform.h"
 #include "Application.h"
-#include "AtConfig.h"
 #include "LoadResource.h"
 #include "Math/Color.h"
 #include "Material.h"

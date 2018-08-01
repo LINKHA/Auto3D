@@ -1,5 +1,5 @@
 #include "HDR.h"
-#include "AtConfig.h"
+#include "Configs.h"
 #include "LoadResource.h"
 #include "Graphics.h"
 #include "Renderer.h"
@@ -7,10 +7,10 @@
 namespace Auto3D {
 HDR::HDR(Ambient* ambient)
 	:Component(ambient)
-	, m_shader(AtConfig::shader_path + "au_lighting.auvs"
-		, AtConfig::shader_path + "au_lighting.aufs")
-	, m_hdrShader(AtConfig::shader_path + "au_hdr.auvs"
-		, AtConfig::shader_path + "au_hdr.aufs")
+	, m_shader(shader_path + "au_lighting.auvs"
+		, shader_path + "au_lighting.aufs")
+	, m_hdrShader(shader_path + "au_hdr.auvs"
+		, shader_path + "au_hdr.aufs")
 {}
 
 HDR::~HDR()

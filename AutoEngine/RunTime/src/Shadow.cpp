@@ -1,5 +1,5 @@
 #include "Shadow.h"
-#include "AtConfig.h"
+#include "Configs.h"
 #include "Graphics.h"
 #include "Camera.h"
 #include "ShadowTest.h"
@@ -11,8 +11,8 @@ namespace Auto3D {
 
 Shadow::Shadow(Ambient* ambient)
 	: Component(ambient)
-	, m_ShadowMapDepth(AtConfig::shader_path + "au_shadow_mapping_depth.auvs"
-		, AtConfig::shader_path + "au_shadow_mapping_depth.aufs")
+	, m_ShadowMapDepth(shader_path + "au_shadow_mapping_depth.auvs"
+		, shader_path + "au_shadow_mapping_depth.aufs")
 {}
 Shadow::~Shadow()
 {}

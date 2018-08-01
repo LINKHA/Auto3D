@@ -4,17 +4,18 @@
 #include "VertexData.h"
 #include "ShadowTest.h"
 #include "Camera.h"
+#include "Configs.h"
 namespace Auto3D {
 
 
 //LightManager& lights = INSTANCE(LightManager);
 MeshShadow::MeshShadow()
-	: _shader(Shader(AtConfig::shader_path + "au_shadow_mapping.auvs"
-		, AtConfig::shader_path + "au_shadow_mapping.aufs"))
+	: _shader(Shader(shader_path + "au_shadow_mapping.auvs"
+		, shader_path + "au_shadow_mapping.aufs"))
 {}
 MeshShadow::MeshShadow(int i)
-	: _shader(Shader(AtConfig::shader_path + "au_shadow_mapping.auvs"
-		, AtConfig::shader_path + "au_shadow_mapping.aufs"))
+	: _shader(Shader(shader_path + "au_shadow_mapping.auvs"
+		, shader_path + "au_shadow_mapping.aufs"))
 {
 	k = i;
 }

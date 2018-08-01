@@ -5,27 +5,28 @@
 #include "Transform.h"
 #include "OpenGLGather.h"
 #include "LoadResource.h"
+#include "Configs.h"
 namespace Auto3D {
 
 Sprite::Sprite()
-	: _shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs"
-		, AtConfig::shader_path + "au_texture_transform.aufs"))
+	: _shader(Shader(shader_path + "au_texture_transform.auvs"
+		, shader_path + "au_texture_transform.aufs"))
 {
 	_imagePath.ptr = "Resource/texture/square.jpg";
 	_color.Set(1.0f, 1.0f, 1.0f, 1.0f);
 }
 Sprite::Sprite(Ambient* ambient)
 	:Super(ambient)
-	, _shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs"
-		, AtConfig::shader_path + "au_texture_transform.aufs"))
+	, _shader(Shader(shader_path + "au_texture_transform.auvs"
+		, shader_path + "au_texture_transform.aufs"))
 {
 	_imagePath.ptr = "Resource/texture/square.jpg";
 	_color.Set(1.0f, 1.0f, 1.0f, 1.0f);
 }
 Sprite::Sprite(Ambient* ambient,char* imagePath)
 	: Super(ambient)
-	, _shader(Shader(AtConfig::shader_path + "au_texture_transform.auvs"
-		, AtConfig::shader_path + "au_texture_transform.aufs"))
+	, _shader(Shader(shader_path + "au_texture_transform.auvs"
+		, shader_path + "au_texture_transform.aufs"))
 {
 	_imagePath.ptr = imagePath;
 	_color.Set(1.0f, 1.0f, 1.0f, 1.0f);

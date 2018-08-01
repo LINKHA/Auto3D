@@ -3,7 +3,6 @@
 #include "Ambient.h"
 #include "Math/Color.h"
 #include "SDL2/SDL.h"
-#include "AtConfig.h"
 #include "Auto.h"
 #include "Math/Color.h"
 #include "Math/Rect.h"

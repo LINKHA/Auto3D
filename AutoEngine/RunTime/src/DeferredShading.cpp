@@ -1,5 +1,5 @@
 #include "DeferredShading.h"
-#include "AtConfig.h"
+#include "Configs.h"
 #include "Graphics.h"
 #include "Camera.h"
 #include "Renderer.h"
@@ -7,12 +7,12 @@
 namespace Auto3D {
 DeferredShading::DeferredShading(Ambient* ambient)
 	: Component(ambient)
-	, m_shaderGeometryPass(AtConfig::shader_path + "au_g_buffer.auvs"
-		, AtConfig::shader_path + "au_g_buffer.aufs")
-	, m_shaderLightingPass(AtConfig::shader_path + "au_deffered_shading.auvs"
-		, AtConfig::shader_path + "au_deffered_shading.aufs")
-	, m_shaderLightBox(AtConfig::shader_path + "au_deffered_light_box.auvs"
-		, AtConfig::shader_path + "au_deffered_light_box.aufs")
+	, m_shaderGeometryPass(shader_path + "au_g_buffer.auvs"
+		, shader_path + "au_g_buffer.aufs")
+	, m_shaderLightingPass(shader_path + "au_deffered_shading.auvs"
+		, shader_path + "au_deffered_shading.aufs")
+	, m_shaderLightBox(shader_path + "au_deffered_light_box.auvs"
+		, shader_path + "au_deffered_light_box.aufs")
 {
 }
 DeferredShading::~DeferredShading()

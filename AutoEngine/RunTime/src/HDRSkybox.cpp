@@ -5,20 +5,21 @@
 #include "BaseMesh.h"
 #include "Renderer.h"
 #include "Graphics.h"
+#include "Configs.h"
 namespace Auto3D {
 SINGLETON_INSTANCE(SkyBoxManager);
 HDRSkyBox::HDRSkyBox(Ambient* ambient)
 	: Texture3D(ambient)
-	, m_equirectangularToCubemapShader(AtConfig::shader_path + "au_hdr_skybox_cubemap.auvs"
-		, AtConfig::shader_path + "au_hdr_skybox_equirectangular_to_cubemap.aufs")
-	, m_irradianceShader(AtConfig::shader_path + "au_hdr_skybox_cubemap.auvs"
-		, AtConfig::shader_path + "au_hdr_skybox_irradiance_convolution.aufs")
-	, m_prefilterShader(AtConfig::shader_path + "au_hdr_skybox_cubemap.auvs"
-		, AtConfig::shader_path + "au_hdr_skybox_prefilter.aufs")
-	, m_brdfShader(AtConfig::shader_path + "au_hdr_skybox_brdf.auvs"
-		, AtConfig::shader_path + "au_hdr_skybox_brdf.aufs")
-	, m_backgroundShader(AtConfig::shader_path + "au_hdr_skybox_background.auvs"
-		, AtConfig::shader_path + "au_hdr_skybox_background.aufs")
+	, m_equirectangularToCubemapShader(shader_path + "au_hdr_skybox_cubemap.auvs"
+		, shader_path + "au_hdr_skybox_equirectangular_to_cubemap.aufs")
+	, m_irradianceShader(shader_path + "au_hdr_skybox_cubemap.auvs"
+		, shader_path + "au_hdr_skybox_irradiance_convolution.aufs")
+	, m_prefilterShader(shader_path + "au_hdr_skybox_cubemap.auvs"
+		, shader_path + "au_hdr_skybox_prefilter.aufs")
+	, m_brdfShader(shader_path + "au_hdr_skybox_brdf.auvs"
+		, shader_path + "au_hdr_skybox_brdf.aufs")
+	, m_backgroundShader(shader_path + "au_hdr_skybox_background.auvs"
+		, shader_path + "au_hdr_skybox_background.aufs")
 {
 	INSTANCE(SkyBoxManager).AddSkyBox(this);
 }
