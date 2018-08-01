@@ -1,7 +1,6 @@
 #pragma once
 
 #include "MotionSpace.h"
-//USING_AUTO
 
 using namespace Auto3D;
 class TextureSpace : public MotionSpace

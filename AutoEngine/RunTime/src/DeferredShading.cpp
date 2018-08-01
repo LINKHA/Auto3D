@@ -134,9 +134,9 @@ void DeferredShading::Draw()
 		m_shaderLightingPass.SetVec3("lights[" + std::to_string(i) + "].Position", lightPositions[i]);
 		m_shaderLightingPass.SetVec3("lights[" + std::to_string(i) + "].Color", lightColors[i]);
 		// update attenuation parameters and calculate radius
-		const float constant = 1.0; // note that we don't send this to the shader, we assume it is always 1.0 (in our case)
-		const float linear = 0.7;
-		const float quadratic = 1.8;
+		const float constant = 1.0f; // note that we don't send this to the shader, we assume it is always 1.0 (in our case)
+		const float linear = 0.7f;
+		const float quadratic = 1.8f;
 		m_shaderLightingPass.SetFloat("lights[" + std::to_string(i) + "].Linear", linear);
 		m_shaderLightingPass.SetFloat("lights[" + std::to_string(i) + "].Quadratic", quadratic);
 		// then calculate radius of light volume/sphere

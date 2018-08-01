@@ -29,7 +29,7 @@ public:
 
 
 	RectInt GetWindowRectInt() { return _windowRect; }
-	void UpdateWindowRectInt(float width, float height) { _windowRect.width = width; _windowRect.height = height; }
+	void UpdateWindowRectInt(int width, int height) { _windowRect.width = width; _windowRect.height = height; }
 	char* GetTitle() { return _titleName; }
 	bool GetScreenFullorNot() { return true; }
 	SDL_Window* GetGameWindow() { return _window; }
@@ -50,7 +50,7 @@ private:
 	Color _drawColor;
 	RectInt _windowRect;
 	char* _titleName;
-	bool _isFullScreen = true;
+	bool _isFullScreen = false;
 	bool _isCenter = true;
 
 

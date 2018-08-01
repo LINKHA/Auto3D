@@ -9,7 +9,7 @@ class Geometry : public Object
 	DECLARE_OBJECT_SERIALIZE(Geometry);
 public:
 	explicit Geometry(Ambient* ambient);
-	FillType GetFillType()const { return _fillType; }
+	FillTypes GetFillType()const { return _fillType; }
 
 
 	unsigned GetIndexStart() const { return _indexStart; }
@@ -17,7 +17,7 @@ public:
 	unsigned GetVertexStart() const { return _vertexStart; }
 	unsigned GetVertexCount() const { return _vertexCount; }
 private:
-	FillType _fillType{};
+	FillTypes _fillType{};
 	unsigned _indexStart;
 	unsigned _indexCount;
 	unsigned _vertexStart;

@@ -2,15 +2,19 @@
 #include "ScriptComponent.h"
 #include "GameObject.h"
 #include "Camera.h"
-using namespace Auto3D;
+#include "ObjectDefines.h"
 
+using namespace Auto3D;
 class FreeCamera : public ScriptComponent
 {
 public:
-	FreeCamera();
+	FreeCamera(Ambient* ambient);
 	~FreeCamera();
 	void Start()override;
 	void Update()override;
-	
+	GameObject* freeCameraObject;
+	Camera * freeCamera;
+private:
+	void processInput();
 };
 

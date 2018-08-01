@@ -9,7 +9,7 @@
 namespace Auto3D {
 
 
-static const unsigned glFillMode[] =
+static const unsigned glFillType[] =
 {
 	GL_FILL,
 	GL_LINE,
@@ -92,32 +92,32 @@ static void GetGLPrimitiveType(unsigned elementCount, PrimitiveTypes type, unsig
 {
 	switch (type)
 	{
-	case TRIANGLE_LIST:
+	case PRIM_TYPE_TRIANGLE_LIST:
 		primitiveCount = elementCount / 3;
 		glPrimitiveType = GL_TRIANGLES;
 		break;
 
-	case LINE_LIST:
+	case PRIM_TYPE_LINE_LIST:
 		primitiveCount = elementCount / 2;
 		glPrimitiveType = GL_LINES;
 		break;
 
-	case POINT_LIST:
+	case PRIM_TYPE_POINT_LIST:
 		primitiveCount = elementCount;
 		glPrimitiveType = GL_POINTS;
 		break;
 
-	case TRIANGLE_STRIP:
+	case PRIM_TYPE_TRIANGLE_STRIP:
 		primitiveCount = elementCount - 2;
 		glPrimitiveType = GL_TRIANGLE_STRIP;
 		break;
 
-	case LINE_STRIP:
+	case PRIM_TYPE_LINE_STRIP:
 		primitiveCount = elementCount - 1;
 		glPrimitiveType = GL_LINE_STRIP;
 		break;
 
-	case TRIANGLE_FAN:
+	case PRIM_TYPE_TRIANGLE_FAN:
 		primitiveCount = elementCount - 2;
 		glPrimitiveType = GL_TRIANGLE_FAN;
 		break;

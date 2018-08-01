@@ -63,6 +63,7 @@ glm::mat4& Camera::GetProjectionMatrix()
 	}
 	else
 		ErrorString("Fail to set projection matrix");
+	return _projectionMatrix;
 }
 
 void Camera::ProcessKeyboard(CameraMovement direction, float deltaTime)

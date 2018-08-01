@@ -4,7 +4,7 @@ using namespace Auto3D;
 class WorkSpace : public MotionSpace
 {
 public:
-	WorkSpace();
+	explicit WorkSpace(Ambient* ambient);
 	~WorkSpace();
 	void Start()override;
 	void Update()override;

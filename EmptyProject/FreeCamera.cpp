@@ -1,58 +1,33 @@
 #include "FreeCamera.h"
 #include "BaseSpace.h"
-#include "TimeManager.h"
-#include "RenderManager.h"
+#include "Time.h"
 #include "GameObjectManager.h"
 #include "Camera.h"
+#include "Light.h"
+#include "Input.h"
 
-Camera *freeCamera;
-GameObject* freeCameraObject;
 
-bool firstMouse = true;
-
-RectInt rect = INSTANCE(GLWindow).GetWindowRectInt();
-float lastX = rect.width;
-float lastY = rect.height;
-
-void mouseCallBack(GLFWwindow* window, double xpos, double ypos)
+void FreeCamera::processInput()
 {
-	if (firstMouse)
+
+	if (GetSubSystem<Input>()->GetKeyPress(SDLK_w))
+		freeCamera->ProcessKeyboard(FORWARD, GetSubSystem<Time>()->GetDeltaTime());
+	if (GetSubSystem<Input>()->GetKeyPress(SDLK_s))
+		freeCamera->ProcessKeyboard(BACKWARD, GetSubSystem<Time>()->GetDeltaTime());
+	if (GetSubSystem<Input>()->GetKeyPress(SDLK_a))
+		freeCamera->ProcessKeyboard(LEFT, GetSubSystem<Time>()->GetDeltaTime());
+	if (GetSubSystem<Input>()->GetKeyPress(SDLK_d))
+		freeCamera->ProcessKeyboard(RIGHT, GetSubSystem<Time>()->GetDeltaTime());
+	if (GetSubSystem<Input>()->IsMouseMove())
 	{
-		lastX = xpos;
-		lastY = ypos;
-		firstMouse = false;
+		freeCamera->ProcessMouseMovement(GetSubSystem<Input>()->GetMouseMove().x, GetSubSystem<Input>()->GetMouseMove().y);
 	}
-
-	float xoffset = xpos - lastX;
-	float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
-
-	lastX = xpos;
-	lastY = ypos;
-
-
-	freeCamera->ProcessMouseMovement(xoffset, yoffset);
-}
-void scrollCallBack(GLFWwindow* window, double xoffset, double yoffset)
-{
-	freeCamera->ProcessMouseScroll(yoffset);
-}
-
-void processInput(GLFWwindow *window)
-{
-	if (GrGetKey(window, KEY_ESCAPE) == BUTTON_PRESS)
-		GrCloseWindow(window);
-	if (GrGetKey(window, KEY_W) == BUTTON_PRESS)
-		freeCamera->ProcessKeyboard(FORWARD, TimeManager::Instance().GetDeltaTime() * 2);
-	if (GrGetKey(window, KEY_S) == BUTTON_PRESS)
-		freeCamera->ProcessKeyboard(BACKWARD, TimeManager::Instance().GetDeltaTime() * 2);
-	if (GrGetKey(window, KEY_A) == BUTTON_PRESS)
-		freeCamera->ProcessKeyboard(LEFT, TimeManager::Instance().GetDeltaTime() * 2);
-	if (GrGetKey(window, KEY_D) == BUTTON_PRESS)
-		freeCamera->ProcessKeyboard(RIGHT, TimeManager::Instance().GetDeltaTime() * 2);
+	freeCamera->ProcessMouseScroll(GetSubSystem<Input>()->GetMouseWheelOffset());
 }
 
 
-FreeCamera::FreeCamera()
+FreeCamera::FreeCamera(Ambient* ambient)
+	:ScriptComponent(ambient)
 {
 }
 FreeCamera::~FreeCamera()
@@ -61,17 +36,19 @@ FreeCamera::~FreeCamera()
 
 void FreeCamera::Start()
 {
-	freeCamera = new Camera(Vector3(0.0f, 0.0f, 3.0f));
-	freeCameraObject = new GameObject();
+	freeCamera = new Camera(_ambient);
+	freeCamera->SetFar(1000.0f);
+	freeCameraObject = new GameObject(_ambient);
 	freeCameraObject->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 
 	freeCameraObject->AddComponent(freeCamera);
 
-	glfwSetCursorPosCallback(INSTANCE(GLWindow).GetGLWindow(), mouseCallBack);
-	glfwSetScrollCallback(INSTANCE(GLWindow).GetGLWindow(), scrollCallBack);
-	glfwSetInputMode(INSTANCE(GLWindow).GetGLWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	GetSubSystem<Input>()->ShowCursor(false);
+	GetSubSystem<Input>()->LockCursorInCenter();
+
 }
 void FreeCamera::Update()
 {
-	processInput(INSTANCE(GLWindow).GetGLWindow());
+	processInput();
+
 }

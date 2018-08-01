@@ -18,13 +18,6 @@ static const float MATH_PI_2f = 1.57079632679489661923f;//pi/2
 static const float MATH_PI_4f = 0.785398163397448309616f;//pi/4
 static const unsigned MATH_MIN_UNSIGNED = 0x00000000;
 static const unsigned MATH_MAX_UNSIGNED = 0xffffffff;
-//abandon use Rand class
-//#define MATH_RANDOM_MINUS1_1()      ((2.0f*((float)rand()/RAND_MAX))-1.0f)      // Returns a random float between -1 and 1.
-//#define MATH_RANDOM_0_1()           ((float)rand()/RAND_MAX)                    // Returns a random float between 0 and 1.
-//#define MATH_RANDOM(x,y)			((y-x)*((float)rand()/RAND_MAX)+x)			// Returns a random float between min and max.
-#define MATH_CLAMP(x, lo, hi)       ((x < lo) ? lo : ((x > hi) ? hi : x))		// if hi > lo return lo if hi <x reutrn x else reutnr x
-#define MATH_CLAMP_0_1(x)			( x > 1 ? 1 :( 0 > x)? 0 : x)				
-#define MATH_CLAMP_1_1(x)			( x > 1 ? 1 :( -1 > x)? -1 : x)			
 
 
 template<typename T>
