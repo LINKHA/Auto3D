@@ -6,7 +6,7 @@
 
 namespace Auto3D {
 /**
-* @brief : SubSystem class
+* @brief : SubSystem class for time
 */
 class Time : public GlobalGameManager
 {
@@ -36,23 +36,16 @@ public:
 		RealTime();
 	};
 	RealTime GetRealTime();
-
-
-
 	explicit Time(Ambient* ambient);
-
 	void SetTime(double time);
 	void ResetTime();
 	void SetPause(bool pause);
 	void SetMaximumDeltaTime(float maxStep);
 	void SetTimeScale(float scale);
 
-	//bool StepFixedTime();
-	//virtual void CheckConsistency();
 	virtual void Update();
 
 	inline double	GetCurTime() const				{ return _activeTime.curFrameTime; }
-//	inline double	GetTimeSinceLevelLoad() const	{ return _activeTime.curFrameTime + m_LevelLoadOffset; }
 	inline float	GetDeltaTime() const			{ return _activeTime.deltaTime; }
 	inline float 	GetSmoothDeltaTime()  const		{ return _activeTime.smoothDeltaTime; }
 
@@ -60,18 +53,11 @@ private:
 	TimeHolder  _fixedTime;
 	TimeHolder  _dynamicTime;
 	TimeHolder  _activeTime;
-
 	RealTime	_realTime;
-
 	bool		_isPause;
-
-
-//	double      m_LevelLoadOffset;
 	float		_maximumTimestep;
 	float		_timeSpeedScale;//1.0 is real time 0.5 is low time(range 0,100)
-
 	bool		_firstFrame;// Don't do anything to delta time the first frame!
-
 };
 }
 

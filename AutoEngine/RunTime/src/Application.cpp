@@ -9,12 +9,7 @@ Application::Application()
 Application::~Application()
 {
 }
-/*
-* @Application::run
-* this is Engine important funcation,
-* Determine the number of frames based on the speed of this function
-* Run once per frame
-*/
+
 int Application::Run(Ambient* ambient)
 {
 	try 

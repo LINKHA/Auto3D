@@ -83,8 +83,6 @@ void Renderer::RemoveCamera(Camera* c)
 	}
 }
 
-
-///Privete
 void Renderer::delayedAddRemoveCameras()
 {
 	Assert(!_insideRenderOrCull);

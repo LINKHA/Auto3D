@@ -12,12 +12,15 @@ class Application  : public Singleton<Application>
 public:
 	
 	Application();
-	virtual ~Application();
-	virtual int Init();
-	virtual int Awake();
-	virtual int RunLoop();
-	virtual int Finish();
-	virtual void ErrorExit();
+	~Application();
+	int Init();
+	int Awake();
+	int RunLoop();
+	int Finish();
+	void ErrorExit();
+	/*
+	* @brief : this is Engine important funcation init awake runloop and finish run
+	*/
 	int Run(Ambient* ambient);
 	
 private:

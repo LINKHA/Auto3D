@@ -27,7 +27,6 @@ private:
 	CameraContainer _cameras;
 	CameraContainer _camerasToAdd;
 	CameraContainer _camerasToRemove;
-	//Run render now
 	bool			_insideRenderOrCull;
 };
 

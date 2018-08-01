@@ -53,32 +53,47 @@ void GameObjectManager::ModeRunGameObject(RunMode runMode)
 		GameObject* obj = *i;
 		if (obj && obj->GetEnable())
 		{
-#define TEMP_ITERATOR for (AUTO_VECTOR(int, Component*)::iterator k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++)
+			using compomentIt = AUTO_VECTOR(int, Component*)::iterator;
 			if (runMode == AwakeMode) 
-				TEMP_ITERATOR{ if (k->second->GetEnable()) k->second->Awake();}
+				for (compomentIt k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++) 
+				{ 
+					if (k->second->GetEnable())
+						k->second->Awake();
+				}
 			else if (runMode == StartMode)
-				TEMP_ITERATOR
+				for (compomentIt k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++)
 				{ 
 					if (k->second->GetEnable()) 
 						k->second->Start(); 
 				}
 			else if (runMode == UpdateMode)
-				TEMP_ITERATOR{ if (k->second->GetEnable()) k->second->Update(); }
+				for (compomentIt k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++) 
+				{ 
+					if (k->second->GetEnable())
+						k->second->Update(); 
+				}
 			else if (runMode == FixUpdateMode)
-				TEMP_ITERATOR{ if (k->second->GetEnable()) k->second->FixUpdate(); }
+				for (compomentIt k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++) 
+				{ 
+					if (k->second->GetEnable()) 
+						k->second->FixUpdate(); 
+				}
 			else if (runMode == FinishMode)
 			{
-				TEMP_ITERATOR{ if (k->second->GetEnable()) k->second->Finish(); }
+				for (compomentIt k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++) 
+				{ 
+					if (k->second->GetEnable()) 
+						k->second->Finish();
+				}
 			}
 			else if (runMode == DrawMode)
 			{
 				obj->GetComponent(Transform).UpdateTransform();
-				TEMP_ITERATOR{ if (k->second->GetEnable()) k->second->Draw(); }
+				for (AUTO_VECTOR(int, Component*)::iterator k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++) { if (k->second->GetEnable()) k->second->Draw(); }
 				obj->GetComponent(Transform).Identity();
 			}
 			else 
 				ErrorString("GameObejct fail to Run.");
-#undef TEMP_ITERATOR
 		}
 	}
 	_isInsideRun = false;
@@ -86,7 +101,6 @@ void GameObjectManager::ModeRunGameObject(RunMode runMode)
 }
 
 
-///Private
 void GameObjectManager::delayAddRemoveGameObject()
 {
 	Assert(!_isInsideRun);

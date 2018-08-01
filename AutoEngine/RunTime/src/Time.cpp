@@ -43,14 +43,9 @@ Time::Time(Ambient* ambient)
 	_dynamicTime.lastFrameTime = 0.0f;
 	_dynamicTime.deltaTime = 0.0f;
 	_dynamicTime.smoothDeltaTime = 0.0f;
-
-	//m_FixedTime.m_CurFrameTime = 0.0f;
-	//m_FixedTime.m_LastFrameTime = 0.0f;
 	_activeTime = _dynamicTime;
-
 	_isPause = false;
 
-//	m_LevelLoadOffset = 0.0f;
 }
 
 
