@@ -14,7 +14,6 @@ public:
 	DECLARE_OBJECT_SERIALIZE(GameManager);
 	GameManager();
 	explicit GameManager(Ambient* ambient);
-	//virtual ~GameManager();
 };
 
 class LevelGameManager : public GameManager
@@ -24,7 +23,6 @@ public:
 	DECLARE_OBJECT_SERIALIZE(LevelGameManager);
 	LevelGameManager();
 	explicit LevelGameManager(Ambient* ambient);
-	//virtual ~LevelGameManager();
 };
 
 class GlobalGameManager : public GameManager
@@ -34,7 +32,6 @@ public:
 	DECLARE_OBJECT_SERIALIZE(GlobalGameManager);
 	GlobalGameManager();
 	explicit GlobalGameManager(Ambient* ambient);
-	//virtual ~GlobalGameManager();
 };
 
 }

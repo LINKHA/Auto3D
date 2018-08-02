@@ -51,9 +51,9 @@ public:
 
 	Object* GetSubSystem(_String type)const;
 	template<typename T> T* GetSubSystem() const;
-	Ambient* _ambient;
-protected:
 	
+protected:
+	Ambient* _ambient;
 private:
 	Int32 _instanceID;
 	Int32 _classID;

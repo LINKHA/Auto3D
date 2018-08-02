@@ -15,11 +15,6 @@ int Application::Run(Ambient* ambient)
 	try 
 	{
 		_engine = new Engine(ambient);
-		if (Awake() == APP_ERROR)
-		{
-			ErrorExit();
-			return APP_ERROR;
-		}
 		if (Init() == APP_ERROR)
 		{
 			ErrorExit();
@@ -37,16 +32,6 @@ int Application::Run(Ambient* ambient)
 		ErrorString("An application that has an out-of-memory condition will exit immediately.");
 		return EXIT_FAILURE;
 	}
-}
-
-int Application::Awake()
-{
-	if (!gladLoadGLLoader(SDL_GL_GetProcAddress))
-	{
-		ErrorString("Failed to initialize GLAD from Engine\n");
-		return APP_ERROR;
-	}
-	return APP_NORMAL;
 }
 int Application::Init()
 {

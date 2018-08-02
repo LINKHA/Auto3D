@@ -24,14 +24,6 @@ Engine::Engine(Ambient* ambient)
 	_ambient->RegisterSubSystem(new BaseSpace(_ambient));
 	_ambient->RegisterSubSystem(new Time(_ambient));
 	_ambient->RegisterSubSystem(new Input(_ambient));
-
-	auto* graphics = GetSubSystem<Graphics>();
-	graphics->CreateGameWindow();
-#ifdef _OPENGL_4_PLUS_
-	graphics->CreateGlContext();
-#endif
-	graphics->InitGameWindowPos();
-
 }
 
 
@@ -41,9 +33,8 @@ Engine::~Engine()
 
 void Engine::Init()
 {
-	GetSubSystem<Graphics>()->RegisterDebug();
+	GetSubSystem<Graphics>()->Init();
 	GetSubSystem<BaseSpace>()->Awake();
-	GetSubSystem<Graphics>()->CreateIcon();
 
 	//Temp Sub
 	_ambient->RegisterSubSystem(new SpriteSort(_ambient));

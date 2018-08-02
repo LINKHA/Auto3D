@@ -1,5 +1,5 @@
 #pragma once
-#include "OpenGLGather.h"
+
 #include "Singleton.h"
 #include "Auto.h"
 #include "Ptr.h"
@@ -14,7 +14,6 @@ public:
 	Application();
 	~Application();
 	int Init();
-	int Awake();
 	int RunLoop();
 	int Finish();
 	void ErrorExit();

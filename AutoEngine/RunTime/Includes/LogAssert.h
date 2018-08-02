@@ -58,8 +58,11 @@ inline const char* LogTypeToString(LogType type)
 	}\
 }
 
-
-
-
+#define AssertString(condition,msg){ \
+	if(!(condition)){ \
+		ErrorString(msg);\
+		exit(EXIT_FAILURE);\
+	}\
+}
 
 }

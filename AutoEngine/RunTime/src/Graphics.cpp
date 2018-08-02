@@ -1,5 +1,6 @@
 #include "Graphics.h"
 #include "stb_image.h"
+#include "OpenGLGather.h"
 #include "../../EngineSetting/Optimize.h"
 namespace Auto3D {
 Graphics::Graphics(Ambient* ambient)
@@ -18,6 +19,22 @@ Graphics::Graphics(Ambient* ambient)
 Graphics::~Graphics()
 {
 }
+
+void Graphics::Init()
+{
+	CreateGameWindow();
+#ifdef _OPENGL_4_PLUS_
+	CreateGlContext();
+#endif
+	InitGameWindowPos();
+
+	if (!gladLoadGLLoader(SDL_GL_GetProcAddress))
+	{
+		AssertString(-1, "Failed to initialize GLAD from Engine");
+	}
+	RegisterDebug();
+	CreateIcon();
+}
 void Graphics::CreateGameWindow()
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -35,8 +52,6 @@ void Graphics::CreateGameWindow()
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
-
-	//MSAA
 #if MSAA_POINT
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
 
