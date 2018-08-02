@@ -5,21 +5,14 @@
 #include "Graphics.h"
 #include "VertexData.h"
 namespace Auto3D {
-Shader shader;
-Shader shaderBlur;
-Shader shaderEdgeDetection;
-Shader shaderGrayscale;
-Shader shaderInversion;
-Shader shaderSharpen;
+
 
 FrameBuffersScreen::FrameBuffersScreen(Ambient* ambient)
 	:Super(ambient)
 	,_enable(false)
-//	,_shader(Shader(shader_path + "au_framebuffers_screen.auvs",
-//		shader_path + "au_framebuffers_screen.aufs"))
+	,_shader(Shader(shader_path + "au_framebuffers_screen.auvs",
+		shader_path + "au_framebuffers_screen.aufs"))
 {
-	_shader = Shader(shader_path + "au_framebuffers_screen.auvs",
-		shader_path + "au_framebuffers_screen.aufs");
 	shader = Shader(shader_path + "au_framebuffers_screen.auvs",shader_path + "au_framebuffers_screen.aufs");
 	shaderBlur = Shader(shader_path + "au_framebuffers_screen.auvs",shader_path + "au_framebuffers_screen_blur.aufs");
 	shaderEdgeDetection = Shader(shader_path + "au_framebuffers_screen.auvs",shader_path + "au_framebuffers_screen_edge_detection.aufs");
@@ -52,7 +45,9 @@ void FrameBuffersScreen::Start()
 	_shader.SetInt("screenTexture", 0);
 
 	RectInt screenSize = GetSubSystem<Graphics>()->GetWindowRectInt();
-	
+
+	Print(screenSize.width);
+	Print(screenSize.height);
 
 	glGenFramebuffers(1, &_framebuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);

@@ -25,16 +25,13 @@ Engine::Engine(Ambient* ambient)
 	_ambient->RegisterSubSystem(new Time(_ambient));
 	_ambient->RegisterSubSystem(new Input(_ambient));
 
-	//Temp Sub
-	_ambient->RegisterSubSystem(new SpriteSort(_ambient));
-	//_ambient->RegisterSubSystem(new FrameBuffersScreen(_ambient));
-	//_ambient->RegisterSubSystem(new MSAA(_ambient));
 	auto* graphics = GetSubSystem<Graphics>();
 	graphics->CreateGameWindow();
 #ifdef _OPENGL_4_PLUS_
 	graphics->CreateGlContext();
 #endif
 	graphics->InitGameWindowPos();
+
 }
 
 
@@ -47,14 +44,19 @@ void Engine::Init()
 	GetSubSystem<Graphics>()->RegisterDebug();
 	GetSubSystem<BaseSpace>()->Awake();
 	GetSubSystem<Graphics>()->CreateIcon();
-	//if (GetSubSystem<FrameBuffersScreen>()->GetEnable())
-	//{
-	//	GetSubSystem<FrameBuffersScreen>()->Start();
-	//}
-//#if MSAA_OPPSCREEN_POINT
-//	GetSubSystem<MSAA>()->Start(MSAA_OPPSCREEN_POINT);
-//#endif
+
+	//Temp Sub
+	_ambient->RegisterSubSystem(new SpriteSort(_ambient));
+	_ambient->RegisterSubSystem(new FrameBuffersScreen(_ambient));
+#if MSAA_OPPSCREEN_POINT
+	_ambient->RegisterSubSystem(new MSAA(_ambient));
+#endif
+#if MSAA_OPPSCREEN_POINT
+	GetSubSystem<MSAA>()->Start(MSAA_OPPSCREEN_POINT);
+#endif
 	GetSubSystem<BaseSpace>()->Start();
+	if (GetSubSystem<FrameBuffersScreen>()->GetEnable())
+		GetSubSystem<FrameBuffersScreen>()->Start();
 }
 void Engine::RunFrame()
 {
@@ -68,12 +70,13 @@ void Engine::RunFrame()
 	if (input->GetKeyDown(KEY_ESCAPE))
 		_isExiting = true;
 	//////////////////////////
-//#if MSAA_OPPSCREEN_POINT
-//	GetSubSystem<MSAA>()->UpdateStart();
-//#endif 
+#if MSAA_OPPSCREEN_POINT
+	GetSubSystem<MSAA>()->UpdateStart();
+#endif 
 
-	/*if (GetSubSystem<FrameBuffersScreen>()->GetEnable())
-		GetSubSystem<FrameBuffersScreen>()->DrawStart();*/
+	if (GetSubSystem<FrameBuffersScreen>()->GetEnable())
+		GetSubSystem<FrameBuffersScreen>()->DrawStart();
+		
 	baseSpace->Update();
 
 	Render();
@@ -81,12 +84,11 @@ void Engine::RunFrame()
 	///End
 	baseSpace->Finish();
 	input->EndFrame();
-	//if (GetSubSystem<FrameBuffersScreen>()->GetEnable())
-	//	GetSubSystem<FrameBuffersScreen>()->DrawEnd();
-//
-//#if MSAA_OPPSCREEN_POINT
-//	GetSubSystem<MSAA).UpdateEnd();
-//#endif 
+	if (GetSubSystem<FrameBuffersScreen>()->GetEnable())
+		GetSubSystem<FrameBuffersScreen>()->DrawEnd();
+#if MSAA_OPPSCREEN_POINT
+	GetSubSystem<MSAA>()->UpdateEnd();
+#endif 
 	
 }
 void Engine::Exit() 

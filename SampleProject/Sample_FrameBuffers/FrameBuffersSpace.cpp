@@ -30,12 +30,6 @@ void FrameBuffersSpace::Start()
 	obj2->GetComponent(Transform).SetPosition(0.0f, 0.0f, 0.0f);
 	obj2->AddComponent(tex2);
 
-	Sprite * tex3 = new Sprite(_ambient,"../Resource/texture/window.png");
-	tex3->EnableBlend(true);
-	tex3->EnableDepth(false);
-	GameObject * obj3 = new GameObject(_ambient);
-	obj3->GetComponent(Transform).SetPosition(0.2f, 0.0f, -1.0f);
-	obj3->AddComponent(tex3);
 
 	Sprite * tex5 = new Sprite(_ambient,"../Resource/texture/grass.png");
 	tex5->EnableBlend(true);
@@ -49,17 +43,16 @@ void FrameBuffersSpace::Start()
 	//////////////////////////////////////////////////////////////////////////
 	Mesh * mesh = new Mesh(_ambient,"../Resource/object/base/Cube.FBX");
 	mesh->GetMaterial().color.Set(0.5f, 0.8f, 0.3f);
-	//mesh->GetMaterial().SetImage("Resource/texture/window.png");
 	GameObject * meshObj = new GameObject(_ambient);
 	meshObj->GetComponent(Transform).SetPosition(1.0f, 0.0f, 0.0f);
 	meshObj->AddComponent(mesh);
 
 }
-int oldi = 0;
+
 void FrameBuffersSpace::Update()
 {
 	int i =(int)GetSubSystem<Time>()->GetCurTime() % 6;
-	Print(i);
+	//Print(i);
 	if( oldi!= i)
 	{
 		oldi = i;

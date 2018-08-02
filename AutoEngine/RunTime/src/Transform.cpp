@@ -25,7 +25,7 @@ void Transform::Scale(const Vector3& scale)
 {
 	_transform = glm::scale(_transform, glm::vec3(scale.x, scale.y, scale.z));
 }
-//public
+
 void Transform::SetPosition(const Vector3& position)
 {
 	_position = position;

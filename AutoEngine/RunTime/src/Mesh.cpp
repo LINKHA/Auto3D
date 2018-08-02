@@ -35,16 +35,24 @@ Mesh::~Mesh()
 }
 void Mesh::Start()
 {
-	if (_material.isTexture)
+	if (_isUserShader)
 	{
-		_shader = Shader(shader_path + "au_light_map_model_loading.auvs"
-			, shader_path + "au_light_map_model_loading.aufs");
+
 	}
 	else
 	{
-		_shader = Shader(shader_path + "au_light_model_loading.auvs"
-			, shader_path + "au_light_model_loading.aufs");
+		if (_material.isTexture)
+		{
+			_shader = Shader(shader_path + "au_light_map_model_loading.auvs"
+				, shader_path + "au_light_map_model_loading.aufs");
+		}
+		else
+		{
+			_shader = Shader(shader_path + "au_light_model_loading.auvs"
+				, shader_path + "au_light_model_loading.aufs");
+		}
 	}
+
 	//////////////////////////////////////////////////////////////////////////
 	_model = LocalModelLoad(_meshPath.ptr);
 }

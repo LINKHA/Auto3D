@@ -10,5 +10,7 @@ public:
 	void Start()override;
 	void Update()override;
 	int Launch();
+private:
+	int oldi = 0;
 };
 

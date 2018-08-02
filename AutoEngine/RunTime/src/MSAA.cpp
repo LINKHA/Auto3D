@@ -7,7 +7,7 @@
 namespace Auto3D {
 
 MSAA::MSAA(Ambient* ambient)
-	:ManagerTool(ambient)
+	:Super(ambient)
 	,m_Shader(shader_path + "au_anti_aliasing_offscreen.auvs"
 		, shader_path + "au_anti_aliasing_offscreen.aufs")
 {

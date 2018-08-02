@@ -5,9 +5,10 @@
 namespace Auto3D {
 class MSAA : public ManagerTool
 {
+	REGISTER_DERIVED_CLASS(MSAA, ManagerTool);
+	DECLARE_OBJECT_SERIALIZE(MSAA);
 public:
 	explicit MSAA(Ambient* ambient);
-	~MSAA();
 
 	void Start(int samplingPointCount);
 	void UpdateStart();

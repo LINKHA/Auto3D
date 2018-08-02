@@ -7,6 +7,7 @@ AUTO_HASH_MAP(PInt8, ModelCommand*) modelQueue;
 
 unsigned int LocalTextureLoad(PInt8 path)
 {
+	stbi_set_flip_vertically_on_load(true);
 	unsigned int textureID;
 	glGenTextures(1, &textureID);
 
@@ -42,6 +43,7 @@ unsigned int LocalTextureLoad(PInt8 path)
 }
 Image* LocalImageLoad(PInt8 path)
 {
+	stbi_set_flip_vertically_on_load(true);
 	Image* image = nullptr;
 	auto it = imageQueue.find(path);
 	if (it != imageQueue.end()) 
@@ -118,6 +120,7 @@ unsigned int LoadCubemap(_VECTOR(_String) faces)
 }
 unsigned int LocalHdrLoad(PInt8 path)
 {
+	stbi_set_flip_vertically_on_load(true);
 	unsigned int hdrTexture;
 	int width, height, nrComponents;
 	float *data = stbi_loadf(path, &width, &height, &nrComponents, 0);

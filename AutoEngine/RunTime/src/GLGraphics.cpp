@@ -140,8 +140,8 @@ bool Graphics::BeginFrame()
 {
 	if (!IsInitialized() || IsDeviceLost())
 		return false;
-	glEnable(GL_DEPTH);
-	glEnable(GL_LESS);
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
 
 	SetColorWrite(true);
 	SetDepthWrite(true);

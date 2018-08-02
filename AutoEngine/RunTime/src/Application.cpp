@@ -15,12 +15,12 @@ int Application::Run(Ambient* ambient)
 	try 
 	{
 		_engine = new Engine(ambient);
-		if (Init() == APP_ERROR)
+		if (Awake() == APP_ERROR)
 		{
 			ErrorExit();
 			return APP_ERROR;
 		}
-		if (Awake() == APP_ERROR)
+		if (Init() == APP_ERROR)
 		{
 			ErrorExit();
 			return APP_ERROR;
@@ -39,10 +39,8 @@ int Application::Run(Ambient* ambient)
 	}
 }
 
-int Application::Init()
+int Application::Awake()
 {
-	//stbi_set_flip_vertically_on_load(true);
-
 	if (!gladLoadGLLoader(SDL_GL_GetProcAddress))
 	{
 		ErrorString("Failed to initialize GLAD from Engine\n");
@@ -50,7 +48,7 @@ int Application::Init()
 	}
 	return APP_NORMAL;
 }
-int Application::Awake()
+int Application::Init()
 {
 	_engine->Init();
 	return APP_NORMAL;

@@ -54,10 +54,9 @@ enum ClassIDType
 	DO_CLASS_ID(SpriteSort, 47)
 	DO_CLASS_ID(Geometry, 48)
 	DO_CLASS_ID(FrameBuffersScreen, 49)
+	DO_CLASS_ID(MSAA, 50)
 	
 
-	DO_CLASS_ID(debug_test, 100)
-	
 	CLASS_ID_Count
 };
 

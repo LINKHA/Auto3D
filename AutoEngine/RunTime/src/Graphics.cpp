@@ -1,6 +1,6 @@
 #include "Graphics.h"
 #include "stb_image.h"
-
+#include "../../EngineSetting/Optimize.h"
 namespace Auto3D {
 Graphics::Graphics(Ambient* ambient)
 	:Super(ambient)
@@ -20,17 +20,17 @@ Graphics::~Graphics()
 }
 void Graphics::CreateGameWindow()
 {
-
-
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		ErrorString("Couldn't initialize SDL");
 	atexit(SDL_Quit);
 	SDL_GL_LoadLibrary(NULL); // Default OpenGL is fine.
-
 							  // Request an OpenGL 4.3 context (should be core)
+#ifdef  _OPENGL_4_PLUS_
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+#endif //  _OPENGL_4_PLUS_
+
 	// Also request a depth buffer
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
@@ -101,7 +101,7 @@ SDL_Surface* Graphics::SetIcon()
 {
 	int req_format = STBI_rgb_alpha;
 	int width, height, orig_format;
-	//unsigned char* data = stbi_load((source_path + "Restource/logo.png").c_str(), &width, &height, &orig_format, 0);
+	
 	unsigned char* data = stbi_load("../Resource/texture/logo.png", &width, &height, &orig_format, 0);
 	if (!data) {
 		SDL_Log("Loading image failed: %s", stbi_failure_reason());
@@ -152,8 +152,10 @@ SDL_Surface* Graphics::SetIcon()
 }
 void Graphics::DestoryWindow()
 {
+#ifdef  _OPENGL_4_PLUS_
 	SDL_GL_DeleteContext(_context);
 	_context = nullptr;
+#endif //  _OPENGL_4_PLUS_
 	SDL_DestroyWindow(_window);
 	_window = nullptr;
 	SDL_Quit();

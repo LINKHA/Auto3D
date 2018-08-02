@@ -14,13 +14,30 @@ class Graphics : public GlobalGameManager
 	DECLARE_OBJECT_SERIALIZE(Graphics);
 public:
 	explicit Graphics(Ambient* ambient);
+	/**
+	* @brief : Create a Game window
+	*/
 	void CreateGameWindow();
-	//Opengl only
+	/**
+	* @brief : Create Context to draw opengl geometry(Opengl only)
+	*/
 	void CreateGlContext();
-
+	/**
+	* @brief : Init Game window position(Create window not set position)
+	*/
 	void InitGameWindowPos();
+	/**
+	* @brief : Create engine icon in window title
+	*/
 	void CreateIcon();
+	/**
+	* @brief : Delete gamewindow and if Opengl delete context
+	*/
 	void DestoryWindow();
+	/**
+	* @brief : Set icon use to create icon
+	* @return : icon surface
+	*/
 	SDL_Surface* SetIcon();
 	bool IsInitialized();
 	bool IsDeviceLost();

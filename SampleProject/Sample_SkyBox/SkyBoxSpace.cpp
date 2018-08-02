@@ -6,6 +6,7 @@
 #include "Mesh.h"
 #include "LightDirectional.h"
 #include "SkyBoxReflectMesh.h"
+#include "Configs.h"
 SkyBoxSpace::SkyBoxSpace(Ambient* ambient)
 	:MotionSpace(ambient)
 {
@@ -45,8 +46,8 @@ void SkyBoxSpace::Start()
 
 	GameObject * meshObj3 = new GameObject(_ambient);
 	SkyBoxReflectMesh * mesh3 = new SkyBoxReflectMesh(_ambient,
-		Shader(AtConfig::shader_path + "au_skybox_cube.auvs"
-		, AtConfig::shader_path + "au_skybox_cube_refract.aufs"));
+		Shader(shader_path + "au_skybox_cube.auvs"
+		, shader_path + "au_skybox_cube_refract.aufs"));
 	meshObj3->GetComponent(Transform).SetPosition(2.0f, 0.0f, 0.0f);
 	meshObj3->AddComponent(mesh3);
 }
