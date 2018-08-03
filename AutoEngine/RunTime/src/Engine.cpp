@@ -39,12 +39,7 @@ void Engine::Init()
 	//Temp Sub
 	_ambient->RegisterSubSystem(new SpriteSort(_ambient));
 	_ambient->RegisterSubSystem(new FrameBuffersScreen(_ambient));
-#if MSAA_OPPSCREEN_POINT
-	_ambient->RegisterSubSystem(new MSAA(_ambient));
-#endif
-#if MSAA_OPPSCREEN_POINT
-	GetSubSystem<MSAA>()->Start(MSAA_OPPSCREEN_POINT);
-#endif
+
 	GetSubSystem<BaseSpace>()->Start();
 	if (GetSubSystem<FrameBuffersScreen>()->GetEnable())
 		GetSubSystem<FrameBuffersScreen>()->Start();
@@ -60,10 +55,7 @@ void Engine::RunFrame()
 	input->Update();
 	if (input->GetKeyDown(KEY_ESCAPE))
 		_isExiting = true;
-	//////////////////////////
-#if MSAA_OPPSCREEN_POINT
-	GetSubSystem<MSAA>()->UpdateStart();
-#endif 
+
 
 	if (GetSubSystem<FrameBuffersScreen>()->GetEnable())
 		GetSubSystem<FrameBuffersScreen>()->DrawStart();

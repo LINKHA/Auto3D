@@ -1,6 +1,7 @@
 #include "Camera.h"
 #include "RenderLoop.h"
 #include "Graphics.h"
+#include "MSAA.h"
 namespace Auto3D {
 
 Camera::Camera(Ambient* ambient)
@@ -18,6 +19,7 @@ Camera::Camera(Ambient* ambient)
 	, _yaw(-90.0f)
 	, _pitch(0.0f)
 	, _sortMode(kSortPerspective)
+	, _msaa(nullptr)
 {
 	_renderLoop = CreateRenderLoop(ambient,*this);
 	_position = Vector3(0.0f, 0.0f, 0.0f).ToGLM();
@@ -26,6 +28,7 @@ Camera::Camera(Ambient* ambient)
 
 Camera::~Camera()
 {
+	SAFE_DELETE(_msaa);
 	DeleteRenderLoop(_renderLoop);
 }
 void Camera::Reset()
@@ -35,7 +38,23 @@ void Camera::Reset()
 
 void Camera::Render()
 {
-	_renderLoop->RunLoop();
+	//Use MSAA
+	if (_msaa)
+	{
+		_msaa->RenderStart();
+		_renderLoop->RunLoop();
+		_msaa->RenderEnd();
+	}
+	else
+		_renderLoop->RunLoop();
+
+}
+
+void Camera::AllowMSAA(bool enable, int pointNum)
+{
+	if (_msaa)
+		return;
+	_msaa = new MSAA(_ambient, pointNum);
 }
 
 glm::mat4& Camera::GetViewMatrix()

@@ -3,26 +3,34 @@
 #include "ManagerTool.h"
 #include "Shader.h"
 namespace Auto3D {
+/**
+* @brief : Multisampled anti-aliasing, sampling point clamp (1~8)
+*/
 class MSAA : public ManagerTool
 {
 	REGISTER_DERIVED_CLASS(MSAA, ManagerTool);
 	DECLARE_OBJECT_SERIALIZE(MSAA);
 public:
-	explicit MSAA(Ambient* ambient);
-
-	void Start(int samplingPointCount);
-	void UpdateStart();
-	void UpdateEnd();
+	/**
+	* @brief : Set sampling point count
+	*/
+	explicit MSAA(Ambient* ambient, int pointNum = 4);
+	/**
+	* @brief : Render before work
+	*/
+	void RenderStart();
+	/**
+	* @brief : Render after work
+	*/
+	void RenderEnd();
 private:
-	Shader m_Shader;
-	int m_samplingPointCount;
-private:
-	unsigned int m_quadVAO, m_quadVBO;
-	unsigned int m_framebuffer;
-	unsigned int m_textureColorBufferMultiSampled;
-	unsigned int m_rbo;
-	unsigned int m_screenTexture;
-	unsigned int m_intermediateFBO;
-	
+	Shader _shader;
+	int _samplingPointCount;
+	unsigned int _quadVAO, _quadVBO;
+	unsigned int _framebuffer;
+	unsigned int _textureColorBufferMultiSampled;
+	unsigned int _rbo;
+	unsigned int _screenTexture;
+	unsigned int _intermediateFBO;
 };
 }

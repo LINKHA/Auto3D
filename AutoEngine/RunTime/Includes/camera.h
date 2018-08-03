@@ -7,7 +7,9 @@
 #include "HDRSkyBox.h"
 
 namespace Auto3D {
+
 class RenderLoop;
+class MSAA;
 
 enum CameraMovement
 {
@@ -35,6 +37,12 @@ public:
 	void ProcessKeyboard(CameraMovement direction, float deltaTime);
 	void ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch = true);
 	void ProcessMouseScroll(float yoffset);
+	/**
+	* @brief : use MSAA in this camera
+	* @param : The number of samples is pointNum,clamp(1~8) default 4
+	*/
+	void AllowMSAA(bool enable,int pointNum = 4);
+
 	glm::mat4& GetViewMatrix();
 	glm::mat4& GetProjectionMatrix();
 	float GetDepth() const { return _depth; }
@@ -77,18 +85,14 @@ private:
 	float _far;
 	float _movementSpeed;
 	float _mouseSensitivity;
-
-	//Variables used in internal calculations
 	glm::vec3 _front;
 	glm::vec3 _up;
 	glm::vec3 _right;
 	glm::vec3 _worldUp;
 	float _yaw;
 	float _pitch;
-	
 	glm::mat4 _viewMatrix;
 	glm::mat4 _projectionMatrix;
-	//////////////////////////////////////////////////////////////////////////
 protected:
 	RenderLoop*			_renderLoop;
 	float				_depth;
@@ -97,5 +101,6 @@ protected:
 	bool				_isEnable;
 	bool				_isRendering;
 	bool				_isFirstMouse;
+	MSAA*				_msaa;
 };
 }

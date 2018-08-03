@@ -9,13 +9,11 @@ class SkyBox : public Texture3D
 	DECLARE_OBJECT_SERIALIZE(SkyBox);
 public:
 	explicit SkyBox(Ambient* ambient);
-
 	void Start()override;
 	void Draw()override;
 	unsigned int GetTexture() { return _cubemapTexture; }
 private:
 	unsigned int _cubemapTexture;
-
 	Shader _shader;
 	unsigned int _skyboxVAO;
 	unsigned int _skyboxVBO;
