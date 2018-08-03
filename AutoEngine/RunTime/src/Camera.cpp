@@ -20,6 +20,9 @@ Camera::Camera(Ambient* ambient)
 	, _pitch(0.0f)
 	, _sortMode(kSortPerspective)
 	, _msaa(nullptr)
+	, _frameBuffersScreen(nullptr)
+	, _isAllowMSAA(false)
+	, _isAllowPostPrecess(false)
 {
 	_renderLoop = CreateRenderLoop(ambient,*this);
 	_position = Vector3(0.0f, 0.0f, 0.0f).ToGLM();
@@ -29,6 +32,7 @@ Camera::Camera(Ambient* ambient)
 Camera::~Camera()
 {
 	SAFE_DELETE(_msaa);
+	SAFE_DELETE(_frameBuffersScreen);
 	DeleteRenderLoop(_renderLoop);
 }
 void Camera::Reset()
@@ -39,22 +43,47 @@ void Camera::Reset()
 void Camera::Render()
 {
 	//Use MSAA
-	if (_msaa)
-	{
+	if (_isAllowMSAA)
 		_msaa->RenderStart();
-		_renderLoop->RunLoop();
-		_msaa->RenderEnd();
-	}
-	else
-		_renderLoop->RunLoop();
+	//Use Post precess
+	if (_isAllowPostPrecess)
+		_frameBuffersScreen->RenderStart();
 
+	_renderLoop->RunLoop();
+
+	if (_isAllowPostPrecess)
+		_frameBuffersScreen->RenderEnd();
+	if (_isAllowMSAA)
+		_msaa->RenderEnd();
 }
 
 void Camera::AllowMSAA(bool enable, int pointNum)
 {
-	if (_msaa)
+	_isAllowMSAA = enable;
+	if (!_isAllowMSAA || _msaa)
 		return;
 	_msaa = new MSAA(_ambient, pointNum);
+
+}
+
+void Camera::AllowPostProcess(bool enable)
+{
+	_isAllowPostPrecess = enable;
+	if (!_isAllowPostPrecess || _frameBuffersScreen)
+		return;
+	_frameBuffersScreen = new FrameBuffersScreen(_ambient);
+}
+
+void Camera::SetPostProcess(BuffersMode mode)
+{
+	if (_frameBuffersScreen && _isAllowPostPrecess)
+		_frameBuffersScreen->SetEffect(mode);
+}
+
+void Camera::SetPostPrecess(const Shader& shader)
+{
+	if (_frameBuffersScreen && _isAllowPostPrecess)
+		_frameBuffersScreen->SetEffect(shader);
 }
 
 glm::mat4& Camera::GetViewMatrix()
@@ -98,7 +127,7 @@ void Camera::ProcessKeyboard(CameraMovement direction, float deltaTime)
 		_position += _right * velocity;
 }
 
-// Processes input received from a mouse input system. Expects the offset value in both the x and y direction.
+
 void Camera::ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch)
 {
 	xoffset *= _mouseSensitivity;
@@ -120,7 +149,7 @@ void Camera::ProcessMouseMovement(float xoffset, float yoffset, bool constrainPi
 	updateCameraVectors();
 }
 
-// Processes input received from a mouse scroll-wheel event. Only requires input on the vertical wheel-axis
+
 void Camera::ProcessMouseScroll(float yoffset)
 {
 	if (_zoom >= 1.0f && _zoom <= 45.0f)
@@ -130,8 +159,7 @@ void Camera::ProcessMouseScroll(float yoffset)
 	if (_zoom >= 45.0f)
 		_zoom = 45.0f;
 }
-///Private
-// Calculates the front vector from the Camera's (updated) Eular Angles
+
 void Camera::updateCameraVectors()
 {
 	// Calculate the new Front vector

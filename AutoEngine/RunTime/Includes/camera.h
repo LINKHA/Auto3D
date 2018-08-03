@@ -5,6 +5,7 @@
 #include "Math/Matrix4x4.h"
 #include "Math/Color.h"
 #include "HDRSkyBox.h"
+#include "FrameBuffersScreen.h"
 
 namespace Auto3D {
 
@@ -33,49 +34,72 @@ class Camera : public Component
 public:
 	explicit Camera(Ambient* ambient);
 	virtual void Reset();
+	/**
+	* @brief : Render Camera view
+	*/
 	void Render();
+	/**
+	* @brief : Processes input received from a key board
+	*			Expect to move in space
+	*/
 	void ProcessKeyboard(CameraMovement direction, float deltaTime);
+	/**
+	* @brief : Processes input received from a mouse input system. 
+	*			Expects the offset value in both the x and y direction.
+	*/
 	void ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch = true);
+	/**
+	* @brief : Processes input received from a mouse scroll - wheel event.
+	*			Only requires input on the vertical wheel - axis
+	*/
 	void ProcessMouseScroll(float yoffset);
 	/**
-	* @brief : use MSAA in this camera
+	* @brief : Use MSAA in this camera
 	* @param : The number of samples is pointNum,clamp(1~8) default 4
 	*/
 	void AllowMSAA(bool enable,int pointNum = 4);
+	/**
+	* @brief : Use post processing in this camera
+	*/
+	void AllowPostProcess(bool enable);
+	/**
+	* @brief : Default Post Processing effect 
+	*/
+	void SetPostProcess(BuffersMode mode);
+	/**
+	* @brief : Set custom Post Processing effect 
+	*/
+	void SetPostPrecess(const Shader& shader);
+
 
 	glm::mat4& GetViewMatrix();
 	glm::mat4& GetProjectionMatrix();
 	float GetDepth() const { return _depth; }
-	void SetDepth(float depth) { _depth = depth; }
-
-	Color& GetBackgroundColor(){ return _backGroundColor; }
-	void SetBackgroundColor(const Color& color) { _backGroundColor = color; }
-
+	Color& GetBackgroundColor() { return _backGroundColor; }
 	SortMode GetSortMode() const { return _sortMode; }
-	void SetSortMode(SortMode m) { _sortMode = m; }
-
 	bool GetEnable()const { return _isEnable; }
-	void SetEnable(bool e) { _isEnable = e; }
-
-	void SetViewRect(float x, float y, float w, float h) { _viewRect = Rectf(x, y, w, h); }
-	void SetViewRect(const Rectf& rectf) { _viewRect = rectf; }
 	Rectf& GetViewRect() { return _viewRect; }
-
-	void SetNear(float snear) { _near = snear; }
 	float GetNear() { return _near; }
-
-	void SetFar(float sfar) { _far = sfar; }
 	float GetFar() { return _far; }
-
-	void SetZoom(float zoom) { _zoom = zoom; }
 	float GetZoom() { return _zoom; }
-
 	glm::vec3& GetPosition() { return _position; }
 
+
+	void SetDepth(float depth) { _depth = depth; }
+	void SetBackgroundColor(const Color& color) { _backGroundColor = color; }
+	void SetSortMode(SortMode m) { _sortMode = m; }
+	void SetEnable(bool e) { _isEnable = e; }
+	void SetViewRect(float x, float y, float w, float h) { _viewRect = Rectf(x, y, w, h); }
+	void SetViewRect(const Rectf& rectf) { _viewRect = rectf; }
+	void SetNear(float snear) { _near = snear; }
+	void SetFar(float sfar) { _far = sfar; }
+	void SetZoom(float zoom) { _zoom = zoom; }
 	void SetSpeed(float speed) { _movementSpeed = speed; }
-	
 	void SetSensitivity(float sen) { _mouseSensitivity = sen; }
 private:
+	/**
+	* @brief : Calculates the front vector from the Camera's (updated) Eular Angles
+	*/
 	void updateCameraVectors();
 private:
 	glm::vec3 _position;
@@ -102,5 +126,8 @@ protected:
 	bool				_isRendering;
 	bool				_isFirstMouse;
 	MSAA*				_msaa;
+	FrameBuffersScreen* _frameBuffersScreen;
+	bool				_isAllowMSAA;
+	bool				_isAllowPostPrecess;
 };
 }

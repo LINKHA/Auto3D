@@ -23,9 +23,9 @@ public:
 
 	void SetEffect(BuffersMode mode);
 	void SetEffect(const Shader& shader);
-	void Start();
-	void DrawStart();
-	void DrawEnd();
+	void RenderStart();
+	void RenderEnd();
+
 	void Enable(bool enable) { _enable = enable; }
 	bool GetEnable() { return _enable; }
 private:

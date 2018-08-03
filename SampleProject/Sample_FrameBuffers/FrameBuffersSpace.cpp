@@ -8,20 +8,24 @@
 #include "Sprite.h"
 FrameBuffersSpace::FrameBuffersSpace(Ambient* ambient)
 	:MotionSpace(ambient)
-{}
+{
+
+}
 FrameBuffersSpace::~FrameBuffersSpace()
 {}
 
 
 void FrameBuffersSpace::Start()
 {
-	glEnable(GL_FRAMEBUFFER_SRGB);
-	GetSubSystem<FrameBuffersScreen>()->Enable(true);
+	//glEnable(GL_FRAMEBUFFER_SRGB);
+	//GetSubSystem<FrameBuffersScreen>()->Enable(true);
 
 	GameObject* camObj = new GameObject(_ambient);
-	FreeCamera* freeCamera = new FreeCamera(_ambient);
+	camera = new FreeCamera(_ambient);
+	camera->freeCamera->AllowPostProcess(true);
+
 	camObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
-	camObj->AddComponent(freeCamera);
+	camObj->AddComponent(camera);
 	
 	Sprite * tex2 = new Sprite(_ambient,"../Resource/texture/window.png");
 	tex2->EnableBlend(true);
@@ -59,22 +63,28 @@ void FrameBuffersSpace::Update()
 		switch (i)
 		{
 		case 0:
-			GetSubSystem<FrameBuffersScreen>()->SetEffect(kDefault);
+			//GetSubSystem<FrameBuffersScreen>()->SetEffect(kDefault);
+			camera->freeCamera->SetPostProcess(kDefault);
 			break;
 		case 1:
-			GetSubSystem<FrameBuffersScreen>()->SetEffect(kBlur);
+			//GetSubSystem<FrameBuffersScreen>()->SetEffect(kBlur);
+			camera->freeCamera->SetPostProcess(kBlur);
 			break;
 		case 2:
-			GetSubSystem<FrameBuffersScreen>()->SetEffect(kEdge_detection);
+			//GetSubSystem<FrameBuffersScreen>()->SetEffect(kEdge_detection);
+			camera->freeCamera->SetPostProcess(kEdge_detection);
 			break;
 		case 3:
-			GetSubSystem<FrameBuffersScreen>()->SetEffect(kGrayscale);
+			//GetSubSystem<FrameBuffersScreen>()->SetEffect(kGrayscale);
+			camera->freeCamera->SetPostProcess(kGrayscale);
 			break;
 		case 4:
-			GetSubSystem<FrameBuffersScreen>()->SetEffect(kInversion);
+			//GetSubSystem<FrameBuffersScreen>()->SetEffect(kInversion);
+			camera->freeCamera->SetPostProcess(kInversion);
 			break;
 		case 5:
-			GetSubSystem<FrameBuffersScreen>()->SetEffect(kSharpen);
+			//GetSubSystem<FrameBuffersScreen>()->SetEffect(kSharpen);
+			camera->freeCamera->SetPostProcess(kSharpen);
 			break;
 		}
 	}

@@ -2,6 +2,7 @@
 #include "MotionSpace.h"
 
 using namespace Auto3D;
+class FreeCamera;
 class FrameBuffersSpace : public MotionSpace
 {
 public:
@@ -12,5 +13,6 @@ public:
 	int Launch();
 private:
 	int oldi = 0;
+	FreeCamera* camera;
 };
 

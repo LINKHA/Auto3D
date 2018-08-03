@@ -20,17 +20,8 @@ FrameBuffersScreen::FrameBuffersScreen(Ambient* ambient)
 	shaderInversion = Shader(shader_path + "au_framebuffers_screen.auvs",shader_path + "au_framebuffers_screen_inversion.aufs");
 	shaderSharpen = Shader(shader_path + "au_framebuffers_screen.auvs",shader_path + "au_framebuffers_screen_sharpen.aufs");
 
-}
-FrameBuffersScreen::~FrameBuffersScreen()
-{
-	glDeleteVertexArrays(1, &_quadVAO);
-	glDeleteBuffers(1, &_quadVBO);
-}
+	glEnable(GL_FRAMEBUFFER_SRGB);
 
-
-
-void FrameBuffersScreen::Start()
-{
 	glGenVertexArrays(1, &_quadVAO);
 	glGenBuffers(1, &_quadVBO);
 	glBindVertexArray(_quadVAO);
@@ -46,9 +37,6 @@ void FrameBuffersScreen::Start()
 
 	RectInt screenSize = GetSubSystem<Graphics>()->GetWindowRectInt();
 
-	Print(screenSize.width);
-	Print(screenSize.height);
-
 	glGenFramebuffers(1, &_framebuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
 
@@ -59,24 +47,33 @@ void FrameBuffersScreen::Start()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _textureColorbuffer, 0);
-	
-	
+
+
 	glGenRenderbuffers(1, &_rbo);
 	glBindRenderbuffer(GL_RENDERBUFFER, _rbo);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, screenSize.width, screenSize.height); 
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, screenSize.width, screenSize.height);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, _rbo);
-																							
+
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		ErrorString("Framebuffer is not complete!");
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
-void FrameBuffersScreen::DrawStart()
+FrameBuffersScreen::~FrameBuffersScreen()
+{
+	glDeleteVertexArrays(1, &_quadVAO);
+	glDeleteBuffers(1, &_quadVBO);
+}
+
+void FrameBuffersScreen::RenderStart()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
 	glEnable(GL_DEPTH_TEST);
+	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
-void FrameBuffersScreen::DrawEnd()
+void FrameBuffersScreen::RenderEnd()
 {
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glDisable(GL_DEPTH_TEST); 
 	
