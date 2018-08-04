@@ -3,7 +3,7 @@
 #include "DeviceTypes.h"
 #include "stl_use.h"
 #include "Math/Math.h"
-#include "OpenGLGather.h"
+#include "GLGather.h"
 #include "stb_image.h"
 #include "Shader.h"
 #include "GameObject.h"

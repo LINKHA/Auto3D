@@ -36,5 +36,3 @@ static void EnableVertexAttribs(unsigned int verIndex)
 
 	}
 }
-
-static void BindTexture2D(GLuint textureID);

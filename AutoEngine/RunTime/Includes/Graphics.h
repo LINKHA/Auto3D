@@ -51,9 +51,13 @@ public:
 	* @brief : Determine whether the graphics is initialized
 	*/
 	bool IsInitialized();
+	/**
+	* @brief : Return context lost status
+	*/
 	bool IsDeviceLost();
+
 	RectInt GetWindowRectInt() { return _windowRect; }
-	void UpdateWindowRectInt(int width, int height) { _windowRect.width = width; _windowRect.height = height; }
+	void SetWindowRectInt(int width, int height) { _windowRect.width = width; _windowRect.height = height; }
 	char* GetTitle() { return _titleName; }
 	bool GetScreenFullorNot() { return true; }
 	SDL_Window* GetGameWindow() { return _window; }

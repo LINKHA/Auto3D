@@ -10,7 +10,7 @@
 #include <vector>
 using namespace std;
 namespace Auto3D {
-struct Vertex {
+struct MeshVertex {
 	// position
 	glm::vec3 Position;
 	// normal
@@ -31,15 +31,12 @@ struct TextureData {
 
 class MeshCommand {
 public:
-	/*  Mesh Data  */
-	vector<Vertex> vertices;
-	vector<unsigned int> indices;
-	vector<TextureData> textures;
-	unsigned int VAO;
+	
 
-	/*  Functions  */
-	// constructor
-	MeshCommand(vector<Vertex> vertices, vector<unsigned int> indices, vector<TextureData> textures)
+	/**
+	* @brief : Set vertices indeices and texture
+	*/
+	MeshCommand(vector<MeshVertex> vertices, vector<unsigned int> indices, vector<TextureData> textures)
 	{
 		this->vertices = vertices;
 		this->indices = indices;
@@ -49,8 +46,10 @@ public:
 		setupMesh();
 	}
 
-	// render the mesh
-	void Draw(Shader shader)
+	/**
+	* @brief : Render the mesh
+	*/
+	void Draw(const Shader& shader)
 	{
 		// bind appropriate textures
 		unsigned int diffuseNr = 1;
@@ -89,11 +88,9 @@ public:
 	}
 	
 private:
-	/*  Render data  */
-	unsigned int VBO, EBO;
-
-	/*  Functions    */
-	// initializes all the buffer objects/arrays
+	/**
+	* @brief : Initializes all the buffer objects/arrays
+	*/
 	void setupMesh()
 	{
 		// create buffers/arrays
@@ -107,7 +104,7 @@ private:
 		// A great thing about structs is that their memory layout is sequential for all its items.
 		// The effect is that we can simply pass a pointer to the struct and it translates perfectly to a glm::vec3/2 array which
 		// again translates to 3/2 floats which translates to a byte array.
-		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(MeshVertex), &vertices[0], GL_STATIC_DRAW);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
@@ -115,22 +112,32 @@ private:
 		// set the vertex attribute pointers
 		// vertex position
 		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(MeshVertex), (void*)0);
 		// vertex normal
 		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(MeshVertex), (void*)offsetof(MeshVertex, Normal));
 		// vertex texture position
 		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexCoords));
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(MeshVertex), (void*)offsetof(MeshVertex, TexCoords));
 		// vertex tangent
 		glEnableVertexAttribArray(3);
-		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Tangent));
+		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(MeshVertex), (void*)offsetof(MeshVertex, Tangent));
 		// vertex bitangent
 		glEnableVertexAttribArray(4);
-		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Bitangent));
+		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(MeshVertex), (void*)offsetof(MeshVertex, Bitangent));
 
 		glBindVertexArray(0);
 	}
+public:
+	unsigned int VAO;
+	vector<unsigned int> indices;
+private:
+	vector<MeshVertex> vertices;
+	vector<TextureData> textures;
+	unsigned int VBO;
+	unsigned int EBO;
+
 };
+
 }
 

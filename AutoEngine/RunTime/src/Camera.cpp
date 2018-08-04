@@ -1,7 +1,8 @@
 #include "Camera.h"
-#include "RenderLoop.h"
 #include "Graphics.h"
 #include "MSAA.h"
+#include "BaseSpace.h"
+#include "Renderer.h"
 namespace Auto3D {
 
 Camera::Camera(Ambient* ambient)
@@ -24,37 +25,19 @@ Camera::Camera(Ambient* ambient)
 	, _isAllowMSAA(false)
 	, _isAllowPostPrecess(false)
 {
-	_renderLoop = CreateRenderLoop(ambient,*this);
 	_position = Vector3(0.0f, 0.0f, 0.0f).ToGLM();
 	updateCameraVectors();
+	GetSubSystem<Renderer>()->AddCamera(this);
 }
 
 Camera::~Camera()
 {
 	SAFE_DELETE(_msaa);
 	SAFE_DELETE(_frameBuffersScreen);
-	DeleteRenderLoop(_renderLoop);
 }
 void Camera::Reset()
 {
 
-}
-
-void Camera::Render()
-{
-	//Use MSAA
-	if (_isAllowMSAA)
-		_msaa->RenderStart();
-	//Use Post precess
-	if (_isAllowPostPrecess)
-		_frameBuffersScreen->RenderStart();
-
-	_renderLoop->RunLoop();
-
-	if (_isAllowPostPrecess)
-		_frameBuffersScreen->RenderEnd();
-	if (_isAllowMSAA)
-		_msaa->RenderEnd();
 }
 
 void Camera::AllowMSAA(bool enable, int pointNum)
@@ -90,6 +73,18 @@ glm::mat4& Camera::GetViewMatrix()
 {
 	_viewMatrix = glm::lookAt(_position, _position + _front, _up);
 	return _viewMatrix;
+}
+MSAA* Camera::GetMSAA()
+{
+	if (_isAllowMSAA)
+		return _msaa;
+	return nullptr;
+}
+FrameBuffersScreen* Camera::GetBuffersScreen()
+{
+	if (_isAllowPostPrecess)
+		return _frameBuffersScreen;
+	return nullptr;
 }
 glm::mat4& Camera::GetProjectionMatrix()
 {

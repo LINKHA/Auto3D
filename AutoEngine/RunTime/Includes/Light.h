@@ -6,7 +6,7 @@
 #include "ModelCommand.h"
 #include "LightManager.h"
 #include "Transform.h"
-
+#include "ShadowSetting.h"
 namespace Auto3D {
 
 enum LightType
@@ -27,6 +27,8 @@ public:
 
 	void AddToManager();
 	void RemoveFromManager();
+
+	ShadowSetting* _shadowSetting;
 
 	Color color;
 

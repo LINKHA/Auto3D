@@ -35,10 +35,6 @@ public:
 	explicit Camera(Ambient* ambient);
 	virtual void Reset();
 	/**
-	* @brief : Render Camera view
-	*/
-	void Render();
-	/**
 	* @brief : Processes input received from a key board
 	*			Expect to move in space
 	*/
@@ -83,7 +79,10 @@ public:
 	float GetFar() { return _far; }
 	float GetZoom() { return _zoom; }
 	glm::vec3& GetPosition() { return _position; }
-
+	bool GetAllowMSAA() { return _isAllowMSAA; }
+	bool GetAllowPostProcess() { return _isAllowPostPrecess; }
+	MSAA* GetMSAA();
+	FrameBuffersScreen* GetBuffersScreen();
 
 	void SetDepth(float depth) { _depth = depth; }
 	void SetBackgroundColor(const Color& color) { _backGroundColor = color; }
@@ -118,7 +117,6 @@ private:
 	glm::mat4 _viewMatrix;
 	glm::mat4 _projectionMatrix;
 protected:
-	RenderLoop*			_renderLoop;
 	float				_depth;
 	Color				_backGroundColor;
 	SortMode			_sortMode;

@@ -14,12 +14,6 @@ Input::~Input()
 {
 }
 
-void Input::HandleWindowEvents()
-{
-
-
-}
-
 void Input::Update()
 {
 	SDL_Event evt;

@@ -99,7 +99,7 @@ void GameObject::RemoveComponentAtIndex(int index)
 	_components.erase(it);
 }
 
-int GameObject::GetComponentSize() 
+int GameObject::GetComponentsSize() 
 { 
 	return static_cast<int>(_components.size());
 }

@@ -1,5 +1,5 @@
 #pragma once
-#include "OpenGLGather.h"
+#include "GLGather.h"
 
 void WINAPI glDebugOutput(
 	GLenum source,

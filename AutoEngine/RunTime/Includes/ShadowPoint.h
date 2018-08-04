@@ -5,7 +5,7 @@ namespace Auto3D {
 class ShadowPoint : public Component
 {
 public:
-	ShadowPoint();
+	explicit ShadowPoint(Ambient* ambient);
 	~ShadowPoint();
 	void Start()override;
 	void Draw()override;

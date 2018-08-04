@@ -8,8 +8,9 @@
 #include "LoadResource.h"
 #include "Renderer.h"
 namespace Auto3D {
-ShadowPoint::ShadowPoint()
-	:m_ShadowMap(shader_path + "au_point_shadows.auvs"
+ShadowPoint::ShadowPoint(Ambient* ambient)
+	: Component(ambient)
+	, m_ShadowMap(shader_path + "au_point_shadows.auvs"
 		, shader_path + "au_point_shadows.aufs")
 	, m_ShadowMapDepth(shader_path + "au_point_shadows_depth.auvs"
 		, shader_path + "au_point_shadows_depth.aufs"
@@ -22,7 +23,7 @@ void ShadowPoint::Start()
 {
 	// configure depth map FBO
 	// -----------------------
-	woodTexture = LocalTextureLoad("Resource/texture/wood.jpg");
+	woodTexture = LocalTextureLoad("../Resource/texture/wood.jpg");
 
 	INSTANCE(ShadowTest).BindPointDepathMap();
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "Gameobject.h"
 #include "Shader.h"
-#include "OpenGLGather.h"
+#include "GLGather.h"
 
 namespace Auto3D {
 

@@ -1,6 +1,6 @@
 #include "Graphics.h"
 #include "stb_image.h"
-#include "OpenGLGather.h"
+#include "GLGather.h"
 #include "../../EngineSetting/Optimize.h"
 namespace Auto3D {
 Graphics::Graphics(Ambient* ambient)

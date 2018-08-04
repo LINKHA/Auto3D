@@ -3,7 +3,7 @@
 #include "VertexData.h"
 #include "GameObject.h"
 #include "Transform.h"
-#include "OpenGLGather.h"
+#include "GLGather.h"
 #include "LoadResource.h"
 #include "Configs.h"
 namespace Auto3D {

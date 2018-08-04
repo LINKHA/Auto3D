@@ -19,8 +19,6 @@ void PBRSkyBoxSpace::Start()
 	cameraObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 	cameraObj->AddComponent(camera);
 
-	
-
 	GameObject * skyboxObj = new GameObject(_ambient);
 	HDRSkyBox * skybox = new HDRSkyBox(_ambient);
 	skyboxObj->AddComponent(skybox);

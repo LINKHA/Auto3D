@@ -3,9 +3,8 @@
 #include "VertexData.h"
 #include "GameObject.h"
 #include "Transform.h"
-#include "OpenGLGather.h"
+#include "GLGather.h"
 #include "LoadResource.h"
-#include "SpriteSort.h"
 #include "Configs.h"
 namespace Auto3D {
 
@@ -76,7 +75,8 @@ void SpriteTranslucent::Start()
 		WarningString("Failed to load texture");
 	}
 
-	GetSubSystem<SpriteSort>()->AddSprite(this);
+	//GetSubSystem<SpriteSort>()->AddSprite(this);
+	GetSubSystem<Renderer>()->AddTranslucentGeometry(this);
 	//stbi_image_free(m_image.ptr->Value);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////

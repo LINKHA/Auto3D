@@ -1,6 +1,7 @@
 #pragma once
 #include "Object.h"
 #include "stl_use.h"
+#include "ComponentSetting.h"
 
 namespace Auto3D {
 #define GetComponent(x) GetComponentT<x>(ClassID (x))
@@ -64,8 +65,6 @@ class GameObject : public Node
 public:
 	using ComponentsArray = AUTO_VECTOR(int, Component*);
 
-private:
-	ComponentsArray _components;
 public:
 	GameObject();
 	explicit GameObject(Ambient* ambient);
@@ -76,19 +75,40 @@ public:
 	//void SetLayer(int layerIndex);
 	//int GetLayer() const { return m_Layer; }
 
+	/**
+	* @brief : Mount component in this GameObject
+	*/
 	void AddComponent(Component* com);
+	/**
+	* @brief : Remove component at index
+	*/
 	void RemoveComponentAtIndex(int index);
+	/**
+	* @brief : Get component in _components if nullptr will breaking
+	*/
 	template<class T> inline T& GetComponentT(int compareClassID) const;
+	/**
+	* @brief : Get component from index
+	*/
 	inline  Component& GetComponentIndex(int index);
-	int GetComponentSize();
+	/**
+	* @brief : Get components size
+	*/
+	int GetComponentsSize();
 
 	const GameObject& GetGameObject()const;
 	GameObject& GetGameObject();
-
+	/**
+	* @brief : Find component from class id
+	*/
 	Component* QueryComponent(int classID) const;
+	/**
+	* @brief : Get Components (AUTO_VECTOR(int, Component*))
+	*/
 	ComponentsArray& GetComponentsArray(){ return _components; }
 
 private:
+	ComponentsArray _components;
 	bool _isEnable;
 };
 

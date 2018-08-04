@@ -1,7 +1,6 @@
 #include "BaseSpace.h"
 #include "GameObjectManager.h"
 #include "MotionSpace.h"
-#include "SpriteSort.h"
 namespace Auto3D {
 
 BaseSpace::BaseSpace(Ambient* ambient)
@@ -44,7 +43,7 @@ void BaseSpace::Draw()
 {
 	INSTANCE(SpaceManager).ModeRunSpace(DrawMode);
 	INSTANCE(GameObjectManager).ModeRunGameObject(DrawMode);
-	GetSubSystem<SpriteSort>()->RenderSprite();
+
 }
 
 }

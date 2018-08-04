@@ -2,7 +2,7 @@
 #include "Auto.h"
 #include "Math/Vector2.h"
 #include "Shader.h"
-#include "ManagerTool.h"
+#include "ComponentSetting.h"
 
 namespace Auto3D {
 enum BuffersMode
@@ -14,9 +14,9 @@ enum BuffersMode
 	kInversion,
 	kSharpen,
 };
-class FrameBuffersScreen : public ManagerTool
+class FrameBuffersScreen : public ComponentSetting
 {
-	REGISTER_DERIVED_CLASS(FrameBuffersScreen, ManagerTool);
+	REGISTER_DERIVED_CLASS(FrameBuffersScreen, ComponentSetting);
 	DECLARE_OBJECT_SERIALIZE(FrameBuffersScreen);
 public:
 	explicit FrameBuffersScreen(Ambient* ambient);

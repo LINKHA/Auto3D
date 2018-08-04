@@ -1,6 +1,6 @@
 #pragma once
 #include "Math/Math.h"
-#include "OpenGLGather.h"
+#include "GLGather.h"
 #include "GameObject.h"
 
 namespace Auto3D {

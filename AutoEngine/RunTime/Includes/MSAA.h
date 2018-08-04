@@ -1,14 +1,14 @@
 #pragma once
 #include "Auto.h"
-#include "ManagerTool.h"
+#include "ComponentSetting.h"
 #include "Shader.h"
 namespace Auto3D {
 /**
 * @brief : Multisampled anti-aliasing, sampling point clamp (1~8)
 */
-class MSAA : public ManagerTool
+class MSAA : public ComponentSetting
 {
-	REGISTER_DERIVED_CLASS(MSAA, ManagerTool);
+	REGISTER_DERIVED_CLASS(MSAA, ComponentSetting);
 	DECLARE_OBJECT_SERIALIZE(MSAA);
 public:
 	/**

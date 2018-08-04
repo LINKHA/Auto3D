@@ -1,5 +1,5 @@
 #include "MSAA.h"
-#include "OpenGLGather.h"
+#include "GLGather.h"
 #include "Math/Rect.h"
 #include "Graphics.h"
 #include "VertexData.h"

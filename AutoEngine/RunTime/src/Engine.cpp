@@ -9,23 +9,12 @@
 #include "BaseSpace.h"
 #include "Time.h"
 
-//Temp include
-#include "SpriteSort.h"
-#include "FrameBuffersScreen.h"
-#include "MSAA.h"
 namespace Auto3D {
 
 Engine::Engine(Ambient* ambient)
 	:Super(ambient)
 	, _isExiting(false)
-{
-	_ambient->RegisterSubSystem(new Renderer(_ambient));
-	_ambient->RegisterSubSystem(new Graphics(_ambient));
-	_ambient->RegisterSubSystem(new BaseSpace(_ambient));
-	_ambient->RegisterSubSystem(new Time(_ambient));
-	_ambient->RegisterSubSystem(new Input(_ambient));
-}
-
+{}
 
 Engine::~Engine()
 {
@@ -33,35 +22,31 @@ Engine::~Engine()
 
 void Engine::Init()
 {
-	GetSubSystem<Graphics>()->Init();
-	GetSubSystem<BaseSpace>()->Awake();
+	_ambient->RegisterSubSystem(new Renderer(_ambient));
+	_ambient->RegisterSubSystem(new Graphics(_ambient));
+	_ambient->RegisterSubSystem(new BaseSpace(_ambient));
+	_ambient->RegisterSubSystem(new Time(_ambient));
+	_ambient->RegisterSubSystem(new Input(_ambient));
 
-	//Temp Sub
-	_ambient->RegisterSubSystem(new SpriteSort(_ambient));
+	GetSubSystem<BaseSpace>()->Awake();
+	GetSubSystem<Graphics>()->Init();
+	
+
 
 	GetSubSystem<BaseSpace>()->Start();
 
 }
 void Engine::RunFrame()
 {
-	auto* baseSpace = GetSubSystem<BaseSpace>();
-	auto* input = GetSubSystem<Input>();
-	auto* time = GetSubSystem<Time>();
-	auto* renderer = GetSubSystem<Renderer>();
-	time->Update();
-	input->Update();
-	baseSpace->Update();
-	if (input->GetKeyDown(KEY_ESCAPE))
-		_isExiting = true;
-	Render();
-	baseSpace->Finish();
-	input->EndFrame();
+	update();
+	render();
+	frameFinish();
 }
 void Engine::Exit() 
 {
 	GetSubSystem<Graphics>()->DestoryWindow();
 }
-void Engine::Render()
+void Engine::render()
 {
 	auto* graphics = GetSubSystem<Graphics>();
 	if (!graphics->BeginFrame())
@@ -69,4 +54,20 @@ void Engine::Render()
 	GetSubSystem<Renderer>()->Render();
 	graphics->EndFrame();
 }
+void Engine::update()
+{
+	auto* input = GetSubSystem<Input>();
+	GetSubSystem<Time>()->Update();
+	input->Update();
+	GetSubSystem<BaseSpace>()->Update();
+	if (input->GetKeyDown(KEY_ESCAPE))
+		_isExiting = true;
+}
+void Engine::frameFinish()
+{
+	GetSubSystem<BaseSpace>()->Finish();
+	GetSubSystem<Input>()->EndFrame();
+}
+
+
 }

@@ -30,8 +30,8 @@ HDRSkyBox::~HDRSkyBox()
 }
 void HDRSkyBox::Start()
 {
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LEQUAL);
+	//glEnable(GL_DEPTH_TEST);
+	//glDepthFunc(GL_LEQUAL);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
 	m_backgroundShader.Use();
@@ -194,6 +194,8 @@ void HDRSkyBox::Start()
 }
 void HDRSkyBox::Draw()
 {
+	glDepthFunc(GL_LEQUAL);
+
 	glm::mat4 projection = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
 	m_backgroundShader.Use();
 	m_backgroundShader.SetMat4("projection", projection);
@@ -207,6 +209,9 @@ void HDRSkyBox::Draw()
 	glBindTexture(GL_TEXTURE_CUBE_MAP, envCubemap);
 
 	renderCube(&cubeVAO, &cubeVBO);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+
+	glDepthFunc(GL_LESS);
 
 }
 }

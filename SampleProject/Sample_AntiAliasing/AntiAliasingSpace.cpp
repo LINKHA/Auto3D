@@ -18,6 +18,7 @@ void AntiAliasingSpace::Start()
 	cameraObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 	cameraObj->AddComponent(camera);
 
+
 	GameObject* lightObj = new GameObject(_ambient);
 	Light* light = new LightDirectional(_ambient);
 	lightObj->AddComponent(light);

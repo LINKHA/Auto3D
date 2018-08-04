@@ -4,7 +4,7 @@
 #include "LogAssert.h"
 #include "Singleton.h"
 #include "Math/Vector2.h"
-#include "OpenGLGather.h"
+#include "GLGather.h"
 
 namespace Auto3D {
 /**

@@ -10,12 +10,35 @@ class Engine : public Object
 	DECLARE_OBJECT_SERIALIZE(Engine);
 public:
 	explicit Engine(Ambient* ambient);
+	/**
+	* @brief : Init engine, Register some SubSystem
+	*/
 	void Init();
+	/**
+	* @brief : Run a frame
+	*/
 	void RunFrame();
+	/**
+	* @brief : Engine normal exit
+	*/
 	void Exit();
+	/**
+	* @brief : Engine exit flag
+	*/
 	bool IsExiting()const { return _isExiting; }
-	
-	void Render();
+private:
+	/**
+	* @brief : Render geometry
+	*/
+	void render();
+	/**
+	* @brief : Sub system update data
+	*/
+	void update();
+	/**
+	* @brief : Frame finish
+	*/
+	void frameFinish();
 private:
 	bool _isExiting;
 };

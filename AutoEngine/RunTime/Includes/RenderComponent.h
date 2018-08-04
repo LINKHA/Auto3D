@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-#include "OpenGLGather.h"
+#include "GLGather.h"
 namespace Auto3D {
 
 class RenderComponent : public Component
@@ -17,6 +17,8 @@ public:
 	virtual void Finish() {}
 	virtual void Draw() {}
 
+	//Temp
+	virtual void DrawTranslucentSprite() {}
 };
 
 }

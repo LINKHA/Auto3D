@@ -1,7 +1,7 @@
 #include "Auto.h"
 #ifdef _OPENGL_4_PLUS_
 #include "Graphics.h"
-#include "OpenGLGather.h"
+#include "GLGather.h"
 #include "GLDebug.h"
 #include "GraphicsDefines.h"
 

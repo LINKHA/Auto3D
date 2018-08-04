@@ -2,7 +2,6 @@
 #include "Texture2D.h"
 #include "Singleton.h"
 #include "stl_use.h"
-#include "SpriteSort.h"
 namespace Auto3D {
 class Image;
 class SpriteTranslucent : public Texture2D

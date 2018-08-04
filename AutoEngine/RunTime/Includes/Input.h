@@ -25,8 +25,6 @@ class Input : public GlobalGameManager
 public:
 	explicit Input(Ambient* ambient);
 
-
-	void HandleWindowEvents();
 	void Update();
 	void SetKey(int key, bool newState);
 	void SetWheel(int delta);

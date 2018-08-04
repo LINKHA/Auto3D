@@ -37,7 +37,7 @@ void Mesh::Start()
 {
 	if (_isUserShader)
 	{
-
+		///User Shader code
 	}
 	else
 	{

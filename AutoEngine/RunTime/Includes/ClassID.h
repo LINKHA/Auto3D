@@ -50,12 +50,12 @@ enum ClassIDType
 	DO_CLASS_ID(BaseSpace, 43)
 	DO_CLASS_ID(RenderLoop, 44)
 	DO_CLASS_ID(Input,45)
-	DO_CLASS_ID(ManagerTool, 46)
+	DO_CLASS_ID(ComponentSetting, 46)
 	DO_CLASS_ID(SpriteSort, 47)
 	DO_CLASS_ID(Geometry, 48)
 	DO_CLASS_ID(FrameBuffersScreen, 49)
 	DO_CLASS_ID(MSAA, 50)
-	
+	DO_CLASS_ID(ShadowSetting, 51)
 
 	CLASS_ID_Count
 };
