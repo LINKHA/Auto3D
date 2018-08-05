@@ -14,7 +14,13 @@ namespace Auto3D {
 Engine::Engine(Ambient* ambient)
 	:Super(ambient)
 	, _isExiting(false)
-{}
+{
+	_ambient->RegisterSubSystem(new Renderer(_ambient));
+	_ambient->RegisterSubSystem(new Graphics(_ambient));
+	_ambient->RegisterSubSystem(new BaseSpace(_ambient));
+	_ambient->RegisterSubSystem(new Time(_ambient));
+	_ambient->RegisterSubSystem(new Input(_ambient));
+}
 
 Engine::~Engine()
 {
@@ -22,16 +28,9 @@ Engine::~Engine()
 
 void Engine::Init()
 {
-	_ambient->RegisterSubSystem(new Renderer(_ambient));
-	_ambient->RegisterSubSystem(new Graphics(_ambient));
-	_ambient->RegisterSubSystem(new BaseSpace(_ambient));
-	_ambient->RegisterSubSystem(new Time(_ambient));
-	_ambient->RegisterSubSystem(new Input(_ambient));
-
 	GetSubSystem<BaseSpace>()->Awake();
+	GetSubSystem<Renderer>()->Init();
 	GetSubSystem<Graphics>()->Init();
-	
-
 
 	GetSubSystem<BaseSpace>()->Start();
 

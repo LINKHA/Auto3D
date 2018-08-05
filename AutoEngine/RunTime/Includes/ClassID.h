@@ -56,7 +56,11 @@ enum ClassIDType
 	DO_CLASS_ID(FrameBuffersScreen, 49)
 	DO_CLASS_ID(MSAA, 50)
 	DO_CLASS_ID(ShadowSetting, 51)
-
+	DO_CLASS_ID(ShadowRenderAssist, 52)
+	DO_CLASS_ID(ShadowRenderer, 53)
+	DO_CLASS_ID(LightContainer, 54)
+	
+	
 	CLASS_ID_Count
 };
 

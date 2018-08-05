@@ -3,6 +3,52 @@
 #include "Camera.h"
 namespace Auto3D {
 class Ambient;
+class Renderer;
+class Light;
+/**
+* @brief : Store all lighting for the current scene
+*/
+class LightContainer : public Object
+{
+	REGISTER_DERIVED_CLASS(LightContainer, Object);
+	DECLARE_OBJECT_SERIALIZE(LightContainer);
+	using Lights = _VECTOR(Light*);
+public:
+	explicit LightContainer(Ambient* ambient);
+
+	void AddLight(Light* source);
+	void RemoveLight(Light* source);
+	int Size();
+	Lights& GetAllLights() { return _lights; }
+	const Light* GetLastMainLight() { return _lastMainLight; }
+	void IsRender(bool b) { _isRenderOrCull = b; }
+private:
+	bool		_isRenderOrCull;
+	Lights		_lights;
+	Light*		_lastMainLight;
+
+};
+/**
+* @brief : Dedicated to renderer draw shadow
+*/
+class ShadowRenderer : public Object
+{
+	
+	REGISTER_DERIVED_CLASS(ShadowRenderer, Object);
+	DECLARE_OBJECT_SERIALIZE(ShadowRenderer);
+public:
+	/**
+	* @brief : Get renderer to _renderer
+	*/
+	explicit ShadowRenderer(Ambient* ambient);
+	void ReadyRender();
+	void RenderShadow();
+private:
+	Renderer* _renderer;
+};
+/**
+* @brief : Render graphices create to geometry
+*/
 class Renderer : public LevelGameManager
 {
 	REGISTER_DERIVED_CLASS(Renderer, LevelGameManager);
@@ -14,8 +60,13 @@ class Renderer : public LevelGameManager
 	using CustomContainer = _LIST(RenderComponent*);	//Skybox and other custon component
 	using TranslucentContainer = _LIST(RenderComponent*);
 	using TranslucentDepth = AUTO_MAP(float, RenderComponent*); //Auxiliary vessel with distance
+	friend class ShadowRenderer;
 public:
 	explicit Renderer(Ambient* ambient);
+	/**
+	* @brief : Init renderer register renderer sub setting
+	*/
+	void Init();
 	/**
 	* @brief : Render every camera
 	*/
@@ -118,9 +169,15 @@ private:
 	* @brief : Sort translucent geometry from depth test
 	*/
 	void translucentGeometrySort();
-	
+	/**
+	* @brief : Intelligence mout shadow renderer,Intelligent creation object
+	*/
+	void intelMoutShadwoRenderer();
 	
 private:
+	ShadowRenderer* _shadowRenderer;
+	LightContainer* _lightContainer;
+	///is rendering or culling
 	bool _insideRenderOrCull;
 	///camera container
 	Camera* _currentCamera;

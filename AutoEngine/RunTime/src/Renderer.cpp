@@ -9,13 +9,83 @@
 namespace Auto3D {
 
 
+/////////////////////////////////////////////////////////////////////////////////////////////
+//LightContainer
+/////////////////////////////////////////////////////////////////////////////////////////////
+LightContainer::LightContainer(Ambient* ambient)
+	: Super(ambient)
+	, _isRenderOrCull(false)
+{}
+LightContainer::~LightContainer()
+{}
+void LightContainer::AddLight(Light* source)
+{
+	Assert(source);
+	//Maybe Delay add?
+	_lights.push_back(source);
+}
+void LightContainer::RemoveLight(Light* source)
+{
+	Assert(source);
+	for (Lights::iterator it = _lights.begin(); it != _lights.end(); ++it)
+	{
+		if (*it = source)
+		{
+			//Maybe Delay delete?
+			_lights.erase(it);
+		}
+	}
+	if (_lastMainLight == source)
+		_lastMainLight = nullptr;
+}
+int LightContainer::Size()
+{
+	return _lights.size();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+//Renderer
+/////////////////////////////////////////////////////////////////////////////////////////////
+ShadowRenderer::ShadowRenderer(Ambient* ambient)
+	: Super(ambient)
+{
+	_renderer = GetSubSystem<Renderer>();
+}
+ShadowRenderer::~ShadowRenderer()
+{}
+void ShadowRenderer::ReadyRender()
+{
+	_LIST(RenderComponent*) shadowMap = _renderer->_shadowsMap;
+	for (_LIST(RenderComponent*)::iterator it = shadowMap.begin(); it != shadowMap.end(); it++)
+	{
+		//Reday to render
+		//(*it)->DrawShadow();
+	}
+}
+void ShadowRenderer::RenderShadow()
+{
+	_LIST(RenderComponent*) shadowMap = _renderer->_shadowsMap;
+	for (_LIST(RenderComponent*)::iterator it = shadowMap.begin(); it != shadowMap.end(); it++)
+	{
+		(*it)->DrawShadow();
+	}
+}
+/////////////////////////////////////////////////////////////////////////////////////////////
+//Renderer
+/////////////////////////////////////////////////////////////////////////////////////////////
 Renderer::Renderer(Ambient* ambient)
 	:Super(ambient)
 {
 	
 }
+
 Renderer::~Renderer()
 {
+}
+
+void Renderer::Init()
+{
+	intelMoutShadwoRenderer();
 }
 
 void Renderer::Render()
@@ -459,6 +529,13 @@ void Renderer::translucentGeometrySort()
 
 		_translucentsSorted[distance] = *i;
 	}
+}
+
+void Renderer::intelMoutShadwoRenderer()
+{
+	if (_shadowRenderer)
+		return;
+	_shadowRenderer = new ShadowRenderer(_ambient);
 }
 
 void Renderer::renderTranslucent()

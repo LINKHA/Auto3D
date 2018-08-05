@@ -59,10 +59,12 @@ void Shadow::Draw()
 
 	m_ShadowMapDepth.Use();
 	m_ShadowMapDepth.SetMat4("lightSpaceMatrix", lightSpaceMatrix);
+
 	mesh->Draw(m_ShadowMapDepth);
 	mesh1->Draw(m_ShadowMapDepth);
 	mesh2->Draw(m_ShadowMapDepth);
 	mesh3->Draw(m_ShadowMapDepth);
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	RectInt t = GetSubSystem<Graphics>()->GetWindowRectInt();
