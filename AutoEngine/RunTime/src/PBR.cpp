@@ -19,7 +19,7 @@ glm::vec3 p_lightColors[] = {
 };
 
 PBR::PBR(Ambient* ambient)
-	: Component(ambient)
+	: RenderComponent(ambient)
 	, m_shader(shader_path + "au_pbr.auvs"
 		, shader_path + "au_pbr.aufs")
 {
@@ -28,12 +28,15 @@ PBR::PBR(Ambient* ambient)
 
 PBR::~PBR()
 {
+	UnloadOpaque(this);
 }
 void PBR::Start()
 {
 	m_shader.Use();
 	m_shader.SetVec3("albedo", 0.5f, 0.0f, 0.0f);
 	m_shader.SetFloat("ao", 1.0f);
+
+	RegisterOpaque(this);
 }
 void PBR::Draw()
 {

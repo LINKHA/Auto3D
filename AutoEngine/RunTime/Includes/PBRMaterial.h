@@ -1,8 +1,8 @@
 #pragma once
-#include "GameObject.h"
+#include "RenderComponent.h"
 #include "Shader.h"
 namespace Auto3D {
-class PBRMaterial: public Component
+class PBRMaterial: public RenderComponent
 {
 public:
 	explicit PBRMaterial(Ambient* ambient);

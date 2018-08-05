@@ -1,8 +1,8 @@
 #pragma once
-#include "GameObject.h"
+#include "RenderComponent.h"
 #include "Shader.h"
 namespace Auto3D {
-class ShadowPoint : public Component
+class ShadowPoint : public RenderComponent
 {
 public:
 	explicit ShadowPoint(Ambient* ambient);

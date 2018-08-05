@@ -4,9 +4,10 @@
 #include "Renderer.h"
 #include "BaseMesh.h"
 #include "Configs.h"
+#include <random>
 namespace Auto3D {
 SSAO::SSAO(Ambient* ambient)
-	:Component(ambient)
+	:RenderComponent(ambient)
 	, m_shaderGeometryPass(shader_path + "au_ssao_geometry.auvs"
 		, shader_path + "au_ssao_geometry.aufs")
 	, m_shaderLightingPass(shader_path + "au_ssao.auvs"
@@ -19,6 +20,7 @@ SSAO::SSAO(Ambient* ambient)
 }
 SSAO::~SSAO()
 {
+	UnloadOpaque(this);
 }
 
 
@@ -140,6 +142,8 @@ void SSAO::Start()
 	m_shaderSSAO.SetInt("texNoise", 2);
 	m_shaderSSAOBlur.Use();
 	m_shaderSSAOBlur.SetInt("ssaoInput", 0);
+	
+	RegisterOpaque(this);
 }
 void SSAO::Draw()
 {

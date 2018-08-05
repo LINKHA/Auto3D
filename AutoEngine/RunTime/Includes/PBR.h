@@ -1,11 +1,11 @@
 #pragma once
-#include "Gameobject.h"
+#include "RenderComponent.h"
 #include "Shader.h"
 #include "GLGather.h"
 
 namespace Auto3D {
 
-class PBR : public Component
+class PBR : public RenderComponent
 {
 public:
 	explicit PBR(Ambient* ambient);

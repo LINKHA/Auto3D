@@ -9,7 +9,7 @@
 #include "Renderer.h"
 namespace Auto3D {
 ShadowPoint::ShadowPoint(Ambient* ambient)
-	: Component(ambient)
+	: RenderComponent(ambient)
 	, m_ShadowMap(shader_path + "au_point_shadows.auvs"
 		, shader_path + "au_point_shadows.aufs")
 	, m_ShadowMapDepth(shader_path + "au_point_shadows_depth.auvs"
@@ -17,7 +17,9 @@ ShadowPoint::ShadowPoint(Ambient* ambient)
 		, shader_path + "au_point_shadows_depth.augs")
 {}
 ShadowPoint::~ShadowPoint()
-{}
+{
+	UnloadOpaque(this);
+}
 
 void ShadowPoint::Start()
 {
@@ -82,6 +84,8 @@ void ShadowPoint::Draw()
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, INSTANCE(ShadowTest).depthPointmap);
 	renderScene(m_ShadowMap);
+
+	RegisterOpaque(this);
 }
 // renders the 3D scene
 // --------------------

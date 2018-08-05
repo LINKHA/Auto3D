@@ -39,6 +39,7 @@ Sprite::Sprite(char* imagePath, const Shader & shader)
 }
 Sprite::~Sprite()
 {
+	UnloadOpaque(this);
 	glDeleteVertexArrays(1, &_VAO);
 	glDeleteBuffers(1, &_VBO);
 	glDeleteBuffers(1, &_EBO);
@@ -86,8 +87,9 @@ void Sprite::Start()
 		WarningString("Failed to load texture");
 	}
 
+	
 	//stbi_image_free(m_image.ptr->Value);
-
+	RegisterOpaque(this);
 	/////////////////////////////////////////////////////////////////////////////////////////////
 }
 

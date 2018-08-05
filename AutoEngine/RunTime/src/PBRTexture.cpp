@@ -20,7 +20,7 @@ glm::vec3 t_lightColors[] = {
 };
 
 PBRTexture::PBRTexture(Ambient* ambient)
-	:Component(ambient)
+	:RenderComponent(ambient)
 	,m_shader(shader_path + "au_pbr.auvs"
 		, shader_path + "au_pbr_texture.aufs")
 {
@@ -29,6 +29,7 @@ PBRTexture::PBRTexture(Ambient* ambient)
 
 PBRTexture::~PBRTexture()
 {
+	UnloadOpaque(this);
 }
 void PBRTexture::Start()
 {
@@ -44,6 +45,7 @@ void PBRTexture::Start()
 	roughness = LocalTextureLoad("../resource/texture/pbr/gold/roughness.png");
 	ao = LocalTextureLoad("../resource/texture/pbr/gold/ao.png");
 
+	RegisterOpaque(this);
 }
 void PBRTexture::Draw()
 {

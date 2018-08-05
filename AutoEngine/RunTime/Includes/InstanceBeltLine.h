@@ -1,10 +1,10 @@
 #pragma once
-#include "GameObject.h"
+#include "RenderComponent.h"
 #include "ModelCommand.h"
 #include "Shader.h"
 namespace Auto3D {
 class Camera;
-class InstanceBeltLine : public Component
+class InstanceBeltLine : public RenderComponent
 {
 public:
 	InstanceBeltLine(Ambient* ambient,const ModelCommand& model,const Shader& shader, glm::mat4* modelMat,int count);

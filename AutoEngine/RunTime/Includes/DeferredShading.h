@@ -1,11 +1,11 @@
 #pragma once
-#include "GameObject.h"
+#include "RenderComponent.h"
 #include "Shader.h"
 #include "ModelCommand.h"
 #include "stl_use.h"
 
 namespace Auto3D {
-class DeferredShading : public Component
+class DeferredShading : public RenderComponent
 {
 public:
 	explicit DeferredShading(Ambient* ambient);

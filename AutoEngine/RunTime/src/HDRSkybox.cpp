@@ -27,6 +27,7 @@ HDRSkyBox::HDRSkyBox(Ambient* ambient)
 
 HDRSkyBox::~HDRSkyBox()
 {
+	UnloadOpaque(this);
 }
 void HDRSkyBox::Start()
 {
@@ -190,7 +191,7 @@ void HDRSkyBox::Start()
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-
+	RegisterOpaque(this);
 }
 void HDRSkyBox::Draw()
 {

@@ -24,6 +24,7 @@ TextureNormal::TextureNormal(char* imagePath, const Shader & shader)
 }
 TextureNormal::~TextureNormal()
 {
+	UnloadOpaque(this);
 	glDeleteVertexArrays(1, &_VAO);
 	glDeleteBuffers(1, &_VBO);
 }
@@ -42,6 +43,7 @@ void TextureNormal::Start()
 
 	//stbi_image_free(m_image.ptr->Value);
 
+	RegisterOpaque(this);
 	/////////////////////////////////////////////////////////////////////////////////////////////
 }
 

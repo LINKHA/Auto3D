@@ -20,6 +20,7 @@ SkyBoxReflectMesh::SkyBoxReflectMesh(Ambient* ambient, const Shader& shader )
 
 SkyBoxReflectMesh::~SkyBoxReflectMesh()
 {
+	UnloadOpaque(this);
 }
 void SkyBoxReflectMesh::Start()
 {
@@ -79,6 +80,8 @@ void SkyBoxReflectMesh::Start()
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 	m_shader.Use();
 	m_shader.SetInt("skybox", 0);
+
+	RegisterOpaque(this);
 }
 void SkyBoxReflectMesh::Draw()
 {

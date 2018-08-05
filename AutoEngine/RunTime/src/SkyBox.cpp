@@ -15,6 +15,7 @@ SkyBox::SkyBox(Ambient* ambient)
 
 SkyBox::~SkyBox()
 {
+	UnloadOpaque(this);
 }
 void SkyBox::Start()
 {
@@ -38,6 +39,8 @@ void SkyBox::Start()
 	"../Resource/skybox/arrakisday_lf.tga"
 	};
 	_cubemapTexture = LoadCubemap(faces);
+
+	RegisterOpaque(this);
 }
 void SkyBox::Draw()
 {

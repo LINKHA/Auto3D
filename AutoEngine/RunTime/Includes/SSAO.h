@@ -1,10 +1,10 @@
 #pragma once
-#include "GameObject.h"
+#include "RenderComponent.h"
 #include "Shader.h"
 #include "ModelCommand.h"
-#include <random>
+
 namespace Auto3D {
-class SSAO : public Component
+class SSAO : public RenderComponent
 {
 public:
 	SSAO(Ambient* ambient);

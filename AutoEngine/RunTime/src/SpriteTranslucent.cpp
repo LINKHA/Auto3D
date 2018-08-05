@@ -28,6 +28,7 @@ SpriteTranslucent::SpriteTranslucent(char* imagePath, const Shader & shader)
 }
 SpriteTranslucent::~SpriteTranslucent()
 {
+	UnloadTranslucent(this);
 	glDeleteVertexArrays(1, &_VAO);
 	glDeleteBuffers(1, &_VBO);
 	glDeleteBuffers(1, &_EBO);
@@ -75,19 +76,16 @@ void SpriteTranslucent::Start()
 		WarningString("Failed to load texture");
 	}
 
-	//GetSubSystem<SpriteSort>()->AddSprite(this);
-	GetSubSystem<Renderer>()->AddTranslucentGeometry(this);
+	//GetSubSystem<Renderer>()->AddTranslucentGeometry(this);
+
+	RegisterTranslucent(this);
 	//stbi_image_free(m_image.ptr->Value);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 }
 
-void  SpriteTranslucent::Draw()
-{
 
-}
-
-void SpriteTranslucent::DrawTranslucentSprite()
+void SpriteTranslucent::DrawTranslucent()
 {
 	GLApply();
 	glBindTexture(GL_TEXTURE_2D, _textureData);

@@ -7,7 +7,7 @@
 namespace Auto3D {
 
 InstanceBeltLine::InstanceBeltLine(Ambient* ambient,const ModelCommand& model, const Shader& shader, glm::mat4* modelMat,int count)
-	:Component(ambient)
+	:RenderComponent(ambient)
 	,_model(model)
 	,_shader(shader)
 	,_modelMatrices(modelMat)
@@ -16,6 +16,7 @@ InstanceBeltLine::InstanceBeltLine(Ambient* ambient,const ModelCommand& model, c
 }
 InstanceBeltLine::~InstanceBeltLine()
 {
+	UnloadOpaque(this);
 }
 void InstanceBeltLine::Start()
 {
@@ -43,6 +44,8 @@ void InstanceBeltLine::Start()
 
 		glBindVertexArray(0);
 	}
+
+	RegisterOpaque(this);
 }
 void InstanceBeltLine::Draw()
 {

@@ -6,7 +6,7 @@
 #include "BaseMesh.h"
 namespace Auto3D {
 DeferredShading::DeferredShading(Ambient* ambient)
-	: Component(ambient)
+	: RenderComponent(ambient)
 	, m_shaderGeometryPass(shader_path + "au_g_buffer.auvs"
 		, shader_path + "au_g_buffer.aufs")
 	, m_shaderLightingPass(shader_path + "au_deffered_shading.auvs"
@@ -17,6 +17,7 @@ DeferredShading::DeferredShading(Ambient* ambient)
 }
 DeferredShading::~DeferredShading()
 {
+	UnloadOpaque(this);
 }
 void DeferredShading::Start()
 {
@@ -97,6 +98,8 @@ void DeferredShading::Start()
 	m_shaderLightingPass.SetInt("gPosition", 0);
 	m_shaderLightingPass.SetInt("gNormal", 1);
 	m_shaderLightingPass.SetInt("gAlbedoSpec", 2);
+
+	RegisterOpaque(this);
 }
 void DeferredShading::Draw()
 {

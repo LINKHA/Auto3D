@@ -1,11 +1,11 @@
 #pragma once
-#include "Gameobject.h"
+#include "RenderComponent.h"
 #include "Shader.h"
 #include "GLGather.h"
 
 namespace Auto3D {
 
-class PBRTexture : public Component
+class PBRTexture : public RenderComponent
 {
 public:
 	explicit PBRTexture(Ambient* ambient);

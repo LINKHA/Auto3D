@@ -53,7 +53,7 @@ public:
 	virtual void Update() {}
 	virtual void FixUpdate() {}
 	virtual void Finish() {}
-	virtual void Draw(){}
+	//virtual void Draw(){}
 private:
 	bool _isEnable;
 };
@@ -67,10 +67,19 @@ public:
 
 public:
 	GameObject();
+	/**
+	* @brief : Register game object to GameObjectManager
+	*/
 	explicit GameObject(Ambient* ambient);
-	void Enable(bool enable) { _isEnable = enable; }
-	bool GetEnable() { return _isEnable; }
 	void Destory();
+	/**
+	* @brief : Set game object enable
+	*/
+	void Enable(bool enable) { _isEnable = enable; }
+	/**
+	* @brief : Get game object enable
+	*/
+	bool GetEnable() { return _isEnable; }
 
 	//void SetLayer(int layerIndex);
 	//int GetLayer() const { return m_Layer; }
@@ -95,8 +104,13 @@ public:
 	* @brief : Get components size
 	*/
 	int GetComponentsSize();
-
+	/**
+	* @brief : Get game object 
+	*/
 	const GameObject& GetGameObject()const;
+	/**
+	* @brief : Get game object
+	*/
 	GameObject& GetGameObject();
 	/**
 	* @brief : Find component from class id

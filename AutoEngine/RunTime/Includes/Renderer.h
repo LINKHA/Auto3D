@@ -25,7 +25,7 @@ public:
 	*/
 	void AddCamera(Camera* c);
 	/**
-	* @brief :  Dynamically remove a camera (valid when traversing the camera)
+	* @brief : Dynamically remove a camera (valid when traversing the camera)
 	*/
 	void RemoveCamera(Camera* c);
 	/**
@@ -60,9 +60,17 @@ public:
 	* @brief : Dynamically remove a translucent geometry (valid when traversing the camera)
 	*/
 	void RemoveTranslucentGeometry(RenderComponent* component);
-
+	/**
+	* @brief : Get Current camera quote
+	*/
 	Camera& GetCurrentCamera() { return *_currentCamera; }
+	/**
+	* @brief : Get Current camera point
+	*/
 	Camera* GetCurrentCameraPtr() { return _currentCamera; }
+	/**
+	* @brief : Get Current all camera quote
+	*/
 	CameraContainer& GetAllCamera() { return _cameras; }
 	/**
 	* @brief : Set current camera handle
@@ -91,13 +99,27 @@ private:
 	*/
 	void delayedAddRemoveTranslucents();
 	/**
-	* @brief : Sort translucent geometry from depth test
+	* @brief : Delay add or remove shadow map
 	*/
-	void translucentGeometrySort(Camera* camera);
+	void renderShadowMap();
+	/**
+	* @brief : Render opaques geometry
+	*/
+	void renderOpaques();
+	/**
+	* @brief : Render custom geometry
+	*/
+	void renderCustom();
 	/**
 	* @brief : Render translucent geometry
 	*/
-	void renderTranslucent(Camera* camera);
+	void renderTranslucent();
+	/**
+	* @brief : Sort translucent geometry from depth test
+	*/
+	void translucentGeometrySort();
+	
+	
 private:
 	bool _insideRenderOrCull;
 	///camera container
@@ -105,12 +127,23 @@ private:
 	CameraContainer _cameras;
 	CameraContainer _camerasToAdd;
 	CameraContainer _camerasToRemove;
+	///opaques shadow
+	RenderComponent* _currentShadow;
+	ShadowMapContainer _shadowsMap;
+	ShadowMapContainer _shadowsMapToAdd;
+	ShadowMapContainer _shadowsMapToRemove;
 	///opaques container
 	RenderComponent* _currentOpaques;
 	OpaqueContainer _opaques;
 	OpaqueContainer _opaquesToAdd;
 	OpaqueContainer _opaquesToRemove;
+	///custom container
+	RenderComponent* _currentCustom;
+	CustomContainer _customs;
+	CustomContainer _customsToAdd;
+	CustomContainer _customsToRemove;
 	///translucent container
+	RenderComponent* _currentTranslucent;
 	TranslucentContainer _translucents;
 	TranslucentContainer _translucentsToAdd;
 	TranslucentContainer _translucentsRemove;

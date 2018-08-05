@@ -32,6 +32,7 @@ Mesh::Mesh(Ambient* ambient,char* meshPath, const Shader& shader)
 }
 Mesh::~Mesh()
 {
+	UnloadOpaque(this);
 }
 void Mesh::Start()
 {
@@ -55,6 +56,8 @@ void Mesh::Start()
 
 	//////////////////////////////////////////////////////////////////////////
 	_model = LocalModelLoad(_meshPath.ptr);
+
+	RegisterOpaque(this);
 }
 void Mesh::Draw()
 {

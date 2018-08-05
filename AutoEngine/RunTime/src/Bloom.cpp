@@ -8,7 +8,7 @@
 namespace Auto3D {
 
 Bloom::Bloom(Ambient* ambient)
-	: Component(ambient)
+	: RenderComponent(ambient)
 	, m_shader(Shader(shader_path + "au_bloom.auvs"
 		, shader_path + "au_bloom.aufs"))
 	, m_shaderLight(Shader(shader_path + "au_bloom.auvs"
@@ -18,6 +18,7 @@ Bloom::Bloom(Ambient* ambient)
 	, m_shaderBloomFinal(Shader(shader_path + "au_bloom_final.auvs"
 		, shader_path + "au_bloom_final.aufs"))
 {
+	UnloadOpaque(this);
 }
 
 
@@ -100,6 +101,8 @@ void Bloom::Start()
 	m_shaderBloomFinal.Use();
 	m_shaderBloomFinal.SetInt("scene", 0);
 	m_shaderBloomFinal.SetInt("bloomBlur", 1);
+
+	RegisterOpaque(this);
 }
 void Bloom::Draw()
 {

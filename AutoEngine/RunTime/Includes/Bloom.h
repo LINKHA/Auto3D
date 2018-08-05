@@ -1,9 +1,9 @@
 #pragma once
-#include "GameObject.h"
+#include "RenderComponent.h"
 #include "Shader.h"
 namespace Auto3D {
 
-class Bloom : public Component
+class Bloom : public RenderComponent
 {
 public:
 	explicit Bloom(Ambient* ambient);

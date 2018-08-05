@@ -14,8 +14,7 @@ public:
 	SpriteTranslucent(char* imagePath, const Shader& shader);
 	~SpriteTranslucent();
 	void Start()override;
-	void Draw()override;
-	void DrawTranslucentSprite();
+	void DrawTranslucent()override;
 
 	void SetColor(const Color& color);
 	void SetColor(const Vector3& vec);

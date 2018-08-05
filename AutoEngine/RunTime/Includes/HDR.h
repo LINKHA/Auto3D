@@ -1,11 +1,11 @@
 #pragma once
-#include "GameObject.h"
+#include "RenderComponent.h"
 #include "Camera.h"
 #include "Shader.h"
 
 namespace Auto3D {
 
-class HDR : public Component
+class HDR : public RenderComponent
 {
 public:
 	explicit HDR(Ambient* ambient);

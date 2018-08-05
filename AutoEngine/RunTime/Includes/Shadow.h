@@ -1,11 +1,11 @@
 #pragma once
 #include "Auto.h"
 #include "Shader.h"
-#include "GameObject.h"
+#include "RenderComponent.h"
 #include "MeshShadow.h"
 namespace Auto3D {
 
-class Shadow : public Component
+class Shadow : public RenderComponent
 {
 public:
 	explicit Shadow(Ambient* ambient);

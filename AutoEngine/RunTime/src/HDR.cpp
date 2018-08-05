@@ -6,7 +6,7 @@
 #include "BaseMesh.h"
 namespace Auto3D {
 HDR::HDR(Ambient* ambient)
-	:Component(ambient)
+	: RenderComponent(ambient)
 	, m_shader(shader_path + "au_lighting.auvs"
 		, shader_path + "au_lighting.aufs")
 	, m_hdrShader(shader_path + "au_hdr.auvs"
@@ -14,7 +14,9 @@ HDR::HDR(Ambient* ambient)
 {}
 
 HDR::~HDR()
-{}
+{
+	UnloadOpaque(this);
+}
 
 void HDR::Start()
 {
@@ -64,6 +66,8 @@ void HDR::Start()
 	m_shader.SetInt("diffuseTexture", 0);
 	m_hdrShader.Use();
 	m_hdrShader.SetInt("hdrBuffer", 0);
+
+	RegisterOpaque(this);
 }
 
 void HDR::Draw()

@@ -25,6 +25,7 @@ TextureParallax::TextureParallax(char* imagePath, const Shader & shader)
 }
 TextureParallax::~TextureParallax()
 {
+	UnloadOpaque(this);
 	glDeleteVertexArrays(1, &_VAO);
 	glDeleteBuffers(1, &_VBO);
 }
@@ -43,6 +44,7 @@ void TextureParallax::Start()
 	_shader.SetInt("depthMap", 2);
 	//stbi_image_free(m_image.ptr->Value);
 
+	RegisterOpaque(this);
 	/////////////////////////////////////////////////////////////////////////////////////////////
 }
 

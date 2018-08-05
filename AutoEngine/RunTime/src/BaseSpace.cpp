@@ -42,7 +42,7 @@ void BaseSpace::Finish()
 void BaseSpace::Draw()
 {
 	INSTANCE(SpaceManager).ModeRunSpace(DrawMode);
-	INSTANCE(GameObjectManager).ModeRunGameObject(DrawMode);
+	//INSTANCE(GameObjectManager).ModeRunGameObject(DrawMode);
 
 }
 

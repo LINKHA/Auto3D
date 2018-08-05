@@ -10,12 +10,14 @@
 namespace Auto3D {
 
 Shadow::Shadow(Ambient* ambient)
-	: Component(ambient)
+	: RenderComponent(ambient)
 	, m_ShadowMapDepth(shader_path + "au_shadow_mapping_depth.auvs"
 		, shader_path + "au_shadow_mapping_depth.aufs")
 {}
 Shadow::~Shadow()
-{}
+{
+	UnloadOpaque(this);
+}
 
 void Shadow::Start()
 {
@@ -35,6 +37,8 @@ void Shadow::Start()
 	woodTexture = LocalTextureLoad("../Resource/texture/wood.jpg");
 
 	lightPos = glm::vec3(-2.0f, 4.0f, -1.0f);
+	
+	RegisterOpaque(this);
 }
 void Shadow::Draw()
 {

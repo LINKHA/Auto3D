@@ -20,7 +20,7 @@ glm::vec3 lightColors[] = {
 	glm::vec3(300.0f, 300.0f, 300.0f)
 };
 PBRTextureMaterial::PBRTextureMaterial(Ambient* ambient)
-	: Component(ambient)
+	: RenderComponent(ambient)
 	, pbrShader(shader_path + "au_pbr.auvs"
 		, shader_path + "au_pbr_hdr_trxture.aufs")
 {
@@ -29,6 +29,7 @@ PBRTextureMaterial::PBRTextureMaterial(Ambient* ambient)
 
 PBRTextureMaterial::~PBRTextureMaterial()
 {
+	UnloadOpaque(this);
 }
 
 void PBRTextureMaterial::Start()
@@ -84,6 +85,7 @@ void PBRTextureMaterial::Start()
 	wallRoughnessMap = LocalTextureLoad("../Resource/texture/pbr/gold/roughness.png");
 	wallAOMap = LocalTextureLoad("../Resource/texture/pbr/gold/ao.png");
 
+	RegisterOpaque(this);
 }
 
 void PBRTextureMaterial::Draw()
