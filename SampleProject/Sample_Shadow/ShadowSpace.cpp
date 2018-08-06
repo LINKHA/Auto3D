@@ -12,7 +12,29 @@ ShadowSpace::ShadowSpace(Ambient* ambient)
 {}
 ShadowSpace::~ShadowSpace()
 {}
+void ShadowSpace::ShadowNormal()
+{
 
+	GameObject* shadowMeshObj = new GameObject();
+	MeshShadow* mesh = new MeshShadow(_ambient, 0);
+	shadowMeshObj->AddComponent(mesh);
+
+	GameObject* shadowMeshObj1 = new GameObject();
+	MeshShadow* mesh1 = new MeshShadow(_ambient, 1);
+	shadowMeshObj1->AddComponent(mesh1);
+
+	GameObject* shadowMeshObj2 = new GameObject();
+	MeshShadow* mesh2 = new MeshShadow(_ambient, 2);
+	shadowMeshObj2->AddComponent(mesh2);
+
+	GameObject* shadowMeshObj3 = new GameObject();
+	MeshShadow* mesh3 = new MeshShadow(_ambient, 3);
+	shadowMeshObj3->AddComponent(mesh3);
+}
+void ShadowSpace::ShadowPoint()
+{
+
+}
 void ShadowSpace::Start()
 {
 	GameObject * cameraObj = new GameObject(_ambient);
@@ -24,11 +46,8 @@ void ShadowSpace::Start()
 	lightObj->GetComponent(Transform).SetPosition(-2.0f, 4.0f, -1.0f);
 	Light* light = new LightDirectional(_ambient);
 	lightObj->AddComponent(light);
-	
-	//GameObject * shadowObj = new GameObject(_ambient);
-	//Shadow* shadow = new Shadow(_ambient);
-	////ShadowPoint * shadow = new ShadowPoint(_ambient);
-	//shadowObj->AddComponent(shadow);
+
+	ShadowNormal();
 
 }
 

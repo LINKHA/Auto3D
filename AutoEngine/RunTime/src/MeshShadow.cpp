@@ -23,6 +23,8 @@ MeshShadow::MeshShadow(Ambient* ambient,int i)
 		, shader_path + "au_shadow_mapping.aufs"))
 {
 	k = i;
+	RegisterShadow(this);
+	RegisterOpaque(this);
 }
 
 MeshShadow::~MeshShadow()

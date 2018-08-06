@@ -50,17 +50,10 @@ public:
 	void RenderShadow();
 	Shader& GetDepthMapShader() { return _shadowMapDepthShader; }
 private:
-	Renderer* _renderer;
 	_VECTOR(Light*) _lights;
+	_LIST(RenderComponent*) _shadowComponents;
 	Shader _shadowMapDepthShader;
 	unsigned int _woodTexture;
-
-	//Temp
-	glm::vec3 _lightPos;
-	MeshShadow* mesh;
-	MeshShadow* mesh1;
-	MeshShadow* mesh2;
-	MeshShadow* mesh3;
 };
 /**
 * @brief : Render graphices create to geometry
@@ -70,12 +63,15 @@ class Renderer : public LevelGameManager
 	REGISTER_DERIVED_CLASS(Renderer, LevelGameManager);
 	DECLARE_OBJECT_SERIALIZE(Renderer);
 	using CameraContainer = _LIST(Camera*);
+	/////////////////////////////////////////////////////////////////////////////////////////////
 	///Render in this order
 	using ShadowMapContainer = _LIST(RenderComponent*);
 	using OpaqueContainer = _LIST(RenderComponent*);
-	using CustomContainer = _LIST(RenderComponent*);	//Skybox and other custon component
+	using CustomContainer = _LIST(RenderComponent*); //Skybox and other custon component
 	using TranslucentContainer = _LIST(RenderComponent*);
-	using TranslucentDepth = AUTO_MAP(float, RenderComponent*); //Auxiliary vessel with distance
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	///Auxiliary vessel with distance
+	using TranslucentDepth = AUTO_MAP(float, RenderComponent*); 
 	friend class ShadowRenderer;
 	friend class LightContainer;
 public:
@@ -156,6 +152,22 @@ public:
 	* @brief : Get shadow renderer (friend to ShadowRenderer)
 	*/
 	ShadowRenderer* GetShadowRenderer() { return _shadowRenderer; }
+	/**
+	* @brief : Get All shadow maps (_LIST(RenderComponent*))
+	*/
+	ShadowMapContainer& GetAllShadowMaps() { return _shadowsMap; }
+	/**
+	* @brief : Get All opaques geometrys (_LIST(RenderComponent*))
+	*/
+	OpaqueContainer& GetAllOpaques() { return _opaques; }
+	/**
+	* @brief : Get All custom geometrys (_LIST(RenderComponent*))
+	*/
+	CustomContainer& GetAllCustoms() { return _customs; }
+	/**
+	* @brief : Get All translucent geometrys (_LIST(RenderComponent*))
+	*/
+	TranslucentContainer& GetAllTranslucents() { return _translucents; }
 private:
 	/**
 	* @brief : Delay add or remove camera

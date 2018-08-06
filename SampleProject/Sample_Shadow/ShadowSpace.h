@@ -8,6 +8,9 @@ public:
 	~ShadowSpace();
 	void Start()override;
 	void Update()override;
+
+	void ShadowNormal();
+	void ShadowPoint();
 	int Launch();
 };
 
