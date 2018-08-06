@@ -1,5 +1,6 @@
 #include "Light.h"
 #include "LogAssert.h"
+#include "Renderer.h"
 namespace Auto3D {
 /////////////////////////////////////////////////////////////////////////////////////////////
 //ShadowRenderAssist
@@ -62,18 +63,18 @@ void ShadowRenderAssist::BindPointDepathMap()
 Light::Light(Ambient* ambi)
 	: Super(ambi)
 	, _shadowAssist(nullptr)
-	, _farPlane(100)
+	, _farPlane(7.5)
 {
 	AddToManager();
+	SetShadowType(SHADOW_TYPE_SOFT);
 }
 void Light::Update()
 {
 	Assert(GetGameObjectPtr());
 
-	GameObject* gameObject = GetGameObjectPtr();
 	float nearPlane = 1.0f;
 	_lightProjectionMatrix = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, nearPlane, _farPlane);
-	_lightViewMatrix = glm::lookAt(gameObject->GetComponent(Transform).GetPosition().ToGLM(), glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
+	_lightViewMatrix = glm::lookAt(GetGameObjectPtr()->GetComponent(Transform).GetPosition().ToGLM(), glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
 	_lightSpaceMatrix = _lightProjectionMatrix * _lightViewMatrix;
 }
 void Light::SetShadowType(ShadowType type)
@@ -85,25 +86,32 @@ void Light::SetShadowType(ShadowType type)
 }
 Light::~Light()
 {}
-glm::mat4 & Light::GetLightSpaceMatrix()
+glm::mat4& Light::GetLightSpaceMatrix()
 {
 	return _lightSpaceMatrix;
 }
-glm::mat4 & Light::GetLightProjectionMatrix()
+glm::mat4& Light::GetLightProjectionMatrix()
 {
 	return _lightProjectionMatrix;
 }
-glm::mat4 & Light::GetLightViewMatrix()
+glm::mat4& Light::GetLightViewMatrix()
 {
 	return _lightViewMatrix;
 }
+glm::vec3 Light::GetLightPosition()
+{
+	Assert(GetGameObjectPtr());
+	return GetGameObject().GetComponent(Transform).GetPosition().ToGLM();
+}
 void Light::AddToManager()
 {
-	INSTANCE(LightManager).AddLight(this);
+	//INSTANCE(LightManager).AddLight(this);
+	GetSubSystem<Renderer>()->GetLightContainer()->AddLight(this);
 }
 void Light::RemoveFromManager()
 {
-	INSTANCE(LightManager).RemoveLight(this);
+	//INSTANCE(LightManager).RemoveLight(this);
+	GetSubSystem<Renderer>()->GetLightContainer()->RemoveLight(this);
 }
 
 }

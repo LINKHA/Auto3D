@@ -5,7 +5,14 @@
 #include "BaseSpace.h"
 #include "Transform.h"
 #include "GameObject.h"
+#include "Light.h"
 #include "stl_use.h"
+#include "Configs.h"
+#include "ShadowTest.h"
+
+//Temp
+#include "LoadResource.h"
+#include "MeshShadow.h"
 namespace Auto3D {
 
 
@@ -44,32 +51,97 @@ int LightContainer::Size()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-//Renderer
+//ShadowRenderer
 /////////////////////////////////////////////////////////////////////////////////////////////
 ShadowRenderer::ShadowRenderer(Ambient* ambient)
 	: Super(ambient)
+	, _shadowMapDepthShader(shader_path + "au_shadow_mapping_depth.auvs"
+		, shader_path + "au_shadow_mapping_depth.aufs")
 {
 	_renderer = GetSubSystem<Renderer>();
+	
 }
 ShadowRenderer::~ShadowRenderer()
 {}
 void ShadowRenderer::ReadyRender()
 {
-	_LIST(RenderComponent*) shadowMap = _renderer->_shadowsMap;
-	for (_LIST(RenderComponent*)::iterator it = shadowMap.begin(); it != shadowMap.end(); it++)
+	_lights = _renderer->_lightContainer->GetAllLights();
+	_renderer->_lightContainer->IsRender(true);
+	//!!! Temp use one
+#pragma warning
+	for (_VECTOR(Light*)::iterator it = _lights.begin(); it != _lights.end(); it++)
 	{
-		//Reday to render
-		//(*it)->DrawShadow();
+		_renderer->_lightContainer->SetCurrentLight(*it);
+		//!!!
+#pragma warning
+		(*it)->GetShadowAssist()->BindDirDepathMap();
+		//or
+		//(*it)->GetShadowAssist()->BindPointDepathMap();
+		/////////////////////////////////////////////////////////////////////////////////////////////
+
+		mesh = new MeshShadow(_ambient,0);
+		mesh1 = new MeshShadow(_ambient, 1);
+		mesh2 = new MeshShadow(_ambient, 2);
+		mesh3 = new MeshShadow(_ambient, 3);
+
+		//for()***
+
+		mesh->DrawReady();
+		mesh1->DrawReady();
+		mesh2->DrawReady();
+		mesh3->DrawReady();
+
+		_woodTexture = LocalTextureLoad("../Resource/texture/wood.jpg");
+		_lightPos = glm::vec3(-2.0f, 4.0f, -1.0f);
+
 	}
+	_renderer->_lightContainer->IsRender(false);
 }
 void ShadowRenderer::RenderShadow()
 {
-	_LIST(RenderComponent*) shadowMap = _renderer->_shadowsMap;
-	for (_LIST(RenderComponent*)::iterator it = shadowMap.begin(); it != shadowMap.end(); it++)
+	//!!! Temp use one
+#pragma warning
+	for (_VECTOR(Light*)::iterator it = _lights.begin(); it != _lights.end(); it++)
 	{
-		(*it)->DrawShadow();
+		///Set light matrix
+		/////////////////////////////////////////////////////////////////////////////////////////////
+
+		glm::mat4 lightSpaceMatrix = (*it)->GetLightSpaceMatrix();
+
+		/////////////////////////////////////////////////////////////////////////////////////////////
+
+		glViewport(0, 0, (*it)->GetShadowAssist()->GetShadowWidth(), (*it)->GetShadowAssist()->GetShadowHeight());
+		glBindFramebuffer(GL_FRAMEBUFFER, (*it)->GetShadowAssist()->GetDepthMapFBO());
+		glClear(GL_DEPTH_BUFFER_BIT);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, _woodTexture);
+
+		_shadowMapDepthShader.Use();
+		_shadowMapDepthShader.SetMat4("lightSpaceMatrix", lightSpaceMatrix);
+		//for()***
+		mesh->DrawShadow();
+		mesh1->DrawShadow();
+		mesh2->DrawShadow();
+		mesh3->DrawShadow();
+
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+		RectInt t = GetSubSystem<Graphics>()->GetWindowRectInt();
+		glViewport(0, 0, t.width, t.height);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		glViewport(0, 0, t.width, t.height);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		//for()***
+		mesh->Draw();
+		mesh1->Draw();
+		mesh2->Draw();
+		mesh3->Draw();
+
 	}
 }
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 //Renderer
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -86,6 +158,12 @@ Renderer::~Renderer()
 void Renderer::Init()
 {
 	intelMoutShadwoRenderer();
+	intelMoutLightContainer();
+}
+
+void Renderer::ReadyToRender()
+{
+	_shadowRenderer->ReadyRender();
 }
 
 void Renderer::Render()
@@ -493,12 +571,13 @@ void Renderer::delayedAddRemoveTranslucents()
 
 void Renderer::renderShadowMap()
 {
-	for (_LIST(RenderComponent*)::iterator it = _shadowsMap.begin(); it != _shadowsMap.end(); it++)
+	_shadowRenderer->RenderShadow();
+	/*for (_LIST(RenderComponent*)::iterator it = _shadowsMap.begin(); it != _shadowsMap.end(); it++)
 	{
 		(*it)->GetGameObject().GetComponent(Transform).UpdateTransform();
 		(*it)->DrawShadow();
 		(*it)->GetGameObject().GetComponent(Transform).Identity();
-	}
+	}*/
 }
 
 void Renderer::renderOpaques()
@@ -536,6 +615,13 @@ void Renderer::intelMoutShadwoRenderer()
 	if (_shadowRenderer)
 		return;
 	_shadowRenderer = new ShadowRenderer(_ambient);
+}
+
+void Renderer::intelMoutLightContainer()
+{
+	if (_lightContainer)
+		return;
+	_lightContainer = new LightContainer(_ambient);
 }
 
 void Renderer::renderTranslucent()

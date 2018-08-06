@@ -53,7 +53,6 @@ public:
 	virtual void Update() {}
 	virtual void FixUpdate() {}
 	virtual void Finish() {}
-	//virtual void Draw(){}
 private:
 	bool _isEnable;
 };

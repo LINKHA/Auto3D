@@ -20,20 +20,15 @@ void ShadowSpace::Start()
 	cameraObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 	cameraObj->AddComponent(camera);
 
-	//GameObject * lightObj = new GameObject();
-	//Light * light = new LightDirectional();
-	//lightObj->AddComponent(light);
-
-	//GameObject * meshObj = new GameObject();
-	//Mesh * mesh = new Mesh("Resource/object/base/Cube.FBX");
-	//mesh->GetMaterial().SetImage("Resource/texture/wood.jpg");
-	//meshObj->AddComponent(mesh);
-	//meshObj->GetComponent(Transform).SetPosition(0.0f, 2.0f, 0.0f);
-
-	GameObject * shadowObj = new GameObject(_ambient);
-	Shadow * shadow = new Shadow(_ambient);
-	//ShadowPoint * shadow = new ShadowPoint(_ambient);
-	shadowObj->AddComponent(shadow);
+	GameObject * lightObj = new GameObject(_ambient);
+	lightObj->GetComponent(Transform).SetPosition(-2.0f, 4.0f, -1.0f);
+	Light* light = new LightDirectional(_ambient);
+	lightObj->AddComponent(light);
+	
+	//GameObject * shadowObj = new GameObject(_ambient);
+	//Shadow* shadow = new Shadow(_ambient);
+	////ShadowPoint * shadow = new ShadowPoint(_ambient);
+	//shadowObj->AddComponent(shadow);
 
 }
 

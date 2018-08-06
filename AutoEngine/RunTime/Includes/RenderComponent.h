@@ -10,12 +10,10 @@ class RenderComponent : public Component
 public:
 	RenderComponent();
 	RenderComponent(Ambient*  ambient);
-	virtual void Awake()override {}
-	virtual void Start()override {}
-	virtual void Update()override {}
-	virtual void FixUpdate()override {}
-	virtual void Finish()override {}
-
+	/**
+	* @brief : Ready draw component
+	*/
+	virtual void DrawReady() {}
 	/**
 	* @brief : Draw shaodw call in renderer
 	*/

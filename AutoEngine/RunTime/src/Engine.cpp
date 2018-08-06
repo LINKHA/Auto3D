@@ -29,11 +29,13 @@ Engine::~Engine()
 void Engine::Init()
 {
 	GetSubSystem<BaseSpace>()->Awake();
-	GetSubSystem<Renderer>()->Init();
+
 	GetSubSystem<Graphics>()->Init();
+	GetSubSystem<Renderer>()->Init();
 
 	GetSubSystem<BaseSpace>()->Start();
 
+	GetSubSystem<Renderer>()->ReadyToRender();
 }
 void Engine::RunFrame()
 {

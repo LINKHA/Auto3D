@@ -1,124 +1,25 @@
-//#include "MeshShadow.h"
-//#include "Renderer.h"
-//#include "LightManager.h"
-//#include "VertexData.h"
-//#include "ShadowTest.h"
-//#include "Camera.h"
-//#include "Configs.h"
-//#include "LoadResource.h"
-//
-//namespace Auto3D {
-//
-//LightManager& lights = INSTANCE(LightManager);
-//MeshShadow::MeshShadow(Ambient* ambient)
-//	: RenderComponent(ambient)
-//	, _shader(Shader(shader_path + "au_shadow_mapping.auvs"
-//		, shader_path + "au_shadow_mapping.aufs"))
-//{}
-////MeshShadow::MeshShadow(int i)
-////	: _shader(Shader(shader_path + "au_shadow_mapping.auvs"
-////		, shader_path + "au_shadow_mapping.aufs"))
-////{
-////	k = i;
-////}
-//
-//MeshShadow::~MeshShadow()
-//{
-//}
-//void MeshShadow::Start()
-//{
-//	_model = LocalModelLoad("../Resource/object/base/Cube.FBX");
-//
-//	_woodTexture = LocalTextureLoad("../Resource/texture/wood.jpg");
-//	_shader.Use();
-//	_shader.SetInt("diffuseTexture", 0);
-//	_shader.SetInt("shadowMap", 1);
-//}
-//
-//void MeshShadow::Draw()
-//{
-//
-//}
-//
-//void MeshShadow::DrawShadow()
-//{
-//
-//}
-//
-//void MeshShadow::Draw(const Shader &shader)
-//{
-//	glm::mat4 model;
-//	switch (k)
-//	{
-//	case 0:
-//		model = glm::mat4();
-//		model = glm::translate(model, glm::vec3(0.0f, -1.0f, 0.0));
-//		model = glm::scale(model, glm::vec3(10.0f, 0.5f, 10.0f));
-//		shader.SetMat4("model", model);
-//		_model->Draw(shader);
-//		break;
-//	case 1:
-//		model = glm::mat4();
-//		model = glm::translate(model, glm::vec3(2.0f, 0.0f, 1.0));
-//		model = glm::scale(model, glm::vec3(0.5f));
-//		shader.SetMat4("model", model);
-//		_model->Draw(shader);
-//		break;
-//	case 2:
-//		model = glm::mat4();
-//		model = glm::translate(model, glm::vec3(-1.0f, 0.0f, 2.0));
-//		model = glm::rotate(model, glm::radians(60.0f), glm::normalize(glm::vec3(1.0, 0.0, 1.0)));
-//		model = glm::scale(model, glm::vec3(0.25));
-//		shader.SetMat4("model", model);
-//		_model->Draw(shader);
-//		break;
-//	case 3:
-//		model = glm::mat4();
-//		model = glm::translate(model, glm::vec3(0.0f, 1.5f, 0.0));
-//		model = glm::scale(model, glm::vec3(0.5f));
-//		shader.SetMat4("model", model);
-//		_model->Draw(shader);
-//		break;
-//	}
-//
-//}
-//void MeshShadow::Draw2(Camera* camera, glm::vec3 lightPos, glm::mat4 lightSpaceMatrix)
-//{
-//	_shader.Use();
-//	glm::mat4 projection = camera->GetProjectionMatrix();
-//	glm::mat4 view = camera->GetViewMatrix();
-//	_shader.SetMat4("projection", projection);
-//	_shader.SetMat4("view", view);
-//	// set light uniforms
-//	_shader.SetVec3("viewPos", camera->GetPosition());
-//	_shader.SetVec3("lightPos", lightPos);
-//	_shader.SetMat4("lightSpaceMatrix", lightSpaceMatrix);
-//	glActiveTexture(GL_TEXTURE0);
-//	glBindTexture(GL_TEXTURE_2D, _woodTexture);
-//	glActiveTexture(GL_TEXTURE1);
-//	glBindTexture(GL_TEXTURE_2D, INSTANCE(ShadowTest).depthMap);
-//	Draw(_shader);
-//}
-//
-//}
-
 #include "MeshShadow.h"
 #include "Renderer.h"
-#include "LightManager.h"
+#include "Light.h"
 #include "VertexData.h"
 #include "ShadowTest.h"
 #include "Camera.h"
 #include "Configs.h"
+#include "LoadResource.h"
+
 namespace Auto3D {
 
-
-LightManager& lights = INSTANCE(LightManager);
-MeshShadow::MeshShadow()
-	: _shader(Shader(shader_path + "au_shadow_mapping.auvs"
+MeshShadow::MeshShadow(Ambient* ambient)
+	: RenderComponent(ambient)
+	, _shader(Shader(shader_path + "au_shadow_mapping.auvs"
 		, shader_path + "au_shadow_mapping.aufs"))
-{}
-MeshShadow::MeshShadow(int i)
-	: _shader(Shader(shader_path + "au_shadow_mapping.auvs"
+{
+	RegisterShadow(this);
+	RegisterOpaque(this);
+}
+MeshShadow::MeshShadow(Ambient* ambient,int i)
+	: RenderComponent(ambient)
+	, _shader(Shader(shader_path + "au_shadow_mapping.auvs"
 		, shader_path + "au_shadow_mapping.aufs"))
 {
 	k = i;
@@ -126,8 +27,10 @@ MeshShadow::MeshShadow(int i)
 
 MeshShadow::~MeshShadow()
 {
+	UnloadShadow(this);
+	UnloadOpaque(this);
 }
-void MeshShadow::Start()
+void MeshShadow::DrawReady()
 {
 	_model = LocalModelLoad("../Resource/object/base/Cube.FBX");
 
@@ -136,8 +39,10 @@ void MeshShadow::Start()
 	_shader.SetInt("diffuseTexture", 0);
 	_shader.SetInt("shadowMap", 1);
 }
-void MeshShadow::Draw(const Shader &shader)
+
+void MeshShadow::DrawShadow()
 {
+	Shader& shadowShader = GetSubSystem<Renderer>()->GetShadowRenderer()->GetDepthMapShader();
 	glm::mat4 model;
 	switch (k)
 	{
@@ -145,50 +50,97 @@ void MeshShadow::Draw(const Shader &shader)
 		model = glm::mat4();
 		model = glm::translate(model, glm::vec3(0.0f, -1.0f, 0.0));
 		model = glm::scale(model, glm::vec3(10.0f, 0.5f, 10.0f));
-		shader.SetMat4("model", model);
-		_model->Draw(shader);
+		shadowShader.SetMat4("model", model);
+		_model->Draw(shadowShader);
 		break;
 	case 1:
 		model = glm::mat4();
 		model = glm::translate(model, glm::vec3(2.0f, 0.0f, 1.0));
 		model = glm::scale(model, glm::vec3(0.5f));
-		shader.SetMat4("model", model);
-		_model->Draw(shader);
+		shadowShader.SetMat4("model", model);
+		_model->Draw(shadowShader);
 		break;
 	case 2:
 		model = glm::mat4();
 		model = glm::translate(model, glm::vec3(-1.0f, 0.0f, 2.0));
 		model = glm::rotate(model, glm::radians(60.0f), glm::normalize(glm::vec3(1.0, 0.0, 1.0)));
 		model = glm::scale(model, glm::vec3(0.25));
-		shader.SetMat4("model", model);
-		_model->Draw(shader);
+		shadowShader.SetMat4("model", model);
+		_model->Draw(shadowShader);
 		break;
 	case 3:
 		model = glm::mat4();
 		model = glm::translate(model, glm::vec3(0.0f, 1.5f, 0.0));
 		model = glm::scale(model, glm::vec3(0.5f));
-		shader.SetMat4("model", model);
-		_model->Draw(shader);
+		shadowShader.SetMat4("model", model);
+		_model->Draw(shadowShader);
 		break;
 	}
 
 }
-void MeshShadow::Draw2(Camera* camera, glm::vec3 lightPos, glm::mat4 lightSpaceMatrix)
+void MeshShadow::Draw()
 {
-	_shader.Use();
-	glm::mat4 projection = camera->GetProjectionMatrix();
-	glm::mat4 view = camera->GetViewMatrix();
-	_shader.SetMat4("projection", projection);
-	_shader.SetMat4("view", view);
-	// set light uniforms
-	_shader.SetVec3("viewPos", camera->GetPosition());
-	_shader.SetVec3("lightPos", lightPos);
-	_shader.SetMat4("lightSpaceMatrix", lightSpaceMatrix);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, _woodTexture);
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, INSTANCE(ShadowTest).depthMap);
-	Draw(_shader);
+	Camera* camera = GetSubSystem<Renderer>()->GetCurrentCameraPtr();
+	glm::vec3 lightPos;
+	glm::mat4 lightSpaceMatrix;
+	//!!! Temp use one light,and must need light
+	#pragma warning
+	_VECTOR(Light*)& lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
+	//!!!Temp
+	Assert(lights.size() != 0);
+	for (_VECTOR(Light*)::iterator it = lights.begin(); it != lights.end(); it++)
+	{
+		lightPos = (*it)->GetLightPosition();
+		lightSpaceMatrix = (*it)->GetLightSpaceMatrix();
+
+		unsigned depthMap = (*it)->GetShadowAssist()->GetDepthMap();
+		_shader.Use();
+		glm::mat4 projection = camera->GetProjectionMatrix();
+		glm::mat4 view = camera->GetViewMatrix();
+		_shader.SetMat4("projection", projection);
+		_shader.SetMat4("view", view);
+		// set light uniforms
+		_shader.SetVec3("viewPos", camera->GetPosition());
+		_shader.SetVec3("lightPos", lightPos);
+		_shader.SetMat4("lightSpaceMatrix", lightSpaceMatrix);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, _woodTexture);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, depthMap);
+		glm::mat4 model;
+		switch (k)
+		{
+		case 0:
+			model = glm::mat4();
+			model = glm::translate(model, glm::vec3(0.0f, -1.0f, 0.0));
+			model = glm::scale(model, glm::vec3(10.0f, 0.5f, 10.0f));
+			_shader.SetMat4("model", model);
+			_model->Draw(_shader);
+			break;
+		case 1:
+			model = glm::mat4();
+			model = glm::translate(model, glm::vec3(2.0f, 0.0f, 1.0));
+			model = glm::scale(model, glm::vec3(0.5f));
+			_shader.SetMat4("model", model);
+			_model->Draw(_shader);
+			break;
+		case 2:
+			model = glm::mat4();
+			model = glm::translate(model, glm::vec3(-1.0f, 0.0f, 2.0));
+			model = glm::rotate(model, glm::radians(60.0f), glm::normalize(glm::vec3(1.0, 0.0, 1.0)));
+			model = glm::scale(model, glm::vec3(0.25));
+			_shader.SetMat4("model", model);
+			_model->Draw(_shader);
+			break;
+		case 3:
+			model = glm::mat4();
+			model = glm::translate(model, glm::vec3(0.0f, 1.5f, 0.0));
+			model = glm::scale(model, glm::vec3(0.5f));
+			_shader.SetMat4("model", model);
+			_model->Draw(_shader);
+			break;
+		}
+	}
 }
 
 }

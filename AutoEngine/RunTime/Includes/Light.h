@@ -4,9 +4,7 @@
 #include "GameObject.h"
 #include "Shader.h"
 #include "ModelCommand.h"
-#include "LightManager.h"
 #include "Transform.h"
-#include "ShadowSetting.h"
 namespace Auto3D {
 
 enum LightType
@@ -38,15 +36,33 @@ public:
 	* @brief : Bind point light create depath map
 	*/
 	void BindPointDepathMap();
-private:
+	/**
+	* @brief : Get shadow width
+	*/
+	int GetShadowWidth() { return _shadowWidth; }
+	/**
+	* @brief : Get shadow height
+	*/
+	int GetShadowHeight() { return _shadowHeight; }
+	/**
+	* @brief : Get depth map fbo
+	*/
+	//!!! Temp not use point
+	unsigned GetDepthMapFBO() { return _depthDirMapFBO; }
+	/**
+	* @brief : Get depth map
+	*/
+	//!!! Temp not use point
+	unsigned GetDepthMap() { return _depthDirMap; }
+
 	int _shadowWidth;
 	int _shadowHeight;
 
-	unsigned int _depthDirMapFBO;
-	unsigned int _depthDirMap;
+	unsigned _depthDirMapFBO;
+	unsigned _depthDirMap;
 
-	unsigned int _depthPointMapFBO;
-	unsigned int _depthPointmap;
+	unsigned _depthPointMapFBO;
+	unsigned _depthPointmap;
 };
 /**
 * @brief : Light component
@@ -82,7 +98,14 @@ public:
 	* @brief : Get light space matrix (lookAt Vector::ZERO)
 	*/
 	glm::mat4& GetLightViewMatrix();
-
+	/**
+	* @brief : Get light component position
+	*/
+	glm::vec3 GetLightPosition();
+	/**
+	* @brief : Get Shadow render assist
+	*/
+	ShadowRenderAssist* GetShadowAssist() { return _shadowAssist; }
 
 	void AddToManager();
 	void RemoveFromManager();

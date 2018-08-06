@@ -1,11 +1,11 @@
 #include "Mesh.h"
 #include "Renderer.h"
-#include "LightManager.h"
+#include "Light.h"
 #include "Configs.h"
 namespace Auto3D {
 
 
-LightManager& lights = INSTANCE(LightManager);
+//LightManager& lights = INSTANCE(LightManager);
 
 Mesh::Mesh(Ambient* ambient)
 	:Super(ambient)
@@ -110,11 +110,12 @@ void Mesh::drawMaterial()
 
 void Mesh::drawLight()
 {
-	auto& t_lights = lights.GetAllLights();
+	//GetSubSystem<Renderer>()->GetLightContainer();
+	auto& lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
 	int dir = 0;
 	int point = 0;
 	int spot = 0;
-	for (auto it = t_lights.begin(); it != t_lights.end(); it++)
+	for (auto it = lights.begin(); it != lights.end(); it++)
 	{
 		Light * t = *it;
 		Vector3 ligthtPosition = t->GetGameObject().GetComponent(Transform).GetPosition();

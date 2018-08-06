@@ -15,22 +15,27 @@ class LightContainer : public Object
 	using Lights = _VECTOR(Light*);
 public:
 	explicit LightContainer(Ambient* ambient);
-
 	void AddLight(Light* source);
 	void RemoveLight(Light* source);
 	int Size();
 	Lights& GetAllLights() { return _lights; }
 	const Light* GetLastMainLight() { return _lastMainLight; }
 	void IsRender(bool b) { _isRenderOrCull = b; }
+	void SetCurrentLight(Light* light) { _currentLight = light; }
+	Light* GetCurrentLight() { return _currentLight; }
 private:
-	bool		_isRenderOrCull;
-	Lights		_lights;
-	Light*		_lastMainLight;
+	bool _isRenderOrCull;
+	Light* _currentLight;
+	Lights _lights;
+	Light* _lastMainLight;
 
 };
 /**
 * @brief : Dedicated to renderer draw shadow
 */
+//Temp
+class MeshShadow;
+
 class ShadowRenderer : public Object
 {
 	
@@ -43,8 +48,19 @@ public:
 	explicit ShadowRenderer(Ambient* ambient);
 	void ReadyRender();
 	void RenderShadow();
+	Shader& GetDepthMapShader() { return _shadowMapDepthShader; }
 private:
 	Renderer* _renderer;
+	_VECTOR(Light*) _lights;
+	Shader _shadowMapDepthShader;
+	unsigned int _woodTexture;
+
+	//Temp
+	glm::vec3 _lightPos;
+	MeshShadow* mesh;
+	MeshShadow* mesh1;
+	MeshShadow* mesh2;
+	MeshShadow* mesh3;
 };
 /**
 * @brief : Render graphices create to geometry
@@ -61,12 +77,17 @@ class Renderer : public LevelGameManager
 	using TranslucentContainer = _LIST(RenderComponent*);
 	using TranslucentDepth = AUTO_MAP(float, RenderComponent*); //Auxiliary vessel with distance
 	friend class ShadowRenderer;
+	friend class LightContainer;
 public:
 	explicit Renderer(Ambient* ambient);
 	/**
 	* @brief : Init renderer register renderer sub setting
 	*/
 	void Init();
+	/**
+	* @brief : Ready to renderer create shadow frame buffer..
+	*/
+	void ReadyToRender();
 	/**
 	* @brief : Render every camera
 	*/
@@ -127,7 +148,14 @@ public:
 	* @brief : Set current camera handle
 	*/
 	void SetCurrentCamera(Camera* c) { _currentCamera = c; }
-
+	/**
+	* @brief : Get light container (friend to LightContainer)
+	*/
+	LightContainer* GetLightContainer() { return _lightContainer; }
+	/**
+	* @brief : Get shadow renderer (friend to ShadowRenderer)
+	*/
+	ShadowRenderer* GetShadowRenderer() { return _shadowRenderer; }
 private:
 	/**
 	* @brief : Delay add or remove camera
@@ -173,7 +201,10 @@ private:
 	* @brief : Intelligence mout shadow renderer,Intelligent creation object
 	*/
 	void intelMoutShadwoRenderer();
-	
+	/**
+	* @brief : Intelligence mout light container,Intelligent creation object
+	*/
+	void intelMoutLightContainer();
 private:
 	ShadowRenderer* _shadowRenderer;
 	LightContainer* _lightContainer;
