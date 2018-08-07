@@ -13,16 +13,17 @@ MeshShadowPoint::MeshShadowPoint(Ambient* ambient)
 	: RenderComponent(ambient)
 	, _shader(shader_path + "au_point_shadows.auvs"
 		, shader_path + "au_point_shadows.aufs")
+	, _cullEnable(true)
 {
 	RegisterShadow(this);
 	RegisterOpaque(this);
 }
-MeshShadowPoint::MeshShadowPoint(Ambient* ambient, int i)
+MeshShadowPoint::MeshShadowPoint(Ambient* ambient, bool cullEnable)
 	: RenderComponent(ambient)
 	, _shader(Shader(shader_path + "au_point_shadows.auvs"
 		, shader_path + "au_point_shadows.aufs"))
 {
-	k = i;
+	_cullEnable = cullEnable;
 	RegisterShadow(this);
 	RegisterOpaque(this);
 }
@@ -45,55 +46,28 @@ void MeshShadowPoint::DrawReady()
 void MeshShadowPoint::DrawShadow()
 {
 	Shader& shadowShader = GetSubSystem<Renderer>()->GetShadowRenderer()->GetPointDepthMapShader();
-	glm::mat4 model;
-	switch (k)
+	
+	glm::mat4 modelMat;
+	if (GetGameObjectPtr())		//if gameObject not empty
+		modelMat = GetGameObject().GetComponent(Transform).GetTransformMat();
+	else
+		modelMat = Matrix4x4::identity;
+
+	shadowShader.SetMat4("model", modelMat);
+
+	if (!_cullEnable)
 	{
-	case 0:
-		model = glm::scale(model, glm::vec3(5.0f));
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 2.0));
-		shadowShader.SetMat4("model", model);
 		glDisable(GL_CULL_FACE); // note that we disable culling here since we render 'inside' the cube instead of the usual 'outside' which throws off the normal culling methods.
-		shadowShader.SetInt("reverse_normals", 1); // A small little hack to invert normals when drawing cube from the inside so lighting still works.
-		_model->Draw(shadowShader);
-		shadowShader.SetInt("reverse_normals", 0); // and of course disable it
-		glEnable(GL_CULL_FACE);
-		break;
-	case 1:
-		model = glm::mat4();
-		model = glm::translate(model, glm::vec3(4.0f, -3.5f, 0.0));
-		model = glm::scale(model, glm::vec3(0.5f));
-		shadowShader.SetMat4("model", model);
-		_model->Draw(shadowShader);
-		break;
-	case 2:
-		model = glm::mat4();
-		model = glm::translate(model, glm::vec3(2.0f, 3.0f, 1.0));
-		model = glm::scale(model, glm::vec3(0.75f));
-		shadowShader.SetMat4("model", model);
-		_model->Draw(shadowShader);
-		break;
-	case 3:
-		model = glm::mat4();
-		model = glm::translate(model, glm::vec3(-3.0f, -1.0f, 0.0));
-		model = glm::scale(model, glm::vec3(0.5f));
-		shadowShader.SetMat4("model", model);
-		_model->Draw(shadowShader);
-		break;
-	case 4:
-		model = glm::mat4();
-		model = glm::translate(model, glm::vec3(-1.5f, 1.0f, 1.5));
-		model = glm::scale(model, glm::vec3(0.5f));
-		shadowShader.SetMat4("model", model);
-		_model->Draw(shadowShader);
-	case 5:
-		model = glm::mat4();
-		model = glm::translate(model, glm::vec3(-1.5f, 2.0f, -3.0));
-		model = glm::rotate(model, glm::radians(60.0f), glm::normalize(glm::vec3(1.0, 0.0, 1.0)));
-		model = glm::scale(model, glm::vec3(0.75f));
-		shadowShader.SetMat4("model", model);
-		_model->Draw(shadowShader);
+		_shader.SetInt("reverse_normals", 1); // A small little hack to invert normals when drawing cube from the inside so lighting still works.
 	}
 
+	_model->Draw(_shader);
+
+	if (!_cullEnable)
+	{
+		_shader.SetInt("reverse_normals", 0); // and of course disable it
+		glEnable(GL_CULL_FACE);
+	}
 }
 void MeshShadowPoint::Draw()
 {
@@ -124,52 +98,26 @@ void MeshShadowPoint::Draw()
 		glBindTexture(GL_TEXTURE_2D, _woodTexture);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, depthMap);
-		glm::mat4 model;
-		switch (k)
+
+		glm::mat4 modelMat;
+		if (GetGameObjectPtr())		//if gameObject not empty
+			modelMat = GetGameObject().GetComponent(Transform).GetTransformMat();
+		else
+			modelMat = Matrix4x4::identity;
+		_shader.SetMat4("model", modelMat);
+
+		if (!_cullEnable)
 		{
-		case 0:
-			model = glm::scale(model, glm::vec3(5.0f));
-			_shader.SetMat4("model", model);
 			glDisable(GL_CULL_FACE); // note that we disable culling here since we render 'inside' the cube instead of the usual 'outside' which throws off the normal culling methods.
 			_shader.SetInt("reverse_normals", 1); // A small little hack to invert normals when drawing cube from the inside so lighting still works.
-			_model->Draw(_shader);
+		}
+
+		_model->Draw(_shader);
+
+		if (!_cullEnable)
+		{
 			_shader.SetInt("reverse_normals", 0); // and of course disable it
 			glEnable(GL_CULL_FACE);
-			break;
-		case 1:
-			model = glm::mat4();
-			model = glm::translate(model, glm::vec3(4.0f, -3.5f, 0.0));
-			model = glm::scale(model, glm::vec3(0.5f));
-			_shader.SetMat4("model", model);
-			_model->Draw(_shader);
-			break;
-		case 2:
-			model = glm::mat4();
-			model = glm::translate(model, glm::vec3(2.0f, 3.0f, 1.0));
-			model = glm::scale(model, glm::vec3(0.75f));
-			_shader.SetMat4("model", model);
-			_model->Draw(_shader);
-			break;
-		case 3:
-			model = glm::mat4();
-			model = glm::translate(model, glm::vec3(-3.0f, -1.0f, 0.0));
-			model = glm::scale(model, glm::vec3(0.5f));
-			_shader.SetMat4("model", model);
-			_model->Draw(_shader);
-			break;
-		case 4:
-			model = glm::mat4();
-			model = glm::translate(model, glm::vec3(-1.5f, 1.0f, 1.5));
-			model = glm::scale(model, glm::vec3(0.5f));
-			_shader.SetMat4("model", model);
-			_model->Draw(_shader);
-		case 5:
-			model = glm::mat4();
-			model = glm::translate(model, glm::vec3(-1.5f, 2.0f, -3.0));
-			model = glm::rotate(model, glm::radians(60.0f), glm::normalize(glm::vec3(1.0, 0.0, 1.0)));
-			model = glm::scale(model, glm::vec3(0.75f));
-			_shader.SetMat4("model", model);
-			_model->Draw(_shader);
 		}
 	}
 }

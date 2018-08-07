@@ -587,9 +587,7 @@ void Renderer::renderOpaques()
 {
 	for (_LIST(RenderComponent*)::iterator it = _opaques.begin(); it != _opaques.end(); it++)
 	{
-		(*it)->GetGameObject().GetComponent(Transform).UpdateTransform();
 		(*it)->Draw();
-		(*it)->GetGameObject().GetComponent(Transform).Identity();
 	}
 }
 
@@ -597,9 +595,7 @@ void Renderer::renderCustom()
 {
 	for (_LIST(RenderComponent*)::iterator it = _customs.begin(); it != _customs.end(); it++)
 	{
-		(*it)->GetGameObject().GetComponent(Transform).UpdateTransform();
 		(*it)->DrawCustom();
-		(*it)->GetGameObject().GetComponent(Transform).Identity();
 	}
 }
 
@@ -632,11 +628,8 @@ void Renderer::renderTranslucent()
 	translucentGeometrySort();
 	for (AUTO_MAP(float, RenderComponent*)::reverse_iterator it = _translucentsSorted.rbegin(); it != _translucentsSorted.rend(); ++it)
 	{
-		it->second->GetGameObject().GetComponent(Transform).UpdateTransform();
 		//Draw translucent component
 		it->second->DrawTranslucent();
-
-		it->second->GetGameObject().GetComponent(Transform).Identity();
 	}
 	_translucentsSorted.clear();
 }

@@ -11,15 +11,17 @@ class MeshShadowPoint : public RenderComponent, public GLMeshEnable
 {
 public:
 	explicit MeshShadowPoint(Ambient* ambient);
-	MeshShadowPoint(Ambient* ambient, int i);
+	MeshShadowPoint(Ambient* ambient, bool cullEnable);
 	int k;
 	~MeshShadowPoint();
 	void DrawReady()override;
 	void Draw()override;
 	void DrawShadow()override;
+	void DisableCull() { _cullEnable = true; }
 private:
 	Shader _shader;
 	ModelCommand* _model;
+	bool _cullEnable;
 	unsigned int _woodTexture;
 	unsigned int _VAO;
 	unsigned int _VBO;

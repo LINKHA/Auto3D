@@ -5,6 +5,7 @@
 #include "../FreeCamera.h"
 #include "Mesh.h"
 #include "MeshShadowPoint.h"
+#include "Math/Vector3.h"
 
 #include "Shadow.h"
 #include "ShadowPoint.h"
@@ -23,20 +24,31 @@ void ShadowSpace::ShadowNormal()
 	lightObj->AddComponent(light);
 
 	GameObject* shadowMeshObj = new GameObject(_ambient);
-	MeshShadow* mesh = new MeshShadow(_ambient, 0);
+	shadowMeshObj->GetComponent(Transform).SetPosition(0.0f, -1.0f, -5.0f);
+	shadowMeshObj->GetComponent(Transform).SetScale(10.0f, 0.5f, 10.0f);
+	MeshShadow* mesh = new MeshShadow(_ambient);
 	shadowMeshObj->AddComponent(mesh);
 
+
 	GameObject* shadowMeshObj1 = new GameObject(_ambient);
-	MeshShadow* mesh1 = new MeshShadow(_ambient, 1);
+	shadowMeshObj1->GetComponent(Transform).SetPosition(2.0f, 0.0f, 1.0f);
+	shadowMeshObj1->GetComponent(Transform).SetScale(0.5f);
+	MeshShadow* mesh1 = new MeshShadow(_ambient);
 	shadowMeshObj1->AddComponent(mesh1);
 
 	GameObject* shadowMeshObj2 = new GameObject(_ambient);
-	MeshShadow* mesh2 = new MeshShadow(_ambient, 2);
+	shadowMeshObj2->GetComponent(Transform).SetPosition(-1.0f, 0.0f, 2.0f);
+	shadowMeshObj2->GetComponent(Transform).SetRotation(60.0f, Vector3(1.0f, 0.0f, 1.0f));
+	shadowMeshObj2->GetComponent(Transform).SetScale(0.25f);
+	MeshShadow* mesh2 = new MeshShadow(_ambient);
 	shadowMeshObj2->AddComponent(mesh2);
 
 	GameObject* shadowMeshObj3 = new GameObject(_ambient);
-	MeshShadow* mesh3 = new MeshShadow(_ambient, 3);
+	shadowMeshObj3->GetComponent(Transform).SetPosition(0.0f, 1.5f, 0.0);
+	shadowMeshObj3->GetComponent(Transform).SetScale(0.5f);
+	MeshShadow* mesh3 = new MeshShadow(_ambient);
 	shadowMeshObj3->AddComponent(mesh3);
+
 }
 void ShadowSpace::ShadowPoint()
 {
@@ -45,28 +57,43 @@ void ShadowSpace::ShadowPoint()
 	Light* light = new LightPoint(_ambient);
 	lightObj->AddComponent(light);
 
+
 	GameObject* shadowMeshObj = new GameObject(_ambient);
-	MeshShadowPoint* mesh = new MeshShadowPoint(_ambient, 0);
+	shadowMeshObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, -5.0f);
+	shadowMeshObj->GetComponent(Transform).SetScale(10.0f);
+	MeshShadowPoint* mesh = new MeshShadowPoint(_ambient, false);
+	//mesh->DisableCull();
 	shadowMeshObj->AddComponent(mesh);
 
 	GameObject* shadowMeshObj1 = new GameObject(_ambient);
-	MeshShadowPoint* mesh1 = new MeshShadowPoint(_ambient, 1);
+	shadowMeshObj1->GetComponent(Transform).SetPosition(4.0f, -3.5f, 0.0f);
+	shadowMeshObj1->GetComponent(Transform).SetScale(0.5f);
+	MeshShadowPoint* mesh1 = new MeshShadowPoint(_ambient);
 	shadowMeshObj1->AddComponent(mesh1);
 
 	GameObject* shadowMeshObj2 = new GameObject(_ambient);
-	MeshShadowPoint* mesh2 = new MeshShadowPoint(_ambient, 2);
+	shadowMeshObj2->GetComponent(Transform).SetPosition(2.0f, 3.0f, 1.0f);
+	shadowMeshObj2->GetComponent(Transform).SetScale(0.75f);
+	MeshShadowPoint* mesh2 = new MeshShadowPoint(_ambient);
 	shadowMeshObj2->AddComponent(mesh2);
 
 	GameObject* shadowMeshObj3 = new GameObject(_ambient);
-	MeshShadowPoint* mesh3 = new MeshShadowPoint(_ambient, 3);
+	shadowMeshObj3->GetComponent(Transform).SetPosition(-3.0f, -1.0f, 0.0f);
+	shadowMeshObj3->GetComponent(Transform).SetScale(0.5f);
+	MeshShadowPoint* mesh3 = new MeshShadowPoint(_ambient);
 	shadowMeshObj3->AddComponent(mesh3);
 
 	GameObject* shadowMeshObj4 = new GameObject(_ambient);
-	MeshShadowPoint* mesh4 = new MeshShadowPoint(_ambient, 4);
+	shadowMeshObj4->GetComponent(Transform).SetPosition(-1.5f, 1.0f, 1.5f);
+	shadowMeshObj4->GetComponent(Transform).SetScale(0.5f);
+	MeshShadowPoint* mesh4 = new MeshShadowPoint(_ambient);
 	shadowMeshObj4->AddComponent(mesh4);
 
 	GameObject* shadowMeshObj5 = new GameObject(_ambient);
-	MeshShadowPoint* mesh5 = new MeshShadowPoint(_ambient, 5);
+	shadowMeshObj5->GetComponent(Transform).SetPosition(-1.5f, 2.0f, -3.0f);
+	shadowMeshObj5->GetComponent(Transform).SetRotation(60.0f, Vector3(1.0f, 0.0f, 1.0f));
+	shadowMeshObj5->GetComponent(Transform).SetScale(0.75f);
+	MeshShadowPoint* mesh5 = new MeshShadowPoint(_ambient);
 	shadowMeshObj5->AddComponent(mesh5);
 
 }

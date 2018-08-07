@@ -12,13 +12,10 @@ private:
 	Vector3 _position;
 	Quaternion _rotation ;
 	Vector3 _scale;
-	glm::mat4 _transform;
 	
 protected:
-	void Translate(const Vector3& position);
 	void Rotation(const Vector3& Euler);
 	void Rotation(float Angle, const Vector3& axis);
-	void Scale(const Vector3& scale);
 public:
 	
 	Transform();
@@ -33,10 +30,8 @@ public:
 	Vector3& GetPosition();
 	Quaternion& GetRotation();
 	Vector3& GetScale();
+	glm::mat4 GetTransformMat();
 
-	glm::mat4& GetTransformMat();
-	void UpdateTransform();
-	void Identity();
 
 };
 }

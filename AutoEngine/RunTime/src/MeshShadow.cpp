@@ -45,40 +45,15 @@ void MeshShadow::DrawReady()
 void MeshShadow::DrawShadow()
 {
 	Shader& shadowShader = GetSubSystem<Renderer>()->GetShadowRenderer()->GetDepthMapShader();
-	glm::mat4 model;
-	switch (k)
-	{
-	case 0:
-		model = glm::mat4();
-		model = glm::translate(model, glm::vec3(0.0f, -1.0f, 0.0));
-		model = glm::scale(model, glm::vec3(10.0f, 0.5f, 10.0f));
-		shadowShader.SetMat4("model", model);
-		_model->Draw(shadowShader);
-		break;
-	case 1:
-		model = glm::mat4();
-		model = glm::translate(model, glm::vec3(2.0f, 0.0f, 1.0));
-		model = glm::scale(model, glm::vec3(0.5f));
-		shadowShader.SetMat4("model", model);
-		_model->Draw(shadowShader);
-		break;
-	case 2:
-		model = glm::mat4();
-		model = glm::translate(model, glm::vec3(-1.0f, 0.0f, 2.0));
-		model = glm::rotate(model, glm::radians(60.0f), glm::normalize(glm::vec3(1.0, 0.0, 1.0)));
-		model = glm::scale(model, glm::vec3(0.25));
-		shadowShader.SetMat4("model", model);
-		_model->Draw(shadowShader);
-		break;
-	case 3:
-		model = glm::mat4();
-		model = glm::translate(model, glm::vec3(0.0f, 1.5f, 0.0));
-		model = glm::scale(model, glm::vec3(0.5f));
-		shadowShader.SetMat4("model", model);
-		_model->Draw(shadowShader);
-		break;
-	}
+	glm::mat4 modelMat;
 
+	if (GetGameObjectPtr())		//if gameObject not empty
+		modelMat = GetGameObject().GetComponent(Transform).GetTransformMat();
+	else
+		modelMat = Matrix4x4::identity;
+
+	shadowShader.SetMat4("model", modelMat);
+	_model->Draw(shadowShader);
 }
 void MeshShadow::Draw()
 {
@@ -109,39 +84,16 @@ void MeshShadow::Draw()
 		glBindTexture(GL_TEXTURE_2D, _woodTexture);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, depthMap);
-		glm::mat4 model;
-		switch (k)
-		{
-		case 0:
-			model = glm::mat4();
-			model = glm::translate(model, glm::vec3(0.0f, -1.0f, 0.0));
-			model = glm::scale(model, glm::vec3(10.0f, 0.5f, 10.0f));
-			_shader.SetMat4("model", model);
-			_model->Draw(_shader);
-			break;
-		case 1:
-			model = glm::mat4();
-			model = glm::translate(model, glm::vec3(2.0f, 0.0f, 1.0));
-			model = glm::scale(model, glm::vec3(0.5f));
-			_shader.SetMat4("model", model);
-			_model->Draw(_shader);
-			break;
-		case 2:
-			model = glm::mat4();
-			model = glm::translate(model, glm::vec3(-1.0f, 0.0f, 2.0));
-			model = glm::rotate(model, glm::radians(60.0f), glm::normalize(glm::vec3(1.0, 0.0, 1.0)));
-			model = glm::scale(model, glm::vec3(0.25));
-			_shader.SetMat4("model", model);
-			_model->Draw(_shader);
-			break;
-		case 3:
-			model = glm::mat4();
-			model = glm::translate(model, glm::vec3(0.0f, 1.5f, 0.0));
-			model = glm::scale(model, glm::vec3(0.5f));
-			_shader.SetMat4("model", model);
-			_model->Draw(_shader);
-			break;
-		}
+		glm::mat4 modelMat;
+
+		if (GetGameObjectPtr())		//if gameObject not empty
+			modelMat = GetGameObject().GetComponent(Transform).GetTransformMat();
+		else
+			modelMat = Matrix4x4::identity;
+		_shader.SetMat4("model", modelMat);
+
+		_model->Draw(_shader);
+
 	}
 }
 

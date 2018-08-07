@@ -9,10 +9,6 @@ Transform::Transform()
 {}
 Transform::~Transform()
 {}
-void Transform::Translate(const Vector3& position)
-{
-	_transform = glm::translate(_transform, glm::vec3(position.x, position.y, position.z));
-}
 void Transform::Rotation(const Vector3& Euler)
 {
 	_rotation.SetValueWithEuler(Euler);
@@ -21,11 +17,6 @@ void Transform::Rotation(float Angle, const Vector3& axis)
 {
 	_rotation.SetValueWithAngleAxis(Angle, axis);
 }
-void Transform::Scale(const Vector3& scale)
-{
-	_transform = glm::scale(_transform, glm::vec3(scale.x, scale.y, scale.z));
-}
-
 void Transform::SetPosition(const Vector3& position)
 {
 	_position = position;
@@ -71,22 +62,15 @@ Vector3& Transform::GetScale()
 {
 	return _scale;
 }
-glm::mat4& Transform::GetTransformMat()
-{
-	return _transform;
-}
-void Transform::UpdateTransform()
-{
-	Translate(_position);
-	_transform *= _rotation.toMatrix4();
-	Scale(_scale);
-}
 
-void Transform::Identity()
+glm::mat4 Transform::GetTransformMat()
 {
-	_transform = Matrix4x4::identity;
+	glm::mat4 modelMat = glm::mat4();
+	modelMat = glm::translate(modelMat, glm::vec3(_position.x, _position.y, _position.z));
+	modelMat *= _rotation.toMatrix4();
+	modelMat = glm::scale(modelMat, glm::vec3(_scale.x, _scale.y, _scale.z));
+	return modelMat;
+	//return _transform;
 }
-
-
 
 }
