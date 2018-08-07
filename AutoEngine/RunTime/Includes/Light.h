@@ -27,15 +27,18 @@ class ShadowRenderAssist : public ComponentSetting
 	REGISTER_DERIVED_CLASS(ShadowRenderAssist, ComponentSetting);
 	DECLARE_OBJECT_SERIALIZE(ShadowRenderAssist);
 public:
-	explicit ShadowRenderAssist(Ambient* ambient);
 	/**
-	* @brief : Bind directional light create depath map
+	* @brief : Set light type, default Directional
 	*/
-	void BindDirDepathMap();
+	explicit ShadowRenderAssist(Ambient* ambient, LightType type = kDirectional);
+	/**
+	* @brief : Bind light create depath map
+	*/
+	void BindDepathMap();
 	/**
 	* @brief : Bind point light create depath map
 	*/
-	void BindPointDepathMap();
+	//void BindPointDepathMap();
 	/**
 	* @brief : Get shadow width
 	*/
@@ -47,14 +50,14 @@ public:
 	/**
 	* @brief : Get depth map fbo
 	*/
-	//!!! Temp not use point
-	unsigned GetDepthMapFBO() { return _depthDirMapFBO; }
+	unsigned GetDepthMapFBO();
 	/**
 	* @brief : Get depth map
 	*/
-	//!!! Temp not use point
-	unsigned GetDepthMap() { return _depthDirMap; }
+	unsigned GetDepthMap();
 
+private:
+	LightType _type;
 	int _shadowWidth;
 	int _shadowHeight;
 
@@ -73,7 +76,7 @@ class Light : public Component
 	DECLARE_OBJECT_SERIALIZE(Light);
 public:
 	Light();
-	explicit Light(Ambient* ambi);
+	explicit Light(Ambient* ambi,LightType type = kDirectional);
 	/**
 	* @brief : Update light data
 	*/
@@ -106,6 +109,12 @@ public:
 	* @brief : Get Shadow render assist
 	*/
 	ShadowRenderAssist* GetShadowAssist() { return _shadowAssist; }
+	/**
+	* @brief : Get Far Plane
+	*/
+	float GetFarPlane() { return _farPlane; }
+
+
 
 	void AddToManager();
 	void RemoveFromManager();

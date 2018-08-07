@@ -4,9 +4,8 @@ namespace Auto3D {
 
 
 LightSpot::LightSpot(Ambient* ambi)
-	:Super(ambi)
+	:Super(ambi,kSpot)
 {
-	_type = kSpot;
 	color.Set(1.0f, 1.0f, 1.0f);
 	direction.Set(0.5f, -0.5f, -0.0f);
 	cutOff = glm::cos(glm::radians(12.5f));

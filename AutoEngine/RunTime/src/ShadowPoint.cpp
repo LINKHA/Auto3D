@@ -61,7 +61,9 @@
 //		m_ShadowMapDepth.SetMat4("shadowMatrices[" + std::to_string(i) + "]", shadowTransforms[i]);
 //	m_ShadowMapDepth.SetFloat("far_plane", far_plane);
 //	m_ShadowMapDepth.SetVec3("lightPos", lightPos);
+//	//////////////////////////////////////////////////////////////////////////
 //	renderScene(m_ShadowMapDepth);
+//	//////////////////////////////////////////////////////////////////////////
 //	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 //
 //	// 2. render scene as normal 
@@ -69,6 +71,8 @@
 //	RectInt t = GetSubSystem<Graphics>()->GetWindowRectInt();
 //	glViewport(0, 0, t.width, t.height);
 //	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//
+//	//////////////////////////////////////////////////////////////////////////
 //	m_ShadowMap.Use();
 //	glm::mat4 projection = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
 //	glm::mat4 view = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
@@ -84,6 +88,7 @@
 //	glActiveTexture(GL_TEXTURE1);
 //	glBindTexture(GL_TEXTURE_CUBE_MAP, INSTANCE(ShadowTest).depthPointmap);
 //	renderScene(m_ShadowMap);
+//	//////////////////////////////////////////////////////////////////////////
 //
 //	RegisterOpaque(this);
 //}

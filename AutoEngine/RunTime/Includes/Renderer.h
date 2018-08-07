@@ -49,10 +49,12 @@ public:
 	void ReadyRender();
 	void RenderShadow();
 	Shader& GetDepthMapShader() { return _shadowMapDepthShader; }
+	Shader& GetPointDepthMapShader() { return _shadowMapPointDepth; }
 private:
 	_VECTOR(Light*) _lights;
 	_LIST(RenderComponent*) _shadowComponents;
 	Shader _shadowMapDepthShader;
+	Shader _shadowMapPointDepth;
 	unsigned int _woodTexture;
 };
 /**
