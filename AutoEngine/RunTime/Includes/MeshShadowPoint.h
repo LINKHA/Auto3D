@@ -20,6 +20,7 @@ public:
 	void DisableCull() { _cullEnable = true; }
 private:
 	Shader _shader;
+	Shader _hardShader;
 	ModelCommand* _model;
 	bool _cullEnable;
 	unsigned int _woodTexture;

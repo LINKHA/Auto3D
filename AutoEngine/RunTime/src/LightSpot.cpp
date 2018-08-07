@@ -22,4 +22,5 @@ LightSpot::LightSpot(Ambient* ambi)
 LightSpot::~LightSpot()
 {
 }
+
 }

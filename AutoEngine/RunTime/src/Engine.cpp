@@ -1,6 +1,5 @@
 #include "Engine.h"
 #include "GameObject.h"
-#include "Shadow.h"
 #include "../../EngineSetting/Optimize.h"
 
 #include "Input.h"

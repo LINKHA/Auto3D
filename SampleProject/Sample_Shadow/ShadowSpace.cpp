@@ -4,12 +4,11 @@
 #include "LightPoint.h"
 #include "../FreeCamera.h"
 #include "Mesh.h"
+#include "MeshShadow.h"
 #include "MeshShadowPoint.h"
 #include "Math/Vector3.h"
 
-#include "Shadow.h"
-#include "ShadowPoint.h"
-#include "ShadowTest.h"
+
 
 ShadowSpace::ShadowSpace(Ambient* ambient)
 	:MotionSpace(ambient)

@@ -2,7 +2,6 @@
 #include "Renderer.h"
 #include "Light.h"
 #include "VertexData.h"
-#include "ShadowTest.h"
 #include "Camera.h"
 #include "Configs.h"
 #include "LoadResource.h"
@@ -13,6 +12,8 @@ MeshShadowPoint::MeshShadowPoint(Ambient* ambient)
 	: RenderComponent(ambient)
 	, _shader(shader_path + "au_point_shadows.auvs"
 		, shader_path + "au_point_shadows.aufs")
+	, _hardShader(Shader(shader_path + "au_hard_point_shadows.auvs"	//!!! Temp not hard shader
+		, shader_path + "au_point_shadows.aufs"))
 	, _cullEnable(true)
 {
 	RegisterShadow(this);
@@ -21,6 +22,8 @@ MeshShadowPoint::MeshShadowPoint(Ambient* ambient)
 MeshShadowPoint::MeshShadowPoint(Ambient* ambient, bool cullEnable)
 	: RenderComponent(ambient)
 	, _shader(Shader(shader_path + "au_point_shadows.auvs"
+		, shader_path + "au_point_shadows.aufs"))
+	, _hardShader(Shader(shader_path + "au_hard_point_shadows.auvs"
 		, shader_path + "au_point_shadows.aufs"))
 {
 	_cullEnable = cullEnable;

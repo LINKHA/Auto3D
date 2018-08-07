@@ -2,7 +2,6 @@
 #include "Renderer.h"
 #include "Light.h"
 #include "VertexData.h"
-#include "ShadowTest.h"
 #include "Camera.h"
 #include "Configs.h"
 #include "LoadResource.h"

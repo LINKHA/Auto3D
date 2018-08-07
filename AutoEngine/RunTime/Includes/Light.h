@@ -36,10 +36,6 @@ public:
 	*/
 	void BindDepathMap();
 	/**
-	* @brief : Bind point light create depath map
-	*/
-	//void BindPointDepathMap();
-	/**
 	* @brief : Get shadow width
 	*/
 	int GetShadowWidth() { return _shadowWidth; }

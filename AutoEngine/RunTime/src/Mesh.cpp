@@ -4,9 +4,6 @@
 #include "Configs.h"
 namespace Auto3D {
 
-
-//LightManager& lights = INSTANCE(LightManager);
-
 Mesh::Mesh(Ambient* ambient)
 	:Super(ambient)
 	, _shader(Shader(shader_path + "au_light_map_model_loading.auvs"
@@ -53,8 +50,6 @@ void Mesh::Start()
 				, shader_path + "au_light_model_loading.aufs");
 		}
 	}
-
-	//////////////////////////////////////////////////////////////////////////
 	_model = LocalModelLoad(_meshPath.ptr);
 
 	RegisterOpaque(this);
@@ -92,9 +87,6 @@ void Mesh::Draw()
 
 void Mesh::drawMaterial()
 {
-
-	// shader configuration
-	// --------------------
 	if (_material.isTexture)
 	{
 		_shader.SetInt("material.color", 0);
@@ -110,7 +102,6 @@ void Mesh::drawMaterial()
 
 void Mesh::drawLight()
 {
-	//GetSubSystem<Renderer>()->GetLightContainer();
 	auto& lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
 	int dir = 0;
 	int point = 0;

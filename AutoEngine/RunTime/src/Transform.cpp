@@ -70,7 +70,6 @@ glm::mat4 Transform::GetTransformMat()
 	modelMat *= _rotation.toMatrix4();
 	modelMat = glm::scale(modelMat, glm::vec3(_scale.x, _scale.y, _scale.z));
 	return modelMat;
-	//return _transform;
 }
 
 }
