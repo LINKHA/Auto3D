@@ -21,6 +21,10 @@ void ShadowSpace::ShadowNormal()
 	lightObj->GetComponent(Transform).SetPosition(-2.0f, 4.0f, -1.0f);
 	Light* light = new LightDirectional(_ambient);
 	lightObj->AddComponent(light);
+	Mesh* lightMesh = new Mesh(_ambient,"../Resource/object/base/Sphere.FBX");
+	lightMesh->GetMaterial().color = Color(1.0f, 1.0f, 1.0f);
+	lightObj->AddComponent(lightMesh);
+
 
 	GameObject* shadowMeshObj = new GameObject(_ambient);
 	shadowMeshObj->GetComponent(Transform).SetPosition(0.0f, -1.0f, -5.0f);
@@ -55,7 +59,9 @@ void ShadowSpace::ShadowPoint()
 	lightObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, -0.0f);
 	Light* light = new LightPoint(_ambient);
 	lightObj->AddComponent(light);
-
+	Mesh* lightMesh = new Mesh(_ambient, "../Resource/object/base/Sphere.FBX");
+	lightMesh->GetMaterial().color = Color(1.0f, 1.0f, 1.0f);
+	lightObj->AddComponent(lightMesh);
 
 	GameObject* shadowMeshObj = new GameObject(_ambient);
 	shadowMeshObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, -5.0f);

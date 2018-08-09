@@ -14,6 +14,8 @@ Mesh::Mesh(Ambient* ambient)
 }
 Mesh::Mesh(Ambient* ambient,char* meshPath)
 	: Super(ambient)
+	, _shader(Shader(shader_path + "au_light_map_model_loading.auvs"
+		, shader_path + "au_light_map_model_loading.aufs"))
 	, _isUserShader(false)
 {
 	_meshPath = meshPath;

@@ -135,4 +135,5 @@ inline Component& GameObject::GetComponentIndex(int index)
 {
 	return *_components[index].second;
 }
+
 }

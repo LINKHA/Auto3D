@@ -2,7 +2,6 @@
 #include "Object.h"
 #include "GraphicsDefines.h"
 namespace Auto3D {
-class Graphics;
 class Geometry : public Object
 {
 	REGISTER_DERIVED_CLASS(Geometry, Object);

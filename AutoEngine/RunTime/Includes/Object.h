@@ -5,7 +5,6 @@
 #include "stl_use.h"
 #include "ObjectDefines.h"
 #include "RefCounted.h"
-
 namespace Auto3D {
 class Ambient;
 
@@ -125,7 +124,7 @@ private:
 	}
 
 	/// Pointer to the object.
-	T * _ptr;
+	T* _ptr;
 
 };
 

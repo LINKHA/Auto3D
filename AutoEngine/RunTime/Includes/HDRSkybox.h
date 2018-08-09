@@ -47,9 +47,9 @@ struct SkyBoxManager : public Singleton<SkyBoxManager>
 {
 
 	void AddSkyBox(HDRSkyBox* skybox) { m_skybox = skybox; }
-	HDRSkyBox * GetSkyBox() { return m_skybox; }
+	HDRSkyBox* GetSkyBox() { return m_skybox; }
 private:
-	HDRSkyBox * m_skybox;
+	HDRSkyBox* m_skybox;
 };
 }
 

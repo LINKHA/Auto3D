@@ -76,7 +76,7 @@ public:
 	void SetColorWrite(bool enable);
 	void SetDepthWrite(bool enable);
 private:
-	SDL_Window* _window;
+	SDL_Window* _window{};
 	SDL_GLContext _context;
 	Color _drawColor;
 	RectInt _windowRect;

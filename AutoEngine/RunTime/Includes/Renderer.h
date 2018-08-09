@@ -18,7 +18,7 @@ public:
 	void AddLight(Light* source);
 	void RemoveLight(Light* source);
 	int Size();
-	Lights& GetAllLights() { return _lights; }
+	Lights GetAllLights() { return _lights; }
 	const Light* GetLastMainLight() { return _lastMainLight; }
 	void IsRender(bool b) { _isRenderOrCull = b; }
 	void SetCurrentLight(Light* light) { _currentLight = light; }
@@ -41,6 +41,8 @@ class ShadowRenderer : public Object
 	
 	REGISTER_DERIVED_CLASS(ShadowRenderer, Object);
 	DECLARE_OBJECT_SERIALIZE(ShadowRenderer);
+	using Ligths = _VECTOR(Light*);
+	using RenderComponents = _LIST(RenderComponent*);
 public:
 	/**
 	* @brief : Get renderer to _renderer
@@ -51,8 +53,8 @@ public:
 	Shader& GetDepthMapShader() { return _shadowMapDepthShader; }
 	Shader& GetPointDepthMapShader() { return _shadowMapPointDepth; }
 private:
-	_VECTOR(Light*) _lights;
-	_LIST(RenderComponent*) _shadowComponents;
+	Ligths _lights;
+	RenderComponents _shadowComponents;
 	Shader _shadowMapDepthShader;
 	Shader _shadowMapPointDepth;
 	unsigned int _woodTexture;

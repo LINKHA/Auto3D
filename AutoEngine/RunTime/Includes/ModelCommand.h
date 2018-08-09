@@ -13,6 +13,7 @@
 #include "MeshCommand.h"
 #include "Shader.h"
 #include "LogAssert.h"
+#include "Object.h"
 
 #include <fstream>
 #include <sstream>
@@ -26,7 +27,7 @@
 
 namespace Auto3D { 
 unsigned int TextureFromFile(const char *path, const string &directory, bool gamma = false);
-class ModelCommand
+class ModelCommand : public Object
 {
 public:
 	

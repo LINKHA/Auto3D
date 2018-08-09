@@ -29,7 +29,7 @@ private:
 private:
 	Shader _shader;
 	Material _material;
-	ModelCommand* _model;
+	SharedPtr<ModelCommand> _model;
 	char* _meshPath;
 private:
 	bool _isUserShader;

@@ -186,12 +186,7 @@ void Renderer::Render()
 		if (cam && cam->GetEnable())
 		{
 			_currentCamera = cam;
-			//Use MSAA
-			if (cam->GetAllowMSAA())
-				cam->GetMSAA()->RenderStart();
-			//Use Post precess
-			if (cam->GetAllowPostProcess())
-				cam->GetBuffersScreen()->RenderStart();
+			
 
 			RectInt rect = GetSubSystem<Graphics>()->GetWindowRectInt();
 			glViewport(
@@ -202,8 +197,16 @@ void Renderer::Render()
 			);
 
 			GetSubSystem<BaseSpace>()->Draw();
-			//Rendering path
+			//Rendering path shadow maps
 			renderShadowMap();
+
+			//Use MSAA
+			if (cam->GetAllowMSAA())
+				cam->GetMSAA()->RenderStart();
+			//Use Post precess
+			if (cam->GetAllowPostProcess())
+				cam->GetBuffersScreen()->RenderStart();
+			//Rendering path opaques
 			renderOpaques();
 			renderCustom();
 			renderTranslucent();

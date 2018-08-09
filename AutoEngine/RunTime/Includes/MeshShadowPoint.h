@@ -21,7 +21,7 @@ public:
 private:
 	Shader _shader;
 	Shader _hardShader;
-	ModelCommand* _model;
+	SharedPtr<ModelCommand> _model;
 	bool _cullEnable;
 	unsigned int _woodTexture;
 	unsigned int _VAO;

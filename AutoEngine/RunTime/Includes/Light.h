@@ -130,7 +130,7 @@ public:
 	Vector3 specular;
 
 protected:	
-	ShadowRenderAssist* _shadowAssist;
+	SharedPtr<ShadowRenderAssist> _shadowAssist;
 	ShadowType _shadowType;
 	glm::mat4 _lightSpaceMatrix;
 	glm::mat4 _lightProjectionMatrix;

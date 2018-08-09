@@ -6,11 +6,8 @@
 #include "Math/Color.h"
 #include "HDRSkyBox.h"
 #include "FrameBuffersScreen.h"
-
+#include "MSAA.h"
 namespace Auto3D {
-
-class RenderLoop;
-class MSAA;
 
 enum CameraMovement
 {
@@ -117,15 +114,15 @@ private:
 	glm::mat4 _viewMatrix;
 	glm::mat4 _projectionMatrix;
 protected:
-	float				_depth;
-	Color				_backGroundColor;
-	SortMode			_sortMode;
-	bool				_isEnable;
-	bool				_isRendering;
-	bool				_isFirstMouse;
-	MSAA*				_msaa;
-	FrameBuffersScreen* _frameBuffersScreen;
-	bool				_isAllowMSAA;
-	bool				_isAllowPostPrecess;
+	float _depth;
+	Color _backGroundColor;
+	SortMode _sortMode;
+	bool _isEnable;
+	bool _isRendering;
+	bool _isFirstMouse;
+	SharedPtr<MSAA> _msaa;
+	SharedPtr<FrameBuffersScreen> _frameBuffersScreen;
+	bool _isAllowMSAA;
+	bool _isAllowPostPrecess;
 };
 }
