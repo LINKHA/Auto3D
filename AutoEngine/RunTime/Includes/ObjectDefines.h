@@ -29,14 +29,5 @@ public: \
 	virtual const char* GetClassStringVirtual()			{ return #x; }\
 	virtual const char* GetSharedPtrTypeStringVirtual()	{ return "SharedPtr<"#x">"; }
 
-#define Ptr(x,y)\
-struct _##y##Message{\
-	x * ptr;\
-	_##y##Message()\
-		:ptr(nullptr){}\
-	~_##y##Message(){/*SAFE_DELETE(ptr);*/}\
-};\
-_##y##Message y;
-
 #define GET_SET(TYPE,PROP_NAME,VAR_NAME)	void Set##PROP_NAME (TYPE val) { VAR_NAME = val; }	const TYPE Get##PROP_NAME () const {return (const TYPE)VAR_NAME; }
 

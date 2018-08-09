@@ -32,8 +32,9 @@ private:
 
 	Shader _shader;
 	Color _color;
-	Ptr(char, _imagePath);
-	Ptr(Image, _image);
+
+	char* _imagePath;
+	Image* _image;
 
 	bool _isMipmaps;
 };

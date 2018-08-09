@@ -30,9 +30,9 @@ private:
 
 	Shader _shader;
 	Color _color;
-	Ptr(char, _imagePath);
-	Ptr(char, _imageNormalPath);
-	Ptr(char, _imageParallaxPath);
+	char* _imagePath;
+	char* _imageNormalPath;
+	char* _imageParallaxPath;
 	unsigned int _image;
 	unsigned int _imageNormal;
 	unsigned int _imageParallax;

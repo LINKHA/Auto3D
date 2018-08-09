@@ -12,7 +12,7 @@ Sprite::Sprite()
 	: _shader(Shader(shader_path + "au_texture_transform.auvs"
 		, shader_path + "au_texture_transform.aufs"))
 {
-	_imagePath.ptr = "Resource/texture/square.jpg";
+	_imagePath = "Resource/texture/square.jpg";
 	_color.Set(1.0f, 1.0f, 1.0f, 1.0f);
 }
 Sprite::Sprite(Ambient* ambient)
@@ -20,7 +20,7 @@ Sprite::Sprite(Ambient* ambient)
 	, _shader(Shader(shader_path + "au_texture_transform.auvs"
 		, shader_path + "au_texture_transform.aufs"))
 {
-	_imagePath.ptr = "Resource/texture/square.jpg";
+	_imagePath = "Resource/texture/square.jpg";
 	_color.Set(1.0f, 1.0f, 1.0f, 1.0f);
 }
 Sprite::Sprite(Ambient* ambient,char* imagePath)
@@ -28,13 +28,13 @@ Sprite::Sprite(Ambient* ambient,char* imagePath)
 	, _shader(Shader(shader_path + "au_texture_transform.auvs"
 		, shader_path + "au_texture_transform.aufs"))
 {
-	_imagePath.ptr = imagePath;
+	_imagePath = imagePath;
 	_color.Set(1.0f, 1.0f, 1.0f, 1.0f);
 }
 Sprite::Sprite(char* imagePath, const Shader & shader)
 	: _shader(shader)
 {
-	_imagePath.ptr = imagePath;
+	_imagePath = imagePath;
 	_color.Set(1.0f, 1.0f, 1.0f, 1.0f);
 }
 Sprite::~Sprite()
@@ -74,12 +74,12 @@ void Sprite::Start()
 	glBindTexture(GL_TEXTURE_2D, _textureData);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	_image.ptr = LocalImageLoad(_imagePath.ptr);
+	_image = LocalImageLoad(_imagePath);
 	//SetNearestParameters();
 	SetLinerParameters();
-	if (_image.ptr->value)
+	if (_image->value)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, _image.ptr->format, _image.ptr->width, _image.ptr->height, 0, _image.ptr->format, GL_UNSIGNED_BYTE, _image.ptr->value);
+		glTexImage2D(GL_TEXTURE_2D, 0, _image->format, _image->width, _image->height, 0, _image->format, GL_UNSIGNED_BYTE, _image->value);
 		GenerateMipmap();
 	}
 	else
@@ -88,7 +88,7 @@ void Sprite::Start()
 	}
 
 	
-	//stbi_image_free(m_image.ptr->Value);
+	//stbi_image_free(m_image->Value);
 	RegisterOpaque(this);
 	/////////////////////////////////////////////////////////////////////////////////////////////
 }
@@ -140,8 +140,8 @@ void Sprite::SetColor(float r, float g, float b, float a)
 //Image conpontent to use
 void Sprite::SetLinerParameters()
 {
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _image.ptr->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _image.ptr->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _image->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _image->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
 	if (_isMipmaps)
 	{
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
@@ -155,8 +155,8 @@ void Sprite::SetLinerParameters()
 
 void Sprite::SetNearestParameters()
 {
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _image.ptr->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _image.ptr->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _image->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _image->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
 	if (_isMipmaps)
 	{
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);

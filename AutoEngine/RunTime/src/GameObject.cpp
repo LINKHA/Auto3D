@@ -49,24 +49,24 @@ Component::Component(Ambient* ambient)
 Component::~Component(){}
 GameObject& Component::GetGameObject()
 {
-	return *_gameObject.ptr;
+	return *_gameObject;
 }
 const GameObject& Component::GetGameObject() const
 {
-	return *_gameObject.ptr;
+	return *_gameObject;
 }
 GameObject* Component::GetGameObjectPtr()
 {
-	return _gameObject.ptr;
+	return _gameObject;
 }
 GameObject* Component::GetGameObjectPtr() const
 {
-	return _gameObject.ptr;
+	return _gameObject;
 }
 
 void Component::MountComponent(GameObject& gameObject)
 {
-	_gameObject.ptr = &gameObject;
+	_gameObject = &gameObject;
 }
 //////////////////////////////////////////////////////////////////////////
 //GameObject

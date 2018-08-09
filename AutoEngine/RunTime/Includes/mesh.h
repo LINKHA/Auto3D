@@ -8,7 +8,6 @@
 #include "Material.h"
 #include "RenderComponent.h"
 #include "GLMeshEnable.h"
-
 namespace Auto3D {
 
 class Mesh : public RenderComponent,public GLMeshEnable
@@ -31,7 +30,7 @@ private:
 	Shader _shader;
 	Material _material;
 	ModelCommand* _model;
-	Ptr(char, _meshPath);
+	char* _meshPath;
 private:
 	bool _isUserShader;
 };

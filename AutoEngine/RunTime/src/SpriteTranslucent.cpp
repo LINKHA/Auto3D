@@ -12,19 +12,19 @@ SpriteTranslucent::SpriteTranslucent()
 	: _shader(Shader(shader_path + "au_texture_transform.auvs"
 		, shader_path + "au_texture_transform.aufs"))
 {
-	_imagePath.ptr = "Resource/texture/square.jpg";
+	_imagePath = "Resource/texture/square.jpg";
 }
 SpriteTranslucent::SpriteTranslucent(Ambient* ambient, char* imagePath)
 	: Texture2D(ambient)
 	, _shader(Shader(shader_path + "au_texture_transform.auvs"
 		, shader_path + "au_texture_transform.aufs"))
 {
-	_imagePath.ptr = imagePath;
+	_imagePath = imagePath;
 }
 SpriteTranslucent::SpriteTranslucent(char* imagePath, const Shader & shader)
 	: _shader(shader)
 {
-	_imagePath.ptr = imagePath;
+	_imagePath = imagePath;
 }
 SpriteTranslucent::~SpriteTranslucent()
 {
@@ -63,12 +63,12 @@ void SpriteTranslucent::Start()
 	glBindTexture(GL_TEXTURE_2D, _textureData);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	_image.ptr = LocalImageLoad(_imagePath.ptr);
+	_image = LocalImageLoad(_imagePath);
 	//SetNearestParameters();
 	SetLinerParameters();
-	if (_image.ptr->value)
+	if (_image->value)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, _image.ptr->format, _image.ptr->width, _image.ptr->height, 0, _image.ptr->format, GL_UNSIGNED_BYTE, _image.ptr->value);
+		glTexImage2D(GL_TEXTURE_2D, 0, _image->format, _image->width, _image->height, 0, _image->format, GL_UNSIGNED_BYTE, _image->value);
 		GenerateMipmap();
 	}
 	else
@@ -79,7 +79,7 @@ void SpriteTranslucent::Start()
 	//GetSubSystem<Renderer>()->AddTranslucentGeometry(this);
 
 	RegisterTranslucent(this);
-	//stbi_image_free(m_image.ptr->Value);
+	//stbi_image_free(m_image->Value);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 }
@@ -131,8 +131,8 @@ void SpriteTranslucent::SetColor(float r, float g, float b, float a)
 //Image conpontent to use
 void SpriteTranslucent::SetLinerParameters()
 {
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _image.ptr->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _image.ptr->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _image->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _image->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
 	if (_isMipmaps)
 	{
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
@@ -146,8 +146,8 @@ void SpriteTranslucent::SetLinerParameters()
 
 void SpriteTranslucent::SetNearestParameters()
 {
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _image.ptr->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _image.ptr->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _image->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _image->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
 	if (_isMipmaps)
 	{
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);

@@ -31,8 +31,8 @@ private:
 
 	Shader _shader;
 	Color _color;
-	Ptr(char, _imagePath);
-	Ptr(char, _imageNormalPath);
+	char* _imagePath;
+	char* _imageNormalPath;
 	unsigned int _image;
 	unsigned int _imageNormal;
 

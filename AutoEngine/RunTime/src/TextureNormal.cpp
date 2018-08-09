@@ -8,19 +8,19 @@ namespace Auto3D {
 TextureNormal::TextureNormal()
 	: _VAO(0)
 {
-	_imagePath.ptr = "Resource/texture/bricks.jpg";
-	_imageNormalPath.ptr = "Resource/texture/bricks_normal.jpg";
+	_imagePath = "Resource/texture/bricks.jpg";
+	_imageNormalPath = "Resource/texture/bricks_normal.jpg";
 }
 TextureNormal::TextureNormal(char* imagePath)
 	: _VAO(0)
 {
-	_imagePath.ptr = imagePath;
+	_imagePath = imagePath;
 }
 TextureNormal::TextureNormal(char* imagePath, const Shader & shader)
 	: _shader(shader)
 	, _VAO(0)
 {
-	_imagePath.ptr = imagePath;
+	_imagePath = imagePath;
 }
 TextureNormal::~TextureNormal()
 {
@@ -33,15 +33,15 @@ TextureNormal::~TextureNormal()
 void TextureNormal::Start()
 {
 	Super::Start();
-	_image = LocalTextureLoad(_imagePath.ptr);
-	_imageNormal = LocalTextureLoad(_imageNormalPath.ptr);
+	_image = LocalTextureLoad(_imagePath);
+	_imageNormal = LocalTextureLoad(_imageNormalPath);
 	_shader = Shader(shader_path + "au_normal_mapping.auvs", shader_path + "au_normal_mapping.aufs");
 
 	_shader.Use();
 	_shader.SetInt("diffuseMap", 0);
 	_shader.SetInt("normalMap", 1);
 
-	//stbi_image_free(m_image.ptr->Value);
+	//stbi_image_free(m_image->Value);
 
 	RegisterOpaque(this);
 	/////////////////////////////////////////////////////////////////////////////////////////////

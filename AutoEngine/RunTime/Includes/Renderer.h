@@ -220,8 +220,8 @@ private:
 	*/
 	void intelMoutLightContainer();
 private:
-	ShadowRenderer* _shadowRenderer;
-	LightContainer* _lightContainer;
+	SharedPtr<ShadowRenderer> _shadowRenderer;
+	SharedPtr<LightContainer> _lightContainer;
 	///is rendering or culling
 	bool _insideRenderOrCull;
 	///camera container

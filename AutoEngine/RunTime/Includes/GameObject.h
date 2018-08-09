@@ -2,7 +2,6 @@
 #include "Object.h"
 #include "stl_use.h"
 #include "ComponentSetting.h"
-
 namespace Auto3D {
 #define GetComponent(x) GetComponentT<x>(ClassID (x))
 class GameObject;
@@ -34,7 +33,7 @@ class Component : public Object
 	REGISTER_DERIVED_ABSTRACT_CLASS(Component, Object);
 	DECLARE_OBJECT_SERIALIZE(Component);
 private:
-	Ptr(GameObject, _gameObject);
+	SharedPtr<GameObject> _gameObject;
 public:
 	Component();
 	explicit Component(Ambient* ambient);

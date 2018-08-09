@@ -2,7 +2,6 @@
 
 #include "Singleton.h"
 #include "Auto.h"
-#include "Ptr.h"
 #include "Engine.h"
 #include "Launch.h"
 #include "Ambient.h"

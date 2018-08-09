@@ -8,20 +8,20 @@ TextureParallax::TextureParallax(Ambient* ambient)
 	: TextureMap(ambient)
 	, _VAO(0)
 {
-	_imagePath.ptr = "../Resource/texture/bricks.jpg";
-	_imageNormalPath.ptr = "../Resource/texture/bricks_normal.jpg";
-	_imageParallaxPath.ptr = "../Resource/texture/bricks_disp.jpg";
+	_imagePath = "../Resource/texture/bricks.jpg";
+	_imageNormalPath = "../Resource/texture/bricks_normal.jpg";
+	_imageParallaxPath = "../Resource/texture/bricks_disp.jpg";
 }
 TextureParallax::TextureParallax(char* imagePath)
 	: _VAO(0)
 {
-	_imagePath.ptr = imagePath;
+	_imagePath = imagePath;
 }
 TextureParallax::TextureParallax(char* imagePath, const Shader & shader)
 	: _shader(shader)
 	, _VAO(0)
 {
-	_imagePath.ptr = imagePath;
+	_imagePath = imagePath;
 }
 TextureParallax::~TextureParallax()
 {
@@ -34,15 +34,15 @@ TextureParallax::~TextureParallax()
 void TextureParallax::Start()
 {
 	Super::Start();
-	_image = LocalTextureLoad(_imagePath.ptr);
-	_imageNormal = LocalTextureLoad(_imageNormalPath.ptr);
-	_imageParallax = LocalTextureLoad(_imageParallaxPath.ptr);
+	_image = LocalTextureLoad(_imagePath);
+	_imageNormal = LocalTextureLoad(_imageNormalPath);
+	_imageParallax = LocalTextureLoad(_imageParallaxPath);
 	_shader = Shader(shader_path + "au_parallax_mapping.auvs", shader_path + "au_parallax_mapping.aufs");
 	_shader.Use();
 	_shader.SetInt("diffuseMap", 0);
 	_shader.SetInt("normalMap", 1);
 	_shader.SetInt("depthMap", 2);
-	//stbi_image_free(m_image.ptr->Value);
+	//stbi_image_free(m_image->Value);
 
 	RegisterOpaque(this);
 	/////////////////////////////////////////////////////////////////////////////////////////////

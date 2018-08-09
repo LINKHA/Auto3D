@@ -2,7 +2,6 @@
 #include "RefCounted.h"
 #include "Object.h"
 #include "stl_use.h"
-#include "Ptr.h"
 namespace Auto3D {
 class Ambient : public RefCounted
 {

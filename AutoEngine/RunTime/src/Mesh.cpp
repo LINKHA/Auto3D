@@ -10,22 +10,20 @@ Mesh::Mesh(Ambient* ambient)
 		, shader_path + "au_light_map_model_loading.aufs"))
 	, _isUserShader(false)
 {
-	_meshPath.ptr = "../Resource/object/base/Cube.FBX";
-
+	_meshPath = "../Resource/object/base/Cube.FBX";
 }
 Mesh::Mesh(Ambient* ambient,char* meshPath)
 	: Super(ambient)
 	, _isUserShader(false)
 {
-	_meshPath.ptr = meshPath;
-	
+	_meshPath = meshPath;
 }
 Mesh::Mesh(Ambient* ambient,char* meshPath, const Shader& shader)
 	: Super(ambient)
 	, _shader(shader)
 	, _isUserShader(true)
 {
-	_meshPath.ptr = meshPath;
+	_meshPath = meshPath;
 }
 Mesh::~Mesh()
 {
@@ -50,8 +48,7 @@ void Mesh::Start()
 				, shader_path + "au_light_model_loading.aufs");
 		}
 	}
-	_model = LocalModelLoad(_meshPath.ptr);
-
+	_model = LocalModelLoad(_meshPath);
 	RegisterOpaque(this);
 }
 void Mesh::Draw()
