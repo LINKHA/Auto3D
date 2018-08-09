@@ -1,6 +1,6 @@
 #include "GLDebug.h"
 #include <iostream>
-#include "glad.h"
+#include <glad/glad.h>
 void WINAPI glDebugOutput(
 	GLenum source,
 	GLenum type,
