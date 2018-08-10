@@ -1,4 +1,4 @@
-#include "MSAA.h"
+#include "OffScreen.h"
 #include "GLGather.h"
 #include "Math/Rect.h"
 #include "Graphics.h"
@@ -6,7 +6,7 @@
 #include "Configs.h"
 namespace Auto3D {
 
-MSAA::MSAA(Ambient* ambient, int pointNum)
+OffScreen::OffScreen(Ambient* ambient, int pointNum)
 	: Super(ambient)
 	, _shader(shader_path + "au_anti_aliasing_offscreen.auvs"
 		, shader_path + "au_anti_aliasing_offscreen.aufs")
@@ -72,11 +72,11 @@ MSAA::MSAA(Ambient* ambient, int pointNum)
 		ErrorString("Intermediate framebuffer is not complete");
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
-MSAA::~MSAA()
+OffScreen::~OffScreen()
 {
 }
 
-void MSAA::RenderStart()
+void OffScreen::RenderStart()
 {
 	if (_samplingPointCount < 0)
 	{
@@ -89,7 +89,7 @@ void MSAA::RenderStart()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 }
-void MSAA::RenderEnd()
+void OffScreen::RenderEnd()
 {
 	RectInt rect = GetSubSystem<Graphics>()->GetWindowRectInt();
 	if (_samplingPointCount < 0)
@@ -119,7 +119,7 @@ void MSAA::RenderEnd()
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void MSAA::SetEffect(PostProcessingMode mode)
+void OffScreen::SetEffect(_PostProcessingMode mode)
 {
 	switch (mode)
 	{
@@ -146,7 +146,7 @@ void MSAA::SetEffect(PostProcessingMode mode)
 		break;
 	}
 }
-void MSAA::SetEffect(const Shader& shader)
+void OffScreen::SetEffect(const Shader& shader)
 {
 	_shader = shader;
 }

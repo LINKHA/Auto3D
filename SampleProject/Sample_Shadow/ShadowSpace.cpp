@@ -18,16 +18,16 @@ ShadowSpace::~ShadowSpace()
 void ShadowSpace::ShadowNormal()
 {
 	GameObject * lightObj = new GameObject(_ambient);
-	lightObj->GetComponent(Transform).SetPosition(-2.0f, 4.0f, -1.0f);
+	lightObj->GetComponent(Transform).SetPosition(-2.0f, 4.0f, -5.0f);
 	Light* light = new LightDirectional(_ambient);
 	lightObj->AddComponent(light);
-	Mesh* lightMesh = new Mesh(_ambient,"../Resource/object/base/Sphere.FBX");
+	Mesh* lightMesh = new Mesh(_ambient,"../Resource/object/base/Sphere.3DS");
 	lightMesh->GetMaterial().color = Color(1.0f, 1.0f, 1.0f);
 	lightObj->AddComponent(lightMesh);
 
 
 	GameObject* shadowMeshObj = new GameObject(_ambient);
-	shadowMeshObj->GetComponent(Transform).SetPosition(0.0f, -1.0f, -5.0f);
+	shadowMeshObj->GetComponent(Transform).SetPosition(0.0f, -1.0f, 0.0f);
 	shadowMeshObj->GetComponent(Transform).SetScale(10.0f, 0.5f, 10.0f);
 	MeshShadow* mesh = new MeshShadow(_ambient);
 	shadowMeshObj->AddComponent(mesh);
@@ -59,15 +59,13 @@ void ShadowSpace::ShadowPoint()
 	lightObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, -0.0f);
 	Light* light = new LightPoint(_ambient);
 	lightObj->AddComponent(light);
-	Mesh* lightMesh = new Mesh(_ambient, "../Resource/object/base/Sphere.FBX");
+	Mesh* lightMesh = new Mesh(_ambient, "../Resource/object/base/Sphere.3DS");
 	lightMesh->GetMaterial().color = Color(1.0f, 1.0f, 1.0f);
 	lightObj->AddComponent(lightMesh);
 
 	GameObject* shadowMeshObj = new GameObject(_ambient);
-	shadowMeshObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, -5.0f);
 	shadowMeshObj->GetComponent(Transform).SetScale(10.0f);
 	MeshShadowPoint* mesh = new MeshShadowPoint(_ambient, false);
-	//mesh->DisableCull();
 	shadowMeshObj->AddComponent(mesh);
 
 	GameObject* shadowMeshObj1 = new GameObject(_ambient);

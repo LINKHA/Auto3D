@@ -4,7 +4,7 @@
 #include "../FreeCamera.h"
 #include "Mesh.h"
 #include "LightDirectional.h"
-#include "HDR.h"
+#include "HDRs.h"
 HDRSpace::HDRSpace(Ambient* ambient)
 	:MotionSpace(ambient)
 {}
@@ -19,8 +19,8 @@ void HDRSpace::Start()
 	cameraObj->AddComponent(camera);
 
 	GameObject * hdrObj = new GameObject(_ambient);
-	HDR * hdr = new HDR(_ambient);
-	hdrObj->AddComponent(hdr);
+	HDRs * hdrs = new HDRs(_ambient);
+	hdrObj->AddComponent(hdrs);
 
 }
 

@@ -7,6 +7,7 @@
 #include "HDRSkyBox.h"
 #include "FrameBuffersScreen.h"
 #include "MSAA.h"
+#include "HDR.h"
 namespace Auto3D {
 
 enum CameraMovement
@@ -56,14 +57,18 @@ public:
 	*/
 	void AllowPostProcess(bool enable);
 	/**
+	* @brief : Use HDR in this camera
+	*/
+	void AllowHDR(bool enable);
+	/**
 	* @brief : Default Post Processing effect 
 	*/
-	void SetPostProcess(BuffersMode mode);
+	//void SetPostProcess(BuffersMode mode);
+	void SetPostProcess(PostProcessingMode mode);
 	/**
 	* @brief : Set custom Post Processing effect 
 	*/
 	void SetPostPrecess(const Shader& shader);
-
 
 	glm::mat4& GetViewMatrix();
 	glm::mat4& GetProjectionMatrix();
@@ -122,7 +127,9 @@ protected:
 	bool _isFirstMouse;
 	SharedPtr<MSAA> _msaa;
 	SharedPtr<FrameBuffersScreen> _frameBuffersScreen;
+	SharedPtr<HDR> _hdr;
 	bool _isAllowMSAA;
 	bool _isAllowPostPrecess;
+	bool _isAllowHDR;
 };
 }

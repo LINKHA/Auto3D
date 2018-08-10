@@ -204,17 +204,24 @@ void Renderer::Render()
 			if (cam->GetAllowMSAA())
 				cam->GetMSAA()->RenderStart();
 			//Use Post precess
-			if (cam->GetAllowPostProcess())
-				cam->GetBuffersScreen()->RenderStart();
+			//if (cam->GetAllowPostProcess())
+			//	cam->GetBuffersScreen()->RenderStart();
+			
 			//Rendering path opaques
 			renderOpaques();
 			renderCustom();
 			renderTranslucent();
 
-			if(cam->GetAllowMSAA())
+			if (cam->GetAllowMSAA())
 				cam->GetMSAA()->RenderEnd();
-			if (cam->GetAllowPostProcess())
-				cam->GetBuffersScreen()->RenderEnd();
+			//if (cam->GetAllowPostProcess())
+			//	cam->GetBuffersScreen()->RenderEnd();
+			
+			
+			
+			
+			
+			
 		}
 	}
 	_insideRenderOrCull = false;

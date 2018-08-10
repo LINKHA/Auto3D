@@ -16,6 +16,8 @@ void DebugSapce::Start()
 {
 	GameObject* cameraObj = new GameObject(_ambient);
 	FreeCamera* camera = new FreeCamera(_ambient);
+
+	//camera->freeCamera->SetSortMode(kSortOrthographic);
 	cameraObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 	cameraObj->AddComponent(camera);
 
@@ -24,18 +26,13 @@ void DebugSapce::Start()
 	Light* light = new LightDirectional(_ambient);
 	lightObj->AddComponent(light);
 
-	/*Sprite* tex1 = new Sprite(_ambient, "../Resource/texture/logo.png");
-	GameObject* textureObj = new GameObject(_ambient);
-	textureObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, -3.0f);
-	textureObj->GetComponent(Transform).SetScale(2.0f, 2.0f, 2.0f);
-	textureObj->AddComponent(tex1);*/
 
-	/*GameObject* meshObj = new GameObject(_ambient);
+	GameObject* meshObj = new GameObject(_ambient);
 	Mesh* mesh = new Mesh(_ambient, "../Resource/object/base/Sphere.3DS");
 	mesh->GetMaterial().color = Color(1.0f, 1.0f, 1.0f);
 
 	meshObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, -3.0f);
-	meshObj->AddComponent(mesh);*/
+	meshObj->AddComponent(mesh);
 
 	meshObj2 = new GameObject(_ambient);
 	Mesh* mesh2 = new Mesh(_ambient, "../Resource/object/base/Pipe.3DS");

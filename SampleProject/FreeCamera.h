@@ -14,6 +14,7 @@ public:
 	void Update()override;
 	GameObject* freeCameraObject;
 	Camera* freeCamera;
+
 private:
 	void processInput();
 };

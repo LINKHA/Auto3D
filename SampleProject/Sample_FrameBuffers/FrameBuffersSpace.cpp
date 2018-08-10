@@ -17,13 +17,11 @@ FrameBuffersSpace::~FrameBuffersSpace()
 
 void FrameBuffersSpace::Start()
 {
-	//glEnable(GL_FRAMEBUFFER_SRGB);
-	//GetSubSystem<FrameBuffersScreen>()->Enable(true);
 
 	GameObject* camObj = new GameObject(_ambient);
 	camera = new FreeCamera(_ambient);
-	camera->freeCamera->AllowPostProcess(true);
-
+	//camera->freeCamera->AllowPostProcess(true);
+	camera->freeCamera->AllowMSAA(true);
 	camObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 	camObj->AddComponent(camera);
 	
@@ -45,7 +43,7 @@ void FrameBuffersSpace::Start()
 	Light * light = new LightPoint(_ambient);
 	lightObj->AddComponent(light);
 	//////////////////////////////////////////////////////////////////////////
-	Mesh * mesh = new Mesh(_ambient,"../Resource/object/base/Cube.FBX");
+	Mesh * mesh = new Mesh(_ambient,"../Resource/object/base/Cube.3DS");
 	mesh->GetMaterial().color.Set(0.5f, 0.8f, 0.3f);
 	GameObject * meshObj = new GameObject(_ambient);
 	meshObj->GetComponent(Transform).SetPosition(1.0f, 0.0f, 0.0f);

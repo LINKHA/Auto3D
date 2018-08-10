@@ -57,10 +57,23 @@ void Camera::AllowPostProcess(bool enable)
 	_frameBuffersScreen = new FrameBuffersScreen(_ambient);
 }
 
+void Camera::AllowHDR(bool enable)
+{
+	_isAllowHDR = enable;
+	if (!_isAllowHDR || _hdr)
+		return;
+	_hdr = new HDR(_ambient);
+}
+/*
 void Camera::SetPostProcess(BuffersMode mode)
 {
 	if (_frameBuffersScreen && _isAllowPostPrecess)
 		_frameBuffersScreen->SetEffect(mode);
+}*/
+void Camera::SetPostProcess(PostProcessingMode mode)
+{
+	if (_msaa && _isAllowMSAA)
+		_msaa->SetEffect(mode);
 }
 
 void Camera::SetPostPrecess(const Shader& shader)

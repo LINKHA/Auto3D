@@ -16,15 +16,6 @@ MeshShadow::MeshShadow(Ambient* ambient)
 	RegisterShadow(this);
 	RegisterOpaque(this);
 }
-MeshShadow::MeshShadow(Ambient* ambient,int i)
-	: RenderComponent(ambient)
-	, _shader(Shader(shader_path + "au_shadow_mapping.auvs"
-		, shader_path + "au_shadow_mapping.aufs"))
-{
-	k = i;
-	RegisterShadow(this);
-	RegisterOpaque(this);
-}
 
 MeshShadow::~MeshShadow()
 {
@@ -33,7 +24,7 @@ MeshShadow::~MeshShadow()
 }
 void MeshShadow::DrawReady()
 {
-	_model = LocalModelLoad("../Resource/object/base/Cube.FBX");
+	_model = LocalModelLoad("../Resource/object/base/Cube.3DS");
 
 	_woodTexture = LocalTextureLoad("../Resource/texture/wood.jpg");
 	_shader.Use();

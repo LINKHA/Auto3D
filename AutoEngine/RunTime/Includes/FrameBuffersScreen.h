@@ -21,11 +21,12 @@ class FrameBuffersScreen : public ComponentSetting
 public:
 	explicit FrameBuffersScreen(Ambient* ambient);
 
-	void SetEffect(BuffersMode mode);
-	void SetEffect(const Shader& shader);
+	
 	void RenderStart();
 	void RenderEnd();
 
+	void SetEffect(BuffersMode mode);
+	void SetEffect(const Shader& shader);
 	void Enable(bool enable) { _enable = enable; }
 	bool GetEnable() { return _enable; }
 private:

@@ -59,7 +59,8 @@ enum ClassIDType
 	DO_CLASS_ID(ShadowRenderAssist, 52)
 	DO_CLASS_ID(ShadowRenderer, 53)
 	DO_CLASS_ID(LightContainer, 54)
-	
+	DO_CLASS_ID(HDR, 55)
+	DO_CLASS_ID(OffScreen, 56)
 	
 	CLASS_ID_Count
 };

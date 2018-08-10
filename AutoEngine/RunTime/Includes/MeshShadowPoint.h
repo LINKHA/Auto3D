@@ -11,8 +11,6 @@ class MeshShadowPoint : public RenderComponent, public GLMeshEnable
 {
 public:
 	explicit MeshShadowPoint(Ambient* ambient);
-	MeshShadowPoint(Ambient* ambient, bool cullEnable);
-	int k;
 	~MeshShadowPoint();
 	void DrawReady()override;
 	void Draw()override;

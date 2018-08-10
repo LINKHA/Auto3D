@@ -11,8 +11,6 @@ class MeshShadow : public RenderComponent,public GLMeshEnable
 {
 public:
 	explicit MeshShadow(Ambient* ambient);
-	MeshShadow(Ambient* ambient, int i);
-	int k;
 	~MeshShadow();
 	void DrawReady()override;
 	void Draw()override;
