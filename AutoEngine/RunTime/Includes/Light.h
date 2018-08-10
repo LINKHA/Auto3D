@@ -110,6 +110,7 @@ public:
 	*/
 	float GetFarPlane() { return _farPlane; }
 
+	Vector3 GetDirection() { return  Vector3(-direction.x, direction.y, direction.z); }
 
 
 	void AddToManager();

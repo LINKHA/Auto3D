@@ -40,15 +40,15 @@ void Transform::SetRotation(float Angle, const Vector3& axis)
 }
 void Transform::SetScale(const Vector3& scale)
 {
-	_scale = scale;
+	setScaleAbs(scale.x, scale.y, scale.z);
 }
 void Transform::SetScale(float scale)
 {
-	_scale.Set(scale, scale, scale);
+	setScaleAbs(scale, scale, scale);
 }
 void Transform::SetScale(float scaleX, float scaleY, float scaleZ)
 {
-	_scale.Set(scaleX, scaleY, scaleZ);
+	setScaleAbs(scaleX, scaleY, scaleZ);
 }
 Vector3& Transform::GetPosition()
 {
@@ -66,10 +66,17 @@ Vector3& Transform::GetScale()
 glm::mat4 Transform::GetTransformMat()
 {
 	glm::mat4 modelMat = glm::mat4();
-	modelMat = glm::translate(modelMat, glm::vec3(_position.x, _position.y, _position.z));
-	modelMat *= _rotation.toMatrix4();
-	modelMat = glm::scale(modelMat, glm::vec3(_scale.x, _scale.y, _scale.z));
+	//Convert to left-handed coordinate system
+	modelMat = glm::translate(modelMat, glm::vec3(-_position.x, _position.y, _position.z));
+	//modelMat *= _rotation.toMatrix4();
+	modelMat = glm::scale(modelMat, glm::vec3(_scale.x,_scale.y, _scale.z));
+
 	return modelMat;
 }
+void Transform::setScaleAbs(float x, float y, float z)
+{
+	_scale.Set(Auto3D::abs(x), Auto3D::abs(y), Auto3D::abs(z));
+}
+
 
 }

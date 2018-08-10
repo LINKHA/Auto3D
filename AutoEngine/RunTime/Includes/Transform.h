@@ -67,6 +67,7 @@ public:
 	*/
 	glm::mat4 GetTransformMat();
 protected:
+	void setScaleAbs(float x, float y, float z);
 	void Rotation(const Vector3& Euler);
 	void Rotation(float Angle, const Vector3& axis);
 private:

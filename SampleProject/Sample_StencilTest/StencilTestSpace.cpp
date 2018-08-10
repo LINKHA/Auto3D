@@ -23,13 +23,13 @@ void StencilTestSpace::Start()
 	camObj->AddComponent(cam);
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	GameObject * obj1 = new GameObject(_ambient);
-	Mesh * plane = new Mesh(_ambient,"../Resource/object/base/Cube.FBX");
+	Mesh * plane = new Mesh(_ambient,"../Resource/object/base/Cube.3DS");
 	plane->GetMaterial().color.Set(0.5f, 0.5f, 0.5f);
 	obj1->AddComponent(plane);
 	obj1->GetComponent(Transform).SetScale(10.0f, 0.1f, 10.0f);
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	GameObject * obj2 = new GameObject(_ambient);
-	Mesh * box1 = new Mesh(_ambient,"../Resource/object/base/Cube.FBX");
+	Mesh * box1 = new Mesh(_ambient,"../Resource/object/base/Cube.3DS");
 	box1->EnableStencil(true);
 	box1->StencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 	box1->StencilFunc(GL_ALWAYS, 1, 0xFF);
@@ -39,7 +39,7 @@ void StencilTestSpace::Start()
 	obj2->GetComponent(Transform).SetPosition(1.0f, 0.5f, 3.0f);
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	GameObject * obj3 = new GameObject(_ambient);
-	Mesh * box2 = new Mesh(_ambient,"../Resource/object/base/Cube.FBX");
+	Mesh * box2 = new Mesh(_ambient,"../Resource/object/base/Cube.3DS");
 	box2->EnableStencil(true);
 	box2->StencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 	box2->StencilFunc(GL_NOTEQUAL, 1, 0xFF);
