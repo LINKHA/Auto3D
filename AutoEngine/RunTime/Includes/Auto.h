@@ -22,8 +22,21 @@
 	#define SCRIPT			AutoScript
 #endif // !SCRIPT
 
-#define _OPENGL_4_PLUS_
+#define _OPENGL_4_6_ 1
+#define _OPENGL_4_PLUS_ 0	//OpenGL 4.3
+#define _OPENGL_3_PLUS_ 0	//OpenGL 3.3
 
+// Use NVIDIA Dedicated Graphics Card
+#define _NVIDIA_USE extern "C"{__declspec(dllexport) unsigned long NvOptimusEnablement = 0x00000001;}
+// Use AMD Dedicated Graphics Card
+#define _AMD_USE extern "C"{__declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;}
+
+#if _OPENGL_4_6_
+	#define SELECT_DEDICATED_GRAPHICS_CARD _NVIDIA_USE
+#endif
+#if _OPENGL_4_PLUS_ || _OPENGL_3_PLUS_
+	#define SELECT_DEDICATED_GRAPHICS_CARD
+#endif
 
 //Define Data type
 using Int8 = char;

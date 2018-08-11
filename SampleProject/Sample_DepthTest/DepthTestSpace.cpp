@@ -24,19 +24,19 @@ void DepthTestSpace::Start()
 	camObj->AddComponent(cam);
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	GameObject * obj1 = new GameObject(_ambient);
-	Mesh * plane = new Mesh(_ambient,"../Resource/object/base/Cube.FBX");
+	Mesh * plane = new Mesh(_ambient);
 	plane->GetMaterial().color.Set(0.5f, 0.5f, 0.5f);
 	obj1->AddComponent(plane);
 	obj1->GetComponent(Transform).SetScale(10.0f, 0.1f, 10.0f);
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	GameObject * obj2 = new GameObject(_ambient);
-	Mesh * box = new Mesh(_ambient,"../Resource/object/base/Cube.FBX");
+	Mesh * box = new Mesh(_ambient);
 	box->EnableDepth(false);
 	obj2->AddComponent(box);
 	obj2->GetComponent(Transform).SetPosition(1.0f, 0.5f, 3.0f);
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	GameObject * obj3 = new GameObject(_ambient);
-	Mesh * box2 = new Mesh(_ambient,"../Resource/object/base/Cube.FBX");
+	Mesh * box2 = new Mesh(_ambient);
 	box2->EnableDepth(false);
 	obj3->AddComponent(box2);
 	obj3->GetComponent(Transform).SetPosition(3.0f, 0.5f, 2.0f);

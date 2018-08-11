@@ -23,7 +23,7 @@ Graphics::~Graphics()
 void Graphics::Init()
 {
 	CreateGameWindow();
-#ifdef _OPENGL_4_PLUS_
+#if _OPENGL_4_6_ || _OPENGL_4_PLUS_ || _OPENGL_3_PLUS_
 	CreateGlContext();
 #endif
 	InitGameWindowPos();
@@ -42,11 +42,23 @@ void Graphics::CreateGameWindow()
 	atexit(SDL_Quit);
 	SDL_GL_LoadLibrary(NULL); // Default OpenGL is fine.
 							  // Request an OpenGL 4.3 context (should be core)
-#ifdef  _OPENGL_4_PLUS_
+#if _OPENGL_4_6_
+	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
+#endif // _OPENGL_4_6_
+
+#if  _OPENGL_4_PLUS_ 
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 #endif //  _OPENGL_4_PLUS_
+
+#if _OPENGL_3_PLUS_ 
+	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+#endif // _OPENGL_3_PLUS_
 
 	// Also request a depth buffer
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);

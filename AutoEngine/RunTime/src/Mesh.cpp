@@ -10,7 +10,7 @@ Mesh::Mesh(Ambient* ambient)
 		, shader_path + "au_light_map_model_loading.aufs"))
 	, _isUserShader(false)
 {
-	_meshPath = "../Resource/object/base/Cube.FBX";
+	_meshPath = "../Resource/object/base/Cube.3DS";
 }
 Mesh::Mesh(Ambient* ambient,char* meshPath)
 	: Super(ambient)

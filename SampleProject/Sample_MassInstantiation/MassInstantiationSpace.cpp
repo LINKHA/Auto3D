@@ -22,7 +22,7 @@ void MassInstantiationSpace::Awake()
 void MassInstantiationSpace::Start()
 {
 	glm::mat4* modelMatrices;
-	int amount = 10000;
+	int amount = 100000;
 	modelMatrices = new glm::mat4[amount];
 	Rand rand(GetSubSystem<Time>()->GetRealTime().second);
 
