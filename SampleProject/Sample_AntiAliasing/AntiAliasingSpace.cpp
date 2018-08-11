@@ -18,8 +18,7 @@ void AntiAliasingSpace::Start()
 	camera = new FreeCamera(_ambient);
 	camera->freeCamera->AllowOffScreen(true);
 	camera->freeCamera->AllowMSAA(true);
-	///Temp !!! start not normally used,in script component not use,but int other component normal
-	camera->freeCamera->Start();
+
 
 	cameraObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 	cameraObj->AddComponent(camera);

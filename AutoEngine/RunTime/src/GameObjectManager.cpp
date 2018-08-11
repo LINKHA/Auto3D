@@ -48,6 +48,7 @@ void GameObjectManager::ModeRunGameObject(RunMode runMode)
 		return;
 	}
 	_isInsideRun = true;
+
 	for (GameObjectContainer::iterator i = _gameObjects.begin(); i != _gameObjects.end(); i++)
 	{
 		GameObject* obj = *i;
@@ -86,12 +87,6 @@ void GameObjectManager::ModeRunGameObject(RunMode runMode)
 						k->second->Finish();
 				}
 			}
-			/*else if (runMode == DrawMode)
-			{
-				obj->GetComponent(Transform).UpdateTransform();
-				for (AUTO_VECTOR(int, Component*)::iterator k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++) { if (k->second->GetEnable()) k->second->Draw(); }
-				obj->GetComponent(Transform).Identity();
-			}*/
 			else 
 				ErrorString("GameObejct fail to Run.");
 		}

@@ -22,8 +22,7 @@ void FrameBuffersSpace::Start()
 	camera->freeCamera->AllowOffScreen(true);
 	camera->freeCamera->AllowMSAA(true);
 	camera->freeCamera->AllowLateEffect(true);
-	///Temp !!! start not normally used,in script component not use,but int other component normal
-	camera->freeCamera->Start();
+
 
 	camObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 	camObj->AddComponent(camera);

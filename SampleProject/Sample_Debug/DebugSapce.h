@@ -10,8 +10,7 @@ public:
 	void Start()override;
 	void Update()override;
 	int Launch();
-	GameObject* meshObj2;
-	float meshScale = 1.0f;
+
 };
 
 

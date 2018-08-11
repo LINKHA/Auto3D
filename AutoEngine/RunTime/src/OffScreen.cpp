@@ -16,13 +16,11 @@ OffScreen::OffScreen(Ambient* ambient)
 {
 
 	shader = Shader(shader_path + "au_offscreen.auvs", shader_path + "au_offscreen.aufs");
-	shaderBlur = Shader(shader_path + "au_framebuffers_screen.auvs", shader_path + "au_framebuffers_screen_blur.aufs");
-	shaderEdgeDetection = Shader(shader_path + "au_framebuffers_screen.auvs", shader_path + "au_framebuffers_screen_edge_detection.aufs");
-	shaderGrayscale = Shader(shader_path + "au_framebuffers_screen.auvs", shader_path + "au_framebuffers_screen_grayscale.aufs");
-	shaderInversion = Shader(shader_path + "au_framebuffers_screen.auvs", shader_path + "au_framebuffers_screen_inversion.aufs");
-	shaderSharpen = Shader(shader_path + "au_framebuffers_screen.auvs", shader_path + "au_framebuffers_screen_sharpen.aufs");
-
-	
+	shaderBlur = Shader(shader_path + "au_offscreen.auvs", shader_path + "au_offscreen_blur.aufs");
+	shaderEdgeDetection = Shader(shader_path + "au_offscreen.auvs", shader_path + "au_offscreen_edge_detection.aufs");
+	shaderGrayscale = Shader(shader_path + "au_offscreen.auvs", shader_path + "au_offscreen_grayscale.aufs");
+	shaderInversion = Shader(shader_path + "au_offscreen.auvs", shader_path + "au_offscreen_inversion.aufs");
+	shaderSharpen = Shader(shader_path + "au_offscreen.auvs", shader_path + "au_offscreen_sharpen.aufs");
 }
 
 OffScreen::~OffScreen()

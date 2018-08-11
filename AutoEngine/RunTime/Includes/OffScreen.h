@@ -38,17 +38,23 @@ public:
 	* @brief : Enable Late Effect
 	*/
 	void AllowLateEffect(bool enable) { _isAllowLateEffect = enable; }
-
+	/**
+	* @brief : Get MSAA  enable
+	*/
 	bool GetAllowMSAA() { return _isAllowMsaa; }
+	/**
+	* @brief : Get late effect enable
+	*/
 	bool GetAllowLateEffect() { return _isAllowLateEffect; }
-
+	/**
+	* @brief : Set post processing mode
+	*/
 	void SetEffect(PostProcessingMode mode);
+	/**
+	* @brief : SetEffect user-defined shader in effect
+	*/
 	void SetEffect(const Shader& shader);
-	void Enable(bool enable) { _enable = enable; }
-	bool GetEnable() { return _enable; }
-
 private:
-	bool _enable;
 	Shader shader;
 	Shader shaderBlur;
 	Shader shaderEdgeDetection;

@@ -29,6 +29,7 @@ void FreeCamera::processInput()
 FreeCamera::FreeCamera(Ambient* ambient)
 	:ScriptComponent(ambient)
 {
+	freeCameraObject = new GameObject(_ambient);
 	freeCamera = new Camera(_ambient);
 	freeCamera->SetFar(1000.0f);
 }
@@ -39,7 +40,7 @@ FreeCamera::~FreeCamera()
 void FreeCamera::Start()
 {
 	
-	freeCameraObject = new GameObject(_ambient);
+	
 	freeCameraObject->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 
 	freeCameraObject->AddComponent(freeCamera);
