@@ -5,9 +5,8 @@
 #include "Math/Matrix4x4.h"
 #include "Math/Color.h"
 #include "HDRSkyBox.h"
-#include "FrameBuffersScreen.h"
-#include "MSAA.h"
 #include "HDR.h"
+#include "OffScreen.h"
 namespace Auto3D {
 
 enum CameraMovement
@@ -48,6 +47,10 @@ public:
 	*/
 	void ProcessMouseScroll(float yoffset);
 	/**
+	* @brief : Use off screen in this camera
+	*/
+	void AllowOffScreen(bool enable);
+	/**
 	* @brief : Use MSAA in this camera
 	* @param : The number of samples is pointNum,clamp(1~8) default 4
 	*/
@@ -55,7 +58,7 @@ public:
 	/**
 	* @brief : Use post processing in this camera
 	*/
-	void AllowPostProcess(bool enable);
+	void AllowLateEffect(bool enable);
 	/**
 	* @brief : Use HDR in this camera
 	*/
@@ -64,11 +67,18 @@ public:
 	* @brief : Default Post Processing effect 
 	*/
 	//void SetPostProcess(BuffersMode mode);
-	void SetPostProcess(PostProcessingMode mode);
+	void SetLateEffect(PostProcessingMode mode);
 	/**
 	* @brief : Set custom Post Processing effect 
 	*/
-	void SetPostPrecess(const Shader& shader);
+	void SetLateEffect(const Shader& shader);
+	/**
+	* @brief : If allow Off screen get OffScreen ,else get nullptr
+	*/
+	OffScreen* GetOffScreen();
+
+	
+
 
 	glm::mat4& GetViewMatrix();
 	glm::mat4& GetProjectionMatrix();
@@ -81,10 +91,12 @@ public:
 	float GetFar() { return _far; }
 	float GetZoom() { return _zoom; }
 	glm::vec3& GetPosition() { return _position; }
-	bool GetAllowMSAA() { return _isAllowMSAA; }
-	bool GetAllowPostProcess() { return _isAllowPostPrecess; }
-	MSAA* GetMSAA();
-	FrameBuffersScreen* GetBuffersScreen();
+	bool GetAllowMSAA();
+	
+	bool GetAllowLateEffect() ;
+	
+	bool GetAllowOffScreen() { return _isAllowOffScreen; }
+
 
 	void SetDepth(float depth) { _depth = depth; }
 	void SetBackgroundColor(const Color& color) { _backGroundColor = color; }
@@ -97,6 +109,9 @@ public:
 	void SetZoom(float zoom) { _zoom = zoom; }
 	void SetSpeed(float speed) { _movementSpeed = speed; }
 	void SetSensitivity(float sen) { _mouseSensitivity = sen; }
+
+	///Temp !!! start not normally used,in script component not use,but int other component normal
+	void Start()override;
 private:
 	/**
 	* @brief : Calculates the front vector from the Camera's (updated) Eular Angles
@@ -125,11 +140,12 @@ protected:
 	bool _isEnable;
 	bool _isRendering;
 	bool _isFirstMouse;
-	SharedPtr<MSAA> _msaa;
-	SharedPtr<FrameBuffersScreen> _frameBuffersScreen;
+
 	SharedPtr<HDR> _hdr;
-	bool _isAllowMSAA;
-	bool _isAllowPostPrecess;
-	bool _isAllowHDR;
+
+	SharedPtr<OffScreen> _offScreen;
+
+	bool _isAllowOffScreen;
+
 };
 }

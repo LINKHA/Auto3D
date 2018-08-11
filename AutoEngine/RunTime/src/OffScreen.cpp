@@ -1,4 +1,4 @@
-#include "MSAA.h"
+#include "OffScreen.h"
 #include "GLGather.h"
 #include "Math/Rect.h"
 #include "Graphics.h"
@@ -6,28 +6,33 @@
 #include "Configs.h"
 namespace Auto3D {
 
-MSAA::MSAA(Ambient* ambient, int pointNum)
+OffScreen::OffScreen(Ambient* ambient)
 	: Super(ambient)
-	, _shader(shader_path + "au_anti_aliasing_offscreen.auvs"
-		, shader_path + "au_anti_aliasing_offscreen.aufs")
+	, _shader(shader_path + "au_offscreen.auvs"
+		, shader_path + "au_offscreen.aufs")
+	, _samplingPointCount(1)
+	, _isAllowMsaa(false)
+	, _isAllowLateEffect(false)
 {
 
-	shader = Shader(shader_path + "au_framebuffers_screen.auvs", shader_path + "au_framebuffers_screen.aufs");
+	shader = Shader(shader_path + "au_offscreen.auvs", shader_path + "au_offscreen.aufs");
 	shaderBlur = Shader(shader_path + "au_framebuffers_screen.auvs", shader_path + "au_framebuffers_screen_blur.aufs");
 	shaderEdgeDetection = Shader(shader_path + "au_framebuffers_screen.auvs", shader_path + "au_framebuffers_screen_edge_detection.aufs");
 	shaderGrayscale = Shader(shader_path + "au_framebuffers_screen.auvs", shader_path + "au_framebuffers_screen_grayscale.aufs");
 	shaderInversion = Shader(shader_path + "au_framebuffers_screen.auvs", shader_path + "au_framebuffers_screen_inversion.aufs");
 	shaderSharpen = Shader(shader_path + "au_framebuffers_screen.auvs", shader_path + "au_framebuffers_screen_sharpen.aufs");
 
-	//Clamp sampling point count(1~8)
-	_samplingPointCount = clamp(pointNum, 1, 8);
+	
+}
 
+OffScreen::~OffScreen()
+{
+}
+
+void OffScreen::RenderReady()
+{
+	//Bind offscreen vertex
 	RectInt rect = GetSubSystem<Graphics>()->GetWindowRectInt();
-	if (_samplingPointCount < 0)
-	{
-		WarningString("Fail to antialiasing with sampling point count subter 0");
-		return;
-	}
 	glGenVertexArrays(1, &_quadVAO);
 	glGenBuffers(1, &_quadVBO);
 	glBindVertexArray(_quadVAO);
@@ -38,6 +43,7 @@ MSAA::MSAA(Ambient* ambient, int pointNum)
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
 	//////////////////////////////////////////////////////////////////////////
+	//Bind MSAA frame buffers
 	glGenFramebuffers(1, &_framebuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
 
@@ -58,6 +64,7 @@ MSAA::MSAA(Ambient* ambient, int pointNum)
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	//////////////////////////////////////////////////////////////////////////
+	//Bind 
 	glGenFramebuffers(1, &_intermediateFBO);
 	glBindFramebuffer(GL_FRAMEBUFFER, _intermediateFBO);
 
@@ -72,54 +79,49 @@ MSAA::MSAA(Ambient* ambient, int pointNum)
 		ErrorString("Intermediate framebuffer is not complete");
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
-MSAA::~MSAA()
-{
-}
 
-void MSAA::RenderStart()
+
+void OffScreen::RenderStart()
 {
-	if (_samplingPointCount < 0)
-	{
-		WarningString("Fail to antialiasing with sampling point count subter 0");
-		return;
-	}
 	glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 }
-void MSAA::RenderEnd()
+void OffScreen::RenderEnd()
 {
 	RectInt rect = GetSubSystem<Graphics>()->GetWindowRectInt();
-	if (_samplingPointCount < 0)
-	{
-		WarningString("Fail to antialiasing with sampling point count subter 0");
-		return;
-	}
-	glBindFramebuffer(GL_READ_FRAMEBUFFER, _framebuffer);
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _intermediateFBO);
-	//glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-	glBlitFramebuffer(0, 0, rect.width, rect.height, 0, 0, rect.width, rect.height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, _framebuffer);
+	if(_isAllowMsaa)
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	if(_isAllowLateEffect)
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _intermediateFBO);
+
+	glBlitFramebuffer(0, 0, rect.width, rect.height, 0, 0, rect.width, rect.height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	//////////////////////////////////////////////////////////////////////////
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
-	glDisable(GL_DEPTH_TEST);
+	if (_isAllowLateEffect)
+	{
+		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+		glDisable(GL_DEPTH_TEST);
 
-	_shader.Use();
-	glBindVertexArray(_quadVAO);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, _screenTexture);
-	glDrawArrays(GL_TRIANGLES, 0, 6);
+		_shader.Use();
+		glBindVertexArray(_quadVAO);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, _screenTexture);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
 
-	glBindVertexArray(0);
-	glBindTexture(GL_TEXTURE_2D, 0);
+		glBindVertexArray(0);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+	
 }
 
-void MSAA::SetEffect(PostProcessingMode mode)
+void OffScreen::SetEffect(PostProcessingMode mode)
 {
 	switch (mode)
 	{
@@ -146,8 +148,13 @@ void MSAA::SetEffect(PostProcessingMode mode)
 		break;
 	}
 }
-void MSAA::SetEffect(const Shader& shader)
+void OffScreen::SetEffect(const Shader& shader)
 {
 	_shader = shader;
+}
+void OffScreen::AllowMSAA(bool enable, int pointNum)
+{
+	 _isAllowMsaa = enable;
+	 _samplingPointCount = clamp(pointNum, 1, 8); 
 }
 }

@@ -1,7 +1,6 @@
 #include "Renderer.h"
 #include "Camera.h"
 #include "Graphics.h"
-#include "MSAA.h"
 #include "BaseSpace.h"
 #include "Transform.h"
 #include "GameObject.h"
@@ -200,22 +199,18 @@ void Renderer::Render()
 			//Rendering path shadow maps
 			renderShadowMap();
 
-			//Use MSAA
-			if (cam->GetAllowMSAA())
-				cam->GetMSAA()->RenderStart();
-			//Use Post precess
-			//if (cam->GetAllowPostProcess())
-			//	cam->GetBuffersScreen()->RenderStart();
-			
+			//Use OffScreen
+			if (cam->GetAllowOffScreen())
+				cam->GetOffScreen()->RenderStart();
+
 			//Rendering path opaques
 			renderOpaques();
 			renderCustom();
 			renderTranslucent();
 
-			if (cam->GetAllowMSAA())
-				cam->GetMSAA()->RenderEnd();
-			//if (cam->GetAllowPostProcess())
-			//	cam->GetBuffersScreen()->RenderEnd();
+			if (cam->GetAllowOffScreen())
+				cam->GetOffScreen()->RenderEnd();
+
 			
 			
 			

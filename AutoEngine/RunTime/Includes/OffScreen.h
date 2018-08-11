@@ -1,11 +1,8 @@
 #pragma once
-#include "Auto.h"
 #include "ComponentSetting.h"
 #include "Shader.h"
 namespace Auto3D {
-/**
-* @brief : Multisampled anti-aliasing, sampling point clamp (1~8)
-*/
+///Temp !!!
 enum PostProcessingMode
 {
 	POST_DEFAULT,
@@ -15,15 +12,16 @@ enum PostProcessingMode
 	POST_INVERSION,
 	POST_SHARPEN,
 };
-class MSAA : public ComponentSetting
+class OffScreen : public ComponentSetting
 {
-	REGISTER_DERIVED_CLASS(MSAA, ComponentSetting);
-	DECLARE_OBJECT_SERIALIZE(MSAA);
+	REGISTER_DERIVED_CLASS(OffScreen, ComponentSetting);
+	DECLARE_OBJECT_SERIALIZE(OffScreen);
 public:
+	explicit OffScreen(Ambient* ambient);
 	/**
-	* @brief : Set sampling point count
+	* @brief : Set frame buffer and quad
 	*/
-	explicit MSAA(Ambient* ambient, int pointNum = 4);
+	void RenderReady();
 	/**
 	* @brief : Render before work
 	*/
@@ -32,12 +30,23 @@ public:
 	* @brief : Render after work
 	*/
 	void RenderEnd();
+	/**
+	* @brief : Enable MSAA,and set point numClamp sampling point count(1~8)
+	*/
+	void AllowMSAA(bool enable, int pointNum = 4);
+	/**
+	* @brief : Enable Late Effect
+	*/
+	void AllowLateEffect(bool enable) { _isAllowLateEffect = enable; }
 
+	bool GetAllowMSAA() { return _isAllowMsaa; }
+	bool GetAllowLateEffect() { return _isAllowLateEffect; }
 
 	void SetEffect(PostProcessingMode mode);
 	void SetEffect(const Shader& shader);
 	void Enable(bool enable) { _enable = enable; }
 	bool GetEnable() { return _enable; }
+
 private:
 	bool _enable;
 	Shader shader;
@@ -49,6 +58,9 @@ private:
 
 
 private:
+	bool _isAllowMsaa;
+	bool _isAllowLateEffect;
+
 	Shader _shader;
 	int _samplingPointCount;
 	unsigned int _quadVAO, _quadVBO;

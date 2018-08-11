@@ -3,7 +3,6 @@
 #include "Mesh.h"
 #include "../FreeCamera.h"
 #include "LightPoint.h"
-#include "FrameBuffersScreen.h"
 #include "Time.h"
 #include "Sprite.h"
 FrameBuffersSpace::FrameBuffersSpace(Ambient* ambient)
@@ -20,8 +19,12 @@ void FrameBuffersSpace::Start()
 
 	GameObject* camObj = new GameObject(_ambient);
 	camera = new FreeCamera(_ambient);
-	//camera->freeCamera->AllowPostProcess(true);
+	camera->freeCamera->AllowOffScreen(true);
 	camera->freeCamera->AllowMSAA(true);
+	camera->freeCamera->AllowLateEffect(true);
+	///Temp !!! start not normally used,in script component not use,but int other component normal
+	camera->freeCamera->Start();
+
 	camObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 	camObj->AddComponent(camera);
 	
@@ -53,36 +56,29 @@ void FrameBuffersSpace::Start()
 
 void FrameBuffersSpace::Update()
 {
-	int i =(int)GetSubSystem<Time>()->GetCurTime() % 6;
-	//Print(i);
-	if( oldi!= i)
+	int i = (int)GetSubSystem<Time>()->GetCurTime() % 6;
+	if (oldi != i)
 	{
 		oldi = i;
 		switch (i)
 		{
 		case 0:
-			//GetSubSystem<FrameBuffersScreen>()->SetEffect(kDefault);
-			camera->freeCamera->SetPostProcess(kDefault);
+			camera->freeCamera->SetLateEffect(POST_DEFAULT);
 			break;
 		case 1:
-			//GetSubSystem<FrameBuffersScreen>()->SetEffect(kBlur);
-			camera->freeCamera->SetPostProcess(kBlur);
+			camera->freeCamera->SetLateEffect(POST_BULR);
 			break;
 		case 2:
-			//GetSubSystem<FrameBuffersScreen>()->SetEffect(kEdge_detection);
-			camera->freeCamera->SetPostProcess(kEdge_detection);
+			camera->freeCamera->SetLateEffect(POST_EDGE_DETECTION);
 			break;
 		case 3:
-			//GetSubSystem<FrameBuffersScreen>()->SetEffect(kGrayscale);
-			camera->freeCamera->SetPostProcess(kGrayscale);
+			camera->freeCamera->SetLateEffect(POST_GRAYSCALE);
 			break;
 		case 4:
-			//GetSubSystem<FrameBuffersScreen>()->SetEffect(kInversion);
-			camera->freeCamera->SetPostProcess(kInversion);
+			camera->freeCamera->SetLateEffect(POST_INVERSION);
 			break;
 		case 5:
-			//GetSubSystem<FrameBuffersScreen>()->SetEffect(kSharpen);
-			camera->freeCamera->SetPostProcess(kSharpen);
+			camera->freeCamera->SetLateEffect(POST_SHARPEN);
 			break;
 		}
 	}

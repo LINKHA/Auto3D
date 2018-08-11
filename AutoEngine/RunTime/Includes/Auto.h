@@ -22,8 +22,8 @@
 	#define SCRIPT			AutoScript
 #endif // !SCRIPT
 
-#define _OPENGL_4_6_ 1
-#define _OPENGL_4_PLUS_ 0	//OpenGL 4.3
+#define _OPENGL_4_6_ 0
+#define _OPENGL_4_PLUS_ 1	//OpenGL 4.3
 #define _OPENGL_3_PLUS_ 0	//OpenGL 3.3
 
 // Use NVIDIA Dedicated Graphics Card

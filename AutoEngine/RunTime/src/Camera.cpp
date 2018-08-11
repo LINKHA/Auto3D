@@ -1,6 +1,5 @@
 #include "Camera.h"
 #include "Graphics.h"
-#include "MSAA.h"
 #include "BaseSpace.h"
 #include "Renderer.h"
 namespace Auto3D {
@@ -20,66 +19,79 @@ Camera::Camera(Ambient* ambient)
 	, _yaw(-90.0f)
 	, _pitch(0.0f)
 	, _sortMode(kSortPerspective)
-	, _msaa(nullptr)
-	, _frameBuffersScreen(nullptr)
-	, _isAllowMSAA(false)
-	, _isAllowPostPrecess(false)
 {
 	_position = Vector3(0.0f, 0.0f, 0.0f).ToGLM();
 	updateCameraVectors();
 	GetSubSystem<Renderer>()->AddCamera(this);
+	
 }
 
 Camera::~Camera()
 {
-	SAFE_DELETE(_msaa);
-	SAFE_DELETE(_frameBuffersScreen);
 }
 void Camera::Reset()
 {
 
 }
-
+void Camera::AllowOffScreen(bool enable)
+{
+	_isAllowOffScreen = enable;
+	if (!_isAllowOffScreen || _offScreen)
+		return;
+	_offScreen = new OffScreen(_ambient);
+}
 void Camera::AllowMSAA(bool enable, int pointNum)
 {
-	_isAllowMSAA = enable;
-	if (!_isAllowMSAA || _msaa)
-		return;
-	_msaa = new MSAA(_ambient, pointNum);
+	if (!_offScreen)
+	{
+		_isAllowOffScreen = true;
+		_offScreen = new OffScreen(_ambient);
+	}
+	_offScreen->AllowMSAA(enable, pointNum);
 
 }
 
-void Camera::AllowPostProcess(bool enable)
+void Camera::AllowLateEffect(bool enable)
 {
-	_isAllowPostPrecess = enable;
-	if (!_isAllowPostPrecess || _frameBuffersScreen)
-		return;
-	_frameBuffersScreen = new FrameBuffersScreen(_ambient);
+	if (!_offScreen)
+	{
+		_isAllowOffScreen = true;
+		_offScreen = new OffScreen(_ambient);
+	}
+		
+	_offScreen->AllowLateEffect(enable);
 }
 
 void Camera::AllowHDR(bool enable)
 {
-	_isAllowHDR = enable;
-	if (!_isAllowHDR || _hdr)
-		return;
-	_hdr = new HDR(_ambient);
+	
 }
-/*
-void Camera::SetPostProcess(BuffersMode mode)
+void Camera::SetLateEffect(PostProcessingMode mode)
 {
-	if (_frameBuffersScreen && _isAllowPostPrecess)
-		_frameBuffersScreen->SetEffect(mode);
-}*/
-void Camera::SetPostProcess(PostProcessingMode mode)
+	if (_offScreen && _isAllowOffScreen)
+		_offScreen->SetEffect(mode);
+}
+void Camera::SetLateEffect(const Shader& shader)
 {
-	if (_msaa && _isAllowMSAA)
-		_msaa->SetEffect(mode);
+	if (_offScreen && _isAllowOffScreen)
+		_offScreen->SetEffect(shader);
 }
 
-void Camera::SetPostPrecess(const Shader& shader)
+OffScreen * Camera::GetOffScreen()
 {
-	if (_frameBuffersScreen && _isAllowPostPrecess)
-		_frameBuffersScreen->SetEffect(shader);
+	if (_isAllowOffScreen && _offScreen)
+		return _offScreen;
+	else
+	{
+		ErrorString("Fail to get camera off screen");
+		return nullptr;
+	}
+}
+
+void Camera::Start()
+{
+	if (_isAllowOffScreen)
+		_offScreen->RenderReady();
 }
 
 glm::mat4& Camera::GetViewMatrix()
@@ -87,18 +99,7 @@ glm::mat4& Camera::GetViewMatrix()
 	_viewMatrix = glm::lookAt(_position, _position + _front, _up);
 	return _viewMatrix;
 }
-MSAA* Camera::GetMSAA()
-{
-	if (_isAllowMSAA)
-		return _msaa;
-	return nullptr;
-}
-FrameBuffersScreen* Camera::GetBuffersScreen()
-{
-	if (_isAllowPostPrecess)
-		return _frameBuffersScreen;
-	return nullptr;
-}
+
 glm::mat4& Camera::GetProjectionMatrix()
 {
 	RectInt rect = GetSubSystem<Graphics>()->GetWindowRectInt();
@@ -120,6 +121,22 @@ glm::mat4& Camera::GetProjectionMatrix()
 	else
 		ErrorString("Fail to set projection matrix");
 	return _projectionMatrix;
+}
+
+bool Camera::GetAllowMSAA()
+{
+	if (_offScreen)
+		return _offScreen->GetAllowMSAA();
+	else
+		return false;
+}
+
+bool Camera::GetAllowLateEffect()
+{
+	if (_offScreen)
+		return _offScreen->GetAllowLateEffect();
+	else
+		return false;
 }
 
 void Camera::ProcessKeyboard(CameraMovement direction, float deltaTime)
@@ -167,6 +184,8 @@ void Camera::ProcessMouseScroll(float yoffset)
 	if (_zoom >= 45.0f)
 		_zoom = 45.0f;
 }
+
+
 
 void Camera::updateCameraVectors()
 {

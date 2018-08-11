@@ -21,8 +21,8 @@ public:
 	/**
 	* @brief : Draw call in renderer
 	*/
-	virtual void Draw() {
-	}/**
+	virtual void Draw() {}
+	/**
 	* @brief : Draw Coustom call in renderer
 	*/
 	virtual void DrawCustom() {}
