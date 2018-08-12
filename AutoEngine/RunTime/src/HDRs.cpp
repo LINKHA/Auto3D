@@ -20,7 +20,7 @@ HDRs::~HDRs()
 
 void HDRs::Start()
 {
-	woodTexture = LocalTextureLoad("../Resource/texture/wood.jpg"); 
+	woodTexture = LocalTextureLoad("../Resource/texture/brickwall.jpg"); 
 
 	glGenFramebuffers(1, &hdrFBO);
 	// create floating point color buffer
@@ -49,14 +49,12 @@ void HDRs::Start()
 	// lighting info
 	// -------------
 	// positions
-	
 	lightPositions.push_back(glm::vec3(0.0f, 0.0f, 49.5f)); // back light
 	lightPositions.push_back(glm::vec3(-1.4f, -1.9f, 9.0f));
 	lightPositions.push_back(glm::vec3(0.0f, -1.8f, 4.0f));
 	lightPositions.push_back(glm::vec3(0.8f, -1.7f, 6.0f));
 	// colors
-	
-	lightColors.push_back(glm::vec3(300.0f, 300.0f, 300.0f));
+	lightColors.push_back(glm::vec3(100.0f, 100.0f, 100.0f));
 	lightColors.push_back(glm::vec3(0.3f, 0.0f, 0.0f));
 	lightColors.push_back(glm::vec3(0.0f, 0.0f, 0.3f));
 	lightColors.push_back(glm::vec3(0.0f, 0.3f, 0.0f));
@@ -90,7 +88,7 @@ void HDRs::Draw()
 	m_shader.SetVec3("viewPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
 	// render tunnel
 	glm::mat4 model = glm::mat4();
-	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 25.0));
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 25.0f));
 	model = glm::scale(model, glm::vec3(2.5f, 2.5f, 27.5f));
 	m_shader.SetMat4("model", model);
 	m_shader.SetInt("inverse_normals", true);

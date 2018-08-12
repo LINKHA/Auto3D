@@ -29,6 +29,7 @@ OffScreen::~OffScreen()
 
 void OffScreen::RenderReady()
 {
+	//////////////////////////////////////////////////////////////////////////
 	//Bind offscreen vertex
 	RectInt rect = GetSubSystem<Graphics>()->GetWindowRectInt();
 	glGenVertexArrays(1, &_quadVAO);
@@ -62,13 +63,16 @@ void OffScreen::RenderReady()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	//////////////////////////////////////////////////////////////////////////
-	//Bind 
+	//Bind screen texture
 	glGenFramebuffers(1, &_intermediateFBO);
 	glBindFramebuffer(GL_FRAMEBUFFER, _intermediateFBO);
 
 	glGenTextures(1, &_screenTexture);
 	glBindTexture(GL_TEXTURE_2D, _screenTexture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, rect.width, rect.height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	//if(!_isAllowHDR)
+	//	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, rect.width, rect.height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	//else
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, rect.width, rect.height, 0, GL_RGBA, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _screenTexture, 0);	// we only need a color buffer
@@ -76,6 +80,9 @@ void OffScreen::RenderReady()
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		ErrorString("Intermediate framebuffer is not complete");
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	//////////////////////////////////////////////////////////////////////////
+	//Biind hdr texture
+
 }
 
 
@@ -94,14 +101,14 @@ void OffScreen::RenderEnd()
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, _framebuffer);
 	if(_isAllowMsaa)
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-	if(_isAllowLateEffect)
+	if(_isAllowLateEffect || _isAllowHDR)
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _intermediateFBO);
 
 	glBlitFramebuffer(0, 0, rect.width, rect.height, 0, 0, rect.width, rect.height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	//////////////////////////////////////////////////////////////////////////
-	if (_isAllowLateEffect)
+	if (_isAllowLateEffect )//|| _isAllowHDR)
 	{
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);

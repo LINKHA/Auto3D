@@ -39,6 +39,10 @@ public:
 	*/
 	void AllowLateEffect(bool enable) { _isAllowLateEffect = enable; }
 	/**
+	* @brief : Enable HDR
+	*/
+	void AllowHDR(bool enable) { _isAllowHDR = enable; }
+	/**
 	* @brief : Get MSAA  enable
 	*/
 	bool GetAllowMSAA() { return _isAllowMsaa; }
@@ -46,6 +50,10 @@ public:
 	* @brief : Get late effect enable
 	*/
 	bool GetAllowLateEffect() { return _isAllowLateEffect; }
+	/**
+	* @brief : Get hdr enable
+	*/
+	bool GetAllowHDR() { return _isAllowHDR; }
 	/**
 	* @brief : Set post processing mode
 	*/
@@ -66,6 +74,7 @@ private:
 private:
 	bool _isAllowMsaa;
 	bool _isAllowLateEffect;
+	bool _isAllowHDR;
 
 	Shader _shader;
 	int _samplingPointCount;

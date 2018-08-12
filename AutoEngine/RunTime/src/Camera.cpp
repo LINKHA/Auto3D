@@ -64,7 +64,13 @@ void Camera::AllowLateEffect(bool enable)
 
 void Camera::AllowHDR(bool enable)
 {
-	
+	if (!_offScreen)
+	{
+		_isAllowOffScreen = true;
+		_offScreen = new OffScreen(_ambient);
+	}
+
+	_offScreen->AllowHDR(enable);
 }
 void Camera::SetLateEffect(PostProcessingMode mode)
 {

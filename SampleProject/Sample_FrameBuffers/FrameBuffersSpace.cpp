@@ -22,7 +22,7 @@ void FrameBuffersSpace::Start()
 	camera->freeCamera->AllowOffScreen(true);
 	camera->freeCamera->AllowMSAA(true);
 	camera->freeCamera->AllowLateEffect(true);
-
+	camera->freeCamera->AllowHDR(true);
 
 	camObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 	camObj->AddComponent(camera);
