@@ -2,7 +2,7 @@
 #include "Math/Math.h"
 #include "GLGather.h"
 #include "GameObject.h"
-
+;
 namespace Auto3D {
 class Transform : public Component
 {

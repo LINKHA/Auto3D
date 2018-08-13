@@ -17,11 +17,11 @@ HDRs::~HDRs()
 {
 	UnloadOpaque(this);
 }
-
+#define HDR_DEBUG 0
 void HDRs::Start()
 {
-	woodTexture = LocalTextureLoad("../Resource/texture/brickwall.jpg"); 
-
+	woodTexture = LocalTextureLoad("../Resource/texture/bricks.jpg"); 
+#if HDR_DEBUG
 	glGenFramebuffers(1, &hdrFBO);
 	// create floating point color buffer
 	
@@ -45,7 +45,7 @@ void HDRs::Start()
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		ErrorString("Framebuffer not complete");
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
+#endif
 	// lighting info
 	// -------------
 	// positions
@@ -70,8 +70,11 @@ void HDRs::Start()
 
 void HDRs::Draw()
 {
+#if HDR_DEBUG
 	glBindFramebuffer(GL_FRAMEBUFFER, hdrFBO);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+#endif 
+
 	glm::mat4 projection = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
 	glm::mat4 view = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
 	m_shader.Use();
@@ -93,6 +96,7 @@ void HDRs::Draw()
 	m_shader.SetMat4("model", model);
 	m_shader.SetInt("inverse_normals", true);
 	renderCube(&cubeVAO,&cubeVBO);
+#if HDR_DEBUG
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	// 2. now render floating point color buffer to 2D quad and tonemap HDR colors to default framebuffer's (clamped) color range
@@ -101,11 +105,12 @@ void HDRs::Draw()
 	m_hdrShader.Use();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, colorBuffer);
-	m_hdrShader.SetInt("hdr", hdr);
-	m_hdrShader.SetFloat("exposure", exposure);
-	renderQuad(&quadVAO,&quadVBO);
+	m_hdrShader.SetInt("hdr", true);
+	m_hdrShader.SetFloat("exposure", 1.0f);
+	renderQuad(&quadVAO, &quadVBO);
 
 	std::cout << "hdr: " << (hdr ? "on" : "off") << "| exposure: " << exposure << std::endl;
+#endif
 }
 
 }

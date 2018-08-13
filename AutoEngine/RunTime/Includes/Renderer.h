@@ -1,6 +1,8 @@
 #pragma once
 #include "GameManager.h"
 #include "Camera.h"
+
+;
 namespace Auto3D {
 class Ambient;
 class Renderer;

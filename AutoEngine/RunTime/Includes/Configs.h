@@ -12,7 +12,7 @@
 	#define WINDOW_DOT_USE 1
 #endif
 
-extern const std::string source_path;
+; extern const std::string source_path;
 extern const std::string build_path;
 extern const std::string shader_path;
 
