@@ -52,18 +52,43 @@ void PBRSkyBoxSpace::Start()
 	skyboxObj->AddComponent(skybox);
 
 
-	//GameObject * pbrObj = new GameObject(_ambient);
-	//PBRMaterial * pbr = new PBRMaterial(_ambient);
-	////PBRTextureMaterial * pbr = new PBRTextureMaterial(_ambient);
-	//pbrObj->AddComponent(pbr);
+	GameObject * pbrWhiteObj = new GameObject(_ambient);
+	MeshPBR * pbrw = new MeshPBR(_ambient);
+	pbrw->SetMetallic(1.0f);
+	pbrw->SetRoughness(0.05f);
+	pbrWhiteObj->AddComponent(pbrw);
 
+	GameObject * pbrRedObj = new GameObject(_ambient);
+	pbrRedObj->GetComponent(Transform).SetPosition(2.0f, 0.0f, 0.0f);
+	MeshPBR * pbrr = new MeshPBR(_ambient);
+	pbrr->SetAlbedo(1.0f, 0.0f, 0.0f);
+	pbrr->SetMetallic(1.0f);
+	pbrr->SetRoughness(0.05f);
+	pbrRedObj->AddComponent(pbrr);
 
-	GameObject * pbrObj = new GameObject(_ambient);
-	MeshPBR * pbr = new MeshPBR(_ambient);
-	pbr->SetMetallic(1.0f);
-	pbr->SetRoughness(0.02f);
-	pbrObj->AddComponent(pbr);
+	GameObject * pbrGreenObj = new GameObject(_ambient);
+	pbrGreenObj->GetComponent(Transform).SetPosition(4.0f, 0.0f, 0.0f);
+	MeshPBR * pbrg = new MeshPBR(_ambient);
+	pbrg->SetAlbedo(0.0f, 1.0f, 0.0f);
+	pbrg->SetMetallic(1.0f);
+	pbrg->SetRoughness(0.05f);
+	pbrGreenObj->AddComponent(pbrg);
 
+	GameObject * pbrBlueObj = new GameObject(_ambient);
+	pbrBlueObj->GetComponent(Transform).SetPosition(6.0f, 0.0f, 0.0f);
+	MeshPBR * pbrb = new MeshPBR(_ambient);
+	pbrb->SetAlbedo(0.0f, 0.0f, 1.0f);
+	pbrb->SetMetallic(1.0f);
+	pbrb->SetRoughness(0.05f);
+	pbrBlueObj->AddComponent(pbrb);
+
+	GameObject * pbrBlackObj = new GameObject(_ambient);
+	pbrBlackObj->GetComponent(Transform).SetPosition(8.0f, 0.0f, 0.0f);
+	MeshPBR * pbrbla = new MeshPBR(_ambient);
+	pbrbla->SetAlbedo(0.0f, 0.0f, 0.0f);
+	pbrbla->SetMetallic(1.0f);
+	pbrbla->SetRoughness(0.05f);
+	pbrBlackObj->AddComponent(pbrbla);
 
 	GameObject * pbrObj2 = new GameObject(_ambient);
 	MeshPBRTexture * pbrTexture = new MeshPBRTexture(_ambient);

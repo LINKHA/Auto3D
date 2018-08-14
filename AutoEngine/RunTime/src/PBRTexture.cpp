@@ -39,11 +39,11 @@ void PBRTexture::Start()
 	m_shader.SetInt("metallicMap", 2);
 	m_shader.SetInt("roughnessMap", 3);
 	m_shader.SetInt("aoMap", 4);
-	albedo = LocalTextureLoad("../resource/texture/pbr/gold/albedo.png");
-	normal = LocalTextureLoad("../resource/texture/pbr/gold/normal.png");
-	metallic = LocalTextureLoad("../resource/texture/pbr/gold/metallic.png");
-	roughness = LocalTextureLoad("../resource/texture/pbr/gold/roughness.png");
-	ao = LocalTextureLoad("../resource/texture/pbr/gold/ao.png");
+	albedo = LocalTextureLoad("../resource/texture/pbr/rusted_iron/albedo.png");
+	normal = LocalTextureLoad("../resource/texture/pbr/rusted_iron/normal.png");
+	metallic = LocalTextureLoad("../resource/texture/pbr/rusted_iron/metallic.png");
+	roughness = LocalTextureLoad("../resource/texture/pbr/rusted_iron/roughness.png");
+	ao = LocalTextureLoad("../resource/texture/pbr/rusted_iron/ao.png");
 
 	RegisterOpaque(this);
 }

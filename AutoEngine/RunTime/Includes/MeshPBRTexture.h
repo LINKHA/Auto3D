@@ -17,6 +17,9 @@ private:
 	unsigned _vao;
 	unsigned _indexCount;
 
+	Shader _shaderNoTexture;
+	Shader _shaderTexture;
+
 	unsigned int _albedoMap;
 	unsigned int _normalMap;
 	unsigned int _metallicMap;

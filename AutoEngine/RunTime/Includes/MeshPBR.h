@@ -19,13 +19,20 @@ public:
 	* @brief : Set roughress clamp 0~1
 	*/
 	void SetRoughness(float value) { _roughness = clamp01(value); }
+	void SetAlbedo(float r, float g, float b) { _albedo.Set(r, g, b); }
+	void SetAlbedo(const Vector3& vec) { _albedo = vec; }
 private:
 	Shader _shader;
+
 	unsigned _vao;
 	unsigned _indexCount;
 
 	float _metallic;
 	float _roughness;
+	Vector3 _albedo;
+
+	Shader _shaderTexture;
+	Shader _shaderNoTexture;
 };
 
 }

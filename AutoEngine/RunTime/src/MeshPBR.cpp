@@ -11,11 +11,14 @@ namespace Auto3D {
 
 MeshPBR::MeshPBR(Ambient* ambient)
 	: Super(ambient)
-	, _shader(shader_path + "au_pbr.auvs"
+	, _shaderTexture(shader_path + "au_pbr.auvs"
 		, shader_path + "au_pbr_hdr.aufs")
+	, _shaderNoTexture(shader_path + "au_pbr.auvs"
+		, shader_path + "au_pbr.aufs")
 	, _metallic(1.0f)
 	, _roughness(0.02f)
 {
+	_albedo.Set(1.0f, 1.0f, 1.0f);
 }
 
 
@@ -26,11 +29,22 @@ MeshPBR::~MeshPBR()
 
 void MeshPBR::Start()
 {
+	if (INSTANCE(SkyBoxManager).GetEnable())
+	{
+		_shader = _shaderTexture;
+	}
+	else
+	{
+		_shader = _shaderNoTexture;
+	}
 	_shader.Use();
-	_shader.SetInt("irradianceMap", 0);
-	_shader.SetInt("prefilterMap", 1);
-	_shader.SetInt("brdfLUT", 2);
-	_shader.SetVec3("albedo", 1.0f, 1.0f, 1.0f);
+	if (INSTANCE(SkyBoxManager).GetEnable())
+	{
+		_shader.SetInt("irradianceMap", 0);
+		_shader.SetInt("prefilterMap", 1);
+		_shader.SetInt("brdfLUT", 2);
+	}
+	_shader.SetVec3("albedo", _albedo);
 	_shader.SetFloat("ao", 1.0f);
 	RegisterOpaque(this);
 }
@@ -39,6 +53,7 @@ void MeshPBR::Draw()
 {
 	//////////////////////////////////////////////////////////////////////////
 	glm::mat4 projection = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
+	
 
 	_shader.Use();
 	_shader.SetMat4("projection", projection);
