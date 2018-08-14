@@ -2,7 +2,7 @@
 #include "GLGather.h"
 #include "Auto.h"
 namespace Auto3D {
-TOOL_CLASS GLMeshEnable
+class GLMeshEnable
 {
 public:
 	GLMeshEnable();
