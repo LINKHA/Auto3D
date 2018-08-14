@@ -16,10 +16,10 @@ OffScreen::OffScreen(Ambient* ambient)
 	, _isAllowMsaa(false)
 	, _isAllowLateEffect(false)
 {
-	//Temp !!! Hdr
-	_shader = Shader(shader_path + "au_hdr.auvs"
-		, shader_path + "au_hdr.aufs");
-	//
+	
+	_shader = Shader(shader_path + "au_offscreen.auvs"
+		, shader_path + "au_offscreen.aufs");
+
 
 	shader = Shader(shader_path + "au_offscreen.auvs", shader_path + "au_offscreen.aufs");
 	shaderBlur = Shader(shader_path + "au_offscreen.auvs", shader_path + "au_offscreen_blur.aufs");
@@ -32,8 +32,39 @@ OffScreen::OffScreen(Ambient* ambient)
 OffScreen::~OffScreen()
 {
 }
+void OffScreen::bindHdr()
+{
+	//Temp !!! Hdr
+	if (_isAllowHDR)
+		_shader = Shader(shader_path + "au_hdr.auvs"
+			, shader_path + "au_hdr.aufs");
+	//
 
-void OffScreen::RenderReady()
+	glGenFramebuffers(1, &_framebuffer);
+	// create floating point color buffer
+
+	glGenTextures(1, &_screenTexture);
+	glBindTexture(GL_TEXTURE_2D, _screenTexture);
+
+	RectInt t = GetSubSystem<Graphics>()->GetWindowRectInt();
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, t.width, t.height, 0, GL_RGBA, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	// create depth buffer (renderbuffer)
+
+	glGenRenderbuffers(1, &_rbo);
+	glBindRenderbuffer(GL_RENDERBUFFER, _rbo);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, t.width, t.height);
+	// attach buffers
+	glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _screenTexture, 0);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _rbo);
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		ErrorString("Framebuffer not complete");
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+void OffScreen::bindMsaaAndPostpro()
 {
 	RectInt rect = GetSubSystem<Graphics>()->GetWindowRectInt();
 
@@ -79,40 +110,16 @@ void OffScreen::RenderReady()
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		ErrorString("Intermediate framebuffer is not complete");
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	
-	
-
-
-
-
-	//glGenFramebuffers(1, &_framebuffer);
-	//// create floating point color buffer
-
-	//glGenTextures(1, &_screenTexture);
-	//glBindTexture(GL_TEXTURE_2D, _screenTexture);
-
-	//RectInt t = GetSubSystem<Graphics>()->GetWindowRectInt();
-
-	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, t.width, t.height, 0, GL_RGBA, GL_FLOAT, NULL);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	//// create depth buffer (renderbuffer)
-
-	//glGenRenderbuffers(1, &_rbo);
-	//glBindRenderbuffer(GL_RENDERBUFFER, _rbo);
-	//glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, t.width, t.height);
-	//// attach buffers
-	//glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
-	//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _screenTexture, 0);
-	//glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _rbo);
-	//if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-	//	ErrorString("Framebuffer not complete");
-	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+void OffScreen::RenderReady()
+{
+#pragma warning
+	if (_isAllowHDR)
+		bindHdr();
+	else
+		bindMsaaAndPostpro();
 
 
-	//////////////////////////////////////////////////////////////////////////
-	//Biind hdr texture
 	_shader.Use();
 	_shader.SetInt("hdrBuffer", 0);
 }
@@ -154,8 +161,11 @@ void OffScreen::RenderEnd()
 		
 		
 		//Temp !!! hdr
-		_shader.SetInt("hdr", true);
-		_shader.SetFloat("exposure", 1.0f);
+		if (_isAllowHDR)
+		{
+			_shader.SetInt("hdr", true);
+			_shader.SetFloat("exposure", 1.0f);
+		}
 		//End
 
 		renderQuad(&_quadVAO, &_quadVBO);

@@ -63,6 +63,11 @@ public:
 	*/
 	void SetEffect(const Shader& shader);
 private:
+	//Temp !!! Hdr cannot be used at the same time as others
+#pragma warning
+	void bindHdr();
+	void bindMsaaAndPostpro();
+private:
 	Shader shader;
 	Shader shaderBlur;
 	Shader shaderEdgeDetection;
