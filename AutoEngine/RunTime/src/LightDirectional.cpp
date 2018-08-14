@@ -5,7 +5,7 @@ namespace Auto3D {
 LightDirectional::LightDirectional(Ambient* ambi)
 	: Super(ambi, kDirectional)
 {
-	color.Set(1.0f, 1.0f, 1.0f);
+	_color.Set(1.0f, 1.0f, 1.0f);
 	direction.Set(-0.5f, -0.5f, -0.0f);
 	ambient.Set(0.3f, 0.3f, 0.3f);
 	diffuse.Set(1.0f, 1.0f, 1.0f);

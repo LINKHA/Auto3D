@@ -115,7 +115,7 @@ void Mesh::drawLight()
 		{
 		case kDirectional:
 			if (dir >= 4)break;
-			_shader.SetVec3("dirLight[" + to_string(dir) + "].color", t->color);
+			_shader.SetVec3("dirLight[" + to_string(dir) + "].color", t->GetColorToVec());
 			_shader.SetVec3("dirLight[" + to_string(dir) + "].direction", t->GetDirection());
 			_shader.SetVec3("dirLight[" + to_string(dir) + "].ambient", t->ambient);
 			_shader.SetVec3("dirLight[" + to_string(dir) + "].diffuse", t->diffuse);
@@ -124,7 +124,7 @@ void Mesh::drawLight()
 			break;
 		case kPoint:
 			if (point >= 8)break;
-			_shader.SetVec3("pointLight[" + to_string(point) + "].color", t->color);
+			_shader.SetVec3("pointLight[" + to_string(point) + "].color", t->GetColorToVec());
 			_shader.SetVec3("pointLight[" + to_string(point) + "].position", ligthtPosition);
 			_shader.SetFloat("pointLight[" + to_string(point) + "].constant", t->constant);
 			_shader.SetFloat("pointLight[" + to_string(point) + "].linear", t->linear);
@@ -137,7 +137,7 @@ void Mesh::drawLight()
 		case kSpot:
 
 			if (spot >= 4)break;
-			_shader.SetVec3("spotLight[" + to_string(spot) + "].color", t->color);
+			_shader.SetVec3("spotLight[" + to_string(spot) + "].color", t->GetColorToVec());
 			_shader.SetVec3("spotLight[" + to_string(spot) + "].position", ligthtPosition);
 			_shader.SetVec3("spotLight[" + to_string(spot) + "].direction", t->GetDirection());
 			_shader.SetFloat("spotLight[" + to_string(spot) + "].cutOff", t->cutOff);

@@ -109,15 +109,37 @@ public:
 	* @brief : Get Far Plane
 	*/
 	float GetFarPlane() { return _farPlane; }
-
+	/**
+	* @brief : Get light direction
+	*/
 	Vector3 GetDirection() { return  Vector3(-direction.x, direction.y, direction.z); }
+	/**
+	* @brief :Get light color 
+	*/
+	Color& GetColor() { return _color; }
+	/**
+	* @brief :Get light color to vector3 (r,g,b)->(x,y,z)
+	*/
+	Vector3 GetColorToVec() { return Vector3(_color.r, _color.g, _color.b); }
+	/**
+	* @brief : Set color with float (x,y,z)->(r,g,b)
+	*/
+	void SetColor(float x, float y, float z) { _color.Set(x, y, z); }
+	/**
+	* @brief : Set color with Vector3 (x,y,z)->(r,g,b)
+	*/
+	void SetColor(const Vector3& vec) { _color.Set(vec.x, vec.y, vec.z); }
+	/**
+	* @brief : Set color
+ 	*/
+	void SetColor(const Color& color) { _color = color; }
 
 
 	void AddToManager();
 	void RemoveFromManager();
 
 
-	Color color;
+	Color _color;
 	Vector3 direction;
 
 	float cutOff;
@@ -140,6 +162,7 @@ protected:
 	float _farPlane;
 	///light type
 	int	_type;
+
 };
 
 }

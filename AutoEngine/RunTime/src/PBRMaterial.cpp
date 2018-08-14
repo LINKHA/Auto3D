@@ -89,6 +89,7 @@ void PBRMaterial::Draw()
 	}
 
 
+
 	// render light source (simply re-render sphere at light positions)
 	// this looks a bit off as we use the same shader, but it'll make their positions obvious and 
 	// keeps the codeprint small.

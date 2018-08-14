@@ -94,15 +94,16 @@ static inline  T pow(T const & x, T const& y)
 }
 
 
-template<typename T>
-static inline T clamp(T const& x, T const& lo, T const& hi)
-{
-	return  ((x < lo) ? lo : ((x > hi) ? hi : x));
-}
 template<typename T,typename E>
 static inline T lerp(T const  & a, T const  & b, E x)
 {
 	return a + (b - a)*x;
+}
+
+template<typename T>
+static inline T clamp(T const& x, T const& lo, T const& hi)
+{
+	return  ((x < lo) ? lo : ((x > hi) ? hi : x));
 }
 
 static inline float clamp01(float const&x)

@@ -2,6 +2,7 @@
 #include "Object.h"
 #include "stl_use.h"
 #include "ComponentSetting.h"
+#include "Math/Vector3.h"
 namespace Auto3D {
 #define GetComponent(x) GetComponentT<x>(ClassID (x))
 class GameObject;
@@ -118,7 +119,10 @@ public:
 	* @brief : Get Components (AUTO_VECTOR(int, Component*))
 	*/
 	ComponentsArray& GetComponentsArray(){ return _components; }
-
+	/**
+	* @brief : Get this object position
+	*/
+	Vector3 GetPosition(); 
 private:
 	ComponentsArray _components;
 	bool _isEnable;

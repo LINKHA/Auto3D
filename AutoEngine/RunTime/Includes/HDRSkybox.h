@@ -45,11 +45,16 @@ public:
 
 struct SkyBoxManager : public Singleton<SkyBoxManager>
 {
+	SkyBoxManager()
+		:_enable(false)
+	{}
 
-	void AddSkyBox(HDRSkyBox* skybox) { m_skybox = skybox; }
+	void AddSkyBox(HDRSkyBox* skybox) { _enable = true; m_skybox = skybox; }
 	HDRSkyBox* GetSkyBox() { return m_skybox; }
+	bool GetEnable() { return _enable; }
 private:
 	HDRSkyBox* m_skybox;
+	bool _enable;
 };
 }
 

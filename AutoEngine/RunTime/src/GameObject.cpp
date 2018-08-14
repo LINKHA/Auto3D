@@ -121,4 +121,10 @@ Component* GameObject::QueryComponent(int classID) const
 	ErrorString("File find component of ClassId.");
 	return nullptr;
 }
+Vector3 GameObject::GetPosition()
+{
+	return GetComponent(Transform).GetPosition();
+}
+
+
 }

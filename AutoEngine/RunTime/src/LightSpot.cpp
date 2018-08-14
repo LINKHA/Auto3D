@@ -6,7 +6,7 @@ namespace Auto3D {
 LightSpot::LightSpot(Ambient* ambi)
 	:Super(ambi,kSpot)
 {
-	color.Set(1.0f, 1.0f, 1.0f);
+	_color.Set(1.0f, 1.0f, 1.0f);
 	direction.Set(-0.5f, -0.5f, -0.0f);
 	cutOff = glm::cos(glm::radians(12.5f));
 	outerCutOff = glm::cos(glm::radians(15.0f));
