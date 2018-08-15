@@ -4,6 +4,7 @@
 #include "../FreeCamera.h"
 #include "Mesh.h"
 #include "DeferredShading.h"
+#include "Time.h"
 DeferredShadingSpace::DeferredShadingSpace(Ambient* ambient)
 	:MotionSpace(ambient)
 {
@@ -28,6 +29,7 @@ void DeferredShadingSpace::Start()
 
 void DeferredShadingSpace::Update()
 {
+	
 }
 
 int DeferredShadingSpace::Launch()

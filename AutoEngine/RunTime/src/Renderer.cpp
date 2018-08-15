@@ -9,6 +9,7 @@
 #include "Configs.h"
 //Temp
 #include "LoadResource.h"
+
 namespace Auto3D {
 
 
@@ -79,6 +80,7 @@ void ShadowRenderer::ReadyRender()
 		{
 			(*it)->DrawReady();
 		}
+#pragma warning
 		_woodTexture = LocalTextureLoad("../Resource/texture/wood.jpg");
 	}
 	renderer->_lightContainer->IsRender(false);
@@ -112,10 +114,8 @@ void ShadowRenderer::RenderShadow()
 			int shadowWidth = (*it)->GetShadowAssist()->GetShadowWidth();
 			int shadowHeight = (*it)->GetShadowAssist()->GetShadowHeight();
 			glm::vec3 lightPos = (*it)->GetLightPosition();
-			float near_plane = 1.0f;
-			float near_far = 100.0f;
-			glm::mat4 shadowProj = glm::perspective(90.0f, (float)shadowWidth / (float)shadowHeight, near_plane, (*it)->GetFarPlane());
-			//glm::mat4 shadowProj = glm::perspective(90.0f, (float)shadowWidth / (float)shadowHeight, near_plane, near_far);
+
+			glm::mat4 shadowProj = glm::perspective(90.0f, (float)shadowWidth / (float)shadowHeight, (*it)->GetNearPlane(), (*it)->GetFarPlane());
 			std::vector<glm::mat4> shadowTransforms;
 			shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
 			shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
@@ -211,12 +211,6 @@ void Renderer::Render()
 			if (cam->GetAllowOffScreen())
 				cam->GetOffScreen()->RenderEnd();
 
-			
-			
-			
-			
-			
-			
 		}
 	}
 	_insideRenderOrCull = false;

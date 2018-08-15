@@ -6,6 +6,7 @@
 #include "Shader.h"
 #include "LightDirectional.h"
 #include "Configs.h"
+#include "Time.h"
 VertexExplodeSpace::VertexExplodeSpace(Ambient* ambient)
 	:MotionSpace(ambient)
 {
@@ -40,7 +41,9 @@ void VertexExplodeSpace::Start()
 	meshObj2->GetComponent(Transform).SetPosition(10.0f, 0.0f, 0.0f);
 }
 void VertexExplodeSpace::Update()
-{}
+{
+	
+}
 int VertexExplodeSpace::Launch()
 {
 	return INSTANCE(Application).Run(_ambient);

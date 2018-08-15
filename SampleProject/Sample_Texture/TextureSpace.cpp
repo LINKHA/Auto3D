@@ -77,6 +77,7 @@ void TextureSpace::Update()
 	//obj->GetComponent(Transform).setRotation(-55.0f, Vector3::xAxis);
 	t.SetRotation(90.0f, Vector3::zAxis);
 	t.SetScale(Vector3(scaleAmount));
+
 }
 
 int TextureSpace::Launch()

@@ -7,6 +7,7 @@
 #include "Graphics.h"
 #include "BaseSpace.h"
 #include "Time.h"
+#include "Script.h"
 
 namespace Auto3D {
 
@@ -19,6 +20,7 @@ Engine::Engine(Ambient* ambient)
 	_ambient->RegisterSubSystem(new BaseSpace(_ambient));
 	_ambient->RegisterSubSystem(new Time(_ambient));
 	_ambient->RegisterSubSystem(new Input(_ambient));
+	_ambient->RegisterSubSystem(new Script(_ambient));
 }
 
 Engine::~Engine()

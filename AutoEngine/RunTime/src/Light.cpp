@@ -97,6 +97,7 @@ Light::Light(Ambient* ambi,LightType type)
 	, _type(type)
 	, _shadowAssist(nullptr)
 	, _farPlane(25.0f)
+	, _nearPlane(0.01f)
 {
 	AddToManager();
 	SetShadowType(SHADOW_TYPE_SOFT);

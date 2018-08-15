@@ -10,13 +10,13 @@
 void FreeCamera::processInput()
 {
 	
-	if (GetSubSystem<Input>()->GetKeyPress(SDLK_w))
+	if (GetSubSystem<Input>()->GetKeyPress(KEY_W))
 		freeCamera->ProcessKeyboard(FORWARD, GetSubSystem<Time>()->GetDeltaTime());
-	if (GetSubSystem<Input>()->GetKeyPress(SDLK_s))
+	if (GetSubSystem<Input>()->GetKeyPress(KEY_S))
 		freeCamera->ProcessKeyboard(BACKWARD, GetSubSystem<Time>()->GetDeltaTime());
-	if (GetSubSystem<Input>()->GetKeyPress(SDLK_a))
+	if (GetSubSystem<Input>()->GetKeyPress(KEY_A))
 		freeCamera->ProcessKeyboard(LEFT, GetSubSystem<Time>()->GetDeltaTime());
-	if (GetSubSystem<Input>()->GetKeyPress(SDLK_d))
+	if (GetSubSystem<Input>()->GetKeyPress(KEY_D))
 		freeCamera->ProcessKeyboard(RIGHT, GetSubSystem<Time>()->GetDeltaTime());
 	if (GetSubSystem<Input>()->IsMouseMove())
 	{

@@ -38,6 +38,8 @@ void AntiAliasingSpace::Start()
 
 void AntiAliasingSpace::Update()
 {
+
+	
 }
 
 int AntiAliasingSpace::Launch()

@@ -1,5 +1,5 @@
-#include "ScriptManager.h"
-
+#include "Script.h"
+#include "ScriptComponent.h"
 namespace Auto3D {
 
 struct MatchByNameFilter
@@ -9,9 +9,8 @@ struct MatchByNameFilter
 };
 
 
-SINGLETON_INSTANCE(ScriptComponent);
 template<typename T>
-ScriptComponent* FindScript(ScriptManager::Scripts& scripts , T& filter)
+ScriptComponent* FindScript(Script::Scripts& scripts , T& filter)
 {
 	ScriptManager::Scripts::iterator i, next;
 	for (i = scripts.begin(); i != scripts.end(); i = next)

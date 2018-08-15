@@ -4,6 +4,7 @@
 #include "../FreeCamera.h"
 #include "Mesh.h"
 #include "SSAO.h"
+#include "Time.h"
 SSAOSpace::SSAOSpace(Ambient* ambient)
 	:MotionSpace(ambient)
 {}
@@ -25,6 +26,7 @@ void SSAOSpace::Start()
 
 void SSAOSpace::Update()
 {
+
 }
 
 int SSAOSpace::Launch()

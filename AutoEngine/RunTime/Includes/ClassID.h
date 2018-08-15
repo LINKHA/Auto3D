@@ -13,7 +13,7 @@ enum ClassIDType
 
 	DO_CLASS_ID(GameObjectManager, 8)
 	DO_CLASS_ID(LightManager, 9)
-	DO_CLASS_ID(ScriptManager, 10)
+	DO_CLASS_ID(Script, 10)
 	DO_CLASS_ID(PreLoadManager, 11)
 
 	DO_CLASS_ID(Node, 13)

@@ -106,9 +106,13 @@ public:
 	*/
 	ShadowRenderAssist* GetShadowAssist() { return _shadowAssist; }
 	/**
-	* @brief : Get Far Plane
+	* @brief : Get light far plane
 	*/
 	float GetFarPlane() { return _farPlane; }
+	/**
+	* @brief : Get light near plane
+	*/
+	float GetNearPlane() { return _nearPlane; }
 	/**
 	* @brief : Get light direction
 	*/
@@ -160,6 +164,7 @@ protected:
 	glm::mat4 _lightViewMatrix;
 	///shadow far plane
 	float _farPlane;
+	float _nearPlane;
 	///light type
 	int	_type;
 

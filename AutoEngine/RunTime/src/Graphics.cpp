@@ -40,8 +40,8 @@ void Graphics::CreateGameWindow()
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		ErrorString("Couldn't initialize SDL");
 	atexit(SDL_Quit);
-	SDL_GL_LoadLibrary(NULL); // Default OpenGL is fine.
-							  // Request an OpenGL 4.3 context (should be core)
+	SDL_GL_LoadLibrary(NULL); 
+
 #if _OPENGL_4_6_
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
