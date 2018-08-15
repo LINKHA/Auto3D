@@ -107,8 +107,8 @@ void ShadowSpace::Start()
 	cameraObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 	cameraObj->AddComponent(camera);
 
-	//ShadowNormal();
-	ShadowPoint();
+	ShadowNormal();
+	//ShadowPoint();
 
 }
 

@@ -36,7 +36,7 @@ void MoreCameraSpace::Start()
 	Light * light = new LightPoint(_ambient);
 	lightObj->AddComponent(light);
 	//////////////////////////////////////////////////////////////////////////
-	Mesh* mesh = new Mesh(_ambient,"../Resource/object/base/Cube.FBX");
+	Mesh* mesh = new Mesh(_ambient,"../Resource/object/base/Cube.3DS");
 	GameObject * meshObj = new GameObject(_ambient);
 	meshObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, -3.0f);
 	meshObj->AddComponent(mesh);
