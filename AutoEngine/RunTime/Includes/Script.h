@@ -12,7 +12,7 @@ class Script : public GlobalGameManager
 	using Scripts = _SET(ScriptComponent);
 	using AllScript = _SET(ScriptComponent*);
 public:
-	Script(Ambient* ambient);
+	explicit Script(Ambient* ambient);
 
 };
 }

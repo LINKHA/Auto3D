@@ -66,6 +66,11 @@ void OffScreen::bindHdr()
 }
 void OffScreen::bindMsaaAndPostpro()
 {
+
+	GLint value;
+	glGetIntegerv(GL_MAX_SAMPLES, &value);
+	_samplingPointCount = clamp(_samplingPointCount, 1, static_cast<int>(value));
+
 	RectInt rect = GetSubSystem<Graphics>()->GetWindowRectInt();
 
 	//////////////////////////////////////////////////////////////////////////
@@ -113,6 +118,7 @@ void OffScreen::bindMsaaAndPostpro()
 }
 void OffScreen::RenderReady()
 {
+	
 #pragma warning
 	if (_isAllowHDR)
 		bindHdr();
@@ -207,6 +213,6 @@ void OffScreen::SetEffect(const Shader& shader)
 void OffScreen::AllowMSAA(bool enable, int pointNum)
 {
 	 _isAllowMsaa = enable;
-	 _samplingPointCount = clamp(pointNum, 1, 8); 
+	 _samplingPointCount = pointNum; 
 }
 }

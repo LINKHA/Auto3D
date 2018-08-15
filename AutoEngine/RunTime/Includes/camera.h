@@ -5,7 +5,6 @@
 #include "Math/Matrix4x4.h"
 #include "Math/Color.h"
 #include "HDRSkyBox.h"
-#include "HDR.h"
 #include "OffScreen.h"
 namespace Auto3D {
 
@@ -141,7 +140,6 @@ protected:
 	bool _isRendering;
 	bool _isFirstMouse;
 
-	SharedPtr<HDR> _hdr;
 
 	SharedPtr<OffScreen> _offScreen;
 
