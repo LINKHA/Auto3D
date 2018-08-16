@@ -22,7 +22,7 @@ private:
 	_VECTOR(glm::vec3) objectPositions;
 	unsigned int gBuffer;
 	unsigned int gPosition, gNormal, gAlbedoSpec;
-	unsigned int attachments[3] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 };
+	
 	unsigned int rboDepth;
 	std::vector<glm::vec3> lightPositions;
 	std::vector<glm::vec3> lightColors;

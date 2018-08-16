@@ -17,7 +17,7 @@ void AntiAliasingSpace::Start()
 	GameObject* cameraObj = new GameObject(_ambient);
 	camera = new FreeCamera(_ambient);
 	camera->freeCamera->AllowOffScreen(true);
-	camera->freeCamera->AllowMSAA(true);
+	camera->freeCamera->AllowMSAA(true,4);
 
 
 	cameraObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
