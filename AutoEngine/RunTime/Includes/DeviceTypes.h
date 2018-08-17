@@ -12,7 +12,7 @@ struct TextureID
 	unsigned int m_ID;
 };
 
-enum TextureDimension
+enum class TextureDimension
 {
 	kTexDimUnknown = -1, // unknown
 	kTexDimNone = 0, // no texture

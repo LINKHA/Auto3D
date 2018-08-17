@@ -91,7 +91,7 @@ void ShadowRenderer::RenderShadow()
 #pragma warning
 	for (_VECTOR(Light*)::iterator it = _lights.begin(); it != _lights.end(); it++)
 	{
-		if ((*it)->GetType() == kDirectional)
+		if ((*it)->GetType() == LightType::kDirectional)
 		{
 			glm::mat4 lightSpaceMatrix = (*it)->GetLightSpaceMatrix();
 			glViewport(0, 0, (*it)->GetShadowAssist()->GetShadowWidth(), (*it)->GetShadowAssist()->GetShadowHeight());
@@ -108,7 +108,7 @@ void ShadowRenderer::RenderShadow()
 				(*it)->DrawShadow();
 			}
 		}
-		else if ((*it)->GetType() == kPoint || (*it)->GetType() == kSpot)
+		else if ((*it)->GetType() == LightType::kPoint || (*it)->GetType() == LightType::kSpot)
 		{
 
 			int shadowWidth = (*it)->GetShadowAssist()->GetShadowWidth();

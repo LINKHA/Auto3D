@@ -18,9 +18,9 @@ void SpaceManager::RegisterSpace(MotionSpace * space)
 {
 	spaces.push_back(space);
 }
-void SpaceManager::ModeRunSpace(RunMode runMode)
+void SpaceManager::ModeRunSpace(MotionRunMode runMode)
 {
-	if (runMode == DefaultMode)
+	if (runMode == MotionRunMode::kDefault)
 	{
 		ErrorString("Space fail to Run.");
 		return;
@@ -30,17 +30,17 @@ void SpaceManager::ModeRunSpace(RunMode runMode)
 		MotionSpace* space = *i;
 		if (space)
 		{
-			if (runMode == AwakeMode)
+			if (runMode == MotionRunMode::kAwake)
 				space->Awake();
-			else if (runMode == StartMode)
+			else if (runMode == MotionRunMode::kStart)
 				space->Start();
-			else if (runMode == UpdateMode)
+			else if (runMode == MotionRunMode::kUpdate)
 				space->Update();
-			else if (runMode == FixUpdateMode)
+			else if (runMode == MotionRunMode::kFixUpdate)
 				space->FixUpdate();
-			else if (runMode == FinishMode)
+			else if (runMode == MotionRunMode::kFinish)
 				space->Finish();
-			else if (runMode == DrawMode)
+			else if (runMode == MotionRunMode::kDraw)
 				space->Draw();
 			else
 				ErrorString("Space fail to Run.");

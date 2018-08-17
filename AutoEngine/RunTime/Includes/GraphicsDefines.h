@@ -8,91 +8,91 @@ static const unsigned CLEAR_STENCIL = 0x4;
 
 static const int MAX_TEXTURE_UNITS = 16;
 
-enum FillTypes
+enum class FillTypes
 {
-	Fill_TYPES_FILL = 0,
-	Fill_TYPES_LINE = 1,
-	Fill_TYPES_POINT = 2
+	kFill = 0,
+	kLine = 1,
+	kPoint = 2
 };
 
-enum ChangeMode
+enum class ChangeMode
 {
-	CHANGE_MODE_STATIC_DRAW = 0,
-	CHANGE_MODE_DYNAMIC_DRAW = 1,
-	CHANGE_MODE_STREAM_DRAW = 2
+	kStatic = 0,
+	kDynamic = 1,
+	kStream = 2
 };
 
-enum BufferMode
+enum class BufferMode
 {
-	BUFFER_MODE_ARRAY_BUFFER = 0,
-	BUFFER_MODE_ELEMENT_ARRAY_BUFFER = 1
+	kAarray = 0,
+	kElementArray = 1
 };
 
-enum DepthMode
+enum class DepthMode
 {
-	DEPTH_MODE_ALWAYS = 0,
-	DEPTH_MODE_NEVER = 1,
-	DEPTH_MODE_LESS = 2,
-	DEPTH_MODE_EQUAL = 3,
-	DEPTH_MODE_LEQUAL = 4,
-	DEPTH_MODE_GREATER = 5,
-	DEPTH_MODE_NOTEQUAL = 6,
-	DEPTH_MODE_GEQUAL = 7
+	kAlways = 0,
+	kNever = 1,
+	kLess = 2,
+	kEqual = 3,
+	kLEqual = 4,
+	kGreater = 5,
+	kNotEqual = 6,
+	kGEqual = 7
 };
 
-enum StencilOps
+enum class StencilOps
 {
-	STENCIL_OPS_KEEP = 0,
-	STENCIL_OPS_ZERO,
-	STENCIL_OPS_REPLACE,
-	STENCIL_OPS_INCR,
-	STENCIL_OPS_INCR_WRAP,
-	STENCIL_OPS_DECR,
-	STENCIL_OPS_DECR_WRAP,
-	STENCIL_OPS_INVERT
+	kKeep = 0,
+	kZero,
+	kReplace,
+	kIncr,
+	kIncrWrap,
+	kDecr,
+	kDecrWrap,
+	kInvert
 };
 
-enum BlendSrcFu
+enum class BlendSrcFu
 {
-	BLEND_ZERO = 0,
-	BLEND_ONE,
-	BLEND_SRC_COLOR,
-	BLEND_ONE_MINUS_SRC_COLOR,
-	BLEND_SRC_ALPHA,
-	BLEND_ONE_MINUS_SRC_ALPHA,
-	BLEND_CONSTANT_COLOR,
-	BLEND_ONE_MINUS_CONSTANT_COLOR,
-	BLEND_CONSTANT_ALPHA,
-	BLEND_ONE_MINUS_CONSTANT_ALPHA
+	kZero = 0,
+	kOne,
+	kColr,
+	kOneMinusSrcColor,
+	kAlpha,
+	kOneMinusSrcAlpha,
+	kConstantColor,
+	kOneMinusConstantColor,
+	kConstantAlpha,
+	kOneMinusConstantAlpha
 };
 
-enum BlendDestFu
+enum class BlendDestFu
 {
-	BLEND_DST_COLOR = 0,
-	BLEND_ONE_MINUS_DST_COLOR,
-	BLEND_DST_ALPHA,
-	BLEND_ONE_MINUS_DST_ALPHA
+	kDstColor_COLOR = 0,
+	kOneMinusDstColor,
+	kDstAlpha,
+	kOneMinusDstAlpha
 };
 
-enum BlendOp
+enum class BlendOp
 {
-	BLEND_FUNC_ADD = 0,
-	BLEND_FUNC_REVERSE_SUBTRACT
+	kAdd = 0,
+	kReversrSubtract
 };
 
 enum ElementTypes
 {
-	ELEM_TYPE_INT = 0,
-	ELEM_TYPE_FLOAT,
-	ELEM_TYPE_UNSIGNED_BYTE
+	kInt = 0,
+	kFloat,
+	kUnsignedByte
 };
 enum PrimitiveTypes
 {
-	PRIM_TYPE_TRIANGLE_LIST = 0,
-	PRIM_TYPE_LINE_LIST,
-	PRIM_TYPE_POINT_LIST,
-	PRIM_TYPE_TRIANGLE_STRIP,
-	PRIM_TYPE_LINE_STRIP,
-	PRIM_TYPE_TRIANGLE_FAN
+	kTringleList = 0,
+	kLineList,
+	kPointList,
+	kTriangleStrip,
+	kLineStrip,
+	kTiangleFan
 };
 }

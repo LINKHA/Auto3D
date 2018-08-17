@@ -18,7 +18,7 @@ Camera::Camera(Ambient* ambient)
 	, _worldUp(glm::vec3(0.0f, 1.0f, 0.0f))
 	, _yaw(-90.0f)
 	, _pitch(0.0f)
-	, _sortMode(kSortPerspective)
+	, _projectionMode(ProjectionMode::kPerspective)
 {
 	_position = Vector3(0.0f, 0.0f, 0.0f).ToGLM();
 	updateCameraVectors();
@@ -109,7 +109,7 @@ glm::mat4& Camera::GetViewMatrix()
 glm::mat4& Camera::GetProjectionMatrix()
 {
 	RectInt rect = GetSubSystem<Graphics>()->GetWindowRectInt();
-	if (_sortMode == kSortPerspective)
+	if (_projectionMode == ProjectionMode::kPerspective)
 	{
 		_projectionMatrix = glm::perspective(_zoom,
 			((float)rect.width * (float)_viewRect.width) /
@@ -117,7 +117,7 @@ glm::mat4& Camera::GetProjectionMatrix()
 			_near, _far);
 		return _projectionMatrix;
 	}
-	else if (_sortMode == kSortOrthographic)
+	else if (_projectionMode == ProjectionMode::kOrthographic)
 	{
 		float t = ((float)rect.width * (float)_viewRect.width) /
 			((float)rect.height * (float)_viewRect.height);
@@ -148,13 +148,13 @@ bool Camera::GetAllowLateEffect()
 void Camera::ProcessKeyboard(CameraMovement direction, float deltaTime)
 {
 	float velocity = _movementSpeed * deltaTime;
-	if (direction == FORWARD) 
+	if (direction == CameraMovement::kForward)
 		_position += _front * velocity;
-	if (direction == BACKWARD)
+	if (direction == CameraMovement::kBackward)
 		_position -= _front * velocity;
-	if (direction == LEFT)
+	if (direction == CameraMovement::kLeft)
 		_position -= _right * velocity;
-	if (direction == RIGHT)
+	if (direction == CameraMovement::kRight)
 		_position += _right * velocity;
 }
 

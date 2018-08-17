@@ -6,6 +6,21 @@
 
 
 namespace Auto3D {
+
+enum class ClearMode
+{
+	kColor = 1,
+	kAlpha = 2,
+	kColorAlpha = kColor | kAlpha
+};
+
+enum class BlitMode
+{
+	kCopy,
+	kScale,
+	kBilinearScale
+};
+
 class ImageReference
 {
 public:
@@ -14,19 +29,7 @@ public:
 	Int32	height;
 	Int32   channels;
 	unsigned char *	value;
-	enum ClearMode
-	{
-		CLEAR_COLOR = 1,
-		CLEAR_ALPHA = 2,
-		CLEAR_COLOR_ALPHA = CLEAR_COLOR | CLEAR_ALPHA
-	};
-
-	enum BlitMode
-	{
-		BLIT_COPY,
-		BLIT_SCALE,
-		BLIT_BILINEAR_SCALE,
-	};
+	
 
 	ImageReference() { value = NULL; width = 0; height = 0; format = 0; }
 	//ImageReference(int width, int height, int rowbytes, TextureFormat format, void* image);
@@ -43,9 +46,9 @@ public:
 	int GetHeight() const { return height; }
 	int GetChannels() const { return channels; }
 	//TextureFormat GetFormat() const { return (TextureFormat)m_Format; }
-	void BlitImage(const ImageReference& source, BlitMode mode = BLIT_COPY);
+	void BlitImage(const ImageReference& source, BlitMode mode = BlitMode::kCopy);
 	void BlitImage(int x, int y, const ImageReference& source);
-	void ClearImage(const Color& color, ClearMode mode = CLEAR_COLOR_ALPHA);
+	void ClearImage(const Color& color, ClearMode mode = ClearMode::kColorAlpha);
 	void FlipImageY();
 	bool IsValidImage() const;
 };

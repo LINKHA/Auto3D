@@ -8,19 +8,19 @@
 #include "OffScreen.h"
 namespace Auto3D {
 
-enum CameraMovement
+enum class CameraMovement
 {
-	FORWARD,
-	BACKWARD,
-	LEFT,
-	RIGHT
+	kForward,
+	kBackward,
+	kLeft,
+	kRight
 };
 
-enum SortMode
+enum class ProjectionMode
 {
-	kSortDefault = 0,
-	kSortPerspective = 1,
-	kSortOrthographic = 2,
+	kDefault = 0,
+	kPerspective = 1,
+	kOrthographic = 2,
 };
 
 class Camera : public Component
@@ -83,7 +83,7 @@ public:
 	glm::mat4& GetProjectionMatrix();
 	float GetDepth() const { return _depth; }
 	Color& GetBackgroundColor() { return _backGroundColor; }
-	SortMode GetSortMode() const { return _sortMode; }
+	ProjectionMode GetSortMode() const { return _projectionMode; }
 	bool GetEnable()const { return _isEnable; }
 	Rectf& GetViewRect() { return _viewRect; }
 	float GetNear() { return _near; }
@@ -99,7 +99,7 @@ public:
 
 	void SetDepth(float depth) { _depth = depth; }
 	void SetBackgroundColor(const Color& color) { _backGroundColor = color; }
-	void SetSortMode(SortMode m) { _sortMode = m; }
+	void SetSortMode(ProjectionMode m) { _projectionMode = m; }
 	void SetEnable(bool e) { _isEnable = e; }
 	void SetViewRect(float x, float y, float w, float h) { _viewRect = Rectf(x, y, w, h); }
 	void SetViewRect(const Rectf& rectf) { _viewRect = rectf; }
@@ -135,7 +135,7 @@ private:
 protected:
 	float _depth;
 	Color _backGroundColor;
-	SortMode _sortMode;
+	ProjectionMode _projectionMode;
 	bool _isEnable;
 	bool _isRendering;
 	bool _isFirstMouse;

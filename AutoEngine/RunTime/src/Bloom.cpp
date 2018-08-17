@@ -28,7 +28,7 @@ Bloom::~Bloom()
 
 void Bloom::Start()
 {
-	woodTexture = LocalTextureLoad("../Resource/texture/wood.jpg");
+	woodTexture = LocalTextureLoad("../Resource/texture/bricks.jpg");
 	containerTexture = LocalTextureLoad("../Resource/texture/wood.jpg");
 
 	glGenFramebuffers(1, &hdrFBO);
@@ -53,11 +53,14 @@ void Bloom::Start()
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, t.width, t.height);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rboDepth);
 
+
+	unsigned int attachments[2] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 };
 	glDrawBuffers(2, attachments);
 	// finally check if framebuffer is complete
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		std::cout << "Framebuffer not complete!" << std::endl;
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 
 	glGenFramebuffers(2, pingpongFBO);
 	glGenTextures(2, pingpongColorbuffers);

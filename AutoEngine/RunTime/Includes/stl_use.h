@@ -4,7 +4,6 @@
 #include <set>
 #include <map>
 #include <unordered_map>
-#include "ClassID.h"
 
 
 #define _LIST(t)					std::list<t>

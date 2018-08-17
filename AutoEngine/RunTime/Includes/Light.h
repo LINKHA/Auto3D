@@ -7,17 +7,17 @@
 #include "Transform.h"
 namespace Auto3D {
 
-enum LightType
+enum class LightType
 {
 	kDirectional,
 	kPoint,
 	kSpot
 };
-enum ShadowType
+enum class ShadowType
 {
-	SHADOW_TYPE_NO_SHADOW,
-	SHADOW_TYPE_SOFT,
-	SHADOW_TYPE_HARD
+	kNoShadow,
+	kSoft,
+	kHard
 };
 /**
 * @brief : Manage this light create shadow
@@ -30,7 +30,7 @@ public:
 	/**
 	* @brief : Set light type, default Directional
 	*/
-	explicit ShadowRenderAssist(Ambient* ambient, LightType type = kDirectional);
+	explicit ShadowRenderAssist(Ambient* ambient, LightType type = LightType::kDirectional);
 	/**
 	* @brief : Bind light create depath map
 	*/
@@ -72,7 +72,7 @@ class Light : public Component
 	DECLARE_OBJECT_SERIALIZE(Light);
 public:
 	Light();
-	explicit Light(Ambient* ambi,LightType type = kDirectional);
+	explicit Light(Ambient* ambi,LightType type = LightType::kDirectional);
 	/**
 	* @brief : Update light data
 	*/

@@ -1,4 +1,10 @@
 #include "BaseMesh.h"
+#include "GLGather.h"
+#include "stl_use.h"
+
+namespace Auto3D {
+
+
 void renderQuad(unsigned int * quadVAO, unsigned int * quadVBO)
 {
 	if (*quadVAO == 0)
@@ -188,4 +194,7 @@ void renderSphere(unsigned int * sphereVAO, unsigned int * indexCount)
 
 	glBindVertexArray(*sphereVAO);
 	glDrawElements(GL_TRIANGLE_STRIP, *indexCount, GL_UNSIGNED_INT, 0);
+}
+
+
 }

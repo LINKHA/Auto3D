@@ -22,7 +22,7 @@ private:
 	unsigned int hdrFBO;
 	unsigned int colorBuffers[2];
 	unsigned int rboDepth;
-	unsigned int attachments[2] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 };
+	
 	
 	unsigned int pingpongFBO[2];
 	unsigned int pingpongColorbuffers[2];

@@ -113,7 +113,7 @@ void Mesh::drawLight()
 
 		switch (t->GetType())
 		{
-		case kDirectional:
+		case LightType::kDirectional:
 			if (dir >= 4)break;
 			_shader.SetVec3("dirLight[" + to_string(dir) + "].color", t->GetColorToVec());
 			_shader.SetVec3("dirLight[" + to_string(dir) + "].direction", t->GetDirection());
@@ -122,7 +122,7 @@ void Mesh::drawLight()
 			_shader.SetVec3("dirLight[" + to_string(dir) + "].specular", t->specular);
 			dir++;
 			break;
-		case kPoint:
+		case LightType::kPoint:
 			if (point >= 8)break;
 			_shader.SetVec3("pointLight[" + to_string(point) + "].color", t->GetColorToVec());
 			_shader.SetVec3("pointLight[" + to_string(point) + "].position", ligthtPosition);
@@ -134,7 +134,7 @@ void Mesh::drawLight()
 			_shader.SetVec3("pointLight[" + to_string(point) + "].specular", t->specular);
 			point++;
 			break;
-		case kSpot:
+		case LightType::kSpot:
 
 			if (spot >= 4)break;
 			_shader.SetVec3("spotLight[" + to_string(spot) + "].color", t->GetColorToVec());

@@ -3,7 +3,7 @@
 
 namespace Auto3D {
 LightPoint::LightPoint(Ambient* ambi)
-	: Super(ambi, kPoint)
+	: Super(ambi, LightType::kPoint)
 {
 	_color.Set(1.0f, 1.0f, 1.0f);
 	constant = 1.0f;

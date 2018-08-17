@@ -92,32 +92,32 @@ static void GetGLPrimitiveType(unsigned elementCount, PrimitiveTypes type, unsig
 {
 	switch (type)
 	{
-	case PRIM_TYPE_TRIANGLE_LIST:
+	case PrimitiveTypes::kTringleList:
 		primitiveCount = elementCount / 3;
 		glPrimitiveType = GL_TRIANGLES;
 		break;
 
-	case PRIM_TYPE_LINE_LIST:
+	case PrimitiveTypes::kLineList:
 		primitiveCount = elementCount / 2;
 		glPrimitiveType = GL_LINES;
 		break;
 
-	case PRIM_TYPE_POINT_LIST:
+	case PrimitiveTypes::kPointList:
 		primitiveCount = elementCount;
 		glPrimitiveType = GL_POINTS;
 		break;
 
-	case PRIM_TYPE_TRIANGLE_STRIP:
+	case PrimitiveTypes::kTriangleStrip:
 		primitiveCount = elementCount - 2;
 		glPrimitiveType = GL_TRIANGLE_STRIP;
 		break;
 
-	case PRIM_TYPE_LINE_STRIP:
+	case PrimitiveTypes::kLineStrip:
 		primitiveCount = elementCount - 1;
 		glPrimitiveType = GL_LINE_STRIP;
 		break;
 
-	case PRIM_TYPE_TRIANGLE_FAN:
+	case PrimitiveTypes::kTiangleFan:
 		primitiveCount = elementCount - 2;
 		glPrimitiveType = GL_TRIANGLE_FAN;
 		break;

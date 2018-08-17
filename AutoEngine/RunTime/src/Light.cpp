@@ -19,7 +19,7 @@ ShadowRenderAssist::~ShadowRenderAssist()
 }
 void ShadowRenderAssist::BindDepathMap()
 {
-	if (_type == kDirectional)
+	if (_type == LightType::kDirectional)
 	{
 		glGenFramebuffers(1, &_depthDirMapFBO);
 		// create depth texture
@@ -38,7 +38,7 @@ void ShadowRenderAssist::BindDepathMap()
 		glReadBuffer(GL_NONE);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
-	else if (_type == kPoint || _type == kSpot)
+	else if (_type == LightType::kPoint || _type == LightType::kSpot)
 	{
 		glGenFramebuffers(1, &_depthPointMapFBO);
 		// create depth cubemap texture
@@ -66,9 +66,9 @@ void ShadowRenderAssist::BindDepathMap()
 }
 unsigned ShadowRenderAssist::GetDepthMapFBO()
 {
-	if (_type == kDirectional)
+	if (_type == LightType::kDirectional)
 		return _depthDirMapFBO;
-	else if (_type == kPoint || _type == kSpot)
+	else if (_type == LightType::kPoint || _type == LightType::kSpot)
 		return _depthPointMapFBO;
 	else
 	{
@@ -79,9 +79,9 @@ unsigned ShadowRenderAssist::GetDepthMapFBO()
 
 unsigned ShadowRenderAssist::GetDepthMap()
 {
-	if (_type == kDirectional)
+	if (_type == LightType::kDirectional)
 		return _depthDirMap;
-	else if (_type == kPoint || _type == kSpot)
+	else if (_type == LightType::kPoint || _type == LightType::kSpot)
 		return _depthPointmap;
 	else
 	{
@@ -94,13 +94,13 @@ unsigned ShadowRenderAssist::GetDepthMap()
 /////////////////////////////////////////////////////////////////////////////////////////////
 Light::Light(Ambient* ambi,LightType type)
 	: Super(ambi)
-	, _type(type)
+	, _type(static_cast<int>(type))
 	, _shadowAssist(nullptr)
 	, _farPlane(25.0f)
 	, _nearPlane(0.01f)
 {
 	AddToManager();
-	SetShadowType(SHADOW_TYPE_SOFT);
+	SetShadowType(ShadowType::kSoft);
 }
 void Light::Update()
 {
@@ -114,7 +114,7 @@ void Light::Update()
 void Light::SetShadowType(ShadowType type)
 {
 	_shadowType = type;
-	if (_shadowAssist || (type == SHADOW_TYPE_NO_SHADOW))
+	if (_shadowAssist || (type == ShadowType::kNoShadow))
 		return;
 	_shadowAssist = new ShadowRenderAssist(_ambient,GetType());
 }
@@ -139,12 +139,10 @@ glm::vec3 Light::GetLightPosition()
 }
 void Light::AddToManager()
 {
-	//INSTANCE(LightManager).AddLight(this);
 	GetSubSystem<Renderer>()->GetLightContainer()->AddLight(this);
 }
 void Light::RemoveFromManager()
 {
-	//INSTANCE(LightManager).RemoveLight(this);
 	GetSubSystem<Renderer>()->GetLightContainer()->RemoveLight(this);
 }
 

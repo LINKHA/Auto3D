@@ -4,7 +4,7 @@ namespace Auto3D {
 
 
 LightSpot::LightSpot(Ambient* ambi)
-	:Super(ambi,kSpot)
+	:Super(ambi, LightType::kSpot)
 {
 	_color.Set(1.0f, 1.0f, 1.0f);
 	direction.Set(-0.5f, -0.5f, -0.0f);

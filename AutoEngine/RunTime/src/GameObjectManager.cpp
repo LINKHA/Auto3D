@@ -40,9 +40,9 @@ void GameObjectManager::RemoveGameObject(GameObject* obj)
 		_gameObjects.remove(obj);
 	}
 }
-void GameObjectManager::ModeRunGameObject(RunMode runMode)
+void GameObjectManager::ModeRunGameObject(GameObjectRunMode runMode)
 {
-	if (runMode == DefaultMode)
+	if (runMode == GameObjectRunMode::kDefault)
 	{
 		ErrorString("GameObejct fail to Run.");
 		return;
@@ -55,31 +55,31 @@ void GameObjectManager::ModeRunGameObject(RunMode runMode)
 		if (obj && obj->GetEnable())
 		{
 			using compomentIt = AUTO_VECTOR(int, Component*)::iterator;
-			if (runMode == AwakeMode) 
+			if (runMode == GameObjectRunMode::kAwake)
 				for (compomentIt k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++) 
 				{ 
 					if (k->second->GetEnable())
 						k->second->Awake();
 				}
-			else if (runMode == StartMode)
+			else if (runMode == GameObjectRunMode::kStart)
 				for (compomentIt k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++)
 				{ 
 					if (k->second->GetEnable()) 
 						k->second->Start(); 
 				}
-			else if (runMode == UpdateMode)
+			else if (runMode == GameObjectRunMode::kUpdate)
 				for (compomentIt k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++) 
 				{ 
 					if (k->second->GetEnable())
 						k->second->Update(); 
 				}
-			else if (runMode == FixUpdateMode)
+			else if (runMode == GameObjectRunMode::kFixUpdate)
 				for (compomentIt k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++) 
 				{ 
 					if (k->second->GetEnable()) 
 						k->second->FixUpdate(); 
 				}
-			else if (runMode == FinishMode)
+			else if (runMode == GameObjectRunMode::kFinish)
 			{
 				for (compomentIt k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++) 
 				{ 
