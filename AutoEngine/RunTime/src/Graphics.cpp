@@ -64,11 +64,11 @@ void Graphics::CreateGameWindow()
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
-#if MSAA_POINT
-	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+	//MSAA_POINT
+	//SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+	//SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, MSAA_POINT);
 
-	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, MSAA_POINT);
-#endif // MSAA_POINT
+
 
 	// Create the window
 	if (_isFullScreen)

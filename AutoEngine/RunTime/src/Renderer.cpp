@@ -202,7 +202,6 @@ void Renderer::Render()
 			//Use OffScreen
 			if (cam->GetAllowOffScreen())
 				cam->GetOffScreen()->RenderStart();
-
 			//Rendering path opaques
 			renderOpaques();
 			renderCustom();
