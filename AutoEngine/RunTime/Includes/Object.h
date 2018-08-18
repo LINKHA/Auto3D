@@ -163,8 +163,6 @@ public:
 	virtual const char* GetClassStringVirtual()			{ return "Object"; }\
 	virtual const char* GetSharedPtrTypeStringVirtual() { return "SharedPtr<Object>"; }
 
-
-
 	const std::string& Object::GetClassName()const;
 	static const std::string& Object::ClassIDToString(int ID);
 
@@ -180,7 +178,12 @@ private:
 	Int32 _instanceID;
 	Int32 _classID;
 };
-template <class T> T* Object::GetSubSystem() const { return static_cast<T*>(Object::GetSubSystem(T::GetClassStringStatic())); }
+
+template <class T> 
+T* Object::GetSubSystem() const 
+{ 
+	return static_cast<T*>(Object::GetSubSystem(T::GetClassStringStatic())); 
+}
 
 class ObjectFactory : public RefCounted
 {

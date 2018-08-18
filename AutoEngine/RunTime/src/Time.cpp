@@ -1,5 +1,8 @@
 #include "Time.h"
 #include "SDL2/SDL.h"
+#include "Math/Math.h"
+
+
 namespace Auto3D {
 SYSTEMTIME  sysTime;
 Time::TimeHolder::TimeHolder()

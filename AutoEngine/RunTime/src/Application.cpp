@@ -1,5 +1,4 @@
 #include "Application.h"
-#include "stb_image.h"
 namespace Auto3D {
 
 SINGLETON_INSTANCE(Application);

@@ -2,9 +2,7 @@
 #include "SDL2/SDL.h"
 namespace Auto3D {
 SINGLETON_INSTANCE(Monitors);
-Monitors::~Monitors()
-{
-}
+
 
 Monitors::Monitors()
 {

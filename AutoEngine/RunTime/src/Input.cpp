@@ -21,7 +21,7 @@ void Input::Update()
 	{
 		handleSDLEvent(&evt);
 		if(_isLockCursor)
-			lockCursor(_lockMousePosition.x, _lockMousePosition.y);
+			lockCursorEvent(_lockMousePosition.x, _lockMousePosition.y);
 	}
 		
 }
@@ -101,7 +101,7 @@ bool Input::GetKeyPress(int key)
 {
 	return !(_keysPress.find(key) == _keysPress.end());
 }
-void Input::lockCursor(int x,int y)
+void Input::lockCursorEvent(int x,int y)
 {
 	SDL_WarpMouseInWindow(GetSubSystem<Graphics>()->GetGameWindow(), x, y);
 }

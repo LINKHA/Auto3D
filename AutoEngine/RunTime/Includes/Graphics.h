@@ -22,10 +22,12 @@ public:
 	* @brief : Create a Game window
 	*/
 	void CreateGameWindow();
+#if _OPENGL_4_6_ || _OPENGL_4_PLUS_ || _OPENGL_3_PLUS_
 	/**
 	* @brief : Create Context to draw opengl geometry(Opengl only)
 	*/
 	void CreateGlContext();
+#endif
 	/**
 	* @brief : Init Game window position(Create window not set position)
 	*/
@@ -55,19 +57,38 @@ public:
 	* @brief : Return context lost status
 	*/
 	bool IsDeviceLost();
-
+	/**
+	* @brief : Get rect with int
+	* @return : RectInt
+	*/
 	RectInt GetWindowRectInt() { return _windowRect; }
+	/**
+	* @brief :
+	*/
 	void SetWindowRectInt(int width, int height) { _windowRect.width = width; _windowRect.height = height; }
+	/**
+	* @brief : Get the upper name of the form
+	* @return : char*
+	*/
 	char* GetTitle() { return _titleName; }
 	bool GetScreenFullorNot() { return true; }
+	/**
+	* @brief : Get game window
+	* @return : SDL_Window*
+	*/
 	SDL_Window* GetGameWindow() { return _window; }
 
 
 	void Draw(PrimitiveTypes type, unsigned vertexStart, unsigned vertexCount);
 	void Draw(PrimitiveTypes type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount);
 	void DrawInstanced(PrimitiveTypes type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount,unsigned instanceCount);
-	
+	/**
+	* @brief : Begin to run frame
+	*/
 	bool BeginFrame();
+	/**
+	* @brief : Finish end to frame
+	*/
 	void EndFrame();	
 	/**
 	* @brief : Clear color depth and stencil
@@ -76,8 +97,10 @@ public:
 	void SetColorWrite(bool enable);
 	void SetDepthWrite(bool enable);
 private:
-	SDL_Window* _window{};
+#if _OPENGL_4_6_ || _OPENGL_4_PLUS_ || _OPENGL_3_PLUS_
 	SDL_GLContext _context;
+#endif
+	SDL_Window* _window{};
 	Color _drawColor;
 	RectInt _windowRect;
 	char* _titleName;

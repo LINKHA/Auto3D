@@ -16,10 +16,3 @@
 #define AUTO_VECTOR(id,value)		std::vector<std::pair<id,value>>
 #define AUTO_MAP(key, value)		std::map<key,value,std::less<key>>
 #define AUTO_HASH_MAP(key, value)	std::unordered_map<key,value>
-
-template <class T> inline void swap(T& first, T& second)
-{
-	T temp = first;
-	first = second;
-	second = temp;
-}

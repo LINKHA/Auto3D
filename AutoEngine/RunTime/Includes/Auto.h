@@ -73,3 +73,12 @@ using PUInt64 = unsigned __int64*;
 #define SAFE_RELEASE_NULL(p)     do { if(p) { (p)->release(); (p) = nullptr; } } while(0)
 #define SAFE_RETAIN(p)           do { if(p) { (p)->retain(); } } while(0)
 #define BREAK_IF(cond)           if(cond) break
+
+
+#define AUTO_DEBUG 1
+#define AUTO_RELEASE !AUTO_DEBUG
+
+#if AUTO_DEBUG 
+#else
+#pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
+#endif

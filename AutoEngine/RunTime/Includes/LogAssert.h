@@ -5,12 +5,6 @@
 #include <Assert.h>
 
 namespace Auto3D {
-#define AUTO_DEBUG 1
-#define AUTO_RELEASE !AUTO_DEBUG
-#if AUTO_DEBUG 
-#else
-#pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
-#endif
 
 enum class LogType
 {

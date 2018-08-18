@@ -31,12 +31,8 @@ public:
 	void ReleaseRef();
 	int Refs() const;
 	int WeakRefs() const;
-
 	RefCount* RefCountPtr() { return _refCount; }
-
 private:
-	
-
 	/// Pointer to the reference count structure.
 	RefCount* _refCount;
 };

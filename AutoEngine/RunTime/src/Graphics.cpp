@@ -91,12 +91,14 @@ void Graphics::CreateGameWindow()
 	if (_window == NULL)
 		ErrorString("Couldn't set video mode");
 }
+#if _OPENGL_4_6_ || _OPENGL_4_PLUS_ || _OPENGL_3_PLUS_
 void Graphics::CreateGlContext()
 {
 	_context = SDL_GL_CreateContext(_window);
 	if (_context == NULL)
 		ErrorString("Failed to create OpenGL context");
 }
+#endif
 void Graphics::InitGameWindowPos()
 {
 	SDL_Rect rect;

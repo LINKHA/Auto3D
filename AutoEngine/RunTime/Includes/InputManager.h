@@ -6,8 +6,6 @@
 *
 *  These values are from usage page 0x07 (USB keyboard page).
 */
-/* @{ */
-
 #define SCANCODE_MASK (1<<30)
 #define TO_KEYCODE(X)  (X | SCANCODE_MASK)
 enum ScancodeKey

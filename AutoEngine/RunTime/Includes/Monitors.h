@@ -12,16 +12,30 @@ namespace Auto3D {
 */
 class Monitors : public Singleton<Monitors>
 {
-private:
-	Int32 monitorCount;
 public:
 	Monitors();
-	~Monitors();
-	AUTO_VECTOR(int,int) mnitors;
+	~Monitors() = default;
+	/**
+	* @brief : Get moitors count
+	*/
 	Int32 GetMonitorsCount();
+	/**
+	* @brief : Get monitor index height
+	* @return : return Int32 
+	*/
 	Int32 GetMonitorsHeight(int index);
+	/**
+	* @brief : Get monitor index width
+	* @return : return Int32
+	*/
 	Int32 GetMonitorsWidth(int index);
+	/**
+	* @brief : Get mouitor index Size
+	* @return : return Vector2
+	*/
 	Vector2 GetMonitorsSize(int index);
-
+private:
+	Int32 monitorCount;
+	AUTO_VECTOR(int, int) mnitors;
 };
 }

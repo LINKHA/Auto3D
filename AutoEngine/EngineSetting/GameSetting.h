@@ -1,5 +1,5 @@
 #pragma once
-enum Tag
+enum class Tag
 {
 	kDefault,
 	kPlayer,
@@ -8,7 +8,7 @@ enum Tag
 	kButton,
 };
 
-enum Layout
+enum class Layout
 {
 	kBackGround,
 	kWall,

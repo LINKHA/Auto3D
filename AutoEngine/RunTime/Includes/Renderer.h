@@ -19,11 +19,30 @@ public:
 	explicit LightContainer(Ambient* ambient);
 	void AddLight(Light* source);
 	void RemoveLight(Light* source);
+	/**
+	* @brief : Get light container size
+	*/
 	int Size();
+	/**
+	* @brief : Get all lights
+	* @return : _VECTOR(Light*)
+	*/
 	Lights GetAllLights() { return _lights; }
+	/**
+	* @brief : Get last main light
+	*/
 	const Light* GetLastMainLight() { return _lastMainLight; }
+	/**
+	* @brief : Set is or not render
+	*/
 	void IsRender(bool b) { _isRenderOrCull = b; }
+	/**
+	* @brief : Set current light
+	*/
 	void SetCurrentLight(Light* light) { _currentLight = light; }
+	/**
+	* @brief : Get current light
+	*/
 	Light* GetCurrentLight() { return _currentLight; }
 private:
 	bool _isRenderOrCull;
@@ -35,9 +54,6 @@ private:
 /**
 * @brief : Dedicated to renderer draw shadow
 */
-//Temp
-class MeshShadow;
-
 class ShadowRenderer : public Object
 {
 	
@@ -50,8 +66,16 @@ public:
 	* @brief : Get renderer to _renderer
 	*/
 	explicit ShadowRenderer(Ambient* ambient);
+	/**
+	* @brief : Ready to render shadow(Traversal shadow queue)
+	*/
 	void ReadyRender();
+	/**
+	* @brief : Distinguish point light from ambient light 
+	*	render to shadow(Traversal shadow queue)
+	*/
 	void RenderShadow();
+
 	Shader& GetDepthMapShader() { return _shadowMapDepthShader; }
 	Shader& GetPointDepthMapShader() { return _shadowMapPointDepth; }
 private:
