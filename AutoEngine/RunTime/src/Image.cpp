@@ -3,19 +3,21 @@
 
 namespace Auto3D {
 
-
-
 Image::Image()
-{}
+{
+	value = NULL;
+	width = 0;
+	height = 0;
+	format = 0;
+}
 Image::Image(int width, int height)
 {
-	ImageReference::height = height;
-	ImageReference::width = width;
+	value = NULL; 
+	this->width = width;
+	this->height = height;
+	format = 0;
 }
-Image::~Image()
-{
 
-}
 
 
 }
