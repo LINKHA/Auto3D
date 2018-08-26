@@ -118,6 +118,8 @@ void Graphics::InitGameWindowPos()
 	}
 	SDL_SetWindowSize(_window, _windowRect.width, _windowRect.height);
 	SDL_SetWindowPosition(_window, _windowRect.x - _windowRect.width / 2, _windowRect.y - _windowRect.height / 2);
+	///lock cursor in window
+	SDL_SetWindowGrab(_window, SDL_TRUE);
 }
 void Graphics::CreateIcon()
 {

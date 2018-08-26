@@ -82,6 +82,10 @@ public:
 	* @brief : Show cursor is or not
 	*/
 	void ShowCursor(bool enable);
+	/**
+	* @brief : Limit the mouse in the window
+	*/
+	void HideMouseInWindow(bool enable);
 private:
 	/**
 	* @brief : Handle SDL event (like mouse button cilck)
@@ -90,17 +94,35 @@ private:
 	/**
 	* @brief : Lock cursor to x,y run in event
 	*/
-	void lockCursorEvent(int x, int y);
+	void lockCursorEvent();
+	/**
+	* @brief : Limit cursor in window
+	*/
+	void hideCursorEvent(bool enable);
 private:
+	///all buttons down in the same frame
 	_SET(int) _keysDown;
+	///all buttons pressed in the same frame
 	_SET(int) _keysPress;
+	///mouse position limit in window
 	Vector2	_mousePosition;
+	///last mouse potition limit in window
 	Vector2	_lastMousePosition;
+	///mouse offset
 	Vector2	_mouseMove;
+	///mouse wheel offset
 	int	_mouseWheelOffset{};
+	///mouse whell move
 	int	_mouseMoveWheel{};
+	///is mouse move
 	bool _isMouseMove;
+	///is lock cursor in position
 	bool _isLockCursor;
+	///is hide cursor in window and you can get an offset beyond the window
+	bool _isHideCursor;
+	///is show cursor
+	bool _isShowCursor;
+	///lock mouse in position
 	Vector2	_lockMousePosition;
 };
 

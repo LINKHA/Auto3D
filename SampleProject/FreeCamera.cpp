@@ -7,6 +7,7 @@
 #include "Input.h"
 
 
+
 void FreeCamera::processInput()
 {
 	
@@ -21,7 +22,6 @@ void FreeCamera::processInput()
 	if (GetSubSystem<Input>()->IsMouseMove())
 	{
 		freeCamera->ProcessMouseMovement(GetSubSystem<Input>()->GetMouseMove().x, GetSubSystem<Input>()->GetMouseMove().y);
-		Print(GetSubSystem<Input>()->GetMouseMove().x);
 	}
 	freeCamera->ProcessMouseScroll(GetSubSystem<Input>()->GetMouseWheelOffset());
 }
@@ -43,11 +43,8 @@ void FreeCamera::Start()
 	
 	
 	freeCameraObject->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
-
 	freeCameraObject->AddComponent(freeCamera);
-
-	GetSubSystem<Input>()->ShowCursor(false);
-	GetSubSystem<Input>()->LockCursorInCenter();
+	GetSubSystem<Input>()->HideMouseInWindow(true);
 	
 }
 void FreeCamera::Update()

@@ -4,8 +4,10 @@
 namespace Auto3D {
 Input::Input(Ambient* ambient)
 	: Super(ambient)
-	, _isMouseMove(false)
+	, _isMouseMove(true)
 	, _isLockCursor(false)
+	, _isHideCursor(false)
+	, _isShowCursor(true)
 {
 }
 
@@ -20,8 +22,8 @@ void Input::Update()
 	while (SDL_PollEvent(&evt))
 	{
 		handleSDLEvent(&evt);
-		if(_isLockCursor)
-			lockCursorEvent(_lockMousePosition.x, _lockMousePosition.y);
+		hideCursorEvent(_isHideCursor);
+		lockCursorEvent();
 	}
 		
 }
@@ -40,16 +42,8 @@ void Input::handleSDLEvent(void* sdlEvent)
 		SDL_GetMouseState(&x, &y);
 		_mousePosition.x = x;
 		_mousePosition.y = y;
-		if (_isLockCursor) 
-		{
-			_mouseMove.x = -evt.motion.xrel;
-			_mouseMove.y = evt.motion.yrel;
-		}
-		else
-		{
-			_mouseMove.x = evt.motion.xrel;
-			_mouseMove.y = -evt.motion.yrel;
-		}
+		_mouseMove.x = evt.motion.xrel;
+		_mouseMove.y = -evt.motion.yrel;
 		_isMouseMove = true;
 		break;
 	case SDL_MOUSEBUTTONDOWN:
@@ -101,10 +95,8 @@ bool Input::GetKeyPress(int key)
 {
 	return !(_keysPress.find(key) == _keysPress.end());
 }
-void Input::lockCursorEvent(int x,int y)
-{
-	SDL_WarpMouseInWindow(GetSubSystem<Graphics>()->GetGameWindow(), x, y);
-}
+
+
 void Input::LockCursor(int x, int y)
 {
 	_lockMousePosition.x = x;
@@ -117,13 +109,33 @@ void Input::LockCursorInCenter()
 	_lockMousePosition.y = GetSubSystem<Graphics>()->GetWindowRectInt().height / 2;
 	_isLockCursor = true;
 }
+void Input::HideMouseInWindow(bool enable)
+{
+	_isHideCursor = enable;
+}
 void Input::ShowCursor(bool enable)
 {
-	if (enable)
+	if (enable) 
 		SDL_ShowCursor(SDL_ENABLE);
 	else if (!enable)
 		SDL_ShowCursor(SDL_DISABLE);
 	else
 		SDL_ShowCursor(SDL_QUERY);
+	_isShowCursor = enable;
 }
+
+void Input::lockCursorEvent()
+{
+	if(_isLockCursor)
+		SDL_WarpMouseInWindow(GetSubSystem<Graphics>()->GetGameWindow(), _lockMousePosition.x, _lockMousePosition.y);
+}
+
+void Input::hideCursorEvent(bool enable)
+{
+	if (enable)
+		SDL_SetRelativeMouseMode(SDL_TRUE);
+	else
+		SDL_SetRelativeMouseMode(SDL_FALSE);
+}
+
 }
