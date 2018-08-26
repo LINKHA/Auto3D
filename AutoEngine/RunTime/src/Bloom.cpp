@@ -5,6 +5,8 @@
 #include "Camera.h"
 #include "Renderer.h"
 #include "BaseMesh.h"
+#include "Resource.h"
+
 namespace Auto3D {
 
 Bloom::Bloom(Ambient* ambient)
@@ -28,9 +30,11 @@ Bloom::~Bloom()
 
 void Bloom::Start()
 {
-	woodTexture = LocalTextureLoad("../Resource/texture/bricks.jpg");
-	containerTexture = LocalTextureLoad("../Resource/texture/wood.jpg");
+	//woodTexture = LocalTextureLoad("../Resource/texture/bricks.jpg");
+	//containerTexture = LocalTextureLoad("../Resource/texture/wood.jpg");
 
+	woodTexture = GetSubSystem<Resource>()->TextureLoad("../Resource/texture/bricks.jpg");
+	containerTexture = GetSubSystem<Resource>()->TextureLoad("../Resource/texture/wood.jpg");
 	glGenFramebuffers(1, &hdrFBO);
 	glBindFramebuffer(GL_FRAMEBUFFER, hdrFBO);
 

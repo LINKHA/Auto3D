@@ -75,12 +75,16 @@ public:
 	* @brief : If allow Off screen get OffScreen ,else get nullptr
 	*/
 	OffScreen* GetOffScreen();
-
+	/**
+	* @brief : According to projection Mode ,get view matrix
+	*/
 	
-
-
-	glm::mat4& GetViewMatrix();
 	glm::mat4& GetProjectionMatrix();
+
+	/**
+	* @brief : Get member
+	*/
+	glm::mat4& GetViewMatrix();
 	float GetDepth() const { return _depth; }
 	Color& GetBackgroundColor() { return _backGroundColor; }
 	ProjectionMode GetSortMode() const { return _projectionMode; }
@@ -91,12 +95,12 @@ public:
 	float GetZoom() { return _zoom; }
 	glm::vec3& GetPosition() { return _position; }
 	bool GetAllowMSAA();
-	
 	bool GetAllowLateEffect() ;
-	
 	bool GetAllowOffScreen() { return _isAllowOffScreen; }
 
-
+	/**
+	* @brief : Set menber
+	*/
 	void SetDepth(float depth) { _depth = depth; }
 	void SetBackgroundColor(const Color& color) { _backGroundColor = color; }
 	void SetSortMode(ProjectionMode m) { _projectionMode = m; }
@@ -139,11 +143,7 @@ protected:
 	bool _isEnable;
 	bool _isRendering;
 	bool _isFirstMouse;
-
-
 	SharedPtr<OffScreen> _offScreen;
-
 	bool _isAllowOffScreen;
-
 };
 }

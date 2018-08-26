@@ -2,6 +2,7 @@
 #include "Renderer.h"
 #include "Graphics.h"
 #include "Configs.h"
+#include "Resource.h"
 namespace Auto3D {
 
 
@@ -33,8 +34,10 @@ TextureNormal::~TextureNormal()
 void TextureNormal::Start()
 {
 	Super::Start();
-	_image = LocalTextureLoad(_imagePath);
-	_imageNormal = LocalTextureLoad(_imageNormalPath);
+	//_image = LocalTextureLoad(_imagePath);
+	//_imageNormal = LocalTextureLoad(_imageNormalPath);
+	_image = GetSubSystem<Resource>()->TextureLoad(_imagePath);
+	_imageNormal = GetSubSystem<Resource>()->TextureLoad(_imageNormalPath);
 	_shader = Shader(shader_path + "au_normal_mapping.auvs", shader_path + "au_normal_mapping.aufs");
 
 	_shader.Use();

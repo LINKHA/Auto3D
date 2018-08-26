@@ -4,9 +4,12 @@
 #include "Ambient.h"
 namespace Auto3D {
 
-///Any game manager (eg. AudioManager, dynamicsmanager) that needs serialization
-///LevelGameManagers are destroyed and reloaded from the new scene when loading a new scene.
-///GlobalGameManagers are run all game period
+
+/**
+* Any game manager (eg. AudioManager, dynamicsmanager) that needs serialization
+* LevelGameManagers are destroyed and reloaded from the new scene when loading a new scene.
+* GlobalGameManagers are run all game period
+*/
 class GameManager : public Object
 {
 public:

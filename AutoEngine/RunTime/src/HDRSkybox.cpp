@@ -6,6 +6,8 @@
 #include "Renderer.h"
 #include "Graphics.h"
 #include "Configs.h"
+#include "Resource.h"
+
 namespace Auto3D {
 SINGLETON_INSTANCE(SkyBoxManager);
 HDRSkyBox::HDRSkyBox(Ambient* ambient)
@@ -47,8 +49,9 @@ void HDRSkyBox::Start()
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, captureRBO);
 
 
-	hdrTexture = LocalHdrLoad("../Resource/texture/hdr/Alexs_Apt_2k.hdr");
+	//hdrTexture = LocalHdrLoad("../Resource/texture/hdr/Alexs_Apt_2k.hdr");
 
+	hdrTexture = GetSubSystem<Resource>()->HdrLoad("../Resource/texture/hdr/Alexs_Apt_2k.hdr");
 	glGenTextures(1, &envCubemap);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, envCubemap);
 	for (unsigned int i = 0; i < 6; ++i)

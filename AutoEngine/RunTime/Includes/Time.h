@@ -2,54 +2,70 @@
 #include <Windows.h>
 #include "GameManager.h"
 
-
-
-
 namespace Auto3D {
+/**
+* @brief : Save time information 
+*/
+struct TimeHolder
+{
+	double curFrameTime;
+	double lastFrameTime;
+	float deltaTime;
+	float smoothDeltaTime;
+
+	TimeHolder()
+		: curFrameTime(0)
+		, lastFrameTime(0)
+		, deltaTime(0)
+		, smoothDeltaTime(0)
+	{}
+};
+/**
+* @brief : Save world time information
+*/
+struct RealTime
+{
+	int year;
+	int month;
+	int day;
+	int hour;
+	int minute;
+	int second;
+
+	RealTime();
+};
 /**
 * @brief : SubSystem class for time
 */
 class Time : public GlobalGameManager
 {
-public:
+
 	REGISTER_DERIVED_CLASS(Time, GlobalGameManager);
 	DECLARE_OBJECT_SERIALIZE(Time);
-
-
-	struct TimeHolder
-	{
-		double curFrameTime;
-		double lastFrameTime;
-		float deltaTime;
-		float smoothDeltaTime;
-
-		TimeHolder();
-	};
-	struct RealTime
-	{
-		int year;
-		int month;
-		int day;
-		int hour;
-		int minute;
-		int second;
-
-		RealTime();
-	};
-	RealTime GetRealTime();
+public:
 	explicit Time(Ambient* ambient);
+	/**
+	* @brief : Get real time now
+	* @return : RealTime
+	*/
+	RealTime GetRealTime();
+	/**
+	* @brief : Set current frame time
+	*/
 	void SetTime(double time);
-	void ResetTime();
+	/**
+	* @brief : Set pause key enable
+	*/
 	void SetPause(bool pause);
 	void SetMaximumDeltaTime(float maxStep);
 	void SetTimeScale(float scale);
 
+	inline double GetCurTime() const { return _activeTime.curFrameTime; }
+	inline float GetDeltaTime() const { return _activeTime.deltaTime; }
+	inline float GetSmoothDeltaTime() const { return _activeTime.smoothDeltaTime; }
+	
+	void ResetTime();
 	virtual void Update();
-
-	inline double	GetCurTime() const				{ return _activeTime.curFrameTime; }
-	inline float	GetDeltaTime() const			{ return _activeTime.deltaTime; }
-	inline float 	GetSmoothDeltaTime()  const		{ return _activeTime.smoothDeltaTime; }
-
 private:
 	TimeHolder  _fixedTime;
 	TimeHolder  _dynamicTime;

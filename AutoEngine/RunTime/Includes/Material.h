@@ -1,15 +1,15 @@
 #pragma once
-
 #include "Auto.h"
 #include "Math/Math.h"
-#include "ObjectDefines.h"
-#include "Image.h"
-
+#include "ComponentSetting.h"
 namespace Auto3D {
-struct Material
+class Material : public ComponentSetting
 {
-	Material();
-	Material(char * path);
+	REGISTER_DERIVED_CLASS(Material, ComponentSetting);
+	DECLARE_OBJECT_SERIALIZE(Material);
+public:
+	Material(Ambient* ambient);
+	Material(Ambient* ambient,char * path);
 	unsigned int diffuseMap;
 	Color color;
 	Vector3 ambient;

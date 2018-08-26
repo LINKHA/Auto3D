@@ -7,8 +7,10 @@
 #include "Light.h"
 #include "stl_use.h"
 #include "Configs.h"
+
 //Temp
 #include "LoadResource.h"
+#include "Resource.h"
 
 namespace Auto3D {
 
@@ -81,7 +83,8 @@ void ShadowRenderer::ReadyRender()
 			(*it)->DrawReady();
 		}
 #pragma warning
-		_woodTexture = LocalTextureLoad("../Resource/texture/wood.jpg");
+		//_woodTexture = LocalTextureLoad("../Resource/texture/wood.jpg");
+		_woodTexture = GetSubSystem<Resource>()->TextureLoad("../Resource/texture/wood.jpg");
 	}
 	renderer->_lightContainer->IsRender(false);
 }

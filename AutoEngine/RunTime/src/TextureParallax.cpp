@@ -1,6 +1,8 @@
 #include "TextureParallax.h"
 #include "Renderer.h"
 #include "Configs.h"
+#include "Resource.h"
+
 namespace Auto3D {
 
 
@@ -34,9 +36,12 @@ TextureParallax::~TextureParallax()
 void TextureParallax::Start()
 {
 	Super::Start();
-	_image = LocalTextureLoad(_imagePath);
+	/*_image = LocalTextureLoad(_imagePath);
 	_imageNormal = LocalTextureLoad(_imageNormalPath);
-	_imageParallax = LocalTextureLoad(_imageParallaxPath);
+	_imageParallax = LocalTextureLoad(_imageParallaxPath);*/
+	_image = GetSubSystem<Resource>()->TextureLoad(_imagePath);
+	_imageNormal = GetSubSystem<Resource>()->TextureLoad(_imageNormalPath);
+	_imageParallax = GetSubSystem<Resource>()->TextureLoad(_imageParallaxPath);
 	_shader = Shader(shader_path + "au_parallax_mapping.auvs", shader_path + "au_parallax_mapping.aufs");
 	_shader.Use();
 	_shader.SetInt("diffuseMap", 0);

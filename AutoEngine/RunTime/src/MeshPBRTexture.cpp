@@ -7,6 +7,8 @@
 #include "Time.h"
 #include "Transform.h"
 #include "Light.h"
+#include "Resource.h"
+
 namespace Auto3D {
 
 MeshPBRTexture::MeshPBRTexture(Ambient* ambient)
@@ -50,12 +52,17 @@ void MeshPBRTexture::Start()
 		_shader.SetInt("prefilterMap", 6);
 		_shader.SetInt("brdfLUT", 7);
 	}
-	_albedoMap = LocalTextureLoad("../Resource/texture/pbr/gold/albedo.png");
+	/*_albedoMap = LocalTextureLoad("../Resource/texture/pbr/gold/albedo.png");
 	_normalMap = LocalTextureLoad("../Resource/texture/pbr/gold/normal.png");
 	_metallicMap = LocalTextureLoad("../Resource/texture/pbr/gold/metallic.png");
 	_roughnessMap = LocalTextureLoad("../Resource/texture/pbr/gold/roughness.png");
-	_aoMap = LocalTextureLoad("../Resource/texture/pbr/gold/ao.png");
+	_aoMap = LocalTextureLoad("../Resource/texture/pbr/gold/ao.png");*/
 
+	_albedoMap = GetSubSystem<Resource>()->TextureLoad("../Resource/texture/pbr/gold/albedo.png");
+	_normalMap = GetSubSystem<Resource>()->TextureLoad("../Resource/texture/pbr/gold/normal.png");
+	_metallicMap = GetSubSystem<Resource>()->TextureLoad("../Resource/texture/pbr/gold/metallic.png");
+	_roughnessMap = GetSubSystem<Resource>()->TextureLoad("../Resource/texture/pbr/gold/roughness.png");
+	_aoMap = GetSubSystem<Resource>()->TextureLoad("../Resource/texture/pbr/gold/ao.png");
 
 	RegisterOpaque(this);
 }

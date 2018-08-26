@@ -5,14 +5,12 @@
 
 namespace Auto3D {
 SYSTEMTIME  sysTime;
-Time::TimeHolder::TimeHolder()
-	: curFrameTime(0)
-	, lastFrameTime(0)
-	, deltaTime(0)
-	, smoothDeltaTime(0)
-{}
 
-Time::RealTime::RealTime()
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+//RealTime
+/////////////////////////////////////////////////////////////////////////////////////////////
+RealTime::RealTime()
 {
 	GetLocalTime(&sysTime);
 	year = sysTime.wYear;
@@ -23,8 +21,24 @@ Time::RealTime::RealTime()
 	second = sysTime.wSecond;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////
+//Time
+/////////////////////////////////////////////////////////////////////////////////////////////
+Time::Time(Ambient* ambient)
+	: Super(ambient)
+{
+	//_realTime = RealTime();
 
-Time::RealTime Time::GetRealTime()
+	_dynamicTime.curFrameTime = 0.0f;
+	_dynamicTime.lastFrameTime = 0.0f;
+	_dynamicTime.deltaTime = 0.0f;
+	_dynamicTime.smoothDeltaTime = 0.0f;
+	_activeTime = _dynamicTime;
+	_isPause = false;
+
+}
+
+RealTime Time::GetRealTime()
 {
 	GetLocalTime(&sysTime);
 	_realTime.year = sysTime.wYear;
@@ -34,21 +48,6 @@ Time::RealTime Time::GetRealTime()
 	_realTime.minute = sysTime.wMinute;
 	_realTime.second = sysTime.wSecond;
 	return _realTime;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-Time::Time(Ambient* ambient)
-	: Super(ambient)
-{
-	_realTime = RealTime();
-
-	_dynamicTime.curFrameTime = 0.0f;
-	_dynamicTime.lastFrameTime = 0.0f;
-	_dynamicTime.deltaTime = 0.0f;
-	_dynamicTime.smoothDeltaTime = 0.0f;
-	_activeTime = _dynamicTime;
-	_isPause = false;
-
 }
 
 

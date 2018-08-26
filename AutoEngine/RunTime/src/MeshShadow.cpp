@@ -5,7 +5,7 @@
 #include "Camera.h"
 #include "Configs.h"
 #include "LoadResource.h"
-
+#include "Resource.h"
 namespace Auto3D {
 
 MeshShadow::MeshShadow(Ambient* ambient)
@@ -24,9 +24,16 @@ MeshShadow::~MeshShadow()
 }
 void MeshShadow::DrawReady()
 {
-	_model = LocalModelLoad("../Resource/object/base/Cube.3DS");
+	/*_model = LocalModelLoad("../Resource/object/base/Cube.3DS");
 
-	_woodTexture = LocalTextureLoad("../Resource/texture/wood.jpg");
+	_woodTexture = LocalTextureLoad("../Resource/texture/wood.jpg");*/
+
+
+	_model = GetSubSystem<Resource>()->ModelLoad("../Resource/object/base/Cube.3DS");
+	_woodTexture = GetSubSystem<Resource>()->TextureLoad("../Resource/texture/wood.jpg");
+
+
+	
 	_shader.Use();
 	_shader.SetInt("diffuseTexture", 0);
 	_shader.SetInt("shadowMap", 1);

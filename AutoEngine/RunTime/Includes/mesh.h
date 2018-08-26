@@ -21,14 +21,14 @@ public:
 
 	void Start()override;
 	void Draw()override;
-	Material& GetMaterial() { return _material; }
+	Material* GetMaterial() { return _material; }
 
 private:
 	void drawMaterial();
 	void drawLight();
 private:
 	Shader _shader;
-	Material _material;
+	SharedPtr<Material> _material;
 	SharedPtr<ModelCommand> _model;
 	char* _meshPath;
 private:

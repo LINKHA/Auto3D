@@ -63,8 +63,9 @@ enum ClassIDType
 	DO_CLASS_ID(OffScreen, 56)
 	DO_CLASS_ID(MeshPBR,57)
 	DO_CLASS_ID(MeshPBRTexture, 58)
-	
-
+	DO_CLASS_ID(Image, 59)
+	DO_CLASS_ID(Resource,60)
+	DO_CLASS_ID(Material,61)
 	CLASS_ID_Count
 };
 

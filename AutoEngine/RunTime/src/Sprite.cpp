@@ -6,6 +6,9 @@
 #include "GLGather.h"
 #include "LoadResource.h"
 #include "Configs.h"
+#include "Resource.h"
+#include "Image.h"
+
 namespace Auto3D {
 
 Sprite::Sprite()
@@ -74,7 +77,10 @@ void Sprite::Start()
 	glBindTexture(GL_TEXTURE_2D, _textureData);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	_image = LocalImageLoad(_imagePath);
+	//_image = LocalImageLoad(_imagePath);
+	_image = GetSubSystem<Resource>()->ImageLoad(_imagePath);
+
+
 	//SetNearestParameters();
 	SetLinerParameters();
 	if (_image->value)

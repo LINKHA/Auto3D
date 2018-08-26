@@ -21,6 +21,7 @@ void FreeCamera::processInput()
 	if (GetSubSystem<Input>()->IsMouseMove())
 	{
 		freeCamera->ProcessMouseMovement(GetSubSystem<Input>()->GetMouseMove().x, GetSubSystem<Input>()->GetMouseMove().y);
+		Print(GetSubSystem<Input>()->GetMouseMove().x);
 	}
 	freeCamera->ProcessMouseScroll(GetSubSystem<Input>()->GetMouseWheelOffset());
 }

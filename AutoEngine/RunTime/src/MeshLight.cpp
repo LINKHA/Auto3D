@@ -5,7 +5,7 @@
 #include "Renderer.h"
 #include "BaseMesh.h"
 #include "Light.h"
-
+#include "Resource.h"
 
 namespace Auto3D {
 
@@ -22,8 +22,8 @@ MeshLight::~MeshLight()
 #define HDR_DEBUG 0
 void MeshLight::Start()
 {
-	woodTexture = LocalTextureLoad("../Resource/texture/bricks.jpg");
-
+	//woodTexture = LocalTextureLoad("../Resource/texture/bricks.jpg");
+	woodTexture = GetSubSystem<Resource>()->TextureLoad("../Resource/texture/bricks.jpg");
 
 	_shader.Use();
 	_shader.SetInt("diffuseTexture", 0);

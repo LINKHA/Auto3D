@@ -5,6 +5,7 @@
 #include "VertexData.h"
 #include "Renderer.h"
 #include "Configs.h"
+#include "Resource.h"
 namespace Auto3D {
 SINGLETON_INSTANCE(SkyManager);
 SkyBox::SkyBox(Ambient* ambient)
@@ -38,8 +39,8 @@ void SkyBox::Start()
 	"../Resource/skybox/arrakisday_rt.tga",
 	"../Resource/skybox/arrakisday_lf.tga"
 	};
-	_cubemapTexture = LoadCubemap(faces);
-
+	//_cubemapTexture = LoadCubemap(faces);
+	_cubemapTexture = GetSubSystem<Resource>()->CubemapLoad(faces);
 	RegisterOpaque(this);
 }
 void SkyBox::Draw()

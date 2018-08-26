@@ -2,6 +2,7 @@
 #include "Renderer.h"
 #include "Light.h"
 #include "Configs.h"
+#include "Resource.h"
 namespace Auto3D {
 
 Mesh::Mesh(Ambient* ambient)
@@ -10,6 +11,7 @@ Mesh::Mesh(Ambient* ambient)
 		, shader_path + "au_light_map_model_loading.aufs"))
 	, _isUserShader(false)
 {
+	_material = new Material(_ambient);
 	_meshPath = "../Resource/object/base/Cube.3DS";
 }
 Mesh::Mesh(Ambient* ambient,char* meshPath)
@@ -39,7 +41,7 @@ void Mesh::Start()
 	}
 	else
 	{
-		if (_material.isTexture)
+		if (_material->isTexture)
 		{
 			_shader = Shader(shader_path + "au_light_map_model_loading.auvs"
 				, shader_path + "au_light_map_model_loading.aufs");
@@ -50,7 +52,8 @@ void Mesh::Start()
 				, shader_path + "au_light_model_loading.aufs");
 		}
 	}
-	_model = LocalModelLoad(_meshPath);
+	//_model = LocalModelLoad(_meshPath);
+	_model = GetSubSystem<Resource>()->ModelLoad(_meshPath);
 	RegisterOpaque(this);
 }
 void Mesh::Draw()
@@ -86,17 +89,17 @@ void Mesh::Draw()
 
 void Mesh::drawMaterial()
 {
-	if (_material.isTexture)
+	if (_material->isTexture)
 	{
 		_shader.SetInt("material.color", 0);
 	}
 	else
 	{
-		_shader.SetVec3("material.color", _material.color.r, _material.color.g, _material.color.b);
+		_shader.SetVec3("material.color", _material->color.r, _material->color.g, _material->color.b);
 	}
-	_shader.SetVec3("material.diffuse", _material.diffuse);
-	_shader.SetVec3("material.specular", _material.specular);
-	_shader.SetFloat("material.shininess", _material.shininess);
+	_shader.SetVec3("material.diffuse", _material->diffuse);
+	_shader.SetVec3("material.specular", _material->specular);
+	_shader.SetFloat("material.shininess", _material->shininess);
 }
 
 void Mesh::drawLight()

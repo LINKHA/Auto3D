@@ -3,21 +3,24 @@
 
 namespace Auto3D {
 
-Image::Image()
+Image::Image(Ambient* ambient)
+	:Super(ambient)
+	,value(NULL)
+	,width(0)
+	,height(0)
+	,format(0)
 {
-	value = NULL;
-	width = 0;
-	height = 0;
-	format = 0;
 }
-Image::Image(int width, int height)
+Image::Image(Ambient* ambient,int Width, int Height)
+	:Super(ambient)
+	,value(NULL)
+	,width(Width)
+	,height(Height)
+	,format(0)
 {
-	value = NULL; 
-	this->width = width;
-	this->height = height;
-	format = 0;
 }
-
+Image::~Image()
+{}
 
 
 }

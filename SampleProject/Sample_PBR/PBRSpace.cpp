@@ -129,7 +129,7 @@ void PBRSpace::Start()
 	meshObj1->GetComponent(Transform).SetScale(12.0f, 2.0f, 2.0f);
 
 	Mesh* mesh1 = new Mesh(_ambient);
-	mesh1->GetMaterial().SetImage("../Resource/texture/wood.jpg");
+	mesh1->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
 	meshObj1->AddComponent(mesh1);
 	
 	GameObject * meshObj2 = new GameObject(_ambient);
@@ -137,14 +137,14 @@ void PBRSpace::Start()
 	meshObj2->GetComponent(Transform).SetScale(12.0f, 2.0f, 2.0f);
 
 	Mesh* mesh2 = new Mesh(_ambient);
-	mesh2->GetMaterial().SetImage("../Resource/texture/wood.jpg");
+	mesh2->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
 	meshObj2->AddComponent(mesh2);
 	
 	GameObject * meshObj3 = new GameObject(_ambient);
 	meshObj3->GetComponent(Transform).SetPosition(3.0f, -6.0f, 4.0f);
 	meshObj3->GetComponent(Transform).SetScale(12.0f, 2.0f, 2.0f);
 	Mesh* mesh3 = new Mesh(_ambient);
-	mesh3->GetMaterial().SetImage("../Resource/texture/wood.jpg");
+	mesh3->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
 	meshObj3->AddComponent(mesh3);
 
 
@@ -152,7 +152,7 @@ void PBRSpace::Start()
 	floorObj->GetComponent(Transform).SetPosition(3.0f, -8.0f, 4.0f);
 	floorObj->GetComponent(Transform).SetScale(50.0f, 2.0f, 50.0f);
 	Mesh* mesh4 = new Mesh(_ambient);
-	mesh4->GetMaterial().SetImage("../Resource/texture/wood.jpg");
+	mesh4->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
 	floorObj->AddComponent(mesh4);
 }
 
