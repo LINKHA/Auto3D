@@ -13,15 +13,7 @@ Graphics::Graphics(Ambient* ambient)
 	_windowRect.y = 0;
 	_windowRect.width = 1280;
 	_windowRect.height = 720;
-}
 
-
-Graphics::~Graphics()
-{
-}
-
-void Graphics::Init()
-{
 	CreateGameWindow();
 #if _OPENGL_4_6_ || _OPENGL_4_PLUS_ || _OPENGL_3_PLUS_
 	CreateGlContext();
@@ -35,6 +27,12 @@ void Graphics::Init()
 	RegisterDebug();
 	CreateIcon();
 }
+
+
+Graphics::~Graphics()
+{
+}
+
 void Graphics::CreateGameWindow()
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)

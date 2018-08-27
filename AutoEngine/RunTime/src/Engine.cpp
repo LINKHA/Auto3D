@@ -10,6 +10,8 @@
 #include "Script.h"
 #include "Resource.h"
 #include "Scene.h"
+#include "Hardware.h"
+
 
 namespace Auto3D {
 
@@ -24,6 +26,7 @@ Engine::Engine(Ambient* ambient)
 	_ambient->RegisterSubSystem(new Script(_ambient));
 	_ambient->RegisterSubSystem(new Resource(_ambient));
 	_ambient->RegisterSubSystem(new Scene(_ambient));
+	_ambient->RegisterSubSystem(new Hardware(_ambient));
 }
 
 Engine::~Engine()
@@ -33,12 +36,8 @@ Engine::~Engine()
 void Engine::Init()
 {
 	GetSubSystem<BaseSpace>()->Awake();
-
-	GetSubSystem<Graphics>()->Init();
 	GetSubSystem<Renderer>()->Init();
-
 	GetSubSystem<BaseSpace>()->Start();
-
 	GetSubSystem<Renderer>()->ReadyToRender();
 }
 void Engine::RunFrame()

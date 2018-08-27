@@ -2,6 +2,7 @@
 #include "GameManager.h"
 #include "SDL2/SDL.h"
 #include "Math/Vector2.h"
+#include "Math/Rect.h"
 namespace Auto3D {
 struct Monitors
 {
@@ -24,10 +25,10 @@ struct Monitors
 	* @brief : Get mouitor index Size
 	* @return : return Vector2
 	*/
-	Vector2 GetMonitorsSize(int index);
+	RectInt GetMonitorsSize(int index);
 private:
-	Int32 monitorCount;
-	AUTO_VECTOR(int, int) mnitors;
+	Int32 _monitorCount;
+	AUTO_VECTOR(int, int) _mnitors;
 };
 
 
@@ -37,9 +38,9 @@ class Hardware : public GlobalGameManager
 	DECLARE_OBJECT_SERIALIZE(Hardware);
 public:
 	explicit Hardware(Ambient* ambient);
-	Monitors& GetMonitors() { return _monitors; }
+	Monitors* GetMonitors() { return _monitors; }
 private:
-	Monitors _monitors;
+	Monitors* _monitors;
 };
 
 
