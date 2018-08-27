@@ -28,7 +28,7 @@ void TextureSpace::Start()
 	SpriteTranslucent * tex2 = new SpriteTranslucent(_ambient,"../Resource/texture/window.png");
 	tex2->EnableBlend(true);
 	//tex2->EnableDepth(false);
-	GameObject * obj2 = new GameObject();
+	GameObject * obj2 = new GameObject(_ambient);
 	obj2->GetComponent(Transform).SetPosition(0.0f, 0.0f, 0.0f);
 	obj2->AddComponent(tex2);
 

@@ -1,7 +1,6 @@
 #pragma once
 #include "Texture.h"
 #include "Texture.h"
-#include "LoadResource.h"
 #include "Transform.h"
 #include "Camera.h"
 #include "Application.h"

@@ -14,7 +14,6 @@ namespace Auto3D {
 
 Engine::Engine(Ambient* ambient)
 	:Super(ambient)
-	, _isExiting(false)
 {
 	_ambient->RegisterSubSystem(new Renderer(_ambient));
 	_ambient->RegisterSubSystem(new Graphics(_ambient));

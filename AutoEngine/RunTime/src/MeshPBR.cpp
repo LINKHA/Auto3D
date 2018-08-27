@@ -1,6 +1,5 @@
 #include "MeshPBR.h"
 #include "Configs.h"
-#include "LoadResource.h"
 #include "BaseMesh.h"
 #include "HDRSkyBox.h"
 #include "Renderer.h"

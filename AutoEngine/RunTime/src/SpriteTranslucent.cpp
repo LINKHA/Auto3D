@@ -4,7 +4,6 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include "GLGather.h"
-#include "LoadResource.h"
 #include "Configs.h"
 #include "Resource.h"
 #include "Image.h"

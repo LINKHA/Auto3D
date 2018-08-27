@@ -4,13 +4,13 @@
 #include "stl_use.h"
 #include "Prefab.h"
 namespace Auto3D {
-class PreLoadManager : public GlobalGameManager , public Singleton<PreLoadManager>
+class PreLoadManager : public GlobalGameManager
 {
 	REGISTER_DERIVED_CLASS(PreLoadManager, GlobalGameManager);
 	DECLARE_OBJECT_SERIALIZE(PreLoadManager);
 	typedef _LIST(Prefab*)	PreContainer;
 public:
-	PreLoadManager();
+	explicit PreLoadManager(Ambient* ambient);
 	void AddPrefab(Prefab* prefab);
 	void RemovePrefab(Prefab* prefab);
 	PreContainer GetPrefabs() { return _prefabs; }

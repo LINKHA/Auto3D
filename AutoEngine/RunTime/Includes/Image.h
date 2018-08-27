@@ -24,7 +24,7 @@ public:
 	Int32 width;
 	Int32 height;
 	Int32 channels;
-	unsigned char* value;
+	unsigned char* value{};
 
 };
 

@@ -1,5 +1,4 @@
 #include "SkyBox.h"
-#include "LoadResource.h"
 #include "Graphics.h"
 #include "Camera.h"
 #include "VertexData.h"

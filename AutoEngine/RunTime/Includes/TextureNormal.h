@@ -1,7 +1,6 @@
 #pragma once
 #include "Texture.h"
 #include "Texture.h"
-#include "LoadResource.h"
 #include "Transform.h"
 #include "Camera.h"
 #include "Application.h"
@@ -26,15 +25,16 @@ public:
 
 private:
 
-	unsigned int _VBO, _VAO;
-	unsigned int _textureData;
+	unsigned int _VAO{};
+	unsigned int _VBO{};
+	unsigned int _textureData{};
 
 	Shader _shader;
 	Color _color;
-	char* _imagePath;
-	char* _imageNormalPath;
-	unsigned int _image;
-	unsigned int _imageNormal;
+	char* _imagePath{};
+	char* _imageNormalPath{};
+	unsigned int _image{};
+	unsigned int _imageNormal{};
 
 	void renderQuad();
 };

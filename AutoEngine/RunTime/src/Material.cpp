@@ -1,5 +1,4 @@
 #include "Material.h"
-#include "LoadResource.h"
 #include "Resource.h"
 namespace Auto3D {
 Material::Material(Ambient* ambi)

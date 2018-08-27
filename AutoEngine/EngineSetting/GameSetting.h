@@ -6,11 +6,18 @@ enum class Tag
 	kEnemy,
 	kWall,
 	kButton,
+
+	///tag count
+	kTagCount
 };
 
 enum class Layout
 {
+	kDefault,
 	kBackGround,
 	kWall,
 	kPlayer,
+
+	///layout count
+	klayoutCount
 };

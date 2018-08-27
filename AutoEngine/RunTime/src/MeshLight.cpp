@@ -1,6 +1,5 @@
 #include "MeshLight.h"
 #include "Configs.h"
-#include "LoadResource.h"
 #include "Graphics.h"
 #include "Renderer.h"
 #include "BaseMesh.h"

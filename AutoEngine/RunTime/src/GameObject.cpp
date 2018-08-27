@@ -31,7 +31,7 @@ GameObject& Node::GetChild(int index)
 	}
 	return _childs.at(index);
 }
-Node::GameObjectNodeArray& Node::GetAllChild()
+Node::GameObjectChilds& Node::GetAllChild()
 {
 	return _childs;
 }
@@ -71,12 +71,6 @@ void Component::MountComponent(GameObject& gameObject)
 //////////////////////////////////////////////////////////////////////////
 //GameObject
 //////////////////////////////////////////////////////////////////////////
-GameObject::GameObject()
-	:_isEnable(true)
-{
-	AddComponent(new Transform());
-	INSTANCE(GameObjectManager).AddGameObject(this);
-}
 GameObject::GameObject(Ambient* ambient)
 	: Super(ambient)
 	,_isEnable(true)

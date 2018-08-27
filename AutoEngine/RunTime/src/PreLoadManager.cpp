@@ -4,7 +4,8 @@ namespace Auto3D {
 
 SINGLETON_INSTANCE(PreLoadManager);
 
-PreLoadManager::PreLoadManager()
+PreLoadManager::PreLoadManager(Ambient* ambient)
+	:Super(ambient)
 {
 }
 

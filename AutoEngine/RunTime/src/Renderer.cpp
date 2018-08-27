@@ -9,7 +9,6 @@
 #include "Configs.h"
 
 //Temp
-#include "LoadResource.h"
 #include "Resource.h"
 
 namespace Auto3D {

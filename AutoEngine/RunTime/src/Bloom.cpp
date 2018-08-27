@@ -1,6 +1,5 @@
 #include "Bloom.h"
 #include "Configs.h"
-#include "LoadResource.h"
 #include "Graphics.h"
 #include "Camera.h"
 #include "Renderer.h"

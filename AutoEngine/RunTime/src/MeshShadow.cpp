@@ -4,7 +4,6 @@
 #include "VertexData.h"
 #include "Camera.h"
 #include "Configs.h"
-#include "LoadResource.h"
 #include "Resource.h"
 namespace Auto3D {
 

@@ -7,19 +7,16 @@ namespace Auto3D {
 
 
 TextureNormal::TextureNormal()
-	: _VAO(0)
 {
 	_imagePath = "Resource/texture/bricks.jpg";
 	_imageNormalPath = "Resource/texture/bricks_normal.jpg";
 }
 TextureNormal::TextureNormal(char* imagePath)
-	: _VAO(0)
 {
 	_imagePath = imagePath;
 }
 TextureNormal::TextureNormal(char* imagePath, const Shader & shader)
 	: _shader(shader)
-	, _VAO(0)
 {
 	_imagePath = imagePath;
 }

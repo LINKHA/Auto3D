@@ -40,7 +40,7 @@ private:
 	*/
 	void frameFinish();
 private:
-	bool _isExiting;
+	bool _isExiting{};
 };
 
 }

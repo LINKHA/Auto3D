@@ -33,11 +33,11 @@ private:
 	bool bloom = true;
 	bool bloomKeyPressed = false;
 	float exposure = 1.0f;
-	unsigned int cubeVAO = 0;
-	unsigned int cubeVBO = 0;
+	unsigned int cubeVAO{};
+	unsigned int cubeVBO{};
 	// -----------------------------------------
-	unsigned int quadVAO = 0;
-	unsigned int quadVBO;
+	unsigned int quadVAO{};
+	unsigned int quadVBO{};
 
 
 };
