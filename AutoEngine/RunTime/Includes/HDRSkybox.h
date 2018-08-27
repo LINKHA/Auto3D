@@ -43,11 +43,13 @@ public:
 	unsigned int irradianceMap;
 };
 
-struct SkyBoxManager : public Singleton<SkyBoxManager>
+class SkyBoxManager : public Singleton<SkyBoxManager>
 {
+public:
 	SkyBoxManager()
 		:_enable(false)
 	{}
+	~SkyBoxManager() = default;
 
 	void AddSkyBox(HDRSkyBox* skybox) { _enable = true; m_skybox = skybox; }
 	HDRSkyBox* GetSkyBox() { return m_skybox; }

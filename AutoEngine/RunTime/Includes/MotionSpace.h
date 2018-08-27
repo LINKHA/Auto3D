@@ -32,6 +32,8 @@ public:
 class SpaceManager : public Singleton<SpaceManager>
 {
 public:
+	SpaceManager() = default;
+	~SpaceManager() = default;
 	_VECTOR(MotionSpace*) spaces;
 	void RegisterSpace(MotionSpace* space);
 	void ModeRunSpace(MotionRunMode runMode);

@@ -19,8 +19,11 @@ private:
 	unsigned int _skyboxVBO;
 };
 
-struct SkyManager : public Singleton<SkyManager>
+class SkyManager : public Singleton<SkyManager>
 {
+public:
+	SkyManager() = default;
+	~SkyManager() = default;
 	void AddSkyBox(SkyBox* skybox) { _skybox = skybox; }
 	SkyBox* GetSkyBox() { return _skybox; }
 private:

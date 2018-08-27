@@ -88,9 +88,9 @@ private:
 /**
 * @brief : Render graphices create to geometry
 */
-class Renderer : public LevelGameManager
+class Renderer : public GlobalGameManager
 {
-	REGISTER_DERIVED_CLASS(Renderer, LevelGameManager);
+	REGISTER_DERIVED_CLASS(Renderer, GlobalGameManager);
 	DECLARE_OBJECT_SERIALIZE(Renderer);
 	using CameraContainer = _LIST(Camera*);
 	/////////////////////////////////////////////////////////////////////////////////////////////

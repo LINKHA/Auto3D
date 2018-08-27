@@ -26,7 +26,7 @@ public:
 	*/
 	Singleton& operator = (const Singleton<T> &) = delete;
 	
-	~Singleton()
+	virtual ~Singleton()
 	{
 		Assert(_instance);  
 		_instance = nullptr;
