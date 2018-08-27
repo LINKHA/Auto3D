@@ -1,6 +1,6 @@
 #include "BaseSpace.h"
-#include "GameObjectManager.h"
 #include "MotionSpace.h"
+#include "Scene.h"
 namespace Auto3D {
 
 BaseSpace::BaseSpace(Ambient* ambient)
@@ -16,19 +16,19 @@ BaseSpace::~BaseSpace()
 void BaseSpace::Awake()
 {
 	INSTANCE(SpaceManager).ModeRunSpace(MotionRunMode::kAwake);
-	INSTANCE(GameObjectManager).ModeRunGameObject(GameObjectRunMode::kAwake);
+	GetSubSystem<Scene>()->ModeRunNode(NodeRunMode::kAwake);
 }
 
 
 void BaseSpace::Start()
 {
 	INSTANCE(SpaceManager).ModeRunSpace(MotionRunMode::kStart);
-	INSTANCE(GameObjectManager).ModeRunGameObject(GameObjectRunMode::kStart);
+	GetSubSystem<Scene>()->ModeRunNode(NodeRunMode::kStart);
 }
 void BaseSpace::Update()
 {
 	INSTANCE(SpaceManager).ModeRunSpace(MotionRunMode::kUpdate);
-	INSTANCE(GameObjectManager).ModeRunGameObject(GameObjectRunMode::kUpdate);
+	GetSubSystem<Scene>()->ModeRunNode(NodeRunMode::kUpdate);
 }
 void BaseSpace::FixUpdate()
 {
@@ -37,12 +37,11 @@ void BaseSpace::FixUpdate()
 void BaseSpace::Finish()
 {
 	INSTANCE(SpaceManager).ModeRunSpace(MotionRunMode::kFinish);
-	INSTANCE(GameObjectManager).ModeRunGameObject(GameObjectRunMode::kFinish);
+	GetSubSystem<Scene>()->ModeRunNode(NodeRunMode::kFinish);
 }
 void BaseSpace::Draw()
 {
 	INSTANCE(SpaceManager).ModeRunSpace(MotionRunMode::kDraw);
-	//INSTANCE(GameObjectManager).ModeRunGameObject(DrawMode);
 
 }
 

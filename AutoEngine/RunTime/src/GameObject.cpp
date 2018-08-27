@@ -1,8 +1,7 @@
 #include "GameObject.h"
-#include "GameObjectManager.h"
 #include "Transform.h"
 #include "Ambient.h"
-
+#include "Scene.h"
 namespace Auto3D {
 //////////////////////////////////////////////////////////////////////////
 //Node
@@ -76,10 +75,11 @@ GameObject::GameObject(Ambient* ambient)
 	,_isEnable(true)
 {
 	AddComponent(new Transform());
-	INSTANCE(GameObjectManager).AddGameObject(this);
+	GetSubSystem<Scene>()->AddNode(this);
 }
 GameObject::~GameObject()
 {
+	GetSubSystem<Scene>()->RemoveNode(this);
 }
 
 void GameObject::AddComponent(Component* com)
