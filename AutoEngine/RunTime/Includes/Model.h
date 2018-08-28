@@ -2,27 +2,32 @@
 #include "ComponentSetting.h"
 #include "glm/glm.hpp"
 #include "stl_use.h"
-
+#include "assimp/Importer.hpp"
+#include "assimp/scene.h"
+#include "assimp/postprocess.h"
 namespace Auto3D {
-
+/**
+* @brief : mesh vertex message
+*/
 struct MeshVertex {
-	/// position
 	glm::vec3 Position;
-	/// normal
 	glm::vec3 Normal;
-	/// texCoords
 	glm::vec2 TexCoords;
-	/// tangent
 	glm::vec3 Tangent;
-	/// bitangent
 	glm::vec3 Bitangent;
 };
+/**
+* @brief : texture data message
+*/
 struct TextureData {
 	unsigned int data;
 	_String type;
 	_String path;
 };
 class Shader;
+/**
+* @brief : mesh node message
+*/
 class MeshNode
 {
 public:
@@ -40,16 +45,18 @@ private:
 	* @brief : Initializes all the buffer objects/arrays
 	*/
 	void setupMesh();
-private:
-	_VECTOR(MeshVertex) _vertices;
-	_VECTOR(unsigned int) _indices;
-	_VECTOR(TextureData) _textures;
-	unsigned int _vao;
-	unsigned int _vbo;
-	unsigned int _ebo;
+public:
+	_VECTOR(unsigned int) indices;
+	_VECTOR(MeshVertex) vertices;
+	_VECTOR(TextureData) textures;
+	unsigned int vao;
+	unsigned int vbo;
+	unsigned int ebo;
 };
 
-
+/**
+*@brief : component setting with load model
+*/
 class Model : public ComponentSetting
 {
 	REGISTER_DERIVED_CLASS(Model, ComponentSetting);
@@ -57,12 +64,24 @@ class Model : public ComponentSetting
 	using TextureDatas = _VECTOR(TextureData);
 	using MeshNodes = _VECTOR(MeshNode);
 public:
-	explicit Model(Ambient* ambient,_String const& path, bool gamma = false);
+	/**
+	* @brief : Add path and gamma to build model
+	*/
+	Model(Ambient* ambient,_String const& path = "../Resource/object/base/Cube.3DS", bool gamma = false);
 	/**
 	* @brief : Draw all this model mesh node
 	*/
 	void Draw(Shader shader);
-
+	/**
+	* @brief : Get texture datas container
+	* @return : _VECTOR(TextureData)
+	*/
+	TextureDatas& GetTextureDatas() { return _textureDatas; }
+	/**
+	* @brief : Get mesh node message container
+	* @return : _VECTOR(MeshNode)
+	*/
+	MeshNodes& GetMeshNodes() { return _meshNodes; }
 private:
 	/**
 	* @brief : The model with ASSIMP extension is loaded from the file and the 
@@ -78,14 +97,22 @@ private:
 	* @brief : Populate data into Mesh
 	*/
 	MeshNode processMesh(aiMesh* mesh, const aiScene* scene);
-
+	/**
+	* @brief : load all material texture with this file
+	*/
 	TextureDatas loadMaterialTextures(aiMaterial* mat, aiTextureType type, _String typeName);
 private:
+	///texture data message container
 	TextureDatas _textureDatas;
+	///mesh node message container
 	MeshNodes _meshNodes;
+	///path remove the file name
 	_String _directory;
+	///gamma
 	bool _gammaCorrection;
+	///file path
 	_String _path;
+	///judge this file is null
 	bool _isNull;
 };
 

@@ -1,23 +1,19 @@
 #include "Model.h"
 #include "stb_image.h"
-#include "assimp/Importer.hpp"
-#include "assimp/scene.h"
-#include "assimp/postprocess.h"
 #include "Resource.h"
 #include "GLGather.h"
 #include "Shader.h"
 
-
 namespace Auto3D {
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 //MeshNode
 /////////////////////////////////////////////////////////////////////////////////////////////
-
-MeshNode::MeshNode(_VECTOR(MeshVertex) vertices, _VECTOR(unsigned int) indices, _VECTOR(TextureData) textures)
+MeshNode::MeshNode(_VECTOR(MeshVertex) tVertices, _VECTOR(unsigned int) tIndices, _VECTOR(TextureData) tTextures)
 {
-	_vertices = vertices;
-	_indices = indices;
-	_textures = textures;
+	vertices = tVertices;
+	indices = tIndices;
+	textures = tTextures;
 
 	// now that we have all the required data, set the vertex buffers and its attribute pointers.
 	setupMesh();
@@ -29,12 +25,12 @@ void MeshNode::Draw(const Shader& shader)
 	unsigned int specularNr = 1;
 	unsigned int normalNr = 1;
 	unsigned int heightNr = 1;
-	for (unsigned int i = 0; i < _textures.size(); i++)
+	for (unsigned int i = 0; i < textures.size(); i++)
 	{
 		glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
 										  // retrieve texture number (the N in diffuse_textureN)
 		_String number;
-		_String name = _textures[i].type;
+		_String name = textures[i].type;
 		if (name == "texture_diffuse")
 			number = std::to_string(diffuseNr++);
 		else if (name == "texture_specular")
@@ -48,12 +44,12 @@ void MeshNode::Draw(const Shader& shader)
 
 		glUniform1i(glGetUniformLocation(shader.ID, (name + number).c_str()), i);
 		// and finally bind the texture
-		glBindTexture(GL_TEXTURE_2D, _textures[i].data);
+		glBindTexture(GL_TEXTURE_2D, textures[i].data);
 	}
 
 	// draw mesh
-	glBindVertexArray(_vao);
-	glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(_indices.size()), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(vao);
+	glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indices.size()), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
 	// always good practice to set everything back to defaults once configured.
@@ -63,20 +59,20 @@ void MeshNode::Draw(const Shader& shader)
 void MeshNode::setupMesh()
 {
 	// create buffers/arrays
-	glGenVertexArrays(1, &_vao);
-	glGenBuffers(1, &_vbo);
-	glGenBuffers(1, &_ebo);
+	glGenVertexArrays(1, &vao);
+	glGenBuffers(1, &vbo);
+	glGenBuffers(1, &ebo);
 
-	glBindVertexArray(_vao);
+	glBindVertexArray(vao);
 	// load data into vertex buffers
-	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	// A great thing about structs is that their memory layout is sequential for all its items.
 	// The effect is that we can simply pass a pointer to the struct and it translates perfectly to a glm::vec3/2 array which
 	// again translates to 3/2 floats which translates to a byte array.
-	glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(MeshVertex), &_vertices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(MeshVertex), &vertices[0], GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indices.size() * sizeof(unsigned int), &_indices[0], GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
 
 	// set the vertex attribute pointers
 	// vertex position
@@ -103,7 +99,7 @@ void MeshNode::setupMesh()
 /////////////////////////////////////////////////////////////////////////////////////////////
 //Model
 /////////////////////////////////////////////////////////////////////////////////////////////
-Model::Model(Ambient* ambient, _String const &path, bool gamma = false)
+Model::Model(Ambient* ambient, _String const &path, bool gamma)
 	: Super(ambient)
 	, _gammaCorrection(gamma)
 	, _path(path)
@@ -212,23 +208,16 @@ MeshNode Model::processMesh(aiMesh* mesh, const aiScene* scene)
 	}
 	// process materials
 	aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-	// we assume a convention for sampler names in the shaders. Each diffuse texture should be named
-	// as 'texture_diffuseN' where N is a sequential number ranging from 1 to MAX_SAMPLER_NUMBER. 
-	// Same applies to other texture as the following list summarizes:
-	// diffuse: texture_diffuseN
-	// specular: texture_specularN
-	// normal: texture_normalN
-
-	// 1. diffuse maps
+	// diffuse maps
 	_VECTOR(TextureData) diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
 	textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-	// 2. specular maps
+	// specular maps
 	_VECTOR(TextureData) specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
 	textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-	// 3. normal maps
+	// normal maps
 	_VECTOR(TextureData) normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
 	textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
-	// 4. height maps
+	// height maps
 	_VECTOR(TextureData) heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
 	textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
@@ -236,7 +225,7 @@ MeshNode Model::processMesh(aiMesh* mesh, const aiScene* scene)
 	return MeshNode(vertices, indices, textures);
 }
 
-TextureDatas Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, _String typeName);
+_VECTOR(TextureData) Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, _String typeName)
 {
 	_VECTOR(TextureData) textures;
 	for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
@@ -257,7 +246,11 @@ TextureDatas Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, _S
 		if (!skip)
 		{   // if texture hasn't been loaded already, load it
 			TextureData texture;
-			texture.data = GetSubSystem<Resource>()->TextureLoad(str.data);
+
+			_String filename = _String(str.data);
+			filename = _directory + '/' + filename;
+			texture.data = GetSubSystem<Resource>()->TextureLoad((char*)filename.data(),false);
+
 			texture.type = typeName;
 			texture.path = str.C_Str();
 			textures.push_back(texture);

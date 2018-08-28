@@ -1,13 +1,13 @@
 #pragma once
 #include "RenderComponent.h"
 #include "Shader.h"
-#include "ModelCommand.h"
+#include "Model.h"
 
 namespace Auto3D {
 class SSAO : public RenderComponent
 {
 public:
-	SSAO(Ambient* ambient);
+	explicit SSAO(Ambient* ambient);
 	~SSAO();
 
 	void Start()override;
@@ -19,7 +19,7 @@ private:
 	Shader m_shaderSSAO;
 	Shader m_shaderSSAOBlur;
 
-	ModelCommand nanosuit;
+	SharedPtr<Model> nanosuit;
 
 	unsigned int gBuffer;
 	unsigned int gPosition, gNormal, gAlbedo;

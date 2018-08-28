@@ -1,7 +1,7 @@
 #pragma once
 #include "RenderComponent.h"
 #include "Shader.h"
-#include "ModelCommand.h"
+#include "Model.h"
 #include "stl_use.h"
 
 namespace Auto3D {
@@ -17,7 +17,7 @@ private:
 	Shader m_shaderLightingPass;
 	Shader m_shaderLightBox;
 
-	ModelCommand nanosuit;
+	SharedPtr<Model> nanosuit;
 
 	_VECTOR(glm::vec3) objectPositions;
 	unsigned int gBuffer;

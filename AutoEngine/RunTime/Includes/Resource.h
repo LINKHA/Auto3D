@@ -4,20 +4,20 @@
 
 namespace Auto3D {
 class Image;
-class ModelCommand;
+class Model;
 class Resource : public GlobalGameManager
 {
 	REGISTER_DERIVED_CLASS(Resource, GlobalGameManager);
 	DECLARE_OBJECT_SERIALIZE(Resource);
 	using ImageQueue = AUTO_HASH_MAP(PInt8, Image*);
-	using ModelQueue = AUTO_HASH_MAP(PInt8, ModelCommand*);
+	using ModelQueue = AUTO_HASH_MAP(PInt8, Model*);
 public:
 	explicit Resource(Ambient* ambient);
 	/**
 	* @brief : According fail path get texture
 	* @return : unsigned int
 	*/
-	unsigned int TextureLoad(PInt8 path);
+	unsigned int TextureLoad(PInt8 path,bool vertically = true);
 	/**
 	* @brief : According fail path get image
 	* @return: Image*
@@ -27,7 +27,7 @@ public:
 	* @brief : According fail path get model
 	* @return: ModelCommand*
 	*/
-	ModelCommand* ModelLoad(PInt8 path);
+	Model* ModelLoad(PInt8 path);
 	/**
 	* @brief : According fail path get cubemap
 	* @return: unsigned int

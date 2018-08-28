@@ -22,7 +22,7 @@ void MassInstantiationSpace::Awake()
 void MassInstantiationSpace::Start()
 {
 	glm::mat4* modelMatrices;
-	int amount = 100000;
+	int amount = 10000;
 	modelMatrices = new glm::mat4[amount];
 	Rand rand(GetSubSystem<Time>()->GetRealTime().second);
 
@@ -52,7 +52,7 @@ void MassInstantiationSpace::Start()
 	
 	GameObject * beltLineObj = new GameObject(_ambient);
 	InstanceBeltLine * line = 
-		new InstanceBeltLine(_ambient,ModelCommand("../Resource/object/rock/rock.obj")
+		new InstanceBeltLine(_ambient,Model(_ambient,"../Resource/object/rock/rock.obj")
 			,Shader("asteroids.auvs", "asteroids.aufs"),
 			modelMatrices, amount);
 	beltLineObj->AddComponent(line);

@@ -34,9 +34,9 @@ void VertexExplodeSpace::Start()
 	Mesh * mesh = new Mesh(_ambient,"../Resource/object/nanosuit/nanosuit.obj",shader);
 	meshObj->AddComponent(mesh);
 
-	GameObject * meshObj2 = new GameObject(_ambient);
-	Mesh * mesh2 = new Mesh(_ambient,"../Resource/object/nanosuit/nanosuit.obj");
-	mesh2->GetMaterial().isTexture = true;
+	GameObject* meshObj2 = new GameObject(_ambient);
+	Mesh* mesh2 = new Mesh(_ambient,"../Resource/object/nanosuit/nanosuit.obj");
+	mesh2->GetMaterial()->isTexture = true;
 	meshObj2->AddComponent(mesh2);
 	meshObj2->GetComponent(Transform).SetPosition(10.0f, 0.0f, 0.0f);
 }

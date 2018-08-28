@@ -3,7 +3,6 @@
 #include "Math/Color.h"
 #include "GameObject.h"
 #include "Shader.h"
-#include "ModelCommand.h"
 #include "Transform.h"
 namespace Auto3D {
 

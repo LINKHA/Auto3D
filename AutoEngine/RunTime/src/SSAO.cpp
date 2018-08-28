@@ -4,6 +4,7 @@
 #include "Renderer.h"
 #include "BaseMesh.h"
 #include "Configs.h"
+#include "Resource.h"
 #include <random>
 namespace Auto3D {
 SSAO::SSAO(Ambient* ambient)
@@ -17,17 +18,20 @@ SSAO::SSAO(Ambient* ambient)
 	, m_shaderSSAOBlur(shader_path + "au_ssao.auvs"
 		, shader_path + "au_ssao_blur.aufs")
 {	
+	//nanosuit = new Model(_ambient);
 }
 SSAO::~SSAO()
 {
 	UnloadOpaque(this);
+	delete nanosuit;
+	nanosuit = nullptr;
 }
 
 
 void SSAO::Start()
 {
-	nanosuit = ModelCommand(("../Resource/object/nanosuit/nanosuit.obj"));
-
+	//nanosuit = new Model(_ambient,"../Resource/object/nanosuit/nanosuit.obj");
+	nanosuit = GetSubSystem<Resource>()->ModelLoad("../Resource/object/nanosuit/nanosuit.obj");
 	glGenFramebuffers(1, &gBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
 	RectInt t = GetSubSystem<Graphics>()->GetWindowRectInt();
@@ -169,7 +173,7 @@ void SSAO::Draw()
 	model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0, 0.0, 0.0));
 	model = glm::scale(model, glm::vec3(0.5f));
 	m_shaderGeometryPass.SetMat4("model", model);
-	nanosuit.Draw(m_shaderGeometryPass);
+	nanosuit->Draw(m_shaderGeometryPass);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 

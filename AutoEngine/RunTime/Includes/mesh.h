@@ -1,12 +1,14 @@
 #pragma once
 #include "Shader.h"
-#include "ModelCommand.h"
 #include "Transform.h"
 #include "Application.h"
 #include "Math/Color.h"
 #include "Material.h"
 #include "RenderComponent.h"
 #include "GLMeshEnable.h"
+#include "Model.h"
+
+
 namespace Auto3D {
 
 class Mesh : public RenderComponent,public GLMeshEnable
@@ -28,7 +30,7 @@ private:
 private:
 	Shader _shader;
 	SharedPtr<Material> _material;
-	SharedPtr<ModelCommand> _model;
+	SharedPtr<Model> _model;
 	char* _meshPath;
 private:
 	bool _isUserShader;

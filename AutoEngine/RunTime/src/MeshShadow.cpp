@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "Configs.h"
 #include "Resource.h"
+#include "Model.h"
 namespace Auto3D {
 
 MeshShadow::MeshShadow(Ambient* ambient)

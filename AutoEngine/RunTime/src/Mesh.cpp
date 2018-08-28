@@ -20,6 +20,7 @@ Mesh::Mesh(Ambient* ambient,char* meshPath)
 		, shader_path + "au_light_map_model_loading.aufs"))
 	, _isUserShader(false)
 {
+	_material = new Material(_ambient);
 	_meshPath = meshPath;
 }
 Mesh::Mesh(Ambient* ambient,char* meshPath, const Shader& shader)
@@ -27,6 +28,7 @@ Mesh::Mesh(Ambient* ambient,char* meshPath, const Shader& shader)
 	, _shader(shader)
 	, _isUserShader(true)
 {
+	_material = new Material(_ambient);
 	_meshPath = meshPath;
 }
 Mesh::~Mesh()
@@ -117,39 +119,39 @@ void Mesh::drawLight()
 		{
 		case LightType::kDirectional:
 			if (dir >= 4)break;
-			_shader.SetVec3("dirLight[" + to_string(dir) + "].color", t->GetColorToVec());
-			_shader.SetVec3("dirLight[" + to_string(dir) + "].direction", t->GetDirection());
-			_shader.SetVec3("dirLight[" + to_string(dir) + "].ambient", t->ambient);
-			_shader.SetVec3("dirLight[" + to_string(dir) + "].diffuse", t->diffuse);
-			_shader.SetVec3("dirLight[" + to_string(dir) + "].specular", t->specular);
+			_shader.SetVec3("dirLight[" + std::to_string(dir) + "].color", t->GetColorToVec());
+			_shader.SetVec3("dirLight[" + std::to_string(dir) + "].direction", t->GetDirection());
+			_shader.SetVec3("dirLight[" + std::to_string(dir) + "].ambient", t->ambient);
+			_shader.SetVec3("dirLight[" + std::to_string(dir) + "].diffuse", t->diffuse);
+			_shader.SetVec3("dirLight[" + std::to_string(dir) + "].specular", t->specular);
 			dir++;
 			break;
 		case LightType::kPoint:
 			if (point >= 8)break;
-			_shader.SetVec3("pointLight[" + to_string(point) + "].color", t->GetColorToVec());
-			_shader.SetVec3("pointLight[" + to_string(point) + "].position", ligthtPosition);
-			_shader.SetFloat("pointLight[" + to_string(point) + "].constant", t->constant);
-			_shader.SetFloat("pointLight[" + to_string(point) + "].linear", t->linear);
-			_shader.SetFloat("pointLight[" + to_string(point) + "].quadratic", t->quadratic);
-			_shader.SetVec3("pointLight[" + to_string(point) + "].ambient", t->ambient);
-			_shader.SetVec3("pointLight[" + to_string(point) + "].diffuse", t->diffuse);
-			_shader.SetVec3("pointLight[" + to_string(point) + "].specular", t->specular);
+			_shader.SetVec3("pointLight[" + std::to_string(point) + "].color", t->GetColorToVec());
+			_shader.SetVec3("pointLight[" + std::to_string(point) + "].position", ligthtPosition);
+			_shader.SetFloat("pointLight[" + std::to_string(point) + "].constant", t->constant);
+			_shader.SetFloat("pointLight[" + std::to_string(point) + "].linear", t->linear);
+			_shader.SetFloat("pointLight[" + std::to_string(point) + "].quadratic", t->quadratic);
+			_shader.SetVec3("pointLight[" + std::to_string(point) + "].ambient", t->ambient);
+			_shader.SetVec3("pointLight[" + std::to_string(point) + "].diffuse", t->diffuse);
+			_shader.SetVec3("pointLight[" + std::to_string(point) + "].specular", t->specular);
 			point++;
 			break;
 		case LightType::kSpot:
 
 			if (spot >= 4)break;
-			_shader.SetVec3("spotLight[" + to_string(spot) + "].color", t->GetColorToVec());
-			_shader.SetVec3("spotLight[" + to_string(spot) + "].position", ligthtPosition);
-			_shader.SetVec3("spotLight[" + to_string(spot) + "].direction", t->GetDirection());
-			_shader.SetFloat("spotLight[" + to_string(spot) + "].cutOff", t->cutOff);
-			_shader.SetFloat("spotLight[" + to_string(spot) + "].outerCutOff", t->outerCutOff);
-			_shader.SetFloat("spotLight[" + to_string(spot) + "].constant", t->constant);
-			_shader.SetFloat("spotLight[" + to_string(spot) + "].linear", t->linear);
-			_shader.SetFloat("spotLight[" + to_string(spot) + "].quadratic", t->quadratic);
-			_shader.SetVec3("spotLight[" + to_string(spot) + "].ambient", t->ambient);
-			_shader.SetVec3("spotLight[" + to_string(spot) + "].diffuse", t->diffuse);
-			_shader.SetVec3("spotLight[" + to_string(spot) + "].specular", t->specular);
+			_shader.SetVec3("spotLight[" + std::to_string(spot) + "].color", t->GetColorToVec());
+			_shader.SetVec3("spotLight[" + std::to_string(spot) + "].position", ligthtPosition);
+			_shader.SetVec3("spotLight[" + std::to_string(spot) + "].direction", t->GetDirection());
+			_shader.SetFloat("spotLight[" + std::to_string(spot) + "].cutOff", t->cutOff);
+			_shader.SetFloat("spotLight[" + std::to_string(spot) + "].outerCutOff", t->outerCutOff);
+			_shader.SetFloat("spotLight[" + std::to_string(spot) + "].constant", t->constant);
+			_shader.SetFloat("spotLight[" + std::to_string(spot) + "].linear", t->linear);
+			_shader.SetFloat("spotLight[" + std::to_string(spot) + "].quadratic", t->quadratic);
+			_shader.SetVec3("spotLight[" + std::to_string(spot) + "].ambient", t->ambient);
+			_shader.SetVec3("spotLight[" + std::to_string(spot) + "].diffuse", t->diffuse);
+			_shader.SetVec3("spotLight[" + std::to_string(spot) + "].specular", t->specular);
 			spot++;
 			break;
 		default:

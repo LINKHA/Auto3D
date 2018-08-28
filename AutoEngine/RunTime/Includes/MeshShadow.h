@@ -5,7 +5,7 @@
 
 namespace Auto3D {
 
-class ModelCommand;
+class Model;
 class Camera;
 class MeshShadow : public RenderComponent,public GLMeshEnable
 {
@@ -19,7 +19,7 @@ public:
 
 private:
 	Shader _shader;
-	SharedPtr<ModelCommand> _model;
+	SharedPtr<Model> _model;
 	unsigned int _woodTexture;
 	unsigned int _VAO;
 	unsigned int _VBO;
