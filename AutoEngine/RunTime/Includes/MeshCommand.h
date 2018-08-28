@@ -31,8 +31,6 @@ struct TextureData {
 
 class MeshCommand {
 public:
-	
-
 	/**
 	* @brief : Set vertices indeices and texture
 	*/

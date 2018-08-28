@@ -8,17 +8,10 @@ namespace Auto3D {
 */
 struct TimeHolder
 {
-	double curFrameTime;
-	double lastFrameTime;
-	float deltaTime;
-	float smoothDeltaTime;
-
-	TimeHolder()
-		: curFrameTime(0)
-		, lastFrameTime(0)
-		, deltaTime(0)
-		, smoothDeltaTime(0)
-	{}
+	double curFrameTime{};
+	double lastFrameTime{};
+	float deltaTime{};
+	float smoothDeltaTime{};
 };
 /**
 * @brief : Save world time information

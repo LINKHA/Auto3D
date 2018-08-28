@@ -35,7 +35,7 @@ void SkyBoxSpace::Start()
 	GameObject * meshObj = new GameObject(_ambient);
 	Mesh * mesh = new Mesh(_ambient);
 	//mesh->GetMaterial().SetImage("../Resource/texture/wood.jpg");
-	mesh->GetMaterial().color = Color(0.0f, 0.0f, 1.0f);
+	mesh->GetMaterial()->color = Color(0.0f, 0.0f, 1.0f);
 	meshObj->AddComponent(mesh);
 
 	GameObject * meshObj2 = new GameObject(_ambient);

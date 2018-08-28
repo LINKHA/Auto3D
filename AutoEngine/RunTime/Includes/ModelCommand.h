@@ -70,7 +70,7 @@ private:
 		}
 		// retrieve the directory path of the filepath
 		directory = path.substr(0, path.find_last_of('/'));
-
+		Print(directory);
 		// process ASSIMP's root node recursively
 		processNode(scene->mRootNode, scene);
 		return true;

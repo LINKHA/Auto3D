@@ -68,6 +68,7 @@ enum ClassIDType
 	DO_CLASS_ID(Material,61)
 	DO_CLASS_ID(Scene, 62)
 	DO_CLASS_ID(Hardware, 63)
+	DO_CLASS_ID(Model, 64)
 	
 	CLASS_ID_Count
 };
