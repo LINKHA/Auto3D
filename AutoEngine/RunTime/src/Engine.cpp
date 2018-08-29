@@ -10,7 +10,7 @@
 #include "Script.h"
 #include "Resource.h"
 #include "Scene.h"
-#include "Hardware.h"
+#include "IO.h"
 
 
 namespace Auto3D {
@@ -26,7 +26,7 @@ Engine::Engine(Ambient* ambient)
 	_ambient->RegisterSubSystem(new Script(_ambient));
 	_ambient->RegisterSubSystem(new Resource(_ambient));
 	_ambient->RegisterSubSystem(new Scene(_ambient));
-	_ambient->RegisterSubSystem(new Hardware(_ambient));
+	_ambient->RegisterSubSystem(new IO(_ambient));
 }
 
 Engine::~Engine()

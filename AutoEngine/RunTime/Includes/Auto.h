@@ -1,6 +1,6 @@
 #pragma once
-#include <Assert.h>
-#include <string>
+#include "LogAssert.h"
+
 
 //namespace AutoEngineAPI
 #define AUTO_API_BEGIN		namespace AutoAPI {
@@ -75,7 +75,7 @@ using PUInt64 = unsigned __int64*;
 #define BREAK_IF(cond)           if(cond) break
 
 
-#define AUTO_DEBUG 1
+#define AUTO_DEBUG 0
 #define AUTO_RELEASE !AUTO_DEBUG
 
 #if AUTO_DEBUG 
