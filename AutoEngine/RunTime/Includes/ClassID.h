@@ -5,7 +5,8 @@ enum ClassIDType
 {
 	DO_CLASS_ID(Default, -1)
 	DO_CLASS_ID(Object, 0)
-
+	DO_CLASS_ID(ObjectFactory, 65)
+	
 	DO_CLASS_ID(GameManager, 1)
 	DO_CLASS_ID(LevelGameManager, 2)
 	DO_CLASS_ID(GlobalGameManager, 3)
@@ -68,7 +69,7 @@ enum ClassIDType
 	DO_CLASS_ID(Material,61)
 	DO_CLASS_ID(Scene, 62)
 	DO_CLASS_ID(IO, 63)
-	DO_CLASS_ID(Model, 64)
+	DO_CLASS_ID(Model, 66)
 	
 	CLASS_ID_Count
 };

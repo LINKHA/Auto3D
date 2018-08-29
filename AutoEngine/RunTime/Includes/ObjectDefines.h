@@ -24,7 +24,6 @@ public: \
 // Should be placed in every serializable object derived class
 #define DECLARE_OBJECT_SERIALIZE(x)\
 public: \
-	static const char* GetTypeString ()					{ return GetClassStringStatic(); }\
 	virtual int GetClassIDVirtual() const				{ return ClassID (x); }\
 	virtual const char* GetClassStringVirtual()			{ return #x; }\
 	virtual const char* GetSharedPtrTypeStringVirtual()	{ return "SharedPtr<"#x">"; }

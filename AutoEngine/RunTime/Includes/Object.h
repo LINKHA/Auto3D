@@ -18,12 +18,12 @@ protected:
 public:
 	struct RTTI
 	{
-		RTTI*                    base;// super rtti class
+		RTTI* base;// super rtti class
 		//Object::FactoryFunction* factory;// the factory function of the class
-		int                      classID;
-		std::string              className;
-		int                      size;// sizeof (Class)
-		bool                     isAbstract;// is the class Abstract?
+		int classID;
+		std::string className;
+		int size;// sizeof (Class)
+		bool isAbstract;// is the class Abstract?
 	};
 	Object() {}
 	explicit Object(Ambient* ambient);
@@ -33,17 +33,20 @@ public:
 	void SetInstanceID(int inID)						{ _instanceID = inID; }
 	Int32 GetInstanceID() const							{ Assert(_instanceID != 0); return _instanceID; }
 
+	///////////////////////////////////////////////////////////////////////////
+	// @brief : Static regisiter
+	static int GetClassIDStatic() { return ClassID(Object); }
+	static bool IsAbstractStatic()	{ return true; }
+	static const char* GetClassStringStatic() { return "Object"; }
+	static const char* GetSharedPtrTypeStringStatic() { return "SharedPtr<Object>"; }
+	//////////////////////////////////////////////////////////////////////////
 
-	static int GetClassIDStatic()						{ return ClassID(Object); }
-	static const char* GetClassStringStatic()			{ return "Object"; }
-	static const char* GetSharedPtrTypeString()			{ return "SharedPtr<Object>"; }
-	static bool IsAbstractStatic()						{ return true; }
-
-	static const char* GetTypeString()					{ return GetClassStringStatic(); }\
-	virtual int GetClassIDVirtual() const				{ return ClassID(Object); }\
-	virtual const char* GetClassStringVirtual()			{ return "Object"; }\
+	///////////////////////////////////////////////////////////////////////////
+	// @brief : Virtual regisiter
+	virtual int GetClassIDVirtual() const				{ return ClassID(Object); }
+	virtual const char* GetClassStringVirtual()			{ return "Object"; }
 	virtual const char* GetSharedPtrTypeStringVirtual() { return "SharedPtr<Object>"; }
-
+	//////////////////////////////////////////////////////////////////////////
 	const std::string& Object::GetClassName()const;
 	static const std::string& Object::ClassIDToString(int ID);
 
@@ -74,8 +77,52 @@ public:
 	{
 		Assert(_ambient);
 	}
+	/**
+	* @brief : Create an object.Implemented in templated subclasses.
+	*/ 
+	virtual SharedPtr<Object> CreateObject() = 0;
+	/**
+	* @brief : Return execution ambient
+	*/
+	Ambient* GetAmbient() const { return _ambient; }
+	///////////////////////////////////////////////////////////////////////////
+	// @brief : Static regisiter
+	static int GetClassIDStatic() { return ClassID(ObjectFactory); }
+	static const char* GetClassStringStatic() { return "ObjectFactory"; }
+	static const char* GetSharedPtrTypeStringStatic() { return "SharedPtr<ObjectFactory>"; }
+	static bool IsAbstractStatic() { return true; }
+	///////////////////////////////////////////////////////////////////////////
 
+	///////////////////////////////////////////////////////////////////////////
+	// @brief : Static regisiter
+	virtual int GetClassIDVirtual() const { return ClassID(ObjectFactory); }
+	virtual const char* GetClassStringVirtual() { return "ObjectFactory"; }
+	virtual const char* GetSharedPtrTypeStringVirtual() { return "SharedPtr<ObjectFactory>"; }
+	///////////////////////////////////////////////////////////////////////////
+protected:
 	Ambient* _ambient;
 };
+
+template <class T> class ObjectFactoryImpl : public ObjectFactory
+{
+public:
+	/// Construct.
+	explicit ObjectFactoryImpl(Ambient* ambient) :
+		ObjectFactory(ambient)
+	{
+	}
+	///////////////////////////////////////////////////////////////////////////
+	// @brief : Static regisiter
+	static int GetClassIDStatic() { return T::GetClassIDStatic(); }
+	static const char* GetClassStringStatic() { return T::GetClassStringStatic(); }
+	static const char* GetSharedPtrTypeStringStatic() { return  T::GetSharedPtrTypeString(); }
+	static bool IsAbstractStatic() { return T::IsAbstractStatic(); }
+	///////////////////////////////////////////////////////////////////////////
+
+	/// Create an object of the specific type.
+	SharedPtr<Object> CreateObject() override { return SharedPtr<Object>(new T(_ambient)); }
+};
+
+
 
 }

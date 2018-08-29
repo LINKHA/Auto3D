@@ -1,18 +1,23 @@
 #include "Ambient.h"
-
+#include "Str.h"
 
 namespace Auto3D {
 Ambient::Ambient()
 {
 }
 
-
 Ambient::~Ambient()
 {
+	_subSystems.clear();
+	_factories.clear();
 }
-void Ambient::RegisterFactory(ObjectFactory* factory)
+SharedPtr<Object> Ambient::CreateObject(_String objectType)
 {
-	
+	AUTO_HASH_MAP(_String, SharedPtr<ObjectFactory>)::const_iterator i = _factories.find(objectType);
+	if (i != _factories.end())
+		return i->second->CreateObject();
+	else
+		return SharedPtr<Object>();
 }
 void Ambient::RegisterSubSystem(Object* object)
 {
@@ -22,7 +27,9 @@ void Ambient::RegisterSubSystem(Object* object)
 }
 void Ambient::RemoveSubSystem(_String objectType) 
 {
-
+	AUTO_HASH_MAP(_String, SharedPtr<Object>)::iterator i = _subSystems.find(objectType);
+	if (i != _subSystems.end())
+		_subSystems.erase(i);
 }
 Object* Ambient::GetSubSystem(_String type)const 
 {
@@ -33,4 +40,24 @@ Object* Ambient::GetSubSystem(_String type)const
 	else
 		return nullptr;
 }
+void Ambient::RegisterFactory(ObjectFactory* factory)
+{
+	if (!factory)
+		return;
+
+	_factories[factory->GetClassStringVirtual()] = factory;
+}
+
+void Ambient::RegisterFactory(ObjectFactory * factory, const char* category)
+{
+	if (!factory)
+		return;
+
+	RegisterFactory(factory);
+	if (String::CharPtrLength(category))
+		_objectCategories[category].push_back(factory->GetClassStringVirtual());
+}
+
+
+
 }
