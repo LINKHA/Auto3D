@@ -45,7 +45,7 @@ void FrameBuffersSpace::Start()
 	lightObj->AddComponent(light);
 	//////////////////////////////////////////////////////////////////////////
 	Mesh * mesh = new Mesh(_ambient,"../Resource/object/base/Cube.3DS");
-	mesh->GetMaterial().color.Set(0.5f, 0.8f, 0.3f);
+	mesh->GetMaterial()->color.Set(0.5f, 0.8f, 0.3f);
 	GameObject * meshObj = new GameObject(_ambient);
 	meshObj->GetComponent(Transform).SetPosition(1.0f, 0.0f, 0.0f);
 	meshObj->AddComponent(mesh);

@@ -28,7 +28,7 @@ void ConvertWindowsPathName(const wchar_t* widePath, char* outBuffer, int outBuf
 	detail::ConvertSeparatorsToUnity(outBuffer);
 }
 
-void ConvertUnityPathName(const char* utf8, wchar_t* outBuffer, int outBufferSize)
+void ConvertAutoPathName(const char* utf8, wchar_t* outBuffer, int outBufferSize)
 {
 	UTF8ToWide(utf8, outBuffer, outBufferSize);
 	detail::ConvertSeparatorsToWindows(outBuffer);

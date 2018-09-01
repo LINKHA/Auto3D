@@ -25,7 +25,7 @@ void DepthTestSpace::Start()
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	GameObject * obj1 = new GameObject(_ambient);
 	Mesh * plane = new Mesh(_ambient);
-	plane->GetMaterial().color.Set(0.5f, 0.5f, 0.5f);
+	plane->GetMaterial()->color.Set(0.5f, 0.5f, 0.5f);
 	obj1->AddComponent(plane);
 	obj1->GetComponent(Transform).SetScale(10.0f, 0.1f, 10.0f);
 	/////////////////////////////////////////////////////////////////////////////////////////////

@@ -5,8 +5,12 @@
 #include "Renderer.h"
 #include "Configs.h"
 #include "Resource.h"
+#include "Renderer.h"
+
+
 namespace Auto3D {
-SINGLETON_INSTANCE(SkyManager);
+
+
 SkyBox::SkyBox(Ambient* ambient)
 	:Super(ambient)
 {
@@ -59,4 +63,5 @@ void SkyBox::Draw()
 	glBindVertexArray(0);
 	glDepthFunc(GL_LESS);
 }
+
 }

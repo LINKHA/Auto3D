@@ -81,9 +81,8 @@ public:
 	
 	glm::mat4& GetProjectionMatrix();
 
-	/**
-	* @brief : Get member
-	*/
+	///////////////////////////////////////////////////////////////////////////
+	// @brief : Get member
 	glm::mat4& GetViewMatrix();
 	float GetDepth() const { return _depth; }
 	Color& GetBackgroundColor() { return _backGroundColor; }
@@ -97,10 +96,10 @@ public:
 	bool GetAllowMSAA();
 	bool GetAllowLateEffect() ;
 	bool GetAllowOffScreen() { return _isAllowOffScreen; }
+	//////////////////////////////////////////////////////////////////////////
 
-	/**
-	* @brief : Set menber
-	*/
+	///////////////////////////////////////////////////////////////////////////
+	// @brief : Set menber
 	void SetDepth(float depth) { _depth = depth; }
 	void SetBackgroundColor(const Color& color) { _backGroundColor = color; }
 	void SetSortMode(ProjectionMode m) { _projectionMode = m; }
@@ -112,6 +111,7 @@ public:
 	void SetZoom(float zoom) { _zoom = zoom; }
 	void SetSpeed(float speed) { _movementSpeed = speed; }
 	void SetSensitivity(float sen) { _mouseSensitivity = sen; }
+	//////////////////////////////////////////////////////////////////////////
 
 	///Temp !!! start not normally used,in script component not use,but int other component normal
 	void Start()override;

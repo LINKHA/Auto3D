@@ -25,6 +25,7 @@ void MoreCameraSpace::Start()
 	GameObject * cameraObj2 = new GameObject(_ambient);
 	cameraObj2->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 	cameraObj2->AddComponent(camera2);
+
 	//////////////////////////////////////////////////////////////////////////
 	GameObject * freeCameraObj = new GameObject(_ambient);
 	FreeCamera * freeCamera = new FreeCamera(_ambient);
