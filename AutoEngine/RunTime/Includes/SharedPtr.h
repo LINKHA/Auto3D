@@ -4,14 +4,14 @@
 namespace Auto3D {
 
 ///!!!Temp
-template <class T> inline void swap(T& first, T& second)
+template<typename T> inline void swap(T& first, T& second)
 {
 	T temp = first;
 	first = second;
 	second = temp;
 }
 
-template <class T> class SharedPtr
+template<typename T> class SharedPtr
 {
 public:
 	SharedPtr() noexcept

@@ -63,7 +63,7 @@ private:
 	Int32 _classID;
 };
 
-template <class T> 
+template<typename T> 
 T* Object::GetSubSystem() const 
 { 
 	return static_cast<T*>(Object::GetSubSystem(T::GetClassStringStatic())); 
@@ -103,7 +103,7 @@ protected:
 	Ambient* _ambient;
 };
 
-template <class T> class ObjectFactoryImpl : public ObjectFactory
+template<typename T> class ObjectFactoryImpl : public ObjectFactory
 {
 public:
 	/// Construct.

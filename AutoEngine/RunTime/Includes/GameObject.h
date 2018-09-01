@@ -121,7 +121,7 @@ public:
 	/**
 	* @brief : Get component in _components if nullptr will breaking
 	*/
-	template<class T> inline T& GetComponentT(int compareClassID) const;
+	template<typename T> inline T& GetComponentT(int compareClassID) const;
 	/**
 	* @brief : Get component from index
 	*/
@@ -155,7 +155,7 @@ private:
 	bool _isEnable;
 };
 
-template<class T> inline T& GameObject::GetComponentT(int compareClassID) const
+template<typename T> inline T& GameObject::GetComponentT(int compareClassID) const
 {
 	Component* com;
 	com = QueryComponent(compareClassID);

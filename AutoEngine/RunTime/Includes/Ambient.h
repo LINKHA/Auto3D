@@ -15,7 +15,7 @@ public:
 	/**
 	* @brief : Create an object by type. Return pointer to it or null if no factory found.
 	*/
-	template <class T> inline SharedPtr<T> CreateObject(){ return static_cast<T>(CreateObject(T::GetClassStringStatic())); }
+	template <typename T> inline SharedPtr<T> CreateObject(){ return static_cast<T>(CreateObject(T::GetClassStringStatic())); }
 	/**
 	* @brief : Create object by type hash , Return pointer to it or null if no factory found.
 	*/
@@ -27,7 +27,7 @@ public:
 	/**
 	* @brief : Template version of registering subsystem.
 	*/
-	template <class T> T* RegisterSubsystem();
+	template <typename T> T* RegisterSubsystem();
 	/**
 	* @brief : Register a factory for an object type.
 	*/
@@ -39,11 +39,11 @@ public:
 	/**
 	* @brief : Template version of registering an object factory.
 	*/
-	template <class T> void RegisterFactory();
+	template <typename T> void RegisterFactory();
 	/**
 	* @brief : Template version of registering an object factory with category.
 	*/
-	template <class T> void RegisterFactory(const char* category);
+	template <typename T> void RegisterFactory(const char* category);
 	/**
 	* @brief : Get sub system according to the parameters
 	*/
@@ -72,7 +72,7 @@ public:
 	/**
 	* @brief : Template version of removing a subsystem.
 	*/
-	template <class T> void RemoveSubsystem();
+	template <typename T> void RemoveSubsystem();
 private:
 	///sub systems hash map
 	SubSystems _subSystems;
@@ -90,12 +90,12 @@ inline T * Ambient::RegisterSubsystem()
 	return subsystem;
 }
 
-template<class T> void Ambient::RemoveSubsystem(){ RemoveSubsystem(T::GetClassStringStatic()); }
+template<typename T> void Ambient::RemoveSubsystem(){ RemoveSubsystem(T::GetClassStringStatic()); }
 
-template <typename T> T* Ambient::GetSubSystem() const { return static_cast<T*>(Ambient::GetSubSystem(T::GetClassStringStatic())); }
+template<typename T> T* Ambient::GetSubSystem() const { return static_cast<T*>(Ambient::GetSubSystem(T::GetClassStringStatic())); }
 
-template <typename T> void Ambient::RegisterFactory() { RegisterFactory(new ObjectFactoryImpl<T>(this)); }
+template<typename T> void Ambient::RegisterFactory() { RegisterFactory(new ObjectFactoryImpl<T>(this)); }
 
-template<class T> void Ambient::RegisterFactory(const char * category) { RegisterFactory(new ObjectFactoryImpl<T>(this), category); }
+template<typename T> void Ambient::RegisterFactory(const char * category) { RegisterFactory(new ObjectFactoryImpl<T>(this), category); }
 
 }
