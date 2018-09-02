@@ -8,7 +8,7 @@ class Ambient : public RefCounted
 	friend class Object;
 	using SubSystems = AUTO_HASH_MAP(_String, SharedPtr<Object>);
 	using Factories = AUTO_HASH_MAP(_String, SharedPtr<ObjectFactory>);
-	using ObjectCategories = AUTO_HASH_MAP(_String, _VECTOR(_String));
+	using ObjectAttachs = AUTO_HASH_MAP(_String, _VECTOR(_String));
 public:
 	Ambient();
 	~Ambient()override;
@@ -66,6 +66,10 @@ public:
 	*/
 	const Factories& GetObjectFactories() const { return _factories; }
 	/**
+	* @brief : Return all object attach
+	*/
+	const ObjectAttachs& GetObjectAttachs() const { return _objectAttachs; }
+	/**
 	* @brief : Remove a sub system from _subSystems
 	*/
 	void RemoveSubSystem(_String objectType);
@@ -78,8 +82,8 @@ private:
 	SubSystems _subSystems;
 	///object factories hash map
 	Factories _factories;
-	///object categories hasm map
-	ObjectCategories _objectCategories;
+	///object attach hash map
+	ObjectAttachs _objectAttachs;
 };
 
 template <typename T>

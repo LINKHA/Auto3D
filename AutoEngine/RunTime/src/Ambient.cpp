@@ -44,8 +44,9 @@ void Ambient::RegisterFactory(ObjectFactory* factory)
 {
 	if (!factory)
 		return;
-
+	///Temp
 	_factories[factory->GetClassStringVirtual()] = factory;
+	Print(factory->GetClassStringVirtual());
 }
 
 void Ambient::RegisterFactory(ObjectFactory * factory, const char* category)
@@ -55,7 +56,7 @@ void Ambient::RegisterFactory(ObjectFactory * factory, const char* category)
 
 	RegisterFactory(factory);
 	if (String::CharPtrLength(category))
-		_objectCategories[category].push_back(factory->GetClassStringVirtual());
+		_objectAttachs[category].push_back(factory->GetClassStringVirtual());
 }
 
 

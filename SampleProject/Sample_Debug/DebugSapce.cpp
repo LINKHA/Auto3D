@@ -15,12 +15,8 @@ DebugSapce::~DebugSapce()
 void DebugSapce::Start()
 {
 	GameObject* cameraObj = new GameObject(_ambient);
-	FreeCamera* camera = new FreeCamera(_ambient);
-
-	//camera->freeCamera->SetSortMode(kSortOrthographic);
-	cameraObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
-	cameraObj->AddComponent(camera);
-
+	cameraObj->RegisterObjectFactory(_ambient);
+	Print(cameraObj->GetAttach());
 }
 void DebugSapce::Update()
 {

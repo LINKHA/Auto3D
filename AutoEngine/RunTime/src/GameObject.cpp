@@ -120,5 +120,10 @@ Vector3 GameObject::GetPosition()
 	return GetComponent(Transform).GetPosition();
 }
 
+void GameObject::RegisterObjectFactory(Ambient* ambient)
+{
+	_ambient->RegisterFactory<GameObject>("aaa");
+}
+
 
 }

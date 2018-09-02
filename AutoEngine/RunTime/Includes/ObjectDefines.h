@@ -5,10 +5,16 @@ public: \
 	using This = x;\
 	using Super = y;\
 	~x (); \
-	static int GetClassIDStatic ()						{ return ClassID (x); }\
-	static bool IsAbstractStatic ()						{ return false; }\
-	static const char* GetClassStringStatic ()			{ return #x; }\
-	static const char* GetSharedPtrTypeStringStatic ()	{ return "SharedPtr<"#x">"; }\
+	virtual int GetClassID()							{ return ClassID (x); }\
+	virtual bool IsAbstract()							{ return GetRTTIStatic()->GetIsAbstract();}\
+	virtual const char* GetClassName()					{ return #x; }\
+	virtual const _String GetClassString()				{ return #x; } \
+	virtual const Auto3D::RTTI* GetRTTI()				{ return GetRTTIStatic(); }\
+	static int GetClassIDStatic()						{ return ClassID(x); }\
+	static bool IsAbstractStatic ()						{ return GetRTTIStatic()->GetIsAbstract();}\
+	static const char* GetClassNameStatic ()			{ return #x; }\
+	static const _String GetClassStringStatic()			{ return #x; } \
+	static const Auto3D::RTTI* GetRTTIStatic()			{ const static Auto3D::RTTI RTTIStatic(#x, y::GetRTTIStatic(), ClassID(x), false);return &RTTIStatic;}\
 
 // Every abstract class that is derived from object has to place this inside the class Declaration
 #define	REGISTER_DERIVED_ABSTRACT_CLASS(x, y) \
@@ -16,17 +22,19 @@ public: \
 	using This = x; \
 	using Super = y; \
 	virtual ~x (); \
-	static int GetClassIDStatic ()						{ return ClassID (x); } \
-	static bool IsAbstractStatic ()						{ return true; }\
-	static const char* GetClassStringStatic ()			{ return #x; }\
-	static const char* GetSharedPtrTypeStringStatic ()	{ return "SharedPtr<"#x">"; }\
+	virtual int GetClassID()							{ return ClassID (x); }\
+	virtual bool IsAbstract()							{ return GetRTTIStatic()->GetIsAbstract();}\
+	virtual const char* GetClassName()					{ return #x; }\
+	virtual const _String GetClassString()				{ return #x; } \
+	virtual const Auto3D::RTTI* GetRTTI()				{ return GetRTTIStatic(); }\
+	static int GetClassIDStatic()						{ return ClassID(x); }\
+	static bool IsAbstractStatic ()						{ return GetRTTIStatic()->GetIsAbstract();}\
+	static const char* GetClassNameStatic ()			{ return #x; }\
+	static const _String GetClassStringStatic()			{ return #x; } \
+	static const Auto3D::RTTI* GetRTTIStatic()			{ const static Auto3D::RTTI RTTIStatic(#x, y::GetRTTIStatic(), ClassID(x), true);return &RTTIStatic;}\
 
 // Should be placed in every serializable object derived class
 #define DECLARE_OBJECT_SERIALIZE(x)\
 public: \
-	virtual int GetClassIDVirtual() const				{ return ClassID (x); }\
-	virtual const char* GetClassStringVirtual()			{ return #x; }\
-	virtual const char* GetSharedPtrTypeStringVirtual()	{ return "SharedPtr<"#x">"; }
 
-#define GET_SET(TYPE,PROP_NAME,VAR_NAME)	void Set##PROP_NAME (TYPE val) { VAR_NAME = val; }	const TYPE Get##PROP_NAME () const {return (const TYPE)VAR_NAME; }
 

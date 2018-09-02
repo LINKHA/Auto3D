@@ -150,6 +150,10 @@ public:
 	* @brief : Get this object position
 	*/
 	Vector3 GetPosition(); 
+	/**
+	* @brief : Register object factory.
+	*/
+	void RegisterObjectFactory(Ambient* ambient);
 private:
 	ComponentsArray _components;
 	bool _isEnable;
