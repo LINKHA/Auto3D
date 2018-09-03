@@ -4,6 +4,8 @@
 
 namespace Auto3D {
 
+const static char* SCENE_ATTACH = "Scene_attach";
+
 enum class NodeRunMode
 {
 	kDefault = -1,

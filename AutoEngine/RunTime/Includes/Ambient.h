@@ -2,7 +2,9 @@
 #include "RefCounted.h"
 #include "Object.h"
 #include "stl_use.h"
+#include "ObjectFactory.h"
 namespace Auto3D {
+
 class Ambient : public RefCounted
 {
 	friend class Object;

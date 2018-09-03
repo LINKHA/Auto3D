@@ -28,7 +28,7 @@ public:
 	/**
 	* @brief : Retrun template Class Name for c str
 	*/
-	const char* GetClassName() { return _RTTI->GetClassName(); }
+	const char* GetClassCstrName() { return _RTTI->GetClassCstrName(); }
 	/**
 	* @brief : Retrun template Class Name for string
 	*/

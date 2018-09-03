@@ -30,14 +30,14 @@ public:
 	// @brief : Register class function
 	virtual int GetClassID() { return ClassID(Object); }
 	virtual bool IsAbstract() { return true; }
-	virtual const char* GetClassName() { return "Object"; }
-	virtual const _String GetClassString() { return "Object"; }
-	virtual const Auto3D::RTTI* GetRTTI() { return GetRTTIStatic(); }
+	virtual char* GetClassCstrName() { return "Object"; }
+	virtual _String GetClassString() { return "Object"; }
+	virtual Auto3D::RTTI* GetRTTI() { return GetRTTIStatic(); }
 	static int GetClassIDStatic() { return ClassID(Object); }
 	static bool IsAbstractStatic() { return true; }
-	static const char* GetClassNameStatic() { return "Object"; }
-	static const _String GetClassStringStatic() { return "Object"; }
-	static const Auto3D::RTTI* GetRTTIStatic() { return nullptr; }
+	static char* GetClassCstrNameStatic() { return "Object"; }
+	static _String GetClassStringStatic() { return "Object"; }
+	static Auto3D::RTTI* GetRTTIStatic() { return nullptr; }
 	//////////////////////////////////////////////////////////////////////////
 	
 	/**
@@ -55,7 +55,7 @@ public:
 	/**
 	* @brief : Get object attach
 	*/
-	const _String& GetAttach() const;
+	const _String GetAttach();
 
 protected:
 	Ambient* _ambient;

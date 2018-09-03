@@ -84,7 +84,7 @@ GameObject::~GameObject()
 
 void GameObject::AddComponent(Component* com)
 {
-	_components.push_back(M_PAIR(com->GetClassIDVirtual(), com));
+	_components.push_back(M_PAIR(com->GetClassID(), com));
 	com->MountComponent(*this);
 }
 void GameObject::RemoveComponentAtIndex(int index)
@@ -122,7 +122,7 @@ Vector3 GameObject::GetPosition()
 
 void GameObject::RegisterObjectFactory(Ambient* ambient)
 {
-	_ambient->RegisterFactory<GameObject>("aaa");
+	_ambient->RegisterFactory<GameObject>(SCENE_ATTACH);
 }
 
 

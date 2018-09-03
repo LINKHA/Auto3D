@@ -23,7 +23,7 @@ void Ambient::RegisterSubSystem(Object* object)
 {
 	if (!object)
 		return;
-	_subSystems[object->GetClassStringVirtual()] = object;
+	_subSystems[object->GetClassString()] = object;
 }
 void Ambient::RemoveSubSystem(_String objectType) 
 {
@@ -44,19 +44,16 @@ void Ambient::RegisterFactory(ObjectFactory* factory)
 {
 	if (!factory)
 		return;
-	///Temp
-	_factories[factory->GetClassStringVirtual()] = factory;
-	Print(factory->GetClassStringVirtual());
+	_factories[factory->GetClassString()] = factory;
 }
 
 void Ambient::RegisterFactory(ObjectFactory * factory, const char* category)
 {
 	if (!factory)
 		return;
-
 	RegisterFactory(factory);
 	if (String::CharPtrLength(category))
-		_objectAttachs[category].push_back(factory->GetClassStringVirtual());
+		_objectAttachs[category].push_back(factory->GetClassString());
 }
 
 
