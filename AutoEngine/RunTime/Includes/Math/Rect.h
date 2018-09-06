@@ -48,4 +48,11 @@ public:
 using Rectf = Rect<float>;
 using RectInt = Rect<int>;
 
+inline bool CompareApproximately(const Rectf& lhs, const Rectf& rhs)
+{
+	return CompareApproximately(lhs.x, rhs.x) && CompareApproximately(lhs.y, rhs.y) &&
+		CompareApproximately(lhs.width, rhs.width) && CompareApproximately(lhs.height, rhs.height);
 }
+
+}
+

@@ -1,8 +1,10 @@
 #pragma once
+#if defined(_WIN32)
 #include <Windows.h>
 #ifdef _MSC_VER
 #include <crtdbg.h>
-#endif
+#endif //_MSC_VER
+#endif //_WIN32
 
 #if defined(_MSC_VER) && defined(_DEBUG)
 #define AUTO_MAIN(function) \

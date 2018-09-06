@@ -14,9 +14,9 @@ DebugSapce::~DebugSapce()
 
 void DebugSapce::Start()
 {
-	GameObject* cameraObj = new GameObject(_ambient);
-	cameraObj->RegisterObjectFactory(_ambient);
-	Print(cameraObj->GetAttach());
+	//GameObject* cameraObj = new GameObject(_ambient);
+	//cameraObj->RegisterObjectFactory(_ambient);
+	//Print(cameraObj->GetAttach());
 }
 void DebugSapce::Update()
 {

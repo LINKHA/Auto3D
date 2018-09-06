@@ -116,7 +116,12 @@ static inline float clamp11(float const&x)
 	return (x > 1 ? 1 : (-1 > x) ? -1 : x);
 }
 
-//Smooth
+static inline bool CompareApproximately(float f0, float f1, float epsilon = MATH_EPSILON)
+{
+	float dist = f0 - f1;
+	dist = abs(dist);
+	return dist < epsilon;
+}
 
 }
 

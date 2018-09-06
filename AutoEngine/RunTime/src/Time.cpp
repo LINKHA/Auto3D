@@ -4,38 +4,46 @@
 
 
 namespace Auto3D {
+
 SYSTEMTIME  sysTime;
 
+const float MAXIMUM_DELTA_TIME = 1.0f / 3.0f;
+const float MINIMUM_DELTA_TIME = 0.00001f;
+const float START_UP_DELTA_TIME = 0.02f;
+const float NEW_DELTA_TIME_WEIGHT = 0.2f; // for smoothing
 
-/////////////////////////////////////////////////////////////////////////////////////////////
-//RealTime
-/////////////////////////////////////////////////////////////////////////////////////////////
-RealTime::RealTime()
-{
-	GetLocalTime(&sysTime);
-	year = sysTime.wYear;
-	month = sysTime.wMonth;
-	day = sysTime.wDay;
-	hour = sysTime.wHour;
-	minute = sysTime.wMinute;
-	second = sysTime.wSecond;
-}
 
-/////////////////////////////////////////////////////////////////////////////////////////////
-//Time
-/////////////////////////////////////////////////////////////////////////////////////////////
 Time::Time(Ambient* ambient)
 	: Super(ambient)
 {
-	//_realTime = RealTime();
+	_timeSpeedScale = 1.0f;
+	_maximumTimestep = MAXIMUM_DELTA_TIME;
+	_isfirstFrame = true;
+	_isfirstFrameAfterPause = false;
+	ResetTime();
 
+}
+
+Time::~Time() {}
+
+void Time::ResetTime()
+{
 	_dynamicTime.curFrameTime = 0.0f;
 	_dynamicTime.lastFrameTime = 0.0f;
 	_dynamicTime.deltaTime = 0.0f;
 	_dynamicTime.smoothDeltaTime = 0.0f;
 	_activeTime = _dynamicTime;
-	_isPause = false;
-
+	_frameCount = 0;
+	_zeroTime = GetTimeSinceStartup();
+}
+void Time::CalcSmoothDeltaTime(TimeHolder& time)
+{
+	// If existing weight is zero, don't take existing value into account
+	time.smoothingWeight *= (1.0f - NEW_DELTA_TIME_WEIGHT);
+	time.smoothingWeight += NEW_DELTA_TIME_WEIGHT;
+	// As confidence in smoothed value increases the divisor goes towards 1
+	float normalized = NEW_DELTA_TIME_WEIGHT / time.smoothingWeight;
+	time.smoothDeltaTime = lerp(time.smoothDeltaTime, time.deltaTime, normalized);
 }
 
 RealTime Time::GetRealTime()
@@ -56,36 +64,41 @@ void Time::SetTime(double time)
 	_dynamicTime.lastFrameTime = _dynamicTime.curFrameTime;
 	_dynamicTime.curFrameTime = time;
 	_dynamicTime.deltaTime = _dynamicTime.curFrameTime - _dynamicTime.lastFrameTime;
+	CalcSmoothDeltaTime(_dynamicTime);
 	_activeTime = _dynamicTime;
+
+	// Sync _zeroTime with timemanager time
+	_zeroTime = GetTimeSinceStartup() - _dynamicTime.curFrameTime;
 }
-void Time::ResetTime()
+double Time::GetTimeSinceStartup() const
 {
-	_dynamicTime.curFrameTime = 0.0f;
-	_dynamicTime.lastFrameTime = 0.0f;
-	_dynamicTime.deltaTime = 0.0f;
-	_dynamicTime.smoothDeltaTime = 0.0f;
-
-//	m_FixedTime.m_CurFrameTime = 0.0f;
-//	m_FixedTime.m_LastFrameTime = 0.0f;
-	_activeTime = _dynamicTime;
-
-
-//	m_LevelLoadOffset = 0.0f;
+	double time = SDL_GetTicks();
+	return time/1000;
 }
+
 
 void Time::SetPause(bool pause)
 {
-	_isPause = pause;
+	_isfirstFrameAfterPause = pause;
+}
+void Time::Sleep(unsigned millisecond)
+{
+#ifdef _WIN32
+	::Sleep(millisecond);
+#else
+	timespec time{ static_cast<time_t>(millisecond / 1000), static_cast<long>((millisecond % 1000) * 1000000) };
+	nanosleep(&time, nullptr);
+#endif
 }
 void Time::SetMaximumDeltaTime(float maxStep)
 {
-	_maximumTimestep = max<float>(maxStep, _fixedTime.deltaTime);
+	_maximumTimestep = max<float>(maxStep, _dynamicTime.deltaTime);
 }
 
 void Time::SetTimeScale(float scale)
 {
-	bool is_OutRange = scale <= 100 && scale >= 0.0f;
-	if (is_OutRange)
+	bool isOutRange = scale <= 100 && scale >= 0.0f;
+	if (isOutRange)
 		_timeSpeedScale = scale;
 	else
 		ErrorString("time speed scale is out of range.Range(0~100).");
@@ -94,16 +107,55 @@ void Time::SetTimeScale(float scale)
 
 void Time::Update()
 {
-	if (_firstFrame)
+	_frameCount++;
+	if (!_frameCount)
+		_frameCount++;
+
+	if (_isfirstFrame)
 	{
-		_firstFrame = false;
+		_isfirstFrame = false;
 		return;
 	}
-	double time = SDL_GetTicks();
-	SetTime(time/1000);
+	if (_isfirstFrameAfterPause)
+	{
+		_isfirstFrameAfterPause = false;
+		SetTime(_dynamicTime.curFrameTime + START_UP_DELTA_TIME * _timeSpeedScale);
+		// This is not a real delta time so don't include in smoothed time
+		_activeTime.smoothingWeight = 0.0f;
+		_dynamicTime.smoothingWeight = 0.0f;
+		return;
+	}
+
+	double time = GetTimeSinceStartup() - _zeroTime;
+
+	// clamp the delta time in case a frame takes too long.
+	if (time - _dynamicTime.curFrameTime > _maximumTimestep)
+	{
+		SetTime(_dynamicTime.curFrameTime + _maximumTimestep * _timeSpeedScale);
+		return;
+	}
+	// clamp the delta time in case a frame goes to fast! (prevent delta time being zero)
+	if (time - _dynamicTime.curFrameTime < MINIMUM_DELTA_TIME)
+	{
+		SetTime(_dynamicTime.curFrameTime + MINIMUM_DELTA_TIME * _timeSpeedScale);
+		return;
+	}
+	// Handle time scale
+	if (!CompareApproximately(_timeSpeedScale, 1.0f))
+	{
+		float deltaTime = time - _dynamicTime.curFrameTime;
+		SetTime(_dynamicTime.curFrameTime + deltaTime * _timeSpeedScale);
+		return;
+	}
+
+	_dynamicTime.lastFrameTime = _dynamicTime.curFrameTime;
+	_dynamicTime.curFrameTime = time;
+	_dynamicTime.deltaTime = _dynamicTime.curFrameTime - _dynamicTime.lastFrameTime;
+	CalcSmoothDeltaTime(_dynamicTime);
+
+	_activeTime = _dynamicTime;
+
 }
 
-
-Time::~Time(){}
 }
 

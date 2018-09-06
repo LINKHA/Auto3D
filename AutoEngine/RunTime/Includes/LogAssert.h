@@ -44,6 +44,8 @@ inline const char* LogTypeToString(LogType type)
 #define WarningString(x)		do { DebugStringToFile (x,LogType::kWarning);}while(0)	
 #define LogString(x)			do { DebugStringToFile(x,LogType::kLog);} while(0)
 #define Print(x)				do { DebugStringToFile(x,LogType::kLog); }while(0)
+#define print(x)				do { DebugStringToFile(x,LogType::kLog); }while(0)
+
 
 #define Assert(condition){ \
 	if(!(condition)){ \
