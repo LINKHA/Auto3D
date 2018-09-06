@@ -45,7 +45,8 @@ inline const char* LogTypeToString(LogType type)
 #define LogString(x)			do { DebugStringToFile(x,LogType::kLog);} while(0)
 #define Print(x)				do { DebugStringToFile(x,LogType::kLog); }while(0)
 #define print(x)				do { DebugStringToFile(x,LogType::kLog); }while(0)
-
+#define AutoCout				std::cout <<  __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(LogType::kLog) << " : "
+#define AutoCoutEnd				std::endl
 
 #define Assert(condition){ \
 	if(!(condition)){ \

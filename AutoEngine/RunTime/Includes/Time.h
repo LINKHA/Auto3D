@@ -44,6 +44,22 @@ class Time : public GlobalGameManager
 public:
 	explicit Time(Ambient* ambient);
 	/**
+	* @brief : Reset time
+	*/
+	void ResetTime();
+	/**
+	* @brief : SubSystem to engine update
+	*/
+	void Update();
+	/**
+	* @brief : Calculate the average delta time  to smoothDelta
+	*/
+	void CalcSmoothDeltaTime(TimeHolder& time);
+	/**
+	* @brief : Sleep for a number of milliseconds.
+	*/
+	void Sleep(unsigned millisecond);
+	/**
 	* @brief : Set current frame time
 	*/
 	void SetTime(double time);
@@ -51,14 +67,6 @@ public:
 	* @brief : Set pause key enable
 	*/
 	void SetPause(bool pause);
-	/**
-	* @brief : Sleep for a number of milliseconds.
-	*/
-	void Sleep(unsigned millisecond);
-	/**
-	* @brief : Calculate the average delta time  to smoothDelta
-	*/
-	void CalcSmoothDeltaTime(TimeHolder& time);
 	/**
 	* @brief : Set maximum delta time
 	*/
@@ -71,7 +79,7 @@ public:
 	* @brief : Get real time now
 	* @return : RealTime
 	*/
-	RealTime GetRealTime();
+	RealTime& GetRealTime();
 	/**
 	* @brief : Return the time from the first frame of seconds.(affected by suspension))
 	*/
@@ -92,14 +100,7 @@ public:
 	* @brief : Return the time from the first frame of seconds. (Not affected by suspension)
 	*/
 	double GetTimeSinceStartup() const;
-	/**
-	* @brief : Reset time
-	*/
-	void ResetTime();
-	/**
-	* @brief : SubSystem to engine update
-	*/
-	void Update();
+	
 private:
 	/// dynamic time holder
 	TimeHolder _dynamicTime;
@@ -115,10 +116,12 @@ private:
 	unsigned _frameCount{};
 	/// zero time
 	double _zeroTime{};
-	/// don't do anything to delta time the first frame!
-	bool _isfirstFrame;
-	/// timer is pause
-	bool _isfirstFrameAfterPause;
+	/// don't do anything to delta time the first frame
+	bool _isFirstFrameAfterReset;
+	/// pause the first frame
+	bool _isFirstFrameAfterPause;
+	/// is pause timer
+	bool _isTimerPause;
 };
 }
 
