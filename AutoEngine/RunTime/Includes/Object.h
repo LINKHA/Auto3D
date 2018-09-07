@@ -12,9 +12,6 @@ namespace Auto3D {
 
 class Ambient;
 
-
-
-
 /**
 * Base object for all regisiter class
 */
@@ -24,7 +21,7 @@ protected:
 	virtual ~Object() { }
 public:
 	
-	Object() {}
+	//Object() {}
 	explicit Object(Ambient* ambient);
 	///////////////////////////////////////////////////////////////////////////
 	// @brief : Register class function

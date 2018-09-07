@@ -14,6 +14,7 @@ TextureParallax::TextureParallax(Ambient* ambient)
 	_imageNormalPath = "../Resource/texture/bricks_normal.jpg";
 	_imageParallaxPath = "../Resource/texture/bricks_disp.jpg";
 }
+/*
 TextureParallax::TextureParallax(char* imagePath)
 	: _VAO(0)
 {
@@ -25,6 +26,7 @@ TextureParallax::TextureParallax(char* imagePath, const Shader & shader)
 {
 	_imagePath = imagePath;
 }
+*/
 TextureParallax::~TextureParallax()
 {
 	UnloadOpaque(this);

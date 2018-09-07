@@ -13,7 +13,7 @@ class TextureMap : public Texture2D
 	DECLARE_OBJECT_SERIALIZE(TextureMap);
 
 public:
-	TextureMap();
+	//TextureMap();
 	explicit TextureMap(Ambient* ambient);
 	void Start()override;
 	void Draw()override;

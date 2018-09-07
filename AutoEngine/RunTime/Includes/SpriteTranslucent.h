@@ -11,9 +11,9 @@ class SpriteTranslucent : public Texture2D
 	
 public:
 
-	SpriteTranslucent();
+	//SpriteTranslucent();
 	SpriteTranslucent(Ambient* ambient,char* imagePath);
-	SpriteTranslucent(char* imagePath, const Shader& shader);
+	//SpriteTranslucent(char* imagePath, const Shader& shader);
 	~SpriteTranslucent();
 	void Start()override;
 	void DrawTranslucent()override;

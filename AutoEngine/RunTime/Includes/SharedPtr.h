@@ -84,7 +84,7 @@ public:
 
 	template <class U> void StaticCast(const SharedPtr<U>& rhs)
 	{
-		SharedPtr<T> copy(static_cast<T*>(rhs->Get()));
+		SharedPtr<T> copy(static_cast<T*>(rhs.Get()));
 		Swap(copy);
 	}
 	template <class U> void DynamicCast(const SharedPtr<U>& rhs)
@@ -123,6 +123,24 @@ private:
 
 };
 
+/**
+* @brief : Perform a static cast from one shared pointer type to another.
+*/
+template <class T, class U> SharedPtr<T> StaticCast(const SharedPtr<U>& ptr)
+{
+	SharedPtr<T> ret;
+	ret.StaticCast(ptr);
+	return ret;
+}
 
+/**
+* @brief : Perform a dynamic cast from one weak pointer type to another.
+*/
+template <class T, class U> SharedPtr<T> DynamicCast(const SharedPtr<U>& ptr)
+{
+	SharedPtr<T> ret;
+	ret.DynamicCast(ptr);
+	return ret;
+}
 
 }

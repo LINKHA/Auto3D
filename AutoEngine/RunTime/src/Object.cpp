@@ -3,7 +3,7 @@
 namespace Auto3D {
 
 Object::Object(Ambient* ambient)
-	:_ambient(ambient)
+	: _ambient(ambient)
 {
 }
 

@@ -73,7 +73,7 @@ class Component : public Object
 private:
 	SharedPtr<GameObject> _gameObject;
 public:
-	Component();
+	//Component();
 	explicit Component(Ambient* ambient);
 	GameObject& GetGameObject();
 	const GameObject& GetGameObject() const;
@@ -100,7 +100,7 @@ class GameObject : public Node
 	DECLARE_OBJECT_SERIALIZE(GameObject);
 public:
 	using ComponentsArray = AUTO_VECTOR(int, Component*);
-
+	//using ComponentsArray = AUTO_VECTOR(int, SharedPtr<Component>);
 public:
 	/**
 	* @brief : Register game object to GameObjectManager

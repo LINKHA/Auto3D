@@ -4,8 +4,13 @@
 #include "Configs.h"
 #include "Resource.h"
 namespace Auto3D {
-
-
+TextureNormal::TextureNormal(Ambient* ambient)
+	:Super(ambient)
+{
+	_imagePath = "Resource/texture/bricks.jpg";
+	_imageNormalPath = "Resource/texture/bricks_normal.jpg";
+}
+	/*
 TextureNormal::TextureNormal()
 {
 	_imagePath = "Resource/texture/bricks.jpg";
@@ -19,7 +24,7 @@ TextureNormal::TextureNormal(char* imagePath, const Shader & shader)
 	: _shader(shader)
 {
 	_imagePath = imagePath;
-}
+}*/
 TextureNormal::~TextureNormal()
 {
 	UnloadOpaque(this);

@@ -14,8 +14,8 @@ class TextureParallax : public TextureMap
 	DECLARE_OBJECT_SERIALIZE(TextureParallax);
 public:
 	explicit TextureParallax(Ambient* ambient);
-	TextureParallax(char* imagePath);
-	TextureParallax(char* imagePath, const Shader& shader);
+	//TextureParallax(char* imagePath);
+	//TextureParallax(char* imagePath, const Shader& shader);
 	void Start()override;
 	void Draw()override;
 

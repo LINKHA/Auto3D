@@ -17,11 +17,11 @@ public:
 	/**
 	* @brief : Create an object by type. Return pointer to it or null if no factory found.
 	*/
-	template <typename T> inline T* CreateObject(){ return static_cast<T>(CreateObject(T::GetClassStringStatic())); }
+	template <typename T> inline SharedPtr<T> CreateObject(){ return StaticCast<T>(CreateObject(T::GetClassStringStatic())); }
 	/**
-	* @brief : Create object by type hash , Return pointer to it or null if no factory found.
+	* @brief : Create object by string type , Return pointer to it or null if no factory found.
 	*/
-	Object* CreateObject(_String objectType);
+	SharedPtr<Object> CreateObject(_String objectType);
 	/**
 	* @brief : Register sub system need extend object
 	*/

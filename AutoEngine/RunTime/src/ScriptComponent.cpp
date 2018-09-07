@@ -11,7 +11,7 @@ ScriptComponent::ScriptComponent(Ambient* ambient)
 ScriptComponent::~ScriptComponent()
 {
 }
-Object* ScriptComponent::CreateObject(_String type)
+SharedPtr<Object> ScriptComponent::CreateObject(_String type)
 {
 	return _ambient->CreateObject(type);
 }

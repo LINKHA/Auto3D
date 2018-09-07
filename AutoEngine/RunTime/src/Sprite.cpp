@@ -9,7 +9,7 @@
 #include "Image.h"
 
 namespace Auto3D {
-
+/*
 Sprite::Sprite()
 	: _shader(Shader(shader_path + "au_texture_transform.auvs"
 		, shader_path + "au_texture_transform.aufs"))
@@ -17,6 +17,7 @@ Sprite::Sprite()
 	_imagePath = "Resource/texture/square.jpg";
 	_color.Set(1.0f, 1.0f, 1.0f, 1.0f);
 }
+*/
 Sprite::Sprite(Ambient* ambient)
 	:Super(ambient)
 	, _shader(Shader(shader_path + "au_texture_transform.auvs"
@@ -33,12 +34,13 @@ Sprite::Sprite(Ambient* ambient,char* imagePath)
 	_imagePath = imagePath;
 	_color.Set(1.0f, 1.0f, 1.0f, 1.0f);
 }
+/*
 Sprite::Sprite(char* imagePath, const Shader & shader)
 	: _shader(shader)
 {
 	_imagePath = imagePath;
 	_color.Set(1.0f, 1.0f, 1.0f, 1.0f);
-}
+}*/
 Sprite::~Sprite()
 {
 	UnloadOpaque(this);

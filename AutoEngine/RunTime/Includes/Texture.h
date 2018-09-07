@@ -25,7 +25,7 @@ protected:
 	float			_texelSizeX;
 	float			_texelSizeY;
 public:
-	Texture();
+	//Texture();
 	explicit Texture(Ambient* ambient);
 	virtual void Awake() {}
 	virtual void Start() {}

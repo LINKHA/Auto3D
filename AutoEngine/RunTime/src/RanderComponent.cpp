@@ -6,10 +6,10 @@ RenderComponent::RenderComponent(Ambient* ambient)
 	:Super(ambient)
 {
 }
-
+/*
 RenderComponent::RenderComponent()
 {
-}
+}*/
 
 
 RenderComponent::~RenderComponent()
