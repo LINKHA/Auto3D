@@ -13,8 +13,8 @@ public:
 	void Start()override;
 	void Update()override;
 	GameObject* freeCameraObject;
-	SharedPtr<Camera> freeCamera;
-
+	//SharedPtr<Camera> freeCamera;
+	Camera* freeCamera;
 private:
 	void processInput();
 };

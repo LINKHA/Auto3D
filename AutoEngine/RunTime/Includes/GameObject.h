@@ -120,6 +120,8 @@ public:
 	* @brief : Mount component in this GameObject
 	*/
 	void AddComponent(Component* com);
+
+	template<typename T> void AddComponent_(T* com);
 	/**
 	* @brief : Remove component at index
 	*/
@@ -161,6 +163,13 @@ private:
 	ComponentsArray _components;
 	bool _isEnable;
 };
+
+template<typename T> inline void GameObject::AddComponent_(T * com)
+{
+	_components.push_back(M_PAIR(T::GetClassIDStatic(), com));
+	//_components.push_back(M_PAIR(com->GetClassID(), SharedPtr<Component>(com)));
+	com->MountComponent(*this);
+}
 
 template<typename T> inline T& GameObject::GetComponentT(int compareClassID) const
 {

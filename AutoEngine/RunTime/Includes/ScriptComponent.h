@@ -17,17 +17,30 @@ public:
 	/**
 	* @brief : Create object for type name
 	*/
+#if PtrDebug
 	SharedPtr<Object> CreateObject(_String type);
+#else
+	Object* CreateObject(_String type);
+#endif
 	/**
 	* @brief : Create object for template
 	*/
+#if PtrDebug
 	template<typename T> SharedPtr<T> CreateObject();
+#else
+	template<typename T> T* CreateObject();
+#endif
 };
-
+#if PtrDebug
 template<typename T> SharedPtr<T> ScriptComponent::CreateObject()
 { 
 	return StaticCast<T>(CreateObject(T::GetClassStringStatic()));
 }
-
+#else
+template<typename T> T* ScriptComponent::CreateObject()
+{
+	return static_cast<T*>(CreateObject(T::GetClassStringStatic()));
+}
+#endif
 }
 

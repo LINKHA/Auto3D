@@ -3,6 +3,8 @@
 #include "Ambient.h"
 #include "Scene.h"
 #include "LevelScene.h"
+#include "Camera.h"
+
 
 namespace Auto3D {
 //////////////////////////////////////////////////////////////////////////
@@ -89,10 +91,6 @@ GameObject::~GameObject()
 
 void GameObject::AddComponent(Component* com)
 {
-	if (com == nullptr)
-	{
-		Print("com");
-	}
 	_components.push_back(M_PAIR(com->GetClassID(), com));
 	//_components.push_back(M_PAIR(com->GetClassID(), SharedPtr<Component>(com)));
 	com->MountComponent(*this);

@@ -82,3 +82,5 @@ using PUInt64 = unsigned __int64*;
 #else
 #pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
 #endif
+
+#define PtrDebug 0
