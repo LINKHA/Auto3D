@@ -11,7 +11,7 @@ Ambient::~Ambient()
 	_subSystems.clear();
 	_factories.clear();
 }
-SharedPtr<Object> Ambient::CreateObject(_String objectType)
+Object* Ambient::CreateObject(_String objectType)
 {
 	AUTO_HASH_MAP(_String, SharedPtr<ObjectFactory>)::const_iterator i = _factories.find(objectType);
 	if (i != _factories.end())

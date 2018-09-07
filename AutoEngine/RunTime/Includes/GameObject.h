@@ -6,6 +6,10 @@
 #include "../../EngineSetting/GameSetting.h"
 namespace Auto3D {
 #define GetComponent(x) GetComponentT<x>(ClassID (x))
+
+const static char* SCENE_ATTACH = "Scene_attach";
+const static char* GEOMETRY_ATTACH = "GeoMetry_attach";
+
 class GameObject;
 class Transform;
 class Camera;

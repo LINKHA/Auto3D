@@ -13,7 +13,7 @@ public:
 	/**
 	* @brief : Init position(0) rotation(0) and scale(1)
 	*/
-	Transform();
+	explicit Transform(Ambient* ambient);
 	/**
 	* @brief : Set position from Vector3
 	*/

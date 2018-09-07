@@ -4,12 +4,14 @@
 #include "Singleton.h"
 #include "Camera.h"
 #include "RunDefines.h"
-namespace Auto3D {
-class LevelScene;
+#include "StateVessel.h"
 
-class MotionSpace : public Object
+namespace Auto3D {
+
+class LevelScene;
+class MotionSpace : public StateVessel
 {
-	REGISTER_DERIVED_ABSTRACT_CLASS(MotionSpace, Object);
+	REGISTER_DERIVED_ABSTRACT_CLASS(MotionSpace, StateVessel);
 	DECLARE_OBJECT_SERIALIZE(MotionSpace);
 public:
 	explicit MotionSpace(Ambient* ambient);
@@ -22,12 +24,6 @@ public:
 	*/
 	void RemoveLevel(int index);
 
-	virtual void Awake() {}
-	virtual void Start() {}
-	virtual void Update() {}
-	virtual void FixUpdate() {}
-	virtual void Finish() {}
-	virtual void Draw(){}
 };
 class SpaceManager : public Singleton<SpaceManager>
 {

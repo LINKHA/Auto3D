@@ -57,6 +57,7 @@ public:
 	*/
 	const _String GetAttach();
 
+
 protected:
 	Ambient* _ambient;
 };

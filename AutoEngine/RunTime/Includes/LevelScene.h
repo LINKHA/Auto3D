@@ -1,13 +1,14 @@
 #pragma once
 #include "Object.h"
 #include "RunDefines.h"
+#include "StateVessel.h"
 
 namespace Auto3D {
 class Node;
 
-class LevelScene : public Object
+class LevelScene : public StateVessel
 {
-	REGISTER_DERIVED_ABSTRACT_CLASS(LevelScene, Object);
+	REGISTER_DERIVED_ABSTRACT_CLASS(LevelScene, StateVessel);
 	DECLARE_OBJECT_SERIALIZE(LevelScene);
 	using NodeContainer = _LIST(Node*);
 public:
@@ -40,13 +41,6 @@ public:
 	* @brief : Return current level number
 	*/
 	int GetLevelNumber() { return _levelNumber; }
-
-	virtual void Awake() {}
-	virtual void Start() {}
-	virtual void Update() {}
-	virtual void FixUpdate() {}
-	virtual void Finish() {}
-	virtual void Draw() {}
 private:
 	/**
 	* @brief : if not run this function will run once in one frame

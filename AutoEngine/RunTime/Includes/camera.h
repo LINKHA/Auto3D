@@ -29,6 +29,13 @@ class Camera : public Component
 	DECLARE_OBJECT_SERIALIZE(Camera);
 public:
 	explicit Camera(Ambient* ambient);
+	/**
+	* @brief : Register object factory.
+	*/
+	static void RegisterObject(Ambient* ambient);
+	/**
+	* @brief :
+	*/
 	virtual void Reset();
 	/**
 	* @brief : Processes input received from a key board
@@ -78,9 +85,8 @@ public:
 	/**
 	* @brief : According to projection Mode ,get view matrix
 	*/
-	
 	glm::mat4& GetProjectionMatrix();
-
+	
 	///////////////////////////////////////////////////////////////////////////
 	// @brief : Get member
 	glm::mat4& GetViewMatrix();

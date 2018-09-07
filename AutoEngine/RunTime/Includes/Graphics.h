@@ -15,10 +15,6 @@ class Graphics : public GlobalGameManager
 public:
 	explicit Graphics(Ambient* ambient);
 	/**
-	* @brief : Init Graphics create window and context
-	*/
-	void Init();
-	/**
 	* @brief : Create a Game window
 	*/
 	void CreateGameWindow();
@@ -94,6 +90,12 @@ public:
 	* @brief : Clear color depth and stencil
 	*/
 	void Clear(unsigned flags , const Color& color = Color(0.0f, 0.0f, 0.0f, 0.0f), float depth = 1.0f, unsigned stencil = 0);
+	/**
+	* @brief : Register Graphics library objects.
+	*/
+	void RegisterGraphicsLib(Ambient* ambient);
+
+
 	void SetColorWrite(bool enable);
 	void SetDepthWrite(bool enable);
 private:

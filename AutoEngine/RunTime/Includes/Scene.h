@@ -4,10 +4,9 @@
 #include "RunDefines.h"
 
 namespace Auto3D {
+
+
 class LevelScene;
-
-const static char* SCENE_ATTACH = "Scene_attach";
-
 class Scene : public GlobalGameManager
 {
 	REGISTER_DERIVED_CLASS(Scene, GlobalGameManager);

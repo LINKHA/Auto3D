@@ -5,7 +5,6 @@
 #include "GLDebug.h"
 #include "GraphicsDefines.h"
 
-#include "../../EngineSetting/Optimize.h"
 namespace Auto3D {
 
 
@@ -185,6 +184,7 @@ void Graphics::Clear(unsigned flags, const Color & color, float depth, unsigned 
 	}
 	glClear(glFlags);
 }
+
 
 void Graphics::SetColorWrite(bool enable)
 {

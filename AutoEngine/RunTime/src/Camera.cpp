@@ -2,6 +2,7 @@
 #include "Graphics.h"
 #include "BaseSpace.h"
 #include "Renderer.h"
+
 namespace Auto3D {
 
 Camera::Camera(Ambient* ambient)
@@ -29,6 +30,12 @@ Camera::Camera(Ambient* ambient)
 Camera::~Camera()
 {
 }
+
+void Camera::RegisterObject(Ambient* ambient)
+{
+	ambient->RegisterFactory<Camera>(SCENE_ATTACH);
+}
+
 void Camera::Reset()
 {
 

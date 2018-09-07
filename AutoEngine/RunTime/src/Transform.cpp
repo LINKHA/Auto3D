@@ -2,8 +2,9 @@
 
 namespace Auto3D {
 
-Transform::Transform()
-	: _position(Vector3())
+Transform::Transform(Ambient* ambient)
+	:Super(ambient)
+	, _position(Vector3())
 	, _rotation(Quaternion())
 	, _scale(Vector3(1.0f))
 {}

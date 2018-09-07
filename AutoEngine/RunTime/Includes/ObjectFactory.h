@@ -20,7 +20,7 @@ public:
 	/**
 	* @brief : Create an object.Implemented in templated subclasses.
 	*/
-	virtual SharedPtr<Object> CreateObject() = 0;
+	virtual Object* CreateObject() = 0;
 	/**
 	* @brief : Return execution ambient
 	*/
@@ -56,7 +56,7 @@ public:
 	/**
 	* @brief : Create an object of the specific type.
 	*/
-	SharedPtr<Object> CreateObject() override { return SharedPtr<Object>(new T(_ambient)); }
+	Object* CreateObject() override { return new T(_ambient); }
 };
 
 

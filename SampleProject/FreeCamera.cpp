@@ -30,7 +30,8 @@ FreeCamera::FreeCamera(Ambient* ambient, int levelNumber)
 	:ScriptComponent(ambient)
 {
 	freeCameraObject = new GameObject(_ambient, levelNumber);
-	freeCamera = new Camera(_ambient);
+	//freeCamera = new Camera(_ambient);
+	freeCamera = CreateObject<Camera>();
 	freeCamera->SetFar(1000.0f);
 }
 FreeCamera::~FreeCamera()
