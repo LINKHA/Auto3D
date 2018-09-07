@@ -1,30 +1,18 @@
 #include "BloomSpace.h"
 #include "Application.h"
-#include "LightDirectional.h"
-#include "Mesh.h"
-#include "Bloom.h"
-#include "../FreeCamera.h"
+#include "Level_0.h"
+
 BloomSpace::BloomSpace(Ambient* ambient)
 	:MotionSpace(ambient)
 {}
 BloomSpace::~BloomSpace()
-{}
-
-void BloomSpace::Start()
 {
-	GameObject * cameraObj = new GameObject(_ambient);
-	FreeCamera * camera = new FreeCamera(_ambient);
-	cameraObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
-	cameraObj->AddComponent(camera);
-
-	GameObject * bloomObj = new GameObject(_ambient);
-	Bloom * bloom = new Bloom(_ambient);
-	bloomObj->AddComponent(bloom);
-
+	RemoveLevel(0);
 }
 
-void BloomSpace::Update()
+void BloomSpace::Awake()
 {
+	RegisterLevel(new Level_0(_ambient, 0));
 }
 
 int BloomSpace::Launch()

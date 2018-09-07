@@ -6,8 +6,7 @@ class PBRSpace : public MotionSpace
 public:
 	explicit PBRSpace(Ambient* ambient);
 	~PBRSpace();
-	void Start()override;
-	void Update()override;
+	void Awake()override;
 	int Launch();
 };
 

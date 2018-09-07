@@ -9,13 +9,8 @@ class AntiAliasingSpace : public MotionSpace
 public:
 	explicit AntiAliasingSpace(Ambient* ambient);
 	~AntiAliasingSpace();
-	void Start()override;
-	void Update()override;
+	void Awake()override;
 	int Launch();
-
-private:
-	int oldi = 0;
-	FreeCamera* camera;
 };
 
 

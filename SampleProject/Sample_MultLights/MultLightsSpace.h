@@ -7,8 +7,7 @@ class MultLightsSpace : public MotionSpace
 public:
 	explicit MultLightsSpace(Ambient* ambient);
 	~MultLightsSpace();
-	void Start()override;
-	void Update()override;
+	void Awake()override;
 	int Launch();
 };
 

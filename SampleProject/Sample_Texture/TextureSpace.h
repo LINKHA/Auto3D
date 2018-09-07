@@ -8,7 +8,6 @@ class TextureSpace : public MotionSpace
 public:
 	explicit TextureSpace(Ambient* ambient);
 	~TextureSpace();
-	void Start()override;
-	void Update()override;
+	void Awake()override;
 	int Launch();
 };

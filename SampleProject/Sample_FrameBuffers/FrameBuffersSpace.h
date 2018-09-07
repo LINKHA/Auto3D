@@ -8,11 +8,7 @@ class FrameBuffersSpace : public MotionSpace
 public:
 	explicit FrameBuffersSpace(Ambient* ambient);
 	~FrameBuffersSpace();
-	void Start()override;
-	void Update()override;
+	void Awake()override;
 	int Launch();
-private:
-	int oldi = 0;
-	FreeCamera* camera;
 };
 

@@ -7,7 +7,7 @@ using namespace Auto3D;
 class Level_0 : public LevelScene
 {
 public:
-	explicit Level_0(Ambient* ambient,int levelNumber);
+	Level_0(Ambient* ambient,int levelNumber);
 	~Level_0() = default;
 
 	void Start()override;

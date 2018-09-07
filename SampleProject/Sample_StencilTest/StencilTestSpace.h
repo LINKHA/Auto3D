@@ -7,7 +7,6 @@ class StencilTestSpace : public MotionSpace
 public:
 	explicit StencilTestSpace(Ambient* ambient);
 	~StencilTestSpace();
-	void Start()override;
-	void Update()override;
+	void Awake()override;
 	int Launch();
 };	

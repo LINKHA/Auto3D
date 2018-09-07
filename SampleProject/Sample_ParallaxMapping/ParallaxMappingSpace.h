@@ -6,8 +6,7 @@ class ParallaxMappingSpace : public MotionSpace
 public:
 	explicit ParallaxMappingSpace(Ambient* ambient);
 	~ParallaxMappingSpace();
-	void Start()override;
-	void Update()override;
+	void Awake()override;
 	int Launch();
 };
 

@@ -7,7 +7,6 @@ class MoreCameraSpace : public MotionSpace
 public:
 	explicit MoreCameraSpace(Ambient* ambient);
 	~MoreCameraSpace();
-	void Start()override;
-	void Update()override;
+	void Awake()override;
 	int Launch();
 };

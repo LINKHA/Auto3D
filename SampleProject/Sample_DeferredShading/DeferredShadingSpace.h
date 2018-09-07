@@ -6,7 +6,6 @@ class DeferredShadingSpace : public MotionSpace
 public:
 	explicit DeferredShadingSpace(Ambient* ambient);
 	~DeferredShadingSpace();
-	void Start()override;
-	void Update()override;
+	void Awake()override;
 	int Launch();
 };

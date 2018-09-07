@@ -6,8 +6,7 @@ class SSAOSpace : public MotionSpace
 public:
 	explicit SSAOSpace(Ambient* ambient);
 	~SSAOSpace();
-	void Start()override;
-	void Update()override;
+	void Awake()override;
 	int Launch();
 };
 

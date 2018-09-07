@@ -9,7 +9,6 @@ class SkyBoxSpace : public MotionSpace
 public:
 	explicit SkyBoxSpace(Ambient* ambient);
 	~SkyBoxSpace();
-	void Start()override;
-	void Update()override;
+	void Awake()override;
 	int Launch();
 };

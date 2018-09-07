@@ -8,7 +8,6 @@ class BloomSpace : public MotionSpace
 public:
 	explicit BloomSpace(Ambient* ambient);
 	~BloomSpace();
-	void Start()override;
-	void Update()override;
+	void Awake()override;
 	int Launch();
 };
