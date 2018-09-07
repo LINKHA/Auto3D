@@ -25,7 +25,7 @@ MeshShadowPoint::MeshShadowPoint(Ambient* ambient,bool enable)
 		, shader_path + "au_point_shadows.aufs")
 	//, _hardShader(Shader(shader_path + "au_hard_point_shadows.auvs"	//!!! Temp not hard shader
 	//	, shader_path + "au_point_shadows.aufs"))
-	, _cullEnable(false)
+	, _cullEnable(enable)
 {
 	RegisterShadow(this);
 	RegisterOpaque(this);
@@ -38,10 +38,7 @@ MeshShadowPoint::~MeshShadowPoint()
 }
 void MeshShadowPoint::DrawReady()
 {
-	//_model = LocalModelLoad("../Resource/object/base/Cube.3DS");
-	//_woodTexture = LocalTextureLoad("../Resource/texture/wood.jpg");
-
-	_model = GetSubSystem<Resource>()->ModelLoad("../Resource/texture/wood.jpg");
+	_model = GetSubSystem<Resource>()->ModelLoad("../Resource/object/base/Cube.3DS");
 	_woodTexture = GetSubSystem<Resource>()->TextureLoad("../Resource/texture/wood.jpg");
 
 	_shader.Use();

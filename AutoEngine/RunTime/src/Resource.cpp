@@ -94,6 +94,7 @@ Model * Resource::ModelLoad(PInt8 path)
 
 unsigned int Resource::CubemapLoad(_VECTOR(_String) faces)
 {
+	stbi_set_flip_vertically_on_load(false);
 	unsigned int textureID;
 	glGenTextures(1, &textureID);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);

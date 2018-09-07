@@ -41,7 +41,6 @@ void ShadowRenderer::ReadyRender()
 			(*it)->DrawReady();
 		}
 #pragma warning
-		//_woodTexture = LocalTextureLoad("../Resource/texture/wood.jpg");
 		_woodTexture = GetSubSystem<Resource>()->TextureLoad("../Resource/texture/wood.jpg");
 	}
 	renderer->_lightContainer->IsRender(false);

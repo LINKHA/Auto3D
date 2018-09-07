@@ -28,8 +28,7 @@ void Level_0::Start()
 
 	GameObject* meshObj = new GameObject(_ambient, _levelNumber);
 	Mesh * mesh = new Mesh(_ambient);
-	///Temp Bug
-	//mesh->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
+	mesh->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
 	//mesh->GetMaterial()->color = Color(0.0f, 0.0f, 1.0f);
 	meshObj->AddComponent(mesh);
 

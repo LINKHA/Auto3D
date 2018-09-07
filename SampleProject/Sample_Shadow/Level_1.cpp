@@ -5,7 +5,6 @@
 #include "MeshShadowPoint.h"
 
 
-
 Level_1::Level_1(Ambient* ambient, int levelNumber)
 	:LevelScene(ambient, levelNumber)
 {}

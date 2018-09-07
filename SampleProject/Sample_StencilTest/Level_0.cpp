@@ -10,6 +10,7 @@ Level_0::Level_0(Ambient* ambient, int levelNumber)
 
 void Level_0::Start()
 {
+	
 	GameObject* lightObj = new GameObject(_ambient,_levelNumber);
 	lightObj->GetComponent(Transform).SetPosition(2.0f, 5.0f, 0.0f);
 	Light* light = new LightDirectional(_ambient);
