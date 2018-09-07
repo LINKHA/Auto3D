@@ -1,5 +1,7 @@
 #include "Scene.h"
 #include "GameObject.h"
+#include "LevelScene.h"
+
 
 namespace Auto3D {
 
@@ -7,112 +9,74 @@ Scene::Scene(Ambient* ambient)
 	:Super(ambient)
 {
 }
+
 Scene::~Scene()
 {}
 
-void Scene::AddNode(Node* node)
+void Scene::RegisterLevel(int index, LevelScene* level)
 {
-	Assert(node != NULL);
-	if (_isInsideRun)
-	{
-		_nodeToRemove.remove(node);
-		_nodeToAdd.push_back(node);
-		return;
-	}
-	_nodeToAdd.remove(node);
-	_nodeToRemove.remove(node);
-	_nodes.push_back(node);
+	level->Enable(true);
+	_dynamicLevelScenes.emplace(M_PAIR(index, level));
 }
 
-void Scene::RemoveNode(Node* node)
+void Scene::RemoveLevel(int index)
 {
-	Assert(node != NULL);
-	_nodeToAdd.remove(node);
-	_nodeToRemove.remove(node);
-	if (_isInsideRun)
-	{
-		_nodeToRemove.push_back(node);
-	}
-	else
-	{
-		_nodes.remove(node);
-	}
+	_dynamicLevelScenes[index]->Enable(false);
+	_dynamicLevelScenes.erase(index);
 }
 
-void Scene::ModeRunNode(NodeRunMode runMode)
+void Scene::ModeRunLevel(RunMode runMode)
 {
-	if (runMode == NodeRunMode::kDefault)
-	{
-		ErrorString("GameObejct fail to Run.");
-		return;
-	}
 	_isInsideRun = true;
 
-	for (NodeContainer::iterator i = _nodes.begin(); i != _nodes.end(); i++)
+	_actionLevelScenes = _dynamicLevelScenes;
+	if (runMode == RunMode::kDefault)
 	{
-		GameObject* obj = static_cast<GameObject*>(*i);
-		if (obj && obj->GetEnable())
+		ErrorString("Space fail to Run.");
+		return;
+	}
+	for (auto i = _actionLevelScenes.begin(); i != _actionLevelScenes.end(); i++)
+	{
+		LevelScene* level = i->second;
+		if (level && level->IsEnable())
 		{
-			using compomentIt = AUTO_VECTOR(int, Component*)::iterator;
-			if (runMode == NodeRunMode::kAwake)
-				for (compomentIt k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++)
-				{
-					if (k->second->GetEnable())
-						k->second->Awake();
-				}
-			else if (runMode == NodeRunMode::kStart)
-				for (compomentIt k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++)
-				{
-					if (k->second->GetEnable())
-						k->second->Start();
-				}
-			else if (runMode == NodeRunMode::kUpdate)
-				for (compomentIt k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++)
-				{
-					if (k->second->GetEnable())
-						k->second->Update();
-				}
-			else if (runMode == NodeRunMode::kFixUpdate)
-				for (compomentIt k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++)
-				{
-					if (k->second->GetEnable())
-						k->second->FixUpdate();
-				}
-			else if (runMode == NodeRunMode::kFinish)
+			if (runMode == RunMode::kAwake)
 			{
-				for (compomentIt k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++)
-				{
-					if (k->second->GetEnable())
-						k->second->Finish();
-				}
+				level->Awake();
+				level->ModeRunNode(RunMode::kAwake);
+			}
+			else if (runMode == RunMode::kStart)
+			{
+				level->Start();
+				level->ModeRunNode(RunMode::kStart);
+			}
+			else if (runMode == RunMode::kUpdate)
+			{
+				level->Update();
+				level->ModeRunNode(RunMode::kUpdate);
+			}
+			else if (runMode == RunMode::kFixUpdate)
+			{
+				level->FixUpdate();
+				level->ModeRunNode(RunMode::kFixUpdate);
+			}
+			else if (runMode == RunMode::kFinish)
+			{
+				level->Finish();
+				level->ModeRunNode(RunMode::kFinish);
+			}
+			else if (runMode == RunMode::kDraw)
+			{
+				level->Draw();
+				level->ModeRunNode(RunMode::kDraw);
 			}
 			else
-				ErrorString("GameObejct fail to Run.");
+				ErrorString("Level fail to Run.");
 		}
 	}
+
 	_isInsideRun = false;
-	delayAddRemoveNode();
+
 }
-
-void Scene::delayAddRemoveNode()
-{
-	Assert(!_isInsideRun);
-	for (NodeContainer::iterator i = _nodeToRemove.begin(); i != _nodeToRemove.end(); /**/)
-	{
-		Node* node = *i;
-		++i;
-		RemoveNode(node);
-	}
-	_nodeToRemove.clear();
-	for (NodeContainer::iterator i = _nodeToAdd.begin(); i != _nodeToAdd.end(); /**/)
-	{
-		Node* node = *i;
-		++i;
-		AddNode(node);
-	}
-	_nodeToAdd.clear();
-}
-
-
 
 }

@@ -6,7 +6,7 @@ namespace Auto3D {
 
 
 /**
-* @brief : Save time information 
+* Save time information 
 */
 struct TimeHolder
 {
@@ -22,7 +22,7 @@ struct TimeHolder
 	float smoothDeltaTime{};
 };
 /**
-* @brief : Save world time information
+* Save world time information
 */
 struct RealTime
 {
@@ -33,8 +33,12 @@ struct RealTime
 	int minute{};
 	int second{};
 };
+
+
+
+
 /**
-* @brief : SubSystem class for time
+* SubSystem class for time
 */
 class Time : public GlobalGameManager
 {
@@ -100,7 +104,11 @@ public:
 	* @brief : Return the time from the first frame of seconds. (Not affected by suspension)
 	*/
 	double GetTimeSinceStartup() const;
-	
+	/**
+	* @brief : Return current frames per second.
+	*/
+	float Time::GetFramesPerSecond() const;
+
 private:
 	/// dynamic time holder
 	TimeHolder _dynamicTime;

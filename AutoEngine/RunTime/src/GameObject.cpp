@@ -2,12 +2,15 @@
 #include "Transform.h"
 #include "Ambient.h"
 #include "Scene.h"
+#include "LevelScene.h"
+
 namespace Auto3D {
 //////////////////////////////////////////////////////////////////////////
 //Node
 //////////////////////////////////////////////////////////////////////////
-Node::Node(Ambient* ambient)
-	:Super(ambient)
+Node::Node(Ambient* ambient,int levelBumber)
+	: Super(ambient)
+	, _levelBumber(levelBumber)
 {}
 Node::~Node() {}
 void Node::AddChild(const GameObject& node)
@@ -70,16 +73,18 @@ void Component::MountComponent(GameObject& gameObject)
 //////////////////////////////////////////////////////////////////////////
 //GameObject
 //////////////////////////////////////////////////////////////////////////
-GameObject::GameObject(Ambient* ambient)
-	: Super(ambient)
+GameObject::GameObject(Ambient* ambient,int levelBumber)
+	: Super(ambient, levelBumber)
 	,_isEnable(true)
 {
 	AddComponent(new Transform());
-	GetSubSystem<Scene>()->AddNode(this);
+	// add node to appoint level scene
+	GetSubSystem<Scene>()->GetLevelScene(_levelBumber)->AddNode(this);
 }
 GameObject::~GameObject()
 {
-	GetSubSystem<Scene>()->RemoveNode(this);
+	// remove node to appoint level scene
+	GetSubSystem<Scene>()->GetLevelScene(_levelBumber)->RemoveNode(this);
 }
 
 void GameObject::AddComponent(Component* com)
@@ -120,10 +125,7 @@ Vector3 GameObject::GetPosition()
 	return GetComponent(Transform).GetPosition();
 }
 
-void GameObject::RegisterObjectFactory(Ambient* ambient)
-{
-	_ambient->RegisterFactory<GameObject>(SCENE_ATTACH);
-}
+
 
 
 }

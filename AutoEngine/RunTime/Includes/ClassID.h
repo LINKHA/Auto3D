@@ -63,6 +63,7 @@ enum ClassIDType
 	DO_CLASS_ID(Scene, 62)
 	DO_CLASS_ID(IO, 63)
 	DO_CLASS_ID(Model, 66)
+	DO_CLASS_ID(LevelScene, 67)
 	
 	CLASS_ID_Count
 };

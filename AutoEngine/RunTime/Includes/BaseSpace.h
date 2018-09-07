@@ -5,9 +5,9 @@ namespace Auto3D {
 /**
 * @brief Singleton class
 */
-class BaseSpace : public LevelGameManager
+class BaseSpace : public GlobalGameManager
 {
-	REGISTER_DERIVED_CLASS(BaseSpace, LevelGameManager);
+	REGISTER_DERIVED_CLASS(BaseSpace, GlobalGameManager);
 	DECLARE_OBJECT_SERIALIZE(BaseSpace);
 public:
 	explicit BaseSpace(Ambient* ambient);

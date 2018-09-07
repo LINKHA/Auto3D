@@ -16,7 +16,7 @@ class Node :public Object
 	DECLARE_OBJECT_SERIALIZE(Node);
 	using GameObjectChilds = _VECTOR(GameObject);
 public:
-	explicit Node(Ambient* ambient);
+	explicit Node(Ambient* ambient,int levelBumber);
 	/**
 	* @brief :Add Child
 	* @param : GameObject&
@@ -59,6 +59,7 @@ protected:
 	UInt32 _layer{};
 	UInt16 _tag{};
 	bool _isActive;
+	int _levelBumber{};
 };
 
 class Component : public Object
@@ -100,7 +101,8 @@ public:
 	/**
 	* @brief : Register game object to GameObjectManager
 	*/
-	explicit GameObject(Ambient* ambient);
+	explicit GameObject(Ambient* ambient, int levelBumber);
+
 	void Destory();
 	/**
 	* @brief : Set game object enable
@@ -150,10 +152,7 @@ public:
 	* @brief : Get this object position
 	*/
 	Vector3 GetPosition(); 
-	/**
-	* @brief : Register object factory.
-	*/
-	void RegisterObjectFactory(Ambient* ambient);
+
 private:
 	ComponentsArray _components;
 	bool _isEnable;

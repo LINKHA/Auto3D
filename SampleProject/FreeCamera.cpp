@@ -26,10 +26,10 @@ void FreeCamera::processInput()
 }
 
 
-FreeCamera::FreeCamera(Ambient* ambient)
+FreeCamera::FreeCamera(Ambient* ambient, int levelNumber)
 	:ScriptComponent(ambient)
 {
-	freeCameraObject = new GameObject(_ambient);
+	freeCameraObject = new GameObject(_ambient, levelNumber);
 	freeCamera = new Camera(_ambient);
 	freeCamera->SetFar(1000.0f);
 }

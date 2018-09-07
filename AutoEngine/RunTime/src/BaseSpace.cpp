@@ -15,20 +15,20 @@ BaseSpace::~BaseSpace()
 
 void BaseSpace::Awake()
 {
-	INSTANCE(SpaceManager).ModeRunSpace(MotionRunMode::kAwake);
-	GetSubSystem<Scene>()->ModeRunNode(NodeRunMode::kAwake);
+	INSTANCE(SpaceManager).ModeRunSpace(RunMode::kAwake);
+	GetSubSystem<Scene>()->ModeRunLevel(RunMode::kAwake);
 }
 
 
 void BaseSpace::Start()
 {
-	INSTANCE(SpaceManager).ModeRunSpace(MotionRunMode::kStart);
-	GetSubSystem<Scene>()->ModeRunNode(NodeRunMode::kStart);
+	INSTANCE(SpaceManager).ModeRunSpace(RunMode::kStart);
+	GetSubSystem<Scene>()->ModeRunLevel(RunMode::kStart);
 }
 void BaseSpace::Update()
 {
-	INSTANCE(SpaceManager).ModeRunSpace(MotionRunMode::kUpdate);
-	GetSubSystem<Scene>()->ModeRunNode(NodeRunMode::kUpdate);
+	INSTANCE(SpaceManager).ModeRunSpace(RunMode::kUpdate);
+	GetSubSystem<Scene>()->ModeRunLevel(RunMode::kUpdate);
 }
 void BaseSpace::FixUpdate()
 {
@@ -36,12 +36,12 @@ void BaseSpace::FixUpdate()
 }
 void BaseSpace::Finish()
 {
-	INSTANCE(SpaceManager).ModeRunSpace(MotionRunMode::kFinish);
-	GetSubSystem<Scene>()->ModeRunNode(NodeRunMode::kFinish);
+	INSTANCE(SpaceManager).ModeRunSpace(RunMode::kFinish);
+	GetSubSystem<Scene>()->ModeRunLevel(RunMode::kFinish);
 }
 void BaseSpace::Draw()
 {
-	INSTANCE(SpaceManager).ModeRunSpace(MotionRunMode::kDraw);
+	INSTANCE(SpaceManager).ModeRunSpace(RunMode::kDraw);
 
 }
 

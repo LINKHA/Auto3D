@@ -78,6 +78,11 @@ double Time::GetTimeSinceStartup() const
 	return time/1000;
 }
 
+float Time::GetFramesPerSecond() const
+{
+	return 1.0f / _dynamicTime.deltaTime;
+}
+
 
 void Time::SetPause(bool pause)
 {

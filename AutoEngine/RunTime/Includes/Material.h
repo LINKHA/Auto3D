@@ -8,7 +8,7 @@ class Material : public ComponentSetting
 	REGISTER_DERIVED_CLASS(Material, ComponentSetting);
 	DECLARE_OBJECT_SERIALIZE(Material);
 public:
-	Material(Ambient* ambient);
+	explicit Material(Ambient* ambient);
 	Material(Ambient* ambient,char * path);
 	unsigned int diffuseMap;
 	Color color;

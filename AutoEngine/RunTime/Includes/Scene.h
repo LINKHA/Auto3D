@@ -1,53 +1,47 @@
 #pragma once
 #include "GameManager.h"
 #include "stl_use.h"
+#include "RunDefines.h"
 
 namespace Auto3D {
+class LevelScene;
 
 const static char* SCENE_ATTACH = "Scene_attach";
 
-enum class NodeRunMode
-{
-	kDefault = -1,
-	kAwake,
-	kStart,
-	kUpdate,
-	kFixUpdate,
-	kFinish,
-};
-class Node;
 class Scene : public GlobalGameManager
 {
 	REGISTER_DERIVED_CLASS(Scene, GlobalGameManager);
 	DECLARE_OBJECT_SERIALIZE(Scene);
-	using NodeContainer = _LIST(Node*);
+	using LevelScenes = AUTO_HASH_MAP(int,LevelScene*);
 public:
 	explicit Scene(Ambient* ambient);
 	/**
-	* @brief : Add node to _nodeToAdd delay run over to add _nodes
+	* @brief : Register level for index
 	*/
-	void AddNode(Node* node);
+	void RegisterLevel(int index,LevelScene* level);
 	/**
-	* @brief : Add node to _nodeToRemove delay run over to remove _nodes
+	* @brief : Remove level for index
 	*/
-	void RemoveNode(Node* node);
+	void RemoveLevel(int index);
 	/**
-	* @brief : Process components in all nodes that are opened
+	* @brief : Get all level scenes
+	* @return : AUTO_HASH_MAP(int,LevelScene*)
 	*/
-	void ModeRunNode(NodeRunMode runMode);
+	LevelScenes& GetLevelScenes() { return _actionLevelScenes; }
+	/**
+	* @brief : Get level scene for index
+	*/
+	LevelScene* GetLevelScene(int index) { return _actionLevelScenes[index]; }
+	/**
+	* @brief : Run level for mode
+	*/
+	void ModeRunLevel(RunMode runMode);
 private:
-	/**
-	* @brief : if not run this function will run once in one frame
-	*/
-	void delayAddRemoveNode();
-private:
-	///all node in this container
-	NodeContainer _nodes;
-	///temp memory will add node in frame finish will clear
-	NodeContainer _nodeToAdd;
-	///temp memory will remove node in frame finish will clear
-	NodeContainer _nodeToRemove;
-	///run flag
+	/// dynamic level container
+	LevelScenes _dynamicLevelScenes;
+	/// action level container
+	LevelScenes _actionLevelScenes;
+	/// is inside run
 	bool _isInsideRun{};
 };
 

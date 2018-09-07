@@ -3,18 +3,9 @@
 #include "stl_use.h"
 #include "Singleton.h"
 #include "Camera.h"
+#include "RunDefines.h"
 namespace Auto3D {
-
-enum class MotionRunMode
-{
-	kDefault = -1,
-	kAwake,
-	kStart,
-	kUpdate,
-	kFixUpdate,
-	kFinish,
-	kDraw,
-};
+class LevelScene;
 
 class MotionSpace : public Object
 {
@@ -22,6 +13,15 @@ class MotionSpace : public Object
 	DECLARE_OBJECT_SERIALIZE(MotionSpace);
 public:
 	explicit MotionSpace(Ambient* ambient);
+	/**
+	* @brief : Registration level to scene sub system
+	*/
+	void RegisterLevel(LevelScene* level);
+	/**
+	* @brief : REmove level for index
+	*/
+	void RemoveLevel(int index);
+
 	virtual void Awake() {}
 	virtual void Start() {}
 	virtual void Update() {}
@@ -34,9 +34,8 @@ class SpaceManager : public Singleton<SpaceManager>
 public:
 	SpaceManager() = default;
 	~SpaceManager() = default;
-	_VECTOR(MotionSpace*) spaces;
-	void RegisterSpace(MotionSpace* space);
-	void ModeRunSpace(MotionRunMode runMode);
+	SharedPtr<MotionSpace> space;
+	void ModeRunSpace(RunMode runMode);
 };
 }
 
