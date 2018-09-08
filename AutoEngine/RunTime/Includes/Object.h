@@ -20,8 +20,6 @@ class Object : public RefCounted
 protected:
 	virtual ~Object() { }
 public:
-	
-	//Object() {}
 	explicit Object(Ambient* ambient);
 	///////////////////////////////////////////////////////////////////////////
 	// @brief : Register class function

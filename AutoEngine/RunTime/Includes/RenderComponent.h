@@ -8,7 +8,6 @@ class RenderComponent : public Component
 	REGISTER_DERIVED_ABSTRACT_CLASS(RenderComponent, Component);
 	DECLARE_OBJECT_SERIALIZE(RenderComponent);
 public:
-	//RenderComponent();
 	explicit RenderComponent(Ambient*  ambient);
 	/**
 	* @brief : Ready draw component

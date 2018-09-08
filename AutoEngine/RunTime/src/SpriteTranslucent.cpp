@@ -8,13 +8,7 @@
 #include "Resource.h"
 #include "Image.h"
 namespace Auto3D {
-/*
-SpriteTranslucent::SpriteTranslucent()
-	: _shader(Shader(shader_path + "au_texture_transform.auvs"
-		, shader_path + "au_texture_transform.aufs"))
-{
-	_imagePath = "Resource/texture/square.jpg";
-}*/
+
 SpriteTranslucent::SpriteTranslucent(Ambient* ambient, char* imagePath)
 	: Texture2D(ambient)
 	, _shader(Shader(shader_path + "au_texture_transform.auvs"

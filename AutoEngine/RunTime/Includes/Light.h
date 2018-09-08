@@ -70,7 +70,6 @@ class Light : public Component
 	REGISTER_DERIVED_CLASS(Light, Component);
 	DECLARE_OBJECT_SERIALIZE(Light);
 public:
-	Light();
 	explicit Light(Ambient* ambi,LightType type = LightType::kDirectional);
 	/**
 	* @brief : Update light data

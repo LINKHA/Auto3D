@@ -10,12 +10,7 @@ TextureNormal::TextureNormal(Ambient* ambient)
 	_imagePath = "Resource/texture/bricks.jpg";
 	_imageNormalPath = "Resource/texture/bricks_normal.jpg";
 }
-	/*
-TextureNormal::TextureNormal()
-{
-	_imagePath = "Resource/texture/bricks.jpg";
-	_imageNormalPath = "Resource/texture/bricks_normal.jpg";
-}
+/*
 TextureNormal::TextureNormal(char* imagePath)
 {
 	_imagePath = imagePath;

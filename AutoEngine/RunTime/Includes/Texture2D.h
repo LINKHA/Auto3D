@@ -15,7 +15,6 @@ public:
 	}TexParams;
 
 public:
-	//Texture2D() {}
 	explicit Texture2D(Ambient* ambient);
 	
 	virtual void Awake() {}

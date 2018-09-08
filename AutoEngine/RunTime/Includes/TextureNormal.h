@@ -14,7 +14,6 @@ class TextureNormal : public TextureMap
 	DECLARE_OBJECT_SERIALIZE(TextureNormal);
 public:
 	explicit TextureNormal(Ambient* ambient);
-	//TextureNormal();
 	//TextureNormal(char* imagePath);
 	//TextureNormal(char* imagePath, const Shader& shader);
 	void Start()override;

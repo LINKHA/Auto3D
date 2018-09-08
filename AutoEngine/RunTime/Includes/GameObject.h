@@ -70,19 +70,36 @@ class Component : public Object
 {
 	REGISTER_DERIVED_ABSTRACT_CLASS(Component, Object);
 	DECLARE_OBJECT_SERIALIZE(Component);
-private:
-	SharedPtr<GameObject> _gameObject;
+
 public:
-	//Component();
 	explicit Component(Ambient* ambient);
+	/**
+	* @brief : Get game object quote
+	*/
 	GameObject& GetGameObject();
+	/**
+	* @brief : Get game object quote const
+	*/
 	const GameObject& GetGameObject() const;
+	/**
+	* @brief : Get game object ptr
+	*/
 	GameObject* GetGameObjectPtr();
+	/**
+	* @brief : Get game object ptr const
+	*/
 	GameObject* GetGameObjectPtr() const;
-
+	/**
+	* @brief : Mount component for gameobject
+	*/
 	void MountComponent(GameObject& gameObject);
-
+	/**
+	* @brief : Set enable
+	*/
 	void Enable(bool enable) { _isEnable = enable; }
+	/**
+	* @brief : Return enable
+	*/
 	bool GetEnable() { return _isEnable; }
 
 	virtual void Awake() {}
@@ -91,6 +108,7 @@ public:
 	virtual void FixUpdate() {}
 	virtual void Finish() {}
 private:
+	SharedPtr<GameObject> _gameObject;
 	bool _isEnable;
 };
 
@@ -99,8 +117,12 @@ class GameObject : public Node
 	REGISTER_DERIVED_CLASS(GameObject, Node);
 	DECLARE_OBJECT_SERIALIZE(GameObject);
 public:
+#if SharedPtrDebug
+	using ComponentsArray = AUTO_VECTOR(int, SharedPtr<Component>);
+#else
 	using ComponentsArray = AUTO_VECTOR(int, Component*);
-	//using ComponentsArray = AUTO_VECTOR(int, SharedPtr<Component>);
+#endif
+
 public:
 	/**
 	* @brief : Register game object to GameObjectManager
@@ -120,8 +142,6 @@ public:
 	* @brief : Mount component in this GameObject
 	*/
 	void AddComponent(Component* com);
-
-	template<typename T> void AddComponent_(T* com);
 	/**
 	* @brief : Remove component at index
 	*/
@@ -160,16 +180,11 @@ public:
 	Vector3 GetPosition(); 
 
 private:
+	/// this gameobject components container
 	ComponentsArray _components;
+	/// enable
 	bool _isEnable;
 };
-
-template<typename T> inline void GameObject::AddComponent_(T * com)
-{
-	_components.push_back(M_PAIR(T::GetClassIDStatic(), com));
-	//_components.push_back(M_PAIR(com->GetClassID(), SharedPtr<Component>(com)));
-	com->MountComponent(*this);
-}
 
 template<typename T> inline T& GameObject::GetComponentT(int compareClassID) const
 {

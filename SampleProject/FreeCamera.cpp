@@ -30,7 +30,6 @@ FreeCamera::FreeCamera(Ambient* ambient, int levelNumber)
 	freeCameraObject = new GameObject(_ambient, levelNumber);
 
 	freeCamera = CreateObject<Camera>();
-	//freeCamera = new Camera(_ambient);
 	freeCamera->SetFar(1000.0f);
 }
 FreeCamera::~FreeCamera()
@@ -41,7 +40,6 @@ void FreeCamera::Start()
 {
 
 	freeCameraObject->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
-	//freeCameraObject->AddComponent_<Camera>(freeCamera);
 	freeCameraObject->AddComponent(freeCamera);
 	GetSubSystem<Input>()->HideMouseInWindow(true);
 	

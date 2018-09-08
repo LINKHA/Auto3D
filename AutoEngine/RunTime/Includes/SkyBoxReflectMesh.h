@@ -5,7 +5,7 @@ namespace Auto3D {
 class SkyBoxReflectMesh : public RenderComponent
 {
 public:
-	SkyBoxReflectMesh(Ambient* ambient); 
+	explicit SkyBoxReflectMesh(Ambient* ambient); 
 	SkyBoxReflectMesh(Ambient* ambient,const Shader& shader);
 	~SkyBoxReflectMesh();
 	void Start()override;

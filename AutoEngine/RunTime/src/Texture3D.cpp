@@ -2,9 +2,7 @@
 
 
 namespace Auto3D {
-/*Texture3D::Texture3D()
-{
-}*/
+
 Texture3D::Texture3D(Ambient * ambient)
 	:Super(ambient)
 {

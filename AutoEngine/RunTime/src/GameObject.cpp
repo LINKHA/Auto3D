@@ -43,9 +43,6 @@ Node::GameObjectChilds& Node::GetAllChild()
 //////////////////////////////////////////////////////////////////////////
 //Component
 //////////////////////////////////////////////////////////////////////////
-/*Component::Component()
-	: _isEnable(true)
-{}*/
 Component::Component(Ambient* ambient)
 	: Super(ambient)
 	, _isEnable(true)
@@ -92,7 +89,6 @@ GameObject::~GameObject()
 void GameObject::AddComponent(Component* com)
 {
 	_components.push_back(M_PAIR(com->GetClassID(), com));
-	//_components.push_back(M_PAIR(com->GetClassID(), SharedPtr<Component>(com)));
 	com->MountComponent(*this);
 }
 
@@ -106,14 +102,17 @@ int GameObject::GetComponentsSize()
 { 
 	return static_cast<int>(_components.size());
 }
+
 const GameObject& GameObject::GetGameObject()const 
 { 
 	return *this; 
 }
+
 GameObject& GameObject::GetGameObject() 
 { 
 	return *this; 
 }
+
 Component* GameObject::QueryComponent(int classID) const
 {
 	for (auto it = _components.begin(); it != _components.end(); it++)
@@ -124,6 +123,7 @@ Component* GameObject::QueryComponent(int classID) const
 	ErrorString("File find component of ClassId.");
 	return nullptr;
 }
+
 Vector3 GameObject::GetPosition()
 {
 	return GetComponent(Transform).GetPosition();

@@ -55,7 +55,6 @@ void Camera::AllowMSAA(bool enable, int pointNum)
 		_offScreen = new OffScreen(_ambient);
 	}
 	_offScreen->AllowMSAA(enable, pointNum);
-
 }
 
 void Camera::AllowLateEffect(bool enable)

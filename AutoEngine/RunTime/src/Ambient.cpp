@@ -12,7 +12,7 @@ Ambient::~Ambient()
 	_factories.clear();
 }
 
-#if PtrDebug
+#if SharedPtrDebug
 SharedPtr<Object> Ambient::CreateObject(_String objectType)
 {
 	AUTO_HASH_MAP(_String, SharedPtr<ObjectFactory>)::const_iterator i = _factories.find(objectType);

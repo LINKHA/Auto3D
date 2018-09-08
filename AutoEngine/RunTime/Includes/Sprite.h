@@ -9,7 +9,6 @@ class Sprite : public Texture2D
 	DECLARE_OBJECT_SERIALIZE(Sprite);
 public:
 
-	//Sprite();
 	explicit Sprite(Ambient* ambient);
 	Sprite(Ambient* ambient,char* imagePath);
 	//Sprite(char* imagePath, const Shader& shader);

@@ -8,7 +8,7 @@ class LightDirectional : public Light
 	REGISTER_DERIVED_CLASS(LightDirectional, Light);
 	DECLARE_OBJECT_SERIALIZE(LightDirectional);
 public:
-	LightDirectional(Ambient* ambient);
+	explicit LightDirectional(Ambient* ambient);
 public:
 	/*Color color;
 	Vector3 direction;

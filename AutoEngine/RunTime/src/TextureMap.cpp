@@ -1,8 +1,7 @@
 #include "TextureMap.h"
 namespace Auto3D {
 
-/*TextureMap::TextureMap()
-{}*/
+
 TextureMap::TextureMap(Ambient* ambient)
 	:Super(ambient)
 {}
