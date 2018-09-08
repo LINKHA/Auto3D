@@ -17,6 +17,11 @@ class Mesh : public RenderComponent,public GLMeshEnable
 	DECLARE_OBJECT_SERIALIZE(Mesh);
 public:
 	explicit Mesh(Ambient* ambient);
+	static void RegisterObject(Ambient* ambient);
+
+	void SetModel(char* modelPath);
+	void SetShader(const Shader& shader);
+
 	Mesh(Ambient* ambient,char* meshPath);
 	Mesh(Ambient* ambient,char* meshPath, const Shader& shader);
 
@@ -31,8 +36,7 @@ private:
 	Shader _shader;
 	SharedPtr<Material> _material;
 	SharedPtr<Model> _model;
-	char* _meshPath;
-private:
+	char* _modelPath;
 	bool _isUserShader;
 };
 

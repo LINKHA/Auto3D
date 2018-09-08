@@ -1,13 +1,17 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "LevelScene.h"
-
+#include "Camera.h"
+#include "Sprite.h"
+#include "Transform.h"
+#include "Mesh.h"
 
 namespace Auto3D {
 
 Scene::Scene(Ambient* ambient)
 	:Super(ambient)
 {
+	RegisterSceneLib(_ambient);
 }
 
 Scene::~Scene()
@@ -77,6 +81,14 @@ void Scene::ModeRunLevel(RunMode runMode)
 
 	_isInsideRun = false;
 
+}
+
+void Scene::RegisterSceneLib(Ambient* ambient)
+{
+	Camera::RegisterObject(ambient);
+	Sprite::RegisterObject(ambient);
+	Transform::RegisterObject(ambient);
+	Mesh::RegisterObject(ambient);
 }
 
 }

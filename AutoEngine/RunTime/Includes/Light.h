@@ -19,7 +19,7 @@ enum class ShadowType
 	kHard
 };
 /**
-* @brief : Manage this light create shadow
+* Manage this light create shadow
 */
 class ShadowRenderAssist : public ComponentSetting
 {

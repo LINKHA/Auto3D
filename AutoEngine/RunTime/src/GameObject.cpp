@@ -76,7 +76,7 @@ GameObject::GameObject(Ambient* ambient,int levelBumber)
 	: Super(ambient, levelBumber)
 	,_isEnable(true)
 {
-	AddComponent(new Transform(_ambient));
+	AddComponent(_ambient->CreateObject<Transform>());
 	// add node to appoint level scene
 	GetSubSystem<Scene>()->GetLevelScene(_levelBumber)->AddNode(this);
 }

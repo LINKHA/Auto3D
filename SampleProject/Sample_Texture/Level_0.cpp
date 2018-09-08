@@ -41,20 +41,24 @@ void Level_0::Start()
 	obj4->AddComponent(tex4);
 
 
-	Sprite* tex1 = new Sprite(_ambient, "../Resource/texture/logo.png");
+	Sprite* tex1 = CreateObject<Sprite>();
+	tex1->SetImage("../Resource/texture/logo.png");
 	obj = new GameObject(_ambient, _levelNumber);
 	//tex1->SetColor(Color(0.5f, 0.5f, 0.5f));
 	obj->AddComponent(tex1);
 
 
 
-	Sprite* tex5 = new Sprite(_ambient, "../Resource/texture/grass.png");
+
+	Sprite* tex5 = CreateObject<Sprite>();
+	tex5->SetImage("../Resource/texture/grass.png");
 	//tex5->EnableBlend(true);
 	GameObject* obj5 = new GameObject(_ambient, _levelNumber);
 	obj5->GetComponent(Transform).SetPosition(-0.2f, 0.0f, -3.0f);
 	obj5->AddComponent(tex5);
 
-	Sprite* tex6 = new Sprite(_ambient, "../Resource/texture/grass.png");
+	Sprite* tex6 = CreateObject<Sprite>();
+	tex6->SetImage("../Resource/texture/grass.png");
 	//tex6->EnableBlend(true);
 	GameObject* obj6 = new GameObject(_ambient, _levelNumber);
 	obj6->GetComponent(Transform).SetPosition(-0.2f, 0.0f, -4.0f);

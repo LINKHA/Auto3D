@@ -18,21 +18,12 @@ Sprite::Sprite(Ambient* ambient)
 	_imagePath = "Resource/texture/square.jpg";
 	_color.Set(1.0f, 1.0f, 1.0f, 1.0f);
 }
-Sprite::Sprite(Ambient* ambient,char* imagePath)
-	: Super(ambient)
-	, _shader(Shader(shader_path + "au_texture_transform.auvs"
-		, shader_path + "au_texture_transform.aufs"))
+
+void Sprite::RegisterObject(Ambient* ambient)
 {
-	_imagePath = imagePath;
-	_color.Set(1.0f, 1.0f, 1.0f, 1.0f);
+	ambient->RegisterFactory<Sprite>(SCENE_ATTACH);
 }
-/*
-Sprite::Sprite(char* imagePath, const Shader & shader)
-	: _shader(shader)
-{
-	_imagePath = imagePath;
-	_color.Set(1.0f, 1.0f, 1.0f, 1.0f);
-}*/
+
 Sprite::~Sprite()
 {
 	UnloadOpaque(this);
@@ -41,6 +32,10 @@ Sprite::~Sprite()
 	glDeleteBuffers(1, &_EBO);
 }
 
+void Sprite::SetImage(char * imagePath)
+{
+	_imagePath = imagePath;
+}
 
 void Sprite::Start()
 {

@@ -35,6 +35,10 @@ public:
 	* @brief : Run level for mode
 	*/
 	void ModeRunLevel(RunMode runMode);
+	/**
+	* @brief : Register scene library objects.
+	*/
+	void RegisterSceneLib(Ambient* ambient);
 private:
 	/// dynamic level container
 	LevelScenes _dynamicLevelScenes;

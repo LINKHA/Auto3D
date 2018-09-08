@@ -10,8 +10,15 @@ class Sprite : public Texture2D
 public:
 
 	explicit Sprite(Ambient* ambient);
-	Sprite(Ambient* ambient,char* imagePath);
-	//Sprite(char* imagePath, const Shader& shader);
+	/**
+	* @brief : Register object factory.
+	*/
+	static void RegisterObject(Ambient* ambient);
+	/**
+	* @brief : Set image path to load image
+	*/
+	void SetImage(char* imagePath);
+
 
 	void Start()override;
 	void Draw()override;

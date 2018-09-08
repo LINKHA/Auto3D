@@ -15,6 +15,10 @@ public:
 	*/
 	explicit Transform(Ambient* ambient);
 	/**
+	* @brief : Register object factory.
+	*/
+	static void RegisterObject(Ambient* ambient);
+	/**
 	* @brief : Set position from Vector3
 	*/
 	void SetPosition(const Vector3& position);

@@ -12,7 +12,7 @@ Mesh::Mesh(Ambient* ambient)
 	, _isUserShader(false)
 {
 	_material = new Material(_ambient);
-	_meshPath = "../Resource/object/base/Cube.3DS";
+	_modelPath = "../Resource/object/base/Cube.3DS";
 }
 Mesh::Mesh(Ambient* ambient,char* meshPath)
 	: Super(ambient)
@@ -21,7 +21,7 @@ Mesh::Mesh(Ambient* ambient,char* meshPath)
 	, _isUserShader(false)
 {
 	_material = new Material(_ambient);
-	_meshPath = meshPath;
+	_modelPath = meshPath;
 }
 Mesh::Mesh(Ambient* ambient,char* meshPath, const Shader& shader)
 	: Super(ambient)
@@ -29,12 +29,30 @@ Mesh::Mesh(Ambient* ambient,char* meshPath, const Shader& shader)
 	, _isUserShader(true)
 {
 	_material = new Material(_ambient);
-	_meshPath = meshPath;
+	_modelPath = meshPath;
 }
 Mesh::~Mesh()
 {
 	UnloadOpaque(this);
+
+	delete _material;
+	_material = nullptr;
 }
+void Mesh::RegisterObject(Ambient* ambient)
+{
+	ambient->RegisterFactory<Mesh>(SCENE_ATTACH);
+}
+
+void Mesh::SetModel(char* modelPath)
+{
+	_modelPath = modelPath;
+}
+
+void Mesh::SetShader(const Shader& shader)
+{
+	_shader = shader;
+}
+
 void Mesh::Start()
 {
 	if (_isUserShader)

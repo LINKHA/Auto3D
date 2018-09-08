@@ -1,9 +1,12 @@
 #include "Graphics.h"
 #include "stb_image.h"
 #include "GLGather.h"
-#include "Camera.h"
+
+
 
 namespace Auto3D {
+
+
 Graphics::Graphics(Ambient* ambient)
 	:Super(ambient)
 	, _window(nullptr)
@@ -208,7 +211,7 @@ bool Graphics::IsDeviceLost()
 
 void Graphics::RegisterGraphicsLib(Ambient* ambient)
 {
-	Camera::RegisterObject(_ambient);
+	
 }
 
 }
