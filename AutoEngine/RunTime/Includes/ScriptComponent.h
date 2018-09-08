@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "Component.h"
 
 namespace Auto3D {
 class ScriptComponent :public Component

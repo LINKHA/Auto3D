@@ -2,6 +2,7 @@
 #include "Texture3D.h"
 #include "Singleton.h"
 namespace Auto3D {
+class Camera;
 
 class HDRSkyBox : public Texture3D
 {
@@ -10,7 +11,7 @@ public:
 	~HDRSkyBox();
 	void Start()override;
 	void Draw()override;
-	void AddToCamera(Camera * camera){}
+	void AddToCamera(Camera* camera){}
 private:
 	Shader m_equirectangularToCubemapShader;
 	Shader m_irradianceShader;

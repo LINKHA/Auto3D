@@ -1,6 +1,6 @@
 #include "LevelScene.h"
 #include "GameObject.h"
-
+#include "Component.h"
 
 namespace Auto3D {
 

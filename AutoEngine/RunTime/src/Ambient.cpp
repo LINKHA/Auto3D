@@ -8,6 +8,17 @@ Ambient::Ambient()
 
 Ambient::~Ambient()
 {
+	
+	RemoveSubSystem("Input");
+	RemoveSubSystem("Renderer");
+	RemoveSubSystem("Graphics");
+	RemoveSubSystem("Script");
+	RemoveSubSystem("IO");
+	RemoveSubSystem("UI");
+	RemoveSubSystem("Audio");
+	RemoveSubSystem("BaseSpace");
+	RemoveSubSystem("Time");
+
 	_subSystems.clear();
 	_factories.clear();
 }

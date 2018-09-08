@@ -1,6 +1,7 @@
 #pragma once
-#include "GameObject.h"
+#include "Component.h"
 #include "GLGather.h"
+
 namespace Auto3D {
 
 class RenderComponent : public Component

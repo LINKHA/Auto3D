@@ -11,7 +11,8 @@
 #include "Resource.h"
 #include "Scene.h"
 #include "IO.h"
-
+#include "Audio.h"
+#include "UI.h"
 
 namespace Auto3D {
 
@@ -27,6 +28,8 @@ Engine::Engine(Ambient* ambient)
 	_ambient->RegisterSubSystem(new Resource(_ambient));
 	_ambient->RegisterSubSystem(new Scene(_ambient));
 	_ambient->RegisterSubSystem(new IO(_ambient));
+	_ambient->RegisterSubSystem(new Audio(_ambient));
+	_ambient->RegisterSubSystem(new UI(_ambient));
 }
 
 Engine::~Engine()

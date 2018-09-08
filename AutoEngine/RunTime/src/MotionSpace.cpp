@@ -4,11 +4,11 @@
 
 
 namespace Auto3D {
-SINGLETON_INSTANCE(SpaceManager);
+SINGLETON_INSTANCE(SpaceHandle);
 MotionSpace::MotionSpace(Ambient* ambient)
 	:Super(ambient)
 {
-	INSTANCE(SpaceManager).space = this;
+	INSTANCE(SpaceHandle).space = this;
 }
 
 
@@ -27,9 +27,9 @@ void MotionSpace::RemoveLevel(int index)
 }
 
 //////////////////////////////////////////////////////////////////////////
-//SpaceRunMode
+//SpaceHandle
 //////////////////////////////////////////////////////////////////////////
-void SpaceManager::ModeRunSpace(RunMode runMode)
+void SpaceHandle::ModeRunSpace(RunMode runMode)
 {
 	AssertString(space,"No global space!");
 

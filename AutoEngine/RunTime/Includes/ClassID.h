@@ -65,7 +65,8 @@ enum ClassIDType
 	DO_CLASS_ID(Model, 66)
 	DO_CLASS_ID(LevelScene, 67)
 	DO_CLASS_ID(StateVessel, 68)
-	
+	DO_CLASS_ID(Audio, 69)
+	DO_CLASS_ID(UI, 70)
 	CLASS_ID_Count
 };
 

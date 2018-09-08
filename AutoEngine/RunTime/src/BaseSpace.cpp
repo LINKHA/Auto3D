@@ -15,19 +15,19 @@ BaseSpace::~BaseSpace()
 
 void BaseSpace::Awake()
 {
-	INSTANCE(SpaceManager).ModeRunSpace(RunMode::kAwake);
+	INSTANCE(SpaceHandle).ModeRunSpace(RunMode::kAwake);
 	GetSubSystem<Scene>()->ModeRunLevel(RunMode::kAwake);
 }
 
 
 void BaseSpace::Start()
 {
-	INSTANCE(SpaceManager).ModeRunSpace(RunMode::kStart);
+	INSTANCE(SpaceHandle).ModeRunSpace(RunMode::kStart);
 	GetSubSystem<Scene>()->ModeRunLevel(RunMode::kStart);
 }
 void BaseSpace::Update()
 {
-	INSTANCE(SpaceManager).ModeRunSpace(RunMode::kUpdate);
+	INSTANCE(SpaceHandle).ModeRunSpace(RunMode::kUpdate);
 	GetSubSystem<Scene>()->ModeRunLevel(RunMode::kUpdate);
 }
 void BaseSpace::FixUpdate()
@@ -36,12 +36,12 @@ void BaseSpace::FixUpdate()
 }
 void BaseSpace::Finish()
 {
-	INSTANCE(SpaceManager).ModeRunSpace(RunMode::kFinish);
+	INSTANCE(SpaceHandle).ModeRunSpace(RunMode::kFinish);
 	GetSubSystem<Scene>()->ModeRunLevel(RunMode::kFinish);
 }
 void BaseSpace::Draw()
 {
-	INSTANCE(SpaceManager).ModeRunSpace(RunMode::kDraw);
+	INSTANCE(SpaceHandle).ModeRunSpace(RunMode::kDraw);
 
 }
 

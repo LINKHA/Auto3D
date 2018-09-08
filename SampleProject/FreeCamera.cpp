@@ -4,7 +4,6 @@
 #include "Light.h"
 #include "Input.h"
 
-
 void FreeCamera::processInput()
 {
 	

@@ -1,7 +1,7 @@
 #pragma once
 #include "Math/Math.h"
 #include "GLGather.h"
-#include "GameObject.h"
+#include "Component.h"
 ;
 namespace Auto3D {
 class Transform : public Component

@@ -25,11 +25,11 @@ public:
 	void RemoveLevel(int index);
 
 };
-class SpaceManager : public Singleton<SpaceManager>
+class SpaceHandle : public Singleton<SpaceHandle>
 {
 public:
-	SpaceManager() = default;
-	~SpaceManager() = default;
+	SpaceHandle() = default;
+	~SpaceHandle() = default;
 	SharedPtr<MotionSpace> space;
 	void ModeRunSpace(RunMode runMode);
 };
