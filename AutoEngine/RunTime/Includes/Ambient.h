@@ -98,8 +98,7 @@ private:
 	ObjectAttachs _objectAttachs;
 };
 
-template <typename T>
-inline T * Ambient::RegisterSubsystem()
+template <typename T> inline T * Ambient::RegisterSubsystem()
 {
 	auto* subsystem = new T(this);
 	RegisterSubsystem(subsystem);

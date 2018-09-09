@@ -73,7 +73,8 @@ public:
 	*/
 	Component* QueryComponent(int classID) const;
 	/**
-	* @brief : Get Components (AUTO_VECTOR(int, Component*))
+	* @brief : Get Components 
+	* @return : AUTO_VECTOR(int, Component*)
 	*/
 	ComponentsArray& GetComponentsArray(){ return _components; }
 	/**
@@ -95,6 +96,7 @@ template<typename T> inline T& GameObject::GetComponentT(int compareClassID) con
 	Assert(com != nullptr);
 	return *static_cast<T*> (com);
 }
+
 inline Component& GameObject::GetComponentIndex(int index)
 {
 	return *_components[index].second;

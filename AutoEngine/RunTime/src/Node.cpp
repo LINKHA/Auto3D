@@ -11,7 +11,7 @@ Node::Node(Ambient* ambient, int levelBumber)
 Node::~Node() {}
 
 
-void Node::AddChild(const GameObject& node)
+void Node::AddChild(GameObject* node)
 {
 	_childs.push_back(node);
 }
@@ -24,7 +24,7 @@ void Node::RemoveChild(int index)
 		ErrorString("File remove child,the index is exceed child count.\n");
 }
 
-GameObject& Node::GetChild(int index)
+GameObject* Node::GetChild(int index)
 {
 	if (_childs.begin() + index >= _childs.end())
 	{

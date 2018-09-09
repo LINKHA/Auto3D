@@ -1,6 +1,8 @@
 #pragma once
 #include "Auto.h"
 namespace Auto3D {
+
+
 struct RefCount
 {
 	/**
@@ -25,6 +27,7 @@ struct RefCount
 	int weakRefs;
 };
 
+
 /**
 * Base class for intrusively reference-counted objects. 
 * These are noncopyable and non-assignable.
@@ -42,8 +45,14 @@ public:
 	*		count structure if no outside weak references exist.
 	*/
 	virtual ~RefCounted();
-	//RefCounted(const RefCounted& rhs) = delete;
-	//RefCounted& operator =(const RefCounted& rhs) = delete;
+	/**
+	* @brief : Prevent copy construction.
+	*/
+	RefCounted(const RefCounted& rhs) = delete;
+	/**
+	* @brief : Prevent assignment.
+	*/
+	RefCounted& operator =(const RefCounted& rhs) = delete;
 
 	/**
 	* @brief : Increment reference count. Can also be called outside 

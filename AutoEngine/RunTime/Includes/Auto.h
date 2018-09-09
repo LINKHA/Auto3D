@@ -26,10 +26,19 @@
 #define _OPENGL_4_PLUS_ 1	//OpenGL 4.3
 #define _OPENGL_3_PLUS_ 0	//OpenGL 3.3
 
+#if _WIN32
+#define AUTO_EXPORT_DLL __declspec(dllexport)
+#elif IOS
+#define AUTO_EXPORT_DLL __attribute__((visibility("default")))
+#else
+#define AUTO_EXPORT_DLL
+#endif
+
 // Use NVIDIA Dedicated Graphics Card
-#define _NVIDIA_USE extern "C"{__declspec(dllexport) unsigned long NvOptimusEnablement = 0x00000001;}
+#define _NVIDIA_USE extern "C"{AUTO_EXPORT_DLL unsigned long NvOptimusEnablement = 0x00000001;}
 // Use AMD Dedicated Graphics Card
-#define _AMD_USE extern "C"{__declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;}
+#define _AMD_USE extern "C"{AUTO_EXPORT_DLL int AmdPowerXpressRequestHighPerformance = 1;}
+
 
 #if _OPENGL_4_6_
 	#define SELECT_DEDICATED_GRAPHICS_CARD _NVIDIA_USE

@@ -10,23 +10,23 @@ class Node :public Object
 {
 	REGISTER_DERIVED_ABSTRACT_CLASS(Node, Object);
 	DECLARE_OBJECT_SERIALIZE(Node);
-	using GameObjectChilds = _VECTOR(GameObject);
+	using GameObjectChilds = _VECTOR(GameObject*);
 public:
 	explicit Node(Ambient* ambient, int levelBumber);
 	/**
 	* @brief :Add Child
-	* @param : GameObject&
+	* @param : GameObject*
 	*/
-	virtual void AddChild(const GameObject& node);
+	virtual void AddChild(GameObject* node);
 	/**
 	* @brief : Remove child with index
 	*/
 	virtual void RemoveChild(int index);
 	/**
 	* @brief : Get this objct child with index
-	* @return :GameObject&
+	* @return :GameObject*
 	*/
-	virtual GameObject& GetChild(int index);
+	virtual GameObject* GetChild(int index);
 	/**
 	* @brief : Get this objct all child
 	* @return : GameObjectChildArray&
