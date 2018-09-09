@@ -15,7 +15,6 @@ class GameManager : public Object
 public:
 	REGISTER_DERIVED_ABSTRACT_CLASS(GameManager, Object);
 	DECLARE_OBJECT_SERIALIZE(GameManager);
-	//GameManager() {}
 	explicit GameManager(Ambient* ambient);
 };
 
@@ -24,7 +23,6 @@ class LevelGameManager : public GameManager
 public:
 	REGISTER_DERIVED_ABSTRACT_CLASS(LevelGameManager, GameManager);
 	DECLARE_OBJECT_SERIALIZE(LevelGameManager);
-	//LevelGameManager(){}
 	explicit LevelGameManager(Ambient* ambient);
 };
 
@@ -33,7 +31,6 @@ class GlobalGameManager : public GameManager
 public:
 	REGISTER_DERIVED_ABSTRACT_CLASS(GlobalGameManager, GameManager);
 	DECLARE_OBJECT_SERIALIZE(GlobalGameManager);
-	//GlobalGameManager();
 	explicit GlobalGameManager(Ambient* ambient);
 };
 
