@@ -101,6 +101,8 @@ public:
 
 	int Refs() const { return _ptr ? _ptr->Refs() : 0; }
 
+	long UseCount()const { return RefCountPtr()->refs; }
+
 private:
 	template <class U> friend class SharedPtr;
 
