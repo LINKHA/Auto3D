@@ -2,36 +2,35 @@
 #include "LogAssert.h"
 
 
-//namespace AutoEngineAPI
-#define AUTO_API_BEGIN		namespace AutoAPI {
-#define AUTO_API_END		}
-#define USING_API_AUTO		using namespace AutoAPI;
-#define AUTO_API			AutoAPI
 
 //namespace AutoScript
 #ifndef SCRIPT_BEGIN
-	#define SCRIPT_BEGIN	namespace AutoScript {
+#	define SCRIPT_BEGIN	namespace AutoScript {
 #endif //!SCRIPT_BEGIN
+
 #ifndef SCRIPT_END
-	#define SCRIPT_END		}
+#	define SCRIPT_END		}
 #endif // !SCRIPT_END
+
 #ifndef USING_SCRIPT
-	#define USING_SCRIPT	using namespace AutoScript;
+#	define USING_SCRIPT	using namespace AutoScript;
 #endif // !USING_SCRIPT
+
 #ifndef SCRIPT
-	#define SCRIPT			AutoScript
+#	define SCRIPT			AutoScript
 #endif // !SCRIPT
+
 
 #define _OPENGL_4_6_ 0
 #define _OPENGL_4_PLUS_ 1	//OpenGL 4.3
 #define _OPENGL_3_PLUS_ 0	//OpenGL 3.3
 
 #if _WIN32
-#define AUTO_EXPORT_DLL __declspec(dllexport)
+#	define AUTO_EXPORT_DLL __declspec(dllexport)
 #elif IOS
-#define AUTO_EXPORT_DLL __attribute__((visibility("default")))
+#	define AUTO_EXPORT_DLL __attribute__((visibility("default")))
 #else
-#define AUTO_EXPORT_DLL
+#	define AUTO_EXPORT_DLL
 #endif
 
 // Use NVIDIA Dedicated Graphics Card
@@ -41,10 +40,10 @@
 
 
 #if _OPENGL_4_6_
-	#define SELECT_DEDICATED_GRAPHICS_CARD _NVIDIA_USE
+#	define SELECT_DEDICATED_GRAPHICS_CARD _NVIDIA_USE
 #endif
 #if _OPENGL_4_PLUS_ || _OPENGL_3_PLUS_
-	#define SELECT_DEDICATED_GRAPHICS_CARD
+#	define SELECT_DEDICATED_GRAPHICS_CARD
 #endif
 
 //Define Data type
