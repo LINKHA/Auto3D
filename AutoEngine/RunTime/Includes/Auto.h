@@ -25,6 +25,16 @@
 #define _OPENGL_4_PLUS_ 1	//OpenGL 4.3
 #define _OPENGL_3_PLUS_ 0	//OpenGL 3.3
 
+#ifndef AUTO_API
+#    ifdef DLL_EXPORTS
+/* We are building this library */
+#      define AUTO_API __declspec(dllexport)
+#    else
+/* We are using this library */
+#      define AUTO_API __declspec(dllimport)
+#    endif
+#  endif
+
 #if _WIN32
 #	define AUTO_EXPORT_DLL __declspec(dllexport)
 #elif IOS
@@ -88,7 +98,7 @@ using PUInt64 = unsigned __int64*;
 
 #if AUTO_DEBUG 
 #else
-#pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
+#	pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
 #endif
 
 #define SharedPtrDebug 0

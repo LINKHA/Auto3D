@@ -1,5 +1,5 @@
 #include "Ambient.h"
-#include "Str.h"
+//#include "Str.h"
 
 namespace Auto3D {
 Ambient::Ambient()
@@ -76,7 +76,7 @@ void Ambient::RegisterFactory(ObjectFactory * factory, const char* category)
 	if (!factory)
 		return;
 	RegisterFactory(factory);
-	if (String::CharPtrLength(category))
+	//if (String::CharPtrLength(category))
 		_objectAttachs[category].push_back(factory->GetClassString());
 }
 
