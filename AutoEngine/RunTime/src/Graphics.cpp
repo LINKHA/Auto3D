@@ -1,8 +1,7 @@
 #include "Graphics.h"
 #include "stb_image.h"
 #include "GLGather.h"
-
-
+#include "../../EngineSetting/BuildSetting.h"
 
 namespace Auto3D {
 
@@ -137,10 +136,10 @@ SDL_Surface* Graphics::SetIcon()
 	int req_format = STBI_rgb_alpha;
 	int width, height, orig_format;
 	
-	unsigned char* data = stbi_load("../Resource/texture/logo.png", &width, &height, &orig_format, 0);
+	unsigned char* data = stbi_load(TITLE_ICON_PATH, &width, &height, &orig_format, 0);
 	if (!data) {
 		SDL_Log("Loading image failed: %s", stbi_failure_reason());
-		exit(1);
+		Assert(0);
 	}
 
 	// Set up the pixel format color masks for RGB(A) byte arrays.

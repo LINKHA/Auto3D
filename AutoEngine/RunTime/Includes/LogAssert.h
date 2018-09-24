@@ -51,6 +51,7 @@ inline const char* LogTypeToString(LogType type)
 #define Assert(condition){ \
 	if(!(condition)){ \
 		ErrorString("The breakpoint is triggered.");\
+		assert(condition);\
 		exit(EXIT_FAILURE);\
 	}\
 }
@@ -58,6 +59,7 @@ inline const char* LogTypeToString(LogType type)
 #define AssertString(condition,msg){ \
 	if(!(condition)){ \
 		ErrorString(msg);\
+		assert(condition);\
 		exit(EXIT_FAILURE);\
 	}\
 }

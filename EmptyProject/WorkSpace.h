@@ -6,8 +6,7 @@ class WorkSpace : public MotionSpace
 public:
 	explicit WorkSpace(Ambient* ambient);
 	~WorkSpace();
-	void Start()override;
-	void Update()override;
+	void Awake()override;
 	int Launch();
 };
 

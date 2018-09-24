@@ -8,12 +8,12 @@ using namespace Auto3D;
 class FreeCamera : public ScriptComponent
 {
 public:
-	FreeCamera(Ambient* ambient);
+	FreeCamera(Ambient* ambient, int levelNumber);
 	~FreeCamera();
 	void Start()override;
 	void Update()override;
 	GameObject* freeCameraObject;
-	Camera * freeCamera;
+	Camera* freeCamera;
 private:
 	void processInput();
 };
