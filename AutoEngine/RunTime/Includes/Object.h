@@ -26,12 +26,12 @@ public:
 	virtual int GetClassID() { return ClassID(Object); }
 	virtual bool IsAbstract() { return true; }
 	virtual char* GetClassCstrName() { return "Object"; }
-	virtual _String GetClassString() { return "Object"; }
+	virtual __String GetClassString() { return "Object"; }
 	virtual Auto3D::RTTI* GetRTTI() { return GetRTTIStatic(); }
 	static int GetClassIDStatic() { return ClassID(Object); }
 	static bool IsAbstractStatic() { return true; }
 	static char* GetClassCstrNameStatic() { return "Object"; }
-	static _String GetClassStringStatic() { return "Object"; }
+	static __String GetClassStringStatic() { return "Object"; }
 	static Auto3D::RTTI* GetRTTIStatic() { return nullptr; }
 	//////////////////////////////////////////////////////////////////////////
 	
@@ -42,7 +42,7 @@ public:
 	/**
 	* @brief : Return subsystem by type.
 	*/
-	Object* GetSubSystem(_String type)const;
+	Object* GetSubSystem(__String type)const;
 	/**
 	* @brief : Template version of returning a subsystem.
 	*/
@@ -50,7 +50,7 @@ public:
 	/**
 	* @brief : Get object attach
 	*/
-	const _String GetAttach();
+	const __String GetAttach();
 
 
 protected:

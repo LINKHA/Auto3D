@@ -6,6 +6,7 @@
 #include "Sprite.h"
 #include "Input.h"
 #include "Time.h"
+#include "AudioRun.h"
 DebugSapce::DebugSapce(Ambient* ambient)
 	:MotionSpace(ambient)
 {}
@@ -17,6 +18,7 @@ void DebugSapce::Start()
 	//GameObject* cameraObj = new GameObject(_ambient);
 	//cameraObj->RegisterObjectFactory(_ambient);
 	//Print(cameraObj->GetAttach());
+	Run();
 }
 void DebugSapce::Update()
 {

@@ -1,5 +1,7 @@
-#pragma once
+#ifndef _FRAMEWORK_H_ // Win32 version
+#define _FRAMEWORK_H_
 
+// Get some classic includes
 #include<Windows.h>
 #include<stdio.h>
 #include<io.h>
@@ -11,8 +13,7 @@
 #include"OpenAL/efx-creative.h"
 #include"OpenAL/xram.h"
 
-namespace Auto3D {
-
+// Initialization and shutdown
 void ALFWInit();
 void ALFWShutdown();
 
@@ -86,5 +87,4 @@ extern LPEAXGETBUFFERMODE eaxGetBufferMode;
 extern ALenum eXRAMSize, eXRAMFree;
 extern ALenum eXRAMAuto, eXRAMHardware, eXRAMAccessible;
 
-
-}
+#endif _FRAMEWORK_H_

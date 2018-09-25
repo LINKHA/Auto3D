@@ -81,7 +81,7 @@ using PInt64 = __int64*;
 using UInt64 = unsigned __int64;
 using PUInt64 = unsigned __int64*;
 //
-#define _String std::string
+#define __String std::string
 
 
 #define SAFE_DELETE(p)           do { if(p)	{ delete (p); (p) = nullptr; } } while(0)

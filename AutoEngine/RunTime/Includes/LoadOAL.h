@@ -1,8 +1,13 @@
-#pragma once
 #include "OpenAL/al.h"
 #include "OpenAL/alc.h"
 
-namespace Auto3D {
+// Open AL Function table definition
+
+#ifndef _OPENALFNTABLE
+#define _OPENALFNTABLE
+
+// AL 1.0 did not define the ALchar and ALCchar types, so define them here
+// if they don't exist
 
 #ifndef ALchar
 #define ALchar char
@@ -153,9 +158,7 @@ typedef struct
 	LPALCGETPROCADDRESS			alcGetProcAddress;
 	LPALCGETENUMVALUE			alcGetEnumValue;
 } OPENALFNTABLE, *LPOPENALFNTABLE;
+#endif
 
 ALboolean LoadOAL10Library(char *szOALFullPathName, LPOPENALFNTABLE lpOALFnTable);
 ALvoid UnloadOAL10Library();
-
-
-}

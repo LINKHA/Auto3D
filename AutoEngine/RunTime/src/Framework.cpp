@@ -6,11 +6,8 @@
 #include "aldlist.h"
 
 #ifdef _MSC_VER
-#pragma warning(push)
 #pragma warning(disable:4996)
 #endif
-
-namespace Auto3D {
 
 static CWaves *g_pWaveLoader = NULL;
 
@@ -177,18 +174,19 @@ ALboolean ALFWLoadWaveToBuffer(const char *szWaveFile, ALuint uiBufferID, ALenum
 	return bReturn;
 }
 
-void ALFWprintf(const char* x, ...)
+void ALFWprintf(const char* value, ...)
 {
 	va_list args;
-	va_start(args, x);
-	vprintf(x, args);
+	va_start(args, value);
+	vprintf(value, args);
 	va_end(args);
 }
 
 ALchar fullPath[_MAX_PATH];
-ALchar *ALFWaddMediaPath(const ALchar *filename)
+ALchar *ALFWaddMediaPath(const ALchar *tfilename)
 {
-	sprintf(fullPath, "%s%s", "..\\..\\Media\\", filename);
+	//sprintf(fullPath, "%s%s", "", tfilename);
+	sprintf(fullPath, "%s", tfilename);
 	return fullPath;
 }
 
@@ -283,7 +281,4 @@ ALboolean ALFWIsEFXSupported()
 	}
 
 	return bEFXSupport;
-}
-
-
 }

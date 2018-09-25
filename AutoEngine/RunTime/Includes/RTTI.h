@@ -18,7 +18,7 @@ public:
 	/**
 	* @brief : Return class name for string
 	*/
-	const _String GetClassString() { return _className; }
+	const __String GetClassString() { return _className; }
 	/**
 	* @brief : Return class name for c str
 	*/
@@ -37,7 +37,7 @@ public:
 	const int GetClassID() { return _classID; }
 private:
 	/// class name for string
-	_String _className;
+	__String _className;
 	/// super rtti class
 	const RTTI* _base;
 	/// class Id

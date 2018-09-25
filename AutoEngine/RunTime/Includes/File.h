@@ -10,7 +10,7 @@ namespace Auto3D {
 class File
 {
 	int							_position;
-	_String						_path;
+	__String						_path;
 	bool						_open;
 	FILE*						_file;
 	HANDLE						_fileHandle;
@@ -36,7 +36,7 @@ public:
 	int GetPosition() const { return _position; }
 
 	static void SetCurrentDirectory(const std::string & path);
-	static const _String& GetCurrentDirectory();
+	static const __String& GetCurrentDirectory();
 	static void CleanUpClass();
 
 };

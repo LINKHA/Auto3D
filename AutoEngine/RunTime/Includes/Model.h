@@ -21,8 +21,8 @@ struct MeshVertex {
 */
 struct TextureData {
 	unsigned int data;
-	_String type;
-	_String path;
+	__String type;
+	__String path;
 };
 class Shader;
 /**
@@ -67,7 +67,7 @@ public:
 	/**
 	* @brief : Add path and gamma to build model
 	*/
-	Model(Ambient* ambient,_String const& path = "../Resource/object/base/Cube.3DS", bool gamma = false);
+	Model(Ambient* ambient,__String const& path = "../Resource/object/base/Cube.3DS", bool gamma = false);
 	/**
 	* @brief : Draw all this model mesh node
 	*/
@@ -87,7 +87,7 @@ private:
 	* @brief : The model with ASSIMP extension is loaded from the file and the 
 	*		    generated grid is stored in the grid vector.
 	*/
-	bool loadModel(_String const& path);
+	bool loadModel(__String const& path);
 	/**
 	* @brief : Processes nodes recursively. Process each individual grid on 
 	*			the node and repeat this process, if any, on its child nodes.
@@ -100,18 +100,18 @@ private:
 	/**
 	* @brief : load all material texture with this file
 	*/
-	TextureDatas loadMaterialTextures(aiMaterial* mat, aiTextureType type, _String typeName);
+	TextureDatas loadMaterialTextures(aiMaterial* mat, aiTextureType type, __String typeName);
 private:
 	///texture data message container
 	TextureDatas _textureDatas;
 	///mesh node message container
 	MeshNodes _meshNodes;
 	///path remove the file name
-	_String _directory;
+	__String _directory;
 	///gamma
 	bool _gammaCorrection;
 	///file path
-	_String _path;
+	__String _path;
 	///judge this file is null
 	bool _isNull;
 };

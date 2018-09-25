@@ -12,12 +12,12 @@ ScriptComponent::~ScriptComponent()
 {
 }
 #if SharedPtrDebug
-SharedPtr<Object> ScriptComponent::CreateObject(_String type)
+SharedPtr<Object> ScriptComponent::CreateObject(__String type)
 {
 	return _ambient->CreateObject(type);
 }
 #else
-Object* ScriptComponent::CreateObject(_String type)
+Object* ScriptComponent::CreateObject(__String type)
 {
 	return _ambient->CreateObject(type);
 }

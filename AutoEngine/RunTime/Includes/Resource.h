@@ -32,7 +32,7 @@ public:
 	* @brief : According fail path get cubemap
 	* @return: unsigned int
 	*/
-	unsigned int CubemapLoad(_VECTOR(_String) faces);
+	unsigned int CubemapLoad(_VECTOR(__String) faces);
 	/**
 	* @brief : According fail path get HDR cube
 	* @return: unsigned int

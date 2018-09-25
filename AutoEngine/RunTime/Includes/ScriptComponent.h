@@ -18,9 +18,9 @@ public:
 	* @brief : Create object for type name
 	*/
 #if SharedPtrDebug
-	SharedPtr<Object> CreateObject(_String type);
+	SharedPtr<Object> CreateObject(__String type);
 #else
-	Object* CreateObject(_String type);
+	Object* CreateObject(__String type);
 #endif
 	/**
 	* @brief : Create object for template

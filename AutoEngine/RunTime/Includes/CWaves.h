@@ -1,9 +1,12 @@
-#pragma once
+// Waves.h: interface for the CWaves class.
+//
+//////////////////////////////////////////////////////////////////////
+
+#ifndef _CWAVES_H_
+#define _CWAVES_H_
 
 #include <windows.h>
 #include <stdio.h>
-
-namespace Auto3D {
 
 #define MAX_NUM_WAVEID			1024
 
@@ -107,5 +110,4 @@ private:
 	LPWAVEFILEINFO	m_WaveIDs[MAX_NUM_WAVEID];
 };
 
-
-}
+#endif // _CWAVES_H_

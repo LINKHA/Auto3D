@@ -8,12 +8,12 @@ public: \
 	virtual int GetClassID() { return ClassID (x); }\
 	virtual bool IsAbstract() { return GetRTTIStatic()->GetIsAbstract();}\
 	virtual char* GetClassCstrName() { return #x; }\
-	virtual _String GetClassString() { return #x; } \
+	virtual __String GetClassString() { return #x; } \
 	virtual Auto3D::RTTI* GetRTTI() { return GetRTTIStatic(); }\
 	static int GetClassIDStatic() { return ClassID(x); }\
 	static bool IsAbstractStatic () { return GetRTTIStatic()->GetIsAbstract();}\
 	static char* GetClassCstrNameStatic () { return #x; }\
-	static _String GetClassStringStatic() { return #x; } \
+	static __String GetClassStringStatic() { return #x; } \
 	static Auto3D::RTTI* GetRTTIStatic() { static Auto3D::RTTI RTTIStatic(#x, y::GetRTTIStatic(), ClassID(x), false);return &RTTIStatic;}\
 
 // Every abstract class that is derived from object has to place this inside the class Declaration
@@ -25,12 +25,12 @@ public: \
 	virtual int GetClassID() { return ClassID (x); }\
 	virtual bool IsAbstract() { return GetRTTIStatic()->GetIsAbstract();}\
 	virtual char* GetClassCstrName() { return #x; }\
-	virtual _String GetClassString() { return #x; } \
+	virtual __String GetClassString() { return #x; } \
 	virtual Auto3D::RTTI* GetRTTI() { return GetRTTIStatic(); }\
 	static int GetClassIDStatic() { return ClassID(x); }\
 	static bool IsAbstractStatic () { return GetRTTIStatic()->GetIsAbstract();}\
 	static char* GetClassCstrNameStatic () { return #x; }\
-	static _String GetClassStringStatic() { return #x; } \
+	static __String GetClassStringStatic() { return #x; } \
 	static Auto3D::RTTI* GetRTTIStatic() { static Auto3D::RTTI RTTIStatic(#x, y::GetRTTIStatic(), ClassID(x), true);return &RTTIStatic;}\
 
 // Should be placed in every serializable object derived class

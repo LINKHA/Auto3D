@@ -151,7 +151,7 @@ RECENT REVISION HISTORY:
 // If image loading fails for any reason, the return value will be NULL,
 // and *x, *y, *channels_in_file will be unchanged. The function
 // stbi_failure_reason() can be queried for an extremely brief, end-user
-// unfriendly explanation of why the load failed. Define STBI_NO_FAILURE_STRINGS
+// unfriendly explanation of why the load failed. Define STBI_NO_FAILURE__StringS
 // to avoid compiling these strings at all, and STBI_FAILURE_USERMSG to get slightly
 // more user-friendly ones.
 //
@@ -922,7 +922,7 @@ static void *stbi__malloc_mad4(int a, int b, int c, int d, int add)
 // stbi__errpf - error returning pointer to float
 // stbi__errpuc - error returning pointer to unsigned char
 
-#ifdef STBI_NO_FAILURE_STRINGS
+#ifdef STBI_NO_FAILURE__StringS
    #define stbi__err(x,y)  0
 #elif defined(STBI_FAILURE_USERMSG)
    #define stbi__err(x,y)  stbi__err(y)
@@ -4831,7 +4831,7 @@ static int stbi__parse_png_file(stbi__png *z, int scan, int req_comp)
             // if critical, fail
             if (first) return stbi__err("first not IHDR", "Corrupt PNG");
             if ((c.type & (1 << 29)) == 0) {
-               #ifndef STBI_NO_FAILURE_STRINGS
+               #ifndef STBI_NO_FAILURE__StringS
                // not threadsafe
                static char invalid_chunk[] = "XXXX PNG chunk not known";
                invalid_chunk[0] = STBI__BYTECAST(c.type >> 24);

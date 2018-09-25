@@ -1,21 +1,20 @@
-#pragma once
+#ifndef ALDEVICELIST_H
+#define ALDEVICELIST_H
 
 #pragma warning(disable: 4786)  //disable warning "identifier was truncated to '255' characters in the browser information"
 #include <vector>
 #include <string>
 #include "LoadOAL.h"
 
-namespace Auto3D {
-
 using namespace std;
 
 typedef struct
 {
-	string			strDeviceName;
+	std::string			strDeviceName;
 	int				iMajorVersion;
 	int				iMinorVersion;
 	unsigned int	uiSourceCount;
-	vector<string>	*pvstrExtensions;
+	std::vector<std::string>	*pvstrExtensions;
 	bool			bSelected;
 } ALDEVICEINFO, *LPALDEVICEINFO;
 
@@ -23,7 +22,7 @@ class ALDeviceList
 {
 private:
 	OPENALFNTABLE	ALFunction;
-	vector<ALDEVICEINFO> vDeviceInfo;
+	std::vector<ALDEVICEINFO> vDeviceInfo;
 	int defaultDeviceIndex;
 	int filterIndex;
 
@@ -47,4 +46,4 @@ private:
 	unsigned int GetMaxNumSources();
 };
 
-}
+#endif // ALDEVICELIST_H
