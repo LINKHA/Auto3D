@@ -1,12 +1,11 @@
-#ifndef ALDEVICELIST_H
-#define ALDEVICELIST_H
+#pragma once
 
 #pragma warning(disable: 4786)  //disable warning "identifier was truncated to '255' characters in the browser information"
 #include <vector>
 #include <string>
 #include "LoadOAL.h"
 
-using namespace std;
+namespace Auto3D {
 
 typedef struct
 {
@@ -18,7 +17,7 @@ typedef struct
 	bool			bSelected;
 } ALDEVICEINFO, *LPALDEVICEINFO;
 
-class ALDeviceList
+class DeviceList
 {
 private:
 	OPENALFNTABLE	ALFunction;
@@ -27,8 +26,8 @@ private:
 	int filterIndex;
 
 public:
-	ALDeviceList();
-	~ALDeviceList();
+	DeviceList();
+	~DeviceList();
 	int GetNumDevices();
 	char *GetDeviceName(int index);
 	void GetDeviceVersion(int index, int *major, int *minor);
@@ -46,4 +45,5 @@ private:
 	unsigned int GetMaxNumSources();
 };
 
-#endif // ALDEVICELIST_H
+
+}

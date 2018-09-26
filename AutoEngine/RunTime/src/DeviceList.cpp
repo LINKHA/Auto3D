@@ -1,36 +1,13 @@
-/*
- * Copyright (c) 2006, Creative Labs Inc.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification, are permitted provided
- * that the following conditions are met:
- *
- *     * Redistributions of source code must retain the above copyright notice, this list of conditions and
- * 	     the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions
- * 	     and the following disclaimer in the documentation and/or other materials provided with the distribution.
- *     * Neither the name of Creative Labs Inc. nor the names of its contributors may be used to endorse or
- * 	     promote products derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
- * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
- * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
-
-#include "aldlist.h"
+#include "DeviceList.h"
 #include <windows.h>
 #include "OpenAL/alc.h"
 
+namespace Auto3D {
 
- /*
-  * Init call
-  */
-ALDeviceList::ALDeviceList()
+/*
+	* Init call
+	*/
+DeviceList::DeviceList()
 {
 	ALDEVICEINFO	ALDeviceInfo;
 	char *devices;
@@ -75,7 +52,7 @@ ALDeviceList::ALDeviceList()
 							ALFunction.alcGetIntegerv(device, ALC_MAJOR_VERSION, sizeof(int), &ALDeviceInfo.iMajorVersion);
 							ALFunction.alcGetIntegerv(device, ALC_MINOR_VERSION, sizeof(int), &ALDeviceInfo.iMinorVersion);
 
-							ALDeviceInfo.pvstrExtensions = new vector<string>;
+							ALDeviceInfo.pvstrExtensions = new std::vector<std::string>;
 
 							// Check for ALC Extensions
 							if (ALFunction.alcIsExtensionPresent(device, "ALC_EXT_CAPTURE") == AL_TRUE)
@@ -124,9 +101,9 @@ ALDeviceList::ALDeviceList()
 }
 
 /*
- * Exit call
- */
-ALDeviceList::~ALDeviceList()
+	* Exit call
+	*/
+DeviceList::~DeviceList()
 {
 	for (unsigned int i = 0; i < vDeviceInfo.size(); i++) {
 		if (vDeviceInfo[i].pvstrExtensions) {
@@ -141,17 +118,17 @@ ALDeviceList::~ALDeviceList()
 }
 
 /*
- * Returns the number of devices in the complete device list
- */
-int ALDeviceList::GetNumDevices()
+	* Returns the number of devices in the complete device list
+	*/
+int DeviceList::GetNumDevices()
 {
 	return (int)vDeviceInfo.size();
 }
 
 /*
- * Returns the device name at an index in the complete device list
- */
-char * ALDeviceList::GetDeviceName(int index)
+	* Returns the device name at an index in the complete device list
+	*/
+char * DeviceList::GetDeviceName(int index)
 {
 	if (index < GetNumDevices())
 		return (char *)vDeviceInfo[index].strDeviceName.c_str();
@@ -160,9 +137,9 @@ char * ALDeviceList::GetDeviceName(int index)
 }
 
 /*
- * Returns the major and minor version numbers for a device at a specified index in the complete list
- */
-void ALDeviceList::GetDeviceVersion(int index, int *major, int *minor)
+	* Returns the major and minor version numbers for a device at a specified index in the complete list
+	*/
+void DeviceList::GetDeviceVersion(int index, int *major, int *minor)
 {
 	if (index < GetNumDevices()) {
 		if (major)
@@ -174,9 +151,9 @@ void ALDeviceList::GetDeviceVersion(int index, int *major, int *minor)
 }
 
 /*
- * Returns the maximum number of Sources that can be generate on the given device
- */
-unsigned int ALDeviceList::GetMaxNumSources(int index)
+	* Returns the maximum number of Sources that can be generate on the given device
+	*/
+unsigned int DeviceList::GetMaxNumSources(int index)
 {
 	if (index < GetNumDevices())
 		return vDeviceInfo[index].uiSourceCount;
@@ -185,9 +162,9 @@ unsigned int ALDeviceList::GetMaxNumSources(int index)
 }
 
 /*
- * Checks if the extension is supported on the given device
- */
-bool ALDeviceList::IsExtensionSupported(int index, char *szExtName)
+	* Checks if the extension is supported on the given device
+	*/
+bool DeviceList::IsExtensionSupported(int index, char *szExtName)
 {
 	bool bReturn = false;
 
@@ -204,17 +181,17 @@ bool ALDeviceList::IsExtensionSupported(int index, char *szExtName)
 }
 
 /*
- * returns the index of the default device in the complete device list
- */
-int ALDeviceList::GetDefaultDevice()
+	* returns the index of the default device in the complete device list
+	*/
+int DeviceList::GetDefaultDevice()
 {
 	return defaultDeviceIndex;
 }
 
 /*
- * Deselects devices which don't have the specified minimum version
- */
-void ALDeviceList::FilterDevicesMinVer(int major, int minor)
+	* Deselects devices which don't have the specified minimum version
+	*/
+void DeviceList::FilterDevicesMinVer(int major, int minor)
 {
 	int dMajor, dMinor;
 	for (unsigned int i = 0; i < vDeviceInfo.size(); i++) {
@@ -226,9 +203,9 @@ void ALDeviceList::FilterDevicesMinVer(int major, int minor)
 }
 
 /*
- * Deselects devices which don't have the specified maximum version
- */
-void ALDeviceList::FilterDevicesMaxVer(int major, int minor)
+	* Deselects devices which don't have the specified maximum version
+	*/
+void DeviceList::FilterDevicesMaxVer(int major, int minor)
 {
 	int dMajor, dMinor;
 	for (unsigned int i = 0; i < vDeviceInfo.size(); i++) {
@@ -240,9 +217,9 @@ void ALDeviceList::FilterDevicesMaxVer(int major, int minor)
 }
 
 /*
- * Deselects device which don't support the given extension name
- */
-void ALDeviceList::FilterDevicesExtension(char *szExtName)
+	* Deselects device which don't support the given extension name
+	*/
+void DeviceList::FilterDevicesExtension(char *szExtName)
 {
 	bool bFound;
 
@@ -260,9 +237,9 @@ void ALDeviceList::FilterDevicesExtension(char *szExtName)
 }
 
 /*
- * Resets all filtering, such that all devices are in the list
- */
-void ALDeviceList::ResetFilters()
+	* Resets all filtering, such that all devices are in the list
+	*/
+void DeviceList::ResetFilters()
 {
 	for (int i = 0; i < GetNumDevices(); i++) {
 		vDeviceInfo[i].bSelected = true;
@@ -271,9 +248,9 @@ void ALDeviceList::ResetFilters()
 }
 
 /*
- * Gets index of first filtered device
- */
-int ALDeviceList::GetFirstFilteredDevice()
+	* Gets index of first filtered device
+	*/
+int DeviceList::GetFirstFilteredDevice()
 {
 	int i;
 
@@ -287,9 +264,9 @@ int ALDeviceList::GetFirstFilteredDevice()
 }
 
 /*
- * Gets index of next filtered device
- */
-int ALDeviceList::GetNextFilteredDevice()
+	* Gets index of next filtered device
+	*/
+int DeviceList::GetNextFilteredDevice()
 {
 	int i;
 
@@ -303,9 +280,9 @@ int ALDeviceList::GetNextFilteredDevice()
 }
 
 /*
- * Internal function to detemine max number of Sources that can be generated
- */
-unsigned int ALDeviceList::GetMaxNumSources()
+	* Internal function to detemine max number of Sources that can be generated
+	*/
+unsigned int DeviceList::GetMaxNumSources()
 {
 	ALuint uiSources[256];
 	unsigned int iSourceCount = 0;
@@ -332,4 +309,8 @@ unsigned int ALDeviceList::GetMaxNumSources()
 	}
 
 	return iSourceCount;
+}
+
+
+
 }

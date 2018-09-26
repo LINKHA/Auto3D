@@ -3,11 +3,13 @@
 
 #include "Framework.h"
 #include "CWaves.h"
-#include "aldlist.h"
+#include "DeviceList.h"
 
 #ifdef _MSC_VER
 #pragma warning(disable:4996)
 #endif
+
+namespace Auto3D {
 
 static CWaves *g_pWaveLoader = NULL;
 
@@ -84,13 +86,13 @@ void ALFWShutdown()
 
 ALboolean ALFWInitOpenAL()
 {
-	ALDeviceList *pDeviceList = NULL;
+	DeviceList *pDeviceList = NULL;
 	ALCcontext *pContext = NULL;
 	ALCdevice *pDevice = NULL;
 	ALint i;
 	ALboolean bReturn = AL_FALSE;
 
-	pDeviceList = new ALDeviceList();
+	pDeviceList = new DeviceList();
 	if ((pDeviceList) && (pDeviceList->GetNumDevices()))
 	{
 		ALFWprintf("\nSelect OpenAL Device:\n");
@@ -281,4 +283,8 @@ ALboolean ALFWIsEFXSupported()
 	}
 
 	return bEFXSupport;
+}
+
+
+
 }

@@ -2,8 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#ifndef _CWAVES_H_
-#define _CWAVES_H_
+#pragma once
 
 #include <windows.h>
 #include <stdio.h>
@@ -109,5 +108,3 @@ private:
 
 	LPWAVEFILEINFO	m_WaveIDs[MAX_NUM_WAVEID];
 };
-
-#endif // _CWAVES_H_
