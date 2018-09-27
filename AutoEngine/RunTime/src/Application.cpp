@@ -47,6 +47,7 @@ int Application::RunLoop()
 int Application::Finish()
 {
 	_engine->Exit();
+	_CrtDumpMemoryLeaks();
 	return APP_NORMAL;
 }
  void Application::ErrorExit()

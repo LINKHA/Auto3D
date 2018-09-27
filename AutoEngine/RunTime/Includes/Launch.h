@@ -1,9 +1,7 @@
 #pragma once
 #if defined(_WIN32)
-#include <Windows.h>
-#ifdef _MSC_VER
-#include <crtdbg.h>
-#endif //_MSC_VER
+#	include <Windows.h>
+//#	include "DebugNew.h"
 #endif //_WIN32
 
 #if defined(_MSC_VER) && defined(_DEBUG)
@@ -11,6 +9,7 @@
 SELECT_DEDICATED_GRAPHICS_CARD \
 int main(int argc, char** argv) \
 { \
+	DETECT_MEMORY_LEAKS(false);\
 	return function;\
 }
 #endif
@@ -21,6 +20,7 @@ SELECT_DEDICATED_GRAPHICS_CARD \
 extern "C" __attribute__((visibility("default"))) int SDL_main(int argc, char** argv); \
 int SDL_main(int argc, char** argv) \
 { \
+	DETECT_MEMORY_LEAKS(false);\
     return function; \
 }
 #endif 

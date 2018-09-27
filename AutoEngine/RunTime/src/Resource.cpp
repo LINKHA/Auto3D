@@ -59,7 +59,8 @@ Image* Resource::ImageLoad(PInt8 path)
 	}
 	else
 	{
-		image = new (std::nothrow)Image(_ambient);
+		//image = new (std::nothrow)Image(_ambient);
+		image = new Image(_ambient);
 		int nrComponents;
 		unsigned char * t = stbi_load(path, &image->width, &image->height, &nrComponents, 0);
 		if (nrComponents == 1)

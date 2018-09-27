@@ -97,8 +97,14 @@ using PUInt64 = unsigned __int64*;
 #define AUTO_RELEASE !AUTO_DEBUG
 
 #if AUTO_DEBUG 
+#	include "DebugNew.h"
+#define DETECT_MEMORY_LEAKS(Enable)	DetectMemoryLeaks(Enable)
 #else
 #	pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
+#define DETECT_MEMORY_LEAKS
 #endif
+
+
+
 
 #define SharedPtrDebug 0
