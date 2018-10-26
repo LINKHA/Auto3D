@@ -19,15 +19,15 @@ Ambient::~Ambient()
 	RemoveSubSystem("BaseSpace");
 	RemoveSubSystem("Time");
 
-	_subSystems.clear();
-	_factories.clear();
+	_subSystems.Clear();
+	_factories.Clear();
 }
 
 #if SharedPtrDebug
 SharedPtr<Object> Ambient::CreateObject(__String objectType)
 {
-	AUTO_HASH_MAP(__String, SharedPtr<ObjectFactory>)::const_iterator i = _factories.find(objectType);
-	if (i != _factories.end())
+	AUTO_HASH_MAP(__String, SharedPtr<ObjectFactory>)::const_Iterator i = _factories.Find(objectType);
+	if (i != _factories.End())
 		return i->second->CreateObject();
 	else
 		return SharedPtr<Object>();
@@ -35,8 +35,8 @@ SharedPtr<Object> Ambient::CreateObject(__String objectType)
 #else
 Object* Ambient::CreateObject(__String objectType)
 {
-	AUTO_HASH_MAP(__String, SharedPtr<ObjectFactory>)::const_iterator i = _factories.find(objectType);
-	if (i != _factories.end())
+	AUTO_HASH_MAP(__String, SharedPtr<ObjectFactory>)::ConstIterator i = _factories.Find(objectType);
+	if (i != _factories.End())
 		return i->second->CreateObject();
 	else
 		return SharedPtr<Object>();
@@ -51,15 +51,15 @@ void Ambient::RegisterSubSystem(Object* object)
 }
 void Ambient::RemoveSubSystem(__String objectType) 
 {
-	AUTO_HASH_MAP(__String, SharedPtr<Object>)::iterator i = _subSystems.find(objectType);
-	if (i != _subSystems.end())
-		_subSystems.erase(i);
+	AUTO_HASH_MAP(__String, SharedPtr<Object>)::Iterator i = _subSystems.Find(objectType);
+	if (i != _subSystems.End())
+		_subSystems.Erase(i);
 }
 Object* Ambient::GetSubSystem(__String type)const 
 {
-	AUTO_HASH_MAP(__String, SharedPtr<Object>)::const_iterator it 
-		= _subSystems.find(type);
-	if (it != _subSystems.end())
+	AUTO_HASH_MAP(__String, SharedPtr<Object>)::ConstIterator it 
+		= _subSystems.Find(type);
+	if (it != _subSystems.End())
 		return it->second;
 	else
 		return nullptr;
@@ -77,7 +77,7 @@ void Ambient::RegisterFactory(ObjectFactory * factory, const char* category)
 		return;
 	RegisterFactory(factory);
 	//if (String::CharPtrLength(category))
-		_objectAttachs[category].push_back(factory->GetClassString());
+		_objectAttachs[category].PushBack(factory->GetClassString());
 }
 
 

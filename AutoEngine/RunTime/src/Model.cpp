@@ -25,7 +25,7 @@ void MeshNode::Draw(const Shader& shader)
 	unsigned int specularNr = 1;
 	unsigned int normalNr = 1;
 	unsigned int heightNr = 1;
-	for (unsigned int i = 0; i < textures.size(); i++)
+	for (unsigned int i = 0; i < textures.Size(); i++)
 	{
 		glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
 										  // retrieve texture number (the N in diffuse_textureN)
@@ -49,7 +49,7 @@ void MeshNode::Draw(const Shader& shader)
 
 	// draw mesh
 	glBindVertexArray(vao);
-	glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indices.size()), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indices.Size()), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
 	// always good practice to set everything back to defaults once configured.
@@ -69,10 +69,10 @@ void MeshNode::setupMesh()
 	// A great thing about structs is that their memory layout is sequential for all its items.
 	// The effect is that we can simply pass a pointer to the struct and it translates perfectly to a glm::vec3/2 array which
 	// again translates to 3/2 floats which translates to a byte array.
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(MeshVertex), &vertices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertices.Size() * sizeof(MeshVertex), &vertices[0], GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.Size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
 
 	// set the vertex attribute pointers
 	// vertex position
@@ -113,7 +113,7 @@ Model::~Model()
 
 void Model::Draw(Shader shader)
 {
-	for (unsigned int i = 0; i < _meshNodes.size(); i++)
+	for (unsigned int i = 0; i < _meshNodes.Size(); i++)
 		_meshNodes[i].Draw(shader);
 }
 
@@ -144,7 +144,7 @@ void Model::processNode(aiNode* node, const aiScene* scene)
 		// the node object only contains indices to index the actual objects in the scene. 
 		// the scene contains all the data, node is just to keep stuff organized (like relations between nodes).
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		_meshNodes.push_back(processMesh(mesh, scene));
+		_meshNodes.PushBack(processMesh(mesh, scene));
 	}
 	// after we've processed all of the meshes (if any) we then recursively process each of the children nodes
 	for (unsigned int i = 0; i < node->mNumChildren; i++)
@@ -196,7 +196,7 @@ MeshNode Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		vector.y = mesh->mBitangents[i].y;
 		vector.z = mesh->mBitangents[i].z;
 		vertex.Bitangent = vector;
-		vertices.push_back(vertex);
+		vertices.PushBack(vertex);
 	}
 	// now wak through each of the mesh's faces (a face is a mesh its triangle) and retrieve the corresponding vertex indices.
 	for (unsigned int i = 0; i < mesh->mNumFaces; i++)
@@ -204,22 +204,22 @@ MeshNode Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		aiFace face = mesh->mFaces[i];
 		// retrieve all indices of the face and store them in the indices vector
 		for (unsigned int j = 0; j < face.mNumIndices; j++)
-			indices.push_back(face.mIndices[j]);
+			indices.PushBack(face.mIndices[j]);
 	}
 	// process materials
 	aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 	// diffuse maps
 	_VECTOR(TextureData) diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
-	textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+	textures.Insert(textures.End(), diffuseMaps.Begin(), diffuseMaps.End());
 	// specular maps
 	_VECTOR(TextureData) specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
-	textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+	textures.Insert(textures.End(), specularMaps.Begin(), specularMaps.End());
 	// normal maps
 	_VECTOR(TextureData) normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
-	textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+	textures.Insert(textures.End(), normalMaps.Begin(), normalMaps.End());
 	// height maps
 	_VECTOR(TextureData) heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
-	textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
+	textures.Insert(textures.End(), heightMaps.Begin(), heightMaps.End());
 
 	// return a mesh object created from the extracted mesh data
 	return MeshNode(vertices, indices, textures);
@@ -234,11 +234,11 @@ _VECTOR(TextureData) Model::loadMaterialTextures(aiMaterial* mat, aiTextureType 
 		mat->GetTexture(type, i, &str);
 		// check if texture was loaded before and if so, continue to next iteration: skip loading a new texture
 		bool skip = false;
-		for (unsigned int j = 0; j < _textureDatas.size(); j++)
+		for (unsigned int j = 0; j < _textureDatas.Size(); j++)
 		{
 			if (std::strcmp(_textureDatas[j].path.data(), str.C_Str()) == 0)
 			{
-				textures.push_back(_textureDatas[j]);
+				textures.PushBack(_textureDatas[j]);
 				skip = true; // a texture with the same filepath has already been loaded, continue to next one. (optimization)
 				break;
 			}
@@ -253,8 +253,8 @@ _VECTOR(TextureData) Model::loadMaterialTextures(aiMaterial* mat, aiTextureType 
 
 			texture.type = typeName;
 			texture.path = str.C_Str();
-			textures.push_back(texture);
-			_textureDatas.push_back(texture);  // store it as texture loaded for entire model, to ensure we won't unnecesery load duplicate textures.
+			textures.PushBack(texture);
+			_textureDatas.PushBack(texture);  // store it as texture loaded for entire model, to ensure we won't unnecesery load duplicate textures.
 		}
 	}
 	return textures;

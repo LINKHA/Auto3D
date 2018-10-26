@@ -127,7 +127,7 @@ void Mesh::drawLight()
 	int dir = 0;
 	int point = 0;
 	int spot = 0;
-	for (auto it = lights.begin(); it != lights.end(); it++)
+	for (auto it = lights.Begin(); it != lights.End(); it++)
 	{
 		Light * t = *it;
 		Vector3 ligthtPosition = t->GetGameObject().GetComponent(Transform).GetPosition();

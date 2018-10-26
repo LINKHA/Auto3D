@@ -15,10 +15,10 @@ Object* Object::GetSubSystem(__String type) const
 const __String Object::GetAttach() 
 {
 	AUTO_HASH_MAP(__String, _VECTOR(__String)) objectAttachs = _ambient->GetObjectAttachs();
-	for (AUTO_HASH_MAP(__String, _VECTOR(__String))::const_iterator i = objectAttachs.begin(); i != objectAttachs.end(); ++i)
+	for (AUTO_HASH_MAP(__String, _VECTOR(__String))::ConstIterator i = objectAttachs.Begin(); i != objectAttachs.End(); ++i)
 	{
 		_VECTOR(__String) t = i->second;
-		if (find(t.begin(), t.end(), GetClassString()) != t.end())
+		if(t.Find(GetClassString())!=t.End())
 			return i->first;
 	}
 	// return null

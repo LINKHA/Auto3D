@@ -1,4 +1,7 @@
 #pragma once
+
+#include <vector>
+
 #include "Object.h"
 #include "stl_use.h"
 #include "ComponentSetting.h"
@@ -85,6 +88,8 @@ public:
 private:
 	/// this gameobject components container
 	ComponentsArray _components;
+
+	//std::vector<std::pair<int, Component*>> _com;
 	/// enable
 	bool _isEnable;
 };

@@ -62,12 +62,12 @@ void Input::SetKey(int key, bool newState)
 {
 	if (newState)
 	{
-		_keysDown.insert(key);
-		_keysPress.insert(key);
+		_keysDown.Insert(key);
+		_keysPress.Insert(key);
 	}
 	else
 	{
-		_keysPress.erase(key);
+		_keysPress.Erase(key);
 	}
 }
 void Input::SetWheel(int delta)
@@ -80,7 +80,7 @@ void Input::SetWheel(int delta)
 }
 void Input::EndFrame()
 {
-	_keysDown.clear();
+	_keysDown.Clear();
 	_mouseMove.x = 0;
 	_mouseMove.y = 0;
 	_isMouseMove = false;
@@ -89,11 +89,11 @@ void Input::EndFrame()
 
 bool Input::GetKeyDown(int key)
 {
-	return !(_keysDown.find(key) == _keysDown.end());
+	return !(_keysDown.Find(key) == _keysDown.End());
 }
 bool Input::GetKeyPress(int key)
 {
-	return !(_keysPress.find(key) == _keysPress.end());
+	return !(_keysPress.Find(key) == _keysPress.End());
 }
 
 

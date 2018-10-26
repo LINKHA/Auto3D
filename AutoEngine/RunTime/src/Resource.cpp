@@ -52,8 +52,8 @@ Image* Resource::ImageLoad(PInt8 path)
 {
 	stbi_set_flip_vertically_on_load(true);
 	Image* image = nullptr;
-	auto it = _imageQueue.find(path);
-	if (it != _imageQueue.end())
+	auto it = _imageQueue.Find(path);
+	if (it != _imageQueue.End())
 	{
 		image = it->second;
 	}
@@ -70,25 +70,26 @@ Image* Resource::ImageLoad(PInt8 path)
 		else if (nrComponents == 4)
 			image->format = GL_RGBA;
 		image->value = t;
-		_imageQueue.emplace(M_PAIR(path, image));
-
+		//_imageQueue.Emplace(M_PAIR(path, image));
+		_imageQueue.Insert(M_PAIR(path, image));
 	}
 
 	return image;
 }
 
-Model * Resource::ModelLoad(PInt8 path)
+Model* Resource::ModelLoad(PInt8 path)
 {
 	Model* model;
-	auto it = _modelQueue.find(path);
-	if (it != _modelQueue.end())
+	auto it = _modelQueue.Find(path);
+	if (it != _modelQueue.End())
 	{
 		model = it->second;
 	}
 	else
 	{
 		model = new Model(_ambient,path);
-		_modelQueue.emplace(path, model);
+		//_modelQueue.Emplace(path, model);
+		_modelQueue.Insert(M_PAIR(path, model));
 	}
 	return model;
 }
@@ -101,7 +102,7 @@ unsigned int Resource::CubemapLoad(_VECTOR(__String) faces)
 	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 
 	int width, height, nrChannels;
-	for (unsigned int i = 0; i < faces.size(); i++)
+	for (unsigned int i = 0; i < faces.Size(); i++)
 	{
 		unsigned char *data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
 		if (data)

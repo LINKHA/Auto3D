@@ -22,15 +22,15 @@ DeferredShading::~DeferredShading()
 void DeferredShading::Start()
 {
 	nanosuit = new Model(_ambient,"../resource/object/nanosuit/nanosuit.obj");
-	objectPositions.push_back(glm::vec3(-3.0, -3.0, -3.0));
-	objectPositions.push_back(glm::vec3(0.0, -3.0, -3.0));
-	objectPositions.push_back(glm::vec3(3.0, -3.0, -3.0));
-	objectPositions.push_back(glm::vec3(-3.0, -3.0, 0.0));
-	objectPositions.push_back(glm::vec3(0.0, -3.0, 0.0));
-	objectPositions.push_back(glm::vec3(3.0, -3.0, 0.0));
-	objectPositions.push_back(glm::vec3(-3.0, -3.0, 3.0));
-	objectPositions.push_back(glm::vec3(0.0, -3.0, 3.0));
-	objectPositions.push_back(glm::vec3(3.0, -3.0, 3.0));
+	objectPositions.PushBack(glm::vec3(-3.0, -3.0, -3.0));
+	objectPositions.PushBack(glm::vec3(0.0, -3.0, -3.0));
+	objectPositions.PushBack(glm::vec3(3.0, -3.0, -3.0));
+	objectPositions.PushBack(glm::vec3(-3.0, -3.0, 0.0));
+	objectPositions.PushBack(glm::vec3(0.0, -3.0, 0.0));
+	objectPositions.PushBack(glm::vec3(3.0, -3.0, 0.0));
+	objectPositions.PushBack(glm::vec3(-3.0, -3.0, 3.0));
+	objectPositions.PushBack(glm::vec3(0.0, -3.0, 3.0));
+	objectPositions.PushBack(glm::vec3(3.0, -3.0, 3.0));
 
 	RectInt t = GetSubSystem<Graphics>()->GetWindowRectInt();
 
@@ -85,12 +85,12 @@ void DeferredShading::Start()
 		float xPos = ((rand() % 100) / 100.0) * 6.0 - 3.0;
 		float yPos = ((rand() % 100) / 100.0) * 6.0 - 4.0;
 		float zPos = ((rand() % 100) / 100.0) * 6.0 - 3.0;
-		lightPositions.push_back(glm::vec3(xPos, yPos, zPos));
+		lightPositions.PushBack(glm::vec3(xPos, yPos, zPos));
 		// also calculate random color
 		float rColor = ((rand() % 100) / 200.0f) + 0.5; // between 0.5 and 1.0
 		float gColor = ((rand() % 100) / 200.0f) + 0.5; // between 0.5 and 1.0
 		float bColor = ((rand() % 100) / 200.0f) + 0.5; // between 0.5 and 1.0
-		lightColors.push_back(glm::vec3(rColor, gColor, bColor));
+		lightColors.PushBack(glm::vec3(rColor, gColor, bColor));
 	}
 
 	// shader configuration
@@ -112,7 +112,7 @@ void DeferredShading::Draw()
 	m_shaderGeometryPass.Use();
 	m_shaderGeometryPass.SetMat4("projection", projection);
 	m_shaderGeometryPass.SetMat4("view", view);
-	for (unsigned int i = 0; i < objectPositions.size(); i++)
+	for (unsigned int i = 0; i < objectPositions.Size(); i++)
 	{
 		model = glm::mat4();
 		model = glm::translate(model, objectPositions[i]);
@@ -133,7 +133,7 @@ void DeferredShading::Draw()
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, gAlbedoSpec);
 	// send light relevant uniforms
-	for (unsigned int i = 0; i < lightPositions.size(); i++)
+	for (unsigned int i = 0; i < lightPositions.Size(); i++)
 	{
 		m_shaderLightingPass.SetVec3("lights[" + std::to_string(i) + "].Position", lightPositions[i]);
 		m_shaderLightingPass.SetVec3("lights[" + std::to_string(i) + "].Color", lightColors[i]);
@@ -168,7 +168,7 @@ void DeferredShading::Draw()
 	m_shaderLightBox.Use();
 	m_shaderLightBox.SetMat4("projection", projection);
 	m_shaderLightBox.SetMat4("view", view);
-	for (unsigned int i = 0; i < lightPositions.size(); i++)
+	for (unsigned int i = 0; i < lightPositions.Size(); i++)
 	{
 		model = glm::mat4();
 		model = glm::translate(model, lightPositions[i]);

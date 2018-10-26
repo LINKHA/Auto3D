@@ -10,8 +10,8 @@ namespace Auto3D {
 
 struct JoystickState
 {
-	bool GetButtonDown(unsigned index)const { return index < _buttons.size() ? _buttons[index] : false; }
-	bool GetButtonPress(unsigned index)const { return index < _buttonPress.size() ? _buttonPress[index] : false; }
+	bool GetButtonDown(unsigned index)const { return index < _buttons.Size() ? _buttons[index] : false; }
+	bool GetButtonPress(unsigned index)const { return index < _buttonPress.Size() ? _buttonPress[index] : false; }
 	_VECTOR(bool) _buttons;
 	_VECTOR(bool) _buttonPress;
 };
@@ -101,9 +101,9 @@ private:
 	void hideCursorEvent(bool enable);
 private:
 	///all buttons down in the same frame
-	_SET(int) _keysDown;
+	AUTO_HASH_SET(int) _keysDown;
 	///all buttons pressed in the same frame
-	_SET(int) _keysPress;
+	AUTO_HASH_SET(int) _keysPress;
 	///mouse position limit in window
 	Vector2	_mousePosition;
 	///last mouse potition limit in window

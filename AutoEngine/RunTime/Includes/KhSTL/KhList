@@ -1,0 +1,3 @@
+#ifndef KH_STL_LIST_H_
+#	include "KhList.h"
+#endif //!KH_STL_LIST_H_

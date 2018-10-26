@@ -108,16 +108,16 @@ void SSAO::Start()
 		// scale samples s.t. they're more aligned to center of kernel
 		scale = lerp(0.1f, 1.0f, scale * scale);
 		sample *= scale;
-		ssaoKernel.push_back(sample);
+		ssaoKernel.PushBack(sample);
 	}
 
 	// generate noise texture
 	// ----------------------
-	std::vector<glm::vec3> ssaoNoise;
+	_VECTOR(glm::vec3) ssaoNoise;
 	for (unsigned int i = 0; i < 16; i++)
 	{
 		glm::vec3 noise(randomFloats(generator) * 2.0 - 1.0, randomFloats(generator) * 2.0 - 1.0, 0.0f); // rotate around z-axis (in tangent space)
-		ssaoNoise.push_back(noise);
+		ssaoNoise.PushBack(noise);
 	}
 
 	glGenTextures(1, &noiseTexture);

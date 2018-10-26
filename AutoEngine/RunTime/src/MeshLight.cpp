@@ -43,7 +43,7 @@ void MeshLight::Draw()
 
 	_VECTOR(Light*) lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
 	int lightNum = 0;
-	for (_VECTOR(Light*)::iterator it = lights.begin(); it != lights.end(); it++)
+	for (_VECTOR(Light*)::Iterator it = lights.Begin(); it != lights.End(); it++)
 	{
 		_shader.SetVec3("lights[" + std::to_string(lightNum) + "].Position", (*it)->GetGameObject().GetPosition());
 		_shader.SetVec3("lights[" + std::to_string(lightNum) + "].Color", (*it)->GetColorToVec());

@@ -22,7 +22,8 @@ void Level_0::Start()
 	camObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 	camObj->AddComponent(camera);
 
-	Sprite* tex2 = new Sprite(_ambient, "../Resource/texture/window.png");
+	Sprite* tex2 = new Sprite(_ambient);
+	tex2->SetImage("../Resource/texture/window.png");
 	tex2->EnableBlend(true);
 	tex2->EnableDepth(false);
 	GameObject * obj2 = new GameObject(_ambient, _levelNumber);
@@ -30,7 +31,8 @@ void Level_0::Start()
 	obj2->AddComponent(tex2);
 
 
-	Sprite* tex5 = new Sprite(_ambient, "../Resource/texture/grass.png");
+	Sprite* tex5 = new Sprite(_ambient);
+	tex5->SetImage("../Resource/texture/grass.png");
 	tex5->EnableBlend(true);
 	GameObject * obj5 = new GameObject(_ambient, _levelNumber);
 	obj5->GetComponent(Transform).SetPosition(-0.2f, 0.0f, -3.0f);
@@ -40,7 +42,8 @@ void Level_0::Start()
 	Light* light = new LightPoint(_ambient);
 	lightObj->AddComponent(light);
 	//////////////////////////////////////////////////////////////////////////
-	Mesh* mesh = new Mesh(_ambient, "../Resource/object/base/Cube.3DS");
+	Mesh* mesh = new Mesh(_ambient);
+	mesh->SetModel("../Resource/object/base/Cube.3DS");
 	mesh->GetMaterial()->color.Set(0.5f, 0.8f, 0.3f);
 	GameObject * meshObj = new GameObject(_ambient, _levelNumber);
 	meshObj->GetComponent(Transform).SetPosition(1.0f, 0.0f, 0.0f);

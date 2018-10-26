@@ -81,8 +81,8 @@ void MeshShadowPoint::Draw()
 #pragma warning
 	_VECTOR(Light*)& lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
 	//!!!Temp
-	Assert(lights.size() != 0);
-	for (_VECTOR(Light*)::iterator it = lights.begin(); it != lights.end(); it++)
+	Assert(lights.Size() != 0);
+	for (_VECTOR(Light*)::Iterator it = lights.Begin(); it != lights.End(); it++)
 	{
 		lightPos = (*it)->GetLightPosition();
 		unsigned depthMap = (*it)->GetShadowAssist()->GetDepthMap();

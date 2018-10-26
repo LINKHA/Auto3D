@@ -4,6 +4,7 @@
 #include "Model.h"
 #include "stl_use.h"
 
+
 namespace Auto3D {
 class DeferredShading : public RenderComponent
 {
@@ -24,8 +25,8 @@ private:
 	unsigned int gPosition, gNormal, gAlbedoSpec;
 	
 	unsigned int rboDepth;
-	std::vector<glm::vec3> lightPositions;
-	std::vector<glm::vec3> lightColors;
+	_VECTOR(glm::vec3) lightPositions;
+	_VECTOR(glm::vec3) lightColors;
 
 	unsigned int cubeVAO = 0;
 	unsigned int cubeVBO = 0;
