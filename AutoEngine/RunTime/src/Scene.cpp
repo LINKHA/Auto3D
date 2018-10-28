@@ -20,8 +20,8 @@ Scene::~Scene()
 void Scene::RegisterLevel(int index, LevelScene* level)
 {
 	level->Enable(true);
-	//_dynamicLevelScenes.Emplace(M_PAIR(index, level));
-	_dynamicLevelScenes.Insert(M_PAIR(index, level));
+	//_dynamicLevelScenes.Emplace(MAKE_PAIR(index, level));
+	_dynamicLevelScenes.Insert(MAKE_PAIR(index, level));
 }
 
 void Scene::RemoveLevel(int index)

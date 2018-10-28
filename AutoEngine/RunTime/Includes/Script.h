@@ -9,8 +9,8 @@ class Script : public GlobalGameManager
 {
 	REGISTER_DERIVED_CLASS(Script, GlobalGameManager);
 	DECLARE_OBJECT_SERIALIZE(Script);
-	using Scripts = _SET(ScriptComponent);
-	using AllScript = _SET(ScriptComponent*);
+	using Scripts = SET(ScriptComponent);
+	using AllScript = SET(ScriptComponent*);
 public:
 	explicit Script(Ambient* ambient);
 

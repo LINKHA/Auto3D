@@ -20,13 +20,13 @@ private:
 
 	SharedPtr<Model> nanosuit;
 
-	_VECTOR(glm::vec3) objectPositions;
+	VECTOR(glm::vec3) objectPositions;
 	unsigned int gBuffer;
 	unsigned int gPosition, gNormal, gAlbedoSpec;
 	
 	unsigned int rboDepth;
-	_VECTOR(glm::vec3) lightPositions;
-	_VECTOR(glm::vec3) lightColors;
+	VECTOR(glm::vec3) lightPositions;
+	VECTOR(glm::vec3) lightColors;
 
 	unsigned int cubeVAO = 0;
 	unsigned int cubeVBO = 0;

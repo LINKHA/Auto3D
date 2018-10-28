@@ -30,8 +30,8 @@ private:
 	unsigned int ssaoColorBuffer, ssaoColorBufferBlur;
 	unsigned int noiseTexture;
 
-	_VECTOR(glm::vec3) ssaoKernel;
-	_VECTOR(glm::vec3) ssaoNoise;
+	VECTOR(glm::vec3) ssaoKernel;
+	VECTOR(glm::vec3) ssaoNoise;
 
 	glm::vec3 lightPos = glm::vec3(2.0, 4.0, -2.0);
 	glm::vec3 lightColor = glm::vec3(0.2, 0.2, 0.7);

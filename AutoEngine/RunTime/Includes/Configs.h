@@ -1,8 +1,8 @@
 #pragma once
-#include <string>
+#include "stl_use.h"
 
-; extern const std::string source_path;
-extern const std::string build_path;
-extern const std::string shader_path;
+; extern const STRING source_path;
+extern const STRING build_path;
+extern const STRING shader_path;
 
 

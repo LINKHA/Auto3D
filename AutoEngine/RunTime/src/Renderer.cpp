@@ -446,7 +446,7 @@ void Renderer::renderShadowMap()
 
 void Renderer::renderOpaques()
 {
-	for (_LIST(RenderComponent*)::Iterator it = _opaques.Begin(); it != _opaques.End(); it++)
+	for (LIST(RenderComponent*)::Iterator it = _opaques.Begin(); it != _opaques.End(); it++)
 	{
 		(*it)->Draw();
 	}
@@ -454,7 +454,7 @@ void Renderer::renderOpaques()
 
 void Renderer::renderCustom()
 {
-	for (_LIST(RenderComponent*)::Iterator it = _customs.Begin(); it != _customs.End(); it++)
+	for (LIST(RenderComponent*)::Iterator it = _customs.Begin(); it != _customs.End(); it++)
 	{
 		(*it)->DrawCustom();
 	}
@@ -462,7 +462,7 @@ void Renderer::renderCustom()
 
 void Renderer::translucentGeometrySort()
 {
-	for (_LIST(RenderComponent*)::Iterator i = _translucents.Begin(); i != _translucents.End(); i++)
+	for (LIST(RenderComponent*)::Iterator i = _translucents.Begin(); i != _translucents.End(); i++)
 	{
 		float distance = glm::length(_currentCamera->GetPosition() - (*i)->GetGameObject().GetComponent(Transform).GetPosition().ToGLM());
 
@@ -487,7 +487,7 @@ void Renderer::intelMoutLightContainer()
 void Renderer::renderTranslucent()
 {
 	translucentGeometrySort();
-	for (AUTO_HASH_MAP(float, RenderComponent*)::ReverseIterator it = _translucentsSorted.RBegin(); it != _translucentsSorted.REnd(); ++it)
+	for (HASH_MAP(float, RenderComponent*)::ReverseIterator it = _translucentsSorted.RBegin(); it != _translucentsSorted.REnd(); ++it)
 	{
 		//Draw translucent component
 		it->second->DrawTranslucent();

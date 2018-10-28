@@ -12,8 +12,8 @@ namespace Auto3D {
 
 ShadowRenderer::ShadowRenderer(Ambient* ambient)
 	: Super(ambient)
-	, _shadowMapDepthShader(shader_path + "au_shadow_mapping_depth.auvs"
-		, shader_path + "au_shadow_mapping_depth.aufs")
+	, _shadowMapDepthShader(shader_path + Khs("au_shadow_mapping_depth.auvs")
+		, shader_path + Khs("au_shadow_mapping_depth.aufs"))
 	, _shadowMapPointDepth(shader_path + "au_point_shadows_depth.auvs"
 		, shader_path + "au_point_shadows_depth.aufs"
 		, shader_path + "au_point_shadows_depth.augs")
@@ -29,14 +29,14 @@ void ShadowRenderer::ReadyRender()
 	renderer->_lightContainer->IsRender(true);
 	//!!! Temp use one
 #pragma warning
-	for (_VECTOR(Light*)::Iterator it = _lights.Begin(); it != _lights.End(); it++)
+	for (VECTOR(Light*)::Iterator it = _lights.Begin(); it != _lights.End(); it++)
 	{
 		renderer->_lightContainer->SetCurrentLight(*it);
 		//!!!
 #pragma warning
 		(*it)->GetShadowAssist()->BindDepathMap();
 		/////////////////////////////////////////////////////////////////////////////////////////////
-		for (_LIST(RenderComponent*)::Iterator it = _shadowComponents.Begin(); it != _shadowComponents.End(); it++)
+		for (LIST(RenderComponent*)::Iterator it = _shadowComponents.Begin(); it != _shadowComponents.End(); it++)
 		{
 			(*it)->DrawReady();
 		}
@@ -49,7 +49,7 @@ void ShadowRenderer::RenderShadow()
 {
 	//!!! Temp use one
 #pragma warning
-	for (_VECTOR(Light*)::Iterator it = _lights.Begin(); it != _lights.End(); it++)
+	for (VECTOR(Light*)::Iterator it = _lights.Begin(); it != _lights.End(); it++)
 	{
 		if ((*it)->GetType() == LightType::kDirectional)
 		{
@@ -63,7 +63,7 @@ void ShadowRenderer::RenderShadow()
 			_shadowMapDepthShader.Use();
 			_shadowMapDepthShader.SetMat4("lightSpaceMatrix", lightSpaceMatrix);
 			//Ergodic shadows to Draw shadow
-			for (_LIST(RenderComponent*)::Iterator it = _shadowComponents.Begin(); it != _shadowComponents.End(); it++)
+			for (LIST(RenderComponent*)::Iterator it = _shadowComponents.Begin(); it != _shadowComponents.End(); it++)
 			{
 				(*it)->DrawShadow();
 			}
@@ -76,7 +76,7 @@ void ShadowRenderer::RenderShadow()
 			glm::vec3 lightPos = (*it)->GetLightPosition();
 
 			glm::mat4 shadowProj = glm::perspective(90.0f, (float)shadowWidth / (float)shadowHeight, (*it)->GetNearPlane(), (*it)->GetFarPlane());
-			_VECTOR(glm::mat4) shadowTransforms;
+			VECTOR(glm::mat4) shadowTransforms;
 			shadowTransforms.PushBack(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
 			shadowTransforms.PushBack(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
 			shadowTransforms.PushBack(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f)));
@@ -88,11 +88,11 @@ void ShadowRenderer::RenderShadow()
 			glClear(GL_DEPTH_BUFFER_BIT);
 			_shadowMapPointDepth.Use();
 			for (unsigned int i = 0; i < 6; ++i)
-				_shadowMapPointDepth.SetMat4("shadowMatrices[" + std::to_string(i) + "]", shadowTransforms[i]);
-			_shadowMapPointDepth.SetFloat("far_plane", (*it)->GetFarPlane());
-			_shadowMapPointDepth.SetVec3("lightPos", lightPos);
+				_shadowMapPointDepth.SetMat4(Khs("shadowMatrices[") + TO_STRING(i) + Khs("]"), shadowTransforms[i]);
+			_shadowMapPointDepth.SetFloat(Khs("far_plane"), (*it)->GetFarPlane());
+			_shadowMapPointDepth.SetVec3(Khs("lightPos"), lightPos);
 			//Ergodic shadows to Draw shadow
-			for (_LIST(RenderComponent*)::Iterator it = _shadowComponents.Begin(); it != _shadowComponents.End(); it++)
+			for (LIST(RenderComponent*)::Iterator it = _shadowComponents.Begin(); it != _shadowComponents.End(); it++)
 			{
 				(*it)->DrawShadow();
 			}

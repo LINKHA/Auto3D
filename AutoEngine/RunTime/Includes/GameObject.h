@@ -23,10 +23,10 @@ class GameObject : public Node
 	DECLARE_OBJECT_SERIALIZE(GameObject);
 public:
 #if SharedPtrDebug
-	using ComponentsArray = AUTO_VECTOR(int, SharedPtr<Component>);
+	using ComponentsArray = PAIR_VECTOR(int, SharedPtr<Component>);
 #else
-	//using ComponentsArray = AUTO_VECTOR(int, Component*);
-	using ComponentsArray = AUTO_HASH_MAP(int, Component*);
+	//using ComponentsArray = PAIR_VECTOR(int, Component*);
+	using ComponentsArray = HASH_MAP(int, Component*);
 #endif
 
 public:
@@ -78,7 +78,7 @@ public:
 	Component* QueryComponent(int classID) const;
 	/**
 	* @brief : Get Components 
-	* @return : AUTO_VECTOR(int, Component*)
+	* @return : PAIR_VECTOR(int, Component*)
 	*/
 	ComponentsArray& GetComponentsArray(){ return _components; }
 	/**

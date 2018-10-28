@@ -14,7 +14,7 @@ typedef struct
 	int				iMinorVersion;
 	unsigned int	uiSourceCount;
 	std::vector<std::string>	*pvstrExtensions;
-	//_VECTOR(std::string) *pvstrExtensions;
+	//VECTOR(std::string) *pvstrExtensions;
 	bool			bSelected;
 } ALDEVICEINFO, *LPALDEVICEINFO;
 
@@ -23,7 +23,7 @@ class DeviceList
 private:
 	OPENALFNTABLE	ALFunction;
 	std::vector<ALDEVICEINFO> vDeviceInfo;
-	//_VECTOR(ALDEVICEINFO) *vDeviceInfo;
+	//VECTOR(ALDEVICEINFO) *vDeviceInfo;
 	int defaultDeviceIndex;
 	int filterIndex;
 

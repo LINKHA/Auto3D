@@ -10,7 +10,7 @@ class Node :public Object
 {
 	REGISTER_DERIVED_ABSTRACT_CLASS(Node, Object);
 	DECLARE_OBJECT_SERIALIZE(Node);
-	using GameObjectChilds = _VECTOR(GameObject*);
+	using GameObjectChilds = VECTOR(GameObject*);
 public:
 	explicit Node(Ambient* ambient, int levelBumber);
 	/**

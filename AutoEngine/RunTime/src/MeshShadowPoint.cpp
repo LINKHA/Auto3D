@@ -79,10 +79,10 @@ void MeshShadowPoint::Draw()
 	glm::vec3 lightPos;
 	//!!! Temp use one light,and must need light
 #pragma warning
-	_VECTOR(Light*)& lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
+	VECTOR(Light*)& lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
 	//!!!Temp
 	Assert(lights.Size() != 0);
-	for (_VECTOR(Light*)::Iterator it = lights.Begin(); it != lights.End(); it++)
+	for (VECTOR(Light*)::Iterator it = lights.Begin(); it != lights.End(); it++)
 	{
 		lightPos = (*it)->GetLightPosition();
 		unsigned depthMap = (*it)->GetShadowAssist()->GetDepthMap();

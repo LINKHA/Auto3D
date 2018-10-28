@@ -125,8 +125,8 @@ void Bloom::Draw()
 	// set lighting uniforms
 	for (unsigned int i = 0; i < lightPositions.Size(); i++)
 	{
-		m_shader.SetVec3("lights[" + std::to_string(i) + "].Position", lightPositions[i]);
-		m_shader.SetVec3("lights[" + std::to_string(i) + "].Color", lightColors[i]);
+		m_shader.SetVec3(Khs("lights[") + TO_STRING(i) + Khs("].Position"), lightPositions[i]);
+		m_shader.SetVec3(Khs("lights[") + TO_STRING(i) + Khs("].Color"), lightColors[i]);
 	}
 	m_shader.SetVec3("viewPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
 	// create one large cube that acts as the floor

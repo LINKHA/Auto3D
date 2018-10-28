@@ -24,18 +24,18 @@ Ambient::~Ambient()
 }
 
 #if SharedPtrDebug
-SharedPtr<Object> Ambient::CreateObject(__String objectType)
+SharedPtr<Object> Ambient::CreateObject(STRING objectType)
 {
-	AUTO_HASH_MAP(__String, SharedPtr<ObjectFactory>)::const_Iterator i = _factories.Find(objectType);
+	HASH_MAP(STRING, SharedPtr<ObjectFactory>)::const_Iterator i = _factories.Find(objectType);
 	if (i != _factories.End())
 		return i->second->CreateObject();
 	else
 		return SharedPtr<Object>();
 }
 #else
-Object* Ambient::CreateObject(__String objectType)
+Object* Ambient::CreateObject(STRING objectType)
 {
-	AUTO_HASH_MAP(__String, SharedPtr<ObjectFactory>)::ConstIterator i = _factories.Find(objectType);
+	HASH_MAP(STRING, SharedPtr<ObjectFactory>)::ConstIterator i = _factories.Find(objectType);
 	if (i != _factories.End())
 		return i->second->CreateObject();
 	else
@@ -49,15 +49,15 @@ void Ambient::RegisterSubSystem(Object* object)
 		return;
 	_subSystems[object->GetClassString()] = object;
 }
-void Ambient::RemoveSubSystem(__String objectType) 
+void Ambient::RemoveSubSystem(STRING objectType) 
 {
-	AUTO_HASH_MAP(__String, SharedPtr<Object>)::Iterator i = _subSystems.Find(objectType);
+	HASH_MAP(STRING, SharedPtr<Object>)::Iterator i = _subSystems.Find(objectType);
 	if (i != _subSystems.End())
 		_subSystems.Erase(i);
 }
-Object* Ambient::GetSubSystem(__String type)const 
+Object* Ambient::GetSubSystem(STRING type)const 
 {
-	AUTO_HASH_MAP(__String, SharedPtr<Object>)::ConstIterator it 
+	HASH_MAP(STRING, SharedPtr<Object>)::ConstIterator it 
 		= _subSystems.Find(type);
 	if (it != _subSystems.End())
 		return it->second;

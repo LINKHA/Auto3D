@@ -9,7 +9,7 @@ Monitors::Monitors()
 	for (int i = 0; i < _monitorCount; i++)
 	{
 		SDL_GetDisplayBounds(i, &rect);
-		_mnitors.EmplaceBack(M_PAIR(rect.w, rect.h));
+		_mnitors.EmplaceBack(MAKE_PAIR(rect.w, rect.h));
 	}
 }
 

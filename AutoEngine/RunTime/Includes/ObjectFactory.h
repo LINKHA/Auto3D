@@ -36,7 +36,7 @@ public:
 	/**
 	* @brief : Retrun template Class Name for string
 	*/
-	const __String GetClassString() { return _RTTI->GetClassString(); }
+	const STRING GetClassString() { return _RTTI->GetClassString(); }
 	/**
 	* @brief : Retrun template Class RTTI
 	*/

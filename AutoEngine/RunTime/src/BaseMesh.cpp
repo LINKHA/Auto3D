@@ -112,10 +112,10 @@ void renderSphere(unsigned int * sphereVAO, unsigned int * indexCount)
 		glGenBuffers(1, &vbo);
 		glGenBuffers(1, &ebo);
 
-		_VECTOR(glm::vec3) positions;
-		_VECTOR(glm::vec2) uv;
-		_VECTOR(glm::vec3) normals;
-		_VECTOR(unsigned int) indices;
+		VECTOR(glm::vec3) positions;
+		VECTOR(glm::vec2) uv;
+		VECTOR(glm::vec3) normals;
+		VECTOR(unsigned int) indices;
 
 		const unsigned int X_SEGMENTS = 64;
 		const unsigned int Y_SEGMENTS = 64;
@@ -160,7 +160,7 @@ void renderSphere(unsigned int * sphereVAO, unsigned int * indexCount)
 
 		*indexCount = indices.Size();
 
-		_VECTOR(float) data;
+		VECTOR(float) data;
 		for (int i = 0; i < positions.Size(); ++i)
 		{
 			data.PushBack(positions[i].x);

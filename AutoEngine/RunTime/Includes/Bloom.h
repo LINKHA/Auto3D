@@ -29,8 +29,8 @@ private:
 	unsigned int pingpongFBO[2];
 	unsigned int pingpongColorbuffers[2];
 
-	_VECTOR(glm::vec3) lightPositions;
-	_VECTOR(glm::vec3) lightColors;
+	VECTOR(glm::vec3) lightPositions;
+	VECTOR(glm::vec3) lightColors;
 
 	bool bloom = true;
 	bool bloomKeyPressed = false;

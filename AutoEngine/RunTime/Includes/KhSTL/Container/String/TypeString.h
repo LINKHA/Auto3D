@@ -20,7 +20,8 @@ namespace KhSTL {
 class tString;
 
 #define GET_NEXT_CONTINUATION_BYTE(ptr) *(ptr); if ((unsigned char)*(ptr) < 0x80 || (unsigned char)*(ptr) >= 0xc0) return '?'; else ++(ptr);
-
+#define Khs(value)	KhSTL::tString(value)
+#define Khts(value)	KhSTL::tWString(value)
 static const int BUFFER_LENGTH = 128;
 
 
@@ -130,7 +131,7 @@ private:
 /**
 * String class for LINKH STL
 */
-class tString 
+class tString
 {
 	using Iterator = tIterator<char>;
 	using ConstIterator = tConstIterator<char>;
@@ -238,6 +239,18 @@ public:
 		*this = cBuffer;
 	}
 	/**
+	* @brief : Construct from the unsigned short
+	*/
+	explicit tString(unsigned short value)
+		: _length(0)
+		, _capacity(0)
+		, _buffer(&endZero)
+	{
+		char cBuffer[BUFFER_LENGTH];
+		sprintf(cBuffer, "%u", value);
+		*this = cBuffer;
+	}
+	/**
 	* @brief : Construct from the short
 	*/
 	explicit tString(short value)
@@ -277,18 +290,6 @@ public:
 	* @brief : Construct from the unsigned
 	*/
 	explicit tString(unsigned value)
-		: _length(0)
-		, _capacity(0)
-		, _buffer(&endZero)
-	{
-		char cBuffer[BUFFER_LENGTH];
-		sprintf(cBuffer, "%u", value);
-		*this = cBuffer;
-	}
-	/**
-	* @brief : Construct from the unsigned short
-	*/
-	explicit tString(unsigned short value)
 		: _length(0)
 		, _capacity(0)
 		, _buffer(&endZero)
@@ -343,6 +344,18 @@ public:
 	{
 		char cBuffer[BUFFER_LENGTH];
 		sprintf(cBuffer, "%.15g", value);
+		*this = cBuffer;
+	}
+	/**
+	* @brief : Construct from the bool
+	*/
+	explicit tString(long double value)
+		: _length(0)
+		, _capacity(0)
+		, _buffer(&endZero)
+	{
+		char cBuffer[BUFFER_LENGTH];
+		sprintf(cBuffer, "%.15lg", value);
 		*this = cBuffer;
 	}
 	/**
@@ -629,7 +642,7 @@ public:
 	* @brief : Left shift import ostream
 	*/
 	friend std::ostream& operator <<(std::ostream &out, tString& rhs);
-	
+
 	/**
 	* @brief :  Return char at index
 	*/
@@ -1003,44 +1016,44 @@ public:
 	/**
 	* @brief : Return iterator to the beginning
 	*/
-	Iterator Begin() 
+	Iterator Begin()
 	{
-		return Iterator(_buffer); 
+		return Iterator(_buffer);
 	}
 	/**
 	* @brief : Return const iterator to the beginning
 	*/
-	ConstIterator Begin() const 
+	ConstIterator Begin() const
 	{
-		return ConstIterator(_buffer); 
+		return ConstIterator(_buffer);
 	}
 	/**
 	* @brief : Return iterator to the end
 	*/
-	Iterator End() 
-	{ 
-		return Iterator(_buffer + _length); 
+	Iterator End()
+	{
+		return Iterator(_buffer + _length);
 	}
 	/**
 	* @brief : Return const iterator to the end
 	*/
-	ConstIterator End() const 
-	{ 
-		return ConstIterator(_buffer + _length); 
+	ConstIterator End() const
+	{
+		return ConstIterator(_buffer + _length);
 	}
 	/**
 	* @brief : Return first char, or 0 if Empty
 	*/
-	char Front() const 
-	{ 
+	char Front() const
+	{
 		return _buffer[0];
 	}
 	/**
 	* @brief : Return last char, or 0 if Empty
 	*/
-	char Back() const 
-	{ 
-		return _length ? _buffer[_length - 1] : _buffer[0]; 
+	char Back() const
+	{
+		return _length ? _buffer[_length - 1] : _buffer[0];
 	}
 	/**
 	* @brief : Return a substring from position to end
@@ -1300,30 +1313,30 @@ public:
 	/**
 	* @brief : Return C str
 	*/
-	const char* CStr() const 
-	{ 
-		return _buffer; 
+	const char* CStr() const
+	{
+		return _buffer;
 	}
 	/**
 	* @brief : Return length
 	*/
-	unsigned Length() const 
-	{ 
-		return _length; 
+	unsigned Length() const
+	{
+		return _length;
 	}
 	/**
 	* @brief : Return buffer capacity
 	*/
-	unsigned Capacity() const 
-	{ 
-		return _capacity; 
+	unsigned Capacity() const
+	{
+		return _capacity;
 	}
 	/**
 	* @brief : Return whether the string is Empty
 	*/
-	bool Empty() const 
-	{ 
-		return _length == 0; 
+	bool Empty() const
+	{
+		return _length == 0;
 	}
 	/**
 	* @brief : Return comparison result with a string
@@ -1342,16 +1355,16 @@ public:
 	/**
 	* @brief : Return whether contains a specific occurrence of a string
 	*/
-	bool Contains(const tString& str, bool caseSensitive = true) const 
-	{ 
-		return Find(str, 0, caseSensitive) != NO_POS; 
+	bool Contains(const tString& str, bool caseSensitive = true) const
+	{
+		return Find(str, 0, caseSensitive) != NO_POS;
 	}
 	/**
 	* @brief : Return whether contains a specific char
 	*/
-	bool Contains(char c, bool caseSensitive = true) const 
-	{ 
-		return Find(c, 0, caseSensitive) != NO_POS; 
+	bool Contains(char c, bool caseSensitive = true) const
+	{
+		return Find(c, 0, caseSensitive) != NO_POS;
 	}
 	/**
 	* @brief : Construct UTF8 content from Latin1
@@ -1941,11 +1954,69 @@ std::ostream& operator <<(std::ostream& out, tString& rhs);
 
 
 
- template <> void Swap<tString>(tString& rhs, tString& lfs)
+template <> void Swap<tString>(tString& rhs, tString& lfs)
 {
 	rhs.Swap(lfs);
 }
 
+// ToString NARROW CONVERSIONS
+inline tString ToString(int value)
+{	// convert int to string
+	return tString(value);
+}
+
+inline tString ToString(unsigned int value)
+{	// convert unsigned int to string
+	return tString(value);
+}
+
+inline tString ToString(long value)
+{	// convert long to string
+	return tString(value);
+}
+
+inline tString ToString(unsigned long value)
+{	// convert unsigned long to string
+	return tString(value);
+}
+
+inline tString ToString(long long value)
+{	// convert long long to string
+	return tString(value);
+}
+
+inline tString ToString(unsigned long long value)
+{	// convert unsigned long long to string
+	return tString(value);
+}
+
+inline tString ToString(float value)
+{	// convert float to string
+	return tString(value);
+}
+
+inline tString ToString(double value)
+{	// convert double to string
+	return tString(value);
+}
+
+inline tString ToString(long double value)
+{	// convert long double to string
+	return tString(value);
+}
+inline tString ToString(bool value)
+{
+	return tString(value);
+}
+
+inline tString ToString(char value)
+{
+	return tString(value);
+}
+template <typename _Sty> inline tString ToString(const _Sty& value)
+{
+	return tString(value);
+}
 
 }
 #endif //!KH_STL_TYPE_STRING_H_

@@ -60,7 +60,7 @@ void LevelScene::ModeRunNode(RunMode runMode)
 		GameObject* obj = static_cast<GameObject*>(*i);
 		if (obj && obj->GetEnable())
 		{
-			using compomentIt = AUTO_HASH_MAP(int, Component*)::Iterator;
+			using compomentIt = HASH_MAP(int, Component*)::Iterator;
 			if (runMode == RunMode::kAwake)
 				for (compomentIt k = obj->GetComponentsArray().Begin(); k != obj->GetComponentsArray().End(); k++)
 				{

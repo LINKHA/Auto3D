@@ -9,7 +9,7 @@ namespace Auto3D {
 /////////////////////////////////////////////////////////////////////////////////////////////
 //MeshNode
 /////////////////////////////////////////////////////////////////////////////////////////////
-MeshNode::MeshNode(_VECTOR(MeshVertex) tVertices, _VECTOR(unsigned int) tIndices, _VECTOR(TextureData) tTextures)
+MeshNode::MeshNode(VECTOR(MeshVertex) tVertices, VECTOR(unsigned int) tIndices, VECTOR(TextureData) tTextures)
 {
 	vertices = tVertices;
 	indices = tIndices;
@@ -29,20 +29,20 @@ void MeshNode::Draw(const Shader& shader)
 	{
 		glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
 										  // retrieve texture number (the N in diffuse_textureN)
-		__String number;
-		__String name = textures[i].type;
+		STRING number;
+		STRING name = textures[i].type;
 		if (name == "texture_diffuse")
-			number = std::to_string(diffuseNr++);
+			number = TO_STRING(diffuseNr++);
 		else if (name == "texture_specular")
-			number = std::to_string(specularNr++); // transfer unsigned int to stream
+			number = TO_STRING(specularNr++); // transfer unsigned int to stream
 		else if (name == "texture_normal")
-			number = std::to_string(normalNr++); // transfer unsigned int to stream
+			number = TO_STRING(normalNr++); // transfer unsigned int to stream
 		else if (name == "texture_height")
-			number = std::to_string(heightNr++); // transfer unsigned int to stream
+			number = TO_STRING(heightNr++); // transfer unsigned int to stream
 
 												 // now set the sampler to the correct texture unit
 
-		glUniform1i(glGetUniformLocation(shader.ID, (name + number).c_str()), i);
+		glUniform1i(glGetUniformLocation(shader.ID, (name + number).CStr()), i);
 		// and finally bind the texture
 		glBindTexture(GL_TEXTURE_2D, textures[i].data);
 	}
@@ -99,7 +99,7 @@ void MeshNode::setupMesh()
 /////////////////////////////////////////////////////////////////////////////////////////////
 //Model
 /////////////////////////////////////////////////////////////////////////////////////////////
-Model::Model(Ambient* ambient, __String const &path, bool gamma)
+Model::Model(Ambient* ambient, STRING const &path, bool gamma)
 	: Super(ambient)
 	, _gammaCorrection(gamma)
 	, _path(path)
@@ -117,7 +117,7 @@ void Model::Draw(Shader shader)
 		_meshNodes[i].Draw(shader);
 }
 
-bool Model::loadModel(__String const & path)
+bool Model::loadModel(STRING const & path)
 {
 	// read file via ASSIMP
 	Assimp::Importer importer;
@@ -156,9 +156,9 @@ void Model::processNode(aiNode* node, const aiScene* scene)
 MeshNode Model::processMesh(aiMesh* mesh, const aiScene* scene)
 {
 	// data to fill
-	_VECTOR(MeshVertex) vertices;
-	_VECTOR(unsigned int) indices;
-	_VECTOR(TextureData) textures;
+	VECTOR(MeshVertex) vertices;
+	VECTOR(unsigned int) indices;
+	VECTOR(TextureData) textures;
 	// Walk through each of the mesh's vertices
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
@@ -209,25 +209,25 @@ MeshNode Model::processMesh(aiMesh* mesh, const aiScene* scene)
 	// process materials
 	aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 	// diffuse maps
-	_VECTOR(TextureData) diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
+	VECTOR(TextureData) diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
 	textures.Insert(textures.End(), diffuseMaps.Begin(), diffuseMaps.End());
 	// specular maps
-	_VECTOR(TextureData) specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
+	VECTOR(TextureData) specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
 	textures.Insert(textures.End(), specularMaps.Begin(), specularMaps.End());
 	// normal maps
-	_VECTOR(TextureData) normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
+	VECTOR(TextureData) normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
 	textures.Insert(textures.End(), normalMaps.Begin(), normalMaps.End());
 	// height maps
-	_VECTOR(TextureData) heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
+	VECTOR(TextureData) heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
 	textures.Insert(textures.End(), heightMaps.Begin(), heightMaps.End());
 
 	// return a mesh object created from the extracted mesh data
 	return MeshNode(vertices, indices, textures);
 }
 
-_VECTOR(TextureData) Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, __String typeName)
+VECTOR(TextureData) Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, STRING typeName)
 {
-	_VECTOR(TextureData) textures;
+	VECTOR(TextureData) textures;
 	for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
 	{
 		aiString str;
@@ -247,8 +247,8 @@ _VECTOR(TextureData) Model::loadMaterialTextures(aiMaterial* mat, aiTextureType 
 		{   // if texture hasn't been loaded already, load it
 			TextureData texture;
 
-			__String filename = __String(str.data);
-			filename = _directory + '/' + filename;
+			STRING filename = STRING(str.data);
+			filename = _directory + Khs('/') + filename;
 			texture.data = GetSubSystem<Resource>()->TextureLoad((char*)filename.data(),false);
 
 			texture.type = typeName;

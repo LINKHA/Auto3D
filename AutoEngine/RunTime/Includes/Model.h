@@ -21,8 +21,8 @@ struct MeshVertex {
 */
 struct TextureData {
 	unsigned int data;
-	__String type;
-	__String path;
+	STRING type;
+	STRING path;
 };
 class Shader;
 /**
@@ -34,7 +34,7 @@ public:
 	/**
 	* @brief : Set vertices indeices and texture
 	*/
-	MeshNode(_VECTOR(MeshVertex) vertices, _VECTOR(unsigned int) indices, _VECTOR(TextureData) textures);
+	MeshNode(VECTOR(MeshVertex) vertices, VECTOR(unsigned int) indices, VECTOR(TextureData) textures);
 	~MeshNode() = default;
 	/**
 	* @brief : Render the mesh
@@ -46,9 +46,9 @@ private:
 	*/
 	void setupMesh();
 public:
-	_VECTOR(unsigned int) indices;
-	_VECTOR(MeshVertex) vertices;
-	_VECTOR(TextureData) textures;
+	VECTOR(unsigned int) indices;
+	VECTOR(MeshVertex) vertices;
+	VECTOR(TextureData) textures;
 	unsigned int vao;
 	unsigned int vbo;
 	unsigned int ebo;
@@ -61,25 +61,25 @@ class Model : public ComponentSetting
 {
 	REGISTER_DERIVED_CLASS(Model, ComponentSetting);
 	DECLARE_OBJECT_SERIALIZE(Model);
-	using TextureDatas = _VECTOR(TextureData);
-	using MeshNodes = _VECTOR(MeshNode);
+	using TextureDatas = VECTOR(TextureData);
+	using MeshNodes = VECTOR(MeshNode);
 public:
 	/**
 	* @brief : Add path and gamma to build model
 	*/
-	Model(Ambient* ambient,__String const& path = "../Resource/object/base/Cube.3DS", bool gamma = false);
+	Model(Ambient* ambient,STRING const& path = "../Resource/object/base/Cube.3DS", bool gamma = false);
 	/**
 	* @brief : Draw all this model mesh node
 	*/
 	void Draw(Shader shader);
 	/**
 	* @brief : Get texture datas container
-	* @return : _VECTOR(TextureData)
+	* @return : VECTOR(TextureData)
 	*/
 	TextureDatas& GetTextureDatas() { return _textureDatas; }
 	/**
 	* @brief : Get mesh node message container
-	* @return : _VECTOR(MeshNode)
+	* @return : VECTOR(MeshNode)
 	*/
 	MeshNodes& GetMeshNodes() { return _meshNodes; }
 private:
@@ -87,7 +87,7 @@ private:
 	* @brief : The model with ASSIMP extension is loaded from the file and the 
 	*		    generated grid is stored in the grid vector.
 	*/
-	bool loadModel(__String const& path);
+	bool loadModel(STRING const& path);
 	/**
 	* @brief : Processes nodes recursively. Process each individual grid on 
 	*			the node and repeat this process, if any, on its child nodes.
@@ -100,18 +100,18 @@ private:
 	/**
 	* @brief : load all material texture with this file
 	*/
-	TextureDatas loadMaterialTextures(aiMaterial* mat, aiTextureType type, __String typeName);
+	TextureDatas loadMaterialTextures(aiMaterial* mat, aiTextureType type, STRING typeName);
 private:
 	///texture data message container
 	TextureDatas _textureDatas;
 	///mesh node message container
 	MeshNodes _meshNodes;
 	///path remove the file name
-	__String _directory;
+	STRING _directory;
 	///gamma
 	bool _gammaCorrection;
 	///file path
-	__String _path;
+	STRING _path;
 	///judge this file is null
 	bool _isNull;
 };
