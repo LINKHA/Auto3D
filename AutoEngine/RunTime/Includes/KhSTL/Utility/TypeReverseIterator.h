@@ -1,6 +1,8 @@
 #ifndef KH_STL_TYPE_REVERSE_ITERATOR_H_
 #define KH_STL_TYPE_REVERSE_ITERATOR_H_
 
+namespace KhSTL {
+
 template <typename _Iterator>
 class tReverseIterator
 {	// wrap iterator to run it backwards
@@ -44,9 +46,10 @@ public:
 
 	ValueType* operator ->() const
 	{	// return pointer to class object
-		_Iterator temp = _current;
-		temp--;
-		return *temp;
+		_Iterator tmp = _current;
+		tmp--;
+		ValueType valueTmp = *tmp;
+		return &valueTmp;
 	}
 
 	tReverseIterator& operator ++()
@@ -73,7 +76,7 @@ public:
 		tReverseIterator _Tmp = *this;
 		++_current;
 		return (_Tmp);
-	}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+	}
 
 	// N.B. functions valid for random-access iterators only beyond this point
 
@@ -121,6 +124,7 @@ protected:
 	_Iterator _current;	// the wrapped iterator
 };
 
+}
 
 
 #endif // !KH_STL_TYPE_REVERSE_ITERATOR_H_

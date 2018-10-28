@@ -12,9 +12,18 @@ using HashMap = KhSTL::tUnorderedMap<_Kty, _Ty>;
 ///
 ///
 ///
+template<typename _Kty, typename _Ty>
+using UnorderedMap = KhSTL::tUnorderedMap<_Kty, _Ty>;
+///
+///
+///
 template<typename _Kty, typename _Ty> 
 using HashMultiMap = KhSTL::tUnorderedMultiMap<_Kty, _Ty>;
-
+///
+///
+///
+template<typename _Kty, typename _Ty>
+using UnorderedMultiMap = KhSTL::tUnorderedMultiMap<_Kty, _Ty>;
 
 }
 

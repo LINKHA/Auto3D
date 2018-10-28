@@ -2,76 +2,10 @@
 #define KH_STL_TYPE_HASH_BASE_H_
 #include "../Allocator/TypeAllocator.h"
 #include "../Algorithm/TypeAlgorithm.h"
-
+#include "TypeHashValue.h"
+#include "TypeHashIterator.h"
 namespace KhSTL {
 
-/**
-* Hash set/map node Base class
-*/
-struct tHashNodeBase
-{
-	/**
-	* @brief : Construct
-	*/
-	tHashNodeBase()
-		: down(nullptr)
-		, prev(nullptr)
-		, next(nullptr)
-	{}
-
-	/// Next node in the bucket.
-	tHashNodeBase* down;
-	/// Previous node.
-	tHashNodeBase* prev;
-	/// Next node.
-	tHashNodeBase* next;
-};
-
-/**
-* Hash set/map iterator Base class
-*/
-struct tHashIteratorBase
-{
-	/**
-	* @brief : Construct
-	*/
-	tHashIteratorBase()
-		: ptr(nullptr)
-	{}
-	/**
-	* @brief : Construct with a node pointer
-	*/
-	explicit tHashIteratorBase(tHashNodeBase* ptr)
-		: ptr(ptr)
-	{}
-	/**
-	* @brief : Test for equality with another iterator
-	*/
-	bool operator ==(const tHashIteratorBase& rhs) const { return ptr == rhs.ptr; }
-	/**
-	* @brief : Test for inequality with another iterator
-	*/
-	bool operator !=(const tHashIteratorBase& rhs) const { return ptr != rhs.ptr; }
-	/**
-	* @brief : Go to the next node
-	*/
-	void GotoNext()
-	{
-		if (ptr)
-			ptr = ptr->next;
-	}
-	/**
-	* @brief : Go to the previous node
-	*/
-	void GotoPrev()
-	{
-		if (ptr)
-			ptr = ptr->prev;
-	}
-
-	/// Node pointer
-	tHashNodeBase* ptr;
-};
 
 class tHashBase 
 {

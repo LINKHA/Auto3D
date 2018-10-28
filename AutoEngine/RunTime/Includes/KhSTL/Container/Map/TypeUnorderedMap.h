@@ -16,213 +16,23 @@ template <typename _Kty
 	, typename _Ty>
 	class tUnorderedMap : public tHashBase
 {
-	using KeyType = _Kty;
-	using ValueType = _Ty;
 public:
-	/**
-	* Hash map key-value pair with const key
-	*/
-	class KeyValue
-	{
-	public:
-		/**
-		* @brief : Construct with default key
-		*/
-		KeyValue()
-			: first(_Kty())
-		{}
-		/**
-		* @brief : Construct with key and value
-		*/
-		KeyValue(const _Kty& sfirst, const _Ty& ssecond)
-			: first(sfirst)
-			, second(ssecond)
-		{}
-		/**
-		* @brief : Copy-construct
-		*/
-		KeyValue(const KeyValue& value)
-			: first(value.first)
-			, second(value.second)
-		{}
-		/**
-		* @brief : Prevent assignment
-		*/
-		KeyValue& operator =(const KeyValue& rhs) = delete;
-		/**
-		* @brief : _Keyest for equality with another pair
-		*/
-		bool operator ==(const KeyValue& rhs) const { return first == rhs.first && second == rhs.second; }
-		/**
-		* @brief : _Keyest for inequality with another pair
-		*/
-		bool operator !=(const KeyValue& rhs) const { return first != rhs.first || second != rhs.second; }
+	using KeyType = _Kty;
 
-		/// Map key
-		const _Kty first;
-		/// Map value
-		_Ty second;
-	};
-	/// Hash map node.
-	struct Node : public tHashNodeBase
-	{
-		/**
-		* @brief : Construct undefined
-		*/
-		Node() = default;
-		/**
-		* @brief : Construct with key and value
-		*/
-		Node(const _Kty& key, const _Ty& value)
-			: pair(key, value)
-		{
-		}
+	using ValueType = _Ty;
 
-		/// Key-value pair.
-		KeyValue pair;
+	using PairValue = tPair<_Kty, _Ty>;
 
-		/// Return next node.
-		Node* Next() const { return static_cast<Node*>(next); }
+	using Node = tHashNode<PairValue>;
 
-		/// Return previous node.
-		Node* Prev() const { return static_cast<Node*>(prev); }
+	using Iterator = tHashIterator<PairValue>;
 
-		/// Return next node in the bucket.
-		Node* Down() const { return static_cast<Node*>(down); }
-	};
-	/**
-	* Hash map node iterator
-	*/
-	struct Iterator : public tHashIteratorBase
-	{
-		/**
-		* @brief : Construct
-		*/
-		Iterator() = default;
-		/**
-		* @brief : Construct with a node pointer
-		*/
-		explicit Iterator(Node* ptr) :
-			tHashIteratorBase(ptr)
-		{
-		}
-		/**
-		* @brief : Preincrement the pointer
-		*/
-		Iterator& operator ++()
-		{
-			GotoNext();
-			return *this;
-		}
-		/**
-		* @brief : Postincrement the pointer
-		*/
-		Iterator operator ++(int)
-		{
-			Iterator it = *this;
-			GotoNext();
-			return it;
-		}
-		/**
-		* @brief : Predecrement the pointer
-		*/
-		Iterator& operator --()
-		{
-			GotoPrev();
-			return *this;
-		}
-		/**
-		* @brief : Postdecrement the pointer
-		*/
-		Iterator operator --(int)
-		{
-			Iterator it = *this;
-			GotoPrev();
-			return it;
-		}
-		/**
-		* @brief : Point to the pair
-		*/
-		KeyValue* operator ->() const { return &(static_cast<Node*>(ptr))->pair; }
-		/**
-		* @brief : Dereference the pair
-		*/
-		KeyValue& operator *() const { return (static_cast<Node*>(ptr))->pair; }
-	};
-	/**
-	* Hash map node const iterator
-	*/
-	struct ConstIterator : public tHashIteratorBase
-	{
-		/**
-		* @brief : Construct
-		*/
-		ConstIterator() = default;
-		/**
-		* @brief : Construct with a node pointer
-		*/
-		explicit ConstIterator(Node* ptr) :
-			tHashIteratorBase(ptr)
-		{
-		}
-		/**
-		* @brief : Construct from a non-const iterator
-		*/
-		ConstIterator(const Iterator& rhs) :        // NOLIN_Key(google-explicit-constructor)
-			tHashIteratorBase(rhs.ptr)
-		{}
-		/**
-		* @brief : Assign from a non-const iterator
-		*/
-		ConstIterator& operator =(const Iterator& rhs)
-		{
-			ptr = rhs.ptr;
-			return *this;
-		}
-		/**
-		* @brief : Preincrement the pointer
-		*/
-		ConstIterator& operator ++()
-		{
-			GotoNext();
-			return *this;
-		}
-		/**
-		* @brief : Postincrement the pointer
-		*/
-		ConstIterator operator ++(int)
-		{
-			ConstIterator it = *this;
-			GotoNext();
-			return it;
-		}
-		/**
-		* @brief : Predecrement the pointer
-		*/
-		ConstIterator& operator --()
-		{
-			GotoPrev();
-			return *this;
-		}
-		/**
-		* @brief : Postdecrement the pointer
-		*/
-		ConstIterator operator --(int)
-		{
-			ConstIterator it = *this;
-			GotoPrev();
-			return it;
-		}
-		/**
-		* @brief : Point to the pair
-		*/
-		const KeyValue* operator ->() const { return &(static_cast<Node*>(ptr))->pair; }
-		/**
-		* @brief : Dereference the pair
-		*/
-		const KeyValue& operator *() const { return (static_cast<Node*>(ptr))->pair; }
-	};
-
+	using ConstIterator = tConstHashIterator<PairValue>;
+	/// Hash map reverse iterator
+	using ReverseIterator = tReverseIterator<Iterator>;
+	/// Hash map const reverse iterator
+	using ConstReverseIterator = tReverseIterator<ConstIterator>;
+public:
 	/**
 	* Construct Empty
 	*/
@@ -354,12 +164,12 @@ public:
 	_Ty& operator [](const _Kty& key)
 	{
 		if (!_ptrs)
-			return InsertNode(key, _Ty(), false)->pair.second;
+			return InsertNode(key, _Ty(), false)->data.second;
 
 		unsigned hashKey = Hash(key);
 
 		Node* node = FindNode(key, hashKey);
-		return node ? node->pair.second : InsertNode(key, _Ty(), false)->pair.second;
+		return node ? node->data.second : InsertNode(key, _Ty(), false)->data.second;
 	}
 	/**
 	* @brief : Index the map. Return null if key is not found, does not create a new pair
@@ -372,7 +182,7 @@ public:
 		unsigned hashKey = Hash(key);
 
 		Node* node = FindNode(key, hashKey);
-		return node ? &node->pair.second : 0;
+		return node ? &node->data.second : 0;
 	}
 	/**
 	* @brief : Populate the map using variadic template. _Keyhis handles the Base case
@@ -471,7 +281,7 @@ public:
 		auto* node = static_cast<Node*>(it.ptr);
 		Node* next = node->Next();
 
-		unsigned hashKey = Hash(node->pair.first);
+		unsigned hashKey = Hash(node->data.first);
 
 		Node* previous = 0;
 		auto* current = static_cast<Node*>(ptrs()[hashKey]);
@@ -617,7 +427,7 @@ public:
 		Node* node = FindNode(key, hashKey);
 		if (node)
 		{
-			out = node->pair.second;
+			out = node->data.second;
 			return true;
 		}
 		else
@@ -648,27 +458,35 @@ public:
 	/**
 	* @brief : Return iterator to the beginning
 	*/
-	Iterator Begin() { return Iterator(Head()); }
+	inline Iterator Begin() { return Iterator(Head()); }
 	/**
 	* @brief : Return iterator to the beginning
 	*/
-	ConstIterator Begin() const { return ConstIterator(Head()); }
+	inline ConstIterator Begin() const { return ConstIterator(Head()); }
 	/**
 	* @brief : Return iterator to the end
 	*/
-	Iterator End() { return Iterator(Tail()); }
+	inline Iterator End() { return Iterator(Tail()); }
 	/**
 	* @brief : Return iterator to the end
 	*/
-	ConstIterator End() const { return ConstIterator(Tail()); }
+	inline ConstIterator End() const { return ConstIterator(Tail()); }
+
+	inline ReverseIterator RBegin() { return ReverseIterator(End()); }
+
+	inline ConstReverseIterator RBegin() const { return ReverseIterator(End()); }
+
+	inline ReverseIterator REnd() { return ReverseIterator(Begin()); }
+
+	inline ConstReverseIterator REnd() const { return ReverseIterator(Begin()); }
 	/**
 	* @brief : Return first pair
 	*/
-	const KeyValue& Front() const { return *Begin(); }
+	const PairValue& Front() const { return *Begin(); }
 	/**
 	* @brief : Return last pair
 	*/
-	const KeyValue& Back() const { return *(--End()); }
+	const PairValue& Back() const { return *(--End()); }
 
 private:
 	/**
@@ -687,7 +505,7 @@ private:
 		auto* node = static_cast<Node*>(ptrs()[hashKey]);
 		while (node)
 		{
-			if (node->pair.first == key)
+			if (node->data.first == key)
 				return node;
 			node = node->Down();
 		}
@@ -704,7 +522,7 @@ private:
 		auto* node = static_cast<Node*>(ptrs()[hashKey]);
 		while (node)
 		{
-			if (node->pair.first == key)
+			if (node->data.first == key)
 				return node;
 			previous = node;
 			node = node->Down();
@@ -732,7 +550,7 @@ private:
 			Node* existing = FindNode(key, hashKey);
 			if (existing)
 			{
-				existing->pair.second = value;
+				existing->data.second = value;
 				return existing;
 			}
 		}
@@ -814,7 +632,7 @@ private:
 	Node* ReserveNode(const _Kty& key, const _Ty& value)
 	{
 		auto* newNode = static_cast<Node*>(AllocatorReserve(_allocator));
-		new(newNode) Node(key, value);
+		new(newNode) Node(tPair<_Kty, _Ty>(key, value));
 		return newNode;
 	}
 	/**
@@ -842,7 +660,7 @@ private:
 	/**
 	* @brief : Compare two nodes
 	*/
-	static bool CompareNodes(Node*& lhs, Node*& rhs) { return lhs->pair.first < rhs->pair.first; }
+	static bool CompareNodes(Node*& lhs, Node*& rhs) { return lhs->data.first < rhs->data.first; }
 	/**
 	* @brief : Compute a hash based on the key and the bucket size
 	*/
@@ -857,7 +675,13 @@ template <typename _Kty, typename _Ty> typename tUnorderedMap<_Kty, _Ty>::Iterat
 
 template <typename _Kty, typename _Ty> typename tUnorderedMap<_Kty, _Ty>::Iterator end(tUnorderedMap<_Kty, _Ty>& v) { return v.End(); }
 
+template <typename _Kty, typename _Ty> typename tUnorderedMap<_Kty, _Ty>::ConstReverseIterator rbegin(const tUnorderedMap<_Kty, _Ty>& v) { return v.RBegin(); }
 
+template <typename _Kty, typename _Ty> typename tUnorderedMap<_Kty, _Ty>::ConstReverseIterator rend(const tUnorderedMap<_Kty, _Ty>& v) { return v.REnd(); }
+
+template <typename _Kty, typename _Ty> typename tUnorderedMap<_Kty, _Ty>::ReverseIterator rbegin(tUnorderedMap<_Kty, _Ty>& v) { return v.RBegin(); }
+
+template <typename _Kty, typename _Ty> typename tUnorderedMap<_Kty, _Ty>::ReverseIterator rend(tUnorderedMap<_Kty, _Ty>& v) { return v.REnd(); }
 }
 
 #endif // !KH_STL_TYPE_UNORDERED_MAP_H_

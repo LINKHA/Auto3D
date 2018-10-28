@@ -26,7 +26,7 @@ class Renderer : public GlobalGameManager
 	using TranslucentContainer = _LIST(RenderComponent*);
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	///Auxiliary vessel with distance
-	using TranslucentDepth = AUTO_MAP(float, RenderComponent*); 
+	using TranslucentDepth = AUTO_HASH_MAP(float, RenderComponent*); 
 	friend class ShadowRenderer;
 	friend class LightContainer;
 public:

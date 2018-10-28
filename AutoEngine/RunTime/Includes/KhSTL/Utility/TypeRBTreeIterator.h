@@ -7,12 +7,13 @@
 namespace KhSTL {
 
 template<typename _Traits>
-struct tRBTreeBaseIterator
+class tRBTreeBaseIterator
 {
+public:
 	tRBTreeNode<_Traits>* node;
 
 	/**
-	* @brief : This function is called when subclasses of the iterator implement operator 
+	* @brief : This function is called when subclasses of the iterator implement operator
 	*/
 	void Increment()
 	{
@@ -64,47 +65,65 @@ struct tRBTreeBaseIterator
 				node = y;
 				y = y->parent;
 			}
-			node = y; 
+			node = y;
 		}
 	}
 };
 
 template<typename _Traits>
-struct tRBTreeIterator 
+class tRBTreeIterator
 	: public tRBTreeBaseIterator<_Traits>
 {
+public:
 	using ValueType = typename _Traits::ValueType;
+
 	using Base = tRBTreeBaseIterator<_Traits>;
+
 	using Iterator = tRBTreeIterator<_Traits>;
+
 	using This = tRBTreeIterator<_Traits>;
+
 	using LinkType = tRBTreeNode<_Traits>*;
 
 	tRBTreeIterator() = default;
 
-	tRBTreeIterator(LinkType x) 
-	{ 
-		Base::node = x; 
+	tRBTreeIterator(LinkType x)
+	{
+		Base::node = x;
 	}
-	tRBTreeIterator(const Iterator& it) 
-	{ 
-		Base::node = it.node; 
+	tRBTreeIterator(const Iterator& it)
+	{
+		Base::node = it.node;
 	}
 	/**
 	* @brief : Dereference, return node value
 	*/
-	ValueType& operator *()const { return LinkType(Base::node)->value; }
+	ValueType& operator *() const
+	{
+		return LinkType(Base::node)->value;
+	}
 	/**
 	* @brief : Dereference, return node value
 	*/
-	ValueType* operator ->()const { return *(operator *()); }
+	ValueType* operator ->() const
+	{
+		return &(operator *());
+	}
 	/**
 	* @brief : Returns the color of the node the iterator points to
 	*/
-	RBTreeColorType Color() { return Base::node->color; }
+	RBTreeColorType Color()
+	{
+		return Base::node->color;
+	}
 	/**
 	* @brief : Iterator stepIterator step
 	*/
-	This& operator ++() { Base::Increment(); return *this; }
+	This& operator ++()
+	{
+		Base::Increment();
+		return *this;
+	}
 	/**
 	* @brief : Iterator step
 	*/
@@ -117,9 +136,10 @@ struct tRBTreeIterator
 	/**
 	* @brief : Iterator step
 	*/
-	This& operator --() const 
-	{ 
-		Base::Decrement(); return *this; 
+	This& operator --() const
+	{
+		Base::Decrement();
+		return *this;
 	}
 	/**
 	* @brief : Iterator step
@@ -133,15 +153,15 @@ struct tRBTreeIterator
 	/**
 	* @brief : Comparison of two iterators
 	*/
-	bool operator ==(const This& rhs) const 
-	{ 
+	bool operator ==(const This& rhs) const
+	{
 		return rhs.node == Base::node;
 	}
 	/**
 	* @brief : Comparison of two iterators
 	*/
 	bool operator !=(const This& rhs) const
-	{ 
+	{
 		return rhs.node != Base::node;
 	}
 };

@@ -25,9 +25,9 @@ GameObject::~GameObject()
 
 void GameObject::AddComponent(Component* com)
 {
-	_components.PushBack(KhSTL::MakePair(com->GetClassID(), com));
-	//_com.push_back(std::make_pair(com->GetClassID(), com));
-
+	//_components.Insert(KhSTL::MakePair(com->GetClassID(), com));
+	_components.Insert(KhSTL::tPair<int,Component*>(com->GetClassID(), com));
+	//_components.Insert(com->GetClassID(), com);
 	com->MountComponent(*this);
 }
 

@@ -14,11 +14,11 @@
 #include <climits>
 #include <iostream>
 
-namespace KhSTL{
+namespace KhSTL {
 
 template<typename _Traits
-	,typename _Comp
-	,typename _Alloc>
+	, typename _Comp
+	, typename _Alloc>
 	class RBTree : public tRBTreeAlloc<_Traits, _Comp, _Alloc>
 {
 protected:
@@ -28,7 +28,7 @@ protected:
 
 	using Compare = _Comp;
 
-	using ColorType = RBTreeColorType; 
+	using ColorType = RBTreeColorType;
 
 	using Base = tRBTreeAlloc<_Traits, _Comp, _Alloc>;
 
@@ -43,10 +43,10 @@ public:
 	/**
 	* @brief : Constructed
 	*/
-	RBTree() 
+	RBTree()
 		: _count(0)
 		, _comp(Compare())
-	{ 
+	{
 		_header = Alloc::getNode();
 		getColor(_header) = RBTreeColorType::RED;
 		root() = 0;
@@ -65,43 +65,43 @@ protected:
 	/**
 	* @brief : Get the root node
 	*/
-	NodeType*& root()const 
-	{ 
-		return (NodeType*&)_header->parent; 
+	NodeType*& root()const
+	{
+		return (NodeType*&)_header->parent;
 	}
 	/**
 	* @brief : Get the leftmost node
 	*/
-	NodeType*& leftmost()const 
-	{ 
-		return (NodeType*&)_header->left; 
+	NodeType*& leftmost()const
+	{
+		return (NodeType*&)_header->left;
 	}
 	/**
 	* @brief : Get the rightmost node
 	*/
-	NodeType*& rightmost()const 
-	{ 
-		return (NodeType*&)_header->right; 
+	NodeType*& rightmost()const
+	{
+		return (NodeType*&)_header->right;
 	}
 	/**
 	* @brief : Returns the left child node of the node
 	*/
 	NodeType*& left(NodeType* node)
-	{ 
+	{
 		return (NodeType*&)(node->left);
 	}
 	/**
 	* @brief : Returns the right child node of the node
 	*/
 	NodeType*& right(NodeType* node)
-	{ 
+	{
 		return (NodeType*&)(node->right);
 	}
 	/**
 	* @brief : Returns the parent node of the node
 	*/
 	NodeType*& parent(NodeType* node)
-	{ 
+	{
 		return (NodeType*&)(node->parent);
 	}
 	KeyType& getKey(NodeType* node)
@@ -120,7 +120,7 @@ protected:
 	* @brief : Returns the color of the node
 	*/
 	ColorType& getColor(NodeType* node)
-	{ 
+	{
 		return (ColorType&)(node->color);
 	}
 
@@ -144,8 +144,8 @@ public:
 	* @brief : Get the value of the root node
 	*/
 	ValueType RootValue()
-	{ 
-		return getValue((NodeType*)_header->parent); 
+	{
+		return getValue((NodeType*)_header->parent);
 	}
 	/**
 	* @brief : Return a function that compares the size
@@ -173,30 +173,30 @@ public:
 	/**
 	* @brief : To determine if the red-black tree is Empty
 	*/
-	bool Empty()const 
-	{ 
-		return _count == 0; 
+	bool Empty()const
+	{
+		return _count == 0;
 	}
 	/**
 	* @brief : Retrurn tree count
 	*/
-	unsigned GetSize() const 
-	{ 
-		return _count; 
+	unsigned GetSize() const
+	{
+		return _count;
 	}
 	/**
-	* @brief : Insert new value, node key value cannot be repeated, 
+	* @brief : Insert new value, node key value cannot be repeated,
 	*			insert invalid if repeated
 	*/
-	Iterator InsertUnique(const KeyType& key,const ValueType& value)
+	Iterator InsertUnique(const KeyType& key, const ValueType& value)
 	{
-		NodeType* pHeader = _header; 
-		NodeType* pRoot = root(); 
-		bool comp = true; 
+		NodeType* pHeader = _header;
+		NodeType* pRoot = root();
+		bool comp = true;
 
-		while (pRoot != 0) 
+		while (pRoot != 0)
 		{
-			pHeader = pRoot; 
+			pHeader = pRoot;
 			comp = _comp(key, getKey(pRoot));
 			pRoot = comp ? left(pRoot) : right(pRoot);
 		}
@@ -205,7 +205,7 @@ public:
 		{
 			if (Begin() == tmp)
 			{
-				return Iterator(insertNode(pRoot, pHeader, key ,value));
+				return Iterator(insertNode(pRoot, pHeader, key, value));
 			}
 			else
 			{
@@ -237,8 +237,8 @@ public:
 	*/
 	Iterator Find(const KeyType& key)
 	{
-		NodeType* pHeader = _header; 
-		NodeType* pRoot = root(); 
+		NodeType* pHeader = _header;
+		NodeType* pRoot = root();
 		while (pRoot != 0)
 		{
 			if (!_comp(getKey(pRoot), key))
@@ -258,20 +258,20 @@ public:
 private:
 	/**
 	* @brief : Insert node
-	* @param : insertWith : To insert node 
+	* @param : insertWith : To insert node
 	*		 : insertTarget : Insert the parent node of the node
 	*/
-	Iterator insertNode(NodeType* insertWith, NodeType* insertTarget, const KeyType& key , const ValueType& val)
+	Iterator insertNode(NodeType* insertWith, NodeType* insertTarget, const KeyType& key, const ValueType& val)
 	{
-		NodeType* tmpWith = (NodeType*)insertWith; 
-		NodeType* tmpTarget = (NodeType*)insertTarget; 
+		NodeType* tmpWith = (NodeType*)insertWith;
+		NodeType* tmpTarget = (NodeType*)insertTarget;
 		NodeType* tmp;
 
 		if (tmpTarget == _header || tmpWith != 0 || _comp(key, getKey(tmpTarget)))
 		{
-			tmp = Alloc::getNode(key,val);
-			left(tmpTarget) = tmp; 
-			if (tmpTarget == _header) 
+			tmp = Alloc::getNode(key, val);
+			left(tmpTarget) = tmp;
+			if (tmpTarget == _header)
 			{
 				root() = tmp;
 				rightmost() = tmp;
@@ -283,7 +283,7 @@ private:
 		}
 		else
 		{
-			tmp = Alloc::getNode(key,val);
+			tmp = Alloc::getNode(key, val);
 			right(tmpTarget) = tmp;
 			if (tmpTarget == rightmost())
 			{
@@ -328,7 +328,7 @@ private:
 					RBTreeRotateRight(val->parent->parent, root);
 				}
 			}
-			else 
+			else
 			{
 				NodeType* tmp = val->parent->parent->left;
 				if (tmp && tmp->color == RBTreeColorType::RED)
@@ -340,7 +340,7 @@ private:
 				}
 				else
 				{
-					
+
 					if (val == val->parent->left)
 					{
 						val = val->parent;
@@ -348,14 +348,14 @@ private:
 					}
 					val->parent->color = RBTreeColorType::BLACK;
 					val->parent->parent->color = RBTreeColorType::RED;
-					RBTreeRotateLeft(val->parent->parent, root); 
+					RBTreeRotateLeft(val->parent->parent, root);
 				}
 			}
 		}
 		root->color = RBTreeColorType::BLACK;
 	}
 	/**
-	* @brief : Light handed rotation 
+	* @brief : Light handed rotation
 	*/
 	void RBTreeRotateLeft(NodeType* val, NodeType*& root)
 	{
@@ -383,7 +383,7 @@ private:
 		val->parent = pRight;
 	}
 	/**
-	* @brief : Right handed rotation 
+	* @brief : Right handed rotation
 	*/
 	void RBTreeRotateRight(NodeType* val, NodeType*& root)
 	{

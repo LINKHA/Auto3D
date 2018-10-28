@@ -25,7 +25,8 @@ public:
 #if SharedPtrDebug
 	using ComponentsArray = AUTO_VECTOR(int, SharedPtr<Component>);
 #else
-	using ComponentsArray = AUTO_VECTOR(int, Component*);
+	//using ComponentsArray = AUTO_VECTOR(int, Component*);
+	using ComponentsArray = AUTO_HASH_MAP(int, Component*);
 #endif
 
 public:
@@ -88,8 +89,6 @@ public:
 private:
 	/// this gameobject components container
 	ComponentsArray _components;
-
-	//std::vector<std::pair<int, Component*>> _com;
 	/// enable
 	bool _isEnable;
 };
@@ -104,7 +103,8 @@ template<typename T> inline T& GameObject::GetComponentT(int compareClassID) con
 
 inline Component& GameObject::GetComponentIndex(int index)
 {
-	return *_components[index].second;
+	//return *_components[index].second;
+	return *_components[index];
 }
 
 }

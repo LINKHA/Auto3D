@@ -10,172 +10,20 @@ template <typename _Kty>
 class tUnorderedSet : public tHashBase
 {
 public:
-	/**
-	* Hash set node
-	*/
-	struct Node : public tHashNodeBase
-	{
-		/**
-		* @brief : Construct undefined
-		*/
-		Node() = default;
-		/**
-		* @brief : Construct with key
-		*/
-		explicit Node(const _Kty& skey)
-			: key(skey)
-		{
-		}
-		/**
-		* @brief : Return next node
-		*/
-		Node* Next() const { return static_cast<Node*>(next); }
-		/**
-		* @brief : Return previous node
-		*/
-		Node* Prev() const { return static_cast<Node*>(prev); }
-		/**
-		* @brief : Return next node in the bucket
-		*/
-		Node* Down() const { return static_cast<Node*>(down); }
+	using KeyType = _Kty;
 
-		/// Key.
-		_Kty key;
+	using ValueType = _Kty;
 
-	};
-	/**
-	*  Hash set node iterator
-	*/
-	struct Iterator : public tHashIteratorBase
-	{
-		/**
-		* @brief : Construct
-		*/
-		Iterator() = default;
-		/**
-		* @brief : Construct with a node pointer
-		*/
-		explicit Iterator(Node* ptr)
-			: tHashIteratorBase(ptr)
-		{
-		}
-		/**
-		* @brief : Preincrement the pointer
-		*/
-		Iterator& operator ++()
-		{
-			GotoNext();
-			return *this;
-		}
-		/**
-		* @brief : Postincrement the pointer
-		*/
-		Iterator operator ++(int)
-		{
-			Iterator it = *this;
-			GotoNext();
-			return it;
-		}
-		/**
-		* @brief : Predecrement the pointer
-		*/
-		Iterator& operator --()
-		{
-			GotoPrev();
-			return *this;
-		}
-		/**
-		* @brief : Postdecrement the pointer
-		*/
-		Iterator operator --(int)
-		{
-			Iterator it = *this;
-			GotoPrev();
-			return it;
-		}
-		/**
-		* @brief : Point to the key
-		*/
-		const _Kty* operator ->() const { return &(static_cast<Node*>(ptr))->key; }
-		/**
-		* @brief : Dereference the key
-		*/
-		const _Kty& operator *() const { return (static_cast<Node*>(ptr))->key; }
-	};
-	/**
-	* Hash set node const iterator
-	*/
-	struct ConstIterator : public tHashIteratorBase
-	{
-		/**
-		* @brief : Construct
-		*/
-		ConstIterator() = default;
-		/**
-		* @brief : Construct with a node pointer
-		*/
-		explicit ConstIterator(Node* ptr) :
-			tHashIteratorBase(ptr)
-		{
-		}
-		/**
-		* @brief : Construct from a non-const iterator
-		*/
-		ConstIterator(const Iterator& rhs) :    // NOLINT(google-explicit-constructor)
-			tHashIteratorBase(rhs._ptr)
-		{
-		}
-		/**
-		* @brief : Assign from a non-const iterator
-		*/
-		ConstIterator& operator =(const Iterator& rhs)
-		{
-			ptr = rhs.ptr;
-			return *this;
-		}
-		/**
-		* @brief : Preincrement the pointer
-		*/
-		ConstIterator& operator ++()
-		{
-			GotoNext();
-			return *this;
-		}
-		/**
-		* @brief : Postincrement the pointer
-		*/
-		ConstIterator operator ++(int)
-		{
-			ConstIterator it = *this;
-			GotoNext();
-			return it;
-		}
-		/**
-		* @brief : Predecrement the pointer
-		*/
-		ConstIterator& operator --()
-		{
-			GotoPrev();
-			return *this;
-		}
-		/**
-		* @brief : Postdecrement the pointer
-		*/
-		ConstIterator operator --(int)
-		{
-			ConstIterator it = *this;
-			GotoPrev();
-			return it;
-		}
-		/**
-		* @brief : Point to the key
-		*/
-		const _Kty* operator ->() const { return &(static_cast<Node*>(ptr))->key; }
-		/**
-		* @brief : Dereference the key
-		*/
-		const _Kty& operator *() const { return (static_cast<Node*>(ptr))->key; }
-	};
+	using Iterator = tHashIterator<_Kty>;
+
+	using ConstIterator = tConstHashIterator<_Kty>;
+	/// Hash map reverse iterator
+	using ReverseIterator = tReverseIterator<Iterator>;
+	/// Hash map const reverse iterator
+	using ConstReverseIterator = tReverseIterator<ConstIterator>;
+
+	using Node = tHashNode<_Kty>;
+public:
 	/**
 	* @brief : Construct Empty
 	*/
@@ -392,7 +240,7 @@ public:
 		auto* node = static_cast<Node*>(it._ptr);
 		Node* next = node->Next();
 
-		unsigned hashKey = Hash(node->key);
+		unsigned hashKey = Hash(node->data);
 
 		Node* previous = 0;
 		auto* current = static_cast<Node*>(ptrs()[hashKey]);
@@ -571,7 +419,7 @@ private:
 		auto* node = static_cast<Node*>(ptrs()[hashKey]);
 		while (node)
 		{
-			if (node->key == key)
+			if (node->data == key)
 				return node;
 			node = node->Down();
 		}
@@ -589,7 +437,7 @@ private:
 		auto* node = static_cast<Node*>(ptrs()[hashKey]);
 		while (node)
 		{
-			if (node->key == key)
+			if (node->data == key)
 				return node;
 			previous = node;
 			node = node->Down();
@@ -688,7 +536,7 @@ private:
 	/**
 	* @brief : Compare two nodes
 	*/
-	static bool compareNodes(Node*& lhs, Node*& rhs) { return lhs->key < rhs->key; }
+	static bool compareNodes(Node*& lhs, Node*& rhs) { return lhs->data < rhs->data; }
 	/**
 	* @brief : Compute a hash based on the key and the bucket size
 	*/
@@ -702,7 +550,13 @@ template <typename _Kty> typename tUnorderedSet<_Kty>::Iterator begin(tUnordered
 
 template <typename _Kty> typename tUnorderedSet<_Kty>::Iterator end(tUnorderedSet<_Kty>& v) { return v.End(); }
 
+template <typename _Kty> typename tUnorderedSet<_Kty>::ConstReverseIterator rbegin(const tUnorderedSet<_Kty>& v) { return v.RBegin(); }
 
+template <typename _Kty> typename tUnorderedSet<_Kty>::ConstReverseIterator rend(const tUnorderedSet<_Kty>& v) { return v.REnd(); }
+
+template <typename _Kty> typename tUnorderedSet<_Kty>::ReverseIterator rbegin(tUnorderedSet<_Kty>& v) { return v.RBegin(); }
+
+template <typename _Kty> typename tUnorderedSet<_Kty>::ReverseIterator rend(tUnorderedSet<_Kty>& v) { return v.REnd(); }
 }
 
 #endif // !KH_STL_TYPE_UNORDERED_SET_H_

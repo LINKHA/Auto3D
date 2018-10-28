@@ -366,13 +366,13 @@ template <typename _Ty> typename tList<_Ty>::Iterator begin(tList<_Ty>& v) { ret
 
 template <typename _Ty> typename tList<_Ty>::Iterator end(tList<_Ty>& v) { return v.End(); }
 
-template <typename _Ty> typename tList<_Ty>::ConstIterator rbegin(const tList<_Ty>& v) { return v.End(); }
+template <typename _Ty> typename tList<_Ty>::ConstReverseIterator rbegin(const tList<_Ty>& v) { return v.End(); }
 
-template <typename _Ty> typename tList<_Ty>::ConstIterator rend(const tList<_Ty>& v) { return v.Begin(); }
+template <typename _Ty> typename tList<_Ty>::ConstReverseIterator rend(const tList<_Ty>& v) { return v.Begin(); }
 
-template <typename _Ty> typename tList<_Ty>::Iterator rbegin(tList<_Ty>& v) { return v.End(); }
+template <typename _Ty> typename tList<_Ty>::ReverseIterator rbegin(tList<_Ty>& v) { return v.End(); }
 
-template <typename _Ty> typename tList<_Ty>::Iterator rend(tList<_Ty>& v) { return v.Begin(); }
+template <typename _Ty> typename tList<_Ty>::ReverseIterator rend(tList<_Ty>& v) { return v.Begin(); }
 
 }
 #endif //!KH_STL_TYPE_LIST_H_

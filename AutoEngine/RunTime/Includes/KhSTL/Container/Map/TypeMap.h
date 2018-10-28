@@ -61,7 +61,7 @@ public:
 	{
 		for (auto it = list.begin(); it != list.end(); it++)
 		{
-			Insert((*it).first ,*it);
+			Insert((*it).first, *it);
 		}
 	}
 
@@ -152,7 +152,7 @@ public:
 	_Ty& operator [](const _Kty& key)
 	{
 		Iterator it = Find(key);
-		return it != End() ? it.second : Insert(key, _Ty()).second;
+		return it != End() ? it->second : Insert(key, _Ty()).second;
 	}
 	/**
 	* @brief : Index the map. Return null if key is not found, does not create a new pair
@@ -163,18 +163,18 @@ public:
 		return it != End() ? it.second : 0;
 	}
 
-	_Comp KeyComp() const 
+	_Comp KeyComp() const
 	{
-		return Base::KeyComp(); 
+		return Base::KeyComp();
 	}
 
-	bool Empty() 
-	{ 
+	bool Empty()
+	{
 		return Base::Empty();
 	}
 
-	unsigned Size() 
-	{ 
+	unsigned Size()
+	{
 		return Base::GetSize();
 	}
 
@@ -232,7 +232,7 @@ public:
 	}
 
 	Iterator Find(const KeyType& key)
-	{ 
+	{
 		return Base::Find(key);
 	}
 
@@ -254,7 +254,7 @@ public:
 
 	void Clear()
 	{
-		
+
 		//resetPtrs();
 
 		if (Size())

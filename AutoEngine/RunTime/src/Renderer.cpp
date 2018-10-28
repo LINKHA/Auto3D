@@ -219,6 +219,7 @@ void Renderer::RemoveOpaqueGeometry(RenderComponent* component)
 	_opaquesToAdd.Remove(component);
 	_opaquesToRemove.Remove(component);
 
+
 	if (_insideRenderOrCull)
 	{
 		_opaquesToRemove.PushBack(component);
@@ -317,7 +318,7 @@ void Renderer::AddTranslucentGeometry(RenderComponent* component)
 	queue.PushBack(component);
 }
 
-void Renderer::RemoveTranslucentGeometry(RenderComponent * component)
+void Renderer::RemoveTranslucentGeometry(RenderComponent* component)
 {
 	Assert(component != nullptr);
 	_translucentsToAdd.Remove(component);
@@ -486,7 +487,7 @@ void Renderer::intelMoutLightContainer()
 void Renderer::renderTranslucent()
 {
 	translucentGeometrySort();
-	for (AUTO_MAP(float, RenderComponent*)::ReverseIterator it = _translucentsSorted.RBegin(); it != _translucentsSorted.REnd(); ++it)
+	for (AUTO_HASH_MAP(float, RenderComponent*)::ReverseIterator it = _translucentsSorted.RBegin(); it != _translucentsSorted.REnd(); ++it)
 	{
 		//Draw translucent component
 		it->second->DrawTranslucent();

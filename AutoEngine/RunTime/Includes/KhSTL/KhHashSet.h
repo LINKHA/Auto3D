@@ -12,8 +12,18 @@ using HashSet = KhSTL::tUnorderedSet<_Kty>;
 ///
 ///
 ///
-template<typename _Kty> using HashMultiSet = KhSTL::tUnorderedMultiSet<_Kty>;
-
+template<typename _Kty>
+using UnorderedSet = KhSTL::tUnorderedSet<_Kty>;
+///
+///
+///
+template<typename _Kty> 
+using HashMultiSet = KhSTL::tUnorderedMultiSet<_Kty>;
+///
+///
+///
+template<typename _Kty> 
+using UnorderedMultiSet = KhSTL::tUnorderedMultiSet<_Kty>;
 
 }
 
