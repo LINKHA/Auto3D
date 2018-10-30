@@ -1945,7 +1945,7 @@ private:
 	char* _buffer;
 
 	/// end zero for Empty strings
-	static char endZero;
+	char endZero{};
 };
 
 std::istream& operator >>(std::istream &in, tString& rhs);

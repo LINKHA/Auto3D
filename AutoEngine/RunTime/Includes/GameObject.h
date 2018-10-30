@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "Object.h"
-#include "stl_use.h"
+#include "AutoSTL.h"
 #include "ComponentSetting.h"
 #include "Math/Vector3.h"
 #include "../../EngineSetting/GameSetting.h"
@@ -23,9 +23,8 @@ class GameObject : public Node
 	DECLARE_OBJECT_SERIALIZE(GameObject);
 public:
 #if SharedPtrDebug
-	using ComponentsArray = PAIR_VECTOR(int, SharedPtr<Component>);
+	using ComponentsArray = HASH_MAP(int, SharedPtr<Component>);
 #else
-	//using ComponentsArray = PAIR_VECTOR(int, Component*);
 	using ComponentsArray = HASH_MAP(int, Component*);
 #endif
 

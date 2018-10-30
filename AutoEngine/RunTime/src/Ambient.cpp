@@ -57,7 +57,7 @@ void Ambient::RemoveSubSystem(STRING objectType)
 }
 Object* Ambient::GetSubSystem(STRING type)const 
 {
-	HASH_MAP(STRING, SharedPtr<Object>)::ConstIterator it 
+	HASH_MAP(STRING, SharedPtr<Object>)::ConstIterator it
 		= _subSystems.Find(type);
 	if (it != _subSystems.End())
 		return it->second;
@@ -71,12 +71,12 @@ void Ambient::RegisterFactory(ObjectFactory* factory)
 	_factories[factory->GetClassString()] = factory;
 }
 
-void Ambient::RegisterFactory(ObjectFactory * factory, const char* category)
+void Ambient::RegisterFactory(ObjectFactory* factory, const char* category)
 {
 	if (!factory)
 		return;
 	RegisterFactory(factory);
-	//if (String::CharPtrLength(category))
+	if (STRING::CStrLength(category))
 		_objectAttachs[category].PushBack(factory->GetClassString());
 }
 

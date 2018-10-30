@@ -1,7 +1,7 @@
 #pragma once
 #include "Texture2D.h"
 #include "Singleton.h"
-#include "stl_use.h"
+#include "AutoSTL.h"
 
 namespace Auto3D {
 

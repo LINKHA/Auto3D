@@ -1,5 +1,5 @@
 #include "Model.h"
-#include "stb_image.h"
+#include "AutoImage.h"
 #include "Resource.h"
 #include "GLGather.h"
 #include "Shader.h"
@@ -29,20 +29,20 @@ void MeshNode::Draw(const Shader& shader)
 	{
 		glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
 										  // retrieve texture number (the N in diffuse_textureN)
-		STRING number;
-		STRING name = textures[i].type;
+		std::string number;
+		std::string name = textures[i].type;
 		if (name == "texture_diffuse")
-			number = TO_STRING(diffuseNr++);
+			number = std::to_string(diffuseNr++);
 		else if (name == "texture_specular")
-			number = TO_STRING(specularNr++); // transfer unsigned int to stream
+			number = std::to_string(specularNr++); // transfer unsigned int to stream
 		else if (name == "texture_normal")
-			number = TO_STRING(normalNr++); // transfer unsigned int to stream
+			number = std::to_string(normalNr++); // transfer unsigned int to stream
 		else if (name == "texture_height")
-			number = TO_STRING(heightNr++); // transfer unsigned int to stream
+			number = std::to_string(heightNr++); // transfer unsigned int to stream
 
 												 // now set the sampler to the correct texture unit
 
-		glUniform1i(glGetUniformLocation(shader.ID, (name + number).CStr()), i);
+		glUniform1i(glGetUniformLocation(shader.ID, (name + number).c_str()), i);
 		// and finally bind the texture
 		glBindTexture(GL_TEXTURE_2D, textures[i].data);
 	}
@@ -99,7 +99,7 @@ void MeshNode::setupMesh()
 /////////////////////////////////////////////////////////////////////////////////////////////
 //Model
 /////////////////////////////////////////////////////////////////////////////////////////////
-Model::Model(Ambient* ambient, STRING const &path, bool gamma)
+Model::Model(Ambient* ambient, std::string const &path, bool gamma)
 	: Super(ambient)
 	, _gammaCorrection(gamma)
 	, _path(path)
@@ -117,7 +117,7 @@ void Model::Draw(Shader shader)
 		_meshNodes[i].Draw(shader);
 }
 
-bool Model::loadModel(STRING const & path)
+bool Model::loadModel(std::string const & path)
 {
 	// read file via ASSIMP
 	Assimp::Importer importer;
@@ -225,7 +225,7 @@ MeshNode Model::processMesh(aiMesh* mesh, const aiScene* scene)
 	return MeshNode(vertices, indices, textures);
 }
 
-VECTOR(TextureData) Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, STRING typeName)
+VECTOR(TextureData) Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName)
 {
 	VECTOR(TextureData) textures;
 	for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
@@ -247,8 +247,8 @@ VECTOR(TextureData) Model::loadMaterialTextures(aiMaterial* mat, aiTextureType t
 		{   // if texture hasn't been loaded already, load it
 			TextureData texture;
 
-			STRING filename = STRING(str.data);
-			filename = _directory + Khs('/') + filename;
+			std::string filename = std::string(str.data);
+			filename = _directory + '/' + filename;
 			texture.data = GetSubSystem<Resource>()->TextureLoad((char*)filename.data(),false);
 
 			texture.type = typeName;

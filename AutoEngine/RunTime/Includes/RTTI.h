@@ -8,7 +8,7 @@ namespace Auto3D {
 class RTTI
 {
 public:
-	RTTI(const char* className, const RTTI* baseRTTI, int classID, bool isAbstract)
+	RTTI(STRING className, const RTTI* baseRTTI, int classID, bool isAbstract)
 		: _className(className)
 		, _base(baseRTTI)
 		, _classID(classID)

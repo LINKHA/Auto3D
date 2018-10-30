@@ -1,10 +1,10 @@
 #pragma once
 #include "GameObject.h"
 #include "DeviceTypes.h"
-#include "stl_use.h"
+#include "AutoSTL.h"
 #include "Math/Math.h"
 #include "GLGather.h"
-#include "stb_image.h"
+#include "AutoImage.h"
 #include "Shader.h"
 #include "GameObject.h"
 #include "RenderComponent.h"

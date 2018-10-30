@@ -2,7 +2,7 @@
 #include "Auto.h"
 #include "LogAssert.h"
 #include "ClassID.h"
-#include "stl_use.h"
+#include "AutoSTL.h"
 #include "ObjectDefines.h"
 #include "RefCounted.h"
 #include "SharedPtr.h"
@@ -26,12 +26,12 @@ public:
 	virtual int GetClassID() { return ClassID(Object); }
 	virtual bool IsAbstract() { return true; }
 	virtual char* GetClassCstrName() { return "Object"; }
-	virtual STRING GetClassString() { return "Object"; }
+	virtual STRING GetClassString() { return Khs("Object"); }
 	virtual Auto3D::RTTI* GetRTTI() { return GetRTTIStatic(); }
 	static int GetClassIDStatic() { return ClassID(Object); }
 	static bool IsAbstractStatic() { return true; }
 	static char* GetClassCstrNameStatic() { return "Object"; }
-	static STRING GetClassStringStatic() { return "Object"; }
+	static STRING GetClassStringStatic() { return Khs("Object"); }
 	static Auto3D::RTTI* GetRTTIStatic() { return nullptr; }
 	//////////////////////////////////////////////////////////////////////////
 	
@@ -57,10 +57,10 @@ protected:
 	Ambient* _ambient;
 };
 
-template<typename T> 
-T* Object::GetSubSystem() const 
-{ 
-	return static_cast<T*>(Object::GetSubSystem(T::GetClassStringStatic())); 
+
+template<typename T> T* Object::GetSubSystem() const
+{
+	return static_cast<T*>(Object::GetSubSystem(T::GetClassStringStatic()));
 }
 
 

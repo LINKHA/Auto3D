@@ -1,6 +1,6 @@
 #include "Resource.h"
 #include "GLGather.h"
-#include "stb_image.h"
+#include "AutoImage.h"
 #include "Image.h"
 #include "Model.h"
 namespace Auto3D {

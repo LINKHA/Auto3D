@@ -1,7 +1,7 @@
 #pragma once
 #include <windows.h>
 #include "Auto.h"
-#include "stl_use.h"
+#include "AutoSTL.h"
 #include "LogAssert.h"
 namespace Auto3D {
 #define kPathMaxSize MAX_PATH * 4

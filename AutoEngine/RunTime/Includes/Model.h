@@ -1,7 +1,7 @@
 #pragma once
 #include "ComponentSetting.h"
 #include "glm/glm.hpp"
-#include "stl_use.h"
+#include "AutoSTL.h"
 #include "assimp/Importer.hpp"
 #include "assimp/scene.h"
 #include "assimp/postprocess.h"
@@ -21,8 +21,8 @@ struct MeshVertex {
 */
 struct TextureData {
 	unsigned int data;
-	STRING type;
-	STRING path;
+	std::string type;
+	std::string path;
 };
 class Shader;
 /**
@@ -67,7 +67,7 @@ public:
 	/**
 	* @brief : Add path and gamma to build model
 	*/
-	Model(Ambient* ambient,STRING const& path = "../Resource/object/base/Cube.3DS", bool gamma = false);
+	Model(Ambient* ambient, std::string const& path = "../Resource/object/base/Cube.3DS", bool gamma = false);
 	/**
 	* @brief : Draw all this model mesh node
 	*/
@@ -87,7 +87,7 @@ private:
 	* @brief : The model with ASSIMP extension is loaded from the file and the 
 	*		    generated grid is stored in the grid vector.
 	*/
-	bool loadModel(STRING const& path);
+	bool loadModel(std::string const& path);
 	/**
 	* @brief : Processes nodes recursively. Process each individual grid on 
 	*			the node and repeat this process, if any, on its child nodes.
@@ -100,18 +100,18 @@ private:
 	/**
 	* @brief : load all material texture with this file
 	*/
-	TextureDatas loadMaterialTextures(aiMaterial* mat, aiTextureType type, STRING typeName);
+	TextureDatas loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName);
 private:
 	///texture data message container
 	TextureDatas _textureDatas;
 	///mesh node message container
 	MeshNodes _meshNodes;
 	///path remove the file name
-	STRING _directory;
+	std::string _directory;
 	///gamma
 	bool _gammaCorrection;
 	///file path
-	STRING _path;
+	std::string _path;
 	///judge this file is null
 	bool _isNull;
 };

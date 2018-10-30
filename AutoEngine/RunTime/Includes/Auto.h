@@ -1,6 +1,6 @@
 #pragma once
 #include "LogAssert.h"
-
+#include "AutoSTL.h"
 
 
 //namespace AutoScript

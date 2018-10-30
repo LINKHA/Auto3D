@@ -16,6 +16,7 @@ InstanceBeltLine::InstanceBeltLine(Ambient* ambient,Model* model, const Shader& 
 }
 InstanceBeltLine::~InstanceBeltLine()
 {
+	delete _model;
 	UnloadOpaque(this);
 }
 void InstanceBeltLine::Start()

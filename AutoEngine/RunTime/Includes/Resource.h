@@ -1,6 +1,6 @@
 #pragma once
 #include "GameManager.h"
-#include "stl_use.h"
+#include "AutoSTL.h"
 
 namespace Auto3D {
 class Image;

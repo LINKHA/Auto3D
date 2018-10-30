@@ -43,7 +43,7 @@ void Level_0::Start()
 
 	GameObject* beltLineObj = new GameObject(_ambient,_levelNumber);
 	InstanceBeltLine * line =
-		new InstanceBeltLine(_ambient, Model(_ambient, "../Resource/object/rock/rock.obj")
+		new InstanceBeltLine(_ambient, new Model(_ambient, "../Resource/object/rock/rock.obj")
 			, Shader("asteroids.auvs", "asteroids.aufs"),
 			modelMatrices, amount);
 	beltLineObj->AddComponent(line);

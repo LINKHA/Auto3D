@@ -1,5 +1,5 @@
 #include "Graphics.h"
-#include "stb_image.h"
+#include "AutoImage.h"
 #include "GLGather.h"
 #include "../../EngineSetting/BuildSetting.h"
 

@@ -2,8 +2,6 @@
 
 namespace KhSTL {
 
-char tString::endZero = 0;
-
 const tString tString::EMPTY;
 
 std::istream& operator >>(std::istream &in, tString& rhs)

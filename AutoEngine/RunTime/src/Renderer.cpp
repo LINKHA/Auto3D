@@ -5,7 +5,7 @@
 #include "Transform.h"
 #include "GameObject.h"
 #include "Light.h"
-#include "stl_use.h"
+#include "AutoSTL.h"
 #include "Configs.h"
 
 
@@ -487,7 +487,7 @@ void Renderer::intelMoutLightContainer()
 void Renderer::renderTranslucent()
 {
 	translucentGeometrySort();
-	for (HASH_MAP(float, RenderComponent*)::ReverseIterator it = _translucentsSorted.RBegin(); it != _translucentsSorted.REnd(); ++it)
+	for (PAIR_MAP(float, RenderComponent*)::ReverseIterator it = _translucentsSorted.RBegin(); it != _translucentsSorted.REnd(); ++it)
 	{
 		//Draw translucent component
 		it->second->DrawTranslucent();
