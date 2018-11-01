@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="TextureSpace.cpp" />
+    <ClCompile Include="..\glad.c">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FreeCamera.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="Level_0.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TextureSpace.h" />
+    <ClInclude Include="..\FreeCamera.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="Level_0.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Misc">
+      <UniqueIdentifier>{529b9888-a71d-4d38-83bf-4a2941a29f5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level">
+      <UniqueIdentifier>{08070012-3797-4e54-bbc6-6d1a67bba7ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script">
+      <UniqueIdentifier>{58e967ed-42c9-4268-a14f-3dfbd8104d1d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -77,7 +77,8 @@ void Ambient::RegisterFactory(ObjectFactory* factory, const char* category)
 		return;
 	RegisterFactory(factory);
 	if (STRING::CStrLength(category))
-		_objectAttachs[category].PushBack(factory->GetClassString());
+		_objectAttachs[category].Insert(
+			factory->GetClassString());
 }
 
 

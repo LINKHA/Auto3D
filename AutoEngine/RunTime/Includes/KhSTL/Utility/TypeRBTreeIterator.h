@@ -7,11 +7,120 @@
 namespace KhSTL {
 
 template<typename _Traits>
-class tRBTreeBaseIterator
+class tRBTreeIterator
 {
 public:
-	tRBTreeNode<_Traits>* node;
+	using ValueType = typename _Traits::ValueType;
 
+	using Iterator = tRBTreeIterator<_Traits>;
+
+	using This = tRBTreeIterator<_Traits>;
+
+	using LinkType = tRBTreeNode<_Traits>*;
+public:
+	tRBTreeIterator() = default;
+
+	tRBTreeIterator(LinkType x)
+	{
+		node = x;
+	}
+	tRBTreeIterator(const Iterator& it)
+	{
+		node = it.node;
+	}
+	/**
+	* @brief : Dereference, return node value
+	*/
+	ValueType& operator *() const
+	{
+		return LinkType(node)->value;
+	}
+	/**
+	* @brief : Dereference, return node value
+	*/
+	ValueType* operator ->() const
+	{
+		return &(operator *());
+	}
+	/**
+	* @brief : Returns the color of the node the iterator points to
+	*/
+	RBTreeColorType Color()
+	{
+		return node->color;
+	}
+	/**
+	* @brief : Iterator stepIterator step
+	*/
+	This operator ++()
+	{
+		Increment();
+		return *this;
+	}
+	/**
+	* @brief : Iterator step
+	*/
+	This& operator ++(int)
+	{
+		This tmp = *this;
+		Increment();
+		return tmp;
+	}
+	/**
+	* @brief : Iterator step
+	*/
+	This operator --() const
+	{
+		if (node->color == RBTreeColorType::RED && node->parent->parent == node)
+		{
+			node = node->right;
+		}
+		else if (node->left != 0)
+		{
+			tRBTreeNode<_Traits>* tmp = node->left;
+			while (tmp->right != 0)
+			{
+				tmp = tmp->right;
+			}
+			this->node = tmp;
+		}
+		else
+		{
+			tRBTreeNode<_Traits>* tmp = node->parent;
+			while (node == tmp->left)
+			{
+				node = tmp;
+				tmp = tmp->parent;
+			}
+			node = tmp;
+		}
+
+		return *this;
+	}
+	/**
+	* @brief : Iterator step
+	*/
+	This& operator --(int)
+	{
+		This tmp = *this;
+		Decrement();
+		return tmp;
+	}
+	/**
+	* @brief : Comparison of two iterators
+	*/
+	bool operator ==(const This& rhs) const
+	{
+		return rhs.node == node;
+	}
+	/**
+	* @brief : Comparison of two iterators
+	*/
+	bool operator !=(const This& rhs) const
+	{
+		return rhs.node != node;
+	}
+	
 	/**
 	* @brief : This function is called when subclasses of the iterator implement operator
 	*/
@@ -27,15 +136,15 @@ public:
 		}
 		else
 		{
-			tRBTreeNode<_Traits>* y = node->parent;
-			while (node == y->right)
+			tRBTreeNode<_Traits>* tmp = node->parent;
+			while (node == tmp->right)
 			{
-				node = y;
-				y = y->parent;
+				node = tmp;
+				tmp = tmp->parent;
 			}
-			if (node->right != y)
+			if (node->right != tmp)
 			{
-				node = y;
+				node = tmp;
 			}
 		}
 	}
@@ -50,120 +159,25 @@ public:
 		}
 		else if (node->left != 0)
 		{
-			tRBTreeNode<_Traits>* y = node->left;
-			while (y->right != 0)
+			tRBTreeNode<_Traits>* tmp = node->left;
+			while (tmp->right != 0)
 			{
-				y = y->right;
+				tmp = tmp->right;
 			}
-			node = y;
+			node = tmp;
 		}
 		else
 		{
-			tRBTreeNode<_Traits>* y = node->parent;
-			while (node == y->left)
+			tRBTreeNode<_Traits>* tmp = node->parent;
+			while (node == tmp->left)
 			{
-				node = y;
-				y = y->parent;
+				node = tmp;
+				tmp = tmp->parent;
 			}
-			node = y;
+			node = tmp;
 		}
 	}
-};
-
-template<typename _Traits>
-class tRBTreeIterator
-	: public tRBTreeBaseIterator<_Traits>
-{
-public:
-	using ValueType = typename _Traits::ValueType;
-
-	using Base = tRBTreeBaseIterator<_Traits>;
-
-	using Iterator = tRBTreeIterator<_Traits>;
-
-	using This = tRBTreeIterator<_Traits>;
-
-	using LinkType = tRBTreeNode<_Traits>*;
-
-	tRBTreeIterator() = default;
-
-	tRBTreeIterator(LinkType x)
-	{
-		Base::node = x;
-	}
-	tRBTreeIterator(const Iterator& it)
-	{
-		Base::node = it.node;
-	}
-	/**
-	* @brief : Dereference, return node value
-	*/
-	ValueType& operator *() const
-	{
-		return LinkType(Base::node)->value;
-	}
-	/**
-	* @brief : Dereference, return node value
-	*/
-	ValueType* operator ->() const
-	{
-		return &(operator *());
-	}
-	/**
-	* @brief : Returns the color of the node the iterator points to
-	*/
-	RBTreeColorType Color()
-	{
-		return Base::node->color;
-	}
-	/**
-	* @brief : Iterator stepIterator step
-	*/
-	This& operator ++()
-	{
-		Base::Increment();
-		return *this;
-	}
-	/**
-	* @brief : Iterator step
-	*/
-	This& operator ++(int)
-	{
-		This tmp = *this;
-		Base::Increment();
-		return tmp;
-	}
-	/**
-	* @brief : Iterator step
-	*/
-	This& operator --() const
-	{
-		Base::Decrement();
-		return *this;
-	}
-	/**
-	* @brief : Iterator step
-	*/
-	This& operator --(int)
-	{
-		This tmp = *this;
-		Base::Decrement();
-		return tmp;
-	}
-	/**
-	* @brief : Comparison of two iterators
-	*/
-	bool operator ==(const This& rhs) const
-	{
-		return rhs.node == Base::node;
-	}
-	/**
-	* @brief : Comparison of two iterators
-	*/
-	bool operator !=(const This& rhs) const
-	{
-		return rhs.node != Base::node;
-	}
+	tRBTreeNode<_Traits>* node;
 };
 
 

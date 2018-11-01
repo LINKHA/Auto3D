@@ -1,0 +1,740 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{9E213679-0D7E-4C49-976D-00E0E36976C5}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>AutoEngine</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <ProjectName>AutoEngine</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>../AutoEngine/RunTime/Includes;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>../lib/x86$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
+    <ReferencePath>$(VC_ReferencesPath_x86);</ReferencePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <ReferencePath>$(ReferencePath)</ReferencePath>
+    <IncludePath>../AutoEngine/RunTime/Includes;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>../lib/x64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="RunTime\Includes\assimp\color4.inl" />
+    <None Include="RunTime\Includes\assimp\material.inl" />
+    <None Include="RunTime\Includes\assimp\matrix3x3.inl" />
+    <None Include="RunTime\Includes\assimp\matrix4x4.inl" />
+    <None Include="RunTime\Includes\assimp\quaternion.inl" />
+    <None Include="RunTime\Includes\assimp\vector2.inl" />
+    <None Include="RunTime\Includes\assimp\vector3.inl" />
+    <None Include="Shader\au_offscreen.aufs" />
+    <None Include="Shader\au_offscreen.auvs" />
+    <None Include="Shader\au_hard_point_shadows.aufs" />
+    <None Include="Shader\au_skybox_cube_refract.aufs" />
+    <None Include="Shader\au_skybox_cube.aufs" />
+    <None Include="Shader\au_skybox_cube.auvs" />
+    <None Include="Shader\au_pbr_hdr_trxture.aufs" />
+    <None Include="Shader\au_hdr_skybox_brdf.aufs" />
+    <None Include="Shader\au_hdr_skybox_brdf.auvs" />
+    <None Include="Shader\au_hdr_skybox_prefilter.aufs" />
+    <None Include="Shader\au_hdr_skybox_irradiance_convolution.aufs" />
+    <None Include="Shader\au_pbr.aufs" />
+    <None Include="Shader\au_pbr.auvs" />
+    <None Include="Shader\au_hdr_skybox_equirectangular_to_cubemap.aufs" />
+    <None Include="Shader\au_pbr_hdr.aufs" />
+    <None Include="Shader\au_hdr_skybox_background.aufs" />
+    <None Include="Shader\au_hdr_skybox_background.auvs" />
+    <None Include="Shader\au_hdr_skybox_cubemap.auvs" />
+    <None Include="Shader\au_pbr_texture.aufs" />
+    <None Include="Shader\au_ssao.aufs" />
+    <None Include="Shader\au_ssao.auvs" />
+    <None Include="Shader\au_ssao_blur.aufs" />
+    <None Include="Shader\au_ssao_geometry.aufs" />
+    <None Include="Shader\au_ssao_geometry.auvs" />
+    <None Include="Shader\au_ssao_lighting.aufs" />
+    <None Include="Shader\au_g_buffer.aufs" />
+    <None Include="Shader\au_g_buffer.auvs" />
+    <None Include="Shader\au_deffered_light_box.aufs" />
+    <None Include="Shader\au_deffered_light_box.auvs" />
+    <None Include="Shader\au_deffered_shading.aufs" />
+    <None Include="Shader\au_deffered_shading.auvs" />
+    <None Include="Shader\au_bloom.aufs" />
+    <None Include="Shader\au_bloom.auvs" />
+    <None Include="Shader\au_bloom_blur.aufs" />
+    <None Include="Shader\au_bloom_blur.auvs" />
+    <None Include="Shader\au_bloom_final.aufs" />
+    <None Include="Shader\au_bloom_final.auvs" />
+    <None Include="Shader\au_bloom_light_box.aufs" />
+    <None Include="Shader\au_hdr.aufs" />
+    <None Include="Shader\au_hdr.auvs" />
+    <None Include="Shader\au_lighting.aufs" />
+    <None Include="Shader\au_lighting.auvs" />
+    <None Include="Shader\au_point_shadows.aufs" />
+    <None Include="Shader\au_point_shadows.auvs" />
+    <None Include="Shader\au_point_shadows_depth.aufs" />
+    <None Include="Shader\au_point_shadows_depth.augs" />
+    <None Include="Shader\au_point_shadows_depth.auvs" />
+    <None Include="Shader\au_parallax_mapping.aufs" />
+    <None Include="Shader\au_parallax_mapping.auvs" />
+    <None Include="Shader\au_light_map_model_loading.aufs" />
+    <None Include="Shader\au_light_map_model_loading.auvs" />
+    <None Include="Shader\au_normal_mapping.aufs" />
+    <None Include="Shader\au_normal_mapping.auvs" />
+    <None Include="Shader\au_test_light_model_loading.aufs" />
+    <None Include="Shader\au_test_light_model_loading.auvs" />
+    <None Include="Shader\au_shadow_mapping.aufs" />
+    <None Include="Shader\au_shadow_mapping.auvs" />
+    <None Include="Shader\au_shadow_mapping_depth.aufs" />
+    <None Include="Shader\au_shadow_mapping_depth.auvs" />
+    <None Include="Shader\au_texture_transform.auvs" />
+    <None Include="Shader\au_vertex_explode.auvs" />
+    <None Include="Shader\au_vertex_explode.aufs" />
+    <None Include="Shader\au_vertex_explode.augs" />
+    <None Include="Shader\au_skybox.aufs" />
+    <None Include="Shader\au_skybox.auvs" />
+    <None Include="Shader\au_offscreen_blur.aufs" />
+    <None Include="Shader\au_offscreen_edge_detection.aufs" />
+    <None Include="Shader\au_offscreen_grayscale.aufs" />
+    <None Include="Shader\au_offscreen_inversion.aufs" />
+    <None Include="Shader\au_offscreen_sharpen.aufs" />
+    <None Include="Shader\au_light_model_loading.aufs" />
+    <None Include="Shader\au_light_model_loading.auvs" />
+    <None Include="Shader\au_light.aufs" />
+    <None Include="Shader\au_light.auvs" />
+    <None Include="Shader\au_texture_transform.aufs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="RunTime\Includes\AutoImage.h" />
+    <ClInclude Include="RunTime\Includes\assimp\ai_assert.h" />
+    <ClInclude Include="RunTime\Includes\assimp\anim.h" />
+    <ClInclude Include="RunTime\Includes\assimp\camera.h" />
+    <ClInclude Include="RunTime\Includes\assimp\cexport.h" />
+    <ClInclude Include="RunTime\Includes\assimp\cfileio.h" />
+    <ClInclude Include="RunTime\Includes\assimp\cimport.h" />
+    <ClInclude Include="RunTime\Includes\assimp\color4.h" />
+    <ClInclude Include="RunTime\Includes\assimp\Compiler\poppack1.h" />
+    <ClInclude Include="RunTime\Includes\assimp\Compiler\pstdint.h" />
+    <ClInclude Include="RunTime\Includes\assimp\Compiler\pushpack1.h" />
+    <ClInclude Include="RunTime\Includes\assimp\config.h" />
+    <ClInclude Include="RunTime\Includes\assimp\DefaultIOStream.h" />
+    <ClInclude Include="RunTime\Includes\assimp\DefaultIOSystem.h" />
+    <ClInclude Include="RunTime\Includes\assimp\DefaultLogger.hpp" />
+    <ClInclude Include="RunTime\Includes\assimp\Defines.h" />
+    <ClInclude Include="RunTime\Includes\assimp\defs.h" />
+    <ClInclude Include="RunTime\Includes\assimp\Exporter.hpp" />
+    <ClInclude Include="RunTime\Includes\assimp\Importer.hpp" />
+    <ClInclude Include="RunTime\Includes\assimp\importerdesc.h" />
+    <ClInclude Include="RunTime\Includes\assimp\IOStream.hpp" />
+    <ClInclude Include="RunTime\Includes\assimp\IOSystem.hpp" />
+    <ClInclude Include="RunTime\Includes\assimp\light.h" />
+    <ClInclude Include="RunTime\Includes\assimp\Logger.hpp" />
+    <ClInclude Include="RunTime\Includes\assimp\LogStream.hpp" />
+    <ClInclude Include="RunTime\Includes\assimp\material.h" />
+    <ClInclude Include="RunTime\Includes\assimp\matrix3x3.h" />
+    <ClInclude Include="RunTime\Includes\assimp\matrix4x4.h" />
+    <ClInclude Include="RunTime\Includes\assimp\mesh.h" />
+    <ClInclude Include="RunTime\Includes\assimp\metadata.h" />
+    <ClInclude Include="RunTime\Includes\assimp\NullLogger.hpp" />
+    <ClInclude Include="RunTime\Includes\assimp\port\AndroidJNI\AndroidJNIIOSystem.h" />
+    <ClInclude Include="RunTime\Includes\assimp\postprocess.h" />
+    <ClInclude Include="RunTime\Includes\assimp\ProgressHandler.hpp" />
+    <ClInclude Include="RunTime\Includes\assimp\quaternion.h" />
+    <ClInclude Include="RunTime\Includes\assimp\scene.h" />
+    <ClInclude Include="RunTime\Includes\assimp\SceneCombiner.h" />
+    <ClInclude Include="RunTime\Includes\assimp\texture.h" />
+    <ClInclude Include="RunTime\Includes\assimp\types.h" />
+    <ClInclude Include="RunTime\Includes\assimp\vector2.h" />
+    <ClInclude Include="RunTime\Includes\assimp\vector3.h" />
+    <ClInclude Include="RunTime\Includes\assimp\version.h" />
+    <ClInclude Include="RunTime\Includes\DebugNew.h" />
+    <ClInclude Include="RunTime\Includes\AudioRun.h" />
+    <ClInclude Include="RunTime\Includes\DeviceList.h" />
+    <ClInclude Include="RunTime\Includes\CWaves.h" />
+    <ClInclude Include="RunTime\Includes\Framework.h" />
+    <ClInclude Include="RunTime\Includes\glad\glad.h" />
+    <ClInclude Include="RunTime\Includes\glad\KHR\khrplatform.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Algorithm\TypeAlgorithm.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Allocator\TypeAllocator.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Allocator\TypeConstruct.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Allocator\TypeMemory.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\Array\TypeArray.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\Array\TypeArrayIterator.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\Deque\TypeDeque.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\Deque\TypeDequeAllocator.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\Deque\TypeDequeIterator.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\Deque\TypeDequeValue.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\Heap\TypeHeap.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\List\TypeLinkedList.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\List\TypeList.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\List\TypeListAllocator.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\List\TypeListIterator.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\List\TypeListValue.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\Map\TypeMap.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\Map\TypeMapTraits.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\Map\TypeMultiMap.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\Map\TypeUnorderedMap.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\Map\TypeUnorderedMultiMap.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\Queue\TypeQueue.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\Set\TypeMultiSet.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\Set\TypeSet.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\Set\TypeSetTraits.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\Set\TypeUnorderedMultiSet.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\Set\TypeUnorderedSet.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\Stack\TypeStack.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\String\TypeString.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\Vector\TypeVector.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\Vector\TypeVectorAllocator.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Container\Vector\TypeVectorValue.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\KhAlgorithm.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\KhArray.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\KhDeque.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\KhHashMap.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\KhHashSet.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\KhHeap.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\KhList.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\KhMap.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\KhPair.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\KhQueue.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\KhSet.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\KhStack.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\KhSTL.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\KhString.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\KhVector.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Utility\TypeDef.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Utility\TypeHash.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Utility\TypeHashBase.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Utility\TypeHashIterator.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Utility\TypeHashValue.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Utility\TypeIterator.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Utility\TypePair.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Utility\TypeRBTree.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Utility\TypeRBTreeAlloc.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Utility\TypeRBTreeIterator.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Utility\TypeReverseIterator.h" />
+    <ClInclude Include="RunTime\Includes\KhSTL\Utility\TypeTreeNode.h" />
+    <ClInclude Include="RunTime\Includes\LoadOAL.h" />
+    <ClInclude Include="RunTime\Includes\AudioClip.h" />
+    <ClInclude Include="RunTime\Includes\AudioListener.h" />
+    <ClInclude Include="EngineSetting\BuildSetting.h" />
+    <ClInclude Include="RunTime\Includes\Component.h" />
+    <ClInclude Include="RunTime\Includes\Node.h" />
+    <ClInclude Include="RunTime\Includes\Audio.h" />
+    <ClInclude Include="RunTime\Includes\OpenAL\al.h" />
+    <ClInclude Include="RunTime\Includes\OpenAL\alc.h" />
+    <ClInclude Include="RunTime\Includes\OpenAL\efx-creative.h" />
+    <ClInclude Include="RunTime\Includes\OpenAL\EFX-Util.h" />
+    <ClInclude Include="RunTime\Includes\OpenAL\efx.h" />
+    <ClInclude Include="RunTime\Includes\OpenAL\xram.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\begin_code.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\close_code.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_assert.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_atomic.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_audio.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_bits.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_blendmode.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_clipboard.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_config.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_config_android.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_config_iphoneos.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_config_macosx.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_config_minimal.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_config_pandora.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_config_psp.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_config_windows.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_config_winrt.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_config_wiz.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_copying.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_cpuinfo.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_egl.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_endian.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_error.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_events.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_filesystem.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_gamecontroller.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_gesture.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_haptic.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_hints.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_joystick.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_keyboard.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_keycode.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_loadso.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_log.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_main.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_messagebox.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_mouse.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_mutex.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_name.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_opengl.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_opengles.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_opengles2.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_opengles2_gl2.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_opengles2_gl2ext.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_opengles2_gl2platform.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_opengles2_khrplatform.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_opengl_glext.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_pixels.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_platform.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_power.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_quit.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_rect.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_render.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_revision.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_rwops.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_scancode.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_shape.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_stdinc.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_surface.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_system.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_syswm.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_test.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_test_assert.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_test_common.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_test_compare.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_test_crc32.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_test_font.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_test_fuzzer.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_test_harness.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_test_images.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_test_log.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_test_md5.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_test_memory.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_test_random.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_thread.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_timer.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_touch.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_types.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_version.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_video.h" />
+    <ClInclude Include="RunTime\Includes\SDL2\SDL_vulkan.h" />
+    <ClInclude Include="RunTime\Includes\TypeTrans.h" />
+    <ClInclude Include="RunTime\Includes\RunDefines.h" />
+    <ClInclude Include="RunTime\Includes\LevelScene.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Box2D.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Collision\b2BroadPhase.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Collision\b2Collision.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Collision\b2Distance.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Collision\b2DynamicTree.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Collision\b2TimeOfImpact.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Collision\Shapes\b2ChainShape.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Collision\Shapes\b2CircleShape.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Collision\Shapes\b2EdgeShape.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Collision\Shapes\b2PolygonShape.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Collision\Shapes\b2Shape.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Common\b2BlockAllocator.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Common\b2Draw.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Common\b2GrowableStack.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Common\b2Math.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Common\b2Settings.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Common\b2StackAllocator.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Common\b2Timer.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\b2Body.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\b2ContactManager.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\b2Fixture.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\b2Island.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\b2TimeStep.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\b2World.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\b2WorldCallbacks.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\Contacts\b2ChainAndCircleContact.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\Contacts\b2ChainAndPolygonContact.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\Contacts\b2CircleContact.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\Contacts\b2Contact.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\Contacts\b2ContactSolver.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\Contacts\b2EdgeAndCircleContact.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\Contacts\b2EdgeAndPolygonContact.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\Contacts\b2PolygonAndCircleContact.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\Contacts\b2PolygonContact.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\Joints\b2DistanceJoint.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\Joints\b2FrictionJoint.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\Joints\b2GearJoint.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\Joints\b2Joint.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\Joints\b2MotorJoint.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\Joints\b2MouseJoint.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\Joints\b2PrismaticJoint.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\Joints\b2PulleyJoint.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\Joints\b2RevoluteJoint.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\Joints\b2RopeJoint.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\Joints\b2WeldJoint.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Dynamics\Joints\b2WheelJoint.h" />
+    <ClInclude Include="RunTime\Includes\Box2D\Rope\b2Rope.h" />
+    <ClInclude Include="RunTime\Includes\RTTI.h" />
+    <ClInclude Include="RunTime\Includes\ObjectFactory.h" />
+    <ClInclude Include="RunTime\Includes\LightContainer.h" />
+    <ClInclude Include="RunTime\Includes\Monitors.h" />
+    <ClInclude Include="RunTime\Includes\Model.h" />
+    <ClInclude Include="RunTime\Includes\IO.h" />
+    <ClInclude Include="RunTime\Includes\Resource.h" />
+    <ClInclude Include="RunTime\Includes\MeshLight.h" />
+    <ClInclude Include="RunTime\Includes\MeshPBRTexture.h" />
+    <ClInclude Include="RunTime\Includes\MeshPBR.h" />
+    <ClInclude Include="RunTime\Includes\OffScreen.h" />
+    <ClInclude Include="RunTime\Includes\MeshShadowPoint.h" />
+    <ClInclude Include="RunTime\Includes\Geometry.h" />
+    <ClInclude Include="RunTime\Includes\GraphicsDefines.h" />
+    <ClInclude Include="RunTime\Includes\Platform.h" />
+    <ClInclude Include="RunTime\Includes\ComponentSetting.h" />
+    <ClInclude Include="RunTime\Includes\Graphics.h" />
+    <ClInclude Include="RunTime\Includes\Launch.h" />
+    <ClInclude Include="RunTime\Includes\Ambient.h" />
+    <ClInclude Include="RunTime\Includes\Engine.h" />
+    <ClInclude Include="RunTime\Includes\RefCounted.h" />
+    <ClInclude Include="RunTime\Includes\BaseMesh.h" />
+    <ClInclude Include="RunTime\Includes\HDRSkybox.h" />
+    <ClInclude Include="RunTime\Includes\GLDebug.h" />
+    <ClInclude Include="RunTime\Includes\DeferredShading.h" />
+    <ClInclude Include="RunTime\Includes\Bloom.h" />
+    <ClInclude Include="RunTime\Includes\MeshShadow.h" />
+    <ClInclude Include="RunTime\Includes\GLMeshEnable.h" />
+    <ClInclude Include="RunTime\Includes\GLTextureEnable.h" />
+    <ClInclude Include="RunTime\Includes\LightDirectional.h" />
+    <ClInclude Include="RunTime\Includes\LightPoint.h" />
+    <ClInclude Include="RunTime\Includes\LightSpot.h" />
+    <ClInclude Include="RunTime\Includes\RenderComponent.h" />
+    <ClInclude Include="RunTime\Includes\Input.h" />
+    <ClInclude Include="EngineSetting\AuSet.h" />
+    <ClInclude Include="EngineSetting\GameSetting.h" />
+    <ClInclude Include="EngineSetting\Optimize.h" />
+    <ClInclude Include="RunTime\Includes\InstanceBeltLine.h" />
+    <ClInclude Include="RunTime\Includes\PreLoadManager.h" />
+    <ClInclude Include="RunTime\Includes\Prefab.h" />
+    <ClInclude Include="RunTime\Includes\MotionSpace.h" />
+    <ClInclude Include="RunTime\Includes\Math\Rect.h" />
+    <ClInclude Include="RunTime\Includes\BaseSpace.h" />
+    <ClInclude Include="RunTime\Includes\Renderer.h" />
+    <ClInclude Include="RunTime\Includes\Material.h" />
+    <ClInclude Include="RunTime\Includes\Light.h" />
+    <ClInclude Include="RunTime\Includes\Mesh.h" />
+    <ClInclude Include="RunTime\Includes\ObjectDefines.h" />
+    <ClInclude Include="RunTime\Includes\GameManager.h" />
+    <ClInclude Include="RunTime\Includes\InputManager.h" />
+    <ClInclude Include="RunTime\Includes\Math\FloatConversion.h" />
+    <ClInclude Include="RunTime\Includes\Image.h" />
+    <ClInclude Include="RunTime\Includes\DeviceTypes.h" />
+    <ClInclude Include="RunTime\Includes\Texture.h" />
+    <ClInclude Include="RunTime\Includes\Math\Color.h" />
+    <ClInclude Include="PlatformDependent\Win\PathUnicode.h" />
+    <ClInclude Include="RunTime\Includes\File.h" />
+    <ClInclude Include="RunTime\Includes\LogAssert.h" />
+    <ClInclude Include="RunTime\Includes\Math\Matrix4x4.h" />
+    <ClInclude Include="RunTime\Includes\Math\Matrix3x3.h" />
+    <ClInclude Include="RunTime\Includes\Math\Quaternion.h" />
+    <ClInclude Include="RunTime\Includes\ClassID.h" />
+    <ClInclude Include="RunTime\Includes\Object.h" />
+    <ClInclude Include="RunTime\Includes\Application.h" />
+    <ClInclude Include="RunTime\Includes\Auto.h" />
+    <ClInclude Include="RunTime\Includes\Configs.h" />
+    <ClInclude Include="RunTime\Includes\Camera.h" />
+    <ClInclude Include="RunTime\Includes\config.h" />
+    <ClInclude Include="RunTime\Includes\Math\Math.h" />
+    <ClInclude Include="RunTime\Includes\Math\MathBase.h" />
+    <ClInclude Include="RunTime\Includes\Math\Rand.h" />
+    <ClInclude Include="RunTime\Includes\Math\Vector2.h" />
+    <ClInclude Include="RunTime\Includes\Math\Vector3.h" />
+    <ClInclude Include="RunTime\Includes\Math\Vector4.h" />
+    <ClInclude Include="RunTime\Includes\GLGather.h" />
+    <ClInclude Include="RunTime\Includes\Shader.h" />
+    <ClInclude Include="RunTime\Includes\GameObject.h" />
+    <ClInclude Include="RunTime\Includes\stb_image\stb_image.h" />
+    <ClInclude Include="RunTime\Includes\Transform.h" />
+    <ClInclude Include="RunTime\Includes\ScriptComponent.h" />
+    <ClInclude Include="RunTime\Includes\Script.h" />
+    <ClInclude Include="RunTime\Includes\AutoSTL.h" />
+    <ClInclude Include="PlatformDependent\Win\WinUnicode.h" />
+    <ClInclude Include="RunTime\Includes\Texture2D.h" />
+    <ClInclude Include="RunTime\Includes\Time.h" />
+    <ClInclude Include="RunTime\Includes\Singleton.h" />
+    <ClInclude Include="RunTime\Includes\SkyBox.h" />
+    <ClInclude Include="RunTime\Includes\Texture3D.h" />
+    <ClInclude Include="RunTime\Includes\TextureMap.h" />
+    <ClInclude Include="RunTime\Includes\VertexData.h" />
+    <ClInclude Include="RunTime\Includes\TextureNormal.h" />
+    <ClInclude Include="RunTime\Includes\TextureParallax.h" />
+    <ClInclude Include="RunTime\Includes\Sprite.h" />
+    <ClInclude Include="RunTime\Includes\SSAO.h" />
+    <ClInclude Include="RunTime\Includes\SkyBoxReflectMesh.h" />
+    <ClInclude Include="RunTime\Includes\SpriteTranslucent.h" />
+    <ClInclude Include="RunTime\Includes\Scene.h" />
+    <ClInclude Include="RunTime\Includes\SharedPtr.h" />
+    <ClInclude Include="RunTime\Includes\ShadowRenderer.h" />
+    <ClInclude Include="RunTime\Includes\SkyBoxManager.h" />
+    <ClInclude Include="RunTime\Includes\StateVessel.h" />
+    <ClInclude Include="RunTime\Includes\UI.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="RunTime\Includes\KhSTL\Container\String\TypeString.cpp" />
+    <ClCompile Include="RunTime\src\DebugNew.cpp" />
+    <ClCompile Include="RunTime\src\AudioRun.cpp" />
+    <ClCompile Include="RunTime\src\DeviceList.cpp" />
+    <ClCompile Include="RunTime\src\CWaves.cpp" />
+    <ClCompile Include="RunTime\src\Framework.cpp" />
+    <ClCompile Include="RunTime\src\LoadOAL.cpp" />
+    <ClCompile Include="RunTime\src\AudioClip.cpp" />
+    <ClCompile Include="RunTime\src\AudioListener.cpp" />
+    <ClCompile Include="RunTime\src\Component.cpp" />
+    <ClCompile Include="RunTime\src\Node.cpp" />
+    <ClCompile Include="RunTime\src\Audio.cpp" />
+    <ClCompile Include="RunTime\src\LevelScene.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Collision\b2BroadPhase.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Collision\b2CollideCircle.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Collision\b2CollideEdge.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Collision\b2CollidePolygon.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Collision\b2Collision.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Collision\b2Distance.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Collision\b2DynamicTree.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Collision\b2TimeOfImpact.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Collision\Shapes\b2ChainShape.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Collision\Shapes\b2CircleShape.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Collision\Shapes\b2EdgeShape.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Collision\Shapes\b2PolygonShape.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Common\b2BlockAllocator.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Common\b2Draw.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Common\b2Math.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Common\b2Settings.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Common\b2StackAllocator.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Common\b2Timer.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Dynamics\b2Body.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Dynamics\b2ContactManager.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Dynamics\b2Fixture.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Dynamics\b2Island.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Dynamics\b2World.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Dynamics\b2WorldCallbacks.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Dynamics\Contacts\b2ChainAndCircleContact.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Dynamics\Contacts\b2ChainAndPolygonContact.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Dynamics\Contacts\b2CircleContact.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Dynamics\Contacts\b2Contact.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Dynamics\Contacts\b2ContactSolver.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Dynamics\Contacts\b2EdgeAndCircleContact.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Dynamics\Contacts\b2EdgeAndPolygonContact.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Dynamics\Contacts\b2PolygonAndCircleContact.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Dynamics\Contacts\b2PolygonContact.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Dynamics\Joints\b2DistanceJoint.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Dynamics\Joints\b2FrictionJoint.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Dynamics\Joints\b2GearJoint.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Dynamics\Joints\b2Joint.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Dynamics\Joints\b2MotorJoint.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Dynamics\Joints\b2MouseJoint.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Dynamics\Joints\b2PrismaticJoint.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Dynamics\Joints\b2PulleyJoint.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Dynamics\Joints\b2RevoluteJoint.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Dynamics\Joints\b2RopeJoint.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Dynamics\Joints\b2WeldJoint.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Dynamics\Joints\b2WheelJoint.cpp" />
+    <ClCompile Include="RunTime\Includes\Box2D\Rope\b2Rope.cpp" />
+    <ClCompile Include="RunTime\src\LightContainer.cpp" />
+    <ClCompile Include="RunTime\src\Monitors.cpp" />
+    <ClCompile Include="RunTime\src\Model.cpp" />
+    <ClCompile Include="RunTime\src\IO.cpp" />
+    <ClCompile Include="RunTime\src\Resource.cpp" />
+    <ClCompile Include="RunTime\src\MeshLight.cpp" />
+    <ClCompile Include="RunTime\src\MeshPBRTexture.cpp" />
+    <ClCompile Include="RunTime\src\MeshPBR.cpp" />
+    <ClCompile Include="RunTime\src\OffScreen.cpp" />
+    <ClCompile Include="RunTime\src\MeshShadowPoint.cpp" />
+    <ClCompile Include="RunTime\src\GLShader.cpp" />
+    <ClCompile Include="RunTime\src\Geometry.cpp" />
+    <ClCompile Include="RunTime\Includes\Math\Color.cpp" />
+    <ClCompile Include="RunTime\src\ComponentSetting.cpp" />
+    <ClCompile Include="RunTime\src\Graphics.cpp" />
+    <ClCompile Include="RunTime\src\GLGraphics.cpp" />
+    <ClCompile Include="RunTime\src\Ambient.cpp" />
+    <ClCompile Include="RunTime\src\Engine.cpp" />
+    <ClCompile Include="RunTime\src\RefCounted.cpp" />
+    <ClCompile Include="RunTime\src\BaseMesh.cpp" />
+    <ClCompile Include="RunTime\src\HDRSkybox.cpp" />
+    <ClCompile Include="RunTime\src\GLDebug.cpp" />
+    <ClCompile Include="RunTime\src\DeferredShading.cpp" />
+    <ClCompile Include="RunTime\src\Bloom.cpp" />
+    <ClCompile Include="RunTime\src\MeshShadow.cpp" />
+    <ClCompile Include="RunTime\src\GLMeshEnable.cpp" />
+    <ClCompile Include="RunTime\src\GLTextureEnable.cpp" />
+    <ClCompile Include="RunTime\src\LightDirectional.cpp" />
+    <ClCompile Include="RunTime\src\LightPoint.cpp" />
+    <ClCompile Include="RunTime\src\LightSpot.cpp" />
+    <ClCompile Include="RunTime\src\RanderComponent.cpp" />
+    <ClCompile Include="RunTime\src\Input.cpp" />
+    <ClCompile Include="RunTime\src\InstanceBeltLine.cpp" />
+    <ClCompile Include="RunTime\src\PreLoadManager.cpp" />
+    <ClCompile Include="RunTime\src\Prefab.cpp" />
+    <ClCompile Include="RunTime\src\MotionSpace.cpp" />
+    <ClCompile Include="RunTime\src\BaseSpace.cpp" />
+    <ClCompile Include="RunTime\src\Camera.cpp" />
+    <ClCompile Include="RunTime\src\Renderer.cpp" />
+    <ClCompile Include="RunTime\src\Material.cpp" />
+    <ClCompile Include="RunTime\src\Light.cpp" />
+    <ClCompile Include="RunTime\src\Mesh.cpp" />
+    <ClCompile Include="RunTime\src\GameManager.cpp" />
+    <ClCompile Include="RunTime\src\Configs.cpp" />
+    <ClCompile Include="RunTime\src\Image.cpp" />
+    <ClCompile Include="RunTime\src\Texture.cpp" />
+    <ClCompile Include="PlatformDependent\Win\PathUnicode.cpp" />
+    <ClCompile Include="RunTime\src\File.cpp" />
+    <ClCompile Include="RunTime\Includes\Math\Matrix4x4.cpp" />
+    <ClCompile Include="RunTime\Includes\Math\Matrix3x3.cpp" />
+    <ClCompile Include="RunTime\Includes\Math\Quaternion.cpp" />
+    <ClCompile Include="RunTime\src\Object.cpp" />
+    <ClCompile Include="RunTime\Includes\Math\Vector2.cpp" />
+    <ClCompile Include="RunTime\Includes\Math\Vector3.cpp" />
+    <ClCompile Include="RunTime\Includes\Math\Vector4.cpp" />
+    <ClCompile Include="RunTime\Includes\stb_image\stb_image.cpp" />
+    <ClCompile Include="RunTime\src\Application.cpp" />
+    <ClCompile Include="RunTime\src\GameObject.cpp" />
+    <ClCompile Include="RunTime\src\Transform.cpp" />
+    <ClCompile Include="RunTime\src\ScriptComponent.cpp" />
+    <ClCompile Include="RunTime\src\Script.cpp" />
+    <ClCompile Include="PlatformDependent\Win\WinUnicode.cpp" />
+    <ClCompile Include="RunTime\src\Texture2D.cpp" />
+    <ClCompile Include="RunTime\src\Time.cpp" />
+    <ClCompile Include="RunTime\src\SkyBox.cpp" />
+    <ClCompile Include="RunTime\src\Texture3D.cpp" />
+    <ClCompile Include="RunTime\src\TextureMap.cpp" />
+    <ClCompile Include="RunTime\src\TextureNormal.cpp" />
+    <ClCompile Include="RunTime\src\TextureParallax.cpp" />
+    <ClCompile Include="RunTime\src\Sprite.cpp" />
+    <ClCompile Include="RunTime\src\SSAO.cpp" />
+    <ClCompile Include="RunTime\src\SkyBoxReflectMesh.cpp" />
+    <ClCompile Include="RunTime\src\SpriteTranslucent.cpp" />
+    <ClCompile Include="RunTime\src\Scene.cpp" />
+    <ClCompile Include="RunTime\src\ShadowRenderer.cpp" />
+    <ClCompile Include="RunTime\src\SkyBoxManager.cpp" />
+    <ClCompile Include="RunTime\src\StateVessel.cpp" />
+    <ClCompile Include="RunTime\src\UI.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

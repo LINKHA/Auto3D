@@ -487,12 +487,12 @@ void Renderer::intelMoutLightContainer()
 void Renderer::renderTranslucent()
 {
 	translucentGeometrySort();
-	for (PAIR_MAP(float, RenderComponent*)::ReverseIterator it = _translucentsSorted.RBegin(); it != _translucentsSorted.REnd(); ++it)
+	for (std::map<float, RenderComponent*>::reverse_iterator it = _translucentsSorted.rbegin(); it != _translucentsSorted.rend(); ++it)
 	{
 		//Draw translucent component
 		it->second->DrawTranslucent();
 	}
-	_translucentsSorted.Clear();
+	_translucentsSorted.clear();
 }
 
 

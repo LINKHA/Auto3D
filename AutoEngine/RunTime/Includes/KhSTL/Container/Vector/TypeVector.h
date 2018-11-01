@@ -52,7 +52,7 @@ public:
 	/**
 	* @brief : Construct Empty
 	*/
-	tVector() noexcept = default;
+	tVector() = default;
 	/**
 	* @brief : Construct with initial size
 	*/

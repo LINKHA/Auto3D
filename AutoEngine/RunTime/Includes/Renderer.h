@@ -1,8 +1,10 @@
 #pragma once
+
 #include "GameManager.h"
 #include "Camera.h"
 #include "LightContainer.h"
 #include "ShadowRenderer.h"
+#include <map>
 
 namespace Auto3D {
 class Ambient;
@@ -26,7 +28,9 @@ class Renderer : public GlobalGameManager
 	using TranslucentContainer = LIST(RenderComponent*);
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	///Auxiliary vessel with distance
-	using TranslucentDepth = PAIR_MAP(float, RenderComponent*);
+	//using TranslucentDepth = PAIR_MAP(float, RenderComponent*);
+
+	using TranslucentDepth = std::map<float, RenderComponent*>;
 	friend class ShadowRenderer;
 	friend class LightContainer;
 public:

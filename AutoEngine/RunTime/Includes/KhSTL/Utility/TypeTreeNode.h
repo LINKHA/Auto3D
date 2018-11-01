@@ -57,11 +57,11 @@ public:
 	/// Node color
 	ColorType color;
 	/// Node parent
-	tRBTreeNode* parent;
+	tRBTreeNode<_Traits>* parent;
 	/// Node left child
-	tRBTreeNode* left;
+	tRBTreeNode<_Traits>* left;
 	/// Node right child
-	tRBTreeNode* right;
+	tRBTreeNode<_Traits>* right;
 	/// Node key
 	KeyType key;
 	/// Node value

@@ -10,7 +10,7 @@ class Ambient : public RefCounted
 	friend class Object;
 	using SubSystems = HASH_MAP(STRING, SharedPtr<Object>);
 	using Factories = HASH_MAP(STRING, SharedPtr<ObjectFactory>);
-	using ObjectAttachs = HASH_MAP(STRING, VECTOR(STRING));
+	using ObjectAttachs = HASH_MAP(const char*, HASH_SET(STRING));
 public:
 	Ambient();
 	~Ambient()override;
