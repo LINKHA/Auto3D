@@ -1,16 +1,16 @@
 #pragma once
 #include "RefCounted.h"
 #include "Object.h"
-#include "stl_use.h"
+#include "AutoSTL.h"
 #include "ObjectFactory.h"
 namespace Auto3D {
 
 class Ambient : public RefCounted
 {
 	friend class Object;
-	using SubSystems = AUTO_HASH_MAP(__String, SharedPtr<Object>);
-	using Factories = AUTO_HASH_MAP(__String, SharedPtr<ObjectFactory>);
-	using ObjectAttachs = AUTO_HASH_MAP(__String, _VECTOR(__String));
+	using SubSystems = HASH_MAP(__String, SharedPtr<Object>);
+	using Factories = HASH_MAP(__String, SharedPtr<ObjectFactory>);
+	using ObjectAttachs = HASH_MAP(__String, VECTOR(__String));
 public:
 	Ambient();
 	~Ambient()override;
@@ -62,7 +62,7 @@ public:
 	Object* GetSubSystem(__String type) const;
 	/**
 	* @brief : Get sub systems
-	* @return :AUTO_HASH_MAP(__String, SharedPtr<Object>)
+	* @return :HASH_MAP(__String, SharedPtr<Object>)
 	*/
 	const SubSystems& GetSubSystems() const { return _subSystems; }
 	/**

@@ -25,7 +25,7 @@ GameObject::~GameObject()
 
 void GameObject::AddComponent(Component* com)
 {
-	_components.push_back(M_PAIR(com->GetClassID(), com));
+	_components.push_back(MAKE_PAIR(com->GetClassID(), com));
 	com->MountComponent(*this);
 }
 

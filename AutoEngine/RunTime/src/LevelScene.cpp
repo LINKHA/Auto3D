@@ -60,7 +60,7 @@ void LevelScene::ModeRunNode(RunMode runMode)
 		GameObject* obj = static_cast<GameObject*>(*i);
 		if (obj && obj->GetEnable())
 		{
-			using compomentIt = AUTO_VECTOR(int, Component*)::iterator;
+			using compomentIt = PAIR_VECTOR(int, Component*)::iterator;
 			if (runMode == RunMode::kAwake)
 				for (compomentIt k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++)
 				{

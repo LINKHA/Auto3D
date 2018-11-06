@@ -5,7 +5,7 @@
 #include "Transform.h"
 #include "GameObject.h"
 #include "Light.h"
-#include "stl_use.h"
+#include "AutoSTL.h"
 #include "Configs.h"
 
 
@@ -445,7 +445,7 @@ void Renderer::renderShadowMap()
 
 void Renderer::renderOpaques()
 {
-	for (_LIST(RenderComponent*)::iterator it = _opaques.begin(); it != _opaques.end(); it++)
+	for (LIST(RenderComponent*)::iterator it = _opaques.begin(); it != _opaques.end(); it++)
 	{
 		(*it)->Draw();
 	}
@@ -453,7 +453,7 @@ void Renderer::renderOpaques()
 
 void Renderer::renderCustom()
 {
-	for (_LIST(RenderComponent*)::iterator it = _customs.begin(); it != _customs.end(); it++)
+	for (LIST(RenderComponent*)::iterator it = _customs.begin(); it != _customs.end(); it++)
 	{
 		(*it)->DrawCustom();
 	}
@@ -461,7 +461,7 @@ void Renderer::renderCustom()
 
 void Renderer::translucentGeometrySort()
 {
-	for (_LIST(RenderComponent*)::iterator i = _translucents.begin(); i != _translucents.end(); i++)
+	for (LIST(RenderComponent*)::iterator i = _translucents.begin(); i != _translucents.end(); i++)
 	{
 		float distance = glm::length(_currentCamera->GetPosition() - (*i)->GetGameObject().GetComponent(Transform).GetPosition().ToGLM());
 
@@ -486,7 +486,7 @@ void Renderer::intelMoutLightContainer()
 void Renderer::renderTranslucent()
 {
 	translucentGeometrySort();
-	for (AUTO_MAP(float, RenderComponent*)::reverse_iterator it = _translucentsSorted.rbegin(); it != _translucentsSorted.rend(); ++it)
+	for (PAIR_MAP(float, RenderComponent*)::reverse_iterator it = _translucentsSorted.rbegin(); it != _translucentsSorted.rend(); ++it)
 	{
 		//Draw translucent component
 		it->second->DrawTranslucent();

@@ -1,6 +1,6 @@
 #pragma once
 #include "Auto.h"
-#include "stl_use.h"
+#include "AutoSTL.h"
 #include "Math/Rect.h"
 namespace Auto3D {
 
@@ -30,7 +30,7 @@ public:
 	RectInt GetMonitorsSize(int index);
 private:
 	Int32 _monitorCount;
-	AUTO_VECTOR(int, int) _mnitors;
+	PAIR_VECTOR(int, int) _mnitors;
 };
 
 }

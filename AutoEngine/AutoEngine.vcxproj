@@ -387,7 +387,6 @@
     <ClInclude Include="RunTime\Includes\SDL2\SDL_version.h" />
     <ClInclude Include="RunTime\Includes\SDL2\SDL_video.h" />
     <ClInclude Include="RunTime\Includes\SDL2\SDL_vulkan.h" />
-    <ClInclude Include="RunTime\Includes\stl_use.h" />
     <ClInclude Include="RunTime\Includes\TypeTrans.h" />
     <ClInclude Include="RunTime\Includes\RunDefines.h" />
     <ClInclude Include="RunTime\Includes\LevelScene.h" />

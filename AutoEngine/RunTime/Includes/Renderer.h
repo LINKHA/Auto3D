@@ -17,16 +17,16 @@ class Renderer : public GlobalGameManager
 {
 	REGISTER_DERIVED_CLASS(Renderer, GlobalGameManager);
 	DECLARE_OBJECT_SERIALIZE(Renderer);
-	using CameraContainer = _LIST(Camera*);
+	using CameraContainer = LIST(Camera*);
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	///Render in this order
-	using ShadowMapContainer = _LIST(RenderComponent*);
-	using OpaqueContainer = _LIST(RenderComponent*);
-	using CustomContainer = _LIST(RenderComponent*); //Skybox and other custon component
-	using TranslucentContainer = _LIST(RenderComponent*);
+	using ShadowMapContainer = LIST(RenderComponent*);
+	using OpaqueContainer = LIST(RenderComponent*);
+	using CustomContainer = LIST(RenderComponent*); //Skybox and other custon component
+	using TranslucentContainer = LIST(RenderComponent*);
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	///Auxiliary vessel with distance
-	using TranslucentDepth = AUTO_MAP(float, RenderComponent*); 
+	using TranslucentDepth = PAIR_MAP(float, RenderComponent*); 
 	friend class ShadowRenderer;
 	friend class LightContainer;
 public:
@@ -108,19 +108,19 @@ public:
 	*/
 	ShadowRenderer* GetShadowRenderer() { return _shadowRenderer; }
 	/**
-	* @brief : Get All shadow maps (_LIST(RenderComponent*))
+	* @brief : Get All shadow maps (LIST(RenderComponent*))
 	*/
 	ShadowMapContainer& GetAllShadowMaps() { return _shadowsMap; }
 	/**
-	* @brief : Get All opaques geometrys (_LIST(RenderComponent*))
+	* @brief : Get All opaques geometrys (LIST(RenderComponent*))
 	*/
 	OpaqueContainer& GetAllOpaques() { return _opaques; }
 	/**
-	* @brief : Get All custom geometrys (_LIST(RenderComponent*))
+	* @brief : Get All custom geometrys (LIST(RenderComponent*))
 	*/
 	CustomContainer& GetAllCustoms() { return _customs; }
 	/**
-	* @brief : Get All translucent geometrys (_LIST(RenderComponent*))
+	* @brief : Get All translucent geometrys (LIST(RenderComponent*))
 	*/
 	TranslucentContainer& GetAllTranslucents() { return _translucents; }
 private:

@@ -10,7 +10,7 @@ class LevelScene : public StateVessel
 {
 	REGISTER_DERIVED_ABSTRACT_CLASS(LevelScene, StateVessel);
 	DECLARE_OBJECT_SERIALIZE(LevelScene);
-	using NodeContainer = _LIST(Node*);
+	using NodeContainer = LIST(Node*);
 public:
 	/**
 	* @brief : Register scenario by serial number , 

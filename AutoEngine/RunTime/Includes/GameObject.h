@@ -1,6 +1,6 @@
 #pragma once
 #include "Object.h"
-#include "stl_use.h"
+#include "AutoSTL.h"
 #include "ComponentSetting.h"
 #include "Math/Vector3.h"
 #include "../../EngineSetting/GameSetting.h"
@@ -20,9 +20,9 @@ class GameObject : public Node
 	DECLARE_OBJECT_SERIALIZE(GameObject);
 public:
 #if SharedPtrDebug
-	using ComponentsArray = AUTO_VECTOR(int, SharedPtr<Component>);
+	using ComponentsArray = PAIR_VECTOR(int, SharedPtr<Component>);
 #else
-	using ComponentsArray = AUTO_VECTOR(int, Component*);
+	using ComponentsArray = PAIR_VECTOR(int, Component*);
 #endif
 
 public:
@@ -74,7 +74,7 @@ public:
 	Component* QueryComponent(int classID) const;
 	/**
 	* @brief : Get Components 
-	* @return : AUTO_VECTOR(int, Component*)
+	* @return : PAIR_VECTOR(int, Component*)
 	*/
 	ComponentsArray& GetComponentsArray(){ return _components; }
 	/**

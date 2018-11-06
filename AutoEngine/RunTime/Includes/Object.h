@@ -2,7 +2,7 @@
 #include "Auto.h"
 #include "LogAssert.h"
 #include "ClassID.h"
-#include "stl_use.h"
+#include "AutoSTL.h"
 #include "ObjectDefines.h"
 #include "RefCounted.h"
 #include "SharedPtr.h"

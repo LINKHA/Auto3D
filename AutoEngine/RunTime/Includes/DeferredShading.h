@@ -2,7 +2,7 @@
 #include "RenderComponent.h"
 #include "Shader.h"
 #include "Model.h"
-#include "stl_use.h"
+#include "AutoSTL.h"
 
 namespace Auto3D {
 class DeferredShading : public RenderComponent
@@ -19,7 +19,7 @@ private:
 
 	SharedPtr<Model> nanosuit;
 
-	_VECTOR(glm::vec3) objectPositions;
+	VECTOR(glm::vec3) objectPositions;
 	unsigned int gBuffer;
 	unsigned int gPosition, gNormal, gAlbedoSpec;
 	

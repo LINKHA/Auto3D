@@ -14,10 +14,10 @@ Object* Object::GetSubSystem(__String type) const
 
 const __String Object::GetAttach() 
 {
-	AUTO_HASH_MAP(__String, _VECTOR(__String)) objectAttachs = _ambient->GetObjectAttachs();
-	for (AUTO_HASH_MAP(__String, _VECTOR(__String))::const_iterator i = objectAttachs.begin(); i != objectAttachs.end(); ++i)
+	HASH_MAP(__String, VECTOR(__String)) objectAttachs = _ambient->GetObjectAttachs();
+	for (HASH_MAP(__String, VECTOR(__String))::const_iterator i = objectAttachs.begin(); i != objectAttachs.end(); ++i)
 	{
-		_VECTOR(__String) t = i->second;
+		VECTOR(__String) t = i->second;
 		if (find(t.begin(), t.end(), GetClassString()) != t.end())
 			return i->first;
 	}

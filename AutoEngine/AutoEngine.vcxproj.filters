@@ -1283,7 +1283,6 @@
     <ClInclude Include="RunTime\Includes\AutoImage.h">
       <Filter>RunTime\EngineAdapter</Filter>
     </ClInclude>
-    <ClInclude Include="RunTime\Includes\stl_use.h" />
     <ClInclude Include="RunTime\Includes\AutoSTL.h">
       <Filter>RunTime\EngineAdapter</Filter>
     </ClInclude>

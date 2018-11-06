@@ -2,7 +2,7 @@
 #include "LevelScene.h"
 
 using namespace Auto3D;
-#define USE_DEMO 0
+#define USE_DEMO 1
 class Level_0 : public LevelScene
 {
 public:

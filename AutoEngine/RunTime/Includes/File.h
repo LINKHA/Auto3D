@@ -1,7 +1,7 @@
 #pragma once
 #include <windows.h>
 #include "Auto.h"
-#include "stl_use.h"
+#include "AutoSTL.h"
 #include "LogAssert.h"
 namespace Auto3D {
 #define kPathMaxSize MAX_PATH * 4
@@ -14,7 +14,7 @@ class File
 	bool						_open;
 	FILE*						_file;
 	HANDLE						_fileHandle;
-	_VECTOR(unsigned char)		_data;
+	VECTOR(unsigned char)		_data;
 
 public:
 	File();

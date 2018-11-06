@@ -1,6 +1,6 @@
 #pragma once
 #include "GameManager.h"
-#include "stl_use.h"
+#include "AutoSTL.h"
 
 namespace Auto3D {
 class Image;
@@ -9,8 +9,8 @@ class Resource : public GlobalGameManager
 {
 	REGISTER_DERIVED_CLASS(Resource, GlobalGameManager);
 	DECLARE_OBJECT_SERIALIZE(Resource);
-	using ImageQueue = AUTO_HASH_MAP(PInt8, Image*);
-	using ModelQueue = AUTO_HASH_MAP(PInt8, Model*);
+	using ImageQueue = HASH_MAP(PInt8, Image*);
+	using ModelQueue = HASH_MAP(PInt8, Model*);
 public:
 	explicit Resource(Ambient* ambient);
 	/**
@@ -32,7 +32,7 @@ public:
 	* @brief : According fail path get cubemap
 	* @return: unsigned int
 	*/
-	unsigned int CubemapLoad(_VECTOR(__String) faces);
+	unsigned int CubemapLoad(VECTOR(__String) faces);
 	/**
 	* @brief : According fail path get HDR cube
 	* @return: unsigned int

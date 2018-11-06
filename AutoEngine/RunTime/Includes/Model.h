@@ -1,7 +1,7 @@
 #pragma once
 #include "ComponentSetting.h"
 #include "glm/glm.hpp"
-#include "stl_use.h"
+#include "AutoSTL.h"
 #include "assimp/Importer.hpp"
 #include "assimp/scene.h"
 #include "assimp/postprocess.h"
@@ -34,7 +34,7 @@ public:
 	/**
 	* @brief : Set vertices indeices and texture
 	*/
-	MeshNode(_VECTOR(MeshVertex) vertices, _VECTOR(unsigned int) indices, _VECTOR(TextureData) textures);
+	MeshNode(VECTOR(MeshVertex) vertices, VECTOR(unsigned int) indices, VECTOR(TextureData) textures);
 	~MeshNode() = default;
 	/**
 	* @brief : Render the mesh
@@ -46,9 +46,9 @@ private:
 	*/
 	void setupMesh();
 public:
-	_VECTOR(unsigned int) indices;
-	_VECTOR(MeshVertex) vertices;
-	_VECTOR(TextureData) textures;
+	VECTOR(unsigned int) indices;
+	VECTOR(MeshVertex) vertices;
+	VECTOR(TextureData) textures;
 	unsigned int vao;
 	unsigned int vbo;
 	unsigned int ebo;
@@ -61,8 +61,8 @@ class Model : public ComponentSetting
 {
 	REGISTER_DERIVED_CLASS(Model, ComponentSetting);
 	DECLARE_OBJECT_SERIALIZE(Model);
-	using TextureDatas = _VECTOR(TextureData);
-	using MeshNodes = _VECTOR(MeshNode);
+	using TextureDatas = VECTOR(TextureData);
+	using MeshNodes = VECTOR(MeshNode);
 public:
 	/**
 	* @brief : Add path and gamma to build model
@@ -74,12 +74,12 @@ public:
 	void Draw(Shader shader);
 	/**
 	* @brief : Get texture datas container
-	* @return : _VECTOR(TextureData)
+	* @return : VECTOR(TextureData)
 	*/
 	TextureDatas& GetTextureDatas() { return _textureDatas; }
 	/**
 	* @brief : Get mesh node message container
-	* @return : _VECTOR(MeshNode)
+	* @return : VECTOR(MeshNode)
 	*/
 	MeshNodes& GetMeshNodes() { return _meshNodes; }
 private:

@@ -1,7 +1,7 @@
 #pragma once
 #include "Auto.h"
 #include "InputManager.h"
-#include "stl_use.h"
+#include "AutoSTL.h"
 #include "GameManager.h"
 #include "Math/Vector2.h"
 
@@ -12,8 +12,8 @@ struct JoystickState
 {
 	bool GetButtonDown(unsigned index)const { return index < _buttons.size() ? _buttons[index] : false; }
 	bool GetButtonPress(unsigned index)const { return index < _buttonPress.size() ? _buttonPress[index] : false; }
-	_VECTOR(bool) _buttons;
-	_VECTOR(bool) _buttonPress;
+	VECTOR(bool) _buttons;
+	VECTOR(bool) _buttonPress;
 };
 /**
 * @brief : SubSystem class
@@ -101,9 +101,9 @@ private:
 	void hideCursorEvent(bool enable);
 private:
 	///all buttons down in the same frame
-	_SET(int) _keysDown;
+	SET(int) _keysDown;
 	///all buttons pressed in the same frame
-	_SET(int) _keysPress;
+	SET(int) _keysPress;
 	///mouse position limit in window
 	Vector2	_mousePosition;
 	///last mouse potition limit in window

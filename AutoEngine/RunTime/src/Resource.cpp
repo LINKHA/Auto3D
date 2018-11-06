@@ -70,7 +70,7 @@ Image* Resource::ImageLoad(PInt8 path)
 		else if (nrComponents == 4)
 			image->format = GL_RGBA;
 		image->value = t;
-		_imageQueue.emplace(M_PAIR(path, image));
+		_imageQueue.emplace(MAKE_PAIR(path, image));
 
 	}
 
@@ -93,7 +93,7 @@ Model * Resource::ModelLoad(PInt8 path)
 	return model;
 }
 
-unsigned int Resource::CubemapLoad(_VECTOR(__String) faces)
+unsigned int Resource::CubemapLoad(VECTOR(__String) faces)
 {
 	stbi_set_flip_vertically_on_load(false);
 	unsigned int textureID;

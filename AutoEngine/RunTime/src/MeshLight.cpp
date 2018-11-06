@@ -41,9 +41,9 @@ void MeshLight::Draw()
 	glBindTexture(GL_TEXTURE_2D, woodTexture);
 	// set lighting uniforms
 
-	_VECTOR(Light*) lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
+	VECTOR(Light*) lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
 	int lightNum = 0;
-	for (_VECTOR(Light*)::iterator it = lights.begin(); it != lights.end(); it++)
+	for (VECTOR(Light*)::iterator it = lights.begin(); it != lights.end(); it++)
 	{
 		_shader.SetVec3("lights[" + std::to_string(lightNum) + "].Position", (*it)->GetGameObject().GetPosition());
 		_shader.SetVec3("lights[" + std::to_string(lightNum) + "].Color", (*it)->GetColorToVec());

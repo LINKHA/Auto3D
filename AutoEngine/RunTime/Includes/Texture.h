@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "DeviceTypes.h"
-#include "stl_use.h"
+#include "AutoSTL.h"
 #include "Math/Math.h"
 #include "AutoOGL.h"
 #include "AutoImage.h"

@@ -9,7 +9,7 @@ Monitors::Monitors()
 	for (int i = 0; i < _monitorCount; i++)
 	{
 		SDL_GetDisplayBounds(i, &rect);
-		_mnitors.push_back(M_PAIR(rect.w, rect.h));
+		_mnitors.push_back(MAKE_PAIR(rect.w, rect.h));
 	}
 }
 

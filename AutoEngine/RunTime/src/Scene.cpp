@@ -20,7 +20,7 @@ Scene::~Scene()
 void Scene::RegisterLevel(int index, LevelScene* level)
 {
 	level->Enable(true);
-	_dynamicLevelScenes.emplace(M_PAIR(index, level));
+	_dynamicLevelScenes.emplace(MAKE_PAIR(index, level));
 }
 
 void Scene::RemoveLevel(int index)

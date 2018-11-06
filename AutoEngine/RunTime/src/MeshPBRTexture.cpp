@@ -107,9 +107,9 @@ void MeshPBRTexture::Draw()
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	//light
-	_VECTOR(Light*) lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
+	VECTOR(Light*) lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
 	int lightNum = 0;
-	for (_VECTOR(Light*)::iterator it = lights.begin(); it != lights.end(); it++)
+	for (VECTOR(Light*)::iterator it = lights.begin(); it != lights.end(); it++)
 	{
 		_shader.SetVec3("lightPositions[" + std::to_string(lightNum) + "]", (*it)->GetGameObject().GetPosition());
 		_shader.SetVec3("lightColors[" + std::to_string(lightNum) + "]", (*it)->GetColorToVec());
