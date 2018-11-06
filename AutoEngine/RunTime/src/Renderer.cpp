@@ -5,7 +5,7 @@
 #include "Transform.h"
 #include "GameObject.h"
 #include "Light.h"
-#include "AutoSTL.h"
+#include "stl_use.h"
 #include "Configs.h"
 
 
@@ -41,7 +41,7 @@ void Renderer::Render()
 	auto* graphics = GetSubSystem<Graphics>();
 	Assert(graphics && graphics->IsInitialized() && !graphics->IsDeviceLost());
 	_insideRenderOrCull = true;
-	for (CameraContainer::Iterator i = _cameras.Begin(); i != _cameras.End(); i++)
+	for (CameraContainer::iterator i = _cameras.begin(); i != _cameras.end(); i++)
 	{
 		Camera* cam = *i;
 		if (cam && cam->GetEnable())
@@ -87,51 +87,51 @@ void Renderer::AddCamera(Camera* c)
 	Assert(c != nullptr);
 	if (_insideRenderOrCull)
 	{
-		_camerasToRemove.Remove(c);
-		_camerasToAdd.PushBack(c);
+		_camerasToRemove.remove(c);
+		_camerasToAdd.push_back(c);
 		return;
 	}
-	_camerasToAdd.Remove(c);
-	_camerasToRemove.Remove(c);
+	_camerasToAdd.remove(c);
+	_camerasToRemove.remove(c);
 
-	_cameras.Remove(c);
+	_cameras.remove(c);
 
 	CameraContainer &queue = _cameras;
 
-	for (CameraContainer::Iterator i = queue.Begin(); i != queue.End(); i++)
+	for (CameraContainer::iterator i = queue.begin(); i != queue.end(); i++)
 	{
 		Camera* curCamera = *i;
 		if (curCamera && curCamera->GetDepth() > c->GetDepth())
 		{
-			queue.Insert(i, c);
+			queue.insert(i, c);
 			return;
 		}
 	}
-	queue.PushBack(c);
+	queue.push_back(c);
 }
 
 void Renderer::RemoveCamera(Camera* c)
 {
 	Assert(c != nullptr);
-	_camerasToAdd.Remove(c);
-	_camerasToRemove.Remove(c);
+	_camerasToAdd.remove(c);
+	_camerasToRemove.remove(c);
 
 	if (_insideRenderOrCull)
 	{
-		_camerasToRemove.PushBack(c);
+		_camerasToRemove.push_back(c);
 	}
 	else
 	{
-		_cameras.Remove(c);
+		_cameras.remove(c);
 	}
 
 	Camera* currentCamera = _currentCamera;
 	if (currentCamera == c)
 	{
-		if (_cameras.Empty())
+		if (_cameras.empty())
 			_currentCamera = nullptr;
 		else
-			_currentCamera = _cameras.Front();
+			_currentCamera = _cameras.front();
 	}
 }
 
@@ -140,50 +140,50 @@ void Renderer::AddShadowMap(RenderComponent* component)
 	Assert(component != nullptr);
 	if (_insideRenderOrCull)
 	{
-		_shadowsMapToRemove.Remove(component);
-		_shadowsMapToAdd.PushBack(component);
+		_shadowsMapToRemove.remove(component);
+		_shadowsMapToAdd.push_back(component);
 		return;
 	}
-	_shadowsMapToAdd.Remove(component);
-	_shadowsMapToRemove.Remove(component);
-	_shadowsMap.Remove(component);
+	_shadowsMapToAdd.remove(component);
+	_shadowsMapToRemove.remove(component);
+	_shadowsMap.remove(component);
 
 	OpaqueContainer& queue = _shadowsMap;
-	for (OpaqueContainer::Iterator i = queue.Begin(); i != queue.End(); i++)
+	for (OpaqueContainer::iterator i = queue.begin(); i != queue.end(); i++)
 	{
 		RenderComponent* curComponent = *i;
 		if (curComponent && curComponent->GetEnable())
 		{
-			queue.Insert(i, component);
+			queue.insert(i, component);
 			return;
 		}
 	}
-	queue.PushBack(component);
+	queue.push_back(component);
 }
 
 void Renderer::RemoveShadowMap(RenderComponent* component)
 {
 	Assert(component != nullptr);
-	_shadowsMapToAdd.Remove(component);
-	_shadowsMapToRemove.Remove(component);
+	_shadowsMapToAdd.remove(component);
+	_shadowsMapToRemove.remove(component);
 
 	if (_insideRenderOrCull)
 	{
-		_shadowsMapToRemove.PushBack(component);
+		_shadowsMapToRemove.push_back(component);
 	}
 	else
 	{
-		_shadowsMap.Remove(component);
+		_shadowsMap.remove(component);
 	}
 
 	RenderComponent* currentShadow = _currentShadow;
 
 	if (currentShadow == component)
 	{
-		if (_shadowsMap.Empty())
+		if (_shadowsMap.empty())
 			_currentShadow = nullptr;
 		else
-			_currentShadow = _shadowsMap.Front();
+			_currentShadow = _shadowsMap.front();
 	}
 }
 
@@ -192,51 +192,50 @@ void Renderer::AddOpaqueGeometry(RenderComponent* component)
 	Assert(component != nullptr);
 	if (_insideRenderOrCull)
 	{
-		_opaquesToRemove.Remove(component);
-		_opaquesToAdd.PushBack(component);
+		_opaquesToRemove.remove(component);
+		_opaquesToAdd.push_back(component);
 		return;
 	}
-	_opaquesToAdd.Remove(component);
-	_opaquesToRemove.Remove(component);
-	_opaques.Remove(component);
+	_opaquesToAdd.remove(component);
+	_opaquesToRemove.remove(component);
+	_opaques.remove(component);
 
 	OpaqueContainer& queue = _opaques;
-	for (OpaqueContainer::Iterator i = queue.Begin(); i != queue.End(); i++)
+	for (OpaqueContainer::iterator i = queue.begin(); i != queue.end(); i++)
 	{
 		RenderComponent* curComponent = *i;
 		if (curComponent && curComponent->GetEnable())
 		{
-			queue.Insert(i, component);
+			queue.insert(i, component);
 			return;
 		}
 	}
-	queue.PushBack(component);
+	queue.push_back(component);
 }
 
 void Renderer::RemoveOpaqueGeometry(RenderComponent* component)
 {
 	Assert(component != nullptr);
-	_opaquesToAdd.Remove(component);
-	_opaquesToRemove.Remove(component);
-
+	_opaquesToAdd.remove(component);
+	_opaquesToRemove.remove(component);
 
 	if (_insideRenderOrCull)
 	{
-		_opaquesToRemove.PushBack(component);
+		_opaquesToRemove.push_back(component);
 	}
 	else
 	{
-		_opaques.Remove(component);
+		_opaques.remove(component);
 	}
 
 	RenderComponent* currentOpaques = _currentOpaques;
 
 	if (currentOpaques == component)
 	{
-		if (_opaques.Empty())
+		if (_opaques.empty())
 			_currentOpaques = nullptr;
 		else
-			_currentOpaques = _opaques.Front();
+			_currentOpaques = _opaques.front();
 	}
 }
 
@@ -245,50 +244,50 @@ void Renderer::AddCustomGeometry(RenderComponent* component)
 	Assert(component != nullptr);
 	if (_insideRenderOrCull)
 	{
-		_customsToRemove.Remove(component);
-		_customsToAdd.PushBack(component);
+		_customsToRemove.remove(component);
+		_customsToAdd.push_back(component);
 		return;
 	}
-	_customsToAdd.Remove(component);
-	_customsToRemove.Remove(component);
-	_customs.Remove(component);
+	_customsToAdd.remove(component);
+	_customsToRemove.remove(component);
+	_customs.remove(component);
 
 	OpaqueContainer& queue = _customs;
-	for (OpaqueContainer::Iterator i = queue.Begin(); i != queue.End(); i++)
+	for (OpaqueContainer::iterator i = queue.begin(); i != queue.end(); i++)
 	{
 		RenderComponent* curComponent = *i;
 		if (curComponent && curComponent->GetEnable())
 		{
-			queue.Insert(i, component);
+			queue.insert(i, component);
 			return;
 		}
 	}
-	queue.PushBack(component);
+	queue.push_back(component);
 }
 
 void Renderer::RemoveCustomGeometry(RenderComponent* component)
 {
 	Assert(component != nullptr);
-	_customsToAdd.Remove(component);
-	_customsToRemove.Remove(component);
+	_customsToAdd.remove(component);
+	_customsToRemove.remove(component);
 
 	if (_insideRenderOrCull)
 	{
-		_customsToRemove.PushBack(component);
+		_customsToRemove.push_back(component);
 	}
 	else
 	{
-		_customs.Remove(component);
+		_customs.remove(component);
 	}
 
 	RenderComponent* currentCustom = _currentCustom;
 
 	if (currentCustom == component)
 	{
-		if (_customs.Empty())
+		if (_customs.empty())
 			_currentCustom = nullptr;
 		else
-			_currentCustom = _customs.Front();
+			_currentCustom = _customs.front();
 	}
 }
 
@@ -297,146 +296,146 @@ void Renderer::AddTranslucentGeometry(RenderComponent* component)
 	Assert(component != nullptr);
 	if (_insideRenderOrCull)
 	{
-		_translucentsRemove.Remove(component);
-		_translucentsToAdd.PushBack(component);
+		_translucentsRemove.remove(component);
+		_translucentsToAdd.push_back(component);
 		return;
 	}
-	_translucentsToAdd.Remove(component);
-	_translucentsRemove.Remove(component);
-	_translucents.Remove(component);
+	_translucentsToAdd.remove(component);
+	_translucentsRemove.remove(component);
+	_translucents.remove(component);
 
 	OpaqueContainer& queue = _translucents;
-	for (OpaqueContainer::Iterator i = queue.Begin(); i != queue.End(); i++)
+	for (OpaqueContainer::iterator i = queue.begin(); i != queue.end(); i++)
 	{
 		RenderComponent* curComponent = *i;
 		if (curComponent && curComponent->GetEnable())
 		{
-			queue.Insert(i, component);
+			queue.insert(i, component);
 			return;
 		}
 	}
-	queue.PushBack(component);
+	queue.push_back(component);
 }
 
-void Renderer::RemoveTranslucentGeometry(RenderComponent* component)
+void Renderer::RemoveTranslucentGeometry(RenderComponent * component)
 {
 	Assert(component != nullptr);
-	_translucentsToAdd.Remove(component);
-	_translucentsRemove.Remove(component);
+	_translucentsToAdd.remove(component);
+	_translucentsRemove.remove(component);
 
 	if (_insideRenderOrCull)
 	{
-		_translucentsRemove.PushBack(component);
+		_translucentsRemove.push_back(component);
 	}
 	else
 	{
-		_translucents.Remove(component);
+		_translucents.remove(component);
 	}
 
 	RenderComponent* currentTranslucent = _currentTranslucent;
 
 	if (currentTranslucent == component)
 	{
-		if (_translucents.Empty())
+		if (_translucents.empty())
 			_currentTranslucent = nullptr;
 		else
-			_currentTranslucent = _translucents.Front();
+			_currentTranslucent = _translucents.front();
 	}
 }
 
 void Renderer::delayedAddRemoveCameras()
 {
 	Assert(!_insideRenderOrCull);
-	for (CameraContainer::Iterator i = _camerasToRemove.Begin(); i != _camerasToRemove.End(); /**/)
+	for (CameraContainer::iterator i = _camerasToRemove.begin(); i != _camerasToRemove.end(); /**/)
 	{
 		Camera* cam = *i;
 		++i; // increment iterator before removing camera; as it changes the list
 		RemoveCamera(cam);
 	}
-	_camerasToRemove.Clear();
-	for (CameraContainer::Iterator i = _camerasToAdd.Begin(); i != _camerasToAdd.End(); /**/)
+	_camerasToRemove.clear();
+	for (CameraContainer::iterator i = _camerasToAdd.begin(); i != _camerasToAdd.end(); /**/)
 	{
 		Camera* cam = *i;
 		++i; // increment iterator before adding camera; as it changes the list
 		AddCamera(cam);
 	}
-	_camerasToAdd.Clear();
+	_camerasToAdd.clear();
 }
 
 void Renderer::delayedAddRemoveShadowMaps()
 {
 	Assert(!_insideRenderOrCull);
-	for (OpaqueContainer::Iterator i = _shadowsMapToRemove.Begin(); i != _shadowsMapToRemove.End(); /**/)
+	for (OpaqueContainer::iterator i = _shadowsMapToRemove.begin(); i != _shadowsMapToRemove.end(); /**/)
 	{
 		RenderComponent* com = *i;
 		++i;
 		RemoveShadowMap(com);
 	}
-	_shadowsMapToRemove.Clear();
-	for (OpaqueContainer::Iterator i = _shadowsMapToAdd.Begin(); i != _shadowsMapToAdd.End(); /**/)
+	_shadowsMapToRemove.clear();
+	for (OpaqueContainer::iterator i = _shadowsMapToAdd.begin(); i != _shadowsMapToAdd.end(); /**/)
 	{
 		RenderComponent* com = *i;
 		++i;
 		AddShadowMap(com);
 	}
-	_shadowsMapToAdd.Clear();
+	_shadowsMapToAdd.clear();
 }
 
 void Renderer::delayedAddRemoveOpaques()
 {
 	Assert(!_insideRenderOrCull);
-	for (OpaqueContainer::Iterator i = _opaquesToRemove.Begin(); i != _opaquesToRemove.End(); /**/)
+	for (OpaqueContainer::iterator i = _opaquesToRemove.begin(); i != _opaquesToRemove.end(); /**/)
 	{
 		RenderComponent* com = *i;
 		++i; 
 		RemoveOpaqueGeometry(com);
 	}
-	_opaquesToRemove.Clear();
-	for (OpaqueContainer::Iterator i = _opaquesToAdd.Begin(); i != _opaquesToAdd.End(); /**/)
+	_opaquesToRemove.clear();
+	for (OpaqueContainer::iterator i = _opaquesToAdd.begin(); i != _opaquesToAdd.end(); /**/)
 	{
 		RenderComponent* com = *i;
 		++i;
 		AddOpaqueGeometry(com);
 	}
-	_opaquesToAdd.Clear();
+	_opaquesToAdd.clear();
 }
 
 void Renderer::delayedAddRemoveCustoms()
 {
 	Assert(!_insideRenderOrCull);
-	for (OpaqueContainer::Iterator i = _customsToRemove.Begin(); i != _customsToRemove.End(); /**/)
+	for (OpaqueContainer::iterator i = _customsToRemove.begin(); i != _customsToRemove.end(); /**/)
 	{
 		RenderComponent* com = *i;
 		++i;
 		RemoveCustomGeometry(com);
 	}
-	_opaquesToRemove.Clear();
-	for (OpaqueContainer::Iterator i = _customsToAdd.Begin(); i != _customsToAdd.End(); /**/)
+	_opaquesToRemove.clear();
+	for (OpaqueContainer::iterator i = _customsToAdd.begin(); i != _customsToAdd.end(); /**/)
 	{
 		RenderComponent* com = *i;
 		++i;
 		AddCustomGeometry(com);
 	}
-	_customsToAdd.Clear();
+	_customsToAdd.clear();
 }
 
 void Renderer::delayedAddRemoveTranslucents()
 {
 	Assert(!_insideRenderOrCull);
-	for (OpaqueContainer::Iterator i = _translucentsRemove.Begin(); i != _translucentsRemove.End(); /**/)
+	for (OpaqueContainer::iterator i = _translucentsRemove.begin(); i != _translucentsRemove.end(); /**/)
 	{
 		RenderComponent* com = *i;
 		++i;
 		RemoveOpaqueGeometry(com);
 	}
-	_translucentsRemove.Clear();
-	for (OpaqueContainer::Iterator i = _translucentsToAdd.Begin(); i != _translucentsToAdd.End(); /**/)
+	_translucentsRemove.clear();
+	for (OpaqueContainer::iterator i = _translucentsToAdd.begin(); i != _translucentsToAdd.end(); /**/)
 	{
 		RenderComponent* com = *i;
 		++i;
 		AddOpaqueGeometry(com);
 	}
-	_translucentsToAdd.Clear();
+	_translucentsToAdd.clear();
 }
 
 void Renderer::renderShadowMap()
@@ -446,7 +445,7 @@ void Renderer::renderShadowMap()
 
 void Renderer::renderOpaques()
 {
-	for (LIST(RenderComponent*)::Iterator it = _opaques.Begin(); it != _opaques.End(); it++)
+	for (_LIST(RenderComponent*)::iterator it = _opaques.begin(); it != _opaques.end(); it++)
 	{
 		(*it)->Draw();
 	}
@@ -454,7 +453,7 @@ void Renderer::renderOpaques()
 
 void Renderer::renderCustom()
 {
-	for (LIST(RenderComponent*)::Iterator it = _customs.Begin(); it != _customs.End(); it++)
+	for (_LIST(RenderComponent*)::iterator it = _customs.begin(); it != _customs.end(); it++)
 	{
 		(*it)->DrawCustom();
 	}
@@ -462,7 +461,7 @@ void Renderer::renderCustom()
 
 void Renderer::translucentGeometrySort()
 {
-	for (LIST(RenderComponent*)::Iterator i = _translucents.Begin(); i != _translucents.End(); i++)
+	for (_LIST(RenderComponent*)::iterator i = _translucents.begin(); i != _translucents.end(); i++)
 	{
 		float distance = glm::length(_currentCamera->GetPosition() - (*i)->GetGameObject().GetComponent(Transform).GetPosition().ToGLM());
 
@@ -487,7 +486,7 @@ void Renderer::intelMoutLightContainer()
 void Renderer::renderTranslucent()
 {
 	translucentGeometrySort();
-	for (std::map<float, RenderComponent*>::reverse_iterator it = _translucentsSorted.rbegin(); it != _translucentsSorted.rend(); ++it)
+	for (AUTO_MAP(float, RenderComponent*)::reverse_iterator it = _translucentsSorted.rbegin(); it != _translucentsSorted.rend(); ++it)
 	{
 		//Draw translucent component
 		it->second->DrawTranslucent();

@@ -19,27 +19,25 @@ GameObject::GameObject(Ambient* ambient,int levelBumber)
 }
 GameObject::~GameObject()
 {
-	// Remove node to appoint level scene
+	// remove node to appoint level scene
 	GetSubSystem<Scene>()->GetLevelScene(_levelBumber)->RemoveNode(this);
 }
 
 void GameObject::AddComponent(Component* com)
 {
-	//_components.Insert(KhSTL::MakePair(com->GetClassID(), com));
-	_components.Insert(KhSTL::tPair<int,Component*>(com->GetClassID(), com));
-	//_components.Insert(com->GetClassID(), com);
+	_components.push_back(M_PAIR(com->GetClassID(), com));
 	com->MountComponent(*this);
 }
 
 void GameObject::RemoveComponentAtIndex(int index)
 {
-	ComponentsArray::Iterator it = _components.Begin() + index;
-	_components.Erase(it);
+	ComponentsArray::iterator it = _components.begin() + index;
+	_components.erase(it);
 }
 
 int GameObject::GetComponentsSize() 
 { 
-	return static_cast<int>(_components.Size());
+	return static_cast<int>(_components.size());
 }
 
 const GameObject& GameObject::GetGameObject()const 
@@ -54,7 +52,7 @@ GameObject& GameObject::GetGameObject()
 
 Component* GameObject::QueryComponent(int classID) const
 {
-	for (auto it = _components.Begin(); it != _components.End(); it++)
+	for (auto it = _components.begin(); it != _components.end(); it++)
 	{
 		if (it->first == classID)
 			return it->second;

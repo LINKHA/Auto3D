@@ -1,9 +1,9 @@
 #pragma once
 #include "GameObject.h"
 #include "DeviceTypes.h"
-#include "AutoSTL.h"
+#include "stl_use.h"
 #include "Math/Math.h"
-#include "GLGather.h"
+#include "AutoOGL.h"
 #include "AutoImage.h"
 #include "Shader.h"
 #include "GameObject.h"

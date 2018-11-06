@@ -87,15 +87,15 @@ void Bloom::Start()
 	// lighting info
 	// -------------
 	// positions
-	lightPositions.PushBack(glm::vec3(0.0f, 0.5f, 1.5f));
-	lightPositions.PushBack(glm::vec3(-4.0f, 0.5f, -3.0f));
-	lightPositions.PushBack(glm::vec3(3.0f, 0.5f, 1.0f));
-	lightPositions.PushBack(glm::vec3(-.8f, 2.4f, -1.0f));
+	lightPositions.push_back(glm::vec3(0.0f, 0.5f, 1.5f));
+	lightPositions.push_back(glm::vec3(-4.0f, 0.5f, -3.0f));
+	lightPositions.push_back(glm::vec3(3.0f, 0.5f, 1.0f));
+	lightPositions.push_back(glm::vec3(-.8f, 2.4f, -1.0f));
 	// colors
-	lightColors.PushBack(glm::vec3(2.0f, 2.0f, 2.0f));
-	lightColors.PushBack(glm::vec3(1.5f, 0.0f, 0.0f));
-	lightColors.PushBack(glm::vec3(0.0f, 0.0f, 1.5f));
-	lightColors.PushBack(glm::vec3(0.0f, 1.5f, 0.0f));
+	lightColors.push_back(glm::vec3(2.0f, 2.0f, 2.0f));
+	lightColors.push_back(glm::vec3(1.5f, 0.0f, 0.0f));
+	lightColors.push_back(glm::vec3(0.0f, 0.0f, 1.5f));
+	lightColors.push_back(glm::vec3(0.0f, 1.5f, 0.0f));
 
 
 	// shader configuration
@@ -123,10 +123,10 @@ void Bloom::Draw()
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, woodTexture);
 	// set lighting uniforms
-	for (unsigned int i = 0; i < lightPositions.Size(); i++)
+	for (unsigned int i = 0; i < lightPositions.size(); i++)
 	{
-		m_shader.SetVec3(Khs("lights[") + TO_STRING(i) + Khs("].Position"), lightPositions[i]);
-		m_shader.SetVec3(Khs("lights[") + TO_STRING(i) + Khs("].Color"), lightColors[i]);
+		m_shader.SetVec3("lights[" + std::to_string(i) + "].Position", lightPositions[i]);
+		m_shader.SetVec3("lights[" + std::to_string(i) + "].Color", lightColors[i]);
 	}
 	m_shader.SetVec3("viewPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
 	// create one large cube that acts as the floor
@@ -180,7 +180,7 @@ void Bloom::Draw()
 	m_shaderLight.SetMat4("projection", projection);
 	m_shaderLight.SetMat4("view", view);
 
-	for (unsigned int i = 0; i < lightPositions.Size(); i++)
+	for (unsigned int i = 0; i < lightPositions.size(); i++)
 	{
 		model = glm::mat4();
 		model = glm::translate(model, glm::vec3(lightPositions[i]));

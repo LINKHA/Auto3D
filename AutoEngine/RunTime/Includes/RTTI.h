@@ -8,7 +8,7 @@ namespace Auto3D {
 class RTTI
 {
 public:
-	RTTI(STRING className, const RTTI* baseRTTI, int classID, bool isAbstract)
+	RTTI(const char* className, const RTTI* baseRTTI, int classID, bool isAbstract)
 		: _className(className)
 		, _base(baseRTTI)
 		, _classID(classID)
@@ -18,11 +18,11 @@ public:
 	/**
 	* @brief : Return class name for string
 	*/
-	const STRING GetClassString() { return _className; }
+	const __String GetClassString() { return _className; }
 	/**
 	* @brief : Return class name for c str
 	*/
-	const char* GetClassCstrName() { return (_className).CStr(); }
+	const char* GetClassCstrName() { return (_className).c_str(); }
 	/**
 	* @brief : Return is abstract
 	*/
@@ -37,7 +37,7 @@ public:
 	const int GetClassID() { return _classID; }
 private:
 	/// class name for string
-	STRING _className;
+	__String _className;
 	/// super rtti class
 	const RTTI* _base;
 	/// class Id

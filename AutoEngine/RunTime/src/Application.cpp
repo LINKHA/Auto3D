@@ -7,6 +7,7 @@ Application::Application()
 }
 Application::~Application()
 {
+	SAFE_DELETE(_engine);
 }
 
 int Application::Run(Ambient* ambient)

@@ -18,9 +18,9 @@ public:
 	* @brief : Create object for type name
 	*/
 #if SharedPtrDebug
-	SharedPtr<Object> CreateObject(STRING type);
+	SharedPtr<Object> CreateObject(__String type);
 #else
-	Object* CreateObject(STRING type);
+	Object* CreateObject(__String type);
 #endif
 	/**
 	* @brief : Create object for template
@@ -31,10 +31,9 @@ public:
 	template<typename T> T* CreateObject();
 #endif
 };
-
 #if SharedPtrDebug
 template<typename T> SharedPtr<T> ScriptComponent::CreateObject()
-{
+{ 
 	return StaticCast<T>(CreateObject(T::GetClassStringStatic()));
 }
 #else
@@ -43,6 +42,5 @@ template<typename T> T* ScriptComponent::CreateObject()
 	return static_cast<T*>(CreateObject(T::GetClassStringStatic()));
 }
 #endif
-
 }
 

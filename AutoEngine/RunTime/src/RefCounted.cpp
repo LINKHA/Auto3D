@@ -10,7 +10,8 @@ RefCounted::RefCounted() :
 RefCounted::~RefCounted()
 {
 	Assert(_refCount);
-	Assert(_refCount->refs == 0);
+	//Assert(_refCount->refs == 0);
+	WarningIfString(_refCount->refs == 0, "ref count is not zero!");
 	Assert(_refCount->weakRefs > 0);
 
 	_refCount->refs = -1;

@@ -1,6 +1,6 @@
 #pragma once
 #include "GameManager.h"
-#include "AutoSTL.h"
+#include "stl_use.h"
 #include "RunDefines.h"
 
 namespace Auto3D {
@@ -11,7 +11,7 @@ class Scene : public GlobalGameManager
 {
 	REGISTER_DERIVED_CLASS(Scene, GlobalGameManager);
 	DECLARE_OBJECT_SERIALIZE(Scene);
-	using LevelScenes = HASH_MAP(int,LevelScene*);
+	using LevelScenes = AUTO_HASH_MAP(int,LevelScene*);
 public:
 	explicit Scene(Ambient* ambient);
 	/**
@@ -24,7 +24,7 @@ public:
 	void RemoveLevel(int index);
 	/**
 	* @brief : Get all level scenes
-	* @return : HASH_MAP(int,LevelScene*)
+	* @return : AUTO_HASH_MAP(int,LevelScene*)
 	*/
 	LevelScenes& GetLevelScenes() { return _actionLevelScenes; }
 	/**

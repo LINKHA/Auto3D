@@ -1,10 +1,10 @@
 #include "File.h"
 #include "LogAssert.h"
 namespace Auto3D {
-HANDLE OpenFileWithPath(const STRING& path, File::Permission permission)
+HANDLE OpenFileWithPath(const __String& path, File::Permission permission)
 {
 	wchar_t widePath[kPathMaxSize];
-	//ConvertPathName(path.CStr(), widePath, kPathMaxSize);
+	//ConvertPathName(path.c_str(), widePath, kPathMaxSize);
 
 	DWORD accessMode, shareMode, createMode;
 	switch (permission) {
@@ -43,7 +43,7 @@ File::File() { _file = NULL; _position = 0; }
 
 File::~File() { Assert(_file == NULL); }
 
-bool File::Open(const STRING path, Permission perm, ATBehavior behavior)
+bool File::Open(const std::string & path, Permission perm, ATBehavior behavior)
 {
 	Close();
 	_path = path;
@@ -64,7 +64,7 @@ bool File::Close()
 		}
 		_file = NULL;
 	}
-	_path.Clear();
+	_path.clear();
 	return true;
 }
 

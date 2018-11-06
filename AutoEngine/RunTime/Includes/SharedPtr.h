@@ -1,15 +1,15 @@
 #pragma once
 #include "LogAssert.h"
-#include "KhSTL/Algorithm/TypeAlgorithm.h"
+
 namespace Auto3D {
 
 ///!!!Temp
-//template<typename T> inline void swap(T& first, T& second)
-//{
-//	T temp = first;
-//	first = second;
-//	second = temp;
-//}
+template<typename T> inline void swap(T& first, T& second)
+{
+	T temp = first;
+	first = second;
+	second = temp;
+}
 
 template<typename T> class SharedPtr
 {
@@ -65,7 +65,7 @@ public:
 
 	operator T*() const { return _ptr; }
 
-	void Swap(SharedPtr& rhs) { KhSTL::Swap(_ptr, rhs._ptr); }
+	void Swap(SharedPtr& rhs) { swap(_ptr, rhs._ptr); }
 
 	void Reset() { ReleaseRef(); }
 

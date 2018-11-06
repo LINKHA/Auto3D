@@ -44,6 +44,10 @@ public:
 	* @brief : Return enable
 	*/
 	bool GetEnable() { return _isEnable; }
+	/**
+	* @brief : Return vector3 with gameObject position
+	*/
+	Vector3 GetPosition();
 
 	virtual void Awake() {}
 	virtual void Start() {}

@@ -40,11 +40,13 @@ inline const char* LogTypeToString(LogType type)
 #define DebugStringToFile(format,type)	do { std::cout << __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(type) << " : " << format <<  std::endl; } while(0)
 #define ErrorIfString(term,x)	do { if (term) DebugStringToFile (x,LogType::kError); } while(0)
 #define ErrorString(x)			do { DebugStringToFile (x,LogType::kError); }while(0)
-#define WarningIfString(term,x)	do { if (term) DebugStringToFile (x,LogType::kWarning)}while(0)
+#define WarningIfString(term,x)	do { if (term) DebugStringToFile (x,LogType::kWarning);}while(0)
 #define WarningString(x)		do { DebugStringToFile (x,LogType::kWarning);}while(0)	
 #define LogString(x)			do { DebugStringToFile(x,LogType::kLog);} while(0)
 #define Print(x)				do { DebugStringToFile(x,LogType::kLog); }while(0)
 #define print(x)				do { DebugStringToFile(x,LogType::kLog); }while(0)
+#define AutoWarningCout			std::cout <<  __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(LogType::kWarning) << " : "
+#define AutoErrorCout			std::cout <<  __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(LogType::kError) << " : "
 #define AutoCout				std::cout <<  __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(LogType::kLog) << " : "
 #define AutoCoutEnd				std::endl
 

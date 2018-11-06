@@ -1,6 +1,6 @@
 
 #include "OffScreen.h"
-#include "GLGather.h"
+#include "AutoOGL.h"
 #include "Math/Rect.h"
 #include "Graphics.h"
 #include "VertexData.h"

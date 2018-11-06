@@ -47,10 +47,7 @@ void HDRSkyBox::Start()
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, 512, 512);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, captureRBO);
 
-
-	//hdrTexture = LocalHdrLoad("../Resource/texture/hdr/Alexs_Apt_2k.hdr");
-
-	hdrTexture = GetSubSystem<Resource>()->HdrLoad("../Resource/texture/hdr/Alexs_Apt_2k.hdr");
+	hdrTexture = GetSubSystem<Resource>()->HdrLoad("../Resource/texture/hdr/Mt-Washington-Gold-Room_Ref.hdr");
 	glGenTextures(1, &envCubemap);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, envCubemap);
 	for (unsigned int i = 0; i < 6; ++i)

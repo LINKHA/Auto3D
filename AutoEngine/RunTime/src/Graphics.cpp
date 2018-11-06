@@ -1,6 +1,6 @@
 #include "Graphics.h"
 #include "AutoImage.h"
-#include "GLGather.h"
+#include "AutoOGL.h"
 #include "../../EngineSetting/BuildSetting.h"
 
 namespace Auto3D {

@@ -22,27 +22,27 @@ void LevelScene::AddNode(Node* node)
 	Assert(node != NULL);
 	if (_isInsideRun)
 	{
-		_nodeToRemove.Remove(node);
-		_nodeToAdd.PushBack(node);
+		_nodeToRemove.remove(node);
+		_nodeToAdd.push_back(node);
 		return;
 	}
-	_nodeToAdd.Remove(node);
-	_nodeToRemove.Remove(node);
-	_nodes.PushBack(node);
+	_nodeToAdd.remove(node);
+	_nodeToRemove.remove(node);
+	_nodes.push_back(node);
 }
 
 void LevelScene::RemoveNode(Node* node)
 {
 	Assert(node != NULL);
-	_nodeToAdd.Remove(node);
-	_nodeToRemove.Remove(node);
+	_nodeToAdd.remove(node);
+	_nodeToRemove.remove(node);
 	if (_isInsideRun)
 	{
-		_nodeToRemove.PushBack(node);
+		_nodeToRemove.push_back(node);
 	}
 	else
 	{
-		_nodes.Remove(node);
+		_nodes.remove(node);
 	}
 }
 
@@ -55,39 +55,39 @@ void LevelScene::ModeRunNode(RunMode runMode)
 	}
 	_isInsideRun = true;
 
-	for (NodeContainer::Iterator i = _nodes.Begin(); i != _nodes.End(); i++)
+	for (NodeContainer::iterator i = _nodes.begin(); i != _nodes.end(); i++)
 	{
 		GameObject* obj = static_cast<GameObject*>(*i);
 		if (obj && obj->GetEnable())
 		{
-			using compomentIt = HASH_MAP(int, Component*)::Iterator;
+			using compomentIt = AUTO_VECTOR(int, Component*)::iterator;
 			if (runMode == RunMode::kAwake)
-				for (compomentIt k = obj->GetComponentsArray().Begin(); k != obj->GetComponentsArray().End(); k++)
+				for (compomentIt k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++)
 				{
 					if (k->second->GetEnable())
 						k->second->Awake();
 				}
 			else if (runMode == RunMode::kStart)
-				for (compomentIt k = obj->GetComponentsArray().Begin(); k != obj->GetComponentsArray().End(); k++)
+				for (compomentIt k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++)
 				{
 					if (k->second->GetEnable())
 						k->second->Start();
 				}
 			else if (runMode == RunMode::kUpdate)
-				for (compomentIt k = obj->GetComponentsArray().Begin(); k != obj->GetComponentsArray().End(); k++)
+				for (compomentIt k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++)
 				{
 					if (k->second->GetEnable())
 						k->second->Update();
 				}
 			else if (runMode == RunMode::kFixUpdate)
-				for (compomentIt k = obj->GetComponentsArray().Begin(); k != obj->GetComponentsArray().End(); k++)
+				for (compomentIt k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++)
 				{
 					if (k->second->GetEnable())
 						k->second->FixUpdate();
 				}
 			else if (runMode == RunMode::kFinish)
 			{
-				for (compomentIt k = obj->GetComponentsArray().Begin(); k != obj->GetComponentsArray().End(); k++)
+				for (compomentIt k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++)
 				{
 					if (k->second->GetEnable())
 						k->second->Finish();
@@ -104,20 +104,20 @@ void LevelScene::ModeRunNode(RunMode runMode)
 void LevelScene::delayAddRemoveNode()
 {
 	Assert(!_isInsideRun);
-	for (NodeContainer::Iterator i = _nodeToRemove.Begin(); i != _nodeToRemove.End(); /**/)
+	for (NodeContainer::iterator i = _nodeToRemove.begin(); i != _nodeToRemove.end(); /**/)
 	{
 		Node* node = *i;
 		++i;
 		RemoveNode(node);
 	}
-	_nodeToRemove.Clear();
-	for (NodeContainer::Iterator i = _nodeToAdd.Begin(); i != _nodeToAdd.End(); /**/)
+	_nodeToRemove.clear();
+	for (NodeContainer::iterator i = _nodeToAdd.begin(); i != _nodeToAdd.end(); /**/)
 	{
 		Node* node = *i;
 		++i;
 		AddNode(node);
 	}
-	_nodeToAdd.Clear();
+	_nodeToAdd.clear();
 }
 
 

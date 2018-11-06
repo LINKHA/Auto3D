@@ -35,4 +35,11 @@ void Component::MountComponent(GameObject& gameObject)
 	_gameObject = &gameObject;
 }
 
+Vector3 Component::GetPosition()
+{
+	if(!GetGameObjectPtr())
+		return Vector3();
+	return GetGameObjectPtr()->GetPosition();
+}
+
 }

@@ -2,7 +2,6 @@
 #include "MathBase.h"
 #include "Vector3.h"
 #include "Matrix3x3.h"
-#include "GLGather.h"
 namespace Auto3D {
 
 struct Vector3;

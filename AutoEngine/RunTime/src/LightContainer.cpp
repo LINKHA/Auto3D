@@ -13,17 +13,17 @@ void LightContainer::AddLight(Light* source)
 {
 	Assert(source);
 	//Maybe Delay add?
-	_lights.PushBack(source);
+	_lights.push_back(source);
 }
 void LightContainer::RemoveLight(Light* source)
 {
 	Assert(source);
-	for (Lights::Iterator it = _lights.Begin(); it != _lights.End(); ++it)
+	for (Lights::iterator it = _lights.begin(); it != _lights.end(); ++it)
 	{
 		if (*it = source)
 		{
 			//Maybe Delay delete?
-			_lights.Erase(it);
+			_lights.erase(it);
 		}
 	}
 	if (_lastMainLight == source)
@@ -31,7 +31,7 @@ void LightContainer::RemoveLight(Light* source)
 }
 int LightContainer::Size()
 {
-	return _lights.Size();
+	return _lights.size();
 }
 
 }

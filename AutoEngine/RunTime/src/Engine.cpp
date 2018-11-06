@@ -5,13 +5,13 @@
 #include "Input.h"
 #include "Renderer.h"
 #include "Graphics.h"
+#include "Audio.h"
 #include "BaseSpace.h"
 #include "Time.h"
 #include "Script.h"
 #include "Resource.h"
 #include "Scene.h"
 #include "IO.h"
-#include "Audio.h"
 #include "UI.h"
 
 namespace Auto3D {
@@ -38,10 +38,12 @@ Engine::~Engine()
 
 void Engine::Init()
 {
+	GetSubSystem<Audio>()->Init();
 	GetSubSystem<BaseSpace>()->Awake();
 	GetSubSystem<Renderer>()->Init();
 	GetSubSystem<BaseSpace>()->Start();
 	GetSubSystem<Renderer>()->ReadyToRender();
+	
 }
 void Engine::RunFrame()
 {

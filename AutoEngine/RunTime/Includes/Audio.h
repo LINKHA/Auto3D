@@ -10,6 +10,10 @@ class Audio : public GlobalGameManager
 	DECLARE_OBJECT_SERIALIZE(Audio);
 public:
 	explicit Audio(Ambient* ambient);
+	/**
+	* @brief : Init audio register audio setting
+	*/
+	void Init();
 
 };
 

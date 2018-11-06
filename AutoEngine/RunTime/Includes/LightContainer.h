@@ -11,7 +11,7 @@ class LightContainer : public Object
 {
 	REGISTER_DERIVED_CLASS(LightContainer, Object);
 	DECLARE_OBJECT_SERIALIZE(LightContainer);
-	using Lights = VECTOR(Light*);
+	using Lights = _VECTOR(Light*);
 public:
 	explicit LightContainer(Ambient* ambient);
 	void AddLight(Light* source);
@@ -22,7 +22,7 @@ public:
 	int Size();
 	/**
 	* @brief : Get all lights
-	* @return : VECTOR(Light*)
+	* @return : _VECTOR(Light*)
 	*/
 	Lights GetAllLights() { return _lights; }
 	/**

@@ -1,5 +1,5 @@
 #pragma once
-#include "GLGather.h"
+#include "AutoOGL.h"
 #include "Auto.h"
 namespace Auto3D {
 class GLTextureEnable

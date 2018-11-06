@@ -2,7 +2,7 @@
 #include "LevelScene.h"
 
 using namespace Auto3D;
-
+#define USE_DEMO 0
 class Level_0 : public LevelScene
 {
 public:
@@ -11,4 +11,11 @@ public:
 
 	void Start()override;
 	void Update()override;
+private:
+	void wood(float offset);
+	void init();
+	void back();
+
+	void demo();
+
 };

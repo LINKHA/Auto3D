@@ -1,8 +1,15 @@
 #pragma once
-class AudioListener
+#include "Component.h"
+
+namespace Auto3D {
+
+class AudioListener : public Component
 {
+	REGISTER_DERIVED_CLASS(AudioListener, Component);
+	DECLARE_OBJECT_SERIALIZE(AudioListener);
 public:
-	AudioListener();
-	~AudioListener();
+	explicit AudioListener(Ambient* ambient);
+	void SetListenervalues();
 };
 
+}

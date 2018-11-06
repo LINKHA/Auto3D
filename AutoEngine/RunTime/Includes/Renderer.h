@@ -1,10 +1,8 @@
 #pragma once
-
 #include "GameManager.h"
 #include "Camera.h"
 #include "LightContainer.h"
 #include "ShadowRenderer.h"
-#include <map>
 
 namespace Auto3D {
 class Ambient;
@@ -19,18 +17,16 @@ class Renderer : public GlobalGameManager
 {
 	REGISTER_DERIVED_CLASS(Renderer, GlobalGameManager);
 	DECLARE_OBJECT_SERIALIZE(Renderer);
-	using CameraContainer = LIST(Camera*);
+	using CameraContainer = _LIST(Camera*);
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	///Render in this order
-	using ShadowMapContainer = LIST(RenderComponent*);
-	using OpaqueContainer = LIST(RenderComponent*);
-	using CustomContainer = LIST(RenderComponent*); //Skybox and other custon component
-	using TranslucentContainer = LIST(RenderComponent*);
+	using ShadowMapContainer = _LIST(RenderComponent*);
+	using OpaqueContainer = _LIST(RenderComponent*);
+	using CustomContainer = _LIST(RenderComponent*); //Skybox and other custon component
+	using TranslucentContainer = _LIST(RenderComponent*);
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	///Auxiliary vessel with distance
-	//using TranslucentDepth = PAIR_MAP(float, RenderComponent*);
-
-	using TranslucentDepth = std::map<float, RenderComponent*>;
+	using TranslucentDepth = AUTO_MAP(float, RenderComponent*); 
 	friend class ShadowRenderer;
 	friend class LightContainer;
 public:
@@ -112,19 +108,19 @@ public:
 	*/
 	ShadowRenderer* GetShadowRenderer() { return _shadowRenderer; }
 	/**
-	* @brief : Get All shadow maps (LIST(RenderComponent*))
+	* @brief : Get All shadow maps (_LIST(RenderComponent*))
 	*/
 	ShadowMapContainer& GetAllShadowMaps() { return _shadowsMap; }
 	/**
-	* @brief : Get All opaques geometrys (LIST(RenderComponent*))
+	* @brief : Get All opaques geometrys (_LIST(RenderComponent*))
 	*/
 	OpaqueContainer& GetAllOpaques() { return _opaques; }
 	/**
-	* @brief : Get All custom geometrys (LIST(RenderComponent*))
+	* @brief : Get All custom geometrys (_LIST(RenderComponent*))
 	*/
 	CustomContainer& GetAllCustoms() { return _customs; }
 	/**
-	* @brief : Get All translucent geometrys (LIST(RenderComponent*))
+	* @brief : Get All translucent geometrys (_LIST(RenderComponent*))
 	*/
 	TranslucentContainer& GetAllTranslucents() { return _translucents; }
 private:

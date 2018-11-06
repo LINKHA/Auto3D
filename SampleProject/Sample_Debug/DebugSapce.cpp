@@ -1,25 +1,21 @@
 #include "DebugSapce.h"
 #include "Application.h"
-#include "LightDirectional.h"
 #include "../FreeCamera.h"
-#include "Mesh.h"
-#include "Sprite.h"
-#include "Input.h"
-#include "Time.h"
-#include "AudioRun.h"
+#include "level_0.h"
 DebugSapce::DebugSapce(Ambient* ambient)
 	:MotionSpace(ambient)
 {}
 DebugSapce::~DebugSapce()
-{}
+{
+	RemoveLevel(0);
+}
+void DebugSapce::Awake()
+{
+	RegisterLevel(new Level_0(_ambient, 0));
+}
 
 void DebugSapce::Start()
 {
-	//GameObject* cameraObj = new GameObject(_ambient);
-	//cameraObj->RegisterObjectFactory(_ambient);
-	//Print(cameraObj->GetAttach());
-	//Run();
-	Run2();
 }
 void DebugSapce::Update()
 {

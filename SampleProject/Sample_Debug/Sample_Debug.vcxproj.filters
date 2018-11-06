@@ -8,11 +8,17 @@
     <ClCompile Include="..\FreeCamera.cpp">
       <Filter>Script</Filter>
     </ClCompile>
+    <ClCompile Include="level_0.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DebugSapce.h" />
     <ClInclude Include="..\FreeCamera.h">
       <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="level_0.h">
+      <Filter>Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

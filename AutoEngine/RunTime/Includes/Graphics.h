@@ -2,11 +2,12 @@
 #include "GameManager.h"
 #include "Ambient.h"
 #include "Math/Color.h"
-#include "SDL2/SDL.h"
 #include "Auto.h"
 #include "Math/Color.h"
 #include "Math/Rect.h"
 #include "GraphicsDefines.h"
+#include "AutoSDL2.h"
+
 namespace Auto3D {
 class Graphics : public GlobalGameManager
 {

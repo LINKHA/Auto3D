@@ -1,6 +1,6 @@
 #pragma once
 #include "Auto.h"
-#include "AutoSTL.h"
+#include "stl_use.h"
 #include "Singleton.h"
 #include "Camera.h"
 #include "RunDefines.h"

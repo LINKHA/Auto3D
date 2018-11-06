@@ -3,7 +3,7 @@
 #include "VertexData.h"
 #include "GameObject.h"
 #include "Transform.h"
-#include "GLGather.h"
+#include "AutoOGL.h"
 #include "Configs.h"
 #include "Resource.h"
 #include "Image.h"

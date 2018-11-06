@@ -1,8 +1,6 @@
 #include "AudioRun.h"
-#include "Framework.h"
-#include "CWaves.h"
+#include "AutoOAL.h"
 
-namespace Auto3D {
 void Run()
 {
 
@@ -268,8 +266,5 @@ void Run2()
 }
 void Run3()
 {
-
-}
-
 
 }

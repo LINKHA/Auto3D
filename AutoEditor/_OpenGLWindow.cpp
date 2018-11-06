@@ -1,10 +1,12 @@
 #include "_OpenGLWindow.h"
-#include "OpenGLGather.h"
+#include "GLGather.h"
 #include "LogAssert.h"
+using namespace Auto3D;
 void _initializeGL()
 {
+	
 	ErrorIfString(!gladLoadGL(), "Failed to initialize GLAD from Editor!\n");
-
+	
 	glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 }
 

@@ -67,6 +67,11 @@ enum ClassIDType
 	DO_CLASS_ID(StateVessel, 68)
 	DO_CLASS_ID(Audio, 69)
 	DO_CLASS_ID(UI, 70)
+
+	DO_CLASS_ID(AudioClip, 71)
+	DO_CLASS_ID(AudioListener, 72)
+	DO_CLASS_ID(AudioSource, 73)
+
 	CLASS_ID_Count
 };
 

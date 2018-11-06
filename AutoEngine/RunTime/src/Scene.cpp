@@ -20,14 +20,13 @@ Scene::~Scene()
 void Scene::RegisterLevel(int index, LevelScene* level)
 {
 	level->Enable(true);
-	//_dynamicLevelScenes.Emplace(MAKE_PAIR(index, level));
-	_dynamicLevelScenes.Insert(MAKE_PAIR(index, level));
+	_dynamicLevelScenes.emplace(M_PAIR(index, level));
 }
 
 void Scene::RemoveLevel(int index)
 {
 	_dynamicLevelScenes[index]->Enable(false);
-	_dynamicLevelScenes.Erase(index);
+	_dynamicLevelScenes.erase(index);
 }
 
 void Scene::ModeRunLevel(RunMode runMode)
@@ -40,7 +39,7 @@ void Scene::ModeRunLevel(RunMode runMode)
 		ErrorString("Space fail to Run.");
 		return;
 	}
-	for (auto i = _actionLevelScenes.Begin(); i != _actionLevelScenes.End(); i++)
+	for (auto i = _actionLevelScenes.begin(); i != _actionLevelScenes.end(); i++)
 	{
 		LevelScene* level = i->second;
 		if (level && level->IsEnable())

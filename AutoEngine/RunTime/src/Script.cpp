@@ -12,14 +12,14 @@ struct MatchByNameFilter
 template<typename T>
 ScriptComponent* FindScript(Script::Scripts& scripts , T& filter)
 {
-	ScriptManager::Scripts::Iterator i, next;
-	for (i = scripts.Begin(); i != scripts.End(); i = next)
+	ScriptManager::Scripts::iterator i, next;
+	for (i = scripts.begin(); i != scripts.end(); i = next)
 	{
 		next = i; next++;
 		ScriptComponent* script = *i;
 		if (script == NULL)
 		{
-			scripts.Erase(i);
+			scripts.erase(i);
 		}
 		else if(filter.Match(script))
 		{

@@ -1,5 +1,5 @@
 #pragma once
-#include "AutoSTL.h"
+#include "stl_use.h"
 #include "GameManager.h"
 
 namespace Auto3D {
@@ -9,8 +9,8 @@ class Script : public GlobalGameManager
 {
 	REGISTER_DERIVED_CLASS(Script, GlobalGameManager);
 	DECLARE_OBJECT_SERIALIZE(Script);
-	using Scripts = SET(ScriptComponent);
-	using AllScript = SET(ScriptComponent*);
+	using Scripts = _SET(ScriptComponent);
+	using AllScript = _SET(ScriptComponent*);
 public:
 	explicit Script(Ambient* ambient);
 

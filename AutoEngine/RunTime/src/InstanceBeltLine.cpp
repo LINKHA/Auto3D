@@ -16,7 +16,6 @@ InstanceBeltLine::InstanceBeltLine(Ambient* ambient,Model* model, const Shader& 
 }
 InstanceBeltLine::~InstanceBeltLine()
 {
-	delete _model;
 	UnloadOpaque(this);
 }
 void InstanceBeltLine::Start()
@@ -25,7 +24,7 @@ void InstanceBeltLine::Start()
 	glGenBuffers(1, &buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, buffer);
 	glBufferData(GL_ARRAY_BUFFER, _count * sizeof(glm::mat4), &_modelMatrices[0], GL_STATIC_DRAW);
-	for (unsigned int i = 0; i < _model->GetMeshNodes().Size(); i++)
+	for (unsigned int i = 0; i < _model->GetMeshNodes().size(); i++)
 	{
 		unsigned int VAO = _model->GetMeshNodes()[i].vao;
 		glBindVertexArray(VAO);
@@ -61,10 +60,10 @@ void InstanceBeltLine::Draw()
 	_shader.SetInt("texture_diffuse1", 0);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, _model->GetTextureDatas()[0].data);
-	for (unsigned int i = 0; i < _model->GetMeshNodes().Size(); i++)
+	for (unsigned int i = 0; i < _model->GetMeshNodes().size(); i++)
 	{
 		glBindVertexArray(_model->GetMeshNodes()[i].vao);
-		glDrawElementsInstanced(GL_TRIANGLES, _model->GetMeshNodes()[i].indices.Size(), GL_UNSIGNED_INT, 0, _count);
+		glDrawElementsInstanced(GL_TRIANGLES, _model->GetMeshNodes()[i].indices.size(), GL_UNSIGNED_INT, 0, _count);
 		glBindVertexArray(0);
 	}
 

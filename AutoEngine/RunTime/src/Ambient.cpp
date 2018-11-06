@@ -19,24 +19,24 @@ Ambient::~Ambient()
 	RemoveSubSystem("BaseSpace");
 	RemoveSubSystem("Time");
 
-	_subSystems.Clear();
-	_factories.Clear();
+	_subSystems.clear();
+	_factories.clear();
 }
 
 #if SharedPtrDebug
-SharedPtr<Object> Ambient::CreateObject(STRING objectType)
+SharedPtr<Object> Ambient::CreateObject(__String objectType)
 {
-	HASH_MAP(STRING, SharedPtr<ObjectFactory>)::const_Iterator i = _factories.Find(objectType);
-	if (i != _factories.End())
+	AUTO_HASH_MAP(__String, SharedPtr<ObjectFactory>)::const_iterator i = _factories.find(objectType);
+	if (i != _factories.end())
 		return i->second->CreateObject();
 	else
 		return SharedPtr<Object>();
 }
 #else
-Object* Ambient::CreateObject(STRING objectType)
+Object* Ambient::CreateObject(__String objectType)
 {
-	HASH_MAP(STRING, SharedPtr<ObjectFactory>)::ConstIterator i = _factories.Find(objectType);
-	if (i != _factories.End())
+	AUTO_HASH_MAP(__String, SharedPtr<ObjectFactory>)::const_iterator i = _factories.find(objectType);
+	if (i != _factories.end())
 		return i->second->CreateObject();
 	else
 		return SharedPtr<Object>();
@@ -49,17 +49,17 @@ void Ambient::RegisterSubSystem(Object* object)
 		return;
 	_subSystems[object->GetClassString()] = object;
 }
-void Ambient::RemoveSubSystem(STRING objectType) 
+void Ambient::RemoveSubSystem(__String objectType) 
 {
-	HASH_MAP(STRING, SharedPtr<Object>)::Iterator i = _subSystems.Find(objectType);
-	if (i != _subSystems.End())
-		_subSystems.Erase(i);
+	AUTO_HASH_MAP(__String, SharedPtr<Object>)::iterator i = _subSystems.find(objectType);
+	if (i != _subSystems.end())
+		_subSystems.erase(i);
 }
-Object* Ambient::GetSubSystem(STRING type)const 
+Object* Ambient::GetSubSystem(__String type)const 
 {
-	HASH_MAP(STRING, SharedPtr<Object>)::ConstIterator it
-		= _subSystems.Find(type);
-	if (it != _subSystems.End())
+	AUTO_HASH_MAP(__String, SharedPtr<Object>)::const_iterator it 
+		= _subSystems.find(type);
+	if (it != _subSystems.end())
 		return it->second;
 	else
 		return nullptr;
@@ -71,14 +71,13 @@ void Ambient::RegisterFactory(ObjectFactory* factory)
 	_factories[factory->GetClassString()] = factory;
 }
 
-void Ambient::RegisterFactory(ObjectFactory* factory, const char* category)
+void Ambient::RegisterFactory(ObjectFactory * factory, const char* category)
 {
 	if (!factory)
 		return;
 	RegisterFactory(factory);
-	if (STRING::CStrLength(category))
-		_objectAttachs[category].Insert(
-			factory->GetClassString());
+	//if (String::CharPtrLength(category))
+		_objectAttachs[category].push_back(factory->GetClassString());
 }
 
 

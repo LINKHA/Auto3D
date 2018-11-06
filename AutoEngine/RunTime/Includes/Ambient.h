@@ -1,16 +1,16 @@
 #pragma once
 #include "RefCounted.h"
 #include "Object.h"
-#include "AutoSTL.h"
+#include "stl_use.h"
 #include "ObjectFactory.h"
 namespace Auto3D {
 
 class Ambient : public RefCounted
 {
 	friend class Object;
-	using SubSystems = HASH_MAP(STRING, SharedPtr<Object>);
-	using Factories = HASH_MAP(STRING, SharedPtr<ObjectFactory>);
-	using ObjectAttachs = HASH_MAP(const char*, HASH_SET(STRING));
+	using SubSystems = AUTO_HASH_MAP(__String, SharedPtr<Object>);
+	using Factories = AUTO_HASH_MAP(__String, SharedPtr<ObjectFactory>);
+	using ObjectAttachs = AUTO_HASH_MAP(__String, _VECTOR(__String));
 public:
 	Ambient();
 	~Ambient()override;
@@ -28,9 +28,9 @@ public:
 	* @brief : Create object by string type , Return pointer to it or null if no factory found.
 	*/
 #if SharedPtrDebug
-	SharedPtr<Object> CreateObject(STRING objectType);
+	SharedPtr<Object> CreateObject(__String objectType);
 #else
-	Object* CreateObject(STRING objectType);
+	Object* CreateObject(__String objectType);
 #endif
 	/**
 	* @brief : Register sub system need extend object
@@ -59,10 +59,10 @@ public:
 	/**
 	* @brief : Get sub system according to the parameters
 	*/
-	Object* GetSubSystem(STRING type) const;
+	Object* GetSubSystem(__String type) const;
 	/**
 	* @brief : Get sub systems
-	* @return :HASH_MAP(STRING, SharedPtr<Object>)
+	* @return :AUTO_HASH_MAP(__String, SharedPtr<Object>)
 	*/
 	const SubSystems& GetSubSystems() const { return _subSystems; }
 	/**
@@ -84,7 +84,7 @@ public:
 	/**
 	* @brief : Remove a sub system from _subSystems
 	*/
-	void RemoveSubSystem(STRING objectType);
+	void RemoveSubSystem(__String objectType);
 	/**
 	* @brief : Template version of removing a subsystem.
 	*/

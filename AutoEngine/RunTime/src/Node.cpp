@@ -13,25 +13,25 @@ Node::~Node() {}
 
 void Node::AddChild(GameObject* node)
 {
-	_childs.PushBack(node);
+	_childs.push_back(node);
 }
 
 void Node::RemoveChild(int index)
 {
-	if (_childs.Begin() + index <= _childs.End())
-		_childs.Erase(_childs.Begin() + index);
+	if (_childs.begin() + index <= _childs.end())
+		_childs.erase(_childs.begin() + index);
 	else
 		ErrorString("File remove child,the index is exceed child count.\n");
 }
 
 GameObject* Node::GetChild(int index)
 {
-	if (_childs.Begin() + index >= _childs.End())
+	if (_childs.begin() + index >= _childs.end())
 	{
 		ErrorString("File get child,the index is exceed child count.\n");
-		return _childs.At(_childs.Size());
+		return _childs.at(_childs.size());
 	}
-	return _childs.At(index);
+	return _childs.at(index);
 }
 
 Node::GameObjectChilds& Node::GetAllChild()

@@ -76,9 +76,6 @@
     <Filter Include="RunTime\SubSystem\Graphics\Component">
       <UniqueIdentifier>{5a1244eb-68a6-4077-b9dd-9d2de5fc767f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="RunTime\SubSystem\Graphics\Opengl">
-      <UniqueIdentifier>{8837c247-60cf-4122-ba66-d22c7ea6836b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="RunTime\SubSystem\Renderer">
       <UniqueIdentifier>{f40e51bf-6d41-42d2-87be-32a8118683f4}</UniqueIdentifier>
     </Filter>
@@ -118,9 +115,6 @@
     <Filter Include="RunTime\SubSystem\IO">
       <UniqueIdentifier>{9e0f4c4f-a58f-457c-a0bc-8760fd1febed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="RunTime\SubSystem\Scene">
-      <UniqueIdentifier>{b2e601c5-a25a-4fca-9602-11574915ae55}</UniqueIdentifier>
-    </Filter>
     <Filter Include="RunTime\SubSystem\Graphics\Component\Abstract">
       <UniqueIdentifier>{19379c9f-00c0-4c1d-a36a-dee221e60cad}</UniqueIdentifier>
     </Filter>
@@ -142,9 +136,6 @@
     <Filter Include="RunTime\SubSystem\Audio\Component">
       <UniqueIdentifier>{9459bcf0-349c-4be7-b95e-cb2124e61d38}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ThirdParty\KhSTL">
-      <UniqueIdentifier>{42f3530b-2894-43b0-bd5b-f4c1964a46dd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ThirdParty\SDL2">
       <UniqueIdentifier>{0ab24ae2-c188-4015-bee3-ef35f8d6556c}</UniqueIdentifier>
     </Filter>
@@ -162,6 +153,18 @@
     </Filter>
     <Filter Include="ThirdParty\stb_image">
       <UniqueIdentifier>{82e7c210-e81e-462f-a741-77ce3fcc308a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RunTime\EngineAdapter">
+      <UniqueIdentifier>{27157323-731c-429e-8d07-9b1d5b4c1bae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RunTime\EngineAdapter\ALFrameWork">
+      <UniqueIdentifier>{a2715895-0f6d-49e8-9e16-c8b36603a869}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RunTime\SubSystem\Graphics\OpenGL">
+      <UniqueIdentifier>{8837c247-60cf-4122-ba66-d22c7ea6836b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RunTime\SubSystem\Resource\Scene">
+      <UniqueIdentifier>{b2e601c5-a25a-4fca-9602-11574915ae55}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -488,9 +491,6 @@
     <ClInclude Include="EngineSetting\AuSet.h">
       <Filter>EngineSetting</Filter>
     </ClInclude>
-    <ClInclude Include="RunTime\Includes\Transform.h">
-      <Filter>RunTime\SubSystem\Graphics\Component</Filter>
-    </ClInclude>
     <ClInclude Include="RunTime\Includes\Light.h">
       <Filter>RunTime\SubSystem\Graphics\Component\Light</Filter>
     </ClInclude>
@@ -584,9 +584,6 @@
     <ClInclude Include="RunTime\Includes\Renderer.h">
       <Filter>RunTime\SubSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="RunTime\Includes\GLDebug.h">
-      <Filter>RunTime\SubSystem\Graphics\Opengl</Filter>
-    </ClInclude>
     <ClInclude Include="RunTime\Includes\BaseSpace.h">
       <Filter>RunTime\SubSystem\BaseSpace</Filter>
     </ClInclude>
@@ -617,9 +614,6 @@
     <ClInclude Include="RunTime\Includes\Configs.h">
       <Filter>RunTime\Misc</Filter>
     </ClInclude>
-    <ClInclude Include="RunTime\Includes\GLGather.h">
-      <Filter>RunTime\SubSystem\Graphics\Opengl</Filter>
-    </ClInclude>
     <ClInclude Include="RunTime\Includes\Shader.h">
       <Filter>RunTime\SubSystem\Graphics</Filter>
     </ClInclude>
@@ -636,7 +630,7 @@
       <Filter>RunTime\SubSystem\Resource</Filter>
     </ClInclude>
     <ClInclude Include="RunTime\Includes\Scene.h">
-      <Filter>RunTime\SubSystem\Scene</Filter>
+      <Filter>RunTime\SubSystem\Resource\Scene</Filter>
     </ClInclude>
     <ClInclude Include="RunTime\Includes\Mesh.h">
       <Filter>RunTime\SubSystem\Graphics\Component\Mesh</Filter>
@@ -828,7 +822,7 @@
       <Filter>ThirdParty\Box2D</Filter>
     </ClInclude>
     <ClInclude Include="RunTime\Includes\LevelScene.h">
-      <Filter>RunTime\SubSystem\Scene</Filter>
+      <Filter>RunTime\SubSystem\Resource\Scene</Filter>
     </ClInclude>
     <ClInclude Include="RunTime\Includes\RunDefines.h">
       <Filter>RunTime\Code\CodeDef</Filter>
@@ -837,10 +831,10 @@
       <Filter>RunTime\SubSystem\IO</Filter>
     </ClInclude>
     <ClInclude Include="RunTime\Includes\MotionSpace.h">
-      <Filter>RunTime\SubSystem\Scene</Filter>
+      <Filter>RunTime\SubSystem\Resource\Scene</Filter>
     </ClInclude>
     <ClInclude Include="RunTime\Includes\StateVessel.h">
-      <Filter>RunTime\SubSystem\Scene</Filter>
+      <Filter>RunTime\SubSystem\Resource\Scene</Filter>
     </ClInclude>
     <ClInclude Include="RunTime\Includes\TextureMap.h">
       <Filter>RunTime\SubSystem\Graphics\Component\Abstract</Filter>
@@ -863,11 +857,8 @@
     <ClInclude Include="RunTime\Includes\Audio.h">
       <Filter>RunTime\SubSystem\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="RunTime\Includes\Component.h">
-      <Filter>RunTime\SubSystem\Graphics\Component</Filter>
-    </ClInclude>
     <ClInclude Include="RunTime\Includes\Node.h">
-      <Filter>RunTime\SubSystem\Scene</Filter>
+      <Filter>RunTime\SubSystem\Resource\Scene</Filter>
     </ClInclude>
     <ClInclude Include="EngineSetting\BuildSetting.h">
       <Filter>EngineSetting</Filter>
@@ -881,203 +872,8 @@
     <ClInclude Include="RunTime\Includes\AudioListener.h">
       <Filter>RunTime\SubSystem\Audio\Component</Filter>
     </ClInclude>
-    <ClInclude Include="RunTime\Includes\CWaves.h">
-      <Filter>RunTime\SubSystem\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\Framework.h">
-      <Filter>RunTime\SubSystem\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\LoadOAL.h">
-      <Filter>RunTime\SubSystem\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\AudioRun.h">
-      <Filter>RunTime\SubSystem\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\DeviceList.h">
-      <Filter>RunTime\SubSystem\Audio</Filter>
-    </ClInclude>
     <ClInclude Include="RunTime\Includes\DebugNew.h">
       <Filter>RunTime\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\KhAlgorithm.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\KhArray.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\KhDeque.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\KhHashMap.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\KhHashSet.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\KhHeap.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\KhList.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\KhMap.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\KhPair.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\KhQueue.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\KhSet.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\KhStack.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\KhSTL.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\KhString.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\KhVector.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Algorithm\TypeAlgorithm.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Allocator\TypeAllocator.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\Array\TypeArray.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\Array\TypeArrayIterator.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Allocator\TypeConstruct.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Utility\TypeDef.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\Deque\TypeDeque.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\Deque\TypeDequeAllocator.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\Deque\TypeDequeIterator.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\Deque\TypeDequeValue.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Utility\TypeHash.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Utility\TypeHashBase.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Utility\TypeHashIterator.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Utility\TypeHashValue.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\Heap\TypeHeap.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Utility\TypeIterator.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\List\TypeLinkedList.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\List\TypeList.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\List\TypeListAllocator.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\List\TypeListIterator.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\List\TypeListValue.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\Map\TypeMap.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\Map\TypeMapTraits.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Allocator\TypeMemory.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\Map\TypeMultiMap.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\Set\TypeMultiSet.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Utility\TypePair.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\Queue\TypeQueue.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Utility\TypeRBTree.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Utility\TypeRBTreeAlloc.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Utility\TypeRBTreeIterator.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Utility\TypeReverseIterator.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\Set\TypeSet.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\Set\TypeSetTraits.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\Stack\TypeStack.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\String\TypeString.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Utility\TypeTreeNode.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\Map\TypeUnorderedMap.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\Map\TypeUnorderedMultiMap.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\Set\TypeUnorderedMultiSet.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\Set\TypeUnorderedSet.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\Vector\TypeVector.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\Vector\TypeVectorAllocator.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\KhSTL\Container\Vector\TypeVectorValue.h">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\AutoSTL.h">
-      <Filter>RunTime</Filter>
     </ClInclude>
     <ClInclude Include="RunTime\Includes\SDL2\begin_code.h">
       <Filter>ThirdParty\SDL2</Filter>
@@ -1475,8 +1271,48 @@
     <ClInclude Include="RunTime\Includes\stb_image\stb_image.h">
       <Filter>ThirdParty\stb_image</Filter>
     </ClInclude>
+    <ClInclude Include="RunTime\Includes\AudioSource.h">
+      <Filter>RunTime\SubSystem\Audio\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="RunTime\Includes\Component.h">
+      <Filter>RunTime\Code</Filter>
+    </ClInclude>
+    <ClInclude Include="RunTime\Includes\AudioRun.h">
+      <Filter>RunTime\EngineAdapter\ALFrameWork</Filter>
+    </ClInclude>
     <ClInclude Include="RunTime\Includes\AutoImage.h">
-      <Filter>RunTime</Filter>
+      <Filter>RunTime\EngineAdapter</Filter>
+    </ClInclude>
+    <ClInclude Include="RunTime\Includes\stl_use.h" />
+    <ClInclude Include="RunTime\Includes\AutoSTL.h">
+      <Filter>RunTime\EngineAdapter</Filter>
+    </ClInclude>
+    <ClInclude Include="RunTime\Includes\AutoSDL2.h">
+      <Filter>RunTime\EngineAdapter</Filter>
+    </ClInclude>
+    <ClInclude Include="RunTime\Includes\Transform.h">
+      <Filter>RunTime\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="RunTime\Includes\ALfw.h">
+      <Filter>RunTime\EngineAdapter\ALFrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="RunTime\Includes\ALad.h">
+      <Filter>RunTime\EngineAdapter\ALFrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="RunTime\Includes\AutoOAL.h">
+      <Filter>RunTime\EngineAdapter</Filter>
+    </ClInclude>
+    <ClInclude Include="RunTime\Includes\ALWaves.h">
+      <Filter>RunTime\EngineAdapter\ALFrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="RunTime\Includes\ALDeviceList.h">
+      <Filter>RunTime\EngineAdapter\ALFrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="RunTime\Includes\AutoOGL.h">
+      <Filter>RunTime\EngineAdapter</Filter>
+    </ClInclude>
+    <ClInclude Include="RunTime\Includes\OGLDebug.h">
+      <Filter>RunTime\SubSystem\Graphics\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1527,9 +1363,6 @@
     </ClCompile>
     <ClCompile Include="RunTime\src\InstanceBeltLine.cpp">
       <Filter>RunTime\Preinstall</Filter>
-    </ClCompile>
-    <ClCompile Include="RunTime\src\Transform.cpp">
-      <Filter>RunTime\SubSystem\Graphics\Component</Filter>
     </ClCompile>
     <ClCompile Include="RunTime\src\Light.cpp">
       <Filter>RunTime\SubSystem\Graphics\Component\Light</Filter>
@@ -1588,9 +1421,6 @@
     <ClCompile Include="RunTime\src\Engine.cpp">
       <Filter>RunTime\Engine</Filter>
     </ClCompile>
-    <ClCompile Include="RunTime\src\GLGraphics.cpp">
-      <Filter>RunTime\SubSystem\Graphics\Opengl</Filter>
-    </ClCompile>
     <ClCompile Include="RunTime\src\Graphics.cpp">
       <Filter>RunTime\SubSystem\Graphics</Filter>
     </ClCompile>
@@ -1608,9 +1438,6 @@
     </ClCompile>
     <ClCompile Include="RunTime\src\Renderer.cpp">
       <Filter>RunTime\SubSystem\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="RunTime\src\GLDebug.cpp">
-      <Filter>RunTime\SubSystem\Graphics\Opengl</Filter>
     </ClCompile>
     <ClCompile Include="RunTime\src\BaseSpace.cpp">
       <Filter>RunTime\SubSystem\BaseSpace</Filter>
@@ -1630,9 +1457,6 @@
     <ClCompile Include="RunTime\src\Configs.cpp">
       <Filter>RunTime\Misc</Filter>
     </ClCompile>
-    <ClCompile Include="RunTime\src\GLShader.cpp">
-      <Filter>RunTime\SubSystem\Graphics\Opengl</Filter>
-    </ClCompile>
     <ClCompile Include="RunTime\src\ComponentSetting.cpp">
       <Filter>RunTime\GameObject</Filter>
     </ClCompile>
@@ -1649,7 +1473,7 @@
       <Filter>RunTime\SubSystem\Resource</Filter>
     </ClCompile>
     <ClCompile Include="RunTime\src\Scene.cpp">
-      <Filter>RunTime\SubSystem\Scene</Filter>
+      <Filter>RunTime\SubSystem\Resource\Scene</Filter>
     </ClCompile>
     <ClCompile Include="RunTime\src\Mesh.cpp">
       <Filter>RunTime\SubSystem\Graphics\Component\Mesh</Filter>
@@ -1829,13 +1653,13 @@
       <Filter>ThirdParty\Box2D</Filter>
     </ClCompile>
     <ClCompile Include="RunTime\src\LevelScene.cpp">
-      <Filter>RunTime\SubSystem\Scene</Filter>
+      <Filter>RunTime\SubSystem\Resource\Scene</Filter>
     </ClCompile>
     <ClCompile Include="RunTime\src\MotionSpace.cpp">
-      <Filter>RunTime\SubSystem\Scene</Filter>
+      <Filter>RunTime\SubSystem\Resource\Scene</Filter>
     </ClCompile>
     <ClCompile Include="RunTime\src\StateVessel.cpp">
-      <Filter>RunTime\SubSystem\Scene</Filter>
+      <Filter>RunTime\SubSystem\Resource\Scene</Filter>
     </ClCompile>
     <ClCompile Include="RunTime\src\TextureMap.cpp">
       <Filter>RunTime\SubSystem\Graphics\Component\Abstract</Filter>
@@ -1858,11 +1682,8 @@
     <ClCompile Include="RunTime\src\UI.cpp">
       <Filter>RunTime\SubSystem\UI</Filter>
     </ClCompile>
-    <ClCompile Include="RunTime\src\Component.cpp">
-      <Filter>RunTime\SubSystem\Graphics\Component</Filter>
-    </ClCompile>
     <ClCompile Include="RunTime\src\Node.cpp">
-      <Filter>RunTime\SubSystem\Scene</Filter>
+      <Filter>RunTime\SubSystem\Resource\Scene</Filter>
     </ClCompile>
     <ClCompile Include="RunTime\src\AudioClip.cpp">
       <Filter>RunTime\SubSystem\Audio\Component</Filter>
@@ -1870,29 +1691,44 @@
     <ClCompile Include="RunTime\src\AudioListener.cpp">
       <Filter>RunTime\SubSystem\Audio\Component</Filter>
     </ClCompile>
-    <ClCompile Include="RunTime\src\CWaves.cpp">
-      <Filter>RunTime\SubSystem\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="RunTime\src\Framework.cpp">
-      <Filter>RunTime\SubSystem\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="RunTime\src\LoadOAL.cpp">
-      <Filter>RunTime\SubSystem\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="RunTime\src\AudioRun.cpp">
-      <Filter>RunTime\SubSystem\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="RunTime\src\DeviceList.cpp">
-      <Filter>RunTime\SubSystem\Audio</Filter>
-    </ClCompile>
     <ClCompile Include="RunTime\src\DebugNew.cpp">
       <Filter>RunTime\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="RunTime\Includes\KhSTL\Container\String\TypeString.cpp">
-      <Filter>ThirdParty\KhSTL</Filter>
-    </ClCompile>
     <ClCompile Include="RunTime\Includes\stb_image\stb_image.cpp">
       <Filter>ThirdParty\stb_image</Filter>
+    </ClCompile>
+    <ClCompile Include="RunTime\src\AudioSource.cpp">
+      <Filter>RunTime\SubSystem\Audio\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="RunTime\src\Component.cpp">
+      <Filter>RunTime\Code</Filter>
+    </ClCompile>
+    <ClCompile Include="RunTime\src\AudioRun.cpp">
+      <Filter>RunTime\EngineAdapter\ALFrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="RunTime\src\Transform.cpp">
+      <Filter>RunTime\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="RunTime\src\ALad.cpp">
+      <Filter>RunTime\EngineAdapter\ALFrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="RunTime\src\ALfw.cpp">
+      <Filter>RunTime\EngineAdapter\ALFrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="RunTime\src\ALWaves.cpp">
+      <Filter>RunTime\EngineAdapter\ALFrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="RunTime\src\ALDeviceList.cpp">
+      <Filter>RunTime\EngineAdapter\ALFrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="RunTime\src\OGLDebug.cpp">
+      <Filter>RunTime\SubSystem\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="RunTime\src\OGLShader.cpp">
+      <Filter>RunTime\SubSystem\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="RunTime\src\OGLGraphics.cpp">
+      <Filter>RunTime\SubSystem\Graphics\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

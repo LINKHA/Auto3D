@@ -7,18 +7,18 @@ Object::Object(Ambient* ambient)
 {
 }
 
-Object* Object::GetSubSystem(STRING type) const
+Object* Object::GetSubSystem(__String type) const
 {
 	return _ambient->GetSubSystem(type);
 }
 
-const STRING Object::GetAttach() 
+const __String Object::GetAttach() 
 {
-	auto objectAttachs = _ambient->GetObjectAttachs();
-	for (HASH_MAP(const char*, HASH_SET(STRING))::ConstIterator i = objectAttachs.Begin(); i != objectAttachs.End(); ++i)
+	AUTO_HASH_MAP(__String, _VECTOR(__String)) objectAttachs = _ambient->GetObjectAttachs();
+	for (AUTO_HASH_MAP(__String, _VECTOR(__String))::const_iterator i = objectAttachs.begin(); i != objectAttachs.end(); ++i)
 	{
-		HASH_SET(STRING) t = i->second;
-		if(t.Find(GetClassString())!=t.End())
+		_VECTOR(__String) t = i->second;
+		if (find(t.begin(), t.end(), GetClassString()) != t.end())
 			return i->first;
 	}
 	// return null

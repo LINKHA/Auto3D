@@ -9,7 +9,7 @@ Monitors::Monitors()
 	for (int i = 0; i < _monitorCount; i++)
 	{
 		SDL_GetDisplayBounds(i, &rect);
-		_mnitors.EmplaceBack(MAKE_PAIR(rect.w, rect.h));
+		_mnitors.push_back(M_PAIR(rect.w, rect.h));
 	}
 }
 
@@ -25,7 +25,7 @@ Int32 Monitors::GetMonitorsHeight(int index)
 		WarningString("Fail to get monitors with index(Maybe index beyond the limit)");
 		return 0;
 	}
-	return _mnitors.At(index).second;
+	return _mnitors.at(index).second;
 }
 
 Int32 Monitors::GetMonitorsWidth(int index)
@@ -35,7 +35,7 @@ Int32 Monitors::GetMonitorsWidth(int index)
 		WarningString("Fail to get monitors with index(Maybe index beyond the limit)");
 		return 0;
 	}
-	return _mnitors.At(index).first;
+	return _mnitors.at(index).first;
 }
 
 RectInt Monitors::GetMonitorsSize(int index)
@@ -45,8 +45,8 @@ RectInt Monitors::GetMonitorsSize(int index)
 		WarningString("Fail to get monitors size index(Maybe index beyond the limit)");
 	}
 	RectInt rectSize;
-	rectSize.width = _mnitors.At(index).first;
-	rectSize.height = _mnitors.At(index).second;
+	rectSize.width = _mnitors.at(index).first;
+	rectSize.height = _mnitors.at(index).second;
 	return rectSize;
 }
 

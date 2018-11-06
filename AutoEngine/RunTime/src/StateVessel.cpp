@@ -15,12 +15,12 @@ StateVessel::~StateVessel()
 
 
 #if SharedPtrDebug
-SharedPtr<Object> StateVessel::CreateObject(STRING type)
+SharedPtr<Object> StateVessel::CreateObject(__String type)
 {
 	return _ambient->CreateObject(type);
 }
 #else
-Object* StateVessel::CreateObject(STRING type)
+Object* StateVessel::CreateObject(__String type)
 {
 	return _ambient->CreateObject(type);
 }

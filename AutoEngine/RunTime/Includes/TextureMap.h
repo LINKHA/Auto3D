@@ -1,6 +1,6 @@
 #pragma once
 #include "Texture2D.h"
-#include "GLGather.h"
+#include "AutoOGL.h"
 #include "Transform.h"
 #include "Camera.h"
 #include "Application.h"

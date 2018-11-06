@@ -1,7 +1,7 @@
 #pragma once
 #include <windows.h>
 #include "Auto.h"
-#include "AutoSTL.h"
+#include "stl_use.h"
 #include "LogAssert.h"
 namespace Auto3D {
 #define kPathMaxSize MAX_PATH * 4
@@ -10,11 +10,11 @@ namespace Auto3D {
 class File
 {
 	int							_position;
-	STRING						_path;
+	__String						_path;
 	bool						_open;
 	FILE*						_file;
 	HANDLE						_fileHandle;
-	VECTOR(unsigned char)		_data;
+	_VECTOR(unsigned char)		_data;
 
 public:
 	File();
@@ -23,7 +23,7 @@ public:
 	enum Permission { kReadPermission = 0, kWritePermission = 1, kReadWritePermission = 2, kAppendPermission = 3 };
 	enum ATBehavior { kNormalBehavior = 0, kSilentReturnOnOpenFail = 1 << 0, kRetryOnOpenFail = 1 << 1 };
 
-	bool File::Open(const STRING path, Permission perm, ATBehavior behavior = kNormalBehavior);
+	bool Open(const std::string& path, Permission perm, ATBehavior behavior = kNormalBehavior);
 	bool Close();
 
 	int Read(void* buffer, int size);
@@ -36,7 +36,7 @@ public:
 	int GetPosition() const { return _position; }
 
 	static void SetCurrentDirectory(const std::string & path);
-	static const STRING& GetCurrentDirectory();
+	static const __String& GetCurrentDirectory();
 	static void CleanUpClass();
 
 };

@@ -1,5 +1,5 @@
 #include "Resource.h"
-#include "GLGather.h"
+#include "AutoOGL.h"
 #include "AutoImage.h"
 #include "Image.h"
 #include "Model.h"
@@ -52,8 +52,8 @@ Image* Resource::ImageLoad(PInt8 path)
 {
 	stbi_set_flip_vertically_on_load(true);
 	Image* image = nullptr;
-	auto it = _imageQueue.Find(path);
-	if (it != _imageQueue.End())
+	auto it = _imageQueue.find(path);
+	if (it != _imageQueue.end())
 	{
 		image = it->second;
 	}
@@ -70,31 +70,30 @@ Image* Resource::ImageLoad(PInt8 path)
 		else if (nrComponents == 4)
 			image->format = GL_RGBA;
 		image->value = t;
-		//_imageQueue.Emplace(MAKE_PAIR(path, image));
-		_imageQueue.Insert(MAKE_PAIR(path, image));
+		_imageQueue.emplace(M_PAIR(path, image));
+
 	}
 
 	return image;
 }
 
-Model* Resource::ModelLoad(PInt8 path)
+Model * Resource::ModelLoad(PInt8 path)
 {
 	Model* model;
-	auto it = _modelQueue.Find(path);
-	if (it != _modelQueue.End())
+	auto it = _modelQueue.find(path);
+	if (it != _modelQueue.end())
 	{
 		model = it->second;
 	}
 	else
 	{
 		model = new Model(_ambient,path);
-		//_modelQueue.Emplace(path, model);
-		_modelQueue.Insert(MAKE_PAIR(path, model));
+		_modelQueue.emplace(path, model);
 	}
 	return model;
 }
 
-unsigned int Resource::CubemapLoad(VECTOR(STRING) faces)
+unsigned int Resource::CubemapLoad(_VECTOR(__String) faces)
 {
 	stbi_set_flip_vertically_on_load(false);
 	unsigned int textureID;
@@ -102,9 +101,9 @@ unsigned int Resource::CubemapLoad(VECTOR(STRING) faces)
 	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 
 	int width, height, nrChannels;
-	for (unsigned int i = 0; i < faces.Size(); i++)
+	for (unsigned int i = 0; i < faces.size(); i++)
 	{
-		unsigned char *data = stbi_load(faces[i].CStr(), &width, &height, &nrChannels, 0);
+		unsigned char *data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
 		if (data)
 		{
 			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);

@@ -1,8 +1,6 @@
 #pragma once
 #include "RenderComponent.h"
 #include "Shader.h"
-#include "AutoSTL.h"
-
 namespace Auto3D {
 
 class Bloom : public RenderComponent
@@ -29,8 +27,8 @@ private:
 	unsigned int pingpongFBO[2];
 	unsigned int pingpongColorbuffers[2];
 
-	VECTOR(glm::vec3) lightPositions;
-	VECTOR(glm::vec3) lightColors;
+	std::vector<glm::vec3> lightPositions;
+	std::vector<glm::vec3> lightColors;
 
 	bool bloom = true;
 	bool bloomKeyPressed = false;
