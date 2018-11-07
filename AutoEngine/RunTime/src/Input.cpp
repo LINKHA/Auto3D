@@ -1,5 +1,5 @@
 #include "Input.h"
-#include "SDL2/SDL.h"
+#include "AutoSDL2.h"
 #include "Graphics.h"
 namespace Auto3D {
 Input::Input(Ambient* ambient)

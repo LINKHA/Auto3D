@@ -1,7 +1,6 @@
 #include "BaseMesh.h"
 #include "AutoOGL.h"
 #include "AutoSTL.h"
-
 namespace Auto3D {
 
 

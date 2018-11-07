@@ -33,7 +33,7 @@ void SkyBox::Start()
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 
-	VECTOR(__String) faces
+	VECTOR(STRING) faces
 	{
 	"../Resource/skybox/arrakisday_ft.tga",
 	"../Resource/skybox/arrakisday_bk.tga",

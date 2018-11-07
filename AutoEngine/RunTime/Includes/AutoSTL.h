@@ -6,13 +6,14 @@
 #include <unordered_map>
 
 
-#define LIST(t)					std::list<t>
-#define SET(t)						std::set<t,std::less<t>>
-#define VECTOR(t)					std::vector<t>
-#define PAIR(t,x)					std::pair(t,x)
-#define MAKE_PAIR(t,x)					std::make_pair(t,x)
-#define PAIR_LIST(id,value)			std::list<std::pair<id,value>>
-#define PAIR_SET(id,value)			std::set<pair<id,value>,std::less<pair<id,value>>>
-#define PAIR_VECTOR(id,value)		std::vector<std::pair<id,value>>
-#define PAIR_MAP(key, value)		std::map<key,value,std::less<key>>
-#define HASH_MAP(key, value)	std::unordered_map<key,value>
+#define LIST(_T)					std::list<_T>
+#define SET(_T)						std::set<_T,std::less<_T>>
+#define VECTOR(_T)					std::vector<_T>
+#define PAIR(_First,_Second)		std::pair(_First,_Second)
+#define MAKE_PAIR(_First,_Second)	std::make_pair(_First,_Second)
+#define PAIR_LIST(_Id,_T)			std::list<std::pair<_Id,_T>>
+#define PAIR_SET(_Id,_T)			std::set<pair<_Id,_T>,std::less<pair<_Id,_T>>>
+#define PAIR_VECTOR(_Id,_T)			std::vector<std::pair<_Id,_T>>
+#define PAIR_MAP(_Kty, _T)			std::map<_Kty,_T,std::less<_Kty>>
+#define HASH_MAP(_Kty, _T)			std::unordered_map<_Kty,_T>
+#define STRING						std::string

@@ -1,6 +1,6 @@
 #pragma once
 #include "Auto.h"
-__String GetPlatform()
+STRING GetPlatform()
 {
 #if defined(__ANDROID__)
 	return "Android";

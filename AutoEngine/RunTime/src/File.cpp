@@ -1,7 +1,7 @@
 #include "File.h"
 #include "LogAssert.h"
 namespace Auto3D {
-HANDLE OpenFileWithPath(const __String& path, File::Permission permission)
+HANDLE OpenFileWithPath(const STRING& path, File::Permission permission)
 {
 	wchar_t widePath[kPathMaxSize];
 	//ConvertPathName(path.c_str(), widePath, kPathMaxSize);

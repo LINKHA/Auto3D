@@ -37,33 +37,36 @@ inline const char* LogTypeToString(LogType type)
 	default:                return "";
 	}
 }
-#define DebugStringToFile(format,type)	do { std::cout << __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(type) << " : " << format <<  std::endl; } while(0)
-#define ErrorIfString(term,x)	do { if (term) DebugStringToFile (x,LogType::kError); } while(0)
-#define ErrorString(x)			do { DebugStringToFile (x,LogType::kError); }while(0)
-#define WarningIfString(term,x)	do { if (term) DebugStringToFile (x,LogType::kWarning);}while(0)
-#define WarningString(x)		do { DebugStringToFile (x,LogType::kWarning);}while(0)	
-#define LogString(x)			do { DebugStringToFile(x,LogType::kLog);} while(0)
-#define Print(x)				do { DebugStringToFile(x,LogType::kLog); }while(0)
-#define print(x)				do { DebugStringToFile(x,LogType::kLog); }while(0)
+#define DebugStringToFile(_For,_T)	do { std::cout << __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(_T) << " : " << _For <<  std::endl; } while(0)
+#define ErrorIfString(_Te,_X)	do { if (_Te) DebugStringToFile (_X,LogType::kError); } while(0)
+#define ErrorString(_X)			do { DebugStringToFile (_X,LogType::kError); }while(0)
+#define WarningIfString(_Te,_X)	do { if (_Te) DebugStringToFile (_X,LogType::kWarning);}while(0)
+#define WarningString(_X)		do { DebugStringToFile (_X,LogType::kWarning);}while(0)	
+#define LogString(_X)			do { DebugStringToFile(_X,LogType::kLog);} while(0)
+#define Print(_X)				do { DebugStringToFile(_X,LogType::kLog); }while(0)
+#define print(_X)				do { DebugStringToFile(_X,LogType::kLog); }while(0)
 #define AutoWarningCout			std::cout <<  __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(LogType::kWarning) << " : "
 #define AutoErrorCout			std::cout <<  __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(LogType::kError) << " : "
 #define AutoCout				std::cout <<  __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(LogType::kLog) << " : "
 #define AutoCoutEnd				std::endl
 
-#define Assert(condition){ \
+#define Assert(condition)\
+do { \
 	if(!(condition)){ \
 		ErrorString("The breakpoint is triggered.");\
 		assert(condition);\
 		exit(EXIT_FAILURE);\
 	}\
-}
+}while(0)\
 
-#define AssertString(condition,msg){ \
+
+#define AssertString(condition,msg)\
+do { \
 	if(!(condition)){ \
 		ErrorString(msg);\
 		assert(condition);\
 		exit(EXIT_FAILURE);\
 	}\
-}
+}while(0)\
 
 }

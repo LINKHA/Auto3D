@@ -1,6 +1,5 @@
 #pragma once
 #include "Auto.h"
-#include "AutoSTL.h"
 #include "Math/Rect.h"
 namespace Auto3D {
 

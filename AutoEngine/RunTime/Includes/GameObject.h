@@ -1,6 +1,5 @@
 #pragma once
 #include "Object.h"
-#include "AutoSTL.h"
 #include "ComponentSetting.h"
 #include "Math/Vector3.h"
 #include "../../EngineSetting/GameSetting.h"

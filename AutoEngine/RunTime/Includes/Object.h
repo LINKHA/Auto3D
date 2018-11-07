@@ -2,7 +2,6 @@
 #include "Auto.h"
 #include "LogAssert.h"
 #include "ClassID.h"
-#include "AutoSTL.h"
 #include "ObjectDefines.h"
 #include "RefCounted.h"
 #include "SharedPtr.h"
@@ -18,7 +17,7 @@ class Ambient;
 class Object : public RefCounted
 {
 protected:
-	virtual ~Object() { }
+	virtual ~Object() = default;
 public:
 	explicit Object(Ambient* ambient);
 	///////////////////////////////////////////////////////////////////////////
@@ -26,12 +25,12 @@ public:
 	virtual int GetClassID() { return ClassID(Object); }
 	virtual bool IsAbstract() { return true; }
 	virtual char* GetClassCstrName() { return "Object"; }
-	virtual __String GetClassString() { return "Object"; }
+	virtual STRING GetClassString() { return "Object"; }
 	virtual Auto3D::RTTI* GetRTTI() { return GetRTTIStatic(); }
 	static int GetClassIDStatic() { return ClassID(Object); }
 	static bool IsAbstractStatic() { return true; }
 	static char* GetClassCstrNameStatic() { return "Object"; }
-	static __String GetClassStringStatic() { return "Object"; }
+	static STRING GetClassStringStatic() { return "Object"; }
 	static Auto3D::RTTI* GetRTTIStatic() { return nullptr; }
 	//////////////////////////////////////////////////////////////////////////
 	
@@ -42,7 +41,7 @@ public:
 	/**
 	* @brief : Return subsystem by type.
 	*/
-	Object* GetSubSystem(__String type)const;
+	Object* GetSubSystem(STRING type)const;
 	/**
 	* @brief : Template version of returning a subsystem.
 	*/
@@ -50,7 +49,7 @@ public:
 	/**
 	* @brief : Get object attach
 	*/
-	const __String GetAttach();
+	const STRING GetAttach();
 
 
 protected:

@@ -88,5 +88,16 @@ AudioSourceState AudioSource::GetState()
 		return AudioSourceState::DEFAULT;
 }
 
+void AudioSource::attachBuffer(const AudioClip& clip)
+{
+
+}
+
+void AudioSource::attachBuffer(AudioClip* clip)
+{
+
+}
+
+
 
 }

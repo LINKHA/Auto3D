@@ -2,7 +2,7 @@
 
 namespace Auto3D {
 
-AudioClip::AudioClip(Ambient* ambient, __String path)
+AudioClip::AudioClip(Ambient* ambient, STRING path)
 	: Super(ambient)
 	, _path(path)
 {

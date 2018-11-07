@@ -1,7 +1,6 @@
 #pragma once
 #include "Auto.h"
 #include "InputManager.h"
-#include "AutoSTL.h"
 #include "GameManager.h"
 #include "Math/Vector2.h"
 

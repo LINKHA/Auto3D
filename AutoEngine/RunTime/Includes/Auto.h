@@ -1,6 +1,6 @@
 #pragma once
 #include "LogAssert.h"
-
+#include "AutoSTL.h"
 
 
 //namespace AutoScript
@@ -80,17 +80,16 @@ using SInt64 = signed __int64;
 using PInt64 = __int64*;
 using UInt64 = unsigned __int64;
 using PUInt64 = unsigned __int64*;
-//
-#define __String std::string
 
 
-#define SAFE_DELETE(p)           do { if(p)	{ delete (p); (p) = nullptr; } } while(0)
-#define SAFE_DELETE_ARRAY(p)     do { if(p) { delete[] (p); (p) = nullptr; } } while(0)
-#define SAFE_FREE(p)             do { if(p) { free(p); (p) = nullptr; } } while(0)
-#define SAFE_RELEASE(p)          do { if(p) { (p)->release(); } } while(0)
-#define SAFE_RELEASE_NULL(p)     do { if(p) { (p)->release(); (p) = nullptr; } } while(0)
-#define SAFE_RETAIN(p)           do { if(p) { (p)->retain(); } } while(0)
-#define BREAK_IF(cond)           if(cond) break
+
+#define SAFE_DELETE(_X)           do { if(_X)	{ delete (_X); (_X) = nullptr; } } while(0)
+#define SAFE_DELETE_ARRAY(_X)     do { if(_X) { delete[] (_X); (_X) = nullptr; } } while(0)
+#define SAFE_FREE(_X)             do { if(_X) { free(_X); (_X) = nullptr; } } while(0)
+#define SAFE_RELEASE(_X)          do { if(_X) { (_X)->release(); } } while(0)
+#define SAFE_RELEASE_NULL(_X)     do { if(_X) { (_X)->release(); (_X) = nullptr; } } while(0)
+#define SAFE_RETAIN(_X)           do { if(_X) { (_X)->retain(); } } while(0)
+#define BREAK_IF(_X)			  do { if(_X) break; } while(0)
 
 
 #define AUTO_DEBUG 1

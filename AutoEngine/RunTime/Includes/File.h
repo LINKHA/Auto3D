@@ -1,7 +1,6 @@
 #pragma once
 #include <windows.h>
 #include "Auto.h"
-#include "AutoSTL.h"
 #include "LogAssert.h"
 namespace Auto3D {
 #define kPathMaxSize MAX_PATH * 4
@@ -10,7 +9,7 @@ namespace Auto3D {
 class File
 {
 	int							_position;
-	__String						_path;
+	STRING						_path;
 	bool						_open;
 	FILE*						_file;
 	HANDLE						_fileHandle;
@@ -36,7 +35,7 @@ public:
 	int GetPosition() const { return _position; }
 
 	static void SetCurrentDirectory(const std::string & path);
-	static const __String& GetCurrentDirectory();
+	static const STRING& GetCurrentDirectory();
 	static void CleanUpClass();
 
 };

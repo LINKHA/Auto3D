@@ -5,7 +5,6 @@
 #include "Transform.h"
 #include "GameObject.h"
 #include "Light.h"
-#include "AutoSTL.h"
 #include "Configs.h"
 
 

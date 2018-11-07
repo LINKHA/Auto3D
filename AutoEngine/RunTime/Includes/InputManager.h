@@ -1,6 +1,5 @@
 #pragma once
-#include "SDL2/SDL_stdinc.h"
-#include "SDL2/SDL_scancode.h"
+#include "AutoSDL2.h"
 /**
 *  \name Usage page 0x07
 *

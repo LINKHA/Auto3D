@@ -863,9 +863,6 @@
     <ClInclude Include="EngineSetting\BuildSetting.h">
       <Filter>EngineSetting</Filter>
     </ClInclude>
-    <ClInclude Include="RunTime\Includes\TypeTrans.h">
-      <Filter>RunTime\Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="RunTime\Includes\AudioClip.h">
       <Filter>RunTime\SubSystem\Audio\Component</Filter>
     </ClInclude>

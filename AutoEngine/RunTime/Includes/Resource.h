@@ -1,6 +1,5 @@
 #pragma once
 #include "GameManager.h"
-#include "AutoSTL.h"
 
 namespace Auto3D {
 class Image;
@@ -32,7 +31,7 @@ public:
 	* @brief : According fail path get cubemap
 	* @return: unsigned int
 	*/
-	unsigned int CubemapLoad(VECTOR(__String) faces);
+	unsigned int CubemapLoad(VECTOR(STRING) faces);
 	/**
 	* @brief : According fail path get HDR cube
 	* @return: unsigned int

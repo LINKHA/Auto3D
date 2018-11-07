@@ -1,5 +1,4 @@
 #pragma once
-#include "AutoSTL.h"
 #include "GameManager.h"
 
 namespace Auto3D {

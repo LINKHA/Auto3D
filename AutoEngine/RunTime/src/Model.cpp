@@ -29,8 +29,8 @@ void MeshNode::Draw(const Shader& shader)
 	{
 		glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
 										  // retrieve texture number (the N in diffuse_textureN)
-		__String number;
-		__String name = textures[i].type;
+		STRING number;
+		STRING name = textures[i].type;
 		if (name == "texture_diffuse")
 			number = std::to_string(diffuseNr++);
 		else if (name == "texture_specular")
@@ -99,7 +99,7 @@ void MeshNode::setupMesh()
 /////////////////////////////////////////////////////////////////////////////////////////////
 //Model
 /////////////////////////////////////////////////////////////////////////////////////////////
-Model::Model(Ambient* ambient, __String const &path, bool gamma)
+Model::Model(Ambient* ambient, STRING const &path, bool gamma)
 	: Super(ambient)
 	, _gammaCorrection(gamma)
 	, _path(path)
@@ -117,7 +117,7 @@ void Model::Draw(Shader shader)
 		_meshNodes[i].Draw(shader);
 }
 
-bool Model::loadModel(__String const & path)
+bool Model::loadModel(STRING const & path)
 {
 	// read file via ASSIMP
 	Assimp::Importer importer;
@@ -225,7 +225,7 @@ MeshNode Model::processMesh(aiMesh* mesh, const aiScene* scene)
 	return MeshNode(vertices, indices, textures);
 }
 
-VECTOR(TextureData) Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, __String typeName)
+VECTOR(TextureData) Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, STRING typeName)
 {
 	VECTOR(TextureData) textures;
 	for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
@@ -247,7 +247,7 @@ VECTOR(TextureData) Model::loadMaterialTextures(aiMaterial* mat, aiTextureType t
 		{   // if texture hasn't been loaded already, load it
 			TextureData texture;
 
-			__String filename = __String(str.data);
+			STRING filename = STRING(str.data);
 			filename = _directory + '/' + filename;
 			texture.data = GetSubSystem<Resource>()->TextureLoad((char*)filename.data(),false);
 

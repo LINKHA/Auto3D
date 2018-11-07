@@ -8,23 +8,23 @@ namespace Auto3D {
 /*
 * Template class for creating single-instance global classes.
 */
-template<typename T>
+template<typename _Ty>
 class Singleton
 {
 public:
 	Singleton()
 	{
 		Assert(!_instance);
-		_instance = static_cast<T*>(this);
+		_instance = static_cast<_Ty*>(this);
 	}
 	/*
 	* @brief Explicit private copy constructor. This is a forbidden operation.
 	*/
-	Singleton(const Singleton<T> &) = delete;
+	Singleton(const Singleton<_Ty> &) = delete;
 	/*
 	* @brief Private operator= . This is a forbidden operation.
 	*/
-	Singleton& operator = (const Singleton<T> &) = delete;
+	Singleton& operator = (const Singleton<_Ty> &) = delete;
 	
 	virtual ~Singleton()
 	{
@@ -35,11 +35,11 @@ public:
 	* @brief : get instance
 	* @return : return Singleton m_instance
 	*/
-	static T& Instance()
+	static _Ty& Instance()
 	{
 		if (_instance == nullptr)
 		{
-			_instance = new T();
+			_instance = new _Ty();
 		}
 		return *_instance;
 	}
@@ -47,18 +47,18 @@ public:
 	* @brief : get point* instance
 	* @return : return Singleton m_instance
 	*/
-	static T* InstancePtr()
+	static _Ty* InstancePtr()
 	{
 		if (_instance == nullptr)
 		{
-			_instance = new T();
+			_instance = new _Ty();
 		}
 		return _instance;
 	}
 
-	using ClassType = T;
+	using ClassType = _Ty;
 protected:
-	static T* _instance;
+	static _Ty* _instance;
 };
 
 }

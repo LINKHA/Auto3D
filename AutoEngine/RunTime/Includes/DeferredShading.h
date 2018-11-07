@@ -2,7 +2,6 @@
 #include "RenderComponent.h"
 #include "Shader.h"
 #include "Model.h"
-#include "AutoSTL.h"
 
 namespace Auto3D {
 class DeferredShading : public RenderComponent

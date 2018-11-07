@@ -1,7 +1,6 @@
 #pragma once
 #include "ComponentSetting.h"
 #include "glm/glm.hpp"
-#include "AutoSTL.h"
 #include "assimp/Importer.hpp"
 #include "assimp/scene.h"
 #include "assimp/postprocess.h"
@@ -21,8 +20,8 @@ struct MeshVertex {
 */
 struct TextureData {
 	unsigned int data;
-	__String type;
-	__String path;
+	STRING type;
+	STRING path;
 };
 class Shader;
 /**
@@ -67,7 +66,7 @@ public:
 	/**
 	* @brief : Add path and gamma to build model
 	*/
-	Model(Ambient* ambient,__String const& path = "../Resource/object/base/Cube.3DS", bool gamma = false);
+	Model(Ambient* ambient,STRING const& path = "../Resource/object/base/Cube.3DS", bool gamma = false);
 	/**
 	* @brief : Draw all this model mesh node
 	*/
@@ -87,7 +86,7 @@ private:
 	* @brief : The model with ASSIMP extension is loaded from the file and the 
 	*		    generated grid is stored in the grid vector.
 	*/
-	bool loadModel(__String const& path);
+	bool loadModel(STRING const& path);
 	/**
 	* @brief : Processes nodes recursively. Process each individual grid on 
 	*			the node and repeat this process, if any, on its child nodes.
@@ -100,18 +99,18 @@ private:
 	/**
 	* @brief : load all material texture with this file
 	*/
-	TextureDatas loadMaterialTextures(aiMaterial* mat, aiTextureType type, __String typeName);
+	TextureDatas loadMaterialTextures(aiMaterial* mat, aiTextureType type, STRING typeName);
 private:
 	///texture data message container
 	TextureDatas _textureDatas;
 	///mesh node message container
 	MeshNodes _meshNodes;
 	///path remove the file name
-	__String _directory;
+	STRING _directory;
 	///gamma
 	bool _gammaCorrection;
 	///file path
-	__String _path;
+	STRING _path;
 	///judge this file is null
 	bool _isNull;
 };
