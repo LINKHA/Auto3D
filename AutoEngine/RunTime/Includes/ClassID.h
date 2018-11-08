@@ -68,10 +68,11 @@ enum ClassIDType
 	DO_CLASS_ID(Audio, 69)
 	DO_CLASS_ID(UI, 70)
 
-	DO_CLASS_ID(AudioClip, 71)
+	DO_CLASS_ID(AudioBuffer, 71)
 	DO_CLASS_ID(AudioListener, 72)
 	DO_CLASS_ID(AudioSource, 73)
-
+	DO_CLASS_ID(Timer, 74)
+	
 	CLASS_ID_Count
 };
 

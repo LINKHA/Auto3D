@@ -9,7 +9,8 @@ class AudioListener : public Component
 	DECLARE_OBJECT_SERIALIZE(AudioListener);
 public:
 	explicit AudioListener(Ambient* ambient);
-	void SetListenervalues();
+	void Start()override;
+	void Update()override;
 };
 
 }

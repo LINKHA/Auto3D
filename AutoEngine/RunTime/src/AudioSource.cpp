@@ -1,103 +1,119 @@
 #include "AudioSource.h"
-
+#include "Time.h"
+#include "Timer.h"
 
 namespace Auto3D {
 
 
 AudioSource::AudioSource(Ambient* ambient)
 	: Super(ambient)
-	, _uiBuffer(0)
-	, _uiSource(0)
-	, _iState(0)
-{
-	// Generate an AL Buffer
-	alGenBuffers(1, &_uiBuffer);
-
-	// Load Wave file into OpenAL /
-	if (!ALFWLoadWaveToBuffer((char*)ALFWaddMediaPath("../Resource/sound/SoundTest.wav"), _uiBuffer))
-	{
-		AutoErrorCout << "Failed to load " 
-			<< ALFWaddMediaPath("../Resource/sound/SoundTest.wav") << AutoCoutEnd;
-	}
-	// Generate a Source to playback the Buffer
-	alGenSources(1, &_uiSource);
-
-	// Attach Source to Buffer
-	alSourcei(_uiSource, AL_BUFFER, _uiBuffer);
-	ALboolean loop = true;
-
-
-	// Ô´ÉùÒôµÄÎ»ÖÃ.
-	ALfloat SourcePos[] = { 0.0, 0.0, 0.0 };
-
-
-	alSourcef(_uiSource, AL_PITCH, 1.0f);
-
-	alSourcef(_uiSource, AL_GAIN, 1.0f);
-
-	alSourcefv(_uiSource, AL_POSITION, SourcePos);
-
-	ALfloat SourceVel[] = { 0.0, 0.0, 0.1 };
-	alSourcefv(_uiSource, AL_VELOCITY, SourceVel);
-
-	alSourcei(_uiSource, AL_LOOPING, _isLoop);
-}
-
+{}
+AudioSource::AudioSource(Ambient* ambient, AudioBuffer* bufferClip)
+	: Super(ambient)
+	, _bufferClip(bufferClip)
+{}
 
 AudioSource::~AudioSource()
 {
-	alSourceStop(_uiSource);
-	alDeleteSources(1, &_uiSource);
-	alDeleteBuffers(1, &_uiBuffer);
+	alSourceStop(_source);
+	alDeleteSources(1, &_source);
+	alDeleteBuffers(1, &_buffer);
 }
 
-void AudioSource::Play(double delayTime)
+
+void AudioSource::Start()
 {
-	// Play Source
-	alSourcePlay(_uiSource);
+	// Generate an AL Buffer
+	alGenBuffers(1, &_buffer);
+	alGenSources(1, &_source);
+	if (_bufferClip) 
+	{
+		Print(_bufferClip->GetData());
+		attachBuffer();
+	}
+	alSourcei(_source, AL_BUFFER, _buffer);
+
+	alSourcef(_source, AL_PITCH, 1.0f);
+
+	alSourcef(_source, AL_GAIN, 1.0f);
+
+	Vector3 vec = GetPosition();
+	alSource3f(_source, AL_POSITION, vec.x, vec.y, vec.z);
+
+	ALfloat SourceVel[] = { 0.0, 0.0, 0.1 };
+	alSourcefv(_source, AL_VELOCITY, SourceVel);
+
+	alSourcei(_source, AL_LOOPING, _isLoop);
+}
+
+void AudioSource::Update()
+{
+	Vector3 vec = GetPosition();
+	alSource3f(_source, AL_POSITION, vec.x, vec.y, vec.z);
+}
+
+
+void AudioSource::Play(int delayTime)
+{
+	Timer tiemr(&this->callPlay, delayTime);
+	//GetSubSystem<Time>()->OneShotTimer(this->callPlay, delayTime);
 }
 
 void AudioSource::Pause()
 {
-	alSourcePause(_uiSource);
+	alSourcePause(_source);
 }
 
-void AudioSource::Stop(bool enable)
+void AudioSource::Stop()
 {
-	alSourceStop(_uiSource);
+	alSourceStop(_source);
+}
+
+void AudioSource::Rewind()
+{
+	alSourceRewind(_source);
 }
 
 void AudioSource::SetLoop(bool enable)
 {
 	_isLoop = enable;
-	alSourcei(_uiSource, AL_LOOPING, _isLoop);
+	alSourcei(_source, AL_LOOPING, _isLoop);
 }
 
 AudioSourceState AudioSource::GetState()
 {
-	alGetSourcei(_uiSource, AL_SOURCE_STATE, &_iState);
-	if (_iState == AL_INITIAL)
+	alGetSourcei(_source, AL_SOURCE_STATE, &_state);
+	if (_state == AL_INITIAL)
 		return AudioSourceState::INITIAL;
-	else if (_iState == AL_PLAYING)
+	else if (_state == AL_PLAYING)
 		return AudioSourceState::PLAYING;
-	else if (_iState == AL_PAUSED)
+	else if (_state == AL_PAUSED)
 		return AudioSourceState::PAUSED;
-	else if (_iState == AL_STOPPED)
+	else if (_state == AL_STOPPED)
 		return AudioSourceState::STOPPED;
 	else
 		return AudioSourceState::DEFAULT;
 }
 
-void AudioSource::attachBuffer(const AudioClip& clip)
+void AudioSource::AttachBuffer(AudioBuffer* clip)
 {
-
+	_bufferClip = clip;
+	attachBuffer();
 }
 
-void AudioSource::attachBuffer(AudioClip* clip)
+void AudioSource::attachBuffer()
 {
-
+	if (!ALFWLoadWaveToBuffer((char*)ALFWaddMediaPath(_bufferClip->GetData().c_str()), _buffer))
+	{
+		AutoErrorCout << "Failed to load "
+			<< ALFWaddMediaPath(_bufferClip->GetData().c_str()) << AutoCoutEnd;
+	}
+	alSourcei(_source, AL_BUFFER, _buffer);
 }
 
-
+void AudioSource::callPlay()
+{
+	alSourcePlay(_source);
+}
 
 }

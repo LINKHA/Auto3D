@@ -67,9 +67,6 @@
     <Filter Include="RunTime\SubSystem\Input">
       <UniqueIdentifier>{bb45509a-7770-4333-b532-9a7e08132100}</UniqueIdentifier>
     </Filter>
-    <Filter Include="RunTime\SubSystem\Script">
-      <UniqueIdentifier>{bb15b15e-830e-40ad-8e32-6b8af2149580}</UniqueIdentifier>
-    </Filter>
     <Filter Include="RunTime\SubSystem\Graphics">
       <UniqueIdentifier>{1b663dd1-be85-4cfd-a826-1ac9348d0cab}</UniqueIdentifier>
     </Filter>
@@ -165,6 +162,9 @@
     </Filter>
     <Filter Include="RunTime\SubSystem\Resource\Scene">
       <UniqueIdentifier>{b2e601c5-a25a-4fca-9602-11574915ae55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RunTime\SubSystem\Script">
+      <UniqueIdentifier>{bb15b15e-830e-40ad-8e32-6b8af2149580}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -863,9 +863,6 @@
     <ClInclude Include="EngineSetting\BuildSetting.h">
       <Filter>EngineSetting</Filter>
     </ClInclude>
-    <ClInclude Include="RunTime\Includes\AudioClip.h">
-      <Filter>RunTime\SubSystem\Audio\Component</Filter>
-    </ClInclude>
     <ClInclude Include="RunTime\Includes\AudioListener.h">
       <Filter>RunTime\SubSystem\Audio\Component</Filter>
     </ClInclude>
@@ -1310,6 +1307,12 @@
     <ClInclude Include="RunTime\Includes\OGLDebug.h">
       <Filter>RunTime\SubSystem\Graphics\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="RunTime\Includes\AudioBuffer.h">
+      <Filter>RunTime\SubSystem\Audio\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="RunTime\Includes\Timer.h">
+      <Filter>RunTime\SubSystem\Time</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RunTime\Includes\Math\Vector2.cpp">
@@ -1681,9 +1684,6 @@
     <ClCompile Include="RunTime\src\Node.cpp">
       <Filter>RunTime\SubSystem\Resource\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="RunTime\src\AudioClip.cpp">
-      <Filter>RunTime\SubSystem\Audio\Component</Filter>
-    </ClCompile>
     <ClCompile Include="RunTime\src\AudioListener.cpp">
       <Filter>RunTime\SubSystem\Audio\Component</Filter>
     </ClCompile>
@@ -1725,6 +1725,9 @@
     </ClCompile>
     <ClCompile Include="RunTime\src\OGLGraphics.cpp">
       <Filter>RunTime\SubSystem\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="RunTime\src\AudioBuffer.cpp">
+      <Filter>RunTime\SubSystem\Audio\Component</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

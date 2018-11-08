@@ -1,6 +1,7 @@
 #pragma once
 #include <Windows.h>
 #include "GameManager.h"
+#include "AutoSDL2.h"
 
 namespace Auto3D {
 
@@ -21,6 +22,7 @@ struct TimeHolder
 	/// average deltaTime
 	float smoothDeltaTime{};
 };
+
 /**
 * Save world time information
 */
@@ -34,8 +36,12 @@ struct RealTime
 	int second{};
 };
 
-
-
+struct TimerMSG
+{
+	int ID;
+	STRING name;
+	int index;
+};
 
 /**
 * SubSystem class for time
@@ -45,6 +51,7 @@ class Time : public GlobalGameManager
 
 	REGISTER_DERIVED_CLASS(Time, GlobalGameManager);
 	DECLARE_OBJECT_SERIALIZE(Time);
+	typedef void(__cdecl* TimerCallback) ();
 public:
 	explicit Time(Ambient* ambient);
 	/**
@@ -108,7 +115,21 @@ public:
 	* @brief : Return current frames per second.
 	*/
 	float Time::GetFramesPerSecond() const;
-
+	/**
+	* @brief : One shot timer
+	*/
+	void OneShotTimer(TimerCallback callback, int msTime);
+	/**
+	* @brief : Run every msTime for a total of count 
+				(no infinite loop, use Timer if necessary)
+	*/
+	void ShotTimer(TimerCallback callback, int msTime, int count = 1);
+private:
+	/**
+	* @brief : Run every msTime for a total of count
+	*			(no infinite loop, use Timer if necessary)
+	*/
+	void timerCount(TimerCallback callback, int msTime, int count);
 private:
 	/// dynamic time holder
 	TimeHolder _dynamicTime;

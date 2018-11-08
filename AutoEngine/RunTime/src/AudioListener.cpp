@@ -15,18 +15,23 @@ namespace Auto3D {
 AudioListener::AudioListener(Ambient* ambient)
 	:Super(ambient)
 {
-	alListenerfv(AL_POSITION, ListenerPos);
-	alListenerfv(AL_VELOCITY, ListenerVel);
-	alListenerfv(AL_ORIENTATION, ListenerOri);
 }
 
 
 AudioListener::~AudioListener()
 {
 }
-void AudioListener::SetListenervalues()
+void AudioListener::Start()
 {
-	alListenerfv(AL_POSITION, ListenerPos);
+	Vector3 vec = GetPosition();
+	alListener3f(AL_POSITION, vec.x, vec.y, vec.z);
+	alListenerfv(AL_VELOCITY, ListenerVel);
+	alListenerfv(AL_ORIENTATION, ListenerOri);
+}
+void AudioListener::Update()
+{
+	Vector3 vec = GetPosition();
+	alListener3f(AL_POSITION, vec.x, vec.y, vec.z);
 	alListenerfv(AL_VELOCITY, ListenerVel);
 	alListenerfv(AL_ORIENTATION, ListenerOri);
 }

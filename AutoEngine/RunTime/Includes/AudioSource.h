@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "AutoOAL.h"
-#include "AudioClip.h"
+#include "AudioBuffer.h"
 
 namespace Auto3D {
 
@@ -20,11 +20,21 @@ class AudioSource : public Component
 	DECLARE_OBJECT_SERIALIZE(AudioSource);
 public:
 	explicit AudioSource(Ambient* ambient);
+
+	AudioSource(Ambient* ambient,AudioBuffer* bufferClip);
+	/**
+	* @brief : Start component
+	*/
+	void Start()override;
+	/**
+	* @brief : Update component
+	*/
+	void Update()override;
 	/**
 	* @brief : Plays the active audioclip at (future) scheduled time.
 				If time < 0 it specifies a delay
 	*/
-	void Play(double delayTime = 0.0);
+	void Play(int delayTime = 0);
 	/**
 	* @brief : Pauses the active audioclip
 	*/
@@ -32,8 +42,11 @@ public:
 	/**
 	* @brief : Stops the active audio clip
 	*/
-	void Stop(bool enable);
-
+	void Stop();
+	/**
+	* @brief : Rewind audio clip
+	*/
+	void Rewind();
 	/**
 	* @brief : Set audio loop
 	*/
@@ -54,11 +67,18 @@ public:
 	* @brief : Get audio source state with AudioSourceState
 	*/
 	AudioSourceState GetState();
-private:
-	void attachBuffer(const AudioClip& clip);
+	/**
+	* @brief : Attach buffer for point
+	*/
+	void AttachBuffer(AudioBuffer* clip);
 
-	void attachBuffer(AudioClip* clip);
 private:
+	void attachBuffer();
+
+	void callPlay();
+private:
+	/// audio buffer
+	AudioBuffer* _bufferClip;
 	/// is playing in this audio source
 	bool _isPlaying{};
 	///	is pause in this audio source
@@ -68,11 +88,11 @@ private:
 
 	bool _isLoop{};
 
-	ALuint _uiBuffer;
+	ALuint _buffer{};
 
-	ALuint _uiSource;
+	ALuint _source{};
 
-	ALint _iState;
+	ALint _state{};
 };
 
 }

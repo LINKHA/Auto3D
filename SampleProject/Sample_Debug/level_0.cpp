@@ -4,30 +4,27 @@
 #include "Mesh.h"
 #include "../FreeCamera.h"
 #include "SkyBox.h"
+#include "Time.h"
+#include "Timer.h"
 
 Level_0::Level_0(Ambient* ambient, int levelNumber)
 	:LevelScene(ambient, levelNumber)
 {}
 
+void callBack()
+{
+	AutoCout << "1111111111"<< AutoCoutEnd;
+}
 void Level_0::Start()
 {
-	GameObject* cameraObj = new GameObject(_ambient, _levelNumber);
-	FreeCamera* camera = new FreeCamera(_ambient, _levelNumber);
-	SkyBox* skybox = new SkyBox(_ambient);
-	cameraObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
-	cameraObj->AddComponent(camera);
-	cameraObj->AddComponent(skybox);
+	//GetSubSystem<Time>()->ShotTimer(callBack, 1000,5);
+	//GetSubSystem<Time>()->OneShotTimer(callBack, 1000);
 
-	GameObject* lightObj = new GameObject(_ambient, _levelNumber);
-	Light* light = new LightDirectional(_ambient);
-	light->direction.Set(0.0f, -0.5f, -0.5f);
-	lightObj->AddComponent(light);
-
-	GameObject* meshObj = new GameObject(_ambient, _levelNumber);
-	Mesh* mesh = new Mesh(_ambient, "../Resource/object/base/Cube.3DS");
-	meshObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, -3.0f);
-	meshObj->AddComponent(mesh);
-
+	Timer timer(callBack, 1000);
+	//GetSubSystem<Time>()->ShotTimer(callBack, 1000);
+	//Print(1);
+	//GetSubSystem<Time>()->OneShotTimer(1000, callBack);
+	//Print(2);
 }
 
 void Level_0::Update()

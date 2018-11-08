@@ -4,7 +4,7 @@
 #include <set>
 #include <map>
 #include <unordered_map>
-
+#include <string>
 
 #define LIST(_T)					std::list<_T>
 #define SET(_T)						std::set<_T,std::less<_T>>

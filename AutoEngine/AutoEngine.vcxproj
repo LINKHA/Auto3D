@@ -293,7 +293,7 @@
     <ClInclude Include="RunTime\Includes\glad\glad.h" />
     <ClInclude Include="RunTime\Includes\glad\KHR\khrplatform.h" />
     <ClInclude Include="RunTime\Includes\ALad.h" />
-    <ClInclude Include="RunTime\Includes\AudioClip.h" />
+    <ClInclude Include="RunTime\Includes\AudioBuffer.h" />
     <ClInclude Include="RunTime\Includes\AudioListener.h" />
     <ClInclude Include="EngineSetting\BuildSetting.h" />
     <ClInclude Include="RunTime\Includes\Component.h" />
@@ -537,6 +537,7 @@
     <ClInclude Include="RunTime\Includes\SkyBoxManager.h" />
     <ClInclude Include="RunTime\Includes\StateVessel.h" />
     <ClInclude Include="RunTime\Includes\UI.h" />
+    <ClInclude Include="RunTime\Includes\Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RunTime\src\AudioSource.cpp" />
@@ -546,7 +547,7 @@
     <ClCompile Include="RunTime\src\ALWaves.cpp" />
     <ClCompile Include="RunTime\src\ALfw.cpp" />
     <ClCompile Include="RunTime\src\ALad.cpp" />
-    <ClCompile Include="RunTime\src\AudioClip.cpp" />
+    <ClCompile Include="RunTime\src\AudioBuffer.cpp" />
     <ClCompile Include="RunTime\src\AudioListener.cpp" />
     <ClCompile Include="RunTime\src\Component.cpp" />
     <ClCompile Include="RunTime\src\Node.cpp" />

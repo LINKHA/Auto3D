@@ -1,7 +1,6 @@
 #include "Time.h"
-#include "SDL2/SDL.h"
 #include "Math/Math.h"
-
+#include <thread>
 
 namespace Auto3D {
 
@@ -24,6 +23,69 @@ Time::Time(Ambient* ambient)
 }
 
 Time::~Time() {}
+
+void Time::Update()
+{
+	_frameCount++;
+	if (!_frameCount)
+		_frameCount++;
+
+	if (_isFirstFrameAfterReset)
+	{
+		_isFirstFrameAfterReset = false;
+		return;
+	}
+	// When coming out of a pause / startup / level load we don't want to have a spike in delta time.
+	// So just default to START_UP_DELTA_TIME.
+	if (_isFirstFrameAfterPause)
+	{
+		_isFirstFrameAfterPause = false;
+		SetTime(_dynamicTime.curFrameTime + START_UP_DELTA_TIME * _timeSpeedScale);
+		// This is not a real delta time so don't include in smoothed time
+		_activeTime.smoothingWeight = 0.0f;
+		_dynamicTime.smoothingWeight = 0.0f;
+		return;
+	}
+
+	double time = GetTimeSinceStartup() - _zeroTime;
+
+	// clamp the delta time in case a frame takes too long.
+	if (time - _dynamicTime.curFrameTime > _maximumTimestep)
+	{
+		SetTime(_dynamicTime.curFrameTime + _maximumTimestep * _timeSpeedScale);
+		return;
+	}
+	// clamp the delta time in case a frame goes to fast! (prevent delta time being zero)
+	if (time - _dynamicTime.curFrameTime < MINIMUM_DELTA_TIME)
+	{
+		SetTime(_dynamicTime.curFrameTime + MINIMUM_DELTA_TIME * _timeSpeedScale);
+		return;
+	}
+	// handle time pause
+	if (_isTimerPause)
+	{
+		SetTime(_dynamicTime.curFrameTime);
+		// This is not a real delta time so don't include in smoothed time
+		_activeTime.smoothingWeight = 0.0f;
+		_dynamicTime.smoothingWeight = 0.0f;
+		return;
+	}
+	// handle time scale
+	if (!CompareApproximately(_timeSpeedScale, 1.0f))
+	{
+		float deltaTime = time - _dynamicTime.curFrameTime;
+		SetTime(_dynamicTime.curFrameTime + deltaTime * _timeSpeedScale);
+		return;
+	}
+
+	_dynamicTime.lastFrameTime = _dynamicTime.curFrameTime;
+	_dynamicTime.curFrameTime = time;
+	_dynamicTime.deltaTime = _dynamicTime.curFrameTime - _dynamicTime.lastFrameTime;
+	CalcSmoothDeltaTime(_dynamicTime);
+
+	_activeTime = _dynamicTime;
+
+}
 
 void Time::ResetTime()
 {
@@ -75,7 +137,7 @@ void Time::SetTime(double time)
 double Time::GetTimeSinceStartup() const
 {
 	double time = SDL_GetTicks();
-	return time/1000;
+	return time / 1000;
 }
 
 float Time::GetFramesPerSecond() const
@@ -112,68 +174,28 @@ void Time::SetTimeScale(float scale)
 
 }
 
-void Time::Update()
+void Time::OneShotTimer(TimerCallback callback, int msTime)
 {
-	_frameCount++;
-	if (!_frameCount)
-		_frameCount++;
+	ShotTimer(callback, msTime, 1);
+}
 
-	if (_isFirstFrameAfterReset)
-	{
-		_isFirstFrameAfterReset = false;
-		return;
-	}
-	// When coming out of a pause / startup / level load we don't want to have a spike in delta time.
-	// So just default to START_UP_DELTA_TIME.
-	if (_isFirstFrameAfterPause)
-	{
-		_isFirstFrameAfterPause = false;
-		SetTime(_dynamicTime.curFrameTime + START_UP_DELTA_TIME * _timeSpeedScale);
-		// This is not a real delta time so don't include in smoothed time
-		_activeTime.smoothingWeight = 0.0f;
-		_dynamicTime.smoothingWeight = 0.0f;
-		return;
-	}
-	
-	double time = GetTimeSinceStartup() - _zeroTime;
+void Time::ShotTimer(TimerCallback callback, int msTime, int count)
+{
+	std::thread timerThread(&This::timerCount,this, callback, msTime, count);
+	timerThread.detach();
+}
 
-	// clamp the delta time in case a frame takes too long.
-	if (time - _dynamicTime.curFrameTime > _maximumTimestep)
-	{
-		SetTime(_dynamicTime.curFrameTime + _maximumTimestep * _timeSpeedScale);
+void Time::timerCount(TimerCallback callback, int msTime, int count)
+{
+	if (count <= 0)
 		return;
-	}
-	// clamp the delta time in case a frame goes to fast! (prevent delta time being zero)
-	if (time - _dynamicTime.curFrameTime < MINIMUM_DELTA_TIME)
+	int tmpCount = count;
+	while (tmpCount--)
 	{
-		SetTime(_dynamicTime.curFrameTime + MINIMUM_DELTA_TIME * _timeSpeedScale);
-		return;
+		std::chrono::milliseconds dura(msTime);
+		std::this_thread::sleep_for(dura);
+		(*callback)();
 	}
-	// handle time pause
-	if (_isTimerPause)
-	{
-		SetTime(_dynamicTime.curFrameTime);
-		// This is not a real delta time so don't include in smoothed time
-		_activeTime.smoothingWeight = 0.0f;
-		_dynamicTime.smoothingWeight = 0.0f;
-		return;
-	}
-	// handle time scale
-	if (!CompareApproximately(_timeSpeedScale, 1.0f))
-	{
-		float deltaTime = time - _dynamicTime.curFrameTime;
-		SetTime(_dynamicTime.curFrameTime + deltaTime * _timeSpeedScale);
-		return;
-	}
-	
-	_dynamicTime.lastFrameTime = _dynamicTime.curFrameTime;
-	_dynamicTime.curFrameTime = time;
-	_dynamicTime.deltaTime = _dynamicTime.curFrameTime - _dynamicTime.lastFrameTime;
-	CalcSmoothDeltaTime(_dynamicTime);
-
-	_activeTime = _dynamicTime;
-
 }
 
 }
-
