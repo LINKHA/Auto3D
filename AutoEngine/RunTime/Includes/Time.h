@@ -2,9 +2,10 @@
 #include <Windows.h>
 #include "GameManager.h"
 #include "AutoSDL2.h"
+#include <functional>
+
 
 namespace Auto3D {
-
 
 /**
 * Save time information 
@@ -36,13 +37,6 @@ struct RealTime
 	int second{};
 };
 
-struct TimerMSG
-{
-	int ID;
-	STRING name;
-	int index;
-};
-
 /**
 * SubSystem class for time
 */
@@ -53,6 +47,9 @@ class Time : public GlobalGameManager
 	DECLARE_OBJECT_SERIALIZE(Time);
 	typedef void(__cdecl* TimerCallback) ();
 public:
+	/**
+	* @brief : The constructor
+	*/
 	explicit Time(Ambient* ambient);
 	/**
 	* @brief : Reset time
@@ -114,22 +111,32 @@ public:
 	/**
 	* @brief : Return current frames per second.
 	*/
-	float Time::GetFramesPerSecond() const;
+	float GetFramesPerSecond() const;
 	/**
 	* @brief : One shot timer
 	*/
 	void OneShotTimer(TimerCallback callback, int msTime);
 	/**
-	* @brief : Run every msTime for a total of count 
-				(no infinite loop, use Timer if necessary)
+	* @brief : One shot timer with class member function
+	*/
+	void OneShotTimer(std::function<void()> callBack, int msTime);
+	/**
+	* @brief : Run every msTime for a total of count  (no infinite loop, use Timer if necessary)
 	*/
 	void ShotTimer(TimerCallback callback, int msTime, int count = 1);
+	/**
+	* @brief : Run every msTime for a total of count with class member function (no infinite loop, use Timer if necessary)
+	*/
+	void ShotTimer(std::function<void()> callBack, int msTime, int count = 1);
 private:
 	/**
-	* @brief : Run every msTime for a total of count
-	*			(no infinite loop, use Timer if necessary)
+	* @brief : Run every msTime for a total of count (no infinite loop, use Timer if necessary)
 	*/
 	void timerCount(TimerCallback callback, int msTime, int count);
+	/**
+	* @brief : Run every msTime for a total of count with class member function (no infinite loop, use Timer if necessary)
+	*/
+	void timerCountClass(std::function<void()> callback, int msTime, int count);
 private:
 	/// dynamic time holder
 	TimeHolder _dynamicTime;
@@ -152,6 +159,5 @@ private:
 	/// is pause timer
 	bool _isTimerPause;
 };
+
 }
-
-

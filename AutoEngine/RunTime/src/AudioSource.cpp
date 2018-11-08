@@ -1,13 +1,13 @@
 #include "AudioSource.h"
 #include "Time.h"
 #include "Timer.h"
-
+#include <functional>
 namespace Auto3D {
-
 
 AudioSource::AudioSource(Ambient* ambient)
 	: Super(ambient)
 {}
+
 AudioSource::AudioSource(Ambient* ambient, AudioBuffer* bufferClip)
 	: Super(ambient)
 	, _bufferClip(bufferClip)
@@ -19,7 +19,6 @@ AudioSource::~AudioSource()
 	alDeleteSources(1, &_source);
 	alDeleteBuffers(1, &_buffer);
 }
-
 
 void AudioSource::Start()
 {
@@ -52,26 +51,24 @@ void AudioSource::Update()
 	alSource3f(_source, AL_POSITION, vec.x, vec.y, vec.z);
 }
 
-
 void AudioSource::Play(int delayTime)
 {
-	Timer tiemr(&this->callPlay, delayTime);
-	//GetSubSystem<Time>()->OneShotTimer(this->callPlay, delayTime);
+	GetSubSystem<Time>()->OneShotTimer(std::bind(&This::callPlay, this), delayTime);
 }
 
-void AudioSource::Pause()
+void AudioSource::Pause(int delayTime)
 {
-	alSourcePause(_source);
+	GetSubSystem<Time>()->OneShotTimer(std::bind(&This::callPause, this), delayTime);
 }
 
-void AudioSource::Stop()
+void AudioSource::Stop(int delayTime)
 {
-	alSourceStop(_source);
+	GetSubSystem<Time>()->OneShotTimer(std::bind(&This::callStop, this), delayTime);
 }
 
-void AudioSource::Rewind()
+void AudioSource::Rewind(int delayTime)
 {
-	alSourceRewind(_source);
+	GetSubSystem<Time>()->OneShotTimer(std::bind(&This::callRewind, this), delayTime);
 }
 
 void AudioSource::SetLoop(bool enable)
@@ -114,6 +111,21 @@ void AudioSource::attachBuffer()
 void AudioSource::callPlay()
 {
 	alSourcePlay(_source);
+}
+
+void AudioSource::callPause()
+{
+	alSourcePause(_source);
+}
+
+void AudioSource::callStop()
+{
+	alSourceStop(_source);
+}
+
+void AudioSource::callRewind()
+{
+	alSourceRewind(_source);
 }
 
 }

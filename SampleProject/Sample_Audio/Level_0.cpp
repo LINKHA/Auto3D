@@ -25,16 +25,16 @@ void Level_0::Start()
 
 void Level_0::Update()
 {
-	if(GetSubSystem<Input>()->GetKeyPress(KEY_A) && audio->GetState()!= AudioSourceState::PLAYING)
+	if(GetSubSystem<Input>()->GetKeyDown(KEY_A) && audio->GetState()!= AudioSourceState::PLAYING)
 		audio->Play(1000);
-	if (GetSubSystem<Input>()->GetKeyPress(KEY_S))
+	if (GetSubSystem<Input>()->GetKeyDown(KEY_S))
 		audio->Pause();
-	if(GetSubSystem<Input>()->GetKeyPress(KEY_D))
+	if(GetSubSystem<Input>()->GetKeyDown(KEY_D))
 		audio->Stop();
-	if (GetSubSystem<Input>()->GetKeyPress(KEY_F))
+	if (GetSubSystem<Input>()->GetKeyDown(KEY_F))
 		audio->Rewind();
 
-	if (GetSubSystem<Input>()->GetKeyPress(KEY_Q) && audio2->GetState() != AudioSourceState::PLAYING)
+	if (GetSubSystem<Input>()->GetKeyDown(KEY_Q) && audio2->GetState() != AudioSourceState::PLAYING)
 		audio2->Play(1000);
 }
 

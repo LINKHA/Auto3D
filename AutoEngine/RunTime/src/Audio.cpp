@@ -21,11 +21,7 @@ Audio::~Audio()
 
 void Audio::Init()
 {
-	// Initialize Framework
 	ALFWInit();
-
-	//ALFWprintf("PlayStatic Test Application\n");
-
 	if (!ALFWInitOpenAL())
 	{
 		ErrorString("Failed to initialize OpenAL");

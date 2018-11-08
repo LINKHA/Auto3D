@@ -19,9 +19,14 @@ class AudioSource : public Component
 	REGISTER_DERIVED_CLASS(AudioSource, Component);
 	DECLARE_OBJECT_SERIALIZE(AudioSource);
 public:
+	/**
+	* @brief : The constructor
+	*/
 	explicit AudioSource(Ambient* ambient);
-
-	AudioSource(Ambient* ambient,AudioBuffer* bufferClip);
+	/**
+	* @brief : The constructor add buffer clip
+	*/
+	AudioSource(Ambient* ambient, AudioBuffer* bufferClip);
 	/**
 	* @brief : Start component
 	*/
@@ -31,22 +36,21 @@ public:
 	*/
 	void Update()override;
 	/**
-	* @brief : Plays the active audioclip at (future) scheduled time.
-				If time < 0 it specifies a delay
+	* @brief : Plays the active audioclip at (future) scheduled time. If time < 0 it specifies a delay
 	*/
 	void Play(int delayTime = 0);
 	/**
 	* @brief : Pauses the active audioclip
 	*/
-	void Pause();
+	void Pause(int delayTime = 0);
 	/**
 	* @brief : Stops the active audio clip
 	*/
-	void Stop();
+	void Stop(int delayTime = 0);
 	/**
 	* @brief : Rewind audio clip
 	*/
-	void Rewind();
+	void Rewind(int delayTime = 0);
 	/**
 	* @brief : Set audio loop
 	*/
@@ -71,11 +75,27 @@ public:
 	* @brief : Attach buffer for point
 	*/
 	void AttachBuffer(AudioBuffer* clip);
-
 private:
+	/**
+	* @brief : Attach buffer for point
+	*/
 	void attachBuffer();
-
+	/**
+	* @brief : Play audio
+	*/
 	void callPlay();
+	/**
+	* @brief : Pause audio
+	*/
+	void callPause();
+	/**
+	* @brief : Stop audio
+	*/
+	void callStop();
+	/**
+	* @brief : Rewind audio
+	*/
+	void callRewind();
 private:
 	/// audio buffer
 	AudioBuffer* _bufferClip;
@@ -83,15 +103,15 @@ private:
 	bool _isPlaying{};
 	///	is pause in this audio source
 	bool _isPaused{};
-	/// is stop int this audio source
+	/// is stop in this audio source
 	bool _isStop{};
-
+	/// is loop with this audio source
 	bool _isLoop{};
-
+	/// autio source buffer
 	ALuint _buffer{};
-
+	/// autio source
 	ALuint _source{};
-
+	/// autio source state
 	ALint _state{};
 };
 

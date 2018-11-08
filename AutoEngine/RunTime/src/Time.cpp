@@ -100,6 +100,7 @@ void Time::ResetTime()
 	_frameCount = 0;
 	_zeroTime = GetTimeSinceStartup();
 }
+
 void Time::CalcSmoothDeltaTime(TimeHolder& time)
 {
 	// If existing weight is zero, don't take existing value into account
@@ -122,7 +123,6 @@ RealTime& Time::GetRealTime()
 	return _realTime;
 }
 
-
 void Time::SetTime(double time)
 {
 	_dynamicTime.lastFrameTime = _dynamicTime.curFrameTime;
@@ -134,6 +134,7 @@ void Time::SetTime(double time)
 	// Sync _zeroTime with timemanager time
 	_zeroTime = GetTimeSinceStartup() - _dynamicTime.curFrameTime;
 }
+
 double Time::GetTimeSinceStartup() const
 {
 	double time = SDL_GetTicks();
@@ -145,11 +146,11 @@ float Time::GetFramesPerSecond() const
 	return 1.0f / _dynamicTime.deltaTime;
 }
 
-
 void Time::SetPause(bool pause)
 {
 	_isTimerPause = pause;
 }
+
 void Time::Sleep(unsigned millisecond)
 {
 #ifdef _WIN32
@@ -159,6 +160,7 @@ void Time::Sleep(unsigned millisecond)
 	nanosleep(&time, nullptr);
 #endif
 }
+
 void Time::SetMaximumDeltaTime(float maxStep)
 {
 	_maximumTimestep = max<float>(maxStep, _dynamicTime.deltaTime);
@@ -179,9 +181,20 @@ void Time::OneShotTimer(TimerCallback callback, int msTime)
 	ShotTimer(callback, msTime, 1);
 }
 
+void Time::OneShotTimer(std::function<void()> callback, int msTime)
+{
+	ShotTimer(callback, msTime, 1);
+}
+
 void Time::ShotTimer(TimerCallback callback, int msTime, int count)
 {
 	std::thread timerThread(&This::timerCount,this, callback, msTime, count);
+	timerThread.detach();
+}
+
+void Time::ShotTimer(std::function<void()> callback, int msTime, int count)
+{
+	std::thread timerThread(&This::timerCountClass, this, callback, msTime, count);
 	timerThread.detach();
 }
 
@@ -195,6 +208,19 @@ void Time::timerCount(TimerCallback callback, int msTime, int count)
 		std::chrono::milliseconds dura(msTime);
 		std::this_thread::sleep_for(dura);
 		(*callback)();
+	}
+}
+
+void Time::timerCountClass(std::function<void()> callback, int msTime, int count)
+{
+	if (count <= 0)
+		return;
+	int tmpCount = count;
+	while (tmpCount--)
+	{
+		std::chrono::milliseconds dura(msTime);
+		std::this_thread::sleep_for(dura);
+		callback();
 	}
 }
 
