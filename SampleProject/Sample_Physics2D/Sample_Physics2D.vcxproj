@@ -21,10 +21,12 @@
   <ItemGroup>
     <ClCompile Include="..\FreeCamera.cpp" />
     <ClCompile Include="..\glad.c" />
+    <ClCompile Include="Level_0.cpp" />
     <ClCompile Include="Physics2DSapce.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FreeCamera.h" />
+    <ClInclude Include="Level_0.h" />
     <ClInclude Include="Physics2DSapce.h" />
   </ItemGroup>
   <ItemGroup>

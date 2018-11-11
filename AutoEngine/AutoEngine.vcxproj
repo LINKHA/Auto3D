@@ -239,6 +239,14 @@
     <None Include="Shader\au_texture_transform.aufs" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Collision2D.h" />
+    <ClInclude Include="RunTime\Includes\PhysicsUtils.h" />
+    <ClInclude Include="RunTime\Includes\PhysicsWorld2D.h" />
+    <ClInclude Include="RunTime\Includes\ColliderBox2D.h" />
+    <ClInclude Include="RunTime\Includes\Collider2D.h" />
+    <ClInclude Include="RunTime\Includes\Physics.h" />
+    <ClInclude Include="RunTime\Includes\RigidBody2D.h" />
+    <ClInclude Include="RunTime\Includes\AutoPhysics2D.h" />
     <ClInclude Include="RunTime\Includes\AutoSDL2.h" />
     <ClInclude Include="RunTime\Includes\AutoOAL.h" />
     <ClInclude Include="RunTime\Includes\AutoSTL.h" />
@@ -540,6 +548,12 @@
     <ClInclude Include="RunTime\Includes\Timer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Collision2D.cpp" />
+    <ClCompile Include="RunTime\src\PhysicsWorld2D.cpp" />
+    <ClCompile Include="RunTime\src\ColliderBox2D.cpp" />
+    <ClCompile Include="RunTime\src\Collider2D.cpp" />
+    <ClCompile Include="RunTime\src\Physics.cpp" />
+    <ClCompile Include="RunTime\src\RigidBody2D.cpp" />
     <ClCompile Include="RunTime\src\AudioSource.cpp" />
     <ClCompile Include="RunTime\src\DebugNew.cpp" />
     <ClCompile Include="RunTime\src\AudioRun.cpp" />

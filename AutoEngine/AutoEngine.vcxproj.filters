@@ -91,9 +91,6 @@
     <Filter Include="ThirdParty\Box2D">
       <UniqueIdentifier>{6bbb603c-92e1-4eed-ae5e-e70c53e86037}</UniqueIdentifier>
     </Filter>
-    <Filter Include="RunTime\Auto2D">
-      <UniqueIdentifier>{ce5dbab2-831f-4a65-9e9f-cb726bb28773}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Shaders\Explode">
       <UniqueIdentifier>{52bed4cf-7cb2-49f5-bc92-eb2648025862}</UniqueIdentifier>
     </Filter>
@@ -165,6 +162,15 @@
     </Filter>
     <Filter Include="RunTime\SubSystem\Script">
       <UniqueIdentifier>{bb15b15e-830e-40ad-8e32-6b8af2149580}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RunTime\SubSystem\Physics">
+      <UniqueIdentifier>{5288e7e2-2792-46c2-a149-cf7ac406e842}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RunTime\SubSystem\Physics\Component">
+      <UniqueIdentifier>{47d268d7-73c8-402e-bd60-8eb4795bf8c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RunTime\SubSystem\Physics\Component\2D">
+      <UniqueIdentifier>{3fb9f8bc-70d4-430c-84ac-21dccad80811}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1313,6 +1319,30 @@
     <ClInclude Include="RunTime\Includes\Timer.h">
       <Filter>RunTime\SubSystem\Time</Filter>
     </ClInclude>
+    <ClInclude Include="RunTime\Includes\AutoPhysics2D.h">
+      <Filter>RunTime\EngineAdapter</Filter>
+    </ClInclude>
+    <ClInclude Include="RunTime\Includes\Physics.h">
+      <Filter>RunTime\SubSystem\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="RunTime\Includes\RigidBody2D.h">
+      <Filter>RunTime\SubSystem\Physics\Component\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="RunTime\Includes\ColliderBox2D.h">
+      <Filter>RunTime\SubSystem\Physics\Component\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="RunTime\Includes\PhysicsUtils.h">
+      <Filter>RunTime\SubSystem\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="RunTime\Includes\Collider2D.h">
+      <Filter>RunTime\SubSystem\Physics\Component\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision2D.h">
+      <Filter>RunTime\SubSystem\Physics\Component\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="RunTime\Includes\PhysicsWorld2D.h">
+      <Filter>RunTime\SubSystem\Physics\Component\2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RunTime\Includes\Math\Vector2.cpp">
@@ -1728,6 +1758,24 @@
     </ClCompile>
     <ClCompile Include="RunTime\src\AudioBuffer.cpp">
       <Filter>RunTime\SubSystem\Audio\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="RunTime\src\RigidBody2D.cpp">
+      <Filter>RunTime\SubSystem\Physics\Component\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="RunTime\src\Physics.cpp">
+      <Filter>RunTime\SubSystem\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="RunTime\src\ColliderBox2D.cpp">
+      <Filter>RunTime\SubSystem\Physics\Component\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="RunTime\src\Collider2D.cpp">
+      <Filter>RunTime\SubSystem\Physics\Component\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision2D.cpp">
+      <Filter>RunTime\SubSystem\Physics\Component\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="RunTime\src\PhysicsWorld2D.cpp">
+      <Filter>RunTime\SubSystem\Physics\Component\2D</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

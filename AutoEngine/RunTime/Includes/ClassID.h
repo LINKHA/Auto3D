@@ -72,6 +72,12 @@ enum ClassIDType
 	DO_CLASS_ID(AudioListener, 72)
 	DO_CLASS_ID(AudioSource, 73)
 	DO_CLASS_ID(Timer, 74)
+
+	DO_CLASS_ID(Physics, 75)
+	DO_CLASS_ID(Collider2D, 76)
+	DO_CLASS_ID(RigidBody2D, 77)
+	DO_CLASS_ID(ColliderBox2D, 78)
+	DO_CLASS_ID(PhysicsWorld2D, 79)
 	
 	CLASS_ID_Count
 };

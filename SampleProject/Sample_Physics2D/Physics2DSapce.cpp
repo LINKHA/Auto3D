@@ -2,24 +2,18 @@
 #include "Application.h"
 #include "LightDirectional.h"
 #include "../FreeCamera.h"
-#include "Mesh.h"
-#include "Sprite.h"
-#include "Input.h"
-#include "Time.h"
-#include "AudioRun.h"
+#include "Level_0.h"
 Physics2DSapce::Physics2DSapce(Ambient* ambient)
 	:MotionSpace(ambient)
 {}
 Physics2DSapce::~Physics2DSapce()
-{}
-
-void Physics2DSapce::Start()
 {
-	//GameObject* cameraObj = new GameObject(_ambient);
-	//cameraObj->RegisterObjectFactory(_ambient);
-	//Print(cameraObj->GetAttach());
-	//Run();
-	Run2();
+	RemoveLevel(0);
+}
+
+void Physics2DSapce::Awake()
+{
+	RegisterLevel(new Level_0(_ambient, 0));
 }
 void Physics2DSapce::Update()
 {
