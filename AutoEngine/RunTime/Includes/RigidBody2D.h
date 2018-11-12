@@ -23,6 +23,14 @@ class RigidBody2D : public Component
 public:
 	explicit RigidBody2D(Ambient* ambient);
 	
+	void OnSceneSet(PhysicsWorld2D* physicsWorld);
+
+	/// Set body type.
+	void SetBodyType(BodyType2D type);
+	/// Set mass.
+	void SetMass(float mass);
+	/// Set inertia.
+	void SetInertia(float inertia);
 
 
 private:

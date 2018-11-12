@@ -1,7 +1,7 @@
 #include "Level_0.h"
 #include "GameObject.h"
 #include "../FreeCamera.h"
-#include "Physics2DWorld.h"
+#include "PhysicsWorld2D.h"
 
 Level_0::Level_0(Ambient* ambient, int levelNumber)
 	:LevelScene(ambient, levelNumber)
@@ -10,7 +10,7 @@ Level_0::Level_0(Ambient* ambient, int levelNumber)
 void Level_0::Start()
 {
 	GameObject* worldObj = new GameObject(_ambient, _levelNumber);
-	physicsWorld = new Physics2DWorld(_ambient);
+	physicsWorld = new PhysicsWorld2D(_ambient);
 	worldObj->AddComponent(physicsWorld);
 
 	// Define the ground body.
