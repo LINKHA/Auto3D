@@ -1,6 +1,5 @@
 #include "Scene.h"
 #include "GameObject.h"
-#include "LevelScene.h"
 #include "Camera.h"
 #include "Sprite.h"
 #include "Transform.h"
@@ -17,16 +16,16 @@ Scene::Scene(Ambient* ambient)
 Scene::~Scene()
 {}
 
-void Scene::RegisterLevel(int index, LevelScene* level)
+void Scene::RegisterScene(int sceneId, LevelScene* scene)
 {
-	level->Enable(true);
-	_dynamicLevelScenes.emplace(MAKE_PAIR(index, level));
+	scene->Enable(true);
+	_dynamicLevelScenes.emplace(MAKE_PAIR(sceneId, scene));
 }
 
-void Scene::RemoveLevel(int index)
+void Scene::RemoveScene(int sceneId)
 {
-	_dynamicLevelScenes[index]->Enable(false);
-	_dynamicLevelScenes.erase(index);
+	_dynamicLevelScenes[sceneId]->Enable(false);
+	_dynamicLevelScenes.erase(sceneId);
 }
 
 void Scene::ModeRunLevel(RunMode runMode)

@@ -94,9 +94,6 @@
     <Filter Include="Shaders\Explode">
       <UniqueIdentifier>{52bed4cf-7cb2-49f5-bc92-eb2648025862}</UniqueIdentifier>
     </Filter>
-    <Filter Include="RunTime\GameObject">
-      <UniqueIdentifier>{070ca02e-304f-4214-b775-c5eb9957fd1b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Shaders\PostTreatment">
       <UniqueIdentifier>{d8549269-ae12-4dd3-9932-a527f616cd2c}</UniqueIdentifier>
     </Filter>
@@ -157,9 +154,6 @@
     <Filter Include="RunTime\SubSystem\Graphics\OpenGL">
       <UniqueIdentifier>{8837c247-60cf-4122-ba66-d22c7ea6836b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="RunTime\SubSystem\Resource\Scene">
-      <UniqueIdentifier>{b2e601c5-a25a-4fca-9602-11574915ae55}</UniqueIdentifier>
-    </Filter>
     <Filter Include="RunTime\SubSystem\Script">
       <UniqueIdentifier>{bb15b15e-830e-40ad-8e32-6b8af2149580}</UniqueIdentifier>
     </Filter>
@@ -171,6 +165,12 @@
     </Filter>
     <Filter Include="RunTime\SubSystem\Physics\Component\2D">
       <UniqueIdentifier>{3fb9f8bc-70d4-430c-84ac-21dccad80811}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RunTime\SubSystem\Scene">
+      <UniqueIdentifier>{b2e601c5-a25a-4fca-9602-11574915ae55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RunTime\SubSystem\Behavior">
+      <UniqueIdentifier>{adf874be-b7a3-4c88-a38d-0dbc0d6f92aa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -482,9 +482,6 @@
     <ClInclude Include="RunTime\Includes\PreLoadManager.h">
       <Filter>RunTime\Preinstall</Filter>
     </ClInclude>
-    <ClInclude Include="RunTime\Includes\GameObject.h">
-      <Filter>RunTime\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="RunTime\Includes\InstanceBeltLine.h">
       <Filter>RunTime\Preinstall</Filter>
     </ClInclude>
@@ -623,9 +620,6 @@
     <ClInclude Include="RunTime\Includes\Shader.h">
       <Filter>RunTime\SubSystem\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="RunTime\Includes\ComponentSetting.h">
-      <Filter>RunTime\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="RunTime\Includes\OffScreen.h">
       <Filter>RunTime\SubSystem\Graphics\Component\Camera</Filter>
     </ClInclude>
@@ -636,7 +630,7 @@
       <Filter>RunTime\SubSystem\Resource</Filter>
     </ClInclude>
     <ClInclude Include="RunTime\Includes\Scene.h">
-      <Filter>RunTime\SubSystem\Resource\Scene</Filter>
+      <Filter>RunTime\SubSystem\Scene</Filter>
     </ClInclude>
     <ClInclude Include="RunTime\Includes\Mesh.h">
       <Filter>RunTime\SubSystem\Graphics\Component\Mesh</Filter>
@@ -828,7 +822,7 @@
       <Filter>ThirdParty\Box2D</Filter>
     </ClInclude>
     <ClInclude Include="RunTime\Includes\LevelScene.h">
-      <Filter>RunTime\SubSystem\Resource\Scene</Filter>
+      <Filter>RunTime\SubSystem\Scene</Filter>
     </ClInclude>
     <ClInclude Include="RunTime\Includes\RunDefines.h">
       <Filter>RunTime\Code\CodeDef</Filter>
@@ -837,10 +831,7 @@
       <Filter>RunTime\SubSystem\IO</Filter>
     </ClInclude>
     <ClInclude Include="RunTime\Includes\MotionSpace.h">
-      <Filter>RunTime\SubSystem\Resource\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\StateVessel.h">
-      <Filter>RunTime\SubSystem\Resource\Scene</Filter>
+      <Filter>RunTime\SubSystem\Scene</Filter>
     </ClInclude>
     <ClInclude Include="RunTime\Includes\TextureMap.h">
       <Filter>RunTime\SubSystem\Graphics\Component\Abstract</Filter>
@@ -864,7 +855,7 @@
       <Filter>RunTime\SubSystem\Audio</Filter>
     </ClInclude>
     <ClInclude Include="RunTime\Includes\Node.h">
-      <Filter>RunTime\SubSystem\Resource\Scene</Filter>
+      <Filter>RunTime\SubSystem\Scene</Filter>
     </ClInclude>
     <ClInclude Include="EngineSetting\BuildSetting.h">
       <Filter>EngineSetting</Filter>
@@ -1337,11 +1328,26 @@
     <ClInclude Include="RunTime\Includes\Collider2D.h">
       <Filter>RunTime\SubSystem\Physics\Component\2D</Filter>
     </ClInclude>
-    <ClInclude Include="Collision2D.h">
-      <Filter>RunTime\SubSystem\Physics\Component\2D</Filter>
-    </ClInclude>
     <ClInclude Include="RunTime\Includes\PhysicsWorld2D.h">
       <Filter>RunTime\SubSystem\Physics\Component\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="RunTime\Includes\GameObject.h">
+      <Filter>RunTime\SubSystem\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="RunTime\Includes\ComponentSetting.h">
+      <Filter>RunTime\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="RunTime\Includes\SceneObject.h">
+      <Filter>RunTime\SubSystem\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="RunTime\Includes\Collision2D.h">
+      <Filter>RunTime\SubSystem\Physics\Component\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="RunTime\Includes\Behavior.h">
+      <Filter>RunTime\SubSystem\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="RunTime\Includes\BehaviorObject.h">
+      <Filter>RunTime\SubSystem\Behavior</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1386,9 +1392,6 @@
     </ClCompile>
     <ClCompile Include="RunTime\src\PreLoadManager.cpp">
       <Filter>RunTime\Preinstall</Filter>
-    </ClCompile>
-    <ClCompile Include="RunTime\src\GameObject.cpp">
-      <Filter>RunTime\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="RunTime\src\InstanceBeltLine.cpp">
       <Filter>RunTime\Preinstall</Filter>
@@ -1486,9 +1489,6 @@
     <ClCompile Include="RunTime\src\Configs.cpp">
       <Filter>RunTime\Misc</Filter>
     </ClCompile>
-    <ClCompile Include="RunTime\src\ComponentSetting.cpp">
-      <Filter>RunTime\GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="RunTime\src\OffScreen.cpp">
       <Filter>RunTime\SubSystem\Graphics\Component\Camera</Filter>
     </ClCompile>
@@ -1502,7 +1502,7 @@
       <Filter>RunTime\SubSystem\Resource</Filter>
     </ClCompile>
     <ClCompile Include="RunTime\src\Scene.cpp">
-      <Filter>RunTime\SubSystem\Resource\Scene</Filter>
+      <Filter>RunTime\SubSystem\Scene</Filter>
     </ClCompile>
     <ClCompile Include="RunTime\src\Mesh.cpp">
       <Filter>RunTime\SubSystem\Graphics\Component\Mesh</Filter>
@@ -1682,13 +1682,10 @@
       <Filter>ThirdParty\Box2D</Filter>
     </ClCompile>
     <ClCompile Include="RunTime\src\LevelScene.cpp">
-      <Filter>RunTime\SubSystem\Resource\Scene</Filter>
+      <Filter>RunTime\SubSystem\Scene</Filter>
     </ClCompile>
     <ClCompile Include="RunTime\src\MotionSpace.cpp">
-      <Filter>RunTime\SubSystem\Resource\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="RunTime\src\StateVessel.cpp">
-      <Filter>RunTime\SubSystem\Resource\Scene</Filter>
+      <Filter>RunTime\SubSystem\Scene</Filter>
     </ClCompile>
     <ClCompile Include="RunTime\src\TextureMap.cpp">
       <Filter>RunTime\SubSystem\Graphics\Component\Abstract</Filter>
@@ -1712,7 +1709,7 @@
       <Filter>RunTime\SubSystem\UI</Filter>
     </ClCompile>
     <ClCompile Include="RunTime\src\Node.cpp">
-      <Filter>RunTime\SubSystem\Resource\Scene</Filter>
+      <Filter>RunTime\SubSystem\Scene</Filter>
     </ClCompile>
     <ClCompile Include="RunTime\src\AudioListener.cpp">
       <Filter>RunTime\SubSystem\Audio\Component</Filter>
@@ -1771,11 +1768,26 @@
     <ClCompile Include="RunTime\src\Collider2D.cpp">
       <Filter>RunTime\SubSystem\Physics\Component\2D</Filter>
     </ClCompile>
-    <ClCompile Include="Collision2D.cpp">
-      <Filter>RunTime\SubSystem\Physics\Component\2D</Filter>
-    </ClCompile>
     <ClCompile Include="RunTime\src\PhysicsWorld2D.cpp">
       <Filter>RunTime\SubSystem\Physics\Component\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="RunTime\src\GameObject.cpp">
+      <Filter>RunTime\SubSystem\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="RunTime\src\ComponentSetting.cpp">
+      <Filter>RunTime\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="RunTime\src\Collision2D.cpp">
+      <Filter>RunTime\SubSystem\Physics\Component\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="RunTime\src\SceneObject.cpp">
+      <Filter>RunTime\SubSystem\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="RunTime\src\Behavior.cpp">
+      <Filter>RunTime\SubSystem\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="RunTime\src\BehaviorObject.cpp">
+      <Filter>RunTime\SubSystem\Behavior</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

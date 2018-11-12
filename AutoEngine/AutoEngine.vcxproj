@@ -239,7 +239,8 @@
     <None Include="Shader\au_texture_transform.aufs" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Collision2D.h" />
+    <ClInclude Include="RunTime\Includes\Behavior.h" />
+    <ClInclude Include="RunTime\Includes\Collision2D.h" />
     <ClInclude Include="RunTime\Includes\PhysicsUtils.h" />
     <ClInclude Include="RunTime\Includes\PhysicsWorld2D.h" />
     <ClInclude Include="RunTime\Includes\ColliderBox2D.h" />
@@ -543,12 +544,14 @@
     <ClInclude Include="RunTime\Includes\SharedPtr.h" />
     <ClInclude Include="RunTime\Includes\ShadowRenderer.h" />
     <ClInclude Include="RunTime\Includes\SkyBoxManager.h" />
-    <ClInclude Include="RunTime\Includes\StateVessel.h" />
+    <ClInclude Include="RunTime\Includes\BehaviorObject.h" />
     <ClInclude Include="RunTime\Includes\UI.h" />
     <ClInclude Include="RunTime\Includes\Timer.h" />
+    <ClInclude Include="RunTime\Includes\SceneObject.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Collision2D.cpp" />
+    <ClCompile Include="RunTime\src\Behavior.cpp" />
+    <ClCompile Include="RunTime\src\Collision2D.cpp" />
     <ClCompile Include="RunTime\src\PhysicsWorld2D.cpp" />
     <ClCompile Include="RunTime\src\ColliderBox2D.cpp" />
     <ClCompile Include="RunTime\src\Collider2D.cpp" />
@@ -689,8 +692,9 @@
     <ClCompile Include="RunTime\src\Scene.cpp" />
     <ClCompile Include="RunTime\src\ShadowRenderer.cpp" />
     <ClCompile Include="RunTime\src\SkyBoxManager.cpp" />
-    <ClCompile Include="RunTime\src\StateVessel.cpp" />
+    <ClCompile Include="RunTime\src\BehaviorObject.cpp" />
     <ClCompile Include="RunTime\src\UI.cpp" />
+    <ClCompile Include="RunTime\src\SceneObject.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -10,12 +10,12 @@ VertexExplodeSpace::VertexExplodeSpace(Ambient* ambient)
 
 VertexExplodeSpace::~VertexExplodeSpace()
 {
-	RemoveLevel(0);
+	RemoveScene(0);
 }
 
 void VertexExplodeSpace::Awake()
 {
-	RegisterLevel(new Level_0(_ambient, 0));
+	RegisterScene(new Level_0(_ambient, 0));
 }
 
 int VertexExplodeSpace::Launch()

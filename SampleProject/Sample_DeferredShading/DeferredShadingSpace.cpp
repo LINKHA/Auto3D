@@ -9,12 +9,12 @@ DeferredShadingSpace::DeferredShadingSpace(Ambient* ambient)
 
 DeferredShadingSpace::~DeferredShadingSpace()
 {
-	RemoveLevel(0);
+	RemoveScene(0);
 }
 
 void DeferredShadingSpace::Awake()
 {
-	RegisterLevel(new Level_0(_ambient, 0));
+	RegisterScene(new Level_0(_ambient, 0));
 }
 
 int DeferredShadingSpace::Launch()

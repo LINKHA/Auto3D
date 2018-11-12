@@ -8,12 +8,12 @@ Physics2DSapce::Physics2DSapce(Ambient* ambient)
 {}
 Physics2DSapce::~Physics2DSapce()
 {
-	RemoveLevel(0);
+	RemoveScene(0);
 }
 
 void Physics2DSapce::Awake()
 {
-	RegisterLevel(new Level_0(_ambient, 0));
+	RegisterScene(new Level_0(_ambient, 0));
 }
 void Physics2DSapce::Update()
 {

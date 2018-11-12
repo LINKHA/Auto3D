@@ -7,12 +7,12 @@ WorkSpace::WorkSpace(Ambient* ambient)
 {}
 WorkSpace::~WorkSpace()
 {
-	RemoveLevel(0);
+	RemoveScene(0);
 }
 
 void WorkSpace::Awake()
 {
-	RegisterLevel(new Level_0(_ambient, 0));
+	RegisterScene(new Level_0(_ambient, 0));
 }
 
 

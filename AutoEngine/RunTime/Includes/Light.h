@@ -1,9 +1,9 @@
 #pragma once
 #include "Math/Vector3.h"
 #include "Math/Color.h"
-#include "GameObject.h"
 #include "Shader.h"
 #include "Transform.h"
+#include "ComponentSetting.h"
 namespace Auto3D {
 
 enum class LightType

@@ -3,14 +3,12 @@
 
 namespace Auto3D {
 
-class StateVessel : public Object
+class BehaviorObject : public Object
 {
-	REGISTER_DERIVED_ABSTRACT_CLASS(StateVessel, Object);
-	DECLARE_OBJECT_SERIALIZE(StateVessel);
+	REGISTER_DERIVED_ABSTRACT_CLASS(BehaviorObject, Object);
+	DECLARE_OBJECT_SERIALIZE(BehaviorObject);
 public:
-	explicit StateVessel(Ambient* ambient);
-
-
+	explicit BehaviorObject(Ambient* ambient);
 
 	virtual void Awake() {}
 	virtual void Start() {}
@@ -41,7 +39,7 @@ template<typename T> SharedPtr<T> ScriptComponent::CreateObject()
 	return StaticCast<T>(CreateObject(T::GetClassStringStatic()));
 }
 #else
-template<typename T> T* StateVessel::CreateObject()
+template<typename T> T* BehaviorObject::CreateObject()
 {
 	return static_cast<T*>(CreateObject(T::GetClassStringStatic()));
 }

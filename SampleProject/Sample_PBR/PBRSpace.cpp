@@ -7,12 +7,12 @@ PBRSpace::PBRSpace(Ambient* ambient)
 {}
 PBRSpace::~PBRSpace()
 {
-	RemoveLevel(0);
+	RemoveScene(0);
 }
 
 void PBRSpace::Awake()
 {
-	RegisterLevel(new Level_0(_ambient, 0));
+	RegisterScene(new Level_0(_ambient, 0));
 }
 
 int PBRSpace::Launch()

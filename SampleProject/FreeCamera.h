@@ -12,7 +12,7 @@ public:
 	~FreeCamera();
 	void Start()override;
 	void Update()override;
-	GameObject* freeCameraObject;
+	Node* freeCameraObject;
 	Camera* freeCamera;
 private:
 	void processInput();

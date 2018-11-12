@@ -9,12 +9,12 @@ SkyBoxSpace::SkyBoxSpace(Ambient* ambient)
 
 SkyBoxSpace::~SkyBoxSpace()
 {
-	RemoveLevel(0);
+	RemoveScene(0);
 }
 
 void SkyBoxSpace::Awake()
 {
-	RegisterLevel(new Level_0(_ambient, 0));
+	RegisterScene(new Level_0(_ambient, 0));
 }
 int SkyBoxSpace::Launch()
 {

@@ -9,12 +9,12 @@ StencilTestSpace::StencilTestSpace(Ambient* ambient)
 }
 StencilTestSpace::~StencilTestSpace()
 {
-	RemoveLevel(0);
+	RemoveScene(0);
 }
 
 void StencilTestSpace::Awake()
 {
-	RegisterLevel(new Level_0(_ambient, 0));
+	RegisterScene(new Level_0(_ambient, 0));
 }
 int StencilTestSpace::Launch()
 {

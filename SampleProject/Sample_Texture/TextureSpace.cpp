@@ -8,12 +8,12 @@ TextureSpace::TextureSpace(Ambient* ambient)
 }
 TextureSpace::~TextureSpace()
 {
-	RemoveLevel(0);
+	RemoveScene(0);
 }
 
 void TextureSpace::Awake()
 {
-	RegisterLevel(new Level_0(_ambient, 0));
+	RegisterScene(new Level_0(_ambient, 0));
 }
 int TextureSpace::Launch()
 {

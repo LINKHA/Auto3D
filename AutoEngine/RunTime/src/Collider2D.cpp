@@ -22,9 +22,9 @@ void Collider2D::CreateFixture()
 	if (!_fixtureDef.shape)
 		return;
 
-	b2Body* body = _rigidBody->GetBody();
-	if (!body)
-		return;
+	//b2Body* body = _rigidBody->GetBody();
+	//if (!body)
+	//	return;
 }
 
 void Collider2D::ReleaseFixture()

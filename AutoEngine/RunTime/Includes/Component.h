@@ -1,6 +1,6 @@
 #pragma once
 #include "Object.h"
-#include "GameObject.h"
+#include "Node.h"
 
 namespace Auto3D {
 
@@ -19,23 +19,23 @@ public:
 	/**
 	* @brief : Get game object quote
 	*/
-	GameObject& GetGameObject();
+	Node& GetGameObject();
 	/**
 	* @brief : Get game object quote const
 	*/
-	const GameObject& GetGameObject() const;
+	const Node& GetGameObject() const;
 	/**
 	* @brief : Get game object ptr
 	*/
-	GameObject* GetGameObjectPtr();
+	Node* GetGameObjectPtr();
 	/**
 	* @brief : Get game object ptr const
 	*/
-	GameObject* GetGameObjectPtr() const;
+	Node* GetGameObjectPtr() const;
 	/**
 	* @brief : Mount component for gameobject
 	*/
-	void MountComponent(GameObject& gameObject);
+	void MountComponent(Node& gameObject);
 	/**
 	* @brief : Set enable
 	*/
@@ -55,7 +55,7 @@ public:
 	virtual void FixUpdate() {}
 	virtual void Finish() {}
 private:
-	SharedPtr<GameObject> _gameObject;
+	SharedPtr<Node> _gameObject;
 	bool _isEnable;
 };
 

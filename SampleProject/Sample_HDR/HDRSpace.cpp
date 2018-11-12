@@ -7,12 +7,12 @@ HDRSpace::HDRSpace(Ambient* ambient)
 {}
 HDRSpace::~HDRSpace()
 {
-	RemoveLevel(0);
+	RemoveScene(0);
 }
 
 void HDRSpace::Awake()
 {
-	RegisterLevel(new Level_0(_ambient, 0));
+	RegisterScene(new Level_0(_ambient, 0));
 }
 
 int HDRSpace::Launch()

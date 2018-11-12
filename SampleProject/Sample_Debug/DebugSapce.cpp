@@ -7,11 +7,11 @@ DebugSapce::DebugSapce(Ambient* ambient)
 {}
 DebugSapce::~DebugSapce()
 {
-	RemoveLevel(0);
+	RemoveScene(0);
 }
 void DebugSapce::Awake()
 {
-	RegisterLevel(new Level_0(_ambient, 0));
+	RegisterScene(new Level_0(_ambient, 0));
 }
 
 void DebugSapce::Start()

@@ -1,15 +1,15 @@
-#include "StateVessel.h"
+#include "BehaviorObject.h"
 #include "Ambient.h"
 
 namespace Auto3D {
 
-StateVessel::StateVessel(Ambient* ambient)
+BehaviorObject::BehaviorObject(Ambient* ambient)
 	:Super(ambient)
 {
 }
 
 
-StateVessel::~StateVessel()
+BehaviorObject::~BehaviorObject()
 {
 }
 
@@ -20,7 +20,7 @@ SharedPtr<Object> StateVessel::CreateObject(STRING type)
 	return _ambient->CreateObject(type);
 }
 #else
-Object* StateVessel::CreateObject(STRING type)
+Object* BehaviorObject::CreateObject(STRING type)
 {
 	return _ambient->CreateObject(type);
 }

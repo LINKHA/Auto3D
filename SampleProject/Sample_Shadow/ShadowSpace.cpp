@@ -14,9 +14,9 @@ ShadowSpace::~ShadowSpace()
 void ShadowSpace::Awake()
 {
 	//ShadowNormal
-	RegisterLevel(new Level_0(_ambient, 0));
+	RegisterScene(new Level_0(_ambient, 0));
 	//ShadowPoint
-	//RegisterLevel(new Level_1(_ambient, 1));
+	//RegisterScene(new Level_1(_ambient, 1));
 }
 
 int ShadowSpace::Launch()

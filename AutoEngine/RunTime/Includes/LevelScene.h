@@ -1,14 +1,15 @@
 #pragma once
 #include "Object.h"
 #include "RunDefines.h"
-#include "StateVessel.h"
+#include "BehaviorObject.h"
+#include "SceneObject.h"
 
 namespace Auto3D {
 class Node;
 
-class LevelScene : public StateVessel
+class LevelScene : public BehaviorObject
 {
-	REGISTER_DERIVED_ABSTRACT_CLASS(LevelScene, StateVessel);
+	REGISTER_DERIVED_ABSTRACT_CLASS(LevelScene, BehaviorObject);
 	DECLARE_OBJECT_SERIALIZE(LevelScene);
 	using NodeContainer = LIST(Node*);
 public:
@@ -16,7 +17,7 @@ public:
 	* @brief : Register scenario by serial number , 
 		default levelNumber 0
 	*/
-	explicit LevelScene(Ambient* ambient,int levelNumber = 0);
+	explicit LevelScene(Ambient* ambient,int id = 0);
 	/**
 	* @brief : Add node to _nodeToAdd delay run over to add _nodes
 	*/
@@ -25,6 +26,15 @@ public:
 	* @brief : Add node to _nodeToRemove delay run over to remove _nodes
 	*/
 	void RemoveNode(Node* node);
+
+	void CreateGameObject(STRING name = "")
+	{
+		//GameObject* 
+		//AddNode()
+	}
+
+	void RemoveGameObject(STRING name);
+
 	/**
 	* @brief : Process components in all nodes that are opened
 	*/
@@ -40,25 +50,28 @@ public:
 	/**
 	* @brief : Return current level number
 	*/
-	int GetLevelNumber() { return _levelNumber; }
+	int GetSceneID() { return _id; }
 private:
 	/**
 	* @brief : if not run this function will run once in one frame
 	*/
 	void delayAddRemoveNode();
 protected:
-	/// level number
-	int _levelNumber{};
+	/// scene id
+	int _id{};
 private:
-	///all node in this container
+	/// all node in this container
 	NodeContainer _nodes;
-	///temp memory will add node in frame finish will clear
+	/// temp memory will add node in frame finish will clear
 	NodeContainer _nodeToAdd;
-	///temp memory will remove node in frame finish will clear
+	/// temp memory will remove node in frame finish will clear
 	NodeContainer _nodeToRemove;
-	///run flag
+	/// scene root node
+	//SceneObject* _scene;
+
+	/// run flag
 	bool _isInsideRun{};
-	///is enable
+	/// is enable
 	bool _isEnable{};
 };
 

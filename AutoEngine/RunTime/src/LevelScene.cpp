@@ -1,14 +1,15 @@
 #include "LevelScene.h"
-#include "GameObject.h"
+#include "Node.h"
 #include "Component.h"
 
 namespace Auto3D {
 
-LevelScene::LevelScene(Ambient* ambient, int levelNumber)
+LevelScene::LevelScene(Ambient* ambient, int id)
 	: Super(ambient)
 	, _isEnable(true)
-	, _levelNumber(levelNumber)
+	, _id(id)
 {
+	//_scene = new SceneObject(ambient, id);
 }
 
 
@@ -57,7 +58,7 @@ void LevelScene::ModeRunNode(RunMode runMode)
 
 	for (NodeContainer::iterator i = _nodes.begin(); i != _nodes.end(); i++)
 	{
-		GameObject* obj = static_cast<GameObject*>(*i);
+		Node* obj = static_cast<Node*>(*i);
 		if (obj && obj->GetEnable())
 		{
 			using compomentIt = PAIR_VECTOR(int, Component*)::iterator;

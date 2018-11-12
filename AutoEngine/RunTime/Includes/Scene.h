@@ -1,11 +1,9 @@
 #pragma once
 #include "GameManager.h"
 #include "RunDefines.h"
-
+#include "LevelScene.h"
 namespace Auto3D {
 
-
-class LevelScene;
 class Scene : public GlobalGameManager
 {
 	REGISTER_DERIVED_CLASS(Scene, GlobalGameManager);
@@ -16,11 +14,11 @@ public:
 	/**
 	* @brief : Register level for index
 	*/
-	void RegisterLevel(int index,LevelScene* level);
+	void RegisterScene(int index,LevelScene* level);
 	/**
 	* @brief : Remove level for index
 	*/
-	void RemoveLevel(int index);
+	void RemoveScene(int index);
 	/**
 	* @brief : Get all level scenes
 	* @return : HASH_MAP(int,LevelScene*)

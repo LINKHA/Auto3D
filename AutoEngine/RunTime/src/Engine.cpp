@@ -13,6 +13,7 @@
 #include "Scene.h"
 #include "IO.h"
 #include "UI.h"
+#include "Behavior.h"
 
 namespace Auto3D {
 
@@ -30,6 +31,7 @@ Engine::Engine(Ambient* ambient)
 	_ambient->RegisterSubSystem(new IO(_ambient));
 	_ambient->RegisterSubSystem(new Audio(_ambient));
 	_ambient->RegisterSubSystem(new UI(_ambient));
+	_ambient->RegisterSubSystem(new Behavior(_ambient));
 }
 
 Engine::~Engine()
@@ -40,8 +42,12 @@ void Engine::Init()
 {
 	GetSubSystem<Audio>()->Init();
 	GetSubSystem<BaseSpace>()->Awake();
+	GetSubSystem<Behavior>()->Awake();
+
 	GetSubSystem<Renderer>()->Init();
 	GetSubSystem<BaseSpace>()->Start();
+	GetSubSystem<Behavior>()->Start();
+
 	GetSubSystem<Renderer>()->ReadyToRender();
 	
 }
@@ -69,12 +75,14 @@ void Engine::update()
 	GetSubSystem<Time>()->Update();
 	input->Update();
 	GetSubSystem<BaseSpace>()->Update();
+	GetSubSystem<Behavior>()->Update();
 	if (input->GetKeyDown(KEY_ESCAPE))
 		_isExiting = true;
 }
 void Engine::frameFinish()
 {
 	GetSubSystem<BaseSpace>()->Finish();
+	GetSubSystem<Behavior>()->Finish();
 	GetSubSystem<Input>()->EndFrame();
 }
 

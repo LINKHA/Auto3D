@@ -1,6 +1,6 @@
 #pragma once
 #include "LevelScene.h"
-#include "Physics2DWorld.h"
+#include "PhysicsWorld2D.h"
 
 using namespace Auto3D;
 
@@ -12,7 +12,7 @@ public:
 
 	void Start()override;
 	void Update()override;
-	Physics2DWorld* physicsWorld;
+	PhysicsWorld2D* physicsWorld;
 	b2Body* body;
 };
 

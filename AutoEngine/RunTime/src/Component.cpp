@@ -10,27 +10,27 @@ Component::Component(Ambient* ambient)
 
 Component::~Component() {}
 
-GameObject& Component::GetGameObject()
+Node& Component::GetGameObject()
 {
 	return *_gameObject;
 }
 
-const GameObject& Component::GetGameObject() const
+const Node& Component::GetGameObject() const
 {
 	return *_gameObject;
 }
 
-GameObject* Component::GetGameObjectPtr()
+Node* Component::GetGameObjectPtr()
 {
 	return _gameObject;
 }
 
-GameObject* Component::GetGameObjectPtr() const
+Node* Component::GetGameObjectPtr() const
 {
 	return _gameObject;
 }
 
-void Component::MountComponent(GameObject& gameObject)
+void Component::MountComponent(Node& gameObject)
 {
 	_gameObject = &gameObject;
 }

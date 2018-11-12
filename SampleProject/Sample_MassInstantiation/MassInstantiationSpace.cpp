@@ -8,12 +8,12 @@ MassInstantiationSpace::MassInstantiationSpace(Ambient* ambient)
 }
 MassInstantiationSpace::~MassInstantiationSpace()
 {
-	RemoveLevel(0);
+	RemoveScene(0);
 }
 
 void MassInstantiationSpace::Awake()
 {
-	RegisterLevel(new Level_0(_ambient, 0));
+	RegisterScene(new Level_0(_ambient, 0));
 }
 
 int MassInstantiationSpace::Launch()

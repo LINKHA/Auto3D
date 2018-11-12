@@ -8,12 +8,12 @@ SSAOSpace::SSAOSpace(Ambient* ambient)
 {}
 SSAOSpace::~SSAOSpace()
 {
-	RemoveLevel(0);
+	RemoveScene(0);
 }
 
 void SSAOSpace::Awake()
 {
-	RegisterLevel(new Level_0(_ambient, 0));
+	RegisterScene(new Level_0(_ambient, 0));
 }
 
 

@@ -3,21 +3,33 @@
 #include "../../EngineSetting/GameSetting.h"
 #include "Math/Math.h"
 
+
+
+
 namespace Auto3D {
-class GameObject;
+class Component;
+class Transform;
+#define GetComponent(x) GetComponentT<x>(ClassID (x))
+
 
 class Node :public Object
 {
 	REGISTER_DERIVED_ABSTRACT_CLASS(Node, Object);
 	DECLARE_OBJECT_SERIALIZE(Node);
-	using GameObjectChilds = VECTOR(GameObject*);
+	using GameObjectChilds = VECTOR(Node*);
+#if SharedPtrDebug
+	using ComponentsArray = PAIR_VECTOR(int, SharedPtr<Component>);
+#else
+	using ComponentsArray = PAIR_VECTOR(int, Component*);
+#endif
+
 public:
 	explicit Node(Ambient* ambient, int levelBumber);
 	/**
 	* @brief :Add Child
 	* @param : GameObject*
 	*/
-	virtual void AddChild(GameObject* node);
+	virtual void AddChild(Node* node);
 	/**
 	* @brief : Remove child with index
 	*/
@@ -26,7 +38,7 @@ public:
 	* @brief : Get this objct child with index
 	* @return :GameObject*
 	*/
-	virtual GameObject* GetChild(int index);
+	virtual Node* GetChild(int index);
 	/**
 	* @brief : Get this objct all child
 	* @return : GameObjectChildArray&
@@ -50,12 +62,78 @@ public:
 	* @return; enum Tag
 	*/
 	Tag GetTag() const { return static_cast<Tag>(_tag); }
+	/**
+	* @brief : Get game object enable
+	*/
+	bool GetEnable() { return _isEnable; }
+	/**
+	* @brief : Mount component in this GameObject
+	*/
+	void AddComponent(Component* com);
+	/**
+	* @brief : Remove component at index
+	*/
+	void RemoveComponentAtIndex(int index);
+	/**
+	* @brief : Get component in _components if nullptr will breaking
+	*/
+	template<typename T> inline T& GetComponentT(int compareClassID) const;
+	/**
+	* @brief : Get component from index
+	*/
+	inline Component& GetComponentIndex(int index);
+	/**
+	* @brief : Get components size
+	*/
+	int GetComponentsSize();
+	/**
+	* @brief : Get game object
+	*/
+	const Node& GetGameObject()const;
+	/**
+	* @brief : Get game object
+	*/
+	Node& GetGameObject();
+	/**
+	* @brief : Find component from class id
+	*/
+	Component* QueryComponent(int classID) const;
+	/**
+	* @brief : Get Components
+	* @return : PAIR_VECTOR(int, Component*)
+	*/
+	ComponentsArray& GetComponentsArray() { return _components; }
+	/**
+	* @brief : Get this object position
+	*/
+	Vector3 GetPosition();
+
+
 protected:
 	GameObjectChilds _childs;
 	UInt32 _layer{};
 	UInt16 _tag{};
 	bool _isActive;
 	int _levelBumber{};
+
+	/// this gameobject components container
+	ComponentsArray _components;
+	/// enable
+	bool _isEnable;
 };
+
+template<typename _Ty> inline _Ty& Node::GetComponentT(int compareClassID) const
+{
+	Component* com;
+	com = QueryComponent(compareClassID);
+	Assert(com != nullptr);
+	return *static_cast<_Ty*> (com);
+}
+
+inline Component& Node::GetComponentIndex(int index)
+{
+	return *_components[index].second;
+}
+
 
 }

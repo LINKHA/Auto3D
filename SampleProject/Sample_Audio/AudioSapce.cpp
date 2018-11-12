@@ -8,12 +8,12 @@ AudioSapce::AudioSapce(Ambient* ambient)
 {}
 AudioSapce::~AudioSapce()
 {
-	RemoveLevel(0);
+	RemoveScene(0);
 }
 
 void AudioSapce::Start()
 {
-	RegisterLevel(new Level_0(_ambient, 0));
+	RegisterScene(new Level_0(_ambient, 0));
 }
 void AudioSapce::Update()
 {

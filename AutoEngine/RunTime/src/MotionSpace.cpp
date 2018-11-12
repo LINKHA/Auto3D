@@ -16,14 +16,14 @@ MotionSpace::~MotionSpace()
 {
 }
 
-void MotionSpace::RegisterLevel(LevelScene* level)
+void MotionSpace::RegisterScene(LevelScene* scene)
 {
-	GetSubSystem<Scene>()->RegisterLevel(level->GetLevelNumber(), level);
+	GetSubSystem<Scene>()->RegisterScene(scene->GetSceneID(), scene);
 }
 
-void MotionSpace::RemoveLevel(int index)
+void MotionSpace::RemoveScene(int id)
 {
-	GetSubSystem<Scene>()->RemoveLevel(index);
+	GetSubSystem<Scene>()->RemoveScene(id);
 }
 
 //////////////////////////////////////////////////////////////////////////

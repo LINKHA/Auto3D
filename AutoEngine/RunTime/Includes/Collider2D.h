@@ -74,7 +74,6 @@ private:
 	/// Box2D fixture
 	b2Fixture* _fixture;
 
-	RigidBody2D
 };
 
 }

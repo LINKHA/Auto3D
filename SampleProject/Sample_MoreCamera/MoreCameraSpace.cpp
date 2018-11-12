@@ -8,12 +8,12 @@ MoreCameraSpace::MoreCameraSpace(Ambient* ambient)
 }
 MoreCameraSpace::~MoreCameraSpace()
 {
-	RemoveLevel(0);
+	RemoveScene(0);
 }
 
 void MoreCameraSpace::Awake()
 {
-	RegisterLevel(new Level_0(_ambient, 0));
+	RegisterScene(new Level_0(_ambient, 0));
 }
 int MoreCameraSpace::Launch()
 {

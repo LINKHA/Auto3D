@@ -1,6 +1,6 @@
 #pragma once
 #include "Object.h"
-#include "GameObject.h"
+#include "Node.h"
 namespace Auto3D {
 class Prefab : public Object
 {
@@ -9,7 +9,7 @@ class Prefab : public Object
 public:
 	explicit Prefab(Ambient* ambient);
 private:
-	GameObject* _gameObject;
+	Node* _gameObject;
 };
 
 }

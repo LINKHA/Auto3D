@@ -3,25 +3,25 @@
 #include "Singleton.h"
 #include "Camera.h"
 #include "RunDefines.h"
-#include "StateVessel.h"
+#include "BehaviorObject.h"
 
 namespace Auto3D {
 
 class LevelScene;
-class MotionSpace : public StateVessel
+class MotionSpace : public BehaviorObject
 {
-	REGISTER_DERIVED_ABSTRACT_CLASS(MotionSpace, StateVessel);
+	REGISTER_DERIVED_ABSTRACT_CLASS(MotionSpace, BehaviorObject);
 	DECLARE_OBJECT_SERIALIZE(MotionSpace);
 public:
 	explicit MotionSpace(Ambient* ambient);
 	/**
 	* @brief : Registration level to scene sub system
 	*/
-	void RegisterLevel(LevelScene* level);
+	void RegisterScene(LevelScene* scene);
 	/**
 	* @brief : REmove level for index
 	*/
-	void RemoveLevel(int index);
+	void RemoveScene(int id);
 
 };
 class SpaceHandle : public Singleton<SpaceHandle>
