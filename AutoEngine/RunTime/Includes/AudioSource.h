@@ -28,6 +28,10 @@ public:
 	*/
 	AudioSource(Ambient* ambient, AudioBuffer* bufferClip);
 	/**
+	* @brief : Register object factory.
+	*/
+	static void RegisterObject(Ambient* ambient);
+	/**
 	* @brief : Start component
 	*/
 	void Start()override;

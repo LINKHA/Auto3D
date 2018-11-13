@@ -27,6 +27,10 @@ public:
 	* @brief : Construct
 	*/
 	explicit Collider2D(Ambient* ambient);
+	/**
+	* @brief : Register object factory.
+	*/
+	static void RegisterObject(Ambient* ambient);
 
 	void CreateFixture();
 

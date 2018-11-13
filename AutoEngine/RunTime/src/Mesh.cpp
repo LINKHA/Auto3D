@@ -39,6 +39,11 @@ Mesh::~Mesh()
 	_material = nullptr;
 }
 
+void Mesh::RegisterObject(Ambient* ambient)
+{
+	ambient->RegisterFactory<Mesh>(SCENE_ATTACH);
+}
+
 
 void Mesh::SetModel(char* modelPath)
 {

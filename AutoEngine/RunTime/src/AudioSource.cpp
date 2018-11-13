@@ -20,6 +20,11 @@ AudioSource::~AudioSource()
 	alDeleteBuffers(1, &_buffer);
 }
 
+void AudioSource::RegisterObject(Ambient* ambient)
+{
+	ambient->RegisterFactory<AudioSource>(SCENE_ATTACH);
+}
+
 void AudioSource::Start()
 {
 	// Generate an AL Buffer

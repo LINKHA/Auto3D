@@ -72,6 +72,10 @@ class Light : public Component
 public:
 	explicit Light(Ambient* ambi,LightType type = LightType::kDirectional);
 	/**
+	* @brief : Register object factory.
+	*/
+	static void RegisterObject(Ambient* ambient);
+	/**
 	* @brief : Update light data
 	*/
 	void Update()override;

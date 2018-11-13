@@ -9,6 +9,11 @@ class AudioListener : public Component
 	DECLARE_OBJECT_SERIALIZE(AudioListener);
 public:
 	explicit AudioListener(Ambient* ambient);
+	/**
+	* @brief : Register object factory.
+	*/
+	static void RegisterObject(Ambient* ambient);
+
 	void Start()override;
 	void Update()override;
 };

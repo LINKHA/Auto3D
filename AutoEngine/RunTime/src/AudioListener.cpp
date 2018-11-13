@@ -1,5 +1,7 @@
 #include "AudioListener.h"
 #include "AutoOAL.h"
+#include "Ambient.h"
+
 
 // Listener position
 ALfloat ListenerPos[] = { 0.0, 0.0, 0.0 };
@@ -17,10 +19,16 @@ AudioListener::AudioListener(Ambient* ambient)
 {
 }
 
-
 AudioListener::~AudioListener()
 {
 }
+
+void AudioListener::RegisterObject(Ambient* ambient)
+{
+	ambient->RegisterFactory<AudioListener>(SCENE_ATTACH);
+}
+
+
 void AudioListener::Start()
 {
 	Vector3 vec = GetPosition();

@@ -1,5 +1,5 @@
 #include "RigidBody2D.h"
-
+#include "Ambient.h"
 
 namespace Auto3D {
 
@@ -16,6 +16,11 @@ RigidBody2D::RigidBody2D(Ambient* ambient)
 
 RigidBody2D::~RigidBody2D()
 {
+}
+
+void RigidBody2D::RegisterObject(Ambient* ambient)
+{
+	ambient->RegisterFactory<RigidBody2D>(SCENE_ATTACH);
 }
 
 void OnSceneSet(PhysicsWorld2D* physicsWorld)

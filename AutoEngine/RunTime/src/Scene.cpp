@@ -4,6 +4,14 @@
 #include "Sprite.h"
 #include "Transform.h"
 #include "Mesh.h"
+#include "Collider2D.h"
+#include "ColliderBox2D.h"
+#include "PhysicsWorld2D.h"
+#include "AudioListener.h"
+#include "RigidBody2D.h"
+#include "AudioSource.h"
+#include "Light.h"
+
 
 namespace Auto3D {
 
@@ -85,9 +93,20 @@ void Scene::ModeRunLevel(RunMode runMode)
 void Scene::RegisterSceneLib(Ambient* ambient)
 {
 	Camera::RegisterObject(ambient);
-	Sprite::RegisterObject(ambient);
+	
 	Transform::RegisterObject(ambient);
+
+	Collider2D::RegisterObject(ambient);
+	ColliderBox2D::RegisterObject(ambient);
+	PhysicsWorld2D::RegisterObject(ambient);
+	RigidBody2D::RegisterObject(ambient);
+	AudioListener::RegisterObject(ambient);
+	AudioSource::RegisterObject(ambient);
+	Light::RegisterObject(ambient);
+
+	Sprite::RegisterObject(ambient);
 	Mesh::RegisterObject(ambient);
+
 }
 
 }

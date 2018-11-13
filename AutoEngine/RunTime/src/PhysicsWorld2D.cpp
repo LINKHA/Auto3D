@@ -1,5 +1,6 @@
 #include "PhysicsWorld2D.h"
 #include "PhysicsUtils.h"
+#include "Ambient.h"
 
 namespace Auto3D {
 
@@ -26,6 +27,11 @@ PhysicsWorld2D::~PhysicsWorld2D()
 	/*for (unsigned i = 0; i < _rigidBodies.Size(); ++i)
 		if (_rigidBodies[i])
 			_rigidBodies[i]->ReleaseBody();*/
+}
+
+void PhysicsWorld2D::RegisterObject(Ambient* ambient)
+{
+	ambient->RegisterFactory<PhysicsWorld2D>(SCENE_ATTACH);
 }
 
 void PhysicsWorld2D::Update()

@@ -1,6 +1,6 @@
 #include "Collider2D.h"
 #include "PhysicsUtils.h"
-
+#include "Ambient.h"
 namespace Auto3D {
 
 Collider2D::Collider2D(Ambient* ambient)
@@ -12,6 +12,11 @@ Collider2D::Collider2D(Ambient* ambient)
 
 Collider2D::~Collider2D()
 {
+}
+
+void Collider2D::RegisterObject(Ambient* ambient)
+{
+	ambient->RegisterFactory<Collider2D>(SCENE_ATTACH);
 }
 
 void Collider2D::CreateFixture()

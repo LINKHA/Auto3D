@@ -22,7 +22,11 @@ class RigidBody2D : public Component
 	DECLARE_OBJECT_SERIALIZE(RigidBody2D);
 public:
 	explicit RigidBody2D(Ambient* ambient);
-	
+	/**
+	* @brief : Register object factory.
+	*/
+	static void RegisterObject(Ambient* ambient);
+
 	void OnSceneSet(PhysicsWorld2D* physicsWorld);
 
 	/// Set body type.

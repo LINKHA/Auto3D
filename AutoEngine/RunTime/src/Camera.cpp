@@ -31,10 +31,10 @@ Camera::~Camera()
 {
 }
 
-//void Camera::RegisterObject(Ambient* ambient)
-//{
-//	ambient->RegisterFactory<Camera>(SCENE_ATTACH);
-//}
+void Camera::RegisterObject(Ambient* ambient)
+{
+	ambient->RegisterFactory<Camera>(SCENE_ATTACH);
+}
 
 void Camera::Reset()
 {

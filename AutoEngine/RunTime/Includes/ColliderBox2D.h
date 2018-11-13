@@ -10,7 +10,10 @@ class ColliderBox2D : public Collider2D
 	DECLARE_OBJECT_SERIALIZE(ColliderBox2D);
 public:
 	explicit ColliderBox2D(Ambient* ambient);
-
+	/**
+	* @brief : Register object factory.
+	*/
+	static void RegisterObject(Ambient* ambient);
 };
 
 }

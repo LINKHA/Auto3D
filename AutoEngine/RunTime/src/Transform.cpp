@@ -13,10 +13,10 @@ Transform::Transform(Ambient* ambient)
 Transform::~Transform()
 {}
 
-//void Transform::RegisterObject(Ambient* ambient)
-//{
-//	ambient->RegisterFactory<Transform>(SCENE_ATTACH);
-//}
+void Transform::RegisterObject(Ambient* ambient)
+{
+	ambient->RegisterFactory<Transform>(SCENE_ATTACH);
+}
 void Transform::Rotation(const Vector3& Euler)
 {
 	_rotation.SetValueWithEuler(Euler);

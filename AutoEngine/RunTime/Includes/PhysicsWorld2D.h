@@ -10,7 +10,10 @@ class PhysicsWorld2D : public Component//, public b2ContactListener, public b2Dr
 	DECLARE_OBJECT_SERIALIZE(PhysicsWorld2D);
 public:
 	explicit PhysicsWorld2D(Ambient* ambient);
-
+	/**
+	* @brief : Register object factory.
+	*/
+	static void RegisterObject(Ambient* ambient);
 	/**
 	* @brief : Return the Box2D physics world
 	*/

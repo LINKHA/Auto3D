@@ -13,10 +13,12 @@ ShadowRenderAssist::ShadowRenderAssist(Ambient* ambient,LightType type)
 {
 
 }
+
 ShadowRenderAssist::~ShadowRenderAssist()
 {
 
 }
+
 void ShadowRenderAssist::BindDepathMap()
 {
 	if (_type == LightType::kDirectional)
@@ -102,6 +104,15 @@ Light::Light(Ambient* ambi,LightType type)
 	AddToManager();
 	SetShadowType(ShadowType::kSoft);
 }
+
+Light::~Light()
+{}
+
+void Light::RegisterObject(Ambient* ambient)
+{
+	ambient->RegisterFactory<Light>(SCENE_ATTACH);
+}
+
 void Light::Update()
 {
 	Assert(GetGameObjectPtr());
@@ -118,8 +129,7 @@ void Light::SetShadowType(ShadowType type)
 		return;
 	_shadowAssist = new ShadowRenderAssist(_ambient,GetType());
 }
-Light::~Light()
-{}
+
 glm::mat4& Light::GetLightSpaceMatrix()
 {
 	return _lightSpaceMatrix;

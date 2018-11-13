@@ -17,6 +17,10 @@ class Mesh : public RenderComponent,public GLMeshEnable
 	DECLARE_OBJECT_SERIALIZE(Mesh);
 public:
 	explicit Mesh(Ambient* ambient);
+	/**
+	* @brief : Register object factory.
+	*/
+	static void RegisterObject(Ambient* ambient);
 
 	void SetModel(char* modelPath);
 	void SetShader(const Shader& shader);
