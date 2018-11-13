@@ -6,10 +6,7 @@
 
 namespace Auto3D {
 class Ambient;
-class Renderer;
 class Light;
-
-
 /**
 * @brief : Render graphices create to geometry
 */

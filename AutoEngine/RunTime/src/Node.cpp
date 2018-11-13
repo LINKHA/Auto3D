@@ -8,16 +8,16 @@ namespace Auto3D {
 
 Node::Node(Ambient* ambient, int levelBumber)
 	: Super(ambient)
-	, _levelBumber(levelBumber)
+	, _id(levelBumber)
 {
 	AddComponent(_ambient->CreateObject<Transform>());
 	// add node to appoint level scene
-	GetSubSystem<Scene>()->GetLevelScene(_levelBumber)->AddNode(this);
+	GetSubSystem<Scene>()->GetLevelScene(_id)->AddNode(this);
 }
 Node::~Node() 
 {
 	// remove node to appoint level scene
-	GetSubSystem<Scene>()->GetLevelScene(_levelBumber)->RemoveNode(this);
+	GetSubSystem<Scene>()->GetLevelScene(_id)->RemoveNode(this);
 }
 
 

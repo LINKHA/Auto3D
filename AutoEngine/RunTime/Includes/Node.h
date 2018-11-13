@@ -4,13 +4,10 @@
 #include "Math/Math.h"
 
 
-
-
 namespace Auto3D {
 class Component;
 class Transform;
 #define GetComponent(x) GetComponentT<x>(ClassID (x))
-
 
 class Node :public Object
 {
@@ -114,7 +111,7 @@ protected:
 	UInt32 _layer{};
 	UInt16 _tag{};
 	bool _isActive;
-	int _levelBumber{};
+	int _id{};
 
 	/// this gameobject components container
 	ComponentsArray _components;

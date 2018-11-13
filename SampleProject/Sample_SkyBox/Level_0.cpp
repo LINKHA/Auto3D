@@ -13,31 +13,31 @@ Level_0::Level_0(Ambient* ambient, int levelNumber)
 
 void Level_0::Start()
 {
-	GameObject* cameraObj = new GameObject(_ambient,_levelNumber);
-	FreeCamera* camera = new FreeCamera(_ambient, _levelNumber);
+	Node* cameraObj = new Node(_ambient,_id);
+	FreeCamera* camera = new FreeCamera(_ambient, _id);
 	cameraObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 	cameraObj->AddComponent(camera);
 
-	GameObject* skyBoxObj = new GameObject(_ambient, _levelNumber);
+	Node* skyBoxObj = new Node(_ambient, _id);
 	SkyBox* skybox = new SkyBox(_ambient);
 	skyBoxObj->AddComponent(skybox);
 
-	GameObject* lightObj = new GameObject(_ambient, _levelNumber);
+	Node* lightObj = new Node(_ambient, _id);
 	Light * light = new LightDirectional(_ambient);
 	lightObj->AddComponent(light);
 
-	GameObject* meshObj = new GameObject(_ambient, _levelNumber);
+	Node* meshObj = new Node(_ambient, _id);
 	Mesh * mesh = new Mesh(_ambient);
 	mesh->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
 	//mesh->GetMaterial()->color = Color(0.0f, 0.0f, 1.0f);
 	meshObj->AddComponent(mesh);
 
-	GameObject* meshObj2 = new GameObject(_ambient, _levelNumber);
+	Node* meshObj2 = new Node(_ambient, _id);
 	SkyBoxReflectMesh * mesh2 = new SkyBoxReflectMesh(_ambient);
 	meshObj2->GetComponent(Transform).SetPosition(1.0f, 0.0f, 0.0f);
 	meshObj2->AddComponent(mesh2);
 
-	GameObject* meshObj3 = new GameObject(_ambient, _levelNumber);
+	Node* meshObj3 = new Node(_ambient, _id);
 	SkyBoxReflectMesh * mesh3 = new SkyBoxReflectMesh(_ambient,
 		Shader(shader_path + "au_skybox_cube.auvs"
 			, shader_path + "au_skybox_cube_refract.aufs"));
