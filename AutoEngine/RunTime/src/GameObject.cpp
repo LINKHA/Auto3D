@@ -15,12 +15,12 @@
 //{
 //	AddComponent(_ambient->CreateObject<Transform>());
 //	// add node to appoint level scene
-//	GetSubSystem<Scene>()->GetLevelScene(_id)->AddNode(this);
+//	GetSubSystem<Scene>()->GetLevelScene(_sceneID)->AddNode(this);
 //}
 //GameObject::~GameObject()
 //{
 //	// remove node to appoint level scene
-//	GetSubSystem<Scene>()->GetLevelScene(_id)->RemoveNode(this);
+//	GetSubSystem<Scene>()->GetLevelScene(_sceneID)->RemoveNode(this);
 //}
 //
 //void GameObject::AddComponent(Component* com)

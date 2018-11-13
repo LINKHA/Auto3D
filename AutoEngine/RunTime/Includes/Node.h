@@ -7,8 +7,11 @@
 namespace Auto3D {
 class Component;
 class Transform;
+
 #define GetComponent(x) GetComponentT<x>(ClassID (x))
-#define GameObject Node
+/// define gameobject with node
+using GameObject = class Node;
+
 class Node :public Object
 {
 	REGISTER_DERIVED_ABSTRACT_CLASS(Node, Object);
@@ -21,7 +24,11 @@ class Node :public Object
 #endif
 
 public:
-	explicit Node(Ambient* ambient, int levelBumber);
+	explicit Node(Ambient* ambient, int sceneID);
+	/**
+	* @brief : Get scene ID
+	*/
+	int GetSceneID() { return _sceneID; }
 	/**
 	* @brief :Add Child
 	* @param : GameObject*
@@ -74,7 +81,7 @@ public:
 	/**
 	* @brief : Get component in _components if nullptr will breaking
 	*/
-	template<typename T> inline T& GetComponentT(int compareClassID) const;
+	template<typename _Ty> inline _Ty& GetComponentT(int compareClassID) const;
 	/**
 	* @brief : Get component from index
 	*/
@@ -105,19 +112,27 @@ public:
 	*/
 	Vector3 GetPosition();
 
+	Component* CreateComponent(STRING type);
 
+	template <class _Ty> _Ty* CreateComponent();
 protected:
 	GameObjectChilds _childs;
 	UInt32 _layer{};
 	UInt16 _tag{};
 	bool _isActive;
-	int _id{};
+	int _sceneID{};
 
 	/// this gameobject components container
 	ComponentsArray _components;
 	/// enable
 	bool _isEnable;
 };
+
+template <typename _Ty> _Ty* Node::CreateComponent()
+{
+	Print(_Ty::GetClassStringStatic());
+	return static_cast<_Ty*>(CreateComponent(_Ty::GetClassStringStatic()));
+}
 
 template<typename _Ty> inline _Ty& Node::GetComponentT(int compareClassID) const
 {

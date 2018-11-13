@@ -78,7 +78,7 @@ enum ClassIDType
 	DO_CLASS_ID(RigidBody2D, 77)
 	DO_CLASS_ID(ColliderBox2D, 78)
 	DO_CLASS_ID(PhysicsWorld2D, 79)
-	DO_CLASS_ID(SceneObject, 80)
+	DO_CLASS_ID(SceneNode, 80)
 	DO_CLASS_ID(Behavior, 81)
 	
 	CLASS_ID_Count

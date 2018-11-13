@@ -37,4 +37,3 @@ public: \
 #define DECLARE_OBJECT_SERIALIZE(_This)\
 public: \
 
-

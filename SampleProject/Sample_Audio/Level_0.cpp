@@ -10,15 +10,15 @@ Level_0::Level_0(Ambient* ambient, int levelNumber)
 
 void Level_0::Start()
 {
-	Node* listenerObj = new Node(_ambient, _id);
+	Node* listenerObj = CreateNode();
 	AudioListener* listener = new AudioListener(_ambient);
 	listenerObj->AddComponent(listener);
 
-	Node* autdieObj = new Node(_ambient, _id);
+	Node* autdieObj = CreateNode();
 	audio = new AudioSource(_ambient,new AudioBuffer(_ambient,"../Resource/sound/SoundTest.wav"));
 	autdieObj->AddComponent(audio);
 	
-	Node* autdieObj2 = new Node(_ambient, _id);
+	Node* autdieObj2 = CreateNode();
 	audio2 = new AudioSource(_ambient, new AudioBuffer(_ambient, "../Resource/sound/SoundTest.wav"));
 	autdieObj->AddComponent(audio2);
 }

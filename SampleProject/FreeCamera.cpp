@@ -28,8 +28,10 @@ FreeCamera::FreeCamera(Ambient* ambient, int levelNumber)
 {
 	freeCameraObject = new Node(_ambient, levelNumber);
 
-	freeCamera = CreateObject<Camera>();
+	//freeCamera = freeCameraObject->CreateComponent<Camera>();
+	freeCamera = new Camera(_ambient);
 	freeCamera->SetFar(1000.0f);
+	freeCameraObject->AddComponent(freeCamera);
 }
 FreeCamera::~FreeCamera()
 {

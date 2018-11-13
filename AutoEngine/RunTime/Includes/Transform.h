@@ -17,7 +17,7 @@ public:
 	/**
 	* @brief : Register object factory.
 	*/
-	static void RegisterObject(Ambient* ambient);
+	//static void RegisterObject(Ambient* ambient);
 	/**
 	* @brief : Set position from Vector3
 	*/

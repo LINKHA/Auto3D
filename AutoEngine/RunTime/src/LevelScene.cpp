@@ -7,9 +7,10 @@ namespace Auto3D {
 LevelScene::LevelScene(Ambient* ambient, int id)
 	: Super(ambient)
 	, _isEnable(true)
-	, _id(id)
+	, _sceneID(id)
 {
-	//_scene = new SceneObject(ambient, id);
+	_sceneNode = new SceneObject(ambient,id);
+	AddNode(_sceneNode);
 }
 
 
@@ -120,9 +121,5 @@ void LevelScene::delayAddRemoveNode()
 	}
 	_nodeToAdd.clear();
 }
-
-
-
-
 
 }

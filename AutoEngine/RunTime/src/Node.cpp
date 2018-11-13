@@ -6,19 +6,19 @@
 
 namespace Auto3D {
 
-Node::Node(Ambient* ambient, int levelBumber)
+Node::Node(Ambient* ambient, int sceneID)
 	: Super(ambient)
-	, _id(levelBumber)
+	, _sceneID(sceneID)
 	, _isEnable(true)
 {
 	AddComponent(_ambient->CreateObject<Transform>());
 	// add node to appoint level scene
-	GetSubSystem<Scene>()->GetLevelScene(_id)->AddNode(this);
+	//GetSubSystem<Scene>()->GetLevelScene(_sceneID)->AddNode(this);
 }
 Node::~Node() 
 {
 	// remove node to appoint level scene
-	GetSubSystem<Scene>()->GetLevelScene(_id)->RemoveNode(this);
+	GetSubSystem<Scene>()->GetLevelScene(_sceneID)->RemoveNode(this);
 }
 
 
@@ -91,6 +91,20 @@ Component* Node::QueryComponent(int classID) const
 Vector3 Node::GetPosition()
 {
 	return GetComponent(Transform).GetPosition();
+}
+
+Component* Node::CreateComponent(STRING type)
+{
+	// Check that creation succeeds and that the object in fact is a component
+	Component* newComponent = dynamic_cast<Component*>(_ambient->CreateObject(type));
+	if (!newComponent)
+	{
+		WarningString("Could not create unknown component type " + type);
+		return nullptr;
+	}
+
+	AddComponent(newComponent);
+	return newComponent;
 }
 
 }

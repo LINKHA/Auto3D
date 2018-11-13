@@ -2,7 +2,7 @@
 #include "Object.h"
 #include "RunDefines.h"
 #include "BehaviorObject.h"
-#include "SceneObject.h"
+#include "SceneNode.h"
 
 namespace Auto3D {
 class Node;
@@ -27,10 +27,11 @@ public:
 	*/
 	void RemoveNode(Node* node);
 
-	void CreateGameObject(STRING name = "")
+	Node* CreateNode(STRING name = "")
 	{
-		//GameObject* 
-		//AddNode()
+		Node* node = new Node(_ambient, _sceneID);
+		AddNode(node);
+		return node;
 	}
 
 	void RemoveGameObject(STRING name);
@@ -50,7 +51,7 @@ public:
 	/**
 	* @brief : Return current level number
 	*/
-	int GetSceneID() { return _id; }
+	int GetSceneID() { return _sceneID; }
 private:
 	/**
 	* @brief : if not run this function will run once in one frame
@@ -58,8 +59,10 @@ private:
 	void delayAddRemoveNode();
 protected:
 	/// scene id
-	int _id{};
+	int _sceneID{};
 private:
+	/// scene node (This node has one and only one for each scenario)
+	SceneNode* _sceneNode;
 	/// all node in this container
 	NodeContainer _nodes;
 	/// temp memory will add node in frame finish will clear
