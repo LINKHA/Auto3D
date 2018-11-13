@@ -18,6 +18,7 @@ void Level_0::Start()
 	cameraObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
 	cameraObj->AddComponent(camera);
 
+
 	Node* skyBoxObj = new Node(_ambient, _id);
 	SkyBox* skybox = new SkyBox(_ambient);
 	skyBoxObj->AddComponent(skybox);

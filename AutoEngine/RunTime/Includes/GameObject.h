@@ -1,9 +1,9 @@
 #pragma once
-#include "Object.h"
-#include "ComponentSetting.h"
-#include "Math/Vector3.h"
-#include "../../EngineSetting/GameSetting.h"
-#include "Node.h"
+//#include "Object.h"
+//#include "ComponentSetting.h"
+//#include "Math/Vector3.h"
+//#include "../../EngineSetting/GameSetting.h"
+//#include "Node.h"
 //
 //
 //namespace Auto3D {

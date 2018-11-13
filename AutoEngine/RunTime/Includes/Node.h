@@ -8,7 +8,7 @@ namespace Auto3D {
 class Component;
 class Transform;
 #define GetComponent(x) GetComponentT<x>(ClassID (x))
-
+#define GameObject Node
 class Node :public Object
 {
 	REGISTER_DERIVED_ABSTRACT_CLASS(Node, Object);

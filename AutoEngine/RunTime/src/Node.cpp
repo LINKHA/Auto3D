@@ -9,6 +9,7 @@ namespace Auto3D {
 Node::Node(Ambient* ambient, int levelBumber)
 	: Super(ambient)
 	, _id(levelBumber)
+	, _isEnable(true)
 {
 	AddComponent(_ambient->CreateObject<Transform>());
 	// add node to appoint level scene

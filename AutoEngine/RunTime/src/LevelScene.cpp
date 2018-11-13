@@ -58,37 +58,37 @@ void LevelScene::ModeRunNode(RunMode runMode)
 
 	for (NodeContainer::iterator i = _nodes.begin(); i != _nodes.end(); i++)
 	{
-		Node* obj = static_cast<Node*>(*i);
-		if (obj && obj->GetEnable())
+		Node* node = *i;
+		if (node && node->GetEnable())
 		{
 			using compomentIt = PAIR_VECTOR(int, Component*)::iterator;
 			if (runMode == RunMode::kAwake)
-				for (compomentIt k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++)
+				for (compomentIt k = node->GetComponentsArray().begin(); k != node->GetComponentsArray().end(); k++)
 				{
 					if (k->second->GetEnable())
 						k->second->Awake();
 				}
 			else if (runMode == RunMode::kStart)
-				for (compomentIt k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++)
+				for (compomentIt k = node->GetComponentsArray().begin(); k != node->GetComponentsArray().end(); k++)
 				{
 					if (k->second->GetEnable())
 						k->second->Start();
 				}
 			else if (runMode == RunMode::kUpdate)
-				for (compomentIt k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++)
+				for (compomentIt k = node->GetComponentsArray().begin(); k != node->GetComponentsArray().end(); k++)
 				{
 					if (k->second->GetEnable())
 						k->second->Update();
 				}
 			else if (runMode == RunMode::kFixUpdate)
-				for (compomentIt k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++)
+				for (compomentIt k = node->GetComponentsArray().begin(); k != node->GetComponentsArray().end(); k++)
 				{
 					if (k->second->GetEnable())
 						k->second->FixUpdate();
 				}
 			else if (runMode == RunMode::kFinish)
 			{
-				for (compomentIt k = obj->GetComponentsArray().begin(); k != obj->GetComponentsArray().end(); k++)
+				for (compomentIt k = node->GetComponentsArray().begin(); k != node->GetComponentsArray().end(); k++)
 				{
 					if (k->second->GetEnable())
 						k->second->Finish();
