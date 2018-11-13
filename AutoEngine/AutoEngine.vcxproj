@@ -474,9 +474,6 @@
     <ClInclude Include="RunTime\Includes\MeshShadow.h" />
     <ClInclude Include="RunTime\Includes\GLMeshEnable.h" />
     <ClInclude Include="RunTime\Includes\GLTextureEnable.h" />
-    <ClInclude Include="RunTime\Includes\LightDirectional.h" />
-    <ClInclude Include="RunTime\Includes\LightPoint.h" />
-    <ClInclude Include="RunTime\Includes\LightSpot.h" />
     <ClInclude Include="RunTime\Includes\RenderComponent.h" />
     <ClInclude Include="RunTime\Includes\Input.h" />
     <ClInclude Include="EngineSetting\AuSet.h" />
@@ -643,9 +640,6 @@
     <ClCompile Include="RunTime\src\MeshShadow.cpp" />
     <ClCompile Include="RunTime\src\GLMeshEnable.cpp" />
     <ClCompile Include="RunTime\src\GLTextureEnable.cpp" />
-    <ClCompile Include="RunTime\src\LightDirectional.cpp" />
-    <ClCompile Include="RunTime\src\LightPoint.cpp" />
-    <ClCompile Include="RunTime\src\LightSpot.cpp" />
     <ClCompile Include="RunTime\src\RanderComponent.cpp" />
     <ClCompile Include="RunTime\src\Input.cpp" />
     <ClCompile Include="RunTime\src\InstanceBeltLine.cpp" />

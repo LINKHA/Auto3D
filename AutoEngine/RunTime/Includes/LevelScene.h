@@ -18,6 +18,13 @@ public:
 		default levelNumber 0
 	*/
 	explicit LevelScene(Ambient* ambient,int id = 0);
+
+	virtual void Awake();
+	virtual void Start();
+	virtual void Update();
+	virtual void FixUpdate();
+	virtual void Finish();
+	virtual void Draw();
 	/**
 	* @brief : Add node to _nodeToAdd delay run over to add _nodes
 	*/
@@ -33,7 +40,6 @@ public:
 		AddNode(node);
 		return node;
 	}
-
 	void RemoveGameObject(STRING name);
 
 	/**

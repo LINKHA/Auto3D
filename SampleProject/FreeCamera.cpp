@@ -3,7 +3,8 @@
 #include "Time.h"
 #include "Light.h"
 #include "Input.h"
-
+#include "Scene.h"
+#include "Transform.h"
 void FreeCamera::processInput()
 {
 	
@@ -27,11 +28,10 @@ FreeCamera::FreeCamera(Ambient* ambient, int levelNumber)
 	:ScriptComponent(ambient)
 {
 	freeCameraObject = new Node(_ambient, levelNumber);
+	GetSubSystem<Scene>()->GetLevelScene(levelNumber)->AddNode(freeCameraObject);
 
-	//freeCamera = freeCameraObject->CreateComponent<Camera>();
-	freeCamera = new Camera(_ambient);
+	freeCamera = CreateObject<Camera>();
 	freeCamera->SetFar(1000.0f);
-	freeCameraObject->AddComponent(freeCamera);
 }
 FreeCamera::~FreeCamera()
 {
@@ -40,7 +40,7 @@ FreeCamera::~FreeCamera()
 void FreeCamera::Start()
 {
 
-	freeCameraObject->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
+	freeCameraObject->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, 3.0f);
 	freeCameraObject->AddComponent(freeCamera);
 	GetSubSystem<Input>()->HideMouseInWindow(true);
 	

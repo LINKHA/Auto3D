@@ -94,13 +94,13 @@ unsigned ShadowRenderAssist::GetDepthMap()
 /////////////////////////////////////////////////////////////////////////////////////////////
 //Light
 /////////////////////////////////////////////////////////////////////////////////////////////
-Light::Light(Ambient* ambi,LightType type)
+Light::Light(Ambient* ambi)
 	: Super(ambi)
-	, _type(static_cast<int>(type))
 	, _shadowAssist(nullptr)
 	, _farPlane(25.0f)
 	, _nearPlane(0.01f)
 {
+	SetType(LightType::kDirectional);
 	AddToManager();
 	SetShadowType(ShadowType::kSoft);
 }
@@ -119,9 +119,52 @@ void Light::Update()
 
 	float nearPlane = 1.0f;
 	_lightProjectionMatrix = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, nearPlane, _farPlane);
-	_lightViewMatrix = glm::lookAt(GetGameObjectPtr()->GetComponent(Transform).GetPosition().ToGLM(), glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
+	_lightViewMatrix = glm::lookAt(GetGameObjectPtr()->GetComponent<Transform>()->GetPosition().ToGLM(), glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
 	_lightSpaceMatrix = _lightProjectionMatrix * _lightViewMatrix;
 }
+
+void Light::SetType(LightType type)
+{
+	if (type == LightType::kDirectional)
+	{
+		_type = type;
+		_color.Set(1.0f, 1.0f, 1.0f);
+		direction.Set(-0.5f, -0.5f, -0.0f);
+		ambient.Set(0.3f, 0.3f, 0.3f);
+		diffuse.Set(1.0f, 1.0f, 1.0f);
+		specular.Set(0.7f, 0.7f, 0.7f);
+	}
+	else if (type == LightType::kPoint)
+	{
+		_type = type;
+		_color.Set(1.0f, 1.0f, 1.0f);
+		constant = 1.0f;
+		linear = 0.09f;
+		quadratic = 0.032f;
+		ambient.Set(0.3f, 0.3f, 0.3f);
+		diffuse.Set(1.0f, 1.0f, 1.0f);
+		specular.Set(0.7f, 0.7f, 0.7f);
+	}
+	else if (type == LightType::kSpot)
+	{
+		_type = type;
+		_color.Set(1.0f, 1.0f, 1.0f);
+		direction.Set(-0.5f, -0.5f, -0.0f);
+		cutOff = glm::cos(glm::radians(12.5f));
+		outerCutOff = glm::cos(glm::radians(15.0f));
+		constant = 1.0f;
+		linear = 0.09f;
+		quadratic = 0.032f;
+		ambient.Set(0.3f, 0.3f, 0.3f);
+		diffuse.Set(1.0f, 1.0f, 1.0f);
+		specular.Set(0.7f, 0.7f, 0.7f);
+	}
+	else
+	{
+		ErrorString("Fail to set light type");
+	}
+}
+
 void Light::SetShadowType(ShadowType type)
 {
 	_shadowType = type;
@@ -145,7 +188,7 @@ glm::mat4& Light::GetLightViewMatrix()
 glm::vec3 Light::GetLightPosition()
 {
 	Assert(GetGameObjectPtr());
-	return GetGameObject().GetComponent(Transform).GetPosition().ToGLM();
+	return GetGameObject().GetComponent<Transform>()->GetPosition().ToGLM();
 }
 void Light::AddToManager()
 {

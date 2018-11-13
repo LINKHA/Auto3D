@@ -512,15 +512,6 @@
     <ClInclude Include="RunTime\Includes\Sprite.h">
       <Filter>RunTime\SubSystem\Graphics\Component</Filter>
     </ClInclude>
-    <ClInclude Include="RunTime\Includes\LightPoint.h">
-      <Filter>RunTime\SubSystem\Graphics\Component\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\LightSpot.h">
-      <Filter>RunTime\SubSystem\Graphics\Component\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="RunTime\Includes\LightDirectional.h">
-      <Filter>RunTime\SubSystem\Graphics\Component\Light</Filter>
-    </ClInclude>
     <ClInclude Include="RunTime\Includes\GLTextureEnable.h">
       <Filter>RunTime\SubSystem\Graphics</Filter>
     </ClInclude>
@@ -1410,15 +1401,6 @@
     </ClCompile>
     <ClCompile Include="RunTime\src\Sprite.cpp">
       <Filter>RunTime\SubSystem\Graphics\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="RunTime\src\LightPoint.cpp">
-      <Filter>RunTime\SubSystem\Graphics\Component\Light</Filter>
-    </ClCompile>
-    <ClCompile Include="RunTime\src\LightSpot.cpp">
-      <Filter>RunTime\SubSystem\Graphics\Component\Light</Filter>
-    </ClCompile>
-    <ClCompile Include="RunTime\src\LightDirectional.cpp">
-      <Filter>RunTime\SubSystem\Graphics\Component\Light</Filter>
     </ClCompile>
     <ClCompile Include="RunTime\src\GLTextureEnable.cpp">
       <Filter>RunTime\SubSystem\Graphics</Filter>

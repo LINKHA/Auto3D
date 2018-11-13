@@ -13,7 +13,7 @@ Node::Node(Ambient* ambient, int sceneID)
 {
 	AddComponent(_ambient->CreateObject<Transform>());
 	// add node to appoint level scene
-	//GetSubSystem<Scene>()->GetLevelScene(_sceneID)->AddNode(this);
+	GetSubSystem<Scene>()->GetLevelScene(_sceneID)->AddNode(this);
 }
 Node::~Node() 
 {
@@ -52,7 +52,7 @@ Node::GameObjectChilds& Node::GetAllChild()
 
 void Node::AddComponent(Component* com)
 {
-	_components.push_back(MAKE_PAIR(com->GetClassID(), com));
+	_components.push_back(MAKE_PAIR(com->GetClassString(), com));
 	com->MountComponent(*this);
 }
 
@@ -77,20 +77,20 @@ Node& Node::GetGameObject()
 	return *this;
 }
 
-Component* Node::QueryComponent(int classID) const
+Vector3 Node::GetPosition()
+{
+	return GetComponent<Transform>()->GetPosition();
+}
+
+Component* Node::GetComponent(STRING type)
 {
 	for (auto it = _components.begin(); it != _components.end(); it++)
 	{
-		if (it->first == classID)
+		if (it->first == type)
 			return it->second;
 	}
-	ErrorString("Fail find component of ClassId.");
+	ErrorString("Fail find component of Class ID.");
 	return nullptr;
-}
-
-Vector3 Node::GetPosition()
-{
-	return GetComponent(Transform).GetPosition();
 }
 
 Component* Node::CreateComponent(STRING type)

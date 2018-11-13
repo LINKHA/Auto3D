@@ -63,7 +63,7 @@
 //
 //Vector3 GameObject::GetPosition()
 //{
-//	return GetComponent(Transform).GetPosition();
+//	return GetComponent<Transform>()->GetPosition();
 //}
 //
 //

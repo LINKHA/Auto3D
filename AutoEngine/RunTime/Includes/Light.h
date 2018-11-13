@@ -70,7 +70,7 @@ class Light : public Component
 	REGISTER_DERIVED_CLASS(Light, Component);
 	DECLARE_OBJECT_SERIALIZE(Light);
 public:
-	explicit Light(Ambient* ambi,LightType type = LightType::kDirectional);
+	explicit Light(Ambient* ambi);
 	/**
 	* @brief : Register object factory.
 	*/
@@ -80,9 +80,13 @@ public:
 	*/
 	void Update()override;
 	/**
+	* @brief : Set light type
+	*/
+	void SetType(LightType type);
+	/**
 	* @brief : Get light type
 	*/
-	LightType GetType() const { return static_cast<LightType>(_type); }
+	LightType GetType() const { return _type; }
 	/**
 	* @brief : Set shadow type and create shadow assist
 	*/
@@ -168,7 +172,7 @@ protected:
 	float _farPlane;
 	float _nearPlane;
 	///light type
-	int	_type;
+	LightType _type;
 
 };
 

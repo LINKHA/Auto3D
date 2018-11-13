@@ -9,8 +9,7 @@ LevelScene::LevelScene(Ambient* ambient, int id)
 	, _isEnable(true)
 	, _sceneID(id)
 {
-	_sceneNode = new SceneObject(ambient,id);
-	AddNode(_sceneNode);
+	
 }
 
 
@@ -18,6 +17,36 @@ LevelScene::~LevelScene()
 {
 }
 
+void LevelScene::Awake() 
+{
+	_sceneNode = new SceneObject(_ambient,_sceneID);
+	AddNode(_sceneNode);
+}
+
+void LevelScene::Start() 
+{
+
+}
+
+void LevelScene::Update() 
+{
+
+}
+
+void LevelScene::FixUpdate() 
+{
+
+}
+
+void LevelScene::Finish() 
+{
+
+}
+
+void LevelScene::Draw() 
+{
+
+}
 
 void LevelScene::AddNode(Node* node)
 {
@@ -62,7 +91,7 @@ void LevelScene::ModeRunNode(RunMode runMode)
 		Node* node = *i;
 		if (node && node->GetEnable())
 		{
-			using compomentIt = PAIR_VECTOR(int, Component*)::iterator;
+			using compomentIt = PAIR_VECTOR(STRING, Component*)::iterator;
 			if (runMode == RunMode::kAwake)
 				for (compomentIt k = node->GetComponentsArray().begin(); k != node->GetComponentsArray().end(); k++)
 				{

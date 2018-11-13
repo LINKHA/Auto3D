@@ -55,7 +55,7 @@ void MeshLight::Draw()
 	glm::mat4 model = glm::mat4();
 
 	if (GetGameObjectPtr())		//if gameObject not empty
-		model = GetGameObject().GetComponent(Transform).GetTransformMat();
+		model = GetGameObject().GetComponent<Transform>()->GetTransformMat();
 	else
 		model = Matrix4x4::identity;
 

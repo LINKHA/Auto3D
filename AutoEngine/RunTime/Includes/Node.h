@@ -8,7 +8,7 @@ namespace Auto3D {
 class Component;
 class Transform;
 
-#define GetComponent(x) GetComponentT<x>(ClassID (x))
+//#define GetComponent(x) GetComponentT<x>(ClassID (x))
 /// define gameobject with node
 using GameObject = class Node;
 
@@ -18,11 +18,10 @@ class Node :public Object
 	DECLARE_OBJECT_SERIALIZE(Node);
 	using GameObjectChilds = VECTOR(Node*);
 #if SharedPtrDebug
-	using ComponentsArray = PAIR_VECTOR(int, SharedPtr<Component>);
+	using ComponentsArray = PAIR_VECTOR(STRING, SharedPtr<Component>);
 #else
-	using ComponentsArray = PAIR_VECTOR(int, Component*);
+	using ComponentsArray = PAIR_VECTOR(STRING, Component*);
 #endif
-
 public:
 	explicit Node(Ambient* ambient, int sceneID);
 	/**
@@ -79,10 +78,6 @@ public:
 	*/
 	void RemoveComponentAtIndex(int index);
 	/**
-	* @brief : Get component in _components if nullptr will breaking
-	*/
-	template<typename _Ty> inline _Ty& GetComponentT(int compareClassID) const;
-	/**
 	* @brief : Get component from index
 	*/
 	inline Component& GetComponentIndex(int index);
@@ -99,10 +94,6 @@ public:
 	*/
 	Node& GetGameObject();
 	/**
-	* @brief : Find component from class id
-	*/
-	Component* QueryComponent(int classID) const;
-	/**
 	* @brief : Get Components
 	* @return : PAIR_VECTOR(int, Component*)
 	*/
@@ -111,10 +102,19 @@ public:
 	* @brief : Get this object position
 	*/
 	Vector3 GetPosition();
+	/**
+	* @brief : Find component from class id
+	*/
+	Component* GetComponent(STRING type);
+	/**
+	* @brief : Get component in _components if nullptr will breaking
+	*/
+	template<typename _Ty> _Ty* GetComponent();
+	
 
 	Component* CreateComponent(STRING type);
 
-	template <class _Ty> _Ty* CreateComponent();
+	template <typename _Ty> _Ty* CreateComponent();
 protected:
 	GameObjectChilds _childs;
 	UInt32 _layer{};
@@ -130,16 +130,12 @@ protected:
 
 template <typename _Ty> _Ty* Node::CreateComponent()
 {
-	Print(_Ty::GetClassStringStatic());
 	return static_cast<_Ty*>(CreateComponent(_Ty::GetClassStringStatic()));
 }
 
-template<typename _Ty> inline _Ty& Node::GetComponentT(int compareClassID) const
+template<typename _Ty> _Ty* Node::GetComponent()
 {
-	Component* com;
-	com = QueryComponent(compareClassID);
-	Assert(com != nullptr);
-	return *static_cast<_Ty*> (com);
+	return static_cast<_Ty*>(GetComponent(_Ty::GetClassStringStatic()));
 }
 
 inline Component& Node::GetComponentIndex(int index)

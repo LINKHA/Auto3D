@@ -28,6 +28,7 @@ public:
 	Mesh(Ambient* ambient,char* meshPath);
 	Mesh(Ambient* ambient,char* meshPath, const Shader& shader);
 
+
 	void Start()override;
 	void Draw()override;
 	Material* GetMaterial() { return _material; }

@@ -45,7 +45,7 @@ void MeshShadow::DrawShadow()
 	glm::mat4 modelMat;
 
 	if (GetGameObjectPtr())		//if gameObject not empty
-		modelMat = GetGameObject().GetComponent(Transform).GetTransformMat();
+		modelMat = GetGameObject().GetComponent<Transform>()->GetTransformMat();
 	else
 		modelMat = Matrix4x4::identity;
 
@@ -84,7 +84,7 @@ void MeshShadow::Draw()
 		glm::mat4 modelMat;
 
 		if (GetGameObjectPtr())		//if gameObject not empty
-			modelMat = GetGameObject().GetComponent(Transform).GetTransformMat();
+			modelMat = GetGameObject().GetComponent<Transform>()->GetTransformMat();
 		else
 			modelMat = Matrix4x4::identity;
 		_shader.SetMat4("model", modelMat);
