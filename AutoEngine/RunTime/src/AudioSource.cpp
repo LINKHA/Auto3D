@@ -6,12 +6,9 @@ namespace Auto3D {
 
 AudioSource::AudioSource(Ambient* ambient)
 	: Super(ambient)
-{}
+{
+}
 
-AudioSource::AudioSource(Ambient* ambient, AudioBuffer* bufferClip)
-	: Super(ambient)
-	, _bufferClip(bufferClip)
-{}
 
 AudioSource::~AudioSource()
 {
@@ -32,7 +29,6 @@ void AudioSource::Start()
 	alGenSources(1, &_source);
 	if (_bufferClip) 
 	{
-		Print(_bufferClip->GetData());
 		attachBuffer();
 	}
 	alSourcei(_source, AL_BUFFER, _buffer);
@@ -97,7 +93,7 @@ AudioSourceState AudioSource::GetState()
 		return AudioSourceState::DEFAULT;
 }
 
-void AudioSource::AttachBuffer(AudioBuffer* clip)
+void AudioSource::AttachBuffer(const AudioBuffer& clip)
 {
 	_bufferClip = clip;
 	attachBuffer();

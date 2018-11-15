@@ -2,6 +2,7 @@
 #include "Component.h"
 #include "AutoPhysics2D.h"
 
+
 namespace Auto3D {
 /// Collision shape type.
 enum class ShapeType
@@ -18,6 +19,8 @@ enum class ShapeType
 	SHAPE_GIMPACTMESH
 };
 
+class RigidBody2D;
+
 class Collider2D : public Component
 {
 	REGISTER_DERIVED_ABSTRACT_CLASS(Collider2D, Component);
@@ -32,16 +35,28 @@ public:
 	*/
 	static void RegisterObject(Ambient* ambient);
 
+	void Start()override;
+
 	void CreateFixture();
 
 	void ReleaseFixture();
 	/**
 	* @brief : Set trigger
 	*/
-	void SetTrigger(bool trigger)
-	{
+	void SetTrigger(bool trigger);
+	/// Set filter category bits.
+	void SetCategoryBits(int categoryBits);
+	/// Set filter mask bits.
+	void SetMaskBits(int maskBits);
+	/// Set filter group index.
+	void SetGroupIndex(int groupIndex);
+	/// Set density.
+	void SetDensity(float density);
+	/// Set friction.
+	void SetFriction(float friction);
+	/// Set restitution .
+	void SetRestitution(float restitution);
 
-	}
 
 	/// Return filter category bits
 	int GetCategoryBits() const { return _fixtureDef.filter.categoryBits; }
@@ -72,12 +87,15 @@ public:
 	*/
 	b2Fixture* GetFixture() const { return _fixture; }
 
-private:
+protected:
 	/// Fixture def
 	b2FixtureDef _fixtureDef;
 	/// Box2D fixture
 	b2Fixture* _fixture;
-
+	/// 
+	RigidBody2D* _rigidBody;
+	/// Cached world scale.
+	Vector3 _cachedWorldScale;
 };
 
 }

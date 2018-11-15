@@ -2,6 +2,9 @@
 #include "Node.h"
 
 namespace Auto3D {
+
+class PhysicsWorld2D;
+
 //class SceneNode;
 using SceneObject = class SceneNode;
 
@@ -15,10 +18,13 @@ public:
 	* @brief : Get scene ID
 	*/
 	const int GetID() const { return _sceneID; }
-
+	/**
+	* @brief : Get 2D physics world
+	*/
+	PhysicsWorld2D* GetPhysicsWorld2D() { return _physcisWorld2D; }
 private:
 	int _sceneID{};
-
+	PhysicsWorld2D* _physcisWorld2D;
 };
 
 }

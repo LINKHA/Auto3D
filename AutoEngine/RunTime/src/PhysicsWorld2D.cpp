@@ -44,5 +44,32 @@ void PhysicsWorld2D::Update()
 	_isPhysicsStepping = false;
 }
 
+void PhysicsWorld2D::AddRigidBody(RigidBody2D* rigidBody)
+{
+	if (!rigidBody)
+		return;
+
+	RigidBody2D* rigidBodyPtr(rigidBody);
+	// Determine if there is duplication
+	if (std::count(_rigidBodys.begin(), _rigidBodys.end(), rigidBodyPtr))
+		return;
+
+	_rigidBodys.push_back(rigidBodyPtr);
+}
+
+void PhysicsWorld2D::RemoveRigidBody(RigidBody2D* rigidBody)
+{
+	if (!rigidBody)
+		return;
+	for(VECTOR(RigidBody2D*)::iterator it = _rigidBodys.begin(); it != _rigidBodys.end(); it++)
+	{
+		if (*it == rigidBody)
+		{
+			_rigidBodys.erase(it);
+			return;
+		}
+	}
+	
+}
 
 }

@@ -4,6 +4,8 @@
 
 namespace Auto3D {
 
+class RigidBody2D;
+
 class PhysicsWorld2D : public Component//, public b2ContactListener, public b2Draw
 {
 	REGISTER_DERIVED_CLASS(PhysicsWorld2D, Component);
@@ -14,12 +16,21 @@ public:
 	* @brief : Register object factory.
 	*/
 	static void RegisterObject(Ambient* ambient);
+
+	void Update()override;
 	/**
 	* @brief : Return the Box2D physics world
 	*/
 	b2World* GetWorld() { return _world; }
+	/**
+	* @brief : Add rigid body
+	*/
+	void AddRigidBody(RigidBody2D* rigidBody);
+	/**
+	* @brief : Remove rigid body
+	*/
+	void RemoveRigidBody(RigidBody2D* rigidBody);
 
-	void Update()override;
 
 private:
 	b2World* _world;
@@ -32,6 +43,7 @@ private:
 	/// Position iterations default 3
 	int _positionIter{};
 
+	VECTOR(RigidBody2D*) _rigidBodys;
 };
 
 }

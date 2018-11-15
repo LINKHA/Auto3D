@@ -1,6 +1,5 @@
 #include "Physics2DSapce.h"
 #include "Application.h"
-#include "LightDirectional.h"
 #include "../FreeCamera.h"
 #include "Level_0.h"
 Physics2DSapce::Physics2DSapce(Ambient* ambient)

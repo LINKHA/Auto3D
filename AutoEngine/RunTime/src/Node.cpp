@@ -11,16 +11,17 @@ Node::Node(Ambient* ambient, int sceneID)
 	, _sceneID(sceneID)
 	, _isEnable(true)
 {
-	AddComponent(_ambient->CreateObject<Transform>());
+	// Each node contains a Transform component
+	CreateComponent<Transform>();
 	// add node to appoint level scene
 	GetSubSystem<Scene>()->GetLevelScene(_sceneID)->AddNode(this);
 }
+
 Node::~Node() 
 {
 	// remove node to appoint level scene
 	GetSubSystem<Scene>()->GetLevelScene(_sceneID)->RemoveNode(this);
 }
-
 
 void Node::AddChild(Node* node)
 {
@@ -75,6 +76,69 @@ const Node& Node::GetGameObject()const
 Node& Node::GetGameObject()
 {
 	return *this;
+}
+void Node::SetPosition(const Vector2& position)
+{
+	Transform* transform = GetComponent<Transform>();
+	transform->SetPosition(position.x, position.y, transform->GetPosition().z);
+}
+
+void Node::SetPosition(const Vector3& position)
+{
+	GetComponent<Transform>()->SetPosition(position.x, position.y, position.z);
+}
+
+void Node::SetPosition(float x, float y)
+{
+	Transform* transform = GetComponent<Transform>();
+	transform->SetPosition(x, y, transform->GetPosition().z);
+}
+
+void Node::SetPosition(float x, float y, float z)
+{
+	GetComponent<Transform>()->SetPosition(x, y, z);
+}
+
+void Node::SetRotation(const Quaternion& rotation)
+{
+	GetComponent<Transform>()->SetRotation(rotation);
+}
+
+void Node::SetRotation(const Vector3& euler)
+{
+	GetComponent<Transform>()->SetRotation(euler);
+}
+
+void Node::SetRotation(float Angle, const Vector3& axis)
+{
+	GetComponent<Transform>()->SetRotation(Angle, axis);
+}
+
+void Node::SetScale(float scale)
+{
+	GetComponent<Transform>()->SetScale(scale);
+}
+
+void Node::SetScale(float scaleX, float scaleY)
+{
+	Transform* transform = GetComponent<Transform>();
+	transform->SetScale(scaleX, scaleY, transform->GetScale().z);
+}
+
+void Node::SetScale(float scaleX, float scaleY, float scaleZ)
+{
+	GetComponent<Transform>()->SetScale(scaleX, scaleY, scaleZ);
+}
+
+void Node::SetScale(const Vector2& scale)
+{
+	Transform* transform = GetComponent<Transform>();
+	transform->SetScale(scale.x, scale.y, transform->GetScale().z);
+}
+
+void Node::SetScale(const Vector3& scale)
+{
+	GetComponent<Transform>()->SetScale(scale);
 }
 
 Vector3 Node::GetPosition()

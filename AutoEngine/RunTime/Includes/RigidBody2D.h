@@ -11,9 +11,9 @@ class PhysicsWorld2D;
 /// Rigid body type.
 enum class BodyType2D
 {
-	STATIC = b2_staticBody,
-	KINEMATIC = b2_kinematicBody,
-	DYNAMIC = b2_dynamicBody
+	kStatic = b2_staticBody,
+	kKinematic = b2_kinematicBody,
+	kDynamic = b2_dynamicBody
 };
 
 class RigidBody2D : public Component
@@ -27,25 +27,37 @@ public:
 	*/
 	static void RegisterObject(Ambient* ambient);
 
-	void OnSceneSet(PhysicsWorld2D* physicsWorld);
-
-	/// Set body type.
+	void Start() override;
+	void Update() override;
+	/**
+	* @brief : Create body
+	*/
+	void CreateBody();
+	/**
+	* @brief : Release body
+	*/
+	void ReleaseBody();
+	/**
+	* @brief : Set body type
+	*/
 	void SetBodyType(BodyType2D type);
-	/// Set mass.
-	void SetMass(float mass);
-	/// Set inertia.
-	void SetInertia(float inertia);
-
+	/**
+	* @brief : Get box2D body
+	*/
+	b2Body* GetBody() { return _body; }
+	/**
+	* @brief : Return whether to calculate mass and inertia from collision shapes automatically
+	*/
+	bool GetUseFixtureMass() const { return _useFixtureMass; }
 
 private:
-	PhysicsWorld2D* _physicsWorld;
-	/// Box2D body define.
+	/// box2D body define.
 	b2BodyDef _bodyDef;
-	/// Box2D body.
+	/// box2D body.
 	b2Body* _body;
-	/// Box2D mass data.
+	/// box2D mass data.
 	b2MassData _massData;
-	/// Use fixture mass (calculate mass & inertia from collision shapes automatically.)
+	/// use fixture mass (calculate mass & inertia from collision shapes automatically.)
 	bool _useFixtureMass;
 };
 

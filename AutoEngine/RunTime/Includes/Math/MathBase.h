@@ -16,6 +16,12 @@ static const float MATH_E = 2.71828182845904523536f	;	//e
 static const float MATH_PI = 3.14159265358979323846f;	//pi
 static const float MATH_PI_2f = 1.57079632679489661923f;//pi/2
 static const float MATH_PI_4f = 0.785398163397448309616f;//pi/4
+static const float MATH_DEGTORAD = MATH_PI / 180.0f;
+static const float MATH_DEGTORAD_2f = MATH_PI / 360.0f;    // MATH_DEGTORAD / 2.f
+static const float MATH_RADTODEG = 1.0f / MATH_DEGTORAD;
+
+static const int MATH_MIN_INT = 0x80000000;
+static const int MATH_MAX_INT = 0x7fffffff;
 static const unsigned MATH_MIN_UNSIGNED = 0x00000000;
 static const unsigned MATH_MAX_UNSIGNED = 0xffffffff;
 

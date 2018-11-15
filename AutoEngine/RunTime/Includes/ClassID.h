@@ -80,6 +80,7 @@ enum ClassIDType
 	DO_CLASS_ID(PhysicsWorld2D, 79)
 	DO_CLASS_ID(SceneNode, 80)
 	DO_CLASS_ID(Behavior, 81)
+	DO_CLASS_ID(Constraint2D, 82)
 	
 	CLASS_ID_Count
 };

@@ -1,5 +1,6 @@
 #include "Component.h"
 #include "GameObject.h"
+#include "Scene.h"
 
 namespace Auto3D {
 
@@ -40,6 +41,16 @@ Vector3 Component::GetPosition()
 	if(!GetGameObjectPtr())
 		return Vector3();
 	return GetGameObjectPtr()->GetPosition();
+}
+
+const int Component::GetSceneID()
+{
+	return GetGameObject().GetSceneID();
+}
+
+SceneNode* Component::GetCurrentSceneNode()
+{
+	return GetSubSystem<Scene>()->GetLevelScene(GetSceneID())->GetSceneNode();
 }
 
 }

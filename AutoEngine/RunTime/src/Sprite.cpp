@@ -32,7 +32,7 @@ Sprite::~Sprite()
 	glDeleteBuffers(1, &_EBO);
 }
 
-void Sprite::SetImage(char * imagePath)
+void Sprite::SetImage(char* imagePath)
 {
 	_imagePath = imagePath;
 }

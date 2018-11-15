@@ -240,7 +240,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RunTime\Includes\Behavior.h" />
-    <ClInclude Include="RunTime\Includes\Collision2D.h" />
+    <ClInclude Include="RunTime\Includes\Constraint2D.h" />
     <ClInclude Include="RunTime\Includes\PhysicsUtils.h" />
     <ClInclude Include="RunTime\Includes\PhysicsWorld2D.h" />
     <ClInclude Include="RunTime\Includes\ColliderBox2D.h" />
@@ -548,7 +548,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RunTime\src\Behavior.cpp" />
-    <ClCompile Include="RunTime\src\Collision2D.cpp" />
+    <ClCompile Include="RunTime\src\Constraint2D.cpp" />
     <ClCompile Include="RunTime\src\PhysicsWorld2D.cpp" />
     <ClCompile Include="RunTime\src\ColliderBox2D.cpp" />
     <ClCompile Include="RunTime\src\Collider2D.cpp" />

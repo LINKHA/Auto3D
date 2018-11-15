@@ -11,6 +11,7 @@ class LevelScene : public BehaviorObject
 {
 	REGISTER_DERIVED_ABSTRACT_CLASS(LevelScene, BehaviorObject);
 	DECLARE_OBJECT_SERIALIZE(LevelScene);
+	using SceneSuper = This;
 	using NodeContainer = LIST(Node*);
 public:
 	/**
@@ -18,7 +19,7 @@ public:
 		default levelNumber 0
 	*/
 	explicit LevelScene(Ambient* ambient,int id = 0);
-
+	
 	virtual void Awake();
 	virtual void Start();
 	virtual void Update();
@@ -33,15 +34,14 @@ public:
 	* @brief : Add node to _nodeToRemove delay run over to remove _nodes
 	*/
 	void RemoveNode(Node* node);
-
-	Node* CreateNode(STRING name = "")
-	{
-		Node* node = new Node(_ambient, _sceneID);
-		AddNode(node);
-		return node;
-	}
+	/**
+	* @brief : Create node with name
+	*/
+	Node* CreateNode(STRING name = "");
+	/**
+	* @brief : Remove node with name
+	*/
 	void RemoveGameObject(STRING name);
-
 	/**
 	* @brief : Process components in all nodes that are opened
 	*/
@@ -58,6 +58,10 @@ public:
 	* @brief : Return current level number
 	*/
 	int GetSceneID() { return _sceneID; }
+	/**
+	* @brief : Get scene node
+	*/
+	SceneNode* GetSceneNode();
 private:
 	/**
 	* @brief : if not run this function will run once in one frame
@@ -75,9 +79,6 @@ private:
 	NodeContainer _nodeToAdd;
 	/// temp memory will remove node in frame finish will clear
 	NodeContainer _nodeToRemove;
-	/// scene root node
-	//SceneObject* _scene;
-
 	/// run flag
 	bool _isInsideRun{};
 	/// is enable

@@ -1,6 +1,7 @@
 #pragma once
 #include "Object.h"
 #include "Node.h"
+#include "SceneNode.h"
 
 namespace Auto3D {
 
@@ -8,6 +9,7 @@ const static char* SCENE_ATTACH = "Scene_attach";
 const static char* GEOMETRY_ATTACH = "GeoMetry_attach";
 const static char* COMPONENT_SET_ATTACH = "Component_Set_attach";
 
+class SceneNode;
 
 class Component : public Object
 {
@@ -48,6 +50,14 @@ public:
 	* @brief : Return vector3 with gameObject position
 	*/
 	Vector3 GetPosition();
+	/**
+	* @brief : Return int with scene id
+	*/
+	const int GetSceneID();
+	/**
+	* @brief : Return current scene node
+	*/
+	SceneNode* GetCurrentSceneNode();
 
 	virtual void Awake() {}
 	virtual void Start() {}

@@ -24,10 +24,6 @@ public:
 	*/
 	explicit AudioSource(Ambient* ambient);
 	/**
-	* @brief : The constructor add buffer clip
-	*/
-	AudioSource(Ambient* ambient, AudioBuffer* bufferClip);
-	/**
 	* @brief : Register object factory.
 	*/
 	static void RegisterObject(Ambient* ambient);
@@ -78,7 +74,7 @@ public:
 	/**
 	* @brief : Attach buffer for point
 	*/
-	void AttachBuffer(AudioBuffer* clip);
+	void AttachBuffer(const AudioBuffer& clip);
 private:
 	/**
 	* @brief : Attach buffer for point
@@ -102,7 +98,7 @@ private:
 	void callRewind();
 private:
 	/// audio buffer
-	AudioBuffer* _bufferClip;
+	AudioBuffer _bufferClip;
 	/// is playing in this audio source
 	bool _isPlaying{};
 	///	is pause in this audio source

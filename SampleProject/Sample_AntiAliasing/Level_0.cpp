@@ -10,11 +10,11 @@ Level_0::Level_0(Ambient* ambient, int id)
 {}
 void Level_0::Awake()
 {
-	Super::Awake();
+	SceneSuper::Awake();
 }
 void Level_0::Start()
 {
-	Super::Start();
+	SceneSuper::Start();
 
 	Node* cameraObj = CreateNode();
 	FreeCamera* camera = new FreeCamera(_ambient, _sceneID);
@@ -34,12 +34,10 @@ void Level_0::Start()
 	auto* mesh = meshObj->CreateComponent<Mesh>();
 	mesh->SetModel("../Resource/object/base/Cube.3DS");
 	meshObj->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, -3.0f);
-
-
 }
 
 void Level_0::Update()
 {
-	Super::Update();
+	SceneSuper::Update();
 }
 

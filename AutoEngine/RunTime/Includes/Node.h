@@ -5,16 +5,17 @@
 
 
 namespace Auto3D {
+
 class Component;
 class Transform;
+class SceneNode;
 
-//#define GetComponent(x) GetComponentT<x>(ClassID (x))
 /// define gameobject with node
 using GameObject = class Node;
 
 class Node :public Object
 {
-	REGISTER_DERIVED_ABSTRACT_CLASS(Node, Object);
+	REGISTER_DERIVED_CLASS(Node, Object);
 	DECLARE_OBJECT_SERIALIZE(Node);
 	using GameObjectChilds = VECTOR(Node*);
 #if SharedPtrDebug
@@ -25,14 +26,18 @@ class Node :public Object
 public:
 	explicit Node(Ambient* ambient, int sceneID);
 	/**
-	* @brief : Get scene ID
-	*/
-	int GetSceneID() { return _sceneID; }
-	/**
 	* @brief :Add Child
 	* @param : GameObject*
 	*/
 	virtual void AddChild(Node* node);
+	/**
+	* @brief : Mount component in this GameObject
+	*/
+	void AddComponent(Component* com);
+	/**
+	* @brief : Remove component at index
+	*/
+	void RemoveComponentAtIndex(int index);
 	/**
 	* @brief : Remove child with index
 	*/
@@ -70,13 +75,10 @@ public:
 	*/
 	bool GetEnable() { return _isEnable; }
 	/**
-	* @brief : Mount component in this GameObject
+	* @brief : Get scene ID
 	*/
-	void AddComponent(Component* com);
-	/**
-	* @brief : Remove component at index
-	*/
-	void RemoveComponentAtIndex(int index);
+	int GetSceneID() { return _sceneID; }
+
 	/**
 	* @brief : Get component from index
 	*/
@@ -99,6 +101,54 @@ public:
 	*/
 	ComponentsArray& GetComponentsArray() { return _components; }
 	/**
+	* @brief : Set position from vector2
+	*/
+	void SetPosition(const Vector2& position);
+	/**
+	* @brief : Set position from vector3
+	*/
+	void SetPosition(const Vector3& position);
+	/**
+	* @brief : Set position from x,y
+	*/
+	void SetPosition(float x, float y);
+	/**
+	* @brief : Set position from x,y,z
+	*/
+	void SetPosition(float x,float y,float z);
+	/**
+	* @brief : Set Rotation from rotation
+	*/
+	void SetRotation(const Quaternion& rotation);
+	/**
+	* @brief : Set Rotation from euler(Vector3)
+	*/
+	void SetRotation(const Vector3& euler);
+	/**
+	* @brief : Set Rotation from angle and axis
+	*/
+	void SetRotation(float Angle, const Vector3& axis);
+	/**
+	* @brief : Set position from scale
+	*/
+	void SetScale(float scale);
+	/**
+	* @brief : Set position from scaleX,scaleY
+	*/
+	void SetScale(float scaleX, float scaleY);
+	/**
+	* @brief : Set position from scaleX,scaleY,scaleZ
+	*/
+	void SetScale(float scaleX, float scaleY, float scaleZ);
+	/**
+	* @brief : Set position from scaleX,scaleY,scaleZ
+	*/
+	void SetScale(const Vector2& scale);
+	/**
+	* @brief : Set position from scale
+	*/
+	void SetScale(const Vector3& scale);
+	/**
 	* @brief : Get this object position
 	*/
 	Vector3 GetPosition();
@@ -110,18 +160,25 @@ public:
 	* @brief : Get component in _components if nullptr will breaking
 	*/
 	template<typename _Ty> _Ty* GetComponent();
-	
-
+	/**
+	* @brief : Create component with stirng type
+	*/
 	Component* CreateComponent(STRING type);
-
+	/**
+	* @brief : Create component with template
+	*/
 	template <typename _Ty> _Ty* CreateComponent();
 protected:
+	/// node childs (VECTOR(Node*))
 	GameObjectChilds _childs;
+	/// layer id
 	UInt32 _layer{};
+	/// tag id
 	UInt16 _tag{};
+	/// is active
 	bool _isActive;
+	/// scene id
 	int _sceneID{};
-
 	/// this gameobject components container
 	ComponentsArray _components;
 	/// enable

@@ -8,12 +8,18 @@
       <Filter>Script</Filter>
     </ClCompile>
     <ClCompile Include="Physics3DSpace.cpp" />
+    <ClCompile Include="Level_0.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FreeCamera.h">
       <Filter>Script</Filter>
     </ClInclude>
     <ClInclude Include="Physics3DSpace.h" />
+    <ClInclude Include="Level_0.h">
+      <Filter>Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Misc">

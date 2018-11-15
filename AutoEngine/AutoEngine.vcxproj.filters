@@ -1328,9 +1328,6 @@
     <ClInclude Include="RunTime\Includes\ComponentSetting.h">
       <Filter>RunTime\Misc</Filter>
     </ClInclude>
-    <ClInclude Include="RunTime\Includes\Collision2D.h">
-      <Filter>RunTime\SubSystem\Physics\Component\2D</Filter>
-    </ClInclude>
     <ClInclude Include="RunTime\Includes\Behavior.h">
       <Filter>RunTime\SubSystem\Behavior</Filter>
     </ClInclude>
@@ -1339,6 +1336,9 @@
     </ClInclude>
     <ClInclude Include="RunTime\Includes\SceneNode.h">
       <Filter>RunTime\SubSystem\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="RunTime\Includes\Constraint2D.h">
+      <Filter>RunTime\SubSystem\Physics\Component\2D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1759,9 +1759,6 @@
     <ClCompile Include="RunTime\src\ComponentSetting.cpp">
       <Filter>RunTime\Misc</Filter>
     </ClCompile>
-    <ClCompile Include="RunTime\src\Collision2D.cpp">
-      <Filter>RunTime\SubSystem\Physics\Component\2D</Filter>
-    </ClCompile>
     <ClCompile Include="RunTime\src\Behavior.cpp">
       <Filter>RunTime\SubSystem\Behavior</Filter>
     </ClCompile>
@@ -1770,6 +1767,9 @@
     </ClCompile>
     <ClCompile Include="RunTime\src\SceneNode.cpp">
       <Filter>RunTime\SubSystem\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="RunTime\src\Constraint2D.cpp">
+      <Filter>RunTime\SubSystem\Physics\Component\2D</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

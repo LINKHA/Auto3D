@@ -1,6 +1,8 @@
 #include "LevelScene.h"
 #include "Node.h"
 #include "Component.h"
+#include "PhysicsWorld2D.h"
+
 
 namespace Auto3D {
 
@@ -8,10 +10,8 @@ LevelScene::LevelScene(Ambient* ambient, int id)
 	: Super(ambient)
 	, _isEnable(true)
 	, _sceneID(id)
-{
-	
+{	
 }
-
 
 LevelScene::~LevelScene()
 {
@@ -75,6 +75,13 @@ void LevelScene::RemoveNode(Node* node)
 	{
 		_nodes.remove(node);
 	}
+}
+
+Node* LevelScene::CreateNode(STRING name)
+{
+	Node* node = new Node(_ambient, _sceneID);
+	AddNode(node);
+	return node;
 }
 
 void LevelScene::ModeRunNode(RunMode runMode)
@@ -149,6 +156,16 @@ void LevelScene::delayAddRemoveNode()
 		AddNode(node);
 	}
 	_nodeToAdd.clear();
+}
+
+SceneNode* LevelScene::GetSceneNode()
+{
+	if (!_sceneNode)
+	{
+		_sceneNode = new SceneObject(_ambient, _sceneID);
+		AddNode(_sceneNode);
+	}
+	return _sceneNode;
 }
 
 }
