@@ -22,7 +22,7 @@ subject to the following restrictions:
 #ifndef BT_NUMERICS_LEMKE_ALGORITHM_H_
 #define BT_NUMERICS_LEMKE_ALGORITHM_H_
 
-#include "LinearMath/btMatrixX.h"
+#include "Bullet3/LinearMath/btMatrixX.h"
 
 #include <vector>  //todo: replace by btAlignedObjectArray
 

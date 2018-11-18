@@ -9,7 +9,7 @@
  * It is provided "as is" without express or implied warranty.
 */
 #include "btWheelInfo.h"
-#include "BulletDynamics/Dynamics/btRigidBody.h"  // for pointvelocity
+#include "Bullet3/BulletDynamics/Dynamics/btRigidBody.h"  // for pointvelocity
 
 btScalar btWheelInfo::getSuspensionRestLength() const
 {

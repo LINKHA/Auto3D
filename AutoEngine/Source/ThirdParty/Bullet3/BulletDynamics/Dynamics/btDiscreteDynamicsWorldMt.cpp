@@ -16,35 +16,35 @@ subject to the following restrictions:
 #include "btDiscreteDynamicsWorldMt.h"
 
 //collision detection
-#include "BulletCollision/CollisionDispatch/btCollisionDispatcher.h"
-#include "BulletCollision/BroadphaseCollision/btSimpleBroadphase.h"
-#include "BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h"
-#include "BulletCollision/CollisionShapes/btCollisionShape.h"
+#include "Bullet3/BulletCollision/CollisionDispatch/btCollisionDispatcher.h"
+#include "Bullet3/BulletCollision/BroadphaseCollision/btSimpleBroadphase.h"
+#include "Bullet3/BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h"
+#include "Bullet3/BulletCollision/CollisionShapes/btCollisionShape.h"
 #include "btSimulationIslandManagerMt.h"
-#include "LinearMath/btTransformUtil.h"
-#include "LinearMath/btQuickprof.h"
+#include "Bullet3/LinearMath/btTransformUtil.h"
+#include "Bullet3/LinearMath/btQuickprof.h"
 
 //rigidbody & constraints
-#include "BulletDynamics/Dynamics/btRigidBody.h"
-#include "BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h"
-#include "BulletDynamics/ConstraintSolver/btContactSolverInfo.h"
-#include "BulletDynamics/ConstraintSolver/btTypedConstraint.h"
-#include "BulletDynamics/ConstraintSolver/btPoint2PointConstraint.h"
-#include "BulletDynamics/ConstraintSolver/btHingeConstraint.h"
-#include "BulletDynamics/ConstraintSolver/btConeTwistConstraint.h"
-#include "BulletDynamics/ConstraintSolver/btGeneric6DofConstraint.h"
-#include "BulletDynamics/ConstraintSolver/btGeneric6DofSpring2Constraint.h"
-#include "BulletDynamics/ConstraintSolver/btSliderConstraint.h"
-#include "BulletDynamics/ConstraintSolver/btContactConstraint.h"
+#include "Bullet3/BulletDynamics/Dynamics/btRigidBody.h"
+#include "Bullet3/BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h"
+#include "Bullet3/BulletDynamics/ConstraintSolver/btContactSolverInfo.h"
+#include "Bullet3/BulletDynamics/ConstraintSolver/btTypedConstraint.h"
+#include "Bullet3/BulletDynamics/ConstraintSolver/btPoint2PointConstraint.h"
+#include "Bullet3/BulletDynamics/ConstraintSolver/btHingeConstraint.h"
+#include "Bullet3/BulletDynamics/ConstraintSolver/btConeTwistConstraint.h"
+#include "Bullet3/BulletDynamics/ConstraintSolver/btGeneric6DofConstraint.h"
+#include "Bullet3/BulletDynamics/ConstraintSolver/btGeneric6DofSpring2Constraint.h"
+#include "Bullet3/BulletDynamics/ConstraintSolver/btSliderConstraint.h"
+#include "Bullet3/BulletDynamics/ConstraintSolver/btContactConstraint.h"
 
-#include "LinearMath/btIDebugDraw.h"
-#include "BulletCollision/CollisionShapes/btSphereShape.h"
+#include "Bullet3/LinearMath/btIDebugDraw.h"
+#include "Bullet3/BulletCollision/CollisionShapes/btSphereShape.h"
 
-#include "BulletDynamics/Dynamics/btActionInterface.h"
-#include "LinearMath/btQuickprof.h"
-#include "LinearMath/btMotionState.h"
+#include "Bullet3/BulletDynamics/Dynamics/btActionInterface.h"
+#include "Bullet3/LinearMath/btQuickprof.h"
+#include "Bullet3/LinearMath/btMotionState.h"
 
-#include "LinearMath/btSerializer.h"
+#include "Bullet3/LinearMath/btSerializer.h"
 
 ///
 /// btConstraintSolverPoolMt

@@ -18,7 +18,7 @@ subject to the following restrictions:
 #include "btMultiBodyGearConstraint.h"
 #include "btMultiBody.h"
 #include "btMultiBodyLinkCollider.h"
-#include "BulletCollision/CollisionDispatch/btCollisionObject.h"
+#include "Bullet3/BulletCollision/CollisionDispatch/btCollisionObject.h"
 
 btMultiBodyGearConstraint::btMultiBodyGearConstraint(btMultiBody* bodyA, int linkA, btMultiBody* bodyB, int linkB, const btVector3& pivotInA, const btVector3& pivotInB, const btMatrix3x3& frameInA, const btMatrix3x3& frameInB)
 	: btMultiBodyConstraint(bodyA, bodyB, linkA, linkB, 1, false),

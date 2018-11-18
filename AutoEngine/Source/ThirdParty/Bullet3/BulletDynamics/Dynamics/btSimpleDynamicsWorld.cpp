@@ -14,12 +14,12 @@ subject to the following restrictions:
 */
 
 #include "btSimpleDynamicsWorld.h"
-#include "BulletCollision/CollisionDispatch/btCollisionDispatcher.h"
-#include "BulletCollision/BroadphaseCollision/btSimpleBroadphase.h"
-#include "BulletCollision/CollisionShapes/btCollisionShape.h"
-#include "BulletDynamics/Dynamics/btRigidBody.h"
-#include "BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h"
-#include "BulletDynamics/ConstraintSolver/btContactSolverInfo.h"
+#include "Bullet3/BulletCollision/CollisionDispatch/btCollisionDispatcher.h"
+#include "Bullet3/BulletCollision/BroadphaseCollision/btSimpleBroadphase.h"
+#include "Bullet3/BulletCollision/CollisionShapes/btCollisionShape.h"
+#include "Bullet3/BulletDynamics/Dynamics/btRigidBody.h"
+#include "Bullet3/BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h"
+#include "Bullet3/BulletDynamics/ConstraintSolver/btContactSolverInfo.h"
 
 /*
   Make sure this dummy function never changes so that it

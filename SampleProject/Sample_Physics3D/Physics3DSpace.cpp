@@ -1,31 +1,31 @@
-#include "DebugSapce.h"
+#include "Physics3DSpace.h"
 #include "Application.h"
-#include "LightDirectional.h"
 #include "../FreeCamera.h"
 #include "Mesh.h"
 #include "Sprite.h"
 #include "Input.h"
 #include "Time.h"
 #include "AudioRun.h"
-DebugSapce::DebugSapce(Ambient* ambient)
+#include "Level_0.h"
+Physics3DSpace::Physics3DSpace(Ambient* ambient)
 	:MotionSpace(ambient)
 {}
-DebugSapce::~DebugSapce()
-{}
-
-void DebugSapce::Start()
+Physics3DSpace::~Physics3DSpace()
 {
-	//GameObject* cameraObj = new GameObject(_ambient);
-	//cameraObj->RegisterObjectFactory(_ambient);
-	//Print(cameraObj->GetAttach());
-	//Run();
-	Run2();
+	RemoveScene(0);
 }
-void DebugSapce::Update()
+void Physics3DSpace::Awake()
+{
+	RegisterScene(new Level_0(_ambient, 0));
+}
+void Physics3DSpace::Start()
 {
 }
-int DebugSapce::Launch()
+void Physics3DSpace::Update()
+{
+}
+int Physics3DSpace::Launch()
 {
 	return INSTANCE(Application).Run(_ambient);
 }
-AUTO_APPLICATION_MAIN(DebugSapce)
+AUTO_APPLICATION_MAIN(Physics3DSpace)

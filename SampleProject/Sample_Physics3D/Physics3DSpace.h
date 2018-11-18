@@ -2,11 +2,12 @@
 #include "MotionSpace.h"
 #include "GameObject.h"
 using namespace Auto3D;
-class DebugSapce : public MotionSpace
+class Physics3DSpace : public MotionSpace
 {
 public:
-	explicit DebugSapce(Ambient* ambient);
-	~DebugSapce();
+	explicit Physics3DSpace(Ambient* ambient);
+	~Physics3DSpace();
+	void Awake()override;
 	void Start()override;
 	void Update()override;
 	int Launch();

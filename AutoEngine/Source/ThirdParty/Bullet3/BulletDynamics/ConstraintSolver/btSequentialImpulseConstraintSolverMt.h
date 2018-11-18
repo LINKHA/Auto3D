@@ -18,7 +18,7 @@ subject to the following restrictions:
 
 #include "btSequentialImpulseConstraintSolver.h"
 #include "btBatchedConstraints.h"
-#include "LinearMath/btThreads.h"
+#include "Bullet3/LinearMath/btThreads.h"
 
 ///
 /// btSequentialImpulseConstraintSolverMt

@@ -17,9 +17,9 @@ subject to the following restrictions:
 
 #include "btMultiBodySliderConstraint.h"
 #include "btMultiBodyLinkCollider.h"
-#include "BulletDynamics/Dynamics/btRigidBody.h"
-#include "BulletDynamics/ConstraintSolver/btGeneric6DofSpring2Constraint.h"
-#include "LinearMath/btIDebugDraw.h"
+#include "Bullet3/BulletDynamics/Dynamics/btRigidBody.h"
+#include "Bullet3/BulletDynamics/ConstraintSolver/btGeneric6DofSpring2Constraint.h"
+#include "Bullet3/LinearMath/btIDebugDraw.h"
 
 #define BTMBSLIDERCONSTRAINT_DIM 5
 #define EPSILON 0.000001

@@ -14,12 +14,12 @@ subject to the following restrictions:
 */
 
 #include "btContactConstraint.h"
-#include "BulletDynamics/Dynamics/btRigidBody.h"
-#include "LinearMath/btVector3.h"
+#include "Bullet3/BulletDynamics/Dynamics/btRigidBody.h"
+#include "Bullet3/LinearMath/btVector3.h"
 #include "btJacobianEntry.h"
 #include "btContactSolverInfo.h"
-#include "LinearMath/btMinMax.h"
-#include "BulletCollision/NarrowPhaseCollision/btManifoldPoint.h"
+#include "Bullet3/LinearMath/btMinMax.h"
+#include "Bullet3/BulletCollision/NarrowPhaseCollision/btManifoldPoint.h"
 
 btContactConstraint::btContactConstraint(btPersistentManifold* contactManifold, btRigidBody& rbA, btRigidBody& rbB)
 	: btTypedConstraint(CONTACT_CONSTRAINT_TYPE, rbA, rbB),
@@ -49,12 +49,12 @@ void btContactConstraint::buildJacobian()
 }
 
 #include "btContactConstraint.h"
-#include "BulletDynamics/Dynamics/btRigidBody.h"
-#include "LinearMath/btVector3.h"
+#include "Bullet3/BulletDynamics/Dynamics/btRigidBody.h"
+#include "Bullet3/LinearMath/btVector3.h"
 #include "btJacobianEntry.h"
 #include "btContactSolverInfo.h"
-#include "LinearMath/btMinMax.h"
-#include "BulletCollision/NarrowPhaseCollision/btManifoldPoint.h"
+#include "Bullet3/LinearMath/btMinMax.h"
+#include "Bullet3/BulletCollision/NarrowPhaseCollision/btManifoldPoint.h"
 
 //response  between two dynamic objects without friction and no restitution, assuming 0 penetration depth
 btScalar resolveSingleCollision(

@@ -16,9 +16,9 @@ subject to the following restrictions:
 #ifndef BT_MULTIBODY_MLCP_CONSTRAINT_SOLVER_H
 #define BT_MULTIBODY_MLCP_CONSTRAINT_SOLVER_H
 
-#include "LinearMath/btMatrixX.h"
-#include "LinearMath/btThreads.h"
-#include "BulletDynamics/Featherstone/btMultiBodyConstraintSolver.h"
+#include "Bullet3/LinearMath/btMatrixX.h"
+#include "Bullet3/LinearMath/btThreads.h"
+#include "Bullet3/BulletDynamics/Featherstone/btMultiBodyConstraintSolver.h"
 
 class btMLCPSolverInterface;
 class btMultiBody;

@@ -16,7 +16,7 @@ subject to the following restrictions:
 #ifndef BT_MULTIBODY_CONSTRAINT_SOLVER_H
 #define BT_MULTIBODY_CONSTRAINT_SOLVER_H
 
-#include "BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h"
+#include "Bullet3/BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h"
 #include "btMultiBodySolverConstraint.h"
 
 #define DIRECTLY_UPDATE_VELOCITY_DURING_SOLVER_ITERATIONS

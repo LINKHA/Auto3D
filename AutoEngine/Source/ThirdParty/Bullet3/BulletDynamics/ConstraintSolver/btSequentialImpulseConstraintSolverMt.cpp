@@ -15,12 +15,12 @@ subject to the following restrictions:
 
 #include "btSequentialImpulseConstraintSolverMt.h"
 
-#include "LinearMath/btQuickprof.h"
+#include "Bullet3/LinearMath/btQuickprof.h"
 
-#include "BulletCollision/NarrowPhaseCollision/btPersistentManifold.h"
+#include "Bullet3/BulletCollision/NarrowPhaseCollision/btPersistentManifold.h"
 
-#include "BulletDynamics/ConstraintSolver/btTypedConstraint.h"
-#include "BulletDynamics/Dynamics/btRigidBody.h"
+#include "Bullet3/BulletDynamics/ConstraintSolver/btTypedConstraint.h"
+#include "Bullet3/BulletDynamics/Dynamics/btRigidBody.h"
 
 bool btSequentialImpulseConstraintSolverMt::s_allowNestedParallelForLoops = false;  // some task schedulers don't like nested loops
 int btSequentialImpulseConstraintSolverMt::s_minimumContactManifoldsForBatching = 250;

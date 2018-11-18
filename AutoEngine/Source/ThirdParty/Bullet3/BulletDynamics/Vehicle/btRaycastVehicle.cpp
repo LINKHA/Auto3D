@@ -9,18 +9,18 @@
  * It is provided "as is" without express or implied warranty.
 */
 
-#include "LinearMath/btVector3.h"
+#include "Bullet3/LinearMath/btVector3.h"
 #include "btRaycastVehicle.h"
 
-#include "BulletDynamics/ConstraintSolver/btSolve2LinearConstraint.h"
-#include "BulletDynamics/ConstraintSolver/btJacobianEntry.h"
-#include "LinearMath/btQuaternion.h"
-#include "BulletDynamics/Dynamics/btDynamicsWorld.h"
+#include "Bullet3/BulletDynamics/ConstraintSolver/btSolve2LinearConstraint.h"
+#include "Bullet3/BulletDynamics/ConstraintSolver/btJacobianEntry.h"
+#include "Bullet3/LinearMath/btQuaternion.h"
+#include "Bullet3/BulletDynamics/Dynamics/btDynamicsWorld.h"
 #include "btVehicleRaycaster.h"
 #include "btWheelInfo.h"
-#include "LinearMath/btMinMax.h"
-#include "LinearMath/btIDebugDraw.h"
-#include "BulletDynamics/ConstraintSolver/btContactConstraint.h"
+#include "Bullet3/LinearMath/btMinMax.h"
+#include "Bullet3/LinearMath/btIDebugDraw.h"
+#include "Bullet3/BulletDynamics/ConstraintSolver/btContactConstraint.h"
 
 #define ROLLING_INFLUENCE_FIX
 

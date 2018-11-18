@@ -15,8 +15,8 @@ subject to the following restrictions:
 ///original version written by Erwin Coumans, October 2013
 
 #include "btMLCPSolver.h"
-#include "LinearMath/btMatrixX.h"
-#include "LinearMath/btQuickprof.h"
+#include "Bullet3/LinearMath/btMatrixX.h"
+#include "Bullet3/LinearMath/btQuickprof.h"
 #include "btSolveProjectedGaussSeidel.h"
 
 btMLCPSolver::btMLCPSolver(btMLCPSolverInterface* solver)

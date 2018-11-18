@@ -14,7 +14,7 @@ subject to the following restrictions:
 */
 
 #include "btPoint2PointConstraint.h"
-#include "BulletDynamics/Dynamics/btRigidBody.h"
+#include "Bullet3/BulletDynamics/Dynamics/btRigidBody.h"
 #include <new>
 
 btPoint2PointConstraint::btPoint2PointConstraint(btRigidBody& rbA, btRigidBody& rbB, const btVector3& pivotInA, const btVector3& pivotInB)

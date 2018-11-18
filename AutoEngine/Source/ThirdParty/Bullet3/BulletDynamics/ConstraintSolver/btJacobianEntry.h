@@ -16,7 +16,7 @@ subject to the following restrictions:
 #ifndef BT_JACOBIAN_ENTRY_H
 #define BT_JACOBIAN_ENTRY_H
 
-#include "LinearMath/btMatrix3x3.h"
+#include "Bullet3/LinearMath/btMatrix3x3.h"
 
 //notes:
 // Another memory optimization would be to store m_1MinvJt in the remaining 3 w components

@@ -14,8 +14,8 @@ subject to the following restrictions:
 */
 
 #include "btTypedConstraint.h"
-#include "BulletDynamics/Dynamics/btRigidBody.h"
-#include "LinearMath/btSerializer.h"
+#include "Bullet3/BulletDynamics/Dynamics/btRigidBody.h"
+#include "Bullet3/LinearMath/btSerializer.h"
 
 #define DEFAULT_DEBUGDRAW_SIZE btScalar(0.05f)
 

@@ -3380,6 +3380,183 @@
     <ClInclude Include="Source\ThirdParty\Bullet3\btBulletDynamicsCommon.h">
       <Filter>ThirdParty\Bullet3</Filter>
     </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\AutoPhysics3D.h">
+      <Filter>RunTime\Adapter</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\Character\btCharacterControllerInterface.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\Character\btKinematicCharacterController.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btBatchedConstraints.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btConeTwistConstraint.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btConstraintSolver.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btContactConstraint.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btContactSolverInfo.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btFixedConstraint.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btGearConstraint.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btGeneric6DofConstraint.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btGeneric6DofSpring2Constraint.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btGeneric6DofSpringConstraint.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btHinge2Constraint.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btHingeConstraint.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btJacobianEntry.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btNNCGConstraintSolver.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btPoint2PointConstraint.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btSequentialImpulseConstraintSolver.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btSequentialImpulseConstraintSolverMt.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btSliderConstraint.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btSolve2LinearConstraint.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btSolverBody.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btSolverConstraint.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btTypedConstraint.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btUniversalConstraint.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\Dynamics\btSimulationIslandManagerMt.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Dynamics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\Dynamics\btActionInterface.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Dynamics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\Dynamics\btDiscreteDynamicsWorld.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Dynamics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\Dynamics\btDiscreteDynamicsWorldMt.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Dynamics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\Dynamics\btDynamicsWorld.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Dynamics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\Dynamics\btRigidBody.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Dynamics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\Dynamics\btSimpleDynamicsWorld.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Dynamics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\Featherstone\btMultiBody.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Featherstone</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\Featherstone\btmultibodyconstraint.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Featherstone</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\Featherstone\btMultiBodyConstraintSolver.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Featherstone</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\Featherstone\btMultiBodyDynamicsWorld.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Featherstone</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\Featherstone\btMultiBodyFixedConstraint.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Featherstone</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\Featherstone\btMultiBodyGearConstraint.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Featherstone</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\Featherstone\btMultiBodyJointFeedback.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Featherstone</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\Featherstone\btMultiBodyJointLimitConstraint.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Featherstone</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\Featherstone\btMultiBodyJointMotor.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Featherstone</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\Featherstone\btMultiBodyLink.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Featherstone</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\Featherstone\btmultibodylinkcollider.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Featherstone</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\Featherstone\btMultiBodyMLCPConstraintSolver.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Featherstone</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\Featherstone\btMultiBodyPoint2Point.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Featherstone</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\Featherstone\btMultiBodySliderConstraint.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Featherstone</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\Featherstone\btMultiBodySolverConstraint.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Featherstone</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\MLCPSolvers\btDantzigLCP.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\MLCPSolvers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\MLCPSolvers\btDantzigSolver.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\MLCPSolvers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\MLCPSolvers\btLemkeAlgorithm.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\MLCPSolvers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\MLCPSolvers\btLemkeSolver.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\MLCPSolvers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\MLCPSolvers\btMLCPSolver.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\MLCPSolvers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\MLCPSolvers\btMLCPSolverInterface.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\MLCPSolvers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\MLCPSolvers\btPATHSolver.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\MLCPSolvers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\MLCPSolvers\btSolveProjectedGaussSeidel.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\MLCPSolvers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\Vehicle\btWheelInfo.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Vehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\Vehicle\btRaycastVehicle.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Vehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\Bullet3\BulletDynamics\Vehicle\btVehicleRaycaster.h">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Vehicle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlatformDependent\Win\WinUnicode.cpp">
@@ -3387,9 +3564,6 @@
     </ClCompile>
     <ClCompile Include="PlatformDependent\Win\PathUnicode.cpp">
       <Filter>PlatformDependent\Win</Filter>
-    </ClCompile>
-    <ClCompile Include="RunTime\src\Resource.cpp">
-      <Filter>RunTime\SubSystem\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\Includes\Math\Color.cpp">
       <Filter>RunTime\Math</Filter>
@@ -4335,6 +4509,126 @@
     </ClCompile>
     <ClCompile Include="Source\ThirdParty\Bullet3\LinearMath\btVector3.cpp">
       <Filter>ThirdParty\Bullet3\LinearMath</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\Character\btKinematicCharacterController.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btBatchedConstraints.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btConeTwistConstraint.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btContactConstraint.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btFixedConstraint.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btGearConstraint.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btGeneric6DofConstraint.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btGeneric6DofSpring2Constraint.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btGeneric6DofSpringConstraint.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btHinge2Constraint.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btHingeConstraint.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btNNCGConstraintSolver.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btPoint2PointConstraint.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btSequentialImpulseConstraintSolver.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btSequentialImpulseConstraintSolverMt.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btSliderConstraint.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btSolve2LinearConstraint.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btTypedConstraint.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\ConstraintSolver\btUniversalConstraint.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\ConstraintSolver</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\Dynamics\btDiscreteDynamicsWorld.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Dynamics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\Dynamics\btDiscreteDynamicsWorldMt.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Dynamics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\Dynamics\btRigidBody.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Dynamics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\Dynamics\btSimpleDynamicsWorld.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Dynamics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\Dynamics\btSimulationIslandManagerMt.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Dynamics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\Featherstone\btMultiBody.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Featherstone</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\Featherstone\btMultiBodyConstraint.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Featherstone</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\Featherstone\btMultiBodyConstraintSolver.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Featherstone</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\Featherstone\btMultiBodyDynamicsWorld.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Featherstone</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\Featherstone\btMultiBodyFixedConstraint.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Featherstone</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\Featherstone\btMultiBodyGearConstraint.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Featherstone</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\Featherstone\btMultiBodyJointLimitConstraint.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Featherstone</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\Featherstone\btMultiBodyJointMotor.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Featherstone</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\Featherstone\btMultiBodyMLCPConstraintSolver.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Featherstone</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\Featherstone\btMultiBodyPoint2Point.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Featherstone</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\Featherstone\btMultiBodySliderConstraint.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Featherstone</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\MLCPSolvers\btDantzigLCP.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\MLCPSolvers</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\MLCPSolvers\btLemkeAlgorithm.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\MLCPSolvers</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\MLCPSolvers\btMLCPSolver.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\MLCPSolvers</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\Vehicle\btRaycastVehicle.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Vehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\Vehicle\btWheelInfo.cpp">
+      <Filter>ThirdParty\Bullet3\BulletDynamics\Vehicle</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

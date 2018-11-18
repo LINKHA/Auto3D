@@ -18,7 +18,7 @@ subject to the following restrictions:
 #include "btMultiBodyJointMotor.h"
 #include "btMultiBody.h"
 #include "btMultiBodyLinkCollider.h"
-#include "BulletCollision/CollisionDispatch/btCollisionObject.h"
+#include "Bullet3/BulletCollision/CollisionDispatch/btCollisionObject.h"
 
 btMultiBodyJointMotor::btMultiBodyJointMotor(btMultiBody* body, int link, btScalar desiredVelocity, btScalar maxMotorImpulse)
 	: btMultiBodyConstraint(body, body, link, body->getLink(link).m_parent, 1, true),

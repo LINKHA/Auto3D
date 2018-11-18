@@ -16,7 +16,7 @@ subject to the following restrictions:
 #ifndef BT_CONSTRAINT_SOLVER_H
 #define BT_CONSTRAINT_SOLVER_H
 
-#include "LinearMath/btScalar.h"
+#include "Bullet3/LinearMath/btScalar.h"
 
 class btPersistentManifold;
 class btRigidBody;

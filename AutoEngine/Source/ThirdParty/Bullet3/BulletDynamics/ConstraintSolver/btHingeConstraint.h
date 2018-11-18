@@ -20,7 +20,7 @@ subject to the following restrictions:
 
 #define _BT_USE_CENTER_LIMIT_ 1
 
-#include "LinearMath/btVector3.h"
+#include "Bullet3/LinearMath/btVector3.h"
 #include "btJacobianEntry.h"
 #include "btTypedConstraint.h"
 

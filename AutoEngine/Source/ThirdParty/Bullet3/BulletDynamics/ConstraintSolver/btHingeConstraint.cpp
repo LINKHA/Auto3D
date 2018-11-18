@@ -14,9 +14,9 @@ subject to the following restrictions:
 */
 
 #include "btHingeConstraint.h"
-#include "BulletDynamics/Dynamics/btRigidBody.h"
-#include "LinearMath/btTransformUtil.h"
-#include "LinearMath/btMinMax.h"
+#include "Bullet3/BulletDynamics/Dynamics/btRigidBody.h"
+#include "Bullet3/LinearMath/btTransformUtil.h"
+#include "Bullet3/LinearMath/btMinMax.h"
 #include <new>
 #include "btSolverBody.h"
 

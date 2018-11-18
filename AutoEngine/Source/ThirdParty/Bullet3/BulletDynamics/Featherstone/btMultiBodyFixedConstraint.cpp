@@ -17,9 +17,9 @@ subject to the following restrictions:
 
 #include "btMultiBodyFixedConstraint.h"
 #include "btMultiBodyLinkCollider.h"
-#include "BulletDynamics/Dynamics/btRigidBody.h"
-#include "BulletDynamics/ConstraintSolver/btGeneric6DofSpring2Constraint.h"
-#include "LinearMath/btIDebugDraw.h"
+#include "Bullet3/BulletDynamics/Dynamics/btRigidBody.h"
+#include "Bullet3/BulletDynamics/ConstraintSolver/btGeneric6DofSpring2Constraint.h"
+#include "Bullet3/LinearMath/btIDebugDraw.h"
 
 #define BTMBFIXEDCONSTRAINT_DIM 6
 

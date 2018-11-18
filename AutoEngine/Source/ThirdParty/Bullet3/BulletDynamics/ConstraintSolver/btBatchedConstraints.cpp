@@ -15,10 +15,10 @@ subject to the following restrictions:
 
 #include "btBatchedConstraints.h"
 
-#include "LinearMath/btIDebugDraw.h"
-#include "LinearMath/btMinMax.h"
-#include "LinearMath/btStackAlloc.h"
-#include "LinearMath/btQuickprof.h"
+#include "Bullet3/LinearMath/btIDebugDraw.h"
+#include "Bullet3/LinearMath/btMinMax.h"
+#include "Bullet3/LinearMath/btStackAlloc.h"
+#include "Bullet3/LinearMath/btQuickprof.h"
 
 #include <string.h>  //for memset
 

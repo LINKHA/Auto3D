@@ -18,7 +18,7 @@ subject to the following restrictions:
 
 #include "btDiscreteDynamicsWorld.h"
 #include "btSimulationIslandManagerMt.h"
-#include "BulletDynamics/ConstraintSolver/btConstraintSolver.h"
+#include "Bullet3/BulletDynamics/ConstraintSolver/btConstraintSolver.h"
 
 ///
 /// btConstraintSolverPoolMt - masquerades as a constraint solver, but really it is a threadsafe pool of them.

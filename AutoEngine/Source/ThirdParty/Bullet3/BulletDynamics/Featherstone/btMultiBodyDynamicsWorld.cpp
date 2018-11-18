@@ -17,11 +17,11 @@ subject to the following restrictions:
 #include "btMultiBodyConstraintSolver.h"
 #include "btMultiBody.h"
 #include "btMultiBodyLinkCollider.h"
-#include "BulletCollision/CollisionDispatch/btSimulationIslandManager.h"
-#include "LinearMath/btQuickprof.h"
+#include "Bullet3/BulletCollision/CollisionDispatch/btSimulationIslandManager.h"
+#include "Bullet3/LinearMath/btQuickprof.h"
 #include "btMultiBodyConstraint.h"
-#include "LinearMath/btIDebugDraw.h"
-#include "LinearMath/btSerializer.h"
+#include "Bullet3/LinearMath/btIDebugDraw.h"
+#include "Bullet3/LinearMath/btSerializer.h"
 
 void btMultiBodyDynamicsWorld::addMultiBody(btMultiBody* body, int group, int mask)
 {

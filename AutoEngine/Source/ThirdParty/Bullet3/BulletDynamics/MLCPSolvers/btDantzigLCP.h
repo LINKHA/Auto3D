@@ -48,8 +48,8 @@ to be implemented. the first `nub' variables are assumed to have findex < 0.
 #include <stdio.h>
 #include <assert.h>
 
-#include "LinearMath/btScalar.h"
-#include "LinearMath/btAlignedObjectArray.h"
+#include "Bullet3/LinearMath/btScalar.h"
+#include "Bullet3/LinearMath/btAlignedObjectArray.h"
 
 struct btDantzigScratchMemory
 {

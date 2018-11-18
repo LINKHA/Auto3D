@@ -18,7 +18,7 @@ subject to the following restrictions:
 #include "btMultiBodyJointLimitConstraint.h"
 #include "btMultiBody.h"
 #include "btMultiBodyLinkCollider.h"
-#include "BulletCollision/CollisionDispatch/btCollisionObject.h"
+#include "Bullet3/BulletCollision/CollisionDispatch/btCollisionObject.h"
 
 btMultiBodyJointLimitConstraint::btMultiBodyJointLimitConstraint(btMultiBody* body, int link, btScalar lower, btScalar upper)
 	//:btMultiBodyConstraint(body,0,link,-1,2,true),

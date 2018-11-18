@@ -13,12 +13,12 @@ subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "BulletDynamics/Featherstone/btMultiBodyMLCPConstraintSolver.h"
+#include "Bullet3/BulletDynamics/Featherstone/btMultiBodyMLCPConstraintSolver.h"
 
-#include "BulletCollision/NarrowPhaseCollision/btPersistentManifold.h"
-#include "BulletDynamics/Featherstone/btMultiBodyLinkCollider.h"
-#include "BulletDynamics/Featherstone/btMultiBodyConstraint.h"
-#include "BulletDynamics/MLCPSolvers/btMLCPSolverInterface.h"
+#include "Bullet3/BulletCollision/NarrowPhaseCollision/btPersistentManifold.h"
+#include "Bullet3/BulletDynamics/Featherstone/btMultiBodyLinkCollider.h"
+#include "Bullet3/BulletDynamics/Featherstone/btMultiBodyConstraint.h"
+#include "Bullet3/BulletDynamics/MLCPSolvers/btMLCPSolverInterface.h"
 
 #define DIRECTLY_UPDATE_VELOCITY_DURING_SOLVER_ITERATIONS
 

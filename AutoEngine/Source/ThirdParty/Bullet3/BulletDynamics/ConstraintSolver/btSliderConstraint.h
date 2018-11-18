@@ -25,7 +25,7 @@ TODO:
 #ifndef BT_SLIDER_CONSTRAINT_H
 #define BT_SLIDER_CONSTRAINT_H
 
-#include "LinearMath/btScalar.h"  //for BT_USE_DOUBLE_PRECISION
+#include "Bullet3/LinearMath/btScalar.h"  //for BT_USE_DOUBLE_PRECISION
 
 #ifdef BT_USE_DOUBLE_PRECISION
 #define btSliderConstraintData2 btSliderConstraintDoubleData
@@ -35,7 +35,7 @@ TODO:
 #define btSliderConstraintDataName "btSliderConstraintData"
 #endif  //BT_USE_DOUBLE_PRECISION
 
-#include "LinearMath/btVector3.h"
+#include "Bullet3/LinearMath/btVector3.h"
 #include "btJacobianEntry.h"
 #include "btTypedConstraint.h"
 
