@@ -27,12 +27,10 @@ RigidBody2D::RigidBody2D(Ambient* ambient)
 
 RigidBody2D::~RigidBody2D()
 {
-	PhysicsWorld2D* physicsWorld = GetCurrentSceneNode()->GetPhysicsWorld2D();
-	if (physicsWorld)
+	if (_physicsWorld)
 	{
 		ReleaseBody();
-
-		physicsWorld->RemoveRigidBody(this);
+		_physicsWorld->RemoveRigidBody(this);
 	}
 }
 
@@ -43,6 +41,7 @@ void RigidBody2D::RegisterObject(Ambient* ambient)
 
 void RigidBody2D::Start()
 {
+	_physicsWorld = GetCurrentSceneNode()->GetPhysicsWorld2D();
 	CreateBody();
 }
 

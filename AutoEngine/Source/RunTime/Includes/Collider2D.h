@@ -4,20 +4,7 @@
 
 
 namespace Auto3D {
-/// Collision shape type.
-enum class ShapeType
-{
-	SHAPE_BOX = 0,
-	SHAPE_SPHERE,
-	SHAPE_STATICPLANE,
-	SHAPE_CYLINDER,
-	SHAPE_CAPSULE,
-	SHAPE_CONE,
-	SHAPE_TRIANGLEMESH,
-	SHAPE_CONVEXHULL,
-	SHAPE_TERRAIN,
-	SHAPE_GIMPACTMESH
-};
+
 
 class RigidBody2D;
 

@@ -81,7 +81,12 @@ enum ClassIDType
 	DO_CLASS_ID(SceneNode, 80)
 	DO_CLASS_ID(Behavior, 81)
 	DO_CLASS_ID(Constraint2D, 82)
-	
+
+	DO_CLASS_ID(Collider, 83)
+	DO_CLASS_ID(RigidBody, 84)
+	DO_CLASS_ID(ColliderBox, 85)
+	DO_CLASS_ID(PhysicsWorld, 86)
+	DO_CLASS_ID(Constraint, 87)
 	CLASS_ID_Count
 };
 

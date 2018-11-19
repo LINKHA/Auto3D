@@ -108,7 +108,7 @@ void AudioSource::attachBuffer()
 	if (!ALFWLoadWaveToBuffer((char*)ALFWaddMediaPath(_bufferClip->GetData().c_str()), _buffer))
 	{
 		AutoErrorCout << "Failed to load "
-			<< ALFWaddMediaPath(_bufferClip->GetData().c_str()) << AutoCoutEnd;
+			<< ALFWaddMediaPath(_bufferClip->GetData().c_str()) << AutoEndl;
 	}
 	alSourcei(_source, AL_BUFFER, _buffer);
 }

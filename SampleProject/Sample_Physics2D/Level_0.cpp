@@ -41,6 +41,6 @@ void Level_0::Update()
 	b2Vec2 position = body->GetPosition();
 	float32 angle = body->GetAngle();
 	printf("%4.2f %4.2f %4.2f\n", position.x, position.y, angle);*/
-	AutoCout << pos.x <<"   "<< pos.y << "   " << pos.z <<AutoCoutEnd;
+	AutoCout << pos.x <<"   "<< pos.y << "   " << pos.z << AutoEndl;
 }
 

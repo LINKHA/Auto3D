@@ -373,6 +373,11 @@
     <None Include="Source\ThirdParty\SDL2\SDL_config_macosx.h.orig" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\RunTime\Includes\Collider.h" />
+    <ClInclude Include="Source\RunTime\Includes\ColliderBox.h" />
+    <ClInclude Include="Source\RunTime\Includes\Constraint.h" />
+    <ClInclude Include="Source\RunTime\Includes\PhysicsWorld.h" />
+    <ClInclude Include="Source\RunTime\Includes\RigidBody.h" />
     <ClInclude Include="Source\RunTime\Includes\AutoPhysics3D.h" />
     <ClInclude Include="Source\RunTime\Includes\Behavior.h" />
     <ClInclude Include="Source\RunTime\Includes\Constraint2D.h" />
@@ -1226,6 +1231,11 @@
     <ClInclude Include="Source\ThirdParty\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\RunTime\src\Collider.cpp" />
+    <ClCompile Include="Source\RunTime\src\ColliderBox.cpp" />
+    <ClCompile Include="Source\RunTime\src\Constraint.cpp" />
+    <ClCompile Include="Source\RunTime\src\PhysicsWorld.cpp" />
+    <ClCompile Include="Source\RunTime\src\RigidBody.cpp" />
     <ClCompile Include="Source\RunTime\src\Behavior.cpp" />
     <ClCompile Include="Source\RunTime\src\Constraint2D.cpp" />
     <ClCompile Include="Source\RunTime\src\PhysicsWorld2D.cpp" />

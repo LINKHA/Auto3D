@@ -1,6 +1,6 @@
 #pragma once
 #include "LevelScene.h"
-#include "PhysicsWorld2D.h"
+#include "PhysicsWorld.h"
 
 using namespace Auto3D;
 
@@ -14,5 +14,6 @@ public:
 	void Update()override;
 
 	Node* bodyNode;
+	btDiscreteDynamicsWorld* dynamicsWorld;
 };
 

@@ -51,6 +51,8 @@ public:
 	bool GetUseFixtureMass() const { return _useFixtureMass; }
 
 private:
+	/// Physics world 2D
+	PhysicsWorld2D* _physicsWorld;
 	/// box2D body define.
 	b2BodyDef _bodyDef;
 	/// box2D body.
