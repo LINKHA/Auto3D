@@ -8,7 +8,7 @@ class Scene : public GlobalGameManager
 {
 	REGISTER_DERIVED_CLASS(Scene, GlobalGameManager);
 	DECLARE_OBJECT_SERIALIZE(Scene);
-	using LevelScenes = HASH_MAP(int,LevelScene*);
+	using LevelScenes = HASH_MAP<int,LevelScene*>;
 public:
 	explicit Scene(Ambient* ambient);
 	/**

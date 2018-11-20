@@ -29,7 +29,7 @@ public:
 	RectInt GetMonitorsSize(int index);
 private:
 	Int32 _monitorCount;
-	PAIR_VECTOR(int, int) _mnitors;
+	PAIR_VECTOR<int, int> _mnitors;
 };
 
 }

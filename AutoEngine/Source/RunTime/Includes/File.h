@@ -13,7 +13,7 @@ class File
 	bool						_open;
 	FILE*						_file;
 	HANDLE						_fileHandle;
-	VECTOR(unsigned char)		_data;
+	VECTOR<unsigned char>		_data;
 
 public:
 	File();

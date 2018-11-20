@@ -51,11 +51,11 @@ public:
 
 	void RemoveConstraint(Constraint* constraint);
 
-	VECTOR(RigidBody*) GetRigidBodies() { return _rigidBodies; }
+	VECTOR<RigidBody*> GetRigidBodies() { return _rigidBodies; }
 
-	VECTOR(Collider*) GetColliders() { return _colliders; }
+	VECTOR<Collider*> GetColliders() { return _colliders; }
 
-	VECTOR(Constraint*) GetConstraints() { return _constraints; }
+	VECTOR<Constraint*> GetConstraints() { return _constraints; }
 
 	/// Overrides of the internal configuration.
 	static struct PhysicsWorldConfig config;
@@ -76,11 +76,11 @@ private:
 	/// Bullet physics world.
 	btDiscreteDynamicsWorld* _world;
 
-	VECTOR(RigidBody*) _rigidBodies;
+	VECTOR<RigidBody*> _rigidBodies;
 	/// Collision shapes in the world.
-	VECTOR(Collider*) _colliders;
+	VECTOR<Collider*> _colliders;
 	/// Constraints in the world.
-	VECTOR(Constraint*) _constraints;
+	VECTOR<Constraint*> _constraints;
 };
 
 }

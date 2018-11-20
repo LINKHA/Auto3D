@@ -12,7 +12,7 @@ class LevelScene : public BehaviorObject
 	REGISTER_DERIVED_ABSTRACT_CLASS(LevelScene, BehaviorObject);
 	DECLARE_OBJECT_SERIALIZE(LevelScene);
 	using SceneSuper = This;
-	using NodeContainer = LIST(Node*);
+	using Nodes = LIST<Node*>;
 public:
 	/**
 	* @brief : Register scenario by serial number , 
@@ -74,11 +74,11 @@ private:
 	/// scene node (This node has one and only one for each scenario)
 	SceneNode* _sceneNode;
 	/// all node in this container
-	NodeContainer _nodes;
+	Nodes _nodes;
 	/// temp memory will add node in frame finish will clear
-	NodeContainer _nodeToAdd;
+	Nodes _nodeToAdd;
 	/// temp memory will remove node in frame finish will clear
-	NodeContainer _nodeToRemove;
+	Nodes _nodeToRemove;
 	/// run flag
 	bool _isInsideRun{};
 	/// is enable

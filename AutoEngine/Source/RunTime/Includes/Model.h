@@ -33,7 +33,7 @@ public:
 	/**
 	* @brief : Set vertices indeices and texture
 	*/
-	MeshNode(VECTOR(MeshVertex) vertices, VECTOR(unsigned int) indices, VECTOR(TextureData) textures);
+	MeshNode(VECTOR<MeshVertex> vertices, VECTOR<unsigned int> indices, VECTOR<TextureData> textures);
 	~MeshNode() = default;
 	/**
 	* @brief : Render the mesh
@@ -45,9 +45,9 @@ private:
 	*/
 	void setupMesh();
 public:
-	VECTOR(unsigned int) indices;
-	VECTOR(MeshVertex) vertices;
-	VECTOR(TextureData) textures;
+	VECTOR<unsigned int> indices;
+	VECTOR<MeshVertex> vertices;
+	VECTOR<TextureData> textures;
 	unsigned int vao;
 	unsigned int vbo;
 	unsigned int ebo;
@@ -60,8 +60,8 @@ class Model : public ComponentSetting
 {
 	REGISTER_DERIVED_CLASS(Model, ComponentSetting);
 	DECLARE_OBJECT_SERIALIZE(Model);
-	using TextureDatas = VECTOR(TextureData);
-	using MeshNodes = VECTOR(MeshNode);
+	using TextureDatas = VECTOR<TextureData>;
+	using MeshNodes = VECTOR<MeshNode>;
 public:
 	/**
 	* @brief : Add path and gamma to build model

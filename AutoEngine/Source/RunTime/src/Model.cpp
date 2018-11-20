@@ -9,7 +9,7 @@ namespace Auto3D {
 /////////////////////////////////////////////////////////////////////////////////////////////
 //MeshNode
 /////////////////////////////////////////////////////////////////////////////////////////////
-MeshNode::MeshNode(VECTOR(MeshVertex) tVertices, VECTOR(unsigned int) tIndices, VECTOR(TextureData) tTextures)
+MeshNode::MeshNode(VECTOR<MeshVertex> tVertices, VECTOR<unsigned int> tIndices, VECTOR<TextureData> tTextures)
 {
 	vertices = tVertices;
 	indices = tIndices;
@@ -156,9 +156,9 @@ void Model::processNode(aiNode* node, const aiScene* scene)
 MeshNode Model::processMesh(aiMesh* mesh, const aiScene* scene)
 {
 	// data to fill
-	VECTOR(MeshVertex) vertices;
-	VECTOR(unsigned int) indices;
-	VECTOR(TextureData) textures;
+	VECTOR<MeshVertex> vertices;
+	VECTOR<unsigned int> indices;
+	VECTOR<TextureData> textures;
 	// Walk through each of the mesh's vertices
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
@@ -209,25 +209,25 @@ MeshNode Model::processMesh(aiMesh* mesh, const aiScene* scene)
 	// process materials
 	aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 	// diffuse maps
-	VECTOR(TextureData) diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
+	VECTOR<TextureData> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
 	textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 	// specular maps
-	VECTOR(TextureData) specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
+	VECTOR<TextureData> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
 	textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 	// normal maps
-	VECTOR(TextureData) normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
+	VECTOR<TextureData> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
 	textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 	// height maps
-	VECTOR(TextureData) heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
+	VECTOR<TextureData> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
 	textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
 	// return a mesh object created from the extracted mesh data
 	return MeshNode(vertices, indices, textures);
 }
 
-VECTOR(TextureData) Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, STRING typeName)
+VECTOR<TextureData> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, STRING typeName)
 {
-	VECTOR(TextureData) textures;
+	VECTOR<TextureData> textures;
 	for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
 	{
 		aiString str;

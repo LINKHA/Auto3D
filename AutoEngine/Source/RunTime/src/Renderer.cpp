@@ -40,7 +40,7 @@ void Renderer::Render()
 	auto* graphics = GetSubSystem<Graphics>();
 	Assert(graphics && graphics->IsInitialized() && !graphics->IsDeviceLost());
 	_insideRenderOrCull = true;
-	for (CameraContainer::iterator i = _cameras.begin(); i != _cameras.end(); i++)
+	for (LIST<Camera*>::iterator i = _cameras.begin(); i != _cameras.end(); i++)
 	{
 		Camera* cam = *i;
 		if (cam && cam->GetEnable())
@@ -95,9 +95,9 @@ void Renderer::AddCamera(Camera* c)
 
 	_cameras.remove(c);
 
-	CameraContainer &queue = _cameras;
+	LIST<Camera*> &queue = _cameras;
 
-	for (CameraContainer::iterator i = queue.begin(); i != queue.end(); i++)
+	for (LIST<Camera*>::iterator i = queue.begin(); i != queue.end(); i++)
 	{
 		Camera* curCamera = *i;
 		if (curCamera && curCamera->GetDepth() > c->GetDepth())
@@ -345,14 +345,14 @@ void Renderer::RemoveTranslucentGeometry(RenderComponent * component)
 void Renderer::delayedAddRemoveCameras()
 {
 	Assert(!_insideRenderOrCull);
-	for (CameraContainer::iterator i = _camerasToRemove.begin(); i != _camerasToRemove.end(); /**/)
+	for (LIST<Camera*>::iterator i = _camerasToRemove.begin(); i != _camerasToRemove.end(); /**/)
 	{
 		Camera* cam = *i;
 		++i; // increment iterator before removing camera; as it changes the list
 		RemoveCamera(cam);
 	}
 	_camerasToRemove.clear();
-	for (CameraContainer::iterator i = _camerasToAdd.begin(); i != _camerasToAdd.end(); /**/)
+	for (LIST<Camera*>::iterator i = _camerasToAdd.begin(); i != _camerasToAdd.end(); /**/)
 	{
 		Camera* cam = *i;
 		++i; // increment iterator before adding camera; as it changes the list
@@ -444,7 +444,7 @@ void Renderer::renderShadowMap()
 
 void Renderer::renderOpaques()
 {
-	for (LIST(RenderComponent*)::iterator it = _opaques.begin(); it != _opaques.end(); it++)
+	for (LIST<RenderComponent*>::iterator it = _opaques.begin(); it != _opaques.end(); it++)
 	{
 		(*it)->Draw();
 	}
@@ -452,7 +452,7 @@ void Renderer::renderOpaques()
 
 void Renderer::renderCustom()
 {
-	for (LIST(RenderComponent*)::iterator it = _customs.begin(); it != _customs.end(); it++)
+	for (LIST<RenderComponent*>::iterator it = _customs.begin(); it != _customs.end(); it++)
 	{
 		(*it)->DrawCustom();
 	}
@@ -460,7 +460,7 @@ void Renderer::renderCustom()
 
 void Renderer::translucentGeometrySort()
 {
-	for (LIST(RenderComponent*)::iterator i = _translucents.begin(); i != _translucents.end(); i++)
+	for (LIST<RenderComponent*>::iterator i = _translucents.begin(); i != _translucents.end(); i++)
 	{
 		float distance = glm::length(_currentCamera->GetPosition() - (*i)->GetGameObject().GetComponent<Transform>()->GetPosition().ToGLM());
 
@@ -485,7 +485,7 @@ void Renderer::intelMoutLightContainer()
 void Renderer::renderTranslucent()
 {
 	translucentGeometrySort();
-	for (PAIR_MAP(float, RenderComponent*)::reverse_iterator it = _translucentsSorted.rbegin(); it != _translucentsSorted.rend(); ++it)
+	for (PAIR_MAP<float, RenderComponent*>::reverse_iterator it = _translucentsSorted.rbegin(); it != _translucentsSorted.rend(); ++it)
 	{
 		//Draw translucent component
 		it->second->DrawTranslucent();

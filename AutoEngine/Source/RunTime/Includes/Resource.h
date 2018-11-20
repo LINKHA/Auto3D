@@ -8,8 +8,8 @@ class Resource : public GlobalGameManager
 {
 	REGISTER_DERIVED_CLASS(Resource, GlobalGameManager);
 	DECLARE_OBJECT_SERIALIZE(Resource);
-	using ImageQueue = HASH_MAP(PInt8, Image*);
-	using ModelQueue = HASH_MAP(PInt8, Model*);
+	using ImageQueue = HASH_MAP<PInt8, Image*>;
+	using ModelQueue = HASH_MAP<PInt8, Model*>;
 public:
 	explicit Resource(Ambient* ambient);
 	/**
@@ -31,7 +31,7 @@ public:
 	* @brief : According fail path get cubemap
 	* @return: unsigned int
 	*/
-	unsigned int CubemapLoad(VECTOR(STRING) faces);
+	unsigned int CubemapLoad(VECTOR<STRING> faces);
 	/**
 	* @brief : According fail path get HDR cube
 	* @return: unsigned int

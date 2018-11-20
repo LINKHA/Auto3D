@@ -93,12 +93,12 @@ void LevelScene::ModeRunNode(RunMode runMode)
 	}
 	_isInsideRun = true;
 
-	for (NodeContainer::iterator i = _nodes.begin(); i != _nodes.end(); i++)
+	for (LIST<Node*>::iterator i = _nodes.begin(); i != _nodes.end(); i++)
 	{
 		Node* node = *i;
 		if (node && node->GetEnable())
 		{
-			using compomentIt = PAIR_VECTOR(STRING, Component*)::iterator;
+			using compomentIt = PAIR_VECTOR<STRING, Component*>::iterator;
 			if (runMode == RunMode::kAwake)
 				for (compomentIt k = node->GetComponentsArray().begin(); k != node->GetComponentsArray().end(); k++)
 				{
@@ -143,14 +143,14 @@ void LevelScene::ModeRunNode(RunMode runMode)
 void LevelScene::delayAddRemoveNode()
 {
 	Assert(!_isInsideRun);
-	for (NodeContainer::iterator i = _nodeToRemove.begin(); i != _nodeToRemove.end(); /**/)
+	for (LIST<Node*>::iterator i = _nodeToRemove.begin(); i != _nodeToRemove.end(); /**/)
 	{
 		Node* node = *i;
 		++i;
 		RemoveNode(node);
 	}
 	_nodeToRemove.clear();
-	for (NodeContainer::iterator i = _nodeToAdd.begin(); i != _nodeToAdd.end(); /**/)
+	for (LIST<Node*>::iterator i = _nodeToAdd.begin(); i != _nodeToAdd.end(); /**/)
 	{
 		Node* node = *i;
 		++i;

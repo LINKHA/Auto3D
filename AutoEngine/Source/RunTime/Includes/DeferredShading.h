@@ -18,7 +18,7 @@ private:
 
 	SharedPtr<Model> nanosuit;
 
-	VECTOR(glm::vec3) objectPositions;
+	VECTOR<glm::vec3> objectPositions;
 	unsigned int gBuffer;
 	unsigned int gPosition, gNormal, gAlbedoSpec;
 	

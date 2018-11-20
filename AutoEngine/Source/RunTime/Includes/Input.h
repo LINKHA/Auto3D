@@ -11,8 +11,8 @@ struct JoystickState
 {
 	bool GetButtonDown(unsigned index)const { return index < _buttons.size() ? _buttons[index] : false; }
 	bool GetButtonPress(unsigned index)const { return index < _buttonPress.size() ? _buttonPress[index] : false; }
-	VECTOR(bool) _buttons;
-	VECTOR(bool) _buttonPress;
+	VECTOR<bool> _buttons;
+	VECTOR<bool> _buttonPress;
 };
 /**
 * @brief : SubSystem class
@@ -21,6 +21,7 @@ class Input : public GlobalGameManager
 {
 	REGISTER_DERIVED_CLASS(Input, GlobalGameManager);
 	DECLARE_OBJECT_SERIALIZE(Input);
+	using Keys = SET<int>;
 public:
 	explicit Input(Ambient* ambient);
 	/**
@@ -100,9 +101,9 @@ private:
 	void hideCursorEvent(bool enable);
 private:
 	///all buttons down in the same frame
-	SET(int) _keysDown;
+	Keys _keysDown;
 	///all buttons pressed in the same frame
-	SET(int) _keysPress;
+	Keys _keysPress;
 	///mouse position limit in window
 	Vector2	_mousePosition;
 	///last mouse potition limit in window

@@ -29,14 +29,14 @@ void ShadowRenderer::ReadyRender()
 	renderer->_lightContainer->IsRender(true);
 	//!!! Temp use one
 #pragma warning
-	for (VECTOR(Light*)::iterator it = _lights.begin(); it != _lights.end(); it++)
+	for (VECTOR<Light*>::iterator it = _lights.begin(); it != _lights.end(); it++)
 	{
 		renderer->_lightContainer->SetCurrentLight(*it);
 		//!!!
 #pragma warning
 		(*it)->GetShadowAssist()->BindDepathMap();
 		/////////////////////////////////////////////////////////////////////////////////////////////
-		for (LIST(RenderComponent*)::iterator it = _shadowComponents.begin(); it != _shadowComponents.end(); it++)
+		for (LIST<RenderComponent*>::iterator it = _shadowComponents.begin(); it != _shadowComponents.end(); it++)
 		{
 			(*it)->DrawReady();
 		}
@@ -49,7 +49,7 @@ void ShadowRenderer::RenderShadow()
 {
 	//!!! Temp use one
 #pragma warning
-	for (VECTOR(Light*)::iterator it = _lights.begin(); it != _lights.end(); it++)
+	for (VECTOR<Light*>::iterator it = _lights.begin(); it != _lights.end(); it++)
 	{
 		if ((*it)->GetType() == LightType::kDirectional)
 		{
@@ -63,7 +63,7 @@ void ShadowRenderer::RenderShadow()
 			_shadowMapDepthShader.Use();
 			_shadowMapDepthShader.SetMat4("lightSpaceMatrix", lightSpaceMatrix);
 			//Ergodic shadows to Draw shadow
-			for (LIST(RenderComponent*)::iterator it = _shadowComponents.begin(); it != _shadowComponents.end(); it++)
+			for (LIST<RenderComponent*>::iterator it = _shadowComponents.begin(); it != _shadowComponents.end(); it++)
 			{
 				(*it)->DrawShadow();
 			}
@@ -92,7 +92,7 @@ void ShadowRenderer::RenderShadow()
 			_shadowMapPointDepth.SetFloat("far_plane", (*it)->GetFarPlane());
 			_shadowMapPointDepth.SetVec3("lightPos", lightPos);
 			//Ergodic shadows to Draw shadow
-			for (LIST(RenderComponent*)::iterator it = _shadowComponents.begin(); it != _shadowComponents.end(); it++)
+			for (LIST<RenderComponent*>::iterator it = _shadowComponents.begin(); it != _shadowComponents.end(); it++)
 			{
 				(*it)->DrawShadow();
 			}

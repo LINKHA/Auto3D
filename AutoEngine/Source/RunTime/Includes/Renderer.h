@@ -3,6 +3,7 @@
 #include "Camera.h"
 #include "LightContainer.h"
 #include "ShadowRenderer.h"
+#include "AutoSTL.h"
 
 namespace Auto3D {
 class Ambient;
@@ -14,16 +15,16 @@ class Renderer : public GlobalGameManager
 {
 	REGISTER_DERIVED_CLASS(Renderer, GlobalGameManager);
 	DECLARE_OBJECT_SERIALIZE(Renderer);
-	using CameraContainer = LIST(Camera*);
+	using CameraContainer = LIST<Camera*>;
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	///Render in this order
-	using ShadowMapContainer = LIST(RenderComponent*);
-	using OpaqueContainer = LIST(RenderComponent*);
-	using CustomContainer = LIST(RenderComponent*); //Skybox and other custon component
-	using TranslucentContainer = LIST(RenderComponent*);
+	using ShadowMapContainer = LIST<RenderComponent*>;
+	using OpaqueContainer = LIST<RenderComponent*>;
+	using CustomContainer = LIST<RenderComponent*>; //Skybox and other custon component
+	using TranslucentContainer = LIST<RenderComponent*>;
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	///Auxiliary vessel with distance
-	using TranslucentDepth = PAIR_MAP(float, RenderComponent*); 
+	using TranslucentDepth = PAIR_MAP<float, RenderComponent*>; 
 	friend class ShadowRenderer;
 	friend class LightContainer;
 public:

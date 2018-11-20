@@ -10,7 +10,7 @@ struct MatchByNameFilter
 
 
 template<typename T>
-ScriptComponent* FindScript(Script::Scripts& scripts , T& filter)
+ScriptComponent* FindScript(SET<ScriptComponent>& scripts , T& filter)
 {
 	ScriptManager::Scripts::iterator i, next;
 	for (i = scripts.begin(); i != scripts.end(); i = next)

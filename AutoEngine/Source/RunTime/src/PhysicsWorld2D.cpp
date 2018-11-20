@@ -61,7 +61,7 @@ void PhysicsWorld2D::RemoveRigidBody(RigidBody2D* rigidBody)
 {
 	if (!rigidBody)
 		return;
-	for(VECTOR(RigidBody2D*)::iterator it = _rigidBodys.begin(); it != _rigidBodys.end(); it++)
+	for(VECTOR<RigidBody2D*>::iterator it = _rigidBodys.begin(); it != _rigidBodys.end(); it++)
 	{
 		if (*it == rigidBody)
 		{

@@ -17,11 +17,11 @@ class Node :public Object
 {
 	REGISTER_DERIVED_CLASS(Node, Object);
 	DECLARE_OBJECT_SERIALIZE(Node);
-	using GameObjectChilds = VECTOR(Node*);
+	using GameObjectChilds = VECTOR<Node*>;
 #if SharedPtrDebug
 	using ComponentsArray = PAIR_VECTOR(STRING, SharedPtr<Component>);
 #else
-	using ComponentsArray = PAIR_VECTOR(STRING, Component*);
+	using ComponentsArray = PAIR_VECTOR<STRING, Component*>;
 #endif
 public:
 	explicit Node(Ambient* ambient, int sceneID);

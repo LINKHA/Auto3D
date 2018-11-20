@@ -76,7 +76,7 @@ void PhysicsWorld::AddRigidBodies(RigidBody* rigidBody)
 
 void PhysicsWorld::RemoveRigidBodies(RigidBody* rigidBody)
 {
-	for (VECTOR(RigidBody*)::iterator it = _rigidBodies.begin();
+	for (VECTOR<RigidBody*>::iterator it = _rigidBodies.begin();
 		it != _rigidBodies.end();
 		it++)
 	{
@@ -92,7 +92,7 @@ void PhysicsWorld::AddCollider(Collider* collider)
 
 void PhysicsWorld::RemoveCollider(Collider* collider)
 {
-	for (VECTOR(Collider*)::iterator it = _colliders.begin();
+	for (VECTOR<Collider*>::iterator it = _colliders.begin();
 		it != _colliders.end();
 		it++)
 	{
@@ -108,7 +108,7 @@ void PhysicsWorld::AddConstraint(Constraint* constraint)
 
 void PhysicsWorld::RemoveConstraint(Constraint* constraint)
 {
-	for (VECTOR(Constraint*)::iterator it = _constraints.begin();
+	for (VECTOR<Constraint*>::iterator it = _constraints.begin();
 		it != _constraints.end();
 		it++)
 	{

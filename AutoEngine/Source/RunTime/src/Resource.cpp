@@ -93,7 +93,7 @@ Model * Resource::ModelLoad(PInt8 path)
 	return model;
 }
 
-unsigned int Resource::CubemapLoad(VECTOR(STRING) faces)
+unsigned int Resource::CubemapLoad(VECTOR<STRING> faces)
 {
 	stbi_set_flip_vertically_on_load(false);
 	unsigned int textureID;

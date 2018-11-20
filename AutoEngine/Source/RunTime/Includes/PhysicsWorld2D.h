@@ -43,7 +43,7 @@ private:
 	/// Position iterations default 3
 	int _positionIter{};
 
-	VECTOR(RigidBody2D*) _rigidBodys;
+	VECTOR<RigidBody2D*> _rigidBodys;
 };
 
 }
