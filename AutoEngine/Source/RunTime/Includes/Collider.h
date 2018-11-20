@@ -4,6 +4,7 @@
 #include "RigidBody.h"
 namespace Auto3D {
 
+
 /// Collision shape type.
 enum class ShapeType
 {
@@ -18,6 +19,7 @@ enum class ShapeType
 	SHAPE_TERRAIN,
 	SHAPE_GIMPACTMESH
 };
+class PhysicsWorld;
 
 class Collider : public Component
 {
@@ -34,7 +36,13 @@ public:
 	static void RegisterObject(Ambient* ambient);
 
 	void Start()override;
+	void Update()override;
 
+	btCompoundShape* GetParentCompoundShape();
+	
+	void NotifyRigidBody();
+
+	btCollisionShape* GetShape() { return _shape; }
 protected:
 	PhysicsWorld* _physicsWorld;
 	/// 

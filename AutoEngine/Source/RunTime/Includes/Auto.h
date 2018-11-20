@@ -3,25 +3,8 @@
 #include "AutoSTL.h"
 
 
-//namespace AutoScript
-#ifndef SCRIPT_BEGIN
-#	define SCRIPT_BEGIN	namespace AutoScript {
-#endif //!SCRIPT_BEGIN
 
-#ifndef SCRIPT_END
-#	define SCRIPT_END		}
-#endif // !SCRIPT_END
-
-#ifndef USING_SCRIPT
-#	define USING_SCRIPT	using namespace AutoScript;
-#endif // !USING_SCRIPT
-
-#ifndef SCRIPT
-#	define SCRIPT			AutoScript
-#endif // !SCRIPT
-
-
-#define _OPENGL_4_6_ 0
+#define _OPENGL_4_6_ 0		//OpenGL 4.6
 #define _OPENGL_4_PLUS_ 1	//OpenGL 4.3
 #define _OPENGL_3_PLUS_ 0	//OpenGL 3.3
 
@@ -108,6 +91,7 @@ using PUInt64 = unsigned __int64*;
 #	define DETECT_MEMORY_LEAKS
 #endif
 
+#define DebugCompoundShape 0
 
 
 #define SharedPtrDebug 0

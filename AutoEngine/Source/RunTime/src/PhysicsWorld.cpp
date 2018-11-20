@@ -1,6 +1,7 @@
 #include "PhysicsWorld.h"
 #include "Ambient.h"
 #include "PhysicsUtils.h"
+#include "Collider.h"
 
 namespace Auto3D {
 const char* PHYSICS_CATEGORY = "Physics";
@@ -68,9 +69,67 @@ void PhysicsWorld::Update()
 	_world->stepSimulation(timeStep, maxSubSteps, internalTimeStep);
 }
 
+void PhysicsWorld::AddRigidBodies(RigidBody* rigidBody)
+{
+	_rigidBodies.push_back(rigidBody);
+}
+
+void PhysicsWorld::RemoveRigidBodies(RigidBody* rigidBody)
+{
+	for (VECTOR(RigidBody*)::iterator it = _rigidBodies.begin();
+		it != _rigidBodies.end();
+		it++)
+	{
+		if (*it == rigidBody)
+			_rigidBodies.erase(it);
+	}
+}
+
+void PhysicsWorld::AddCollider(Collider* collider)
+{
+	_colliders.push_back(collider);
+}
+
+void PhysicsWorld::RemoveCollider(Collider* collider)
+{
+	for (VECTOR(Collider*)::iterator it = _colliders.begin();
+		it != _colliders.end();
+		it++)
+	{
+		if (*it == collider)
+			_colliders.erase(it);
+	}
+}
+
+void PhysicsWorld::AddConstraint(Constraint* constraint)
+{
+	_constraints.push_back(constraint);
+}
+
+void PhysicsWorld::RemoveConstraint(Constraint* constraint)
+{
+	for (VECTOR(Constraint*)::iterator it = _constraints.begin();
+		it != _constraints.end();
+		it++)
+	{
+		if (*it == constraint)
+			_constraints.erase(it);
+	}
+}
+
 void PhysicsWorld::SetFPS(int fps)
 {
 	_fps = (unsigned)clamp(fps, 1, 1000);
+}
+
+void PhysicsWorld::deleteColliders() 
+{
+	for (int j = 0; j < _colliders.size(); j++)
+	{
+		btCollisionShape* shape = _colliders[j]->GetShape();
+		//_colliders[j]->GetShape() = 0;
+		delete shape;
+	}
 }
 
 }

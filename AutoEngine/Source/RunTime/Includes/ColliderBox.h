@@ -14,9 +14,20 @@ public:
 	*/
 	static void RegisterObject(Ambient* ambient);
 
+	void Start()override;
+
+	void Update()override;
+
+	void SetSize(const Vector3& vec);
+
+	void SetSize(float x, float y, float z);
+
+	void SetSize(float scale);
+
 private:
-	
-	/// Shape size.
+	void resize(const Vector3& vec);
+
+	/// box shape size
 	Vector3 _size;
 };
 

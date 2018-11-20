@@ -108,6 +108,7 @@ void LevelScene::ModeRunNode(RunMode runMode)
 			else if (runMode == RunMode::kStart)
 				for (compomentIt k = node->GetComponentsArray().begin(); k != node->GetComponentsArray().end(); k++)
 				{
+					AutoCout << node->GetComponentsArray().size() << AutoEndl;
 					if (k->second->GetEnable())
 						k->second->Start();
 				}

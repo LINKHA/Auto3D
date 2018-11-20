@@ -38,9 +38,30 @@ public:
 	void SetFPS(int fps);
 
 	btDiscreteDynamicsWorld* GetWorld() { return _world; }
+
+	void AddRigidBodies(RigidBody* rigidBody);
+
+	void RemoveRigidBodies(RigidBody* rigidBody);
+
+	void AddCollider(Collider* collider);
+
+	void RemoveCollider(Collider* collider);
+
+	void AddConstraint(Constraint* constraint);
+
+	void RemoveConstraint(Constraint* constraint);
+
+	VECTOR(RigidBody*) GetRigidBodies() { return _rigidBodies; }
+
+	VECTOR(Collider*) GetColliders() { return _colliders; }
+
+	VECTOR(Constraint*) GetConstraints() { return _constraints; }
+
 	/// Overrides of the internal configuration.
 	static struct PhysicsWorldConfig config;
-
+private:
+	//delete collision shapes
+	void deleteColliders();
 private:
 	unsigned _fps{ DEFAULT_FPS };
 	Time* time;

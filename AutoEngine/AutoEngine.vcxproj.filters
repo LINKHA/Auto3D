@@ -3578,6 +3578,9 @@
     <ClInclude Include="Source\RunTime\Includes\RigidBody.h">
       <Filter>Source\RunTime\SubSystem\Physics\Component\3D</Filter>
     </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\ColliderSphere.h">
+      <Filter>Source\RunTime\SubSystem\Physics\Component\3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlatformDependent\Win\WinUnicode.cpp">
@@ -4664,6 +4667,9 @@
       <Filter>Source\RunTime\SubSystem\Physics\Component\3D</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\RigidBody.cpp">
+      <Filter>Source\RunTime\SubSystem\Physics\Component\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\ColliderSphere.cpp">
       <Filter>Source\RunTime\SubSystem\Physics\Component\3D</Filter>
     </ClCompile>
   </ItemGroup>

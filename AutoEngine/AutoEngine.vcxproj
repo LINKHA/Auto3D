@@ -373,6 +373,7 @@
     <None Include="Source\ThirdParty\SDL2\SDL_config_macosx.h.orig" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\RunTime\Includes\ColliderSphere.h" />
     <ClInclude Include="Source\RunTime\Includes\Collider.h" />
     <ClInclude Include="Source\RunTime\Includes\ColliderBox.h" />
     <ClInclude Include="Source\RunTime\Includes\Constraint.h" />
@@ -1231,6 +1232,7 @@
     <ClInclude Include="Source\ThirdParty\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\RunTime\src\ColliderSphere.cpp" />
     <ClCompile Include="Source\RunTime\src\Collider.cpp" />
     <ClCompile Include="Source\RunTime\src\ColliderBox.cpp" />
     <ClCompile Include="Source\RunTime\src\Constraint.cpp" />

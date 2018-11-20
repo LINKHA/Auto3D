@@ -87,6 +87,8 @@ enum ClassIDType
 	DO_CLASS_ID(ColliderBox, 85)
 	DO_CLASS_ID(PhysicsWorld, 86)
 	DO_CLASS_ID(Constraint, 87)
+	DO_CLASS_ID(ColliderSphere, 88)
+	
 	CLASS_ID_Count
 };
 

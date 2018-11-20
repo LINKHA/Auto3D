@@ -16,6 +16,7 @@
 
 #include "Collider.h"
 #include "ColliderBox.h"
+#include "ColliderSphere.h"
 #include "PhysicsWorld.h"
 #include "RigidBody.h"
 
@@ -109,6 +110,7 @@ void Scene::RegisterSceneLib(Ambient* ambient)
 
 	Collider::RegisterObject(ambient);
 	ColliderBox::RegisterObject(ambient);
+	ColliderSphere::RegisterObject(ambient);
 	PhysicsWorld::RegisterObject(ambient);
 	RigidBody::RegisterObject(ambient);
 
