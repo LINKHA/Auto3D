@@ -1,7 +1,6 @@
 #include "SkyBoxReflectMesh.h"
 #include "Renderer.h"
 #include "SkyBox.h"
-#include "GameObject.h"
 #include "Transform.h"
 #include "Configs.h"
 namespace Auto3D {
@@ -90,8 +89,8 @@ void SkyBoxReflectMesh::Draw()
 	glm::mat4 viewMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
 	glm::mat4 projectionMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
 
-	if (GetGameObjectPtr())		//if gameObject not empty
-		modelMat = GetGameObject().GetComponent<Transform>()->GetTransformMat();
+	if (GetNodePtr())		//if gameObject not empty
+		modelMat = GetNode().GetComponent<Transform>()->GetTransformMat();
 	else
 		modelMat = Matrix4x4::identity;
 	m_shader.Use();

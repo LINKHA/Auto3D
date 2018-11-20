@@ -1,6 +1,6 @@
 #pragma  once
 #include "MotionSpace.h"
-#include "GameObject.h"
+
 using namespace Auto3D;
 class Physics3DSpace : public MotionSpace
 {

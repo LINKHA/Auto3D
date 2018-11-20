@@ -1178,9 +1178,6 @@
     <ClInclude Include="Source\RunTime\Includes\GameManager.h">
       <Filter>Source\RunTime\Code</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\GameObject.h">
-      <Filter>Source\RunTime\SubSystem\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Geometry.h">
       <Filter>Source\RunTime\SubSystem\Graphics</Filter>
     </ClInclude>
@@ -3693,9 +3690,6 @@
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\GameManager.cpp">
       <Filter>Source\RunTime\Code</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\GameObject.cpp">
-      <Filter>Source\RunTime\SubSystem\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Geometry.cpp">
       <Filter>Source\RunTime\SubSystem\Graphics</Filter>

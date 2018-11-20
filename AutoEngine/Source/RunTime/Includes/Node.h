@@ -17,7 +17,7 @@ class Node :public Object
 {
 	REGISTER_DERIVED_CLASS(Node, Object);
 	DECLARE_OBJECT_SERIALIZE(Node);
-	using GameObjectChilds = VECTOR<Node*>;
+	using NodeChilds = VECTOR<Node*>;
 #if SharedPtrDebug
 	using ComponentsArray = PAIR_VECTOR(STRING, SharedPtr<Component>);
 #else
@@ -51,7 +51,7 @@ public:
 	* @brief : Get this objct all child
 	* @return : GameObjectChildArray&
 	*/
-	virtual GameObjectChilds& GetAllChild();
+	virtual NodeChilds& GetAllChild();
 	/**
 	* @brief : Set layer clamp(0~layer count)
 	*/
@@ -90,11 +90,11 @@ public:
 	/**
 	* @brief : Get game object
 	*/
-	const Node& GetGameObject()const;
+	const Node& GetNode()const;
 	/**
 	* @brief : Get game object
 	*/
-	Node& GetGameObject();
+	Node& GetNode();
 	/**
 	* @brief : Get Components
 	* @return : PAIR_VECTOR(int, Component*)
@@ -170,7 +170,7 @@ public:
 	template <typename _Ty> _Ty* CreateComponent();
 protected:
 	/// node childs (VECTOR(Node*))
-	GameObjectChilds _childs;
+	NodeChilds _childs;
 	/// layer id
 	UInt32 _layer{};
 	/// tag id

@@ -481,7 +481,6 @@
     <ClInclude Include="Source\RunTime\Includes\Math\Vector4.h" />
     <ClInclude Include="Source\RunTime\Includes\AutoOGL.h" />
     <ClInclude Include="Source\RunTime\Includes\Shader.h" />
-    <ClInclude Include="Source\RunTime\Includes\GameObject.h" />
     <ClInclude Include="Source\RunTime\Includes\Transform.h" />
     <ClInclude Include="Source\RunTime\Includes\ScriptComponent.h" />
     <ClInclude Include="Source\RunTime\Includes\Script.h" />
@@ -1311,7 +1310,6 @@
     <ClCompile Include="Source\RunTime\Includes\Math\Vector3.cpp" />
     <ClCompile Include="Source\RunTime\Includes\Math\Vector4.cpp" />
     <ClCompile Include="Source\RunTime\src\Application.cpp" />
-    <ClCompile Include="Source\RunTime\src\GameObject.cpp" />
     <ClCompile Include="Source\RunTime\src\Transform.cpp" />
     <ClCompile Include="Source\RunTime\src\ScriptComponent.cpp" />
     <ClCompile Include="Source\RunTime\src\Script.cpp" />

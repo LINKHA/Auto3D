@@ -1,6 +1,5 @@
 #pragma once
 #include "Auto.h"
-#include "GameObject.h"
 #include "Math/Rect.h"
 #include "Math/Matrix4x4.h"
 #include "Math/Color.h"

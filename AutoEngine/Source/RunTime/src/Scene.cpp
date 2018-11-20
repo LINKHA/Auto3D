@@ -1,5 +1,4 @@
 #include "Scene.h"
-#include "GameObject.h"
 #include "Camera.h"
 #include "Sprite.h"
 #include "Transform.h"

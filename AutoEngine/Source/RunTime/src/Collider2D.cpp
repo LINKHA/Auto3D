@@ -33,7 +33,7 @@ void Collider2D::CreateFixture()
 	if (!_rigidBody)
 	{
 		// RigidBody2D can be created after CollisionShape2D
-		_rigidBody = GetGameObject().GetComponent<RigidBody2D>(); 
+		_rigidBody = GetNode().GetComponent<RigidBody2D>(); 
 		if (!_rigidBody)
 			return;
 	}

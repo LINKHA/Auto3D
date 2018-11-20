@@ -1,6 +1,5 @@
 #pragma once
 #include "ScriptComponent.h"
-#include "GameObject.h"
 #include "Camera.h"
 #include "ObjectDefines.h"
 

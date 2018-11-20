@@ -73,7 +73,7 @@ void RigidBody::registeredRigidBody()
 	_isDynamic = (_mass != 0.0f);
 	_physicsWorld = GetCurrentSceneNode()->GetPhysicsWorld();
 
-	Vector3 position = GetGameObject().GetComponent<Transform>()->GetPosition();
+	Vector3 position = GetNode().GetComponent<Transform>()->GetPosition();
 	btTransform groundTransform;
 	groundTransform.setIdentity();
 	groundTransform.setOrigin(ToBtVector3(position));
@@ -95,7 +95,7 @@ void RigidBody::registeredRigidBody()
 	_isDynamic = (_mass != 0.0f);
 	_physicsWorld = GetCurrentSceneNode()->GetPhysicsWorld();
 
-	Vector3 position = GetGameObject().GetComponent<Transform>()->GetPosition();
+	Vector3 position = GetNode().GetComponent<Transform>()->GetPosition();
 	btTransform groundTransform;
 	groundTransform.setIdentity();
 	groundTransform.setOrigin(ToBtVector3(position));

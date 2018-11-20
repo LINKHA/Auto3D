@@ -3,7 +3,6 @@
 #include "PhysicsWorld.h"
 #include "PhysicsUtils.h"
 #include "Transform.h"
-#include "GameObject.h"
 
 namespace Auto3D {
 
@@ -42,7 +41,7 @@ void Collider::Update()
 btCompoundShape* Collider::GetParentCompoundShape()
 {
 	if (!_rigidBody)
-		_rigidBody = GetGameObject().GetComponent<RigidBody>();
+		_rigidBody = GetNode().GetComponent<RigidBody>();
 
 	return _rigidBody ? _rigidBody->GetCompoundShape() : nullptr;
 }
@@ -53,7 +52,7 @@ void Collider::NotifyRigidBody()
 	if (_shape && compound)
 	{
 		compound->removeChildShape(_shape);
-		Vector3 position = GetGameObject().GetComponent<Transform>()->GetPosition();
+		Vector3 position = GetNode().GetComponent<Transform>()->GetPosition();
 		btTransform offset;
 		offset.setOrigin(ToBtVector3(position));
 		compound->addChildShape(offset, _shape);
@@ -62,7 +61,7 @@ void Collider::NotifyRigidBody()
 #else
 void Collider::NotifyRigidBody()
 {
-	GetGameObject().GetComponent<RigidBody>()->_shape = _shape;
+	GetNode().GetComponent<RigidBody>()->_shape = _shape;
 }
 #endif
 

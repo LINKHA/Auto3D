@@ -46,7 +46,7 @@ Node* Node::GetChild(int index)
 	return _childs.at(index);
 }
 
-Node::GameObjectChilds& Node::GetAllChild()
+Node::NodeChilds& Node::GetAllChild()
 {
 	return _childs;
 }
@@ -68,12 +68,12 @@ int Node::GetComponentsSize()
 	return static_cast<int>(_components.size());
 }
 
-const Node& Node::GetGameObject()const
+const Node& Node::GetNode()const
 {
 	return *this;
 }
 
-Node& Node::GetGameObject()
+Node& Node::GetNode()
 {
 	return *this;
 }

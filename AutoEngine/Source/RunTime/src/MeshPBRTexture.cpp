@@ -111,7 +111,7 @@ void MeshPBRTexture::Draw()
 	int lightNum = 0;
 	for (VECTOR<Light*>::iterator it = lights.begin(); it != lights.end(); it++)
 	{
-		_shader.SetVec3("lightPositions[" + std::to_string(lightNum) + "]", (*it)->GetGameObject().GetPosition());
+		_shader.SetVec3("lightPositions[" + std::to_string(lightNum) + "]", (*it)->GetNode().GetPosition());
 		_shader.SetVec3("lightColors[" + std::to_string(lightNum) + "]", (*it)->GetColorToVec());
 		lightNum++;
 	}
@@ -119,8 +119,8 @@ void MeshPBRTexture::Draw()
 	//model
 	glm::mat4 modelMat;
 
-	if (GetGameObjectPtr())		//if gameObject not empty
-		modelMat = GetGameObject().GetComponent<Transform>()->GetTransformMat();
+	if (GetNodePtr())		//if gameObject not empty
+		modelMat = GetNode().GetComponent<Transform>()->GetTransformMat();
 	else
 		modelMat = Matrix4x4::identity;
 

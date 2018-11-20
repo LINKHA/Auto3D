@@ -45,7 +45,7 @@ void MeshLight::Draw()
 	int lightNum = 0;
 	for (VECTOR<Light*>::iterator it = lights.begin(); it != lights.end(); it++)
 	{
-		_shader.SetVec3("lights[" + std::to_string(lightNum) + "].Position", (*it)->GetGameObject().GetPosition());
+		_shader.SetVec3("lights[" + std::to_string(lightNum) + "].Position", (*it)->GetNode().GetPosition());
 		_shader.SetVec3("lights[" + std::to_string(lightNum) + "].Color", (*it)->GetColorToVec());
 		lightNum++;
 	}
@@ -54,8 +54,8 @@ void MeshLight::Draw()
 	// render tunnel
 	glm::mat4 model = glm::mat4();
 
-	if (GetGameObjectPtr())		//if gameObject not empty
-		model = GetGameObject().GetComponent<Transform>()->GetTransformMat();
+	if (GetNodePtr())		//if gameObject not empty
+		model = GetNode().GetComponent<Transform>()->GetTransformMat();
 	else
 		model = Matrix4x4::identity;
 

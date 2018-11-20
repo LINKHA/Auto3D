@@ -48,7 +48,7 @@ void RigidBody2D::Start()
 void RigidBody2D::Update()
 {
 	b2Vec2 tmpPos = _body->GetPosition();
-	GetGameObjectPtr()->SetPosition(tmpPos.x, tmpPos.y);
+	GetNodePtr()->SetPosition(tmpPos.x, tmpPos.y);
 }
 
 void RigidBody2D::CreateBody()
@@ -60,7 +60,7 @@ void RigidBody2D::CreateBody()
 	if (!physicsWorld || !physicsWorld->GetWorld())
 		return;
 
-	_bodyDef.position = ToB2Vec2(GetGameObjectPtr()->GetPosition());
+	_bodyDef.position = ToB2Vec2(GetNodePtr()->GetPosition());
 #pragma warning
 	//_bodyDef.angle = node_->GetWorldRotation().RollAngle() * MATH_DEGTORAD;
 

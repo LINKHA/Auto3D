@@ -87,8 +87,8 @@ void Mesh::Draw()
 
 	GLApply();
 
-	if (GetGameObjectPtr())		//if gameObject not empty
-		modelMat = GetGameObject().GetComponent<Transform>()->GetTransformMat();
+	if (GetNodePtr())		//if gameObject not empty
+		modelMat = GetNode().GetComponent<Transform>()->GetTransformMat();
 	else
 		modelMat = Matrix4x4::identity;
 	viewMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
@@ -132,7 +132,7 @@ void Mesh::drawLight()
 	for (auto it = lights.begin(); it != lights.end(); it++)
 	{
 		Light * t = *it;
-		Vector3 ligthtPosition = t->GetGameObject().GetComponent<Transform>()->GetPosition();
+		Vector3 ligthtPosition = t->GetNode().GetComponent<Transform>()->GetPosition();
 		_shader.SetVec3("lightPos", ligthtPosition);
 
 		switch (t->GetType())

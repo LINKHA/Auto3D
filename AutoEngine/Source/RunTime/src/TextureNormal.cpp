@@ -58,8 +58,8 @@ void TextureNormal::Draw()
 	glm::mat4 viewMat;
 	glm::mat4 projectionMat;
 
-	if (GetGameObjectPtr())
-		modelMat = GetGameObject().GetComponent<Transform>()->GetTransformMat();
+	if (GetNodePtr())
+		modelMat = GetNode().GetComponent<Transform>()->GetTransformMat();
 	else
 		modelMat = Matrix4x4::identity;
 	viewMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();

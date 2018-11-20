@@ -4,7 +4,7 @@
 #include "Transform.h"
 #include "Camera.h"
 #include "Application.h"
-#include "GameObject.h"
+
 namespace Auto3D {
 
 class TextureMap : public Texture2D

@@ -21,19 +21,19 @@ public:
 	/**
 	* @brief : Get game object quote
 	*/
-	Node& GetGameObject();
+	Node& GetNode();
 	/**
 	* @brief : Get game object quote const
 	*/
-	const Node& GetGameObject() const;
+	const Node& GetNode() const;
 	/**
 	* @brief : Get game object ptr
 	*/
-	Node* GetGameObjectPtr();
+	Node* GetNodePtr();
 	/**
 	* @brief : Get game object ptr const
 	*/
-	Node* GetGameObjectPtr() const;
+	Node* GetNodePtr() const;
 	/**
 	* @brief : Mount component for gameobject
 	*/

@@ -4,7 +4,6 @@
 #include "Transform.h"
 #include "Camera.h"
 #include "Application.h"
-#include "GameObject.h"
 #include "TextureMap.h"
 namespace Auto3D {
 

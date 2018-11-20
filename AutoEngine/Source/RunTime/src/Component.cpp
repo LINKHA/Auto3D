@@ -1,5 +1,4 @@
 #include "Component.h"
-#include "GameObject.h"
 #include "Scene.h"
 
 namespace Auto3D {
@@ -11,22 +10,22 @@ Component::Component(Ambient* ambient)
 
 Component::~Component() {}
 
-Node& Component::GetGameObject()
+Node& Component::GetNode()
 {
 	return *_gameObject;
 }
 
-const Node& Component::GetGameObject() const
+const Node& Component::GetNode() const
 {
 	return *_gameObject;
 }
 
-Node* Component::GetGameObjectPtr()
+Node* Component::GetNodePtr()
 {
 	return _gameObject;
 }
 
-Node* Component::GetGameObjectPtr() const
+Node* Component::GetNodePtr() const
 {
 	return _gameObject;
 }
@@ -38,14 +37,14 @@ void Component::MountComponent(Node& gameObject)
 
 Vector3 Component::GetPosition()
 {
-	if(!GetGameObjectPtr())
+	if(!GetNodePtr())
 		return Vector3();
-	return GetGameObjectPtr()->GetPosition();
+	return GetNodePtr()->GetPosition();
 }
 
 const int Component::GetSceneID()
 {
-	return GetGameObject().GetSceneID();
+	return GetNode().GetSceneID();
 }
 
 SceneNode* Component::GetCurrentSceneNode()
