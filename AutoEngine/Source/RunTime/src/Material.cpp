@@ -1,5 +1,5 @@
 #include "Material.h"
-#include "Resource.h"
+#include "ResourceSystem.h"
 namespace Auto3D {
 Material::Material(Ambient* ambi)
 	:Super(ambi)
@@ -16,7 +16,7 @@ Material::Material(Ambient* ambi,char * path)
 	,isTexture(true)
 {
 	//diffuseMap = LocalTextureLoad(path);
-	diffuseMap = GetSubSystem<Resource>()->TextureLoad(path);
+	diffuseMap = GetSubSystem<ResourceSystem>()->TextureLoad(path);
 	ambient = Vector3(0.2f, 0.2f, 0.2f);
 	diffuse = Vector3(0.5f, 0.5f, 0.5f);
 	specular = Vector3(1.0f, 1.0f, 1.0f);
@@ -29,7 +29,7 @@ void Material::SetImage(char * path)
 {
 	isTexture = true;
 	//diffuseMap = LocalTextureLoad(path);
-	diffuseMap = GetSubSystem<Resource>()->TextureLoad(path);
+	diffuseMap = GetSubSystem<ResourceSystem>()->TextureLoad(path);
 }
 }
 

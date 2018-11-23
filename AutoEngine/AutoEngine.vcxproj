@@ -373,7 +373,7 @@
     <None Include="Source\ThirdParty\SDL2\SDL_config_macosx.h.orig" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\RunTime\Includes\ResourceCache.h" />
+    <ClInclude Include="Source\RunTime\Includes\Resource.h" />
     <ClInclude Include="Source\RunTime\Includes\FileSystem.h" />
     <ClInclude Include="Source\RunTime\Includes\ColliderSphere.h" />
     <ClInclude Include="Source\RunTime\Includes\Collider.h" />
@@ -415,7 +415,7 @@
     <ClInclude Include="Source\RunTime\Includes\Monitors.h" />
     <ClInclude Include="Source\RunTime\Includes\Model.h" />
     <ClInclude Include="Source\RunTime\Includes\IO.h" />
-    <ClInclude Include="Source\RunTime\Includes\Resource.h" />
+    <ClInclude Include="Source\RunTime\Includes\ResourceSystem.h" />
     <ClInclude Include="Source\RunTime\Includes\MeshLight.h" />
     <ClInclude Include="Source\RunTime\Includes\MeshPBRTexture.h" />
     <ClInclude Include="Source\RunTime\Includes\MeshPBR.h" />
@@ -1232,7 +1232,7 @@
     <ClInclude Include="Source\ThirdParty\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\RunTime\src\ResourceCache.cpp" />
+    <ClCompile Include="Source\RunTime\src\Resource.cpp" />
     <ClCompile Include="Source\RunTime\src\FileSystem.cpp" />
     <ClCompile Include="Source\RunTime\src\ColliderSphere.cpp" />
     <ClCompile Include="Source\RunTime\src\Collider.cpp" />
@@ -1263,7 +1263,7 @@
     <ClCompile Include="Source\RunTime\src\Monitors.cpp" />
     <ClCompile Include="Source\RunTime\src\Model.cpp" />
     <ClCompile Include="Source\RunTime\src\IO.cpp" />
-    <ClCompile Include="Source\RunTime\src\Resource.cpp" />
+    <ClCompile Include="Source\RunTime\src\ResourceSystem.cpp" />
     <ClCompile Include="Source\RunTime\src\MeshLight.cpp" />
     <ClCompile Include="Source\RunTime\src\MeshPBRTexture.cpp" />
     <ClCompile Include="Source\RunTime\src\MeshPBR.cpp" />

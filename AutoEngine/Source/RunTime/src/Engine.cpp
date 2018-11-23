@@ -8,7 +8,7 @@
 #include "BaseSpace.h"
 #include "Time.h"
 #include "Script.h"
-#include "Resource.h"
+#include "ResourceSystem.h"
 #include "Scene.h"
 #include "IO.h"
 #include "UI.h"
@@ -26,7 +26,7 @@ Engine::Engine(Ambient* ambient)
 	_ambient->RegisterSubSystem(new Time(_ambient));
 	_ambient->RegisterSubSystem(new Input(_ambient));
 	_ambient->RegisterSubSystem(new Script(_ambient));
-	_ambient->RegisterSubSystem(new Resource(_ambient));
+	_ambient->RegisterSubSystem(new ResourceSystem(_ambient));
 	_ambient->RegisterSubSystem(new Scene(_ambient));
 	_ambient->RegisterSubSystem(new IO(_ambient));
 	_ambient->RegisterSubSystem(new Audio(_ambient));
@@ -43,7 +43,7 @@ Engine::~Engine()
 	_ambient->RemoveSubSystem<Time>();
 	_ambient->RemoveSubSystem<Input>();
 	_ambient->RemoveSubSystem<Script>();
-	_ambient->RemoveSubSystem<Resource>();
+	_ambient->RemoveSubSystem<ResourceSystem>();
 	_ambient->RemoveSubSystem<Scene>();
 	_ambient->RemoveSubSystem<IO>();
 	_ambient->RemoveSubSystem<Audio>();
@@ -57,12 +57,13 @@ void Engine::Init()
 	GetSubSystem<Audio>()->Init();
 	GetSubSystem<BaseSpace>()->Awake();
 	GetSubSystem<Behavior>()->Awake();
-
+	GetSubSystem<ResourceSystem>()->Init();
 	GetSubSystem<Renderer>()->Init();
 	GetSubSystem<BaseSpace>()->Start();
 	GetSubSystem<Behavior>()->Start();
 
 	GetSubSystem<Renderer>()->ReadyToRender();
+
 
 }
 void Engine::RunFrame()

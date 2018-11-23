@@ -2,7 +2,7 @@
 #include "Renderer.h"
 #include "Light.h"
 #include "Configs.h"
-#include "Resource.h"
+#include "ResourceSystem.h"
 namespace Auto3D {
 
 Mesh::Mesh(Ambient* ambient)
@@ -74,7 +74,7 @@ void Mesh::Start()
 				, shader_path + "au_light_model_loading.aufs");
 		}
 	}
-	_model = GetSubSystem<Resource>()->ModelLoad(_modelPath);
+	_model = GetSubSystem<ResourceSystem>()->ModelLoad(_modelPath);
 	RegisterOpaque(this);
 }
 void Mesh::Draw()

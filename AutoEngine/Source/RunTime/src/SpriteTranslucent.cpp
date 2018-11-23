@@ -4,7 +4,7 @@
 #include "Transform.h"
 #include "AutoOGL.h"
 #include "Configs.h"
-#include "Resource.h"
+#include "ResourceSystem.h"
 #include "Image.h"
 namespace Auto3D {
 
@@ -60,7 +60,7 @@ void SpriteTranslucent::Start()
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	//_image = LocalImageLoad(_imagePath);
 
-	_image = GetSubSystem<Resource>()->ImageLoad(_imagePath);
+	_image = GetSubSystem<ResourceSystem>()->ImageLoad(_imagePath);
 
 	//SetNearestParameters();
 	SetLinerParameters();

@@ -4,7 +4,7 @@
 #include "Renderer.h"
 #include "BaseMesh.h"
 #include "Configs.h"
-#include "Resource.h"
+#include "ResourceSystem.h"
 #include <random>
 namespace Auto3D {
 SSAO::SSAO(Ambient* ambient)
@@ -31,7 +31,7 @@ SSAO::~SSAO()
 void SSAO::Start()
 {
 	//nanosuit = new Model(_ambient,"../Resource/object/nanosuit/nanosuit.obj");
-	nanosuit = GetSubSystem<Resource>()->ModelLoad("../Resource/object/nanosuit/nanosuit.obj");
+	nanosuit = GetSubSystem<ResourceSystem>()->ModelLoad("../Resource/object/nanosuit/nanosuit.obj");
 	glGenFramebuffers(1, &gBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
 	RectInt t = GetSubSystem<Graphics>()->GetWindowRectInt();

@@ -8,7 +8,7 @@
 
 
 //Temp
-#include "Resource.h"
+#include "ResourceSystem.h"
 
 namespace Auto3D {
 

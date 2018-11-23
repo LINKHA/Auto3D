@@ -180,6 +180,44 @@ WSTRING FileSystem::AddTrailingSlash(const WSTRING& pathName)
 		ret += '/';
 	return ret;
 }
+STRING FileSystem::RemoveTrailingSlash(const STRING& pathName)
+{
+	STRING ret = pathName;
+	replace(ret.begin(), ret.end(), '\\', '/');
+	if (!ret.empty() && ret.back() == '/')
+		ret.resize(ret.length() - 1);
+	return ret;
+}
+
+WSTRING FileSystem::RemoveTrailingSlash(const WSTRING& pathName)
+{
+	WSTRING ret = pathName;
+	replace(ret.begin(), ret.end(), '\\', '/');
+	if (!ret.empty() && ret.back() == '/')
+		ret.resize(ret.length() - 1);
+	return ret;
+}
+
+
+STRING FileSystem::GetParentPath(const STRING& path)
+{
+	unsigned pos = RemoveTrailingSlash(path).find_last_of('/');
+	if (pos != STRING::npos)
+		return path.substr(0, pos + 1);
+	else
+		return STRING();
+}
+
+
+WSTRING FileSystem::GetParentPath(const WSTRING& path)
+{
+	unsigned pos = RemoveTrailingSlash(path).find_last_of('/');
+	if (pos != WSTRING::npos)
+		return path.substr(0, pos + 1);
+	else
+		return WSTRING();
+}
+
 
 STRING FileSystem::GetPath(const STRING& fullPath)
 {

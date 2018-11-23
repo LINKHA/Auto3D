@@ -58,7 +58,7 @@ enum ClassIDType
 	DO_CLASS_ID(MeshPBR,57)
 	DO_CLASS_ID(MeshPBRTexture, 58)
 	DO_CLASS_ID(Image, 59)
-	DO_CLASS_ID(Resource,60)
+	DO_CLASS_ID(ResourceSystem,60)
 	DO_CLASS_ID(Material,61)
 	DO_CLASS_ID(Scene, 62)
 	DO_CLASS_ID(IO, 63)
@@ -89,7 +89,7 @@ enum ClassIDType
 	DO_CLASS_ID(Constraint, 87)
 	DO_CLASS_ID(ColliderSphere, 88)
 	DO_CLASS_ID(FileSystem, 89)
-	DO_CLASS_ID(ResourceCache, 90)
+	DO_CLASS_ID(Resource, 90)
 	
 	CLASS_ID_Count
 };

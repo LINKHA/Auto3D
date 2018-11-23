@@ -4,7 +4,7 @@
 #include "VertexData.h"
 #include "Camera.h"
 #include "Configs.h"
-#include "Resource.h"
+#include "ResourceSystem.h"
 #include "Model.h"
 namespace Auto3D {
 
@@ -38,8 +38,8 @@ MeshShadowPoint::~MeshShadowPoint()
 }
 void MeshShadowPoint::DrawReady()
 {
-	_model = GetSubSystem<Resource>()->ModelLoad("../Resource/object/base/Cube.3DS");
-	_woodTexture = GetSubSystem<Resource>()->TextureLoad("../Resource/texture/wood.jpg");
+	_model = GetSubSystem<ResourceSystem>()->ModelLoad("../Resource/object/base/Cube.3DS");
+	_woodTexture = GetSubSystem<ResourceSystem>()->TextureLoad("../Resource/texture/wood.jpg");
 
 	_shader.Use();
 	_shader.SetInt("diffuseTexture", 0);

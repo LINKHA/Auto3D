@@ -1190,9 +1190,6 @@
     <ClInclude Include="Source\RunTime\Includes\HDRSkybox.h">
       <Filter>Source\RunTime\SubSystem\Graphics\Component\Camera\TempIntegrated</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Image.h">
-      <Filter>Source\RunTime\SubSystem\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\InstanceBeltLine.h">
       <Filter>Source\RunTime\Preinstall</Filter>
     </ClInclude>
@@ -1214,9 +1211,6 @@
     <ClInclude Include="Source\RunTime\Includes\LogAssert.h">
       <Filter>Source\RunTime\SubSystem\IO</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Material.h">
-      <Filter>Source\RunTime\Misc</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Mesh.h">
       <Filter>Source\RunTime\SubSystem\Graphics\Component\Mesh</Filter>
     </ClInclude>
@@ -1233,9 +1227,6 @@
       <Filter>Source\RunTime\SubSystem\Graphics\Component\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\MeshShadowPoint.h">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Model.h">
       <Filter>Source\RunTime\SubSystem\Graphics\Component\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Monitors.h">
@@ -1289,9 +1280,6 @@
     <ClInclude Include="Source\RunTime\Includes\Renderer.h">
       <Filter>Source\RunTime\SubSystem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Resource.h">
-      <Filter>Source\RunTime\SubSystem\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\RigidBody2D.h">
       <Filter>Source\RunTime\SubSystem\Physics\Component\2D</Filter>
     </ClInclude>
@@ -1313,9 +1301,6 @@
     <ClInclude Include="Source\RunTime\Includes\ScriptComponent.h">
       <Filter>Source\RunTime\SubSystem\Script</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Shader.h">
-      <Filter>Source\RunTime\SubSystem\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\ShadowRenderer.h">
       <Filter>Source\RunTime\SubSystem\Renderer</Filter>
     </ClInclude>
@@ -1324,9 +1309,6 @@
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Singleton.h">
       <Filter>Source\RunTime\Code</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\SkyBox.h">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\SkyBoxManager.h">
       <Filter>Source\RunTime\SubSystem\Graphics\Component\Camera</Filter>
@@ -3578,7 +3560,25 @@
     <ClInclude Include="Source\RunTime\Includes\Input.h">
       <Filter>Source\RunTime\SubSystem\IO</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\ResourceCache.h">
+    <ClInclude Include="Source\RunTime\Includes\ResourceSystem.h">
+      <Filter>Source\RunTime\SubSystem\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Resource.h">
+      <Filter>Source\RunTime\SubSystem\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Model.h">
+      <Filter>Source\RunTime\SubSystem\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Image.h">
+      <Filter>Source\RunTime\SubSystem\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\SkyBox.h">
+      <Filter>Source\RunTime\SubSystem\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Material.h">
+      <Filter>Source\RunTime\SubSystem\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Shader.h">
       <Filter>Source\RunTime\SubSystem\Resource</Filter>
     </ClInclude>
   </ItemGroup>
@@ -4501,9 +4501,6 @@
     <ClCompile Include="Source\RunTime\src\HDRSkybox.cpp">
       <Filter>Source\RunTime\SubSystem\Graphics\Component\Camera\TempIntegrated</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Image.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RunTime\src\InstanceBeltLine.cpp">
       <Filter>Source\RunTime\Preinstall</Filter>
     </ClCompile>
@@ -4518,9 +4515,6 @@
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\LightContainer.cpp">
       <Filter>Source\RunTime\SubSystem\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Material.cpp">
-      <Filter>Source\RunTime\Misc</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Mesh.cpp">
       <Filter>Source\RunTime\SubSystem\Graphics\Component\Mesh</Filter>
@@ -4538,9 +4532,6 @@
       <Filter>Source\RunTime\SubSystem\Graphics\Component\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\MeshShadowPoint.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Model.cpp">
       <Filter>Source\RunTime\SubSystem\Graphics\Component\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Monitors.cpp">
@@ -4562,9 +4553,6 @@
       <Filter>Source\RunTime\SubSystem\Graphics\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\OGLGraphics.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\OGLShader.cpp">
       <Filter>Source\RunTime\SubSystem\Graphics\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Physics.cpp">
@@ -4591,9 +4579,6 @@
     <ClCompile Include="Source\RunTime\src\Renderer.cpp">
       <Filter>Source\RunTime\SubSystem\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Resource.cpp">
-      <Filter>Source\RunTime\SubSystem\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RunTime\src\RigidBody.cpp">
       <Filter>Source\RunTime\SubSystem\Physics\Component\3D</Filter>
     </ClCompile>
@@ -4614,9 +4599,6 @@
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\ShadowRenderer.cpp">
       <Filter>Source\RunTime\SubSystem\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\SkyBox.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\SkyBoxManager.cpp">
       <Filter>Source\RunTime\SubSystem\Graphics\Component\Camera</Filter>
@@ -4669,7 +4651,25 @@
     <ClCompile Include="Source\RunTime\src\Input.cpp">
       <Filter>Source\RunTime\SubSystem\IO</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\ResourceCache.cpp">
+    <ClCompile Include="Source\RunTime\src\ResourceSystem.cpp">
+      <Filter>Source\RunTime\SubSystem\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Resource.cpp">
+      <Filter>Source\RunTime\SubSystem\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Model.cpp">
+      <Filter>Source\RunTime\SubSystem\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Image.cpp">
+      <Filter>Source\RunTime\SubSystem\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\SkyBox.cpp">
+      <Filter>Source\RunTime\SubSystem\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Material.cpp">
+      <Filter>Source\RunTime\SubSystem\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\OGLShader.cpp">
       <Filter>Source\RunTime\SubSystem\Resource</Filter>
     </ClCompile>
   </ItemGroup>

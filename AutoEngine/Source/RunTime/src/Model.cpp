@@ -1,6 +1,6 @@
 #include "Model.h"
 #include "AutoImage.h"
-#include "Resource.h"
+#include "ResourceSystem.h"
 #include "AutoOGL.h"
 #include "Shader.h"
 
@@ -249,7 +249,7 @@ VECTOR<TextureData> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType t
 
 			STRING filename = STRING(str.data);
 			filename = _directory + '/' + filename;
-			texture.data = GetSubSystem<Resource>()->TextureLoad((char*)filename.data(),false);
+			texture.data = GetSubSystem<ResourceSystem>()->TextureLoad((char*)filename.data(),false);
 
 			texture.type = typeName;
 			texture.path = str.C_Str();

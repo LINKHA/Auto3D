@@ -4,7 +4,7 @@
 #include "Renderer.h"
 #include "BaseMesh.h"
 #include "Light.h"
-#include "Resource.h"
+#include "ResourceSystem.h"
 
 namespace Auto3D {
 
@@ -22,7 +22,7 @@ MeshLight::~MeshLight()
 void MeshLight::Start()
 {
 	//woodTexture = LocalTextureLoad("../Resource/texture/bricks.jpg");
-	woodTexture = GetSubSystem<Resource>()->TextureLoad("../Resource/texture/bricks.jpg");
+	woodTexture = GetSubSystem<ResourceSystem>()->TextureLoad("../Resource/texture/bricks.jpg");
 
 	_shader.Use();
 	_shader.SetInt("diffuseTexture", 0);

@@ -30,49 +30,33 @@ public:
 	*/
 	WSTRING GetTemporaryDir();
 
-	STRING GetPath(const STRING& fullPath);
+	STRING GetPath(const STRING& fullPath);	WSTRING GetPath(const WSTRING& fullPath);
 
-	WSTRING GetPath(const WSTRING& fullPath);
+	STRING GetFileName(const STRING& fullPath); WSTRING GetFileName(const WSTRING& fullPath);
 
-	STRING GetFileName(const STRING& fullPath);
+	STRING GetExtension(const STRING& fullPath, bool lowercaseExtension); WSTRING GetExtension(const WSTRING& fullPath, bool lowercaseExtension);
 
-	WSTRING GetFileName(const WSTRING& fullPath);
+	STRING GetFileNameAndExtension(const STRING& fileName, bool lowercaseExtension); WSTRING GetFileNameAndExtension(const WSTRING& fileName, bool lowercaseExtension);
 
-	STRING GetExtension(const STRING& fullPath, bool lowercaseExtension);
-
-	WSTRING GetExtension(const WSTRING& fullPath, bool lowercaseExtension);
-
-	STRING GetFileNameAndExtension(const STRING& fileName, bool lowercaseExtension);
-
-	WSTRING GetFileNameAndExtension(const WSTRING& fileName, bool lowercaseExtension);
-
-	STRING ReplaceExtension(const STRING& fullPath, const STRING& newExtension);
-
-	WSTRING ReplaceExtension(const WSTRING& fullPath, const WSTRING& newExtension);
+	STRING ReplaceExtension(const STRING& fullPath, const STRING& newExtension); WSTRING ReplaceExtension(const WSTRING& fullPath, const WSTRING& newExtension);
 	/**
 	* @brief : Add trailing slash
 	*/
-	STRING AddTrailingSlash(const STRING& pathName);
+	STRING AddTrailingSlash(const STRING& pathName); WSTRING AddTrailingSlash(const WSTRING& pathName);
 	/**
-	* @brief : Add trailing slash
+	* @brief : Remove trailing slash
 	*/
-	WSTRING AddTrailingSlash(const WSTRING& pathName);
+	STRING RemoveTrailingSlash(const STRING& pathName); WSTRING RemoveTrailingSlash(const WSTRING& pathName);
 
-	STRING GetInternalPath(const STRING& pathName);
+	STRING GetParentPath(const STRING& path); WSTRING GetParentPath(const WSTRING& path);
 
-	WSTRING GetInternalPath(const WSTRING& pathName);
+	STRING GetInternalPath(const STRING& pathName); WSTRING GetInternalPath(const WSTRING& pathName);
 
-	STRING GetNativePath(const STRING& pathName);
-
-	WSTRING GetNativePath(const WSTRING& pathName);
+	STRING GetNativePath(const STRING& pathName); WSTRING GetNativePath(const WSTRING& pathName);
 	/**
 	* @brief : Return whether a path is absolute
 	*/
-	bool IsAbsolutePath(const STRING& pathName);
-	/**
-	* @brief : Return whether a path is absolute with wstring
-	*/
-	bool IsAbsolutePath(const WSTRING& pathName);
+	bool IsAbsolutePath(const STRING& pathName); bool IsAbsolutePath(const WSTRING& pathName);
 private:
 	/**
 	* @brief : The internal limit of this template allows only STRING and WSTRING

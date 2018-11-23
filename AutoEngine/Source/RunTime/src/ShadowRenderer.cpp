@@ -1,7 +1,7 @@
 #include "ShadowRenderer.h"
 #include "Renderer.h"
 #include "LightContainer.h"
-#include "Resource.h"
+#include "ResourceSystem.h"
 #include "Configs.h"
 #include "Light.h"
 #include "Graphics.h"
@@ -41,7 +41,7 @@ void ShadowRenderer::ReadyRender()
 			(*it)->DrawReady();
 		}
 #pragma warning
-		_woodTexture = GetSubSystem<Resource>()->TextureLoad("../Resource/texture/wood.jpg");
+		_woodTexture = GetSubSystem<ResourceSystem>()->TextureLoad("../Resource/texture/wood.jpg");
 	}
 	renderer->_lightContainer->IsRender(false);
 }

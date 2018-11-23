@@ -5,7 +5,7 @@
 #include "Renderer.h"
 #include "Graphics.h"
 #include "Configs.h"
-#include "Resource.h"
+#include "ResourceSystem.h"
 
 namespace Auto3D {
 SINGLETON_INSTANCE(SkyBoxManager);
@@ -47,7 +47,7 @@ void HDRSkyBox::Start()
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, 512, 512);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, captureRBO);
 
-	hdrTexture = GetSubSystem<Resource>()->HdrLoad("../Resource/texture/hdr/Mt-Washington-Gold-Room_Ref.hdr");
+	hdrTexture = GetSubSystem<ResourceSystem>()->HdrLoad("../Resource/texture/hdr/Mt-Washington-Gold-Room_Ref.hdr");
 	glGenTextures(1, &envCubemap);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, envCubemap);
 	for (unsigned int i = 0; i < 6; ++i)

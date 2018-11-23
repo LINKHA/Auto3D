@@ -4,7 +4,7 @@
 #include "VertexData.h"
 #include "Renderer.h"
 #include "Configs.h"
-#include "Resource.h"
+#include "ResourceSystem.h"
 #include "Renderer.h"
 
 
@@ -43,7 +43,7 @@ void SkyBox::Start()
 	"../Resource/skybox/arrakisday_lf.tga"
 	};
 	//_cubemapTexture = LoadCubemap(faces);
-	_cubemapTexture = GetSubSystem<Resource>()->CubemapLoad(faces);
+	_cubemapTexture = GetSubSystem<ResourceSystem>()->CubemapLoad(faces);
 	RegisterOpaque(this);
 }
 void SkyBox::Draw()
