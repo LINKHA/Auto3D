@@ -82,9 +82,6 @@
     <Filter Include="Source\RunTime\SubSystem">
       <UniqueIdentifier>{2003ef57-7b39-42d7-82b4-9b6c7b941efb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\RunTime\SubSystem\Input">
-      <UniqueIdentifier>{bb45509a-7770-4333-b532-9a7e08132100}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\RunTime\SubSystem\Graphics">
       <UniqueIdentifier>{1b663dd1-be85-4cfd-a826-1ac9348d0cab}</UniqueIdentifier>
     </Filter>
@@ -357,6 +354,9 @@
     </Filter>
     <Filter Include="Source\RunTime\SubSystem\IO">
       <UniqueIdentifier>{9e0f4c4f-a58f-457c-a0bc-8760fd1febed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RunTime\SubSystem\FileSystem">
+      <UniqueIdentifier>{5503781c-61e1-4087-b1ca-b28c8b2380b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1091,9 +1091,6 @@
     <ClInclude Include="Source\RunTime\Includes\AudioListener.h">
       <Filter>Source\RunTime\SubSystem\Audio\Component</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\AudioRun.h">
-      <Filter>Source\RunTime\Adapter\ALFrameWork</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\AudioSource.h">
       <Filter>Source\RunTime\SubSystem\Audio\Component</Filter>
     </ClInclude>
@@ -1172,9 +1169,6 @@
     <ClInclude Include="Source\RunTime\Includes\Engine.h">
       <Filter>Source\RunTime\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\File.h">
-      <Filter>Source\RunTime\SubSystem\IO</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\GameManager.h">
       <Filter>Source\RunTime\Code</Filter>
     </ClInclude>
@@ -1198,12 +1192,6 @@
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Image.h">
       <Filter>Source\RunTime\SubSystem\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Input.h">
-      <Filter>Source\RunTime\SubSystem\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\InputManager.h">
-      <Filter>Source\RunTime\SubSystem\Input</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\InstanceBeltLine.h">
       <Filter>Source\RunTime\Preinstall</Filter>
@@ -3578,6 +3566,18 @@
     <ClInclude Include="Source\RunTime\Includes\ColliderSphere.h">
       <Filter>Source\RunTime\SubSystem\Physics\Component\3D</Filter>
     </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\FileSystem.h">
+      <Filter>Source\RunTime\SubSystem\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\File.h">
+      <Filter>Source\RunTime\SubSystem\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\InputManager.h">
+      <Filter>Source\RunTime\SubSystem\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Input.h">
+      <Filter>Source\RunTime\SubSystem\IO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlatformDependent\Win\WinUnicode.cpp">
@@ -3606,261 +3606,6 @@
     </ClCompile>
     <ClCompile Include="Source\RunTime\Includes\Math\Vector4.cpp">
       <Filter>Source\RunTime\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\ALad.cpp">
-      <Filter>Source\RunTime\Adapter\ALFrameWork</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\ALDeviceList.cpp">
-      <Filter>Source\RunTime\Adapter\ALFrameWork</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\ALfw.cpp">
-      <Filter>Source\RunTime\Adapter\ALFrameWork</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\ALWaves.cpp">
-      <Filter>Source\RunTime\Adapter\ALFrameWork</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Ambient.cpp">
-      <Filter>Source\RunTime\Code</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Application.cpp">
-      <Filter>Source\RunTime</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Audio.cpp">
-      <Filter>Source\RunTime\SubSystem\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\AudioBuffer.cpp">
-      <Filter>Source\RunTime\SubSystem\Audio\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\AudioListener.cpp">
-      <Filter>Source\RunTime\SubSystem\Audio\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\AudioRun.cpp">
-      <Filter>Source\RunTime\Adapter\ALFrameWork</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\AudioSource.cpp">
-      <Filter>Source\RunTime\SubSystem\Audio\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\BaseMesh.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\BaseSpace.cpp">
-      <Filter>Source\RunTime\SubSystem\BaseSpace</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Behavior.cpp">
-      <Filter>Source\RunTime\SubSystem\Behavior</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\BehaviorObject.cpp">
-      <Filter>Source\RunTime\SubSystem\Behavior</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Bloom.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component\Camera\TempIntegrated</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Camera.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Collider2D.cpp">
-      <Filter>Source\RunTime\SubSystem\Physics\Component\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\ColliderBox2D.cpp">
-      <Filter>Source\RunTime\SubSystem\Physics\Component\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Component.cpp">
-      <Filter>Source\RunTime\Code</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\ComponentSetting.cpp">
-      <Filter>Source\RunTime\Misc</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Configs.cpp">
-      <Filter>Source\RunTime\Misc</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Constraint2D.cpp">
-      <Filter>Source\RunTime\SubSystem\Physics\Component\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\DebugNew.cpp">
-      <Filter>Source\RunTime\Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\DeferredShading.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component\Camera\TempIntegrated</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Engine.cpp">
-      <Filter>Source\RunTime\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\File.cpp">
-      <Filter>Source\RunTime\SubSystem\IO</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\GameManager.cpp">
-      <Filter>Source\RunTime\Code</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Geometry.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\GLMeshEnable.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\GLTextureEnable.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Graphics.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\HDRSkybox.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component\Camera\TempIntegrated</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Image.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Input.cpp">
-      <Filter>Source\RunTime\SubSystem\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\InstanceBeltLine.cpp">
-      <Filter>Source\RunTime\Preinstall</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\IO.cpp">
-      <Filter>Source\RunTime\SubSystem\IO</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\LevelScene.cpp">
-      <Filter>Source\RunTime\SubSystem\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Light.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component\Light</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\LightContainer.cpp">
-      <Filter>Source\RunTime\SubSystem\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Material.cpp">
-      <Filter>Source\RunTime\Misc</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Mesh.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\MeshLight.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\MeshPBR.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\MeshPBRTexture.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\MeshShadow.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\MeshShadowPoint.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Model.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Monitors.cpp">
-      <Filter>Source\RunTime\SubSystem\IO</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\MotionSpace.cpp">
-      <Filter>Source\RunTime\SubSystem\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Node.cpp">
-      <Filter>Source\RunTime\SubSystem\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Object.cpp">
-      <Filter>Source\RunTime\Code</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\OffScreen.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\OGLDebug.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\OGLGraphics.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\OGLShader.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Physics.cpp">
-      <Filter>Source\RunTime\SubSystem\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\PhysicsWorld2D.cpp">
-      <Filter>Source\RunTime\SubSystem\Physics\Component\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Prefab.cpp">
-      <Filter>Source\RunTime\Preinstall</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\PreLoadManager.cpp">
-      <Filter>Source\RunTime\Preinstall</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\RanderComponent.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component\Abstract</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\RefCounted.cpp">
-      <Filter>Source\RunTime\Code</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Renderer.cpp">
-      <Filter>Source\RunTime\SubSystem\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Resource.cpp">
-      <Filter>Source\RunTime\SubSystem\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\RigidBody2D.cpp">
-      <Filter>Source\RunTime\SubSystem\Physics\Component\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Scene.cpp">
-      <Filter>Source\RunTime\SubSystem\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\SceneNode.cpp">
-      <Filter>Source\RunTime\SubSystem\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Script.cpp">
-      <Filter>Source\RunTime\SubSystem\Script</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\ScriptComponent.cpp">
-      <Filter>Source\RunTime\SubSystem\Script</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\ShadowRenderer.cpp">
-      <Filter>Source\RunTime\SubSystem\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\SkyBox.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\SkyBoxManager.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\SkyBoxReflectMesh.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component\Camera\TempIntegrated</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Sprite.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\SpriteTranslucent.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\SSAO.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component\Camera\TempIntegrated</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Texture.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component\Abstract</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Texture2D.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component\Abstract</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Texture3D.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component\Abstract</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\TextureMap.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component\Abstract</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\TextureNormal.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\TextureParallax.cpp">
-      <Filter>Source\RunTime\SubSystem\Graphics\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Time.cpp">
-      <Filter>Source\RunTime\SubSystem\Time</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Transform.cpp">
-      <Filter>Source\RunTime\Misc</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\UI.cpp">
-      <Filter>Source\RunTime\SubSystem\UI</Filter>
     </ClCompile>
     <ClCompile Include="Source\ThirdParty\stb_image\stb_image.cpp">
       <Filter>Source\ThirdParty\stb_image</Filter>
@@ -4648,23 +4393,278 @@
     <ClCompile Include="Source\ThirdParty\Bullet3\BulletDynamics\Vehicle\btWheelInfo.cpp">
       <Filter>Source\ThirdParty\Bullet3\BulletDynamics\Vehicle</Filter>
     </ClCompile>
+    <ClCompile Include="Source\RunTime\src\ALad.cpp">
+      <Filter>Source\RunTime\Adapter\ALFrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\ALDeviceList.cpp">
+      <Filter>Source\RunTime\Adapter\ALFrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\ALfw.cpp">
+      <Filter>Source\RunTime\Adapter\ALFrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\ALWaves.cpp">
+      <Filter>Source\RunTime\Adapter\ALFrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Ambient.cpp">
+      <Filter>Source\RunTime\Code</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Application.cpp">
+      <Filter>Source\RunTime</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Audio.cpp">
+      <Filter>Source\RunTime\SubSystem\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\AudioBuffer.cpp">
+      <Filter>Source\RunTime\SubSystem\Audio\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\AudioListener.cpp">
+      <Filter>Source\RunTime\SubSystem\Audio\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\AudioSource.cpp">
+      <Filter>Source\RunTime\SubSystem\Audio\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\BaseMesh.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\Component\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\BaseSpace.cpp">
+      <Filter>Source\RunTime\SubSystem\BaseSpace</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Behavior.cpp">
+      <Filter>Source\RunTime\SubSystem\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\BehaviorObject.cpp">
+      <Filter>Source\RunTime\SubSystem\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Bloom.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\Component\Camera\TempIntegrated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Camera.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\Component\Camera</Filter>
+    </ClCompile>
     <ClCompile Include="Source\RunTime\src\Collider.cpp">
       <Filter>Source\RunTime\SubSystem\Physics\Component\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Collider2D.cpp">
+      <Filter>Source\RunTime\SubSystem\Physics\Component\2D</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\ColliderBox.cpp">
       <Filter>Source\RunTime\SubSystem\Physics\Component\3D</Filter>
     </ClCompile>
+    <ClCompile Include="Source\RunTime\src\ColliderBox2D.cpp">
+      <Filter>Source\RunTime\SubSystem\Physics\Component\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\ColliderSphere.cpp">
+      <Filter>Source\RunTime\SubSystem\Physics\Component\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Component.cpp">
+      <Filter>Source\RunTime\Code</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\ComponentSetting.cpp">
+      <Filter>Source\RunTime\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Configs.cpp">
+      <Filter>Source\RunTime\Misc</Filter>
+    </ClCompile>
     <ClCompile Include="Source\RunTime\src\Constraint.cpp">
       <Filter>Source\RunTime\SubSystem\Physics\Component\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Constraint2D.cpp">
+      <Filter>Source\RunTime\SubSystem\Physics\Component\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\DebugNew.cpp">
+      <Filter>Source\RunTime\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\DeferredShading.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\Component\Camera\TempIntegrated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Engine.cpp">
+      <Filter>Source\RunTime\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\GameManager.cpp">
+      <Filter>Source\RunTime\Code</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Geometry.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\GLMeshEnable.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\GLTextureEnable.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Graphics.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\HDRSkybox.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\Component\Camera\TempIntegrated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Image.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\InstanceBeltLine.cpp">
+      <Filter>Source\RunTime\Preinstall</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\IO.cpp">
+      <Filter>Source\RunTime\SubSystem\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\LevelScene.cpp">
+      <Filter>Source\RunTime\SubSystem\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Light.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\Component\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\LightContainer.cpp">
+      <Filter>Source\RunTime\SubSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Material.cpp">
+      <Filter>Source\RunTime\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Mesh.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\Component\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\MeshLight.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\Component\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\MeshPBR.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\Component\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\MeshPBRTexture.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\Component\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\MeshShadow.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\Component\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\MeshShadowPoint.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\Component\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Model.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\Component\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Monitors.cpp">
+      <Filter>Source\RunTime\SubSystem\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\MotionSpace.cpp">
+      <Filter>Source\RunTime\SubSystem\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Node.cpp">
+      <Filter>Source\RunTime\SubSystem\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Object.cpp">
+      <Filter>Source\RunTime\Code</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\OffScreen.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\Component\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\OGLDebug.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\OGLGraphics.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\OGLShader.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Physics.cpp">
+      <Filter>Source\RunTime\SubSystem\Physics</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\PhysicsWorld.cpp">
       <Filter>Source\RunTime\SubSystem\Physics\Component\3D</Filter>
     </ClCompile>
+    <ClCompile Include="Source\RunTime\src\PhysicsWorld2D.cpp">
+      <Filter>Source\RunTime\SubSystem\Physics\Component\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Prefab.cpp">
+      <Filter>Source\RunTime\Preinstall</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\PreLoadManager.cpp">
+      <Filter>Source\RunTime\Preinstall</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\RanderComponent.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\Component\Abstract</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\RefCounted.cpp">
+      <Filter>Source\RunTime\Code</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Renderer.cpp">
+      <Filter>Source\RunTime\SubSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Resource.cpp">
+      <Filter>Source\RunTime\SubSystem\Resource</Filter>
+    </ClCompile>
     <ClCompile Include="Source\RunTime\src\RigidBody.cpp">
       <Filter>Source\RunTime\SubSystem\Physics\Component\3D</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\ColliderSphere.cpp">
-      <Filter>Source\RunTime\SubSystem\Physics\Component\3D</Filter>
+    <ClCompile Include="Source\RunTime\src\RigidBody2D.cpp">
+      <Filter>Source\RunTime\SubSystem\Physics\Component\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Scene.cpp">
+      <Filter>Source\RunTime\SubSystem\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\SceneNode.cpp">
+      <Filter>Source\RunTime\SubSystem\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Script.cpp">
+      <Filter>Source\RunTime\SubSystem\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\ScriptComponent.cpp">
+      <Filter>Source\RunTime\SubSystem\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\ShadowRenderer.cpp">
+      <Filter>Source\RunTime\SubSystem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\SkyBox.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\Component\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\SkyBoxManager.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\Component\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\SkyBoxReflectMesh.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\Component\Camera\TempIntegrated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Sprite.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\SpriteTranslucent.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\SSAO.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\Component\Camera\TempIntegrated</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Texture.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\Component\Abstract</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Texture2D.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\Component\Abstract</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Texture3D.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\Component\Abstract</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\TextureMap.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\Component\Abstract</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\TextureNormal.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\TextureParallax.cpp">
+      <Filter>Source\RunTime\SubSystem\Graphics\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Time.cpp">
+      <Filter>Source\RunTime\SubSystem\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Transform.cpp">
+      <Filter>Source\RunTime\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\UI.cpp">
+      <Filter>Source\RunTime\SubSystem\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\FileSystem.cpp">
+      <Filter>Source\RunTime\SubSystem\FileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\File.cpp">
+      <Filter>Source\RunTime\SubSystem\FileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Input.cpp">
+      <Filter>Source\RunTime\SubSystem\IO</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

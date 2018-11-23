@@ -373,6 +373,7 @@
     <None Include="Source\ThirdParty\SDL2\SDL_config_macosx.h.orig" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\RunTime\Includes\FileSystem.h" />
     <ClInclude Include="Source\RunTime\Includes\ColliderSphere.h" />
     <ClInclude Include="Source\RunTime\Includes\Collider.h" />
     <ClInclude Include="Source\RunTime\Includes\ColliderBox.h" />
@@ -395,7 +396,6 @@
     <ClInclude Include="Source\RunTime\Includes\AudioSource.h" />
     <ClInclude Include="Source\RunTime\Includes\AutoImage.h" />
     <ClInclude Include="Source\RunTime\Includes\DebugNew.h" />
-    <ClInclude Include="Source\RunTime\Includes\AudioRun.h" />
     <ClInclude Include="Source\RunTime\Includes\ALDeviceList.h" />
     <ClInclude Include="Source\RunTime\Includes\ALWaves.h" />
     <ClInclude Include="Source\RunTime\Includes\ALfw.h" />
@@ -1231,6 +1231,7 @@
     <ClInclude Include="Source\ThirdParty\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\RunTime\src\FileSystem.cpp" />
     <ClCompile Include="Source\RunTime\src\ColliderSphere.cpp" />
     <ClCompile Include="Source\RunTime\src\Collider.cpp" />
     <ClCompile Include="Source\RunTime\src\ColliderBox.cpp" />
@@ -1246,7 +1247,6 @@
     <ClCompile Include="Source\RunTime\src\RigidBody2D.cpp" />
     <ClCompile Include="Source\RunTime\src\AudioSource.cpp" />
     <ClCompile Include="Source\RunTime\src\DebugNew.cpp" />
-    <ClCompile Include="Source\RunTime\src\AudioRun.cpp" />
     <ClCompile Include="Source\RunTime\src\ALDeviceList.cpp" />
     <ClCompile Include="Source\RunTime\src\ALWaves.cpp" />
     <ClCompile Include="Source\RunTime\src\ALfw.cpp" />

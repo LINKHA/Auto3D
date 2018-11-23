@@ -5,8 +5,9 @@
 #include "Sprite.h"
 #include "Input.h"
 #include "Time.h"
-#include "AudioRun.h"
 #include "Level_0.h"
+#include "tchar.h"
+
 Physics3DSpace::Physics3DSpace(Ambient* ambient)
 	:MotionSpace(ambient)
 {}

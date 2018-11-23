@@ -87,7 +87,7 @@ public:
 	/**
 	* @brief : Template version of removing a subsystem.
 	*/
-	template <typename T> void RemoveSubsystem();
+	template <typename T> void RemoveSubSystem();
 private:
 	///sub systems hash map
 	SubSystems _subSystems;
@@ -104,7 +104,7 @@ template <typename T> inline T * Ambient::RegisterSubsystem()
 	return subsystem;
 }
 
-template<typename T> void Ambient::RemoveSubsystem(){ RemoveSubsystem(T::GetClassStringStatic()); }
+template<typename T> void Ambient::RemoveSubSystem(){ RemoveSubSystem(T::GetClassStringStatic()); }
 
 template<typename T> T* Ambient::GetSubSystem() const { return static_cast<T*>(Ambient::GetSubSystem(T::GetClassStringStatic())); }
 

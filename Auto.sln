@@ -57,6 +57,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sample_Physics3D", "SampleP
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sample_UI", "SampleProject\Sample_UI\Sample_UI.vcxproj", "{851B3404-5565-485D-BEA8-2EFFDF85EC3E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sample_FileSystem", "SampleProject\Sample_FileSystem\Sample_FileSystem.vcxproj", "{2E0E43D0-64DB-40CE-8A30-087D9C195569}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -271,6 +273,14 @@ Global
 		{851B3404-5565-485D-BEA8-2EFFDF85EC3E}.Release|x64.Build.0 = Release|x64
 		{851B3404-5565-485D-BEA8-2EFFDF85EC3E}.Release|x86.ActiveCfg = Release|Win32
 		{851B3404-5565-485D-BEA8-2EFFDF85EC3E}.Release|x86.Build.0 = Release|Win32
+		{2E0E43D0-64DB-40CE-8A30-087D9C195569}.Debug|x64.ActiveCfg = Debug|x64
+		{2E0E43D0-64DB-40CE-8A30-087D9C195569}.Debug|x64.Build.0 = Debug|x64
+		{2E0E43D0-64DB-40CE-8A30-087D9C195569}.Debug|x86.ActiveCfg = Debug|Win32
+		{2E0E43D0-64DB-40CE-8A30-087D9C195569}.Debug|x86.Build.0 = Debug|Win32
+		{2E0E43D0-64DB-40CE-8A30-087D9C195569}.Release|x64.ActiveCfg = Release|x64
+		{2E0E43D0-64DB-40CE-8A30-087D9C195569}.Release|x64.Build.0 = Release|x64
+		{2E0E43D0-64DB-40CE-8A30-087D9C195569}.Release|x86.ActiveCfg = Release|Win32
+		{2E0E43D0-64DB-40CE-8A30-087D9C195569}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -299,6 +309,7 @@ Global
 		{DBC882FB-F9F5-425A-BDD0-392EA6451B5A} = {52E0FA85-2DFC-46E8-9863-59873D7D153F}
 		{300EC26F-5C97-4EAB-B4D9-4DEB0FCE8C38} = {52E0FA85-2DFC-46E8-9863-59873D7D153F}
 		{851B3404-5565-485D-BEA8-2EFFDF85EC3E} = {52E0FA85-2DFC-46E8-9863-59873D7D153F}
+		{2E0E43D0-64DB-40CE-8A30-087D9C195569} = {52E0FA85-2DFC-46E8-9863-59873D7D153F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {29098642-ACEA-4447-8AAA-5DDC9AF78570}

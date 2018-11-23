@@ -13,6 +13,7 @@
 #include "IO.h"
 #include "UI.h"
 #include "Behavior.h"
+#include "FileSystem.h"
 
 namespace Auto3D {
 
@@ -31,10 +32,24 @@ Engine::Engine(Ambient* ambient)
 	_ambient->RegisterSubSystem(new Audio(_ambient));
 	_ambient->RegisterSubSystem(new UI(_ambient));
 	_ambient->RegisterSubSystem(new Behavior(_ambient));
+	_ambient->RegisterSubSystem(new FileSystem(_ambient));
 }
 
 Engine::~Engine()
 {
+	_ambient->RemoveSubSystem<Renderer>();
+	_ambient->RemoveSubSystem<Graphics>();
+	_ambient->RemoveSubSystem<BaseSpace>();
+	_ambient->RemoveSubSystem<Time>();
+	_ambient->RemoveSubSystem<Input>();
+	_ambient->RemoveSubSystem<Script>();
+	_ambient->RemoveSubSystem<Resource>();
+	_ambient->RemoveSubSystem<Scene>();
+	_ambient->RemoveSubSystem<IO>();
+	_ambient->RemoveSubSystem<Audio>();
+	_ambient->RemoveSubSystem<UI>();
+	_ambient->RemoveSubSystem<Behavior>();
+	_ambient->RemoveSubSystem<FileSystem>();
 }
 
 void Engine::Init()

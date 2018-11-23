@@ -5,7 +5,7 @@
 #include <map>
 #include <unordered_map>
 #include <string>
-
+#include<algorithm>
 
 namespace Auto3D {
 
@@ -37,6 +37,8 @@ template <typename _Kty, typename _Ty>
 using HASH_MAP = std::unordered_map<_Kty, _Ty>;
 
 using STRING = std::string;
+
+using WSTRING = std::wstring;
 
 #define MAKE_PAIR(_First,_Second)	std::make_pair(_First,_Second)
 

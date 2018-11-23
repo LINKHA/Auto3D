@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <iostream>
 #include <Assert.h>
+#include <tchar.h>
 
 namespace Auto3D {
 
@@ -48,7 +49,34 @@ inline const char* LogTypeToString(LogType type)
 #define AutoWarningCout			std::cout <<  __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(LogType::kWarning) << " : "
 #define AutoErrorCout			std::cout <<  __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(LogType::kError) << " : "
 #define AutoCout				std::cout <<  __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(LogType::kLog) << " : "
+#define AutoWCout				std::wcout <<  __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(LogType::kLog) << " : "
 #define AutoEndl				std::endl
+
+#ifdef _WIN32
+#	define MAX_STRING 256
+#	ifdef _MSC_VER
+#		ifdef UNICODE
+#			define OutPutString(_X) \
+			do { \
+				wchar_t debugChar[MAX_STRING]; \
+				ZeroMemory(debugChar, MAX_STRING * sizeof(wchar_t)); \
+				wsprintfW(debugChar, L"%s(%d) : %s\n", _T(__FILE__), __LINE__, _X); \
+				OutputDebugStringW(debugChar); \
+			}while(0)
+#		else
+#			define OutPutString(_X) \
+			do { \
+				char debugChar[MAX_STRING]; \
+				ZeroMemory(debugChar, MAX_STRING * sizeof(wchar_t)); \
+				sprintf(debugChar, "%s(%d) : %s\n", __FILE__, __LINE__, _X); \
+				OutputDebugStringA(debugChar); \
+			}while(0)
+#		endif
+#	endif
+#endif
+
+
+
 
 #define Assert(condition)\
 do { \
