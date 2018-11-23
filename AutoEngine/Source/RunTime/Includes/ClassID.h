@@ -89,6 +89,7 @@ enum ClassIDType
 	DO_CLASS_ID(Constraint, 87)
 	DO_CLASS_ID(ColliderSphere, 88)
 	DO_CLASS_ID(FileSystem, 89)
+	DO_CLASS_ID(ResourceCache, 90)
 	
 	CLASS_ID_Count
 };

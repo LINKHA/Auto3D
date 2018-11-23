@@ -3578,6 +3578,9 @@
     <ClInclude Include="Source\RunTime\Includes\Input.h">
       <Filter>Source\RunTime\SubSystem\IO</Filter>
     </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\ResourceCache.h">
+      <Filter>Source\RunTime\SubSystem\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlatformDependent\Win\WinUnicode.cpp">
@@ -4665,6 +4668,9 @@
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Input.cpp">
       <Filter>Source\RunTime\SubSystem\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\ResourceCache.cpp">
+      <Filter>Source\RunTime\SubSystem\Resource</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

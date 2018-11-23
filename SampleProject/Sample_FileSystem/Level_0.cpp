@@ -16,8 +16,15 @@ void Level_0::Start()
 	SceneSuper::Start();
 	//Out put user documents dir in ouput console
 	OutPutString(GetSubSystem<FileSystem>()->GetUserDocumentsDir().c_str());
+	//Out put console
+	AutoWCout << GetSubSystem<FileSystem>()->GetUserDocumentsDir() << AutoEndl;
 	//Out put program dir in ouput console
-	OutPutString(GetSubSystem<FileSystem>()->GetProgramDir().c_str());
+	AutoWCout << GetSubSystem<FileSystem>()->GetProgramDir() << AutoEndl;
+	//Out put current dir in ouput console
+	AutoWCout << GetSubSystem<FileSystem>()->GetCurrentDir() << AutoEndl;
+	//Out put temporary dir in ouput console
+	AutoWCout << GetSubSystem<FileSystem>()->GetTemporaryDir() << AutoEndl;
+	
 }
 
 void Level_0::Update()

@@ -63,7 +63,7 @@ void Engine::Init()
 	GetSubSystem<Behavior>()->Start();
 
 	GetSubSystem<Renderer>()->ReadyToRender();
-	
+
 }
 void Engine::RunFrame()
 {
