@@ -5,6 +5,7 @@
 #include "Model.h"
 #include "FileSystem.h"
 #include "Resource.h"
+#include "Sound.h"
 
 namespace Auto3D {
 
@@ -180,6 +181,11 @@ void ResourceSystem::AddResourcePath(const WSTRING& path)
 VECTOR<WSTRING> ResourceSystem::GetResourcePaths()
 {
 	return resourcePaths;
+}
+
+void ResourceSystem::RegisterResourceLib(Ambient * ambient)
+{
+	Sound::RegisterObject(ambient);
 }
 
 

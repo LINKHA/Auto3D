@@ -373,6 +373,7 @@
     <None Include="Source\ThirdParty\SDL2\SDL_config_macosx.h.orig" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\RunTime\Includes\Sound.h" />
     <ClInclude Include="Source\RunTime\Includes\Resource.h" />
     <ClInclude Include="Source\RunTime\Includes\FileSystem.h" />
     <ClInclude Include="Source\RunTime\Includes\ColliderSphere.h" />
@@ -1232,6 +1233,7 @@
     <ClInclude Include="Source\ThirdParty\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\RunTime\src\Sound.cpp" />
     <ClCompile Include="Source\RunTime\src\Resource.cpp" />
     <ClCompile Include="Source\RunTime\src\FileSystem.cpp" />
     <ClCompile Include="Source\RunTime\src\ColliderSphere.cpp" />

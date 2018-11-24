@@ -91,6 +91,7 @@ enum ClassIDType
 	DO_CLASS_ID(FileSystem, 89)
 	DO_CLASS_ID(Resource, 90)
 	
+	DO_CLASS_ID(Sound, 91)
 	CLASS_ID_Count
 };
 

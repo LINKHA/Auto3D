@@ -2,6 +2,7 @@
 #include "Object.h"
 
 namespace Auto3D {
+const static char* RESOURCE_ATTACH = "Resource_attach";
 /**
 * Base of all reource
 */
@@ -11,7 +12,7 @@ class Resource : public Object
 	DECLARE_OBJECT_SERIALIZE(Resource)
 public:
 	explicit Resource(Ambient* ambient);
-
+	
 };
 
 }

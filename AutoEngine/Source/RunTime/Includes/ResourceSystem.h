@@ -66,6 +66,10 @@ public:
 	* @brief : Get resource paths
 	*/
 	VECTOR<WSTRING> GetResourcePaths();
+	/**
+	* @brief : Register scene library objects.
+	*/
+	void RegisterResourceLib(Ambient* ambient);
 private:
 	/// image hash map queue
 	ImageQueue _imageQueue;
