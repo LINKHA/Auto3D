@@ -3,7 +3,8 @@
 
 namespace Auto3D {
 
-Resource::Resource()
+Resource::Resource(Ambient* ambient)
+	:Super(ambient)
 {
 }
 

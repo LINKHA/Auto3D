@@ -168,8 +168,8 @@ void ResourceSystem::FreeImage(Image * image)
 
 Resource* ResourceSystem::GetResource(STRING type, const STRING& name, bool sendEventOnFailure)
 {
-	
-	return resource;
+	return nullptr;
+	//return resource;
 }
 
 void ResourceSystem::AddResourcePath(const WSTRING& path)
