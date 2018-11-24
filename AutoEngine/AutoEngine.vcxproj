@@ -373,6 +373,7 @@
     <None Include="Source\ThirdParty\SDL2\SDL_config_macosx.h.orig" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\RunTime\Includes\RenderComponent2D.h" />
     <ClInclude Include="Source\RunTime\Includes\Sound.h" />
     <ClInclude Include="Source\RunTime\Includes\Resource.h" />
     <ClInclude Include="Source\RunTime\Includes\FileSystem.h" />
@@ -1231,8 +1232,10 @@
     <ClInclude Include="Source\ThirdParty\SDL2\SDL_video.h" />
     <ClInclude Include="Source\ThirdParty\SDL2\SDL_vulkan.h" />
     <ClInclude Include="Source\ThirdParty\stb_image\stb_image.h" />
+    <ClInclude Include="Source\RunTime\Includes\StaticSprite2D.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\RunTime\src\RenderComponent2D.cpp" />
     <ClCompile Include="Source\RunTime\src\Sound.cpp" />
     <ClCompile Include="Source\RunTime\src\Resource.cpp" />
     <ClCompile Include="Source\RunTime\src\FileSystem.cpp" />
@@ -1288,7 +1291,7 @@
     <ClCompile Include="Source\RunTime\src\MeshShadow.cpp" />
     <ClCompile Include="Source\RunTime\src\GLMeshEnable.cpp" />
     <ClCompile Include="Source\RunTime\src\GLTextureEnable.cpp" />
-    <ClCompile Include="Source\RunTime\src\RanderComponent.cpp" />
+    <ClCompile Include="Source\RunTime\src\RenderComponent.cpp" />
     <ClCompile Include="Source\RunTime\src\Input.cpp" />
     <ClCompile Include="Source\RunTime\src\InstanceBeltLine.cpp" />
     <ClCompile Include="Source\RunTime\src\PreLoadManager.cpp" />
@@ -1597,6 +1600,7 @@
     <ClCompile Include="Source\ThirdParty\glm\detail\dummy.cpp" />
     <ClCompile Include="Source\ThirdParty\glm\detail\glm.cpp" />
     <ClCompile Include="Source\ThirdParty\stb_image\stb_image.cpp" />
+    <ClCompile Include="Source\RunTime\src\StaticSprite2D.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

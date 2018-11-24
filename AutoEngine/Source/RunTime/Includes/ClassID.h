@@ -92,6 +92,9 @@ enum ClassIDType
 	DO_CLASS_ID(Resource, 90)
 	
 	DO_CLASS_ID(Sound, 91)
+	DO_CLASS_ID(RenderComponent2D, 92)
+	DO_CLASS_ID(StaticSprite2D, 93)
+	
 	CLASS_ID_Count
 };
 

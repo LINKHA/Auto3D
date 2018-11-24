@@ -3581,6 +3581,12 @@
     <ClInclude Include="Source\RunTime\Includes\Sound.h">
       <Filter>Source\RunTime\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\RenderComponent2D.h">
+      <Filter>Source\RunTime\Graphics\Component\Abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\StaticSprite2D.h">
+      <Filter>Source\RunTime\Graphics\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlatformDependent\Win\WinUnicode.cpp">
@@ -4570,9 +4576,6 @@
     <ClCompile Include="Source\RunTime\src\PreLoadManager.cpp">
       <Filter>Source\RunTime\Preinstall</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\RanderComponent.cpp">
-      <Filter>Source\RunTime\Graphics\Component\Abstract</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RunTime\src\RefCounted.cpp">
       <Filter>Source\RunTime\Code</Filter>
     </ClCompile>
@@ -4674,6 +4677,15 @@
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Sound.cpp">
       <Filter>Source\RunTime\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\RenderComponent.cpp">
+      <Filter>Source\RunTime\Graphics\Component\Abstract</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\RenderComponent2D.cpp">
+      <Filter>Source\RunTime\Graphics\Component\Abstract</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\StaticSprite2D.cpp">
+      <Filter>Source\RunTime\Graphics\Component</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
