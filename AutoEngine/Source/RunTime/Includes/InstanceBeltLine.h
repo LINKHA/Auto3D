@@ -16,7 +16,7 @@ public:
 	void SetModel(Model* model) { _model = model; }
 private:
 	Shader _shader;
-	SharedPtr<Model> _model;
+	sharedPtr<Model> _model;
 	unsigned int _count;
 	glm::mat4* _modelMatrices;
 };

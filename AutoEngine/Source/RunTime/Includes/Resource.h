@@ -13,6 +13,7 @@ class Resource : public Object
 public:
 	explicit Resource(Ambient* ambient);
 	
+	bool Load();
 };
 
 }

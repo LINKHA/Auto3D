@@ -29,7 +29,7 @@ class SpaceHandle : public Singleton<SpaceHandle>
 public:
 	SpaceHandle() = default;
 	~SpaceHandle() = default;
-	SharedPtr<MotionSpace> space;
+	sharedPtr<MotionSpace> space;
 	void ModeRunSpace(RunMode runMode);
 };
 }

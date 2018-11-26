@@ -1,43 +1,107 @@
 #pragma once
-#include <windows.h>
+
 #include "Auto.h"
-#include "LogAssert.h"
+#include "Object.h"
+#include "AbstractFile.h"
+
 namespace Auto3D {
-#define kPathMaxSize MAX_PATH * 4
 
 
-class File
+/**
+* File open mode
+*/
+enum class FileMode
 {
-	int							_position;
-	STRING						_path;
-	bool						_open;
-	FILE*						_file;
-	HANDLE						_fileHandle;
-	VECTOR<unsigned char>		_data;
+	Read = 0,
+	Write,
+	ReadWrite
+};
 
+class File : public Object, public AbstractFile
+{
+	REGISTER_DERIVED_CLASS(File, Object);
+	DECLARE_OBJECT_SERIALIZE(File)
 public:
-	File();
-	virtual ~File();
-
-	enum Permission { kReadPermission = 0, kWritePermission = 1, kReadWritePermission = 2, kAppendPermission = 3 };
-	enum ATBehavior { kNormalBehavior = 0, kSilentReturnOnOpenFail = 1 << 0, kRetryOnOpenFail = 1 << 1 };
-
-	bool Open(const std::string& path, Permission perm, ATBehavior behavior = kNormalBehavior);
-	bool Close();
-
-	int Read(void* buffer, int size);
-	int Read(int position, void* buffer, int size);
-
-	bool Write(const void* buffer, int size);
-	bool Write(int pos, const void* buffer, int size);
-	bool SetFileLength(int size);
-	int GetFileLength();
-	int GetPosition() const { return _position; }
-
-	static void SetCurrentDirectory(const std::string & path);
-	static const STRING& GetCurrentDirectory();
-	static void CleanUpClass();
-
+	explicit File(Ambient* ambient);
+	/**
+	* @brief : Construct and open a filesystem file
+	*/
+	File(Ambient* ambient, const STRING& fileName, FileMode mode = FileMode::Read);
+	/**
+	* @brief : Read bytes from the file. Return number of bytes actually read
+	*/
+	unsigned Read(void* dest, unsigned size) override;
+	/**
+	* @brief : Set position from the beginning of the file
+	*/
+	unsigned Seek(unsigned position) override;
+	/**
+	* @brief : Write bytes to the file. Return number of bytes actually written
+	*/
+	unsigned Write(const void* data, unsigned size) override;
+	/**
+	* @brief : Open a filesystem file. Return true if successful
+	*/
+	bool Open(const STRING& fileName, FileMode mode = FileMode::Read);
+	/**
+	* @brief : Close the file
+	*/
+	void Close();
+	/**
+	* @brief : Flush any buffered output to the file
+	*/
+	void Flush();
+	/**
+	* @brief : Change the file name. Used by the resource system
+	*/
+	void SetName(const STRING& name);
+	/**
+	* @brief : Return the open mode
+	*/
+	FileMode GetMode() const { return _mode; }
+	/**
+	* @brief : Return whether is open
+	*/
+	bool IsOpen() const;
+	/**
+	* @brief : Return the file handle
+	*/
+	void* GetHandle() const { return _handle; }
+private:
+	/**
+	* @brief : Open file internally using either C standard IO functions or SDL RWops for 
+	*	Android asset files. Return true if successful
+	*/
+	template <typename _Ty> bool openInternal(const _Ty& fileName, FileMode mode, bool fromPackage = false);
+private:
+	/// File name
+#ifdef _WIN32
+	WSTRING _fileName;
+#else
+	STRING _fileName;
+#endif
+	/// Open mode
+	FileMode _mode;
+	/// File handle
+	void* _handle;
+	/// Read buffer for Android asset or compressed file loading
+	SharedArrayPtr<unsigned char> _readBuffer;
+	/// Decompression input buffer for compressed file loading
+	SharedArrayPtr<unsigned char> _inputBuffer;
+	/// Read buffer position
+	unsigned _readBufferOffset;
+	/// Bytes in the current read buffer
+	unsigned _readBufferSize;
+	/// Start position within a package file, 0 for regular files
+	unsigned _offset;
+	/// Content checksum
+	unsigned _checksum;
+	/// Compression flag
+	bool _compressed;
+	/// Synchronization needed before read -flag
+	bool _readSyncNeeded;
+	/// Synchronization needed before write -flag
+	bool _writeSyncNeeded;
 };
 
 }

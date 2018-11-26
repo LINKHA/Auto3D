@@ -9,6 +9,9 @@ class StaticSprite2D : public RenderComponent2D
 	DECLARE_OBJECT_SERIALIZE(StaticSprite2D);
 public:
 	explicit StaticSprite2D(Ambient* ambient);
+
+private:
+	
 };
 
 }

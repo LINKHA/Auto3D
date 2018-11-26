@@ -7,8 +7,8 @@ namespace Auto3D {
 class Ambient : public RefCounted
 {
 	friend class Object;
-	using SubSystems = HASH_MAP<STRING, SharedPtr<Object>>;
-	using Factories = HASH_MAP<STRING, SharedPtr<ObjectFactory>>;
+	using SubSystems = HASH_MAP<STRING, sharedPtr<Object>>;
+	using Factories = HASH_MAP<STRING, sharedPtr<ObjectFactory>>;
 	using ObjectAttachs = HASH_MAP<STRING, VECTOR<STRING>>;
 public:
 	Ambient();
@@ -18,7 +18,7 @@ public:
 	*/
 
 #if SharedPtrDebug
-	template <typename T> inline SharedPtr<T> CreateObject(){ return StaticCast<T>(CreateObject(T::GetClassStringStatic())); }
+	template <typename T> inline sharedPtr<T> CreateObject(){ return StaticCast<T>(CreateObject(T::GetClassStringStatic())); }
 #else
 	template <typename T> inline T* CreateObject() { return static_cast<T*>(CreateObject(T::GetClassStringStatic())); }
 #endif
@@ -27,7 +27,7 @@ public:
 	* @brief : Create object by string type , Return pointer to it or null if no factory found.
 	*/
 #if SharedPtrDebug
-	SharedPtr<Object> CreateObject(STRING objectType);
+	sharedPtr<Object> CreateObject(STRING objectType);
 #else
 	Object* CreateObject(STRING objectType);
 #endif
@@ -61,7 +61,7 @@ public:
 	Object* GetSubSystem(STRING type) const;
 	/**
 	* @brief : Get sub systems
-	* @return :HASH_MAP(STRING, SharedPtr<Object>)
+	* @return :HASH_MAP(STRING, sharedPtr<Object>)
 	*/
 	const SubSystems& GetSubSystems() const { return _subSystems; }
 	/**

@@ -15,7 +15,7 @@ BehaviorObject::~BehaviorObject()
 
 
 #if SharedPtrDebug
-SharedPtr<Object> StateVessel::CreateObject(STRING type)
+sharedPtr<Object> StateVessel::CreateObject(STRING type)
 {
 	return _ambient->CreateObject(type);
 }

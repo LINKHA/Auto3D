@@ -6,6 +6,8 @@
 #include "FileSystem.h"
 #include "Resource.h"
 #include "Sound.h"
+#include "Sprite2D.h"
+
 
 namespace Auto3D {
 
@@ -186,6 +188,8 @@ VECTOR<WSTRING> ResourceSystem::GetResourcePaths()
 void ResourceSystem::RegisterResourceLib(Ambient * ambient)
 {
 	Sound::RegisterObject(ambient);
+	Sprite2D::RegisterObject(ambient);
+
 }
 
 

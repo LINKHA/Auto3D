@@ -19,7 +19,7 @@ class Node :public Object
 	DECLARE_OBJECT_SERIALIZE(Node);
 	using NodeChilds = VECTOR<Node*>;
 #if SharedPtrDebug
-	using ComponentsArray = PAIR_VECTOR(STRING, SharedPtr<Component>);
+	using ComponentsArray = PAIR_VECTOR(STRING, sharedPtr<Component>);
 #else
 	using ComponentsArray = PAIR_VECTOR<STRING, Component*>;
 #endif

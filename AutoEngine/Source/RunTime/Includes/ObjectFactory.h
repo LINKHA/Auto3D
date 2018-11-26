@@ -21,7 +21,7 @@ public:
 	* @brief : Create an object.Implemented in templated subclasses.
 	*/
 #if SharedPtrDebug
-	virtual SharedPtr<Object> CreateObject() = 0;
+	virtual sharedPtr<Object> CreateObject() = 0;
 #else
 	virtual Object* CreateObject() = 0;
 #endif
@@ -61,7 +61,7 @@ public:
 	* @brief : Create an object of the specific type.
 	*/
 #if SharedPtrDebug
-	SharedPtr<Object>  CreateObject() override { return SharedPtr<Object>(new T(_ambient)); }
+	sharedPtr<Object>  CreateObject() override { return sharedPtr<Object>(new T(_ambient)); }
 #else
 	Object* CreateObject() override { return new T(_ambient); }
 #endif

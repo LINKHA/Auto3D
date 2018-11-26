@@ -11,41 +11,41 @@ template<typename T> inline void swap(T& first, T& second)
 	second = temp;
 }
 
-template<typename T> class SharedPtr
+template<typename T> class sharedPtr
 {
 public:
-	SharedPtr() noexcept
+	sharedPtr() noexcept
 		: _ptr(nullptr)
 	{}
 
-	SharedPtr(const SharedPtr<T>& rhs) noexcept
+	sharedPtr(const sharedPtr<T>& rhs) noexcept
 		: _ptr(rhs._ptr)
 	{
 		AddRef();
 	}
 
-	template <class U> SharedPtr(const SharedPtr<U>& rhs) noexcept
+	template <class U> sharedPtr(const sharedPtr<U>& rhs) noexcept
 		: _ptr(rhs._ptr)
 	{
 		AddRef();
 	}
 
-	explicit SharedPtr(T* ptr) noexcept :
+	explicit sharedPtr(T* ptr) noexcept :
 		_ptr(ptr)
 	{
 		AddRef();
 	}
-	virtual ~SharedPtr()noexcept
+	virtual ~sharedPtr()noexcept
 	{
 		ReleaseRef();
 	}
 
-	SharedPtr<T>& operator =(T* ptr)
+	sharedPtr<T>& operator =(T* ptr)
 	{
 		if (this->_ptr == ptr)
 			return *this;
 
-		SharedPtr<T> copy(ptr);
+		sharedPtr<T> copy(ptr);
 		Swap(copy);
 
 		return *this;
@@ -57,15 +57,15 @@ public:
 
 	T& operator [](int index) { Assert(_ptr); return _ptr[index]; }
 
-	template <class U> bool operator <(const SharedPtr<U>& rhs) const { return _ptr < rhs._ptr; }
+	template <class U> bool operator <(const sharedPtr<U>& rhs) const { return _ptr < rhs._ptr; }
 
-	template <class U> bool operator ==(const SharedPtr<U>& rhs) const { return _ptr == rhs._ptr; }
+	template <class U> bool operator ==(const sharedPtr<U>& rhs) const { return _ptr == rhs._ptr; }
 
-	template <class U> bool operator !=(const SharedPtr<U>& rhs) const { return _ptr != rhs._ptr; }
+	template <class U> bool operator !=(const sharedPtr<U>& rhs) const { return _ptr != rhs._ptr; }
 
 	operator T*() const { return _ptr; }
 
-	void Swap(SharedPtr& rhs) { swap(_ptr, rhs._ptr); }
+	void Swap(sharedPtr& rhs) { swap(_ptr, rhs._ptr); }
 
 	void Reset() { ReleaseRef(); }
 
@@ -82,14 +82,14 @@ public:
 		return ptr;
 	}
 
-	template <class U> void StaticCast(const SharedPtr<U>& rhs)
+	template <class U> void StaticCast(const sharedPtr<U>& rhs)
 	{
-		SharedPtr<T> copy(static_cast<T*>(rhs.Get()));
+		sharedPtr<T> copy(static_cast<T*>(rhs.Get()));
 		Swap(copy);
 	}
-	template <class U> void DynamicCast(const SharedPtr<U>& rhs)
+	template <class U> void DynamicCast(const sharedPtr<U>& rhs)
 	{
-		SharedPtr<T> copy(dynamic_cast<T*>(rhs.Get()));
+		sharedPtr<T> copy(dynamic_cast<T*>(rhs.Get()));
 		Swap(copy);
 	}
 
@@ -104,7 +104,7 @@ public:
 	long UseCount()const { return RefCountPtr()->refs; }
 
 private:
-	template <class U> friend class SharedPtr;
+	template <class U> friend class sharedPtr;
 
 	void AddRef()
 	{
@@ -128,9 +128,9 @@ private:
 /**
 * @brief : Perform a static cast from one shared pointer type to another.
 */
-template <class T, class U> SharedPtr<T> StaticCast(const SharedPtr<U>& ptr)
+template <class T, class U> sharedPtr<T> StaticCast(const sharedPtr<U>& ptr)
 {
-	SharedPtr<T> ret;
+	sharedPtr<T> ret;
 	ret.StaticCast(ptr);
 	return ret;
 }
@@ -138,9 +138,9 @@ template <class T, class U> SharedPtr<T> StaticCast(const SharedPtr<U>& ptr)
 /**
 * @brief : Perform a dynamic cast from one weak pointer type to another.
 */
-template <class T, class U> SharedPtr<T> DynamicCast(const SharedPtr<U>& ptr)
+template <class T, class U> sharedPtr<T> DynamicCast(const sharedPtr<U>& ptr)
 {
-	SharedPtr<T> ret;
+	sharedPtr<T> ret;
 	ret.DynamicCast(ptr);
 	return ret;
 }

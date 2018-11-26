@@ -19,7 +19,7 @@ public:
 
 private:
 	Shader _shader;
-	SharedPtr<Model> _model;
+	sharedPtr<Model> _model;
 	unsigned int _woodTexture;
 	unsigned int _VAO;
 	unsigned int _VBO;

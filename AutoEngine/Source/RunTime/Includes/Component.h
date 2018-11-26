@@ -65,7 +65,7 @@ public:
 	virtual void FixUpdate() {}
 	virtual void Finish() {}
 private:
-	SharedPtr<Node> _gameObject;
+	sharedPtr<Node> _gameObject;
 	bool _isEnable;
 };
 

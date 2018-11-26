@@ -16,7 +16,7 @@ private:
 	Shader m_shaderLightingPass;
 	Shader m_shaderLightBox;
 
-	SharedPtr<Model> nanosuit;
+	sharedPtr<Model> nanosuit;
 
 	VECTOR<glm::vec3> objectPositions;
 	unsigned int gBuffer;

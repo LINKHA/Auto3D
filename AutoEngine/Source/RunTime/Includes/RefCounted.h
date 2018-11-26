@@ -56,12 +56,12 @@ public:
 
 	/**
 	* @brief : Increment reference count. Can also be called outside 
-	*		of a SharedPtr for traditional reference counting.
+	*		of a sharedPtr for traditional reference counting.
 	*/
 	void AddRef();
 	/**
 	* @brief : Decrement reference count and delete self if no more 
-	*		references. Can also be called outside of a SharedPtr for 
+	*		references. Can also be called outside of a sharedPtr for 
 	*		traditional reference counting.
 	*/
 	void ReleaseRef();

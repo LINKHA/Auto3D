@@ -20,7 +20,7 @@ public:
 private:
 	Shader _shader;
 	Shader _hardShader;
-	SharedPtr<Model> _model;
+	sharedPtr<Model> _model;
 	bool _cullEnable;
 	unsigned int _woodTexture;
 	unsigned int _VAO;

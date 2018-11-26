@@ -40,7 +40,6 @@ enum ClassIDType
 	DO_CLASS_ID(Sprite, 36)
 
 	DO_CLASS_ID(LightPoint, 37)
-	DO_CLASS_ID(LightDirectional, 38)
 	DO_CLASS_ID(LightSpot, 39)
 
 	DO_CLASS_ID(Engine,40)
@@ -53,7 +52,6 @@ enum ClassIDType
 	DO_CLASS_ID(ShadowRenderAssist, 52)
 	DO_CLASS_ID(ShadowRenderer, 53)
 	DO_CLASS_ID(LightContainer, 54)
-	DO_CLASS_ID(HDR, 55)
 	DO_CLASS_ID(OffScreen, 56)
 	DO_CLASS_ID(MeshPBR,57)
 	DO_CLASS_ID(MeshPBRTexture, 58)
@@ -94,6 +92,8 @@ enum ClassIDType
 	DO_CLASS_ID(Sound, 91)
 	DO_CLASS_ID(RenderComponent2D, 92)
 	DO_CLASS_ID(StaticSprite2D, 93)
+	DO_CLASS_ID(Sprite2D, 94)
+	DO_CLASS_ID(File, 95)
 	
 	CLASS_ID_Count
 };

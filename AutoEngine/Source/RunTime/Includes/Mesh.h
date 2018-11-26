@@ -38,8 +38,8 @@ private:
 	void drawLight();
 private:
 	Shader _shader;
-	SharedPtr<Material> _material;
-	SharedPtr<Model> _model;
+	sharedPtr<Material> _material;
+	sharedPtr<Model> _model;
 	char* _modelPath;
 	bool _isUserShader;
 };

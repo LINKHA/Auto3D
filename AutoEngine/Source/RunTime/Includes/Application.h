@@ -32,14 +32,14 @@ public:
 	int Run(Ambient* ambient);
 	
 private:
-	SharedPtr<Engine> _engine;
+	sharedPtr<Engine> _engine;
 };
 
 /// @brief : Regisiter application in main function
 #define AUTO_APPLICATION_MAIN(className) \
 int runApplication() \
 { \
-    SharedPtr<Auto3D::Ambient> ambient(new Auto3D::Ambient()); \
+    sharedPtr<Auto3D::Ambient> ambient(new Auto3D::Ambient()); \
     className work(ambient);\
     return work.Launch(); \
 } \

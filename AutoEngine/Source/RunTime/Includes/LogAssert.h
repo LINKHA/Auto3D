@@ -49,7 +49,7 @@ inline const char* LogTypeToString(LogType type)
 #define AutoWarningCout			std::cout <<  __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(LogType::kWarning) << " : "
 #define AutoErrorCout			std::cout <<  __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(LogType::kError) << " : "
 #define AutoCout				std::cout <<  __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(LogType::kLog) << " : "
-#define AutoWCout				std::wcout <<  __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(LogType::kLog) << " : "
+#define AutoWCout				std::wcout <<  __FILE__ << L"(" << __LINE__ << L") : " << LogTypeToString(LogType::kLog) << L" : "
 #define AutoEndl				std::endl
 
 #ifdef _WIN32
