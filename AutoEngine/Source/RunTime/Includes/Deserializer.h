@@ -42,6 +42,53 @@ public:
 	* @brief : Return whether the end of stream has been reached
 	*/
 	virtual bool IsEof() const { return _position >= _size; }
+
+
+	/**
+	* @brief : Read a 64-bit integer
+	*/
+	long long ReadInt64();
+	/**
+	* @brief : Read a 32-bit integer
+	*/
+	int ReadInt();
+	/**
+	* @brief : Read a 16-bit integer
+	*/
+	short ReadShort();
+	/**
+	* @brief : Read an 8-bit integer
+	*/
+	signed char ReadByte();
+	/**
+	* @brief : Read a 64-bit unsigned integer
+	*/
+	unsigned long long ReadUInt64();
+	/**
+	* @brief : Read a 32-bit unsigned integer
+	*/
+	unsigned ReadUInt();
+	/**
+	* @brief : Read a 16-bit unsigned integer
+	*/
+	unsigned short ReadUShort();
+	/**
+	* @brief : Read an 8-bit unsigned integer
+	*/
+	unsigned char ReadUByte();
+	/**
+	* @brief : Read a bool
+	*/
+	bool ReadBool();
+	/**
+	* @brief : Read a float
+	*/
+	float ReadFloat();
+	/**
+	* @brief : Read a double
+	*/
+	double ReadDouble();
+	
 protected:
 	/// stream position
 	unsigned _position;

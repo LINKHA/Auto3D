@@ -355,35 +355,8 @@
     <Filter Include="Source\RunTime\Code\CodeDef">
       <UniqueIdentifier>{20a3004e-a940-4703-9048-a0d751ed4fa9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\ThirdParty\boost">
-      <UniqueIdentifier>{3387abb1-31cc-45b2-b8a8-60fd7bae4dc5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\ThirdParty\boost\smart_ptr">
-      <UniqueIdentifier>{52a73df8-48b4-4764-bf4c-2d524ff6ddfd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\ThirdParty\boost\smart_ptr\detail">
-      <UniqueIdentifier>{3754e4ef-79c9-438f-b621-59c388527b1d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\ThirdParty\boost\config">
-      <UniqueIdentifier>{fdae1a98-777a-4dd6-8169-24b52de843ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\ThirdParty\boost\config\abi">
-      <UniqueIdentifier>{da95d0e9-dfd2-495d-9519-9a9a76f95434}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\ThirdParty\boost\config\compiler">
-      <UniqueIdentifier>{7aec246d-619f-49e2-9e35-ad1f129ccb3b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\ThirdParty\boost\config\detail">
-      <UniqueIdentifier>{49cb2b0a-5b19-4f4a-ae3f-b1c5107ddbe3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\ThirdParty\boost\config\no_tr1">
-      <UniqueIdentifier>{a2e78bff-7457-41c3-99a9-219e7ec72312}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\ThirdParty\boost\config\platform">
-      <UniqueIdentifier>{3ea6241c-4d6e-4f82-95a6-62f9c2c61916}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\ThirdParty\boost\config\stdlib">
-      <UniqueIdentifier>{bb53f22b-738c-4a60-8431-462138d3bed0}</UniqueIdentifier>
+    <Filter Include="Source\ThirdParty\LZ4">
+      <UniqueIdentifier>{dff08062-b8f6-43fe-84a8-337dbc030b40}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -3629,305 +3602,20 @@
     <ClInclude Include="Source\RunTime\Includes\AbstractFile.h">
       <Filter>Source\RunTime\FileSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\allocate_local_shared_array.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr</Filter>
+    <ClInclude Include="Source\ThirdParty\LZ4\lz4.h">
+      <Filter>Source\ThirdParty\LZ4</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\allocate_shared_array.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr</Filter>
+    <ClInclude Include="Source\ThirdParty\LZ4\lz4hc.h">
+      <Filter>Source\ThirdParty\LZ4</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\atomic_shared_ptr.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr</Filter>
+    <ClInclude Include="Source\ThirdParty\LZ4\lz4opt.h">
+      <Filter>Source\ThirdParty\LZ4</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\bad_weak_ptr.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr</Filter>
+    <ClInclude Include="Source\RunTime\Includes\MemoryBuffer.h">
+      <Filter>Source\RunTime\FileSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\enable_shared_from_raw.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\enable_shared_from_this.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\intrusive_ptr.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\intrusive_ref_counter.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\local_shared_ptr.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\make_local_shared.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\make_local_shared_array.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\make_local_shared_object.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\make_shared.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\make_shared_array.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\make_shared_object.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\make_unique.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\owner_less.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\scoped_array.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\scoped_ptr.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\shared_array.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\shared_ptr.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\weak_ptr.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\atomic_count.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\atomic_count_gcc.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\atomic_count_gcc_x86.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\atomic_count_nt.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\atomic_count_pt.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\atomic_count_solaris.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\atomic_count_spin.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\atomic_count_std_atomic.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\atomic_count_sync.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\atomic_count_win32.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\lightweight_mutex.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\local_counted_base.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\local_sp_deleter.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\lwm_nop.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\lwm_pthreads.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\lwm_win32_cs.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\operator_bool.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\quick_allocator.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\shared_count.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_convertible.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_counted_base.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_counted_base_acc_ia64.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_counted_base_aix.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_counted_base_clang.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_counted_base_cw_ppc.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_counted_base_cw_x86.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_counted_base_gcc_ia64.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_counted_base_gcc_mips.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_counted_base_gcc_ppc.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_counted_base_gcc_sparc.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_counted_base_gcc_x86.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_counted_base_nt.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_counted_base_pt.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_counted_base_snc_ps3.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_counted_base_solaris.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_counted_base_spin.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_counted_base_std_atomic.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_counted_base_sync.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_counted_base_vacpp_ppc.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_counted_base_w32.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_counted_impl.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_disable_deprecated.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_forward.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_has_sync.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_interlocked.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_noexcept.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\sp_nullptr_t.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\spinlock.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\spinlock_gcc_arm.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\spinlock_nt.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\spinlock_pool.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\spinlock_pt.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\spinlock_std_atomic.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\spinlock_sync.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\spinlock_w32.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr\detail\yield_k.hpp">
-      <Filter>Source\ThirdParty\boost\smart_ptr\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\config.hpp">
-      <Filter>Source\ThirdParty\boost</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\enable_shared_from_this.hpp">
-      <Filter>Source\ThirdParty\boost</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\intrusive_ptr.hpp">
-      <Filter>Source\ThirdParty\boost</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\make_shared.hpp">
-      <Filter>Source\ThirdParty\boost</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\scoped_array.hpp">
-      <Filter>Source\ThirdParty\boost</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\scoped_ptr.hpp">
-      <Filter>Source\ThirdParty\boost</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\shared_array.hpp">
-      <Filter>Source\ThirdParty\boost</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\shared_ptr.hpp">
-      <Filter>Source\ThirdParty\boost</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\smart_ptr.hpp">
-      <Filter>Source\ThirdParty\boost</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\weak_ptr.hpp">
-      <Filter>Source\ThirdParty\boost</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\config\workaround.hpp">
-      <Filter>Source\ThirdParty\boost\config</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\config\abi_prefix.hpp">
-      <Filter>Source\ThirdParty\boost\config</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\config\abi_suffix.hpp">
-      <Filter>Source\ThirdParty\boost\config</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\config\auto_link.hpp">
-      <Filter>Source\ThirdParty\boost\config</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\config\header_deprecated.hpp">
-      <Filter>Source\ThirdParty\boost\config</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\config\helper_macros.hpp">
-      <Filter>Source\ThirdParty\boost\config</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\config\pragma_message.hpp">
-      <Filter>Source\ThirdParty\boost\config</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\config\requires_threads.hpp">
-      <Filter>Source\ThirdParty\boost\config</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\config\user.hpp">
-      <Filter>Source\ThirdParty\boost\config</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\config\warning_disable.hpp">
-      <Filter>Source\ThirdParty\boost\config</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\assert.hpp">
-      <Filter>Source\ThirdParty\boost</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\boost\checked_delete.hpp">
-      <Filter>Source\ThirdParty\boost</Filter>
+    <ClInclude Include="Source\RunTime\Includes\AutoZIP.h">
+      <Filter>Source\RunTime\Adapter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -5040,6 +4728,15 @@
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\AutoSTL.cpp">
       <Filter>Source\RunTime\Adapter</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\LZ4\lz4.c">
+      <Filter>Source\ThirdParty\LZ4</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\LZ4\lz4hc.c">
+      <Filter>Source\ThirdParty\LZ4</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\MemoryBuffer.cpp">
+      <Filter>Source\RunTime\FileSystem</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
