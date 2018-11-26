@@ -5,9 +5,6 @@
     <ClCompile Include="Level_0.cpp">
       <Filter>Level</Filter>
     </ClCompile>
-    <ClCompile Include="..\glad.c">
-      <Filter>Misc</Filter>
-    </ClCompile>
     <ClCompile Include="..\FreeCamera.cpp">
       <Filter>Script</Filter>
     </ClCompile>

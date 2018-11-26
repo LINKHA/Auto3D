@@ -8,9 +8,6 @@
     <ClCompile Include="..\FreeCamera.cpp">
       <Filter>Script</Filter>
     </ClCompile>
-    <ClCompile Include="..\glad.c">
-      <Filter>Misc</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeferredShadingSpace.h" />

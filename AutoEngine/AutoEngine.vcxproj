@@ -1610,6 +1610,7 @@
     <ClCompile Include="Source\ThirdParty\Bullet3\LinearMath\TaskScheduler\btTaskScheduler.cpp" />
     <ClCompile Include="Source\ThirdParty\Bullet3\LinearMath\TaskScheduler\btThreadSupportPosix.cpp" />
     <ClCompile Include="Source\ThirdParty\Bullet3\LinearMath\TaskScheduler\btThreadSupportWin32.cpp" />
+    <ClCompile Include="Source\ThirdParty\glad\glad.c" />
     <ClCompile Include="Source\ThirdParty\glm\detail\dummy.cpp" />
     <ClCompile Include="Source\ThirdParty\glm\detail\glm.cpp" />
     <ClCompile Include="Source\ThirdParty\LZ4\lz4.c" />

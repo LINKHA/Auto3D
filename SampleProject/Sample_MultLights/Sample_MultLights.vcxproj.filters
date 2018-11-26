@@ -2,9 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="MultLightsSpace.cpp" />
-    <ClCompile Include="..\glad.c">
-      <Filter>Misc</Filter>
-    </ClCompile>
     <ClCompile Include="..\FreeCamera.cpp">
       <Filter>Script</Filter>
     </ClCompile>

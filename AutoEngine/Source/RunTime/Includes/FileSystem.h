@@ -2,6 +2,13 @@
 #include "GameManager.h"
 #include "AutoSTL.h"
 #include <memory>
+
+#ifdef _WIN32
+#	define PATH_STRING WSTRING
+#else
+#	define PATH_STRING STRING
+#endif
+
 namespace Auto3D {
 
 class FileSystem : public GlobalGameManager

@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FreeCamera.cpp" />
-    <ClCompile Include="..\glad.c" />
     <ClCompile Include="DeferredShadingSpace.cpp" />
     <ClCompile Include="Level_0.cpp" />
   </ItemGroup>

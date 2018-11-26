@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FreeCamera.cpp" />
-    <ClCompile Include="..\glad.c" />
     <ClCompile Include="level_0.cpp" />
     <ClCompile Include="UISapce.cpp" />
   </ItemGroup>

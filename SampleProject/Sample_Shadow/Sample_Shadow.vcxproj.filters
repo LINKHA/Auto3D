@@ -5,9 +5,6 @@
       <Filter>Script</Filter>
     </ClCompile>
     <ClCompile Include="ShadowSpace.cpp" />
-    <ClCompile Include="..\glad.c">
-      <Filter>Misc</Filter>
-    </ClCompile>
     <ClCompile Include="Level_0.cpp">
       <Filter>Level</Filter>
     </ClCompile>

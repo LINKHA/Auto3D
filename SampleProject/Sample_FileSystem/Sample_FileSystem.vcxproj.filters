@@ -7,9 +7,6 @@
     <ClCompile Include="..\FreeCamera.cpp">
       <Filter>Script</Filter>
     </ClCompile>
-    <ClCompile Include="..\glad.c">
-      <Filter>Misc</Filter>
-    </ClCompile>
     <ClCompile Include="FileSystemSpace.cpp" />
   </ItemGroup>
   <ItemGroup>
