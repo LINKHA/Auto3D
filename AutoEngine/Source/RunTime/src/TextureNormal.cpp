@@ -35,7 +35,7 @@ void TextureNormal::Start()
 	Super::Start();
 	//_image = LocalTextureLoad(_imagePath);
 	//_imageNormal = LocalTextureLoad(_imageNormalPath);
-	_image = GetSubSystem<ResourceSystem>()->TextureLoad(_imagePath);
+	_timage = GetSubSystem<ResourceSystem>()->TextureLoad(_imagePath);
 	_imageNormal = GetSubSystem<ResourceSystem>()->TextureLoad(_imageNormalPath);
 	_shader = Shader(shader_path + "au_normal_mapping.auvs", shader_path + "au_normal_mapping.aufs");
 
@@ -78,7 +78,7 @@ void TextureNormal::Draw()
 	_shader.SetVec3("viewPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
 	_shader.SetVec3("lightPos", lightPos);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, _image);
+	glBindTexture(GL_TEXTURE_2D, _timage);
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, _imageNormal);
 	renderQuad();

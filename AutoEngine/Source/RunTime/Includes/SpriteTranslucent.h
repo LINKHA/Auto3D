@@ -32,7 +32,7 @@ private:
 	Shader _shader;
 	Color _color;
 	char* _imagePath;
-	tImage* _image;
+	tImage* _timage;
 
 
 	bool _isMipmaps;

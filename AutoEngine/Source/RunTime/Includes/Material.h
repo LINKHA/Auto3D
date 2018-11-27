@@ -18,7 +18,7 @@ public:
 	float shininess;
 	bool isTexture;
 
-	void SetImage(char * path);
+	void SettImage(char * path);
 	
 };
 }

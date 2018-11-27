@@ -4,6 +4,8 @@
 #include "Sprite.h"
 #include "../FreeCamera.h"
 #include "Time.h"
+#include "ResourceSystem.h"
+
 
 Level_0::Level_0(Ambient* ambient, int levelNumber)
 	:LevelScene(ambient, levelNumber)
@@ -42,18 +44,20 @@ void Level_0::Start()
 	//obj4->GetComponent(Transform).SetPosition(-0.2f, 0.0f, -2.0f);
 	//obj4->AddComponent(tex4);
 
+	auto* imageLogo = GetSubSystem<ResourceSystem>()->GetResource<Image>("../Resource/texture/logo.png");
+
 	obj = CreateNode();
-	obj->CreateComponent<Sprite>()->SetImage("../Resource/texture/logo.png");
+	obj->CreateComponent<Sprite>()->SetImage(imageLogo);
 	//tex1->SetColor(Color(0.5f, 0.5f, 0.5f));
 
 	Node* obj5 = CreateNode();
-	obj5->CreateComponent<Sprite>()->SetImage("../Resource/texture/grass.png");
+	obj5->CreateComponent<Sprite>()->SettImage("../Resource/texture/grass.png");
 	//tex5->EnableBlend(true);
 	obj5->GetComponent<Transform>()->SetPosition(-0.2f, 0.0f, -3.0f);
 
 	
 	Node* obj6 = CreateNode();
-	obj6->CreateComponent<Sprite>()->SetImage("../Resource/texture/grass.png");
+	obj6->CreateComponent<Sprite>()->SettImage("../Resource/texture/grass.png");
 	//tex6->EnableBlend(true);
 	obj6->GetComponent<Transform>()->SetPosition(-0.2f, 0.0f, -4.0f);
 

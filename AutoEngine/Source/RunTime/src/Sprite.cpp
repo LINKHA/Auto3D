@@ -6,6 +6,7 @@
 #include "Configs.h"
 #include "ResourceSystem.h"
 #include "tImage.h"
+#include "Image.h"
 #include "DebugNew.h"
 
 namespace Auto3D {
@@ -32,9 +33,14 @@ Sprite::~Sprite()
 	glDeleteBuffers(1, &_EBO);
 }
 
-void Sprite::SetImage(char* imagePath)
+void Sprite::SettImage(char* imagePath)
 {
 	_imagePath = imagePath;
+}
+
+void Sprite::SetImage(Image* image)
+{
+	_image = SharedPtr<Image>(image);
 }
 
 void Sprite::Start()
@@ -66,14 +72,14 @@ void Sprite::Start()
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	//_image = LocalImageLoad(_imagePath);
-	_image = GetSubSystem<ResourceSystem>()->ImageLoad(_imagePath);
+	_timage = GetSubSystem<ResourceSystem>()->ImageLoad(_imagePath);
 
 
 	//SetNearestParameters();
 	SetLinerParameters();
-	if (_image->value)
+	if (_timage->value)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, _image->format, _image->width, _image->height, 0, _image->format, GL_UNSIGNED_BYTE, _image->value);
+		glTexImage2D(GL_TEXTURE_2D, 0, _timage->format, _timage->width, _timage->height, 0, _timage->format, GL_UNSIGNED_BYTE, _timage->value);
 		GenerateMipmap();
 	}
 	else
@@ -134,8 +140,8 @@ void Sprite::SetColor(float r, float g, float b, float a)
 //tImage conpontent to use
 void Sprite::SetLinerParameters()
 {
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _image->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _image->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _timage->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _timage->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
 	if (_isMipmaps)
 	{
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
@@ -149,8 +155,8 @@ void Sprite::SetLinerParameters()
 
 void Sprite::SetNearestParameters()
 {
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _image->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _image->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _timage->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _timage->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
 	if (_isMipmaps)
 	{
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);

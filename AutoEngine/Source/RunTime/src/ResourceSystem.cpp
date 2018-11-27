@@ -14,6 +14,8 @@
 
 namespace Auto3D {
 
+static const SharedPtr<Resource> noResource;
+
 ResourceSystem::ResourceSystem(Ambient* ambient)
 	:Super(ambient)
 {}
@@ -195,5 +197,28 @@ void ResourceSystem::RegisterResourceLib(Ambient * ambient)
 	Image::RegisterObject(ambient);
 }
 
+const SharedPtr<Resource>& ResourceSystem::findResource(STRING type, STRING name)
+{
+	HASH_MAP<STRING, ResourceGroup>::iterator i = _resourceGroups.find(type);
+	if (i == _resourceGroups.end())
+		return noResource;
+
+	HASH_MAP<STRING, SharedPtr<Resource> >::iterator j = i->second.resources.find(name);
+	if (j == i->second.resources.end())
+		return noResource;
+
+	return j->second;
+}
+
+const SharedPtr<Resource>& ResourceSystem::findResource(STRING name)
+{
+	for (HASH_MAP<STRING, ResourceGroup>::iterator i = _resourceGroups.begin(); i != _resourceGroups.end(); ++i)
+	{
+		HASH_MAP<STRING, SharedPtr<Resource>>::iterator j = i->second.resources.find(name);
+		if (j != i->second.resources.end())
+			return j->second;
+	}
+	return noResource;
+}
 
 }

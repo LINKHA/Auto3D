@@ -42,7 +42,7 @@ void TextureParallax::Start()
 	/*_image = LocalTextureLoad(_imagePath);
 	_imageNormal = LocalTextureLoad(_imageNormalPath);
 	_imageParallax = LocalTextureLoad(_imageParallaxPath);*/
-	_image = GetSubSystem<ResourceSystem>()->TextureLoad(_imagePath);
+	_timage = GetSubSystem<ResourceSystem>()->TextureLoad(_imagePath);
 	_imageNormal = GetSubSystem<ResourceSystem>()->TextureLoad(_imageNormalPath);
 	_imageParallax = GetSubSystem<ResourceSystem>()->TextureLoad(_imageParallaxPath);
 	_shader = Shader(shader_path + "au_parallax_mapping.auvs", shader_path + "au_parallax_mapping.aufs");
@@ -84,7 +84,7 @@ void TextureParallax::Draw()
 	_shader.SetVec3("viewPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
 	_shader.SetVec3("lightPos", lightPos);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, _image);
+	glBindTexture(GL_TEXTURE_2D, _timage);
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, _imageNormal);
 	glActiveTexture(GL_TEXTURE2);

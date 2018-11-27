@@ -26,7 +26,7 @@ Material::Material(Ambient* ambi,char * path)
 Material::~Material()
 {}
 
-void Material::SetImage(char * path)
+void Material::SettImage(char * path)
 {
 	isTexture = true;
 	//diffuseMap = LocalTextureLoad(path);

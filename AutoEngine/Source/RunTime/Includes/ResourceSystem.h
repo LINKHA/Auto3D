@@ -6,6 +6,24 @@ class Resource;
 class tImage;
 class Model;
 
+/// Container of resources with specific type.
+struct ResourceGroup
+{
+	/**
+	* @brief : Construct with defaults
+	*/
+	ResourceGroup() :
+		memoryBudget(0),
+		memoryUse(0)
+	{}
+
+	/// Memory budget.
+	unsigned long long memoryBudget;
+	/// Current memory use.
+	unsigned long long memoryUse;
+	/// Resources.
+	HASH_MAP<STRING, SharedPtr<Resource> > resources;
+};
 
 class ResourceSystem : public GlobalGameManager
 {
@@ -49,6 +67,7 @@ public:
 	*/
 	void FreeImage(tImage * image);
 
+
 	/**
 	* @brief : Return a resource by type and name. Load if not loaded yet. 
 	*	Return null if not found or if fails, unless SetReturnFailedResources(true) 
@@ -72,6 +91,17 @@ public:
 	*/
 	void RegisterResourceLib(Ambient* ambient);
 private:
+	/**
+	* @brief : Find a resource
+	*/
+	const SharedPtr<Resource>& findResource(STRING type, STRING name);
+	/**
+	* @brief : Find a resource by name only. Searches all type groups
+	*/
+	const SharedPtr<Resource>& findResource(STRING name);
+private:
+	/// resources by type.
+	HASH_MAP<STRING, ResourceGroup> _resourceGroups;
 	/// image hash map queue
 	ImageQueue _imageQueue;
 	/// modle hash map queue

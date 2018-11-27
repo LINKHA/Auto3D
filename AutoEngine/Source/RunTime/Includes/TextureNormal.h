@@ -32,7 +32,7 @@ private:
 	Color _color;
 	char* _imagePath{};
 	char* _imageNormalPath{};
-	unsigned int _image{};
+	unsigned int _timage{};
 	unsigned int _imageNormal{};
 
 	void renderQuad();
