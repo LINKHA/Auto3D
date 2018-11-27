@@ -1,5 +1,5 @@
 #include "Ambient.h"
-//#include "Str.h"
+#include "DebugNew.h"
 
 namespace Auto3D {
 Ambient::Ambient()

@@ -4,6 +4,7 @@
 #include "Math/MathBase.h"
 #include "MemoryBuffer.h"
 #include "AutoZIP.h"
+#include "DebugNew.h"
 
 namespace Auto3D {
 

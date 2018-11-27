@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "Renderer.h"
 #include "BaseMesh.h"
+#include "DebugNew.h"
 namespace Auto3D {
 DeferredShading::DeferredShading(Ambient* ambient)
 	: RenderComponent(ambient)

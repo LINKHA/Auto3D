@@ -1,4 +1,6 @@
 #include "Geometry.h"
+#include "DebugNew.h"
+
 namespace Auto3D {
 
 

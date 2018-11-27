@@ -1,5 +1,7 @@
 #include "ColliderBox2D.h"
 #include "Ambient.h"
+#include "DebugNew.h"
+
 namespace Auto3D {
 
 static const Vector2 DEFAULT_BOX_SIZE(0.01f, 0.01f);

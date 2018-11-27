@@ -5,6 +5,7 @@
 #include "Configs.h"
 #include "Light.h"
 #include "Graphics.h"
+#include "DebugNew.h"
 
 
 

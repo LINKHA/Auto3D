@@ -7,6 +7,7 @@
 #include "Resource.h"
 #include "Sound.h"
 #include "Sprite2D.h"
+#include "DebugNew.h"
 
 
 namespace Auto3D {
@@ -171,8 +172,8 @@ void ResourceSystem::FreeImage(Image * image)
 
 Resource* ResourceSystem::GetResource(STRING type, const STRING& name, bool sendEventOnFailure)
 {
+
 	return nullptr;
-	//return resource;
 }
 
 void ResourceSystem::AddResourcePath(const WSTRING& path)

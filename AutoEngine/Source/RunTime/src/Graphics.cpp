@@ -2,7 +2,7 @@
 #include "AutoImage.h"
 #include "AutoOGL.h"
 #include "../../EngineSetting/BuildSetting.h"
-
+#include "DebugNew.h"
 namespace Auto3D {
 
 

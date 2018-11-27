@@ -1,5 +1,6 @@
 #include "Monitors.h"
 #include "SDL2/SDL.h"
+#include "DebugNew.h"
 namespace Auto3D {
 
 Monitors::Monitors()

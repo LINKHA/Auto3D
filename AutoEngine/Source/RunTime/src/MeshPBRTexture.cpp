@@ -7,6 +7,7 @@
 #include "Transform.h"
 #include "Light.h"
 #include "ResourceSystem.h"
+#include "DebugNew.h"
 
 namespace Auto3D {
 

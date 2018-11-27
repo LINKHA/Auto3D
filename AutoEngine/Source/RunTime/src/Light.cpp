@@ -1,6 +1,8 @@
 #include "Light.h"
 #include "LogAssert.h"
 #include "Renderer.h"
+#include "DebugNew.h"
+
 namespace Auto3D {
 /////////////////////////////////////////////////////////////////////////////////////////////
 //ShadowRenderAssist

@@ -5,6 +5,7 @@
 #include "Renderer.h"
 #include "BaseMesh.h"
 #include "ResourceSystem.h"
+#include "DebugNew.h"
 
 namespace Auto3D {
 

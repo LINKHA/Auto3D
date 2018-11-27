@@ -6,6 +6,7 @@
 #include "Configs.h"
 #include "ResourceSystem.h"
 #include "Image.h"
+#include "DebugNew.h"
 
 namespace Auto3D {
 

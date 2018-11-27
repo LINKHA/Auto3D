@@ -6,6 +6,8 @@
 #include "Configs.h"
 #include "ResourceSystem.h"
 #include "Model.h"
+#include "DebugNew.h"
+
 namespace Auto3D {
 
 MeshShadow::MeshShadow(Ambient* ambient)

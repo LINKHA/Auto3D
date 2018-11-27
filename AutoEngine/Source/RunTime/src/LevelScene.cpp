@@ -2,6 +2,7 @@
 #include "Node.h"
 #include "Component.h"
 #include "PhysicsWorld2D.h"
+#include "DebugNew.h"
 
 
 namespace Auto3D {
@@ -15,6 +16,10 @@ LevelScene::LevelScene(Ambient* ambient, int id)
 
 LevelScene::~LevelScene()
 {
+	SAFE_DELETE(_sceneNode);
+	_nodeToAdd.clear();
+	_nodeToRemove.clear();
+	_nodes.clear();
 }
 
 void LevelScene::Awake() 

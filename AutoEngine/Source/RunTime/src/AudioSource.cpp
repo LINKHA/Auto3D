@@ -2,6 +2,8 @@
 #include "Time.h"
 #include "Timer.h"
 #include <functional>
+#include "DebugNew.h"
+
 namespace Auto3D {
 
 AudioSource::AudioSource(Ambient* ambient)

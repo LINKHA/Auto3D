@@ -5,7 +5,6 @@
 #include "Collider2D.h"
 #include "Transform.h"
 
-
 namespace Auto3D {
 
 RigidBody::RigidBody(Ambient* ambient)

@@ -1,5 +1,5 @@
 #include "IO.h"
-
+#include "DebugNew.h"
 namespace Auto3D {
 
 IO::IO(Ambient* ambient)
@@ -11,6 +11,7 @@ IO::IO(Ambient* ambient)
 
 IO::~IO()
 {
+	SAFE_DELETE(_monitors);
 }
 
 }

@@ -1,5 +1,7 @@
 #include "Script.h"
 #include "ScriptComponent.h"
+#include "DebugNew.h"
+
 namespace Auto3D {
 
 struct MatchByNameFilter

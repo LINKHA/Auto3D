@@ -1,6 +1,7 @@
 #include "SceneNode.h"
 #include "PhysicsWorld.h"
 #include "PhysicsWorld2D.h"
+#include "DebugNew.h"
 
 namespace Auto3D {
 

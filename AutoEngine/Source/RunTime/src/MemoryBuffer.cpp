@@ -1,5 +1,5 @@
 #include "MemoryBuffer.h"
-
+#include "DebugNew.h"
 namespace Auto3D {
 
 

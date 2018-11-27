@@ -6,6 +6,8 @@
 #include "Shader.h"
 #include "LogAssert.h"
 #include "Math/Math.h"
+#include "DebugNew.h"
+
 namespace Auto3D {
 
 Shader::Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath)

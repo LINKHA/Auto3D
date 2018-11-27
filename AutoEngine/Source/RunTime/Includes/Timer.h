@@ -8,11 +8,11 @@ namespace Auto3D {
 
 enum class TimerState
 {
-	DEFAULT,
-	INIT,
-	RUNNING,
-	STOPPING,
-	PAUSEING
+	Default,
+	Init,
+	Running,
+	Stopping,
+	Pauseing,
 };
 
 /**
@@ -61,7 +61,7 @@ public:
 	{
 		std::thread timerThread(&Timer::timerCount, this, callback, interval, delayTime, count);
 		timerThread.detach();
-		state = TimerState::RUNNING;
+		state = TimerState::Running;
 	}
 	/**
 	* @brief : There is no msTime running once after delayTime with class member funcation (if count is 0, there is no limit)
@@ -73,7 +73,7 @@ public:
 	{
 		std::thread timerThread(&Timer::timerCountClass, this, callback, interval, delayTime, count);
 		timerThread.detach();
-		state = TimerState::RUNNING;
+		state = TimerState::Running;
 	}
 	/**
 	* @brief : The destructor
@@ -85,7 +85,7 @@ public:
 	void Stop()
 	{
 		_stopFlag = true;
-		state = TimerState::STOPPING;
+		state = TimerState::Stopping;
 	}
 	/**
 	* @brief : Begin timer 
@@ -94,7 +94,7 @@ public:
 	{
 		_stopFlag = false;
 		_pauseFlag = false;
-		state = TimerState::RUNNING;
+		state = TimerState::Running;
 	}
 	/**
 	* @brief : Pause timer begin from current
@@ -102,7 +102,7 @@ public:
 	void Pause()
 	{
 		_pauseFlag = true;
-		state = TimerState::PAUSEING;
+		state = TimerState::Pauseing;
 	}
 	/**
 	* @brief : Destory timer but not destructor class

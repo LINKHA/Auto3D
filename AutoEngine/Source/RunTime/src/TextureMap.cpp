@@ -1,4 +1,6 @@
 #include "TextureMap.h"
+#include "DebugNew.h"
+
 namespace Auto3D {
 
 

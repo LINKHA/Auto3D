@@ -1,5 +1,6 @@
 #include "Configs.h"
 #include "config.h"
+#include "DebugNew.h"
 
 
 const std::string source_path(source_dictionary);

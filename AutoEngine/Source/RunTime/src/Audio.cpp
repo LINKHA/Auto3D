@@ -1,5 +1,6 @@
 #include "Audio.h"
 #include "AutoOAL.h"
+#include "DebugNew.h"
 
 
 namespace Auto3D {

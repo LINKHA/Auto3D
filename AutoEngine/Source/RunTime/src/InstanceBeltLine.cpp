@@ -4,6 +4,8 @@
 #include "Graphics.h"
 #include "Camera.h"
 #include "Renderer.h"
+#include "DebugNew.h"
+
 namespace Auto3D {
 
 InstanceBeltLine::InstanceBeltLine(Ambient* ambient,Model* model, const Shader& shader, glm::mat4* modelMat,int count)

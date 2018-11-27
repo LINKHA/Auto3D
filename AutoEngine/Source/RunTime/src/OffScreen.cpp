@@ -6,6 +6,7 @@
 #include "VertexData.h"
 #include "Configs.h"
 #include "BaseMesh.h"
+#include "DebugNew.h"
 
 namespace Auto3D {
 

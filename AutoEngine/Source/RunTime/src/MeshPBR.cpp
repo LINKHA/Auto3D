@@ -6,6 +6,8 @@
 #include "Time.h"
 #include "Transform.h"
 #include "Light.h"
+#include "DebugNew.h"
+
 namespace Auto3D {
 
 MeshPBR::MeshPBR(Ambient* ambient)

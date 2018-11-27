@@ -3,6 +3,8 @@
 #include "Graphics.h"
 #include "Configs.h"
 #include "ResourceSystem.h"
+#include "DebugNew.h"
+
 namespace Auto3D {
 TextureNormal::TextureNormal(Ambient* ambient)
 	:Super(ambient)

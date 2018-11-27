@@ -3,6 +3,7 @@
 #include "PhysicsWorld.h"
 #include "PhysicsUtils.h"
 #include "Transform.h"
+#include "DebugNew.h"
 
 namespace Auto3D {
 

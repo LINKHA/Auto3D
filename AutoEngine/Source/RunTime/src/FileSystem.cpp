@@ -1,5 +1,3 @@
-
-
 #ifdef __ANDROID__
 #	include <SDL2/SDL_rwops.h>
 #endif

@@ -6,6 +6,8 @@
 #include "Configs.h"
 #include "ResourceSystem.h"
 #include "Image.h"
+#include "DebugNew.h"
+
 namespace Auto3D {
 
 SpriteTranslucent::SpriteTranslucent(Ambient* ambient, char* imagePath)

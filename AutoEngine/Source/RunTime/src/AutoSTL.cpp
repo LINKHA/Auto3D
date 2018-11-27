@@ -1,5 +1,5 @@
 #include "AutoSTL.h"
-
+#include "DebugNew.h"
 namespace Auto3D {
 
 #ifdef _WIN32
@@ -26,6 +26,12 @@ STRING WStringToString(WSTRING wstr)
 	delete[] buffer;
 	return result;
 }
+#else
+
+STRING StringToWString(STRING str) {}
+
+STRING WStringToString(STRING wstr) {}
+
 #endif
 
 

@@ -5,6 +5,8 @@
 #include "BaseMesh.h"
 #include "Configs.h"
 #include "ResourceSystem.h"
+#include "DebugNew.h"
+
 #include <random>
 namespace Auto3D {
 SSAO::SSAO(Ambient* ambient)

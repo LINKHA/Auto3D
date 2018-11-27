@@ -13,6 +13,7 @@ public:
 	* @brief : Register object factory
 	*/
 	static void RegisterObject(Ambient* ambient);
+
 };
 
 }

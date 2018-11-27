@@ -76,9 +76,6 @@
     <Filter Include="Source\ThirdParty">
       <UniqueIdentifier>{ea06e54e-ff26-4e40-97a2-79bc051148a7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\ThirdParty\stb_image">
-      <UniqueIdentifier>{8608628e-7639-41c4-aafd-2c9f80a270c2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\ThirdParty\Box2D">
       <UniqueIdentifier>{f456454d-b444-4d4b-9d56-950544526f6c}</UniqueIdentifier>
     </Filter>
@@ -357,6 +354,12 @@
     </Filter>
     <Filter Include="Source\ThirdParty\LZ4">
       <UniqueIdentifier>{dff08062-b8f6-43fe-84a8-337dbc030b40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\ThirdParty\STB">
+      <UniqueIdentifier>{8608628e-7639-41c4-aafd-2c9f80a270c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RunTime\Resource\Temp">
+      <UniqueIdentifier>{c2f6d330-a48f-4808-b3eb-f86169546498}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1357,9 +1360,6 @@
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\VertexData.h">
       <Filter>Source\RunTime\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ThirdParty\stb_image\stb_image.h">
-      <Filter>Source\ThirdParty\stb_image</Filter>
     </ClInclude>
     <ClInclude Include="Source\ThirdParty\Box2D\Collision\b2BroadPhase.h">
       <Filter>Source\ThirdParty\Box2D\Collision</Filter>
@@ -3560,38 +3560,8 @@
     <ClInclude Include="Source\RunTime\Includes\Input.h">
       <Filter>Source\RunTime\IO</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\ResourceSystem.h">
-      <Filter>Source\RunTime\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Resource.h">
-      <Filter>Source\RunTime\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Model.h">
-      <Filter>Source\RunTime\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Image.h">
-      <Filter>Source\RunTime\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\SkyBox.h">
-      <Filter>Source\RunTime\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Material.h">
-      <Filter>Source\RunTime\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Shader.h">
-      <Filter>Source\RunTime\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Sound.h">
-      <Filter>Source\RunTime\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\RenderComponent2D.h">
       <Filter>Source\RunTime\Graphics\Component\Abstract</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\StaticSprite2D.h">
-      <Filter>Source\RunTime\Graphics\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Sprite2D.h">
-      <Filter>Source\RunTime\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Deserializer.h">
       <Filter>Source\RunTime\FileSystem</Filter>
@@ -3615,6 +3585,42 @@
       <Filter>Source\RunTime\FileSystem</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\AutoZIP.h">
+      <Filter>Source\RunTime\Adapter</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\STB\stb_image.h">
+      <Filter>Source\ThirdParty\STB</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Image.h">
+      <Filter>Source\RunTime\Resource\Temp</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Material.h">
+      <Filter>Source\RunTime\Resource\Temp</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Model.h">
+      <Filter>Source\RunTime\Resource\Temp</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Shader.h">
+      <Filter>Source\RunTime\Resource\Temp</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\SkyBox.h">
+      <Filter>Source\RunTime\Resource\Temp</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Sound.h">
+      <Filter>Source\RunTime\Resource\Temp</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Resource.h">
+      <Filter>Source\RunTime\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\ResourceSystem.h">
+      <Filter>Source\RunTime\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Sprite2D.h">
+      <Filter>Source\RunTime\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\StaticSprite2D.h">
+      <Filter>Source\RunTime\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\AutoThread.h">
       <Filter>Source\RunTime\Adapter</Filter>
     </ClInclude>
   </ItemGroup>
@@ -3645,9 +3651,6 @@
     </ClCompile>
     <ClCompile Include="Source\RunTime\Includes\Math\Vector4.cpp">
       <Filter>Source\RunTime\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ThirdParty\stb_image\stb_image.cpp">
-      <Filter>Source\ThirdParty\stb_image</Filter>
     </ClCompile>
     <ClCompile Include="Source\ThirdParty\Box2D\Collision\b2BroadPhase.cpp">
       <Filter>Source\ThirdParty\Box2D\Collision</Filter>
@@ -4684,41 +4687,11 @@
     <ClCompile Include="Source\RunTime\src\Input.cpp">
       <Filter>Source\RunTime\IO</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\ResourceSystem.cpp">
-      <Filter>Source\RunTime\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Resource.cpp">
-      <Filter>Source\RunTime\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Model.cpp">
-      <Filter>Source\RunTime\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Image.cpp">
-      <Filter>Source\RunTime\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\SkyBox.cpp">
-      <Filter>Source\RunTime\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Material.cpp">
-      <Filter>Source\RunTime\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\OGLShader.cpp">
-      <Filter>Source\RunTime\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Sound.cpp">
-      <Filter>Source\RunTime\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RunTime\src\RenderComponent.cpp">
       <Filter>Source\RunTime\Graphics\Component\Abstract</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\RenderComponent2D.cpp">
       <Filter>Source\RunTime\Graphics\Component\Abstract</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\StaticSprite2D.cpp">
-      <Filter>Source\RunTime\Graphics\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Sprite2D.cpp">
-      <Filter>Source\RunTime\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Deserializer.cpp">
       <Filter>Source\RunTime\FileSystem</Filter>
@@ -4740,6 +4713,39 @@
     </ClCompile>
     <ClCompile Include="Source\ThirdParty\glad\glad.c">
       <Filter>Source\ThirdParty\glad</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\STB\stb_image.cpp">
+      <Filter>Source\ThirdParty\STB</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Image.cpp">
+      <Filter>Source\RunTime\Resource\Temp</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Material.cpp">
+      <Filter>Source\RunTime\Resource\Temp</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Model.cpp">
+      <Filter>Source\RunTime\Resource\Temp</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\OGLShader.cpp">
+      <Filter>Source\RunTime\Resource\Temp</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\SkyBox.cpp">
+      <Filter>Source\RunTime\Resource\Temp</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Sound.cpp">
+      <Filter>Source\RunTime\Resource\Temp</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Resource.cpp">
+      <Filter>Source\RunTime\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\ResourceSystem.cpp">
+      <Filter>Source\RunTime\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Sprite2D.cpp">
+      <Filter>Source\RunTime\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\StaticSprite2D.cpp">
+      <Filter>Source\RunTime\Resource</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

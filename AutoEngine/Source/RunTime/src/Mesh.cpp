@@ -3,6 +3,7 @@
 #include "Light.h"
 #include "Configs.h"
 #include "ResourceSystem.h"
+#include "DebugNew.h"
 namespace Auto3D {
 
 Mesh::Mesh(Ambient* ambient)

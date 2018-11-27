@@ -3,47 +3,61 @@
 #include "MathBase.h"
 #include "Vector2.h"
 namespace Auto3D {
-template <typename T>
+template <typename _Ty>
 struct Rect
 {
 public:
-	using RectType = Rect<T>;
+	using RectType = Rect<_Ty>;
 	using BaseType = float;
 
-	T x;
-	T y;
-	T width;
-	T height;
+	_Ty x;
+	_Ty y;
+	_Ty width;
+	_Ty height;
 
 	Rect()
 	{
 		Reset();
 	}
 
-	Rect(T inX, T inY, T iWidth, T iHeight)	{ x = inX;  y = inY; width = iWidth; height = iHeight; }
+	Rect(_Ty inX, _Ty inY, _Ty iWidth, _Ty iHeight)	{ x = inX;  y = inY; width = iWidth; height = iHeight; }
 
-	T GetRight() const							{ return x + width; }
-	T GetBottom() const							{ return y + height; }
-	void SetLeft(T l)							{ T oldXMax = GetXMax(); x = l; width = oldXMax - x; }
-	void SetTop(T t)							{ T oldYMax = GetYMax(); y = t; height = oldYMax - y; }
-	void SetRight(T r)							{ width = r - x; }
-	void SetBottom(T b)							{ height = b - y; }
+	_Ty GetRight() const { return x + width; }
 
-	T GetXMax() const							{ return x + width; }
-	T GetYMax() const							{ return y + height; }
+	_Ty GetBottom() const { return y + height; }
 
-	bool IsEmpty() const						{ return width <= 0 || height <= 0; }
-	void SetPosition(const Vector2& position)	{ x = position.x; y = position.y; }
-	Vector2& GetPosition() const					{ return Vector2(x, y); }
-	void SetSize(const Vector2& size)			{ width = size.x; height = size.y; }
-	Vector2& GetSize() const						{ return Vector2(width, height); }
-	void Reset()								{ x = y = width = height = 0; }
-	void Set(T inX, T inY, T iWidth, T iHeight) { x = inX; width = iWidth; y = inY; height = iHeight; }
+	void SetLeft(_Ty l) { T oldXMax = GetXMax(); x = l; width = oldXMax - x; }
+
+	void SetTop(_Ty t) { T oldYMax = GetYMax(); y = t; height = oldYMax - y; }
+
+	void SetRight(_Ty r) { width = r - x; }
+
+	void SetBottom(_Ty b) { height = b - y; }
+
+	_Ty GetXMax() const	{ return x + width; }
+
+	_Ty GetYMax() const	{ return y + height; }
+
+	bool IsEmpty() const { return width <= 0 || height <= 0; }
+
+	void SetPosition(const Vector2& position) { x = position.x; y = position.y; }
+
+	Vector2& GetPosition() const { return Vector2(x, y); }
+
+	void SetSize(const Vector2& size) { width = size.x; height = size.y; }
+
+	Vector2& GetSize() const { return Vector2(width, height); }
+
+	void Reset() { x = y = width = height = 0; }
+
+	void Set(_Ty inX, _Ty inY, _Ty iWidth, _Ty iHeight) { x = inX; width = iWidth; y = inY; height = iHeight; }
 	
-	void Normalize()							{ width = max<T>(width, 0);height = max<T>(height, 0); }
+	void Normalize() { width = max<T>(width, 0);height = max<T>(height, 0); }
 
 	bool operator == (const RectType& r)const { return x == r.x && y == r.y && width == r.width && height == r.height; }
+	
 	bool operator != (const RectType& r)const { return x != r.x || y != r.y || width != r.width || height != r.height; }
+	
 };
 using Rectf = Rect<float>;
 using RectInt = Rect<int>;

@@ -1,5 +1,6 @@
 #include "Component.h"
 #include "Scene.h"
+#include "DebugNew.h"
 
 namespace Auto3D {
 

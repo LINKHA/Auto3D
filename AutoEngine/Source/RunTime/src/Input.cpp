@@ -1,6 +1,8 @@
 #include "Input.h"
 #include "AutoSDL2.h"
 #include "Graphics.h"
+#include "DebugNew.h"
+
 namespace Auto3D {
 Input::Input(Ambient* ambient)
 	: Super(ambient)

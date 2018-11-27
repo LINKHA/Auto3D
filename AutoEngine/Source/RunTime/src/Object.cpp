@@ -1,5 +1,6 @@
 #include "Object.h"
 #include "Ambient.h"
+#include "DebugNew.h"
 namespace Auto3D {
 
 Object::Object(Ambient* ambient)

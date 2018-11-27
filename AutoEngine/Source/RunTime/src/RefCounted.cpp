@@ -1,5 +1,7 @@
 #include "RefCounted.h"
 #include "LogAssert.h"
+#include "DebugNew.h"
+
 namespace Auto3D {
 RefCounted::RefCounted() :
 	_refCount(new RefCount())

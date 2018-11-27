@@ -1,4 +1,5 @@
 #include "Texture3D.h"
+#include "DebugNew.h"
 
 
 namespace Auto3D {

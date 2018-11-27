@@ -1,4 +1,5 @@
 #include "GLMeshEnable.h"
+#include "DebugNew.h"
 
 
 namespace Auto3D {

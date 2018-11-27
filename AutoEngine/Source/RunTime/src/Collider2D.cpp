@@ -1,7 +1,7 @@
 #include "Collider2D.h"
-
 #include "Ambient.h"
 #include "RigidBody2D.h"
+#include "DebugNew.h"
 
 namespace Auto3D {
 

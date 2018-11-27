@@ -1,7 +1,7 @@
 #include "MotionSpace.h"
 #include "LevelScene.h"
 #include "Scene.h"
-
+#include "DebugNew.h"
 
 namespace Auto3D {
 SINGLETON_INSTANCE(SpaceHandle);

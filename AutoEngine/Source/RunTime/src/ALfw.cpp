@@ -4,7 +4,7 @@
 #include "ALfw.h"
 #include "ALWaves.h"
 #include "ALDeviceList.h"
-
+#include "DebugNew.h"
 #ifdef _MSC_VER
 #pragma warning(disable:4996)
 #endif

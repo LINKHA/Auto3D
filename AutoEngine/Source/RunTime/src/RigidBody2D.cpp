@@ -3,6 +3,7 @@
 #include "PhysicsWorld2D.h"
 #include "PhysicsUtils.h"
 #include "Collider2D.h"
+#include "DebugNew.h"
 
 namespace Auto3D {
 

@@ -4,6 +4,7 @@
 #include "AutoOGL.h"
 #include "OGLDebug.h"
 #include "GraphicsDefines.h"
+#include "DebugNew.h"
 
 namespace Auto3D {
 

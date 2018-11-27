@@ -1,6 +1,7 @@
 #include "Time.h"
 #include "Math/Math.h"
 #include <thread>
+#include "DebugNew.h"
 
 namespace Auto3D {
 

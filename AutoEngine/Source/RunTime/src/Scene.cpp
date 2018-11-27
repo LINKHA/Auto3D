@@ -1,4 +1,5 @@
 #include "Scene.h"
+
 #include "Camera.h"
 #include "Sprite.h"
 #include "Transform.h"
@@ -18,6 +19,9 @@
 #include "ColliderSphere.h"
 #include "PhysicsWorld.h"
 #include "RigidBody.h"
+
+#include "DebugNew.h"
+
 
 namespace Auto3D {
 

@@ -3,6 +3,7 @@
 #include "Transform.h"
 #include "Scene.h"
 #include "Ambient.h"
+#include "DebugNew.h"
 
 namespace Auto3D {
 

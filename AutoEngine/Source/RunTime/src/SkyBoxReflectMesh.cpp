@@ -3,6 +3,8 @@
 #include "SkyBox.h"
 #include "Transform.h"
 #include "Configs.h"
+#include "DebugNew.h"
+
 namespace Auto3D {
 SkyBoxReflectMesh::SkyBoxReflectMesh(Ambient* ambient)
 	: RenderComponent(ambient)

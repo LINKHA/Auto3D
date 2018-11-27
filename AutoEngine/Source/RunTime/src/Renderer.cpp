@@ -5,6 +5,7 @@
 #include "Transform.h"
 #include "Light.h"
 #include "Configs.h"
+#include "DebugNew.h"
 
 
 //Temp
