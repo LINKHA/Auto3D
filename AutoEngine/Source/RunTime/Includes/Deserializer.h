@@ -45,6 +45,10 @@ public:
 
 
 	/**
+	* @brief : Return size
+	*/
+	unsigned GetSize() const { return _size; }
+	/**
 	* @brief : Read a 64-bit integer
 	*/
 	long long ReadInt64();
@@ -88,7 +92,11 @@ public:
 	* @brief : Read a double
 	*/
 	double ReadDouble();
-	
+
+	/**
+	* @brief : Read a four-letter file ID
+	*/
+	STRING ReadFileID();
 protected:
 	/// stream position
 	unsigned _position;

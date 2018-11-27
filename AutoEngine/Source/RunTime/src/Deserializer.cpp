@@ -106,4 +106,12 @@ double Deserializer::ReadDouble()
 	return ret;
 }
 
+STRING Deserializer::ReadFileID()
+{
+	STRING ret;
+	ret.resize(4);
+	Read(&ret[0], 4);
+	return ret;
+}
+
 }

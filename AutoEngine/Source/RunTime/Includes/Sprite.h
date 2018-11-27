@@ -2,7 +2,7 @@
 #include "Texture2D.h"
 
 namespace Auto3D {
-class Image;
+class tImage;
 class Sprite : public Texture2D
 {
 	REGISTER_DERIVED_CLASS(Sprite, Texture2D);
@@ -40,7 +40,7 @@ private:
 	Color _color;
 
 	char* _imagePath;
-	Image* _image;
+	tImage* _image;
 
 	bool _isMipmaps;
 };

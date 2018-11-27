@@ -1,12 +1,14 @@
 #include "ResourceSystem.h"
 #include "AutoOGL.h"
 #include "AutoImage.h"
-#include "Image.h"
+#include "tImage.h"
 #include "Model.h"
 #include "FileSystem.h"
 #include "Resource.h"
 #include "Sound.h"
 #include "Sprite2D.h"
+#include "Image.h"
+
 #include "DebugNew.h"
 
 
@@ -63,10 +65,10 @@ unsigned int ResourceSystem::TextureLoad(PInt8 path, bool vertically)
 	return textureID;
 }
 
-Image* ResourceSystem::ImageLoad(PInt8 path)
+tImage* ResourceSystem::ImageLoad(PInt8 path)
 {
 	stbi_set_flip_vertically_on_load(true);
-	Image* image = nullptr;
+	tImage* image = nullptr;
 	auto it = _imageQueue.find(path);
 	if (it != _imageQueue.end())
 	{
@@ -74,8 +76,8 @@ Image* ResourceSystem::ImageLoad(PInt8 path)
 	}
 	else
 	{
-		//image = new (std::nothrow)Image(_ambient);
-		image = new Image(_ambient);
+		//image = new (std::nothrow)tImage(_ambient);
+		image = new tImage(_ambient);
 		int nrComponents;
 		unsigned char * t = stbi_load(path, &image->width, &image->height, &nrComponents, 0);
 		if (nrComponents == 1)
@@ -165,7 +167,7 @@ unsigned int ResourceSystem::HdrLoad(PInt8 path)
 	return hdrTexture;
 }
 
-void ResourceSystem::FreeImage(Image * image)
+void ResourceSystem::FreeImage(tImage * image)
 {
 	stbi_image_free(image->value);
 }
@@ -190,7 +192,7 @@ void ResourceSystem::RegisterResourceLib(Ambient * ambient)
 {
 	Sound::RegisterObject(ambient);
 	Sprite2D::RegisterObject(ambient);
-
+	Image::RegisterObject(ambient);
 }
 
 

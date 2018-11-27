@@ -154,9 +154,9 @@ struct aiTexture
      * two parts: channel order and channel bitness (count of the bits for every
      * color channel). For simple parsing by the viewer it's better to not omit
      * absent color channel and just use 0 for bitness. For example:
-     * 1. Image contain RGBA and 8 bit per channel, achFormatHint == "rgba8888";
-     * 2. Image contain ARGB and 8 bit per channel, achFormatHint == "argb8888";
-     * 3. Image contain RGB and 5 bit for R and B channels and 6 bit for G channel, achFormatHint == "rgba5650";
+     * 1. tImage contain RGBA and 8 bit per channel, achFormatHint == "rgba8888";
+     * 2. tImage contain ARGB and 8 bit per channel, achFormatHint == "argb8888";
+     * 3. tImage contain RGB and 5 bit for R and B channels and 6 bit for G channel, achFormatHint == "rgba5650";
      * 4. One color image with B channel and 1 bit for it, achFormatHint == "rgba0010";
      * If mHeight == 0 then achFormatHint is set set to '\\0\\0\\0\\0' if the loader has no additional
      * information about the texture file format used OR the

@@ -5,7 +5,7 @@
 #include "AutoOGL.h"
 #include "Configs.h"
 #include "ResourceSystem.h"
-#include "Image.h"
+#include "tImage.h"
 #include "DebugNew.h"
 
 namespace Auto3D {
@@ -128,7 +128,7 @@ void SpriteTranslucent::SetColor(float r, float g, float b, float a)
 }
 
 //////////////////////////////////////////////////////////////////////////
-//Image conpontent to use
+//tImage conpontent to use
 void SpriteTranslucent::SetLinerParameters()
 {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _image->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);

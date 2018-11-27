@@ -10,46 +10,46 @@ namespace Auto3D {
 enum class LogType
 {
 	/// LogType used for Errors.
-	kError = 0,
+	Error = 0,
 	/// LogType used for Asserts. (These indicate an error inside Unity itself.)
-	kAssert = 1,
+	Assert = 1,
 	/// LogType used for Warnings.
-	kWarning = 2,
+	Warning = 2,
 	/// LogType used for regular log messages.
-	kLog = 3,
+	Log = 3,
 	/// LogType used for Exceptions.
-	kException = 4,
+	Exception = 4,
 	/// LogType used for Debug.
-	kDebug = 5,
+	Debug = 5,
 	///
-	kNumLevels
+	NumLevels
 };
 
 inline const char* LogTypeToString(LogType type)
 {
 	switch (type)
 	{
-	case LogType::kAssert:    return "Assert";
-	case LogType::kDebug:     return "Debug";
-	case LogType::kException: return "Exception";
-	case LogType::kError:     return "Error";
-	case LogType::kLog:       return "Log";
-	case LogType::kWarning:   return "Warning";
+	case LogType::Assert:    return "Assert";
+	case LogType::Debug:     return "Debug";
+	case LogType::Exception: return "Exception";
+	case LogType::Error:     return "Error";
+	case LogType::Log:       return "Log";
+	case LogType::Warning:   return "Warning";
 	default:                return "";
 	}
 }
 #define DebugStringToFile(_For,_T)	do { std::cout << __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(_T) << " : " << _For <<  std::endl; } while(0)
-#define ErrorIfString(_Te,_X)	do { if (_Te) DebugStringToFile (_X,LogType::kError); } while(0)
-#define ErrorString(_X)			do { DebugStringToFile (_X,LogType::kError); }while(0)
-#define WarningIfString(_Te,_X)	do { if (_Te) DebugStringToFile (_X,LogType::kWarning);}while(0)
-#define WarningString(_X)		do { DebugStringToFile (_X,LogType::kWarning);}while(0)	
-#define LogString(_X)			do { DebugStringToFile(_X,LogType::kLog);} while(0)
-#define Print(_X)				do { DebugStringToFile(_X,LogType::kLog); }while(0)
-#define print(_X)				do { DebugStringToFile(_X,LogType::kLog); }while(0)
-#define AutoWarningCout			std::cout <<  __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(LogType::kWarning) << " : "
-#define AutoErrorCout			std::cout <<  __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(LogType::kError) << " : "
-#define AutoCout				std::cout <<  __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(LogType::kLog) << " : "
-#define AutoWCout				std::wcout <<  __FILE__ << L"(" << __LINE__ << L") : " << LogTypeToString(LogType::kLog) << L" : "
+#define ErrorIfString(_Te,_X)	do { if (_Te) DebugStringToFile (_X,LogType::Error); } while(0)
+#define ErrorString(_X)			do { DebugStringToFile (_X,LogType::Error); }while(0)
+#define WarningIfString(_Te,_X)	do { if (_Te) DebugStringToFile (_X,LogType::Warning);}while(0)
+#define WarningString(_X)		do { DebugStringToFile (_X,LogType::Warning);}while(0)	
+#define LogString(_X)			do { DebugStringToFile(_X,LogType::Log);} while(0)
+#define Print(_X)				do { DebugStringToFile(_X,LogType::Log); }while(0)
+#define print(_X)				do { DebugStringToFile(_X,LogType::Log); }while(0)
+#define AutoWarningCout			std::cout <<  __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(LogType::Warning) << " : "
+#define AutoErrorCout			std::cout <<  __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(LogType::Error) << " : "
+#define AutoCout				std::cout <<  __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(LogType::Log) << " : "
+#define AutoWCout				std::wcout <<  __FILE__ << L"(" << __LINE__ << L") : " << LogTypeToString(LogType::Log) << L" : "
 #define AutoEndl				std::endl
 
 #ifdef _WIN32

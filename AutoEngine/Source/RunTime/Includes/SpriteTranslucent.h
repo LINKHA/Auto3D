@@ -4,7 +4,7 @@
 
 namespace Auto3D {
 
-class Image;
+class tImage;
 class SpriteTranslucent : public Texture2D
 {
 	
@@ -32,7 +32,7 @@ private:
 	Shader _shader;
 	Color _color;
 	char* _imagePath;
-	Image* _image;
+	tImage* _image;
 
 
 	bool _isMipmaps;

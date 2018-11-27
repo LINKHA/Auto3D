@@ -55,7 +55,7 @@ enum ClassIDType
 	DO_CLASS_ID(OffScreen, 56)
 	DO_CLASS_ID(MeshPBR,57)
 	DO_CLASS_ID(MeshPBRTexture, 58)
-	DO_CLASS_ID(Image, 59)
+	DO_CLASS_ID(tImage, 59)
 	DO_CLASS_ID(ResourceSystem,60)
 	DO_CLASS_ID(Material,61)
 	DO_CLASS_ID(Scene, 62)
@@ -94,7 +94,8 @@ enum ClassIDType
 	DO_CLASS_ID(StaticSprite2D, 93)
 	DO_CLASS_ID(Sprite2D, 94)
 	DO_CLASS_ID(File, 95)
-	
+	DO_CLASS_ID(Image, 96)
+
 	CLASS_ID_Count
 };
 

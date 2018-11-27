@@ -2,15 +2,16 @@
 #include "GameManager.h"
 
 namespace Auto3D {
-class Image;
-class Model;
 class Resource;
+class tImage;
+class Model;
+
 
 class ResourceSystem : public GlobalGameManager
 {
 	REGISTER_DERIVED_CLASS(ResourceSystem, GlobalGameManager);
 	DECLARE_OBJECT_SERIALIZE(ResourceSystem);
-	using ImageQueue = HASH_MAP<PInt8, Image*>;
+	using ImageQueue = HASH_MAP<PInt8, tImage*>;
 	using ModelQueue = HASH_MAP<PInt8, Model*>;
 public:
 	explicit ResourceSystem(Ambient* ambient);
@@ -25,9 +26,9 @@ public:
 	unsigned int TextureLoad(PInt8 path,bool vertically = true);
 	/**
 	* @brief : According fail path get image
-	* @return: Image*
+	* @return: tImage*
 	*/
-	Image* ImageLoad(PInt8 path);
+	tImage* ImageLoad(PInt8 path);
 	/**
 	* @brief : According fail path get model
 	* @return: ModelCommand*
@@ -46,7 +47,7 @@ public:
 	/**
 	* @brief : Free image
 	*/
-	void FreeImage(Image * image);
+	void FreeImage(tImage * image);
 
 	/**
 	* @brief : Return a resource by type and name. Load if not loaded yet. 
