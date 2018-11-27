@@ -43,28 +43,20 @@ void Level_0::Start()
 	//obj4->AddComponent(tex4);
 
 
-	Sprite* tex1 = CreateObject<Sprite>();
-	tex1->SetImage("../Resource/texture/logo.png");
 	obj = CreateNode();
+	obj->CreateComponent<Sprite>()->SetImage("../Resource/texture/logo.png");
 	//tex1->SetColor(Color(0.5f, 0.5f, 0.5f));
-	obj->AddComponent(tex1);
 
-
-
-
-	Sprite* tex5 = CreateObject<Sprite>();
-	tex5->SetImage("../Resource/texture/grass.png");
-	//tex5->EnableBlend(true);
 	Node* obj5 = CreateNode();
+	obj5->CreateComponent<Sprite>()->SetImage("../Resource/texture/grass.png");
+	//tex5->EnableBlend(true);
 	obj5->GetComponent<Transform>()->SetPosition(-0.2f, 0.0f, -3.0f);
-	obj5->AddComponent(tex5);
 
-	Sprite* tex6 = CreateObject<Sprite>();
-	tex6->SetImage("../Resource/texture/grass.png");
-	//tex6->EnableBlend(true);
+
 	Node* obj6 = CreateNode();
+	obj6->CreateComponent<Sprite>()->SetImage("../Resource/texture/grass.png");
+	//tex6->EnableBlend(true);
 	obj6->GetComponent<Transform>()->SetPosition(-0.2f, 0.0f, -4.0f);
-	obj6->AddComponent(tex6);
 
 }
 void Level_0::Update()
