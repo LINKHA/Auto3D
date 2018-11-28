@@ -1,5 +1,5 @@
-#include "AutoSTL.h"
-#include "DebugNew.h"
+#include "AutoString.h"
+
 namespace Auto3D {
 
 #ifdef _WIN32
@@ -31,9 +31,20 @@ STRING WStringToString(WSTRING wstr)
 STRING StringToWString(STRING str) {}
 
 STRING WStringToString(STRING wstr) {}
-
 #endif
 
+void StringReplase(STRING& target, STRING& oldVal, STRING& newVal)
+{
+	STRING::size_type pos = 0;
+	STRING::size_type oldSize = oldVal.size();
+	STRING::size_type newSize = newVal.size();
+	while ((pos = oldVal.find(newVal, pos)) != STRING::npos)
+	{
+		target.replace(pos, oldSize, newVal);
+		pos += newSize;
+	}
+}
 
 
 }
+

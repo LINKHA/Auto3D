@@ -6,6 +6,8 @@ class Resource;
 class tImage;
 class Model;
 
+static const unsigned PRIORITY_LAST = 0xffffffff;
+
 /// Container of resources with specific type.
 struct ResourceGroup
 {
@@ -77,15 +79,31 @@ public:
 	/**
 	* @brief : Template version of returning a resource by name
 	*/
-	template <typename _Ty> _Ty* GetResource(const STRING& name, bool sendEventOnFailure = true);
+	template<typename _Ty> _Ty* GetResource(const STRING& name, bool sendEventOnFailure = true);
 	/**
 	* @brief : Add resource path in catalogue array
 	*/
-	void AddResourcePath(const WSTRING& path);
+	void AddResourceDir(const STRING& path, unsigned priority = PRIORITY_LAST);
 	/**
 	* @brief : Get resource paths
 	*/
-	VECTOR<WSTRING> GetResourcePaths();
+	VECTOR<STRING> GetResourceDirs();
+	/**
+	* @brief : Return added resource load directories
+	*/
+	const VECTOR<STRING>& GetResourceDirs() const { return _resourceDirs; }
+	/**
+	* @brief :Open and return a file from the resource load paths or from inside a package file. 
+	*	If not found, use a fallback search with absolute path. Return null if fails.
+	*	Can be called from outside the main thread
+	*/
+	SharedPtr<File> GetFile(const STRING& name, bool sendEventOnFailure = true);
+	/**
+	* @brief : Remove unsupported constructs from the resource name to prevent ambiguity,
+	*	and normalize absolute filename to resource path relative if possible
+	*/
+	STRING SanitateResourceName(const STRING& name) const;
+
 	/**
 	* @brief : Register scene library objects.
 	*/
@@ -99,15 +117,21 @@ private:
 	* @brief : Find a resource by name only. Searches all type groups
 	*/
 	const SharedPtr<Resource>& findResource(STRING name);
+	/**
+	* @brief : Search FileSystem for file
+	*/
+	File* searchResourceDirs(const STRING& name);
 private:
-	/// resources by type.
-	HASH_MAP<STRING, ResourceGroup> _resourceGroups;
+
 	/// image hash map queue
 	ImageQueue _imageQueue;
 	/// modle hash map queue
 	ModelQueue _modelQueue;
+
+	/// resources by type.
+	HASH_MAP<STRING, ResourceGroup> _resourceGroups;
 	/// resource directory paths
-	VECTOR<WSTRING> resourcePaths;
+	VECTOR<STRING> _resourceDirs;
 };
 
 template <typename _Ty> _Ty* ResourceSystem::GetResource(const STRING& name, bool sendEventOnFailure)

@@ -77,6 +77,10 @@ public:
 	*/
 	bool CheckAccess(const STRING& pathName); bool CheckAccess(const WSTRING& pathName);
 	/**
+	* @brief : Check if a file exists
+	*/
+	bool FileExists(const STRING& fileName);
+	/**
 	* @brief : The internal limit of this template allows only STRING and WSTRING
 	*/
 	template<typename _Ty> void SplitPath(const _Ty& fullPath, _Ty& pathName, _Ty& fileName, _Ty& extension, bool lowercaseExtension = true);

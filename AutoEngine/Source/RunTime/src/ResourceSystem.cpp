@@ -1,6 +1,7 @@
 #include "ResourceSystem.h"
 #include "AutoOGL.h"
 #include "AutoImage.h"
+#include "File.h"
 #include "tImage.h"
 #include "Model.h"
 #include "FileSystem.h"
@@ -176,18 +177,61 @@ void ResourceSystem::FreeImage(tImage * image)
 
 Resource* ResourceSystem::GetResource(STRING type, const STRING& name, bool sendEventOnFailure)
 {
+	STRING sanitatedName = SanitateResourceName(name);
+
+	// If empty name, return null pointer immediately
+	if (sanitatedName.empty())
+		return nullptr;
+
+	const SharedPtr<Resource>& existing = findResource(type, sanitatedName);
+	if (existing)
+		return existing.get();
+
+	SharedPtr<Resource> resource(dynamic_cast<Resource*>(_ambient->CreateObject(type)));
+
+	// Attempt to load the resource
+	SharedPtr<File> file = GetFile(sanitatedName, sendEventOnFailure);
+	if (!file)
+		return nullptr;   // Error is already logged
 
 	return nullptr;
 }
 
-void ResourceSystem::AddResourcePath(const WSTRING& path)
+void ResourceSystem::AddResourceDir(const STRING& path, unsigned priority)
 {
-	resourcePaths.push_back(path);
+	_resourceDirs.push_back(path);
 }
 
-VECTOR<WSTRING> ResourceSystem::GetResourcePaths()
+VECTOR<STRING> ResourceSystem::GetResourceDirs()
 {
-	return resourcePaths;
+	return _resourceDirs;
+}
+
+SharedPtr<File> ResourceSystem::GetFile(const STRING& name, bool sendEventOnFailure)
+{
+
+	STRING sanitatedName = SanitateResourceName(name);
+
+	if (sanitatedName.length())
+	{
+		File* file = nullptr;
+		file = searchResourceDirs(sanitatedName);
+		if (file)
+			return SharedPtr<File>(file);
+	}
+
+	return SharedPtr<File>();
+}
+
+STRING ResourceSystem::SanitateResourceName(const STRING& name) const
+{
+	// Sanitate unsupported constructs from the resource name
+	STRING sanitatedName = GetInternalPath(name);
+	
+	StringReplase(sanitatedName,  STRING("../"), STRING(""));
+	StringReplase(sanitatedName, STRING("./"), STRING(""));
+
+	auto* fileSystem = GetSubSystem<FileSystem>();
 }
 
 void ResourceSystem::RegisterResourceLib(Ambient * ambient)
@@ -219,6 +263,28 @@ const SharedPtr<Resource>& ResourceSystem::findResource(STRING name)
 			return j->second;
 	}
 	return noResource;
+}
+
+File* ResourceSystem::searchResourceDirs(const STRING& name)
+{
+	auto* fileSystem = GetSubSystem<FileSystem>();
+	for (unsigned i = 0; i < _resourceDirs.size(); ++i)
+	{
+		if (fileSystem->FileExists(_resourceDirs[i] + name))
+		{
+			// Construct the file first with full path, then rename it to not contain the resource path,
+			// so that the file's sanitatedName can be used in further GetFile() calls (for example over the network)
+			File* file(new File(_ambient, _resourceDirs[i] + name));
+			file->SetName(name);
+			return file;
+		}
+	}
+
+	// Fallback using absolute path
+	if (fileSystem->FileExists(name))
+		return new File(_ambient, name);
+
+	return nullptr;
 }
 
 }

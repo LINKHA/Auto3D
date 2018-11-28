@@ -6,15 +6,10 @@
 #include <map>
 #include <unordered_map>
 #include <unordered_set>
-#include <string>
 #include <memory>
 #include <algorithm>
 #include <boost/smart_ptr.hpp>
-
-
-#ifdef _WIN32
-#	include <Windows.h>
-#endif
+#include <AutoString.h>
 
 
 namespace Auto3D {
@@ -51,34 +46,10 @@ using HASH_SET = std::unordered_set<_Kty>;
 template <typename _Kty, typename _Ty>
 using HASH_MAP = std::unordered_map<_Kty, _Ty>;
 
-using STRING = std::string;
-
-using WSTRING = std::wstring;
-
 template<typename _Ty> using SharedPtr = boost::shared_ptr<_Ty>;
 
 template<typename _Ty> using WeakPtr = boost::weak_ptr<_Ty>;
 
 template<typename _Ty> using SharedArrayPtr = boost::shared_array<_Ty>;
-
-#ifdef _WIN32
-/**
-* @brief : String change to WString
-*/
-WSTRING StringToWString(STRING str);
-/**
-* @brief : WString change to String
-*/
-STRING WStringToString(WSTRING wstr);
-#else
-/**
-* @brief : String change to WString
-*/
-STRING StringToWString(STRING str);
-/**
-* @brief : WString change to String
-*/
-STRING WStringToString(STRING wstr);
-#endif
 
 }

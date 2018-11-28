@@ -3641,6 +3641,9 @@
     <ClInclude Include="Source\ThirdParty\STB\stb_vorbis.h">
       <Filter>Source\ThirdParty\STB</Filter>
     </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\AutoString.h">
+      <Filter>Source\RunTime\Adapter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlatformDependent\Win\WinUnicode.cpp">
@@ -4717,9 +4720,6 @@
     <ClCompile Include="Source\RunTime\src\Serializer.cpp">
       <Filter>Source\RunTime\FileSystem</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\AutoSTL.cpp">
-      <Filter>Source\RunTime\Adapter</Filter>
-    </ClCompile>
     <ClCompile Include="Source\ThirdParty\LZ4\lz4.c">
       <Filter>Source\ThirdParty\LZ4</Filter>
     </ClCompile>
@@ -4773,6 +4773,9 @@
     </ClCompile>
     <ClCompile Include="Source\ThirdParty\STB\stb_image.cpp">
       <Filter>Source\ThirdParty\STB</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\AutoString.cpp">
+      <Filter>Source\RunTime\Adapter</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

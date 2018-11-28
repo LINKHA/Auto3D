@@ -373,6 +373,7 @@
     <None Include="Source\ThirdParty\SDL2\SDL_config_macosx.h.orig" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\RunTime\Includes\AutoString.h" />
     <ClInclude Include="Source\RunTime\Includes\Image.h" />
     <ClInclude Include="Source\RunTime\Includes\BackgroundLoader.h" />
     <ClInclude Include="Source\RunTime\Includes\AutoThread.h" />
@@ -1251,10 +1252,10 @@
     <ClInclude Include="Source\ThirdParty\STB\stb_vorbis.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\RunTime\src\AutoString.cpp" />
     <ClCompile Include="Source\RunTime\src\Image.cpp" />
     <ClCompile Include="Source\RunTime\src\BackgroundLoader.cpp" />
     <ClCompile Include="Source\RunTime\src\MemoryBuffer.cpp" />
-    <ClCompile Include="Source\RunTime\src\AutoSTL.cpp" />
     <ClCompile Include="Source\RunTime\src\Serializer.cpp" />
     <ClCompile Include="Source\RunTime\src\Deserializer.cpp" />
     <ClCompile Include="Source\RunTime\src\RenderComponent2D.cpp" />

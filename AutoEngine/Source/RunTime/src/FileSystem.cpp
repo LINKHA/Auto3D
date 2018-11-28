@@ -413,6 +413,13 @@ bool FileSystem::CheckAccess(const WSTRING& pathName)
 	return false;
 }
 
+bool FileSystem::FileExists(const STRING& fileName)
+{
+	if (!CheckAccess(GetPath(fileName)))
+		return false;
+	return false;
+}
+
 template<typename _Ty> void FileSystem::SplitPath(const _Ty& fullPath, _Ty& pathName, _Ty& fileName, _Ty& extension, bool lowercaseExtension)
 {
 	_Ty fullPathCopy = GetInternalPath(fullPath);
