@@ -44,10 +44,10 @@ void Level_0::Start()
 	//obj4->GetComponent(Transform).SetPosition(-0.2f, 0.0f, -2.0f);
 	//obj4->AddComponent(tex4);
 
-	auto* imageLogo = GetSubSystem<ResourceSystem>()->GetResource<Image>("../Resource/texture/logo.png");
+	//auto* imageLogo = GetSubSystem<ResourceSystem>()->GetResource<Image>("../Resource/texture/logo.png");
 
-	obj = CreateNode();
-	obj->CreateComponent<Sprite>()->SetImage(imageLogo);
+	//obj = CreateNode();
+	//obj->CreateComponent<Sprite>()->SetImage(imageLogo);
 	//tex1->SetColor(Color(0.5f, 0.5f, 0.5f));
 
 	Node* obj5 = CreateNode();
@@ -64,13 +64,13 @@ void Level_0::Start()
 }
 void Level_0::Update()
 {
-	float scaleAmount = (float)sin(GetSubSystem<Time>()->GetCurTime());
-	Transform* t = obj->GetComponent<Transform>();
+	//float scaleAmount = (float)sin(GetSubSystem<Time>()->GetCurTime());
+	//Transform* t = obj->GetComponent<Transform>();
 
-	t->SetPosition(1.0f, 1.0f, 0.0f);
-	t->SetRotation(Vector3(0.0f, 0.0f, 90.0f));
-	//obj->GetComponent(Transform).setRotation(-55.0f, Vector3::xAxis);
-	t->SetRotation(90.0f, Vector3::zAxis);
-	t->SetScale(Vector3(scaleAmount));
+	//t->SetPosition(1.0f, 1.0f, 0.0f);
+	//t->SetRotation(Vector3(0.0f, 0.0f, 90.0f));
+	////obj->GetComponent(Transform).setRotation(-55.0f, Vector3::xAxis);
+	//t->SetRotation(90.0f, Vector3::zAxis);
+	//t->SetScale(Vector3(scaleAmount));
 
 }

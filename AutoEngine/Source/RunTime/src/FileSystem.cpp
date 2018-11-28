@@ -417,7 +417,20 @@ bool FileSystem::FileExists(const STRING& fileName)
 {
 	if (!CheckAccess(GetPath(fileName)))
 		return false;
-	return false;
+
+	STRING fixedName = GetNativePath(RemoveTrailingSlash(fileName));
+
+#ifdef _WIN32
+	DWORD attributes = GetFileAttributesW(StringToWString(fixedName).c_str());
+	if (attributes == INVALID_FILE_ATTRIBUTES || attributes & FILE_ATTRIBUTE_DIRECTORY)
+		return false;
+#else
+	struct stat st {};
+	if (stat(fixedName.c_str(), &st) || st.st_mode & S_IFDIR)
+		return false;
+#endif
+
+	return true;
 }
 
 template<typename _Ty> void FileSystem::SplitPath(const _Ty& fullPath, _Ty& pathName, _Ty& fileName, _Ty& extension, bool lowercaseExtension)

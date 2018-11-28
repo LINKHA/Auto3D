@@ -361,6 +361,12 @@
     <Filter Include="Source\RunTime\Resource\Temp">
       <UniqueIdentifier>{c2f6d330-a48f-4808-b3eb-f86169546498}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\ThirdParty\KhSTL">
+      <UniqueIdentifier>{b3a96024-121f-46dd-9d99-776a3586aeb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\ThirdParty\KhSTL\Container">
+      <UniqueIdentifier>{58809292-c6f0-4396-9fa6-446438ea80b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\au_texture_transform.aufs">
@@ -1010,6 +1016,9 @@
     </None>
     <None Include="Source\ThirdParty\Bullet3\Bullet3OpenCL\RigidBody\kernels\updateAabbsKernel.cl">
       <Filter>Source\ThirdParty\Bullet3\Bullet3OpenCL\RigidBody\kernels</Filter>
+    </None>
+    <None Include="Source\ThirdParty\KhSTL\KhString">
+      <Filter>Source\ThirdParty\KhSTL</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -3644,6 +3653,12 @@
     <ClInclude Include="Source\RunTime\Includes\AutoString.h">
       <Filter>Source\RunTime\Adapter</Filter>
     </ClInclude>
+    <ClInclude Include="Source\ThirdParty\KhSTL\KhString.h">
+      <Filter>Source\ThirdParty\KhSTL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThirdParty\KhSTL\Container\String\TypeString.h">
+      <Filter>Source\ThirdParty\KhSTL\Container</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlatformDependent\Win\WinUnicode.cpp">
@@ -4776,6 +4791,9 @@
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\AutoString.cpp">
       <Filter>Source\RunTime\Adapter</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ThirdParty\KhSTL\Container\String\TypeString.cpp">
+      <Filter>Source\ThirdParty\KhSTL\Container</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

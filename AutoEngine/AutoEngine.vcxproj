@@ -368,6 +368,7 @@
     <None Include="Source\ThirdParty\glm\gtx\vector_angle.inl" />
     <None Include="Source\ThirdParty\glm\gtx\vector_query.inl" />
     <None Include="Source\ThirdParty\glm\gtx\wrap.inl" />
+    <None Include="Source\ThirdParty\KhSTL\KhString" />
     <None Include="Source\ThirdParty\SDL2\SDL_config.h.cmake" />
     <None Include="Source\ThirdParty\SDL2\SDL_config.h.in" />
     <None Include="Source\ThirdParty\SDL2\SDL_config_macosx.h.orig" />
@@ -1152,6 +1153,8 @@
     <ClInclude Include="Source\ThirdParty\glm\vec3.hpp" />
     <ClInclude Include="Source\ThirdParty\glm\vec4.hpp" />
     <ClInclude Include="Source\ThirdParty\glm\vector_relational.hpp" />
+    <ClInclude Include="Source\ThirdParty\KhSTL\Container\String\TypeString.h" />
+    <ClInclude Include="Source\ThirdParty\KhSTL\KhString.h" />
     <ClInclude Include="Source\ThirdParty\LZ4\lz4.h" />
     <ClInclude Include="Source\ThirdParty\LZ4\lz4hc.h" />
     <ClInclude Include="Source\ThirdParty\LZ4\lz4opt.h" />
@@ -1623,6 +1626,7 @@
     <ClCompile Include="Source\ThirdParty\glad\glad.c" />
     <ClCompile Include="Source\ThirdParty\glm\detail\dummy.cpp" />
     <ClCompile Include="Source\ThirdParty\glm\detail\glm.cpp" />
+    <ClCompile Include="Source\ThirdParty\KhSTL\Container\String\TypeString.cpp" />
     <ClCompile Include="Source\ThirdParty\LZ4\lz4.c" />
     <ClCompile Include="Source\ThirdParty\LZ4\lz4hc.c" />
     <ClCompile Include="Source\RunTime\src\StaticSprite2D.cpp" />
