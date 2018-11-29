@@ -107,10 +107,10 @@ void AudioSource::AttachBuffer(AudioBuffer* clip)
 
 void AudioSource::attachBuffer()
 {
-	if (!ALFWLoadWaveToBuffer((char*)ALFWaddMediaPath(_bufferClip->GetData().c_str()), _buffer))
+	if (!ALFWLoadWaveToBuffer((char*)ALFWaddMediaPath(_bufferClip->GetData().CStr()), _buffer))
 	{
 		AutoErrorCout << "Failed to load "
-			<< ALFWaddMediaPath(_bufferClip->GetData().c_str()) << AutoEndl;
+			<< ALFWaddMediaPath(_bufferClip->GetData().CStr()) << AutoEndl;
 	}
 	alSourcei(_source, AL_BUFFER, _buffer);
 }

@@ -60,21 +60,13 @@ FileSystem::~FileSystem()
 
 void FileSystem::RegisterPath(const STRING& pathName)
 {
-	if (pathName.empty())
+	if (pathName.Empty())
 		return;
 
 	_allowedPaths.insert(AddTrailingSlash(pathName));
 }
 
-void FileSystem::RegisterPath(const WSTRING& pathName)
-{
-	if (pathName.empty())
-		return;
-
-	_allowedWPaths.insert(AddTrailingSlash(pathName));
-}
-
-WSTRING FileSystem::GetUserDocumentsDir()
+STRING FileSystem::GetUserDocumentsDir()
 {
 #if defined(__ANDROID__)
 	return AddTrailingSlash(SDL_Android_GetFilesDir());
@@ -84,7 +76,7 @@ WSTRING FileSystem::GetUserDocumentsDir()
 	wchar_t pathName[MAX_PATH];
 	pathName[0] = 0;
 	SHGetSpecialFolderPathW(nullptr, pathName, CSIDL_PERSONAL, 0);
-	return AddTrailingSlash(WSTRING(pathName));
+	return AddTrailingSlash(STRING(pathName));
 #else
 	char pathName[MAX_PATH];
 	pathName[0] = 0;
@@ -93,7 +85,7 @@ WSTRING FileSystem::GetUserDocumentsDir()
 #endif
 }
 
-WSTRING FileSystem::GetProgramDir()
+STRING FileSystem::GetProgramDir()
 {
 #if defined(__ANDROID__)
 	// This is an internal directory specifier pointing to the assets in the .apk
@@ -105,7 +97,7 @@ WSTRING FileSystem::GetProgramDir()
 	wchar_t exeName[MAX_PATH];
 	exeName[0] = 0;
 	GetModuleFileNameW(nullptr, exeName, MAX_PATH);
-	return GetPath(WSTRING(exeName));
+	return GetPath(STRING(exeName));
 #elif defined(__APPLE__)
 	char exeName[MAX_PATH];
 	memset(exeName, 0, MAX_PATH);
@@ -124,13 +116,13 @@ WSTRING FileSystem::GetProgramDir()
 #endif
 }
 
-WSTRING FileSystem::GetCurrentDir()
+STRING FileSystem::GetCurrentDir()
 {
 #ifdef _WIN32
 	wchar_t path[MAX_PATH];
 	path[0] = 0;
 	GetCurrentDirectoryW(MAX_PATH, path);
-	return AddTrailingSlash(WSTRING(path));
+	return AddTrailingSlash(STRING(path));
 #else
 	char path[MAX_PATH];
 	path[0] = 0;
@@ -143,7 +135,7 @@ STRING FileSystem::GetAppPreferencesDir(const STRING& org, const STRING& app)
 {
 	STRING dir;
 #ifndef MINI_AUTO
-	char* prefPath = SDL_GetPrefPath(org.c_str(), app.c_str());
+	char* prefPath = SDL_GetPrefPath(org.CStr(), app.CStr());
 	if (prefPath)
 	{
 		dir = GetInternalPath(STRING(prefPath));
@@ -155,7 +147,7 @@ STRING FileSystem::GetAppPreferencesDir(const STRING& org, const STRING& app)
 	return dir;
 }
 
-WSTRING FileSystem::GetTemporaryDir()
+STRING FileSystem::GetTemporaryDir()
 {
 #if defined(_WIN32)
 #	if defined(MINI_AUTO)
@@ -164,7 +156,7 @@ WSTRING FileSystem::GetTemporaryDir()
 		wchar_t pathName[MAX_PATH];
 		pathName[0] = 0;
 		GetTempPathW(SDL_arraysize(pathName), pathName);
-		return AddTrailingSlash(WSTRING(pathName));
+		return AddTrailingSlash(STRING(pathName));
 #	endif
 #else
 	if (char* pathName = getenv("TMPDIR"))
@@ -180,58 +172,29 @@ WSTRING FileSystem::GetTemporaryDir()
 STRING FileSystem::AddTrailingSlash(const STRING& pathName)
 {
 	STRING ret = pathName;
-	replace(ret.begin(), ret.end(), '\\', '/');
-	if (!ret.empty() && ret.back() != '/')
+	ret.Replace('\\', '/');
+	if (!ret.Empty() && ret.Back() != '/')
 		ret += '/';
 	return ret;
 }
 
-WSTRING FileSystem::AddTrailingSlash(const WSTRING& pathName)
-{
-	WSTRING ret = pathName;
-	replace(ret.begin(), ret.end(), '\\', '/');
-	if (!ret.empty() && ret.back() != '/')
-		ret += '/';
-	return ret;
-}
 STRING FileSystem::RemoveTrailingSlash(const STRING& pathName)
 {
 	STRING ret = pathName;
-	replace(ret.begin(), ret.end(), '\\', '/');
-	if (!ret.empty() && ret.back() == '/')
-		ret.resize(ret.length() - 1);
+	ret.Replace('\\', '/');
+	if (!ret.Empty() && ret.Back() == '/')
+		ret.Resize(ret.Length() - 1);
 	return ret;
 }
-
-WSTRING FileSystem::RemoveTrailingSlash(const WSTRING& pathName)
-{
-	WSTRING ret = pathName;
-	replace(ret.begin(), ret.end(), '\\', '/');
-	if (!ret.empty() && ret.back() == '/')
-		ret.resize(ret.length() - 1);
-	return ret;
-}
-
 
 STRING FileSystem::GetParentPath(const STRING& path)
 {
-	unsigned pos = RemoveTrailingSlash(path).find_last_of('/');
-	if (pos != STRING::npos)
-		return path.substr(0, pos + 1);
+	unsigned pos = RemoveTrailingSlash(path).FindLast('/');
+	if (pos != STRING::NO_POS)
+		return path.SubString(0, pos + 1);
 	else
 		return STRING();
 }
-
-
-WSTRING FileSystem::GetParentPath(const WSTRING& path)
-{
-	unsigned pos = RemoveTrailingSlash(path).find_last_of('/');
-	if (pos != WSTRING::npos)
-		return path.substr(0, pos + 1);
-	else
-		return WSTRING();
-}
-
 
 STRING FileSystem::GetPath(const STRING& fullPath)
 {
@@ -240,24 +203,9 @@ STRING FileSystem::GetPath(const STRING& fullPath)
 	return path;
 }
 
-WSTRING FileSystem::GetPath(const WSTRING& fullPath)
-{
-	WSTRING path, file, extension;
-	SplitPath(fullPath, path, file, extension);
-	return path;
-	return fullPath;
-}
-
 STRING FileSystem::GetFileName(const STRING& fullPath)
 {
 	STRING path, file, extension;
-	SplitPath(fullPath, path, file, extension);
-	return file;
-}
-
-WSTRING FileSystem::GetFileName(const WSTRING& fullPath)
-{
-	WSTRING path, file, extension;
 	SplitPath(fullPath, path, file, extension);
 	return file;
 }
@@ -269,23 +217,9 @@ STRING FileSystem::GetExtension(const STRING& fullPath, bool lowercaseExtension)
 	return extension;
 }
 
-WSTRING FileSystem::GetExtension(const WSTRING& fullPath, bool lowercaseExtension)
-{
-	WSTRING path, file, extension;
-	SplitPath(fullPath, path, file, extension, lowercaseExtension);
-	return extension;
-}
-
 STRING FileSystem::GetFileNameAndExtension(const STRING& fileName, bool lowercaseExtension)
 {
 	STRING path, file, extension;
-	SplitPath(fileName, path, file, extension, lowercaseExtension);
-	return file + extension;
-}
-
-WSTRING FileSystem::GetFileNameAndExtension(const WSTRING& fileName, bool lowercaseExtension)
-{
-	WSTRING path, file, extension;
 	SplitPath(fileName, path, file, extension, lowercaseExtension);
 	return file + extension;
 }
@@ -297,44 +231,23 @@ STRING FileSystem::ReplaceExtension(const STRING& fullPath, const STRING& newExt
 	return path + file + newExtension;
 }
 
-WSTRING FileSystem::ReplaceExtension(const WSTRING& fullPath, const WSTRING& newExtension)
-{
-	WSTRING path, file, extension;
-	SplitPath(fullPath, path, file, extension);
-	return path + file + newExtension;
-}
-
 STRING FileSystem::GetInternalPath(const STRING& pathName)
 {
 	STRING ret = pathName;
-	replace(ret.begin(), ret.end(), '\\', '/');
-	return ret;
-}
-
-WSTRING FileSystem::GetInternalPath(const WSTRING& pathName)
-{
-	WSTRING ret = pathName;
-	replace(ret.begin(), ret.end(), '\\', '/');
+	ret.Replace('\\', '/');
 	return ret;
 }
 
 STRING FileSystem::GetNativePath(const STRING& pathName)
 {
 	STRING ret = pathName;
-	replace(ret.begin(), ret.end(), '/', '\\');
-	return ret;
-}
-
-WSTRING FileSystem::GetNativePath(const WSTRING& pathName)
-{
-	WSTRING ret = pathName;
-	replace(ret.begin(), ret.end(), '/', '\\');
+	ret.Replace('/', '\\');
 	return ret;
 }
 
 bool FileSystem::IsAbsolutePath(const STRING& pathName)
 {
-	if (pathName.empty())
+	if (pathName.Empty())
 		return false;
 
 	STRING path = GetInternalPath(pathName);
@@ -343,24 +256,7 @@ bool FileSystem::IsAbsolutePath(const STRING& pathName)
 		return true;
 
 #ifdef _WIN32
-	if (path.length() > 1 && isalpha(path[0]) && path[1] == ':')
-		return true;
-#endif
-	return false;
-}
-
-bool FileSystem::IsAbsolutePath(const WSTRING& pathName)
-{
-	if (pathName.empty())
-		return false;
-
-	WSTRING path = GetInternalPath(pathName);
-
-	if (path[0] == '/')
-		return true;
-
-#ifdef _WIN32
-	if (path.length() > 1 && isalpha(path[0]) && path[1] == ':')
+	if (path.Length() > 1 && isalpha(path[0]) && path[1] == ':')
 		return true;
 #endif
 	return false;
@@ -376,43 +272,19 @@ bool FileSystem::CheckAccess(const STRING& pathName)
 
 	// If there is any attempt to go to a parent directory, disallow
 	
-	if (fixedPath.find("..") != STRING::npos)
+	if (fixedPath.Contains(".."))
 		return false;
 
 	// Check if the path is a partial match of any of the allowed directories
 	for (HASH_SET<STRING>::const_iterator i = _allowedPaths.begin(); i != _allowedPaths.end(); ++i)
 	{
-		if (fixedPath.find(*i) == 0)
+		if (fixedPath.Find(*i) == 0)
 			return true;
 	}
 
 	// Not found, so disallow
 	return false;
 }
-bool FileSystem::CheckAccess(const WSTRING& pathName)
-{
-	WSTRING fixedPath = AddTrailingSlash(pathName);
-
-	// If no allowed directories defined, succeed always
-	if (_allowedWPaths.empty())
-		return true;
-
-	// If there is any attempt to go to a parent directory, disallow
-
-	if (fixedPath.find(L"..") != WSTRING::npos)
-		return false;
-
-	// Check if the path is a partial match of any of the allowed directories
-	for (HASH_SET<WSTRING>::const_iterator i = _allowedWPaths.begin(); i != _allowedWPaths.end(); ++i)
-	{
-		if (fixedPath.find(*i) == 0)
-			return true;
-	}
-
-	// Not found, so disallow
-	return false;
-}
-
 bool FileSystem::FileExists(const STRING& fileName)
 {
 	if (!CheckAccess(GetPath(fileName)))
@@ -421,134 +293,103 @@ bool FileSystem::FileExists(const STRING& fileName)
 	STRING fixedName = GetNativePath(RemoveTrailingSlash(fileName));
 
 #ifdef _WIN32
-	DWORD attributes = GetFileAttributesW(StringToWString(fixedName).c_str());
+	DWORD attributes = GetFileAttributesW(WSTRING(fixedName).CStr());
 	if (attributes == INVALID_FILE_ATTRIBUTES || attributes & FILE_ATTRIBUTE_DIRECTORY)
 		return false;
 #else
 	struct stat st {};
-	if (stat(fixedName.c_str(), &st) || st.st_mode & S_IFDIR)
+	if (stat(fixedName.CStr(), &st) || st.st_mode & S_IFDIR)
 		return false;
 #endif
 
 	return true;
 }
 
-template<typename _Ty> void FileSystem::SplitPath(const _Ty& fullPath, _Ty& pathName, _Ty& fileName, _Ty& extension, bool lowercaseExtension)
+void FileSystem::SplitPath(const STRING& fullPath, STRING& pathName, STRING& fileName, STRING& extension, bool lowercaseExtension)
 {
-	_Ty fullPathCopy = GetInternalPath(fullPath);
-	unsigned extPos = fullPathCopy.find_last_of('.');
-	unsigned pathPos = fullPathCopy.find_last_of('/');
+	STRING fullPathCopy = GetInternalPath(fullPath);
+	unsigned extPos = fullPathCopy.FindLast('.');
+	unsigned pathPos = fullPathCopy.FindLast('/');
 
-	if (extPos != _Ty::npos && (pathPos == _Ty::npos || extPos > pathPos))
+	if (extPos != STRING::NO_POS && (pathPos == STRING::NO_POS || extPos > pathPos))
 	{
-		extension = fullPathCopy.substr(extPos);
+		extension = fullPathCopy.SubString(extPos);
 		if (lowercaseExtension)
-			for (int i = 0; i < extension.size(); i++)
-				tolower(extension[i]);
-		fullPathCopy = fullPathCopy.substr(0, extPos);
+			extension = extension.ToLower();
+		fullPathCopy = fullPathCopy.SubString(0, extPos);
 	}
 	else
-		extension.clear();
+		extension.Clear();
 
-	pathPos = fullPathCopy.find_last_of('/');
-	if (pathPos != _Ty::npos)
+	pathPos = fullPathCopy.FindLast('/');
+	if (pathPos != STRING::NO_POS)
 	{
-		fileName = fullPathCopy.substr(pathPos + 1);
-		pathName = fullPathCopy.substr(0, pathPos + 1);
+		fileName = fullPathCopy.SubString(pathPos + 1);
+		pathName = fullPathCopy.SubString(0, pathPos + 1);
 	}
 	else
 	{
 		fileName = fullPathCopy;
-		pathName.clear();
+		pathName.Clear();
 	}
 }
 
 
-template<typename _Ty> void SplitPath(const _Ty& fullPath, _Ty& pathName, _Ty& fileName, _Ty& extension, bool lowercaseExtension)
+void SplitPath(const STRING& fullPath, STRING& pathName, STRING& fileName, STRING& extension, bool lowercaseExtension)
 {
-	_Ty fullPathCopy = GetInternalPath(fullPath);
-	unsigned extPos = fullPathCopy.find_last_of('.');
-	unsigned pathPos = fullPathCopy.find_last_of('/');
+	STRING fullPathCopy = GetInternalPath(fullPath);
+	unsigned extPos = fullPathCopy.FindLast('.');
+	unsigned pathPos = fullPathCopy.FindLast('/');
 
-	if (extPos != _Ty::npos && (pathPos == _Ty::npos || extPos > pathPos))
+	if (extPos != STRING::NO_POS && (pathPos == STRING::NO_POS || extPos > pathPos))
 	{
-		extension = fullPathCopy.substr(extPos);
+		extension = fullPathCopy.SubString(extPos);
 		if (lowercaseExtension)
-			for (int i = 0; i < extension.size(); i++)
-				tolower(extension[i]);
-		fullPathCopy = fullPathCopy.substr(0, extPos);
+			extension = extension.ToLower();
+		fullPathCopy = fullPathCopy.SubString(0, extPos);
 	}
 	else
-		extension.clear();
+		extension.Clear();
 
-	pathPos = fullPathCopy.find_last_of('/');
-	if (pathPos != _Ty::npos)
+	pathPos = fullPathCopy.FindLast('/');
+	if (pathPos != STRING::NO_POS)
 	{
-		fileName = fullPathCopy.substr(pathPos + 1);
-		pathName = fullPathCopy.substr(0, pathPos + 1);
+		fileName = fullPathCopy.SubString(pathPos + 1);
+		pathName = fullPathCopy.SubString(0, pathPos + 1);
 	}
 	else
 	{
 		fileName = fullPathCopy;
-		pathName.clear();
+		pathName.Clear();
 	}
 }
 
 STRING AddTrailingSlash(const STRING& pathName)
 {
 	STRING ret = pathName;
-	replace(ret.begin(), ret.end(), '\\', '/');
-	if (!ret.empty() && ret.back() != '/')
+	ret.Replace('\\', '/');
+	if (!ret.Empty() && ret.Back() != '/')
 		ret += '/';
 	return ret;
 }
 
-WSTRING AddTrailingSlash(const WSTRING& pathName)
-{
-	WSTRING ret = pathName;
-	replace(ret.begin(), ret.end(), '\\', '/');
-	if (!ret.empty() && ret.back() != '/')
-		ret += '/';
-	return ret;
-}
 STRING RemoveTrailingSlash(const STRING& pathName)
 {
 	STRING ret = pathName;
-	replace(ret.begin(), ret.end(), '\\', '/');
-	if (!ret.empty() && ret.back() == '/')
-		ret.resize(ret.length() - 1);
+	ret.Replace('\\', '/');
+	if (!ret.Empty() && ret.Back() == '/')
+		ret.Resize(ret.Length() - 1);
 	return ret;
 }
-
-WSTRING RemoveTrailingSlash(const WSTRING& pathName)
-{
-	WSTRING ret = pathName;
-	replace(ret.begin(), ret.end(), '\\', '/');
-	if (!ret.empty() && ret.back() == '/')
-		ret.resize(ret.length() - 1);
-	return ret;
-}
-
 
 STRING GetParentPath(const STRING& path)
 {
-	unsigned pos = RemoveTrailingSlash(path).find_last_of('/');
-	if (pos != STRING::npos)
-		return path.substr(0, pos + 1);
+	unsigned pos = RemoveTrailingSlash(path).FindLast('/');
+	if (pos != STRING::NO_POS)
+		return path.SubString(0, pos + 1);
 	else
 		return STRING();
 }
-
-
-WSTRING GetParentPath(const WSTRING& path)
-{
-	unsigned pos = RemoveTrailingSlash(path).find_last_of('/');
-	if (pos != WSTRING::npos)
-		return path.substr(0, pos + 1);
-	else
-		return WSTRING();
-}
-
 
 STRING GetPath(const STRING& fullPath)
 {
@@ -557,24 +398,9 @@ STRING GetPath(const STRING& fullPath)
 	return path;
 }
 
-WSTRING GetPath(const WSTRING& fullPath)
-{
-	WSTRING path, file, extension;
-	SplitPath(fullPath, path, file, extension);
-	return path;
-	return fullPath;
-}
-
 STRING GetFileName(const STRING& fullPath)
 {
 	STRING path, file, extension;
-	SplitPath(fullPath, path, file, extension);
-	return file;
-}
-
-WSTRING GetFileName(const WSTRING& fullPath)
-{
-	WSTRING path, file, extension;
 	SplitPath(fullPath, path, file, extension);
 	return file;
 }
@@ -586,23 +412,9 @@ STRING GetExtension(const STRING& fullPath, bool lowercaseExtension)
 	return extension;
 }
 
-WSTRING GetExtension(const WSTRING& fullPath, bool lowercaseExtension)
-{
-	WSTRING path, file, extension;
-	SplitPath(fullPath, path, file, extension, lowercaseExtension);
-	return extension;
-}
-
 STRING GetFileNameAndExtension(const STRING& fileName, bool lowercaseExtension)
 {
 	STRING path, file, extension;
-	SplitPath(fileName, path, file, extension, lowercaseExtension);
-	return file + extension;
-}
-
-WSTRING GetFileNameAndExtension(const WSTRING& fileName, bool lowercaseExtension)
-{
-	WSTRING path, file, extension;
 	SplitPath(fileName, path, file, extension, lowercaseExtension);
 	return file + extension;
 }
@@ -614,44 +426,23 @@ STRING ReplaceExtension(const STRING& fullPath, const STRING& newExtension)
 	return path + file + newExtension;
 }
 
-WSTRING ReplaceExtension(const WSTRING& fullPath, const WSTRING& newExtension)
-{
-	WSTRING path, file, extension;
-	SplitPath(fullPath, path, file, extension);
-	return path + file + newExtension;
-}
-
 STRING GetInternalPath(const STRING& pathName)
 {
 	STRING ret = pathName;
-	replace(ret.begin(), ret.end(), '\\', '/');
-	return ret;
-}
-
-WSTRING GetInternalPath(const WSTRING& pathName)
-{
-	WSTRING ret = pathName;
-	replace(ret.begin(), ret.end(), '\\', '/');
+	ret.Replace('\\', '/');
 	return ret;
 }
 
 STRING GetNativePath(const STRING& pathName)
 {
 	STRING ret = pathName;
-	replace(ret.begin(), ret.end(), '/', '\\');
-	return ret;
-}
-
-WSTRING GetNativePath(const WSTRING& pathName)
-{
-	WSTRING ret = pathName;
-	replace(ret.begin(), ret.end(), '/', '\\');
+	ret.Replace('/', '\\');
 	return ret;
 }
 
 bool IsAbsolutePath(const STRING& pathName)
 {
-	if (pathName.empty())
+	if (pathName.Empty())
 		return false;
 
 	STRING path = GetInternalPath(pathName);
@@ -660,27 +451,11 @@ bool IsAbsolutePath(const STRING& pathName)
 		return true;
 
 #ifdef _WIN32
-	if (path.length() > 1 && isalpha(path[0]) && path[1] == ':')
+	if (path.Length() > 1 && isalpha(path[0]) && path[1] == ':')
 		return true;
 #endif
 	return false;
 }
 
-bool IsAbsolutePath(const WSTRING& pathName)
-{
-	if (pathName.empty())
-		return false;
-
-	WSTRING path = GetInternalPath(pathName);
-
-	if (path[0] == '/')
-		return true;
-
-#ifdef _WIN32
-	if (path.length() > 1 && isalpha(path[0]) && path[1] == ':')
-		return true;
-#endif
-	return false;
-}
 
 }

@@ -228,11 +228,7 @@ unsigned File::Write(const void* data, unsigned size)
 
 bool File::Open(const STRING& fileName, FileMode mode)
 {
-#ifdef _WIN32
-	return openInternal(StringToWString(fileName), mode);
-#else
 	return openInternal(fileName, mode);
-#endif
 }
 
 void File::Close()
@@ -257,11 +253,7 @@ void File::Flush()
 }
 void File::SetName(const STRING& name)
 {
-#ifdef _WIN32
-	_fileName = StringToWString(name);
-#else
 	_fileName = name;
-#endif
 }
 
 bool File::IsOpen() const
@@ -281,37 +273,37 @@ template <typename _Ty> bool File::openInternal(const _Ty& fileName, FileMode mo
 	if (fileSystem && !fileSystem->CheckAccess(GetPath(fileName)))
 	{
 #ifdef _WIN32
-		AutoWCout << L"Access denied to" << fileName << AutoEndl;
+		AutoWCout << L"Access denied to" << WSTRING(fileName) << AutoEndl;
 #else
-		AutoCout << L"Access denied to" << fileName << AutoEndl;
+		AutoCout << "Access denied to" + fileName << AutoEndl;
 #endif
 		return false;
 	}
 
-	if (fileName.empty())
+	if (fileName.Empty())
 	{
 		LogString("Could not open file with empty name");
 		return false;
 	}
 #ifdef _WIN32
-	_handle = _wfopen(GetNativePath(fileName).c_str(), openMode[static_cast<int>(mode)]);
+	_handle = _wfopen(WSTRING(GetNativePath(fileName)).CStr(), openMode[static_cast<int>(mode)]);
 #else
-	_handle = fopen(GetNativePath(fileName).c_str(), openMode[static_cast<int>(mode)]);
+	_handle = fopen(GetNativePath(fileName).CStr(), openMode[static_cast<int>(mode)]);
 #endif
 	// If file did not exist in readwrite mode, retry with write-update mode
 	if (mode == FileMode::ReadWrite && !_handle)
 	{
 #ifdef _WIN32
-		_handle = _wfopen(GetNativePath(fileName).c_str(), openMode[static_cast<int>(mode) + 1]);
+		_handle = _wfopen(WSTRING(GetNativePath(fileName)).CStr(), openMode[static_cast<int>(mode) + 1]);
 #else
-		_handle = fopen(GetNativePath(fileName).c_str(), openMode[static_cast<int>(mode) + 1]);
+		_handle = fopen(GetNativePath(fileName).CStr(), openMode[static_cast<int>(mode) + 1]);
 #endif
 	}
 
 	if (!_handle)
 	{
 #ifdef _WIN32
-		AutoWCout << "Could not open file" <<  fileName << AutoEndl;
+		AutoWCout << "Could not open file" << WSTRING(fileName) << AutoEndl;
 #else
 		AutoCout << "Could not open file" << fileName << AutoEndl;
 #endif
@@ -326,9 +318,9 @@ template <typename _Ty> bool File::openInternal(const _Ty& fileName, FileMode mo
 		if (size > MATH_MAX_UNSIGNED)
 		{
 #ifdef _WIN32
-			AutoWCout << "Could not open file" << fileName<< "which is larger than 4GB"  << AutoEndl;
+			AutoWCout << "Could not open file" << WSTRING(fileName) << "which is larger than 4GB"  << AutoEndl;
 #else
-			AutoCout << "Could not open file" << fileName << "which is larger than 4GB" << AutoEndl;
+			AutoCout << "Could not open file" << WSTRING(fileName) << "which is larger than 4GB" << AutoEndl;
 #endif
 			Close();
 			_size = 0;

@@ -18,10 +18,10 @@ public:
 	*/
 	Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
 	Shader(const STRING vertexPath, const STRING fragmentPath, const STRING geometryPath)
-		:Shader(vertexPath.c_str(), fragmentPath.c_str(), geometryPath.c_str())
+		:Shader(vertexPath.CStr(), fragmentPath.CStr(), geometryPath.CStr())
 	{}
 	Shader(const STRING vertexPath, const STRING fragmentPath)
-		:Shader(vertexPath.c_str(), fragmentPath.c_str())
+		:Shader(vertexPath.CStr(), fragmentPath.CStr())
 	{}
 	/**
 	* @brief : Activate the shader

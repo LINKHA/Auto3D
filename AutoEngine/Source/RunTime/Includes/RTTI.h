@@ -22,7 +22,7 @@ public:
 	/**
 	* @brief : Return class name for c str
 	*/
-	const char* GetClassCstrName() { return (_className).c_str(); }
+	const char* GetClassCstrName() { return (_className).CStr(); }
 	/**
 	* @brief : Return is abstract
 	*/

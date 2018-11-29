@@ -77,8 +77,8 @@ void MeshPBR::Draw()
 	int dir = 0;
 	for (VECTOR<Light*>::iterator it = lights.begin(); it != lights.end(); it++)
 	{
-		_shader.SetVec3("lightPositions[" + std::to_string(dir) + "]", (*it)->GetNode().GetPosition());
-		_shader.SetVec3("lightColors[" + std::to_string(dir) + "]", (*it)->GetColorToVec());
+		_shader.SetVec3("lightPositions[" + KhSTL::ToString(dir) + "]", (*it)->GetNode().GetPosition());
+		_shader.SetVec3("lightColors[" + KhSTL::ToString(dir) + "]", (*it)->GetColorToVec());
 		dir++;
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////

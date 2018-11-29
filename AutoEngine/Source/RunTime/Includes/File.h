@@ -86,11 +86,7 @@ private:
 	void seekInternal(unsigned newPosition);
 private:
 	/// File name
-#ifdef _WIN32
-	WSTRING _fileName;
-#else
 	STRING _fileName;
-#endif
 	/// Open mode
 	FileMode _mode;
 	/// File handle

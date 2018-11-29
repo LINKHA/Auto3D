@@ -186,7 +186,7 @@ void SSAO::Draw()
 	m_shaderSSAO.Use();
 	// Send kernel + rotation 
 	for (unsigned int i = 0; i < 64; ++i)
-		m_shaderSSAO.SetVec3("samples[" + std::to_string(i) + "]", ssaoKernel[i]);
+		m_shaderSSAO.SetVec3("samples[" + KhSTL::ToString(i) + "]", ssaoKernel[i]);
 	m_shaderSSAO.SetMat4("projection", projection);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, gPosition);

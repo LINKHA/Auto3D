@@ -22,19 +22,19 @@ public:
 	*	all are allowed. Registering allowed paths is considered securing the Auto3D 
 	*	execution environment: running programs and opening files externally through the system will fail afterward
 	*/
-	void RegisterPath(const STRING& pathName); void RegisterPath(const WSTRING& pathName);
+	void RegisterPath(const STRING& pathName);
 	/**
 	* @brief : Return the user documents directory
 	*/
-	WSTRING GetUserDocumentsDir();
+	STRING GetUserDocumentsDir();
 	/**
 	* @brief : Return the program's directory
 	*/
-	WSTRING GetProgramDir();
+	STRING GetProgramDir();
 	/**
 	* @brief : Return the absolute current working directory
 	*/
-	WSTRING GetCurrentDir();
+	STRING GetCurrentDir();
 	/**
 	* @brief : Return the application preferences directory
 	*/
@@ -42,35 +42,35 @@ public:
 	/**
 	* @brief : Return path of temporary directory. Path always ends with a forward slash
 	*/
-	WSTRING GetTemporaryDir();
+	STRING GetTemporaryDir();
 
-	STRING GetPath(const STRING& fullPath);	WSTRING GetPath(const WSTRING& fullPath);
+	STRING GetPath(const STRING& fullPath);
 
-	STRING GetFileName(const STRING& fullPath); WSTRING GetFileName(const WSTRING& fullPath);
+	STRING GetFileName(const STRING& fullPath);
 
-	STRING GetExtension(const STRING& fullPath, bool lowercaseExtension); WSTRING GetExtension(const WSTRING& fullPath, bool lowercaseExtension);
+	STRING GetExtension(const STRING& fullPath, bool lowercaseExtension);
 
-	STRING GetFileNameAndExtension(const STRING& fileName, bool lowercaseExtension); WSTRING GetFileNameAndExtension(const WSTRING& fileName, bool lowercaseExtension);
+	STRING GetFileNameAndExtension(const STRING& fileName, bool lowercaseExtension);
 
-	STRING ReplaceExtension(const STRING& fullPath, const STRING& newExtension); WSTRING ReplaceExtension(const WSTRING& fullPath, const WSTRING& newExtension);
+	STRING ReplaceExtension(const STRING& fullPath, const STRING& newExtension);
 	/**
 	* @brief : Add trailing slash
 	*/
-	STRING AddTrailingSlash(const STRING& pathName); WSTRING AddTrailingSlash(const WSTRING& pathName);
+	STRING AddTrailingSlash(const STRING& pathName);
 	/**
 	* @brief : Remove trailing slash
 	*/
-	STRING RemoveTrailingSlash(const STRING& pathName); WSTRING RemoveTrailingSlash(const WSTRING& pathName);
+	STRING RemoveTrailingSlash(const STRING& pathName);
 
-	STRING GetParentPath(const STRING& path); WSTRING GetParentPath(const WSTRING& path);
+	STRING GetParentPath(const STRING& path);
 
-	STRING GetInternalPath(const STRING& pathName); WSTRING GetInternalPath(const WSTRING& pathName);
+	STRING GetInternalPath(const STRING& pathName);
 
-	STRING GetNativePath(const STRING& pathName); WSTRING GetNativePath(const WSTRING& pathName);
+	STRING GetNativePath(const STRING& pathName);
 	/**
 	* @brief : Return whether a path is absolute
 	*/
-	bool IsAbsolutePath(const STRING& pathName); bool IsAbsolutePath(const WSTRING& pathName);
+	bool IsAbsolutePath(const STRING& pathName);
 	/**
 	* @brief : Check if a path is allowed to be accessed. 
 	*	If no paths are registered, all are allowed
@@ -83,46 +83,44 @@ public:
 	/**
 	* @brief : The internal limit of this template allows only STRING and WSTRING
 	*/
-	template<typename _Ty> void SplitPath(const _Ty& fullPath, _Ty& pathName, _Ty& fileName, _Ty& extension, bool lowercaseExtension = true);
+	void SplitPath(const STRING& fullPath, STRING& pathName, STRING& fileName, STRING& extension, bool lowercaseExtension = true);
 private:
 	/// Allowed directories
-	HASH_SET<STRING> _allowedPaths;
-	/// Allowed directories
-	HASH_SET<WSTRING> _allowedWPaths;
+	HASH_SET<STRING> _allowedPaths{};
 };
 
 /**
 * @brief : The internal limit of this template allows only STRING and WSTRING
 */
-template<typename _Ty> void SplitPath(const _Ty& fullPath, _Ty& pathName, _Ty& fileName, _Ty& extension, bool lowercaseExtension = true);
+void SplitPath(const STRING& fullPath, STRING& pathName, STRING& fileName, STRING& extension, bool lowercaseExtension = true);
 
-STRING GetPath(const STRING& fullPath);	WSTRING GetPath(const WSTRING& fullPath);
+STRING GetPath(const STRING& fullPath);
 
-STRING GetFileName(const STRING& fullPath); WSTRING GetFileName(const WSTRING& fullPath);
+STRING GetFileName(const STRING& fullPath);
 
-STRING GetExtension(const STRING& fullPath, bool lowercaseExtension); WSTRING GetExtension(const WSTRING& fullPath, bool lowercaseExtension);
+STRING GetExtension(const STRING& fullPath, bool lowercaseExtension);
 
-STRING GetFileNameAndExtension(const STRING& fileName, bool lowercaseExtension); WSTRING GetFileNameAndExtension(const WSTRING& fileName, bool lowercaseExtension);
+STRING GetFileNameAndExtension(const STRING& fileName, bool lowercaseExtension);
 
-STRING ReplaceExtension(const STRING& fullPath, const STRING& newExtension); WSTRING ReplaceExtension(const WSTRING& fullPath, const WSTRING& newExtension);
+STRING ReplaceExtension(const STRING& fullPath, const STRING& newExtension);
 /**
 * @brief : Add trailing slash
 */
-STRING AddTrailingSlash(const STRING& pathName); WSTRING AddTrailingSlash(const WSTRING& pathName);
+STRING AddTrailingSlash(const STRING& pathName);
 /**
 * @brief : Remove trailing slash
 */
-STRING RemoveTrailingSlash(const STRING& pathName); WSTRING RemoveTrailingSlash(const WSTRING& pathName);
+STRING RemoveTrailingSlash(const STRING& pathName);
 
-STRING GetParentPath(const STRING& path); WSTRING GetParentPath(const WSTRING& path);
+STRING GetParentPath(const STRING& path);
 
-STRING GetInternalPath(const STRING& pathName); WSTRING GetInternalPath(const WSTRING& pathName);
+STRING GetInternalPath(const STRING& pathName);
 
-STRING GetNativePath(const STRING& pathName); WSTRING GetNativePath(const WSTRING& pathName);
+STRING GetNativePath(const STRING& pathName);
 /**
 * @brief : Return whether a path is absolute
 */
-bool IsAbsolutePath(const STRING& pathName); bool IsAbsolutePath(const WSTRING& pathName);
+bool IsAbsolutePath(const STRING& pathName);
 
 }
 

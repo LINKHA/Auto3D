@@ -10,10 +10,10 @@
 #include <cassert>
 #include <cstdarg>
 #include <iostream>
-
+#include <vector>
 
 #include "../../Utility/TypeIterator.h"
-#include "../Vector/TypeVector.h"
+#include "../../Algorithm/TypeAlgorithm.h"
 
 namespace KhSTL {
 
@@ -23,6 +23,8 @@ class tString;
 #define Khs(value)	KhSTL::tString(value)
 #define Khts(value)	KhSTL::tWString(value)
 static const int BUFFER_LENGTH = 128;
+
+
 
 
 class tWString
@@ -38,10 +40,7 @@ public:
 	/**
 	* @brief : Construct from a string
 	*/
-	explicit tWString(const tString& str)
-		: _length(0)
-		, _buffer(nullptr)
-	{}
+	explicit tWString(const tString& str);
 	/**
 	* @brief : Destruct
 	*/
@@ -49,6 +48,15 @@ public:
 	{
 		delete[] _buffer;
 	}
+	/**
+	* @brief : Right shift import istream
+	*/
+	friend std::wistream& operator >>(std::wistream &in, tWString& rhs);
+	/**
+	* @brief : Left shift import ostream
+	*/
+	friend std::wostream& operator <<(std::wostream &out, tWString& rhs);
+
 	/**
 	* @brief : Return char at index
 	*/
@@ -121,7 +129,6 @@ public:
 	*/
 	const wchar_t* CStr() const { return _buffer; }
 
-private:
 	/// String length
 	unsigned _length;
 	/// String buffer, null if not allocated
@@ -1139,7 +1146,7 @@ public:
 	/**
 	* @brief : Return substrings split by a separator char. By default don't return Empty strings
 	*/
-	tVector<tString> Split(char separator, bool keepEmptyStrings = false) const
+	std::vector<tString> Split(char separator, bool keepEmptyStrings = false) const
 	{
 		return Split(CStr(), separator, keepEmptyStrings);
 	}
@@ -1171,7 +1178,7 @@ public:
 	/**
 	* @brief : Return index to the first occurrence of a string, or NO_POS if not found
 	*/
-	unsigned Find(const tString& str, unsigned startPos, bool caseSensitive) const
+	unsigned Find(const tString& str, unsigned startPos = 0, bool caseSensitive = true) const
 	{
 		if (!str._length || str._length > _length)
 			return NO_POS;
@@ -1566,9 +1573,9 @@ public:
 	/**
 	* @brief : Return substrings split by a separator char. By default don't return Empty strings
 	*/
-	static tVector<tString> Split(const char* str, char separator, bool keepEmptyStrings = false)
+	static std::vector<tString> Split(const char* str, char separator, bool keepEmptyStrings = false)
 	{
-		tVector<tString> ret;
+		std::vector<tString> ret;
 		const char* strEnd = str + tString::CStrLength(str);
 
 		for (const char* splitEnd = str; splitEnd != strEnd; ++splitEnd)
@@ -1577,27 +1584,27 @@ public:
 			{
 				const ptrdiff_t splitLen = splitEnd - str;
 				if (splitLen > 0 || keepEmptyStrings)
-					ret.PushBack(tString(str, splitLen));
+					ret.push_back(tString(str, splitLen));
 				str = splitEnd + 1;
 			}
 		}
 
 		const ptrdiff_t splitLen = strEnd - str;
 		if (splitLen > 0 || keepEmptyStrings)
-			ret.PushBack(tString(str, splitLen));
+			ret.push_back(tString(str, splitLen));
 
 		return ret;
 	}
 	/**
 	* @brief : Return a string by joining substrings with a 'glue' string
 	*/
-	static tString Joined(const tVector<tString>& subStrings, const tString& glue)
+	static tString Joined(const std::vector<tString>& subStrings, const tString& glue)
 	{
-		if (subStrings.Empty())
+		if (subStrings.empty())
 			return tString();
 
 		tString joinedString(subStrings[0]);
-		for (unsigned i = 1; i < subStrings.Size(); ++i)
+		for (unsigned i = 1; i < subStrings.size(); ++i)
 			joinedString.Append(glue).Append(subStrings[i]);
 
 		return joinedString;
@@ -1909,6 +1916,16 @@ public:
 	static const unsigned MIN_CAPACITY = 8;
 	/// Empty string.
 	static const tString EMPTY;
+
+	/// string length
+	unsigned _length;
+	/// capacity, zero if buffer not allocated
+	unsigned _capacity;
+	/// string buffer, point to &endZero if buffer is not allocated
+	char* _buffer;
+
+	/// end zero for Empty strings
+	char endZero{};
 private:
 	/**
 	* @brief : Move a range of characters within the string
@@ -1937,21 +1954,34 @@ private:
 #endif
 	}
 
-	/// string length
-	unsigned _length;
-	/// capacity, zero if buffer not allocated
-	unsigned _capacity;
-	/// string buffer, point to &endZero if buffer is not allocated
-	char* _buffer;
-
-	/// end zero for Empty strings
-	char endZero{};
 };
 
 std::istream& operator >>(std::istream &in, tString& rhs);
 
 std::ostream& operator <<(std::ostream& out, tString& rhs);
 
+std::wistream& operator >>(std::wistream &in, tWString& rhs);
+
+std::wostream& operator <<(std::wostream& out, tWString& rhs);
+/**
+* @brief : Add a string to a C string
+*/
+inline tString operator +(const char* lhs, const tString& rhs)
+{
+	tString ret(lhs);
+	ret += rhs;
+	return ret;
+}
+
+/**
+* @brief : Add a string to a wide char C string
+*/
+inline tString operator +(const wchar_t* lhs, const tString& rhs)
+{
+	tString ret(lhs);
+	ret += rhs;
+	return ret;
+}
 
 
 template <> void Swap<tString>(tString& rhs, tString& lfs)
@@ -2018,5 +2048,32 @@ template <typename _Sty> inline tString ToString(const _Sty& value)
 	return tString(value);
 }
 
+}
+
+namespace std {
+	template<> struct hash<KhSTL::tString> {
+	public:
+		size_t operator()(const KhSTL::tString &lhs) const
+		{
+			unsigned hash = 0;
+			const char* ptr = lhs._buffer;
+			while (*ptr)
+			{
+				hash = *ptr + (hash << 6u) + (hash << 16u) - hash;
+				++ptr;
+			}
+
+			return hash;
+		}
+	};
+
+	//template<> struct equal_to<KhSTL::tString> {
+	//public:
+	//	bool operator()(const KhSTL::tString &lhs, const KhSTL::tString &rhs) const
+	//	{
+	//		return lhs._buffer == rhs._buffer;
+	//	}
+
+	//};
 }
 #endif //!KH_STL_TYPE_STRING_H_

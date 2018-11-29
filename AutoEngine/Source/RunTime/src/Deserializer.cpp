@@ -109,7 +109,7 @@ double Deserializer::ReadDouble()
 STRING Deserializer::ReadFileID()
 {
 	STRING ret;
-	ret.resize(4);
+	ret.Resize(4);
 	Read(&ret[0], 4);
 	return ret;
 }

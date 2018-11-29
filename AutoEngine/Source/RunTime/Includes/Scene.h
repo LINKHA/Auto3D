@@ -2,6 +2,8 @@
 #include "GameManager.h"
 #include "RunDefines.h"
 #include "LevelScene.h"
+#include "AutoSTL.h"
+
 namespace Auto3D {
 
 class Scene : public GlobalGameManager
@@ -41,6 +43,8 @@ private:
 	LevelScenes _dynamicLevelScenes;
 	/// action level container
 	LevelScenes _actionLevelScenes;
+
+	VECTOR<int> _Test;
 	/// is inside run
 	bool _isInsideRun{};
 };

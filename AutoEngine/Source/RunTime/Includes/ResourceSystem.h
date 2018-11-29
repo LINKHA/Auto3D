@@ -130,9 +130,9 @@ private:
 	ModelQueue _modelQueue;
 
 	/// resources by type.
-	HASH_MAP<STRING, ResourceGroup> _resourceGroups;
+	HASH_MAP<STRING, ResourceGroup> _resourceGroups{};
 	/// resource directory paths
-	VECTOR<WSTRING> _resourceDirs;
+	VECTOR<WSTRING> _resourceDirs{};
 };
 
 //template <typename _Ty> _Ty* ResourceSystem::GetResource(const STRING& name, bool sendEventOnFailure)

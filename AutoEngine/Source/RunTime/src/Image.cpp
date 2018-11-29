@@ -28,7 +28,7 @@ bool Image::BeginLoad(Deserializer& source)
 	unsigned char* pixelData = getImageData(source, width, height, components);
 	if (!pixelData)
 	{
-		AutoCout << "Could not load image " << source.GetName() << ": " << STRING(stbi_failure_reason()) << AutoEndl;
+		AutoCout << "Could not load image " + source.GetName() << ": " << STRING(stbi_failure_reason()) << AutoEndl;
 		return false;
 	}
 	SetSize(width, height, components);

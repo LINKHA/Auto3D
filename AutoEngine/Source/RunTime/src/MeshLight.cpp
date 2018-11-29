@@ -45,8 +45,8 @@ void MeshLight::Draw()
 	int lightNum = 0;
 	for (VECTOR<Light*>::iterator it = lights.begin(); it != lights.end(); it++)
 	{
-		_shader.SetVec3("lights[" + std::to_string(lightNum) + "].Position", (*it)->GetNode().GetPosition());
-		_shader.SetVec3("lights[" + std::to_string(lightNum) + "].Color", (*it)->GetColorToVec());
+		_shader.SetVec3("lights[" + KhSTL::ToString(lightNum) + "].Position", (*it)->GetNode().GetPosition());
+		_shader.SetVec3("lights[" + KhSTL::ToString(lightNum) + "].Color", (*it)->GetColorToVec());
 		lightNum++;
 	}
 

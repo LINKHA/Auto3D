@@ -89,7 +89,7 @@ void ShadowRenderer::RenderShadow()
 			glClear(GL_DEPTH_BUFFER_BIT);
 			_shadowMapPointDepth.Use();
 			for (unsigned int i = 0; i < 6; ++i)
-				_shadowMapPointDepth.SetMat4("shadowMatrices[" + std::to_string(i) + "]", shadowTransforms[i]);
+				_shadowMapPointDepth.SetMat4("shadowMatrices[" + KhSTL::ToString(i) + "]", shadowTransforms[i]);
 			_shadowMapPointDepth.SetFloat("far_plane", (*it)->GetFarPlane());
 			_shadowMapPointDepth.SetVec3("lightPos", lightPos);
 			//Ergodic shadows to Draw shadow

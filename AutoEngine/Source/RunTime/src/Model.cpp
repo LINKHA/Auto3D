@@ -33,17 +33,17 @@ void MeshNode::Draw(const Shader& shader)
 		STRING number;
 		STRING name = textures[i].type;
 		if (name == "texture_diffuse")
-			number = std::to_string(diffuseNr++);
+			number = KhSTL::ToString(diffuseNr++);
 		else if (name == "texture_specular")
-			number = std::to_string(specularNr++); // transfer unsigned int to stream
+			number = KhSTL::ToString(specularNr++); // transfer unsigned int to stream
 		else if (name == "texture_normal")
-			number = std::to_string(normalNr++); // transfer unsigned int to stream
+			number = KhSTL::ToString(normalNr++); // transfer unsigned int to stream
 		else if (name == "texture_height")
-			number = std::to_string(heightNr++); // transfer unsigned int to stream
+			number = KhSTL::ToString(heightNr++); // transfer unsigned int to stream
 
 												 // now set the sampler to the correct texture unit
 
-		glUniform1i(glGetUniformLocation(shader.ID, (name + number).c_str()), i);
+		glUniform1i(glGetUniformLocation(shader.ID, (name + number).CStr()), i);
 		// and finally bind the texture
 		glBindTexture(GL_TEXTURE_2D, textures[i].data);
 	}
@@ -122,7 +122,7 @@ bool Model::loadModel(STRING const & path)
 {
 	// read file via ASSIMP
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace | aiProcess_GenNormals);
+	const aiScene* scene = importer.ReadFile(std::string(path.CStr()), aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace | aiProcess_GenNormals);
 	// check for errors
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) // if is Not Zero
 	{
@@ -130,7 +130,7 @@ bool Model::loadModel(STRING const & path)
 		return false;
 	}
 	// retrieve the directory path of the filepath
-	_directory = path.substr(0, path.find_last_of('/'));
+	_directory = path.SubString(0, path.FindLast('/'));
 
 	// process ASSIMP's root node recursively
 	processNode(scene->mRootNode, scene);
@@ -237,7 +237,7 @@ VECTOR<TextureData> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType t
 		bool skip = false;
 		for (unsigned int j = 0; j < _textureDatas.size(); j++)
 		{
-			if (std::strcmp(_textureDatas[j].path.data(), str.C_Str()) == 0)
+			if (std::strcmp(_textureDatas[j].path.CStr(), str.C_Str()) == 0)
 			{
 				textures.push_back(_textureDatas[j]);
 				skip = true; // a texture with the same filepath has already been loaded, continue to next one. (optimization)
@@ -249,8 +249,8 @@ VECTOR<TextureData> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType t
 			TextureData texture;
 
 			STRING filename = STRING(str.data);
-			filename = _directory + '/' + filename;
-			texture.data = GetSubSystem<ResourceSystem>()->TextureLoad((char*)filename.data(),false);
+			filename = _directory + "/" + filename;
+			texture.data = GetSubSystem<ResourceSystem>()->TextureLoad((char*)filename.CStr(),false);
 
 			texture.type = typeName;
 			texture.path = str.C_Str();
