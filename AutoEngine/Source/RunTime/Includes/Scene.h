@@ -43,8 +43,6 @@ private:
 	LevelScenes _dynamicLevelScenes;
 	/// action level container
 	LevelScenes _actionLevelScenes;
-
-	VECTOR<int> _Test;
 	/// is inside run
 	bool _isInsideRun{};
 };

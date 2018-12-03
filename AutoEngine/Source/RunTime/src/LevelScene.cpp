@@ -91,7 +91,7 @@ Node* LevelScene::CreateNode(STRING name)
 
 void LevelScene::ModeRunNode(RunMode runMode)
 {
-	if (runMode == RunMode::kDefault)
+	if (runMode == RunMode::Default)
 	{
 		ErrorString("GameObejct fail to Run.");
 		return;
@@ -104,31 +104,31 @@ void LevelScene::ModeRunNode(RunMode runMode)
 		if (node && node->GetEnable())
 		{
 			using compomentIt = PAIR_VECTOR<STRING, Component*>::iterator;
-			if (runMode == RunMode::kAwake)
+			if (runMode == RunMode::Awake)
 				for (compomentIt k = node->GetComponentsArray().begin(); k != node->GetComponentsArray().end(); k++)
 				{
 					if (k->second->GetEnable())
 						k->second->Awake();
 				}
-			else if (runMode == RunMode::kStart)
+			else if (runMode == RunMode::Start)
 				for (compomentIt k = node->GetComponentsArray().begin(); k != node->GetComponentsArray().end(); k++)
 				{
 					if (k->second->GetEnable())
 						k->second->Start();
 				}
-			else if (runMode == RunMode::kUpdate)
+			else if (runMode == RunMode::Update)
 				for (compomentIt k = node->GetComponentsArray().begin(); k != node->GetComponentsArray().end(); k++)
 				{
 					if (k->second->GetEnable())
 						k->second->Update();
 				}
-			else if (runMode == RunMode::kFixUpdate)
+			else if (runMode == RunMode::FixUpdate)
 				for (compomentIt k = node->GetComponentsArray().begin(); k != node->GetComponentsArray().end(); k++)
 				{
 					if (k->second->GetEnable())
 						k->second->FixUpdate();
 				}
-			else if (runMode == RunMode::kFinish)
+			else if (runMode == RunMode::Finish)
 			{
 				for (compomentIt k = node->GetComponentsArray().begin(); k != node->GetComponentsArray().end(); k++)
 				{

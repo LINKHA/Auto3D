@@ -5,6 +5,17 @@
 #include "Launch.h"
 #include "Ambient.h"
 namespace Auto3D {
+
+enum class AppStates
+{
+	Initing,
+	Running,
+	Pauseing,
+	Stopping,
+	Exit,
+	ErrorExit,
+};
+
 class Application  : public Singleton<Application>
 {
 public:
@@ -13,15 +24,15 @@ public:
 	/**
 	* @brief : Init application
 	*/
-	int Init();
+	bool Init();
 	/**
 	* @brief : Run frame and update logic
 	*/
-	int RunLoop();
+	bool RunLoop();
 	/**
 	* @brief : Finish exit application
 	*/
-	int Finish();
+	bool Finish();
 	/**
 	* @brief : Error exit application
 	*/
@@ -29,10 +40,20 @@ public:
 	/*
 	* @brief : this is Engine important funcation init awake runloop and finish run
 	*/
-	int Run(Ambient* ambient);
-	
+	bool Run(Ambient* ambient);
+	/**
+	* @brief : Return application states for AppStates type
+	*/
+	const AppStates GetStates() const { return _appStates; }
+
+private:
+	/**
+	* @brief : Set states fot application
+	*/
+	void setStates(AppStates states) { _appStates = states; }
 private:
 	sharedPtr<Engine> _engine;
+	AppStates _appStates;
 };
 
 /// @brief : Regisiter application in main function

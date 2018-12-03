@@ -2,11 +2,11 @@
 
 enum class RunMode
 {
-	kDefault = -1,
-	kAwake,
-	kStart,
-	kUpdate,
-	kFixUpdate,
-	kFinish,
-	kDraw,
+	Default = -1,
+	Awake,
+	Start,
+	Update,
+	FixUpdate,
+	Finish,
+	Draw,
 };

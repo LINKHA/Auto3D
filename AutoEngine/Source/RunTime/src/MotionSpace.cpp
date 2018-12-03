@@ -33,24 +33,24 @@ void SpaceHandle::ModeRunSpace(RunMode runMode)
 {
 	AssertString(space,"No global space!");
 
-	if (runMode == RunMode::kDefault)
+	if (runMode == RunMode::Default)
 	{
 		ErrorString("Space fail to Run.");
 		return;
 	}
 	if (space)
 	{
-		if (runMode == RunMode::kAwake)
+		if (runMode == RunMode::Awake)
 			space->Awake();
-		else if (runMode == RunMode::kStart)
+		else if (runMode == RunMode::Start)
 			space->Start();
-		else if (runMode == RunMode::kUpdate)
+		else if (runMode == RunMode::Update)
 			space->Update();
-		else if (runMode == RunMode::kFixUpdate)
+		else if (runMode == RunMode::FixUpdate)
 			space->FixUpdate();
-		else if (runMode == RunMode::kFinish)
+		else if (runMode == RunMode::Finish)
 			space->Finish();
-		else if (runMode == RunMode::kDraw)
+		else if (runMode == RunMode::Draw)
 			space->Draw();
 		else
 			ErrorString("Space fail to Run.");

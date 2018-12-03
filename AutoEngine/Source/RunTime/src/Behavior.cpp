@@ -17,17 +17,17 @@ Behavior::~Behavior()
 
 void Behavior::Awake()
 {
-	GetSubSystem<Scene>()->ModeRunLevel(RunMode::kAwake);
+	GetSubSystem<Scene>()->ModeRunLevel(RunMode::Awake);
 }
 
 void Behavior::Start()
 {
-	GetSubSystem<Scene>()->ModeRunLevel(RunMode::kStart);
+	GetSubSystem<Scene>()->ModeRunLevel(RunMode::Start);
 }
 
 void Behavior::Update()
 {
-	GetSubSystem<Scene>()->ModeRunLevel(RunMode::kUpdate);
+	GetSubSystem<Scene>()->ModeRunLevel(RunMode::Update);
 }
 
 void Behavior::FixUpdate()
@@ -37,7 +37,7 @@ void Behavior::FixUpdate()
 
 void Behavior::Finish()
 {
-	GetSubSystem<Scene>()->ModeRunLevel(RunMode::kFinish);
+	GetSubSystem<Scene>()->ModeRunLevel(RunMode::Finish);
 }
 
 void Behavior::Draw()

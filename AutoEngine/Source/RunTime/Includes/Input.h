@@ -15,7 +15,7 @@ struct JoystickState
 	VECTOR<bool> _buttonPress;
 };
 /**
-* @brief : SubSystem class
+* SubSystem class
 */
 class Input : public GlobalGameManager
 {

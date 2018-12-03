@@ -75,9 +75,6 @@ inline const char* LogTypeToString(LogType type)
 #	endif
 #endif
 
-
-
-
 #define Assert(condition)\
 do { \
 	if(!(condition)){ \

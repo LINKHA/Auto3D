@@ -1,9 +1,7 @@
 #pragma once
 #include "Object.h"
 namespace Auto3D {
-#define APP_ERROR -1
-#define APP_NORMAL 0
-#define APP_WARNNING 1
+
 class Engine : public Object
 {
 	REGISTER_DERIVED_CLASS(Engine, Object);

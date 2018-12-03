@@ -51,7 +51,7 @@ void Scene::ModeRunLevel(RunMode runMode)
 	_isInsideRun = true;
 
 	_actionLevelScenes = _dynamicLevelScenes;
-	if (runMode == RunMode::kDefault)
+	if (runMode == RunMode::Default)
 	{
 		ErrorString("Space fail to Run.");
 		return;
@@ -61,35 +61,35 @@ void Scene::ModeRunLevel(RunMode runMode)
 		LevelScene* level = i->second;
 		if (level && level->IsEnable())
 		{
-			if (runMode == RunMode::kAwake)
+			if (runMode == RunMode::Awake)
 			{
 				level->Awake();
-				level->ModeRunNode(RunMode::kAwake);
+				level->ModeRunNode(RunMode::Awake);
 			}
-			else if (runMode == RunMode::kStart)
+			else if (runMode == RunMode::Start)
 			{
 				level->Start();
-				level->ModeRunNode(RunMode::kStart);
+				level->ModeRunNode(RunMode::Start);
 			}
-			else if (runMode == RunMode::kUpdate)
+			else if (runMode == RunMode::Update)
 			{
 				level->Update();
-				level->ModeRunNode(RunMode::kUpdate);
+				level->ModeRunNode(RunMode::Update);
 			}
-			else if (runMode == RunMode::kFixUpdate)
+			else if (runMode == RunMode::FixUpdate)
 			{
 				level->FixUpdate();
-				level->ModeRunNode(RunMode::kFixUpdate);
+				level->ModeRunNode(RunMode::FixUpdate);
 			}
-			else if (runMode == RunMode::kFinish)
+			else if (runMode == RunMode::Finish)
 			{
 				level->Finish();
-				level->ModeRunNode(RunMode::kFinish);
+				level->ModeRunNode(RunMode::Finish);
 			}
-			else if (runMode == RunMode::kDraw)
+			else if (runMode == RunMode::Draw)
 			{
 				level->Draw();
-				level->ModeRunNode(RunMode::kDraw);
+				level->ModeRunNode(RunMode::Draw);
 			}
 			else
 				ErrorString("Level fail to Run.");

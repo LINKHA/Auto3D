@@ -12,20 +12,20 @@ Application::~Application()
 	SAFE_DELETE(_engine);
 }
 
-int Application::Run(Ambient* ambient)
+bool Application::Run(Ambient* ambient)
 {
 	try 
 	{
 		_engine = new Engine(ambient);
-		if (Init() == APP_ERROR)
+		if (Init())
 		{
 			ErrorExit();
-			return APP_ERROR;
+			return false;
 		}
-		if (RunLoop() == APP_ERROR)
+		if (RunLoop() == false)
 		{
 			ErrorExit();
-			return APP_ERROR;
+			return false;
 		}
 		return Finish();
 	}
@@ -35,26 +35,31 @@ int Application::Run(Ambient* ambient)
 		return EXIT_FAILURE;
 	}
 }
-int Application::Init()
+bool Application::Init()
 {
+	setStates(AppStates::Initing);
 	_engine->Init();
-	return APP_NORMAL;
+	return false;
 }
 
-int Application::RunLoop()
+bool Application::RunLoop()
 {
+	setStates(AppStates::Running);
 	while (!_engine->IsExiting())
 		_engine->RunFrame();
-	return APP_NORMAL;
+	return false;
 }
-int Application::Finish()
+bool Application::Finish()
 {
+	setStates(AppStates::Exit);
 	_engine->Exit();
 	_CrtDumpMemoryLeaks();
-	return APP_NORMAL;
+	return false;
 }
  void Application::ErrorExit()
 {
+	 setStates(AppStates::ErrorExit);
 	 _engine->Exit();
 }
+
 }

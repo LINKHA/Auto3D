@@ -1,4 +1,5 @@
 #pragma once
+
 // Every non-abstract class that is derived from object has to place this inside the class Declaration
 #define	REGISTER_DERIVED_CLASS(_This,_Base) \
 public: \
