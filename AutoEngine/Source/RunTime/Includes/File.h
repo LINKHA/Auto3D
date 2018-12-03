@@ -72,7 +72,7 @@ private:
 	* @brief : Open file internally using either C standard IO functions or SDL RWops for 
 	*	Android asset files. Return true if successful
 	*/
-	template <typename _Ty> bool openInternal(const _Ty& fileName, FileMode mode, bool fromPackage = false);
+	bool openInternal(const STRING& fileName, FileMode mode, bool fromPackage = false);
 	/**
 	* @brief :  Perform the file read internally using either C standard IO functions or 
 	*	SDL RWops for Android asset files. Return true if successful. This does not handle 

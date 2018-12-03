@@ -261,7 +261,7 @@ bool File::IsOpen() const
 	return _handle != nullptr;
 }
 
-template <typename _Ty> bool File::openInternal(const _Ty& fileName, FileMode mode, bool fromPackage)
+bool File::openInternal(const STRING& fileName, FileMode mode, bool fromPackage)
 {
 	Close();
 
@@ -272,11 +272,7 @@ template <typename _Ty> bool File::openInternal(const _Ty& fileName, FileMode mo
 
 	if (fileSystem && !fileSystem->CheckAccess(GetPath(fileName)))
 	{
-#ifdef _WIN32
-		AutoWCout << L"Access denied to" << WSTRING(fileName) << AutoEndl;
-#else
-		AutoCout << "Access denied to" + fileName << AutoEndl;
-#endif
+		AutoCout << "Access denied to" << fileName.CStr() << AutoEndl;
 		return false;
 	}
 
@@ -302,11 +298,7 @@ template <typename _Ty> bool File::openInternal(const _Ty& fileName, FileMode mo
 
 	if (!_handle)
 	{
-#ifdef _WIN32
-		AutoWCout << "Could not open file" << WSTRING(fileName) << AutoEndl;
-#else
-		AutoCout << "Could not open file" << fileName << AutoEndl;
-#endif
+		AutoCout << "Could not open file" << fileName.CStr() << AutoEndl;
 		return false;
 	}
 
@@ -317,11 +309,7 @@ template <typename _Ty> bool File::openInternal(const _Ty& fileName, FileMode mo
 		fseek((FILE*)_handle, 0, SEEK_SET);
 		if (size > MATH_MAX_UNSIGNED)
 		{
-#ifdef _WIN32
-			AutoWCout << "Could not open file" << WSTRING(fileName) << "which is larger than 4GB"  << AutoEndl;
-#else
-			AutoCout << "Could not open file" << WSTRING(fileName) << "which is larger than 4GB" << AutoEndl;
-#endif
+			AutoCout << "Could not open file" << fileName.CStr() << "which is larger than 4GB" << AutoEndl;
 			Close();
 			_size = 0;
 			return false;

@@ -5,6 +5,7 @@
 #include "../FreeCamera.h"
 #include "Time.h"
 #include "ResourceSystem.h"
+#include "Image.h"
 
 
 Level_0::Level_0(Ambient* ambient, int levelNumber)
@@ -44,11 +45,11 @@ void Level_0::Start()
 	//obj4->GetComponent(Transform).SetPosition(-0.2f, 0.0f, -2.0f);
 	//obj4->AddComponent(tex4);
 
-	//auto* imageLogo = GetSubSystem<ResourceSystem>()->GetResource<Image>("../Resource/texture/logo.png");
+	//auto* imageLogo = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/logo.png");
 
 	//obj = CreateNode();
 	//obj->CreateComponent<Sprite>()->SetImage(imageLogo);
-	//tex1->SetColor(Color(0.5f, 0.5f, 0.5f));
+	////tex1->SetColor(Color(0.5f, 0.5f, 0.5f));
 
 	Node* obj5 = CreateNode();
 	obj5->CreateComponent<Sprite>()->SettImage("../Resource/texture/grass.png");

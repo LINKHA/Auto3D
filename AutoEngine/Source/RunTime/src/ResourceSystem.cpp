@@ -175,115 +175,138 @@ void ResourceSystem::FreeImage(tImage * image)
 	stbi_image_free(image->value);
 }
 
-//Resource* ResourceSystem::GetResource(STRING type, const STRING& name, bool sendEventOnFailure)
-//{
-//	STRING sanitatedName = SanitateResourceName(name);
-//
-//	// If empty name, return null pointer immediately
-//	if (sanitatedName.empty())
-//		return nullptr;
-//
-//	const SharedPtr<Resource>& existing = findResource(type, sanitatedName);
-//	if (existing)
-//		return existing.get();
-//
-//	SharedPtr<Resource> resource(dynamic_cast<Resource*>(_ambient->CreateObject(type)));
-//
-//	// Attempt to load the resource
-//	SharedPtr<File> file = GetFile(sanitatedName, sendEventOnFailure);
-//	if (!file)
-//		return nullptr;   // Error is already logged
-//
-//	return nullptr;
-//}
-//
-//void ResourceSystem::AddResourceDir(const WSTRING& path, unsigned priority)
-//{
-//	_resourceDirs.push_back(path);
-//}
-//
-//VECTOR<WSTRING> ResourceSystem::GetResourceDirs()
-//{
-//	return _resourceDirs;
-//}
-//
-//SharedPtr<File> ResourceSystem::GetFile(const STRING& name, bool sendEventOnFailure)
-//{
-//	STRING sanitatedName = SanitateResourceName(name);
-//
-//	if (sanitatedName.length())
-//	{
-//		File* file = nullptr;
-//		file = searchResourceDirs(sanitatedName);
-//		if (file)
-//			return SharedPtr<File>(file);
-//	}
-//
-//	return SharedPtr<File>();
-//}
-//
-//STRING ResourceSystem::SanitateResourceName(const STRING& name) const
-//{
-//	// Sanitate unsupported constructs from the resource name
-//	STRING sanitatedName = GetInternalPath(name);
-//	
-//	StringReplase(sanitatedName,  STRING("../"), STRING(""));
-//	StringReplase(sanitatedName, STRING("./"), STRING(""));
-//
-//	auto* fileSystem = GetSubSystem<FileSystem>();
-//}
-//
-//void ResourceSystem::RegisterResourceLib(Ambient * ambient)
-//{
-//	Sound::RegisterObject(ambient);
-//	Sprite2D::RegisterObject(ambient);
-//	Image::RegisterObject(ambient);
-//}
-//
-//const SharedPtr<Resource>& ResourceSystem::findResource(STRING type, STRING name)
-//{
-//	HASH_MAP<STRING, ResourceGroup>::iterator i = _resourceGroups.find(type);
-//	if (i == _resourceGroups.end())
-//		return noResource;
-//
-//	HASH_MAP<STRING, SharedPtr<Resource> >::iterator j = i->second.resources.find(name);
-//	if (j == i->second.resources.end())
-//		return noResource;
-//
-//	return j->second;
-//}
-//
-//const SharedPtr<Resource>& ResourceSystem::findResource(STRING name)
-//{
-//	for (HASH_MAP<STRING, ResourceGroup>::iterator i = _resourceGroups.begin(); i != _resourceGroups.end(); ++i)
-//	{
-//		HASH_MAP<STRING, SharedPtr<Resource>>::iterator j = i->second.resources.find(name);
-//		if (j != i->second.resources.end())
-//			return j->second;
-//	}
-//	return noResource;
-//}
-//
-//File* ResourceSystem::searchResourceDirs(const STRING& name)
-//{
-//	auto* fileSystem = GetSubSystem<FileSystem>();
-//	for (unsigned i = 0; i < _resourceDirs.size(); ++i)
-//	{
-//		if (fileSystem->FileExists(_resourceDirs[i] + name))
-//		{
-//			// Construct the file first with full path, then rename it to not contain the resource path,
-//			// so that the file's sanitatedName can be used in further GetFile() calls (for example over the network)
-//			File* file(new File(_ambient, _resourceDirs[i] + name));
-//			file->SetName(name);
-//			return file;
-//		}
-//	}
-//
-//	// Fallback using absolute path
-//	if (fileSystem->FileExists(name))
-//		return new File(_ambient, name);
-//
-//	return nullptr;
-//}
+Resource* ResourceSystem::GetResource(STRING type, const STRING& name, bool sendEventOnFailure)
+{
+	STRING sanitatedName = SanitateResourceName(name);
+
+	// If empty name, return null pointer immediately
+	if (sanitatedName.Empty())
+		return nullptr;
+
+	const SharedPtr<Resource>& existing = findResource(type, sanitatedName);
+	if (existing)
+		return existing.get();
+
+	Resource* resource = dynamic_cast<Resource*>(_ambient->CreateObject(type));
+
+	// Attempt to load the resource
+	SharedPtr<File> file(GetFile(sanitatedName, sendEventOnFailure));
+	if (!file)
+		return nullptr;   // Error is already logged
+	Print(file->GetName().CStr());
+	resource->SetName(file->GetName());
+	resource->Load(*(file.get()));
+
+	return resource;
+}
+
+void ResourceSystem::AddResourceDir(const STRING& path, unsigned priority)
+{
+	_resourceDirs.push_back(path);
+}
+
+VECTOR<STRING> ResourceSystem::GetResourceDirs()
+{
+	return _resourceDirs;
+}
+
+File* ResourceSystem::GetFile(const STRING& name, bool sendEventOnFailure)
+{
+	STRING sanitatedName = SanitateResourceName(name);
+
+	if (sanitatedName.Length())
+	{
+		File* file = nullptr;
+		file = searchResourceDirs(sanitatedName);
+		if (file)
+			return file;
+	}
+
+	return nullptr;
+}
+
+STRING ResourceSystem::SanitateResourceName(const STRING& name) const
+{
+	// Sanitate unsupported constructs from the resource name
+	STRING sanitatedName = GetInternalPath(name);
+	
+	sanitatedName.Replace("../", "");
+	sanitatedName.Replace("./", "");
+
+	auto* fileSystem = GetSubSystem<FileSystem>();
+	if (_resourceDirs.size())
+	{
+		STRING namePath = GetPath(sanitatedName);
+		STRING exePath = fileSystem->GetProgramDir().Replaced("/./", "/");
+		for (unsigned i = 0; i < _resourceDirs.size(); ++i)
+		{
+			STRING relativeResourcePath = _resourceDirs[i];
+			if (relativeResourcePath.StartsWith(exePath))
+				relativeResourcePath = relativeResourcePath.SubString(exePath.Length());
+
+			if (namePath.StartsWith(_resourceDirs[i], false))
+				namePath = namePath.SubString(_resourceDirs[i].Length());
+			else if (namePath.StartsWith(relativeResourcePath, false))
+				namePath = namePath.SubString(relativeResourcePath.Length());
+		}
+
+		sanitatedName = namePath + GetFileNameAndExtension(sanitatedName);
+	}
+
+	return sanitatedName.Trimmed();
+}
+
+void ResourceSystem::RegisterResourceLib(Ambient * ambient)
+{
+	Sound::RegisterObject(ambient);
+	Sprite2D::RegisterObject(ambient);
+	Image::RegisterObject(ambient);
+}
+
+const SharedPtr<Resource>& ResourceSystem::findResource(STRING type, STRING name)
+{
+	HASH_MAP<STRING, ResourceGroup>::iterator i = _resourceGroups.find(type);
+	if (i == _resourceGroups.end())
+		return noResource;
+
+	HASH_MAP<STRING, SharedPtr<Resource> >::iterator j = i->second.resources.find(name);
+	if (j == i->second.resources.end())
+		return noResource;
+
+	return j->second;
+}
+
+const SharedPtr<Resource>& ResourceSystem::findResource(STRING name)
+{
+	for (HASH_MAP<STRING, ResourceGroup>::iterator i = _resourceGroups.begin(); i != _resourceGroups.end(); ++i)
+	{
+		HASH_MAP<STRING, SharedPtr<Resource>>::iterator j = i->second.resources.find(name);
+		if (j != i->second.resources.end())
+			return j->second;
+	}
+	return noResource;
+}
+
+File* ResourceSystem::searchResourceDirs(const STRING& name)
+{
+	auto* fileSystem = GetSubSystem<FileSystem>();
+	for (unsigned i = 0; i < _resourceDirs.size(); ++i)
+	{
+		if (fileSystem->FileExists(_resourceDirs[i] + name))
+		{
+			// Construct the file first with full path, then rename it to not contain the resource path,
+			// so that the file's sanitatedName can be used in further GetFile() calls (for example over the network)
+			File* file(new File(_ambient, _resourceDirs[i] + name));
+			file->SetName(name);
+			return file;
+		}
+	}
+
+	// Fallback using absolute path
+	if (fileSystem->FileExists(name))
+		return new File(_ambient, name);
+
+	return nullptr;
+}
 
 }

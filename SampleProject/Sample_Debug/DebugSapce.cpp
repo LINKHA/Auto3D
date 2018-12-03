@@ -1,6 +1,7 @@
 #include "DebugSapce.h"
 #include "Application.h"
 #include "../FreeCamera.h"
+#include "ResourceSystem.h"
 #include "level_0.h"
 DebugSapce::DebugSapce(Ambient* ambient)
 	:MotionSpace(ambient)
@@ -11,6 +12,7 @@ DebugSapce::~DebugSapce()
 }
 void DebugSapce::Awake()
 {
+	GetSubSystem<ResourceSystem>()->AddResourceDir("../Resource/");
 	RegisterScene(new Level_0(_ambient, 0));
 }
 

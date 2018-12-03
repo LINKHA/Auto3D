@@ -2066,14 +2066,5 @@ namespace std {
 			return hash;
 		}
 	};
-
-	//template<> struct equal_to<KhSTL::tString> {
-	//public:
-	//	bool operator()(const KhSTL::tString &lhs, const KhSTL::tString &rhs) const
-	//	{
-	//		return lhs._buffer == rhs._buffer;
-	//	}
-
-	//};
 }
 #endif //!KH_STL_TYPE_STRING_H_

@@ -48,22 +48,22 @@ protected:
 	RTTI* _RTTI{};
 };
 
-template<typename T> class ObjectFactoryImpl : public ObjectFactory
+template<typename _Ty> class ObjectFactoryImpl : public ObjectFactory
 {
 public:
-	/// Construct.
+	/// Construct
 	explicit ObjectFactoryImpl(Ambient* ambient) :
 		ObjectFactory(ambient)
 	{
-		_RTTI = T::GetRTTIStatic();
+		_RTTI = _Ty::GetRTTIStatic();
 	}
 	/**
 	* @brief : Create an object of the specific type.
 	*/
 #if SharedPtrDebug
-	sharedPtr<Object>  CreateObject() override { return sharedPtr<Object>(new T(_ambient)); }
+	sharedPtr<Object>  CreateObject() override { return sharedPtr<Object>(new _Ty(_ambient)); }
 #else
-	Object* CreateObject() override { return new T(_ambient); }
+	Object* CreateObject() override { return new _Ty(_ambient); }
 #endif
 };
 

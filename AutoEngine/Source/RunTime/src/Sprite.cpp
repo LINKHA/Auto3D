@@ -71,12 +71,12 @@ void Sprite::Start()
 	glBindTexture(GL_TEXTURE_2D, _textureData);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	//_image = LocalImageLoad(_imagePath);
+	
 	_timage = GetSubSystem<ResourceSystem>()->ImageLoad(_imagePath);
-
 
 	//SetNearestParameters();
 	SetLinerParameters();
+	
 	if (_timage->value)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, _timage->format, _timage->width, _timage->height, 0, _timage->format, GL_UNSIGNED_BYTE, _timage->value);

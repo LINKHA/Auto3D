@@ -48,9 +48,9 @@ public:
 
 	STRING GetFileName(const STRING& fullPath);
 
-	STRING GetExtension(const STRING& fullPath, bool lowercaseExtension);
+	STRING GetExtension(const STRING& fullPath, bool lowercaseExtension = true);
 
-	STRING GetFileNameAndExtension(const STRING& fileName, bool lowercaseExtension);
+	STRING GetFileNameAndExtension(const STRING& fileName, bool lowercaseExtension = false);
 
 	STRING ReplaceExtension(const STRING& fullPath, const STRING& newExtension);
 	/**
@@ -75,7 +75,7 @@ public:
 	* @brief : Check if a path is allowed to be accessed. 
 	*	If no paths are registered, all are allowed
 	*/
-	bool CheckAccess(const STRING& pathName); bool CheckAccess(const WSTRING& pathName);
+	bool CheckAccess(const STRING& pathName);
 	/**
 	* @brief : Check if a file exists
 	*/
@@ -98,9 +98,9 @@ STRING GetPath(const STRING& fullPath);
 
 STRING GetFileName(const STRING& fullPath);
 
-STRING GetExtension(const STRING& fullPath, bool lowercaseExtension);
+STRING GetExtension(const STRING& fullPath, bool lowercaseExtension = true);
 
-STRING GetFileNameAndExtension(const STRING& fileName, bool lowercaseExtension);
+STRING GetFileNameAndExtension(const STRING& fileName, bool lowercaseExtension = false);
 
 STRING ReplaceExtension(const STRING& fullPath, const STRING& newExtension);
 /**
