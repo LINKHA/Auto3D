@@ -7,5 +7,4 @@ public:
 	explicit PBRSpace(Ambient* ambient);
 	~PBRSpace();
 	void Awake()override;
-	int Launch();
 };

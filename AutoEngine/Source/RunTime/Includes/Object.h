@@ -3,8 +3,6 @@
 #include "LogAssert.h"
 #include "ClassID.h"
 #include "ObjectDefines.h"
-#include "RefCounted.h"
-#include "SharedPtr.h"
 #include "RTTI.h"
 
 namespace Auto3D {
@@ -14,12 +12,11 @@ class Ambient;
 /**
 * Base object for all regisiter class
 */
-class Object : public RefCounted
-{
-protected:
-	virtual ~Object() = default;
+class Object
+{	
 public:
 	explicit Object(Ambient* ambient);
+	virtual ~Object() = default;
 	///////////////////////////////////////////////////////////////////////////
 	// @brief : Register class function
 	virtual int GetClassID() { return ClassID(Object); }

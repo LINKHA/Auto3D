@@ -9,6 +9,5 @@ public:
 	explicit FrameBuffersSpace(Ambient* ambient);
 	~FrameBuffersSpace();
 	void Awake()override;
-	int Launch();
 };
 

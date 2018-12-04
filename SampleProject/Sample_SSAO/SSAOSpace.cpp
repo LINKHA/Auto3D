@@ -15,10 +15,4 @@ void SSAOSpace::Awake()
 {
 	RegisterScene(new Level_0(_ambient, 0));
 }
-
-
-int SSAOSpace::Launch()
-{
-	return INSTANCE(Application).Run(_ambient);
-}
 AUTO_APPLICATION_MAIN(SSAOSpace)

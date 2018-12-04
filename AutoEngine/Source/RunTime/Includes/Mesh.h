@@ -31,15 +31,15 @@ public:
 
 	void Start()override;
 	void Draw()override;
-	Material* GetMaterial() { return _material; }
+	Material* GetMaterial() { return _material.get(); }
 
 private:
 	void drawMaterial();
 	void drawLight();
 private:
 	Shader _shader;
-	sharedPtr<Material> _material;
-	sharedPtr<Model> _model;
+	SharedPtr<Material> _material;
+	SharedPtr<Model> _model;
 	char* _modelPath;
 	bool _isUserShader;
 };

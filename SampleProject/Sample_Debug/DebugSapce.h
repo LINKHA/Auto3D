@@ -9,8 +9,6 @@ public:
 	void Awake()override;
 	void Start()override;
 	void Update()override;
-	int Launch();
-
 };
 
 

@@ -13,27 +13,27 @@ Component::~Component() {}
 
 Node& Component::GetNode()
 {
-	return *_gameObject;
+	return *_node;
 }
 
 const Node& Component::GetNode() const
 {
-	return *_gameObject;
+	return *_node;
 }
 
 Node* Component::GetNodePtr()
 {
-	return _gameObject;
+	return _node;
 }
 
 Node* Component::GetNodePtr() const
 {
-	return _gameObject;
+	return _node;
 }
 
-void Component::MountComponent(Node& gameObject)
+void Component::MountComponent(Node* node)
 {
-	_gameObject = &gameObject;
+	_node = node;
 }
 
 Vector3 Component::GetPosition()

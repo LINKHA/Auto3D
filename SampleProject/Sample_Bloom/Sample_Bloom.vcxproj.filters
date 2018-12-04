@@ -25,8 +25,5 @@
     <Filter Include="Script">
       <UniqueIdentifier>{c9d295cb-38a9-44e0-a226-39754d3dcae9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Misc">
-      <UniqueIdentifier>{3dd5e46a-75d3-428c-9833-07028bcbaf5e}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
 </Project>

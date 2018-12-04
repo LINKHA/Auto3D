@@ -1,6 +1,4 @@
 #include "AudioSapce.h"
-#include "Application.h"
-#include "LightDirectional.h"
 #include "../FreeCamera.h"
 #include "Level_0.h"
 AudioSapce::AudioSapce(Ambient* ambient)
@@ -17,9 +15,5 @@ void AudioSapce::Start()
 }
 void AudioSapce::Update()
 {
-}
-int AudioSapce::Launch()
-{
-	return INSTANCE(Application).Run(_ambient);
 }
 AUTO_APPLICATION_MAIN(AudioSapce)

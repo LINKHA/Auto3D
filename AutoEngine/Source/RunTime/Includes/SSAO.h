@@ -19,7 +19,7 @@ private:
 	Shader m_shaderSSAO;
 	Shader m_shaderSSAOBlur;
 
-	sharedPtr<Model> nanosuit;
+	SharedPtr<Model> nanosuit;
 
 	unsigned int gBuffer;
 	unsigned int gPosition, gNormal, gAlbedo;

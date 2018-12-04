@@ -37,7 +37,7 @@ public:
 	/**
 	* @brief : Mount component for gameobject
 	*/
-	void MountComponent(Node& gameObject);
+	void MountComponent(Node* node);
 	/**
 	* @brief : Set enable
 	*/
@@ -65,7 +65,7 @@ public:
 	virtual void FixUpdate() {}
 	virtual void Finish() {}
 private:
-	sharedPtr<Node> _gameObject;
+	Node* _node;
 	bool _isEnable;
 };
 

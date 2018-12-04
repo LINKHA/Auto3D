@@ -7,6 +7,5 @@ public:
 	explicit DepthTestSpace(Ambient* ambient);
 	~DepthTestSpace();
 	void Awake()override;
-	int Launch();
 };
 

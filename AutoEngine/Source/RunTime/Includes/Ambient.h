@@ -1,18 +1,17 @@
 #pragma once
-#include "RefCounted.h"
 #include "Object.h"
 #include "ObjectFactory.h"
 namespace Auto3D {
 
-class Ambient : public RefCounted
+class Ambient
 {
 	friend class Object;
-	using SubSystems = HASH_MAP<STRING, sharedPtr<Object>>;
-	using Factories = HASH_MAP<STRING, sharedPtr<ObjectFactory>>;
+	using SubSystems = HASH_MAP<STRING, SharedPtr<Object>>;
+	using Factories = HASH_MAP<STRING, SharedPtr<ObjectFactory>>;
 	using ObjectAttachs = HASH_MAP<STRING, VECTOR<STRING>>;
 public:
 	Ambient();
-	~Ambient()override;
+	~Ambient();
 	/**
 	* @brief : Create an object by type. Return pointer to it or null if no factory found.
 	*/

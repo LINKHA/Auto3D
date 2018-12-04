@@ -9,5 +9,4 @@ public:
 	explicit TextureSpace(Ambient* ambient);
 	~TextureSpace();
 	void Awake()override;
-	int Launch();
 };

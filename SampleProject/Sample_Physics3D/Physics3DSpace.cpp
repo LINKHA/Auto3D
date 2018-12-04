@@ -25,8 +25,4 @@ void Physics3DSpace::Start()
 void Physics3DSpace::Update()
 {
 }
-int Physics3DSpace::Launch()
-{
-	return INSTANCE(Application).Run(_ambient);
-}
 AUTO_APPLICATION_MAIN(Physics3DSpace)

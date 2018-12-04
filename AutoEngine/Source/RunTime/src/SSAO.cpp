@@ -25,15 +25,14 @@ SSAO::SSAO(Ambient* ambient)
 SSAO::~SSAO()
 {
 	UnloadOpaque(this);
-	delete nanosuit;
-	nanosuit = nullptr;
 }
 
 
 void SSAO::Start()
 {
-	//nanosuit = new Model(_ambient,"../Resource/object/nanosuit/nanosuit.obj");
-	nanosuit = GetSubSystem<ResourceSystem>()->ModelLoad("../Resource/object/nanosuit/nanosuit.obj");
+	Model* tmp = GetSubSystem<ResourceSystem>()->ModelLoad("../Resource/object/nanosuit/nanosuit.obj");
+	nanosuit = SharedPtr<Model>(tmp);
+
 	glGenFramebuffers(1, &gBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
 	RectInt t = GetSubSystem<Graphics>()->GetWindowRectInt();

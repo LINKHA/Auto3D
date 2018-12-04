@@ -16,7 +16,6 @@ LevelScene::LevelScene(Ambient* ambient, int id)
 
 LevelScene::~LevelScene()
 {
-	SAFE_DELETE(_sceneNode);
 	_nodeToAdd.clear();
 	_nodeToRemove.clear();
 	_nodes.clear();
@@ -111,11 +110,14 @@ void LevelScene::ModeRunNode(RunMode runMode)
 						k->second->Awake();
 				}
 			else if (runMode == RunMode::Start)
+			{
+				print(node->GetComponentsSize());
 				for (compomentIt k = node->GetComponentsArray().begin(); k != node->GetComponentsArray().end(); k++)
 				{
 					if (k->second->GetEnable())
 						k->second->Start();
 				}
+			}
 			else if (runMode == RunMode::Update)
 				for (compomentIt k = node->GetComponentsArray().begin(); k != node->GetComponentsArray().end(); k++)
 				{

@@ -8,5 +8,4 @@ public:
 	explicit StencilTestSpace(Ambient* ambient);
 	~StencilTestSpace();
 	void Awake()override;
-	int Launch();
 };	

@@ -441,7 +441,6 @@
     <ClInclude Include="Source\RunTime\Includes\Launch.h" />
     <ClInclude Include="Source\RunTime\Includes\Ambient.h" />
     <ClInclude Include="Source\RunTime\Includes\Engine.h" />
-    <ClInclude Include="Source\RunTime\Includes\RefCounted.h" />
     <ClInclude Include="Source\RunTime\Includes\BaseMesh.h" />
     <ClInclude Include="Source\RunTime\Includes\HDRSkybox.h" />
     <ClInclude Include="Source\RunTime\Includes\OGLDebug.h" />
@@ -512,7 +511,6 @@
     <ClInclude Include="Source\RunTime\Includes\SkyBoxReflectMesh.h" />
     <ClInclude Include="Source\RunTime\Includes\SpriteTranslucent.h" />
     <ClInclude Include="Source\RunTime\Includes\Scene.h" />
-    <ClInclude Include="Source\RunTime\Includes\SharedPtr.h" />
     <ClInclude Include="Source\RunTime\Includes\ShadowRenderer.h" />
     <ClInclude Include="Source\RunTime\Includes\SkyBoxManager.h" />
     <ClInclude Include="Source\RunTime\Includes\BehaviorObject.h" />
@@ -1308,7 +1306,6 @@
     <ClCompile Include="Source\RunTime\src\OGLGraphics.cpp" />
     <ClCompile Include="Source\RunTime\src\Ambient.cpp" />
     <ClCompile Include="Source\RunTime\src\Engine.cpp" />
-    <ClCompile Include="Source\RunTime\src\RefCounted.cpp" />
     <ClCompile Include="Source\RunTime\src\BaseMesh.cpp" />
     <ClCompile Include="Source\RunTime\src\HDRSkybox.cpp" />
     <ClCompile Include="Source\RunTime\src\OGLDebug.cpp" />

@@ -12,7 +12,7 @@ Mesh::Mesh(Ambient* ambient)
 		, shader_path + "au_light_map_model_loading.aufs"))
 	, _isUserShader(false)
 {
-	_material = new Material(_ambient);
+	_material = SharedPtr<Material>(new Material(_ambient));
 	_modelPath = "../Resource/object/base/Cube.3DS";
 }
 Mesh::Mesh(Ambient* ambient,char* meshPath)
@@ -21,7 +21,7 @@ Mesh::Mesh(Ambient* ambient,char* meshPath)
 		, shader_path + "au_light_map_model_loading.aufs"))
 	, _isUserShader(false)
 {
-	_material = new Material(_ambient);
+	_material = SharedPtr<Material>(new Material(_ambient));
 	_modelPath = meshPath;
 }
 Mesh::Mesh(Ambient* ambient,char* meshPath, const Shader& shader)
@@ -29,15 +29,12 @@ Mesh::Mesh(Ambient* ambient,char* meshPath, const Shader& shader)
 	, _shader(shader)
 	, _isUserShader(true)
 {
-	_material = new Material(_ambient);
+	_material = SharedPtr<Material>(new Material(_ambient));
 	_modelPath = meshPath;
 }
 Mesh::~Mesh()
 {
 	UnloadOpaque(this);
-
-	delete _material;
-	_material = nullptr;
 }
 
 void Mesh::RegisterObject(Ambient* ambient)
@@ -75,7 +72,8 @@ void Mesh::Start()
 				, shader_path + "au_light_model_loading.aufs");
 		}
 	}
-	_model = GetSubSystem<ResourceSystem>()->ModelLoad(_modelPath);
+	Model* tmp = GetSubSystem<ResourceSystem>()->ModelLoad(_modelPath);
+	_model = SharedPtr<Model>(tmp);
 	RegisterOpaque(this);
 }
 void Mesh::Draw()

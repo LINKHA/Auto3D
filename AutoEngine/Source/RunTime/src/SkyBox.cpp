@@ -24,7 +24,7 @@ SkyBox::~SkyBox()
 }
 void SkyBox::Start()
 {
-	INSTANCE(SkyManager).AddSkyBox(this);
+	SkyManager::Instance().AddSkyBox(this);
 	_shader = Shader(shader_path + "au_skybox.auvs", shader_path + "au_skybox.aufs");
 	glGenVertexArrays(1, &_skyboxVAO);
 	glGenBuffers(1, &_skyboxVBO);

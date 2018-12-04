@@ -1,6 +1,4 @@
 #pragma once
-#include "SharedPtr.h"
-#include "RefCounted.h"
 #include "ClassID.h"
 #include "RTTI.h"
 
@@ -9,7 +7,7 @@ namespace Auto3D {
 class Ambient;
 class Object;
 
-class ObjectFactory : public RefCounted
+class ObjectFactory
 {
 public:
 	explicit ObjectFactory(Ambient* ambient)

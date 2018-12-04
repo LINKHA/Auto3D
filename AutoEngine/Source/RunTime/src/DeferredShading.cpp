@@ -22,7 +22,7 @@ DeferredShading::~DeferredShading()
 }
 void DeferredShading::Start()
 {
-	nanosuit = new Model(_ambient,"../resource/object/nanosuit/nanosuit.obj");
+	nanosuit = SharedPtr<Model>(new Model(_ambient,"../resource/object/nanosuit/nanosuit.obj"));
 	objectPositions.push_back(glm::vec3(-3.0, -3.0, -3.0));
 	objectPositions.push_back(glm::vec3(0.0, -3.0, -3.0));
 	objectPositions.push_back(glm::vec3(3.0, -3.0, -3.0));

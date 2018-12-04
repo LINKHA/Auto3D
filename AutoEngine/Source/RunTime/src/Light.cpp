@@ -172,7 +172,7 @@ void Light::SetShadowType(ShadowType type)
 	_shadowType = type;
 	if (_shadowAssist || (type == ShadowType::kNoShadow))
 		return;
-	_shadowAssist = new ShadowRenderAssist(_ambient,GetType());
+	_shadowAssist = SharedPtr<ShadowRenderAssist>(new ShadowRenderAssist(_ambient,GetType()));
 }
 
 glm::mat4& Light::GetLightSpaceMatrix()

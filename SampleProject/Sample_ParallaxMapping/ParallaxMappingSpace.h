@@ -7,7 +7,6 @@ public:
 	explicit ParallaxMappingSpace(Ambient* ambient);
 	~ParallaxMappingSpace();
 	void Awake()override;
-	int Launch();
 };
 
 

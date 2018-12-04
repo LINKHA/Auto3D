@@ -110,7 +110,7 @@ public:
 	/**
 	* @brief : Get Shadow render assist
 	*/
-	ShadowRenderAssist* GetShadowAssist() { return _shadowAssist; }
+	ShadowRenderAssist* GetShadowAssist() { return _shadowAssist.get(); }
 	/**
 	* @brief : Get light far plane
 	*/
@@ -163,7 +163,7 @@ public:
 	Vector3 specular;
 
 protected:	
-	sharedPtr<ShadowRenderAssist> _shadowAssist;
+	SharedPtr<ShadowRenderAssist> _shadowAssist;
 	ShadowType _shadowType;
 	glm::mat4 _lightSpaceMatrix;
 	glm::mat4 _lightProjectionMatrix;

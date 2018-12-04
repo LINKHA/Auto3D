@@ -97,7 +97,7 @@ tImage* ResourceSystem::ImageLoad(PInt8 path)
 	return image;
 }
 
-Model * ResourceSystem::ModelLoad(PInt8 path)
+Model* ResourceSystem::ModelLoad(PInt8 path)
 {
 	Model* model;
 	auto it = _modelQueue.find(path);

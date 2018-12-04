@@ -1,14 +1,15 @@
 #include "MotionSpace.h"
 #include "LevelScene.h"
 #include "Scene.h"
+#include "Application.h"
+
 #include "DebugNew.h"
 
 namespace Auto3D {
-SINGLETON_INSTANCE(SpaceHandle);
 MotionSpace::MotionSpace(Ambient* ambient)
 	:Super(ambient)
 {
-	INSTANCE(SpaceHandle).space = this;
+	SpaceHandle::Instance().space = SharedPtr<MotionSpace>(this);
 }
 
 
@@ -25,7 +26,10 @@ void MotionSpace::RemoveScene(int id)
 {
 	GetSubSystem<Scene>()->RemoveScene(id);
 }
-
+int MotionSpace::Launch() const
+{
+	return Application::Instance().Run(_ambient);
+}
 //////////////////////////////////////////////////////////////////////////
 //SpaceHandle
 //////////////////////////////////////////////////////////////////////////

@@ -10,7 +10,6 @@ public:
 	explicit FileSystemSpace(Ambient* ambient);
 	~FileSystemSpace();
 	void Awake()override;
-	int Launch();
 };
 
 

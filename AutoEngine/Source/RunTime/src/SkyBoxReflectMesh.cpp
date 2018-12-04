@@ -102,7 +102,7 @@ void SkyBoxReflectMesh::Draw()
 	m_shader.SetVec3("cameraPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
 	glBindVertexArray(cubeVAO);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, INSTANCE(SkyManager).GetSkyBox()->GetTexture());
+	glBindTexture(GL_TEXTURE_CUBE_MAP, SkyManager::Instance().GetSkyBox()->GetTexture());
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindVertexArray(0);
 }

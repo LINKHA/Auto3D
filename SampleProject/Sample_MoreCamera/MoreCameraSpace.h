@@ -8,5 +8,4 @@ public:
 	explicit MoreCameraSpace(Ambient* ambient);
 	~MoreCameraSpace();
 	void Awake()override;
-	int Launch();
 };

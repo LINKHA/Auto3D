@@ -46,14 +46,14 @@ void Camera::AllowOffScreen(bool enable)
 	_isAllowOffScreen = enable;
 	if (!_isAllowOffScreen || _offScreen)
 		return;
-	_offScreen = new OffScreen(_ambient);
+	_offScreen = SharedPtr<OffScreen>(new OffScreen(_ambient));
 }
 void Camera::AllowMSAA(bool enable, int pointNum)
 {
 	if (!_offScreen)
 	{
 		_isAllowOffScreen = true;
-		_offScreen = new OffScreen(_ambient);
+		_offScreen = SharedPtr<OffScreen>(new OffScreen(_ambient));
 	}
 	_offScreen->AllowMSAA(enable, pointNum);
 }
@@ -63,7 +63,7 @@ void Camera::AllowLateEffect(bool enable)
 	if (!_offScreen)
 	{
 		_isAllowOffScreen = true;
-		_offScreen = new OffScreen(_ambient);
+		_offScreen = SharedPtr<OffScreen>(new OffScreen(_ambient));
 	}
 		
 	_offScreen->AllowLateEffect(enable);
@@ -74,7 +74,7 @@ void Camera::AllowHDR(bool enable)
 	if (!_offScreen)
 	{
 		_isAllowOffScreen = true;
-		_offScreen = new OffScreen(_ambient);
+		_offScreen = SharedPtr<OffScreen>(new OffScreen(_ambient));
 	}
 
 	_offScreen->AllowHDR(enable);
@@ -90,10 +90,10 @@ void Camera::SetLateEffect(const Shader& shader)
 		_offScreen->SetEffect(shader);
 }
 
-OffScreen * Camera::GetOffScreen()
+OffScreen* Camera::GetOffScreen()
 {
 	if (_isAllowOffScreen && _offScreen)
-		return _offScreen;
+		return _offScreen.get();
 	else
 	{
 		ErrorString("Fail to get camera off screen");

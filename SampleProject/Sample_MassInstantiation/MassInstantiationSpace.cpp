@@ -16,8 +16,4 @@ void MassInstantiationSpace::Awake()
 	RegisterScene(new Level_0(_ambient, 0));
 }
 
-int MassInstantiationSpace::Launch()
-{
-	return INSTANCE(Application).Run(_ambient);
-}
 AUTO_APPLICATION_MAIN(MassInstantiationSpace)

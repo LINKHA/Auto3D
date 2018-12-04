@@ -1283,9 +1283,6 @@
     <ClInclude Include="Source\RunTime\Includes\PreLoadManager.h">
       <Filter>Source\RunTime\Preinstall</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\RefCounted.h">
-      <Filter>Source\RunTime\Code</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\RenderComponent.h">
       <Filter>Source\RunTime\Graphics\Component\Abstract</Filter>
     </ClInclude>
@@ -1315,9 +1312,6 @@
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\ShadowRenderer.h">
       <Filter>Source\RunTime\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\SharedPtr.h">
-      <Filter>Source\RunTime\Code</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Singleton.h">
       <Filter>Source\RunTime\Code</Filter>
@@ -4644,9 +4638,6 @@
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\PreLoadManager.cpp">
       <Filter>Source\RunTime\Preinstall</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\RefCounted.cpp">
-      <Filter>Source\RunTime\Code</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Renderer.cpp">
       <Filter>Source\RunTime\Renderer</Filter>

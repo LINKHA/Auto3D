@@ -9,5 +9,4 @@ public:
 	explicit BloomSpace(Ambient* ambient);
 	~BloomSpace();
 	void Awake()override;
-	int Launch();
 };

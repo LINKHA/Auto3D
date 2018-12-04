@@ -10,7 +10,6 @@ public:
 	explicit AntiAliasingSpace(Ambient* ambient);
 	~AntiAliasingSpace();
 	void Awake()override;
-	int Launch();
 };
 
 

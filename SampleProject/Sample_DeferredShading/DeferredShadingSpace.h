@@ -7,5 +7,4 @@ public:
 	explicit DeferredShadingSpace(Ambient* ambient);
 	~DeferredShadingSpace();
 	void Awake()override;
-	int Launch();
 };

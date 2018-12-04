@@ -19,9 +19,6 @@
     <ClInclude Include="UISapce.h" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Misc">
-      <UniqueIdentifier>{55c67b41-4abe-493d-a9d3-b0eaff68684c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Script">
       <UniqueIdentifier>{2cae42da-d355-4b11-b0a4-6c6d6e1e2d30}</UniqueIdentifier>
     </Filter>

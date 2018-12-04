@@ -1,5 +1,4 @@
 #include "UISapce.h"
-#include "Application.h"
 #include "../FreeCamera.h"
 #include "level_0.h"
 UISapce::UISapce(Ambient* ambient)
@@ -19,9 +18,5 @@ void UISapce::Start()
 }
 void UISapce::Update()
 {
-}
-int UISapce::Launch()
-{
-	return INSTANCE(Application).Run(_ambient);
 }
 AUTO_APPLICATION_MAIN(UISapce)

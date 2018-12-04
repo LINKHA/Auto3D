@@ -10,5 +10,4 @@ public:
 	explicit SkyBoxSpace(Ambient* ambient);
 	~SkyBoxSpace();
 	void Awake()override;
-	int Launch();
 };

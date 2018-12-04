@@ -19,9 +19,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Misc">
-      <UniqueIdentifier>{dd57a332-051a-4e4b-8c00-f069d12efb54}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Script">
       <UniqueIdentifier>{8d4295ee-ee74-41fb-80c6-01cabc176cb3}</UniqueIdentifier>
     </Filter>

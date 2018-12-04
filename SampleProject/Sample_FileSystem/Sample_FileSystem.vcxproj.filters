@@ -22,9 +22,6 @@
     <Filter Include="Level">
       <UniqueIdentifier>{a3b5819e-2c15-4526-b2c0-c1ff82e44e5b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Misc">
-      <UniqueIdentifier>{838f15dc-f891-4c0f-a16c-6602624e51fd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Script">
       <UniqueIdentifier>{30a8473f-b5b5-4482-821c-3c484c796581}</UniqueIdentifier>
     </Filter>

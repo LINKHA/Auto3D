@@ -10,7 +10,7 @@
 
 
 namespace Auto3D {
-SINGLETON_INSTANCE(SkyBoxManager);
+
 HDRSkyBox::HDRSkyBox(Ambient* ambient)
 	: Texture3D(ambient)
 	, m_equirectangularToCubemapShader(shader_path + "au_hdr_skybox_cubemap.auvs"
@@ -24,7 +24,7 @@ HDRSkyBox::HDRSkyBox(Ambient* ambient)
 	, m_backgroundShader(shader_path + "au_hdr_skybox_background.auvs"
 		, shader_path + "au_hdr_skybox_background.aufs")
 {
-	INSTANCE(SkyBoxManager).AddSkyBox(this);
+	SkyBoxManager::Instance().AddSkyBox(this);
 }
 
 

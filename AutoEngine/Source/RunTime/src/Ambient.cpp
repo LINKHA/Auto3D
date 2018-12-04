@@ -35,11 +35,11 @@ sharedPtr<Object> Ambient::CreateObject(STRING objectType)
 #else
 Object* Ambient::CreateObject(STRING objectType)
 {
-	HASH_MAP<STRING, sharedPtr<ObjectFactory>>::const_iterator i = _factories.find(objectType);
+	HASH_MAP<STRING, SharedPtr<ObjectFactory>>::const_iterator i = _factories.find(objectType);
 	if (i != _factories.end())
 		return i->second->CreateObject();
 	else
-		return sharedPtr<Object>();
+		return nullptr;
 }
 #endif
 
@@ -47,20 +47,20 @@ void Ambient::RegisterSubSystem(Object* object)
 {
 	if (!object)
 		return;
-	_subSystems[object->GetClassString()] = object;
+	_subSystems[object->GetClassString()] = SharedPtr<Object>(object);
 }
 void Ambient::RemoveSubSystem(STRING objectType) 
 {
-	HASH_MAP<STRING, sharedPtr<Object>>::iterator i = _subSystems.find(objectType);
+	HASH_MAP<STRING, SharedPtr<Object>>::iterator i = _subSystems.find(objectType);
 	if (i != _subSystems.end())
 		_subSystems.erase(i);
 }
 Object* Ambient::GetSubSystem(STRING type)const 
 {
-	HASH_MAP<STRING, sharedPtr<Object>>::const_iterator it 
+	HASH_MAP<STRING, SharedPtr<Object>>::const_iterator it 
 		= _subSystems.find(type);
 	if (it != _subSystems.end())
-		return it->second;
+		return it->second.get();
 	else
 		return nullptr;
 }
@@ -68,7 +68,7 @@ void Ambient::RegisterFactory(ObjectFactory* factory)
 {
 	if (!factory)
 		return;
-	_factories[factory->GetClassString()] = factory;
+	_factories[factory->GetClassString()] = SharedPtr<ObjectFactory>(factory);
 }
 
 void Ambient::RegisterFactory(ObjectFactory * factory, const char* category)

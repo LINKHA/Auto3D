@@ -1,5 +1,4 @@
 #include "ShadowSpace.h"
-#include "Application.h"
 #include "Level_0.h"
 #include "Level_1.h"
 
@@ -19,8 +18,4 @@ void ShadowSpace::Awake()
 	//RegisterScene(new Level_1(_ambient, 1));
 }
 
-int ShadowSpace::Launch()
-{
-	return INSTANCE(Application).Run(_ambient);
-}
 AUTO_APPLICATION_MAIN(ShadowSpace)

@@ -7,7 +7,6 @@ public:
 	explicit SSAOSpace(Ambient* ambient);
 	~SSAOSpace();
 	void Awake()override;
-	int Launch();
 };
 
 

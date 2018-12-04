@@ -1,5 +1,4 @@
 #pragma once
-
 #include "MotionSpace.h"
 using namespace Auto3D;
 
@@ -9,6 +8,5 @@ public:
 	explicit MassInstantiationSpace(Ambient* ambient);
 	~MassInstantiationSpace();
 	void Awake()override;
-	int Launch();
 };
 

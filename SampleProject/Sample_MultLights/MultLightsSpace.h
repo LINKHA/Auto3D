@@ -8,6 +8,5 @@ public:
 	explicit MultLightsSpace(Ambient* ambient);
 	~MultLightsSpace();
 	void Awake()override;
-	int Launch();
 };
 

@@ -7,8 +7,6 @@ public:
 	explicit ShadowSpace(Ambient* ambient);
 	~ShadowSpace();
 	void Awake()override;
-
-	int Launch();
 };
 
 

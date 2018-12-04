@@ -3,20 +3,18 @@
 
 namespace Auto3D {
 
-SINGLETON_INSTANCE(Application);
 Application::Application()
 {
 }
 Application::~Application()
 {
-	SAFE_DELETE(_engine);
 }
 
 bool Application::Run(Ambient* ambient)
 {
 	try 
 	{
-		_engine = new Engine(ambient);
+		_engine = SharedPtr<Engine>(new Engine(ambient));
 		if (Init())
 		{
 			ErrorExit();

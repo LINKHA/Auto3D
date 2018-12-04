@@ -1,5 +1,4 @@
 #include "DebugSapce.h"
-#include "Application.h"
 #include "../FreeCamera.h"
 #include "ResourceSystem.h"
 #include "level_0.h"
@@ -21,9 +20,5 @@ void DebugSapce::Start()
 }
 void DebugSapce::Update()
 {
-}
-int DebugSapce::Launch()
-{
-	return INSTANCE(Application).Run(_ambient);
 }
 AUTO_APPLICATION_MAIN(DebugSapce)

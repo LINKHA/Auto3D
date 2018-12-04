@@ -100,11 +100,11 @@ public:
 	/**
 	* @brief : Get light container (friend to LightContainer)
 	*/
-	LightContainer* GetLightContainer() { return _lightContainer; }
+	LightContainer* GetLightContainer() { return _lightContainer.get(); }
 	/**
 	* @brief : Get shadow renderer (friend to ShadowRenderer)
 	*/
-	ShadowRenderer* GetShadowRenderer() { return _shadowRenderer; }
+	ShadowRenderer* GetShadowRenderer() { return _shadowRenderer.get(); }
 	/**
 	* @brief : Get All shadow maps (LIST(RenderComponent*))
 	*/
@@ -171,8 +171,8 @@ private:
 	*/
 	void intelMoutLightContainer();
 private:
-	sharedPtr<ShadowRenderer> _shadowRenderer;
-	sharedPtr<LightContainer> _lightContainer;
+	SharedPtr<ShadowRenderer> _shadowRenderer;
+	SharedPtr<LightContainer> _lightContainer;
 	///is rendering or culling
 	bool _insideRenderOrCull;
 	///camera container

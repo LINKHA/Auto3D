@@ -148,7 +148,7 @@ protected:
 	bool _isEnable;
 	bool _isRendering;
 	bool _isFirstMouse;
-	sharedPtr<OffScreen> _offScreen;
+	SharedPtr<OffScreen> _offScreen;
 	bool _isAllowOffScreen;
 };
 }

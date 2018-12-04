@@ -26,12 +26,8 @@ MeshShadow::~MeshShadow()
 }
 void MeshShadow::DrawReady()
 {
-	/*_model = LocalModelLoad("../Resource/object/base/Cube.3DS");
-
-	_woodTexture = LocalTextureLoad("../Resource/texture/wood.jpg");*/
-
-
-	_model = GetSubSystem<ResourceSystem>()->ModelLoad("../Resource/object/base/Cube.3DS");
+	Model* tmp = GetSubSystem<ResourceSystem>()->ModelLoad("../Resource/object/base/Cube.3DS");
+	_model = SharedPtr<Model>(tmp);
 	_woodTexture = GetSubSystem<ResourceSystem>()->TextureLoad("../Resource/texture/wood.jpg");
 
 

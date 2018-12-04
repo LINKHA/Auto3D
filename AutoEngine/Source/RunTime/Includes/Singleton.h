@@ -1,22 +1,21 @@
 #pragma once
 #include "Auto.h"
 #include "LogAssert.h"
-#define SINGLETON_INSTANCE(x) template<> x* Singleton<x>::_instance = nullptr
-#define INSTANCE(x)	x::Instance()
 
 namespace Auto3D {
 /*
 * Template class for creating single-instance global classes.
 */
-template<typename _Ty>
-class Singleton
+template<typename _Ty> class Singleton
 {
 public:
+	using ClassType = _Ty;
+public:
 	Singleton()
-	{
-		Assert(!_instance);
-		_instance = static_cast<_Ty*>(this);
-	}
+	{}
+
+	virtual ~Singleton()
+	{}
 	/*
 	* @brief Explicit private copy constructor. This is a forbidden operation.
 	*/
@@ -26,11 +25,6 @@ public:
 	*/
 	Singleton& operator = (const Singleton<_Ty> &) = delete;
 	
-	virtual ~Singleton()
-	{
-		Assert(_instance);  
-		_instance = nullptr;
-	}
 	/**
 	* @brief : get instance
 	* @return : return Singleton m_instance
@@ -56,9 +50,10 @@ public:
 		return _instance;
 	}
 
-	using ClassType = _Ty;
 protected:
 	static _Ty* _instance;
 };
+
+template<typename _Ty> _Ty* Singleton<_Ty>::_instance = nullptr;
 
 }

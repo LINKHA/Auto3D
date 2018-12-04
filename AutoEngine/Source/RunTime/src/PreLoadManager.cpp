@@ -3,8 +3,6 @@
 
 namespace Auto3D {
 
-SINGLETON_INSTANCE(PreLoadManager);
-
 PreLoadManager::PreLoadManager(Ambient* ambient)
 	:Super(ambient)
 {

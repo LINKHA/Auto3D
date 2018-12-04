@@ -8,5 +8,4 @@ public:
 	explicit VertexExplodeSpace(Ambient* ambient);
 	~VertexExplodeSpace();
 	void Awake()override;
-	int Launch();
 };

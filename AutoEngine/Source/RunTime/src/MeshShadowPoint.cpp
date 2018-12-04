@@ -40,7 +40,8 @@ MeshShadowPoint::~MeshShadowPoint()
 }
 void MeshShadowPoint::DrawReady()
 {
-	_model = GetSubSystem<ResourceSystem>()->ModelLoad("../Resource/object/base/Cube.3DS");
+	Model* tmp = GetSubSystem<ResourceSystem>()->ModelLoad("../Resource/object/base/Cube.3DS");
+	_model = SharedPtr<Model>(tmp);
 	_woodTexture = GetSubSystem<ResourceSystem>()->TextureLoad("../Resource/texture/wood.jpg");
 
 	_shader.Use();

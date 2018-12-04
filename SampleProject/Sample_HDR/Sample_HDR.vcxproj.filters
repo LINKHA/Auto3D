@@ -19,9 +19,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Misc">
-      <UniqueIdentifier>{d11917fb-db77-4ea2-bcb6-4c3489993a31}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Level">
       <UniqueIdentifier>{6eca14bc-fdb9-4579-b1c3-6465101b7f25}</UniqueIdentifier>
     </Filter>
