@@ -3,7 +3,7 @@
 #include "ResourceSystem.h"
 #include "AutoOGL.h"
 #include "Shader.h"
-#include "DebugNew.h"
+#include "NewDef.h"
 
 namespace Auto3D {
 

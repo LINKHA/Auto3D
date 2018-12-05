@@ -1,6 +1,6 @@
 #pragma once
 #include "Math/MathBase.h"
-#include "LogAssert.h"
+
 namespace Auto3D {
 inline UInt32 FloorfToIntPos(float f)
 {
@@ -11,8 +11,6 @@ inline UInt32 RoundfToIntPos(float f)
 {
 	return FloorfToIntPos(f + 0.5f);
 }
-
-
 
 inline int NormalizedToByte(float f)
 {

@@ -1,6 +1,6 @@
 #pragma once
 #include "Object.h"
-#include "ObjectFactory.h"
+
 namespace Auto3D {
 
 class Ambient

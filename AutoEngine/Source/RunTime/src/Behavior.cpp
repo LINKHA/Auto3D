@@ -1,6 +1,6 @@
 #include "Behavior.h"
 #include "Scene.h"
-#include "DebugNew.h"
+#include "NewDef.h"
 
 namespace Auto3D {
 

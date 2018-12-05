@@ -3,6 +3,7 @@
 #include <math.h>
 #include <string.h>
 #include "Auto.h"
+#include "AssertDef.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
@@ -26,88 +27,88 @@ static const unsigned MATH_MIN_UNSIGNED = 0x00000000;
 static const unsigned MATH_MAX_UNSIGNED = 0xffffffff;
 
 
-template<typename T>
-static inline T max(T v1, T v2) { return v1 > v2 ? v1 : v2; }
+template<typename _Ty>
+static inline _Ty max(_Ty v1, _Ty v2) { return v1 > v2 ? v1 : v2; }
 
 template<>
 static inline float max(float v1, float v2) { return v1 > v2 ? v1 : v2; }
 
-template<typename T>
-static inline T min(T v1, T v2) { return v1 < v2 ? v1 : v2; }
+template<typename _Ty>
+static inline _Ty min(_Ty v1, _Ty v2) { return v1 < v2 ? v1 : v2; }
 
 template<>
 static inline float min(float v1, float v2) { return v1 < v2 ? v1 : v2; }
 
-template<typename T>
-static inline T abs(const T &r)
+template<typename _Ty>
+static inline _Ty abs(const _Ty &r)
 {
 	return std::abs(r);
 }
 
-template<typename T>
-static inline  T sqrt(const T& T)
+template<typename _Ty>
+static inline  _Ty sqrt(const _Ty& _Ty)
 {
-	return std::sqrt(T);
+	return std::sqrt(_Ty);
 }
 
-template<typename T>
-static inline T cos(T const& theta)
+template<typename _Ty>
+static inline _Ty cos(_Ty const& theta)
 {
 	return std::cos(theta);
 }
 
-template<typename T>
-static inline T acos(T const& theta)
+template<typename _Ty>
+static inline _Ty acos(_Ty const& theta)
 {
 	return std::acos(theta);
 }
 
-template<typename T>
-static inline T sin(T const& theta)
+template<typename _Ty>
+static inline _Ty sin(_Ty const& theta)
 {
 	return std::sin(theta);
 }
 
-template<typename T>
-static inline T asin(T const& theta)
+template<typename _Ty>
+static inline _Ty asin(_Ty const& theta)
 {
 	return std::asin(theta);
 }
 
-template<typename T>
-static inline T tan(T const& theta)
+template<typename _Ty>
+static inline _Ty tan(_Ty const& theta)
 {
 	return std::tan(theta);
 }
 
-template<typename T>
-static inline T atan(T const& theta)
+template<typename _Ty>
+static inline _Ty atan(_Ty const& theta)
 {
 	return std::atan(theta);
 }
 
-template<typename T>
-static inline void sincos(T const& u, T& s, T& c)
+template<typename _Ty>
+static inline void sincos(_Ty const& u, _Ty& s, _Ty& c)
 {
 	s = sin(u);
 	c = cos(u);
 }
 
-template<typename T>
-static inline  T pow(T const & x, T const& y)
+template<typename _Ty>
+static inline  _Ty pow(_Ty const & x, _Ty const& y)
 {
 	return std::pow(x, y);
 }
 
 
-template<typename T,typename E>
-static inline T lerp(T const  & a, T const  & b, E x)
+template<typename _Ty,typename E>
+static inline _Ty lerp(_Ty const  & a, _Ty const  & b, E x)
 {
 	return a + (b - a)*x;
 }
 
-template<typename T>
-static inline T clamp(T const& x, T const& lo, T const& hi)
+template<typename _Ty>
+static inline _Ty clamp(_Ty const& x, _Ty const& lo, _Ty const& hi)
 {
 	return  ((x < lo) ? lo : ((x > hi) ? hi : x));
 }

@@ -1,6 +1,6 @@
 #include "Prefab.h"
 #include "PreLoadManager.h"
-#include "DebugNew.h"
+#include "NewDef.h"
 
 namespace Auto3D {
 

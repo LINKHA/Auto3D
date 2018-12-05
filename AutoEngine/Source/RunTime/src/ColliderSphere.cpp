@@ -3,6 +3,7 @@
 #include "PhysicsUtils.h"
 #include "Transform.h"
 #include "PhysicsWorld.h"
+#include "MemoryDef.h"
 
 namespace Auto3D {
 
@@ -17,7 +18,7 @@ ColliderSphere::ColliderSphere(Ambient* ambient)
 
 ColliderSphere::~ColliderSphere()
 {
-	SAFE_DELETE(_shape);
+	SafeDelete(_shape);
 }
 
 void ColliderSphere::RegisterObject(Ambient* ambient)
@@ -48,7 +49,7 @@ void ColliderSphere::resize(float size)
 {
 	if (!_shape)
 		return;
-	SAFE_DELETE(_shape);
+	SafeDelete(_shape);
 	_shape = new btSphereShape(size);
 	//_shape->setLocalScaling(ToBtVector3(_cachedWorldScale));
 }

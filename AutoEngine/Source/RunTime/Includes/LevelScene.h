@@ -1,6 +1,5 @@
 #pragma once
 #include "Object.h"
-#include "RunDefines.h"
 #include "BehaviorObject.h"
 #include "SceneNode.h"
 

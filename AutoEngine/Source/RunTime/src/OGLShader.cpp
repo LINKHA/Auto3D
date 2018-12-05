@@ -1,12 +1,10 @@
-#include <string>
 #include <fstream>
 #include <sstream>
 #include <iostream>
-
 #include "Shader.h"
-#include "LogAssert.h"
 #include "Math/Math.h"
-#include "DebugNew.h"
+
+#include "NewDef.h"
 
 namespace Auto3D {
 

@@ -1,7 +1,7 @@
 #include "ALDeviceList.h"
 #include <windows.h>
 #include "OpenAL/alc.h"
-#include "DebugNew.h"
+#include "NewDef.h"
 /*
 * Init call
 */

@@ -2,6 +2,7 @@
 #include "../FreeCamera.h"
 #include "ResourceSystem.h"
 #include "level_0.h"
+
 DebugSapce::DebugSapce(Ambient* ambient)
 	:MotionSpace(ambient)
 {}

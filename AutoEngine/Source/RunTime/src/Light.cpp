@@ -1,7 +1,6 @@
 #include "Light.h"
-#include "LogAssert.h"
 #include "Renderer.h"
-#include "DebugNew.h"
+#include "NewDef.h"
 
 namespace Auto3D {
 /////////////////////////////////////////////////////////////////////////////////////////////

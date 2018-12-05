@@ -40,11 +40,11 @@ PhysicsWorld::PhysicsWorld(Ambient* ambient)
 
 PhysicsWorld::~PhysicsWorld()
 {
-	SAFE_DELETE(_world);
-	SAFE_DELETE(_solver);
-	SAFE_DELETE(_broadphase);
-	SAFE_DELETE(_collisionDispatcher);
-	SAFE_DELETE(_collisionConfiguration);
+	SafeDelete(_world);
+	SafeDelete(_solver);
+	SafeDelete(_broadphase);
+	SafeDelete(_collisionDispatcher);
+	SafeDelete(_collisionConfiguration);
 	if (!PhysicsWorld::config.collisionConfig)
 		delete _collisionConfiguration;
 }

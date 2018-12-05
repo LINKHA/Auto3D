@@ -3,7 +3,7 @@
 #include "Scene.h"
 #include "Application.h"
 
-#include "DebugNew.h"
+#include "NewDef.h"
 
 namespace Auto3D {
 MotionSpace::MotionSpace(Ambient* ambient)

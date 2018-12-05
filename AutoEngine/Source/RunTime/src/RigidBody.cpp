@@ -22,9 +22,9 @@ RigidBody::RigidBody(Ambient* ambient)
 
 RigidBody::~RigidBody()
 {
-	SAFE_DELETE(_motionState);
+	SafeDelete(_motionState);
 #if DebugCompoundShape
-	SAFE_DELETE(_compoundShape);
+	SafeDelete(_compoundShape);
 #endif
 }
 

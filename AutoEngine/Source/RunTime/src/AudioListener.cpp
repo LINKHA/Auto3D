@@ -1,7 +1,7 @@
 #include "AudioListener.h"
 #include "AutoOAL.h"
 #include "Ambient.h"
-#include "DebugNew.h"
+#include "NewDef.h"
 
 
 // Listener position

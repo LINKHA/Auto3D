@@ -7,7 +7,7 @@
 #include "ResourceSystem.h"
 #include "tImage.h"
 #include "Image.h"
-#include "DebugNew.h"
+#include "NewDef.h"
 
 namespace Auto3D {
 

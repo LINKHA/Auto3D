@@ -1,7 +1,7 @@
 #include "BaseMesh.h"
 #include "AutoOGL.h"
 #include "AutoSTL.h"
-#include "DebugNew.h"
+#include "NewDef.h"
 
 namespace Auto3D {
 

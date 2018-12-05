@@ -349,9 +349,6 @@
     <Filter Include="Source\RunTime\Code">
       <UniqueIdentifier>{a9fd5a6c-c5d8-4386-9a88-670ec59ae41d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\RunTime\Code\CodeDef">
-      <UniqueIdentifier>{20a3004e-a940-4703-9048-a0d751ed4fa9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\ThirdParty\LZ4">
       <UniqueIdentifier>{dff08062-b8f6-43fe-84a8-337dbc030b40}</UniqueIdentifier>
     </Filter>
@@ -1145,9 +1142,6 @@
     <ClInclude Include="Source\RunTime\Includes\Camera.h">
       <Filter>Source\RunTime\Graphics\Component\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\ClassID.h">
-      <Filter>Source\RunTime\Code\CodeDef</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Collider2D.h">
       <Filter>Source\RunTime\Physics\Component\2D</Filter>
     </ClInclude>
@@ -1168,9 +1162,6 @@
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Constraint2D.h">
       <Filter>Source\RunTime\Physics\Component\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\DebugNew.h">
-      <Filter>Source\RunTime\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\DeferredShading.h">
       <Filter>Source\RunTime\Graphics\Component\Camera\TempIntegrated</Filter>
@@ -1208,9 +1199,6 @@
     <ClInclude Include="Source\RunTime\Includes\IO.h">
       <Filter>Source\RunTime\IO</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Launch.h">
-      <Filter>Source\RunTime\Code\CodeDef</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\LevelScene.h">
       <Filter>Source\RunTime\Scene</Filter>
     </ClInclude>
@@ -1219,9 +1207,6 @@
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\LightContainer.h">
       <Filter>Source\RunTime\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\LogAssert.h">
-      <Filter>Source\RunTime\IO</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Mesh.h">
       <Filter>Source\RunTime\Graphics\Component\Mesh</Filter>
@@ -1251,12 +1236,6 @@
       <Filter>Source\RunTime\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Object.h">
-      <Filter>Source\RunTime\Code</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\ObjectDefines.h">
-      <Filter>Source\RunTime\Code\CodeDef</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\ObjectFactory.h">
       <Filter>Source\RunTime\Code</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\OffScreen.h">
@@ -1294,9 +1273,6 @@
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\RTTI.h">
       <Filter>Source\RunTime\Code</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\RunDefines.h">
-      <Filter>Source\RunTime\Code\CodeDef</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Scene.h">
       <Filter>Source\RunTime\Scene</Filter>
@@ -3653,6 +3629,30 @@
     <ClInclude Include="Source\ThirdParty\KhSTL\Container\String\TypeString.h">
       <Filter>Source\ThirdParty\KhSTL\Container</Filter>
     </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\ClassID.h">
+      <Filter>Source\RunTime\Code</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Launch.h">
+      <Filter>Source\RunTime\Code</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\ObjectDef.h">
+      <Filter>Source\RunTime\Code</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\LogDef.h">
+      <Filter>Source\RunTime\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\NewDef.h">
+      <Filter>Source\RunTime\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\AutoDef.h">
+      <Filter>Source\RunTime</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\AssertDef.h">
+      <Filter>Source\RunTime\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\MemoryDef.h">
+      <Filter>Source\RunTime\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PlatformDependent\Win\WinUnicode.cpp">
@@ -4542,9 +4542,6 @@
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Constraint2D.cpp">
       <Filter>Source\RunTime\Physics\Component\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\DebugNew.cpp">
-      <Filter>Source\RunTime\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\DeferredShading.cpp">
       <Filter>Source\RunTime\Graphics\Component\Camera\TempIntegrated</Filter>

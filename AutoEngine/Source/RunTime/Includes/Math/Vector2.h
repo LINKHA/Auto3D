@@ -1,6 +1,5 @@
 #pragma once
 #include "MathBase.h"
-#include "LogAssert.h"
 
 namespace Auto3D {
 struct Vector2

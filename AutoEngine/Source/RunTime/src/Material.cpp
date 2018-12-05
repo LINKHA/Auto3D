@@ -1,6 +1,6 @@
 #include "Material.h"
 #include "ResourceSystem.h"
-#include "DebugNew.h"
+#include "NewDef.h"
 namespace Auto3D {
 Material::Material(Ambient* ambi)
 	:Super(ambi)

@@ -1,6 +1,6 @@
 #include "RenderComponent.h"
 #include "Renderer.h"
-#include "DebugNew.h"
+#include "NewDef.h"
 
 namespace Auto3D {
 RenderComponent::RenderComponent(Ambient* ambient)

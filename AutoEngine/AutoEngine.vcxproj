@@ -374,6 +374,9 @@
     <None Include="Source\ThirdParty\SDL2\SDL_config_macosx.h.orig" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\RunTime\Includes\MemoryDef.h" />
+    <ClInclude Include="Source\RunTime\Includes\AssertDef.h" />
+    <ClInclude Include="Source\RunTime\Includes\AutoDef.h" />
     <ClInclude Include="Source\RunTime\Includes\AutoString.h" />
     <ClInclude Include="Source\RunTime\Includes\Image.h" />
     <ClInclude Include="Source\RunTime\Includes\BackgroundLoader.h" />
@@ -408,7 +411,7 @@
     <ClInclude Include="Source\RunTime\Includes\AutoSTL.h" />
     <ClInclude Include="Source\RunTime\Includes\AudioSource.h" />
     <ClInclude Include="Source\RunTime\Includes\AutoImage.h" />
-    <ClInclude Include="Source\RunTime\Includes\DebugNew.h" />
+    <ClInclude Include="Source\RunTime\Includes\NewDef.h" />
     <ClInclude Include="Source\RunTime\Includes\ALDeviceList.h" />
     <ClInclude Include="Source\RunTime\Includes\ALWaves.h" />
     <ClInclude Include="Source\RunTime\Includes\ALfw.h" />
@@ -419,10 +422,8 @@
     <ClInclude Include="Source\RunTime\Includes\Component.h" />
     <ClInclude Include="Source\RunTime\Includes\Node.h" />
     <ClInclude Include="Source\RunTime\Includes\Audio.h" />
-    <ClInclude Include="Source\RunTime\Includes\RunDefines.h" />
     <ClInclude Include="Source\RunTime\Includes\LevelScene.h" />
     <ClInclude Include="Source\RunTime\Includes\RTTI.h" />
-    <ClInclude Include="Source\RunTime\Includes\ObjectFactory.h" />
     <ClInclude Include="Source\RunTime\Includes\LightContainer.h" />
     <ClInclude Include="Source\RunTime\Includes\Monitors.h" />
     <ClInclude Include="Source\RunTime\Includes\Model.h" />
@@ -464,7 +465,7 @@
     <ClInclude Include="Source\RunTime\Includes\Material.h" />
     <ClInclude Include="Source\RunTime\Includes\Light.h" />
     <ClInclude Include="Source\RunTime\Includes\Mesh.h" />
-    <ClInclude Include="Source\RunTime\Includes\ObjectDefines.h" />
+    <ClInclude Include="Source\RunTime\Includes\ObjectDef.h" />
     <ClInclude Include="Source\RunTime\Includes\GameManager.h" />
     <ClInclude Include="Source\RunTime\Includes\InputManager.h" />
     <ClInclude Include="Source\RunTime\Includes\Math\FloatConversion.h" />
@@ -474,7 +475,7 @@
     <ClInclude Include="Source\RunTime\Includes\Math\Color.h" />
     <ClInclude Include="PlatformDependent\Win\PathUnicode.h" />
     <ClInclude Include="Source\RunTime\Includes\File.h" />
-    <ClInclude Include="Source\RunTime\Includes\LogAssert.h" />
+    <ClInclude Include="Source\RunTime\Includes\LogDef.h" />
     <ClInclude Include="Source\RunTime\Includes\Math\Matrix4x4.h" />
     <ClInclude Include="Source\RunTime\Includes\Math\Matrix3x3.h" />
     <ClInclude Include="Source\RunTime\Includes\Math\Quaternion.h" />
@@ -1277,7 +1278,6 @@
     <ClCompile Include="Source\RunTime\src\Physics.cpp" />
     <ClCompile Include="Source\RunTime\src\RigidBody2D.cpp" />
     <ClCompile Include="Source\RunTime\src\AudioSource.cpp" />
-    <ClCompile Include="Source\RunTime\src\DebugNew.cpp" />
     <ClCompile Include="Source\RunTime\src\ALDeviceList.cpp" />
     <ClCompile Include="Source\RunTime\src\ALWaves.cpp" />
     <ClCompile Include="Source\RunTime\src\ALfw.cpp" />

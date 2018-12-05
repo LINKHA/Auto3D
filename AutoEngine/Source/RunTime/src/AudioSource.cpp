@@ -2,7 +2,7 @@
 #include "Time.h"
 #include "Timer.h"
 #include <functional>
-#include "DebugNew.h"
+#include "NewDef.h"
 
 namespace Auto3D {
 

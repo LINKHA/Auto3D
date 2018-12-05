@@ -5,7 +5,7 @@
 #include "BaseMesh.h"
 #include "Light.h"
 #include "ResourceSystem.h"
-#include "DebugNew.h"
+#include "NewDef.h"
 namespace Auto3D {
 
 MeshLight::MeshLight(Ambient* ambient)

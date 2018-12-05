@@ -1,6 +1,6 @@
 #include "Transform.h"
 #include "Ambient.h"
-#include "DebugNew.h"
+#include "NewDef.h"
 namespace Auto3D {
 
 Transform::Transform(Ambient* ambient)

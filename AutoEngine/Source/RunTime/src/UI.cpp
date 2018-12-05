@@ -1,5 +1,5 @@
 #include "UI.h"
-#include "DebugNew.h"
+#include "NewDef.h"
 namespace Auto3D {
 
 UI::UI(Ambient* ambient)

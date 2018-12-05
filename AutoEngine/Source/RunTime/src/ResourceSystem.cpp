@@ -10,7 +10,7 @@
 #include "Sprite2D.h"
 #include "Image.h"
 
-#include "DebugNew.h"
+#include "NewDef.h"
 
 
 namespace Auto3D {

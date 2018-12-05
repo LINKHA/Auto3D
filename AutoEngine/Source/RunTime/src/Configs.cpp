@@ -1,7 +1,7 @@
 #include "Configs.h"
 #include "config.h"
 #include "AutoSTL.h"
-#include "DebugNew.h"
+#include "NewDef.h"
 
 namespace Auto3D {
 

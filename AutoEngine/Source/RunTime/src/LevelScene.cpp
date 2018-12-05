@@ -2,7 +2,7 @@
 #include "Node.h"
 #include "Component.h"
 #include "PhysicsWorld2D.h"
-#include "DebugNew.h"
+#include "NewDef.h"
 
 
 namespace Auto3D {
@@ -111,7 +111,6 @@ void LevelScene::ModeRunNode(RunMode runMode)
 				}
 			else if (runMode == RunMode::Start)
 			{
-				print(node->GetComponentsSize());
 				for (compomentIt k = node->GetComponentsArray().begin(); k != node->GetComponentsArray().end(); k++)
 				{
 					if (k->second->GetEnable())

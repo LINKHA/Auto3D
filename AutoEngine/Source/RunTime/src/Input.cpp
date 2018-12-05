@@ -1,7 +1,7 @@
 #include "Input.h"
 #include "AutoSDL2.h"
 #include "Graphics.h"
-#include "DebugNew.h"
+#include "NewDef.h"
 
 namespace Auto3D {
 Input::Input(Ambient* ambient)

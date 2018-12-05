@@ -2,7 +2,7 @@
 #include <ks.h>
 #include <ksmedia.h>
 #include <errno.h>
-#include "DebugNew.h"
+#include "NewDef.h"
 #pragma pack(push, 4)
 
 typedef struct

@@ -1,5 +1,5 @@
 #include "GameManager.h"
-#include "DebugNew.h"
+#include "NewDef.h"
 
 
 

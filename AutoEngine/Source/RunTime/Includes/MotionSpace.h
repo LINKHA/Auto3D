@@ -1,9 +1,6 @@
 #pragma once
-#include "Auto.h"
-#include "Singleton.h"
-#include "Camera.h"
-#include "RunDefines.h"
 #include "BehaviorObject.h"
+#include "Singleton.h"
 #include "Launch.h"
 
 namespace Auto3D {

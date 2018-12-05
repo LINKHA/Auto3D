@@ -1,7 +1,19 @@
 #pragma once
 #include "Object.h"
+#include "Ambient.h"
 
 namespace Auto3D {
+
+enum class RunMode
+{
+	Default = -1,
+	Awake,
+	Start,
+	Update,
+	FixUpdate,
+	Finish,
+	Draw,
+};
 
 class BehaviorObject : public Object
 {

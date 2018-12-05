@@ -1,10 +1,9 @@
 #include "File.h"
-#include "LogAssert.h"
 #include "FileSystem.h"
 #include "Math/MathBase.h"
 #include "MemoryBuffer.h"
 #include "AutoZIP.h"
-#include "DebugNew.h"
+#include "NewDef.h"
 
 namespace Auto3D {
 

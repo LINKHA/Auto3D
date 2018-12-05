@@ -1,17 +1,6 @@
 #pragma once
-#include "LogAssert.h"
+#include "AutoDef.h"
 #include "AutoSTL.h"
-
-#define AUTO_DEBUG 1
-#define MEMORY_DEBUG 0
-#define AUTO_RELEASE !AUTO_DEBUG
-
-#define _OPENGL_4_6_ 0		//OpenGL 4.6
-#define _OPENGL_4_PLUS_ 1	//OpenGL 4.3
-#define _OPENGL_3_PLUS_ 0	//OpenGL 3.3
-
-#define DebugCompoundShape 0
-#define SharedPtrDebug 0
 
 #ifndef AUTO_API
 #    ifdef DLL_EXPORTS
@@ -44,48 +33,37 @@
 #	define SELECT_DEDICATED_GRAPHICS_CARD
 #endif
 
-#define SAFE_DELETE(_X)           do { if(_X)	{ delete (_X); (_X) = nullptr; } } while(0)
-#define SAFE_DELETE_ARRAY(_X)     do { if(_X) { delete[] (_X); (_X) = nullptr; } } while(0)
-#define SAFE_FREE(_X)             do { if(_X) { free(_X); (_X) = nullptr; } } while(0)
-#define SAFE_RELEASE(_X)          do { if(_X) { (_X)->release(); } } while(0)
-#define SAFE_RELEASE_NULL(_X)     do { if(_X) { (_X)->release(); (_X) = nullptr; } } while(0)
-#define SAFE_RETAIN(_X)           do { if(_X) { (_X)->retain(); } } while(0)
-#define BREAK_IF(_X)			  do { if(_X) break; } while(0)
 
-#if AUTO_DEBUG 
+#if  AUTO_MEMORY_DEBUG
+#	if AUTO_WIN32_CONSOLE
+#		define DETECT_MEMORY_LEAKS() \
+		do{\
+			int flags = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG); \
+			flags |= _CRTDBG_LEAK_CHECK_DF; \
+			_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_FILE); \
+			_CrtSetReportFile(_CRT_WARN, _CRTDBG_FILE_STDOUT); \
+			_CrtSetDbgFlag(flags);\
+		}while(0)
+#	else
+#		define DETECT_MEMORY_LEAKS() \
+		do{\
+			int flags = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG); \
+			flags |= _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF;\
+			_CrtSetDbgFlag(flags);\
+		}while(0)
+#	endif
 #else
-#	pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
+#	define DETECT_MEMORY_LEAKS()
 #endif
 
-#if  MEMORY_DEBUG
-#	include "DebugNew.h"
-#	define DETECT_MEMORY_LEAKS(Enable)	DetectMemoryLeaks(Enable)
+
+
+#if AUTO_WIN32_CONSOLE
+#	pragma comment(linker, "/subsystem:console /ENTRY:mainCRTStartup")
 #else
-#	define DETECT_MEMORY_LEAKS
+#	ifdef _MSC_VER
+#		pragma comment(linker, "/subsystem:windows /ENTRY:WinMainCRTStartup")
+#	else
+#		pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
+#	endif
 #endif
-
-
-//Define Data type
-using Int8 = char;
-using SInt8 = signed char;
-using PInt8 = char*;
-using UInt8 = unsigned char;
-using PUInt8 = unsigned char*;
-
-using Int16 = short;
-using SInt16 = signed short;
-using PInt16 = short*;
-using UInt16 = unsigned short;
-using PUInt16 = unsigned short*;
-
-using Int32 = int;
-using SInt32 = signed int;
-using PInt32 = int*;
-using UInt32 = unsigned int;
-using PUInt32 = unsigned int*;
-
-using Int64 = __int64;
-using SInt64 = signed __int64;
-using PInt64 = __int64*;
-using UInt64 = unsigned __int64;
-using PUInt64 = unsigned __int64*;

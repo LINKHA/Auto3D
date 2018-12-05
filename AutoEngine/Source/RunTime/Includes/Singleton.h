@@ -1,6 +1,5 @@
 #pragma once
 #include "Auto.h"
-#include "LogAssert.h"
 
 namespace Auto3D {
 /*

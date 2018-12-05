@@ -10,9 +10,5 @@
 #		include <stdlib.h>
 #		define AUTO_DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
 #		define new AUTO_DEBUG_NEW
-#	endif //AUTO_DEBUG
-#endif //defined(_MSC_VER) && defined(_DEBUG)
-
-namespace Auto3D {
-	void DetectMemoryLeaks(bool enable);
-}
+#	endif
+#endif
