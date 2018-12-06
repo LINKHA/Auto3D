@@ -1,7 +1,8 @@
 #include "Graphics.h"
 #include "AutoImage.h"
 #include "AutoOGL.h"
-#include "../../EngineSetting/BuildSetting.h"
+#include "../../../EngineSetting/Optimize.h"
+#include "../../../EngineSetting/BuildSetting.h"
 #include "NewDef.h"
 namespace Auto3D {
 

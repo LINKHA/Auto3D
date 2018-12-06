@@ -1,6 +1,6 @@
 #pragma once
 #include "Object.h"
-#include "../../EngineSetting/GameSetting.h"
+#include "../../../EngineSetting/GameSetting.h"
 #include "Math/Math.h"
 
 

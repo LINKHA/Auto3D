@@ -1,7 +1,7 @@
 #include "windows.h"
 #include "ALad.h"
 #include "tchar.h"
-#include "LogAssert.h"
+#include "LogDef.h"
 #include "malloc.h"
 #include <stdlib.h>
 

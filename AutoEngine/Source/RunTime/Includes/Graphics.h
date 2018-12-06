@@ -6,7 +6,7 @@
 #include "Math/Color.h"
 #include "Math/Rect.h"
 #include "GraphicsDefines.h"
-#include "AutoSDL2.h"
+#include "AutoSDL.h"
 
 namespace Auto3D {
 class Graphics : public GlobalGameManager

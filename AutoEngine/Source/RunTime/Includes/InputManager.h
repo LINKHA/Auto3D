@@ -1,5 +1,5 @@
 #pragma once
-#include "AutoSDL2.h"
+#include "AutoSDL.h"
 /**
 *  \name Usage page 0x07
 *

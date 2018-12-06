@@ -3,7 +3,7 @@
 #endif
 
 #ifndef MINI_AUTO
-#	include <SDL2/SDL_filesystem.h>
+#	include <SDL/SDL_filesystem.h>
 #endif
 
 #include <sys/stat.h>

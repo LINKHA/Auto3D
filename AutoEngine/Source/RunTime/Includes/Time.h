@@ -1,7 +1,7 @@
 #pragma once
 #include <Windows.h>
 #include "GameManager.h"
-#include "AutoSDL2.h"
+#include "AutoSDL.h"
 #include <functional>
 
 

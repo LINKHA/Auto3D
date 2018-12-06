@@ -1,6 +1,6 @@
 #pragma once
 #include "Object.h"
-#include "AutoSDL2.h"
+#include "AutoSDL.h"
 #include <functional>
 #include <thread>
 

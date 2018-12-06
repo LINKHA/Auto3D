@@ -1,5 +1,5 @@
 #include "Input.h"
-#include "AutoSDL2.h"
+#include "AutoSDL.h"
 #include "Graphics.h"
 #include "NewDef.h"
 
