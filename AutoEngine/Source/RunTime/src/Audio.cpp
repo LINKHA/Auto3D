@@ -22,12 +22,12 @@ Audio::~Audio()
 
 void Audio::Init()
 {
-	ALFWInit();
-	if (!ALFWInitOpenAL())
-	{
-		ErrorString("Failed to initialize OpenAL");
-		ALFWShutdown();
-	}
+	//ALFWInit();
+	//if (!ALFWInitOpenAL())
+	//{
+	//	ErrorString("Failed to initialize OpenAL");
+	//	ALFWShutdown();
+	//}
 
 }
 

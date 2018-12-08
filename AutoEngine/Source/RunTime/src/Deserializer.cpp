@@ -21,7 +21,7 @@ Deserializer::Deserializer(unsigned size)
 
 Deserializer::~Deserializer() = default;
 
-const STRING& Deserializer::GetName() const
+const STRING& Deserializer::GetName()const
 {
 	return STRING();
 }

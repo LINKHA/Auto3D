@@ -1,9 +1,9 @@
 #ifdef __ANDROID__
-#	include <SDL2/SDL_rwops.h>
+#	include <SDL2/include/SDL_rwops.h>
 #endif
 
 #ifndef MINI_AUTO
-#	include <SDL/SDL_filesystem.h>
+#	include <SDL/include/SDL_filesystem.h>
 #endif
 
 #include <sys/stat.h>

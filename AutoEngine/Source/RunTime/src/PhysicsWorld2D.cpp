@@ -25,6 +25,7 @@ PhysicsWorld2D::PhysicsWorld2D(Ambient* ambient)
 
 PhysicsWorld2D::~PhysicsWorld2D()
 {
+	SafeDelete(_world);
 	/*for (unsigned i = 0; i < _rigidBodies.Size(); ++i)
 		if (_rigidBodies[i])
 			_rigidBodies[i]->ReleaseBody();*/

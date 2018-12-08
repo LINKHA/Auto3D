@@ -113,7 +113,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>$(SolutionDir)$(Platform)\$(Configuration)\zlibstaticd.lib;$(SolutionDir)$(Platform)\$(Configuration)\IrrXML.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)\AutoEngine\ThirdParty\ThiredParty.lib\x64\IrrXML.lib;$(SolutionDir)\AutoEngine\ThirdParty\ThiredParty.lib\x64\zlibstatic.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -850,17 +850,15 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\Compiler\pstdint.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\contrib\irrXML\IrrXML.vcxproj">
+      <Project>{ad149eda-0c4b-3b12-b467-3b600b5b8a65}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\contrib\zlib\zlibstatic.vcxproj">
+      <Project>{ce868c11-1a93-3f5a-a4e8-9e44dea106ce}</Project>
+    </ProjectReference>
     <ProjectReference Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\ZERO_CHECK.vcxproj">
       <Project>{E99E390B-9979-3D4D-93A7-6DBED10A4ED6}</Project>
       <Name>ZERO_CHECK</Name>
-    </ProjectReference>
-    <ProjectReference Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\irrXML\IrrXML.vcxproj">
-      <Project>{AD149EDA-0C4B-3B12-B467-3B600B5B8A65}</Project>
-      <Name>IrrXML</Name>
-    </ProjectReference>
-    <ProjectReference Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\zlib\zlibstatic.vcxproj">
-      <Project>{CE868C11-1A93-3F5A-A4E8-9E44DEA106CE}</Project>
-      <Name>zlibstatic</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

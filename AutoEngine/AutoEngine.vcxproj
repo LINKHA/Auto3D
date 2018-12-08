@@ -81,8 +81,9 @@
     <LinkIncremental>true</LinkIncremental>
     <ReferencePath>$(ReferencePath)</ReferencePath>
     <IncludePath>../AutoEngine/ThirdParty;../AutoEngine/Source/RunTime/Includes;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>../lib/x64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
     <IntDir>$(SolutionDir)\AutoEngine\AutoEngine.dir\x64\</IntDir>
+    <OutDir>$(SolutionDir)\AutoEngine\AutoEngine.lib\x64\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -511,6 +512,9 @@
     </ProjectReference>
     <ProjectReference Include="ThirdParty\LZ4\LZ4.vcxproj">
       <Project>{2c24ef44-86d3-44d8-ad82-cd53037c0335}</Project>
+    </ProjectReference>
+    <ProjectReference Include="ThirdParty\OpenAL\build\OpenAL.vcxproj">
+      <Project>{d7ea7e25-ae3d-3354-b34c-75bfcd39c4c6}</Project>
     </ProjectReference>
     <ProjectReference Include="ThirdParty\SDL\Build\SDL2.vcxproj">
       <Project>{3f931d7f-6ccc-37e1-9112-ddcd1a43640a}</Project>

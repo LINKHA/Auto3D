@@ -19,7 +19,9 @@ static const SharedPtr<Resource> noResource;
 
 ResourceSystem::ResourceSystem(Ambient* ambient)
 	:Super(ambient)
-{}
+{
+	RegisterResourceLib(ambient);
+}
 
 ResourceSystem::~ResourceSystem()
 {}
@@ -190,12 +192,13 @@ Resource* ResourceSystem::GetResource(STRING type, const STRING& name, bool send
 	Resource* resource = dynamic_cast<Resource*>(_ambient->CreateObject(type));
 
 	// Attempt to load the resource
-	SharedPtr<File> file(GetFile(sanitatedName, sendEventOnFailure));
+	File* file(GetFile(sanitatedName, sendEventOnFailure));
 	if (!file)
 		return nullptr;   // Error is already logged
 	Print(file->GetName().CStr());
 	resource->SetName(file->GetName());
-	resource->Load(*(file.get()));
+	Print(resource->GetName().CStr());
+	resource->Load(*file);
 
 	return resource;
 }
@@ -296,7 +299,7 @@ File* ResourceSystem::searchResourceDirs(const STRING& name)
 		{
 			// Construct the file first with full path, then rename it to not contain the resource path,
 			// so that the file's sanitatedName can be used in further GetFile() calls (for example over the network)
-			File* file(new File(_ambient, _resourceDirs[i] + name));
+			File* file = new File(_ambient, _resourceDirs[i] + name);
 			file->SetName(name);
 			return file;
 		}

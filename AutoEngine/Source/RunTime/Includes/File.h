@@ -40,6 +40,10 @@ public:
 	*/
 	unsigned Write(const void* data, unsigned size) override;
 	/**
+	* @brief : Return the file name
+	*/
+	const STRING& GetName() const override { return _fileName; }
+	/**
 	* @brief : Open a filesystem file. Return true if successful
 	*/
 	bool Open(const STRING& fileName, FileMode mode = FileMode::Read);

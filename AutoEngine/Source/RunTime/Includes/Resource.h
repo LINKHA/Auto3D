@@ -62,14 +62,13 @@ public:
 	* @brief : Set name
 	*/
 	void SetName(const STRING& name);
-
 	/**
 	* @brief : Return name
 	*/
 	const STRING& GetName() const { return _name; }
 private:
 	/// name.
-	STRING _name;
+	STRING _name{};
 	/// memory use in bytes
 	unsigned _memoryUse;
 	/// asynchronous loading state

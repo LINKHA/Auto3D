@@ -45,18 +45,18 @@ void Level_0::Start()
 	//obj4->GetComponent(Transform).SetPosition(-0.2f, 0.0f, -2.0f);
 	//obj4->AddComponent(tex4);
 
-	//auto* imageLogo = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/logo.png");
+	auto* imageLogo = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/logo.png");
 
-	//obj = CreateNode();
-	//obj->CreateComponent<Sprite>()->SetImage(imageLogo);
-	////tex1->SetColor(Color(0.5f, 0.5f, 0.5f));
+	obj = CreateNode();
+	obj->CreateComponent<Sprite>()->SetImage(imageLogo);
+	//tex1->SetColor(Color(0.5f, 0.5f, 0.5f));
 
 	Node* obj5 = CreateNode();
 	obj5->CreateComponent<Sprite>()->SettImage("../Resource/texture/grass.png");
 	//tex5->EnableBlend(true);
 	obj5->GetComponent<Transform>()->SetPosition(-0.2f, 0.0f, -3.0f);
 
-	
+
 	Node* obj6 = CreateNode();
 	obj6->CreateComponent<Sprite>()->SettImage("../Resource/texture/grass.png");
 	//tex6->EnableBlend(true);

@@ -115,6 +115,7 @@ public:
 	sharedPtr<Object>  CreateObject() override { return sharedPtr<Object>(new _Ty(_ambient)); }
 #else
 	Object* CreateObject() override { return new _Ty(_ambient); }
+	//SharedPtr<Object>  CreateObject() override { return SharedPtr<Object>(new _Ty(_ambient)); }
 #endif
 };
 
