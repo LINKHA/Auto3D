@@ -82,6 +82,7 @@
     <ReferencePath>$(ReferencePath)</ReferencePath>
     <IncludePath>../AutoEngine/ThirdParty;../AutoEngine/Source/RunTime/Includes;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>../lib/x64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+    <IntDir>$(SolutionDir)\AutoEngine\AutoEngine.dir\x64\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -493,6 +494,9 @@
     <ClCompile Include="Source\RunTime\src\TypeThread.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="ThirdParty\Assimp\code\assimp.vcxproj">
+      <Project>{a1150568-8320-3dba-bb95-58ccb87dd563}</Project>
+    </ProjectReference>
     <ProjectReference Include="ThirdParty\Box2D\Box2D.vcxproj">
       <Project>{e739918f-a0a6-4a71-9d22-339f254b7215}</Project>
     </ProjectReference>
@@ -507,6 +511,12 @@
     </ProjectReference>
     <ProjectReference Include="ThirdParty\LZ4\LZ4.vcxproj">
       <Project>{2c24ef44-86d3-44d8-ad82-cd53037c0335}</Project>
+    </ProjectReference>
+    <ProjectReference Include="ThirdParty\SDL\Build\SDL2.vcxproj">
+      <Project>{3f931d7f-6ccc-37e1-9112-ddcd1a43640a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="ThirdParty\SDL\Build\SDL2main.vcxproj">
+      <Project>{73824cff-f908-3094-a67f-2d0012d5460f}</Project>
     </ProjectReference>
     <ProjectReference Include="ThirdParty\STB\STB.vcxproj">
       <Project>{f890b443-9cc2-4ebf-b59f-0828190b552f}</Project>

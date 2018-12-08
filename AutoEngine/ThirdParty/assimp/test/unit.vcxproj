@@ -1,0 +1,480 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{3441EB9C-0AFF-3BC1-98E2-C89C71D0E342}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>unit</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\bin\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">unit.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">unit</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\bin\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">unit.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">unit</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\bin\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">unit.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">unit</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\bin\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">unit.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">unit</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\.;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\zlib;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\..\contrib\gtest\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\..\contrib\gtest;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;WIN32_LEAN_AND_MEAN;ASSIMP_BUILD_NO_C4D_IMPORTER;ASSIMP_TEST_MODELS_DIR="D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/test/models";_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;WIN32_LEAN_AND_MEAN;ASSIMP_BUILD_NO_C4D_IMPORTER;ASSIMP_TEST_MODELS_DIR=\"D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/test/models\";_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\.;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\zlib;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\..\contrib\gtest\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\..\contrib\gtest;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\.;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\zlib;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\..\contrib\gtest\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\..\contrib\gtest;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -E copy_if_different D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/bin/Debug/assimp-vc140-mt.dll D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/bin/Debug
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>..\lib\Debug\assimp-vc140-mt.lib;..\lib\Debug\zlibstaticd.lib;..\lib\Debug\IrrXML.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp;D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/$(Configuration);/lib;/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/lib/Debug/unit.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/bin/Debug/unit.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\.;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\zlib;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\..\contrib\gtest\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\..\contrib\gtest;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;NDEBUG;WIN32_LEAN_AND_MEAN;ASSIMP_BUILD_NO_C4D_IMPORTER;ASSIMP_TEST_MODELS_DIR="D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/test/models";_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat></DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;NDEBUG;WIN32_LEAN_AND_MEAN;ASSIMP_BUILD_NO_C4D_IMPORTER;ASSIMP_TEST_MODELS_DIR=\"D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/test/models\";_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\.;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\zlib;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\..\contrib\gtest\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\..\contrib\gtest;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\.;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\zlib;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\..\contrib\gtest\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\..\contrib\gtest;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -E copy_if_different D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/bin/Release/assimp-vc140-mt.dll D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/bin/Release
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>..\lib\Release\assimp-vc140-mt.lib;..\lib\Release\zlibstatic.lib;..\lib\Release\IrrXML.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp;D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/$(Configuration);/lib;/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/lib/Release/unit.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/bin/Release/unit.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\.;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\zlib;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\..\contrib\gtest\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\..\contrib\gtest;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;NDEBUG;WIN32_LEAN_AND_MEAN;ASSIMP_BUILD_NO_C4D_IMPORTER;ASSIMP_TEST_MODELS_DIR="D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/test/models";_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat></DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;NDEBUG;WIN32_LEAN_AND_MEAN;ASSIMP_BUILD_NO_C4D_IMPORTER;ASSIMP_TEST_MODELS_DIR=\"D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/test/models\";_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\.;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\zlib;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\..\contrib\gtest\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\..\contrib\gtest;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\.;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\zlib;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\..\contrib\gtest\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\..\contrib\gtest;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -E copy_if_different D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/bin/MinSizeRel/assimp-vc140-mt.dll D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/bin/MinSizeRel
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>..\lib\MinSizeRel\assimp-vc140-mt.lib;..\lib\MinSizeRel\zlibstatic.lib;..\lib\MinSizeRel\IrrXML.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp;D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/$(Configuration);/lib;/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/lib/MinSizeRel/unit.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/bin/MinSizeRel/unit.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\.;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\zlib;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\..\contrib\gtest\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\..\contrib\gtest;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;NDEBUG;WIN32_LEAN_AND_MEAN;ASSIMP_BUILD_NO_C4D_IMPORTER;ASSIMP_TEST_MODELS_DIR="D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/test/models";_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;NDEBUG;WIN32_LEAN_AND_MEAN;ASSIMP_BUILD_NO_C4D_IMPORTER;ASSIMP_TEST_MODELS_DIR=\"D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/test/models\";_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\.;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\zlib;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\..\contrib\gtest\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\..\contrib\gtest;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\.;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\zlib;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\..\contrib\gtest\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\..\contrib\gtest;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -E copy_if_different D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/bin/RelWithDebInfo/assimp-vc140-mt.dll D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/bin/RelWithDebInfo
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>..\lib\RelWithDebInfo\assimp-vc140-mt.lib;..\lib\RelWithDebInfo\zlibstatic.lib;..\lib\RelWithDebInfo\IrrXML.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp;D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/$(Configuration);/lib;/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/lib/RelWithDebInfo/unit.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/bin/RelWithDebInfo/unit.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/test/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -HD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp -BD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp --check-stamp-file D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/test/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/test/CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/test/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -HD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp -BD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp --check-stamp-file D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/test/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/test/CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/test/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -HD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp -BD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp --check-stamp-file D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/test/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/test/CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/test/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -HD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp -BD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp --check-stamp-file D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/test/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/test/CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\gtest\src\gtest-all.cc"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\CCompilerTest.c" >
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">CompileAsC</CompileAs>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\Main.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Version.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utSimd.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utIOSystem.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utIOStreamBuffer.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utIssues.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utAnim.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\AssimpAPITest.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utBatchLoader.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utDefaultIOStream.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utFastAtof.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utMetadata.cpp"  />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\SceneDiffer.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\SceneDiffer.cpp"  />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\UTLogStream.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\AbstractImportExportBase.cpp"  />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\TestIOSystem.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\TestModelFactory.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utTypes.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utVersion.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utProfiler.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utSharedPPData.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utStringUtils.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utLWSImportExport.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utSMDImportExport.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utglTFImportExport.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utglTF2ImportExport.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utHMPImportExport.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utIFCImportExport.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utFBXImporterExporter.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utImporter.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\ut3DImportExport.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\ut3DSImportExport.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utACImportExport.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utAMFImportExport.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utASEImportExport.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utD3MFImportExport.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utQ3DImportExport.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utSTLImportExport.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utXImporterExporter.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utX3DImportExport.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utDXFImporterExporter.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utPMXImporter.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utPLYImportExport.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utObjImportExport.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utObjTools.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utOpenGEXImportExport.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utSIBImporter.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utBlenderIntermediate.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utBlendImportAreaLight.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utBlenderImportExport.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utBlendImportMaterials.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utBlenderWork.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utBVHImportExport.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utColladaExportCamera.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utColladaExportLight.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utColladaImportExport.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utCSMImportExport.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utB3DImportExport.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utMDCImportExport.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utMaterialSystem.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utMatrix3x3.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utMatrix4x4.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utVector3.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utImproveCacheLocality.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utFixInfacingNormals.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utGenNormals.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utTriangulate.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utTextureTransform.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utRemoveRedundantMaterials.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utRemoveVCProcess.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utScaleProcess.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utJoinVertices.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utRemoveComments.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utRemoveComponent.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utVertexTriangleAdjacency.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utSplitLargeMeshes.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utFindDegenerates.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utFindInvalidData.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utLimitBoneWeights.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utPretransformVertices.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utScenePreprocessor.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utTargetAnimation.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utSortByPType.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utSceneCombiner.cpp"  />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\ZERO_CHECK.vcxproj">
+      <Project>{E99E390B-9979-3D4D-93A7-6DBED10A4ED6}</Project>
+      <Name>ZERO_CHECK</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\irrXML\IrrXML.vcxproj">
+      <Project>{AD149EDA-0C4B-3B12-B467-3B600B5B8A65}</Project>
+      <Name>IrrXML</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\assimp.vcxproj">
+      <Project>{A1150568-8320-3DBA-BB95-58CCB87DD563}</Project>
+      <Name>assimp</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\zlib\zlibstatic.vcxproj">
+      <Project>{CE868C11-1A93-3F5A-A4E8-9E44DEA106CE}</Project>
+      <Name>zlibstatic</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

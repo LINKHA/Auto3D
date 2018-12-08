@@ -1,4 +1,4 @@
 #pragma once
-#include "SDL/SDL.h"
-#include "SDL/SDL_stdinc.h"
-#include "SDL/SDL_scancode.h"
+#include "SDL/include/SDL.h"
+#include "SDL/include/SDL_stdinc.h"
+#include "SDL/include/SDL_scancode.h"

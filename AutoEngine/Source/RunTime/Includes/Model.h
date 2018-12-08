@@ -1,9 +1,10 @@
 #pragma once
 #include "ComponentSetting.h"
 #include "glm/glm.hpp"
-#include "assimp/Importer.hpp"
-#include "assimp/scene.h"
-#include "assimp/postprocess.h"
+#include "Assimp/include/assimp/Importer.hpp"
+#include "Assimp/include/assimp/scene.h"
+#include "Assimp/include/assimp/postprocess.h"
+
 namespace Auto3D {
 /**
 * @brief : mesh vertex message

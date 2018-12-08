@@ -1,7 +1,7 @@
 #pragma once
 
-#include "OpenAL/al.h"
-#include "OpenAL/alc.h"
+#include "OpenAL/include/AL/al.h"
+#include "OpenAL/include/AL/alc.h"
 
 // AL 1.0 did not define the ALchar and ALCchar types, so define them here
 // if they don't exist

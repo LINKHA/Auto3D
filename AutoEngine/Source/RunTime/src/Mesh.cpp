@@ -72,8 +72,7 @@ void Mesh::Start()
 				, shader_path + "au_light_model_loading.aufs");
 		}
 	}
-	Model* tmp = GetSubSystem<ResourceSystem>()->ModelLoad(_modelPath);
-	_model = SharedPtr<Model>(tmp);
+	_model = GetSubSystem<ResourceSystem>()->ModelLoad(_modelPath);
 	RegisterOpaque(this);
 }
 void Mesh::Draw()

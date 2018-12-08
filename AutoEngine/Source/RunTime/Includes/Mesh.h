@@ -39,7 +39,7 @@ private:
 private:
 	Shader _shader;
 	SharedPtr<Material> _material;
-	SharedPtr<Model> _model;
+	Model* _model;
 	char* _modelPath;
 	bool _isUserShader;
 };

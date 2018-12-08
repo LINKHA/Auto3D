@@ -1,0 +1,12 @@
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/CMakeFiles/OpenAL.dir
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/CMakeFiles/common.dir
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/CMakeFiles/native-tools.dir
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/CMakeFiles/makehrtf.dir
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/CMakeFiles/openal-info.dir
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/CMakeFiles/altonegen.dir
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/CMakeFiles/alrecord.dir
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/CMakeFiles/INSTALL.dir
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/CMakeFiles/ALL_BUILD.dir
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/CMakeFiles/ZERO_CHECK.dir
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/utils/alsoft-config/CMakeFiles/INSTALL.dir
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/utils/alsoft-config/CMakeFiles/ALL_BUILD.dir

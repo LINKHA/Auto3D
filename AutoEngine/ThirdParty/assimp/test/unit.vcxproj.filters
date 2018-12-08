@@ -1,0 +1,297 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\gtest\src\gtest-all.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\CCompilerTest.c">
+      <Filter>UnitTests\Compiler</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Version.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utSimd.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utIOSystem.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utIOStreamBuffer.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utIssues.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utAnim.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\AssimpAPITest.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utBatchLoader.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utDefaultIOStream.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utFastAtof.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utMetadata.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\SceneDiffer.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\AbstractImportExportBase.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utTypes.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utVersion.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utProfiler.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utSharedPPData.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utStringUtils.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utLWSImportExport.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utSMDImportExport.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utglTFImportExport.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utglTF2ImportExport.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utHMPImportExport.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utIFCImportExport.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utFBXImporterExporter.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utImporter.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\ut3DImportExport.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\ut3DSImportExport.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utACImportExport.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utAMFImportExport.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utASEImportExport.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utD3MFImportExport.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utQ3DImportExport.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utSTLImportExport.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utXImporterExporter.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utX3DImportExport.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utDXFImporterExporter.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utPMXImporter.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utPLYImportExport.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utObjImportExport.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utObjTools.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utOpenGEXImportExport.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utSIBImporter.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utBlenderIntermediate.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utBlendImportAreaLight.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utBlenderImportExport.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utBlendImportMaterials.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utBlenderWork.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utBVHImportExport.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utColladaExportCamera.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utColladaExportLight.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utColladaImportExport.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utCSMImportExport.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utB3DImportExport.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utMDCImportExport.cpp">
+      <Filter>UnitTests\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utMaterialSystem.cpp">
+      <Filter>UnitTests\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utMatrix3x3.cpp">
+      <Filter>UnitTests\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utMatrix4x4.cpp">
+      <Filter>UnitTests\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utVector3.cpp">
+      <Filter>UnitTests\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utImproveCacheLocality.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utFixInfacingNormals.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utGenNormals.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utTriangulate.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utTextureTransform.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utRemoveRedundantMaterials.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utRemoveVCProcess.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utScaleProcess.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utJoinVertices.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utRemoveComments.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utRemoveComponent.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utVertexTriangleAdjacency.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utSplitLargeMeshes.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utFindDegenerates.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utFindInvalidData.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utLimitBoneWeights.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utPretransformVertices.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utScenePreprocessor.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utTargetAnimation.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utSortByPType.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\utSceneCombiner.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\SceneDiffer.h">
+      <Filter>UnitTests\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\UTLogStream.h">
+      <Filter>UnitTests\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\TestIOSystem.h">
+      <Filter>UnitTests\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\unit\TestModelFactory.h">
+      <Filter>UnitTests\Common</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\test\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{C31635C4-8404-3C45-B443-226DEDB53850}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UnitTests">
+      <UniqueIdentifier>{FE255400-40DA-3111-8299-338A97F9C9A9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UnitTests\Compiler">
+      <UniqueIdentifier>{99DD78C7-DC7C-3171-B2DF-1A426FFE2A6D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UnitTests\Common">
+      <UniqueIdentifier>{2C86884E-4A18-34A4-A003-E713A8A7D8AC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UnitTests\Importers">
+      <UniqueIdentifier>{53519CD0-2ED5-3EC7-90C7-563E0E206EB6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UnitTests\Material">
+      <UniqueIdentifier>{30CF2F58-24D4-3FF7-9241-0FD14307B7BD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UnitTests\Math">
+      <UniqueIdentifier>{8D1AD56D-6E72-335E-B60E-FC68C12630B8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UnitTests\PostProcess">
+      <UniqueIdentifier>{63C65F30-6F0A-303E-B3FC-C2ACD3C8C2FA}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

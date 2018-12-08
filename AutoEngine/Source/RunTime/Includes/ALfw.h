@@ -6,11 +6,11 @@
 #include<io.h>
 #include<fcntl.h>
 #include<conio.h>
-#include"OpenAL/al.h"
-#include"OpenAL/alc.h"
-#include"OpenAL/efx.h"
-#include"OpenAL/efx-creative.h"
-#include"OpenAL/xram.h"
+#include"OpenAL/include/AL/al.h"
+#include"OpenAL/include/AL/alc.h"
+#include"OpenAL/include/AL/efx.h"
+#include"OpenAL/include/AL/efx-creative.h"
+#include"OpenAL/include/AL/xram.h"
 
 // Initialization and shutdown
 void ALFWInit();

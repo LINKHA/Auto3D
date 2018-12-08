@@ -1,0 +1,9 @@
+# CMake generation dependency list for this directory.
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/utils/alsoft-config/CMakeLists.txt
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindQt4.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckCXXSymbolExists.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckSymbolExists.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/MacroAddFileDependencies.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageHandleStandardArgs.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageMessage.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CMakePushCheckState.cmake

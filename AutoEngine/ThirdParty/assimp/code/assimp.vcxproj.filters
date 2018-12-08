@@ -1,0 +1,1749 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Assimp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\BaseImporter.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\BaseProcess.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\PostStepRegistry.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ImporterRegistry.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\DefaultIOStream.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\DefaultIOSystem.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\CInterfaceIOWrapper.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Importer.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\SGSpatialSort.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\VertexTriangleAdjacency.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\SpatialSort.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\SceneCombiner.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ScenePreprocessor.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\SkeletonMeshBuilder.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\SplitByBoneCountProcess.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\StandardShapes.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\TargetAnimation.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\RemoveComments.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Subdivision.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\scene.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Bitmap.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Version.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\CreateAnimMesh.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\simd.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\DefaultLogger.cpp">
+      <Filter>Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Exporter.cpp">
+      <Filter>Exporter</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\AssimpCExport.cpp">
+      <Filter>Exporter</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\CalcTangentsProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ComputeUVMappingProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ConvertToLHProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\EmbedTexturesProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FindDegenerates.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FindInstancesProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FindInvalidDataProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FixNormalsStep.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\GenFaceNormalsProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\GenVertexNormalsProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\PretransformVertices.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ImproveCacheLocality.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\JoinVerticesProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\LimitBoneWeightsProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\RemoveRedundantMaterials.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\RemoveVCProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\SortByPTypeProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\SplitLargeMeshes.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\TextureTransform.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\TriangulateProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ValidateDataStructure.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\OptimizeGraph.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\OptimizeMeshes.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\DeboneProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ProcessHelper.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MakeVerboseFormat.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ScaleProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MaterialSystem.cpp">
+      <Filter>MaterialSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\StepExporter.cpp">
+      <Filter>Step</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\AMFImporter.cpp">
+      <Filter>AMF</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\AMFImporter_Geometry.cpp">
+      <Filter>AMF</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\AMFImporter_Material.cpp">
+      <Filter>AMF</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\AMFImporter_Postprocess.cpp">
+      <Filter>AMF</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\3DSConverter.cpp">
+      <Filter>3DS</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\3DSLoader.cpp">
+      <Filter>3DS</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\3DSExporter.cpp">
+      <Filter>3DS</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ACLoader.cpp">
+      <Filter>AC</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ASELoader.cpp">
+      <Filter>ASE</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ASEParser.cpp">
+      <Filter>ASE</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\AssbinExporter.cpp">
+      <Filter>ASSBIN</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\AssbinLoader.cpp">
+      <Filter>ASSBIN</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\AssxmlExporter.cpp">
+      <Filter>ASSXML</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\B3DImporter.cpp">
+      <Filter>B3D</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\BVHLoader.cpp">
+      <Filter>BVH</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ColladaLoader.cpp">
+      <Filter>COLLADA</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ColladaParser.cpp">
+      <Filter>COLLADA</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ColladaExporter.cpp">
+      <Filter>COLLADA</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\DXFLoader.cpp">
+      <Filter>DXF</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\CSMLoader.cpp">
+      <Filter>CSM</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\HMPLoader.cpp">
+      <Filter>HMP</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\IRRMeshLoader.cpp">
+      <Filter>IRRMESH</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\IRRShared.cpp">
+      <Filter>IRR</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\IRRLoader.cpp">
+      <Filter>IRR</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\LWOAnimation.cpp">
+      <Filter>LWO</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\LWOBLoader.cpp">
+      <Filter>LWO</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\LWOLoader.cpp">
+      <Filter>LWO</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\LWOMaterial.cpp">
+      <Filter>LWO</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\LWSLoader.cpp">
+      <Filter>LWS</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MD2Loader.cpp">
+      <Filter>MD2</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MD3Loader.cpp">
+      <Filter>MD3</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MD5Loader.cpp">
+      <Filter>MD5</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MD5Parser.cpp">
+      <Filter>MD5</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MDCLoader.cpp">
+      <Filter>MDC</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MDLLoader.cpp">
+      <Filter>MDL</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MDLMaterialLoader.cpp">
+      <Filter>MDL</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\NFFLoader.cpp">
+      <Filter>NFF</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\NDOLoader.cpp">
+      <Filter>NDO</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\OFFLoader.cpp">
+      <Filter>OFF</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ObjFileImporter.cpp">
+      <Filter>OBJ</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ObjFileMtlImporter.cpp">
+      <Filter>OBJ</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ObjFileParser.cpp">
+      <Filter>OBJ</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ObjExporter.cpp">
+      <Filter>OBJ</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\OgreImporter.cpp">
+      <Filter>OGRE</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\OgreStructs.cpp">
+      <Filter>OGRE</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\OgreBinarySerializer.cpp">
+      <Filter>OGRE</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\OgreXmlSerializer.cpp">
+      <Filter>OGRE</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\OgreMaterial.cpp">
+      <Filter>OGRE</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\OpenGEXExporter.cpp">
+      <Filter>OPENGEX</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\OpenGEXImporter.cpp">
+      <Filter>OPENGEX</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\PlyLoader.cpp">
+      <Filter>PLY</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\PlyParser.cpp">
+      <Filter>PLY</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\PlyExporter.cpp">
+      <Filter>PLY</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MS3DLoader.cpp">
+      <Filter>MS3D</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\COBLoader.cpp">
+      <Filter>COB</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\BlenderLoader.cpp">
+      <Filter>BLEND</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\BlenderDNA.cpp">
+      <Filter>BLEND</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\BlenderScene.cpp">
+      <Filter>BLEND</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\BlenderModifier.cpp">
+      <Filter>BLEND</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\BlenderBMesh.cpp">
+      <Filter>BLEND</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\BlenderTessellator.cpp">
+      <Filter>BLEND</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\BlenderCustomData.cpp">
+      <Filter>BLEND</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Importer\IFC\IFCLoader.cpp">
+      <Filter>IFC</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Importer\IFC\IFCReaderGen1_2x3.cpp">
+      <Filter>IFC</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Importer\IFC\IFCReaderGen2_2x3.cpp">
+      <Filter>IFC</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Importer\IFC\IFCUtil.cpp">
+      <Filter>IFC</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Importer\IFC\IFCGeometry.cpp">
+      <Filter>IFC</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Importer\IFC\IFCMaterial.cpp">
+      <Filter>IFC</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Importer\IFC\IFCProfile.cpp">
+      <Filter>IFC</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Importer\IFC\IFCCurve.cpp">
+      <Filter>IFC</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Importer\IFC\IFCBoolean.cpp">
+      <Filter>IFC</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Importer\IFC\IFCOpenings.cpp">
+      <Filter>IFC</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Importer\IFC\STEPFileReader.cpp">
+      <Filter>IFC</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Importer\IFC\STEPFileEncoding.cpp">
+      <Filter>IFC</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\XGLLoader.cpp">
+      <Filter>XGL</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXImporter.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXParser.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXTokenizer.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXConverter.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXUtil.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXDocument.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXProperties.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXMeshGeometry.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXMaterial.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXModel.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXAnimation.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXNodeAttribute.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXDeformer.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXBinaryTokenizer.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXDocumentUtil.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXExporter.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXExportNode.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXExportProperty.cpp">
+      <Filter>FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Q3DLoader.cpp">
+      <Filter>Q3D</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Q3BSPFileParser.cpp">
+      <Filter>Q3BSP</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Q3BSPFileImporter.cpp">
+      <Filter>Q3BSP</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Q3BSPZipArchive.cpp">
+      <Filter>Q3BSP</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\RawLoader.cpp">
+      <Filter>RAW</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\SIBImporter.cpp">
+      <Filter>SIB</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\SMDLoader.cpp">
+      <Filter>SMD</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\STLLoader.cpp">
+      <Filter>STL</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\STLExporter.cpp">
+      <Filter>STL</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\TerragenLoader.cpp">
+      <Filter>TERRAGEN</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\UnrealLoader.cpp">
+      <Filter>3D</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\XFileImporter.cpp">
+      <Filter>X</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\XFileParser.cpp">
+      <Filter>X</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\XFileExporter.cpp">
+      <Filter>X</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\X3DExporter.cpp">
+      <Filter>X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\X3DImporter.cpp">
+      <Filter>X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\X3DImporter_Geometry2D.cpp">
+      <Filter>X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\X3DImporter_Geometry3D.cpp">
+      <Filter>X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\X3DImporter_Group.cpp">
+      <Filter>X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\X3DImporter_Light.cpp">
+      <Filter>X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\X3DImporter_Metadata.cpp">
+      <Filter>X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\X3DImporter_Networking.cpp">
+      <Filter>X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\X3DImporter_Postprocess.cpp">
+      <Filter>X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\X3DImporter_Rendering.cpp">
+      <Filter>X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\X3DImporter_Shape.cpp">
+      <Filter>X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\X3DImporter_Texturing.cpp">
+      <Filter>X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FIReader.cpp">
+      <Filter>X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\X3DVocabulary.cpp">
+      <Filter>X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\glTFImporter.cpp">
+      <Filter>GLTF</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\glTFExporter.cpp">
+      <Filter>GLTF</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\glTF2Importer.cpp">
+      <Filter>GLTF</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\glTF2Exporter.cpp">
+      <Filter>GLTF</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\D3MFImporter.cpp">
+      <Filter>3MF</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\D3MFExporter.cpp">
+      <Filter>3MF</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\D3MFOpcPackage.cpp">
+      <Filter>3MF</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MMDImporter.cpp">
+      <Filter>MMD</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MMDPmxParser.cpp">
+      <Filter>MMD</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\unzip\ioapi.c">
+      <Filter>unzip</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\unzip\unzip.c">
+      <Filter>unzip</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\poly2tri\poly2tri\common\shapes.cc">
+      <Filter>Poly2Tri</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\poly2tri\poly2tri\sweep\advancing_front.cc">
+      <Filter>Poly2Tri</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\poly2tri\poly2tri\sweep\cdt.cc">
+      <Filter>Poly2Tri</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\poly2tri\poly2tri\sweep\sweep.cc">
+      <Filter>Poly2Tri</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\poly2tri\poly2tri\sweep\sweep_context.cc">
+      <Filter>Poly2Tri</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\clipper\clipper.cpp">
+      <Filter>Clipper</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\openddlparser\code\OpenDDLParser.cpp">
+      <Filter>openddl_parser</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\openddlparser\code\DDLNode.cpp">
+      <Filter>openddl_parser</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\openddlparser\code\OpenDDLCommon.cpp">
+      <Filter>openddl_parser</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\openddlparser\code\OpenDDLExport.cpp">
+      <Filter>openddl_parser</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\openddlparser\code\Value.cpp">
+      <Filter>openddl_parser</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\openddlparser\code\OpenDDLStream.cpp">
+      <Filter>openddl_parser</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcArithmeticCodec.cpp">
+      <Filter>open3dgc</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcDynamicVectorDecoder.cpp">
+      <Filter>open3dgc</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcDynamicVectorEncoder.cpp">
+      <Filter>open3dgc</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcTools.cpp">
+      <Filter>open3dgc</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcTriangleFans.cpp">
+      <Filter>open3dgc</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\zip\src\zip.c">
+      <Filter>ziplib</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\BaseProcess.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Importer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ScenePrivate.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\DefaultProgressHandler.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\CInterfaceIOWrapper.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\IFF.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\VertexTriangleAdjacency.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ScenePreprocessor.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\SplitByBoneCountProcess.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\TargetAnimation.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\simd.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\DefaultLogger.hpp">
+      <Filter>Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\LogStream.hpp">
+      <Filter>Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\Logger.hpp">
+      <Filter>Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\NullLogger.hpp">
+      <Filter>Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Win32DebugLogStream.h">
+      <Filter>Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FileLogStream.h">
+      <Filter>Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\StdOStreamLogStream.h">
+      <Filter>Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\BlobIOSystem.h">
+      <Filter>Exporter</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\CalcTangentsProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ComputeUVMappingProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ConvertToLHProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\EmbedTexturesProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FindDegenerates.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FindInstancesProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FindInvalidDataProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FixNormalsStep.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\GenFaceNormalsProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\GenVertexNormalsProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\PretransformVertices.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ImproveCacheLocality.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\JoinVerticesProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\LimitBoneWeightsProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\RemoveRedundantMaterials.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\RemoveVCProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\SortByPTypeProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\SplitLargeMeshes.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\TextureTransform.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\TriangulateProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ValidateDataStructure.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\OptimizeGraph.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\OptimizeMeshes.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\DeboneProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ProcessHelper.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\PolyTools.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MakeVerboseFormat.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ScaleProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MaterialSystem.h">
+      <Filter>MaterialSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\STEPFile.h">
+      <Filter>Step</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\StepExporter.h">
+      <Filter>Step</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\AMFImporter.hpp">
+      <Filter>AMF</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\AMFImporter_Macro.hpp">
+      <Filter>AMF</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\AMFImporter_Node.hpp">
+      <Filter>AMF</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\3DSHelper.h">
+      <Filter>3DS</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\3DSLoader.h">
+      <Filter>3DS</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\3DSExporter.h">
+      <Filter>3DS</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ACLoader.h">
+      <Filter>AC</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ASELoader.h">
+      <Filter>ASE</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ASEParser.h">
+      <Filter>ASE</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\AssbinExporter.h">
+      <Filter>ASSBIN</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\AssbinLoader.h">
+      <Filter>ASSBIN</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\AssxmlExporter.h">
+      <Filter>ASSXML</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\B3DImporter.h">
+      <Filter>B3D</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\BVHLoader.h">
+      <Filter>BVH</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ColladaHelper.h">
+      <Filter>COLLADA</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ColladaLoader.h">
+      <Filter>COLLADA</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ColladaParser.h">
+      <Filter>COLLADA</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ColladaExporter.h">
+      <Filter>COLLADA</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\DXFLoader.h">
+      <Filter>DXF</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\DXFHelper.h">
+      <Filter>DXF</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\CSMLoader.h">
+      <Filter>CSM</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\HMPFileData.h">
+      <Filter>HMP</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\HMPLoader.h">
+      <Filter>HMP</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\HalfLifeFileData.h">
+      <Filter>HMP</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\IRRMeshLoader.h">
+      <Filter>IRRMESH</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\IRRShared.h">
+      <Filter>IRR</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\IRRLoader.h">
+      <Filter>IRR</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\LWOAnimation.h">
+      <Filter>LWO</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\LWOFileData.h">
+      <Filter>LWO</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\LWOLoader.h">
+      <Filter>LWO</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\LWSLoader.h">
+      <Filter>LWS</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MD2FileData.h">
+      <Filter>MD2</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MD2Loader.h">
+      <Filter>MD2</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MD2NormalTable.h">
+      <Filter>MD2</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MD3FileData.h">
+      <Filter>MD3</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MD3Loader.h">
+      <Filter>MD3</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MD5Loader.h">
+      <Filter>MD5</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MD5Parser.h">
+      <Filter>MD5</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MDCFileData.h">
+      <Filter>MDC</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MDCLoader.h">
+      <Filter>MDC</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MDCNormalTable.h">
+      <Filter>MDC</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MDLDefaultColorMap.h">
+      <Filter>MDL</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MDLFileData.h">
+      <Filter>MDL</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MDLLoader.h">
+      <Filter>MDL</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\NFFLoader.h">
+      <Filter>NFF</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\NDOLoader.h">
+      <Filter>NDO</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\OFFLoader.h">
+      <Filter>OFF</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ObjFileData.h">
+      <Filter>OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ObjFileImporter.h">
+      <Filter>OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ObjFileMtlImporter.h">
+      <Filter>OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ObjFileParser.h">
+      <Filter>OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ObjTools.h">
+      <Filter>OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\ObjExporter.h">
+      <Filter>OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\OgreImporter.h">
+      <Filter>OGRE</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\OgreStructs.h">
+      <Filter>OGRE</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\OgreParsingUtils.h">
+      <Filter>OGRE</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\OgreBinarySerializer.h">
+      <Filter>OGRE</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\OgreXmlSerializer.h">
+      <Filter>OGRE</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\OpenGEXExporter.h">
+      <Filter>OPENGEX</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\OpenGEXImporter.h">
+      <Filter>OPENGEX</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\OpenGEXStructs.h">
+      <Filter>OPENGEX</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\PlyLoader.h">
+      <Filter>PLY</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\PlyParser.h">
+      <Filter>PLY</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\PlyExporter.h">
+      <Filter>PLY</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MS3DLoader.h">
+      <Filter>MS3D</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\COBLoader.h">
+      <Filter>COB</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\COBScene.h">
+      <Filter>COB</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\BlenderLoader.h">
+      <Filter>BLEND</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\BlenderDNA.h">
+      <Filter>BLEND</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\BlenderDNA.inl">
+      <Filter>BLEND</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\BlenderScene.h">
+      <Filter>BLEND</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\BlenderSceneGen.h">
+      <Filter>BLEND</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\BlenderIntermediate.h">
+      <Filter>BLEND</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\BlenderModifier.h">
+      <Filter>BLEND</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\BlenderBMesh.h">
+      <Filter>BLEND</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\BlenderTessellator.h">
+      <Filter>BLEND</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\BlenderCustomData.h">
+      <Filter>BLEND</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Importer\IFC\IFCLoader.h">
+      <Filter>IFC</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Importer\IFC\IFCReaderGen_2x3.h">
+      <Filter>IFC</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Importer\IFC\IFCUtil.h">
+      <Filter>IFC</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Importer\IFC\STEPFileReader.h">
+      <Filter>IFC</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Importer\IFC\STEPFileEncoding.h">
+      <Filter>IFC</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\XGLLoader.h">
+      <Filter>XGL</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXCompileConfig.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXImporter.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXParser.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXTokenizer.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXImportSettings.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXConverter.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXUtil.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXDocument.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXProperties.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXMeshGeometry.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXExporter.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXExportNode.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXExportProperty.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FBXCommon.h">
+      <Filter>FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Q3DLoader.h">
+      <Filter>Q3D</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Q3BSPFileData.h">
+      <Filter>Q3BSP</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Q3BSPFileParser.h">
+      <Filter>Q3BSP</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Q3BSPFileImporter.h">
+      <Filter>Q3BSP</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\Q3BSPZipArchive.h">
+      <Filter>Q3BSP</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\RawLoader.h">
+      <Filter>RAW</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\SIBImporter.h">
+      <Filter>SIB</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\SMDLoader.h">
+      <Filter>SMD</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\STLLoader.h">
+      <Filter>STL</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\STLExporter.h">
+      <Filter>STL</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\TerragenLoader.h">
+      <Filter>TERRAGEN</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\UnrealLoader.h">
+      <Filter>3D</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\XFileHelper.h">
+      <Filter>X</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\XFileImporter.h">
+      <Filter>X</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\XFileParser.h">
+      <Filter>X</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\XFileExporter.h">
+      <Filter>X</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\X3DExporter.hpp">
+      <Filter>X3D</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\X3DImporter.hpp">
+      <Filter>X3D</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\X3DImporter_Macro.hpp">
+      <Filter>X3D</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\X3DImporter_Node.hpp">
+      <Filter>X3D</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\FIReader.hpp">
+      <Filter>X3D</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\glTFAsset.h">
+      <Filter>GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\glTFAsset.inl">
+      <Filter>GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\glTFAssetWriter.h">
+      <Filter>GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\glTFAssetWriter.inl">
+      <Filter>GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\glTFImporter.h">
+      <Filter>GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\glTFExporter.h">
+      <Filter>GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\glTF2Asset.h">
+      <Filter>GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\glTF2Asset.inl">
+      <Filter>GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\glTF2AssetWriter.h">
+      <Filter>GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\glTF2AssetWriter.inl">
+      <Filter>GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\glTF2Importer.h">
+      <Filter>GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\glTF2Exporter.h">
+      <Filter>GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\D3MFImporter.h">
+      <Filter>3MF</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\D3MFExporter.h">
+      <Filter>3MF</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\D3MFOpcPackage.h">
+      <Filter>3MF</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\3MFXmlTags.h">
+      <Filter>3MF</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MMDCpp14.h">
+      <Filter>MMD</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MMDImporter.h">
+      <Filter>MMD</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MMDPmdParser.h">
+      <Filter>MMD</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MMDPmxParser.h">
+      <Filter>MMD</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\MMDVmdParser.h">
+      <Filter>MMD</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\irrXMLWrapper.h">
+      <Filter>IrrXML</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\unzip\crypt.h">
+      <Filter>unzip</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\unzip\ioapi.h">
+      <Filter>unzip</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\unzip\unzip.h">
+      <Filter>unzip</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\poly2tri\poly2tri\common\shapes.h">
+      <Filter>Poly2Tri</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\poly2tri\poly2tri\common\utils.h">
+      <Filter>Poly2Tri</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\poly2tri\poly2tri\sweep\advancing_front.h">
+      <Filter>Poly2Tri</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\poly2tri\poly2tri\sweep\cdt.h">
+      <Filter>Poly2Tri</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\poly2tri\poly2tri\sweep\sweep.h">
+      <Filter>Poly2Tri</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\poly2tri\poly2tri\sweep\sweep_context.h">
+      <Filter>Poly2Tri</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\clipper\clipper.hpp">
+      <Filter>Clipper</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\openddlparser\include\openddlparser\OpenDDLParser.h">
+      <Filter>openddl_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\openddlparser\include\openddlparser\OpenDDLParserUtils.h">
+      <Filter>openddl_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\openddlparser\include\openddlparser\OpenDDLCommon.h">
+      <Filter>openddl_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\openddlparser\include\openddlparser\OpenDDLExport.h">
+      <Filter>openddl_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\openddlparser\include\openddlparser\OpenDDLStream.h">
+      <Filter>openddl_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\openddlparser\include\openddlparser\DDLNode.h">
+      <Filter>openddl_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\openddlparser\include\openddlparser\Value.h">
+      <Filter>openddl_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcAdjacencyInfo.h">
+      <Filter>open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcArithmeticCodec.h">
+      <Filter>open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcBinaryStream.h">
+      <Filter>open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcCommon.h">
+      <Filter>open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcDVEncodeParams.h">
+      <Filter>open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcDynamicVectorDecoder.h">
+      <Filter>open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcDynamicVectorEncoder.h">
+      <Filter>open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcDynamicVector.h">
+      <Filter>open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcFIFO.h">
+      <Filter>open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcIndexedFaceSet.h">
+      <Filter>open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcIndexedFaceSet.inl">
+      <Filter>open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcSC3DMCDecoder.h">
+      <Filter>open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcSC3DMCDecoder.inl">
+      <Filter>open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcSC3DMCEncodeParams.h">
+      <Filter>open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcSC3DMCEncoder.h">
+      <Filter>open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcSC3DMCEncoder.inl">
+      <Filter>open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcTimer.h">
+      <Filter>open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcTriangleFans.h">
+      <Filter>open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcTriangleListDecoder.h">
+      <Filter>open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcTriangleListDecoder.inl">
+      <Filter>open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcTriangleListEncoder.h">
+      <Filter>open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcTriangleListEncoder.inl">
+      <Filter>open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcVector.h">
+      <Filter>open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\Open3DGC\o3dgcVector.inl">
+      <Filter>open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\zip\src\miniz.h">
+      <Filter>ziplib</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\zip\src\zip.h">
+      <Filter>ziplib</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\anim.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\ai_assert.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\color4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\color4.inl">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\defs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\Defines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\cfileio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\material.inl">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\matrix3x3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\matrix3x3.inl">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\matrix4x4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\matrix4x4.inl">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\pbrmaterial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\postprocess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\quaternion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\quaternion.inl">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\metadata.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\vector2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\vector2.inl">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\vector3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\vector3.inl">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\cimport.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\importerdesc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\Importer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\ProgressHandler.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\IOStream.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\IOSystem.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\cexport.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\Exporter.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\DefaultIOStream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\DefaultIOSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\SceneCombiner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\fast_atof.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\qnan.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\BaseImporter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\Hash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\MemoryIOWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\ParsingUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\StreamReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\StreamWriter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\StringComparison.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\StringUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\SGSpatialSort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\GenericProperty.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\SpatialSort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\SkeletonMeshBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\SmoothingGroups.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\SmoothingGroups.inl">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\StandardShapes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\RemoveComments.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\Subdivision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\Vertex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\LineSplitter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\TinyFormatter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\Profiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\LogAux.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\Bitmap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\XMLTools.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\IOStreamBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\CreateAnimMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\MathFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\Macros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\Exceptional.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\ByteSwapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\Compiler\pushpack1.h">
+      <Filter>Compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\Compiler\poppack1.h">
+      <Filter>Compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\Compiler\pstdint.h">
+      <Filter>Compiler</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{C31635C4-8404-3C45-B443-226DEDB53850}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{67534780-0A29-3D8D-907E-726FC484702B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Compiler">
+      <UniqueIdentifier>{889037FB-3F00-3993-977C-2FA1D504396D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Logging">
+      <UniqueIdentifier>{7E23E728-FF8C-3C9C-8323-65D8D076A647}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{A25C32FD-145D-37F3-B091-6514BDF1AC8C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AMF">
+      <UniqueIdentifier>{1501CA12-68F3-386B-909A-A0863E07D2A0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3DS">
+      <UniqueIdentifier>{5AE87714-DC2F-3021-9F2A-38132E2CA009}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AC">
+      <UniqueIdentifier>{9E981FA6-8475-3C4D-A3F6-01421F0573DF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ASE">
+      <UniqueIdentifier>{36A3E681-FB31-336A-B1AA-693E9F4613FD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ASSBIN">
+      <UniqueIdentifier>{7CC2D409-8E1D-3F63-AF4C-1AFEDF1DF14A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ASSXML">
+      <UniqueIdentifier>{166702C5-333F-379D-8F9C-34D474988055}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="B3D">
+      <UniqueIdentifier>{C550BEBE-5D76-33B6-9149-B93E40B519E9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BVH">
+      <UniqueIdentifier>{66F71D1C-E7C5-370F-97EA-A6D4524E324C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="COLLADA">
+      <UniqueIdentifier>{128C16FD-BB11-35AC-BFD6-9FF5BC8FE36E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DXF">
+      <UniqueIdentifier>{703FA845-A2CC-30C9-AAE0-63122DA4BA41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CSM">
+      <UniqueIdentifier>{70EE0086-1312-3AAC-80F2-958C31EA3479}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HMP">
+      <UniqueIdentifier>{D390238E-153A-35D3-A5E3-9ADD026417AF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IRRMESH">
+      <UniqueIdentifier>{4F7A2E65-6DCB-3F66-88FF-7D5350D23302}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IRR">
+      <UniqueIdentifier>{EFB87C41-CFCA-3F95-9B12-59F331ADD343}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LWO">
+      <UniqueIdentifier>{2C46752B-38BB-38FE-B732-31AEEB4AEFEF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LWS">
+      <UniqueIdentifier>{624F518C-B2ED-30B8-88AA-00D399ADA341}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MD2">
+      <UniqueIdentifier>{9D67315C-D913-3ECD-94CF-E5E641140E36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MD3">
+      <UniqueIdentifier>{46ABFF8E-F0DF-35DA-9225-ABBA7EA7A8A8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MD5">
+      <UniqueIdentifier>{39BBDB70-3C84-3600-B71F-6F16E1C5C808}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MDC">
+      <UniqueIdentifier>{1298EEAF-8998-3D7D-9597-E2BD00CCB1E8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MDL">
+      <UniqueIdentifier>{D5A6CE79-23D5-3B7B-BFEA-B9199D16D3D8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MaterialSystem">
+      <UniqueIdentifier>{FF609A85-FDD0-3892-9D9F-952069512887}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NFF">
+      <UniqueIdentifier>{A7A3FE85-5B60-3570-9464-E03A39A19C71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NDO">
+      <UniqueIdentifier>{5622E95A-46ED-3D7C-BCC5-14F9106798E8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OFF">
+      <UniqueIdentifier>{EF88CBC6-D4A1-3FFB-8210-FC8E95ACA8C7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OBJ">
+      <UniqueIdentifier>{2F5B239F-D22B-3FD4-A152-046428469B84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OGRE">
+      <UniqueIdentifier>{415D54DF-33C0-3EC2-8D9F-A8948DCFAA16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OPENGEX">
+      <UniqueIdentifier>{E6B58FC0-B8B8-33E1-9DC1-78F59DCF5DBF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PLY">
+      <UniqueIdentifier>{9E4D4870-DFF7-3E2B-A3E8-89788CEFE255}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MS3D">
+      <UniqueIdentifier>{0F4A063A-5162-3F1A-9D5A-034BFB12CF05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="COB">
+      <UniqueIdentifier>{716FA532-162F-366A-B6A5-835C4E09D024}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BLEND">
+      <UniqueIdentifier>{13E20618-EC8B-305A-B639-DC5E9568AD28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IFC">
+      <UniqueIdentifier>{3CFB5A4B-C72F-3C68-BEB3-ED01323E52C1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="XGL">
+      <UniqueIdentifier>{5716506F-B9BB-372B-9084-6215CF309605}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FBX">
+      <UniqueIdentifier>{A46ED85A-C80B-327C-AEB7-54BDEA6D84F6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PostProcessing">
+      <UniqueIdentifier>{819E4F9C-BF18-34C0-9DB8-6B61615DB4CB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IrrXML">
+      <UniqueIdentifier>{56162EA6-0A66-36AA-915A-43DB361DC2EE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Q3D">
+      <UniqueIdentifier>{FF6BE54C-2F3D-3EAF-8177-728CDDCE2921}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Q3BSP">
+      <UniqueIdentifier>{31546D76-ED5D-3F3A-B564-D8B83AEC3EEB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RAW">
+      <UniqueIdentifier>{7CC4E4B4-0BFF-3C5E-ACD5-0710CA56DECB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SIB">
+      <UniqueIdentifier>{A43FDB26-1342-32F6-BAEC-BAABFBDCF307}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SMD">
+      <UniqueIdentifier>{4F179FE6-4B4D-31F9-AF46-18C330006B83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="STL">
+      <UniqueIdentifier>{1446A22D-4E25-319B-B6E3-084C95D7BD61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TERRAGEN">
+      <UniqueIdentifier>{B0FE941A-B5EE-3237-9991-CBEB5A69DCC8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3D">
+      <UniqueIdentifier>{9EEAB97A-8879-3238-8B1D-C20E8D0E1AB1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="X">
+      <UniqueIdentifier>{8F8736BC-FF37-3E88-9C9F-05D535640E4A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="X3D">
+      <UniqueIdentifier>{9BB83463-01E6-3A5A-A300-FEE2B988EE04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLTF">
+      <UniqueIdentifier>{FD54D44F-462A-3338-97D6-1F79462DD0A1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3MF">
+      <UniqueIdentifier>{F40484BB-4F3C-32C3-B6C7-60A1D80A7580}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MMD">
+      <UniqueIdentifier>{0AF90B73-B83A-3AA8-913A-3F8F51CDD03E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Step">
+      <UniqueIdentifier>{B2881130-FEAA-3559-B4D3-ED61886B7CA4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Exporter">
+      <UniqueIdentifier>{60FF23C2-9EA6-34A8-8E2B-8F4CC3CBE506}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Clipper">
+      <UniqueIdentifier>{D866C9C5-A708-3FFF-84AA-576A3E9EBE59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Poly2Tri">
+      <UniqueIdentifier>{82EB6E1A-A058-343B-AB0B-58AB6DB9D9D0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="unzip">
+      <UniqueIdentifier>{8BB7736A-39EB-313C-B540-B875DF414002}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ziplib">
+      <UniqueIdentifier>{47F1D69F-0A0F-318D-BEF3-FE0E704FB4FD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="openddl_parser">
+      <UniqueIdentifier>{C7A8E2F5-5A4D-32AE-B095-770F05146452}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="open3dgc">
+      <UniqueIdentifier>{A04A14DD-3C73-379B-9F6C-BF1F7F344E03}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

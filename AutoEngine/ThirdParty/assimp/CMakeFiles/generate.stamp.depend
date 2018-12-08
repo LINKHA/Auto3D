@@ -1,0 +1,44 @@
+# CMake generation dependency list for this directory.
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/CMakeLists.txt
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/CMakeFiles/3.10.1/CMakeSystem.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CMakeSystemSpecificInitialize.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/CMakeFiles/3.10.1/CMakeCCompiler.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/CMakeFiles/3.10.1/CMakeCXXCompiler.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CMakeSystemSpecificInformation.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CMakeGenericSystem.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/Platform/Windows.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/Platform/WindowsPaths.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CMakeCInformation.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CMakeLanguageInformation.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/Platform/Windows-MSVC-C.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/Platform/Windows-MSVC.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/CMakeFiles/3.10.1/CMakeRCCompiler.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CMakeRCInformation.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CMakeCommonLanguageInclude.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CMakeCXXInformation.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CMakeLanguageInformation.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/Compiler/MSVC-CXX.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/Compiler/CMakeCommonCompilerMacros.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/Platform/Windows-MSVC-CXX.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/Platform/Windows-MSVC.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CMakeCommonLanguageInclude.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/revision.h.in
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/include/assimp/config.h.in
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/cmake-modules/FindPkgMacros.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/cmake-modules/PrecompiledHeader.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/cmake-modules/cmake_uninstall.cmake.in
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/assimp-config.cmake.in
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/assimp-config-version.cmake.in
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/cmake-modules/FindDirectX.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/cmake-modules/FindPkgMacros.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/cmake-modules/FindZLIB.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/cmake-modules/FindPkgMacros.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPkgConfig.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageHandleStandardArgs.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageMessage.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckIncludeFile.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckTypeSize.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckIncludeFile.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckIncludeFileCXX.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckFunctionExists.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/assimp.pc.in

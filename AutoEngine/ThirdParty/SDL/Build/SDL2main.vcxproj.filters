@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\SoundCode\sourceTest\SDL2-2.0.9\src\main\windows\SDL_windows_main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\SoundCode\sourceTest\SDL2-2.0.9\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{35D06608-7584-3169-9796-27E4F491ECF4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

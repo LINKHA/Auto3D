@@ -1,0 +1,99 @@
+# CMake generation dependency list for this directory.
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/CMakeLists.txt
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/CMakeFiles/3.10.1/CMakeSystem.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CMakeSystemSpecificInitialize.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/CMakeFiles/3.10.1/CMakeCCompiler.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/CMakeFiles/3.10.1/CMakeCXXCompiler.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CMakeSystemSpecificInformation.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CMakeGenericSystem.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/Platform/Windows.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/Platform/WindowsPaths.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CMakeCInformation.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CMakeLanguageInformation.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/Platform/Windows-MSVC-C.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/Platform/Windows-MSVC.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/CMakeFiles/3.10.1/CMakeRCCompiler.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CMakeRCInformation.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CMakeCommonLanguageInclude.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CMakeCXXInformation.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CMakeLanguageInformation.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/Compiler/MSVC-CXX.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/Compiler/CMakeCommonCompilerMacros.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/Platform/Windows-MSVC-CXX.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/Platform/Windows-MSVC.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CMakeCommonLanguageInclude.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckFunctionExists.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckLibraryExists.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/cmake/CheckSharedFunctionExists.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckIncludeFile.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckIncludeFiles.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckSymbolExists.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckCCompilerFlag.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckCSourceCompiles.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckCXXCompilerFlag.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckCXXSourceCompiles.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckCSourceCompiles.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckTypeSize.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckIncludeFile.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckIncludeFileCXX.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckStructHasMember.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckCSourceCompiles.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckCXXSourceCompiles.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/cmake/CheckFileOffsetBits.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/GNUInstallDirs.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/cmake/FindALSA.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageHandleStandardArgs.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageMessage.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/cmake/FindOSS.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageHandleStandardArgs.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageMessage.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/cmake/FindAudioIO.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageHandleStandardArgs.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageMessage.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/cmake/FindSoundIO.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageHandleStandardArgs.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageMessage.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/cmake/FindQSA.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageHandleStandardArgs.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageMessage.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/cmake/FindDSound.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/cmake/FindWindowsSDK.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageHandleStandardArgs.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageMessage.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageHandleStandardArgs.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageMessage.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/cmake/FindPortAudio.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageHandleStandardArgs.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageMessage.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/cmake/FindPulseAudio.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageHandleStandardArgs.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageMessage.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/cmake/FindJACK.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageHandleStandardArgs.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageMessage.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/cmake/FindSDL2.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindThreads.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckLibraryExists.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckSymbolExists.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckIncludeFile.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageHandleStandardArgs.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageMessage.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageHandleStandardArgs.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageMessage.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindGit.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageHandleStandardArgs.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageMessage.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/version.h.in
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/cmake/FindSDL2.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindThreads.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckLibraryExists.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckSymbolExists.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/CheckIncludeFile.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageHandleStandardArgs.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageMessage.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageHandleStandardArgs.cmake
+D:/Program Files/CMake/share/cmake-3.10/Modules/FindPackageMessage.cmake
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/config.h.in
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/openal.pc.in

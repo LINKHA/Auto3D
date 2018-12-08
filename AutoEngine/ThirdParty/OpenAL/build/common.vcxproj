@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{7D2F401D-7AA0-37FD-A633-74E862D2284F}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>common</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\AutoEngine\ThirdParty\ThiredParty.lib\x64\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\AutoEngine\ThirdParty\ThiredParty.dir\x64\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectName)</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">common.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">common</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">common.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">common</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">common.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">common</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\include;$(ProjectDir)..\common;$(ProjectDir)..\build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsC</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4098</DisableSpecificWarnings>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_WIN32;_WIN32_WINNT=0x0502;_LARGEFILE_SOURCE;_LARGE_FILES;restrict=;HAVE_STRUCT_TIMESPEC;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;strcasecmp=_stricmp;strncasecmp=_strnicmp;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_WIN32;_WIN32_WINNT=0x0502;_LARGEFILE_SOURCE;_LARGE_FILES;restrict=;HAVE_STRUCT_TIMESPEC;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;strcasecmp=_stricmp;strncasecmp=_strnicmp;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <CompileAs>CompileAsC</CompileAs>
+      <DisableSpecificWarnings>4098</DisableSpecificWarnings>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_WIN32;_WIN32_WINNT=0x0502;_LARGEFILE_SOURCE;_LARGE_FILES;restrict=;HAVE_STRUCT_TIMESPEC;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;strcasecmp=_stricmp;strncasecmp=_strnicmp;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_WIN32;_WIN32_WINNT=0x0502;_LARGEFILE_SOURCE;_LARGE_FILES;restrict=;HAVE_STRUCT_TIMESPEC;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;strcasecmp=_stricmp;strncasecmp=_strnicmp;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
+      <CompileAs>CompileAsC</CompileAs>
+      <DisableSpecificWarnings>4098</DisableSpecificWarnings>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_WIN32;_WIN32_WINNT=0x0502;_LARGEFILE_SOURCE;_LARGE_FILES;restrict=;HAVE_STRUCT_TIMESPEC;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;strcasecmp=_stricmp;strncasecmp=_strnicmp;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_WIN32;_WIN32_WINNT=0x0502;_LARGEFILE_SOURCE;_LARGE_FILES;restrict=;HAVE_STRUCT_TIMESPEC;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;strcasecmp=_stricmp;strncasecmp=_strnicmp;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
+      <CompileAs>CompileAsC</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4098</DisableSpecificWarnings>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_WIN32;_WIN32_WINNT=0x0502;_LARGEFILE_SOURCE;_LARGE_FILES;restrict=;HAVE_STRUCT_TIMESPEC;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;strcasecmp=_stricmp;strncasecmp=_strnicmp;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_WIN32;_WIN32_WINNT=0x0502;_LARGEFILE_SOURCE;_LARGE_FILES;restrict=;HAVE_STRUCT_TIMESPEC;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;strcasecmp=_stricmp;strncasecmp=_strnicmp;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\include;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -HD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL -BD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build --check-stamp-file D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\CMakeFiles\3.10.1\CMakeSystem.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeSystemSpecificInitialize.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\CMakeFiles\3.10.1\CMakeCCompiler.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\CMakeFiles\3.10.1\CMakeCXXCompiler.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeSystemSpecificInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeGenericSystem.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\WindowsPaths.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\CMakeFiles\3.10.1\CMakeRCCompiler.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeRCInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCXXInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Compiler\MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckFunctionExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckLibraryExists.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\CheckSharedFunctionExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckIncludeFile.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckIncludeFiles.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckSymbolExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCCompilerFlag.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCSourceCompiles.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCXXCompilerFlag.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCXXSourceCompiles.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCSourceCompiles.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckTypeSize.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckIncludeFile.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckIncludeFileCXX.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckStructHasMember.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCSourceCompiles.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCXXSourceCompiles.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\CheckFileOffsetBits.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\GNUInstallDirs.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindALSA.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindOSS.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindAudioIO.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindSoundIO.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindQSA.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindDSound.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindWindowsSDK.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindPortAudio.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindPulseAudio.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindJACK.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindSDL2.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindThreads.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckLibraryExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckSymbolExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckIncludeFile.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindGit.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\version.h.in;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindSDL2.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindThreads.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckLibraryExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckSymbolExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckIncludeFile.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\config.h.in;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\openal.pc.in;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -HD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL -BD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build --check-stamp-file D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\CMakeFiles\3.10.1\CMakeSystem.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeSystemSpecificInitialize.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\CMakeFiles\3.10.1\CMakeCCompiler.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\CMakeFiles\3.10.1\CMakeCXXCompiler.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeSystemSpecificInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeGenericSystem.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\WindowsPaths.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\CMakeFiles\3.10.1\CMakeRCCompiler.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeRCInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCXXInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Compiler\MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckFunctionExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckLibraryExists.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\CheckSharedFunctionExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckIncludeFile.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckIncludeFiles.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckSymbolExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCCompilerFlag.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCSourceCompiles.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCXXCompilerFlag.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCXXSourceCompiles.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCSourceCompiles.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckTypeSize.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckIncludeFile.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckIncludeFileCXX.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckStructHasMember.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCSourceCompiles.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCXXSourceCompiles.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\CheckFileOffsetBits.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\GNUInstallDirs.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindALSA.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindOSS.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindAudioIO.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindSoundIO.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindQSA.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindDSound.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindWindowsSDK.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindPortAudio.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindPulseAudio.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindJACK.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindSDL2.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindThreads.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckLibraryExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckSymbolExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckIncludeFile.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindGit.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\version.h.in;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindSDL2.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindThreads.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckLibraryExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckSymbolExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckIncludeFile.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\config.h.in;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\openal.pc.in;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -HD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL -BD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build --check-stamp-file D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\CMakeFiles\3.10.1\CMakeSystem.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeSystemSpecificInitialize.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\CMakeFiles\3.10.1\CMakeCCompiler.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\CMakeFiles\3.10.1\CMakeCXXCompiler.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeSystemSpecificInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeGenericSystem.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\WindowsPaths.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\CMakeFiles\3.10.1\CMakeRCCompiler.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeRCInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCXXInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Compiler\MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckFunctionExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckLibraryExists.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\CheckSharedFunctionExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckIncludeFile.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckIncludeFiles.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckSymbolExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCCompilerFlag.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCSourceCompiles.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCXXCompilerFlag.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCXXSourceCompiles.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCSourceCompiles.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckTypeSize.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckIncludeFile.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckIncludeFileCXX.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckStructHasMember.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCSourceCompiles.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCXXSourceCompiles.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\CheckFileOffsetBits.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\GNUInstallDirs.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindALSA.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindOSS.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindAudioIO.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindSoundIO.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindQSA.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindDSound.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindWindowsSDK.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindPortAudio.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindPulseAudio.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindJACK.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindSDL2.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindThreads.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckLibraryExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckSymbolExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckIncludeFile.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindGit.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\version.h.in;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindSDL2.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindThreads.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckLibraryExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckSymbolExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckIncludeFile.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\config.h.in;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\openal.pc.in;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -HD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL -BD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build --check-stamp-file D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\CMakeFiles\3.10.1\CMakeSystem.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeSystemSpecificInitialize.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\CMakeFiles\3.10.1\CMakeCCompiler.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\CMakeFiles\3.10.1\CMakeCXXCompiler.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeSystemSpecificInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeGenericSystem.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\WindowsPaths.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\CMakeFiles\3.10.1\CMakeRCCompiler.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeRCInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCXXInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Compiler\MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckFunctionExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckLibraryExists.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\CheckSharedFunctionExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckIncludeFile.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckIncludeFiles.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckSymbolExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCCompilerFlag.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCSourceCompiles.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCXXCompilerFlag.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCXXSourceCompiles.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCSourceCompiles.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckTypeSize.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckIncludeFile.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckIncludeFileCXX.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckStructHasMember.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCSourceCompiles.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckCXXSourceCompiles.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\CheckFileOffsetBits.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\GNUInstallDirs.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindALSA.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindOSS.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindAudioIO.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindSoundIO.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindQSA.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindDSound.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindWindowsSDK.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindPortAudio.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindPulseAudio.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindJACK.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindSDL2.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindThreads.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckLibraryExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckSymbolExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckIncludeFile.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindGit.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\version.h.in;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\cmake\FindSDL2.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindThreads.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckLibraryExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckSymbolExists.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckIncludeFile.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\config.h.in;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\openal.pc.in;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\alcomplex.c" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\alcomplex.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\align.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\almalloc.c" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\almalloc.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\atomic.c" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\atomic.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\bool.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\math_defs.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\rwlock.c" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\rwlock.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\static_assert.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\threads.c" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\threads.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\uintmap.c" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\uintmap.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\ZERO_CHECK.vcxproj">
+      <Project>{94309597-D99E-39B5-B17B-495DBFB5E60C}</Project>
+      <Name>ZERO_CHECK</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

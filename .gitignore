@@ -1,3 +1,5 @@
 .vs/
 *.tlog
 *.idb
+x64/
+AutoEngine/ThirdParty/SDL/Build/CMakeFiles/
