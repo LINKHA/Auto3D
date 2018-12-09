@@ -12,7 +12,7 @@ Mesh::Mesh(Ambient* ambient)
 		, shader_path + "au_light_map_model_loading.aufs"))
 	, _isUserShader(false)
 {
-	_material = SharedPtr<Material>(new Material(_ambient));
+	_material.reset(new Material(_ambient));
 	_modelPath = "../Resource/object/base/Cube.3DS";
 }
 Mesh::Mesh(Ambient* ambient,char* meshPath)
@@ -21,7 +21,7 @@ Mesh::Mesh(Ambient* ambient,char* meshPath)
 		, shader_path + "au_light_map_model_loading.aufs"))
 	, _isUserShader(false)
 {
-	_material = SharedPtr<Material>(new Material(_ambient));
+	_material.reset(new Material(_ambient));
 	_modelPath = meshPath;
 }
 Mesh::Mesh(Ambient* ambient,char* meshPath, const Shader& shader)
@@ -29,7 +29,7 @@ Mesh::Mesh(Ambient* ambient,char* meshPath, const Shader& shader)
 	, _shader(shader)
 	, _isUserShader(true)
 {
-	_material = SharedPtr<Material>(new Material(_ambient));
+	_material.reset(new Material(_ambient));
 	_modelPath = meshPath;
 }
 Mesh::~Mesh()
@@ -135,7 +135,7 @@ void Mesh::drawLight()
 
 		switch (t->GetType())
 		{
-		case LightType::kDirectional:
+		case LightType::Directional:
 			if (dir >= 4)break;
 			_shader.SetVec3("dirLight[" + KhSTL::ToString(dir) + "].color", t->GetColorToVec());
 			_shader.SetVec3("dirLight[" + KhSTL::ToString(dir) + "].direction", t->GetDirection());
@@ -144,7 +144,7 @@ void Mesh::drawLight()
 			_shader.SetVec3("dirLight[" + KhSTL::ToString(dir) + "].specular", t->specular);
 			dir++;
 			break;
-		case LightType::kPoint:
+		case LightType::Point:
 			if (point >= 8)break;
 			_shader.SetVec3("pointLight[" + KhSTL::ToString(point) + "].color", t->GetColorToVec());
 			_shader.SetVec3("pointLight[" + KhSTL::ToString(point) + "].position", ligthtPosition);
@@ -156,7 +156,7 @@ void Mesh::drawLight()
 			_shader.SetVec3("pointLight[" + KhSTL::ToString(point) + "].specular", t->specular);
 			point++;
 			break;
-		case LightType::kSpot:
+		case LightType::Spot:
 
 			if (spot >= 4)break;
 			_shader.SetVec3("spotLight[" + KhSTL::ToString(spot) + "].color", t->GetColorToVec());

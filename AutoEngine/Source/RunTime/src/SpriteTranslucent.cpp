@@ -5,7 +5,6 @@
 #include "AutoOGL.h"
 #include "Configs.h"
 #include "ResourceSystem.h"
-#include "tImage.h"
 #include "NewDef.h"
 
 namespace Auto3D {

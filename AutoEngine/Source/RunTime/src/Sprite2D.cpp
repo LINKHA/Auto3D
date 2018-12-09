@@ -4,18 +4,18 @@
 
 namespace Auto3D {
 
-Sprite2D::Sprite2D(Ambient* ambient)
+Sprite::Sprite(Ambient* ambient)
 	:Super(ambient)
 {
 }
 
-Sprite2D::~Sprite2D()
+Sprite::~Sprite()
 {
 }
 
-void Sprite2D::RegisterObject(Ambient* ambient)
+void Sprite::RegisterObject(Ambient* ambient)
 {
-	ambient->RegisterFactory<Sprite2D>(RESOURCE_ATTACH);
+	ambient->RegisterFactory<Sprite>(RESOURCE_ATTACH);
 }
 
 }

@@ -8,15 +8,15 @@ namespace Auto3D {
 
 enum class LightType
 {
-	kDirectional,
-	kPoint,
-	kSpot
+	Directional,
+	Point,
+	Spot
 };
 enum class ShadowType
 {
-	kNoShadow,
-	kSoft,
-	kHard
+	NoShadow,
+	Soft,
+	Hard
 };
 /**
 * Manage this light create shadow
@@ -29,7 +29,7 @@ public:
 	/**
 	* @brief : Set light type, default Directional
 	*/
-	explicit ShadowRenderAssist(Ambient* ambient, LightType type = LightType::kDirectional);
+	explicit ShadowRenderAssist(Ambient* ambient, LightType type = LightType::Directional);
 	/**
 	* @brief : Bind light create depath map
 	*/

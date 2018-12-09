@@ -2,15 +2,14 @@
 #include "Texture2D.h"
 
 namespace Auto3D {
-class tImage;
 class Image;
-class Sprite : public Texture2D
+class SpriteRenderer : public Texture2D
 {
-	REGISTER_DERIVED_CLASS(Sprite, Texture2D);
-	DECLARE_OBJECT_SERIALIZE(Sprite);
+	REGISTER_DERIVED_CLASS(SpriteRenderer, Texture2D);
+	DECLARE_OBJECT_SERIALIZE(SpriteRenderer);
 public:
 
-	explicit Sprite(Ambient* ambient);
+	explicit SpriteRenderer(Ambient* ambient);
 	/**
 	* @brief : Register object factory.
 	*/
@@ -21,10 +20,8 @@ public:
 	void Start()override;
 	void Draw()override;
 	/**
-* @brief : Set image path to load image
-*/
-	void SettImage(char* imagePath);
-
+	* @brief : Set image to load image
+	*/
 	void SetImage(Image* image);
 
 	void SetColor(const Color& color);
@@ -49,8 +46,6 @@ private:
 	Shader _shader;
 	Color _color;
 
-	char* _imagePath;
-	tImage* _timage;
 	SharedPtr<Image> _image;
 	bool _isMipmaps;
 };

@@ -1,31 +1,29 @@
-#include "Sprite.h"
+#include "SpriteRenderer.h"
 #include "Renderer.h"
 #include "VertexData.h"
 #include "Transform.h"
 #include "AutoOGL.h"
 #include "Configs.h"
 #include "ResourceSystem.h"
-#include "tImage.h"
 #include "Image.h"
 #include "NewDef.h"
 
 namespace Auto3D {
 
-Sprite::Sprite(Ambient* ambient)
+SpriteRenderer::SpriteRenderer(Ambient* ambient)
 	:Super(ambient)
 	, _shader(Shader(shader_path + "au_texture_transform.auvs"
 		, shader_path + "au_texture_transform.aufs"))
 {
-	_imagePath = "Resource/texture/square.jpg";
 	_color.Set(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
-void Sprite::RegisterObject(Ambient* ambient)
+void SpriteRenderer::RegisterObject(Ambient* ambient)
 {
-	ambient->RegisterFactory<Sprite>(SCENE_ATTACH);
+	ambient->RegisterFactory<SpriteRenderer>(SCENE_ATTACH);
 }
 
-Sprite::~Sprite()
+SpriteRenderer::~SpriteRenderer()
 {
 	UnloadOpaque(this);
 	glDeleteVertexArrays(1, &_VAO);
@@ -33,17 +31,12 @@ Sprite::~Sprite()
 	glDeleteBuffers(1, &_EBO);
 }
 
-void Sprite::SettImage(char* imagePath)
-{
-	_imagePath = imagePath;
-}
-
-void Sprite::SetImage(Image* image)
+void SpriteRenderer::SetImage(Image* image)
 {
 	_image = SharedPtr<Image>(image);
 }
 
-void Sprite::Start()
+void SpriteRenderer::Start()
 {
 	/////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -70,30 +63,34 @@ void Sprite::Start()
 	glGenTextures(1, &_textureData);
 	glBindTexture(GL_TEXTURE_2D, _textureData);
 
-	/////////////////////////////////////////////////////////////////////////////////////////////
-	
-	_timage = GetSubSystem<ResourceSystem>()->ImageLoad(_imagePath);
-
 	//SetNearestParameters();
 	SetLinerParameters();
 	
-	if (_timage->value)
+	if (_image->GetData())
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, _timage->format, _timage->width, _timage->height, 0, _timage->format, GL_UNSIGNED_BYTE, _timage->value);
+		glTexImage2D(GL_TEXTURE_2D,0, 
+			_image->GetFormat(),
+			_image->GetWidth(),
+			_image->GetHeight(),0, 
+			_image->GetFormat(),
+			GL_UNSIGNED_BYTE,
+			_image->GetData());
 		GenerateMipmap();
 	}
 	else
 	{
 		WarningString("Failed to load texture");
 	}
-
-	
-	//stbi_image_free(m_image->Value);
-	RegisterOpaque(this);
+	if(_image->GetType() == ImageType::Opaque)
+		RegisterOpaque(this);
+	else if (_image->GetType() == ImageType::Custom)
+		RegisterCustom(this);
+	else if (_image->GetType() == ImageType::Translucent)
+		RegisterTranslucent(this);
 	/////////////////////////////////////////////////////////////////////////////////////////////
 }
 
-void Sprite::Draw()
+void SpriteRenderer::Draw()
 {
 	GLApply();
 
@@ -122,26 +119,26 @@ void Sprite::Draw()
 
 	GLOriginal();
 }
-void Sprite::SetColor(const Color& color)
+void SpriteRenderer::SetColor(const Color& color)
 {
 	_color.Set(color.r, color.g, color.b, color.a);
 }
 
-void Sprite::SetColor(const Vector3& vec)
+void SpriteRenderer::SetColor(const Vector3& vec)
 {
 	_color.Set(vec.x, vec.y, vec.z, 1.0f);
 }
-void Sprite::SetColor(float r, float g, float b, float a)
+void SpriteRenderer::SetColor(float r, float g, float b, float a)
 {
 	_color.Set(r, g, b, a);
 }
 
 //////////////////////////////////////////////////////////////////////////
 //tImage conpontent to use
-void Sprite::SetLinerParameters()
+void SpriteRenderer::SetLinerParameters()
 {
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _timage->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _timage->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _image->GetFormat() == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _image->GetFormat() == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
 	if (_isMipmaps)
 	{
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
@@ -153,10 +150,10 @@ void Sprite::SetLinerParameters()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 }
 
-void Sprite::SetNearestParameters()
+void SpriteRenderer::SetNearestParameters()
 {
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _timage->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _timage->format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, _image->GetComponents() == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, _image->GetComponents() == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
 	if (_isMipmaps)
 	{
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
@@ -168,7 +165,7 @@ void Sprite::SetNearestParameters()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 }
 
-void Sprite::SetTexParameters(const TexParams & params)
+void SpriteRenderer::SetTexParameters(const TexParams& params)
 {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, params.wrapS);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, params.wrapT);
@@ -176,7 +173,7 @@ void Sprite::SetTexParameters(const TexParams & params)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, params.magFilter);
 }
 
-void Sprite::GenerateMipmap()
+void SpriteRenderer::GenerateMipmap()
 {
 	glGenerateMipmap(GL_TEXTURE_2D);
 	_isMipmaps = true;

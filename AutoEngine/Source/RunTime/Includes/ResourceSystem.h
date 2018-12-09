@@ -48,11 +48,6 @@ public:
 	*/
 	unsigned int TextureLoad(PInt8 path,bool vertically = true);
 	/**
-	* @brief : According fail path get image
-	* @return: tImage*
-	*/
-	tImage* ImageLoad(PInt8 path);
-	/**
 	* @brief : According fail path get model
 	* @return: ModelCommand*
 	*/
@@ -67,11 +62,6 @@ public:
 	* @return: unsigned int
 	*/
 	unsigned int HdrLoad(PInt8 path);
-	/**
-	* @brief : Free image
-	*/
-	void FreeImage(tImage * image);
-
 
 	/**
 	* @brief : Return a resource by type and name. Load if not loaded yet. 

@@ -24,32 +24,45 @@ enum CompressedFormat
 	PVRTC_RGBA_4BPP,
 };
 
-/// Compressed image mip level
+/**
+* Compressed image mip level
+*/
 struct CompressedLevel
 {
-	/// Decompress to RGBA. The destination buffer required is width * height * 4 bytes. Return true if successful.
+	/// decompress to RGBA. The destination buffer required is width * height * 4 bytes. Return true if successful.
 	bool Decompress(unsigned char* dest);
 
-	/// Compressed image data.
+	/// compressed image data.
 	unsigned char* data_{};
-	/// Compression format.
+	/// compression format.
 	CompressedFormat format_{ CompressedFormat::NONE };
-	/// Width.
+	/// width.
 	int width_{};
-	/// Height.
+	/// height.
 	int height_{};
-	/// Depth.
+	/// depth.
 	int depth_{};
-	/// Block size in bytes.
+	/// block size in bytes.
 	unsigned blockSize_{};
-	/// Total data size in bytes.
+	/// total data size in bytes.
 	unsigned dataSize_{};
-	/// Row size in bytes.
+	/// row size in bytes.
 	unsigned rowSize_{};
-	/// Number of rows.
+	/// number of rows.
 	unsigned rows_{};
 };
 
+enum class ImageFormat
+{
+
+};
+
+enum class ImageType
+{
+	Opaque,
+	Custom,
+	Translucent,
+};
 class Image : public Resource
 {
 	REGISTER_DERIVED_ABSTRACT_CLASS(Image, Resource);
@@ -73,18 +86,54 @@ public:
 	*	Old image data will be destroyed and new data is undefined.
 	*	Return true if successful.
 	*/
-	bool SetSize(int width, int height, unsigned components);
+	bool SetSize(int width, int height, unsigned comp);
 	/**
 	* @brief : Set 3D size and number of color components.
 	*	Old image data will be destroyed and new data is undefined. 
 	*	Return true if successful.
 	*/
-	bool SetSize(int width, int height, int depth, unsigned components);
+	bool SetSize(int width, int height, int depth, unsigned comp);
 	/**
 	* @brief : Set new image data
 	*/
 	void SetData(const unsigned char* pixelData);
+	/**
+	* @brief : Set format
+	*/
+	void SetFormat(unsigned comp);
+	/**
+	* @brief : Set image type
+	*/
+	void SetImageType(ImageType type);
 
+	/**
+	* @brief : Return width
+	*/
+	int GetWidth() const { return _width; }
+	/**
+	* @brief : Return height
+	*/
+	int GetHeight() const { return _height; }
+	/**
+	* @brief : Return depth
+	*/
+	int GetDepth() const { return _depth; }
+	/**
+	* @brief : Return format
+	*/
+	unsigned GetFormat() { return _format; }
+	/**
+	* @brief : Return number of color components
+	*/
+	unsigned GetComponents() const { return _components; }
+	/**
+	* @brief : Return pixel data
+	*/
+	unsigned char* GetData() const { return _data; }
+	/**
+	* @brief : Return image type
+	*/
+	ImageType GetType()const { return _imageType; }
 	/**
 	* @brief : Return whether is compressed
 	*/
@@ -95,6 +144,7 @@ public:
 	CompressedFormat GetCompressedFormat() const { return _compressedFormat; }
 
 private:
+
 	/**
 	* @brief : Decode an image using stb_image
 	*/
@@ -103,31 +153,35 @@ private:
 	* @brief : Free an image file's pixel data
 	*/
 	static void freeImageData(unsigned char* pixelData);
-
-private:
-	/// Width
+	
+public:
+	/// width
 	int _width{};
-	/// Height
+	/// height
 	int _height{};
-	/// Depth
+	/// depth
 	int _depth{};
-	/// Number of color components
+	/// number of color components
 	unsigned _components{};
-	/// Number of compressed mip levels
+	/// format
+	unsigned _format{};
+	/// number of compressed mip levels
 	unsigned _numCompressedLevels{};
-	/// Cubemap status if DDS
+	/// cubemap status if DDS
 	bool _cubemap{};
-	/// Texture array status if DDS
+	/// texture array status if DDS
 	bool _array{};
-	/// Data is sRGB
+	/// data is sRGB
 	bool _sRGB{};
-	/// Compressed format
+	/// compressed format
 	CompressedFormat _compressedFormat{ CompressedFormat::NONE };
-	/// Pixel data
-	SharedArrayPtr<unsigned char> _data;
-	/// Precalculated mip level image
+	/// image type
+	ImageType _imageType{ ImageType::Opaque };
+	/// pixel data
+	unsigned char* _data;
+	/// precalculated mip level image
 	SharedPtr<Image> _nextLevel;
-	/// Next texture array or cube map image
+	/// next texture array or cube map image
 	SharedPtr<Image> _nextSibling;
 };
 

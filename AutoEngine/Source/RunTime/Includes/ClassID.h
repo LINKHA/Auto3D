@@ -37,7 +37,7 @@ enum ClassIDType
 	DO_CLASS_ID(TextureNormal, 33)
 	DO_CLASS_ID(TextureParallax, 34)
 	DO_CLASS_ID(RenderComponent, 35)
-	DO_CLASS_ID(Sprite, 36)
+	DO_CLASS_ID(SpriteRenderer, 36)
 
 	DO_CLASS_ID(LightPoint, 37)
 	DO_CLASS_ID(LightSpot, 39)
@@ -92,7 +92,7 @@ enum ClassIDType
 	DO_CLASS_ID(Sound, 91)
 	DO_CLASS_ID(RenderComponent2D, 92)
 	DO_CLASS_ID(StaticSprite2D, 93)
-	DO_CLASS_ID(Sprite2D, 94)
+	DO_CLASS_ID(Sprite, 94)
 	DO_CLASS_ID(File, 95)
 	DO_CLASS_ID(Image, 96)
 

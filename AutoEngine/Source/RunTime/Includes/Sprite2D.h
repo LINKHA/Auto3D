@@ -3,12 +3,12 @@
 
 namespace Auto3D {
 
-class Sprite2D : public Resource
+class Sprite : public Resource
 {
-	REGISTER_DERIVED_CLASS(Sprite2D, Resource);
-	DECLARE_OBJECT_SERIALIZE(Sprite2D);
+	REGISTER_DERIVED_CLASS(Sprite, Resource);
+	DECLARE_OBJECT_SERIALIZE(Sprite);
 public:
-	explicit Sprite2D(Ambient* ambient);
+	explicit Sprite(Ambient* ambient);
 	/**
 	* @brief : Register object factory
 	*/

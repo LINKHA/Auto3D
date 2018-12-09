@@ -22,7 +22,7 @@ ShadowRenderAssist::~ShadowRenderAssist()
 
 void ShadowRenderAssist::BindDepathMap()
 {
-	if (_type == LightType::kDirectional)
+	if (_type == LightType::Directional)
 	{
 		glGenFramebuffers(1, &_depthDirMapFBO);
 		// create depth texture
@@ -41,7 +41,7 @@ void ShadowRenderAssist::BindDepathMap()
 		glReadBuffer(GL_NONE);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
-	else if (_type == LightType::kPoint || _type == LightType::kSpot)
+	else if (_type == LightType::Point || _type == LightType::Spot)
 	{
 		glGenFramebuffers(1, &_depthPointMapFBO);
 		// create depth cubemap texture
@@ -69,9 +69,9 @@ void ShadowRenderAssist::BindDepathMap()
 }
 unsigned ShadowRenderAssist::GetDepthMapFBO()
 {
-	if (_type == LightType::kDirectional)
+	if (_type == LightType::Directional)
 		return _depthDirMapFBO;
-	else if (_type == LightType::kPoint || _type == LightType::kSpot)
+	else if (_type == LightType::Point || _type == LightType::Spot)
 		return _depthPointMapFBO;
 	else
 	{
@@ -82,9 +82,9 @@ unsigned ShadowRenderAssist::GetDepthMapFBO()
 
 unsigned ShadowRenderAssist::GetDepthMap()
 {
-	if (_type == LightType::kDirectional)
+	if (_type == LightType::Directional)
 		return _depthDirMap;
-	else if (_type == LightType::kPoint || _type == LightType::kSpot)
+	else if (_type == LightType::Point || _type == LightType::Spot)
 		return _depthPointmap;
 	else
 	{
@@ -101,9 +101,9 @@ Light::Light(Ambient* ambi)
 	, _farPlane(25.0f)
 	, _nearPlane(0.01f)
 {
-	SetType(LightType::kDirectional);
+	SetType(LightType::Directional);
 	AddToManager();
-	SetShadowType(ShadowType::kSoft);
+	SetShadowType(ShadowType::Soft);
 }
 
 Light::~Light()
@@ -126,7 +126,7 @@ void Light::Update()
 
 void Light::SetType(LightType type)
 {
-	if (type == LightType::kDirectional)
+	if (type == LightType::Directional)
 	{
 		_type = type;
 		_color.Set(1.0f, 1.0f, 1.0f);
@@ -135,7 +135,7 @@ void Light::SetType(LightType type)
 		diffuse.Set(1.0f, 1.0f, 1.0f);
 		specular.Set(0.7f, 0.7f, 0.7f);
 	}
-	else if (type == LightType::kPoint)
+	else if (type == LightType::Point)
 	{
 		_type = type;
 		_color.Set(1.0f, 1.0f, 1.0f);
@@ -146,7 +146,7 @@ void Light::SetType(LightType type)
 		diffuse.Set(1.0f, 1.0f, 1.0f);
 		specular.Set(0.7f, 0.7f, 0.7f);
 	}
-	else if (type == LightType::kSpot)
+	else if (type == LightType::Spot)
 	{
 		_type = type;
 		_color.Set(1.0f, 1.0f, 1.0f);
@@ -169,7 +169,7 @@ void Light::SetType(LightType type)
 void Light::SetShadowType(ShadowType type)
 {
 	_shadowType = type;
-	if (_shadowAssist || (type == ShadowType::kNoShadow))
+	if (_shadowAssist || (type == ShadowType::NoShadow))
 		return;
 	_shadowAssist = SharedPtr<ShadowRenderAssist>(new ShadowRenderAssist(_ambient,GetType()));
 }

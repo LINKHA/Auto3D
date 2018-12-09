@@ -1,7 +1,7 @@
 #include "Scene.h"
 
 #include "Camera.h"
-#include "Sprite.h"
+#include "SpriteRenderer.h"
 #include "Transform.h"
 #include "Mesh.h"
 #include "Light.h"
@@ -121,7 +121,7 @@ void Scene::RegisterSceneLib(Ambient* ambient)
 	AudioSource::RegisterObject(ambient);
 	Light::RegisterObject(ambient);
 
-	Sprite::RegisterObject(ambient);
+	SpriteRenderer::RegisterObject(ambient);
 	Mesh::RegisterObject(ambient);
 
 }

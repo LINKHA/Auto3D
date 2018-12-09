@@ -15,12 +15,12 @@ bool Application::Run(Ambient* ambient)
 	try 
 	{
 		_engine = SharedPtr<Engine>(new Engine(ambient));
-		if (Init())
+		if (!Init())
 		{
 			ErrorExit();
 			return false;
 		}
-		if (RunLoop() == false)
+		if (!RunLoop())
 		{
 			ErrorExit();
 			return false;
@@ -37,7 +37,7 @@ bool Application::Init()
 {
 	setStates(AppStates::Initing);
 	_engine->Init();
-	return false;
+	return true;
 }
 
 bool Application::RunLoop()
@@ -45,7 +45,7 @@ bool Application::RunLoop()
 	setStates(AppStates::Running);
 	while (!_engine->IsExiting())
 		_engine->RunFrame();
-	return false;
+	return true;
 }
 bool Application::Finish()
 {

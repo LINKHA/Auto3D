@@ -656,9 +656,6 @@
     <ClInclude Include="Source\RunTime\Includes\SkyBoxReflectMesh.h">
       <Filter>Source\RunTime\Graphics\Component\Camera\TempIntegrated</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Sprite.h">
-      <Filter>Source\RunTime\Graphics\Component</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\SpriteTranslucent.h">
       <Filter>Source\RunTime\Graphics\Component</Filter>
     </ClInclude>
@@ -785,9 +782,6 @@
     <ClInclude Include="Source\RunTime\Includes\TypeThread.h">
       <Filter>Source\RunTime\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\tImage.h">
-      <Filter>Source\RunTime\Resource\Temp</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Image.h">
       <Filter>Source\RunTime\Resource</Filter>
     </ClInclude>
@@ -820,6 +814,9 @@
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\AutoSDL.h">
       <Filter>Source\RunTime\Adapter</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\SpriteRenderer.h">
+      <Filter>Source\RunTime\Graphics\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1051,9 +1048,6 @@
     <ClCompile Include="Source\RunTime\src\SkyBoxReflectMesh.cpp">
       <Filter>Source\RunTime\Graphics\Component\Camera\TempIntegrated</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Sprite.cpp">
-      <Filter>Source\RunTime\Graphics\Component</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RunTime\src\SpriteTranslucent.cpp">
       <Filter>Source\RunTime\Graphics\Component</Filter>
     </ClCompile>
@@ -1144,14 +1138,14 @@
     <ClCompile Include="Source\RunTime\src\BackgroundLoader.cpp">
       <Filter>Source\RunTime\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\tImage.cpp">
-      <Filter>Source\RunTime\Resource\Temp</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RunTime\src\Image.cpp">
       <Filter>Source\RunTime\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\AutoString.cpp">
       <Filter>Source\RunTime\Adapter</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\SpriteRenderer.cpp">
+      <Filter>Source\RunTime\Graphics\Component</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

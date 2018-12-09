@@ -4,6 +4,8 @@
 #include "AutoImage.h"
 #include "Deserializer.h"
 #include "Serializer.h"
+#include "AutoOGL.h"
+#include "NewDef.h"
 
 namespace Auto3D {
 
@@ -31,6 +33,7 @@ bool Image::BeginLoad(Deserializer& source)
 		AutoCout << "Could not load image " + source.GetName() << ": " << STRING(stbi_failure_reason()) << AutoEndl;
 		return false;
 	}
+	SetFormat(components);
 	SetSize(width, height, components);
 	SetData(pixelData);
 	freeImageData(pixelData);
@@ -52,41 +55,41 @@ bool Image::Save(Serializer& dest) const
 	}
 
 	int len;
-	unsigned char* png = stbi_write_png_to_mem(_data.get(), 0, _width, _height, _components, &len);
+	unsigned char* png = stbi_write_png_to_mem(_data, 0, _width, _height, _components, &len);
 	bool success = dest.Write(png, (unsigned)len) == (unsigned)len;
 	free(png);      // NOLINT(hicpp-no-malloc)
 	return success;
 }
 
-bool Image::SetSize(int width, int height, unsigned components)
+bool Image::SetSize(int width, int height, unsigned comp)
 {
-	return SetSize(width, height, 1, components);
+	return SetSize(width, height, 1, comp);
 }
 
-bool Image::SetSize(int width, int height, int depth, unsigned components)
+bool Image::SetSize(int width, int height, int depth, unsigned comp)
 {
-	if (width == _width && height == _height && depth == _depth && components == _components)
+	if (width == _width && height == _height && depth == _depth && comp == _components)
 		return true;
 
 	if (width <= 0 || height <= 0 || depth <= 0)
 		return false;
 
-	if (components > 4)
+	if (comp > 4)
 	{
 		WarningString("More than 4 color components are not supported");
 		return false;
 	}
 
-	_data = SharedArrayPtr<unsigned char>(new unsigned char[width * height * depth * components]);
+	_data = new unsigned char[width * height * depth * comp];
 	_width = width;
 	_height = height;
 	_depth = depth;
-	_components = components;
+	_components = comp;
 	_compressedFormat = CompressedFormat::NONE;
 	_numCompressedLevels = 0;
 	_nextLevel.reset();
 
-	SetMemoryUse(width * height * depth * components);
+	SetMemoryUse(width * height * depth * comp);
 	return true;
 }
 
@@ -103,14 +106,34 @@ void Image::SetData(const unsigned char* pixelData)
 
 	auto size = (size_t)_width * _height * _depth * _components;
 	if (pixelData)
-		memcpy(_data.get(), pixelData, size);
+		memcpy(_data, pixelData, size);
 	else
-		memset(_data.get(), 0, size);
+		memset(_data, 0, size);
 	_nextLevel.reset();
+}
+
+void Image::SetFormat(unsigned comp)
+{
+	if (!comp)
+		return;
+	switch (comp)
+	{
+	case 1: _format = GL_RED; break;
+	case 3: _format = GL_RGB; break;
+	case 4: _format = GL_RGBA; break;
+	default:
+		break;
+	}
+}
+
+void Image::SetImageType(ImageType type)
+{
+	_imageType = type;
 }
 
 unsigned char* Image::getImageData(Deserializer& source, int& width, int& height, unsigned& components)
 {
+	stbi_set_flip_vertically_on_load(true);
 	unsigned dataSize = source.GetSize();
 
 	SharedArrayPtr<unsigned char> buffer(new unsigned char[dataSize]);

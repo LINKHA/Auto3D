@@ -329,7 +329,6 @@
     <ClInclude Include="Source\RunTime\Includes\GameManager.h" />
     <ClInclude Include="Source\RunTime\Includes\InputManager.h" />
     <ClInclude Include="Source\RunTime\Includes\Math\FloatConversion.h" />
-    <ClInclude Include="Source\RunTime\Includes\tImage.h" />
     <ClInclude Include="Source\RunTime\Includes\DeviceTypes.h" />
     <ClInclude Include="Source\RunTime\Includes\Texture.h" />
     <ClInclude Include="Source\RunTime\Includes\Math\Color.h" />
@@ -367,7 +366,7 @@
     <ClInclude Include="Source\RunTime\Includes\VertexData.h" />
     <ClInclude Include="Source\RunTime\Includes\TextureNormal.h" />
     <ClInclude Include="Source\RunTime\Includes\TextureParallax.h" />
-    <ClInclude Include="Source\RunTime\Includes\Sprite.h" />
+    <ClInclude Include="Source\RunTime\Includes\SpriteRenderer.h" />
     <ClInclude Include="Source\RunTime\Includes\SSAO.h" />
     <ClInclude Include="Source\RunTime\Includes\SkyBoxReflectMesh.h" />
     <ClInclude Include="Source\RunTime\Includes\SpriteTranslucent.h" />
@@ -457,7 +456,6 @@
     <ClCompile Include="Source\RunTime\src\Mesh.cpp" />
     <ClCompile Include="Source\RunTime\src\GameManager.cpp" />
     <ClCompile Include="Source\RunTime\src\Configs.cpp" />
-    <ClCompile Include="Source\RunTime\src\tImage.cpp" />
     <ClCompile Include="Source\RunTime\src\Texture.cpp" />
     <ClCompile Include="PlatformDependent\Win\PathUnicode.cpp" />
     <ClCompile Include="Source\RunTime\src\File.cpp" />
@@ -480,7 +478,7 @@
     <ClCompile Include="Source\RunTime\src\TextureMap.cpp" />
     <ClCompile Include="Source\RunTime\src\TextureNormal.cpp" />
     <ClCompile Include="Source\RunTime\src\TextureParallax.cpp" />
-    <ClCompile Include="Source\RunTime\src\Sprite.cpp" />
+    <ClCompile Include="Source\RunTime\src\SpriteRenderer.cpp" />
     <ClCompile Include="Source\RunTime\src\SSAO.cpp" />
     <ClCompile Include="Source\RunTime\src\SkyBoxReflectMesh.cpp" />
     <ClCompile Include="Source\RunTime\src\SpriteTranslucent.cpp" />

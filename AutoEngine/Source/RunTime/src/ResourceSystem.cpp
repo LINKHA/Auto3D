@@ -2,7 +2,6 @@
 #include "AutoOGL.h"
 #include "AutoImage.h"
 #include "File.h"
-#include "tImage.h"
 #include "Model.h"
 #include "FileSystem.h"
 #include "Resource.h"
@@ -68,35 +67,6 @@ unsigned int ResourceSystem::TextureLoad(PInt8 path, bool vertically)
 		stbi_image_free(data);
 	}
 	return textureID;
-}
-
-tImage* ResourceSystem::ImageLoad(PInt8 path)
-{
-	stbi_set_flip_vertically_on_load(true);
-	tImage* image = nullptr;
-	auto it = _imageQueue.find(path);
-	if (it != _imageQueue.end())
-	{
-		image = it->second;
-	}
-	else
-	{
-		//image = new (std::nothrow)tImage(_ambient);
-		image = new tImage(_ambient);
-		int nrComponents;
-		unsigned char * t = stbi_load(path, &image->width, &image->height, &nrComponents, 0);
-		if (nrComponents == 1)
-			image->format = GL_RED;
-		else if (nrComponents == 3)
-			image->format = GL_RGB;
-		else if (nrComponents == 4)
-			image->format = GL_RGBA;
-		image->value = t;
-		_imageQueue.emplace(MAKE_PAIR(path, image));
-
-	}
-
-	return image;
 }
 
 Model* ResourceSystem::ModelLoad(PInt8 path)
@@ -172,10 +142,6 @@ unsigned int ResourceSystem::HdrLoad(PInt8 path)
 	return hdrTexture;
 }
 
-void ResourceSystem::FreeImage(tImage * image)
-{
-	stbi_image_free(image->value);
-}
 
 Resource* ResourceSystem::GetResource(STRING type, const STRING& name, bool sendEventOnFailure)
 {
@@ -262,7 +228,7 @@ STRING ResourceSystem::SanitateResourceName(const STRING& name) const
 void ResourceSystem::RegisterResourceLib(Ambient * ambient)
 {
 	Sound::RegisterObject(ambient);
-	Sprite2D::RegisterObject(ambient);
+	Sprite::RegisterObject(ambient);
 	Image::RegisterObject(ambient);
 }
 
