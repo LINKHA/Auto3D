@@ -37,7 +37,7 @@ Scene::~Scene()
 void Scene::RegisterScene(int sceneId, LevelScene* scene)
 {
 	scene->Enable(true);
-	_dynamicLevelScenes.emplace(MAKE_PAIR(sceneId, scene));
+	_dynamicLevelScenes.emplace(MakePair(sceneId, scene));
 }
 
 void Scene::RemoveScene(int sceneId)

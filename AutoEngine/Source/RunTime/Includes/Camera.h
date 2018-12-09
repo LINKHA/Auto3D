@@ -9,17 +9,17 @@ namespace Auto3D {
 
 enum class CameraMovement
 {
-	kForward,
-	kBackward,
-	kLeft,
-	kRight
+	Forward,
+	Backward,
+	Left,
+	Right
 };
 
 enum class ProjectionMode
 {
-	kDefault = 0,
-	kPerspective = 1,
-	kOrthographic = 2,
+	Default = 0,
+	Perspective = 1,
+	Orthographic = 2,
 };
 
 class Camera : public Component
@@ -80,7 +80,7 @@ public:
 	/**
 	* @brief : If allow Off screen get OffScreen ,else get nullptr
 	*/
-	OffScreen* GetOffScreen();
+	SharedPtr<OffScreen> GetOffScreen();
 	/**
 	* @brief : According to projection Mode ,get view matrix
 	*/

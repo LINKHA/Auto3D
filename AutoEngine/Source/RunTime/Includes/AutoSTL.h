@@ -14,7 +14,7 @@
 
 namespace Auto3D {
 
-#define MAKE_PAIR(_First,_Second)	std::make_pair(_First,_Second)
+
 
 template <typename _Ty>
 using LIST = std::list<_Ty>;
@@ -46,10 +46,16 @@ using HASH_SET = std::unordered_set<_Kty>;
 template <typename _Kty, typename _Ty>
 using HASH_MAP = std::unordered_map<_Kty, _Ty>;
 
+template<typename _First,typename _Second> 
+auto MakePair(_First rhs, _Second lfs) { return std::make_pair(rhs, lfs); }
+
 template<typename _Ty> using SharedPtr = boost::shared_ptr<_Ty>;
 
 template<typename _Ty> using WeakPtr = boost::weak_ptr<_Ty>;
 
 template<typename _Ty> using SharedArrayPtr = boost::shared_array<_Ty>;
+
+template<typename _Ty, typename... _Args> 
+auto MakeShared(_Args&&... args) { return boost::make_shared<_Ty>(args...); }
 
 }

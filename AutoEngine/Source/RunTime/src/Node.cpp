@@ -54,7 +54,7 @@ Node::NodeChilds& Node::GetAllChild()
 
 void Node::AddComponent(Component* com)
 {
-	_components.push_back(MAKE_PAIR(com->GetClassString(), com));
+	_components.push_back(MakePair(com->GetClassString(), com));
 	com->MountComponent(this);
 }
 

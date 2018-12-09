@@ -78,9 +78,9 @@ private:
 
 
 private:
-	bool _isAllowMsaa;
-	bool _isAllowLateEffect;
-	bool _isAllowHDR;
+	bool _isAllowMsaa{};
+	bool _isAllowLateEffect{};
+	bool _isAllowHDR{};
 
 	Shader _shader;
 	int _samplingPointCount;

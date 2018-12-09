@@ -20,7 +20,7 @@ Camera::Camera(Ambient* ambient)
 	, _worldUp(glm::vec3(0.0f, 1.0f, 0.0f))
 	, _yaw(-90.0f)
 	, _pitch(0.0f)
-	, _projectionMode(ProjectionMode::kPerspective)
+	, _projectionMode(ProjectionMode::Perspective)
 {
 	_position = Vector3(0.0f, 0.0f, 0.0f).ToGLM();
 	updateCameraVectors();
@@ -46,14 +46,14 @@ void Camera::AllowOffScreen(bool enable)
 	_isAllowOffScreen = enable;
 	if (!_isAllowOffScreen || _offScreen)
 		return;
-	_offScreen = SharedPtr<OffScreen>(new OffScreen(_ambient));
+	_offScreen = MakeShared<OffScreen>(_ambient);
 }
 void Camera::AllowMSAA(bool enable, int pointNum)
 {
 	if (!_offScreen)
 	{
 		_isAllowOffScreen = true;
-		_offScreen = SharedPtr<OffScreen>(new OffScreen(_ambient));
+		_offScreen = MakeShared<OffScreen>(_ambient);
 	}
 	_offScreen->AllowMSAA(enable, pointNum);
 }
@@ -63,7 +63,7 @@ void Camera::AllowLateEffect(bool enable)
 	if (!_offScreen)
 	{
 		_isAllowOffScreen = true;
-		_offScreen = SharedPtr<OffScreen>(new OffScreen(_ambient));
+		_offScreen = MakeShared<OffScreen>(_ambient);
 	}
 		
 	_offScreen->AllowLateEffect(enable);
@@ -74,7 +74,7 @@ void Camera::AllowHDR(bool enable)
 	if (!_offScreen)
 	{
 		_isAllowOffScreen = true;
-		_offScreen = SharedPtr<OffScreen>(new OffScreen(_ambient));
+		_offScreen = MakeShared<OffScreen>(_ambient);
 	}
 
 	_offScreen->AllowHDR(enable);
@@ -90,10 +90,10 @@ void Camera::SetLateEffect(const Shader& shader)
 		_offScreen->SetEffect(shader);
 }
 
-OffScreen* Camera::GetOffScreen()
+SharedPtr<OffScreen> Camera::GetOffScreen()
 {
 	if (_isAllowOffScreen && _offScreen)
-		return _offScreen.get();
+		return _offScreen;
 	else
 	{
 		ErrorString("Fail to get camera off screen");
@@ -116,7 +116,7 @@ glm::mat4& Camera::GetViewMatrix()
 glm::mat4& Camera::GetProjectionMatrix()
 {
 	RectInt rect = GetSubSystem<Graphics>()->GetWindowRectInt();
-	if (_projectionMode == ProjectionMode::kPerspective)
+	if (_projectionMode == ProjectionMode::Perspective)
 	{
 		_projectionMatrix = glm::perspective(_zoom,
 			((float)rect.width * (float)_viewRect.width) /
@@ -124,7 +124,7 @@ glm::mat4& Camera::GetProjectionMatrix()
 			_near, _far);
 		return _projectionMatrix;
 	}
-	else if (_projectionMode == ProjectionMode::kOrthographic)
+	else if (_projectionMode == ProjectionMode::Orthographic)
 	{
 		float t = ((float)rect.width * (float)_viewRect.width) /
 			((float)rect.height * (float)_viewRect.height);
@@ -155,13 +155,13 @@ bool Camera::GetAllowLateEffect()
 void Camera::ProcessKeyboard(CameraMovement direction, float deltaTime)
 {
 	float velocity = _movementSpeed * deltaTime;
-	if (direction == CameraMovement::kForward)
+	if (direction == CameraMovement::Forward)
 		_position += _front * velocity;
-	if (direction == CameraMovement::kBackward)
+	if (direction == CameraMovement::Backward)
 		_position -= _front * velocity;
-	if (direction == CameraMovement::kLeft)
+	if (direction == CameraMovement::Left)
 		_position -= _right * velocity;
-	if (direction == CameraMovement::kRight)
+	if (direction == CameraMovement::Right)
 		_position += _right * velocity;
 }
 

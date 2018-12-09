@@ -2,7 +2,6 @@
 #include "Light.h"
 #include "Mesh.h"
 #include "../FreeCamera.h"
-#include "LogAssert.h"
 
 Level_0::Level_0(Ambient* ambient, int id)
 	:LevelScene(ambient, id)
@@ -25,7 +24,7 @@ void Level_0::Start()
 
 	Node* lightObj = CreateNode();
 	auto* light = lightObj->CreateComponent<Light>();
-	light->SetType(LightType::kDirectional);
+	light->SetType(LightType::Directional);
 	light->direction.Set(0.0f, -0.5f, -0.5f);
 
 
@@ -39,4 +38,3 @@ void Level_0::Update()
 {
 	SceneSuper::Update();
 }
-
