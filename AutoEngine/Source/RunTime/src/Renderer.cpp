@@ -454,8 +454,19 @@ void Renderer::renderCustom()
 {
 	for (LIST<RenderComponent*>::iterator it = _customs.begin(); it != _customs.end(); it++)
 	{
-		(*it)->DrawCustom();
+		(*it)->Draw();
 	}
+}
+
+void Renderer::renderTranslucent()
+{
+	translucentGeometrySort();
+	for (PAIR_MAP<float, RenderComponent*>::reverse_iterator it = _translucentsSorted.rbegin(); it != _translucentsSorted.rend(); ++it)
+	{
+		//Draw translucent component
+		it->second->Draw();
+	}
+	_translucentsSorted.clear();
 }
 
 void Renderer::translucentGeometrySort()
@@ -480,17 +491,6 @@ void Renderer::intelMoutLightContainer()
 	if (_lightContainer)
 		return;
 	_lightContainer = SharedPtr<LightContainer>(new LightContainer(_ambient));
-}
-
-void Renderer::renderTranslucent()
-{
-	translucentGeometrySort();
-	for (PAIR_MAP<float, RenderComponent*>::reverse_iterator it = _translucentsSorted.rbegin(); it != _translucentsSorted.rend(); ++it)
-	{
-		//Draw translucent component
-		it->second->DrawTranslucent();
-	}
-	_translucentsSorted.clear();
 }
 
 

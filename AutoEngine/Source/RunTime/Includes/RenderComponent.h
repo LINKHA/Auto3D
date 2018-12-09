@@ -22,14 +22,6 @@ public:
 	* @brief : Draw call in renderer
 	*/
 	virtual void Draw() {}
-	/**
-	* @brief : Draw Coustom call in renderer
-	*/
-	virtual void DrawCustom() {}
-	/**
-	* @brief : Draw Translucent call in renderer
-	*/
-	virtual void DrawTranslucent() {}
 
 protected:
 	/**

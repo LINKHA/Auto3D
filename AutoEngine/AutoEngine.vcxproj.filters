@@ -656,9 +656,6 @@
     <ClInclude Include="Source\RunTime\Includes\SkyBoxReflectMesh.h">
       <Filter>Source\RunTime\Graphics\Component\Camera\TempIntegrated</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\SpriteTranslucent.h">
-      <Filter>Source\RunTime\Graphics\Component</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\SSAO.h">
       <Filter>Source\RunTime\Graphics\Component\Camera\TempIntegrated</Filter>
     </ClInclude>
@@ -1047,9 +1044,6 @@
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\SkyBoxReflectMesh.cpp">
       <Filter>Source\RunTime\Graphics\Component\Camera\TempIntegrated</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\SpriteTranslucent.cpp">
-      <Filter>Source\RunTime\Graphics\Component</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\SSAO.cpp">
       <Filter>Source\RunTime\Graphics\Component\Camera\TempIntegrated</Filter>

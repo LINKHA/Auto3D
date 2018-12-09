@@ -25,7 +25,13 @@ void SpriteRenderer::RegisterObject(Ambient* ambient)
 
 SpriteRenderer::~SpriteRenderer()
 {
-	UnloadOpaque(this);
+	if (_image->GetType() == ImageType::Opaque)
+		UnloadOpaque(this);
+	else if (_image->GetType() == ImageType::Custom)
+		UnloadCustom(this);
+	else if (_image->GetType() == ImageType::Translucent)
+		UnloadTranslucent(this);
+
 	glDeleteVertexArrays(1, &_VAO);
 	glDeleteBuffers(1, &_VBO);
 	glDeleteBuffers(1, &_EBO);
@@ -33,7 +39,7 @@ SpriteRenderer::~SpriteRenderer()
 
 void SpriteRenderer::SetImage(Image* image)
 {
-	_image = SharedPtr<Image>(image);
+	_image.reset(image);
 }
 
 void SpriteRenderer::Start()

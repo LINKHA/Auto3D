@@ -33,7 +33,7 @@ public:
 
 	void SetTexParameters(const TexParams& params);
 
-	Image* GetImage() const { return _image.get(); }
+	Image* GetImage() { return _image.get(); }
 
 
 	void GenerateMipmap();
