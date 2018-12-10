@@ -1,5 +1,4 @@
 #include "Image.h"
-#include "Ambient.h"
 #define AUTO_IMAGE_WRITE_IMPL
 #include "AutoImage.h"
 #include "Deserializer.h"

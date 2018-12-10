@@ -5,7 +5,7 @@
 #include "Camera.h"
 #include "Configs.h"
 #include "ResourceSystem.h"
-#include "Model.h"
+#include "Mesh.h"
 #include "NewDef.h"
 
 namespace Auto3D {
@@ -40,8 +40,8 @@ MeshShadowPoint::~MeshShadowPoint()
 }
 void MeshShadowPoint::DrawReady()
 {
-	Model* tmp = GetSubSystem<ResourceSystem>()->ModelLoad("../Resource/object/base/Cube.3DS");
-	_model = SharedPtr<Model>(tmp);
+	Mesh* tmp = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("../Resource/object/base/Cube.3DS");
+	_mesh.reset(tmp);
 	_woodTexture = GetSubSystem<ResourceSystem>()->TextureLoad("../Resource/texture/wood.jpg");
 
 	_shader.Use();
@@ -67,7 +67,7 @@ void MeshShadowPoint::DrawShadow()
 		_shader.SetInt("reverse_normals", 1); // A small little hack to invert normals when drawing cube from the inside so lighting still works.
 	}
 
-	_model->Draw(_shader);
+	_mesh->DrawMesh(_shader);
 
 	if (!_cullEnable)
 	{
@@ -118,7 +118,7 @@ void MeshShadowPoint::Draw()
 			_shader.SetInt("reverse_normals", 1); // A small little hack to invert normals when drawing cube from the inside so lighting still works.
 		}
 
-		_model->Draw(_shader);
+		_mesh->DrawMesh(_shader);
 
 		if (!_cullEnable)
 		{

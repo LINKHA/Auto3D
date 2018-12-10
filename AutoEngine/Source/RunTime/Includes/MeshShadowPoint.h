@@ -5,7 +5,7 @@
 
 namespace Auto3D {
 
-class Model;
+class Mesh;
 class Camera;
 class MeshShadowPoint : public RenderComponent, public GLMeshEnable
 {
@@ -17,10 +17,11 @@ public:
 	void Draw()override;
 	void DrawShadow()override;
 	void DisableCull() { _cullEnable = true; }
+	void SetMesh(Mesh* mesh) { _mesh.reset(mesh); }
 private:
 	Shader _shader;
 	Shader _hardShader;
-	SharedPtr<Model> _model;
+	SharedPtr<Mesh> _mesh;
 	bool _cullEnable;
 	unsigned int _woodTexture;
 	unsigned int _VAO;

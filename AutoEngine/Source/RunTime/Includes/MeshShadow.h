@@ -5,7 +5,7 @@
 
 namespace Auto3D {
 
-class Model;
+class Mesh;
 class Camera;
 class MeshShadow : public RenderComponent,public GLMeshEnable
 {
@@ -16,10 +16,10 @@ public:
 	void Draw()override;
 	void DrawShadow()override;
 
-
+	void SetMesh(Mesh* mesh) { _mesh.reset(mesh); }
 private:
 	Shader _shader;
-	SharedPtr<Model> _model;
+	SharedPtr<Mesh> _mesh;
 	unsigned int _woodTexture;
 	unsigned int _VAO;
 	unsigned int _VBO;

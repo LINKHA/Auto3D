@@ -5,7 +5,7 @@
 #include "Camera.h"
 #include "Configs.h"
 #include "ResourceSystem.h"
-#include "Model.h"
+#include "Mesh.h"
 #include "NewDef.h"
 
 namespace Auto3D {
@@ -26,8 +26,8 @@ MeshShadow::~MeshShadow()
 }
 void MeshShadow::DrawReady()
 {
-	Model* tmp = GetSubSystem<ResourceSystem>()->ModelLoad("../Resource/object/base/Cube.3DS");
-	_model = SharedPtr<Model>(tmp);
+	Mesh* tmp = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("../Resource/object/base/Cube.3DS");
+	_mesh = SharedPtr<Mesh>(tmp);
 	_woodTexture = GetSubSystem<ResourceSystem>()->TextureLoad("../Resource/texture/wood.jpg");
 
 
@@ -48,7 +48,7 @@ void MeshShadow::DrawShadow()
 		modelMat = Matrix4x4::identity;
 
 	shadowShader.SetMat4("model", modelMat);
-	_model->Draw(shadowShader);
+	_mesh->DrawMesh(shadowShader);
 }
 void MeshShadow::Draw()
 {
@@ -87,7 +87,7 @@ void MeshShadow::Draw()
 			modelMat = Matrix4x4::identity;
 		_shader.SetMat4("model", modelMat);
 
-		_model->Draw(_shader);
+		_mesh->DrawMesh(_shader);
 
 	}
 }

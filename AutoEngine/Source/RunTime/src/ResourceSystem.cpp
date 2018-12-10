@@ -8,7 +8,7 @@
 #include "Sound.h"
 #include "Sprite2D.h"
 #include "Image.h"
-
+#include "Mesh.h"
 #include "NewDef.h"
 
 
@@ -69,21 +69,21 @@ unsigned int ResourceSystem::TextureLoad(PInt8 path, bool vertically)
 	return textureID;
 }
 
-Model* ResourceSystem::ModelLoad(PInt8 path)
-{
-	Model* model;
-	auto it = _modelQueue.find(path);
-	if (it != _modelQueue.end())
-	{
-		model = it->second;
-	}
-	else
-	{
-		model = new Model(_ambient,path);
-		_modelQueue.emplace(path, model);
-	}
-	return model;
-}
+//Model* ResourceSystem::ModelLoad(PInt8 path)
+//{
+//	Model* model;
+//	auto it = _modelQueue.find(path);
+//	if (it != _modelQueue.end())
+//	{
+//		model = it->second;
+//	}
+//	else
+//	{
+//		model = new Model(_ambient,path);
+//		_modelQueue.emplace(path, model);
+//	}
+//	return model;
+//}
 
 unsigned int ResourceSystem::CubemapLoad(VECTOR<STRING> faces)
 {
@@ -158,12 +158,10 @@ Resource* ResourceSystem::GetResource(STRING type, const STRING& name, bool send
 	Resource* resource = dynamic_cast<Resource*>(_ambient->CreateObject(type));
 
 	// Attempt to load the resource
-	File* file(GetFile(sanitatedName, sendEventOnFailure));
+	File* file = GetFile(sanitatedName, sendEventOnFailure);
 	if (!file)
 		return nullptr;   // Error is already logged
-	Print(file->GetName().CStr());
 	resource->SetName(file->GetName());
-	Print(resource->GetName().CStr());
 	resource->Load(*file);
 
 	return resource;
@@ -225,11 +223,12 @@ STRING ResourceSystem::SanitateResourceName(const STRING& name) const
 	return sanitatedName.Trimmed();
 }
 
-void ResourceSystem::RegisterResourceLib(Ambient * ambient)
+void ResourceSystem::RegisterResourceLib(Ambient* ambient)
 {
 	Sound::RegisterObject(ambient);
 	Sprite::RegisterObject(ambient);
 	Image::RegisterObject(ambient);
+	Mesh::RegisterObject(ambient);
 }
 
 const SharedPtr<Resource>& ResourceSystem::findResource(STRING type, STRING name)
@@ -266,7 +265,7 @@ File* ResourceSystem::searchResourceDirs(const STRING& name)
 			// Construct the file first with full path, then rename it to not contain the resource path,
 			// so that the file's sanitatedName can be used in further GetFile() calls (for example over the network)
 			File* file = new File(_ambient, _resourceDirs[i] + name);
-			file->SetName(name);
+			file->SetName(_resourceDirs[i] + name);
 			return file;
 		}
 	}

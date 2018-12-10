@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "Renderer.h"
 #include "BaseMesh.h"
+#include "ResourceSystem.h"
 #include "NewDef.h"
 namespace Auto3D {
 DeferredShading::DeferredShading(Ambient* ambient)
@@ -22,7 +23,8 @@ DeferredShading::~DeferredShading()
 }
 void DeferredShading::Start()
 {
-	nanosuit = SharedPtr<Model>(new Model(_ambient,"../resource/object/nanosuit/nanosuit.obj"));
+	auto* mesh = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/nanosuit/nanosuit.obj");
+	nanosuit = SharedPtr<Mesh>(mesh);
 	objectPositions.push_back(glm::vec3(-3.0, -3.0, -3.0));
 	objectPositions.push_back(glm::vec3(0.0, -3.0, -3.0));
 	objectPositions.push_back(glm::vec3(3.0, -3.0, -3.0));
@@ -119,7 +121,7 @@ void DeferredShading::Draw()
 		model = glm::translate(model, objectPositions[i]);
 		model = glm::scale(model, glm::vec3(0.25f));
 		m_shaderGeometryPass.SetMat4("model", model);
-		nanosuit->Draw(m_shaderGeometryPass);
+		nanosuit->DrawMesh(m_shaderGeometryPass);
 	}
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 

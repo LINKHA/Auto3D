@@ -1,7 +1,7 @@
 #pragma once
 #include "RenderComponent.h"
 #include "Shader.h"
-#include "Model.h"
+#include "Mesh.h"
 
 namespace Auto3D {
 class SSAO : public RenderComponent
@@ -19,7 +19,7 @@ private:
 	Shader m_shaderSSAO;
 	Shader m_shaderSSAOBlur;
 
-	SharedPtr<Model> nanosuit;
+	SharedPtr<Mesh> nanosuit;
 
 	unsigned int gBuffer;
 	unsigned int gPosition, gNormal, gAlbedo;

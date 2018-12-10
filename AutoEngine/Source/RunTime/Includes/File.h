@@ -89,29 +89,29 @@ private:
 	*/
 	void seekInternal(unsigned newPosition);
 private:
-	/// File name
+	/// file name
 	STRING _fileName;
-	/// Open mode
+	/// open mode
 	FileMode _mode;
-	/// File handle
+	/// file handle
 	void* _handle;
-	/// Read buffer for Android asset or compressed file loading
+	/// read buffer for Android asset or compressed file loading
 	SharedArrayPtr<unsigned char> _readBuffer;
-	/// Decompression input buffer for compressed file loading
+	/// decompression input buffer for compressed file loading
 	SharedArrayPtr<unsigned char> _inputBuffer;
-	/// Read buffer position
+	/// read buffer position
 	unsigned _readBufferOffset;
-	/// Bytes in the current read buffer
+	/// bytes in the current read buffer
 	unsigned _readBufferSize;
-	/// Start position within a package file, 0 for regular files
+	/// start position within a package file, 0 for regular files
 	unsigned _offset;
-	/// Content checksum
+	/// content checksum
 	unsigned _checksum;
-	/// Compression flag
+	/// compression flag
 	bool _compressed;
-	/// Synchronization needed before read -flag
+	/// synchronization needed before read -flag
 	bool _readSyncNeeded;
-	/// Synchronization needed before write -flag
+	/// synchronization needed before write -flag
 	bool _writeSyncNeeded;
 };
 

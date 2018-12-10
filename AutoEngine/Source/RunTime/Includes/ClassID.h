@@ -20,7 +20,7 @@ enum ClassIDType
 
 	DO_CLASS_ID(Component, 15)
 	DO_CLASS_ID(Transform, 16)
-	DO_CLASS_ID(Mesh, 17)
+	DO_CLASS_ID(MeshRenderer, 17)
 	DO_CLASS_ID(Texture, 18)
 	DO_CLASS_ID(Texture2D, 19)
 	DO_CLASS_ID(Light, 20)
@@ -95,7 +95,8 @@ enum ClassIDType
 	DO_CLASS_ID(Sprite, 94)
 	DO_CLASS_ID(File, 95)
 	DO_CLASS_ID(Image, 96)
-
+	DO_CLASS_ID(Mesh, 97)
+	
 	CLASS_ID_Count
 };
 

@@ -1,5 +1,4 @@
 #pragma once
-#include "Auto.h"
 #include "Resource.h"
 
 namespace Auto3D {
@@ -65,7 +64,7 @@ enum class ImageType
 };
 class Image : public Resource
 {
-	REGISTER_DERIVED_ABSTRACT_CLASS(Image, Resource);
+	REGISTER_DERIVED_CLASS(Image, Resource);
 	DECLARE_OBJECT_SERIALIZE(Image)
 public:
 	explicit Image(Ambient* ambient);

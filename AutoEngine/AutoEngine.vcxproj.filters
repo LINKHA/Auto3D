@@ -100,9 +100,6 @@
     <Filter Include="Source\RunTime\Graphics\Component\Abstract">
       <UniqueIdentifier>{19379c9f-00c0-4c1d-a36a-dee221e60cad}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\RunTime\Graphics\Component\Light">
-      <UniqueIdentifier>{409718de-16f4-42d7-b5bf-c2c14a16552c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\RunTime\Graphics\Component\Camera">
       <UniqueIdentifier>{a29b1769-23c4-4c1a-8d01-bc292efdc32f}</UniqueIdentifier>
     </Filter>
@@ -150,6 +147,9 @@
     </Filter>
     <Filter Include="Source\RunTime\Resource\Temp">
       <UniqueIdentifier>{c2f6d330-a48f-4808-b3eb-f86169546498}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RunTime\Graphics\Component\Texture">
+      <UniqueIdentifier>{0af441cf-c689-40c5-8c99-d84471d9fc8e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -560,14 +560,8 @@
     <ClInclude Include="Source\RunTime\Includes\LevelScene.h">
       <Filter>Source\RunTime\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Light.h">
-      <Filter>Source\RunTime\Graphics\Component\Light</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\LightContainer.h">
       <Filter>Source\RunTime\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Mesh.h">
-      <Filter>Source\RunTime\Graphics\Component\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\MeshLight.h">
       <Filter>Source\RunTime\Graphics\Component\Mesh</Filter>
@@ -671,12 +665,6 @@
     <ClInclude Include="Source\RunTime\Includes\TextureMap.h">
       <Filter>Source\RunTime\Graphics\Component\Abstract</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\TextureNormal.h">
-      <Filter>Source\RunTime\Graphics\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\TextureParallax.h">
-      <Filter>Source\RunTime\Graphics\Component</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Time.h">
       <Filter>Source\RunTime\Time</Filter>
     </ClInclude>
@@ -746,9 +734,6 @@
     <ClInclude Include="Source\RunTime\Includes\Material.h">
       <Filter>Source\RunTime\Resource\Temp</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Model.h">
-      <Filter>Source\RunTime\Resource\Temp</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Shader.h">
       <Filter>Source\RunTime\Resource\Temp</Filter>
     </ClInclude>
@@ -813,6 +798,21 @@
       <Filter>Source\RunTime\Adapter</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\SpriteRenderer.h">
+      <Filter>Source\RunTime\Graphics\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Mesh.h">
+      <Filter>Source\RunTime\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\MeshRenderer.h">
+      <Filter>Source\RunTime\Graphics\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\TextureParallax.h">
+      <Filter>Source\RunTime\Graphics\Component\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\TextureNormal.h">
+      <Filter>Source\RunTime\Graphics\Component\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Light.h">
       <Filter>Source\RunTime\Graphics\Component</Filter>
     </ClInclude>
   </ItemGroup>
@@ -955,14 +955,8 @@
     <ClCompile Include="Source\RunTime\src\LevelScene.cpp">
       <Filter>Source\RunTime\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Light.cpp">
-      <Filter>Source\RunTime\Graphics\Component\Light</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RunTime\src\LightContainer.cpp">
       <Filter>Source\RunTime\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Mesh.cpp">
-      <Filter>Source\RunTime\Graphics\Component\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\MeshLight.cpp">
       <Filter>Source\RunTime\Graphics\Component\Mesh</Filter>
@@ -1060,12 +1054,6 @@
     <ClCompile Include="Source\RunTime\src\TextureMap.cpp">
       <Filter>Source\RunTime\Graphics\Component\Abstract</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\TextureNormal.cpp">
-      <Filter>Source\RunTime\Graphics\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\TextureParallax.cpp">
-      <Filter>Source\RunTime\Graphics\Component</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RunTime\src\Time.cpp">
       <Filter>Source\RunTime\Time</Filter>
     </ClCompile>
@@ -1102,9 +1090,6 @@
     <ClCompile Include="Source\RunTime\src\Material.cpp">
       <Filter>Source\RunTime\Resource\Temp</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Model.cpp">
-      <Filter>Source\RunTime\Resource\Temp</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RunTime\src\OGLShader.cpp">
       <Filter>Source\RunTime\Resource\Temp</Filter>
     </ClCompile>
@@ -1139,6 +1124,21 @@
       <Filter>Source\RunTime\Adapter</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\SpriteRenderer.cpp">
+      <Filter>Source\RunTime\Graphics\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Mesh.cpp">
+      <Filter>Source\RunTime\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\MeshRenderer.cpp">
+      <Filter>Source\RunTime\Graphics\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\TextureNormal.cpp">
+      <Filter>Source\RunTime\Graphics\Component\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\TextureParallax.cpp">
+      <Filter>Source\RunTime\Graphics\Component\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Light.cpp">
       <Filter>Source\RunTime\Graphics\Component</Filter>
     </ClCompile>
   </ItemGroup>

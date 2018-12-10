@@ -1,187 +1,273 @@
 #include "Mesh.h"
-#include "Renderer.h"
-#include "Light.h"
-#include "Configs.h"
+#include "Deserializer.h"
 #include "ResourceSystem.h"
-#include "NewDef.h"
+#include "Shader.h"
+
 namespace Auto3D {
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+//MeshNode
+/////////////////////////////////////////////////////////////////////////////////////////////
+MeshNode::MeshNode(VECTOR<MeshVertex> tVertices, VECTOR<unsigned int> tIndices, VECTOR<TextureData> tTextures)
+{
+	vertices = tVertices;
+	indices = tIndices;
+	textures = tTextures;
+
+	// now that we have all the required data, set the vertex buffers and its attribute pointers.
+	setupMesh();
+}
+void MeshNode::Draw(const Shader& shader)
+{
+	// bind appropriate textures
+	unsigned int diffuseNr = 1;
+	unsigned int specularNr = 1;
+	unsigned int normalNr = 1;
+	unsigned int heightNr = 1;
+	for (unsigned int i = 0; i < textures.size(); i++)
+	{
+		glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
+										  // retrieve texture number (the N in diffuse_textureN)
+		STRING number;
+		STRING name = textures[i].type;
+		if (name == "texture_diffuse")
+			number = KhSTL::ToString(diffuseNr++);
+		else if (name == "texture_specular")
+			number = KhSTL::ToString(specularNr++); // transfer unsigned int to stream
+		else if (name == "texture_normal")
+			number = KhSTL::ToString(normalNr++); // transfer unsigned int to stream
+		else if (name == "texture_height")
+			number = KhSTL::ToString(heightNr++); // transfer unsigned int to stream
+
+												 // now set the sampler to the correct texture unit
+
+		glUniform1i(glGetUniformLocation(shader.ID, (name + number).CStr()), i);
+		// and finally bind the texture
+		glBindTexture(GL_TEXTURE_2D, textures[i].data);
+	}
+
+	// draw mesh
+	glBindVertexArray(vao);
+	glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indices.size()), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+
+	// always good practice to set everything back to defaults once configured.
+	glActiveTexture(GL_TEXTURE0);
+}
+
+void MeshNode::setupMesh()
+{
+	// create buffers/arrays
+	glGenVertexArrays(1, &vao);
+	glGenBuffers(1, &vbo);
+	glGenBuffers(1, &ebo);
+
+	glBindVertexArray(vao);
+	// load data into vertex buffers
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	// A great thing about structs is that their memory layout is sequential for all its items.
+	// The effect is that we can simply pass a pointer to the struct and it translates perfectly to a glm::vec3/2 array which
+	// again translates to 3/2 floats which translates to a byte array.
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(MeshVertex), &vertices[0], GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+
+	// set the vertex attribute pointers
+	// vertex position
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(MeshVertex), (void*)0);
+	// vertex normal
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(MeshVertex), (void*)offsetof(MeshVertex, Normal));
+	// vertex texture position
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(MeshVertex), (void*)offsetof(MeshVertex, TexCoords));
+	// vertex tangent
+	glEnableVertexAttribArray(3);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(MeshVertex), (void*)offsetof(MeshVertex, Tangent));
+	// vertex bitangent
+	glEnableVertexAttribArray(4);
+	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(MeshVertex), (void*)offsetof(MeshVertex, Bitangent));
+
+	glBindVertexArray(0);
+}
+
+
 
 Mesh::Mesh(Ambient* ambient)
 	:Super(ambient)
-	, _shader(Shader(shader_path + "au_light_map_model_loading.auvs"
-		, shader_path + "au_light_map_model_loading.aufs"))
-	, _isUserShader(false)
-{
-	_material.reset(new Material(_ambient));
-	_modelPath = "../Resource/object/base/Cube.3DS";
-}
-Mesh::Mesh(Ambient* ambient,char* meshPath)
-	: Super(ambient)
-	, _shader(Shader(shader_path + "au_light_map_model_loading.auvs"
-		, shader_path + "au_light_map_model_loading.aufs"))
-	, _isUserShader(false)
-{
-	_material.reset(new Material(_ambient));
-	_modelPath = meshPath;
-}
-Mesh::Mesh(Ambient* ambient,char* meshPath, const Shader& shader)
-	: Super(ambient)
-	, _shader(shader)
-	, _isUserShader(true)
-{
-	_material.reset(new Material(_ambient));
-	_modelPath = meshPath;
-}
-Mesh::~Mesh()
-{
-	UnloadOpaque(this);
-}
+{}
+
+Mesh::~Mesh() = default;
 
 void Mesh::RegisterObject(Ambient* ambient)
 {
-	ambient->RegisterFactory<Mesh>(SCENE_ATTACH);
+	ambient->RegisterFactory<Mesh>();
 }
 
-
-void Mesh::SetModel(char* modelPath)
+bool Mesh::BeginLoad(Deserializer& source)
 {
-	_modelPath = modelPath;
+	STRING fileID = source.ReadFileID();
+	//if (fileID != "UMDL" && fileID != "UMD2")
+	//{
+	//	WarningString(source.GetName() + " is not a valid model file");
+	//	return false;
+	//}
+	//bool hasVertexDeclarations = (fileID == "UMD2");
+
+	_isNull = !loadModel(source.GetName());
+
+	return true;
 }
 
-void Mesh::SetShader(const Shader& shader)
+void Mesh::DrawMesh(const Shader& shader)
 {
-	_shader = shader;
+	for (unsigned int i = 0; i < _meshNodes.size(); i++)
+		_meshNodes[i].Draw(shader);
 }
 
-void Mesh::Start()
+bool Mesh::loadModel(STRING const & path)
 {
-	if (_isUserShader)
+	// read file via ASSIMP
+	Assimp::Importer importer;
+	const aiScene* scene = importer.ReadFile(std::string(path.CStr()), aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace | aiProcess_GenNormals);
+	// check for errors
+	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) // if is Not Zero
 	{
-		///User Shader code
+		ErrorString("importer.GetErrorString()\n");
+		return false;
 	}
-	else
+	// retrieve the directory path of the filepath
+	_directory = path.SubString(0, path.FindLast('/'));
+
+	// process ASSIMP's root node recursively
+	processNode(scene->mRootNode, scene);
+	return true;
+}
+
+void Mesh::processNode(aiNode* node, const aiScene* scene)
+{
+	// process each mesh located at the current node
+	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
-		if (_material->isTexture)
+		// the node object only contains indices to index the actual objects in the scene. 
+		// the scene contains all the data, node is just to keep stuff organized (like relations between nodes).
+		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+		_meshNodes.push_back(processMesh(mesh, scene));
+	}
+	// after we've processed all of the meshes (if any) we then recursively process each of the children nodes
+	for (unsigned int i = 0; i < node->mNumChildren; i++)
+	{
+		processNode(node->mChildren[i], scene);
+	}
+}
+
+MeshNode Mesh::processMesh(aiMesh* mesh, const aiScene* scene)
+{
+	// data to fill
+	VECTOR<MeshVertex> vertices;
+	VECTOR<unsigned int> indices;
+	VECTOR<TextureData> textures;
+	// Walk through each of the mesh's vertices
+	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
+	{
+		MeshVertex vertex;
+		glm::vec3 vector; // we declare a placeholder vector since assimp uses its own vector class that doesn't directly convert to glm's vec3 class so we transfer the data to this placeholder glm::vec3 first.
+						  // positions
+		vector.x = mesh->mVertices[i].x;
+		vector.y = mesh->mVertices[i].y;
+		vector.z = mesh->mVertices[i].z;
+		vertex.Position = vector;
+		// normals
+		vector.x = mesh->mNormals[i].x;
+		vector.y = mesh->mNormals[i].y;
+		vector.z = mesh->mNormals[i].z;
+		vertex.Normal = vector;
+		// texture coordinates
+		if (mesh->mTextureCoords[0]) // does the mesh contain texture coordinates?
 		{
-			_shader = Shader(shader_path + "au_light_map_model_loading.auvs"
-				, shader_path + "au_light_map_model_loading.aufs");
+			glm::vec2 vec;
+			// a vertex can contain up to 8 different texture coordinates. We thus make the assumption that we won't 
+			// use models where a vertex can have multiple texture coordinates so we always take the first set (0).
+			vec.x = mesh->mTextureCoords[0][i].x;
+			vec.y = mesh->mTextureCoords[0][i].y;
+			vertex.TexCoords = vec;
 		}
 		else
+			vertex.TexCoords = glm::vec2(0.0f, 0.0f);
+		// tangent
+		vector.x = mesh->mTangents[i].x;
+		vector.y = mesh->mTangents[i].y;
+		vector.z = mesh->mTangents[i].z;
+		vertex.Tangent = vector;
+		// bitangent
+		vector.x = mesh->mBitangents[i].x;
+		vector.y = mesh->mBitangents[i].y;
+		vector.z = mesh->mBitangents[i].z;
+		vertex.Bitangent = vector;
+		vertices.push_back(vertex);
+	}
+	// now wak through each of the mesh's faces (a face is a mesh its triangle) and retrieve the corresponding vertex indices.
+	for (unsigned int i = 0; i < mesh->mNumFaces; i++)
+	{
+		aiFace face = mesh->mFaces[i];
+		// retrieve all indices of the face and store them in the indices vector
+		for (unsigned int j = 0; j < face.mNumIndices; j++)
+			indices.push_back(face.mIndices[j]);
+	}
+	// process materials
+	aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+	// diffuse maps
+	VECTOR<TextureData> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
+	textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+	// specular maps
+	VECTOR<TextureData> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
+	textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+	// normal maps
+	VECTOR<TextureData> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
+	textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+	// height maps
+	VECTOR<TextureData> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
+	textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
+
+	// return a mesh object created from the extracted mesh data
+	return MeshNode(vertices, indices, textures);
+}
+
+VECTOR<TextureData> Mesh::loadMaterialTextures(aiMaterial* mat, aiTextureType type, STRING typeName)
+{
+	VECTOR<TextureData> textures;
+	for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
+	{
+		aiString str;
+		mat->GetTexture(type, i, &str);
+		// check if texture was loaded before and if so, continue to next iteration: skip loading a new texture
+		bool skip = false;
+		for (unsigned int j = 0; j < _textureDatas.size(); j++)
 		{
-			_shader = Shader(shader_path + "au_light_model_loading.auvs"
-				, shader_path + "au_light_model_loading.aufs");
+			if (std::strcmp(_textureDatas[j].path.CStr(), str.C_Str()) == 0)
+			{
+				textures.push_back(_textureDatas[j]);
+				skip = true; // a texture with the same filepath has already been loaded, continue to next one. (optimization)
+				break;
+			}
+		}
+		if (!skip)
+		{   // if texture hasn't been loaded already, load it
+			TextureData texture;
+
+			STRING filename = STRING(str.data);
+			filename = _directory + "/" + filename;
+			texture.data = GetSubSystem<ResourceSystem>()->TextureLoad((char*)filename.CStr(), false);
+
+			texture.type = typeName;
+			texture.path = str.C_Str();
+			textures.push_back(texture);
+			_textureDatas.push_back(texture);  // store it as texture loaded for entire model, to ensure we won't unnecesery load duplicate textures.
 		}
 	}
-	_model = GetSubSystem<ResourceSystem>()->ModelLoad(_modelPath);
-	RegisterOpaque(this);
-}
-void Mesh::Draw()
-{
-	_shader.Use();
-
-	glm::mat4 modelMat;
-	glm::mat4 viewMat;
-	glm::mat4 projectionMat;
-
-	GLApply();
-
-	if (GetNodePtr())		//if gameObject not empty
-		modelMat = GetNode().GetComponent<Transform>()->GetTransformMat();
-	else
-		modelMat = Matrix4x4::identity;
-	viewMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
-	projectionMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
-
-	_shader.SetMat4("model", modelMat);
-	_shader.SetMat4("view", viewMat);
-	_shader.SetMat4("projection", projectionMat);
-	_shader.SetVec3("viewPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
-	if (!_isUserShader)
-	{
-		drawMaterial();
-		drawLight();
-	}
-	_model->Draw(_shader);
-
-	GLOriginal();
+	return textures;
 }
 
-void Mesh::drawMaterial()
-{
-	if (_material->isTexture)
-	{
-		_shader.SetInt("material.color", 0);
-	}
-	else
-	{
-		_shader.SetVec3("material.color", _material->color.r, _material->color.g, _material->color.b);
-	}
-	_shader.SetVec3("material.diffuse", _material->diffuse);
-	_shader.SetVec3("material.specular", _material->specular);
-	_shader.SetFloat("material.shininess", _material->shininess);
-}
-
-void Mesh::drawLight()
-{
-	auto& lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
-	int dir = 0;
-	int point = 0;
-	int spot = 0;
-	for (auto it = lights.begin(); it != lights.end(); it++)
-	{
-		Light * t = *it;
-		Vector3 ligthtPosition = t->GetNode().GetComponent<Transform>()->GetPosition();
-		_shader.SetVec3("lightPos", ligthtPosition);
-
-		switch (t->GetType())
-		{
-		case LightType::Directional:
-			if (dir >= 4)break;
-			_shader.SetVec3("dirLight[" + KhSTL::ToString(dir) + "].color", t->GetColorToVec());
-			_shader.SetVec3("dirLight[" + KhSTL::ToString(dir) + "].direction", t->GetDirection());
-			_shader.SetVec3("dirLight[" + KhSTL::ToString(dir) + "].ambient", t->ambient);
-			_shader.SetVec3("dirLight[" + KhSTL::ToString(dir) + "].diffuse", t->diffuse);
-			_shader.SetVec3("dirLight[" + KhSTL::ToString(dir) + "].specular", t->specular);
-			dir++;
-			break;
-		case LightType::Point:
-			if (point >= 8)break;
-			_shader.SetVec3("pointLight[" + KhSTL::ToString(point) + "].color", t->GetColorToVec());
-			_shader.SetVec3("pointLight[" + KhSTL::ToString(point) + "].position", ligthtPosition);
-			_shader.SetFloat("pointLight[" + KhSTL::ToString(point) + "].constant", t->constant);
-			_shader.SetFloat("pointLight[" + KhSTL::ToString(point) + "].linear", t->linear);
-			_shader.SetFloat("pointLight[" + KhSTL::ToString(point) + "].quadratic", t->quadratic);
-			_shader.SetVec3("pointLight[" + KhSTL::ToString(point) + "].ambient", t->ambient);
-			_shader.SetVec3("pointLight[" + KhSTL::ToString(point) + "].diffuse", t->diffuse);
-			_shader.SetVec3("pointLight[" + KhSTL::ToString(point) + "].specular", t->specular);
-			point++;
-			break;
-		case LightType::Spot:
-
-			if (spot >= 4)break;
-			_shader.SetVec3("spotLight[" + KhSTL::ToString(spot) + "].color", t->GetColorToVec());
-			_shader.SetVec3("spotLight[" + KhSTL::ToString(spot) + "].position", ligthtPosition);
-			_shader.SetVec3("spotLight[" + KhSTL::ToString(spot) + "].direction", t->GetDirection());
-			_shader.SetFloat("spotLight[" + KhSTL::ToString(spot) + "].cutOff", t->cutOff);
-			_shader.SetFloat("spotLight[" + KhSTL::ToString(spot) + "].outerCutOff", t->outerCutOff);
-			_shader.SetFloat("spotLight[" + KhSTL::ToString(spot) + "].constant", t->constant);
-			_shader.SetFloat("spotLight[" + KhSTL::ToString(spot) + "].linear", t->linear);
-			_shader.SetFloat("spotLight[" + KhSTL::ToString(spot) + "].quadratic", t->quadratic);
-			_shader.SetVec3("spotLight[" + KhSTL::ToString(spot) + "].ambient", t->ambient);
-			_shader.SetVec3("spotLight[" + KhSTL::ToString(spot) + "].diffuse", t->diffuse);
-			_shader.SetVec3("spotLight[" + KhSTL::ToString(spot) + "].specular", t->specular);
-			spot++;
-			break;
-		default:
-			WarningString("Fail to set light!");
-		}
-	}
-	_shader.SetBool("dirBool", (bool)dir);
-	_shader.SetBool("pointBool", (bool)point);
-	_shader.SetBool("spotBool", (bool)spot);
-
-	_shader.SetInt("dirNum", dir);
-	_shader.SetInt("pointNum", point);
-	_shader.SetInt("spotNum", spot);
-}
 }

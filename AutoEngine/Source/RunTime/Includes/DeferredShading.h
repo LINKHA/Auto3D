@@ -1,7 +1,7 @@
 #pragma once
 #include "RenderComponent.h"
 #include "Shader.h"
-#include "Model.h"
+#include "Mesh.h"
 
 namespace Auto3D {
 class DeferredShading : public RenderComponent
@@ -16,7 +16,7 @@ private:
 	Shader m_shaderLightingPass;
 	Shader m_shaderLightBox;
 
-	SharedPtr<Model> nanosuit;
+	SharedPtr<Mesh> nanosuit;
 
 	VECTOR<glm::vec3> objectPositions;
 	unsigned int gBuffer;

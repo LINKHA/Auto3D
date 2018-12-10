@@ -1,6 +1,7 @@
 #include "Level_0.h"
 #include "Light.h"
-#include "Mesh.h"
+#include "MeshRenderer.h"
+#include "ResourceSystem.h"
 #include "../FreeCamera.h"
 
 Level_0::Level_0(Ambient* ambient, int id)
@@ -28,9 +29,16 @@ void Level_0::Start()
 	light->direction.Set(0.0f, -0.5f, -0.5f);
 
 
-	Node* meshObj = CreateNode();
-	auto* mesh = meshObj->CreateComponent<Mesh>();
+	/*Node* meshObj = CreateNode();
+	auto* mesh = meshObj->CreateComponent<MeshRenderer>();
 	mesh->SetModel("../Resource/object/base/Cube.3DS");
+	meshObj->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, -3.0f);*/
+
+	auto* mesh = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/base/Cube.3DS");
+
+	Node* meshObj = CreateNode();
+	auto* meshRenderer = meshObj->CreateComponent<MeshRenderer>();
+	meshRenderer->SetMesh(mesh);
 	meshObj->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, -3.0f);
 }
 

@@ -8,9 +8,9 @@
 
 namespace Auto3D {
 
-InstanceBeltLine::InstanceBeltLine(Ambient* ambient,Model* model, const Shader& shader, glm::mat4* modelMat,int count)
+InstanceBeltLine::InstanceBeltLine(Ambient* ambient,Mesh* mesh, const Shader& shader, glm::mat4* modelMat,int count)
 	:RenderComponent(ambient)
-	,_model(model)
+	,_mesh(mesh)
 	,_shader(shader)
 	,_modelMatrices(modelMat)
 	,_count(count)
@@ -26,9 +26,9 @@ void InstanceBeltLine::Start()
 	glGenBuffers(1, &buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, buffer);
 	glBufferData(GL_ARRAY_BUFFER, _count * sizeof(glm::mat4), &_modelMatrices[0], GL_STATIC_DRAW);
-	for (unsigned int i = 0; i < _model->GetMeshNodes().size(); i++)
+	for (unsigned int i = 0; i < _mesh->GetMeshNodes().size(); i++)
 	{
-		unsigned int VAO = _model->GetMeshNodes()[i].vao;
+		unsigned int VAO = _mesh->GetMeshNodes()[i].vao;
 		glBindVertexArray(VAO);
 		glEnableVertexAttribArray(3);
 		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)0);
@@ -61,11 +61,11 @@ void InstanceBeltLine::Draw()
 	_shader.SetMat4("view", viewMat);
 	_shader.SetInt("texture_diffuse1", 0);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, _model->GetTextureDatas()[0].data);
-	for (unsigned int i = 0; i < _model->GetMeshNodes().size(); i++)
+	glBindTexture(GL_TEXTURE_2D, _mesh->GetTextureDatas()[0].data);
+	for (unsigned int i = 0; i < _mesh->GetMeshNodes().size(); i++)
 	{
-		glBindVertexArray(_model->GetMeshNodes()[i].vao);
-		glDrawElementsInstanced(GL_TRIANGLES, _model->GetMeshNodes()[i].indices.size(), GL_UNSIGNED_INT, 0, _count);
+		glBindVertexArray(_mesh->GetMeshNodes()[i].vao);
+		glDrawElementsInstanced(GL_TRIANGLES, _mesh->GetMeshNodes()[i].indices.size(), GL_UNSIGNED_INT, 0, _count);
 		glBindVertexArray(0);
 	}
 

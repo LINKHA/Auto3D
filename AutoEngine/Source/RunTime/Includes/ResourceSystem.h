@@ -4,8 +4,7 @@
 
 namespace Auto3D {
 class Resource;
-class tImage;
-class Model;
+//class Model;
 class File;
 class Image;
 
@@ -34,8 +33,8 @@ class ResourceSystem : public GlobalGameManager
 {
 	REGISTER_DERIVED_CLASS(ResourceSystem, GlobalGameManager);
 	DECLARE_OBJECT_SERIALIZE(ResourceSystem);
-	using ImageQueue = HASH_MAP<PInt8, tImage*>;
-	using ModelQueue = HASH_MAP<PInt8, Model*>;
+	//using ImageQueue = HASH_MAP<PInt8, tImage*>;
+	//using ModelQueue = HASH_MAP<PInt8, Model*>;
 public:
 	explicit ResourceSystem(Ambient* ambient);
 	/**
@@ -51,7 +50,7 @@ public:
 	* @brief : According fail path get model
 	* @return: ModelCommand*
 	*/
-	Model* ModelLoad(PInt8 path);
+	//Model* ModelLoad(PInt8 path);
 	/**
 	* @brief : According fail path get cubemap
 	* @return: unsigned int
@@ -117,9 +116,9 @@ private:
 private:
 
 	/// image hash map queue
-	ImageQueue _imageQueue;
+	//ImageQueue _imageQueue;
 	/// modle hash map queue
-	ModelQueue _modelQueue;
+	//ModelQueue _modelQueue;
 
 	/// resources by type.
 	HASH_MAP<STRING, ResourceGroup> _resourceGroups{};

@@ -15,8 +15,8 @@ Resource::~Resource()
 }
 
 bool Resource::Load(Deserializer& source)
-
-{	bool success = BeginLoad(source);
+{
+	bool success = BeginLoad(source);
 	if (success)
 		success &= EndLoad();
 	SetAsyncLoadState(AsyncLoadState::Done);

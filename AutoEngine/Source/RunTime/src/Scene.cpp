@@ -3,7 +3,7 @@
 #include "Camera.h"
 #include "SpriteRenderer.h"
 #include "Transform.h"
-#include "Mesh.h"
+#include "MeshRenderer.h"
 #include "Light.h"
 
 #include "AudioListener.h"
@@ -122,7 +122,7 @@ void Scene::RegisterSceneLib(Ambient* ambient)
 	Light::RegisterObject(ambient);
 
 	SpriteRenderer::RegisterObject(ambient);
-	Mesh::RegisterObject(ambient);
+	MeshRenderer::RegisterObject(ambient);
 
 }
 

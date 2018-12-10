@@ -234,6 +234,7 @@
     <None Include="Shader\au_texture_transform.aufs" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\RunTime\Includes\Mesh.h" />
     <ClInclude Include="Source\RunTime\Includes\MemoryDef.h" />
     <ClInclude Include="Source\RunTime\Includes\AssertDef.h" />
     <ClInclude Include="Source\RunTime\Includes\AutoDef.h" />
@@ -286,7 +287,6 @@
     <ClInclude Include="Source\RunTime\Includes\RTTI.h" />
     <ClInclude Include="Source\RunTime\Includes\LightContainer.h" />
     <ClInclude Include="Source\RunTime\Includes\Monitors.h" />
-    <ClInclude Include="Source\RunTime\Includes\Model.h" />
     <ClInclude Include="Source\RunTime\Includes\IO.h" />
     <ClInclude Include="Source\RunTime\Includes\ResourceSystem.h" />
     <ClInclude Include="Source\RunTime\Includes\MeshLight.h" />
@@ -324,7 +324,7 @@
     <ClInclude Include="Source\RunTime\Includes\Renderer.h" />
     <ClInclude Include="Source\RunTime\Includes\Material.h" />
     <ClInclude Include="Source\RunTime\Includes\Light.h" />
-    <ClInclude Include="Source\RunTime\Includes\Mesh.h" />
+    <ClInclude Include="Source\RunTime\Includes\MeshRenderer.h" />
     <ClInclude Include="Source\RunTime\Includes\ObjectDef.h" />
     <ClInclude Include="Source\RunTime\Includes\GameManager.h" />
     <ClInclude Include="Source\RunTime\Includes\InputManager.h" />
@@ -381,6 +381,7 @@
     <ClInclude Include="Source\RunTime\Includes\TypeThread.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\RunTime\src\Mesh.cpp" />
     <ClCompile Include="Source\RunTime\src\AutoString.cpp" />
     <ClCompile Include="Source\RunTime\src\Image.cpp" />
     <ClCompile Include="Source\RunTime\src\BackgroundLoader.cpp" />
@@ -417,7 +418,6 @@
     <ClCompile Include="Source\RunTime\src\LevelScene.cpp" />
     <ClCompile Include="Source\RunTime\src\LightContainer.cpp" />
     <ClCompile Include="Source\RunTime\src\Monitors.cpp" />
-    <ClCompile Include="Source\RunTime\src\Model.cpp" />
     <ClCompile Include="Source\RunTime\src\IO.cpp" />
     <ClCompile Include="Source\RunTime\src\ResourceSystem.cpp" />
     <ClCompile Include="Source\RunTime\src\MeshLight.cpp" />
@@ -452,7 +452,7 @@
     <ClCompile Include="Source\RunTime\src\Renderer.cpp" />
     <ClCompile Include="Source\RunTime\src\Material.cpp" />
     <ClCompile Include="Source\RunTime\src\Light.cpp" />
-    <ClCompile Include="Source\RunTime\src\Mesh.cpp" />
+    <ClCompile Include="Source\RunTime\src\MeshRenderer.cpp" />
     <ClCompile Include="Source\RunTime\src\GameManager.cpp" />
     <ClCompile Include="Source\RunTime\src\Configs.cpp" />
     <ClCompile Include="Source\RunTime\src\Texture.cpp" />
