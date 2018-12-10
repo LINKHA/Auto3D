@@ -3,9 +3,6 @@
 
 namespace Auto3D {
 
-struct SDL_Surface;
-
-
 static const int COLOR_LUT_SIZE = 16;
 
 /// Supported compressed image formats.

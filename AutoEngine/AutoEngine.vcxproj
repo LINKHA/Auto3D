@@ -279,7 +279,6 @@
     <ClInclude Include="Source\RunTime\Includes\ALad.h" />
     <ClInclude Include="Source\RunTime\Includes\AudioBuffer.h" />
     <ClInclude Include="Source\RunTime\Includes\AudioListener.h" />
-    <ClInclude Include="EngineSetting\BuildSetting.h" />
     <ClInclude Include="Source\RunTime\Includes\Component.h" />
     <ClInclude Include="Source\RunTime\Includes\Node.h" />
     <ClInclude Include="Source\RunTime\Includes\Audio.h" />

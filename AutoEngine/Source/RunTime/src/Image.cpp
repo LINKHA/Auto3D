@@ -132,7 +132,6 @@ void Image::SetImageType(ImageType type)
 
 unsigned char* Image::getImageData(Deserializer& source, int& width, int& height, unsigned& components)
 {
-	stbi_set_flip_vertically_on_load(true);
 	unsigned dataSize = source.GetSize();
 
 	SharedArrayPtr<unsigned char> buffer(new unsigned char[dataSize]);

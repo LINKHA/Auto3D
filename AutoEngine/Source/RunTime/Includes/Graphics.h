@@ -1,12 +1,12 @@
 #pragma once
 #include "GameManager.h"
 #include "Ambient.h"
-#include "Math/Color.h"
-#include "Auto.h"
+#include "AutoSDL.h"
 #include "Math/Color.h"
 #include "Math/Rect.h"
 #include "GraphicsDefines.h"
-#include "AutoSDL.h"
+#include "Image.h"
+
 
 namespace Auto3D {
 class Graphics : public GlobalGameManager
@@ -15,6 +15,10 @@ class Graphics : public GlobalGameManager
 	DECLARE_OBJECT_SERIALIZE(Graphics);
 public:
 	explicit Graphics(Ambient* ambient);
+	/**
+	* @brief : Graphics init
+	*/
+	void Init();
 	/**
 	* @brief : Create a Game window
 	*/
@@ -96,23 +100,57 @@ public:
 	*/
 	void RegisterGraphicsLib(Ambient* ambient);
 
-
 	void SetColorWrite(bool enable);
+	
 	void SetDepthWrite(bool enable);
+	/**
+	* @brief : Set title (only in space awake funcation)	
+	*/
+	void SetTitle(char* title) { _titleName = title; }
+	/**
+	* @brief : Set icon (only in space awake funcation)	
+	*/
+	void SetIconImage(Image* icon) { _icon.reset(icon); }
+	/**
+	* @brief : Set window rect with float (only in space awake funcation)	
+	*/
+	void SetWindowRect(float x, float y) { _windowRect.x = x; _windowRect.y = y; }
+	/**
+	* @brief : Set window rect with RectInt (only in space awake funcation)	
+	*/
+	void SetWindowRect(RectInt rect) { _windowRect = rect; }
+	/**
+	* @brief : Set window rect with Vector2 (only in space awake funcation)	
+	*/
+	void SetWindowRect(Vector2 vec) { SetWindowRect(vec.x, vec.y); }
 private:
 #if _OPENGL_4_6_ || _OPENGL_4_PLUS_ || _OPENGL_3_PLUS_
+	/// opengl context
 	SDL_GLContext _context;
 #endif
+	/// window
 	SDL_Window* _window{};
+	/// icon
+	SharedPtr<Image> _icon;
+	/// background draw color
 	Color _drawColor;
+	/// window rect
 	RectInt _windowRect;
+	/// window title name
 	char* _titleName;
+	/// full screen flag
 	bool _isFullScreen = false;
+	/// window in screen flag
 	bool _isCenter = true;
+	/// color write
 	bool _colorWrite{};
+	/// depth write
 	bool _depthWrite{};
+	/// stencil write mask
 	unsigned _stencilWriteMask{};
+	/// num primitives
 	unsigned _numPrimitives{};
+	/// num batches
 	unsigned _numBatches{};
 };
 

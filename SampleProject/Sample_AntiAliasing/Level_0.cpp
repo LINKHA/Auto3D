@@ -22,17 +22,10 @@ void Level_0::Start()
 	cameraObj->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, 3.0f);
 	cameraObj->AddComponent(camera);
 
-
 	Node* lightObj = CreateNode();
 	auto* light = lightObj->CreateComponent<Light>();
 	light->SetType(LightType::Directional);
 	light->direction.Set(0.0f, -0.5f, -0.5f);
-
-
-	/*Node* meshObj = CreateNode();
-	auto* mesh = meshObj->CreateComponent<MeshRenderer>();
-	mesh->SetModel("../Resource/object/base/Cube.3DS");
-	meshObj->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, -3.0f);*/
 
 	auto* mesh = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/base/Cube.3DS");
 

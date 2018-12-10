@@ -1,8 +1,9 @@
 #include "Graphics.h"
 #include "AutoImage.h"
 #include "AutoOGL.h"
+#include "AutoSDL.h"
 #include "../../../EngineSetting/Optimize.h"
-#include "../../../EngineSetting/BuildSetting.h"
+#include "ResourceSystem.h"
 #include "NewDef.h"
 namespace Auto3D {
 
@@ -17,6 +18,17 @@ Graphics::Graphics(Ambient* ambient)
 	_windowRect.y = 0;
 	_windowRect.width = 1280;
 	_windowRect.height = 720;
+	RegisterGraphicsLib(_ambient);
+}
+
+
+Graphics::~Graphics() = default;
+
+void Graphics::Init()
+{
+	_icon.reset(GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/logo.png"));
+	
+	stbi_set_flip_vertically_on_load(true);
 
 	CreateGameWindow();
 #if _OPENGL_4_6_ || _OPENGL_4_PLUS_ || _OPENGL_3_PLUS_
@@ -31,12 +43,6 @@ Graphics::Graphics(Ambient* ambient)
 	RegisterDebug();
 	CreateIcon();
 
-	RegisterGraphicsLib(_ambient);
-}
-
-
-Graphics::~Graphics()
-{
 }
 
 void Graphics::CreateGameWindow()
@@ -135,10 +141,11 @@ void Graphics::CreateIcon()
 SDL_Surface* Graphics::SetIcon()
 {
 	int req_format = STBI_rgb_alpha;
-	int width, height, orig_format;
+	//int width, height, orig_format;
 	
-	unsigned char* data = stbi_load(TITLE_ICON_PATH, &width, &height, &orig_format, 0);
-	if (!data) {
+	//unsigned char* data = stbi_load(TITLE_ICON_PATH, &width, &height, &orig_format, 0);
+	//_icon->GetData();
+	if (!_icon->GetData()) {
 		SDL_Log("Loading image failed: %s", stbi_failure_reason());
 		Assert(0);
 	}
@@ -162,19 +169,19 @@ SDL_Surface* Graphics::SetIcon()
 	int depth, pitch;
 	if (req_format == STBI_rgb) {
 		depth = 24;
-		pitch = 3 * width; // 3 bytes per pixel * pixels per row
+		pitch = 3 * _icon->GetWidth(); // 3 bytes per pixel * pixels per row
 	}
 	else { // STBI_rgb_alpha (RGBA)
 		depth = 32;
-		pitch = 4 * width;
+		pitch = 4 * _icon->GetWidth();
 	}
 
-	SDL_Surface* surf = SDL_CreateRGBSurfaceFrom((void*)data, width, height, depth, pitch,
+	SDL_Surface* surf = SDL_CreateRGBSurfaceFrom((void*)_icon->GetData(), _icon->GetWidth(), _icon->GetHeight(), depth, pitch,
 		rmask, gmask, bmask, amask);
 
 	if (surf == NULL) {
 		SDL_Log("Creating surface failed: %s", SDL_GetError());
-		stbi_image_free(data);
+		//stbi_image_free(data);
 		exit(1);
 	}
 

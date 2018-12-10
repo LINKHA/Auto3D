@@ -54,14 +54,17 @@ Engine::~Engine()
 
 void Engine::Init()
 {
+	GetSubSystem<ResourceSystem>()->Init();
 	GetSubSystem<Audio>()->Init();
 	GetSubSystem<BaseSpace>()->Awake();
+
+
+	GetSubSystem<Graphics>()->Init();
 	GetSubSystem<Behavior>()->Awake();
-	GetSubSystem<ResourceSystem>()->Init();
+
 	GetSubSystem<Renderer>()->Init();
 	GetSubSystem<BaseSpace>()->Start();
 	GetSubSystem<Behavior>()->Start();
-
 	GetSubSystem<Renderer>()->ReadyToRender();
 
 

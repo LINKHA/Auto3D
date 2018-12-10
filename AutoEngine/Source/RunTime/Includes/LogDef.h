@@ -59,21 +59,6 @@ do { \
 	OutputDebugStringA(debugChar); \
 }while(0)
 
-//#define MAX_STRING 256
-//#define DebugStringToFileW(_X ,_For)\
-//do { \
-//	wchar_t debugChar[MAX_STRING]; \
-//	ZeroMemory(debugChar, MAX_STRING * sizeof(wchar_t)); \
-//	wsprintfW(debugChar, L"%s(%d) : %s : %s\n", _T(__FILE__), __LINE__, LogTypeToString(_For),_X); \
-//	OutputDebugStringW(debugChar); \
-//}while(0)
-//#define DebugStringToFileA(_X ,_For)\
-//do { \
-//	char debugChar[MAX_STRING]; \
-//	ZeroMemory(debugChar, MAX_STRING * sizeof(wchar_t)); \
-//	sprintf(debugChar, "%s(%d) : %s : %s\n", __FILE__, __LINE__,LogTypeToString(_For) ,_X); \
-//	OutputDebugStringA(debugChar); \
-//}while(0)
 
 #if AUTO_WIN32_CONSOLE
 #	define DebugStringToFile(_For,_T)	do { std::cout << __FILE__ << "(" << __LINE__ << ") : " << LogTypeToString(_T) << " : " << _For <<  std::endl; } while(0)
