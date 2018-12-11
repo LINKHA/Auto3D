@@ -77,6 +77,10 @@ public:
 	*/
 	bool CheckAccess(const STRING& pathName);
 	/**
+	* @brief : Returns the file's last modified time as seconds since 1.1.1970, or 0 if can not be accessed
+	*/
+	unsigned GetLastModifiedTime(const STRING& fileName);
+	/**
 	* @brief : Check if a file exists
 	*/
 	bool FileExists(const STRING& fileName);

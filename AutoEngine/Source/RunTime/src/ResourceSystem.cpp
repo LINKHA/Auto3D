@@ -8,6 +8,7 @@
 #include "Sprite2D.h"
 #include "Image.h"
 #include "Mesh.h"
+#include "Shader.h"
 #include "NewDef.h"
 
 
@@ -67,22 +68,6 @@ unsigned int ResourceSystem::TextureLoad(PInt8 path, bool vertically)
 	}
 	return textureID;
 }
-
-//Model* ResourceSystem::ModelLoad(PInt8 path)
-//{
-//	Model* model;
-//	auto it = _modelQueue.find(path);
-//	if (it != _modelQueue.end())
-//	{
-//		model = it->second;
-//	}
-//	else
-//	{
-//		model = new Model(_ambient,path);
-//		_modelQueue.emplace(path, model);
-//	}
-//	return model;
-//}
 
 unsigned int ResourceSystem::CubemapLoad(VECTOR<STRING> faces)
 {
@@ -222,12 +207,28 @@ STRING ResourceSystem::SanitateResourceName(const STRING& name) const
 	return sanitatedName.Trimmed();
 }
 
+STRING ResourceSystem::GetResourceFileName(const STRING& name) const
+{
+	auto* fileSystem = GetSubSystem<FileSystem>();
+	for (unsigned i = 0; i < _resourceDirs.size(); ++i)
+	{
+		if (fileSystem->FileExists(_resourceDirs[i] + name))
+			return _resourceDirs[i] + name;
+	}
+
+	if (IsAbsolutePath(name) && fileSystem->FileExists(name))
+		return name;
+	else
+		return STRING();
+}
+
 void ResourceSystem::RegisterResourceLib(Ambient* ambient)
 {
 	Sound::RegisterObject(ambient);
 	Sprite::RegisterObject(ambient);
 	Image::RegisterObject(ambient);
 	Mesh::RegisterObject(ambient);
+	Shader::RegisterObject(ambient);
 }
 
 const SharedPtr<Resource>& ResourceSystem::findResource(STRING type, STRING name)

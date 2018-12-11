@@ -11,13 +11,13 @@ namespace Auto3D {
 
 Bloom::Bloom(Ambient* ambient)
 	: RenderComponent(ambient)
-	, m_shader(Shader(shader_path + "au_bloom.auvs"
+	, m_shader(_Shader(shader_path + "au_bloom.auvs"
 		, shader_path + "au_bloom.aufs"))
-	, m_shaderLight(Shader(shader_path + "au_bloom.auvs"
+	, m_shaderLight(_Shader(shader_path + "au_bloom.auvs"
 		, shader_path + "au_bloom_light_box.aufs"))
-	, m_shaderBlur(Shader(shader_path + "au_bloom_blur.auvs"
+	, m_shaderBlur(_Shader(shader_path + "au_bloom_blur.auvs"
 		, shader_path + "au_bloom_blur.aufs"))
-	, m_shaderBloomFinal(Shader(shader_path + "au_bloom_final.auvs"
+	, m_shaderBloomFinal(_Shader(shader_path + "au_bloom_final.auvs"
 		, shader_path + "au_bloom_final.aufs"))
 {
 	UnloadOpaque(this);

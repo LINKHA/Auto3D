@@ -114,4 +114,30 @@ STRING Deserializer::ReadFileID()
 	return ret;
 }
 
+STRING Deserializer::ReadLine()
+{
+	STRING ret;
+
+	while (!IsEof())
+	{
+		char c = ReadByte();
+		if (c == 10)
+			break;
+		if (c == 13)
+		{
+			// Peek next char to see if it's 10, and skip it too
+			if (!IsEof())
+			{
+				char next = ReadByte();
+				if (next != 10)
+					Seek(_position - 1);
+			}
+			break;
+		}
+		ret += c;
+	}
+
+	return ret;
+}
+
 }

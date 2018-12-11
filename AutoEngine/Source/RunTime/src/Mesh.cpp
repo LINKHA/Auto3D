@@ -1,7 +1,7 @@
 #include "Mesh.h"
 #include "Deserializer.h"
 #include "ResourceSystem.h"
-#include "Shader.h"
+#include "_Shader.h"
 
 namespace Auto3D {
 
@@ -17,7 +17,7 @@ MeshNode::MeshNode(VECTOR<MeshVertex> tVertices, VECTOR<unsigned int> tIndices, 
 	// now that we have all the required data, set the vertex buffers and its attribute pointers.
 	setupMesh();
 }
-void MeshNode::Draw(const Shader& shader)
+void MeshNode::Draw(const _Shader& shader)
 {
 	// bind appropriate textures
 	unsigned int diffuseNr = 1;
@@ -121,7 +121,7 @@ bool Mesh::BeginLoad(Deserializer& source)
 	return true;
 }
 
-void Mesh::DrawMesh(const Shader& shader)
+void Mesh::DrawMesh(const _Shader& shader)
 {
 	for (unsigned int i = 0; i < _meshNodes.size(); i++)
 		_meshNodes[i].Draw(shader);

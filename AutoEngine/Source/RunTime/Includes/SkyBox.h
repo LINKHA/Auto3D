@@ -15,7 +15,7 @@ public:
 	unsigned int GetTexture() { return _cubemapTexture; }
 private:
 	unsigned int _cubemapTexture;
-	Shader _shader;
+	_Shader _shader;
 	unsigned int _skyboxVAO;
 	unsigned int _skyboxVBO;
 };

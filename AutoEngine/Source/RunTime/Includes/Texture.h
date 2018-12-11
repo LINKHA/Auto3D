@@ -3,7 +3,7 @@
 #include "Math/Math.h"
 #include "AutoOGL.h"
 #include "AutoImage.h"
-#include "Shader.h"
+#include "_Shader.h"
 #include "RenderComponent.h"
 #include "GLTextureEnable.h"
 namespace Auto3D {

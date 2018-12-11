@@ -8,7 +8,7 @@
 
 namespace Auto3D {
 
-InstanceBeltLine::InstanceBeltLine(Ambient* ambient,Mesh* mesh, const Shader& shader, glm::mat4* modelMat,int count)
+InstanceBeltLine::InstanceBeltLine(Ambient* ambient,Mesh* mesh, const _Shader& shader, glm::mat4* modelMat,int count)
 	:RenderComponent(ambient)
 	,_mesh(mesh)
 	,_shader(shader)

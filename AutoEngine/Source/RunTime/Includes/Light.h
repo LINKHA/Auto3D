@@ -1,7 +1,7 @@
 #pragma once
 #include "Math/Vector3.h"
 #include "Math/Color.h"
-#include "Shader.h"
+#include "_Shader.h"
 #include "Transform.h"
 #include "ComponentSetting.h"
 namespace Auto3D {

@@ -12,7 +12,7 @@ namespace Auto3D {
 
 MeshShadow::MeshShadow(Ambient* ambient)
 	: RenderComponent(ambient)
-	, _shader(Shader(shader_path + "au_shadow_mapping.auvs"
+	, _shader(_Shader(shader_path + "au_shadow_mapping.auvs"
 		, shader_path + "au_shadow_mapping.aufs"))
 {
 	RegisterShadow(this);
@@ -39,7 +39,7 @@ void MeshShadow::DrawReady()
 
 void MeshShadow::DrawShadow()
 {
-	Shader& shadowShader = GetSubSystem<Renderer>()->GetShadowRenderer()->GetDepthMapShader();
+	_Shader& shadowShader = GetSubSystem<Renderer>()->GetShadowRenderer()->GetDepthMapShader();
 	glm::mat4 modelMat;
 
 	if (GetNodePtr())		//if gameObject not empty

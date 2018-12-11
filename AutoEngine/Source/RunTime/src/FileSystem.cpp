@@ -285,6 +285,27 @@ bool FileSystem::CheckAccess(const STRING& pathName)
 	// Not found, so disallow
 	return false;
 }
+
+unsigned FileSystem::GetLastModifiedTime(const STRING& fileName)
+{
+	if (fileName.Empty() || !CheckAccess(fileName))
+		return 0;
+
+#ifdef _WIN32
+	struct _stat st;
+	if (!_stat(fileName.CStr(), &st))
+		return (unsigned)st.st_mtime;
+	else
+		return 0;
+#else
+	struct stat st {};
+	if (!stat(fileName.CString(), &st))
+		return (unsigned)st.st_mtime;
+	else
+		return 0;
+#endif
+}
+
 bool FileSystem::FileExists(const STRING& fileName)
 {
 	if (!CheckAccess(GetPath(fileName)))

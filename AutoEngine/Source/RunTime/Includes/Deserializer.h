@@ -92,11 +92,15 @@ public:
 	* @brief : Read a double
 	*/
 	double ReadDouble();
-
 	/**
 	* @brief : Read a four-letter file ID
 	*/
 	STRING ReadFileID();
+	/**
+	* @brief : Read a text line
+	*/
+	STRING ReadLine();
+
 protected:
 	/// stream position
 	unsigned _position;

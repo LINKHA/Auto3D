@@ -12,7 +12,7 @@ SkyBoxReflectMesh::SkyBoxReflectMesh(Ambient* ambient)
 		, shader_path + "au_skybox_cube.aufs")
 {
 }
-SkyBoxReflectMesh::SkyBoxReflectMesh(Ambient* ambient, const Shader& shader )
+SkyBoxReflectMesh::SkyBoxReflectMesh(Ambient* ambient, const _Shader& shader )
 	: RenderComponent(ambient)
 	, m_shader(shader)
 {

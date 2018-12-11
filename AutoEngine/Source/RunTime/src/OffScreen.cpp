@@ -19,16 +19,16 @@ OffScreen::OffScreen(Ambient* ambient)
 	, _isAllowLateEffect(false)
 {
 	
-	_shader = Shader(shader_path + "au_offscreen.auvs"
+	_shader = _Shader(shader_path + "au_offscreen.auvs"
 		, shader_path + "au_offscreen.aufs");
 
 
-	shader = Shader(shader_path + "au_offscreen.auvs", shader_path + "au_offscreen.aufs");
-	shaderBlur = Shader(shader_path + "au_offscreen.auvs", shader_path + "au_offscreen_blur.aufs");
-	shaderEdgeDetection = Shader(shader_path + "au_offscreen.auvs", shader_path + "au_offscreen_edge_detection.aufs");
-	shaderGrayscale = Shader(shader_path + "au_offscreen.auvs", shader_path + "au_offscreen_grayscale.aufs");
-	shaderInversion = Shader(shader_path + "au_offscreen.auvs", shader_path + "au_offscreen_inversion.aufs");
-	shaderSharpen = Shader(shader_path + "au_offscreen.auvs", shader_path + "au_offscreen_sharpen.aufs");
+	shader = _Shader(shader_path + "au_offscreen.auvs", shader_path + "au_offscreen.aufs");
+	shaderBlur = _Shader(shader_path + "au_offscreen.auvs", shader_path + "au_offscreen_blur.aufs");
+	shaderEdgeDetection = _Shader(shader_path + "au_offscreen.auvs", shader_path + "au_offscreen_edge_detection.aufs");
+	shaderGrayscale = _Shader(shader_path + "au_offscreen.auvs", shader_path + "au_offscreen_grayscale.aufs");
+	shaderInversion = _Shader(shader_path + "au_offscreen.auvs", shader_path + "au_offscreen_inversion.aufs");
+	shaderSharpen = _Shader(shader_path + "au_offscreen.auvs", shader_path + "au_offscreen_sharpen.aufs");
 }
 
 OffScreen::~OffScreen()
@@ -38,7 +38,7 @@ void OffScreen::bindHdr()
 {
 	//Temp !!! Hdr
 	if (_isAllowHDR)
-		_shader = Shader(shader_path + "au_hdr.auvs"
+		_shader = _Shader(shader_path + "au_hdr.auvs"
 			, shader_path + "au_hdr.aufs");
 	//
 
@@ -69,7 +69,7 @@ void OffScreen::bindHdr()
 void OffScreen::bindMsaaAndPostpro()
 {
 	if (_isAllowHDR)
-		_shader = Shader(shader_path + "au_hdr.auvs"
+		_shader = _Shader(shader_path + "au_hdr.auvs"
 			, shader_path + "au_hdr.aufs");
 
 	GLint value;
@@ -210,7 +210,7 @@ void OffScreen::SetEffect(PostProcessingMode mode)
 		break;
 	}
 }
-void OffScreen::SetEffect(const Shader& shader)
+void OffScreen::SetEffect(const _Shader& shader)
 {
 	_shader = shader;
 }

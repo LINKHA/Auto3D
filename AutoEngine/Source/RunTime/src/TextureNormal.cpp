@@ -37,7 +37,7 @@ void TextureNormal::Start()
 	//_imageNormal = LocalTextureLoad(_imageNormalPath);
 	_timage = GetSubSystem<ResourceSystem>()->TextureLoad(_imagePath);
 	_imageNormal = GetSubSystem<ResourceSystem>()->TextureLoad(_imageNormalPath);
-	_shader = Shader(shader_path + "au_normal_mapping.auvs", shader_path + "au_normal_mapping.aufs");
+	_shader = _Shader(shader_path + "au_normal_mapping.auvs", shader_path + "au_normal_mapping.aufs");
 
 	_shader.Use();
 	_shader.SetInt("diffuseMap", 0);

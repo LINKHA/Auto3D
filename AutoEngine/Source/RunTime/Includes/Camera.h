@@ -76,7 +76,7 @@ public:
 	/**
 	* @brief : Set custom Post Processing effect 
 	*/
-	void SetLateEffect(const Shader& shader);
+	void SetLateEffect(const _Shader& shader);
 	/**
 	* @brief : If allow Off screen get OffScreen ,else get nullptr
 	*/

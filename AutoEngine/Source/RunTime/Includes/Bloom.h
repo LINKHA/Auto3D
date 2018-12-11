@@ -1,6 +1,6 @@
 #pragma once
 #include "RenderComponent.h"
-#include "Shader.h"
+#include "_Shader.h"
 namespace Auto3D {
 
 class Bloom : public RenderComponent
@@ -11,10 +11,10 @@ public:
 	void Start()override;
 	void Draw()override;
 private:
-	Shader m_shader;
-	Shader m_shaderLight;
-	Shader m_shaderBlur;
-	Shader m_shaderBloomFinal;
+	_Shader m_shader;
+	_Shader m_shaderLight;
+	_Shader m_shaderBlur;
+	_Shader m_shaderBloomFinal;
 
 	unsigned int woodTexture;
 	unsigned int containerTexture;

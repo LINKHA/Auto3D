@@ -71,6 +71,10 @@ public:
 	* @brief : Return the file handle
 	*/
 	void* GetHandle() const { return _handle; }
+	/**
+	* @brief : Return whether the file originates from a package
+	*/
+	bool IsPackaged() const { return _offset != 0; }
 private:
 	/**
 	* @brief : Open file internally using either C standard IO functions or SDL RWops for 

@@ -7,7 +7,7 @@
 
 namespace Auto3D {
 
-class Shader;
+class _Shader;
 
 /**
 * mesh vertex message
@@ -44,7 +44,7 @@ public:
 	/**
 	* @brief : Render the mesh
 	*/
-	void Draw(const Shader& shader);
+	void Draw(const _Shader& shader);
 private:
 	/**
 	* @brief : Initializes all the buffer objects/arrays
@@ -76,7 +76,7 @@ public:
 	/**
 	* @brief : Draw all this model mesh node
 	*/
-	void DrawMesh(const Shader& shader);
+	void DrawMesh(const _Shader& shader);
 	/**
 	* @brief : Get texture datas container
 	* @return : VECTOR(TextureData)

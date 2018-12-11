@@ -12,15 +12,10 @@ namespace Auto3D {
 
 SpriteRenderer::SpriteRenderer(Ambient* ambient)
 	:Super(ambient)
-	, _shader(Shader(shader_path + "au_texture_transform.auvs"
+	, _shader(_Shader(shader_path + "au_texture_transform.auvs"
 		, shader_path + "au_texture_transform.aufs"))
 {
 	_color.Set(1.0f, 1.0f, 1.0f, 1.0f);
-}
-
-void SpriteRenderer::RegisterObject(Ambient* ambient)
-{
-	ambient->RegisterFactory<SpriteRenderer>(SCENE_ATTACH);
 }
 
 SpriteRenderer::~SpriteRenderer()
@@ -35,6 +30,11 @@ SpriteRenderer::~SpriteRenderer()
 	glDeleteVertexArrays(1, &_VAO);
 	glDeleteBuffers(1, &_VBO);
 	glDeleteBuffers(1, &_EBO);
+}
+
+void SpriteRenderer::RegisterObject(Ambient* ambient)
+{
+	ambient->RegisterFactory<SpriteRenderer>(SCENE_ATTACH);
 }
 
 void SpriteRenderer::SetImage(Image* image)

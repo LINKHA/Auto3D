@@ -25,27 +25,27 @@ enum CompressedFormat
 */
 struct CompressedLevel
 {
-	/// decompress to RGBA. The destination buffer required is width * height * 4 bytes. Return true if successful.
+	/// decompress to RGBA. The destination buffer required is width * height * 4 bytes. Return true if successful
 	bool Decompress(unsigned char* dest);
 
-	/// compressed image data.
-	unsigned char* data_{};
-	/// compression format.
-	CompressedFormat format_{ CompressedFormat::NONE };
-	/// width.
-	int width_{};
-	/// height.
-	int height_{};
-	/// depth.
-	int depth_{};
-	/// block size in bytes.
-	unsigned blockSize_{};
-	/// total data size in bytes.
-	unsigned dataSize_{};
-	/// row size in bytes.
-	unsigned rowSize_{};
-	/// number of rows.
-	unsigned rows_{};
+	/// compressed image data
+	unsigned char* _data{};
+	/// compression format
+	CompressedFormat _format{ CompressedFormat::NONE };
+	/// width
+	int _width{};
+	/// height
+	int _height{};
+	/// depth
+	int _depth{};
+	/// block size in bytes
+	unsigned _blockSize{};
+	/// total data size in bytes
+	unsigned _dataSize{};
+	/// row size in bytes
+	unsigned _rowSize{};
+	/// number of rows
+	unsigned _rows{};
 };
 
 enum class ImageFormat

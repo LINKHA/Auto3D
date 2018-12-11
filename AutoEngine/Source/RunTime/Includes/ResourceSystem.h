@@ -4,7 +4,6 @@
 
 namespace Auto3D {
 class Resource;
-//class Model;
 class File;
 class Image;
 
@@ -44,11 +43,6 @@ public:
 	* @return : unsigned int
 	*/
 	unsigned int TextureLoad(PInt8 path,bool vertically = true);
-	/**
-	* @brief : According fail path get model
-	* @return: ModelCommand*
-	*/
-	//Model* ModelLoad(PInt8 path);
 	/**
 	* @brief : According fail path get cubemap
 	* @return: unsigned int
@@ -93,6 +87,15 @@ public:
 	*	and normalize absolute filename to resource path relative if possible
 	*/
 	STRING SanitateResourceName(const STRING& name) const;
+	/**
+	* @brief : Return full absolute file name of resource if possible, or empty if not found
+	*/
+	STRING GetResourceFileName(const STRING& name) const;
+	/**
+	* @brief : Store a dependency for a resource. 
+	*	If a dependency file changes, the resource will be reloaded
+	*/
+	void StoreResourceDependency(Resource* resource, const STRING& dependency);
 
 	/**
 	* @brief : Register scene library objects.

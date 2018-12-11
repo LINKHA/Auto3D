@@ -234,6 +234,9 @@
     <None Include="Shader\au_texture_transform.aufs" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\RunTime\Includes\ShaderVariation.h" />
+    <ClInclude Include="Source\RunTime\Includes\Shader.h" />
+    <ClInclude Include="Source\RunTime\Includes\ShaderSet.h" />
     <ClInclude Include="Source\RunTime\Includes\NodeLayout.h" />
     <ClInclude Include="Source\RunTime\Includes\Mesh.h" />
     <ClInclude Include="Source\RunTime\Includes\MemoryDef.h" />
@@ -329,7 +332,7 @@
     <ClInclude Include="Source\RunTime\Includes\DeviceTypes.h" />
     <ClInclude Include="Source\RunTime\Includes\Texture.h" />
     <ClInclude Include="Source\RunTime\Includes\Math\Color.h" />
-    <ClInclude Include="PlatformDependent\Win\PathUnicode.h" />
+    <ClInclude Include="Platform\Win\PathUnicode.h" />
     <ClInclude Include="Source\RunTime\Includes\File.h" />
     <ClInclude Include="Source\RunTime\Includes\LogDef.h" />
     <ClInclude Include="Source\RunTime\Includes\Math\Matrix4x4.h" />
@@ -349,11 +352,11 @@
     <ClInclude Include="Source\RunTime\Includes\Math\Vector3.h" />
     <ClInclude Include="Source\RunTime\Includes\Math\Vector4.h" />
     <ClInclude Include="Source\RunTime\Includes\AutoOGL.h" />
-    <ClInclude Include="Source\RunTime\Includes\Shader.h" />
+    <ClInclude Include="Source\RunTime\Includes\_Shader.h" />
     <ClInclude Include="Source\RunTime\Includes\Transform.h" />
     <ClInclude Include="Source\RunTime\Includes\ScriptComponent.h" />
     <ClInclude Include="Source\RunTime\Includes\Script.h" />
-    <ClInclude Include="PlatformDependent\Win\WinUnicode.h" />
+    <ClInclude Include="Platform\Win\WinUnicode.h" />
     <ClInclude Include="Source\RunTime\Includes\Texture2D.h" />
     <ClInclude Include="Source\RunTime\Includes\Time.h" />
     <ClInclude Include="Source\RunTime\Includes\Singleton.h" />
@@ -379,6 +382,9 @@
     <ClInclude Include="Source\RunTime\Includes\NodeTag.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\RunTime\src\ShaderVariation.cpp" />
+    <ClCompile Include="Source\RunTime\src\OGLShaderSet.cpp" />
+    <ClCompile Include="Source\RunTime\src\OGLShader.cpp" />
     <ClCompile Include="Source\RunTime\src\Mesh.cpp" />
     <ClCompile Include="Source\RunTime\src\AutoString.cpp" />
     <ClCompile Include="Source\RunTime\src\Image.cpp" />
@@ -423,7 +429,7 @@
     <ClCompile Include="Source\RunTime\src\MeshPBR.cpp" />
     <ClCompile Include="Source\RunTime\src\OffScreen.cpp" />
     <ClCompile Include="Source\RunTime\src\MeshShadowPoint.cpp" />
-    <ClCompile Include="Source\RunTime\src\OGLShader.cpp" />
+    <ClCompile Include="Source\RunTime\src\_OGLShader.cpp" />
     <ClCompile Include="Source\RunTime\src\Geometry.cpp" />
     <ClCompile Include="Source\RunTime\Includes\Math\Color.cpp" />
     <ClCompile Include="Source\RunTime\src\ComponentSetting.cpp" />
@@ -454,7 +460,7 @@
     <ClCompile Include="Source\RunTime\src\GameManager.cpp" />
     <ClCompile Include="Source\RunTime\src\Configs.cpp" />
     <ClCompile Include="Source\RunTime\src\Texture.cpp" />
-    <ClCompile Include="PlatformDependent\Win\PathUnicode.cpp" />
+    <ClCompile Include="Platform\Win\PathUnicode.cpp" />
     <ClCompile Include="Source\RunTime\src\File.cpp" />
     <ClCompile Include="Source\RunTime\Includes\Math\Matrix4x4.cpp" />
     <ClCompile Include="Source\RunTime\Includes\Math\Matrix3x3.cpp" />
@@ -467,7 +473,7 @@
     <ClCompile Include="Source\RunTime\src\Transform.cpp" />
     <ClCompile Include="Source\RunTime\src\ScriptComponent.cpp" />
     <ClCompile Include="Source\RunTime\src\Script.cpp" />
-    <ClCompile Include="PlatformDependent\Win\WinUnicode.cpp" />
+    <ClCompile Include="Platform\Win\WinUnicode.cpp" />
     <ClCompile Include="Source\RunTime\src\Texture2D.cpp" />
     <ClCompile Include="Source\RunTime\src\Time.cpp" />
     <ClCompile Include="Source\RunTime\src\SkyBox.cpp" />

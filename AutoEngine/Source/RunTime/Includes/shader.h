@@ -1,55 +1,51 @@
 #pragma once
 #include "Auto.h"
 #include "AutoOGL.h"
+#include "ShaderVariation.h"
+#include "Resource.h"
 
 namespace Auto3D {
-struct Vector2;
-struct Vector3;
-struct Vector4;
-struct Color;
 
-class Shader
+class Shader : public Resource
 {
+	REGISTER_DERIVED_CLASS(Shader, Resource);
+	DECLARE_OBJECT_SERIALIZE(Shader)
 public:
-	unsigned int ID;
-	Shader() {}
 	/**
-	* @brief : Constructor generates the shader on the fly
+	* @brief : Constructor
 	*/
-	Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
-	Shader(const STRING vertexPath, const STRING fragmentPath, const STRING geometryPath)
-		:Shader(vertexPath.CStr(), fragmentPath.CStr(), geometryPath.CStr())
-	{}
-	Shader(const STRING vertexPath, const STRING fragmentPath)
-		:Shader(vertexPath.CStr(), fragmentPath.CStr())
-	{}
+	explicit Shader(Ambient* ambient);
 	/**
-	* @brief : Activate the shader
+	* @brief : Register object factory
 	*/
-	void Use();
-	/**
-	* @brief : Utility uniform functions
+	static void RegisterObject(Ambient* ambient);
+	/*
+	*@brief : Load resource from stream.May be called from a worker thread.Return true if successful
 	*/
-	void SetBool(const STRING &name, bool value) const;
-	void SetInt(const STRING &name, int value) const;
-	void SetFloat(const STRING &name, float value) const;
-	void SetVec2(const STRING &name, const glm::vec2 &value) const;
-	void SetVec2(const STRING &name, const Vector2 &value) const;
-	void SetVec2(const STRING &name, float x, float y) const;
-	void SetVec3(const STRING &name, const glm::vec3 &value) const;
-	void SetVec3(const STRING &name, const Color &value) const;
-	void SetVec3(const STRING &name, const Vector3 &value) const;
-	void SetVec3(const STRING &name, float x, float y, float z) const;
-	void SetVec4(const STRING &name, const glm::vec4 &value) const;
-	void SetVec4(const STRING &name, const Vector4 &value) const;
-	void SetVec4(const STRING &name, float x, float y, float z, float w);
-	void SetMat2(const STRING &name, const glm::mat2 &mat) const;
-	void SetMat3(const STRING &name, const glm::mat3 &mat) const;
-	void SetMat4(const STRING &name, const glm::mat4 &mat) const;
+	bool BeginLoad(Deserializer& source)override;
 private:
 	/**
-	* @brief : utility function for checking shader compilation/linking errors.
+	* @brief : Process source code and include files. Return true if successful
 	*/
-	void checkCompileErrors(GLuint shader, STRING type);
+	bool processSource(STRING& code, Deserializer& source);
+public:
+	/// source code adapted for vertex shader.
+	STRING _vsSourceCode;
+	/// source code adapted for fragment shader.
+	STRING _fsSourceCode;
+	/// source code adapted for geometry shader
+	STRING _gsSourceCode;
+	/// Vertex shader variations.
+	HASH_MAP<STRING, SharedPtr<ShaderVariation> > _vsVariations;
+	/// Fragment shader variations.
+	HASH_MAP<STRING, SharedPtr<ShaderVariation> > _fsVariations;
+	/// Geometry shader variations.
+	HASH_MAP<STRING, SharedPtr<ShaderVariation> > _gsVariations;
+
+
+	/// Source code timestamp.
+	unsigned _timeStamp;
+	/// number of unique variations so far.
+	unsigned _numVariations;
 };
 }

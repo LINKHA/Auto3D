@@ -8,7 +8,7 @@ namespace Auto3D {
 
 MeshRenderer::MeshRenderer(Ambient* ambient)
 	:Super(ambient)
-	, _shader(Shader(shader_path + "au_light_map_model_loading.auvs"
+	, _shader(_Shader(shader_path + "au_light_map_model_loading.auvs"
 		, shader_path + "au_light_map_model_loading.aufs"))
 	, _isUserShader(false)
 {
@@ -35,12 +35,12 @@ void MeshRenderer::Start()
 	{
 		if (_material->isTexture)
 		{
-			_shader = Shader(shader_path + "au_light_map_model_loading.auvs"
+			_shader = _Shader(shader_path + "au_light_map_model_loading.auvs"
 				, shader_path + "au_light_map_model_loading.aufs");
 		}
 		else
 		{
-			_shader = Shader(shader_path + "au_light_model_loading.auvs"
+			_shader = _Shader(shader_path + "au_light_model_loading.auvs"
 				, shader_path + "au_light_model_loading.aufs");
 		}
 	}
@@ -86,7 +86,7 @@ void MeshRenderer::SetMesh(Mesh* mesh)
 	_mesh.reset(mesh);
 }
 
-void MeshRenderer::SetShader(const Shader& shader)
+void MeshRenderer::SetShader(const _Shader& shader)
 {
 	_shader = shader;
 }

@@ -45,7 +45,7 @@ void TextureParallax::Start()
 	_timage = GetSubSystem<ResourceSystem>()->TextureLoad(_imagePath);
 	_imageNormal = GetSubSystem<ResourceSystem>()->TextureLoad(_imageNormalPath);
 	_imageParallax = GetSubSystem<ResourceSystem>()->TextureLoad(_imageParallaxPath);
-	_shader = Shader(shader_path + "au_parallax_mapping.auvs", shader_path + "au_parallax_mapping.aufs");
+	_shader = _Shader(shader_path + "au_parallax_mapping.auvs", shader_path + "au_parallax_mapping.aufs");
 	_shader.Use();
 	_shader.SetInt("diffuseMap", 0);
 	_shader.SetInt("normalMap", 1);

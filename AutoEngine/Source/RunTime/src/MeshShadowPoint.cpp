@@ -51,7 +51,7 @@ void MeshShadowPoint::DrawReady()
 
 void MeshShadowPoint::DrawShadow()
 {
-	Shader& shadowShader = GetSubSystem<Renderer>()->GetShadowRenderer()->GetPointDepthMapShader();
+	_Shader& shadowShader = GetSubSystem<Renderer>()->GetShadowRenderer()->GetPointDepthMapShader();
 	
 	glm::mat4 modelMat;
 	if (GetNodePtr())		//if gameObject not empty

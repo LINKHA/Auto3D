@@ -1,6 +1,6 @@
 #pragma once
 #include "RenderComponent.h"
-#include "Shader.h"
+#include "_Shader.h"
 #include "Mesh.h"
 
 namespace Auto3D {
@@ -14,10 +14,10 @@ public:
 	void Draw()override;
 
 private:
-	Shader m_shaderGeometryPass;
-	Shader m_shaderLightingPass;
-	Shader m_shaderSSAO;
-	Shader m_shaderSSAOBlur;
+	_Shader m_shaderGeometryPass;
+	_Shader m_shaderLightingPass;
+	_Shader m_shaderSSAO;
+	_Shader m_shaderSSAOBlur;
 
 	SharedPtr<Mesh> nanosuit;
 

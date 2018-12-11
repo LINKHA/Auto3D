@@ -13,11 +13,11 @@ public:
 	void Draw()override;
 	void AddToCamera(Camera* camera){}
 private:
-	Shader m_equirectangularToCubemapShader;
-	Shader m_irradianceShader;
-	Shader m_prefilterShader;
-	Shader m_brdfShader;
-	Shader m_backgroundShader;
+	_Shader m_equirectangularToCubemapShader;
+	_Shader m_irradianceShader;
+	_Shader m_prefilterShader;
+	_Shader m_brdfShader;
+	_Shader m_backgroundShader;
 
 
 	// pbr: setup framebuffer

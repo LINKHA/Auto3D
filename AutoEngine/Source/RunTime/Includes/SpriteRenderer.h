@@ -8,14 +8,11 @@ class SpriteRenderer : public Texture2D
 	REGISTER_DERIVED_CLASS(SpriteRenderer, Texture2D);
 	DECLARE_OBJECT_SERIALIZE(SpriteRenderer);
 public:
-
 	explicit SpriteRenderer(Ambient* ambient);
 	/**
 	* @brief : Register object factory.
 	*/
 	static void RegisterObject(Ambient* ambient);
-
-
 
 	void Start()override;
 	void Draw()override;
@@ -43,7 +40,7 @@ private:
 	unsigned int _VBO, _VAO, _EBO;
 	unsigned int _textureData;
 
-	Shader _shader;
+	_Shader _shader;
 	Color _color;
 
 	SharedPtr<Image> _image;
