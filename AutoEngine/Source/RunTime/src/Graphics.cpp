@@ -2,7 +2,6 @@
 #include "AutoImage.h"
 #include "AutoOGL.h"
 #include "AutoSDL.h"
-#include "../../../EngineSetting/Optimize.h"
 #include "ResourceSystem.h"
 #include "NewDef.h"
 namespace Auto3D {

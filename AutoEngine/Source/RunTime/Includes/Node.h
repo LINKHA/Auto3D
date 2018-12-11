@@ -1,6 +1,7 @@
 #pragma once
 #include "Object.h"
-#include "../../../EngineSetting/GameSetting.h"
+#include "NodeLayout.h"
+#include "NodeTag.h"
 #include "Math/Math.h"
 
 
@@ -53,23 +54,21 @@ public:
 	*/
 	virtual NodeChilds& GetAllChild();
 	/**
-	* @brief : Set layer clamp(0~layer count)
+	* @brief : Set layer
 	*/
-	void SetLayer(Layout layer) { _layer = clamp(static_cast<UInt32>(layer), static_cast<UInt32>(0), static_cast<UInt32>(Layout::klayoutCount)); }
+	void SetLayer(const NodeLayout& layer) { _layer = layer; }
 	/**
-	* @brief : Set tag clamp(0~tag count)
+	* @brief : Set tag
 	*/
-	void SetTag(Tag tag) { _layer = clamp(static_cast<UInt16>(tag), static_cast<UInt16>(0), static_cast<UInt16>(Tag::kTagCount)); }
+	void SetTag(const NodeTag& tag) { _tag = tag; }
 	/**
 	* @brief : Get layer
-	* @return; enum Layout
 	*/
-	Layout GetLayer() const { return static_cast<Layout>(_layer); }
+	NodeLayout GetLayer() const { return _layer; }
 	/**
 	* @brief : Get tag
-	* @return; enum Tag
 	*/
-	Tag GetTag() const { return static_cast<Tag>(_tag); }
+	NodeTag GetTag() const { return _tag; }
 	/**
 	* @brief : Get game object enable
 	*/
@@ -172,9 +171,9 @@ protected:
 	/// node childs (VECTOR(Node*))
 	NodeChilds _childs;
 	/// layer id
-	UInt32 _layer{};
+	NodeLayout _layer{};
 	/// tag id
-	UInt16 _tag{};
+	NodeTag _tag{};
 	/// is active
 	bool _isActive;
 	/// scene id

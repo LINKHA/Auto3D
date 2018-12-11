@@ -7,9 +7,6 @@
     <Filter Include="PlatformDependent\Win">
       <UniqueIdentifier>{d0c77170-ef1f-4f2d-a286-8ea191369f0b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="EngineSetting">
-      <UniqueIdentifier>{72790d30-6b88-4015-a4ed-e6a0897700e9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Shaders">
       <UniqueIdentifier>{8a0bcce9-25c4-4e41-a228-f665d01e6385}</UniqueIdentifier>
     </Filter>
@@ -385,15 +382,6 @@
     </ClInclude>
     <ClInclude Include="PlatformDependent\Win\PathUnicode.h">
       <Filter>PlatformDependent\Win</Filter>
-    </ClInclude>
-    <ClInclude Include="EngineSetting\Optimize.h">
-      <Filter>EngineSetting</Filter>
-    </ClInclude>
-    <ClInclude Include="EngineSetting\GameSetting.h">
-      <Filter>EngineSetting</Filter>
-    </ClInclude>
-    <ClInclude Include="EngineSetting\AuSet.h">
-      <Filter>EngineSetting</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Math\Color.h">
       <Filter>Source\RunTime\Math</Filter>
@@ -811,6 +799,12 @@
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Light.h">
       <Filter>Source\RunTime\Graphics\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\NodeLayout.h">
+      <Filter>Source\RunTime\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\NodeTag.h">
+      <Filter>Source\RunTime\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

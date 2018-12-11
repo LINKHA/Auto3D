@@ -234,6 +234,7 @@
     <None Include="Shader\au_texture_transform.aufs" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\RunTime\Includes\NodeLayout.h" />
     <ClInclude Include="Source\RunTime\Includes\Mesh.h" />
     <ClInclude Include="Source\RunTime\Includes\MemoryDef.h" />
     <ClInclude Include="Source\RunTime\Includes\AssertDef.h" />
@@ -311,9 +312,6 @@
     <ClInclude Include="Source\RunTime\Includes\GLTextureEnable.h" />
     <ClInclude Include="Source\RunTime\Includes\RenderComponent.h" />
     <ClInclude Include="Source\RunTime\Includes\Input.h" />
-    <ClInclude Include="EngineSetting\AuSet.h" />
-    <ClInclude Include="EngineSetting\GameSetting.h" />
-    <ClInclude Include="EngineSetting\Optimize.h" />
     <ClInclude Include="Source\RunTime\Includes\InstanceBeltLine.h" />
     <ClInclude Include="Source\RunTime\Includes\PreLoadManager.h" />
     <ClInclude Include="Source\RunTime\Includes\Prefab.h" />
@@ -378,6 +376,7 @@
     <ClInclude Include="Source\RunTime\Includes\StaticSprite2D.h" />
     <ClInclude Include="Source\RunTime\Includes\Sprite2D.h" />
     <ClInclude Include="Source\RunTime\Includes\TypeThread.h" />
+    <ClInclude Include="Source\RunTime\Includes\NodeTag.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\RunTime\src\Mesh.cpp" />
