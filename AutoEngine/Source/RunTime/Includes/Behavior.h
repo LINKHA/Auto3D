@@ -5,8 +5,7 @@ namespace Auto3D {
 
 class Behavior : public GlobalGameManager
 {
-	REGISTER_DERIVED_CLASS(Behavior, GlobalGameManager);
-	DECLARE_OBJECT_SERIALIZE(Behavior);
+	REGISTER_OBJECT_CLASS(Behavior, GlobalGameManager)
 public:
 	explicit Behavior(Ambient* ambient);
 	void Awake();

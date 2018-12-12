@@ -23,8 +23,7 @@ class PhysicsWorld;
 
 class Collider : public Component
 {
-	REGISTER_DERIVED_ABSTRACT_CLASS(Collider, Component);
-	DECLARE_OBJECT_SERIALIZE(Collider);
+	REGISTER_OBJECT_ABSTRACT_CLASS(Collider, Component)
 public:
 	/**
 	* @brief : Construct

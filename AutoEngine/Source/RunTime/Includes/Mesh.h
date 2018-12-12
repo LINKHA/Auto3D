@@ -61,8 +61,7 @@ public:
 
 class Mesh : public Resource
 {
-	REGISTER_DERIVED_ABSTRACT_CLASS(Mesh, Resource);
-	DECLARE_OBJECT_SERIALIZE(Mesh)
+	REGISTER_OBJECT_ABSTRACT_CLASS(Mesh, Resource)
 public:
 	explicit Mesh(Ambient* ambient);
 	/**

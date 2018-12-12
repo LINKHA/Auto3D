@@ -10,8 +10,7 @@ class RigidBody2D;
 
 class Collider2D : public Component
 {
-	REGISTER_DERIVED_ABSTRACT_CLASS(Collider2D, Component);
-	DECLARE_OBJECT_SERIALIZE(Collider2D);
+	REGISTER_OBJECT_ABSTRACT_CLASS(Collider2D, Component)
 public:
 	/**
 	* @brief : Construct

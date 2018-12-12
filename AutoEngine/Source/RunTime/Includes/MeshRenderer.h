@@ -13,8 +13,7 @@ namespace Auto3D {
 
 class MeshRenderer : public RenderComponent, public GLMeshEnable
 {
-	REGISTER_DERIVED_CLASS(MeshRenderer, RenderComponent);
-	DECLARE_OBJECT_SERIALIZE(MeshRenderer);
+	REGISTER_OBJECT_CLASS(MeshRenderer, RenderComponent)
 public:
 	explicit MeshRenderer(Ambient* ambient);
 	/**

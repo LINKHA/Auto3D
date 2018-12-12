@@ -23,8 +23,7 @@ static const float DEFAULT_MAX_NETWORK_ANGULAR_VELOCITY = 100.0f;
 
 class PhysicsWorld : public Component//, public btIDebugDraw
 {
-	REGISTER_DERIVED_CLASS(PhysicsWorld, Component);
-	DECLARE_OBJECT_SERIALIZE(PhysicsWorld);
+	REGISTER_OBJECT_CLASS(PhysicsWorld, Component)
 public:
 	explicit PhysicsWorld(Ambient* ambient);
 	/**

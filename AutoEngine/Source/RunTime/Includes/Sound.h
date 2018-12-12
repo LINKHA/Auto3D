@@ -5,8 +5,7 @@ namespace Auto3D {
 
 class Sound : public Resource
 {
-	REGISTER_DERIVED_CLASS(Sound, Resource);
-	DECLARE_OBJECT_SERIALIZE(Sound);
+	REGISTER_OBJECT_CLASS(Sound, Resource)
 public:
 	explicit Sound(Ambient* ambient);
 

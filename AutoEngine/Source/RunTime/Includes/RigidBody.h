@@ -8,8 +8,7 @@ namespace Auto3D {
 
 class RigidBody : public Component
 {
-	REGISTER_DERIVED_ABSTRACT_CLASS(RigidBody, Component);
-	DECLARE_OBJECT_SERIALIZE(RigidBody);
+	REGISTER_OBJECT_ABSTRACT_CLASS(RigidBody, Component)
 public:
 	explicit RigidBody(Ambient* ambient);
 	/**

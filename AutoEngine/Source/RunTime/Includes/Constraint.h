@@ -5,8 +5,7 @@ namespace Auto3D {
 
 class Constraint : public ComponentSetting
 {
-	REGISTER_DERIVED_CLASS(Constraint, ComponentSetting);
-	DECLARE_OBJECT_SERIALIZE(Constraint);
+	REGISTER_OBJECT_CLASS(Constraint, ComponentSetting)
 public:
 	explicit Constraint(Ambient* ambient);
 	

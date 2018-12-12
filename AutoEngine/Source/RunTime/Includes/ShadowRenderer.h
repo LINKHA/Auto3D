@@ -11,9 +11,8 @@ class RenderComponent;
 */
 class ShadowRenderer : public Object
 {
+	REGISTER_OBJECT_CLASS(ShadowRenderer, Object)
 
-	REGISTER_DERIVED_CLASS(ShadowRenderer, Object);
-	DECLARE_OBJECT_SERIALIZE(ShadowRenderer);
 	using Ligths = VECTOR<Light*>;
 	using RenderComponents = LIST<RenderComponent*>;
 public:

@@ -4,8 +4,7 @@
 namespace Auto3D {
 class Texture2D : public Texture
 {
-	REGISTER_DERIVED_ABSTRACT_CLASS(Texture2D, Texture);
-	DECLARE_OBJECT_SERIALIZE(Texture2D);
+	REGISTER_OBJECT_ABSTRACT_CLASS(Texture2D, Texture)
 public:
 	typedef struct _TexParams {
 		GLuint    minFilter;

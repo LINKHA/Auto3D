@@ -12,25 +12,22 @@ namespace Auto3D {
 */
 class GameManager : public Object
 {
+	REGISTER_OBJECT_ABSTRACT_CLASS(GameManager, Object)
 public:
-	REGISTER_DERIVED_ABSTRACT_CLASS(GameManager, Object);
-	DECLARE_OBJECT_SERIALIZE(GameManager);
 	explicit GameManager(Ambient* ambient);
 };
 
 class LevelGameManager : public GameManager
 {
+	REGISTER_OBJECT_ABSTRACT_CLASS(LevelGameManager, GameManager)
 public:
-	REGISTER_DERIVED_ABSTRACT_CLASS(LevelGameManager, GameManager);
-	DECLARE_OBJECT_SERIALIZE(LevelGameManager);
 	explicit LevelGameManager(Ambient* ambient);
 };
 
 class GlobalGameManager : public GameManager
 {
+	REGISTER_OBJECT_ABSTRACT_CLASS(GlobalGameManager, GameManager)
 public:
-	REGISTER_DERIVED_ABSTRACT_CLASS(GlobalGameManager, GameManager);
-	DECLARE_OBJECT_SERIALIZE(GlobalGameManager);
 	explicit GlobalGameManager(Ambient* ambient);
 };
 

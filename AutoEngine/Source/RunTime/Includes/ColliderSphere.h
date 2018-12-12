@@ -5,8 +5,7 @@ namespace Auto3D {
 
 class ColliderSphere : public Collider
 {
-	REGISTER_DERIVED_CLASS(ColliderSphere, Collider);
-	DECLARE_OBJECT_SERIALIZE(ColliderSphere);
+	REGISTER_OBJECT_CLASS(ColliderSphere, Collider)
 public:
 	explicit ColliderSphere(Ambient* ambient);
 	/**

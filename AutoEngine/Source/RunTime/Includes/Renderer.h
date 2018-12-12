@@ -13,8 +13,8 @@ class Light;
 */
 class Renderer : public GlobalGameManager
 {
-	REGISTER_DERIVED_CLASS(Renderer, GlobalGameManager);
-	DECLARE_OBJECT_SERIALIZE(Renderer);
+	REGISTER_OBJECT_CLASS(Renderer, GlobalGameManager)
+
 	using CameraContainer = LIST<Camera*>;
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	///Render in this order

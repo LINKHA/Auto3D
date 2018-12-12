@@ -13,8 +13,7 @@ struct Color;
 
 class ShaderSet : public Object
 {
-	REGISTER_DERIVED_CLASS(ShaderSet, Object);
-	DECLARE_OBJECT_SERIALIZE(ShaderSet)
+	REGISTER_OBJECT_CLASS(ShaderSet, Object)
 public:
 	explicit ShaderSet(Ambient* ambient);
 	/**

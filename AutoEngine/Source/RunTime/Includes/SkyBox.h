@@ -6,8 +6,7 @@ namespace Auto3D {
 
 class SkyBox : public Texture3D
 {
-	REGISTER_DERIVED_CLASS(SkyBox, Texture3D);
-	DECLARE_OBJECT_SERIALIZE(SkyBox);
+	REGISTER_OBJECT_CLASS(SkyBox, Texture3D)
 public:
 	explicit SkyBox(Ambient* ambient);
 	void Start()override;

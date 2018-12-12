@@ -13,9 +13,7 @@ class SceneNode;
 
 class Component : public Object
 {
-	REGISTER_DERIVED_ABSTRACT_CLASS(Component, Object);
-	DECLARE_OBJECT_SERIALIZE(Component);
-
+	REGISTER_OBJECT_ABSTRACT_CLASS(Component, Object)
 public:
 	explicit Component(Ambient* ambient);
 	/**

@@ -4,9 +4,7 @@ namespace Auto3D {
 
 class AudioBuffer : public ComponentSetting
 {
-public:
-	REGISTER_DERIVED_CLASS(AudioBuffer, ComponentSetting);
-	DECLARE_OBJECT_SERIALIZE(AudioBuffer);
+	REGISTER_OBJECT_CLASS(AudioBuffer, ComponentSetting)
 public:
 	explicit AudioBuffer(Ambient* ambient,STRING path);
 	/**

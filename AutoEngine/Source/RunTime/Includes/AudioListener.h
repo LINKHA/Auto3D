@@ -5,8 +5,7 @@ namespace Auto3D {
 
 class AudioListener : public Component
 {
-	REGISTER_DERIVED_CLASS(AudioListener, Component);
-	DECLARE_OBJECT_SERIALIZE(AudioListener);
+	REGISTER_OBJECT_CLASS(AudioListener, Component)
 public:
 	explicit AudioListener(Ambient* ambient);
 	/**

@@ -6,8 +6,7 @@ namespace Auto3D {
 
 class Audio : public GlobalGameManager
 {
-	REGISTER_DERIVED_CLASS(Audio, GlobalGameManager);
-	DECLARE_OBJECT_SERIALIZE(Audio);
+	REGISTER_OBJECT_CLASS(Audio, GlobalGameManager)
 public:
 	explicit Audio(Ambient* ambient);
 	/**

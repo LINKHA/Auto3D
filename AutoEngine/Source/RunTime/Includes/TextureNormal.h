@@ -9,8 +9,7 @@ namespace Auto3D {
 
 class TextureNormal : public TextureMap
 {
-	REGISTER_DERIVED_CLASS(TextureNormal, TextureMap);
-	DECLARE_OBJECT_SERIALIZE(TextureNormal);
+	REGISTER_OBJECT_CLASS(TextureNormal, TextureMap)
 public:
 	explicit TextureNormal(Ambient* ambient);
 	//TextureNormal(char* imagePath);

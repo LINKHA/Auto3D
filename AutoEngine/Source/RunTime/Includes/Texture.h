@@ -10,9 +10,7 @@ namespace Auto3D {
 
 class Texture : public RenderComponent, public GLTextureEnable
 {
-	REGISTER_DERIVED_ABSTRACT_CLASS(Texture, RenderComponent);
-	DECLARE_OBJECT_SERIALIZE(Texture);
-	
+	REGISTER_OBJECT_ABSTRACT_CLASS(Texture, RenderComponent)
 protected:
 	TextureID		_texID;
 	int		        _usageMode;

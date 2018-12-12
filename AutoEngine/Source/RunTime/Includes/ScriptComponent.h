@@ -4,8 +4,7 @@
 namespace Auto3D {
 class ScriptComponent :public Component
 {
-	REGISTER_DERIVED_ABSTRACT_CLASS(ScriptComponent, Component);
-	DECLARE_OBJECT_SERIALIZE(ScriptComponent);
+	REGISTER_OBJECT_ABSTRACT_CLASS(ScriptComponent, Component)
 public:
 	explicit ScriptComponent(Ambient* ambient);
 

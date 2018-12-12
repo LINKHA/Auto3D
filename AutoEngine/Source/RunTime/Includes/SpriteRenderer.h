@@ -5,8 +5,7 @@ namespace Auto3D {
 class Image;
 class SpriteRenderer : public Texture2D
 {
-	REGISTER_DERIVED_CLASS(SpriteRenderer, Texture2D);
-	DECLARE_OBJECT_SERIALIZE(SpriteRenderer);
+	REGISTER_OBJECT_CLASS(SpriteRenderer, Texture2D)
 public:
 	explicit SpriteRenderer(Ambient* ambient);
 	/**

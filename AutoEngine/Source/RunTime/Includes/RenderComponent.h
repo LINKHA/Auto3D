@@ -6,8 +6,7 @@ namespace Auto3D {
 
 class RenderComponent : public Component
 {
-	REGISTER_DERIVED_ABSTRACT_CLASS(RenderComponent, Component);
-	DECLARE_OBJECT_SERIALIZE(RenderComponent);
+	REGISTER_OBJECT_ABSTRACT_CLASS(RenderComponent, Component)
 public:
 	explicit RenderComponent(Ambient*  ambient);
 	/**

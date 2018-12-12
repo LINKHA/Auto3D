@@ -8,8 +8,7 @@ class RigidBody2D;
 
 class PhysicsWorld2D : public Component//, public b2ContactListener, public b2Draw
 {
-	REGISTER_DERIVED_CLASS(PhysicsWorld2D, Component);
-	DECLARE_OBJECT_SERIALIZE(PhysicsWorld2D);
+	REGISTER_OBJECT_CLASS(PhysicsWorld2D, Component)
 public:
 	explicit PhysicsWorld2D(Ambient* ambient);
 	/**

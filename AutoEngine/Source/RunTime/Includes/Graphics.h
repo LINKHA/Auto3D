@@ -11,8 +11,7 @@
 namespace Auto3D {
 class Graphics : public GlobalGameManager
 {
-	REGISTER_DERIVED_CLASS(Graphics, GlobalGameManager);
-	DECLARE_OBJECT_SERIALIZE(Graphics);
+	REGISTER_OBJECT_CLASS(Graphics, GlobalGameManager)
 public:
 	explicit Graphics(Ambient* ambient);
 	/**

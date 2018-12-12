@@ -5,8 +5,8 @@
 namespace Auto3D {
 class PreLoadManager : public GlobalGameManager
 {
-	REGISTER_DERIVED_CLASS(PreLoadManager, GlobalGameManager);
-	DECLARE_OBJECT_SERIALIZE(PreLoadManager);
+	REGISTER_OBJECT_CLASS(PreLoadManager, GlobalGameManager)
+
 	using PreContainer = LIST<Prefab*>;
 public:
 	explicit PreLoadManager(Ambient* ambient);

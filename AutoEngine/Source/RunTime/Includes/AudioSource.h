@@ -16,8 +16,7 @@ enum class AudioSourceState
 
 class AudioSource : public Component
 {
-	REGISTER_DERIVED_CLASS(AudioSource, Component);
-	DECLARE_OBJECT_SERIALIZE(AudioSource);
+	REGISTER_OBJECT_CLASS(AudioSource, Component)
 public:
 	/**
 	* @brief : The constructor

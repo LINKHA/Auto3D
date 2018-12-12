@@ -9,8 +9,7 @@ namespace Auto3D {
 
 class TextureParallax : public TextureMap
 {
-	REGISTER_DERIVED_CLASS(TextureParallax, TextureMap);
-	DECLARE_OBJECT_SERIALIZE(TextureParallax);
+	REGISTER_OBJECT_CLASS(TextureParallax, TextureMap)
 public:
 	explicit TextureParallax(Ambient* ambient);
 	//TextureParallax(char* imagePath);

@@ -4,8 +4,7 @@
 namespace Auto3D {
 class Prefab : public Object
 {
-	REGISTER_DERIVED_CLASS(Prefab, Object);
-	DECLARE_OBJECT_SERIALIZE(Prefab);
+	REGISTER_OBJECT_CLASS(Prefab, Object)
 public:
 	explicit Prefab(Ambient* ambient);
 private:

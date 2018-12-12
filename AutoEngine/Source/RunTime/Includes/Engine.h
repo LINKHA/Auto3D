@@ -4,8 +4,7 @@ namespace Auto3D {
 
 class Engine : public Object
 {
-	REGISTER_DERIVED_CLASS(Engine, Object);
-	DECLARE_OBJECT_SERIALIZE(Engine);
+	REGISTER_OBJECT_CLASS(Engine, Object)
 public:
 	explicit Engine(Ambient* ambient);
 	/**

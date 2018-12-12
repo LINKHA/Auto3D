@@ -7,8 +7,7 @@ namespace Auto3D {
 */
 class BaseSpace : public GlobalGameManager
 {
-	REGISTER_DERIVED_CLASS(BaseSpace, GlobalGameManager);
-	DECLARE_OBJECT_SERIALIZE(BaseSpace);
+	REGISTER_OBJECT_CLASS(BaseSpace, GlobalGameManager)
 public:
 	explicit BaseSpace(Ambient* ambient);
 	void Awake();

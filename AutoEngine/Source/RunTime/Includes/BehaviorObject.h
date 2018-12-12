@@ -17,8 +17,7 @@ enum class RunMode
 
 class BehaviorObject : public Object
 {
-	REGISTER_DERIVED_ABSTRACT_CLASS(BehaviorObject, Object);
-	DECLARE_OBJECT_SERIALIZE(BehaviorObject);
+	REGISTER_OBJECT_ABSTRACT_CLASS(BehaviorObject, Object)
 public:
 	explicit BehaviorObject(Ambient* ambient);
 

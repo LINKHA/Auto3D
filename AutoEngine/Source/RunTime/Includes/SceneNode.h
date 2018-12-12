@@ -10,8 +10,7 @@ using SceneObject = class SceneNode;
 
 class SceneNode : public Node
 {
-	REGISTER_DERIVED_CLASS(SceneNode, Node);
-	DECLARE_OBJECT_SERIALIZE(SceneNode);
+	REGISTER_OBJECT_CLASS(SceneNode, Node)
 public:
 	explicit SceneNode(Ambient* ambient,int id);
 	/**

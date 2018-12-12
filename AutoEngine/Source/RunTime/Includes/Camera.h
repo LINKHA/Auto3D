@@ -24,8 +24,7 @@ enum class ProjectionMode
 
 class Camera : public Component
 {
-	REGISTER_DERIVED_CLASS(Camera, Component);
-	DECLARE_OBJECT_SERIALIZE(Camera);
+	REGISTER_OBJECT_CLASS(Camera, Component)
 public:
 	explicit Camera(Ambient* ambient);
 	/**

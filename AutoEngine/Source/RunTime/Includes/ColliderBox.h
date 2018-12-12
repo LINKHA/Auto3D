@@ -5,8 +5,7 @@ namespace Auto3D {
 
 class ColliderBox : public Collider
 {
-	REGISTER_DERIVED_CLASS(ColliderBox, Collider);
-	DECLARE_OBJECT_SERIALIZE(ColliderBox);
+	REGISTER_OBJECT_CLASS(ColliderBox, Collider)
 public:
 	explicit ColliderBox(Ambient* ambient);
 	/**

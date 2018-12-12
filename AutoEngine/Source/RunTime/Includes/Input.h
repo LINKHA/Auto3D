@@ -19,8 +19,8 @@ struct JoystickState
 */
 class Input : public GlobalGameManager
 {
-	REGISTER_DERIVED_CLASS(Input, GlobalGameManager);
-	DECLARE_OBJECT_SERIALIZE(Input);
+	REGISTER_OBJECT_CLASS(Input, GlobalGameManager)
+
 	using Keys = SET<int>;
 public:
 	explicit Input(Ambient* ambient);

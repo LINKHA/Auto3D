@@ -9,8 +9,7 @@ class Light;
 */
 class LightContainer : public Object
 {
-	REGISTER_DERIVED_CLASS(LightContainer, Object);
-	DECLARE_OBJECT_SERIALIZE(LightContainer);
+	REGISTER_OBJECT_CLASS(LightContainer, Object)
 	using Lights = VECTOR<Light*>;
 public:
 	explicit LightContainer(Ambient* ambient);

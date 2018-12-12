@@ -19,8 +19,7 @@ enum class FileMode
 
 class File : public Object, public AbstractFile
 {
-	REGISTER_DERIVED_CLASS(File, Object);
-	DECLARE_OBJECT_SERIALIZE(File)
+	REGISTER_OBJECT_CLASS(File, Object)
 public:
 	explicit File(Ambient* ambient);
 	/**

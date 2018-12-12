@@ -8,8 +8,8 @@ namespace Auto3D {
 
 class Shader : public Resource
 {
-	REGISTER_DERIVED_CLASS(Shader, Resource);
-	DECLARE_OBJECT_SERIALIZE(Shader)
+	REGISTER_OBJECT_CLASS(Shader, Resource)
+
 public:
 	/**
 	* @brief : Constructor

@@ -5,8 +5,7 @@ namespace Auto3D {
 
 class Sprite : public Resource
 {
-	REGISTER_DERIVED_CLASS(Sprite, Resource);
-	DECLARE_OBJECT_SERIALIZE(Sprite);
+	REGISTER_OBJECT_CLASS(Sprite, Resource)
 public:
 	explicit Sprite(Ambient* ambient);
 	/**

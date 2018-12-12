@@ -61,8 +61,7 @@ enum class ImageType
 };
 class Image : public Resource
 {
-	REGISTER_DERIVED_CLASS(Image, Resource);
-	DECLARE_OBJECT_SERIALIZE(Image)
+	REGISTER_OBJECT_CLASS(Image, Resource)
 public:
 	explicit Image(Ambient* ambient);
 	/**

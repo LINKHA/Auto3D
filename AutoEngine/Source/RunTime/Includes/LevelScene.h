@@ -4,12 +4,13 @@
 #include "SceneNode.h"
 
 namespace Auto3D {
+
 class Node;
 
 class LevelScene : public BehaviorObject
 {
-	REGISTER_DERIVED_ABSTRACT_CLASS(LevelScene, BehaviorObject);
-	DECLARE_OBJECT_SERIALIZE(LevelScene);
+	REGISTER_OBJECT_ABSTRACT_CLASS(LevelScene, BehaviorObject)
+
 	using SceneSuper = This;
 	using Nodes = LIST<Node*>;
 public:

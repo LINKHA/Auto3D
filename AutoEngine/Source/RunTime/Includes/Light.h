@@ -23,8 +23,7 @@ enum class ShadowType
 */
 class ShadowRenderAssist : public ComponentSetting
 {
-	REGISTER_DERIVED_CLASS(ShadowRenderAssist, ComponentSetting);
-	DECLARE_OBJECT_SERIALIZE(ShadowRenderAssist);
+	REGISTER_OBJECT_CLASS(ShadowRenderAssist, ComponentSetting)
 public:
 	/**
 	* @brief : Set light type, default Directional
@@ -67,8 +66,7 @@ private:
 */
 class Light : public Component
 {
-	REGISTER_DERIVED_CLASS(Light, Component);
-	DECLARE_OBJECT_SERIALIZE(Light);
+	REGISTER_OBJECT_CLASS(Light, Component)
 public:
 	explicit Light(Ambient* ambi);
 	/**

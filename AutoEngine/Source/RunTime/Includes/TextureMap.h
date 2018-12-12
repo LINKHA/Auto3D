@@ -9,9 +9,7 @@ namespace Auto3D {
 
 class TextureMap : public Texture2D
 {
-	REGISTER_DERIVED_ABSTRACT_CLASS(TextureMap, Texture2D);
-	DECLARE_OBJECT_SERIALIZE(TextureMap);
-
+	REGISTER_OBJECT_ABSTRACT_CLASS(TextureMap, Texture2D)
 public:
 	explicit TextureMap(Ambient* ambient);
 	void Start()override;

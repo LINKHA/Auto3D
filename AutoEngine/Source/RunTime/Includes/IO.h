@@ -6,8 +6,7 @@ namespace Auto3D {
 class Monitors;
 class IO : public GlobalGameManager
 {
-	REGISTER_DERIVED_CLASS(IO, GlobalGameManager);
-	DECLARE_OBJECT_SERIALIZE(IO);
+	REGISTER_OBJECT_CLASS(IO, GlobalGameManager)
 public:
 	explicit IO(Ambient* ambient);
 	Monitors* GetMonitors() { return _monitors; }

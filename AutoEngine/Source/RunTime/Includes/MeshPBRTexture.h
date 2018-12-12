@@ -6,8 +6,7 @@ namespace Auto3D {
 
 class MeshPBRTexture : public RenderComponent
 {
-	REGISTER_DERIVED_CLASS(MeshPBRTexture, RenderComponent);
-	DECLARE_OBJECT_SERIALIZE(MeshPBRTexture);
+	REGISTER_OBJECT_CLASS(MeshPBRTexture, RenderComponent)
 public:
 	explicit MeshPBRTexture(Ambient* ambient);
 	void Start()override;

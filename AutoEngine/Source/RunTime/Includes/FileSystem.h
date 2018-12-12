@@ -13,8 +13,7 @@ namespace Auto3D {
 
 class FileSystem : public GlobalGameManager
 {
-	REGISTER_DERIVED_CLASS(FileSystem, GlobalGameManager);
-	DECLARE_OBJECT_SERIALIZE(FileSystem);
+	REGISTER_OBJECT_CLASS(FileSystem, GlobalGameManager)
 public:
 	explicit FileSystem(Ambient* ambient);
 	/**

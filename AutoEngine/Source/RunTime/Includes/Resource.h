@@ -30,8 +30,7 @@ const static char* RESOURCE_ATTACH = "Resource_attach";
 */
 class Resource : public Object
 {
-	REGISTER_DERIVED_CLASS(Resource, Object);
-	DECLARE_OBJECT_SERIALIZE(Resource)
+	REGISTER_OBJECT_CLASS(Resource, Object)
 public:
 	explicit Resource(Ambient* ambient);
 	/**

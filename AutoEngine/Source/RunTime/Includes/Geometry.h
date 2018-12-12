@@ -4,8 +4,7 @@
 namespace Auto3D {
 class Geometry : public Object
 {
-	REGISTER_DERIVED_CLASS(Geometry, Object);
-	DECLARE_OBJECT_SERIALIZE(Geometry);
+	REGISTER_OBJECT_CLASS(Geometry, Object)
 public:
 	explicit Geometry(Ambient* ambient);
 	FillTypes GetFillType()const { return _fillType; }

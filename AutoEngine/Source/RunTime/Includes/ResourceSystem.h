@@ -30,8 +30,7 @@ struct ResourceGroup
 
 class ResourceSystem : public GlobalGameManager
 {
-	REGISTER_DERIVED_CLASS(ResourceSystem, GlobalGameManager);
-	DECLARE_OBJECT_SERIALIZE(ResourceSystem);
+	REGISTER_OBJECT_CLASS(ResourceSystem, GlobalGameManager)
 public:
 	explicit ResourceSystem(Ambient* ambient);
 	/**

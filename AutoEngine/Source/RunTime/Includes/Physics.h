@@ -4,8 +4,7 @@ namespace Auto3D {
 
 class Physics : public GlobalGameManager
 {
-	REGISTER_DERIVED_CLASS(Physics, GlobalGameManager);
-	DECLARE_OBJECT_SERIALIZE(Physics);
+	REGISTER_OBJECT_CLASS(Physics, GlobalGameManager)
 public:
 	explicit Physics(Ambient* ambient);
 

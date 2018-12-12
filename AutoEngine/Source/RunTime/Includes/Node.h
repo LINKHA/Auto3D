@@ -16,8 +16,8 @@ using GameObject = class Node;
 
 class Node :public Object
 {
-	REGISTER_DERIVED_CLASS(Node, Object);
-	DECLARE_OBJECT_SERIALIZE(Node);
+	REGISTER_OBJECT_CLASS(Node, Object)
+
 	using NodeChilds = VECTOR<Node*>;
 #if SharedPtrDebug
 	using ComponentsArray = PAIR_VECTOR(STRING, sharedPtr<Component>);

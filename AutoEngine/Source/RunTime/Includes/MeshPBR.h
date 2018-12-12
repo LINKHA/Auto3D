@@ -9,8 +9,7 @@ namespace Auto3D {
 
 class MeshPBR : public RenderComponent
 {
-	REGISTER_DERIVED_CLASS(MeshPBR, RenderComponent);
-	DECLARE_OBJECT_SERIALIZE(MeshPBR);
+	REGISTER_OBJECT_CLASS(MeshPBR, RenderComponent)
 public:
 	explicit MeshPBR(Ambient* ambient);
 	void Start()override;

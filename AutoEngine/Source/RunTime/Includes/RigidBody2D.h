@@ -18,8 +18,7 @@ enum class BodyType2D
 
 class RigidBody2D : public Component
 {
-	REGISTER_DERIVED_ABSTRACT_CLASS(RigidBody2D, Component);
-	DECLARE_OBJECT_SERIALIZE(RigidBody2D);
+	REGISTER_OBJECT_ABSTRACT_CLASS(RigidBody2D, Component)
 public:
 	explicit RigidBody2D(Ambient* ambient);
 	/**

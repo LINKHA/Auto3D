@@ -15,8 +15,7 @@ enum PostProcessingMode
 };
 class OffScreen : public ComponentSetting
 {
-	REGISTER_DERIVED_CLASS(OffScreen, ComponentSetting);
-	DECLARE_OBJECT_SERIALIZE(OffScreen);
+	REGISTER_OBJECT_CLASS(OffScreen, ComponentSetting)
 public:
 	explicit OffScreen(Ambient* ambient);
 	/**

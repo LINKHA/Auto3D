@@ -43,8 +43,8 @@ struct RealTime
 class Time : public GlobalGameManager
 {
 
-	REGISTER_DERIVED_CLASS(Time, GlobalGameManager);
-	DECLARE_OBJECT_SERIALIZE(Time);
+	REGISTER_OBJECT_CLASS(Time, GlobalGameManager)
+
 	typedef void(__cdecl* TimerCallback) ();
 public:
 	/**

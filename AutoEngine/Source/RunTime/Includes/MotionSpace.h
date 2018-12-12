@@ -8,8 +8,7 @@ namespace Auto3D {
 class LevelScene;
 class MotionSpace : public BehaviorObject
 {
-	REGISTER_DERIVED_ABSTRACT_CLASS(MotionSpace, BehaviorObject);
-	DECLARE_OBJECT_SERIALIZE(MotionSpace);
+	REGISTER_OBJECT_ABSTRACT_CLASS(MotionSpace, BehaviorObject)
 public:
 	explicit MotionSpace(Ambient* ambient);
 	/**

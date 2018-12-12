@@ -6,9 +6,7 @@
 namespace Auto3D {
 class Transform : public Component
 {
-	REGISTER_DERIVED_CLASS(Transform, Component);
-	DECLARE_OBJECT_SERIALIZE(Transform);
-
+	REGISTER_OBJECT_CLASS(Transform, Component)
 public:
 	/**
 	* @brief : Init position(0) rotation(0) and scale(1)

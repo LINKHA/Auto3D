@@ -5,8 +5,7 @@
 namespace Auto3D {
 class Material : public ComponentSetting
 {
-	REGISTER_DERIVED_CLASS(Material, ComponentSetting);
-	DECLARE_OBJECT_SERIALIZE(Material);
+	REGISTER_OBJECT_CLASS(Material, ComponentSetting)
 public:
 	explicit Material(Ambient* ambient);
 	Material(Ambient* ambient,char * path);
