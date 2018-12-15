@@ -13,7 +13,7 @@ public:
 	void Start()override;
 	void Draw()override;
 private:
-	_Shader _shader;
+	_Shader _tshader;
 
 	unsigned int woodTexture;
 

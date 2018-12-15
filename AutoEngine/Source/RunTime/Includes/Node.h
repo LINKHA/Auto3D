@@ -4,7 +4,6 @@
 #include "NodeTag.h"
 #include "Math/Math.h"
 
-
 namespace Auto3D {
 
 class Component;

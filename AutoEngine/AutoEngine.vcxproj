@@ -234,6 +234,7 @@
     <None Include="Shader\au_texture_transform.aufs" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\RunTime\Includes\GPUObject.h" />
     <ClInclude Include="Source\RunTime\Includes\ShaderVariation.h" />
     <ClInclude Include="Source\RunTime\Includes\Shader.h" />
     <ClInclude Include="Source\RunTime\Includes\ShaderSet.h" />
@@ -298,7 +299,7 @@
     <ClInclude Include="Source\RunTime\Includes\OffScreen.h" />
     <ClInclude Include="Source\RunTime\Includes\MeshShadowPoint.h" />
     <ClInclude Include="Source\RunTime\Includes\Geometry.h" />
-    <ClInclude Include="Source\RunTime\Includes\GraphicsDefines.h" />
+    <ClInclude Include="Source\RunTime\Includes\GraphicsDef.h" />
     <ClInclude Include="Source\RunTime\Includes\Platform.h" />
     <ClInclude Include="Source\RunTime\Includes\ComponentSetting.h" />
     <ClInclude Include="Source\RunTime\Includes\Graphics.h" />
@@ -382,6 +383,7 @@
     <ClInclude Include="Source\RunTime\Includes\NodeTag.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\RunTime\src\GPUObject.cpp" />
     <ClCompile Include="Source\RunTime\src\ShaderVariation.cpp" />
     <ClCompile Include="Source\RunTime\src\OGLShaderSet.cpp" />
     <ClCompile Include="Source\RunTime\src\OGLShader.cpp" />

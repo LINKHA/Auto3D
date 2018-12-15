@@ -32,7 +32,6 @@ public:
 		{
 			if ((*it) == type)
 			{
-				WarningString("You already have this tag that doesn't do anything");
 				return;
 			}
 		}
@@ -60,16 +59,13 @@ public:
 	NodeTag(STRING type = "Default")
 	{
 		auto& tagCache = NodeTagCache::Instance();
-		auto it = tagCache._tags.begin();
-		for (/**/; it != tagCache._tags.end(); it++)
+		for (auto it = tagCache._tags.begin(); it != tagCache._tags.end(); it++)
 		{
 			if ((*it) == type)
 			{
 				tag = type;
 			}
 		}
-		if(it== tagCache._tags.end())
-			WarningString("Tag can't be found and set Default");
 	}
 	~NodeTag() = default;
 

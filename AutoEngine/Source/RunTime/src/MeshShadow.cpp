@@ -12,7 +12,7 @@ namespace Auto3D {
 
 MeshShadow::MeshShadow(Ambient* ambient)
 	: RenderComponent(ambient)
-	, _shader(_Shader(shader_path + "au_shadow_mapping.auvs"
+	, _tshader(_Shader(shader_path + "au_shadow_mapping.auvs"
 		, shader_path + "au_shadow_mapping.aufs"))
 {
 	RegisterShadow(this);
@@ -32,9 +32,9 @@ void MeshShadow::DrawReady()
 
 
 	
-	_shader.Use();
-	_shader.SetInt("diffuseTexture", 0);
-	_shader.SetInt("shadowMap", 1);
+	_tshader.Use();
+	_tshader.SetInt("diffuseTexture", 0);
+	_tshader.SetInt("shadowMap", 1);
 }
 
 void MeshShadow::DrawShadow()
@@ -66,15 +66,15 @@ void MeshShadow::Draw()
 		lightSpaceMatrix = (*it)->GetLightSpaceMatrix();
 
 		unsigned depthMap = (*it)->GetShadowAssist()->GetDepthMap();
-		_shader.Use();
+		_tshader.Use();
 		glm::mat4 projection = camera->GetProjectionMatrix();
 		glm::mat4 view = camera->GetViewMatrix();
-		_shader.SetMat4("projection", projection);
-		_shader.SetMat4("view", view);
+		_tshader.SetMat4("projection", projection);
+		_tshader.SetMat4("view", view);
 		// set light uniforms
-		_shader.SetVec3("viewPos", camera->GetPosition());
-		_shader.SetVec3("lightPos", lightPos);
-		_shader.SetMat4("lightSpaceMatrix", lightSpaceMatrix);
+		_tshader.SetVec3("viewPos", camera->GetPosition());
+		_tshader.SetVec3("lightPos", lightPos);
+		_tshader.SetMat4("lightSpaceMatrix", lightSpaceMatrix);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, _woodTexture);
 		glActiveTexture(GL_TEXTURE1);
@@ -85,9 +85,9 @@ void MeshShadow::Draw()
 			modelMat = GetNode().GetComponent<Transform>()->GetTransformMat();
 		else
 			modelMat = Matrix4x4::identity;
-		_shader.SetMat4("model", modelMat);
+		_tshader.SetMat4("model", modelMat);
 
-		_mesh->DrawMesh(_shader);
+		_mesh->DrawMesh(_tshader);
 
 	}
 }

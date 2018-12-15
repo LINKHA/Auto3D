@@ -25,7 +25,7 @@ SkyBox::~SkyBox()
 void SkyBox::Start()
 {
 	SkyManager::Instance().AddSkyBox(this);
-	_shader = _Shader(shader_path + "au_skybox.auvs", shader_path + "au_skybox.aufs");
+	_tshader = _Shader(shader_path + "au_skybox.auvs", shader_path + "au_skybox.aufs");
 	glGenVertexArrays(1, &_skyboxVAO);
 	glGenBuffers(1, &_skyboxVBO);
 	glBindVertexArray(_skyboxVAO);
@@ -53,10 +53,10 @@ void SkyBox::Draw()
 	RectInt rect = GetSubSystem<Graphics>()->GetWindowRectInt();
 	glm::mat4 projectionMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
 	glDepthFunc(GL_LEQUAL);  
-	_shader.Use();
+	_tshader.Use();
 	viewMat = glm::mat4(glm::mat3(GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix()));
-	_shader.SetMat4("view", viewMat);
-	_shader.SetMat4("projection", projectionMat);
+	_tshader.SetMat4("view", viewMat);
+	_tshader.SetMat4("projection", projectionMat);
 	glBindVertexArray(_skyboxVAO);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, _cubemapTexture);

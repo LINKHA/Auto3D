@@ -12,7 +12,7 @@ namespace Auto3D {
 
 MeshShadowPoint::MeshShadowPoint(Ambient* ambient)
 	: RenderComponent(ambient)
-	, _shader(shader_path + "au_point_shadows.auvs"
+	, _tshader(shader_path + "au_point_shadows.auvs"
 		, shader_path + "au_point_shadows.aufs")
 	//, _hardShader(Shader(shader_path + "au_hard_point_shadows.auvs"	//!!! Temp not hard shader
 	//	, shader_path + "au_point_shadows.aufs"))
@@ -23,7 +23,7 @@ MeshShadowPoint::MeshShadowPoint(Ambient* ambient)
 }
 MeshShadowPoint::MeshShadowPoint(Ambient* ambient,bool enable)
 	: RenderComponent(ambient)
-	, _shader(shader_path + "au_point_shadows.auvs"
+	, _tshader(shader_path + "au_point_shadows.auvs"
 		, shader_path + "au_point_shadows.aufs")
 	//, _hardShader(Shader(shader_path + "au_hard_point_shadows.auvs"	//!!! Temp not hard shader
 	//	, shader_path + "au_point_shadows.aufs"))
@@ -44,9 +44,9 @@ void MeshShadowPoint::DrawReady()
 	_mesh.reset(tmp);
 	_woodTexture = GetSubSystem<ResourceSystem>()->TextureLoad("../Resource/texture/wood.jpg");
 
-	_shader.Use();
-	_shader.SetInt("diffuseTexture", 0);
-	_shader.SetInt("shadowMap", 1);
+	_tshader.Use();
+	_tshader.SetInt("diffuseTexture", 0);
+	_tshader.SetInt("shadowMap", 1);
 }
 
 void MeshShadowPoint::DrawShadow()
@@ -64,14 +64,14 @@ void MeshShadowPoint::DrawShadow()
 	if (!_cullEnable)
 	{
 		glDisable(GL_CULL_FACE); // note that we disable culling here since we render 'inside' the cube instead of the usual 'outside' which throws off the normal culling methods.
-		_shader.SetInt("reverse_normals", 1); // A small little hack to invert normals when drawing cube from the inside so lighting still works.
+		_tshader.SetInt("reverse_normals", 1); // A small little hack to invert normals when drawing cube from the inside so lighting still works.
 	}
 
-	_mesh->DrawMesh(_shader);
+	_mesh->DrawMesh(_tshader);
 
 	if (!_cullEnable)
 	{
-		_shader.SetInt("reverse_normals", 0); // and of course disable it
+		_tshader.SetInt("reverse_normals", 0); // and of course disable it
 		glEnable(GL_CULL_FACE);
 	}
 }
@@ -90,16 +90,16 @@ void MeshShadowPoint::Draw()
 		lightPos = (*it)->GetLightPosition();
 		unsigned depthMap = (*it)->GetShadowAssist()->GetDepthMap();
 
-		_shader.Use();
+		_tshader.Use();
 		glm::mat4 projection = camera->GetProjectionMatrix();
 		glm::mat4 view = camera->GetViewMatrix();
-		_shader.SetMat4("projection", projection);
-		_shader.SetMat4("view", view);
+		_tshader.SetMat4("projection", projection);
+		_tshader.SetMat4("view", view);
 		// set lighting uniforms
-		_shader.SetVec3("viewPos", camera->GetPosition());
-		_shader.SetVec3("lightPos", lightPos);
-		_shader.SetInt("shadows", true); // enable/disable shadows by pressing 'SPACE'
-		_shader.SetFloat("far_plane", (*it)->GetFarPlane());
+		_tshader.SetVec3("viewPos", camera->GetPosition());
+		_tshader.SetVec3("lightPos", lightPos);
+		_tshader.SetInt("shadows", true); // enable/disable shadows by pressing 'SPACE'
+		_tshader.SetFloat("far_plane", (*it)->GetFarPlane());
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, _woodTexture);
 		glActiveTexture(GL_TEXTURE1);
@@ -110,19 +110,19 @@ void MeshShadowPoint::Draw()
 			modelMat = GetNode().GetComponent<Transform>()->GetTransformMat();
 		else
 			modelMat = Matrix4x4::identity;
-		_shader.SetMat4("model", modelMat);
+		_tshader.SetMat4("model", modelMat);
 
 		if (!_cullEnable)
 		{
 			glDisable(GL_CULL_FACE); // note that we disable culling here since we render 'inside' the cube instead of the usual 'outside' which throws off the normal culling methods.
-			_shader.SetInt("reverse_normals", 1); // A small little hack to invert normals when drawing cube from the inside so lighting still works.
+			_tshader.SetInt("reverse_normals", 1); // A small little hack to invert normals when drawing cube from the inside so lighting still works.
 		}
 
-		_mesh->DrawMesh(_shader);
+		_mesh->DrawMesh(_tshader);
 
 		if (!_cullEnable)
 		{
-			_shader.SetInt("reverse_normals", 0); // and of course disable it
+			_tshader.SetInt("reverse_normals", 0); // and of course disable it
 			glEnable(GL_CULL_FACE);
 		}
 	}

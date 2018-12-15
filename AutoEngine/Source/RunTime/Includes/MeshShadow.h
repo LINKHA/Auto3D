@@ -18,7 +18,7 @@ public:
 
 	void SetMesh(Mesh* mesh) { _mesh.reset(mesh); }
 private:
-	_Shader _shader;
+	_Shader _tshader;
 	SharedPtr<Mesh> _mesh;
 	unsigned int _woodTexture;
 	unsigned int _VAO;

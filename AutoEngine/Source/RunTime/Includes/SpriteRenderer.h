@@ -3,6 +3,11 @@
 
 namespace Auto3D {
 class Image;
+class Shader;
+class ShaderVariation;
+
+#define SpriteDebug 0
+
 class SpriteRenderer : public Texture2D
 {
 	REGISTER_OBJECT_CLASS(SpriteRenderer, Texture2D)
@@ -39,10 +44,14 @@ private:
 	unsigned int _VBO, _VAO, _EBO;
 	unsigned int _textureData;
 
-	_Shader _shader;
+	_Shader _tshader;
+
 	Color _color;
 
+	SharedPtr<Shader> _shader;
 	SharedPtr<Image> _image;
+
+	SharedPtr<ShaderVariation> _shaderVar;
 	bool _isMipmaps;
 };
 }

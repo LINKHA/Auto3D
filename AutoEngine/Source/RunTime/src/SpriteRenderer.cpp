@@ -6,15 +6,25 @@
 #include "Configs.h"
 #include "ResourceSystem.h"
 #include "Image.h"
+#include "Shader.h"
+#include "ShaderVariation.h"
 #include "NewDef.h"
 
 namespace Auto3D {
 
 SpriteRenderer::SpriteRenderer(Ambient* ambient)
 	:Super(ambient)
-	, _shader(_Shader(shader_path + "au_texture_transform.auvs"
+	, _tshader(_Shader(shader_path + "au_texture_transform.auvs"
 		, shader_path + "au_texture_transform.aufs"))
 {
+	auto* shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_texture_transform.glsl");
+	_shader = SharedPtr<Shader>(shader);
+	_shaderVar = MakeShared<ShaderVariation>(_shader.get());
+#if	SpriteDebug
+#else
+	_shaderVar->Create();
+#endif
+
 	_color.Set(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
@@ -101,7 +111,11 @@ void SpriteRenderer::Draw()
 	GLApply();
 
 	glBindTexture(GL_TEXTURE_2D, _textureData);
-	_shader.Use();
+#if	SpriteDebug
+	_tshader.Use();
+#else
+	_shaderVar->Use();
+#endif
 
 	glm::mat4 modelMat;
 	glm::mat4 viewMat;
@@ -113,11 +127,18 @@ void SpriteRenderer::Draw()
 		modelMat = Matrix4x4::identity;
 	viewMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
 	projectionMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
-
-	_shader.SetMat4("model", modelMat);
-	_shader.SetMat4("view", viewMat);
-	_shader.SetMat4("projection", projectionMat);
-	_shader.SetVec4("ourColor", _color.r, _color.g, _color.b, _color.a);
+#if	SpriteDebug
+	_tshader.SetMat4("model", modelMat);
+	_tshader.SetMat4("view", viewMat);
+	_tshader.SetMat4("projection", projectionMat);
+	_tshader.SetVec4("ourColor", _color.r, _color.g, _color.b, _color.a);
+#else
+	_shaderVar->SetMat4("model", modelMat);
+	_shaderVar->SetMat4("view", viewMat);
+	_shaderVar->SetMat4("projection", projectionMat);
+	_shaderVar->SetVec4("ourColor", _color.r, _color.g, _color.b, _color.a);
+#endif
+	
 
 	glBindVertexArray(_VAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

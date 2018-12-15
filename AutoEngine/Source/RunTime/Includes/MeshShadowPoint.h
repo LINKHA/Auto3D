@@ -19,7 +19,7 @@ public:
 	void DisableCull() { _cullEnable = true; }
 	void SetMesh(Mesh* mesh) { _mesh.reset(mesh); }
 private:
-	_Shader _shader;
+	_Shader _tshader;
 	_Shader _hardShader;
 	SharedPtr<Mesh> _mesh;
 	bool _cullEnable;

@@ -3,7 +3,7 @@
 #include "Graphics.h"
 #include "AutoOGL.h"
 #include "OGLDebug.h"
-#include "GraphicsDefines.h"
+#include "GraphicsDef.h"
 #include "NewDef.h"
 
 namespace Auto3D {
@@ -136,6 +136,7 @@ void Graphics::RegisterDebug()
 		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
 	}
 }
+
 bool Graphics::BeginFrame()
 {
 	if (!IsInitialized() || IsDeviceLost())

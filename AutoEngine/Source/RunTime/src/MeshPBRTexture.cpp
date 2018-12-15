@@ -31,26 +31,26 @@ void MeshPBRTexture::Start()
 {
 	if (SkyBoxManager::Instance().GetEnable())
 	{
-		_shader = _shaderTexture;
+		_tshader = _shaderTexture;
 	}
 	else
 	{
-		_shader = _shaderNoTexture;
+		_tshader = _shaderNoTexture;
 	}
-	_shader.Use();
+	_tshader.Use();
 
-	_shader.SetInt("albedoMap", 0);
-	_shader.SetInt("normalMap", 1);
-	_shader.SetInt("metallicMap", 2);
-	_shader.SetInt("roughnessMap", 3);
-	_shader.SetInt("aoMap", 4);
+	_tshader.SetInt("albedoMap", 0);
+	_tshader.SetInt("normalMap", 1);
+	_tshader.SetInt("metallicMap", 2);
+	_tshader.SetInt("roughnessMap", 3);
+	_tshader.SetInt("aoMap", 4);
 	
 	if (SkyBoxManager::Instance().GetEnable())
 	{
 		
-		_shader.SetInt("irradianceMap", 5);
-		_shader.SetInt("prefilterMap", 6);
-		_shader.SetInt("brdfLUT", 7);
+		_tshader.SetInt("irradianceMap", 5);
+		_tshader.SetInt("prefilterMap", 6);
+		_tshader.SetInt("brdfLUT", 7);
 	}
 	/*_albedoMap = LocalTextureLoad("../Resource/texture/pbr/gold/albedo.png");
 	_normalMap = LocalTextureLoad("../Resource/texture/pbr/gold/normal.png");
@@ -72,11 +72,11 @@ void MeshPBRTexture::Draw()
 	//////////////////////////////////////////////////////////////////////////
 	glm::mat4 projection = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
 
-	_shader.Use();
-	_shader.SetMat4("projection", projection);
+	_tshader.Use();
+	_tshader.SetMat4("projection", projection);
 	glm::mat4 view = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
-	_shader.SetMat4("view", view);
-	_shader.SetVec3("camPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
+	_tshader.SetMat4("view", view);
+	_tshader.SetVec3("camPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, _albedoMap);
@@ -112,8 +112,8 @@ void MeshPBRTexture::Draw()
 	int lightNum = 0;
 	for (VECTOR<Light*>::iterator it = lights.begin(); it != lights.end(); it++)
 	{
-		_shader.SetVec3("lightPositions[" + KhSTL::ToString(lightNum) + "]", (*it)->GetNode().GetPosition());
-		_shader.SetVec3("lightColors[" + KhSTL::ToString(lightNum) + "]", (*it)->GetColorToVec());
+		_tshader.SetVec3("lightPositions[" + KhSTL::ToString(lightNum) + "]", (*it)->GetNode().GetPosition());
+		_tshader.SetVec3("lightColors[" + KhSTL::ToString(lightNum) + "]", (*it)->GetColorToVec());
 		lightNum++;
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -125,7 +125,7 @@ void MeshPBRTexture::Draw()
 	else
 		modelMat = Matrix4x4::identity;
 
-	_shader.SetMat4("model", modelMat);
+	_tshader.SetMat4("model", modelMat);
 
 	renderSphere(&_vao, &_indexCount);
 

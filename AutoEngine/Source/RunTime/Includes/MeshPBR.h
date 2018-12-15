@@ -25,7 +25,7 @@ public:
 	void SetAlbedo(float r, float g, float b) { _albedo.Set(r, g, b); }
 	void SetAlbedo(const Vector3& vec) { _albedo = vec; }
 private:
-	_Shader _shader;
+	_Shader _tshader;
 
 	unsigned _vao;
 	unsigned _indexCount;

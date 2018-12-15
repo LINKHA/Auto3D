@@ -4,11 +4,17 @@
 #include "AutoSDL.h"
 #include "Math/Color.h"
 #include "Math/Rect.h"
-#include "GraphicsDefines.h"
+#include "GraphicsDef.h"
 #include "Image.h"
 
 
+
+
 namespace Auto3D {
+
+class GPUObject;
+class ShaderVariation;
+
 class Graphics : public GlobalGameManager
 {
 	REGISTER_OBJECT_CLASS(Graphics, GlobalGameManager)
@@ -71,6 +77,9 @@ public:
 	* @return : char*
 	*/
 	char* GetTitle() { return _titleName; }
+	/**
+	* @brief : Get screen full or not
+	*/
 	bool GetScreenFullorNot() { return true; }
 	/**
 	* @brief : Get game window
@@ -78,10 +87,19 @@ public:
 	*/
 	SDL_Window* GetGameWindow() { return _window; }
 
+	void SetShader(ShaderVariation* vs, ShaderVariation* fs);
 
 	void Draw(PrimitiveTypes type, unsigned vertexStart, unsigned vertexCount);
 	void Draw(PrimitiveTypes type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount);
 	void DrawInstanced(PrimitiveTypes type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount,unsigned instanceCount);
+	/**
+	* @brief : Add a GPU object to keep track of. Called by GPUObject
+	*/
+	void AddGPUObject(GPUObject* object);
+	/**
+	* @brief : Remove a GPU object. Called by GPUObject
+	*/
+	void RemoveGPUObject(GPUObject* object);
 	/**
 	* @brief : Begin to run frame
 	*/
@@ -151,6 +169,8 @@ private:
 	unsigned _numPrimitives{};
 	/// num batches
 	unsigned _numBatches{};
+	/// gpu obejcts
+	VECTOR<GPUObject*> _gpuObjects;
 };
 
 }

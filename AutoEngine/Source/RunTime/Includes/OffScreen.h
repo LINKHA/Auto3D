@@ -81,7 +81,7 @@ private:
 	bool _isAllowLateEffect{};
 	bool _isAllowHDR{};
 
-	_Shader _shader;
+	_Shader _tshader;
 	int _samplingPointCount;
 	unsigned int _quadVAO, _quadVBO;
 	unsigned int _framebuffer;

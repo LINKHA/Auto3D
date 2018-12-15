@@ -1,6 +1,6 @@
 #pragma once
 #include "Object.h"
-#include "GraphicsDefines.h"
+#include "GraphicsDef.h"
 namespace Auto3D {
 class Geometry : public Object
 {

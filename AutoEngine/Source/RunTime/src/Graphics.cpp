@@ -3,6 +3,7 @@
 #include "AutoOGL.h"
 #include "AutoSDL.h"
 #include "ResourceSystem.h"
+#include "GPUObject.h"
 #include "NewDef.h"
 namespace Auto3D {
 
@@ -215,9 +216,23 @@ bool Graphics::IsDeviceLost()
 	return _context == nullptr;
 }
 
+void Graphics::AddGPUObject(GPUObject* object)
+{
+	_gpuObjects.push_back(object);
+}
+
+void Graphics::RemoveGPUObject(GPUObject* object)
+{
+	for (auto it = _gpuObjects.begin(); it != _gpuObjects.end(); it++)
+	{
+		if(*it = object)
+			_gpuObjects.erase(it);
+	}
+}
+
 void Graphics::RegisterGraphicsLib(Ambient* ambient)
 {
-	
+
 }
 
 }

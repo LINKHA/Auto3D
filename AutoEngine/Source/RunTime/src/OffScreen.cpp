@@ -19,7 +19,7 @@ OffScreen::OffScreen(Ambient* ambient)
 	, _isAllowLateEffect(false)
 {
 	
-	_shader = _Shader(shader_path + "au_offscreen.auvs"
+	_tshader = _Shader(shader_path + "au_offscreen.auvs"
 		, shader_path + "au_offscreen.aufs");
 
 
@@ -38,7 +38,7 @@ void OffScreen::bindHdr()
 {
 	//Temp !!! Hdr
 	if (_isAllowHDR)
-		_shader = _Shader(shader_path + "au_hdr.auvs"
+		_tshader = _Shader(shader_path + "au_hdr.auvs"
 			, shader_path + "au_hdr.aufs");
 	//
 
@@ -69,7 +69,7 @@ void OffScreen::bindHdr()
 void OffScreen::bindMsaaAndPostpro()
 {
 	if (_isAllowHDR)
-		_shader = _Shader(shader_path + "au_hdr.auvs"
+		_tshader = _Shader(shader_path + "au_hdr.auvs"
 			, shader_path + "au_hdr.aufs");
 
 	GLint value;
@@ -130,8 +130,8 @@ void OffScreen::RenderReady()
 		bindMsaaAndPostpro();
 
 
-	_shader.Use();
-	_shader.SetInt("hdrBuffer", 0);
+	_tshader.Use();
+	_tshader.SetInt("hdrBuffer", 0);
 }
 
 
@@ -165,7 +165,7 @@ void OffScreen::RenderEnd()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//glDisable(GL_DEPTH_TEST);
 
-		_shader.Use();
+		_tshader.Use();
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, _screenTexture);
 		
@@ -173,8 +173,8 @@ void OffScreen::RenderEnd()
 		//Temp !!! hdr
 		if (_isAllowHDR)
 		{
-			_shader.SetInt("hdr", true);
-			_shader.SetFloat("exposure", 1.0f);
+			_tshader.SetInt("hdr", true);
+			_tshader.SetFloat("exposure", 1.0f);
 		}
 		//End
 
@@ -188,31 +188,31 @@ void OffScreen::SetEffect(PostProcessingMode mode)
 	switch (mode)
 	{
 	case POST_DEFAULT:
-		_shader = shader;
+		_tshader = shader;
 		break;
 	case POST_BULR:
-		_shader = shaderBlur;
+		_tshader = shaderBlur;
 		break;
 	case POST_EDGE_DETECTION:
-		_shader = shaderEdgeDetection;
+		_tshader = shaderEdgeDetection;
 		break;
 	case POST_GRAYSCALE:
-		_shader = shaderGrayscale;
+		_tshader = shaderGrayscale;
 		break;
 	case POST_INVERSION:
-		_shader = shaderInversion;
+		_tshader = shaderInversion;
 		break;
 	case POST_SHARPEN:
-		_shader = shaderSharpen;
+		_tshader = shaderSharpen;
 		break;
 	default:
-		_shader = shader;
+		_tshader = shader;
 		break;
 	}
 }
 void OffScreen::SetEffect(const _Shader& shader)
 {
-	_shader = shader;
+	_tshader = shader;
 }
 void OffScreen::AllowMSAA(bool enable, int pointNum)
 {

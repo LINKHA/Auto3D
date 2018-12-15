@@ -27,7 +27,7 @@ private:
 	unsigned int _VBO{};
 	unsigned int _textureData{};
 
-	_Shader _shader;
+	_Shader _tshader;
 	Color _color;
 	char* _imagePath{};
 	char* _imageNormalPath{};

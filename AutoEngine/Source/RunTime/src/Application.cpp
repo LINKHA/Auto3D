@@ -32,6 +32,7 @@ bool Application::Run(Ambient* ambient)
 		ErrorString("An application that has an out-of-memory condition will exit immediately.");
 		return EXIT_FAILURE;
 	}
+
 }
 bool Application::Init()
 {
@@ -52,6 +53,7 @@ bool Application::Finish()
 	setStates(AppStates::Exit);
 	_engine->Exit();
 	_CrtDumpMemoryLeaks();
+
 	return false;
 }
  void Application::ErrorExit()

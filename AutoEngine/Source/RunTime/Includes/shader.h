@@ -1,10 +1,10 @@
 #pragma once
 #include "Auto.h"
 #include "AutoOGL.h"
-#include "ShaderVariation.h"
 #include "Resource.h"
 
 namespace Auto3D {
+class ShaderVariation;
 
 class Shader : public Resource
 {

@@ -37,11 +37,11 @@ void TextureNormal::Start()
 	//_imageNormal = LocalTextureLoad(_imageNormalPath);
 	_timage = GetSubSystem<ResourceSystem>()->TextureLoad(_imagePath);
 	_imageNormal = GetSubSystem<ResourceSystem>()->TextureLoad(_imageNormalPath);
-	_shader = _Shader(shader_path + "au_normal_mapping.auvs", shader_path + "au_normal_mapping.aufs");
+	_tshader = _Shader(shader_path + "au_normal_mapping.auvs", shader_path + "au_normal_mapping.aufs");
 
-	_shader.Use();
-	_shader.SetInt("diffuseMap", 0);
-	_shader.SetInt("normalMap", 1);
+	_tshader.Use();
+	_tshader.SetInt("diffuseMap", 0);
+	_tshader.SetInt("normalMap", 1);
 
 	//stbi_image_free(m_image->Value);
 
@@ -54,7 +54,7 @@ void TextureNormal::Draw()
 	GLApply();
 
 	//glBindTexture(GL_TEXTURE_2D, textureData);
-	_shader.Use();
+	_tshader.Use();
 
 	glm::mat4 modelMat;
 	glm::mat4 viewMat;
@@ -68,15 +68,15 @@ void TextureNormal::Draw()
 	RectInt rect = GetSubSystem<Graphics>()->GetWindowRectInt();
 	projectionMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
 
-	_shader.SetMat4("model", modelMat);
-	_shader.SetMat4("view", viewMat);
-	_shader.SetMat4("projection", projectionMat);
+	_tshader.SetMat4("model", modelMat);
+	_tshader.SetMat4("view", viewMat);
+	_tshader.SetMat4("projection", projectionMat);
 
 	//m_shader.SetVec4("ourColor", m_Color.r, m_Color.g, m_Color.b, m_Color.a);
 	glm::vec3 lightPos(0.5f, 1.0f, 0.3f);
 
-	_shader.SetVec3("viewPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
-	_shader.SetVec3("lightPos", lightPos);
+	_tshader.SetVec3("viewPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
+	_tshader.SetVec3("lightPos", lightPos);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, _timage);
 	glActiveTexture(GL_TEXTURE1);

@@ -12,10 +12,10 @@ public:
 	void Start()override;
 	void Draw()override;
 	void SetCount(int count) { _count = count; }
-	void SetShader(const _Shader& shader) { _shader = shader; }
+	void SetShader(const _Shader& shader) { _tshader = shader; }
 	void SetModel(Mesh* model) { _mesh = SharedPtr<Mesh>(model); }
 private:
-	_Shader _shader;
+	_Shader _tshader;
 	SharedPtr<Mesh> _mesh;
 	unsigned int _count;
 	glm::mat4* _modelMatrices;

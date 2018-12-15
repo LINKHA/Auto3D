@@ -33,7 +33,7 @@ private:
 	void drawMaterial();
 	void drawLight();
 private:
-	_Shader _shader;
+	_Shader _tshader;
 	SharedPtr<Material> _material;
 	SharedPtr<Mesh> _mesh;
 	bool _isUserShader;

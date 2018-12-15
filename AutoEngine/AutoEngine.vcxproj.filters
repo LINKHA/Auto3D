@@ -524,9 +524,6 @@
     <ClInclude Include="Source\RunTime\Includes\Graphics.h">
       <Filter>Source\RunTime\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\GraphicsDefines.h">
-      <Filter>Source\RunTime\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\HDRSkybox.h">
       <Filter>Source\RunTime\Graphics\Component\Camera\TempIntegrated</Filter>
     </ClInclude>
@@ -814,6 +811,12 @@
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\ShaderVariation.h">
       <Filter>Source\RunTime\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\GraphicsDef.h">
+      <Filter>Source\RunTime\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\GPUObject.h">
+      <Filter>Source\RunTime\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1149,6 +1152,9 @@
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\OGLShaderSet.cpp">
       <Filter>Source\RunTime\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\GPUObject.cpp">
+      <Filter>Source\RunTime\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

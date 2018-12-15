@@ -29,7 +29,6 @@ public:
 		{
 			if ((*it) == type)
 			{
-				WarningString("You already have this layout that doesn't do anything");
 				return;
 			}
 		}
@@ -57,16 +56,14 @@ public:
 	NodeLayout(STRING type = "Default")
 	{
 		auto& layoutCache = NodeLayoutCache::Instance();
-		auto it = layoutCache._layouts.begin();
-		for (/**/; it != layoutCache._layouts.end(); it++)
+
+		for (auto it = layoutCache._layouts.begin(); it != layoutCache._layouts.end(); it++)
 		{
 			if ((*it) == type)
 			{
 				layout = type;
 			}
 		}
-		if (it == layoutCache._layouts.end())
-			WarningString("Layout can't be found and set Default");
 	}
 	
 	~NodeLayout() = default;

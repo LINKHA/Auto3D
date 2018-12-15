@@ -97,6 +97,7 @@ enum ClassIDType
 	DO_CLASS_ID(Mesh, 97)
 	DO_CLASS_ID(Shader, 98)
 	DO_CLASS_ID(ShaderSet, 99)
+	DO_CLASS_ID(ShaderVariation, 100)
 	
 	
 	CLASS_ID_Count

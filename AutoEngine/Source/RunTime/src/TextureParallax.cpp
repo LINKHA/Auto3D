@@ -45,11 +45,11 @@ void TextureParallax::Start()
 	_timage = GetSubSystem<ResourceSystem>()->TextureLoad(_imagePath);
 	_imageNormal = GetSubSystem<ResourceSystem>()->TextureLoad(_imageNormalPath);
 	_imageParallax = GetSubSystem<ResourceSystem>()->TextureLoad(_imageParallaxPath);
-	_shader = _Shader(shader_path + "au_parallax_mapping.auvs", shader_path + "au_parallax_mapping.aufs");
-	_shader.Use();
-	_shader.SetInt("diffuseMap", 0);
-	_shader.SetInt("normalMap", 1);
-	_shader.SetInt("depthMap", 2);
+	_tshader = _Shader(shader_path + "au_parallax_mapping.auvs", shader_path + "au_parallax_mapping.aufs");
+	_tshader.Use();
+	_tshader.SetInt("diffuseMap", 0);
+	_tshader.SetInt("normalMap", 1);
+	_tshader.SetInt("depthMap", 2);
 	//stbi_image_free(m_image->Value);
 
 	RegisterOpaque(this);
@@ -61,7 +61,7 @@ void TextureParallax::Draw()
 	GLApply();
 
 	//glBindTexture(GL_TEXTURE_2D, textureData);
-	_shader.Use();
+	_tshader.Use();
 
 	glm::mat4 modelMat;
 	glm::mat4 viewMat;
@@ -74,15 +74,15 @@ void TextureParallax::Draw()
 	viewMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
 	projectionMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
 
-	_shader.SetMat4("model", modelMat);
-	_shader.SetMat4("view", viewMat);
-	_shader.SetMat4("projection", projectionMat);
-	_shader.SetFloat("heightScale", 0.2f);
+	_tshader.SetMat4("model", modelMat);
+	_tshader.SetMat4("view", viewMat);
+	_tshader.SetMat4("projection", projectionMat);
+	_tshader.SetFloat("heightScale", 0.2f);
 	//m_shader.SetVec4("ourColor", m_Color.r, m_Color.g, m_Color.b, m_Color.a);
 	glm::vec3 lightPos(0.5f, 1.0f, 0.3f);
 
-	_shader.SetVec3("viewPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
-	_shader.SetVec3("lightPos", lightPos);
+	_tshader.SetVec3("viewPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
+	_tshader.SetVec3("lightPos", lightPos);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, _timage);
 	glActiveTexture(GL_TEXTURE1);

@@ -32,21 +32,21 @@ void MeshPBR::Start()
 {
 	if (SkyBoxManager::Instance().GetEnable())
 	{
-		_shader = _shaderTexture;
+		_tshader = _shaderTexture;
 	}
 	else
 	{
-		_shader = _shaderNoTexture;
+		_tshader = _shaderNoTexture;
 	}
-	_shader.Use();
+	_tshader.Use();
 	if (SkyBoxManager::Instance().GetEnable())
 	{
-		_shader.SetInt("irradianceMap", 0);
-		_shader.SetInt("prefilterMap", 1);
-		_shader.SetInt("brdfLUT", 2);
+		_tshader.SetInt("irradianceMap", 0);
+		_tshader.SetInt("prefilterMap", 1);
+		_tshader.SetInt("brdfLUT", 2);
 	}
-	_shader.SetVec3("albedo", _albedo);
-	_shader.SetFloat("ao", 1.0f);
+	_tshader.SetVec3("albedo", _albedo);
+	_tshader.SetFloat("ao", 1.0f);
 	RegisterOpaque(this);
 }
 
@@ -56,11 +56,11 @@ void MeshPBR::Draw()
 	glm::mat4 projection = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
 	
 
-	_shader.Use();
-	_shader.SetMat4("projection", projection);
+	_tshader.Use();
+	_tshader.SetMat4("projection", projection);
 	glm::mat4 view = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
-	_shader.SetMat4("view", view);
-	_shader.SetVec3("camPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
+	_tshader.SetMat4("view", view);
+	_tshader.SetVec3("camPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
 	if (SkyBoxManager::Instance().GetEnable())
 	{
 		glActiveTexture(GL_TEXTURE0);
@@ -77,8 +77,8 @@ void MeshPBR::Draw()
 	int dir = 0;
 	for (VECTOR<Light*>::iterator it = lights.begin(); it != lights.end(); it++)
 	{
-		_shader.SetVec3("lightPositions[" + KhSTL::ToString(dir) + "]", (*it)->GetNode().GetPosition());
-		_shader.SetVec3("lightColors[" + KhSTL::ToString(dir) + "]", (*it)->GetColorToVec());
+		_tshader.SetVec3("lightPositions[" + KhSTL::ToString(dir) + "]", (*it)->GetNode().GetPosition());
+		_tshader.SetVec3("lightColors[" + KhSTL::ToString(dir) + "]", (*it)->GetColorToVec());
 		dir++;
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -90,9 +90,9 @@ void MeshPBR::Draw()
 	else
 		modelMat = Matrix4x4::identity;
 
-	_shader.SetFloat("metallic", _metallic);
-	_shader.SetFloat("roughness", _roughness);
-	_shader.SetMat4("model", modelMat);
+	_tshader.SetFloat("metallic", _metallic);
+	_tshader.SetFloat("roughness", _roughness);
+	_tshader.SetMat4("model", modelMat);
 
 	renderSphere(&_vao, &_indexCount);
 
