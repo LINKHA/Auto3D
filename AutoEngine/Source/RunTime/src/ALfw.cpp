@@ -102,21 +102,26 @@ ALboolean ALFWInitOpenAL()
 		
 		//Default open 0 default device
 		i = 1;
-		pDevice = alcOpenDevice(pDeviceList->GetDeviceName(i - 1));
-		if (pDevice)
-		{
-			pContext = alcCreateContext(pDevice, NULL);
-			if (pContext)
-			{
-				//ALFWprintf("\nOpened %s Device\n", alcGetString(pDevice, ALC_DEVICE_SPECIFIER));
-				alcMakeContextCurrent(pContext);
-				bReturn = AL_TRUE;
-			}
-			else
-			{
-				alcCloseDevice(pDevice);
-			}
-		}
+		ALCint contextAttr[] = { ALC_FREQUENCY,44100,0 };
+		ALCdevice* device = alcOpenDevice(NULL);
+		ALCcontext* context = alcCreateContext(device, contextAttr);
+		alcMakeContextCurrent(pContext);
+		bReturn = AL_TRUE;
+		//pDevice = alcOpenDevice(pDeviceList->GetDeviceName(i - 1));
+		//if (pDevice)
+		//{
+		//	pContext = alcCreateContext(pDevice, NULL);
+		//	if (pContext)
+		//	{
+		//		//ALFWprintf("\nOpened %s Device\n", alcGetString(pDevice, ALC_DEVICE_SPECIFIER));
+		//		alcMakeContextCurrent(pContext);
+		//		bReturn = AL_TRUE;
+		//	}
+		//	else
+		//	{
+		//		alcCloseDevice(pDevice);
+		//	}
+		//}
 
 		delete pDeviceList;
 	}

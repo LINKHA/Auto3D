@@ -1,11 +1,11 @@
 #ifndef ALHELPERS_H
 #define ALHELPERS_H
 
-#include "OpenAL/include/AL/alc.h"
-#include "OpenAL/include/AL/al.h"
-#include "OpenAL/include/AL/alext.h"
+#include "AL/alc.h"
+#include "AL/al.h"
+#include "AL/alext.h"
 
-#include "OpenAL/common/threads.h"
+#include "threads.h"
 
 #ifdef __cplusplus
 extern "C" {

@@ -148,6 +148,9 @@
     <Filter Include="Platform\Win">
       <UniqueIdentifier>{d0c77170-ef1f-4f2d-a286-8ea191369f0b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\RunTime\_Abandon">
+      <UniqueIdentifier>{19e0e4f9-3ea5-41bf-b6d6-68fc2f47d7ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\au_texture_transform.aufs">
@@ -488,15 +491,6 @@
     <ClInclude Include="Source\RunTime\Includes\Component.h">
       <Filter>Source\RunTime\Code</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\ComponentSetting.h">
-      <Filter>Source\RunTime\Misc</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\config.h">
-      <Filter>Source\RunTime\Misc</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Configs.h">
-      <Filter>Source\RunTime\Misc</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Constraint2D.h">
       <Filter>Source\RunTime\Physics\Component\2D</Filter>
     </ClInclude>
@@ -725,17 +719,8 @@
     <ClInclude Include="Source\RunTime\Includes\Sprite2D.h">
       <Filter>Source\RunTime\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\StaticSprite2D.h">
-      <Filter>Source\RunTime\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\AutoThread.h">
       <Filter>Source\RunTime\Adapter</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\BackgroundLoader.h">
-      <Filter>Source\RunTime\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\TypeThread.h">
-      <Filter>Source\RunTime\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Image.h">
       <Filter>Source\RunTime\Resource</Filter>
@@ -794,9 +779,6 @@
     <ClInclude Include="Source\RunTime\Includes\NodeTag.h">
       <Filter>Source\RunTime\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\_Shader.h">
-      <Filter>Source\RunTime\Resource\Temp</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Shader.h">
       <Filter>Source\RunTime\Resource</Filter>
     </ClInclude>
@@ -806,9 +788,6 @@
     <ClInclude Include="Platform\Win\WinUnicode.h">
       <Filter>Platform\Win</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\ShaderSet.h">
-      <Filter>Source\RunTime\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\ShaderVariation.h">
       <Filter>Source\RunTime\Resource</Filter>
     </ClInclude>
@@ -817,6 +796,18 @@
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\GPUObject.h">
       <Filter>Source\RunTime\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Configs.h">
+      <Filter>Source\RunTime\_Abandon</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\ComponentSetting.h">
+      <Filter>Source\RunTime\_Abandon</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\config.h">
+      <Filter>Source\RunTime\_Abandon</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\_Shader.h">
+      <Filter>Source\RunTime\_Abandon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -906,12 +897,6 @@
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Component.cpp">
       <Filter>Source\RunTime\Code</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\ComponentSetting.cpp">
-      <Filter>Source\RunTime\Misc</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Configs.cpp">
-      <Filter>Source\RunTime\Misc</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Constraint.cpp">
       <Filter>Source\RunTime\Physics\Component\3D</Filter>
@@ -1102,15 +1087,6 @@
     <ClCompile Include="Source\RunTime\src\Sprite2D.cpp">
       <Filter>Source\RunTime\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\StaticSprite2D.cpp">
-      <Filter>Source\RunTime\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\TypeThread.cpp">
-      <Filter>Source\RunTime\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\BackgroundLoader.cpp">
-      <Filter>Source\RunTime\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RunTime\src\Image.cpp">
       <Filter>Source\RunTime\Resource</Filter>
     </ClCompile>
@@ -1135,12 +1111,6 @@
     <ClCompile Include="Source\RunTime\src\Light.cpp">
       <Filter>Source\RunTime\Graphics\Component</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\_OGLShader.cpp">
-      <Filter>Source\RunTime\Resource\Temp</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\OGLShader.cpp">
-      <Filter>Source\RunTime\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="Platform\Win\PathUnicode.cpp">
       <Filter>Platform\Win</Filter>
     </ClCompile>
@@ -1150,11 +1120,20 @@
     <ClCompile Include="Source\RunTime\src\ShaderVariation.cpp">
       <Filter>Source\RunTime\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\OGLShaderSet.cpp">
-      <Filter>Source\RunTime\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RunTime\src\GPUObject.cpp">
       <Filter>Source\RunTime\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\ComponentSetting.cpp">
+      <Filter>Source\RunTime\_Abandon</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Configs.cpp">
+      <Filter>Source\RunTime\_Abandon</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\_OGLShader.cpp">
+      <Filter>Source\RunTime\_Abandon</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Shader.cpp">
+      <Filter>Source\RunTime\Resource</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -6,8 +6,6 @@ class Image;
 class Shader;
 class ShaderVariation;
 
-#define SpriteDebug 0
-
 class SpriteRenderer : public Texture2D
 {
 	REGISTER_OBJECT_CLASS(SpriteRenderer, Texture2D)
@@ -29,6 +27,8 @@ public:
 	void SetColor(const Vector3& vec);
 	void SetColor(float r, float g, float b, float a = 1.0f);
 
+	void SetShader(Shader* shader);
+
 	void SetLinerParameters();
 	void SetNearestParameters();
 
@@ -44,14 +44,11 @@ private:
 	unsigned int _VBO, _VAO, _EBO;
 	unsigned int _textureData;
 
-	_Shader _tshader;
-
 	Color _color;
 
-	SharedPtr<Shader> _shader;
 	SharedPtr<Image> _image;
 
-	SharedPtr<ShaderVariation> _shaderVar;
+	SharedPtr<ShaderVariation> _shader;
 	bool _isMipmaps;
 };
 }

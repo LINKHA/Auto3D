@@ -26,7 +26,8 @@ Graphics::~Graphics() = default;
 
 void Graphics::Init()
 {
-	_icon.reset(GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/logo.png"));
+	auto* icon = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/logo.png");
+	_icon.reset(icon);
 	
 	stbi_set_flip_vertically_on_load(true);
 

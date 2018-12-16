@@ -237,7 +237,6 @@
     <ClInclude Include="Source\RunTime\Includes\GPUObject.h" />
     <ClInclude Include="Source\RunTime\Includes\ShaderVariation.h" />
     <ClInclude Include="Source\RunTime\Includes\Shader.h" />
-    <ClInclude Include="Source\RunTime\Includes\ShaderSet.h" />
     <ClInclude Include="Source\RunTime\Includes\NodeLayout.h" />
     <ClInclude Include="Source\RunTime\Includes\Mesh.h" />
     <ClInclude Include="Source\RunTime\Includes\MemoryDef.h" />
@@ -245,7 +244,6 @@
     <ClInclude Include="Source\RunTime\Includes\AutoDef.h" />
     <ClInclude Include="Source\RunTime\Includes\AutoString.h" />
     <ClInclude Include="Source\RunTime\Includes\Image.h" />
-    <ClInclude Include="Source\RunTime\Includes\BackgroundLoader.h" />
     <ClInclude Include="Source\RunTime\Includes\AutoThread.h" />
     <ClInclude Include="Source\RunTime\Includes\AutoZIP.h" />
     <ClInclude Include="Source\RunTime\Includes\MemoryBuffer.h" />
@@ -377,20 +375,16 @@
     <ClInclude Include="Source\RunTime\Includes\UI.h" />
     <ClInclude Include="Source\RunTime\Includes\Timer.h" />
     <ClInclude Include="Source\RunTime\Includes\SceneNode.h" />
-    <ClInclude Include="Source\RunTime\Includes\StaticSprite2D.h" />
     <ClInclude Include="Source\RunTime\Includes\Sprite2D.h" />
-    <ClInclude Include="Source\RunTime\Includes\TypeThread.h" />
     <ClInclude Include="Source\RunTime\Includes\NodeTag.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\RunTime\src\GPUObject.cpp" />
     <ClCompile Include="Source\RunTime\src\ShaderVariation.cpp" />
-    <ClCompile Include="Source\RunTime\src\OGLShaderSet.cpp" />
-    <ClCompile Include="Source\RunTime\src\OGLShader.cpp" />
+    <ClCompile Include="Source\RunTime\src\Shader.cpp" />
     <ClCompile Include="Source\RunTime\src\Mesh.cpp" />
     <ClCompile Include="Source\RunTime\src\AutoString.cpp" />
     <ClCompile Include="Source\RunTime\src\Image.cpp" />
-    <ClCompile Include="Source\RunTime\src\BackgroundLoader.cpp" />
     <ClCompile Include="Source\RunTime\src\MemoryBuffer.cpp" />
     <ClCompile Include="Source\RunTime\src\Serializer.cpp" />
     <ClCompile Include="Source\RunTime\src\Deserializer.cpp" />
@@ -492,9 +486,7 @@
     <ClCompile Include="Source\RunTime\src\BehaviorObject.cpp" />
     <ClCompile Include="Source\RunTime\src\UI.cpp" />
     <ClCompile Include="Source\RunTime\src\SceneNode.cpp" />
-    <ClCompile Include="Source\RunTime\src\StaticSprite2D.cpp" />
     <ClCompile Include="Source\RunTime\src\Sprite2D.cpp" />
-    <ClCompile Include="Source\RunTime\src\TypeThread.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="ThirdParty\Assimp\code\assimp.vcxproj">

@@ -3,7 +3,6 @@
 #include "VertexData.h"
 #include "Transform.h"
 #include "AutoOGL.h"
-#include "Configs.h"
 #include "ResourceSystem.h"
 #include "Image.h"
 #include "Shader.h"
@@ -14,16 +13,13 @@ namespace Auto3D {
 
 SpriteRenderer::SpriteRenderer(Ambient* ambient)
 	:Super(ambient)
-	, _tshader(_Shader(shader_path + "au_texture_transform.auvs"
-		, shader_path + "au_texture_transform.aufs"))
 {
 	auto* shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_texture_transform.glsl");
-	_shader = SharedPtr<Shader>(shader);
-	_shaderVar = MakeShared<ShaderVariation>(_shader.get());
-#if	SpriteDebug
-#else
-	_shaderVar->Create();
-#endif
+
+	_shader = MakeShared<ShaderVariation>(shader);
+
+	_shader->Create();
+
 
 	_color.Set(1.0f, 1.0f, 1.0f, 1.0f);
 }
@@ -111,11 +107,8 @@ void SpriteRenderer::Draw()
 	GLApply();
 
 	glBindTexture(GL_TEXTURE_2D, _textureData);
-#if	SpriteDebug
-	_tshader.Use();
-#else
-	_shaderVar->Use();
-#endif
+
+	_shader->Use();
 
 	glm::mat4 modelMat;
 	glm::mat4 viewMat;
@@ -127,17 +120,11 @@ void SpriteRenderer::Draw()
 		modelMat = Matrix4x4::identity;
 	viewMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
 	projectionMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
-#if	SpriteDebug
-	_tshader.SetMat4("model", modelMat);
-	_tshader.SetMat4("view", viewMat);
-	_tshader.SetMat4("projection", projectionMat);
-	_tshader.SetVec4("ourColor", _color.r, _color.g, _color.b, _color.a);
-#else
-	_shaderVar->SetMat4("model", modelMat);
-	_shaderVar->SetMat4("view", viewMat);
-	_shaderVar->SetMat4("projection", projectionMat);
-	_shaderVar->SetVec4("ourColor", _color.r, _color.g, _color.b, _color.a);
-#endif
+
+	_shader->SetMat4("model", modelMat);
+	_shader->SetMat4("view", viewMat);
+	_shader->SetMat4("projection", projectionMat);
+	_shader->SetVec4("ourColor", _color.r, _color.g, _color.b, _color.a);
 	
 
 	glBindVertexArray(_VAO);
@@ -158,6 +145,11 @@ void SpriteRenderer::SetColor(const Vector3& vec)
 void SpriteRenderer::SetColor(float r, float g, float b, float a)
 {
 	_color.Set(r, g, b, a);
+}
+
+void SpriteRenderer::SetShader(Shader* shader)
+{
+	_shader = MakeShared<ShaderVariation>(shader);
 }
 
 //////////////////////////////////////////////////////////////////////////

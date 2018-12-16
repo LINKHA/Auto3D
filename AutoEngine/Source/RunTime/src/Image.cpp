@@ -36,6 +36,8 @@ bool Image::BeginLoad(Deserializer& source)
 	SetSize(width, height, components);
 	SetData(pixelData);
 	freeImageData(pixelData);
+
+	return true;
 }
 
 bool Image::Save(Serializer& dest) const

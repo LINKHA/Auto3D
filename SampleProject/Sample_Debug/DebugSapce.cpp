@@ -22,4 +22,4 @@ void DebugSapce::Start()
 void DebugSapce::Update()
 {
 }
-AUTO_APPLICATION_MAIN(DebugSapce)
+//AUTO_APPLICATION_MAIN(DebugSapce)
