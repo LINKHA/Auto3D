@@ -1,9 +1,9 @@
 #pragma once
 #include "Component.h"
 #include "AutoOAL.h"
-#include "AudioBuffer.h"
 
 namespace Auto3D {
+class AudioBuffer;
 
 enum class AudioSourceState
 {
@@ -22,10 +22,6 @@ public:
 	* @brief : The constructor
 	*/
 	explicit AudioSource(Ambient* ambient);
-	/**
-	* @brief : The constructor add buffer clip
-	*/
-	AudioSource(Ambient* ambient, AudioBuffer* bufferClip);
 	/**
 	* @brief : Register object factory.
 	*/
@@ -58,6 +54,10 @@ public:
 	* @brief : Set audio loop
 	*/
 	void SetLoop(bool enable);
+	/**
+	* @brief : Set buffer
+	*/
+	void SetAudioBuffer(AudioBuffer* audioBuffer);
 	/**
 	* @brief : Is the audio source currently playing
 	*/
@@ -100,8 +100,7 @@ private:
 	*/
 	void callRewind();
 private:
-	/// audio buffer
-	AudioBuffer* _bufferClip;
+	
 	/// is playing in this audio source
 	bool _isPlaying{};
 	///	is pause in this audio source
@@ -116,6 +115,8 @@ private:
 	ALuint _source{};
 	/// autio source state
 	ALint _state{};
+	/// audio buffer
+	AudioBuffer* _audioBuffer;
 };
 
 }

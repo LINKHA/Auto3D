@@ -1,4 +1,5 @@
 #pragma once
-#include "ALfw.h"
-#include "ALad.h"
-#include "ALWaves.h"
+/* OpenAL headers */
+#include <OpenAL/include/AL/al.h>
+#include <OpenAL/include/AL/alc.h>
+#include <OpenAL/include/AL/alext.h>

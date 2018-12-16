@@ -1,5 +1,6 @@
 #pragma once
 #include "GameManager.h"
+#include "AutoOAL.h"
 
 namespace Auto3D {
 
@@ -13,7 +14,8 @@ public:
 	* @brief : Init audio register audio setting
 	*/
 	void Init();
-
+	ALCdevice* device;
+	ALCcontext* context;
 };
 
 

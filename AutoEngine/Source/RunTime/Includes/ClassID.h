@@ -1,12 +1,14 @@
 #pragma once
 #define ClassID(x)		  CLASS_##x
 #define DO_CLASS_ID(x,ID) ClassID(x) = ID,
+namespace Auto3D {
+
 enum ClassIDType
 {
 	DO_CLASS_ID(Default, -1)
 	DO_CLASS_ID(Object, 0)
 	DO_CLASS_ID(ObjectFactory, 1)
-	
+
 	DO_CLASS_ID(GameManager, 2)
 	DO_CLASS_ID(LevelGameManager, 3)
 	DO_CLASS_ID(GlobalGameManager, 4)
@@ -42,21 +44,21 @@ enum ClassIDType
 	DO_CLASS_ID(LightPoint, 37)
 	DO_CLASS_ID(LightSpot, 39)
 
-	DO_CLASS_ID(Engine,40)
-	DO_CLASS_ID(Graphics,41)
+	DO_CLASS_ID(Engine, 40)
+	DO_CLASS_ID(Graphics, 41)
 	DO_CLASS_ID(Renderer, 42)
 	DO_CLASS_ID(BaseSpace, 43)
-	DO_CLASS_ID(Input,45)
+	DO_CLASS_ID(Input, 45)
 	DO_CLASS_ID(ComponentSetting, 46)
 	DO_CLASS_ID(Geometry, 48)
 	DO_CLASS_ID(ShadowRenderAssist, 52)
 	DO_CLASS_ID(ShadowRenderer, 53)
 	DO_CLASS_ID(LightContainer, 54)
 	DO_CLASS_ID(OffScreen, 56)
-	DO_CLASS_ID(MeshPBR,57)
+	DO_CLASS_ID(MeshPBR, 57)
 	DO_CLASS_ID(MeshPBRTexture, 58)
-	DO_CLASS_ID(ResourceSystem,60)
-	DO_CLASS_ID(Material,61)
+	DO_CLASS_ID(ResourceSystem, 60)
+	DO_CLASS_ID(Material, 61)
 	DO_CLASS_ID(Scene, 62)
 	DO_CLASS_ID(IO, 63)
 	DO_CLASS_ID(Model, 66)
@@ -65,7 +67,7 @@ enum ClassIDType
 	DO_CLASS_ID(Audio, 69)
 	DO_CLASS_ID(UI, 70)
 
-	DO_CLASS_ID(AudioBuffer, 71)
+	DO_CLASS_ID(_AudioBuffer, 71)
 	DO_CLASS_ID(AudioListener, 72)
 	DO_CLASS_ID(AudioSource, 73)
 	DO_CLASS_ID(Timer, 74)
@@ -87,7 +89,7 @@ enum ClassIDType
 	DO_CLASS_ID(ColliderSphere, 88)
 	DO_CLASS_ID(FileSystem, 89)
 	DO_CLASS_ID(Resource, 90)
-	
+
 	DO_CLASS_ID(Sound, 91)
 	DO_CLASS_ID(RenderComponent2D, 92)
 	DO_CLASS_ID(StaticSprite2D, 93)
@@ -98,8 +100,10 @@ enum ClassIDType
 	DO_CLASS_ID(Shader, 98)
 	DO_CLASS_ID(ShaderSet, 99)
 	DO_CLASS_ID(ShaderVariation, 100)
+	DO_CLASS_ID(AudioBuffer, 101)
 	
-	
+
 	CLASS_ID_Count
 };
 
+}

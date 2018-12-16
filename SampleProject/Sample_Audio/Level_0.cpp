@@ -14,21 +14,21 @@ void Level_0::Start()
 	listenerObj->AddComponent(listener);
 
 	Node* autdieObj = CreateNode();
-	audio = new AudioSource(_ambient,new AudioBuffer(_ambient,"../Resource/sound/SoundTest.wav"));
+	audio = new AudioSource(_ambient,new _AudioBuffer(_ambient,"../Resource/sound/SoundTest.wav"));
 	autdieObj->AddComponent(audio);
 	
 	Node* autdieObj2 = CreateNode();
-	audio2 = new AudioSource(_ambient, new AudioBuffer(_ambient, "../Resource/sound/SoundTest.wav"));
+	audio2 = new AudioSource(_ambient, new _AudioBuffer(_ambient, "../Resource/sound/SoundTest.wav"));
 	autdieObj->AddComponent(audio2);
 }
 
 void Level_0::Update()
 {
-	if(GetSubSystem<Input>()->GetKeyDown(KEY_A) && audio->GetState()!= AudioSourceState::PLAYING)
-		audio->Play(1000);
+	if (GetSubSystem<Input>()->GetKeyDown(KEY_A) && audio->GetState() != AudioSourceState::PLAYING)
+		audio->Play(0);
 	if (GetSubSystem<Input>()->GetKeyDown(KEY_S))
 		audio->Pause();
-	if(GetSubSystem<Input>()->GetKeyDown(KEY_D))
+	if (GetSubSystem<Input>()->GetKeyDown(KEY_D))
 		audio->Stop();
 	if (GetSubSystem<Input>()->GetKeyDown(KEY_F))
 		audio->Rewind();

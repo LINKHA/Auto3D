@@ -234,6 +234,7 @@
     <None Include="Shader\au_texture_transform.aufs" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\RunTime\Includes\AudioBuffer.h" />
     <ClInclude Include="Source\RunTime\Includes\GPUObject.h" />
     <ClInclude Include="Source\RunTime\Includes\ShaderVariation.h" />
     <ClInclude Include="Source\RunTime\Includes\Shader.h" />
@@ -251,7 +252,6 @@
     <ClInclude Include="Source\RunTime\Includes\Serializer.h" />
     <ClInclude Include="Source\RunTime\Includes\Deserializer.h" />
     <ClInclude Include="Source\RunTime\Includes\RenderComponent2D.h" />
-    <ClInclude Include="Source\RunTime\Includes\Sound.h" />
     <ClInclude Include="Source\RunTime\Includes\Resource.h" />
     <ClInclude Include="Source\RunTime\Includes\FileSystem.h" />
     <ClInclude Include="Source\RunTime\Includes\ColliderSphere.h" />
@@ -276,11 +276,6 @@
     <ClInclude Include="Source\RunTime\Includes\AudioSource.h" />
     <ClInclude Include="Source\RunTime\Includes\AutoImage.h" />
     <ClInclude Include="Source\RunTime\Includes\NewDef.h" />
-    <ClInclude Include="Source\RunTime\Includes\ALDeviceList.h" />
-    <ClInclude Include="Source\RunTime\Includes\ALWaves.h" />
-    <ClInclude Include="Source\RunTime\Includes\ALfw.h" />
-    <ClInclude Include="Source\RunTime\Includes\ALad.h" />
-    <ClInclude Include="Source\RunTime\Includes\AudioBuffer.h" />
     <ClInclude Include="Source\RunTime\Includes\AudioListener.h" />
     <ClInclude Include="Source\RunTime\Includes\Component.h" />
     <ClInclude Include="Source\RunTime\Includes\Node.h" />
@@ -298,7 +293,6 @@
     <ClInclude Include="Source\RunTime\Includes\MeshShadowPoint.h" />
     <ClInclude Include="Source\RunTime\Includes\Geometry.h" />
     <ClInclude Include="Source\RunTime\Includes\GraphicsDef.h" />
-    <ClInclude Include="Source\RunTime\Includes\Platform.h" />
     <ClInclude Include="Source\RunTime\Includes\ComponentSetting.h" />
     <ClInclude Include="Source\RunTime\Includes\Graphics.h" />
     <ClInclude Include="Source\RunTime\Includes\Launch.h" />
@@ -331,7 +325,6 @@
     <ClInclude Include="Source\RunTime\Includes\DeviceTypes.h" />
     <ClInclude Include="Source\RunTime\Includes\Texture.h" />
     <ClInclude Include="Source\RunTime\Includes\Math\Color.h" />
-    <ClInclude Include="Platform\Win\PathUnicode.h" />
     <ClInclude Include="Source\RunTime\Includes\File.h" />
     <ClInclude Include="Source\RunTime\Includes\LogDef.h" />
     <ClInclude Include="Source\RunTime\Includes\Math\Matrix4x4.h" />
@@ -355,7 +348,6 @@
     <ClInclude Include="Source\RunTime\Includes\Transform.h" />
     <ClInclude Include="Source\RunTime\Includes\ScriptComponent.h" />
     <ClInclude Include="Source\RunTime\Includes\Script.h" />
-    <ClInclude Include="Platform\Win\WinUnicode.h" />
     <ClInclude Include="Source\RunTime\Includes\Texture2D.h" />
     <ClInclude Include="Source\RunTime\Includes\Time.h" />
     <ClInclude Include="Source\RunTime\Includes\Singleton.h" />
@@ -375,10 +367,10 @@
     <ClInclude Include="Source\RunTime\Includes\UI.h" />
     <ClInclude Include="Source\RunTime\Includes\Timer.h" />
     <ClInclude Include="Source\RunTime\Includes\SceneNode.h" />
-    <ClInclude Include="Source\RunTime\Includes\Sprite2D.h" />
     <ClInclude Include="Source\RunTime\Includes\NodeTag.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\RunTime\src\AudioBuffer.cpp" />
     <ClCompile Include="Source\RunTime\src\GPUObject.cpp" />
     <ClCompile Include="Source\RunTime\src\ShaderVariation.cpp" />
     <ClCompile Include="Source\RunTime\src\Shader.cpp" />
@@ -389,7 +381,6 @@
     <ClCompile Include="Source\RunTime\src\Serializer.cpp" />
     <ClCompile Include="Source\RunTime\src\Deserializer.cpp" />
     <ClCompile Include="Source\RunTime\src\RenderComponent2D.cpp" />
-    <ClCompile Include="Source\RunTime\src\Sound.cpp" />
     <ClCompile Include="Source\RunTime\src\Resource.cpp" />
     <ClCompile Include="Source\RunTime\src\FileSystem.cpp" />
     <ClCompile Include="Source\RunTime\src\ColliderSphere.cpp" />
@@ -406,11 +397,6 @@
     <ClCompile Include="Source\RunTime\src\Physics.cpp" />
     <ClCompile Include="Source\RunTime\src\RigidBody2D.cpp" />
     <ClCompile Include="Source\RunTime\src\AudioSource.cpp" />
-    <ClCompile Include="Source\RunTime\src\ALDeviceList.cpp" />
-    <ClCompile Include="Source\RunTime\src\ALWaves.cpp" />
-    <ClCompile Include="Source\RunTime\src\ALfw.cpp" />
-    <ClCompile Include="Source\RunTime\src\ALad.cpp" />
-    <ClCompile Include="Source\RunTime\src\AudioBuffer.cpp" />
     <ClCompile Include="Source\RunTime\src\AudioListener.cpp" />
     <ClCompile Include="Source\RunTime\src\Component.cpp" />
     <ClCompile Include="Source\RunTime\src\Node.cpp" />
@@ -456,7 +442,6 @@
     <ClCompile Include="Source\RunTime\src\GameManager.cpp" />
     <ClCompile Include="Source\RunTime\src\Configs.cpp" />
     <ClCompile Include="Source\RunTime\src\Texture.cpp" />
-    <ClCompile Include="Platform\Win\PathUnicode.cpp" />
     <ClCompile Include="Source\RunTime\src\File.cpp" />
     <ClCompile Include="Source\RunTime\Includes\Math\Matrix4x4.cpp" />
     <ClCompile Include="Source\RunTime\Includes\Math\Matrix3x3.cpp" />
@@ -469,7 +454,6 @@
     <ClCompile Include="Source\RunTime\src\Transform.cpp" />
     <ClCompile Include="Source\RunTime\src\ScriptComponent.cpp" />
     <ClCompile Include="Source\RunTime\src\Script.cpp" />
-    <ClCompile Include="Platform\Win\WinUnicode.cpp" />
     <ClCompile Include="Source\RunTime\src\Texture2D.cpp" />
     <ClCompile Include="Source\RunTime\src\Time.cpp" />
     <ClCompile Include="Source\RunTime\src\SkyBox.cpp" />
@@ -486,7 +470,6 @@
     <ClCompile Include="Source\RunTime\src\BehaviorObject.cpp" />
     <ClCompile Include="Source\RunTime\src\UI.cpp" />
     <ClCompile Include="Source\RunTime\src\SceneNode.cpp" />
-    <ClCompile Include="Source\RunTime\src\Sprite2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="ThirdParty\Assimp\code\assimp.vcxproj">

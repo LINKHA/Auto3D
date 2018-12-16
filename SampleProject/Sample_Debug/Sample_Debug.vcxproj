@@ -22,7 +22,6 @@
     <ClCompile Include="..\FreeCamera.cpp" />
     <ClCompile Include="DebugSapce.cpp" />
     <ClCompile Include="level_0.cpp" />
-    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FreeCamera.h" />

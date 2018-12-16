@@ -4,8 +4,7 @@
 #include "File.h"
 #include "FileSystem.h"
 #include "Resource.h"
-#include "Sound.h"
-#include "Sprite2D.h"
+#include "AudioBuffer.h"
 #include "Image.h"
 #include "Mesh.h"
 #include "Shader.h"
@@ -224,11 +223,10 @@ STRING ResourceSystem::GetResourceFileName(const STRING& name) const
 
 void ResourceSystem::RegisterResourceLib(Ambient* ambient)
 {
-	Sound::RegisterObject(ambient);
-	Sprite::RegisterObject(ambient);
 	Image::RegisterObject(ambient);
 	Mesh::RegisterObject(ambient);
 	Shader::RegisterObject(ambient);
+	AudioBuffer::RegisterObject(ambient);
 }
 
 const SharedPtr<Resource>& ResourceSystem::findResource(STRING type, STRING name)

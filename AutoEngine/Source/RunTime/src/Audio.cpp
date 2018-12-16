@@ -13,22 +13,18 @@ Audio::Audio(Ambient* ambient)
 
 Audio::~Audio()
 {
-
-	ALFWShutdownOpenAL();
-
-	ALFWShutdown();
+	alcDestroyContext(context);
+	alcCloseDevice(device);
 }
 
 
 void Audio::Init()
 {
-	ALFWInit();
-	if (!ALFWInitOpenAL())
-	{
-		ErrorString("Failed to initialize OpenAL");
-		ALFWShutdown();
-	}
-
+	/* initialize OpenAL context, asking for 48.0kHz to match HRIR data */
+	ALCint contextAttr[] = { ALC_FREQUENCY,48000,0 };
+	device = alcOpenDevice(NULL);
+	context = alcCreateContext(device, contextAttr);
+	alcMakeContextCurrent(context);
 }
 
 

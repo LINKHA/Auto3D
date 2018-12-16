@@ -1,17 +1,42 @@
 #include "AudioBuffer.h"
+#include "Deserializer.h"
+#include "Serializer.h"
+#include "MemoryDef.h"
+
 #include "NewDef.h"
 
 namespace Auto3D {
 
-AudioBuffer::AudioBuffer(Ambient* ambient, STRING path)
-	: Super(ambient)
-	, _data(path)
+AudioBuffer::AudioBuffer(Ambient* ambient)
+	:Super(ambient)
 {
-	Print(GetData());
 }
+
 
 AudioBuffer::~AudioBuffer()
 {
+	SafeFree(_data);
+}
+
+void AudioBuffer::RegisterObject(Ambient* ambient)
+{
+	ambient->RegisterFactory<AudioBuffer>();
+}
+
+bool AudioBuffer::BeginLoad(Deserializer& source)
+{
+	source.Seek(0);
+	void *buf = malloc(source.GetSize());
+	if (!source.Read(buf, source.GetSize()))
+	{
+		AutoCout << "Could not load audio buffer " + source.GetName() << AutoEndl;
+		return false;
+	}
+
+	SetData(buf);
+	SetSize(source.GetSize());
+
+	return true;
 }
 
 }

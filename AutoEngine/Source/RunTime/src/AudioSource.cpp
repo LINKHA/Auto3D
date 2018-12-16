@@ -1,6 +1,7 @@
 #include "AudioSource.h"
 #include "Time.h"
 #include "Timer.h"
+#include "AudioBuffer.h"
 #include <functional>
 #include "NewDef.h"
 
@@ -8,11 +9,6 @@ namespace Auto3D {
 
 AudioSource::AudioSource(Ambient* ambient)
 	: Super(ambient)
-{}
-
-AudioSource::AudioSource(Ambient* ambient, AudioBuffer* bufferClip)
-	: Super(ambient)
-	, _bufferClip(bufferClip)
 {}
 
 AudioSource::~AudioSource()
@@ -32,11 +28,12 @@ void AudioSource::Start()
 	// Generate an AL Buffer
 	alGenBuffers(1, &_buffer);
 	alGenSources(1, &_source);
-	if (_bufferClip)
+
+	if (_audioBuffer)
 	{
-		Print(_bufferClip->GetData());
 		attachBuffer();
 	}
+
 	alSourcei(_source, AL_BUFFER, _buffer);
 
 	alSourcef(_source, AL_PITCH, 1.0f);
@@ -101,17 +98,38 @@ AudioSourceState AudioSource::GetState()
 
 void AudioSource::AttachBuffer(AudioBuffer* clip)
 {
-	_bufferClip = clip;
+	_audioBuffer = clip;
 	attachBuffer();
+}
+
+void AudioSource::SetAudioBuffer(AudioBuffer* audioBuffer)
+{
+	_audioBuffer = audioBuffer;
+}
+
+void* load(const char *fname, long *bufsize) {
+	FILE* fp = fopen(fname, "rb");
+	fseek(fp, 0L, SEEK_END);
+	long len = ftell(fp);
+	rewind(fp);
+	void *buf = malloc(len);
+	fread(buf, 1, len, fp);
+	fclose(fp);
+	*bufsize = len;
+	return buf;
 }
 
 void AudioSource::attachBuffer()
 {
-	if (!ALFWLoadWaveToBuffer((char*)ALFWaddMediaPath(_bufferClip->GetData().CStr()), _buffer))
-	{
-		AutoErrorCout << "Failed to load "
-			<< ALFWaddMediaPath(_bufferClip->GetData().CStr()) << AutoEndl;
-	}
+	
+	long dataSize = 0;
+
+	const ALvoid* data = _audioBuffer->GetData();
+	dataSize = _audioBuffer->GetSize();
+
+	/* for simplicity, assume raw file is signed-16b at 44.1kHz */
+	alBufferData(_buffer, AL_FORMAT_MONO16, data, dataSize, 44100);
+	
 	alSourcei(_source, AL_BUFFER, _buffer);
 }
 

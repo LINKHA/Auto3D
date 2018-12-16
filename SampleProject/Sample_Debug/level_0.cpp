@@ -1,32 +1,43 @@
 #include "Level_0.h"
-#include "ResourceSystem.h"
 #include "../FreeCamera.h"
-#include "Transform.h"
-#include "Shader.h"
-#include "SpriteRenderer.h"
-#include "Image.h"
-void Level_0::Awake()
-{
-	Super::Awake();
-}
+#include "Input.h"
+#include "AudioListener.h"
+#include "ResourceSystem.h"
+#include "AudioBuffer.h"
+
+Level_0::Level_0(Ambient* ambient, int levelNumber)
+	:LevelScene(ambient, levelNumber)
+{}
+
+
 void Level_0::Start()
 {
-	Super::Start();
-	Node* camObj = CreateNode();
-	FreeCamera* freeCamera = new FreeCamera(_ambient, _sceneID);
-	camObj->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, 3.0f);
-	camObj->AddComponent(freeCamera);
+	auto* audioBuffer = GetSubSystem<ResourceSystem>()->GetResource<AudioBuffer>("sound/SoundTest.wav");
 
-
-	auto* imageLogo = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/logo.png");
-	//auto* shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_texture_transform.glsl");
+	Node* listenerObj = CreateNode();
+	listenerObj->CreateComponent<AudioListener>();
 	
-	Node* obj = CreateNode();
-	obj->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, -2.0f);
-	obj->CreateComponent<SpriteRenderer>()->SetImage(imageLogo);
+	Node* autdieObj = CreateNode();
+	audio = autdieObj->CreateComponent<AudioSource>();
+	audio->SetAudioBuffer(audioBuffer);
 
+	Node* autdieObj2 = CreateNode();
+	audio2 = autdieObj2->CreateComponent<AudioSource>();
+	audio2->SetAudioBuffer(audioBuffer);
 }
+
 void Level_0::Update()
 {
-	Super::Update();
+	if (GetSubSystem<Input>()->GetKeyDown(KEY_A) && audio->GetState() != AudioSourceState::PLAYING)
+		audio->Play(0);
+	if (GetSubSystem<Input>()->GetKeyDown(KEY_S))
+		audio->Pause();
+	if (GetSubSystem<Input>()->GetKeyDown(KEY_D))
+		audio->Stop();
+	if (GetSubSystem<Input>()->GetKeyDown(KEY_F))
+		audio->Rewind();
+
+	if (GetSubSystem<Input>()->GetKeyDown(KEY_Q) && audio2->GetState() != AudioSourceState::PLAYING)
+		audio2->Play(1000);
 }
+

@@ -61,9 +61,6 @@
     <Filter Include="Source\RunTime\Adapter">
       <UniqueIdentifier>{27157323-731c-429e-8d07-9b1d5b4c1bae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\RunTime\Adapter\ALFrameWork">
-      <UniqueIdentifier>{a2715895-0f6d-49e8-9e16-c8b36603a869}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\RunTime\Audio">
       <UniqueIdentifier>{0ed2b5ca-e176-4acd-8bce-81a9acba00bc}</UniqueIdentifier>
     </Filter>
@@ -141,12 +138,6 @@
     </Filter>
     <Filter Include="Source\RunTime\Graphics\Component\Texture">
       <UniqueIdentifier>{0af441cf-c689-40c5-8c99-d84471d9fc8e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Platform">
-      <UniqueIdentifier>{33a47d80-fb78-4464-a91d-f62683121978}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Platform\Win">
-      <UniqueIdentifier>{d0c77170-ef1f-4f2d-a286-8ea191369f0b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\RunTime\_Abandon">
       <UniqueIdentifier>{19e0e4f9-3ea5-41bf-b6d6-68fc2f47d7ca}</UniqueIdentifier>
@@ -416,18 +407,6 @@
     <ClInclude Include="Source\RunTime\Includes\Math\Vector4.h">
       <Filter>Source\RunTime\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\ALad.h">
-      <Filter>Source\RunTime\Adapter\ALFrameWork</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\ALDeviceList.h">
-      <Filter>Source\RunTime\Adapter\ALFrameWork</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\ALfw.h">
-      <Filter>Source\RunTime\Adapter\ALFrameWork</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\ALWaves.h">
-      <Filter>Source\RunTime\Adapter\ALFrameWork</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Ambient.h">
       <Filter>Source\RunTime\Code</Filter>
     </ClInclude>
@@ -436,9 +415,6 @@
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Audio.h">
       <Filter>Source\RunTime\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\AudioBuffer.h">
-      <Filter>Source\RunTime\Audio\Component</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\AudioListener.h">
       <Filter>Source\RunTime\Audio\Component</Filter>
@@ -575,9 +551,6 @@
     <ClInclude Include="Source\RunTime\Includes\PhysicsWorld2D.h">
       <Filter>Source\RunTime\Physics\Component\2D</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Platform.h">
-      <Filter>Platform</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Prefab.h">
       <Filter>Source\RunTime\Preinstall</Filter>
     </ClInclude>
@@ -707,16 +680,10 @@
     <ClInclude Include="Source\RunTime\Includes\SkyBox.h">
       <Filter>Source\RunTime\Resource\Temp</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Sound.h">
-      <Filter>Source\RunTime\Resource\Temp</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Resource.h">
       <Filter>Source\RunTime\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\ResourceSystem.h">
-      <Filter>Source\RunTime\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Sprite2D.h">
       <Filter>Source\RunTime\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\AutoThread.h">
@@ -782,12 +749,6 @@
     <ClInclude Include="Source\RunTime\Includes\Shader.h">
       <Filter>Source\RunTime\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Platform\Win\PathUnicode.h">
-      <Filter>Platform\Win</Filter>
-    </ClInclude>
-    <ClInclude Include="Platform\Win\WinUnicode.h">
-      <Filter>Platform\Win</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\ShaderVariation.h">
       <Filter>Source\RunTime\Resource</Filter>
     </ClInclude>
@@ -808,6 +769,9 @@
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\_Shader.h">
       <Filter>Source\RunTime\_Abandon</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\AudioBuffer.h">
+      <Filter>Source\RunTime\Resource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -832,18 +796,6 @@
     <ClCompile Include="Source\RunTime\Includes\Math\Vector4.cpp">
       <Filter>Source\RunTime\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\ALad.cpp">
-      <Filter>Source\RunTime\Adapter\ALFrameWork</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\ALDeviceList.cpp">
-      <Filter>Source\RunTime\Adapter\ALFrameWork</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\ALfw.cpp">
-      <Filter>Source\RunTime\Adapter\ALFrameWork</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\ALWaves.cpp">
-      <Filter>Source\RunTime\Adapter\ALFrameWork</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RunTime\src\Ambient.cpp">
       <Filter>Source\RunTime\Code</Filter>
     </ClCompile>
@@ -852,9 +804,6 @@
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Audio.cpp">
       <Filter>Source\RunTime\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\AudioBuffer.cpp">
-      <Filter>Source\RunTime\Audio\Component</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\AudioListener.cpp">
       <Filter>Source\RunTime\Audio\Component</Filter>
@@ -1075,16 +1024,10 @@
     <ClCompile Include="Source\RunTime\src\SkyBox.cpp">
       <Filter>Source\RunTime\Resource\Temp</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Sound.cpp">
-      <Filter>Source\RunTime\Resource\Temp</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RunTime\src\Resource.cpp">
       <Filter>Source\RunTime\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\ResourceSystem.cpp">
-      <Filter>Source\RunTime\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Sprite2D.cpp">
       <Filter>Source\RunTime\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Image.cpp">
@@ -1111,12 +1054,6 @@
     <ClCompile Include="Source\RunTime\src\Light.cpp">
       <Filter>Source\RunTime\Graphics\Component</Filter>
     </ClCompile>
-    <ClCompile Include="Platform\Win\PathUnicode.cpp">
-      <Filter>Platform\Win</Filter>
-    </ClCompile>
-    <ClCompile Include="Platform\Win\WinUnicode.cpp">
-      <Filter>Platform\Win</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RunTime\src\ShaderVariation.cpp">
       <Filter>Source\RunTime\Resource</Filter>
     </ClCompile>
@@ -1133,6 +1070,9 @@
       <Filter>Source\RunTime\_Abandon</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Shader.cpp">
+      <Filter>Source\RunTime\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\AudioBuffer.cpp">
       <Filter>Source\RunTime\Resource</Filter>
     </ClCompile>
   </ItemGroup>

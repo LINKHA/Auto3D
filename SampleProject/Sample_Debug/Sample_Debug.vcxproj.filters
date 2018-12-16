@@ -8,7 +8,6 @@
     <ClCompile Include="level_0.cpp">
       <Filter>Level</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DebugSapce.h" />
