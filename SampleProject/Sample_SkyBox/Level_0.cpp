@@ -7,10 +7,6 @@
 #include "Configs.h"
 #include "../FreeCamera.h"
 
-Level_0::Level_0(Ambient* ambient, int levelNumber)
-	:LevelScene(ambient, levelNumber)
-{}
-
 void Level_0::Start()
 {
 	Node* cameraObj = new Node(_ambient,_id);

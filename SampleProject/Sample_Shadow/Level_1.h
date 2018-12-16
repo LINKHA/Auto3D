@@ -6,9 +6,8 @@ using namespace Auto3D;
 
 class Level_1 : public LevelScene
 {
+	REGISTER_LEVEL_CLASS(Level_1)
 public:
-	Level_1(Ambient* ambient, int levelNumber);
-	~Level_1() = default;
 
 	void Start()override;
 	void Update()override;

@@ -4,9 +4,6 @@
 #include "Mesh.h"
 #include "MeshShadow.h"
 
-Level_0::Level_0(Ambient* ambient, int levelNumber)
-	:LevelScene(ambient, levelNumber)
-{}
 void Level_0::ShadowNormal()
 {
 	GameObject* lightObj = new GameObject(_ambient, _levelNumber);

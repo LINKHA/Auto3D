@@ -4,10 +4,6 @@
 #include "ColliderSphere.h"
 #include "RigidBody.h"
 
-Level_0::Level_0(Ambient* ambient, int levelNumber)
-	:LevelScene(ambient, levelNumber)
-{}
-
 void Level_0::Awake()
 {
 	SceneSuper::Awake();

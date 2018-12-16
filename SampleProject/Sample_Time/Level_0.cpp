@@ -3,11 +3,6 @@
 #include "GameObject.h"
 
 
-Level_0::Level_0(Ambient* ambient, int levelNumber)
-	:LevelScene(ambient, levelNumber)
-{
-}
-
 void Level_0::Start()
 {
 	GameObject* gameObject = new GameObject(_ambient, _levelNumber);

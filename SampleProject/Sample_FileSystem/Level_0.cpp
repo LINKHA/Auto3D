@@ -4,9 +4,6 @@
 #include "../FreeCamera.h"
 #include "FileSystem.h"
 
-Level_0::Level_0(Ambient* ambient, int id)
-	:LevelScene(ambient, id)
-{}
 void Level_0::Awake()
 {
 	SceneSuper::Awake();

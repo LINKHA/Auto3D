@@ -4,9 +4,6 @@
 #include "PhysicsWorld2D.h"
 #include "RigidBody2D.h"
 #include "ColliderBox2D.h"
-Level_0::Level_0(Ambient* ambient, int levelNumber)
-	:LevelScene(ambient, levelNumber)
-{}
 
 void Level_0::Awake()
 {
