@@ -3,12 +3,6 @@
 #include "AutoSTL.h"
 #include <memory>
 
-#ifdef _WIN32
-#	define PATH_STRING WSTRING
-#else
-#	define PATH_STRING STRING
-#endif
-
 namespace Auto3D {
 
 class FileSystem : public GlobalGameManager
@@ -22,6 +16,15 @@ public:
 	*	execution environment: running programs and opening files externally through the system will fail afterward
 	*/
 	void RegisterPath(const STRING& pathName);
+	/**
+	* @brief : Set the current working directory
+	*/
+	bool SetCurrentDir(const STRING& pathName);
+	/**
+	* @brief : Create a directory
+	*/
+	bool CreateDir(const STRING& pathName);
+
 	/**
 	* @brief : Return the user documents directory
 	*/
@@ -42,16 +45,6 @@ public:
 	* @brief : Return path of temporary directory. Path always ends with a forward slash
 	*/
 	STRING GetTemporaryDir();
-
-	STRING GetPath(const STRING& fullPath);
-
-	STRING GetFileName(const STRING& fullPath);
-
-	STRING GetExtension(const STRING& fullPath, bool lowercaseExtension = true);
-
-	STRING GetFileNameAndExtension(const STRING& fileName, bool lowercaseExtension = false);
-
-	STRING ReplaceExtension(const STRING& fullPath, const STRING& newExtension);
 	/**
 	* @brief : Add trailing slash
 	*/
@@ -60,12 +53,6 @@ public:
 	* @brief : Remove trailing slash
 	*/
 	STRING RemoveTrailingSlash(const STRING& pathName);
-
-	STRING GetParentPath(const STRING& path);
-
-	STRING GetInternalPath(const STRING& pathName);
-
-	STRING GetNativePath(const STRING& pathName);
 	/**
 	* @brief : Return whether a path is absolute
 	*/
@@ -75,7 +62,7 @@ public:
 	*	If no paths are registered, all are allowed
 	*/
 	bool CheckAccess(const STRING& pathName);
-	/**
+	/** 
 	* @brief : Returns the file's last modified time as seconds since 1.1.1970, or 0 if can not be accessed
 	*/
 	unsigned GetLastModifiedTime(const STRING& fileName);
@@ -84,9 +71,9 @@ public:
 	*/
 	bool FileExists(const STRING& fileName);
 	/**
-	* @brief : The internal limit of this template allows only STRING and WSTRING
+	* @brief : Check if a directory exists
 	*/
-	void SplitPath(const STRING& fullPath, STRING& pathName, STRING& fileName, STRING& extension, bool lowercaseExtension = true);
+	bool DirExists(const STRING& pathName);
 private:
 	/// Allowed directories
 	HASH_SET<STRING> _allowedPaths{};
@@ -120,6 +107,8 @@ STRING GetParentPath(const STRING& path);
 STRING GetInternalPath(const STRING& pathName);
 
 STRING GetNativePath(const STRING& pathName);
+
+WSTRING GetWideNativePath(const STRING& pathName);
 /**
 * @brief : Return whether a path is absolute
 */

@@ -22,6 +22,8 @@ void Level_0::Start()
 	//Out put current dir in ouput console
 	Print(GetSubSystem<FileSystem>()->GetCurrentDir().CStr());
 
+	GetSubSystem<FileSystem>()->SetCurrentDir("C:\\Users\\LKH\\Desktop");
+	GetSubSystem<FileSystem>()->CreateDir("dir");
 }
 
 void Level_0::Update()

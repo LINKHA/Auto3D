@@ -66,6 +66,62 @@ void FileSystem::RegisterPath(const STRING& pathName)
 	_allowedPaths.insert(AddTrailingSlash(pathName));
 }
 
+bool FileSystem::SetCurrentDir(const STRING& pathName)
+{
+	if (!CheckAccess(pathName))
+	{
+		WarningString("Access denied to " + pathName);
+		return false;
+	}
+#ifdef _WIN32
+	if (SetCurrentDirectoryW(GetWideNativePath(pathName).CStr()) == FALSE)
+	{
+		WarningString("Failed to change directory to " + pathName);
+		return false;
+	}
+#else
+	if (chdir(GetNativePath(pathName).CStr()) != 0)
+	{
+		WarningString("Failed to change directory to " + pathName);
+		return false;
+	}
+#endif
+
+	return true;
+}
+
+
+bool FileSystem::CreateDir(const STRING& pathName)
+{
+	if (!CheckAccess(pathName))
+	{
+		WarningString("Access denied to " + pathName);
+		return false;
+	}
+
+	// Create each of the parents if necessary
+	STRING parentPath = GetParentPath(pathName);
+	if (parentPath.Length() > 1 && !DirExists(parentPath))
+	{
+		if (!CreateDir(parentPath))
+			return false;
+	}
+
+#ifdef _WIN32
+	bool success = (CreateDirectoryW(GetWideNativePath(RemoveTrailingSlash(pathName)).CStr(), nullptr) == TRUE) ||
+		(GetLastError() == ERROR_ALREADY_EXISTS);
+#else
+	bool success = mkdir(GetNativePath(RemoveTrailingSlash(pathName)).CString(), S_IRWXU) == 0 || errno == EEXIST;
+#endif
+
+	if (success)
+		LogString("Created directory " + pathName);
+	else
+		WarningString("Failed to create directory " + pathName);
+
+	return success;
+}
+
 STRING FileSystem::GetUserDocumentsDir()
 {
 #if defined(__ANDROID__)
@@ -187,64 +243,6 @@ STRING FileSystem::RemoveTrailingSlash(const STRING& pathName)
 	return ret;
 }
 
-STRING FileSystem::GetParentPath(const STRING& path)
-{
-	unsigned pos = RemoveTrailingSlash(path).FindLast('/');
-	if (pos != STRING::NO_POS)
-		return path.SubString(0, pos + 1);
-	else
-		return STRING();
-}
-
-STRING FileSystem::GetPath(const STRING& fullPath)
-{
-	STRING path, file, extension;
-	SplitPath(fullPath, path, file, extension);
-	return path;
-}
-
-STRING FileSystem::GetFileName(const STRING& fullPath)
-{
-	STRING path, file, extension;
-	SplitPath(fullPath, path, file, extension);
-	return file;
-}
-
-STRING FileSystem::GetExtension(const STRING& fullPath, bool lowercaseExtension)
-{
-	STRING path, file, extension;
-	SplitPath(fullPath, path, file, extension, lowercaseExtension);
-	return extension;
-}
-
-STRING FileSystem::GetFileNameAndExtension(const STRING& fileName, bool lowercaseExtension)
-{
-	STRING path, file, extension;
-	SplitPath(fileName, path, file, extension, lowercaseExtension);
-	return file + extension;
-}
-
-STRING FileSystem::ReplaceExtension(const STRING& fullPath, const STRING& newExtension)
-{
-	STRING path, file, extension;
-	SplitPath(fullPath, path, file, extension);
-	return path + file + newExtension;
-}
-
-STRING FileSystem::GetInternalPath(const STRING& pathName)
-{
-	STRING ret = pathName;
-	ret.Replace('\\', '/');
-	return ret;
-}
-
-STRING FileSystem::GetNativePath(const STRING& pathName)
-{
-	STRING ret = pathName;
-	ret.Replace('/', '\\');
-	return ret;
-}
-
 bool FileSystem::IsAbsolutePath(const STRING& pathName)
 {
 	if (pathName.Empty())
@@ -326,35 +324,64 @@ bool FileSystem::FileExists(const STRING& fileName)
 	return true;
 }
 
-void FileSystem::SplitPath(const STRING& fullPath, STRING& pathName, STRING& fileName, STRING& extension, bool lowercaseExtension)
+
+bool FileSystem::DirExists(const STRING& pathName)
 {
-	STRING fullPathCopy = GetInternalPath(fullPath);
-	unsigned extPos = fullPathCopy.FindLast('.');
-	unsigned pathPos = fullPathCopy.FindLast('/');
+	if (!CheckAccess(pathName))
+		return false;
 
-	if (extPos != STRING::NO_POS && (pathPos == STRING::NO_POS || extPos > pathPos))
-	{
-		extension = fullPathCopy.SubString(extPos);
-		if (lowercaseExtension)
-			extension = extension.ToLower();
-		fullPathCopy = fullPathCopy.SubString(0, extPos);
-	}
-	else
-		extension.Clear();
+#ifndef _WIN32
+	// Always return true for the root directory
+	if (pathName == "/")
+		return true;
+#endif
 
-	pathPos = fullPathCopy.FindLast('/');
-	if (pathPos != STRING::NO_POS)
+	STRING fixedName = GetNativePath(RemoveTrailingSlash(pathName));
+
+#ifdef __ANDROID__
+	if (AUTO_IS_ASSET(fixedName))
 	{
-		fileName = fullPathCopy.SubString(pathPos + 1);
-		pathName = fullPathCopy.SubString(0, pathPos + 1);
+		// Split the pathname into two components: the longest parent directory path and the last name component
+		String assetPath(URHO3D_ASSET((fixedName + "/")));
+		String parentPath;
+		unsigned pos = assetPath.FindLast('/', assetPath.Length() - 2);
+		if (pos != String::NPOS)
+		{
+			parentPath = assetPath.Substring(0, pos);
+			assetPath = assetPath.Substring(pos + 1);
+		}
+		assetPath.Resize(assetPath.Length() - 1);
+
+		bool exist = false;
+		int count;
+		char** list = SDL_Android_GetFileList(parentPath.CString(), &count);
+		for (int i = 0; i < count; ++i)
+		{
+			exist = assetPath == list[i];
+			if (exist)
+				break;
+		}
+		SDL_Android_FreeFileList(&list, &count);
+		return exist;
 	}
-	else
-	{
-		fileName = fullPathCopy;
-		pathName.Clear();
-	}
+#endif
+
+#ifdef _WIN32
+	DWORD attributes = GetFileAttributesW(WSTRING(fixedName).CStr());
+	if (attributes == INVALID_FILE_ATTRIBUTES || !(attributes & FILE_ATTRIBUTE_DIRECTORY))
+		return false;
+#else
+	struct stat st {};
+	if (stat(fixedName.CStr(), &st) || !(st.st_mode & S_IFDIR))
+		return false;
+#endif
+
+	return true;
 }
 
+///////////////////////////////////////////////////////////////////////////
+// @brief : Global function
+//////////////////////////////////////////////////////////////////////////
 
 void SplitPath(const STRING& fullPath, STRING& pathName, STRING& fileName, STRING& extension, bool lowercaseExtension)
 {
@@ -456,9 +483,20 @@ STRING GetInternalPath(const STRING& pathName)
 
 STRING GetNativePath(const STRING& pathName)
 {
-	STRING ret = pathName;
-	ret.Replace('/', '\\');
-	return ret;
+#ifdef _WIN32
+	return pathName.Replaced('/', '\\');
+#else
+	return pathName;
+#endif
+}
+
+WSTRING GetWideNativePath(const STRING& pathName)
+{
+#ifdef _WIN32
+	return WSTRING(pathName.Replaced('/', '\\'));
+#else
+	return WSTRING(pathName);
+#endif
 }
 
 bool IsAbsolutePath(const STRING& pathName)

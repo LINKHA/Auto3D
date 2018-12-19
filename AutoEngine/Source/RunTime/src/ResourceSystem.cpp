@@ -27,7 +27,7 @@ ResourceSystem::~ResourceSystem()
 void ResourceSystem::Init()
 {
 	auto* filesystem = GetSubSystem<FileSystem>();
-	auto resourcePath = filesystem->GetParentPath(filesystem->GetCurrentDir());
+	auto resourcePath = GetParentPath(filesystem->GetCurrentDir());
 	//AddResourceDir(resourcePath + L"Resource/");
 }
 
