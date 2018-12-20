@@ -23,7 +23,7 @@
     <ProjectGuid>{9E213679-0D7E-4C49-976D-00E0E36976C5}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>AutoEngine</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
     <ProjectName>AutoEngine</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -495,9 +495,6 @@
     </ProjectReference>
     <ProjectReference Include="ThirdParty\SDL\Build\SDL2.vcxproj">
       <Project>{3f931d7f-6ccc-37e1-9112-ddcd1a43640a}</Project>
-    </ProjectReference>
-    <ProjectReference Include="ThirdParty\SDL\Build\SDL2main.vcxproj">
-      <Project>{73824cff-f908-3094-a67f-2d0012d5460f}</Project>
     </ProjectReference>
     <ProjectReference Include="ThirdParty\STB\STB.vcxproj">
       <Project>{f890b443-9cc2-4ebf-b59f-0828190b552f}</Project>

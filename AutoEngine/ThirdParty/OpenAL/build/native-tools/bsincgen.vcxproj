@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{81D19091-01A3-3322-8107-6600FEC36A79}</ProjectGuid>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
     <Keyword>Win32Proj</Keyword>
     <Platform>x64</Platform>
     <ProjectName>bsincgen</ProjectName>
@@ -83,7 +83,6 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>Debug/</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsC</CompileAs>
@@ -94,13 +93,13 @@
       <Optimization>Disabled</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_WIN32;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_WIN32;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -126,7 +125,6 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>Release/</AssemblerListingLocation>
       <CompileAs>CompileAsC</CompileAs>
       <ExceptionHandling>
@@ -135,14 +133,15 @@
       <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_WIN32;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
-      <DebugInformationFormat></DebugInformationFormat>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_WIN32;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -168,7 +167,6 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
       <CompileAs>CompileAsC</CompileAs>
       <ExceptionHandling>
@@ -177,14 +175,15 @@
       <Optimization>MinSpace</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_WIN32;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
-      <DebugInformationFormat></DebugInformationFormat>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_WIN32;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -210,7 +209,6 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
       <CompileAs>CompileAsC</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -220,13 +218,13 @@
       <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_WIN32;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_WIN32;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -254,7 +252,7 @@
     <CustomBuild Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\native-tools\CMakeLists.txt">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/native-tools/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-"D:\Program Files\CMake\bin\cmake.exe" -HD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/native-tools -BD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/native-tools --check-stamp-file D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/native-tools/CMakeFiles/generate.stamp
+"D:\Program Files\CMake\bin\cmake.exe" -SD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/native-tools -BD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/native-tools --check-stamp-file D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/native-tools/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -262,12 +260,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/native-tools/CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\native-tools\CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.10.1\CMakeSystem.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeSystemSpecificInitialize.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.10.1\CMakeCCompiler.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.10.1\CMakeCXXCompiler.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeSystemSpecificInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeGenericSystem.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\WindowsPaths.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.10.1\CMakeRCCompiler.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeRCInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCXXInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Compiler\MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckLibraryExists.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\native-tools\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/native-tools/CMakeLists.txt;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeCInformation.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeCXXInformation.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeGenericSystem.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeInitializeConfigs.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeRCInformation.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeSystemSpecificInformation.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeSystemSpecificInitialize.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CheckLibraryExists.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Compiler\MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Compiler\MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Platform\Windows-MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Platform\Windows-MSVC.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Platform\Windows.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Platform\WindowsPaths.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.13.2\CMakeCCompiler.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.13.2\CMakeCXXCompiler.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.13.2\CMakeRCCompiler.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.13.2\CMakeSystem.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\native-tools\CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\native-tools\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/native-tools/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-"D:\Program Files\CMake\bin\cmake.exe" -HD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/native-tools -BD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/native-tools --check-stamp-file D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/native-tools/CMakeFiles/generate.stamp
+"D:\Program Files\CMake\bin\cmake.exe" -SD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/native-tools -BD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/native-tools --check-stamp-file D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/native-tools/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -275,12 +273,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/native-tools/CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\native-tools\CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.10.1\CMakeSystem.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeSystemSpecificInitialize.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.10.1\CMakeCCompiler.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.10.1\CMakeCXXCompiler.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeSystemSpecificInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeGenericSystem.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\WindowsPaths.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.10.1\CMakeRCCompiler.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeRCInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCXXInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Compiler\MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckLibraryExists.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\native-tools\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/native-tools/CMakeLists.txt;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeCInformation.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeCXXInformation.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeGenericSystem.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeInitializeConfigs.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeRCInformation.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeSystemSpecificInformation.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeSystemSpecificInitialize.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CheckLibraryExists.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Compiler\MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Compiler\MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Platform\Windows-MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Platform\Windows-MSVC.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Platform\Windows.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Platform\WindowsPaths.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.13.2\CMakeCCompiler.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.13.2\CMakeCXXCompiler.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.13.2\CMakeRCCompiler.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.13.2\CMakeSystem.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\native-tools\CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\native-tools\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/native-tools/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
-"D:\Program Files\CMake\bin\cmake.exe" -HD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/native-tools -BD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/native-tools --check-stamp-file D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/native-tools/CMakeFiles/generate.stamp
+"D:\Program Files\CMake\bin\cmake.exe" -SD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/native-tools -BD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/native-tools --check-stamp-file D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/native-tools/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -288,12 +286,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/native-tools/CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\native-tools\CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.10.1\CMakeSystem.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeSystemSpecificInitialize.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.10.1\CMakeCCompiler.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.10.1\CMakeCXXCompiler.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeSystemSpecificInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeGenericSystem.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\WindowsPaths.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.10.1\CMakeRCCompiler.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeRCInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCXXInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Compiler\MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckLibraryExists.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\native-tools\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/native-tools/CMakeLists.txt;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeCInformation.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeCXXInformation.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeGenericSystem.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeInitializeConfigs.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeRCInformation.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeSystemSpecificInformation.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeSystemSpecificInitialize.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CheckLibraryExists.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Compiler\MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Compiler\MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Platform\Windows-MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Platform\Windows-MSVC.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Platform\Windows.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Platform\WindowsPaths.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.13.2\CMakeCCompiler.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.13.2\CMakeCXXCompiler.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.13.2\CMakeRCCompiler.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.13.2\CMakeSystem.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\native-tools\CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\native-tools\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/native-tools/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
-"D:\Program Files\CMake\bin\cmake.exe" -HD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/native-tools -BD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/native-tools --check-stamp-file D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/native-tools/CMakeFiles/generate.stamp
+"D:\Program Files\CMake\bin\cmake.exe" -SD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/native-tools -BD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/native-tools --check-stamp-file D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/native-tools/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -301,18 +299,20 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/native-tools/CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\native-tools\CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.10.1\CMakeSystem.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeSystemSpecificInitialize.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.10.1\CMakeCCompiler.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.10.1\CMakeCXXCompiler.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeSystemSpecificInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeGenericSystem.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\WindowsPaths.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.10.1\CMakeRCCompiler.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeRCInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCXXInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Compiler\MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\Platform\Windows-MSVC.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.10\Modules\CheckLibraryExists.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\native-tools\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/native-tools/CMakeLists.txt;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeCInformation.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeCXXInformation.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeCommonLanguageInclude.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeGenericSystem.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeInitializeConfigs.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeLanguageInformation.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeRCInformation.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeSystemSpecificInformation.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CMakeSystemSpecificInitialize.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\CheckLibraryExists.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Compiler\MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Compiler\MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Platform\Windows-MSVC-C.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Platform\Windows-MSVC.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Platform\Windows.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\Platform\WindowsPaths.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.13.2\CMakeCCompiler.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.13.2\CMakeCXXCompiler.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.13.2\CMakeRCCompiler.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\3.13.2\CMakeSystem.cmake;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\native-tools\CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\native-tools\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\native-tools\bsincgen.c"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\native-tools\bsincgen.c" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools\ZERO_CHECK.vcxproj">
       <Project>{3799BE64-9C13-39B4-BF75-66103C2CBED6}</Project>
       <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

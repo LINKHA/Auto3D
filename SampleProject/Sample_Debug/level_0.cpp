@@ -11,18 +11,18 @@ void Level_0::Awake()
 void Level_0::Start()
 {
 	SceneSuper::Start();
-	//Out put user documents dir in ouput console
+	//Out put user documents dir in output console
 	Print(GetSubSystem<FileSystem>()->GetUserDocumentsDir().CStr());
 	//Out put console
 	Print(GetSubSystem<FileSystem>()->GetUserDocumentsDir().CStr());
-	//Out put temporary dir in ouput console
+	//Out put temporary dir in output console
 	Print(GetSubSystem<FileSystem>()->GetTemporaryDir().CStr());
-	//Out put program dir in ouput console
+	//Out put program dir in output console
 	Print(GetSubSystem<FileSystem>()->GetProgramDir().CStr());
-	//Out put current dir in ouput console
+	//Out put current dir in output console
 	Print(GetSubSystem<FileSystem>()->GetCurrentDir().CStr());
 
-	GetSubSystem<FileSystem>()->SetCurrentDir("C:\\Users\\LKH\\Desktop");
+	GetSubSystem<FileSystem>()->SetCurrentDir("C:/Users/Administrator/Desktop");
 	GetSubSystem<FileSystem>()->CreateDir("dir");
 }
 

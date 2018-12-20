@@ -40,38 +40,37 @@ CLOCK_GETTIME:BOOL=OFF
 // else will be ignored.
 CMAKE_CONFIGURATION_TYPES:STRING=Debug;Release;MinSizeRel;RelWithDebInfo
 
-//Flags used by the compiler during all build types.
+//Flags used by the C compiler during all build types.
 CMAKE_C_FLAGS:STRING=/DWIN32 /D_WINDOWS /W3
 
-//Flags used by the compiler during debug builds.
+//Flags used by the C compiler during DEBUG builds.
 CMAKE_C_FLAGS_DEBUG:STRING=/MDd /Zi /Ob0 /Od /RTC1
 
-//Flags used by the compiler during release builds for minimum
-// size.
+//Flags used by the C compiler during MINSIZEREL builds.
 CMAKE_C_FLAGS_MINSIZEREL:STRING=/MD /O1 /Ob1 /DNDEBUG
 
-//Flags used by the compiler during release builds.
+//Flags used by the C compiler during RELEASE builds.
 CMAKE_C_FLAGS_RELEASE:STRING=/MD /O2 /Ob2 /DNDEBUG
 
-//Flags used by the compiler during release builds with debug info.
+//Flags used by the C compiler during RELWITHDEBINFO builds.
 CMAKE_C_FLAGS_RELWITHDEBINFO:STRING=/MD /Zi /O2 /Ob1 /DNDEBUG
 
 //Libraries linked by default with all C applications.
 CMAKE_C_STANDARD_LIBRARIES:STRING=kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
 
-//Flags used by the linker.
+//Flags used by the linker during all build types.
 CMAKE_EXE_LINKER_FLAGS:STRING=/machine:x64
 
-//Flags used by the linker during debug builds.
+//Flags used by the linker during DEBUG builds.
 CMAKE_EXE_LINKER_FLAGS_DEBUG:STRING=/debug /INCREMENTAL
 
-//Flags used by the linker during release minsize builds.
+//Flags used by the linker during MINSIZEREL builds.
 CMAKE_EXE_LINKER_FLAGS_MINSIZEREL:STRING=/INCREMENTAL:NO
 
-//Flags used by the linker during release builds.
+//Flags used by the linker during RELEASE builds.
 CMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=/INCREMENTAL:NO
 
-//Flags used by the linker during Release with Debug Info builds.
+//Flags used by the linker during RELWITHDEBINFO builds.
 CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO:STRING=/debug /INCREMENTAL
 
 //User executables (bin)
@@ -126,22 +125,33 @@ CMAKE_INSTALL_SHAREDSTATEDIR:PATH=com
 CMAKE_INSTALL_SYSCONFDIR:PATH=etc
 
 //Path to a program.
-CMAKE_LINKER:FILEPATH=D:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Tools/MSVC/14.16.27023/bin/Hostx86/x64/link.exe
+CMAKE_LINKER:FILEPATH=D:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.16.27023/bin/Hostx86/x64/link.exe
 
-//Flags used by the linker during the creation of modules.
+//Flags used by the linker during the creation of modules during
+// all build types.
 CMAKE_MODULE_LINKER_FLAGS:STRING=/machine:x64
 
-//Flags used by the linker during debug builds.
+//Flags used by the linker during the creation of modules during
+// DEBUG builds.
 CMAKE_MODULE_LINKER_FLAGS_DEBUG:STRING=/debug /INCREMENTAL
 
-//Flags used by the linker during release minsize builds.
+//Flags used by the linker during the creation of modules during
+// MINSIZEREL builds.
 CMAKE_MODULE_LINKER_FLAGS_MINSIZEREL:STRING=/INCREMENTAL:NO
 
-//Flags used by the linker during release builds.
+//Flags used by the linker during the creation of modules during
+// RELEASE builds.
 CMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING=/INCREMENTAL:NO
 
-//Flags used by the linker during Release with Debug Info builds.
+//Flags used by the linker during the creation of modules during
+// RELWITHDEBINFO builds.
 CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO:STRING=/debug /INCREMENTAL
+
+//Value Computed by CMake
+CMAKE_PROJECT_DESCRIPTION:STATIC=
+
+//Value Computed by CMake
+CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
 CMAKE_PROJECT_NAME:STATIC=SDL2
@@ -149,36 +159,39 @@ CMAKE_PROJECT_NAME:STATIC=SDL2
 //RC compiler
 CMAKE_RC_COMPILER:FILEPATH=rc
 
-//Flags for Windows Resource Compiler.
+//Flags for Windows Resource Compiler during all build types.
 CMAKE_RC_FLAGS:STRING=/DWIN32
 
-//Flags for Windows Resource Compiler during debug builds.
+//Flags for Windows Resource Compiler during DEBUG builds.
 CMAKE_RC_FLAGS_DEBUG:STRING=/D_DEBUG
 
-//Flags for Windows Resource Compiler during release builds for
-// minimum size.
+//Flags for Windows Resource Compiler during MINSIZEREL builds.
 CMAKE_RC_FLAGS_MINSIZEREL:STRING=
 
-//Flags for Windows Resource Compiler during release builds.
+//Flags for Windows Resource Compiler during RELEASE builds.
 CMAKE_RC_FLAGS_RELEASE:STRING=
 
-//Flags for Windows Resource Compiler during release builds with
-// debug info.
+//Flags for Windows Resource Compiler during RELWITHDEBINFO builds.
 CMAKE_RC_FLAGS_RELWITHDEBINFO:STRING=
 
-//Flags used by the linker during the creation of dll's.
+//Flags used by the linker during the creation of shared libraries
+// during all build types.
 CMAKE_SHARED_LINKER_FLAGS:STRING=/machine:x64
 
-//Flags used by the linker during debug builds.
+//Flags used by the linker during the creation of shared libraries
+// during DEBUG builds.
 CMAKE_SHARED_LINKER_FLAGS_DEBUG:STRING=/debug /INCREMENTAL
 
-//Flags used by the linker during release minsize builds.
+//Flags used by the linker during the creation of shared libraries
+// during MINSIZEREL builds.
 CMAKE_SHARED_LINKER_FLAGS_MINSIZEREL:STRING=/INCREMENTAL:NO
 
-//Flags used by the linker during release builds.
+//Flags used by the linker during the creation of shared libraries
+// during RELEASE builds.
 CMAKE_SHARED_LINKER_FLAGS_RELEASE:STRING=/INCREMENTAL:NO
 
-//Flags used by the linker during Release with Debug Info builds.
+//Flags used by the linker during the creation of shared libraries
+// during RELWITHDEBINFO builds.
 CMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO:STRING=/debug /INCREMENTAL
 
 //If set, runtime paths are not added when installing shared libraries,
@@ -188,19 +201,24 @@ CMAKE_SKIP_INSTALL_RPATH:BOOL=OFF
 //If set, runtime paths are not added when using shared libraries.
 CMAKE_SKIP_RPATH:BOOL=OFF
 
-//Flags used by the linker during the creation of static libraries.
+//Flags used by the linker during the creation of static libraries
+// during all build types.
 CMAKE_STATIC_LINKER_FLAGS:STRING=/machine:x64
 
-//Flags used by the linker during debug builds.
+//Flags used by the linker during the creation of static libraries
+// during DEBUG builds.
 CMAKE_STATIC_LINKER_FLAGS_DEBUG:STRING=
 
-//Flags used by the linker during release minsize builds.
+//Flags used by the linker during the creation of static libraries
+// during MINSIZEREL builds.
 CMAKE_STATIC_LINKER_FLAGS_MINSIZEREL:STRING=
 
-//Flags used by the linker during release builds.
+//Flags used by the linker during the creation of static libraries
+// during RELEASE builds.
 CMAKE_STATIC_LINKER_FLAGS_RELEASE:STRING=
 
-//Flags used by the linker during Release with Debug Info builds.
+//Flags used by the linker during the creation of static libraries
+// during RELWITHDEBINFO builds.
 CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 
 //If this value is on, makefiles will be generated without the
@@ -279,10 +297,7 @@ SDL2_BINARY_DIR:STATIC=D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/SDL/Bui
 SDL2_LIB_DEPENDS:STATIC=general;user32;general;gdi32;general;winmm;general;imm32;general;ole32;general;oleaut32;general;version;general;uuid;general;advapi32;general;shell32;general;dinput8;
 
 //Value Computed by CMake
-SDL2_SOURCE_DIR:STATIC=D:/SoundCode/sourceTest/SDL2-2.0.9
-
-//Dependencies for target
-SDL2main_LIB_DEPENDS:STATIC=
+SDL2_SOURCE_DIR:STATIC=D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/SDL
 
 //Enable the Atomic subsystem
 SDL_ATOMIC:BOOL=ON
@@ -415,9 +430,9 @@ CMAKE_CACHEFILE_DIR:INTERNAL=d:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/S
 //Major version of cmake used to create the current loaded cache
 CMAKE_CACHE_MAJOR_VERSION:INTERNAL=3
 //Minor version of cmake used to create the current loaded cache
-CMAKE_CACHE_MINOR_VERSION:INTERNAL=10
+CMAKE_CACHE_MINOR_VERSION:INTERNAL=13
 //Patch version of cmake used to create the current loaded cache
-CMAKE_CACHE_PATCH_VERSION:INTERNAL=1
+CMAKE_CACHE_PATCH_VERSION:INTERNAL=2
 //Path to CMake executable.
 CMAKE_COMMAND:INTERNAL=D:/Program Files/CMake/bin/cmake.exe
 //Path to cpack program executable.
@@ -452,13 +467,15 @@ CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 CMAKE_EXTRA_GENERATOR:INTERNAL=
 //Name of generator.
 CMAKE_GENERATOR:INTERNAL=Visual Studio 15 2017 Win64
+//Generator instance identifier.
+CMAKE_GENERATOR_INSTANCE:INTERNAL=d:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise
 //Name of generator platform.
 CMAKE_GENERATOR_PLATFORM:INTERNAL=
 //Name of generator toolset.
 CMAKE_GENERATOR_TOOLSET:INTERNAL=
 //Source directory with the top level CMakeLists.txt file for this
 // project
-CMAKE_HOME_DIRECTORY:INTERNAL=D:/SoundCode/sourceTest/SDL2-2.0.9
+CMAKE_HOME_DIRECTORY:INTERNAL=D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/SDL
 //ADVANCED property for variable: CMAKE_INSTALL_BINDIR
 CMAKE_INSTALL_BINDIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_INSTALL_DATADIR
@@ -521,7 +538,7 @@ CMAKE_RC_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_RC_FLAGS_RELWITHDEBINFO
 CMAKE_RC_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //Path to CMake installation.
-CMAKE_ROOT:INTERNAL=D:/Program Files/CMake/share/cmake-3.10
+CMAKE_ROOT:INTERNAL=D:/Program Files/CMake/share/cmake-3.13
 //ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS
 CMAKE_SHARED_LINKER_FLAGS-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS_DEBUG

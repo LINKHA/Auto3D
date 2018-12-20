@@ -1,10 +1,10 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <CustomBuild Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\CMakeLists.txt" />
     <CustomBuild Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\CMakeFiles\d15ac1c88933149f1eba2043718dd7b5\uninstall.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
+    <CustomBuild Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\CMakeFiles\uninstall" />

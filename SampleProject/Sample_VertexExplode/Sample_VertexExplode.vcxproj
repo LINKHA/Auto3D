@@ -38,7 +38,7 @@
     <ProjectGuid>{188520C2-A5C5-4106-B07D-E77D1C869D28}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>EmptyProject</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
     <ProjectName>Sample_VertexExplode</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

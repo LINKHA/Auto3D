@@ -1,7 +1,7 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <CustomBuild Include="D:\SoundCode\sourceTest\SDL2-2.0.9\CMakeLists.txt" />
+    <CustomBuild Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\SDL\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

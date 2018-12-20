@@ -38,7 +38,7 @@
     <ProjectGuid>{DBC882FB-F9F5-425A-BDD0-392EA6451B5A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>EmptyProject</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
     <ProjectName>Sample_Physics2D</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

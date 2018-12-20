@@ -38,7 +38,7 @@
     <ProjectGuid>{BC62F3FE-1654-4576-819E-6B71AE2F84F0}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>EmptyProject</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
     <ProjectName>Sample_StencilTest</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

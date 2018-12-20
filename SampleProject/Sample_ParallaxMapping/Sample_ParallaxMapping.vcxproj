@@ -38,7 +38,7 @@
     <ProjectGuid>{842DCA0E-D3F5-46EC-977A-AD3EB0EF2148}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>EmptyProject</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
     <ProjectName>Sample_ParallaxMapping</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

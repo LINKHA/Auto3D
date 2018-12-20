@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{61B27254-ABF4-3366-88F8-33B201056AE3}</ProjectGuid>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
     <Keyword>Win32Proj</Keyword>
     <Platform>x64</Platform>
     <ProjectName>assimp_cmd</ProjectName>
@@ -96,6 +96,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;ASSIMP_BUILD_NO_C4D_IMPORTER;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
@@ -151,10 +152,12 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;WIN32_LEAN_AND_MEAN;ASSIMP_BUILD_NO_C4D_IMPORTER;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
-      <DebugInformationFormat></DebugInformationFormat>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;WIN32_LEAN_AND_MEAN;ASSIMP_BUILD_NO_C4D_IMPORTER;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -207,10 +210,12 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;WIN32_LEAN_AND_MEAN;ASSIMP_BUILD_NO_C4D_IMPORTER;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
-      <DebugInformationFormat></DebugInformationFormat>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;WIN32_LEAN_AND_MEAN;ASSIMP_BUILD_NO_C4D_IMPORTER;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -264,6 +269,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;WIN32_LEAN_AND_MEAN;ASSIMP_BUILD_NO_C4D_IMPORTER;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
@@ -310,7 +316,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <CustomBuild Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\tools\assimp_cmd\CMakeLists.txt">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/tools/assimp_cmd/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-"D:\Program Files\CMake\bin\cmake.exe" -HD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp -BD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp --check-stamp-file D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/tools/assimp_cmd/CMakeFiles/generate.stamp
+"D:\Program Files\CMake\bin\cmake.exe" -SD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp -BD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp --check-stamp-file D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/tools/assimp_cmd/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -323,7 +329,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/tools/assimp_cmd/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-"D:\Program Files\CMake\bin\cmake.exe" -HD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp -BD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp --check-stamp-file D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/tools/assimp_cmd/CMakeFiles/generate.stamp
+"D:\Program Files\CMake\bin\cmake.exe" -SD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp -BD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp --check-stamp-file D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/tools/assimp_cmd/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -336,7 +342,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/tools/assimp_cmd/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
-"D:\Program Files\CMake\bin\cmake.exe" -HD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp -BD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp --check-stamp-file D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/tools/assimp_cmd/CMakeFiles/generate.stamp
+"D:\Program Files\CMake\bin\cmake.exe" -SD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp -BD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp --check-stamp-file D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/tools/assimp_cmd/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -349,7 +355,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/tools/assimp_cmd/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
-"D:\Program Files\CMake\bin\cmake.exe" -HD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp -BD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp --check-stamp-file D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/tools/assimp_cmd/CMakeFiles/generate.stamp
+"D:\Program Files\CMake\bin\cmake.exe" -SD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp -BD:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp --check-stamp-file D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/tools/assimp_cmd/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -363,32 +369,40 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\tools\assimp_cmd\assimp_cmd.rc"  />
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\tools\assimp_cmd\CompareDump.cpp"  />
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\tools\assimp_cmd\ImageExtractor.cpp"  />
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\tools\assimp_cmd\Main.cpp"  />
+    <ResourceCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\tools\assimp_cmd\assimp_cmd.rc" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\tools\assimp_cmd\CompareDump.cpp" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\tools\assimp_cmd\ImageExtractor.cpp" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\tools\assimp_cmd\Main.cpp" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\tools\assimp_cmd\Main.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\tools\assimp_cmd\resource.h" />
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\tools\assimp_cmd\WriteDumb.cpp"  />
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\tools\assimp_cmd\Info.cpp"  />
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\tools\assimp_cmd\Export.cpp"  />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\tools\assimp_cmd\WriteDumb.cpp" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\tools\assimp_cmd\Info.cpp" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\tools\assimp_cmd\Export.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\ZERO_CHECK.vcxproj">
       <Project>{E99E390B-9979-3D4D-93A7-6DBED10A4ED6}</Project>
       <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
     <ProjectReference Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\irrXML\IrrXML.vcxproj">
       <Project>{AD149EDA-0C4B-3B12-B467-3B600B5B8A65}</Project>
       <Name>IrrXML</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
     <ProjectReference Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\code\assimp.vcxproj">
       <Project>{A1150568-8320-3DBA-BB95-58CCB87DD563}</Project>
       <Name>assimp</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
     <ProjectReference Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\zlib\zlibstatic.vcxproj">
       <Project>{CE868C11-1A93-3F5A-A4E8-9E44DEA106CE}</Project>
       <Name>zlibstatic</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

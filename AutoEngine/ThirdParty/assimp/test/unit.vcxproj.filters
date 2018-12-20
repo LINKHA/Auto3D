@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\gtest\src\gtest-all.cc">
@@ -275,11 +275,11 @@
     <Filter Include="UnitTests">
       <UniqueIdentifier>{FE255400-40DA-3111-8299-338A97F9C9A9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UnitTests\Compiler">
-      <UniqueIdentifier>{99DD78C7-DC7C-3171-B2DF-1A426FFE2A6D}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UnitTests\Common">
       <UniqueIdentifier>{2C86884E-4A18-34A4-A003-E713A8A7D8AC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UnitTests\Compiler">
+      <UniqueIdentifier>{99DD78C7-DC7C-3171-B2DF-1A426FFE2A6D}</UniqueIdentifier>
     </Filter>
     <Filter Include="UnitTests\Importers">
       <UniqueIdentifier>{53519CD0-2ED5-3EC7-90C7-563E0E206EB6}</UniqueIdentifier>

@@ -19,3 +19,7 @@ AutoEngine/ThirdParty/OpenAL/build/Debug/alrecord.exe
 AutoEngine/ThirdParty/OpenAL/build/Debug/
 AutoEngine/ThirdParty/Assimp/samples/bin/
 *.lib
+AutoEngine/ThirdParty/Assimp/CMakeFiles/
+AutoEngine/ThirdParty/Assimp/bin/
+AutoEngine/ThirdParty/OpenAL/build/CMakeFiles/
+AutoEngine/ThirdParty/OpenAL/build/native-tools/CMakeFiles/

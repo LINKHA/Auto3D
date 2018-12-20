@@ -1,10 +1,9 @@
 # CMake generation dependency list for this directory.
+D:/Program Files/CMake/share/cmake-3.13/Modules/CheckCSourceCompiles.cmake
+D:/Program Files/CMake/share/cmake-3.13/Modules/CheckFunctionExists.cmake
+D:/Program Files/CMake/share/cmake-3.13/Modules/CheckIncludeFile.cmake
+D:/Program Files/CMake/share/cmake-3.13/Modules/CheckIncludeFileCXX.cmake
+D:/Program Files/CMake/share/cmake-3.13/Modules/CheckTypeSize.cmake
 D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/contrib/zlib/CMakeLists.txt
-D:/Program Files/CMake/share/cmake-3.10/Modules/CheckTypeSize.cmake
-D:/Program Files/CMake/share/cmake-3.10/Modules/CheckIncludeFile.cmake
-D:/Program Files/CMake/share/cmake-3.10/Modules/CheckIncludeFileCXX.cmake
-D:/Program Files/CMake/share/cmake-3.10/Modules/CheckFunctionExists.cmake
-D:/Program Files/CMake/share/cmake-3.10/Modules/CheckIncludeFile.cmake
-D:/Program Files/CMake/share/cmake-3.10/Modules/CheckCSourceCompiles.cmake
-D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/contrib/zlib/zlib.pc.cmakein
 D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/contrib/zlib/zconf.h.cmakein
+D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/contrib/zlib/zlib.pc.cmakein

@@ -195,6 +195,12 @@ CMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING=/INCREMENTAL:NO
 CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO:STRING=/debug /INCREMENTAL
 
 //Value Computed by CMake
+CMAKE_PROJECT_DESCRIPTION:STATIC=
+
+//Value Computed by CMake
+CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
+
+//Value Computed by CMake
 CMAKE_PROJECT_NAME:STATIC=Assimp
 
 //RC compiler
@@ -260,8 +266,17 @@ CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=OFF
 
+//Path to a file.
+DirectX_D3D11_INCLUDE_DIR:PATH=C:/Program Files (x86)/Windows Kits/10/Include/10.0.17763.0/um
+
 //Path to a library.
-DirectX_D3DCOMPILER_LIBRARY:FILEPATH=DirectX_D3DCOMPILER_LIBRARY-NOTFOUND
+DirectX_D3D11_LIBRARY:FILEPATH=C:/Program Files (x86)/Windows Kits/10/Lib/10.0.17763.0/um/x64/d3d11.lib
+
+//Path to a library.
+DirectX_D3DCOMPILER_LIBRARY:FILEPATH=C:/Program Files (x86)/Windows Kits/10/Lib/10.0.17763.0/um/x64/d3dcompiler.lib
+
+//Path to a library.
+DirectX_D3DX11_LIBRARY:FILEPATH=DirectX_D3DX11_LIBRARY-NOTFOUND
 
 //Path to a library.
 DirectX_D3DX9_LIBRARY:FILEPATH=DirectX_D3DX9_LIBRARY-NOTFOUND
@@ -270,25 +285,22 @@ DirectX_D3DX9_LIBRARY:FILEPATH=DirectX_D3DX9_LIBRARY-NOTFOUND
 DirectX_DXERR_LIBRARY:FILEPATH=DirectX_DXERR_LIBRARY-NOTFOUND
 
 //Path to a library.
-DirectX_DXGI_LIBRARY:FILEPATH=DirectX_DXGI_LIBRARY-NOTFOUND
+DirectX_DXGI_LIBRARY:FILEPATH=C:/Program Files (x86)/Windows Kits/10/Lib/10.0.17763.0/um/x64/dxgi.lib
 
 //Path to a library.
-DirectX_DXGUID_LIBRARY:FILEPATH=DirectX_DXGUID_LIBRARY-NOTFOUND
+DirectX_DXGUID_LIBRARY:FILEPATH=C:/Program Files (x86)/Windows Kits/10/Lib/10.0.17763.0/um/x64/dxguid.lib
 
 //x
-DirectX_INCLUDE_DIR:PATH=DirectX_INCLUDE_DIR-NOTFOUND
+DirectX_INCLUDE_DIR:PATH=C:/Program Files (x86)/Windows Kits/10/Include/10.0.17763.0/shared
 
 //x
-DirectX_LIBRARY:FILEPATH=DirectX_LIBRARY-NOTFOUND
+DirectX_LIBRARY:FILEPATH=C:/Program Files (x86)/Windows Kits/10/Lib/10.0.17763.0/um/x64/d3d9.lib
 
 //Single output directory for building all executables.
 EXECUTABLE_OUTPUT_PATH:PATH=
 
 //Inject debug postfix in .a/.so lib names
 INJECT_DEBUG_POSTFIX:BOOL=ON
-
-//Dependencies for target
-IrrXML_LIB_DEPENDS:STATIC=
 
 //Single output directory for building all libraries.
 LIBRARY_OUTPUT_PATH:PATH=
@@ -315,7 +327,7 @@ RT_LIBRARY:FILEPATH=RT_LIBRARY-NOTFOUND
 SYSTEM_IRRXML:BOOL=OFF
 
 //Path to a file.
-ZLIB_INCLUDE_DIR:PATH=ZLIB_INCLUDE_DIR-NOTFOUND
+ZLIB_INCLUDE_DIR:PATH=D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/contrib/zlib
 
 //Path to a library.
 ZLIB_LIBRARY_DBG:FILEPATH=ZLIB_LIBRARY_DBG-NOTFOUND
@@ -335,14 +347,8 @@ assimp_qt_viewer_SOURCE_DIR:STATIC=D:/Project/MyProject/Auto3D/AutoEngine/ThirdP
 //Value Computed by CMake
 zlib_BINARY_DIR:STATIC=D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/contrib/zlib
 
-//Dependencies for target
-zlib_LIB_DEPENDS:STATIC=
-
 //Value Computed by CMake
 zlib_SOURCE_DIR:STATIC=D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/contrib/zlib
-
-//Dependencies for target
-zlibstatic_LIB_DEPENDS:STATIC=
 
 
 ########################
@@ -358,9 +364,9 @@ CMAKE_CACHEFILE_DIR:INTERNAL=d:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/A
 //Major version of cmake used to create the current loaded cache
 CMAKE_CACHE_MAJOR_VERSION:INTERNAL=3
 //Minor version of cmake used to create the current loaded cache
-CMAKE_CACHE_MINOR_VERSION:INTERNAL=10
+CMAKE_CACHE_MINOR_VERSION:INTERNAL=13
 //Patch version of cmake used to create the current loaded cache
-CMAKE_CACHE_PATCH_VERSION:INTERNAL=1
+CMAKE_CACHE_PATCH_VERSION:INTERNAL=2
 //Path to CMake executable.
 CMAKE_COMMAND:INTERNAL=D:/Program Files/CMake/bin/cmake.exe
 //Path to cpack program executable.
@@ -407,6 +413,8 @@ CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 CMAKE_EXTRA_GENERATOR:INTERNAL=
 //Name of generator.
 CMAKE_GENERATOR:INTERNAL=Visual Studio 15 2017 Win64
+//Generator instance identifier.
+CMAKE_GENERATOR_INSTANCE:INTERNAL=d:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise
 //Name of generator platform.
 CMAKE_GENERATOR_PLATFORM:INTERNAL=
 //Name of generator toolset.
@@ -444,7 +452,7 @@ CMAKE_RC_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_RC_FLAGS_RELWITHDEBINFO
 CMAKE_RC_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //Path to CMake installation.
-CMAKE_ROOT:INTERNAL=D:/Program Files/CMake/share/cmake-3.10
+CMAKE_ROOT:INTERNAL=D:/Program Files/CMake/share/cmake-3.13
 //ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS
 CMAKE_SHARED_LINKER_FLAGS-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS_DEBUG
@@ -471,8 +479,14 @@ CMAKE_STATIC_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: DirectX_D3D11_INCLUDE_DIR
+DirectX_D3D11_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: DirectX_D3D11_LIBRARY
+DirectX_D3D11_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: DirectX_D3DCOMPILER_LIBRARY
 DirectX_D3DCOMPILER_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: DirectX_D3DX11_LIBRARY
+DirectX_D3DX11_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: DirectX_D3DX9_LIBRARY
 DirectX_D3DX9_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: DirectX_DXERR_LIBRARY
@@ -486,7 +500,7 @@ DirectX_INCLUDE_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: DirectX_LIBRARY
 DirectX_LIBRARY-ADVANCED:INTERNAL=1
 //x
-DirectX_PREFIX_PATH_INT_CHECK:INTERNAL=d:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/;C:/apps_x86/Microsoft DirectX SDK*;C:/Program Files (x86)/Microsoft DirectX SDK*;C:/apps/Microsoft DirectX SDK*;C:/Program Files/Microsoft DirectX SDK*;C:/Program Files (x86)/Windows Kits/8.1;C:\Program Files/Microsoft DirectX SDK*
+DirectX_PREFIX_PATH_INT_CHECK:INTERNAL=C:/apps_x86/Microsoft DirectX SDK*;C:/Program Files (x86)/Microsoft DirectX SDK*;C:/apps/Microsoft DirectX SDK*;C:/Program Files/Microsoft DirectX SDK*;C:/Program Files (x86)/Windows Kits/8.1;C:\Program Files/Microsoft DirectX SDK*
 //Have function fseeko
 HAVE_FSEEKO:INTERNAL=
 //Result of TRY_COMPILE
