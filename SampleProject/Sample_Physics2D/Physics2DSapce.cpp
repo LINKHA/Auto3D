@@ -1,7 +1,8 @@
 #include "Physics2DSapce.h"
 #include "Application.h"
-#include "../FreeCamera.h"
 #include "Level_0.h"
+#include "ResourceSystem.h"
+
 Physics2DSapce::Physics2DSapce(Ambient* ambient)
 	:MotionSpace(ambient)
 {}
@@ -12,13 +13,8 @@ Physics2DSapce::~Physics2DSapce()
 
 void Physics2DSapce::Awake()
 {
+	GetSubSystem<ResourceSystem>()->AddResourceDir("../Resource/");
 	RegisterScene(new Level_0(_ambient, 0));
 }
-void Physics2DSapce::Update()
-{
-}
-int Physics2DSapce::Launch()
-{
-	return INSTANCE(Application).Run(_ambient);
-}
+
 AUTO_APPLICATION_MAIN(Physics2DSapce)

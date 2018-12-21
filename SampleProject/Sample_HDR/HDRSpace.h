@@ -9,7 +9,6 @@ public:
 	explicit HDRSpace(Ambient* ambient);
 	~HDRSpace();
 	void Awake()override;
-	int Launch();
 };
 
 

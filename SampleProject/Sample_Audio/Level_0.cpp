@@ -2,20 +2,23 @@
 #include "../FreeCamera.h"
 #include "Input.h"
 #include "AudioListener.h"
+#include "ResourceSystem.h"
+#include "AudioBuffer.h"
 
 void Level_0::Start()
 {
+	auto* audioBuffer = GetSubSystem<ResourceSystem>()->GetResource<AudioBuffer>("sound/SoundTest.wav");
+	
 	Node* listenerObj = CreateNode();
-	AudioListener* listener = new AudioListener(_ambient);
-	listenerObj->AddComponent(listener);
+	listenerObj->CreateComponent<AudioListener>();
 
 	Node* autdieObj = CreateNode();
-	audio = new AudioSource(_ambient,new _AudioBuffer(_ambient,"../Resource/sound/SoundTest.wav"));
-	autdieObj->AddComponent(audio);
-	
+	audio = autdieObj->CreateComponent<AudioSource>();
+	audio->SetAudioBuffer(audioBuffer);
+
 	Node* autdieObj2 = CreateNode();
-	audio2 = new AudioSource(_ambient, new _AudioBuffer(_ambient, "../Resource/sound/SoundTest.wav"));
-	autdieObj->AddComponent(audio2);
+	audio2 = autdieObj2->CreateComponent<AudioSource>();
+	audio2->SetAudioBuffer(audioBuffer);
 }
 
 void Level_0::Update()

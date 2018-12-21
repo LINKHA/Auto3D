@@ -1,5 +1,6 @@
 #include "HDRSpace.h"
 #include "Application.h"
+#include "ResourceSystem.h"
 #include "Level_0.h"
 
 HDRSpace::HDRSpace(Ambient* ambient)
@@ -12,11 +13,8 @@ HDRSpace::~HDRSpace()
 
 void HDRSpace::Awake()
 {
+	GetSubSystem<ResourceSystem>()->AddResourceDir("../Resource/");
 	RegisterScene(new Level_0(_ambient, 0));
 }
 
-int HDRSpace::Launch()
-{
-	return INSTANCE(Application).Run(_ambient);
-}
 AUTO_APPLICATION_MAIN(HDRSpace)

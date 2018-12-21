@@ -1,4 +1,5 @@
 #include "StencilTestSpace.h"
+#include "ResourceSystem.h"
 #include "Level_0.h"
 
 
@@ -13,6 +14,7 @@ StencilTestSpace::~StencilTestSpace()
 
 void StencilTestSpace::Awake()
 {
+	GetSubSystem<ResourceSystem>()->AddResourceDir("../Resource/");
 	RegisterScene(new Level_0(_ambient, 0));
 }
 

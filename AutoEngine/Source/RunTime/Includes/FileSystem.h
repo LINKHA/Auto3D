@@ -24,6 +24,30 @@ public:
 	* @brief : Create a directory
 	*/
 	bool CreateDir(const STRING& pathName);
+	/**
+	* @brief :Run a program using the command interpreter, block until it exits and return the exit code.
+	*		Will fail if any allowed paths are defined
+	*/
+	int SystemCommand(const STRING& commandLine, bool redirectStdOutToLog = false);
+	/**
+	* @brief : Run a specific program, block until it exits and return the exit code
+	*		Will fail if any allowed paths are defined
+	*/
+	int SystemRun(const STRING& fileName, const VECTOR<STRING>& arguments);
+
+	/**
+	* @brief : Copy a file. Return true if successful
+	*/
+	bool Copy(const STRING& srcFileName, const STRING& destFileName);
+	/**
+	* @brief : Rename a file. Return true if successful
+	*/
+	bool Rename(const STRING& srcFileName, const STRING& destFileName);
+	/**
+	* @brief :  Delete a file. Return true if successful
+	*/
+	bool Delete(const STRING& fileName);
+
 
 	/**
 	* @brief : Return the user documents directory

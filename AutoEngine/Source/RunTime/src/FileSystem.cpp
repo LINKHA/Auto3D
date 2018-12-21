@@ -32,6 +32,7 @@
 #	include <mach-o/dyld.h>
 #endif
 
+#include "File.h"
 #include "FileSystem.h"
 
 extern "C"
@@ -47,6 +48,123 @@ extern "C"
 }
 
 namespace Auto3D {
+
+int DoSystemCommand(const STRING& commandLine, bool redirectToLog, Ambient* ambient)
+{
+#if defined(TVOS) || defined(IOS)
+	return -1;
+#else
+#if !defined(__EMSCRIPTEN__) && !defined(MINI_URHO)
+	if (!redirectToLog)
+#endif
+		return system(commandLine.CStr());
+
+#if !defined(__EMSCRIPTEN__) && !defined(MINI_URHO)
+	// Get a platform-agnostic temporary file name for stderr redirection
+	STRING stderrFilename;
+	STRING adjustedCommandLine(commandLine);
+	char* prefPath = SDL_GetPrefPath("Auto3D", "temp");
+	if (prefPath)
+	{
+		stderrFilename = STRING(prefPath) + "command-stderr";
+		adjustedCommandLine += " 2>" + stderrFilename;
+		SDL_free(prefPath);
+	}
+
+#ifdef _MSC_VER
+#define popen _popen
+#define pclose _pclose
+#endif
+
+	// Use popen/pclose to capture the stdout and stderr of the command
+	FILE* file = popen(adjustedCommandLine.CStr(), "r");
+	if (!file)
+		return -1;
+
+	// Capture the standard output stream
+	char buffer[128];
+	while (!feof(file))
+	{
+		if (fgets(buffer, sizeof(buffer), file))
+			LogString(STRING(buffer));
+	}
+	int exitCode = pclose(file);
+
+	// Capture the standard error stream
+	if (!stderrFilename.Empty())
+	{
+		SharedPtr<File> errFile(new File(ambient, stderrFilename, FileMode::Read));
+		while (!errFile->IsEof())
+		{
+			unsigned numRead = errFile->Read(buffer, sizeof(buffer));
+			if (numRead)
+				LogString(STRING(buffer, numRead));
+		}
+	}
+
+	return exitCode;
+#endif
+#endif
+}
+
+
+int DoSystemRun(const STRING& fileName, const VECTOR<STRING>& arguments)
+{
+#ifdef TVOS
+	return -1;
+#else
+	STRING fixedFileName = GetNativePath(fileName);
+
+#ifdef _WIN32
+	// Add .exe extension if no extension defined
+	if (GetExtension(fixedFileName).Empty())
+		fixedFileName += ".exe";
+
+	STRING commandLine = "\"" + fixedFileName + "\"";
+	for (unsigned i = 0; i < arguments.size(); ++i)
+		commandLine += " " + arguments[i];
+
+	STARTUPINFOW startupInfo;
+	PROCESS_INFORMATION processInfo;
+	memset(&startupInfo, 0, sizeof startupInfo);
+	memset(&processInfo, 0, sizeof processInfo);
+
+	WSTRING commandLineW(commandLine);
+	if (!CreateProcessW(nullptr, (wchar_t*)commandLineW.CStr(), nullptr, nullptr, 0, CREATE_NO_WINDOW, nullptr, nullptr, &startupInfo, &processInfo))
+		return -1;
+
+	WaitForSingleObject(processInfo.hProcess, INFINITE);
+	DWORD exitCode;
+	GetExitCodeProcess(processInfo.hProcess, &exitCode);
+
+	CloseHandle(processInfo.hProcess);
+	CloseHandle(processInfo.hThread);
+
+	return exitCode;
+#else
+	pid_t pid = fork();
+	if (!pid)
+	{
+		VECTOR<const char*> argPtrs;
+		argPtrs.Push(fixedFileName.CString());
+		for (unsigned i = 0; i < arguments.Size(); ++i)
+			argPtrs.Push(arguments[i].CString());
+		argPtrs.Push(nullptr);
+
+		execvp(argPtrs[0], (char**)&argPtrs[0]);
+		return -1; // Return -1 if we could not spawn the process
+	}
+	else if (pid > 0)
+	{
+		int exitCode;
+		wait(&exitCode);
+		return exitCode;
+	}
+	else
+		return -1;
+#endif
+#endif
+}
 
 FileSystem::FileSystem(Ambient* ambient)
 	:Super(ambient)
@@ -120,6 +238,90 @@ bool FileSystem::CreateDir(const STRING& pathName)
 		WarningString("Failed to create directory " + pathName);
 
 	return success;
+}
+
+int FileSystem::SystemCommand(const STRING& commandLine, bool redirectStdOutToLog)
+{
+	if (_allowedPaths.empty())
+		return DoSystemCommand(commandLine, redirectStdOutToLog, _ambient);
+	else
+	{
+		ErrorString("Executing an external command is not allowed");
+		return -1;
+	}
+}
+
+int FileSystem::SystemRun(const STRING& fileName, const VECTOR<STRING>& arguments)
+{
+	if (_allowedPaths.empty())
+		return DoSystemRun(fileName, arguments);
+	else
+	{
+		ErrorString("Executing an external command is not allowed");
+		return -1;
+	}
+}
+
+bool FileSystem::Copy(const STRING& srcFileName, const STRING& destFileName)
+{
+	if (!CheckAccess(GetPath(srcFileName)))
+	{
+		LogString("Access denied to " + srcFileName);
+		return false;
+	}
+	if (!CheckAccess(GetPath(destFileName)))
+	{
+		LogString("Access denied to " + destFileName);
+		return false;
+	}
+
+	SharedPtr<File> srcFile(new File(_ambient, srcFileName, FileMode::Read));
+	if (!srcFile->IsOpen())
+		return false;
+	SharedPtr<File> destFile(new File(_ambient, destFileName, FileMode::Write));
+	if (!destFile->IsOpen())
+		return false;
+
+	unsigned fileSize = srcFile->GetSize();
+	SharedArrayPtr<unsigned char> buffer(new unsigned char[fileSize]);
+
+	unsigned bytesRead = srcFile->Read(buffer.get(), fileSize);
+	unsigned bytesWritten = destFile->Write(buffer.get(), fileSize);
+	return bytesRead == fileSize && bytesWritten == fileSize;
+}
+
+bool FileSystem::Rename(const STRING& srcFileName, const STRING& destFileName)
+{
+	if (!CheckAccess(GetPath(srcFileName)))
+	{
+		LogString("Access denied to " + srcFileName);
+		return false;
+	}
+	if (!CheckAccess(GetPath(destFileName)))
+	{
+		LogString("Access denied to " + destFileName);
+		return false;
+	}
+
+#ifdef _WIN32
+	return MoveFileW(GetWideNativePath(srcFileName).CStr(), GetWideNativePath(destFileName).CStr()) != 0;
+#else
+	return rename(GetNativePath(srcFileName).CStr(), GetNativePath(destFileName).CStr()) == 0;
+#endif
+}
+
+bool FileSystem::Delete(const STRING& fileName)
+{
+	if (!CheckAccess(GetPath(fileName)))
+	{
+		ErrorString("Access denied to " + fileName);
+		return false;
+	}
+#ifdef _WIN32
+	return DeleteFileW(GetWideNativePath(fileName).CStr()) != 0;
+#else
+	return remove(GetNativePath(fileName).CStr()) == 0;
+#endif
 }
 
 STRING FileSystem::GetUserDocumentsDir()

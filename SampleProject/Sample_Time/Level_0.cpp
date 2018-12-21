@@ -1,11 +1,11 @@
 #include "Level_0.h"
 #include "Input.h"
-#include "GameObject.h"
+#include "Node.h"
 
 
 void Level_0::Start()
 {
-	GameObject* gameObject = new GameObject(_ambient, _levelNumber);
+	Node* gameObject = CreateNode();
 	_timer = GetSubSystem<Time>();
 }
 
@@ -41,7 +41,7 @@ void Level_0::RealTimes()
 		<< "hour : " << time.hour << "  "
 		<< "minute : " << time.minute << "  "
 		<< "second : " << time.second
-		<< AutoCoutEnd;
+		<< AutoEndl;
 }
 void Level_0::ScaleTime(float scale)
 {
@@ -52,7 +52,7 @@ void Level_0::ScaleTime(float scale)
 		<< _timer->GetDeltaTime() << "  "
 		<< _timer->GetSmoothDeltaTime() << "  "
 		<< _timer->GetFrameCount()
-		<< AutoCoutEnd;
+		<< AutoEndl;
 
 }
 void Level_0::NormalTime()
@@ -64,7 +64,7 @@ void Level_0::NormalTime()
 		<< _timer->GetDeltaTime() << "  "
 		<< _timer->GetSmoothDeltaTime() << "  "
 		<< _timer->GetFrameCount()
-		<< AutoCoutEnd;
+		<< AutoEndl;
 }
 void Level_0::PauseTime()
 {
@@ -75,6 +75,6 @@ void Level_0::PauseTime()
 		<< _timer->GetDeltaTime() << "  "
 		<< _timer->GetSmoothDeltaTime() << "  "
 		<< _timer->GetFrameCount()
-		<< AutoCoutEnd;
+		<< AutoEndl;
 }
 

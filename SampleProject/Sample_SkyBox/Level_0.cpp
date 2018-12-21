@@ -1,44 +1,47 @@
 #include "Level_0.h"
-#include "GameObject.h"
-#include "LightDirectional.h"
-#include "Mesh.h"
+#include "Node.h"
+#include "Light.h"
+#include "MeshRenderer.h"
 #include "SkyBox.h"
 #include "SkyBoxReflectMesh.h"
-#include "Configs.h"
 #include "../FreeCamera.h"
+#include "ResourceSystem.h"
+#include "Configs.h"
 
 void Level_0::Start()
 {
-	Node* cameraObj = new Node(_ambient,_id);
-	FreeCamera* camera = new FreeCamera(_ambient, _id);
-	cameraObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
+	auto* cube = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/base/Cube.3DS");
+
+	Node* cameraObj = CreateNode();
+	FreeCamera* camera = new FreeCamera(_ambient, _sceneID);
+	cameraObj->SetPosition(0.0f, 0.0f, 3.0f);
 	cameraObj->AddComponent(camera);
 
 
-	Node* skyBoxObj = new Node(_ambient, _id);
+	Node* skyBoxObj = CreateNode();
 	SkyBox* skybox = new SkyBox(_ambient);
 	skyBoxObj->AddComponent(skybox);
 
-	Node* lightObj = new Node(_ambient, _id);
-	Light * light = new LightDirectional(_ambient);
-	lightObj->AddComponent(light);
+	Node* lightObj = CreateNode();
+	Light* light = lightObj->CreateComponent<Light>();
 
-	Node* meshObj = new Node(_ambient, _id);
-	Mesh * mesh = new Mesh(_ambient);
+	Node* meshObj = CreateNode();
+	MeshRenderer* mesh = meshObj->CreateComponent<MeshRenderer>();
+	mesh->SetMesh(cube);
 	mesh->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
 	//mesh->GetMaterial()->color = Color(0.0f, 0.0f, 1.0f);
 	meshObj->AddComponent(mesh);
 
-	Node* meshObj2 = new Node(_ambient, _id);
+	Node* meshObj2 = CreateNode();
 	SkyBoxReflectMesh * mesh2 = new SkyBoxReflectMesh(_ambient);
-	meshObj2->GetComponent(Transform).SetPosition(1.0f, 0.0f, 0.0f);
+	meshObj2->SetPosition(1.0f, 0.0f, 0.0f);
 	meshObj2->AddComponent(mesh2);
 
-	Node* meshObj3 = new Node(_ambient, _id);
+	Node* meshObj3 = CreateNode();
 	SkyBoxReflectMesh * mesh3 = new SkyBoxReflectMesh(_ambient,
-		Shader(shader_path + "au_skybox_cube.auvs"
+		_Shader(shader_path + "au_skybox_cube.auvs"
 			, shader_path + "au_skybox_cube_refract.aufs"));
-	meshObj3->GetComponent(Transform).SetPosition(2.0f, 0.0f, 0.0f);
+	meshObj3->SetPosition(2.0f, 0.0f, 0.0f);
 	meshObj3->AddComponent(mesh3);
 }
 

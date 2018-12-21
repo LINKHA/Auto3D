@@ -34,11 +34,11 @@ public:
 };
 
 /// @brief : Regisiter application in main function
-#define AUTO_APPLICATION_MAIN(className) \
+#define AUTO_APPLICATION_MAIN(_Class) \
 int runApplication() \
 { \
     SharedPtr<Auto3D::Ambient> ambient(new Auto3D::Ambient()); \
-    className work(ambient.get());\
+    _Class work(ambient.get());\
     return work.Launch(); \
 } \
 AUTO_MAIN(runApplication());

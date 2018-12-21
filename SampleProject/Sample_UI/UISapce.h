@@ -7,8 +7,6 @@ public:
 	explicit UISapce(Ambient* ambient);
 	~UISapce();
 	void Awake()override;
-	void Start()override;
-	void Update()override;
 };
 
 

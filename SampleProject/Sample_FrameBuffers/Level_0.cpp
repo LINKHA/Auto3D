@@ -1,49 +1,53 @@
 #include "Level_0.h"
-#include "GameObject.h"
-#include "Sprite.h"
-#include "LightPoint.h"
-#include "Mesh.h"
+#include "Node.h"
+#include "SpriteRenderer.h"
+#include "Light.h"
+#include "MeshRenderer.h"
 #include "Time.h"
+#include "ResourceSystem.h"
+#include "Image.h"
 
 void Level_0::Start()
 {
+	auto* cube = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/base/Cube.3DS");
+	auto* imageGrass = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/grass.png");
+	auto* imageWindow = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/window.png");
 
-	GameObject* camObj = new GameObject(_ambient,_levelNumber);
-	camera = new FreeCamera(_ambient, _levelNumber);
+	Node* camObj = CreateNode();
+	camera = new FreeCamera(_ambient, _sceneID);
 	camera->freeCamera->AllowOffScreen(true);
 	camera->freeCamera->AllowMSAA(true);
 	camera->freeCamera->AllowLateEffect(true);
-
-	camObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
+	camObj->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, 3.0f);
 	camObj->AddComponent(camera);
 
-	Sprite* tex2 = new Sprite(_ambient);
-	tex2->SetImage("../Resource/texture/window.png");
+	
+	Node* obj2 = CreateNode();
+	obj2->SetPosition(0.0f, 0.0f, 0.0f);
+	auto* tex2 = obj2->CreateComponent<SpriteRenderer>();
+	tex2->SetImage(imageWindow);
 	tex2->EnableBlend(true);
 	tex2->EnableDepth(false);
-	GameObject * obj2 = new GameObject(_ambient, _levelNumber);
-	obj2->GetComponent(Transform).SetPosition(0.0f, 0.0f, 0.0f);
-	obj2->AddComponent(tex2);
 
 
-	Sprite* tex5 = new Sprite(_ambient);
-	tex5->SetImage("../Resource/texture/grass.png");
+	
+	Node* obj5 = CreateNode();
+	obj5->SetPosition(-0.2f, 0.0f, -3.0f);
+	auto* tex5 = obj5->CreateComponent<SpriteRenderer>();
+	tex5->SetImage(imageGrass);
 	tex5->EnableBlend(true);
-	GameObject * obj5 = new GameObject(_ambient, _levelNumber);
-	obj5->GetComponent(Transform).SetPosition(-0.2f, 0.0f, -3.0f);
-	obj5->AddComponent(tex5);
 
-	GameObject* lightObj = new GameObject(_ambient, _levelNumber);
-	Light* light = new LightPoint(_ambient);
-	lightObj->AddComponent(light);
+
+	Node* lightObj = CreateNode();
+	auto* light = lightObj->CreateComponent<Light>();
+	light->SetType(LightType::Point);
 	//////////////////////////////////////////////////////////////////////////
-	Mesh* mesh = new Mesh(_ambient);
-	mesh->SetModel("../Resource/object/base/Cube.3DS");
+	
+	Node* meshObj = CreateNode();
+	meshObj->SetPosition(1.0f, 0.0f, 0.0f);
+	MeshRenderer* mesh = meshObj->CreateComponent<MeshRenderer>();
+	mesh->SetMesh(cube);
 	mesh->GetMaterial()->color.Set(0.5f, 0.8f, 0.3f);
-	GameObject * meshObj = new GameObject(_ambient, _levelNumber);
-	meshObj->GetComponent(Transform).SetPosition(1.0f, 0.0f, 0.0f);
-	meshObj->AddComponent(mesh);
-
 }
 
 void Level_0::Update()

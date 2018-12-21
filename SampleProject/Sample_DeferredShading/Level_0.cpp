@@ -1,18 +1,17 @@
 #include "Level_0.h"
-#include "GameObject.h"
 #include "DeferredShading.h"
 #include "Transform.h"
 #include "../FreeCamera.h"
 
 void Level_0::Start()
 {
-	GameObject* cameraObj = new GameObject(_ambient,_levelNumber);
-	FreeCamera* camera = new FreeCamera(_ambient, _levelNumber);
-	cameraObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
+	Node* cameraObj = CreateNode();
+	FreeCamera* camera = new FreeCamera(_ambient, _sceneID);
+	cameraObj->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, 3.0f);
 	cameraObj->AddComponent(camera);
 
 
-	GameObject * deferredObj = new GameObject(_ambient, _levelNumber);
+	Node* deferredObj = CreateNode();
 	DeferredShading* deferred = new DeferredShading(_ambient);
 	deferredObj->AddComponent(deferred);
 }

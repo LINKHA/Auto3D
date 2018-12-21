@@ -1,37 +1,40 @@
 #include "Level_0.h"
-#include "GameObject.h"
-#include "LightDirectional.h"
-#include "Mesh.h"
+#include "Node.h"
+#include "Light.h"
+#include "MeshRenderer.h"
+#include "ResourceSystem.h"
 #include "../FreeCamera.h"
 
 void Level_0::Start()
 {
-	GameObject* lightObj = new GameObject(_ambient,_levelNumber);
-	lightObj->GetComponent(Transform).SetPosition(2.0f, 5.0f, 0.0f);
-	Light* light = new LightDirectional(_ambient);
-	lightObj->AddComponent(light);
+	auto* mesh = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/base/Cube.3DS");
+
+	Node* lightObj = CreateNode();
+	lightObj->GetComponent<Transform>()->SetPosition(2.0f, 5.0f, 0.0f);
+	Light* light = lightObj->CreateComponent<Light>();
+	light->SetType(LightType::Directional);
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	GameObject* camObj = new GameObject(_ambient, _levelNumber);
-	FreeCamera* cam = new FreeCamera(_ambient, _levelNumber);
+	Node* camObj = CreateNode();
+	FreeCamera* cam = new FreeCamera(_ambient, _sceneID);
 	camObj->AddComponent(cam);
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	GameObject* obj1 = new GameObject(_ambient, _levelNumber);
-	Mesh* plane = new Mesh(_ambient);
+	Node* obj1 = CreateNode();
+	MeshRenderer* plane = obj1->CreateComponent<MeshRenderer>();
+	plane->SetMesh(mesh);
 	plane->GetMaterial()->color.Set(0.5f, 0.5f, 0.5f);
-	obj1->AddComponent(plane);
-	obj1->GetComponent(Transform).SetScale(10.0f, 0.1f, 10.0f);
+	obj1->SetScale(10.0f, 0.1f, 10.0f);
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	GameObject * obj2 = new GameObject(_ambient, _levelNumber);
-	Mesh* box = new Mesh(_ambient);
+	Node* obj2 = CreateNode();
+	MeshRenderer* box = obj2->CreateComponent<MeshRenderer>();
+	box->SetMesh(mesh);
 	box->EnableDepth(false);
-	obj2->AddComponent(box);
-	obj2->GetComponent(Transform).SetPosition(1.0f, 0.5f, 3.0f);
+	obj2->SetPosition(1.0f, 0.5f, 3.0f);
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	GameObject * obj3 = new GameObject(_ambient, _levelNumber);
-	Mesh* box2 = new Mesh(_ambient);
+	Node* obj3 = CreateNode();
+	MeshRenderer* box2 = obj3->CreateComponent<MeshRenderer>();
+	box2->SetMesh(mesh);
 	box2->EnableDepth(false);
-	obj3->AddComponent(box2);
-	obj3->GetComponent(Transform).SetPosition(3.0f, 0.5f, 2.0f);
+	obj3->SetPosition(3.0f, 0.5f, 2.0f);
 }
 
 void Level_0::Update()

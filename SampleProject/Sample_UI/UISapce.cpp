@@ -1,5 +1,5 @@
 #include "UISapce.h"
-#include "../FreeCamera.h"
+#include "ResourceSystem.h"
 #include "level_0.h"
 UISapce::UISapce(Ambient* ambient)
 	:MotionSpace(ambient)
@@ -10,13 +10,9 @@ UISapce::~UISapce()
 }
 void UISapce::Awake()
 {
+	GetSubSystem<ResourceSystem>()->AddResourceDir("../Resource/");
 	RegisterScene(new Level_0(_ambient, 0));
 }
 
-void UISapce::Start()
-{
-}
-void UISapce::Update()
-{
-}
+
 AUTO_APPLICATION_MAIN(UISapce)

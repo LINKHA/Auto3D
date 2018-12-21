@@ -32,7 +32,9 @@ Scene::Scene(Ambient* ambient)
 }
 
 Scene::~Scene()
-{}
+{
+	_dynamicLevelScenes.clear();
+}
 
 void Scene::RegisterScene(int sceneId, LevelScene* scene)
 {

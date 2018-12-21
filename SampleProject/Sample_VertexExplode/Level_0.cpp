@@ -13,12 +13,12 @@ void Level_0::Start()
 
 	GameObject* lightObj = CreateNode();
 	auto* light = lightObj->CreateComponent<Light>();
-	light->SetType(LightType::kDirectional);
+	light->SetType(LightType::Directional);
 
 	lightObj->AddComponent(light);
 
 	GameObject* meshObj = CreateNode();
-	Shader shader(shader_path + "au_vertex_explode.auvs",
+	_Shader shader(shader_path + "au_vertex_explode.auvs",
 		shader_path + "au_vertex_explode.aufs",
 		shader_path + "au_vertex_explode.augs");
 	Mesh* mesh = new Mesh(_ambient, "../Resource/object/nanosuit/nanosuit.obj", shader);

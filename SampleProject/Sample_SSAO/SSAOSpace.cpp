@@ -1,5 +1,6 @@
 #include "SSAOSpace.h"
 #include "Application.h"
+#include "ResourceSystem.h"
 #include "Level_0.h"
 
 
@@ -13,6 +14,7 @@ SSAOSpace::~SSAOSpace()
 
 void SSAOSpace::Awake()
 {
+	GetSubSystem<ResourceSystem>()->AddResourceDir("../Resource/");
 	RegisterScene(new Level_0(_ambient, 0));
 }
 AUTO_APPLICATION_MAIN(SSAOSpace)

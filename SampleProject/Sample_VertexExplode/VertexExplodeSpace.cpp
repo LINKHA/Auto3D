@@ -1,4 +1,5 @@
 #include "VertexExplodeSpace.h"
+#include "ResourceSystem.h"
 #include "Level_0.h"
 
 VertexExplodeSpace::VertexExplodeSpace(Ambient* ambient)
@@ -13,6 +14,7 @@ VertexExplodeSpace::~VertexExplodeSpace()
 
 void VertexExplodeSpace::Awake()
 {
+	GetSubSystem<ResourceSystem>()->AddResourceDir("../Resource/");
 	RegisterScene(new Level_0(_ambient, 0));
 }
 

@@ -1,5 +1,5 @@
 #include "Level_0.h"
-#include "GameObject.h"
+#include "Node.h"
 #include "Math/Rand.h"
 #include "InstanceBeltLine.h"
 #include "../FreeCamera.h"
@@ -33,11 +33,11 @@ void Level_0::Start()
 		modelMatrices[i] = model;
 	}
 
-	GameObject* cameraObj = new GameObject(_ambient, _levelNumber);
-	FreeCamera* camera = new FreeCamera(_ambient, _levelNumber);
+	Node* cameraObj = CreateNode();
+	FreeCamera* camera = new FreeCamera(_ambient, _sceneID);
 	cameraObj->AddComponent(camera);
 
-	GameObject* beltLineObj = new GameObject(_ambient,_levelNumber);
+	Node* beltLineObj = CreateNode();
 	InstanceBeltLine * line =
 		new InstanceBeltLine(_ambient, new Model(_ambient, "../Resource/object/rock/rock.obj")
 			, Shader("asteroids.auvs", "asteroids.aufs"),

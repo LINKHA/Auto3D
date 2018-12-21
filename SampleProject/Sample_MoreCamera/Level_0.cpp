@@ -1,38 +1,41 @@
 #include "Level_0.h"
-#include "GameObject.h"
-#include "LightPoint.h"
-#include "Mesh.h"
+#include "Node.h"
+#include "Light.h"
+#include "MeshRenderer.h"
 #include "../FreeCamera.h"
+#include "ResourceSystem.h"
+
 
 void Level_0::Start()
 {
-	Camera* camera = new Camera(_ambient);
+	auto* cube = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/base/Cube.3DS");
+
+	Node* cameraObj = CreateNode();
+	Camera* camera = cameraObj->CreateComponent<Camera>();
 	camera->SetViewRect(Rectf(0, 0, 0.5f, 0.5f));
-	Node* cameraObj = new Node(_ambient,_id);
-	cameraObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
-	cameraObj->AddComponent(camera);
+	cameraObj->SetPosition(0.0f, 0.0f, 3.0f);
 	//////////////////////////////////////////////////////////////////////////
-	Camera* camera2 = new Camera(_ambient);
-	camera2->SetViewRect(Rectf(0.5f, 0.0f, 0.5f, 0.5f));
-	Node* cameraObj2 = new Node(_ambient, _id);
-	cameraObj2->GetComponent(Transform).SetPosition(0.0f, 0.0f, 3.0f);
-	cameraObj2->AddComponent(camera2);
+	Node* cameraObj2 = CreateNode();
+	Camera* camera2 = cameraObj2->CreateComponent<Camera>();
+	camera2->SetViewRect(Rectf(0.5f, 0, 0.5f, 0.5f));
+	cameraObj2->SetPosition(0.0f, 0.0f, 3.0f);
 
 	//////////////////////////////////////////////////////////////////////////
-	Node* freeCameraObj = new Node(_ambient, _id);
-	FreeCamera* freeCamera = new FreeCamera(_ambient, _id);
+	Node* freeCameraObj = CreateNode();
+	FreeCamera* freeCamera = new FreeCamera(_ambient, _sceneID);
 	freeCameraObj->AddComponent(freeCamera);
 
 	//////////////////////////////////////////////////////////////////////////
-	Node* lightObj = new Node(_ambient, _id);
-	lightObj->GetComponent(Transform).SetPosition(2.0f, 0.0f, 0.0f);
-	Light* light = new LightPoint(_ambient);
-	lightObj->AddComponent(light);
+	Node* lightObj = CreateNode();
+	lightObj->SetPosition(2.0f, 0.0f, 0.0f);
+	Light* light = lightObj->CreateComponent<Light>();
+	light->SetType(LightType::Point);
 	//////////////////////////////////////////////////////////////////////////
-	Mesh* mesh = new Mesh(_ambient, "../Resource/object/base/Cube.3DS");
-	Node* meshObj = new Node(_ambient, _id);
-	meshObj->GetComponent(Transform).SetPosition(0.0f, 0.0f, -3.0f);
-	meshObj->AddComponent(mesh);
+	Node* meshObj = CreateNode();
+	auto* meshRenderer = meshObj->CreateComponent<MeshRenderer>();
+	meshRenderer->SetMesh(cube);
+	meshObj->SetPosition(0.0f, 0.0f, -3.0f);
+
 }
 void Level_0::Update()
 {
