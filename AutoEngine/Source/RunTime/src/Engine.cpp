@@ -56,15 +56,12 @@ void Engine::Init()
 	GetSubSystem<Audio>()->Init();
 	GetSubSystem<BaseSpace>()->Awake();
 
-
 	GetSubSystem<Graphics>()->Init();
 	GetSubSystem<Behavior>()->Awake();
-
 	GetSubSystem<Renderer>()->Init();
 	GetSubSystem<BaseSpace>()->Start();
 	GetSubSystem<Behavior>()->Start();
 	GetSubSystem<Renderer>()->ReadyToRender();
-
 
 }
 void Engine::RunFrame()
@@ -80,6 +77,7 @@ void Engine::Exit()
 void Engine::render()
 {
 	auto* graphics = GetSubSystem<Graphics>();
+
 	if (!graphics->BeginFrame())
 		return;
 	GetSubSystem<Renderer>()->Render();

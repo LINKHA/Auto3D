@@ -23,8 +23,7 @@ LevelScene::~LevelScene()
 
 void LevelScene::Awake() 
 {
-	_sceneNode = new SceneObject(_ambient,_sceneID);
-	AddNode(_sceneNode);
+	_sceneNode = new SceneNode(_ambient,_sceneID);
 }
 
 void LevelScene::Start() 
@@ -84,7 +83,6 @@ void LevelScene::RemoveNode(Node* node)
 Node* LevelScene::CreateNode(STRING name)
 {
 	Node* node = new Node(_ambient, _sceneID);
-	AddNode(node);
 	return node;
 }
 

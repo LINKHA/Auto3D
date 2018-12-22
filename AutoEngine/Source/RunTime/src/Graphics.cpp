@@ -224,11 +224,12 @@ void Graphics::AddGPUObject(GPUObject* object)
 
 void Graphics::RemoveGPUObject(GPUObject* object)
 {
-	for (auto it = _gpuObjects.begin(); it != _gpuObjects.end(); it++)
-	{
-		if(*it = object)
-			_gpuObjects.erase(it);
-	}
+#pragma warning ///Temp Multithreaded locks should be added
+	//for (auto it = _gpuObjects.begin(); it != _gpuObjects.end(); it++)
+	//{
+	//	if(*it = object)
+	//		_gpuObjects.erase(it);
+	//}
 }
 
 void Graphics::RegisterGraphicsLib(Ambient* ambient)

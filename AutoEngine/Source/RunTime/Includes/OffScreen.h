@@ -1,7 +1,6 @@
 #pragma once
-#include "ComponentSetting.h"
 #include "_Shader.h"
-
+#include "Object.h"
 namespace Auto3D {
 ///Temp !!!
 enum PostProcessingMode
@@ -13,9 +12,9 @@ enum PostProcessingMode
 	POST_INVERSION,
 	POST_SHARPEN,
 };
-class OffScreen : public ComponentSetting
+class OffScreen : public Object
 {
-	REGISTER_OBJECT_CLASS(OffScreen, ComponentSetting)
+	REGISTER_OBJECT_CLASS(OffScreen, Object)
 public:
 	explicit OffScreen(Ambient* ambient);
 	/**

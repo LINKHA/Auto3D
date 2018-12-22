@@ -25,6 +25,7 @@ public:
 	*/
 	virtual ~GPUObject();
 
+	GPUObjectHandle GetHandle() { return _object; }
 protected:
 	/// Graphics subsystem
 	SharedPtr<Graphics> _graphics;

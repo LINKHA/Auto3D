@@ -1,14 +1,14 @@
 #pragma once
-#include "ComponentSetting.h"
+#include "Object.h"
 
 namespace Auto3D {
 
-class Constraint : public ComponentSetting
+class Constraint : public Object
 {
-	REGISTER_OBJECT_CLASS(Constraint, ComponentSetting)
+	REGISTER_OBJECT_CLASS(Constraint, Object)
 public:
 	explicit Constraint(Ambient* ambient);
-	
+
 
 };
 

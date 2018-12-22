@@ -467,9 +467,6 @@
     <ClInclude Include="Source\RunTime\Includes\Component.h">
       <Filter>Source\RunTime\Code</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Constraint2D.h">
-      <Filter>Source\RunTime\Physics\Component\2D</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\DeferredShading.h">
       <Filter>Source\RunTime\Graphics\Component\Camera\TempIntegrated</Filter>
     </ClInclude>
@@ -632,9 +629,6 @@
     <ClInclude Include="Source\RunTime\Includes\ColliderBox.h">
       <Filter>Source\RunTime\Physics\Component\3D</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Constraint.h">
-      <Filter>Source\RunTime\Physics\Component\3D</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\PhysicsWorld.h">
       <Filter>Source\RunTime\Physics\Component\3D</Filter>
     </ClInclude>
@@ -761,9 +755,6 @@
     <ClInclude Include="Source\RunTime\Includes\Configs.h">
       <Filter>Source\RunTime\_Abandon</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\ComponentSetting.h">
-      <Filter>Source\RunTime\_Abandon</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\config.h">
       <Filter>Source\RunTime\_Abandon</Filter>
     </ClInclude>
@@ -772,6 +763,12 @@
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\AudioBuffer.h">
       <Filter>Source\RunTime\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Constraint.h">
+      <Filter>Source\RunTime\Physics\Component\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Constraint2D.h">
+      <Filter>Source\RunTime\Physics\Component\2D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -846,12 +843,6 @@
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Component.cpp">
       <Filter>Source\RunTime\Code</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Constraint.cpp">
-      <Filter>Source\RunTime\Physics\Component\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Constraint2D.cpp">
-      <Filter>Source\RunTime\Physics\Component\2D</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\DeferredShading.cpp">
       <Filter>Source\RunTime\Graphics\Component\Camera\TempIntegrated</Filter>
@@ -1060,9 +1051,6 @@
     <ClCompile Include="Source\RunTime\src\GPUObject.cpp">
       <Filter>Source\RunTime\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\ComponentSetting.cpp">
-      <Filter>Source\RunTime\_Abandon</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RunTime\src\Configs.cpp">
       <Filter>Source\RunTime\_Abandon</Filter>
     </ClCompile>
@@ -1074,6 +1062,12 @@
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\AudioBuffer.cpp">
       <Filter>Source\RunTime\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Constraint.cpp">
+      <Filter>Source\RunTime\Physics\Component\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Constraint2D.cpp">
+      <Filter>Source\RunTime\Physics\Component\2D</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

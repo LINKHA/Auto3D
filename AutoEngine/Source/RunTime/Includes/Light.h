@@ -3,7 +3,7 @@
 #include "Math/Color.h"
 #include "_Shader.h"
 #include "Transform.h"
-#include "ComponentSetting.h"
+#include "Object.h"
 namespace Auto3D {
 
 enum class LightType
@@ -21,9 +21,9 @@ enum class ShadowType
 /**
 * Manage this light create shadow
 */
-class ShadowRenderAssist : public ComponentSetting
+class ShadowRenderAssist : public Object
 {
-	REGISTER_OBJECT_CLASS(ShadowRenderAssist, ComponentSetting)
+	REGISTER_OBJECT_CLASS(ShadowRenderAssist, Object)
 public:
 	/**
 	* @brief : Set light type, default Directional

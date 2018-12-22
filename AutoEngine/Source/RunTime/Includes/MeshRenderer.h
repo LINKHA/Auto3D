@@ -1,5 +1,5 @@
 #pragma once
-#include "_Shader.h"
+#include "Shader.h"
 #include "Transform.h"
 #include "Application.h"
 #include "Math/Color.h"
@@ -26,17 +26,18 @@ public:
 
 	void SetMesh(Mesh* mesh);
 
-	void SetShader(const _Shader& shader);
+	void SetShader(Shader* shader);
 
 	Material* GetMaterial() { return _material.get(); }
 private:
 	void drawMaterial();
 	void drawLight();
 private:
-	_Shader _tshader;
 	SharedPtr<Material> _material;
 	SharedPtr<Mesh> _mesh;
 	bool _isUserShader;
+
+	SharedPtr<ShaderVariation> _shader;
 };
 
 }

@@ -234,6 +234,8 @@
     <None Include="Shader\au_texture_transform.aufs" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\RunTime\Includes\Constraint.h" />
+    <ClInclude Include="Source\RunTime\Includes\Constraint2D.h" />
     <ClInclude Include="Source\RunTime\Includes\AudioBuffer.h" />
     <ClInclude Include="Source\RunTime\Includes\GPUObject.h" />
     <ClInclude Include="Source\RunTime\Includes\ShaderVariation.h" />
@@ -257,12 +259,10 @@
     <ClInclude Include="Source\RunTime\Includes\ColliderSphere.h" />
     <ClInclude Include="Source\RunTime\Includes\Collider.h" />
     <ClInclude Include="Source\RunTime\Includes\ColliderBox.h" />
-    <ClInclude Include="Source\RunTime\Includes\Constraint.h" />
     <ClInclude Include="Source\RunTime\Includes\PhysicsWorld.h" />
     <ClInclude Include="Source\RunTime\Includes\RigidBody.h" />
     <ClInclude Include="Source\RunTime\Includes\AutoPhysics3D.h" />
     <ClInclude Include="Source\RunTime\Includes\Behavior.h" />
-    <ClInclude Include="Source\RunTime\Includes\Constraint2D.h" />
     <ClInclude Include="Source\RunTime\Includes\PhysicsUtils.h" />
     <ClInclude Include="Source\RunTime\Includes\PhysicsWorld2D.h" />
     <ClInclude Include="Source\RunTime\Includes\ColliderBox2D.h" />
@@ -293,7 +293,6 @@
     <ClInclude Include="Source\RunTime\Includes\MeshShadowPoint.h" />
     <ClInclude Include="Source\RunTime\Includes\Geometry.h" />
     <ClInclude Include="Source\RunTime\Includes\GraphicsDef.h" />
-    <ClInclude Include="Source\RunTime\Includes\ComponentSetting.h" />
     <ClInclude Include="Source\RunTime\Includes\Graphics.h" />
     <ClInclude Include="Source\RunTime\Includes\Launch.h" />
     <ClInclude Include="Source\RunTime\Includes\Ambient.h" />
@@ -370,6 +369,8 @@
     <ClInclude Include="Source\RunTime\Includes\NodeTag.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\RunTime\src\Constraint.cpp" />
+    <ClCompile Include="Source\RunTime\src\Constraint2D.cpp" />
     <ClCompile Include="Source\RunTime\src\AudioBuffer.cpp" />
     <ClCompile Include="Source\RunTime\src\GPUObject.cpp" />
     <ClCompile Include="Source\RunTime\src\ShaderVariation.cpp" />
@@ -386,11 +387,9 @@
     <ClCompile Include="Source\RunTime\src\ColliderSphere.cpp" />
     <ClCompile Include="Source\RunTime\src\Collider.cpp" />
     <ClCompile Include="Source\RunTime\src\ColliderBox.cpp" />
-    <ClCompile Include="Source\RunTime\src\Constraint.cpp" />
     <ClCompile Include="Source\RunTime\src\PhysicsWorld.cpp" />
     <ClCompile Include="Source\RunTime\src\RigidBody.cpp" />
     <ClCompile Include="Source\RunTime\src\Behavior.cpp" />
-    <ClCompile Include="Source\RunTime\src\Constraint2D.cpp" />
     <ClCompile Include="Source\RunTime\src\PhysicsWorld2D.cpp" />
     <ClCompile Include="Source\RunTime\src\ColliderBox2D.cpp" />
     <ClCompile Include="Source\RunTime\src\Collider2D.cpp" />
@@ -414,7 +413,6 @@
     <ClCompile Include="Source\RunTime\src\_OGLShader.cpp" />
     <ClCompile Include="Source\RunTime\src\Geometry.cpp" />
     <ClCompile Include="Source\RunTime\Includes\Math\Color.cpp" />
-    <ClCompile Include="Source\RunTime\src\ComponentSetting.cpp" />
     <ClCompile Include="Source\RunTime\src\Graphics.cpp" />
     <ClCompile Include="Source\RunTime\src\OGLGraphics.cpp" />
     <ClCompile Include="Source\RunTime\src\Ambient.cpp" />

@@ -1,7 +1,9 @@
 #include "Mesh.h"
 #include "Deserializer.h"
 #include "ResourceSystem.h"
+#include "ShaderVariation.h"
 #include "_Shader.h"
+
 
 namespace Auto3D {
 
@@ -17,6 +19,44 @@ MeshNode::MeshNode(VECTOR<MeshVertex> tVertices, VECTOR<unsigned int> tIndices, 
 	// now that we have all the required data, set the vertex buffers and its attribute pointers.
 	setupMesh();
 }
+void MeshNode::Draw(ShaderVariation* shader)
+{
+	// bind appropriate textures
+	unsigned int diffuseNr = 1;
+	unsigned int specularNr = 1;
+	unsigned int normalNr = 1;
+	unsigned int heightNr = 1;
+	for (unsigned int i = 0; i < textures.size(); i++)
+	{
+		glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
+										  // retrieve texture number (the N in diffuse_textureN)
+		STRING number;
+		STRING name = textures[i].type;
+		if (name == "texture_diffuse")
+			number = KhSTL::ToString(diffuseNr++);
+		else if (name == "texture_specular")
+			number = KhSTL::ToString(specularNr++); // transfer unsigned int to stream
+		else if (name == "texture_normal")
+			number = KhSTL::ToString(normalNr++); // transfer unsigned int to stream
+		else if (name == "texture_height")
+			number = KhSTL::ToString(heightNr++); // transfer unsigned int to stream
+
+												 // now set the sampler to the correct texture unit
+
+		glUniform1i(glGetUniformLocation(shader->GetHandle().name, (name + number).CStr()), i);
+		// and finally bind the texture
+		glBindTexture(GL_TEXTURE_2D, textures[i].data);
+	}
+
+	// draw mesh
+	glBindVertexArray(vao);
+	glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indices.size()), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+
+	// always good practice to set everything back to defaults once configured.
+	glActiveTexture(GL_TEXTURE0);
+}
+
 void MeshNode::Draw(const _Shader& shader)
 {
 	// bind appropriate textures
@@ -121,12 +161,16 @@ bool Mesh::BeginLoad(Deserializer& source)
 	return true;
 }
 
+void Mesh::DrawMesh(ShaderVariation* shader)
+{
+	for (unsigned int i = 0; i < _meshNodes.size(); i++)
+		_meshNodes[i].Draw(shader);
+}
 void Mesh::DrawMesh(const _Shader& shader)
 {
 	for (unsigned int i = 0; i < _meshNodes.size(); i++)
 		_meshNodes[i].Draw(shader);
 }
-
 bool Mesh::loadModel(STRING const & path)
 {
 	// read file via ASSIMP

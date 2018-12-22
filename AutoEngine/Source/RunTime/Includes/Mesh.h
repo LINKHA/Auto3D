@@ -8,7 +8,7 @@
 namespace Auto3D {
 
 class _Shader;
-
+class ShaderVariation;
 /**
 * mesh vertex message
 */
@@ -44,6 +44,7 @@ public:
 	/**
 	* @brief : Render the mesh
 	*/
+	void Draw(ShaderVariation* shader);
 	void Draw(const _Shader& shader);
 private:
 	/**
@@ -75,6 +76,7 @@ public:
 	/**
 	* @brief : Draw all this model mesh node
 	*/
+	void DrawMesh(ShaderVariation* shader);
 	void DrawMesh(const _Shader& shader);
 	/**
 	* @brief : Get texture datas container

@@ -2,16 +2,17 @@
 #include "Light.h"
 #include "MeshRenderer.h"
 #include "ResourceSystem.h"
+#include "Graphics.h"
 #include "../FreeCamera.h"
 
 
 void Level_0::Awake()
 {
-	SceneSuper::Awake();
+	Super::Awake();
 }
 void Level_0::Start()
 {
-	SceneSuper::Start();
+	Super::Start();
 
 	Node* cameraObj = CreateNode();
 	FreeCamera* camera = new FreeCamera(_ambient, _sceneID);
@@ -31,9 +32,10 @@ void Level_0::Start()
 	auto* meshRenderer = meshObj->CreateComponent<MeshRenderer>();
 	meshRenderer->SetMesh(mesh);
 	meshObj->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, -3.0f);
+
 }
 
 void Level_0::Update()
 {
-	SceneSuper::Update();
+	Super::Update();
 }
