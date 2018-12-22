@@ -41,15 +41,11 @@ enum ClassIDType
 	DO_CLASS_ID(RenderComponent, 35)
 	DO_CLASS_ID(SpriteRenderer, 36)
 
-	DO_CLASS_ID(LightPoint, 37)
-	DO_CLASS_ID(LightSpot, 39)
-
 	DO_CLASS_ID(Engine, 40)
 	DO_CLASS_ID(Graphics, 41)
 	DO_CLASS_ID(Renderer, 42)
 	DO_CLASS_ID(BaseSpace, 43)
 	DO_CLASS_ID(Input, 45)
-	DO_CLASS_ID(ComponentSetting, 46)
 	DO_CLASS_ID(Geometry, 48)
 	DO_CLASS_ID(ShadowRenderAssist, 52)
 	DO_CLASS_ID(ShadowRenderer, 53)
@@ -67,7 +63,6 @@ enum ClassIDType
 	DO_CLASS_ID(Audio, 69)
 	DO_CLASS_ID(UI, 70)
 
-	DO_CLASS_ID(_AudioBuffer, 71)
 	DO_CLASS_ID(AudioListener, 72)
 	DO_CLASS_ID(AudioSource, 73)
 	DO_CLASS_ID(Timer, 74)
@@ -90,7 +85,6 @@ enum ClassIDType
 	DO_CLASS_ID(FileSystem, 89)
 	DO_CLASS_ID(Resource, 90)
 
-	DO_CLASS_ID(Sound, 91)
 	DO_CLASS_ID(RenderComponent2D, 92)
 	DO_CLASS_ID(StaticSprite2D, 93)
 	DO_CLASS_ID(Sprite, 94)
@@ -98,9 +92,11 @@ enum ClassIDType
 	DO_CLASS_ID(Image, 96)
 	DO_CLASS_ID(Mesh, 97)
 	DO_CLASS_ID(Shader, 98)
-	DO_CLASS_ID(ShaderSet, 99)
 	DO_CLASS_ID(ShaderVariation, 100)
 	DO_CLASS_ID(AudioBuffer, 101)
+	DO_CLASS_ID(Text, 102)
+	DO_CLASS_ID(UIComponent, 103)
+	DO_CLASS_ID(Font, 104)
 	
 
 	CLASS_ID_Count

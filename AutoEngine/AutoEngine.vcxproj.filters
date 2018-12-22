@@ -142,6 +142,9 @@
     <Filter Include="Source\RunTime\_Abandon">
       <UniqueIdentifier>{19e0e4f9-3ea5-41bf-b6d6-68fc2f47d7ca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\RunTime\Adapter\FreeType">
+      <UniqueIdentifier>{753dc89a-9394-4322-9af8-4a5d26607899}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\au_texture_transform.aufs">
@@ -770,6 +773,15 @@
     <ClInclude Include="Source\RunTime\Includes\Constraint2D.h">
       <Filter>Source\RunTime\Physics\Component\2D</Filter>
     </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Text.h">
+      <Filter>Source\RunTime\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\UIComponent.h">
+      <Filter>Source\RunTime\Code</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Font.h">
+      <Filter>Source\RunTime\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\RunTime\Includes\Math\Color.cpp">
@@ -1068,6 +1080,15 @@
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Constraint2D.cpp">
       <Filter>Source\RunTime\Physics\Component\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Text.cpp">
+      <Filter>Source\RunTime\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\UIComponent.cpp">
+      <Filter>Source\RunTime\Code</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Font.cpp">
+      <Filter>Source\RunTime\Resource</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

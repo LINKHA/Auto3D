@@ -234,6 +234,7 @@
     <None Include="Shader\au_texture_transform.aufs" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\RunTime\Includes\Font.h" />
     <ClInclude Include="Source\RunTime\Includes\Constraint.h" />
     <ClInclude Include="Source\RunTime\Includes\Constraint2D.h" />
     <ClInclude Include="Source\RunTime\Includes\AudioBuffer.h" />
@@ -367,8 +368,11 @@
     <ClInclude Include="Source\RunTime\Includes\Timer.h" />
     <ClInclude Include="Source\RunTime\Includes\SceneNode.h" />
     <ClInclude Include="Source\RunTime\Includes\NodeTag.h" />
+    <ClInclude Include="Source\RunTime\Includes\Text.h" />
+    <ClInclude Include="Source\RunTime\Includes\UIComponent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\RunTime\src\Font.cpp" />
     <ClCompile Include="Source\RunTime\src\Constraint.cpp" />
     <ClCompile Include="Source\RunTime\src\Constraint2D.cpp" />
     <ClCompile Include="Source\RunTime\src\AudioBuffer.cpp" />
@@ -468,6 +472,8 @@
     <ClCompile Include="Source\RunTime\src\BehaviorObject.cpp" />
     <ClCompile Include="Source\RunTime\src\UI.cpp" />
     <ClCompile Include="Source\RunTime\src\SceneNode.cpp" />
+    <ClCompile Include="Source\RunTime\src\Text.cpp" />
+    <ClCompile Include="Source\RunTime\src\UIComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="ThirdParty\Assimp\code\assimp.vcxproj">
@@ -478,6 +484,9 @@
     </ProjectReference>
     <ProjectReference Include="ThirdParty\Bullet\Bullet.vcxproj">
       <Project>{790be5d5-89a3-43ba-be02-678b070c170f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="ThirdParty\FreeType2\build\freetype.vcxproj">
+      <Project>{056e59a9-5170-3885-99b9-e3e27c33134f}</Project>
     </ProjectReference>
     <ProjectReference Include="ThirdParty\glad\glad.vcxproj">
       <Project>{467a0594-1737-4199-bdac-bdbcda3fa24d}</Project>
