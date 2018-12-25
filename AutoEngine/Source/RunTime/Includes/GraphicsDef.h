@@ -96,14 +96,5 @@ enum PrimitiveTypes
 	kTiangleFan
 };
 
-
-
-enum class ShaderType
-{
-	VS = 0,
-	FS,
-	GS,
-};
-
  
 }

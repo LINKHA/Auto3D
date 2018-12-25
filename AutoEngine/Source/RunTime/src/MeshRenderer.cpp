@@ -28,11 +28,7 @@ void MeshRenderer::RegisterObject(Ambient* ambient)
 
 void MeshRenderer::Start()
 {
-	if (_isUserShader)
-	{
-		///User Shader code
-	}
-	else
+	if (!_isUserShader)
 	{
 		if (_material->isTexture)
 		{
@@ -92,7 +88,9 @@ void MeshRenderer::SetMesh(Mesh* mesh)
 
 void MeshRenderer::SetShaderVariation(ShaderVariation* shader)
 {
+	_isUserShader = true;
 	_shader.reset(shader);
+	_shader->Create();
 }
 
 

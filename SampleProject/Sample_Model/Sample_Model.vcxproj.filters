@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="level_0.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FreeCamera.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelSapce.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="level_0.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FreeCamera.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelSapce.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Level">
+      <UniqueIdentifier>{c8ec01ab-27d2-47db-b294-ca314f2334f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script">
+      <UniqueIdentifier>{e9b092a3-7bbd-47ae-8056-e3c773c4072a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

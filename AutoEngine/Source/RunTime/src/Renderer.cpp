@@ -482,14 +482,14 @@ void Renderer::intelMoutShadwoRenderer()
 {
 	if (_shadowRenderer)
 		return;
-	_shadowRenderer = SharedPtr<ShadowRenderer>(new ShadowRenderer(_ambient));
+	_shadowRenderer = MakeShared<ShadowRenderer>(_ambient);
 }
 
 void Renderer::intelMoutLightContainer()
 {
 	if (_lightContainer)
 		return;
-	_lightContainer = SharedPtr<LightContainer>(new LightContainer(_ambient));
+	_lightContainer = MakeShared<LightContainer>(_ambient);
 }
 
 

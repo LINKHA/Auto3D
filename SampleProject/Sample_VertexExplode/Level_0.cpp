@@ -9,7 +9,8 @@
 void Level_0::Start()
 {
 	auto* nanosuit = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/nanosuit/nanosuit.obj");
-	auto* shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_vertex_explode.glsl");
+	auto* shaderVS = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_vertex_explode.glvs");
+	auto* shaderFS = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_vertex_explode.glfs");
 	auto* shaderGS = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_vertex_explode.glgs");
 	
 	Node* cameraObj = CreateNode("camera");
@@ -28,8 +29,7 @@ void Level_0::Start()
 	auto* meshRenderer = meshObj->CreateComponent<MeshRenderer>();
 	meshRenderer->SetMesh(nanosuit);
 
-	ShaderVariation* variation = new ShaderVariation(shader);
-	variation->SetGeometryShader(shaderGS);
+	ShaderVariation* variation = new ShaderVariation(shaderVS, shaderFS, shaderGS);
 
 
 	meshRenderer->SetShaderVariation(variation);

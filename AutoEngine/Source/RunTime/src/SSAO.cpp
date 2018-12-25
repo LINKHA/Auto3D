@@ -32,8 +32,7 @@ SSAO::~SSAO()
 
 void SSAO::Start()
 {
-	//Model* tmp = GetSubSystem<ResourceSystem>()->ModelLoad("../Resource/object/nanosuit/nanosuit.obj");
-	Mesh* tmp = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("../Resource/object/nanosuit/nanosuit.obj");
+	Mesh* tmp = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/nanosuit/nanosuit.obj");
 	nanosuit = SharedPtr<Mesh>(tmp);
 
 	glGenFramebuffers(1, &gBuffer);

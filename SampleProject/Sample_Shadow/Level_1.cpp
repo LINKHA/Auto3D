@@ -4,6 +4,7 @@
 #include "MeshRenderer.h"
 #include "MeshShadowPoint.h"
 #include "ResourceSystem.h"
+#include "../FreeCamera.h"
 
 void Level_1::ShadowPoint()
 {

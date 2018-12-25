@@ -3,7 +3,7 @@
 #include "Mesh.h"
 
 using namespace Auto3D;
-#define USE_DEMO 1
+#define USE_DEMO 0
 class Level_0 : public LevelScene
 {
 	REGISTER_LEVEL_CLASS(Level_0)

@@ -33,7 +33,7 @@ public:
 	ShaderVariation* GetDepthMapShader() { return _shadowMapDepthShader.get(); }
 	ShaderVariation* GetPointDepthMapShader() { return _shadowMapPointDepth.get(); }
 private:
-	Ligths _lights;
+	VECTOR<Light*> _lights;
 	RenderComponents _shadowComponents;
 	SharedPtr<ShaderVariation> _shadowMapDepthShader;
 	SharedPtr<ShaderVariation> _shadowMapPointDepth;

@@ -9,7 +9,19 @@ namespace Auto3D {
 class ShaderVariation : public GPUObject
 {
 public:
-	ShaderVariation(Shader* shader,ShaderType type = ShaderType::VS);
+	/**
+	* @brief : Write shaders include fragment and vertices
+	*/
+	ShaderVariation(Shader* shader);
+	/**
+	* @brief : Write fragment shader and vertices shader
+	*/
+	ShaderVariation(Shader* vsShader, Shader* fsShader);
+	/**
+	* @brief : Write fragment shader  vertices shader and geometry shader
+	*/
+	ShaderVariation(Shader* vsShader, Shader* fsShader,Shader* gsShader);
+
 
 	~ShaderVariation();
 	/**
@@ -24,7 +36,9 @@ public:
 
 	void Use();
 
-	void SetGeometryShader(Shader* shader) { _gsShader = shader; }
+	void SetVertexShader(Shader* shader) { _vsShaderCode = shader->_vsSourceCode.CStr(); }
+	void SetFragmentShader(Shader* shader){ _fsShaderCode = shader->_fsSourceCode.CStr();}
+	void SetGeometryShader(Shader* shader){ _gsShaderCode = shader->_gsSourceCode.CStr();}
 	/**
 	* @brief : Utility uniform functions
 	*/
@@ -50,13 +64,11 @@ private:
 	*/
 	void checkCompileErrors(GLuint shader, STRING type);
 private:
-	/// VS and FS shader
-	SharedPtr<Shader> _shader;
-	/// GS shader
-	Shader* _gsShader;
+	const char* _vsShaderCode;
 
-	/// shader type
-	ShaderType _type;
+	const char* _fsShaderCode;
+
+	const char* _gsShaderCode;
 	/// shader name
 	STRING _name;
 

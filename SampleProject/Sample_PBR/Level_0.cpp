@@ -17,26 +17,31 @@ void Level_0::init()
 	Node* lightObj = CreateNode();
 	lightObj->SetPosition(-10.0f, 10.0f, 10.0f);
 	Light* light1 = lightObj->CreateComponent<Light>();
+	light1->SetType(LightType::Point);
 	light1->SetColor(300.0f, 300.0f, 300.0f);
 
 	Node* lightObj2 = CreateNode();
 	lightObj2->SetPosition(10.0f, 10.0f, 10.0f);
 	Light* light2 = lightObj2->CreateComponent<Light>();
+	light2->SetType(LightType::Point);
 	light2->SetColor(300.0f, 300.0f, 300.0f);
 
 	Node* lightObj3 = CreateNode();
 	lightObj3->SetPosition(-10.0f, -10.0f, 10.0f);
 	Light* light3 = lightObj3->CreateComponent<Light>();
+	light3->SetType(LightType::Point);
 	light3->SetColor(300.0f, 300.0f, 300.0f);
 
 	Node* lightObj4 = CreateNode();
 	lightObj4->SetPosition(10.0f, -10.0f, 10.0f);
 	Light* light4 = lightObj4->CreateComponent<Light>();
+	light4->SetType(LightType::Point);
 	light4->SetColor(300.0f, 300.0f, 300.0f);
 
 	Node* lightObj5 = CreateNode();
 	lightObj5->SetPosition(3.0f, 10.0f, 10.0f);
 	Light* light5 = lightObj5->CreateComponent<Light>();
+	light5->SetType(LightType::Directional);
 	light5->direction.Set(0.0f, -0.5f, -0.5f);
 
 	Node* skyboxObj = CreateNode();
@@ -177,36 +182,42 @@ void Level_0::wood(float offset)
 	meshObj1->SetPosition(offset, -2.0f, 0.0f);
 	meshObj1->SetScale(12.0f, 2.0f, 2.0f);
 	MeshRenderer* mesh1 = meshObj1->CreateComponent<MeshRenderer>();
+	mesh1->SetMesh(cube);
 	mesh1->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
 
 	Node* meshObj2 = CreateNode();
 	meshObj2->SetPosition(offset, -4.0f, 2.0f);
 	meshObj2->SetScale(12.0f, 2.0f, 2.0f);
 	MeshRenderer* mesh2 = meshObj2->CreateComponent<MeshRenderer>();
+	mesh2->SetMesh(cube);
 	mesh2->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
 
 	Node* meshObj3 = CreateNode();
 	meshObj3->SetPosition(offset, -6.0f, 4.0f);
 	meshObj3->SetScale(12.0f, 2.0f, 2.0f);
 	MeshRenderer* mesh3 = meshObj3->CreateComponent<MeshRenderer>();
+	mesh3->SetMesh(cube);
 	mesh3->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
 
 	Node* meshObj4 = CreateNode();
 	meshObj4->SetPosition(offset, -6.0f, 2.0f);
 	meshObj4->SetScale(12.0f, 2.0f, 2.0f);
 	MeshRenderer* mesh4 = meshObj4->CreateComponent<MeshRenderer>();
+	mesh4->SetMesh(cube);
 	mesh4->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
 
 	Node* meshObj5 = CreateNode();
 	meshObj5->SetPosition(offset, -4.0f, 0.0f);
 	meshObj5->SetScale(12.0f, 2.0f, 2.0f);
 	MeshRenderer* mesh5 = meshObj5->CreateComponent<MeshRenderer>();
+	mesh5->SetMesh(cube);
 	mesh5->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
 
 	Node* meshObj6 = CreateNode();
 	meshObj6->SetPosition(offset, -6.0f, 0.0f);
 	meshObj6->SetScale(12.0f, 2.0f, 2.0f);
 	MeshRenderer* mesh6 = meshObj6->CreateComponent<MeshRenderer>();
+	mesh6->SetMesh(cube);
 	mesh6->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
 }
 
@@ -244,7 +255,7 @@ void Level_0::demo()
 	Node* lightObj5 = CreateNode();
 	lightObj5->SetPosition(3.0f, 10.0f, 10.0f);
 	Light* light5 = lightObj5->CreateComponent<Light>();
-	light5->SetType(LightType::Point);
+	light5->SetType(LightType::Directional);
 	light5->direction.Set(0.0f, -0.5f, -0.5f);
 
 	Node* skyboxObj = CreateNode();
@@ -351,6 +362,7 @@ void Level_0::Start()
 	init();
 	back();
 	wood(15.0f);
+	wood(3.0f);
 	wood(-9.0f);
 #endif
 

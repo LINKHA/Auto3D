@@ -1,7 +1,6 @@
 #pragma once
 #include "LevelScene.h"
 
-
 using namespace Auto3D;
 
 class Level_0 : public LevelScene
@@ -11,8 +10,5 @@ public:
 
 	void Start()override;
 	void Update()override;
-
-	void ShadowNormal();
-
 };
 

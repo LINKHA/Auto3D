@@ -14,11 +14,14 @@ MeshPBRTexture::MeshPBRTexture(Ambient* ambient)
 	: Super(ambient)
 {
 	auto* cach = GetSubSystem<ResourceSystem>();
-	auto* debug = cach->GetResource<Shader>("shader/au_pbr_hdr_trxture.glsl");
-	_shaderTexture = MakeShared<ShaderVariation>(debug);
+	auto* vs = cach->GetResource<Shader>("shader/au_pbr.glvs");
+	auto* fs = cach->GetResource<Shader>("shader/au_pbr_hdr_trxture.glfs");
+	_shaderTexture = MakeShared<ShaderVariation>(vs,fs);
 	_shaderTexture->Create();
 
-	_shaderNoTexture = MakeShared<ShaderVariation>(cach->GetResource<Shader>("shader/au_pbr_texture.glsl"));
+	auto* nvs = cach->GetResource<Shader>("shader/au_pbr.glvs");
+	auto* nfs = cach->GetResource<Shader>("shader/au_pbr_hdr_trxture.glfs");
+	_shaderNoTexture = MakeShared<ShaderVariation>(nvs, nfs);
 	_shaderNoTexture->Create();
 }
 

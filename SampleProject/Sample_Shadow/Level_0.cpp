@@ -4,7 +4,7 @@
 #include "MeshRenderer.h"
 #include "MeshShadow.h"
 #include "ResourceSystem.h"
-
+#include "../FreeCamera.h"
 
 void Level_0::ShadowNormal()
 {
@@ -16,7 +16,7 @@ void Level_0::ShadowNormal()
 	light->SetType(LightType::Directional);
 	MeshRenderer* lightMesh = lightObj->CreateComponent<MeshRenderer>();
 	lightMesh->GetMaterial()->color = Color(1.0f, 1.0f, 1.0f);
-
+	lightMesh->SetMesh(sphere);
 
 	Node* shadowMeshObj = CreateNode();
 	shadowMeshObj->SetPosition(0.0f, -1.0f, 0.0f);

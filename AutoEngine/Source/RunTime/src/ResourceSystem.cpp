@@ -147,7 +147,7 @@ Resource* ResourceSystem::GetResource(STRING type, const STRING& name, bool send
 	File* file = GetFile(sanitatedName, sendEventOnFailure);
 	if (!file)
 	{
-		ErrorString("is already logged");
+		ErrorString("File get file");
 		return nullptr;
 	}
 		

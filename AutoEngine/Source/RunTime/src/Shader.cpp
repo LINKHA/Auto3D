@@ -69,7 +69,18 @@ bool Shader::BeginLoad(Deserializer& source)
 		_gsSourceCode.Replace("void GS(", "void main(");
 		return true;
 	}
-		
+	if (shaderCode.Find("void VS(") != STRING::NO_POS && shaderCode.Find("void FS(") == STRING::NO_POS)
+	{
+		_vsSourceCode = shaderCode;
+		_vsSourceCode.Replace("void VS(", "void main(");
+		return true;
+	}
+	if (shaderCode.Find("void FS(") != STRING::NO_POS && shaderCode.Find("void VS(") == STRING::NO_POS)
+	{
+		_fsSourceCode = shaderCode;
+		_fsSourceCode.Replace("void FS(", "void main(");
+		return true;
+	}
 	// Comment out the unneeded shader function
 	_vsSourceCode = shaderCode;
 	_fsSourceCode = shaderCode;

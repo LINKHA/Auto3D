@@ -3,17 +3,31 @@
 
 namespace Auto3D {
 
-ShaderVariation::ShaderVariation(Shader* shader, ShaderType type)
+
+ShaderVariation::ShaderVariation(Shader* shader)
 	: GPUObject(shader->GetSubSystem<Graphics>())
-	, _shader(SharedPtr<Shader>(shader))
-	, _type(type)
 {
+	_vsShaderCode = shader->_vsSourceCode.CStr();
+	_fsShaderCode = shader->_fsSourceCode.CStr();
 }
 
+ShaderVariation::ShaderVariation(Shader* vsShader, Shader* fsShader)
+	: GPUObject(vsShader->GetSubSystem<Graphics>())
+{
+	_vsShaderCode = vsShader->_vsSourceCode.CStr();
+	_fsShaderCode = fsShader->_fsSourceCode.CStr();
+}
+
+ShaderVariation::ShaderVariation(Shader* vsShader, Shader* fsShader, Shader* gsShader)
+	: GPUObject(vsShader->GetSubSystem<Graphics>())
+{
+	_vsShaderCode = vsShader->_vsSourceCode.CStr();
+	_fsShaderCode = fsShader->_fsSourceCode.CStr();
+	_gsShaderCode = gsShader->_gsSourceCode.CStr();
+}
 
 ShaderVariation::~ShaderVariation()
 {
-	SafeDelete(_gsShader);
 }
 
 void ShaderVariation::Release()
@@ -24,26 +38,23 @@ void ShaderVariation::Release()
 bool ShaderVariation::Create()
 {
 	unsigned int vertex, fragment;
-	const char* vShaderCode = _shader->_vsSourceCode.CStr();
-	const char* fShaderCode = _shader->_fsSourceCode.CStr();
 
 	// vertex shader
 	vertex = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertex, 1, &vShaderCode, NULL);
+	glShaderSource(vertex, 1, &_vsShaderCode, NULL);
 	glCompileShader(vertex);
 	checkCompileErrors(vertex, "VERTEX");
 	// fragment Shader
 	fragment = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragment, 1, &fShaderCode, NULL);
+	glShaderSource(fragment, 1, &_fsShaderCode, NULL);
 	glCompileShader(fragment);
 	checkCompileErrors(fragment, "FRAGMENT");
 
 	unsigned int geometry;
-	if (_gsShader)
+	if (_gsShaderCode)
 	{
-		const char * gShaderCode = _gsShader->_gsSourceCode.CStr();
 		geometry = glCreateShader(GL_GEOMETRY_SHADER);
-		glShaderSource(geometry, 1, &gShaderCode, NULL);
+		glShaderSource(geometry, 1, &_gsShaderCode, NULL);
 		glCompileShader(geometry);
 		checkCompileErrors(geometry, "GEOMETRY");
 	}
@@ -52,7 +63,7 @@ bool ShaderVariation::Create()
 	_object.name = glCreateProgram();
 	glAttachShader(_object.name, vertex);
 	glAttachShader(_object.name, fragment);
-	if (!_shader->_gsSourceCode.Empty())
+	if (_gsShaderCode)
 		glAttachShader(_object.name, geometry);
 
 	glLinkProgram(_object.name);
@@ -60,7 +71,7 @@ bool ShaderVariation::Create()
 	// delete the shaders as they're linked into our program now and no longer necessery
 	glDeleteShader(vertex);
 	glDeleteShader(fragment);
-	if (_gsShader)
+	if (_gsShaderCode)
 		glDeleteShader(geometry);
 	return true;
 }

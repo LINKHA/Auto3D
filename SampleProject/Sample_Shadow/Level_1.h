@@ -1,6 +1,6 @@
 #pragma once
 #include "LevelScene.h"
-#include "../FreeCamera.h"
+
 
 using namespace Auto3D;
 
