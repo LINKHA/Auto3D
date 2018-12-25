@@ -1,6 +1,7 @@
 #include "SkyBoxSpace.h"
 #include "Level_0.h"
 #include "ResourceSystem.h"
+#include "FileSystem.h"
 
 SkyBoxSpace::SkyBoxSpace(Ambient* ambient)
 	:MotionSpace(ambient)
@@ -14,7 +15,8 @@ SkyBoxSpace::~SkyBoxSpace()
 
 void SkyBoxSpace::Awake()
 {
-	GetSubSystem<ResourceSystem>()->AddResourceDir("../Resource/");
+	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
+	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(new Level_0(_ambient, 0));
 }
 

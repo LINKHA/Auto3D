@@ -1,8 +1,8 @@
 #pragma once
 #include "LevelScene.h"
 #include "Time.h"
-using namespace Auto3D;
 
+using namespace Auto3D;
 
 class Level_0 : public LevelScene
 {

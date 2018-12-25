@@ -4,6 +4,8 @@
 #include "ResourceSystem.h"
 #include "Shader.h"
 #include "ShaderVariation.h"
+#include "LogDef.h"
+
 #include "NewDef.h"
 namespace Auto3D {
 
@@ -40,7 +42,8 @@ void MeshRenderer::Start()
 		}
 		else
 		{
-			auto* shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_light_model_loading.glsl");
+			auto* cach = GetSubSystem<ResourceSystem>();
+			auto* shader = cach->GetResource<Shader>("shader/au_light_model_loading.glsl");
 			_shader = MakeShared<ShaderVariation>(shader);
 			_shader->Create();
 		}
@@ -87,9 +90,9 @@ void MeshRenderer::SetMesh(Mesh* mesh)
 	_mesh.reset(mesh);
 }
 
-void MeshRenderer::SetShader(Shader* shader)
+void MeshRenderer::SetShaderVariation(ShaderVariation* shader)
 {
-	_shader = MakeShared<ShaderVariation>(shader);
+	_shader.reset(shader);
 }
 
 

@@ -1,5 +1,6 @@
 #include "MoreCameraSpace.h"
 #include "Level_0.h"
+#include "FileSystem.h"
 #include "ResourceSystem.h"
 
 MoreCameraSpace::MoreCameraSpace(Ambient* ambient)
@@ -13,7 +14,8 @@ MoreCameraSpace::~MoreCameraSpace()
 
 void MoreCameraSpace::Awake()
 {
-	GetSubSystem<ResourceSystem>()->AddResourceDir("../Resource/");
+	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
+	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(new Level_0(_ambient, 0));
 }
 

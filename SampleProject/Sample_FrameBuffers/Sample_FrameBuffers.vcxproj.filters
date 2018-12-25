@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Level_0.cpp">
+    <ClCompile Include="FrameBuffersSpace.cpp" />
+    <ClCompile Include="level_0.cpp">
       <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="..\FreeCamera.cpp">
       <Filter>Script</Filter>
     </ClCompile>
-    <ClCompile Include="FrameBuffersSpace.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FrameBuffersSpace.h" />
-    <ClInclude Include="Level_0.h">
+    <ClInclude Include="level_0.h">
       <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="..\FreeCamera.h">
@@ -20,10 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
-      <UniqueIdentifier>{6a57709a-09d6-44e4-98f9-a9e92ec14b6b}</UniqueIdentifier>
+      <UniqueIdentifier>{969bc4a5-ff9e-46ff-864b-42cb09cbe173}</UniqueIdentifier>
     </Filter>
     <Filter Include="Script">
-      <UniqueIdentifier>{62b07252-fc85-46fd-a08c-2d5bc8f1a0b7}</UniqueIdentifier>
+      <UniqueIdentifier>{1e790a98-ceaf-4cd6-9492-ec7a4c6d92d5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

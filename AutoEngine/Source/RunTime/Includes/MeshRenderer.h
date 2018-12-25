@@ -26,7 +26,7 @@ public:
 
 	void SetMesh(Mesh* mesh);
 
-	void SetShader(Shader* shader);
+	void SetShaderVariation(ShaderVariation* shader);
 
 	Material* GetMaterial() { return _material.get(); }
 private:

@@ -132,7 +132,10 @@ Resource* ResourceSystem::GetResource(STRING type, const STRING& name, bool send
 
 	// If empty name, return null pointer immediately
 	if (sanitatedName.Empty())
+	{
+		ErrorString("Name is empty,return nullptr!");
 		return nullptr;
+	}
 
 	const SharedPtr<Resource>& existing = findResource(type, sanitatedName);
 	if (existing)
@@ -143,7 +146,11 @@ Resource* ResourceSystem::GetResource(STRING type, const STRING& name, bool send
 	// Attempt to load the resource
 	File* file = GetFile(sanitatedName, sendEventOnFailure);
 	if (!file)
-		return nullptr;   // Error is already logged
+	{
+		ErrorString("is already logged");
+		return nullptr;
+	}
+		
 	resource->SetName(file->GetName());
 	resource->Load(*file);
 

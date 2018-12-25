@@ -147,9 +147,17 @@ public:
 	*/
 	void SetScale(const Vector3& scale);
 	/**
+	* @brief : Set node name
+	*/
+	void SetName(const STRING& name) { _name = name; }
+	/**
 	* @brief : Get this object position
 	*/
 	Vector3 GetPosition();
+	/**
+	* @brief : Get node name
+	*/
+	const STRING GetName() const { return _name; }
 	/**
 	* @brief : Find component from class id
 	*/
@@ -167,6 +175,8 @@ public:
 	*/
 	template <typename _Ty> _Ty* CreateComponent();
 protected:
+	/// node name
+	STRING _name;
 	/// node childs (VECTOR(Node*))
 	NodeChilds _childs;
 	/// layer id

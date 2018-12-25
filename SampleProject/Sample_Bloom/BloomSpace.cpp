@@ -1,6 +1,7 @@
 #include "BloomSpace.h"
 #include "Application.h"
 #include "ResourceSystem.h"
+#include "FileSystem.h"
 #include "Level_0.h"
 
 BloomSpace::BloomSpace(Ambient* ambient)
@@ -13,7 +14,8 @@ BloomSpace::~BloomSpace()
 
 void BloomSpace::Awake()
 {
-	GetSubSystem<ResourceSystem>()->AddResourceDir("../Resource/");
+	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
+	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(new Level_0(_ambient, 0));
 }
 AUTO_APPLICATION_MAIN(BloomSpace)

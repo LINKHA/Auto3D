@@ -1,5 +1,6 @@
 #include "ShadowSpace.h"
 #include "ResourceSystem.h"
+#include "FileSystem.h"
 #include "Level_0.h"
 #include "Level_1.h"
 
@@ -13,7 +14,8 @@ ShadowSpace::~ShadowSpace()
 
 void ShadowSpace::Awake()
 {
-	GetSubSystem<ResourceSystem>()->AddResourceDir("../Resource/");
+	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
+	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	//ShadowNormal
 	//RegisterScene(new Level_0(_ambient, 0));
 	//ShadowPoint

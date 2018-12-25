@@ -6,7 +6,7 @@
 #include "Time.h"
 #include "ResourceSystem.h"
 #include "Image.h"
-
+#include "../FreeCamera.h"
 void Level_0::Start()
 {
 	auto* cube = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/base/Cube.3DS");
@@ -21,7 +21,7 @@ void Level_0::Start()
 	camObj->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, 3.0f);
 	camObj->AddComponent(camera);
 
-	
+
 	Node* obj2 = CreateNode();
 	obj2->SetPosition(0.0f, 0.0f, 0.0f);
 	auto* tex2 = obj2->CreateComponent<SpriteRenderer>();
@@ -30,7 +30,7 @@ void Level_0::Start()
 	tex2->EnableDepth(false);
 
 
-	
+
 	Node* obj5 = CreateNode();
 	obj5->SetPosition(-0.2f, 0.0f, -3.0f);
 	auto* tex5 = obj5->CreateComponent<SpriteRenderer>();
@@ -42,7 +42,7 @@ void Level_0::Start()
 	auto* light = lightObj->CreateComponent<Light>();
 	light->SetType(LightType::Point);
 	//////////////////////////////////////////////////////////////////////////
-	
+
 	Node* meshObj = CreateNode();
 	meshObj->SetPosition(1.0f, 0.0f, 0.0f);
 	MeshRenderer* mesh = meshObj->CreateComponent<MeshRenderer>();

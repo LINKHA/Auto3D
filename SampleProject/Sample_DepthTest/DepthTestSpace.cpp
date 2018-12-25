@@ -1,5 +1,6 @@
 #include "DepthTestSpace.h"
 #include "Level_0.h"
+#include "FileSystem.h"
 #include "ResourceSystem.h"
 DepthTestSpace::DepthTestSpace(Ambient* ambient)
 	:MotionSpace(ambient)
@@ -10,7 +11,8 @@ DepthTestSpace::~DepthTestSpace()
 }
 void DepthTestSpace::Awake()
 {
-	GetSubSystem<ResourceSystem>()->AddResourceDir("../Resource/");
+	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
+	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(new Level_0(_ambient, 0));
 }
 

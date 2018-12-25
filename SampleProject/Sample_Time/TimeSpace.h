@@ -2,7 +2,6 @@
 #include "MotionSpace.h"
 
 using namespace Auto3D;
-class FreeCamera;
 
 class TimeSpace : public MotionSpace
 {
@@ -11,5 +10,3 @@ public:
 	~TimeSpace();
 	void Awake()override;
 };
-
-

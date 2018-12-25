@@ -1,6 +1,7 @@
 #include "TimeSpace.h"
 #include "Level_0.h"
 #include "ResourceSystem.h"
+#include "FileSystem.h"
 
 TimeSpace::TimeSpace(Ambient* ambient)
 	:MotionSpace(ambient)
@@ -11,7 +12,8 @@ TimeSpace::~TimeSpace()
 }
 void TimeSpace::Awake()
 {
-	GetSubSystem<ResourceSystem>()->AddResourceDir("../Resource/");
+	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
+	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(new Level_0(_ambient, 0));
 }
 AUTO_APPLICATION_MAIN(TimeSpace)

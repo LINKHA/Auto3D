@@ -2,33 +2,48 @@
 #include "Light.h"
 #include "Mesh.h"
 #include "../FreeCamera.h"
-#include "Configs.h"
+#include "ResourceSystem.h"
+#include "MeshRenderer.h"
+
 
 void Level_0::Start()
 {
-	GameObject* cameraObj = CreateNode();
+	auto* nanosuit = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/nanosuit/nanosuit.obj");
+	auto* shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_vertex_explode.glsl");
+	auto* shaderGS = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_vertex_explode.glgs");
+	
+	Node* cameraObj = CreateNode("camera");
 	FreeCamera* camera = new FreeCamera(_ambient, _sceneID);
 	cameraObj->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, 3.0f);
 	cameraObj->AddComponent(camera);
 
-	GameObject* lightObj = CreateNode();
+	Node* lightObj = CreateNode("light");
 	auto* light = lightObj->CreateComponent<Light>();
 	light->SetType(LightType::Directional);
 
 	lightObj->AddComponent(light);
 
-	GameObject* meshObj = CreateNode();
-	_Shader shader(shader_path + "au_vertex_explode.auvs",
-		shader_path + "au_vertex_explode.aufs",
-		shader_path + "au_vertex_explode.augs");
-	Mesh* mesh = new Mesh(_ambient, "../Resource/object/nanosuit/nanosuit.obj", shader);
-	meshObj->AddComponent(mesh);
+	Node* meshObj = CreateNode("mesh");
 
-	GameObject* meshObj2 = CreateNode();
-	Mesh* mesh2 = new Mesh(_ambient, "../Resource/object/nanosuit/nanosuit.obj");
-	mesh2->GetMaterial()->isTexture = true;
-	meshObj2->AddComponent(mesh2);
-	meshObj2->GetComponent<Transform>()->SetPosition(10.0f, 0.0f, 0.0f);
+	auto* meshRenderer = meshObj->CreateComponent<MeshRenderer>();
+	meshRenderer->SetMesh(nanosuit);
+
+	ShaderVariation* variation = new ShaderVariation(shader);
+	variation->SetGeometryShader(shaderGS);
+
+
+	meshRenderer->SetShaderVariation(variation);
+
+
+
+	Node* meshObj2 = CreateNode("mesh2");
+	meshObj2->SetPosition(10.0f, 0.0f, 0.0f);
+	auto* meshRenderer2 = meshObj2->CreateComponent<MeshRenderer>();
+	meshRenderer2->SetMesh(nanosuit);
+
+	meshRenderer2->GetMaterial()->isTexture = true;
+
+	
 }
 
 void Level_0::Update()

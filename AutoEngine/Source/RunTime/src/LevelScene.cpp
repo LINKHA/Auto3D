@@ -83,6 +83,7 @@ void LevelScene::RemoveNode(Node* node)
 Node* LevelScene::CreateNode(STRING name)
 {
 	Node* node = new Node(_ambient, _sceneID);
+	node->SetName(name);
 	return node;
 }
 

@@ -11,6 +11,7 @@ Node::Node(Ambient* ambient, int sceneID)
 	: Super(ambient)
 	, _sceneID(sceneID)
 	, _isEnable(true)
+	, _name("default node")
 {
 	// Each node contains a Transform component
 	CreateComponent<Transform>();

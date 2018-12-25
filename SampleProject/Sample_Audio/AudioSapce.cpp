@@ -1,6 +1,6 @@
 #include "AudioSapce.h"
-#include "../FreeCamera.h"
 #include "ResourceSystem.h"
+#include "FileSystem.h"
 #include "level_0.h"
 
 AudioSapce::AudioSapce(Ambient* ambient)
@@ -12,7 +12,8 @@ AudioSapce::~AudioSapce()
 }
 void AudioSapce::Awake()
 {
-	GetSubSystem<ResourceSystem>()->AddResourceDir("../Resource/");
+	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
+	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(new Level_0(_ambient, 0));
 }
 

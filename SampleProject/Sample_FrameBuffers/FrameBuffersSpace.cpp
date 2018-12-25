@@ -1,5 +1,6 @@
 #include "FrameBuffersSpace.h"
 #include "Level_0.h"
+#include "FileSystem.h"
 #include "ResourceSystem.h"
 
 FrameBuffersSpace::FrameBuffersSpace(Ambient* ambient)
@@ -13,7 +14,8 @@ FrameBuffersSpace::~FrameBuffersSpace()
 
 void FrameBuffersSpace::Awake()
 {
-	GetSubSystem<ResourceSystem>()->AddResourceDir("../Resource/");
+	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
+	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(new Level_0(_ambient, 0));
 }
 AUTO_APPLICATION_MAIN(FrameBuffersSpace)

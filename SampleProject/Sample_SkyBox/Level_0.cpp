@@ -35,9 +35,9 @@ void Level_0::Start()
 	meshObj2->AddComponent(mesh2);
 
 	Node* meshObj3 = CreateNode();
-	SkyBoxReflectMesh * mesh3 = new SkyBoxReflectMesh(_ambient,
-		_Shader(shader_path + "au_skybox_cube.auvs"
-			, shader_path + "au_skybox_cube_refract.aufs"));
+	auto* shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_skybox_cube_refract.glsl");
+	SkyBoxReflectMesh * mesh3 = new SkyBoxReflectMesh(_ambient,shader);
+	
 	meshObj3->SetPosition(2.0f, 0.0f, 0.0f);
 	meshObj3->AddComponent(mesh3);
 }

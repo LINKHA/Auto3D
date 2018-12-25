@@ -1,6 +1,7 @@
 #include "ParallaxMappingSpace.h"
 #include "Level_0.h"
 #include "ResourceSystem.h"
+#include "FileSystem.h"
 
 
 ParallaxMappingSpace::ParallaxMappingSpace(Ambient* ambient)
@@ -13,7 +14,8 @@ ParallaxMappingSpace::~ParallaxMappingSpace()
 
 void ParallaxMappingSpace::Awake()
 {
-	GetSubSystem<ResourceSystem>()->AddResourceDir("../Resource/");
+	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
+	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(new Level_0(_ambient, 0));
 }
 

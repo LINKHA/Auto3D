@@ -17,14 +17,14 @@ varying VS_OUT {
 
 
 
-void main()
+void VS()
 {
     vs_out.texCoords = aTexCoords;
     gl_Position = projection * view * model * vec4(aPos, 1.0); 
 }
 
 
-void main()
+void FS()
 {
     FragColor = texture(texture_diffuse1, TexCoords);
 }

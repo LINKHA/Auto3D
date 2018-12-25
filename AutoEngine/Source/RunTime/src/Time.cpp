@@ -1,5 +1,6 @@
 #include "Time.h"
 #include "Math/Math.h"
+#include "AutoSDL.h"
 #include <thread>
 #include "NewDef.h"
 

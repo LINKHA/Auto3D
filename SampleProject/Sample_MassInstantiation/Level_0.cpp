@@ -39,10 +39,11 @@ void Level_0::Start()
 	cameraObj->AddComponent(camera);
 
 	Node* beltLineObj = CreateNode();
+
+	auto* rock = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/rock/rock.obj");
+	auto* shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("asteroids.glsl");
 	InstanceBeltLine * line =
-		new InstanceBeltLine(_ambient, new Model(_ambient, "../Resource/object/rock/rock.obj")
-			, GetSubSystem<ResourceSystem>()->GetResource<Shader>("asteroids.glsl").get(),
-			modelMatrices, amount);
+		new InstanceBeltLine(_ambient, rock, shader,modelMatrices, amount);
 	beltLineObj->AddComponent(line);
 }
 void Level_0::Update()
