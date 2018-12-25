@@ -16,7 +16,7 @@ void Level_0::Start()
 	Super::Start();
 	Node* camObj = CreateNode();
 	FreeCamera* freeCamera = new FreeCamera(_ambient, _sceneID);
-	camObj->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, 3.0f);
+	camObj->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, 0.0f);
 	camObj->AddComponent(freeCamera);
 
 

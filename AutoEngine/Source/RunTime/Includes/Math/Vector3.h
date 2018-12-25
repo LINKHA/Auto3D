@@ -55,7 +55,7 @@ inline float Dot(const Vector3& lhs, const Vector3& rhs)					{ return lhs.x * rh
 
 inline float Magnitude(const Vector3& vec)									{ return sqrt(Dot(vec, vec)); }
 
-inline Vector3 & Normalize(const Vector3& vec)								{ return vec / Magnitude(vec); }
+inline Vector3& Normalize(const Vector3& vec)								{ return vec / Magnitude(vec); }
 
 inline Vector3 Lerp(const Vector3& from, const Vector3& to, float t)		{ return lerp(from, to, t); }
 

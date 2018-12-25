@@ -31,7 +31,7 @@ Node* Component::GetNodePtr() const
 	return _node;
 }
 
-void Component::MountComponent(Node* node)
+void Component::SetNode(Node* node)
 {
 	_node = node;
 }

@@ -8,7 +8,7 @@ namespace Auto3D {
 
 Camera::Camera(Ambient* ambient)
 	:Super(ambient)
-	, _front(glm::vec3(0.0f, 0.0f, -1.0f))
+	, _front(0.0f, 0.0f, -1.0f)
 	, _movementSpeed(2.5f)
 	, _mouseSensitivity(0.1f)
 	, _zoom(45.0f)
@@ -25,7 +25,6 @@ Camera::Camera(Ambient* ambient)
 	_position = Vector3(0.0f, 0.0f, 0.0f).ToGLM();
 	updateCameraVectors();
 	GetSubSystem<Renderer>()->AddCamera(this);
-	
 }
 
 Camera::~Camera()
@@ -107,9 +106,15 @@ void Camera::Start()
 		_offScreen->RenderReady();
 }
 
+void Camera::Init()
+{
+	_transform = GetNodePtr()->GetComponent<Transform>();
+}
+
 glm::mat4& Camera::GetViewMatrix()
 {
-	_viewMatrix = glm::lookAt(_position, _position + _front, _up);
+	//_viewMatrix = glm::lookAt(_position, _position + _front, _up);
+	_viewMatrix = glm::lookAt(_transform->GetPosition().ToGLM(), _transform->GetPosition().ToGLM() + _front, _up);
 	return _viewMatrix;
 }
 
@@ -156,13 +161,13 @@ void Camera::ProcessKeyboard(CameraMovement direction, float deltaTime)
 {
 	float velocity = _movementSpeed * deltaTime;
 	if (direction == CameraMovement::Forward)
-		_position += _front * velocity;
+		_transform->GetPosition() += Vector3((_front * velocity).x, (_front * velocity).y, (_front * velocity).z);
 	if (direction == CameraMovement::Backward)
-		_position -= _front * velocity;
+		_transform->GetPosition() -= Vector3((_front * velocity).x, (_front * velocity).y, (_front * velocity).z);
 	if (direction == CameraMovement::Left)
-		_position -= _right * velocity;
+		_transform->GetPosition() -= Vector3((_right * velocity).x, (_right * velocity).y, (_right * velocity).z);
 	if (direction == CameraMovement::Right)
-		_position += _right * velocity;
+		_transform->GetPosition() += Vector3((_right * velocity).x, (_right * velocity).y, (_right * velocity).z);
 }
 
 

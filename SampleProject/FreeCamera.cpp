@@ -39,8 +39,6 @@ FreeCamera::~FreeCamera()
 
 void FreeCamera::Start()
 {
-
-	freeCameraObject->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, 3.0f);
 	freeCameraObject->AddComponent(freeCamera);
 	GetSubSystem<Input>()->HideMouseInWindow(true);
 	

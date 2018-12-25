@@ -56,7 +56,8 @@ Node::NodeChilds& Node::GetAllChild()
 void Node::AddComponent(Component* com)
 {
 	_components.push_back(MakePair(com->GetClassString(), com));
-	com->MountComponent(this);
+	com->SetNode(this);
+	com->Init();
 }
 
 void Node::RemoveComponentAtIndex(int index)

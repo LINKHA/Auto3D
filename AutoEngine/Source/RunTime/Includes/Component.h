@@ -35,7 +35,7 @@ public:
 	/**
 	* @brief : Mount component for gameobject
 	*/
-	void MountComponent(Node* node);
+	void SetNode(Node* node);
 	/**
 	* @brief : Set enable
 	*/
@@ -56,6 +56,10 @@ public:
 	* @brief : Return current scene node
 	*/
 	SceneNode* GetCurrentSceneNode();
+	/**
+	* @brief : This component is automatically invoked when registering to a node
+	*/
+	virtual void Init(){}
 
 	virtual void Awake() {}
 	virtual void Start() {}

@@ -5,6 +5,7 @@
 #include "Math/Color.h"
 #include "HDRSkyBox.h"
 #include "OffScreen.h"
+#include "Transform.h"
 namespace Auto3D {
 
 enum class CameraMovement
@@ -106,7 +107,7 @@ public:
 	// @brief : Set menber
 	void SetDepth(float depth) { _depth = depth; }
 	void SetBackgroundColor(const Color& color) { _backGroundColor = color; }
-	void SetSortMode(ProjectionMode m) { _projectionMode = m; }
+	void SetProjectionMode(ProjectionMode mode) { _projectionMode = mode; }
 	void SetEnable(bool e) { _isEnable = e; }
 	void SetViewRect(float x, float y, float w, float h) { _viewRect = Rectf(x, y, w, h); }
 	void SetViewRect(const Rectf& rectf) { _viewRect = rectf; }
@@ -116,7 +117,10 @@ public:
 	void SetSpeed(float speed) { _movementSpeed = speed; }
 	void SetSensitivity(float sen) { _mouseSensitivity = sen; }
 	//////////////////////////////////////////////////////////////////////////
-
+	/**
+	* @brief : To register for transorm
+	*/
+	void Init()override;
 	///Temp !!! start not normally used,in script component not use,but int other component normal
 	void Start()override;
 private:
@@ -125,6 +129,8 @@ private:
 	*/
 	void updateCameraVectors();
 private:
+	Transform* _transform;
+
 	glm::vec3 _position;
 	float _zoom;
 	Rectf _viewRect;

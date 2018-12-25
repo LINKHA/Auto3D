@@ -17,9 +17,9 @@ public:
 	*/
 
 #if SharedPtrDebug
-	template <typename T> inline sharedPtr<T> CreateObject(){ return StaticCast<T>(CreateObject(T::GetClassStringStatic())); }
+	template <typename _Ty> inline sharedPtr<_Ty> CreateObject(){ return StaticCast<_Ty>(CreateObject(T::GetClassStringStatic())); }
 #else
-	template <typename T> inline T* CreateObject() { return static_cast<T*>(CreateObject(T::GetClassStringStatic())); }
+	template <typename _Ty> inline _Ty* CreateObject() { return static_cast<_Ty*>(CreateObject(_Ty::GetClassStringStatic())); }
 #endif
 
 	/**
@@ -37,7 +37,7 @@ public:
 	/**
 	* @brief : Template version of registering subsystem.
 	*/
-	template <typename T> T* RegisterSubsystem();
+	template <typename _Ty> _Ty* RegisterSubsystem();
 	/**
 	* @brief : Register a factory for an object type.
 	*/
@@ -49,11 +49,11 @@ public:
 	/**
 	* @brief : Template version of registering an object factory.
 	*/
-	template <typename T> void RegisterFactory();
+	template <typename _Ty> void RegisterFactory();
 	/**
 	* @brief : Template version of registering an object factory with category.
 	*/
-	template <typename T> void RegisterFactory(const char* category);
+	template <typename _Ty> void RegisterFactory(const char* category);
 	/**
 	* @brief : Get sub system according to the parameters
 	*/
@@ -66,7 +66,7 @@ public:
 	/**
 	* @brief : Get sub system by type
 	*/
-	template<typename T> T* GetSubSystem() const;
+	template<typename _Ty> _Ty* GetSubSystem() const;
 	/**
 	* @brief : Return all subsystems.
 	*/
@@ -86,7 +86,7 @@ public:
 	/**
 	* @brief : Template version of removing a subsystem.
 	*/
-	template <typename T> void RemoveSubSystem();
+	template <typename _Ty> void RemoveSubSystem();
 private:
 	///sub systems hash map
 	SubSystems _subSystems;
@@ -96,19 +96,19 @@ private:
 	ObjectAttachs _objectAttachs;
 };
 
-template <typename T> inline T * Ambient::RegisterSubsystem()
+template <typename _Ty> inline _Ty * Ambient::RegisterSubsystem()
 {
-	auto* subsystem = new T(this);
+	auto* subsystem = new _Ty(this);
 	RegisterSubsystem(subsystem);
 	return subsystem;
 }
 
-template<typename T> void Ambient::RemoveSubSystem(){ RemoveSubSystem(T::GetClassStringStatic()); }
+template<typename _Ty> void Ambient::RemoveSubSystem(){ RemoveSubSystem(_Ty::GetClassStringStatic()); }
 
-template<typename T> T* Ambient::GetSubSystem() const { return static_cast<T*>(Ambient::GetSubSystem(T::GetClassStringStatic())); }
+template<typename _Ty> _Ty* Ambient::GetSubSystem() const { return static_cast<_Ty*>(Ambient::GetSubSystem(_Ty::GetClassStringStatic())); }
 
-template<typename T> void Ambient::RegisterFactory() { RegisterFactory(new ObjectFactoryImpl<T>(this)); }
+template<typename _Ty> void Ambient::RegisterFactory() { RegisterFactory(new ObjectFactoryImpl<_Ty>(this)); }
 
-template<typename T> void Ambient::RegisterFactory(const char * category) { RegisterFactory(new ObjectFactoryImpl<T>(this), category); }
+template<typename _Ty> void Ambient::RegisterFactory(const char* category) { RegisterFactory(new ObjectFactoryImpl<_Ty>(this), category); }
 
 }
