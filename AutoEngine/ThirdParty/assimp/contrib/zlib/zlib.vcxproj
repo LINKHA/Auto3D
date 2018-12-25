@@ -119,7 +119,7 @@
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>$(SolutionDir)/AutoEngine/ThirdParty/ThiredParty.lib/x64/zlibd.lib</ImportLibrary>
+      <ImportLibrary>$(SolutionDir)AutoEngine\ThirdParty\ThiredParty.lib\x64\zlibd.lib</ImportLibrary>
       <ProgramDataBaseFile>D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/bin/Debug/zlibd.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>

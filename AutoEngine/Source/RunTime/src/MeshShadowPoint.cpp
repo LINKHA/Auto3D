@@ -3,32 +3,30 @@
 #include "Light.h"
 #include "VertexData.h"
 #include "Camera.h"
-#include "Configs.h"
 #include "ResourceSystem.h"
 #include "Mesh.h"
+#include "ShaderVariation.h"
 #include "NewDef.h"
 
 namespace Auto3D {
 
 MeshShadowPoint::MeshShadowPoint(Ambient* ambient)
 	: RenderComponent(ambient)
-	, _tshader(shader_path + "au_point_shadows.auvs"
-		, shader_path + "au_point_shadows.aufs")
-	//, _hardShader(Shader(shader_path + "au_hard_point_shadows.auvs"	//!!! Temp not hard shader
-	//	, shader_path + "au_point_shadows.aufs"))
 	, _cullEnable(true)
 {
+	auto* shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_point_shadows.glsl");
+	_shader = MakeShared<ShaderVariation>(shader);
+	_shader->Create();
 	RegisterShadow(this);
 	RegisterOpaque(this);
 }
 MeshShadowPoint::MeshShadowPoint(Ambient* ambient,bool enable)
 	: RenderComponent(ambient)
-	, _tshader(shader_path + "au_point_shadows.auvs"
-		, shader_path + "au_point_shadows.aufs")
-	//, _hardShader(Shader(shader_path + "au_hard_point_shadows.auvs"	//!!! Temp not hard shader
-	//	, shader_path + "au_point_shadows.aufs"))
 	, _cullEnable(enable)
 {
+	auto* shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_point_shadows.glsl");
+	_shader = MakeShared<ShaderVariation>(shader);
+	_shader->Create();
 	RegisterShadow(this);
 	RegisterOpaque(this);
 }
@@ -44,14 +42,14 @@ void MeshShadowPoint::DrawReady()
 	_mesh.reset(tmp);
 	_woodTexture = GetSubSystem<ResourceSystem>()->TextureLoad("../Resource/texture/wood.jpg");
 
-	_tshader.Use();
-	_tshader.SetInt("diffuseTexture", 0);
-	_tshader.SetInt("shadowMap", 1);
+	_shader->Use();
+	_shader->SetInt("diffuseTexture", 0);
+	_shader->SetInt("shadowMap", 1);
 }
 
 void MeshShadowPoint::DrawShadow()
 {
-	_Shader& shadowShader = GetSubSystem<Renderer>()->GetShadowRenderer()->GetPointDepthMapShader();
+	ShaderVariation* shadowShader = GetSubSystem<Renderer>()->GetShadowRenderer()->GetPointDepthMapShader();
 	
 	glm::mat4 modelMat;
 	if (GetNodePtr())		//if gameObject not empty
@@ -59,19 +57,19 @@ void MeshShadowPoint::DrawShadow()
 	else
 		modelMat = Matrix4x4::identity;
 
-	shadowShader.SetMat4("model", modelMat);
+	shadowShader->SetMat4("model", modelMat);
 
 	if (!_cullEnable)
 	{
 		glDisable(GL_CULL_FACE); // note that we disable culling here since we render 'inside' the cube instead of the usual 'outside' which throws off the normal culling methods.
-		_tshader.SetInt("reverse_normals", 1); // A small little hack to invert normals when drawing cube from the inside so lighting still works.
+		_shader->SetInt("reverse_normals", 1); // A small little hack to invert normals when drawing cube from the inside so lighting still works.
 	}
 
-	_mesh->DrawMesh(_tshader);
+	_mesh->DrawMesh(_shader.get());
 
 	if (!_cullEnable)
 	{
-		_tshader.SetInt("reverse_normals", 0); // and of course disable it
+		_shader->SetInt("reverse_normals", 0); // and of course disable it
 		glEnable(GL_CULL_FACE);
 	}
 }
@@ -90,16 +88,16 @@ void MeshShadowPoint::Draw()
 		lightPos = (*it)->GetLightPosition();
 		unsigned depthMap = (*it)->GetShadowAssist()->GetDepthMap();
 
-		_tshader.Use();
+		_shader->Use();
 		glm::mat4 projection = camera->GetProjectionMatrix();
 		glm::mat4 view = camera->GetViewMatrix();
-		_tshader.SetMat4("projection", projection);
-		_tshader.SetMat4("view", view);
+		_shader->SetMat4("projection", projection);
+		_shader->SetMat4("view", view);
 		// set lighting uniforms
-		_tshader.SetVec3("viewPos", camera->GetPosition());
-		_tshader.SetVec3("lightPos", lightPos);
-		_tshader.SetInt("shadows", true); // enable/disable shadows by pressing 'SPACE'
-		_tshader.SetFloat("far_plane", (*it)->GetFarPlane());
+		_shader->SetVec3("viewPos", camera->GetPosition());
+		_shader->SetVec3("lightPos", lightPos);
+		_shader->SetInt("shadows", true); // enable/disable shadows by pressing 'SPACE'
+		_shader->SetFloat("far_plane", (*it)->GetFarPlane());
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, _woodTexture);
 		glActiveTexture(GL_TEXTURE1);
@@ -110,19 +108,19 @@ void MeshShadowPoint::Draw()
 			modelMat = GetNode().GetComponent<Transform>()->GetTransformMat();
 		else
 			modelMat = Matrix4x4::identity;
-		_tshader.SetMat4("model", modelMat);
+		_shader->SetMat4("model", modelMat);
 
 		if (!_cullEnable)
 		{
 			glDisable(GL_CULL_FACE); // note that we disable culling here since we render 'inside' the cube instead of the usual 'outside' which throws off the normal culling methods.
-			_tshader.SetInt("reverse_normals", 1); // A small little hack to invert normals when drawing cube from the inside so lighting still works.
+			_shader->SetInt("reverse_normals", 1); // A small little hack to invert normals when drawing cube from the inside so lighting still works.
 		}
 
-		_mesh->DrawMesh(_tshader);
+		_mesh->DrawMesh(_shader.get());
 
 		if (!_cullEnable)
 		{
-			_tshader.SetInt("reverse_normals", 0); // and of course disable it
+			_shader->SetInt("reverse_normals", 0); // and of course disable it
 			glEnable(GL_CULL_FACE);
 		}
 	}

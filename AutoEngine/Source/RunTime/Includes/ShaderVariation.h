@@ -23,6 +23,8 @@ public:
 	bool Create();
 
 	void Use();
+
+	void SetGeometryShader(Shader* shader) { _gsShader = shader; }
 	/**
 	* @brief : Utility uniform functions
 	*/
@@ -48,8 +50,11 @@ private:
 	*/
 	void checkCompileErrors(GLuint shader, STRING type);
 private:
-	/// shader
+	/// VS and FS shader
 	SharedPtr<Shader> _shader;
+	/// GS shader
+	Shader* _gsShader;
+
 	/// shader type
 	ShaderType _type;
 	/// shader name

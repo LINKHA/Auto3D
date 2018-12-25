@@ -12,8 +12,7 @@ class TextureParallax : public TextureMap
 	REGISTER_OBJECT_CLASS(TextureParallax, TextureMap)
 public:
 	explicit TextureParallax(Ambient* ambient);
-	//TextureParallax(char* imagePath);
-	//TextureParallax(char* imagePath, const Shader& shader);
+
 	void Start()override;
 	void Draw()override;
 
@@ -25,7 +24,7 @@ private:
 	unsigned int _VBO, _VAO;
 	unsigned int _textureData;
 
-	_Shader _tshader;
+	SharedPtr<ShaderVariation> _shader;
 	Color _color;
 	char* _imagePath;
 	char* _imageNormalPath;

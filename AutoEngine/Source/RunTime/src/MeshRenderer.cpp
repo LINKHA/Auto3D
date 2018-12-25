@@ -1,7 +1,6 @@
 #include "MeshRenderer.h"
 #include "Renderer.h"
 #include "Light.h"
-#include "Configs.h"
 #include "ResourceSystem.h"
 #include "Shader.h"
 #include "ShaderVariation.h"

@@ -1,5 +1,5 @@
 #pragma once
-#include "_Shader.h"
+#include "ShaderVariation.h"
 #include "GLMeshEnable.h"
 #include "RenderComponent.h"
 
@@ -18,7 +18,7 @@ public:
 
 	void SetMesh(Mesh* mesh) { _mesh.reset(mesh); }
 private:
-	_Shader _tshader;
+	SharedPtr<ShaderVariation> _shader;
 	SharedPtr<Mesh> _mesh;
 	unsigned int _woodTexture;
 	unsigned int _VAO;

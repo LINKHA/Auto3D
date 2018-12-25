@@ -62,32 +62,26 @@ bool Shader::BeginLoad(Deserializer& source)
 	STRING shaderCode;
 	if (!processSource(shaderCode, source))
 		return false;
-	// Need gs flag
-	bool isGS = false;
+	// Get geometry shader return 
 	if (shaderCode.Find("void GS(") != STRING::NO_POS)
-		isGS = true;
+	{
+		_gsSourceCode = shaderCode;
+		_gsSourceCode.Replace("void GS(", "void main(");
+		return true;
+	}
+		
 	// Comment out the unneeded shader function
 	_vsSourceCode = shaderCode;
 	_fsSourceCode = shaderCode;
 
 	CommentOutFunction(_vsSourceCode, "void FS(");
 	CommentOutFunction(_fsSourceCode, "void VS(");
-	// OpenGL: rename either VsMain() FsMain() GsMain to main()
+	// OpenGL: rename either VS() FS() to main()
 #ifdef AUTO_OPENGL
 	_vsSourceCode.Replace("void VS(", "void main(");
 	_fsSourceCode.Replace("void FS(", "void main(");
 #endif
-	if (isGS) 
-	{
-		_gsSourceCode = shaderCode;
-		CommentOutFunction(_vsSourceCode, "void GS(");
-		CommentOutFunction(_fsSourceCode, "void GS(");
-		CommentOutFunction(_gsSourceCode, "void VS(");
-		CommentOutFunction(_gsSourceCode, "void FS(");
-#ifdef AUTO_OPENGL
-		_gsSourceCode.Replace("void GS(", "void main(");
-#endif
-	}
+	
 	return true;
 }
 

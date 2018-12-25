@@ -1,5 +1,4 @@
 #include "DeferredShading.h"
-#include "Configs.h"
 #include "Graphics.h"
 #include "Camera.h"
 #include "Renderer.h"
@@ -9,13 +8,16 @@
 namespace Auto3D {
 DeferredShading::DeferredShading(Ambient* ambient)
 	: RenderComponent(ambient)
-	, m_shaderGeometryPass(shader_path + "au_g_buffer.auvs"
-		, shader_path + "au_g_buffer.aufs")
-	, m_shaderLightingPass(shader_path + "au_deffered_shading.auvs"
-		, shader_path + "au_deffered_shading.aufs")
-	, m_shaderLightBox(shader_path + "au_deffered_light_box.auvs"
-		, shader_path + "au_deffered_light_box.aufs")
 {
+	auto* cach = GetSubSystem<ResourceSystem>();
+	m_shaderGeometryPass = MakeShared<ShaderVariation>(cach->GetResource<Shader>("shader/au_g_buffer.glsl"));
+	m_shaderGeometryPass->Create();
+
+	m_shaderLightingPass = MakeShared<ShaderVariation>(cach->GetResource<Shader>("shader/au_deffered_shading.glsl"));
+	m_shaderLightingPass->Create();
+
+	m_shaderLightBox = MakeShared<ShaderVariation>(cach->GetResource<Shader>("shader/au_deffered_light_box.glsl"));
+	m_shaderLightBox->Create();
 }
 DeferredShading::~DeferredShading()
 {
@@ -98,10 +100,10 @@ void DeferredShading::Start()
 
 	// shader configuration
 	// --------------------
-	m_shaderLightingPass.Use();
-	m_shaderLightingPass.SetInt("gPosition", 0);
-	m_shaderLightingPass.SetInt("gNormal", 1);
-	m_shaderLightingPass.SetInt("gAlbedoSpec", 2);
+	m_shaderLightingPass->Use();
+	m_shaderLightingPass->SetInt("gPosition", 0);
+	m_shaderLightingPass->SetInt("gNormal", 1);
+	m_shaderLightingPass->SetInt("gAlbedoSpec", 2);
 
 	RegisterOpaque(this);
 }
@@ -112,23 +114,23 @@ void DeferredShading::Draw()
 	glm::mat4 projection = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
 	glm::mat4 view = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
 	glm::mat4 model;
-	m_shaderGeometryPass.Use();
-	m_shaderGeometryPass.SetMat4("projection", projection);
-	m_shaderGeometryPass.SetMat4("view", view);
+	m_shaderGeometryPass->Use();
+	m_shaderGeometryPass->SetMat4("projection", projection);
+	m_shaderGeometryPass->SetMat4("view", view);
 	for (unsigned int i = 0; i < objectPositions.size(); i++)
 	{
 		model = glm::mat4();
 		model = glm::translate(model, objectPositions[i]);
 		model = glm::scale(model, glm::vec3(0.25f));
-		m_shaderGeometryPass.SetMat4("model", model);
-		nanosuit->DrawMesh(m_shaderGeometryPass);
+		m_shaderGeometryPass->SetMat4("model", model);
+		nanosuit->DrawMesh(m_shaderGeometryPass.get());
 	}
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	// 2. lighting pass: calculate lighting by iterating over a screen filled quad pixel-by-pixel using the gbuffer's content.
 	// -----------------------------------------------------------------------------------------------------------------------
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	m_shaderLightingPass.Use();
+	m_shaderLightingPass->Use();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, gPosition);
 	glActiveTexture(GL_TEXTURE1);
@@ -138,20 +140,20 @@ void DeferredShading::Draw()
 	// send light relevant uniforms
 	for (unsigned int i = 0; i < lightPositions.size(); i++)
 	{
-		m_shaderLightingPass.SetVec3("lights[" + KhSTL::ToString(i) + "].Position", lightPositions[i]);
-		m_shaderLightingPass.SetVec3("lights[" + KhSTL::ToString(i) + "].Color", lightColors[i]);
+		m_shaderLightingPass->SetVec3("lights[" + KhSTL::ToString(i) + "].Position", lightPositions[i]);
+		m_shaderLightingPass->SetVec3("lights[" + KhSTL::ToString(i) + "].Color", lightColors[i]);
 		// update attenuation parameters and calculate radius
 		const float constant = 1.0f; // note that we don't send this to the shader, we assume it is always 1.0 (in our case)
 		const float linear = 0.7f;
 		const float quadratic = 1.8f;
-		m_shaderLightingPass.SetFloat("lights[" + KhSTL::ToString(i) + "].Linear", linear);
-		m_shaderLightingPass.SetFloat("lights[" + KhSTL::ToString(i) + "].Quadratic", quadratic);
+		m_shaderLightingPass->SetFloat("lights[" + KhSTL::ToString(i) + "].Linear", linear);
+		m_shaderLightingPass->SetFloat("lights[" + KhSTL::ToString(i) + "].Quadratic", quadratic);
 		// then calculate radius of light volume/sphere
 		const float maxBrightness = std::fmaxf(std::fmaxf(lightColors[i].r, lightColors[i].g), lightColors[i].b);
 		float radius = (-linear + std::sqrt(linear * linear - 4 * quadratic * (constant - (256.0f / 5.0f) * maxBrightness))) / (2.0f * quadratic);
-		m_shaderLightingPass.SetFloat("lights[" + KhSTL::ToString(i) + "].Radius", radius);
+		m_shaderLightingPass->SetFloat("lights[" + KhSTL::ToString(i) + "].Radius", radius);
 	}
-	m_shaderLightingPass.SetVec3("viewPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
+	m_shaderLightingPass->SetVec3("viewPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
 	// finally render quad
 	renderQuad(&quadVAO,&quadVBO);
 
@@ -168,16 +170,16 @@ void DeferredShading::Draw()
 
 	// 3. render lights on top of scene
 	// --------------------------------
-	m_shaderLightBox.Use();
-	m_shaderLightBox.SetMat4("projection", projection);
-	m_shaderLightBox.SetMat4("view", view);
+	m_shaderLightBox->Use();
+	m_shaderLightBox->SetMat4("projection", projection);
+	m_shaderLightBox->SetMat4("view", view);
 	for (unsigned int i = 0; i < lightPositions.size(); i++)
 	{
 		model = glm::mat4();
 		model = glm::translate(model, lightPositions[i]);
 		model = glm::scale(model, glm::vec3(0.125f));
-		m_shaderLightBox.SetMat4("model", model);
-		m_shaderLightBox.SetVec3("lightColor", lightColors[i]);
+		m_shaderLightBox->SetMat4("model", model);
+		m_shaderLightBox->SetVec3("lightColor", lightColors[i]);
 		renderCube(&cubeVAO,&cubeVBO);
 	}
 }

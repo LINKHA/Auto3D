@@ -1,6 +1,8 @@
 #pragma once
 #include "Texture3D.h"
 #include "Singleton.h"
+#include "ShaderVariation.h"
+
 namespace Auto3D {
 class Camera;
 
@@ -13,11 +15,11 @@ public:
 	void Draw()override;
 	void AddToCamera(Camera* camera){}
 private:
-	_Shader m_equirectangularToCubemapShader;
-	_Shader m_irradianceShader;
-	_Shader m_prefilterShader;
-	_Shader m_brdfShader;
-	_Shader m_backgroundShader;
+	SharedPtr<ShaderVariation> m_equirectangularToCubemapShader;
+	SharedPtr<ShaderVariation> m_irradianceShader;
+	SharedPtr<ShaderVariation> m_prefilterShader;
+	SharedPtr<ShaderVariation> m_brdfShader;
+	SharedPtr<ShaderVariation> m_backgroundShader;
 
 
 	// pbr: setup framebuffer

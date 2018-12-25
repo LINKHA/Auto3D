@@ -1,34 +1,46 @@
-
 #include "OffScreen.h"
 #include "AutoOGL.h"
 #include "Math/Rect.h"
 #include "Graphics.h"
 #include "VertexData.h"
-#include "Configs.h"
 #include "BaseMesh.h"
+#include "ResourceSystem.h"
+
 #include "NewDef.h"
 
 namespace Auto3D {
 
 OffScreen::OffScreen(Ambient* ambient)
 	: Super(ambient)
-	/*, _shader(shader_path + "au_offscreen.auvs"
-		, shader_path + "au_offscreen.aufs")*/
 	, _samplingPointCount(1)
 	, _isAllowMsaa(false)
 	, _isAllowLateEffect(false)
 {
+
+	auto* cach = GetSubSystem<ResourceSystem>();
 	
-	_tshader = _Shader(shader_path + "au_offscreen.auvs"
-		, shader_path + "au_offscreen.aufs");
+	shader = MakeShared<ShaderVariation>(cach->GetResource<Shader>("shader/au_offscreen.glsl"));
+	shader->Create();
 
+	shaderBlur = MakeShared<ShaderVariation>(cach->GetResource<Shader>("shader/au_offscreen_blur.glsl"));
+	shaderBlur->Create();
+	
+	shaderEdgeDetection = MakeShared<ShaderVariation>(cach->GetResource<Shader>("shader/au_offscreen_edge_detection.glsl"));
+	shaderEdgeDetection->Create();
 
-	shader = _Shader(shader_path + "au_offscreen.auvs", shader_path + "au_offscreen.aufs");
-	shaderBlur = _Shader(shader_path + "au_offscreen.auvs", shader_path + "au_offscreen_blur.aufs");
-	shaderEdgeDetection = _Shader(shader_path + "au_offscreen.auvs", shader_path + "au_offscreen_edge_detection.aufs");
-	shaderGrayscale = _Shader(shader_path + "au_offscreen.auvs", shader_path + "au_offscreen_grayscale.aufs");
-	shaderInversion = _Shader(shader_path + "au_offscreen.auvs", shader_path + "au_offscreen_inversion.aufs");
-	shaderSharpen = _Shader(shader_path + "au_offscreen.auvs", shader_path + "au_offscreen_sharpen.aufs");
+	shaderGrayscale = MakeShared<ShaderVariation>(cach->GetResource<Shader>("shader/au_offscreen_grayscale.glsl"));
+	shaderGrayscale->Create();
+
+	shaderInversion = MakeShared<ShaderVariation>(cach->GetResource<Shader>("shader/au_offscreen_inversion.glsl"));
+	shaderInversion->Create();
+
+	shaderSharpen = MakeShared<ShaderVariation>(cach->GetResource<Shader>("shader/au_offscreen_sharpen.glsl"));
+	shaderSharpen->Create();
+
+	hdrShader = MakeShared<ShaderVariation>(cach->GetResource<Shader>("shader/au_hdr.glsl"));
+	hdrShader->Create();
+
+	_shader = shader.get();
 }
 
 OffScreen::~OffScreen()
@@ -36,11 +48,11 @@ OffScreen::~OffScreen()
 }
 void OffScreen::bindHdr()
 {
+	auto* cach = GetSubSystem<ResourceSystem>();
 	//Temp !!! Hdr
 	if (_isAllowHDR)
-		_tshader = _Shader(shader_path + "au_hdr.auvs"
-			, shader_path + "au_hdr.aufs");
-	//
+		_shader = hdrShader.get();
+
 
 	glGenFramebuffers(1, &_framebuffer);
 	// create floating point color buffer
@@ -69,8 +81,7 @@ void OffScreen::bindHdr()
 void OffScreen::bindMsaaAndPostpro()
 {
 	if (_isAllowHDR)
-		_tshader = _Shader(shader_path + "au_hdr.auvs"
-			, shader_path + "au_hdr.aufs");
+		_shader = hdrShader.get();
 
 	GLint value;
 	glGetIntegerv(GL_MAX_SAMPLES, &value);
@@ -130,8 +141,8 @@ void OffScreen::RenderReady()
 		bindMsaaAndPostpro();
 
 
-	_tshader.Use();
-	_tshader.SetInt("hdrBuffer", 0);
+	_shader->Use();
+	_shader->SetInt("hdrBuffer", 0);
 }
 
 
@@ -165,7 +176,7 @@ void OffScreen::RenderEnd()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//glDisable(GL_DEPTH_TEST);
 
-		_tshader.Use();
+		_shader->Use();
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, _screenTexture);
 		
@@ -173,8 +184,8 @@ void OffScreen::RenderEnd()
 		//Temp !!! hdr
 		if (_isAllowHDR)
 		{
-			_tshader.SetInt("hdr", true);
-			_tshader.SetFloat("exposure", 1.0f);
+			_shader->SetInt("hdr", true);
+			_shader->SetFloat("exposure", 1.0f);
 		}
 		//End
 
@@ -188,31 +199,31 @@ void OffScreen::SetEffect(PostProcessingMode mode)
 	switch (mode)
 	{
 	case POST_DEFAULT:
-		_tshader = shader;
+		_shader = shader.get();
 		break;
 	case POST_BULR:
-		_tshader = shaderBlur;
+		_shader = shaderBlur.get();
 		break;
 	case POST_EDGE_DETECTION:
-		_tshader = shaderEdgeDetection;
+		_shader = shaderEdgeDetection.get();
 		break;
 	case POST_GRAYSCALE:
-		_tshader = shaderGrayscale;
+		_shader = shaderGrayscale.get();
 		break;
 	case POST_INVERSION:
-		_tshader = shaderInversion;
+		_shader = shaderInversion.get();
 		break;
 	case POST_SHARPEN:
-		_tshader = shaderSharpen;
+		_shader = shaderSharpen.get();
 		break;
 	default:
-		_tshader = shader;
+		_shader = shader.get();
 		break;
 	}
 }
-void OffScreen::SetEffect(const _Shader& shader)
+void OffScreen::SetEffect(ShaderVariation* shader)
 {
-	_tshader = shader;
+	_shader = shader;
 }
 void OffScreen::AllowMSAA(bool enable, int pointNum)
 {

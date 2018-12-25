@@ -13,6 +13,7 @@ ShaderVariation::ShaderVariation(Shader* shader, ShaderType type)
 
 ShaderVariation::~ShaderVariation()
 {
+	SafeDelete(_gsShader);
 }
 
 void ShaderVariation::Release()
@@ -38,9 +39,9 @@ bool ShaderVariation::Create()
 	checkCompileErrors(fragment, "FRAGMENT");
 
 	unsigned int geometry;
-	if (!_shader->_gsSourceCode.Empty())
+	if (_gsShader)
 	{
-		const char * gShaderCode = _shader->_gsSourceCode.CStr();
+		const char * gShaderCode = _gsShader->_gsSourceCode.CStr();
 		geometry = glCreateShader(GL_GEOMETRY_SHADER);
 		glShaderSource(geometry, 1, &gShaderCode, NULL);
 		glCompileShader(geometry);
@@ -59,7 +60,7 @@ bool ShaderVariation::Create()
 	// delete the shaders as they're linked into our program now and no longer necessery
 	glDeleteShader(vertex);
 	glDeleteShader(fragment);
-	if (!_shader->_gsSourceCode.Empty())
+	if (_gsShader)
 		glDeleteShader(geometry);
 	return true;
 }

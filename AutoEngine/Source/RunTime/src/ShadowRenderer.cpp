@@ -2,7 +2,6 @@
 #include "Renderer.h"
 #include "LightContainer.h"
 #include "ResourceSystem.h"
-#include "Configs.h"
 #include "Light.h"
 #include "Graphics.h"
 #include "NewDef.h"
@@ -13,12 +12,15 @@ namespace Auto3D {
 
 ShadowRenderer::ShadowRenderer(Ambient* ambient)
 	: Super(ambient)
-	, _shadowMapDepthShader(shader_path + "au_shadow_mapping_depth.auvs"
-		, shader_path + "au_shadow_mapping_depth.aufs")
-	, _shadowMapPointDepth(shader_path + "au_point_shadows_depth.auvs"
-		, shader_path + "au_point_shadows_depth.aufs"
-		, shader_path + "au_point_shadows_depth.augs")
 {
+	auto* cach = GetSubSystem<ResourceSystem>();
+
+	_shadowMapDepthShader = MakeShared<ShaderVariation>(cach->GetResource<Shader>("shader/au_shadow_mapping_depth.glsl"));
+	_shadowMapDepthShader->Create();
+
+	_shadowMapPointDepth = MakeShared<ShaderVariation>(cach->GetResource<Shader>("shader/au_point_shadows_depth.glsl"));
+	_shadowMapPointDepth->SetGeometryShader(cach->GetResource<Shader>("shader/au_point_shadows_depth.glgs"));
+	_shadowMapPointDepth->Create();
 }
 ShadowRenderer::~ShadowRenderer()
 {}
@@ -61,8 +63,8 @@ void ShadowRenderer::RenderShadow()
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, _woodTexture);
 
-			_shadowMapDepthShader.Use();
-			_shadowMapDepthShader.SetMat4("lightSpaceMatrix", lightSpaceMatrix);
+			_shadowMapDepthShader->Use();
+			_shadowMapDepthShader->SetMat4("lightSpaceMatrix", lightSpaceMatrix);
 			//Ergodic shadows to Draw shadow
 			for (LIST<RenderComponent*>::iterator it = _shadowComponents.begin(); it != _shadowComponents.end(); it++)
 			{
@@ -87,11 +89,11 @@ void ShadowRenderer::RenderShadow()
 			glViewport(0, 0, shadowWidth, shadowHeight);
 			glBindFramebuffer(GL_FRAMEBUFFER, (*it)->GetShadowAssist()->GetDepthMapFBO());
 			glClear(GL_DEPTH_BUFFER_BIT);
-			_shadowMapPointDepth.Use();
+			_shadowMapPointDepth->Use();
 			for (unsigned int i = 0; i < 6; ++i)
-				_shadowMapPointDepth.SetMat4("shadowMatrices[" + KhSTL::ToString(i) + "]", shadowTransforms[i]);
-			_shadowMapPointDepth.SetFloat("far_plane", (*it)->GetFarPlane());
-			_shadowMapPointDepth.SetVec3("lightPos", lightPos);
+				_shadowMapPointDepth->SetMat4("shadowMatrices[" + KhSTL::ToString(i) + "]", shadowTransforms[i]);
+			_shadowMapPointDepth->SetFloat("far_plane", (*it)->GetFarPlane());
+			_shadowMapPointDepth->SetVec3("lightPos", lightPos);
 			//Ergodic shadows to Draw shadow
 			for (LIST<RenderComponent*>::iterator it = _shadowComponents.begin(); it != _shadowComponents.end(); it++)
 			{

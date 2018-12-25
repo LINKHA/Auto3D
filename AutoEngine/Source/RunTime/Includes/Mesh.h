@@ -45,7 +45,6 @@ public:
 	* @brief : Render the mesh
 	*/
 	void Draw(ShaderVariation* shader);
-	void Draw(const _Shader& shader);
 private:
 	/**
 	* @brief : Initializes all the buffer objects/arrays
@@ -77,7 +76,6 @@ public:
 	* @brief : Draw all this model mesh node
 	*/
 	void DrawMesh(ShaderVariation* shader);
-	void DrawMesh(const _Shader& shader);
 	/**
 	* @brief : Get texture datas container
 	* @return : VECTOR(TextureData)

@@ -8,13 +8,14 @@
 
 namespace Auto3D {
 
-InstanceBeltLine::InstanceBeltLine(Ambient* ambient,Mesh* mesh, const _Shader& shader, glm::mat4* modelMat,int count)
+InstanceBeltLine::InstanceBeltLine(Ambient* ambient,Mesh* mesh, Shader* shader, glm::mat4* modelMat,int count)
 	:RenderComponent(ambient)
 	,_mesh(mesh)
-	,_tshader(shader)
 	,_modelMatrices(modelMat)
 	,_count(count)
 {
+	_shader = MakeShared<ShaderVariation>(shader);
+	_shader->Create();
 }
 InstanceBeltLine::~InstanceBeltLine()
 {
@@ -56,10 +57,10 @@ void InstanceBeltLine::Draw()
 	glm::mat4 projectionMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
 	glm::mat4 viewMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
 
-	_tshader.Use();
-	_tshader.SetMat4("projection", projectionMat);
-	_tshader.SetMat4("view", viewMat);
-	_tshader.SetInt("texture_diffuse1", 0);
+	_shader->Use();
+	_shader->SetMat4("projection", projectionMat);
+	_shader->SetMat4("view", viewMat);
+	_shader->SetInt("texture_diffuse1", 0);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, _mesh->GetTextureDatas()[0].data);
 	for (unsigned int i = 0; i < _mesh->GetMeshNodes().size(); i++)

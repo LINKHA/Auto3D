@@ -3,9 +3,10 @@
 #include "Camera.h"
 #include "VertexData.h"
 #include "Renderer.h"
-#include "Configs.h"
 #include "ResourceSystem.h"
 #include "Renderer.h"
+#include "ShaderVariation.h"
+
 #include "NewDef.h"
 
 
@@ -22,10 +23,18 @@ SkyBox::~SkyBox()
 {
 	UnloadOpaque(this);
 }
+
+void SkyBox::RegisterObject(Ambient* ambient)
+{
+	ambient->RegisterFactory<SkyBox>(SCENE_ATTACH);
+}
+
 void SkyBox::Start()
 {
 	SkyManager::Instance().AddSkyBox(this);
-	_tshader = _Shader(shader_path + "au_skybox.auvs", shader_path + "au_skybox.aufs");
+	auto* shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_skybox.glsl");
+	_shader = MakeShared<ShaderVariation>(shader);
+	_shader->Create();
 	glGenVertexArrays(1, &_skyboxVAO);
 	glGenBuffers(1, &_skyboxVBO);
 	glBindVertexArray(_skyboxVAO);
@@ -53,10 +62,10 @@ void SkyBox::Draw()
 	RectInt rect = GetSubSystem<Graphics>()->GetWindowRectInt();
 	glm::mat4 projectionMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
 	glDepthFunc(GL_LEQUAL);  
-	_tshader.Use();
+	_shader->Use();
 	viewMat = glm::mat4(glm::mat3(GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix()));
-	_tshader.SetMat4("view", viewMat);
-	_tshader.SetMat4("projection", projectionMat);
+	_shader->SetMat4("view", viewMat);
+	_shader->SetMat4("projection", projectionMat);
 	glBindVertexArray(_skyboxVAO);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, _cubemapTexture);

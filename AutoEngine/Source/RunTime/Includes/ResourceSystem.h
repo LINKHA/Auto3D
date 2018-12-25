@@ -2,7 +2,8 @@
 #include "GameManager.h"
 
 
-namespace Auto3D {
+; namespace Auto3D {
+
 class Resource;
 class File;
 class Image;

@@ -3,7 +3,6 @@
 #include "Camera.h"
 #include "Renderer.h"
 #include "BaseMesh.h"
-#include "Configs.h"
 #include "ResourceSystem.h"
 #include "NewDef.h"
 
@@ -11,16 +10,19 @@
 namespace Auto3D {
 SSAO::SSAO(Ambient* ambient)
 	:RenderComponent(ambient)
-	, m_shaderGeometryPass(shader_path + "au_ssao_geometry.auvs"
-		, shader_path + "au_ssao_geometry.aufs")
-	, m_shaderLightingPass(shader_path + "au_ssao.auvs"
-		, shader_path + "au_ssao_lighting.aufs")
-	, m_shaderSSAO(shader_path + "au_ssao.auvs"
-		, shader_path + "au_ssao.aufs")
-	, m_shaderSSAOBlur(shader_path + "au_ssao.auvs"
-		, shader_path + "au_ssao_blur.aufs")
 {	
-	//nanosuit = new Model(_ambient);
+	auto* resourceSystem = GetSubSystem<ResourceSystem>();
+	m_shaderGeometryPass = MakeShared<ShaderVariation>(resourceSystem->GetResource<Shader>("shader/au_ssao_geometry.glsl"));
+	m_shaderGeometryPass->Create();
+
+	m_shaderLightingPass = MakeShared<ShaderVariation>(resourceSystem->GetResource<Shader>("shader/au_ssao_lighting.glsl"));
+	m_shaderLightingPass->Create();
+
+	m_shaderSSAO = MakeShared<ShaderVariation>(resourceSystem->GetResource<Shader>("shader/au_ssao.glsl"));
+	m_shaderSSAO->Create();
+
+	m_shaderSSAOBlur = MakeShared<ShaderVariation>(resourceSystem->GetResource<Shader>("shader/au_ssao_blur.glsl"));
+	m_shaderSSAOBlur->Create();
 }
 SSAO::~SSAO()
 {
@@ -137,17 +139,17 @@ void SSAO::Start()
 
 	// shader configuration
 	// --------------------
-	m_shaderLightingPass.Use();
-	m_shaderLightingPass.SetInt("gPosition", 0);
-	m_shaderLightingPass.SetInt("gNormal", 1);
-	m_shaderLightingPass.SetInt("gAlbedo", 2);
-	m_shaderLightingPass.SetInt("ssao", 3);
-	m_shaderSSAO.Use();
-	m_shaderSSAO.SetInt("gPosition", 0);
-	m_shaderSSAO.SetInt("gNormal", 1);
-	m_shaderSSAO.SetInt("texNoise", 2);
-	m_shaderSSAOBlur.Use();
-	m_shaderSSAOBlur.SetInt("ssaoInput", 0);
+	m_shaderLightingPass->Use();
+	m_shaderLightingPass->SetInt("gPosition", 0);
+	m_shaderLightingPass->SetInt("gNormal", 1);
+	m_shaderLightingPass->SetInt("gAlbedo", 2);
+	m_shaderLightingPass->SetInt("ssao", 3);
+	m_shaderSSAO->Use();
+	m_shaderSSAO->SetInt("gPosition", 0);
+	m_shaderSSAO->SetInt("gNormal", 1);
+	m_shaderSSAO->SetInt("texNoise", 2);
+	m_shaderSSAOBlur->Use();
+	m_shaderSSAOBlur->SetInt("ssaoInput", 0);
 	
 	RegisterOpaque(this);
 }
@@ -158,24 +160,24 @@ void SSAO::Draw()
 	glm::mat4 projection = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
 	glm::mat4 view = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
 	glm::mat4 model;
-	m_shaderGeometryPass.Use();
-	m_shaderGeometryPass.SetMat4("projection", projection);
-	m_shaderGeometryPass.SetMat4("view", view);
+	m_shaderGeometryPass->Use();
+	m_shaderGeometryPass->SetMat4("projection", projection);
+	m_shaderGeometryPass->SetMat4("view", view);
 	// room cube
 	model = glm::mat4();
 	model = glm::translate(model, glm::vec3(0.0, 7.0f, 0.0f));
 	model = glm::scale(model, glm::vec3(7.5f, 7.5f, 7.5f));
-	m_shaderGeometryPass.SetMat4("model", model);
-	m_shaderGeometryPass.SetInt("invertedNormals", 1); // invert normals as we're inside the cube
+	m_shaderGeometryPass->SetMat4("model", model);
+	m_shaderGeometryPass->SetInt("invertedNormals", 1); // invert normals as we're inside the cube
 	renderCube(&cubeVAO,&cubeVBO);
-	m_shaderGeometryPass.SetInt("invertedNormals", 0);
+	m_shaderGeometryPass->SetInt("invertedNormals", 0);
 	// nanosuit model on the floor
 	model = glm::mat4();
 	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 5.0));
 	model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0, 0.0, 0.0));
 	model = glm::scale(model, glm::vec3(0.5f));
-	m_shaderGeometryPass.SetMat4("model", model);
-	nanosuit->DrawMesh(m_shaderGeometryPass);
+	m_shaderGeometryPass->SetMat4("model", model);
+	nanosuit->DrawMesh(m_shaderGeometryPass.get());
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 
@@ -183,11 +185,11 @@ void SSAO::Draw()
 	// ------------------------
 	glBindFramebuffer(GL_FRAMEBUFFER, ssaoFBO);
 	glClear(GL_COLOR_BUFFER_BIT);
-	m_shaderSSAO.Use();
+	m_shaderSSAO->Use();
 	// Send kernel + rotation 
 	for (unsigned int i = 0; i < 64; ++i)
-		m_shaderSSAO.SetVec3("samples[" + KhSTL::ToString(i) + "]", ssaoKernel[i]);
-	m_shaderSSAO.SetMat4("projection", projection);
+		m_shaderSSAO->SetVec3("samples[" + KhSTL::ToString(i) + "]", ssaoKernel[i]);
+	m_shaderSSAO->SetMat4("projection", projection);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, gPosition);
 	glActiveTexture(GL_TEXTURE1);
@@ -202,7 +204,7 @@ void SSAO::Draw()
 	// ------------------------------------
 	glBindFramebuffer(GL_FRAMEBUFFER, ssaoBlurFBO);
 	glClear(GL_COLOR_BUFFER_BIT);
-	m_shaderSSAOBlur.Use();
+	m_shaderSSAOBlur->Use();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, ssaoColorBuffer);
 	renderQuad(&quadVAO, &quadVBO);
@@ -212,17 +214,17 @@ void SSAO::Draw()
 	// 4. lighting pass: traditional deferred Blinn-Phong lighting with added screen-space ambient occlusion
 	// -----------------------------------------------------------------------------------------------------
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	m_shaderLightingPass.Use();
+	m_shaderLightingPass->Use();
 	// send light relevant uniforms
 	glm::vec3 lightPosView = glm::vec3(GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix() * glm::vec4(lightPos, 1.0));
-	m_shaderLightingPass.SetVec3("light.Position", lightPosView);
-	m_shaderLightingPass.SetVec3("light.Color", lightColor);
+	m_shaderLightingPass->SetVec3("light.Position", lightPosView);
+	m_shaderLightingPass->SetVec3("light.Color", lightColor);
 	// Update attenuation parameters
 	const float constant = 1.0; // note that we don't send this to the shader, we assume it is always 1.0 (in our case)
 	const float linear = 0.09;
 	const float quadratic = 0.032;
-	m_shaderLightingPass.SetFloat("light.Linear", linear);
-	m_shaderLightingPass.SetFloat("light.Quadratic", quadratic);
+	m_shaderLightingPass->SetFloat("light.Linear", linear);
+	m_shaderLightingPass->SetFloat("light.Quadratic", quadratic);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, gPosition);
 	glActiveTexture(GL_TEXTURE1);

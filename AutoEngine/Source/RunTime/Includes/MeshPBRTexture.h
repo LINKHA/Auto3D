@@ -1,6 +1,6 @@
 #pragma once
 #include "RenderComponent.h"
-#include "_Shader.h"
+#include "ShaderVariation.h"
 
 namespace Auto3D {
 
@@ -12,12 +12,12 @@ public:
 	void Start()override;
 	void Draw()override;
 private:
-	_Shader _tshader;
+	ShaderVariation* _shader;
 	unsigned _vao;
 	unsigned _indexCount;
 
-	_Shader _shaderNoTexture;
-	_Shader _shaderTexture;
+	SharedPtr<ShaderVariation> _shaderNoTexture;
+	SharedPtr<ShaderVariation> _shaderTexture;
 
 	unsigned int _albedoMap;
 	unsigned int _normalMap;

@@ -4,7 +4,6 @@
 #include "BaseSpace.h"
 #include "Transform.h"
 #include "Light.h"
-#include "Configs.h"
 #include "NewDef.h"
 
 

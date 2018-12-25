@@ -1,17 +1,17 @@
 #pragma once
 #include "RenderComponent.h"
-#include "_Shader.h"
+#include "ShaderVariation.h"
 namespace Auto3D {
 class SkyBoxReflectMesh : public RenderComponent
 {
 public:
 	explicit SkyBoxReflectMesh(Ambient* ambient); 
-	SkyBoxReflectMesh(Ambient* ambient,const _Shader& shader);
+	SkyBoxReflectMesh(Ambient* ambient,Shader* shader);
 	~SkyBoxReflectMesh();
 	void Start()override;
 	void Draw()override;
 private:
-	_Shader m_shader;
+	SharedPtr<ShaderVariation> _shader;
 	unsigned int cubeVAO, cubeVBO;
 };
 

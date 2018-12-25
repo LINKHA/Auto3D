@@ -118,7 +118,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>$(SolutionDir)/AutoEngine/ThirdParty/ThiredParty.lib/x64/SDL2d.lib</ImportLibrary>
+      <ImportLibrary>$(SolutionDir)AutoEngine\ThirdParty\ThiredParty.lib\x64\SDL2d.lib</ImportLibrary>
       <ProgramDataBaseFile>D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/SDL/Build/Debug/SDL2d.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>

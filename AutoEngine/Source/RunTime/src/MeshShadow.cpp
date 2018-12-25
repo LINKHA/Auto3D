@@ -3,7 +3,6 @@
 #include "Light.h"
 #include "VertexData.h"
 #include "Camera.h"
-#include "Configs.h"
 #include "ResourceSystem.h"
 #include "Mesh.h"
 #include "NewDef.h"
@@ -12,9 +11,11 @@ namespace Auto3D {
 
 MeshShadow::MeshShadow(Ambient* ambient)
 	: RenderComponent(ambient)
-	, _tshader(_Shader(shader_path + "au_shadow_mapping.auvs"
-		, shader_path + "au_shadow_mapping.aufs"))
+
 {
+	auto* shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_shadow_mapping.glsl");
+	_shader = MakeShared<ShaderVariation>(shader);
+	_shader->Create();
 	RegisterShadow(this);
 	RegisterOpaque(this);
 }
@@ -32,14 +33,14 @@ void MeshShadow::DrawReady()
 
 
 	
-	_tshader.Use();
-	_tshader.SetInt("diffuseTexture", 0);
-	_tshader.SetInt("shadowMap", 1);
+	_shader->Use();
+	_shader->SetInt("diffuseTexture", 0);
+	_shader->SetInt("shadowMap", 1);
 }
 
 void MeshShadow::DrawShadow()
 {
-	_Shader& shadowShader = GetSubSystem<Renderer>()->GetShadowRenderer()->GetDepthMapShader();
+	ShaderVariation* shadowShader = GetSubSystem<Renderer>()->GetShadowRenderer()->GetDepthMapShader();
 	glm::mat4 modelMat;
 
 	if (GetNodePtr())		//if gameObject not empty
@@ -47,7 +48,7 @@ void MeshShadow::DrawShadow()
 	else
 		modelMat = Matrix4x4::identity;
 
-	shadowShader.SetMat4("model", modelMat);
+	shadowShader->SetMat4("model", modelMat);
 	_mesh->DrawMesh(shadowShader);
 }
 void MeshShadow::Draw()
@@ -66,15 +67,15 @@ void MeshShadow::Draw()
 		lightSpaceMatrix = (*it)->GetLightSpaceMatrix();
 
 		unsigned depthMap = (*it)->GetShadowAssist()->GetDepthMap();
-		_tshader.Use();
+		_shader->Use();
 		glm::mat4 projection = camera->GetProjectionMatrix();
 		glm::mat4 view = camera->GetViewMatrix();
-		_tshader.SetMat4("projection", projection);
-		_tshader.SetMat4("view", view);
+		_shader->SetMat4("projection", projection);
+		_shader->SetMat4("view", view);
 		// set light uniforms
-		_tshader.SetVec3("viewPos", camera->GetPosition());
-		_tshader.SetVec3("lightPos", lightPos);
-		_tshader.SetMat4("lightSpaceMatrix", lightSpaceMatrix);
+		_shader->SetVec3("viewPos", camera->GetPosition());
+		_shader->SetVec3("lightPos", lightPos);
+		_shader->SetMat4("lightSpaceMatrix", lightSpaceMatrix);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, _woodTexture);
 		glActiveTexture(GL_TEXTURE1);
@@ -85,9 +86,9 @@ void MeshShadow::Draw()
 			modelMat = GetNode().GetComponent<Transform>()->GetTransformMat();
 		else
 			modelMat = Matrix4x4::identity;
-		_tshader.SetMat4("model", modelMat);
+		_shader->SetMat4("model", modelMat);
 
-		_mesh->DrawMesh(_tshader);
+		_mesh->DrawMesh(_shader.get());
 
 	}
 }

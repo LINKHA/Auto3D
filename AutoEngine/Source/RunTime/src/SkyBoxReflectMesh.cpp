@@ -2,20 +2,22 @@
 #include "Renderer.h"
 #include "SkyBox.h"
 #include "Transform.h"
-#include "Configs.h"
+#include "ResourceSystem.h"
 #include "NewDef.h"
 
 namespace Auto3D {
 SkyBoxReflectMesh::SkyBoxReflectMesh(Ambient* ambient)
 	: RenderComponent(ambient)
-	, m_shader(shader_path + "au_skybox_cube.auvs"
-		, shader_path + "au_skybox_cube.aufs")
 {
+	auto* shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_skybox_cube.glsl");
+	_shader = MakeShared<ShaderVariation>(shader);
+	_shader->Create();
 }
-SkyBoxReflectMesh::SkyBoxReflectMesh(Ambient* ambient, const _Shader& shader )
+SkyBoxReflectMesh::SkyBoxReflectMesh(Ambient* ambient,Shader* shader )
 	: RenderComponent(ambient)
-	, m_shader(shader)
 {
+	_shader = MakeShared<ShaderVariation>(shader);
+	_shader->Create();
 }
 
 
@@ -79,8 +81,8 @@ void SkyBoxReflectMesh::Start()
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-	m_shader.Use();
-	m_shader.SetInt("skybox", 0);
+	_shader->Use();
+	_shader->SetInt("skybox", 0);
 
 	RegisterOpaque(this);
 }
@@ -95,11 +97,11 @@ void SkyBoxReflectMesh::Draw()
 		modelMat = GetNode().GetComponent<Transform>()->GetTransformMat();
 	else
 		modelMat = Matrix4x4::identity;
-	m_shader.Use();
-	m_shader.SetMat4("model", modelMat);
-	m_shader.SetMat4("view", viewMat);
-	m_shader.SetMat4("projection", projectionMat);
-	m_shader.SetVec3("cameraPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
+	_shader->Use();
+	_shader->SetMat4("model", modelMat);
+	_shader->SetMat4("view", viewMat);
+	_shader->SetMat4("projection", projectionMat);
+	_shader->SetVec3("cameraPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
 	glBindVertexArray(cubeVAO);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, SkyManager::Instance().GetSkyBox()->GetTexture());

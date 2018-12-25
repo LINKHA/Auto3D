@@ -6,7 +6,6 @@
 #include "SkyBoxReflectMesh.h"
 #include "../FreeCamera.h"
 #include "ResourceSystem.h"
-#include "Configs.h"
 
 void Level_0::Start()
 {
@@ -19,8 +18,7 @@ void Level_0::Start()
 
 
 	Node* skyBoxObj = CreateNode();
-	SkyBox* skybox = new SkyBox(_ambient);
-	skyBoxObj->AddComponent(skybox);
+	SkyBox* skybox = skyBoxObj->CreateComponent<SkyBox>();
 
 	Node* lightObj = CreateNode();
 	Light* light = lightObj->CreateComponent<Light>();
@@ -30,7 +28,6 @@ void Level_0::Start()
 	mesh->SetMesh(cube);
 	mesh->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
 	//mesh->GetMaterial()->color = Color(0.0f, 0.0f, 1.0f);
-	meshObj->AddComponent(mesh);
 
 	Node* meshObj2 = CreateNode();
 	SkyBoxReflectMesh * mesh2 = new SkyBoxReflectMesh(_ambient);

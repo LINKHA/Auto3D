@@ -1,7 +1,6 @@
 #pragma once
 #include "RenderComponent.h"
 #include "Camera.h"
-#include "_Shader.h"
 
 namespace Auto3D {
 
@@ -13,7 +12,7 @@ public:
 	void Start()override;
 	void Draw()override;
 private:
-	_Shader _tshader;
+	SharedPtr<ShaderVariation> _shader;
 
 	unsigned int woodTexture;
 

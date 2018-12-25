@@ -4,17 +4,21 @@
 
 namespace Auto3D {
 
+class ShaderVariation;
+
 class SkyBox : public Texture3D
 {
 	REGISTER_OBJECT_CLASS(SkyBox, Texture3D)
 public:
 	explicit SkyBox(Ambient* ambient);
+	static void RegisterObject(Ambient* ambient);
+
 	void Start()override;
 	void Draw()override;
 	unsigned int GetTexture() { return _cubemapTexture; }
 private:
 	unsigned int _cubemapTexture;
-	_Shader _tshader;
+	SharedPtr<ShaderVariation> _shader;
 	unsigned int _skyboxVAO;
 	unsigned int _skyboxVBO;
 };

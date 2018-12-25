@@ -5,6 +5,9 @@
 #include "Camera.h"
 #include "Application.h"
 #include "TextureMap.h"
+#include "ShaderVariation.h"
+
+
 namespace Auto3D {
 
 class TextureNormal : public TextureMap
@@ -26,8 +29,7 @@ private:
 	unsigned int _VAO{};
 	unsigned int _VBO{};
 	unsigned int _textureData{};
-
-	_Shader _tshader;
+	SharedPtr<ShaderVariation> _shader;
 	Color _color;
 	char* _imagePath{};
 	char* _imageNormalPath{};

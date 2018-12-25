@@ -19,6 +19,8 @@
 #include "ColliderSphere.h"
 #include "PhysicsWorld.h"
 #include "RigidBody.h"
+#include "SkyBox.h"
+
 
 #include "NewDef.h"
 
@@ -125,7 +127,7 @@ void Scene::RegisterSceneLib(Ambient* ambient)
 
 	SpriteRenderer::RegisterObject(ambient);
 	MeshRenderer::RegisterObject(ambient);
-
+	SkyBox::RegisterObject(ambient);
 }
 
 }

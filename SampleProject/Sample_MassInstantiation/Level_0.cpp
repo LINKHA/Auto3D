@@ -4,7 +4,8 @@
 #include "InstanceBeltLine.h"
 #include "../FreeCamera.h"
 #include "Time.h"
-
+#include "Shader.h"
+#include "ResourceSystem.h"
 
 void Level_0::Start()
 {
@@ -40,7 +41,7 @@ void Level_0::Start()
 	Node* beltLineObj = CreateNode();
 	InstanceBeltLine * line =
 		new InstanceBeltLine(_ambient, new Model(_ambient, "../Resource/object/rock/rock.obj")
-			, Shader("asteroids.auvs", "asteroids.aufs"),
+			, GetSubSystem<ResourceSystem>()->GetResource<Shader>("asteroids.glsl").get(),
 			modelMatrices, amount);
 	beltLineObj->AddComponent(line);
 }

@@ -4,7 +4,6 @@
 #include "BaseMesh.h"
 #include "Renderer.h"
 #include "Graphics.h"
-#include "Configs.h"
 #include "ResourceSystem.h"
 #include "NewDef.h"
 
@@ -13,17 +12,24 @@ namespace Auto3D {
 
 HDRSkyBox::HDRSkyBox(Ambient* ambient)
 	: Texture3D(ambient)
-	, m_equirectangularToCubemapShader(shader_path + "au_hdr_skybox_cubemap.auvs"
-		, shader_path + "au_hdr_skybox_equirectangular_to_cubemap.aufs")
-	, m_irradianceShader(shader_path + "au_hdr_skybox_cubemap.auvs"
-		, shader_path + "au_hdr_skybox_irradiance_convolution.aufs")
-	, m_prefilterShader(shader_path + "au_hdr_skybox_cubemap.auvs"
-		, shader_path + "au_hdr_skybox_prefilter.aufs")
-	, m_brdfShader(shader_path + "au_hdr_skybox_brdf.auvs"
-		, shader_path + "au_hdr_skybox_brdf.aufs")
-	, m_backgroundShader(shader_path + "au_hdr_skybox_background.auvs"
-		, shader_path + "au_hdr_skybox_background.aufs")
 {
+	auto* resourchCach = GetSubSystem<ResourceSystem>();
+
+	m_equirectangularToCubemapShader = MakeShared<ShaderVariation>(resourchCach->GetResource<Shader>("shader/au_hdr_skybox_equirectangular_to_cubemap.glsl"));
+	m_equirectangularToCubemapShader->Create();
+	
+	m_irradianceShader = MakeShared<ShaderVariation>(resourchCach->GetResource<Shader>("shader/au_hdr_skybox_irradiance_convolution.glsl"));
+	m_irradianceShader->Create();
+	
+	m_prefilterShader = MakeShared<ShaderVariation>(resourchCach->GetResource<Shader>("shader/au_hdr_skybox_prefilter.glsl"));
+	m_prefilterShader->Create();
+	
+	m_brdfShader = MakeShared<ShaderVariation>(resourchCach->GetResource<Shader>("shader/au_hdr_skybox_brdf.glsl"));
+	m_brdfShader->Create();
+	
+	m_backgroundShader = MakeShared<ShaderVariation>(resourchCach->GetResource<Shader>("shader/au_hdr_skybox_background.glsl"));
+	m_backgroundShader->Create();
+
 	SkyBoxManager::Instance().AddSkyBox(this);
 }
 
@@ -38,8 +44,8 @@ void HDRSkyBox::Start()
 	//glDepthFunc(GL_LEQUAL);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
-	m_backgroundShader.Use();
-	m_backgroundShader.SetInt("environmentMap", 0);
+	m_backgroundShader->Use();
+	m_backgroundShader->SetInt("environmentMap", 0);
 
 	glGenFramebuffers(1, &captureFBO);
 	glGenRenderbuffers(1, &captureRBO);
@@ -73,9 +79,9 @@ void HDRSkyBox::Start()
 		glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f,  0.0f, -1.0f), glm::vec3(0.0f, -1.0f,  0.0f))
 	};
 
-	m_equirectangularToCubemapShader.Use();
-	m_equirectangularToCubemapShader.SetInt("equirectangularMap", 0);
-	m_equirectangularToCubemapShader.SetMat4("projection", captureProjection);
+	m_equirectangularToCubemapShader->Use();
+	m_equirectangularToCubemapShader->SetInt("equirectangularMap", 0);
+	m_equirectangularToCubemapShader->SetMat4("projection", captureProjection);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, hdrTexture);
 
@@ -83,7 +89,7 @@ void HDRSkyBox::Start()
 	glBindFramebuffer(GL_FRAMEBUFFER, captureFBO);
 	for (unsigned int i = 0; i < 6; ++i)
 	{
-		m_equirectangularToCubemapShader.SetMat4("view", captureViews[i]);
+		m_equirectangularToCubemapShader->SetMat4("view", captureViews[i]);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, envCubemap, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -110,9 +116,9 @@ void HDRSkyBox::Start()
 	glBindRenderbuffer(GL_RENDERBUFFER, captureRBO);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, 32, 32);
 
-	m_irradianceShader.Use();
-	m_irradianceShader.SetInt("environmentMap", 0);
-	m_irradianceShader.SetMat4("projection", captureProjection);
+	m_irradianceShader->Use();
+	m_irradianceShader->SetInt("environmentMap", 0);
+	m_irradianceShader->SetMat4("projection", captureProjection);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, envCubemap);
 
@@ -120,7 +126,7 @@ void HDRSkyBox::Start()
 	glBindFramebuffer(GL_FRAMEBUFFER, captureFBO);
 	for (unsigned int i = 0; i < 6; ++i)
 	{
-		m_irradianceShader.SetMat4("view", captureViews[i]);
+		m_irradianceShader->SetMat4("view", captureViews[i]);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, irradianceMap, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -141,9 +147,9 @@ void HDRSkyBox::Start()
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
 
-	m_prefilterShader.Use();
-	m_prefilterShader.SetInt("environmentMap", 0);
-	m_prefilterShader.SetMat4("projection", captureProjection);
+	m_prefilterShader->Use();
+	m_prefilterShader->SetInt("environmentMap", 0);
+	m_prefilterShader->SetMat4("projection", captureProjection);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, envCubemap);
 
@@ -158,10 +164,10 @@ void HDRSkyBox::Start()
 		glViewport(0, 0, mipWidth, mipHeight);
 
 		float roughness = (float)mip / (float)(maxMipLevels - 1);
-		m_prefilterShader.SetFloat("roughness", roughness);
+		m_prefilterShader->SetFloat("roughness", roughness);
 		for (unsigned int i = 0; i < 6; ++i)
 		{
-			m_prefilterShader.SetMat4("view", captureViews[i]);
+			m_prefilterShader->SetMat4("view", captureViews[i]);
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, prefilterMap, mip);
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -186,7 +192,7 @@ void HDRSkyBox::Start()
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, brdfLUTTexture, 0);
 
 	glViewport(0, 0, 512, 512);
-	m_brdfShader.Use();
+	m_brdfShader->Use();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	renderQuad(&quadVAO, &quadVBO);
 
@@ -199,14 +205,14 @@ void HDRSkyBox::Draw()
 	glDepthFunc(GL_LEQUAL);
 
 	glm::mat4 projection = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
-	m_backgroundShader.Use();
-	m_backgroundShader.SetMat4("projection", projection);
+	m_backgroundShader->Use();
+	m_backgroundShader->SetMat4("projection", projection);
 
 	glViewport(0, 0, GetSubSystem<Graphics>()->GetWindowRectInt().width
 		, GetSubSystem<Graphics>()->GetWindowRectInt().height);
 
 	glm::mat4 view = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
-	m_backgroundShader.SetMat4("view", view);
+	m_backgroundShader->SetMat4("view", view);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, envCubemap);
 

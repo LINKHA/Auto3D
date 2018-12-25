@@ -1,6 +1,6 @@
 #pragma once
 #include "RenderComponent.h"
-#include "_Shader.h"
+#include "ShaderVariation.h"
 #include "Math/Math.h"
 
 
@@ -25,7 +25,7 @@ public:
 	void SetAlbedo(float r, float g, float b) { _albedo.Set(r, g, b); }
 	void SetAlbedo(const Vector3& vec) { _albedo = vec; }
 private:
-	_Shader _tshader;
+	ShaderVariation* _shader;
 
 	unsigned _vao;
 	unsigned _indexCount;
@@ -34,8 +34,8 @@ private:
 	float _roughness;
 	Vector3 _albedo;
 
-	_Shader _shaderTexture;
-	_Shader _shaderNoTexture;
+	SharedPtr<ShaderVariation> _shaderTexture;
+	SharedPtr<ShaderVariation> _shaderNoTexture;
 };
 
 }

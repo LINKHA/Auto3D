@@ -1,24 +1,28 @@
 #include "MeshPBR.h"
-#include "Configs.h"
 #include "BaseMesh.h"
 #include "HDRSkyBox.h"
 #include "Renderer.h"
 #include "Time.h"
 #include "Transform.h"
 #include "Light.h"
+#include "ResourceSystem.h"
 #include "NewDef.h"
 
 namespace Auto3D {
 
 MeshPBR::MeshPBR(Ambient* ambient)
 	: Super(ambient)
-	, _shaderTexture(shader_path + "au_pbr.auvs"
-		, shader_path + "au_pbr_hdr.aufs")
-	, _shaderNoTexture(shader_path + "au_pbr.auvs"
-		, shader_path + "au_pbr.aufs")
 	, _metallic(1.0f)
 	, _roughness(0.02f)
 {
+	auto* cach = GetSubSystem<ResourceSystem>();
+
+	_shaderTexture = MakeShared<ShaderVariation>(cach->GetResource<Shader>("shader/au_pbr_hdr.glsl"));
+	_shaderTexture->Create();
+
+	_shaderNoTexture = MakeShared<ShaderVariation>(cach->GetResource<Shader>("shader/au_pbr.glsl"));
+	_shaderNoTexture->Create();
+
 	_albedo.Set(1.0f, 1.0f, 1.0f);
 }
 
@@ -32,21 +36,21 @@ void MeshPBR::Start()
 {
 	if (SkyBoxManager::Instance().GetEnable())
 	{
-		_tshader = _shaderTexture;
+		_shader = _shaderTexture.get();
 	}
 	else
 	{
-		_tshader = _shaderNoTexture;
+		_shader = _shaderNoTexture.get();
 	}
-	_tshader.Use();
+	_shader->Use();
 	if (SkyBoxManager::Instance().GetEnable())
 	{
-		_tshader.SetInt("irradianceMap", 0);
-		_tshader.SetInt("prefilterMap", 1);
-		_tshader.SetInt("brdfLUT", 2);
+		_shader->SetInt("irradianceMap", 0);
+		_shader->SetInt("prefilterMap", 1);
+		_shader->SetInt("brdfLUT", 2);
 	}
-	_tshader.SetVec3("albedo", _albedo);
-	_tshader.SetFloat("ao", 1.0f);
+	_shader->SetVec3("albedo", _albedo);
+	_shader->SetFloat("ao", 1.0f);
 	RegisterOpaque(this);
 }
 
@@ -56,11 +60,11 @@ void MeshPBR::Draw()
 	glm::mat4 projection = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
 	
 
-	_tshader.Use();
-	_tshader.SetMat4("projection", projection);
+	_shader->Use();
+	_shader->SetMat4("projection", projection);
 	glm::mat4 view = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
-	_tshader.SetMat4("view", view);
-	_tshader.SetVec3("camPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
+	_shader->SetMat4("view", view);
+	_shader->SetVec3("camPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
 	if (SkyBoxManager::Instance().GetEnable())
 	{
 		glActiveTexture(GL_TEXTURE0);
@@ -77,8 +81,8 @@ void MeshPBR::Draw()
 	int dir = 0;
 	for (VECTOR<Light*>::iterator it = lights.begin(); it != lights.end(); it++)
 	{
-		_tshader.SetVec3("lightPositions[" + KhSTL::ToString(dir) + "]", (*it)->GetNode().GetPosition());
-		_tshader.SetVec3("lightColors[" + KhSTL::ToString(dir) + "]", (*it)->GetColorToVec());
+		_shader->SetVec3("lightPositions[" + KhSTL::ToString(dir) + "]", (*it)->GetNode().GetPosition());
+		_shader->SetVec3("lightColors[" + KhSTL::ToString(dir) + "]", (*it)->GetColorToVec());
 		dir++;
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -90,9 +94,9 @@ void MeshPBR::Draw()
 	else
 		modelMat = Matrix4x4::identity;
 
-	_tshader.SetFloat("metallic", _metallic);
-	_tshader.SetFloat("roughness", _roughness);
-	_tshader.SetMat4("model", modelMat);
+	_shader->SetFloat("metallic", _metallic);
+	_shader->SetFloat("roughness", _roughness);
+	_shader->SetMat4("model", modelMat);
 
 	renderSphere(&_vao, &_indexCount);
 

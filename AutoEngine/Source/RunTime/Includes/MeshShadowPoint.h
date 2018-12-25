@@ -1,5 +1,5 @@
 #pragma once
-#include "_Shader.h"
+#include "ShaderVariation.h"
 #include "GLMeshEnable.h"
 #include "RenderComponent.h"
 
@@ -19,8 +19,8 @@ public:
 	void DisableCull() { _cullEnable = true; }
 	void SetMesh(Mesh* mesh) { _mesh.reset(mesh); }
 private:
-	_Shader _tshader;
-	_Shader _hardShader;
+	SharedPtr<ShaderVariation> _shader;
+	SharedPtr<ShaderVariation> _hardShader;
 	SharedPtr<Mesh> _mesh;
 	bool _cullEnable;
 	unsigned int _woodTexture;

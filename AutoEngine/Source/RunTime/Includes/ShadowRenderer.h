@@ -1,6 +1,6 @@
 #pragma once
 #include "Object.h"
-#include "_Shader.h"
+#include "ShaderVariation.h"
 
 namespace Auto3D {
 
@@ -30,13 +30,13 @@ public:
 	*/
 	void RenderShadow();
 
-	_Shader& GetDepthMapShader() { return _shadowMapDepthShader; }
-	_Shader& GetPointDepthMapShader() { return _shadowMapPointDepth; }
+	ShaderVariation* GetDepthMapShader() { return _shadowMapDepthShader.get(); }
+	ShaderVariation* GetPointDepthMapShader() { return _shadowMapPointDepth.get(); }
 private:
 	Ligths _lights;
 	RenderComponents _shadowComponents;
-	_Shader _shadowMapDepthShader;
-	_Shader _shadowMapPointDepth;
+	SharedPtr<ShaderVariation> _shadowMapDepthShader;
+	SharedPtr<ShaderVariation> _shadowMapPointDepth;
 	unsigned int _woodTexture;
 };
 

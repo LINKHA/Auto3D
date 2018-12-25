@@ -24,7 +24,7 @@ vec3 GetNormal()
     return normalize(cross(a, b));
 }
 
-void main() {    
+void GS() {    
     vec3 normal = GetNormal();
 
     gl_Position = explode(gl_in[0].gl_Position, normal);

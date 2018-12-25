@@ -1,5 +1,5 @@
 #pragma once
-#include "_Shader.h"
+#include "ShaderVariation.h"
 #include "Object.h"
 namespace Auto3D {
 ///Temp !!!
@@ -60,27 +60,27 @@ public:
 	/**
 	* @brief : SetEffect user-defined shader in effect
 	*/
-	void SetEffect(const _Shader& shader);
+	void SetEffect(ShaderVariation* shader);
 private:
 	//Temp !!! Hdr cannot be used at the same time as others
 #pragma warning
 	void bindHdr();
 	void bindMsaaAndPostpro();
 private:
-	_Shader shader;
-	_Shader shaderBlur;
-	_Shader shaderEdgeDetection;
-	_Shader shaderGrayscale;
-	_Shader shaderInversion;
-	_Shader shaderSharpen;
+	SharedPtr<ShaderVariation> shader;
+	SharedPtr<ShaderVariation> shaderBlur;
+	SharedPtr<ShaderVariation> shaderEdgeDetection;
+	SharedPtr<ShaderVariation> shaderGrayscale;
+	SharedPtr<ShaderVariation> shaderInversion;
+	SharedPtr<ShaderVariation> shaderSharpen;
 
-
+	SharedPtr<ShaderVariation> hdrShader;
 private:
 	bool _isAllowMsaa{};
 	bool _isAllowLateEffect{};
 	bool _isAllowHDR{};
 
-	_Shader _tshader;
+	ShaderVariation* _shader;
 	int _samplingPointCount;
 	unsigned int _quadVAO, _quadVBO;
 	unsigned int _framebuffer;
