@@ -8,13 +8,13 @@ DebugSapce::DebugSapce(Ambient* ambient)
 {}
 DebugSapce::~DebugSapce()
 {
-	RemoveScene(0);
+	RemoveScene(1);
 }
 void DebugSapce::Awake()
 {
 	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
-	RegisterScene(new Level_0(_ambient, 0));
+	RegisterScene(new Level_0(_ambient, 1));
 }
 
 void DebugSapce::Start()

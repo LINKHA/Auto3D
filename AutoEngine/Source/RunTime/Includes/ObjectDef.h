@@ -34,7 +34,9 @@ public: \
 	static STRING GetClassStringStatic() { return #_This; } \
 	static Auto3D::RTTI* GetRTTIStatic() { static Auto3D::RTTI RTTIStatic(#_This, _Base::GetRTTIStatic(), ClassID(_This), true);return &RTTIStatic;}\
 
-
+/**
+* : This macro definition needs to be registered for each scenario
+*/
 #define REGISTER_LEVEL_CLASS(_This) \
 public: \
 	using This = _This; \
@@ -42,4 +44,24 @@ public: \
 	_This(Ambient* ambient, int levelID)\
 		:LevelScene(ambient, levelID){}\
 	~_This() = default;\
+	virtual char* GetClassCstrName() { return #_This; }\
+	virtual STRING GetClassString() { return #_This; } \
+	static char* GetClassCstrNameStatic () { return #_This; }\
+	static STRING GetClassStringStatic() { return #_This; } \
+
+/**
+* @brief : Each script needs to register this macro definition
+*/
+#define REGISTER_SCRIPT_CLASS(_This) \
+public: \
+	using This = _This; \
+	using Super = ScriptComponent; \
+	_This(Ambient* ambient)\
+		:ScriptComponent(ambient){}\
+	~_This() = default;\
+	virtual char* GetClassCstrName() { return #_This; }\
+	virtual STRING GetClassString() { return #_This; } \
+	static char* GetClassCstrNameStatic () { return #_This; }\
+	static STRING GetClassStringStatic() { return #_This; } \
+
 

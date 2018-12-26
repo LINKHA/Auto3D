@@ -7,6 +7,12 @@ class ScriptComponent :public Component
 	REGISTER_OBJECT_ABSTRACT_CLASS(ScriptComponent, Component)
 public:
 	explicit ScriptComponent(Ambient* ambient);
+	virtual void Init()
+	{
+		// Get registered node scene ID
+		_sceneID = GetNodePtr()->GetSceneID();
+	}
+
 
 	virtual void Awake() {}
 	virtual void Start() {}
@@ -29,7 +35,10 @@ public:
 #else
 	template<typename T> T* CreateObject();
 #endif
+protected:
+	unsigned _sceneID;
 };
+
 #if SharedPtrDebug
 template<typename T> sharedPtr<T> ScriptComponent::CreateObject()
 { 

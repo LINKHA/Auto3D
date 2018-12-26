@@ -10,8 +10,6 @@ class Node;
 class LevelScene : public BehaviorObject
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(LevelScene, BehaviorObject)
-
-	using SceneSuper = This;
 	using Nodes = LIST<Node*>;
 public:
 	/**

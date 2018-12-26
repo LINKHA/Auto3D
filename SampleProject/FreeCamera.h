@@ -3,11 +3,12 @@
 #include "Camera.h"
 
 using namespace Auto3D;
+
 class FreeCamera : public ScriptComponent
 {
+	REGISTER_SCRIPT_CLASS(FreeCamera)
 public:
-	FreeCamera(Ambient* ambient,int levelNumber);
-	~FreeCamera();
+	void Init()override;
 	void Start()override;
 	void Update()override;
 	Node* freeCameraObject;

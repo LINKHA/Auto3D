@@ -23,28 +23,28 @@ void FreeCamera::processInput()
 	freeCamera->ProcessMouseScroll(GetSubSystem<Input>()->GetMouseWheelOffset());
 }
 
-
-FreeCamera::FreeCamera(Ambient* ambient, int levelNumber)
-	:ScriptComponent(ambient)
+void FreeCamera::Init()
 {
-	freeCameraObject = new Node(_ambient, levelNumber);
-	GetSubSystem<Scene>()->GetLevelScene(levelNumber)->AddNode(freeCameraObject);
+	Super::Init();
 
-	freeCamera = CreateObject<Camera>();
-	freeCamera->SetFar(1000.0f);
-}
-FreeCamera::~FreeCamera()
-{
+	freeCameraObject = new Node(_ambient, _sceneID);
+	GetSubSystem<Scene>()->GetLevelScene(_sceneID)->AddNode(freeCameraObject);
 }
 
 void FreeCamera::Start()
 {
+	Super::Start();
+
+	freeCamera = CreateObject<Camera>();
+	freeCamera->SetFar(1000.0f);
+
 	freeCameraObject->AddComponent(freeCamera);
 	GetSubSystem<Input>()->HideMouseInWindow(true);
-	
 }
 void FreeCamera::Update()
 {
+	Super::Update();
+
 	processInput();
 	
 }

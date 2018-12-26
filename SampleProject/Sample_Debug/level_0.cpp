@@ -9,13 +9,14 @@
 
 void Level_0::Awake()
 {
-	SceneSuper::Awake();
+	Super::Awake();
 }
 void Level_0::Start()
 {
 	Super::Start();
+
 	Node* camObj = CreateNode();
-	FreeCamera* freeCamera = new FreeCamera(_ambient, _sceneID);
+	FreeCamera* freeCamera = new FreeCamera(_ambient);
 	camObj->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, 0.0f);
 	camObj->AddComponent(freeCamera);
 
@@ -70,6 +71,8 @@ void Level_0::Start()
 }
 void Level_0::Update()
 {
+	Super::Update();
+
 	float scaleAmount = (float)sin(GetSubSystem<Time>()->GetCurTime());
 	Transform* t = obj->GetComponent<Transform>();
 	t->SetRotation(Vector3(0.0f, 0.0f, 90.0f));
