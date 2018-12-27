@@ -5,8 +5,8 @@ using namespace Auto3D;
 
 class TimeSpace : public MotionSpace
 {
+	REGISTER_SPACE_CLASS(TimeSpace)
 public:
-	explicit TimeSpace(Ambient* ambient);
-	~TimeSpace();
-	void Awake()override;
+	void Init()override;
+	void Destruct()override;
 };

@@ -9,20 +9,20 @@ namespace Auto3D {
 
 Node::Node(Ambient* ambient, int sceneID)
 	: Super(ambient)
-	, _sceneID(sceneID)
+	, _levelID(sceneID)
 	, _isEnable(true)
 	, _name("default node")
 {
 	// Each node contains a Transform component
 	CreateComponent<Transform>();
 	// add node to appoint level scene
-	GetSubSystem<Scene>()->GetLevelScene(_sceneID)->AddNode(this);
+	GetSubSystem<Scene>()->GetLevelScene(_levelID)->AddNode(this);
 }
 
 Node::~Node() 
 {
 	// remove node to appoint level scene
-	GetSubSystem<Scene>()->GetLevelScene(_sceneID)->RemoveNode(this);
+	GetSubSystem<Scene>()->GetLevelScene(_levelID)->RemoveNode(this);
 }
 
 void Node::AddChild(Node* node)

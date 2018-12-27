@@ -14,12 +14,13 @@ void Level_0::Start()
 	auto* imageWindow = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/window.png");
 
 	Node* camObj = CreateNode();
-	camera = new FreeCamera(_ambient, _sceneID);
-	camera->freeCamera->AllowOffScreen(true);
-	camera->freeCamera->AllowMSAA(true);
-	camera->freeCamera->AllowLateEffect(true);
-	camObj->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, 3.0f);
-	camObj->AddComponent(camera);
+	freeCamera = new FreeCamera(_ambient);
+	camObj->AddComponent(freeCamera);
+	freeCamera->camera->AllowOffScreen(true);
+	freeCamera->camera->AllowMSAA(true);
+	freeCamera->camera->AllowLateEffect(true);
+	freeCamera->cameraNode->SetPosition(0.0f, 0.0f, 3.0f);
+	
 
 
 	Node* obj2 = CreateNode();
@@ -32,7 +33,7 @@ void Level_0::Start()
 
 
 	Node* obj5 = CreateNode();
-	obj5->SetPosition(-0.2f, 0.0f, -3.0f);
+	obj5->SetPosition(-1.0f, 0.0f, 0.0f);
 	auto* tex5 = obj5->CreateComponent<SpriteRenderer>();
 	tex5->SetImage(imageGrass);
 	tex5->EnableBlend(true);
@@ -59,22 +60,22 @@ void Level_0::Update()
 		switch (i)
 		{
 		case 0:
-			camera->freeCamera->SetLateEffect(POST_DEFAULT);
+			freeCamera->camera->SetLateEffect(POST_DEFAULT);
 			break;
 		case 1:
-			camera->freeCamera->SetLateEffect(POST_BULR);
+			freeCamera->camera->SetLateEffect(POST_BULR);
 			break;
 		case 2:
-			camera->freeCamera->SetLateEffect(POST_EDGE_DETECTION);
+			freeCamera->camera->SetLateEffect(POST_EDGE_DETECTION);
 			break;
 		case 3:
-			camera->freeCamera->SetLateEffect(POST_GRAYSCALE);
+			freeCamera->camera->SetLateEffect(POST_GRAYSCALE);
 			break;
 		case 4:
-			camera->freeCamera->SetLateEffect(POST_INVERSION);
+			freeCamera->camera->SetLateEffect(POST_INVERSION);
 			break;
 		case 5:
-			camera->freeCamera->SetLateEffect(POST_SHARPEN);
+			freeCamera->camera->SetLateEffect(POST_SHARPEN);
 			break;
 		}
 	}

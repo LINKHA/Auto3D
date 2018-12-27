@@ -15,8 +15,9 @@ void Level_0::Start()
 	light->SetType(LightType::Directional);
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	Node* camObj = CreateNode();
-	FreeCamera* cam = new FreeCamera(_ambient, _sceneID);
-	camObj->AddComponent(cam);
+	FreeCamera* freeCamera = new FreeCamera(_ambient);
+	camObj->AddComponent(freeCamera);
+	freeCamera->cameraNode->SetPosition(0.0f, 0.0f, 10.0f);
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	Node* obj1 = CreateNode();
 	auto* plane = obj1->CreateComponent<MeshRenderer>();

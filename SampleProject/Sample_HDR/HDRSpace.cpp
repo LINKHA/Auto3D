@@ -4,19 +4,15 @@
 #include "FileSystem.h"
 #include "Level_0.h"
 
-HDRSpace::HDRSpace(Ambient* ambient)
-	:MotionSpace(ambient)
-{}
-HDRSpace::~HDRSpace()
-{
-	RemoveScene(0);
-}
+AUTO_APPLICATION_MAIN(HDRSpace)
 
-void HDRSpace::Awake()
+void HDRSpace::Init()
 {
 	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(new Level_0(_ambient, 0));
 }
-
-AUTO_APPLICATION_MAIN(HDRSpace)
+void HDRSpace::Destruct()
+{
+	RemoveScene(0);
+}

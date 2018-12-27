@@ -3,10 +3,10 @@
 using namespace Auto3D;
 class ModelSapce : public MotionSpace
 {
+	REGISTER_SPACE_CLASS(ModelSapce)
 public:
-	explicit ModelSapce(Ambient* ambient);
-	~ModelSapce();
-	void Awake()override;
+	void Init()override;
+	void Destruct()override;
 };
 
 

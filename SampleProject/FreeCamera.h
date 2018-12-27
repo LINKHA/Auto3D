@@ -11,8 +11,9 @@ public:
 	void Init()override;
 	void Start()override;
 	void Update()override;
-	Node* freeCameraObject;
-	Camera* freeCamera;
+
+	Node* cameraNode;
+	Camera* camera;
 private:
 	void processInput();
 };

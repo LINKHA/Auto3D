@@ -4,18 +4,15 @@
 #include "FileSystem.h"
 #include "Level_0.h"
 
-Physics3DSpace::Physics3DSpace(Ambient* ambient)
-	:MotionSpace(ambient)
-{}
-Physics3DSpace::~Physics3DSpace()
-{
-	RemoveScene(0);
-}
-void Physics3DSpace::Awake()
+AUTO_APPLICATION_MAIN(Physics3DSpace)
+
+void Physics3DSpace::Init()
 {
 	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(new Level_0(_ambient, 0));
 }
-
-AUTO_APPLICATION_MAIN(Physics3DSpace)
+void Physics3DSpace::Destruct()
+{
+	RemoveScene(0);
+}

@@ -3,19 +3,15 @@
 #include "ResourceSystem.h"
 #include "FileSystem.h"
 
-PBRSpace::PBRSpace(Ambient* ambient)
-	:MotionSpace(ambient)
-{}
-PBRSpace::~PBRSpace()
-{
-	RemoveScene(0);
-}
+AUTO_APPLICATION_MAIN(PBRSpace)
 
-void PBRSpace::Awake()
+void PBRSpace::Init()
 {
 	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(new Level_0(_ambient, 0));
 }
-
-AUTO_APPLICATION_MAIN(PBRSpace)
+void PBRSpace::Destruct()
+{
+	RemoveScene(0);
+}

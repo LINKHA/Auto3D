@@ -5,7 +5,8 @@
 namespace Auto3D {
 
 BehaviorObject::BehaviorObject(Ambient* ambient)
-	:Super(ambient)
+	: Super(ambient)
+	, _isEnable(true)
 {
 }
 

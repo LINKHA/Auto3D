@@ -14,19 +14,18 @@ void Level_0::Start()
 {
 	Super::Start();
 
+	auto* mesh = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/base/Cube.3DS");
+
 	Node* cameraObj = CreateNode();
-	FreeCamera* camera = new FreeCamera(_ambient, _sceneID);
-	camera->freeCamera->AllowOffScreen(true);
-	camera->freeCamera->AllowMSAA(true, 4);
-	cameraObj->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, 3.0f);
-	cameraObj->AddComponent(camera);
+	FreeCamera* freeCamera = new FreeCamera(_ambient);
+	cameraObj->AddComponent(freeCamera);
+	freeCamera->camera->AllowOffScreen(true);
+	freeCamera->camera->AllowMSAA(true, 4);
 
 	Node* lightObj = CreateNode();
 	auto* light = lightObj->CreateComponent<Light>();
 	light->SetType(LightType::Directional);
 	light->direction.Set(0.0f, -0.5f, -0.5f);
-
-	auto* mesh = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/base/Cube.3DS");
 
 	Node* meshObj = CreateNode();
 	auto* meshRenderer = meshObj->CreateComponent<MeshRenderer>();

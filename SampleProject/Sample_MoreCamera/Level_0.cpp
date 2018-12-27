@@ -22,7 +22,7 @@ void Level_0::Start()
 
 	//////////////////////////////////////////////////////////////////////////
 	Node* freeCameraObj = CreateNode();
-	FreeCamera* freeCamera = new FreeCamera(_ambient, _sceneID);
+	FreeCamera* freeCamera = new FreeCamera(_ambient);
 	freeCameraObj->AddComponent(freeCamera);
 
 	//////////////////////////////////////////////////////////////////////////

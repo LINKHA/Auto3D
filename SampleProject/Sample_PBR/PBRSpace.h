@@ -3,8 +3,8 @@
 using namespace Auto3D;
 class PBRSpace : public MotionSpace
 {
+	REGISTER_SPACE_CLASS(PBRSpace)
 public:
-	explicit PBRSpace(Ambient* ambient);
-	~PBRSpace();
-	void Awake()override;
+	void Init()override;
+	void Destruct()override;
 };

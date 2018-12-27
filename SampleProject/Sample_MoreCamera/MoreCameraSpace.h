@@ -5,7 +5,8 @@ using namespace Auto3D;
 class MoreCameraSpace : public MotionSpace
 {
 public:
-	explicit MoreCameraSpace(Ambient* ambient);
-	~MoreCameraSpace();
-	void Awake()override;
+	REGISTER_SPACE_CLASS(MoreCameraSpace)
+public:
+	void Init()override;
+	void Destruct()override;
 };

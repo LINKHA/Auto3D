@@ -4,19 +4,14 @@
 #include "Level_0.h"
 #include "ResourceSystem.h"
 
-Physics2DSapce::Physics2DSapce(Ambient* ambient)
-	:MotionSpace(ambient)
-{}
-Physics2DSapce::~Physics2DSapce()
-{
-	RemoveScene(0);
-}
-
-void Physics2DSapce::Awake()
+AUTO_APPLICATION_MAIN(Physics2DSapce)
+void Physics2DSapce::Init()
 {
 	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(new Level_0(_ambient, 0));
 }
-
-AUTO_APPLICATION_MAIN(Physics2DSapce)
+void Physics2DSapce::Destruct()
+{
+	RemoveScene(0);
+}

@@ -4,11 +4,11 @@
 #include "Launch.h"
 
 namespace Auto3D {
-
 class LevelScene;
-class MotionSpace : public BehaviorObject
+
+class MotionSpace : public Object
 {
-	REGISTER_OBJECT_ABSTRACT_CLASS(MotionSpace, BehaviorObject)
+	REGISTER_OBJECT_ABSTRACT_CLASS(MotionSpace, Object)
 public:
 	explicit MotionSpace(Ambient* ambient);
 	/**
@@ -20,6 +20,14 @@ public:
 	*/
 	void RemoveScene(int id);
 	/**
+	* @brief : Init space
+	*/
+	virtual void Init() {}
+	/**
+	* @brief : Destruct space
+	*/
+	virtual void Destruct() {}
+	/**
 	* @brief : Launch application
 	*/
 	int Launch() const;
@@ -29,8 +37,18 @@ class SpaceHandle : public Singleton<SpaceHandle>
 public:
 	SpaceHandle() = default;
 	~SpaceHandle() = default;
+
+	void Init()
+	{
+		AssertString(space, "No global space!");
+		space->Init();
+	}
+	void Destruct()
+	{
+		AssertString(space, "No global space!");
+		space->Destruct();
+	}
 	SharedPtr<MotionSpace> space;
-	void ModeRunSpace(RunMode runMode);
 };
 
 /// @brief : Regisiter application in main function

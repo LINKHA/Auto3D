@@ -6,7 +6,7 @@
 
 void Level_0::Awake()
 {
-	SceneSuper::Awake();
+	Super::Awake();
 }
 
 void Level_0::Start()

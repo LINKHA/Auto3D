@@ -3,10 +3,10 @@
 using namespace Auto3D;
 class ParallaxMappingSpace : public MotionSpace
 {
+	REGISTER_SPACE_CLASS(ParallaxMappingSpace)
 public:
-	explicit ParallaxMappingSpace(Ambient* ambient);
-	~ParallaxMappingSpace();
-	void Awake()override;
+	void Init()override;
+	void Destruct()override;
 };
 
 

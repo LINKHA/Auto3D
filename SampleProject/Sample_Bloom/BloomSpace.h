@@ -5,8 +5,8 @@ using namespace Auto3D;
 
 class BloomSpace : public MotionSpace
 {
+	REGISTER_SPACE_CLASS(BloomSpace)
 public:
-	explicit BloomSpace(Ambient* ambient);
-	~BloomSpace();
-	void Awake()override;
+	void Init()override;
+	void Destruct()override;
 };

@@ -1,5 +1,5 @@
 #pragma once
-#include "Object.h"
+#include "LevelBehaviorObject.h"
 #include "Node.h"
 #include "SceneNode.h"
 
@@ -7,13 +7,12 @@ namespace Auto3D {
 
 const static char* SCENE_ATTACH = "Scene_attach";
 const static char* GEOMETRY_ATTACH = "GeoMetry_attach";
-const static char* COMPONENT_SET_ATTACH = "Component_Set_attach";
 
 class SceneNode;
 
-class Component : public Object
+class Component : public LevelBehaviorObject
 {
-	REGISTER_OBJECT_ABSTRACT_CLASS(Component, Object)
+	REGISTER_OBJECT_ABSTRACT_CLASS(Component, LevelBehaviorObject)
 public:
 	explicit Component(Ambient* ambient);
 	/**
@@ -37,21 +36,13 @@ public:
 	*/
 	void SetNode(Node* node);
 	/**
-	* @brief : Set enable
-	*/
-	void Enable(bool enable) { _isEnable = enable; }
-	/**
-	* @brief : Return enable
-	*/
-	bool GetEnable() { return _isEnable; }
-	/**
 	* @brief : Return vector3 with gameObject position
 	*/
 	Vector3 GetPosition();
 	/**
 	* @brief : Return int with scene id
 	*/
-	const int GetSceneID();
+	const int GetLevelID();
 	/**
 	* @brief : Return current scene node
 	*/
@@ -59,16 +50,13 @@ public:
 	/**
 	* @brief : This component is automatically invoked when registering to a node
 	*/
-	virtual void Init(){}
+	virtual void Init()
+	{
+		_levelID = GetNodePtr()->GetLevelID();
+	}
 
-	virtual void Awake() {}
-	virtual void Start() {}
-	virtual void Update() {}
-	virtual void FixUpdate() {}
-	virtual void Finish() {}
 private:
 	Node* _node;
-	bool _isEnable;
 };
 
 }

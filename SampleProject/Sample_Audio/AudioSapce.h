@@ -3,11 +3,8 @@
 using namespace Auto3D;
 class AudioSapce : public MotionSpace
 {
+	REGISTER_SPACE_CLASS(AudioSapce)
 public:
-	explicit AudioSapce(Ambient* ambient);
-	~AudioSapce();
-	void Awake()override;
-	void Start()override;
-	void Update()override;
-
+	void Init()override;
+	void Destruct()override;
 };

@@ -16,9 +16,10 @@ void Level_0::Start()
 	Super::Start();
 
 	Node* camObj = CreateNode();
-	FreeCamera* freeCamera = new FreeCamera(_ambient);
-	camObj->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, 0.0f);
-	camObj->AddComponent(freeCamera);
+	FreeCamera* camera = new FreeCamera(_ambient);
+	camObj->AddComponent(camera);
+	camera->cameraNode->SetPosition(0.0f, 0.0f, 10.0f);
+	
 
 
 	auto* imageLogo = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/logo.png");

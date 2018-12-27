@@ -3,12 +3,10 @@
 using namespace Auto3D;
 class DebugSapce : public MotionSpace
 {
+	REGISTER_SPACE_CLASS(DebugSapce)
 public:
-	explicit DebugSapce(Ambient* ambient);
-	~DebugSapce();
-	void Awake()override;
-	void Start()override;
-	void Update()override;
+	void Init()override;
+	void Destruct()override;
 };
 
 

@@ -3,10 +3,10 @@
 using namespace Auto3D;
 class UISapce : public MotionSpace
 {
+	REGISTER_SPACE_CLASS(UISapce)
 public:
-	explicit UISapce(Ambient* ambient);
-	~UISapce();
-	void Awake()override;
+	void Init()override;
+	void Destruct()override;
 };
 
 

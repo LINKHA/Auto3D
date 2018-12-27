@@ -3,17 +3,9 @@
 #include "FileSystem.h"
 #include "Level_0.h"
 
-VertexExplodeSpace::VertexExplodeSpace(Ambient* ambient)
-	:MotionSpace(ambient)
-{
-}
+AUTO_APPLICATION_MAIN(VertexExplodeSpace)
 
-VertexExplodeSpace::~VertexExplodeSpace()
-{
-	RemoveScene(0);
-}
-
-void VertexExplodeSpace::Awake()
+void VertexExplodeSpace::Init()
 {
 	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
@@ -23,4 +15,7 @@ void VertexExplodeSpace::Awake()
 	RegisterScene(new Level_0(_ambient, 0));
 }
 
-AUTO_APPLICATION_MAIN(VertexExplodeSpace)
+void VertexExplodeSpace::Destruct()
+{
+	RemoveScene(0);
+}

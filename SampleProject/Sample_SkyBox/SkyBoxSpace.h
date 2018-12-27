@@ -6,8 +6,8 @@ using namespace Auto3D;
 
 class SkyBoxSpace : public MotionSpace
 {
+	REGISTER_SPACE_CLASS(SkyBoxSpace)
 public:
-	explicit SkyBoxSpace(Ambient* ambient);
-	~SkyBoxSpace();
-	void Awake()override;
+	void Init()override;
+	void Destruct()override;
 };

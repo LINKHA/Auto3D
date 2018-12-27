@@ -3,24 +3,15 @@
 #include "FileSystem.h"
 #include "level_0.h"
 
-DebugSapce::DebugSapce(Ambient* ambient)
-	:MotionSpace(ambient)
-{}
-DebugSapce::~DebugSapce()
-{
-	RemoveScene(1);
-}
-void DebugSapce::Awake()
+AUTO_APPLICATION_MAIN(DebugSapce)
+
+void DebugSapce::Init()
 {
 	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
-	RegisterScene(new Level_0(_ambient, 1));
+	RegisterScene(new Level_0(_ambient, 0));
 }
-
-void DebugSapce::Start()
+void DebugSapce::Destruct()
 {
+	RemoveScene(0);
 }
-void DebugSapce::Update()
-{
-}
-AUTO_APPLICATION_MAIN(DebugSapce)

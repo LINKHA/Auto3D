@@ -5,10 +5,10 @@ using namespace Auto3D;
 
 class HDRSpace : public MotionSpace
 {
+	REGISTER_SPACE_CLASS(HDRSpace)
 public:
-	explicit HDRSpace(Ambient* ambient);
-	~HDRSpace();
-	void Awake()override;
+	void Init()override;
+	void Destruct()override;
 };
 
 

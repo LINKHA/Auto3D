@@ -7,11 +7,10 @@
 
 namespace Auto3D {
 
-LevelScene::LevelScene(Ambient* ambient, int id)
+LevelScene::LevelScene(Ambient* ambient, int levelID)
 	: Super(ambient)
-	, _isEnable(true)
-	, _sceneID(id)
-{	
+{
+	_levelID = levelID;
 }
 
 LevelScene::~LevelScene()
@@ -23,7 +22,7 @@ LevelScene::~LevelScene()
 
 void LevelScene::Awake() 
 {
-	_sceneNode = new SceneNode(_ambient,_sceneID);
+	_sceneNode = new SceneNode(_ambient, _levelID);
 }
 
 void LevelScene::Start() 
@@ -49,6 +48,13 @@ void LevelScene::Finish()
 void LevelScene::Draw() 
 {
 
+}
+
+Node* LevelScene::CreateNode(STRING name)
+{
+	Node* node = new Node(_ambient, _levelID);
+	node->SetName(name);
+	return node;
 }
 
 void LevelScene::AddNode(Node* node)
@@ -80,12 +86,6 @@ void LevelScene::RemoveNode(Node* node)
 	}
 }
 
-Node* LevelScene::CreateNode(STRING name)
-{
-	Node* node = new Node(_ambient, _sceneID);
-	node->SetName(name);
-	return node;
-}
 
 void LevelScene::ModeRunNode(RunMode runMode)
 {
@@ -105,34 +105,34 @@ void LevelScene::ModeRunNode(RunMode runMode)
 			if (runMode == RunMode::Awake)
 				for (compomentIt k = node->GetComponentsArray().begin(); k != node->GetComponentsArray().end(); k++)
 				{
-					if (k->second->GetEnable())
+					if (k->second->IsEnable())
 						k->second->Awake();
 				}
 			else if (runMode == RunMode::Start)
 			{
 				for (compomentIt k = node->GetComponentsArray().begin(); k != node->GetComponentsArray().end(); k++)
 				{
-					if (k->second->GetEnable())
+					if (k->second->IsEnable())
 						k->second->Start();
 				}
 			}
 			else if (runMode == RunMode::Update)
 				for (compomentIt k = node->GetComponentsArray().begin(); k != node->GetComponentsArray().end(); k++)
 				{
-					if (k->second->GetEnable())
+					if (k->second->IsEnable())
 						k->second->Update();
 				}
 			else if (runMode == RunMode::FixUpdate)
 				for (compomentIt k = node->GetComponentsArray().begin(); k != node->GetComponentsArray().end(); k++)
 				{
-					if (k->second->GetEnable())
+					if (k->second->IsEnable())
 						k->second->FixUpdate();
 				}
 			else if (runMode == RunMode::Finish)
 			{
 				for (compomentIt k = node->GetComponentsArray().begin(); k != node->GetComponentsArray().end(); k++)
 				{
-					if (k->second->GetEnable())
+					if (k->second->IsEnable())
 						k->second->Finish();
 				}
 			}
@@ -167,7 +167,7 @@ SceneNode* LevelScene::GetSceneNode()
 {
 	if (!_sceneNode)
 	{
-		_sceneNode = new SceneObject(_ambient, _sceneID);
+		_sceneNode = new SceneObject(_ambient, _levelID);
 		AddNode(_sceneNode);
 	}
 	return _sceneNode;

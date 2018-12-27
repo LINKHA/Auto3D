@@ -10,12 +10,9 @@ class BaseSpace : public GlobalGameManager
 	REGISTER_OBJECT_CLASS(BaseSpace, GlobalGameManager)
 public:
 	explicit BaseSpace(Ambient* ambient);
-	void Awake();
-	void Start(); 
-	void Update(); 
-	void FixUpdate();
-	void Finish();
-	void Draw();
+	void Init();
+	void Destruct();
+
 };
 
 }

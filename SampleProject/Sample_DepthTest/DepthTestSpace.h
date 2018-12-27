@@ -3,9 +3,9 @@
 using namespace Auto3D;
 class DepthTestSpace : public MotionSpace
 {
+	REGISTER_SPACE_CLASS(DepthTestSpace)
 public:
-	explicit DepthTestSpace(Ambient* ambient);
-	~DepthTestSpace();
-	void Awake()override;
+	void Init()override;
+	void Destruct()override;
 };
 

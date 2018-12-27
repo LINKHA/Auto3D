@@ -12,18 +12,13 @@ ScriptComponent::ScriptComponent(Ambient* ambient)
 ScriptComponent::~ScriptComponent()
 {
 }
-#if SharedPtrDebug
-sharedPtr<Object> ScriptComponent::CreateObject(STRING type)
-{
-	return _ambient->CreateObject(type);
-}
-#else
-Object* ScriptComponent::CreateObject(STRING type)
-{
-	return _ambient->CreateObject(type);
-}
-#endif
 
+Node* ScriptComponent::CreateNode(STRING name)
+{
+	Node* node = new Node(_ambient, _levelID);
+	node->SetName(name);
+	return node;
+}
 
 
 }

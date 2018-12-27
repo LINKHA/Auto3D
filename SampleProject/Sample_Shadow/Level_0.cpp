@@ -49,9 +49,10 @@ void Level_0::ShadowNormal()
 void Level_0::Start()
 {
 	Node* cameraObj = CreateNode();
-	FreeCamera* camera = new FreeCamera(_ambient, _sceneID);
-	cameraObj->SetPosition(0.0f, 0.0f, 3.0f);
+	FreeCamera* camera = new FreeCamera(_ambient);
 	cameraObj->AddComponent(camera);
+
+	cameraObj->SetPosition(0.0f, 0.0f, 3.0f);
 
 	ShadowNormal();
 

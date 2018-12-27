@@ -4,19 +4,15 @@
 #include "FileSystem.h"
 #include "Level_0.h"
 
+AUTO_APPLICATION_MAIN(SSAOSpace)
 
-SSAOSpace::SSAOSpace(Ambient* ambient)
-	:MotionSpace(ambient)
-{}
-SSAOSpace::~SSAOSpace()
-{
-	RemoveScene(0);
-}
-
-void SSAOSpace::Awake()
+void SSAOSpace::Init()
 {
 	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(new Level_0(_ambient, 0));
 }
-AUTO_APPLICATION_MAIN(SSAOSpace)
+void SSAOSpace::Destruct()
+{
+	RemoveScene(0);
+}

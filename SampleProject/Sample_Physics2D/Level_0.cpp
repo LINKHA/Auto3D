@@ -10,18 +10,18 @@
 
 void Level_0::Awake()
 {
-	SceneSuper::Awake();
+	Super::Awake();
 }
 
 void Level_0::Start()
 {
-	SceneSuper::Start();
+	Super::Start();
 
 	auto* ball = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/square.jpg");
 	auto* wall = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/bricks.jpg");
 	Node* camObj = CreateNode();
-	FreeCamera* freeCamera = new FreeCamera(_ambient, _sceneID);
-	freeCamera->freeCamera->SetProjectionMode(ProjectionMode::Orthographic);
+	FreeCamera* freeCamera = new FreeCamera(_ambient);
+	freeCamera->camera->SetProjectionMode(ProjectionMode::Orthographic);
 	//camObj->SetPosition(0.0f, 0.0f, 3.0f);
 	camObj->AddComponent(freeCamera);
 
@@ -45,7 +45,7 @@ void Level_0::Start()
 
 void Level_0::Update()
 {
-	SceneSuper::Update();
+	Super::Update();
 	Vector3 pos = bodyNode->GetPosition();
 	AutoCout << pos.x <<"   "<< pos.y << "   " << pos.z << AutoEndl;
 }

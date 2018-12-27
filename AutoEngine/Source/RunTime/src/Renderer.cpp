@@ -48,8 +48,6 @@ void Renderer::Render()
 			
 
 			RectInt rect = GetSubSystem<Graphics>()->GetWindowRectInt();
-
-			GetSubSystem<BaseSpace>()->Draw();
 			//Rendering path shadow maps
 			renderShadowMap();
 			///Render based on camera Rect
@@ -150,7 +148,7 @@ void Renderer::AddShadowMap(RenderComponent* component)
 	for (OpaqueContainer::iterator i = queue.begin(); i != queue.end(); i++)
 	{
 		RenderComponent* curComponent = *i;
-		if (curComponent && curComponent->GetEnable())
+		if (curComponent && curComponent->IsEnable())
 		{
 			queue.insert(i, component);
 			return;
@@ -202,7 +200,7 @@ void Renderer::AddOpaqueGeometry(RenderComponent* component)
 	for (OpaqueContainer::iterator i = queue.begin(); i != queue.end(); i++)
 	{
 		RenderComponent* curComponent = *i;
-		if (curComponent && curComponent->GetEnable())
+		if (curComponent && curComponent->IsEnable())
 		{
 			queue.insert(i, component);
 			return;
@@ -254,7 +252,7 @@ void Renderer::AddCustomGeometry(RenderComponent* component)
 	for (OpaqueContainer::iterator i = queue.begin(); i != queue.end(); i++)
 	{
 		RenderComponent* curComponent = *i;
-		if (curComponent && curComponent->GetEnable())
+		if (curComponent && curComponent->IsEnable())
 		{
 			queue.insert(i, component);
 			return;
@@ -306,7 +304,7 @@ void Renderer::AddTranslucentGeometry(RenderComponent* component)
 	for (OpaqueContainer::iterator i = queue.begin(); i != queue.end(); i++)
 	{
 		RenderComponent* curComponent = *i;
-		if (curComponent && curComponent->GetEnable())
+		if (curComponent && curComponent->IsEnable())
 		{
 			queue.insert(i, component);
 			return;

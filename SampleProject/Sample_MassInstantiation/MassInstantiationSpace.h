@@ -4,9 +4,9 @@ using namespace Auto3D;
 
 class MassInstantiationSpace : public MotionSpace
 {
+	REGISTER_SPACE_CLASS(MassInstantiationSpace)
 public:
-	explicit MassInstantiationSpace(Ambient* ambient);
-	~MassInstantiationSpace();
-	void Awake()override;
+	void Init()override;
+	void Destruct()override;
 };
 

@@ -1,8 +1,7 @@
 #pragma once
 #include "ScriptComponent.h"
-#include "GameObject.h"
 #include "Camera.h"
-#include "ObjectDefines.h"
+#include "ObjectDef.h"
 
 using namespace Auto3D;
 class FreeCamera : public ScriptComponent

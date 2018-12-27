@@ -3,19 +3,15 @@
 #include "FileSystem.h"
 #include "Level_0.h"
 
-FileSystemSpace::FileSystemSpace(Ambient* ambient)
-	:MotionSpace(ambient)
-{}
-FileSystemSpace::~FileSystemSpace()
-{
-	RemoveScene(0);
-}
+AUTO_APPLICATION_MAIN(FileSystemSpace)
 
-void FileSystemSpace::Awake()
+void FileSystemSpace::Init()
 {
 	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(new Level_0(_ambient, 0));
 }
-
-AUTO_APPLICATION_MAIN(FileSystemSpace)
+void FileSystemSpace::Destruct()
+{
+	RemoveScene(0);
+}

@@ -58,9 +58,10 @@ void Level_1::ShadowPoint()
 void Level_1::Start()
 {
 	Node* cameraObj = CreateNode();
-	FreeCamera* camera = new FreeCamera(_ambient, _sceneID);
-	cameraObj->SetPosition(0.0f, 0.0f, 3.0f);
+	FreeCamera* camera = new FreeCamera(_ambient);
 	cameraObj->AddComponent(camera);
+	cameraObj->SetPosition(0.0f, 0.0f, 3.0f);
+
 
 	ShadowPoint();
 }

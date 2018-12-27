@@ -6,7 +6,6 @@ namespace Auto3D {
 
 Component::Component(Ambient* ambient)
 	: Super(ambient)
-	, _isEnable(true)
 {}
 
 Component::~Component() {}
@@ -43,14 +42,14 @@ Vector3 Component::GetPosition()
 	return GetNodePtr()->GetPosition();
 }
 
-const int Component::GetSceneID()
+const int Component::GetLevelID()
 {
-	return GetNode().GetSceneID();
+	return GetNode().GetLevelID();
 }
 
 SceneNode* Component::GetCurrentSceneNode()
 {
-	return GetSubSystem<Scene>()->GetLevelScene(GetSceneID())->GetSceneNode();
+	return GetSubSystem<Scene>()->GetLevelScene(GetLevelID())->GetSceneNode();
 }
 
 }

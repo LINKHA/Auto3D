@@ -49,9 +49,6 @@
     <Filter Include="Source\RunTime\Preinstall">
       <UniqueIdentifier>{e57c7b8e-5a6e-4e98-acb0-c7a66feac3cf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\RunTime\Misc">
-      <UniqueIdentifier>{d6f78001-09f1-42f4-89cc-0b6f8ab00c86}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\RunTime\Engine">
       <UniqueIdentifier>{4150dfc0-dbc8-4479-ba98-1e2b466f636e}</UniqueIdentifier>
     </Filter>
@@ -72,9 +69,6 @@
     </Filter>
     <Filter Include="Source\RunTime\Behavior">
       <UniqueIdentifier>{adf874be-b7a3-4c88-a38d-0dbc0d6f92aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\RunTime\FileSystem">
-      <UniqueIdentifier>{5503781c-61e1-4087-b1ca-b28c8b2380b5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\RunTime\Graphics">
       <UniqueIdentifier>{1b663dd1-be85-4cfd-a826-1ac9348d0cab}</UniqueIdentifier>
@@ -144,6 +138,12 @@
     </Filter>
     <Filter Include="Source\RunTime\Adapter\FreeType">
       <UniqueIdentifier>{753dc89a-9394-4322-9af8-4a5d26607899}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RunTime\FileSystem">
+      <UniqueIdentifier>{5503781c-61e1-4087-b1ca-b28c8b2380b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RunTime\Interface">
+      <UniqueIdentifier>{1aaba6fb-4a0e-4b88-ae17-ed1a1669211c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -614,9 +614,6 @@
     <ClInclude Include="Source\RunTime\Includes\Timer.h">
       <Filter>Source\RunTime\Time</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Transform.h">
-      <Filter>Source\RunTime\Misc</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\UI.h">
       <Filter>Source\RunTime\UI</Filter>
     </ClInclude>
@@ -772,6 +769,15 @@
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Font.h">
       <Filter>Source\RunTime\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\LevelBehaviorObject.h">
+      <Filter>Source\RunTime\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Transform.h">
+      <Filter>Source\RunTime\Code</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\ILevelBehavior.h">
+      <Filter>Source\RunTime\Interface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -982,9 +988,6 @@
     <ClCompile Include="Source\RunTime\src\Time.cpp">
       <Filter>Source\RunTime\Time</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Transform.cpp">
-      <Filter>Source\RunTime\Misc</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RunTime\src\UI.cpp">
       <Filter>Source\RunTime\UI</Filter>
     </ClCompile>
@@ -1074,6 +1077,12 @@
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Font.cpp">
       <Filter>Source\RunTime\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\LevelBehaviorObject.cpp">
+      <Filter>Source\RunTime\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Transform.cpp">
+      <Filter>Source\RunTime\Code</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

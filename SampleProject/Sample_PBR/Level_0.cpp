@@ -10,9 +10,9 @@
 void Level_0::init()
 {
 	Node* cameraObj = CreateNode();
-	FreeCamera* camera = new FreeCamera(_ambient, _sceneID);
-	cameraObj->SetPosition(0.0f, 0.0f, 3.0f);
+	FreeCamera* camera = new FreeCamera(_ambient);
 	cameraObj->AddComponent(camera);
+	camera->cameraNode->SetPosition(0.0f, 0.0f, 3.0f);
 
 	Node* lightObj = CreateNode();
 	lightObj->SetPosition(-10.0f, 10.0f, 10.0f);
@@ -224,9 +224,10 @@ void Level_0::wood(float offset)
 void Level_0::demo()
 {
 	Node* cameraObj = CreateNode();
-	FreeCamera* camera = new FreeCamera(_ambient, _sceneID);
-	cameraObj->SetPosition(0.0f, 0.0f, 3.0f);
+	FreeCamera* camera = new FreeCamera(_ambient);
 	cameraObj->AddComponent(camera);
+	camera->cameraNode->SetPosition(0.0f, 0.0f, 3.0f);
+
 
 	Node* lightObj = CreateNode();
 	lightObj->SetPosition(-10.0f, 10.0f, 10.0f);

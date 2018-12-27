@@ -6,10 +6,10 @@ using namespace Auto3D;
 class FreeCamera;
 class FileSystemSpace : public MotionSpace
 {
+	REGISTER_SPACE_CLASS(FileSystemSpace)
 public:
-	explicit FileSystemSpace(Ambient* ambient);
-	~FileSystemSpace();
-	void Awake()override;
+	void Init()override;
+	void Destruct()override;
 };
 
 

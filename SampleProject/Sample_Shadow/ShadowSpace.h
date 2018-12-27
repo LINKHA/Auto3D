@@ -3,10 +3,10 @@
 using namespace Auto3D;
 class ShadowSpace : public MotionSpace
 {
+	REGISTER_SPACE_CLASS(ShadowSpace)
 public:
-	explicit ShadowSpace(Ambient* ambient);
-	~ShadowSpace();
-	void Awake()override;
+	void Init()override;
+	void Destruct()override;
 };
 
 

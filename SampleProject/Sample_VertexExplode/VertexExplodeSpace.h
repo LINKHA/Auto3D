@@ -4,8 +4,8 @@ using namespace Auto3D;
 
 class VertexExplodeSpace : public MotionSpace
 {
+	REGISTER_SPACE_CLASS(VertexExplodeSpace)
 public:
-	explicit VertexExplodeSpace(Ambient* ambient);
-	~VertexExplodeSpace();
-	void Awake()override;
+	void Init()override;
+	void Destruct()override;
 };

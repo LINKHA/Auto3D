@@ -3,19 +3,15 @@
 #include "ResourceSystem.h"
 #include "FileSystem.h"
 
-MultLightsSpace::MultLightsSpace(Ambient* ambient)
-	:MotionSpace(ambient)
-{}
-MultLightsSpace::~MultLightsSpace()
-{
-	RemoveScene(0);
-}
+AUTO_APPLICATION_MAIN(MultLightsSpace)
 
-void MultLightsSpace::Awake()
+void MultLightsSpace::Init()
 {
 	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(new Level_0(_ambient, 0));
 }
-
-AUTO_APPLICATION_MAIN(MultLightsSpace)
+void MultLightsSpace::Destruct()
+{
+	RemoveScene(0);
+}

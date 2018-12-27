@@ -27,6 +27,7 @@ public:
 	virtual void FixUpdate() {}
 	virtual void Finish() {}
 	virtual void Draw() {}
+
 	/**
 	* @brief : Create object for type name
 	*/
@@ -43,7 +44,22 @@ public:
 #else
 	template<typename T> T* CreateObject();
 #endif
+	/**
+	* @brief : Return is load
+	*/
+	bool IsEnable() { return _isEnable; }
+	/**
+	* @brief : Set enable
+	*/
+	void Enable(bool enable) { _isEnable = enable; }
+protected:
+	/// is enable
+	bool _isEnable;
 };
+
+
+
+
 #if SharedPtrDebug
 template<typename T> sharedPtr<T> ScriptComponent::CreateObject()
 {

@@ -4,15 +4,9 @@
 #include "Level_0.h"
 #include "Level_1.h"
 
+AUTO_APPLICATION_MAIN(ShadowSpace)
 
-ShadowSpace::ShadowSpace(Ambient* ambient)
-	:MotionSpace(ambient)
-{}
-ShadowSpace::~ShadowSpace()
-{
-}
-
-void ShadowSpace::Awake()
+void ShadowSpace::Init()
 {
 	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
@@ -23,4 +17,7 @@ void ShadowSpace::Awake()
 	//RegisterScene(new Level_1(_ambient, 1));
 }
 
-AUTO_APPLICATION_MAIN(ShadowSpace)
+void ShadowSpace::Destruct()
+{
+	RemoveScene(0);
+}

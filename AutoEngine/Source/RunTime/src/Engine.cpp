@@ -52,14 +52,12 @@ Engine::~Engine()
 
 void Engine::Init()
 {
+	GetSubSystem<BaseSpace>()->Init();
 	GetSubSystem<ResourceSystem>()->Init();
 	GetSubSystem<Audio>()->Init();
-	GetSubSystem<BaseSpace>()->Awake();
-
 	GetSubSystem<Graphics>()->Init();
 	GetSubSystem<Behavior>()->Awake();
 	GetSubSystem<Renderer>()->Init();
-	GetSubSystem<BaseSpace>()->Start();
 	GetSubSystem<Behavior>()->Start();
 	GetSubSystem<Renderer>()->ReadyToRender();
 
@@ -72,6 +70,7 @@ void Engine::RunFrame()
 }
 void Engine::Exit() 
 {
+	GetSubSystem<BaseSpace>()->Destruct();
 	GetSubSystem<Graphics>()->DestoryWindow();
 }
 void Engine::render()
@@ -88,14 +87,12 @@ void Engine::update()
 	auto* input = GetSubSystem<Input>();
 	GetSubSystem<Time>()->Update();
 	input->Update();
-	GetSubSystem<BaseSpace>()->Update();
 	GetSubSystem<Behavior>()->Update();
 	if (input->GetKeyDown(KEY_ESCAPE))
 		_isExiting = true;
 }
 void Engine::frameFinish()
 {
-	GetSubSystem<BaseSpace>()->Finish();
 	GetSubSystem<Behavior>()->Finish();
 	GetSubSystem<Input>()->EndFrame();
 }

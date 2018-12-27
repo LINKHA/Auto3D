@@ -4,16 +4,9 @@
 #include "FileSystem.h"
 #include "Level_0.h"
 
-MassInstantiationSpace::MassInstantiationSpace(Ambient* ambient)
-	:MotionSpace(ambient)
-{
-}
-MassInstantiationSpace::~MassInstantiationSpace()
-{
-	RemoveScene(0);
-}
+AUTO_APPLICATION_MAIN(MassInstantiationSpace)
 
-void MassInstantiationSpace::Awake()
+void MassInstantiationSpace::Init()
 {
 	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
@@ -22,4 +15,7 @@ void MassInstantiationSpace::Awake()
 	RegisterScene(new Level_0(_ambient, 0));
 }
 
-AUTO_APPLICATION_MAIN(MassInstantiationSpace)
+void MassInstantiationSpace::Destruct()
+{
+	RemoveScene(0);
+}

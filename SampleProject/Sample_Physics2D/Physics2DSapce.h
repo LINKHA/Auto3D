@@ -4,10 +4,10 @@
 using namespace Auto3D;
 class Physics2DSapce : public MotionSpace
 {
+	REGISTER_SPACE_CLASS(Physics2DSapce)
 public:
-	explicit Physics2DSapce(Ambient* ambient);
-	~Physics2DSapce();
-	void Awake()override;
+	void Init()override;
+	void Destruct()override;
 	
 };
 

@@ -4,9 +4,9 @@ using namespace Auto3D;
 
 class MultLightsSpace : public MotionSpace
 {
+	REGISTER_SPACE_CLASS(MultLightsSpace)
 public:
-	explicit MultLightsSpace(Ambient* ambient);
-	~MultLightsSpace();
-	void Awake()override;
+	void Init()override;
+	void Destruct()override;
 };
 

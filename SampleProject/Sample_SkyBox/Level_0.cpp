@@ -12,10 +12,9 @@ void Level_0::Start()
 	auto* cube = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/base/Cube.3DS");
 
 	Node* cameraObj = CreateNode();
-	FreeCamera* camera = new FreeCamera(_ambient, _sceneID);
-	cameraObj->SetPosition(0.0f, 0.0f, 3.0f);
+	FreeCamera* camera = new FreeCamera(_ambient);
 	cameraObj->AddComponent(camera);
-
+	camera->cameraNode->SetPosition(0.0f, 0.0f, 3.0f);
 
 	Node* skyBoxObj = CreateNode();
 	SkyBox* skybox = skyBoxObj->CreateComponent<SkyBox>();

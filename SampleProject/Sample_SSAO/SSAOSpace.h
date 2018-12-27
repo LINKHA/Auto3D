@@ -3,10 +3,10 @@
 using namespace Auto3D;
 class SSAOSpace : public MotionSpace
 {
+	REGISTER_SPACE_CLASS(SSAOSpace)
 public:
-	explicit SSAOSpace(Ambient* ambient);
-	~SSAOSpace();
-	void Awake()override;
+	void Init()override;
+	void Destruct()override;
 };
 
 

@@ -97,6 +97,7 @@ enum ClassIDType
 	DO_CLASS_ID(Text, 102)
 	DO_CLASS_ID(UIComponent, 103)
 	DO_CLASS_ID(Font, 104)
+	DO_CLASS_ID(LevelBehaviorObject, 105)
 	
 
 	CLASS_ID_Count

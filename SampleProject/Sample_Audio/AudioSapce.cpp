@@ -3,24 +3,16 @@
 #include "FileSystem.h"
 #include "level_0.h"
 
-AudioSapce::AudioSapce(Ambient* ambient)
-	:MotionSpace(ambient)
-{}
-AudioSapce::~AudioSapce()
-{
-	RemoveScene(0);
-}
-void AudioSapce::Awake()
+
+AUTO_APPLICATION_MAIN(AudioSapce)
+
+void AudioSapce::Init()
 {
 	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(new Level_0(_ambient, 0));
 }
-
-void AudioSapce::Start()
+void AudioSapce::Destruct()
 {
+	RemoveScene(0);
 }
-void AudioSapce::Update()
-{
-}
-AUTO_APPLICATION_MAIN(AudioSapce)

@@ -3,20 +3,16 @@
 #include "ResourceSystem.h"
 #include "FileSystem.h"
 
+AUTO_APPLICATION_MAIN(ParallaxMappingSpace)
 
-ParallaxMappingSpace::ParallaxMappingSpace(Ambient* ambient)
-	:MotionSpace(ambient)
-{}
-ParallaxMappingSpace::~ParallaxMappingSpace()
-{
-	RemoveScene(0);
-}
 
-void ParallaxMappingSpace::Awake()
+void ParallaxMappingSpace::Init()
 {
 	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(new Level_0(_ambient, 0));
 }
-
-AUTO_APPLICATION_MAIN(ParallaxMappingSpace)
+void ParallaxMappingSpace::Destruct()
+{
+	RemoveScene(0);
+}

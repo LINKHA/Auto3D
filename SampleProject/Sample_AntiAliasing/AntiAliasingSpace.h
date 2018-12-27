@@ -1,15 +1,14 @@
 #pragma once
 #include "MotionSpace.h"
 
-
 using namespace Auto3D;
-class FreeCamera;
+
 class AntiAliasingSpace : public MotionSpace
 {
+	REGISTER_SPACE_CLASS(AntiAliasingSpace)
 public:
-	explicit AntiAliasingSpace(Ambient* ambient);
-	~AntiAliasingSpace();
-	void Awake()override;
+	void Init()override;
+	void Destruct()override;
 };
 
 

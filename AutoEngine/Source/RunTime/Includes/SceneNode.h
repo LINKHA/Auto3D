@@ -16,7 +16,7 @@ public:
 	/**
 	* @brief : Get scene ID
 	*/
-	const int GetID() const { return _sceneID; }
+	const int GetID() const { return _levelID; }
 	/**
 	* @brief : Get 3D physics world
 	*/
@@ -27,7 +27,7 @@ public:
 	PhysicsWorld2D* GetPhysicsWorld2D() { return _physcisWorld2D; }
 private:
 	/// scene ID
-	int _sceneID{};
+	int _levelID{};
 	/// 2D physcis world
 	PhysicsWorld* _physcisWorld;
 	/// 3D physcis world

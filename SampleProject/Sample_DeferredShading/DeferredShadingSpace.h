@@ -1,10 +1,12 @@
 #pragma once
 #include "MotionSpace.h"
+
 using namespace Auto3D;
+
 class DeferredShadingSpace : public MotionSpace
 {
+	REGISTER_SPACE_CLASS(DeferredShadingSpace)
 public:
-	explicit DeferredShadingSpace(Ambient* ambient);
-	~DeferredShadingSpace();
-	void Awake()override;
+	void Init()override;
+	void Destruct()override;
 };

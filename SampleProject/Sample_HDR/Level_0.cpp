@@ -7,11 +7,10 @@
 void Level_0::Start()
 {
 	Node* cameraObj = CreateNode();
-	FreeCamera * camera = new FreeCamera(_ambient, _sceneID);
-	camera->freeCamera->AllowHDR(true);
-	cameraObj->SetPosition(0.0f, 0.0f, 3.0f);
-	cameraObj->AddComponent(camera);
-
+	FreeCamera * freeCamera = new FreeCamera(_ambient);
+	cameraObj->AddComponent(freeCamera);
+	freeCamera->cameraNode->SetPosition(0.0f, 0.0f, 3.0f);
+	freeCamera->camera->AllowHDR(true);
 
 	Node* lightObj = CreateNode();
 	Light* light = lightObj->CreateComponent<Light>();

@@ -14,33 +14,24 @@ void Level_0::Start()
 	auto* shaderGS = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_vertex_explode.glgs");
 	
 	Node* cameraObj = CreateNode("camera");
-	FreeCamera* camera = new FreeCamera(_ambient, _sceneID);
-	cameraObj->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, 3.0f);
+	FreeCamera* camera = new FreeCamera(_ambient);
 	cameraObj->AddComponent(camera);
+	camera->cameraNode->SetPosition(-5.0f, 8.0f, 20.0f);
 
 	Node* lightObj = CreateNode("light");
 	auto* light = lightObj->CreateComponent<Light>();
 	light->SetType(LightType::Directional);
 
-	lightObj->AddComponent(light);
-
 	Node* meshObj = CreateNode("mesh");
-
 	auto* meshRenderer = meshObj->CreateComponent<MeshRenderer>();
 	meshRenderer->SetMesh(nanosuit);
-
 	ShaderVariation* variation = new ShaderVariation(shaderVS, shaderFS, shaderGS);
-
-
 	meshRenderer->SetShaderVariation(variation);
-
-
 
 	Node* meshObj2 = CreateNode("mesh2");
 	meshObj2->SetPosition(10.0f, 0.0f, 0.0f);
 	auto* meshRenderer2 = meshObj2->CreateComponent<MeshRenderer>();
 	meshRenderer2->SetMesh(nanosuit);
-
 	meshRenderer2->GetMaterial()->isTexture = true;
 
 	

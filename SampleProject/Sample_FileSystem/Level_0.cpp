@@ -6,11 +6,11 @@
 
 void Level_0::Awake()
 {
-	SceneSuper::Awake();
+	Super::Awake();
 }
 void Level_0::Start()
 {
-	SceneSuper::Start();
+	Super::Start();
 	//Out put user documents dir in ouput console
 	Print(GetSubSystem<FileSystem>()->GetUserDocumentsDir().CStr());
 	//Out put console
@@ -26,6 +26,6 @@ void Level_0::Start()
 
 void Level_0::Update()
 {
-	SceneSuper::Update();
+	Super::Update();
 }
 

@@ -13,9 +13,10 @@ void Level_0::Start()
 	Super::Start();
 
 	Node* cameraObj = CreateNode();
-	FreeCamera* camera = new FreeCamera(_ambient, _sceneID);
-	cameraObj->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, 3.0f);
+	FreeCamera* camera = new FreeCamera(_ambient);
 	cameraObj->AddComponent(camera);
+	camera->cameraNode->SetPosition(0.0f, 0.0f, 1.0f);
+	
 
 	Node* lightObj = CreateNode();
 	auto* light = lightObj->CreateComponent<Light>();

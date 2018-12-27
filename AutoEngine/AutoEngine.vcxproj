@@ -234,6 +234,8 @@
     <None Include="Shader\au_texture_transform.aufs" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\RunTime\Includes\ILevelBehavior.h" />
+    <ClInclude Include="Source\RunTime\Includes\LevelBehaviorObject.h" />
     <ClInclude Include="Source\RunTime\Includes\Font.h" />
     <ClInclude Include="Source\RunTime\Includes\Constraint.h" />
     <ClInclude Include="Source\RunTime\Includes\Constraint2D.h" />
@@ -369,6 +371,7 @@
     <ClInclude Include="Source\RunTime\Includes\UIComponent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\RunTime\src\LevelBehaviorObject.cpp" />
     <ClCompile Include="Source\RunTime\src\Font.cpp" />
     <ClCompile Include="Source\RunTime\src\Constraint.cpp" />
     <ClCompile Include="Source\RunTime\src\Constraint2D.cpp" />

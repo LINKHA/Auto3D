@@ -8,15 +8,16 @@
 void Level_0::Start()
 {
 	auto* mesh = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/base/Cube.3DS");
-
+	
+	Node* camObj = CreateNode();
+	FreeCamera* freeCamera = new FreeCamera(_ambient);
+	camObj->AddComponent(freeCamera);
+	freeCamera->cameraNode->SetPosition(0.0f, 1.0f, 10.0f);
+	/////////////////////////////////////////////////////////////////////////////////////////////
 	Node* lightObj = CreateNode();
-	lightObj->GetComponent<Transform>()->SetPosition(2.0f, 5.0f, 0.0f);
+	lightObj->SetPosition(2.0f, 5.0f, 0.0f);
 	Light* light = lightObj->CreateComponent<Light>();
 	light->SetType(LightType::Directional);
-	/////////////////////////////////////////////////////////////////////////////////////////////
-	Node* camObj = CreateNode();
-	FreeCamera* cam = new FreeCamera(_ambient, _sceneID);
-	camObj->AddComponent(cam);
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	Node* obj1 = CreateNode();
 	MeshRenderer* plane = obj1->CreateComponent<MeshRenderer>();
@@ -35,6 +36,12 @@ void Level_0::Start()
 	box2->SetMesh(mesh);
 	box2->EnableDepth(false);
 	obj3->SetPosition(3.0f, 0.5f, 2.0f);
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	Node* obj4 = CreateNode();
+	MeshRenderer* box3 = obj4->CreateComponent<MeshRenderer>();
+	box3->SetMesh(mesh);
+	box3->EnableDepth(false);
+	obj4->SetPosition(-2.0f, 0.5f, 1.0f);
 }
 
 void Level_0::Update()

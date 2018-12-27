@@ -75,7 +75,7 @@ public:
 	/**
 	* @brief : Get scene ID
 	*/
-	int GetSceneID() { return _sceneID; }
+	int GetLevelID() { return _levelID; }
 
 	/**
 	* @brief : Get component from index
@@ -185,8 +185,8 @@ protected:
 	NodeTag _tag{};
 	/// is active
 	bool _isActive;
-	/// scene id
-	int _sceneID{};
+	/// level id
+	int _levelID{};
 	/// this gameobject components container
 	ComponentsArray _components;
 	/// enable

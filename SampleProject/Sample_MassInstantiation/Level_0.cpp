@@ -35,7 +35,7 @@ void Level_0::Start()
 	}
 
 	Node* cameraObj = CreateNode();
-	FreeCamera* camera = new FreeCamera(_ambient, _sceneID);
+	FreeCamera* camera = new FreeCamera(_ambient);
 	cameraObj->AddComponent(camera);
 
 	Node* beltLineObj = CreateNode();

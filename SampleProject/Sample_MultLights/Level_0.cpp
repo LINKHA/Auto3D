@@ -14,9 +14,9 @@ void Level_0::Start()
 	auto* cube = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/base/Cube.3DS");
 
 	Node* camObj = CreateNode();
-	FreeCamera* freeCamera = new FreeCamera(_ambient, _sceneID);
-	camObj->SetPosition(0.0f, 0.0f, 3.0f);
+	FreeCamera* freeCamera = new FreeCamera(_ambient);
 	camObj->AddComponent(freeCamera);
+	freeCamera->cameraNode->SetPosition(0.0f, 0.0f, 3.0f);
 	//////////////////////////////////////////////////////////////////////////
 	Node* lightObj = CreateNode();
 	lightObj->SetPosition(0.0f, 0.0f, -3.0f);

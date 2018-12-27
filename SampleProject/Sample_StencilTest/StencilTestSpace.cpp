@@ -3,21 +3,15 @@
 #include "FileSystem.h"
 #include "Level_0.h"
 
+AUTO_APPLICATION_MAIN(StencilTestSpace)
 
-StencilTestSpace::StencilTestSpace(Ambient* ambient)
-	:MotionSpace(ambient)
-{
-}
-StencilTestSpace::~StencilTestSpace()
-{
-	RemoveScene(0);
-}
-
-void StencilTestSpace::Awake()
+void StencilTestSpace::Init()
 {
 	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(new Level_0(_ambient, 0));
 }
-
-AUTO_APPLICATION_MAIN(StencilTestSpace)
+void StencilTestSpace::Destruct()
+{
+	RemoveScene(0);
+}

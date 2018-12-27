@@ -3,19 +3,14 @@
 #include "FileSystem.h"
 #include "ResourceSystem.h"
 
-FrameBuffersSpace::FrameBuffersSpace(Ambient* ambient)
-	:MotionSpace(ambient)
-{
-}
-FrameBuffersSpace::~FrameBuffersSpace()
-{
-	RemoveScene(0);
-}
-
-void FrameBuffersSpace::Awake()
+AUTO_APPLICATION_MAIN(FrameBuffersSpace)
+void FrameBuffersSpace::Init()
 {
 	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(new Level_0(_ambient, 0));
 }
-AUTO_APPLICATION_MAIN(FrameBuffersSpace)
+void FrameBuffersSpace::Destruct()
+{
+	RemoveScene(0);
+}

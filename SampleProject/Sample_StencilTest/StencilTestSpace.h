@@ -4,8 +4,8 @@
 using namespace Auto3D;
 class StencilTestSpace : public MotionSpace
 {
+	REGISTER_SPACE_CLASS(StencilTestSpace)
 public:
-	explicit StencilTestSpace(Ambient* ambient);
-	~StencilTestSpace();
-	void Awake()override;
+	void Init()override;
+	void Destruct()override;
 };	

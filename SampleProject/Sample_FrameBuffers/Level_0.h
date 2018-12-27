@@ -11,6 +11,6 @@ public:
 	void Update()override;
 private:
 	int oldi = 0;
-	FreeCamera* camera;
+	FreeCamera* freeCamera;
 };
 

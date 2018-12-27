@@ -5,8 +5,8 @@
 using namespace Auto3D;
 class TextureSpace : public MotionSpace
 {
+	REGISTER_SPACE_CLASS(TextureSpace)
 public:
-	explicit TextureSpace(Ambient* ambient);
-	~TextureSpace();
-	void Awake()override;
+	void Init()override;
+	void Destruct()override;
 };
