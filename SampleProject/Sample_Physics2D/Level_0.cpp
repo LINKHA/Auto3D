@@ -21,9 +21,9 @@ void Level_0::Start()
 	auto* wall = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/bricks.jpg");
 	Node* camObj = CreateNode();
 	FreeCamera* freeCamera = new FreeCamera(_ambient);
+	camObj->AddComponent(freeCamera);
 	freeCamera->camera->SetProjectionMode(ProjectionMode::Orthographic);
 	//camObj->SetPosition(0.0f, 0.0f, 3.0f);
-	camObj->AddComponent(freeCamera);
 
 	Node* groundNode = CreateNode();
 	groundNode->SetPosition(0.0f,4.0f);

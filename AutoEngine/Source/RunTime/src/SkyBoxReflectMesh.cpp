@@ -102,6 +102,8 @@ void SkyBoxReflectMesh::Draw()
 	_shader->SetMat4("view", viewMat);
 	_shader->SetMat4("projection", projectionMat);
 	_shader->SetVec3("cameraPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
+
+
 	glBindVertexArray(cubeVAO);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, SkyManager::Instance().GetSkyBox()->GetTexture());

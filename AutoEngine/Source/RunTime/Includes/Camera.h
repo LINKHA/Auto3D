@@ -97,7 +97,8 @@ public:
 	float GetNear() { return _near; }
 	float GetFar() { return _far; }
 	float GetZoom() { return _zoom; }
-	glm::vec3& GetPosition() { return _position; }
+	//glm::vec3& GetPosition() { return _position; }
+	Vector3 GetPosition() { return _transform->GetPosition(); }
 	bool GetAllowMSAA();
 	bool GetAllowLateEffect() ;
 	bool GetAllowOffScreen() { return _isAllowOffScreen; }
