@@ -8,20 +8,28 @@
 void FreeCamera::processInput()
 {
 	if (GetSubSystem<Input>()->GetKeyPress(KEY_W))
-		camera->ProcessKeyboard(CameraMovement::Forward, GetSubSystem<Time>()->GetDeltaTime());
+		camera->AccPosition(camera->GetFront() * GetSubSystem<Time>()->GetDeltaTime() * speed);
 	if (GetSubSystem<Input>()->GetKeyPress(KEY_S))
-		camera->ProcessKeyboard(CameraMovement::Backward, GetSubSystem<Time>()->GetDeltaTime());
+		camera->AccPosition(-camera->GetFront() * GetSubSystem<Time>()->GetDeltaTime() * speed);
 	if (GetSubSystem<Input>()->GetKeyPress(KEY_A))
-		camera->ProcessKeyboard(CameraMovement::Left, GetSubSystem<Time>()->GetDeltaTime());
+		camera->AccPosition(-camera->GetRight() * GetSubSystem<Time>()->GetDeltaTime() * speed);
 	if (GetSubSystem<Input>()->GetKeyPress(KEY_D))
-		camera->ProcessKeyboard(CameraMovement::Right, GetSubSystem<Time>()->GetDeltaTime());
+		camera->AccPosition(camera->GetRight() * GetSubSystem<Time>()->GetDeltaTime() * speed);
 	if (GetSubSystem<Input>()->IsMouseMove())
 	{
-		camera->ProcessMouseMovement(GetSubSystem<Input>()->GetMouseMove().x, GetSubSystem<Input>()->GetMouseMove().y);
+		camera->AccPitchYaw(GetSubSystem<Input>()->GetMouseMove().x * mouseSensitivity, GetSubSystem<Input>()->GetMouseMove().y * mouseSensitivity);
 	}
-	camera->ProcessMouseScroll(GetSubSystem<Input>()->GetMouseWheelOffset());
+	handleMouseWheelOffset();
 }
+void FreeCamera::handleMouseWheelOffset()
+{
+	camera->AccZoom(GetSubSystem<Input>()->GetMouseWheelOffset());
 
+	if (camera->GetZoom() <= limitZoom.x)
+		camera->SetZoom(limitZoom.x);
+	else if (camera->GetZoom() >= limitZoom.y)
+		camera->SetZoom(limitZoom.y);
+}
 void FreeCamera::Init()
 {
 	Super::Init();

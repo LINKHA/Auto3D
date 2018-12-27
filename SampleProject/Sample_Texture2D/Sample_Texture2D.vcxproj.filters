@@ -1,35 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="DebugSapce.cpp" />
     <ClCompile Include="..\FreeCamera.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FreeCamera2D.cpp">
       <Filter>Script</Filter>
     </ClCompile>
     <ClCompile Include="level_0.cpp">
       <Filter>Level</Filter>
     </ClCompile>
-    <ClCompile Include="..\FreeCamera2D.cpp">
-      <Filter>Script</Filter>
-    </ClCompile>
+    <ClCompile Include="Texture2DSpace.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DebugSapce.h" />
     <ClInclude Include="..\FreeCamera.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FreeCamera2D.h">
       <Filter>Script</Filter>
     </ClInclude>
     <ClInclude Include="level_0.h">
       <Filter>Level</Filter>
     </ClInclude>
-    <ClInclude Include="..\FreeCamera2D.h">
-      <Filter>Script</Filter>
-    </ClInclude>
+    <ClInclude Include="Texture2DSpace.h" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Script">
-      <UniqueIdentifier>{2cae42da-d355-4b11-b0a4-6c6d6e1e2d30}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Level">
-      <UniqueIdentifier>{f1e8da35-541c-4d22-b61f-8bb81e1d624a}</UniqueIdentifier>
+      <UniqueIdentifier>{1842f6e9-b0b4-4d3b-994a-1bd064c2f16a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script">
+      <UniqueIdentifier>{2a45ac08-7994-48d6-aa8e-e9b1be0abbf7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

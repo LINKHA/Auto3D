@@ -21,13 +21,13 @@
   <ItemGroup>
     <ClCompile Include="..\FreeCamera.cpp" />
     <ClCompile Include="..\FreeCamera2D.cpp" />
-    <ClCompile Include="DebugSapce.cpp" />
+    <ClCompile Include="Texture2DSpace.cpp" />
     <ClCompile Include="level_0.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FreeCamera.h" />
     <ClInclude Include="..\FreeCamera2D.h" />
-    <ClInclude Include="DebugSapce.h" />
+    <ClInclude Include="Texture2DSpace.h" />
     <ClInclude Include="level_0.h" />
   </ItemGroup>
   <ItemGroup>
@@ -37,11 +37,11 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{AEACB036-67CA-463E-850C-32FB1B4A2AF0}</ProjectGuid>
+    <ProjectGuid>{042C8493-BBDE-4021-9865-E9DB86E14D37}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>EmptyProject</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
-    <ProjectName>Sample_Debug</ProjectName>
+    <ProjectName>Sample_Texture2D</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

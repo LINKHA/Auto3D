@@ -9,20 +9,17 @@ namespace Auto3D {
 Camera::Camera(Ambient* ambient)
 	:Super(ambient)
 	, _front(0.0f, 0.0f, -1.0f)
-	, _movementSpeed(2.5f)
-	, _mouseSensitivity(0.1f)
 	, _zoom(45.0f)
 	, _isFirstMouse(true)
 	, _near(0.1f)
 	, _far(100.0f)
 	, _isEnable(true)
 	, _viewRect(Rectf(0.0f, 0.0f, 1.0f, 1.0f))
-	, _worldUp(glm::vec3(0.0f, 1.0f, 0.0f))
-	, _yaw(-90.0f)
+	, _worldUp(0.0f, 1.0f, 0.0f)
+	, _yaw(0)
 	, _pitch(0.0f)
 	, _projectionMode(ProjectionMode::Perspective)
 {
-	_position = Vector3(0.0f, 0.0f, 0.0f).ToGLM();
 	updateCameraVectors();
 	GetSubSystem<Renderer>()->AddCamera(this);
 }
@@ -111,14 +108,14 @@ void Camera::Init()
 	_transform = GetNodePtr()->GetComponent<Transform>();
 }
 
-glm::mat4& Camera::GetViewMatrix()
+glm::mat4 Camera::GetViewMatrix()
 {
 	//_viewMatrix = glm::lookAt(_position, _position + _front, _up);
-	_viewMatrix = glm::lookAt(_transform->GetPosition().ToGLM(), _transform->GetPosition().ToGLM() + _front, _up);
+	_viewMatrix = glm::lookAt(_transform->GetPosition().ToGLM(), _transform->GetPosition().ToGLM() + _front.ToGLM(), _up.ToGLM());
 	return _viewMatrix;
 }
 
-glm::mat4& Camera::GetProjectionMatrix()
+glm::mat4 Camera::GetProjectionMatrix()
 {
 	RectInt rect = GetSubSystem<Graphics>()->GetWindowRectInt();
 	if (_projectionMode == ProjectionMode::Perspective)
@@ -157,27 +154,15 @@ bool Camera::GetAllowLateEffect()
 		return false;
 }
 
-void Camera::ProcessKeyboard(CameraMovement direction, float deltaTime)
+void Camera::AccPitchYaw(float yawOffset, float pitchOffset, bool constrainPitch)
 {
-	float velocity = _movementSpeed * deltaTime;
-	if (direction == CameraMovement::Forward)
-		_transform->GetPosition() += Vector3((_front * velocity).x, (_front * velocity).y, (_front * velocity).z);
-	if (direction == CameraMovement::Backward)
-		_transform->GetPosition() -= Vector3((_front * velocity).x, (_front * velocity).y, (_front * velocity).z);
-	if (direction == CameraMovement::Left)
-		_transform->GetPosition() -= Vector3((_right * velocity).x, (_right * velocity).y, (_right * velocity).z);
-	if (direction == CameraMovement::Right)
-		_transform->GetPosition() += Vector3((_right * velocity).x, (_right * velocity).y, (_right * velocity).z);
+	SetPitchYaw(_yaw + yawOffset, _pitch + pitchOffset, constrainPitch);
 }
 
-
-void Camera::ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch)
+void Camera::SetPitchYaw(float yaw, float pitch, bool constrainPitch)
 {
-	xoffset *= _mouseSensitivity;
-	yoffset *= _mouseSensitivity;
-
-	_yaw += xoffset;
-	_pitch += yoffset;
+	_yaw = yaw;
+	_pitch = pitch;
 
 	// Make sure that when pitch is out of bounds, screen doesn't get flipped
 	if (constrainPitch)
@@ -187,35 +172,67 @@ void Camera::ProcessMouseMovement(float xoffset, float yoffset, bool constrainPi
 		if (_pitch < -89.0f)
 			_pitch = -89.0f;
 	}
-
-	// Update Front, Right and Up Vectors using the updated Eular angles
 	updateCameraVectors();
 }
 
-
-void Camera::ProcessMouseScroll(float yoffset)
+void Camera::AccYaw(float yawOffset)
 {
-	if (_zoom >= 1.0f && _zoom <= 45.0f)
-		_zoom -= yoffset;
-	if (_zoom <= 1.0f)
-		_zoom = 1.0f;
-	if (_zoom >= 45.0f)
-		_zoom = 45.0f;
+	SetYaw(_yaw + yawOffset);
 }
 
+void Camera::SetYaw(float yaw)
+{
+	_yaw = yaw;
+	updateCameraVectors();
+}
+void Camera::AccPitch(float pitchOffset, bool constrainPitch)
+{
+	SetPitch(_pitch + pitchOffset, constrainPitch);
+}
+
+void Camera::SetPitch(float pitch, bool constrainPitch)
+{
+	_pitch = pitch;
+
+	// Make sure that when pitch is out of bounds, screen doesn't get flipped
+	if (constrainPitch)
+	{
+		if (_pitch > 89.0f)
+			_pitch = 89.0f;
+		if (_pitch < -89.0f)
+			_pitch = -89.0f;
+	}
+	updateCameraVectors();
+}
+
+void Camera::AccZoom(float offset)
+{
+	SetZoom(_zoom - offset);
+}
+
+void Camera::SetZoom(float zoom)
+{
+	if (_zoom >= MATH_EPSILON && _zoom <= 180.0f)
+		_zoom = zoom;
+	if (_zoom <= MATH_EPSILON)
+		_zoom = MATH_EPSILON;
+	if (_zoom >= 180.0f)
+		_zoom = 180.0f;
+}
 
 
 void Camera::updateCameraVectors()
 {
 	// Calculate the new Front vector
-	glm::vec3 front;
-	front.x = cos(glm::radians(_yaw)) * cos(glm::radians(_pitch));
-	front.y = sin(glm::radians(_pitch));
-	front.z = sin(glm::radians(_yaw)) * cos(glm::radians(_pitch));
-	_front = glm::normalize(front);
+	Vector3 front;
+	//_yaw - 90 Modified coordinate system
+	front.x = cos(radians(_yaw - 90)) * cos(radians(_pitch));
+	front.y = sin(radians(_pitch));
+	front.z = sin(radians(_yaw - 90)) * cos(radians(_pitch));
+	_front = Normalize(front);
 	// Also re-calculate the Right and Up vector
-	_right = glm::normalize(glm::cross(_front, _worldUp));
-	_up = glm::normalize(glm::cross(_right, _front));
+	_right = Normalize(Cross(_front, _worldUp));
+	_up = Normalize(Cross(_right, _front));
 }
 
 

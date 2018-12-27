@@ -4,9 +4,9 @@
 
 using namespace Auto3D;
 
-class FreeCamera : public ScriptComponent
+class FreeCamera2D : public ScriptComponent
 {
-	REGISTER_SCRIPT_CLASS(FreeCamera)
+	REGISTER_SCRIPT_CLASS(FreeCamera2D)
 public:
 	void Init()override;
 	void Start()override;
@@ -14,11 +14,7 @@ public:
 
 	Node* cameraNode;
 	Camera* camera;
-
 	float speed = 2.5f;
-	float mouseSensitivity = 0.1f;
-	Vector2 limitZoom{ Vector2(1,45) };
 private:
 	void processInput();
-	void handleMouseWheelOffset();
 };

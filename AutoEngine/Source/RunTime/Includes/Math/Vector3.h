@@ -49,27 +49,27 @@ public:
 	static const Vector3 yAxis;
 	static const Vector3 zAxis;
 };
-inline Vector3 ToAuto(glm::vec3 vec)										{ return Vector3(vec.x, vec.y, vec.z); }
+inline Vector3 ToAuto(glm::vec3 vec){ return Vector3(vec.x, vec.y, vec.z); }
 
-inline float Dot(const Vector3& lhs, const Vector3& rhs)					{ return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z; }
+inline float Dot(const Vector3& lhs, const Vector3& rhs){ return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z; }
 
-inline float Magnitude(const Vector3& vec)									{ return sqrt(Dot(vec, vec)); }
+inline float Magnitude(const Vector3& vec){ return sqrt(Dot(vec, vec)); }
 
-inline Vector3& Normalize(const Vector3& vec)								{ return vec / Magnitude(vec); }
+inline Vector3 Normalize(const Vector3& vec){ return vec / Magnitude(vec); }
 
-inline Vector3 Lerp(const Vector3& from, const Vector3& to, float t)		{ return lerp(from, to, t); }
+inline Vector3 Lerp(const Vector3& from, const Vector3& to, float t){ return lerp(from, to, t); }
 
 Vector3 Slerp(const Vector3& from, const Vector3& to, float t);
 
-inline Vector3 Min(const Vector3& lhs, const Vector3& rhs)					{ return Vector3(min(lhs.x, rhs.x), min(lhs.y, rhs.y),min(lhs.z,rhs.z)); }
+inline Vector3 Min(const Vector3& lhs, const Vector3& rhs){ return Vector3(min(lhs.x, rhs.x), min(lhs.y, rhs.y),min(lhs.z,rhs.z)); }
 
-inline Vector3 Max(const Vector3& lhs, const Vector3& rhs)					{ return Vector3(max(lhs.x, rhs.x), max(lhs.y, rhs.y), max(lhs.z, rhs.z)); }
+inline Vector3 Max(const Vector3& lhs, const Vector3& rhs){ return Vector3(max(lhs.x, rhs.x), max(lhs.y, rhs.y), max(lhs.z, rhs.z)); }
 
-inline bool IsNormalized(const Vector3& vec)								{ return Magnitude(vec) == 1.0f; }
+inline bool IsNormalized(const Vector3& vec){ return Magnitude(vec) == 1.0f; }
 
-inline Vector3 Abs(const Vector3& v)										{ return Vector3(abs(v.x), abs(v.y),abs(v.z)); }
+inline Vector3 Abs(const Vector3& v){ return Vector3(abs(v.x), abs(v.y),abs(v.z)); }
 
-inline Vector3 Cross(const Vector3& lhs, const Vector3& rhs)				{ return Vector3(lhs.y * rhs.z - lhs.z * rhs.y, lhs.z * rhs.x - lhs.x * rhs.z, lhs.x * rhs.y - lhs.y * rhs.x); }
+inline Vector3 Cross(const Vector3& lhs, const Vector3& rhs){ return Vector3(lhs.y * rhs.z - rhs.y * lhs.z, lhs.z * rhs.x - rhs.z * lhs.x, lhs.x * rhs.y - rhs.x * lhs.y); }
 
 Vector3 RotateTowards(const Vector3& lhs, const Vector3& rhs, float maxAngle, float maxMagnitude);
 

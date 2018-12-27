@@ -20,11 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FreeCamera.cpp" />
+    <ClCompile Include="..\FreeCamera2D.cpp" />
     <ClCompile Include="Level_0.cpp" />
     <ClCompile Include="Physics2DSapce.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FreeCamera.h" />
+    <ClInclude Include="..\FreeCamera2D.h" />
     <ClInclude Include="Level_0.h" />
     <ClInclude Include="Physics2DSapce.h" />
   </ItemGroup>

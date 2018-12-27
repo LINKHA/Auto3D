@@ -23,7 +23,6 @@ void Level_0::Start()
 
 
 	auto* imageLogo = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/logo.png");
-	auto* imageGrass = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/grass.png");
 	auto* imageWindow = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/window.png");
 
 	obj = CreateNode();
@@ -34,16 +33,9 @@ void Level_0::Start()
 
 	Node* obj5 = CreateNode();
 	auto* tex5 = obj5->CreateComponent<SpriteRenderer>();
-	tex5->SetImage(imageGrass);
+	tex5->SetImage(imageWindow);
 	//tex5->EnableBlend(true);
 	obj5->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, -3.0f);
-
-
-	Node* obj6 = CreateNode();
-	auto* tex6 = obj6->CreateComponent<SpriteRenderer>();
-	tex6->SetImage(imageGrass);
-	//tex6->EnableBlend(true);
-	obj6->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, -4.0f);
 
 
 	Node* obj2 = CreateNode();
@@ -53,22 +45,6 @@ void Level_0::Start()
 	tex2->EnableBlend(true);
 	//tex2->EnableDepth(false);
 	obj2->GetComponent<Transform>()->SetPosition(1.0f, 0.0f, -2.0f);
-
-	Node* obj3 = CreateNode();
-	auto* tex3 = obj3->CreateComponent<SpriteRenderer>();
-	tex3->SetImage(imageWindow);
-	tex3->GetImage()->SetImageType(ImageType::Translucent);
-	tex3->EnableBlend(true);
-	//tex3->EnableDepth(false);
-	obj3->GetComponent<Transform>()->SetPosition(1.0f, 0.0f, -3.0f);
-
-	Node* obj4 = CreateNode();
-	auto* tex4 = obj4->CreateComponent<SpriteRenderer>();
-	tex4->SetImage(imageWindow);
-	tex4->GetImage()->SetImageType(ImageType::Translucent);
-	tex4->EnableBlend(true);
-	//tex4->EnableDepth(false);
-	obj4->GetComponent<Transform>()->SetPosition(1.0f, 0.0f, -4.0f);
 }
 void Level_0::Update()
 {

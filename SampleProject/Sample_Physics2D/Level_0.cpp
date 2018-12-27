@@ -1,6 +1,6 @@
 #include "Level_0.h"
 #include "Node.h"
-#include "../FreeCamera.h"
+#include "../FreeCamera2D.h"
 #include "PhysicsWorld2D.h"
 #include "RigidBody2D.h"
 #include "ColliderBox2D.h"
@@ -20,9 +20,9 @@ void Level_0::Start()
 	auto* ball = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/square.jpg");
 	auto* wall = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/bricks.jpg");
 	Node* camObj = CreateNode();
-	FreeCamera* freeCamera = new FreeCamera(_ambient);
+	FreeCamera2D* freeCamera = new FreeCamera2D(_ambient);
 	camObj->AddComponent(freeCamera);
-	freeCamera->camera->SetProjectionMode(ProjectionMode::Orthographic);
+	freeCamera->camera->SetType(ProjectionMode::Orthographic);
 	//camObj->SetPosition(0.0f, 0.0f, 3.0f);
 
 	Node* groundNode = CreateNode();

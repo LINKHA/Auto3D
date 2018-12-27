@@ -8,7 +8,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 
 namespace Auto3D {
-static const float MATH_DEG = 0.0174532925f;			//One degree equals several radians
+static const float MATH_DEG = 0.01745329251994329576923690768489f;			//One degree equals several radians
 static const float MATH_RAD = 57.29577951f;				//One Radian equals several angles
 static const float MATH_FLOAT_SMALL = 1.0e-37f;		    //Infinite approach and 0
 static const float MATH_TOLERANCE = 2e-37f;
@@ -122,6 +122,8 @@ static inline float clamp11(float const&x)
 {
 	return (x > 1 ? 1 : (-1 > x) ? -1 : x);
 }
+template<typename _Ty>
+static inline _Ty radians(const _Ty& x) { return x * _Ty(MATH_DEG); }
 
 static inline bool CompareApproximately(float f0, float f1, float epsilon = MATH_EPSILON)
 {
