@@ -3,6 +3,7 @@
 #include "NodeLayout.h"
 #include "NodeTag.h"
 #include "Math/Math.h"
+#include "AutoSTL.h"
 
 namespace Auto3D {
 
@@ -19,7 +20,7 @@ class Node :public Object
 
 	using NodeChilds = VECTOR<Node*>;
 #if SharedPtrDebug
-	using ComponentsArray = PAIR_VECTOR(STRING, sharedPtr<Component>);
+	using ComponentsArray = PAIR_VECTOR<STRING, SharedPtr<Component> >;
 #else
 	using ComponentsArray = PAIR_VECTOR<STRING, Component*>;
 #endif
@@ -173,7 +174,7 @@ public:
 	/**
 	* @brief : Create component with template
 	*/
-	template <typename _Ty> _Ty* CreateComponent();
+	template<typename _Ty> _Ty* CreateComponent();
 protected:
 	/// node name
 	STRING _name;
@@ -193,7 +194,7 @@ protected:
 	bool _isEnable;
 };
 
-template <typename _Ty> _Ty* Node::CreateComponent()
+template<typename _Ty> _Ty* Node::CreateComponent()
 {
 	return static_cast<_Ty*>(CreateComponent(_Ty::GetClassStringStatic()));
 }

@@ -17,7 +17,7 @@ public:
 	*/
 
 #if SharedPtrDebug
-	template <typename _Ty> inline sharedPtr<_Ty> CreateObject(){ return StaticCast<_Ty>(CreateObject(T::GetClassStringStatic())); }
+	template <typename _Ty> inline SharedPtr<_Ty> CreateObject(){ return static_cast<_Ty>(CreateObject(T::GetClassStringStatic())); }
 #else
 	template <typename _Ty> inline _Ty* CreateObject() { return static_cast<_Ty*>(CreateObject(_Ty::GetClassStringStatic())); }
 #endif
@@ -26,7 +26,7 @@ public:
 	* @brief : Create object by string type , Return pointer to it or null if no factory found.
 	*/
 #if SharedPtrDebug
-	sharedPtr<Object> CreateObject(STRING objectType);
+	SharedPtr<Object> CreateObject(STRING objectType);
 #else
 	Object* CreateObject(STRING objectType);
 #endif

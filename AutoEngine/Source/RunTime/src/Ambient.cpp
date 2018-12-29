@@ -24,13 +24,13 @@ Ambient::~Ambient()
 }
 
 #if SharedPtrDebug
-sharedPtr<Object> Ambient::CreateObject(STRING objectType)
+SharedPtr<Object> Ambient::CreateObject(STRING objectType)
 {
-	HASH_MAP(STRING, sharedPtr<ObjectFactory>)::const_iterator i = _factories.find(objectType);
+	HASH_MAP<STRING, SharedPtr<ObjectFactory> >::const_iterator i = _factories.find(objectType);
 	if (i != _factories.end())
 		return i->second->CreateObject();
 	else
-		return sharedPtr<Object>();
+		return SharedPtr<Object>();
 }
 #else
 Object* Ambient::CreateObject(STRING objectType)
