@@ -67,17 +67,17 @@ void Transform::SetScale(float scaleX, float scaleY, float scaleZ)
 	setScaleAbs(scaleX, scaleY, scaleZ);
 }
 
-Vector3& Transform::GetPosition()
+Vector3 Transform::GetPosition()
 {
 	return _position;
 }
 
-Quaternion& Transform::GetRotation()
+Quaternion Transform::GetRotation()
 {
 	return _rotation;
 }
 
-Vector3& Transform::GetScale()
+Vector3 Transform::GetScale()
 {
 	return _scale;
 }

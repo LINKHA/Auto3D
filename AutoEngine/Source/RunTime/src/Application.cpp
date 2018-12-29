@@ -14,7 +14,7 @@ bool Application::Run(Ambient* ambient)
 {
 	try 
 	{
-		_engine.reset(new Engine(ambient));
+		_engine = MakeShared<Engine>(ambient);
 		if (!Init())
 		{
 			ErrorExit();

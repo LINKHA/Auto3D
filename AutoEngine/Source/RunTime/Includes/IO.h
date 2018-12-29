@@ -9,9 +9,9 @@ class IO : public GlobalGameManager
 	REGISTER_OBJECT_CLASS(IO, GlobalGameManager)
 public:
 	explicit IO(Ambient* ambient);
-	Monitors* GetMonitors() { return _monitors; }
+	SharedPtr<Monitors> GetMonitors() { return _monitors; }
 private:
-	Monitors* _monitors;
+	SharedPtr<Monitors> _monitors;
 };
 
 

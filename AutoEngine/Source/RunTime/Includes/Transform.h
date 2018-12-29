@@ -52,17 +52,17 @@ public:
 	* @brief : Get Position
 	* @return : Vector3&
 	*/
-	Vector3& GetPosition();
+	Vector3 GetPosition();
 	/**
 	* @brief : Get Rotation
 	* @return : Quaternion&
 	*/
-	Quaternion& GetRotation();
+	Quaternion GetRotation();
 	/**
 	* @brief : Get Scale
 	* @return : Vector3&
 	*/
-	Vector3& GetScale();
+	Vector3 GetScale();
 	/**
 	* @brief : Get transform matrix and update transform matrix data
 	* @return : glm::mat4

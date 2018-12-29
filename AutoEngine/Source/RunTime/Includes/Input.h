@@ -53,11 +53,11 @@ public:
 	/**
 	* @brief : Get mouse position absolute coordinate 
 	*/
-	Vector2& GetMousePosition(){ return _mousePosition; }
+	Vector2 GetMousePosition(){ return _mousePosition; }
 	/**
 	* @brief : Get mouse move relative coordinate 
 	*/
-	Vector2& GetMouseMove(){ return _mouseMove; }
+	Vector2 GetMouseMove(){ return _mouseMove; }
 	/**
 	* @brief : To determine whether the mouse is moving or not
 	*/

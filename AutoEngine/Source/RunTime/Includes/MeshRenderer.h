@@ -28,7 +28,7 @@ public:
 
 	void SetShaderVariation(ShaderVariation* shader);
 
-	Material* GetMaterial() { return _material.get(); }
+	SharedPtr<Material> GetMaterial() { return _material; }
 private:
 	void drawMaterial();
 	void drawLight();

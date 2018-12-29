@@ -35,11 +35,11 @@ void MeshPBRTexture::Start()
 {
 	if (SkyBoxManager::Instance().GetEnable())
 	{
-		_shader = _shaderTexture.get();
+		_shader = _shaderTexture;
 	}
 	else
 	{
-		_shader = _shaderNoTexture.get();
+		_shader = _shaderNoTexture;
 	}
 	_shader->Use();
 

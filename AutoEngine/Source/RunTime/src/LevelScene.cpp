@@ -101,39 +101,43 @@ void LevelScene::ModeRunNode(RunMode runMode)
 		Node* node = *i;
 		if (node && node->GetEnable())
 		{
-			using compomentIt = PAIR_VECTOR<STRING, Component*>::iterator;
 			if (runMode == RunMode::Awake)
-				for (compomentIt k = node->GetComponentsArray().begin(); k != node->GetComponentsArray().end(); k++)
+				for (PAIR_VECTOR<STRING, Component*>::iterator it = node->GetComponentsArray().begin();
+					it != node->GetComponentsArray().end(); it++)
 				{
-					if (k->second->IsEnable())
-						k->second->Awake();
+					if (it->second->IsEnable())
+						it->second->Awake();
 				}
 			else if (runMode == RunMode::Start)
 			{
-				for (compomentIt k = node->GetComponentsArray().begin(); k != node->GetComponentsArray().end(); k++)
+				for (PAIR_VECTOR<STRING, Component*>::iterator it = node->GetComponentsArray().begin(); 
+					it != node->GetComponentsArray().end(); it++)
 				{
-					if (k->second->IsEnable())
-						k->second->Start();
+					if (it->second->IsEnable())
+						it->second->Start();
 				}
 			}
 			else if (runMode == RunMode::Update)
-				for (compomentIt k = node->GetComponentsArray().begin(); k != node->GetComponentsArray().end(); k++)
+				for (PAIR_VECTOR<STRING, Component*>::iterator it = node->GetComponentsArray().begin();
+					it != node->GetComponentsArray().end(); it++)
 				{
-					if (k->second->IsEnable())
-						k->second->Update();
+					if (it->second->IsEnable())
+						it->second->Update();
 				}
 			else if (runMode == RunMode::FixUpdate)
-				for (compomentIt k = node->GetComponentsArray().begin(); k != node->GetComponentsArray().end(); k++)
+				for (PAIR_VECTOR<STRING, Component*>::iterator it = node->GetComponentsArray().begin();
+					it != node->GetComponentsArray().end(); it++)
 				{
-					if (k->second->IsEnable())
-						k->second->FixUpdate();
+					if (it->second->IsEnable())
+						it->second->FixUpdate();
 				}
 			else if (runMode == RunMode::Finish)
 			{
-				for (compomentIt k = node->GetComponentsArray().begin(); k != node->GetComponentsArray().end(); k++)
+				for (PAIR_VECTOR<STRING, Component*>::iterator it = node->GetComponentsArray().begin();
+					it != node->GetComponentsArray().end(); it++)
 				{
-					if (k->second->IsEnable())
-						k->second->Finish();
+					if (it->second->IsEnable())
+						it->second->Finish();
 				}
 			}
 			else

@@ -11,24 +11,24 @@ public:
 	/**
 	* @brief : Get moitors count
 	*/
-	Int32 GetMonitorsCount();
+	int GetMonitorsCount();
 	/**
 	* @brief : Get monitor index height
 	* @return : return Int32
 	*/
-	Int32 GetMonitorsHeight(int index);
+	int GetMonitorsHeight(int index);
 	/**
 	* @brief : Get monitor index width
 	* @return : return Int32
 	*/
-	Int32 GetMonitorsWidth(int index);
+	int GetMonitorsWidth(int index);
 	/**
 	* @brief : Get mouitor index Size
 	* @return : return Vector2
 	*/
 	RectInt GetMonitorsSize(int index);
 private:
-	Int32 _monitorCount;
+	int _monitorCount;
 	PAIR_VECTOR<int, int> _mnitors;
 };
 

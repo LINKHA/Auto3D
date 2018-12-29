@@ -12,7 +12,7 @@ public:
 	void Start()override;
 	void Draw()override;
 private:
-	ShaderVariation* _shader;
+	SharedPtr<ShaderVariation> _shader;
 	unsigned _vao;
 	unsigned _indexCount;
 

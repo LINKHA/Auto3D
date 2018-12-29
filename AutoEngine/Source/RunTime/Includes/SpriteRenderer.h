@@ -34,7 +34,7 @@ public:
 
 	void SetTexParameters(const TexParams& params);
 
-	Image* GetImage() { return _image.get(); }
+	SharedPtr<Image> GetImage() { return _image; }
 
 
 	void GenerateMipmap();

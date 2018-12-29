@@ -11,7 +11,7 @@ public:
 	void AddSkyBox(SkyBox* skybox) { _skybox = skybox; }
 	SkyBox* GetSkyBox() { return _skybox; }
 private:
-	SkyBox * _skybox;
+	SkyBox* _skybox;
 };
 
 }

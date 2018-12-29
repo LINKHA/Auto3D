@@ -57,13 +57,13 @@
 #endif
 
 
-//
-//#if AUTO_WIN32_CONSOLE
-//#	pragma comment(linker, "/subsystem:console /ENTRY:mainCRTStartup")
-//#else
-//#	ifdef _MSC_VER
-//#		pragma comment(linker, "/subsystem:windows /ENTRY:WinMainCRTStartup")
-//#	else
-//#		pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
-//#	endif
-//#endif
+
+#if AUTO_WIN32_CONSOLE
+#	pragma comment(linker, "/subsystem:console /ENTRY:mainCRTStartup")
+#else
+#	ifdef _MSC_VER
+#		pragma comment(linker, "/subsystem:windows /ENTRY:WinMainCRTStartup")
+#	else
+#		pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
+#	endif
+#endif

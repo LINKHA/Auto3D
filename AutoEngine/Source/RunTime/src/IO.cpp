@@ -5,13 +5,12 @@ namespace Auto3D {
 IO::IO(Ambient* ambient)
 	:Super(ambient)
 {
-	_monitors = new Monitors();
+	_monitors = MakeShared<Monitors>();
 }
 
 
 IO::~IO()
 {
-	SafeDelete(_monitors);
 }
 
 }
