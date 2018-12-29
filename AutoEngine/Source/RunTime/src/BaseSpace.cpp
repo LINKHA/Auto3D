@@ -5,7 +5,7 @@
 
 namespace Auto3D {
 
-BaseSpace::BaseSpace(Ambient* ambient)
+BaseSpace::BaseSpace(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 }

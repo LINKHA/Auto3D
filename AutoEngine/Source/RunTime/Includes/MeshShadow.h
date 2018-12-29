@@ -10,7 +10,7 @@ class Camera;
 class MeshShadow : public RenderComponent,public GLMeshEnable
 {
 public:
-	explicit MeshShadow(Ambient* ambient);
+	explicit MeshShadow(SharedPtr<Ambient> ambient);
 	~MeshShadow();
 	void DrawReady()override;
 	void Draw()override;

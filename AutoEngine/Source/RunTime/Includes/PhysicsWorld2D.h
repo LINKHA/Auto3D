@@ -10,11 +10,11 @@ class PhysicsWorld2D : public Component//, public b2ContactListener, public b2Dr
 {
 	REGISTER_OBJECT_CLASS(PhysicsWorld2D, Component)
 public:
-	explicit PhysicsWorld2D(Ambient* ambient);
+	explicit PhysicsWorld2D(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Register object factory.
 	*/
-	static void RegisterObject(Ambient* ambient);
+	static void RegisterObject(SharedPtr<Ambient> ambient);
 
 	void Update()override;
 	/**

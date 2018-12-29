@@ -10,7 +10,7 @@
 
 namespace Auto3D {
 
-OffScreen::OffScreen(Ambient* ambient)
+OffScreen::OffScreen(SharedPtr<Ambient> ambient)
 	: Super(ambient)
 	, _samplingPointCount(1)
 	, _isAllowMsaa(false)

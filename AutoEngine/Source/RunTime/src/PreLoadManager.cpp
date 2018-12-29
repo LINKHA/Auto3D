@@ -3,7 +3,7 @@
 
 namespace Auto3D {
 
-PreLoadManager::PreLoadManager(Ambient* ambient)
+PreLoadManager::PreLoadManager(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 }

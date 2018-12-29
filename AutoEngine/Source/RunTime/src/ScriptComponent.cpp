@@ -3,7 +3,7 @@
 #include "NewDef.h"
 
 namespace Auto3D {
-ScriptComponent::ScriptComponent(Ambient* ambient)
+ScriptComponent::ScriptComponent(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 }

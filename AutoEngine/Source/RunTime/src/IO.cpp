@@ -2,7 +2,7 @@
 #include "NewDef.h"
 namespace Auto3D {
 
-IO::IO(Ambient* ambient)
+IO::IO(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 	_monitors = MakeShared<Monitors>();

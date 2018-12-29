@@ -4,7 +4,7 @@
 
 namespace Auto3D {
 
-Component::Component(Ambient* ambient)
+Component::Component(SharedPtr<Ambient> ambient)
 	: Super(ambient)
 {}
 

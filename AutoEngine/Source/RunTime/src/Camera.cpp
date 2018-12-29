@@ -6,7 +6,7 @@
 
 namespace Auto3D {
 
-Camera::Camera(Ambient* ambient)
+Camera::Camera(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 	, _front(0.0f, 0.0f, -1.0f)
 	, _zoom(45.0f)
@@ -28,7 +28,7 @@ Camera::~Camera()
 {
 }
 
-void Camera::RegisterObject(Ambient* ambient)
+void Camera::RegisterObject(SharedPtr<Ambient> ambient)
 {
 	ambient->RegisterFactory<Camera>(SCENE_ATTACH);
 }

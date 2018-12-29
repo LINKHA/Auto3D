@@ -10,7 +10,7 @@ class MotionSpace : public Object
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(MotionSpace, Object)
 public:
-	explicit MotionSpace(Ambient* ambient);
+	explicit MotionSpace(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Registration level to scene sub system
 	*/
@@ -56,7 +56,7 @@ public:
 int runApplication() \
 { \
     SharedPtr<Auto3D::Ambient> ambient(new Auto3D::Ambient()); \
-    _Class work(ambient.get());\
+    _Class work(ambient);\
     return work.Launch(); \
 } \
 AUTO_MAIN(runApplication());

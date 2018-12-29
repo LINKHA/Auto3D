@@ -10,11 +10,11 @@ class SpriteRenderer : public Texture2D
 {
 	REGISTER_OBJECT_CLASS(SpriteRenderer, Texture2D)
 public:
-	explicit SpriteRenderer(Ambient* ambient);
+	explicit SpriteRenderer(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Register object factory.
 	*/
-	static void RegisterObject(Ambient* ambient);
+	static void RegisterObject(SharedPtr<Ambient> ambient);
 
 	void Start()override;
 	void Draw()override;

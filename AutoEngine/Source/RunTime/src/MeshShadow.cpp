@@ -9,7 +9,7 @@
 
 namespace Auto3D {
 
-MeshShadow::MeshShadow(Ambient* ambient)
+MeshShadow::MeshShadow(SharedPtr<Ambient> ambient)
 	: RenderComponent(ambient)
 
 {

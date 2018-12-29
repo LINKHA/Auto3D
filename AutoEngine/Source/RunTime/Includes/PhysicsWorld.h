@@ -25,11 +25,11 @@ class PhysicsWorld : public Component//, public btIDebugDraw
 {
 	REGISTER_OBJECT_CLASS(PhysicsWorld, Component)
 public:
-	explicit PhysicsWorld(Ambient* ambient);
+	explicit PhysicsWorld(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Register object factory.
 	*/
-	static void RegisterObject(Ambient* ambient);
+	static void RegisterObject(SharedPtr<Ambient> ambient);
 
 
 	void Update()override;

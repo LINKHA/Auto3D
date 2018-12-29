@@ -15,11 +15,11 @@ class MeshRenderer : public RenderComponent, public GLMeshEnable
 {
 	REGISTER_OBJECT_CLASS(MeshRenderer, RenderComponent)
 public:
-	explicit MeshRenderer(Ambient* ambient);
+	explicit MeshRenderer(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Register object factory.
 	*/
-	static void RegisterObject(Ambient* ambient);
+	static void RegisterObject(SharedPtr<Ambient> ambient);
 
 	void Start()override;
 	void Draw()override;

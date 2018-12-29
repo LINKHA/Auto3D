@@ -5,7 +5,7 @@
 
 namespace Auto3D {
 
-Collider2D::Collider2D(Ambient* ambient)
+Collider2D::Collider2D(SharedPtr<Ambient> ambient)
 	: Super(ambient)
 	, _fixture(nullptr)
 	, _cachedWorldScale(Vector3::one)
@@ -17,7 +17,7 @@ Collider2D::~Collider2D()
 {
 }
 
-void Collider2D::RegisterObject(Ambient* ambient)
+void Collider2D::RegisterObject(SharedPtr<Ambient> ambient)
 {
 	ambient->RegisterFactory<Collider2D>(SCENE_ATTACH);
 }

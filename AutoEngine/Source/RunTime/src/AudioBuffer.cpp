@@ -7,7 +7,7 @@
 
 namespace Auto3D {
 
-AudioBuffer::AudioBuffer(Ambient* ambient)
+AudioBuffer::AudioBuffer(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 }
@@ -18,7 +18,7 @@ AudioBuffer::~AudioBuffer()
 	SafeFree(_data);
 }
 
-void AudioBuffer::RegisterObject(Ambient* ambient)
+void AudioBuffer::RegisterObject(SharedPtr<Ambient> ambient)
 {
 	ambient->RegisterFactory<AudioBuffer>();
 }

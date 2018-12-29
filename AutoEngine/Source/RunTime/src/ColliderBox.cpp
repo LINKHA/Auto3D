@@ -8,7 +8,7 @@
 namespace Auto3D {
 
 
-ColliderBox::ColliderBox(Ambient* ambient)
+ColliderBox::ColliderBox(SharedPtr<Ambient> ambient)
 	: Super(ambient)
 	, _size(Vector3::one)
 {
@@ -21,7 +21,7 @@ ColliderBox::~ColliderBox()
 	SafeDelete(_shape);
 }
 
-void ColliderBox::RegisterObject(Ambient* ambient)
+void ColliderBox::RegisterObject(SharedPtr<Ambient> ambient)
 {
 	ambient->RegisterFactory<ColliderBox>(SCENE_ATTACH);
 }

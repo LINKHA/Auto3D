@@ -11,7 +11,7 @@
 
 namespace Auto3D {
 
-SpriteRenderer::SpriteRenderer(Ambient* ambient)
+SpriteRenderer::SpriteRenderer(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 	auto shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_texture_transform.glsl");
@@ -38,7 +38,7 @@ SpriteRenderer::~SpriteRenderer()
 	glDeleteBuffers(1, &_EBO);
 }
 
-void SpriteRenderer::RegisterObject(Ambient* ambient)
+void SpriteRenderer::RegisterObject(SharedPtr<Ambient> ambient)
 {
 	ambient->RegisterFactory<SpriteRenderer>(SCENE_ATTACH);
 }

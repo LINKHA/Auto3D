@@ -7,7 +7,7 @@
 
 namespace Auto3D {
 
-AudioSource::AudioSource(Ambient* ambient)
+AudioSource::AudioSource(SharedPtr<Ambient> ambient)
 	: Super(ambient)
 {}
 
@@ -18,7 +18,7 @@ AudioSource::~AudioSource()
 	alDeleteBuffers(1, &_buffer);
 }
 
-void AudioSource::RegisterObject(Ambient* ambient)
+void AudioSource::RegisterObject(SharedPtr<Ambient> ambient)
 {
 	ambient->RegisterFactory<AudioSource>(SCENE_ATTACH);
 }

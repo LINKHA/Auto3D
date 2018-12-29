@@ -4,7 +4,7 @@
 
 namespace Auto3D {
 
-Text::Text(Ambient* ambient)
+Text::Text(SharedPtr<Ambient> ambient)
 	: Super(ambient)
 {
 }

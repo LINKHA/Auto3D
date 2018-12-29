@@ -6,7 +6,7 @@ class Engine : public Object
 {
 	REGISTER_OBJECT_CLASS(Engine, Object)
 public:
-	explicit Engine(Ambient* ambient);
+	explicit Engine(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Init engine, Register some SubSystem
 	*/

@@ -4,7 +4,7 @@
 
 namespace Auto3D {
 
-Resource::Resource(Ambient* ambient)
+Resource::Resource(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 }

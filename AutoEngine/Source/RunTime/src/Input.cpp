@@ -4,7 +4,7 @@
 #include "NewDef.h"
 
 namespace Auto3D {
-Input::Input(Ambient* ambient)
+Input::Input(SharedPtr<Ambient> ambient)
 	: Super(ambient)
 	, _isMouseMove(true)
 	, _isLockCursor(false)

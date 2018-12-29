@@ -6,7 +6,7 @@ namespace Auto3D {
 
 static const Vector2 DEFAULT_BOX_SIZE(0.01f, 0.01f);
 
-ColliderBox2D::ColliderBox2D(Ambient* ambient)
+ColliderBox2D::ColliderBox2D(SharedPtr<Ambient> ambient)
 	: Super(ambient)
 	, _size(DEFAULT_BOX_SIZE)
 	, _center(Vector2::zero)
@@ -23,7 +23,7 @@ ColliderBox2D::~ColliderBox2D()
 {
 }
 
-void ColliderBox2D::RegisterObject(Ambient* ambient)
+void ColliderBox2D::RegisterObject(SharedPtr<Ambient> ambient)
 {
 	ambient->RegisterFactory<ColliderBox2D>(SCENE_ATTACH);
 }

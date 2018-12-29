@@ -8,7 +8,7 @@
 
 #include <random>
 namespace Auto3D {
-SSAO::SSAO(Ambient* ambient)
+SSAO::SSAO(SharedPtr<Ambient> ambient)
 	:RenderComponent(ambient)
 {	
 	auto resourceSystem = GetSubSystem<ResourceSystem>();

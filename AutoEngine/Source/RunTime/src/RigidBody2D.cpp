@@ -15,7 +15,7 @@ static const char* bodyTypeNames[] =
 	nullptr
 };
 
-RigidBody2D::RigidBody2D(Ambient* ambient)
+RigidBody2D::RigidBody2D(SharedPtr<Ambient> ambient)
 	: Super(ambient)
 	, _useFixtureMass(true)
 	, _body(nullptr)
@@ -35,7 +35,7 @@ RigidBody2D::~RigidBody2D()
 	}
 }
 
-void RigidBody2D::RegisterObject(Ambient* ambient)
+void RigidBody2D::RegisterObject(SharedPtr<Ambient> ambient)
 {
 	ambient->RegisterFactory<RigidBody2D>(SCENE_ATTACH);
 }

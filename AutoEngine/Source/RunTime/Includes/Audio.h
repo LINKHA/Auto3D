@@ -9,7 +9,7 @@ class Audio : public GlobalGameManager
 {
 	REGISTER_OBJECT_CLASS(Audio, GlobalGameManager)
 public:
-	explicit Audio(Ambient* ambient);
+	explicit Audio(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Init audio register audio setting
 	*/

@@ -6,14 +6,14 @@
 #include "NewDef.h"
 
 namespace Auto3D {
-SkyBoxReflectMesh::SkyBoxReflectMesh(Ambient* ambient)
+SkyBoxReflectMesh::SkyBoxReflectMesh(SharedPtr<Ambient> ambient)
 	: RenderComponent(ambient)
 {
 	auto shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_skybox_cube.glsl");
 	_shader = MakeShared<ShaderVariation>(shader);
 	_shader->Create();
 }
-SkyBoxReflectMesh::SkyBoxReflectMesh(Ambient* ambient, SharedPtr<Shader> shader )
+SkyBoxReflectMesh::SkyBoxReflectMesh(SharedPtr<Ambient> ambient, SharedPtr<Shader> shader )
 	: RenderComponent(ambient)
 {
 	_shader = MakeShared<ShaderVariation>(shader);

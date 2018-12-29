@@ -9,7 +9,7 @@
 #include "NewDef.h"
 namespace Auto3D {
 
-MeshRenderer::MeshRenderer(Ambient* ambient)
+MeshRenderer::MeshRenderer(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 	, _isUserShader(false)
 {
@@ -21,7 +21,7 @@ MeshRenderer::~MeshRenderer()
 	UnloadOpaque(this);
 }
 
-void MeshRenderer::RegisterObject(Ambient* ambient)
+void MeshRenderer::RegisterObject(SharedPtr<Ambient> ambient)
 {
 	ambient->RegisterFactory<MeshRenderer>(SCENE_ATTACH);
 }

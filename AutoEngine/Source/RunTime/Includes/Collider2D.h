@@ -15,11 +15,11 @@ public:
 	/**
 	* @brief : Construct
 	*/
-	explicit Collider2D(Ambient* ambient);
+	explicit Collider2D(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Register object factory.
 	*/
-	static void RegisterObject(Ambient* ambient);
+	static void RegisterObject(SharedPtr<Ambient> ambient);
 
 	void Start()override;
 

@@ -7,7 +7,7 @@ class Constraint : public Object
 {
 	REGISTER_OBJECT_CLASS(Constraint, Object)
 public:
-	explicit Constraint(Ambient* ambient);
+	explicit Constraint(SharedPtr<Ambient> ambient);
 
 
 };

@@ -19,7 +19,7 @@ class Graphics : public GlobalGameManager
 {
 	REGISTER_OBJECT_CLASS(Graphics, GlobalGameManager)
 public:
-	explicit Graphics(Ambient* ambient);
+	explicit Graphics(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Graphics init
 	*/
@@ -115,7 +115,7 @@ public:
 	/**
 	* @brief : Register Graphics library objects.
 	*/
-	void RegisterGraphicsLib(Ambient* ambient);
+	void RegisterGraphicsLib(SharedPtr<Ambient> ambient);
 
 	void SetColorWrite(bool enable);
 	

@@ -7,7 +7,7 @@ class Constraint2D : public Object
 {
 	REGISTER_OBJECT_CLASS(Constraint2D, Object)
 public:
-	explicit Constraint2D(Ambient* ambient);
+	explicit Constraint2D(SharedPtr<Ambient> ambient);
 
 };
 

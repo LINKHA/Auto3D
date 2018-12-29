@@ -35,7 +35,7 @@ void CommentOutFunction(STRING& code, const STRING& signature)
 	}
 }
 
-Shader::Shader(Ambient* ambient)
+Shader::Shader(SharedPtr<Ambient> ambient)
 	: Super(ambient)
 	, _timeStamp(0)
 	, _numVariations(0)
@@ -46,7 +46,7 @@ Shader::~Shader()
 
 }
 
-void Shader::RegisterObject(Ambient* ambient)
+void Shader::RegisterObject(SharedPtr<Ambient> ambient)
 {
 	ambient->RegisterFactory<Shader>();
 }

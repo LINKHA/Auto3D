@@ -4,7 +4,7 @@
 
 namespace Auto3D {
 
-RenderComponent2D::RenderComponent2D(Ambient* ambient)
+RenderComponent2D::RenderComponent2D(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 }

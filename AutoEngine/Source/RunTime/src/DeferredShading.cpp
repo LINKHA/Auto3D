@@ -6,7 +6,7 @@
 #include "ResourceSystem.h"
 #include "NewDef.h"
 namespace Auto3D {
-DeferredShading::DeferredShading(Ambient* ambient)
+DeferredShading::DeferredShading(SharedPtr<Ambient> ambient)
 	: RenderComponent(ambient)
 {
 	auto cach = GetSubSystem<ResourceSystem>();

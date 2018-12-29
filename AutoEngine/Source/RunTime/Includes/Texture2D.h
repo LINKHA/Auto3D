@@ -14,7 +14,7 @@ public:
 	}TexParams;
 
 public:
-	explicit Texture2D(Ambient* ambient);
+	explicit Texture2D(SharedPtr<Ambient> ambient);
 	
 	virtual void Awake() {}
 	virtual void Start() {}

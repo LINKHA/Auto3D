@@ -10,7 +10,7 @@
 
 namespace Auto3D {
 
-MeshShadowPoint::MeshShadowPoint(Ambient* ambient)
+MeshShadowPoint::MeshShadowPoint(SharedPtr<Ambient> ambient)
 	: RenderComponent(ambient)
 	, _cullEnable(true)
 {
@@ -20,7 +20,7 @@ MeshShadowPoint::MeshShadowPoint(Ambient* ambient)
 	RegisterShadow(this);
 	RegisterOpaque(this);
 }
-MeshShadowPoint::MeshShadowPoint(Ambient* ambient,bool enable)
+MeshShadowPoint::MeshShadowPoint(SharedPtr<Ambient> ambient,bool enable)
 	: RenderComponent(ambient)
 	, _cullEnable(enable)
 {

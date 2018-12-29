@@ -21,11 +21,11 @@ public:
 	/**
 	* @brief : The constructor
 	*/
-	explicit AudioSource(Ambient* ambient);
+	explicit AudioSource(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Register object factory.
 	*/
-	static void RegisterObject(Ambient* ambient);
+	static void RegisterObject(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Start component
 	*/

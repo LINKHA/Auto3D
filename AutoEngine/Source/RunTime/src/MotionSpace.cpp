@@ -6,7 +6,7 @@
 #include "NewDef.h"
 
 namespace Auto3D {
-MotionSpace::MotionSpace(Ambient* ambient)
+MotionSpace::MotionSpace(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 	SpaceHandle::Instance().space = SharedPtr<MotionSpace>(this);

@@ -3,7 +3,7 @@
 #include "NewDef.h"
 namespace Auto3D {
 
-Transform::Transform(Ambient* ambient)
+Transform::Transform(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 	, _position(Vector3())
 	, _rotation(Quaternion())
@@ -13,7 +13,7 @@ Transform::Transform(Ambient* ambient)
 Transform::~Transform()
 {}
 
-void Transform::RegisterObject(Ambient* ambient)
+void Transform::RegisterObject(SharedPtr<Ambient> ambient)
 {
 	ambient->RegisterFactory<Transform>(SCENE_ATTACH);
 }

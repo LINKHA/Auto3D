@@ -10,7 +10,7 @@
 
 namespace Auto3D {
 
-MeshPBR::MeshPBR(Ambient* ambient)
+MeshPBR::MeshPBR(SharedPtr<Ambient> ambient)
 	: Super(ambient)
 	, _metallic(1.0f)
 	, _roughness(0.02f)

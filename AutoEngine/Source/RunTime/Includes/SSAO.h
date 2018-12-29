@@ -6,7 +6,7 @@ namespace Auto3D {
 class SSAO : public RenderComponent
 {
 public:
-	explicit SSAO(Ambient* ambient);
+	explicit SSAO(SharedPtr<Ambient> ambient);
 	~SSAO();
 
 	void Start()override;

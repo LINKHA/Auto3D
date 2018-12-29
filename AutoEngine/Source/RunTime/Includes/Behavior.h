@@ -7,7 +7,7 @@ class Behavior : public GlobalGameManager
 {
 	REGISTER_OBJECT_CLASS(Behavior, GlobalGameManager)
 public:
-	explicit Behavior(Ambient* ambient);
+	explicit Behavior(SharedPtr<Ambient> ambient);
 	void Awake();
 	void Start();
 	void Update();

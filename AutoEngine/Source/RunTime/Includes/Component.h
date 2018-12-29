@@ -14,7 +14,7 @@ class Component : public LevelBehaviorObject
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(Component, LevelBehaviorObject)
 public:
-	explicit Component(Ambient* ambient);
+	explicit Component(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Get game object quote
 	*/

@@ -3,7 +3,7 @@
 
 namespace Auto3D {
 
-Texture2D::Texture2D(Ambient* ambient)
+Texture2D::Texture2D(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {}
 Texture2D::~Texture2D()

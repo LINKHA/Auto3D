@@ -19,7 +19,7 @@ protected:
 	float			_texelSizeX;
 	float			_texelSizeY;
 public:
-	explicit Texture(Ambient* ambient);
+	explicit Texture(SharedPtr<Ambient> ambient);
 	virtual void Awake() {}
 	virtual void Start() {}
 	virtual void Update() {}

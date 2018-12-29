@@ -8,7 +8,7 @@
 
 namespace Auto3D {
 
-Bloom::Bloom(Ambient* ambient)
+Bloom::Bloom(SharedPtr<Ambient> ambient)
 	: RenderComponent(ambient)
 {
 	auto resourchCach = GetSubSystem<ResourceSystem>();

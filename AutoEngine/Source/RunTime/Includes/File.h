@@ -21,11 +21,11 @@ class File : public Object, public AbstractFile
 {
 	REGISTER_OBJECT_CLASS(File, Object)
 public:
-	explicit File(Ambient* ambient);
+	explicit File(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Construct and open a filesystem file
 	*/
-	File(Ambient* ambient, const STRING& fileName, FileMode mode = FileMode::Read);
+	File(SharedPtr<Ambient> ambient, const STRING& fileName, FileMode mode = FileMode::Read);
 	/**
 	* @brief : Read bytes from the file. Return number of bytes actually read
 	*/

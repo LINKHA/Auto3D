@@ -7,7 +7,7 @@
 
 namespace Auto3D {
 
-LevelScene::LevelScene(Ambient* ambient, int levelID)
+LevelScene::LevelScene(SharedPtr<Ambient> ambient, int levelID)
 	: Super(ambient)
 {
 	_levelID = levelID;

@@ -9,7 +9,7 @@ class PreLoadManager : public GlobalGameManager
 
 	using PreContainer = LIST<Prefab*>;
 public:
-	explicit PreLoadManager(Ambient* ambient);
+	explicit PreLoadManager(SharedPtr<Ambient> ambient);
 	void AddPrefab(Prefab* prefab);
 	void RemovePrefab(Prefab* prefab);
 	PreContainer GetPrefabs() { return _prefabs; }

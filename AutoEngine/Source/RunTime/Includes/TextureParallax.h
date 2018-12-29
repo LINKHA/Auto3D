@@ -11,7 +11,7 @@ class TextureParallax : public TextureMap
 {
 	REGISTER_OBJECT_CLASS(TextureParallax, TextureMap)
 public:
-	explicit TextureParallax(Ambient* ambient);
+	explicit TextureParallax(SharedPtr<Ambient> ambient);
 
 	void Start()override;
 	void Draw()override;

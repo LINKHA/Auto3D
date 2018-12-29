@@ -7,11 +7,11 @@ class AudioBuffer : public Resource
 {
 	REGISTER_OBJECT_CLASS(AudioBuffer, Resource)
 public:
-	explicit AudioBuffer(Ambient* ambient);
+	explicit AudioBuffer(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Register object factory
 	*/
-	static void RegisterObject(Ambient* ambient);
+	static void RegisterObject(SharedPtr<Ambient> ambient);
 	/*
 	* @brief : Load resource from stream.May be called from a worker thread.Return true if successful
 	*/

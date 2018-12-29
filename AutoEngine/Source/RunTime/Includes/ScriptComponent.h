@@ -7,7 +7,7 @@ class ScriptComponent :public Component , public ILevelBehavior
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(ScriptComponent, Component)
 public:
-	explicit ScriptComponent(Ambient* ambient);
+	explicit ScriptComponent(SharedPtr<Ambient> ambient);
 
 	virtual void Awake() {}
 	virtual void Start() {}

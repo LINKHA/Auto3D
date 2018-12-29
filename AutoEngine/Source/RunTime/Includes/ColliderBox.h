@@ -7,11 +7,11 @@ class ColliderBox : public Collider
 {
 	REGISTER_OBJECT_CLASS(ColliderBox, Collider)
 public:
-	explicit ColliderBox(Ambient* ambient);
+	explicit ColliderBox(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Register object factory.
 	*/
-	static void RegisterObject(Ambient* ambient);
+	static void RegisterObject(SharedPtr<Ambient> ambient);
 
 	void Start()override;
 

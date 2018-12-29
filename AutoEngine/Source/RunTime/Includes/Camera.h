@@ -29,11 +29,11 @@ class Camera : public Component
 {
 	REGISTER_OBJECT_CLASS(Camera, Component)
 public:
-	explicit Camera(Ambient* ambient);
+	explicit Camera(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Register object factory.
 	*/
-	static void RegisterObject(Ambient* ambient);
+	static void RegisterObject(SharedPtr<Ambient> ambient);
 	/**
 	* @brief :
 	*/

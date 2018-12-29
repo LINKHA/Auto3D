@@ -8,7 +8,7 @@ class Font : public Resource
 {
 	REGISTER_OBJECT_CLASS(Font, Resource)
 public:
-	explicit Font(Ambient* ambient);
+	explicit Font(SharedPtr<Ambient> ambient);
 	
 };
 

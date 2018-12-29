@@ -11,7 +11,7 @@ class TextureMap : public Texture2D
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(TextureMap, Texture2D)
 public:
-	explicit TextureMap(Ambient* ambient);
+	explicit TextureMap(SharedPtr<Ambient> ambient);
 	void Start()override;
 	void Draw()override;
 

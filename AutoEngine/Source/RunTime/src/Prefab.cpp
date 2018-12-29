@@ -4,7 +4,7 @@
 
 namespace Auto3D {
 
-Prefab::Prefab(Ambient* ambient)
+Prefab::Prefab(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 

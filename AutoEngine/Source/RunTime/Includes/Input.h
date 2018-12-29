@@ -23,7 +23,7 @@ class Input : public GlobalGameManager
 
 	using Keys = SET<int>;
 public:
-	explicit Input(Ambient* ambient);
+	explicit Input(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Update event
 	*/

@@ -8,7 +8,7 @@ class RenderComponent : public Component
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(RenderComponent, Component)
 public:
-	explicit RenderComponent(Ambient*  ambient);
+	explicit RenderComponent(SharedPtr<Ambient>  ambient);
 	/**
 	* @brief : Ready draw component
 	*/

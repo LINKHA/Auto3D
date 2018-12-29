@@ -2,7 +2,7 @@
 #include "ResourceSystem.h"
 #include "NewDef.h"
 namespace Auto3D {
-Material::Material(Ambient* ambi)
+Material::Material(SharedPtr<Ambient> ambi)
 	:Super(ambi)
 	,isTexture(false)
 {

@@ -2,7 +2,7 @@
 
 namespace Auto3D {
 
-UIComponent::UIComponent(Ambient* ambient)
+UIComponent::UIComponent(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 }

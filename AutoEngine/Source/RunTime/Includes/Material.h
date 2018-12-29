@@ -8,7 +8,7 @@ class Material : public Object
 {
 	REGISTER_OBJECT_CLASS(Material, Object)
 public:
-	explicit Material(Ambient* ambient);
+	explicit Material(SharedPtr<Ambient> ambient);
 	unsigned int diffuseMap;
 	Color color;
 	Vector3 ambient;

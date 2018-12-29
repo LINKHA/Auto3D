@@ -28,7 +28,7 @@ class Renderer : public GlobalGameManager
 	friend class ShadowRenderer;
 	friend class LightContainer;
 public:
-	explicit Renderer(Ambient* ambient);
+	explicit Renderer(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Init renderer register renderer sub setting
 	*/

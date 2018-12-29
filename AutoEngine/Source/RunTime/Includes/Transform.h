@@ -11,11 +11,11 @@ public:
 	/**
 	* @brief : Init position(0) rotation(0) and scale(1)
 	*/
-	explicit Transform(Ambient* ambient);
+	explicit Transform(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Register object factory.
 	*/
-	static void RegisterObject(Ambient* ambient);
+	static void RegisterObject(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Set position from Vector3
 	*/

@@ -10,7 +10,7 @@
 
 namespace Auto3D {
 
-ShadowRenderer::ShadowRenderer(Ambient* ambient)
+ShadowRenderer::ShadowRenderer(SharedPtr<Ambient> ambient)
 	: Super(ambient)
 {
 	auto cach = GetSubSystem<ResourceSystem>();

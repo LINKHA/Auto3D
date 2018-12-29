@@ -5,7 +5,7 @@
 namespace Auto3D {
 
 
-Constraint::Constraint(Ambient* ambient)
+Constraint::Constraint(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 }

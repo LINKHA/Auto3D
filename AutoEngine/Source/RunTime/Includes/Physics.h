@@ -6,7 +6,7 @@ class Physics : public GlobalGameManager
 {
 	REGISTER_OBJECT_CLASS(Physics, GlobalGameManager)
 public:
-	explicit Physics(Ambient* ambient);
+	explicit Physics(SharedPtr<Ambient> ambient);
 
 
 };

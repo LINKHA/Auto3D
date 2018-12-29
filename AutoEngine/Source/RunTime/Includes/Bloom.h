@@ -8,7 +8,7 @@ namespace Auto3D {
 class Bloom : public RenderComponent
 {
 public:
-	explicit Bloom(Ambient* ambient);
+	explicit Bloom(SharedPtr<Ambient> ambient);
 	~Bloom();
 	void Start()override;
 	void Draw()override;

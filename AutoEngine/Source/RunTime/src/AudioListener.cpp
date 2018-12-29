@@ -15,7 +15,7 @@ ALfloat ListenerOri[] = { 0.0, 0.0, -1.0,  0.0, 1.0, 0.0 };
 
 namespace Auto3D {
 
-AudioListener::AudioListener(Ambient* ambient)
+AudioListener::AudioListener(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 }
@@ -24,7 +24,7 @@ AudioListener::~AudioListener()
 {
 }
 
-void AudioListener::RegisterObject(Ambient* ambient)
+void AudioListener::RegisterObject(SharedPtr<Ambient> ambient)
 {
 	ambient->RegisterFactory<AudioListener>(SCENE_ATTACH);
 }

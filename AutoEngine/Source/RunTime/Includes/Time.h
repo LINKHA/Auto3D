@@ -49,7 +49,7 @@ public:
 	/**
 	* @brief : The constructor
 	*/
-	explicit Time(Ambient* ambient);
+	explicit Time(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Reset time
 	*/

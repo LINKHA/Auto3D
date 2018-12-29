@@ -11,7 +11,7 @@ class MeshPBR : public RenderComponent
 {
 	REGISTER_OBJECT_CLASS(MeshPBR, RenderComponent)
 public:
-	explicit MeshPBR(Ambient* ambient);
+	explicit MeshPBR(SharedPtr<Ambient> ambient);
 	void Start()override;
 	void Draw()override;
 	/**

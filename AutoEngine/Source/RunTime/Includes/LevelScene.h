@@ -17,7 +17,7 @@ public:
 	* @brief : Register scenario by serial number , 
 		default levelNumber 0
 	*/
-	explicit LevelScene(Ambient* ambient,int levelID = 0);
+	explicit LevelScene(SharedPtr<Ambient> ambient,int levelID = 0);
 	
 	virtual void Awake();
 	virtual void Start();

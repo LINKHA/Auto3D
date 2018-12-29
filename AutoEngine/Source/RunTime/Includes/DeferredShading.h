@@ -6,7 +6,7 @@ namespace Auto3D {
 class DeferredShading : public RenderComponent
 {
 public:
-	explicit DeferredShading(Ambient* ambient);
+	explicit DeferredShading(SharedPtr<Ambient> ambient);
 	~DeferredShading();
 	void Start()override;
 	void Draw()override;

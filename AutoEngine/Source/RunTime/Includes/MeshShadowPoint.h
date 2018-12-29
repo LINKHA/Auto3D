@@ -10,8 +10,8 @@ class Camera;
 class MeshShadowPoint : public RenderComponent, public GLMeshEnable
 {
 public:
-	explicit MeshShadowPoint(Ambient* ambient);
-	MeshShadowPoint(Ambient* ambient,bool enable);
+	explicit MeshShadowPoint(SharedPtr<Ambient> ambient);
+	MeshShadowPoint(SharedPtr<Ambient> ambient,bool enable);
 	~MeshShadowPoint();
 	void DrawReady()override;
 	void Draw()override;

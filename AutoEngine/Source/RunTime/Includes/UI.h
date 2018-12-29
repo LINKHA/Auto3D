@@ -7,7 +7,7 @@ class UI : public GlobalGameManager
 {
 	REGISTER_OBJECT_CLASS(UI, GlobalGameManager)
 public:
-	explicit UI(Ambient* ambient);
+	explicit UI(SharedPtr<Ambient> ambient);
 
 };
 

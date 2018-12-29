@@ -3,7 +3,7 @@
 
 namespace Auto3D {
 
-Constraint2D::Constraint2D(Ambient* ambient)
+Constraint2D::Constraint2D(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 }

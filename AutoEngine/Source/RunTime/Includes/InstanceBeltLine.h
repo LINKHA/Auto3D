@@ -7,7 +7,7 @@ class Camera;
 class InstanceBeltLine : public RenderComponent
 {
 public:
-	InstanceBeltLine(Ambient* ambient, SharedPtr<Mesh> mesh, SharedPtr<Shader> shader, glm::mat4* modelMat,int count);
+	InstanceBeltLine(SharedPtr<Ambient> ambient, SharedPtr<Mesh> mesh, SharedPtr<Shader> shader, glm::mat4* modelMat,int count);
 	~InstanceBeltLine();
 	void Start()override;
 	void Draw()override;

@@ -16,7 +16,7 @@ class OffScreen : public Object
 {
 	REGISTER_OBJECT_CLASS(OffScreen, Object)
 public:
-	explicit OffScreen(Ambient* ambient);
+	explicit OffScreen(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Set frame buffer and quad
 	*/

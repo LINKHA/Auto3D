@@ -8,11 +8,11 @@ class ColliderBox2D : public Collider2D
 {
 	REGISTER_OBJECT_CLASS(ColliderBox2D, Collider2D)
 public:
-	explicit ColliderBox2D(Ambient* ambient);
+	explicit ColliderBox2D(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Register object factory.
 	*/
-	static void RegisterObject(Ambient* ambient);
+	static void RegisterObject(SharedPtr<Ambient> ambient);
 	
 	void Start()override;
 	/**

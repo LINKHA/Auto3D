@@ -6,7 +6,7 @@ class Geometry : public Object
 {
 	REGISTER_OBJECT_CLASS(Geometry, Object)
 public:
-	explicit Geometry(Ambient* ambient);
+	explicit Geometry(SharedPtr<Ambient> ambient);
 	FillTypes GetFillType()const { return _fillType; }
 
 

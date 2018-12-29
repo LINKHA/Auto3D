@@ -24,7 +24,7 @@ class UIComponent : public Component
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(UIComponent, Component)
 public:
-	explicit UIComponent(Ambient* ambient);
+	explicit UIComponent(SharedPtr<Ambient> ambient);
 	
 };
 

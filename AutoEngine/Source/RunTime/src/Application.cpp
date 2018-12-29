@@ -10,7 +10,7 @@ Application::~Application()
 {
 }
 
-bool Application::Run(Ambient* ambient)
+bool Application::Run(SharedPtr<Ambient> ambient)
 {
 	try 
 	{

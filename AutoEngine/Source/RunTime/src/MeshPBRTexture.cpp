@@ -10,7 +10,7 @@
 
 namespace Auto3D {
 
-MeshPBRTexture::MeshPBRTexture(Ambient* ambient)
+MeshPBRTexture::MeshPBRTexture(SharedPtr<Ambient> ambient)
 	: Super(ambient)
 {
 	auto cach = GetSubSystem<ResourceSystem>();

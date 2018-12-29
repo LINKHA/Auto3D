@@ -27,7 +27,7 @@ public:
 	/**
 	* @brief : Set light type, default Directional
 	*/
-	explicit ShadowRenderAssist(Ambient* ambient, LightType type = LightType::Directional);
+	explicit ShadowRenderAssist(SharedPtr<Ambient> ambient, LightType type = LightType::Directional);
 	/**
 	* @brief : Bind light create depath map
 	*/
@@ -67,11 +67,11 @@ class Light : public Component
 {
 	REGISTER_OBJECT_CLASS(Light, Component)
 public:
-	explicit Light(Ambient* ambi);
+	explicit Light(SharedPtr<Ambient> ambi);
 	/**
 	* @brief : Register object factory.
 	*/
-	static void RegisterObject(Ambient* ambient);
+	static void RegisterObject(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Update light data
 	*/

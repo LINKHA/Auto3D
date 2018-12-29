@@ -20,11 +20,11 @@ class RigidBody2D : public Component
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(RigidBody2D, Component)
 public:
-	explicit RigidBody2D(Ambient* ambient);
+	explicit RigidBody2D(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Register object factory.
 	*/
-	static void RegisterObject(Ambient* ambient);
+	static void RegisterObject(SharedPtr<Ambient> ambient);
 
 	void Start() override;
 	void Update() override;

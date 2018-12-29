@@ -6,7 +6,7 @@ class Prefab : public Object
 {
 	REGISTER_OBJECT_CLASS(Prefab, Object)
 public:
-	explicit Prefab(Ambient* ambient);
+	explicit Prefab(SharedPtr<Ambient> ambient);
 private:
 	Node* _gameObject;
 };

@@ -8,7 +8,7 @@ class Script : public GlobalGameManager
 {
 	REGISTER_OBJECT_CLASS(Script, GlobalGameManager)
 public:
-	explicit Script(Ambient* ambient);
+	explicit Script(SharedPtr<Ambient> ambient);
 
 };
 

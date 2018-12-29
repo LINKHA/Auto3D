@@ -32,7 +32,7 @@ class Resource : public Object
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(Resource, Object)
 public:
-	explicit Resource(Ambient* ambient);
+	explicit Resource(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Load resource synchronously. Call both BeginLoad() & EndLoad() and return true if both succeeded
 	*/

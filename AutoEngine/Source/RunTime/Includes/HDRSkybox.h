@@ -9,7 +9,7 @@ class Camera;
 class HDRSkyBox : public Texture3D
 {
 public:
-	explicit HDRSkyBox(Ambient* ambient);
+	explicit HDRSkyBox(SharedPtr<Ambient> ambient);
 	~HDRSkyBox();
 	void Start()override;
 	void Draw()override;

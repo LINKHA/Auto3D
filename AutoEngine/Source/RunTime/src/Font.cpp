@@ -2,7 +2,7 @@
 
 namespace Auto3D {
 
-Font::Font(Ambient* ambient)
+Font::Font(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 }

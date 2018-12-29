@@ -6,7 +6,7 @@
 namespace Auto3D {
 
 
-TextureParallax::TextureParallax(Ambient* ambient)
+TextureParallax::TextureParallax(SharedPtr<Ambient> ambient)
 	: TextureMap(ambient)
 	, _VAO(0)
 {

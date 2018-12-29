@@ -12,7 +12,7 @@ class LightContainer : public Object
 	REGISTER_OBJECT_CLASS(LightContainer, Object)
 	using Lights = VECTOR<Light*>;
 public:
-	explicit LightContainer(Ambient* ambient);
+	explicit LightContainer(SharedPtr<Ambient> ambient);
 	void AddLight(Light* source);
 	void RemoveLight(Light* source);
 	/**

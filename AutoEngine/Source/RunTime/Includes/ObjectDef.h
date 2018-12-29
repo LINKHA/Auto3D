@@ -45,7 +45,7 @@ public: \
 public: \
 	using This = _This; \
 	using Super = LevelScene; \
-	_This(Ambient* ambient, int levelID)\
+	_This(SharedPtr<Ambient> ambient, int levelID)\
 		:LevelScene(ambient, levelID){}\
 	~_This() = default;\
 	virtual char* GetClassCstrName() { return #_This; }\
@@ -60,7 +60,7 @@ public: \
 public: \
 	using This = _This; \
 	using Super = ScriptComponent; \
-	_This(Ambient* ambient)\
+	_This(SharedPtr<Ambient> ambient)\
 		:ScriptComponent(ambient){}\
 	~_This() = default;\
 	virtual char* GetClassCstrName() { return #_This; }\
@@ -76,7 +76,7 @@ public: \
 public: \
 	using This = _This; \
 	using Super = MotionSpace; \
-	_This(Ambient* ambient)\
+	_This(SharedPtr<Ambient> ambient)\
 		:MotionSpace(ambient){}\
 	~_This() = default;\
 	virtual char* GetClassCstrName() { return #_This; }\

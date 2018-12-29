@@ -3,7 +3,7 @@
 #include "NewDef.h"
 namespace Auto3D {
 
-Object::Object(Ambient* ambient)
+Object::Object(SharedPtr<Ambient> ambient)
 	: _ambient(ambient)
 {
 }

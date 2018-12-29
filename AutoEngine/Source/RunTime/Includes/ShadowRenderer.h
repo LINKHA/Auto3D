@@ -19,7 +19,7 @@ public:
 	/**
 	* @brief : Get renderer to _renderer
 	*/
-	explicit ShadowRenderer(Ambient* ambient);
+	explicit ShadowRenderer(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Ready to render shadow(Traversal shadow queue)
 	*/

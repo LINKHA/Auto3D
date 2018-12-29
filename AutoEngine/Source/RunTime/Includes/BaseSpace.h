@@ -9,7 +9,7 @@ class BaseSpace : public GlobalGameManager
 {
 	REGISTER_OBJECT_CLASS(BaseSpace, GlobalGameManager)
 public:
-	explicit BaseSpace(Ambient* ambient);
+	explicit BaseSpace(SharedPtr<Ambient> ambient);
 	void Init();
 	void Destruct();
 

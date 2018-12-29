@@ -16,7 +16,7 @@ class Ambient;
 class Object
 {	
 public:
-	explicit Object(Ambient* ambient);
+	explicit Object(SharedPtr<Ambient> ambient);
 	virtual ~Object() = default;
 	///////////////////////////////////////////////////////////////////////////
 	// @brief : Register class function
@@ -35,7 +35,7 @@ public:
 	/**
 	* @brief : Return execution ambient.
 	*/
-	Ambient* GetAmbient() const { return _ambient; }
+	SharedPtr<Ambient> GetAmbient() const { return _ambient; }
 	/**
 	* @brief : Return subsystem by type.
 	*/
@@ -51,7 +51,7 @@ public:
 
 
 protected:
-	Ambient* _ambient;
+	SharedPtr<Ambient> _ambient;
 };
 
 template<typename _Ty> 
@@ -63,7 +63,7 @@ SharedPtr<_Ty> Object::GetSubSystem() const
 class ObjectFactory
 {
 public:
-	explicit ObjectFactory(Ambient* ambient)
+	explicit ObjectFactory(SharedPtr<Ambient> ambient)
 		:_ambient(ambient)
 	{
 		Assert(_ambient);
@@ -79,7 +79,7 @@ public:
 	/**
 	* @brief : Return execution ambient
 	*/
-	Ambient* GetAmbient() const { return _ambient; }
+	SharedPtr<Ambient> GetAmbient() const { return _ambient; }
 	/**
 	* @brief : Retrun template Class Name for c str
 	*/
@@ -94,7 +94,7 @@ public:
 	const Auto3D::RTTI* GetRTTI() { return _RTTI; }
 protected:
 	///Execution ambient
-	Ambient* _ambient;
+	SharedPtr<Ambient> _ambient;
 	///RTTI info
 	RTTI* _RTTI{};
 };
@@ -103,7 +103,7 @@ template<typename _Ty> class ObjectFactoryImpl : public ObjectFactory
 {
 public:
 	/// Construct
-	explicit ObjectFactoryImpl(Ambient* ambient) :
+	explicit ObjectFactoryImpl(SharedPtr<Ambient> ambient) :
 		ObjectFactory(ambient)
 	{
 		_RTTI = _Ty::GetRTTIStatic();

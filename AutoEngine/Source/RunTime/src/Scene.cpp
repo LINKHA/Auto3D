@@ -27,7 +27,7 @@
 
 namespace Auto3D {
 
-Scene::Scene(Ambient* ambient)
+Scene::Scene(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 	RegisterSceneLib(_ambient);
@@ -104,7 +104,7 @@ void Scene::ModeRunLevel(RunMode runMode)
 
 }
 
-void Scene::RegisterSceneLib(Ambient* ambient)
+void Scene::RegisterSceneLib(SharedPtr<Ambient> ambient)
 {
 	Camera::RegisterObject(ambient);
 	

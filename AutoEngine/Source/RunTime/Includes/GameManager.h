@@ -14,21 +14,21 @@ class GameManager : public Object
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(GameManager, Object)
 public:
-	explicit GameManager(Ambient* ambient);
+	explicit GameManager(SharedPtr<Ambient> ambient);
 };
 
 class LevelGameManager : public GameManager
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(LevelGameManager, GameManager)
 public:
-	explicit LevelGameManager(Ambient* ambient);
+	explicit LevelGameManager(SharedPtr<Ambient> ambient);
 };
 
 class GlobalGameManager : public GameManager
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(GlobalGameManager, GameManager)
 public:
-	explicit GlobalGameManager(Ambient* ambient);
+	explicit GlobalGameManager(SharedPtr<Ambient> ambient);
 };
 
 }

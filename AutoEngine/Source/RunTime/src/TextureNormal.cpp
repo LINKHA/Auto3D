@@ -5,7 +5,7 @@
 #include "NewDef.h"
 
 namespace Auto3D {
-TextureNormal::TextureNormal(Ambient* ambient)
+TextureNormal::TextureNormal(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 	_imagePath = "Resource/texture/bricks.jpg";

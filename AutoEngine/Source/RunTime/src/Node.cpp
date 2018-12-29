@@ -7,7 +7,7 @@
 
 namespace Auto3D {
 
-Node::Node(Ambient* ambient, int sceneID)
+Node::Node(SharedPtr<Ambient> ambient, int sceneID)
 	: Super(ambient)
 	, _levelID(sceneID)
 	, _isEnable(true)

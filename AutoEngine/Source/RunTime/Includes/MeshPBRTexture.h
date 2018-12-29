@@ -8,7 +8,7 @@ class MeshPBRTexture : public RenderComponent
 {
 	REGISTER_OBJECT_CLASS(MeshPBRTexture, RenderComponent)
 public:
-	explicit MeshPBRTexture(Ambient* ambient);
+	explicit MeshPBRTexture(SharedPtr<Ambient> ambient);
 	void Start()override;
 	void Draw()override;
 private:

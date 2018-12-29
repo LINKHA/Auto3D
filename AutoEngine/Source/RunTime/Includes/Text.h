@@ -10,7 +10,7 @@ class Text : public UIComponent
 {
 	REGISTER_OBJECT_CLASS(Text, UIComponent)
 public:
-	explicit Text(Ambient* ambient);
+	explicit Text(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Set text. Text is assumed to be either ASCII or UTF8-encoded
 	*/

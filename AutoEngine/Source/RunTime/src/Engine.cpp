@@ -15,7 +15,7 @@
 
 namespace Auto3D {
 
-Engine::Engine(Ambient* ambient)
+Engine::Engine(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 	_ambient->RegisterSubSystem(new Renderer(_ambient));
@@ -35,19 +35,19 @@ Engine::Engine(Ambient* ambient)
 
 Engine::~Engine()
 {
-	_ambient->RemoveSubSystem<Renderer>();
-	_ambient->RemoveSubSystem<Graphics>();
-	_ambient->RemoveSubSystem<BaseSpace>();
-	_ambient->RemoveSubSystem<Time>();
-	_ambient->RemoveSubSystem<Input>();
-	_ambient->RemoveSubSystem<Script>();
-	_ambient->RemoveSubSystem<ResourceSystem>();
-	_ambient->RemoveSubSystem<Scene>();
-	_ambient->RemoveSubSystem<IO>();
-	_ambient->RemoveSubSystem<Audio>();
-	_ambient->RemoveSubSystem<UI>();
-	_ambient->RemoveSubSystem<Behavior>();
-	_ambient->RemoveSubSystem<FileSystem>();
+	//_ambient->RemoveSubSystem<Renderer>();
+	//_ambient->RemoveSubSystem<Graphics>();
+	//_ambient->RemoveSubSystem<BaseSpace>();
+	//_ambient->RemoveSubSystem<Time>();
+	//_ambient->RemoveSubSystem<Input>();
+	//_ambient->RemoveSubSystem<Script>();
+	//_ambient->RemoveSubSystem<ResourceSystem>();
+	//_ambient->RemoveSubSystem<Scene>();
+	//_ambient->RemoveSubSystem<IO>();
+	//_ambient->RemoveSubSystem<Audio>();
+	//_ambient->RemoveSubSystem<UI>();
+	//_ambient->RemoveSubSystem<Behavior>();
+	//_ambient->RemoveSubSystem<FileSystem>();
 }
 
 void Engine::Init()

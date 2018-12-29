@@ -8,7 +8,7 @@
 
 namespace Auto3D {
 
-InstanceBeltLine::InstanceBeltLine(Ambient* ambient, SharedPtr<Mesh> mesh, SharedPtr<Shader> shader, glm::mat4* modelMat,int count)
+InstanceBeltLine::InstanceBeltLine(SharedPtr<Ambient> ambient, SharedPtr<Mesh> mesh, SharedPtr<Shader> shader, glm::mat4* modelMat,int count)
 	:RenderComponent(ambient)
 	,_mesh(mesh)
 	,_modelMatrices(modelMat)

@@ -5,7 +5,7 @@
 
 namespace Auto3D {
 
-GameManager::GameManager(Ambient* ambient)
+GameManager::GameManager(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 
@@ -13,12 +13,12 @@ GameManager::GameManager(Ambient* ambient)
 GameManager::~GameManager()
 {
 }
-LevelGameManager::LevelGameManager(Ambient* ambient)
+LevelGameManager::LevelGameManager(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {}
 LevelGameManager::~LevelGameManager(){}
 
-GlobalGameManager::GlobalGameManager(Ambient* ambient)
+GlobalGameManager::GlobalGameManager(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {}
 GlobalGameManager::~GlobalGameManager(){}

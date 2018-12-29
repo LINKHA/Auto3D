@@ -14,7 +14,7 @@ const float START_UP_DELTA_TIME = 0.02f;
 const float NEW_DELTA_TIME_WEIGHT = 0.2f; // for smoothing
 
 
-Time::Time(Ambient* ambient)
+Time::Time(SharedPtr<Ambient> ambient)
 	: Super(ambient)
 {
 	_timeSpeedScale = 1.0f;

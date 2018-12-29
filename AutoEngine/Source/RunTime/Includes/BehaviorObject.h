@@ -19,7 +19,7 @@ class BehaviorObject : public Object
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(BehaviorObject, Object)
 public:
-	explicit BehaviorObject(Ambient* ambient);
+	explicit BehaviorObject(SharedPtr<Ambient> ambient);
 
 	virtual void Awake() {}
 	virtual void Start() {}

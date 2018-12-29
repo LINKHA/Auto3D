@@ -8,7 +8,7 @@
 namespace Auto3D {
 
 
-Collider::Collider(Ambient* ambient)
+Collider::Collider(SharedPtr<Ambient> ambient)
 	: Super(ambient)
 	, _cachedWorldScale(Vector3::one)
 {
@@ -22,7 +22,7 @@ Collider::~Collider()
 	//	_physicsWorld->RemoveCollider(this);
 }
 
-void Collider::RegisterObject(Ambient* ambient)
+void Collider::RegisterObject(SharedPtr<Ambient> ambient)
 {
 	ambient->RegisterFactory<Collider>(SCENE_ATTACH);
 }

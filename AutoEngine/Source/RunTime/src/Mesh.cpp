@@ -96,13 +96,13 @@ void MeshNode::setupMesh()
 
 
 
-Mesh::Mesh(Ambient* ambient)
+Mesh::Mesh(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {}
 
 Mesh::~Mesh() = default;
 
-void Mesh::RegisterObject(Ambient* ambient)
+void Mesh::RegisterObject(SharedPtr<Ambient> ambient)
 {
 	ambient->RegisterFactory<Mesh>();
 }

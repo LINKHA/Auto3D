@@ -7,7 +7,7 @@
 
 namespace Auto3D {
 
-RigidBody::RigidBody(Ambient* ambient)
+RigidBody::RigidBody(SharedPtr<Ambient> ambient)
 	: Super(ambient)
 	, _mass(1.0f)
 	, _isFirstUpdate(true)
@@ -28,7 +28,7 @@ RigidBody::~RigidBody()
 #endif
 }
 
-void RigidBody::RegisterObject(Ambient* ambient)
+void RigidBody::RegisterObject(SharedPtr<Ambient> ambient)
 {
 	ambient->RegisterFactory<RigidBody>(SCENE_ATTACH);
 }

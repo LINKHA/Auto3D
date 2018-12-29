@@ -33,7 +33,7 @@ class ResourceSystem : public GlobalGameManager
 {
 	REGISTER_OBJECT_CLASS(ResourceSystem, GlobalGameManager)
 public:
-	explicit ResourceSystem(Ambient* ambient);
+	explicit ResourceSystem(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Resource Init
 	*/
@@ -100,7 +100,7 @@ public:
 	/**
 	* @brief : Register scene library objects.
 	*/
-	void RegisterResourceLib(Ambient* ambient);
+	void RegisterResourceLib(SharedPtr<Ambient> ambient);
 private:
 	/**
 	* @brief : Find a resource

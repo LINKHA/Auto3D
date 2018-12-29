@@ -39,7 +39,7 @@ public:
 	/*
 	* @brief : this is Engine important funcation init awake runloop and finish run
 	*/
-	bool Run(Ambient* ambient);
+	bool Run(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Return application states for AppStates type
 	*/

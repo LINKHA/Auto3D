@@ -5,7 +5,7 @@
 
 namespace Auto3D {
 
-LevelBehaviorObject::LevelBehaviorObject(Ambient* ambient)
+LevelBehaviorObject::LevelBehaviorObject(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 	, _levelID(INT_MAX)
 {

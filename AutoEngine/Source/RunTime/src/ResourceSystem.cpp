@@ -15,7 +15,7 @@ namespace Auto3D {
 
 static const SharedPtr<Resource> noResource;
 
-ResourceSystem::ResourceSystem(Ambient* ambient)
+ResourceSystem::ResourceSystem(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 	RegisterResourceLib(ambient);
@@ -228,7 +228,7 @@ STRING ResourceSystem::GetResourceFileName(const STRING& name) const
 		return STRING();
 }
 
-void ResourceSystem::RegisterResourceLib(Ambient* ambient)
+void ResourceSystem::RegisterResourceLib(SharedPtr<Ambient> ambient)
 {
 	Image::RegisterObject(ambient);
 	Mesh::RegisterObject(ambient);

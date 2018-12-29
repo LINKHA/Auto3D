@@ -5,7 +5,7 @@
 namespace Auto3D {
 
 
-Behavior::Behavior(Ambient* ambient)
+Behavior::Behavior(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 }

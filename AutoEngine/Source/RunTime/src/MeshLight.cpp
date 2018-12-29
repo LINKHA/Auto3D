@@ -7,7 +7,7 @@
 #include "NewDef.h"
 namespace Auto3D {
 
-MeshLight::MeshLight(Ambient* ambient)
+MeshLight::MeshLight(SharedPtr<Ambient> ambient)
 	: RenderComponent(ambient)
 {
 	auto shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_lighting.glsl");

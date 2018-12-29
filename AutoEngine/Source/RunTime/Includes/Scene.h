@@ -11,7 +11,7 @@ class Scene : public GlobalGameManager
 
 	using LevelScenes = HASH_MAP<int,LevelScene*>;
 public:
-	explicit Scene(Ambient* ambient);
+	explicit Scene(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Register level for index
 	*/
@@ -36,7 +36,7 @@ public:
 	/**
 	* @brief : Register scene library objects.
 	*/
-	void RegisterSceneLib(Ambient* ambient);
+	void RegisterSceneLib(SharedPtr<Ambient> ambient);
 private:
 	/// dynamic level container
 	LevelScenes _dynamicLevelScenes;

@@ -4,7 +4,7 @@
 
 namespace Auto3D {
 
-Texture3D::Texture3D(Ambient * ambient)
+Texture3D::Texture3D(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 }

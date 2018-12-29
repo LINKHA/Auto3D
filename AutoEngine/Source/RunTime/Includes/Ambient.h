@@ -66,7 +66,7 @@ public:
 	/**
 	* @brief : Get sub system by type
 	*/
-	template<typename _Ty> _Ty* GetSubSystem() const;
+	template<typename _Ty> SharedPtr<_Ty> GetSubSystem() const;
 	/**
 	* @brief : Return all subsystems.
 	*/
@@ -105,10 +105,10 @@ template <typename _Ty> inline _Ty * Ambient::RegisterSubsystem()
 
 template<typename _Ty> void Ambient::RemoveSubSystem(){ RemoveSubSystem(_Ty::GetClassStringStatic()); }
 
-template<typename _Ty> _Ty* Ambient::GetSubSystem() const { return static_cast<_Ty*>(Ambient::GetSubSystem(_Ty::GetClassStringStatic())); }
+template<typename _Ty> SharedPtr<_Ty> Ambient::GetSubSystem() const { return StaticCast<_Ty>(Ambient::GetSubSystem(_Ty::GetClassStringStatic())); }
 
-template<typename _Ty> void Ambient::RegisterFactory() { RegisterFactory(new ObjectFactoryImpl<_Ty>(this)); }
+template<typename _Ty> void Ambient::RegisterFactory() { RegisterFactory(new ObjectFactoryImpl<_Ty>(SharedPtr<Ambient>(this))); }
 
-template<typename _Ty> void Ambient::RegisterFactory(const char* category) { RegisterFactory(new ObjectFactoryImpl<_Ty>(this), category); }
+template<typename _Ty> void Ambient::RegisterFactory(const char* category) { RegisterFactory(new ObjectFactoryImpl<_Ty>(SharedPtr<Ambient>(this)), category); }
 
 }

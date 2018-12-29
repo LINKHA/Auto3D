@@ -4,7 +4,7 @@
 namespace Auto3D {
 
 
-TextureMap::TextureMap(Ambient* ambient)
+TextureMap::TextureMap(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {}
 TextureMap::~TextureMap()

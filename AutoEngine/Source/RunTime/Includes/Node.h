@@ -25,7 +25,7 @@ class Node :public Object
 	using ComponentsArray = PAIR_VECTOR<STRING, Component*>;
 #endif
 public:
-	explicit Node(Ambient* ambient, int sceneID);
+	explicit Node(SharedPtr<Ambient> ambient, int sceneID);
 	/**
 	* @brief :Add Child
 	* @param : GameObject*

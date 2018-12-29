@@ -3,7 +3,7 @@
 
 namespace Auto3D {
 
-LightContainer::LightContainer(Ambient* ambient)
+LightContainer::LightContainer(SharedPtr<Ambient> ambient)
 	: Super(ambient)
 	, _isRenderOrCull(false)
 {}

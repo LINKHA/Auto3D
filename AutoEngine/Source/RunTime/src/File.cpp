@@ -32,7 +32,7 @@ static const char* openMode[] =
 
 static const unsigned SKIP_BUFFER_SIZE = 1024;
 
-File::File(Ambient* ambient)
+File::File(SharedPtr<Ambient> ambient)
 	: Super(ambient)
 	, _mode(FileMode::Read)
 	, _handle(nullptr)
@@ -45,7 +45,7 @@ File::File(Ambient* ambient)
 	, _writeSyncNeeded(false)
 {}
 
-File::File(Ambient* ambient, const STRING& fileName, FileMode mode)
+File::File(SharedPtr<Ambient> ambient, const STRING& fileName, FileMode mode)
 	: Super(ambient)
 	, _mode(FileMode::Read)
 	, _handle(nullptr)

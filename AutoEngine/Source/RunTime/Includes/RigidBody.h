@@ -10,11 +10,11 @@ class RigidBody : public Component
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(RigidBody, Component)
 public:
-	explicit RigidBody(Ambient* ambient);
+	explicit RigidBody(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Register object factory.
 	*/
-	static void RegisterObject(Ambient* ambient);
+	static void RegisterObject(SharedPtr<Ambient> ambient);
 
 	void Start()override;
 

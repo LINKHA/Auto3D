@@ -12,7 +12,7 @@ class SceneNode : public Node
 {
 	REGISTER_OBJECT_CLASS(SceneNode, Node)
 public:
-	explicit SceneNode(Ambient* ambient,int id);
+	explicit SceneNode(SharedPtr<Ambient> ambient,int id);
 	/**
 	* @brief : Get scene ID
 	*/

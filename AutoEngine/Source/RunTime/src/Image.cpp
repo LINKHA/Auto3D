@@ -9,14 +9,14 @@
 namespace Auto3D {
 
 
-Image::Image(Ambient* ambient)
+Image::Image(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 }
 
 Image::~Image() = default;
 
-void Image::RegisterObject(Ambient* ambient)
+void Image::RegisterObject(SharedPtr<Ambient> ambient)
 {
 	ambient->RegisterFactory<Image>();
 }

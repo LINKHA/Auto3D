@@ -8,7 +8,7 @@
 namespace Auto3D {
 
 
-Graphics::Graphics(Ambient* ambient)
+Graphics::Graphics(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 	, _window(nullptr)
 {
@@ -231,7 +231,7 @@ void Graphics::RemoveGPUObject(SharedPtr<GPUObject> object)
 	//}
 }
 
-void Graphics::RegisterGraphicsLib(Ambient* ambient)
+void Graphics::RegisterGraphicsLib(SharedPtr<Ambient> ambient)
 {
 
 }

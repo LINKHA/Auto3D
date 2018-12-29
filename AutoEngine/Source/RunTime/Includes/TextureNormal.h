@@ -14,7 +14,7 @@ class TextureNormal : public TextureMap
 {
 	REGISTER_OBJECT_CLASS(TextureNormal, TextureMap)
 public:
-	explicit TextureNormal(Ambient* ambient);
+	explicit TextureNormal(SharedPtr<Ambient> ambient);
 	//TextureNormal(char* imagePath);
 	//TextureNormal(char* imagePath, const Shader& shader);
 	void Start()override;

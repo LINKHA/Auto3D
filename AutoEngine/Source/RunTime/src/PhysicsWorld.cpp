@@ -12,7 +12,7 @@ static const Vector3 DEFAULT_GRAVITY = Vector3(0.0f, -9.81f, 0.0f);
 
 PhysicsWorldConfig PhysicsWorld::config;
 
-PhysicsWorld::PhysicsWorld(Ambient* ambient)
+PhysicsWorld::PhysicsWorld(SharedPtr<Ambient> ambient)
 	: Super(ambient)
 	, _fps(DEFAULT_FPS)
 {
@@ -49,7 +49,7 @@ PhysicsWorld::~PhysicsWorld()
 		delete _collisionConfiguration;
 }
 
-void PhysicsWorld::RegisterObject(Ambient* ambient)
+void PhysicsWorld::RegisterObject(SharedPtr<Ambient> ambient)
 {
 	ambient->RegisterFactory<PhysicsWorld>(SCENE_ATTACH);
 }

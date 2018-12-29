@@ -13,7 +13,7 @@
 namespace Auto3D {
 
 
-Renderer::Renderer(Ambient* ambient)
+Renderer::Renderer(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 	

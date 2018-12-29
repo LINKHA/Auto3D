@@ -10,8 +10,8 @@ class SkyBox : public Texture3D
 {
 	REGISTER_OBJECT_CLASS(SkyBox, Texture3D)
 public:
-	explicit SkyBox(Ambient* ambient);
-	static void RegisterObject(Ambient* ambient);
+	explicit SkyBox(SharedPtr<Ambient> ambient);
+	static void RegisterObject(SharedPtr<Ambient> ambient);
 
 	void Start()override;
 	void Draw()override;

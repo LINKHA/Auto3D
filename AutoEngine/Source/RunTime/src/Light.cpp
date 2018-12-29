@@ -6,7 +6,7 @@ namespace Auto3D {
 /////////////////////////////////////////////////////////////////////////////////////////////
 //ShadowRenderAssist
 /////////////////////////////////////////////////////////////////////////////////////////////
-ShadowRenderAssist::ShadowRenderAssist(Ambient* ambient,LightType type)
+ShadowRenderAssist::ShadowRenderAssist(SharedPtr<Ambient> ambient,LightType type)
 	: Super(ambient)
 	, _shadowWidth(1024)
 	, _shadowHeight(1024)
@@ -95,7 +95,7 @@ unsigned ShadowRenderAssist::GetDepthMap()
 /////////////////////////////////////////////////////////////////////////////////////////////
 //Light
 /////////////////////////////////////////////////////////////////////////////////////////////
-Light::Light(Ambient* ambi)
+Light::Light(SharedPtr<Ambient> ambi)
 	: Super(ambi)
 	, _shadowAssist(nullptr)
 	, _farPlane(25.0f)
@@ -109,7 +109,7 @@ Light::Light(Ambient* ambi)
 Light::~Light()
 {}
 
-void Light::RegisterObject(Ambient* ambient)
+void Light::RegisterObject(SharedPtr<Ambient> ambient)
 {
 	ambient->RegisterFactory<Light>(SCENE_ATTACH);
 }

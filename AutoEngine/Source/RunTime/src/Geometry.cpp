@@ -4,7 +4,7 @@
 namespace Auto3D {
 
 
-Geometry::Geometry(Ambient* ambient)
+Geometry::Geometry(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 }

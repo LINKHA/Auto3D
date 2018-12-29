@@ -5,7 +5,7 @@
 
 namespace Auto3D {
 
-Audio::Audio(Ambient* ambient)
+Audio::Audio(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 }

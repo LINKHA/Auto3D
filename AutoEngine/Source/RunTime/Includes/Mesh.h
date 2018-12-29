@@ -63,11 +63,11 @@ class Mesh : public Resource
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(Mesh, Resource)
 public:
-	explicit Mesh(Ambient* ambient);
+	explicit Mesh(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Register object factory
 	*/
-	static void RegisterObject(Ambient* ambient);
+	static void RegisterObject(SharedPtr<Ambient> ambient);
 	/*
 	*@brief : Load resource from stream.May be called from a worker thread.Return true if successful
 	*/

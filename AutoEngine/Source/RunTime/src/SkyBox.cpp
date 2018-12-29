@@ -13,7 +13,7 @@
 namespace Auto3D {
 
 
-SkyBox::SkyBox(Ambient* ambient)
+SkyBox::SkyBox(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 }
@@ -24,7 +24,7 @@ SkyBox::~SkyBox()
 	UnloadOpaque(this);
 }
 
-void SkyBox::RegisterObject(Ambient* ambient)
+void SkyBox::RegisterObject(SharedPtr<Ambient> ambient)
 {
 	ambient->RegisterFactory<SkyBox>(SCENE_ATTACH);
 }

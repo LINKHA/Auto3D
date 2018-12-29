@@ -4,7 +4,7 @@
 
 namespace Auto3D {
 
-BehaviorObject::BehaviorObject(Ambient* ambient)
+BehaviorObject::BehaviorObject(SharedPtr<Ambient> ambient)
 	: Super(ambient)
 	, _isEnable(true)
 {

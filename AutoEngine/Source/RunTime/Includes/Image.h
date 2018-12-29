@@ -63,11 +63,11 @@ class Image : public Resource
 {
 	REGISTER_OBJECT_CLASS(Image, Resource)
 public:
-	explicit Image(Ambient* ambient);
+	explicit Image(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Register object factory
 	*/
-	static void RegisterObject(Ambient* ambient);
+	static void RegisterObject(SharedPtr<Ambient> ambient);
 	/*
 	*@brief : Load resource from stream.May be called from a worker thread.Return true if successful
 	*/

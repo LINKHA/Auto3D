@@ -3,7 +3,7 @@
 
 namespace Auto3D {
 
-Physics::Physics(Ambient* ambient)
+Physics::Physics(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 }

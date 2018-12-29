@@ -49,7 +49,7 @@ extern "C"
 
 namespace Auto3D {
 
-int DoSystemCommand(const STRING& commandLine, bool redirectToLog, Ambient* ambient)
+int DoSystemCommand(const STRING& commandLine, bool redirectToLog, SharedPtr<Ambient> ambient)
 {
 #if defined(TVOS) || defined(IOS)
 	return -1;
@@ -166,7 +166,7 @@ int DoSystemRun(const STRING& fileName, const VECTOR<STRING>& arguments)
 #endif
 }
 
-FileSystem::FileSystem(Ambient* ambient)
+FileSystem::FileSystem(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 

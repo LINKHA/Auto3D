@@ -7,7 +7,7 @@ namespace Auto3D {
 class MeshLight : public RenderComponent
 {
 public:
-	explicit MeshLight(Ambient* ambient);
+	explicit MeshLight(SharedPtr<Ambient> ambient);
 	~MeshLight();
 	void Start()override;
 	void Draw()override;
