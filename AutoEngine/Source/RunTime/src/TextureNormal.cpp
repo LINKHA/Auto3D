@@ -27,7 +27,7 @@ void TextureNormal::Start()
 	//_imageNormal = LocalTextureLoad(_imageNormalPath);
 	_timage = GetSubSystem<ResourceSystem>()->TextureLoad(_imagePath);
 	_imageNormal = GetSubSystem<ResourceSystem>()->TextureLoad(_imageNormalPath);
-	auto* shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_normal_mapping.glsl");
+	auto shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_normal_mapping.glsl");
 	_shader = MakeShared<ShaderVariation>(shader);
 	_shader->Create();
 

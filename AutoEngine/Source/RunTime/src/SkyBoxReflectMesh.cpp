@@ -9,11 +9,11 @@ namespace Auto3D {
 SkyBoxReflectMesh::SkyBoxReflectMesh(Ambient* ambient)
 	: RenderComponent(ambient)
 {
-	auto* shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_skybox_cube.glsl");
+	auto shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_skybox_cube.glsl");
 	_shader = MakeShared<ShaderVariation>(shader);
 	_shader->Create();
 }
-SkyBoxReflectMesh::SkyBoxReflectMesh(Ambient* ambient,Shader* shader )
+SkyBoxReflectMesh::SkyBoxReflectMesh(Ambient* ambient, SharedPtr<Shader> shader )
 	: RenderComponent(ambient)
 {
 	_shader = MakeShared<ShaderVariation>(shader);

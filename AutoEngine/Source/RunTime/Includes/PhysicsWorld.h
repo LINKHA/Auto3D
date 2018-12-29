@@ -63,7 +63,7 @@ private:
 	void deleteColliders();
 private:
 	unsigned _fps{ DEFAULT_FPS };
-	Time* time;
+	SharedPtr<Time> time;
 	/// Bullet collision configuration.
 	btCollisionConfiguration* _collisionConfiguration{};
 	/// Bullet collision dispatcher.

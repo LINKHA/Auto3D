@@ -13,7 +13,7 @@ namespace Auto3D {
 HDRSkyBox::HDRSkyBox(Ambient* ambient)
 	: Texture3D(ambient)
 {
-	auto* resourchCach = GetSubSystem<ResourceSystem>();
+	auto resourchCach = GetSubSystem<ResourceSystem>();
 
 	m_equirectangularToCubemapShader = MakeShared<ShaderVariation>(resourchCach->GetResource<Shader>("shader/au_hdr_skybox_equirectangular_to_cubemap.glsl"));
 	m_equirectangularToCubemapShader->Create();

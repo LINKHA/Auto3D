@@ -43,9 +43,9 @@ public:
 
 	btCollisionShape* GetShape() { return _shape; }
 protected:
-	PhysicsWorld* _physicsWorld;
+	SharedPtr<PhysicsWorld> _physicsWorld;
 	/// 
-	RigidBody* _rigidBody;
+	SharedPtr<RigidBody> _rigidBody;
 	/// Cached world scale.
 	Vector3 _cachedWorldScale;
 

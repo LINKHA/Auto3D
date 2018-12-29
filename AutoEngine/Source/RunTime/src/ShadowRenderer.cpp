@@ -13,7 +13,7 @@ namespace Auto3D {
 ShadowRenderer::ShadowRenderer(Ambient* ambient)
 	: Super(ambient)
 {
-	auto* cach = GetSubSystem<ResourceSystem>();
+	auto cach = GetSubSystem<ResourceSystem>();
 
 	_shadowMapDepthShader = MakeShared<ShaderVariation>(cach->GetResource<Shader>("shader/au_shadow_mapping_depth.glsl"));
 	_shadowMapDepthShader->Create();
@@ -26,7 +26,7 @@ ShadowRenderer::~ShadowRenderer()
 {}
 void ShadowRenderer::ReadyRender()
 {
-	auto* renderer = GetSubSystem<Renderer>();
+	auto renderer = GetSubSystem<Renderer>();
 	_lights = renderer->_lightContainer->GetAllLights();
 	_shadowComponents = renderer->GetAllShadowMaps();
 	renderer->_lightContainer->IsRender(true);

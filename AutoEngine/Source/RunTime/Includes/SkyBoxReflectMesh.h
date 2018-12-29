@@ -6,7 +6,7 @@ class SkyBoxReflectMesh : public RenderComponent
 {
 public:
 	explicit SkyBoxReflectMesh(Ambient* ambient); 
-	SkyBoxReflectMesh(Ambient* ambient,Shader* shader);
+	SkyBoxReflectMesh(Ambient* ambient, SharedPtr<Shader> shader);
 	~SkyBoxReflectMesh();
 	void Start()override;
 	void Draw()override;

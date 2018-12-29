@@ -14,7 +14,7 @@ namespace Auto3D {
 SpriteRenderer::SpriteRenderer(Ambient* ambient)
 	:Super(ambient)
 {
-	auto* shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_texture_transform.glsl");
+	auto shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_texture_transform.glsl");
 
 	_shader = MakeShared<ShaderVariation>(shader);
 
@@ -43,9 +43,9 @@ void SpriteRenderer::RegisterObject(Ambient* ambient)
 	ambient->RegisterFactory<SpriteRenderer>(SCENE_ATTACH);
 }
 
-void SpriteRenderer::SetImage(Image* image)
+void SpriteRenderer::SetImage(SharedPtr<Image> image)
 {
-	_image.reset(image);
+	_image = image;
 }
 
 void SpriteRenderer::Start()
@@ -147,7 +147,7 @@ void SpriteRenderer::SetColor(float r, float g, float b, float a)
 	_color.Set(r, g, b, a);
 }
 
-void SpriteRenderer::SetShader(Shader* shader)
+void SpriteRenderer::SetShader(SharedPtr<Shader> shader)
 {
 	_shader = MakeShared<ShaderVariation>(shader);
 }

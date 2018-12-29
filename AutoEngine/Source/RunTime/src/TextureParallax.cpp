@@ -29,7 +29,7 @@ void TextureParallax::Start()
 	_timage = GetSubSystem<ResourceSystem>()->TextureLoad(_imagePath);
 	_imageNormal = GetSubSystem<ResourceSystem>()->TextureLoad(_imageNormalPath);
 	_imageParallax = GetSubSystem<ResourceSystem>()->TextureLoad(_imageParallaxPath);
-	auto* shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_parallax_mapping.glsl");
+	auto shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_parallax_mapping.glsl");
 	_shader = MakeShared<ShaderVariation>(shader);
 	_shader->Create();
 	_shader->Use();

@@ -15,7 +15,7 @@ MeshPBR::MeshPBR(Ambient* ambient)
 	, _metallic(1.0f)
 	, _roughness(0.02f)
 {
-	auto* cach = GetSubSystem<ResourceSystem>();
+	auto cach = GetSubSystem<ResourceSystem>();
 
 	_shaderTexture = MakeShared<ShaderVariation>(cach->GetResource<Shader>("shader/au_pbr_hdr.glsl"));
 	_shaderTexture->Create();

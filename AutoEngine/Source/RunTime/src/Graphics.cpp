@@ -26,8 +26,7 @@ Graphics::~Graphics() = default;
 
 void Graphics::Init()
 {
-	auto* icon = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/logo.png");
-	_icon.reset(icon);
+	_icon = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/logo.png");
 	
 	stbi_set_flip_vertically_on_load(true);
 
@@ -217,12 +216,12 @@ bool Graphics::IsDeviceLost()
 	return _context == nullptr;
 }
 
-void Graphics::AddGPUObject(GPUObject* object)
+void Graphics::AddGPUObject(SharedPtr<GPUObject> object)
 {
 	_gpuObjects.push_back(object);
 }
 
-void Graphics::RemoveGPUObject(GPUObject* object)
+void Graphics::RemoveGPUObject(SharedPtr<GPUObject> object)
 {
 #pragma warning ///Temp Multithreaded locks should be added
 	//for (auto it = _gpuObjects.begin(); it != _gpuObjects.end(); it++)

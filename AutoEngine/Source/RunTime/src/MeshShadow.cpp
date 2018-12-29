@@ -13,7 +13,7 @@ MeshShadow::MeshShadow(Ambient* ambient)
 	: RenderComponent(ambient)
 
 {
-	auto* shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_shadow_mapping.glsl");
+	auto shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_shadow_mapping.glsl");
 	_shader = MakeShared<ShaderVariation>(shader);
 	_shader->Create();
 	RegisterShadow(this);
@@ -27,8 +27,7 @@ MeshShadow::~MeshShadow()
 }
 void MeshShadow::DrawReady()
 {
-	Mesh* tmp = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/base/Cube.3DS");
-	_mesh = SharedPtr<Mesh>(tmp);
+	_mesh = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/base/Cube.3DS");
 	_woodTexture = GetSubSystem<ResourceSystem>()->TextureLoad("../Resource/texture/wood.jpg");
 
 

@@ -16,16 +16,16 @@ Node::Node(Ambient* ambient, int sceneID)
 	// Each node contains a Transform component
 	CreateComponent<Transform>();
 	// add node to appoint level scene
-	GetSubSystem<Scene>()->GetLevelScene(_levelID)->AddNode(this);
+	GetSubSystem<Scene>()->GetLevelScene(_levelID)->AddNode(SharedPtr<Node>(this));
 }
 
 Node::~Node() 
 {
 	// remove node to appoint level scene
-	GetSubSystem<Scene>()->GetLevelScene(_levelID)->RemoveNode(this);
+	//GetSubSystem<Scene>()->GetLevelScene(_levelID)->RemoveNode(SharedPtr<Node>(this));
 }
 
-void Node::AddChild(Node* node)
+void Node::AddChild(SharedPtr<Node> node)
 {
 	_childs.push_back(node);
 }
@@ -38,7 +38,7 @@ void Node::RemoveChild(int index)
 		ErrorString("File remove child,the index is exceed child count.\n");
 }
 
-Node* Node::GetChild(int index)
+SharedPtr<Node> Node::GetChild(int index)
 {
 	if (_childs.begin() + index >= _childs.end())
 	{
@@ -53,10 +53,10 @@ Node::NodeChilds& Node::GetAllChild()
 	return _childs;
 }
 
-void Node::AddComponent(Component* com)
+void Node::AddComponent(SharedPtr<Component> com)
 {
 	_components.push_back(MakePair(com->GetClassString(), com));
-	com->SetNode(this);
+	com->SetNode(SharedPtr<Node>(this));
 	com->Init();
 }
 
@@ -82,7 +82,7 @@ Node& Node::GetNode()
 }
 void Node::SetPosition(const Vector2& position)
 {
-	Transform* transform = GetComponent<Transform>();
+	auto transform = GetComponent<Transform>();
 	transform->SetPosition(position.x, position.y, transform->GetPosition().z);
 }
 
@@ -93,7 +93,7 @@ void Node::SetPosition(const Vector3& position)
 
 void Node::SetPosition(float x, float y)
 {
-	Transform* transform = GetComponent<Transform>();
+	auto transform = GetComponent<Transform>();
 	transform->SetPosition(x, y, transform->GetPosition().z);
 }
 
@@ -124,7 +124,7 @@ void Node::SetScale(float scale)
 
 void Node::SetScale(float scaleX, float scaleY)
 {
-	Transform* transform = GetComponent<Transform>();
+	auto transform = GetComponent<Transform>();
 	transform->SetScale(scaleX, scaleY, transform->GetScale().z);
 }
 
@@ -135,7 +135,7 @@ void Node::SetScale(float scaleX, float scaleY, float scaleZ)
 
 void Node::SetScale(const Vector2& scale)
 {
-	Transform* transform = GetComponent<Transform>();
+	auto transform = GetComponent<Transform>();
 	transform->SetScale(scale.x, scale.y, transform->GetScale().z);
 }
 
@@ -149,7 +149,7 @@ Vector3 Node::GetPosition()
 	return GetComponent<Transform>()->GetPosition();
 }
 
-Component* Node::GetComponent(STRING type)
+SharedPtr<Component> Node::GetComponent(STRING type)
 {
 	for (auto it = _components.begin(); it != _components.end(); it++)
 	{
@@ -160,10 +160,10 @@ Component* Node::GetComponent(STRING type)
 	return nullptr;
 }
 
-Component* Node::CreateComponent(STRING type)
+SharedPtr<Component> Node::CreateComponent(STRING type)
 {
 	// Check that creation succeeds and that the object in fact is a component
-	Component* newComponent = dynamic_cast<Component*>(_ambient->CreateObject(type));
+	SharedPtr<Component> newComponent = DynamicCast<Component>(_ambient->CreateObject(type));
 	if (!newComponent)
 	{
 		WarningString("Could not create unknown component type " + type);

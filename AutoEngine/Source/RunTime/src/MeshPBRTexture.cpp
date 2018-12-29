@@ -13,14 +13,14 @@ namespace Auto3D {
 MeshPBRTexture::MeshPBRTexture(Ambient* ambient)
 	: Super(ambient)
 {
-	auto* cach = GetSubSystem<ResourceSystem>();
-	auto* vs = cach->GetResource<Shader>("shader/au_pbr.glvs");
-	auto* fs = cach->GetResource<Shader>("shader/au_pbr_hdr_trxture.glfs");
+	auto cach = GetSubSystem<ResourceSystem>();
+	auto vs = cach->GetResource<Shader>("shader/au_pbr.glvs");
+	auto fs = cach->GetResource<Shader>("shader/au_pbr_hdr_trxture.glfs");
 	_shaderTexture = MakeShared<ShaderVariation>(vs,fs);
 	_shaderTexture->Create();
 
-	auto* nvs = cach->GetResource<Shader>("shader/au_pbr.glvs");
-	auto* nfs = cach->GetResource<Shader>("shader/au_pbr_hdr_trxture.glfs");
+	auto nvs = cach->GetResource<Shader>("shader/au_pbr.glvs");
+	auto nfs = cach->GetResource<Shader>("shader/au_pbr_hdr_trxture.glfs");
 	_shaderNoTexture = MakeShared<ShaderVariation>(nvs, nfs);
 	_shaderNoTexture->Create();
 }

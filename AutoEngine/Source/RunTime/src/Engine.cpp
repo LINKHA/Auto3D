@@ -75,7 +75,7 @@ void Engine::Exit()
 }
 void Engine::render()
 {
-	auto* graphics = GetSubSystem<Graphics>();
+	auto graphics = GetSubSystem<Graphics>();
 
 	if (!graphics->BeginFrame())
 		return;
@@ -84,7 +84,7 @@ void Engine::render()
 }
 void Engine::update()
 {
-	auto* input = GetSubSystem<Input>();
+	auto input = GetSubSystem<Input>();
 	GetSubSystem<Time>()->Update();
 	input->Update();
 	GetSubSystem<Behavior>()->Update();

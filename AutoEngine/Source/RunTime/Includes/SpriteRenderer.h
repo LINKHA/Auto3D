@@ -21,13 +21,13 @@ public:
 	/**
 	* @brief : Set image to load image
 	*/
-	void SetImage(Image* image);
+	void SetImage(SharedPtr<Image> image);
 
 	void SetColor(const Color& color);
 	void SetColor(const Vector3& vec);
 	void SetColor(float r, float g, float b, float a = 1.0f);
 
-	void SetShader(Shader* shader);
+	void SetShader(SharedPtr<Shader> shader);
 
 	void SetLinerParameters();
 	void SetNearestParameters();

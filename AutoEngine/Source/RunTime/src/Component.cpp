@@ -20,17 +20,17 @@ const Node& Component::GetNode() const
 	return *_node;
 }
 
-Node* Component::GetNodePtr()
+SharedPtr<Node> Component::GetNodePtr()
 {
 	return _node;
 }
 
-Node* Component::GetNodePtr() const
+SharedPtr<Node> Component::GetNodePtr() const
 {
 	return _node;
 }
 
-void Component::SetNode(Node* node)
+void Component::SetNode(SharedPtr<Node> node)
 {
 	_node = node;
 }
@@ -47,7 +47,7 @@ const int Component::GetLevelID()
 	return GetNode().GetLevelID();
 }
 
-SceneNode* Component::GetCurrentSceneNode()
+SharedPtr<SceneNode> Component::GetCurrentSceneNode()
 {
 	return GetSubSystem<Scene>()->GetLevelScene(GetLevelID())->GetSceneNode();
 }

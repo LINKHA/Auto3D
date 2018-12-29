@@ -26,7 +26,7 @@ ResourceSystem::~ResourceSystem()
 
 void ResourceSystem::Init()
 {
-	auto* filesystem = GetSubSystem<FileSystem>();
+	auto filesystem = GetSubSystem<FileSystem>();
 	auto resourcePath = GetParentPath(filesystem->GetCurrentDir());
 	//AddResourceDir(resourcePath + L"Resource/");
 }
@@ -126,7 +126,7 @@ unsigned int ResourceSystem::HdrLoad(PInt8 path)
 }
 
 
-Resource* ResourceSystem::GetResource(STRING type, const STRING& name, bool sendEventOnFailure)
+SharedPtr<Resource> ResourceSystem::GetResource(STRING type, const STRING& name, bool sendEventOnFailure)
 {
 	STRING sanitatedName = SanitateResourceName(name);
 
@@ -137,14 +137,14 @@ Resource* ResourceSystem::GetResource(STRING type, const STRING& name, bool send
 		return nullptr;
 	}
 
-	const SharedPtr<Resource>& existing = findResource(type, sanitatedName);
+	const SharedPtr<Resource> existing = findResource(type, sanitatedName);
 	if (existing)
-		return existing.get();
+		return existing;
 
-	Resource* resource = dynamic_cast<Resource*>(_ambient->CreateObject(type));
+	SharedPtr<Resource> resource = DynamicCast<Resource>(_ambient->CreateObject(type));
 
 	// Attempt to load the resource
-	File* file = GetFile(sanitatedName, sendEventOnFailure);
+	SharedPtr<File> file = GetFile(sanitatedName, sendEventOnFailure);
 	if (!file)
 	{
 		ErrorString("File get file");
@@ -167,13 +167,13 @@ VECTOR<STRING> ResourceSystem::GetResourceDirs()
 	return _resourceDirs;
 }
 
-File* ResourceSystem::GetFile(const STRING& name, bool sendEventOnFailure)
+SharedPtr<File> ResourceSystem::GetFile(const STRING& name, bool sendEventOnFailure)
 {
 	STRING sanitatedName = SanitateResourceName(name);
 
 	if (sanitatedName.Length())
 	{
-		File* file = nullptr;
+		SharedPtr<File> file = nullptr;
 		file = searchResourceDirs(sanitatedName);
 		if (file)
 			return file;
@@ -190,7 +190,7 @@ STRING ResourceSystem::SanitateResourceName(const STRING& name) const
 	sanitatedName.Replace("../", "");
 	sanitatedName.Replace("./", "");
 
-	auto* fileSystem = GetSubSystem<FileSystem>();
+	auto fileSystem = GetSubSystem<FileSystem>();
 	if (_resourceDirs.size())
 	{
 		STRING namePath = GetPath(sanitatedName);
@@ -215,7 +215,7 @@ STRING ResourceSystem::SanitateResourceName(const STRING& name) const
 
 STRING ResourceSystem::GetResourceFileName(const STRING& name) const
 {
-	auto* fileSystem = GetSubSystem<FileSystem>();
+	auto fileSystem = GetSubSystem<FileSystem>();
 	for (unsigned i = 0; i < _resourceDirs.size(); ++i)
 	{
 		if (fileSystem->FileExists(_resourceDirs[i] + name))
@@ -236,7 +236,7 @@ void ResourceSystem::RegisterResourceLib(Ambient* ambient)
 	AudioBuffer::RegisterObject(ambient);
 }
 
-const SharedPtr<Resource>& ResourceSystem::findResource(STRING type, STRING name)
+const SharedPtr<Resource> ResourceSystem::findResource(STRING type, STRING name)
 {
 	HASH_MAP<STRING, ResourceGroup>::iterator i = _resourceGroups.find(type);
 	if (i == _resourceGroups.end())
@@ -249,7 +249,7 @@ const SharedPtr<Resource>& ResourceSystem::findResource(STRING type, STRING name
 	return j->second;
 }
 
-const SharedPtr<Resource>& ResourceSystem::findResource(STRING name)
+const SharedPtr<Resource> ResourceSystem::findResource(STRING name)
 {
 	for (HASH_MAP<STRING, ResourceGroup>::iterator i = _resourceGroups.begin(); i != _resourceGroups.end(); ++i)
 	{
@@ -260,16 +260,16 @@ const SharedPtr<Resource>& ResourceSystem::findResource(STRING name)
 	return noResource;
 }
 
-File* ResourceSystem::searchResourceDirs(const STRING& name)
+SharedPtr<File> ResourceSystem::searchResourceDirs(const STRING& name)
 {
-	auto* fileSystem = GetSubSystem<FileSystem>();
+	auto fileSystem = GetSubSystem<FileSystem>();
 	for (unsigned i = 0; i < _resourceDirs.size(); ++i)
 	{
 		if (fileSystem->FileExists(_resourceDirs[i] + name))
 		{
 			// Construct the file first with full path, then rename it to not contain the resource path,
 			// so that the file's sanitatedName can be used in further GetFile() calls (for example over the network)
-			File* file = new File(_ambient, _resourceDirs[i] + name);
+			SharedPtr<File> file = MakeShared<File>(_ambient, _resourceDirs[i] + name);
 			file->SetName(_resourceDirs[i] + name);
 			return file;
 		}
@@ -277,7 +277,7 @@ File* ResourceSystem::searchResourceDirs(const STRING& name)
 
 	// Fallback using absolute path
 	if (fileSystem->FileExists(name))
-		return new File(_ambient, name);
+		return MakeShared<File>(_ambient, name);
 
 	return nullptr;
 }

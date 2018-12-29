@@ -15,15 +15,15 @@ void Level_0::Start()
 {
 	Super::Start();
 
-	Node* camObj = CreateNode();
-	FreeCamera2D* camera = new FreeCamera2D(_ambient);
+	auto camObj = CreateNode();
+	SharedPtr<FreeCamera2D> camera = MakeShared<FreeCamera2D>(_ambient);
 	camObj->AddComponent(camera);
 	//camera->cameraNode->SetPosition(0.0f, 0.0f, 10.0f);
 	
 
 
-	auto* imageLogo = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/logo.png");
-	auto* imageWindow = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/window.png");
+	auto imageLogo = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/logo.png");
+	auto imageWindow = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/window.png");
 
 	obj = CreateNode();
 	obj->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, -2.0f);
@@ -31,15 +31,15 @@ void Level_0::Start()
 	//tex1->SetColor(Color(0.5f, 0.5f, 0.5f));
 
 
-	Node* obj5 = CreateNode();
-	auto* tex5 = obj5->CreateComponent<SpriteRenderer>();
+	auto obj5 = CreateNode();
+	auto tex5 = obj5->CreateComponent<SpriteRenderer>();
 	tex5->SetImage(imageWindow);
 	//tex5->EnableBlend(true);
 	obj5->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, -3.0f);
 
 
-	Node* obj2 = CreateNode();
-	auto* tex2 = obj2->CreateComponent<SpriteRenderer>();
+	auto obj2 = CreateNode();
+	auto tex2 = obj2->CreateComponent<SpriteRenderer>();
 	tex2->SetImage(imageWindow);
 	tex2->GetImage()->SetImageType(ImageType::Translucent);
 	tex2->EnableBlend(true);
@@ -51,10 +51,10 @@ void Level_0::Update()
 	Super::Update();
 
 	float scaleAmount = (float)sin(GetSubSystem<Time>()->GetCurTime());
-	Transform* t = obj->GetComponent<Transform>();
-	t->SetRotation(Vector3(0.0f, 0.0f, 90.0f));
+	auto transform = obj->GetComponent<Transform>();
+	transform->SetRotation(Vector3(0.0f, 0.0f, 90.0f));
 	//obj->GetComponent(Transform).setRotation(-55.0f, Vector3::xAxis);
-	t->SetRotation(90.0f, Vector3::zAxis);
-	t->SetScale(Vector3(scaleAmount));
+	transform->SetRotation(90.0f, Vector3::zAxis);
+	transform->SetScale(Vector3(scaleAmount));
 
 }

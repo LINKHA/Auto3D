@@ -12,8 +12,8 @@ public:
 	void Start()override;
 	void Update()override;
 
-	Node* cameraNode;
-	Camera* camera;
+	SharedPtr<Node> cameraNode;
+	SharedPtr<Camera> camera;
 	float speed = 2.5f;
 private:
 	void processInput();

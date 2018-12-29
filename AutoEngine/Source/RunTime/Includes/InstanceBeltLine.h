@@ -7,13 +7,13 @@ class Camera;
 class InstanceBeltLine : public RenderComponent
 {
 public:
-	InstanceBeltLine(Ambient* ambient,Mesh* mesh, Shader* shader, glm::mat4* modelMat,int count);
+	InstanceBeltLine(Ambient* ambient, SharedPtr<Mesh> mesh, SharedPtr<Shader> shader, glm::mat4* modelMat,int count);
 	~InstanceBeltLine();
 	void Start()override;
 	void Draw()override;
 	void SetCount(int count) { _count = count; }
-	void SetShader(Shader* shader) { _shader = MakeShared<ShaderVariation>(shader); }
-	void SetModel(Mesh* model) { _mesh = SharedPtr<Mesh>(model); }
+	void SetShader(SharedPtr<Shader> shader) { _shader = MakeShared<ShaderVariation>(shader); }
+	void SetModel(SharedPtr<Mesh> model) { _mesh = model; }
 private:
 	SharedPtr<ShaderVariation> _shader;
 	SharedPtr<Mesh> _mesh;

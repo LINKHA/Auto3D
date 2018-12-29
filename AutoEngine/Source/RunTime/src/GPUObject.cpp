@@ -4,7 +4,7 @@
 
 namespace Auto3D {
 
-GPUObject::GPUObject(Graphics* graphics)
+GPUObject::GPUObject(SharedPtr<Graphics> graphics)
 	: _graphics(graphics)
 {
 #ifdef AUTO_OPENGL
@@ -12,9 +12,9 @@ GPUObject::GPUObject(Graphics* graphics)
 #else
 	_object.ptr = nullptr;
 #endif
-	if (_graphics)
+	if (auto graphics = _graphics.lock())
 	{
-		_graphics->AddGPUObject(this);
+		graphics->AddGPUObject(SharedPtr<GPUObject>(this));
 	}
 	else
 		ErrorString("GPU Object fail regisiter graphics");
@@ -23,8 +23,8 @@ GPUObject::GPUObject(Graphics* graphics)
 
 GPUObject::~GPUObject()
 {
-	if (_graphics)
-		_graphics->RemoveGPUObject(this);
+	/*if (_graphics)
+		_graphics->RemoveGPUObject(SharedPtr<GPUObject>(this));*/
 }
 
 

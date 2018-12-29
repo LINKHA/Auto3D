@@ -14,7 +14,7 @@ MeshShadowPoint::MeshShadowPoint(Ambient* ambient)
 	: RenderComponent(ambient)
 	, _cullEnable(true)
 {
-	auto* shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_point_shadows.glsl");
+	auto shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_point_shadows.glsl");
 	_shader = MakeShared<ShaderVariation>(shader);
 	_shader->Create();
 	RegisterShadow(this);
@@ -24,7 +24,7 @@ MeshShadowPoint::MeshShadowPoint(Ambient* ambient,bool enable)
 	: RenderComponent(ambient)
 	, _cullEnable(enable)
 {
-	auto* shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_point_shadows.glsl");
+	auto shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_point_shadows.glsl");
 	_shader = MakeShared<ShaderVariation>(shader);
 	_shader->Create();
 	RegisterShadow(this);
@@ -38,8 +38,7 @@ MeshShadowPoint::~MeshShadowPoint()
 }
 void MeshShadowPoint::DrawReady()
 {
-	Mesh* tmp = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("../Resource/object/base/Cube.3DS");
-	_mesh.reset(tmp);
+	_mesh = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("../Resource/object/base/Cube.3DS");
 	_woodTexture = GetSubSystem<ResourceSystem>()->TextureLoad("../Resource/texture/wood.jpg");
 
 	_shader->Use();

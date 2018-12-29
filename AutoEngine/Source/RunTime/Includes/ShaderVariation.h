@@ -12,15 +12,15 @@ public:
 	/**
 	* @brief : Write shaders include fragment and vertices
 	*/
-	ShaderVariation(Shader* shader);
+	ShaderVariation(SharedPtr<Shader> shader);
 	/**
 	* @brief : Write fragment shader and vertices shader
 	*/
-	ShaderVariation(Shader* vsShader, Shader* fsShader);
+	ShaderVariation(SharedPtr<Shader> vsShader, SharedPtr<Shader> fsShader);
 	/**
 	* @brief : Write fragment shader  vertices shader and geometry shader
 	*/
-	ShaderVariation(Shader* vsShader, Shader* fsShader,Shader* gsShader);
+	ShaderVariation(SharedPtr<Shader> vsShader, SharedPtr<Shader> fsShader, SharedPtr<Shader> gsShader);
 
 
 	~ShaderVariation();
@@ -36,9 +36,9 @@ public:
 
 	void Use();
 
-	void SetVertexShader(Shader* shader) { _vsShaderCode = shader->_vsSourceCode.CStr(); }
-	void SetFragmentShader(Shader* shader){ _fsShaderCode = shader->_fsSourceCode.CStr();}
-	void SetGeometryShader(Shader* shader){ _gsShaderCode = shader->_gsSourceCode.CStr();}
+	void SetVertexShader(SharedPtr<Shader> shader) { _vsShaderCode = shader->_vsSourceCode.CStr(); }
+	void SetFragmentShader(SharedPtr<Shader> shader){ _fsShaderCode = shader->_fsSourceCode.CStr();}
+	void SetGeometryShader(SharedPtr<Shader> shader){ _gsShaderCode = shader->_gsSourceCode.CStr();}
 	/**
 	* @brief : Utility uniform functions
 	*/

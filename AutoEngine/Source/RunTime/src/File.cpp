@@ -267,7 +267,7 @@ bool File::openInternal(const STRING& fileName, FileMode mode, bool fromPackage)
 	_compressed = false;
 	_readSyncNeeded = false;
 	_writeSyncNeeded = false;
-	auto* fileSystem = GetSubSystem<FileSystem>();
+	auto fileSystem = GetSubSystem<FileSystem>();
 
 	if (fileSystem && !fileSystem->CheckAccess(GetPath(fileName)))
 	{

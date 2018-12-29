@@ -10,7 +10,7 @@ namespace Auto3D {
 MeshLight::MeshLight(Ambient* ambient)
 	: RenderComponent(ambient)
 {
-	auto* shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_lighting.glsl");
+	auto shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_lighting.glsl");
 	_shader = MakeShared<ShaderVariation>(shader);
 	_shader->Create();
 }

@@ -39,11 +39,11 @@ public:
 	/**
 	* @brief : Return subsystem by type.
 	*/
-	Object* GetSubSystem(STRING type)const;
+	SharedPtr<Object> GetSubSystem(STRING type)const;
 	/**
 	* @brief : Template version of returning a subsystem.
 	*/
-	template<typename T> T* GetSubSystem() const;
+	template<typename _Ty> SharedPtr<_Ty> GetSubSystem() const;
 	/**
 	* @brief : Get object attach
 	*/
@@ -54,10 +54,10 @@ protected:
 	Ambient* _ambient;
 };
 
-template<typename T> 
-T* Object::GetSubSystem() const 
+template<typename _Ty> 
+SharedPtr<_Ty> Object::GetSubSystem() const
 { 
-	return static_cast<T*>(Object::GetSubSystem(T::GetClassStringStatic())); 
+	return StaticCast<_Ty>(Object::GetSubSystem(_Ty::GetClassStringStatic()));
 }
 
 class ObjectFactory

@@ -19,7 +19,7 @@ public:
 	/**
 	* @brief : Construct with graphics subsystem pointer
 	*/
-	explicit GPUObject(Graphics* graphics);
+	explicit GPUObject(SharedPtr<Graphics> graphics);
 	/**
 	* @brief : Destruct. Remove from the Graphics
 	*/
@@ -28,7 +28,7 @@ public:
 	GPUObjectHandle GetHandle() { return _object; }
 protected:
 	/// Graphics subsystem
-	Graphics* _graphics;
+	WeakPtr<Graphics> _graphics;
 	/// Object pointer or name.
 	GPUObjectHandle _object{};
 };

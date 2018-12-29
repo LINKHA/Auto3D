@@ -53,7 +53,7 @@ void Shader::RegisterObject(Ambient* ambient)
 
 bool Shader::BeginLoad(Deserializer& source)
 {
-	auto* graphics = GetSubSystem<Graphics>();
+	auto graphics = GetSubSystem<Graphics>();
 	if (!graphics)
 		return false;
 
@@ -98,12 +98,12 @@ bool Shader::BeginLoad(Deserializer& source)
 
 bool Shader::processSource(STRING& code, Deserializer& source)
 {
-	auto* cache = GetSubSystem<ResourceSystem>();
+	auto cache = GetSubSystem<ResourceSystem>();
 	// If the source if a non-packaged file, store the timestamp
-	auto* file = dynamic_cast<File*>(&source);
+	auto file = dynamic_cast<File*>(&source);
 	if (file)
 	{
-		auto* fileSystem = GetSubSystem<FileSystem>();
+		auto fileSystem = GetSubSystem<FileSystem>();
 		STRING fullName = cache->GetResourceFileName(file->GetName());
 		unsigned fileTimeStamp = fileSystem->GetLastModifiedTime(fullName);
 		if (fileTimeStamp > _timeStamp)

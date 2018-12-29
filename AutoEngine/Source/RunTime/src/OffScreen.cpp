@@ -17,7 +17,7 @@ OffScreen::OffScreen(Ambient* ambient)
 	, _isAllowLateEffect(false)
 {
 
-	auto* cach = GetSubSystem<ResourceSystem>();
+	auto cach = GetSubSystem<ResourceSystem>();
 	
 	shader = MakeShared<ShaderVariation>(cach->GetResource<Shader>("shader/au_offscreen.glsl"));
 	shader->Create();
@@ -48,7 +48,7 @@ OffScreen::~OffScreen()
 }
 void OffScreen::bindHdr()
 {
-	auto* cach = GetSubSystem<ResourceSystem>();
+	auto cach = GetSubSystem<ResourceSystem>();
 	//Temp !!! Hdr
 	if (_isAllowHDR)
 		_shader = hdrShader.get();

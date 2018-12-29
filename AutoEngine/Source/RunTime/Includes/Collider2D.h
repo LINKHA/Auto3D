@@ -79,7 +79,7 @@ protected:
 	/// Box2D fixture
 	b2Fixture* _fixture;
 	/// 
-	RigidBody2D* _rigidBody;
+	SharedPtr<RigidBody2D> _rigidBody;
 	/// Cached world scale.
 	Vector3 _cachedWorldScale;
 };

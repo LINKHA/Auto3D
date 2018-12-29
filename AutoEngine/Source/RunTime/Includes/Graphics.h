@@ -95,11 +95,11 @@ public:
 	/**
 	* @brief : Add a GPU object to keep track of. Called by GPUObject
 	*/
-	void AddGPUObject(GPUObject* object);
+	void AddGPUObject(SharedPtr<GPUObject> object);
 	/**
 	* @brief : Remove a GPU object. Called by GPUObject
 	*/
-	void RemoveGPUObject(GPUObject* object);
+	void RemoveGPUObject(SharedPtr<GPUObject> object);
 	/**
 	* @brief : Begin to run frame
 	*/
@@ -170,7 +170,7 @@ private:
 	/// num batches
 	unsigned _numBatches{};
 	/// gpu obejcts
-	VECTOR<GPUObject*> _gpuObjects;
+	VECTOR<SharedPtr<GPUObject> > _gpuObjects;
 };
 
 }

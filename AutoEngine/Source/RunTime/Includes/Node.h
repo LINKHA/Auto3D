@@ -18,7 +18,7 @@ class Node :public Object
 {
 	REGISTER_OBJECT_CLASS(Node, Object)
 
-	using NodeChilds = VECTOR<Node*>;
+	using NodeChilds = VECTOR<SharedPtr<Node> >;
 #if SharedPtrDebug
 	using ComponentsArray = PAIR_VECTOR<STRING, SharedPtr<Component> >;
 #else
@@ -30,11 +30,11 @@ public:
 	* @brief :Add Child
 	* @param : GameObject*
 	*/
-	virtual void AddChild(Node* node);
+	virtual void AddChild(SharedPtr<Node> node);
 	/**
 	* @brief : Mount component in this GameObject
 	*/
-	void AddComponent(Component* com);
+	void AddComponent(SharedPtr<Component> com);
 	/**
 	* @brief : Remove component at index
 	*/
@@ -47,7 +47,7 @@ public:
 	* @brief : Get this objct child with index
 	* @return :GameObject*
 	*/
-	virtual Node* GetChild(int index);
+	virtual SharedPtr<Node> GetChild(int index);
 	/**
 	* @brief : Get this objct all child
 	* @return : GameObjectChildArray&
@@ -162,19 +162,19 @@ public:
 	/**
 	* @brief : Find component from class id
 	*/
-	Component* GetComponent(STRING type);
+	SharedPtr<Component> GetComponent(STRING type);
 	/**
 	* @brief : Get component in _components if nullptr will breaking
 	*/
-	template<typename _Ty> _Ty* GetComponent();
+	template<typename _Ty> SharedPtr<_Ty> GetComponent();
 	/**
 	* @brief : Create component with stirng type
 	*/
-	Component* CreateComponent(STRING type);
+	SharedPtr<Component> CreateComponent(STRING type);
 	/**
 	* @brief : Create component with template
 	*/
-	template<typename _Ty> _Ty* CreateComponent();
+	template<typename _Ty> SharedPtr<_Ty> CreateComponent();
 protected:
 	/// node name
 	STRING _name;
@@ -189,19 +189,19 @@ protected:
 	/// level id
 	int _levelID{};
 	/// this gameobject components container
-	ComponentsArray _components;
+	PAIR_VECTOR<STRING, SharedPtr<Component> > _components;
 	/// enable
 	bool _isEnable;
 };
 
-template<typename _Ty> _Ty* Node::CreateComponent()
+template<typename _Ty> SharedPtr<_Ty> Node::CreateComponent()
 {
-	return static_cast<_Ty*>(CreateComponent(_Ty::GetClassStringStatic()));
+	return StaticCast<_Ty>(CreateComponent(_Ty::GetClassStringStatic()));
 }
 
-template<typename _Ty> _Ty* Node::GetComponent()
+template<typename _Ty> SharedPtr<_Ty> Node::GetComponent()
 {
-	return static_cast<_Ty*>(GetComponent(_Ty::GetClassStringStatic()));
+	return StaticCast<_Ty>(GetComponent(_Ty::GetClassStringStatic()));
 }
 
 inline Component& Node::GetComponentIndex(int index)

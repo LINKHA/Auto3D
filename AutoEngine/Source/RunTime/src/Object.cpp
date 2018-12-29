@@ -8,7 +8,7 @@ Object::Object(Ambient* ambient)
 {
 }
 
-Object* Object::GetSubSystem(STRING type) const
+SharedPtr<Object> Object::GetSubSystem(STRING type) const
 {
 	return _ambient->GetSubSystem(type);
 }

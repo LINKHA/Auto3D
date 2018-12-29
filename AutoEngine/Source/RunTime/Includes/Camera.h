@@ -162,7 +162,7 @@ private:
 	*/
 	void updateCameraVectors();
 private:
-	Transform* _transform;
+	SharedPtr<Transform> _transform;
 
 	float _zoom;
 

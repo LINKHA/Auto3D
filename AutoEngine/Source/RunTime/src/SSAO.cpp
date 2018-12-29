@@ -11,7 +11,7 @@ namespace Auto3D {
 SSAO::SSAO(Ambient* ambient)
 	:RenderComponent(ambient)
 {	
-	auto* resourceSystem = GetSubSystem<ResourceSystem>();
+	auto resourceSystem = GetSubSystem<ResourceSystem>();
 	m_shaderGeometryPass = MakeShared<ShaderVariation>(resourceSystem->GetResource<Shader>("shader/au_ssao_geometry.glsl"));
 	m_shaderGeometryPass->Create();
 
@@ -32,8 +32,7 @@ SSAO::~SSAO()
 
 void SSAO::Start()
 {
-	Mesh* tmp = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/nanosuit/nanosuit.obj");
-	nanosuit = SharedPtr<Mesh>(tmp);
+	nanosuit = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/nanosuit/nanosuit.obj");
 
 	glGenFramebuffers(1, &gBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);

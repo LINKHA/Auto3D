@@ -17,7 +17,7 @@ public:
 	void NormalTime();
 	void PauseTime();
 private:
-	Auto3D::Time* _timer;
+	SharedPtr<Time> _timer;
 	int flag{};
 };
 

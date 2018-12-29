@@ -32,14 +32,14 @@ void MeshRenderer::Start()
 	{
 		if (_material->isTexture)
 		{
-			auto* shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_light_map_model_loading.glsl");
+			auto shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_light_map_model_loading.glsl");
 			_shader = MakeShared<ShaderVariation>(shader);
 			_shader->Create();
 		}
 		else
 		{
-			auto* cach = GetSubSystem<ResourceSystem>();
-			auto* shader = cach->GetResource<Shader>("shader/au_light_model_loading.glsl");
+			auto cach = GetSubSystem<ResourceSystem>();
+			auto shader = cach->GetResource<Shader>("shader/au_light_model_loading.glsl");
 			_shader = MakeShared<ShaderVariation>(shader);
 			_shader->Create();
 		}

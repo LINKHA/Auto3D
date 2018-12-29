@@ -9,7 +9,7 @@ namespace Auto3D {
 DeferredShading::DeferredShading(Ambient* ambient)
 	: RenderComponent(ambient)
 {
-	auto* cach = GetSubSystem<ResourceSystem>();
+	auto cach = GetSubSystem<ResourceSystem>();
 	m_shaderGeometryPass = MakeShared<ShaderVariation>(cach->GetResource<Shader>("shader/au_g_buffer.glsl"));
 	m_shaderGeometryPass->Create();
 
@@ -25,8 +25,8 @@ DeferredShading::~DeferredShading()
 }
 void DeferredShading::Start()
 {
-	auto* mesh = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/nanosuit/nanosuit.obj");
-	nanosuit = SharedPtr<Mesh>(mesh);
+	nanosuit = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/nanosuit/nanosuit.obj");
+	
 	objectPositions.push_back(glm::vec3(-3.0, -3.0, -3.0));
 	objectPositions.push_back(glm::vec3(0.0, -3.0, -3.0));
 	objectPositions.push_back(glm::vec3(3.0, -3.0, -3.0));

@@ -5,7 +5,6 @@
 
 void Level_0::Start()
 {
-	Node* gameObject = CreateNode();
 	_timer = GetSubSystem<Time>();
 }
 

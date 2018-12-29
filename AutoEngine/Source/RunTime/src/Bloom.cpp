@@ -11,7 +11,7 @@ namespace Auto3D {
 Bloom::Bloom(Ambient* ambient)
 	: RenderComponent(ambient)
 {
-	auto* resourchCach = GetSubSystem<ResourceSystem>();
+	auto resourchCach = GetSubSystem<ResourceSystem>();
 
 	m_shader = MakeShared<ShaderVariation>(resourchCach->GetResource<Shader>("shader/au_bloom.glsl"));
 	m_shader->Create();

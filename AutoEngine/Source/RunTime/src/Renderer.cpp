@@ -36,7 +36,7 @@ void Renderer::ReadyToRender()
 
 void Renderer::Render()
 {
-	auto* graphics = GetSubSystem<Graphics>();
+	auto graphics = GetSubSystem<Graphics>();
 	Assert(graphics && graphics->IsInitialized() && !graphics->IsDeviceLost());
 	_insideRenderOrCull = true;
 	for (LIST<Camera*>::iterator i = _cameras.begin(); i != _cameras.end(); i++)

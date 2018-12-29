@@ -4,21 +4,21 @@
 namespace Auto3D {
 
 
-ShaderVariation::ShaderVariation(Shader* shader)
+ShaderVariation::ShaderVariation(SharedPtr<Shader> shader)
 	: GPUObject(shader->GetSubSystem<Graphics>())
 {
 	_vsShaderCode = shader->_vsSourceCode.CStr();
 	_fsShaderCode = shader->_fsSourceCode.CStr();
 }
 
-ShaderVariation::ShaderVariation(Shader* vsShader, Shader* fsShader)
+ShaderVariation::ShaderVariation(SharedPtr<Shader> vsShader, SharedPtr<Shader> fsShader)
 	: GPUObject(vsShader->GetSubSystem<Graphics>())
 {
 	_vsShaderCode = vsShader->_vsSourceCode.CStr();
 	_fsShaderCode = fsShader->_fsSourceCode.CStr();
 }
 
-ShaderVariation::ShaderVariation(Shader* vsShader, Shader* fsShader, Shader* gsShader)
+ShaderVariation::ShaderVariation(SharedPtr<Shader> vsShader, SharedPtr<Shader> fsShader, SharedPtr<Shader> gsShader)
 	: GPUObject(vsShader->GetSubSystem<Graphics>())
 {
 	_vsShaderCode = vsShader->_vsSourceCode.CStr();

@@ -54,7 +54,7 @@ void RigidBody2D::Update()
 
 void RigidBody2D::CreateBody()
 {
-	PhysicsWorld2D* physicsWorld = GetCurrentSceneNode()->GetPhysicsWorld2D();
+	SharedPtr<PhysicsWorld2D> physicsWorld = GetCurrentSceneNode()->GetPhysicsWorld2D();
 	if (_body)
 		return;
 
@@ -71,7 +71,7 @@ void RigidBody2D::CreateBody()
 
 void RigidBody2D::ReleaseBody()
 {
-	PhysicsWorld2D* physicsWorld = GetCurrentSceneNode()->GetPhysicsWorld2D();
+	SharedPtr<PhysicsWorld2D> physicsWorld = GetCurrentSceneNode()->GetPhysicsWorld2D();
 	if (_body)
 		return;
 

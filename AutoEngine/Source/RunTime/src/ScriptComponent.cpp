@@ -13,9 +13,9 @@ ScriptComponent::~ScriptComponent()
 {
 }
 
-Node* ScriptComponent::CreateNode(STRING name)
+SharedPtr<Node> ScriptComponent::CreateNode(STRING name)
 {
-	Node* node = new Node(_ambient, _levelID);
+	SharedPtr<Node> node = MakeShared<Node>(_ambient, _levelID);
 	node->SetName(name);
 	return node;
 }

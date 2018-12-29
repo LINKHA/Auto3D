@@ -26,15 +26,15 @@ public:
 	/**
 	* @brief : Get game object ptr
 	*/
-	Node* GetNodePtr();
+	SharedPtr<Node> GetNodePtr();
 	/**
 	* @brief : Get game object ptr const
 	*/
-	Node* GetNodePtr() const;
+	SharedPtr<Node> GetNodePtr() const;
 	/**
 	* @brief : Mount component for gameobject
 	*/
-	void SetNode(Node* node);
+	void SetNode(SharedPtr<Node> node);
 	/**
 	* @brief : Return vector3 with gameObject position
 	*/
@@ -46,7 +46,7 @@ public:
 	/**
 	* @brief : Return current scene node
 	*/
-	SceneNode* GetCurrentSceneNode();
+	SharedPtr<SceneNode> GetCurrentSceneNode();
 	/**
 	* @brief : This component is automatically invoked when registering to a node
 	*/
@@ -56,7 +56,7 @@ public:
 	}
 
 private:
-	Node* _node;
+	SharedPtr<Node> _node;
 };
 
 }

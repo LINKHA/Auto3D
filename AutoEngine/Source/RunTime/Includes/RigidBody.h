@@ -46,7 +46,7 @@ private:
 	void registeredRigidBody();
 private:
 	/// physics world
-	PhysicsWorld* _physicsWorld;
+	SharedPtr<PhysicsWorld> _physicsWorld;
 	/// bullet rigid body
 	btRigidBody* _body;
 #if DebugCompoundShape

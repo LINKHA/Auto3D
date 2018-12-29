@@ -8,19 +8,19 @@ Ambient::Ambient()
 
 Ambient::~Ambient()
 {
-	
-	RemoveSubSystem("Input");
-	RemoveSubSystem("Renderer");
-	RemoveSubSystem("Graphics");
-	RemoveSubSystem("Script");
-	RemoveSubSystem("IO");
-	RemoveSubSystem("UI");
-	RemoveSubSystem("Audio");
-	RemoveSubSystem("BaseSpace");
-	RemoveSubSystem("Time");
+	//
+	//RemoveSubSystem("Input");
+	//RemoveSubSystem("Renderer");
+	//RemoveSubSystem("Graphics");
+	//RemoveSubSystem("Script");
+	//RemoveSubSystem("IO");
+	//RemoveSubSystem("UI");
+	//RemoveSubSystem("Audio");
+	//RemoveSubSystem("BaseSpace");
+	//RemoveSubSystem("Time");
 
-	_subSystems.clear();
-	_factories.clear();
+	//_subSystems.clear();
+	//_factories.clear();
 }
 
 #if SharedPtrDebug
@@ -55,12 +55,12 @@ void Ambient::RemoveSubSystem(STRING objectType)
 	if (i != _subSystems.end())
 		_subSystems.erase(i);
 }
-Object* Ambient::GetSubSystem(STRING type)const 
+SharedPtr<Object> Ambient::GetSubSystem(STRING type)const
 {
 	HASH_MAP<STRING, SharedPtr<Object> >::const_iterator it 
 		= _subSystems.find(type);
 	if (it != _subSystems.end())
-		return it->second.get();
+		return it->second;
 	else
 		return nullptr;
 }

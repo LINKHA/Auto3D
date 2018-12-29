@@ -20,18 +20,18 @@ public:
 	/**
 	* @brief : Get 3D physics world
 	*/
-	PhysicsWorld* GetPhysicsWorld() { return _physcisWorld; }
+	SharedPtr<PhysicsWorld> GetPhysicsWorld() { return _physcisWorld; }
 	/**
 	* @brief : Get 2D physics world
 	*/
-	PhysicsWorld2D* GetPhysicsWorld2D() { return _physcisWorld2D; }
+	SharedPtr<PhysicsWorld2D> GetPhysicsWorld2D() { return _physcisWorld2D; }
 private:
 	/// scene ID
 	int _levelID{};
 	/// 2D physcis world
-	PhysicsWorld* _physcisWorld;
+	SharedPtr<PhysicsWorld> _physcisWorld;
 	/// 3D physcis world
-	PhysicsWorld2D* _physcisWorld2D;
+	SharedPtr<PhysicsWorld2D> _physcisWorld2D;
 };
 
 }

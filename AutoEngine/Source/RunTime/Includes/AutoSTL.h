@@ -9,6 +9,7 @@
 #include <memory>
 #include <algorithm>
 #include <Boost/smart_ptr.hpp>
+
 #include <AutoString.h>
 
 
@@ -54,6 +55,18 @@ template<typename _Ty> using SharedPtr = boost::shared_ptr<_Ty>;
 template<typename _Ty> using WeakPtr = boost::weak_ptr<_Ty>;
 
 template<typename _Ty> using SharedArrayPtr = boost::shared_array<_Ty>;
+
+template<typename _Ty, typename... _Args>  
+auto StaticCast(_Args&&... args) { return boost::static_pointer_cast<_Ty>(args...); }
+
+template<typename _Ty, typename... _Args>
+auto DynamicCast(_Args&&... args) { return boost::dynamic_pointer_cast<_Ty>(args...); }
+
+template<typename _Ty, typename... _Args>
+auto ConstCast(_Args&&... args) { return boost::const_pointer_cast<_Ty>(args...); }
+
+template<typename _Ty, typename... _Args>
+auto ReinterpretCast(_Args&&... args) { return boost::reinterpret_pointer_cast<_Ty>(args...); }
 
 template<typename _Ty, typename... _Args> 
 auto MakeShared(_Args&&... args) { return boost::make_shared<_Ty>(args...); }

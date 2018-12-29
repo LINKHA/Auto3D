@@ -59,11 +59,11 @@ public:
 	*	Return null if not found or if fails, unless SetReturnFailedResources(true) 
 	*	has been called. Can be called only from the main thread.
 	*/
-	Resource* GetResource(STRING type, const STRING& name, bool sendEventOnFailure = true);
+	SharedPtr<Resource> GetResource(STRING type, const STRING& name, bool sendEventOnFailure = true);
 	/**
 	* @brief : Template version of returning a resource by name
 	*/
-	template<typename _Ty> _Ty* GetResource(const STRING& name, bool sendEventOnFailure = true);
+	template<typename _Ty> SharedPtr<_Ty> GetResource(const STRING& name, bool sendEventOnFailure = true);
 	/**
 	* @brief : Add resource path in catalogue array
 	*/
@@ -75,13 +75,13 @@ public:
 	/**
 	* @brief : Return added resource load directories
 	*/
-	const VECTOR<STRING>& GetResourceDirs() const { return _resourceDirs; }
+	const VECTOR<STRING> GetResourceDirs() const { return _resourceDirs; }
 	/**
 	* @brief :Open and return a file from the resource load paths or from inside a package file. 
 	*	If not found, use a fallback search with absolute path. Return null if fails.
 	*	Can be called from outside the main thread
 	*/
-	File* GetFile(const STRING& name, bool sendEventOnFailure = true);
+	SharedPtr<File> GetFile(const STRING& name, bool sendEventOnFailure = true);
 	/**
 	* @brief : Remove unsupported constructs from the resource name to prevent ambiguity,
 	*	and normalize absolute filename to resource path relative if possible
@@ -105,15 +105,15 @@ private:
 	/**
 	* @brief : Find a resource
 	*/
-	const SharedPtr<Resource>& findResource(STRING type, STRING name);
+	const SharedPtr<Resource> findResource(STRING type, STRING name);
 	/**
 	* @brief : Find a resource by name only. Searches all type groups
 	*/
-	const SharedPtr<Resource>& findResource(STRING name);
+	const SharedPtr<Resource> findResource(STRING name);
 	/**
 	* @brief : Search FileSystem for file
 	*/
-	File* searchResourceDirs(const STRING& name);
+	SharedPtr<File> searchResourceDirs(const STRING& name);
 private:
 	/// resources by type.
 	HASH_MAP<STRING, ResourceGroup> _resourceGroups{};
@@ -121,10 +121,10 @@ private:
 	VECTOR<STRING> _resourceDirs{};
 };
 
-template <typename _Ty> _Ty* ResourceSystem::GetResource(const STRING& name, bool sendEventOnFailure)
+template <typename _Ty> SharedPtr<_Ty> ResourceSystem::GetResource(const STRING& name, bool sendEventOnFailure)
 {
 	STRING type = _Ty::GetClassStringStatic();
-	return static_cast<_Ty*>(GetResource(type, name, sendEventOnFailure));
+	return StaticCast<_Ty>(GetResource(type, name, sendEventOnFailure));
 }
 
 }

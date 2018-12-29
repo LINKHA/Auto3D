@@ -18,7 +18,7 @@ public:
 	/**
 	* @brief : Create node with name
 	*/
-	Node* CreateNode(STRING name = "")override;
+	SharedPtr<Node> CreateNode(STRING name = "")override;
 };
 
 }

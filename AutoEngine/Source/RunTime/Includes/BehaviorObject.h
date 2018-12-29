@@ -57,13 +57,10 @@ protected:
 	bool _isEnable;
 };
 
-
-
-
 #if SharedPtrDebug
 template<typename T> SharedPtr<T> BehaviorObject::CreateObject()
 {
-	return static_cast<T>(CreateObject(T::GetClassStringStatic()));
+	return StaticCast<T>(CreateObject(T::GetClassStringStatic()));
 }
 #else
 template<typename T> T* BehaviorObject::CreateObject()

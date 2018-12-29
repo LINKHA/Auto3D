@@ -57,7 +57,7 @@ public:
 	/**
 	* @brief : Get sub system according to the parameters
 	*/
-	Object* GetSubSystem(STRING type) const;
+	SharedPtr<Object> GetSubSystem(STRING type) const;
 	/**
 	* @brief : Get sub systems
 	* @return :HASH_MAP(STRING, sharedPtr<Object>)

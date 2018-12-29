@@ -22,7 +22,7 @@ LevelScene::~LevelScene()
 
 void LevelScene::Awake() 
 {
-	_sceneNode = new SceneNode(_ambient, _levelID);
+	_sceneNode = MakeShared<SceneNode>(_ambient, _levelID);
 }
 
 void LevelScene::Start() 
@@ -50,14 +50,14 @@ void LevelScene::Draw()
 
 }
 
-Node* LevelScene::CreateNode(STRING name)
+SharedPtr<Node> LevelScene::CreateNode(STRING name)
 {
-	Node* node = new Node(_ambient, _levelID);
+	SharedPtr<Node> node = MakeShared<Node>(_ambient, _levelID);
 	node->SetName(name);
 	return node;
 }
 
-void LevelScene::AddNode(Node* node)
+void LevelScene::AddNode(SharedPtr<Node> node)
 {
 	Assert(node != NULL);
 	if (_isInsideRun)
@@ -71,7 +71,7 @@ void LevelScene::AddNode(Node* node)
 	_nodes.push_back(node);
 }
 
-void LevelScene::RemoveNode(Node* node)
+void LevelScene::RemoveNode(SharedPtr<Node> node)
 {
 	Assert(node != NULL);
 	_nodeToAdd.remove(node);
@@ -96,13 +96,13 @@ void LevelScene::ModeRunNode(RunMode runMode)
 	}
 	_isInsideRun = true;
 
-	for (LIST<Node*>::iterator i = _nodes.begin(); i != _nodes.end(); i++)
+	for (LIST<SharedPtr<Node> >::iterator i = _nodes.begin(); i != _nodes.end(); i++)
 	{
-		Node* node = *i;
+		SharedPtr<Node> node = *i;
 		if (node && node->GetEnable())
 		{
 			if (runMode == RunMode::Awake)
-				for (PAIR_VECTOR<STRING, Component*>::iterator it = node->GetComponentsArray().begin();
+				for (PAIR_VECTOR<STRING, SharedPtr<Component> >::iterator it = node->GetComponentsArray().begin();
 					it != node->GetComponentsArray().end(); it++)
 				{
 					if (it->second->IsEnable())
@@ -110,7 +110,7 @@ void LevelScene::ModeRunNode(RunMode runMode)
 				}
 			else if (runMode == RunMode::Start)
 			{
-				for (PAIR_VECTOR<STRING, Component*>::iterator it = node->GetComponentsArray().begin(); 
+				for (PAIR_VECTOR<STRING, SharedPtr<Component> >::iterator it = node->GetComponentsArray().begin();
 					it != node->GetComponentsArray().end(); it++)
 				{
 					if (it->second->IsEnable())
@@ -118,14 +118,14 @@ void LevelScene::ModeRunNode(RunMode runMode)
 				}
 			}
 			else if (runMode == RunMode::Update)
-				for (PAIR_VECTOR<STRING, Component*>::iterator it = node->GetComponentsArray().begin();
+				for (PAIR_VECTOR<STRING, SharedPtr<Component> >::iterator it = node->GetComponentsArray().begin();
 					it != node->GetComponentsArray().end(); it++)
 				{
 					if (it->second->IsEnable())
 						it->second->Update();
 				}
 			else if (runMode == RunMode::FixUpdate)
-				for (PAIR_VECTOR<STRING, Component*>::iterator it = node->GetComponentsArray().begin();
+				for (PAIR_VECTOR<STRING, SharedPtr<Component> >::iterator it = node->GetComponentsArray().begin();
 					it != node->GetComponentsArray().end(); it++)
 				{
 					if (it->second->IsEnable())
@@ -133,7 +133,7 @@ void LevelScene::ModeRunNode(RunMode runMode)
 				}
 			else if (runMode == RunMode::Finish)
 			{
-				for (PAIR_VECTOR<STRING, Component*>::iterator it = node->GetComponentsArray().begin();
+				for (PAIR_VECTOR<STRING, SharedPtr<Component> >::iterator it = node->GetComponentsArray().begin();
 					it != node->GetComponentsArray().end(); it++)
 				{
 					if (it->second->IsEnable())
@@ -151,27 +151,27 @@ void LevelScene::ModeRunNode(RunMode runMode)
 void LevelScene::delayAddRemoveNode()
 {
 	Assert(!_isInsideRun);
-	for (LIST<Node*>::iterator i = _nodeToRemove.begin(); i != _nodeToRemove.end(); /**/)
+	for (LIST<SharedPtr<Node> >::iterator i = _nodeToRemove.begin(); i != _nodeToRemove.end(); /**/)
 	{
-		Node* node = *i;
+		SharedPtr<Node> node = *i;
 		++i;
 		RemoveNode(node);
 	}
 	_nodeToRemove.clear();
-	for (LIST<Node*>::iterator i = _nodeToAdd.begin(); i != _nodeToAdd.end(); /**/)
+	for (LIST<SharedPtr<Node> >::iterator i = _nodeToAdd.begin(); i != _nodeToAdd.end(); /**/)
 	{
-		Node* node = *i;
+		SharedPtr<Node> node = *i;
 		++i;
 		AddNode(node);
 	}
 	_nodeToAdd.clear();
 }
 
-SceneNode* LevelScene::GetSceneNode()
+SharedPtr<SceneNode> LevelScene::GetSceneNode()
 {
 	if (!_sceneNode)
 	{
-		_sceneNode = new SceneObject(_ambient, _levelID);
+		_sceneNode = MakeShared<SceneNode>(_ambient, _levelID);
 		AddNode(_sceneNode);
 	}
 	return _sceneNode;
