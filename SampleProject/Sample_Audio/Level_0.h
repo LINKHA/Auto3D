@@ -11,7 +11,7 @@ public:
 	void Start()override;
 	void Update()override;
 
-	AudioSource* audio;
-	AudioSource* audio2;
+	SharedPtr<AudioSource> audio;
+	SharedPtr<AudioSource> audio2;
 };
 

@@ -1,7 +1,12 @@
 #include "LevelScene.h"
 #include "Node.h"
 #include "Component.h"
+#include "SceneNode.h"
+#include "Scene.h"
+#include "PhysicsWorld.h"
 #include "PhysicsWorld2D.h"
+#include "Transform.h"
+
 #include "NewDef.h"
 
 
@@ -23,6 +28,8 @@ LevelScene::~LevelScene()
 void LevelScene::Awake() 
 {
 	_sceneNode = MakeShared<SceneNode>(_ambient, _levelID);
+	_sceneNode->CreateComponent<PhysicsWorld2D>();
+	_sceneNode->CreateComponent<PhysicsWorld>();
 }
 
 void LevelScene::Start() 
@@ -53,7 +60,11 @@ void LevelScene::Draw()
 SharedPtr<Node> LevelScene::CreateNode(STRING name)
 {
 	SharedPtr<Node> node = MakeShared<Node>(_ambient, _levelID);
+	GetSubSystem<Scene>()->GetLevelScene(_levelID)->AddNode(node);
 	node->SetName(name);
+	//Each node must have a Transform component and cannot be deleted
+	node->CreateComponent<Transform>();
+
 	return node;
 }
 
@@ -62,27 +73,27 @@ void LevelScene::AddNode(SharedPtr<Node> node)
 	Assert(node != NULL);
 	if (_isInsideRun)
 	{
-		_nodeToRemove.remove(node);
+		VectorFindEarse(_nodeToRemove, node);
 		_nodeToAdd.push_back(node);
 		return;
 	}
-	_nodeToAdd.remove(node);
-	_nodeToRemove.remove(node);
+	VectorFindEarse(_nodeToAdd, node);
+	VectorFindEarse(_nodeToRemove, node);
 	_nodes.push_back(node);
 }
 
 void LevelScene::RemoveNode(SharedPtr<Node> node)
 {
 	Assert(node != NULL);
-	_nodeToAdd.remove(node);
-	_nodeToRemove.remove(node);
+	VectorFindEarse(_nodeToAdd, node);
+	VectorFindEarse(_nodeToRemove, node);
 	if (_isInsideRun)
 	{
 		_nodeToRemove.push_back(node);
 	}
 	else
 	{
-		_nodes.remove(node);
+		VectorFindEarse(_nodes, node);
 	}
 }
 
@@ -96,7 +107,7 @@ void LevelScene::ModeRunNode(RunMode runMode)
 	}
 	_isInsideRun = true;
 
-	for (LIST<SharedPtr<Node> >::iterator i = _nodes.begin(); i != _nodes.end(); i++)
+	for (VECTOR<SharedPtr<Node> >::iterator i = _nodes.begin(); i != _nodes.end(); i++)
 	{
 		SharedPtr<Node> node = *i;
 		if (node && node->GetEnable())
@@ -151,14 +162,14 @@ void LevelScene::ModeRunNode(RunMode runMode)
 void LevelScene::delayAddRemoveNode()
 {
 	Assert(!_isInsideRun);
-	for (LIST<SharedPtr<Node> >::iterator i = _nodeToRemove.begin(); i != _nodeToRemove.end(); /**/)
+	for (VECTOR<SharedPtr<Node> >::iterator i = _nodeToRemove.begin(); i != _nodeToRemove.end(); /**/)
 	{
 		SharedPtr<Node> node = *i;
 		++i;
 		RemoveNode(node);
 	}
 	_nodeToRemove.clear();
-	for (LIST<SharedPtr<Node> >::iterator i = _nodeToAdd.begin(); i != _nodeToAdd.end(); /**/)
+	for (VECTOR<SharedPtr<Node> >::iterator i = _nodeToAdd.begin(); i != _nodeToAdd.end(); /**/)
 	{
 		SharedPtr<Node> node = *i;
 		++i;
@@ -171,8 +182,7 @@ SharedPtr<SceneNode> LevelScene::GetSceneNode()
 {
 	if (!_sceneNode)
 	{
-		_sceneNode = MakeShared<SceneNode>(_ambient, _levelID);
-		AddNode(_sceneNode);
+		_sceneNode = DynamicCast<SceneNode>(CreateNode("sceneNode"));
 	}
 	return _sceneNode;
 }

@@ -14,15 +14,11 @@ Node::Node(SharedPtr<Ambient> ambient, int sceneID)
 	, _name("default node")
 {
 	// Each node contains a Transform component
-	CreateComponent<Transform>();
-	// add node to appoint level scene
-	GetSubSystem<Scene>()->GetLevelScene(_levelID)->AddNode(SharedPtr<Node>(this));
+	//CreateComponent<Transform>();
 }
 
 Node::~Node() 
 {
-	// remove node to appoint level scene
-	//GetSubSystem<Scene>()->GetLevelScene(_levelID)->RemoveNode(SharedPtr<Node>(this));
 }
 
 void Node::AddChild(SharedPtr<Node> node)
@@ -56,7 +52,7 @@ Node::NodeChilds& Node::GetAllChild()
 void Node::AddComponent(SharedPtr<Component> com)
 {
 	_components.push_back(MakePair(com->GetClassString(), com));
-	com->SetNode(SharedPtr<Node>(this));
+	com->SetNode(SharedFromThis());
 	com->Init();
 }
 

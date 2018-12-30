@@ -10,20 +10,18 @@ namespace Auto3D {
 class Component;
 class Transform;
 class SceneNode;
+class Node;
 
 /// define gameobject with node
-using GameObject = class Node;
+using GameNode = SharedPtr<Node>;
 
-class Node :public Object
+class Node :public Object, public EnableSharedFromThis<Node>
 {
 	REGISTER_OBJECT_CLASS(Node, Object)
 
 	using NodeChilds = VECTOR<SharedPtr<Node> >;
-#if SharedPtrDebug
+
 	using ComponentsArray = PAIR_VECTOR<STRING, SharedPtr<Component> >;
-#else
-	using ComponentsArray = PAIR_VECTOR<STRING, Component*>;
-#endif
 public:
 	explicit Node(SharedPtr<Ambient> ambient, int sceneID);
 	/**
@@ -176,6 +174,7 @@ public:
 	*/
 	template<typename _Ty> SharedPtr<_Ty> CreateComponent();
 protected:
+	SharedPtr<Transform> _transform;
 	/// node name
 	STRING _name;
 	/// node childs (VECTOR(Node*))

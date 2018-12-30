@@ -56,6 +56,10 @@ template<typename _Ty> using WeakPtr = boost::weak_ptr<_Ty>;
 
 template<typename _Ty> using SharedArrayPtr = boost::shared_array<_Ty>;
 
+template<typename _Ty> using EnableSharedFromThis = boost::enable_shared_from_this<_Ty>;
+
+#define SharedFromThis shared_from_this
+
 template<typename _Ty, typename... _Args>  
 auto StaticCast(_Args&&... args) { return boost::static_pointer_cast<_Ty>(args...); }
 
@@ -70,5 +74,18 @@ auto ReinterpretCast(_Args&&... args) { return boost::reinterpret_pointer_cast<_
 
 template<typename _Ty, typename... _Args> 
 auto MakeShared(_Args&&... args) { return boost::make_shared<_Ty>(args...); }
+
+template<typename _TyVec, typename _Tar>
+void VectorFindEarse(_TyVec& vec, _Tar& tar)
+{
+	for (auto it = vec.begin(); it != vec.end(); it++)
+	{
+		if (*it == tar)
+		{
+			vec.erase(it);
+			break;
+		}
+	}
+}
 
 }

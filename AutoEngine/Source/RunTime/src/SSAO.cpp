@@ -175,7 +175,7 @@ void SSAO::Draw()
 	model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0, 0.0, 0.0));
 	model = glm::scale(model, glm::vec3(0.5f));
 	m_shaderGeometryPass->SetMat4("model", model);
-	nanosuit->DrawMesh(m_shaderGeometryPass.get());
+	nanosuit->DrawMesh(m_shaderGeometryPass);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 

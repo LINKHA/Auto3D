@@ -7,26 +7,26 @@
 
 void Level_0::Start()
 {
-	auto* cube = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/base/Cube.3DS");
+	auto cube = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/base/Cube.3DS");
 
-	Node* lightObj = CreateNode();
+	GameNode lightObj = CreateNode();
 	lightObj->SetPosition(2.0f, 5.0f, 0.0f);
-	Light* light = lightObj->CreateComponent<Light>();
+	auto light = lightObj->CreateComponent<Light>();
 	light->SetType(LightType::Directional);
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	Node* camObj = CreateNode();
-	FreeCamera* freeCamera = new FreeCamera(_ambient);
+	GameNode camObj = CreateNode();
+	SharedPtr<FreeCamera> freeCamera = MakeShared<FreeCamera>(_ambient);
 	camObj->AddComponent(freeCamera);
 	freeCamera->cameraNode->SetPosition(0.0f, 0.0f, 10.0f);
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	Node* obj1 = CreateNode();
-	auto* plane = obj1->CreateComponent<MeshRenderer>();
+	GameNode obj1 = CreateNode();
+	auto plane = obj1->CreateComponent<MeshRenderer>();
 	plane->SetMesh(cube);
 	plane->GetMaterial()->color.Set(0.5f, 0.5f, 0.5f);
 	obj1->SetScale(10.0f, 0.1f, 10.0f);
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	Node* obj2 = CreateNode();
-	auto* box1 = obj2->CreateComponent<MeshRenderer>();
+	GameNode obj2 = CreateNode();
+	auto box1 = obj2->CreateComponent<MeshRenderer>();
 	box1->SetMesh(cube);
 	box1->EnableStencil(true);
 	box1->StencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
@@ -36,8 +36,8 @@ void Level_0::Start()
 	obj2->AddComponent(box1);
 	obj2->SetPosition(1.0f, 0.5f, 3.0f);
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	Node* obj3 = CreateNode();
-	auto* box2 = obj3->CreateComponent<MeshRenderer>();
+	GameNode obj3 = CreateNode();
+	auto box2 = obj3->CreateComponent<MeshRenderer>();
 	box2->EnableStencil(true);
 	box2->StencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 	box2->StencilFunc(GL_NOTEQUAL, 1, 0xFF);

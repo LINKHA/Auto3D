@@ -24,9 +24,9 @@ public:
 	void Start()override;
 	void Draw()override;
 
-	void SetMesh(Mesh* mesh);
+	void SetMesh(SharedPtr<Mesh> mesh);
 
-	void SetShaderVariation(ShaderVariation* shader);
+	void SetShaderVariation(SharedPtr<ShaderVariation> shader);
 
 	SharedPtr<Material> GetMaterial() { return _material; }
 private:

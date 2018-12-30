@@ -5,14 +5,14 @@
 
 void Level_0::Start()
 {
-	Node* cameraObj = CreateNode();
-	FreeCamera* camera = new FreeCamera(_ambient);
-	cameraObj->AddComponent(camera);
-	camera->cameraNode->SetPosition(0.0f, 0.0f, 10.0f);
+	GameNode cameraObj = CreateNode();
+	SharedPtr<FreeCamera> freeCamera = MakeShared<FreeCamera>(_ambient);
+	cameraObj->AddComponent(freeCamera);
+	freeCamera->cameraNode->SetPosition(0.0f, 0.0f, 10.0f);
 
 
-	Node* deferredObj = CreateNode();
-	DeferredShading* deferred = new DeferredShading(_ambient);
+	GameNode deferredObj = CreateNode();
+	auto deferred = MakeShared<DeferredShading>(_ambient);
 	deferredObj->AddComponent(deferred);
 }
 

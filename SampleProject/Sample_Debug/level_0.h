@@ -13,5 +13,12 @@ public:
 	void Awake()override;
 	void Start()override;
 	void Update()override;
+public:
+	SharedPtr<Node> obj;
+
+	SharedPtr<Node> camObj;
+	SharedPtr<Node> obj5;
+	SharedPtr<Node> obj2;
+
 };
 

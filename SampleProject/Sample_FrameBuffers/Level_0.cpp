@@ -9,12 +9,12 @@
 #include "../FreeCamera.h"
 void Level_0::Start()
 {
-	auto* cube = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/base/Cube.3DS");
-	auto* imageGrass = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/grass.png");
-	auto* imageWindow = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/window.png");
+	auto cube = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/base/Cube.3DS");
+	auto imageGrass = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/grass.png");
+	auto imageWindow = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/window.png");
 
-	Node* camObj = CreateNode();
-	freeCamera = new FreeCamera(_ambient);
+	GameNode camObj = CreateNode();
+	freeCamera = MakeShared<FreeCamera>(_ambient);
 	camObj->AddComponent(freeCamera);
 	freeCamera->camera->AllowOffScreen(true);
 	freeCamera->camera->AllowMSAA(true);
@@ -23,30 +23,30 @@ void Level_0::Start()
 	
 
 
-	Node* obj2 = CreateNode();
+	GameNode obj2 = CreateNode();
 	obj2->SetPosition(0.0f, 0.0f, 0.0f);
-	auto* tex2 = obj2->CreateComponent<SpriteRenderer>();
+	auto tex2 = obj2->CreateComponent<SpriteRenderer>();
 	tex2->SetImage(imageWindow);
 	tex2->EnableBlend(true);
 	tex2->EnableDepth(false);
 
 
 
-	Node* obj5 = CreateNode();
+	GameNode obj5 = CreateNode();
 	obj5->SetPosition(-1.0f, 0.0f, 0.0f);
-	auto* tex5 = obj5->CreateComponent<SpriteRenderer>();
+	auto tex5 = obj5->CreateComponent<SpriteRenderer>();
 	tex5->SetImage(imageGrass);
 	tex5->EnableBlend(true);
 
 
-	Node* lightObj = CreateNode();
-	auto* light = lightObj->CreateComponent<Light>();
+	GameNode lightObj = CreateNode();
+	auto light = lightObj->CreateComponent<Light>();
 	light->SetType(LightType::Point);
 	//////////////////////////////////////////////////////////////////////////
 
-	Node* meshObj = CreateNode();
+	GameNode meshObj = CreateNode();
 	meshObj->SetPosition(1.0f, 0.0f, 0.0f);
-	MeshRenderer* mesh = meshObj->CreateComponent<MeshRenderer>();
+	auto mesh = meshObj->CreateComponent<MeshRenderer>();
 	mesh->SetMesh(cube);
 	mesh->GetMaterial()->color.Set(0.5f, 0.8f, 0.3f);
 }

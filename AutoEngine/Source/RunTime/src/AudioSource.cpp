@@ -96,13 +96,13 @@ AudioSourceState AudioSource::GetState()
 		return AudioSourceState::DEFAULT;
 }
 
-void AudioSource::AttachBuffer(AudioBuffer* clip)
+void AudioSource::AttachBuffer(SharedPtr<AudioBuffer> clip)
 {
 	_audioBuffer = clip;
 	attachBuffer();
 }
 
-void AudioSource::SetAudioBuffer(AudioBuffer* audioBuffer)
+void AudioSource::SetAudioBuffer(SharedPtr<AudioBuffer> audioBuffer)
 {
 	_audioBuffer = audioBuffer;
 }

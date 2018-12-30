@@ -57,7 +57,7 @@ public:
 	/**
 	* @brief : Set buffer
 	*/
-	void SetAudioBuffer(AudioBuffer* audioBuffer);
+	void SetAudioBuffer(SharedPtr<AudioBuffer> audioBuffer);
 	/**
 	* @brief : Is the audio source currently playing
 	*/
@@ -77,7 +77,7 @@ public:
 	/**
 	* @brief : Attach buffer for point
 	*/
-	void AttachBuffer(AudioBuffer* clip);
+	void AttachBuffer(SharedPtr<AudioBuffer> clip);
 private:
 	/**
 	* @brief : Attach buffer for point
@@ -116,7 +116,7 @@ private:
 	/// autio source state
 	ALint _state{};
 	/// audio buffer
-	AudioBuffer* _audioBuffer;
+	SharedPtr<AudioBuffer> _audioBuffer;
 };
 
 }

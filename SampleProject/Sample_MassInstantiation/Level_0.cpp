@@ -34,16 +34,15 @@ void Level_0::Start()
 		modelMatrices[i] = model;
 	}
 
-	Node* cameraObj = CreateNode();
-	FreeCamera* camera = new FreeCamera(_ambient);
-	cameraObj->AddComponent(camera);
+	GameNode cameraObj = CreateNode();
+	SharedPtr<FreeCamera> freeCamera = MakeShared<FreeCamera>(_ambient);
+	cameraObj->AddComponent(freeCamera);
 
-	Node* beltLineObj = CreateNode();
+	GameNode beltLineObj = CreateNode();
 
-	auto* rock = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/rock/rock.obj");
-	auto* shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("asteroids.glsl");
-	InstanceBeltLine * line =
-		new InstanceBeltLine(_ambient, rock, shader,modelMatrices, amount);
+	auto rock = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/rock/rock.obj");
+	auto shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("asteroids.glsl");
+	auto line = MakeShared<InstanceBeltLine>(_ambient, rock, shader,modelMatrices, amount);
 	beltLineObj->AddComponent(line);
 }
 void Level_0::Update()

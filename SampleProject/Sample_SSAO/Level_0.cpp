@@ -6,13 +6,13 @@
 
 void Level_0::Start()
 {
-	GameObject* cameraObj = CreateNode();
-	FreeCamera* camera = new FreeCamera(_ambient);
-	cameraObj->AddComponent(camera);
-	camera->cameraNode->SetPosition(0.0f, 0.0f, 3.0f);
+	GameNode cameraObj = CreateNode();
+	SharedPtr<FreeCamera> freeCamera = MakeShared<FreeCamera>(_ambient);
+	cameraObj->AddComponent(freeCamera);
+	freeCamera->cameraNode->SetPosition(0.0f, 0.0f, 3.0f);
 
-	GameObject* ssaoObj = CreateNode();
-	SSAO* ssao = new SSAO(_ambient);
+	GameNode ssaoObj = CreateNode();
+	auto ssao = MakeShared<SSAO>(_ambient);
 	ssaoObj->AddComponent(ssao);
 
 }

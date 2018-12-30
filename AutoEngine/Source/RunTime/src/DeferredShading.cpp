@@ -123,7 +123,7 @@ void DeferredShading::Draw()
 		model = glm::translate(model, objectPositions[i]);
 		model = glm::scale(model, glm::vec3(0.25f));
 		m_shaderGeometryPass->SetMat4("model", model);
-		nanosuit->DrawMesh(m_shaderGeometryPass.get());
+		nanosuit->DrawMesh(m_shaderGeometryPass);
 	}
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 

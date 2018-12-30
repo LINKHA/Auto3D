@@ -76,20 +76,20 @@ void MeshRenderer::Draw()
 		drawMaterial();
 		drawLight();
 	}
-	_mesh->DrawMesh(_shader.get());
+	_mesh->DrawMesh(_shader);
 
 	GLOriginal();
 }
 
-void MeshRenderer::SetMesh(Mesh* mesh)
+void MeshRenderer::SetMesh(SharedPtr<Mesh> mesh)
 {
-	_mesh.reset(mesh);
+	_mesh = mesh;
 }
 
-void MeshRenderer::SetShaderVariation(ShaderVariation* shader)
+void MeshRenderer::SetShaderVariation(SharedPtr<ShaderVariation> shader)
 {
 	_isUserShader = true;
-	_shader.reset(shader);
+	_shader = shader;
 	_shader->Create();
 }
 

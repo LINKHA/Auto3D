@@ -9,33 +9,33 @@
 
 void Level_0::Start()
 {
-	auto* cube = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/base/Cube.3DS");
+	auto cube = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/base/Cube.3DS");
 
-	Node* cameraObj = CreateNode();
-	FreeCamera* camera = new FreeCamera(_ambient);
-	cameraObj->AddComponent(camera);
-	camera->cameraNode->SetPosition(0.0f, 0.0f, 3.0f);
+	GameNode cameraObj = CreateNode();
+	SharedPtr<FreeCamera> freeCamera = MakeShared<FreeCamera>(_ambient);
+	cameraObj->AddComponent(freeCamera);
+	freeCamera->cameraNode->SetPosition(0.0f, 0.0f, 3.0f);
 
-	Node* skyBoxObj = CreateNode();
-	SkyBox* skybox = skyBoxObj->CreateComponent<SkyBox>();
+	GameNode skyBoxObj = CreateNode();
+	auto skybox = skyBoxObj->CreateComponent<SkyBox>();
 
-	Node* lightObj = CreateNode();
-	Light* light = lightObj->CreateComponent<Light>();
+	GameNode lightObj = CreateNode();
+	auto light = lightObj->CreateComponent<Light>();
 
-	Node* meshObj = CreateNode();
-	MeshRenderer* mesh = meshObj->CreateComponent<MeshRenderer>();
+	GameNode meshObj = CreateNode();
+	auto mesh = meshObj->CreateComponent<MeshRenderer>();
 	mesh->SetMesh(cube);
 	mesh->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
 	//mesh->GetMaterial()->color = Color(0.0f, 0.0f, 1.0f);
 
-	Node* meshObj2 = CreateNode();
-	SkyBoxReflectMesh * mesh2 = new SkyBoxReflectMesh(_ambient);
+	GameNode meshObj2 = CreateNode();
+	auto mesh2 = MakeShared<SkyBoxReflectMesh>(_ambient);
 	meshObj2->SetPosition(1.0f, 0.0f, 0.0f);
 	meshObj2->AddComponent(mesh2);
 
-	Node* meshObj3 = CreateNode();
-	auto* shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_skybox_cube_refract.glsl");
-	SkyBoxReflectMesh * mesh3 = new SkyBoxReflectMesh(_ambient,shader);
+	GameNode meshObj3 = CreateNode();
+	auto shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_skybox_cube_refract.glsl");
+	auto mesh3 = MakeShared<SkyBoxReflectMesh>(_ambient,shader);
 	
 	meshObj3->SetPosition(2.0f, 0.0f, 0.0f);
 	meshObj3->AddComponent(mesh3);

@@ -1,7 +1,5 @@
 #pragma once
 #include "Node.h"
-
-
 namespace Auto3D {
 class PhysicsWorld;
 class PhysicsWorld2D;
@@ -20,18 +18,14 @@ public:
 	/**
 	* @brief : Get 3D physics world
 	*/
-	SharedPtr<PhysicsWorld> GetPhysicsWorld() { return _physcisWorld; }
+	SharedPtr<PhysicsWorld> GetPhysicsWorld();
 	/**
 	* @brief : Get 2D physics world
 	*/
-	SharedPtr<PhysicsWorld2D> GetPhysicsWorld2D() { return _physcisWorld2D; }
+	SharedPtr<PhysicsWorld2D> GetPhysicsWorld2D();
 private:
 	/// scene ID
 	int _levelID{};
-	/// 2D physcis world
-	SharedPtr<PhysicsWorld> _physcisWorld;
-	/// 3D physcis world
-	SharedPtr<PhysicsWorld2D> _physcisWorld2D;
 };
 
 }

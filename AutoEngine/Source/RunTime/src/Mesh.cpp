@@ -18,7 +18,7 @@ MeshNode::MeshNode(VECTOR<MeshVertex> tVertices, VECTOR<unsigned int> tIndices, 
 	// now that we have all the required data, set the vertex buffers and its attribute pointers.
 	setupMesh();
 }
-void MeshNode::Draw(ShaderVariation* shader)
+void MeshNode::Draw(SharedPtr<ShaderVariation> shader)
 {
 	// bind appropriate textures
 	unsigned int diffuseNr = 1;
@@ -122,7 +122,7 @@ bool Mesh::BeginLoad(Deserializer& source)
 	return true;
 }
 
-void Mesh::DrawMesh(ShaderVariation* shader)
+void Mesh::DrawMesh(SharedPtr<ShaderVariation> shader)
 {
 	for (unsigned int i = 0; i < _meshNodes.size(); i++)
 		_meshNodes[i].Draw(shader);

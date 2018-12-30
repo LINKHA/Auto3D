@@ -48,7 +48,7 @@ void MeshShadowPoint::DrawReady()
 
 void MeshShadowPoint::DrawShadow()
 {
-	ShaderVariation* shadowShader = GetSubSystem<Renderer>()->GetShadowRenderer()->GetPointDepthMapShader();
+	auto shadowShader = GetSubSystem<Renderer>()->GetShadowRenderer()->GetPointDepthMapShader();
 	
 	glm::mat4 modelMat;
 	if (GetNodePtr())		//if gameObject not empty
@@ -64,7 +64,7 @@ void MeshShadowPoint::DrawShadow()
 		_shader->SetInt("reverse_normals", 1); // A small little hack to invert normals when drawing cube from the inside so lighting still works.
 	}
 
-	_mesh->DrawMesh(_shader.get());
+	_mesh->DrawMesh(_shader);
 
 	if (!_cullEnable)
 	{
@@ -115,7 +115,7 @@ void MeshShadowPoint::Draw()
 			_shader->SetInt("reverse_normals", 1); // A small little hack to invert normals when drawing cube from the inside so lighting still works.
 		}
 
-		_mesh->DrawMesh(_shader.get());
+		_mesh->DrawMesh(_shader);
 
 		if (!_cullEnable)
 		{

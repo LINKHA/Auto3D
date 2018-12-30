@@ -7,16 +7,16 @@
 
 void Level_0::Start()
 {
-	auto* audioBuffer = GetSubSystem<ResourceSystem>()->GetResource<AudioBuffer>("sound/SoundTest.wav");
+	auto audioBuffer = GetSubSystem<ResourceSystem>()->GetResource<AudioBuffer>("sound/SoundTest.wav");
 	
-	Node* listenerObj = CreateNode();
+	GameNode listenerObj = CreateNode();
 	listenerObj->CreateComponent<AudioListener>();
 
-	Node* autdieObj = CreateNode();
+	GameNode autdieObj = CreateNode();
 	audio = autdieObj->CreateComponent<AudioSource>();
 	audio->SetAudioBuffer(audioBuffer);
 
-	Node* autdieObj2 = CreateNode();
+	GameNode autdieObj2 = CreateNode();
 	audio2 = autdieObj2->CreateComponent<AudioSource>();
 	audio2->SetAudioBuffer(audioBuffer);
 }

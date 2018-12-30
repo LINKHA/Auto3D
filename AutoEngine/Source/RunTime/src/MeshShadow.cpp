@@ -39,7 +39,7 @@ void MeshShadow::DrawReady()
 
 void MeshShadow::DrawShadow()
 {
-	ShaderVariation* shadowShader = GetSubSystem<Renderer>()->GetShadowRenderer()->GetDepthMapShader();
+	auto shadowShader = GetSubSystem<Renderer>()->GetShadowRenderer()->GetDepthMapShader();
 	glm::mat4 modelMat;
 
 	if (GetNodePtr())		//if gameObject not empty
@@ -87,7 +87,7 @@ void MeshShadow::Draw()
 			modelMat = Matrix4x4::identity;
 		_shader->SetMat4("model", modelMat);
 
-		_mesh->DrawMesh(_shader.get());
+		_mesh->DrawMesh(_shader);
 
 	}
 }

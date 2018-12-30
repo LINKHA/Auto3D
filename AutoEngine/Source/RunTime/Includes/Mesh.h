@@ -44,7 +44,7 @@ public:
 	/**
 	* @brief : Render the mesh
 	*/
-	void Draw(ShaderVariation* shader);
+	void Draw(SharedPtr<ShaderVariation> shader);
 private:
 	/**
 	* @brief : Initializes all the buffer objects/arrays
@@ -75,7 +75,7 @@ public:
 	/**
 	* @brief : Draw all this model mesh node
 	*/
-	void DrawMesh(ShaderVariation* shader);
+	void DrawMesh(SharedPtr<ShaderVariation> shader);
 	/**
 	* @brief : Get texture datas container
 	* @return : VECTOR(TextureData)

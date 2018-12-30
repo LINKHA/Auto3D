@@ -15,7 +15,7 @@ void Level_0::Start()
 {
 	Super::Start();
 
-	auto camObj = CreateNode();
+	GameNode camObj = CreateNode();
 	SharedPtr<FreeCamera2D> camera = MakeShared<FreeCamera2D>(_ambient);
 	camObj->AddComponent(camera);
 	//camera->cameraNode->SetPosition(0.0f, 0.0f, 10.0f);
@@ -31,14 +31,14 @@ void Level_0::Start()
 	//tex1->SetColor(Color(0.5f, 0.5f, 0.5f));
 
 
-	auto obj5 = CreateNode();
+	GameNode obj5 = CreateNode();
 	auto tex5 = obj5->CreateComponent<SpriteRenderer>();
 	tex5->SetImage(imageWindow);
 	//tex5->EnableBlend(true);
 	obj5->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, -3.0f);
 
 
-	auto obj2 = CreateNode();
+	GameNode obj2 = CreateNode();
 	auto tex2 = obj2->CreateComponent<SpriteRenderer>();
 	tex2->SetImage(imageWindow);
 	tex2->GetImage()->SetImageType(ImageType::Translucent);

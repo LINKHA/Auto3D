@@ -64,11 +64,11 @@ private:
 	*/
 	void checkCompileErrors(GLuint shader, STRING type);
 private:
-	const char* _vsShaderCode;
+	STRING _vsShaderCode;
 
-	const char* _fsShaderCode;
+	STRING _fsShaderCode;
 
-	const char* _gsShaderCode;
+	STRING _gsShaderCode;
 	/// shader name
 	STRING _name;
 

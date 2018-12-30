@@ -11,7 +11,7 @@ class Node;
 class LevelScene : public LevelBehaviorObject , public ILevelBehavior
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(LevelScene, LevelBehaviorObject)
-	using Nodes = LIST<SharedPtr<Node> >;
+	using Nodes = VECTOR<SharedPtr<Node> >;
 public:
 	/**
 	* @brief : Register scenario by serial number , 

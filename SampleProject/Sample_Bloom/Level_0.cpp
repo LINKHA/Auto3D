@@ -7,14 +7,14 @@
 
 void Level_0::Start()
 {
-	Node* cameraObj = CreateNode();
-	FreeCamera* camera = new FreeCamera(_ambient);
-	cameraObj->AddComponent(camera);
-	camera->cameraNode->SetPosition(0.0f, 0.0f, 4.0f);
+	GameNode cameraObj = CreateNode();
+	SharedPtr<FreeCamera> freeCamera = MakeShared<FreeCamera>(_ambient);
+	cameraObj->AddComponent(freeCamera);
+	freeCamera->cameraNode->SetPosition(0.0f, 0.0f, 4.0f);
 
 
-	Node* bloomObj = CreateNode();
-	Bloom* bloom = new Bloom(_ambient);
+	GameNode bloomObj = CreateNode();
+	auto bloom = MakeShared<Bloom>(_ambient);
 	bloomObj->AddComponent(bloom);
 
 }

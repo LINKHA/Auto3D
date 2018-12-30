@@ -14,6 +14,6 @@ public:
 	void Start()override;
 	void Update()override;
 public:
-	SharedPtr<Node> obj;
+	GameNode obj;
 };
 
