@@ -13,7 +13,7 @@ MeshRenderer::MeshRenderer(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 	, _isUserShader(false)
 {
-	_material.reset(new Material(_ambient));
+	_material = MakeShared<Material>(_ambient);
 }
 
 MeshRenderer::~MeshRenderer()

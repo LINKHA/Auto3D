@@ -14,7 +14,13 @@ public:
 	{}
 
 	virtual ~Singleton()
-	{}
+	{
+		if (_instance)
+		{
+			delete _instance;
+			_instance = nullptr;
+		}
+	}
 	/*
 	* @brief Explicit private copy constructor. This is a forbidden operation.
 	*/

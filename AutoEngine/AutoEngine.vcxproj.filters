@@ -1030,9 +1030,6 @@
     <ClCompile Include="Source\RunTime\src\Image.cpp">
       <Filter>Source\RunTime\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\AutoString.cpp">
-      <Filter>Source\RunTime\Adapter</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RunTime\src\SpriteRenderer.cpp">
       <Filter>Source\RunTime\Graphics\Component</Filter>
     </ClCompile>

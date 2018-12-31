@@ -380,7 +380,6 @@
     <ClCompile Include="Source\RunTime\src\ShaderVariation.cpp" />
     <ClCompile Include="Source\RunTime\src\Shader.cpp" />
     <ClCompile Include="Source\RunTime\src\Mesh.cpp" />
-    <ClCompile Include="Source\RunTime\src\AutoString.cpp" />
     <ClCompile Include="Source\RunTime\src\Image.cpp" />
     <ClCompile Include="Source\RunTime\src\MemoryBuffer.cpp" />
     <ClCompile Include="Source\RunTime\src\Serializer.cpp" />

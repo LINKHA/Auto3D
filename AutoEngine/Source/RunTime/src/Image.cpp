@@ -14,7 +14,10 @@ Image::Image(SharedPtr<Ambient> ambient)
 {
 }
 
-Image::~Image() = default;
+Image::~Image()
+{
+	delete[] _data;
+}
 
 void Image::RegisterObject(SharedPtr<Ambient> ambient)
 {

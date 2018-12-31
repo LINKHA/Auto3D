@@ -107,7 +107,7 @@ public:
 	/**
 	* @brief : Create an object of the specific type.
 	*/
-	SharedPtr<Object> CreateObject() override { return SharedPtr<Object>(new _Ty(_ambient)); }
+	SharedPtr<Object> CreateObject() override { return StaticCast<Object>(MakeShared<_Ty>(_ambient)); }
 };
 
 }

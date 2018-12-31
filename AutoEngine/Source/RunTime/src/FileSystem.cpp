@@ -34,7 +34,7 @@
 
 #include "File.h"
 #include "FileSystem.h"
-
+#include "NewDef.h"
 extern "C"
 {
 #ifdef __ANDROID__
