@@ -8,19 +8,19 @@ Ambient::Ambient()
 
 Ambient::~Ambient()
 {
-	//
-	//RemoveSubSystem("Input");
-	//RemoveSubSystem("Renderer");
-	//RemoveSubSystem("Graphics");
-	//RemoveSubSystem("Script");
-	//RemoveSubSystem("IO");
-	//RemoveSubSystem("UI");
-	//RemoveSubSystem("Audio");
-	//RemoveSubSystem("BaseSpace");
-	//RemoveSubSystem("Time");
 
-	//_subSystems.clear();
-	//_factories.clear();
+	RemoveSubSystem("Input");
+	RemoveSubSystem("Renderer");
+	RemoveSubSystem("Graphics");
+	RemoveSubSystem("Script");
+	RemoveSubSystem("IO");
+	RemoveSubSystem("UI");
+	RemoveSubSystem("Audio");
+	RemoveSubSystem("BaseSpace");
+	RemoveSubSystem("Time");
+
+	_subSystems.clear();
+	_factories.clear();
 }
 
 SharedPtr<Object> Ambient::CreateObject(STRING objectType)
@@ -32,11 +32,11 @@ SharedPtr<Object> Ambient::CreateObject(STRING objectType)
 		return SharedPtr<Object>();
 }
 
-void Ambient::RegisterSubSystem(Object* object)
+void Ambient::RegisterSubSystem(SharedPtr<Object> object)
 {
 	if (!object)
 		return;
-	_subSystems[object->GetClassString()] = SharedPtr<Object>(object);
+	_subSystems[object->GetClassString()] = object;
 }
 void Ambient::RemoveSubSystem(STRING objectType) 
 {
@@ -53,20 +53,20 @@ SharedPtr<Object> Ambient::GetSubSystem(STRING type)const
 	else
 		return nullptr;
 }
-void Ambient::RegisterFactory(ObjectFactory* factory)
+void Ambient::RegisterFactory(SharedPtr<ObjectFactory> factory)
 {
 	if (!factory)
 		return;
-	_factories[factory->GetClassString()] = SharedPtr<ObjectFactory>(factory);
+	_factories[factory->GetClassString()] = factory;
 }
 
-void Ambient::RegisterFactory(ObjectFactory * factory, const char* category)
+void Ambient::RegisterFactory(SharedPtr<ObjectFactory> factory, const char* category)
 {
 	if (!factory)
 		return;
 	RegisterFactory(factory);
-	//if (String::CharPtrLength(category))
-		_objectAttachs[category].push_back(factory->GetClassString());
+
+	_objectAttachs[category].push_back(factory->GetClassString());
 }
 
 

@@ -3,7 +3,7 @@
 
 namespace Auto3D {
 
-class Ambient
+class Ambient : public EnableSharedFromThis<Ambient>
 {
 	friend class Object;
 	using SubSystems = HASH_MAP<STRING, SharedPtr<Object>>;
@@ -23,19 +23,19 @@ public:
 	/**
 	* @brief : Register sub system need extend object
 	*/
-	void RegisterSubSystem(Object* object);
+	void RegisterSubSystem(SharedPtr<Object> object);
 	/**
 	* @brief : Template version of registering subsystem.
 	*/
-	template <typename _Ty> _Ty* RegisterSubsystem();
+	template <typename _Ty> SharedPtr<_Ty> RegisterSubsystem();
 	/**
 	* @brief : Register a factory for an object type.
 	*/
-	void RegisterFactory(ObjectFactory* factory);
+	void RegisterFactory(SharedPtr<ObjectFactory> factory);
 	/**
 	* @brief : Register a factory for an object type and specify the object category.
 	*/
-	void RegisterFactory(ObjectFactory* factory, const char* category);
+	void RegisterFactory(SharedPtr<ObjectFactory> factory, const char* category);
 	/**
 	* @brief : Template version of registering an object factory.
 	*/
@@ -86,9 +86,9 @@ private:
 	ObjectAttachs _objectAttachs;
 };
 
-template <typename _Ty> inline _Ty * Ambient::RegisterSubsystem()
+template <typename _Ty> inline SharedPtr<_Ty> Ambient::RegisterSubsystem()
 {
-	auto* subsystem = new _Ty(this);
+	auto subsystem = MakeShared<_Ty>(SharedFromThis());
 	RegisterSubsystem(subsystem);
 	return subsystem;
 }
@@ -97,8 +97,8 @@ template<typename _Ty> void Ambient::RemoveSubSystem(){ RemoveSubSystem(_Ty::Get
 
 template<typename _Ty> SharedPtr<_Ty> Ambient::GetSubSystem() const { return StaticCast<_Ty>(Ambient::GetSubSystem(_Ty::GetClassStringStatic())); }
 
-template<typename _Ty> void Ambient::RegisterFactory() { RegisterFactory(new ObjectFactoryImpl<_Ty>(SharedPtr<Ambient>(this))); }
+template<typename _Ty> void Ambient::RegisterFactory() { RegisterFactory(MakeShared<ObjectFactoryImpl<_Ty> >(SharedFromThis())); }
 
-template<typename _Ty> void Ambient::RegisterFactory(const char* category) { RegisterFactory(new ObjectFactoryImpl<_Ty>(SharedPtr<Ambient>(this)), category); }
+template<typename _Ty> void Ambient::RegisterFactory(const char* category) { RegisterFactory(MakeShared<ObjectFactoryImpl<_Ty> >(SharedFromThis()), category); }
 
 }

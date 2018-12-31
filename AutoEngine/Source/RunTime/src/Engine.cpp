@@ -18,36 +18,36 @@ namespace Auto3D {
 Engine::Engine(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
-	_ambient->RegisterSubSystem(new Renderer(_ambient));
-	_ambient->RegisterSubSystem(new Graphics(_ambient));
-	_ambient->RegisterSubSystem(new BaseSpace(_ambient));
-	_ambient->RegisterSubSystem(new Time(_ambient));
-	_ambient->RegisterSubSystem(new Input(_ambient));
-	_ambient->RegisterSubSystem(new Script(_ambient));
-	_ambient->RegisterSubSystem(new ResourceSystem(_ambient));
-	_ambient->RegisterSubSystem(new Scene(_ambient));
-	_ambient->RegisterSubSystem(new IO(_ambient));
-	_ambient->RegisterSubSystem(new Audio(_ambient));
-	_ambient->RegisterSubSystem(new UI(_ambient));
-	_ambient->RegisterSubSystem(new Behavior(_ambient));
-	_ambient->RegisterSubSystem(new FileSystem(_ambient));
+	_ambient->RegisterSubSystem(MakeShared<Renderer>(_ambient));
+	_ambient->RegisterSubSystem(MakeShared<Graphics>(_ambient));
+	_ambient->RegisterSubSystem(MakeShared<BaseSpace>(_ambient));
+	_ambient->RegisterSubSystem(MakeShared<Time>(_ambient));
+	_ambient->RegisterSubSystem(MakeShared<Input>(_ambient));
+	_ambient->RegisterSubSystem(MakeShared<Script>(_ambient));
+	_ambient->RegisterSubSystem(MakeShared<ResourceSystem>(_ambient));
+	_ambient->RegisterSubSystem(MakeShared<Scene>(_ambient));
+	_ambient->RegisterSubSystem(MakeShared<IO>(_ambient));
+	_ambient->RegisterSubSystem(MakeShared<Audio>(_ambient));
+	_ambient->RegisterSubSystem(MakeShared<UI>(_ambient));
+	_ambient->RegisterSubSystem(MakeShared<Behavior>(_ambient));
+	_ambient->RegisterSubSystem(MakeShared<FileSystem>(_ambient));
 }
 
 Engine::~Engine()
 {
-	//_ambient->RemoveSubSystem<Renderer>();
-	//_ambient->RemoveSubSystem<Graphics>();
-	//_ambient->RemoveSubSystem<BaseSpace>();
-	//_ambient->RemoveSubSystem<Time>();
-	//_ambient->RemoveSubSystem<Input>();
-	//_ambient->RemoveSubSystem<Script>();
-	//_ambient->RemoveSubSystem<ResourceSystem>();
-	//_ambient->RemoveSubSystem<Scene>();
-	//_ambient->RemoveSubSystem<IO>();
-	//_ambient->RemoveSubSystem<Audio>();
-	//_ambient->RemoveSubSystem<UI>();
-	//_ambient->RemoveSubSystem<Behavior>();
-	//_ambient->RemoveSubSystem<FileSystem>();
+	_ambient->RemoveSubSystem<Renderer>();
+	_ambient->RemoveSubSystem<Graphics>();
+	_ambient->RemoveSubSystem<BaseSpace>();
+	_ambient->RemoveSubSystem<Time>();
+	_ambient->RemoveSubSystem<Input>();
+	_ambient->RemoveSubSystem<Script>();
+	_ambient->RemoveSubSystem<ResourceSystem>();
+	_ambient->RemoveSubSystem<Scene>();
+	_ambient->RemoveSubSystem<IO>();
+	_ambient->RemoveSubSystem<Audio>();
+	_ambient->RemoveSubSystem<UI>();
+	_ambient->RemoveSubSystem<Behavior>();
+	_ambient->RemoveSubSystem<FileSystem>();
 }
 
 void Engine::Init()
