@@ -39,9 +39,9 @@ void Renderer::Render()
 	auto graphics = GetSubSystem<Graphics>();
 	Assert(graphics && graphics->IsInitialized() && !graphics->IsDeviceLost());
 	_insideRenderOrCull = true;
-	for (LIST<Camera*>::iterator i = _cameras.begin(); i != _cameras.end(); i++)
+	for (LIST<SharedPtr<Camera> >::iterator i = _cameras.begin(); i != _cameras.end(); i++)
 	{
-		Camera* cam = *i;
+		SharedPtr<Camera> cam = *i;
 		if (cam && cam->GetEnable())
 		{
 			_currentCamera = cam;
@@ -78,51 +78,51 @@ void Renderer::Render()
 	delayedAddRemoveTranslucents();
 	
 }
-void Renderer::AddCamera(Camera* c)
+void Renderer::AddCamera(SharedPtr<Camera> camera)
 {
-	Assert(c != nullptr);
+	Assert(camera != nullptr);
 	if (_insideRenderOrCull)
 	{
-		_camerasToRemove.remove(c);
-		_camerasToAdd.push_back(c);
+		_camerasToRemove.remove(camera);
+		_camerasToAdd.push_back(camera);
 		return;
 	}
-	_camerasToAdd.remove(c);
-	_camerasToRemove.remove(c);
+	_camerasToAdd.remove(camera);
+	_camerasToRemove.remove(camera);
 
-	_cameras.remove(c);
+	_cameras.remove(camera);
 
-	LIST<Camera*> &queue = _cameras;
+	LIST<SharedPtr<Camera> > &queue = _cameras;
 
-	for (LIST<Camera*>::iterator i = queue.begin(); i != queue.end(); i++)
+	for (LIST<SharedPtr<Camera> >::iterator i = queue.begin(); i != queue.end(); i++)
 	{
-		Camera* curCamera = *i;
-		if (curCamera && curCamera->GetDepth() > c->GetDepth())
+		SharedPtr<Camera> curCamera = *i;
+		if (curCamera && curCamera->GetDepth() > camera->GetDepth())
 		{
-			queue.insert(i, c);
+			queue.insert(i, camera);
 			return;
 		}
 	}
-	queue.push_back(c);
+	queue.push_back(camera);
 }
 
-void Renderer::RemoveCamera(Camera* c)
+void Renderer::RemoveCamera(SharedPtr<Camera> camera)
 {
-	Assert(c != nullptr);
-	_camerasToAdd.remove(c);
-	_camerasToRemove.remove(c);
+	Assert(camera != nullptr);
+	_camerasToAdd.remove(camera);
+	_camerasToRemove.remove(camera);
 
 	if (_insideRenderOrCull)
 	{
-		_camerasToRemove.push_back(c);
+		_camerasToRemove.push_back(camera);
 	}
 	else
 	{
-		_cameras.remove(c);
+		_cameras.remove(camera);
 	}
 
-	Camera* currentCamera = _currentCamera;
-	if (currentCamera == c)
+	SharedPtr<Camera> currentCamera = _currentCamera;
+	if (currentCamera == camera)
 	{
 		if (_cameras.empty())
 			_currentCamera = nullptr;
@@ -131,7 +131,7 @@ void Renderer::RemoveCamera(Camera* c)
 	}
 }
 
-void Renderer::AddShadowMap(RenderComponent* component)
+void Renderer::AddShadowMap(SharedPtr<RenderComponent> component)
 {
 	Assert(component != nullptr);
 	if (_insideRenderOrCull)
@@ -147,7 +147,7 @@ void Renderer::AddShadowMap(RenderComponent* component)
 	OpaqueContainer& queue = _shadowsMap;
 	for (OpaqueContainer::iterator i = queue.begin(); i != queue.end(); i++)
 	{
-		RenderComponent* curComponent = *i;
+		SharedPtr<RenderComponent> curComponent = *i;
 		if (curComponent && curComponent->IsEnable())
 		{
 			queue.insert(i, component);
@@ -157,7 +157,7 @@ void Renderer::AddShadowMap(RenderComponent* component)
 	queue.push_back(component);
 }
 
-void Renderer::RemoveShadowMap(RenderComponent* component)
+void Renderer::RemoveShadowMap(SharedPtr<RenderComponent> component)
 {
 	Assert(component != nullptr);
 	_shadowsMapToAdd.remove(component);
@@ -172,7 +172,7 @@ void Renderer::RemoveShadowMap(RenderComponent* component)
 		_shadowsMap.remove(component);
 	}
 
-	RenderComponent* currentShadow = _currentShadow;
+	SharedPtr<RenderComponent> currentShadow = _currentShadow;
 
 	if (currentShadow == component)
 	{
@@ -183,7 +183,7 @@ void Renderer::RemoveShadowMap(RenderComponent* component)
 	}
 }
 
-void Renderer::AddOpaqueGeometry(RenderComponent* component)
+void Renderer::AddOpaqueGeometry(SharedPtr<RenderComponent> component)
 {
 	Assert(component != nullptr);
 	if (_insideRenderOrCull)
@@ -199,7 +199,7 @@ void Renderer::AddOpaqueGeometry(RenderComponent* component)
 	OpaqueContainer& queue = _opaques;
 	for (OpaqueContainer::iterator i = queue.begin(); i != queue.end(); i++)
 	{
-		RenderComponent* curComponent = *i;
+		SharedPtr<RenderComponent> curComponent = *i;
 		if (curComponent && curComponent->IsEnable())
 		{
 			queue.insert(i, component);
@@ -209,7 +209,7 @@ void Renderer::AddOpaqueGeometry(RenderComponent* component)
 	queue.push_back(component);
 }
 
-void Renderer::RemoveOpaqueGeometry(RenderComponent* component)
+void Renderer::RemoveOpaqueGeometry(SharedPtr<RenderComponent> component)
 {
 	Assert(component != nullptr);
 	_opaquesToAdd.remove(component);
@@ -224,7 +224,7 @@ void Renderer::RemoveOpaqueGeometry(RenderComponent* component)
 		_opaques.remove(component);
 	}
 
-	RenderComponent* currentOpaques = _currentOpaques;
+	SharedPtr<RenderComponent> currentOpaques = _currentOpaques;
 
 	if (currentOpaques == component)
 	{
@@ -235,7 +235,7 @@ void Renderer::RemoveOpaqueGeometry(RenderComponent* component)
 	}
 }
 
-void Renderer::AddCustomGeometry(RenderComponent* component)
+void Renderer::AddCustomGeometry(SharedPtr<RenderComponent> component)
 {
 	Assert(component != nullptr);
 	if (_insideRenderOrCull)
@@ -251,7 +251,7 @@ void Renderer::AddCustomGeometry(RenderComponent* component)
 	OpaqueContainer& queue = _customs;
 	for (OpaqueContainer::iterator i = queue.begin(); i != queue.end(); i++)
 	{
-		RenderComponent* curComponent = *i;
+		SharedPtr<RenderComponent> curComponent = *i;
 		if (curComponent && curComponent->IsEnable())
 		{
 			queue.insert(i, component);
@@ -261,7 +261,7 @@ void Renderer::AddCustomGeometry(RenderComponent* component)
 	queue.push_back(component);
 }
 
-void Renderer::RemoveCustomGeometry(RenderComponent* component)
+void Renderer::RemoveCustomGeometry(SharedPtr<RenderComponent> component)
 {
 	Assert(component != nullptr);
 	_customsToAdd.remove(component);
@@ -276,7 +276,7 @@ void Renderer::RemoveCustomGeometry(RenderComponent* component)
 		_customs.remove(component);
 	}
 
-	RenderComponent* currentCustom = _currentCustom;
+	SharedPtr<RenderComponent> currentCustom = _currentCustom;
 
 	if (currentCustom == component)
 	{
@@ -287,7 +287,7 @@ void Renderer::RemoveCustomGeometry(RenderComponent* component)
 	}
 }
 
-void Renderer::AddTranslucentGeometry(RenderComponent* component)
+void Renderer::AddTranslucentGeometry(SharedPtr<RenderComponent> component)
 {
 	Assert(component != nullptr);
 	if (_insideRenderOrCull)
@@ -303,7 +303,7 @@ void Renderer::AddTranslucentGeometry(RenderComponent* component)
 	OpaqueContainer& queue = _translucents;
 	for (OpaqueContainer::iterator i = queue.begin(); i != queue.end(); i++)
 	{
-		RenderComponent* curComponent = *i;
+		SharedPtr<RenderComponent> curComponent = *i;
 		if (curComponent && curComponent->IsEnable())
 		{
 			queue.insert(i, component);
@@ -313,7 +313,7 @@ void Renderer::AddTranslucentGeometry(RenderComponent* component)
 	queue.push_back(component);
 }
 
-void Renderer::RemoveTranslucentGeometry(RenderComponent * component)
+void Renderer::RemoveTranslucentGeometry(SharedPtr<RenderComponent> component)
 {
 	Assert(component != nullptr);
 	_translucentsToAdd.remove(component);
@@ -328,7 +328,7 @@ void Renderer::RemoveTranslucentGeometry(RenderComponent * component)
 		_translucents.remove(component);
 	}
 
-	RenderComponent* currentTranslucent = _currentTranslucent;
+	SharedPtr<RenderComponent> currentTranslucent = _currentTranslucent;
 
 	if (currentTranslucent == component)
 	{
@@ -342,16 +342,16 @@ void Renderer::RemoveTranslucentGeometry(RenderComponent * component)
 void Renderer::delayedAddRemoveCameras()
 {
 	Assert(!_insideRenderOrCull);
-	for (LIST<Camera*>::iterator i = _camerasToRemove.begin(); i != _camerasToRemove.end(); /**/)
+	for (LIST<SharedPtr<Camera>>::iterator i = _camerasToRemove.begin(); i != _camerasToRemove.end(); /**/)
 	{
-		Camera* cam = *i;
+		SharedPtr<Camera> cam = *i;
 		++i; // increment iterator before removing camera; as it changes the list
 		RemoveCamera(cam);
 	}
 	_camerasToRemove.clear();
-	for (LIST<Camera*>::iterator i = _camerasToAdd.begin(); i != _camerasToAdd.end(); /**/)
+	for (LIST<SharedPtr<Camera>>::iterator i = _camerasToAdd.begin(); i != _camerasToAdd.end(); /**/)
 	{
-		Camera* cam = *i;
+		SharedPtr<Camera> cam = *i;
 		++i; // increment iterator before adding camera; as it changes the list
 		AddCamera(cam);
 	}
@@ -363,14 +363,14 @@ void Renderer::delayedAddRemoveShadowMaps()
 	Assert(!_insideRenderOrCull);
 	for (OpaqueContainer::iterator i = _shadowsMapToRemove.begin(); i != _shadowsMapToRemove.end(); /**/)
 	{
-		RenderComponent* com = *i;
+		SharedPtr<RenderComponent> com = *i;
 		++i;
 		RemoveShadowMap(com);
 	}
 	_shadowsMapToRemove.clear();
 	for (OpaqueContainer::iterator i = _shadowsMapToAdd.begin(); i != _shadowsMapToAdd.end(); /**/)
 	{
-		RenderComponent* com = *i;
+		SharedPtr<RenderComponent> com = *i;
 		++i;
 		AddShadowMap(com);
 	}
@@ -382,14 +382,14 @@ void Renderer::delayedAddRemoveOpaques()
 	Assert(!_insideRenderOrCull);
 	for (OpaqueContainer::iterator i = _opaquesToRemove.begin(); i != _opaquesToRemove.end(); /**/)
 	{
-		RenderComponent* com = *i;
+		SharedPtr<RenderComponent> com = *i;
 		++i; 
 		RemoveOpaqueGeometry(com);
 	}
 	_opaquesToRemove.clear();
 	for (OpaqueContainer::iterator i = _opaquesToAdd.begin(); i != _opaquesToAdd.end(); /**/)
 	{
-		RenderComponent* com = *i;
+		SharedPtr<RenderComponent> com = *i;
 		++i;
 		AddOpaqueGeometry(com);
 	}
@@ -401,14 +401,14 @@ void Renderer::delayedAddRemoveCustoms()
 	Assert(!_insideRenderOrCull);
 	for (OpaqueContainer::iterator i = _customsToRemove.begin(); i != _customsToRemove.end(); /**/)
 	{
-		RenderComponent* com = *i;
+		SharedPtr<RenderComponent> com = *i;
 		++i;
 		RemoveCustomGeometry(com);
 	}
 	_opaquesToRemove.clear();
 	for (OpaqueContainer::iterator i = _customsToAdd.begin(); i != _customsToAdd.end(); /**/)
 	{
-		RenderComponent* com = *i;
+		SharedPtr<RenderComponent> com = *i;
 		++i;
 		AddCustomGeometry(com);
 	}
@@ -420,14 +420,14 @@ void Renderer::delayedAddRemoveTranslucents()
 	Assert(!_insideRenderOrCull);
 	for (OpaqueContainer::iterator i = _translucentsRemove.begin(); i != _translucentsRemove.end(); /**/)
 	{
-		RenderComponent* com = *i;
+		SharedPtr<RenderComponent> com = *i;
 		++i;
 		RemoveOpaqueGeometry(com);
 	}
 	_translucentsRemove.clear();
 	for (OpaqueContainer::iterator i = _translucentsToAdd.begin(); i != _translucentsToAdd.end(); /**/)
 	{
-		RenderComponent* com = *i;
+		SharedPtr<RenderComponent> com = *i;
 		++i;
 		AddOpaqueGeometry(com);
 	}
@@ -441,7 +441,7 @@ void Renderer::renderShadowMap()
 
 void Renderer::renderOpaques()
 {
-	for (LIST<RenderComponent*>::iterator it = _opaques.begin(); it != _opaques.end(); it++)
+	for (LIST<SharedPtr<RenderComponent>>::iterator it = _opaques.begin(); it != _opaques.end(); it++)
 	{
 		(*it)->Draw();
 	}
@@ -449,7 +449,7 @@ void Renderer::renderOpaques()
 
 void Renderer::renderCustom()
 {
-	for (LIST<RenderComponent*>::iterator it = _customs.begin(); it != _customs.end(); it++)
+	for (LIST<SharedPtr<RenderComponent>>::iterator it = _customs.begin(); it != _customs.end(); it++)
 	{
 		(*it)->Draw();
 	}
@@ -458,7 +458,7 @@ void Renderer::renderCustom()
 void Renderer::renderTranslucent()
 {
 	translucentGeometrySort();
-	for (PAIR_MAP<float, RenderComponent*>::reverse_iterator it = _translucentsSorted.rbegin(); it != _translucentsSorted.rend(); ++it)
+	for (PAIR_MAP<float, SharedPtr<RenderComponent>>::reverse_iterator it = _translucentsSorted.rbegin(); it != _translucentsSorted.rend(); ++it)
 	{
 		//Draw translucent component
 		it->second->Draw();
@@ -468,7 +468,7 @@ void Renderer::renderTranslucent()
 
 void Renderer::translucentGeometrySort()
 {
-	for (LIST<RenderComponent*>::iterator i = _translucents.begin(); i != _translucents.end(); i++)
+	for (LIST<SharedPtr<RenderComponent>>::iterator i = _translucents.begin(); i != _translucents.end(); i++)
 	{
 		float distance = glm::length((_currentCamera->GetPosition() - (*i)->GetNode()->GetComponent<Transform>()->GetPosition()).ToGLM());
 

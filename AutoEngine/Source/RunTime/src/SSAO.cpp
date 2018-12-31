@@ -26,7 +26,7 @@ SSAO::SSAO(SharedPtr<Ambient> ambient)
 }
 SSAO::~SSAO()
 {
-	UnloadOpaque(this);
+	UnloadOpaque(SharedFromThis());
 }
 
 
@@ -149,7 +149,7 @@ void SSAO::Start()
 	m_shaderSSAOBlur->Use();
 	m_shaderSSAOBlur->SetInt("ssaoInput", 0);
 	
-	RegisterOpaque(this);
+	RegisterOpaque(SharedFromThis());
 }
 void SSAO::Draw()
 {

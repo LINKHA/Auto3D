@@ -25,7 +25,7 @@ Bloom::Bloom(SharedPtr<Ambient> ambient)
 	m_shaderBloomFinal = MakeShared<ShaderVariation>(resourchCach->GetResource<Shader>("shader/au_bloom_final.glsl"));
 	m_shaderBloomFinal->Create();
 
-	UnloadOpaque(this);
+	UnloadOpaque(SharedFromThis());
 }
 
 
@@ -114,7 +114,7 @@ void Bloom::Start()
 	m_shaderBloomFinal->SetInt("scene", 0);
 	m_shaderBloomFinal->SetInt("bloomBlur", 1);
 
-	RegisterOpaque(this);
+	RegisterOpaque(SharedFromThis());
 }
 void Bloom::Draw()
 {

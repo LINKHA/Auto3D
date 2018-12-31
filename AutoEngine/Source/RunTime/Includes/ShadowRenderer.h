@@ -13,8 +13,8 @@ class ShadowRenderer : public Object
 {
 	REGISTER_OBJECT_CLASS(ShadowRenderer, Object)
 
-	using Ligths = VECTOR<Light*>;
-	using RenderComponents = LIST<RenderComponent*>;
+	using Ligths = VECTOR<SharedPtr<Light> >;
+	using RenderComponents = LIST<SharedPtr<RenderComponent> >;
 public:
 	/**
 	* @brief : Get renderer to _renderer
@@ -33,7 +33,7 @@ public:
 	SharedPtr<ShaderVariation> GetDepthMapShader() { return _shadowMapDepthShader; }
 	SharedPtr<ShaderVariation> GetPointDepthMapShader() { return _shadowMapPointDepth; }
 private:
-	VECTOR<Light*> _lights;
+	VECTOR<SharedPtr<Light> > _lights;
 	RenderComponents _shadowComponents;
 	SharedPtr<ShaderVariation> _shadowMapDepthShader;
 	SharedPtr<ShaderVariation> _shadowMapPointDepth;

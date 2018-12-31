@@ -17,8 +17,7 @@ MeshShadowPoint::MeshShadowPoint(SharedPtr<Ambient> ambient)
 	auto shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_point_shadows.glsl");
 	_shader = MakeShared<ShaderVariation>(shader);
 	_shader->Create();
-	RegisterShadow(this);
-	RegisterOpaque(this);
+
 }
 MeshShadowPoint::MeshShadowPoint(SharedPtr<Ambient> ambient,bool enable)
 	: RenderComponent(ambient)
@@ -27,14 +26,13 @@ MeshShadowPoint::MeshShadowPoint(SharedPtr<Ambient> ambient,bool enable)
 	auto shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_point_shadows.glsl");
 	_shader = MakeShared<ShaderVariation>(shader);
 	_shader->Create();
-	RegisterShadow(this);
-	RegisterOpaque(this);
+
 }
 
 MeshShadowPoint::~MeshShadowPoint()
 {
-	UnloadShadow(this);
-	UnloadOpaque(this);
+	UnloadShadow(SharedFromThis());
+	UnloadOpaque(SharedFromThis());
 }
 void MeshShadowPoint::DrawReady()
 {
@@ -44,6 +42,12 @@ void MeshShadowPoint::DrawReady()
 	_shader->Use();
 	_shader->SetInt("diffuseTexture", 0);
 	_shader->SetInt("shadowMap", 1);
+}
+
+void MeshShadowPoint::Start()
+{
+	RegisterShadow(SharedFromThis());
+	RegisterOpaque(SharedFromThis());
 }
 
 void MeshShadowPoint::DrawShadow()
@@ -75,14 +79,14 @@ void MeshShadowPoint::DrawShadow()
 void MeshShadowPoint::Draw()
 {
 
-	Camera* camera = GetSubSystem<Renderer>()->GetCurrentCameraPtr();
+	SharedPtr<Camera> camera = GetSubSystem<Renderer>()->GetCurrentCameraPtr();
 	glm::vec3 lightPos;
 	//!!! Temp use one light,and must need light
 #pragma warning
-	VECTOR<Light*>& lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
+	VECTOR<SharedPtr<Light> >& lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
 	//!!!Temp
 	Assert(lights.size() != 0);
-	for (VECTOR<Light*>::iterator it = lights.begin(); it != lights.end(); it++)
+	for (VECTOR<SharedPtr<Light> >::iterator it = lights.begin(); it != lights.end(); it++)
 	{
 		lightPos = (*it)->GetLightPosition();
 		unsigned depthMap = (*it)->GetShadowAssist()->GetDepthMap();

@@ -29,7 +29,7 @@ MeshPBR::MeshPBR(SharedPtr<Ambient> ambient)
 
 MeshPBR::~MeshPBR()
 {
-	UnloadOpaque(this);
+	UnloadOpaque(SharedFromThis());
 }
 
 void MeshPBR::Start()
@@ -51,7 +51,7 @@ void MeshPBR::Start()
 	}
 	_shader->SetVec3("albedo", _albedo);
 	_shader->SetFloat("ao", 1.0f);
-	RegisterOpaque(this);
+	RegisterOpaque(SharedFromThis());
 }
 
 void MeshPBR::Draw()
@@ -77,9 +77,9 @@ void MeshPBR::Draw()
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	//light
-	VECTOR<Light*> lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
+	VECTOR<SharedPtr<Light> > lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
 	int dir = 0;
-	for (VECTOR<Light*>::iterator it = lights.begin(); it != lights.end(); it++)
+	for (VECTOR<SharedPtr<Light> >::iterator it = lights.begin(); it != lights.end(); it++)
 	{
 		_shader->SetVec3("lightPositions[" + KhSTL::ToString(dir) + "]", (*it)->GetNode()->GetPosition());
 		_shader->SetVec3("lightColors[" + KhSTL::ToString(dir) + "]", (*it)->GetColorToVec());

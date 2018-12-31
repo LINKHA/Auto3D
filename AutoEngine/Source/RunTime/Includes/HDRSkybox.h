@@ -6,7 +6,7 @@
 namespace Auto3D {
 class Camera;
 
-class HDRSkyBox : public Texture3D
+class HDRSkyBox : public Texture3D, public EnableSharedFromThis<HDRSkyBox>
 {
 public:
 	explicit HDRSkyBox(SharedPtr<Ambient> ambient);

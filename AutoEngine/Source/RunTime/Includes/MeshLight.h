@@ -4,7 +4,7 @@
 
 namespace Auto3D {
 
-class MeshLight : public RenderComponent
+class MeshLight : public RenderComponent , public EnableSharedFromThis<MeshLight>
 {
 public:
 	explicit MeshLight(SharedPtr<Ambient> ambient);

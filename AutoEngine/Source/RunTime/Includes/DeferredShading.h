@@ -3,7 +3,7 @@
 #include "Mesh.h"
 
 namespace Auto3D {
-class DeferredShading : public RenderComponent
+class DeferredShading : public RenderComponent, public EnableSharedFromThis<DeferredShading>
 {
 public:
 	explicit DeferredShading(SharedPtr<Ambient> ambient);

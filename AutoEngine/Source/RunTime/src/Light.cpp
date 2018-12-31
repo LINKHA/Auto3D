@@ -102,7 +102,6 @@ Light::Light(SharedPtr<Ambient> ambi)
 	, _nearPlane(0.01f)
 {
 	SetType(LightType::Directional);
-	AddToManager();
 	SetShadowType(ShadowType::Soft);
 }
 
@@ -122,6 +121,11 @@ void Light::Update()
 	_lightProjectionMatrix = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, nearPlane, _farPlane);
 	_lightViewMatrix = glm::lookAt(GetNode()->GetComponent<Transform>()->GetPosition().ToGLM(), glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
 	_lightSpaceMatrix = _lightProjectionMatrix * _lightViewMatrix;
+}
+
+void Light::Init()
+{
+	AddToManager();
 }
 
 void Light::SetType(LightType type)
@@ -193,11 +197,11 @@ glm::vec3 Light::GetLightPosition()
 }
 void Light::AddToManager()
 {
-	GetSubSystem<Renderer>()->GetLightContainer()->AddLight(this);
+	GetSubSystem<Renderer>()->GetLightContainer()->AddLight(SharedFromThis());
 }
 void Light::RemoveFromManager()
 {
-	GetSubSystem<Renderer>()->GetLightContainer()->RemoveLight(this);
+	GetSubSystem<Renderer>()->GetLightContainer()->RemoveLight(SharedFromThis());
 }
 
 }

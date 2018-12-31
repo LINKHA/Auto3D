@@ -17,7 +17,7 @@ MeshLight::MeshLight(SharedPtr<Ambient> ambient)
 
 MeshLight::~MeshLight()
 {
-	UnloadOpaque(this);
+	UnloadOpaque(SharedFromThis());
 }
 #define HDR_DEBUG 0
 void MeshLight::Start()
@@ -27,7 +27,7 @@ void MeshLight::Start()
 
 	_shader->Use();
 	_shader->SetInt("diffuseTexture", 0);
-	RegisterOpaque(this);
+	RegisterOpaque(SharedFromThis());
 }
 
 void MeshLight::Draw()
@@ -42,9 +42,9 @@ void MeshLight::Draw()
 	glBindTexture(GL_TEXTURE_2D, woodTexture);
 	// set lighting uniforms
 
-	VECTOR<Light*> lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
+	VECTOR<SharedPtr<Light> > lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
 	int lightNum = 0;
-	for (VECTOR<Light*>::iterator it = lights.begin(); it != lights.end(); it++)
+	for (VECTOR<SharedPtr<Light> >::iterator it = lights.begin(); it != lights.end(); it++)
 	{
 		_shader->SetVec3("lights[" + KhSTL::ToString(lightNum) + "].Position", (*it)->GetNode()->GetPosition());
 		_shader->SetVec3("lights[" + KhSTL::ToString(lightNum) + "].Color", (*it)->GetColorToVec());

@@ -18,7 +18,7 @@ MeshRenderer::MeshRenderer(SharedPtr<Ambient> ambient)
 
 MeshRenderer::~MeshRenderer()
 {
-	UnloadOpaque(this);
+	UnloadOpaque(SharedFromThis());
 }
 
 void MeshRenderer::RegisterObject(SharedPtr<Ambient> ambient)
@@ -44,7 +44,7 @@ void MeshRenderer::Start()
 			_shader->Create();
 		}
 	}
-	RegisterOpaque(this);
+	RegisterOpaque(SharedFromThis());
 }
 
 void MeshRenderer::Draw()
@@ -117,7 +117,7 @@ void MeshRenderer::drawLight()
 	int spot = 0;
 	for (auto it = lights.begin(); it != lights.end(); it++)
 	{
-		Light * t = *it;
+		SharedPtr<Light> t = *it;
 		Vector3 ligthtPosition = t->GetNode()->GetComponent<Transform>()->GetPosition();
 		_shader->SetVec3("lightPos", ligthtPosition);
 

@@ -14,7 +14,7 @@ TextureNormal::TextureNormal(SharedPtr<Ambient> ambient)
 
 TextureNormal::~TextureNormal()
 {
-	UnloadOpaque(this);
+	UnloadOpaque(SharedFromThis());
 	glDeleteVertexArrays(1, &_VAO);
 	glDeleteBuffers(1, &_VBO);
 }
@@ -37,7 +37,7 @@ void TextureNormal::Start()
 
 	//stbi_image_free(m_image->Value);
 
-	RegisterOpaque(this);
+	RegisterOpaque(SharedFromThis());
 	/////////////////////////////////////////////////////////////////////////////////////////////
 }
 

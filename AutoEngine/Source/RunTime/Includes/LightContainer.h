@@ -10,11 +10,11 @@ class Light;
 class LightContainer : public Object
 {
 	REGISTER_OBJECT_CLASS(LightContainer, Object)
-	using Lights = VECTOR<Light*>;
+	using Lights = VECTOR<SharedPtr<Light> >;
 public:
 	explicit LightContainer(SharedPtr<Ambient> ambient);
-	void AddLight(Light* source);
-	void RemoveLight(Light* source);
+	void AddLight(SharedPtr<Light> source);
+	void RemoveLight(SharedPtr<Light> source);
 	/**
 	* @brief : Get light container size
 	*/
@@ -27,7 +27,7 @@ public:
 	/**
 	* @brief : Get last main light
 	*/
-	const Light* GetLastMainLight() { return _lastMainLight; }
+	const SharedPtr<Light> GetLastMainLight() { return _lastMainLight; }
 	/**
 	* @brief : Set is or not render
 	*/
@@ -35,16 +35,16 @@ public:
 	/**
 	* @brief : Set current light
 	*/
-	void SetCurrentLight(Light* light) { _currentLight = light; }
+	void SetCurrentLight(SharedPtr<Light> light) { _currentLight = light; }
 	/**
 	* @brief : Get current light
 	*/
-	Light* GetCurrentLight() { return _currentLight; }
+	SharedPtr<Light> GetCurrentLight() { return _currentLight; }
 private:
 	bool _isRenderOrCull;
-	Light* _currentLight;
+	SharedPtr<Light> _currentLight;
 	Lights _lights;
-	Light* _lastMainLight;
+	SharedPtr<Light> _lastMainLight;
 
 };
 

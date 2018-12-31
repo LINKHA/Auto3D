@@ -12,37 +12,37 @@ RenderComponent::~RenderComponent()
 {
 }
 
-void RenderComponent::RegisterShadow(RenderComponent * com)
+void RenderComponent::RegisterShadow(SharedPtr<RenderComponent> com)
 {
 	GetSubSystem<Renderer>()->AddShadowMap(com);
 }
 
-void RenderComponent::RegisterOpaque(RenderComponent * com)
+void RenderComponent::RegisterOpaque(SharedPtr<RenderComponent> com)
 {
 	GetSubSystem<Renderer>()->AddOpaqueGeometry(com);
 }
 
-void RenderComponent::RegisterCustom(RenderComponent * com)
+void RenderComponent::RegisterCustom(SharedPtr<RenderComponent> com)
 {
 	GetSubSystem<Renderer>()->AddCustomGeometry(com);
 }
-void RenderComponent::RegisterTranslucent(RenderComponent * com)
+void RenderComponent::RegisterTranslucent(SharedPtr<RenderComponent> com)
 {
 	GetSubSystem<Renderer>()->AddTranslucentGeometry(com);
 }
-void RenderComponent::UnloadShadow(RenderComponent* com)
+void RenderComponent::UnloadShadow(SharedPtr<RenderComponent> com)
 {
 	GetSubSystem<Renderer>()->RemoveShadowMap(com);
 }
-void RenderComponent::UnloadOpaque(RenderComponent* com)
+void RenderComponent::UnloadOpaque(SharedPtr<RenderComponent> com)
 {
 	GetSubSystem<Renderer>()->RemoveOpaqueGeometry(com);
 }
-void RenderComponent::UnloadCustom(RenderComponent* com)
+void RenderComponent::UnloadCustom(SharedPtr<RenderComponent> com)
 {
 	GetSubSystem<Renderer>()->RemoveCustomGeometry(com);
 }
-void RenderComponent::UnloadTranslucent(RenderComponent* com)
+void RenderComponent::UnloadTranslucent(SharedPtr<RenderComponent> com)
 {
 	GetSubSystem<Renderer>()->RemoveTranslucentGeometry(com);
 }

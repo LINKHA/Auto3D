@@ -23,7 +23,7 @@ SkyBoxReflectMesh::SkyBoxReflectMesh(SharedPtr<Ambient> ambient, SharedPtr<Shade
 
 SkyBoxReflectMesh::~SkyBoxReflectMesh()
 {
-	UnloadOpaque(this);
+	UnloadOpaque(SharedFromThis());
 }
 void SkyBoxReflectMesh::Start()
 {
@@ -84,7 +84,7 @@ void SkyBoxReflectMesh::Start()
 	_shader->Use();
 	_shader->SetInt("skybox", 0);
 
-	RegisterOpaque(this);
+	RegisterOpaque(SharedFromThis());
 }
 void SkyBoxReflectMesh::Draw()
 {

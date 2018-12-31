@@ -28,7 +28,7 @@ MeshPBRTexture::MeshPBRTexture(SharedPtr<Ambient> ambient)
 
 MeshPBRTexture::~MeshPBRTexture()
 {
-	UnloadOpaque(this);
+	UnloadOpaque(SharedFromThis());
 }
 
 void MeshPBRTexture::Start()
@@ -68,7 +68,7 @@ void MeshPBRTexture::Start()
 	_roughnessMap = GetSubSystem<ResourceSystem>()->TextureLoad("../Resource/texture/pbr/gold/roughness.png");
 	_aoMap = GetSubSystem<ResourceSystem>()->TextureLoad("../Resource/texture/pbr/gold/ao.png");
 
-	RegisterOpaque(this);
+	RegisterOpaque(SharedFromThis());
 }
 
 void MeshPBRTexture::Draw()
@@ -112,9 +112,9 @@ void MeshPBRTexture::Draw()
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	//light
-	VECTOR<Light*> lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
+	VECTOR<SharedPtr<Light> > lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
 	int lightNum = 0;
-	for (VECTOR<Light*>::iterator it = lights.begin(); it != lights.end(); it++)
+	for (VECTOR<SharedPtr<Light> >::iterator it = lights.begin(); it != lights.end(); it++)
 	{
 		_shader->SetVec3("lightPositions[" + KhSTL::ToString(lightNum) + "]", (*it)->GetNode()->GetPosition());
 		_shader->SetVec3("lightColors[" + KhSTL::ToString(lightNum) + "]", (*it)->GetColorToVec());

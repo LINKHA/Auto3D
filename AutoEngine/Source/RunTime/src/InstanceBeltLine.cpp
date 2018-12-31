@@ -19,7 +19,7 @@ InstanceBeltLine::InstanceBeltLine(SharedPtr<Ambient> ambient, SharedPtr<Mesh> m
 }
 InstanceBeltLine::~InstanceBeltLine()
 {
-	UnloadOpaque(this);
+	UnloadOpaque(SharedFromThis());
 }
 void InstanceBeltLine::Start()
 {
@@ -48,7 +48,7 @@ void InstanceBeltLine::Start()
 		glBindVertexArray(0);
 	}
 
-	RegisterOpaque(this);
+	RegisterOpaque(SharedFromThis());
 }
 void InstanceBeltLine::Draw()
 {

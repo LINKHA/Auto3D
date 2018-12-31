@@ -10,7 +10,7 @@
 
 namespace Auto3D {
 
-class TextureNormal : public TextureMap
+class TextureNormal : public TextureMap, public EnableSharedFromThis<TextureNormal>
 {
 	REGISTER_OBJECT_CLASS(TextureNormal, TextureMap)
 public:

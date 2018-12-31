@@ -25,7 +25,7 @@ enum class ProjectionMode
 	Orthographic = 2,
 };
 
-class Camera : public Component
+class Camera : public Component,public EnableSharedFromThis<Camera>
 {
 	REGISTER_OBJECT_CLASS(Camera, Component)
 public:

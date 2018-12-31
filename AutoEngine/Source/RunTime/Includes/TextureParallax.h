@@ -5,9 +5,10 @@
 #include "Camera.h"
 #include "Application.h"
 #include "TextureMap.h"
+
 namespace Auto3D {
 
-class TextureParallax : public TextureMap
+class TextureParallax : public TextureMap , public EnableSharedFromThis<TextureParallax>
 {
 	REGISTER_OBJECT_CLASS(TextureParallax, TextureMap)
 public:

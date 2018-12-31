@@ -11,20 +11,25 @@ namespace Auto3D {
 
 MeshShadow::MeshShadow(SharedPtr<Ambient> ambient)
 	: RenderComponent(ambient)
-
 {
 	auto shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_shadow_mapping.glsl");
 	_shader = MakeShared<ShaderVariation>(shader);
 	_shader->Create();
-	RegisterShadow(this);
-	RegisterOpaque(this);
+	
 }
 
 MeshShadow::~MeshShadow()
 {
-	UnloadShadow(this);
-	UnloadOpaque(this);
+	UnloadShadow(SharedFromThis());
+	UnloadOpaque(SharedFromThis());
 }
+
+void MeshShadow::Init()
+{
+	RegisterShadow(SharedFromThis());
+	RegisterOpaque(SharedFromThis());
+}
+
 void MeshShadow::DrawReady()
 {
 	_mesh = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/base/Cube.3DS");
@@ -52,15 +57,15 @@ void MeshShadow::DrawShadow()
 }
 void MeshShadow::Draw()
 {
-	Camera* camera = GetSubSystem<Renderer>()->GetCurrentCameraPtr();
+	SharedPtr<Camera> camera = GetSubSystem<Renderer>()->GetCurrentCameraPtr();
 	glm::vec3 lightPos;
 	glm::mat4 lightSpaceMatrix;
 	//!!! Temp use one light,and must need light
 	#pragma warning
-	VECTOR<Light*>& lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
+	VECTOR<SharedPtr<Light> >& lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
 	//!!!Temp
 	Assert(lights.size() != 0);
-	for (VECTOR<Light*>::iterator it = lights.begin(); it != lights.end(); it++)
+	for (VECTOR<SharedPtr<Light> >::iterator it = lights.begin(); it != lights.end(); it++)
 	{
 		lightPos = (*it)->GetLightPosition();
 		lightSpaceMatrix = (*it)->GetLightSpaceMatrix();

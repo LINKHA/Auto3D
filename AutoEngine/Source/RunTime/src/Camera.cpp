@@ -21,7 +21,7 @@ Camera::Camera(SharedPtr<Ambient> ambient)
 	, _projectionMode(ProjectionMode::Perspective)
 {
 	updateCameraVectors();
-	GetSubSystem<Renderer>()->AddCamera(this);
+
 }
 
 Camera::~Camera()
@@ -106,6 +106,7 @@ void Camera::Start()
 void Camera::Init()
 {
 	_transform = GetNode()->GetComponent<Transform>();
+	GetSubSystem<Renderer>()->AddCamera(SharedFromThis());
 }
 
 glm::mat4 Camera::GetViewMatrix()

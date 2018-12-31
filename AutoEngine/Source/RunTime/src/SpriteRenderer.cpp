@@ -27,11 +27,11 @@ SpriteRenderer::SpriteRenderer(SharedPtr<Ambient> ambient)
 SpriteRenderer::~SpriteRenderer()
 {
 	if (_image->GetType() == ImageType::Opaque)
-		UnloadOpaque(this);
+		UnloadOpaque(SharedFromThis());
 	else if (_image->GetType() == ImageType::Custom)
-		UnloadCustom(this);
+		UnloadCustom(SharedFromThis());
 	else if (_image->GetType() == ImageType::Translucent)
-		UnloadTranslucent(this);
+		UnloadTranslucent(SharedFromThis());
 
 	glDeleteVertexArrays(1, &_VAO);
 	glDeleteBuffers(1, &_VBO);
@@ -94,11 +94,11 @@ void SpriteRenderer::Start()
 		WarningString("Failed to load texture");
 	}
 	if(_image->GetType() == ImageType::Opaque)
-		RegisterOpaque(this);
+		RegisterOpaque(SharedFromThis());
 	else if (_image->GetType() == ImageType::Custom)
-		RegisterCustom(this);
+		RegisterCustom(SharedFromThis());
 	else if (_image->GetType() == ImageType::Translucent)
-		RegisterTranslucent(this);
+		RegisterTranslucent(SharedFromThis());
 	/////////////////////////////////////////////////////////////////////////////////////////////
 }
 

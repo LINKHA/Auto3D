@@ -4,7 +4,7 @@
 #include "ShaderVariation.h"
 namespace Auto3D {
 class Camera;
-class InstanceBeltLine : public RenderComponent
+class InstanceBeltLine : public RenderComponent, public EnableSharedFromThis<InstanceBeltLine>
 {
 public:
 	InstanceBeltLine(SharedPtr<Ambient> ambient, SharedPtr<Mesh> mesh, SharedPtr<Shader> shader, glm::mat4* modelMat,int count);

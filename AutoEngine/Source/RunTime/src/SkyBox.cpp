@@ -21,7 +21,7 @@ SkyBox::SkyBox(SharedPtr<Ambient> ambient)
 
 SkyBox::~SkyBox()
 {
-	UnloadOpaque(this);
+	UnloadOpaque(SharedFromThis());
 }
 
 void SkyBox::RegisterObject(SharedPtr<Ambient> ambient)
@@ -54,7 +54,7 @@ void SkyBox::Start()
 	};
 	//_cubemapTexture = LoadCubemap(faces);
 	_cubemapTexture = GetSubSystem<ResourceSystem>()->CubemapLoad(faces);
-	RegisterOpaque(this);
+	RegisterOpaque(SharedFromThis());
 }
 void SkyBox::Draw()
 {

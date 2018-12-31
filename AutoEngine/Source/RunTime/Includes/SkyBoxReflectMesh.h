@@ -2,7 +2,7 @@
 #include "RenderComponent.h"
 #include "ShaderVariation.h"
 namespace Auto3D {
-class SkyBoxReflectMesh : public RenderComponent
+class SkyBoxReflectMesh : public RenderComponent, public EnableSharedFromThis<SkyBoxReflectMesh>
 {
 public:
 	explicit SkyBoxReflectMesh(SharedPtr<Ambient> ambient); 

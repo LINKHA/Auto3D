@@ -63,7 +63,7 @@ private:
 /**
 * @brief : Light component
 */
-class Light : public Component
+class Light : public Component, public EnableSharedFromThis<Light>
 {
 	REGISTER_OBJECT_CLASS(Light, Component)
 public:
@@ -72,6 +72,7 @@ public:
 	* @brief : Register object factory.
 	*/
 	static void RegisterObject(SharedPtr<Ambient> ambient);
+	void Init()override;
 	/**
 	* @brief : Update light data
 	*/

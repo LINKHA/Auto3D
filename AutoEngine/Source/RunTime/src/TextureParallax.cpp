@@ -17,7 +17,7 @@ TextureParallax::TextureParallax(SharedPtr<Ambient> ambient)
 
 TextureParallax::~TextureParallax()
 {
-	UnloadOpaque(this);
+	UnloadOpaque(SharedFromThis());
 	glDeleteVertexArrays(1, &_VAO);
 	glDeleteBuffers(1, &_VBO);
 }
@@ -38,7 +38,7 @@ void TextureParallax::Start()
 	_shader->SetInt("depthMap", 2);
 	//stbi_image_free(m_image->Value);
 
-	RegisterOpaque(this);
+	RegisterOpaque(SharedFromThis());
 	/////////////////////////////////////////////////////////////////////////////////////////////
 }
 

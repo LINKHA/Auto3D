@@ -8,7 +8,7 @@ class RenderComponent : public Component
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(RenderComponent, Component)
 public:
-	explicit RenderComponent(SharedPtr<Ambient>  ambient);
+	explicit RenderComponent(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Ready draw component
 	*/
@@ -26,35 +26,35 @@ protected:
 	/**
 	* @brief : Register shadow to renderer
 	*/
-	void RegisterShadow(RenderComponent* com);
+	void RegisterShadow(SharedPtr<RenderComponent> com);
 	/**
 	* @brief : Register opaque to renderer
 	*/
-	void RegisterOpaque(RenderComponent* com);
+	void RegisterOpaque(SharedPtr<RenderComponent> com);
 	/**
 	* @brief : Register custom to renderer
 	*/
-	void RegisterCustom(RenderComponent* com);
+	void RegisterCustom(SharedPtr<RenderComponent> com);
 	/**
 	* @brief : Register translucent to renderer
 	*/
-	void RegisterTranslucent(RenderComponent* com);
+	void RegisterTranslucent(SharedPtr<RenderComponent> com);
 	/**
 	* @brief : Unload shadow to renderer
 	*/
-	void UnloadShadow(RenderComponent* com);
+	void UnloadShadow(SharedPtr<RenderComponent> com);
 	/**
 	* @brief : Unload opaque to renderer
 	*/
-	void UnloadOpaque(RenderComponent* com);
+	void UnloadOpaque(SharedPtr<RenderComponent> com);
 	/**
 	* @brief : Unload custom to renderer
 	*/
-	void UnloadCustom(RenderComponent* com);
+	void UnloadCustom(SharedPtr<RenderComponent> com);
 	/**
 	* @brief : Unload translucent to renderer
 	*/
-	void UnloadTranslucent(RenderComponent* com);
+	void UnloadTranslucent(SharedPtr<RenderComponent> com);
 
 };
 

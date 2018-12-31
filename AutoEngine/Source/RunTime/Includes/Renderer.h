@@ -15,16 +15,16 @@ class Renderer : public GlobalGameManager
 {
 	REGISTER_OBJECT_CLASS(Renderer, GlobalGameManager)
 
-	using CameraContainer = LIST<Camera*>;
+	using CameraContainer = LIST<SharedPtr<Camera> >;
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	///Render in this order
-	using ShadowMapContainer = LIST<RenderComponent*>;
-	using OpaqueContainer = LIST<RenderComponent*>;
-	using CustomContainer = LIST<RenderComponent*>; //Skybox and other custon component
-	using TranslucentContainer = LIST<RenderComponent*>;
+	using ShadowMapContainer = LIST<SharedPtr<RenderComponent> >;
+	using OpaqueContainer = LIST<SharedPtr<RenderComponent> >;
+	using CustomContainer = LIST<SharedPtr<RenderComponent> >; //Skybox and other custon component
+	using TranslucentContainer = LIST<SharedPtr<RenderComponent> >;
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	///Auxiliary vessel with distance
-	using TranslucentDepth = PAIR_MAP<float, RenderComponent*>; 
+	using TranslucentDepth = PAIR_MAP<float, SharedPtr<RenderComponent> >;
 	friend class ShadowRenderer;
 	friend class LightContainer;
 public:
@@ -44,43 +44,43 @@ public:
 	/**
 	* @brief : Dynamically add a camera (valid when traversing the camera)
 	*/
-	void AddCamera(Camera* c);
+	void AddCamera(SharedPtr<Camera> camera);
 	/**
 	* @brief : Dynamically remove a camera (valid when traversing the camera)
 	*/
-	void RemoveCamera(Camera* c);
+	void RemoveCamera(SharedPtr<Camera> camera);
 	/**
 	* @brief : Dynamically add a shadow map (valid when traversing the camera)
 	*/
-	void AddShadowMap(RenderComponent* component);
+	void AddShadowMap(SharedPtr<RenderComponent> component);
 	/**
 	* @brief : Dynamically remove a shadow map (valid when traversing the camera)
 	*/
-	void RemoveShadowMap(RenderComponent* component);
+	void RemoveShadowMap(SharedPtr<RenderComponent> component);
 	/**
 	* @brief : Dynamically add a opaque geometry (valid when traversing the camera)
 	*/
-	void AddOpaqueGeometry(RenderComponent* component);
+	void AddOpaqueGeometry(SharedPtr<RenderComponent> component);
 	/**
 	* @brief : Dynamically remove a opaque geometry (valid when traversing the camera)
 	*/
-	void RemoveOpaqueGeometry(RenderComponent* component);
+	void RemoveOpaqueGeometry(SharedPtr<RenderComponent> component);
 	/**
 	* @brief : Dynamically add a custom geometry (valid when traversing the camera)
 	*/
-	void AddCustomGeometry(RenderComponent* component);
+	void AddCustomGeometry(SharedPtr<RenderComponent> component);
 	/**
 	* @brief : Dynamically remove a custom geometry (valid when traversing the camera)
 	*/
-	void RemoveCustomGeometry(RenderComponent* component);
+	void RemoveCustomGeometry(SharedPtr<RenderComponent> component);
 	/**
 	* @brief : Dynamically add a translucent geometry (valid when traversing the camera)
 	*/
-	void AddTranslucentGeometry(RenderComponent* component);
+	void AddTranslucentGeometry(SharedPtr<RenderComponent> component);
 	/**
 	* @brief : Dynamically remove a translucent geometry (valid when traversing the camera)
 	*/
-	void RemoveTranslucentGeometry(RenderComponent* component);
+	void RemoveTranslucentGeometry(SharedPtr<RenderComponent> component);
 	/**
 	* @brief : Get Current camera quote
 	*/
@@ -88,7 +88,7 @@ public:
 	/**
 	* @brief : Get Current camera point
 	*/
-	Camera* GetCurrentCameraPtr() { return _currentCamera; }
+	SharedPtr<Camera> GetCurrentCameraPtr() { return _currentCamera; }
 	/**
 	* @brief : Get Current all camera quote
 	*/
@@ -96,7 +96,7 @@ public:
 	/**
 	* @brief : Set current camera handle
 	*/
-	void SetCurrentCamera(Camera* c) { _currentCamera = c; }
+	void SetCurrentCamera(SharedPtr<Camera> camera) { _currentCamera = camera; }
 	/**
 	* @brief : Get light container (friend to LightContainer)
 	*/
@@ -176,27 +176,27 @@ private:
 	///is rendering or culling
 	bool _insideRenderOrCull;
 	///camera container
-	Camera* _currentCamera;
+	SharedPtr<Camera> _currentCamera;
 	CameraContainer _cameras;
 	CameraContainer _camerasToAdd;
 	CameraContainer _camerasToRemove;
 	///opaques shadow
-	RenderComponent* _currentShadow;
+	SharedPtr<RenderComponent> _currentShadow;
 	ShadowMapContainer _shadowsMap;
 	ShadowMapContainer _shadowsMapToAdd;
 	ShadowMapContainer _shadowsMapToRemove;
 	///opaques container
-	RenderComponent* _currentOpaques;
+	SharedPtr<RenderComponent> _currentOpaques;
 	OpaqueContainer _opaques;
 	OpaqueContainer _opaquesToAdd;
 	OpaqueContainer _opaquesToRemove;
 	///custom container
-	RenderComponent* _currentCustom;
+	SharedPtr<RenderComponent> _currentCustom;
 	CustomContainer _customs;
 	CustomContainer _customsToAdd;
 	CustomContainer _customsToRemove;
 	///translucent container
-	RenderComponent* _currentTranslucent;
+	SharedPtr<RenderComponent> _currentTranslucent;
 	TranslucentContainer _translucents;
 	TranslucentContainer _translucentsToAdd;
 	TranslucentContainer _translucentsRemove;

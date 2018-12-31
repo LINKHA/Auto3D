@@ -7,7 +7,7 @@
 namespace Auto3D {
 
 
-class MeshPBR : public RenderComponent
+class MeshPBR : public RenderComponent, public EnableSharedFromThis<MeshPBR>
 {
 	REGISTER_OBJECT_CLASS(MeshPBR, RenderComponent)
 public:

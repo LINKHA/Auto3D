@@ -21,7 +21,7 @@ DeferredShading::DeferredShading(SharedPtr<Ambient> ambient)
 }
 DeferredShading::~DeferredShading()
 {
-	UnloadOpaque(this);
+	UnloadOpaque(SharedFromThis());
 }
 void DeferredShading::Start()
 {
@@ -105,7 +105,7 @@ void DeferredShading::Start()
 	m_shaderLightingPass->SetInt("gNormal", 1);
 	m_shaderLightingPass->SetInt("gAlbedoSpec", 2);
 
-	RegisterOpaque(this);
+	RegisterOpaque(SharedFromThis());
 }
 void DeferredShading::Draw()
 {

@@ -9,13 +9,13 @@ LightContainer::LightContainer(SharedPtr<Ambient> ambient)
 {}
 LightContainer::~LightContainer()
 {}
-void LightContainer::AddLight(Light* source)
+void LightContainer::AddLight(SharedPtr<Light> source)
 {
 	Assert(source);
 	//Maybe Delay add?
 	_lights.push_back(source);
 }
-void LightContainer::RemoveLight(Light* source)
+void LightContainer::RemoveLight(SharedPtr<Light> source)
 {
 	Assert(source);
 	for (Lights::iterator it = _lights.begin(); it != _lights.end(); ++it)

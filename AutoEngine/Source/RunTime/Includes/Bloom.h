@@ -5,7 +5,7 @@
 
 namespace Auto3D {
 
-class Bloom : public RenderComponent
+class Bloom : public RenderComponent, public EnableSharedFromThis<Bloom>
 {
 public:
 	explicit Bloom(SharedPtr<Ambient> ambient);

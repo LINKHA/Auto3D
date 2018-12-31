@@ -7,13 +7,14 @@ namespace Auto3D {
 
 class Mesh;
 class Camera;
-class MeshShadowPoint : public RenderComponent, public GLMeshEnable
+class MeshShadowPoint : public RenderComponent, public GLMeshEnable, public EnableSharedFromThis<MeshShadowPoint>
 {
 public:
 	explicit MeshShadowPoint(SharedPtr<Ambient> ambient);
 	MeshShadowPoint(SharedPtr<Ambient> ambient,bool enable);
 	~MeshShadowPoint();
 	void DrawReady()override;
+	void Start()override;
 	void Draw()override;
 	void DrawShadow()override;
 	void DisableCull() { _cullEnable = true; }
