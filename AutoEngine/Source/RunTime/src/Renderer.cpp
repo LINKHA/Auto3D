@@ -470,7 +470,7 @@ void Renderer::translucentGeometrySort()
 {
 	for (LIST<RenderComponent*>::iterator i = _translucents.begin(); i != _translucents.end(); i++)
 	{
-		float distance = glm::length((_currentCamera->GetPosition() - (*i)->GetNode().GetComponent<Transform>()->GetPosition()).ToGLM());
+		float distance = glm::length((_currentCamera->GetPosition() - (*i)->GetNode()->GetComponent<Transform>()->GetPosition()).ToGLM());
 
 		_translucentsSorted[distance] = *i;
 	}

@@ -93,8 +93,8 @@ void SkyBoxReflectMesh::Draw()
 	glm::mat4 viewMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
 	glm::mat4 projectionMat = GetSubSystem<Renderer>()->GetCurrentCamera().GetProjectionMatrix();
 
-	if (GetNodePtr())		//if gameObject not empty
-		modelMat = GetNode().GetComponent<Transform>()->GetTransformMat();
+	if (GetNode())		//if gameObject not empty
+		modelMat = GetNode()->GetComponent<Transform>()->GetTransformMat();
 	else
 		modelMat = Matrix4x4::identity;
 	_shader->Use();

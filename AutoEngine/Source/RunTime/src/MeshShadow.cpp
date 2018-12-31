@@ -42,8 +42,8 @@ void MeshShadow::DrawShadow()
 	auto shadowShader = GetSubSystem<Renderer>()->GetShadowRenderer()->GetDepthMapShader();
 	glm::mat4 modelMat;
 
-	if (GetNodePtr())		//if gameObject not empty
-		modelMat = GetNode().GetComponent<Transform>()->GetTransformMat();
+	if (GetNode())		//if gameObject not empty
+		modelMat = GetNode()->GetComponent<Transform>()->GetTransformMat();
 	else
 		modelMat = Matrix4x4::identity;
 
@@ -81,8 +81,8 @@ void MeshShadow::Draw()
 		glBindTexture(GL_TEXTURE_2D, depthMap);
 		glm::mat4 modelMat;
 
-		if (GetNodePtr())		//if gameObject not empty
-			modelMat = GetNode().GetComponent<Transform>()->GetTransformMat();
+		if (GetNode())		//if gameObject not empty
+			modelMat = GetNode()->GetComponent<Transform>()->GetTransformMat();
 		else
 			modelMat = Matrix4x4::identity;
 		_shader->SetMat4("model", modelMat);

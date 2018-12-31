@@ -81,7 +81,7 @@ void MeshPBR::Draw()
 	int dir = 0;
 	for (VECTOR<Light*>::iterator it = lights.begin(); it != lights.end(); it++)
 	{
-		_shader->SetVec3("lightPositions[" + KhSTL::ToString(dir) + "]", (*it)->GetNode().GetPosition());
+		_shader->SetVec3("lightPositions[" + KhSTL::ToString(dir) + "]", (*it)->GetNode()->GetPosition());
 		_shader->SetVec3("lightColors[" + KhSTL::ToString(dir) + "]", (*it)->GetColorToVec());
 		dir++;
 	}
@@ -89,8 +89,8 @@ void MeshPBR::Draw()
 	//model
 	glm::mat4 modelMat;
 
-	if (GetNodePtr())		//if gameObject not empty
-		modelMat = GetNode().GetComponent<Transform>()->GetTransformMat();
+	if (GetNode())		//if gameObject not empty
+		modelMat = GetNode()->GetComponent<Transform>()->GetTransformMat();
 	else
 		modelMat = Matrix4x4::identity;
 

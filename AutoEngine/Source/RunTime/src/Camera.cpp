@@ -105,7 +105,7 @@ void Camera::Start()
 
 void Camera::Init()
 {
-	_transform = GetNodePtr()->GetComponent<Transform>();
+	_transform = GetNode()->GetComponent<Transform>();
 }
 
 glm::mat4 Camera::GetViewMatrix()

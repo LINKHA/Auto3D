@@ -14,7 +14,7 @@ void Level_0::Start()
 	dynamicsWorld = GetSceneNode()->GetPhysicsWorld()->GetWorld();
 
 	GameNode ground = CreateNode();
-	ground->SetPosition(0, -56.0f, 0);
+	ground->SetPosition(0, -4.0f, 0);
 	auto goundRig = ground->CreateComponent<RigidBody>();
 	goundRig->SetMass(0);
 	auto box = ground->CreateComponent<ColliderBox>();
@@ -25,8 +25,6 @@ void Level_0::Start()
 	auto goundRig2 = col->CreateComponent<RigidBody>();
 	goundRig2->SetMass(1.0f);
 	auto sphere = col->CreateComponent<ColliderSphere>();
-
-
 }
 
 void Level_0::Update()

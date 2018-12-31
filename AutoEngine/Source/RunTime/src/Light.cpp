@@ -116,11 +116,11 @@ void Light::RegisterObject(SharedPtr<Ambient> ambient)
 
 void Light::Update()
 {
-	Assert(GetNodePtr());
+	Assert(GetNode());
 
 	float nearPlane = 1.0f;
 	_lightProjectionMatrix = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, nearPlane, _farPlane);
-	_lightViewMatrix = glm::lookAt(GetNodePtr()->GetComponent<Transform>()->GetPosition().ToGLM(), glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
+	_lightViewMatrix = glm::lookAt(GetNode()->GetComponent<Transform>()->GetPosition().ToGLM(), glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
 	_lightSpaceMatrix = _lightProjectionMatrix * _lightViewMatrix;
 }
 
@@ -188,8 +188,8 @@ glm::mat4& Light::GetLightViewMatrix()
 }
 glm::vec3 Light::GetLightPosition()
 {
-	Assert(GetNodePtr());
-	return GetNode().GetComponent<Transform>()->GetPosition().ToGLM();
+	Assert(GetNode());
+	return GetNode()->GetComponent<Transform>()->GetPosition().ToGLM();
 }
 void Light::AddToManager()
 {

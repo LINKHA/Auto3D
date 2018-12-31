@@ -44,7 +44,7 @@ SharedPtr<Node> Node::GetChild(int index)
 	return _childs.at(index);
 }
 
-Node::NodeChilds& Node::GetAllChild()
+VECTOR<SharedPtr<Node> >& Node::GetAllChild()
 {
 	return _childs;
 }
@@ -58,24 +58,25 @@ void Node::AddComponent(SharedPtr<Component> com)
 
 void Node::RemoveComponentAtIndex(int index)
 {
-	ComponentsArray::iterator it = _components.begin() + index;
+	PAIR_VECTOR<STRING, SharedPtr<Component> >::iterator it = _components.begin() + index;
 	_components.erase(it);
+}
+
+SharedPtr<Component> Node::GetComponentIndex(int index)
+{
+	return _components[index].second;
 }
 
 int Node::GetComponentsSize()
 {
-	return static_cast<int>(_components.size());
+	return _components.size();
 }
 
-const Node& Node::GetNode()const
+SharedPtr<Node> Node::GetNode()
 {
-	return *this;
+	return SharedFromThis();
 }
 
-Node& Node::GetNode()
-{
-	return *this;
-}
 void Node::SetPosition(const Vector2& position)
 {
 	auto transform = GetComponent<Transform>();

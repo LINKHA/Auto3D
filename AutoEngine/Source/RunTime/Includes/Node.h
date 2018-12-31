@@ -18,10 +18,6 @@ using GameNode = SharedPtr<Node>;
 class Node :public Object, public EnableSharedFromThis<Node>
 {
 	REGISTER_OBJECT_CLASS(Node, Object)
-
-	using NodeChilds = VECTOR<SharedPtr<Node> >;
-
-	using ComponentsArray = PAIR_VECTOR<STRING, SharedPtr<Component> >;
 public:
 	explicit Node(SharedPtr<Ambient> ambient, int sceneID);
 	/**
@@ -50,7 +46,7 @@ public:
 	* @brief : Get this objct all child
 	* @return : GameObjectChildArray&
 	*/
-	virtual NodeChilds& GetAllChild();
+	virtual VECTOR<SharedPtr<Node> >& GetAllChild();
 	/**
 	* @brief : Set layer
 	*/
@@ -79,7 +75,7 @@ public:
 	/**
 	* @brief : Get component from index
 	*/
-	inline Component& GetComponentIndex(int index);
+	SharedPtr<Component> GetComponentIndex(int index);
 	/**
 	* @brief : Get components size
 	*/
@@ -87,16 +83,12 @@ public:
 	/**
 	* @brief : Get game object
 	*/
-	const Node& GetNode()const;
-	/**
-	* @brief : Get game object
-	*/
-	Node& GetNode();
+	SharedPtr<Node> GetNode();
 	/**
 	* @brief : Get Components
 	* @return : PAIR_VECTOR(int, Component*)
 	*/
-	ComponentsArray& GetComponentsArray() { return _components; }
+	PAIR_VECTOR<STRING, SharedPtr<Component> >& GetComponentsArray() { return _components; }
 	/**
 	* @brief : Set position from vector2
 	*/
@@ -178,7 +170,7 @@ protected:
 	/// node name
 	STRING _name;
 	/// node childs (VECTOR(Node*))
-	NodeChilds _childs;
+	VECTOR<SharedPtr<Node> > _childs;
 	/// layer id
 	NodeLayout _layer{};
 	/// tag id
@@ -203,10 +195,6 @@ template<typename _Ty> SharedPtr<_Ty> Node::GetComponent()
 	return StaticCast<_Ty>(GetComponent(_Ty::GetClassStringStatic()));
 }
 
-inline Component& Node::GetComponentIndex(int index)
-{
-	return *_components[index].second;
-}
 
 
 }

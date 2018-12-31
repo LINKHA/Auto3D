@@ -16,21 +16,13 @@ class Component : public LevelBehaviorObject
 public:
 	explicit Component(SharedPtr<Ambient> ambient);
 	/**
-	* @brief : Get game object quote
-	*/
-	Node& GetNode();
-	/**
-	* @brief : Get game object quote const
-	*/
-	const Node& GetNode() const;
-	/**
 	* @brief : Get game object ptr
 	*/
-	SharedPtr<Node> GetNodePtr();
+	SharedPtr<Node> GetNode();
 	/**
 	* @brief : Get game object ptr const
 	*/
-	SharedPtr<Node> GetNodePtr() const;
+	SharedPtr<Node> GetNode() const;
 	/**
 	* @brief : Mount component for gameobject
 	*/
@@ -52,7 +44,7 @@ public:
 	*/
 	virtual void Init()
 	{
-		_levelID = GetNodePtr()->GetLevelID();
+		_levelID = GetNode()->GetLevelID();
 	}
 
 private:

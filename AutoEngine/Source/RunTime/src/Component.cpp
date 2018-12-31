@@ -10,22 +10,12 @@ Component::Component(SharedPtr<Ambient> ambient)
 
 Component::~Component() {}
 
-Node& Component::GetNode()
-{
-	return *_node;
-}
-
-const Node& Component::GetNode() const
-{
-	return *_node;
-}
-
-SharedPtr<Node> Component::GetNodePtr()
+SharedPtr<Node> Component::GetNode()
 {
 	return _node;
 }
 
-SharedPtr<Node> Component::GetNodePtr() const
+SharedPtr<Node> Component::GetNode() const
 {
 	return _node;
 }
@@ -37,14 +27,14 @@ void Component::SetNode(SharedPtr<Node> node)
 
 Vector3 Component::GetPosition()
 {
-	if(!GetNodePtr())
+	if(!GetNode())
 		return Vector3();
-	return GetNodePtr()->GetPosition();
+	return GetNode()->GetPosition();
 }
 
 const int Component::GetLevelID()
 {
-	return GetNode().GetLevelID();
+	return GetNode()->GetLevelID();
 }
 
 SharedPtr<SceneNode> Component::GetCurrentSceneNode()
