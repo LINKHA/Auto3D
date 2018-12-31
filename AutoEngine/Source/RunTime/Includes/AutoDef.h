@@ -13,29 +13,3 @@
 
 #define DebugCompoundShape 0
 #define SharedPtrDebug 1
-
-
-//Define Data type
-using Int8 = char;
-using SInt8 = signed char;
-using PInt8 = char*;
-using UInt8 = unsigned char;
-using PUInt8 = unsigned char*;
-
-using Int16 = short;
-using SInt16 = signed short;
-using PInt16 = short*;
-using UInt16 = unsigned short;
-using PUInt16 = unsigned short*;
-
-using Int32 = int;
-using SInt32 = signed int;
-using PInt32 = int*;
-using UInt32 = unsigned int;
-using PUInt32 = unsigned int*;
-
-using Int64 = __int64;
-using SInt64 = signed __int64;
-using PInt64 = __int64*;
-using UInt64 = unsigned __int64;
-using PUInt64 = unsigned __int64*;

@@ -42,7 +42,7 @@ public:
 	* @brief : According fail path get texture
 	* @return : unsigned int
 	*/
-	unsigned int TextureLoad(PInt8 path,bool vertically = true);
+	unsigned int TextureLoad(char* path,bool vertically = true);
 	/**
 	* @brief : According fail path get cubemap
 	* @return: unsigned int
@@ -52,7 +52,7 @@ public:
 	* @brief : According fail path get HDR cube
 	* @return: unsigned int
 	*/
-	unsigned int HdrLoad(PInt8 path);
+	unsigned int HdrLoad(char* path);
 
 	/**
 	* @brief : Return a resource by type and name. Load if not loaded yet. 

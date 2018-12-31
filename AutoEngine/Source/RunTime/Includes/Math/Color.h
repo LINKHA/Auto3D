@@ -19,8 +19,8 @@ public:
 
 	void Set(float inR, float inG, float inB)				{ r = inR; g = inG; b = inB; }
 	void Set(float inR, float inG, float inB, float inA)	{ r = inR; g = inG; b = inB; a = inA; }
-	void SetHex(UInt32 hex)									{ Set(float(hex >> 24) / 255.0f, float((hex >> 16) & 255) / 255.0f, float((hex >> 8) & 255) / 255.0f, float(hex & 255) / 255.0f); }
-	UInt32 GetHex() const									{ UInt32 hex = (NormalizedToByte(r) << 24) | (NormalizedToByte(g) << 16) | (NormalizedToByte(b) << 8) | NormalizedToByte(a); return hex; }
+	void SetHex(unsigned hex)								{ Set(float(hex >> 24) / 255.0f, float((hex >> 16) & 255) / 255.0f, float((hex >> 8) & 255) / 255.0f, float(hex & 255) / 255.0f); }
+	unsigned GetHex() const									{ unsigned hex = (NormalizedToByte(r) << 24) | (NormalizedToByte(g) << 16) | (NormalizedToByte(b) << 8) | NormalizedToByte(a); return hex; }
 	float AverageRGB() const								{ return (r + g + b)*(1.0f / 3.0f); }
 	float GreyScaleValue() const							{ return r * 0.30f + g * 0.59f + b * 0.11f; }
 	Color& operator = (const Color& in)						{ Set(in.r, in.g, in.b, in.a); return *this; }

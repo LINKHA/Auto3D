@@ -31,7 +31,7 @@ void ResourceSystem::Init()
 	//AddResourceDir(resourcePath + L"Resource/");
 }
 
-unsigned int ResourceSystem::TextureLoad(PInt8 path, bool vertically)
+unsigned int ResourceSystem::TextureLoad(char* path, bool vertically)
 {
 	stbi_set_flip_vertically_on_load(vertically);
 	unsigned int textureID;
@@ -99,7 +99,7 @@ unsigned int ResourceSystem::CubemapLoad(VECTOR<STRING> faces)
 	return textureID;
 }
 
-unsigned int ResourceSystem::HdrLoad(PInt8 path)
+unsigned int ResourceSystem::HdrLoad(char* path)
 {
 	stbi_set_flip_vertically_on_load(true);
 	unsigned int hdrTexture;

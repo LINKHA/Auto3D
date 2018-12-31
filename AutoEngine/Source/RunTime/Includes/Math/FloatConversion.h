@@ -2,12 +2,12 @@
 #include "Math/MathBase.h"
 
 namespace Auto3D {
-inline UInt32 FloorfToIntPos(float f)
+inline unsigned FloorfToIntPos(float f)
 {
 	Assert(f >= 0 && f <= UINT_MAX);
-	return (UInt32)f;
+	return (unsigned)f;
 }
-inline UInt32 RoundfToIntPos(float f)
+inline unsigned RoundfToIntPos(float f)
 {
 	return FloorfToIntPos(f + 0.5f);
 }
