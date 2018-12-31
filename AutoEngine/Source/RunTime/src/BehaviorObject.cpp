@@ -15,18 +15,10 @@ BehaviorObject::~BehaviorObject()
 {
 }
 
-
-#if SharedPtrDebug
 SharedPtr<Object> BehaviorObject::CreateObject(STRING type)
 {
 	return _ambient->CreateObject(type);
 }
-#else
-Object* BehaviorObject::CreateObject(STRING type)
-{
-	return _ambient->CreateObject(type);
-}
-#endif
 
 
 

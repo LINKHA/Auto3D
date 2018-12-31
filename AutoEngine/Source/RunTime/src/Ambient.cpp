@@ -23,7 +23,6 @@ Ambient::~Ambient()
 	//_factories.clear();
 }
 
-#if SharedPtrDebug
 SharedPtr<Object> Ambient::CreateObject(STRING objectType)
 {
 	HASH_MAP<STRING, SharedPtr<ObjectFactory> >::const_iterator i = _factories.find(objectType);
@@ -32,16 +31,6 @@ SharedPtr<Object> Ambient::CreateObject(STRING objectType)
 	else
 		return SharedPtr<Object>();
 }
-#else
-Object* Ambient::CreateObject(STRING objectType)
-{
-	HASH_MAP<STRING, SharedPtr<ObjectFactory> >::const_iterator i = _factories.find(objectType);
-	if (i != _factories.end())
-		return i->second->CreateObject();
-	else
-		return nullptr;
-}
-#endif
 
 void Ambient::RegisterSubSystem(Object* object)
 {

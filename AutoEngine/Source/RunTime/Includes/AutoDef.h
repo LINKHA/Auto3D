@@ -12,4 +12,3 @@
 #define AUTO_OPENGL _OPENGL_4_6_ || _OPENGL_4_PLUS_ || _OPENGL_3_PLUS_
 
 #define DebugCompoundShape 0
-#define SharedPtrDebug 1
