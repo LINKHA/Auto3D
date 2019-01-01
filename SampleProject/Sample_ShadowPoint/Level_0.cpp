@@ -1,4 +1,4 @@
-#include "Level_1.h"
+#include "Level_0.h"
 #include "Node.h"
 #include "Light.h"
 #include "MeshRenderer.h"
@@ -6,7 +6,7 @@
 #include "ResourceSystem.h"
 #include "../FreeCamera.h"
 
-void Level_1::ShadowPoint()
+void Level_0::ShadowPoint()
 {
 	auto sphere = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/base/Sphere.3DS");
 
@@ -55,7 +55,7 @@ void Level_1::ShadowPoint()
 	shadowMeshObj5->AddComponent(mesh5);
 
 }
-void Level_1::Start()
+void Level_0::Start()
 {
 	GameNode cameraObj = CreateNode();
 	auto camera = MakeShared<FreeCamera>(_ambient);
@@ -66,6 +66,6 @@ void Level_1::Start()
 	ShadowPoint();
 }
 
-void Level_1::Update()
+void Level_0::Update()
 {
 }

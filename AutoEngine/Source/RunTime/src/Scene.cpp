@@ -38,10 +38,10 @@ Scene::~Scene()
 	_dynamicLevelScenes.clear();
 }
 
-void Scene::RegisterScene(int sceneId, LevelScene* scene)
+void Scene::RegisterScene(int sceneId, SharedPtr<LevelScene> level)
 {
-	scene->Enable(true);
-	_dynamicLevelScenes.emplace(MakePair(sceneId, scene));
+	level->Enable(true);
+	_dynamicLevelScenes.emplace(MakePair(sceneId, level));
 }
 
 void Scene::RemoveScene(int sceneId)
@@ -62,7 +62,7 @@ void Scene::ModeRunLevel(RunMode runMode)
 	}
 	for (auto i = _actionLevelScenes.begin(); i != _actionLevelScenes.end(); i++)
 	{
-		LevelScene* level = i->second;
+		SharedPtr<LevelScene> level = i->second;
 		if (level && level->IsEnable())
 		{
 			if (runMode == RunMode::Awake)

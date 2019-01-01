@@ -16,7 +16,6 @@ Image::Image(SharedPtr<Ambient> ambient)
 
 Image::~Image()
 {
-	delete[] _data;
 }
 
 void Image::RegisterObject(SharedPtr<Ambient> ambient)
@@ -59,7 +58,7 @@ bool Image::Save(Serializer& dest) const
 	}
 
 	int len;
-	unsigned char* png = stbi_write_png_to_mem(_data, 0, _width, _height, _components, &len);
+	unsigned char* png = stbi_write_png_to_mem(_data.get(), 0, _width, _height, _components, &len);
 	bool success = dest.Write(png, (unsigned)len) == (unsigned)len;
 	free(png);      // NOLINT(hicpp-no-malloc)
 	return success;
@@ -84,7 +83,7 @@ bool Image::SetSize(int width, int height, int depth, unsigned comp)
 		return false;
 	}
 
-	_data = new unsigned char[width * height * depth * comp];
+	_data = SharedArrayPtr<unsigned char>(new unsigned char[width * height * depth * comp]);
 	_width = width;
 	_height = height;
 	_depth = depth;
@@ -110,9 +109,9 @@ void Image::SetData(const unsigned char* pixelData)
 
 	auto size = (size_t)_width * _height * _depth * _components;
 	if (pixelData)
-		memcpy(_data, pixelData, size);
+		memcpy(_data.get(), pixelData, size);
 	else
-		memset(_data, 0, size);
+		memset(_data.get(), 0, size);
 	_nextLevel.reset();
 }
 

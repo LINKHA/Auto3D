@@ -176,7 +176,7 @@ SDL_Surface* Graphics::SetIcon()
 		pitch = 4 * _icon->GetWidth();
 	}
 
-	SDL_Surface* surf = SDL_CreateRGBSurfaceFrom((void*)_icon->GetData(), _icon->GetWidth(), _icon->GetHeight(), depth, pitch,
+	SDL_Surface* surf = SDL_CreateRGBSurfaceFrom((void*)_icon->GetData().get(), _icon->GetWidth(), _icon->GetHeight(), depth, pitch,
 		rmask, gmask, bmask, amask);
 
 	if (surf == NULL) {
@@ -214,21 +214,6 @@ bool Graphics::IsDeviceLost()
 		return true;
 #endif
 	return _context == nullptr;
-}
-
-void Graphics::AddGPUObject(SharedPtr<GPUObject> object)
-{
-	_gpuObjects.push_back(object);
-}
-
-void Graphics::RemoveGPUObject(SharedPtr<GPUObject> object)
-{
-#pragma warning ///Temp Multithreaded locks should be added
-	//for (auto it = _gpuObjects.begin(); it != _gpuObjects.end(); it++)
-	//{
-	//	if(*it = object)
-	//		_gpuObjects.erase(it);
-	//}
 }
 
 void Graphics::RegisterGraphicsLib(SharedPtr<Ambient> ambient)

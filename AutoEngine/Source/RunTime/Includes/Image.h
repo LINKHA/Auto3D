@@ -124,7 +124,7 @@ public:
 	/**
 	* @brief : Return pixel data
 	*/
-	unsigned char* GetData() const { return _data; }
+	SharedArrayPtr<unsigned char> GetData() const { return _data; }
 	/**
 	* @brief : Return image type
 	*/
@@ -173,7 +173,8 @@ public:
 	/// image type
 	ImageType _imageType{ ImageType::Opaque };
 	/// pixel data
-	unsigned char* _data;
+	//unsigned char* _data;
+	SharedArrayPtr<unsigned char> _data;
 	/// precalculated mip level image
 	SharedPtr<Image> _nextLevel;
 	/// next texture array or cube map image

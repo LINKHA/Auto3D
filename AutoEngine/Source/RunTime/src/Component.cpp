@@ -12,12 +12,26 @@ Component::~Component() {}
 
 SharedPtr<Node> Component::GetNode()
 {
-	return _node;
+	SharedPtr<Node> node;
+	if (node = _node.lock())
+		return node;
+	else
+	{
+		ErrorString("Fail to get node from component");
+		return SharedPtr<Node>();
+	}
 }
 
 SharedPtr<Node> Component::GetNode() const
 {
-	return _node;
+	SharedPtr<Node> node;
+	if (node = _node.lock())
+		return node;
+	else
+	{
+		ErrorString("Fail to get node from component");
+		return SharedPtr<Node>();
+	}
 }
 
 void Component::SetNode(SharedPtr<Node> node)

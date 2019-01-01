@@ -1,29 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <ClCompile Include="Sample_ShadowPoint.cpp" />
     <ClCompile Include="..\FreeCamera.cpp">
       <Filter>Script</Filter>
     </ClCompile>
-    <ClCompile Include="ShadowSpace.cpp" />
     <ClCompile Include="Level_0.cpp">
       <Filter>Level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Sample_ShadowPoint.h" />
     <ClInclude Include="..\FreeCamera.h">
       <Filter>Script</Filter>
     </ClInclude>
-    <ClInclude Include="ShadowSpace.h" />
     <ClInclude Include="Level_0.h">
       <Filter>Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
-      <UniqueIdentifier>{8561749b-ced8-4b2a-b9e3-a8a40d3675e8}</UniqueIdentifier>
+      <UniqueIdentifier>{844d5035-ca3b-4a6c-a0c1-c557fd5998b3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Script">
-      <UniqueIdentifier>{cf068b08-d3b7-40f3-996e-c39d879f7625}</UniqueIdentifier>
+      <UniqueIdentifier>{298f4f69-371d-4765-93c4-5127261d5279}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

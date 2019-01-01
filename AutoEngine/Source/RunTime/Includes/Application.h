@@ -15,7 +15,7 @@ enum class AppStates
 	ErrorExit,
 };
 
-class Application : public Singleton<Application>
+class Application
 {
 public:
 	Application();

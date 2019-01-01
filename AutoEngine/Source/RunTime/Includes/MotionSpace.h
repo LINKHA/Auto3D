@@ -14,7 +14,7 @@ public:
 	/**
 	* @brief : Registration level to scene sub system
 	*/
-	void RegisterScene(LevelScene* scene);
+	void RegisterScene(SharedPtr<LevelScene> scene);
 	/**
 	* @brief : REmove level for index
 	*/
@@ -30,7 +30,7 @@ public:
 	/**
 	* @brief : Launch application
 	*/
-	int Launch() const;
+	int Run() const;
 };
 class SpaceHandle : public Singleton<SpaceHandle>
 {
@@ -57,9 +57,9 @@ int runApplication() \
 { \
     SharedPtr<Auto3D::Ambient> ambient(new Auto3D::Ambient()); \
     _Class work(ambient);\
-    return work.Launch(); \
+    return work.Run(); \
 } \
-AUTO_MAIN(runApplication());
+AUTO_MAIN(runApplication())
 
 }
 

@@ -63,7 +63,6 @@ SharedPtr<Node> LevelScene::CreateNode(STRING name)
 	node->SetName(name);
 	//Each node must have a Transform component and cannot be deleted
 	node->CreateComponent<Transform>();
-
 	return node;
 }
 

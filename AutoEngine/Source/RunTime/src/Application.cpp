@@ -52,7 +52,6 @@ bool Application::Finish()
 {
 	setStates(AppStates::Exit);
 	_engine->Exit();
-	_CrtDumpMemoryLeaks();
 
 	return false;
 }

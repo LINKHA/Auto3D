@@ -12,7 +12,7 @@ void MassInstantiationSpace::Init()
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	STRING ResourceDir2 = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Sample_MassInstantiation/";
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir2);
-	RegisterScene(new Level_0(_ambient, 0));
+	RegisterScene(MakeShared<Level_0>(_ambient, 0));
 }
 
 void MassInstantiationSpace::Destruct()

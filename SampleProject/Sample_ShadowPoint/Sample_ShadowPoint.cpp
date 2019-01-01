@@ -1,17 +1,18 @@
-#include "Texture2DSpace.h"
+#include "Sample_ShadowPoint.h"
 #include "ResourceSystem.h"
 #include "FileSystem.h"
-#include "level_0.h"
+#include "Level_0.h"
 
-AUTO_APPLICATION_MAIN(Texture2DSpace)
+AUTO_APPLICATION_MAIN(Sample_ShadowPoint)
 
-void Texture2DSpace::Init()
+void Sample_ShadowPoint::Init()
 {
 	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(MakeShared<Level_0>(_ambient, 0));
 }
-void Texture2DSpace::Destruct()
+
+void Sample_ShadowPoint::Destruct()
 {
 	RemoveScene(0);
 }

@@ -28,7 +28,7 @@ public:
 	GPUObjectHandle GetHandle() { return _object; }
 protected:
 	/// Graphics subsystem
-	WeakPtr<Graphics> _graphics;
+	SharedPtr<Graphics> _graphics;
 	/// Object pointer or name.
 	GPUObjectHandle _object{};
 };

@@ -7,6 +7,7 @@ namespace Auto3D {
 ShaderVariation::ShaderVariation(SharedPtr<Shader> shader)
 	: GPUObject(shader->GetSubSystem<Graphics>())
 {
+
 	_vsShaderCode = shader->_vsSourceCode;
 	_fsShaderCode = shader->_fsSourceCode;
 }

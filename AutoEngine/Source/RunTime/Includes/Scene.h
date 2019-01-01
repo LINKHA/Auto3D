@@ -9,13 +9,13 @@ class Scene : public GlobalGameManager
 {
 	REGISTER_OBJECT_CLASS(Scene, GlobalGameManager)
 
-	using LevelScenes = HASH_MAP<int,LevelScene*>;
+	using LevelScenes = HASH_MAP<int, SharedPtr<LevelScene> >;
 public:
 	explicit Scene(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Register level for index
 	*/
-	void RegisterScene(int index,LevelScene* level);
+	void RegisterScene(int index, SharedPtr<LevelScene> level);
 	/**
 	* @brief : Remove level for index
 	*/
@@ -28,7 +28,7 @@ public:
 	/**
 	* @brief : Get level scene for index
 	*/
-	LevelScene* GetLevelScene(int index) { return _actionLevelScenes[index]; }
+	SharedPtr<LevelScene> GetLevelScene(int index) { return _actionLevelScenes[index]; }
 	/**
 	* @brief : Run level for mode
 	*/

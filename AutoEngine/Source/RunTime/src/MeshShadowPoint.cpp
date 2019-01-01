@@ -36,7 +36,7 @@ MeshShadowPoint::~MeshShadowPoint()
 }
 void MeshShadowPoint::DrawReady()
 {
-	_mesh = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("../Resource/object/base/Cube.3DS");
+	_mesh = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/base/Cube.3DS");
 	_woodTexture = GetSubSystem<ResourceSystem>()->TextureLoad("../Resource/texture/wood.jpg");
 
 	_shader->Use();

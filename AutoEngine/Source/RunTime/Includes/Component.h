@@ -45,7 +45,7 @@ public:
 	}
 
 private:
-	SharedPtr<Node> _node;
+	WeakPtr<Node> _node;
 };
 
 }

@@ -10,7 +10,7 @@ void ParallaxMappingSpace::Init()
 {
 	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
-	RegisterScene(new Level_0(_ambient, 0));
+	RegisterScene(MakeShared<Level_0>(_ambient, 0));
 }
 void ParallaxMappingSpace::Destruct()
 {

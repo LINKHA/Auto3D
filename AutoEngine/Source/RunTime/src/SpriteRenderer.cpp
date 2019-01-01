@@ -86,7 +86,7 @@ void SpriteRenderer::Start()
 			_image->GetHeight(),0, 
 			_image->GetFormat(),
 			GL_UNSIGNED_BYTE,
-			_image->GetData());
+			_image->GetData().get());
 		GenerateMipmap();
 	}
 	else

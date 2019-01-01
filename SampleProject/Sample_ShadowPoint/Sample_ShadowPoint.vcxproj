@@ -21,12 +21,12 @@
   <ItemGroup>
     <ClCompile Include="..\FreeCamera.cpp" />
     <ClCompile Include="Level_0.cpp" />
-    <ClCompile Include="ShadowSpace.cpp" />
+    <ClCompile Include="Sample_ShadowPoint.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FreeCamera.h" />
     <ClInclude Include="Level_0.h" />
-    <ClInclude Include="ShadowSpace.h" />
+    <ClInclude Include="Sample_ShadowPoint.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AutoEngine\AutoEngine.vcxproj">
@@ -35,11 +35,11 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{3C3F1BF8-4AB2-4802-9C18-E4E19B8C7520}</ProjectGuid>
+    <ProjectGuid>{49FB5ABA-A0D4-437C-9DC0-2D289D0580A2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>EmptyProject</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
-    <ProjectName>Sample_Shadow</ProjectName>
+    <ProjectName>Sample_ShadowPoint</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

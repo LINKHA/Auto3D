@@ -17,7 +17,7 @@ MotionSpace::~MotionSpace()
 {
 }
 
-void MotionSpace::RegisterScene(LevelScene* scene)
+void MotionSpace::RegisterScene(SharedPtr<LevelScene> scene)
 {
 	GetSubSystem<Scene>()->RegisterScene(scene->GetLevelID(), scene);
 }
@@ -26,9 +26,10 @@ void MotionSpace::RemoveScene(int id)
 {
 	GetSubSystem<Scene>()->RemoveScene(id);
 }
-int MotionSpace::Launch() const
+int MotionSpace::Run() const
 {
-	return Application::Instance().Run(_ambient);
+	Application app;
+	return app.Run(_ambient);
 }
 
 }

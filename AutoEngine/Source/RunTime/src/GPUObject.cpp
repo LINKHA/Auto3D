@@ -12,12 +12,6 @@ GPUObject::GPUObject(SharedPtr<Graphics> graphics)
 #else
 	_object.ptr = nullptr;
 #endif
-	if (auto graphics = _graphics.lock())
-	{
-		graphics->AddGPUObject(SharedPtr<GPUObject>(this));
-	}
-	else
-		ErrorString("GPU Object fail regisiter graphics");
 }
 
 

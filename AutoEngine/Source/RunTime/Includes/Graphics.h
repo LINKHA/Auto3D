@@ -93,14 +93,6 @@ public:
 	void Draw(PrimitiveTypes type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount);
 	void DrawInstanced(PrimitiveTypes type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount,unsigned instanceCount);
 	/**
-	* @brief : Add a GPU object to keep track of. Called by GPUObject
-	*/
-	void AddGPUObject(SharedPtr<GPUObject> object);
-	/**
-	* @brief : Remove a GPU object. Called by GPUObject
-	*/
-	void RemoveGPUObject(SharedPtr<GPUObject> object);
-	/**
 	* @brief : Begin to run frame
 	*/
 	bool BeginFrame();
@@ -169,8 +161,6 @@ private:
 	unsigned _numPrimitives{};
 	/// num batches
 	unsigned _numBatches{};
-	/// gpu obejcts
-	VECTOR<SharedPtr<GPUObject> > _gpuObjects;
 };
 
 }
