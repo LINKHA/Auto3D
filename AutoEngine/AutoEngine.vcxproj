@@ -365,7 +365,6 @@
     <ClInclude Include="Source\RunTime\Includes\BehaviorObject.h" />
     <ClInclude Include="Source\RunTime\Includes\UI.h" />
     <ClInclude Include="Source\RunTime\Includes\Timer.h" />
-    <ClInclude Include="Source\RunTime\Includes\SceneNode.h" />
     <ClInclude Include="Source\RunTime\Includes\NodeTag.h" />
     <ClInclude Include="Source\RunTime\Includes\Text.h" />
     <ClInclude Include="Source\RunTime\Includes\UIComponent.h" />
@@ -468,7 +467,6 @@
     <ClCompile Include="Source\RunTime\src\SkyBoxManager.cpp" />
     <ClCompile Include="Source\RunTime\src\BehaviorObject.cpp" />
     <ClCompile Include="Source\RunTime\src\UI.cpp" />
-    <ClCompile Include="Source\RunTime\src\SceneNode.cpp" />
     <ClCompile Include="Source\RunTime\src\Text.cpp" />
     <ClCompile Include="Source\RunTime\src\UIComponent.cpp" />
   </ItemGroup>

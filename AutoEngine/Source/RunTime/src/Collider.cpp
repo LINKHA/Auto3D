@@ -29,7 +29,7 @@ void Collider::RegisterObject(SharedPtr<Ambient> ambient)
 
 void Collider::Start()
 {
-	_physicsWorld = GetCurrentSceneNode()->GetPhysicsWorld();
+	_physicsWorld = GetCurrentSceneNode()->GetComponent<PhysicsWorld>();
 	//_physicsWorld->AddCollider(this);
 	NotifyRigidBody();
 }

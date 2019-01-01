@@ -572,9 +572,6 @@
     <ClInclude Include="Source\RunTime\Includes\Scene.h">
       <Filter>Source\RunTime\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\SceneNode.h">
-      <Filter>Source\RunTime\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Script.h">
       <Filter>Source\RunTime\Script</Filter>
     </ClInclude>
@@ -950,9 +947,6 @@
       <Filter>Source\RunTime\Physics\Component\2D</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Scene.cpp">
-      <Filter>Source\RunTime\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\SceneNode.cpp">
       <Filter>Source\RunTime\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Script.cpp">

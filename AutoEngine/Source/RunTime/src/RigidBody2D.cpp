@@ -31,7 +31,7 @@ RigidBody2D::~RigidBody2D()
 	if (_physicsWorld)
 	{
 		ReleaseBody();
-		_physicsWorld->RemoveRigidBody(this);
+		_physicsWorld->RemoveRigidBody(SharedFromThis());
 	}
 }
 
@@ -42,7 +42,7 @@ void RigidBody2D::RegisterObject(SharedPtr<Ambient> ambient)
 
 void RigidBody2D::Start()
 {
-	_physicsWorld = GetCurrentSceneNode()->GetPhysicsWorld2D();
+	_physicsWorld = GetCurrentSceneNode()->GetComponent<PhysicsWorld2D>();
 	CreateBody();
 }
 
@@ -54,24 +54,23 @@ void RigidBody2D::Update()
 
 void RigidBody2D::CreateBody()
 {
-	SharedPtr<PhysicsWorld2D> physicsWorld = GetCurrentSceneNode()->GetPhysicsWorld2D();
 	if (_body)
 		return;
 
-	if (!physicsWorld || !physicsWorld->GetWorld())
+	if (!_physicsWorld || !_physicsWorld->GetWorld())
 		return;
 
 	_bodyDef.position = ToB2Vec2(GetNode()->GetPosition());
 #pragma warning
 	//_bodyDef.angle = node_->GetWorldRotation().RollAngle() * MATH_DEGTORAD;
 
-	_body = physicsWorld->GetWorld()->CreateBody(&_bodyDef);
+	_body = _physicsWorld->GetWorld()->CreateBody(&_bodyDef);
 	_body->SetUserData(this);
 }
 
 void RigidBody2D::ReleaseBody()
 {
-	SharedPtr<PhysicsWorld2D> physicsWorld = GetCurrentSceneNode()->GetPhysicsWorld2D();
+	SharedPtr<PhysicsWorld2D> physicsWorld = GetCurrentSceneNode()->GetComponent<PhysicsWorld2D>();
 	if (_body)
 		return;
 

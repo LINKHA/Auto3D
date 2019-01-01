@@ -37,7 +37,7 @@ const int Component::GetLevelID()
 	return GetNode()->GetLevelID();
 }
 
-SharedPtr<SceneNode> Component::GetCurrentSceneNode()
+SharedPtr<Node> Component::GetCurrentSceneNode()
 {
 	return GetSubSystem<Scene>()->GetLevelScene(GetLevelID())->GetSceneNode();
 }

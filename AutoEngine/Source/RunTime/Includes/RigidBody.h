@@ -3,7 +3,7 @@
 #include "AutoPhysics3D.h"
 
 namespace Auto3D {
-
+class PhysicsWorld;
 
 
 class RigidBody : public Component

@@ -92,7 +92,7 @@ void RigidBody::registeredRigidBody()
 void RigidBody::registeredRigidBody()
 {
 	_isDynamic = (_mass != 0.0f);
-	_physicsWorld = GetCurrentSceneNode()->GetPhysicsWorld();
+	_physicsWorld = GetCurrentSceneNode()->GetComponent<PhysicsWorld>();
 
 	Vector3 position = GetNode()->GetComponent<Transform>()->GetPosition();
 	btTransform groundTransform;

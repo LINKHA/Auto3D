@@ -1,14 +1,11 @@
 #pragma once
 #include "LevelBehaviorObject.h"
 #include "Node.h"
-#include "SceneNode.h"
 
 namespace Auto3D {
 
 const static char* SCENE_ATTACH = "Scene_attach";
 const static char* GEOMETRY_ATTACH = "GeoMetry_attach";
-
-class SceneNode;
 
 class Component : public LevelBehaviorObject
 {
@@ -38,7 +35,7 @@ public:
 	/**
 	* @brief : Return current scene node
 	*/
-	SharedPtr<SceneNode> GetCurrentSceneNode();
+	SharedPtr<Node> GetCurrentSceneNode();
 	/**
 	* @brief : This component is automatically invoked when registering to a node
 	*/

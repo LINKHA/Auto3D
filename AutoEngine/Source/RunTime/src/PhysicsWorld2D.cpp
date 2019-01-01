@@ -46,24 +46,23 @@ void PhysicsWorld2D::Update()
 	_isPhysicsStepping = false;
 }
 
-void PhysicsWorld2D::AddRigidBody(RigidBody2D* rigidBody)
+void PhysicsWorld2D::AddRigidBody(SharedPtr<RigidBody2D> rigidBody)
 {
 	if (!rigidBody)
 		return;
 
-	RigidBody2D* rigidBodyPtr(rigidBody);
 	// Determine if there is duplication
-	if (std::count(_rigidBodys.begin(), _rigidBodys.end(), rigidBodyPtr))
+	if (std::count(_rigidBodys.begin(), _rigidBodys.end(), rigidBody))
 		return;
 
-	_rigidBodys.push_back(rigidBodyPtr);
+	_rigidBodys.push_back(rigidBody);
 }
 
-void PhysicsWorld2D::RemoveRigidBody(RigidBody2D* rigidBody)
+void PhysicsWorld2D::RemoveRigidBody(SharedPtr<RigidBody2D> rigidBody)
 {
 	if (!rigidBody)
 		return;
-	for(VECTOR<RigidBody2D*>::iterator it = _rigidBodys.begin(); it != _rigidBodys.end(); it++)
+	for(VECTOR<SharedPtr<RigidBody2D> >::iterator it = _rigidBodys.begin(); it != _rigidBodys.end(); it++)
 	{
 		if (*it == rigidBody)
 		{

@@ -153,7 +153,7 @@ SharedPtr<Component> Node::GetComponent(STRING type)
 		if (it->first == type)
 			return it->second;
 	}
-	ErrorString("Fail find component of Class ID.");
+	ErrorString("Fail find component of class string.");
 	return nullptr;
 }
 

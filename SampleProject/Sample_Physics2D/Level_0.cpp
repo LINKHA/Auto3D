@@ -17,16 +17,14 @@ void Level_0::Start()
 {
 	Super::Start();
 
-	GameNode camObj = CreateNode();
-
-	GameNode groundNode = CreateNode();
-	groundNode->SetPosition(0.0f,4.0f);
+	groundNode = CreateNode();
+	groundNode->SetPosition(0.0f,-10.0f);
 	groundNode->CreateComponent<RigidBody2D>();
-	groundNode->CreateComponent<ColliderBox2D>()->SetSize(100.0f, 20.0f);
+	groundNode->CreateComponent<ColliderBox2D>()->SetSize(50.0f, 10.0f);
 
 
 	bodyNode = CreateNode();
-	bodyNode->SetPosition(0.0f, -10.0f);
+	bodyNode->SetPosition(0.0f, 4.0f);
 	bodyNode->CreateComponent<RigidBody2D>()->SetBodyType(BodyType2D::kDynamic);
 	auto bodyCollider = bodyNode->CreateComponent<ColliderBox2D>();
 	bodyCollider->SetSize(2.0f, 2.0f);
@@ -38,7 +36,9 @@ void Level_0::Start()
 void Level_0::Update()
 {
 	Super::Update();
+	Vector3 groundPos = groundNode->GetPosition();
 	Vector3 pos = bodyNode->GetPosition();
+	AutoCout << groundPos.x << "   " << groundPos.y << "   " << groundPos.z << AutoEndl;
 	AutoCout << pos.x <<"   "<< pos.y << "   " << pos.z << AutoEndl;
 }
 

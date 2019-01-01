@@ -16,7 +16,7 @@ enum class BodyType2D
 	kDynamic = b2_dynamicBody
 };
 
-class RigidBody2D : public Component
+class RigidBody2D : public Component, public EnableSharedFromThis<RigidBody2D>
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(RigidBody2D, Component)
 public:

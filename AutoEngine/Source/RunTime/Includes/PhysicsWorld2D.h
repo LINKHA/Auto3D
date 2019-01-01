@@ -24,11 +24,11 @@ public:
 	/**
 	* @brief : Add rigid body
 	*/
-	void AddRigidBody(RigidBody2D* rigidBody);
+	void AddRigidBody(SharedPtr<RigidBody2D> rigidBody);
 	/**
 	* @brief : Remove rigid body
 	*/
-	void RemoveRigidBody(RigidBody2D* rigidBody);
+	void RemoveRigidBody(SharedPtr<RigidBody2D> rigidBody);
 
 
 private:
@@ -42,7 +42,7 @@ private:
 	/// Position iterations default 3
 	int _positionIter{};
 
-	VECTOR<RigidBody2D*> _rigidBodys;
+	VECTOR<SharedPtr<RigidBody2D> > _rigidBodys;
 };
 
 }

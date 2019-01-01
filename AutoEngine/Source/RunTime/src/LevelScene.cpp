@@ -1,7 +1,6 @@
 #include "LevelScene.h"
 #include "Node.h"
 #include "Component.h"
-#include "SceneNode.h"
 #include "Scene.h"
 #include "PhysicsWorld.h"
 #include "PhysicsWorld2D.h"
@@ -27,7 +26,7 @@ LevelScene::~LevelScene()
 
 void LevelScene::Awake() 
 {
-	_sceneNode = MakeShared<SceneNode>(_ambient, _levelID);
+	_sceneNode = CreateNode("SceneNode");
 	_sceneNode->CreateComponent<PhysicsWorld2D>();
 	_sceneNode->CreateComponent<PhysicsWorld>();
 }
@@ -178,11 +177,11 @@ void LevelScene::delayAddRemoveNode()
 	_nodeToAdd.clear();
 }
 
-SharedPtr<SceneNode> LevelScene::GetSceneNode()
+SharedPtr<Node> LevelScene::GetSceneNode()
 {
 	if (!_sceneNode)
 	{
-		_sceneNode = DynamicCast<SceneNode>(CreateNode("sceneNode"));
+		_sceneNode = CreateNode("SceneNode");
 	}
 	return _sceneNode;
 }

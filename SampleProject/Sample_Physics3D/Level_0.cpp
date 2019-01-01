@@ -11,7 +11,7 @@ void Level_0::Awake()
 
 void Level_0::Start()
 {
-	dynamicsWorld = GetSceneNode()->GetPhysicsWorld()->GetWorld();
+	dynamicsWorld = GetSceneNode()->GetComponent<PhysicsWorld>()->GetWorld();
 
 	GameNode ground = CreateNode();
 	ground->SetPosition(0, -4.0f, 0);

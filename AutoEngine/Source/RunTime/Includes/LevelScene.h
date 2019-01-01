@@ -1,7 +1,6 @@
 #pragma once
 #include "Object.h"
 #include "LevelBehaviorObject.h"
-#include "SceneNode.h"
 #include "ILevelBehavior.h"
 
 namespace Auto3D {
@@ -47,7 +46,7 @@ public:
 	/**
 	* @brief : Get scene node
 	*/
-	SharedPtr<SceneNode> GetSceneNode();
+	SharedPtr<Node> GetSceneNode();
 private:
 	/**
 	* @brief : if not run this function will run once in one frame
@@ -55,7 +54,7 @@ private:
 	void delayAddRemoveNode();
 private:
 	/// scene node (This node has one and only one for each scenario)
-	SharedPtr<SceneNode> _sceneNode;
+	SharedPtr<Node> _sceneNode;
 	/// all node in this container
 	Nodes _nodes;
 	/// temp memory will add node in frame finish will clear
