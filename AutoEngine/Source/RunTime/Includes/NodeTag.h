@@ -58,8 +58,8 @@ class NodeTag
 public:
 	NodeTag(STRING type = "Default")
 	{
-		auto& tagCache = NodeTagCache::Instance();
-		for (auto it = tagCache._tags.begin(); it != tagCache._tags.end(); it++)
+		auto* tagCache = NodeTagCache::Instance();
+		for (auto it = tagCache->_tags.begin(); it != tagCache->_tags.end(); it++)
 		{
 			if ((*it) == type)
 			{

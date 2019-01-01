@@ -17,12 +17,12 @@ BaseSpace::~BaseSpace()
 
 void BaseSpace::Init()
 {
-	SpaceHandle::Instance().Init();
+	SpaceHandle::Instance()->Init();
 }
 
 void BaseSpace::Destruct()
 {
-	SpaceHandle::Instance().Destruct();
+	SpaceHandle::Instance()->Destruct();
 }
 
 }

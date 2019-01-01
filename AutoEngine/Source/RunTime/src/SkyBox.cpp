@@ -31,7 +31,7 @@ void SkyBox::RegisterObject(SharedPtr<Ambient> ambient)
 
 void SkyBox::Start()
 {
-	SkyManager::Instance().AddSkyBox(this);
+	SkyManager::Instance()->AddSkyBox(this);
 	auto shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_skybox.glsl");
 	_shader = MakeShared<ShaderVariation>(shader);
 	_shader->Create();

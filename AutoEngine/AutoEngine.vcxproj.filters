@@ -372,6 +372,7 @@
     <None Include="Shader\au_texture_transform.auvs">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\RunTime\Includes\Math\Color.h">

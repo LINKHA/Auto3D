@@ -157,6 +157,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="Shader\au_offscreen.aufs" />
     <None Include="Shader\au_offscreen.auvs" />
     <None Include="Shader\au_hard_point_shadows.aufs" />

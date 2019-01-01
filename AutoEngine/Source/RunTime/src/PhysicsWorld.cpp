@@ -2,6 +2,7 @@
 #include "Ambient.h"
 #include "PhysicsUtils.h"
 #include "Collider.h"
+//#include "NewDef.h"
 
 namespace Auto3D {
 const char* PHYSICS_CATEGORY = "Physics";
@@ -44,9 +45,8 @@ PhysicsWorld::~PhysicsWorld()
 	SafeDelete(_solver);
 	SafeDelete(_broadphase);
 	SafeDelete(_collisionDispatcher);
-	SafeDelete(_collisionConfiguration);
 	if (!PhysicsWorld::config.collisionConfig)
-		delete _collisionConfiguration;
+		SafeDelete(_collisionConfiguration);
 }
 
 void PhysicsWorld::RegisterObject(SharedPtr<Ambient> ambient)

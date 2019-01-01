@@ -9,7 +9,7 @@ namespace Auto3D {
 MotionSpace::MotionSpace(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
-	SpaceHandle::Instance().space = SharedPtr<MotionSpace>(this);
+	SpaceHandle::Instance()->space = SharedPtr<MotionSpace>(this);
 }
 
 
