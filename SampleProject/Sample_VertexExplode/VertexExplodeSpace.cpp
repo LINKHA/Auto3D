@@ -14,8 +14,10 @@ void VertexExplodeSpace::Init()
 
 	RegisterScene(MakeShared<Level_0>(_ambient, 0));
 }
-
-void VertexExplodeSpace::Destruct()
+void VertexExplodeSpace::Start()
 {
-	RemoveScene(0);
+
+}
+void VertexExplodeSpace::Stop()
+{
 }

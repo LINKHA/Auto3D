@@ -1,14 +1,15 @@
 #pragma  once
-#include "MotionSpace.h"
+#include "Application.h"
 
 using namespace Auto3D;
 
-class Physics3DSpace : public MotionSpace
+class Physics3DSpace : public Application
 {
 	REGISTER_SPACE_CLASS(Physics3DSpace)
 public:
 	void Init()override;
-	void Destruct()override;
+	void Start()override;
+	void Stop()override;
 };
 
 

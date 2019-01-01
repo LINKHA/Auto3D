@@ -3,6 +3,9 @@
 #include "Auto.h"
 #include "Engine.h"
 #include "Ambient.h"
+#include "Scene.h"
+#include "Launch.h"
+
 namespace Auto3D {
 
 enum class AppStates
@@ -15,31 +18,34 @@ enum class AppStates
 	ErrorExit,
 };
 
-class Application
+class Application : public Object
 {
+	REGISTER_OBJECT_CLASS(Application, Object)
 public:
-	Application();
-	~Application();
-	/**
-	* @brief : Init application
-	*/
-	bool Init();
-	/**
-	* @brief : Run frame and update logic
-	*/
-	bool RunLoop();
-	/**
-	* @brief : Finish exit application
-	*/
-	bool Finish();
-	/**
-	* @brief : Error exit application
-	*/
-	void ErrorExit();
+	Application(SharedPtr<Ambient> ambient);
+	/// Setup before engine initialization. This is a chance to eg. modify the engine parameters. Call ErrorExit() to terminate without initializing the engine. Called by Application.
+	virtual void Init() { }
+
+	/// Setup after engine initialization and before running the main loop. Call ErrorExit() to terminate without running the main loop. Called by Application.
+	virtual void Start() { }
+
+	/// Cleanup after the main loop. Called by Application.
+	virtual void Stop() { }
+
+	void RegisterScene(SharedPtr<LevelScene> scene)
+	{
+		GetSubSystem<Scene>()->RegisterScene(scene->GetLevelID(), scene);
+	}
+
+	void RemoveScene(int id)
+	{
+		GetSubSystem<Scene>()->RemoveScene(id);
+	}
+
 	/*
 	* @brief : this is Engine important funcation init awake runloop and finish run
 	*/
-	bool Run(SharedPtr<Ambient> ambient);
+	int Run();
 	/**
 	* @brief : Return application states for AppStates type
 	*/
@@ -54,6 +60,16 @@ private:
 	SharedPtr<Engine> _engine;
 	AppStates _appStates;
 };
+
+/// @brief : Regisiter application in main function
+#define AUTO_APPLICATION_MAIN(_Class) \
+int runApplication() \
+{ \
+    SharedPtr<Auto3D::Ambient> ambient(new Auto3D::Ambient()); \
+    _Class app(ambient);\
+    return app.Run(); \
+} \
+AUTO_MAIN(runApplication())\
 
 
 

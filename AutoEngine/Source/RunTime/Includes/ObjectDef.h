@@ -75,9 +75,9 @@ public: \
 #define REGISTER_SPACE_CLASS(_This) \
 public: \
 	using This = _This; \
-	using Super = MotionSpace; \
+	using Super = Application; \
 	_This(SharedPtr<Ambient> ambient)\
-		:MotionSpace(ambient){}\
+		:Application(ambient){}\
 	~_This() = default;\
 	virtual char* GetClassCstrName() { return #_This; }\
 	virtual STRING GetClassString() { return #_This; } \

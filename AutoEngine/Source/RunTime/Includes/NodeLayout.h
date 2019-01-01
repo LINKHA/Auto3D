@@ -55,7 +55,7 @@ class NodeLayout
 public:
 	NodeLayout(STRING type = "Default")
 	{
-		auto* layoutCache = NodeLayoutCache::Instance();
+		auto layoutCache = NodeLayoutCache::Instance();
 
 		for (auto it = layoutCache->_layouts.begin(); it != layoutCache->_layouts.end(); it++)
 		{

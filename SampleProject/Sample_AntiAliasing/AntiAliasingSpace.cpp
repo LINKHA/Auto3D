@@ -11,8 +11,9 @@ void AntiAliasingSpace::Init()
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(MakeShared<Level_0>(_ambient, 0));
 }
-
-void AntiAliasingSpace::Destruct()
+void AntiAliasingSpace::Start()
 {
-	RemoveScene(0);
+}
+void AntiAliasingSpace::Stop()
+{
 }

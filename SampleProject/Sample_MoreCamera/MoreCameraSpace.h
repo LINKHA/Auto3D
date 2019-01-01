@@ -1,12 +1,13 @@
 #pragma once
-#include "MotionSpace.h"
+#include "Application.h"
 using namespace Auto3D;
 
-class MoreCameraSpace : public MotionSpace
+class MoreCameraSpace : public Application
 {
 public:
 	REGISTER_SPACE_CLASS(MoreCameraSpace)
 public:
 	void Init()override;
-	void Destruct()override;
+	void Start()override;
+	void Stop()override;
 };

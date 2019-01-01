@@ -12,7 +12,10 @@ void MoreCameraSpace::Init()
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(MakeShared<Level_0>(_ambient, 0));
 }
-void MoreCameraSpace::Destruct()
+void MoreCameraSpace::Start()
 {
-	RemoveScene(0);
+
+}
+void MoreCameraSpace::Stop()
+{
 }

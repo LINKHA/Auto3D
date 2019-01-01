@@ -3,29 +3,32 @@
 
 namespace Auto3D {
 
-Application::Application()
+Application::Application(SharedPtr<Ambient> ambient)
+	:Super(ambient)
 {
 }
 Application::~Application()
 {
 }
 
-bool Application::Run(SharedPtr<Ambient> ambient)
+int Application::Run()
 {
 	try 
 	{
-		_engine = MakeShared<Engine>(ambient);
-		if (!Init())
-		{
-			ErrorExit();
-			return false;
-		}
-		if (!RunLoop())
-		{
-			ErrorExit();
-			return false;
-		}
-		return Finish();
+		_engine = MakeShared<Engine>(_ambient);
+		setStates(AppStates::Initing);
+		Init();
+		_engine->Init();
+
+		setStates(AppStates::Running);
+		Start();
+		while (!_engine->IsExiting())
+			_engine->RunFrame();
+
+		setStates(AppStates::Exit);
+		Stop();
+		_engine->Exit();
+
 	}
 	catch (std::bad_alloc&)
 	{
@@ -33,32 +36,6 @@ bool Application::Run(SharedPtr<Ambient> ambient)
 		return EXIT_FAILURE;
 	}
 
-}
-bool Application::Init()
-{
-	setStates(AppStates::Initing);
-	_engine->Init();
-	return true;
-}
-
-bool Application::RunLoop()
-{
-	setStates(AppStates::Running);
-	while (!_engine->IsExiting())
-		_engine->RunFrame();
-	return true;
-}
-bool Application::Finish()
-{
-	setStates(AppStates::Exit);
-	_engine->Exit();
-
-	return false;
-}
- void Application::ErrorExit()
-{
-	 setStates(AppStates::ErrorExit);
-	 _engine->Exit();
 }
 
 }

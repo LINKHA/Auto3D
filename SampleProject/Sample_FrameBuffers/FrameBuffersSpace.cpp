@@ -4,13 +4,16 @@
 #include "ResourceSystem.h"
 
 AUTO_APPLICATION_MAIN(FrameBuffersSpace)
+
 void FrameBuffersSpace::Init()
 {
 	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(MakeShared<Level_0>(_ambient, 0));
 }
-void FrameBuffersSpace::Destruct()
+void FrameBuffersSpace::Start()
 {
-	RemoveScene(0);
+}
+void FrameBuffersSpace::Stop()
+{
 }

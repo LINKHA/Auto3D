@@ -1,19 +1,14 @@
 #pragma  once
-#include "MotionSpace.h"
+#include "Application.h"
+
 using namespace Auto3D;
-class DebugSapce : public MotionSpace
+class DebugSapce : public Application
 {
-public: 
-		using This = DebugSapce; 
-		using Super = MotionSpace; 
-		DebugSapce(SharedPtr<Ambient> ambient)
-			:MotionSpace(ambient) 
-		{}
-		~DebugSapce()
-		{}
+	REGISTER_SPACE_CLASS(DebugSapce)
 public:
 	void Init()override;
-	void Destruct()override;
+	void Start()override;
+	void Stop()override;
 };
 
 

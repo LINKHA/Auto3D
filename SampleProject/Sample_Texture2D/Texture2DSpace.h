@@ -1,12 +1,13 @@
 #pragma  once
-#include "MotionSpace.h"
+#include "Application.h"
 using namespace Auto3D;
-class Texture2DSpace : public MotionSpace
+class Texture2DSpace : public Application
 {
 	REGISTER_SPACE_CLASS(Texture2DSpace)
 public:
 	void Init()override;
-	void Destruct()override;
+	void Start()override;
+	void Stop()override;
 };
 
 

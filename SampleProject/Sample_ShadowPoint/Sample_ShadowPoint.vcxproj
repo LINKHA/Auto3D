@@ -21,12 +21,12 @@
   <ItemGroup>
     <ClCompile Include="..\FreeCamera.cpp" />
     <ClCompile Include="Level_0.cpp" />
-    <ClCompile Include="Sample_ShadowPoint.cpp" />
+    <ClCompile Include="ShadowPointSpace.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FreeCamera.h" />
     <ClInclude Include="Level_0.h" />
-    <ClInclude Include="Sample_ShadowPoint.h" />
+    <ClInclude Include="ShadowPointSpace.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AutoEngine\AutoEngine.vcxproj">

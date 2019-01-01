@@ -12,8 +12,9 @@ void TextureSpace::Init()
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(MakeShared<Level_0>(_ambient, 0));
 }
-void TextureSpace::Destruct()
+void TextureSpace::Start()
 {
-	RemoveScene(0);
 }
-
+void TextureSpace::Stop()
+{
+}

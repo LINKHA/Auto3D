@@ -314,9 +314,7 @@
     <ClInclude Include="Source\RunTime\Includes\InstanceBeltLine.h" />
     <ClInclude Include="Source\RunTime\Includes\PreLoadManager.h" />
     <ClInclude Include="Source\RunTime\Includes\Prefab.h" />
-    <ClInclude Include="Source\RunTime\Includes\MotionSpace.h" />
     <ClInclude Include="Source\RunTime\Includes\Math\Rect.h" />
-    <ClInclude Include="Source\RunTime\Includes\BaseSpace.h" />
     <ClInclude Include="Source\RunTime\Includes\Renderer.h" />
     <ClInclude Include="Source\RunTime\Includes\Material.h" />
     <ClInclude Include="Source\RunTime\Includes\Light.h" />
@@ -432,8 +430,6 @@
     <ClCompile Include="Source\RunTime\src\InstanceBeltLine.cpp" />
     <ClCompile Include="Source\RunTime\src\PreLoadManager.cpp" />
     <ClCompile Include="Source\RunTime\src\Prefab.cpp" />
-    <ClCompile Include="Source\RunTime\src\MotionSpace.cpp" />
-    <ClCompile Include="Source\RunTime\src\BaseSpace.cpp" />
     <ClCompile Include="Source\RunTime\src\Camera.cpp" />
     <ClCompile Include="Source\RunTime\src\Renderer.cpp" />
     <ClCompile Include="Source\RunTime\src\Material.cpp" />

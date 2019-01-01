@@ -11,7 +11,10 @@ void FileSystemSpace::Init()
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(MakeShared<Level_0>(_ambient, 0));
 }
-void FileSystemSpace::Destruct()
+void FileSystemSpace::Start()
 {
-	RemoveScene(0);
+
+}
+void FileSystemSpace::Stop()
+{
 }

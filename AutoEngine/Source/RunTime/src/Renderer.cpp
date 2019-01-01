@@ -1,7 +1,6 @@
 #include "Renderer.h"
 #include "Camera.h"
 #include "Graphics.h"
-#include "BaseSpace.h"
 #include "Transform.h"
 #include "Light.h"
 #include "NewDef.h"

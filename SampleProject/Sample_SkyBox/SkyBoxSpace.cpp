@@ -11,7 +11,10 @@ void SkyBoxSpace::Init()
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(MakeShared<Level_0>(_ambient, 0));
 }
-void SkyBoxSpace::Destruct()
+void SkyBoxSpace::Start()
 {
-	RemoveScene(0);
+
+}
+void SkyBoxSpace::Stop()
+{
 }

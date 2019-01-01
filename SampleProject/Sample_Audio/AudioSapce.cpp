@@ -12,7 +12,10 @@ void AudioSapce::Init()
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(MakeShared<Level_0>(_ambient, 0));
 }
-void AudioSapce::Destruct()
+void AudioSapce::Start()
 {
-	RemoveScene(0);
+
+}
+void AudioSapce::Stop()
+{
 }

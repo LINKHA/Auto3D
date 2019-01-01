@@ -11,7 +11,10 @@ void ModelSapce::Init()
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(MakeShared<Level_0>(_ambient, 0));
 }
-void ModelSapce::Destruct()
+void ModelSapce::Start()
 {
-	RemoveScene(0);
+
+}
+void ModelSapce::Stop()
+{
 }

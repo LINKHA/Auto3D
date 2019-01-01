@@ -64,9 +64,6 @@
     <Filter Include="Source\RunTime\Audio\Component">
       <UniqueIdentifier>{9459bcf0-349c-4be7-b95e-cb2124e61d38}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\RunTime\BaseSpace">
-      <UniqueIdentifier>{5d3c0017-7394-49d5-80b8-b5da9e2e3058}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\RunTime\Behavior">
       <UniqueIdentifier>{adf874be-b7a3-4c88-a38d-0dbc0d6f92aa}</UniqueIdentifier>
     </Filter>
@@ -447,9 +444,6 @@
     <ClInclude Include="Source\RunTime\Includes\BaseMesh.h">
       <Filter>Source\RunTime\Graphics\Component\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\BaseSpace.h">
-      <Filter>Source\RunTime\BaseSpace</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Behavior.h">
       <Filter>Source\RunTime\Behavior</Filter>
     </ClInclude>
@@ -527,9 +521,6 @@
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Monitors.h">
       <Filter>Source\RunTime\IO</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\MotionSpace.h">
-      <Filter>Source\RunTime\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Node.h">
       <Filter>Source\RunTime\Scene</Filter>
@@ -818,9 +809,6 @@
     <ClCompile Include="Source\RunTime\src\BaseMesh.cpp">
       <Filter>Source\RunTime\Graphics\Component\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\BaseSpace.cpp">
-      <Filter>Source\RunTime\BaseSpace</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RunTime\src\Behavior.cpp">
       <Filter>Source\RunTime\Behavior</Filter>
     </ClCompile>
@@ -904,9 +892,6 @@
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Monitors.cpp">
       <Filter>Source\RunTime\IO</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\MotionSpace.cpp">
-      <Filter>Source\RunTime\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Node.cpp">
       <Filter>Source\RunTime\Scene</Filter>

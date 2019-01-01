@@ -14,8 +14,10 @@ void MassInstantiationSpace::Init()
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir2);
 	RegisterScene(MakeShared<Level_0>(_ambient, 0));
 }
-
-void MassInstantiationSpace::Destruct()
+void MassInstantiationSpace::Start()
 {
-	RemoveScene(0);
+
+}
+void MassInstantiationSpace::Stop()
+{
 }

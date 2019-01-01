@@ -1,12 +1,13 @@
 #pragma once
-#include "MotionSpace.h"
+#include "Application.h"
 
 using namespace Auto3D;
 
-class DeferredShadingSpace : public MotionSpace
+class DeferredShadingSpace : public Application
 {
 	REGISTER_SPACE_CLASS(DeferredShadingSpace)
 public:
 	void Init()override;
-	void Destruct()override;
+	void Start()override;
+	void Stop()override;
 };

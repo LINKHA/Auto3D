@@ -12,7 +12,9 @@ void Physics3DSpace::Init()
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(MakeShared<Level_0>(_ambient, 0));
 }
-void Physics3DSpace::Destruct()
+void Physics3DSpace::Start()
 {
-	RemoveScene(0);
+}
+void Physics3DSpace::Stop()
+{
 }

@@ -3,7 +3,6 @@
 #include "Renderer.h"
 #include "Graphics.h"
 #include "Audio.h"
-#include "BaseSpace.h"
 #include "Time.h"
 #include "Script.h"
 #include "ResourceSystem.h"
@@ -20,7 +19,6 @@ Engine::Engine(SharedPtr<Ambient> ambient)
 {
 	_ambient->RegisterSubSystem(MakeShared<Renderer>(_ambient));
 	_ambient->RegisterSubSystem(MakeShared<Graphics>(_ambient));
-	_ambient->RegisterSubSystem(MakeShared<BaseSpace>(_ambient));
 	_ambient->RegisterSubSystem(MakeShared<Time>(_ambient));
 	_ambient->RegisterSubSystem(MakeShared<Input>(_ambient));
 	_ambient->RegisterSubSystem(MakeShared<Script>(_ambient));
@@ -37,7 +35,6 @@ Engine::~Engine()
 {
 	_ambient->RemoveSubSystem<Renderer>();
 	_ambient->RemoveSubSystem<Graphics>();
-	_ambient->RemoveSubSystem<BaseSpace>();
 	_ambient->RemoveSubSystem<Time>();
 	_ambient->RemoveSubSystem<Input>();
 	_ambient->RemoveSubSystem<Script>();
@@ -52,7 +49,6 @@ Engine::~Engine()
 
 void Engine::Init()
 {
-	GetSubSystem<BaseSpace>()->Init();
 	GetSubSystem<ResourceSystem>()->Init();
 	GetSubSystem<Audio>()->Init();
 	GetSubSystem<Graphics>()->Init();
@@ -70,7 +66,6 @@ void Engine::RunFrame()
 }
 void Engine::Exit() 
 {
-	GetSubSystem<BaseSpace>()->Destruct();
 	GetSubSystem<Graphics>()->DestoryWindow();
 }
 void Engine::render()

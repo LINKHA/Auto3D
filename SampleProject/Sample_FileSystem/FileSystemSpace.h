@@ -1,15 +1,16 @@
 #pragma once
-#include "MotionSpace.h"
+#include "Application.h"
 
 
 using namespace Auto3D;
 class FreeCamera;
-class FileSystemSpace : public MotionSpace
+class FileSystemSpace : public Application
 {
 	REGISTER_SPACE_CLASS(FileSystemSpace)
 public:
 	void Init()override;
-	void Destruct()override;
+	void Start()override;
+	void Stop()override;
 };
 
 

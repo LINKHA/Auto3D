@@ -53,5 +53,5 @@
 			int flag = function;\
 			return flag;\
 		}
+#endif
 
-#endif 

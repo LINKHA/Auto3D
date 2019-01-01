@@ -11,7 +11,10 @@ void DepthTestSpace::Init()
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(MakeShared<Level_0>(_ambient, 0));
 }
-void DepthTestSpace::Destruct()
+void DepthTestSpace::Start()
 {
-	RemoveScene(0);
+
+}
+void DepthTestSpace::Stop()
+{
 }

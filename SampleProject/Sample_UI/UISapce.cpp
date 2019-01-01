@@ -11,7 +11,9 @@ void UISapce::Init()
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(MakeShared<Level_0>(_ambient, 0));
 }
-void UISapce::Destruct()
+void UISapce::Start()
 {
-	RemoveScene(0);
+}
+void UISapce::Stop()
+{
 }

@@ -11,7 +11,10 @@ void DeferredShadingSpace::Init()
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(MakeShared<Level_0>(_ambient, 0));
 }
-void DeferredShadingSpace::Destruct()
+void DeferredShadingSpace::Start()
 {
-	RemoveScene(0);
+
+}
+void DeferredShadingSpace::Stop()
+{
 }

@@ -11,8 +11,9 @@ void ShadowSpace::Init()
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(MakeShared<Level_0>(_ambient, 0));
 }
-
-void ShadowSpace::Destruct()
+void ShadowSpace::Start()
 {
-	RemoveScene(0);
+}
+void ShadowSpace::Stop()
+{
 }

@@ -11,7 +11,9 @@ void MultLightsSpace::Init()
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(MakeShared<Level_0>(_ambient, 0));
 }
-void MultLightsSpace::Destruct()
+void MultLightsSpace::Start()
 {
-	RemoveScene(0);
+}
+void MultLightsSpace::Stop()
+{
 }

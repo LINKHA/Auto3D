@@ -11,7 +11,10 @@ void PBRSpace::Init()
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(MakeShared<Level_0>(_ambient, 0));
 }
-void PBRSpace::Destruct()
+void PBRSpace::Start()
 {
-	RemoveScene(0);
+
+}
+void PBRSpace::Stop()
+{
 }

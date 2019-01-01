@@ -11,7 +11,9 @@ void Physics2DSapce::Init()
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(MakeShared<Level_0>(_ambient, 0));
 }
-void Physics2DSapce::Destruct()
+void Physics2DSapce::Start()
 {
-	RemoveScene(0);
+}
+void Physics2DSapce::Stop()
+{
 }

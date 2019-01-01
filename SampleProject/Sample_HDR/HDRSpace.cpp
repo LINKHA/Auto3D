@@ -12,7 +12,9 @@ void HDRSpace::Init()
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(MakeShared<Level_0>(_ambient, 0));
 }
-void HDRSpace::Destruct()
+void HDRSpace::Start()
 {
-	RemoveScene(0);
+}
+void HDRSpace::Stop()
+{
 }

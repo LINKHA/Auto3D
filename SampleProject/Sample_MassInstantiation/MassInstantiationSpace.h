@@ -1,12 +1,13 @@
 #pragma once
-#include "MotionSpace.h"
+#include "Application.h"
 using namespace Auto3D;
 
-class MassInstantiationSpace : public MotionSpace
+class MassInstantiationSpace : public Application
 {
 	REGISTER_SPACE_CLASS(MassInstantiationSpace)
 public:
 	void Init()override;
-	void Destruct()override;
+	void Start()override;
+	void Stop()override;
 };
 

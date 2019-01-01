@@ -12,7 +12,10 @@ void BloomSpace::Init()
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(MakeShared<Level_0>(_ambient, 0));
 }
-void BloomSpace::Destruct()
+void BloomSpace::Start()
 {
-	RemoveScene(0);
+
+}
+void BloomSpace::Stop()
+{
 }

@@ -11,7 +11,9 @@ void StencilTestSpace::Init()
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(MakeShared<Level_0>(_ambient, 0));
 }
-void StencilTestSpace::Destruct()
+void StencilTestSpace::Start()
 {
-	RemoveScene(0);
+}
+void StencilTestSpace::Stop()
+{
 }

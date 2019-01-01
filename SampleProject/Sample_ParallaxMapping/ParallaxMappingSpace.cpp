@@ -12,7 +12,9 @@ void ParallaxMappingSpace::Init()
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	RegisterScene(MakeShared<Level_0>(_ambient, 0));
 }
-void ParallaxMappingSpace::Destruct()
+void ParallaxMappingSpace::Start()
 {
-	RemoveScene(0);
+}
+void ParallaxMappingSpace::Stop()
+{
 }
