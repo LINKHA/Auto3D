@@ -38,7 +38,7 @@ void MeshPBRTexture::Destory()
 
 void MeshPBRTexture::Start()
 {
-	if (SkyBoxManager::Instance()->GetEnable())
+	if (Singleton<SkyBoxManager>::Instance().GetEnable())
 	{
 		_shader = _shaderTexture;
 	}
@@ -54,7 +54,7 @@ void MeshPBRTexture::Start()
 	_shader->SetInt("roughnessMap", 3);
 	_shader->SetInt("aoMap", 4);
 	
-	if (SkyBoxManager::Instance()->GetEnable())
+	if (Singleton<SkyBoxManager>::Instance().GetEnable())
 	{
 		
 		_shader->SetInt("irradianceMap", 5);
@@ -98,14 +98,14 @@ void MeshPBRTexture::Draw()
 	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, _aoMap);
 	// bind pre-computed IBL data
-	if (SkyBoxManager::Instance()->GetEnable())
+	if (Singleton<SkyBoxManager>::Instance().GetEnable())
 	{
 		glActiveTexture(GL_TEXTURE5);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, SkyBoxManager::Instance()->GetSkyBox()->irradianceMap);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, Singleton<SkyBoxManager>::Instance().GetSkyBox()->irradianceMap);
 		glActiveTexture(GL_TEXTURE6);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, SkyBoxManager::Instance()->GetSkyBox()->prefilterMap);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, Singleton<SkyBoxManager>::Instance().GetSkyBox()->prefilterMap);
 		glActiveTexture(GL_TEXTURE7);
-		glBindTexture(GL_TEXTURE_2D, SkyBoxManager::Instance()->GetSkyBox()->brdfLUTTexture);
+		glBindTexture(GL_TEXTURE_2D, Singleton<SkyBoxManager>::Instance().GetSkyBox()->brdfLUTTexture);
 		
 	}
 	else

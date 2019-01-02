@@ -6,7 +6,7 @@
 
 namespace Auto3D {
 
-class NodeLayoutCache : public Singleton<NodeLayoutCache>
+class NodeLayoutCache
 {
 	friend class NodeLayout;
 public:
@@ -55,9 +55,9 @@ class NodeLayout
 public:
 	NodeLayout(STRING type = "Default")
 	{
-		auto layoutCache = NodeLayoutCache::Instance();
+		auto layoutCache = Singleton<NodeLayoutCache>::Instance();
 
-		for (auto it = layoutCache->_layouts.begin(); it != layoutCache->_layouts.end(); it++)
+		for (auto it = layoutCache._layouts.begin(); it != layoutCache._layouts.end(); it++)
 		{
 			if ((*it) == type)
 			{

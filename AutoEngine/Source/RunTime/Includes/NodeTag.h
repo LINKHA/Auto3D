@@ -6,7 +6,7 @@
 
 namespace Auto3D {
 
-class NodeTagCache : public Singleton<NodeTagCache>
+class NodeTagCache
 {
 	friend class NodeTag;
 public:
@@ -20,7 +20,11 @@ public:
 		_tags.emplace("Button");
 	}
 
-	~NodeTagCache() = default;
+	~NodeTagCache()
+	{
+
+
+	}
 
 	int GetTagsCount()
 	{
@@ -58,8 +62,8 @@ class NodeTag
 public:
 	NodeTag(STRING type = "Default")
 	{
-		auto tagCache = NodeTagCache::Instance();
-		for (auto it = tagCache->_tags.begin(); it != tagCache->_tags.end(); it++)
+		auto tagCache = Singleton<NodeTagCache>::Instance();
+		for (auto it = tagCache._tags.begin(); it != tagCache._tags.end(); it++)
 		{
 			if ((*it) == type)
 			{

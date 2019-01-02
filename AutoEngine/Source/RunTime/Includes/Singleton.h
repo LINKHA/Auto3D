@@ -2,45 +2,46 @@
 #include <memory>
 
 namespace Auto3D {
-/*
-* Template class for creating single-instance global classes.
-*/
-template<typename _Ty> class Singleton
+
+// T must be: no-throw default constructible and no-throw destructible
+template <typename _Ty>
+struct Singleton
 {
-public:
-	using ClassType = _Ty;
-public:
-	Singleton()
-	{}
-
-	virtual ~Singleton()
-	{}
-	/*
-	* @brief Explicit private copy constructor. This is a forbidden operation.
-	*/
-	Singleton(const Singleton<_Ty> &) = delete;
-	/*
-	* @brief Private operator= . This is a forbidden operation.
-	*/
-	Singleton& operator = (const Singleton<_Ty> &) = delete;
-	
-	/**
-	* @brief : get point* instance
-	* @return : return Singleton m_instance
-	*/
-	static _Ty* Instance()
+private:
+	struct ObjectCreator
 	{
-		if (_instance == nullptr)
-		{
-			_instance = new _Ty();
-		}
-		return _instance;
+		// This constructor does nothing more than ensure that instance()
+		//  is called before main() begins, thus creating the static
+		//  T object before multithreading race issues can come up.
+		ObjectCreator() { Singleton<_Ty>::Instance(); }
+		inline void DoNothing() const { }
+	};
+	static ObjectCreator createObject;
+
+	Singleton();
+
+public:
+	typedef _Ty ObjectType;
+
+	// If, at any point (in user code), Singleton<T>::instance()
+	//  is called, then the following function is instantiated.
+	static ObjectType& Instance()
+	{
+		// This is the object that we return a reference to.
+		// It is guaranteed to be created before main() begins because of
+		//  the next line.
+		static ObjectType obj;
+
+		// The following line does nothing else than force the instantiation
+		//  of Singleton<T>::createObject, whose constructor is
+		//  called before main() begins.
+		createObject.DoNothing();
+
+		return obj;
 	}
-
-protected:
-	static _Ty* _instance;
 };
-
-template<typename _Ty> _Ty* Singleton<_Ty>::_instance = nullptr;
+template <typename _Ty>
+typename Singleton<_Ty>::ObjectCreator
+Singleton<_Ty>::createObject;
 
 }

@@ -36,7 +36,7 @@ void MeshPBR::Destory()
 }
 void MeshPBR::Start()
 {
-	if (SkyBoxManager::Instance()->GetEnable())
+	if (Singleton<SkyBoxManager>::Instance().GetEnable())
 	{
 		_shader = _shaderTexture;
 	}
@@ -45,7 +45,7 @@ void MeshPBR::Start()
 		_shader = _shaderNoTexture;
 	}
 	_shader->Use();
-	if (SkyBoxManager::Instance()->GetEnable())
+	if (Singleton<SkyBoxManager>::Instance().GetEnable())
 	{
 		_shader->SetInt("irradianceMap", 0);
 		_shader->SetInt("prefilterMap", 1);
@@ -67,14 +67,14 @@ void MeshPBR::Draw()
 	glm::mat4 view = GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix();
 	_shader->SetMat4("view", view);
 	_shader->SetVec3("camPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
-	if (SkyBoxManager::Instance()->GetEnable())
+	if (Singleton<SkyBoxManager>::Instance().GetEnable())
 	{
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, SkyBoxManager::Instance()->GetSkyBox()->irradianceMap);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, Singleton<SkyBoxManager>::Instance().GetSkyBox()->irradianceMap);
 		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, SkyBoxManager::Instance()->GetSkyBox()->prefilterMap);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, Singleton<SkyBoxManager>::Instance().GetSkyBox()->prefilterMap);
 		glActiveTexture(GL_TEXTURE2);
-		glBindTexture(GL_TEXTURE_2D, SkyBoxManager::Instance()->GetSkyBox()->brdfLUTTexture);
+		glBindTexture(GL_TEXTURE_2D, Singleton<SkyBoxManager>::Instance().GetSkyBox()->brdfLUTTexture);
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////

@@ -30,7 +30,7 @@ HDRSkyBox::HDRSkyBox(SharedPtr<Ambient> ambient)
 	m_backgroundShader = MakeShared<ShaderVariation>(resourchCach->GetResource<Shader>("shader/au_hdr_skybox_background.glsl"));
 	m_backgroundShader->Create();
 
-	SkyBoxManager::Instance()->AddSkyBox(this);
+	Singleton<SkyBoxManager>::Instance().AddSkyBox(this);
 }
 
 

@@ -3,7 +3,7 @@
 
 namespace Auto3D {
 class SkyBox;
-class SkyManager : public Singleton<SkyManager>
+class SkyManager
 {
 public:
 	SkyManager() = default;

@@ -47,7 +47,7 @@ public:
 	unsigned int irradianceMap;
 };
 
-class SkyBoxManager : public Singleton<SkyBoxManager>
+class SkyBoxManager
 {
 public:
 	SkyBoxManager()
