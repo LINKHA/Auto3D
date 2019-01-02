@@ -8,6 +8,7 @@ public:
 	explicit SkyBoxReflectMesh(SharedPtr<Ambient> ambient); 
 	SkyBoxReflectMesh(SharedPtr<Ambient> ambient, SharedPtr<Shader> shader);
 	~SkyBoxReflectMesh();
+	void Destory()override;
 	void Start()override;
 	void Draw()override;
 private:

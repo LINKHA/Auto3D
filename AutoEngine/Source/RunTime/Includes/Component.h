@@ -43,6 +43,10 @@ public:
 	{
 		_levelID = GetNode()->GetLevelID();
 	}
+	/**
+	* @brief : Destory this component
+	*/
+	virtual void Destory() {}
 
 private:
 	WeakPtr<Node> _node;

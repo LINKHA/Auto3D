@@ -36,8 +36,14 @@ HDRSkyBox::HDRSkyBox(SharedPtr<Ambient> ambient)
 
 HDRSkyBox::~HDRSkyBox()
 {
+	
+}
+
+void HDRSkyBox::Destory()
+{
 	UnloadOpaque(SharedFromThis());
 }
+
 void HDRSkyBox::Start()
 {
 	//glEnable(GL_DEPTH_TEST);

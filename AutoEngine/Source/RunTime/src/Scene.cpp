@@ -35,65 +35,99 @@ Scene::Scene(SharedPtr<Ambient> ambient)
 
 Scene::~Scene()
 {
-	_dynamicLevelScenes.clear();
+	_levelScenes.clear();
 }
 
-void Scene::RegisterScene(int sceneId, SharedPtr<LevelScene> level)
+void Scene::RegisterScene(SharedPtr<LevelScene> level)
 {
 	level->Enable(true);
-	_dynamicLevelScenes.emplace(MakePair(sceneId, level));
+	AddScene(level);
+}
+
+void Scene::AddScene(SharedPtr<LevelScene> level)
+{
+
+	Assert(level != NULL);
+	if (_isInsideRun)
+	{
+		VectorFindEarse(_levelScenesToRemove, level);
+		_levelScenesToAdd.push_back(level);
+		return;
+	}
+	VectorFindEarse(_levelScenesToAdd, level);
+	VectorFindEarse(_levelScenesToRemove, level);
+	_levelScenes.push_back(level);
+}
+
+void Scene::RemoveScene(SharedPtr<LevelScene> level)
+{
+	Assert(level != NULL);
+	VectorFindEarse(_levelScenesToAdd, level);
+	VectorFindEarse(_levelScenesToRemove, level);
+	if (_isInsideRun)
+	{
+		_levelScenesToRemove.push_back(level);
+	}
+	else
+	{
+		VectorFindEarse(_levelScenes, level);
+	}
 }
 
 void Scene::RemoveScene(int sceneId)
 {
-	_dynamicLevelScenes[sceneId]->Enable(false);
-	_dynamicLevelScenes.erase(sceneId);
+	for (auto i = _levelScenes.begin(); i != _levelScenes.end(); i++)
+	{
+		if ((*i)->GetLevelID() == sceneId)
+		{
+			(*i)->Enable(false);
+			RemoveScene(*i);
+		}
+	}
 }
 
 void Scene::ModeRunLevel(RunMode runMode)
 {
 	_isInsideRun = true;
 
-	_actionLevelScenes = _dynamicLevelScenes;
 	if (runMode == RunMode::Default)
 	{
 		ErrorString("Space fail to Run.");
 		return;
 	}
-	for (auto i = _actionLevelScenes.begin(); i != _actionLevelScenes.end(); i++)
+	for (auto i = _levelScenes.begin(); i != _levelScenes.end(); i++)
 	{
-		SharedPtr<LevelScene> level = i->second;
-		if (level && level->IsEnable())
+		if ((*i) && (*i)->IsEnable())
 		{
 			if (runMode == RunMode::Awake)
 			{
-				level->Awake();
-				level->ModeRunNode(RunMode::Awake);
+				(*i)->Awake();
+				(*i)->ModeRunNode(RunMode::Awake);
 			}
 			else if (runMode == RunMode::Start)
 			{
-				level->Start();
-				level->ModeRunNode(RunMode::Start);
+				(*i)->Start();
+				(*i)->ModeRunNode(RunMode::Start);
 			}
 			else if (runMode == RunMode::Update)
 			{
-				level->Update();
-				level->ModeRunNode(RunMode::Update);
+				(*i)->Update();
+				(*i)->ModeRunNode(RunMode::Update);
 			}
 			else if (runMode == RunMode::FixUpdate)
 			{
-				level->FixUpdate();
-				level->ModeRunNode(RunMode::FixUpdate);
+				(*i)->FixUpdate();
+				(*i)->ModeRunNode(RunMode::FixUpdate);
 			}
 			else if (runMode == RunMode::Finish)
 			{
-				level->Finish();
-				level->ModeRunNode(RunMode::Finish);
+				(*i)->Finish();
+				(*i)->ModeRunNode(RunMode::Finish);
 			}
 			else if (runMode == RunMode::Draw)
 			{
-				level->Draw();
-				level->ModeRunNode(RunMode::Draw);
+				(*i)->Draw();
+				(*i)->ModeRunNode(RunMode::Draw);
 			}
 			else
 				ErrorString("Level fail to Run.");
@@ -101,7 +135,7 @@ void Scene::ModeRunLevel(RunMode runMode)
 	}
 
 	_isInsideRun = false;
-
+	delayAddRemoveScene();
 }
 
 void Scene::RegisterSceneLib(SharedPtr<Ambient> ambient)
@@ -128,6 +162,25 @@ void Scene::RegisterSceneLib(SharedPtr<Ambient> ambient)
 	SpriteRenderer::RegisterObject(ambient);
 	MeshRenderer::RegisterObject(ambient);
 	SkyBox::RegisterObject(ambient);
+}
+
+void Scene::delayAddRemoveScene()
+{
+	Assert(!_isInsideRun);
+	for (VECTOR<SharedPtr<LevelScene> >::iterator i = _levelScenesToRemove.begin(); i != _levelScenesToRemove.end(); /**/)
+	{
+		SharedPtr<LevelScene> level = *i;
+		++i;
+		RemoveScene(level);
+	}
+	_levelScenesToRemove.clear();
+	for (VECTOR<SharedPtr<LevelScene> >::iterator i = _levelScenesToAdd.begin(); i != _levelScenesToAdd.end(); /**/)
+	{
+		SharedPtr<LevelScene> level = *i;
+		++i;
+		AddScene(level);
+	}
+	_levelScenesToAdd.clear();
 }
 
 }

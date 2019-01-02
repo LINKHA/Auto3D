@@ -82,9 +82,6 @@
     <Filter Include="Source\RunTime\Graphics\Component\Camera">
       <UniqueIdentifier>{a29b1769-23c4-4c1a-8d01-bc292efdc32f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\RunTime\Graphics\Component\Camera\TempIntegrated">
-      <UniqueIdentifier>{3b3f2f51-ea6f-4ed3-808a-d3e50a96cbc2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\RunTime\Graphics\OpenGL">
       <UniqueIdentifier>{8837c247-60cf-4122-ba66-d22c7ea6836b}</UniqueIdentifier>
     </Filter>
@@ -141,6 +138,9 @@
     </Filter>
     <Filter Include="Source\RunTime\Interface">
       <UniqueIdentifier>{1aaba6fb-4a0e-4b88-ae17-ed1a1669211c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RunTime\Graphics\Component\TempIntegrated">
+      <UniqueIdentifier>{3b3f2f51-ea6f-4ed3-808a-d3e50a96cbc2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -369,7 +369,6 @@
     <None Include="Shader\au_texture_transform.auvs">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\RunTime\Includes\Math\Color.h">
@@ -451,7 +450,7 @@
       <Filter>Source\RunTime\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Bloom.h">
-      <Filter>Source\RunTime\Graphics\Component\Camera\TempIntegrated</Filter>
+      <Filter>Source\RunTime\Graphics\Component\TempIntegrated</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Camera.h">
       <Filter>Source\RunTime\Graphics\Component\Camera</Filter>
@@ -466,7 +465,7 @@
       <Filter>Source\RunTime\Code</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\DeferredShading.h">
-      <Filter>Source\RunTime\Graphics\Component\Camera\TempIntegrated</Filter>
+      <Filter>Source\RunTime\Graphics\Component\TempIntegrated</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\DeviceTypes.h">
       <Filter>Source\RunTime\Graphics</Filter>
@@ -490,7 +489,7 @@
       <Filter>Source\RunTime\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\HDRSkybox.h">
-      <Filter>Source\RunTime\Graphics\Component\Camera\TempIntegrated</Filter>
+      <Filter>Source\RunTime\Graphics\Component\TempIntegrated</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\InstanceBeltLine.h">
       <Filter>Source\RunTime\Preinstall</Filter>
@@ -580,10 +579,10 @@
       <Filter>Source\RunTime\Graphics\Component\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\SkyBoxReflectMesh.h">
-      <Filter>Source\RunTime\Graphics\Component\Camera\TempIntegrated</Filter>
+      <Filter>Source\RunTime\Graphics\Component\TempIntegrated</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\SSAO.h">
-      <Filter>Source\RunTime\Graphics\Component\Camera\TempIntegrated</Filter>
+      <Filter>Source\RunTime\Graphics\Component\TempIntegrated</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Texture.h">
       <Filter>Source\RunTime\Graphics\Component\Abstract</Filter>
@@ -816,7 +815,7 @@
       <Filter>Source\RunTime\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Bloom.cpp">
-      <Filter>Source\RunTime\Graphics\Component\Camera\TempIntegrated</Filter>
+      <Filter>Source\RunTime\Graphics\Component\TempIntegrated</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Camera.cpp">
       <Filter>Source\RunTime\Graphics\Component\Camera</Filter>
@@ -840,7 +839,7 @@
       <Filter>Source\RunTime\Code</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\DeferredShading.cpp">
-      <Filter>Source\RunTime\Graphics\Component\Camera\TempIntegrated</Filter>
+      <Filter>Source\RunTime\Graphics\Component\TempIntegrated</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Engine.cpp">
       <Filter>Source\RunTime\Engine</Filter>
@@ -861,7 +860,7 @@
       <Filter>Source\RunTime\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\HDRSkybox.cpp">
-      <Filter>Source\RunTime\Graphics\Component\Camera\TempIntegrated</Filter>
+      <Filter>Source\RunTime\Graphics\Component\TempIntegrated</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\InstanceBeltLine.cpp">
       <Filter>Source\RunTime\Preinstall</Filter>
@@ -948,10 +947,10 @@
       <Filter>Source\RunTime\Graphics\Component\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\SkyBoxReflectMesh.cpp">
-      <Filter>Source\RunTime\Graphics\Component\Camera\TempIntegrated</Filter>
+      <Filter>Source\RunTime\Graphics\Component\TempIntegrated</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\SSAO.cpp">
-      <Filter>Source\RunTime\Graphics\Component\Camera\TempIntegrated</Filter>
+      <Filter>Source\RunTime\Graphics\Component\TempIntegrated</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Texture.cpp">
       <Filter>Source\RunTime\Graphics\Component\Abstract</Filter>

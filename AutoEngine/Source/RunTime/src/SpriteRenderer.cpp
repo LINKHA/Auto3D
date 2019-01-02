@@ -26,13 +26,6 @@ SpriteRenderer::SpriteRenderer(SharedPtr<Ambient> ambient)
 
 SpriteRenderer::~SpriteRenderer()
 {
-	if (_image->GetType() == ImageType::Opaque)
-		UnloadOpaque(SharedFromThis());
-	else if (_image->GetType() == ImageType::Custom)
-		UnloadCustom(SharedFromThis());
-	else if (_image->GetType() == ImageType::Translucent)
-		UnloadTranslucent(SharedFromThis());
-
 	glDeleteVertexArrays(1, &_VAO);
 	glDeleteBuffers(1, &_VBO);
 	glDeleteBuffers(1, &_EBO);
@@ -42,7 +35,15 @@ void SpriteRenderer::RegisterObject(SharedPtr<Ambient> ambient)
 {
 	ambient->RegisterFactory<SpriteRenderer>(SCENE_ATTACH);
 }
-
+void SpriteRenderer::Destory() 
+{
+	if (_image->GetType() == ImageType::Opaque)
+		UnloadOpaque(SharedFromThis());
+	else if (_image->GetType() == ImageType::Custom)
+		UnloadCustom(SharedFromThis());
+	else if (_image->GetType() == ImageType::Translucent)
+		UnloadTranslucent(SharedFromThis());
+}
 void SpriteRenderer::SetImage(SharedPtr<Image> image)
 {
 	_image = image;

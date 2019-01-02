@@ -33,7 +33,7 @@ Engine::Engine(SharedPtr<Ambient> ambient)
 
 Engine::~Engine()
 {
-	_ambient->RemoveSubSystem<Renderer>();
+
 	_ambient->RemoveSubSystem<Graphics>();
 	_ambient->RemoveSubSystem<Time>();
 	_ambient->RemoveSubSystem<Input>();
@@ -45,6 +45,7 @@ Engine::~Engine()
 	_ambient->RemoveSubSystem<UI>();
 	_ambient->RemoveSubSystem<Behavior>();
 	_ambient->RemoveSubSystem<FileSystem>();
+	_ambient->RemoveSubSystem<Renderer>();
 }
 
 void Engine::Init()

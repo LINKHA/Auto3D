@@ -38,23 +38,23 @@ public:
 
 	btDiscreteDynamicsWorld* GetWorld() { return _world; }
 
-	void AddRigidBodies(RigidBody* rigidBody);
+	void AddRigidBodies(SharedPtr<RigidBody> rigidBody);
 
-	void RemoveRigidBodies(RigidBody* rigidBody);
+	void RemoveRigidBodies(SharedPtr<RigidBody> rigidBody);
 
-	void AddCollider(Collider* collider);
+	void AddCollider(SharedPtr<Collider> collider);
 
-	void RemoveCollider(Collider* collider);
+	void RemoveCollider(SharedPtr<Collider> collider);
 
-	void AddConstraint(Constraint* constraint);
+	void AddConstraint(SharedPtr<Constraint> constraint);
 
-	void RemoveConstraint(Constraint* constraint);
+	void RemoveConstraint(SharedPtr<Constraint> constraint);
 
-	VECTOR<RigidBody*> GetRigidBodies() { return _rigidBodies; }
+	VECTOR<SharedPtr<RigidBody> > GetRigidBodies() { return _rigidBodies; }
 
-	VECTOR<Collider*> GetColliders() { return _colliders; }
+	VECTOR<SharedPtr<Collider> > GetColliders() { return _colliders; }
 
-	VECTOR<Constraint*> GetConstraints() { return _constraints; }
+	VECTOR<SharedPtr<Constraint> > GetConstraints() { return _constraints; }
 
 	/// Overrides of the internal configuration.
 	static struct PhysicsWorldConfig config;
@@ -75,11 +75,11 @@ private:
 	/// Bullet physics world.
 	btDiscreteDynamicsWorld* _world;
 
-	VECTOR<RigidBody*> _rigidBodies;
+	VECTOR<SharedPtr<RigidBody> > _rigidBodies;
 	/// Collision shapes in the world.
-	VECTOR<Collider*> _colliders;
+	VECTOR<SharedPtr<Collider> > _colliders;
 	/// Constraints in the world.
-	VECTOR<Constraint*> _constraints;
+	VECTOR<SharedPtr<Constraint> > _constraints;
 };
 
 }

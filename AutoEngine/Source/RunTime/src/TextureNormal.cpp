@@ -14,11 +14,14 @@ TextureNormal::TextureNormal(SharedPtr<Ambient> ambient)
 
 TextureNormal::~TextureNormal()
 {
-	UnloadOpaque(SharedFromThis());
 	glDeleteVertexArrays(1, &_VAO);
 	glDeleteBuffers(1, &_VBO);
 }
 
+void TextureNormal::Destory()
+{
+	UnloadOpaque(SharedFromThis());
+}
 
 void TextureNormal::Start()
 {

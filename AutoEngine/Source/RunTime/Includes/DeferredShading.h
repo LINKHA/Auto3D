@@ -8,6 +8,7 @@ class DeferredShading : public RenderComponent, public EnableSharedFromThis<Defe
 public:
 	explicit DeferredShading(SharedPtr<Ambient> ambient);
 	~DeferredShading();
+	void Destory()override;
 	void Start()override;
 	void Draw()override;
 private:

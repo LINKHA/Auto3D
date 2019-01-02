@@ -1,5 +1,6 @@
 #include "PhysicsWorld2D.h"
 #include "PhysicsUtils.h"
+#include "RigidBody2D.h"
 #include "Ambient.h"
 #include "NewDef.h"
 
@@ -26,9 +27,9 @@ PhysicsWorld2D::PhysicsWorld2D(SharedPtr<Ambient> ambient)
 PhysicsWorld2D::~PhysicsWorld2D()
 {
 	SafeDelete(_world);
-	/*for (unsigned i = 0; i < _rigidBodies.Size(); ++i)
-		if (_rigidBodies[i])
-			_rigidBodies[i]->ReleaseBody();*/
+	for (unsigned i = 0; i < _rigidBodys.size(); ++i)
+		if (_rigidBodys[i])
+			_rigidBodys[i]->ReleaseBody();
 }
 
 void PhysicsWorld2D::RegisterObject(SharedPtr<Ambient> ambient)
@@ -62,15 +63,7 @@ void PhysicsWorld2D::RemoveRigidBody(SharedPtr<RigidBody2D> rigidBody)
 {
 	if (!rigidBody)
 		return;
-	for(VECTOR<SharedPtr<RigidBody2D> >::iterator it = _rigidBodys.begin(); it != _rigidBodys.end(); it++)
-	{
-		if (*it == rigidBody)
-		{
-			_rigidBodys.erase(it);
-			return;
-		}
-	}
-	
+	VectorFindEarse(_rigidBodys,rigidBody);
 }
 
 }

@@ -34,7 +34,7 @@ public:
 
 	void RegisterScene(SharedPtr<LevelScene> scene)
 	{
-		GetSubSystem<Scene>()->RegisterScene(scene->GetLevelID(), scene);
+		GetSubSystem<Scene>()->RegisterScene(scene);
 	}
 
 	void RemoveScene(int id)

@@ -11,6 +11,7 @@ class HDRSkyBox : public Texture3D, public EnableSharedFromThis<HDRSkyBox>
 public:
 	explicit HDRSkyBox(SharedPtr<Ambient> ambient);
 	~HDRSkyBox();
+	void Destory()override;
 	void Start()override;
 	void Draw()override;
 	void AddToCamera(Camera* camera){}

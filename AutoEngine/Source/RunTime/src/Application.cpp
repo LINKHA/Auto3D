@@ -35,7 +35,7 @@ int Application::Run()
 		ErrorString("An application that has an out-of-memory condition will exit immediately.");
 		return EXIT_FAILURE;
 	}
-
+	return EXIT_SUCCESS;
 }
 
 }

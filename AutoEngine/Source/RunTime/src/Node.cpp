@@ -13,12 +13,19 @@ Node::Node(SharedPtr<Ambient> ambient, int sceneID)
 	, _isEnable(true)
 	, _name("default node")
 {
-	// Each node contains a Transform component
-	//CreateComponent<Transform>();
 }
 
 Node::~Node() 
 {
+	_components.clear();
+}
+
+void Node::Destory()
+{
+	for (auto it = _components.begin(); it != _components.end(); it++)
+	{
+		it->second->Destory();
+	}
 }
 
 void Node::AddChild(SharedPtr<Node> node)
@@ -59,6 +66,7 @@ void Node::AddComponent(SharedPtr<Component> com)
 void Node::RemoveComponentAtIndex(int index)
 {
 	PAIR_VECTOR<STRING, SharedPtr<Component> >::iterator it = _components.begin() + index;
+	it->second->Destory();
 	_components.erase(it);
 }
 

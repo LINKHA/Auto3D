@@ -20,6 +20,10 @@ MeshShadow::MeshShadow(SharedPtr<Ambient> ambient)
 
 MeshShadow::~MeshShadow()
 {
+}
+
+void MeshShadow::Destory()
+{
 	UnloadShadow(SharedFromThis());
 	UnloadOpaque(SharedFromThis());
 }

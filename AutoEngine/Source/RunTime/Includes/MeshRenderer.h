@@ -21,6 +21,8 @@ public:
 	*/
 	static void RegisterObject(SharedPtr<Ambient> ambient);
 
+	void Destory()override;
+
 	void Start()override;
 	void Draw()override;
 

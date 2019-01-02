@@ -17,11 +17,14 @@ TextureParallax::TextureParallax(SharedPtr<Ambient> ambient)
 
 TextureParallax::~TextureParallax()
 {
-	UnloadOpaque(SharedFromThis());
 	glDeleteVertexArrays(1, &_VAO);
 	glDeleteBuffers(1, &_VBO);
 }
 
+void TextureParallax::Destory()
+{
+	UnloadOpaque(SharedFromThis());
+}
 
 void TextureParallax::Start()
 {

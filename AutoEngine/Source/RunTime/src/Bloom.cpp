@@ -30,6 +30,11 @@ Bloom::Bloom(SharedPtr<Ambient> ambient)
 
 Bloom::~Bloom()
 {
+	
+}
+
+void Bloom::Destory()
+{
 	UnloadOpaque(SharedFromThis());
 }
 

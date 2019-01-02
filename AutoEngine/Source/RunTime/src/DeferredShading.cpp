@@ -21,6 +21,10 @@ DeferredShading::DeferredShading(SharedPtr<Ambient> ambient)
 }
 DeferredShading::~DeferredShading()
 {
+	
+}
+void DeferredShading::Destory()
+{
 	UnloadOpaque(SharedFromThis());
 }
 void DeferredShading::Start()

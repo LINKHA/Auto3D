@@ -8,7 +8,7 @@ class SSAO : public RenderComponent, public EnableSharedFromThis<SSAO>
 public:
 	explicit SSAO(SharedPtr<Ambient> ambient);
 	~SSAO();
-
+	void Destory()override;
 	void Start()override;
 	void Draw()override;
 

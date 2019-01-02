@@ -9,26 +9,44 @@ class Scene : public GlobalGameManager
 {
 	REGISTER_OBJECT_CLASS(Scene, GlobalGameManager)
 
-	using LevelScenes = HASH_MAP<int, SharedPtr<LevelScene> >;
+	using LevelScenes = VECTOR<SharedPtr<LevelScene> >;
 public:
 	explicit Scene(SharedPtr<Ambient> ambient);
 	/**
-	* @brief : Register level for index
+	* @brief : Register level
 	*/
-	void RegisterScene(int index, SharedPtr<LevelScene> level);
+	void RegisterScene(SharedPtr<LevelScene> level);
+	/**
+	* @brief : Add level for level
+	*/
+	void AddScene(SharedPtr<LevelScene> level);
 	/**
 	* @brief : Remove level for index
 	*/
 	void RemoveScene(int index);
 	/**
+	* @brief : Remove level for level
+	*/
+	void RemoveScene(SharedPtr<LevelScene> level);
+
+	/**
 	* @brief : Get all level scenes
 	* @return : HASH_MAP(int,LevelScene*)
 	*/
-	LevelScenes& GetLevelScenes() { return _actionLevelScenes; }
+	VECTOR<SharedPtr<LevelScene> >& GetLevelScenes() { return _levelScenes; }
 	/**
 	* @brief : Get level scene for index
 	*/
-	SharedPtr<LevelScene> GetLevelScene(int index) { return _actionLevelScenes[index]; }
+	SharedPtr<LevelScene> GetLevelScene(int index) 
+	{ 
+		for (auto i = _levelScenes.begin(); i != _levelScenes.end(); i++)
+		{
+			if ((*i)->GetLevelID() == index)
+				return *i;
+		}
+		ErrorString("Fail load level scene");
+		return SharedPtr<LevelScene>();
+	}
 	/**
 	* @brief : Run level for mode
 	*/
@@ -38,10 +56,17 @@ public:
 	*/
 	void RegisterSceneLib(SharedPtr<Ambient> ambient);
 private:
-	/// dynamic level container
-	LevelScenes _dynamicLevelScenes;
+	/**
+	* @brief : if not run this function will run once in one frame
+	*/
+	void delayAddRemoveScene();
+private:
 	/// action level container
-	LevelScenes _actionLevelScenes;
+	VECTOR<SharedPtr<LevelScene> > _levelScenes;
+	/// dynamic level container
+	VECTOR<SharedPtr<LevelScene> > _levelScenesToAdd;
+	/// dynamic level container
+	VECTOR<SharedPtr<LevelScene> > _levelScenesToRemove;
 	/// is inside run
 	bool _isInsideRun{};
 };

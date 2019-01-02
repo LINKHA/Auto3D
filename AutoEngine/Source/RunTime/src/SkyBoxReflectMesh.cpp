@@ -23,6 +23,10 @@ SkyBoxReflectMesh::SkyBoxReflectMesh(SharedPtr<Ambient> ambient, SharedPtr<Shade
 
 SkyBoxReflectMesh::~SkyBoxReflectMesh()
 {
+	
+}
+void SkyBoxReflectMesh::Destory()
+{
 	UnloadOpaque(SharedFromThis());
 }
 void SkyBoxReflectMesh::Start()

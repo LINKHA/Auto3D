@@ -10,7 +10,6 @@ class Node;
 class LevelScene : public LevelBehaviorObject , public ILevelBehavior
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(LevelScene, LevelBehaviorObject)
-	using Nodes = VECTOR<SharedPtr<Node> >;
 public:
 	/**
 	* @brief : Register scenario by serial number , 
@@ -47,6 +46,10 @@ public:
 	* @brief : Get scene node
 	*/
 	SharedPtr<Node> GetSceneNode();
+	/**
+	* @brief : Get nodes
+	*/
+	VECTOR<SharedPtr<Node> >& GetNodes() { return _nodes; }
 private:
 	/**
 	* @brief : if not run this function will run once in one frame
@@ -56,11 +59,11 @@ private:
 	/// scene node (This node has one and only one for each scenario)
 	SharedPtr<Node> _sceneNode;
 	/// all node in this container
-	Nodes _nodes;
+	VECTOR<SharedPtr<Node> > _nodes;
 	/// temp memory will add node in frame finish will clear
-	Nodes _nodeToAdd;
+	VECTOR<SharedPtr<Node> > _nodeToAdd;
 	/// temp memory will remove node in frame finish will clear
-	Nodes _nodeToRemove;
+	VECTOR<SharedPtr<Node> > _nodeToRemove;
 	/// run flag
 	bool _isInsideRun{};
 };

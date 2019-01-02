@@ -18,6 +18,8 @@ public:
 
 	void Start()override;
 	void Draw()override;
+
+	void Destory()override;
 	/**
 	* @brief : Set image to load image
 	*/
@@ -38,7 +40,6 @@ public:
 
 
 	void GenerateMipmap();
-
 
 private:
 	unsigned int _VBO, _VAO, _EBO;

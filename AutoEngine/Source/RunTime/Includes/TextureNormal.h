@@ -15,8 +15,7 @@ class TextureNormal : public TextureMap, public EnableSharedFromThis<TextureNorm
 	REGISTER_OBJECT_CLASS(TextureNormal, TextureMap)
 public:
 	explicit TextureNormal(SharedPtr<Ambient> ambient);
-	//TextureNormal(char* imagePath);
-	//TextureNormal(char* imagePath, const Shader& shader);
+	void Destory()override;
 	void Start()override;
 	void Draw()override;
 

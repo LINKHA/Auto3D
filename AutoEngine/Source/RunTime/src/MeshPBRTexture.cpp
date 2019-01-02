@@ -28,6 +28,11 @@ MeshPBRTexture::MeshPBRTexture(SharedPtr<Ambient> ambient)
 
 MeshPBRTexture::~MeshPBRTexture()
 {
+	
+}
+
+void MeshPBRTexture::Destory()
+{
 	UnloadOpaque(SharedFromThis());
 }
 

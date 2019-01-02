@@ -9,6 +9,7 @@ class MeshLight : public RenderComponent , public EnableSharedFromThis<MeshLight
 public:
 	explicit MeshLight(SharedPtr<Ambient> ambient);
 	~MeshLight();
+	void Destory()override;
 	void Start()override;
 	void Draw()override;
 private:

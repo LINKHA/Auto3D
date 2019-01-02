@@ -18,6 +18,10 @@ MeshRenderer::MeshRenderer(SharedPtr<Ambient> ambient)
 
 MeshRenderer::~MeshRenderer()
 {
+	
+}	
+void MeshRenderer::Destory()
+{
 	UnloadOpaque(SharedFromThis());
 }
 

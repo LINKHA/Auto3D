@@ -14,6 +14,8 @@ class TextureParallax : public TextureMap , public EnableSharedFromThis<TextureP
 public:
 	explicit TextureParallax(SharedPtr<Ambient> ambient);
 
+	void Destory()override;
+
 	void Start()override;
 	void Draw()override;
 

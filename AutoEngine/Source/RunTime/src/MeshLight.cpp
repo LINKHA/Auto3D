@@ -17,6 +17,11 @@ MeshLight::MeshLight(SharedPtr<Ambient> ambient)
 
 MeshLight::~MeshLight()
 {
+	
+}
+
+void MeshLight::Destory()
+{
 	UnloadOpaque(SharedFromThis());
 }
 #define HDR_DEBUG 0

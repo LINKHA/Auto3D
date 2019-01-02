@@ -10,6 +10,7 @@ class Bloom : public RenderComponent, public EnableSharedFromThis<Bloom>
 public:
 	explicit Bloom(SharedPtr<Ambient> ambient);
 	~Bloom();
+	void Destory()override;
 	void Start()override;
 	void Draw()override;
 private:

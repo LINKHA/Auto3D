@@ -29,9 +29,11 @@ MeshPBR::MeshPBR(SharedPtr<Ambient> ambient)
 
 MeshPBR::~MeshPBR()
 {
+}
+void MeshPBR::Destory()
+{
 	UnloadOpaque(SharedFromThis());
 }
-
 void MeshPBR::Start()
 {
 	if (SkyBoxManager::Instance()->GetEnable())

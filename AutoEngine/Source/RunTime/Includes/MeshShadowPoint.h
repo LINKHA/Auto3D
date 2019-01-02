@@ -13,6 +13,7 @@ public:
 	explicit MeshShadowPoint(SharedPtr<Ambient> ambient);
 	MeshShadowPoint(SharedPtr<Ambient> ambient,bool enable);
 	~MeshShadowPoint();
+	void Destory()override;
 	void DrawReady()override;
 	void Start()override;
 	void Draw()override;

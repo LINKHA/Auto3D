@@ -31,9 +31,14 @@ MeshShadowPoint::MeshShadowPoint(SharedPtr<Ambient> ambient,bool enable)
 
 MeshShadowPoint::~MeshShadowPoint()
 {
+}
+
+void MeshShadowPoint::Destory()
+{
 	UnloadShadow(SharedFromThis());
 	UnloadOpaque(SharedFromThis());
 }
+
 void MeshShadowPoint::DrawReady()
 {
 	_mesh = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/base/Cube.3DS");

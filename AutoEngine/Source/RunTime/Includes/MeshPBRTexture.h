@@ -9,6 +9,7 @@ class MeshPBRTexture : public RenderComponent, public EnableSharedFromThis<MeshP
 	REGISTER_OBJECT_CLASS(MeshPBRTexture, RenderComponent)
 public:
 	explicit MeshPBRTexture(SharedPtr<Ambient> ambient);
+	void Destory()override;
 	void Start()override;
 	void Draw()override;
 private:

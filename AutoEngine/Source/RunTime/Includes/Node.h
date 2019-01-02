@@ -21,6 +21,10 @@ class Node :public Object, public EnableSharedFromThis<Node>
 public:
 	explicit Node(SharedPtr<Ambient> ambient, int sceneID);
 	/**
+	* @brief : Destory node
+	*/
+	void Destory();
+	/**
 	* @brief :Add Child
 	* @param : GameObject*
 	*/

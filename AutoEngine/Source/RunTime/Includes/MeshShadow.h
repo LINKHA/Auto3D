@@ -12,6 +12,7 @@ class MeshShadow : public RenderComponent,public GLMeshEnable, public EnableShar
 public:
 	explicit MeshShadow(SharedPtr<Ambient> ambient);
 	~MeshShadow();
+	void Destory()override;
 	void Init()override;
 	void DrawReady()override;
 	void Draw()override;

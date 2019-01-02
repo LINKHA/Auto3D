@@ -26,6 +26,11 @@ SSAO::SSAO(SharedPtr<Ambient> ambient)
 }
 SSAO::~SSAO()
 {
+	
+}
+
+void SSAO::Destory()
+{
 	UnloadOpaque(SharedFromThis());
 }
 

@@ -69,14 +69,14 @@ void PhysicsWorld::Update()
 	_world->stepSimulation(timeStep, maxSubSteps, internalTimeStep);
 }
 
-void PhysicsWorld::AddRigidBodies(RigidBody* rigidBody)
+void PhysicsWorld::AddRigidBodies(SharedPtr<RigidBody> rigidBody)
 {
 	_rigidBodies.push_back(rigidBody);
 }
 
-void PhysicsWorld::RemoveRigidBodies(RigidBody* rigidBody)
+void PhysicsWorld::RemoveRigidBodies(SharedPtr<RigidBody> rigidBody)
 {
-	for (VECTOR<RigidBody*>::iterator it = _rigidBodies.begin();
+	for (VECTOR<SharedPtr<RigidBody> >::iterator it = _rigidBodies.begin();
 		it != _rigidBodies.end();
 		it++)
 	{
@@ -85,14 +85,14 @@ void PhysicsWorld::RemoveRigidBodies(RigidBody* rigidBody)
 	}
 }
 
-void PhysicsWorld::AddCollider(Collider* collider)
+void PhysicsWorld::AddCollider(SharedPtr<Collider> collider)
 {
 	_colliders.push_back(collider);
 }
 
-void PhysicsWorld::RemoveCollider(Collider* collider)
+void PhysicsWorld::RemoveCollider(SharedPtr<Collider> collider)
 {
-	for (VECTOR<Collider*>::iterator it = _colliders.begin();
+	for (VECTOR<SharedPtr<Collider> >::iterator it = _colliders.begin();
 		it != _colliders.end();
 		it++)
 	{
@@ -101,14 +101,14 @@ void PhysicsWorld::RemoveCollider(Collider* collider)
 	}
 }
 
-void PhysicsWorld::AddConstraint(Constraint* constraint)
+void PhysicsWorld::AddConstraint(SharedPtr<Constraint> constraint)
 {
 	_constraints.push_back(constraint);
 }
 
-void PhysicsWorld::RemoveConstraint(Constraint* constraint)
+void PhysicsWorld::RemoveConstraint(SharedPtr<Constraint> constraint)
 {
-	for (VECTOR<Constraint*>::iterator it = _constraints.begin();
+	for (VECTOR<SharedPtr<Constraint> >::iterator it = _constraints.begin();
 		it != _constraints.end();
 		it++)
 	{
