@@ -145,6 +145,9 @@
     <Filter Include="Source\RunTime\Component\Coordinate">
       <UniqueIdentifier>{c2f9f886-02f6-4332-adba-7df0144d86c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\RunTime\_Abandon\Graphics">
+      <UniqueIdentifier>{1552eb7e-eea8-4a46-adfd-b88471fd11c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\au_texture_transform.aufs">
@@ -728,21 +731,6 @@
     <ClInclude Include="Source\RunTime\Includes\RenderComponent.h">
       <Filter>Source\RunTime\Component\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\RenderComponent2D.h">
-      <Filter>Source\RunTime\Component\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Texture.h">
-      <Filter>Source\RunTime\Component\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Texture2D.h">
-      <Filter>Source\RunTime\Component\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Texture3D.h">
-      <Filter>Source\RunTime\Component\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\TextureMap.h">
-      <Filter>Source\RunTime\Component\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Camera.h">
       <Filter>Source\RunTime\Component\Graphics</Filter>
     </ClInclude>
@@ -766,6 +754,18 @@
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\GameManager.h">
       <Filter>Source\RunTime\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\TextureMap.h">
+      <Filter>Source\RunTime\_Abandon\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Texture.h">
+      <Filter>Source\RunTime\_Abandon\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Texture2D.h">
+      <Filter>Source\RunTime\_Abandon\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Texture3D.h">
+      <Filter>Source\RunTime\_Abandon\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1024,21 +1024,6 @@
     <ClCompile Include="Source\RunTime\src\RenderComponent.cpp">
       <Filter>Source\RunTime\Component\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\RenderComponent2D.cpp">
-      <Filter>Source\RunTime\Component\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Texture.cpp">
-      <Filter>Source\RunTime\Component\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Texture2D.cpp">
-      <Filter>Source\RunTime\Component\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Texture3D.cpp">
-      <Filter>Source\RunTime\Component\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\TextureMap.cpp">
-      <Filter>Source\RunTime\Component\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RunTime\src\Camera.cpp">
       <Filter>Source\RunTime\Component\Graphics</Filter>
     </ClCompile>
@@ -1059,6 +1044,18 @@
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\GameManager.cpp">
       <Filter>Source\RunTime\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Texture.cpp">
+      <Filter>Source\RunTime\_Abandon\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Texture2D.cpp">
+      <Filter>Source\RunTime\_Abandon\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Texture3D.cpp">
+      <Filter>Source\RunTime\_Abandon\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\TextureMap.cpp">
+      <Filter>Source\RunTime\_Abandon\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

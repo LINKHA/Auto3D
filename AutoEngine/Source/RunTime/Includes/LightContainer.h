@@ -10,7 +10,6 @@ class Light;
 class LightContainer : public Object
 {
 	REGISTER_OBJECT_CLASS(LightContainer, Object)
-	using Lights = VECTOR<SharedPtr<Light> >;
 public:
 	explicit LightContainer(SharedPtr<Ambient> ambient);
 	void AddLight(SharedPtr<Light> source);
@@ -23,7 +22,7 @@ public:
 	* @brief : Get all lights
 	* @return : VECTOR(Light*)
 	*/
-	Lights GetAllLights() { return _lights; }
+	VECTOR<SharedPtr<Light> > GetAllLights() { return _lights; }
 	/**
 	* @brief : Get last main light
 	*/
@@ -43,8 +42,9 @@ public:
 private:
 	bool _isRenderOrCull;
 	SharedPtr<Light> _currentLight;
-	Lights _lights;
 	SharedPtr<Light> _lastMainLight;
+
+	VECTOR<SharedPtr<Light> > _lights;
 
 };
 

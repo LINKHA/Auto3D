@@ -20,8 +20,6 @@ struct JoystickState
 class Input : public GlobalGameManager
 {
 	REGISTER_OBJECT_CLASS(Input, GlobalGameManager)
-
-	using Keys = SET<int>;
 public:
 	explicit Input(SharedPtr<Ambient> ambient);
 	/**
@@ -101,9 +99,9 @@ private:
 	void hideCursorEvent(bool enable);
 private:
 	///all buttons down in the same frame
-	Keys _keysDown;
+	SET<int> _keysDown;
 	///all buttons pressed in the same frame
-	Keys _keysPress;
+	SET<int> _keysPress;
 	///mouse position limit in window
 	Vector2	_mousePosition;
 	///last mouse potition limit in window

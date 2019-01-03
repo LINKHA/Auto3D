@@ -7,7 +7,6 @@
 
 namespace Auto3D {
 
-class _Shader;
 class ShaderVariation;
 /**
 * mesh vertex message

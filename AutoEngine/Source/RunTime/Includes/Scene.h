@@ -8,8 +8,6 @@ namespace Auto3D {
 class Scene : public GlobalGameManager
 {
 	REGISTER_OBJECT_CLASS(Scene, GlobalGameManager)
-
-	using LevelScenes = VECTOR<SharedPtr<LevelScene> >;
 public:
 	explicit Scene(SharedPtr<Ambient> ambient);
 	/**

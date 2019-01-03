@@ -256,7 +256,6 @@
     <ClInclude Include="Source\RunTime\Includes\AbstractFile.h" />
     <ClInclude Include="Source\RunTime\Includes\Serializer.h" />
     <ClInclude Include="Source\RunTime\Includes\Deserializer.h" />
-    <ClInclude Include="Source\RunTime\Includes\RenderComponent2D.h" />
     <ClInclude Include="Source\RunTime\Includes\Resource.h" />
     <ClInclude Include="Source\RunTime\Includes\FileSystem.h" />
     <ClInclude Include="Source\RunTime\Includes\ColliderSphere.h" />
@@ -380,7 +379,6 @@
     <ClCompile Include="Source\RunTime\src\MemoryBuffer.cpp" />
     <ClCompile Include="Source\RunTime\src\Serializer.cpp" />
     <ClCompile Include="Source\RunTime\src\Deserializer.cpp" />
-    <ClCompile Include="Source\RunTime\src\RenderComponent2D.cpp" />
     <ClCompile Include="Source\RunTime\src\Resource.cpp" />
     <ClCompile Include="Source\RunTime\src\FileSystem.cpp" />
     <ClCompile Include="Source\RunTime\src\ColliderSphere.cpp" />

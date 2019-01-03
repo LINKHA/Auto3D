@@ -18,7 +18,7 @@ void LightContainer::AddLight(SharedPtr<Light> source)
 void LightContainer::RemoveLight(SharedPtr<Light> source)
 {
 	Assert(source);
-	for (Lights::iterator it = _lights.begin(); it != _lights.end(); ++it)
+	for (VECTOR<SharedPtr<Light> >::iterator it = _lights.begin(); it != _lights.end(); ++it)
 	{
 		if (*it = source)
 		{

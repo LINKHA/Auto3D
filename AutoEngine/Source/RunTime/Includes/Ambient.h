@@ -6,9 +6,6 @@ namespace Auto3D {
 class Ambient : public EnableSharedFromThis<Ambient>
 {
 	friend class Object;
-	using SubSystems = HASH_MAP<STRING, SharedPtr<Object>>;
-	using Factories = HASH_MAP<STRING, SharedPtr<ObjectFactory>>;
-	using ObjectAttachs = HASH_MAP<STRING, VECTOR<STRING>>;
 public:
 	Ambient();
 	~Ambient();
@@ -52,7 +49,7 @@ public:
 	* @brief : Get sub systems
 	* @return :HASH_MAP(STRING, sharedPtr<Object>)
 	*/
-	const SubSystems& GetSubSystems() const { return _subSystems; }
+	const HASH_MAP<STRING, SharedPtr<Object>>& GetSubSystems() const { return _subSystems; }
 	/**
 	* @brief : Get sub system by type
 	*/
@@ -60,15 +57,15 @@ public:
 	/**
 	* @brief : Return all subsystems.
 	*/
-	const SubSystems& GetSubsystems() const { return _subSystems; }
+	const HASH_MAP<STRING, SharedPtr<Object>>& GetSubsystems() const { return _subSystems; }
 	/**
 	* @brief : Return all object factories.
 	*/
-	const Factories& GetObjectFactories() const { return _factories; }
+	const HASH_MAP<STRING, SharedPtr<ObjectFactory>>& GetObjectFactories() const { return _factories; }
 	/**
 	* @brief : Return all object attach
 	*/
-	const ObjectAttachs& GetObjectAttachs() const { return _objectAttachs; }
+	const HASH_MAP<STRING, VECTOR<STRING>>& GetObjectAttachs() const { return _objectAttachs; }
 	/**
 	* @brief : Remove a sub system from _subSystems
 	*/
@@ -79,11 +76,11 @@ public:
 	template <typename _Ty> void RemoveSubSystem();
 private:
 	///sub systems hash map
-	SubSystems _subSystems;
+	HASH_MAP<STRING, SharedPtr<Object>> _subSystems;
 	///object factories hash map
-	Factories _factories;
+	HASH_MAP<STRING, SharedPtr<ObjectFactory>> _factories;
 	///object attach hash map
-	ObjectAttachs _objectAttachs;
+	HASH_MAP<STRING, VECTOR<STRING>> _objectAttachs;
 };
 
 template <typename _Ty> inline SharedPtr<_Ty> Ambient::RegisterSubsystem()

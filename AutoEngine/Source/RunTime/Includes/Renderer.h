@@ -6,7 +6,6 @@
 #include "AutoSTL.h"
 
 namespace Auto3D {
-class Ambient;
 class Light;
 /**
 * @brief : Render graphices create to geometry
