@@ -12,7 +12,7 @@ void VertexExplodeSpace::Init()
 	STRING ResourceDir2 = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Sample_VertexExplode/";
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir2);
 
-	RegisterScene(MakeShared<Level_0>(_ambient, 0));
+	GetSubSystem<Scene>()->RegisterScene(MakeShared<Level_0>(_ambient, 0));
 }
 void VertexExplodeSpace::Start()
 {

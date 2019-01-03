@@ -9,6 +9,7 @@ class InstanceBeltLine : public RenderComponent, public EnableSharedFromThis<Ins
 public:
 	InstanceBeltLine(SharedPtr<Ambient> ambient, SharedPtr<Mesh> mesh, SharedPtr<Shader> shader, glm::mat4* modelMat,int count);
 	~InstanceBeltLine();
+	void Destory()override;
 	void Start()override;
 	void Draw()override;
 	void SetCount(int count) { _count = count; }

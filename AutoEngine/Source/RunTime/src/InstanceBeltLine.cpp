@@ -19,8 +19,12 @@ InstanceBeltLine::InstanceBeltLine(SharedPtr<Ambient> ambient, SharedPtr<Mesh> m
 }
 InstanceBeltLine::~InstanceBeltLine()
 {
+}
+void InstanceBeltLine::Destory()
+{
 	UnloadOpaque(SharedFromThis());
 }
+
 void InstanceBeltLine::Start()
 {
 	unsigned int buffer;

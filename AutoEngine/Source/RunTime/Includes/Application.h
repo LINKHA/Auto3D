@@ -23,25 +23,22 @@ class Application : public Object
 	REGISTER_OBJECT_CLASS(Application, Object)
 public:
 	Application(SharedPtr<Ambient> ambient);
-	/// Setup before engine initialization. This is a chance to eg. modify the engine parameters. Call ErrorExit() to terminate without initializing the engine. Called by Application.
+	/**
+	* @brief : Setup before engine initialization. 
+	*		This is a chance to eg. modify the engine parameters. 
+	*		Call ErrorExit() to terminate without initializing the engine.
+	*		Called by Application.
+	*/
 	virtual void Init() { }
-
-	/// Setup after engine initialization and before running the main loop. Call ErrorExit() to terminate without running the main loop. Called by Application.
+	/**
+	* @brief :Setup after engine initialization and before running the main loop.Call ErrorExit() to terminate without running the main loop.
+	*		Called by Application.
+	*/
 	virtual void Start() { }
-
-	/// Cleanup after the main loop. Called by Application.
+	/**
+	* @brief : Cleanup after the main loop. Called by Application
+	*/
 	virtual void Stop() { }
-
-	void RegisterScene(SharedPtr<LevelScene> scene)
-	{
-		GetSubSystem<Scene>()->RegisterScene(scene);
-	}
-
-	void RemoveScene(int id)
-	{
-		GetSubSystem<Scene>()->RemoveScene(id);
-	}
-
 	/*
 	* @brief : this is Engine important funcation init awake runloop and finish run
 	*/
