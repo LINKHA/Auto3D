@@ -1,6 +1,5 @@
 #pragma once
 #include "GameManager.h"
-#include "Singleton.h"
 #include "Prefab.h"
 namespace Auto3D {
 class PreLoadManager : public GlobalGameManager

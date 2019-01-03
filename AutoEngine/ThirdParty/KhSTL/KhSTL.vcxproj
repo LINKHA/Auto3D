@@ -194,6 +194,7 @@
     <ClInclude Include="KhPair.h" />
     <ClInclude Include="KhQueue.h" />
     <ClInclude Include="KhSet.h" />
+    <ClInclude Include="KhSingleton.h" />
     <ClInclude Include="KhStack.h" />
     <ClInclude Include="KhSTL.h" />
     <ClInclude Include="KhString.h" />
@@ -209,6 +210,7 @@
     <ClInclude Include="Utility\TypeRBTreeAlloc.h" />
     <ClInclude Include="Utility\TypeRBTreeIterator.h" />
     <ClInclude Include="Utility\TypeReverseIterator.h" />
+    <ClInclude Include="Utility\TypeSingleton.h" />
     <ClInclude Include="Utility\TypeTreeNode.h" />
   </ItemGroup>
   <ItemGroup>
@@ -225,6 +227,7 @@
     <None Include="KhMap" />
     <None Include="KhQueue" />
     <None Include="KhSet" />
+    <None Include="KhSingleton" />
     <None Include="KhStack" />
     <None Include="KhSTL" />
     <None Include="KhString" />

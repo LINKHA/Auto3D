@@ -11,11 +11,12 @@
 #include <Boost/smart_ptr.hpp>
 
 #include <AutoString.h>
-
+#include <KhSTL/KhSingleton>
 
 namespace Auto3D {
 
-
+template <typename _Ty>
+using Singleton = KhSTL::Singleton<_Ty>;
 
 template <typename _Ty>
 using LIST = std::list<_Ty>;

@@ -1,5 +1,5 @@
 #pragma once
-#include "Singleton.h"
+
 
 namespace Auto3D {
 class SkyBox;

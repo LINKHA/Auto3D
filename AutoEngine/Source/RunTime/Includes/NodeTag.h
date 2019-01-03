@@ -2,7 +2,7 @@
 
 #include "Auto.h"
 #include "LogDef.h"
-#include "Singleton.h"
+
 
 namespace Auto3D {
 

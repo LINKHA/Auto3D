@@ -347,7 +347,6 @@
     <ClInclude Include="Source\RunTime\Includes\Script.h" />
     <ClInclude Include="Source\RunTime\Includes\Texture2D.h" />
     <ClInclude Include="Source\RunTime\Includes\Time.h" />
-    <ClInclude Include="Source\RunTime\Includes\Singleton.h" />
     <ClInclude Include="Source\RunTime\Includes\SkyBox.h" />
     <ClInclude Include="Source\RunTime\Includes\Texture3D.h" />
     <ClInclude Include="Source\RunTime\Includes\TextureMap.h" />

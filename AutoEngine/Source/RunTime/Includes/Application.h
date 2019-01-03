@@ -1,5 +1,4 @@
 #pragma once
-#include "Singleton.h"
 #include "Auto.h"
 #include "Engine.h"
 #include "Ambient.h"

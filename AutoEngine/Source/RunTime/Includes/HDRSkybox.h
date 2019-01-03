@@ -1,6 +1,5 @@
 #pragma once
 #include "Texture3D.h"
-#include "Singleton.h"
 #include "ShaderVariation.h"
 
 namespace Auto3D {

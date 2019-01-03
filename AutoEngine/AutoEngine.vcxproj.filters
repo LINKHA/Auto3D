@@ -61,26 +61,11 @@
     <Filter Include="Source\RunTime\Audio">
       <UniqueIdentifier>{0ed2b5ca-e176-4acd-8bce-81a9acba00bc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\RunTime\Audio\Component">
-      <UniqueIdentifier>{9459bcf0-349c-4be7-b95e-cb2124e61d38}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\RunTime\Behavior">
       <UniqueIdentifier>{adf874be-b7a3-4c88-a38d-0dbc0d6f92aa}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\RunTime\Graphics">
       <UniqueIdentifier>{1b663dd1-be85-4cfd-a826-1ac9348d0cab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\RunTime\Graphics\Component">
-      <UniqueIdentifier>{5a1244eb-68a6-4077-b9dd-9d2de5fc767f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\RunTime\Graphics\Component\Mesh">
-      <UniqueIdentifier>{09483b16-a358-4d36-9f48-eeb95c95612f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\RunTime\Graphics\Component\Abstract">
-      <UniqueIdentifier>{19379c9f-00c0-4c1d-a36a-dee221e60cad}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\RunTime\Graphics\Component\Camera">
-      <UniqueIdentifier>{a29b1769-23c4-4c1a-8d01-bc292efdc32f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\RunTime\Graphics\OpenGL">
       <UniqueIdentifier>{8837c247-60cf-4122-ba66-d22c7ea6836b}</UniqueIdentifier>
@@ -90,15 +75,6 @@
     </Filter>
     <Filter Include="Source\RunTime\Physics">
       <UniqueIdentifier>{5288e7e2-2792-46c2-a149-cf7ac406e842}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\RunTime\Physics\Component">
-      <UniqueIdentifier>{47d268d7-73c8-402e-bd60-8eb4795bf8c9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\RunTime\Physics\Component\2D">
-      <UniqueIdentifier>{3fb9f8bc-70d4-430c-84ac-21dccad80811}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\RunTime\Physics\Component\3D">
-      <UniqueIdentifier>{e428ff78-5a13-47af-a327-5e7c842a0842}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\RunTime\Renderer">
       <UniqueIdentifier>{f40e51bf-6d41-42d2-87be-32a8118683f4}</UniqueIdentifier>
@@ -121,17 +97,8 @@
     <Filter Include="Source\RunTime\Code">
       <UniqueIdentifier>{a9fd5a6c-c5d8-4386-9a88-670ec59ae41d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\RunTime\Resource\Temp">
-      <UniqueIdentifier>{c2f6d330-a48f-4808-b3eb-f86169546498}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\RunTime\Graphics\Component\Texture">
-      <UniqueIdentifier>{0af441cf-c689-40c5-8c99-d84471d9fc8e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\RunTime\_Abandon">
       <UniqueIdentifier>{19e0e4f9-3ea5-41bf-b6d6-68fc2f47d7ca}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\RunTime\Adapter\FreeType">
-      <UniqueIdentifier>{753dc89a-9394-4322-9af8-4a5d26607899}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\RunTime\FileSystem">
       <UniqueIdentifier>{5503781c-61e1-4087-b1ca-b28c8b2380b5}</UniqueIdentifier>
@@ -139,8 +106,44 @@
     <Filter Include="Source\RunTime\Interface">
       <UniqueIdentifier>{1aaba6fb-4a0e-4b88-ae17-ed1a1669211c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\RunTime\Graphics\Component\TempIntegrated">
+    <Filter Include="Source\RunTime\Component">
+      <UniqueIdentifier>{9fb87208-aec4-4f6d-8154-b5497fdefa99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RunTime\Component\Physics">
+      <UniqueIdentifier>{14da865f-d0a5-4d62-b2bd-0d411237a258}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RunTime\Component\Physics\2D">
+      <UniqueIdentifier>{3fb9f8bc-70d4-430c-84ac-21dccad80811}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RunTime\Component\Physics\3D">
+      <UniqueIdentifier>{e428ff78-5a13-47af-a327-5e7c842a0842}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RunTime\Component\Script">
+      <UniqueIdentifier>{6b4270b0-008b-402a-8fc8-addcbee2db05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RunTime\Component\UI">
+      <UniqueIdentifier>{9784f115-0c85-4c98-b9d1-53565d3cd527}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RunTime\Component\Graphics">
+      <UniqueIdentifier>{5b77d676-9a0b-40cb-8310-2be869d6a8dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RunTime\Component\Audio">
+      <UniqueIdentifier>{9459bcf0-349c-4be7-b95e-cb2124e61d38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RunTime\_Abandon\Texture">
+      <UniqueIdentifier>{0af441cf-c689-40c5-8c99-d84471d9fc8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RunTime\_Abandon\Mesh">
+      <UniqueIdentifier>{09483b16-a358-4d36-9f48-eeb95c95612f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RunTime\_Abandon\TempIntegrated">
       <UniqueIdentifier>{3b3f2f51-ea6f-4ed3-808a-d3e50a96cbc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RunTime\_Abandon\_Temp">
+      <UniqueIdentifier>{5f26f691-3487-4864-8129-26e588f91acc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RunTime\Component\Coordinate">
+      <UniqueIdentifier>{c2f9f886-02f6-4332-adba-7df0144d86c8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -417,10 +420,10 @@
       <Filter>Source\RunTime\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\AudioListener.h">
-      <Filter>Source\RunTime\Audio\Component</Filter>
+      <Filter>Source\RunTime\Component\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\AudioSource.h">
-      <Filter>Source\RunTime\Audio\Component</Filter>
+      <Filter>Source\RunTime\Component\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Auto.h">
       <Filter>Source\RunTime</Filter>
@@ -440,9 +443,6 @@
     <ClInclude Include="Source\RunTime\Includes\AutoSTL.h">
       <Filter>Source\RunTime\Adapter</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\BaseMesh.h">
-      <Filter>Source\RunTime\Graphics\Component\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Behavior.h">
       <Filter>Source\RunTime\Behavior</Filter>
     </ClInclude>
@@ -450,22 +450,16 @@
       <Filter>Source\RunTime\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Bloom.h">
-      <Filter>Source\RunTime\Graphics\Component\TempIntegrated</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Camera.h">
-      <Filter>Source\RunTime\Graphics\Component\Camera</Filter>
+      <Filter>Source\RunTime\_Abandon\TempIntegrated</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Collider2D.h">
-      <Filter>Source\RunTime\Physics\Component\2D</Filter>
+      <Filter>Source\RunTime\Component\Physics\2D</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\ColliderBox2D.h">
-      <Filter>Source\RunTime\Physics\Component\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Component.h">
-      <Filter>Source\RunTime\Code</Filter>
+      <Filter>Source\RunTime\Component\Physics\2D</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\DeferredShading.h">
-      <Filter>Source\RunTime\Graphics\Component\TempIntegrated</Filter>
+      <Filter>Source\RunTime\_Abandon\TempIntegrated</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\DeviceTypes.h">
       <Filter>Source\RunTime\Graphics</Filter>
@@ -473,26 +467,14 @@
     <ClInclude Include="Source\RunTime\Includes\Engine.h">
       <Filter>Source\RunTime\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\GameManager.h">
-      <Filter>Source\RunTime\Code</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Geometry.h">
-      <Filter>Source\RunTime\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\GLMeshEnable.h">
-      <Filter>Source\RunTime\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\GLTextureEnable.h">
       <Filter>Source\RunTime\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Graphics.h">
       <Filter>Source\RunTime\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\HDRSkybox.h">
-      <Filter>Source\RunTime\Graphics\Component\TempIntegrated</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\InstanceBeltLine.h">
-      <Filter>Source\RunTime\Preinstall</Filter>
+      <Filter>Source\RunTime\_Abandon\TempIntegrated</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\IO.h">
       <Filter>Source\RunTime\IO</Filter>
@@ -504,19 +486,19 @@
       <Filter>Source\RunTime\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\MeshLight.h">
-      <Filter>Source\RunTime\Graphics\Component\Mesh</Filter>
+      <Filter>Source\RunTime\_Abandon\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\MeshPBR.h">
-      <Filter>Source\RunTime\Graphics\Component\Mesh</Filter>
+      <Filter>Source\RunTime\_Abandon\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\MeshPBRTexture.h">
-      <Filter>Source\RunTime\Graphics\Component\Mesh</Filter>
+      <Filter>Source\RunTime\_Abandon\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\MeshShadow.h">
-      <Filter>Source\RunTime\Graphics\Component\Mesh</Filter>
+      <Filter>Source\RunTime\_Abandon\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\MeshShadowPoint.h">
-      <Filter>Source\RunTime\Graphics\Component\Mesh</Filter>
+      <Filter>Source\RunTime\_Abandon\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Monitors.h">
       <Filter>Source\RunTime\IO</Filter>
@@ -526,9 +508,6 @@
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Object.h">
       <Filter>Source\RunTime\Code</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\OffScreen.h">
-      <Filter>Source\RunTime\Graphics\Component\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\OGLDebug.h">
       <Filter>Source\RunTime\Graphics\OpenGL</Filter>
@@ -540,7 +519,7 @@
       <Filter>Source\RunTime\Physics</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\PhysicsWorld2D.h">
-      <Filter>Source\RunTime\Physics\Component\2D</Filter>
+      <Filter>Source\RunTime\Component\Physics\2D</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Prefab.h">
       <Filter>Source\RunTime\Preinstall</Filter>
@@ -548,14 +527,11 @@
     <ClInclude Include="Source\RunTime\Includes\PreLoadManager.h">
       <Filter>Source\RunTime\Preinstall</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\RenderComponent.h">
-      <Filter>Source\RunTime\Graphics\Component\Abstract</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Renderer.h">
       <Filter>Source\RunTime\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\RigidBody2D.h">
-      <Filter>Source\RunTime\Physics\Component\2D</Filter>
+      <Filter>Source\RunTime\Component\Physics\2D</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\RTTI.h">
       <Filter>Source\RunTime\Code</Filter>
@@ -566,35 +542,14 @@
     <ClInclude Include="Source\RunTime\Includes\Script.h">
       <Filter>Source\RunTime\Script</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\ScriptComponent.h">
-      <Filter>Source\RunTime\Script</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\ShadowRenderer.h">
       <Filter>Source\RunTime\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Singleton.h">
-      <Filter>Source\RunTime\Code</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\SkyBoxManager.h">
-      <Filter>Source\RunTime\Graphics\Component\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\SkyBoxReflectMesh.h">
-      <Filter>Source\RunTime\Graphics\Component\TempIntegrated</Filter>
+      <Filter>Source\RunTime\_Abandon\TempIntegrated</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\SSAO.h">
-      <Filter>Source\RunTime\Graphics\Component\TempIntegrated</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Texture.h">
-      <Filter>Source\RunTime\Graphics\Component\Abstract</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Texture2D.h">
-      <Filter>Source\RunTime\Graphics\Component\Abstract</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Texture3D.h">
-      <Filter>Source\RunTime\Graphics\Component\Abstract</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\TextureMap.h">
-      <Filter>Source\RunTime\Graphics\Component\Abstract</Filter>
+      <Filter>Source\RunTime\_Abandon\TempIntegrated</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Time.h">
       <Filter>Source\RunTime\Time</Filter>
@@ -605,26 +560,23 @@
     <ClInclude Include="Source\RunTime\Includes\UI.h">
       <Filter>Source\RunTime\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\VertexData.h">
-      <Filter>Source\RunTime\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\AutoPhysics3D.h">
       <Filter>Source\RunTime\Adapter</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Collider.h">
-      <Filter>Source\RunTime\Physics\Component\3D</Filter>
+      <Filter>Source\RunTime\Component\Physics\3D</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\ColliderBox.h">
-      <Filter>Source\RunTime\Physics\Component\3D</Filter>
+      <Filter>Source\RunTime\Component\Physics\3D</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\PhysicsWorld.h">
-      <Filter>Source\RunTime\Physics\Component\3D</Filter>
+      <Filter>Source\RunTime\Component\Physics\3D</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\RigidBody.h">
-      <Filter>Source\RunTime\Physics\Component\3D</Filter>
+      <Filter>Source\RunTime\Component\Physics\3D</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\ColliderSphere.h">
-      <Filter>Source\RunTime\Physics\Component\3D</Filter>
+      <Filter>Source\RunTime\Component\Physics\3D</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\FileSystem.h">
       <Filter>Source\RunTime\FileSystem</Filter>
@@ -637,9 +589,6 @@
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Input.h">
       <Filter>Source\RunTime\IO</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\RenderComponent2D.h">
-      <Filter>Source\RunTime\Graphics\Component\Abstract</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Deserializer.h">
       <Filter>Source\RunTime\FileSystem</Filter>
@@ -655,12 +604,6 @@
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\AutoZIP.h">
       <Filter>Source\RunTime\Adapter</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Material.h">
-      <Filter>Source\RunTime\Resource\Temp</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\SkyBox.h">
-      <Filter>Source\RunTime\Resource\Temp</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Resource.h">
       <Filter>Source\RunTime\Resource</Filter>
@@ -704,23 +647,14 @@
     <ClInclude Include="Source\RunTime\Includes\AutoSDL.h">
       <Filter>Source\RunTime\Adapter</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\SpriteRenderer.h">
-      <Filter>Source\RunTime\Graphics\Component</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Mesh.h">
       <Filter>Source\RunTime\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\MeshRenderer.h">
-      <Filter>Source\RunTime\Graphics\Component</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\TextureParallax.h">
-      <Filter>Source\RunTime\Graphics\Component\Texture</Filter>
+      <Filter>Source\RunTime\_Abandon\Texture</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\TextureNormal.h">
-      <Filter>Source\RunTime\Graphics\Component\Texture</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Light.h">
-      <Filter>Source\RunTime\Graphics\Component</Filter>
+      <Filter>Source\RunTime\_Abandon\Texture</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\NodeLayout.h">
       <Filter>Source\RunTime\Scene</Filter>
@@ -744,16 +678,10 @@
       <Filter>Source\RunTime\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Constraint.h">
-      <Filter>Source\RunTime\Physics\Component\3D</Filter>
+      <Filter>Source\RunTime\Component\Physics\3D</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Constraint2D.h">
-      <Filter>Source\RunTime\Physics\Component\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Text.h">
-      <Filter>Source\RunTime\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\UIComponent.h">
-      <Filter>Source\RunTime\Code</Filter>
+      <Filter>Source\RunTime\Component\Physics\2D</Filter>
     </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\Font.h">
       <Filter>Source\RunTime\Resource</Filter>
@@ -761,11 +689,83 @@
     <ClInclude Include="Source\RunTime\Includes\LevelBehaviorObject.h">
       <Filter>Source\RunTime\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RunTime\Includes\Transform.h">
-      <Filter>Source\RunTime\Code</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RunTime\Includes\ILevelBehavior.h">
       <Filter>Source\RunTime\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\InstanceBeltLine.h">
+      <Filter>Source\RunTime\_Abandon\_Temp</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\ScriptComponent.h">
+      <Filter>Source\RunTime\Component\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Text.h">
+      <Filter>Source\RunTime\Component\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Light.h">
+      <Filter>Source\RunTime\Component\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\MeshRenderer.h">
+      <Filter>Source\RunTime\Component\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\SpriteRenderer.h">
+      <Filter>Source\RunTime\Component\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\BaseMesh.h">
+      <Filter>Source\RunTime\_Abandon</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\SkyBoxManager.h">
+      <Filter>Source\RunTime\_Abandon</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\OffScreen.h">
+      <Filter>Source\RunTime\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\SkyBox.h">
+      <Filter>Source\RunTime\_Abandon</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Material.h">
+      <Filter>Source\RunTime\_Abandon</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\RenderComponent.h">
+      <Filter>Source\RunTime\Component\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\RenderComponent2D.h">
+      <Filter>Source\RunTime\Component\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Texture.h">
+      <Filter>Source\RunTime\Component\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Texture2D.h">
+      <Filter>Source\RunTime\Component\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Texture3D.h">
+      <Filter>Source\RunTime\Component\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\TextureMap.h">
+      <Filter>Source\RunTime\Component\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Camera.h">
+      <Filter>Source\RunTime\Component\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\UIComponent.h">
+      <Filter>Source\RunTime\Component\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Transform.h">
+      <Filter>Source\RunTime\Component\Coordinate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\VertexData.h">
+      <Filter>Source\RunTime\_Abandon</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\GLTextureEnable.h">
+      <Filter>Source\RunTime\_Abandon</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\GLMeshEnable.h">
+      <Filter>Source\RunTime\_Abandon</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\Component.h">
+      <Filter>Source\RunTime\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\GameManager.h">
+      <Filter>Source\RunTime\Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -800,13 +800,10 @@
       <Filter>Source\RunTime\Audio</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\AudioListener.cpp">
-      <Filter>Source\RunTime\Audio\Component</Filter>
+      <Filter>Source\RunTime\Component\Audio</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\AudioSource.cpp">
-      <Filter>Source\RunTime\Audio\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\BaseMesh.cpp">
-      <Filter>Source\RunTime\Graphics\Component\Camera</Filter>
+      <Filter>Source\RunTime\Component\Audio</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Behavior.cpp">
       <Filter>Source\RunTime\Behavior</Filter>
@@ -815,55 +812,37 @@
       <Filter>Source\RunTime\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Bloom.cpp">
-      <Filter>Source\RunTime\Graphics\Component\TempIntegrated</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Camera.cpp">
-      <Filter>Source\RunTime\Graphics\Component\Camera</Filter>
+      <Filter>Source\RunTime\_Abandon\TempIntegrated</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Collider.cpp">
-      <Filter>Source\RunTime\Physics\Component\3D</Filter>
+      <Filter>Source\RunTime\Component\Physics\3D</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Collider2D.cpp">
-      <Filter>Source\RunTime\Physics\Component\2D</Filter>
+      <Filter>Source\RunTime\Component\Physics\2D</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\ColliderBox.cpp">
-      <Filter>Source\RunTime\Physics\Component\3D</Filter>
+      <Filter>Source\RunTime\Component\Physics\3D</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\ColliderBox2D.cpp">
-      <Filter>Source\RunTime\Physics\Component\2D</Filter>
+      <Filter>Source\RunTime\Component\Physics\2D</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\ColliderSphere.cpp">
-      <Filter>Source\RunTime\Physics\Component\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Component.cpp">
-      <Filter>Source\RunTime\Code</Filter>
+      <Filter>Source\RunTime\Component\Physics\3D</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\DeferredShading.cpp">
-      <Filter>Source\RunTime\Graphics\Component\TempIntegrated</Filter>
+      <Filter>Source\RunTime\_Abandon\TempIntegrated</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Engine.cpp">
       <Filter>Source\RunTime\Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\GameManager.cpp">
-      <Filter>Source\RunTime\Code</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RunTime\src\Geometry.cpp">
-      <Filter>Source\RunTime\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\GLMeshEnable.cpp">
-      <Filter>Source\RunTime\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\GLTextureEnable.cpp">
       <Filter>Source\RunTime\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Graphics.cpp">
       <Filter>Source\RunTime\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\HDRSkybox.cpp">
-      <Filter>Source\RunTime\Graphics\Component\TempIntegrated</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\InstanceBeltLine.cpp">
-      <Filter>Source\RunTime\Preinstall</Filter>
+      <Filter>Source\RunTime\_Abandon\TempIntegrated</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\IO.cpp">
       <Filter>Source\RunTime\IO</Filter>
@@ -875,19 +854,19 @@
       <Filter>Source\RunTime\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\MeshLight.cpp">
-      <Filter>Source\RunTime\Graphics\Component\Mesh</Filter>
+      <Filter>Source\RunTime\_Abandon\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\MeshPBR.cpp">
-      <Filter>Source\RunTime\Graphics\Component\Mesh</Filter>
+      <Filter>Source\RunTime\_Abandon\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\MeshPBRTexture.cpp">
-      <Filter>Source\RunTime\Graphics\Component\Mesh</Filter>
+      <Filter>Source\RunTime\_Abandon\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\MeshShadow.cpp">
-      <Filter>Source\RunTime\Graphics\Component\Mesh</Filter>
+      <Filter>Source\RunTime\_Abandon\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\MeshShadowPoint.cpp">
-      <Filter>Source\RunTime\Graphics\Component\Mesh</Filter>
+      <Filter>Source\RunTime\_Abandon\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Monitors.cpp">
       <Filter>Source\RunTime\IO</Filter>
@@ -897,9 +876,6 @@
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Object.cpp">
       <Filter>Source\RunTime\Code</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\OffScreen.cpp">
-      <Filter>Source\RunTime\Graphics\Component\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\OGLDebug.cpp">
       <Filter>Source\RunTime\Graphics\OpenGL</Filter>
@@ -911,10 +887,10 @@
       <Filter>Source\RunTime\Physics</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\PhysicsWorld.cpp">
-      <Filter>Source\RunTime\Physics\Component\3D</Filter>
+      <Filter>Source\RunTime\Component\Physics\3D</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\PhysicsWorld2D.cpp">
-      <Filter>Source\RunTime\Physics\Component\2D</Filter>
+      <Filter>Source\RunTime\Component\Physics\2D</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Prefab.cpp">
       <Filter>Source\RunTime\Preinstall</Filter>
@@ -926,10 +902,10 @@
       <Filter>Source\RunTime\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\RigidBody.cpp">
-      <Filter>Source\RunTime\Physics\Component\3D</Filter>
+      <Filter>Source\RunTime\Component\Physics\3D</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\RigidBody2D.cpp">
-      <Filter>Source\RunTime\Physics\Component\2D</Filter>
+      <Filter>Source\RunTime\Component\Physics\2D</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Scene.cpp">
       <Filter>Source\RunTime\Scene</Filter>
@@ -937,32 +913,14 @@
     <ClCompile Include="Source\RunTime\src\Script.cpp">
       <Filter>Source\RunTime\Script</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\ScriptComponent.cpp">
-      <Filter>Source\RunTime\Script</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RunTime\src\ShadowRenderer.cpp">
       <Filter>Source\RunTime\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\SkyBoxManager.cpp">
-      <Filter>Source\RunTime\Graphics\Component\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RunTime\src\SkyBoxReflectMesh.cpp">
-      <Filter>Source\RunTime\Graphics\Component\TempIntegrated</Filter>
+      <Filter>Source\RunTime\_Abandon\TempIntegrated</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\SSAO.cpp">
-      <Filter>Source\RunTime\Graphics\Component\TempIntegrated</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Texture.cpp">
-      <Filter>Source\RunTime\Graphics\Component\Abstract</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Texture2D.cpp">
-      <Filter>Source\RunTime\Graphics\Component\Abstract</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Texture3D.cpp">
-      <Filter>Source\RunTime\Graphics\Component\Abstract</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\TextureMap.cpp">
-      <Filter>Source\RunTime\Graphics\Component\Abstract</Filter>
+      <Filter>Source\RunTime\_Abandon\TempIntegrated</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Time.cpp">
       <Filter>Source\RunTime\Time</Filter>
@@ -979,12 +937,6 @@
     <ClCompile Include="Source\RunTime\src\Input.cpp">
       <Filter>Source\RunTime\IO</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\RenderComponent.cpp">
-      <Filter>Source\RunTime\Graphics\Component\Abstract</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\RenderComponent2D.cpp">
-      <Filter>Source\RunTime\Graphics\Component\Abstract</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RunTime\src\Deserializer.cpp">
       <Filter>Source\RunTime\FileSystem</Filter>
     </ClCompile>
@@ -993,12 +945,6 @@
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\MemoryBuffer.cpp">
       <Filter>Source\RunTime\FileSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Material.cpp">
-      <Filter>Source\RunTime\Resource\Temp</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\SkyBox.cpp">
-      <Filter>Source\RunTime\Resource\Temp</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Resource.cpp">
       <Filter>Source\RunTime\Resource</Filter>
@@ -1009,23 +955,14 @@
     <ClCompile Include="Source\RunTime\src\Image.cpp">
       <Filter>Source\RunTime\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\SpriteRenderer.cpp">
-      <Filter>Source\RunTime\Graphics\Component</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RunTime\src\Mesh.cpp">
       <Filter>Source\RunTime\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RunTime\src\MeshRenderer.cpp">
-      <Filter>Source\RunTime\Graphics\Component</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RunTime\src\TextureNormal.cpp">
-      <Filter>Source\RunTime\Graphics\Component\Texture</Filter>
+      <Filter>Source\RunTime\_Abandon\Texture</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\TextureParallax.cpp">
-      <Filter>Source\RunTime\Graphics\Component\Texture</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Light.cpp">
-      <Filter>Source\RunTime\Graphics\Component</Filter>
+      <Filter>Source\RunTime\_Abandon\Texture</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\ShaderVariation.cpp">
       <Filter>Source\RunTime\Resource</Filter>
@@ -1040,16 +977,10 @@
       <Filter>Source\RunTime\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Constraint.cpp">
-      <Filter>Source\RunTime\Physics\Component\3D</Filter>
+      <Filter>Source\RunTime\Component\Physics\3D</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Constraint2D.cpp">
-      <Filter>Source\RunTime\Physics\Component\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\Text.cpp">
-      <Filter>Source\RunTime\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RunTime\src\UIComponent.cpp">
-      <Filter>Source\RunTime\Code</Filter>
+      <Filter>Source\RunTime\Component\Physics\2D</Filter>
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\Font.cpp">
       <Filter>Source\RunTime\Resource</Filter>
@@ -1057,8 +988,77 @@
     <ClCompile Include="Source\RunTime\src\LevelBehaviorObject.cpp">
       <Filter>Source\RunTime\Behavior</Filter>
     </ClCompile>
+    <ClCompile Include="Source\RunTime\src\InstanceBeltLine.cpp">
+      <Filter>Source\RunTime\_Abandon\_Temp</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\ScriptComponent.cpp">
+      <Filter>Source\RunTime\Component\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Text.cpp">
+      <Filter>Source\RunTime\Component\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Light.cpp">
+      <Filter>Source\RunTime\Component\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\MeshRenderer.cpp">
+      <Filter>Source\RunTime\Component\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\SpriteRenderer.cpp">
+      <Filter>Source\RunTime\Component\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\BaseMesh.cpp">
+      <Filter>Source\RunTime\_Abandon</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\SkyBoxManager.cpp">
+      <Filter>Source\RunTime\_Abandon</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\OffScreen.cpp">
+      <Filter>Source\RunTime\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Material.cpp">
+      <Filter>Source\RunTime\_Abandon</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\SkyBox.cpp">
+      <Filter>Source\RunTime\_Abandon</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\RenderComponent.cpp">
+      <Filter>Source\RunTime\Component\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\RenderComponent2D.cpp">
+      <Filter>Source\RunTime\Component\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Texture.cpp">
+      <Filter>Source\RunTime\Component\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Texture2D.cpp">
+      <Filter>Source\RunTime\Component\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Texture3D.cpp">
+      <Filter>Source\RunTime\Component\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\TextureMap.cpp">
+      <Filter>Source\RunTime\Component\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Camera.cpp">
+      <Filter>Source\RunTime\Component\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\UIComponent.cpp">
+      <Filter>Source\RunTime\Component\UI</Filter>
+    </ClCompile>
     <ClCompile Include="Source\RunTime\src\Transform.cpp">
-      <Filter>Source\RunTime\Code</Filter>
+      <Filter>Source\RunTime\Component\Coordinate</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\GLMeshEnable.cpp">
+      <Filter>Source\RunTime\_Abandon</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\GLTextureEnable.cpp">
+      <Filter>Source\RunTime\_Abandon</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\Component.cpp">
+      <Filter>Source\RunTime\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\GameManager.cpp">
+      <Filter>Source\RunTime\Engine</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

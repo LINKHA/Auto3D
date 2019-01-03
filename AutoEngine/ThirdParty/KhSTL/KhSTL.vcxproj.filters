@@ -188,6 +188,12 @@
     <ClInclude Include="KhVector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="KhSingleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\TypeSingleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Container\String\TypeString.cpp">
@@ -209,5 +215,6 @@
     <None Include="KhSTL" />
     <None Include="KhString" />
     <None Include="KhVector" />
+    <None Include="KhSingleton" />
   </ItemGroup>
 </Project>
