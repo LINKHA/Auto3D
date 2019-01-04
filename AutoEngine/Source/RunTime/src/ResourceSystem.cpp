@@ -1,6 +1,7 @@
 #include "ResourceSystem.h"
 #include "AutoOGL.h"
 #include "AutoImage.h"
+#include "AutoThread.h"
 #include "File.h"
 #include "FileSystem.h"
 #include "Resource.h"
@@ -129,7 +130,12 @@ unsigned int ResourceSystem::HdrLoad(char* path)
 SharedPtr<Resource> ResourceSystem::GetResource(STRING type, const STRING& name, bool sendEventOnFailure)
 {
 	STRING sanitatedName = SanitateResourceName(name);
-
+	// If not main thread, return null pointer immediately
+	if (!IsMainThread())
+	{
+		ErrorString("Attempted to get resource " + sanitatedName + " from outside the main thread");
+		return nullptr;
+	}
 	// If empty name, return null pointer immediately
 	if (sanitatedName.Empty())
 	{

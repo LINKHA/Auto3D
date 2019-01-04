@@ -2,7 +2,7 @@
 #include "Object.h"
 #include "AutoSDL.h"
 #include <functional>
-#include <thread>
+#include "AutoThread.h"
 
 namespace Auto3D {
 
@@ -59,7 +59,7 @@ public:
 		, _delayTime(delayTime)
 		, _count(count)
 	{
-		std::thread timerThread(&Timer::timerCount, this, callback, interval, delayTime, count);
+		Thread timerThread(&Timer::timerCount, this, callback, interval, delayTime, count);
 		timerThread.detach();
 		state = TimerState::Running;
 	}
@@ -71,7 +71,7 @@ public:
 		, _delayTime(delayTime)
 		, _count(count)
 	{
-		std::thread timerThread(&Timer::timerCountClass, this, callback, interval, delayTime, count);
+		Thread timerThread(&Timer::timerCountClass, this, callback, interval, delayTime, count);
 		timerThread.detach();
 		state = TimerState::Running;
 	}

@@ -3,6 +3,7 @@
 #include "Engine.h"
 #include "Ambient.h"
 #include "Scene.h"
+#include "AutoThread.h"
 #include "Launch.h"
 
 namespace Auto3D {
@@ -61,6 +62,7 @@ private:
 #define AUTO_APPLICATION_MAIN(_Class) \
 int runApplication() \
 { \
+	RegisterMainThread();\
     SharedPtr<Auto3D::Ambient> ambient(new Auto3D::Ambient()); \
     _Class app(ambient);\
     return app.Run(); \

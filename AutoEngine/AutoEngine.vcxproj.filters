@@ -767,6 +767,9 @@
     <ClInclude Include="Source\RunTime\Includes\Texture3D.h">
       <Filter>Source\RunTime\_Abandon\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Source\RunTime\Includes\BackgroundLoader.h">
+      <Filter>Source\RunTime\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\RunTime\Includes\Math\Color.cpp">
@@ -1056,6 +1059,12 @@
     </ClCompile>
     <ClCompile Include="Source\RunTime\src\TextureMap.cpp">
       <Filter>Source\RunTime\_Abandon\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\AutoThread.cpp">
+      <Filter>Source\RunTime\Adapter</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RunTime\src\BackgroundLoader.cpp">
+      <Filter>Source\RunTime\Resource</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

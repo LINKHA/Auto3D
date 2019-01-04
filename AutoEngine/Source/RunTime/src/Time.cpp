@@ -1,7 +1,7 @@
 #include "Time.h"
 #include "Math/Math.h"
 #include "AutoSDL.h"
-#include <thread>
+#include "AutoThread.h"
 #include "NewDef.h"
 
 namespace Auto3D {
@@ -190,13 +190,13 @@ void Time::OneShotTimer(std::function<void()> callback, int msTime)
 
 void Time::ShotTimer(TimerCallback callback, int msTime, int count)
 {
-	std::thread timerThread(&This::timerCount,this, callback, msTime, count);
+	Thread timerThread(&This::timerCount,this, callback, msTime, count);
 	timerThread.detach();
 }
 
 void Time::ShotTimer(std::function<void()> callback, int msTime, int count)
 {
-	std::thread timerThread(&This::timerCountClass, this, callback, msTime, count);
+	Thread timerThread(&This::timerCountClass, this, callback, msTime, count);
 	timerThread.detach();
 }
 

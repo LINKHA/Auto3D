@@ -234,6 +234,7 @@
     <None Include="Shader\au_texture_transform.aufs" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\RunTime\Includes\BackgroundLoader.h" />
     <ClInclude Include="Source\RunTime\Includes\ILevelBehavior.h" />
     <ClInclude Include="Source\RunTime\Includes\LevelBehaviorObject.h" />
     <ClInclude Include="Source\RunTime\Includes\Font.h" />
@@ -366,6 +367,8 @@
     <ClInclude Include="Source\RunTime\Includes\UIComponent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\RunTime\src\BackgroundLoader.cpp" />
+    <ClCompile Include="Source\RunTime\src\AutoThread.cpp" />
     <ClCompile Include="Source\RunTime\src\LevelBehaviorObject.cpp" />
     <ClCompile Include="Source\RunTime\src\Font.cpp" />
     <ClCompile Include="Source\RunTime\src\Constraint.cpp" />
