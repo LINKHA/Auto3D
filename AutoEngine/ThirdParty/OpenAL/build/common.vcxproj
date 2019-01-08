@@ -269,24 +269,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\alcomplex.c" />
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\alcomplex.h" />
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\align.h" />
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\almalloc.c" />
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\almalloc.h" />
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\atomic.c" />
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\atomic.h" />
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\bool.h" />
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\math_defs.h" />
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\rwlock.c" />
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\rwlock.h" />
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\static_assert.h" />
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\threads.c" />
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\threads.h" />
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\uintmap.c" />
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\common\uintmap.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\ZERO_CHECK.vcxproj">
       <Project>{94309597-D99E-39B5-B17B-495DBFB5E60C}</Project>
       <Name>ZERO_CHECK</Name>

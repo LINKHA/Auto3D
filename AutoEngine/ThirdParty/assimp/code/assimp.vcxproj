@@ -58,7 +58,7 @@
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\bin\x64\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\AutoEngine\ThirdParty\ThiredParty.dir\x64\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">assimp-vc140-mt</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectName)</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.dll</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
@@ -119,7 +119,7 @@
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>$(SolutionDir)AutoEngine\ThirdParty\ThiredParty.lib\x64\assimp-vc140-mt.lib</ImportLibrary>
+      <ImportLibrary>$(SolutionDir)AutoEngine\ThirdParty\ThiredParty.lib\x64\assimp.lib</ImportLibrary>
       <ProgramDataBaseFile>D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/bin/Debug/assimp-vc140-mt.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -852,20 +852,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\Compiler\pushpack1.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\Compiler\poppack1.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\include\assimp\Compiler\pstdint.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\irrXML\IrrXML.vcxproj">
-      <Project>{AD149EDA-0C4B-3B12-B467-3B600B5B8A65}</Project>
-      <Name>IrrXML</Name>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </ProjectReference>
-    <ProjectReference Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\zlib\zlibstatic.vcxproj">
-      <Project>{CE868C11-1A93-3F5A-A4E8-9E44DEA106CE}</Project>
-      <Name>zlibstatic</Name>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

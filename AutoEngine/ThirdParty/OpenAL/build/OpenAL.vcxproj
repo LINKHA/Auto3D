@@ -118,7 +118,7 @@
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>$(SolutionDir)AutoEngine\ThirdParty\ThiredParty.lib\x64\OpenAL32.lib</ImportLibrary>
+      <ImportLibrary>$(SolutionDir)AutoEngine\ThirdParty\ThiredParty.lib\x64\OpenAL.lib</ImportLibrary>
       <ProgramDataBaseFile>D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/Debug/OpenAL32.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -485,10 +485,26 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\common\alcomplex.h" />
+    <ClInclude Include="..\common\align.h" />
+    <ClInclude Include="..\common\almalloc.h" />
+    <ClInclude Include="..\common\atomic.h" />
+    <ClInclude Include="..\common\bool.h" />
+    <ClInclude Include="..\common\math_defs.h" />
+    <ClInclude Include="..\common\rwlock.h" />
+    <ClInclude Include="..\common\static_assert.h" />
+    <ClInclude Include="..\common\threads.h" />
+    <ClInclude Include="..\common\uintmap.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\OpenAL32\Include\bs2b.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\OpenAL32\Include\alMain.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\OpenAL32\Include\alu.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\OpenAL32\Include\alAuxEffectSlot.h" />
+    <ClCompile Include="..\common\alcomplex.c" />
+    <ClCompile Include="..\common\almalloc.c" />
+    <ClCompile Include="..\common\atomic.c" />
+    <ClCompile Include="..\common\rwlock.c" />
+    <ClCompile Include="..\common\threads.c" />
+    <ClCompile Include="..\common\uintmap.c" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\OpenAL32\alAuxEffectSlot.c" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\OpenAL32\Include\alBuffer.h" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\OpenAL32\alBuffer.c" />
@@ -576,11 +592,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\default-44100.mhr.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\default-48000.mhr.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\bsinc_inc.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="common.vcxproj">
-      <Project>{7d2f401d-7aa0-37fd-a633-74e862d2284f}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

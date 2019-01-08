@@ -58,7 +58,7 @@
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\bin\x64\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\AutoEngine\ThirdParty\ThiredParty.dir\x64\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">SDL2d</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectName)</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.dll</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
@@ -118,7 +118,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>$(SolutionDir)AutoEngine\ThirdParty\ThiredParty.lib\x64\SDL2d.lib</ImportLibrary>
+      <ImportLibrary>$(SolutionDir)AutoEngine\ThirdParty\ThiredParty.lib\x64\SDL2.lib</ImportLibrary>
       <ProgramDataBaseFile>D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/SDL/Build/Debug/SDL2d.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
