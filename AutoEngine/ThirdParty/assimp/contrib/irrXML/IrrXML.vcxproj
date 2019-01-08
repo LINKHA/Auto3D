@@ -281,14 +281,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\irrXML\irrXML.cpp" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\contrib\irrXML\irrXML.h" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Assimp\ZERO_CHECK.vcxproj">
-      <Project>{E99E390B-9979-3D4D-93A7-6DBED10A4ED6}</Project>
-      <Name>ZERO_CHECK</Name>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

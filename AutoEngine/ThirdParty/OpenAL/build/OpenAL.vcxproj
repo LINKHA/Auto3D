@@ -578,23 +578,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\bsinc_inc.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\ZERO_CHECK.vcxproj">
-      <Project>{94309597-D99E-39B5-B17B-495DBFB5E60C}</Project>
-      <Name>ZERO_CHECK</Name>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </ProjectReference>
-    <ProjectReference Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\common.vcxproj">
-      <Project>{7D2F401D-7AA0-37FD-A633-74E862D2284F}</Project>
-      <Name>common</Name>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </ProjectReference>
-    <ProjectReference Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\build\native-tools.vcxproj">
-      <Project>{461EE012-50ED-3CB1-83AA-412309540784}</Project>
-      <Name>native-tools</Name>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    <ProjectReference Include="common.vcxproj">
+      <Project>{7d2f401d-7aa0-37fd-a633-74e862d2284f}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

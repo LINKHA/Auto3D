@@ -270,14 +270,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   <ItemGroup>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\SDL\src\main\windows\SDL_windows_main.c" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\SDL\Build\ZERO_CHECK.vcxproj">
-      <Project>{3CA8BDD6-0B73-3323-9444-907274ABAE43}</Project>
-      <Name>ZERO_CHECK</Name>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
