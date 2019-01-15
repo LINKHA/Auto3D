@@ -1,4 +1,0 @@
-D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/native-tools/CMakeFiles/bin2h.dir
-D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/native-tools/CMakeFiles/bsincgen.dir
-D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/native-tools/CMakeFiles/ALL_BUILD.dir
-D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/OpenAL/build/native-tools/CMakeFiles/ZERO_CHECK.dir

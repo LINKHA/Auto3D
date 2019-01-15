@@ -2,8 +2,7 @@
 Open Asset Import Library (assimp)
 ----------------------------------------------------------------------
 
-Copyright (c) 2006-2018, assimp team
-
+Copyright (c) 2006-2017, assimp team
 
 All rights reserved.
 
@@ -41,9 +40,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 #include <utility>
 #include "MMDPmxParser.h"
-#include <assimp/StringUtils.h>
 #include "../contrib/utf8cpp/source/utf8.h"
-#include <assimp/Exceptional.h>
+#include "Exceptional.h"
 
 namespace pmx
 {
@@ -119,7 +117,7 @@ namespace pmx
 		stream->read((char*) &count, sizeof(uint8_t));
 		if (count < 8)
 		{
-			throw DeadlyImportError("MMD: invalid size");
+			throw;
 		}
 		stream->read((char*) &encoding, sizeof(uint8_t));
 		stream->read((char*) &uv, sizeof(uint8_t));
@@ -396,7 +394,7 @@ namespace pmx
 			}
 			break;
 		default:
-            throw DeadlyImportError("MMD: unknown morth type");
+			throw;
 		}
 	}
 
@@ -477,8 +475,8 @@ namespace pmx
 	{
 		// 未実装
 		std::cerr << "Not Implemented Exception" << std::endl;
-        throw DeadlyImportError("MMD: Not Implemented Exception");
-    }
+		throw;
+	}
 
 	void PmxModel::Init()
 	{
@@ -517,15 +515,15 @@ namespace pmx
 		if (magic[0] != 0x50 || magic[1] != 0x4d || magic[2] != 0x58 || magic[3] != 0x20)
 		{
 			std::cerr << "invalid magic number." << std::endl;
-            throw DeadlyImportError("MMD: invalid magic number.");
-        }
+			throw;
+		}
 		// バージョン
 		stream->read((char*) &version, sizeof(float));
 		if (version != 2.0f && version != 2.1f)
 		{
 			std::cerr << "this is not ver2.0 or ver2.1 but " << version << "." << std::endl;
-            throw DeadlyImportError("MMD: this is not ver2.0 or ver2.1 but " + to_string(version));
-        }
+			throw;
+		}
 		// ファイル設定
 		this->setting.Read(stream);
 
@@ -606,5 +604,34 @@ namespace pmx
 		{
 			this->joints[i].Read(stream, &setting);
 		}
+
+		//if (this->version == 2.1f)
+		//{
+		//	stream->read((char*) &this->soft_body_count, sizeof(int));
+		//	this->soft_bodies = mmd::make_unique<PmxSoftBody []>(this->soft_body_count);
+		//	for (int i = 0; i < this->soft_body_count; i++)
+		//	{
+		//		this->soft_bodies[i].Read(stream, &setting);
+		//	}
+		//}
 	}
+
+	//std::unique_ptr<PmxModel> ReadFromFile(const char *filename)
+	//{
+	//	auto stream = std::ifstream(filename, std::ios_base::binary);
+	//	auto pmx = PmxModel::ReadFromStream(&stream);
+	//	if (!stream.eof())
+	//	{
+	//		std::cerr << "don't reach the end of file." << std::endl;
+	//	}
+	//	stream.close();
+	//	return pmx;
+	//}
+
+	//std::unique_ptr<PmxModel> ReadFromStream(std::istream *stream)
+	//{
+	//	auto pmx = mmd::make_unique<PmxModel>();
+	//	pmx->Read(stream);
+	//	return pmx;
+	//}
 }

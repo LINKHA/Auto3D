@@ -7,8 +7,8 @@
 #ifndef INCLUDED_AI_IRRSHARED_H
 #define INCLUDED_AI_IRRSHARED_H
 
-#include <assimp/irrXMLWrapper.h>
-#include <assimp/BaseImporter.h>
+#include "irrXMLWrapper.h"
+#include "BaseImporter.h"
 #include <stdint.h>
 
 struct aiMaterial;
@@ -91,7 +91,7 @@ protected:
 
     // -------------------------------------------------------------------
     /** Read a property of the specified type from the current XML element.
-     *  @param out Receives output data
+     *  @param out Recives output data
      */
     void ReadHexProperty    (HexProperty&    out);
     void ReadStringProperty (StringProperty& out);

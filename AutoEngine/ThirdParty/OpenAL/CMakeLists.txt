@@ -1301,6 +1301,7 @@ ADD_CUSTOM_TARGET(native-tools
     DEPENDS "${BIN2H_COMMAND}" "${BSINCGEN_COMMAND}"
     VERBATIM
 )
+set_target_properties(native-tools PROPERTIES FOLDER "ThirdParty/OpenAL") 
 
 option(ALSOFT_EMBED_HRTF_DATA "Embed the HRTF data files (increases library footprint)" ON)
 if(ALSOFT_EMBED_HRTF_DATA)
@@ -1344,7 +1345,7 @@ ENDIF()
 IF(NOT WIN32)
     SET(LIBNAME "openal")
 ELSE()
-    SET(LIBNAME "OpenAL32")
+    SET(LIBNAME "OpenAL")
 ENDIF()
 
 # Needed for openal.pc.in
@@ -1381,6 +1382,7 @@ CONFIGURE_FILE(
 
 # Add a static library with common functions used by multiple targets
 ADD_LIBRARY(common STATIC ${COMMON_OBJS})
+set_target_properties(common PROPERTIES FOLDER "ThirdParty/OpenAL") 
 TARGET_COMPILE_DEFINITIONS(common PRIVATE ${CPP_DEFS})
 TARGET_COMPILE_OPTIONS(common PRIVATE ${C_FLAGS})
 
@@ -1397,6 +1399,7 @@ IF(LIBTYPE STREQUAL "STATIC")
         SET(CPP_DEFS ${CPP_DEFS} AL_NO_UID_DEFS)
     ENDIF()
     ADD_LIBRARY(OpenAL STATIC ${COMMON_OBJS} ${OPENAL_OBJS} ${ALC_OBJS})
+	set_target_properties(OpenAL PROPERTIES FOLDER "ThirdParty/OpenAL") 
 ELSE()
     # Make sure to compile the common code with PIC, since it'll be linked into
     # shared libs that needs it.
@@ -1413,7 +1416,9 @@ ELSE()
 
     IF(WIN32 AND ALSOFT_BUILD_ROUTER)
         ADD_LIBRARY(OpenAL SHARED router/router.c router/router.h router/alc.c router/al.c)
-        TARGET_COMPILE_DEFINITIONS(OpenAL
+        set(LIBRARY_OUTPUT_PATH  ${CMAKE_BINARY_DIR}/bin)
+		set_target_properties(OpenAL PROPERTIES FOLDER "ThirdParty/OpenAL") 
+	    TARGET_COMPILE_DEFINITIONS(OpenAL
             PRIVATE AL_BUILD_LIBRARY AL_ALEXT_PROTOTYPES ${CPP_DEFS})
         TARGET_COMPILE_OPTIONS(OpenAL PRIVATE ${C_FLAGS})
         TARGET_LINK_LIBRARIES(OpenAL PRIVATE ${LINKER_FLAGS} ${COMMON_LIB})
@@ -1429,6 +1434,8 @@ ELSE()
     ENDIF()
 
     ADD_LIBRARY(${IMPL_TARGET} SHARED ${OPENAL_OBJS} ${ALC_OBJS})
+	set(LIBRARY_OUTPUT_PATH  ${CMAKE_BINARY_DIR}/bin)
+	set_target_properties(${IMPL_TARGET} PROPERTIES FOLDER "ThirdParty/OpenAL") 
     IF(WIN32)
         SET_TARGET_PROPERTIES(${IMPL_TARGET} PROPERTIES PREFIX "")
     ENDIF()
@@ -1569,6 +1576,7 @@ ENDIF()
 
 IF(ALSOFT_UTILS)
     ADD_EXECUTABLE(openal-info utils/openal-info.c)
+	set_target_properties(openal-info PROPERTIES FOLDER "ThirdParty/OpenAL") 
     TARGET_COMPILE_OPTIONS(openal-info PRIVATE ${C_FLAGS})
     TARGET_LINK_LIBRARIES(openal-info PRIVATE ${LINKER_FLAGS} OpenAL)
 
@@ -1577,6 +1585,7 @@ IF(ALSOFT_UTILS)
         SET(MAKEHRTF_SRCS  ${MAKEHRTF_SRCS} utils/getopt.c utils/getopt.h)
     ENDIF()
     ADD_EXECUTABLE(makehrtf ${MAKEHRTF_SRCS})
+	set_target_properties(makehrtf PROPERTIES FOLDER "ThirdParty/OpenAL") 
     TARGET_COMPILE_DEFINITIONS(makehrtf PRIVATE ${CPP_DEFS})
     TARGET_COMPILE_OPTIONS(makehrtf PRIVATE ${C_FLAGS})
     IF(HAVE_LIBM)
@@ -1601,36 +1610,36 @@ ENDIF()
 IF(ALSOFT_TESTS)
     SET(TEST_COMMON_OBJS  examples/common/alhelpers.c)
 
-    ADD_EXECUTABLE(altonegen examples/altonegen.c ${TEST_COMMON_OBJS})
-    TARGET_COMPILE_DEFINITIONS(altonegen PRIVATE ${CPP_DEFS})
-    TARGET_COMPILE_OPTIONS(altonegen PRIVATE ${C_FLAGS})
-    TARGET_LINK_LIBRARIES(altonegen PRIVATE ${LINKER_FLAGS} common OpenAL ${MATH_LIB})
+    #ADD_EXECUTABLE(altonegen examples/altonegen.c ${TEST_COMMON_OBJS})
+    #TARGET_COMPILE_DEFINITIONS(altonegen PRIVATE ${CPP_DEFS})
+    #TARGET_COMPILE_OPTIONS(altonegen PRIVATE ${C_FLAGS})
+    #TARGET_LINK_LIBRARIES(altonegen PRIVATE ${LINKER_FLAGS} common OpenAL ${MATH_LIB})
 
-    IF(ALSOFT_INSTALL)
-        INSTALL(TARGETS altonegen
-                RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-                LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-                ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        )
-    ENDIF()
+    #IF(ALSOFT_INSTALL)
+    #    INSTALL(TARGETS altonegen
+    #            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    #            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    #            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    #    )
+    #ENDIF()
 
     MESSAGE(STATUS "Building test programs")
     MESSAGE(STATUS "")
 ENDIF()
 
 IF(ALSOFT_EXAMPLES)
-    ADD_EXECUTABLE(alrecord examples/alrecord.c)
-    TARGET_COMPILE_DEFINITIONS(alrecord PRIVATE ${CPP_DEFS})
-    TARGET_COMPILE_OPTIONS(alrecord PRIVATE ${C_FLAGS})
-    TARGET_LINK_LIBRARIES(alrecord PRIVATE ${LINKER_FLAGS} common OpenAL)
+    #ADD_EXECUTABLE(alrecord examples/alrecord.c)
+    #TARGET_COMPILE_DEFINITIONS(alrecord PRIVATE ${CPP_DEFS})
+    #TARGET_COMPILE_OPTIONS(alrecord PRIVATE ${C_FLAGS})
+    #TARGET_LINK_LIBRARIES(alrecord PRIVATE ${LINKER_FLAGS} common OpenAL)
 
-    IF(ALSOFT_INSTALL)
-        INSTALL(TARGETS alrecord
-                RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-                LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-                ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        )
-    ENDIF()
+    #IF(ALSOFT_INSTALL)
+    #    INSTALL(TARGETS alrecord
+    #            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    #            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    #            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    #    )
+    #ENDIF()
 
     MESSAGE(STATUS "Building example programs")
 
@@ -1638,6 +1647,7 @@ IF(ALSOFT_EXAMPLES)
         IF(SDL_SOUND_FOUND)
             # Add a static library with common functions used by multiple targets
             ADD_LIBRARY(ex-common STATIC examples/common/alhelpers.c)
+			set_target_properties(ex-common PROPERTIES FOLDER "ThirdParty/OpenAL") 
             TARGET_COMPILE_DEFINITIONS(ex-common PRIVATE ${CPP_DEFS})
             TARGET_COMPILE_OPTIONS(ex-common PRIVATE ${C_FLAGS})
 

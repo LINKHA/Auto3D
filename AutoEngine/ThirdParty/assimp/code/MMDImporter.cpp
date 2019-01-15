@@ -141,6 +141,8 @@ void MMDImporter::CreateDataFromImport(const pmx::PmxModel *pModel,
   aiNode *pNode = new aiNode;
   if (!pModel->model_name.empty()) {
     pNode->mName.Set(pModel->model_name);
+  } else {
+    ai_assert(false);
   }
 
   pScene->mRootNode = pNode;
@@ -168,7 +170,7 @@ void MMDImporter::CreateDataFromImport(const pmx::PmxModel *pModel,
   }
 
   // create node hierarchy for bone position
-  std::unique_ptr<aiNode *[]> ppNode(new aiNode *[pModel->bone_count]);
+  aiNode **ppNode = new aiNode *[pModel->bone_count];
   for (auto i = 0; i < pModel->bone_count; i++) {
     ppNode[i] = new aiNode(pModel->bones[i].bone_name);
   }
@@ -177,9 +179,9 @@ void MMDImporter::CreateDataFromImport(const pmx::PmxModel *pModel,
     const pmx::PmxBone &bone = pModel->bones[i];
 
     if (bone.parent_index < 0) {
-      pScene->mRootNode->addChildren(1, ppNode.get() + i);
+      pScene->mRootNode->addChildren(1, ppNode + i);
     } else {
-      ppNode[bone.parent_index]->addChildren(1, ppNode.get() + i);
+      ppNode[bone.parent_index]->addChildren(1, ppNode + i);
 
       aiVector3D v3 = aiVector3D(
           bone.position[0] - pModel->bones[bone.parent_index].position[0],
@@ -217,7 +219,7 @@ aiMesh *MMDImporter::CreateMesh(const pmx::PmxModel *pModel,
   pMesh->mNumFaces = indexCount / 3;
   pMesh->mFaces = new aiFace[pMesh->mNumFaces];
 
-  const int numIndices = 3; // triangular face
+  const int numIndices = 3; // trianglular face
   for (unsigned int index = 0; index < pMesh->mNumFaces; index++) {
     pMesh->mFaces[index].mNumIndices = numIndices;
     unsigned int *indices = new unsigned int[numIndices];
@@ -324,10 +326,8 @@ aiMesh *MMDImporter::CreateMesh(const pmx::PmxModel *pModel,
     auto it = bone_vertex_map.find(ii);
     if (it != bone_vertex_map.end()) {
       pBone->mNumWeights = static_cast<unsigned int>(it->second.size());
-      pBone->mWeights = new aiVertexWeight[pBone->mNumWeights];
-      for (unsigned int j = 0; j < pBone->mNumWeights; j++) {
-          pBone->mWeights[j] = it->second[j];
-      }
+      pBone->mWeights = it->second.data();
+      it->second.swap(*(new vector<aiVertexWeight>));
     }
     bone_ptr_ptr[ii] = pBone;
   }

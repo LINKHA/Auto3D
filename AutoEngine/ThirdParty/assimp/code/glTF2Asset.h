@@ -2,8 +2,7 @@
 Open Asset Import Library (assimp)
 ----------------------------------------------------------------------
 
-Copyright (c) 2006-2018, assimp team
-
+Copyright (c) 2006-2017, assimp team
 
 All rights reserved.
 
@@ -45,7 +44,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * glTF Extensions Support:
  *   KHR_materials_pbrSpecularGlossiness full
- *   KHR_materials_unlit full
  */
 #ifndef GLTF2ASSET_H_INC
 #define GLTF2ASSET_H_INC
@@ -67,7 +65,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifdef ASSIMP_API
 #   include <memory>
 #   include <assimp/DefaultIOSystem.h>
-#   include <assimp/ByteSwapper.h>
+#   include "ByteSwapper.h"
 #else
 #   include <memory>
 #   define AI_SWAP4(p)
@@ -90,7 +88,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #   endif
 #endif
 
-#include <assimp/StringUtils.h>
+#include "StringUtils.h"
 
 namespace glTF2
 {
@@ -138,7 +136,7 @@ namespace glTF2
     // Vec/matrix types, as raw float arrays
     typedef float (vec3)[3];
     typedef float (vec4)[4];
-    typedef float (mat4)[16];
+	typedef float (mat4)[16];
 
     namespace Util
     {
@@ -167,7 +165,28 @@ namespace glTF2
 
     //! Magic number for GLB files
 	#define AI_GLB_MAGIC_NUMBER "glTF"
-	#include <assimp/pbrmaterial.h>
+
+    #define AI_MATKEY_GLTF_PBRMETALLICROUGHNESS_BASE_COLOR_FACTOR "$mat.gltf.pbrMetallicRoughness.baseColorFactor", 0, 0
+	#define AI_MATKEY_GLTF_PBRMETALLICROUGHNESS_METALLIC_FACTOR "$mat.gltf.pbrMetallicRoughness.metallicFactor", 0, 0
+	#define AI_MATKEY_GLTF_PBRMETALLICROUGHNESS_ROUGHNESS_FACTOR "$mat.gltf.pbrMetallicRoughness.roughnessFactor", 0, 0
+    #define AI_MATKEY_GLTF_PBRMETALLICROUGHNESS_BASE_COLOR_TEXTURE aiTextureType_DIFFUSE, 1
+	#define AI_MATKEY_GLTF_PBRMETALLICROUGHNESS_METALLICROUGHNESS_TEXTURE aiTextureType_UNKNOWN, 0
+	#define AI_MATKEY_GLTF_ALPHAMODE "$mat.gltf.alphaMode", 0, 0
+	#define AI_MATKEY_GLTF_ALPHACUTOFF "$mat.gltf.alphaCutoff", 0, 0
+	#define AI_MATKEY_GLTF_PBRSPECULARGLOSSINESS "$mat.gltf.pbrSpecularGlossiness", 0, 0
+	#define AI_MATKEY_GLTF_PBRSPECULARGLOSSINESS_GLOSSINESS_FACTOR "$mat.gltf.pbrMetallicRoughness.glossinessFactor", 0, 0
+
+	#define _AI_MATKEY_GLTF_TEXTURE_TEXCOORD_BASE "$tex.file.texCoord"
+	#define _AI_MATKEY_GLTF_MAPPINGNAME_BASE "$tex.mappingname"
+	#define _AI_MATKEY_GLTF_MAPPINGID_BASE "$tex.mappingid"
+	#define _AI_MATKEY_GLTF_MAPPINGFILTER_MAG_BASE "$tex.mappingfiltermag"
+	#define _AI_MATKEY_GLTF_MAPPINGFILTER_MIN_BASE "$tex.mappingfiltermin"
+
+	#define AI_MATKEY_GLTF_TEXTURE_TEXCOORD _AI_MATKEY_GLTF_TEXTURE_TEXCOORD_BASE, type, N
+	#define AI_MATKEY_GLTF_MAPPINGNAME(type, N) _AI_MATKEY_GLTF_MAPPINGNAME_BASE, type, N
+	#define AI_MATKEY_GLTF_MAPPINGID(type, N) _AI_MATKEY_GLTF_MAPPINGID_BASE, type, N
+	#define AI_MATKEY_GLTF_MAPPINGFILTER_MAG(type, N) _AI_MATKEY_GLTF_MAPPINGFILTER_MAG_BASE, type, N
+	#define AI_MATKEY_GLTF_MAPPINGFILTER_MIN(type, N) _AI_MATKEY_GLTF_MAPPINGFILTER_MIN_BASE, type, N
 
     #ifdef ASSIMP_API
         #include "./../include/assimp/Compiler/pushpack1.h"
@@ -387,7 +406,7 @@ namespace glTF2
     };
 
 
-    //! Base class for all glTF top-level objects
+    //! Base classe for all glTF top-level objects
     struct Object
     {
         int index;        //!< The index of this object within its property container
@@ -582,7 +601,6 @@ namespace glTF2
 		/// \param [in] pReplace_Count - count of bytes in new data.
 		/// \return true - if successfully replaced, false if input arguments is out of range.
 		bool ReplaceData(const size_t pBufferData_Offset, const size_t pBufferData_Count, const uint8_t* pReplace_Data, const size_t pReplace_Count);
-		bool ReplaceData_joint(const size_t pBufferData_Offset, const size_t pBufferData_Count, const uint8_t* pReplace_Data, const size_t pReplace_Count);
 
         size_t AppendData(uint8_t* data, size_t length);
         void Grow(size_t amount);
@@ -742,9 +760,6 @@ namespace glTF2
         //extension: KHR_materials_pbrSpecularGlossiness
         Nullable<PbrSpecularGlossiness> pbrSpecularGlossiness;
 
-        //extension: KHR_materials_unlit 
-        bool unlit;
-
         Material() { SetDefaults(); }
         void Read(Value& obj, Asset& r);
         void SetDefaults();
@@ -766,16 +781,9 @@ namespace glTF2
             Ref<Accessor> indices;
 
             Ref<Material> material;
-
-            struct Target {
-                AccessorList position, normal, tangent;
-            };
-            std::vector<Target> targets;
         };
 
         std::vector<Primitive> primitives;
-
-        std::vector<float> weights;
 
         Mesh() {}
 
@@ -1048,7 +1056,6 @@ namespace glTF2
         struct Extensions
         {
             bool KHR_materials_pbrSpecularGlossiness;
-            bool KHR_materials_unlit;
 
         } extensionsUsed;
 

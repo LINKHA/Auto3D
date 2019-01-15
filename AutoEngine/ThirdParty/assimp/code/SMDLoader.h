@@ -2,8 +2,7 @@
 Open Asset Import Library (assimp)
 ----------------------------------------------------------------------
 
-Copyright (c) 2006-2018, assimp team
-
+Copyright (c) 2006-2017, assimp team
 
 All rights reserved.
 
@@ -48,8 +47,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define AI_SMDLOADER_H_INCLUDED
 
 // internal headers
-#include <assimp/BaseImporter.h>
-#include <assimp/ParsingUtils.h>
+#include "BaseImporter.h"
+#include "ParsingUtils.h"
 
 // public Assimp headers
 #include <assimp/types.h>

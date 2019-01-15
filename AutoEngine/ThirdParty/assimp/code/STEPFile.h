@@ -2,8 +2,7 @@
 Open Asset Import Library (assimp)
 ----------------------------------------------------------------------
 
-Copyright (c) 2006-2018, assimp team
-
+Copyright (c) 2006-2017, assimp team
 
 All rights reserved.
 
@@ -72,7 +71,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #   endif
 #endif
 
-#include <assimp/LineSplitter.h>
+#include "LineSplitter.h"
 
 // uncomment this to have the loader evaluate all entities upon loading.
 // this is intended as stress test - by default, entities are evaluated
@@ -365,16 +364,17 @@ namespace STEP {
         // -------------------------------------------------------------------------------
         class ConversionSchema
         {
-        public:
-            struct SchemaEntry {
-                SchemaEntry( const char *name, ConvertObjectProc func )
-                : mName( name )
-                , mFunc(func) {
-                    // empty
-                }
 
-                const char* mName;
-                ConvertObjectProc mFunc;
+        public:
+
+            struct SchemaEntry {
+                SchemaEntry(const char* name,ConvertObjectProc func)
+                    : name(name)
+                    , func(func)
+                {}
+
+                const char* name;
+                ConvertObjectProc func;
             };
 
             typedef std::map<std::string,ConvertObjectProc> ConverterMap;
@@ -410,7 +410,7 @@ namespace STEP {
             const ConversionSchema& operator=( const SchemaEntry (& schemas)[N]) {
                 for(size_t i = 0; i < N; ++i ) {
                     const SchemaEntry& schema = schemas[i];
-                    converters[schema.mName] = schema.mFunc;
+                    converters[schema.name] = schema.func;
                 }
                 return *this;
             }
@@ -776,10 +776,10 @@ namespace STEP {
 
             // XXX is this really how the EXPRESS notation ([?:3],[1:3]) is intended?
             if (max_cnt && inp->GetSize() > max_cnt) {
-                ASSIMP_LOG_WARN("too many aggregate elements");
+                DefaultLogger::get()->warn("too many aggregate elements");
             }
             else if (inp->GetSize() < min_cnt) {
-                ASSIMP_LOG_WARN("too few aggregate elements");
+                DefaultLogger::get()->warn("too few aggregate elements");
             }
 
             out.reserve(inp->GetSize());

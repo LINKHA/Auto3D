@@ -2,8 +2,7 @@
 Open Asset Import Library (assimp)
 ----------------------------------------------------------------------
 
-Copyright (c) 2006-2018, assimp team
-
+Copyright (c) 2006-2017, assimp team
 
 All rights reserved.
 
@@ -53,8 +52,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef ASSIMP_BUILD_NO_3DS_IMPORTER
 
 // for some helper routines like IsSpace()
-#include <assimp/ParsingUtils.h>
-#include <assimp/qnan.h>
+#include "ParsingUtils.h"
+#include "qnan.h"
 
 // ASE is quite similar to 3ds. We can reuse some structures
 #include "3DSLoader.h"
@@ -68,52 +67,9 @@ using namespace D3DS;
 /** Helper structure representing an ASE material */
 struct Material : public D3DS::Material
 {
-    //! Default constructor has been deleted
-    Material() = delete;
-
-
-    //! Constructor with explicit name
-    explicit Material(const std::string &name)
-    : D3DS::Material(name)
-    , pcInstance(NULL)
-    , bNeed (false)
+    //! Default constructor
+    Material() : pcInstance(NULL), bNeed (false)
     {}
-
-
-    Material(const Material &other)            = default;
-    Material &operator=(const Material &other) = default;
-
-
-    //! Move constructor. This is explicitly written because MSVC doesn't support defaulting it
-    Material(Material &&other)
-    : D3DS::Material(std::move(other))
-    , avSubMaterials(std::move(other.avSubMaterials))
-    , pcInstance(std::move(other.pcInstance))
-    , bNeed(std::move(other.bNeed))
-    {
-        other.pcInstance = nullptr;
-    }
-
-
-    Material &operator=(Material &&other) {
-        if (this == &other) {
-            return *this;
-        }
-
-        D3DS::Material::operator=(std::move(other));
-
-        avSubMaterials = std::move(other.avSubMaterials);
-        pcInstance = std::move(other.pcInstance);
-        bNeed = std::move(other.bNeed);
-
-        other.pcInstance = nullptr;
-
-        return *this;
-    }
-
-
-    ~Material() {}
-
 
     //! Contains all sub materials of this material
     std::vector<Material> avSubMaterials;
@@ -169,7 +125,15 @@ struct Face : public FaceWithSmoothingGroup
 struct Bone
 {
     //! Constructor
-    Bone() = delete;
+    Bone()
+    {
+        static int iCnt = 0;
+
+        // Generate a default name for the bone
+        char szTemp[128];
+        ::ai_snprintf(szTemp, 128, "UNNAMED_%i",iCnt++);
+        mName = szTemp;
+    }
 
     //! Construction from an existing name
     explicit Bone( const std::string& name)
@@ -249,18 +213,21 @@ struct BaseNode
 {
     enum Type {Light, Camera, Mesh, Dummy} mType;
 
-
-    //! Construction from an existing name
-    BaseNode(Type _mType, const std::string &name)
-    : mType         (_mType)
-    , mName         (name)
-    , mProcessed    (false)
+    //! Constructor. Creates a default name for the node
+    explicit BaseNode(Type _mType)
+        : mType         (_mType)
+        , mProcessed    (false)
     {
+        // generate a default name for the  node
+        static int iCnt = 0;
+        char szTemp[128]; // should be sufficiently large
+        ::ai_snprintf(szTemp, 128, "UNNAMED_%i",iCnt++);
+        mName = szTemp;
+
         // Set mTargetPosition to qnan
         const ai_real qnan = get_qnan();
         mTargetPosition.x = qnan;
     }
-
 
     //! Name of the mesh
     std::string mName;
@@ -293,21 +260,18 @@ struct BaseNode
 /** Helper structure to represent an ASE file mesh */
 struct Mesh : public MeshWithSmoothingGroups<ASE::Face>, public BaseNode
 {
-    //! Default constructor has been deleted
-    Mesh() = delete;
-
-
-    //! Construction from an existing name
-    explicit Mesh(const std::string &name)
-    : BaseNode  (BaseNode::Mesh, name)
-    , iMaterialIndex(Face::DEFAULT_MATINDEX)
-    , bSkip     (false)
+    //! Constructor.
+    Mesh()
+        : BaseNode  (BaseNode::Mesh)
+        , bSkip     (false)
     {
         // use 2 texture vertex components by default
         for (unsigned int c = 0; c < AI_MAX_NUMBER_OF_TEXTURECOORDS;++c)
             this->mNumUVComponents[c] = 2;
-    }
 
+        // setup the default material index by default
+        iMaterialIndex = Face::DEFAULT_MATINDEX;
+    }
 
     //! List of all texture coordinate sets
     std::vector<aiVector3D> amTexCoords[AI_MAX_NUMBER_OF_TEXTURECOORDS];
@@ -343,20 +307,16 @@ struct Light : public BaseNode
         DIRECTIONAL
     };
 
-    //! Default constructor has been deleted
-    Light() = delete;
-
-    //! Construction from an existing name
-    explicit Light(const std::string &name)
-    : BaseNode   (BaseNode::Light, name)
-    , mLightType (OMNI)
-    , mColor     (1.f,1.f,1.f)
-    , mIntensity (1.f) // light is white by default
-    , mAngle     (45.f)
-    , mFalloff   (0.f)
+    //! Constructor.
+    Light()
+        : BaseNode   (BaseNode::Light)
+        , mLightType (OMNI)
+        , mColor     (1.f,1.f,1.f)
+        , mIntensity (1.f) // light is white by default
+        , mAngle     (45.f)
+        , mFalloff   (0.f)
     {
     }
-
 
     LightType mLightType;
     aiColor3D mColor;
@@ -375,20 +335,15 @@ struct Camera : public BaseNode
         TARGET
     };
 
-    //! Default constructor has been deleted
-    Camera() = delete;
-
-
-    //! Construction from an existing name
-    explicit Camera(const std::string &name)
-    : BaseNode    (BaseNode::Camera, name)
-    , mFOV        (0.75f)   // in radians
-    , mNear       (0.1f)
-    , mFar        (1000.f)  // could be zero
-    , mCameraType (FREE)
+    //! Constructor
+    Camera()
+        : BaseNode    (BaseNode::Camera)
+        , mFOV        (0.75f)   // in radians
+        , mNear       (0.1f)
+        , mFar        (1000.f)  // could be zero
+        , mCameraType (FREE)
     {
     }
-
 
     ai_real mFOV, mNear, mFar;
     CameraType mCameraType;
@@ -400,7 +355,7 @@ struct Dummy : public BaseNode
 {
     //! Constructor
     Dummy()
-        : BaseNode  (BaseNode::Dummy, "DUMMY")
+        : BaseNode  (BaseNode::Dummy)
     {
     }
 };
@@ -427,7 +382,7 @@ public:
 
     // -------------------------------------------------------------------
     //! Construct a parser from a given input file which is
-    //! guaranteed to be terminated with zero.
+    //! guaranted to be terminated with zero.
     //! @param szFile Input file
     //! @param fileFormatDefault Assumed file format version. If the
     //!   file format is specified in the file the new value replaces

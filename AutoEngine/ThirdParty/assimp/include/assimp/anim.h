@@ -3,8 +3,7 @@
 Open Asset Import Library (assimp)
 ---------------------------------------------------------------------------
 
-Copyright (c) 2006-2018, assimp team
-
+Copyright (c) 2006-2017, assimp team
 
 
 All rights reserved.
@@ -79,27 +78,26 @@ struct aiVectorKey
     /// @brief  Construction from a given time and key value.
 
     aiVectorKey(double time, const aiVector3D& value)
-    : mTime( time )
-    , mValue( value ) {
-        // empty
-    }
+        :   mTime   (time)
+        ,   mValue  (value)
+    {}
 
     typedef aiVector3D elem_type;
 
     // Comparison operators. For use with std::find();
-    bool operator == (const aiVectorKey& rhs) const {
-        return rhs.mValue == this->mValue;
+    bool operator == (const aiVectorKey& o) const {
+        return o.mValue == this->mValue;
     }
-    bool operator != (const aiVectorKey& rhs ) const {
-        return rhs.mValue != this->mValue;
+    bool operator != (const aiVectorKey& o) const {
+        return o.mValue != this->mValue;
     }
 
     // Relational operators. For use with std::sort();
-    bool operator < (const aiVectorKey& rhs ) const {
-        return mTime < rhs.mTime;
+    bool operator < (const aiVectorKey& o) const {
+        return mTime < o.mTime;
     }
-    bool operator > (const aiVectorKey& rhs ) const {
-        return mTime > rhs.mTime;
+    bool operator > (const aiVectorKey& o) const {
+        return mTime > o.mTime;
     }
 #endif // __cplusplus
 };
@@ -131,25 +129,25 @@ struct aiQuatKey
     typedef aiQuaternion elem_type;
 
     // Comparison operators. For use with std::find();
-    bool operator == (const aiQuatKey& rhs ) const {
-        return rhs.mValue == this->mValue;
+    bool operator == (const aiQuatKey& o) const {
+        return o.mValue == this->mValue;
     }
-    bool operator != (const aiQuatKey& rhs ) const {
-        return rhs.mValue != this->mValue;
+    bool operator != (const aiQuatKey& o) const {
+        return o.mValue != this->mValue;
     }
 
     // Relational operators. For use with std::sort();
-    bool operator < (const aiQuatKey& rhs ) const {
-        return mTime < rhs.mTime;
+    bool operator < (const aiQuatKey& o) const {
+        return mTime < o.mTime;
     }
-    bool operator > (const aiQuatKey& rhs ) const {
-        return mTime > rhs.mTime;
+    bool operator > (const aiQuatKey& o) const {
+        return mTime > o.mTime;
     }
 #endif
 };
 
 // ---------------------------------------------------------------------------
-/** Binds a anim-mesh to a specific point in time. */
+/** Binds a anim mesh to a specific point in time. */
 struct aiMeshKey
 {
     /** The time of this key */
@@ -163,10 +161,7 @@ struct aiMeshKey
 
 #ifdef __cplusplus
 
-    aiMeshKey()
-    : mTime(0.0)
-    , mValue(0)
-    {
+    aiMeshKey() {
     }
 
     /** Construction from a given time and key value */

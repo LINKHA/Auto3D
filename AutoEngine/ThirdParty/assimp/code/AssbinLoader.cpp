@@ -3,8 +3,7 @@
 Open Asset Import Library (assimp)
 ---------------------------------------------------------------------------
 
-Copyright (c) 2006-2018, assimp team
-
+Copyright (c) 2006-2017, assimp team
 
 
 All rights reserved.
@@ -52,7 +51,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // internal headers
 #include "AssbinLoader.h"
 #include "assbin_chunks.h"
-#include <assimp/MemoryIOWrapper.h>
+#include "MemoryIOWrapper.h"
 #include <assimp/mesh.h>
 #include <assimp/anim.h>
 #include <assimp/scene.h>
@@ -696,12 +695,8 @@ void AssbinImporter::InternReadFile( const std::string& pFile, aiScene* pScene, 
 
     stream->Seek( 44, aiOrigin_CUR ); // signature
 
-    unsigned int versionMajor = Read<unsigned int>(stream);
-    unsigned int versionMinor = Read<unsigned int>(stream);
-    if (versionMinor != ASSBIN_VERSION_MINOR || versionMajor != ASSBIN_VERSION_MAJOR) {
-        throw DeadlyImportError( "Invalid version, data format not compatible!" );
-    }
-
+    /*unsigned int versionMajor =*/ Read<unsigned int>(stream);
+    /*unsigned int versionMinor =*/ Read<unsigned int>(stream);
     /*unsigned int versionRevision =*/ Read<unsigned int>(stream);
     /*unsigned int compileFlags =*/ Read<unsigned int>(stream);
 

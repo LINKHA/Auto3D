@@ -1,8 +1,7 @@
 # Open Asset Import Library (assimp)
 # ----------------------------------------------------------------------
 #
-# Copyright (c) 2006-2018, assimp team
-
+# Copyright (c) 2006-2017, assimp team
 
 # All rights reserved.
 #
@@ -44,7 +43,9 @@
 # 3) Add libassimp using the file lists (eliminates duplication of file names between
 #    source groups and library command)
 #
-cmake_minimum_required( VERSION 2.6 )
+
+# Modified by Lasse Oorni and Yao Wei Tjong for Urho3D
+
 SET( HEADER_PATH ../include/assimp )
 
 SET( COMPILER_HEADERS
@@ -60,7 +61,7 @@ SET( PUBLIC_HEADERS
   ${HEADER_PATH}/camera.h
   ${HEADER_PATH}/color4.h
   ${HEADER_PATH}/color4.inl
-  ${CMAKE_CURRENT_BINARY_DIR}/../include/assimp/config.h
+  ${CMAKE_CURRENT_LIST_DIR}/../include/assimp/config.h
   ${HEADER_PATH}/defs.h
   ${HEADER_PATH}/Defines.h
   ${HEADER_PATH}/cfileio.h
@@ -72,7 +73,6 @@ SET( PUBLIC_HEADERS
   ${HEADER_PATH}/matrix4x4.h
   ${HEADER_PATH}/matrix4x4.inl
   ${HEADER_PATH}/mesh.h
-  ${HEADER_PATH}/pbrmaterial.h
   ${HEADER_PATH}/postprocess.h
   ${HEADER_PATH}/quaternion.h
   ${HEADER_PATH}/quaternion.inl
@@ -100,40 +100,6 @@ SET( PUBLIC_HEADERS
   ${HEADER_PATH}/DefaultIOStream.h
   ${HEADER_PATH}/DefaultIOSystem.h
   ${HEADER_PATH}/SceneCombiner.h
-  ${HEADER_PATH}/fast_atof.h
-  ${HEADER_PATH}/qnan.h
-  ${HEADER_PATH}/BaseImporter.h
-  ${HEADER_PATH}/Hash.h
-  ${HEADER_PATH}/MemoryIOWrapper.h
-  ${HEADER_PATH}/ParsingUtils.h
-  ${HEADER_PATH}/StreamReader.h
-  ${HEADER_PATH}/StreamWriter.h
-  ${HEADER_PATH}/StringComparison.h
-  ${HEADER_PATH}/StringUtils.h
-  ${HEADER_PATH}/SGSpatialSort.h
-  ${HEADER_PATH}/GenericProperty.h
-  ${HEADER_PATH}/SpatialSort.h
-  ${HEADER_PATH}/SkeletonMeshBuilder.h
-  ${HEADER_PATH}/SmoothingGroups.h
-  ${HEADER_PATH}/SmoothingGroups.inl
-  ${HEADER_PATH}/StandardShapes.h
-  ${HEADER_PATH}/RemoveComments.h
-  ${HEADER_PATH}/Subdivision.h
-  ${HEADER_PATH}/Vertex.h
-  ${HEADER_PATH}/LineSplitter.h
-  ${HEADER_PATH}/TinyFormatter.h
-  ${HEADER_PATH}/Profiler.h
-  ${HEADER_PATH}/LogAux.h
-  ${HEADER_PATH}/Bitmap.h
-  ${HEADER_PATH}/XMLTools.h
-  ${HEADER_PATH}/IOStreamBuffer.h
-  ${HEADER_PATH}/CreateAnimMesh.h
-  ${HEADER_PATH}/irrXMLWrapper.h
-  ${HEADER_PATH}/BlobIOSystem.h
-  ${HEADER_PATH}/MathFunctions.h
-  ${HEADER_PATH}/Macros.h
-  ${HEADER_PATH}/Exceptional.h
-  ${HEADER_PATH}/ByteSwapper.h
 )
 
 SET( Core_SRCS
@@ -153,41 +119,69 @@ SET( Logging_SRCS
 SOURCE_GROUP(Logging FILES ${Logging_SRCS})
 
 SET( Common_SRCS
+  fast_atof.h
+  qnan.h
   BaseImporter.cpp
+  BaseImporter.h
   BaseProcess.cpp
   BaseProcess.h
   Importer.h
   ScenePrivate.h
   PostStepRegistry.cpp
   ImporterRegistry.cpp
+  ByteSwapper.h
   DefaultProgressHandler.h
   DefaultIOStream.cpp
   DefaultIOSystem.cpp
   CInterfaceIOWrapper.cpp
   CInterfaceIOWrapper.h
+  Hash.h
   Importer.cpp
   IFF.h
+  MemoryIOWrapper.h
+  ParsingUtils.h
+  StreamReader.h
+  StreamWriter.h
+  StringComparison.h
+  StringUtils.h
   SGSpatialSort.cpp
+  SGSpatialSort.h
   VertexTriangleAdjacency.cpp
   VertexTriangleAdjacency.h
+  GenericProperty.h
   SpatialSort.cpp
+  SpatialSort.h
   SceneCombiner.cpp
   ScenePreprocessor.cpp
   ScenePreprocessor.h
   SkeletonMeshBuilder.cpp
+  SkeletonMeshBuilder.h
   SplitByBoneCountProcess.cpp
   SplitByBoneCountProcess.h
+  ScaleProcess.cpp
+  ScaleProcess.h
+  SmoothingGroups.h
   StandardShapes.cpp
+  StandardShapes.h
   TargetAnimation.cpp
   TargetAnimation.h
   RemoveComments.cpp
+  RemoveComments.h
   Subdivision.cpp
+  Subdivision.h
   scene.cpp
+  Vertex.h
+  LineSplitter.h
+  TinyFormatter.h
+  Profiler.h
+  LogAux.h
   Bitmap.cpp
+  Bitmap.h
+  XMLTools.h
   Version.cpp
+  IOStreamBuffer.h
+  CreateAnimMesh.h
   CreateAnimMesh.cpp
-  simd.h
-  simd.cpp
 )
 SOURCE_GROUP(Common FILES ${Common_SRCS})
 
@@ -208,15 +202,8 @@ OPTION(ASSIMP_BUILD_ALL_IMPORTERS_BY_DEFAULT "default value of all ASSIMP_BUILD_
 # macro to add the CMake Option ADD_ASSIMP_IMPORTER_<name> which enables compile of loader
 # this way selective loaders can be compiled (reduces filesize + compile time)
 MACRO(ADD_ASSIMP_IMPORTER name)
-  IF (ASSIMP_BUILD_ALL_IMPORTERS_BY_DEFAULT)
-    set(ASSIMP_IMPORTER_ENABLED TRUE)
-    IF (DEFINED ASSIMP_BUILD_${name}_IMPORTER AND NOT ASSIMP_BUILD_${name}_IMPORTER)
-      set(ASSIMP_IMPORTER_ENABLED FALSE)
-    ENDIF ()
-  ELSE ()
-    set(ASSIMP_IMPORTER_ENABLED ${ASSIMP_BUILD_${name}_IMPORTER})
-  ENDIF ()
-  IF (ASSIMP_IMPORTER_ENABLED)
+  OPTION(ASSIMP_BUILD_${name}_IMPORTER "build the ${name} importer" ${ASSIMP_BUILD_ALL_IMPORTERS_BY_DEFAULT})
+  IF(ASSIMP_BUILD_${name}_IMPORTER)
     LIST(APPEND ASSIMP_LOADER_SRCS ${ARGN})
     SET(ASSIMP_IMPORTERS_ENABLED "${ASSIMP_IMPORTERS_ENABLED} ${name}")
     SET(${name}_SRCS ${ARGN})
@@ -469,34 +456,33 @@ ADD_ASSIMP_IMPORTER( BLEND
   BlenderBMesh.cpp
   BlenderTessellator.h
   BlenderTessellator.cpp
-  BlenderCustomData.h
-  BlenderCustomData.cpp
 )
 
 ADD_ASSIMP_IMPORTER( IFC
-  Importer/IFC/IFCLoader.cpp
-  Importer/IFC/IFCLoader.h
-  Importer/IFC/IFCReaderGen1_2x3.cpp
-  Importer/IFC/IFCReaderGen2_2x3.cpp
-  Importer/IFC/IFCReaderGen_2x3.h
-  Importer/IFC/IFCUtil.h
-  Importer/IFC/IFCUtil.cpp
-  Importer/IFC/IFCGeometry.cpp
-  Importer/IFC/IFCMaterial.cpp
-  Importer/IFC/IFCProfile.cpp
-  Importer/IFC/IFCCurve.cpp
-  Importer/IFC/IFCBoolean.cpp
-  Importer/IFC/IFCOpenings.cpp
-  Importer/IFC/STEPFileReader.h
-  Importer/IFC/STEPFileReader.cpp
-  Importer/IFC/STEPFileEncoding.cpp
-  Importer/IFC/STEPFileEncoding.h
+  IFCLoader.cpp
+  IFCLoader.h
+  IFCReaderGen1.cpp
+  IFCReaderGen2.cpp
+  IFCReaderGen.h
+  IFCUtil.h
+  IFCUtil.cpp
+  IFCGeometry.cpp
+  IFCMaterial.cpp
+  IFCProfile.cpp
+  IFCCurve.cpp
+  IFCBoolean.cpp
+  IFCOpenings.cpp
+  STEPFile.h
+  STEPFileReader.h
+  STEPFileReader.cpp
+  STEPFileEncoding.cpp
+  STEPFileEncoding.h
 )
 if (ASSIMP_BUILD_IFC_IMPORTER)
   if (MSVC)
-    set_source_files_properties(Importer/IFC/IFCReaderGen1_2x3.cpp Importer/IFC/IFCReaderGen2_2x3.cpp PROPERTIES COMPILE_FLAGS "/bigobj")
+    set_source_files_properties(IFCReaderGen1.cpp IFCReaderGen2.cpp PROPERTIES COMPILE_FLAGS "/bigobj")
   elseif(CMAKE_COMPILER_IS_MINGW)
-    set_source_files_properties(Importer/IFC/IFCReaderGen1_2x3.cpp Importer/IFC/IFCReaderGen2_2x3.cpp PROPERTIES COMPILE_FLAGS "-O2 -Wa,-mbig-obj")
+    set_source_files_properties(IFCReaderGen1.cpp IFCReaderGen2.cpp PROPERTIES COMPILE_FLAGS "-O2")   # Urho3D: Remove -Wa,-mbig-obj flag as some older MinGW version may not support it yet
   endif()
 endif (ASSIMP_BUILD_IFC_IMPORTER)
 
@@ -532,13 +518,6 @@ ADD_ASSIMP_IMPORTER( FBX
   FBXDeformer.cpp
   FBXBinaryTokenizer.cpp
   FBXDocumentUtil.cpp
-  FBXExporter.h
-  FBXExporter.cpp
-  FBXExportNode.h
-  FBXExportNode.cpp
-  FBXExportProperty.h
-  FBXExportProperty.cpp
-  FBXCommon.h
 )
 
 SET( PostProcessing_SRCS
@@ -548,8 +527,6 @@ SET( PostProcessing_SRCS
   ComputeUVMappingProcess.h
   ConvertToLHProcess.cpp
   ConvertToLHProcess.h
-  EmbedTexturesProcess.cpp
-  EmbedTexturesProcess.h
   FindDegenerates.cpp
   FindDegenerates.h
   FindInstancesProcess.cpp
@@ -595,12 +572,10 @@ SET( PostProcessing_SRCS
   PolyTools.h
   MakeVerboseFormat.cpp
   MakeVerboseFormat.h
-  ScaleProcess.cpp
-  ScaleProcess.h
 )
 SOURCE_GROUP( PostProcessing FILES ${PostProcessing_SRCS})
 
-SET( IrrXML_SRCS ${HEADER_PATH}/irrXMLWrapper.h )
+SET( IrrXML_SRCS irrXMLWrapper.h )
 SOURCE_GROUP( IrrXML FILES ${IrrXML_SRCS})
 
 ADD_ASSIMP_IMPORTER( Q3D
@@ -660,7 +635,7 @@ ADD_ASSIMP_IMPORTER( X
   XFileExporter.cpp
 )
 
-ADD_ASSIMP_IMPORTER( X3D
+ADD_ASSIMP_IMPORTER(X3D
   X3DExporter.cpp
   X3DExporter.hpp
   X3DImporter.cpp
@@ -722,7 +697,6 @@ ADD_ASSIMP_IMPORTER( MMD
 )
 
 SET( Step_SRCS
-  STEPFile.h
   StepExporter.h
   StepExporter.cpp
 )
@@ -731,7 +705,7 @@ SOURCE_GROUP( Step FILES ${Step_SRCS})
 SET( Exporter_SRCS
   Exporter.cpp
   AssimpCExport.cpp
-  ${HEADER_PATH}/BlobIOSystem.h
+  BlobIOSystem.h
 )
 SOURCE_GROUP( Exporter FILES ${Exporter_SRCS})
 
@@ -740,6 +714,18 @@ SET( Extra_SRCS
 )
 SOURCE_GROUP( Extra FILES ${Extra_SRCS})
 
+# Urho3D: Always build irrXML in-house
+SET( IrrXML_SRCS
+  irrXMLWrapper.h
+  ../contrib/irrXML/CXMLReaderImpl.h
+  ../contrib/irrXML/heapsort.h
+  ../contrib/irrXML/irrArray.h
+  ../contrib/irrXML/irrString.h
+  ../contrib/irrXML/irrTypes.h
+  ../contrib/irrXML/irrXML.cpp
+  ../contrib/irrXML/irrXML.h
+)
+SOURCE_GROUP( IrrXML FILES ${IrrXML_SRCS})
 
 SET( Clipper_SRCS
   ../contrib/clipper/clipper.hpp
@@ -776,8 +762,39 @@ SET( ziplib_SRCS
   ../contrib/zip/src/zip.c
   ../contrib/zip/src/zip.h
 )
-
 SOURCE_GROUP( ziplib FILES ${ziplib_SRCS} )
+
+# Urho3D: Always build zlib in-house
+SET( zlib_SRCS
+  ../contrib/zlib/adler32.c
+  ../contrib/zlib/compress.c
+  ../contrib/zlib/crc32.c
+  ../contrib/zlib/crc32.h
+  ../contrib/zlib/deflate.c
+  ../contrib/zlib/deflate.h
+  ../contrib/zlib/gzclose.c
+  ../contrib/zlib/gzguts.h
+  ../contrib/zlib/gzlib.c
+  ../contrib/zlib/gzread.c
+  ../contrib/zlib/gzwrite.c
+  ../contrib/zlib/infback.c
+  ../contrib/zlib/inffast.c
+  ../contrib/zlib/inffast.h
+  ../contrib/zlib/inffixed.h
+  ../contrib/zlib/inflate.c
+  ../contrib/zlib/inflate.h
+  ../contrib/zlib/inftrees.c
+  ../contrib/zlib/inftrees.h
+  ../contrib/zlib/trees.c
+  ../contrib/zlib/trees.h
+  ../contrib/zlib/uncompr.c
+  ${CMAKE_CURRENT_BINARY_DIR}/../contrib/zlib/zconf.h
+  ../contrib/zlib/zlib.h
+  ../contrib/zlib/zutil.c
+  ../contrib/zlib/zutil.h
+)
+SOURCE_GROUP( zlib FILES ${zlib_SRCS})
+INCLUDE_DIRECTORIES( ../contrib/zlib ${CMAKE_CURRENT_BINARY_DIR}/../contrib/zlib )
 
 SET ( openddl_parser_SRCS
   ../contrib/openddlparser/code/OpenDDLParser.cpp
@@ -832,13 +849,16 @@ SOURCE_GROUP( open3dgc FILES ${open3dgc_SRCS})
 # Check dependencies for glTF importer with Open3DGC-compression.
 # RT-extensions is used in "contrib/Open3DGC/o3dgcTimer.h" for collecting statistics. Pointed file
 # has implementation for different platforms: WIN32, __MACH__ and other ("else" block).
-FIND_PACKAGE(RT QUIET)
+# Urho3D: Only perform the dependency search on non-MSVC build
+IF (NOT MSVC)
+  FIND_PACKAGE(RT QUIET)
+ENDIF ()
 IF (RT_FOUND OR MSVC)
   SET( ASSIMP_IMPORTER_GLTF_USE_OPEN3DGC 1 )
   ADD_DEFINITIONS( -DASSIMP_IMPORTER_GLTF_USE_OPEN3DGC=1 )
 ELSE ()
   SET (open3dgc_SRCS "")
-  MESSAGE (INFO " RT-extension not found. glTF import/export will be built without Open3DGC-compression.")
+  MESSAGE (STATUS "RT-extension not found. glTF import/export will be built without Open3DGC-compression.")
   #!TODO: off course is better to remove statistics timers from o3dgc codec. Or propose to choose what to use.
 ENDIF ()
 
@@ -853,22 +873,18 @@ if(MSVC10)
   endif( VC10_STDINT_FIX )
 endif(MSVC10)
 
-ADD_DEFINITIONS( -DASSIMP_BUILD_DLL_EXPORT )
-
 if ( MSVC )
   ADD_DEFINITIONS( -D_SCL_SECURE_NO_WARNINGS )
   ADD_DEFINITIONS( -D_CRT_SECURE_NO_WARNINGS )
 endif ( MSVC )
 
-if (UNZIP_FOUND)
-  SET (unzip_compile_SRCS "")
-else (UNZIP_FOUND)
-  SET (unzip_compile_SRCS ${unzip_SRCS})
-  INCLUDE_DIRECTORIES( "../contrib/unzip/" )
-endif (UNZIP_FOUND)
+# Urho3D: Always build UNZIP in-house
+SET (unzip_compile_SRCS ${unzip_SRCS})
+INCLUDE_DIRECTORIES( "../contrib/unzip/" )
 
-MESSAGE(STATUS "Enabled formats:${ASSIMP_IMPORTERS_ENABLED}")
-MESSAGE(STATUS "Disabled formats:${ASSIMP_IMPORTERS_DISABLED}")
+# Urho3D: disable status prints
+#MESSAGE(STATUS "Enabled formats:${ASSIMP_IMPORTERS_ENABLED}")
+#MESSAGE(STATUS "Disabled formats:${ASSIMP_IMPORTERS_DISABLED}")
 
 SET( assimp_src
   # Assimp Files
@@ -891,6 +907,7 @@ SET( assimp_src
   ${openddl_parser_SRCS}
   ${open3dgc_SRCS}
   ${ziplib_SRCS}
+  ${zlib_SRCS}
   # Necessary to show the headers in the project when using the VC++ generator:
 
   ${PUBLIC_HEADERS}
@@ -900,7 +917,7 @@ SET( assimp_src
 ADD_DEFINITIONS( -DOPENDDLPARSER_BUILD )
 
 INCLUDE_DIRECTORIES(
-    ${IRRXML_INCLUDE_DIR}
+    ../contrib/irrXML
     ../contrib/openddlparser/include
 )
 
@@ -909,138 +926,38 @@ IF (ASSIMP_BUILD_NONFREE_C4D_IMPORTER)
   INCLUDE_DIRECTORIES(${C4D_INCLUDES})
 ENDIF (ASSIMP_BUILD_NONFREE_C4D_IMPORTER)
 
-ADD_LIBRARY( assimp ${assimp_src} )
+# Urho3D - commented out targets defined by the original CMakeLists.txt and use our own macro instead
 
-TARGET_INCLUDE_DIRECTORIES ( assimp PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/../include>
-  $<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>
-)
+# Define target name
+set (TARGET_NAME Assimp)
 
-TARGET_LINK_LIBRARIES(assimp ${ZLIB_LIBRARIES} ${OPENDDL_PARSER_LIBRARIES} ${IRRXML_LIBRARY} )
+# Define source files
+set (SOURCE_FILES ${assimp_src})
 
-if(ANDROID AND ASSIMP_ANDROID_JNIIOSYSTEM)
-  set(ASSIMP_ANDROID_JNIIOSYSTEM_PATH port/AndroidJNI)
-  add_subdirectory(../${ASSIMP_ANDROID_JNIIOSYSTEM_PATH}/ ../${ASSIMP_ANDROID_JNIIOSYSTEM_PATH}/)
-  target_link_libraries(assimp android_jniiosystem)
-endif(ANDROID AND ASSIMP_ANDROID_JNIIOSYSTEM)
+# This target is added as dependency for AssetImporter target which may have clang-tidy setup at that scope
+# So, revert that here in order to exclude Assimp linter warnings/errors from ours
+#reset_lint ()
+
+# Since we only build AssetImporter as a single-arch native tool, there is no point to build Assimp as universal binary library
+list (APPEND TARGET_PROPERTIES XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH YES)
+
+# Setup target
+ADD_LIBRARY( Assimp ${assimp_src} )
+set_target_properties(Assimp PROPERTIES FOLDER "ThirdParty") 
 
 IF (ASSIMP_BUILD_NONFREE_C4D_IMPORTER)
-  TARGET_LINK_LIBRARIES(assimp optimized ${C4D_RELEASE_LIBRARIES})
-  TARGET_LINK_LIBRARIES(assimp debug ${C4D_DEBUG_LIBRARIES})
-  TARGET_LINK_LIBRARIES(assimp ${C4D_EXTRA_LIBRARIES})
+  TARGET_LINK_LIBRARIES(Assimp optimized ${C4D_RELEASE_LIBRARIES})
+  TARGET_LINK_LIBRARIES(Assimp debug ${C4D_DEBUG_LIBRARIES})
+  TARGET_LINK_LIBRARIES(Assimp ${C4D_EXTRA_LIBRARIES})
 ENDIF (ASSIMP_BUILD_NONFREE_C4D_IMPORTER)
-
-if( MSVC )
-  # in order to prevent DLL hell, each of the DLLs have to be suffixed with the major version and msvc prefix
-  if( MSVC70 OR MSVC71 )
-    set(MSVC_PREFIX "vc70")
-  elseif( MSVC80 )
-    set(MSVC_PREFIX "vc80")
-  elseif( MSVC90 )
-    set(MSVC_PREFIX "vc90")
-  elseif( MSVC10 )
-    set(MSVC_PREFIX "vc100")
-  elseif( MSVC11 )
-    set(MSVC_PREFIX "vc110")
-  elseif( MSVC12 )
-    set(MSVC_PREFIX "vc120")
-  elseif( MSVC14 )
-    set(MSVC_PREFIX "vc140")
-  else()
-    set(MSVC_PREFIX "vc150")
-  endif()
-  set(LIBRARY_SUFFIX "${ASSIMP_LIBRARY_SUFFIX}-${MSVC_PREFIX}-mt" CACHE STRING "the suffix for the assimp windows library")
-endif()
-
-SET_TARGET_PROPERTIES( assimp PROPERTIES
-  VERSION ${ASSIMP_VERSION}
-  SOVERSION ${ASSIMP_SOVERSION} # use full version
-  OUTPUT_NAME assimp${LIBRARY_SUFFIX}
-)
-
-if (APPLE)
-  SET_TARGET_PROPERTIES( assimp PROPERTIES
-    INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/${ASSIMP_LIB_INSTALL_DIR}"
-  )
-
-  if (BUILD_FRAMEWORK)
-    SET_TARGET_PROPERTIES( assimp PROPERTIES
-      FRAMEWORK TRUE
-      FRAMEWORK_VERSION C
-      MACOSX_FRAMEWORK_IDENTIFIER net.sf.assimp
-      PUBLIC_HEADER "${PUBLIC_HEADERS}"
-    )
-
-    # PUBLIC_HEADER option does not support directory structure creation
-    # add ./Compiler/*.h to assimp.framework via copy command
-    ADD_CUSTOM_COMMAND(TARGET assimp POST_BUILD
-      COMMAND "${CMAKE_COMMAND}" -E copy_directory
-         "../${HEADER_PATH}/Compiler"
-         assimp.framework/Headers/Compiler
-      COMMENT "Copying public ./Compiler/ header files to framework bundle's Headers/Compiler/")
-  ENDIF(BUILD_FRAMEWORK)
-ENDIF(APPLE)
-
-# Build against external unzip, or add ../contrib/unzip so
-# assimp can #include "unzip.h"
-if (UNZIP_FOUND)
-  INCLUDE_DIRECTORIES(${UNZIP_INCLUDE_DIRS})
-  TARGET_LINK_LIBRARIES(assimp ${UNZIP_LIBRARIES})
-else (UNZIP_FOUND)
-  INCLUDE_DIRECTORIES("../")
-endif (UNZIP_FOUND)
 
 # Add RT-extension library for glTF importer with Open3DGC-compression.
 IF (RT_FOUND AND ASSIMP_IMPORTER_GLTF_USE_OPEN3DGC)
-  TARGET_LINK_LIBRARIES(assimp ${RT_LIBRARY})
+  TARGET_LINK_LIBRARIES(Assimp ${RT_LIBRARY})
 ENDIF (RT_FOUND AND ASSIMP_IMPORTER_GLTF_USE_OPEN3DGC)
 
-INSTALL( TARGETS assimp
-  LIBRARY DESTINATION ${ASSIMP_LIB_INSTALL_DIR}
-  ARCHIVE DESTINATION ${ASSIMP_LIB_INSTALL_DIR}
-  RUNTIME DESTINATION ${ASSIMP_BIN_INSTALL_DIR}
-  FRAMEWORK DESTINATION ${ASSIMP_LIB_INSTALL_DIR}
-  COMPONENT ${LIBASSIMP_COMPONENT})
-INSTALL( FILES ${PUBLIC_HEADERS} DESTINATION ${ASSIMP_INCLUDE_INSTALL_DIR}/assimp COMPONENT assimp-dev)
-INSTALL( FILES ${COMPILER_HEADERS} DESTINATION ${ASSIMP_INCLUDE_INSTALL_DIR}/assimp/Compiler COMPONENT assimp-dev)
-
-if (ASSIMP_ANDROID_JNIIOSYSTEM)
-  INSTALL(FILES ${HEADER_PATH}/${ASSIMP_ANDROID_JNIIOSYSTEM_PATH}/AndroidJNIIOSystem.h
-    DESTINATION ${ASSIMP_INCLUDE_INSTALL_DIR}
-    COMPONENT assimp-dev)
-ENDIF(ASSIMP_ANDROID_JNIIOSYSTEM)
-
-if(MSVC AND ASSIMP_INSTALL_PDB)
-  IF(CMAKE_GENERATOR MATCHES "^Visual Studio")
-    install(FILES ${Assimp_BINARY_DIR}/code/Debug/assimp${LIBRARY_SUFFIX}${CMAKE_DEBUG_POSTFIX}.pdb
-      DESTINATION ${ASSIMP_LIB_INSTALL_DIR}
-      CONFIGURATIONS Debug
-    )
-    install(FILES ${Assimp_BINARY_DIR}/code/RelWithDebInfo/assimp${LIBRARY_SUFFIX}.pdb
-      DESTINATION ${ASSIMP_LIB_INSTALL_DIR}
-      CONFIGURATIONS RelWithDebInfo
-    )
-  ELSE()
-    install(FILES ${Assimp_BINARY_DIR}/code/assimp${LIBRARY_SUFFIX}${CMAKE_DEBUG_POSTFIX}.pdb
-      DESTINATION ${ASSIMP_LIB_INSTALL_DIR}
-      CONFIGURATIONS Debug
-    )
-    install(FILES ${Assimp_BINARY_DIR}/code/assimp${LIBRARY_SUFFIX}.pdb
-      DESTINATION ${ASSIMP_LIB_INSTALL_DIR}
-      CONFIGURATIONS RelWithDebInfo
-    )
-  ENDIF()
-ENDIF ()
-
-if (ASSIMP_COVERALLS)
-    include(Coveralls)
-
-    set(COVERAGE_SRCS ${assimp_src} ${TEST_SRCS} )
-
-    # Create the coveralls target.
-    coveralls_setup(
-        "${COVERAGE_SRCS}" # The source files.
-        ON                 # If we should upload.
-        "${PROJECT_SOURCE_DIR}/cmake-modules/") # (Optional) Alternate project cmake module path.
-ENDIF()
+# When performing Xcode CI build suppress all the warnings for 3rd party libraries because there are just too many of them
+if (XCODE AND DEFINED ENV{CI})
+    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w")
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w")
+endif ()

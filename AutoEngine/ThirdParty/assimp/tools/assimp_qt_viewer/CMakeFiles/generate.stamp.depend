@@ -1,5 +1,0 @@
-# CMake generation dependency list for this directory.
-D:/Program Files/CMake/share/cmake-3.13/Modules/FindOpenGL.cmake
-D:/Program Files/CMake/share/cmake-3.13/Modules/FindPackageHandleStandardArgs.cmake
-D:/Program Files/CMake/share/cmake-3.13/Modules/FindPackageMessage.cmake
-D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Assimp/tools/assimp_qt_viewer/CMakeLists.txt
