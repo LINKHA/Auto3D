@@ -6,7 +6,8 @@
 #include "MeshRenderer.h"
 #include "ResourceSystem.h"
 #include "../FreeCamera.h"
-
+#include "Config.h"
+STRING dir = system_content_dictionary;
 void Level_0::init()
 {
 	GameNode cameraObj = CreateNode();
@@ -141,37 +142,37 @@ void Level_0::back()
 	meshObj1->SetPosition(3.0f, -2.0f, 0.0f);
 	meshObj1->SetScale(12.0f, 2.0f, 2.0f);
 	auto mesh1 = meshObj1->CreateComponent<MeshRenderer>();
-	mesh1->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
+	mesh1->GetMaterial()->SetImage((dir + "texture/wood.jpg").CStr());
 
 	GameNode meshObj2 = CreateNode();
 	meshObj2->SetPosition(3.0f, -4.0f, 2.0f);
 	meshObj2->SetScale(12.0f, 2.0f, 2.0f);
 	auto mesh2 = meshObj2->CreateComponent<MeshRenderer>();
-	mesh2->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
+	mesh2->GetMaterial()->SetImage((dir + "texture/wood.jpg").CStr());
 
 	GameNode meshObj3 = CreateNode();
 	meshObj3->SetPosition(3.0f, -6.0f, 4.0f);
 	meshObj3->SetScale(12.0f, 2.0f, 2.0f);
 	auto mesh3 = meshObj3->CreateComponent<MeshRenderer>();
-	mesh3->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
+	mesh3->GetMaterial()->SetImage((dir + "texture/wood.jpg").CStr());
 
 	GameNode meshObj4 = CreateNode();
 	meshObj4->SetPosition(3.0f, -6.0f, 2.0f);
 	meshObj4->SetScale(12.0f, 2.0f, 2.0f);
 	auto mesh4 = meshObj4->CreateComponent<MeshRenderer>();
-	mesh4->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
+	mesh4->GetMaterial()->SetImage((dir + "texture/wood.jpg").CStr());
 
 	GameNode meshObj5 = CreateNode();
 	meshObj5->SetPosition(3.0f, -4.0f, 0.0f);
 	meshObj5->SetScale(12.0f, 2.0f, 2.0f);
 	auto mesh5 = meshObj5->CreateComponent<MeshRenderer>();
-	mesh5->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
+	mesh5->GetMaterial()->SetImage((dir + "texture/wood.jpg").CStr());
 
 	GameNode meshObj6 = CreateNode();
 	meshObj6->SetPosition(3.0f, -6.0f, 0.0f);
 	meshObj6->SetScale(12.0f, 2.0f, 2.0f);
 	auto mesh6 = meshObj6->CreateComponent<MeshRenderer>();
-	mesh6->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
+	mesh6->GetMaterial()->SetImage((dir + "texture/wood.jpg").CStr());
 
 
 }
@@ -183,42 +184,42 @@ void Level_0::wood(float offset)
 	meshObj1->SetScale(12.0f, 2.0f, 2.0f);
 	auto mesh1 = meshObj1->CreateComponent<MeshRenderer>();
 	mesh1->SetMesh(cube);
-	mesh1->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
+	mesh1->GetMaterial()->SetImage((dir + "texture/wood.jpg").CStr());
 
 	GameNode meshObj2 = CreateNode();
 	meshObj2->SetPosition(offset, -4.0f, 2.0f);
 	meshObj2->SetScale(12.0f, 2.0f, 2.0f);
 	auto mesh2 = meshObj2->CreateComponent<MeshRenderer>();
 	mesh2->SetMesh(cube);
-	mesh2->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
+	mesh2->GetMaterial()->SetImage((dir + "texture/wood.jpg").CStr());
 
 	GameNode meshObj3 = CreateNode();
 	meshObj3->SetPosition(offset, -6.0f, 4.0f);
 	meshObj3->SetScale(12.0f, 2.0f, 2.0f);
 	auto mesh3 = meshObj3->CreateComponent<MeshRenderer>();
 	mesh3->SetMesh(cube);
-	mesh3->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
+	mesh3->GetMaterial()->SetImage((dir + "texture/wood.jpg").CStr());
 
 	GameNode meshObj4 = CreateNode();
 	meshObj4->SetPosition(offset, -6.0f, 2.0f);
 	meshObj4->SetScale(12.0f, 2.0f, 2.0f);
 	auto mesh4 = meshObj4->CreateComponent<MeshRenderer>();
 	mesh4->SetMesh(cube);
-	mesh4->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
+	mesh4->GetMaterial()->SetImage((dir + "texture/wood.jpg").CStr());
 
 	GameNode meshObj5 = CreateNode();
 	meshObj5->SetPosition(offset, -4.0f, 0.0f);
 	meshObj5->SetScale(12.0f, 2.0f, 2.0f);
 	auto mesh5 = meshObj5->CreateComponent<MeshRenderer>();
 	mesh5->SetMesh(cube);
-	mesh5->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
+	mesh5->GetMaterial()->SetImage((dir + "texture/wood.jpg").CStr());
 
 	GameNode meshObj6 = CreateNode();
 	meshObj6->SetPosition(offset, -6.0f, 0.0f);
 	meshObj6->SetScale(12.0f, 2.0f, 2.0f);
 	auto mesh6 = meshObj6->CreateComponent<MeshRenderer>();
 	mesh6->SetMesh(cube);
-	mesh6->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
+	mesh6->GetMaterial()->SetImage((dir + "texture/wood.jpg").CStr());
 }
 
 void Level_0::demo()
@@ -337,21 +338,21 @@ void Level_0::demo()
 	meshObj1->SetScale(12.0f, 2.0f, 2.0f);
 	auto mesh1 = meshObj1->CreateComponent<MeshRenderer>();
 	mesh1->SetMesh(cube);
-	mesh1->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
+	mesh1->GetMaterial()->SetImage((dir + "texture/wood.jpg").CStr());
 
 	GameNode meshObj2 = CreateNode();
 	meshObj2->SetPosition(3.0f, -4.0f, 2.0f);
 	meshObj2->SetScale(12.0f, 2.0f, 2.0f);
 	auto mesh2 = meshObj2->CreateComponent<MeshRenderer>();
 	mesh2->SetMesh(cube);
-	mesh2->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
+	mesh2->GetMaterial()->SetImage((dir + "texture/wood.jpg").CStr());
 
 	GameNode meshObj3 = CreateNode();
 	meshObj3->SetPosition(3.0f, -6.0f, 4.0f);
 	meshObj3->SetScale(12.0f, 2.0f, 2.0f);
 	auto mesh3 = meshObj3->CreateComponent<MeshRenderer>();
 	mesh3->SetMesh(cube);
-	mesh3->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
+	mesh3->GetMaterial()->SetImage((dir + "texture/wood.jpg").CStr());
 }
 
 void Level_0::Start()
@@ -373,7 +374,7 @@ void Level_0::Start()
 	floorObj->SetScale(50.0f, 2.0f, 50.0f);
 	auto mesh10 = floorObj->CreateComponent<MeshRenderer>();
 	mesh10->SetMesh(cube);
-	mesh10->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
+	mesh10->GetMaterial()->SetImage((dir + "texture/wood.jpg").CStr());
 }
 
 void Level_0::Update()

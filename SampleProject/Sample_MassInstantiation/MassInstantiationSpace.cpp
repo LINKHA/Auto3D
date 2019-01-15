@@ -1,4 +1,5 @@
 #include "MassInstantiationSpace.h"
+#include "Config.h"
 #include "Application.h"
 #include "ResourceSystem.h"
 #include "FileSystem.h"
@@ -8,7 +9,7 @@ AUTO_APPLICATION_MAIN(MassInstantiationSpace)
 
 void MassInstantiationSpace::Init()
 {
-	STRING ResourceDir = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Resource/";
+	STRING ResourceDir = system_content_dictionary; 
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 	STRING ResourceDir2 = GetSubSystem<FileSystem>()->GetProgramDir() + "../../SampleProject/Sample_MassInstantiation/";
 	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir2);

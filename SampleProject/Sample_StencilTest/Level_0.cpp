@@ -26,6 +26,7 @@ void Level_0::Start()
 	obj1->SetScale(10.0f, 0.1f, 10.0f);
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	GameNode obj2 = CreateNode();
+	obj2->SetPosition(1.0f, 0.5f, 3.0f);
 	auto box1 = obj2->CreateComponent<MeshRenderer>();
 	box1->SetMesh(cube);
 	box1->EnableStencil(true);
@@ -33,18 +34,17 @@ void Level_0::Start()
 	box1->StencilFunc(GL_ALWAYS, 1, 0xFF);
 	box1->StencilMask(0xFF);
 	box1->GetMaterial()->color.Set(1.0f, 0.0f, 0.5f);
-	obj2->AddComponent(box1);
-	obj2->SetPosition(1.0f, 0.5f, 3.0f);
-	/////////////////////////////////////////////////////////////////////////////////////////////
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	GameNode obj3 = CreateNode();
+	obj3->SetPosition(1.0f, 0.5f, 3.0f);
 	auto box2 = obj3->CreateComponent<MeshRenderer>();
 	box2->EnableStencil(true);
 	box2->StencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 	box2->StencilFunc(GL_NOTEQUAL, 1, 0xFF);
 	box2->StencilMask(0x00);
-	obj3->AddComponent(box2);
 	obj3->SetScale(1.1f, 1.1f, 1.1f);
-	obj3->SetPosition(1.0f, 0.5f, 3.0f);
+
 }
 
 void Level_0::Update()

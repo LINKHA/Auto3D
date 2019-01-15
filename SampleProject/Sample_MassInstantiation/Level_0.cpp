@@ -1,6 +1,6 @@
 #include "Level_0.h"
 #include "Node.h"
-#include "Math/Rand.h"
+#include "Rand.h"
 #include "InstanceBeltLine.h"
 #include "../FreeCamera.h"
 #include "Time.h"

@@ -5,6 +5,7 @@
 #include "SkyBox.h"
 #include "SkyBoxReflectMesh.h"
 #include "../FreeCamera.h"
+#include "Config.h"
 #include "ResourceSystem.h"
 
 void Level_0::Start()
@@ -25,7 +26,7 @@ void Level_0::Start()
 	GameNode meshObj = CreateNode();
 	auto mesh = meshObj->CreateComponent<MeshRenderer>();
 	mesh->SetMesh(cube);
-	mesh->GetMaterial()->SetImage("../Resource/texture/wood.jpg");
+	mesh->GetMaterial()->SetImage((STRING(system_content_dictionary) + "texture/wood.jpg").CStr());
 	//mesh->GetMaterial()->color = Color(0.0f, 0.0f, 1.0f);
 
 	GameNode meshObj2 = CreateNode();
