@@ -91,7 +91,7 @@ public:
 	/**
 	* @brief : Get Current all camera quote
 	*/
-	CameraContainer& GetAllCamera() { return _cameras; }
+	CameraContainer GetAllCamera() { return _cameras; }
 	/**
 	* @brief : Set current camera handle
 	*/
@@ -99,27 +99,27 @@ public:
 	/**
 	* @brief : Get light container (friend to LightContainer)
 	*/
-	LightContainer* GetLightContainer() { return _lightContainer.get(); }
+	SharedPtr<LightContainer> GetLightContainer() { return _lightContainer; }
 	/**
 	* @brief : Get shadow renderer (friend to ShadowRenderer)
 	*/
-	ShadowRenderer* GetShadowRenderer() { return _shadowRenderer.get(); }
+	SharedPtr<ShadowRenderer> GetShadowRenderer() { return _shadowRenderer; }
 	/**
 	* @brief : Get All shadow maps (LIST(RenderComponent*))
 	*/
-	ShadowMapContainer& GetAllShadowMaps() { return _shadowsMap; }
+	ShadowMapContainer GetAllShadowMaps() { return _shadowsMap; }
 	/**
 	* @brief : Get All opaques geometrys (LIST(RenderComponent*))
 	*/
-	OpaqueContainer& GetAllOpaques() { return _opaques; }
+	OpaqueContainer GetAllOpaques() { return _opaques; }
 	/**
 	* @brief : Get All custom geometrys (LIST(RenderComponent*))
 	*/
-	CustomContainer& GetAllCustoms() { return _customs; }
+	CustomContainer GetAllCustoms() { return _customs; }
 	/**
 	* @brief : Get All translucent geometrys (LIST(RenderComponent*))
 	*/
-	TranslucentContainer& GetAllTranslucents() { return _translucents; }
+	TranslucentContainer GetAllTranslucents() { return _translucents; }
 private:
 	/**
 	* @brief : Delay add or remove camera
@@ -173,7 +173,7 @@ private:
 	SharedPtr<ShadowRenderer> _shadowRenderer;
 	SharedPtr<LightContainer> _lightContainer;
 	///is rendering or culling
-	bool _insideRenderOrCull;
+	bool _insideRenderOrCull{};
 	///camera container
 	SharedPtr<Camera> _currentCamera;
 	CameraContainer _cameras;

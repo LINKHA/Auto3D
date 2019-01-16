@@ -14,7 +14,7 @@ public:
 
 	SharedPtr<Node> cameraNode;
 	SharedPtr<Camera> camera;
-	float speed = 2.5f;
+	float speed = 5.0f;
 private:
 	void processInput();
 };

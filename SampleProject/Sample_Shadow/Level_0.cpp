@@ -24,7 +24,7 @@ void Level_0::ShadowNormal()
 	auto mesh = MakeShared<MeshShadow>(_ambient);
 	shadowMeshObj->AddComponent(mesh);
 
-/*
+
 	GameNode shadowMeshObj1 = CreateNode();
 	shadowMeshObj1->SetPosition(2.0f, 0.0f, 1.0f);
 	shadowMeshObj1->SetScale(0.5f);
@@ -48,7 +48,7 @@ void Level_0::ShadowNormal()
 	shadowMeshObj4->SetPosition(2.0f, 2.0f, 1.0f);
 	shadowMeshObj4->SetScale(0.5f);
 	auto mesh4= MakeShared<MeshShadow>(_ambient);
-	shadowMeshObj4->AddComponent(mesh4);*/
+	shadowMeshObj4->AddComponent(mesh4);
 }
 
 void Level_0::Start()

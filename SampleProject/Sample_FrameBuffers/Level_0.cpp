@@ -17,8 +17,8 @@ void Level_0::Start()
 	freeCamera = MakeShared<FreeCamera>(_ambient);
 	camObj->AddComponent(freeCamera);
 	freeCamera->camera->AllowOffScreen(true);
-	freeCamera->camera->AllowMSAA(true);
-	freeCamera->camera->AllowLateEffect(true);
+	//freeCamera->camera->AllowMSAA(true);
+	//freeCamera->camera->AllowLateEffect(true);
 	freeCamera->cameraNode->SetPosition(0.0f, 0.0f, 3.0f);
 	
 

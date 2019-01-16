@@ -60,7 +60,7 @@ public:
 	/**
 	* @brief : SetEffect user-defined shader in effect
 	*/
-	void SetEffect(ShaderVariation* shader);
+	void SetEffect(SharedPtr<ShaderVariation> shader);
 private:
 	//Temp !!! Hdr cannot be used at the same time as others
 #pragma warning
@@ -80,7 +80,7 @@ private:
 	bool _isAllowLateEffect{};
 	bool _isAllowHDR{};
 
-	ShaderVariation* _shader;
+	SharedPtr<ShaderVariation> _shader;
 	int _samplingPointCount;
 	unsigned int _quadVAO, _quadVBO;
 	unsigned int _framebuffer;

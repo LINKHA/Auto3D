@@ -40,7 +40,7 @@ OffScreen::OffScreen(SharedPtr<Ambient> ambient)
 	hdrShader = MakeShared<ShaderVariation>(cach->GetResource<Shader>("shader/au_hdr.glsl"));
 	hdrShader->Create();
 
-	_shader = shader.get();
+	_shader = shader;
 }
 
 OffScreen::~OffScreen()
@@ -51,7 +51,7 @@ void OffScreen::bindHdr()
 	auto cach = GetSubSystem<ResourceSystem>();
 	//Temp !!! Hdr
 	if (_isAllowHDR)
-		_shader = hdrShader.get();
+		_shader = hdrShader;
 
 
 	glGenFramebuffers(1, &_framebuffer);
@@ -81,7 +81,7 @@ void OffScreen::bindHdr()
 void OffScreen::bindMsaaAndPostpro()
 {
 	if (_isAllowHDR)
-		_shader = hdrShader.get();
+		_shader = hdrShader;
 
 	GLint value;
 	glGetIntegerv(GL_MAX_SAMPLES, &value);
@@ -148,11 +148,8 @@ void OffScreen::RenderReady()
 
 void OffScreen::RenderStart()
 {
-	glEnable(GL_DEPTH_TEST);
 	glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 }
 void OffScreen::RenderEnd()
 {
@@ -171,10 +168,7 @@ void OffScreen::RenderEnd()
 	//////////////////////////////////////////////////////////////////////////
 	if (_isAllowLateEffect || _isAllowHDR)
 	{
-		
-		//glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//glDisable(GL_DEPTH_TEST);
 
 		_shader->Use();
 		glActiveTexture(GL_TEXTURE0);
@@ -199,29 +193,29 @@ void OffScreen::SetEffect(PostProcessingMode mode)
 	switch (mode)
 	{
 	case POST_DEFAULT:
-		_shader = shader.get();
+		_shader = shader;
 		break;
 	case POST_BULR:
-		_shader = shaderBlur.get();
+		_shader = shaderBlur;
 		break;
 	case POST_EDGE_DETECTION:
-		_shader = shaderEdgeDetection.get();
+		_shader = shaderEdgeDetection;
 		break;
 	case POST_GRAYSCALE:
-		_shader = shaderGrayscale.get();
+		_shader = shaderGrayscale;
 		break;
 	case POST_INVERSION:
-		_shader = shaderInversion.get();
+		_shader = shaderInversion;
 		break;
 	case POST_SHARPEN:
-		_shader = shaderSharpen.get();
+		_shader = shaderSharpen;
 		break;
 	default:
-		_shader = shader.get();
+		_shader = shader;
 		break;
 	}
 }
-void OffScreen::SetEffect(ShaderVariation* shader)
+void OffScreen::SetEffect(SharedPtr<ShaderVariation> shader)
 {
 	_shader = shader;
 }

@@ -79,7 +79,7 @@ void Camera::SetLateEffect(PostProcessingMode mode)
 	if (_offScreen && _isAllowOffScreen)
 		_offScreen->SetEffect(mode);
 }
-void Camera::SetLateEffect(ShaderVariation* shader)
+void Camera::SetLateEffect(SharedPtr<ShaderVariation> shader)
 {
 	if (_offScreen && _isAllowOffScreen)
 		_offScreen->SetEffect(shader);

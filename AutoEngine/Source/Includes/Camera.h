@@ -95,7 +95,7 @@ public:
 	/**
 	* @brief : Set custom Post Processing effect 
 	*/
-	void SetLateEffect(ShaderVariation* shader);
+	void SetLateEffect(SharedPtr<ShaderVariation> shader);
 	/**
 	* @brief : If allow Off screen get OffScreen ,else get nullptr
 	*/

@@ -44,7 +44,6 @@ void Renderer::Render()
 		if (cam && cam->GetEnable())
 		{
 			_currentCamera = cam;
-			
 
 			RectInt rect = GetSubSystem<Graphics>()->GetWindowRectInt();
 			//Rendering path shadow maps

@@ -39,7 +39,6 @@ void MeshShadow::DrawReady()
 {
 	STRING dir = system_content_dictionary;
 	_mesh = GetSubSystem<ResourceSystem>()->GetResource<Mesh>("object/base/Cube.3DS");
-	Print(_mesh.use_count());
 	_woodTexture = GetSubSystem<ResourceSystem>()->TextureLoad((dir + "texture/wood.jpg").CStr());
 
 
