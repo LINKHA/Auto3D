@@ -3,6 +3,7 @@
 #include "ResourceSystem.h"
 #include "FileSystem.h"
 #include "level_0.h"
+#include "Input.h"
 
 AUTO_APPLICATION_MAIN(Texture2DSpace)
 
@@ -15,6 +16,13 @@ void Texture2DSpace::Init()
 void Texture2DSpace::Start()
 {
 }
+void Texture2DSpace::Update()
+{
+	auto input = GetSubSystem<Input>();
+	if (input->GetKeyDown(KEY_ESCAPE))
+		_engine->ShutDownEngine();
+}
+
 void Texture2DSpace::Stop()
 {
 }

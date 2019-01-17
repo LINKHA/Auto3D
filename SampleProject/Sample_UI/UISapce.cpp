@@ -2,6 +2,7 @@
 #include "Config.h"
 #include "ResourceSystem.h"
 #include "FileSystem.h"
+#include "Input.h"
 #include "level_0.h"
 
 AUTO_APPLICATION_MAIN(UISapce)
@@ -15,6 +16,14 @@ void UISapce::Init()
 void UISapce::Start()
 {
 }
+void UISapce::Update()
+{
+	auto input = GetSubSystem<Input>();
+	if (input->GetKeyDown(KEY_ESCAPE))
+		_engine->ShutDownEngine();
+}
+
+
 void UISapce::Stop()
 {
 }

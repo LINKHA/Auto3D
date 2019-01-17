@@ -3,6 +3,7 @@
 #include "ResourceSystem.h"
 #include "FileSystem.h"
 #include "Level_0.h"
+#include "Input.h"
 
 AUTO_APPLICATION_MAIN(StencilTestSpace)
 
@@ -15,6 +16,13 @@ void StencilTestSpace::Init()
 void StencilTestSpace::Start()
 {
 }
+void StencilTestSpace::Update()
+{
+	auto input = GetSubSystem<Input>();
+	if (input->GetKeyDown(KEY_ESCAPE))
+		_engine->ShutDownEngine();
+}
+
 void StencilTestSpace::Stop()
 {
 }

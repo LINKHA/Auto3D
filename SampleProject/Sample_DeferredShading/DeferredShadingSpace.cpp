@@ -3,6 +3,7 @@
 #include "ResourceSystem.h"
 #include "FileSystem.h"
 #include "Level_0.h"
+#include "Input.h"
 
 AUTO_APPLICATION_MAIN(DeferredShadingSpace)
 
@@ -16,6 +17,13 @@ void DeferredShadingSpace::Start()
 {
 
 }
+void DeferredShadingSpace::Update()
+{
+	auto input = GetSubSystem<Input>();
+	if (input->GetKeyDown(KEY_ESCAPE))
+		_engine->ShutDownEngine();
+}
+
 void DeferredShadingSpace::Stop()
 {
 }

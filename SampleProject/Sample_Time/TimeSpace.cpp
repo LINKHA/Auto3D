@@ -3,6 +3,7 @@
 #include "Level_0.h"
 #include "ResourceSystem.h"
 #include "FileSystem.h"
+#include "Input.h"
 
 AUTO_APPLICATION_MAIN(TimeSpace)
 
@@ -15,6 +16,13 @@ void TimeSpace::Init()
 void TimeSpace::Start()
 {
 }
+void TimeSpace::Update()
+{
+	auto input = GetSubSystem<Input>();
+	if (input->GetKeyDown(KEY_ESCAPE))
+		_engine->ShutDownEngine();
+}
+
 void TimeSpace::Stop()
 {
 }

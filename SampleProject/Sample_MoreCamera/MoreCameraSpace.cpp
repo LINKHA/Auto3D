@@ -3,6 +3,7 @@
 #include "Level_0.h"
 #include "FileSystem.h"
 #include "ResourceSystem.h"
+#include "Input.h"
 
 
 AUTO_APPLICATION_MAIN(MoreCameraSpace)
@@ -17,6 +18,13 @@ void MoreCameraSpace::Start()
 {
 
 }
+void MoreCameraSpace::Update()
+{
+	auto input = GetSubSystem<Input>();
+	if (input->GetKeyDown(KEY_ESCAPE))
+		_engine->ShutDownEngine();
+}
+
 void MoreCameraSpace::Stop()
 {
 }

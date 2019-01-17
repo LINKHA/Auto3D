@@ -9,5 +9,6 @@ class BloomSpace : public Application
 public:
 	void Init()override;
 	void Start()override;
+	void Update()override;
 	void Stop()override;
 };

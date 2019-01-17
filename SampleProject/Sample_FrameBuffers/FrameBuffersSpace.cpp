@@ -3,6 +3,7 @@
 #include "Level_0.h"
 #include "FileSystem.h"
 #include "ResourceSystem.h"
+#include "Input.h"
 
 AUTO_APPLICATION_MAIN(FrameBuffersSpace)
 
@@ -15,6 +16,13 @@ void FrameBuffersSpace::Init()
 void FrameBuffersSpace::Start()
 {
 }
+void FrameBuffersSpace::Update()
+{
+	auto input = GetSubSystem<Input>();
+	if (input->GetKeyDown(KEY_ESCAPE))
+		_engine->ShutDownEngine();
+}
+
 void FrameBuffersSpace::Stop()
 {
 }

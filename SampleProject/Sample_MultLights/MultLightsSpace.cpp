@@ -3,6 +3,7 @@
 #include "Level_0.h"
 #include "ResourceSystem.h"
 #include "FileSystem.h"
+#include "Input.h"
 
 AUTO_APPLICATION_MAIN(MultLightsSpace)
 
@@ -15,6 +16,13 @@ void MultLightsSpace::Init()
 void MultLightsSpace::Start()
 {
 }
+void MultLightsSpace::Update()
+{
+	auto input = GetSubSystem<Input>();
+	if (input->GetKeyDown(KEY_ESCAPE))
+		_engine->ShutDownEngine();
+}
+
 void MultLightsSpace::Stop()
 {
 }

@@ -4,6 +4,7 @@
 #include "ResourceSystem.h"
 #include "FileSystem.h"
 #include "Level_0.h"
+#include "Input.h"
 
 AUTO_APPLICATION_MAIN(SSAOSpace)
 
@@ -17,6 +18,13 @@ void SSAOSpace::Start()
 {
 
 }
+void SSAOSpace::Update()
+{
+	auto input = GetSubSystem<Input>();
+	if (input->GetKeyDown(KEY_ESCAPE))
+		_engine->ShutDownEngine();
+}
+
 void SSAOSpace::Stop()
 {
 }

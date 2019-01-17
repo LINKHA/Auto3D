@@ -3,6 +3,7 @@
 #include "Level_0.h"
 #include "FileSystem.h"
 #include "ResourceSystem.h"
+#include "Input.h"
 
 AUTO_APPLICATION_MAIN(DepthTestSpace)
 
@@ -16,6 +17,13 @@ void DepthTestSpace::Start()
 {
 
 }
+void DepthTestSpace::Update()
+{
+	auto input = GetSubSystem<Input>();
+	if (input->GetKeyDown(KEY_ESCAPE))
+		_engine->ShutDownEngine();
+}
+
 void DepthTestSpace::Stop()
 {
 }

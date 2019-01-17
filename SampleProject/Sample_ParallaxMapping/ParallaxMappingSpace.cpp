@@ -3,6 +3,7 @@
 #include "Level_0.h"
 #include "ResourceSystem.h"
 #include "FileSystem.h"
+#include "Input.h"
 
 AUTO_APPLICATION_MAIN(ParallaxMappingSpace)
 
@@ -16,6 +17,13 @@ void ParallaxMappingSpace::Init()
 void ParallaxMappingSpace::Start()
 {
 }
+void ParallaxMappingSpace::Update()
+{
+	auto input = GetSubSystem<Input>();
+	if (input->GetKeyDown(KEY_ESCAPE))
+		_engine->ShutDownEngine();
+}
+
 void ParallaxMappingSpace::Stop()
 {
 }

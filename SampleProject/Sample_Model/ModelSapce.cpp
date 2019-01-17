@@ -16,6 +16,13 @@ void ModelSapce::Start()
 {
 
 }
+void UISapce::Update()
+{
+	auto input = GetSubSystem<Input>();
+	if (input->GetKeyDown(KEY_ESCAPE))
+		_engine->ShutDownEngine();
+}
+
 void ModelSapce::Stop()
 {
 }

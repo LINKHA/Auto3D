@@ -3,6 +3,7 @@
 #include "ResourceSystem.h"
 #include "FileSystem.h"
 #include "Level_0.h"
+#include "Input.h"
 
 AUTO_APPLICATION_MAIN(FileSystemSpace)
 
@@ -16,6 +17,13 @@ void FileSystemSpace::Start()
 {
 
 }
+void FileSystemSpace::Update()
+{
+	auto input = GetSubSystem<Input>();
+	if (input->GetKeyDown(KEY_ESCAPE))
+		_engine->ShutDownEngine();
+}
+
 void FileSystemSpace::Stop()
 {
 }

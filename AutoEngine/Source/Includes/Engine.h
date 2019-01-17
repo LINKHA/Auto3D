@@ -12,30 +12,29 @@ public:
 	*/
 	void Init();
 	/**
-	* @brief : Run a frame
-	*/
-	void RunFrame();
-	/**
 	* @brief : Engine normal exit
 	*/
 	void Exit();
+	/** 
+	* @brief : Shut down engine 
+	*/
+	void ShutDownEngine() { _isExiting = true; }
 	/**
 	* @brief : Engine exit flag
 	*/
 	bool IsExiting()const { return _isExiting; }
-private:
 	/**
 	* @brief : Render geometry
 	*/
-	void render();
+	void Render();
 	/**
 	* @brief : Sub system update data
 	*/
-	void update();
+	void Update();
 	/**
 	* @brief : Frame finish
 	*/
-	void frameFinish();
+	void FrameFinish();
 private:
 	bool _isExiting{};
 };

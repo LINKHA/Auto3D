@@ -8,16 +8,6 @@
 
 namespace Auto3D {
 
-enum class AppStates
-{
-	Initing,
-	Running,
-	Pauseing,
-	Stopping,
-	Exit,
-	ErrorExit,
-};
-
 class Application : public Object
 {
 	REGISTER_OBJECT_CLASS(Application, Object)
@@ -35,6 +25,8 @@ public:
 	*		Called by Application.
 	*/
 	virtual void Start() { }
+
+	virtual void Update() { }
 	/**
 	* @brief : Cleanup after the main loop. Called by Application
 	*/
@@ -43,19 +35,8 @@ public:
 	* @brief : this is Engine important funcation init awake runloop and finish run
 	*/
 	int Run();
-	/**
-	* @brief : Return application states for AppStates type
-	*/
-	const AppStates GetStates() const { return _appStates; }
-
-private:
-	/**
-	* @brief : Set states fot application
-	*/
-	void setStates(AppStates states) { _appStates = states; }
-private:
+protected:
 	SharedPtr<Engine> _engine;
-	AppStates _appStates;
 };
 
 /// @brief : Regisiter application in main function

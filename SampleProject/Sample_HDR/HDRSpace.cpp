@@ -4,6 +4,7 @@
 #include "ResourceSystem.h"
 #include "FileSystem.h"
 #include "Level_0.h"
+#include "Input.h"
 
 AUTO_APPLICATION_MAIN(HDRSpace)
 
@@ -16,6 +17,13 @@ void HDRSpace::Init()
 void HDRSpace::Start()
 {
 }
+void HDRSpace::Update()
+{
+	auto input = GetSubSystem<Input>();
+	if (input->GetKeyDown(KEY_ESCAPE))
+		_engine->ShutDownEngine();
+}
+
 void HDRSpace::Stop()
 {
 }

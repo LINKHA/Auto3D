@@ -4,6 +4,7 @@
 #include "ResourceSystem.h"
 #include "FileSystem.h"
 #include "Level_0.h"
+#include "Input.h"
 
 AUTO_APPLICATION_MAIN(Physics3DSpace)
 
@@ -16,6 +17,13 @@ void Physics3DSpace::Init()
 void Physics3DSpace::Start()
 {
 }
+void Physics3DSpace::Update()
+{
+	auto input = GetSubSystem<Input>();
+	if (input->GetKeyDown(KEY_ESCAPE))
+		_engine->ShutDownEngine();
+}
+
 void Physics3DSpace::Stop()
 {
 }

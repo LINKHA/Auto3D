@@ -15,6 +15,13 @@ void Physics2DSapce::Init()
 void Physics2DSapce::Start()
 {
 }
+void UISapce::Update()
+{
+	auto input = GetSubSystem<Input>();
+	if (input->GetKeyDown(KEY_ESCAPE))
+		_engine->ShutDownEngine();
+}
+
 void Physics2DSapce::Stop()
 {
 }

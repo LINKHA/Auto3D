@@ -59,17 +59,12 @@ void Engine::Init()
 	GetSubSystem<Renderer>()->ReadyToRender();
 
 }
-void Engine::RunFrame()
-{
-	update();
-	render();
-	frameFinish();
-}
+
 void Engine::Exit() 
 {
 	GetSubSystem<Graphics>()->DestoryWindow();
 }
-void Engine::render()
+void Engine::Render()
 {
 	auto graphics = GetSubSystem<Graphics>();
 
@@ -78,16 +73,14 @@ void Engine::render()
 	GetSubSystem<Renderer>()->Render();
 	graphics->EndFrame();
 }
-void Engine::update()
+void Engine::Update()
 {
-	auto input = GetSubSystem<Input>();
 	GetSubSystem<Time>()->Update();
-	input->Update();
+	GetSubSystem<Input>()->Update();
 	GetSubSystem<Behavior>()->Update();
-	if (input->GetKeyDown(KEY_ESCAPE))
-		_isExiting = true;
+
 }
-void Engine::frameFinish()
+void Engine::FrameFinish()
 {
 	GetSubSystem<Behavior>()->Finish();
 	GetSubSystem<Input>()->EndFrame();

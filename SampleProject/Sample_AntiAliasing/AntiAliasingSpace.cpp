@@ -3,6 +3,7 @@
 #include "ResourceSystem.h"
 #include "FileSystem.h"
 #include "Level_0.h"
+#include "Input.h"
 
 AUTO_APPLICATION_MAIN(AntiAliasingSpace)
 
@@ -15,6 +16,13 @@ void AntiAliasingSpace::Init()
 void AntiAliasingSpace::Start()
 {
 }
+void AntiAliasingSpace::Update()
+{
+	auto input = GetSubSystem<Input>();
+	if (input->GetKeyDown(KEY_ESCAPE))
+		_engine->ShutDownEngine();
+}
+
 void AntiAliasingSpace::Stop()
 {
 }

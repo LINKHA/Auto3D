@@ -16,16 +16,19 @@ int Application::Run()
 	try 
 	{
 		_engine = MakeShared<Engine>(_ambient);
-		setStates(AppStates::Initing);
 		Init();
 		_engine->Init();
 
-		setStates(AppStates::Running);
 		Start();
 		while (!_engine->IsExiting())
-			_engine->RunFrame();
-
-		setStates(AppStates::Exit);
+		{
+			_engine->Update();
+			Update();
+			_engine->Render();
+			_engine->FrameFinish();
+			
+		}
+			
 		Stop();
 		_engine->Exit();
 

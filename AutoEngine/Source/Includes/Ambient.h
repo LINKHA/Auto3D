@@ -24,7 +24,7 @@ public:
 	/**
 	* @brief : Template version of registering subsystem.
 	*/
-	template <typename _Ty> SharedPtr<_Ty> RegisterSubsystem();
+	template <typename _Ty> SharedPtr<_Ty> RegisterSubSystem();
 	/**
 	* @brief : Register a factory for an object type.
 	*/
@@ -83,10 +83,10 @@ private:
 	HASH_MAP<STRING, VECTOR<STRING>> _objectAttachs;
 };
 
-template <typename _Ty> inline SharedPtr<_Ty> Ambient::RegisterSubsystem()
+template <typename _Ty> inline SharedPtr<_Ty> Ambient::RegisterSubSystem()
 {
 	auto subsystem = MakeShared<_Ty>(SharedFromThis());
-	RegisterSubsystem(subsystem);
+	RegisterSubSystem(subsystem);
 	return subsystem;
 }
 
