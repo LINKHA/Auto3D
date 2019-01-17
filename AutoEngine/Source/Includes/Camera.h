@@ -29,15 +29,22 @@ class Camera : public Component,public EnableSharedFromThis<Camera>
 {
 	REGISTER_OBJECT_CLASS(Camera, Component)
 public:
+	/**
+	* @brief : Construct
+	*/
 	explicit Camera(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Register object factory.
 	*/
 	static void RegisterObject(SharedPtr<Ambient> ambient);
 	/**
-	* @brief :
+	* @brief : To register for transorm
 	*/
-	virtual void Reset();
+	void Init()override;
+	/**
+	* @brief : Override Start
+	*/
+	void Start()override;
 	/**
 	* @brief : Accumulation pitch and yaw,Expects the offset value in both the x and y direction.
 	*/
@@ -90,7 +97,6 @@ public:
 	/**
 	* @brief : Default Post Processing effect 
 	*/
-	//void SetPostProcess(BuffersMode mode);
 	void SetLateEffect(PostProcessingMode mode);
 	/**
 	* @brief : Set custom Post Processing effect 
@@ -116,80 +122,135 @@ public:
 	* @brief : Get camera right vector3
 	*/
 	Vector3 GetRight(){ return _right; }
-
-	///////////////////////////////////////////////////////////////////////////
-	// @brief : Get member
-	glm::mat4 GetViewMatrix();
-	float GetDepth() const { return _depth; }
-	Color& GetBackgroundColor() { return _backGroundColor; }
-	ProjectionMode GetSortMode() const { return _projectionMode; }
-	bool GetEnable()const { return _isEnable; }
-	Rectf& GetViewRect() { return _viewRect; }
-	float GetNear() { return _near; }
-	float GetFar() { return _far; }
-	float GetZoom() { return _zoom; }
-	const Vector3 GetPosition() const { return _transform->GetPosition(); }
-
-	void SetPosition(const Vector3& vec) { _transform->SetPosition(vec); }
-
-	void AccPosition(const Vector3& vec) { SetPosition(GetPosition() + vec); }
-
-	bool GetAllowMSAA();
-	bool GetAllowLateEffect() ;
-	bool GetAllowOffScreen() { return _isAllowOffScreen; }
-	//////////////////////////////////////////////////////////////////////////
-
-	///////////////////////////////////////////////////////////////////////////
-	// @brief : Set menber
-	void SetDepth(float depth) { _depth = depth; }
-	void SetBackgroundColor(const Color& color) { _backGroundColor = color; }
-	void SetType(ProjectionMode type) { _projectionMode = type; }
-	void SetEnable(bool e) { _isEnable = e; }
-	void SetViewRect(float x, float y, float w, float h) { _viewRect = Rectf(x, y, w, h); }
-	void SetViewRect(const Rectf& rectf) { _viewRect = rectf; }
-	void SetNear(float snear) { _near = snear; }
-	void SetFar(float sfar) { _far = sfar; }
-	//////////////////////////////////////////////////////////////////////////
 	/**
-	* @brief : To register for transorm
+	* @brief : Get view matrix
 	*/
-	void Init()override;
-	///Temp !!! start not normally used,in script component not use,but int other component normal
-	void Start()override;
+	glm::mat4 GetViewMatrix();
+	/**
+	* @brief : Get depth
+	*/
+	float GetDepth() const { return _depth; }
+	/**
+	* @brief : Get color in this camera
+	*/
+	Color GetBackgroundColor() const { return _backGroundColor; }
+	/**
+	* @brief : Get projection mode
+	*/
+	ProjectionMode GetSortMode() const { return _projectionMode; }
+	/**
+	* @brief : Get view rect
+	*/
+	Rectf GetViewRect() const { return _viewRect; }
+	/**
+	* @brief : Get camera near
+	*/
+	float GetNear() const { return _near; }
+	/**
+	* @brief : Get camera far
+	*/
+	float GetFar() const { return _far; }
+	/**
+	* @brief : Get camera zoom
+	*/
+	float GetZoom() const { return _zoom; }
+	/**
+	* @brief : Get camera position
+	*/
+	const Vector3 GetPosition() const { return _transform->GetPosition(); }
+	/**
+	* @brief : Set camera position
+	*/
+	void SetPosition(const Vector3& vec) { _transform->SetPosition(vec); }
+	/**
+	* @brief : Cumulative camera position
+	*/
+	void AccPosition(const Vector3& vec) { SetPosition(GetPosition() + vec); }
+	/**
+	* @brief : Get allow msaa
+	*/
+	bool GetAllowMSAA();
+	/**
+	* @brief : Get allow late effect
+	*/
+	bool GetAllowLateEffect();
+	/**
+	* @brief : Get allow offscreen
+	*/
+	bool GetAllowOffScreen() { return _isAllowOffScreen; }
+	/**
+	* @brief : Set depth
+	*/
+	void SetDepth(float depth) { _depth = depth; }
+	/**
+	* @brief : Set backgound color
+	*/
+	void SetBackgroundColor(const Color& color) { _backGroundColor = color; }
+	/**
+	* @brief : Set camera projection mode
+	*/
+	void SetType(ProjectionMode type) { _projectionMode = type; }
+	/**
+	* @brief : Set camera view rect
+	*/
+	void SetViewRect(float x, float y, float w, float h) { _viewRect = Rectf(x, y, w, h); }
+	/**
+	* @brief : Set camera view rect
+	*/
+	void SetViewRect(const Rectf& rectf) { _viewRect = rectf; }
+	/**
+	* @brief : Set camera near
+	*/
+	void SetNear(float snear) { _near = snear; }
+	/**
+	* @brief : Set camera fat
+	*/
+	void SetFar(float sfar) { _far = sfar; }
 private:
 	/**
 	* @brief : Calculates the front vector from the Camera's (updated) Eular Angles
 	*/
 	void updateCameraVectors();
-private:
-	SharedPtr<Transform> _transform;
-
-	float _zoom;
-
-	Rectf _viewRect;
-
-	float _near;
-	float _far;
-
-	Vector3 _front;
-	Vector3 _up;
-	Vector3 _right;
-
-	Vector3 _worldUp;
-
-	float _yaw;
-	float _pitch;
-
-	glm::mat4 _viewMatrix;
-	glm::mat4 _projectionMatrix;
 protected:
+	/// Camera transform
+	SharedPtr<Transform> _transform;
+	/// Camera zoom
+	float _zoom;
+	/// Camera view rect
+	Rectf _viewRect;
+	/// Camera near
+	float _near;
+	/// Camera far
+	float _far;
+	/// Camera fornt Vector3
+	Vector3 _front;
+	/// Camera up Vector3
+	Vector3 _up;
+	/// Camera right Vector3
+	Vector3 _right;
+	/// Camera world up Vector3
+	Vector3 _worldUp;
+	/// Camera yaw
+	float _yaw;
+	/// Camera pitch
+	float _pitch;
+	/// Camera view matrix
+	glm::mat4 _viewMatrix;
+	/// Camera projection matrix
+	glm::mat4 _projectionMatrix;
+	/// Camera depth
 	float _depth;
+	/// Camera back ground color
 	Color _backGroundColor;
+	/// Projection mode
 	ProjectionMode _projectionMode;
-	bool _isEnable;
+	/// Is or not rendering
 	bool _isRendering;
+	/// Is or not first mouse
 	bool _isFirstMouse;
+	/// OffScreen
 	SharedPtr<OffScreen> _offScreen;
+	/// Is allow OffScreen
 	bool _isAllowOffScreen{};
 };
 }

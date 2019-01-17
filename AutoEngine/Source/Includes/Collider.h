@@ -8,16 +8,16 @@ namespace Auto3D {
 /// Collision shape type.
 enum class ShapeType
 {
-	SHAPE_BOX = 0,
-	SHAPE_SPHERE,
-	SHAPE_STATICPLANE,
-	SHAPE_CYLINDER,
-	SHAPE_CAPSULE,
-	SHAPE_CONE,
-	SHAPE_TRIANGLEMESH,
-	SHAPE_CONVEXHULL,
-	SHAPE_TERRAIN,
-	SHAPE_GIMPACTMESH
+	Box = 0,
+	Sphere,
+	Staticplane,
+	Cylinder,
+	Capsule,
+	Cone,
+	Trianglemesh,
+	Convexhull,
+	Terrain,
+	Gimpactmesh
 };
 class PhysicsWorld;
 
@@ -33,25 +33,38 @@ public:
 	* @brief : Register object factory.
 	*/
 	static void RegisterObject(SharedPtr<Ambient> ambient);
-
+	/**
+	* @brief : Override Start
+	*/
 	void Start()override;
+	/**
+	* @brief : Override Update
+	*/
 	void Update()override;
-
+	/**
+	* @brief : Get parent compound shape
+	*/
 	btCompoundShape* GetParentCompoundShape();
-	
+	/**
+	* @brief : Set rigidBody shape
+	*/
 	void NotifyRigidBody();
-
+	/**
+	* @brief : Get shape
+	*/
 	btCollisionShape* GetShape() { return _shape; }
+
 protected:
+	/// Physics world form this collider
 	SharedPtr<PhysicsWorld> _physicsWorld;
-	/// 
+	/// Rigidbody form this collider
 	SharedPtr<RigidBody> _rigidBody;
 	/// Cached world scale.
 	Vector3 _cachedWorldScale;
-
+	/// Shape form this collider
 	btCollisionShape* _shape;
-
-	ShapeType shapeType_;
+	/// Shape type
+	ShapeType _shapeType;
 
 };
 

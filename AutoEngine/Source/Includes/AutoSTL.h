@@ -75,6 +75,11 @@ auto ReinterpretCast(_Args&&... args) { return boost::reinterpret_pointer_cast<_
 template<typename _Ty, typename... _Args> 
 auto MakeShared(_Args&&... args) { return boost::make_shared<_Ty>(args...); }
 
+/** 
+* @brief : Earse target form Type Vector
+* @param : vec - Containers with erase functions
+*			tar - Elements that need to be removed
+*/
 template<typename _TyVec, typename _Tar>
 void VectorFindEarse(_TyVec& vec, _Tar& tar)
 {

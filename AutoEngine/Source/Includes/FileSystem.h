@@ -9,6 +9,9 @@ class FileSystem : public GlobalGameManager
 {
 	REGISTER_OBJECT_CLASS(FileSystem, GlobalGameManager)
 public:
+	/**
+	* @brief : Construct
+	*/
 	explicit FileSystem(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Register a path as allowed to access. If no paths are registered,
@@ -34,7 +37,6 @@ public:
 	*		Will fail if any allowed paths are defined
 	*/
 	int SystemRun(const STRING& fileName, const VECTOR<STRING>& arguments);
-
 	/**
 	* @brief : Copy a file. Return true if successful
 	*/
@@ -47,8 +49,6 @@ public:
 	* @brief :  Delete a file. Return true if successful
 	*/
 	bool Delete(const STRING& fileName);
-
-
 	/**
 	* @brief : Return the user documents directory
 	*/

@@ -14,7 +14,7 @@ class ShadowRenderer : public Object
 	REGISTER_OBJECT_CLASS(ShadowRenderer, Object)
 public:
 	/**
-	* @brief : Get renderer to _renderer
+	* @brief : Get renderer to renderer
 	*/
 	explicit ShadowRenderer(SharedPtr<Ambient> ambient);
 	/**
@@ -26,14 +26,24 @@ public:
 	*	render to shadow(Traversal shadow queue)
 	*/
 	void RenderShadow();
-
+	/** 
+	* @brief : Get depth map shader 
+	*/
 	SharedPtr<ShaderVariation> GetDepthMapShader() { return _shadowMapDepthShader; }
+	/**
+	* @brief : Get point depth map shader
+	*/
 	SharedPtr<ShaderVariation> GetPointDepthMapShader() { return _shadowMapPointDepth; }
 private:
+	/// Lights
 	VECTOR<SharedPtr<Light> > _lights;
+	/// Shadow component
 	LIST<SharedPtr<RenderComponent> > _shadowComponents;
+	/// Shadow map depth shader
 	SharedPtr<ShaderVariation> _shadowMapDepthShader;
+	/// Shadow map point depth
 	SharedPtr<ShaderVariation> _shadowMapPointDepth;
+	/// Wood texture
 	unsigned int _woodTexture;
 };
 

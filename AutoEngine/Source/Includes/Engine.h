@@ -6,6 +6,9 @@ class Engine : public Object
 {
 	REGISTER_OBJECT_CLASS(Engine, Object)
 public:
+	/**
+	* @brief : Construct
+	*/
 	explicit Engine(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Init engine, Register some SubSystem
@@ -36,6 +39,7 @@ public:
 	*/
 	void FrameFinish();
 private:
+	/// Is exiting
 	bool _isExiting{};
 };
 

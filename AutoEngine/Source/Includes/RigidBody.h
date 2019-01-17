@@ -3,21 +3,28 @@
 #include "AutoPhysics3D.h"
 
 namespace Auto3D {
-class PhysicsWorld;
 
+class PhysicsWorld;
 
 class RigidBody : public Component
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(RigidBody, Component)
 public:
+	/**
+	* @brief : Construct
+	*/
 	explicit RigidBody(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Register object factory.
 	*/
 	static void RegisterObject(SharedPtr<Ambient> ambient);
-
+	/** 
+	* @brief : Override Start
+	*/
 	void Start()override;
-
+	/**
+	* @brief : Override Update
+	*/
 	void Update()override;
 	/**
 	* @brief : Update mass and inertia to the Bullet rigid body. 
@@ -33,9 +40,13 @@ public:
 	* @brief : Create the rigid body, or re-add to the physics world with changed flags. Calls UpdateMass().
 	*/
 	void AddBodyToWorld();
-
+	/**
+	* @brief : Set mass
+	*/
 	void SetMass(float mass) { _mass = mass; }
-
+	/**
+	* @brief : Get mass
+	*/
 	float GetMass() { return _mass; }
 #if DebugCompoundShape
 	btCompoundShape* GetCompoundShape() { return _compoundShape; }
@@ -43,6 +54,9 @@ public:
 	btCollisionShape* GetCollisionShape() { return _shape; }
 #endif
 private:
+	/**
+	* @brief : Register rigidbody
+	*/
 	void registeredRigidBody();
 private:
 	/// physics world
@@ -57,13 +71,13 @@ public:
 	btCollisionShape* _shape;
 private:
 #endif
-	/// motion state
+	/// Motion state
 	btDefaultMotionState* _motionState;
-	/// rigidbody mass
+	/// Rigidbody mass
 	float _mass{};
-	
+	/// Is dynamic ot staitc
 	bool _isDynamic;
-
+	/// First frame didn't calculate physics
 	bool _isFirstUpdate{};
 
 };

@@ -41,11 +41,6 @@ void LevelScene::Update()
 
 }
 
-void LevelScene::FixUpdate() 
-{
-
-}
-
 void LevelScene::Finish() 
 {
 

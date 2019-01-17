@@ -21,6 +21,9 @@ class Input : public GlobalGameManager
 {
 	REGISTER_OBJECT_CLASS(Input, GlobalGameManager)
 public:
+	/**
+	* @brief : Construct
+	*/
 	explicit Input(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Update event

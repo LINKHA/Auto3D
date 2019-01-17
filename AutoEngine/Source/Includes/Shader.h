@@ -41,8 +41,6 @@ public:
 	HASH_MAP<STRING, SharedPtr<ShaderVariation> > _fsVariations;
 	/// Geometry shader variations.
 	HASH_MAP<STRING, SharedPtr<ShaderVariation> > _gsVariations;
-
-
 	/// Source code timestamp.
 	unsigned _timeStamp;
 	/// number of unique variations so far.

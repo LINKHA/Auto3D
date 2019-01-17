@@ -11,8 +11,17 @@ class LightContainer : public Object
 {
 	REGISTER_OBJECT_CLASS(LightContainer, Object)
 public:
+	/**
+	* @brief : Construct
+	*/
 	explicit LightContainer(SharedPtr<Ambient> ambient);
+	/** 
+	* @brief : Add light 
+	*/
 	void AddLight(SharedPtr<Light> source);
+	/**
+	* @brief : Remove ligth
+	*/
 	void RemoveLight(SharedPtr<Light> source);
 	/**
 	* @brief : Get light container size
@@ -40,10 +49,13 @@ public:
 	*/
 	SharedPtr<Light> GetCurrentLight() { return _currentLight; }
 private:
+	/// Is render or cull
 	bool _isRenderOrCull;
+	/// Current light
 	SharedPtr<Light> _currentLight;
+	/// Last main light
 	SharedPtr<Light> _lastMainLight;
-
+	/// All light
 	VECTOR<SharedPtr<Light> > _lights;
 
 };

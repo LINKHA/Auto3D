@@ -21,6 +21,9 @@ class File : public Object, public AbstractFile
 {
 	REGISTER_OBJECT_CLASS(File, Object)
 public:
+	/**
+	* @brief : Construct
+	*/
 	explicit File(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Construct and open a filesystem file

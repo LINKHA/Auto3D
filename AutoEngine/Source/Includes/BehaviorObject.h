@@ -19,13 +19,33 @@ class BehaviorObject : public Object
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(BehaviorObject, Object)
 public:
+	/**
+	* @brief : Construct
+	*/
 	explicit BehaviorObject(SharedPtr<Ambient> ambient);
-
+	/**
+	* @brief : Virtual behavior Awake
+	*/
 	virtual void Awake() {}
+	/**
+	* @brief : Virtual behavior Start
+	*/
 	virtual void Start() {}
+	/**
+	* @brief : Virtual behavior Update
+	*/
 	virtual void Update() {}
+	/**
+	* @brief : Virtual behavior FixUpdate
+	*/
 	virtual void FixUpdate() {}
+	/**
+	* @brief : Virtual behavior Finish
+	*/
 	virtual void Finish() {}
+	/**
+	* @brief : Virtual behavior Draw
+	*/
 	virtual void Draw() {}
 
 	/**

@@ -7,6 +7,9 @@ class LevelBehaviorObject : public BehaviorObject
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(LevelBehaviorObject, BehaviorObject)
 public:
+	/**
+	* @brief : Construct
+	*/
 	explicit LevelBehaviorObject(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Set level ID

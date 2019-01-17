@@ -41,7 +41,7 @@ void Renderer::Render()
 	for (LIST<SharedPtr<Camera> >::iterator i = _cameras.begin(); i != _cameras.end(); i++)
 	{
 		SharedPtr<Camera> cam = *i;
-		if (cam && cam->GetEnable())
+		if (cam && cam->IsEnable())
 		{
 			_currentCamera = cam;
 

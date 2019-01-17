@@ -108,9 +108,13 @@ public:
 	* @brief : Register Graphics library objects.
 	*/
 	void RegisterGraphicsLib(SharedPtr<Ambient> ambient);
-
+	/** 
+	* @brief : Set color write
+	*/
 	void SetColorWrite(bool enable);
-	
+	/**
+	* @brief : Set depth write
+	*/
 	void SetDepthWrite(bool enable);
 	/**
 	* @brief : Set title (only in space awake funcation)	

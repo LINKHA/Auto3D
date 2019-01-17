@@ -42,8 +42,6 @@ public:
 	* @brief : Return whether the end of stream has been reached
 	*/
 	virtual bool IsEof() const { return _position >= _size; }
-
-
 	/**
 	* @brief : Return size
 	*/
@@ -100,7 +98,6 @@ public:
 	* @brief : Read a text line
 	*/
 	STRING ReadLine();
-
 protected:
 	/// stream position
 	unsigned _position;

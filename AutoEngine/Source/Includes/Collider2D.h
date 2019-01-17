@@ -2,9 +2,7 @@
 #include "Component.h"
 #include "AutoPhysics2D.h"
 
-
 namespace Auto3D {
-
 
 class RigidBody2D;
 
@@ -20,65 +18,92 @@ public:
 	* @brief : Register object factory.
 	*/
 	static void RegisterObject(SharedPtr<Ambient> ambient);
-
+	/**
+	* @brief : Override Start
+	*/
 	void Start()override;
-
+	/**
+	* @brief : Create fixture
+	*/
 	void CreateFixture();
-
+	/**
+	* @brief : Release fixture
+	*/
 	void ReleaseFixture();
 	/**
 	* @brief : Set trigger
 	*/
 	void SetTrigger(bool trigger);
-	/// Set filter category bits.
+	/**
+	* @brief : Set filter category bits
+	*/
 	void SetCategoryBits(int categoryBits);
-	/// Set filter mask bits.
+	/**
+	* @brief : Set filter mask bits
+	*/
 	void SetMaskBits(int maskBits);
-	/// Set filter group index.
+	/**
+	* @brief : Set filter group index
+	*/
 	void SetGroupIndex(int groupIndex);
-	/// Set density.
+	/**
+	* @brief : Set density
+	*/
 	void SetDensity(float density);
-	/// Set friction.
+	/**
+	* @brief : Set friction
+	*/
 	void SetFriction(float friction);
-	/// Set restitution .
+	/**
+	* @brief : Set restitution 
+	*/
 	void SetRestitution(float restitution);
-
-
-	/// Return filter category bits
+	/**
+	* @brief : Return filter category bits
+	*/
 	int GetCategoryBits() const { return _fixtureDef.filter.categoryBits; }
-
-	/// Return filter mask bits
+	/**
+	* @brief : Return filter mask bits
+	*/
 	int GetMaskBits() const { return _fixtureDef.filter.maskBits; }
-
-	/// Return filter group index
+	/**
+	* @brief : Return filter group index
+	*/
 	int GetGroupIndex() const { return _fixtureDef.filter.groupIndex; }
-
-	/// Return density
+	/**
+	* @brief : Return density
+	*/
 	float GetDensity() const { return _fixtureDef.density; }
-
-	/// Return friction
+	/**
+	* @brief : Return friction
+	*/
 	float GetFriction() const { return _fixtureDef.friction; }
-
-	/// Return restitution
+	/**
+	* @brief : Return restitution
+	*/
 	float GetRestitution() const { return _fixtureDef.restitution; }
-
-	/// Return mass
+	/**
+	* @brief : Return mass
+	*/
 	float GetMass() const;
-	/// Return inertia
+	/**
+	* @brief : Return inertia
+	*/
 	float GetInertia() const;
-	/// Return mass center
+	/**
+	* @brief : Return mass center
+	*/
 	Vector2 GetMassCenter() const;
 	/**
 	* @brief : Return fixture
 	*/
 	b2Fixture* GetFixture() const { return _fixture; }
-
 protected:
 	/// Fixture def
 	b2FixtureDef _fixtureDef;
 	/// Box2D fixture
 	b2Fixture* _fixture;
-	/// 
+	/// Rigbody
 	SharedPtr<RigidBody2D> _rigidBody;
 	/// Cached world scale.
 	Vector3 _cachedWorldScale;

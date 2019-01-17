@@ -11,6 +11,9 @@ class Component : public LevelBehaviorObject
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(Component, LevelBehaviorObject)
 public:
+	/**
+	* @brief : Construct
+	*/
 	explicit Component(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Get game object ptr
@@ -47,8 +50,8 @@ public:
 	* @brief : Destory this component
 	*/
 	virtual void Destory() {}
-
 private:
+	/// WeakPtr get this component node
 	WeakPtr<Node> _node;
 };
 

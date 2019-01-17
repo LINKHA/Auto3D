@@ -7,21 +7,33 @@ class ColliderSphere : public Collider
 {
 	REGISTER_OBJECT_CLASS(ColliderSphere, Collider)
 public:
+	/**
+	* @brief : Construct
+	*/
 	explicit ColliderSphere(SharedPtr<Ambient> ambient);
 	/**
-	* @brief : Register object factory.
+	* @brief : Register object factory
 	*/
 	static void RegisterObject(SharedPtr<Ambient> ambient);
-
-	void Start()override;
-
-	void Update()override;
-
+	/**
+	* @brief : Set size
+	*/
 	void SetSize(float size);
+	/**
+	* @brief : Override Start
+	*/
+	void Start()override;
+	/**
+	* @brief : Override Update
+	*/
+	void Update()override;
 private:
+	/** 
+	* @brief : Resize 
+	*/
 	void resize(float size);
 private:
-	/// sphere shape size
+	/// Sphere shape size
 	float _size;
 };
 

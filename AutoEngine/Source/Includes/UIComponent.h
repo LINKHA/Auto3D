@@ -2,7 +2,9 @@
 #include "Component.h"
 
 namespace Auto3D {
-/// %UI element horizontal alignment.
+/** 
+* UI element horizontal alignment
+*/
 enum class AlignmentHorizontal
 {
 	Left = 0,
@@ -11,7 +13,9 @@ enum class AlignmentHorizontal
 	Custom
 };
 
-/// %UI element vertical alignment.
+/** 
+* UI element vertical alignment
+*/
 enum class AlignmentVertical
 {
 	Top = 0,

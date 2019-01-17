@@ -90,6 +90,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_WINDOWS;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -265,6 +266,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\NodeTrait.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Ambient.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Application.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Audio.cpp" />
@@ -363,6 +365,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Vector2.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Vector3.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Vector4.cpp" />
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\NodeTrait.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AbstractFile.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Ambient.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Application.h" />
@@ -445,8 +448,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Monitors.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\NewDef.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Node.h" />
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\NodeLayout.h" />
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\NodeTag.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\OGLDebug.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Object.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\ObjectDef.h" />

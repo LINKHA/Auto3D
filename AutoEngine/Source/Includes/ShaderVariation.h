@@ -22,7 +22,6 @@ public:
 	*/
 	ShaderVariation(SharedPtr<Shader> vsShader, SharedPtr<Shader> fsShader, SharedPtr<Shader> gsShader);
 
-
 	~ShaderVariation();
 	/**
 	* @brief : Release the shader

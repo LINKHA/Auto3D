@@ -10,10 +10,10 @@ namespace Auto3D {
 
 struct PhysicsWorldConfig
 {
+
 	PhysicsWorldConfig() :
 		collisionConfig(nullptr)
 	{}
-
 	/// Override for the collision configuration (default btDefaultCollisionConfiguration).
 	btCollisionConfiguration* collisionConfig;
 };
@@ -25,60 +25,90 @@ class PhysicsWorld : public Component//, public btIDebugDraw
 {
 	REGISTER_OBJECT_CLASS(PhysicsWorld, Component)
 public:
+	/**
+	* @brief : Construct
+	*/
 	explicit PhysicsWorld(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Register object factory.
 	*/
 	static void RegisterObject(SharedPtr<Ambient> ambient);
-
-
+	/**
+	* @brief : Override Update
+	*/
 	void Update()override;
-	
+	/**
+	* @brief : Set fps
+	*/
 	void SetFPS(int fps);
-
+	/**
+	* @brief : 
+	*/
 	btDiscreteDynamicsWorld* GetWorld() { return _world; }
-
-	void AddRigidBodies(SharedPtr<RigidBody> rigidBody);
-
-	void RemoveRigidBodies(SharedPtr<RigidBody> rigidBody);
-
+	/**
+	* @brief :
+	*/
+	void AddRigidBody(SharedPtr<RigidBody> rigidBody);
+	/**
+	* @brief : Remove rigbody
+	*/
+	void RemoveRigidBody(SharedPtr<RigidBody> rigidBody);
+	/**
+	* @brief : Add collider
+	*/
 	void AddCollider(SharedPtr<Collider> collider);
-
+	/**
+	* @brief : Remove collider
+	*/
 	void RemoveCollider(SharedPtr<Collider> collider);
-
+	/**
+	* @brief : Add constraint
+	*/
 	void AddConstraint(SharedPtr<Constraint> constraint);
-
+	/**
+	* @brief : Remove constraint
+	*/
 	void RemoveConstraint(SharedPtr<Constraint> constraint);
-
+	/**
+	* @brief : Get rigbodies (VECTOR<SharedPtr<RigidBody> >)
+	*/
 	VECTOR<SharedPtr<RigidBody> > GetRigidBodies() { return _rigidBodies; }
-
+	/**
+	* @brief : Get colliders (VECTOR<SharedPtr<Collider> >)
+	*/
 	VECTOR<SharedPtr<Collider> > GetColliders() { return _colliders; }
-
+	/**
+	* @brief : Get constraints (VECTOR<SharedPtr<Constraint> >)
+	*/
 	VECTOR<SharedPtr<Constraint> > GetConstraints() { return _constraints; }
-
-	/// Overrides of the internal configuration.
+private:
+	/** 
+	* @brief : Delete collision shapes
+	*/
+	void deleteColliders();
+public:
+	/// Overrides of the internal configuration
 	static struct PhysicsWorldConfig config;
 private:
-	//delete collision shapes
-	void deleteColliders();
-private:
+	/// FPS
 	unsigned _fps{ DEFAULT_FPS };
+	/// Time system
 	SharedPtr<Time> time;
-	/// Bullet collision configuration.
+	/// Bullet collision configuration
 	btCollisionConfiguration* _collisionConfiguration{};
-	/// Bullet collision dispatcher.
+	/// Bullet collision dispatcher
 	btDispatcher* _collisionDispatcher;
-	/// Bullet collision broadphase.
+	/// Bullet collision broadphase
 	btBroadphaseInterface* _broadphase;
-	/// Bullet constraint solver.
+	/// Bullet constraint solver
 	btConstraintSolver* _solver;
-	/// Bullet physics world.
+	/// Bullet physics world
 	btDiscreteDynamicsWorld* _world;
-
+	/// RigidBody container
 	VECTOR<SharedPtr<RigidBody> > _rigidBodies;
-	/// Collision shapes in the world.
+	/// Collision shapes in the world
 	VECTOR<SharedPtr<Collider> > _colliders;
-	/// Constraints in the world.
+	/// Constraints in the world
 	VECTOR<SharedPtr<Constraint> > _constraints;
 };
 

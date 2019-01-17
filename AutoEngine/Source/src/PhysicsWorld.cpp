@@ -69,20 +69,14 @@ void PhysicsWorld::Update()
 	_world->stepSimulation(timeStep, maxSubSteps, internalTimeStep);
 }
 
-void PhysicsWorld::AddRigidBodies(SharedPtr<RigidBody> rigidBody)
+void PhysicsWorld::AddRigidBody(SharedPtr<RigidBody> rigidBody)
 {
 	_rigidBodies.push_back(rigidBody);
 }
 
-void PhysicsWorld::RemoveRigidBodies(SharedPtr<RigidBody> rigidBody)
+void PhysicsWorld::RemoveRigidBody(SharedPtr<RigidBody> rigidBody)
 {
-	for (VECTOR<SharedPtr<RigidBody> >::iterator it = _rigidBodies.begin();
-		it != _rigidBodies.end();
-		it++)
-	{
-		if (*it == rigidBody)
-			_rigidBodies.erase(it);
-	}
+	VectorFindEarse(_rigidBodies, rigidBody);
 }
 
 void PhysicsWorld::AddCollider(SharedPtr<Collider> collider)
@@ -92,13 +86,7 @@ void PhysicsWorld::AddCollider(SharedPtr<Collider> collider)
 
 void PhysicsWorld::RemoveCollider(SharedPtr<Collider> collider)
 {
-	for (VECTOR<SharedPtr<Collider> >::iterator it = _colliders.begin();
-		it != _colliders.end();
-		it++)
-	{
-		if (*it == collider)
-			_colliders.erase(it);
-	}
+	VectorFindEarse(_colliders, collider);
 }
 
 void PhysicsWorld::AddConstraint(SharedPtr<Constraint> constraint)
@@ -108,13 +96,7 @@ void PhysicsWorld::AddConstraint(SharedPtr<Constraint> constraint)
 
 void PhysicsWorld::RemoveConstraint(SharedPtr<Constraint> constraint)
 {
-	for (VECTOR<SharedPtr<Constraint> >::iterator it = _constraints.begin();
-		it != _constraints.end();
-		it++)
-	{
-		if (*it == constraint)
-			_constraints.erase(it);
-	}
+	VectorFindEarse(_constraints, constraint);
 }
 
 void PhysicsWorld::SetFPS(int fps)

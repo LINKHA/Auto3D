@@ -10,12 +10,17 @@ class PhysicsWorld2D : public Component//, public b2ContactListener, public b2Dr
 {
 	REGISTER_OBJECT_CLASS(PhysicsWorld2D, Component)
 public:
+	/**
+	* @brief : Construct
+	*/
 	explicit PhysicsWorld2D(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Register object factory.
 	*/
 	static void RegisterObject(SharedPtr<Ambient> ambient);
-
+	/** 
+	* @brief : Override Update
+	*/
 	void Update()override;
 	/**
 	* @brief : Return the Box2D physics world
@@ -29,9 +34,8 @@ public:
 	* @brief : Remove rigid body
 	*/
 	void RemoveRigidBody(SharedPtr<RigidBody2D> rigidBody);
-
-
 private:
+	/// 2D World 
 	b2World* _world;
 	/// Is phtsics stepping
 	bool _isPhysicsStepping{};
@@ -41,7 +45,7 @@ private:
 	int _velocityIter{};
 	/// Position iterations default 3
 	int _positionIter{};
-
+	/// All rigidBody form this 2D world
 	VECTOR<SharedPtr<RigidBody2D> > _rigidBodys;
 };
 

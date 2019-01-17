@@ -293,6 +293,9 @@
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Constraint2D.cpp">
       <Filter>Component\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\NodeTrait.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Auto.h" />
@@ -631,12 +634,6 @@
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Scene.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\NodeLayout.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\NodeTag.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Script.h">
       <Filter>Script</Filter>
     </ClInclude>
@@ -684,6 +681,9 @@
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Launch.h">
       <Filter>Code</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\NodeTrait.h">
+      <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

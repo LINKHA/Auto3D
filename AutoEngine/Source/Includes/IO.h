@@ -14,7 +14,5 @@ private:
 	SharedPtr<Monitors> _monitors;
 };
 
-
-
 }
 

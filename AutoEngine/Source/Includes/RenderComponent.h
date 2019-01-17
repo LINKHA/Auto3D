@@ -8,6 +8,9 @@ class RenderComponent : public Component
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(RenderComponent, Component)
 public:
+	/**
+	* @brief : Construct
+	*/
 	explicit RenderComponent(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Ready draw component
@@ -21,7 +24,6 @@ public:
 	* @brief : Draw call in renderer
 	*/
 	virtual void Draw() {}
-
 protected:
 	/**
 	* @brief : Register shadow to renderer

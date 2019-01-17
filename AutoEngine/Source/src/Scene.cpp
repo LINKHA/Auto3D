@@ -86,6 +86,17 @@ void Scene::RemoveScene(int sceneId)
 	}
 }
 
+SharedPtr<LevelScene> Scene::GetLevelScene(int index)
+{
+	for (auto i = _levelScenes.begin(); i != _levelScenes.end(); i++)
+	{
+		if ((*i)->GetLevelID() == index)
+			return *i;
+	}
+	ErrorString("Fail load level scene");
+	return SharedPtr<LevelScene>();
+}
+
 void Scene::ModeRunLevel(RunMode runMode)
 {
 	_isInsideRun = true;

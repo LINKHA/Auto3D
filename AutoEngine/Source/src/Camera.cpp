@@ -12,7 +12,6 @@ Camera::Camera(SharedPtr<Ambient> ambient)
 	, _isFirstMouse(true)
 	, _near(0.1f)
 	, _far(100.0f)
-	, _isEnable(true)
 	, _viewRect(Rectf(0.0f, 0.0f, 1.0f, 1.0f))
 	, _worldUp(0.0f, 1.0f, 0.0f)
 	, _yaw(0)
@@ -32,10 +31,6 @@ void Camera::RegisterObject(SharedPtr<Ambient> ambient)
 	ambient->RegisterFactory<Camera>(SCENE_ATTACH);
 }
 
-void Camera::Reset()
-{
-
-}
 void Camera::AllowOffScreen(bool enable)
 {
 	_isAllowOffScreen = enable;
@@ -110,7 +105,6 @@ void Camera::Init()
 
 glm::mat4 Camera::GetViewMatrix()
 {
-	//_viewMatrix = glm::lookAt(_position, _position + _front, _up);
 	_viewMatrix = glm::lookAt(_transform->GetPosition().ToGLM(), _transform->GetPosition().ToGLM() + _front.ToGLM(), _up.ToGLM());
 	return _viewMatrix;
 }

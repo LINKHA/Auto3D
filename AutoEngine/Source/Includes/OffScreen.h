@@ -16,6 +16,9 @@ class OffScreen : public Object
 {
 	REGISTER_OBJECT_CLASS(OffScreen, Object)
 public:
+	/**
+	* @brief : Construct
+	*/
 	explicit OffScreen(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Set frame buffer and quad
@@ -79,7 +82,6 @@ private:
 	bool _isAllowMsaa{};
 	bool _isAllowLateEffect{};
 	bool _isAllowHDR{};
-
 	SharedPtr<ShaderVariation> _shader;
 	int _samplingPointCount;
 	unsigned int _quadVAO, _quadVBO;

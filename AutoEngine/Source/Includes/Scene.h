@@ -26,7 +26,6 @@ public:
 	* @brief : Remove level for level
 	*/
 	void RemoveScene(SharedPtr<LevelScene> level);
-
 	/**
 	* @brief : Get all level scenes
 	* @return : HASH_MAP(int,LevelScene*)
@@ -35,16 +34,7 @@ public:
 	/**
 	* @brief : Get level scene for index
 	*/
-	SharedPtr<LevelScene> GetLevelScene(int index) 
-	{ 
-		for (auto i = _levelScenes.begin(); i != _levelScenes.end(); i++)
-		{
-			if ((*i)->GetLevelID() == index)
-				return *i;
-		}
-		ErrorString("Fail load level scene");
-		return SharedPtr<LevelScene>();
-	}
+	SharedPtr<LevelScene> GetLevelScene(int index);
 	/**
 	* @brief : Run level for mode
 	*/

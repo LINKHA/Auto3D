@@ -96,7 +96,6 @@ public:
 	*	If a dependency file changes, the resource will be reloaded
 	*/
 	void StoreResourceDependency(Resource* resource, const STRING& dependency);
-
 	/**
 	* @brief : Register scene library objects.
 	*/

@@ -1,7 +1,6 @@
 #pragma once
 #include "Object.h"
-#include "NodeLayout.h"
-#include "NodeTag.h"
+#include "NodeTrait.h"
 #include "AuMath.h"
 #include "AutoSTL.h"
 
@@ -19,6 +18,9 @@ class Node :public Object, public EnableSharedFromThis<Node>
 {
 	REGISTER_OBJECT_CLASS(Node, Object)
 public:
+	/**
+	* @brief : Construct
+	*/
 	explicit Node(SharedPtr<Ambient> ambient, int sceneID);
 	/**
 	* @brief : Destory node
