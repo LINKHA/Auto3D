@@ -8,12 +8,18 @@ namespace Auto3D {
 class RTTI
 {
 public:
+	/**
+	* @brief : Construct
+	*/
 	RTTI(const char* className, const RTTI* baseRTTI, int classID, bool isAbstract)
 		: _className(className)
 		, _base(baseRTTI)
 		, _classID(classID)
 		, _isAbstract(isAbstract)
 	{}
+	/**
+	* @brief : Destructor
+	*/
 	~RTTI() = default;
 	/**
 	* @brief : Return class name for string

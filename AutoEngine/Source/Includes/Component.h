@@ -6,7 +6,9 @@ namespace Auto3D {
 
 const static char* SCENE_ATTACH = "Scene_attach";
 const static char* GEOMETRY_ATTACH = "GeoMetry_attach";
-
+/** 
+* Virtual component class,It stores the nodes
+*/
 class Component : public LevelBehaviorObject
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(Component, LevelBehaviorObject)

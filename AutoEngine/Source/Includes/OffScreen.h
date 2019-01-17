@@ -12,6 +12,9 @@ enum PostProcessingMode
 	POST_INVERSION,
 	POST_SHARPEN,
 };
+/** 
+* Camera offscreen
+*/
 class OffScreen : public Object
 {
 	REGISTER_OBJECT_CLASS(OffScreen, Object)

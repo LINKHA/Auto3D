@@ -1,7 +1,11 @@
 #pragma once
 #include "Object.h"
+
 namespace Auto3D {
 
+/** 
+* Auto Engine manage render update,create subsystem
+*/
 class Engine : public Object
 {
 	REGISTER_OBJECT_CLASS(Engine, Object)

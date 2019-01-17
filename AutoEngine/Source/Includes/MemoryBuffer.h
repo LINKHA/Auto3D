@@ -3,7 +3,9 @@
 #include "AbstractFile.h"
 
 namespace Auto3D {
-
+/** 
+* Memory area that can be read and written to as a stream
+*/
 class MemoryBuffer : public AbstractFile
 {
 public:

@@ -4,6 +4,9 @@
 
 namespace Auto3D {
 
+/** 
+* Abstract file 
+*/
 class AbstractFile : public Deserializer, public Serializer
 {
 public:

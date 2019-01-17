@@ -3,7 +3,9 @@
 #include "Ambient.h"
 
 namespace Auto3D {
-
+/**
+* Behavir object run mode
+*/
 enum class RunMode
 {
 	Default = -1,
@@ -15,6 +17,9 @@ enum class RunMode
 	Draw,
 };
 
+/**
+* Behavior object ,extends object
+*/
 class BehaviorObject : public Object
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(BehaviorObject, Object)
@@ -47,7 +52,6 @@ public:
 	* @brief : Virtual behavior Draw
 	*/
 	virtual void Draw() {}
-
 	/**
 	* @brief : Create object for type name
 	*/

@@ -4,7 +4,9 @@
 
 namespace Auto3D {
 
-
+/** 
+* Audio sub system ,Process all sound sources and calculate sound
+*/
 class Audio : public GlobalGameManager
 {
 	REGISTER_OBJECT_CLASS(Audio, GlobalGameManager)

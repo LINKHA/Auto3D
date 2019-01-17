@@ -5,6 +5,9 @@
 
 namespace Auto3D {
 
+/** 
+* File sub system,manager of operator system path
+*/
 class FileSystem : public GlobalGameManager
 {
 	REGISTER_OBJECT_CLASS(FileSystem, GlobalGameManager)

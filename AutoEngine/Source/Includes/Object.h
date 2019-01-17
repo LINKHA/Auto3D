@@ -31,7 +31,6 @@ public:
 	static STRING GetClassStringStatic() { return "Object"; }
 	static Auto3D::RTTI* GetRTTIStatic() { return nullptr; }
 	//////////////////////////////////////////////////////////////////////////
-	
 	/**
 	* @brief : Return execution ambient.
 	*/
@@ -48,9 +47,8 @@ public:
 	* @brief : Get object attach
 	*/
 	const STRING GetAttach();
-
-
 protected:
+	/// Ambient
 	SharedPtr<Ambient> _ambient;
 };
 
@@ -63,6 +61,9 @@ SharedPtr<_Ty> Object::GetSubSystem() const
 class ObjectFactory
 {
 public:
+	/**
+	* @brief : Construct
+	*/
 	explicit ObjectFactory(SharedPtr<Ambient> ambient)
 		:_ambient(ambient)
 	{
@@ -98,14 +99,16 @@ protected:
 template<typename _Ty> class ObjectFactoryImpl : public ObjectFactory
 {
 public:
-	/// Construct
+	/** 
+	* @brief : Construct
+	*/
 	explicit ObjectFactoryImpl(SharedPtr<Ambient> ambient) :
 		ObjectFactory(ambient)
 	{
 		_RTTI = _Ty::GetRTTIStatic();
 	}
 	/**
-	* @brief : Create an object of the specific type.
+	* @brief : Create an object of the specific type
 	*/
 	SharedPtr<Object> CreateObject() override { return StaticCast<Object>(MakeShared<_Ty>(_ambient)); }
 };

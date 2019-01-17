@@ -2,11 +2,12 @@
 
 #include "Auto.h"
  
+
+namespace Auto3D {
+
 /**
 * Abstract stream for reading
 */
-namespace Auto3D {
-
 class Deserializer
 {
 public:

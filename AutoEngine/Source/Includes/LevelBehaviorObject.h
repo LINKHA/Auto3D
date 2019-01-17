@@ -2,7 +2,9 @@
 #include "BehaviorObject.h"
 
 namespace Auto3D {
-
+/**
+* Level Behavior object save level ID
+*/
 class LevelBehaviorObject : public BehaviorObject
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(LevelBehaviorObject, BehaviorObject)

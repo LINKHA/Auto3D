@@ -3,6 +3,9 @@
 
 namespace Auto3D {
 
+/**
+*  Behavior sub system, Is responsible for traversing all the behavior trees
+*/
 class Behavior : public GlobalGameManager
 {
 	REGISTER_OBJECT_CLASS(Behavior, GlobalGameManager)

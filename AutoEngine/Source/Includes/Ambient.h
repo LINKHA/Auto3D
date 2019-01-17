@@ -3,6 +3,9 @@
 
 namespace Auto3D {
 
+/**
+* All Auto class ambient ,Responsible for registering objects such as factories
+*/
 class Ambient : public EnableSharedFromThis<Ambient>
 {
 	friend class Object;
@@ -12,7 +15,7 @@ public:
 	/**
 	* @brief : Create an object by type. Return pointer to it or null if no factory found.
 	*/
-	template <typename _Ty> inline SharedPtr<_Ty> CreateObject(){ return StaticCast<_Ty>(CreateObject(T::GetClassStringStatic())); }
+	template <typename _Ty> inline SharedPtr<_Ty> CreateObject(){ return StaticCast<_Ty>(CreateObject(_Ty::GetClassStringStatic())); }
 	/**
 	* @brief : Create object by string type , Return pointer to it or null if no factory found.
 	*/

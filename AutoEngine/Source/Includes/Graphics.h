@@ -14,7 +14,9 @@ namespace Auto3D {
 
 class GPUObject;
 class ShaderVariation;
-
+/** 
+* Graphics subsystem. Manages the application window, rendering state and GPU resources 
+*/
 class Graphics : public GlobalGameManager
 {
 	REGISTER_OBJECT_CLASS(Graphics, GlobalGameManager)

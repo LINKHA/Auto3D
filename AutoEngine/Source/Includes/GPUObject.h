@@ -4,7 +4,10 @@
 namespace Auto3D {
 class Graphics;
 
-/// API-specific GPU object representation
+
+/** 
+* API-specific GPU object representation
+*/
 union GPUObjectHandle
 {
 	/// Object pointer (Direct3D)
@@ -13,6 +16,9 @@ union GPUObjectHandle
 	unsigned name;
 };
 
+/**
+* Base class for GPU resources
+*/
 class GPUObject
 {
 public:
@@ -24,7 +30,9 @@ public:
 	* @brief : Destruct. Remove from the Graphics
 	*/
 	virtual ~GPUObject();
-
+	/** 
+	* @brief : Get GPU object handle 
+	*/
 	GPUObjectHandle GetHandle() { return _object; }
 protected:
 	/// Graphics subsystem

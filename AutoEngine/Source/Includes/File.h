@@ -17,6 +17,9 @@ enum class FileMode
 	ReadWrite
 };
 
+/**
+* File opened either through the filesystem or from within a package file
+*/
 class File : public Object, public AbstractFile
 {
 	REGISTER_OBJECT_CLASS(File, Object)
