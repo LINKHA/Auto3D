@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\Project\MyProject\Auto3D\Build\CMakeFiles\4356e7567c344409aefcba36eefa0e97\bin2h.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Project\MyProject\Auto3D\Build\CMakeFiles\714da98da042f853ad6f77083eb1af4c\native-tools.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\OpenAL\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\Project\MyProject\Auto3D\Build\AutoEngine\ThirdParty\OpenAL\CMakeFiles\native-tools" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{071CA1AB-A700-32A7-8A6C-8124BCAD03EB}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,835 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|Win32">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|Win32">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{425BD750-23F5-3A7B-B416-4E8A3FD7309D}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>Win32</Platform>
+    <ProjectName>Boost</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\Project\MyProject\Auto3D\Build\AutoEngine\ThirdParty\Boost\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Boost.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Boost</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:\Project\MyProject\Auto3D\Build\AutoEngine\ThirdParty\Boost\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Boost.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Boost</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:\Project\MyProject\Auto3D\Build\AutoEngine\ThirdParty\Boost\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Boost.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Boost</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:\Project\MyProject\Auto3D\Build\AutoEngine\ThirdParty\Boost\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Boost.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Boost</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
+    <ClCompile>
+      <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
+    <ClCompile>
+      <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Boost/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -SD:/Project/MyProject/Auto3D -BD:/Project/MyProject/Auto3D/Build --check-stamp-file D:/Project/MyProject/Auto3D/Build/AutoEngine/ThirdParty/Boost/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Boost/CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\Project\MyProject\Auto3D\Build\AutoEngine\ThirdParty\Boost\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Boost/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -SD:/Project/MyProject/Auto3D -BD:/Project/MyProject/Auto3D/Build --check-stamp-file D:/Project/MyProject/Auto3D/Build/AutoEngine/ThirdParty/Boost/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Boost/CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:\Project\MyProject\Auto3D\Build\AutoEngine\ThirdParty\Boost\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Boost/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -SD:/Project/MyProject/Auto3D -BD:/Project/MyProject/Auto3D/Build --check-stamp-file D:/Project/MyProject/Auto3D/Build/AutoEngine/ThirdParty/Boost/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Boost/CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:\Project\MyProject\Auto3D\Build\AutoEngine\ThirdParty\Boost\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Boost/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -SD:/Project/MyProject/Auto3D -BD:/Project/MyProject/Auto3D/Build --check-stamp-file D:/Project/MyProject/Auto3D/Build/AutoEngine/ThirdParty/Boost/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:/Project/MyProject/Auto3D/AutoEngine/ThirdParty/Boost/CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\CMakeLists.txt;D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:\Project\MyProject\Auto3D\Build\AutoEngine\ThirdParty\Boost\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\assert.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\checked_delete.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\abi\borland_prefix.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\abi\borland_suffix.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\abi\msvc_prefix.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\abi\msvc_suffix.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\abi_prefix.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\abi_suffix.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\auto_link.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\compiler\borland.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\compiler\clang.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\compiler\codegear.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\compiler\comeau.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\compiler\common_edg.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\compiler\compaq_cxx.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\compiler\cray.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\compiler\diab.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\compiler\digitalmars.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\compiler\gcc.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\compiler\gcc_xml.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\compiler\greenhills.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\compiler\hp_acc.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\compiler\intel.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\compiler\kai.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\compiler\metrowerks.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\compiler\mpw.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\compiler\nvcc.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\compiler\pathscale.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\compiler\pgi.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\compiler\sgi_mipspro.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\compiler\sunpro_cc.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\compiler\vacpp.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\compiler\visualc.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\compiler\xlcpp.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\compiler\xlcpp_zos.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\detail\posix_features.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\detail\select_compiler_config.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\detail\select_platform_config.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\detail\select_stdlib_config.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\detail\suffix.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\header_deprecated.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\helper_macros.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\no_tr1\cmath.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\no_tr1\complex.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\no_tr1\functional.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\no_tr1\memory.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\no_tr1\utility.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\platform\aix.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\platform\amigaos.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\platform\beos.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\platform\bsd.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\platform\cloudabi.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\platform\cray.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\platform\cygwin.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\platform\haiku.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\platform\hpux.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\platform\irix.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\platform\linux.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\platform\macos.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\platform\qnxnto.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\platform\solaris.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\platform\symbian.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\platform\vms.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\platform\vxworks.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\platform\win32.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\platform\zos.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\pragma_message.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\requires_threads.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\stdlib\dinkumware.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\stdlib\libcomo.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\stdlib\libcpp.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\stdlib\libstdcpp3.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\stdlib\modena.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\stdlib\msl.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\stdlib\roguewave.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\stdlib\sgi.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\stdlib\stlport.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\stdlib\vacpp.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\stdlib\xlcpp_zos.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\user.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\warning_disable.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\config\workaround.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\core\addressof.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\core\checked_delete.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\core\demangle.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\core\enable_if.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\core\exchange.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\core\explicit_operator_bool.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\core\ignore_unused.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\core\is_same.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\core\lightweight_test.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\core\lightweight_test_trait.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\core\no_exceptions_support.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\core\noncopyable.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\core\null_deleter.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\core\pointer_traits.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\core\ref.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\core\scoped_enum.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\core\swap.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\core\typeinfo.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\core\underlying_type.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\cstdint.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\current_function.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\algorithm.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\allocator_utilities.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\atomic_count.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\basic_pointerbuf.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\binary_search.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\bitmask.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\call_traits.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\catch_exceptions.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\compressed_pair.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\container_fwd.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\dynamic_bitset.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\endian.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\fenv.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\has_default_constructor.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\identifier.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\indirect_traits.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\interlocked.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\is_incrementable.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\is_sorted.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\is_xxx.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\iterator.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\lcast_precision.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\lightweight_main.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\lightweight_mutex.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\lightweight_test.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\lightweight_test_report.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\lightweight_thread.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\named_template_params.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\no_exceptions_support.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\numeric_traits.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\ob_compressed_pair.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\quick_allocator.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\reference_content.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\scoped_enum_emulation.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\select_type.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\sp_typeinfo.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\templated_streams.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\utf8_codecvt_facet.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\access_rights.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\apc.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\basic_types.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\bcrypt.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\character_code_conversion.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\condition_variable.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\config.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\critical_section.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\crypt.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\dbghelp.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\debugapi.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\detail\deprecated_namespace.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\directory_management.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\dll.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\environment.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\error_codes.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\error_handling.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\event.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\file_management.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\file_mapping.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\get_current_process.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\get_current_process_id.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\get_current_thread.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\get_current_thread_id.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\get_last_error.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\get_process_times.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\get_system_directory.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\get_thread_times.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\handle_info.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\handles.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\heap_memory.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\init_once.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\jobs.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\limits.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\local_memory.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\memory.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\mutex.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\overlapped.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\page_protection_flags.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\pipes.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\priority_class.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\process.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\security.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\semaphore.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\shell.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\show_window.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\srw_lock.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\stack_backtrace.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\synchronization.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\system.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\thread.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\thread_pool.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\time.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\timers.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\tls.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\wait.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\winapi\waitable_timer.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\detail\workaround.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\enable_shared_from_this.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\exception\all.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\exception\current_exception_cast.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\exception\detail\clone_current_exception.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\exception\detail\error_info_impl.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\exception\detail\exception_ptr.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\exception\detail\is_output_streamable.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\exception\detail\object_hex_dump.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\exception\detail\shared_ptr.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\exception\detail\type_info.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\exception\diagnostic_information.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\exception\enable_current_exception.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\exception\enable_error_info.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\exception\errinfo_api_function.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\exception\errinfo_at_line.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\exception\errinfo_errno.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\exception\errinfo_file_handle.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\exception\errinfo_file_name.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\exception\errinfo_file_open_mode.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\exception\errinfo_nested_exception.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\exception\errinfo_type_info_name.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\exception\error_info.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\exception\exception.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\exception\get_error_info.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\exception\info.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\exception\info_tuple.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\exception\to_string.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\exception\to_string_stub.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\intrusive_ptr.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\limits.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\make_shared.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\move\core.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\move\detail\config_begin.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\move\detail\config_end.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\move\detail\meta_utils.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\move\detail\meta_utils_core.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\move\detail\type_traits.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\move\detail\workaround.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\move\utility_core.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\architecture.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\architecture\alpha.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\architecture\arm.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\architecture\blackfin.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\architecture\convex.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\architecture\ia64.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\architecture\m68k.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\architecture\mips.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\architecture\parisc.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\architecture\ppc.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\architecture\ptx.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\architecture\pyramid.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\architecture\rs6k.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\architecture\sparc.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\architecture\superh.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\architecture\sys370.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\architecture\sys390.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\architecture\x86.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\architecture\x86\32.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\architecture\x86\64.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\architecture\z.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\borland.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\clang.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\comeau.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\compaq.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\diab.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\digitalmars.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\dignus.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\edg.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\ekopath.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\gcc.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\gcc_xml.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\greenhills.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\hp_acc.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\iar.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\ibm.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\intel.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\kai.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\llvm.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\metaware.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\metrowerks.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\microtec.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\mpw.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\nvcc.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\palm.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\pgi.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\sgi_mipspro.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\sunpro.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\tendra.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\visualc.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\compiler\watcom.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\detail\_cassert.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\detail\_exception.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\detail\comp_detected.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\detail\endian_compat.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\detail\os_detected.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\detail\platform_detected.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\detail\test.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\detail\test_def.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\hardware.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\hardware\simd.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\hardware\simd\arm.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\hardware\simd\arm\versions.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\hardware\simd\ppc.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\hardware\simd\ppc\versions.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\hardware\simd\x86.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\hardware\simd\x86\versions.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\hardware\simd\x86_amd.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\hardware\simd\x86_amd\versions.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\language.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\language\cuda.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\language\objc.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\language\stdc.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\language\stdcpp.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\library.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\library\c.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\library\c\_prefix.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\library\c\cloudabi.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\library\c\gnu.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\library\c\uc.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\library\c\vms.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\library\c\zos.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\library\std.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\library\std\_prefix.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\library\std\cxx.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\library\std\dinkumware.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\library\std\libcomo.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\library\std\modena.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\library\std\msl.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\library\std\roguewave.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\library\std\sgi.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\library\std\stdcpp3.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\library\std\stlport.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\library\std\vacpp.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\make.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\os.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\os\aix.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\os\amigaos.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\os\android.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\os\beos.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\os\bsd.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\os\bsd\bsdi.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\os\bsd\dragonfly.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\os\bsd\free.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\os\bsd\net.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\os\bsd\open.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\os\cygwin.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\os\haiku.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\os\hpux.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\os\ios.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\os\irix.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\os\linux.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\os\macos.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\os\os400.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\os\qnxnto.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\os\solaris.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\os\unix.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\os\vms.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\os\windows.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\other.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\other\endian.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\other\workaround.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\platform.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\platform\cloudabi.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\platform\ios.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\platform\mingw.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\platform\mingw32.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\platform\mingw64.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\platform\windows_desktop.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\platform\windows_phone.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\platform\windows_runtime.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\platform\windows_server.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\platform\windows_store.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\platform\windows_system.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\platform\windows_uwp.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\version.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\predef\version_number.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\scoped_array.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\scoped_ptr.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\shared_array.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\shared_ptr.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\allocate_local_shared_array.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\allocate_shared_array.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\atomic_shared_ptr.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\bad_weak_ptr.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\atomic_count.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\atomic_count_gcc.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\atomic_count_gcc_x86.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\atomic_count_nt.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\atomic_count_pt.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\atomic_count_solaris.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\atomic_count_spin.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\atomic_count_std_atomic.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\atomic_count_sync.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\atomic_count_win32.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\lightweight_mutex.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\local_counted_base.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\local_sp_deleter.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\lwm_nop.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\lwm_pthreads.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\lwm_win32_cs.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\operator_bool.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\quick_allocator.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\shared_count.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_convertible.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_counted_base.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_counted_base_acc_ia64.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_counted_base_aix.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_counted_base_clang.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_counted_base_cw_ppc.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_counted_base_cw_x86.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_counted_base_gcc_ia64.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_counted_base_gcc_mips.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_counted_base_gcc_ppc.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_counted_base_gcc_sparc.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_counted_base_gcc_x86.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_counted_base_nt.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_counted_base_pt.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_counted_base_snc_ps3.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_counted_base_solaris.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_counted_base_spin.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_counted_base_std_atomic.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_counted_base_sync.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_counted_base_vacpp_ppc.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_counted_base_w32.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_counted_impl.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_disable_deprecated.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_forward.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_has_sync.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_interlocked.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_noexcept.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\sp_nullptr_t.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\spinlock.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\spinlock_gcc_arm.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\spinlock_nt.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\spinlock_pool.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\spinlock_pt.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\spinlock_std_atomic.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\spinlock_sync.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\spinlock_w32.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\detail\yield_k.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\enable_shared_from_raw.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\enable_shared_from_this.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\intrusive_ptr.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\intrusive_ref_counter.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\local_shared_ptr.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\make_local_shared.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\make_local_shared_array.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\make_local_shared_object.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\make_shared.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\make_shared_array.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\make_shared_object.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\make_unique.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\owner_less.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\scoped_array.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\scoped_ptr.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\shared_array.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\shared_ptr.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\smart_ptr\weak_ptr.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\static_assert.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\throw_exception.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\add_lvalue_reference.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\add_reference.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\add_rvalue_reference.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\alignment_of.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\conditional.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\declval.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\detail\config.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\detail\is_function_ptr_helper.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\detail\is_function_ptr_tester.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\detail\is_mem_fun_pointer_impl.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\detail\is_mem_fun_pointer_tester.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\detail\yes_no_type.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\has_trivial_assign.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\has_trivial_constructor.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\has_trivial_destructor.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\integral_constant.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\intrinsics.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\is_abstract.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\is_arithmetic.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\is_array.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\is_assignable.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\is_class.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\is_complete.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\is_const.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\is_convertible.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\is_default_constructible.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\is_destructible.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\is_enum.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\is_floating_point.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\is_function.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\is_integral.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\is_lvalue_reference.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\is_member_function_pointer.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\is_member_pointer.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\is_pod.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\is_pointer.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\is_polymorphic.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\is_reference.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\is_rvalue_reference.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\is_same.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\is_scalar.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\is_union.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\is_void.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\is_volatile.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\remove_cv.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\remove_reference.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\type_traits\type_with_alignment.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\version.hpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\ThirdParty\Boost\weak_ptr.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\Project\MyProject\Auto3D\Build\ZERO_CHECK.vcxproj">
+      <Project>{FC736B34-44D5-3872-B395-63E379B652FE}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Project\MyProject\Auto3D\Build\AutoEngine\ThirdParty\Assimp\code\Assimp.vcxproj">
+      <Project>{BB594948-A8F0-3137-B967-AF74EEAD0AAF}</Project>
+      <Name>Assimp</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Project\MyProject\Auto3D\Build\AutoEngine\Source\Auto3D.vcxproj">
+      <Project>{DB6DA749-18AA-3EC7-ACFF-E447A00B1642}</Project>
+      <Name>Auto3D</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Project\MyProject\Auto3D\Build\AutoEngine\ThirdParty\Box2D\Box2D.vcxproj">
+      <Project>{52D130D5-A808-35D3-9B50-5C7181613D0C}</Project>
+      <Name>Box2D</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Project\MyProject\Auto3D\Build\AutoEngine\ThirdParty\Bullet\Bullet.vcxproj">
+      <Project>{3BFCD76E-AFF4-35B0-9D4A-600BF3C25F1A}</Project>
+      <Name>Bullet</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Project\MyProject\Auto3D\Build\AutoEngine\ThirdParty\KhSTL\KhSTL.vcxproj">
+      <Project>{A5D8F104-C513-3901-BA04-DC83ECF0A5D1}</Project>
+      <Name>KhSTL</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Project\MyProject\Auto3D\Build\AutoEngine\ThirdParty\LZ4\LZ4.vcxproj">
+      <Project>{36740DDF-F465-3995-9DAB-783C1E88CF34}</Project>
+      <Name>LZ4</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Project\MyProject\Auto3D\Build\AutoEngine\ThirdParty\OpenAL\OpenAL.vcxproj">
+      <Project>{8D8E453E-C41A-3017-BE51-44C25650D786}</Project>
+      <Name>OpenAL</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Project\MyProject\Auto3D\Build\AutoEngine\ThirdParty\SDL2\SDL2-static.vcxproj">
+      <Project>{E9B5B12C-86C6-30AF-90C5-A1BA155DB753}</Project>
+      <Name>SDL2-static</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Project\MyProject\Auto3D\Build\AutoEngine\ThirdParty\SDL2\SDL2main.vcxproj">
+      <Project>{1F30ABE1-18B2-38C4-9F7D-827AF3AB15FC}</Project>
+      <Name>SDL2main</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Project\MyProject\Auto3D\Build\AutoEngine\ThirdParty\STB\STB.vcxproj">
+      <Project>{54493E99-F3F4-3A84-8F41-409B1B482810}</Project>
+      <Name>STB</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Project\MyProject\Auto3D\Build\AutoEngine\ThirdParty\glad\glad.vcxproj">
+      <Project>{2E2E930E-D214-3FEF-ADB1-E5803BF5AA03}</Project>
+      <Name>glad</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

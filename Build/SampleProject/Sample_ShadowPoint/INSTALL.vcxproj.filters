@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\Project\MyProject\Auto3D\Build\CMakeFiles\183d8e6c85147944cc699d23c1fc44d3\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{071CA1AB-A700-32A7-8A6C-8124BCAD03EB}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
