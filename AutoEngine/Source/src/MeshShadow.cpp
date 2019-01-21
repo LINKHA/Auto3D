@@ -60,7 +60,6 @@ void MeshShadow::DrawShadow()
 
 	shadowShader->SetMat4("model", modelMat);
 	_mesh->DrawMesh(shadowShader);
-	Print(_mesh.use_count());
 }
 void MeshShadow::Draw()
 {
@@ -90,7 +89,7 @@ void MeshShadow::Draw()
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, _woodTexture);
 		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, depthMap);
+		glBindTexture(GL_TEXTURE_2D_ARRAY, depthMap);
 		glm::mat4 modelMat;
 
 		if (GetNode())		//if gameObject not empty
@@ -98,7 +97,6 @@ void MeshShadow::Draw()
 		else
 			modelMat = Matrix4x4::identity;
 		_shader->SetMat4("model", modelMat);
-		Print(_mesh.use_count());
 		_mesh->DrawMesh(_shader);
 
 	}

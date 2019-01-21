@@ -138,6 +138,10 @@ public:
 	* @brief : Set window rect with Vector2 (only in space awake funcation)	
 	*/
 	void SetWindowRect(Vector2 vec) { SetWindowRect(vec.x, vec.y); }
+	/** 
+	* @brief : Set window view port
+	*/
+	void SetViewport(int posX, int posY, int width, int height);
 private:
 #if _OPENGL_4_6_ || _OPENGL_4_PLUS_ || _OPENGL_3_PLUS_
 	/// opengl context

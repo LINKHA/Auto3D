@@ -1,790 +1,1157 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Application.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\InstanceBeltLine.cpp">
-      <Filter>_Abandon\_Temp</Filter>
+      <Filter>Source\_Abandon\_Temp</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Texture.cpp">
-      <Filter>_Abandon\Graphics</Filter>
+      <Filter>Source\_Abandon\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Texture2D.cpp">
-      <Filter>_Abandon\Graphics</Filter>
+      <Filter>Source\_Abandon\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Texture3D.cpp">
-      <Filter>_Abandon\Graphics</Filter>
+      <Filter>Source\_Abandon\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\TextureMap.cpp">
-      <Filter>_Abandon\Graphics</Filter>
+      <Filter>Source\_Abandon\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\TextureNormal.cpp">
-      <Filter>_Abandon\Graphics</Filter>
+      <Filter>Source\_Abandon\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\TextureParallax.cpp">
-      <Filter>_Abandon\Graphics</Filter>
+      <Filter>Source\_Abandon\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\MeshLight.cpp">
-      <Filter>_Abandon\Mesh</Filter>
+      <Filter>Source\_Abandon\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\MeshPBR.cpp">
-      <Filter>_Abandon\Mesh</Filter>
+      <Filter>Source\_Abandon\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\MeshPBRTexture.cpp">
-      <Filter>_Abandon\Mesh</Filter>
+      <Filter>Source\_Abandon\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\MeshShadow.cpp">
-      <Filter>_Abandon\Mesh</Filter>
+      <Filter>Source\_Abandon\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\MeshShadowPoint.cpp">
-      <Filter>_Abandon\Mesh</Filter>
+      <Filter>Source\_Abandon\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Bloom.cpp">
-      <Filter>_Abandon\TempIntegrated</Filter>
+      <Filter>Source\_Abandon\TempIntegrated</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\DeferredShading.cpp">
-      <Filter>_Abandon\TempIntegrated</Filter>
+      <Filter>Source\_Abandon\TempIntegrated</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\HDRSkybox.cpp">
-      <Filter>_Abandon\TempIntegrated</Filter>
+      <Filter>Source\_Abandon\TempIntegrated</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\SkyBoxReflectMesh.cpp">
-      <Filter>_Abandon\TempIntegrated</Filter>
+      <Filter>Source\_Abandon\TempIntegrated</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\SSAO.cpp">
-      <Filter>_Abandon\TempIntegrated</Filter>
+      <Filter>Source\_Abandon\TempIntegrated</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\BaseMesh.cpp">
-      <Filter>_Abandon</Filter>
+      <Filter>Source\_Abandon</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\GLTextureEnable.cpp">
-      <Filter>_Abandon</Filter>
+      <Filter>Source\_Abandon</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\GLMeshEnable.cpp">
-      <Filter>_Abandon</Filter>
+      <Filter>Source\_Abandon</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Material.cpp">
-      <Filter>_Abandon</Filter>
+      <Filter>Source\_Abandon</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\SkyBox.cpp">
-      <Filter>_Abandon</Filter>
+      <Filter>Source\_Abandon</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\SkyBoxManager.cpp">
-      <Filter>_Abandon</Filter>
+      <Filter>Source\_Abandon</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\AutoThread.cpp">
-      <Filter>Adapter</Filter>
+      <Filter>Source\Adapter</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Audio.cpp">
-      <Filter>Audio</Filter>
+      <Filter>Source\Audio</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Behavior.cpp">
-      <Filter>Behavior</Filter>
+      <Filter>Source\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\BehaviorObject.cpp">
-      <Filter>Behavior</Filter>
+      <Filter>Source\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\LevelBehaviorObject.cpp">
-      <Filter>Behavior</Filter>
+      <Filter>Source\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Ambient.cpp">
-      <Filter>Code</Filter>
+      <Filter>Source\Code</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Object.cpp">
-      <Filter>Code</Filter>
+      <Filter>Source\Code</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\AudioSource.cpp">
-      <Filter>Component\Audio</Filter>
+      <Filter>Source\Component\Audio</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\AudioListener.cpp">
-      <Filter>Component\Audio</Filter>
+      <Filter>Source\Component\Audio</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Transform.cpp">
-      <Filter>Component\Coordinate</Filter>
+      <Filter>Source\Component\Coordinate</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\MeshRenderer.cpp">
-      <Filter>Component\Graphics</Filter>
+      <Filter>Source\Component\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Camera.cpp">
-      <Filter>Component\Graphics</Filter>
+      <Filter>Source\Component\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Light.cpp">
-      <Filter>Component\Graphics</Filter>
+      <Filter>Source\Component\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\RenderComponent.cpp">
-      <Filter>Component\Graphics</Filter>
+      <Filter>Source\Component\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\SpriteRenderer.cpp">
-      <Filter>Component\Graphics</Filter>
+      <Filter>Source\Component\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Collider.cpp">
-      <Filter>Component\Physics</Filter>
+      <Filter>Source\Component\Physics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Collider2D.cpp">
-      <Filter>Component\Physics</Filter>
+      <Filter>Source\Component\Physics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\ColliderBox.cpp">
-      <Filter>Component\Physics</Filter>
+      <Filter>Source\Component\Physics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\ColliderBox2D.cpp">
-      <Filter>Component\Physics</Filter>
+      <Filter>Source\Component\Physics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\ColliderSphere.cpp">
-      <Filter>Component\Physics</Filter>
+      <Filter>Source\Component\Physics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\RigidBody.cpp">
-      <Filter>Component\Physics</Filter>
+      <Filter>Source\Component\Physics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\RigidBody2D.cpp">
-      <Filter>Component\Physics</Filter>
+      <Filter>Source\Component\Physics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\PhysicsWorld.cpp">
-      <Filter>Component\Physics</Filter>
+      <Filter>Source\Component\Physics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\PhysicsWorld2D.cpp">
-      <Filter>Component\Physics</Filter>
+      <Filter>Source\Component\Physics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\ScriptComponent.cpp">
-      <Filter>Component\Script</Filter>
+      <Filter>Source\Component\Script</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Text.cpp">
-      <Filter>Component\UI</Filter>
+      <Filter>Source\Component\UI</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\UIComponent.cpp">
-      <Filter>Component\UI</Filter>
+      <Filter>Source\Component\UI</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Component.cpp">
-      <Filter>Component</Filter>
+      <Filter>Source\Component</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Engine.cpp">
-      <Filter>Engine</Filter>
+      <Filter>Source\Engine</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\GameManager.cpp">
-      <Filter>Code</Filter>
+      <Filter>Source\Code</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Deserializer.cpp">
-      <Filter>FileSystem</Filter>
+      <Filter>Source\FileSystem</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\File.cpp">
-      <Filter>FileSystem</Filter>
+      <Filter>Source\FileSystem</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\FileSystem.cpp">
-      <Filter>FileSystem</Filter>
+      <Filter>Source\FileSystem</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\MemoryBuffer.cpp">
-      <Filter>FileSystem</Filter>
+      <Filter>Source\FileSystem</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Serializer.cpp">
-      <Filter>FileSystem</Filter>
+      <Filter>Source\FileSystem</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Geometry.cpp">
-      <Filter>Graphics</Filter>
+      <Filter>Source\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\GPUObject.cpp">
-      <Filter>Graphics</Filter>
+      <Filter>Source\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Graphics.cpp">
-      <Filter>Graphics</Filter>
+      <Filter>Source\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\OffScreen.cpp">
-      <Filter>Graphics</Filter>
+      <Filter>Source\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\OGLDebug.cpp">
-      <Filter>Graphics\OpenGL</Filter>
+      <Filter>Source\Graphics\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\OGLGraphics.cpp">
-      <Filter>Graphics\OpenGL</Filter>
+      <Filter>Source\Graphics\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Input.cpp">
-      <Filter>IO</Filter>
+      <Filter>Source\IO</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\IO.cpp">
-      <Filter>IO</Filter>
+      <Filter>Source\IO</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Monitors.cpp">
-      <Filter>IO</Filter>
+      <Filter>Source\IO</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Color.cpp">
-      <Filter>Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Vector4.cpp">
-      <Filter>Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Vector2.cpp">
-      <Filter>Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Vector3.cpp">
-      <Filter>Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Matrix3x3.cpp">
-      <Filter>Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Matrix4x4.cpp">
-      <Filter>Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Physics.cpp">
-      <Filter>Physics</Filter>
+      <Filter>Source\Physics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Prefab.cpp">
-      <Filter>Preinstall</Filter>
+      <Filter>Source\Preinstall</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\PreLoadManager.cpp">
-      <Filter>Preinstall</Filter>
+      <Filter>Source\Preinstall</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Quaternion.cpp">
-      <Filter>Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\LightContainer.cpp">
-      <Filter>Renderer</Filter>
+      <Filter>Source\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Renderer.cpp">
-      <Filter>Renderer</Filter>
+      <Filter>Source\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\ShadowRenderer.cpp">
-      <Filter>Renderer</Filter>
+      <Filter>Source\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\AudioBuffer.cpp">
-      <Filter>Resource</Filter>
+      <Filter>Source\Resource</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\BackgroundLoader.cpp">
-      <Filter>Resource</Filter>
+      <Filter>Source\Resource</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Font.cpp">
-      <Filter>Resource</Filter>
+      <Filter>Source\Resource</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Image.cpp">
-      <Filter>Resource</Filter>
+      <Filter>Source\Resource</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Mesh.cpp">
-      <Filter>Resource</Filter>
+      <Filter>Source\Resource</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Resource.cpp">
-      <Filter>Resource</Filter>
+      <Filter>Source\Resource</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\ResourceSystem.cpp">
-      <Filter>Resource</Filter>
+      <Filter>Source\Resource</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Shader.cpp">
-      <Filter>Resource</Filter>
+      <Filter>Source\Resource</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\ShaderVariation.cpp">
-      <Filter>Resource</Filter>
+      <Filter>Source\Resource</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\LevelScene.cpp">
-      <Filter>Scene</Filter>
+      <Filter>Source\Scene</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Node.cpp">
-      <Filter>Scene</Filter>
+      <Filter>Source\Scene</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Scene.cpp">
-      <Filter>Scene</Filter>
+      <Filter>Source\Scene</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Script.cpp">
-      <Filter>Script</Filter>
+      <Filter>Source\Script</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Time.cpp">
-      <Filter>Time</Filter>
+      <Filter>Source\Time</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\UI.cpp">
-      <Filter>UI</Filter>
+      <Filter>Source\UI</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Constraint.cpp">
-      <Filter>Component\Physics</Filter>
+      <Filter>Source\Component\Physics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Constraint2D.cpp">
-      <Filter>Component\Physics</Filter>
+      <Filter>Source\Component\Physics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\AutoEngine\Source\src\NodeTrait.cpp">
-      <Filter>Scene</Filter>
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Application.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Auto.h" />
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AutoDef.h" />
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Application.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\InstanceBeltLine.h">
-      <Filter>_Abandon\_Temp</Filter>
+      <Filter>Source\_Abandon\_Temp</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Texture.h">
-      <Filter>_Abandon\Graphics</Filter>
+      <Filter>Source\_Abandon\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Texture2D.h">
-      <Filter>_Abandon\Graphics</Filter>
+      <Filter>Source\_Abandon\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Texture3D.h">
-      <Filter>_Abandon\Graphics</Filter>
+      <Filter>Source\_Abandon\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\TextureMap.h">
-      <Filter>_Abandon\Graphics</Filter>
+      <Filter>Source\_Abandon\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\TextureNormal.h">
-      <Filter>_Abandon\Graphics</Filter>
+      <Filter>Source\_Abandon\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\TextureParallax.h">
-      <Filter>_Abandon\Graphics</Filter>
+      <Filter>Source\_Abandon\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\MeshLight.h">
-      <Filter>_Abandon\Mesh</Filter>
+      <Filter>Source\_Abandon\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\MeshPBR.h">
-      <Filter>_Abandon\Mesh</Filter>
+      <Filter>Source\_Abandon\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\MeshPBRTexture.h">
-      <Filter>_Abandon\Mesh</Filter>
+      <Filter>Source\_Abandon\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\MeshShadow.h">
-      <Filter>_Abandon\Mesh</Filter>
+      <Filter>Source\_Abandon\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\MeshShadowPoint.h">
-      <Filter>_Abandon\Mesh</Filter>
+      <Filter>Source\_Abandon\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Bloom.h">
-      <Filter>_Abandon\TempIntegrated</Filter>
+      <Filter>Source\_Abandon\TempIntegrated</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\DeferredShading.h">
-      <Filter>_Abandon\TempIntegrated</Filter>
+      <Filter>Source\_Abandon\TempIntegrated</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\HDRSkybox.h">
-      <Filter>_Abandon\TempIntegrated</Filter>
+      <Filter>Source\_Abandon\TempIntegrated</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\SSAO.h">
-      <Filter>_Abandon\TempIntegrated</Filter>
+      <Filter>Source\_Abandon\TempIntegrated</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\SkyBoxReflectMesh.h">
-      <Filter>_Abandon\TempIntegrated</Filter>
+      <Filter>Source\_Abandon\TempIntegrated</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\BaseMesh.h">
-      <Filter>_Abandon</Filter>
+      <Filter>Source\_Abandon</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\GLTextureEnable.h">
-      <Filter>_Abandon</Filter>
+      <Filter>Source\_Abandon</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\GLMeshEnable.h">
-      <Filter>_Abandon</Filter>
+      <Filter>Source\_Abandon</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Material.h">
-      <Filter>_Abandon</Filter>
+      <Filter>Source\_Abandon</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\SkyBox.h">
-      <Filter>_Abandon</Filter>
+      <Filter>Source\_Abandon</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\SkyBoxManager.h">
-      <Filter>_Abandon</Filter>
+      <Filter>Source\_Abandon</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\VertexData.h">
-      <Filter>_Abandon</Filter>
+      <Filter>Source\_Abandon</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AutoImage.h">
-      <Filter>Adapter</Filter>
+      <Filter>Source\Adapter</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AutoOAL.h">
-      <Filter>Adapter</Filter>
+      <Filter>Source\Adapter</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AutoOGL.h">
-      <Filter>Adapter</Filter>
+      <Filter>Source\Adapter</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AutoPhysics2D.h">
-      <Filter>Adapter</Filter>
+      <Filter>Source\Adapter</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AutoPhysics3D.h">
-      <Filter>Adapter</Filter>
+      <Filter>Source\Adapter</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AutoSDL.h">
-      <Filter>Adapter</Filter>
+      <Filter>Source\Adapter</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AutoSTL.h">
-      <Filter>Adapter</Filter>
+      <Filter>Source\Adapter</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AutoString.h">
-      <Filter>Adapter</Filter>
+      <Filter>Source\Adapter</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AutoThread.h">
-      <Filter>Adapter</Filter>
+      <Filter>Source\Adapter</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AutoZIP.h">
-      <Filter>Adapter</Filter>
+      <Filter>Source\Adapter</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Audio.h">
-      <Filter>Audio</Filter>
+      <Filter>Source\Audio</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Behavior.h">
-      <Filter>Behavior</Filter>
+      <Filter>Source\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\BehaviorObject.h">
-      <Filter>Behavior</Filter>
+      <Filter>Source\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\LevelBehaviorObject.h">
-      <Filter>Behavior</Filter>
+      <Filter>Source\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Ambient.h">
-      <Filter>Code</Filter>
+      <Filter>Source\Code</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\ClassID.h">
-      <Filter>Code</Filter>
+      <Filter>Source\Code</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Object.h">
-      <Filter>Code</Filter>
+      <Filter>Source\Code</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\ObjectDef.h">
-      <Filter>Code</Filter>
+      <Filter>Source\Code</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\RTTI.h">
-      <Filter>Code</Filter>
+      <Filter>Source\Code</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AudioListener.h">
-      <Filter>Component\Audio</Filter>
+      <Filter>Source\Component\Audio</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AudioSource.h">
-      <Filter>Component\Audio</Filter>
+      <Filter>Source\Component\Audio</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Transform.h">
-      <Filter>Component\Coordinate</Filter>
+      <Filter>Source\Component\Coordinate</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Camera.h">
-      <Filter>Component\Graphics</Filter>
+      <Filter>Source\Component\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Light.h">
-      <Filter>Component\Graphics</Filter>
+      <Filter>Source\Component\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\MeshRenderer.h">
-      <Filter>Component\Graphics</Filter>
+      <Filter>Source\Component\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\RenderComponent.h">
-      <Filter>Component\Graphics</Filter>
+      <Filter>Source\Component\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\SpriteRenderer.h">
-      <Filter>Component\Graphics</Filter>
+      <Filter>Source\Component\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Collider.h">
-      <Filter>Component\Physics</Filter>
+      <Filter>Source\Component\Physics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Collider2D.h">
-      <Filter>Component\Physics</Filter>
+      <Filter>Source\Component\Physics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\ColliderBox.h">
-      <Filter>Component\Physics</Filter>
+      <Filter>Source\Component\Physics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\ColliderBox2D.h">
-      <Filter>Component\Physics</Filter>
+      <Filter>Source\Component\Physics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\ColliderSphere.h">
-      <Filter>Component\Physics</Filter>
+      <Filter>Source\Component\Physics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\PhysicsWorld.h">
-      <Filter>Component\Physics</Filter>
+      <Filter>Source\Component\Physics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\PhysicsWorld2D.h">
-      <Filter>Component\Physics</Filter>
+      <Filter>Source\Component\Physics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\RigidBody.h">
-      <Filter>Component\Physics</Filter>
+      <Filter>Source\Component\Physics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\RigidBody2D.h">
-      <Filter>Component\Physics</Filter>
+      <Filter>Source\Component\Physics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\ScriptComponent.h">
-      <Filter>Component\Script</Filter>
+      <Filter>Source\Component\Script</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Text.h">
-      <Filter>Component\UI</Filter>
+      <Filter>Source\Component\UI</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\UIComponent.h">
-      <Filter>Component\UI</Filter>
+      <Filter>Source\Component\UI</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Component.h">
-      <Filter>Component</Filter>
+      <Filter>Source\Component</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Engine.h">
-      <Filter>Engine</Filter>
+      <Filter>Source\Engine</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\GameManager.h">
-      <Filter>Code</Filter>
+      <Filter>Source\Code</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AbstractFile.h">
-      <Filter>FileSystem</Filter>
+      <Filter>Source\FileSystem</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Deserializer.h">
-      <Filter>FileSystem</Filter>
+      <Filter>Source\FileSystem</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\File.h">
-      <Filter>FileSystem</Filter>
+      <Filter>Source\FileSystem</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\FileSystem.h">
-      <Filter>FileSystem</Filter>
+      <Filter>Source\FileSystem</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\MemoryBuffer.h">
-      <Filter>FileSystem</Filter>
+      <Filter>Source\FileSystem</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Serializer.h">
-      <Filter>FileSystem</Filter>
+      <Filter>Source\FileSystem</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\DeviceTypes.h">
-      <Filter>Graphics</Filter>
+      <Filter>Source\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Geometry.h">
-      <Filter>Graphics</Filter>
+      <Filter>Source\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\GPUObject.h">
-      <Filter>Graphics</Filter>
+      <Filter>Source\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Graphics.h">
-      <Filter>Graphics</Filter>
+      <Filter>Source\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\OffScreen.h">
-      <Filter>Graphics</Filter>
+      <Filter>Source\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\OGLDebug.h">
-      <Filter>Graphics\OpenGL</Filter>
+      <Filter>Source\Graphics\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\ILevelBehavior.h">
-      <Filter>Interface</Filter>
+      <Filter>Source\Interface</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Input.h">
-      <Filter>IO</Filter>
+      <Filter>Source\IO</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\IO.h">
-      <Filter>IO</Filter>
+      <Filter>Source\IO</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\InputManager.h">
-      <Filter>IO</Filter>
+      <Filter>Source\IO</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Monitors.h">
-      <Filter>IO</Filter>
+      <Filter>Source\IO</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\FloatConversion.h">
-      <Filter>Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AuMath.h">
-      <Filter>Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Vector2.h">
-      <Filter>Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Vector3.h">
-      <Filter>Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Vector4.h">
-      <Filter>Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\MathBase.h">
-      <Filter>Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Matrix3x3.h">
-      <Filter>Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Matrix4x4.h">
-      <Filter>Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Physics.h">
-      <Filter>Physics</Filter>
+      <Filter>Source\Physics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\PhysicsUtils.h">
-      <Filter>Physics</Filter>
+      <Filter>Source\Physics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Prefab.h">
-      <Filter>Preinstall</Filter>
+      <Filter>Source\Preinstall</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\PreLoadManager.h">
-      <Filter>Preinstall</Filter>
+      <Filter>Source\Preinstall</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Quaternion.h">
-      <Filter>Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\LightContainer.h">
-      <Filter>Renderer</Filter>
+      <Filter>Source\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Renderer.h">
-      <Filter>Renderer</Filter>
+      <Filter>Source\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\ShadowRenderer.h">
-      <Filter>Renderer</Filter>
+      <Filter>Source\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AudioBuffer.h">
-      <Filter>Resource</Filter>
+      <Filter>Source\Resource</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\BackgroundLoader.h">
-      <Filter>Resource</Filter>
+      <Filter>Source\Resource</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Font.h">
-      <Filter>Resource</Filter>
+      <Filter>Source\Resource</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Image.h">
-      <Filter>Resource</Filter>
+      <Filter>Source\Resource</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Mesh.h">
-      <Filter>Resource</Filter>
+      <Filter>Source\Resource</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Resource.h">
-      <Filter>Resource</Filter>
+      <Filter>Source\Resource</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\ResourceSystem.h">
-      <Filter>Resource</Filter>
+      <Filter>Source\Resource</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Shader.h">
-      <Filter>Resource</Filter>
+      <Filter>Source\Resource</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\ShaderVariation.h">
-      <Filter>Resource</Filter>
+      <Filter>Source\Resource</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\LevelScene.h">
-      <Filter>Scene</Filter>
+      <Filter>Source\Scene</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Node.h">
-      <Filter>Scene</Filter>
+      <Filter>Source\Scene</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Scene.h">
-      <Filter>Scene</Filter>
+      <Filter>Source\Scene</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Script.h">
-      <Filter>Script</Filter>
+      <Filter>Source\Script</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Time.h">
-      <Filter>Time</Filter>
+      <Filter>Source\Time</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Timer.h">
-      <Filter>Time</Filter>
+      <Filter>Source\Time</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\UI.h">
-      <Filter>UI</Filter>
+      <Filter>Source\UI</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AssertDef.h">
-      <Filter>Utilities</Filter>
+      <Filter>Source\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\MemoryDef.h">
-      <Filter>Utilities</Filter>
+      <Filter>Source\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\NewDef.h">
-      <Filter>Utilities</Filter>
+      <Filter>Source\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\LogDef.h">
-      <Filter>Utilities</Filter>
+      <Filter>Source\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Color.h">
-      <Filter>Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Constraint.h">
-      <Filter>Component\Physics</Filter>
+      <Filter>Source\Component\Physics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Constraint2D.h">
-      <Filter>Component\Physics</Filter>
+      <Filter>Source\Component\Physics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\GraphicsDef.h">
-      <Filter>Graphics</Filter>
+      <Filter>Source\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Rand.h">
-      <Filter>Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Rect.h">
-      <Filter>Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Config.h">
-      <Filter>Code</Filter>
+      <Filter>Source\Code</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Launch.h">
-      <Filter>Code</Filter>
+      <Filter>Source\Code</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\NodeTrait.h">
-      <Filter>Scene</Filter>
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Application.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Auto.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AutoDef.h">
+      <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="_Abandon">
-      <UniqueIdentifier>{09498eb3-a922-4fc4-aa4f-714c34dfee79}</UniqueIdentifier>
+    <Filter Include="Source">
+      <UniqueIdentifier>{50c6296c-c19c-414e-963b-8411301df321}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Adapter">
-      <UniqueIdentifier>{3469d690-bbd1-4faa-b2ad-9fc78e3e7289}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Audio">
-      <UniqueIdentifier>{27f0248b-302e-4863-9d86-32379adc06ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Behavior">
-      <UniqueIdentifier>{3f47868c-e899-43ee-9093-4faec4ffeceb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code">
-      <UniqueIdentifier>{73fd8ae2-5d13-45a4-90cf-d08c86aaf826}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component">
-      <UniqueIdentifier>{64f58b16-e419-4e57-a893-0802917c3f3a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine">
-      <UniqueIdentifier>{125d178f-5e4a-4a0e-8f7f-885a027462bf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FileSystem">
-      <UniqueIdentifier>{559a2ca0-c5e7-4c3a-955e-fef738376e08}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics">
-      <UniqueIdentifier>{f31261c1-0f99-43fa-b879-1421924e2c85}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="_Abandon\_Temp">
-      <UniqueIdentifier>{d7c96333-4e31-4c7a-b455-18d1f72fa122}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="_Abandon\Graphics">
-      <UniqueIdentifier>{7303f2e4-79b1-455e-95b4-1ef6155c0456}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="_Abandon\Mesh">
-      <UniqueIdentifier>{76167272-0f06-43ee-bb78-7932c67927ce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="_Abandon\TempIntegrated">
-      <UniqueIdentifier>{96a9892a-2b02-4efc-9f3c-fbb03bd1480f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Audio">
-      <UniqueIdentifier>{073938d9-f0ae-4d28-a61d-65f8ff4961a6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Coordinate">
-      <UniqueIdentifier>{8eb2de39-be99-4ffa-8d47-d9f75d518b8f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Graphics">
-      <UniqueIdentifier>{a78fd513-c0f6-48ec-a199-2c0a2d5f89c1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Physics">
-      <UniqueIdentifier>{cbc05a1a-725d-4257-8cea-c3e8799fe5c9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Script">
-      <UniqueIdentifier>{1050c37e-74dc-459b-9587-8ced5032120e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\UI">
-      <UniqueIdentifier>{b9baaf19-2b4d-4d85-bf1a-0e98e540d242}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\OpenGL">
-      <UniqueIdentifier>{846e6dc5-d64d-459a-92d4-6537fd75e34d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Interface">
-      <UniqueIdentifier>{005176a9-855d-450d-9301-5c758d3c8cb9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="IO">
-      <UniqueIdentifier>{ab9fa595-b7ba-40bb-8929-b7baa9b42ae0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Math">
+    <Filter Include="Source\Math">
       <UniqueIdentifier>{6348e7dc-5486-4fb1-828c-3da098e5800e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Physics">
+    <Filter Include="Source\_Abandon">
+      <UniqueIdentifier>{09498eb3-a922-4fc4-aa4f-714c34dfee79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\_Abandon\_Temp">
+      <UniqueIdentifier>{d7c96333-4e31-4c7a-b455-18d1f72fa122}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\_Abandon\Graphics">
+      <UniqueIdentifier>{7303f2e4-79b1-455e-95b4-1ef6155c0456}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\_Abandon\Mesh">
+      <UniqueIdentifier>{76167272-0f06-43ee-bb78-7932c67927ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\_Abandon\TempIntegrated">
+      <UniqueIdentifier>{96a9892a-2b02-4efc-9f3c-fbb03bd1480f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Adapter">
+      <UniqueIdentifier>{3469d690-bbd1-4faa-b2ad-9fc78e3e7289}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Audio">
+      <UniqueIdentifier>{27f0248b-302e-4863-9d86-32379adc06ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Behavior">
+      <UniqueIdentifier>{3f47868c-e899-43ee-9093-4faec4ffeceb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Code">
+      <UniqueIdentifier>{73fd8ae2-5d13-45a4-90cf-d08c86aaf826}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Component">
+      <UniqueIdentifier>{64f58b16-e419-4e57-a893-0802917c3f3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Component\Audio">
+      <UniqueIdentifier>{073938d9-f0ae-4d28-a61d-65f8ff4961a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Component\Coordinate">
+      <UniqueIdentifier>{8eb2de39-be99-4ffa-8d47-d9f75d518b8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Component\Graphics">
+      <UniqueIdentifier>{a78fd513-c0f6-48ec-a199-2c0a2d5f89c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Component\Physics">
+      <UniqueIdentifier>{cbc05a1a-725d-4257-8cea-c3e8799fe5c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Component\Script">
+      <UniqueIdentifier>{1050c37e-74dc-459b-9587-8ced5032120e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Component\UI">
+      <UniqueIdentifier>{b9baaf19-2b4d-4d85-bf1a-0e98e540d242}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine">
+      <UniqueIdentifier>{125d178f-5e4a-4a0e-8f7f-885a027462bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\FileSystem">
+      <UniqueIdentifier>{559a2ca0-c5e7-4c3a-955e-fef738376e08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Graphics">
+      <UniqueIdentifier>{f31261c1-0f99-43fa-b879-1421924e2c85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Graphics\OpenGL">
+      <UniqueIdentifier>{846e6dc5-d64d-459a-92d4-6537fd75e34d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Interface">
+      <UniqueIdentifier>{005176a9-855d-450d-9301-5c758d3c8cb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\IO">
+      <UniqueIdentifier>{ab9fa595-b7ba-40bb-8929-b7baa9b42ae0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Physics">
       <UniqueIdentifier>{83e48377-7888-434d-91b2-c424b0b987f3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Preinstall">
+    <Filter Include="Source\Preinstall">
       <UniqueIdentifier>{0c89b3c6-456d-447a-b63f-43fd0f029176}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Renderer">
+    <Filter Include="Source\Renderer">
       <UniqueIdentifier>{a52b5f52-a5f6-4634-8d54-fcfeafb6c690}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource">
+    <Filter Include="Source\Resource">
       <UniqueIdentifier>{81c9fc8d-3cf0-4408-bf73-39bda9d190d6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene">
+    <Filter Include="Source\Scene">
       <UniqueIdentifier>{1bb53305-78b6-49ef-8ef6-17400e60f8df}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Script">
+    <Filter Include="Source\Script">
       <UniqueIdentifier>{ac01bc8e-1a16-4a61-897d-f4b5dec31e0c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Time">
+    <Filter Include="Source\Time">
       <UniqueIdentifier>{88448693-daa5-4657-b290-b219acaced6e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI">
+    <Filter Include="Source\UI">
       <UniqueIdentifier>{357aad23-05fe-4073-a8b2-edb4ae2cbb1e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utilities">
+    <Filter Include="Source\Utilities">
       <UniqueIdentifier>{75ee326b-8118-4b98-bbde-5a6a14c9cd8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{b76b5d5e-57ce-4dcf-b30a-c5953c6f9692}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\_Abandon">
+      <UniqueIdentifier>{00d038b7-55a5-4d32-a040-727bd9a18885}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_texture_transform.auvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom.auvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom_blur.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom_blur.auvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom_final.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom_final.auvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom_light_box.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_deffered_light_box.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_deffered_light_box.auvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_deffered_shading.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_deffered_shading.auvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_g_buffer.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_g_buffer.auvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hard_point_shadows.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr.auvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_background.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_background.auvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_brdf.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_brdf.auvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_cubemap.auvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_equirectangular_to_cubemap.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_irradiance_convolution.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_prefilter.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_light.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_light.auvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_light_map_model_loading.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_light_map_model_loading.auvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_light_model_loading.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_light_model_loading.auvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_lighting.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_lighting.auvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_normal_mapping.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_normal_mapping.auvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen.auvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_blur.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_edge_detection.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_grayscale.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_inversion.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_sharpen.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_parallax_mapping.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_parallax_mapping.auvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_pbr.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_pbr.glvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_pbr_hdr.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_pbr_hdr_trxture.glfs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_pbr_texture.glfs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_point_shadows.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_point_shadows.auvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_point_shadows_depth.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_point_shadows_depth.augs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_point_shadows_depth.auvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_shadow_mapping.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_shadow_mapping.auvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_shadow_mapping_depth.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_shadow_mapping_depth.auvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_skybox.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_skybox.auvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_skybox_cube.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_skybox_cube.auvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_skybox_cube_refract.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao.auvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao_blur.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao_geometry.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao_geometry.auvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao_lighting.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_test_light_model_loading.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_test_light_model_loading.auvs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_texture_transform.aufs">
+      <Filter>Shader\_Abandon</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom_blur.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom_final.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom_light_box.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_deffered_light_box.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_deffered_shading.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_g_buffer.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_background.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_brdf.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_equirectangular_to_cubemap.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_irradiance_convolution.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_prefilter.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_light_map_model_loading.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_light_model_loading.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_lighting.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_blur.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_edge_detection.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_grayscale.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_inversion.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_sharpen.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_parallax_mapping.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_pbr.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_pbr_hdr.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_pbr_hdr_trxture.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_pbr_texture.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_point_shadows.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_point_shadows_depth.glgs">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_point_shadows_depth.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_shadow_mapping.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_shadow_mapping_depth.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_skybox.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_skybox_cube.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_skybox_cube_refract.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao_blur.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao_geometry.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao_lighting.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_texture_transform.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_vertex_explode.glfs">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_vertex_explode.glgs">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_vertex_explode.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_vertex_explode.glvs">
+      <Filter>Shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

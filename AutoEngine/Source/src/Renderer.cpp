@@ -45,16 +45,17 @@ void Renderer::Render()
 		{
 			_currentCamera = cam;
 
-			RectInt rect = GetSubSystem<Graphics>()->GetWindowRectInt();
+			RectInt rect = graphics->GetWindowRectInt();
 			//Rendering path shadow maps
 			renderShadowMap();
 			///Render based on camera Rect
-			glViewport(
+			graphics->SetViewport(
 				cam->GetViewRect().x * rect.width,
 				cam->GetViewRect().y * rect.height,
 				cam->GetViewRect().width * rect.width,
 				cam->GetViewRect().height * rect.height
 			);
+
 			//Use OffScreen
 			if (cam->GetAllowOffScreen())
 				cam->GetOffScreen()->RenderStart();

@@ -247,5 +247,13 @@ void Graphics::DrawInstanced(PrimitiveTypes type, unsigned indexStart, unsigned 
 	//_numPrimitives += primitiveCount;
 	//_numBatches++;
 }
+
+
+void Graphics::SetViewport(int posX, int posY, int width, int height)
+{
+	glViewport(posX, posY, width, height);
+}
+
+
 }
 #endif //_OPENGL_4_PLUS_
