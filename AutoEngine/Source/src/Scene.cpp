@@ -20,7 +20,7 @@
 #include "PhysicsWorld.h"
 #include "RigidBody.h"
 #include "SkyBox.h"
-
+#include "MeshPBR.h"
 
 #include "NewDef.h"
 
@@ -173,6 +173,7 @@ void Scene::RegisterSceneLib(SharedPtr<Ambient> ambient)
 	SpriteRenderer::RegisterObject(ambient);
 	MeshRenderer::RegisterObject(ambient);
 	SkyBox::RegisterObject(ambient);
+	MeshPBR::RegisterObject(ambient);
 }
 
 void Scene::delayAddRemoveScene()

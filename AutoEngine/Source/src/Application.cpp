@@ -26,7 +26,6 @@ int Application::Run()
 			Update();
 			_engine->Render();
 			_engine->FrameFinish();
-			
 		}
 			
 		Stop();

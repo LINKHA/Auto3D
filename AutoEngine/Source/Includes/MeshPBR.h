@@ -12,6 +12,12 @@ class MeshPBR : public RenderComponent, public EnableSharedFromThis<MeshPBR>
 	REGISTER_OBJECT_CLASS(MeshPBR, RenderComponent)
 public:
 	explicit MeshPBR(SharedPtr<Ambient> ambient);
+	/**
+	* @brief : Register object factory.
+	*/
+	static void RegisterObject(SharedPtr<Ambient> ambient);
+
+
 	void Destory()override;
 	void Start()override;
 	void Draw()override;

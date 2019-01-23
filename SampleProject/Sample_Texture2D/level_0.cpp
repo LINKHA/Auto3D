@@ -34,17 +34,29 @@ void Level_0::Start()
 	GameNode obj5 = CreateNode();
 	auto tex5 = obj5->CreateComponent<SpriteRenderer>();
 	tex5->SetImage(imageWindow);
-	//tex5->EnableBlend(true);
-	obj5->GetComponent<Transform>()->SetPosition(0.0f, 0.0f, -3.0f);
+	tex5->GetImage()->SetImageType(ImageType::Translucent);
+	tex5->EnableBlend(true);
+	obj5->GetComponent<Transform>()->SetPosition(-0.5f, 0.0f, -3.0f);
 
 
-	GameNode obj2 = CreateNode();
-	auto tex2 = obj2->CreateComponent<SpriteRenderer>();
-	tex2->SetImage(imageWindow);
-	tex2->GetImage()->SetImageType(ImageType::Translucent);
-	tex2->EnableBlend(true);
-	//tex2->EnableDepth(false);
-	obj2->GetComponent<Transform>()->SetPosition(1.0f, 0.0f, -2.0f);
+	//GameNode obj2 = CreateNode();
+	//auto tex2 = obj2->CreateComponent<SpriteRenderer>();
+	//tex2->SetImage(imageWindow);
+	//tex2->GetImage()->SetImageType(ImageType::Translucent);
+	//tex2->EnableBlend(true);
+	////tex2->EnableDepth(false);
+	//obj2->GetComponent<Transform>()->SetPosition(1.0f, 0.0f, -2.0f);
+
+	for (int i = 0; i < 100; i++)
+	{
+		GameNode obj2 = CreateNode();
+		auto tex2 = obj2->CreateComponent<SpriteRenderer>();
+		tex2->SetImage(imageWindow);
+		tex2->GetImage()->SetImageType(ImageType::Translucent);
+		tex2->EnableBlend(true);
+		//tex2->EnableDepth(false);
+		obj2->GetComponent<Transform>()->SetPosition(i, 0.0f, -2.0f);
+	}
 }
 void Level_0::Update()
 {

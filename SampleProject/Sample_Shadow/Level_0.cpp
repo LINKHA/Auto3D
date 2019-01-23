@@ -18,6 +18,14 @@ void Level_0::ShadowNormal()
 	lightMesh->GetMaterial()->color = Color(1.0f, 1.0f, 1.0f);
 	lightMesh->SetMesh(sphere);
 
+	GameNode lightObj2 = CreateNode();
+	lightObj2->SetPosition(-2.0f, 4.0f, 5.0f);
+	auto light2 = lightObj2->CreateComponent<Light>();
+	light2->SetType(LightType::Directional);
+	auto lightMesh2 = lightObj2->CreateComponent<MeshRenderer>();
+	lightMesh2->GetMaterial()->color = Color(1.0f, 1.0f, 1.0f);
+	lightMesh2->SetMesh(sphere);
+
 	GameNode shadowMeshObj = CreateNode();
 	shadowMeshObj->SetPosition(0.0f, -1.0f, 0.0f);
 	shadowMeshObj->SetScale(10.0f, 0.5f, 10.0f);

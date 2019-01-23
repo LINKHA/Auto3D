@@ -71,6 +71,7 @@ void MeshShadow::Draw()
 	VECTOR<SharedPtr<Light> >& lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
 	//!!!Temp
 	Assert(lights.size() != 0);
+
 	for (VECTOR<SharedPtr<Light> >::iterator it = lights.begin(); it != lights.end(); it++)
 	{
 		lightPos = (*it)->GetLightPosition();
@@ -89,7 +90,7 @@ void MeshShadow::Draw()
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, _woodTexture);
 		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D_ARRAY, depthMap);
+		glBindTexture(GL_TEXTURE_2D, depthMap);
 		glm::mat4 modelMat;
 
 		if (GetNode())		//if gameObject not empty

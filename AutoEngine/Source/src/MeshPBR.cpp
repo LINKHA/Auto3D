@@ -30,6 +30,10 @@ MeshPBR::MeshPBR(SharedPtr<Ambient> ambient)
 MeshPBR::~MeshPBR()
 {
 }
+void MeshPBR::RegisterObject(SharedPtr<Ambient> ambient)
+{
+	ambient->RegisterFactory<MeshPBR>(SCENE_ATTACH);
+}
 void MeshPBR::Destory()
 {
 	UnloadOpaque(SharedFromThis());

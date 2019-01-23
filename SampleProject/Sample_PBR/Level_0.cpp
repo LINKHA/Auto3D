@@ -271,64 +271,65 @@ void Level_0::demo()
 	pbrw->SetRoughness(0.05f);
 	pbrWhiteObj->AddComponent(pbrw);
 
-	GameNode pbrRedObj = CreateNode();
-	pbrRedObj->SetPosition(2.0f, 0.0f, 0.0f);
-	auto pbrr = MakeShared<MeshPBR>(_ambient);
-	pbrr->SetAlbedo(1.0f, 0.0f, 0.0f);
-	pbrr->SetMetallic(1.0f);
-	pbrr->SetRoughness(0.05f);
-	pbrRedObj->AddComponent(pbrr);
+	//GameNode pbrRedObj = CreateNode();
+	//pbrRedObj->SetPosition(2.0f, 0.0f, 0.0f);
+	//auto pbrr = pbrRedObj->CreateComponent<MeshPBR>();
+	////auto pbrr = MakeShared<MeshPBR>(_ambient);
+	//pbrr->SetAlbedo(1.0f, 0.0f, 0.0f);
+	//pbrr->SetMetallic(1.0f);
+	//pbrr->SetRoughness(0.05f);
+	////pbrRedObj->AddComponent(pbrr);
 
-	GameNode pbrGreenObj = CreateNode();
-	pbrGreenObj->SetPosition(4.0f, 0.0f, 0.0f);
-	auto pbrg = MakeShared<MeshPBR>(_ambient);
-	pbrg->SetAlbedo(0.0f, 1.0f, 0.0f);
-	pbrg->SetMetallic(1.0f);
-	pbrg->SetRoughness(0.05f);
-	pbrGreenObj->AddComponent(pbrg);
+	//GameNode pbrGreenObj = CreateNode();
+	//pbrGreenObj->SetPosition(4.0f, 0.0f, 0.0f);
+	//auto pbrg = MakeShared<MeshPBR>(_ambient);
+	//pbrg->SetAlbedo(0.0f, 1.0f, 0.0f);
+	//pbrg->SetMetallic(1.0f);
+	//pbrg->SetRoughness(0.05f);
+	//pbrGreenObj->AddComponent(pbrg);
 
-	GameNode pbrBlueObj = CreateNode();
-	pbrBlueObj->SetPosition(6.0f, 0.0f, 0.0f);
-	auto pbrb = MakeShared<MeshPBR>(_ambient);
-	pbrb->SetAlbedo(0.0f, 0.0f, 1.0f);
-	pbrb->SetMetallic(1.0f);
-	pbrb->SetRoughness(0.05f);
-	pbrBlueObj->AddComponent(pbrb);
+	//GameNode pbrBlueObj = CreateNode();
+	//pbrBlueObj->SetPosition(6.0f, 0.0f, 0.0f);
+	//auto pbrb = MakeShared<MeshPBR>(_ambient);
+	//pbrb->SetAlbedo(0.0f, 0.0f, 1.0f);
+	//pbrb->SetMetallic(1.0f);
+	//pbrb->SetRoughness(0.05f);
+	//pbrBlueObj->AddComponent(pbrb);
 
-	GameNode pbrBlackObj = CreateNode();
-	pbrBlackObj->SetPosition(8.0f, 0.0f, 0.0f);
-	auto pbrbla = MakeShared<MeshPBR>(_ambient);
-	pbrbla->SetAlbedo(0.0f, 0.0f, 0.0f);
-	pbrbla->SetMetallic(1.0f);
-	pbrbla->SetRoughness(0.05f);
-	pbrBlackObj->AddComponent(pbrbla);
+	//GameNode pbrBlackObj = CreateNode();
+	//pbrBlackObj->SetPosition(8.0f, 0.0f, 0.0f);
+	//auto pbrbla = MakeShared<MeshPBR>(_ambient);
+	//pbrbla->SetAlbedo(0.0f, 0.0f, 0.0f);
+	//pbrbla->SetMetallic(1.0f);
+	//pbrbla->SetRoughness(0.05f);
+	//pbrBlackObj->AddComponent(pbrbla);
 
-	GameNode pbrObj2 = CreateNode();
-	auto pbrTexture = MakeShared<MeshPBRTexture>(_ambient);
-	pbrObj2->AddComponent(pbrTexture);
-	pbrObj2->SetPosition(-2.0f, 0.0f, 0.0f);
+	//GameNode pbrObj2 = CreateNode();
+	//auto pbrTexture = MakeShared<MeshPBRTexture>(_ambient);
+	//pbrObj2->AddComponent(pbrTexture);
+	//pbrObj2->SetPosition(-2.0f, 0.0f, 0.0f);
 
-	for (int i = 0; i < 6; i++)
-	{
-		GameNode pbrObj = CreateNode();
-		pbrObj->SetPosition(-2.0f + i * 2.0f, -2.0f, 2.0f);
-		auto pbrmesh = MakeShared<MeshPBR>(_ambient);
-		pbrmesh->SetAlbedo(1.0f, 1.0f, 1.0f);
-		pbrmesh->SetMetallic(1.0f - i * (float)1 / (float)6);
-		pbrmesh->SetRoughness(0.05f);
-		pbrObj->AddComponent(pbrmesh);
-	}
+	//for (int i = 0; i < 6; i++)
+	//{
+	//	GameNode pbrObj = CreateNode();
+	//	pbrObj->SetPosition(-2.0f + i * 2.0f, -2.0f, 2.0f);
+	//	auto pbrmesh = MakeShared<MeshPBR>(_ambient);
+	//	pbrmesh->SetAlbedo(1.0f, 1.0f, 1.0f);
+	//	pbrmesh->SetMetallic(1.0f - i * (float)1 / (float)6);
+	//	pbrmesh->SetRoughness(0.05f);
+	//	pbrObj->AddComponent(pbrmesh);
+	//}
 
-	for (int i = 0; i < 6; i++)
-	{
-		GameNode pbrObj = CreateNode();
-		pbrObj->SetPosition(-2.0f + i * 2.0f, -4.0f, 4.0f);
-		auto pbrmesh = MakeShared<MeshPBR>(_ambient);
-		pbrmesh->SetAlbedo(1.0f, 1.0f, 1.0f);
-		pbrmesh->SetMetallic(1.0f);
-		pbrmesh->SetRoughness(0.05f + i * (float)1 / (float)6);
-		pbrObj->AddComponent(pbrmesh);
-	}
+	//for (int i = 0; i < 6; i++)
+	//{
+	//	GameNode pbrObj = CreateNode();
+	//	pbrObj->SetPosition(-2.0f + i * 2.0f, -4.0f, 4.0f);
+	//	auto pbrmesh = MakeShared<MeshPBR>(_ambient);
+	//	pbrmesh->SetAlbedo(1.0f, 1.0f, 1.0f);
+	//	pbrmesh->SetMetallic(1.0f);
+	//	pbrmesh->SetRoughness(0.05f + i * (float)1 / (float)6);
+	//	pbrObj->AddComponent(pbrmesh);
+	//}
 
 
 
