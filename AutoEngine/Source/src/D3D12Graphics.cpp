@@ -6,6 +6,42 @@
 #include "NewDef.h"
 namespace Auto3D {
 
+void Graphics::RegisterDebug()
+{
+	
+}
+
+bool Graphics::BeginFrame()
+{
+	
+	return true;
+}
+void Graphics::EndFrame()
+{
+	
+}
+
+void Graphics::Clear(unsigned flags, const Color & color, float depth, unsigned stencil)
+{
+	
+}
+
+
+void Graphics::SetColorWrite(bool enable)
+{
+	
+}
+void Graphics::SetDepthWrite(bool enable)
+{
+	
+}
+
+void Graphics::SetViewport(int posX, int posY, int width, int height)
+{
+
+}
+
+
 void Graphics::CreateGameWindow()
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
