@@ -469,7 +469,7 @@ CMAKE_INSTALL_SHAREDSTATEDIR:PATH=com
 CMAKE_INSTALL_SYSCONFDIR:PATH=etc
 
 //Path to a program.
-CMAKE_LINKER:FILEPATH=D:/Program Files/Microsoft Visual Studio/2017/Community/VC/Tools/MSVC/14.16.27023/bin/Hostx86/x86/link.exe
+CMAKE_LINKER:FILEPATH=D:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Tools/MSVC/14.16.27023/bin/Hostx86/x86/link.exe
 
 //Flags used by the linker during the creation of modules during
 // all build types.
@@ -857,7 +857,7 @@ CMAKE_CACHE_MAJOR_VERSION:INTERNAL=3
 //Minor version of cmake used to create the current loaded cache
 CMAKE_CACHE_MINOR_VERSION:INTERNAL=13
 //Patch version of cmake used to create the current loaded cache
-CMAKE_CACHE_PATCH_VERSION:INTERNAL=2
+CMAKE_CACHE_PATCH_VERSION:INTERNAL=3
 //Path to CMake executable.
 CMAKE_COMMAND:INTERNAL=D:/Program Files/CMake/bin/cmake.exe
 //Path to cpack program executable.
@@ -905,7 +905,7 @@ CMAKE_EXTRA_GENERATOR:INTERNAL=
 //Name of generator.
 CMAKE_GENERATOR:INTERNAL=Visual Studio 15 2017
 //Generator instance identifier.
-CMAKE_GENERATOR_INSTANCE:INTERNAL=d:/Program Files/Microsoft Visual Studio/2017/Community
+CMAKE_GENERATOR_INSTANCE:INTERNAL=d:/Program Files (x86)/Microsoft Visual Studio/2017/Community
 //Name of generator platform.
 CMAKE_GENERATOR_PLATFORM:INTERNAL=
 //Name of generator toolset.
@@ -1011,7 +1011,7 @@ DSOUND_LIBRARY-ADVANCED:INTERNAL=1
 //Details about finding DSound
 FIND_PACKAGE_MESSAGE_DETAILS_DSound:INTERNAL=[D:/Windows Kits/10/Lib/10.0.14393.0/um/x86/dsound.lib][D:/Windows Kits/10/Include/10.0.14393.0/um][v()]
 //Details about finding Git
-FIND_PACKAGE_MESSAGE_DETAILS_Git:INTERNAL=[C:/Users/Administrator/AppData/Local/Atlassian/SourceTree/git_local/bin/git.exe][v2.18.0.windows.1()]
+FIND_PACKAGE_MESSAGE_DETAILS_Git:INTERNAL=[C:/Users/Administrator/AppData/Local/Atlassian/SourceTree/git_local/bin/git.exe][v2.17.1.windows.2()]
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 //Details about finding WindowsSDK

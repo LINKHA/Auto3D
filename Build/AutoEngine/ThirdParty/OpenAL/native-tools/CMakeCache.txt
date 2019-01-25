@@ -74,7 +74,7 @@ CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO:STRING=/debug /INCREMENTAL
 CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/native-tools
 
 //Path to a program.
-CMAKE_LINKER:FILEPATH=D:/Program Files/Microsoft Visual Studio/2017/Community/VC/Tools/MSVC/14.16.27023/bin/Hostx86/x86/link.exe
+CMAKE_LINKER:FILEPATH=D:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Tools/MSVC/14.16.27023/bin/Hostx86/x86/link.exe
 
 //Flags used by the linker during the creation of modules during
 // all build types.
@@ -194,7 +194,7 @@ CMAKE_CACHE_MAJOR_VERSION:INTERNAL=3
 //Minor version of cmake used to create the current loaded cache
 CMAKE_CACHE_MINOR_VERSION:INTERNAL=13
 //Patch version of cmake used to create the current loaded cache
-CMAKE_CACHE_PATCH_VERSION:INTERNAL=2
+CMAKE_CACHE_PATCH_VERSION:INTERNAL=3
 //Path to CMake executable.
 CMAKE_COMMAND:INTERNAL=D:/Program Files/CMake/bin/cmake.exe
 //Path to cpack program executable.
@@ -242,7 +242,7 @@ CMAKE_EXTRA_GENERATOR:INTERNAL=
 //Name of generator.
 CMAKE_GENERATOR:INTERNAL=Visual Studio 15 2017
 //Generator instance identifier.
-CMAKE_GENERATOR_INSTANCE:INTERNAL=d:/Program Files/Microsoft Visual Studio/2017/Community
+CMAKE_GENERATOR_INSTANCE:INTERNAL=d:/Program Files (x86)/Microsoft Visual Studio/2017/Community
 //Name of generator platform.
 CMAKE_GENERATOR_PLATFORM:INTERNAL=
 //Name of generator toolset.

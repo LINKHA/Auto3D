@@ -90,7 +90,6 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_WINDOWS;WIN32_LEAN_AND_MEAN;OPENDDL_NO_USE_CPP11;ASSIMP_BUILD_NO_C4D_IMPORTER;ASSIMP_IMPORTER_GLTF_USE_OPEN3DGC=1;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;OPENDDLPARSER_BUILD;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;WIN32_LEAN_AND_MEAN;OPENDDL_NO_USE_CPP11;ASSIMP_BUILD_NO_C4D_IMPORTER;ASSIMP_IMPORTER_GLTF_USE_OPEN3DGC=1;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;OPENDDLPARSER_BUILD;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
