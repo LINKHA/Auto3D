@@ -1,5 +1,5 @@
 #include "Auto.h"
-#ifdef _OPENGL_4_PLUS_
+#if AUTO_OPENGL
 #include "Graphics.h"
 #include "AutoOGL.h"
 #include "OGLDebug.h"
@@ -208,6 +208,81 @@ void Graphics::SetDepthWrite(bool enable)
 		_depthWrite = enable;
 	}
 }
+
+void Graphics::CreateGameWindow()
+{
+	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+		ErrorString("Couldn't initialize SDL");
+	atexit(SDL_Quit);
+	SDL_GL_LoadLibrary(NULL);
+
+#if _OPENGL_4_6_
+	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
+#endif // _OPENGL_4_6_
+
+#if  _OPENGL_4_PLUS_ 
+	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+#endif //  _OPENGL_4_PLUS_
+
+#if _OPENGL_3_PLUS_ 
+	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+#endif // _OPENGL_3_PLUS_
+
+	// Also request a depth buffer
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+
+	//MSAA_POINT
+	//SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+	//SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, MSAA_POINT);
+
+
+
+	// Create the window
+	if (_isFullScreen)
+	{
+		_window = SDL_CreateWindow(
+			_titleName,
+			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+			0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_OPENGL
+		);
+	}
+	else
+	{
+		_window = SDL_CreateWindow(
+			_titleName,
+			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+			_windowRect.width, _windowRect.height, SDL_WINDOW_OPENGL
+		);
+
+	}
+	if (_window == NULL)
+		ErrorString("Couldn't set video mode");
+}
+#if AUTO_OPENGL
+void Graphics::CreateGlContext()
+{
+	_context = SDL_GL_CreateContext(_window);
+	if (_context == NULL)
+		ErrorString("Failed to create OpenGL context");
+}
+#endif
+
+bool Graphics::IsDeviceLost()
+{
+#if defined(IOS) || defined(TVOS)
+	if (_window && (SDL_GetWindowFlags(_window) & SDL_WINDOW_MINIMIZED) != 0)
+		return true;
+#endif
+	return _context == nullptr;
+}
+
 void Graphics::Draw(PrimitiveTypes type,unsigned vertexStart,unsigned vertexCount)
 {
 	if (!vertexCount)
@@ -256,4 +331,4 @@ void Graphics::SetViewport(int posX, int posY, int width, int height)
 
 
 }
-#endif //_OPENGL_4_PLUS_
+#endif //AUTO_OPENGL

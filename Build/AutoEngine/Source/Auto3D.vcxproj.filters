@@ -298,6 +298,9 @@
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Application.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\D3D12Graphics.cpp">
+      <Filter>Source\Graphics\Direct3D12</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\InstanceBeltLine.h">
@@ -693,6 +696,9 @@
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AutoDef.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\AutoD3D12.h">
+      <Filter>Source\Adapter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\CMakeLists.txt" />
@@ -802,6 +808,9 @@
     </Filter>
     <Filter Include="Shader\_Abandon">
       <UniqueIdentifier>{00d038b7-55a5-4d32-a040-727bd9a18885}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Graphics\Direct3D12">
+      <UniqueIdentifier>{3473128b-f770-455b-b311-4ec5d2a41717}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

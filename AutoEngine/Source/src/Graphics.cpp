@@ -31,7 +31,7 @@ void Graphics::Init()
 	stbi_set_flip_vertically_on_load(true);
 
 	CreateGameWindow();
-#if _OPENGL_4_6_ || _OPENGL_4_PLUS_ || _OPENGL_3_PLUS_
+#if AUTO_OPENGL
 	CreateGlContext();
 #endif
 	InitGameWindowPos();
@@ -45,70 +45,7 @@ void Graphics::Init()
 
 }
 
-void Graphics::CreateGameWindow()
-{
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
-		ErrorString("Couldn't initialize SDL");
-	atexit(SDL_Quit);
-	SDL_GL_LoadLibrary(NULL); 
 
-#if _OPENGL_4_6_
-	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
-#endif // _OPENGL_4_6_
-
-#if  _OPENGL_4_PLUS_ 
-	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-#endif //  _OPENGL_4_PLUS_
-
-#if _OPENGL_3_PLUS_ 
-	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-#endif // _OPENGL_3_PLUS_
-
-	// Also request a depth buffer
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-
-	//MSAA_POINT
-	//SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
-	//SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, MSAA_POINT);
-
-
-
-	// Create the window
-	if (_isFullScreen)
-	{
-		_window = SDL_CreateWindow(
-			_titleName,
-			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-			0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_OPENGL
-		);
-	}
-	else
-	{
-		_window = SDL_CreateWindow(
-			_titleName,
-			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-			_windowRect.width, _windowRect.height, SDL_WINDOW_OPENGL
-		);
-
-	}
-	if (_window == NULL)
-		ErrorString("Couldn't set video mode");
-}
-#if _OPENGL_4_6_ || _OPENGL_4_PLUS_ || _OPENGL_3_PLUS_
-void Graphics::CreateGlContext()
-{
-	_context = SDL_GL_CreateContext(_window);
-	if (_context == NULL)
-		ErrorString("Failed to create OpenGL context");
-}
-#endif
 void Graphics::InitGameWindowPos()
 {
 	SDL_Rect rect;
@@ -194,7 +131,7 @@ SDL_Surface* Graphics::SetIcon()
 }
 void Graphics::DestoryWindow()
 {
-#ifdef  _OPENGL_4_PLUS_
+#if AUTO_OPENGL
 	SDL_GL_DeleteContext(_context);
 	_context = nullptr;
 #endif //  _OPENGL_4_PLUS_
@@ -207,14 +144,7 @@ bool Graphics::IsInitialized()
 {
 	return _window != nullptr;
 }
-bool Graphics::IsDeviceLost()
-{
-#if defined(IOS) || defined(TVOS)
-	if (_window && (SDL_GetWindowFlags(_window) & SDL_WINDOW_MINIMIZED) != 0)
-		return true;
-#endif
-	return _context == nullptr;
-}
+
 
 void Graphics::RegisterGraphicsLib(SharedPtr<Ambient> ambient)
 {

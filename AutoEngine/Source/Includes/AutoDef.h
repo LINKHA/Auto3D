@@ -9,6 +9,10 @@
 #define _OPENGL_4_PLUS_ 1	//OpenGL 4.3
 #define _OPENGL_3_PLUS_ 0	//OpenGL 3.3
 
+#define _DIRECT_3D_12 0
+
 #define AUTO_OPENGL _OPENGL_4_6_ || _OPENGL_4_PLUS_ || _OPENGL_3_PLUS_
+
+#define AUTO_DIRECT_X _DIRECT_3D_12
 
 #define DebugCompoundShape 0

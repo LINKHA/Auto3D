@@ -30,7 +30,7 @@ public:
 	* @brief : Create a Game window
 	*/
 	void CreateGameWindow();
-#if _OPENGL_4_6_ || _OPENGL_4_PLUS_ || _OPENGL_3_PLUS_
+#if AUTO_OPENGL
 	/**
 	* @brief : Create Context to draw opengl geometry(Opengl only)
 	*/

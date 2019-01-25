@@ -2,6 +2,7 @@
 #include "Config.h"
 #include "ResourceSystem.h"
 #include "FileSystem.h"
+#include "Input.h"
 #include "level_0.h"
 
 AUTO_APPLICATION_MAIN(DebugSapce)
@@ -15,7 +16,7 @@ void DebugSapce::Init()
 void DebugSapce::Start()
 {
 }
-void UISapce::Update()
+void DebugSapce::Update()
 {
 	auto input = GetSubSystem<Input>();
 	if (input->GetKeyDown(KEY_ESCAPE))
