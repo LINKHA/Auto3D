@@ -90,6 +90,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_WINDOWS;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -265,6 +266,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\NodeTrait.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Ambient.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Application.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Audio.cpp" />
@@ -321,7 +323,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\MeshShadowPoint.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Monitors.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Node.cpp" />
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\NodeTrait.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\OGLDebug.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\OGLGraphics.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Object.cpp" />
@@ -364,6 +365,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Vector2.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Vector3.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Vector4.cpp" />
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\NodeTrait.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AbstractFile.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Ambient.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Application.h" />
@@ -446,7 +448,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Monitors.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\NewDef.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Node.h" />
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\NodeTrait.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\OGLDebug.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Object.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\ObjectDef.h" />
@@ -472,7 +473,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Script.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\ScriptComponent.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Serializer.h" />
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Shader.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\ShaderVariation.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\ShadowRenderer.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\SkyBox.h" />
@@ -495,6 +495,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Vector3.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Vector4.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\VertexData.h" />
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Shader.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="D:\Project\MyProject\Auto3D\Build\ZERO_CHECK.vcxproj">
@@ -563,6 +564,124 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom.auvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom_blur.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom_blur.auvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom_blur.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom_final.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom_final.auvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom_final.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom_light_box.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom_light_box.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_deffered_light_box.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_deffered_light_box.auvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_deffered_light_box.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_deffered_shading.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_deffered_shading.auvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_deffered_shading.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_g_buffer.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_g_buffer.auvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_g_buffer.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hard_point_shadows.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr.auvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_background.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_background.auvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_background.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_brdf.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_brdf.auvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_brdf.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_cubemap.auvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_equirectangular_to_cubemap.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_equirectangular_to_cubemap.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_irradiance_convolution.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_irradiance_convolution.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_prefilter.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_prefilter.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_light.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_light.auvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_lighting.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_lighting.auvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_lighting.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_light_map_model_loading.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_light_map_model_loading.auvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_light_map_model_loading.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_light_model_loading.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_light_model_loading.auvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_light_model_loading.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_normal_mapping.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_normal_mapping.auvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen.auvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_blur.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_blur.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_edge_detection.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_edge_detection.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_grayscale.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_grayscale.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_inversion.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_inversion.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_sharpen.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_sharpen.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_parallax_mapping.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_parallax_mapping.auvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_parallax_mapping.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_pbr.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_pbr.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_pbr.glvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_pbr_hdr.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_pbr_hdr.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_pbr_hdr_trxture.glfs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_pbr_hdr_trxture.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_pbr_texture.glfs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_pbr_texture.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_point_shadows.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_point_shadows.auvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_point_shadows.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_point_shadows_depth.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_point_shadows_depth.augs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_point_shadows_depth.auvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_point_shadows_depth.glgs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_point_shadows_depth.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_shadow_mapping.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_shadow_mapping.auvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_shadow_mapping.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_shadow_mapping_depth.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_shadow_mapping_depth.auvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_shadow_mapping_depth.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_skybox.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_skybox.auvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_skybox.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_skybox_cube.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_skybox_cube.auvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_skybox_cube.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_skybox_cube_refract.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_skybox_cube_refract.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao.auvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao_blur.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao_blur.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao_geometry.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao_geometry.auvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao_geometry.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao_lighting.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao_lighting.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_test_light_model_loading.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_test_light_model_loading.auvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_texture_transform.aufs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_texture_transform.auvs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_texture_transform.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_vertex_explode.glfs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_vertex_explode.glgs" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_vertex_explode.glsl" />
+    <None Include="..\..\..\AutoEngine\Content\shader\au_vertex_explode.glvs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
