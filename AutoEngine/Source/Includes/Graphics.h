@@ -32,9 +32,15 @@ public:
 	void CreateGameWindow();
 #if AUTO_OPENGL
 	/**
-	* @brief : Create Context to draw opengl geometry(Opengl only)
+	* @brief : Create Context to draw OpenGL geometry(OpenGL only)
 	*/
 	void CreateGlContext();
+#endif
+#if AUTO_DIRECT_X
+	/**
+	* @brief : Create the Direct3D11 device and swap chain. (DirectX only)
+	*/
+	void CreateDevice();
 #endif
 	/**
 	* @brief : Init Game window position(Create window not set position)
@@ -159,6 +165,12 @@ private:
 	char* _titleName;
 	/// full screen flag
 	bool _isFullScreen = false;
+	/// border less flag
+	bool _isBorderless = false;
+	/// resize enable flag
+	bool _isResizable = false;
+	/// high DPI flag
+	bool _isHighDPI = false;
 	/// window in screen flag
 	bool _isCenter = true;
 	/// color write

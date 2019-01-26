@@ -366,6 +366,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Vector3.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Vector4.cpp" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\AutoD3D12.h" />
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\d3dx12.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\NodeTrait.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AbstractFile.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Ambient.h" />

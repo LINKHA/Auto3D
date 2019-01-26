@@ -293,23 +293,22 @@ void Graphics::CreateGameWindow()
 
 
 	// Create the window
+	unsigned flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 	if (_isFullScreen)
-	{
-		_window = SDL_CreateWindow(
-			_titleName,
-			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-			0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_OPENGL
-		);
-	}
-	else
-	{
-		_window = SDL_CreateWindow(
-			_titleName,
-			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-			_windowRect.width, _windowRect.height, SDL_WINDOW_OPENGL
-		);
+		flags |= SDL_WINDOW_FULLSCREEN;
+	if (_isBorderless)
+		flags |= SDL_WINDOW_BORDERLESS;
+	if (_isResizable)
+		flags |= SDL_WINDOW_RESIZABLE;
+	if (_isHighDPI)
+		flags |= SDL_WINDOW_ALLOW_HIGHDPI;
+	// The position size will be reset later
+	_window = SDL_CreateWindow(
+		_titleName,
+		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+		0, 0, flags
+	);
 
-	}
 	if (_window == NULL)
 		ErrorString("Couldn't set video mode");
 }
