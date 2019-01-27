@@ -30,18 +30,10 @@ public:
 	* @brief : Create a Game window
 	*/
 	void CreateGameWindow();
-#if AUTO_OPENGL
 	/**
-	* @brief : Create Context to draw OpenGL geometry(OpenGL only)
-	*/
-	void CreateGlContext();
-#endif
-#if AUTO_DIRECT_X
-	/**
-	* @brief : Create the Direct3D11 device and swap chain. (DirectX only)
+	* @brief : Create the  device and swap chain. (DirectX and OpenGL)
 	*/
 	void CreateDevice();
-#endif
 	/**
 	* @brief : Init Game window position(Create window not set position)
 	*/
@@ -141,7 +133,7 @@ public:
 	*/
 	void SetWindowRect(RectInt rect) { _windowRect = rect; }
 	/**
-	* @brief : Set window rect with Vector2 (only in space awake funcation)	
+	* @brief : Set window rect with Vector2 (only in space awake function)	
 	*/
 	void SetWindowRect(Vector2 vec) { SetWindowRect(vec.x, vec.y); }
 	/** 
@@ -149,9 +141,9 @@ public:
 	*/
 	void SetViewport(int posX, int posY, int width, int height);
 private:
-#if _OPENGL_4_6_ || _OPENGL_4_PLUS_ || _OPENGL_3_PLUS_
-	/// opengl context
-	SDL_GLContext _context;
+#if AUTO_OPENGL
+	/// OpenGL context
+	SDL_GLContext _glContext;
 #endif
 	/// window
 	SDL_Window* _window{};

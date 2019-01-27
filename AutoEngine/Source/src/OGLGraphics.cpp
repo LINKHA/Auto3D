@@ -313,10 +313,10 @@ void Graphics::CreateGameWindow()
 		ErrorString("Couldn't set video mode");
 }
 
-void Graphics::CreateGlContext()
+void Graphics::CreateDevice()
 {
-	_context = SDL_GL_CreateContext(_window);
-	if (_context == NULL)
+	_glContext = SDL_GL_CreateContext(_window);
+	if (_glContext == NULL)
 		ErrorString("Failed to create OpenGL context");
 }
 
