@@ -6,6 +6,7 @@
 #include "AutoThread.h"
 #include "Launch.h"
 
+
 namespace Auto3D {
 
 class Application : public Object

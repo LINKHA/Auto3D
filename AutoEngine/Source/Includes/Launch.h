@@ -1,11 +1,14 @@
 #pragma once
 #include "Auto.h"
+#include "ConslonDef.h"
 #if defined(_WIN32)
 #	include <windows.h>
 #endif
 #ifdef _MSC_VER
 #	include <crtdbg.h>
 #endif
+
+
 
 
 #if defined(_MSC_VER) && defined(_DEBUG) && AUTO_DEBUG && AUTO_WIN32_CONSOLE

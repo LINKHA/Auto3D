@@ -336,6 +336,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\Project\MyProject\Auto3D\SampleProject\FreeCamera.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\SampleProject\FreeCamera2D.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\SampleProject\Sample_Debug\DebugSapce.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\SampleProject\Sample_Debug\common\alhelpers.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\SampleProject\Sample_Debug\level_0.h" />
   </ItemGroup>
   <ItemGroup>

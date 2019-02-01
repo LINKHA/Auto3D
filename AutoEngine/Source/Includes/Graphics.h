@@ -1,21 +1,19 @@
 #pragma once
 #include "GameManager.h"
 #include "Ambient.h"
+#include "AutoD3D12.h"
 #include "AutoSDL.h"
 #include "Color.h"
 #include "Rect.h"
 #include "GraphicsDef.h"
 #include "Image.h"
 
-
-
-
 namespace Auto3D {
 
 class GPUObject;
 class ShaderVariation;
-/** 
-* Graphics subsystem. Manages the application window, rendering state and GPU resources 
+/**
+* Graphics subsystem. Manages the application window, rendering state and GPU resources
 */
 class Graphics : public GlobalGameManager
 {
@@ -91,7 +89,7 @@ public:
 
 	void Draw(PrimitiveTypes type, unsigned vertexStart, unsigned vertexCount);
 	void Draw(PrimitiveTypes type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount);
-	void DrawInstanced(PrimitiveTypes type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount,unsigned instanceCount);
+	void DrawInstanced(PrimitiveTypes type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount, unsigned instanceCount);
 	/**
 	* @brief : Begin to run frame
 	*/
@@ -99,16 +97,16 @@ public:
 	/**
 	* @brief : Finish end to frame
 	*/
-	void EndFrame();	
+	void EndFrame();
 	/**
 	* @brief : Clear color depth and stencil
 	*/
-	void Clear(unsigned flags , const Color& color = Color(0.0f, 0.0f, 0.0f, 0.0f), float depth = 1.0f, unsigned stencil = 0);
+	void Clear(unsigned flags, const Color& color = Color(0.0f, 0.0f, 0.0f, 0.0f), float depth = 1.0f, unsigned stencil = 0);
 	/**
 	* @brief : Register Graphics library objects.
 	*/
 	void RegisterGraphicsLib(SharedPtr<Ambient> ambient);
-	/** 
+	/**
 	* @brief : Set color write
 	*/
 	void SetColorWrite(bool enable);
@@ -117,33 +115,44 @@ public:
 	*/
 	void SetDepthWrite(bool enable);
 	/**
-	* @brief : Set title (only in space awake funcation)	
+	* @brief : Set title (only in space awake funcation)
 	*/
 	void SetTitle(char* title) { _titleName = title; }
 	/**
-	* @brief : Set icon (only in space awake funcation)	
+	* @brief : Set icon (only in space awake funcation)
 	*/
 	void SetIconImage(Image* icon) { _icon.reset(icon); }
 	/**
-	* @brief : Set window rect with float (only in space awake funcation)	
+	* @brief : Set window rect with float (only in space awake funcation)
 	*/
 	void SetWindowRect(float x, float y) { _windowRect.x = x; _windowRect.y = y; }
 	/**
-	* @brief : Set window rect with RectInt (only in space awake funcation)	
+	* @brief : Set window rect with RectInt (only in space awake funcation)
 	*/
 	void SetWindowRect(RectInt rect) { _windowRect = rect; }
 	/**
-	* @brief : Set window rect with Vector2 (only in space awake function)	
+	* @brief : Set window rect with Vector2 (only in space awake function)
 	*/
 	void SetWindowRect(Vector2 vec) { SetWindowRect(vec.x, vec.y); }
-	/** 
+	/**
 	* @brief : Set window view port
 	*/
 	void SetViewport(int posX, int posY, int width, int height);
+	/**
+	* @brief : Get graphics api name
+	*/
+	STRING GetAPIName() const { return _apiName; }
 private:
+	/// Graphics api name
+	STRING _apiName;
 #if AUTO_OPENGL
 	/// OpenGL context
 	SDL_GLContext _glContext;
+#elif AUTO_DIRECT_X
+	/// Use WARP adapter
+	bool _useWarp{};
+	/// Direct3D12 device
+	ComPtr<ID3D12Device2> _device;
 #endif
 	/// window
 	SDL_Window* _window{};

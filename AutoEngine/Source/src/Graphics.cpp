@@ -11,6 +11,17 @@ namespace Auto3D {
 Graphics::Graphics(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 	, _window(nullptr)
+#if _OPENGL_4_6_
+	, _apiName("OpenGL 4.6")
+#elif _OPENGL_4_PLUS_
+	, _apiName("OpenGL 4.3")
+#elif _OPENGL_3_PLUS_
+	, _apiName("OpenGL 3.3")
+#elif _DIRECT_3D_12
+	, _apiName("Direct3D 12")
+#else
+	, _apiName("UnKnow")
+#endif
 {
 	_drawColor.Set(0.0f, 0.0f, 0.0f, 0.0f);
 	_titleName = "Auto V0.0";
@@ -27,13 +38,13 @@ Graphics::~Graphics() = default;
 void Graphics::Init()
 {
 	_icon = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/logo.png");
-	
+
 	stbi_set_flip_vertically_on_load(true);
 
 	CreateGameWindow();
-#if AUTO_OPENGL
-	CreateGlContext();
-#endif
+
+	CreateDevice();
+
 	InitGameWindowPos();
 
 	if (!gladLoadGLLoader(SDL_GL_GetProcAddress))
@@ -42,7 +53,6 @@ void Graphics::Init()
 	}
 	RegisterDebug();
 	CreateIcon();
-
 }
 
 
@@ -79,7 +89,7 @@ SDL_Surface* Graphics::SetIcon()
 {
 	int req_format = STBI_rgb_alpha;
 	//int width, height, orig_format;
-	
+
 	//unsigned char* data = stbi_load(TITLE_ICON_PATH, &width, &height, &orig_format, 0);
 	//_icon->GetData();
 	if (!_icon->GetData()) {
@@ -132,8 +142,8 @@ SDL_Surface* Graphics::SetIcon()
 void Graphics::DestoryWindow()
 {
 #if AUTO_OPENGL
-	SDL_GL_DeleteContext(_context);
-	_context = nullptr;
+	SDL_GL_DeleteContext(_glContext);
+	_glContext = nullptr;
 #endif //  _OPENGL_4_PLUS_
 	SDL_DestroyWindow(_window);
 	_window = nullptr;

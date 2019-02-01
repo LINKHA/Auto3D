@@ -24,6 +24,9 @@
     <ClInclude Include="D:\Project\MyProject\Auto3D\SampleProject\Sample_Debug\DebugSapce.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\SampleProject\Sample_Debug\common\alhelpers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\SampleProject\Sample_Debug\level_0.h">
       <Filter>Header Files</Filter>
     </ClInclude>

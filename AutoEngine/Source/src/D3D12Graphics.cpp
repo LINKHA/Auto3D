@@ -1,39 +1,61 @@
-#include "Auto.h"
-#if AUTO_DIRECT_X
 #include "Graphics.h"
-#include "AutoD3D12.h"
-#include "GraphicsDef.h"
+#if AUTO_DIRECT_X
 #include "NewDef.h"
+
+
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+#include <shellapi.h> // For CommandLineToArgvW
+
+// Windows Runtime Library. Needed for Microsoft::WRL::ComPtr<> template class.
+#include <wrl.h>
+using namespace Microsoft::WRL;
+
+// DirectX 12 specific headers.
+#include <d3d12.h>
+#include <dxgi1_6.h>
+#include <d3dcompiler.h>
+#include <DirectXMath.h>
+
+// D3D12 extension library.
+#include <d3dx12.h>
+
+// STL Headers
+#include <algorithm>
+#include <cassert>
+#include <chrono>
+
+
 namespace Auto3D {
 
 void Graphics::RegisterDebug()
 {
-	
+
 }
 
 bool Graphics::BeginFrame()
 {
-	
+
 	return true;
 }
 void Graphics::EndFrame()
 {
-	
+
 }
 
 void Graphics::Clear(unsigned flags, const Color & color, float depth, unsigned stencil)
 {
-	
+
 }
 
 
 void Graphics::SetColorWrite(bool enable)
 {
-	
+
 }
 void Graphics::SetDepthWrite(bool enable)
 {
-	
+
 }
 
 void Graphics::SetViewport(int posX, int posY, int width, int height)
@@ -43,7 +65,8 @@ void Graphics::SetViewport(int posX, int posY, int width, int height)
 
 void Graphics::CreateDevice()
 {
-
+	ComPtr<IDXGIAdapter4> dxgiAdapter4 = DxGetAdapter(_useWarp);
+	_device = DxCreateDevice(dxgiAdapter4);
 }
 
 void Graphics::CreateGameWindow()

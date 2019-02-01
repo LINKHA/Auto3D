@@ -1,6 +1,5 @@
-#include "Auto.h"
-#if AUTO_OPENGL
 #include "Graphics.h"
+#if AUTO_OPENGL
 #include "AutoOGL.h"
 #include "OGLDebug.h"
 #include "GraphicsDef.h"
@@ -18,27 +17,27 @@ static const unsigned glFillType[] =
 
 static const unsigned glChangeMode[] =
 {
-	GL_STATIC_DRAW,	
+	GL_STATIC_DRAW,
 	GL_DYNAMIC_DRAW,
-	GL_STREAM_DRAW	
+	GL_STREAM_DRAW
 };
 
 static const unsigned glBufferMode[] =
 {
 	GL_ARRAY_BUFFER ,
-	GL_ELEMENT_ARRAY_BUFFER 
+	GL_ELEMENT_ARRAY_BUFFER
 };
 
 static const unsigned glDepthMode[] =
 {
-	GL_ALWAYS,		
-	GL_NEVER,		
-	GL_LESS,		
-	GL_EQUAL,		
-	GL_LEQUAL,		
-	GL_GREATER,		
-	GL_NOTEQUAL,	
-	GL_GEQUAL	
+	GL_ALWAYS,
+	GL_NEVER,
+	GL_LESS,
+	GL_EQUAL,
+	GL_LEQUAL,
+	GL_GREATER,
+	GL_NOTEQUAL,
+	GL_GEQUAL
 };
 
 static const unsigned glStencilOps[] =
@@ -326,10 +325,10 @@ bool Graphics::IsDeviceLost()
 	if (_window && (SDL_GetWindowFlags(_window) & SDL_WINDOW_MINIMIZED) != 0)
 		return true;
 #endif
-	return _context == nullptr;
+	return _glContext == nullptr;
 }
 
-void Graphics::Draw(PrimitiveTypes type,unsigned vertexStart,unsigned vertexCount)
+void Graphics::Draw(PrimitiveTypes type, unsigned vertexStart, unsigned vertexCount)
 {
 	if (!vertexCount)
 		return;
