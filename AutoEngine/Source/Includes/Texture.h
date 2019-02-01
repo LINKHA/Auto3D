@@ -1,6 +1,6 @@
 #pragma once
 #include "DeviceTypes.h"
-#include "AuMath.h"
+#include "AutoMath.h"
 #include "AutoOGL.h"
 #include "AutoImage.h"
 #include "RenderComponent.h"

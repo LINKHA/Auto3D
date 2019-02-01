@@ -1,7 +1,7 @@
 #pragma once
 #include "Auto.h"
 #include "GPUObject.h"
-#include "AuMath.h"
+#include "AutoMath.h"
 #include "Shader.h"
 #include "GraphicsDef.h"
 namespace Auto3D {

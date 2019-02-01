@@ -29,8 +29,8 @@ public:
 	inline Vector2& operator*=(const float scale)			{ x *= scale; y *= scale; return *this; }
 	inline Vector2& operator*=(const Vector2& rhs)			{ x *= rhs.x; y *= rhs.y; return *this; }
 
-	const float& operator[] (int i)const					{ Assert(i >= 0 || i <= 1); return (&x)[i]; }
-	float&	operator[] (int i)								{ Assert(i >= 0 || i <= 1); return (&x)[i]; }
+	const float& operator[] (int i)const					{ assert(i >= 0 || i <= 1); return (&x)[i]; }
+	float&	operator[] (int i)								{ assert(i >= 0 || i <= 1); return (&x)[i]; }
 
 	inline bool operator==(const Vector2& rhs) const		{ return (x == rhs.x) && (y == rhs.y); }
 	inline bool operator!=(const Vector2& rhs) const		{ return (x != rhs.x) || (y != rhs.y); }

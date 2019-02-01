@@ -1,7 +1,7 @@
 #pragma once
 #include "AutoDef.h"
 #include "AutoSTL.h"
-
+#include "AutoMath.h"
 #ifndef AUTO_API
 #    ifdef DLL_EXPORTS
 /* We are building this library */

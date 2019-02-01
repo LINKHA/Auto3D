@@ -3,6 +3,7 @@
 #include "ResourceSystem.h"
 #include "FileSystem.h"
 #include "level_0.h"
+#include "Input.h"
 
 AUTO_APPLICATION_MAIN(ModelSapce)
 
@@ -16,7 +17,7 @@ void ModelSapce::Start()
 {
 
 }
-void UISapce::Update()
+void ModelSapce::Update()
 {
 	auto input = GetSubSystem<Input>();
 	if (input->GetKeyDown(KEY_ESCAPE))

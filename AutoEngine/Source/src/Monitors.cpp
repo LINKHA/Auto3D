@@ -1,5 +1,6 @@
 #include "Monitors.h"
 #include "AutoSDL.h"
+#include "LogDef.h"
 #include "NewDef.h"
 namespace Auto3D {
 

@@ -1,15 +1,13 @@
 #pragma once
 #include "GameManager.h"
-#include "Ambient.h"
-#include "AutoD3D12.h"
-#include "AutoSDL.h"
-#include "Color.h"
-#include "Rect.h"
 #include "GraphicsDef.h"
+#include "AutoSDL.h"
 #include "Image.h"
+#if AUTO_DIRECT_X
+#	include "AutoD3D12.h"
+#endif
 
 namespace Auto3D {
-
 class GPUObject;
 class ShaderVariation;
 /**
@@ -33,15 +31,11 @@ public:
 	*/
 	void CreateDevice();
 	/**
-	* @brief : Init Game window position(Create window not set position)
-	*/
-	void InitGameWindowPos();
-	/**
 	* @brief : Create engine icon in window title
 	*/
 	void CreateIcon();
 	/**
-	* @brief : Delete gamewindow and if Opengl delete context
+	* @brief : Delete game window and if OpenGL delete context
 	*/
 	void DestoryWindow();
 	/**
@@ -53,6 +47,14 @@ public:
 	* @brief : Register graphics debug function
 	*/
 	void RegisterDebug();
+	/**
+	* @brief : Load graphics api loader
+	*/
+	void LoadAPILoader();
+	/**
+	* @brief : Update swap chain(Direct3D 12 only)
+	*/
+	void UpdateSwapChain();
 	/**
 	* @brief : Determine whether the graphics is initialized
 	*/
@@ -84,6 +86,11 @@ public:
 	* @return : SDL_Window*
 	*/
 	SDL_Window* GetGameWindow() { return _window; }
+	/**
+	* @brief : Create sample point
+	*/
+	void CreateSamplePoint(int num);
+	
 
 	void SetShader(ShaderVariation* vs, ShaderVariation* fs);
 
@@ -115,19 +122,19 @@ public:
 	*/
 	void SetDepthWrite(bool enable);
 	/**
-	* @brief : Set title (only in space awake funcation)
+	* @brief : Set title (only in space awake function)
 	*/
 	void SetTitle(char* title) { _titleName = title; }
 	/**
-	* @brief : Set icon (only in space awake funcation)
+	* @brief : Set icon (only in space awake function)
 	*/
 	void SetIconImage(Image* icon) { _icon.reset(icon); }
 	/**
-	* @brief : Set window rect with float (only in space awake funcation)
+	* @brief : Set window rect with float (only in space awake function)
 	*/
 	void SetWindowRect(float x, float y) { _windowRect.x = x; _windowRect.y = y; }
 	/**
-	* @brief : Set window rect with RectInt (only in space awake funcation)
+	* @brief : Set window rect with RectInt (only in space awake function)
 	*/
 	void SetWindowRect(RectInt rect) { _windowRect = rect; }
 	/**
@@ -174,6 +181,8 @@ private:
 	bool _isHighDPI = false;
 	/// window in screen flag
 	bool _isCenter = true;
+	/// cursor lock in screen flag
+	bool _isGrab = true;
 	/// color write
 	bool _colorWrite{};
 	/// depth write
@@ -184,6 +193,8 @@ private:
 	unsigned _numPrimitives{};
 	/// num batches
 	unsigned _numBatches{};
+	/// msaa point num
+	unsigned _numSample{};
 };
 
 }

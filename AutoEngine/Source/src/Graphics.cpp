@@ -1,9 +1,9 @@
 #include "Graphics.h"
-#include "AutoImage.h"
-#include "AutoOGL.h"
 #include "AutoSDL.h"
+#include "AutoImage.h"
 #include "ResourceSystem.h"
 #include "GPUObject.h"
+#include "Image.h"
 #include "NewDef.h"
 namespace Auto3D {
 
@@ -35,49 +35,6 @@ Graphics::Graphics(SharedPtr<Ambient> ambient)
 
 Graphics::~Graphics() = default;
 
-void Graphics::Init()
-{
-	_icon = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/logo.png");
-
-	stbi_set_flip_vertically_on_load(true);
-
-	CreateGameWindow();
-
-	CreateDevice();
-
-	InitGameWindowPos();
-
-	if (!gladLoadGLLoader(SDL_GL_GetProcAddress))
-	{
-		AssertString(-1, "Failed to initialize GLAD from Engine");
-	}
-	RegisterDebug();
-	CreateIcon();
-}
-
-
-void Graphics::InitGameWindowPos()
-{
-	SDL_Rect rect;
-	SDL_GetDisplayBounds(0, &rect);
-	if (_isFullScreen)
-	{
-		_windowRect.width = rect.w;
-		_windowRect.height = rect.h;
-	}
-	else
-	{
-		if (_isCenter)
-		{
-			_windowRect.x = rect.w / 2;
-			_windowRect.y = rect.h / 2;
-		}
-	}
-	SDL_SetWindowSize(_window, _windowRect.width, _windowRect.height);
-	SDL_SetWindowPosition(_window, _windowRect.x - _windowRect.width / 2, _windowRect.y - _windowRect.height / 2);
-	///lock cursor in window
-	SDL_SetWindowGrab(_window, SDL_TRUE);
-}
 void Graphics::CreateIcon()
 {
 	SDL_Surface* surface;
@@ -85,6 +42,7 @@ void Graphics::CreateIcon()
 	SDL_SetWindowIcon(_window, surface);
 	SDL_FreeSurface(surface);
 }
+
 SDL_Surface* Graphics::SetIcon()
 {
 	int req_format = STBI_rgb_alpha;

@@ -1,5 +1,5 @@
 #include "Time.h"
-#include "AuMath.h"
+#include "AutoMath.h"
 #include "AutoSDL.h"
 #include "AutoThread.h"
 #include "NewDef.h"

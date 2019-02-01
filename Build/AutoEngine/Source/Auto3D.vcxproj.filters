@@ -175,9 +175,6 @@
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Serializer.cpp">
       <Filter>Source\FileSystem</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Geometry.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\GPUObject.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
@@ -294,9 +291,6 @@
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\AutoD3D12.cpp">
       <Filter>Source\Adapter</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\OGLDebug.cpp">
-      <Filter>Source\Graphics\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\NodeTrait.cpp">
       <Filter>Source\Scene</Filter>
@@ -525,9 +519,6 @@
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\DeviceTypes.h">
       <Filter>Source\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Geometry.h">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\GPUObject.h">
       <Filter>Source\Graphics</Filter>
     </ClInclude>
@@ -553,9 +544,6 @@
       <Filter>Source\IO</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\FloatConversion.h">
-      <Filter>Source\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AuMath.h">
       <Filter>Source\Math</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Vector2.h">
@@ -696,9 +684,6 @@
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\d3dx12.h">
       <Filter>Source\Adapter</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\OGLDebug.h">
-      <Filter>Source\Graphics\OpenGL</Filter>
-    </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\NodeTrait.h">
       <Filter>Source\Scene</Filter>
     </ClInclude>
@@ -707,6 +692,9 @@
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Shader.h">
       <Filter>Source\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\AutoMath.h">
+      <Filter>Source\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,7 @@
 namespace Auto3D {
 inline unsigned FloorfToIntPos(float f)
 {
-	Assert(f >= 0 && f <= UINT_MAX);
+	assert(f >= 0 && f <= UINT_MAX);
 	return (unsigned)f;
 }
 inline unsigned RoundfToIntPos(float f)

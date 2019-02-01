@@ -1,5 +1,5 @@
 #pragma once
-#include "AuMath.h"
+#include "AutoMath.h"
 #include "AutoOGL.h"
 #include "Component.h"
 ;

@@ -1,8 +1,9 @@
 #include "Graphics.h"
 #if AUTO_OPENGL
 #include "AutoOGL.h"
-#include "OGLDebug.h"
-#include "GraphicsDef.h"
+#include "AutoImage.h"
+#include "ResourceSystem.h"
+#include "Image.h"
 #include "NewDef.h"
 
 namespace Auto3D {
@@ -171,8 +172,26 @@ static void GetGLPrimitiveType(unsigned elementCount, PrimitiveTypes type, unsig
 	}
 }
 
+void Graphics::Init()
+{
+	_icon = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/logo.png");
+
+	stbi_set_flip_vertically_on_load(true);
+	// Create game window
+	CreateGameWindow();
+	// Create device(OpenGL context and DirectX device)
+	CreateDevice();
+	// Load graphics API with SDL address
+	LoadAPILoader();
+	// Register graphics API debug
+	RegisterDebug();
+	// Create Icon
+	CreateIcon();
+}
+
 void Graphics::RegisterDebug()
 {
+#ifdef _DEBUG
 	GLint flags;
 	glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
 	if (flags & GL_CONTEXT_FLAG_DEBUG_BIT)
@@ -182,6 +201,7 @@ void Graphics::RegisterDebug()
 		glDebugMessageCallback(glDebugOutput, nullptr);
 		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
 	}
+#endif
 }
 
 bool Graphics::BeginFrame()
@@ -285,11 +305,8 @@ void Graphics::CreateGameWindow()
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
-	//MSAA_POINT
-	//SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
-	//SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, MSAA_POINT);
-
-
+	// MSAA sample point
+	CreateSamplePoint(_numSample);
 
 	// Create the window
 	unsigned flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
@@ -301,6 +318,7 @@ void Graphics::CreateGameWindow()
 		flags |= SDL_WINDOW_RESIZABLE;
 	if (_isHighDPI)
 		flags |= SDL_WINDOW_ALLOW_HIGHDPI;
+
 	// The position size will be reset later
 	_window = SDL_CreateWindow(
 		_titleName,
@@ -310,6 +328,40 @@ void Graphics::CreateGameWindow()
 
 	if (_window == NULL)
 		ErrorString("Couldn't set video mode");
+
+	// Init window position
+	SDL_Rect rect;
+	SDL_GetDisplayBounds(0, &rect);
+	if (_isFullScreen)
+	{
+		_windowRect.width = rect.w;
+		_windowRect.height = rect.h;
+	}
+	else
+	{
+		if (_isCenter)
+		{
+			_windowRect.x = rect.w / 2;
+			_windowRect.y = rect.h / 2;
+		}
+	}
+	SDL_SetWindowSize(_window, _windowRect.width, _windowRect.height);
+	SDL_SetWindowPosition(_window, _windowRect.x - _windowRect.width / 2, _windowRect.y - _windowRect.height / 2);
+	
+	// Lock cursor in window
+	if (_isGrab)
+		SDL_SetWindowGrab(_window, SDL_TRUE);
+	else
+		SDL_SetWindowGrab(_window, SDL_FALSE);
+}
+
+void Graphics::CreateSamplePoint(int num)
+{
+	if (num)
+	{
+		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, num);
+	}
 }
 
 void Graphics::CreateDevice()
@@ -317,6 +369,14 @@ void Graphics::CreateDevice()
 	_glContext = SDL_GL_CreateContext(_window);
 	if (_glContext == NULL)
 		ErrorString("Failed to create OpenGL context");
+}
+
+void Graphics::LoadAPILoader()
+{
+	if (!gladLoadGLLoader(SDL_GL_GetProcAddress))
+	{
+		AssertString(-1, "Failed to initialize GLAD from Engine");
+	}
 }
 
 bool Graphics::IsDeviceLost()

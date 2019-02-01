@@ -2,8 +2,7 @@
 #include <memory>
 #include <math.h>
 #include <string.h>
-#include "Auto.h"
-#include "AssertDef.h"
+#include <assert.h>
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 

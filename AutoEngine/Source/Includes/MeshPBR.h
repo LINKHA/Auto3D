@@ -1,7 +1,7 @@
 #pragma once
 #include "RenderComponent.h"
 #include "ShaderVariation.h"
-#include "AuMath.h"
+#include "AutoMath.h"
 
 
 namespace Auto3D {

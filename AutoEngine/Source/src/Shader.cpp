@@ -1,5 +1,5 @@
 #include "Shader.h"
-#include "AuMath.h"
+#include "AutoMath.h"
 #include "Graphics.h"
 #include "ResourceSystem.h"
 #include "FileSystem.h"

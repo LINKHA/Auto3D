@@ -32,8 +32,8 @@ public:
 	inline Vector3& operator*=(const Vector3& rhs)			{ x *= rhs.x; y *= rhs.y; z *= rhs.z; return *this; }
 	inline Vector3& operator/=(const float scale)			{ x /= scale; y /= scale; z /= scale; return *this; }
 
-	const float& operator[] (int i)const					{ Assert(i >= 0 && i <= 2); return (&x)[i]; }
-	float&		operator[] (int i)							{ Assert(i >= 0 && i <= 2); return (&x)[i]; }
+	const float& operator[] (int i)const					{ assert(i >= 0 && i <= 2); return (&x)[i]; }
+	float&		operator[] (int i)							{ assert(i >= 0 && i <= 2); return (&x)[i]; }
 
 	inline bool operator==(const Vector3& rhs) const		{ return (x == rhs.x) && (y == rhs.y) && (z == rhs.y); }
 	inline bool operator!=(const Vector3& rhs) const		{ return (x != rhs.x) || (y != rhs.y) || (z != rhs.z); }

@@ -1,5 +1,5 @@
 #pragma once
-#include "AuMath.h"
+#include "AutoMath.h"
 #include "Auto.h"
 #include "glm/gtx/quaternion.hpp"
 namespace Auto3D {

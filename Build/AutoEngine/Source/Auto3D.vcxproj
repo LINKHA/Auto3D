@@ -90,6 +90,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_WINDOWS;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -105,7 +106,7 @@
     </Midl>
     <Lib>
       <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
-      <AdditionalDependencies>d3d12.lib;dxgi.lib;dxguid.lib;</AdditionalDependencies>
+      <AdditionalDependencies>d3d12.lib;dxgi.lib;dxguid.lib;d3d11.lib;d2d1.lib;dwrite.lib;d3dcompiler.lib;</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -300,7 +301,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\GLTextureEnable.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\GPUObject.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\GameManager.cpp" />
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Geometry.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Graphics.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\HDRSkybox.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\IO.cpp" />
@@ -325,7 +325,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Monitors.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Node.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\NodeTrait.cpp" />
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\OGLDebug.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\OGLGraphics.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Object.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\OffScreen.cpp" />
@@ -371,7 +370,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Ambient.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Application.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AssertDef.h" />
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AuMath.h" />
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\AutoMath.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Audio.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AudioBuffer.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AudioListener.h" />
@@ -419,7 +418,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\GLTextureEnable.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\GPUObject.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\GameManager.h" />
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Geometry.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Graphics.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\GraphicsDef.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\HDRSkybox.h" />
@@ -452,7 +450,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\NewDef.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Node.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\NodeTrait.h" />
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\OGLDebug.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Object.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\ObjectDef.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\OffScreen.h" />

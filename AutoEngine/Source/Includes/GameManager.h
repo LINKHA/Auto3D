@@ -1,6 +1,5 @@
 #pragma once
 #include "Object.h"
-
 #include "Ambient.h"
 namespace Auto3D {
 

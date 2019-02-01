@@ -2,7 +2,6 @@
 #include "Auto.h"
 #include "InputManager.h"
 #include "GameManager.h"
-#include "Vector2.h"
 
 
 namespace Auto3D {
@@ -15,7 +14,7 @@ struct JoystickState
 	VECTOR<bool> _buttonPress;
 };
 /**
-* Input sub gystem
+* Input sub system
 */
 class Input : public GlobalGameManager
 {
@@ -107,13 +106,13 @@ private:
 	SET<int> _keysPress;
 	///mouse position limit in window
 	Vector2	_mousePosition;
-	///last mouse potition limit in window
+	///last mouse position limit in window
 	Vector2	_lastMousePosition;
 	///mouse offset
 	Vector2	_mouseMove;
 	///mouse wheel offset
 	int	_mouseWheelOffset{};
-	///mouse whell move
+	///mouse wheel move
 	int	_mouseMoveWheel{};
 	///is mouse move
 	bool _isMouseMove;

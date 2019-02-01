@@ -1,7 +1,7 @@
 #pragma once
 #include "Object.h"
 #include "NodeTrait.h"
-#include "AuMath.h"
+#include "AutoMath.h"
 #include "AutoSTL.h"
 
 namespace Auto3D {
