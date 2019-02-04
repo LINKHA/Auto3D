@@ -3,6 +3,7 @@
 #include "ConslonDef.h"
 #if defined(_WIN32)
 #	include <windows.h>
+#	include "GlobalFactors.h"
 #endif
 #ifdef _MSC_VER
 #	include <crtdbg.h>
@@ -26,6 +27,7 @@
 		SELECT_DEDICATED_GRAPHICS_CARD \
 		int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd) \
 		{ \
+			g_hInstance = hInstance; g_prevInstance = prevInstance; g_cmdLine = cmdLine; g_showCmd = showCmd;\
 			DETECT_MEMORY_LEAKS();\
 			int flag = function;\
 			_CrtDumpMemoryLeaks();\
@@ -33,9 +35,11 @@
 		}
 #elif defined(_MSC_VER) && AUTO_RELEASE &&!AUTO_WIN32_CONSOLE
 #	define AUTO_MAIN(function) \
+		HINSTANCE g_hInstance;HINSTANCE g_prevInstance;PSTR g_cmdLine;int g_showCmd;\
 		SELECT_DEDICATED_GRAPHICS_CARD \
 		int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd) \
 		{ \
+			g_hInstance = hInstance; g_prevInstance = prevInstance; g_cmdLine = cmdLine; g_showCmd = showCmd;\
 			int flag = function;\
 			return flag;\
 		}

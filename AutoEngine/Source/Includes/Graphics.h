@@ -76,16 +76,12 @@ public:
 	* @brief : Get the upper name of the form
 	* @return : char*
 	*/
-	char* GetTitle() { return _titleName; }
+	STRING GetTitle() { return _titleName; }
 	/**
 	* @brief : Get screen full or not
 	*/
 	bool GetScreenFullorNot() { return true; }
-	/**
-	* @brief : Get game window
-	* @return : SDL_Window*
-	*/
-	SDL_Window* GetGameWindow() { return _window; }
+	
 	/**
 	* @brief : Create sample point
 	*/
@@ -124,7 +120,7 @@ public:
 	/**
 	* @brief : Set title (only in space awake function)
 	*/
-	void SetTitle(char* title) { _titleName = title; }
+	void SetTitle(const STRING& title) { _titleName = title; }
 	/**
 	* @brief : Set icon (only in space awake function)
 	*/
@@ -149,20 +145,45 @@ public:
 	* @brief : Get graphics api name
 	*/
 	STRING GetAPIName() const { return _apiName; }
+#if AUTO_OPENGL
+	/**
+	* @brief : Get game window
+	* @return : SDL_Window*
+	*/
+	SDL_Window* GetGameWindow() { return _window; }
+#endif
+private:
+#if AUTO_DIRECT_X
+	void parseCommandLineArguments();
+
+	bool checkTearingSupport();
+
+	void RegisterWindowClass(HINSTANCE hInst, const wchar_t* windowClassName);
+
+	static LRESULT CALLBACK windowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+#endif
+
 private:
 	/// Graphics api name
 	STRING _apiName;
 #if AUTO_OPENGL
 	/// OpenGL context
 	SDL_GLContext _glContext;
+	/// window
+	SDL_Window* _window{};
 #elif AUTO_DIRECT_X
+	/// window
+	static HWND _window;
 	/// Use WARP adapter
 	bool _useWarp{};
 	/// Direct3D12 device
 	ComPtr<ID3D12Device2> _device;
+	/// Use WARP adapter
+	bool _isUseWarp = false;
+	/// Tearing support
+	bool _isTearingSupported = false;
 #endif
-	/// window
-	SDL_Window* _window{};
+
 	/// icon
 	SharedPtr<Image> _icon;
 	/// background draw color
@@ -170,7 +191,7 @@ private:
 	/// window rect
 	RectInt _windowRect;
 	/// window title name
-	char* _titleName;
+	STRING _titleName;
 	/// full screen flag
 	bool _isFullScreen = false;
 	/// border less flag
