@@ -53,4 +53,18 @@ ComPtr<IDXGIAdapter4> DxGetAdapter(bool useWarp);
 
 ComPtr<ID3D12Device2> DxCreateDevice(ComPtr<IDXGIAdapter4> adapter);
 
+ComPtr<ID3D12CommandQueue> DxCreateCommandQueue(ComPtr<ID3D12Device2> device, D3D12_COMMAND_LIST_TYPE type);
+
+ComPtr<ID3D12DescriptorHeap> DxCreateDescriptorHeap(ComPtr<ID3D12Device2> device,D3D12_DESCRIPTOR_HEAP_TYPE type, uint32_t numDescriptors);
+
+ComPtr<ID3D12CommandAllocator> DxCreateCommandAllocator(ComPtr<ID3D12Device2> device,
+	D3D12_COMMAND_LIST_TYPE type);
+
+ComPtr<ID3D12GraphicsCommandList> DxCreateCommandList(ComPtr<ID3D12Device2> device,
+	ComPtr<ID3D12CommandAllocator> commandAllocator, D3D12_COMMAND_LIST_TYPE type);
+
+ComPtr<ID3D12Fence> DxCreateFence(ComPtr<ID3D12Device2> device);
+
+HANDLE DxCreateEventHandle();
+
 }
