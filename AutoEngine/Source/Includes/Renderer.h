@@ -164,7 +164,7 @@ private:
 	/**
 	* @brief : Intelligence mout shadow renderer,Intelligent creation object
 	*/
-	void intelMoutShadwoRenderer();
+	void intelMoutShadowRenderer();
 	/**
 	* @brief : Intelligence mout light container,Intelligent creation object
 	*/

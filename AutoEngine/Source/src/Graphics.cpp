@@ -23,12 +23,6 @@ Graphics::Graphics(SharedPtr<Ambient> ambient)
 	, _apiName("UnKnow")
 #endif
 {
-	_drawColor.Set(0.0f, 0.0f, 0.0f, 0.0f);
-	_titleName = "Auto V0.0";
-	_windowRect.x = 0;
-	_windowRect.y = 0;
-	_windowRect.width = 1280;
-	_windowRect.height = 720;
 	RegisterGraphicsLib(_ambient);
 }
 

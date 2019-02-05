@@ -181,8 +181,6 @@ void Graphics::Init()
 	CreateGameWindow();
 	// Create device(OpenGL context and DirectX device)
 	CreateDevice();
-	// Load graphics API with SDL address
-	LoadAPILoader();
 	// Register graphics API debug
 	RegisterDebug();
 	// Create Icon
@@ -286,7 +284,7 @@ bool Graphics::BeginFrame()
 
 	SetColorWrite(true);
 	SetDepthWrite(true);
-	Clear(CLEAR_COLOR | CLEAR_DEPTH | CLEAR_STENCIL);
+	Clear(ClearTarget::Color | ClearTarget::Depth | ClearTarget::Stencil);
 	return true;
 }
 void Graphics::EndFrame()
@@ -301,25 +299,25 @@ void Graphics::Clear(unsigned flags, const Color & color, float depth, unsigned 
 	bool oldColorWrite = _colorWrite;
 	bool oldDepthWrite = _depthWrite;
 
-	if (flags & CLEAR_COLOR && !oldColorWrite)
+	if (flags & ClearTarget::Color && !oldColorWrite)
 		SetColorWrite(true);
-	if (flags & CLEAR_DEPTH && !oldDepthWrite)
+	if (flags & ClearTarget::Depth && !oldDepthWrite)
 		SetDepthWrite(true);
-	if (flags & CLEAR_STENCIL && _stencilWriteMask != MATH_MAX_UNSIGNED)
+	if (flags & ClearTarget::Stencil && _stencilWriteMask != MATH_MAX_UNSIGNED)
 		glStencilMask(MATH_MAX_UNSIGNED);
 
 	unsigned glFlags = 0;
-	if (flags & CLEAR_COLOR)
+	if (flags & ClearTarget::Color)
 	{
 		glFlags |= GL_COLOR_BUFFER_BIT;
 		glClearColor(color.r, color.g, color.b, color.a);
 	}
-	if (flags & CLEAR_DEPTH)
+	if (flags & ClearTarget::Depth)
 	{
 		glFlags |= GL_DEPTH_BUFFER_BIT;
 		glClearDepth(depth);
 	}
-	if (flags & CLEAR_STENCIL)
+	if (flags & ClearTarget::Stencil)
 	{
 		glFlags |= GL_STENCIL_BUFFER_BIT;
 		glClearStencil(stencil);
@@ -442,15 +440,12 @@ void Graphics::CreateDevice()
 	_glContext = SDL_GL_CreateContext(_window);
 	if (_glContext == NULL)
 		ErrorString("Failed to create OpenGL context");
-}
-
-void Graphics::LoadAPILoader()
-{
 	if (!gladLoadGLLoader(SDL_GL_GetProcAddress))
 	{
 		AssertString(-1, "Failed to initialize GLAD from Engine");
 	}
 }
+
 
 bool Graphics::IsDeviceLost()
 {
@@ -506,7 +501,6 @@ void Graphics::SetViewport(int posX, int posY, int width, int height)
 {
 	glViewport(posX, posY, width, height);
 }
-
 
 }
 #endif //AUTO_OPENGL

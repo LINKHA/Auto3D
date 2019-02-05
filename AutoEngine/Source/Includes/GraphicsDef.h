@@ -12,10 +12,13 @@
 #define AUTO_DIRECT_X _DIRECT_3D_12
 
 namespace Auto3D {
-static const unsigned CLEAR_COLOR = 0x1;
-static const unsigned CLEAR_DEPTH = 0x2;
-static const unsigned CLEAR_STENCIL = 0x4;
 
+enum class ClearTarget : unsigned
+{
+	Color = 0x1,
+	Depth = 0x2,
+	Stencil = 0x4,
+};
 
 static const int MAX_TEXTURE_UNITS = 16;
 

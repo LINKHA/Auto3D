@@ -50,32 +50,51 @@ Engine::~Engine()
 
 void Engine::Init()
 {
+	GetSubSystem<IO>()->GetEngineInfo()->state = EngineState::Initing;
 	GetSubSystem<ResourceSystem>()->Init();
 	GetSubSystem<Audio>()->Init();
 	GetSubSystem<Graphics>()->Init();
 	GetSubSystem<Behavior>()->Awake();
-	GetSubSystem<Renderer>()->Init();
+
+	Print("Temp comment tag");
+	//GetSubSystem<Renderer>()->Init();
 	GetSubSystem<Behavior>()->Start();
-	GetSubSystem<Renderer>()->ReadyToRender();
+
+	Print("Temp comment tag");
+	//GetSubSystem<Renderer>()->ReadyToRender();
 
 }
 
 void Engine::Exit() 
 {
+	GetSubSystem<IO>()->GetEngineInfo()->state = EngineState::Exiting;
 	GetSubSystem<Graphics>()->DestoryWindow();
+#if AUTO_DIRECT_X
+	GetSubSystem<Graphics>()->ReleaseAPI();
+#endif
 }
 void Engine::Render()
 {
 	auto graphics = GetSubSystem<Graphics>();
+	GetSubSystem<IO>()->GetEngineInfo()->state = EngineState::Rendering;
 
 	if (!graphics->BeginFrame())
 		return;
-	GetSubSystem<Renderer>()->Render();
+	Print("Temp comment tag");
+	//GetSubSystem<Renderer>()->Render();
 	graphics->EndFrame();
 }
 void Engine::Update()
 {
-	GetSubSystem<Time>()->Update();
+	auto engineInfo = GetSubSystem<IO>()->GetEngineInfo();
+	auto timeSub = GetSubSystem<Time>();
+
+	engineInfo->state = EngineState::Updateing;
+	timeSub->Update();
+
+	engineInfo->fps = timeSub->GetFramesPerSecond();
+	engineInfo->frameCount = timeSub->GetFrameCount();
+
 	GetSubSystem<Input>()->Update();
 	GetSubSystem<Behavior>()->Update();
 

@@ -45,6 +45,7 @@ public:
 private:
 	/// Is exiting
 	bool _isExiting{};
+
 };
 
 }

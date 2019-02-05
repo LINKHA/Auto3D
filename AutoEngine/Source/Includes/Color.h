@@ -8,8 +8,7 @@ namespace Auto3D {
 struct Color
 {
 public:
-	float	r, g, b, a;
-
+	float r, g, b, a;
 	Color() : r(1.0f), g(1.0f), b(1.0f), a(1.0f) {}
 	Color(float inR, float inG, float inB, float inA = 1.0f) : r(inR), g(inG), b(inB), a(inA) {}
 	explicit Color(const float* c) : r(c[0]), g(c[1]), b(c[2]), a(c[3]) {}

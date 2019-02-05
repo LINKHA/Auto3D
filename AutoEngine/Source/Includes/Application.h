@@ -26,7 +26,9 @@ public:
 	*		Called by Application.
 	*/
 	virtual void Start() { }
-
+	/**
+	* @brief : This function is mainly used to handle non-rendering operations, running once per frame
+	*/
 	virtual void Update() { }
 	/**
 	* @brief : Cleanup after the main loop. Called by Application

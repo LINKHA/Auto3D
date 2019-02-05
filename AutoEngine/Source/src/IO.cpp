@@ -6,6 +6,9 @@ IO::IO(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 	_monitors = MakeShared<Monitors>();
+
+	_engineInfo = MakeShared<EngineInfo>();
+
 }
 
 

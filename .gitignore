@@ -18,3 +18,4 @@ Build/bin/
 *.stamp
 *.depend
 Build/AutoEngine/ThirdParty/OpenAL/native-tools/CMakeFiles/
+Build/AutoEngine/ThirdParty/OpenAL/.vs/

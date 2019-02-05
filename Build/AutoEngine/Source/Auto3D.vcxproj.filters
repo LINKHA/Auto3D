@@ -699,6 +699,9 @@
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\GlobalFactors.h">
       <Filter>Source\Code</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\EngineInfo.h">
+      <Filter>Source\IO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\CMakeLists.txt" />

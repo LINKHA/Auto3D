@@ -24,7 +24,7 @@ Renderer::~Renderer()
 
 void Renderer::Init()
 {
-	intelMoutShadwoRenderer();
+	intelMoutShadowRenderer();
 	intelMoutLightContainer();
 }
 
@@ -475,7 +475,7 @@ void Renderer::translucentGeometrySort()
 	}
 }
 
-void Renderer::intelMoutShadwoRenderer()
+void Renderer::intelMoutShadowRenderer()
 {
 	if (_shadowRenderer)
 		return;

@@ -10,6 +10,10 @@
 namespace Auto3D {
 class GPUObject;
 class ShaderVariation;
+
+///
+const static int GRAPHICS_BUFFER_NUM = 3;
+
 /**
 * Graphics subsystem. Manages the application window, rendering state and GPU resources
 */
@@ -47,10 +51,6 @@ public:
 	* @brief : Register graphics debug function
 	*/
 	void RegisterDebug();
-	/**
-	* @brief : Load graphics api loader
-	*/
-	void LoadAPILoader();
 	/**
 	* @brief : Update swap chain(Direct3D 12 only)
 	*/
@@ -149,21 +149,28 @@ public:
 	* @brief : Get graphics api name
 	*/
 	STRING GetAPIName() const { return _apiName; }
-
-	ComPtr<IDXGISwapChain4> CreateSwapChain(ComPtr<ID3D12CommandQueue> commandQueue,
+#if AUTO_DIRECT_X
+	/**
+	* @brief : The release of API
+	*/
+	void ReleaseAPI();
+#endif
+private:
+#if AUTO_DIRECT_X
+	ComPtr<IDXGISwapChain4> createSwapChain(ComPtr<ID3D12CommandQueue> commandQueue,
 		uint32_t width, uint32_t height, uint32_t bufferCount);
 
-	void UpdateRenderTargetViews(ComPtr<ID3D12Device2> device,
+	void updateRenderTargetViews(ComPtr<ID3D12Device2> device,
 		ComPtr<IDXGISwapChain4> swapChain, ComPtr<ID3D12DescriptorHeap> descriptorHeap);
+#endif
 private:
 	/// Graphics api name
-	STRING _apiName;
+	STRING _apiName{};
 #if AUTO_OPENGL
 	/// OpenGL context
 	SDL_GLContext _glContext;
 #elif AUTO_DIRECT_X
-	/// Use WARP adapter
-	bool _useWarp{};
+	
 	/// Direct3D12 device
 	ComPtr<ID3D12Device2> _device;
 
@@ -173,13 +180,15 @@ private:
 
 	UINT _currentBackBufferIndex;
 
-	int _numFrames = 3;
+	ComPtr<ID3D12Resource> _currentBackBuffer;
 
-	ComPtr<ID3D12Resource> _backBuffers[3];
+	ComPtr<ID3D12Resource> _backBuffers[GRAPHICS_BUFFER_NUM];
 
-	ComPtr<ID3D12CommandAllocator> _commandAllocators[3];
+	ComPtr<ID3D12CommandAllocator> _currentCommandAllocator;
 
-	uint64_t _frameFenceValues[3] = {};
+	ComPtr<ID3D12CommandAllocator> _commandAllocators[GRAPHICS_BUFFER_NUM];
+
+	uint64_t _frameFenceValues[GRAPHICS_BUFFER_NUM] = {};
 
 	ComPtr<ID3D12DescriptorHeap> _RTVDescriptorHeap;
 
@@ -196,18 +205,19 @@ private:
 	bool _VSync = true;
 
 	bool _tearingSupported = false;
-
+	/// Use WARP adapter
+	bool _useWarp{};
 #endif
 	/// window
 	SDL_Window* _window{};
 	/// icon
-	SharedPtr<Image> _icon;
+	SharedPtr<Image> _icon{};
 	/// background draw color
-	Color _drawColor;
+	Color _drawColor = { Color(0.0f, 0.0f, 0.0f, 1.0f) };
 	/// window rect
-	RectInt _windowRect;
+	RectInt _windowRect = { RectInt(0, 0, 1280, 720) };
 	/// window title name
-	char* _titleName;
+	char* _titleName = "Auto V0.0";;
 	/// full screen flag
 	bool _isFullScreen = false;
 	/// border less flag

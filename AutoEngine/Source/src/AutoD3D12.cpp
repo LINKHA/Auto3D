@@ -2,9 +2,9 @@
 
 namespace Auto3D {
 
+namespace Dx {
 
-
-ComPtr<IDXGIAdapter4> DxGetAdapter(bool useWarp)
+ComPtr<IDXGIAdapter4> GetAdapter(bool useWarp)
 {
 	ComPtr<IDXGIFactory4> dxgiFactory;
 	UINT createFactoryFlags = 0;
@@ -48,7 +48,7 @@ ComPtr<IDXGIAdapter4> DxGetAdapter(bool useWarp)
 }
 
 
-ComPtr<ID3D12Device2> DxCreateDevice(ComPtr<IDXGIAdapter4> adapter)
+ComPtr<ID3D12Device2> CreateDevice(ComPtr<IDXGIAdapter4> adapter)
 {
 	ComPtr<ID3D12Device2> d3d12Device2;
 	ThrowIfFailed(D3D12CreateDevice(adapter.Get(), D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&d3d12Device2)));
@@ -93,7 +93,7 @@ ComPtr<ID3D12Device2> DxCreateDevice(ComPtr<IDXGIAdapter4> adapter)
 	return d3d12Device2;
 }
 
-ComPtr<ID3D12CommandQueue> DxCreateCommandQueue(ComPtr<ID3D12Device2> device, D3D12_COMMAND_LIST_TYPE type)
+ComPtr<ID3D12CommandQueue> CreateCommandQueue(ComPtr<ID3D12Device2> device, D3D12_COMMAND_LIST_TYPE type)
 {
 	ComPtr<ID3D12CommandQueue> d3d12CommandQueue;
 
@@ -109,7 +109,7 @@ ComPtr<ID3D12CommandQueue> DxCreateCommandQueue(ComPtr<ID3D12Device2> device, D3
 }
 
 
-ComPtr<ID3D12DescriptorHeap> DxCreateDescriptorHeap(ComPtr<ID3D12Device2> device,
+ComPtr<ID3D12DescriptorHeap> CreateDescriptorHeap(ComPtr<ID3D12Device2> device,
 	D3D12_DESCRIPTOR_HEAP_TYPE type, uint32_t numDescriptors)
 {
 	ComPtr<ID3D12DescriptorHeap> descriptorHeap;
@@ -123,7 +123,7 @@ ComPtr<ID3D12DescriptorHeap> DxCreateDescriptorHeap(ComPtr<ID3D12Device2> device
 	return descriptorHeap;
 }
 
-ComPtr<ID3D12CommandAllocator> DxCreateCommandAllocator(ComPtr<ID3D12Device2> device,
+ComPtr<ID3D12CommandAllocator> CreateCommandAllocator(ComPtr<ID3D12Device2> device,
 	D3D12_COMMAND_LIST_TYPE type)
 {
 	ComPtr<ID3D12CommandAllocator> commandAllocator;
@@ -132,7 +132,7 @@ ComPtr<ID3D12CommandAllocator> DxCreateCommandAllocator(ComPtr<ID3D12Device2> de
 	return commandAllocator;
 }
 
-ComPtr<ID3D12GraphicsCommandList> DxCreateCommandList(ComPtr<ID3D12Device2> device,
+ComPtr<ID3D12GraphicsCommandList> CreateCommandList(ComPtr<ID3D12Device2> device,
 	ComPtr<ID3D12CommandAllocator> commandAllocator, D3D12_COMMAND_LIST_TYPE type)
 {
 	ComPtr<ID3D12GraphicsCommandList> commandList;
@@ -143,7 +143,7 @@ ComPtr<ID3D12GraphicsCommandList> DxCreateCommandList(ComPtr<ID3D12Device2> devi
 	return commandList;
 }
 
-ComPtr<ID3D12Fence> DxCreateFence(ComPtr<ID3D12Device2> device)
+ComPtr<ID3D12Fence> CreateFence(ComPtr<ID3D12Device2> device)
 {
 	ComPtr<ID3D12Fence> fence;
 
@@ -152,7 +152,7 @@ ComPtr<ID3D12Fence> DxCreateFence(ComPtr<ID3D12Device2> device)
 	return fence;
 }
 
-HANDLE DxCreateEventHandle()
+HANDLE CreateEventHandle()
 {
 	HANDLE fenceEvent;
 
@@ -161,6 +161,5 @@ HANDLE DxCreateEventHandle()
 
 	return fenceEvent;
 }
-
-
+}
 }
