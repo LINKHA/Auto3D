@@ -140,32 +140,32 @@ static void GetGLPrimitiveType(unsigned elementCount, PrimitiveTypes type, unsig
 {
 	switch (type)
 	{
-	case PrimitiveTypes::kTringleList:
+	case PrimitiveTypes::TringleList:
 		primitiveCount = elementCount / 3;
 		glPrimitiveType = GL_TRIANGLES;
 		break;
 
-	case PrimitiveTypes::kLineList:
+	case PrimitiveTypes::LineList:
 		primitiveCount = elementCount / 2;
 		glPrimitiveType = GL_LINES;
 		break;
 
-	case PrimitiveTypes::kPointList:
+	case PrimitiveTypes::PointList:
 		primitiveCount = elementCount;
 		glPrimitiveType = GL_POINTS;
 		break;
 
-	case PrimitiveTypes::kTriangleStrip:
+	case PrimitiveTypes::TriangleStrip:
 		primitiveCount = elementCount - 2;
 		glPrimitiveType = GL_TRIANGLE_STRIP;
 		break;
 
-	case PrimitiveTypes::kLineStrip:
+	case PrimitiveTypes::LineStrip:
 		primitiveCount = elementCount - 1;
 		glPrimitiveType = GL_LINE_STRIP;
 		break;
 
-	case PrimitiveTypes::kTiangleFan:
+	case PrimitiveTypes::TiangleFan:
 		primitiveCount = elementCount - 2;
 		glPrimitiveType = GL_TRIANGLE_FAN;
 		break;
@@ -185,79 +185,20 @@ void Graphics::Init()
 	RegisterDebug();
 	// Create Icon
 	CreateIcon();
+
+	Restore();
 }
-void Graphics::CreateIcon()
+void Graphics::ReleaseAPI()
 {
-	SDL_Surface* surface;
-	surface = SetIcon();
-	SDL_SetWindowIcon(_window, surface);
-	SDL_FreeSurface(surface);
+	glDeleteVertexArrays(1, &_vertexArrayObject);
 }
-
-SDL_Surface* Graphics::SetIcon()
+void Graphics::Restore()
 {
-	int req_format = STBI_rgb_alpha;
-	//int width, height, orig_format;
-
-	//unsigned char* data = stbi_load(TITLE_ICON_PATH, &width, &height, &orig_format, 0);
-	//_icon->GetData();
-	if (!_icon->GetData()) {
-		SDL_Log("Loading image failed: %s", stbi_failure_reason());
-		Assert(0);
-	}
-
-	// Set up the pixel format color masks for RGB(A) byte arrays.
-	// Only STBI_rgb (3) and STBI_rgb_alpha (4) are supported here!
-	Uint32 rmask, gmask, bmask, amask;
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-	int shift = (req_format == STBI_rgb) ? 8 : 0;
-	rmask = 0xff000000 >> shift;
-	gmask = 0x00ff0000 >> shift;
-	bmask = 0x0000ff00 >> shift;
-	amask = 0x000000ff >> shift;
-#else // little endian, like x86
-	rmask = 0x000000ff;
-	gmask = 0x0000ff00;
-	bmask = 0x00ff0000;
-	amask = (req_format == STBI_rgb) ? 0 : 0xff000000;
-#endif
-
-	int depth, pitch;
-	if (req_format == STBI_rgb) {
-		depth = 24;
-		pitch = 3 * _icon->GetWidth(); // 3 bytes per pixel * pixels per row
-	}
-	else { // STBI_rgb_alpha (RGBA)
-		depth = 32;
-		pitch = 4 * _icon->GetWidth();
-	}
-
-	SDL_Surface* surf = SDL_CreateRGBSurfaceFrom((void*)_icon->GetData().get(), _icon->GetWidth(), _icon->GetHeight(), depth, pitch,
-		rmask, gmask, bmask, amask);
-
-	if (surf == NULL) {
-		SDL_Log("Creating surface failed: %s", SDL_GetError());
-		//stbi_image_free(data);
-		exit(1);
-	}
-
-	return surf;
-	// when you don't need the surface anymore, free it..
-	//SDL_FreeSurface(surf);
-	// .. *and* the data used by the surface!
-	//stbi_image_free(data);
-
-}
-
-void Graphics::DestoryWindow()
-{
-#if AUTO_OPENGL
-	SDL_GL_DeleteContext(_glContext);
-	_glContext = nullptr;
-#endif //  _OPENGL_4_PLUS_
-	SDL_DestroyWindow(_window);
-	_window = nullptr;
-	SDL_Quit();
+	if (!_window)
+		return;
+	// Create and bind a vertex array object that will stay in use throughout
+	glGenVertexArrays(1, &_vertexArrayObject);
+	glBindVertexArray(_vertexArrayObject);
 }
 
 void Graphics::RegisterDebug()
@@ -284,7 +225,7 @@ bool Graphics::BeginFrame()
 
 	SetColorWrite(true);
 	SetDepthWrite(true);
-	Clear(ClearTarget::Color | ClearTarget::Depth | ClearTarget::Stencil);
+	Clear(CLEAR_TARGET_COLOR | CLEAR_TARGET_DEPTH | CLEAR_TARGET_STENCIL);
 	return true;
 }
 void Graphics::EndFrame()
@@ -299,25 +240,25 @@ void Graphics::Clear(unsigned flags, const Color & color, float depth, unsigned 
 	bool oldColorWrite = _colorWrite;
 	bool oldDepthWrite = _depthWrite;
 
-	if (flags & ClearTarget::Color && !oldColorWrite)
+	if (flags & CLEAR_TARGET_COLOR && !oldColorWrite)
 		SetColorWrite(true);
-	if (flags & ClearTarget::Depth && !oldDepthWrite)
+	if (flags & CLEAR_TARGET_DEPTH && !oldDepthWrite)
 		SetDepthWrite(true);
-	if (flags & ClearTarget::Stencil && _stencilWriteMask != MATH_MAX_UNSIGNED)
+	if (flags & CLEAR_TARGET_STENCIL && _stencilWriteMask != MATH_MAX_UNSIGNED)
 		glStencilMask(MATH_MAX_UNSIGNED);
 
 	unsigned glFlags = 0;
-	if (flags & ClearTarget::Color)
+	if (flags & CLEAR_TARGET_COLOR)
 	{
 		glFlags |= GL_COLOR_BUFFER_BIT;
 		glClearColor(color.r, color.g, color.b, color.a);
 	}
-	if (flags & ClearTarget::Depth)
+	if (flags & CLEAR_TARGET_DEPTH)
 	{
 		glFlags |= GL_DEPTH_BUFFER_BIT;
 		glClearDepth(depth);
 	}
-	if (flags & ClearTarget::Stencil)
+	if (flags & CLEAR_TARGET_STENCIL)
 	{
 		glFlags |= GL_STENCIL_BUFFER_BIT;
 		glClearStencil(stencil);

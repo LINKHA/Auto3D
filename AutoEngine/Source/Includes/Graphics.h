@@ -26,6 +26,7 @@ public:
 	* @brief : Graphics init
 	*/
 	void Init();
+	
 	/**
 	* @brief : Create a Game window
 	*/
@@ -76,7 +77,7 @@ public:
 	* @brief : Get the upper name of the form
 	* @return : char*
 	*/
-	char* GetTitle() { return _titleName; }
+	STRING GetTitle() { return _titleName; }
 	/**
 	* @brief : Get screen full or not
 	*/
@@ -95,7 +96,9 @@ public:
 	void SetShader(ShaderVariation* vs, ShaderVariation* fs);
 
 	void Draw(PrimitiveTypes type, unsigned vertexStart, unsigned vertexCount);
+	
 	void Draw(PrimitiveTypes type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount);
+	
 	void DrawInstanced(PrimitiveTypes type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount, unsigned instanceCount);
 	/**
 	* @brief : Begin to run frame
@@ -149,11 +152,20 @@ public:
 	* @brief : Get graphics api name
 	*/
 	STRING GetAPIName() const { return _apiName; }
-#if AUTO_DIRECT_X
 	/**
 	* @brief : The release of API
 	*/
 	void ReleaseAPI();
+#if AUTO_OPENGL
+	/**
+	* @brief : Restore GPU objects and reinitialize state
+	*/
+	void Restore();
+	/**
+	* @brief :  Bind a VBO, avoiding redundant operation
+	*/
+	void SetVBO(unsigned object);
+	
 #endif
 private:
 #if AUTO_DIRECT_X
@@ -169,6 +181,8 @@ private:
 #if AUTO_OPENGL
 	/// OpenGL context
 	SDL_GLContext _glContext;
+	/// OpenGL only VAO
+	unsigned _vertexArrayObject;
 #elif AUTO_DIRECT_X
 	
 	/// Direct3D12 device
@@ -217,7 +231,7 @@ private:
 	/// window rect
 	RectInt _windowRect = { RectInt(0, 0, 1280, 720) };
 	/// window title name
-	char* _titleName = "Auto V0.0";;
+	STRING _titleName = "Auto V0.0";
 	/// full screen flag
 	bool _isFullScreen = false;
 	/// border less flag

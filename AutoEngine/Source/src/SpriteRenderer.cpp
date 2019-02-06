@@ -14,8 +14,11 @@ namespace Auto3D {
 SpriteRenderer::SpriteRenderer(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
+#if AUTO_OPENGL
 	auto shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_texture_transform.glsl");
-
+#elif AUTO_DIRECT_X
+	auto shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shaderHLSL/au_texture_transform.hlsl");
+#endif
 	_shader = MakeShared<ShaderVariation>(shader);
 
 	_shader->Create();
@@ -26,7 +29,6 @@ SpriteRenderer::SpriteRenderer(SharedPtr<Ambient> ambient)
 
 SpriteRenderer::~SpriteRenderer()
 {
-	glDeleteVertexArrays(1, &_VAO);
 	glDeleteBuffers(1, &_VBO);
 	glDeleteBuffers(1, &_EBO);
 }
@@ -53,8 +55,6 @@ void SpriteRenderer::Start()
 {
 	/////////////////////////////////////////////////////////////////////////////////////////////
 
-	glGenVertexArrays(1, &_VAO);
-	glBindVertexArray(_VAO);
 	glGenBuffers(1, &_VBO);
 	glGenBuffers(1, &_EBO);
 
@@ -70,7 +70,7 @@ void SpriteRenderer::Start()
 	EnableVertexAttribs(VERTEX_ATTRIB_POSITION | VERTEX_ATTRIB_COLOR);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
+
 	/////////////////////////////////////////////////////////////////////////////////////////////
 
 	glGenTextures(1, &_textureData);
@@ -126,11 +126,8 @@ void SpriteRenderer::Draw()
 	_shader->SetMat4("view", viewMat);
 	_shader->SetMat4("projection", projectionMat);
 	_shader->SetVec4("ourColor", _color.r, _color.g, _color.b, _color.a);
-	
 
-	glBindVertexArray(_VAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0);
 
 	GLOriginal();
 }

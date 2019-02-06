@@ -56,12 +56,19 @@ void Engine::Init()
 	GetSubSystem<Graphics>()->Init();
 	GetSubSystem<Behavior>()->Awake();
 
+#if AUTO_OPENGL
+	GetSubSystem<Renderer>()->Init();
+#else
 	Print("Temp comment tag");
-	//GetSubSystem<Renderer>()->Init();
+#endif
+
 	GetSubSystem<Behavior>()->Start();
 
+#if AUTO_OPENGL
+	GetSubSystem<Renderer>()->ReadyToRender();
+#else
 	Print("Temp comment tag");
-	//GetSubSystem<Renderer>()->ReadyToRender();
+#endif
 
 }
 
@@ -69,9 +76,7 @@ void Engine::Exit()
 {
 	GetSubSystem<IO>()->GetEngineInfo()->state = EngineState::Exiting;
 	GetSubSystem<Graphics>()->DestoryWindow();
-#if AUTO_DIRECT_X
 	GetSubSystem<Graphics>()->ReleaseAPI();
-#endif
 }
 void Engine::Render()
 {
@@ -80,8 +85,12 @@ void Engine::Render()
 
 	if (!graphics->BeginFrame())
 		return;
+	
+#if AUTO_OPENGL
+	GetSubSystem<Renderer>()->Render();
+#else
 	Print("Temp comment tag");
-	//GetSubSystem<Renderer>()->Render();
+#endif
 	graphics->EndFrame();
 }
 void Engine::Update()

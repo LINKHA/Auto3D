@@ -259,9 +259,6 @@
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Shader.cpp">
       <Filter>Source\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\ShaderVariation.cpp">
-      <Filter>Source\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\LevelScene.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
@@ -296,6 +293,24 @@
       <Filter>Source\Scene</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\D3D12Graphics.cpp">
+      <Filter>Source\Graphics\Direct3D12</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\ShaderVariation.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\D3D12ShaderVariation.cpp">
+      <Filter>Source\Graphics\Direct3D12</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLShaderVariation.cpp">
+      <Filter>Source\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\VertexBuffer.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLVertexBuffer.cpp">
+      <Filter>Source\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\D3D12VertexBuffer.cpp">
       <Filter>Source\Graphics\Direct3D12</Filter>
     </ClCompile>
   </ItemGroup>
@@ -609,9 +624,6 @@
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\ResourceSystem.h">
       <Filter>Source\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\ShaderVariation.h">
-      <Filter>Source\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\LevelScene.h">
       <Filter>Source\Scene</Filter>
     </ClInclude>
@@ -701,6 +713,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\EngineInfo.h">
       <Filter>Source\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\ShaderVariation.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\VertexBuffer.h">
+      <Filter>Source\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -809,11 +827,367 @@
     <Filter Include="Shader">
       <UniqueIdentifier>{b76b5d5e-57ce-4dcf-b30a-c5953c6f9692}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shader\_Abandon">
-      <UniqueIdentifier>{00d038b7-55a5-4d32-a040-727bd9a18885}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Graphics\Direct3D12">
       <UniqueIdentifier>{3473128b-f770-455b-b311-4ec5d2a41717}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader\GLSL">
+      <UniqueIdentifier>{00d038b7-55a5-4d32-a040-727bd9a18885}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\HLSL">
+      <UniqueIdentifier>{a4a57375-d513-477a-9b2d-def1e903552b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom.auvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom_blur.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom_blur.auvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom_blur.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom_final.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom_final.auvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom_final.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom_light_box.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_bloom_light_box.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_deffered_light_box.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_deffered_light_box.auvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_deffered_light_box.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_deffered_shading.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_deffered_shading.auvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_deffered_shading.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_g_buffer.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_g_buffer.auvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_g_buffer.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hard_point_shadows.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr.auvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_background.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_background.auvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_background.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_brdf.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_brdf.auvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_brdf.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_cubemap.auvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_equirectangular_to_cubemap.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_equirectangular_to_cubemap.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_irradiance_convolution.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_irradiance_convolution.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_prefilter.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_hdr_skybox_prefilter.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_light.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_light.auvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_light_map_model_loading.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_light_map_model_loading.auvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_light_map_model_loading.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_light_model_loading.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_light_model_loading.auvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_light_model_loading.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_lighting.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_lighting.auvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_lighting.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_normal_mapping.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_normal_mapping.auvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen.auvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_blur.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_blur.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_edge_detection.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_edge_detection.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_grayscale.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_grayscale.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_inversion.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_inversion.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_sharpen.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_offscreen_sharpen.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_parallax_mapping.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_parallax_mapping.auvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_parallax_mapping.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_pbr.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_pbr.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_pbr.glvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_pbr_hdr.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_pbr_hdr.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_pbr_hdr_trxture.glfs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_pbr_hdr_trxture.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_pbr_texture.glfs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_pbr_texture.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_point_shadows.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_point_shadows.auvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_point_shadows.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_point_shadows_depth.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_point_shadows_depth.augs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_point_shadows_depth.auvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_point_shadows_depth.glgs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_point_shadows_depth.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_shadow_mapping.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_shadow_mapping.auvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_shadow_mapping.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_shadow_mapping_depth.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_shadow_mapping_depth.auvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_shadow_mapping_depth.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_skybox.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_skybox.auvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_skybox.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_skybox_cube.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_skybox_cube.auvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_skybox_cube.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_skybox_cube_refract.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_skybox_cube_refract.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao.auvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao_blur.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao_blur.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao_geometry.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao_geometry.auvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao_geometry.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao_lighting.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_ssao_lighting.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_test_light_model_loading.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_test_light_model_loading.auvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_texture_transform.aufs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_texture_transform.auvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_texture_transform.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_vertex_explode.glfs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_vertex_explode.glgs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_vertex_explode.glsl">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shader\au_vertex_explode.glvs">
+      <Filter>Shader\GLSL</Filter>
+    </None>
+    <None Include="..\..\..\AutoEngine\Content\shaderHLSL\au_texture_transform.hlsl">
+      <Filter>Shader\HLSL</Filter>
+    </None>
   </ItemGroup>
 </Project>

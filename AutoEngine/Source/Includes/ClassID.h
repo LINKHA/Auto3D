@@ -82,7 +82,8 @@ enum ClassIDType
 	DO_CLASS_ID(LevelBehaviorObject, 105)
 	DO_CLASS_ID(Application, 106)
 	DO_CLASS_ID(BackgroundLoader, 107)
-
+	DO_CLASS_ID(VertexBuffer, 108)
+	
 	CLASS_ID_Count
 };
 

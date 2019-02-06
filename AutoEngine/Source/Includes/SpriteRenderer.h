@@ -71,7 +71,6 @@ public:
 	*/
 	void GenerateMipmap();
 private:
-	unsigned _VAO;
 	unsigned _VBO;
 	unsigned _EBO;
 	unsigned int _textureData;

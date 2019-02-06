@@ -238,7 +238,8 @@ void Graphics::SetDepthWrite(bool enable)
 
 void Graphics::SetViewport(int posX, int posY, int width, int height)
 {
-
+	CD3DX12_VIEWPORT viewport(static_cast<float>(posX), static_cast<float>(posY), static_cast<float>(width), static_cast<float>(height));
+	_commandList->RSSetViewports(1,&viewport);
 }
 
 void Graphics::CreateDevice()
@@ -296,7 +297,7 @@ void Graphics::CreateGameWindow()
 
 	// The position size will be reset later
 	_window = SDL_CreateWindow(
-		_titleName,
+		_titleName.CStr(),
 		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 		0, 0, flags
 	);
