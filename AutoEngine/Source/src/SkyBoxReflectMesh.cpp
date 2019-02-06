@@ -75,10 +75,10 @@ void SkyBoxReflectMesh::Start()
 		-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
 		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
 	};
-	
-	glGenVertexArrays(1, &cubeVAO);
+
 	glGenBuffers(1, &cubeVBO);
-	glBindVertexArray(cubeVAO);
+
+
 	glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), &cubeVertices, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
@@ -108,10 +108,9 @@ void SkyBoxReflectMesh::Draw()
 	_shader->SetVec3("cameraPos", GetSubSystem<Renderer>()->GetCurrentCamera().GetPosition());
 
 
-	glBindVertexArray(cubeVAO);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, Singleton<SkyManager>::Instance().GetSkyBox()->GetTexture());
 	glDrawArrays(GL_TRIANGLES, 0, 36);
-	glBindVertexArray(0);
+
 }
 }

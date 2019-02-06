@@ -24,7 +24,7 @@ public:
 	void SetColor(float r, float g, float b, float a = 1.0f);
 private:
 
-	unsigned int _VBO, _VAO;
+	unsigned int _VBO;
 	unsigned int _textureData;
 
 	SharedPtr<ShaderVariation> _shader;
@@ -36,7 +36,6 @@ private:
 	unsigned int _imageNormal;
 	unsigned int _imageParallax;
 
-	void renderQuad();
 };
 
 }

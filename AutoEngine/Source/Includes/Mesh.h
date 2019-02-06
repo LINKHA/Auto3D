@@ -53,7 +53,6 @@ public:
 	VECTOR<unsigned int> indices;
 	VECTOR<MeshVertex> vertices;
 	VECTOR<TextureData> textures;
-	unsigned int vao;
 	unsigned int vbo;
 	unsigned int ebo;
 };

@@ -25,7 +25,6 @@ public:
 
 private:
 
-	unsigned int _VAO{};
 	unsigned int _VBO{};
 	unsigned int _textureData{};
 	SharedPtr<ShaderVariation> _shader;
@@ -35,7 +34,6 @@ private:
 	unsigned int _timage{};
 	unsigned int _imageNormal{};
 
-	void renderQuad();
 };
 
 }

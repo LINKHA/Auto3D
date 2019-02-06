@@ -22,9 +22,13 @@ void Level_0::Start()
 	camObj->AddComponent(camera);
 
 	auto imageLogo = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/logo.png");
-	auto obj = CreateNode();
-	obj->SetPosition(0.0f, 0.0f, -2.0f);
-	obj->CreateComponent<SpriteRenderer>()->SetImage(imageLogo);
+	for (int i = 0; i < 1000; i++)
+	{
+		auto obj = CreateNode();
+		obj->SetPosition(0.0f, i, -2.0f);
+		obj->CreateComponent<SpriteRenderer>()->SetImage(imageLogo);
+	}
+	
 
 }
 void Level_0::Update()

@@ -48,9 +48,7 @@ void MeshNode::Draw(SharedPtr<ShaderVariation> shader)
 	}
 
 	// draw mesh
-	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indices.size()), GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0);
 
 	// always good practice to set everything back to defaults once configured.
 	glActiveTexture(GL_TEXTURE0);
@@ -59,11 +57,9 @@ void MeshNode::Draw(SharedPtr<ShaderVariation> shader)
 void MeshNode::setupMesh()
 {
 	// create buffers/arrays
-	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
 	glGenBuffers(1, &ebo);
 
-	glBindVertexArray(vao);
 	// load data into vertex buffers
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	// A great thing about structs is that their memory layout is sequential for all its items.
@@ -91,7 +87,6 @@ void MeshNode::setupMesh()
 	glEnableVertexAttribArray(4);
 	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(MeshVertex), (void*)offsetof(MeshVertex, bitangent));
 
-	glBindVertexArray(0);
 }
 
 

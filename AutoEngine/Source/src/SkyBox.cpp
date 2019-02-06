@@ -35,9 +35,8 @@ void SkyBox::Start()
 	auto shader = GetSubSystem<ResourceSystem>()->GetResource<Shader>("shader/au_skybox.glsl");
 	_shader = MakeShared<ShaderVariation>(shader);
 	_shader->Create();
-	glGenVertexArrays(1, &_skyboxVAO);
 	glGenBuffers(1, &_skyboxVBO);
-	glBindVertexArray(_skyboxVAO);
+
 	glBindBuffer(GL_ARRAY_BUFFER, _skyboxVBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(skybox_vertices), &skybox_vertices, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
@@ -68,11 +67,11 @@ void SkyBox::Draw()
 	viewMat = glm::mat4(glm::mat3(GetSubSystem<Renderer>()->GetCurrentCamera().GetViewMatrix()));
 	_shader->SetMat4("view", viewMat);
 	_shader->SetMat4("projection", projectionMat);
-	glBindVertexArray(_skyboxVAO);
+
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, _cubemapTexture);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
-	glBindVertexArray(0);
+
 	glDepthFunc(GL_LESS);
 }
 

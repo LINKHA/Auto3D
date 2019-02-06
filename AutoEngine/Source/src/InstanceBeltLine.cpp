@@ -33,8 +33,6 @@ void InstanceBeltLine::Start()
 	glBufferData(GL_ARRAY_BUFFER, _count * sizeof(glm::mat4), &_modelMatrices[0], GL_STATIC_DRAW);
 	for (unsigned int i = 0; i < _mesh->GetMeshNodes().size(); i++)
 	{
-		unsigned int VAO = _mesh->GetMeshNodes()[i].vao;
-		glBindVertexArray(VAO);
 		glEnableVertexAttribArray(3);
 		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)0);
 		glEnableVertexAttribArray(4);
@@ -48,8 +46,6 @@ void InstanceBeltLine::Start()
 		glVertexAttribDivisor(4, 1);
 		glVertexAttribDivisor(5, 1);
 		glVertexAttribDivisor(6, 1);
-
-		glBindVertexArray(0);
 	}
 
 	RegisterOpaque(SharedFromThis());
@@ -69,9 +65,7 @@ void InstanceBeltLine::Draw()
 	glBindTexture(GL_TEXTURE_2D, _mesh->GetTextureDatas()[0].data);
 	for (unsigned int i = 0; i < _mesh->GetMeshNodes().size(); i++)
 	{
-		glBindVertexArray(_mesh->GetMeshNodes()[i].vao);
 		glDrawElementsInstanced(GL_TRIANGLES, _mesh->GetMeshNodes()[i].indices.size(), GL_UNSIGNED_INT, 0, _count);
-		glBindVertexArray(0);
 	}
 
 }

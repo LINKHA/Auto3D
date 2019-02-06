@@ -13,7 +13,7 @@ public:
 	void Draw()override;
 private:
 	SharedPtr<ShaderVariation> _shader;
-	unsigned int cubeVAO, cubeVBO;
+	unsigned int cubeVBO;
 };
 
 }

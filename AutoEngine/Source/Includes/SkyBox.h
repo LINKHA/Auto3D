@@ -19,7 +19,7 @@ public:
 private:
 	unsigned int _cubemapTexture;
 	SharedPtr<ShaderVariation> _shader;
-	unsigned int _skyboxVAO;
+
 	unsigned int _skyboxVBO;
 };
 
