@@ -7,13 +7,15 @@
 #include "NewDef.h"
 
 namespace Auto3D {
-
-
-static const unsigned glFillType[] =
+static const unsigned glCmpFunc[] =
 {
-	GL_FILL,
-	GL_LINE,
-	GL_POINT
+	GL_ALWAYS,
+	GL_EQUAL,
+	GL_NOTEQUAL,
+	GL_LESS,
+	GL_LEQUAL,
+	GL_GREATER,
+	GL_GEQUAL
 };
 
 static const unsigned glChangeMode[] =
@@ -29,58 +31,6 @@ static const unsigned glBufferMode[] =
 	GL_ELEMENT_ARRAY_BUFFER
 };
 
-static const unsigned glDepthMode[] =
-{
-	GL_ALWAYS,
-	GL_NEVER,
-	GL_LESS,
-	GL_EQUAL,
-	GL_LEQUAL,
-	GL_GREATER,
-	GL_NOTEQUAL,
-	GL_GEQUAL
-};
-
-static const unsigned glStencilOps[] =
-{
-	GL_KEEP,
-	GL_ZERO,
-	GL_REPLACE,
-	GL_INCR,
-	GL_INCR_WRAP,
-	GL_DECR,
-	GL_DECR_WRAP,
-	GL_INVERT
-};
-
-static const unsigned glBlendSrcFu[] =
-{
-	GL_ZERO,
-	GL_ONE,
-	GL_SRC_COLOR,
-	GL_ONE_MINUS_SRC_COLOR,
-	GL_SRC_ALPHA,
-	GL_ONE_MINUS_SRC_ALPHA,
-	GL_CONSTANT_COLOR,
-	GL_ONE_MINUS_CONSTANT_COLOR,
-	GL_CONSTANT_ALPHA,
-	GL_ONE_MINUS_CONSTANT_ALPHA
-};
-
-static const unsigned glBlendDestFu[] =
-{
-	GL_DST_COLOR,
-	GL_ONE_MINUS_DST_COLOR,
-	GL_DST_ALPHA,
-	GL_ONE_MINUS_DST_ALPHA
-};
-
-static const unsigned glBlendOp[] =
-{
-	GL_FUNC_ADD,
-	GL_FUNC_REVERSE_SUBTRACT
-};
-
 static const unsigned glElementTypes[] =
 {
 	GL_INT,
@@ -88,52 +38,65 @@ static const unsigned glElementTypes[] =
 	GL_UNSIGNED_BYTE
 };
 
-void WINAPI glDebugOutput(
+void APIENTRY glDebugOutput(
 	GLenum source,
 	GLenum type,
 	GLuint id,
 	GLenum severity,
 	GLsizei length,
 	const GLchar *message,
-	const void *userParam)
+	void *userParam)
 {
-	if (id == 131169 || id == 131185 || id == 131218 || id == 131204) return; // ignore these non-significant error codes
+	// ignore non-significant error/warning codes
+	if (
+		id == 131169 || id == 131185 || id == 131218 || id == 131204 || id || // driver-specific non-significant error codes
+		id == 2000 || id == 2001 || id == 2265 // shader compilation error codes; ignore as already managed from shader object
+		)
+	{
+		return;
+	}
 
-	std::cout << "---------------" << std::endl;
-	std::cout << "Debug message (" << id << "): " << message << std::endl;
+	std::string logMessage = "Debug output: (" + std::to_string(id) + "): " + message + "\n";
 
 	switch (source)
 	{
-	case 0x8246:				std::cout << "Source: API"; break;
-	case 0x8247:				std::cout << "Source: Window System"; break;
-	case 0x8248:				std::cout << "Source: Shader Compiler"; break;
-	case 0x8249:				std::cout << "Source: Third Party"; break;
-	case 0x824A:				std::cout << "Source: Application"; break;
-	case 0x824B:				std::cout << "Source: Other"; break;
-	} std::cout << std::endl;
+	case GL_DEBUG_SOURCE_API:             logMessage += "Source: API"; break;
+	case GL_DEBUG_SOURCE_WINDOW_SYSTEM:   logMessage += "Source: Window System"; break;
+	case GL_DEBUG_SOURCE_SHADER_COMPILER: logMessage += "Source: Shader Compiler"; break;
+	case GL_DEBUG_SOURCE_THIRD_PARTY:     logMessage += "Source: Third Party"; break;
+	case GL_DEBUG_SOURCE_APPLICATION:     logMessage += "Source: Application"; break;
+	case GL_DEBUG_SOURCE_OTHER:           logMessage += "Source: Other"; break;
+	} logMessage += "\n";
 
 	switch (type)
 	{
-	case 0x824C:				std::cout << "Type: Error"; break;
-	case 0x824D:				std::cout << "Type: Deprecated Behaviour"; break;
-	case 0x824E:				std::cout << "Type: Undefined Behaviour"; break;
-	case 0x824F:				std::cout << "Type: Portability"; break;
-	case 0x8250:				std::cout << "Type: Performance"; break;
-	case 0x8268:				std::cout << "Type: Marker"; break;
-	case 0x8269:				std::cout << "Type: Push Group"; break;
-	case 0x826A:				std::cout << "Type: Pop Group"; break;
-	case 0x8251:				std::cout << "Type: Other"; break;
-	} std::cout << std::endl;
+	case GL_DEBUG_TYPE_ERROR:               logMessage += "Type: Error"; break;
+	case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR: logMessage += "Type: Deprecated Behaviour"; break;
+	case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:  logMessage += "Type: Undefined Behaviour"; break;
+	case GL_DEBUG_TYPE_PORTABILITY:         logMessage += "Type: Portability"; break;
+	case GL_DEBUG_TYPE_PERFORMANCE:         logMessage += "Type: Performance"; break;
+	case GL_DEBUG_TYPE_MARKER:              logMessage += "Type: Marker"; break;
+	case GL_DEBUG_TYPE_PUSH_GROUP:          logMessage += "Type: Push Group"; break;
+	case GL_DEBUG_TYPE_POP_GROUP:           logMessage += "Type: Pop Group"; break;
+	case GL_DEBUG_TYPE_OTHER:               logMessage += "Type: Other"; break;
+	} logMessage += "\n";
 
 	switch (severity)
 	{
-	case 0x9146:				std::cout << "Severity: high"; break;
-	case 0x9147:				std::cout << "Severity: medium"; break;
-	case 0x9148:				std::cout << "Severity: low"; break;
-	case 0x826B:				std::cout << "Severity: notification"; break;
+	case GL_DEBUG_SEVERITY_HIGH:         logMessage += "Severity: high"; break;
+	case GL_DEBUG_SEVERITY_MEDIUM:       logMessage += "Severity: medium"; break;
+	case GL_DEBUG_SEVERITY_LOW:          logMessage += "Severity: low"; break;
+	case GL_DEBUG_SEVERITY_NOTIFICATION: logMessage += "Severity: notification"; break;
+	} logMessage += "\n";
+	logMessage += "\n";
+
+	// only log a message a maximum of 3 times (as it'll keep spamming the message queue with
+	// the same error message)
+	static unsigned int msgCount = 0;
+	if (msgCount++ < 3)
+	{
+		WarningString(logMessage);
 	}
-	std::cout << std::endl;
-	std::cout << std::endl;
 }
 
 static void GetGLPrimitiveType(unsigned elementCount, PrimitiveTypes type, unsigned& primitiveCount, GLenum& glPrimitiveType)
@@ -172,6 +135,21 @@ static void GetGLPrimitiveType(unsigned elementCount, PrimitiveTypes type, unsig
 	}
 }
 
+void Graphics::RegisterDebug()
+{
+#ifdef _DEBUG
+	GLint flags;
+	glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
+	if (flags & GL_CONTEXT_FLAG_DEBUG_BIT)
+	{
+		glEnable(GL_DEBUG_OUTPUT);
+		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+		glDebugMessageCallback((GLDEBUGPROC)glDebugOutput, nullptr);
+		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
+	}
+#endif
+}
+
 void Graphics::Init()
 {
 	_icon = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/logo.png");
@@ -187,6 +165,9 @@ void Graphics::Init()
 	CreateIcon();
 
 	Restore();
+
+	InitGraphicsState();
+
 }
 void Graphics::ReleaseAPI()
 {
@@ -201,28 +182,33 @@ void Graphics::Restore()
 	glBindVertexArray(_vertexArrayObject);
 }
 
-void Graphics::RegisterDebug()
+void Graphics::ResetCachedState()
 {
-#ifdef _DEBUG
-	GLint flags;
-	glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
-	if (flags & GL_CONTEXT_FLAG_DEBUG_BIT)
-	{
-		glEnable(GL_DEBUG_OUTPUT);
-		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-		glDebugMessageCallback(glDebugOutput, nullptr);
-		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
-	}
-#endif
+	_drawColor = Color(0.0f, 0.0f, 0.0f, 1.0f);
+	_viewport = RectInt(0, 0, 0, 0);
+	_colorWrite = false;
+	_depthWrite = false;
+	_stencilWriteMask = MATH_MAX_UNSIGNED;
+	_numPrimitives = 0;
+	_numBatches = 0;
+	_numSample = 0;
+	_depthTestMode = DepthMode::Always;
 }
+void Graphics::InitGraphicsState()
+{
+	SetDepthTest(DepthMode::Less);
+	SetColorWrite(true);
+	SetDepthWrite(true);
+}
+
 
 bool Graphics::BeginFrame()
 {
 	if (!IsInitialized() || IsDeviceLost())
 		return false;
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
 
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(glCmpFunc[static_cast<unsigned>(_depthTestMode)]);
 	SetColorWrite(true);
 	SetDepthWrite(true);
 	Clear(CLEAR_TARGET_COLOR | CLEAR_TARGET_DEPTH | CLEAR_TARGET_STENCIL);
@@ -266,27 +252,6 @@ void Graphics::Clear(unsigned flags, const Color & color, float depth, unsigned 
 	glClear(glFlags);
 }
 
-
-void Graphics::SetColorWrite(bool enable)
-{
-	if (enable != _colorWrite)
-	{
-		if (enable)
-			glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-		else
-			glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-
-		_colorWrite = enable;
-	}
-}
-void Graphics::SetDepthWrite(bool enable)
-{
-	if (enable != _depthWrite)
-	{
-		glDepthMask(enable ? GL_TRUE : GL_FALSE);
-		_depthWrite = enable;
-	}
-}
 
 void Graphics::CreateGameWindow()
 {
@@ -385,8 +350,12 @@ void Graphics::CreateDevice()
 	{
 		AssertString(-1, "Failed to initialize GLAD from Engine");
 	}
+	else
+	{
+		// Set driver name
+		_driverName = STRING((char*)glGetString(GL_VENDOR)) + STRING((char*)glGetString(GL_RENDERER));
+	}
 }
-
 
 bool Graphics::IsDeviceLost()
 {
@@ -441,6 +410,37 @@ void Graphics::DrawInstanced(PrimitiveTypes type, unsigned indexStart, unsigned 
 void Graphics::SetViewport(int posX, int posY, int width, int height)
 {
 	glViewport(posX, posY, width, height);
+}
+
+void Graphics::SetDepthTest(DepthMode mode)
+{
+	if (mode != _depthTestMode)
+	{
+		glDepthFunc(glCmpFunc[static_cast<unsigned>(mode)]);
+		_depthTestMode = mode;
+	}
+}
+
+void Graphics::SetDepthWrite(bool enable)
+{
+	if (enable != _depthWrite)
+	{
+		glDepthMask(enable ? GL_TRUE : GL_FALSE);
+		_depthWrite = enable;
+	}
+}
+
+void Graphics::SetColorWrite(bool enable)
+{
+	if (enable != _colorWrite)
+	{
+		if (enable)
+			glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+		else
+			glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+
+		_colorWrite = enable;
+	}
 }
 
 }

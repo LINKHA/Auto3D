@@ -145,6 +145,8 @@ double Time::GetTimeSinceStartup() const
 
 float Time::GetFramesPerSecond() const
 {
+	if (_dynamicTime.deltaTime == 0)
+		return 60.0;
 	return 1.0f / _dynamicTime.deltaTime;
 }
 

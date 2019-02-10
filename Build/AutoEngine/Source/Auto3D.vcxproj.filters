@@ -313,6 +313,15 @@
     <ClCompile Include="..\..\..\AutoEngine\Source\src\D3D12VertexBuffer.cpp">
       <Filter>Source\Graphics\Direct3D12</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\RenderPath.cpp">
+      <Filter>Source\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\IndexBuffer.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\GraphicsDef.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\InstanceBeltLine.h">
@@ -719,6 +728,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\VertexBuffer.h">
       <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\RenderPath.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\IndexBuffer.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\FlagSet.h">
+      <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

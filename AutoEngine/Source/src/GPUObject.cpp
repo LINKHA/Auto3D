@@ -17,9 +17,13 @@ GPUObject::GPUObject(SharedPtr<Graphics> graphics)
 
 GPUObject::~GPUObject()
 {
-	/*if (_graphics)
-		_graphics->RemoveGPUObject(SharedPtr<GPUObject>(this));*/
 }
-
+void GPUObject::OnDeviceLost()
+{
+#ifdef AUTO_OPENGL
+	// On OpenGL the object has already been lost at this point; reset object name
+	_object.name = 0;
+#endif
+}
 
 }

@@ -23,6 +23,8 @@ Graphics::Graphics(SharedPtr<Ambient> ambient)
 	, _apiName("UnKnow")
 #endif
 {
+	ResetCachedState();
+
 	RegisterGraphicsLib(_ambient);
 }
 

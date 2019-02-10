@@ -1,7 +1,7 @@
 #pragma once
 
 #define AUTO_MEMORY_DEBUG 1
-#define AUTO_WIN32_CONSOLE 0
+#define AUTO_WIN32_CONSOLE 1
 
 #if  AUTO_MEMORY_DEBUG
 #	if AUTO_WIN32_CONSOLE

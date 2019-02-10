@@ -7,6 +7,7 @@
 
 namespace Auto3D {
 class Light;
+class RenderPath;
 /**
 * @brief : Render graphices create to geometry
 */
@@ -28,6 +29,10 @@ class Renderer : public GlobalGameManager
 	friend class LightContainer;
 public:
 	explicit Renderer(SharedPtr<Ambient> ambient);
+	/// Set default renderpath.
+	void SetDefaultRenderPath(RenderPath* renderPath);
+
+
 	/**
 	* @brief : Init renderer register renderer sub setting
 	*/
@@ -122,6 +127,10 @@ public:
 	TranslucentContainer GetAllTranslucents() { return _translucents; }
 private:
 	/**
+	* @brief : Create light volume geometries
+	*/
+	void createGeometries();
+	/**
 	* @brief : Delay add or remove camera
 	*/
 	void delayedAddRemoveCameras();
@@ -161,15 +170,15 @@ private:
 	* @brief : Sort translucent geometry from depth test
 	*/
 	void translucentGeometrySort();
-	/**
-	* @brief : Intelligence mout shadow renderer,Intelligent creation object
-	*/
-	void intelMoutShadowRenderer();
-	/**
-	* @brief : Intelligence mout light container,Intelligent creation object
-	*/
-	void intelMoutLightContainer();
 private:
+	/// Graphics sub system
+	WeakPtr<Graphics> _graphics;
+
+	/// Default renderpath.
+	SharedPtr<RenderPath> _defaultRenderPath;
+
+	
+
 	SharedPtr<ShadowRenderer> _shadowRenderer;
 	SharedPtr<LightContainer> _lightContainer;
 	///is rendering or culling

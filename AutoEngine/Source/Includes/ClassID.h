@@ -83,6 +83,7 @@ enum ClassIDType
 	DO_CLASS_ID(Application, 106)
 	DO_CLASS_ID(BackgroundLoader, 107)
 	DO_CLASS_ID(VertexBuffer, 108)
+	DO_CLASS_ID(IndexBuffer, 109)
 	
 	CLASS_ID_Count
 };

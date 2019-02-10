@@ -30,13 +30,29 @@ public:
 	* @brief : Destruct. Remove from the Graphics
 	*/
 	virtual ~GPUObject();
+	/**
+	* @brief : Mark the GPU resource destroyed on graphics context destruction
+	*/
+	virtual void OnDeviceLost();
+	/**
+	* @brief : Recreate the GPU resource and restore data if applicable
+	*/
+	virtual void OnDeviceReset() {}
+	/**
+	* @brief : Unconditionally release the GPU resource
+	*/
+	virtual void Release() {}
+	/**
+	* @brief : Get graphics sub system
+	*/
+	WeakPtr<Graphics> GetGraphics() const { return _graphics;}
 	/** 
 	* @brief : Get GPU object handle 
 	*/
 	GPUObjectHandle GetHandle() { return _object; }
 protected:
 	/// Graphics subsystem
-	SharedPtr<Graphics> _graphics;
+	WeakPtr<Graphics> _graphics;
 	/// Object pointer or name.
 	GPUObjectHandle _object{};
 };

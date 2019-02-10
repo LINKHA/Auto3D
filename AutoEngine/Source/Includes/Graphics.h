@@ -26,7 +26,6 @@ public:
 	* @brief : Graphics init
 	*/
 	void Init();
-	
 	/**
 	* @brief : Create a Game window
 	*/
@@ -91,7 +90,8 @@ public:
 	* @brief : Create sample point
 	*/
 	void CreateSamplePoint(int num);
-	
+
+	void InitGraphicsState();
 
 	void SetShader(ShaderVariation* vs, ShaderVariation* fs);
 
@@ -111,7 +111,7 @@ public:
 	/**
 	* @brief : Clear color depth and stencil
 	*/
-	void Clear(unsigned flags, const Color& color = Color(0.0f, 0.0f, 0.0f, 0.0f), float depth = 1.0f, unsigned stencil = 0);
+	void Clear(unsigned flags, const Color& color = Color(0.0f, 0.0f, 0.0f, 1.0f), float depth = 1.0f, unsigned stencil = 0);
 	/**
 	* @brief : Register Graphics library objects.
 	*/
@@ -124,6 +124,14 @@ public:
 	* @brief : Set depth write
 	*/
 	void SetDepthWrite(bool enable);
+
+	DepthMode GetDepthTest() const { return _depthTestMode; }
+
+	void SetDepthTest(DepthMode mode);
+	/**
+	* @brief : Reset cached rendering state
+	*/
+	void ResetCachedState();
 	/**
 	* @brief : Set title (only in space awake function)
 	*/
@@ -156,6 +164,8 @@ public:
 	* @brief : The release of API
 	*/
 	void ReleaseAPI();
+
+
 #if AUTO_OPENGL
 	/**
 	* @brief : Restore GPU objects and reinitialize state
@@ -178,6 +188,8 @@ private:
 private:
 	/// Graphics api name
 	STRING _apiName{};
+	/// Graphics driver
+	STRING _driverName{};
 #if AUTO_OPENGL
 	/// OpenGL context
 	SDL_GLContext _glContext;
@@ -222,12 +234,11 @@ private:
 	/// Use WARP adapter
 	bool _useWarp{};
 #endif
+#pragma region window
 	/// window
 	SDL_Window* _window{};
 	/// icon
 	SharedPtr<Image> _icon{};
-	/// background draw color
-	Color _drawColor = { Color(0.0f, 0.0f, 0.0f, 1.0f) };
 	/// window rect
 	RectInt _windowRect = { RectInt(0, 0, 1280, 720) };
 	/// window title name
@@ -244,6 +255,11 @@ private:
 	bool _isCenter = true;
 	/// cursor lock in screen flag
 	bool _isGrab = true;
+#pragma endregion
+
+#pragma region GraphicsMember
+	/// background draw color
+	Color _drawColor = { Color(0.0f, 0.0f, 0.0f, 1.0f) };
 	/// color write
 	bool _colorWrite{};
 	/// depth write
@@ -256,6 +272,13 @@ private:
 	unsigned _numBatches{};
 	/// msaa point num
 	unsigned _numSample{};
+	/// Depth compare mode.
+	DepthMode _depthTestMode{};
+	/// Viewport coordinates
+	RectInt _viewport;
+#pragma endregion
+
+
 };
 
 }

@@ -3,6 +3,10 @@
 
 namespace Auto3D {
 
+bool VertexBuffer::create()
+{
+
+}
 
 
 }

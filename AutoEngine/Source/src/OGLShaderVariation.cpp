@@ -4,6 +4,8 @@
 namespace Auto3D {
 
 
+GLchar infoLog[1024];
+
 bool ShaderVariation::Create()
 {
 	unsigned int vertex, fragment;
@@ -16,12 +18,12 @@ bool ShaderVariation::Create()
 	vertex = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertex, 1, &vsCode, NULL);
 	glCompileShader(vertex);
-	checkCompileErrors(vertex, "VERTEX");
+	checkCompileErrors(vertex, "Vertex");
 	// fragment Shader
 	fragment = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fragment, 1, &fsCode, NULL);
 	glCompileShader(fragment);
-	checkCompileErrors(fragment, "FRAGMENT");
+	checkCompileErrors(fragment, "Fragment");
 
 	unsigned int geometry;
 	if (!_gsShaderCode.Empty())
@@ -29,7 +31,7 @@ bool ShaderVariation::Create()
 		geometry = glCreateShader(GL_GEOMETRY_SHADER);
 		glShaderSource(geometry, 1, &gsCode, NULL);
 		glCompileShader(geometry);
-		checkCompileErrors(geometry, "GEOMETRY");
+		checkCompileErrors(geometry, "Geometry");
 	}
 
 	// shader Program
@@ -40,7 +42,7 @@ bool ShaderVariation::Create()
 		glAttachShader(_object.name, geometry);
 
 	glLinkProgram(_object.name);
-	checkCompileErrors(_object.name, "PROGRAM");
+	checkCompileErrors(_object.name, "Program");
 	// delete the shaders as they're linked into our program now and no longer necessery
 	glDeleteShader(vertex);
 	glDeleteShader(fragment);
@@ -130,14 +132,14 @@ void ShaderVariation::SetMat4(const STRING &name, const glm::mat4 &mat) const
 void ShaderVariation::checkCompileErrors(GLuint shader, STRING type)
 {
 	GLint success;
-	GLchar infoLog[1024];
+
 	if (type != "PROGRAM")
 	{
 		glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
 		if (!success)
 		{
 			glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-			AutoCout << "SHADER_COMPILATION_ERROR of type: " << type << "\t" << infoLog << AutoEndl;
+			AutoCout << "OpenGL Error -- Shader compilation error of type : " << type << "\t" << infoLog << AutoEndl;
 		}
 	}
 	else
@@ -146,7 +148,7 @@ void ShaderVariation::checkCompileErrors(GLuint shader, STRING type)
 		if (!success)
 		{
 			glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-			AutoCout << "PROGRAM_LINKING_ERROR of type: " << type << "\t" << infoLog << AutoEndl;
+			AutoCout << "OpenGL Error -- Program linking error of type : " << type << "\t" << infoLog << AutoEndl;
 		}
 	}
 }

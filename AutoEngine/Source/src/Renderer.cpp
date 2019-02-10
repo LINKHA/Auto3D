@@ -3,8 +3,10 @@
 #include "Graphics.h"
 #include "Transform.h"
 #include "Light.h"
-#include "NewDef.h"
+#include "RenderPath.h"
+#include "VertexBuffer.h"
 
+#include "NewDef.h"
 
 //Temp
 #include "ResourceSystem.h"
@@ -24,8 +26,17 @@ Renderer::~Renderer()
 
 void Renderer::Init()
 {
-	intelMoutShadowRenderer();
-	intelMoutLightContainer();
+	_shadowRenderer = MakeShared<ShadowRenderer>(_ambient);
+	_lightContainer = MakeShared<LightContainer>(_ambient);
+
+	auto graphics = GetSubSystem<Graphics>();
+	auto cache = GetSubSystem<ResourceSystem>();
+
+	_graphics = graphics;
+
+	_defaultRenderPath = MakeShared<RenderPath>();
+	
+	createGeometries();
 }
 
 void Renderer::ReadyToRender()
@@ -77,6 +88,14 @@ void Renderer::Render()
 	delayedAddRemoveTranslucents();
 	
 }
+
+void Renderer::createGeometries()
+{
+	SharedPtr<VertexBuffer> dlvb = MakeShared<VertexBuffer>(_ambient);
+	dlvb->SetShadowed(true);
+
+}
+
 void Renderer::AddCamera(SharedPtr<Camera> camera)
 {
 	Assert(camera != nullptr);
@@ -473,20 +492,6 @@ void Renderer::translucentGeometrySort()
 
 		_translucentsSorted[distance] = *i;
 	}
-}
-
-void Renderer::intelMoutShadowRenderer()
-{
-	if (_shadowRenderer)
-		return;
-	_shadowRenderer = MakeShared<ShadowRenderer>(_ambient);
-}
-
-void Renderer::intelMoutLightContainer()
-{
-	if (_lightContainer)
-		return;
-	_lightContainer = MakeShared<LightContainer>(_ambient);
 }
 
 
