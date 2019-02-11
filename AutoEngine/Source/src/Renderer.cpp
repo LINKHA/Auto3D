@@ -5,6 +5,8 @@
 #include "Light.h"
 #include "RenderPath.h"
 #include "VertexBuffer.h"
+#include "IndexBuffer.h"
+
 
 #include "NewDef.h"
 
@@ -13,6 +15,19 @@
 
 namespace Auto3D {
 
+static const float DIR_LIGHT_VERTEX_DATA[] =
+{
+	-1, 1, 0,
+	1, 1, 0,
+	1, -1, 0,
+	-1, -1, 0,
+};
+
+static const unsigned short DIR_LIGHT_INDEX_DATA[] =
+{
+	0, 1, 2,
+	2, 3, 0,
+};
 
 Renderer::Renderer(SharedPtr<Ambient> ambient)
 	:Super(ambient)
@@ -93,7 +108,13 @@ void Renderer::createGeometries()
 {
 	SharedPtr<VertexBuffer> dlvb = MakeShared<VertexBuffer>(_ambient);
 	dlvb->SetShadowed(true);
+	dlvb->SetSize(4, VERTEX_MASK_POSITION);
+	dlvb->SetData(DIR_LIGHT_VERTEX_DATA);
 
+	SharedPtr<IndexBuffer> dlib = MakeShared<IndexBuffer>(_ambient);
+	dlib->SetShadowed(true);
+	dlib->SetSize(6, false);
+	dlib->SetData(DIR_LIGHT_INDEX_DATA);
 }
 
 void Renderer::AddCamera(SharedPtr<Camera> camera)

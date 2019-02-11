@@ -316,11 +316,17 @@
     <ClCompile Include="..\..\..\AutoEngine\Source\src\RenderPath.cpp">
       <Filter>Source\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\AutoEngine\Source\IndexBuffer.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\AutoEngine\Source\GraphicsDef.cpp">
       <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\RenderSurface.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\IndexBuffer.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLIndexBuffer.cpp">
+      <Filter>Source\Graphics\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -732,11 +738,17 @@
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\RenderPath.h">
       <Filter>Source\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\AutoEngine\Source\IndexBuffer.h">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\FlagSet.h">
       <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\OGLGraphicsImp.h">
+      <Filter>Source\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\RenderSurface.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\IndexBuffer.h">
+      <Filter>Source\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -7,7 +7,9 @@ VertexBuffer::VertexBuffer(SharedPtr<Ambient> ambient, bool forceHeadless)
 	: Super(ambient)
 	, GPUObject(forceHeadless ? nullptr : GetSubSystem<Graphics>())
 {
-	if (_graphics._empty())
+	updateOffsets();
+
+	if (!_graphics.lock())
 		_shadowed = true;
 }
 
@@ -31,7 +33,7 @@ void VertexBuffer::Release()
 void VertexBuffer::SetShadowed(bool enable)
 {
 	// If no graphics subsystem, can not disable shadowing
-	if (_graphics._empty())
+	if (!_graphics.lock())
 		enable = true;
 
 	if (enable != _shadowed)

@@ -50,11 +50,20 @@ public:
 	* @brief : Get GPU object handle 
 	*/
 	GPUObjectHandle GetHandle() { return _object; }
+
+	/// Return whether data is lost due to context loss.
+	bool IsDataLost() const { return _dataLost; }
+	/// Return whether has pending data assigned while graphics context was lost.
+	bool HasPendingData() const { return _dataPending; }
 protected:
 	/// Graphics subsystem
 	WeakPtr<Graphics> _graphics;
 	/// Object pointer or name.
 	GPUObjectHandle _object{};
+	/// Data lost flag.
+	bool _dataLost{};
+	/// Data pending flag.
+	bool _dataPending{};
 };
 
 }

@@ -4,6 +4,9 @@
 #include "AutoImage.h"
 #include "ResourceSystem.h"
 #include "Image.h"
+#include "OGLGraphicsImp.h"
+#include "IndexBuffer.h"
+
 #include "NewDef.h"
 
 namespace Auto3D {
@@ -135,6 +138,27 @@ static void GetGLPrimitiveType(unsigned elementCount, PrimitiveTypes type, unsig
 	}
 }
 
+Graphics::Graphics(SharedPtr<Ambient> ambient)
+	:Super(ambient)
+	, _window(nullptr)
+	, _impl(MakeShared<GraphicsImpl>())
+#if _OPENGL_4_6_
+	, _apiName("OpenGL 4.6")
+#elif _OPENGL_4_PLUS_
+	, _apiName("OpenGL 4.3")
+#elif _OPENGL_3_PLUS_
+	, _apiName("OpenGL 3.3")
+#elif _DIRECT_3D_12
+	, _apiName("Direct3D 12")
+#else
+	, _apiName("UnKnow")
+#endif
+{
+	ResetCachedState();
+
+	RegisterGraphicsLib(_ambient);
+}
+
 void Graphics::RegisterDebug()
 {
 #ifdef _DEBUG
@@ -169,6 +193,18 @@ void Graphics::Init()
 	InitGraphicsState();
 
 }
+
+void Graphics::DestoryWindow()
+{
+
+	SDL_GL_DeleteContext(_impl->_glContext);
+	_impl->_glContext = nullptr;
+
+	SDL_DestroyWindow(_window);
+	_window = nullptr;
+	SDL_Quit();
+}
+
 void Graphics::ReleaseAPI()
 {
 	glDeleteVertexArrays(1, &_vertexArrayObject);
@@ -180,6 +216,16 @@ void Graphics::Restore()
 	// Create and bind a vertex array object that will stay in use throughout
 	glGenVertexArrays(1, &_vertexArrayObject);
 	glBindVertexArray(_vertexArrayObject);
+}
+
+void Graphics::SetVBO(unsigned object)
+{
+	if (_impl->boundVBO_ != object)
+	{
+		if (object)
+			glBindBuffer(GL_ARRAY_BUFFER, object);
+		_impl->boundVBO_ = object;
+	}
 }
 
 void Graphics::ResetCachedState()
@@ -200,7 +246,14 @@ void Graphics::InitGraphicsState()
 	SetColorWrite(true);
 	SetDepthWrite(true);
 }
+void Graphics::SetIndexBuffer(SharedPtr<IndexBuffer> buffer)
+{
+	if (_indexBuffer == buffer)
+		return;
 
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer ? buffer->GetHandle().name : 0);
+	_indexBuffer = buffer;
+}
 
 bool Graphics::BeginFrame()
 {
@@ -343,8 +396,8 @@ void Graphics::CreateSamplePoint(int num)
 
 void Graphics::CreateDevice()
 {
-	_glContext = SDL_GL_CreateContext(_window);
-	if (_glContext == NULL)
+	_impl->_glContext = SDL_GL_CreateContext(_window);
+	if (_impl->_glContext == NULL)
 		ErrorString("Failed to create OpenGL context");
 	if (!gladLoadGLLoader(SDL_GL_GetProcAddress))
 	{
@@ -363,7 +416,7 @@ bool Graphics::IsDeviceLost()
 	if (_window && (SDL_GetWindowFlags(_window) & SDL_WINDOW_MINIMIZED) != 0)
 		return true;
 #endif
-	return _glContext == nullptr;
+	return _impl->_glContext == nullptr;
 }
 
 void Graphics::Draw(PrimitiveTypes type, unsigned vertexStart, unsigned vertexCount)
@@ -442,6 +495,7 @@ void Graphics::SetColorWrite(bool enable)
 		_colorWrite = enable;
 	}
 }
+
 
 }
 #endif //AUTO_OPENGL

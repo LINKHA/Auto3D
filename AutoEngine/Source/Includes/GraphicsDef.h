@@ -264,6 +264,8 @@ struct VertexElement
 	unsigned _offset;
 };
 
+static const int MAX_RENDERTARGETS = 4;
+
 extern const unsigned ELEMENT_TYPESIZES[];
 
 extern const VertexElement LEGACY_VERTEXELEMENTS[];

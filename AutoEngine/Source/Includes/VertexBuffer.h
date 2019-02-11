@@ -38,11 +38,11 @@ public:
 	/**
 	* @brief : Set size, vertex elements and dynamic mode. Previous data will be lost
 	*/
-	bool SetSize(unsigned vertexCount, unsigned elementMask, bool dynamic);
+	bool SetSize(unsigned vertexCount, unsigned elementMask, bool dynamic = false);
 	/**
 	* @brief : Set size, vertex elements and dynamic mode. Previous data will be lost
 	*/
-	bool VertexBuffer::SetSize(unsigned vertexCount, const VECTOR<VertexElement>& elements, bool dynamic);
+	bool VertexBuffer::SetSize(unsigned vertexCount, const VECTOR<VertexElement>& elements, bool dynamic = false);
 	/**
 	* @brief : Set all data in the buffer
 	*/

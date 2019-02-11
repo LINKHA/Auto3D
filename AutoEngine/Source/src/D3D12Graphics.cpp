@@ -72,6 +72,26 @@ void waitForFenceValue(ComPtr<ID3D12Fence> fence, uint64_t fenceValue, HANDLE fe
 	}
 }
 
+Graphics::Graphics(SharedPtr<Ambient> ambient)
+	:Super(ambient)
+	, _window(nullptr)
+#if _OPENGL_4_6_
+	, _apiName("OpenGL 4.6")
+#elif _OPENGL_4_PLUS_
+	, _apiName("OpenGL 4.3")
+#elif _OPENGL_3_PLUS_
+	, _apiName("OpenGL 3.3")
+#elif _DIRECT_3D_12
+	, _apiName("Direct3D 12")
+#else
+	, _apiName("UnKnow")
+#endif
+{
+	ResetCachedState();
+
+	RegisterGraphicsLib(_ambient);
+}
+
 ComPtr<IDXGISwapChain4> Graphics::createSwapChain(ComPtr<ID3D12CommandQueue> commandQueue,
 	uint32_t width, uint32_t height, uint32_t bufferCount)
 {
@@ -150,6 +170,13 @@ void Graphics::Init()
 	CreateDevice();
 	// Create Icon
 	CreateIcon();
+}
+
+void Graphics::DestoryWindow()
+{
+	SDL_DestroyWindow(_window);
+	_window = nullptr;
+	SDL_Quit();
 }
 
 void Graphics::RegisterDebug()

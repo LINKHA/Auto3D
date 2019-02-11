@@ -10,7 +10,8 @@
 namespace Auto3D {
 class GPUObject;
 class ShaderVariation;
-
+class GraphicsImpl;
+class IndexBuffer;
 ///
 const static int GRAPHICS_BUFFER_NUM = 3;
 
@@ -92,6 +93,8 @@ public:
 	void CreateSamplePoint(int num);
 
 	void InitGraphicsState();
+
+	void SetIndexBuffer(SharedPtr<IndexBuffer> buffer);
 
 	void SetShader(ShaderVariation* vs, ShaderVariation* fs);
 
@@ -190,9 +193,9 @@ private:
 	STRING _apiName{};
 	/// Graphics driver
 	STRING _driverName{};
+	/// Implementation.
+	SharedPtr<GraphicsImpl> _impl;
 #if AUTO_OPENGL
-	/// OpenGL context
-	SDL_GLContext _glContext;
 	/// OpenGL only VAO
 	unsigned _vertexArrayObject;
 #elif AUTO_DIRECT_X
@@ -276,6 +279,8 @@ private:
 	DepthMode _depthTestMode{};
 	/// Viewport coordinates
 	RectInt _viewport;
+	/// Index buffer in use
+	SharedPtr<IndexBuffer> _indexBuffer{};
 #pragma endregion
 
 
