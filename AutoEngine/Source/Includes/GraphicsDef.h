@@ -129,14 +129,14 @@ enum class BufferMode
 	Count
 };
 
-enum class ElementTypes
+enum class ElementType
 {
 	Int = 0,
 	Float,
 	UnsignedByte,
 	Count
 };
-enum class PrimitiveTypes
+enum class PrimitiveType
 {
 	TringleList = 0,
 	LineList,
@@ -265,6 +265,9 @@ struct VertexElement
 };
 
 static const int MAX_RENDERTARGETS = 4;
+static const int MAX_VERTEX_STREAMS = 4;
+static const int MAX_CONSTANT_REGISTERS = 256;
+static const int BITS_PER_COMPONENT = 8;
 
 extern const unsigned ELEMENT_TYPESIZES[];
 

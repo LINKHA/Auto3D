@@ -6,7 +6,7 @@
 #include "RenderPath.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
-
+#include "Geometry.h"
 
 #include "NewDef.h"
 
@@ -27,6 +27,110 @@ static const unsigned short DIR_LIGHT_INDEX_DATA[] =
 {
 	0, 1, 2,
 	2, 3, 0,
+};
+
+static const float SPOT_LIGHT_VERTEX_DATA[] =
+{
+	0.00001f, 0.00001f, 0.00001f,
+	0.00001f, -0.00001f, 0.00001f,
+	-0.00001f, -0.00001f, 0.00001f,
+	-0.00001f, 0.00001f, 0.00001f,
+	1.00000f, 1.00000f, 0.99999f,
+	1.00000f, -1.00000f, 0.99999f,
+	-1.00000f, -1.00000f, 0.99999f,
+	-1.00000f, 1.00000f, 0.99999f,
+};
+
+static const unsigned short SPOT_LIGHT_INDEX_DATA[] =
+{
+	3, 0, 1,
+	3, 1, 2,
+	0, 4, 5,
+	0, 5, 1,
+	3, 7, 4,
+	3, 4, 0,
+	7, 3, 2,
+	7, 2, 6,
+	6, 2, 1,
+	6, 1, 5,
+	7, 5, 4,
+	7, 6, 5
+};
+
+static const float POINT_LIGHT_VERTEX_DATA[] =
+{
+	-0.423169f, -1.000000f, 0.423169f,
+	-0.423169f, -1.000000f, -0.423169f,
+	0.423169f, -1.000000f, -0.423169f,
+	0.423169f, -1.000000f, 0.423169f,
+	0.423169f, 1.000000f, -0.423169f,
+	-0.423169f, 1.000000f, -0.423169f,
+	-0.423169f, 1.000000f, 0.423169f,
+	0.423169f, 1.000000f, 0.423169f,
+	-1.000000f, 0.423169f, -0.423169f,
+	-1.000000f, -0.423169f, -0.423169f,
+	-1.000000f, -0.423169f, 0.423169f,
+	-1.000000f, 0.423169f, 0.423169f,
+	0.423169f, 0.423169f, -1.000000f,
+	0.423169f, -0.423169f, -1.000000f,
+	-0.423169f, -0.423169f, -1.000000f,
+	-0.423169f, 0.423169f, -1.000000f,
+	1.000000f, 0.423169f, 0.423169f,
+	1.000000f, -0.423169f, 0.423169f,
+	1.000000f, -0.423169f, -0.423169f,
+	1.000000f, 0.423169f, -0.423169f,
+	0.423169f, -0.423169f, 1.000000f,
+	0.423169f, 0.423169f, 1.000000f,
+	-0.423169f, 0.423169f, 1.000000f,
+	-0.423169f, -0.423169f, 1.000000f
+};
+
+static const unsigned short POINT_LIGHT_INDEX_DATA[] =
+{
+	0, 1, 2,
+	0, 2, 3,
+	4, 5, 6,
+	4, 6, 7,
+	8, 9, 10,
+	8, 10, 11,
+	12, 13, 14,
+	12, 14, 15,
+	16, 17, 18,
+	16, 18, 19,
+	20, 21, 22,
+	20, 22, 23,
+	0, 10, 9,
+	0, 9, 1,
+	13, 2, 1,
+	13, 1, 14,
+	23, 0, 3,
+	23, 3, 20,
+	17, 3, 2,
+	17, 2, 18,
+	21, 7, 6,
+	21, 6, 22,
+	7, 16, 19,
+	7, 19, 4,
+	5, 8, 11,
+	5, 11, 6,
+	4, 12, 15,
+	4, 15, 5,
+	22, 11, 10,
+	22, 10, 23,
+	8, 15, 14,
+	8, 14, 9,
+	12, 19, 18,
+	12, 18, 13,
+	16, 21, 20,
+	16, 20, 17,
+	0, 23, 10,
+	1, 9, 14,
+	2, 13, 18,
+	3, 17, 20,
+	6, 11, 22,
+	5, 15, 8,
+	4, 19, 12,
+	7, 21, 16
 };
 
 Renderer::Renderer(SharedPtr<Ambient> ambient)
@@ -106,6 +210,7 @@ void Renderer::Render()
 
 void Renderer::createGeometries()
 {
+	//Dir light
 	SharedPtr<VertexBuffer> dlvb = MakeShared<VertexBuffer>(_ambient);
 	dlvb->SetShadowed(true);
 	dlvb->SetSize(4, VERTEX_MASK_POSITION);
@@ -115,6 +220,46 @@ void Renderer::createGeometries()
 	dlib->SetShadowed(true);
 	dlib->SetSize(6, false);
 	dlib->SetData(DIR_LIGHT_INDEX_DATA);
+
+	_dirLightGeometry = MakeShared<Geometry>(_ambient);
+	_dirLightGeometry->SetVertexBuffer(0, dlvb);
+	_dirLightGeometry->SetIndexBuffer(dlib);
+	_dirLightGeometry->SetDrawRange(PrimitiveType::TringleList, 0, dlib->GetIndexCount());
+
+
+	// Spot light
+	SharedPtr<VertexBuffer> slvb = MakeShared<VertexBuffer>(_ambient);
+	slvb->SetShadowed(true);
+	slvb->SetSize(8, VERTEX_MASK_POSITION);
+	slvb->SetData(SPOT_LIGHT_VERTEX_DATA);
+
+	SharedPtr<IndexBuffer> slib = MakeShared<IndexBuffer>(_ambient);
+	slib->SetShadowed(true);
+	slib->SetSize(36, false);
+	slib->SetData(SPOT_LIGHT_INDEX_DATA);
+
+	_spotLightGeometry = MakeShared<Geometry>(_ambient);
+	_spotLightGeometry->SetVertexBuffer(0, slvb);
+	_spotLightGeometry->SetIndexBuffer(slib);
+	_spotLightGeometry->SetDrawRange(PrimitiveType::TringleList, 0, slib->GetIndexCount());
+
+	
+	//Point light
+	SharedPtr<VertexBuffer> plvb = MakeShared<VertexBuffer>(_ambient);
+	plvb->SetShadowed(true);
+	plvb->SetSize(24, VERTEX_MASK_POSITION);
+	plvb->SetData(POINT_LIGHT_VERTEX_DATA);
+
+	SharedPtr<IndexBuffer> plib = MakeShared<IndexBuffer>(_ambient);
+	plib->SetShadowed(true);
+	plib->SetSize(132, false);
+	plib->SetData(POINT_LIGHT_INDEX_DATA);
+
+	_pointLightGeometry = MakeShared<Geometry>(_ambient);
+	_pointLightGeometry->SetVertexBuffer(0, plvb);
+	_pointLightGeometry->SetIndexBuffer(plib);
+	_pointLightGeometry->SetDrawRange(PrimitiveType::TringleList, 0, plib->GetIndexCount());
+
 }
 
 void Renderer::AddCamera(SharedPtr<Camera> camera)

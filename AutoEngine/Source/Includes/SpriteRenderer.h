@@ -1,14 +1,14 @@
 #pragma once
-#include "Texture2D.h"
+#include "tTexture2D.h"
 
 namespace Auto3D {
 class Image;
 class Shader;
 class ShaderVariation;
 
-class SpriteRenderer : public Texture2D , public EnableSharedFromThis<SpriteRenderer>
+class SpriteRenderer : public tTexture2D , public EnableSharedFromThis<SpriteRenderer>
 {
-	REGISTER_OBJECT_CLASS(SpriteRenderer, Texture2D)
+	REGISTER_OBJECT_CLASS(SpriteRenderer, tTexture2D)
 public:
 	/**
 	* @brief : Construct

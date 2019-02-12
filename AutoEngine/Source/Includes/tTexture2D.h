@@ -1,10 +1,10 @@
 #pragma once
-#include "Texture.h"
+#include "tTexture.h"
 
 namespace Auto3D {
-class Texture2D : public Texture
+class tTexture2D : public tTexture
 {
-	REGISTER_OBJECT_ABSTRACT_CLASS(Texture2D, Texture)
+	REGISTER_OBJECT_ABSTRACT_CLASS(tTexture2D, tTexture)
 public:
 	typedef struct _TexParams {
 		GLuint    minFilter;
@@ -14,7 +14,7 @@ public:
 	}TexParams;
 
 public:
-	explicit Texture2D(SharedPtr<Ambient> ambient);
+	explicit tTexture2D(SharedPtr<Ambient> ambient);
 	
 	virtual void Awake() {}
 	virtual void Start() {}

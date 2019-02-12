@@ -1,14 +1,14 @@
 #pragma once
-#include "Texture3D.h"
+#include "tTexture3D.h"
 #include "SkyBoxManager.h"
 
 namespace Auto3D {
 
 class ShaderVariation;
 
-class SkyBox : public Texture3D, public EnableSharedFromThis<SkyBox>
+class SkyBox : public tTexture3D, public EnableSharedFromThis<SkyBox>
 {
-	REGISTER_OBJECT_CLASS(SkyBox, Texture3D)
+	REGISTER_OBJECT_CLASS(SkyBox, tTexture3D)
 public:
 	explicit SkyBox(SharedPtr<Ambient> ambient);
 	static void RegisterObject(SharedPtr<Ambient> ambient);

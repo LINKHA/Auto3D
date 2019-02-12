@@ -1,5 +1,5 @@
 #pragma once
-#include "Texture2D.h"
+#include "tTexture2D.h"
 #include "AutoOGL.h"
 #include "Transform.h"
 #include "Camera.h"
@@ -7,11 +7,11 @@
 
 namespace Auto3D {
 
-class TextureMap : public Texture2D
+class tTextureMap : public tTexture2D
 {
-	REGISTER_OBJECT_ABSTRACT_CLASS(TextureMap, Texture2D)
+	REGISTER_OBJECT_ABSTRACT_CLASS(tTextureMap, tTexture2D)
 public:
-	explicit TextureMap(SharedPtr<Ambient> ambient);
+	explicit tTextureMap(SharedPtr<Ambient> ambient);
 	void Start()override;
 	void Draw()override;
 

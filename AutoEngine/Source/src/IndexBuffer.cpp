@@ -58,4 +58,50 @@ bool IndexBuffer::SetSize(unsigned indexCount, bool largeIndices, bool dynamic)
 	return create();
 }
 
+bool IndexBuffer::GetUsedVertexRange(unsigned start, unsigned count, unsigned& minVertex, unsigned& vertexCount)
+{
+	if (!_shadowData)
+	{
+		WarningString("Used vertex range can only be queried from an index buffer with shadow data");
+		return false;
+	}
+
+	if (start + count > _indexCount)
+	{
+		WarningString("Illegal index range for querying used vertices");
+		return false;
+	}
+
+	minVertex = MATH_MAX_UNSIGNED;
+	unsigned maxVertex = 0;
+
+	if (_indexSize == sizeof(unsigned))
+	{
+		unsigned* indices = ((unsigned*)_shadowData.get()) + start;
+
+		for (unsigned i = 0; i < count; ++i)
+		{
+			if (indices[i] < minVertex)
+				minVertex = indices[i];
+			if (indices[i] > maxVertex)
+				maxVertex = indices[i];
+		}
+	}
+	else
+	{
+		unsigned short* indices = ((unsigned short*)_shadowData.get()) + start;
+
+		for (unsigned i = 0; i < count; ++i)
+		{
+			if (indices[i] < minVertex)
+				minVertex = indices[i];
+			if (indices[i] > maxVertex)
+				maxVertex = indices[i];
+		}
+	}
+
+	vertexCount = maxVertex - minVertex + 1;
+	return true;
+}
+
 }

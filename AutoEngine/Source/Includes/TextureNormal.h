@@ -10,9 +10,9 @@
 
 namespace Auto3D {
 
-class TextureNormal : public TextureMap, public EnableSharedFromThis<TextureNormal>
+class TextureNormal : public tTextureMap, public EnableSharedFromThis<TextureNormal>
 {
-	REGISTER_OBJECT_CLASS(TextureNormal, TextureMap)
+	REGISTER_OBJECT_CLASS(TextureNormal, tTextureMap)
 public:
 	explicit TextureNormal(SharedPtr<Ambient> ambient);
 	void Destory()override;

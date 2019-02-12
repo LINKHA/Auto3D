@@ -8,7 +8,7 @@ namespace Auto3D {
 
 
 TextureParallax::TextureParallax(SharedPtr<Ambient> ambient)
-	: TextureMap(ambient)
+	: tTextureMap(ambient)
 {
 
 }

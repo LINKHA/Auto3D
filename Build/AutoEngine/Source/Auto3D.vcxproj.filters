@@ -4,18 +4,6 @@
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\InstanceBeltLine.cpp">
       <Filter>Source\_Abandon\_Temp</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Texture.cpp">
-      <Filter>Source\_Abandon\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Texture2D.cpp">
-      <Filter>Source\_Abandon\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Texture3D.cpp">
-      <Filter>Source\_Abandon\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\TextureMap.cpp">
-      <Filter>Source\_Abandon\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\TextureNormal.cpp">
       <Filter>Source\_Abandon\Graphics</Filter>
     </ClCompile>
@@ -319,31 +307,34 @@
     <ClCompile Include="..\..\..\AutoEngine\Source\GraphicsDef.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\AutoEngine\Source\src\RenderSurface.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\AutoEngine\Source\src\IndexBuffer.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLIndexBuffer.cpp">
       <Filter>Source\Graphics\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\Geometry.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\RenderSurface.cpp">
+      <Filter>Source\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\tTexture.cpp">
+      <Filter>Source\_Abandon\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\tTexture2D.cpp">
+      <Filter>Source\_Abandon\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\tTextureMap.cpp">
+      <Filter>Source\_Abandon\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\tTexture3D.cpp">
+      <Filter>Source\_Abandon\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\InstanceBeltLine.h">
       <Filter>Source\_Abandon\_Temp</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Texture.h">
-      <Filter>Source\_Abandon\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Texture2D.h">
-      <Filter>Source\_Abandon\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Texture3D.h">
-      <Filter>Source\_Abandon\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\TextureMap.h">
-      <Filter>Source\_Abandon\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\TextureNormal.h">
       <Filter>Source\_Abandon\Graphics</Filter>
@@ -744,11 +735,26 @@
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\OGLGraphicsImp.h">
       <Filter>Source\Graphics\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\RenderSurface.h">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\IndexBuffer.h">
       <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Geometry.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\RenderSurface.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\tTexture.h">
+      <Filter>Source\_Abandon\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\tTexture2D.h">
+      <Filter>Source\_Abandon\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\tTextureMap.h">
+      <Filter>Source\_Abandon\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\tTexture3D.h">
+      <Filter>Source\_Abandon\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -59,6 +59,13 @@ public:
 	*/
 	static VECTOR<VertexElement> GetElements(unsigned elementMask);
 
+	/// Return number of vertices.
+	unsigned GetVertexCount() const { return _vertexCount; }
+
+	/// Return vertex size in bytes.
+	unsigned GetVertexSize() const { return _vertexSize; }
+
+
 private:
 	/**
 	* @brief : Create buffer

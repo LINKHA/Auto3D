@@ -102,36 +102,36 @@ void APIENTRY glDebugOutput(
 	}
 }
 
-static void GetGLPrimitiveType(unsigned elementCount, PrimitiveTypes type, unsigned& primitiveCount, GLenum& glPrimitiveType)
+static void GetGLPrimitiveType(unsigned elementCount, PrimitiveType type, unsigned& primitiveCount, GLenum& glPrimitiveType)
 {
 	switch (type)
 	{
-	case PrimitiveTypes::TringleList:
+	case PrimitiveType::TringleList:
 		primitiveCount = elementCount / 3;
 		glPrimitiveType = GL_TRIANGLES;
 		break;
 
-	case PrimitiveTypes::LineList:
+	case PrimitiveType::LineList:
 		primitiveCount = elementCount / 2;
 		glPrimitiveType = GL_LINES;
 		break;
 
-	case PrimitiveTypes::PointList:
+	case PrimitiveType::PointList:
 		primitiveCount = elementCount;
 		glPrimitiveType = GL_POINTS;
 		break;
 
-	case PrimitiveTypes::TriangleStrip:
+	case PrimitiveType::TriangleStrip:
 		primitiveCount = elementCount - 2;
 		glPrimitiveType = GL_TRIANGLE_STRIP;
 		break;
 
-	case PrimitiveTypes::LineStrip:
+	case PrimitiveType::LineStrip:
 		primitiveCount = elementCount - 1;
 		glPrimitiveType = GL_LINE_STRIP;
 		break;
 
-	case PrimitiveTypes::TiangleFan:
+	case PrimitiveType::TiangleFan:
 		primitiveCount = elementCount - 2;
 		glPrimitiveType = GL_TRIANGLE_FAN;
 		break;
@@ -142,6 +142,7 @@ Graphics::Graphics(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 	, _window(nullptr)
 	, _impl(MakeShared<GraphicsImpl>())
+	, _shadowMapFormat(GL_DEPTH_COMPONENT16)
 #if _OPENGL_4_6_
 	, _apiName("OpenGL 4.6")
 #elif _OPENGL_4_PLUS_
@@ -419,7 +420,7 @@ bool Graphics::IsDeviceLost()
 	return _impl->_glContext == nullptr;
 }
 
-void Graphics::Draw(PrimitiveTypes type, unsigned vertexStart, unsigned vertexCount)
+void Graphics::Draw(PrimitiveType type, unsigned vertexStart, unsigned vertexCount)
 {
 	if (!vertexCount)
 		return;
@@ -433,7 +434,7 @@ void Graphics::Draw(PrimitiveTypes type, unsigned vertexStart, unsigned vertexCo
 	_numBatches++;
 }
 
-void Graphics::Draw(PrimitiveTypes type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount)
+void Graphics::Draw(PrimitiveType type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount)
 {
 	//if (!indexCount || !indexBuffer_ || !indexBuffer_->GetGPUObjectName())
 	//	return;
@@ -451,7 +452,7 @@ void Graphics::Draw(PrimitiveTypes type, unsigned indexStart, unsigned indexCoun
 	//_numBatches++;
 }
 
-void Graphics::DrawInstanced(PrimitiveTypes type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount,
+void Graphics::DrawInstanced(PrimitiveType type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount,
 	unsigned instanceCount)
 {
 	//glDrawElementsInstanced();

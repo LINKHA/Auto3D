@@ -270,6 +270,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="..\..\..\AutoEngine\Source\GraphicsDef.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\D3D12ShaderVariation.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\D3D12VertexBuffer.cpp" />
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\Geometry.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\IndexBuffer.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLIndexBuffer.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLShaderVariation.cpp" />
@@ -363,10 +364,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\SkyBoxReflectMesh.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\SpriteRenderer.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Text.cpp" />
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Texture.cpp" />
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Texture2D.cpp" />
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Texture3D.cpp" />
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\TextureMap.cpp" />
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\tTexture.cpp" />
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\tTexture2D.cpp" />
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\tTexture3D.cpp" />
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\tTextureMap.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\TextureNormal.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\TextureParallax.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Time.cpp" />
@@ -378,6 +379,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Vector4.cpp" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\EngineInfo.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\FlagSet.h" />
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Geometry.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\GlobalFactors.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\IndexBuffer.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\OGLGraphicsImp.h" />
@@ -500,10 +502,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\SkyBoxReflectMesh.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\SpriteRenderer.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Text.h" />
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Texture.h" />
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Texture2D.h" />
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Texture3D.h" />
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\TextureMap.h" />
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\tTexture.h" />
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\tTexture2D.h" />
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\tTexture3D.h" />
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\tTextureMap.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\TextureNormal.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\TextureParallax.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Time.h" />

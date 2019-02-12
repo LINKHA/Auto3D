@@ -1,11 +1,11 @@
 #pragma once
-#include "Texture3D.h"
+#include "tTexture3D.h"
 #include "ShaderVariation.h"
 
 namespace Auto3D {
 class Camera;
 
-class HDRSkyBox : public Texture3D, public EnableSharedFromThis<HDRSkyBox>
+class HDRSkyBox : public tTexture3D, public EnableSharedFromThis<HDRSkyBox>
 {
 public:
 	explicit HDRSkyBox(SharedPtr<Ambient> ambient);

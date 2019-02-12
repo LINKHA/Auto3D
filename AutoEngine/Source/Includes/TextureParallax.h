@@ -8,9 +8,9 @@
 
 namespace Auto3D {
 
-class TextureParallax : public TextureMap , public EnableSharedFromThis<TextureParallax>
+class TextureParallax : public tTextureMap , public EnableSharedFromThis<TextureParallax>
 {
-	REGISTER_OBJECT_CLASS(TextureParallax, TextureMap)
+	REGISTER_OBJECT_CLASS(TextureParallax, tTextureMap)
 public:
 	explicit TextureParallax(SharedPtr<Ambient> ambient);
 

@@ -7,9 +7,9 @@
 #include "GLTextureEnable.h"
 namespace Auto3D {
 
-class Texture : public RenderComponent, public GLTextureEnable
+class tTexture : public RenderComponent, public GLTextureEnable
 {
-	REGISTER_OBJECT_ABSTRACT_CLASS(Texture, RenderComponent)
+	REGISTER_OBJECT_ABSTRACT_CLASS(tTexture, RenderComponent)
 protected:
 	TextureID		_texID;
 	int		        _usageMode;
@@ -19,7 +19,7 @@ protected:
 	float			_texelSizeX;
 	float			_texelSizeY;
 public:
-	explicit Texture(SharedPtr<Ambient> ambient);
+	explicit tTexture(SharedPtr<Ambient> ambient);
 	virtual void Awake() {}
 	virtual void Start() {}
 	virtual void Update() {}

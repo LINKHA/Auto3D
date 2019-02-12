@@ -8,6 +8,7 @@
 namespace Auto3D {
 class Light;
 class RenderPath;
+class Geometry;
 /**
 * @brief : Render graphices create to geometry
 */
@@ -177,7 +178,12 @@ private:
 	/// Default renderpath.
 	SharedPtr<RenderPath> _defaultRenderPath;
 
-	
+	/// Directional light quad geometry.
+	SharedPtr<Geometry> _dirLightGeometry;
+	/// Spot light volume geometry
+	SharedPtr<Geometry> _spotLightGeometry;
+	/// Point light volume geometry
+	SharedPtr<Geometry> _pointLightGeometry;
 
 	SharedPtr<ShadowRenderer> _shadowRenderer;
 	SharedPtr<LightContainer> _lightContainer;

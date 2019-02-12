@@ -29,6 +29,11 @@ public:
 	/// Set all data in the buffer.
 	bool SetData(const void* data);
 
+	/// Return number of indices.
+	unsigned GetIndexCount() const { return _indexCount; }
+	/// Return used vertex range from index range.
+	bool GetUsedVertexRange(unsigned start, unsigned count, unsigned& minVertex, unsigned& vertexCount);
+
 private:
 	/// Create buffer
 	bool create();

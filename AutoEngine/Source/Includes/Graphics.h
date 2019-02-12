@@ -98,11 +98,11 @@ public:
 
 	void SetShader(ShaderVariation* vs, ShaderVariation* fs);
 
-	void Draw(PrimitiveTypes type, unsigned vertexStart, unsigned vertexCount);
+	void Draw(PrimitiveType type, unsigned vertexStart, unsigned vertexCount);
 	
-	void Draw(PrimitiveTypes type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount);
+	void Draw(PrimitiveType type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount);
 	
-	void DrawInstanced(PrimitiveTypes type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount, unsigned instanceCount);
+	void DrawInstanced(PrimitiveType type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount, unsigned instanceCount);
 	/**
 	* @brief : Begin to run frame
 	*/
@@ -168,6 +168,8 @@ public:
 	*/
 	void ReleaseAPI();
 
+	/// Return shadow map depth texture format, or 0 if not supported.
+	unsigned GetShadowMapFormat() const { return _shadowMapFormat; }
 
 #if AUTO_OPENGL
 	/**
@@ -189,12 +191,7 @@ private:
 		ComPtr<IDXGISwapChain4> swapChain, ComPtr<ID3D12DescriptorHeap> descriptorHeap);
 #endif
 private:
-	/// Graphics api name
-	STRING _apiName{};
-	/// Graphics driver
-	STRING _driverName{};
-	/// Implementation.
-	SharedPtr<GraphicsImpl> _impl;
+
 #if AUTO_OPENGL
 	/// OpenGL only VAO
 	unsigned _vertexArrayObject;
@@ -237,6 +234,12 @@ private:
 	/// Use WARP adapter
 	bool _useWarp{};
 #endif
+	/// Graphics api name
+	STRING _apiName{};
+	/// Graphics driver
+	STRING _driverName{};
+	/// Implementation.
+	SharedPtr<GraphicsImpl> _impl;
 #pragma region window
 	/// window
 	SDL_Window* _window{};
@@ -281,6 +284,8 @@ private:
 	RectInt _viewport;
 	/// Index buffer in use
 	SharedPtr<IndexBuffer> _indexBuffer{};
+	/// Shadow map depth texture format
+	unsigned _shadowMapFormat{};
 #pragma endregion
 
 

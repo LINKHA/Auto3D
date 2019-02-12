@@ -12,7 +12,7 @@
 namespace Auto3D {
 
 HDRSkyBox::HDRSkyBox(SharedPtr<Ambient> ambient)
-	: Texture3D(ambient)
+	: tTexture3D(ambient)
 {
 	auto resourchCach = GetSubSystem<ResourceSystem>();
 

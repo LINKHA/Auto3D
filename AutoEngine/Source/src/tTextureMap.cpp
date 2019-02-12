@@ -1,22 +1,22 @@
-#include "TextureMap.h"
+#include "tTextureMap.h"
 #include "NewDef.h"
 
 namespace Auto3D {
 
 
-TextureMap::TextureMap(SharedPtr<Ambient> ambient)
+tTextureMap::tTextureMap(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {}
-TextureMap::~TextureMap()
+tTextureMap::~tTextureMap()
 {}
 
 
-void TextureMap::Start()
+void tTextureMap::Start()
 {}
 
-void TextureMap::Draw()
+void tTextureMap::Draw()
 {}
-void TextureMap::SetTexParameters(const TexParams & params)
+void tTextureMap::SetTexParameters(const TexParams & params)
 {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, params.wrapS);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, params.wrapT);

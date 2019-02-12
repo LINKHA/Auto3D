@@ -4,16 +4,16 @@
 
 namespace Auto3D{
 
-class Texture;
+class tTexture;
 
 /// Color or depth-stencil surface that can be rendered into.
 class RenderSurface
 {
-	friend class Texture2D;
+	friend class tTexture2D;
 
 public:
 	/// Construct with parent texture.
-	explicit RenderSurface(Texture* parentTexture);
+	explicit RenderSurface(tTexture* parentTexture);
 	/// Destruct.
 	~RenderSurface() override;
 
@@ -73,7 +73,7 @@ public:
 	void ResetUpdateQueued();
 
 	/// Return parent texture.
-	Texture* GetParentTexture() const { return parentTexture_; }
+	tTexture* GetParentTexture() const { return parentTexture_; }
 
 	/// Return Direct3D9 surface.
 	void* GetSurface() const { return surface_; }
@@ -98,7 +98,7 @@ public:
 
 private:
 	/// Parent texture.
-	Texture* parentTexture_;
+	tTexture* parentTexture_;
 
 	union
 	{
