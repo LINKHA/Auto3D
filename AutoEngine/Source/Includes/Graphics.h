@@ -12,6 +12,9 @@ class GPUObject;
 class ShaderVariation;
 class GraphicsImpl;
 class IndexBuffer;
+class Texture;
+class RenderSurface;
+class VertexBuffer;
 ///
 const static int GRAPHICS_BUFFER_NUM = 3;
 
@@ -65,6 +68,10 @@ public:
 	*/
 	bool IsDeviceLost();
 	/**
+	* @brief : Check supported rendering features
+	*/
+	void CheckFeatureSupport();
+	/**
 	* @brief : Get rect with int
 	* @return : RectInt
 	*/
@@ -87,6 +94,8 @@ public:
 	* @return : SDL_Window*
 	*/
 	SDL_Window* GetGameWindow() { return _window; }
+	/// Return default texture filtering mode.
+	TextureFilterMode GetDefaultTextureFilterMode() const { return _defaultTextureFilterMode; }
 	/**
 	* @brief : Create sample point
 	*/
@@ -129,6 +138,8 @@ public:
 	void SetDepthWrite(bool enable);
 
 	DepthMode GetDepthTest() const { return _depthTestMode; }
+	/// Set hardware culling mode.
+	void SetCullMode(CullMode mode);
 
 	void SetDepthTest(DepthMode mode);
 	/**
@@ -159,6 +170,10 @@ public:
 	* @brief : Set window view port
 	*/
 	void SetViewport(int posX, int posY, int width, int height);
+	/// Set texture.
+	void SetTexture(unsigned index, SharedPtr<Texture> texture);
+	/// Bind texture unit 0 for update. Called by Texture. Used only on OpenGL.
+	void SetTextureForUpdate(SharedPtr<Texture> texture);
 	/**
 	* @brief : Get graphics api name
 	*/
@@ -170,6 +185,23 @@ public:
 
 	/// Return shadow map depth texture format, or 0 if not supported.
 	unsigned GetShadowMapFormat() const { return _shadowMapFormat; }
+
+	/// Return 24-bit shadow map depth texture format, or 0 if not supported.
+	unsigned GetHiresShadowMapFormat() const { return _hiresShadowMapFormat; }
+
+	/// Return whether shadow map depth compare is done in hardware.
+	bool GetHardwareShadowSupport() const { return _hardwareShadowSupport; }
+
+
+	/// Return whether sRGB conversion on texture sampling is supported.
+	bool GetSRGBSupport() const { return _sRGBSupport; }
+
+	/// Return whether light pre-pass rendering is supported.
+	bool GetLightPrepassSupport() const { return _lightPrepassSupport; }
+	/// Return whether deferred rendering is supported
+	bool GetDeferredSupport() const { return _deferredSupport; }
+	/// Mark the FBO needing an update. Used only on OpenGL
+	void MarkFBODirty();
 
 #if AUTO_OPENGL
 	/**
@@ -263,7 +295,7 @@ private:
 	bool _isGrab = true;
 #pragma endregion
 
-#pragma region GraphicsMember
+#pragma region Graphics
 	/// background draw color
 	Color _drawColor = { Color(0.0f, 0.0f, 0.0f, 1.0f) };
 	/// color write
@@ -282,10 +314,40 @@ private:
 	DepthMode _depthTestMode{};
 	/// Viewport coordinates
 	RectInt _viewport;
+	/// Vertex buffers in use
+	SharedPtr<VertexBuffer> _vertexBuffers[MAX_VERTEX_STREAMS];
 	/// Index buffer in use
 	SharedPtr<IndexBuffer> _indexBuffer{};
+	/// Textures in use
+	SharedPtr<Texture> _textures[MAX_TEXTURE_UNITS]{};
+	/// Rendertargets in use.
+	SharedPtr<RenderSurface> _renderTargets[MAX_RENDERTARGETS]{};
+
 	/// Shadow map depth texture format
 	unsigned _shadowMapFormat{};
+	/// Hardware shadow map depth compare support flag
+	bool _hardwareShadowSupport{};
+	/// Shadow map 24-bit depth texture format
+	unsigned _hiresShadowMapFormat{};
+	/// sRGB conversion on read support flag
+	bool _sRGBSupport{};
+	/// Light pre-pass rendering support flag
+	bool _lightPrepassSupport{};
+	/// Deferred rendering support flag
+	bool _deferredSupport{};
+	/// Instancing support flag.
+	bool _instancingSupport{};
+	/// sRGB conversion on write support flag
+	bool _sRGBWriteSupport{};
+	/// DXT format support flag
+	bool _dxtTextureSupport{};
+	/// Anisotropic filtering support flag.
+	bool _anisotropySupport{};
+	/// Default texture filtering mode.
+	TextureFilterMode _defaultTextureFilterMode{ TextureFilterMode::Trilinear };
+
+	/// Hardware culling mode.
+	CullMode _cullMode{};
 #pragma endregion
 
 

@@ -4,7 +4,7 @@
 
 namespace Auto3D {
 
-class Light;
+class tLight;
 class RenderComponent;
 /**
 * @brief : Dedicated to renderer draw shadow
@@ -36,7 +36,7 @@ public:
 	SharedPtr<ShaderVariation> GetPointDepthMapShader() { return _shadowMapPointDepth; }
 private:
 	/// Lights
-	VECTOR<SharedPtr<Light> > _lights;
+	VECTOR<SharedPtr<tLight> > _lights;
 	/// Shadow component
 	LIST<SharedPtr<RenderComponent> > _shadowComponents;
 	/// Shadow map depth shader

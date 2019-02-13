@@ -1,6 +1,6 @@
 #include "MeshShadowPoint.h"
 #include "Renderer.h"
-#include "Light.h"
+#include "tLight.h"
 #include "VertexData.h"
 #include "Camera.h"
 #include "ResourceSystem.h"
@@ -90,10 +90,10 @@ void MeshShadowPoint::Draw()
 	glm::vec3 lightPos;
 	//!!! Temp use one light,and must need light
 #pragma warning
-	VECTOR<SharedPtr<Light> >& lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
+	VECTOR<SharedPtr<tLight> >& lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
 	//!!!Temp
 	Assert(lights.size() != 0);
-	for (VECTOR<SharedPtr<Light> >::iterator it = lights.begin(); it != lights.end(); it++)
+	for (VECTOR<SharedPtr<tLight> >::iterator it = lights.begin(); it != lights.end(); it++)
 	{
 		lightPos = (*it)->GetLightPosition();
 		unsigned depthMap = (*it)->GetShadowAssist()->GetDepthMap();

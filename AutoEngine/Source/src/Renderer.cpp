@@ -2,7 +2,7 @@
 #include "Camera.h"
 #include "Graphics.h"
 #include "Transform.h"
-#include "Light.h"
+#include "tLight.h"
 #include "RenderPath.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
@@ -153,6 +153,11 @@ void Renderer::Init()
 
 	_graphics = graphics;
 
+	if (!graphics->GetShadowMapFormat())
+		_drawShadows = false;
+	// Validate the shadow quality level
+	SetShadowQuality(_shadowQuality);
+
 	_defaultRenderPath = MakeShared<RenderPath>();
 	
 	createGeometries();
@@ -260,6 +265,13 @@ void Renderer::createGeometries()
 	_pointLightGeometry->SetIndexBuffer(plib);
 	_pointLightGeometry->SetDrawRange(PrimitiveType::TringleList, 0, plib->GetIndexCount());
 
+	//if (_graphics.lock()->GetShadowMapFormat())
+	//{
+	//	_faceSelectCubeMap = new TextureCube(context_);
+	//	_faceSelectCubeMap->SetNumLevels(1);
+	//	_faceSelectCubeMap->SetSize(1, graphics_->GetRGBAFormat());
+	//	_faceSelectCubeMap->SetFilterMode(FILTER_NEAREST);
+	//}
 }
 
 void Renderer::AddCamera(SharedPtr<Camera> camera)
@@ -523,6 +535,53 @@ void Renderer::RemoveTranslucentGeometry(SharedPtr<RenderComponent> component)
 	}
 }
 
+void Renderer::SetShadowQuality(ShadowQuality quality)
+{
+	if (!_graphics.lock())
+		return;
+
+	// If no hardware PCF, do not allow to select one-sample quality
+	if (!_graphics.lock()->GetHardwareShadowSupport())
+	{
+		if (quality == ShadowQuality::Simple16bit)
+			quality = ShadowQuality::Pcf16bit;
+
+		if (quality == ShadowQuality::Simple24bit)
+			quality = ShadowQuality::Pcf24bit;
+	}
+	// if high resolution is not allowed
+	if (!_graphics.lock()->GetHiresShadowMapFormat())
+	{
+		if (quality == ShadowQuality::Simple24bit)
+			quality = ShadowQuality::Simple16bit;
+
+		if (quality == ShadowQuality::Pcf24bit)
+			quality = ShadowQuality::Pcf16bit;
+	}
+	if (quality != _shadowQuality)
+	{
+		_shadowQuality = quality;
+		_shadersDirty = true;
+		if (quality == ShadowQuality::BlurVsm)
+			SetShadowMapFilter(this, static_cast<ShadowMapFilter>(&Renderer::BlurShadowMap));
+		else
+			SetShadowMapFilter(nullptr, nullptr);
+
+		ResetShadowMaps();
+	}
+}
+
+void Renderer::SetShadowMapFilter(Object* instance, ShadowMapFilter functionPtr)
+{
+	_shadowMapFilterInstance = instance;
+	_shadowMapFilter = functionPtr;
+}
+
+void Renderer::BlurShadowMap(SharedPtr<View> view, SharedPtr<Texture2D> shadowMap, float blurScale)
+{
+
+}
+
 void Renderer::delayedAddRemoveCameras()
 {
 	Assert(!_insideRenderOrCull);
@@ -598,6 +657,14 @@ void Renderer::delayedAddRemoveCustoms()
 	}
 	_customsToAdd.clear();
 }
+
+void Renderer::ResetShadowMaps()
+{
+	_shadowMaps.Clear();
+	_shadowMapAllocations.Clear();
+	_colorShadowMaps.Clear();
+}
+
 
 void Renderer::delayedAddRemoveTranslucents()
 {

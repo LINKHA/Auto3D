@@ -2,7 +2,7 @@
 #include "Renderer.h"
 #include "LightContainer.h"
 #include "ResourceSystem.h"
-#include "Light.h"
+#include "tLight.h"
 #include "Graphics.h"
 #include "Config.h"
 #include "NewDef.h"
@@ -33,7 +33,7 @@ void ShadowRenderer::ReadyRender()
 	renderer->_lightContainer->IsRender(true);
 	//!!! Temp use one
 #pragma warning
-	for (VECTOR<SharedPtr<Light> >::iterator it = _lights.begin(); it != _lights.end(); it++)
+	for (VECTOR<SharedPtr<tLight> >::iterator it = _lights.begin(); it != _lights.end(); it++)
 	{
 		renderer->_lightContainer->SetCurrentLight(*it);
 		//!!!
@@ -54,7 +54,7 @@ void ShadowRenderer::RenderShadow()
 {
 	//!!! Temp use one
 #pragma warning
-	for (VECTOR<SharedPtr<Light> >::iterator it = _lights.begin(); it != _lights.end(); it++)
+	for (VECTOR<SharedPtr<tLight> >::iterator it = _lights.begin(); it != _lights.end(); it++)
 	{
 		if ((*it)->GetType() == LightType::Directional)
 		{

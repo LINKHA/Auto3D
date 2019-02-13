@@ -1,6 +1,6 @@
 #include "MeshRenderer.h"
 #include "Renderer.h"
-#include "Light.h"
+#include "tLight.h"
 #include "ResourceSystem.h"
 #include "Shader.h"
 #include "ShaderVariation.h"
@@ -121,7 +121,7 @@ void MeshRenderer::drawLight()
 	int spot = 0;
 	for (auto it = lights.begin(); it != lights.end(); it++)
 	{
-		SharedPtr<Light> t = *it;
+		SharedPtr<tLight> t = *it;
 		Vector3 ligthtPosition = t->GetNode()->GetComponent<Transform>()->GetPosition();
 		_shader->SetVec3("lightPos", ligthtPosition);
 

@@ -2,7 +2,7 @@
 #include "Graphics.h"
 #include "Renderer.h"
 #include "BaseMesh.h"
-#include "Light.h"
+#include "tLight.h"
 #include "ResourceSystem.h"
 #include "Config.h"
 #include "NewDef.h"
@@ -48,9 +48,9 @@ void MeshLight::Draw()
 	glBindTexture(GL_TEXTURE_2D, woodTexture);
 	// set lighting uniforms
 
-	VECTOR<SharedPtr<Light> > lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
+	VECTOR<SharedPtr<tLight> > lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
 	int lightNum = 0;
-	for (VECTOR<SharedPtr<Light> >::iterator it = lights.begin(); it != lights.end(); it++)
+	for (VECTOR<SharedPtr<tLight> >::iterator it = lights.begin(); it != lights.end(); it++)
 	{
 		_shader->SetVec3("lights[" + KhSTL::ToString(lightNum) + "].Position", (*it)->GetNode()->GetPosition());
 		_shader->SetVec3("lights[" + KhSTL::ToString(lightNum) + "].Color", (*it)->GetColorToVec());

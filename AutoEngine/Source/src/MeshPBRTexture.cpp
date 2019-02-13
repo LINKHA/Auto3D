@@ -4,7 +4,7 @@
 #include "Renderer.h"
 #include "Time.h"
 #include "Transform.h"
-#include "Light.h"
+#include "tLight.h"
 #include "ResourceSystem.h"
 #include "Config.h"
 #include "NewDef.h"
@@ -115,9 +115,9 @@ void MeshPBRTexture::Draw()
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	//light
-	VECTOR<SharedPtr<Light> > lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
+	VECTOR<SharedPtr<tLight> > lights = GetSubSystem<Renderer>()->GetLightContainer()->GetAllLights();
 	int lightNum = 0;
-	for (VECTOR<SharedPtr<Light> >::iterator it = lights.begin(); it != lights.end(); it++)
+	for (VECTOR<SharedPtr<tLight> >::iterator it = lights.begin(); it != lights.end(); it++)
 	{
 		_shader->SetVec3("lightPositions[" + KhSTL::ToString(lightNum) + "]", (*it)->GetNode()->GetPosition());
 		_shader->SetVec3("lightColors[" + KhSTL::ToString(lightNum) + "]", (*it)->GetColorToVec());

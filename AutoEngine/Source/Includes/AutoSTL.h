@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include <list>
 #include <vector>
 #include <set>
@@ -16,6 +17,9 @@ namespace Auto3D {
 
 template <typename _Ty>
 using Singleton = KhSTL::Singleton<_Ty>;
+
+template<typename _Ty,int _Num>
+using ARRAY = std::array<_Ty, _Num>;
 
 template <typename _Ty>
 using LIST = std::list<_Ty>;

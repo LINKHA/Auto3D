@@ -20,7 +20,7 @@ enum ClassIDType
 	DO_CLASS_ID(MeshRenderer, 17)
 	DO_CLASS_ID(tTexture, 18)
 	DO_CLASS_ID(tTexture2D, 19)
-	DO_CLASS_ID(Light, 20)
+	DO_CLASS_ID(tLight, 20)
 	DO_CLASS_ID(Camera, 21)
 	DO_CLASS_ID(ScriptComponent, 22)
 	DO_CLASS_ID(tTexture3D, 23)
@@ -84,6 +84,10 @@ enum ClassIDType
 	DO_CLASS_ID(BackgroundLoader, 107)
 	DO_CLASS_ID(VertexBuffer, 108)
 	DO_CLASS_ID(IndexBuffer, 109)
+	DO_CLASS_ID(ResourceWithMetaData, 110)
+	DO_CLASS_ID(Texture, 111)
+	DO_CLASS_ID(Texture2D, 112)
+	DO_CLASS_ID(View, 113)
 	
 	CLASS_ID_Count
 };

@@ -35,18 +35,22 @@ private:
 	unsigned _usedVertexAttributes{};
 	/// Vertex attribute instancing bitmask for keeping track of divisors
 	unsigned _instancingVertexAttributes{};
-	/// Currently bound frame buffer object.
-	unsigned boundFBO_{};
-	/// Currently bound vertex buffer object.
-	unsigned boundVBO_{};
-	/// Currently bound uniform buffer object.
-	unsigned boundUBO_{};
-	/// Read frame buffer for multisampled texture resolves.
-	unsigned resolveSrcFBO_{};
-	/// Write frame buffer for multisampled texture resolves.
-	unsigned resolveDestFBO_{};
-	/// Current pixel format.
-	int pixelFormat_{};
+	/// Currently bound frame buffer object
+	unsigned _boundFBO{};
+	/// Currently bound vertex buffer object
+	unsigned _boundVBO{};
+	/// Currently bound uniform buffer object
+	unsigned _boundUBO{};
+	/// Read frame buffer for multisampled texture resolves
+	unsigned _resolveSrcFBO{};
+	/// Write frame buffer for multisampled texture resolves
+	unsigned _resolveDestFBO{};
+	/// Current pixel format
+	int _pixelFormat{};
+	/// OpenGL texture types in use.
+	unsigned _textureTypes[MAX_TEXTURE_UNITS]{};
+	/// Need FBO commit flag.
+	bool _fboDirty{};
 };
 
 

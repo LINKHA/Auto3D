@@ -3,12 +3,14 @@
 #include "Camera.h"
 #include "LightContainer.h"
 #include "ShadowRenderer.h"
-#include "AutoSTL.h"
+#include "GraphicsDef.h"
 
 namespace Auto3D {
-class Light;
+class tLight;
 class RenderPath;
 class Geometry;
+class Texture2D;
+class View;
 /**
 * @brief : Render graphices create to geometry
 */
@@ -26,6 +28,11 @@ class Renderer : public GlobalGameManager
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	///Auxiliary vessel with distance
 	using TranslucentDepth = PAIR_MAP<float, SharedPtr<RenderComponent> >;
+
+
+
+	using ShadowMapFilter = void(Object::*)(SharedPtr<View> view, SharedPtr<Texture2D> shadowMap, float blurScale);
+	
 	friend class ShadowRenderer;
 	friend class LightContainer;
 public:
@@ -126,6 +133,20 @@ public:
 	* @brief : Get All translucent geometrys (LIST(RenderComponent*))
 	*/
 	TranslucentContainer GetAllTranslucents() { return _translucents; }
+	/**
+	* @brief : Set shadow quality mode.
+	*/
+	void SetShadowQuality(ShadowQuality quality);
+
+	/// Set post processing filter to the shadow map
+	void SetShadowMapFilter(Object* instance, ShadowMapFilter functionPtr);
+	/// Blur the shadow map.
+	void BlurShadowMap(SharedPtr<View> view, SharedPtr<Texture2D> shadowMap, float blurScale);
+
+
+	/// Remove all shadow maps. Called when global shadow map resolution or format is changed.
+	void ResetShadowMaps();
+
 private:
 	/**
 	* @brief : Create light volume geometries
@@ -175,15 +196,33 @@ private:
 	/// Graphics sub system
 	WeakPtr<Graphics> _graphics;
 
-	/// Default renderpath.
+	/// Default renderpath
 	SharedPtr<RenderPath> _defaultRenderPath;
 
-	/// Directional light quad geometry.
+	/// Directional light quad geometry
 	SharedPtr<Geometry> _dirLightGeometry;
 	/// Spot light volume geometry
 	SharedPtr<Geometry> _spotLightGeometry;
 	/// Point light volume geometry
 	SharedPtr<Geometry> _pointLightGeometry;
+	/// Instance of shadow map filter
+	Object* _shadowMapFilterInstance{};
+	/// Function pointer of shadow map filter
+	ShadowMapFilter _shadowMapFilter{};
+	/// Shadow maps by resolution.
+	HASH_MAP<int, VECTOR<SharedPtr<Texture2D> > > _shadowMaps;
+	/// Shadow map dummy color buffers by resolution.
+	HASH_MAP<int, SharedPtr<Texture2D> > _colorShadowMaps;
+	/// Shadow map allocations by resolution.
+	HASH_MAP<int, VECTOR<tLight*> > _shadowMapAllocations;
+
+	/// Draw shadows flag
+	bool _drawShadows{ true };
+	/// Shadow quality
+	ShadowQuality _shadowQuality{ ShadowQuality::Pcf16bit };
+	/// Shaders need reloading flag
+	bool _shadersDirty{ true };
+
 
 	SharedPtr<ShadowRenderer> _shadowRenderer;
 	SharedPtr<LightContainer> _lightContainer;

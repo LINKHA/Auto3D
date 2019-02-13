@@ -47,6 +47,55 @@ enum VertexMask : unsigned
 
 AUTO_FLAGSET(VertexMask, VertexMaskFlags);
 
+/// Texture usage types
+enum class TextureUsage
+{
+	Static = 0,
+	Dynamic,
+	RenderTarget,
+	DepthStencil
+};
+
+/// Culling mode
+enum class CullMode
+{
+	None = 0,
+	CCW,
+	CW,
+	Count
+};
+
+/// Texture filtering mode.
+enum class TextureFilterMode
+{
+	Nearest = 0,
+	Bilinear,
+	Trilinear,
+	Anisotropic,
+	NearestAnisotropic,
+	Default,
+	Count
+};
+
+/// Texture addressing mode
+enum class TextureAddressMode
+{
+	Wrap = 0,
+	Mirror,
+	Clamp,
+	Border,
+	Count
+};
+
+/// Texture coordinates.
+enum class TextureCoordinate
+{
+	U = 0,
+	V,
+	W,
+	Count
+};
+
 enum ClearTarget : unsigned
 {
 	CLEAR_TARGET_COLOR = 0x1,
@@ -54,6 +103,7 @@ enum ClearTarget : unsigned
 	CLEAR_TARGET_STENCIL = 0x4
 };
 AUTO_FLAGSET(ClearTarget, ClearTargetFlags);
+
 
 /// Texture units
 enum class TextureUnit
@@ -272,5 +322,16 @@ static const int BITS_PER_COMPONENT = 8;
 extern const unsigned ELEMENT_TYPESIZES[];
 
 extern const VertexElement LEGACY_VERTEXELEMENTS[];
+
+/// Shadow type
+enum class ShadowQuality
+{
+	Simple16bit = 0,
+	Simple24bit,
+	Pcf16bit,
+	Pcf24bit,
+	Vsm,
+	BlurVsm
+};
 
 }

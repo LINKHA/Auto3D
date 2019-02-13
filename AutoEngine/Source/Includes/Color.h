@@ -25,6 +25,9 @@ public:
 	bool NotEquals(const Color& inRGB) const				{ return (r != inRGB.r || g != inRGB.g || b != inRGB.b || a != inRGB.a); }
 	float* GetPtr()											{ return &r; }
 	const float* GetPtr() const								{ return &r; }
+	/// Return float data.
+	const float* Data() const { return &r; }
+
 	Color& operator += (const Color &inRGBA)				{ r += inRGBA.r; g += inRGBA.g; b += inRGBA.b; a += inRGBA.a; return *this; }
 	Color& operator *= (const Color &inRGBA)				{ r *= inRGBA.r; g *= inRGBA.g; b *= inRGBA.b; a *= inRGBA.a; return *this; }
 	// Deleted function

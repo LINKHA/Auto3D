@@ -267,17 +267,25 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\AutoEngine\Source\GraphicsDef.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\D3D12ShaderVariation.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\D3D12VertexBuffer.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\Geometry.cpp" />
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\Graphics.cpp" />
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\GraphicsDef.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\IndexBuffer.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLIndexBuffer.cpp" />
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLRenderSurface.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLShaderVariation.cpp" />
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLTexture.cpp" />
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLTexture2D.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLVertexBuffer.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\RenderPath.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\RenderSurface.cpp" />
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\ResourceWithMetaData.cpp" />
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\Texture.cpp" />
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\Texture2D.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\VertexBuffer.cpp" />
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\View.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Ambient.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Application.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Audio.cpp" />
@@ -312,7 +320,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\GLTextureEnable.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\GPUObject.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\GameManager.cpp" />
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Graphics.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\HDRSkybox.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\IO.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Image.cpp" />
@@ -320,7 +327,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\InstanceBeltLine.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\LevelBehaviorObject.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\LevelScene.cpp" />
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Light.cpp" />
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\tLight.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\LightContainer.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Material.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Matrix3x3.cpp" />
@@ -385,7 +392,11 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\OGLGraphicsImp.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\RenderPath.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\RenderSurface.h" />
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\ResourceWithMetaData.h" />
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Texture.h" />
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Texture2D.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\VertexBuffer.h" />
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\View.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AbstractFile.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Ambient.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Application.h" />
@@ -450,7 +461,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Launch.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\LevelBehaviorObject.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\LevelScene.h" />
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Light.h" />
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\tLight.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\LightContainer.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\LogDef.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Material.h" />

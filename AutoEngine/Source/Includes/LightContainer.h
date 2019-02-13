@@ -3,7 +3,7 @@
 
 ; namespace Auto3D {
 
-class Light;
+class tLight;
 /**
 * @brief : Store all lighting for the current scene
 */
@@ -18,11 +18,11 @@ public:
 	/** 
 	* @brief : Add light 
 	*/
-	void AddLight(SharedPtr<Light> source);
+	void AddLight(SharedPtr<tLight> source);
 	/**
 	* @brief : Remove ligth
 	*/
-	void RemoveLight(SharedPtr<Light> source);
+	void RemoveLight(SharedPtr<tLight> source);
 	/**
 	* @brief : Get light container size
 	*/
@@ -31,11 +31,11 @@ public:
 	* @brief : Get all lights
 	* @return : VECTOR(Light*)
 	*/
-	VECTOR<SharedPtr<Light> > GetAllLights() { return _lights; }
+	VECTOR<SharedPtr<tLight> > GetAllLights() { return _lights; }
 	/**
 	* @brief : Get last main light
 	*/
-	const SharedPtr<Light> GetLastMainLight() { return _lastMainLight; }
+	const SharedPtr<tLight> GetLastMainLight() { return _lastMainLight; }
 	/**
 	* @brief : Set is or not render
 	*/
@@ -43,20 +43,20 @@ public:
 	/**
 	* @brief : Set current light
 	*/
-	void SetCurrentLight(SharedPtr<Light> light) { _currentLight = light; }
+	void SetCurrentLight(SharedPtr<tLight> light) { _currentLight = light; }
 	/**
 	* @brief : Get current light
 	*/
-	SharedPtr<Light> GetCurrentLight() { return _currentLight; }
+	SharedPtr<tLight> GetCurrentLight() { return _currentLight; }
 private:
 	/// Is render or cull
 	bool _isRenderOrCull;
 	/// Current light
-	SharedPtr<Light> _currentLight;
+	SharedPtr<tLight> _currentLight;
 	/// Last main light
-	SharedPtr<Light> _lastMainLight;
+	SharedPtr<tLight> _lastMainLight;
 	/// All light
-	VECTOR<SharedPtr<Light> > _lights;
+	VECTOR<SharedPtr<tLight> > _lights;
 
 };
 

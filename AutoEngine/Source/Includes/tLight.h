@@ -63,11 +63,11 @@ private:
 /**
 * @brief : Light component
 */
-class Light : public Component, public EnableSharedFromThis<Light>
+class tLight : public Component, public EnableSharedFromThis<tLight>
 {
-	REGISTER_OBJECT_CLASS(Light, Component)
+	REGISTER_OBJECT_CLASS(tLight, Component)
 public:
-	explicit Light(SharedPtr<Ambient> ambi);
+	explicit tLight(SharedPtr<Ambient> ambi);
 	/**
 	* @brief : Register object factory.
 	*/

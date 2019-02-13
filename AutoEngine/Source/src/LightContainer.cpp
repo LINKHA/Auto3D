@@ -9,16 +9,16 @@ LightContainer::LightContainer(SharedPtr<Ambient> ambient)
 {}
 LightContainer::~LightContainer()
 {}
-void LightContainer::AddLight(SharedPtr<Light> source)
+void LightContainer::AddLight(SharedPtr<tLight> source)
 {
 	Assert(source);
 	//Maybe Delay add?
 	_lights.push_back(source);
 }
-void LightContainer::RemoveLight(SharedPtr<Light> source)
+void LightContainer::RemoveLight(SharedPtr<tLight> source)
 {
 	Assert(source);
-	for (VECTOR<SharedPtr<Light> >::iterator it = _lights.begin(); it != _lights.end(); ++it)
+	for (VECTOR<SharedPtr<tLight> >::iterator it = _lights.begin(); it != _lights.end(); ++it)
 	{
 		if (*it = source)
 		{

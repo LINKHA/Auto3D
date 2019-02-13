@@ -6,6 +6,9 @@
 #include "Image.h"
 #include "OGLGraphicsImp.h"
 #include "IndexBuffer.h"
+#include "Texture.h"
+#include "RenderSurface.h"
+#include "VertexBuffer.h"
 
 #include "NewDef.h"
 
@@ -138,11 +141,13 @@ static void GetGLPrimitiveType(unsigned elementCount, PrimitiveType type, unsign
 	}
 }
 
+
 Graphics::Graphics(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 	, _window(nullptr)
 	, _impl(MakeShared<GraphicsImpl>())
 	, _shadowMapFormat(GL_DEPTH_COMPONENT16)
+	, _hiresShadowMapFormat(GL_DEPTH_COMPONENT24)
 #if _OPENGL_4_6_
 	, _apiName("OpenGL 4.6")
 #elif _OPENGL_4_PLUS_
@@ -158,6 +163,7 @@ Graphics::Graphics(SharedPtr<Ambient> ambient)
 	ResetCachedState();
 
 	RegisterGraphicsLib(_ambient);
+
 }
 
 void Graphics::RegisterDebug()
@@ -175,6 +181,7 @@ void Graphics::RegisterDebug()
 #endif
 }
 
+
 void Graphics::Init()
 {
 	_icon = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/logo.png");
@@ -191,6 +198,8 @@ void Graphics::Init()
 
 	Restore();
 
+	CheckFeatureSupport();
+	
 	InitGraphicsState();
 
 }
@@ -219,18 +228,55 @@ void Graphics::Restore()
 	glBindVertexArray(_vertexArrayObject);
 }
 
+void Graphics::CheckFeatureSupport()
+{
+	// Check supported features: light pre-pass, deferred rendering and hardware depth texture
+	_lightPrepassSupport = false;
+	_deferredSupport = false;
+
+	int numSupportedRTs = 1;
+
+	// Work around GLEW failure to check extensions properly from a GL3 context
+	_instancingSupport = glDrawElementsInstanced != nullptr && glVertexAttribDivisor != nullptr;
+	_dxtTextureSupport = true;
+	_anisotropySupport = true;
+	_sRGBSupport = true;
+	_sRGBWriteSupport = true;
+
+	glGetIntegerv(GL_MAX_COLOR_ATTACHMENTS, &numSupportedRTs);
+
+	// Must support 2 rendertargets for light pre-pass, and 4 for deferred
+	if (numSupportedRTs >= 2)
+		_lightPrepassSupport = true;
+	if (numSupportedRTs >= 4)
+		_deferredSupport = true;
+
+	// Consider OpenGL shadows always hardware sampled, if supported at all
+	_hardwareShadowSupport = _shadowMapFormat != 0;
+}
 void Graphics::SetVBO(unsigned object)
 {
-	if (_impl->boundVBO_ != object)
+	if (_impl->_boundVBO != object)
 	{
 		if (object)
 			glBindBuffer(GL_ARRAY_BUFFER, object);
-		_impl->boundVBO_ = object;
+		_impl->_boundVBO = object;
 	}
 }
 
 void Graphics::ResetCachedState()
 {
+	for (auto& vertexBuffer : _vertexBuffers)
+		vertexBuffer.reset();
+
+	for (unsigned i = 0; i < MAX_TEXTURE_UNITS; ++i)
+	{
+		_textures[i].reset();
+		_impl->_textureTypes[i] = 0;
+	}
+	for (auto& renderTarget : _renderTargets)
+		renderTarget.reset();
+
 	_drawColor = Color(0.0f, 0.0f, 0.0f, 1.0f);
 	_viewport = RectInt(0, 0, 0, 0);
 	_colorWrite = false;
@@ -239,8 +285,26 @@ void Graphics::ResetCachedState()
 	_numPrimitives = 0;
 	_numBatches = 0;
 	_numSample = 0;
+	_impl->_boundFBO = _impl->_systemFBO;
+	_impl->_boundVBO = 0;
+	_impl->_boundUBO = 0;
 	_depthTestMode = DepthMode::Always;
+
+	// Set initial state to match Direct3D
+	if (_impl->_glContext)
+	{
+		glEnable(GL_DEPTH_TEST);
+		SetCullMode(CullMode::CCW);
+		SetDepthTest(DepthMode::LessEqual);
+		SetDepthWrite(true);
+	}
 }
+
+void Graphics::MarkFBODirty()
+{
+	_impl->_fboDirty = true;
+}
+
 void Graphics::InitGraphicsState()
 {
 	SetDepthTest(DepthMode::Less);
@@ -466,6 +530,98 @@ void Graphics::SetViewport(int posX, int posY, int width, int height)
 	glViewport(posX, posY, width, height);
 }
 
+void Graphics::SetTexture(unsigned index, SharedPtr<Texture> texture)
+{
+	if (index >= MAX_TEXTURE_UNITS)
+	{
+		WarningString("Index exceeds maximum texture limit.");
+		return;
+	}
+
+	// Check if texture is currently bound as a rendertarget. In that case, use its backup texture, or blank if not defined
+	if (texture)
+	{
+		if (_renderTargets[0] && _renderTargets[0]->GetParentTexture() == texture)
+			texture = texture->GetBackupTexture();
+		else
+		{
+			// Resolve multisampled texture now as necessary
+			if (texture->GetMultiSample() > 1 && texture->GetAutoResolve() && texture->IsResolveDirty())
+			{
+				if (texture->GetType() == Texture2D::GetTypeStatic())
+					ResolveToTexture(static_cast<Texture2D*>(texture));
+				if (texture->GetType() == TextureCube::GetTypeStatic())
+					ResolveToTexture(static_cast<TextureCube*>(texture));
+			}
+		}
+	}
+	if (_textures[index] != texture)
+	{
+		if (_impl->_activeTexture != index)
+		{
+			glActiveTexture(GL_TEXTURE0 + index);
+			_impl->_activeTexture = index;
+		}
+
+		if (texture)
+		{
+			unsigned glType = texture->GetTarget();
+			// Unbind old texture type if necessary
+			if (_impl->_textureTypes[index] && _impl->_textureTypes[index] != glType)
+				glBindTexture(_impl->_textureTypes[index], 0);
+			glBindTexture(glType, texture->GetHandle().name);
+			_impl->_textureTypes[index] = glType;
+
+			if (texture->GetParametersDirty())
+				texture->UpdateParameters();
+			if (texture->GetLevelsDirty())
+				texture->RegenerateLevels();
+		}
+		else if (_impl->_textureTypes[index])
+		{
+			glBindTexture(_impl->_textureTypes[index], 0);
+			_impl->_textureTypes[index] = 0;
+		}
+
+		_textures[index] = texture;
+	}
+	else
+	{
+		if (texture && (texture->GetParametersDirty() || texture->GetLevelsDirty()))
+		{
+			if (_impl->_activeTexture != index)
+			{
+				glActiveTexture(GL_TEXTURE0 + index);
+				_impl->_activeTexture = index;
+			}
+
+			glBindTexture(texture->GetTarget(), texture->GetHandle().name);
+			if (texture->GetParametersDirty())
+				texture->UpdateParameters();
+			if (texture->GetLevelsDirty())
+				texture->RegenerateLevels();
+		}
+	}
+}
+
+void Graphics::SetCullMode(CullMode mode)
+{
+	if (mode != _cullMode)
+	{
+		if (mode == CullMode::None)
+			glDisable(GL_CULL_FACE);
+		else
+		{
+			// Use Direct3D convention, ie. clockwise vertices define a front face
+			glEnable(GL_CULL_FACE);
+			glCullFace(mode == CullMode::CCW ? GL_FRONT : GL_BACK);
+		}
+
+		_cullMode = mode;
+	}
+}
+
+
 void Graphics::SetDepthTest(DepthMode mode)
 {
 	if (mode != _depthTestMode)
@@ -496,7 +652,22 @@ void Graphics::SetColorWrite(bool enable)
 		_colorWrite = enable;
 	}
 }
+void Graphics::SetTextureForUpdate(SharedPtr<Texture> texture)
+{
+	if (_impl->_activeTexture != 0)
+	{
+		glActiveTexture(GL_TEXTURE0);
+		_impl->_activeTexture = 0;
+	}
 
+	unsigned glType = texture->GetTarget();
+	// Unbind old texture type if necessary
+	if (_impl->_textureTypes[0] && _impl->_textureTypes[0] != glType)
+		glBindTexture(_impl->_textureTypes[0], 0);
+	glBindTexture(glType, texture->GetHandle().name);
+	_impl->_textureTypes[0] = glType;
+	_textures[0] = texture;
+}
 
 }
 #endif //AUTO_OPENGL

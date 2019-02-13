@@ -94,9 +94,6 @@
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Camera.cpp">
       <Filter>Source\Component\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Light.cpp">
-      <Filter>Source\Component\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\RenderComponent.cpp">
       <Filter>Source\Component\Graphics</Filter>
     </ClCompile>
@@ -164,9 +161,6 @@
       <Filter>Source\FileSystem</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\GPUObject.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Graphics.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\OffScreen.cpp">
@@ -304,9 +298,6 @@
     <ClCompile Include="..\..\..\AutoEngine\Source\src\RenderPath.cpp">
       <Filter>Source\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\AutoEngine\Source\GraphicsDef.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\AutoEngine\Source\src\IndexBuffer.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
@@ -330,6 +321,36 @@
     </ClCompile>
     <ClCompile Include="..\..\..\AutoEngine\Source\src\tTexture3D.cpp">
       <Filter>Source\_Abandon\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\GraphicsDef.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\Texture2D.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\Texture.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\ResourceWithMetaData.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLTexture2D.cpp">
+      <Filter>Source\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLTexture.cpp">
+      <Filter>Source\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\Graphics.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLRenderSurface.cpp">
+      <Filter>Source\Renderer\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\View.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\tLight.cpp">
+      <Filter>Source\_Abandon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -460,9 +481,6 @@
       <Filter>Source\Component\Coordinate</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Camera.h">
-      <Filter>Source\Component\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Light.h">
       <Filter>Source\Component\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\MeshRenderer.h">
@@ -756,6 +774,21 @@
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\tTexture3D.h">
       <Filter>Source\_Abandon\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Texture2D.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\ResourceWithMetaData.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Texture.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\View.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\tLight.h">
+      <Filter>Source\_Abandon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\CMakeLists.txt" />
@@ -871,6 +904,12 @@
     </Filter>
     <Filter Include="Shader\HLSL">
       <UniqueIdentifier>{a4a57375-d513-477a-9b2d-def1e903552b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Renderer\OpenGL">
+      <UniqueIdentifier>{784b51e7-d131-489c-91ed-e3eabb16f206}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Renderer\Direct3D12">
+      <UniqueIdentifier>{6db9ddae-1082-4156-81e5-3d2ccd988379}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

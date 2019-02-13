@@ -1,4 +1,4 @@
-#include "Light.h"
+#include "tLight.h"
 #include "Renderer.h"
 #include "NewDef.h"
 
@@ -95,7 +95,7 @@ unsigned ShadowRenderAssist::GetDepthMap()
 /////////////////////////////////////////////////////////////////////////////////////////////
 //Light
 /////////////////////////////////////////////////////////////////////////////////////////////
-Light::Light(SharedPtr<Ambient> ambi)
+tLight::tLight(SharedPtr<Ambient> ambi)
 	: Super(ambi)
 	, _shadowAssist(nullptr)
 	, _farPlane(25.0f)
@@ -105,15 +105,15 @@ Light::Light(SharedPtr<Ambient> ambi)
 	SetShadowType(ShadowType::Soft);
 }
 
-Light::~Light()
+tLight::~tLight()
 {}
 
-void Light::RegisterObject(SharedPtr<Ambient> ambient)
+void tLight::RegisterObject(SharedPtr<Ambient> ambient)
 {
-	ambient->RegisterFactory<Light>(SCENE_ATTACH);
+	ambient->RegisterFactory<tLight>(SCENE_ATTACH);
 }
 
-void Light::Update()
+void tLight::Update()
 {
 	Assert(GetNode());
 
@@ -123,12 +123,12 @@ void Light::Update()
 	_lightSpaceMatrix = _lightProjectionMatrix * _lightViewMatrix;
 }
 
-void Light::Init()
+void tLight::Init()
 {
 	AddToManager();
 }
 
-void Light::SetType(LightType type)
+void tLight::SetType(LightType type)
 {
 	if (type == LightType::Directional)
 	{
@@ -170,7 +170,7 @@ void Light::SetType(LightType type)
 	}
 }
 
-void Light::SetShadowType(ShadowType type)
+void tLight::SetShadowType(ShadowType type)
 {
 	_shadowType = type;
 	if (_shadowAssist || (type == ShadowType::NoShadow))
@@ -178,28 +178,28 @@ void Light::SetShadowType(ShadowType type)
 	_shadowAssist = MakeShared<ShadowRenderAssist>(_ambient,GetType());
 }
 
-glm::mat4& Light::GetLightSpaceMatrix()
+glm::mat4& tLight::GetLightSpaceMatrix()
 {
 	return _lightSpaceMatrix;
 }
-glm::mat4& Light::GetLightProjectionMatrix()
+glm::mat4& tLight::GetLightProjectionMatrix()
 {
 	return _lightProjectionMatrix;
 }
-glm::mat4& Light::GetLightViewMatrix()
+glm::mat4& tLight::GetLightViewMatrix()
 {
 	return _lightViewMatrix;
 }
-glm::vec3 Light::GetLightPosition()
+glm::vec3 tLight::GetLightPosition()
 {
 	Assert(GetNode());
 	return GetNode()->GetComponent<Transform>()->GetPosition().ToGLM();
 }
-void Light::AddToManager()
+void tLight::AddToManager()
 {
 	GetSubSystem<Renderer>()->GetLightContainer()->AddLight(SharedFromThis());
 }
-void Light::RemoveFromManager()
+void tLight::RemoveFromManager()
 {
 	GetSubSystem<Renderer>()->GetLightContainer()->RemoveLight(SharedFromThis());
 }

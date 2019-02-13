@@ -4,7 +4,7 @@
 #include "SpriteRenderer.h"
 #include "Transform.h"
 #include "MeshRenderer.h"
-#include "Light.h"
+#include "tLight.h"
 
 #include "AudioListener.h"
 #include "AudioSource.h"
@@ -168,7 +168,7 @@ void Scene::RegisterSceneLib(SharedPtr<Ambient> ambient)
 
 	AudioListener::RegisterObject(ambient);
 	AudioSource::RegisterObject(ambient);
-	Light::RegisterObject(ambient);
+	tLight::RegisterObject(ambient);
 
 	SpriteRenderer::RegisterObject(ambient);
 	MeshRenderer::RegisterObject(ambient);
