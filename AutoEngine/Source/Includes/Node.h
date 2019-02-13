@@ -14,7 +14,7 @@ class Node;
 /// define gameobject with node
 using GameNode = SharedPtr<Node>;
 
-class Node :public Object, public EnableSharedFromThis<Node>
+class Node :public Object
 {
 	REGISTER_OBJECT_CLASS(Node, Object)
 public:

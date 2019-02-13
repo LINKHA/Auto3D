@@ -59,7 +59,7 @@ VECTOR<SharedPtr<Node> >& Node::GetAllChild()
 void Node::AddComponent(SharedPtr<Component> com)
 {
 	_components.push_back(MakePair(com->GetClassString(), com));
-	com->SetNode(SharedFromThis());
+	com->SetNode(SharedFromThis(Node));
 	com->Init();
 }
 
@@ -82,7 +82,7 @@ int Node::GetComponentsSize()
 
 SharedPtr<Node> Node::GetNode()
 {
-	return SharedFromThis();
+	return SharedFromThis(Node);
 }
 
 void Node::SetPosition(const Vector2& position)

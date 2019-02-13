@@ -8,7 +8,7 @@ namespace Auto3D
 /**
 * Hardware index buffer
 */
-class IndexBuffer : public Object, public GPUObject, public EnableSharedFromThis<IndexBuffer>
+class IndexBuffer : public Object, public GPUObject
 {
 	REGISTER_OBJECT_CLASS(IndexBuffer, Object)
 public:

@@ -23,7 +23,7 @@ MeshLight::~MeshLight()
 
 void MeshLight::Destory()
 {
-	UnloadOpaque(SharedFromThis());
+	UnloadOpaque(SharedFromThis(MeshLight));
 }
 #define HDR_DEBUG 0
 void MeshLight::Start()
@@ -33,7 +33,7 @@ void MeshLight::Start()
 
 	_shader->Use();
 	_shader->SetInt("diffuseTexture", 0);
-	RegisterOpaque(SharedFromThis());
+	RegisterOpaque(SharedFromThis(MeshLight));
 }
 
 void MeshLight::Draw()

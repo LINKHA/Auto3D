@@ -6,7 +6,7 @@ class Image;
 class Shader;
 class ShaderVariation;
 
-class SpriteRenderer : public tTexture2D , public EnableSharedFromThis<SpriteRenderer>
+class SpriteRenderer : public tTexture2D
 {
 	REGISTER_OBJECT_CLASS(SpriteRenderer, tTexture2D)
 public:

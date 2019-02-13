@@ -36,7 +36,7 @@ Bloom::~Bloom()
 
 void Bloom::Destory()
 {
-	UnloadOpaque(SharedFromThis());
+	UnloadOpaque(SharedFromThis(Bloom));
 }
 
 void Bloom::Start()
@@ -119,7 +119,7 @@ void Bloom::Start()
 	m_shaderBloomFinal->SetInt("scene", 0);
 	m_shaderBloomFinal->SetInt("bloomBlur", 1);
 
-	RegisterOpaque(SharedFromThis());
+	RegisterOpaque(SharedFromThis(Bloom));
 }
 void Bloom::Draw()
 {

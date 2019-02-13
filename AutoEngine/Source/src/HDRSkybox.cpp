@@ -42,7 +42,7 @@ HDRSkyBox::~HDRSkyBox()
 
 void HDRSkyBox::Destory()
 {
-	UnloadOpaque(SharedFromThis());
+	UnloadOpaque(SharedFromThis(HDRSkyBox));
 }
 
 void HDRSkyBox::Start()
@@ -205,7 +205,7 @@ void HDRSkyBox::Start()
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	RegisterOpaque(SharedFromThis());
+	RegisterOpaque(SharedFromThis(HDRSkyBox));
 }
 void HDRSkyBox::Draw()
 {

@@ -100,7 +100,7 @@ void Camera::Start()
 void Camera::Init()
 {
 	_transform = GetNode()->GetComponent<Transform>();
-	GetSubSystem<Renderer>()->AddCamera(SharedFromThis());
+	GetSubSystem<Renderer>()->AddCamera(SharedFromThis(Camera));
 }
 
 glm::mat4 Camera::GetViewMatrix()

@@ -88,7 +88,7 @@ private:
 
 template <typename _Ty> inline SharedPtr<_Ty> Ambient::RegisterSubSystem()
 {
-	auto subsystem = MakeShared<_Ty>(SharedFromThis());
+	auto subsystem = MakeShared<_Ty>(SharedFromBase());
 	RegisterSubSystem(subsystem);
 	return subsystem;
 }
@@ -97,8 +97,8 @@ template<typename _Ty> void Ambient::RemoveSubSystem(){ RemoveSubSystem(_Ty::Get
 
 template<typename _Ty> SharedPtr<_Ty> Ambient::GetSubSystem() const { return StaticCast<_Ty>(Ambient::GetSubSystem(_Ty::GetClassStringStatic())); }
 
-template<typename _Ty> void Ambient::RegisterFactory() { RegisterFactory(MakeShared<ObjectFactoryImpl<_Ty> >(SharedFromThis())); }
+template<typename _Ty> void Ambient::RegisterFactory() { RegisterFactory(MakeShared<ObjectFactoryImpl<_Ty> >(SharedFromBase())); }
 
-template<typename _Ty> void Ambient::RegisterFactory(const char* category) { RegisterFactory(MakeShared<ObjectFactoryImpl<_Ty> >(SharedFromThis()), category); }
+template<typename _Ty> void Ambient::RegisterFactory(const char* category) { RegisterFactory(MakeShared<ObjectFactoryImpl<_Ty> >(SharedFromBase()), category); }
 
 }

@@ -197,11 +197,11 @@ glm::vec3 tLight::GetLightPosition()
 }
 void tLight::AddToManager()
 {
-	GetSubSystem<Renderer>()->GetLightContainer()->AddLight(SharedFromThis());
+	GetSubSystem<Renderer>()->GetLightContainer()->AddLight(SharedFromThis(tLight));
 }
 void tLight::RemoveFromManager()
 {
-	GetSubSystem<Renderer>()->GetLightContainer()->RemoveLight(SharedFromThis());
+	GetSubSystem<Renderer>()->GetLightContainer()->RemoveLight(SharedFromThis(tLight));
 }
 
 }

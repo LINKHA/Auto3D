@@ -22,7 +22,7 @@ InstanceBeltLine::~InstanceBeltLine()
 }
 void InstanceBeltLine::Destory()
 {
-	UnloadOpaque(SharedFromThis());
+	UnloadOpaque(SharedFromThis(InstanceBeltLine));
 }
 
 void InstanceBeltLine::Start()
@@ -48,7 +48,7 @@ void InstanceBeltLine::Start()
 		glVertexAttribDivisor(6, 1);
 	}
 
-	RegisterOpaque(SharedFromThis());
+	RegisterOpaque(SharedFromThis(InstanceBeltLine));
 }
 void InstanceBeltLine::Draw()
 {

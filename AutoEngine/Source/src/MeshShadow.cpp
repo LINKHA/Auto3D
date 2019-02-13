@@ -25,14 +25,14 @@ MeshShadow::~MeshShadow()
 
 void MeshShadow::Destory()
 {
-	UnloadShadow(SharedFromThis());
-	UnloadOpaque(SharedFromThis());
+	UnloadShadow(SharedFromThis(MeshShadow));
+	UnloadOpaque(SharedFromThis(MeshShadow));
 }
 
 void MeshShadow::Init()
 {
-	RegisterShadow(SharedFromThis());
-	RegisterOpaque(SharedFromThis());
+	RegisterShadow(SharedFromThis(MeshShadow));
+	RegisterOpaque(SharedFromThis(MeshShadow));
 }
 
 void MeshShadow::DrawReady()

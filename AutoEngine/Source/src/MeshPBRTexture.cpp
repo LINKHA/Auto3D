@@ -34,7 +34,7 @@ MeshPBRTexture::~MeshPBRTexture()
 
 void MeshPBRTexture::Destory()
 {
-	UnloadOpaque(SharedFromThis());
+	UnloadOpaque(SharedFromThis(MeshPBRTexture));
 }
 
 void MeshPBRTexture::Start()
@@ -71,7 +71,7 @@ void MeshPBRTexture::Start()
 	_roughnessMap = GetSubSystem<ResourceSystem>()->TextureLoad((dir + "texture/pbr/gold/roughness.png").CStr());
 	_aoMap = GetSubSystem<ResourceSystem>()->TextureLoad((dir + "texture/pbr/gold/ao.png").CStr());
 
-	RegisterOpaque(SharedFromThis());
+	RegisterOpaque(SharedFromThis(MeshPBRTexture));
 }
 
 void MeshPBRTexture::Draw()

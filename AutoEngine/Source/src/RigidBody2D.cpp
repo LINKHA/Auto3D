@@ -31,7 +31,7 @@ RigidBody2D::~RigidBody2D()
 	if (_physicsWorld)
 	{
 		ReleaseBody();
-		_physicsWorld->RemoveRigidBody(SharedFromThis());
+		_physicsWorld->RemoveRigidBody(SharedFromThis(RigidBody2D));
 	}
 }
 

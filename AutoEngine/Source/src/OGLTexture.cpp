@@ -119,7 +119,7 @@ void Texture::SetSRGB(bool enable)
 			create();
 
 		// If texture in use in the framebuffer, mark it dirty
-		if (_graphics.lock() && _graphics.lock()->GetRenderTarget(0) && _graphics.lock()->GetRenderTarget(0)->GetParentTexture() == SharedFromThis())
+		if (_graphics.lock() && _graphics.lock()->GetRenderTarget(0) && _graphics.lock()->GetRenderTarget(0)->GetParentTexture() == SharedFromThis(Texture))
 			_graphics.lock()->MarkFBODirty();
 	}
 }

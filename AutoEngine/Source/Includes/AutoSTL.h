@@ -64,17 +64,17 @@ template<typename _Ty> using SharedArrayPtr = boost::shared_array<_Ty>;
 template<typename _Ty> class EnableSharedFromThis : public boost::enable_shared_from_this<_Ty>
 {
 public:
-	boost::shared_ptr<_Ty> SharedFromThis()
+	virtual boost::shared_ptr<_Ty> SharedFromBase()
 	{
 		return shared_from_this();
 	}
-	boost::shared_ptr<_Ty const> SharedFromThis() const
+	virtual boost::shared_ptr<_Ty const> SharedFromBase() const
 	{
 		return shared_from_this();
 	}
 };
 
-#define SharedDynamicThis(_Ty)	boost::dynamic_pointer_cast<_Ty>(shared_from_this())
+#define SharedFromThis(_Ty)	boost::dynamic_pointer_cast<_Ty>(shared_from_this())
 
 template<typename _Ty, typename... _Args>  
 auto StaticCast(_Args&&... args) { return boost::static_pointer_cast<_Ty>(args...); }

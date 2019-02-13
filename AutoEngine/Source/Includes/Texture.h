@@ -6,7 +6,7 @@ namespace Auto3D {
 
 static const int MAX_TEXTURE_QUALITY_LEVELS = 3;
 
-class Texture : public ResourceWithMetaData, public GPUObject, public EnableSharedFromThis<Texture>
+class Texture : public ResourceWithMetaData, public GPUObject
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(Texture, ResourceWithMetaData)
 public:

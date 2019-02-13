@@ -4,7 +4,7 @@
 
 namespace Auto3D {
 
-class Texture2D : public Texture, public EnableSharedFromThis<Texture2D>
+class Texture2D : public Texture
 {
 	REGISTER_OBJECT_CLASS(Texture2D, Texture)
 public:

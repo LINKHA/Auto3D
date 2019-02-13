@@ -36,7 +36,7 @@ void MeshPBR::RegisterObject(SharedPtr<Ambient> ambient)
 }
 void MeshPBR::Destory()
 {
-	UnloadOpaque(SharedFromThis());
+	UnloadOpaque(SharedFromThis(MeshPBR));
 }
 void MeshPBR::Start()
 {
@@ -57,7 +57,7 @@ void MeshPBR::Start()
 	}
 	_shader->SetVec3("albedo", _albedo);
 	_shader->SetFloat("ao", 1.0f);
-	RegisterOpaque(SharedFromThis());
+	RegisterOpaque(SharedFromThis(MeshPBR));
 }
 
 void MeshPBR::Draw()

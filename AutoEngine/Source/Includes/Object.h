@@ -13,7 +13,7 @@ class Ambient;
 /**
 * Base object for all regisiter class
 */
-class Object
+class Object : public EnableSharedFromThis<Object>
 {	
 public:
 	explicit Object(SharedPtr<Ambient> ambient);

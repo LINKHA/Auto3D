@@ -4,13 +4,13 @@
 #include "Transform.h"
 #include "Camera.h"
 #include "Application.h"
-#include "TextureMap.h"
+#include "tTextureMap.h"
 #include "ShaderVariation.h"
 
 
 namespace Auto3D {
 
-class TextureNormal : public tTextureMap, public EnableSharedFromThis<TextureNormal>
+class TextureNormal : public tTextureMap
 {
 	REGISTER_OBJECT_CLASS(TextureNormal, tTextureMap)
 public:

@@ -63,7 +63,7 @@ private:
 /**
 * @brief : Light component
 */
-class tLight : public Component, public EnableSharedFromThis<tLight>
+class tLight : public Component
 {
 	REGISTER_OBJECT_CLASS(tLight, Component)
 public:

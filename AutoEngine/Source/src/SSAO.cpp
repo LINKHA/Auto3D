@@ -31,7 +31,7 @@ SSAO::~SSAO()
 
 void SSAO::Destory()
 {
-	UnloadOpaque(SharedFromThis());
+	UnloadOpaque(SharedFromThis(SSAO));
 }
 
 
@@ -154,7 +154,7 @@ void SSAO::Start()
 	m_shaderSSAOBlur->Use();
 	m_shaderSSAOBlur->SetInt("ssaoInput", 0);
 	
-	RegisterOpaque(SharedFromThis());
+	RegisterOpaque(SharedFromThis(SSAO));
 }
 void SSAO::Draw()
 {

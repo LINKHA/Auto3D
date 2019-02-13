@@ -22,7 +22,7 @@ MeshRenderer::~MeshRenderer()
 }	
 void MeshRenderer::Destory()
 {
-	UnloadOpaque(SharedFromThis());
+	UnloadOpaque(SharedFromThis(MeshRenderer));
 }
 
 void MeshRenderer::RegisterObject(SharedPtr<Ambient> ambient)
@@ -48,7 +48,7 @@ void MeshRenderer::Start()
 			_shader->Create();
 		}
 	}
-	RegisterOpaque(SharedFromThis());
+	RegisterOpaque(SharedFromThis(MeshRenderer));
 }
 
 void MeshRenderer::Draw()

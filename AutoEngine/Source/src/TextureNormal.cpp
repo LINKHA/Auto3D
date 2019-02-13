@@ -19,7 +19,7 @@ TextureNormal::~TextureNormal()
 
 void TextureNormal::Destory()
 {
-	UnloadOpaque(SharedFromThis());
+	UnloadOpaque(SharedFromThis(TextureNormal));
 }
 
 void TextureNormal::Start()
@@ -134,7 +134,7 @@ void TextureNormal::Start()
 
 	//stbi_image_free(m_image->Value);
 
-	RegisterOpaque(SharedFromThis());
+	RegisterOpaque(SharedFromThis(TextureNormal));
 	/////////////////////////////////////////////////////////////////////////////////////////////
 }
 

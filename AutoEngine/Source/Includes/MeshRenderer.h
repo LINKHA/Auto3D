@@ -11,7 +11,7 @@
 
 namespace Auto3D {
 
-class MeshRenderer : public RenderComponent, public GLMeshEnable, public EnableSharedFromThis<MeshRenderer>
+class MeshRenderer : public RenderComponent, public GLMeshEnable
 {
 	REGISTER_OBJECT_CLASS(MeshRenderer, RenderComponent)
 public:

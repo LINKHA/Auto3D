@@ -3,7 +3,7 @@
 #include "Mesh.h"
 
 namespace Auto3D {
-class SSAO : public RenderComponent, public EnableSharedFromThis<SSAO>
+class SSAO : public RenderComponent
 {
 public:
 	explicit SSAO(SharedPtr<Ambient> ambient);

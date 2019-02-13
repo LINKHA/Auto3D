@@ -6,7 +6,7 @@ namespace Auto3D {
 
 class ShaderVariation;
 
-class SkyBox : public tTexture3D, public EnableSharedFromThis<SkyBox>
+class SkyBox : public tTexture3D
 {
 	REGISTER_OBJECT_CLASS(SkyBox, tTexture3D)
 public:

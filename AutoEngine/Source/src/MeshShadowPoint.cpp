@@ -36,8 +36,8 @@ MeshShadowPoint::~MeshShadowPoint()
 
 void MeshShadowPoint::Destory()
 {
-	UnloadShadow(SharedFromThis());
-	UnloadOpaque(SharedFromThis());
+	UnloadShadow(SharedFromThis(MeshShadowPoint));
+	UnloadOpaque(SharedFromThis(MeshShadowPoint));
 }
 
 void MeshShadowPoint::DrawReady()
@@ -53,8 +53,8 @@ void MeshShadowPoint::DrawReady()
 
 void MeshShadowPoint::Start()
 {
-	RegisterShadow(SharedFromThis());
-	RegisterOpaque(SharedFromThis());
+	RegisterShadow(SharedFromThis(MeshShadowPoint));
+	RegisterOpaque(SharedFromThis(MeshShadowPoint));
 }
 
 void MeshShadowPoint::DrawShadow()

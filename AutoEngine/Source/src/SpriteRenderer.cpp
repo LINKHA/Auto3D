@@ -40,11 +40,11 @@ void SpriteRenderer::RegisterObject(SharedPtr<Ambient> ambient)
 void SpriteRenderer::Destory() 
 {
 	if (_image->GetType() == ImageType::Opaque)
-		UnloadOpaque(SharedFromThis());
+		UnloadOpaque(SharedFromThis(SpriteRenderer));
 	else if (_image->GetType() == ImageType::Custom)
-		UnloadCustom(SharedFromThis());
+		UnloadCustom(SharedFromThis(SpriteRenderer));
 	else if (_image->GetType() == ImageType::Translucent)
-		UnloadTranslucent(SharedFromThis());
+		UnloadTranslucent(SharedFromThis(SpriteRenderer));
 }
 void SpriteRenderer::SetImage(SharedPtr<Image> image)
 {
@@ -95,11 +95,11 @@ void SpriteRenderer::Start()
 		WarningString("Failed to load texture");
 	}
 	if(_image->GetType() == ImageType::Opaque)
-		RegisterOpaque(SharedFromThis());
+		RegisterOpaque(SharedFromThis(SpriteRenderer));
 	else if (_image->GetType() == ImageType::Custom)
-		RegisterCustom(SharedFromThis());
+		RegisterCustom(SharedFromThis(SpriteRenderer));
 	else if (_image->GetType() == ImageType::Translucent)
-		RegisterTranslucent(SharedFromThis());
+		RegisterTranslucent(SharedFromThis(SpriteRenderer));
 	/////////////////////////////////////////////////////////////////////////////////////////////
 }
 

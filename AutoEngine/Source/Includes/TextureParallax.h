@@ -4,11 +4,11 @@
 #include "Transform.h"
 #include "Camera.h"
 #include "Application.h"
-#include "TextureMap.h"
+#include "tTextureMap.h"
 
 namespace Auto3D {
 
-class TextureParallax : public tTextureMap , public EnableSharedFromThis<TextureParallax>
+class TextureParallax : public tTextureMap
 {
 	REGISTER_OBJECT_CLASS(TextureParallax, tTextureMap)
 public:

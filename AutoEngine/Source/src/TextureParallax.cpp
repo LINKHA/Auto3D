@@ -20,7 +20,7 @@ TextureParallax::~TextureParallax()
 
 void TextureParallax::Destory()
 {
-	UnloadOpaque(SharedFromThis());
+	UnloadOpaque(SharedFromThis(TextureParallax));
 }
 
 void TextureParallax::Start()
@@ -135,7 +135,7 @@ void TextureParallax::Start()
 
 
 
-	RegisterOpaque(SharedFromThis());
+	RegisterOpaque(SharedFromThis(TextureParallax));
 	/////////////////////////////////////////////////////////////////////////////////////////////
 }
 

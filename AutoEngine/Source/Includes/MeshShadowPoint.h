@@ -7,7 +7,7 @@ namespace Auto3D {
 
 class Mesh;
 class Camera;
-class MeshShadowPoint : public RenderComponent, public GLMeshEnable, public EnableSharedFromThis<MeshShadowPoint>
+class MeshShadowPoint : public RenderComponent, public GLMeshEnable
 {
 public:
 	explicit MeshShadowPoint(SharedPtr<Ambient> ambient);

@@ -25,7 +25,7 @@ bool IndexBuffer::SetData(const void* data)
 	{
 		if (!_graphics.lock()->IsDeviceLost())
 		{
-			_graphics.lock()->SetIndexBuffer(SharedFromThis());
+			_graphics.lock()->SetIndexBuffer(SharedFromThis(IndexBuffer));
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indexCount * (size_t)_indexSize, data, _dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 		}
 		else
@@ -63,7 +63,7 @@ bool IndexBuffer::create()
 			return false;
 		}
 
-		_graphics.lock()->SetIndexBuffer(SharedFromThis());
+		_graphics.lock()->SetIndexBuffer(SharedFromThis(IndexBuffer));
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indexCount * (size_t)_indexSize, nullptr, _dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 	}
 	return true;
