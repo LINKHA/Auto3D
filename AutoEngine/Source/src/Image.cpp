@@ -88,7 +88,7 @@ bool Image::SetSize(int width, int height, int depth, unsigned comp)
 	_height = height;
 	_depth = depth;
 	_components = comp;
-	_compressedFormat = CompressedFormat::NONE;
+	_compressedFormat = CompressedFormat::None;
 	_numCompressedLevels = 0;
 	_nextLevel.reset();
 
@@ -143,12 +143,380 @@ unsigned char* Image::getImageData(Deserializer& source, int& width, int& height
 	return stbi_load_from_memory(buffer.get(), dataSize, &width, &height, (int*)&components, 0);
 }
 
+SharedPtr<Image> Image::ConvertToRGBA() const
+{
+	if (IsCompressed())
+	{
+		LogString("Can not convert compressed image to RGBA");
+		return SharedPtr<Image>();
+	}
+	if (_components < 1 || _components > 4)
+	{
+		LogString("Illegal number of image components for conversion to RGBA");
+		return SharedPtr<Image>();
+	}
+	if (!_data)
+	{
+		LogString("Can not convert image without data to RGBA");
+		return SharedPtr<Image>();
+	}
+
+	// Already RGBA?
+	if (_components == 4)
+		return SharedPtr<Image>(const_cast<Image*>(this));
+
+	SharedPtr<Image> ret = MakeShared<Image>(_ambient);
+	ret->SetSize(_width, _height, _depth, 4);
+
+	const unsigned char* src = _data.get();
+	unsigned char* dest = ret->GetData().get();
+
+	switch (_components)
+	{
+	case 1:
+		for (unsigned i = 0; i < static_cast<unsigned>(_width * _height * _depth); ++i)
+		{
+			unsigned char pixel = *src++;
+			*dest++ = pixel;
+			*dest++ = pixel;
+			*dest++ = pixel;
+			*dest++ = 255;
+		}
+		break;
+
+	case 2:
+		for (unsigned i = 0; i < static_cast<unsigned>(_width * _height * _depth); ++i)
+		{
+			unsigned char pixel = *src++;
+			*dest++ = pixel;
+			*dest++ = pixel;
+			*dest++ = pixel;
+			*dest++ = *src++;
+		}
+		break;
+
+	case 3:
+		for (unsigned i = 0; i < static_cast<unsigned>(_width * _height * _depth); ++i)
+		{
+			*dest++ = *src++;
+			*dest++ = *src++;
+			*dest++ = *src++;
+			*dest++ = 255;
+		}
+		break;
+
+	default:
+		assert(false);  // Should never reach nere
+		break;
+	}
+
+	return ret;
+}
+
 void Image::freeImageData(unsigned char* pixelData)
 {
 	if (!pixelData)
 		return;
 
 	stbi_image_free(pixelData);
+}
+SharedPtr<Image> Image::GetNextLevel() const
+{
+	if (IsCompressed())
+	{
+		LogString("Can not generate mip level from compressed data");
+		return SharedPtr<Image>();
+	}
+	if (_components < 1 || _components > 4)
+	{
+		LogString("Illegal number of image components for mip level generation");
+		return SharedPtr<Image>();
+	}
+
+	if (_nextLevel)
+		return _nextLevel;
+
+	int widthOut = _width / 2;
+	int heightOut = _height / 2;
+	int depthOut = _depth / 2;
+
+	if (widthOut < 1)
+		widthOut = 1;
+	if (heightOut < 1)
+		heightOut = 1;
+	if (depthOut < 1)
+		depthOut = 1;
+
+	SharedPtr<Image> mipImage = MakeShared<Image>(_ambient);
+
+	if (_depth > 1)
+		mipImage->SetSize(widthOut, heightOut, depthOut, _components);
+	else
+		mipImage->SetSize(widthOut, heightOut, _components);
+
+	const unsigned char* pixelDataIn = _data.get();
+	unsigned char* pixelDataOut = mipImage->_data.get();
+
+	// 1D case
+	if (_depth == 1 && (_height == 1 || _width == 1))
+	{
+		// Loop using the larger dimension
+		if (widthOut < heightOut)
+			widthOut = heightOut;
+
+		switch (_components)
+		{
+		case 1:
+			for (int x = 0; x < widthOut; ++x)
+				pixelDataOut[x] = (unsigned char)(((unsigned)pixelDataIn[x * 2] + pixelDataIn[x * 2 + 1]) >> 1);
+			break;
+
+		case 2:
+			for (int x = 0; x < widthOut * 2; x += 2)
+			{
+				pixelDataOut[x] = (unsigned char)(((unsigned)pixelDataIn[x * 2] + pixelDataIn[x * 2 + 2]) >> 1);
+				pixelDataOut[x + 1] = (unsigned char)(((unsigned)pixelDataIn[x * 2 + 1] + pixelDataIn[x * 2 + 3]) >> 1);
+			}
+			break;
+
+		case 3:
+			for (int x = 0; x < widthOut * 3; x += 3)
+			{
+				pixelDataOut[x] = (unsigned char)(((unsigned)pixelDataIn[x * 2] + pixelDataIn[x * 2 + 3]) >> 1);
+				pixelDataOut[x + 1] = (unsigned char)(((unsigned)pixelDataIn[x * 2 + 1] + pixelDataIn[x * 2 + 4]) >> 1);
+				pixelDataOut[x + 2] = (unsigned char)(((unsigned)pixelDataIn[x * 2 + 2] + pixelDataIn[x * 2 + 5]) >> 1);
+			}
+			break;
+
+		case 4:
+			for (int x = 0; x < widthOut * 4; x += 4)
+			{
+				pixelDataOut[x] = (unsigned char)(((unsigned)pixelDataIn[x * 2] + pixelDataIn[x * 2 + 4]) >> 1);
+				pixelDataOut[x + 1] = (unsigned char)(((unsigned)pixelDataIn[x * 2 + 1] + pixelDataIn[x * 2 + 5]) >> 1);
+				pixelDataOut[x + 2] = (unsigned char)(((unsigned)pixelDataIn[x * 2 + 2] + pixelDataIn[x * 2 + 6]) >> 1);
+				pixelDataOut[x + 3] = (unsigned char)(((unsigned)pixelDataIn[x * 2 + 3] + pixelDataIn[x * 2 + 7]) >> 1);
+			}
+			break;
+
+		default:
+			assert(false);  // Should never reach here
+			break;
+		}
+	}
+	// 2D case
+	else if (_depth == 1)
+	{
+		switch (_components)
+		{
+		case 1:
+			for (int y = 0; y < heightOut; ++y)
+			{
+				const unsigned char* inUpper = &pixelDataIn[(y * 2) * _width];
+				const unsigned char* inLower = &pixelDataIn[(y * 2 + 1) * _width];
+				unsigned char* out = &pixelDataOut[y * widthOut];
+
+				for (int x = 0; x < widthOut; ++x)
+				{
+					out[x] = (unsigned char)(((unsigned)inUpper[x * 2] + inUpper[x * 2 + 1] +
+						inLower[x * 2] + inLower[x * 2 + 1]) >> 2);
+				}
+			}
+			break;
+
+		case 2:
+			for (int y = 0; y < heightOut; ++y)
+			{
+				const unsigned char* inUpper = &pixelDataIn[(y * 2) * _width * 2];
+				const unsigned char* inLower = &pixelDataIn[(y * 2 + 1) * _width * 2];
+				unsigned char* out = &pixelDataOut[y * widthOut * 2];
+
+				for (int x = 0; x < widthOut * 2; x += 2)
+				{
+					out[x] = (unsigned char)(((unsigned)inUpper[x * 2] + inUpper[x * 2 + 2] +
+						inLower[x * 2] + inLower[x * 2 + 2]) >> 2);
+					out[x + 1] = (unsigned char)(((unsigned)inUpper[x * 2 + 1] + inUpper[x * 2 + 3] +
+						inLower[x * 2 + 1] + inLower[x * 2 + 3]) >> 2);
+				}
+			}
+			break;
+
+		case 3:
+			for (int y = 0; y < heightOut; ++y)
+			{
+				const unsigned char* inUpper = &pixelDataIn[(y * 2) * _width * 3];
+				const unsigned char* inLower = &pixelDataIn[(y * 2 + 1) * _width * 3];
+				unsigned char* out = &pixelDataOut[y * widthOut * 3];
+
+				for (int x = 0; x < widthOut * 3; x += 3)
+				{
+					out[x] = (unsigned char)(((unsigned)inUpper[x * 2] + inUpper[x * 2 + 3] +
+						inLower[x * 2] + inLower[x * 2 + 3]) >> 2);
+					out[x + 1] = (unsigned char)(((unsigned)inUpper[x * 2 + 1] + inUpper[x * 2 + 4] +
+						inLower[x * 2 + 1] + inLower[x * 2 + 4]) >> 2);
+					out[x + 2] = (unsigned char)(((unsigned)inUpper[x * 2 + 2] + inUpper[x * 2 + 5] +
+						inLower[x * 2 + 2] + inLower[x * 2 + 5]) >> 2);
+				}
+			}
+			break;
+
+		case 4:
+			for (int y = 0; y < heightOut; ++y)
+			{
+				const unsigned char* inUpper = &pixelDataIn[(y * 2) * _width * 4];
+				const unsigned char* inLower = &pixelDataIn[(y * 2 + 1) * _width * 4];
+				unsigned char* out = &pixelDataOut[y * widthOut * 4];
+
+				for (int x = 0; x < widthOut * 4; x += 4)
+				{
+					out[x] = (unsigned char)(((unsigned)inUpper[x * 2] + inUpper[x * 2 + 4] +
+						inLower[x * 2] + inLower[x * 2 + 4]) >> 2);
+					out[x + 1] = (unsigned char)(((unsigned)inUpper[x * 2 + 1] + inUpper[x * 2 + 5] +
+						inLower[x * 2 + 1] + inLower[x * 2 + 5]) >> 2);
+					out[x + 2] = (unsigned char)(((unsigned)inUpper[x * 2 + 2] + inUpper[x * 2 + 6] +
+						inLower[x * 2 + 2] + inLower[x * 2 + 6]) >> 2);
+					out[x + 3] = (unsigned char)(((unsigned)inUpper[x * 2 + 3] + inUpper[x * 2 + 7] +
+						inLower[x * 2 + 3] + inLower[x * 2 + 7]) >> 2);
+				}
+			}
+			break;
+
+		default:
+			assert(false);  // Should never reach here
+			break;
+		}
+	}
+	// 3D case
+	else
+	{
+		switch (_components)
+		{
+		case 1:
+			for (int z = 0; z < depthOut; ++z)
+			{
+				const unsigned char* inOuter = &pixelDataIn[(z * 2) * _width * _height];
+				const unsigned char* inInner = &pixelDataIn[(z * 2 + 1) * _width * _height];
+
+				for (int y = 0; y < heightOut; ++y)
+				{
+					const unsigned char* inOuterUpper = &inOuter[(y * 2) * _width];
+					const unsigned char* inOuterLower = &inOuter[(y * 2 + 1) * _width];
+					const unsigned char* inInnerUpper = &inInner[(y * 2) * _width];
+					const unsigned char* inInnerLower = &inInner[(y * 2 + 1) * _width];
+					unsigned char* out = &pixelDataOut[z * widthOut * heightOut + y * widthOut];
+
+					for (int x = 0; x < widthOut; ++x)
+					{
+						out[x] = (unsigned char)(((unsigned)inOuterUpper[x * 2] + inOuterUpper[x * 2 + 1] +
+							inOuterLower[x * 2] + inOuterLower[x * 2 + 1] +
+							inInnerUpper[x * 2] + inInnerUpper[x * 2 + 1] +
+							inInnerLower[x * 2] + inInnerLower[x * 2 + 1]) >> 3);
+					}
+				}
+			}
+			break;
+
+		case 2:
+			for (int z = 0; z < depthOut; ++z)
+			{
+				const unsigned char* inOuter = &pixelDataIn[(z * 2) * _width * _height * 2];
+				const unsigned char* inInner = &pixelDataIn[(z * 2 + 1) * _width * _height * 2];
+
+				for (int y = 0; y < heightOut; ++y)
+				{
+					const unsigned char* inOuterUpper = &inOuter[(y * 2) * _width * 2];
+					const unsigned char* inOuterLower = &inOuter[(y * 2 + 1) * _width * 2];
+					const unsigned char* inInnerUpper = &inInner[(y * 2) * _width * 2];
+					const unsigned char* inInnerLower = &inInner[(y * 2 + 1) * _width * 2];
+					unsigned char* out = &pixelDataOut[z * widthOut * heightOut * 2 + y * widthOut * 2];
+
+					for (int x = 0; x < widthOut * 2; x += 2)
+					{
+						out[x] = (unsigned char)(((unsigned)inOuterUpper[x * 2] + inOuterUpper[x * 2 + 2] +
+							inOuterLower[x * 2] + inOuterLower[x * 2 + 2] +
+							inInnerUpper[x * 2] + inInnerUpper[x * 2 + 2] +
+							inInnerLower[x * 2] + inInnerLower[x * 2 + 2]) >> 3);
+						out[x + 1] = (unsigned char)(((unsigned)inOuterUpper[x * 2 + 1] + inOuterUpper[x * 2 + 3] +
+							inOuterLower[x * 2 + 1] + inOuterLower[x * 2 + 3] +
+							inInnerUpper[x * 2 + 1] + inInnerUpper[x * 2 + 3] +
+							inInnerLower[x * 2 + 1] + inInnerLower[x * 2 + 3]) >> 3);
+					}
+				}
+			}
+			break;
+
+		case 3:
+			for (int z = 0; z < depthOut; ++z)
+			{
+				const unsigned char* inOuter = &pixelDataIn[(z * 2) * _width * _height * 3];
+				const unsigned char* inInner = &pixelDataIn[(z * 2 + 1) * _width * _height * 3];
+
+				for (int y = 0; y < heightOut; ++y)
+				{
+					const unsigned char* inOuterUpper = &inOuter[(y * 2) * _width * 3];
+					const unsigned char* inOuterLower = &inOuter[(y * 2 + 1) * _width * 3];
+					const unsigned char* inInnerUpper = &inInner[(y * 2) * _width * 3];
+					const unsigned char* inInnerLower = &inInner[(y * 2 + 1) * _width * 3];
+					unsigned char* out = &pixelDataOut[z * widthOut * heightOut * 3 + y * widthOut * 3];
+
+					for (int x = 0; x < widthOut * 3; x += 3)
+					{
+						out[x] = (unsigned char)(((unsigned)inOuterUpper[x * 2] + inOuterUpper[x * 2 + 3] +
+							inOuterLower[x * 2] + inOuterLower[x * 2 + 3] +
+							inInnerUpper[x * 2] + inInnerUpper[x * 2 + 3] +
+							inInnerLower[x * 2] + inInnerLower[x * 2 + 3]) >> 3);
+						out[x + 1] = (unsigned char)(((unsigned)inOuterUpper[x * 2 + 1] + inOuterUpper[x * 2 + 4] +
+							inOuterLower[x * 2 + 1] + inOuterLower[x * 2 + 4] +
+							inInnerUpper[x * 2 + 1] + inInnerUpper[x * 2 + 4] +
+							inInnerLower[x * 2 + 1] + inInnerLower[x * 2 + 4]) >> 3);
+						out[x + 2] = (unsigned char)(((unsigned)inOuterUpper[x * 2 + 2] + inOuterUpper[x * 2 + 5] +
+							inOuterLower[x * 2 + 2] + inOuterLower[x * 2 + 5] +
+							inInnerUpper[x * 2 + 2] + inInnerUpper[x * 2 + 5] +
+							inInnerLower[x * 2 + 2] + inInnerLower[x * 2 + 5]) >> 3);
+					}
+				}
+			}
+			break;
+
+		case 4:
+			for (int z = 0; z < depthOut; ++z)
+			{
+				const unsigned char* inOuter = &pixelDataIn[(z * 2) * _width * _height * 4];
+				const unsigned char* inInner = &pixelDataIn[(z * 2 + 1) * _width * _height * 4];
+
+				for (int y = 0; y < heightOut; ++y)
+				{
+					const unsigned char* inOuterUpper = &inOuter[(y * 2) * _width * 4];
+					const unsigned char* inOuterLower = &inOuter[(y * 2 + 1) * _width * 4];
+					const unsigned char* inInnerUpper = &inInner[(y * 2) * _width * 4];
+					const unsigned char* inInnerLower = &inInner[(y * 2 + 1) * _width * 4];
+					unsigned char* out = &pixelDataOut[z * widthOut * heightOut * 4 + y * widthOut * 4];
+
+					for (int x = 0; x < widthOut * 4; x += 4)
+					{
+						out[x] = (unsigned char)(((unsigned)inOuterUpper[x * 2] + inOuterUpper[x * 2 + 4] +
+							inOuterLower[x * 2] + inOuterLower[x * 2 + 4] +
+							inInnerUpper[x * 2] + inInnerUpper[x * 2 + 4] +
+							inInnerLower[x * 2] + inInnerLower[x * 2 + 4]) >> 3);
+						out[x + 1] = (unsigned char)(((unsigned)inOuterUpper[x * 2 + 1] + inOuterUpper[x * 2 + 5] +
+							inOuterLower[x * 2 + 1] + inOuterLower[x * 2 + 5] +
+							inInnerUpper[x * 2 + 1] + inInnerUpper[x * 2 + 5] +
+							inInnerLower[x * 2 + 1] + inInnerLower[x * 2 + 5]) >> 3);
+						out[x + 2] = (unsigned char)(((unsigned)inOuterUpper[x * 2 + 2] + inOuterUpper[x * 2 + 6] +
+							inOuterLower[x * 2 + 2] + inOuterLower[x * 2 + 6] +
+							inInnerUpper[x * 2 + 2] + inInnerUpper[x * 2 + 6] +
+							inInnerLower[x * 2 + 2] + inInnerLower[x * 2 + 6]) >> 3);
+					}
+				}
+			}
+			break;
+
+		default:
+			assert(false);  // Should never reach here
+			break;
+		}
+	}
+
+	return mipImage;
 }
 
 }

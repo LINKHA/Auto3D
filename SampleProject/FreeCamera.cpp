@@ -1,6 +1,6 @@
 #include "FreeCamera.h"
 #include "Time.h"
-#include "Light.h"
+#include "tLight.h"
 #include "Input.h"
 #include "Scene.h"
 #include "Transform.h"

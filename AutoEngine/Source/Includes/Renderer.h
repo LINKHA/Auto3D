@@ -10,6 +10,7 @@ class tLight;
 class RenderPath;
 class Geometry;
 class Texture2D;
+class TextureCube;
 class View;
 /**
 * @brief : Render graphices create to geometry
@@ -39,8 +40,8 @@ public:
 	explicit Renderer(SharedPtr<Ambient> ambient);
 	/// Set default renderpath.
 	void SetDefaultRenderPath(RenderPath* renderPath);
-
-
+	/// Return texture quality level.
+	MaterialQuality GetTextureQuality() const { return _textureQuality; }
 	/**
 	* @brief : Init renderer register renderer sub setting
 	*/
@@ -205,6 +206,11 @@ private:
 	SharedPtr<Geometry> _spotLightGeometry;
 	/// Point light volume geometry
 	SharedPtr<Geometry> _pointLightGeometry;
+	/// Texture quality level.
+	MaterialQuality _textureQuality{ MaterialQuality::High };
+	/// Face selection cube map for shadowed pointlights.
+	SharedPtr<TextureCube> _faceSelectCubeMap;
+
 	/// Instance of shadow map filter
 	Object* _shadowMapFilterInstance{};
 	/// Function pointer of shadow map filter
@@ -214,7 +220,7 @@ private:
 	/// Shadow map dummy color buffers by resolution.
 	HASH_MAP<int, SharedPtr<Texture2D> > _colorShadowMaps;
 	/// Shadow map allocations by resolution.
-	HASH_MAP<int, VECTOR<tLight*> > _shadowMapAllocations;
+	//HASH_MAP<int, VECTOR<tLight*> > _shadowMapAllocations;
 
 	/// Draw shadows flag
 	bool _drawShadows{ true };

@@ -278,12 +278,14 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLShaderVariation.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLTexture.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLTexture2D.cpp" />
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLTextureCube.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLVertexBuffer.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\RenderPath.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\RenderSurface.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\ResourceWithMetaData.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\Texture.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\Texture2D.cpp" />
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\TextureCube.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\VertexBuffer.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\View.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Ambient.cpp" />
@@ -395,6 +397,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\ResourceWithMetaData.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Texture.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Texture2D.h" />
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\TextureCube.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\VertexBuffer.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\View.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AbstractFile.h" />

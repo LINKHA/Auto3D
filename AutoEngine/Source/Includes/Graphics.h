@@ -15,6 +15,7 @@ class IndexBuffer;
 class Texture;
 class RenderSurface;
 class VertexBuffer;
+class Texture2D;
 ///
 const static int GRAPHICS_BUFFER_NUM = 3;
 
@@ -100,6 +101,8 @@ public:
 	* @brief : Create sample point
 	*/
 	void CreateSamplePoint(int num);
+	/// Return current rendertarget by index.
+	SharedPtr<RenderSurface> GetRenderTarget(unsigned index) const;
 
 	void InitGraphicsState();
 
@@ -136,6 +139,12 @@ public:
 	* @brief : Set depth write
 	*/
 	void SetDepthWrite(bool enable);
+	/// Create a framebuffer using either extension or core functionality. Used only on OpenGL.
+	unsigned CreateFramebuffer();
+	/// Resolve a multisampled texture on itself.
+	bool ResolveToTexture(SharedPtr<Texture2D> texture);
+
+	void BindFramebuffer(unsigned fbo);
 
 	DepthMode GetDepthTest() const { return _depthTestMode; }
 	/// Set hardware culling mode.
@@ -182,7 +191,8 @@ public:
 	* @brief : The release of API
 	*/
 	void ReleaseAPI();
-
+	/// Return hardware format for a compressed image format, or 0 if unsupported.
+	unsigned GetFormat(CompressedFormat format) const;
 	/// Return shadow map depth texture format, or 0 if not supported.
 	unsigned GetShadowMapFormat() const { return _shadowMapFormat; }
 
@@ -214,6 +224,40 @@ public:
 	void SetVBO(unsigned object);
 	
 #endif
+	/// Return the API-specific alpha texture format
+	static unsigned GetAlphaFormat();
+	/// Return the API-specific luminance texture format
+	static unsigned GetLuminanceFormat();
+	/// Return the API-specific luminance alpha texture format
+	static unsigned GetLuminanceAlphaFormat();
+	/// Return the API-specific RGB texture format
+	static unsigned GetRGBFormat();
+	/// Return the API-specific RGBA texture format
+	static unsigned GetRGBAFormat();
+	/// Return the API-specific RGBA 16-bit texture format
+	static unsigned GetRGBA16Format();
+	/// Return the API-specific RGBA 16-bit float texture format
+	static unsigned GetRGBAFloat16Format();
+	/// Return the API-specific RGBA 32-bit float texture format
+	static unsigned GetRGBAFloat32Format();
+	/// Return the API-specific RG 16-bit texture format
+	static unsigned GetRG16Format();
+	/// Return the API-specific RG 16-bit float texture format
+	static unsigned GetRGFloat16Format();
+	/// Return the API-specific RG 32-bit float texture format
+	static unsigned GetRGFloat32Format();
+	/// Return the API-specific single channel 16-bit float texture format
+	static unsigned GetFloat16Format();
+	/// Return the API-specific single channel 32-bit float texture format
+	static unsigned GetFloat32Format();
+	/// Return the API-specific linear depth texture format
+	static unsigned GetLinearDepthFormat();
+	/// Return the API-specific hardware depth-stencil texture format
+	static unsigned GetDepthStencilFormat();
+	/// Return the API-specific readable hardware depth format, or 0 if not supported
+	static unsigned GetReadableDepthFormat();
+	/// Return the API-specific texture format from a textual description, for example "rgb".
+	static unsigned GetFormat(const STRING& formatName);
 private:
 #if AUTO_DIRECT_X
 	ComPtr<IDXGISwapChain4> createSwapChain(ComPtr<ID3D12CommandQueue> commandQueue,

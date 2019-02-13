@@ -265,13 +265,13 @@ void Renderer::createGeometries()
 	_pointLightGeometry->SetIndexBuffer(plib);
 	_pointLightGeometry->SetDrawRange(PrimitiveType::TringleList, 0, plib->GetIndexCount());
 
-	//if (_graphics.lock()->GetShadowMapFormat())
-	//{
-	//	_faceSelectCubeMap = new TextureCube(context_);
-	//	_faceSelectCubeMap->SetNumLevels(1);
-	//	_faceSelectCubeMap->SetSize(1, graphics_->GetRGBAFormat());
-	//	_faceSelectCubeMap->SetFilterMode(FILTER_NEAREST);
-	//}
+	if (_graphics.lock()->GetShadowMapFormat())
+	{
+		_faceSelectCubeMap = new TextureCube(_context);
+		_faceSelectCubeMap->SetNumLevels(1);
+		_faceSelectCubeMap->SetSize(1, graphics_->GetRGBAFormat());
+		_faceSelectCubeMap->SetFilterMode(FILTER_NEAREST);
+	}
 }
 
 void Renderer::AddCamera(SharedPtr<Camera> camera)
@@ -660,9 +660,9 @@ void Renderer::delayedAddRemoveCustoms()
 
 void Renderer::ResetShadowMaps()
 {
-	_shadowMaps.Clear();
-	_shadowMapAllocations.Clear();
-	_colorShadowMaps.Clear();
+	_shadowMaps.clear();
+	//_shadowMapAllocations.Clear();
+	_colorShadowMaps.clear();
 }
 
 

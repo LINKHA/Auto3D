@@ -31,7 +31,7 @@ public:
 	/// Set data either partially or fully on a mip level. Return true if successful.
 	bool SetData(unsigned level, int x, int y, int width, int height, const void* data);
 	/// Set data from an image. Return true if successful. Optionally make a single channel image alpha-only.
-	bool SetData(Image* image, bool useAlpha = false);
+	bool SetData(SharedPtr<Image> image, bool useAlpha = false);
 
 	/// Return render surface.
 	SharedPtr<RenderSurface> GetRenderSurface() const { return _renderSurface; }

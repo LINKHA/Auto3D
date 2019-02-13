@@ -88,6 +88,7 @@ enum ClassIDType
 	DO_CLASS_ID(Texture, 111)
 	DO_CLASS_ID(Texture2D, 112)
 	DO_CLASS_ID(View, 113)
+	DO_CLASS_ID(TextureCube, 114)
 	
 	CLASS_ID_Count
 };

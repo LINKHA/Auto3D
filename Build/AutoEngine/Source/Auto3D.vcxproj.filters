@@ -352,6 +352,12 @@
     <ClCompile Include="..\..\..\AutoEngine\Source\src\tLight.cpp">
       <Filter>Source\_Abandon</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\TextureCube.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLTextureCube.cpp">
+      <Filter>Source\Graphics\OpenGL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\InstanceBeltLine.h">
@@ -788,6 +794,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\tLight.h">
       <Filter>Source\_Abandon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\TextureCube.h">
+      <Filter>Source\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

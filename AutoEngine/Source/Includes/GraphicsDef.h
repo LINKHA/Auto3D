@@ -47,6 +47,14 @@ enum VertexMask : unsigned
 
 AUTO_FLAGSET(VertexMask, VertexMaskFlags);
 
+enum class MaterialQuality : unsigned
+{
+	Low = 0,
+	Medium = 1,
+	High = 2,
+	Max = 15,
+};
+
 /// Texture usage types
 enum class TextureUsage
 {

@@ -50,9 +50,4 @@ void Texture::SetAddressMode(TextureCoordinate coord, TextureAddressMode mode)
 	_parametersDirty = true;
 }
 
-bool Texture::GetParametersDirty() const
-{
-	return _parametersDirty;
-}
-
 }

@@ -1,6 +1,7 @@
 #include "Texture.h"
 #if AUTO_OPENGL
 #include "AutoOGL.h"
+#include "RenderSurface.h"
 
 namespace Auto3D {
 static GLenum WRAP_MODES[] =
@@ -118,7 +119,7 @@ void Texture::SetSRGB(bool enable)
 			create();
 
 		// If texture in use in the framebuffer, mark it dirty
-		if (_graphics.lock() && _graphics.lock()->GetRenderTarget(0) && _graphics.lock()->GetRenderTarget(0)->GetParentTexture() == this)
+		if (_graphics.lock() && _graphics.lock()->GetRenderTarget(0) && _graphics.lock()->GetRenderTarget(0)->GetParentTexture() == SharedFromThis())
 			_graphics.lock()->MarkFBODirty();
 	}
 }
@@ -135,6 +136,11 @@ unsigned Texture::GetDataType(unsigned format)
 		return GL_HALF_FLOAT;
 	else
 		return GL_UNSIGNED_BYTE;
+}
+
+bool Texture::GetParametersDirty() const
+{
+	return _parametersDirty;
 }
 
 unsigned Texture::GetRowDataSize(int width) const

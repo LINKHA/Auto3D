@@ -6,18 +6,18 @@ namespace Auto3D {
 static const int COLOR_LUT_SIZE = 16;
 
 /// Supported compressed image formats.
-enum CompressedFormat
+enum class CompressedFormat
 {
-	NONE = 0,
+	None = 0,
 	RGBA,
 	DXT1,
 	DXT3,
 	DXT5,
 	ETC1,
-	PVRTC_RGB_2BPP,
-	PVRTC_RGBA_2BPP,
-	PVRTC_RGB_4BPP,
-	PVRTC_RGBA_4BPP,
+	PvrtcRGB2bpp,
+	PvrtcRGBA2bpp,
+	PvrtcRGB4bpp,
+	PvrtcRGBA4bpp,
 };
 
 /**
@@ -31,7 +31,7 @@ struct CompressedLevel
 	/// compressed image data
 	unsigned char* _data{};
 	/// compression format
-	CompressedFormat _format{ CompressedFormat::NONE };
+	CompressedFormat _format{ CompressedFormat::None };
 	/// width
 	int _width{};
 	/// height
@@ -132,12 +132,18 @@ public:
 	/**
 	* @brief : Return whether is compressed
 	*/
-	bool IsCompressed() const { return _compressedFormat != CompressedFormat::NONE; }
+	bool IsCompressed() const { return _compressedFormat != CompressedFormat::None; }
 	/**
 	* @brief : Return compressed format
 	*/
 	CompressedFormat GetCompressedFormat() const { return _compressedFormat; }
+	/// Return image converted to 4-component (RGBA) to circumvent modern rendering API's not supporting e.g. the luminance-alpha format.
+	SharedPtr<Image> ConvertToRGBA() const;
+	/// Return next mip level by bilinear filtering. Note that if the image is already 1x1x1, will keep returning an image of that size.
+	SharedPtr<Image> GetNextLevel() const;
 
+	/// Return number of compressed mip levels. Returns 0 if the image is has not been loaded from a source file containing multiple mip levels.
+	unsigned GetNumCompressedLevels() const { return _numCompressedLevels; }
 private:
 
 	/**
@@ -169,7 +175,7 @@ public:
 	/// data is sRGB
 	bool _sRGB{};
 	/// compressed format
-	CompressedFormat _compressedFormat{ CompressedFormat::NONE };
+	CompressedFormat _compressedFormat{ CompressedFormat::None };
 	/// image type
 	ImageType _imageType{ ImageType::Opaque };
 	/// pixel data

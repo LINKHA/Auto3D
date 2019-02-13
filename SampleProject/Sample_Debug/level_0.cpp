@@ -5,7 +5,6 @@
 #include "Time.h"
 #include "ResourceSystem.h"
 #include "Image.h"
-#include "Light.h"
 #include "MeshRenderer.h"
 #include "IO.h"
 

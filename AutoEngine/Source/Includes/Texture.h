@@ -4,7 +4,9 @@
 
 namespace Auto3D {
 
-class Texture : public ResourceWithMetaData, public GPUObject
+static const int MAX_TEXTURE_QUALITY_LEVELS = 3;
+
+class Texture : public ResourceWithMetaData, public GPUObject, public EnableSharedFromThis<Texture>
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(Texture, ResourceWithMetaData)
 public:
@@ -42,14 +44,38 @@ public:
 	/// Return whether the texture format is compressed
 	void SetBackupTexture(SharedPtr<Texture> texture);
 
-	bool IsCompressed() const;
-
 	/// Return backup texture
 	SharedPtr<Texture> GetBackupTexture() const { return _backupTexture; }
 
 	void SetAddressMode(TextureCoordinate coord, TextureAddressMode mode);
 
-	void GetParametersDirty();
+	/// Return whether multisampled texture needs resolve
+	bool IsResolveDirty() const { return _resolveDirty; }
+
+	/// Set or clear the need resolve flag. Called internally by Graphics
+	void SetResolveDirty(bool enable) { _resolveDirty = enable; }
+
+	/// Return whether rendertarget mipmap levels need regenration.
+	bool GetLevelsDirty() const { return _levelsDirty; }
+
+	/// Return API-specific texture format.
+	unsigned GetFormat() const { return _format; }
+
+	/// Return whether the texture format is compressed.
+	bool IsCompressed() const;
+
+	/// Return number of mip levels.
+	unsigned GetLevels() const { return _levels; }
+
+	/// Return width.
+	int GetWidth() const { return _width; }
+
+	/// Return height.
+	int GetHeight() const { return _height; }
+
+	/// Return depth.
+	int GetDepth() const { return _depth; }
+
 
 	/// Check maximum allowed mip levels for a specific texture size.
 	static unsigned CheckMaxLevels(int width, int height, unsigned requestedLevels);
@@ -57,8 +83,12 @@ public:
 	static unsigned CheckMaxLevels(int width, int height, int depth, unsigned requestedLevels);
 	/// Return the data type corresponding to an OpenGL internal format.
 	static unsigned GetDataType(unsigned format);
-
 protected:
+	/// Create the GPU texture. Implemented in subclasses.
+	virtual bool create() { return true; }
+protected:
+	/// Mip levels to skip when loading per texture quality setting.
+	unsigned _mipsToSkip[MAX_TEXTURE_QUALITY_LEVELS]{ 2, 1, 0 };
 	/// Shadow compare mode
 	bool _shadowCompare{};
 	/// OpenGL target
@@ -91,6 +121,8 @@ protected:
 	TextureFilterMode _filterMode{ TextureFilterMode::Default };
 	/// Addressing mode
 	TextureAddressMode _addressModes[(int)TextureAddressMode::Count]{ TextureAddressMode::Wrap, TextureAddressMode::Wrap, TextureAddressMode::Wrap };
+	/// Multisampling resolve needed -flag.
+	bool _resolveDirty{};
 	/// Mipmap levels regeneration needed -flag
 	bool _levelsDirty{};
 	/// Texture usage type

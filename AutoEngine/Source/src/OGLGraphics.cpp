@@ -9,6 +9,8 @@
 #include "Texture.h"
 #include "RenderSurface.h"
 #include "VertexBuffer.h"
+#include "Texture2D.h"
+#include "Image.h"
 
 #include "NewDef.h"
 
@@ -459,6 +461,11 @@ void Graphics::CreateSamplePoint(int num)
 	}
 }
 
+SharedPtr<RenderSurface> Graphics::GetRenderTarget(unsigned index) const
+{
+	return index < MAX_RENDERTARGETS ? _renderTargets[index] : nullptr;
+}
+
 void Graphics::CreateDevice()
 {
 	_impl->_glContext = SDL_GL_CreateContext(_window);
@@ -548,10 +555,10 @@ void Graphics::SetTexture(unsigned index, SharedPtr<Texture> texture)
 			// Resolve multisampled texture now as necessary
 			if (texture->GetMultiSample() > 1 && texture->GetAutoResolve() && texture->IsResolveDirty())
 			{
-				if (texture->GetType() == Texture2D::GetTypeStatic())
-					ResolveToTexture(static_cast<Texture2D*>(texture));
-				if (texture->GetType() == TextureCube::GetTypeStatic())
-					ResolveToTexture(static_cast<TextureCube*>(texture));
+				if (texture->GetClassString() == Texture2D::GetClassStringStatic())
+					ResolveToTexture(StaticCast<Texture2D>(texture));
+				/*if (texture->GetType() == TextureCube::GetTypeStatic())
+					ResolveToTexture(StaticCast<TextureCube>(texture));*/
 			}
 		}
 	}
@@ -603,6 +610,51 @@ void Graphics::SetTexture(unsigned index, SharedPtr<Texture> texture)
 		}
 	}
 }
+
+unsigned Graphics::CreateFramebuffer()
+{
+	unsigned newFbo = 0;
+	glGenFramebuffers(1, &newFbo);
+	return newFbo;
+}
+
+bool Graphics::ResolveToTexture(SharedPtr<Texture2D> texture)
+{
+	if (!texture)
+		return false;
+	SharedPtr<RenderSurface> surface = texture->GetRenderSurface();
+	if (!surface || !surface->GetRenderBuffer())
+		return false;
+
+	texture->SetResolveDirty(false);
+	surface->SetResolveDirty(false);
+
+	// Use separate FBOs for resolve to not disturb the currently set rendertarget(s)
+	if (!_impl->_resolveSrcFBO)
+		_impl->_resolveSrcFBO = CreateFramebuffer();
+	if (!_impl->_resolveDestFBO)
+		_impl->_resolveDestFBO = CreateFramebuffer();
+
+
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, _impl->_resolveSrcFBO);
+	glFramebufferRenderbuffer(GL_READ_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, surface->GetRenderBuffer());
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _impl->_resolveDestFBO);
+	glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture->GetHandle().name, 0);
+	glBlitFramebuffer(0, 0, texture->GetWidth(), texture->GetHeight(), 0, 0, texture->GetWidth(), texture->GetHeight(),
+		GL_COLOR_BUFFER_BIT, GL_NEAREST);
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	
+	// Restore previously bound FBO
+	BindFramebuffer(_impl->_boundFBO);
+	return true;
+}
+
+void Graphics::BindFramebuffer(unsigned fbo)
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+}
+
 
 void Graphics::SetCullMode(CullMode mode)
 {
@@ -667,6 +719,143 @@ void Graphics::SetTextureForUpdate(SharedPtr<Texture> texture)
 	glBindTexture(glType, texture->GetHandle().name);
 	_impl->_textureTypes[0] = glType;
 	_textures[0] = texture;
+}
+
+unsigned Graphics::GetFormat(CompressedFormat format) const
+{
+	switch (format)
+	{
+	case CompressedFormat::RGBA:
+		return GL_RGBA;
+	case CompressedFormat::DXT1:
+		return _dxtTextureSupport ? GL_COMPRESSED_RGBA_S3TC_DXT1_EXT : 0;
+	case CompressedFormat::DXT3:
+		return _dxtTextureSupport ? GL_COMPRESSED_RGBA_S3TC_DXT3_EXT : 0;
+	case CompressedFormat::DXT5:
+		return _dxtTextureSupport ? GL_COMPRESSED_RGBA_S3TC_DXT5_EXT : 0;
+	default:
+		return 0;
+	}
+}
+
+unsigned Graphics::GetAlphaFormat()
+{
+	return GL_R8;
+}
+
+unsigned Graphics::GetLuminanceFormat()
+{
+	return GL_R8;
+}
+
+unsigned Graphics::GetLuminanceAlphaFormat()
+{
+	return GL_RG8;
+}
+
+unsigned Graphics::GetRGBFormat()
+{
+	return GL_RGB;
+}
+
+unsigned Graphics::GetRGBAFormat()
+{
+	return GL_RGBA;
+}
+
+unsigned Graphics::GetRGBA16Format()
+{
+	return GL_RGBA16;
+}
+
+unsigned Graphics::GetRGBAFloat16Format()
+{
+	return GL_RGBA16F;
+}
+
+unsigned Graphics::GetRGBAFloat32Format()
+{
+	return GL_RGBA32F;
+}
+
+unsigned Graphics::GetRG16Format()
+{
+	return GL_RG16;
+}
+
+unsigned Graphics::GetRGFloat16Format()
+{
+	return GL_RG16F;
+}
+
+unsigned Graphics::GetRGFloat32Format()
+{
+	return GL_RG32F;
+}
+
+unsigned Graphics::GetFloat16Format()
+{
+	return GL_R16F;
+}
+
+unsigned Graphics::GetFloat32Format()
+{
+	return GL_R32F;
+}
+
+unsigned Graphics::GetLinearDepthFormat()
+{
+	return GL_R32F;
+}
+
+unsigned Graphics::GetDepthStencilFormat()
+{
+	return GL_DEPTH24_STENCIL8;
+}
+
+unsigned Graphics::GetReadableDepthFormat()
+{
+	return GL_DEPTH_COMPONENT24;
+}
+
+unsigned Graphics::GetFormat(const STRING& formatName)
+{
+	STRING nameLower = formatName.ToLower().Trimmed();
+
+	if (nameLower == "a")
+		return GetAlphaFormat();
+	if (nameLower == "l")
+		return GetLuminanceFormat();
+	if (nameLower == "la")
+		return GetLuminanceAlphaFormat();
+	if (nameLower == "rgb")
+		return GetRGBFormat();
+	if (nameLower == "rgba")
+		return GetRGBAFormat();
+	if (nameLower == "rgba16")
+		return GetRGBA16Format();
+	if (nameLower == "rgba16f")
+		return GetRGBAFloat16Format();
+	if (nameLower == "rgba32f")
+		return GetRGBAFloat32Format();
+	if (nameLower == "rg16")
+		return GetRG16Format();
+	if (nameLower == "rg16f")
+		return GetRGFloat16Format();
+	if (nameLower == "rg32f")
+		return GetRGFloat32Format();
+	if (nameLower == "r16f")
+		return GetFloat16Format();
+	if (nameLower == "r32f" || nameLower == "float")
+		return GetFloat32Format();
+	if (nameLower == "lineardepth" || nameLower == "depth")
+		return GetLinearDepthFormat();
+	if (nameLower == "d24s8")
+		return GetDepthStencilFormat();
+	if (nameLower == "readabledepth" || nameLower == "hwdepth")
+		return GetReadableDepthFormat();
+
+	return GetRGBFormat();
 }
 
 }

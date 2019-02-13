@@ -1,5 +1,8 @@
 #include "Texture2D.h"
+#if AUTO_OPENGL
 #include "AutoOGL.h"
+#include "RenderSurface.h"
+#include "Renderer.h"
 
 namespace Auto3D {
 
@@ -82,7 +85,7 @@ bool Texture2D::SetData(unsigned level, int x, int y, int width, int height, con
 		return false;
 	}
 
-	_graphics.lock()->SetTextureForUpdate(SharedFromThis());
+	_graphics.lock()->SetTextureForUpdate(SharedDynamicThis(Texture2D));
 
 	bool wholeLevel = x == 0 && y == 0 && width == levelWidth && height == levelHeight;
 	unsigned format = _format;
@@ -106,9 +109,138 @@ bool Texture2D::SetData(unsigned level, int x, int y, int width, int height, con
 	_graphics.lock()->SetTexture(0, nullptr);
 	return true;
 }
-bool Texture2D::SetData(Image* image, bool useAlpha)
+bool Texture2D::SetData(SharedPtr<Image> image, bool useAlpha)
 {
+	if (!image)
+	{
+		WarningString("Null image, can not set data");
+		return false;
+	}
 
+	// Use a shared ptr for managing the temporary mip images created during this function
+	SharedPtr<Image> mipImage;
+	unsigned memoryUse = sizeof(Texture2D);
+	MaterialQuality quality = MaterialQuality::High;
+	auto renderer = GetSubSystem<Renderer>();
+	if (renderer)
+		quality = renderer->GetTextureQuality();
+
+	if (!image->IsCompressed())
+	{
+		// Convert unsuitable formats to RGBA
+		unsigned components = image->GetComponents();
+		if (((components == 1 && !useAlpha) || components == 2))
+		{
+			mipImage = image->ConvertToRGBA(); image = mipImage;
+			if (!image)
+				return false;
+			components = image->GetComponents();
+		}
+
+		unsigned char* levelData = image->GetData().get();
+		int levelWidth = image->GetWidth();
+		int levelHeight = image->GetHeight();
+		unsigned format = 0;
+
+		// Discard unnecessary mip levels
+		for (unsigned i = 0; i < _mipsToSkip[(int)quality]; ++i)
+		{
+			mipImage = image->GetNextLevel(); image = mipImage;
+			levelData = image->GetData().get();
+			levelWidth = image->GetWidth();
+			levelHeight = image->GetHeight();
+		}
+
+		switch (components)
+		{
+		case 1:
+			format = useAlpha ? Graphics::GetAlphaFormat() : Graphics::GetLuminanceFormat();
+			break;
+
+		case 2:
+			format = Graphics::GetLuminanceAlphaFormat();
+			break;
+
+		case 3:
+			format = Graphics::GetRGBFormat();
+			break;
+
+		case 4:
+			format = Graphics::GetRGBAFormat();
+			break;
+
+		default:
+			assert(false);  // Should not reach here
+			break;
+		}
+
+		// If image was previously compressed, reset number of requested levels to avoid error if level count is too high for new size
+		if (IsCompressed() && _requestedLevels > 1)
+			_requestedLevels = 0;
+		SetSize(levelWidth, levelHeight, format);
+		if (!_object.name)
+			return false;
+
+		for (unsigned i = 0; i < _levels; ++i)
+		{
+			SetData(i, 0, 0, levelWidth, levelHeight, levelData);
+			memoryUse += levelWidth * levelHeight * components;
+
+			if (i < _levels - 1)
+			{
+				mipImage = image->GetNextLevel(); image = mipImage;
+				levelData = image->GetData().get();
+				levelWidth = image->GetWidth();
+				levelHeight = image->GetHeight();
+			}
+		}
+	}
+	else
+	{
+		int width = image->GetWidth();
+		int height = image->GetHeight();
+		unsigned levels = image->GetNumCompressedLevels();
+		unsigned format = _graphics.lock()->GetFormat(image->GetCompressedFormat());
+		bool needDecompress = false;
+
+		if (!format)
+		{
+			format = Graphics::GetRGBAFormat();
+			needDecompress = true;
+		}
+
+		unsigned mipsToSkip = _mipsToSkip[(int)quality];
+		if (mipsToSkip >= levels)
+			mipsToSkip = levels - 1;
+		while (mipsToSkip && (width / (1u << mipsToSkip) < 4 || height / (1u << mipsToSkip) < 4))
+			--mipsToSkip;
+		width /= (1u << mipsToSkip);
+		height /= (1u << mipsToSkip);
+
+		SetNumLevels(Max((levels - mipsToSkip), 1U));
+		SetSize(width, height, format);
+
+		for (unsigned i = 0; i < _levels && i < levels - mipsToSkip; ++i)
+		{
+			CompressedLevel level = image->GetCompressedLevel(i + mipsToSkip);
+			if (!needDecompress)
+			{
+				SetData(i, 0, 0, level._width, level._height, level._data);
+				memoryUse += level._rows * level._rowSize;
+			}
+			else
+			{
+				auto* rgbaData = new unsigned char[level._width * level._height * 4];
+				level.Decompress(rgbaData);
+				SetData(i, 0, 0, level._width, level._height, rgbaData);
+				memoryUse += level._width * level._height * 4;
+				delete[] rgbaData;
+			}
+		}
+	}
+
+	SetMemoryUse(memoryUse);
+	return true;
 }
 
 
@@ -161,7 +293,7 @@ bool Texture2D::create()
 	glGenTextures(1, &_object.name);
 
 	// Ensure that our texture is bound to OpenGL texture unit 0
-	_graphics.lock()->SetTextureForUpdate(SharedFromThis());
+	_graphics.lock()->SetTextureForUpdate(SharedDynamicThis(Texture2D));
 
 	// If not compressed, create the initial level 0 texture with null data
 	bool success = true;
@@ -211,3 +343,4 @@ bool Texture2D::create()
 }
 
 }
+#endif
