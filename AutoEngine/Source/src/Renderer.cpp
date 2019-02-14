@@ -186,6 +186,16 @@ void Renderer::Init()
 	_initialized = true;
 }
 
+void Renderer::SetDrawShadows(bool enable)
+{
+	if (!_graphics.lock() || !_graphics.lock()->GetShadowMapFormat())
+		return;
+
+	_drawShadows = enable;
+	if (!_drawShadows)
+		ResetShadowMaps();
+}
+
 void Renderer::ReadyToRender()
 {
 	_shadowRenderer->ReadyRender();

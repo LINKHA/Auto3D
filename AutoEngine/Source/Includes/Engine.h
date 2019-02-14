@@ -45,6 +45,8 @@ public:
 private:
 	/// Is exiting
 	bool _isExiting{};
+	/// Is initialized
+	bool _isInitialized{};
 
 };
 

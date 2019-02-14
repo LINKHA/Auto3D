@@ -804,6 +804,9 @@
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\tScene.h">
       <Filter>Source\_Abandon</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\EngineParameter.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\CMakeLists.txt" />

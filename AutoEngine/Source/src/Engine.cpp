@@ -11,6 +11,7 @@
 #include "UI.h"
 #include "Behavior.h"
 #include "FileSystem.h"
+#include "EngineParameter.h"
 
 namespace Auto3D {
 
@@ -50,6 +51,7 @@ Engine::~Engine()
 
 void Engine::Init()
 {
+	auto renderer = GetSubSystem<Renderer>();
 	GetSubSystem<IO>()->GetEngineInfo()->state = EngineState::Initing;
 	GetSubSystem<ResourceSystem>()->Init();
 	GetSubSystem<Audio>()->Init();
@@ -57,19 +59,23 @@ void Engine::Init()
 	GetSubSystem<Behavior>()->Awake();
 
 #if AUTO_OPENGL
-	GetSubSystem<Renderer>()->Init();
+	renderer->Init();
 #else
 	Print("Temp comment tag");
 #endif
+	renderer->SetDrawShadows(EP_SHADOWS);
+	renderer->SetShadowQuality(ShadowQuality::Simple16bit);
+
 
 	GetSubSystem<Behavior>()->Start();
 
 #if AUTO_OPENGL
-	GetSubSystem<Renderer>()->ReadyToRender();
+	renderer->ReadyToRender();
 #else
 	Print("Temp comment tag");
 #endif
 
+	_isInitialized = true;
 }
 
 void Engine::Exit() 

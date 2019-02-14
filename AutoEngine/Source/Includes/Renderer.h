@@ -108,6 +108,8 @@ public:
 	* @brief : Get Current all camera quote
 	*/
 	CameraContainer GetAllCamera() { return _cameras; }
+
+	void SetDrawShadows(bool enable);
 	/**
 	* @brief : Set current camera handle
 	*/

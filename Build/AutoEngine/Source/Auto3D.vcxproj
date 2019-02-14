@@ -388,6 +388,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Vector3.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Vector4.cpp" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\EngineInfo.h" />
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\EngineParameter.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\FlagSet.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Geometry.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\GlobalFactors.h" />
