@@ -6,7 +6,7 @@
 #include "Time.h"
 #include "Script.h"
 #include "ResourceSystem.h"
-#include "Scene.h"
+#include "tScene.h"
 #include "IO.h"
 #include "UI.h"
 #include "Behavior.h"
@@ -23,7 +23,7 @@ Engine::Engine(SharedPtr<Ambient> ambient)
 	_ambient->RegisterSubSystem(MakeShared<Input>(_ambient));
 	_ambient->RegisterSubSystem(MakeShared<Script>(_ambient));
 	_ambient->RegisterSubSystem(MakeShared<ResourceSystem>(_ambient));
-	_ambient->RegisterSubSystem(MakeShared<Scene>(_ambient));
+	_ambient->RegisterSubSystem(MakeShared<tScene>(_ambient));
 	_ambient->RegisterSubSystem(MakeShared<IO>(_ambient));
 	_ambient->RegisterSubSystem(MakeShared<Audio>(_ambient));
 	_ambient->RegisterSubSystem(MakeShared<UI>(_ambient));
@@ -39,7 +39,7 @@ Engine::~Engine()
 	_ambient->RemoveSubSystem<Input>();
 	_ambient->RemoveSubSystem<Script>();
 	_ambient->RemoveSubSystem<ResourceSystem>();
-	_ambient->RemoveSubSystem<Scene>();
+	_ambient->RemoveSubSystem<tScene>();
 	_ambient->RemoveSubSystem<IO>();
 	_ambient->RemoveSubSystem<Audio>();
 	_ambient->RemoveSubSystem<UI>();

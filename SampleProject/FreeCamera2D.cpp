@@ -2,7 +2,7 @@
 #include "Time.h"
 #include "tLight.h"
 #include "Input.h"
-#include "Scene.h"
+#include "tScene.h"
 #include "Transform.h"
 void FreeCamera2D::processInput()
 {
@@ -21,7 +21,7 @@ void FreeCamera2D::Init()
 	Super::Init();
 
 	cameraNode = CreateNode();
-	camera = cameraNode->CreateComponent<Camera>();
+	camera = cameraNode->CreateComponent<tCamera>();
 	camera->SetType(ProjectionMode::Orthographic);
 	camera->SetFar(1000.0f);
 

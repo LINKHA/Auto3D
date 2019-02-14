@@ -2,7 +2,7 @@
 #include "Time.h"
 #include "tLight.h"
 #include "Input.h"
-#include "Scene.h"
+#include "tScene.h"
 #include "Transform.h"
 void FreeCamera::processInput()
 {
@@ -34,7 +34,7 @@ void FreeCamera::Init()
 	Super::Init();
 
 	cameraNode = CreateNode();
-	camera = cameraNode->CreateComponent<Camera>();
+	camera = cameraNode->CreateComponent<tCamera>();
 
 	camera->SetFar(1000.0f);
 

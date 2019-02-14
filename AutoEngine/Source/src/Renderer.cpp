@@ -1,5 +1,5 @@
 #include "Renderer.h"
-#include "Camera.h"
+#include "tCamera.h"
 #include "Graphics.h"
 #include "Transform.h"
 #include "tLight.h"
@@ -7,6 +7,8 @@
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "Geometry.h"
+#include "TextureCube.h"
+
 
 #include "NewDef.h"
 
@@ -133,6 +135,18 @@ static const unsigned short POINT_LIGHT_INDEX_DATA[] =
 	7, 21, 16
 };
 
+inline VECTOR<VertexElement> CreateInstancingBufferElements(unsigned numExtraElements)
+{
+	static const unsigned NUM_INSTANCEMATRIX_ELEMENTS = 3;
+	static const unsigned FIRST_UNUSED_TEXCOORD = 4;
+
+	VECTOR<VertexElement> elements;
+	for (unsigned i = 0; i < NUM_INSTANCEMATRIX_ELEMENTS + numExtraElements; ++i)
+		elements.push_back(VertexElement(VertexElementType::Vector4, VertexElementSemantic::Texcoord, FIRST_UNUSED_TEXCOORD + i, true));
+	return elements;
+}
+
+
 Renderer::Renderer(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
@@ -161,6 +175,15 @@ void Renderer::Init()
 	_defaultRenderPath = MakeShared<RenderPath>();
 	
 	createGeometries();
+	createInstancingBuffer();
+
+	ResetShadowMaps();
+	ResetBuffers();
+
+
+	_viewports.resize(1);
+
+	_initialized = true;
 }
 
 void Renderer::ReadyToRender()
@@ -173,9 +196,9 @@ void Renderer::Render()
 	auto graphics = GetSubSystem<Graphics>();
 	Assert(graphics && graphics->IsInitialized() && !graphics->IsDeviceLost());
 	_insideRenderOrCull = true;
-	for (LIST<SharedPtr<Camera> >::iterator i = _cameras.begin(); i != _cameras.end(); i++)
+	for (LIST<SharedPtr<tCamera> >::iterator i = _cameras.begin(); i != _cameras.end(); i++)
 	{
-		SharedPtr<Camera> cam = *i;
+		SharedPtr<tCamera> cam = *i;
 		if (cam && cam->IsEnable())
 		{
 			_currentCamera = cam;
@@ -213,68 +236,7 @@ void Renderer::Render()
 	
 }
 
-void Renderer::createGeometries()
-{
-	//Dir light
-	SharedPtr<VertexBuffer> dlvb = MakeShared<VertexBuffer>(_ambient);
-	dlvb->SetShadowed(true);
-	dlvb->SetSize(4, VERTEX_MASK_POSITION);
-	dlvb->SetData(DIR_LIGHT_VERTEX_DATA);
-
-	SharedPtr<IndexBuffer> dlib = MakeShared<IndexBuffer>(_ambient);
-	dlib->SetShadowed(true);
-	dlib->SetSize(6, false);
-	dlib->SetData(DIR_LIGHT_INDEX_DATA);
-
-	_dirLightGeometry = MakeShared<Geometry>(_ambient);
-	_dirLightGeometry->SetVertexBuffer(0, dlvb);
-	_dirLightGeometry->SetIndexBuffer(dlib);
-	_dirLightGeometry->SetDrawRange(PrimitiveType::TringleList, 0, dlib->GetIndexCount());
-
-
-	// Spot light
-	SharedPtr<VertexBuffer> slvb = MakeShared<VertexBuffer>(_ambient);
-	slvb->SetShadowed(true);
-	slvb->SetSize(8, VERTEX_MASK_POSITION);
-	slvb->SetData(SPOT_LIGHT_VERTEX_DATA);
-
-	SharedPtr<IndexBuffer> slib = MakeShared<IndexBuffer>(_ambient);
-	slib->SetShadowed(true);
-	slib->SetSize(36, false);
-	slib->SetData(SPOT_LIGHT_INDEX_DATA);
-
-	_spotLightGeometry = MakeShared<Geometry>(_ambient);
-	_spotLightGeometry->SetVertexBuffer(0, slvb);
-	_spotLightGeometry->SetIndexBuffer(slib);
-	_spotLightGeometry->SetDrawRange(PrimitiveType::TringleList, 0, slib->GetIndexCount());
-
-	
-	//Point light
-	SharedPtr<VertexBuffer> plvb = MakeShared<VertexBuffer>(_ambient);
-	plvb->SetShadowed(true);
-	plvb->SetSize(24, VERTEX_MASK_POSITION);
-	plvb->SetData(POINT_LIGHT_VERTEX_DATA);
-
-	SharedPtr<IndexBuffer> plib = MakeShared<IndexBuffer>(_ambient);
-	plib->SetShadowed(true);
-	plib->SetSize(132, false);
-	plib->SetData(POINT_LIGHT_INDEX_DATA);
-
-	_pointLightGeometry = MakeShared<Geometry>(_ambient);
-	_pointLightGeometry->SetVertexBuffer(0, plvb);
-	_pointLightGeometry->SetIndexBuffer(plib);
-	_pointLightGeometry->SetDrawRange(PrimitiveType::TringleList, 0, plib->GetIndexCount());
-
-	if (_graphics.lock()->GetShadowMapFormat())
-	{
-		_faceSelectCubeMap = new TextureCube(_context);
-		_faceSelectCubeMap->SetNumLevels(1);
-		_faceSelectCubeMap->SetSize(1, graphics_->GetRGBAFormat());
-		_faceSelectCubeMap->SetFilterMode(FILTER_NEAREST);
-	}
-}
-
-void Renderer::AddCamera(SharedPtr<Camera> camera)
+void Renderer::AddCamera(SharedPtr<tCamera> camera)
 {
 	Assert(camera != nullptr);
 	if (_insideRenderOrCull)
@@ -288,11 +250,11 @@ void Renderer::AddCamera(SharedPtr<Camera> camera)
 
 	_cameras.remove(camera);
 
-	LIST<SharedPtr<Camera> > &queue = _cameras;
+	LIST<SharedPtr<tCamera> > &queue = _cameras;
 
-	for (LIST<SharedPtr<Camera> >::iterator i = queue.begin(); i != queue.end(); i++)
+	for (LIST<SharedPtr<tCamera> >::iterator i = queue.begin(); i != queue.end(); i++)
 	{
-		SharedPtr<Camera> curCamera = *i;
+		SharedPtr<tCamera> curCamera = *i;
 		if (curCamera && curCamera->GetDepth() > camera->GetDepth())
 		{
 			queue.insert(i, camera);
@@ -302,7 +264,12 @@ void Renderer::AddCamera(SharedPtr<Camera> camera)
 	queue.push_back(camera);
 }
 
-void Renderer::RemoveCamera(SharedPtr<Camera> camera)
+SharedPtr<RenderPath> Renderer::GetDefaultRenderPath() const
+{
+	return _defaultRenderPath;
+}
+
+void Renderer::RemoveCamera(SharedPtr<tCamera> camera)
 {
 	Assert(camera != nullptr);
 	_camerasToAdd.remove(camera);
@@ -317,7 +284,7 @@ void Renderer::RemoveCamera(SharedPtr<Camera> camera)
 		_cameras.remove(camera);
 	}
 
-	SharedPtr<Camera> currentCamera = _currentCamera;
+	SharedPtr<tCamera> currentCamera = _currentCamera;
 	if (currentCamera == camera)
 	{
 		if (_cameras.empty())
@@ -582,19 +549,92 @@ void Renderer::BlurShadowMap(SharedPtr<View> view, SharedPtr<Texture2D> shadowMa
 
 }
 
+void Renderer::createGeometries()
+{
+	//Dir light
+	SharedPtr<VertexBuffer> dlvb = MakeShared<VertexBuffer>(_ambient);
+	dlvb->SetShadowed(true);
+	dlvb->SetSize(4, VERTEX_MASK_POSITION);
+	dlvb->SetData(DIR_LIGHT_VERTEX_DATA);
+
+	SharedPtr<IndexBuffer> dlib = MakeShared<IndexBuffer>(_ambient);
+	dlib->SetShadowed(true);
+	dlib->SetSize(6, false);
+	dlib->SetData(DIR_LIGHT_INDEX_DATA);
+
+	_dirLightGeometry = MakeShared<Geometry>(_ambient);
+	_dirLightGeometry->SetVertexBuffer(0, dlvb);
+	_dirLightGeometry->SetIndexBuffer(dlib);
+	_dirLightGeometry->SetDrawRange(PrimitiveType::TringleList, 0, dlib->GetIndexCount());
+
+
+	// Spot light
+	SharedPtr<VertexBuffer> slvb = MakeShared<VertexBuffer>(_ambient);
+	slvb->SetShadowed(true);
+	slvb->SetSize(8, VERTEX_MASK_POSITION);
+	slvb->SetData(SPOT_LIGHT_VERTEX_DATA);
+
+	SharedPtr<IndexBuffer> slib = MakeShared<IndexBuffer>(_ambient);
+	slib->SetShadowed(true);
+	slib->SetSize(36, false);
+	slib->SetData(SPOT_LIGHT_INDEX_DATA);
+
+	_spotLightGeometry = MakeShared<Geometry>(_ambient);
+	_spotLightGeometry->SetVertexBuffer(0, slvb);
+	_spotLightGeometry->SetIndexBuffer(slib);
+	_spotLightGeometry->SetDrawRange(PrimitiveType::TringleList, 0, slib->GetIndexCount());
+
+
+	//Point light
+	SharedPtr<VertexBuffer> plvb = MakeShared<VertexBuffer>(_ambient);
+	plvb->SetShadowed(true);
+	plvb->SetSize(24, VERTEX_MASK_POSITION);
+	plvb->SetData(POINT_LIGHT_VERTEX_DATA);
+
+	SharedPtr<IndexBuffer> plib = MakeShared<IndexBuffer>(_ambient);
+	plib->SetShadowed(true);
+	plib->SetSize(132, false);
+	plib->SetData(POINT_LIGHT_INDEX_DATA);
+
+	_pointLightGeometry = MakeShared<Geometry>(_ambient);
+	_pointLightGeometry->SetVertexBuffer(0, plvb);
+	_pointLightGeometry->SetIndexBuffer(plib);
+	_pointLightGeometry->SetDrawRange(PrimitiveType::TringleList, 0, plib->GetIndexCount());
+
+}
+
+void Renderer::createInstancingBuffer()
+{
+	// Do not create buffer if instancing not supported
+	if (!_graphics.lock()->GetInstancingSupport())
+	{
+		_instancingBuffer.reset();
+		_dynamicInstancing = false;
+		return;
+	}
+
+	_instancingBuffer = MakeShared<VertexBuffer>(_ambient);
+	const VECTOR<VertexElement> instancingBufferElements = CreateInstancingBufferElements(_numExtraInstancingBufferElements);
+	if (!_instancingBuffer->SetSize(INSTANCING_BUFFER_DEFAULT_SIZE, instancingBufferElements, true))
+	{
+		_instancingBuffer.reset();
+		_dynamicInstancing = false;
+	}
+}
+
 void Renderer::delayedAddRemoveCameras()
 {
 	Assert(!_insideRenderOrCull);
-	for (LIST<SharedPtr<Camera>>::iterator i = _camerasToRemove.begin(); i != _camerasToRemove.end(); /**/)
+	for (LIST<SharedPtr<tCamera>>::iterator i = _camerasToRemove.begin(); i != _camerasToRemove.end(); /**/)
 	{
-		SharedPtr<Camera> cam = *i;
+		SharedPtr<tCamera> cam = *i;
 		++i; // increment iterator before removing camera; as it changes the list
 		RemoveCamera(cam);
 	}
 	_camerasToRemove.clear();
-	for (LIST<SharedPtr<Camera>>::iterator i = _camerasToAdd.begin(); i != _camerasToAdd.end(); /**/)
+	for (LIST<SharedPtr<tCamera>>::iterator i = _camerasToAdd.begin(); i != _camerasToAdd.end(); /**/)
 	{
-		SharedPtr<Camera> cam = *i;
+		SharedPtr<tCamera> cam = *i;
 		++i; // increment iterator before adding camera; as it changes the list
 		AddCamera(cam);
 	}
@@ -665,6 +705,12 @@ void Renderer::ResetShadowMaps()
 	_colorShadowMaps.clear();
 }
 
+void Renderer::ResetBuffers()
+{
+	//_occlusionBuffers.Clear();
+	_screenBuffers.clear();
+	//_screenBufferAllocations.Clear();
+}
 
 void Renderer::delayedAddRemoveTranslucents()
 {

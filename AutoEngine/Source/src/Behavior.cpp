@@ -1,5 +1,5 @@
 #include "Behavior.h"
-#include "Scene.h"
+#include "tScene.h"
 #include "NewDef.h"
 
 namespace Auto3D {
@@ -17,17 +17,17 @@ Behavior::~Behavior()
 
 void Behavior::Awake()
 {
-	GetSubSystem<Scene>()->ModeRunLevel(RunMode::Awake);
+	GetSubSystem<tScene>()->ModeRunLevel(RunMode::Awake);
 }
 
 void Behavior::Start()
 {
-	GetSubSystem<Scene>()->ModeRunLevel(RunMode::Start);
+	GetSubSystem<tScene>()->ModeRunLevel(RunMode::Start);
 }
 
 void Behavior::Update()
 {
-	GetSubSystem<Scene>()->ModeRunLevel(RunMode::Update);
+	GetSubSystem<tScene>()->ModeRunLevel(RunMode::Update);
 }
 
 void Behavior::FixUpdate()
@@ -37,7 +37,7 @@ void Behavior::FixUpdate()
 
 void Behavior::Finish()
 {
-	GetSubSystem<Scene>()->ModeRunLevel(RunMode::Finish);
+	GetSubSystem<tScene>()->ModeRunLevel(RunMode::Finish);
 }
 
 void Behavior::Draw()

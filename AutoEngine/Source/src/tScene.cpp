@@ -1,6 +1,6 @@
-#include "Scene.h"
+#include "tScene.h"
 
-#include "Camera.h"
+#include "tCamera.h"
 #include "SpriteRenderer.h"
 #include "Transform.h"
 #include "MeshRenderer.h"
@@ -27,24 +27,24 @@
 
 namespace Auto3D {
 
-Scene::Scene(SharedPtr<Ambient> ambient)
+tScene::tScene(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {
 	RegisterSceneLib(_ambient);
 }
 
-Scene::~Scene()
+tScene::~tScene()
 {
 	_levelScenes.clear();
 }
 
-void Scene::RegisterScene(SharedPtr<LevelScene> level)
+void tScene::RegisterScene(SharedPtr<LevelScene> level)
 {
 	level->Enable(true);
 	AddScene(level);
 }
 
-void Scene::AddScene(SharedPtr<LevelScene> level)
+void tScene::AddScene(SharedPtr<LevelScene> level)
 {
 
 	Assert(level != NULL);
@@ -59,7 +59,7 @@ void Scene::AddScene(SharedPtr<LevelScene> level)
 	_levelScenes.push_back(level);
 }
 
-void Scene::RemoveScene(SharedPtr<LevelScene> level)
+void tScene::RemoveScene(SharedPtr<LevelScene> level)
 {
 	Assert(level != NULL);
 	VectorFindEarse(_levelScenesToAdd, level);
@@ -74,7 +74,7 @@ void Scene::RemoveScene(SharedPtr<LevelScene> level)
 	}
 }
 
-void Scene::RemoveScene(int sceneId)
+void tScene::RemoveScene(int sceneId)
 {
 	for (auto i = _levelScenes.begin(); i != _levelScenes.end(); i++)
 	{
@@ -86,7 +86,7 @@ void Scene::RemoveScene(int sceneId)
 	}
 }
 
-SharedPtr<LevelScene> Scene::GetLevelScene(int index)
+SharedPtr<LevelScene> tScene::GetLevelScene(int index)
 {
 	for (auto i = _levelScenes.begin(); i != _levelScenes.end(); i++)
 	{
@@ -97,7 +97,7 @@ SharedPtr<LevelScene> Scene::GetLevelScene(int index)
 	return SharedPtr<LevelScene>();
 }
 
-void Scene::ModeRunLevel(RunMode runMode)
+void tScene::ModeRunLevel(RunMode runMode)
 {
 	_isInsideRun = true;
 
@@ -149,9 +149,9 @@ void Scene::ModeRunLevel(RunMode runMode)
 	delayAddRemoveScene();
 }
 
-void Scene::RegisterSceneLib(SharedPtr<Ambient> ambient)
+void tScene::RegisterSceneLib(SharedPtr<Ambient> ambient)
 {
-	Camera::RegisterObject(ambient);
+	tCamera::RegisterObject(ambient);
 	
 	Transform::RegisterObject(ambient);
 
@@ -176,7 +176,7 @@ void Scene::RegisterSceneLib(SharedPtr<Ambient> ambient)
 	MeshPBR::RegisterObject(ambient);
 }
 
-void Scene::delayAddRemoveScene()
+void tScene::delayAddRemoveScene()
 {
 	Assert(!_isInsideRun);
 	for (VECTOR<SharedPtr<LevelScene> >::iterator i = _levelScenesToRemove.begin(); i != _levelScenesToRemove.end(); /**/)

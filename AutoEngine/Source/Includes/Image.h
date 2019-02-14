@@ -141,7 +141,8 @@ public:
 	SharedPtr<Image> ConvertToRGBA() const;
 	/// Return next mip level by bilinear filtering. Note that if the image is already 1x1x1, will keep returning an image of that size.
 	SharedPtr<Image> GetNextLevel() const;
-
+	/// Return a compressed mip level.
+	CompressedLevel GetCompressedLevel(unsigned index) const;
 	/// Return number of compressed mip levels. Returns 0 if the image is has not been loaded from a source file containing multiple mip levels.
 	unsigned GetNumCompressedLevels() const { return _numCompressedLevels; }
 private:

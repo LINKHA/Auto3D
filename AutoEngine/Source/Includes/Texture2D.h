@@ -21,7 +21,6 @@ public:
 	void OnDeviceReset() override;
 	/// Release the texture.
 	void Release() override;
-
 	/**
 	* @brief :Set size, format, usage and multisampling parameters for rendertargets. Zero size will follow application window size. Return true if successful.
 	*		Autoresolve true means the multisampled texture will be automatically resolved to 1-sample after being rendered to and before being sampled as a texture.

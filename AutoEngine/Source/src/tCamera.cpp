@@ -1,11 +1,11 @@
-#include "Camera.h"
+#include "tCamera.h"
 #include "Graphics.h"
 #include "Renderer.h"
 #include "NewDef.h"
 
 namespace Auto3D {
 
-Camera::Camera(SharedPtr<Ambient> ambient)
+tCamera::tCamera(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 	, _front(0.0f, 0.0f, -1.0f)
 	, _zoom(45.0f)
@@ -22,23 +22,23 @@ Camera::Camera(SharedPtr<Ambient> ambient)
 
 }
 
-Camera::~Camera()
+tCamera::~tCamera()
 {
 }
 
-void Camera::RegisterObject(SharedPtr<Ambient> ambient)
+void tCamera::RegisterObject(SharedPtr<Ambient> ambient)
 {
-	ambient->RegisterFactory<Camera>(SCENE_ATTACH);
+	ambient->RegisterFactory<tCamera>(SCENE_ATTACH);
 }
 
-void Camera::AllowOffScreen(bool enable)
+void tCamera::AllowOffScreen(bool enable)
 {
 	_isAllowOffScreen = enable;
 	if (!_isAllowOffScreen || _offScreen)
 		return;
 	_offScreen = MakeShared<OffScreen>(_ambient);
 }
-void Camera::AllowMSAA(bool enable, int pointNum)
+void tCamera::AllowMSAA(bool enable, int pointNum)
 {
 	if (!_offScreen)
 	{
@@ -48,7 +48,7 @@ void Camera::AllowMSAA(bool enable, int pointNum)
 	_offScreen->AllowMSAA(enable, pointNum);
 }
 
-void Camera::AllowLateEffect(bool enable)
+void tCamera::AllowLateEffect(bool enable)
 {
 	if (!_offScreen)
 	{
@@ -59,7 +59,7 @@ void Camera::AllowLateEffect(bool enable)
 	_offScreen->AllowLateEffect(enable);
 }
 
-void Camera::AllowHDR(bool enable)
+void tCamera::AllowHDR(bool enable)
 {
 	if (!_offScreen)
 	{
@@ -69,18 +69,18 @@ void Camera::AllowHDR(bool enable)
 
 	_offScreen->AllowHDR(enable);
 }
-void Camera::SetLateEffect(PostProcessingMode mode)
+void tCamera::SetLateEffect(PostProcessingMode mode)
 {
 	if (_offScreen && _isAllowOffScreen)
 		_offScreen->SetEffect(mode);
 }
-void Camera::SetLateEffect(SharedPtr<ShaderVariation> shader)
+void tCamera::SetLateEffect(SharedPtr<ShaderVariation> shader)
 {
 	if (_offScreen && _isAllowOffScreen)
 		_offScreen->SetEffect(shader);
 }
 
-SharedPtr<OffScreen> Camera::GetOffScreen()
+SharedPtr<OffScreen> tCamera::GetOffScreen()
 {
 	if (_isAllowOffScreen && _offScreen)
 		return _offScreen;
@@ -91,25 +91,25 @@ SharedPtr<OffScreen> Camera::GetOffScreen()
 	}
 }
 
-void Camera::Start()
+void tCamera::Start()
 {
 	if (_isAllowOffScreen)
 		_offScreen->RenderReady();
 }
 
-void Camera::Init()
+void tCamera::Init()
 {
 	_transform = GetNode()->GetComponent<Transform>();
-	GetSubSystem<Renderer>()->AddCamera(SharedFromThis(Camera));
+	GetSubSystem<Renderer>()->AddCamera(SharedFromThis(tCamera));
 }
 
-glm::mat4 Camera::GetViewMatrix()
+glm::mat4 tCamera::GetViewMatrix()
 {
 	_viewMatrix = glm::lookAt(_transform->GetPosition().ToGLM(), _transform->GetPosition().ToGLM() + _front.ToGLM(), _up.ToGLM());
 	return _viewMatrix;
 }
 
-glm::mat4 Camera::GetProjectionMatrix()
+glm::mat4 tCamera::GetProjectionMatrix()
 {
 	RectInt rect = GetSubSystem<Graphics>()->GetWindowRectInt();
 	if (_projectionMode == ProjectionMode::Perspective)
@@ -132,7 +132,7 @@ glm::mat4 Camera::GetProjectionMatrix()
 	return _projectionMatrix;
 }
 
-bool Camera::GetAllowMSAA()
+bool tCamera::GetAllowMSAA()
 {
 	if (_offScreen)
 		return _offScreen->GetAllowMSAA();
@@ -140,7 +140,7 @@ bool Camera::GetAllowMSAA()
 		return false;
 }
 
-bool Camera::GetAllowLateEffect()
+bool tCamera::GetAllowLateEffect()
 {
 	if (_offScreen)
 		return _offScreen->GetAllowLateEffect();
@@ -148,12 +148,12 @@ bool Camera::GetAllowLateEffect()
 		return false;
 }
 
-void Camera::AccPitchYaw(float yawOffset, float pitchOffset, bool constrainPitch)
+void tCamera::AccPitchYaw(float yawOffset, float pitchOffset, bool constrainPitch)
 {
 	SetPitchYaw(_yaw + yawOffset, _pitch + pitchOffset, constrainPitch);
 }
 
-void Camera::SetPitchYaw(float yaw, float pitch, bool constrainPitch)
+void tCamera::SetPitchYaw(float yaw, float pitch, bool constrainPitch)
 {
 	_yaw = yaw;
 	_pitch = pitch;
@@ -169,22 +169,22 @@ void Camera::SetPitchYaw(float yaw, float pitch, bool constrainPitch)
 	updateCameraVectors();
 }
 
-void Camera::AccYaw(float yawOffset)
+void tCamera::AccYaw(float yawOffset)
 {
 	SetYaw(_yaw + yawOffset);
 }
 
-void Camera::SetYaw(float yaw)
+void tCamera::SetYaw(float yaw)
 {
 	_yaw = yaw;
 	updateCameraVectors();
 }
-void Camera::AccPitch(float pitchOffset, bool constrainPitch)
+void tCamera::AccPitch(float pitchOffset, bool constrainPitch)
 {
 	SetPitch(_pitch + pitchOffset, constrainPitch);
 }
 
-void Camera::SetPitch(float pitch, bool constrainPitch)
+void tCamera::SetPitch(float pitch, bool constrainPitch)
 {
 	_pitch = pitch;
 
@@ -199,12 +199,12 @@ void Camera::SetPitch(float pitch, bool constrainPitch)
 	updateCameraVectors();
 }
 
-void Camera::AccZoom(float offset)
+void tCamera::AccZoom(float offset)
 {
 	SetZoom(_zoom - offset);
 }
 
-void Camera::SetZoom(float zoom)
+void tCamera::SetZoom(float zoom)
 {
 	if (_zoom >= MATH_EPSILON && _zoom <= 180.0f)
 		_zoom = zoom;
@@ -215,7 +215,7 @@ void Camera::SetZoom(float zoom)
 }
 
 
-void Camera::updateCameraVectors()
+void tCamera::updateCameraVectors()
 {
 	// Calculate the new Front vector
 	Vector3 front;

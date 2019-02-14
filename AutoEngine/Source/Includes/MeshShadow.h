@@ -6,7 +6,7 @@
 namespace Auto3D {
 
 class Mesh;
-class Camera;
+class tCamera;
 class MeshShadow : public RenderComponent,public GLMeshEnable
 {
 public:

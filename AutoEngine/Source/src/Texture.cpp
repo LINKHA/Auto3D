@@ -9,9 +9,14 @@ Texture::Texture(SharedPtr<Ambient> ambient)
 
 }
 
-Texture::~Texture()
-{
+Texture::~Texture() = default;
 
+void Texture::SetNumLevels(unsigned levels)
+{
+	if (_usage > TextureUsage::RenderTarget)
+		_requestedLevels = 1;
+	else
+		_requestedLevels = levels;
 }
 
 int Texture::GetLevelWidth(unsigned level) const

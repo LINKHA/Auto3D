@@ -2,7 +2,7 @@
 #include "Renderer.h"
 #include "tLight.h"
 #include "VertexData.h"
-#include "Camera.h"
+#include "tCamera.h"
 #include "ResourceSystem.h"
 #include "Mesh.h"
 #include "ShaderVariation.h"
@@ -86,7 +86,7 @@ void MeshShadowPoint::DrawShadow()
 void MeshShadowPoint::Draw()
 {
 
-	SharedPtr<Camera> camera = GetSubSystem<Renderer>()->GetCurrentCameraPtr();
+	SharedPtr<tCamera> camera = GetSubSystem<Renderer>()->GetCurrentCameraPtr();
 	glm::vec3 lightPos;
 	//!!! Temp use one light,and must need light
 #pragma warning

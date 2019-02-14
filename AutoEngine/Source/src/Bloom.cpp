@@ -1,6 +1,6 @@
 #include "Bloom.h"
 #include "Graphics.h"
-#include "Camera.h"
+#include "tCamera.h"
 #include "Renderer.h"
 #include "BaseMesh.h"
 #include "ResourceSystem.h"

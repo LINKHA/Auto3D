@@ -85,7 +85,7 @@ bool Texture2D::SetData(unsigned level, int x, int y, int width, int height, con
 		return false;
 	}
 
-	_graphics.lock()->SetTextureForUpdate(SharedDynamicThis(Texture2D));
+	_graphics.lock()->SetTextureForUpdate(SharedFromThis(Texture2D));
 
 	bool wholeLevel = x == 0 && y == 0 && width == levelWidth && height == levelHeight;
 	unsigned format = _format;
@@ -217,7 +217,7 @@ bool Texture2D::SetData(SharedPtr<Image> image, bool useAlpha)
 		width /= (1u << mipsToSkip);
 		height /= (1u << mipsToSkip);
 
-		SetNumLevels(Max((levels - mipsToSkip), 1U));
+		SetNumLevels(max((levels - mipsToSkip), 1U));
 		SetSize(width, height, format);
 
 		for (unsigned i = 0; i < _levels && i < levels - mipsToSkip; ++i)
@@ -293,7 +293,7 @@ bool Texture2D::create()
 	glGenTextures(1, &_object.name);
 
 	// Ensure that our texture is bound to OpenGL texture unit 0
-	_graphics.lock()->SetTextureForUpdate(SharedDynamicThis(Texture2D));
+	_graphics.lock()->SetTextureForUpdate(SharedFromThis(Texture2D));
 
 	// If not compressed, create the initial level 0 texture with null data
 	bool success = true;

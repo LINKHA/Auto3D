@@ -2,7 +2,7 @@
 #include "tTexture2D.h"
 #include "AutoOGL.h"
 #include "Transform.h"
-#include "Camera.h"
+#include "tCamera.h"
 #include "Application.h"
 
 namespace Auto3D {

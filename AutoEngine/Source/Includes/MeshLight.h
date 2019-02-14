@@ -1,6 +1,6 @@
 #pragma once
 #include "RenderComponent.h"
-#include "Camera.h"
+#include "tCamera.h"
 
 namespace Auto3D {
 

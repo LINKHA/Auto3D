@@ -91,9 +91,6 @@
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\MeshRenderer.cpp">
       <Filter>Source\Component\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Camera.cpp">
-      <Filter>Source\Component\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\RenderComponent.cpp">
       <Filter>Source\Component\Graphics</Filter>
     </ClCompile>
@@ -247,9 +244,6 @@
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Node.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Scene.cpp">
-      <Filter>Source\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Script.cpp">
       <Filter>Source\Script</Filter>
     </ClCompile>
@@ -357,6 +351,15 @@
     </ClCompile>
     <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLTextureCube.cpp">
       <Filter>Source\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\Viewport.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\tCamera.cpp">
+      <Filter>Source\_Abandon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\tScene.cpp">
+      <Filter>Source\_Abandon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -485,9 +488,6 @@
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Transform.h">
       <Filter>Source\Component\Coordinate</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Camera.h">
-      <Filter>Source\Component\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\MeshRenderer.h">
       <Filter>Source\Component\Graphics</Filter>
@@ -660,9 +660,6 @@
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Node.h">
       <Filter>Source\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Scene.h">
-      <Filter>Source\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Script.h">
       <Filter>Source\Script</Filter>
     </ClInclude>
@@ -797,6 +794,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\TextureCube.h">
       <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Viewport.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\tCamera.h">
+      <Filter>Source\_Abandon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\tScene.h">
+      <Filter>Source\_Abandon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

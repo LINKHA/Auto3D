@@ -21,7 +21,7 @@ enum ClassIDType
 	DO_CLASS_ID(tTexture, 18)
 	DO_CLASS_ID(tTexture2D, 19)
 	DO_CLASS_ID(tLight, 20)
-	DO_CLASS_ID(Camera, 21)
+	DO_CLASS_ID(tCamera, 21)
 	DO_CLASS_ID(ScriptComponent, 22)
 	DO_CLASS_ID(tTexture3D, 23)
 	DO_CLASS_ID(SkyBox, 24)
@@ -44,7 +44,7 @@ enum ClassIDType
 	DO_CLASS_ID(MeshPBRTexture, 58)
 	DO_CLASS_ID(ResourceSystem, 60)
 	DO_CLASS_ID(Material, 61)
-	DO_CLASS_ID(Scene, 62)
+	DO_CLASS_ID(tScene, 62)
 	DO_CLASS_ID(IO, 63)
 	DO_CLASS_ID(Model, 66)
 	DO_CLASS_ID(LevelScene, 67)
@@ -89,6 +89,7 @@ enum ClassIDType
 	DO_CLASS_ID(Texture2D, 112)
 	DO_CLASS_ID(View, 113)
 	DO_CLASS_ID(TextureCube, 114)
+	DO_CLASS_ID(Viewport, 115)
 	
 	CLASS_ID_Count
 };

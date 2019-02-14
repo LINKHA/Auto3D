@@ -2,7 +2,7 @@
 #include "Texture.h"
 #include "Texture.h"
 #include "Transform.h"
-#include "Camera.h"
+#include "tCamera.h"
 #include "Application.h"
 #include "tTextureMap.h"
 #include "ShaderVariation.h"

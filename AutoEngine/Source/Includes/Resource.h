@@ -66,6 +66,8 @@ public:
 	* @brief : Return name
 	*/
 	const STRING& GetName() const { return _name; }
+	/// Return memory use in bytes, possibly approximate.
+	unsigned GetMemoryUse() const { return _memoryUse; }
 private:
 	/// name.
 	STRING _name{};

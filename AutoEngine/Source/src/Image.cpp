@@ -519,4 +519,139 @@ SharedPtr<Image> Image::GetNextLevel() const
 	return mipImage;
 }
 
+CompressedLevel Image::GetCompressedLevel(unsigned index) const
+{
+	CompressedLevel level;
+
+	if (_compressedFormat == CompressedFormat::None)
+	{
+		WarningString("Image is not compressed");
+		return level;
+	}
+	if (index >= _numCompressedLevels)
+	{
+		WarningString("Compressed image mip level out of bounds");
+		return level;
+	}
+
+	level._format = _compressedFormat;
+	level._width = _width;
+	level._height = _height;
+	level._depth = _depth;
+
+	if (_compressedFormat == CompressedFormat::RGBA)
+	{
+		level._blockSize = 4;
+		unsigned i = 0;
+		unsigned offset = 0;
+
+		for (;;)
+		{
+			if (!level._width)
+				level._width = 1;
+			if (!level._height)
+				level._height = 1;
+			if (!level._depth)
+				level._depth = 1;
+
+			level._rowSize = level._width * level._blockSize;
+			level._rows = (unsigned)level._height;
+			level._data = _data.get() + offset;
+			level._dataSize = level._depth * level._rows * level._rowSize;
+
+			if (offset + level._dataSize > GetMemoryUse())
+			{
+				WarningString("Compressed level is outside image data. Offset: " + STRING(offset) + " Size: " + STRING(level._dataSize) +
+					" Datasize: " + STRING(GetMemoryUse()));
+				level._data = nullptr;
+				return level;
+			}
+
+			if (i == index)
+				return level;
+
+			offset += level._dataSize;
+			level._width /= 2;
+			level._height /= 2;
+			level._depth /= 2;
+			++i;
+		}
+	}
+	else if (_compressedFormat < CompressedFormat::PvrtcRGB2bpp)
+	{
+		level._blockSize = (_compressedFormat == CompressedFormat::DXT1 || _compressedFormat == CompressedFormat::ETC1) ? 8 : 16;
+		unsigned i = 0;
+		unsigned offset = 0;
+
+		for (;;)
+		{
+			if (!level._width)
+				level._width = 1;
+			if (!level._height)
+				level._height = 1;
+			if (!level._depth)
+				level._depth = 1;
+
+			level._rowSize = ((level._width + 3) / 4) * level._blockSize;
+			level._rows = (unsigned)((level._height + 3) / 4);
+			level._data = _data.get() + offset;
+			level._dataSize = level._depth * level._rows * level._rowSize;
+
+			if (offset + level._dataSize > GetMemoryUse())
+			{
+				WarningString("Compressed level is outside image data. Offset: " + STRING(offset) + " Size: " + STRING(level._dataSize) +
+					" Datasize: " + STRING(GetMemoryUse()));
+				level._data = nullptr;
+				return level;
+			}
+
+			if (i == index)
+				return level;
+
+			offset += level._dataSize;
+			level._width /= 2;
+			level._height /= 2;
+			level._depth /= 2;
+			++i;
+		}
+	}
+	else
+	{
+		level._blockSize = _compressedFormat < CompressedFormat::PvrtcRGB4bpp ? 2 : 4;
+		unsigned i = 0;
+		unsigned offset = 0;
+
+		for (;;)
+		{
+			if (!level._width)
+				level._width = 1;
+			if (!level._height)
+				level._height = 1;
+
+			int dataWidth = max(level._width, level._blockSize == 2 ? 16 : 8);
+			int dataHeight = max(level._height, 8);
+			level._data = _data.get() + offset;
+			level._dataSize = (dataWidth * dataHeight * level._blockSize + 7) >> 3;
+			level._rows = (unsigned)dataHeight;
+			level._rowSize = level._dataSize / level._rows;
+
+			if (offset + level._dataSize > GetMemoryUse())
+			{
+				WarningString("Compressed level is outside image data. Offset: " + STRING(offset) + " Size: " + STRING(level._dataSize) +
+					" Datasize: " + STRING(GetMemoryUse()));
+				level._data = nullptr;
+				return level;
+			}
+
+			if (i == index)
+				return level;
+
+			offset += level._dataSize;
+			level._width /= 2;
+			level._height /= 2;
+			++i;
+		}
+	}
+}
+
 }

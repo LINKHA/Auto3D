@@ -2,7 +2,7 @@
 #include "Mesh.h"
 #include "Rect.h"
 #include "Graphics.h"
-#include "Camera.h"
+#include "tCamera.h"
 #include "Renderer.h"
 #include "NewDef.h"
 

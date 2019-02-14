@@ -1,7 +1,7 @@
 #include "Node.h"
 #include "Component.h"
 #include "Transform.h"
-#include "Scene.h"
+#include "tScene.h"
 #include "Ambient.h"
 #include "NewDef.h"
 

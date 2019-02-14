@@ -5,11 +5,11 @@
 
 namespace Auto3D {
 
-class Scene : public GlobalGameManager
+class tScene : public GlobalGameManager
 {
-	REGISTER_OBJECT_CLASS(Scene, GlobalGameManager)
+	REGISTER_OBJECT_CLASS(tScene, GlobalGameManager)
 public:
-	explicit Scene(SharedPtr<Ambient> ambient);
+	explicit tScene(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Register level
 	*/

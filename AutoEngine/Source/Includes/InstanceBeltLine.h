@@ -3,7 +3,7 @@
 #include "Mesh.h"
 #include "ShaderVariation.h"
 namespace Auto3D {
-class Camera;
+class tCamera;
 class InstanceBeltLine : public RenderComponent
 {
 public:

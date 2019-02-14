@@ -95,6 +95,10 @@ public:
 	* @return : SDL_Window*
 	*/
 	SDL_Window* GetGameWindow() { return _window; }
+
+	/// Return whether hardware instancing is supported.
+	bool GetInstancingSupport() const { return _instancingSupport; }
+
 	/// Return default texture filtering mode.
 	TextureFilterMode GetDefaultTextureFilterMode() const { return _defaultTextureFilterMode; }
 	/**

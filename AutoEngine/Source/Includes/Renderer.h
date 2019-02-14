@@ -1,6 +1,6 @@
 #pragma once
 #include "GameManager.h"
-#include "Camera.h"
+#include "tCamera.h"
 #include "LightContainer.h"
 #include "ShadowRenderer.h"
 #include "GraphicsDef.h"
@@ -12,6 +12,10 @@ class Geometry;
 class Texture2D;
 class TextureCube;
 class View;
+class Viewport;
+
+static const int INSTANCING_BUFFER_DEFAULT_SIZE = 1024;
+
 /**
 * @brief : Render graphices create to geometry
 */
@@ -19,7 +23,7 @@ class Renderer : public GlobalGameManager
 {
 	REGISTER_OBJECT_CLASS(Renderer, GlobalGameManager)
 
-	using CameraContainer = LIST<SharedPtr<Camera> >;
+	using CameraContainer = LIST<SharedPtr<tCamera> >;
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	///Render in this order
 	using ShadowMapContainer = LIST<SharedPtr<RenderComponent> >;
@@ -29,8 +33,6 @@ class Renderer : public GlobalGameManager
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	///Auxiliary vessel with distance
 	using TranslucentDepth = PAIR_MAP<float, SharedPtr<RenderComponent> >;
-
-
 
 	using ShadowMapFilter = void(Object::*)(SharedPtr<View> view, SharedPtr<Texture2D> shadowMap, float blurScale);
 	
@@ -57,11 +59,11 @@ public:
 	/**
 	* @brief : Dynamically add a camera (valid when traversing the camera)
 	*/
-	void AddCamera(SharedPtr<Camera> camera);
+	void AddCamera(SharedPtr<tCamera> camera);
 	/**
 	* @brief : Dynamically remove a camera (valid when traversing the camera)
 	*/
-	void RemoveCamera(SharedPtr<Camera> camera);
+	void RemoveCamera(SharedPtr<tCamera> camera);
 	/**
 	* @brief : Dynamically add a shadow map (valid when traversing the camera)
 	*/
@@ -97,11 +99,11 @@ public:
 	/**
 	* @brief : Get Current camera quote
 	*/
-	Camera& GetCurrentCamera() { return *_currentCamera; }
+	tCamera& GetCurrentCamera() { return *_currentCamera; }
 	/**
 	* @brief : Get Current camera point
 	*/
-	SharedPtr<Camera> GetCurrentCameraPtr() { return _currentCamera; }
+	SharedPtr<tCamera> GetCurrentCameraPtr() { return _currentCamera; }
 	/**
 	* @brief : Get Current all camera quote
 	*/
@@ -109,7 +111,7 @@ public:
 	/**
 	* @brief : Set current camera handle
 	*/
-	void SetCurrentCamera(SharedPtr<Camera> camera) { _currentCamera = camera; }
+	void SetCurrentCamera(SharedPtr<tCamera> camera) { _currentCamera = camera; }
 	/**
 	* @brief : Get light container (friend to LightContainer)
 	*/
@@ -147,12 +149,18 @@ public:
 
 	/// Remove all shadow maps. Called when global shadow map resolution or format is changed.
 	void ResetShadowMaps();
+	/// Remove all occlusion and screen buffers
+	void ResetBuffers();
 
+	/// Return default renderpath.
+	SharedPtr<RenderPath> GetDefaultRenderPath() const;
 private:
 	/**
 	* @brief : Create light volume geometries
 	*/
 	void createGeometries();
+	/// Create instancing vertex buffer
+	void createInstancingBuffer();
 	/**
 	* @brief : Delay add or remove camera
 	*/
@@ -196,10 +204,8 @@ private:
 private:
 	/// Graphics sub system
 	WeakPtr<Graphics> _graphics;
-
 	/// Default renderpath
 	SharedPtr<RenderPath> _defaultRenderPath;
-
 	/// Directional light quad geometry
 	SharedPtr<Geometry> _dirLightGeometry;
 	/// Spot light volume geometry
@@ -210,24 +216,34 @@ private:
 	MaterialQuality _textureQuality{ MaterialQuality::High };
 	/// Face selection cube map for shadowed pointlights.
 	SharedPtr<TextureCube> _faceSelectCubeMap;
-
+	/// Instance stream vertex buffer.
+	SharedPtr<VertexBuffer> _instancingBuffer;
 	/// Instance of shadow map filter
 	Object* _shadowMapFilterInstance{};
+	/// Backbuffer viewports
+	VECTOR<SharedPtr<Viewport> > _viewports;
 	/// Function pointer of shadow map filter
 	ShadowMapFilter _shadowMapFilter{};
+	/// Screen buffers by resolution and format.
+	HASH_MAP<unsigned long long, VECTOR<SharedPtr<Texture> > > _screenBuffers;
 	/// Shadow maps by resolution.
 	HASH_MAP<int, VECTOR<SharedPtr<Texture2D> > > _shadowMaps;
 	/// Shadow map dummy color buffers by resolution.
 	HASH_MAP<int, SharedPtr<Texture2D> > _colorShadowMaps;
 	/// Shadow map allocations by resolution.
 	//HASH_MAP<int, VECTOR<tLight*> > _shadowMapAllocations;
-
+		/// Number of extra instancing data elements.
+	int _numExtraInstancingBufferElements{};
 	/// Draw shadows flag
 	bool _drawShadows{ true };
 	/// Shadow quality
 	ShadowQuality _shadowQuality{ ShadowQuality::Pcf16bit };
 	/// Shaders need reloading flag
 	bool _shadersDirty{ true };
+	/// Dynamic instancing flag.
+	bool _dynamicInstancing{ true };
+	/// Initialized flag.
+	bool _initialized{};
 
 
 	SharedPtr<ShadowRenderer> _shadowRenderer;
@@ -235,7 +251,7 @@ private:
 	///is rendering or culling
 	bool _insideRenderOrCull{};
 	///camera container
-	SharedPtr<Camera> _currentCamera;
+	SharedPtr<tCamera> _currentCamera;
 	CameraContainer _cameras;
 	CameraContainer _camerasToAdd;
 	CameraContainer _camerasToRemove;
