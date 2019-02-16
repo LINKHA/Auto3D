@@ -4,10 +4,42 @@
 #include "Deserializer.h"
 #include "Serializer.h"
 #include "AutoOGL.h"
+#include "Decompress.h"
+
 #include "NewDef.h"
 
 namespace Auto3D {
 
+
+bool CompressedLevel::Decompress(unsigned char* dest)
+{
+	if (!_data)
+		return false;
+
+	switch (_format)
+	{
+	case CompressedFormat::DXT1:
+	case CompressedFormat::DXT3:
+	case CompressedFormat::DXT5:
+		DecompressImageDXT(dest, _data, _width, _height, _depth, _format);
+		return true;
+
+	case CompressedFormat::ETC1:
+		DecompressImageETC(dest, _data, _width, _height);
+		return true;
+
+	case CompressedFormat::PvrtcRGB2bpp:
+	case CompressedFormat::PvrtcRGBA2bpp:
+	case CompressedFormat::PvrtcRGB4bpp:
+	case CompressedFormat::PvrtcRGBA4bpp:
+		DecompressImagePVRTC(dest, _data, _width, _height, _format);
+		return true;
+
+	default:
+		// Unknown format
+		return false;
+	}
+}
 
 Image::Image(SharedPtr<Ambient> ambient)
 	:Super(ambient)

@@ -11,10 +11,12 @@
 #include "VertexBuffer.h"
 #include "Texture2D.h"
 #include "Image.h"
+#include "ConstantBuffer.h"
 
 #include "NewDef.h"
 
 namespace Auto3D {
+
 static const unsigned glCmpFunc[] =
 {
 	GL_ALWAYS,
@@ -44,6 +46,16 @@ static const unsigned glElementTypes[] =
 	GL_INT,
 	GL_FLOAT,
 	GL_UNSIGNED_BYTE
+};
+static const unsigned glElementComponents[] =
+{
+	1,
+	1,
+	2,
+	3,
+	4,
+	4,
+	4
 };
 
 void APIENTRY glDebugOutput(
@@ -266,6 +278,16 @@ void Graphics::SetVBO(unsigned object)
 	}
 }
 
+void Graphics::SetUBO(unsigned object)
+{
+	if (_impl->_boundUBO != object)
+	{
+		if (object)
+			glBindBuffer(GL_UNIFORM_BUFFER, object);
+		_impl->_boundUBO = object;
+	}
+}
+
 void Graphics::ResetCachedState()
 {
 	for (auto& vertexBuffer : _vertexBuffers)
@@ -290,6 +312,8 @@ void Graphics::ResetCachedState()
 	_impl->_boundFBO = _impl->_systemFBO;
 	_impl->_boundVBO = 0;
 	_impl->_boundUBO = 0;
+	_scissorRect = RectInt(0, 0, 0, 0);
+	_impl->_sRGBWrite = false;
 	_depthTestMode = DepthMode::Always;
 
 	// Set initial state to match Direct3D
@@ -556,6 +580,378 @@ void Graphics::DrawInstanced(PrimitiveType type, unsigned indexStart, unsigned i
 	//_numBatches++;
 }
 
+void Graphics::PrepareDraw()
+{
+	for (VECTOR<SharedPtr<ConstantBuffer> >::iterator i = _impl->_dirtyConstantBuffers.begin(); i != _impl->_dirtyConstantBuffers.end(); ++i)
+		(*i)->Apply();
+	_impl->_dirtyConstantBuffers.clear();
+
+	if (_impl->_fboDirty)
+	{
+		_impl->_fboDirty = false;
+
+		// First check if no framebuffer is needed. In that case simply return to backbuffer rendering
+		bool noFbo = !_depthStencil;
+		if (noFbo)
+		{
+			for (auto& renderTarget : _renderTargets)
+			{
+				if (renderTarget)
+				{
+					noFbo = false;
+					break;
+				}
+			}
+		}
+
+		if (noFbo)
+		{
+			if (_impl->_boundFBO != _impl->_systemFBO)
+			{
+				BindFramebuffer(_impl->_systemFBO);
+				_impl->_boundFBO = _impl->_systemFBO;
+			}
+
+			// Disable/enable sRGB write
+			if (_sRGBWriteSupport)
+			{
+				bool sRGBWrite = _sRGB;
+				if (sRGBWrite != _impl->_sRGBWrite)
+				{
+					if (sRGBWrite)
+						glEnable(GL_FRAMEBUFFER_SRGB);
+					else
+						glDisable(GL_FRAMEBUFFER_SRGB);
+					_impl->_sRGBWrite = sRGBWrite;
+				}
+			}
+			return;
+		}
+
+
+		// Search for a new framebuffer based on format & size, or create new
+		Vector2 rtSize = Graphics::GetRenderTargetDimensions();
+		unsigned format = 0;
+		if (_renderTargets[0])
+			format = _renderTargets[0]->GetParentTexture()->GetFormat();
+		else if (_depthStencil)
+			format = _depthStencil->GetParentTexture()->GetFormat();
+
+		auto fboKey = (unsigned long long)format << 32u | (int)rtSize.x << 16u | (int)rtSize.y;
+		HASH_MAP<unsigned long long, FrameBufferObject>::iterator i = _impl->_frameBuffers.find(fboKey);
+		if (i == _impl->_frameBuffers.end())
+		{
+			FrameBufferObject newFbo;
+			newFbo._fbo = CreateFramebuffer();
+			i = _impl->_frameBuffers.insert(i, MakePair(fboKey, newFbo));
+		}
+
+		if (_impl->_boundFBO != i->second._fbo)
+		{
+			BindFramebuffer(i->second._fbo);
+			_impl->_boundFBO = i->second._fbo;
+		}
+		// Setup readbuffers & drawbuffers if needed
+		if (i->second._readBuffers != GL_NONE)
+		{
+			glReadBuffer(GL_NONE);
+			i->second._readBuffers = GL_NONE;
+		}
+
+		// Calculate the bit combination of non-zero color rendertargets to first check if the combination changed
+		unsigned newDrawBuffers = 0;
+		for (unsigned j = 0; j < MAX_RENDERTARGETS; ++j)
+		{
+			if (_renderTargets[j])
+				newDrawBuffers |= 1u << j;
+		}
+
+		if (newDrawBuffers != i->second._drawBuffers)
+		{
+			// Check for no color rendertargets (depth rendering only)
+			if (!newDrawBuffers)
+				glDrawBuffer(GL_NONE);
+			else
+			{
+				int drawBufferIds[MAX_RENDERTARGETS];
+				unsigned drawBufferCount = 0;
+
+				for (unsigned j = 0; j < MAX_RENDERTARGETS; ++j)
+				{
+					if (_renderTargets[j])
+					{
+						drawBufferIds[drawBufferCount++] = GL_COLOR_ATTACHMENT0 + j;
+					}
+				}
+				glDrawBuffers(drawBufferCount, (const GLenum*)drawBufferIds);
+			}
+
+			i->second._drawBuffers = newDrawBuffers;
+		}
+
+		for (unsigned j = 0; j < MAX_RENDERTARGETS; ++j)
+		{
+			if (_renderTargets[j])
+			{
+				SharedPtr<Texture> texture = _renderTargets[j]->GetParentTexture();
+
+				// Bind either a renderbuffer or texture, depending on what is available
+				unsigned renderBufferID = _renderTargets[j]->GetRenderBuffer();
+				if (!renderBufferID)
+				{
+					// If texture's parameters are dirty, update before attaching
+					if (texture->GetParametersDirty())
+					{
+						SetTextureForUpdate(texture);
+						texture->UpdateParameters();
+						SetTexture(0, nullptr);
+					}
+
+					if (i->second._colorAttachments[j] != _renderTargets[j])
+					{
+						BindColorAttachment(j, _renderTargets[j]->GetTarget(), texture->GetHandle().name, false);
+						i->second._colorAttachments[j] = _renderTargets[j];
+					}
+				}
+				else
+				{
+					if (i->second._colorAttachments[j] != _renderTargets[j])
+					{
+						BindColorAttachment(j, _renderTargets[j]->GetTarget(), renderBufferID, true);
+						i->second._colorAttachments[j] = _renderTargets[j];
+					}
+				}
+			}
+			else
+			{
+				if (i->second._colorAttachments[j])
+				{
+					BindColorAttachment(j, GL_TEXTURE_2D, 0, false);
+					i->second._colorAttachments[j] = nullptr;
+				}
+			}
+		}
+
+		if (_depthStencil)
+		{
+			// Bind either a renderbuffer or a depth texture, depending on what is available
+			SharedPtr<Texture> texture = _depthStencil->GetParentTexture();
+
+			bool hasStencil = texture->GetFormat() == GL_DEPTH24_STENCIL8;
+
+			unsigned renderBufferID = _depthStencil->GetRenderBuffer();
+			if (!renderBufferID)
+			{
+				// If texture's parameters are dirty, update before attaching
+				if (texture->GetParametersDirty())
+				{
+					SetTextureForUpdate(texture);
+					texture->UpdateParameters();
+					SetTexture(0, nullptr);
+				}
+
+				if (i->second._depthAttachment != _depthStencil)
+				{
+					BindDepthAttachment(texture->GetHandle().name, false);
+					BindStencilAttachment(hasStencil ? texture->GetHandle().name : 0, false);
+					i->second._depthAttachment = _depthStencil;
+				}
+			}
+			else
+			{
+				if (i->second._depthAttachment != _depthStencil)
+				{
+					BindDepthAttachment(renderBufferID, true);
+					BindStencilAttachment(hasStencil ? renderBufferID : 0, true);
+					i->second._depthAttachment = _depthStencil;
+				}
+			}
+		}
+		else
+		{
+			if (i->second._depthAttachment)
+			{
+				BindDepthAttachment(0, false);
+				BindStencilAttachment(0, false);
+				i->second._depthAttachment = nullptr;
+			}
+		}
+
+		// Disable/enable sRGB write
+		if (_sRGBWriteSupport)
+		{
+			bool sRGBWrite = _renderTargets[0] ? _renderTargets[0]->GetParentTexture()->GetSRGB() : _sRGB;
+			if (sRGBWrite != _impl->_sRGBWrite)
+			{
+				if (sRGBWrite)
+					glEnable(GL_FRAMEBUFFER_SRGB);
+				else
+					glDisable(GL_FRAMEBUFFER_SRGB);
+				_impl->_sRGBWrite = sRGBWrite;
+			}
+		}
+	}
+
+	if (_impl->_vertexBuffersDirty)
+	{
+		// Go through currently bound vertex buffers and set the attribute pointers that are available & required
+		// Use reverse order so that elements from higher index buffers will override lower index buffers
+		unsigned assignedLocations = 0;
+
+		for (unsigned i = MAX_VERTEX_STREAMS - 1; i < MAX_VERTEX_STREAMS; --i)
+		{
+			SharedPtr<VertexBuffer> buffer = _vertexBuffers[i];
+			// Beware buffers with missing OpenGL objects, as binding a zero buffer object means accessing CPU memory for vertex data,
+			// in which case the pointer will be invalid and cause a crash
+			if (!buffer || !buffer->GetHandle().name || _impl->_vertexAttributes.empty())
+				continue;
+
+			const VECTOR<VertexElement>& elements = buffer->GetElements();
+
+			for (VECTOR<VertexElement>::const_iterator j = elements.begin(); j != elements.end(); ++j)
+			{
+				const VertexElement& element = *j;
+				PAIR_MAP<PAIR<unsigned char, unsigned char>, unsigned>::const_iterator k =
+					_impl->_vertexAttributes.find(MakePair((unsigned char)element._semantic, element._index));
+
+				if (k != _impl->_vertexAttributes.end())
+				{
+					unsigned location = k->second;
+					unsigned locationMask = 1u << location;
+					if (assignedLocations & locationMask)
+						continue; // Already assigned by higher index vertex buffer
+					assignedLocations |= locationMask;
+
+					// Enable attribute if not enabled yet
+					if (!(_impl->_enabledVertexAttributes & locationMask))
+					{
+						glEnableVertexAttribArray(location);
+						_impl->_enabledVertexAttributes |= locationMask;
+					}
+
+					// Enable/disable instancing divisor as necessary
+					unsigned dataStart = element._offset;
+					if (element._perInstance)
+					{
+						dataStart += _impl->_lastInstanceOffset * buffer->GetVertexSize();
+						if (!(_impl->_instancingVertexAttributes & locationMask))
+						{
+							SetVertexAttribDivisor(location, 1);
+							_impl->_instancingVertexAttributes |= locationMask;
+						}
+					}
+					else
+					{
+						if (_impl->_instancingVertexAttributes & locationMask)
+						{
+							SetVertexAttribDivisor(location, 0);
+							_impl->_instancingVertexAttributes &= ~locationMask;
+						}
+					}
+
+					SetVBO(buffer->GetHandle().name);
+					glVertexAttribPointer(location, glElementComponents[(int)element._type], glElementTypes[(int)element._type],
+						element._type == VertexElementType::Ubyte4Norm ? GL_TRUE : GL_FALSE, (unsigned)buffer->GetVertexSize(),
+						(const void *)(size_t)dataStart);
+				}
+			}
+		}
+
+		// Finally disable unnecessary vertex attributes
+		unsigned disableVertexAttributes = _impl->_enabledVertexAttributes & (~_impl->_usedVertexAttributes);
+		unsigned location = 0;
+		while (disableVertexAttributes)
+		{
+			if (disableVertexAttributes & 1u)
+			{
+				glDisableVertexAttribArray(location);
+				_impl->_enabledVertexAttributes &= ~(1u << location);
+			}
+			++location;
+			disableVertexAttributes >>= 1;
+		}
+
+		_impl->_vertexBuffersDirty = false;
+	}
+}
+
+void Graphics::DeleteFramebuffer(unsigned fbo)
+{
+	glDeleteFramebuffers(1, &fbo);
+}
+
+void Graphics::BindFramebuffer(unsigned fbo)
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+}
+
+void Graphics::BindDepthAttachment(unsigned object, bool isRenderBuffer)
+{
+	if (!object)
+		isRenderBuffer = false;
+
+	
+	if (!isRenderBuffer)
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, object, 0);
+	else
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, object);
+	
+}
+
+void Graphics::BindStencilAttachment(unsigned object, bool isRenderBuffer)
+{
+	if (!object)
+		isRenderBuffer = false;
+
+
+	if (!isRenderBuffer)
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, object, 0);
+	else
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, object);
+
+}
+
+void Graphics::SetVertexAttribDivisor(unsigned location, unsigned divisor)
+{
+	if (_instancingSupport)
+		glVertexAttribDivisor(location, divisor);
+}
+
+void Graphics::BindColorAttachment(unsigned index, unsigned target, unsigned object, bool isRenderBuffer)
+{
+	if (!object)
+		isRenderBuffer = false;
+
+	if (!isRenderBuffer)
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, target, object, 0);
+	else
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, GL_RENDERBUFFER, object);
+
+}
+
+Vector2 Graphics::GetRenderTargetDimensions() const
+{
+	int width, height;
+
+	if (_renderTargets[0])
+	{
+		width = _renderTargets[0]->GetWidth();
+		height = _renderTargets[0]->GetHeight();
+	}
+	else if (_depthStencil)
+	{
+		width = _depthStencil->GetWidth();
+		height = _depthStencil->GetHeight();
+	}
+	else
+	{
+		width = _windowRect.width;
+		height = _windowRect.height;
+	}
+
+	return Vector2(width, height);
+}
+
 void Graphics::SetRenderTarget(unsigned index, SharedPtr<RenderSurface> renderTarget)
 {
 	if (index >= MAX_RENDERTARGETS)
@@ -631,7 +1027,7 @@ void Graphics::SetDepthStencil(SharedPtr<RenderSurface> depthStencil)
 
 void Graphics::SetDepthStencil(SharedPtr<Texture2D> texture)
 {
-	SharedPtr<Texture2D> depthStencil = nullptr;
+	SharedPtr<RenderSurface> depthStencil;
 	if (texture)
 		depthStencil = texture->GetRenderSurface();
 
@@ -640,7 +1036,26 @@ void Graphics::SetDepthStencil(SharedPtr<Texture2D> texture)
 
 void Graphics::SetViewport(const RectInt& rect)
 {
-	
+	PrepareDraw();
+
+	Vector2 rtSize = GetRenderTargetDimensions();
+
+	RectInt rectCopy = rect;
+
+	if (rectCopy.width <= 0)
+		rectCopy.width = 1;
+	if (rectCopy.height <= 0)
+		rectCopy.height = 1;
+	rectCopy.x = clamp(rectCopy.x, 0, (int)rtSize.x);
+	rectCopy.y = clamp(rectCopy.y, 0, (int)rtSize.y);
+
+
+	// Use Direct3D convention with the vertical coordinates ie. 0 is top
+	glViewport(rectCopy.x, rtSize.y, rectCopy.width, rectCopy.height);
+	_viewport = rectCopy;
+
+	// Disable scissor test, needs to be re-enabled by the user
+	SetScissorTest(false);
 }
 
 void Graphics::SetTexture(unsigned index, SharedPtr<Texture> texture)
@@ -756,12 +1171,6 @@ bool Graphics::ResolveToTexture(SharedPtr<Texture2D> texture)
 	return true;
 }
 
-void Graphics::BindFramebuffer(unsigned fbo)
-{
-	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-}
-
-
 void Graphics::SetCullMode(CullMode mode)
 {
 	if (mode != _cullMode)
@@ -786,6 +1195,38 @@ void Graphics::SetDepthTest(DepthMode mode)
 	{
 		glDepthFunc(glCmpFunc[static_cast<unsigned>(mode)]);
 		_depthTestMode = mode;
+	}
+}
+
+void Graphics::SetScissorTest(bool enable, const RectInt& rect, bool borderInclusive)
+{
+	// During some light rendering loops, a full rect is toggled on/off repeatedly.
+	// Disable scissor in that case to reduce state changes
+
+	if (enable)
+	{
+		Vector2 rtSize(GetRenderTargetDimensions());
+		Vector2 viewSize(_viewport.GetSize());
+		Vector2 viewPos(_viewport.x, _viewport.y);
+		RectInt intRect;
+
+		if (enable && _scissorRect != intRect)
+		{
+			// Use Direct3D convention with the vertical coordinates ie. 0 is top
+			glScissor(intRect.x, intRect.y, intRect.width, intRect.height);
+			_scissorRect = intRect;
+		}
+	}
+	else
+		_scissorRect = RectInt(0, 0, 0, 0);
+
+	if (enable != _scissorTest)
+	{
+		if (enable)
+			glEnable(GL_SCISSOR_TEST);
+		else
+			glDisable(GL_SCISSOR_TEST);
+		_scissorTest = enable;
 	}
 }
 
@@ -825,6 +1266,17 @@ void Graphics::SetTextureForUpdate(SharedPtr<Texture> texture)
 	glBindTexture(glType, texture->GetHandle().name);
 	_impl->_textureTypes[0] = glType;
 	_textures[0] = texture;
+}
+
+void Graphics::SetSRGB(bool enable)
+{
+	enable &= _sRGBWriteSupport;
+
+	if (enable != _sRGB)
+	{
+		_sRGB = enable;
+		_impl->_fboDirty = true;
+	}
 }
 
 unsigned Graphics::GetFormat(CompressedFormat format) const

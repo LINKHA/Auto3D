@@ -12,6 +12,9 @@
 #include "Behavior.h"
 #include "FileSystem.h"
 #include "EngineParameter.h"
+#include "Viewport.h"
+
+
 
 namespace Auto3D {
 

@@ -267,12 +267,15 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\ConstantBuffer.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\D3D12ShaderVariation.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\D3D12VertexBuffer.cpp" />
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\Decompress.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\Geometry.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\Graphics.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\GraphicsDef.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\IndexBuffer.cpp" />
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLConstantBuffer.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLIndexBuffer.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLRenderSurface.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLShaderVariation.cpp" />
@@ -388,6 +391,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Vector2.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Vector3.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Vector4.cpp" />
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\ConstantBuffer.h" />
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Decompress.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\EngineInfo.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\EngineParameter.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\FlagSet.h" />

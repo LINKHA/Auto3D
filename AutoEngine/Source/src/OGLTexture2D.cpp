@@ -12,6 +12,22 @@ Texture2D::Texture2D(SharedPtr<Ambient> ambient)
 	_target = GL_TEXTURE_2D;
 }
 
+
+void Texture2D::OnDeviceLost()
+{
+
+}
+
+void Texture2D::OnDeviceReset()
+{
+	
+}
+
+void Texture2D::Release()
+{
+	
+}
+
 bool Texture2D::SetSize(int width, int height, unsigned format, TextureUsage usage, int multiSample, bool autoResolve)
 {
 	if (width <= 0 || height <= 0)

@@ -364,6 +364,15 @@
     <ClCompile Include="..\..\..\AutoEngine\Source\src\Camera.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\ConstantBuffer.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLConstantBuffer.cpp">
+      <Filter>Source\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\Decompress.cpp">
+      <Filter>Source\Resource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\InstanceBeltLine.h">
@@ -812,6 +821,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Camera.h">
       <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\ConstantBuffer.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Decompress.h">
+      <Filter>Source\Resource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

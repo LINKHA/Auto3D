@@ -35,6 +35,9 @@ public:
 	int GetMultiSample() const;
 	/// Set or clear the need resolve flag. Called internally by Graphics.
 	void SetResolveDirty(bool enable) { _resolveDirty = enable; }
+
+	/// Return surface's OpenGL target
+	unsigned GetTarget() const { return _target; }
 private:
 	/// Parent texture
 	SharedPtr<Texture> _parentTexture;

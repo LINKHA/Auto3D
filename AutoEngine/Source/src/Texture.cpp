@@ -61,4 +61,37 @@ void Texture::SetLevelsDirty()
 		_levelsDirty = true;
 }
 
+unsigned Texture::CheckMaxLevels(int width, int height, unsigned requestedLevels)
+{
+	unsigned maxLevels = 1;
+	while (width > 1 || height > 1)
+	{
+		++maxLevels;
+		width = width > 1 ? (width >> 1u) : 1;
+		height = height > 1 ? (height >> 1u) : 1;
+	}
+
+	if (!requestedLevels || maxLevels < requestedLevels)
+		return maxLevels;
+	else
+		return requestedLevels;
+}
+
+unsigned Texture::CheckMaxLevels(int width, int height, int depth, unsigned requestedLevels)
+{
+	unsigned maxLevels = 1;
+	while (width > 1 || height > 1 || depth > 1)
+	{
+		++maxLevels;
+		width = width > 1 ? (width >> 1u) : 1;
+		height = height > 1 ? (height >> 1u) : 1;
+		depth = depth > 1 ? (depth >> 1u) : 1;
+	}
+
+	if (!requestedLevels || maxLevels < requestedLevels)
+		return maxLevels;
+	else
+		return requestedLevels;
+}
+
 }

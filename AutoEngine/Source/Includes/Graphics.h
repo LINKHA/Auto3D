@@ -68,6 +68,7 @@ public:
 	* @brief : Return context lost status
 	*/
 	bool IsDeviceLost();
+
 	/**
 	* @brief : Check supported rendering features
 	*/
@@ -119,6 +120,8 @@ public:
 	void Draw(PrimitiveType type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount);
 	
 	void DrawInstanced(PrimitiveType type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount, unsigned instanceCount);
+	/// Process dirtied state before draw.
+	void PrepareDraw();
 	/**
 	* @brief : Begin to run frame
 	*/
@@ -148,13 +151,14 @@ public:
 	/// Resolve a multisampled texture on itself.
 	bool ResolveToTexture(SharedPtr<Texture2D> texture);
 
-	void BindFramebuffer(unsigned fbo);
-
 	DepthMode GetDepthTest() const { return _depthTestMode; }
 	/// Set hardware culling mode.
 	void SetCullMode(CullMode mode);
 
 	void SetDepthTest(DepthMode mode);
+
+	/// Set scissor test.
+	void SetScissorTest(bool enable, const RectInt& rect = RectInt(0, 0, 1, 1) , bool borderInclusive = true);
 	/**
 	* @brief : Reset cached rendering state
 	*/
@@ -196,6 +200,8 @@ public:
 	void SetTexture(unsigned index, SharedPtr<Texture> texture);
 	/// Bind texture unit 0 for update. Called by Texture. Used only on OpenGL.
 	void SetTextureForUpdate(SharedPtr<Texture> texture);
+
+	void SetSRGB(bool enable);
 	/**
 	* @brief : Get graphics api name
 	*/
@@ -218,7 +224,8 @@ public:
 
 	/// Return whether sRGB conversion on texture sampling is supported.
 	bool GetSRGBSupport() const { return _sRGBSupport; }
-
+	/// Return current rendertarget width and height.
+	Vector2 GetRenderTargetDimensions() const;
 	/// Return whether light pre-pass rendering is supported.
 	bool GetLightPrepassSupport() const { return _lightPrepassSupport; }
 	/// Return whether deferred rendering is supported
@@ -229,6 +236,19 @@ public:
 	void ResetRenderTargets();
 	/// Reset specific rendertarget.
 	void ResetRenderTarget(unsigned index);
+
+	void BindFramebuffer(unsigned fbo);
+	/// Delete a framebuffer using either extension or core functionality. Used only on OpenGL.
+	void DeleteFramebuffer(unsigned fbo);
+	/// Bind a framebuffer color attachment using either extension or core functionality. Used only on OpenGL.
+	void BindColorAttachment(unsigned index, unsigned target, unsigned object, bool isRenderBuffer);
+	/// Bind a framebuffer depth attachment using either extension or core functionality. Used only on OpenGL.
+	void BindDepthAttachment(unsigned object, bool isRenderBuffer);
+	/// Bind a framebuffer stencil attachment using either extension or core functionality. Used only on OpenGL.
+	void BindStencilAttachment(unsigned object, bool isRenderBuffer);
+
+	/// Set vertex attrib divisor. No-op if unsupported. Used only on OpenGL.
+	void SetVertexAttribDivisor(unsigned location, unsigned divisor);
 #if AUTO_OPENGL
 	/**
 	* @brief : Restore GPU objects and reinitialize state
@@ -238,7 +258,8 @@ public:
 	* @brief :  Bind a VBO, avoiding redundant operation
 	*/
 	void SetVBO(unsigned object);
-	
+	/// Bind a UBO, avoiding redundant operation.
+	void SetUBO(unsigned object);
 #endif
 	/// Return the API-specific alpha texture format
 	static unsigned GetAlphaFormat();
@@ -395,20 +416,26 @@ private:
 	bool _lightPrepassSupport{};
 	/// Deferred rendering support flag
 	bool _deferredSupport{};
-	/// Instancing support flag.
+	/// Instancing support flag
 	bool _instancingSupport{};
 	/// sRGB conversion on write support flag
 	bool _sRGBWriteSupport{};
 	/// DXT format support flag
 	bool _dxtTextureSupport{};
-	/// Anisotropic filtering support flag.
+	/// Anisotropic filtering support flag
 	bool _anisotropySupport{};
-	/// Default texture filtering mode.
+	/// Default texture filtering mode
 	TextureFilterMode _defaultTextureFilterMode{ TextureFilterMode::Trilinear };
-	/// Depth-stencil surface in use.
+	/// Depth-stencil surface in use
 	SharedPtr<RenderSurface> _depthStencil{};
-	/// Hardware culling mode.
+	/// Hardware culling mode
 	CullMode _cullMode{};
+	/// sRGB conversion on write flag for the main window
+	bool _sRGB{};
+	/// Scissor test rectangle
+	RectInt _scissorRect;
+	/// Scissor test enable flag
+	bool _scissorTest{};
 #pragma endregion
 
 

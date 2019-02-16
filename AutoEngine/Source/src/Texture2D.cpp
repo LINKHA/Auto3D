@@ -2,6 +2,11 @@
 
 namespace Auto3D {
 
+Texture2D::~Texture2D()
+{
+
+}
+
 
 bool Texture2D::BeginLoad(Deserializer& source)
 {

@@ -54,10 +54,9 @@ public:
 	*	the legacy element for a mask bit to be set.
 	*/
 	VertexMaskFlags GetElementMask() const { return _elementMask; }
-	/**
-	* @brief : Return a vertex element list from a legacy element bitmask
-	*/
-	static VECTOR<VertexElement> GetElements(unsigned elementMask);
+	/// Return vertex elements.
+	const VECTOR<VertexElement>& GetElements() const { return _elements; }
+	
 
 	/// Return number of vertices.
 	unsigned GetVertexCount() const { return _vertexCount; }
@@ -65,6 +64,10 @@ public:
 	/// Return vertex size in bytes.
 	unsigned GetVertexSize() const { return _vertexSize; }
 
+	/**
+	* @brief : Return a vertex element list from a legacy element bitmask
+	*/
+	static VECTOR<VertexElement> GetElements(unsigned elementMask);
 
 private:
 	/**

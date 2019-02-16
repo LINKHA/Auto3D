@@ -91,6 +91,7 @@ enum ClassIDType
 	DO_CLASS_ID(TextureCube, 114)
 	DO_CLASS_ID(Viewport, 115)
 	DO_CLASS_ID(Scene, 116)
+	DO_CLASS_ID(ConstantBuffer, 117)
 	
 	CLASS_ID_Count
 };
