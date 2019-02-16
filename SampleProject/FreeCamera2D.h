@@ -1,6 +1,6 @@
 #pragma once
 #include "ScriptComponent.h"
-#include "tCamera.h"
+#include "Camera.h"
 
 using namespace Auto3D;
 
@@ -13,7 +13,7 @@ public:
 	void Update()override;
 
 	SharedPtr<Node> cameraNode;
-	SharedPtr<tCamera> camera;
+	SharedPtr<Camera> camera;
 	float speed = 5.0f;
 private:
 	void processInput();

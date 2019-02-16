@@ -2,7 +2,7 @@
 #include "Renderer.h"
 #include "tLight.h"
 #include "VertexData.h"
-#include "tCamera.h"
+#include "Camera.h"
 #include "ResourceSystem.h"
 #include "Mesh.h"
 #include "Config.h"
@@ -63,7 +63,7 @@ void MeshShadow::DrawShadow()
 }
 void MeshShadow::Draw()
 {
-	SharedPtr<tCamera> camera = GetSubSystem<Renderer>()->GetCurrentCameraPtr();
+	SharedPtr<Camera> camera = GetSubSystem<Renderer>()->GetCurrentCameraPtr();
 	glm::vec3 lightPos;
 	glm::mat4 lightSpaceMatrix;
 	//!!! Temp use one light,and must need light

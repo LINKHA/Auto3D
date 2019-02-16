@@ -55,4 +55,10 @@ void Texture::SetAddressMode(TextureCoordinate coord, TextureAddressMode mode)
 	_parametersDirty = true;
 }
 
+void Texture::SetLevelsDirty()
+{
+	if (_usage == TextureUsage::RenderTarget && _levels > 1)
+		_levelsDirty = true;
+}
+
 }

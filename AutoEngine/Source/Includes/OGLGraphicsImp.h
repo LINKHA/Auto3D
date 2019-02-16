@@ -51,6 +51,8 @@ private:
 	unsigned _textureTypes[MAX_TEXTURE_UNITS]{};
 	/// Need FBO commit flag.
 	bool _fboDirty{};
+	/// Map for additional depth textures, to emulate Direct3D9 ability to mix render texture and backbuffer rendering.
+	HASH_MAP<unsigned, SharedPtr<Texture2D> > _depthTextures;
 };
 
 

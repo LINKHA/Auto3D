@@ -22,8 +22,8 @@ int Application::Run()
 		Start();
 		while (!_engine->IsExiting())
 		{
-			_engine->Update();
-			Update();
+			if(_engine->Update())
+				Update();
 			_engine->Render();
 			_engine->FrameFinish();
 		}

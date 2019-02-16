@@ -1,6 +1,6 @@
 #include "DeferredShading.h"
 #include "Graphics.h"
-#include "tCamera.h"
+#include "Camera.h"
 #include "Renderer.h"
 #include "BaseMesh.h"
 #include "ResourceSystem.h"

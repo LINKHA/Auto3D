@@ -179,10 +179,19 @@ public:
 	* @brief : Set window rect with Vector2 (only in space awake function)
 	*/
 	void SetWindowRect(Vector2 vec) { SetWindowRect(vec.x, vec.y); }
+
+	/// Set rendertarget
+	void SetRenderTarget(unsigned index, SharedPtr<RenderSurface> renderTarget);
+	/// Set rendertarget
+	void SetRenderTarget(unsigned index, SharedPtr<Texture2D> texture);
+	/// Set depth-stencil surface
+	void SetDepthStencil(SharedPtr<RenderSurface> depthStencil);
+	/// Set depth-stencil surface
+	void SetDepthStencil(SharedPtr<Texture2D> texture);
 	/**
 	* @brief : Set window view port
 	*/
-	void SetViewport(int posX, int posY, int width, int height);
+	void SetViewport(const RectInt& rect);
 	/// Set texture.
 	void SetTexture(unsigned index, SharedPtr<Texture> texture);
 	/// Bind texture unit 0 for update. Called by Texture. Used only on OpenGL.
@@ -216,7 +225,10 @@ public:
 	bool GetDeferredSupport() const { return _deferredSupport; }
 	/// Mark the FBO needing an update. Used only on OpenGL
 	void MarkFBODirty();
-
+	/// Reset all rendertargets, depth-stencil surface and viewport.
+	void ResetRenderTargets();
+	/// Reset specific rendertarget.
+	void ResetRenderTarget(unsigned index);
 #if AUTO_OPENGL
 	/**
 	* @brief : Restore GPU objects and reinitialize state
@@ -393,7 +405,8 @@ private:
 	bool _anisotropySupport{};
 	/// Default texture filtering mode.
 	TextureFilterMode _defaultTextureFilterMode{ TextureFilterMode::Trilinear };
-
+	/// Depth-stencil surface in use.
+	SharedPtr<RenderSurface> _depthStencil{};
 	/// Hardware culling mode.
 	CullMode _cullMode{};
 #pragma endregion

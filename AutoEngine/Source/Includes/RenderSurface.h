@@ -25,7 +25,14 @@ public:
 	unsigned GetRenderBuffer() const { return _renderBuffer; }
 	/// Release surface.
 	void Release();
+	/// Return width.
+	int GetWidth() const;
 
+	/// Return height.
+	int GetHeight() const;
+
+	/// Return multisampling level.
+	int GetMultiSample() const;
 	/// Set or clear the need resolve flag. Called internally by Graphics.
 	void SetResolveDirty(bool enable) { _resolveDirty = enable; }
 private:

@@ -55,6 +55,30 @@ void Input::handleSDLEvent(void* sdlEvent)
 	case SDL_MOUSEWHEEL:
 		SetWheel(evt.wheel.y);
 		break;
+	case SDL_WINDOWEVENT:
+	{
+		switch (evt.window.event)
+		{
+		case SDL_WINDOWEVENT_MINIMIZED:
+			_isMinimized = true;
+			break;
+
+		case SDL_WINDOWEVENT_MAXIMIZED:
+		case SDL_WINDOWEVENT_RESTORED:
+			_isMinimized = false;
+			break;
+
+		case SDL_WINDOWEVENT_RESIZED:
+			//_graphics->OnWindowResized();
+			break;
+		case SDL_WINDOWEVENT_MOVED:
+			//_graphics->OnWindowMoved();
+			break;
+
+		default: break;
+		}
+	}
+	break;
 	case SDL_QUIT:
 		break;
 	}

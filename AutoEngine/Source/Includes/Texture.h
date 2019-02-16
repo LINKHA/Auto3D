@@ -63,6 +63,8 @@ public:
 	/// Set or clear the need resolve flag. Called internally by Graphics
 	void SetResolveDirty(bool enable) { _resolveDirty = enable; }
 
+	void SetLevelsDirty();
+
 	/// Return whether rendertarget mipmap levels need regenration.
 	bool GetLevelsDirty() const { return _levelsDirty; }
 

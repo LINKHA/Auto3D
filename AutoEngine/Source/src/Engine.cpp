@@ -16,7 +16,8 @@
 namespace Auto3D {
 
 Engine::Engine(SharedPtr<Ambient> ambient)
-	:Super(ambient)
+	: Super(ambient)
+	, _pauseMinimized(false)
 {
 	_ambient->RegisterSubSystem(MakeShared<Renderer>(_ambient));
 	_ambient->RegisterSubSystem(MakeShared<Graphics>(_ambient));
@@ -75,6 +76,11 @@ void Engine::Init()
 	Print("Temp comment tag");
 #endif
 
+	//// Set up a viewport to the Renderer subsystem so that the 3D scene can be seen
+	//SharedPtr<Viewport> viewport = MakeShared<Viewport>(_ambient, _scene, _camera);
+	SharedPtr<Viewport> viewport = MakeShared<Viewport>(_ambient);
+	renderer->SetViewport(0, viewport);
+
 	_isInitialized = true;
 }
 
@@ -99,10 +105,11 @@ void Engine::Render()
 #endif
 	graphics->EndFrame();
 }
-void Engine::Update()
+bool Engine::Update()
 {
 	auto engineInfo = GetSubSystem<IO>()->GetEngineInfo();
 	auto timeSub = GetSubSystem<Time>();
+	auto input = GetSubSystem<Input>();
 
 	engineInfo->state = EngineState::Updateing;
 	timeSub->Update();
@@ -110,9 +117,13 @@ void Engine::Update()
 	engineInfo->fps = timeSub->GetFramesPerSecond();
 	engineInfo->frameCount = timeSub->GetFrameCount();
 
-	GetSubSystem<Input>()->Update();
-	GetSubSystem<Behavior>()->Update();
+	input->Update();
+	// If pause when minimized -mode is in use, stop updates and audio as necessary
+	if (input->GetMinimized())
+		return false;
 
+	GetSubSystem<Behavior>()->Update();
+	return true;
 }
 void Engine::FrameFinish()
 {
@@ -120,5 +131,9 @@ void Engine::FrameFinish()
 	GetSubSystem<Input>()->EndFrame();
 }
 
+void Engine::SetPauseMinimized(bool enable)
+{
+	_pauseMinimized = enable;
+}
 
 }

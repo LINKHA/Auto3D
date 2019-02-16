@@ -355,11 +355,14 @@
     <ClCompile Include="..\..\..\AutoEngine\Source\src\Viewport.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\AutoEngine\Source\src\tCamera.cpp">
-      <Filter>Source\_Abandon</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\AutoEngine\Source\src\tScene.cpp">
       <Filter>Source\_Abandon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\Scene.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\Camera.cpp">
+      <Filter>Source\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -798,14 +801,17 @@
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Viewport.h">
       <Filter>Source\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\tCamera.h">
-      <Filter>Source\_Abandon</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\tScene.h">
       <Filter>Source\_Abandon</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\EngineParameter.h">
       <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Scene.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Camera.h">
+      <Filter>Source\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,6 @@
 #pragma once
 #include "GameManager.h"
-#include "tCamera.h"
+#include "Camera.h"
 #include "LightContainer.h"
 #include "ShadowRenderer.h"
 #include "GraphicsDef.h"
@@ -23,7 +23,7 @@ class Renderer : public GlobalGameManager
 {
 	REGISTER_OBJECT_CLASS(Renderer, GlobalGameManager)
 
-	using CameraContainer = LIST<SharedPtr<tCamera> >;
+	using CameraContainer = LIST<SharedPtr<Camera> >;
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	///Render in this order
 	using ShadowMapContainer = LIST<SharedPtr<RenderComponent> >;
@@ -56,14 +56,16 @@ public:
 	* @brief : Render every camera
 	*/
 	void Render();
+	/// Set a backbuffer viewport.
+	void SetViewport(unsigned index, SharedPtr<Viewport> viewport);
 	/**
 	* @brief : Dynamically add a camera (valid when traversing the camera)
 	*/
-	void AddCamera(SharedPtr<tCamera> camera);
+	void AddCamera(SharedPtr<Camera> camera);
 	/**
 	* @brief : Dynamically remove a camera (valid when traversing the camera)
 	*/
-	void RemoveCamera(SharedPtr<tCamera> camera);
+	void RemoveCamera(SharedPtr<Camera> camera);
 	/**
 	* @brief : Dynamically add a shadow map (valid when traversing the camera)
 	*/
@@ -99,11 +101,11 @@ public:
 	/**
 	* @brief : Get Current camera quote
 	*/
-	tCamera& GetCurrentCamera() { return *_currentCamera; }
+	Camera& GetCurrentCamera() { return *_currentCamera; }
 	/**
 	* @brief : Get Current camera point
 	*/
-	SharedPtr<tCamera> GetCurrentCameraPtr() { return _currentCamera; }
+	SharedPtr<Camera> GetCurrentCameraPtr() { return _currentCamera; }
 	/**
 	* @brief : Get Current all camera quote
 	*/
@@ -113,7 +115,7 @@ public:
 	/**
 	* @brief : Set current camera handle
 	*/
-	void SetCurrentCamera(SharedPtr<tCamera> camera) { _currentCamera = camera; }
+	void SetCurrentCamera(SharedPtr<Camera> camera) { _currentCamera = camera; }
 	/**
 	* @brief : Get light container (friend to LightContainer)
 	*/
@@ -253,7 +255,7 @@ private:
 	///is rendering or culling
 	bool _insideRenderOrCull{};
 	///camera container
-	SharedPtr<tCamera> _currentCamera;
+	SharedPtr<Camera> _currentCamera;
 	CameraContainer _cameras;
 	CameraContainer _camerasToAdd;
 	CameraContainer _camerasToRemove;

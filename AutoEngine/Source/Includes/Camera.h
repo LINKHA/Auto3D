@@ -25,14 +25,14 @@ enum class ProjectionMode
 	Orthographic = 2,
 };
 
-class tCamera : public Component
+class Camera : public Component
 {
-	REGISTER_OBJECT_CLASS(tCamera, Component)
+	REGISTER_OBJECT_CLASS(Camera, Component)
 public:
 	/**
 	* @brief : Construct
 	*/
-	explicit tCamera(SharedPtr<Ambient> ambient);
+	explicit Camera(SharedPtr<Ambient> ambient);
 	/**
 	* @brief : Register object factory.
 	*/

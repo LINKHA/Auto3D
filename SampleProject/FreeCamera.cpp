@@ -34,7 +34,7 @@ void FreeCamera::Init()
 	Super::Init();
 
 	cameraNode = CreateNode();
-	camera = cameraNode->CreateComponent<tCamera>();
+	camera = cameraNode->CreateComponent<Camera>();
 
 	camera->SetFar(1000.0f);
 

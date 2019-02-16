@@ -1,5 +1,5 @@
 #include "Renderer.h"
-#include "tCamera.h"
+#include "Camera.h"
 #include "Graphics.h"
 #include "Transform.h"
 #include "tLight.h"
@@ -206,9 +206,9 @@ void Renderer::Render()
 	auto graphics = GetSubSystem<Graphics>();
 	Assert(graphics && graphics->IsInitialized() && !graphics->IsDeviceLost());
 	_insideRenderOrCull = true;
-	for (LIST<SharedPtr<tCamera> >::iterator i = _cameras.begin(); i != _cameras.end(); i++)
+	for (LIST<SharedPtr<Camera> >::iterator i = _cameras.begin(); i != _cameras.end(); i++)
 	{
-		SharedPtr<tCamera> cam = *i;
+		SharedPtr<Camera> cam = *i;
 		if (cam && cam->IsEnable())
 		{
 			_currentCamera = cam;
@@ -217,7 +217,7 @@ void Renderer::Render()
 			//Rendering path shadow maps
 			renderShadowMap();
 			///Render based on camera Rect
-			graphics->SetViewport(
+			glViewport(
 				cam->GetViewRect().x * rect.width,
 				cam->GetViewRect().y * rect.height,
 				cam->GetViewRect().width * rect.width,
@@ -246,7 +246,15 @@ void Renderer::Render()
 	
 }
 
-void Renderer::AddCamera(SharedPtr<tCamera> camera)
+void Renderer::SetViewport(unsigned index, SharedPtr<Viewport> viewport)
+{
+	if (index >= _viewports.size())
+		_viewports.resize(index + 1);
+
+	_viewports[index] = viewport;
+}
+
+void Renderer::AddCamera(SharedPtr<Camera> camera)
 {
 	Assert(camera != nullptr);
 	if (_insideRenderOrCull)
@@ -260,11 +268,11 @@ void Renderer::AddCamera(SharedPtr<tCamera> camera)
 
 	_cameras.remove(camera);
 
-	LIST<SharedPtr<tCamera> > &queue = _cameras;
+	LIST<SharedPtr<Camera> > &queue = _cameras;
 
-	for (LIST<SharedPtr<tCamera> >::iterator i = queue.begin(); i != queue.end(); i++)
+	for (LIST<SharedPtr<Camera> >::iterator i = queue.begin(); i != queue.end(); i++)
 	{
-		SharedPtr<tCamera> curCamera = *i;
+		SharedPtr<Camera> curCamera = *i;
 		if (curCamera && curCamera->GetDepth() > camera->GetDepth())
 		{
 			queue.insert(i, camera);
@@ -279,7 +287,7 @@ SharedPtr<RenderPath> Renderer::GetDefaultRenderPath() const
 	return _defaultRenderPath;
 }
 
-void Renderer::RemoveCamera(SharedPtr<tCamera> camera)
+void Renderer::RemoveCamera(SharedPtr<Camera> camera)
 {
 	Assert(camera != nullptr);
 	_camerasToAdd.remove(camera);
@@ -294,7 +302,7 @@ void Renderer::RemoveCamera(SharedPtr<tCamera> camera)
 		_cameras.remove(camera);
 	}
 
-	SharedPtr<tCamera> currentCamera = _currentCamera;
+	SharedPtr<Camera> currentCamera = _currentCamera;
 	if (currentCamera == camera)
 	{
 		if (_cameras.empty())
@@ -635,16 +643,16 @@ void Renderer::createInstancingBuffer()
 void Renderer::delayedAddRemoveCameras()
 {
 	Assert(!_insideRenderOrCull);
-	for (LIST<SharedPtr<tCamera>>::iterator i = _camerasToRemove.begin(); i != _camerasToRemove.end(); /**/)
+	for (LIST<SharedPtr<Camera>>::iterator i = _camerasToRemove.begin(); i != _camerasToRemove.end(); /**/)
 	{
-		SharedPtr<tCamera> cam = *i;
+		SharedPtr<Camera> cam = *i;
 		++i; // increment iterator before removing camera; as it changes the list
 		RemoveCamera(cam);
 	}
 	_camerasToRemove.clear();
-	for (LIST<SharedPtr<tCamera>>::iterator i = _camerasToAdd.begin(); i != _camerasToAdd.end(); /**/)
+	for (LIST<SharedPtr<Camera>>::iterator i = _camerasToAdd.begin(); i != _camerasToAdd.end(); /**/)
 	{
-		SharedPtr<tCamera> cam = *i;
+		SharedPtr<Camera> cam = *i;
 		++i; // increment iterator before adding camera; as it changes the list
 		AddCamera(cam);
 	}

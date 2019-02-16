@@ -1,6 +1,6 @@
 #include "tScene.h"
 
-#include "tCamera.h"
+#include "Camera.h"
 #include "SpriteRenderer.h"
 #include "Transform.h"
 #include "MeshRenderer.h"
@@ -151,7 +151,7 @@ void tScene::ModeRunLevel(RunMode runMode)
 
 void tScene::RegisterSceneLib(SharedPtr<Ambient> ambient)
 {
-	tCamera::RegisterObject(ambient);
+	Camera::RegisterObject(ambient);
 	
 	Transform::RegisterObject(ambient);
 

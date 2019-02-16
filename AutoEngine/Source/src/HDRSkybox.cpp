@@ -1,5 +1,5 @@
 #include "HDRSkyBox.h"
-#include "tCamera.h"
+#include "Camera.h"
 #include "VertexData.h"
 #include "BaseMesh.h"
 #include "Renderer.h"

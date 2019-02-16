@@ -283,6 +283,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="..\..\..\AutoEngine\Source\src\RenderPath.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\RenderSurface.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\ResourceWithMetaData.cpp" />
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\Scene.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\Texture.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\Texture2D.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\TextureCube.cpp" />
@@ -302,7 +303,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Behavior.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\BehaviorObject.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Bloom.cpp" />
-    <ClCompile Include="..\..\..\AutoEngine\Source\src\tCamera.cpp" />
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\Camera.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Collider.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Collider2D.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\ColliderBox.cpp" />
@@ -397,6 +398,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\RenderPath.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\RenderSurface.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\ResourceWithMetaData.h" />
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Scene.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Texture.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Texture2D.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\TextureCube.h" />
@@ -430,7 +432,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Behavior.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\BehaviorObject.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Bloom.h" />
-    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\tCamera.h" />
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Camera.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\ClassID.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Collider.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Collider2D.h" />

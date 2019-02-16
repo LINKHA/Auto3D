@@ -4,6 +4,9 @@
 namespace Auto3D {
 
 class RenderPath;
+class Scene;
+class Camera;
+
 
 class Viewport : public Object
 {
@@ -18,11 +21,11 @@ public:
 	void SetRenderPath(SharedPtr<RenderPath> renderPath);
 private:
 	/// Scene pointer.
-	//WeakPtr<Scene> _scene;
+	WeakPtr<Scene> _scene;
 	/// Camera pointer.
-	//WeakPtr<Camera> _camera;
+	WeakPtr<Camera> _camera;
 	/// Culling camera pointer.
-	//WeakPtr<Camera> _cullCamera;
+	WeakPtr<Camera> _cullCamera;
 	/// Viewport rectangle.
 	RectInt _rect;
 	/// Rendering path.

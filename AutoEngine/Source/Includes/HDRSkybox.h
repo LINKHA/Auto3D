@@ -3,7 +3,7 @@
 #include "ShaderVariation.h"
 
 namespace Auto3D {
-class tCamera;
+class Camera;
 
 class HDRSkyBox : public tTexture3D
 {
@@ -13,7 +13,7 @@ public:
 	void Destory()override;
 	void Start()override;
 	void Draw()override;
-	void AddToCamera(tCamera* camera){}
+	void AddToCamera(Camera* camera){}
 private:
 	SharedPtr<ShaderVariation> m_equirectangularToCubemapShader;
 	SharedPtr<ShaderVariation> m_irradianceShader;

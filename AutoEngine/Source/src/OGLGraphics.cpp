@@ -307,6 +307,19 @@ void Graphics::MarkFBODirty()
 	_impl->_fboDirty = true;
 }
 
+void Graphics::ResetRenderTargets()
+{
+	for (unsigned i = 0; i < MAX_RENDERTARGETS; ++i)
+		SetRenderTarget(i, SharedPtr<RenderSurface>());
+	SetDepthStencil(SharedPtr<RenderSurface>());
+	SetViewport(RectInt(0, 0, _windowRect.width, _windowRect.height));
+}
+
+void Graphics::ResetRenderTarget(unsigned index)
+{
+	SetRenderTarget(index, SharedPtr<RenderSurface>());
+}
+
 void Graphics::InitGraphicsState()
 {
 	SetDepthTest(DepthMode::Less);
@@ -327,10 +340,22 @@ bool Graphics::BeginFrame()
 	if (!IsInitialized() || IsDeviceLost())
 		return false;
 
+	// Re-enable depth test and depth func in case a third party program has modified it
 	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(glCmpFunc[static_cast<unsigned>(_depthTestMode)]);
+	glDepthFunc(glCmpFunc[(unsigned)_depthTestMode]);
+
+	ResetRenderTargets();
+
+	// Cleanup textures from previous frame
+	for (unsigned i = 0; i < MAX_TEXTURE_UNITS; ++i)
+		SetTexture(i, SharedPtr<Texture>());
+
 	SetColorWrite(true);
 	SetDepthWrite(true);
+
+	_numPrimitives = 0;
+	_numBatches = 0;
+
 	Clear(CLEAR_TARGET_COLOR | CLEAR_TARGET_DEPTH | CLEAR_TARGET_STENCIL);
 	return true;
 }
@@ -531,10 +556,91 @@ void Graphics::DrawInstanced(PrimitiveType type, unsigned indexStart, unsigned i
 	//_numBatches++;
 }
 
-
-void Graphics::SetViewport(int posX, int posY, int width, int height)
+void Graphics::SetRenderTarget(unsigned index, SharedPtr<RenderSurface> renderTarget)
 {
-	glViewport(posX, posY, width, height);
+	if (index >= MAX_RENDERTARGETS)
+		return;
+
+	if (renderTarget != _renderTargets[index])
+	{
+		_renderTargets[index] = renderTarget;
+
+		// If the rendertarget is also bound as a texture, replace with backup texture or null
+		if (renderTarget)
+		{
+			SharedPtr<Texture> parentTexture = renderTarget->GetParentTexture();
+
+			for (unsigned i = 0; i < MAX_TEXTURE_UNITS; ++i)
+			{
+				if (_textures[i] == parentTexture)
+					SetTexture(i, _textures[i]->GetBackupTexture());
+			}
+
+			// If multisampled, mark the texture & surface needing resolve
+			if (parentTexture->GetMultiSample() > 1 && parentTexture->GetAutoResolve())
+			{
+				parentTexture->SetResolveDirty(true);
+				renderTarget->SetResolveDirty(true);
+			}
+
+			// If mipmapped, mark the levels needing regeneration
+			if (parentTexture->GetLevels() > 1)
+				parentTexture->SetLevelsDirty();
+		}
+
+		_impl->_fboDirty = true;
+	}
+}
+
+void Graphics::SetRenderTarget(unsigned index, SharedPtr<Texture2D> texture)
+{
+
+}
+
+void Graphics::SetDepthStencil(SharedPtr<RenderSurface> depthStencil)
+{
+	if (_renderTargets[0] && _renderTargets[0]->GetMultiSample() == 1 && !depthStencil)
+	{
+		int width = _renderTargets[0]->GetWidth();
+		int height = _renderTargets[0]->GetHeight();
+
+		// Direct3D9 default depth-stencil can not be used when rendertarget is larger than the window.
+		// Check size similarly
+		if (width <= _windowRect.width && height <= _windowRect.height)
+		{
+			unsigned searchKey = (width << 16u) | height;
+			HASH_MAP<unsigned, SharedPtr<Texture2D> >::iterator i = _impl->_depthTextures.find(searchKey);
+			if (i != _impl->_depthTextures.end())
+				depthStencil = i->second->GetRenderSurface();
+			else
+			{
+				SharedPtr<Texture2D> newDepthTexture = MakeShared<Texture2D>(_ambient);
+				newDepthTexture->SetSize(width, height, GetDepthStencilFormat(), TextureUsage::DepthStencil);
+				_impl->_depthTextures[searchKey] = newDepthTexture;
+				depthStencil = newDepthTexture->GetRenderSurface();
+			}
+		}
+	}
+
+	if (depthStencil != _depthStencil)
+	{
+		_depthStencil = depthStencil;
+		_impl->_fboDirty = true;
+	}
+}
+
+void Graphics::SetDepthStencil(SharedPtr<Texture2D> texture)
+{
+	SharedPtr<Texture2D> depthStencil = nullptr;
+	if (texture)
+		depthStencil = texture->GetRenderSurface();
+
+	SetDepthStencil(depthStencil);
+}
+
+void Graphics::SetViewport(const RectInt& rect)
+{
+	
 }
 
 void Graphics::SetTexture(unsigned index, SharedPtr<Texture> texture)

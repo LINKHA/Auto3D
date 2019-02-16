@@ -35,19 +35,27 @@ public:
 	*/
 	void Render();
 	/**
-	* @brief : Sub system update data
+	* @brief : Sub system update data,  If pause when minimized -mode return false
 	*/
-	void Update();
+	bool Update();
 	/**
 	* @brief : Frame finish
 	*/
 	void FrameFinish();
+
+
+	/// Return whether to pause update events and audio when minimized.
+	bool GetPauseMinimized() const { return _pauseMinimized; }
+	/// Set whether to pause update events and audio when minimized
+	void SetPauseMinimized(bool enable);
+
 private:
 	/// Is exiting
 	bool _isExiting{};
 	/// Is initialized
 	bool _isInitialized{};
-
+	/// Pause when minimized flag.
+	bool _pauseMinimized;
 };
 
 }

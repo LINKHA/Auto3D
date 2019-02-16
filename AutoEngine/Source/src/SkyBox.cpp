@@ -1,6 +1,6 @@
 #include "SkyBox.h"
 #include "Graphics.h"
-#include "tCamera.h"
+#include "Camera.h"
 #include "VertexData.h"
 #include "Renderer.h"
 #include "ResourceSystem.h"

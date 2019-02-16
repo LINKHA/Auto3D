@@ -86,6 +86,8 @@ public:
 	* @brief : Limit the mouse in the window
 	*/
 	void HideMouseInWindow(bool enable);
+
+	bool GetMinimized() { return _isMinimized; }
 private:
 	/**
 	* @brief : Handle SDL event (like mouse button cilck)
@@ -122,6 +124,8 @@ private:
 	bool _isHideCursor;
 	///is show cursor
 	bool _isShowCursor;
+
+	bool _isMinimized{};
 	///lock mouse in position
 	Vector2	_lockMousePosition;
 };
