@@ -2,12 +2,14 @@
 #include "Object.h"
 #include "Graphics.h"
 #include "Renderer.h"
+#include "RenderPath.h"
 
 namespace Auto3D {
 
 class Graphics;
 class Renderer;
 class RenderSurface;
+class BatchQueue;
 
 class View : public Object
 {
@@ -21,6 +23,8 @@ public:
 private:
 	/// Update geometries and sort batches.
 	void updateGeometries();
+	/// Check if a command is enabled and has content to render. To be called only after render update has completed for the frame.
+	bool isNecessary(const RenderPathCommand& command);
 private:
 	/// Graphics subsystem.
 	WeakPtr<Graphics> _graphics;
@@ -36,6 +40,8 @@ private:
 	bool _geometriesUpdated{};
 	/// Renderpath.
 	SharedPtr<RenderPath> _renderPath{};
+	/// Batch queues by pass index.
+	HASH_MAP<unsigned, BatchQueue> _batchQueues;
 };
 
 }

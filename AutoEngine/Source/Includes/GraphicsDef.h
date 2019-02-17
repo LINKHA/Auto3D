@@ -47,6 +47,21 @@ enum VertexMask : unsigned
 
 AUTO_FLAGSET(VertexMask, VertexMaskFlags);
 
+/// %Geometry type for vertex shader geometry variations.
+enum class GeometryType
+{
+	Static = 0,
+	Skinned = 1,
+	Instanced = 2,
+	Billboard = 3,
+	Dirbillboard = 4,
+	TrailFaceCamera = 5,
+	TrailBone = 6,
+	Count = 7,
+	// This is not a real geometry type for VS, but used to mark objects that do not desire to be instanced
+	StaticNoinstancing = 7,
+};
+
 enum class MaterialQuality : unsigned
 {
 	Low = 0,

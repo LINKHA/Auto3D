@@ -11,7 +11,7 @@ struct WorkItem
 
 public:
 	/// Work function. Called with the work item and thread index (0 = main thread) as parameters.
-	void(*workFunction_)(const WorkItem*, unsigned) {};
+	void(*_workFunction)(const WorkItem*, unsigned) {};
 	/// Data start pointer.
 	void* _start{};
 	/// Data end pointer.
@@ -34,7 +34,8 @@ class WorkQueue : public GlobalGameManager
 	REGISTER_OBJECT_CLASS(WorkQueue, GlobalGameManager)
 public:
 	explicit WorkQueue(SharedPtr<Ambient> ambient);
-
+	/// Get pointer to an usable WorkItem from the item pool. Allocate one if no more free items.
+	SharedPtr<WorkItem> GetFreeItem();
 private:
 	/// Work item pool for reuse to cut down on allocation. The bool is a flag for item pooling and whether it is available or not.
 	LIST<SharedPtr<WorkItem> > _poolItems;

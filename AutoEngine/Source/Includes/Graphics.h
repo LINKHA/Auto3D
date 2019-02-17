@@ -402,8 +402,6 @@ private:
 	bool _colorWrite{};
 	/// depth write
 	bool _depthWrite{};
-	/// stencil write mask
-	unsigned _stencilWriteMask{};
 	/// num primitives
 	unsigned _numPrimitives{};
 	/// num batches

@@ -264,7 +264,7 @@ void Graphics::Init()
 	
 	InitGraphicsState();
 
-	Clear(CLEAR_TARGET_COLOR | CLEAR_TARGET_DEPTH | CLEAR_TARGET_STENCIL
+	Clear(CLEAR_TARGET_COLOR | CLEAR_TARGET_DEPTH | CLEAR_TARGET_STENCIL);
 }
 
 void Graphics::DestoryWindow()

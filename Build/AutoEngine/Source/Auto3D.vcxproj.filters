@@ -376,6 +376,12 @@
     <ClCompile Include="..\..\..\AutoEngine\Source\src\WorkQueue.cpp">
       <Filter>Source\WorkQueue</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\Batch.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\Drawable.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\InstanceBeltLine.h">
@@ -833,6 +839,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\WorkQueue.h">
       <Filter>Source\WorkQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Batch.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Drawable.h">
+      <Filter>Source\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

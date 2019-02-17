@@ -1,7 +1,23 @@
 #include "View.h"
 #include "WorkQueue.h"
+#include "RenderPath.h"
+#include "Batch.h"
 
 namespace Auto3D {
+
+void SortBatchQueueFrontToBackWork(const WorkItem* item, unsigned threadIndex)
+{
+	auto* queue = reinterpret_cast<BatchQueue*>(item->_start);
+
+	queue->SortFrontToBack();
+}
+
+void SortBatchQueueBackToFrontWork(const WorkItem* item, unsigned threadIndex)
+{
+	auto* queue = reinterpret_cast<BatchQueue*>(item->_start);
+
+	queue->SortBackToFront();
+}
 
 View::View(SharedPtr<Ambient> ambient)
 	: Super(ambient)
@@ -32,20 +48,20 @@ void View::updateGeometries()
 
 	// Sort batches
 	{
-		for (unsigned i = 0; i < _renderPath->_commands.Size(); ++i)
+		for (unsigned i = 0; i < _renderPath->_commands.size(); ++i)
 		{
-			const RenderPathCommand& command = renderPath_->commands_[i];
-			if (!IsNecessary(command))
+			const RenderPathCommand& command = _renderPath->_commands[i];
+			if (!isNecessary(command))
 				continue;
 
-			if (command.type_ == CMD_SCENEPASS)
+			if (command._type == RenderCommandType::ScenePass)
 			{
 				SharedPtr<WorkItem> item = queue->GetFreeItem();
-				item->priority_ = M_MAX_UNSIGNED;
-				item->workFunction_ =
-					command.sortMode_ == SORT_FRONTTOBACK ? SortBatchQueueFrontToBackWork : SortBatchQueueBackToFrontWork;
-				item->start_ = &batchQueues_[command.passIndex_];
-				queue->AddWorkItem(item);
+				item->_priority = MATH_MAX_UNSIGNED;
+				item->_workFunction =
+					command._sortMode == RenderCommandSortMode::FrontToBack ? SortBatchQueueFrontToBackWork : SortBatchQueueBackToFrontWork;
+				item->_start = &_batchQueues[command._passIndex];
+				//queue->AddWorkItem(item);
 			}
 		}
 
@@ -54,5 +70,12 @@ void View::updateGeometries()
 	}
 
 }
+
+bool View::isNecessary(const RenderPathCommand& command)
+{
+	return command.enabled_ && command._outputs.size() &&
+		(command._type != RenderCommandType::ScenePass || !_batchQueues[command._passIndex].IsEmpty());
+}
+
 
 }

@@ -1,3 +1,4 @@
+#pragma once
 #include "Auto.h"
 #include "GraphicsDef.h"
 
@@ -16,7 +17,7 @@ enum class RenderCommandType
 };
 
 /// Rendering path sorting modes.
-enum RenderCommandSortMode
+enum class RenderCommandSortMode
 {
 	FrontToBack = 0,
 	BackToFront

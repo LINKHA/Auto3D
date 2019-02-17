@@ -14,7 +14,6 @@ class TextureCube;
 class View;
 class Viewport;
 class Light;
-struct RectInt;
 
 static const int INSTANCING_BUFFER_DEFAULT_SIZE = 1024;
 
