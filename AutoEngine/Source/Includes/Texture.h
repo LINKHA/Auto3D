@@ -10,7 +10,7 @@ class Texture : public ResourceWithMetaData, public GPUObject
 {
 	REGISTER_OBJECT_ABSTRACT_CLASS(Texture, ResourceWithMetaData)
 public:
-	Texture(SharedPtr<Ambient> ambient);
+	explicit Texture(SharedPtr<Ambient> ambient);
 	/**
 	* @brief :Set number of requested mip levels. Needs to be called before setting size.
 	*			The default value (0) allocates as many mip levels as necessary to reach 1x1 size. Set value 1 to disable mipmapping.
@@ -86,6 +86,7 @@ public:
 	/// Return depth.
 	int GetDepth() const { return _depth; }
 
+	void SetParametersDirty();
 
 	/// Check maximum allowed mip levels for a specific texture size.
 	static unsigned CheckMaxLevels(int width, int height, unsigned requestedLevels);

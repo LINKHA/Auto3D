@@ -373,6 +373,9 @@
     <ClCompile Include="..\..\..\AutoEngine\Source\src\Decompress.cpp">
       <Filter>Source\Resource</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\WorkQueue.cpp">
+      <Filter>Source\WorkQueue</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\InstanceBeltLine.h">
@@ -828,6 +831,9 @@
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Decompress.h">
       <Filter>Source\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\WorkQueue.h">
+      <Filter>Source\WorkQueue</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\CMakeLists.txt" />
@@ -949,6 +955,9 @@
     </Filter>
     <Filter Include="Source\Renderer\Direct3D12">
       <UniqueIdentifier>{6db9ddae-1082-4156-81e5-3d2ccd988379}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\WorkQueue">
+      <UniqueIdentifier>{f790a859-a07b-451e-824d-38f4bbbca726}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

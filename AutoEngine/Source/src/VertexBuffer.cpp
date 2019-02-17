@@ -8,7 +8,7 @@ VertexBuffer::VertexBuffer(SharedPtr<Ambient> ambient, bool forceHeadless)
 	, GPUObject(forceHeadless ? nullptr : GetSubSystem<Graphics>())
 {
 	updateOffsets();
-
+	
 	if (!_graphics.lock())
 		_shadowed = true;
 }

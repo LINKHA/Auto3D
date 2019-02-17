@@ -293,6 +293,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="..\..\..\AutoEngine\Source\src\VertexBuffer.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\View.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\Viewport.cpp" />
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\WorkQueue.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Ambient.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Application.cpp" />
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Audio.cpp" />
@@ -410,6 +411,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\VertexBuffer.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\View.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Viewport.h" />
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\WorkQueue.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AbstractFile.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Ambient.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Application.h" />

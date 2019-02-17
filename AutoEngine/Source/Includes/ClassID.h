@@ -92,6 +92,8 @@ enum ClassIDType
 	DO_CLASS_ID(Viewport, 115)
 	DO_CLASS_ID(Scene, 116)
 	DO_CLASS_ID(ConstantBuffer, 117)
+	DO_CLASS_ID(WorkQueue, 118)
+	
 	
 	CLASS_ID_Count
 };

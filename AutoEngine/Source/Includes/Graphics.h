@@ -152,6 +152,8 @@ public:
 	bool ResolveToTexture(SharedPtr<Texture2D> texture);
 
 	DepthMode GetDepthTest() const { return _depthTestMode; }
+
+	void SetBlendMode(BlendMode mode, bool alphaToCoverage = false);
 	/// Set hardware culling mode.
 	void SetCullMode(CullMode mode);
 
@@ -202,6 +204,13 @@ public:
 	void SetTextureForUpdate(SharedPtr<Texture> texture);
 
 	void SetSRGB(bool enable);
+
+	/// Set default texture filtering mode. Called by Renderer before rendering.
+	void SetDefaultTextureFilterMode(TextureFilterMode mode);
+	/// Set default texture anisotropy level. Called by Renderer before rendering.
+	void SetDefaultTextureAnisotropy(unsigned level);
+	/// Dirty texture parameters of all textures (when global settings change.)
+	void SetTextureParametersDirty();
 	/**
 	* @brief : Get graphics api name
 	*/
@@ -249,6 +258,14 @@ public:
 
 	/// Set vertex attrib divisor. No-op if unsupported. Used only on OpenGL.
 	void SetVertexAttribDivisor(unsigned location, unsigned divisor);
+	/// Set stencil test.
+	void SetStencilTest(bool enable, StencilMode mode = StencilMode::Always, StencilOp pass = StencilOp::Keep, StencilOp fail = StencilOp::Keep, StencilOp zFail = StencilOp::Keep,
+		unsigned stencilRef = 0, unsigned compareMask = MATH_MAX_UNSIGNED, unsigned writeMask = MATH_MAX_UNSIGNED);
+	
+	/// Add a GPU object to keep track of. Called by GPUObject.
+	void AddGPUObject(GPUObject* object);
+	/// Remove a GPU object. Called by GPUObject.
+	void RemoveGPUObject(GPUObject* object);
 #if AUTO_OPENGL
 	/**
 	* @brief : Restore GPU objects and reinitialize state
@@ -374,6 +391,8 @@ private:
 	bool _isCenter = true;
 	/// cursor lock in screen flag
 	bool _isGrab = true;
+	/// Stencil test enable flag.
+	bool _stencilTest{};
 #pragma endregion
 
 #pragma region Graphics
@@ -403,7 +422,8 @@ private:
 	SharedPtr<Texture> _textures[MAX_TEXTURE_UNITS]{};
 	/// Rendertargets in use.
 	SharedPtr<RenderSurface> _renderTargets[MAX_RENDERTARGETS]{};
-
+	/// GPU objects.
+	VECTOR<GPUObject*> _gpuObjects;
 	/// Shadow map depth texture format
 	unsigned _shadowMapFormat{};
 	/// Hardware shadow map depth compare support flag
@@ -424,6 +444,10 @@ private:
 	bool _dxtTextureSupport{};
 	/// Anisotropic filtering support flag
 	bool _anisotropySupport{};
+	/// Alpha-to-coverage enable.
+	bool _alphaToCoverage{};
+	/// Blending mode.
+	BlendMode _blendMode{};
 	/// Default texture filtering mode
 	TextureFilterMode _defaultTextureFilterMode{ TextureFilterMode::Trilinear };
 	/// Depth-stencil surface in use
@@ -436,6 +460,22 @@ private:
 	RectInt _scissorRect;
 	/// Scissor test enable flag
 	bool _scissorTest{};
+	/// Default texture max. anisotropy level.
+	unsigned _defaultTextureAnisotropy{ 4 };
+	/// Stencil test compare mode.
+	StencilMode _stencilTestMode{};
+	/// Stencil operation on pass.
+	StencilOp _stencilPass{};
+	/// Stencil operation on fail.
+	StencilOp _stencilFail{};
+	/// Stencil operation on depth fail.
+	StencilOp _stencilZFail{};
+	/// Stencil test reference value.
+	unsigned _stencilRef{};
+	/// Stencil compare bitmask.
+	unsigned _stencilCompareMask{};
+	/// Stencil write bitmask.
+	unsigned _stencilWriteMask{};
 #pragma endregion
 
 

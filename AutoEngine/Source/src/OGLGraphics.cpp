@@ -58,6 +58,54 @@ static const unsigned glElementComponents[] =
 	4
 };
 
+static const unsigned glSrcBlend[] =
+{
+	GL_ONE,
+	GL_ONE,
+	GL_DST_COLOR,
+	GL_SRC_ALPHA,
+	GL_SRC_ALPHA,
+	GL_ONE,
+	GL_ONE_MINUS_DST_ALPHA,
+	GL_ONE,
+	GL_SRC_ALPHA
+};
+
+static const unsigned glDestBlend[] =
+{
+	GL_ZERO,
+	GL_ONE,
+	GL_ZERO,
+	GL_ONE_MINUS_SRC_ALPHA,
+	GL_ONE,
+	GL_ONE_MINUS_SRC_ALPHA,
+	GL_DST_ALPHA,
+	GL_ONE,
+	GL_ONE
+};
+
+static const unsigned glBlendOp[] =
+{
+	GL_FUNC_ADD,
+	GL_FUNC_ADD,
+	GL_FUNC_ADD,
+	GL_FUNC_ADD,
+	GL_FUNC_ADD,
+	GL_FUNC_ADD,
+	GL_FUNC_ADD,
+	GL_FUNC_REVERSE_SUBTRACT,
+	GL_FUNC_REVERSE_SUBTRACT
+};
+
+static const unsigned glStencilOps[] =
+{
+	GL_KEEP,
+	GL_ZERO,
+	GL_REPLACE,
+	GL_INCR_WRAP,
+	GL_DECR_WRAP
+};
+
 void APIENTRY glDebugOutput(
 	GLenum source,
 	GLenum type,
@@ -216,6 +264,7 @@ void Graphics::Init()
 	
 	InitGraphicsState();
 
+	Clear(CLEAR_TARGET_COLOR | CLEAR_TARGET_DEPTH | CLEAR_TARGET_STENCIL
 }
 
 void Graphics::DestoryWindow()
@@ -315,6 +364,8 @@ void Graphics::ResetCachedState()
 	_scissorRect = RectInt(0, 0, 0, 0);
 	_impl->_sRGBWrite = false;
 	_depthTestMode = DepthMode::Always;
+	_blendMode = BlendMode::Replace;
+	_alphaToCoverage = false;
 
 	// Set initial state to match Direct3D
 	if (_impl->_glContext)
@@ -359,6 +410,33 @@ void Graphics::SetIndexBuffer(SharedPtr<IndexBuffer> buffer)
 	_indexBuffer = buffer;
 }
 
+void Graphics::SetBlendMode(BlendMode mode, bool alphaToCoverage)
+{
+	if (mode != _blendMode)
+	{
+		if (mode == BlendMode::Replace)
+			glDisable(GL_BLEND);
+		else
+		{
+			glEnable(GL_BLEND);
+			glBlendFunc(glSrcBlend[(int)mode], glDestBlend[(int)mode]);
+			glBlendEquation(glBlendOp[(int)mode]);
+		}
+
+		_blendMode = mode;
+	}
+
+	if (alphaToCoverage != _alphaToCoverage)
+	{
+		if (alphaToCoverage)
+			glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+		else
+			glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+
+		_alphaToCoverage = alphaToCoverage;
+	}
+}
+
 bool Graphics::BeginFrame()
 {
 	if (!IsInitialized() || IsDeviceLost())
@@ -380,7 +458,7 @@ bool Graphics::BeginFrame()
 	_numPrimitives = 0;
 	_numBatches = 0;
 
-	Clear(CLEAR_TARGET_COLOR | CLEAR_TARGET_DEPTH | CLEAR_TARGET_STENCIL);
+	//Clear(CLEAR_TARGET_COLOR | CLEAR_TARGET_DEPTH | CLEAR_TARGET_STENCIL);
 	return true;
 }
 void Graphics::EndFrame()
@@ -392,6 +470,8 @@ void Graphics::EndFrame()
 
 void Graphics::Clear(unsigned flags, const Color & color, float depth, unsigned stencil)
 {
+	PrepareDraw();
+
 	bool oldColorWrite = _colorWrite;
 	bool oldDepthWrite = _depthWrite;
 
@@ -418,7 +498,21 @@ void Graphics::Clear(unsigned flags, const Color & color, float depth, unsigned 
 		glFlags |= GL_STENCIL_BUFFER_BIT;
 		glClearStencil(stencil);
 	}
+	// If viewport is less than full screen, set a scissor to limit the clear
+	/// todo Any user-set scissor test will be lost
+	Vector2 viewSize = GetRenderTargetDimensions();
+	if (_viewport.width != viewSize.x || _viewport.height != viewSize.y)
+		SetScissorTest(true, RectInt(0, 0, _viewport.width, _viewport.height));
+	else
+		SetScissorTest(false);
+
 	glClear(glFlags);
+
+	SetScissorTest(false);
+	SetColorWrite(oldColorWrite);
+	SetDepthWrite(oldDepthWrite);
+	if (flags & CLEAR_TARGET_STENCIL && _stencilWriteMask != MATH_MAX_UNSIGNED)
+		glStencilMask(_stencilWriteMask);
 }
 
 
@@ -911,10 +1005,77 @@ void Graphics::BindStencilAttachment(unsigned object, bool isRenderBuffer)
 
 }
 
+void Graphics::SetDefaultTextureFilterMode(TextureFilterMode mode)
+{
+	if (mode != _defaultTextureFilterMode)
+	{
+		_defaultTextureFilterMode = mode;
+		SetTextureParametersDirty();
+	}
+}
+
+void Graphics::SetDefaultTextureAnisotropy(unsigned level)
+{
+	level = max(level, 1U);
+
+	if (level != _defaultTextureAnisotropy)
+	{
+		_defaultTextureAnisotropy = level;
+		SetTextureParametersDirty();
+	}
+}
+
+void Graphics::SetTextureParametersDirty()
+{
+
+	for (VECTOR<GPUObject*>::iterator i = _gpuObjects.begin(); i != _gpuObjects.end(); ++i)
+	{
+		auto* texture = dynamic_cast<Texture*>(*i);
+		if (texture)
+			texture->SetParametersDirty();
+	}
+}
+
 void Graphics::SetVertexAttribDivisor(unsigned location, unsigned divisor)
 {
 	if (_instancingSupport)
 		glVertexAttribDivisor(location, divisor);
+}
+
+void Graphics::SetStencilTest(bool enable, StencilMode mode, StencilOp pass, StencilOp fail, StencilOp zFail, unsigned stencilRef,
+	unsigned compareMask, unsigned writeMask)
+{
+	if (enable != _stencilTest)
+	{
+		if (enable)
+			glEnable(GL_STENCIL_TEST);
+		else
+			glDisable(GL_STENCIL_TEST);
+		_stencilTest = enable;
+	}
+
+	if (enable)
+	{
+		if (mode != _stencilTestMode || stencilRef != _stencilRef || compareMask != _stencilCompareMask)
+		{
+			glStencilFunc(glCmpFunc[(int)mode], stencilRef, compareMask);
+			_stencilTestMode = mode;
+			_stencilRef = stencilRef;
+			_stencilCompareMask = compareMask;
+		}
+		if (writeMask != _stencilWriteMask)
+		{
+			glStencilMask(writeMask);
+			_stencilWriteMask = writeMask;
+		}
+		if (pass != _stencilPass || fail != _stencilFail || zFail != _stencilZFail)
+		{
+			glStencilOp(glStencilOps[(int)fail], glStencilOps[(int)zFail], glStencilOps[(int)pass]);
+			_stencilPass = pass;
+			_stencilFail = fail;
+			_stencilZFail = zFail;
+		}
+	}
 }
 
 void Graphics::BindColorAttachment(unsigned index, unsigned target, unsigned object, bool isRenderBuffer)

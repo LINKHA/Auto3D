@@ -13,7 +13,7 @@
 #include "FileSystem.h"
 #include "EngineParameter.h"
 #include "Viewport.h"
-
+#include "WorkQueue.h"
 
 
 namespace Auto3D {
@@ -34,6 +34,7 @@ Engine::Engine(SharedPtr<Ambient> ambient)
 	_ambient->RegisterSubSystem(MakeShared<UI>(_ambient));
 	_ambient->RegisterSubSystem(MakeShared<Behavior>(_ambient));
 	_ambient->RegisterSubSystem(MakeShared<FileSystem>(_ambient));
+	_ambient->RegisterSubSystem(MakeShared<WorkQueue>(_ambient));
 }
 
 Engine::~Engine()
@@ -51,6 +52,7 @@ Engine::~Engine()
 	_ambient->RemoveSubSystem<Behavior>();
 	_ambient->RemoveSubSystem<FileSystem>();
 	_ambient->RemoveSubSystem<Renderer>();
+	_ambient->RemoveSubSystem<WorkQueue>();
 }
 
 void Engine::Init()
@@ -74,7 +76,7 @@ void Engine::Init()
 	GetSubSystem<Behavior>()->Start();
 
 #if AUTO_OPENGL
-	renderer->ReadyToRender();
+	//renderer->ReadyToRender();
 #else
 	Print("Temp comment tag");
 #endif

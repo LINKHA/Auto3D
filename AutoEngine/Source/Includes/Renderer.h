@@ -13,6 +13,8 @@ class Texture2D;
 class TextureCube;
 class View;
 class Viewport;
+class Light;
+struct RectInt;
 
 static const int INSTANCING_BUFFER_DEFAULT_SIZE = 1024;
 
@@ -140,6 +142,8 @@ public:
 	* @brief : Get All translucent geometrys (LIST(RenderComponent*))
 	*/
 	TranslucentContainer GetAllTranslucents() { return _translucents; }
+	/// Return number of views rendered.
+	unsigned GetNumViews() const { return _views.size(); }
 	/**
 	* @brief : Set shadow quality mode.
 	*/
@@ -158,6 +162,10 @@ public:
 
 	/// Return default renderpath.
 	SharedPtr<RenderPath> GetDefaultRenderPath() const;
+	/// Prepare for rendering of a new view.
+	void PrepareViewRender();
+	/// Reset screem buffer allocation counts.
+	void ResetScreenBufferAllocations();
 private:
 	/**
 	* @brief : Create light volume geometries
@@ -208,6 +216,8 @@ private:
 private:
 	/// Graphics sub system
 	WeakPtr<Graphics> _graphics;
+	/// Current screen buffer allocations by resolution and format.
+	HASH_MAP<unsigned long long, unsigned> _screenBufferAllocations;
 	/// Default renderpath
 	SharedPtr<RenderPath> _defaultRenderPath;
 	/// Directional light quad geometry
@@ -234,6 +244,8 @@ private:
 	HASH_MAP<int, VECTOR<SharedPtr<Texture2D> > > _shadowMaps;
 	/// Shadow map dummy color buffers by resolution.
 	HASH_MAP<int, SharedPtr<Texture2D> > _colorShadowMaps;
+	/// Cache for light scissor queries.
+	//PAIR_MAP<PAIR<SharedPtr<Light>, SharedPtr<Camera> >, RectInt> _lightScissorCache;
 	/// Shadow map allocations by resolution.
 	//HASH_MAP<int, VECTOR<tLight*> > _shadowMapAllocations;
 		/// Number of extra instancing data elements.
@@ -246,9 +258,14 @@ private:
 	bool _shadersDirty{ true };
 	/// Dynamic instancing flag.
 	bool _dynamicInstancing{ true };
+	/// Views that have been processed this frame.
+	VECTOR<WeakPtr<View> > _views;
 	/// Initialized flag.
 	bool _initialized{};
-
+	/// Texture filtering mode.
+	TextureFilterMode _textureFilterMode{ TextureFilterMode::Trilinear };
+	/// Texture anisotropy level.
+	int _textureAnisotropy{ 4 };
 
 	SharedPtr<ShadowRenderer> _shadowRenderer;
 	SharedPtr<LightContainer> _lightContainer;

@@ -171,6 +171,16 @@ enum class StencilMode
 	GreaterEqual,
 	Count
 };
+/// Stencil operation.
+
+enum class StencilOp
+{
+	Keep = 0,
+	Zero,
+	Ref,
+	Incr,
+	Decr
+};
 
 enum class ChangeMode
 {

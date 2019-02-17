@@ -6,7 +6,6 @@ Texture::Texture(SharedPtr<Ambient> ambient)
 	: Super(ambient)
 	, GPUObject(GetSubSystem<Graphics>())
 {
-
 }
 
 Texture::~Texture() = default;
@@ -59,6 +58,11 @@ void Texture::SetLevelsDirty()
 {
 	if (_usage == TextureUsage::RenderTarget && _levels > 1)
 		_levelsDirty = true;
+}
+
+void Texture::SetParametersDirty()
+{
+	_parametersDirty = true;
 }
 
 unsigned Texture::CheckMaxLevels(int width, int height, unsigned requestedLevels)

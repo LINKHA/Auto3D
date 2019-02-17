@@ -8,7 +8,7 @@
 #include "IndexBuffer.h"
 #include "Geometry.h"
 #include "TextureCube.h"
-
+#include "View.h"
 
 #include "NewDef.h"
 
@@ -159,8 +159,8 @@ Renderer::~Renderer()
 
 void Renderer::Init()
 {
-	_shadowRenderer = MakeShared<ShadowRenderer>(_ambient);
-	_lightContainer = MakeShared<LightContainer>(_ambient);
+	//_shadowRenderer = MakeShared<ShadowRenderer>(_ambient);
+	//_lightContainer = MakeShared<LightContainer>(_ambient);
 
 	auto graphics = GetSubSystem<Graphics>();
 	auto cache = GetSubSystem<ResourceSystem>();
@@ -205,44 +205,93 @@ void Renderer::Render()
 {
 	auto graphics = GetSubSystem<Graphics>();
 	Assert(graphics && graphics->IsInitialized() && !graphics->IsDeviceLost());
-	_insideRenderOrCull = true;
-	for (LIST<SharedPtr<Camera> >::iterator i = _cameras.begin(); i != _cameras.end(); i++)
+
+	_graphics.lock()->SetDefaultTextureFilterMode(_textureFilterMode);
+	_graphics.lock()->SetDefaultTextureAnisotropy((unsigned)_textureAnisotropy);
+
+	// If no views that render to the backbuffer, clear the screen so that e.g. the UI is not rendered on top of previous frame
+	bool hasBackbufferViews = false;
+	for (unsigned i = 0; i < _views.size(); ++i)
 	{
-		SharedPtr<Camera> cam = *i;
-		if (cam && cam->IsEnable())
+		if (!_views[i].lock()->GetRenderTarget())
 		{
-			_currentCamera = cam;
-
-			RectInt rect = graphics->GetWindowRectInt();
-			//Rendering path shadow maps
-			renderShadowMap();
-			///Render based on camera Rect
-			glViewport(
-				cam->GetViewRect().x * rect.width,
-				cam->GetViewRect().y * rect.height,
-				cam->GetViewRect().width * rect.width,
-				cam->GetViewRect().height * rect.height
-			);
-
-			//Use OffScreen
-			if (cam->GetAllowOffScreen())
-				cam->GetOffScreen()->RenderStart();
-			//Rendering path opaques
-			renderOpaques();
-			renderCustom();
-			renderTranslucent();
-
-			if (cam->GetAllowOffScreen())
-				cam->GetOffScreen()->RenderEnd();
-
+			hasBackbufferViews = true;
+			break;
 		}
 	}
-	_insideRenderOrCull = false;
-	delayedAddRemoveCameras();
-	delayedAddRemoveShadowMaps();
-	delayedAddRemoveOpaques();
-	delayedAddRemoveCustoms();
-	delayedAddRemoveTranslucents();
+	if (!hasBackbufferViews)
+	{
+		_graphics.lock()->SetBlendMode(BlendMode::Replace);
+		_graphics.lock()->SetColorWrite(true);
+		_graphics.lock()->SetDepthWrite(true);
+		_graphics.lock()->SetScissorTest(false);
+		_graphics.lock()->SetStencilTest(false);
+		_graphics.lock()->ResetRenderTargets();
+		_graphics.lock()->Clear(CLEAR_TARGET_COLOR | CLEAR_TARGET_DEPTH | CLEAR_TARGET_STENCIL);
+	}
+
+	// Render views from last to first. Each main (backbuffer) view is rendered after the auxiliary views it depends on
+	for (unsigned i = _views.size() - 1; i < _views.size(); --i)
+	{
+		if (!_views[i].lock())
+			continue;
+
+		// Screen buffers can be reused between views, as each is rendered completely
+		PrepareViewRender();
+		_views[i].lock()->Render();
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//_insideRenderOrCull = true;
+
+	//for (LIST<SharedPtr<Camera> >::iterator i = _cameras.begin(); i != _cameras.end(); i++)
+	//{
+	//	SharedPtr<Camera> cam = *i;
+	//	if (cam && cam->IsEnable())
+	//	{
+	//		_currentCamera = cam;
+
+	//		RectInt rect = graphics->GetWindowRectInt();
+	//		//Rendering path shadow maps
+	//		renderShadowMap();
+	//		///Render based on camera Rect
+	//		glViewport(
+	//			cam->GetViewRect().x * rect.width,
+	//			cam->GetViewRect().y * rect.height,
+	//			cam->GetViewRect().width * rect.width,
+	//			cam->GetViewRect().height * rect.height
+	//		);
+
+	//		//Use OffScreen
+	//		if (cam->GetAllowOffScreen())
+	//			cam->GetOffScreen()->RenderStart();
+	//		//Rendering path opaques
+	//		renderOpaques();
+	//		renderCustom();
+	//		renderTranslucent();
+
+	//		if (cam->GetAllowOffScreen())
+	//			cam->GetOffScreen()->RenderEnd();
+
+	//	}
+	//}
+	//_insideRenderOrCull = false;
+	//delayedAddRemoveCameras();
+	//delayedAddRemoveShadowMaps();
+	//delayedAddRemoveOpaques();
+	//delayedAddRemoveCustoms();
+	//delayedAddRemoveTranslucents();
 	
 }
 
@@ -285,6 +334,17 @@ void Renderer::AddCamera(SharedPtr<Camera> camera)
 SharedPtr<RenderPath> Renderer::GetDefaultRenderPath() const
 {
 	return _defaultRenderPath;
+}
+void Renderer::PrepareViewRender()
+{
+	ResetScreenBufferAllocations();
+	//_lightScissorCache.Clear();
+	//_lightStencilValue = 1;
+}
+void Renderer::ResetScreenBufferAllocations()
+{
+	for (HASH_MAP<unsigned long long, unsigned>::iterator i = _screenBufferAllocations.begin(); i != _screenBufferAllocations.end(); ++i)
+		i->second = 0;
 }
 
 void Renderer::RemoveCamera(SharedPtr<Camera> camera)
