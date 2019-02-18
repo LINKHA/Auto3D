@@ -10,9 +10,6 @@
     <ClCompile Include="D:\Project\MyProject\Auto3D\SampleProject\Sample_Debug\DebugSapce.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\SampleProject\Sample_Debug\level_0.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D:\Project\MyProject\Auto3D\SampleProject\FreeCamera.h">
@@ -22,9 +19,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\SampleProject\Sample_Debug\DebugSapce.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\SampleProject\Sample_Debug\level_0.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

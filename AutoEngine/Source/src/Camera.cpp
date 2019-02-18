@@ -31,76 +31,14 @@ void Camera::RegisterObject(SharedPtr<Ambient> ambient)
 	ambient->RegisterFactory<Camera>(SCENE_ATTACH);
 }
 
-void Camera::AllowOffScreen(bool enable)
-{
-	_isAllowOffScreen = enable;
-	if (!_isAllowOffScreen || _offScreen)
-		return;
-	_offScreen = MakeShared<OffScreen>(_ambient);
-}
-void Camera::AllowMSAA(bool enable, int pointNum)
-{
-	if (!_offScreen)
-	{
-		_isAllowOffScreen = true;
-		_offScreen = MakeShared<OffScreen>(_ambient);
-	}
-	_offScreen->AllowMSAA(enable, pointNum);
-}
-
-void Camera::AllowLateEffect(bool enable)
-{
-	if (!_offScreen)
-	{
-		_isAllowOffScreen = true;
-		_offScreen = MakeShared<OffScreen>(_ambient);
-	}
-		
-	_offScreen->AllowLateEffect(enable);
-}
-
-void Camera::AllowHDR(bool enable)
-{
-	if (!_offScreen)
-	{
-		_isAllowOffScreen = true;
-		_offScreen = MakeShared<OffScreen>(_ambient);
-	}
-
-	_offScreen->AllowHDR(enable);
-}
-void Camera::SetLateEffect(PostProcessingMode mode)
-{
-	if (_offScreen && _isAllowOffScreen)
-		_offScreen->SetEffect(mode);
-}
-void Camera::SetLateEffect(SharedPtr<ShaderVariation> shader)
-{
-	if (_offScreen && _isAllowOffScreen)
-		_offScreen->SetEffect(shader);
-}
-
-SharedPtr<OffScreen> Camera::GetOffScreen()
-{
-	if (_isAllowOffScreen && _offScreen)
-		return _offScreen;
-	else
-	{
-		ErrorString("Fail to get camera off screen");
-		return nullptr;
-	}
-}
-
 void Camera::Start()
 {
-	if (_isAllowOffScreen)
-		_offScreen->RenderReady();
+
 }
 
 void Camera::Init()
 {
 	_transform = GetNode()->GetComponent<Transform>();
-	GetSubSystem<Renderer>()->AddCamera(SharedFromThis(Camera));
 }
 
 glm::mat4 Camera::GetViewMatrix()
@@ -130,22 +68,6 @@ glm::mat4 Camera::GetProjectionMatrix()
 	else
 		ErrorString("Fail to set projection matrix");
 	return _projectionMatrix;
-}
-
-bool Camera::GetAllowMSAA()
-{
-	if (_offScreen)
-		return _offScreen->GetAllowMSAA();
-	else
-		return false;
-}
-
-bool Camera::GetAllowLateEffect()
-{
-	if (_offScreen)
-		return _offScreen->GetAllowLateEffect();
-	else
-		return false;
 }
 
 void Camera::AccPitchYaw(float yawOffset, float pitchOffset, bool constrainPitch)

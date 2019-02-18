@@ -81,22 +81,4 @@ bool Graphics::IsInitialized()
 }
 
 
-void Graphics::RegisterGraphicsLib(SharedPtr<Ambient> ambient)
-{
-
-}
-
-void Graphics::AddGPUObject(GPUObject* object)
-{
-	_gpuObjects.push_back(object);
-}
-
-void Graphics::RemoveGPUObject(GPUObject* object)
-{
-	for (auto i = _gpuObjects.begin(); i != _gpuObjects.end(); i++)
-	{
-		_gpuObjects.erase(i);
-	}
-}
-
 }

@@ -2,7 +2,6 @@
 #include "Auto.h"
 #include "Engine.h"
 #include "Ambient.h"
-#include "tScene.h"
 #include "AutoThread.h"
 #include "Launch.h"
 

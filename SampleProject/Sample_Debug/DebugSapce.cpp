@@ -3,15 +3,13 @@
 #include "ResourceSystem.h"
 #include "FileSystem.h"
 #include "Input.h"
-#include "level_0.h"
 
 AUTO_APPLICATION_MAIN(DebugSapce)
 
 void DebugSapce::Init()
 {
-	STRING ResourceDir = system_content_dictionary; 
-	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
-	GetSubSystem<tScene>()->RegisterScene(MakeShared<Level_0>(_ambient, 0));
+	//STRING ResourceDir = system_content_dictionary; 
+	//GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 }
 void DebugSapce::Start()
 {

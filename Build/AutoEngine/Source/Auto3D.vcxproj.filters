@@ -1,77 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\InstanceBeltLine.cpp">
-      <Filter>Source\_Abandon\_Temp</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\TextureNormal.cpp">
-      <Filter>Source\_Abandon\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\TextureParallax.cpp">
-      <Filter>Source\_Abandon\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\MeshLight.cpp">
-      <Filter>Source\_Abandon\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\MeshPBR.cpp">
-      <Filter>Source\_Abandon\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\MeshPBRTexture.cpp">
-      <Filter>Source\_Abandon\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\MeshShadow.cpp">
-      <Filter>Source\_Abandon\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\MeshShadowPoint.cpp">
-      <Filter>Source\_Abandon\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Bloom.cpp">
-      <Filter>Source\_Abandon\TempIntegrated</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\DeferredShading.cpp">
-      <Filter>Source\_Abandon\TempIntegrated</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\HDRSkybox.cpp">
-      <Filter>Source\_Abandon\TempIntegrated</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\SkyBoxReflectMesh.cpp">
-      <Filter>Source\_Abandon\TempIntegrated</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\SSAO.cpp">
-      <Filter>Source\_Abandon\TempIntegrated</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\BaseMesh.cpp">
-      <Filter>Source\_Abandon</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\GLTextureEnable.cpp">
-      <Filter>Source\_Abandon</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\GLMeshEnable.cpp">
-      <Filter>Source\_Abandon</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Material.cpp">
-      <Filter>Source\_Abandon</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\SkyBox.cpp">
-      <Filter>Source\_Abandon</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\SkyBoxManager.cpp">
-      <Filter>Source\_Abandon</Filter>
-    </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\AutoThread.cpp">
       <Filter>Source\Adapter</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Audio.cpp">
       <Filter>Source\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Behavior.cpp">
-      <Filter>Source\Behavior</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\BehaviorObject.cpp">
-      <Filter>Source\Behavior</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\LevelBehaviorObject.cpp">
-      <Filter>Source\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Ambient.cpp">
       <Filter>Source\Code</Filter>
@@ -79,59 +13,8 @@
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Object.cpp">
       <Filter>Source\Code</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\AudioSource.cpp">
-      <Filter>Source\Component\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\AudioListener.cpp">
-      <Filter>Source\Component\Audio</Filter>
-    </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Transform.cpp">
       <Filter>Source\Component\Coordinate</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\MeshRenderer.cpp">
-      <Filter>Source\Component\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\RenderComponent.cpp">
-      <Filter>Source\Component\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\SpriteRenderer.cpp">
-      <Filter>Source\Component\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Collider.cpp">
-      <Filter>Source\Component\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Collider2D.cpp">
-      <Filter>Source\Component\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\ColliderBox.cpp">
-      <Filter>Source\Component\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\ColliderBox2D.cpp">
-      <Filter>Source\Component\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\ColliderSphere.cpp">
-      <Filter>Source\Component\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\RigidBody.cpp">
-      <Filter>Source\Component\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\RigidBody2D.cpp">
-      <Filter>Source\Component\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\PhysicsWorld.cpp">
-      <Filter>Source\Component\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\PhysicsWorld2D.cpp">
-      <Filter>Source\Component\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\ScriptComponent.cpp">
-      <Filter>Source\Component\Script</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Text.cpp">
-      <Filter>Source\Component\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\UIComponent.cpp">
-      <Filter>Source\Component\UI</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Component.cpp">
       <Filter>Source\Component</Filter>
@@ -158,9 +41,6 @@
       <Filter>Source\FileSystem</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\GPUObject.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\OffScreen.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\OGLGraphics.cpp">
@@ -196,31 +76,13 @@
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Physics.cpp">
       <Filter>Source\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Prefab.cpp">
-      <Filter>Source\Preinstall</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\PreLoadManager.cpp">
-      <Filter>Source\Preinstall</Filter>
-    </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Quaternion.cpp">
       <Filter>Source\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\LightContainer.cpp">
-      <Filter>Source\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Renderer.cpp">
       <Filter>Source\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\ShadowRenderer.cpp">
-      <Filter>Source\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\AudioBuffer.cpp">
-      <Filter>Source\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\BackgroundLoader.cpp">
-      <Filter>Source\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Font.cpp">
       <Filter>Source\Resource</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Image.cpp">
@@ -238,26 +100,14 @@
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Shader.cpp">
       <Filter>Source\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\LevelScene.cpp">
-      <Filter>Source\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Node.cpp">
       <Filter>Source\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Script.cpp">
-      <Filter>Source\Script</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Time.cpp">
       <Filter>Source\Time</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\UI.cpp">
       <Filter>Source\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Constraint.cpp">
-      <Filter>Source\Component\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Constraint2D.cpp">
-      <Filter>Source\Component\Physics</Filter>
     </ClCompile>
     <ClCompile Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\src\Application.cpp">
       <Filter>Source</Filter>
@@ -289,9 +139,6 @@
     <ClCompile Include="..\..\..\AutoEngine\Source\src\D3D12VertexBuffer.cpp">
       <Filter>Source\Graphics\Direct3D12</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\AutoEngine\Source\src\RenderPath.cpp">
-      <Filter>Source\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\AutoEngine\Source\src\IndexBuffer.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
@@ -301,25 +148,7 @@
     <ClCompile Include="..\..\..\AutoEngine\Source\src\Geometry.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\AutoEngine\Source\src\RenderSurface.cpp">
-      <Filter>Source\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\AutoEngine\Source\src\tTexture.cpp">
-      <Filter>Source\_Abandon\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\AutoEngine\Source\src\tTexture2D.cpp">
-      <Filter>Source\_Abandon\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\AutoEngine\Source\src\tTextureMap.cpp">
-      <Filter>Source\_Abandon\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\AutoEngine\Source\src\tTexture3D.cpp">
-      <Filter>Source\_Abandon\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\AutoEngine\Source\src\GraphicsDef.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\AutoEngine\Source\src\Texture2D.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\AutoEngine\Source\src\Texture.cpp">
@@ -328,35 +157,8 @@
     <ClCompile Include="..\..\..\AutoEngine\Source\src\ResourceWithMetaData.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLTexture2D.cpp">
-      <Filter>Source\Graphics\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLTexture.cpp">
-      <Filter>Source\Graphics\OpenGL</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\AutoEngine\Source\src\Graphics.cpp">
       <Filter>Source\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLRenderSurface.cpp">
-      <Filter>Source\Renderer\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\AutoEngine\Source\src\View.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\AutoEngine\Source\src\tLight.cpp">
-      <Filter>Source\_Abandon</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\AutoEngine\Source\src\TextureCube.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLTextureCube.cpp">
-      <Filter>Source\Graphics\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\AutoEngine\Source\src\Viewport.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\AutoEngine\Source\src\tScene.cpp">
-      <Filter>Source\_Abandon</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\AutoEngine\Source\src\Scene.cpp">
       <Filter>Source\Scene</Filter>
@@ -373,80 +175,11 @@
     <ClCompile Include="..\..\..\AutoEngine\Source\src\Decompress.cpp">
       <Filter>Source\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\AutoEngine\Source\src\WorkQueue.cpp">
-      <Filter>Source\WorkQueue</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\AutoEngine\Source\src\Batch.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\AutoEngine\Source\src\Drawable.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLShaderProgram.cpp">
       <Filter>Source\Graphics\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\InstanceBeltLine.h">
-      <Filter>Source\_Abandon\_Temp</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\TextureNormal.h">
-      <Filter>Source\_Abandon\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\TextureParallax.h">
-      <Filter>Source\_Abandon\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\MeshLight.h">
-      <Filter>Source\_Abandon\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\MeshPBR.h">
-      <Filter>Source\_Abandon\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\MeshPBRTexture.h">
-      <Filter>Source\_Abandon\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\MeshShadow.h">
-      <Filter>Source\_Abandon\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\MeshShadowPoint.h">
-      <Filter>Source\_Abandon\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Bloom.h">
-      <Filter>Source\_Abandon\TempIntegrated</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\DeferredShading.h">
-      <Filter>Source\_Abandon\TempIntegrated</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\HDRSkybox.h">
-      <Filter>Source\_Abandon\TempIntegrated</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\SSAO.h">
-      <Filter>Source\_Abandon\TempIntegrated</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\SkyBoxReflectMesh.h">
-      <Filter>Source\_Abandon\TempIntegrated</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\BaseMesh.h">
-      <Filter>Source\_Abandon</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\GLTextureEnable.h">
-      <Filter>Source\_Abandon</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\GLMeshEnable.h">
-      <Filter>Source\_Abandon</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Material.h">
-      <Filter>Source\_Abandon</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\SkyBox.h">
-      <Filter>Source\_Abandon</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\SkyBoxManager.h">
-      <Filter>Source\_Abandon</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\VertexData.h">
-      <Filter>Source\_Abandon</Filter>
-    </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AutoImage.h">
       <Filter>Source\Adapter</Filter>
     </ClInclude>
@@ -480,15 +213,6 @@
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Audio.h">
       <Filter>Source\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Behavior.h">
-      <Filter>Source\Behavior</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\BehaviorObject.h">
-      <Filter>Source\Behavior</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\LevelBehaviorObject.h">
-      <Filter>Source\Behavior</Filter>
-    </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Ambient.h">
       <Filter>Source\Code</Filter>
     </ClInclude>
@@ -504,59 +228,8 @@
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\RTTI.h">
       <Filter>Source\Code</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AudioListener.h">
-      <Filter>Source\Component\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AudioSource.h">
-      <Filter>Source\Component\Audio</Filter>
-    </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Transform.h">
       <Filter>Source\Component\Coordinate</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\MeshRenderer.h">
-      <Filter>Source\Component\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\RenderComponent.h">
-      <Filter>Source\Component\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\SpriteRenderer.h">
-      <Filter>Source\Component\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Collider.h">
-      <Filter>Source\Component\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Collider2D.h">
-      <Filter>Source\Component\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\ColliderBox.h">
-      <Filter>Source\Component\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\ColliderBox2D.h">
-      <Filter>Source\Component\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\ColliderSphere.h">
-      <Filter>Source\Component\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\PhysicsWorld.h">
-      <Filter>Source\Component\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\PhysicsWorld2D.h">
-      <Filter>Source\Component\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\RigidBody.h">
-      <Filter>Source\Component\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\RigidBody2D.h">
-      <Filter>Source\Component\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\ScriptComponent.h">
-      <Filter>Source\Component\Script</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Text.h">
-      <Filter>Source\Component\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\UIComponent.h">
-      <Filter>Source\Component\UI</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Component.h">
       <Filter>Source\Component</Filter>
@@ -593,12 +266,6 @@
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Graphics.h">
       <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\OffScreen.h">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\ILevelBehavior.h">
-      <Filter>Source\Interface</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Input.h">
       <Filter>Source\IO</Filter>
@@ -639,31 +306,13 @@
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\PhysicsUtils.h">
       <Filter>Source\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Prefab.h">
-      <Filter>Source\Preinstall</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\PreLoadManager.h">
-      <Filter>Source\Preinstall</Filter>
-    </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Quaternion.h">
       <Filter>Source\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\LightContainer.h">
-      <Filter>Source\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Renderer.h">
       <Filter>Source\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\ShadowRenderer.h">
-      <Filter>Source\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AudioBuffer.h">
-      <Filter>Source\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\BackgroundLoader.h">
-      <Filter>Source\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Font.h">
       <Filter>Source\Resource</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Image.h">
@@ -678,14 +327,8 @@
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\ResourceSystem.h">
       <Filter>Source\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\LevelScene.h">
-      <Filter>Source\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Node.h">
       <Filter>Source\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Script.h">
-      <Filter>Source\Script</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Time.h">
       <Filter>Source\Time</Filter>
@@ -710,12 +353,6 @@
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Color.h">
       <Filter>Source\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Constraint.h">
-      <Filter>Source\Component\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\Constraint2D.h">
-      <Filter>Source\Component\Physics</Filter>
     </ClInclude>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\GraphicsDef.h">
       <Filter>Source\Graphics</Filter>
@@ -771,14 +408,8 @@
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\VertexBuffer.h">
       <Filter>Source\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\RenderPath.h">
-      <Filter>Source\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\FlagSet.h">
       <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\OGLGraphicsImp.h">
-      <Filter>Source\Graphics\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\IndexBuffer.h">
       <Filter>Source\Graphics</Filter>
@@ -786,44 +417,11 @@
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Geometry.h">
       <Filter>Source\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\RenderSurface.h">
-      <Filter>Source\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\tTexture.h">
-      <Filter>Source\_Abandon\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\tTexture2D.h">
-      <Filter>Source\_Abandon\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\tTextureMap.h">
-      <Filter>Source\_Abandon\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\tTexture3D.h">
-      <Filter>Source\_Abandon\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Texture2D.h">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\ResourceWithMetaData.h">
       <Filter>Source\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Texture.h">
       <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\View.h">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\tLight.h">
-      <Filter>Source\_Abandon</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\TextureCube.h">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Viewport.h">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\tScene.h">
-      <Filter>Source\_Abandon</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\EngineParameter.h">
       <Filter>Source\Engine</Filter>
@@ -840,15 +438,6 @@
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Decompress.h">
       <Filter>Source\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\WorkQueue.h">
-      <Filter>Source\WorkQueue</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Batch.h">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Drawable.h">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\OGLShaderProgram.h">
       <Filter>Source\Graphics\OpenGL</Filter>
     </ClInclude>
@@ -863,29 +452,11 @@
     <Filter Include="Source\Math">
       <UniqueIdentifier>{6348e7dc-5486-4fb1-828c-3da098e5800e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\_Abandon">
-      <UniqueIdentifier>{09498eb3-a922-4fc4-aa4f-714c34dfee79}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\_Abandon\_Temp">
-      <UniqueIdentifier>{d7c96333-4e31-4c7a-b455-18d1f72fa122}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\_Abandon\Graphics">
-      <UniqueIdentifier>{7303f2e4-79b1-455e-95b4-1ef6155c0456}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\_Abandon\Mesh">
-      <UniqueIdentifier>{76167272-0f06-43ee-bb78-7932c67927ce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\_Abandon\TempIntegrated">
-      <UniqueIdentifier>{96a9892a-2b02-4efc-9f3c-fbb03bd1480f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Adapter">
       <UniqueIdentifier>{3469d690-bbd1-4faa-b2ad-9fc78e3e7289}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Audio">
       <UniqueIdentifier>{27f0248b-302e-4863-9d86-32379adc06ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Behavior">
-      <UniqueIdentifier>{3f47868c-e899-43ee-9093-4faec4ffeceb}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Code">
       <UniqueIdentifier>{73fd8ae2-5d13-45a4-90cf-d08c86aaf826}</UniqueIdentifier>
@@ -893,23 +464,8 @@
     <Filter Include="Source\Component">
       <UniqueIdentifier>{64f58b16-e419-4e57-a893-0802917c3f3a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Component\Audio">
-      <UniqueIdentifier>{073938d9-f0ae-4d28-a61d-65f8ff4961a6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Component\Coordinate">
       <UniqueIdentifier>{8eb2de39-be99-4ffa-8d47-d9f75d518b8f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Component\Graphics">
-      <UniqueIdentifier>{a78fd513-c0f6-48ec-a199-2c0a2d5f89c1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Component\Physics">
-      <UniqueIdentifier>{cbc05a1a-725d-4257-8cea-c3e8799fe5c9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Component\Script">
-      <UniqueIdentifier>{1050c37e-74dc-459b-9587-8ced5032120e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Component\UI">
-      <UniqueIdentifier>{b9baaf19-2b4d-4d85-bf1a-0e98e540d242}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Engine">
       <UniqueIdentifier>{125d178f-5e4a-4a0e-8f7f-885a027462bf}</UniqueIdentifier>
@@ -923,17 +479,11 @@
     <Filter Include="Source\Graphics\OpenGL">
       <UniqueIdentifier>{846e6dc5-d64d-459a-92d4-6537fd75e34d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Interface">
-      <UniqueIdentifier>{005176a9-855d-450d-9301-5c758d3c8cb9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\IO">
       <UniqueIdentifier>{ab9fa595-b7ba-40bb-8929-b7baa9b42ae0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Physics">
       <UniqueIdentifier>{83e48377-7888-434d-91b2-c424b0b987f3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Preinstall">
-      <UniqueIdentifier>{0c89b3c6-456d-447a-b63f-43fd0f029176}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Renderer">
       <UniqueIdentifier>{a52b5f52-a5f6-4634-8d54-fcfeafb6c690}</UniqueIdentifier>
@@ -943,9 +493,6 @@
     </Filter>
     <Filter Include="Source\Scene">
       <UniqueIdentifier>{1bb53305-78b6-49ef-8ef6-17400e60f8df}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Script">
-      <UniqueIdentifier>{ac01bc8e-1a16-4a61-897d-f4b5dec31e0c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Time">
       <UniqueIdentifier>{88448693-daa5-4657-b290-b219acaced6e}</UniqueIdentifier>
@@ -973,9 +520,6 @@
     </Filter>
     <Filter Include="Source\Renderer\Direct3D12">
       <UniqueIdentifier>{6db9ddae-1082-4156-81e5-3d2ccd988379}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\WorkQueue">
-      <UniqueIdentifier>{f790a859-a07b-451e-824d-38f4bbbca726}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

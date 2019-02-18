@@ -13,9 +13,7 @@ class ShaderVariation;
 class GraphicsImpl;
 class IndexBuffer;
 class Texture;
-class RenderSurface;
 class VertexBuffer;
-class Texture2D;
 class ShaderProgram;
 ///
 const static int GRAPHICS_BUFFER_NUM = 3;
@@ -69,11 +67,6 @@ public:
 	* @brief : Return context lost status
 	*/
 	bool IsDeviceLost();
-
-	/**
-	* @brief : Check supported rendering features
-	*/
-	void CheckFeatureSupport();
 	/**
 	* @brief : Get rect with int
 	* @return : RectInt
@@ -98,31 +91,8 @@ public:
 	*/
 	SDL_Window* GetGameWindow() { return _window; }
 
-	/// Return whether hardware instancing is supported.
-	bool GetInstancingSupport() const { return _instancingSupport; }
-
-	/// Return default texture filtering mode.
-	TextureFilterMode GetDefaultTextureFilterMode() const { return _defaultTextureFilterMode; }
-	/**
-	* @brief : Create sample point
-	*/
 	void CreateSamplePoint(int num);
-	/// Return current rendertarget by index.
-	SharedPtr<RenderSurface> GetRenderTarget(unsigned index) const;
 
-	void InitGraphicsState();
-
-	void SetIndexBuffer(SharedPtr<IndexBuffer> buffer);
-
-	void SetShader(ShaderVariation* vs, ShaderVariation* fs);
-
-	void Draw(PrimitiveType type, unsigned vertexStart, unsigned vertexCount);
-	
-	void Draw(PrimitiveType type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount);
-	
-	void DrawInstanced(PrimitiveType type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount, unsigned instanceCount);
-	/// Process dirtied state before draw.
-	void PrepareDraw();
 	/**
 	* @brief : Begin to run frame
 	*/
@@ -131,37 +101,6 @@ public:
 	* @brief : Finish end to frame
 	*/
 	void EndFrame();
-	/**
-	* @brief : Clear color depth and stencil
-	*/
-	void Clear(unsigned flags, const Color& color = Color(0.0f, 0.0f, 0.0f, 1.0f), float depth = 1.0f, unsigned stencil = 0);
-	/**
-	* @brief : Register Graphics library objects.
-	*/
-	void RegisterGraphicsLib(SharedPtr<Ambient> ambient);
-	/**
-	* @brief : Set color write
-	*/
-	void SetColorWrite(bool enable);
-	/**
-	* @brief : Set depth write
-	*/
-	void SetDepthWrite(bool enable);
-	/// Create a framebuffer using either extension or core functionality. Used only on OpenGL.
-	unsigned CreateFramebuffer();
-	/// Resolve a multisampled texture on itself.
-	bool ResolveToTexture(SharedPtr<Texture2D> texture);
-
-	DepthMode GetDepthTest() const { return _depthTestMode; }
-
-	void SetBlendMode(BlendMode mode, bool alphaToCoverage = false);
-	/// Set hardware culling mode.
-	void SetCullMode(CullMode mode);
-
-	void SetDepthTest(DepthMode mode);
-
-	/// Set scissor test.
-	void SetScissorTest(bool enable, const RectInt& rect = RectInt(0, 0, 1, 1) , bool borderInclusive = true);
 	/**
 	* @brief : Reset cached rendering state
 	*/
@@ -187,31 +126,6 @@ public:
 	*/
 	void SetWindowRect(Vector2 vec) { SetWindowRect(vec.x, vec.y); }
 
-	/// Set rendertarget
-	void SetRenderTarget(unsigned index, SharedPtr<RenderSurface> renderTarget);
-	/// Set rendertarget
-	void SetRenderTarget(unsigned index, SharedPtr<Texture2D> texture);
-	/// Set depth-stencil surface
-	void SetDepthStencil(SharedPtr<RenderSurface> depthStencil);
-	/// Set depth-stencil surface
-	void SetDepthStencil(SharedPtr<Texture2D> texture);
-	/**
-	* @brief : Set window view port
-	*/
-	void SetViewport(const RectInt& rect);
-	/// Set texture.
-	void SetTexture(unsigned index, SharedPtr<Texture> texture);
-	/// Bind texture unit 0 for update. Called by Texture. Used only on OpenGL.
-	void SetTextureForUpdate(SharedPtr<Texture> texture);
-
-	void SetSRGB(bool enable);
-
-	/// Set default texture filtering mode. Called by Renderer before rendering.
-	void SetDefaultTextureFilterMode(TextureFilterMode mode);
-	/// Set default texture anisotropy level. Called by Renderer before rendering.
-	void SetDefaultTextureAnisotropy(unsigned level);
-	/// Dirty texture parameters of all textures (when global settings change.)
-	void SetTextureParametersDirty();
 	/**
 	* @brief : Get graphics api name
 	*/
@@ -220,64 +134,12 @@ public:
 	* @brief : The release of API
 	*/
 	void ReleaseAPI();
-	/// Return hardware format for a compressed image format, or 0 if unsupported.
-	unsigned GetFormat(CompressedFormat format) const;
-	/// Return shadow map depth texture format, or 0 if not supported.
-	unsigned GetShadowMapFormat() const { return _shadowMapFormat; }
 
-	/// Return 24-bit shadow map depth texture format, or 0 if not supported.
-	unsigned GetHiresShadowMapFormat() const { return _hiresShadowMapFormat; }
-
-	/// Return whether shadow map depth compare is done in hardware.
-	bool GetHardwareShadowSupport() const { return _hardwareShadowSupport; }
-
-
-	/// Return whether sRGB conversion on texture sampling is supported.
-	bool GetSRGBSupport() const { return _sRGBSupport; }
-	/// Return current rendertarget width and height.
-	Vector2 GetRenderTargetDimensions() const;
-	/// Return whether light pre-pass rendering is supported.
-	bool GetLightPrepassSupport() const { return _lightPrepassSupport; }
-	/// Return whether deferred rendering is supported
-	bool GetDeferredSupport() const { return _deferredSupport; }
-	/// Mark the FBO needing an update. Used only on OpenGL
-	void MarkFBODirty();
-	/// Reset all rendertargets, depth-stencil surface and viewport.
-	void ResetRenderTargets();
-	/// Reset specific rendertarget.
-	void ResetRenderTarget(unsigned index);
-
-	void BindFramebuffer(unsigned fbo);
-	/// Delete a framebuffer using either extension or core functionality. Used only on OpenGL.
-	void DeleteFramebuffer(unsigned fbo);
-	/// Bind a framebuffer color attachment using either extension or core functionality. Used only on OpenGL.
-	void BindColorAttachment(unsigned index, unsigned target, unsigned object, bool isRenderBuffer);
-	/// Bind a framebuffer depth attachment using either extension or core functionality. Used only on OpenGL.
-	void BindDepthAttachment(unsigned object, bool isRenderBuffer);
-	/// Bind a framebuffer stencil attachment using either extension or core functionality. Used only on OpenGL.
-	void BindStencilAttachment(unsigned object, bool isRenderBuffer);
-
-	/// Set vertex attrib divisor. No-op if unsupported. Used only on OpenGL.
-	void SetVertexAttribDivisor(unsigned location, unsigned divisor);
-	/// Set stencil test.
-	void SetStencilTest(bool enable, StencilMode mode = StencilMode::Always, StencilOp pass = StencilOp::Keep, StencilOp fail = StencilOp::Keep, StencilOp zFail = StencilOp::Keep,
-		unsigned stencilRef = 0, unsigned compareMask = MATH_MAX_UNSIGNED, unsigned writeMask = MATH_MAX_UNSIGNED);
-	
-	/// Add a GPU object to keep track of. Called by GPUObject.
-	void AddGPUObject(GPUObject* object);
-	/// Remove a GPU object. Called by GPUObject.
-	void RemoveGPUObject(GPUObject* object);
 #if AUTO_OPENGL
 	/**
 	* @brief : Restore GPU objects and reinitialize state
 	*/
 	void Restore();
-	/**
-	* @brief :  Bind a VBO, avoiding redundant operation
-	*/
-	void SetVBO(unsigned object);
-	/// Bind a UBO, avoiding redundant operation.
-	void SetUBO(unsigned object);
 #endif
 	/// Return the API-specific alpha texture format
 	static unsigned GetAlphaFormat();
@@ -369,13 +231,13 @@ private:
 	STRING _apiName{};
 	/// Graphics driver
 	STRING _driverName{};
-	/// Implementation.
-	SharedPtr<GraphicsImpl> _impl;
 #pragma region window
 	/// window
 	SDL_Window* _window{};
 	/// icon
 	SharedPtr<Image> _icon{};
+
+	SDL_GLContext _glContext;
 	/// window rect
 	RectInt _windowRect = { RectInt(0, 0, 1280, 720) };
 	/// window title name
@@ -396,96 +258,6 @@ private:
 	bool _stencilTest{};
 #pragma endregion
 
-#pragma region Graphics
-	/// background draw color
-	Color _drawColor = { Color(0.0f, 0.0f, 0.0f, 1.0f) };
-	/// color write
-	bool _colorWrite{};
-	/// depth write
-	bool _depthWrite{};
-	/// num primitives
-	unsigned _numPrimitives{};
-	/// num batches
-	unsigned _numBatches{};
-	/// msaa point num
-	unsigned _numSample{};
-	/// Depth compare mode.
-	DepthMode _depthTestMode{};
-	/// Viewport coordinates
-	RectInt _viewport;
-	/// Vertex buffers in use
-	SharedPtr<VertexBuffer> _vertexBuffers[MAX_VERTEX_STREAMS];
-	/// Index buffer in use
-	SharedPtr<IndexBuffer> _indexBuffer{};
-	/// Textures in use
-	SharedPtr<Texture> _textures[MAX_TEXTURE_UNITS]{};
-	/// Rendertargets in use.
-	SharedPtr<RenderSurface> _renderTargets[MAX_RENDERTARGETS]{};
-	/// GPU objects.
-	VECTOR<GPUObject*> _gpuObjects;
-	/// Vertex shader in use.
-	SharedPtr<ShaderVariation> _vertexShader{};
-	/// Pixel shader in use.
-	SharedPtr<ShaderVariation> _pixelShader{};
-	/// Bound shader program.
-	SharedPtr<ShaderProgram> _shaderProgram{};
-	/// Current renderstate requested by the application.
-	RenderState _currentRenderState;
-	/// Renderstate applied to OpenGL.
-	RenderState _renderState;
-	/// Shadow map depth texture format
-	unsigned _shadowMapFormat{};
-	/// Hardware shadow map depth compare support flag
-	bool _hardwareShadowSupport{};
-	/// Shadow map 24-bit depth texture format
-	unsigned _hiresShadowMapFormat{};
-	/// sRGB conversion on read support flag
-	bool _sRGBSupport{};
-	/// Light pre-pass rendering support flag
-	bool _lightPrepassSupport{};
-	/// Deferred rendering support flag
-	bool _deferredSupport{};
-	/// Instancing support flag
-	bool _instancingSupport{};
-	/// sRGB conversion on write support flag
-	bool _sRGBWriteSupport{};
-	/// DXT format support flag
-	bool _dxtTextureSupport{};
-	/// Anisotropic filtering support flag
-	bool _anisotropySupport{};
-	/// Alpha-to-coverage enable.
-	bool _alphaToCoverage{};
-	/// Blending mode.
-	BlendMode _blendMode{};
-	/// Default texture filtering mode
-	TextureFilterMode _defaultTextureFilterMode{ TextureFilterMode::Trilinear };
-	/// Depth-stencil surface in use
-	SharedPtr<RenderSurface> _depthStencil{};
-	/// Hardware culling mode
-	CullMode _cullMode{};
-	/// sRGB conversion on write flag for the main window
-	bool _sRGB{};
-	/// Scissor test rectangle
-	RectInt _scissorRect;
-	/// Scissor test enable flag
-	bool _scissorTest{};
-	/// Default texture max. anisotropy level.
-	unsigned _defaultTextureAnisotropy{ 4 };
-	/// Stencil test compare mode.
-	StencilMode _stencilTestMode{};
-	/// Stencil operation on pass.
-	StencilOp _stencilPass{};
-	/// Stencil operation on fail.
-	StencilOp _stencilFail{};
-	/// Stencil operation on depth fail.
-	StencilOp _stencilZFail{};
-	/// Stencil test reference value.
-	unsigned _stencilRef{};
-	/// Stencil compare bitmask.
-	unsigned _stencilCompareMask{};
-	/// Stencil write bitmask.
-	unsigned _stencilWriteMask{};
-#pragma endregion
 
 
 };

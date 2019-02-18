@@ -3,8 +3,6 @@
 #include "Rect.h"
 #include "Matrix4x4.h"
 #include "Color.h"
-#include "HDRSkyBox.h"
-#include "OffScreen.h"
 #include "Transform.h"
 namespace Auto3D {
 
@@ -77,35 +75,6 @@ public:
 	* @brief : Set zoom (0.000001 ~ 180)
 	*/
 	void SetZoom(float zoom);
-	/**
-	* @brief : Use off screen in this camera
-	*/
-	void AllowOffScreen(bool enable);
-	/**
-	* @brief : Use MSAA in this camera
-	* @param : The number of samples is pointNum,clamp(1~8) default 4
-	*/
-	void AllowMSAA(bool enable,int pointNum = 4);
-	/**
-	* @brief : Use post processing in this camera
-	*/
-	void AllowLateEffect(bool enable);
-	/**
-	* @brief : Use HDR in this camera
-	*/
-	void AllowHDR(bool enable);
-	/**
-	* @brief : Default Post Processing effect 
-	*/
-	void SetLateEffect(PostProcessingMode mode);
-	/**
-	* @brief : Set custom Post Processing effect 
-	*/
-	void SetLateEffect(SharedPtr<ShaderVariation> shader);
-	/**
-	* @brief : If allow Off screen get OffScreen ,else get nullptr
-	*/
-	SharedPtr<OffScreen> GetOffScreen();
 	/**
 	* @brief : According to projection Mode ,get view matrix
 	*/
@@ -248,8 +217,6 @@ protected:
 	bool _isRendering;
 	/// Is or not first mouse
 	bool _isFirstMouse;
-	/// OffScreen
-	SharedPtr<OffScreen> _offScreen;
 	/// Is allow OffScreen
 	bool _isAllowOffScreen{};
 };

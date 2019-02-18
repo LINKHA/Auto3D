@@ -327,16 +327,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">CompileAsCpp</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">CompileAsCpp</CompileAs>
     </ClCompile>
-    <ClCompile Include="D:\Project\MyProject\Auto3D\SampleProject\Sample_Debug\level_0.cpp">
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">CompileAsCpp</CompileAs>
-    </ClCompile>
     <ClInclude Include="D:\Project\MyProject\Auto3D\SampleProject\FreeCamera.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\SampleProject\FreeCamera2D.h" />
     <ClInclude Include="D:\Project\MyProject\Auto3D\SampleProject\Sample_Debug\DebugSapce.h" />
-    <ClInclude Include="D:\Project\MyProject\Auto3D\SampleProject\Sample_Debug\level_0.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="D:\Project\MyProject\Auto3D\Build\ZERO_CHECK.vcxproj">
