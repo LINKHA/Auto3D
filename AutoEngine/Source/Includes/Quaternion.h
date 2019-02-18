@@ -1,29 +1,287 @@
 #pragma once
-#include "AutoMath.h"
-#include "Auto.h"
-#include "glm/gtx/quaternion.hpp"
+#include "MathBase.h"
+#include "Matrix3x3.h"
+
 namespace Auto3D {
 
 
-struct Quaternion
+/// Rotation represented as a four-dimensional normalized vector.
+class Quaternion
 {
-	glm::quat value;
-
-	Quaternion() { value = glm::quat(); }
-	explicit Quaternion(const Vector3& euler);
-	Quaternion(float angle, const Vector3& axis);
-
-	void SetValueWithEuler(const Vector3& euler);
-	void SetValueWithAngleAxis(float angle, const Vector3& axis);
-
-	glm::mat4 toMatrix4()
+public:
+	/// Construct an identity quaternion.
+	Quaternion() noexcept
+		:_w(1.0f),
+		_x(0.0f),
+		_y(0.0f),
+		_z(0.0f)
 	{
-		return glm::toMat4(value);
 	}
-	
 
+	/// Copy-construct from another quaternion.
+	Quaternion(const Quaternion& quat) noexcept
+		:_w(quat._w),
+		_x(quat._x),
+		_y(quat._y),
+		_z(quat._z)
+	{
+	}
+
+	/// Construct from values.
+	Quaternion(float w, float x, float y, float z) noexcept
+		:_w(w),
+		_x(x),
+		_y(y),
+		_z(z)
+	{
+	}
+
+	/// Construct from a float array.
+	explicit Quaternion(const float* data) noexcept
+		:_w(data[0]),
+		_x(data[1]),
+		_y(data[2]),
+		_z(data[3])
+	{
+	}
+
+	/// Construct from an angle (in degrees) and axis.
+	Quaternion(float angle, const Vector3& axis) noexcept
+	{
+		FromAngleAxis(angle, axis);
+	}
+
+	/// Construct from an angle (in degrees, for Urho2D).
+	explicit Quaternion(float angle) noexcept
+	{
+		FromAngleAxis(angle, Vector3::FORWARD);
+	}
+
+	/// Construct from Euler angles (in degrees.)
+	Quaternion(float x, float y, float z) noexcept
+	{
+		FromEulerAngles(x, y, z);
+	}
+
+	/// Construct from the rotation difference between two direction vectors.
+	Quaternion(const Vector3& start, const Vector3& end) noexcept
+	{
+		FromRotationTo(start, end);
+	}
+
+	/// Construct from orthonormal axes.
+	Quaternion(const Vector3& xAxis, const Vector3& yAxis, const Vector3& zAxis) noexcept
+	{
+		FromAxes(xAxis, yAxis, zAxis);
+	}
+
+	/// Construct from a rotation matrix.
+	explicit Quaternion(const Matrix3x3& matrix) noexcept
+	{
+		FromRotationMatrix(matrix);
+	}
+
+
+	/// Assign from another quaternion.
+	Quaternion& operator =(const Quaternion& rhs) noexcept
+	{
+		_w = rhs._w;
+		_x = rhs._x;
+		_y = rhs._y;
+		_z = rhs._z;
+		return *this;
+	}
+
+	/// Add-assign a quaternion.
+	Quaternion& operator +=(const Quaternion& rhs)
+	{
+		_w += rhs._w;
+		_x += rhs._x;
+		_y += rhs._y;
+		_z += rhs._z;
+		return *this;
+	}
+
+	/// Multiply-assign a scalar.
+	Quaternion& operator *=(float rhs)
+	{
+		_w *= rhs;
+		_x *= rhs;
+		_y *= rhs;
+		_z *= rhs;
+		return *this;
+	}
+
+	/// Test for equality with another quaternion without epsilon.
+	bool operator ==(const Quaternion& rhs) const
+	{
+		return _w == rhs._w && _x == rhs._x && _y == rhs._y && _z == rhs._z;
+	}
+
+	/// Test for inequality with another quaternion without epsilon.
+	bool operator !=(const Quaternion& rhs) const { return !(*this == rhs); }
+
+	/// Multiply with a scalar.
+	Quaternion operator *(float rhs) const
+	{
+		return Quaternion(_w * rhs, _x * rhs, _y * rhs, _z * rhs);
+	}
+
+	/// Return negation.
+	Quaternion operator -() const
+	{
+		return Quaternion(-_w, -_x, -_y, -_z);
+	}
+
+	/// Add a quaternion.
+	Quaternion operator +(const Quaternion& rhs) const
+	{
+		return Quaternion(_w + rhs._w, _x + rhs._x, _y + rhs._y, _z + rhs._z);
+	}
+
+	/// Subtract a quaternion.
+	Quaternion operator -(const Quaternion& rhs) const
+	{
+		return Quaternion(_w - rhs._w, _x - rhs._x, _y - rhs._y, _z - rhs._z);
+	}
+
+	/// Multiply a quaternion.
+	Quaternion operator *(const Quaternion& rhs) const
+	{
+		return Quaternion(
+			_w * rhs._w - _x * rhs._x - _y * rhs._y - _z * rhs._z,
+			_w * rhs._x + _x * rhs._w + _y * rhs._z - _z * rhs._y,
+			_w * rhs._y + _y * rhs._w + _z * rhs._x - _x * rhs._z,
+			_w * rhs._z + _z * rhs._w + _x * rhs._y - _y * rhs._x
+		);
+	}
+
+	/// Multiply a Vector3.
+	Vector3 operator *(const Vector3& rhs) const
+	{
+		Vector3 qVec(_x, _y, _z);
+		Vector3 cross1(qVec.CrossProduct(rhs));
+		Vector3 cross2(qVec.CrossProduct(cross1));
+
+		return rhs + 2.0f * (cross1 * _w + cross2);
+	}
+
+	/// Define from an angle (in degrees) and axis.
+	void FromAngleAxis(float angle, const Vector3& axis);
+	/// Define from Euler angles (in degrees.)
+	void FromEulerAngles(float x, float y, float z);
+	/// Define from the rotation difference between two direction vectors.
+	void FromRotationTo(const Vector3& start, const Vector3& end);
+	/// Define from orthonormal axes.
+	void FromAxes(const Vector3& xAxis, const Vector3& yAxis, const Vector3& zAxis);
+	/// Define from a rotation matrix.
+	void FromRotationMatrix(const Matrix3x3& matrix);
+	/// Define from a direction to look in and an up direction. Return true if successful, or false if would result in a NaN, in which case the current value remains.
+	bool FromLookRotation(const Vector3& direction, const Vector3& up = Vector3::UP);
+
+	/// Normalize to unit length.
+	void Normalize()
+	{
+		float lenSquared = LengthSquared();
+		if (!Auto3D::Equals(lenSquared, 1.0f) && lenSquared > 0.0f)
+		{
+			float invLen = 1.0f / sqrtf(lenSquared);
+			_w *= invLen;
+			_x *= invLen;
+			_y *= invLen;
+			_z *= invLen;
+		}
+	}
+
+	/// Return normalized to unit length.
+	Quaternion Normalized() const
+	{
+		float lenSquared = LengthSquared();
+		if (!Auto3D::Equals(lenSquared, 1.0f) && lenSquared > 0.0f)
+		{
+			float invLen = 1.0f / sqrtf(lenSquared);
+			return *this * invLen;
+		}
+		else
+			return *this;
+	}
+
+	/// Return inverse.
+	Quaternion Inverse() const
+	{
+		float lenSquared = LengthSquared();
+		if (lenSquared == 1.0f)
+			return Conjugate();
+		else if (lenSquared >= M_EPSILON)
+			return Conjugate() * (1.0f / lenSquared);
+		else
+			return IDENTITY;
+	}
+
+	/// Return squared length.
+	float LengthSquared() const
+	{
+		return _w * _w + _x * _x + _y * _y + _z * _z;
+	}
+
+	/// Calculate dot product.
+	float DotProduct(const Quaternion& rhs) const
+	{
+		return _w * rhs._w + _x * rhs._x + _y * rhs._y + _z * rhs._z;
+	}
+
+	/// Test for equality with another quaternion with epsilon.
+	bool Equals(const Quaternion& rhs) const
+	{
+		return Auto3D::Equals(_w, rhs._w) && Auto3D::Equals(_x, rhs._x) && Auto3D::Equals(_y, rhs._y) && Auto3D::Equals(_z, rhs._z);
+	}
+
+	/// Return whether is NaN.
+	bool IsNaN() const { return Auto3D::IsNaN(_w) || Auto3D::IsNaN(_x) || Auto3D::IsNaN(_y) || Auto3D::IsNaN(_z); }
+
+	/// Return conjugate.
+	Quaternion Conjugate() const
+	{
+		return Quaternion(_w, -_x, -_y, -_z);
+	}
+
+	/// Return Euler angles in degrees.
+	Vector3 EulerAngles() const;
+	/// Return yaw angle in degrees.
+	float YawAngle() const;
+	/// Return pitch angle in degrees.
+	float PitchAngle() const;
+	/// Return roll angle in degrees.
+	float RollAngle() const;
+	/// Return rotation axis.
+	Vector3 Axis() const;
+	/// Return rotation angle.
+	float Angle() const;
+	/// Return the rotation matrix that corresponds to this quaternion.
+	Matrix3x3 RotationMatrix() const;
+	/// Spherical interpolation with another quaternion.
+	Quaternion Slerp(const Quaternion& rhs, float t) const;
+	/// Normalized linear interpolation with another quaternion.
+	Quaternion Nlerp(const Quaternion& rhs, float t, bool shortestPath = false) const;
+
+	/// Return float data.
+	const float* Data() const { return &_w; }
+
+	/// Return as string.
+	STRING ToString() const;
+
+	/// W coordinate.
+	float _w;
+	/// X coordinate.
+	float _x;
+	/// Y coordinate.
+	float _y;
+	/// Z coordinate.
+	float _z;
+
+	/// Identity quaternion.
+	static const Quaternion IDENTITY;
 };
-
 
 }
 

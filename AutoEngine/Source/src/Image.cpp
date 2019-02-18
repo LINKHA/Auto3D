@@ -660,8 +660,8 @@ CompressedLevel Image::GetCompressedLevel(unsigned index) const
 			if (!level._height)
 				level._height = 1;
 
-			int dataWidth = max(level._width, level._blockSize == 2 ? 16 : 8);
-			int dataHeight = max(level._height, 8);
+			int dataWidth = Max(level._width, level._blockSize == 2 ? 16 : 8);
+			int dataHeight = Max(level._height, 8);
 			level._data = _data.get() + offset;
 			level._dataSize = (dataWidth * dataHeight * level._blockSize + 7) >> 3;
 			level._rows = (unsigned)dataHeight;

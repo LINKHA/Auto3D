@@ -24,7 +24,8 @@ class tString;
 #define Khts(value)	KhSTL::tWString(value)
 static const int BUFFER_LENGTH = 128;
 
-
+static const int CONVERSION_BUFFER_LENGTH = 128;
+static const int MATRIX_CONVERSION_BUFFER_LENGTH = 256;
 
 
 class tWString

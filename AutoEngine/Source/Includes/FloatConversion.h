@@ -14,8 +14,8 @@ inline unsigned RoundfToIntPos(float f)
 
 inline int NormalizedToByte(float f)
 {
-	f = max(f, 0.0f);
-	f = min(f, 1.0f);
+	f = Max(f, 0.0f);
+	f = Min(f, 1.0f);
 	return RoundfToIntPos(f * 255.0f);
 }
 

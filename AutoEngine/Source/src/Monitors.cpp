@@ -47,8 +47,8 @@ RectInt Monitors::GetMonitorsSize(int index)
 		WarningString("Fail to get monitors size index(Maybe index beyond the limit)");
 	}
 	RectInt rectSize;
-	rectSize.width = _mnitors.at(index).first;
-	rectSize.height = _mnitors.at(index).second;
+	rectSize._right = _mnitors.at(index).first + rectSize._left;
+	rectSize._top = _mnitors.at(index).second +rectSize._bottom;
 	return rectSize;
 }
 

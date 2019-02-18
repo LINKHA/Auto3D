@@ -275,11 +275,14 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="..\..\..\AutoEngine\Source\src\Graphics.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\GraphicsDef.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\IndexBuffer.cpp" />
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\Matrix2x2.cpp" />
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\Matrix3x4.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLConstantBuffer.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLIndexBuffer.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLShaderProgram.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLShaderVariation.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLVertexBuffer.cpp" />
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\Rect.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\ResourceWithMetaData.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\Scene.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\Texture.cpp" />
@@ -334,6 +337,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Geometry.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\GlobalFactors.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\IndexBuffer.h" />
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Matrix2x2.h" />
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Matrix3x4.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\OGLShaderProgram.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\ResourceWithMetaData.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Scene.h" />

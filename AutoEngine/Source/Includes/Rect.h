@@ -3,70 +3,437 @@
 #include "MathBase.h"
 #include "Vector2.h"
 namespace Auto3D {
-template <typename _Ty>
-struct Rect
+/// Two-dimensional bounding rectangle.
+class Rect
 {
 public:
-	using RectType = Rect<_Ty>;
-	using BaseType = float;
-
-	_Ty x;
-	_Ty y;
-	_Ty width;
-	_Ty height;
-
-	Rect()
+	/// Construct an undefined rect.
+	Rect() noexcept :
+		_min(M_INFINITY, M_INFINITY),
+		_max(-M_INFINITY, -M_INFINITY)
 	{
-		Reset();
 	}
 
-	Rect(_Ty inX, _Ty inY, _Ty iWidth, _Ty iHeight)	{ x = inX;  y = inY; width = iWidth; height = iHeight; }
+	/// Construct from minimum and maximum vectors.
+	Rect(const Vector2& min, const Vector2& max) noexcept :
+		_min(min),
+		_max(max)
+	{
+	}
 
-	_Ty GetRight() const { return x + width; }
+	/// Construct from coordinates.
+	Rect(float left, float top, float right, float bottom) noexcept :
+		_min(left, top),
+		_max(right, bottom)
+	{
+	}
 
-	_Ty GetBottom() const { return y + height; }
+	/// Construct from a Vector4.
+	explicit Rect(const Vector4& vector) noexcept :
+		_min(vector.x, vector.y),
+		_max(vector.z, vector.w)
+	{
+	}
 
-	void SetLeft(_Ty l) { T oldXMax = GetXMax(); x = l; width = oldXMax - x; }
+	/// Construct from a float array.
+	explicit Rect(const float* data) noexcept :
+		_min(data[0], data[1]),
+		_max(data[2], data[3])
+	{
+	}
 
-	void SetTop(_Ty t) { T oldYMax = GetYMax(); y = t; height = oldYMax - y; }
+	/// Copy-construct from another rect.
+	Rect(const Rect& rect) noexcept = default;
 
-	void SetRight(_Ty r) { width = r - x; }
+	/// Assign from another rect.
+	Rect& operator =(const Rect& rhs) noexcept = default;
 
-	void SetBottom(_Ty b) { height = b - y; }
+	/// Test for equality with another rect.
+	bool operator ==(const Rect& rhs) const { return _min == rhs._min && _max == rhs._max; }
 
-	_Ty GetXMax() const	{ return x + width; }
+	/// Test for inequality with another rect.
+	bool operator !=(const Rect& rhs) const { return _min != rhs._min || _max != rhs._max; }
 
-	_Ty GetYMax() const	{ return y + height; }
+	/// Add another rect to this one inplace.
+	Rect& operator +=(const Rect& rhs)
+	{
+		_min += rhs._min;
+		_max += rhs._max;
+		return *this;
+	}
 
-	bool IsEmpty() const { return width <= 0 || height <= 0; }
+	/// Subtract another rect from this one inplace.
+	Rect& operator -=(const Rect& rhs)
+	{
+		_min -= rhs._min;
+		_max -= rhs._max;
+		return *this;
+	}
 
-	void SetPosition(const Vector2& position) { x = position.x; y = position.y; }
+	/// Divide by scalar inplace.
+	Rect& operator /=(float value)
+	{
+		_min /= value;
+		_max /= value;
+		return *this;
+	}
 
-	Vector2& GetPosition() const { return Vector2(x, y); }
+	/// Multiply by scalar inplace.
+	Rect& operator *=(float value)
+	{
+		_min *= value;
+		_max *= value;
+		return *this;
+	}
 
-	void SetSize(const Vector2& size) { width = size.x; height = size.y; }
+	/// Divide by scalar.
+	Rect operator /(float value) const
+	{
+		return Rect(_min / value, _max / value);
+	}
 
-	Vector2& GetSize() const { return Vector2(width, height); }
+	/// Multiply by scalar.
+	Rect operator *(float value) const
+	{
+		return Rect(_min * value, _max * value);
+	}
 
-	void Reset() { x = y = width = height = 0; }
+	/// Add another rect.
+	Rect operator +(const Rect& rhs) const
+	{
+		return Rect(_min + rhs._min, _max + rhs._max);
+	}
 
-	void Set(_Ty inX, _Ty inY, _Ty iWidth, _Ty iHeight) { x = inX; width = iWidth; y = inY; height = iHeight; }
-	
-	void Normalize() { width = max<T>(width, 0);height = max<T>(height, 0); }
+	/// Subtract another rect.
+	Rect operator -(const Rect& rhs) const
+	{
+		return Rect(_min - rhs._min, _max - rhs._max);
+	}
 
-	bool operator == (const RectType& r)const { return x == r.x && y == r.y && width == r.width && height == r.height; }
-	
-	bool operator != (const RectType& r)const { return x != r.x || y != r.y || width != r.width || height != r.height; }
-	
+	/// Define from another rect.
+	void Define(const Rect& rect)
+	{
+		_min = rect._min;
+		_max = rect._max;
+	}
+
+	/// Define from minimum and maximum vectors.
+	void Define(const Vector2& min, const Vector2& max)
+	{
+		_min = min;
+		_max = max;
+	}
+
+	/// Define from a point.
+	void Define(const Vector2& point)
+	{
+		_min = _max = point;
+	}
+
+	/// Merge a point.
+	void Merge(const Vector2& point)
+	{
+		if (point.x < _min.x)
+			_min.x = point.x;
+		if (point.x > _max.x)
+			_max.x = point.x;
+		if (point.y < _min.y)
+			_min.y = point.y;
+		if (point.y > _max.y)
+			_max.y = point.y;
+	}
+
+	/// Merge a rect.
+	void Merge(const Rect& rect)
+	{
+		if (rect._min.x < _min.x)
+			_min.x = rect._min.x;
+		if (rect._min.y < _min.y)
+			_min.y = rect._min.y;
+		if (rect._max.x > _max.x)
+			_max.x = rect._max.x;
+		if (rect._max.y > _max.y)
+			_max.y = rect._max.y;
+	}
+
+	/// Clear to undefined state.
+	void Clear()
+	{
+		_min = Vector2(M_INFINITY, M_INFINITY);
+		_max = Vector2(-M_INFINITY, -M_INFINITY);
+	}
+
+	/// Clip with another rect.
+	void Clip(const Rect& rect);
+
+	/// Return true if this rect is defined via a previous call to Define() or Merge().
+	bool Defined() const
+	{
+		return _min.x != M_INFINITY;
+	}
+
+	/// Return center.
+	Vector2 Center() const { return (_max + _min) * 0.5f; }
+
+	/// Return size.
+	Vector2 Size() const { return _max - _min; }
+
+	/// Return half-size.
+	Vector2 HalfSize() const { return (_max - _min) * 0.5f; }
+
+	/// Test for equality with another rect with epsilon.
+	bool Equals(const Rect& rhs) const { return _min.Equals(rhs._min) && _max.Equals(rhs._max); }
+
+	/// Test whether a point is inside.
+	Intersection IsInside(const Vector2& point) const
+	{
+		if (point.x < _min.x || point.y < _min.y || point.x > _max.x || point.y > _max.y)
+			return OUTSIDE;
+		else
+			return INSIDE;
+	}
+
+	/// Test if another rect is inside, outside or intersects.
+	Intersection IsInside(const Rect& rect) const
+	{
+		if (rect._max.x < _min.x || rect._min.x > _max.x || rect._max.y < _min.y || rect._min.y > _max.y)
+			return OUTSIDE;
+		else if (rect._min.x < _min.x || rect._max.x > _max.x || rect._min.y < _min.y || rect._max.y > _max.y)
+			return INTERSECTS;
+		else
+			return INSIDE;
+	}
+
+	/// Return float data.
+	const void* Data() const { return &_min.x; }
+
+	/// Return as a vector.
+	Vector4 ToVector4() const { return Vector4(_min.x, _min.y, _max.x, _max.y); }
+
+	/// Return as string.
+	STRING ToString() const;
+
+	/// Return left-top corner position.
+	Vector2 Min() const { return _min; }
+
+	/// Return right-bottom corner position.
+	Vector2 Max() const { return _max; }
+
+	/// Return left coordinate.
+	float Left() const { return _min.x; }
+
+	/// Return top coordinate.
+	float Top() const { return _min.y; }
+
+	/// Return right coordinate.
+	float Right() const { return _max.x; }
+
+	/// Return bottom coordinate.
+	float Bottom() const { return _max.y; }
+
+	/// Minimum vector.
+	Vector2 _min;
+	/// Maximum vector.
+	Vector2 _max;
+
+	/// Rect in the range (-1, -1) - (1, 1)
+	static const Rect FULL;
+	/// Rect in the range (0, 0) - (1, 1)
+	static const Rect POSITIVE;
+	/// Zero-sized rect.
+	static const Rect ZERO;
 };
-using Rectf = Rect<float>;
-using RectInt = Rect<int>;
 
-inline bool CompareApproximately(const Rectf& lhs, const Rectf& rhs)
+/// Two-dimensional bounding rectangle with integer values.
+class RectInt
 {
-	return CompareApproximately(lhs.x, rhs.x) && CompareApproximately(lhs.y, rhs.y) &&
-		CompareApproximately(lhs.width, rhs.width) && CompareApproximately(lhs.height, rhs.height);
-}
+public:
+	/// Construct a zero rect.
+	RectInt() noexcept :
+		_left(0),
+		_top(0),
+		_right(0),
+		_bottom(0)
+	{
+	}
+
+	/// Construct from minimum and maximum vectors.
+	RectInt(const Vector2& min, const Vector2& max) noexcept :
+		_left(min.x),
+		_top(min.y),
+		_right(max.x),
+		_bottom(max.y)
+	{
+	}
+
+	/// Construct from coordinates.
+	RectInt(int left, int top, int right, int bottom) noexcept :
+		_left(left),
+		_top(top),
+		_right(right),
+		_bottom(bottom)
+	{
+	}
+
+	/// Construct from an int array.
+	explicit RectInt(const int* data) noexcept :
+		_left(data[0]),
+		_top(data[1]),
+		_right(data[2]),
+		_bottom(data[3])
+	{
+	}
+
+	/// Test for equality with another rect.
+	bool operator ==(const RectInt& rhs) const
+	{
+		return _left == rhs._left && _top == rhs._top && _right == rhs._right && _bottom == rhs._bottom;
+	}
+
+	/// Test for inequality with another rect.
+	bool operator !=(const RectInt& rhs) const
+	{
+		return _left != rhs._left || _top != rhs._top || _right != rhs._right || _bottom != rhs._bottom;
+	}
+
+	/// Add another rect to this one inplace.
+	RectInt& operator +=(const RectInt& rhs)
+	{
+		_left += rhs._left;
+		_top += rhs._top;
+		_right += rhs._right;
+		_bottom += rhs._bottom;
+		return *this;
+	}
+
+	/// Subtract another rect from this one inplace.
+	RectInt& operator -=(const RectInt& rhs)
+	{
+		_left -= rhs._left;
+		_top -= rhs._top;
+		_right -= rhs._right;
+		_bottom -= rhs._bottom;
+		return *this;
+	}
+
+	/// Divide by scalar inplace.
+	RectInt& operator /=(float value)
+	{
+		_left = static_cast<int>(_left / value);
+		_top = static_cast<int>(_top / value);
+		_right = static_cast<int>(_right / value);
+		_bottom = static_cast<int>(_bottom / value);
+		return *this;
+	}
+
+	/// Multiply by scalar inplace.
+	RectInt& operator *=(float value)
+	{
+		_left = static_cast<int>(_left * value);
+		_top = static_cast<int>(_top * value);
+		_right = static_cast<int>(_right * value);
+		_bottom = static_cast<int>(_bottom * value);
+		return *this;
+	}
+
+	/// Divide by scalar.
+	RectInt operator /(float value) const
+	{
+		return {
+			static_cast<int>(_left / value), static_cast<int>(_top / value),
+			static_cast<int>(_right / value), static_cast<int>(_bottom / value)
+		};
+	}
+
+	/// Multiply by scalar.
+	RectInt operator *(float value) const
+	{
+		return {
+			static_cast<int>(_left * value), static_cast<int>(_top * value),
+			static_cast<int>(_right * value), static_cast<int>(_bottom * value)
+		};
+	}
+
+	/// Add another rect.
+	RectInt operator +(const RectInt& rhs) const
+	{
+		return {
+			_left + rhs._left, _top + rhs._top,
+			_right + rhs._right, _bottom + rhs._bottom
+		};
+	}
+
+	/// Subtract another rect.
+	RectInt operator -(const RectInt& rhs) const
+	{
+		return {
+			_left - rhs._left, _top - rhs._top,
+			_right - rhs._right, _bottom - rhs._bottom
+		};
+	}
+
+	/// Return size.
+	Vector2 Size() const { return Vector2(Width(), Height()); }
+
+	/// Return width.
+	int Width() const { return _right - _left; }
+
+	/// Return height.
+	int Height() const { return _bottom - _top; }
+
+	/// Test whether a point is inside.
+	Intersection IsInside(const Vector2& point) const
+	{
+		if (point.x < _left || point.y < _top || point.x >= _right || point.y >= _bottom)
+			return OUTSIDE;
+		else
+			return INSIDE;
+	}
+
+	/// Clip with another rect.  Since IntRect does not have an undefined state
+	/// like Rect, return (0, 0, 0, 0) if the result is empty.
+	void Clip(const RectInt& rect);
+
+	/// Merge a rect.  If this rect was empty, become the other rect.  If the
+	/// other rect is empty, do nothing.
+	void Merge(const RectInt& rect);
+
+	/// Return integer data.
+	const int* Data() const { return &_left; }
+
+	/// Return as string.
+	STRING ToString() const;
+
+	/// Return left-top corner position.
+	Vector2 Min() const { return { (float)_left, (float)_top }; }
+
+	/// Return right-bottom corner position.
+	Vector2 Max() const { return { (float)_right, (float)_bottom }; }
+
+	/// Return left coordinate.
+	int Left() const { return _left; }
+
+	/// Return top coordinate.
+	int Top() const { return _top; }
+
+	/// Return right coordinate.
+	int Right() const { return _right; }
+
+	/// Return bottom coordinate.
+	int Bottom() const { return _bottom; }
+
+	/// Left coordinate.
+	int _left;
+	/// Top coordinate.
+	int _top;
+	/// Right coordinate.
+	int _right;
+	/// Bottom coordinate.
+	int _bottom;
+
+	/// Zero-sized rect.
+	static const RectInt ZERO;
+};
 
 }
 

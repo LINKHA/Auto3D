@@ -306,7 +306,7 @@ bool File::openInternal(const STRING& fileName, FileMode mode, bool fromPackage)
 		fseek((FILE*)_handle, 0, SEEK_END);
 		long size = ftell((FILE*)_handle);
 		fseek((FILE*)_handle, 0, SEEK_SET);
-		if (size > MATH_MAX_UNSIGNED)
+		if (size > M_MAX_UNSIGNED)
 		{
 			AutoCout << "Could not open file" << fileName.CStr() << "which is larger than 4GB" << AutoEndl;
 			Close();

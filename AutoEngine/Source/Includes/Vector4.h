@@ -1,49 +1,228 @@
 #pragma once
 #include "MathBase.h"
+#include "Vector3.h"
 
 namespace Auto3D {
-struct Vector4
+
+/// Four-dimensional vector.
+class Vector4
 {
 public:
-	float x, y, z, w;
+	/// Construct a zero vector.
+	Vector4() noexcept :
+		x(0.0f),
+		y(0.0f),
+		z(0.0f),
+		w(0.0f)
+	{
+	}
 
-	Vector4(): x(0.0), y(0.0), z(0.0), w(0.0) {}
-	Vector4(const Vector4& vec): x(vec.x), y(vec.y), z(vec.z), w(vec.w) {}
-	Vector4(float xPos, float yPos , float zPos, float wPos) :x(xPos),y(yPos),z(zPos),w(wPos) {}
+	/// Copy-construct from another vector.
+	Vector4(const Vector4& vector) noexcept = default;
 
-	void Set(float inX, float inY, float inZ, float inW) { x = inX; y = inY; z = inZ; w = inW; }
-	void Set(const float* array) { x = array[0]; y = array[1]; z = array[2]; w = array[3]; }
+	/// Construct from a 3-dimensional vector and the W coordinate.
+	Vector4(const Vector3& vector, float w) noexcept :
+		x(vector.x),
+		y(vector.y),
+		z(vector.z),
+		w(w)
+	{
+	}
 
-	float* GetPtr() { return &x; }
-	const float* GetPtr() const { return &x; }
+	/// Construct from coordinates.
+	Vector4(float x, float y, float z, float w) noexcept :
+		x(x),
+		y(y),
+		z(z),
+		w(w)
+	{
+	}
 
-	glm::vec4 ToGLM() { return glm::vec4(x, y, z, w); }
-	inline Vector4 operator-()const							{ return Vector4(-x, -y, -z, -w); }
-	inline Vector4 operator-(const Vector4& rhs)const		{ return Vector4(x - rhs.x, y - rhs.y, z - rhs.z, w - rhs.w); }
-	inline Vector4 operator+(const Vector4& rhs)const		{ return Vector4(x + rhs.x, y + rhs.y, z + rhs.z, w + rhs.w); }
-	inline Vector4 operator*(const Vector4& rhs)const		{ return Vector4(x*rhs.x, y*rhs.y, z*rhs.z, w*rhs.w); }
-	inline Vector4 operator*(const float scale)const		{ return Vector4(x*scale, y*scale, z*scale, w*scale); }
-	inline Vector4 operator/(const float scale) const		{ return Vector4(x / scale, y / scale, z / scale, w / scale); }
-	
-	inline Vector4&	operator=(const Vector4& rhs)			{ x = rhs.x; y = rhs.y; z = rhs.z; w = rhs.w; return *this; }
-	inline Vector4& operator+=(const Vector4& rhs)			{ x += rhs.x; y += rhs.y; z += rhs.z; w += rhs.w; return *this; }
-	inline Vector4& operator-=(const Vector4& rhs)			{ x -= rhs.x; y -= rhs.y; z -= rhs.z; w -= rhs.w; return *this; }
-	inline Vector4& operator*=(const float scale)			{ x *= scale; y *= scale; z *= scale; w *= scale; return *this; }
-	inline Vector4& operator*=(const Vector4& rhs)			{ x *= rhs.x; y *= rhs.y; z *= rhs.z; w *= rhs.w; return *this; }
-	inline Vector4& operator/=(const float scale)			{ x /= scale; y /= scale; z /= scale; w /= scale; return *this; }
+	/// Construct from a float array.
+	explicit Vector4(const float* data) noexcept :
+		x(data[0]),
+		y(data[1]),
+		z(data[2]),
+		w(data[3])
+	{
+	}
 
-	const float& operator[] (int i)const					{ assert(i >= 0 && i <= 3); return (&x)[i]; }
-	float& operator[] (int i)								{ assert(i >= 0 && i <= 3); return (&x)[i]; }
-	
-	inline bool operator==(const Vector4& rhs)const			{ return (x == rhs.x) && (y == rhs.y) && (z == rhs.z) && (w == rhs.w); }
-	inline bool operator!=(const Vector4& rhs)const			{ return (x != rhs.x) || (y != rhs.y) || (z != rhs.z) || (w != rhs.w); }
-	inline bool operator<(const Vector4& rhs)const			{ if (x < rhs.x) return true; if (x > rhs.x) return false; if (y < rhs.y) return true; if (y > rhs.y) return false; if (z < rhs.z) return true; if (z > rhs.z) return false; if (w < rhs.x) return true; if (w > rhs.w) return false; return false; }
+	/// Assign from another vector.
+	Vector4& operator =(const Vector4& rhs) noexcept = default;
 
+	/// Test for equality with another vector without epsilon.
+	bool operator ==(const Vector4& rhs) const { return x == rhs.x && y == rhs.y && z == rhs.z && w == rhs.w; }
+
+	/// Test for inequality with another vector without epsilon.
+	bool operator !=(const Vector4& rhs) const { return x != rhs.x || y != rhs.y || z != rhs.z || w != rhs.w; }
+
+	/// Add a vector.
+	Vector4 operator +(const Vector4& rhs) const { return Vector4(x + rhs.x, y + rhs.y, z + rhs.z, w + rhs.w); }
+
+	/// Return negation.
+	Vector4 operator -() const { return Vector4(-x, -y, -z, -w); }
+
+	/// Subtract a vector.
+	Vector4 operator -(const Vector4& rhs) const { return Vector4(x - rhs.x, y - rhs.y, z - rhs.z, w - rhs.w); }
+
+	/// Multiply with a scalar.
+	Vector4 operator *(float rhs) const { return Vector4(x * rhs, y * rhs, z * rhs, w * rhs); }
+
+	/// Multiply with a vector.
+	Vector4 operator *(const Vector4& rhs) const { return Vector4(x * rhs.x, y * rhs.y, z * rhs.z, w * rhs.w); }
+
+	/// Divide by a scalar.
+	Vector4 operator /(float rhs) const { return Vector4(x / rhs, y / rhs, z / rhs, w / rhs); }
+
+	/// Divide by a vector.
+	Vector4 operator /(const Vector4& rhs) const { return Vector4(x / rhs.x, y / rhs.y, z / rhs.z, w / rhs.w); }
+
+	/// Add-assign a vector.
+	Vector4& operator +=(const Vector4& rhs)
+	{
+		x += rhs.x;
+		y += rhs.y;
+		z += rhs.z;
+		w += rhs.w;
+		return *this;
+	}
+
+	/// Subtract-assign a vector.
+	Vector4& operator -=(const Vector4& rhs)
+	{
+		x -= rhs.x;
+		y -= rhs.y;
+		z -= rhs.z;
+		w -= rhs.w;
+		return *this;
+	}
+
+	/// Multiply-assign a scalar.
+	Vector4& operator *=(float rhs)
+	{
+		x *= rhs;
+		y *= rhs;
+		z *= rhs;
+		w *= rhs;
+		return *this;
+	}
+
+	/// Multiply-assign a vector.
+	Vector4& operator *=(const Vector4& rhs)
+	{
+		x *= rhs.x;
+		y *= rhs.y;
+		z *= rhs.z;
+		w *= rhs.w;
+		return *this;
+	}
+
+	/// Divide-assign a scalar.
+	Vector4& operator /=(float rhs)
+	{
+		float invRhs = 1.0f / rhs;
+		x *= invRhs;
+		y *= invRhs;
+		z *= invRhs;
+		w *= invRhs;
+		return *this;
+	}
+
+	/// Divide-assign a vector.
+	Vector4& operator /=(const Vector4& rhs)
+	{
+		x /= rhs.x;
+		y /= rhs.y;
+		z /= rhs.z;
+		w /= rhs.w;
+		return *this;
+	}
+
+	/// Return const value by index.
+	float operator[](unsigned index) const { return (&x)[index]; }
+
+	/// Return mutable value by index.
+	float& operator[](unsigned index) { return (&x)[index]; }
+
+	/// Calculate dot product.
+	float DotProduct(const Vector4& rhs) const { return x * rhs.x + y * rhs.y + z * rhs.z + w * rhs.w; }
+
+	/// Calculate absolute dot product.
+	float AbsDotProduct(const Vector4& rhs) const
+	{
+		return Auto3D::Abs(x * rhs.x) + Auto3D::Abs(y * rhs.y) + Auto3D::Abs(z * rhs.z) + Auto3D::Abs(w * rhs.w);
+	}
+
+	/// Project vector onto axis.
+	float ProjectOntoAxis(const Vector3& axis) const { return DotProduct(Vector4(axis.Normalized(), 0.0f)); }
+
+	/// Return absolute vector.
+	Vector4 Abs() const { return Vector4(Auto3D::Abs(x), Auto3D::Abs(y), Auto3D::Abs(z), Auto3D::Abs(w)); }
+
+	/// Linear interpolation with another vector.
+	Vector4 Lerp(const Vector4& rhs, float t) const { return *this * (1.0f - t) + rhs * t; }
+
+	/// Test for equality with another vector with epsilon.
+	bool Equals(const Vector4& rhs) const
+	{
+		return Auto3D::Equals(x, rhs.x) && Auto3D::Equals(y, rhs.y) && Auto3D::Equals(z, rhs.z) && Auto3D::Equals(w, rhs.w);
+	}
+
+	/// Return whether is NaN.
+	bool IsNaN() const { return Auto3D::IsNaN(x) || Auto3D::IsNaN(y) || Auto3D::IsNaN(z) || Auto3D::IsNaN(w); }
+
+	/// Return float data.
+	const float* Data() const { return &x; }
+
+	/// Return as string.
+	STRING ToString() const;
+
+	/// Return hash value for HashSet & HashMap.
+	unsigned ToHash() const
+	{
+		unsigned hash = 37;
+		hash = 37 * hash + FloatToRawIntBits(x);
+		hash = 37 * hash + FloatToRawIntBits(y);
+		hash = 37 * hash + FloatToRawIntBits(z);
+		hash = 37 * hash + FloatToRawIntBits(w);
+
+		return hash;
+	}
+
+	/// X coordinate.
+	float x;
+	/// Y coordinate.
+	float y;
+	/// Z coordinate.
+	float z;
+	/// W coordinate.
+	float w;
+
+	/// Zero vector.
+	static const Vector4 ZERO;
+	/// (1,1,1) vector.
+	static const Vector4 ONE;
 };
-inline Vector4 ToAuto(glm::vec4 vec) { return Vector4(vec.x, vec.y, vec.z, vec.w); }
 
-inline float Dot(const Vector4& lhs, const Vector4& rhs) { return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z + lhs.w * rhs.w; }
+/// Multiply Vector4 with a scalar.
+inline Vector4 operator *(float lhs, const Vector4& rhs) { return rhs * lhs; }
 
-inline Vector4 Lerp(const Vector4& from, const Vector4& to, float t) { return lerp(from, to, t); }
+/// Per-component linear interpolation between two 4-vectors.
+inline Vector4 VectorLerp(const Vector4& lhs, const Vector4& rhs, const Vector4& t) { return lhs + (rhs - lhs) * t; }
+
+/// Per-component min of two 4-vectors.
+inline Vector4 VectorMin(const Vector4& lhs, const Vector4& rhs) { return Vector4(Min(lhs.x, rhs.x), Min(lhs.y, rhs.y), Min(lhs.z, rhs.z), Min(lhs.w, rhs.w)); }
+
+/// Per-component max of two 4-vectors.
+inline Vector4 VectorMax(const Vector4& lhs, const Vector4& rhs) { return Vector4(Max(lhs.x, rhs.x), Max(lhs.y, rhs.y), Max(lhs.z, rhs.z), Max(lhs.w, rhs.w)); }
+
+/// Per-component floor of 4-vector.
+inline Vector4 VectorFloor(const Vector4& vec) { return Vector4(Floor(vec.x), Floor(vec.y), Floor(vec.z), Floor(vec.w)); }
+
+/// Per-component round of 4-vector.
+inline Vector4 VectorRound(const Vector4& vec) { return Vector4(Round(vec.x), Round(vec.y), Round(vec.z), Round(vec.w)); }
+
+/// Per-component ceil of 4-vector.
+inline Vector4 VectorCeil(const Vector4& vec) { return Vector4(Ceil(vec.x), Ceil(vec.y), Ceil(vec.z), Ceil(vec.w)); }
 
 }

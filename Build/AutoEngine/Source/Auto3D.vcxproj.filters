@@ -178,6 +178,15 @@
     <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLShaderProgram.cpp">
       <Filter>Source\Graphics\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\Matrix2x2.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\Matrix3x4.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\Rect.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AutoImage.h">
@@ -440,6 +449,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\OGLShaderProgram.h">
       <Filter>Source\Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Matrix2x2.h">
+      <Filter>Source\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Matrix3x4.h">
+      <Filter>Source\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

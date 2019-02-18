@@ -1,6 +1,6 @@
 #pragma once
-#include "LevelBehaviorObject.h"
 #include "Node.h"
+#include "Ambient.h"
 
 namespace Auto3D {
 
@@ -9,9 +9,9 @@ const static char* GEOMETRY_ATTACH = "GeoMetry_attach";
 /** 
 * Virtual component class,It stores the nodes
 */
-class Component : public LevelBehaviorObject
+class Component : public Object
 {
-	REGISTER_OBJECT_ABSTRACT_CLASS(Component, LevelBehaviorObject)
+	REGISTER_OBJECT_ABSTRACT_CLASS(Component, Object)
 public:
 	/**
 	* @brief : Construct
@@ -46,7 +46,7 @@ public:
 	*/
 	virtual void Init()
 	{
-		_levelID = GetNode()->GetLevelID();
+		
 	}
 	/**
 	* @brief : Destory this component

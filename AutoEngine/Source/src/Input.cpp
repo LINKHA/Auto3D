@@ -131,8 +131,8 @@ void Input::LockCursor(int x, int y)
 }
 void Input::LockCursorInCenter()
 {
-	_lockMousePosition.x = GetSubSystem<Graphics>()->GetWindowRectInt().width / 2;
-	_lockMousePosition.y = GetSubSystem<Graphics>()->GetWindowRectInt().height / 2;
+	_lockMousePosition.x = GetSubSystem<Graphics>()->GetWindowRectInt().Width() / 2;
+	_lockMousePosition.y = GetSubSystem<Graphics>()->GetWindowRectInt().Height() / 2;
 	_isLockCursor = true;
 }
 void Input::HideMouseInWindow(bool enable)

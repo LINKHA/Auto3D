@@ -1,5 +1,4 @@
 #include "Component.h"
-#include "tScene.h"
 #include "NewDef.h"
 
 namespace Auto3D {
@@ -53,7 +52,8 @@ const int Component::GetLevelID()
 
 SharedPtr<Node> Component::GetCurrentSceneNode()
 {
-	return GetSubSystem<tScene>()->GetLevelScene(GetLevelID())->GetSceneNode();
+	//return GetSubSystem<tScene>()->GetLevelScene(GetLevelID())->GetSceneNode();
+	return SharedPtr<Node>();
 }
 
 }

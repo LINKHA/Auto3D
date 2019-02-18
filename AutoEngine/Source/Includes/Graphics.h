@@ -75,7 +75,7 @@ public:
 	/**
 	* @brief :
 	*/
-	void SetWindowRectInt(int width, int height) { _windowRect.width = width; _windowRect.height = height; }
+	void SetWindowRectInt(int width, int height) { _windowRect._right = width + _windowRect._left; _windowRect._top = height + _windowRect._bottom; }
 	/**
 	* @brief : Get the upper name of the form
 	* @return : char*
@@ -116,7 +116,7 @@ public:
 	/**
 	* @brief : Set window rect with float (only in space awake function)
 	*/
-	void SetWindowRect(float x, float y) { _windowRect.x = x; _windowRect.y = y; }
+	void SetWindowRect(float x, float y) { _windowRect._left = x; _windowRect._right = y; }
 	/**
 	* @brief : Set window rect with RectInt (only in space awake function)
 	*/

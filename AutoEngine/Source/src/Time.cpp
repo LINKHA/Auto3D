@@ -110,7 +110,7 @@ void Time::CalcSmoothDeltaTime(TimeHolder& time)
 	time.smoothingWeight += NEW_DELTA_TIME_WEIGHT;
 	// As confidence in smoothed value increases the divisor goes towards 1
 	float normalized = NEW_DELTA_TIME_WEIGHT / time.smoothingWeight;
-	time.smoothDeltaTime = lerp(time.smoothDeltaTime, time.deltaTime, normalized);
+	time.smoothDeltaTime = Lerp(time.smoothDeltaTime, time.deltaTime, normalized);
 }
 
 RealTime& Time::GetRealTime()
@@ -167,7 +167,7 @@ void Time::Sleep(unsigned millisecond)
 
 void Time::SetMaximumDeltaTime(float maxStep)
 {
-	_maximumTimestep = max<float>(maxStep, _dynamicTime.deltaTime);
+	_maximumTimestep = Max<float>(maxStep, _dynamicTime.deltaTime);
 }
 
 void Time::SetTimeScale(float scale)
