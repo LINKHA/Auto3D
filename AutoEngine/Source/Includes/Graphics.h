@@ -16,6 +16,7 @@ class Texture;
 class RenderSurface;
 class VertexBuffer;
 class Texture2D;
+class ShaderProgram;
 ///
 const static int GRAPHICS_BUFFER_NUM = 3;
 
@@ -422,6 +423,16 @@ private:
 	SharedPtr<RenderSurface> _renderTargets[MAX_RENDERTARGETS]{};
 	/// GPU objects.
 	VECTOR<GPUObject*> _gpuObjects;
+	/// Vertex shader in use.
+	SharedPtr<ShaderVariation> _vertexShader{};
+	/// Pixel shader in use.
+	SharedPtr<ShaderVariation> _pixelShader{};
+	/// Bound shader program.
+	SharedPtr<ShaderProgram> _shaderProgram{};
+	/// Current renderstate requested by the application.
+	RenderState _currentRenderState;
+	/// Renderstate applied to OpenGL.
+	RenderState _renderState;
 	/// Shadow map depth texture format
 	unsigned _shadowMapFormat{};
 	/// Hardware shadow map depth compare support flag

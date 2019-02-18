@@ -339,8 +339,8 @@ void Graphics::SetUBO(unsigned object)
 
 void Graphics::ResetCachedState()
 {
-	for (auto& vertexBuffer : _vertexBuffers)
-		vertexBuffer.reset();
+	for (size_t i =0; i<MAX_VERTEX_STREAMS; i++)
+		_vertexBuffers[i].reset();
 
 	for (unsigned i = 0; i < MAX_TEXTURE_UNITS; ++i)
 	{
@@ -350,31 +350,70 @@ void Graphics::ResetCachedState()
 	for (auto& renderTarget : _renderTargets)
 		renderTarget.reset();
 
-	_drawColor = Color(0.0f, 0.0f, 0.0f, 1.0f);
-	_viewport = RectInt(0, 0, 0, 0);
-	_colorWrite = false;
-	_depthWrite = false;
-	_stencilWriteMask = MATH_MAX_UNSIGNED;
-	_numPrimitives = 0;
-	_numBatches = 0;
-	_numSample = 0;
+	_indexBuffer.reset();
+	_vertexShader.reset();
+	_pixelShader.reset();
+	_shaderProgram.reset();
+
+	//_numPrimitives = 0;
+	//_numBatches = 0;
+	//_numSample = 0;
+
+	//_drawColor = Color(0.0f, 0.0f, 0.0f, 1.0f);
+	//_viewport = RectInt(0, 0, 0, 0);
+	//_colorWrite = false;
+	//_depthWrite = false;
+	//_stencilWriteMask = MATH_MAX_UNSIGNED;
+	//_scissorRect = RectInt(0, 0, 0, 0);
+	//_depthTestMode = DepthMode::Always;
+	//_blendMode = BlendMode::Replace;
+	//_alphaToCoverage = false;
+
 	_impl->_boundFBO = _impl->_systemFBO;
 	_impl->_boundVBO = 0;
 	_impl->_boundUBO = 0;
-	_scissorRect = RectInt(0, 0, 0, 0);
 	_impl->_sRGBWrite = false;
-	_depthTestMode = DepthMode::Always;
-	_blendMode = BlendMode::Replace;
-	_alphaToCoverage = false;
 
-	// Set initial state to match Direct3D
-	if (_impl->_glContext)
-	{
-		glEnable(GL_DEPTH_TEST);
-		SetCullMode(CullMode::CCW);
-		SetDepthTest(DepthMode::LessEqual);
-		SetDepthWrite(true);
-	}
+	_renderState.depthWrite = false;
+	_renderState.depthFunc = CompareFunc::Always;
+	_renderState.depthBias = 0;
+	_renderState.slopeScaledDepthBias = 0;
+	_renderState.depthClip = true;
+	_renderState.colorWriteMask = COLORMASK_ALL;
+	_renderState.alphaToCoverage = false;
+	_renderState.blendMode.blendEnable = false;
+	_renderState.blendMode.srcBlend = BlendFactor::Count;
+	_renderState.blendMode.destBlend = BlendFactor::Count;
+	_renderState.blendMode.blendOp = BlendOp::Count;
+	_renderState.blendMode.srcBlendAlpha = BlendFactor::Count;
+	_renderState.blendMode.destBlendAlpha = BlendFactor::Count;
+	_renderState.blendMode.blendOpAlpha = BlendOp::Count;
+	_renderState.fillMode = FillMode::Solid;
+	_renderState.cullMode = CullMode::None;
+	_renderState.scissorEnable = false;
+	_renderState.scissorRect = RectInt(0, 0, 0, 0);
+	_renderState.stencilEnable = false;
+	_renderState.stencilRef = 0;
+	_renderState.stencilTest.stencilReadMask = 0xff;
+	_renderState.stencilTest.stencilWriteMask = 0xff;
+	_renderState.stencilTest.frontFail = StencilOp::Keep;
+	_renderState.stencilTest.frontDepthFail = StencilOp::Keep;
+	_renderState.stencilTest.frontPass = StencilOp::Keep;
+	_renderState.stencilTest.frontFunc = CompareFunc::Always;
+	_renderState.stencilTest.backFail = StencilOp::Keep;
+	_renderState.stencilTest.backDepthFail = StencilOp::Keep;
+	_renderState.stencilTest.backPass = StencilOp::Keep;
+	_renderState.stencilTest.backFunc = CompareFunc::Always;
+	_currentRenderState = _renderState;
+
+	//// Set initial state to match Direct3D
+	//if (_impl->_glContext)
+	//{
+	//	glEnable(GL_DEPTH_TEST);
+	//	SetCullMode(CullMode::CCW);
+	//	SetDepthTest(DepthMode::LessEqual);
+	//	SetDepthWrite(true);
+	//}
 }
 
 void Graphics::MarkFBODirty()

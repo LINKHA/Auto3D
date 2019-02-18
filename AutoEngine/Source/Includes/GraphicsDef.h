@@ -18,6 +18,18 @@
 #else
 #define DESKTOP_GRAPHICS
 #endif
+/// Disable color write.
+static const unsigned char COLORMASK_NONE = 0x0;
+/// Write to red channel.
+static const unsigned char COLORMASK_R = 0x1;
+/// Write to green channel.
+static const unsigned char COLORMASK_G = 0x2;
+/// Write to blue channel.
+static const unsigned char COLORMASK_B = 0x4;
+/// Write to alpha channel.
+static const unsigned char COLORMASK_A = 0x8;
+/// Write to all color channels (default.)
+static const unsigned char COLORMASK_ALL = 0xf;
 
 namespace Auto3D {
 
@@ -61,6 +73,38 @@ enum class GeometryType
 	// This is not a real geometry type for VS, but used to mark objects that do not desire to be instanced
 	StaticNoinstancing = 7,
 };
+
+/// Blend factors.
+enum class BlendFactor
+{
+	Zero = 1,
+	One,
+	SrcColor,
+	InvSrcColor,
+	SrcAlpha,
+	InvSrcAlpha,
+	DestAlpha,
+	InvDestAlpha,
+	DestColor,
+	InvDestColor,
+	SrcAlphaSat,
+	Count
+};
+
+/// Element semantics for vertex elements.
+enum class ElementSemantic
+{
+	Position = 0,
+	Normal,
+	Binormal,
+	Tangent,
+	Texcoord,
+	Color,
+	BlendWeight,
+	BlendIndices,
+	Count
+};
+
 
 enum class MaterialQuality : unsigned
 {
@@ -186,8 +230,40 @@ enum class StencilMode
 	GreaterEqual,
 	Count
 };
-/// Stencil operation.
+/// Fill modes.
+enum class FillMode
+{
+	Wireframe = 2,
+	Solid = 3,
+	Count
+};
 
+
+/// Depth or stencil compare modes.
+enum class CompareFunc
+{
+	Never = 1,
+	Less,
+	Equal,
+	LessEqual,
+	Greater,
+	NotEqual,
+	GreaterEqual,
+	Always,
+	Count
+};
+/// Blend operations.
+enum class BlendOp
+{
+	Add = 1,
+	Subtract,
+	RevSubtract,
+	Min,
+	Max,
+	Count
+};
+
+/// Stencil operation.
 enum class StencilOp
 {
 	Keep = 0,
@@ -304,6 +380,167 @@ enum class VertexElementSemantic
 	Blendindices,
 	Objectindex,
 	Count
+};
+
+/// Description of a stencil test.
+struct StencilTestDesc
+{
+	/// Default-construct.
+	StencilTestDesc()
+	{
+		Reset();
+	}
+
+	/// Reset to defaults.
+	void Reset()
+	{
+		stencilReadMask = 0xff;
+		stencilWriteMask = 0xff;
+		frontFunc = CompareFunc::Always;
+		frontFail = StencilOp::Keep;
+		frontDepthFail = StencilOp::Keep;
+		frontPass = StencilOp::Keep;
+		backFunc = CompareFunc::Always;
+		backFail = StencilOp::Keep;
+		backDepthFail = StencilOp::Keep;
+		backPass = StencilOp::Keep;
+	}
+
+	/// Stencil read bit mask.
+	unsigned char stencilReadMask;
+	/// Stencil write bit mask.
+	unsigned char stencilWriteMask;
+	/// Stencil front face compare function.
+	CompareFunc frontFunc;
+	/// Operation for front face stencil test fail.
+	StencilOp frontFail;
+	/// Operation for front face depth test fail.
+	StencilOp frontDepthFail;
+	/// Operation for front face pass.
+	StencilOp frontPass;
+	/// Stencil back face compare function.
+	CompareFunc backFunc;
+	/// Operation for back face stencil test fail.
+	StencilOp backFail;
+	/// Operation for back face depth test fail.
+	StencilOp backDepthFail;
+	/// Operation for back face pass.
+	StencilOp backPass;
+};
+
+/// Description of a blend mode.
+struct BlendModeDesc
+{
+	/// Default-construct.
+	BlendModeDesc()
+	{
+		Reset();
+	}
+
+	/// Construct with parameters.
+	BlendModeDesc(bool blendEnable_, BlendFactor srcBlend_, BlendFactor destBlend_, BlendOp blendOp_, BlendFactor srcBlendAlpha_, BlendFactor destBlendAlpha_, BlendOp blendOpAlpha_) :
+		blendEnable(blendEnable_),
+		srcBlend(srcBlend_),
+		destBlend(destBlend_),
+		blendOp(blendOp_),
+		srcBlendAlpha(srcBlendAlpha_),
+		destBlendAlpha(destBlendAlpha_),
+		blendOpAlpha(blendOpAlpha_)
+	{
+	}
+
+	/// Reset to defaults.
+	void Reset()
+	{
+		blendEnable = false;
+		srcBlend = BlendFactor::One;
+		destBlend = BlendFactor::One;
+		blendOp = BlendOp::Add;
+		srcBlendAlpha = BlendFactor::One;
+		destBlendAlpha = BlendFactor::One;
+		blendOpAlpha = BlendOp::Add;
+	}
+
+	/// Test for equality with another blend mode description.
+	bool operator == (const BlendModeDesc& rhs) const { return blendEnable == rhs.blendEnable && srcBlend == rhs.srcBlend && destBlend == rhs.destBlend && blendOp == rhs.blendOp && srcBlendAlpha == rhs.srcBlendAlpha && destBlendAlpha == rhs.destBlendAlpha && blendOpAlpha == rhs.blendOpAlpha; }
+	/// Test for inequality with another blend mode description.
+	bool operator != (const BlendModeDesc& rhs) const { return !(*this == rhs); }
+
+	/// Blend enable flag.
+	bool blendEnable;
+	/// Source color blend factor.
+	BlendFactor srcBlend;
+	/// Destination color blend factor.
+	BlendFactor destBlend;
+	/// Color blend operation.
+	BlendOp blendOp;
+	/// Source alpha blend factor.
+	BlendFactor srcBlendAlpha;
+	/// Destination alpha blend factor.
+	BlendFactor destBlendAlpha;
+	/// Alpha blend operation.
+	BlendOp blendOpAlpha;
+};
+
+/// Collection of render state.
+struct RenderState
+{
+	/// Default-construct.
+	RenderState()
+	{
+		Reset();
+	}
+
+	/// Reset to defaults.
+	void Reset()
+	{
+		depthFunc = CompareFunc::LessEqual;
+		depthWrite = true;
+		depthClip = true;
+		depthBias = 0;
+		slopeScaledDepthBias = 0.0f;
+		colorWriteMask = COLORMASK_ALL;
+		alphaToCoverage = false;
+		blendMode.Reset();
+		cullMode = CullMode::CCW;
+		fillMode = FillMode::Solid;
+		scissorEnable = false;
+		scissorRect = RectInt(0, 0, 0, 0);
+		stencilEnable = false;
+		stencilRef = 0;
+		stencilTest.Reset();
+	}
+
+	/// Depth test function.
+	CompareFunc depthFunc;
+	/// Depth write enable.
+	bool depthWrite;
+	/// Depth clipping enable.
+	bool depthClip;
+	/// Constant depth bias.
+	int depthBias;
+	/// Slope-scaled depth bias.
+	float slopeScaledDepthBias;
+	/// Rendertarget color channel write mask.
+	unsigned char colorWriteMask;
+	/// Alpha-to-coverage enable.
+	bool alphaToCoverage;
+	/// Blend mode parameters.
+	BlendModeDesc blendMode;
+	/// Polygon culling mode.
+	CullMode cullMode;
+	/// Polygon fill mode.
+	FillMode fillMode;
+	/// Scissor test enable.
+	bool scissorEnable;
+	/// Scissor rectangle as pixels from rendertarget top left corner.
+	RectInt scissorRect;
+	/// Stencil test enable.
+	bool stencilEnable;
+	/// Stencil reference value.
+	unsigned char stencilRef;
+	/// Stencil test parameters.
+	StencilTestDesc stencilTest;
 };
 
 /// Vertex element description for arbitrary vertex declarations

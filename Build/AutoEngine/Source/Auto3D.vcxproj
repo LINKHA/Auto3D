@@ -280,6 +280,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLConstantBuffer.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLIndexBuffer.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLRenderSurface.cpp" />
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLShaderProgram.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLShaderVariation.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLTexture.cpp" />
     <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLTexture2D.cpp" />
@@ -405,6 +406,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\GlobalFactors.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\IndexBuffer.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\OGLGraphicsImp.h" />
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\OGLShaderProgram.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\RenderPath.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\RenderSurface.h" />
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\ResourceWithMetaData.h" />

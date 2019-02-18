@@ -382,6 +382,9 @@
     <ClCompile Include="..\..\..\AutoEngine\Source\src\Drawable.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLShaderProgram.cpp">
+      <Filter>Source\Graphics\OpenGL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\InstanceBeltLine.h">
@@ -845,6 +848,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Drawable.h">
       <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\OGLShaderProgram.h">
+      <Filter>Source\Graphics\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
