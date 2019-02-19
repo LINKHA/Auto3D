@@ -20,13 +20,13 @@ int Application::Run()
 		_engine->Init();
 
 		Start();
-		/*while (!_engine->IsExiting())
+		while (!_engine->IsExiting())
 		{
 			if(_engine->Update())
 				Update();
 			_engine->Render();
 			_engine->FrameFinish();
-		}*/
+		}
 
 		Stop();
 		_engine->Exit();

@@ -80,6 +80,7 @@ void Input::handleSDLEvent(void* sdlEvent)
 	}
 	break;
 	case SDL_QUIT:
+		_isQuit = true;
 		break;
 	}
 }

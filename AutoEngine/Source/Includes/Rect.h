@@ -267,7 +267,7 @@ public:
 	}
 
 	/// Construct from coordinates.
-	RectInt(int left, int top, int right, int bottom) noexcept :
+	RectInt(int left, int bottom, int right, int top) noexcept :
 		_left(left),
 		_top(top),
 		_right(right),
@@ -278,9 +278,9 @@ public:
 	/// Construct from an int array.
 	explicit RectInt(const int* data) noexcept :
 		_left(data[0]),
-		_top(data[1]),
+		_bottom(data[3]),
 		_right(data[2]),
-		_bottom(data[3])
+		_top(data[1])
 	{
 	}
 
@@ -379,7 +379,7 @@ public:
 	int Width() const { return _right - _left; }
 
 	/// Return height.
-	int Height() const { return _bottom - _top; }
+	int Height() const { return  _top - _bottom; }
 
 	/// Test whether a point is inside.
 	Intersection IsInside(const Vector2& point) const

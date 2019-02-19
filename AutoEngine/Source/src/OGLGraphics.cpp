@@ -406,20 +406,28 @@ void Graphics::CreateGameWindow()
 	SDL_GetDisplayBounds(0, &rect);
 	if (_isFullScreen)
 	{
-		_windowRect._right = rect.w + _windowRect._left;
-		_windowRect._top = rect.h + _windowRect._bottom;
+		_windowRect._right = rect.w;
+		_windowRect._top = rect.h;
+		_windowRect._left = 0;
+		_windowRect._bottom = 0;
+
 	}
 	else
 	{
 		if (_isCenter)
 		{
-			_windowRect._left = rect.w / 2;
-			_windowRect._bottom = rect.h / 2;
+			int w = _windowRect.Width();
+			int h = _windowRect.Height();
+			_windowRect._left = (rect.w - w) / 2;
+			_windowRect._bottom = (rect.h - h) / 2;
+			_windowRect._right = (rect.w + w) / 2;
+			_windowRect._top = (rect.h + h) / 2;
 		}
+		SDL_SetWindowSize(_window, _windowRect.Width(), _windowRect.Height());
+		SDL_SetWindowPosition(_window, _windowRect._left, _windowRect._bottom);
+
 	}
-	SDL_SetWindowSize(_window, _windowRect.Width(), _windowRect.Height());
-	SDL_SetWindowPosition(_window, _windowRect._left - _windowRect.Width() / 2, _windowRect._bottom - _windowRect.Height() / 2);
-	
+
 	// Lock cursor in window
 	if (_isGrab)
 		SDL_SetWindowGrab(_window, SDL_TRUE);

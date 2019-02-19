@@ -16,38 +16,37 @@ Engine::Engine(SharedPtr<Ambient> ambient)
 	: Super(ambient)
 	, _pauseMinimized(false)
 {
-	//_ambient->RegisterSubSystem(MakeShared<Renderer>(_ambient));
+	_ambient->RegisterSubSystem(MakeShared<Renderer>(_ambient));
 	_ambient->RegisterSubSystem(MakeShared<Graphics>(_ambient));
-	//_ambient->RegisterSubSystem(MakeShared<Time>(_ambient));
-	//_ambient->RegisterSubSystem(MakeShared<Input>(_ambient));
-	//_ambient->RegisterSubSystem(MakeShared<ResourceSystem>(_ambient));
-	//_ambient->RegisterSubSystem(MakeShared<IO>(_ambient));
-	//_ambient->RegisterSubSystem(MakeShared<Audio>(_ambient));
-	//_ambient->RegisterSubSystem(MakeShared<UI>(_ambient));
-	//_ambient->RegisterSubSystem(MakeShared<FileSystem>(_ambient));
+	_ambient->RegisterSubSystem(MakeShared<Time>(_ambient));
+	_ambient->RegisterSubSystem(MakeShared<Input>(_ambient));
+	_ambient->RegisterSubSystem(MakeShared<ResourceSystem>(_ambient));
+	_ambient->RegisterSubSystem(MakeShared<IO>(_ambient));
+	_ambient->RegisterSubSystem(MakeShared<Audio>(_ambient));
+	_ambient->RegisterSubSystem(MakeShared<UI>(_ambient));
+	_ambient->RegisterSubSystem(MakeShared<FileSystem>(_ambient));
 }
 
 Engine::~Engine()
 {
 
 	_ambient->RemoveSubSystem<Graphics>();
-	//_ambient->RemoveSubSystem<Time>();
-	//_ambient->RemoveSubSystem<Input>();
-	//_ambient->RemoveSubSystem<ResourceSystem>();
-	//_ambient->RemoveSubSystem<IO>();
-	//_ambient->RemoveSubSystem<Audio>();
-	//_ambient->RemoveSubSystem<UI>();
-	//_ambient->RemoveSubSystem<FileSystem>();
-	//_ambient->RemoveSubSystem<Renderer>();
+	_ambient->RemoveSubSystem<Time>();
+	_ambient->RemoveSubSystem<Input>();
+	_ambient->RemoveSubSystem<ResourceSystem>();
+	_ambient->RemoveSubSystem<IO>();
+	_ambient->RemoveSubSystem<Audio>();
+	_ambient->RemoveSubSystem<UI>();
+	_ambient->RemoveSubSystem<FileSystem>();
+	_ambient->RemoveSubSystem<Renderer>();
 }
 
 void Engine::Init()
 {
-	//auto renderer = GetSubSystem<Renderer>();
-	//GetSubSystem<IO>()->GetEngineInfo()->state = EngineState::Initing;
-	//GetSubSystem<ResourceSystem>()->Init();
-	//GetSubSystem<Audio>()->Init();
-	//GetSubSystem<Graphics>()->Init();
+	auto renderer = GetSubSystem<Renderer>();
+	GetSubSystem<IO>()->GetEngineInfo()->state = EngineState::Initing;
+	GetSubSystem<ResourceSystem>()->Init();
+	GetSubSystem<Graphics>()->Init();
 
 
 	_isInitialized = true;
@@ -55,36 +54,39 @@ void Engine::Init()
 
 void Engine::Exit() 
 {
-	/*GetSubSystem<IO>()->GetEngineInfo()->state = EngineState::Exiting;
+	GetSubSystem<IO>()->GetEngineInfo()->state = EngineState::Exiting;
 	GetSubSystem<Graphics>()->DestoryWindow();
-	GetSubSystem<Graphics>()->ReleaseAPI();*/
+	GetSubSystem<Graphics>()->ReleaseAPI();
 }
 void Engine::Render()
 {
-	//auto graphics = GetSubSystem<Graphics>();
-	//GetSubSystem<IO>()->GetEngineInfo()->state = EngineState::Rendering;
+	auto graphics = GetSubSystem<Graphics>();
+	GetSubSystem<IO>()->GetEngineInfo()->state = EngineState::Rendering;
 
-	//if (!graphics->BeginFrame())
-	//	return;
+	if (!graphics->BeginFrame())
+		return;
 
-	//graphics->EndFrame();
+	graphics->EndFrame();
 }
 bool Engine::Update()
 {
-	//auto engineInfo = GetSubSystem<IO>()->GetEngineInfo();
-	//auto timeSub = GetSubSystem<Time>();
+	auto engineInfo = GetSubSystem<IO>()->GetEngineInfo();
+	auto timeSub = GetSubSystem<Time>();
 	auto input = GetSubSystem<Input>();
 
-	//engineInfo->state = EngineState::Updateing;
-	//timeSub->Update();
+	engineInfo->state = EngineState::Updateing;
+	timeSub->Update();
 
-	//engineInfo->fps = timeSub->GetFramesPerSecond();
-	//engineInfo->frameCount = timeSub->GetFrameCount();
+	engineInfo->fps = timeSub->GetFramesPerSecond();
+	engineInfo->frameCount = timeSub->GetFrameCount();
 
 	input->Update();
-	//// If pause when minimized -mode is in use, stop updates and audio as necessary
-	//if (input->GetMinimized())
-	//	return false;
+	// close
+	if (input->GetAppQuit())
+		ShutDownEngine();
+	// If pause when minimized -mode is in use, stop updates and audio as necessary
+	if (input->GetMinimized())
+		return false;
 
 	return true;
 }

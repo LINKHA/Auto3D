@@ -253,7 +253,7 @@ private:
 	/// window in screen flag
 	bool _isCenter = true;
 	/// cursor lock in screen flag
-	bool _isGrab = true;
+	bool _isGrab = false;
 	/// Stencil test enable flag.
 	bool _stencilTest{};
 #pragma endregion

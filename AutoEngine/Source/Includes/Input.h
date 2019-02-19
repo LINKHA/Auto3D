@@ -51,25 +51,25 @@ public:
 	*/
 	bool GetKeyPress(int key);
 	/**
-	* @brief : Get mouse position absolute coordinate 
+	* @brief : Get mouse position absolute coordinate
 	*/
-	Vector2 GetMousePosition(){ return _mousePosition; }
+	Vector2 GetMousePosition() { return _mousePosition; }
 	/**
-	* @brief : Get mouse move relative coordinate 
+	* @brief : Get mouse move relative coordinate
 	*/
-	Vector2 GetMouseMove(){ return _mouseMove; }
+	Vector2 GetMouseMove() { return _mouseMove; }
 	/**
 	* @brief : To determine whether the mouse is moving or not
 	*/
-	bool IsMouseMove(){ return _isMouseMove; }
+	bool IsMouseMove() { return _isMouseMove; }
 	/**
 	* @brief : Get mouse wheel move
 	*/
-	int GetMouseWheelMove(){ return _mouseMoveWheel; }
+	int GetMouseWheelMove() { return _mouseMoveWheel; }
 	/**
 	* @brief : Get mouse whell offset
 	*/
-	int GetMouseWheelOffset(){ return _mouseWheelOffset; }
+	int GetMouseWheelOffset() { return _mouseWheelOffset; }
 	/**
 	* @brief : Lock cursor in x,y from window
 	*/
@@ -88,6 +88,8 @@ public:
 	void HideMouseInWindow(bool enable);
 
 	bool GetMinimized() { return _isMinimized; }
+
+	bool GetAppQuit() const { return _isQuit; }
 private:
 	/**
 	* @brief : Handle SDL event (like mouse button cilck)
@@ -126,6 +128,8 @@ private:
 	bool _isShowCursor;
 
 	bool _isMinimized{};
+
+	bool _isQuit{};
 	///lock mouse in position
 	Vector2	_lockMousePosition;
 };

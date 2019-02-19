@@ -8,8 +8,8 @@ AUTO_APPLICATION_MAIN(DebugSapce)
 
 void DebugSapce::Init()
 {
-	//STRING ResourceDir = system_content_dictionary; 
-	//GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
+	STRING ResourceDir = system_content_dictionary; 
+	GetSubSystem<ResourceSystem>()->AddResourceDir(ResourceDir);
 }
 void DebugSapce::Start()
 {
