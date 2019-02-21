@@ -30,8 +30,8 @@ public:
 
 	/// Construct from a Vector4.
 	explicit Rect(const Vector4& vector) noexcept :
-		_min(vector.x, vector.y),
-		_max(vector.z, vector.w)
+		_min(vector._x, vector._y),
+		_max(vector._z, vector._w)
 	{
 	}
 
@@ -133,27 +133,27 @@ public:
 	/// Merge a point.
 	void Merge(const Vector2& point)
 	{
-		if (point.x < _min.x)
-			_min.x = point.x;
-		if (point.x > _max.x)
-			_max.x = point.x;
-		if (point.y < _min.y)
-			_min.y = point.y;
-		if (point.y > _max.y)
-			_max.y = point.y;
+		if (point._x < _min._x)
+			_min._x = point._x;
+		if (point._x > _max._x)
+			_max._x = point._x;
+		if (point._y < _min._y)
+			_min._y = point._y;
+		if (point._y > _max._y)
+			_max._y = point._y;
 	}
 
 	/// Merge a rect.
 	void Merge(const Rect& rect)
 	{
-		if (rect._min.x < _min.x)
-			_min.x = rect._min.x;
-		if (rect._min.y < _min.y)
-			_min.y = rect._min.y;
-		if (rect._max.x > _max.x)
-			_max.x = rect._max.x;
-		if (rect._max.y > _max.y)
-			_max.y = rect._max.y;
+		if (rect._min._x < _min._x)
+			_min._x = rect._min._x;
+		if (rect._min._y < _min._y)
+			_min._y = rect._min._y;
+		if (rect._max._x > _max._x)
+			_max._x = rect._max._x;
+		if (rect._max._y > _max._y)
+			_max._y = rect._max._y;
 	}
 
 	/// Clear to undefined state.
@@ -169,7 +169,7 @@ public:
 	/// Return true if this rect is defined via a previous call to Define() or Merge().
 	bool Defined() const
 	{
-		return _min.x != M_INFINITY;
+		return _min._x != M_INFINITY;
 	}
 
 	/// Return center.
@@ -187,7 +187,7 @@ public:
 	/// Test whether a point is inside.
 	Intersection IsInside(const Vector2& point) const
 	{
-		if (point.x < _min.x || point.y < _min.y || point.x > _max.x || point.y > _max.y)
+		if (point._x < _min._x || point._y < _min._y || point._x > _max._x || point._y > _max._y)
 			return OUTSIDE;
 		else
 			return INSIDE;
@@ -196,19 +196,19 @@ public:
 	/// Test if another rect is inside, outside or intersects.
 	Intersection IsInside(const Rect& rect) const
 	{
-		if (rect._max.x < _min.x || rect._min.x > _max.x || rect._max.y < _min.y || rect._min.y > _max.y)
+		if (rect._max._x < _min._x || rect._min._x > _max._x || rect._max._y < _min._y || rect._min._y > _max._y)
 			return OUTSIDE;
-		else if (rect._min.x < _min.x || rect._max.x > _max.x || rect._min.y < _min.y || rect._max.y > _max.y)
+		else if (rect._min._x < _min._x || rect._max._x > _max._x || rect._min._y < _min._y || rect._max._y > _max._y)
 			return INTERSECTS;
 		else
 			return INSIDE;
 	}
 
 	/// Return float data.
-	const void* Data() const { return &_min.x; }
+	const void* Data() const { return &_min._x; }
 
 	/// Return as a vector.
-	Vector4 ToVector4() const { return Vector4(_min.x, _min.y, _max.x, _max.y); }
+	Vector4 ToVector4() const { return Vector4(_min._x, _min.y, _max._x, _max._y); }
 
 	/// Return as string.
 	STRING ToString() const;
@@ -220,16 +220,16 @@ public:
 	Vector2 Max() const { return _max; }
 
 	/// Return left coordinate.
-	float Left() const { return _min.x; }
+	float Left() const { return _min._x; }
 
 	/// Return top coordinate.
 	float Top() const { return _min.y; }
 
 	/// Return right coordinate.
-	float Right() const { return _max.x; }
+	float Right() const { return _max._x; }
 
 	/// Return bottom coordinate.
-	float Bottom() const { return _max.y; }
+	float Bottom() const { return _max._y; }
 
 	/// Minimum vector.
 	Vector2 _min;
@@ -259,9 +259,9 @@ public:
 
 	/// Construct from minimum and maximum vectors.
 	RectInt(const Vector2& min, const Vector2& max) noexcept :
-		_left(min.x),
-		_top(min.y),
-		_right(max.x),
+		_left(min._x),
+		_top(min._y),
+		_right(max._x),
 		_bottom(max.y)
 	{
 	}
@@ -384,7 +384,7 @@ public:
 	/// Test whether a point is inside.
 	Intersection IsInside(const Vector2& point) const
 	{
-		if (point.x < _left || point.y < _top || point.x >= _right || point.y >= _bottom)
+		if (point._x < _left || point.y < _top || point._x >= _right || point._y >= _bottom)
 			return OUTSIDE;
 		else
 			return INSIDE;

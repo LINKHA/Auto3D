@@ -30,6 +30,8 @@ static const unsigned char COLORMASK_B = 0x4;
 static const unsigned char COLORMASK_A = 0x8;
 /// Write to all color channels (default.)
 static const unsigned char COLORMASK_ALL = 0xf;
+/// Maximum simultaneous constant buffers.
+static const size_t MAX_CONSTANT_BUFFERS = 15;
 
 namespace Auto3D {
 
@@ -58,6 +60,24 @@ enum VertexMask : unsigned
 };
 
 AUTO_FLAGSET(VertexMask, VertexMaskFlags);
+
+/// Resource usage modes. Rendertarget usage can only be used with textures.
+enum class ResourceUsage
+{
+	Default = 0,
+	Immutable,
+	Dynamic,
+	RenderTarget
+};
+
+/// Texture types.
+enum class TextureType
+{
+	OneD = 0,
+	TwoD,
+	ThreeD,
+	Cube,
+};
 
 /// %Geometry type for vertex shader geometry variations.
 enum class GeometryType
@@ -88,6 +108,13 @@ enum class BlendFactor
 	DestColor,
 	InvDestColor,
 	SrcAlphaSat,
+	Count
+};
+/// Shader stages.
+enum class ShaderStage
+{
+	VS = 0,
+	PS,
 	Count
 };
 

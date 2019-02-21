@@ -183,12 +183,12 @@ public:
 	/// Multiply a Vector3 which is assumed to represent position.
 	Vector3 operator *(const Vector3& rhs) const
 	{
-		float invW = 1.0f / (_m30 * rhs.x + _m31 * rhs.y + _m32 * rhs.z + _m33);
+		float invW = 1.0f / (_m30 * rhs._x + _m31 * rhs._y + _m32 * rhs._z + _m33);
 
 		return Vector3(
-			(_m00 * rhs.x + _m01 * rhs.y + _m02 * rhs.z + _m03) * invW,
-			(_m10 * rhs.x + _m11 * rhs.y + _m12 * rhs.z + _m13) * invW,
-			(_m20 * rhs.x + _m21 * rhs.y + _m22 * rhs.z + _m23) * invW
+			(_m00 * rhs._x + _m01 * rhs._y + _m02 * rhs._z + _m03) * invW,
+			(_m10 * rhs._x + _m11 * rhs._y + _m12 * rhs._z + _m13) * invW,
+			(_m20 * rhs._x + _m21 * rhs._y + _m22 * rhs._z + _m23) * invW
 		);
 	}
 
@@ -196,10 +196,10 @@ public:
 	Vector4 operator *(const Vector4& rhs) const
 	{
 		return Vector4(
-			_m00 * rhs.x + _m01 * rhs.y + _m02 * rhs.z + _m03 * rhs.w,
-			_m10 * rhs.x + _m11 * rhs.y + _m12 * rhs.z + _m13 * rhs.w,
-			_m20 * rhs.x + _m21 * rhs.y + _m22 * rhs.z + _m23 * rhs.w,
-			_m30 * rhs.x + _m31 * rhs.y + _m32 * rhs.z + _m33 * rhs.w
+			_m00 * rhs._x + _m01 * rhs._y + _m02 * rhs._z + _m03 * rhs._w,
+			_m10 * rhs._x + _m11 * rhs._y + _m12 * rhs._z + _m13 * rhs._w,
+			_m20 * rhs._x + _m21 * rhs._y + _m22 * rhs._z + _m23 * rhs._w,
+			_m30 * rhs._x + _m31 * rhs._y + _m32 * rhs._z + _m33 * rhs._w
 		);
 	}
 
@@ -301,9 +301,9 @@ public:
 	/// Set translation elements.
 	void SetTranslation(const Vector3& translation)
 	{
-		_m03 = translation.x;
-		_m13 = translation.y;
-		_m23 = translation.z;
+		_m03 = translation._x;
+		_m13 = translation._y;
+		_m23 = translation._z;
 	}
 
 	/// Set rotation elements from a 3x3 matrix.
@@ -323,9 +323,9 @@ public:
 	/// Set scaling elements.
 	void SetScale(const Vector3& scale)
 	{
-		_m00 = scale.x;
-		_m11 = scale.y;
-		_m22 = scale.z;
+		_m00 = scale._x;
+		_m11 = scale._y;
+		_m22 = scale._z;
 	}
 
 	/// Set uniform scaling elements.

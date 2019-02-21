@@ -14,7 +14,7 @@ const Vector2 Vector2::ONE(1.0f, 1.0f);
 STRING Vector2::ToString() const
 {
 	char tempBuffer[KhSTL::CONVERSION_BUFFER_LENGTH];
-	sprintf(tempBuffer, "%g %g", x, y);
+	sprintf(tempBuffer, "%g %g", x, _y);
 	return STRING(tempBuffer);
 }
 

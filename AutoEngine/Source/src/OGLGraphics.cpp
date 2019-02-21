@@ -200,10 +200,47 @@ static void GetGLPrimitiveType(unsigned elementCount, PrimitiveType type, unsign
 	}
 }
 
+/// OpenGL framebuffer.
+class Framebuffer
+{
+public:
+	/// Construct.
+	Framebuffer() :
+		_depthStencil(nullptr),
+		_drawBuffers(0),
+		_firstUse(true)
+	{
+		glGenFramebuffers(1, &_buffer);
+		for (size_t i = 0; i < MAX_RENDERTARGETS; ++i)
+			_renderTargets[i] = nullptr;
+	}
+
+	/// Destruct.
+	~Framebuffer()
+	{
+		glDeleteFramebuffers(1, &_buffer);
+	}
+
+	/// OpenGL FBO handle.
+	unsigned _buffer;
+	/// Color rendertargets bound to this FBO.
+	SharedPtr<Texture> _renderTargets[MAX_RENDERTARGETS];
+	/// Depth-stencil texture bound to this FBO.
+	SharedPtr<Texture> _depthStencil;
+	/// Enabled draw buffers.
+	unsigned _drawBuffers;
+	/// First use flag; used for setting up readbuffers.
+	bool _firstUse;
+};
 
 Graphics::Graphics(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 	, _window(nullptr)
+	, _backbufferSize(Vector2::ZERO)
+	, _renderTargetSize(Vector2::ZERO)
+	, _attributesBySemantic((int)ElementSemantic::Count)
+	, _multisample(1)
+	, _vsync(false)
 #if _OPENGL_4_6_
 	, _apiName("OpenGL 4.6")
 #elif _OPENGL_4_PLUS_
@@ -234,122 +271,14 @@ void Graphics::RegisterDebug()
 #endif
 }
 
-
-void Graphics::Init()
+bool Graphics::CreateSDLWindow()
 {
 	_icon = GetSubSystem<ResourceSystem>()->GetResource<Image>("texture/logo.png");
 
 	stbi_set_flip_vertically_on_load(true);
-	// Create game window
-	CreateGameWindow();
-	// Create device(OpenGL context and DirectX device)
-	CreateDevice();
-	// Register graphics API debug
-	RegisterDebug();
-	// Create Icon
-	CreateIcon();
 
-	Restore();
+#pragma region CreateWindow
 
-}
-
-void Graphics::DestoryWindow()
-{
-
-	SDL_GL_DeleteContext(_glContext);
-	_glContext = nullptr;
-
-	SDL_DestroyWindow(_window);
-	_window = nullptr;
-	SDL_Quit();
-}
-
-void Graphics::ReleaseAPI()
-{
-	glDeleteVertexArrays(1, &_vertexArrayObject);
-}
-void Graphics::Restore()
-{
-	if (!_window)
-		return;
-	// Create and bind a vertex array object that will stay in use throughout
-	glGenVertexArrays(1, &_vertexArrayObject);
-	glBindVertexArray(_vertexArrayObject);
-}
-
-void Graphics::ResetCachedState()
-{
-	/*for (size_t i =0; i<MAX_VERTEX_STREAMS; i++)
-		_vertexBuffers[i].reset();
-
-	for (unsigned i = 0; i < MAX_TEXTURE_UNITS; ++i)
-	{
-		_textures[i].reset();
-		_impl->_textureTypes[i] = 0;
-	}
-	for (auto& renderTarget : _renderTargets)
-		renderTarget.reset();
-
-	_indexBuffer.reset();
-	_vertexShader.reset();
-	_pixelShader.reset();
-	_shaderProgram.reset();
-
-
-	_impl->_boundFBO = _impl->_systemFBO;
-	_impl->_boundVBO = 0;
-	_impl->_boundUBO = 0;
-	_impl->_sRGBWrite = false;
-
-	_renderState.depthWrite = false;
-	_renderState.depthFunc = CompareFunc::Always;
-	_renderState.depthBias = 0;
-	_renderState.slopeScaledDepthBias = 0;
-	_renderState.depthClip = true;
-	_renderState.colorWriteMask = COLORMASK_ALL;
-	_renderState.alphaToCoverage = false;
-	_renderState.blendMode.blendEnable = false;
-	_renderState.blendMode.srcBlend = BlendFactor::Count;
-	_renderState.blendMode.destBlend = BlendFactor::Count;
-	_renderState.blendMode.blendOp = BlendOp::Count;
-	_renderState.blendMode.srcBlendAlpha = BlendFactor::Count;
-	_renderState.blendMode.destBlendAlpha = BlendFactor::Count;
-	_renderState.blendMode.blendOpAlpha = BlendOp::Count;
-	_renderState.fillMode = FillMode::Solid;
-	_renderState.cullMode = CullMode::None;
-	_renderState.scissorEnable = false;
-	_renderState.scissorRect = RectInt(0, 0, 0, 0);
-	_renderState.stencilEnable = false;
-	_renderState.stencilRef = 0;
-	_renderState.stencilTest.stencilReadMask = 0xff;
-	_renderState.stencilTest.stencilWriteMask = 0xff;
-	_renderState.stencilTest.frontFail = StencilOp::Keep;
-	_renderState.stencilTest.frontDepthFail = StencilOp::Keep;
-	_renderState.stencilTest.frontPass = StencilOp::Keep;
-	_renderState.stencilTest.frontFunc = CompareFunc::Always;
-	_renderState.stencilTest.backFail = StencilOp::Keep;
-	_renderState.stencilTest.backDepthFail = StencilOp::Keep;
-	_renderState.stencilTest.backPass = StencilOp::Keep;
-	_renderState.stencilTest.backFunc = CompareFunc::Always;
-	_currentRenderState = _renderState;*/
-
-}
-
-
-bool Graphics::BeginFrame()
-{
-
-	return true;
-}
-void Graphics::EndFrame()
-{
-	if (!IsInitialized())
-		return;
-	SDL_GL_SwapWindow(_window);
-}
-
-void Graphics::CreateGameWindow()
-{
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		ErrorString("Couldn't initialize SDL");
 	atexit(SDL_Quit);
@@ -433,19 +362,11 @@ void Graphics::CreateGameWindow()
 		SDL_SetWindowGrab(_window, SDL_TRUE);
 	else
 		SDL_SetWindowGrab(_window, SDL_FALSE);
-}
 
-void Graphics::CreateSamplePoint(int num)
-{
-	if (num)
-	{
-		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
-		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, num);
-	}
-}
 
-void Graphics::CreateDevice()
-{
+#pragma endregion
+
+#pragma region CreateDevice
 	_glContext = SDL_GL_CreateContext(_window);
 	if (_glContext == NULL)
 		ErrorString("Failed to create OpenGL context");
@@ -457,6 +378,225 @@ void Graphics::CreateDevice()
 	{
 		// Set driver name
 		_driverName = STRING((char*)glGetString(GL_VENDOR)) + STRING((char*)glGetString(GL_RENDERER));
+	}
+
+#pragma endregion
+
+	// Create Icon
+#pragma  region CreateIcon
+	SDL_Surface* surface;
+	surface = SetIcon();
+	SDL_SetWindowIcon(_window, surface);
+	SDL_FreeSurface(surface);
+
+	return true;
+}
+
+
+bool Graphics::SetMode()
+{
+	_multisample = Clamp(_multisample, 1, 16);
+	if (!IsInitialized())
+	{
+		if (!CreateSDLWindow())
+			return false;
+		if (!createContext(_multisample))
+			return false;
+		// Register graphics API debug
+#if AUTO_DEBUG
+		RegisterDebug();
+#endif
+	}
+	ResetRenderTargets();
+
+#pragma endregion
+	if (!_window)
+		return false;
+	
+	return true;
+}
+
+void Graphics::Init()
+{
+	SetMode();
+}
+
+void Graphics::Close()
+{
+	_shaderPrograms.clear();
+	_framebuffers.clear();
+
+	// Release all GPU objects
+	for (auto it = _gpuObjects.begin(); it != _gpuObjects.end(); ++it)
+	{
+		GPUObject* object = *it;
+		object->Release();
+	}
+
+	//context.Reset();
+
+	//window->Close();
+	//ResetState();
+}
+void Graphics::DestoryWindow()
+{
+
+	SDL_GL_DeleteContext(_glContext);
+	_glContext = nullptr;
+
+	SDL_DestroyWindow(_window);
+	_window = nullptr;
+	SDL_Quit();
+}
+
+void Graphics::ReleaseAPI()
+{
+	glDeleteVertexArrays(1, &_vertexArrayObject);
+}
+
+
+void Graphics::ResetCachedState()
+{
+	for (size_t i =0; i<MAX_VERTEX_STREAMS; i++)
+		_vertexBuffers[i].reset();
+
+	_enabledVertexAttributes = 0;
+	_usedVertexAttributes = 0;
+	_instancingVertexAttributes = 0;
+
+	for (size_t i = 0; i < (int)ShaderStage::Count; ++i)
+	{
+		for (size_t j = 0; j < MAX_CONSTANT_BUFFERS; ++j)
+			_constantBuffers[i][j] = nullptr;
+	}
+
+	for (unsigned i = 0; i < MAX_TEXTURE_UNITS; ++i)
+	{
+		_textures[i].reset();
+		_textureTargets[i] = 0;
+	}
+
+	_indexBuffer = nullptr;
+	_vertexShader = nullptr;
+	_pixelShader = nullptr;
+	_shaderProgram = nullptr;
+	_framebuffer = nullptr;
+	_vertexAttributesDirty = false;
+	_vertexBuffersDirty = false;
+	_blendStateDirty = false;
+	_depthStateDirty = false;
+	_rasterizerStateDirty = false;
+	_framebufferDirty = false;
+	_activeTexture = 0;
+	_boundVBO = 0;
+	_boundUBO = 0;
+
+	_renderState.depthWrite = false;
+	_renderState.depthFunc = CompareFunc::Always;
+	_renderState.depthBias = 0;
+	_renderState.slopeScaledDepthBias = 0;
+	_renderState.depthClip = true;
+	_renderState.colorWriteMask = COLORMASK_ALL;
+	_renderState.alphaToCoverage = false;
+	_renderState.blendMode.blendEnable = false;
+	_renderState.blendMode.srcBlend = BlendFactor::Count;
+	_renderState.blendMode.destBlend = BlendFactor::Count;
+	_renderState.blendMode.blendOp = BlendOp::Count;
+	_renderState.blendMode.srcBlendAlpha = BlendFactor::Count;
+	_renderState.blendMode.destBlendAlpha = BlendFactor::Count;
+	_renderState.blendMode.blendOpAlpha = BlendOp::Count;
+	_renderState.fillMode = FillMode::Solid;
+	_renderState.cullMode = CullMode::None;
+	_renderState.scissorEnable = false;
+	_renderState.scissorRect = RectInt(0, 0, 0, 0);
+	_renderState.stencilEnable = false;
+	_renderState.stencilRef = 0;
+	_renderState.stencilTest.stencilReadMask = 0xff;
+	_renderState.stencilTest.stencilWriteMask = 0xff;
+	_renderState.stencilTest.frontFail = StencilOp::Keep;
+	_renderState.stencilTest.frontDepthFail = StencilOp::Keep;
+	_renderState.stencilTest.frontPass = StencilOp::Keep;
+	_renderState.stencilTest.frontFunc = CompareFunc::Always;
+	_renderState.stencilTest.backFail = StencilOp::Keep;
+	_renderState.stencilTest.backDepthFail = StencilOp::Keep;
+	_renderState.stencilTest.backPass = StencilOp::Keep;
+	_renderState.stencilTest.backFunc = CompareFunc::Always;
+	_currentRenderState = _renderState;
+
+}
+
+void Graphics::ResetRenderTargets()
+{
+	SetRenderTarget(nullptr, nullptr);
+}
+void Graphics::ResetViewport()
+{
+	SetViewport(RectInt(0, 0, _renderTargetSize.x, _renderTargetSize._y));
+}
+
+void Graphics::SetRenderTargets(VECTOR<SharedPtr<Texture> >& renderTargets, SharedPtr<Texture> depthStencil)
+{
+	for (size_t i = 0; i < MAX_RENDERTARGETS && i < renderTargets.size(); ++i)
+		renderTargets[i] = (renderTargets[i] && renderTargets[i]->IsRenderTarget()) ? renderTargets[i] : SharedPtr<Texture>();
+
+	for (size_t i = renderTargets.size(); i < MAX_RENDERTARGETS; ++i)
+		renderTargets[i] = SharedPtr<Texture>();
+
+	_depthStencil = (depthStencil && depthStencil->IsDepthStencil()) ? depthStencil : SharedPtr<Texture>();
+
+	if (renderTargets[0])
+		_renderTargetSize = Vector2(renderTargets[0]->Width(), renderTargets[0]->Height());
+	else if (depthStencil)
+		_renderTargetSize = Vector2(depthStencil->Width(), depthStencil->Height());
+	else
+		_renderTargetSize = _backbufferSize;
+
+	_framebufferDirty = true;
+}
+
+void Graphics::SetRenderTarget(SharedPtr<Texture> renderTarget, SharedPtr<Texture> depthStencil)
+{
+	_renderTargetVector.resize(1);
+	_renderTargetVector[0] = renderTarget;
+	SetRenderTargets(_renderTargetVector, depthStencil);
+}
+
+void Graphics::SetViewport(const RectInt& viewport)
+{
+	PrepareFramebuffer();
+
+	/// \todo Implement a member function in IntRect for clipping
+	_viewport._left = Clamp(viewport._left, 0, (int)_renderTargetSize.x - 1);
+	_viewport._top = Clamp(viewport._top, 0, (int)_renderTargetSize._y - 1);
+	_viewport._right = Clamp(viewport._right, _viewport._left + 1, (int)_renderTargetSize.x);
+	_viewport._bottom = Clamp(viewport._bottom, _viewport._top + 1, (int)_renderTargetSize._y);
+
+	// When rendering to the backbuffer, use Direct3D convention with the vertical coordinates ie. 0 is top
+	if (!_framebuffer)
+		glViewport(_viewport._left, _renderTargetSize._y - _viewport._bottom, _viewport.Width(), _viewport.Height());
+	else
+		glViewport(_viewport._left, _viewport._top, _viewport.Width(), _viewport.Height());
+}
+
+bool Graphics::BeginFrame()
+{
+
+	return true;
+}
+void Graphics::EndFrame()
+{
+	if (!IsInitialized())
+		return;
+	SDL_GL_SwapWindow(_window);
+}
+
+
+void Graphics::CreateSamplePoint(int num)
+{
+	if (num)
+	{
+		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, num);
 	}
 }
 
@@ -587,6 +727,35 @@ unsigned Graphics::GetFormat(const STRING& formatName)
 		return GetReadableDepthFormat();
 
 	return GetRGBFormat();
+}
+
+bool Graphics::createContext(int multisample)
+{
+
+	// Query OpenGL capabilities
+	int numBlocks;
+	glGetIntegerv(GL_MAX_VERTEX_UNIFORM_BLOCKS, &numBlocks);
+	_vsConstantBuffers = numBlocks;
+	glGetIntegerv(GL_MAX_FRAGMENT_UNIFORM_BLOCKS, &numBlocks);
+	_psConstantBuffers = numBlocks;
+
+	// Create and bind a vertex array object that will stay in use throughout
+	/// \todo Investigate performance gain of using multiple VAO's
+	unsigned vertexArrayObject;
+	glGenVertexArrays(1, &vertexArrayObject);
+	glBindVertexArray(vertexArrayObject);
+
+	// These states are always enabled to match Direct3D
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_MULTISAMPLE);
+	glEnable(GL_POLYGON_OFFSET_LINE);
+	glEnable(GL_POLYGON_OFFSET_FILL);
+
+	// Set up texture data read/write alignment. It is important that this is done before uploading any texture data
+	glPixelStorei(GL_PACK_ALIGNMENT, 1);
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+	return true;
 }
 
 }

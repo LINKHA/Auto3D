@@ -42,10 +42,10 @@ void Input::handleSDLEvent(void* sdlEvent)
 	case SDL_MOUSEMOTION:
 		int x, y;
 		SDL_GetMouseState(&x, &y);
-		_mousePosition.x = x;
-		_mousePosition.y = y;
-		_mouseMove.x = evt.motion.xrel;
-		_mouseMove.y = -evt.motion.yrel;
+		_mousePosition._x = x;
+		_mousePosition._y = y;
+		_mouseMove._x = evt.motion.xrel;
+		_mouseMove._y = -evt.motion.yrel;
 		_isMouseMove = true;
 		break;
 	case SDL_MOUSEBUTTONDOWN:
@@ -108,8 +108,8 @@ void Input::SetWheel(int delta)
 void Input::EndFrame()
 {
 	_keysDown.clear();
-	_mouseMove.x = 0;
-	_mouseMove.y = 0;
+	_mouseMove._x = 0;
+	_mouseMove._y = 0;
 	_isMouseMove = false;
 	_mouseWheelOffset = 0;
 }
@@ -126,14 +126,14 @@ bool Input::GetKeyPress(int key)
 
 void Input::LockCursor(int x, int y)
 {
-	_lockMousePosition.x = x;
-	_lockMousePosition.y = y;
+	_lockMousePosition._x = x;
+	_lockMousePosition._y = y;
 	_isLockCursor = true;
 }
 void Input::LockCursorInCenter()
 {
-	_lockMousePosition.x = GetSubSystem<Graphics>()->GetWindowRectInt().Width() / 2;
-	_lockMousePosition.y = GetSubSystem<Graphics>()->GetWindowRectInt().Height() / 2;
+	_lockMousePosition._x = GetSubSystem<Graphics>()->GetWindowRectInt().Width() / 2;
+	_lockMousePosition._y = GetSubSystem<Graphics>()->GetWindowRectInt().Height() / 2;
 	_isLockCursor = true;
 }
 void Input::HideMouseInWindow(bool enable)
@@ -154,7 +154,7 @@ void Input::ShowCursor(bool enable)
 void Input::lockCursorEvent()
 {
 	if(_isLockCursor)
-		SDL_WarpMouseInWindow(GetSubSystem<Graphics>()->GetGameWindow(), _lockMousePosition.x, _lockMousePosition.y);
+		SDL_WarpMouseInWindow(GetSubSystem<Graphics>()->GetGameWindow(), _lockMousePosition._x, _lockMousePosition._y);
 }
 
 void Input::hideCursorEvent(bool enable)

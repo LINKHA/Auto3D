@@ -11,13 +11,6 @@ namespace Auto3D {
 
 Graphics::~Graphics() = default;
 
-void Graphics::CreateIcon()
-{
-	SDL_Surface* surface;
-	surface = SetIcon();
-	SDL_SetWindowIcon(_window, surface);
-	SDL_FreeSurface(surface);
-}
 
 SDL_Surface* Graphics::SetIcon()
 {

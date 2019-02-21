@@ -12,7 +12,7 @@ namespace Auto3D {
 
 inline btVector3 ToBtVector3(const Vector3& vector)
 {
-	return btVector3(vector.x, vector.y, vector.z);
+	return btVector3(vector._x, vector._y, vector._z);
 }
 
 //inline btQuaternion ToBtQuaternion(const Quaternion& quaternion)
@@ -44,7 +44,7 @@ inline Color ToColor(const b2Color& color)
 
 inline b2Vec2 ToB2Vec2(const Vector2& vector)
 {
-	return { vector.x, vector.y };
+	return { vector._x, vector._y };
 }
 
 inline Vector2 ToVector2(const b2Vec2& vec2)
@@ -54,7 +54,7 @@ inline Vector2 ToVector2(const b2Vec2& vec2)
 
 inline b2Vec2 ToB2Vec2(const Vector3& vector)
 {
-	return { vector.x, vector.y };
+	return { vector._x, vector._y };
 }
 
 inline Vector3 ToVector3(const b2Vec2& vec2)

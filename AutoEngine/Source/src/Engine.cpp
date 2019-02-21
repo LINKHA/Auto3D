@@ -92,7 +92,7 @@ bool Engine::Update()
 }
 void Engine::FrameFinish()
 {
-	//GetSubSystem<Input>()->EndFrame();
+	GetSubSystem<Input>()->EndFrame();
 }
 
 void Engine::SetPauseMinimized(bool enable)

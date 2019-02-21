@@ -15,8 +15,11 @@ class IndexBuffer;
 class Texture;
 class VertexBuffer;
 class ShaderProgram;
+class Framebuffer;
+class ConstantBuffer;
 ///
 const static int GRAPHICS_BUFFER_NUM = 3;
+
 
 /**
 * Graphics subsystem. Manages the application window, rendering state and GPU resources
@@ -24,8 +27,16 @@ const static int GRAPHICS_BUFFER_NUM = 3;
 class Graphics : public GlobalGameManager
 {
 	REGISTER_OBJECT_CLASS(Graphics, GlobalGameManager)
+
+
+	using ShaderProgramMap = PAIR_MAP<PAIR<SharedPtr<ShaderVariation>, SharedPtr<ShaderVariation> >, SharedPtr<ShaderProgram> > ;
+
 public:
 	explicit Graphics(SharedPtr<Ambient> ambient);
+	/// Set graphics mode. Create the window and rendering context if not created yet. Return true on success.
+	bool SetMode();
+
+	bool CreateSDLWindow();
 	/**
 	* @brief : Graphics init
 	*/
@@ -124,8 +135,10 @@ public:
 	/**
 	* @brief : Set window rect with Vector2 (only in space awake function)
 	*/
-	void SetWindowRect(Vector2 vec) { SetWindowRect(vec.x, vec.y); }
-
+	void SetWindowRect(Vector2 vec) { SetWindowRect(vec._x, vec._y); }
+	
+	/// Set multiple color rendertargets and the depth stencil buffer.
+	void SetRenderTargets(VECTOR<SharedPtr<Texture> >& renderTargets, SharedPtr<Texture> depthStencil_);
 	/**
 	* @brief : Get graphics api name
 	*/
@@ -135,11 +148,18 @@ public:
 	*/
 	void ReleaseAPI();
 
+	void Close();
+
+	/// Reset rendertarget and depth stencil buffer to the backbuffer.
+	void ResetRenderTargets();
+	/// Set the viewport to the entire rendertarget or backbuffer.
+	void ResetViewport();
+	/// Set the color rendertarget and depth stencil buffer.
+	void SetRenderTarget(SharedPtr<Texture> renderTarget, SharedPtr<Texture> stencilBuffer);
+	/// Set the viewport rectangle. On window resize the viewport will automatically revert to full window.
+	void SetViewport(const RectInt& viewport);
 #if AUTO_OPENGL
-	/**
-	* @brief : Restore GPU objects and reinitialize state
-	*/
-	void Restore();
+
 #endif
 	/// Return the API-specific alpha texture format
 	static unsigned GetAlphaFormat();
@@ -183,6 +203,9 @@ private:
 	void updateRenderTargetViews(ComPtr<ID3D12Device2> device,
 		ComPtr<IDXGISwapChain4> swapChain, ComPtr<ID3D12DescriptorHeap> descriptorHeap);
 #endif
+
+	/// Create and initialize the OpenGL context. Return true on success.
+	bool createContext(int multisample);
 private:
 
 #if AUTO_OPENGL
@@ -257,9 +280,79 @@ private:
 	/// Stencil test enable flag.
 	bool _stencilTest{};
 #pragma endregion
+	/// GPU objects.
+	VECTOR<GPUObject*> _gpuObjects;
+	/// Current size of the backbuffer.
+	Vector2 _backbufferSize;
+	/// Current size of the active rendertarget.
+	Vector2 _renderTargetSize;
+	/// Helper vector for defining just one color rendertarget.
+	VECTOR<SharedPtr<Texture> > _renderTargetVector;
+	/// Current mapping of vertex attributes by semantic.
+	VECTOR<VECTOR<unsigned> > _attributesBySemantic;
+	/// Multisample level.
+	int _multisample;
+	/// Vertical sync flag.
+	bool _vsync;
+	/// Enabled vertex attributes bitmask.
+	unsigned _enabledVertexAttributes;
+	/// Used vertex attributes bitmask.
+	unsigned _usedVertexAttributes;
+	/// Vertex attribute instancing bitmask for keeping track of divisors.
+	unsigned _instancingVertexAttributes;
+	/// Bound vertex buffers.
+	SharedPtr<VertexBuffer> _vertexBuffers[MAX_VERTEX_STREAMS];
+	/// Bound constant buffers by shader stage.
+	SharedPtr<ConstantBuffer> _constantBuffers[(int)ShaderStage::Count][MAX_CONSTANT_BUFFERS];
+	/// Bound textures by texture unit.
+	SharedPtr<Texture> _textures[MAX_TEXTURE_UNITS];
+	/// OpenGL active texture targets by texture unit.
+	unsigned _textureTargets[MAX_TEXTURE_UNITS];
+	/// Current renderstate requested by the application.
+	RenderState _currentRenderState;
+	/// Renderstate applied to OpenGL.
+	RenderState _renderState;
+	/// Bound depth-stencil texture.
+	SharedPtr<Texture> _depthStencil;
+	/// Bound index buffer.
+	SharedPtr<IndexBuffer> _indexBuffer;
+	/// Bound vertex shader.
+	SharedPtr<ShaderVariation> _vertexShader;
+	/// Bound pixel shader.
+	SharedPtr<ShaderVariation> _pixelShader;
+	/// Bound shader program.
+	SharedPtr<ShaderProgram> _shaderProgram;
+	/// Bound framebuffer object.
+	SharedPtr<Framebuffer> _framebuffer;
+	/// Current viewport rectangle.
+	RectInt _viewport;
+	/// Vertex attributes dirty (shader program changed) flag.
+	bool _vertexAttributesDirty;
+	/// Vertex buffers dirty flag.
+	bool _vertexBuffersDirty;
+	/// Blend state dirty flag.
+	bool _blendStateDirty;
+	/// Depth state dirty flag.
+	bool _depthStateDirty;
+	/// Rasterizer state dirty flag.
+	bool _rasterizerStateDirty;
+	/// Framebuffer assignment dirty flag.
+	bool _framebufferDirty;
+	/// Last used OpenGL texture unit.
+	size_t _activeTexture;
+	/// Last bound vertex buffer object.
+	unsigned _boundVBO;
+	/// Last bound uniform buffer object.
+	unsigned _boundUBO;
+	
+	size_t _vsConstantBuffers{};
 
+	size_t _psConstantBuffers{};
 
-
+	/// Shader programs.
+	ShaderProgramMap _shaderPrograms;
+	/// Framebuffer objects keyed by resolution and color format.
+	HASH_MAP<unsigned long long, SharedPtr<Framebuffer> > _framebuffers;
 };
 
 }

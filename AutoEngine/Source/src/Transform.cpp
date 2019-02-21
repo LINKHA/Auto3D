@@ -54,7 +54,7 @@ void Transform::SetRotation(float Angle, const Vector3& axis)
 
 void Transform::SetScale(const Vector3& scale)
 {
-	setScaleAbs(scale.x, scale.y, scale.z);
+	setScaleAbs(scale._x, scale._y, scale._z);
 }
 
 void Transform::SetScale(float scale)
@@ -86,9 +86,9 @@ glm::mat4 Transform::GetTransformMat()
 {
 	glm::mat4 modelMat = glm::mat4();
 	//Convert to left-handed coordinate system
-	modelMat = glm::translate(modelMat, glm::vec3(-_position.x, _position.y, _position.z));
+	modelMat = glm::translate(modelMat, glm::vec3(-_position._x, _position._y, _position._z));
 	//modelMat *= _rotation.toMatrix4();
-	modelMat = glm::scale(modelMat, glm::vec3(_scale.x,_scale.y, _scale.z));
+	modelMat = glm::scale(modelMat, glm::vec3(_scale._x,_scale._y, _scale._z));
 
 	return modelMat;
 }

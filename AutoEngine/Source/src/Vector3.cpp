@@ -14,7 +14,7 @@ const Vector3 Vector3::ONE(1.0f, 1.0f, 1.0f);
 STRING Vector3::ToString() const
 {
 	char tempBuffer[KhSTL::CONVERSION_BUFFER_LENGTH];
-	sprintf(tempBuffer, "%g %g %g", x, y, z);
+	sprintf(tempBuffer, "%g %g %g", _x, _y, _z);
 	return STRING(tempBuffer);
 }
 

@@ -10,10 +10,10 @@ class Color
 public:
 	/// Construct with default values (opaque white.)
 	Color() noexcept :
-		r(1.0f),
-		g(1.0f),
-		b(1.0f),
-		a(1.0f)
+		_r(1.0f),
+		_g(1.0f),
+		_b(1.0f),
+		_a(1.0f)
 	{
 	}
 
@@ -22,37 +22,37 @@ public:
 
 	/// Construct from another color and modify the alpha.
 	Color(const Color& color, float a) noexcept :
-		r(color.r),
-		g(color.g),
-		b(color.b),
-		a(a)
+		_r(color._r),
+		_g(color._g),
+		_b(color._b),
+		_a(a)
 	{
 	}
 
 	/// Construct from RGB values and set alpha fully opaque.
 	Color(float r, float g, float b) noexcept :
-		r(r),
-		g(g),
-		b(b),
-		a(1.0f)
+		_r(r),
+		_g(g),
+		_b(b),
+		_a(1.0f)
 	{
 	}
 
 	/// Construct from RGBA values.
 	Color(float r, float g, float b, float a) noexcept :
-		r(r),
-		g(g),
-		b(b),
-		a(a)
+		_r(r),
+		_g(g),
+		_b(b),
+		_a(a)
 	{
 	}
 
 	/// Construct from a float array.
 	explicit Color(const float* data) noexcept :
-		r(data[0]),
-		g(data[1]),
-		b(data[2]),
-		a(data[3])
+		_r(data[0]),
+		_g(data[1]),
+		_b(data[2]),
+		_a(data[3])
 	{
 	}
 
@@ -60,35 +60,35 @@ public:
 	Color& operator =(const Color& rhs) noexcept = default;
 
 	/// Test for equality with another color without epsilon.
-	bool operator ==(const Color& rhs) const { return r == rhs.r && g == rhs.g && b == rhs.b && a == rhs.a; }
+	bool operator ==(const Color& rhs) const { return _r == rhs._r && _g == rhs._g && _b == rhs._b && _a == rhs._a; }
 
 	/// Test for inequality with another color without epsilon.
-	bool operator !=(const Color& rhs) const { return r != rhs.r || g != rhs.g || b != rhs.b || a != rhs.a; }
+	bool operator !=(const Color& rhs) const { return _r != rhs._r || _g != rhs._g || _b != rhs._b || _a != rhs._a; }
 
 	/// Multiply with a scalar.
-	Color operator *(float rhs) const { return Color(r * rhs, g * rhs, b * rhs, a * rhs); }
+	Color operator *(float rhs) const { return Color(_r * rhs, _g * rhs, _b * rhs, _a * rhs); }
 
 	/// Add a color.
-	Color operator +(const Color& rhs) const { return Color(r + rhs.r, g + rhs.g, b + rhs.b, a + rhs.a); }
+	Color operator +(const Color& rhs) const { return Color(_r + rhs._r, _g + rhs._g, _b + rhs._b, _a + rhs._a); }
 
 	/// Return negation.
-	Color operator -() const { return Color(-r, -g, -b, -a); }
+	Color operator -() const { return Color(-_r, -_g, -_b, -_a); }
 
 	/// Subtract a color.
-	Color operator -(const Color& rhs) const { return Color(r - rhs.r, g - rhs.g, b - rhs.b, a - rhs.a); }
+	Color operator -(const Color& rhs) const { return Color(_r - rhs._r, _g - rhs._g, _b - rhs._b, _a - rhs._a); }
 
 	/// Add-assign a color.
 	Color& operator +=(const Color& rhs)
 	{
-		r += rhs.r;
-		g += rhs.g;
-		b += rhs.b;
-		a += rhs.a;
+		_r += rhs._r;
+		_g += rhs._g;
+		_b += rhs._b;
+		_a += rhs._a;
 		return *this;
 	}
 
 	/// Return float data.
-	const float* Data() const { return &r; }
+	const float* Data() const { return &_r; }
 
 	/// Return color packed to a 32-bit integer, with R component in the lowest 8 bits. Components are clamped to [0, 1] range.
 	unsigned ToUInt() const;
@@ -104,19 +104,19 @@ public:
 	void FromHSV(float h, float s, float v, float a = 1.0f);
 
 	/// Return RGB as a three-dimensional vector.
-	Vector3 ToVector3() const { return Vector3(r, g, b); }
+	Vector3 ToVector3() const { return Vector3(_r, _g, _b); }
 
 	/// Return RGBA as a four-dimensional vector.
-	Vector4 ToVector4() const { return Vector4(r, g, b, a); }
+	Vector4 ToVector4() const { return Vector4(_r, _g, _b, _a); }
 
 	/// Return sum of RGB components.
-	float SumRGB() const { return r + g + b; }
+	float SumRGB() const { return _r + _g + _b; }
 
 	/// Return average value of the RGB channels.
-	float Average() const { return (r + g + b) / 3.0f; }
+	float Average() const { return (_r + _g + _b) / 3.0f; }
 
 	/// Return the 'grayscale' representation of RGB values, as used by JPEG and PAL/NTSC among others.
-	float Luma() const { return r * 0.299f + g * 0.587f + b * 0.114f; }
+	float Luma() const { return _r * 0.299f + _g * 0.587f + _b * 0.114f; }
 
 	/// Return the colorfulness relative to the brightness of a similarly illuminated white.
 	float Chroma() const;
@@ -150,12 +150,12 @@ public:
 	Color Lerp(const Color& rhs, float t) const;
 
 	/// Return color with absolute components.
-	Color Abs() const { return Color(Auto3D::Abs(r), Auto3D::Abs(g), Auto3D::Abs(b), Auto3D::Abs(a)); }
+	Color Abs() const { return Color(Auto3D::Abs(_r), Auto3D::Abs(_g), Auto3D::Abs(_b), Auto3D::Abs(_a)); }
 
 	/// Test for equality with another color with epsilon.
 	bool Equals(const Color& rhs) const
 	{
-		return Auto3D::Equals(r, rhs.r) && Auto3D::Equals(g, rhs.g) && Auto3D::Equals(b, rhs.b) && Auto3D::Equals(a, rhs.a);
+		return Auto3D::Equals(_r, rhs._r) && Auto3D::Equals(_g, rhs._g) && Auto3D::Equals(_b, rhs._b) && Auto3D::Equals(_a, rhs._a);
 	}
 
 	/// Return as string.
@@ -165,13 +165,13 @@ public:
 	unsigned ToHash() const { return ToUInt(); }
 
 	/// Red value.
-	float r;
+	float _r;
 	/// Green value.
-	float g;
+	float _g;
 	/// Blue value.
-	float b;
+	float _b;
 	/// Alpha value.
-	float a;
+	float _a;
 
 	/// Opaque white color.
 	static const Color WHITE;

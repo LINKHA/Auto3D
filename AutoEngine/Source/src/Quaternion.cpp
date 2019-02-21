@@ -12,9 +12,9 @@ void Quaternion::FromAngleAxis(float angle, const Vector3& axis)
 	float cosAngle = cosf(angle);
 
 	_w = cosAngle;
-	_x = normAxis.x * sinAngle;
-	_y = normAxis.y * sinAngle;
-	_z = normAxis.z * sinAngle;
+	_x = normAxis._x * sinAngle;
+	_y = normAxis._y * sinAngle;
+	_z = normAxis._z * sinAngle;
 }
 
 void Quaternion::FromEulerAngles(float x, float y, float z)
@@ -48,9 +48,9 @@ void Quaternion::FromRotationTo(const Vector3& start, const Vector3& end)
 		float s = sqrtf((1.0f + d) * 2.0f);
 		float invS = 1.0f / s;
 
-		_x = c.x * invS;
-		_y = c.y * invS;
-		_z = c.z * invS;
+		_x = c._x * invS;
+		_y = c._y * invS;
+		_z = c._z * invS;
 		_w = 0.5f * s;
 	}
 	else
@@ -66,9 +66,9 @@ void Quaternion::FromRotationTo(const Vector3& start, const Vector3& end)
 void Quaternion::FromAxes(const Vector3& xAxis, const Vector3& yAxis, const Vector3& zAxis)
 {
 	Matrix3x3 matrix(
-		xAxis.x, yAxis.x, zAxis.x,
-		xAxis.y, yAxis.y, zAxis.y,
-		xAxis.z, yAxis.z, zAxis.z
+		xAxis._x, yAxis._x, zAxis._x,
+		xAxis._y, yAxis._y, zAxis._y,
+		xAxis._z, yAxis._z, zAxis._z
 	);
 
 	FromRotationMatrix(matrix);
@@ -179,17 +179,17 @@ Vector3 Quaternion::EulerAngles() const
 
 float Quaternion::YawAngle() const
 {
-	return EulerAngles().y;
+	return EulerAngles()._y;
 }
 
 float Quaternion::PitchAngle() const
 {
-	return EulerAngles().x;
+	return EulerAngles()._x;
 }
 
 float Quaternion::RollAngle() const
 {
-	return EulerAngles().z;
+	return EulerAngles()._z;
 }
 
 Auto3D::Vector3 Quaternion::Axis() const
