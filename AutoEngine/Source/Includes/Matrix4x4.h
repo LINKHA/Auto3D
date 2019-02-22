@@ -5,10 +5,10 @@
 
 namespace Auto3D {
 
-class Matrix3x4;
+template<typename _Ty> class Matrix3x4;
 
 /// 4x4 matrix for arbitrary linear transforms including projection.
-class Matrix4x4
+template<typename _Ty> class Matrix4x4
 {
 public:
 	/// Construct an identity matrix.
@@ -54,7 +54,7 @@ public:
 	}
 
 	/// Copy-construct from a 3x3 matrix and set the extra elements to identity.
-	explicit Matrix4x4(const Matrix3x3& matrix) noexcept :
+	explicit Matrix4x4(const Matrix3x3<_Ty>& matrix) noexcept :
 		_m00(matrix._m00),
 		_m01(matrix._m01),
 		_m02(matrix._m02),
@@ -75,10 +75,10 @@ public:
 	}
 
 	/// Construct from values.
-	Matrix4x4(float v00, float v01, float v02, float v03,
-		float v10, float v11, float v12, float v13,
-		float v20, float v21, float v22, float v23,
-		float v30, float v31, float v32, float v33) noexcept :
+	Matrix4x4(_Ty v00, _Ty v01, _Ty v02, _Ty v03,
+		_Ty v10, _Ty v11, _Ty v12, _Ty v13,
+		_Ty v20, _Ty v21, _Ty v22, _Ty v23,
+		_Ty v30, _Ty v31, _Ty v32, _Ty v33) noexcept :
 		_m00(v00),
 		_m01(v01),
 		_m02(v02),
@@ -97,8 +97,8 @@ public:
 		_m33(v33)
 	{
 	}
-	/// Construct from a float array.
-	explicit Matrix4x4(const float* data) noexcept
+	/// Construct from a _Ty array.
+	explicit Matrix4x4(const _Ty* data) noexcept
 		:_m00(data[0]),
 		_m01(data[1]),
 		_m02(data[2]),
@@ -141,7 +141,7 @@ public:
 	}
 
 	/// Assign from a 3x3 matrix. Set the extra elements to identity.
-	Matrix4x4& operator =(const Matrix3x3& rhs) noexcept
+	Matrix4x4& operator =(const Matrix3x3<_Ty>& rhs) noexcept
 	{
 		_m00 = rhs._m00;
 		_m01 = rhs._m01;
@@ -165,8 +165,8 @@ public:
 	/// Test for equality with another matrix without epsilon.
 	bool operator ==(const Matrix4x4& rhs) const
 	{
-		const float* leftData = Data();
-		const float* rightData = rhs.Data();
+		const _Ty* leftData = Data();
+		const _Ty* rightData = rhs.Data();
 
 		for (unsigned i = 0; i < 16; ++i)
 		{
@@ -180,12 +180,12 @@ public:
 	/// Test for inequality with another matrix without epsilon.
 	bool operator !=(const Matrix4x4& rhs) const { return !(*this == rhs); }
 
-	/// Multiply a Vector3 which is assumed to represent position.
-	Vector3 operator *(const Vector3& rhs) const
+	/// Multiply a Vector3<_Ty> which is assumed to represent position.
+	Vector3<_Ty> operator *(const Vector3<_Ty>& rhs) const
 	{
-		float invW = 1.0f / (_m30 * rhs._x + _m31 * rhs._y + _m32 * rhs._z + _m33);
+		_Ty invW = 1.0f / (_m30 * rhs._x + _m31 * rhs._y + _m32 * rhs._z + _m33);
 
-		return Vector3(
+		return Vector3<_Ty>(
 			(_m00 * rhs._x + _m01 * rhs._y + _m02 * rhs._z + _m03) * invW,
 			(_m10 * rhs._x + _m11 * rhs._y + _m12 * rhs._z + _m13) * invW,
 			(_m20 * rhs._x + _m21 * rhs._y + _m22 * rhs._z + _m23) * invW
@@ -193,9 +193,9 @@ public:
 	}
 
 	/// Multiply a Vector4.
-	Vector4 operator *(const Vector4& rhs) const
+	Vector4<_Ty> operator *(const Vector4<_Ty>& rhs) const
 	{
-		return Vector4(
+		return Vector4<_Ty>(
 			_m00 * rhs._x + _m01 * rhs._y + _m02 * rhs._z + _m03 * rhs._w,
 			_m10 * rhs._x + _m11 * rhs._y + _m12 * rhs._z + _m13 * rhs._w,
 			_m20 * rhs._x + _m21 * rhs._y + _m22 * rhs._z + _m23 * rhs._w,
@@ -250,7 +250,7 @@ public:
 	}
 
 	/// Multiply with a scalar.
-	Matrix4x4 operator *(float rhs) const
+	Matrix4x4 operator *(_Ty rhs) const
 	{
 		return Matrix4x4(
 			_m00 * rhs,
@@ -296,10 +296,10 @@ public:
 	}
 
 	/// Multiply with a 3x4 matrix.
-	Matrix4x4 operator *(const Matrix3x4& rhs) const;
+	Matrix4x4 operator *(const Matrix3x4<_Ty>& rhs) const;
 
 	/// Set translation elements.
-	void SetTranslation(const Vector3& translation)
+	void SetTranslation(const Vector3<_Ty>& translation)
 	{
 		_m03 = translation._x;
 		_m13 = translation._y;
@@ -307,7 +307,7 @@ public:
 	}
 
 	/// Set rotation elements from a 3x3 matrix.
-	void SetRotation(const Matrix3x3& rotation)
+	void SetRotation(const Matrix3x3<_Ty>& rotation)
 	{
 		_m00 = rotation._m00;
 		_m01 = rotation._m01;
@@ -321,7 +321,7 @@ public:
 	}
 
 	/// Set scaling elements.
-	void SetScale(const Vector3& scale)
+	void SetScale(const Vector3<_Ty>& scale)
 	{
 		_m00 = scale._x;
 		_m11 = scale._y;
@@ -329,7 +329,7 @@ public:
 	}
 
 	/// Set uniform scaling elements.
-	void SetScale(float scale)
+	void SetScale(_Ty scale)
 	{
 		_m00 = scale;
 		_m11 = scale;
@@ -337,9 +337,9 @@ public:
 	}
 
 	/// Return the combined rotation and scaling matrix.
-	Matrix3x3 ToMatrix3x3() const
+	Matrix3x3<_Ty> ToMatrix3x3() const
 	{
-		return Matrix3x3(
+		return Matrix3x3<_Ty>(
 			_m00,
 			_m01,
 			_m02,
@@ -353,9 +353,9 @@ public:
 	}
 
 	/// Return the rotation matrix with scaling removed.
-	Matrix3x3 RotationMatrix() const
+	Matrix3x3<_Ty> RotationMatrix() const
 	{
-		Vector3 invScale(
+		Vector3<_Ty> invScale(
 			1.0f / sqrtf(_m00 * _m00 + _m10 * _m10 + _m20 * _m20),
 			1.0f / sqrtf(_m01 * _m01 + _m11 * _m11 + _m21 * _m21),
 			1.0f / sqrtf(_m02 * _m02 + _m12 * _m12 + _m22 * _m22)
@@ -365,9 +365,9 @@ public:
 	}
 
 	/// Return the translation part.
-	Vector3 Translation() const
+	Vector3<_Ty> Translation() const
 	{
-		return Vector3(
+		return Vector3<_Ty>(
 			_m03,
 			_m13,
 			_m23
@@ -376,15 +376,15 @@ public:
 
 
 	/// Return the rotation part.
-	Quaternion Rotation() const 
+	Quaternion<_Ty> Rotation() const
 	{ 
-		return Quaternion(RotationMatrix()); 
+		return Quaternion<_Ty>(RotationMatrix());
 	}
 
 	/// Return the scaling part.
-	Vector3 Scale() const
+	Vector3<_Ty> Scale() const
 	{
-		return Vector3(
+		return Vector3<_Ty>(
 			sqrtf(_m00 * _m00 + _m10 * _m10 + _m20 * _m20),
 			sqrtf(_m01 * _m01 + _m11 * _m11 + _m21 * _m21),
 			sqrtf(_m02 * _m02 + _m12 * _m12 + _m22 * _m22)
@@ -392,9 +392,9 @@ public:
 	}
 
 	/// Return the scaling part with the sign. Reference rotation matrix is required to avoid ambiguity.
-	Vector3 SignedScale(const Matrix3x3& rotation) const
+	Vector3<_Ty> SignedScale(const Matrix3x3<_Ty>& rotation) const
 	{
-		return Vector3(
+		return Vector3<_Ty>(
 			rotation._m00 * _m00 + rotation._m10 * _m10 + rotation._m20 * _m20,
 			rotation._m01 * _m01 + rotation._m11 * _m11 + rotation._m21 * _m21,
 			rotation._m02 * _m02 + rotation._m12 * _m12 + rotation._m22 * _m22
@@ -427,8 +427,8 @@ public:
 	/// Test for equality with another matrix with epsilon.
 	bool Equals(const Matrix4x4& rhs) const
 	{
-		const float* leftData = Data();
-		const float* rightData = rhs.Data();
+		const _Ty* leftData = Data();
+		const _Ty* rightData = rhs.Data();
 
 		for (unsigned i = 0; i < 16; ++i)
 		{
@@ -440,45 +440,45 @@ public:
 	}
 
 	/// Return decomposition to translation, rotation and scale.
-	void Decompose(Vector3& translation, Quaternion& rotation, Vector3& scale) const;
+	void Decompose(Vector3<_Ty>& translation, Quaternion<_Ty>& rotation, Vector3<_Ty>& scale) const;
 
 	/// Return inverse.
 	Matrix4x4 Inverse() const;
 
-	/// Return float data.
-	const float* Data() const { return &_m00; }
+	/// Return _Ty data.
+	const _Ty* Data() const { return &_m00; }
 
 	/// Return matrix element.
-	float Element(unsigned i, unsigned j) const { return Data()[i * 4 + j]; }
+	_Ty Element(unsigned i, unsigned j) const { return Data()[i * 4 + j]; }
 
 	/// Return matrix row.
-	Vector4 Row(unsigned i) const { return Vector4(Element(i, 0), Element(i, 1), Element(i, 2), Element(i, 3)); }
+	Vector4<_Ty> Row(unsigned i) const { return Vector4<_Ty>(Element(i, 0), Element(i, 1), Element(i, 2), Element(i, 3)); }
 
 	/// Return matrix column.
-	Vector4 Column(unsigned j) const { return Vector4(Element(0, j), Element(1, j), Element(2, j), Element(3, j)); }
+	Vector4<_Ty> Column(unsigned j) const { return Vector4<_Ty>(Element(0, j), Element(1, j), Element(2, j), Element(3, j)); }
 
 	/// Return as string.
 	STRING ToString() const;
 
-	float _m00;
-	float _m01;
-	float _m02;
-	float _m03;
-	float _m10;
-	float _m11;
-	float _m12;
-	float _m13;
-	float _m20;
-	float _m21;
-	float _m22;
-	float _m23;
-	float _m30;
-	float _m31;
-	float _m32;
-	float _m33;
+	_Ty _m00;
+	_Ty _m01;
+	_Ty _m02;
+	_Ty _m03;
+	_Ty _m10;
+	_Ty _m11;
+	_Ty _m12;
+	_Ty _m13;
+	_Ty _m20;
+	_Ty _m21;
+	_Ty _m22;
+	_Ty _m23;
+	_Ty _m30;
+	_Ty _m31;
+	_Ty _m32;
+	_Ty _m33;
 
 	/// Bulk transpose matrices.
-	static void BulkTranspose(float* dest, const float* src, unsigned count)
+	static void BulkTranspose(_Ty* dest, const _Ty* src, unsigned count)
 	{
 		for (unsigned i = 0; i < count; ++i)
 		{
@@ -511,7 +511,17 @@ public:
 };
 
 /// Multiply a 4x4 matrix with a scalar.
-inline Matrix4x4 operator *(float lhs, const Matrix4x4& rhs) { return rhs * lhs; }
+template <typename _Ty> Matrix4x4<_Ty> operator *(_Ty lhs, const Matrix4x4<_Ty>& rhs) { return rhs * lhs; }
+
+using Matrix4x4F = Matrix4x4<float>;
+
+using Matrix4x4I = Matrix4x4<int>;
+
+using Matrix4x4C = Matrix4x4<char>;
+
+using Matrix4x4D = Matrix4x4<double>;
+
+using Matrix4x4U = Matrix4x4<unsigned>;
 
 }
 

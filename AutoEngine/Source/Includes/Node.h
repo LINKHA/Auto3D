@@ -98,11 +98,11 @@ public:
 	/**
 	* @brief : Set position from vector2
 	*/
-	void SetPosition(const Vector2& position);
+	void SetPosition(const Vector2F& position);
 	/**
 	* @brief : Set position from vector3
 	*/
-	void SetPosition(const Vector3& position);
+	void SetPosition(const Vector3F& position);
 	/**
 	* @brief : Set position from x,y
 	*/
@@ -114,15 +114,15 @@ public:
 	/**
 	* @brief : Set Rotation from rotation
 	*/
-	void SetRotation(const Quaternion& rotation);
+	void SetRotation(const QuaternionF& rotation);
 	/**
 	* @brief : Set Rotation from euler(Vector3)
 	*/
-	void SetRotation(const Vector3& euler);
+	void SetRotation(const Vector3F& euler);
 	/**
 	* @brief : Set Rotation from angle and axis
 	*/
-	void SetRotation(float Angle, const Vector3& axis);
+	void SetRotation(float Angle, const Vector3F& axis);
 	/**
 	* @brief : Set position from scale
 	*/
@@ -138,11 +138,11 @@ public:
 	/**
 	* @brief : Set position from scaleX,scaleY,scaleZ
 	*/
-	void SetScale(const Vector2& scale);
+	void SetScale(const Vector2F& scale);
 	/**
 	* @brief : Set position from scale
 	*/
-	void SetScale(const Vector3& scale);
+	void SetScale(const Vector3F& scale);
 	/**
 	* @brief : Set node name
 	*/
@@ -150,7 +150,7 @@ public:
 	/**
 	* @brief : Get this object position
 	*/
-	Vector3 GetPosition();
+	Vector3F GetPosition();
 	/**
 	* @brief : Get node name
 	*/

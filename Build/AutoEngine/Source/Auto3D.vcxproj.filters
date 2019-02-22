@@ -187,6 +187,15 @@
     <ClCompile Include="..\..\..\AutoEngine\Source\src\Rect.cpp">
       <Filter>Source\Math</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\OGLTexture.cpp">
+      <Filter>Source\Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\Batch.cpp">
+      <Filter>Source\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\AutoEngine\Source\src\AreaAllocator.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D:\Project\MyProject\Auto3D\AutoEngine\Source\Includes\AutoImage.h">
@@ -454,6 +463,12 @@
       <Filter>Source\Math</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Matrix3x4.h">
+      <Filter>Source\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\Batch.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AutoEngine\Source\Includes\AreaAllocator.h">
       <Filter>Source\Math</Filter>
     </ClInclude>
   </ItemGroup>

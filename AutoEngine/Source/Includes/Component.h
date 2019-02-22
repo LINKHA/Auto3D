@@ -32,7 +32,7 @@ public:
 	/**
 	* @brief : Return vector3 with gameObject position
 	*/
-	Vector3 GetPosition();
+	Vector3F GetPosition();
 	/**
 	* @brief : Return int with scene id
 	*/

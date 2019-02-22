@@ -75,9 +75,9 @@ void ShaderVariation::SetVec2(const STRING &name, const glm::vec2 &value) const
 {
 	glUniform2fv(glGetUniformLocation(_object.name, name.CStr()), 1, &value[0]);
 }
-void ShaderVariation::SetVec2(const STRING &name, const Vector2 &value) const
+void ShaderVariation::SetVec2(const STRING &name, const Vector2F &value) const
 {
-	glUniform2f(glGetUniformLocation(_object.name, name.CStr()), value.x, value._y);
+	glUniform2f(glGetUniformLocation(_object.name, name.CStr()), value._x, value._y);
 }
 void ShaderVariation::SetVec2(const STRING &name, float x, float y) const
 {
@@ -92,7 +92,7 @@ void ShaderVariation::SetVec3(const STRING &name, const Color &value) const
 {
 	glUniform3f(glGetUniformLocation(_object.name, name.CStr()), value._r, value._g, value._b);
 }
-void ShaderVariation::SetVec3(const STRING &name, const Vector3 &value) const
+void ShaderVariation::SetVec3(const STRING &name, const Vector3F &value) const
 {
 	glUniform3f(glGetUniformLocation(_object.name, name.CStr()), value._x, value._y, value._z);
 }
@@ -105,7 +105,7 @@ void ShaderVariation::SetVec4(const STRING &name, const glm::vec4 &value) const
 {
 	glUniform4fv(glGetUniformLocation(_object.name, name.CStr()), 1, &value[0]);
 }
-void ShaderVariation::SetVec4(const STRING &name, const Vector4 &value) const
+void ShaderVariation::SetVec4(const STRING &name, const Vector4F &value) const
 {
 	glUniform4f(glGetUniformLocation(_object.name, name.CStr()), value._x, value._y, value._z, value._w);
 }

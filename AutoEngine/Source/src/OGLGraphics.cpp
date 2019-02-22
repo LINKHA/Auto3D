@@ -236,8 +236,8 @@ public:
 Graphics::Graphics(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 	, _window(nullptr)
-	, _backbufferSize(Vector2::ZERO)
-	, _renderTargetSize(Vector2::ZERO)
+	, _backbufferSize(Vector2F::ZERO)
+	, _renderTargetSize(Vector2F::ZERO)
 	, _attributesBySemantic((int)ElementSemantic::Count)
 	, _multisample(1)
 	, _vsync(false)
@@ -408,6 +408,7 @@ bool Graphics::SetMode()
 #endif
 	}
 	ResetRenderTargets();
+	ResetViewport();
 
 #pragma endregion
 	if (!_window)
@@ -531,23 +532,23 @@ void Graphics::ResetRenderTargets()
 }
 void Graphics::ResetViewport()
 {
-	SetViewport(RectInt(0, 0, _renderTargetSize.x, _renderTargetSize._y));
+	SetViewport(RectInt(0, 0, _renderTargetSize._x, _renderTargetSize._y));
 }
 
 void Graphics::SetRenderTargets(VECTOR<SharedPtr<Texture> >& renderTargets, SharedPtr<Texture> depthStencil)
 {
 	for (size_t i = 0; i < MAX_RENDERTARGETS && i < renderTargets.size(); ++i)
-		renderTargets[i] = (renderTargets[i] && renderTargets[i]->IsRenderTarget()) ? renderTargets[i] : SharedPtr<Texture>();
+		_renderTargets[i] = (renderTargets[i] && renderTargets[i]->IsRenderTarget()) ? renderTargets[i] : nullptr;
 
 	for (size_t i = renderTargets.size(); i < MAX_RENDERTARGETS; ++i)
-		renderTargets[i] = SharedPtr<Texture>();
+		_renderTargets[i] = nullptr;
 
-	_depthStencil = (depthStencil && depthStencil->IsDepthStencil()) ? depthStencil : SharedPtr<Texture>();
+	_depthStencil = (depthStencil && depthStencil->IsDepthStencil()) ? depthStencil : nullptr;
 
-	if (renderTargets[0])
-		_renderTargetSize = Vector2(renderTargets[0]->Width(), renderTargets[0]->Height());
+	if (_renderTargets[0])
+		_renderTargetSize = Vector2F(_renderTargets[0]->Width(), _renderTargets[0]->Height());
 	else if (depthStencil)
-		_renderTargetSize = Vector2(depthStencil->Width(), depthStencil->Height());
+		_renderTargetSize = Vector2F(depthStencil->Width(), depthStencil->Height());
 	else
 		_renderTargetSize = _backbufferSize;
 
@@ -563,12 +564,12 @@ void Graphics::SetRenderTarget(SharedPtr<Texture> renderTarget, SharedPtr<Textur
 
 void Graphics::SetViewport(const RectInt& viewport)
 {
-	PrepareFramebuffer();
+	prepareFramebuffer();
 
 	/// \todo Implement a member function in IntRect for clipping
-	_viewport._left = Clamp(viewport._left, 0, (int)_renderTargetSize.x - 1);
+	_viewport._left = Clamp(viewport._left, 0, (int)_renderTargetSize._x - 1);
 	_viewport._top = Clamp(viewport._top, 0, (int)_renderTargetSize._y - 1);
-	_viewport._right = Clamp(viewport._right, _viewport._left + 1, (int)_renderTargetSize.x);
+	_viewport._right = Clamp(viewport._right, _viewport._left + 1, (int)_renderTargetSize._x);
 	_viewport._bottom = Clamp(viewport._bottom, _viewport._top + 1, (int)_renderTargetSize._y);
 
 	// When rendering to the backbuffer, use Direct3D convention with the vertical coordinates ie. 0 is top
@@ -600,6 +601,20 @@ void Graphics::CreateSamplePoint(int num)
 	}
 }
 
+void Graphics::CleanupFramebuffers()
+{
+	// Make sure the framebuffer is switched first if there are pending rendertarget changes
+	prepareFramebuffer();
+
+	// Clear all except the framebuffer currently in use
+	for (auto it = _framebuffers.begin(); it != _framebuffers.end();)
+	{
+		if (it->second != _framebuffer)
+			it = _framebuffers.erase(it);
+		else
+			++it;
+	}
+}
 bool Graphics::IsDeviceLost()
 {
 #if defined(IOS) || defined(TVOS)
@@ -757,6 +772,133 @@ bool Graphics::createContext(int multisample)
 
 	return true;
 }
+
+void Graphics::prepareFramebuffer()
+{
+	if (_framebufferDirty)
+	{
+		_framebufferDirty = false;
+
+		unsigned newDrawBuffers = 0;
+		bool useBackbuffer = true;
+
+		// If rendertarget changes, scissor rect may need to be re-evaluated
+		if (_currentRenderState.scissorEnable)
+		{
+			_renderState.scissorRect = RectInt::ZERO;
+			_rasterizerStateDirty = true;
+		}
+
+		for (size_t i = 0; i < MAX_RENDERTARGETS; ++i)
+		{
+			if (_renderTargets[i])
+			{
+				useBackbuffer = false;
+				newDrawBuffers |= (1 << i);
+			}
+		}
+		if (_depthStencil)
+			useBackbuffer = false;
+
+		if (useBackbuffer)
+		{
+			if (_framebuffer)
+			{
+				glBindFramebuffer(GL_FRAMEBUFFER, 0);
+				_framebuffer = nullptr;
+			}
+			return;
+		}
+
+		// Search for a new framebuffer based on format & size, or create new
+		ImageFormat format = ImageFormat::NONE;
+		if (_renderTargets[0])
+			format = _renderTargets[0]->Format();
+		else if (_depthStencil)
+			format = _depthStencil->Format();
+		unsigned long long key = ((int)_renderTargetSize._x << 16 | (int)_renderTargetSize._y) | (((unsigned long long)format) << 32);
+
+		auto it = _framebuffers.find(key);
+		if (it == _framebuffers.end())
+			it = _framebuffers.insert(it, MakePair(key, MakeShared<Framebuffer>()));
+
+		if (it->second != _framebuffer)
+		{
+			glBindFramebuffer(GL_FRAMEBUFFER, it->second->_buffer);
+			_framebuffer = it->second;
+		}
+
+		// Setup readbuffers & drawbuffers
+		if (_framebuffer->_firstUse)
+		{
+			glReadBuffer(GL_NONE);
+			_framebuffer->_firstUse = false;
+		}
+
+		if (newDrawBuffers != _framebuffer->_drawBuffers)
+		{
+			if (!newDrawBuffers)
+				glDrawBuffer(GL_NONE);
+			else
+			{
+				int drawBufferIds[MAX_RENDERTARGETS];
+				unsigned drawBufferCount = 0;
+
+				for (unsigned i = 0; i < MAX_RENDERTARGETS; ++i)
+				{
+					if (newDrawBuffers & (1 << i))
+						drawBufferIds[drawBufferCount++] = GL_COLOR_ATTACHMENT0 + i;
+				}
+				glDrawBuffers(drawBufferCount, (const GLenum*)drawBufferIds);
+			}
+
+			_framebuffer->_drawBuffers = newDrawBuffers;
+		}
+
+		// Setup color attachments
+		for (size_t i = 0; i < MAX_RENDERTARGETS; ++i)
+		{
+			if (_renderTargets[i] != _framebuffer->_renderTargets[i])
+			{
+				if (_renderTargets[i])
+				{
+					glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + (unsigned)i, _renderTargets[i]->GLTarget(),
+						_renderTargets[i]->GLTexture(), 0);
+				}
+				else
+					glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + (unsigned)i, GL_TEXTURE_2D, 0, 0);
+
+				_framebuffer->_renderTargets[i] = _renderTargets[i];
+			}
+		}
+
+		// Setup depth & stencil attachments
+		if (_depthStencil != _framebuffer->_depthStencil)
+		{
+			if (_depthStencil)
+			{
+				bool hasStencil = _depthStencil->Format() == ImageFormat::D24S8;
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, _depthStencil->GLTarget(),
+					_depthStencil->GLTexture(), 0);
+				if (hasStencil)
+				{
+					glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, _depthStencil->GLTarget(),
+						_depthStencil->GLTexture(), 0);
+				}
+				else
+					glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, 0, 0);
+			}
+			else
+			{
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, 0, 0);
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, 0, 0);
+			}
+
+			_framebuffer->_depthStencil = _depthStencil;
+		}
+	}
+}
+
 
 }
 #endif //AUTO_OPENGL

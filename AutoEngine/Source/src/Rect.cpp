@@ -46,7 +46,7 @@ void RectInt::Merge(const RectInt& rect)
 STRING Rect::ToString() const
 {
 	char tempBuffer[KhSTL::CONVERSION_BUFFER_LENGTH];
-	sprintf(tempBuffer, "%g %g %g %g", _min.x, _min._y, _max.x, _max._y);
+	sprintf(tempBuffer, "%g %g %g %g", _min._x, _min._y, _max._x, _max._y);
 	return STRING(tempBuffer);
 }
 
@@ -59,19 +59,19 @@ STRING RectInt::ToString() const
 
 void Rect::Clip(const Rect& rect)
 {
-	if (rect._min.x > _min.x)
-		_min.x = rect._min.x;
-	if (rect._max.x < _max.x)
-		_max.x = rect._max.x;
+	if (rect._min._x > _min._x)
+		_min._x = rect._min._x;
+	if (rect._max._x < _max._x)
+		_max._x = rect._max._x;
 	if (rect._min._y > _min._y)
 		_min._y = rect._min._y;
 	if (rect._max._y < _max._y)
 		_max._y = rect._max._y;
 
-	if (_min.x > _max.x || _min._y > _max._y)
+	if (_min._x > _max._x || _min._y > _max._y)
 	{
-		_min = Vector2(M_INFINITY, M_INFINITY);
-		_max = Vector2(-M_INFINITY, -M_INFINITY);
+		_min = Vector2F(M_INFINITY, M_INFINITY);
+		_max = Vector2F(-M_INFINITY, -M_INFINITY);
 	}
 }
 

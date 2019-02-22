@@ -5,7 +5,8 @@
 namespace Auto3D {
 
 /// 3x3 matrix for rotation and scaling.
-class Matrix3x3
+
+template<typename _Ty> class Matrix3x3
 {
 public:
 	/// Construct an identity matrix.
@@ -26,9 +27,9 @@ public:
 	Matrix3x3(const Matrix3x3& matrix) noexcept = default;
 
 	/// Construct from values.
-	Matrix3x3(float v00, float v01, float v02,
-		float v10, float v11, float v12,
-		float v20, float v21, float v22) noexcept :
+	Matrix3x3(_Ty v00, _Ty v01, _Ty v02,
+		_Ty v10, _Ty v11, _Ty v12,
+		_Ty v20, _Ty v21, _Ty v22) noexcept :
 		_m00(v00),
 		_m01(v01),
 		_m02(v02),
@@ -41,8 +42,8 @@ public:
 	{
 	}
 
-	/// Construct from a float array.
-	explicit Matrix3x3(const float* data) noexcept :
+	/// Construct from a _Ty array.
+	explicit Matrix3x3(const _Ty* data) noexcept :
 		_m00(data[0]),
 		_m01(data[1]),
 		_m02(data[2]),
@@ -61,8 +62,8 @@ public:
 	/// Test for equality with another matrix without epsilon.
 	bool operator ==(const Matrix3x3& rhs) const
 	{
-		const float* leftData = Data();
-		const float* rightData = rhs.Data();
+		const _Ty* leftData = Data();
+		const _Ty* rightData = rhs.Data();
 
 		for (unsigned i = 0; i < 9; ++i)
 		{
@@ -77,9 +78,9 @@ public:
 	bool operator !=(const Matrix3x3& rhs) const { return !(*this == rhs); }
 
 	/// Multiply a Vector3.
-	Vector3 operator *(const Vector3& rhs) const
+	Vector3<_Ty> operator *(const Vector3<_Ty>& rhs) const
 	{
-		return Vector3(
+		return Vector3<_Ty>(
 			_m00 * rhs._x + _m01 * rhs._y + _m02 * rhs._z,
 			_m10 * rhs._x + _m11 * rhs._y + _m12 * rhs._z,
 			_m20 * rhs._x + _m21 * rhs._y + _m22 * rhs._z
@@ -119,7 +120,7 @@ public:
 	}
 
 	/// Multiply with a scalar.
-	Matrix3x3 operator *(float rhs) const
+	Matrix3x3 operator *(_Ty rhs) const
 	{
 		return Matrix3x3(
 			_m00 * rhs,
@@ -151,7 +152,7 @@ public:
 	}
 
 	/// Set scaling elements.
-	void SetScale(const Vector3& scale)
+	void SetScale(const Vector3<_Ty>& scale)
 	{
 		_m00 = scale._x;
 		_m11 = scale._y;
@@ -159,7 +160,7 @@ public:
 	}
 
 	/// Set uniform scaling elements.
-	void SetScale(float scale)
+	void SetScale(_Ty scale)
 	{
 		_m00 = scale;
 		_m11 = scale;
@@ -167,9 +168,9 @@ public:
 	}
 
 	/// Return the scaling part.
-	Vector3 Scale() const
+	Vector3<_Ty> Scale() const
 	{
-		return Vector3(
+		return Vector3<_Ty>(
 			sqrtf(_m00 * _m00 + _m10 * _m10 + _m20 * _m20),
 			sqrtf(_m01 * _m01 + _m11 * _m11 + _m21 * _m21),
 			sqrtf(_m02 * _m02 + _m12 * _m12 + _m22 * _m22)
@@ -177,9 +178,9 @@ public:
 	}
 
 	/// Return the scaling part with the sign. Reference rotation matrix is required to avoid ambiguity.
-	Vector3 SignedScale(const Matrix3x3& rotation) const
+	Vector3<_Ty> SignedScale(const Matrix3x3& rotation) const
 	{
-		return Vector3(
+		return Vector3<_Ty>(
 			rotation._m00 * _m00 + rotation._m10 * _m10 + rotation._m20 * _m20,
 			rotation._m01 * _m01 + rotation._m11 * _m11 + rotation._m21 * _m21,
 			rotation._m02 * _m02 + rotation._m12 * _m12 + rotation._m22 * _m22
@@ -203,7 +204,7 @@ public:
 	}
 
 	/// Return scaled by a vector.
-	Matrix3x3 Scaled(const Vector3& scale) const
+	Matrix3x3 Scaled(const Vector3<_Ty>& scale) const
 	{
 		return Matrix3x3(
 			_m00 * scale._x,
@@ -221,8 +222,8 @@ public:
 	/// Test for equality with another matrix with epsilon.
 	bool Equals(const Matrix3x3& rhs) const
 	{
-		const float* leftData = Data();
-		const float* rightData = rhs.Data();
+		const _Ty* leftData = Data();
+		const _Ty* rightData = rhs.Data();
 
 		for (unsigned i = 0; i < 9; ++i)
 		{
@@ -236,33 +237,33 @@ public:
 	/// Return inverse.
 	Matrix3x3 Inverse() const;
 
-	/// Return float data.
-	const float* Data() const { return &_m00; }
+	/// Return _Ty data.
+	const _Ty* Data() const { return &_m00; }
 
 	/// Return matrix element.
-	float Element(unsigned i, unsigned j) const { return Data()[i * 3 + j]; }
+	_Ty Element(unsigned i, unsigned j) const { return Data()[i * 3 + j]; }
 
 	/// Return matrix row.
-	Vector3 Row(unsigned i) const { return Vector3(Element(i, 0), Element(i, 1), Element(i, 2)); }
+	Vector3<_Ty> Row(unsigned i) const { return Vector3<_Ty>(Element(i, 0), Element(i, 1), Element(i, 2)); }
 
 	/// Return matrix column.
-	Vector3 Column(unsigned j) const { return Vector3(Element(0, j), Element(1, j), Element(2, j)); }
+	Vector3<_Ty> Column(unsigned j) const { return Vector3<_Ty>(Element(0, j), Element(1, j), Element(2, j)); }
 
 	/// Return as string.
 	STRING ToString() const;
 
-	float _m00;
-	float _m01;
-	float _m02;
-	float _m10;
-	float _m11;
-	float _m12;
-	float _m20;
-	float _m21;
-	float _m22;
+	_Ty _m00;
+	_Ty _m01;
+	_Ty _m02;
+	_Ty _m10;
+	_Ty _m11;
+	_Ty _m12;
+	_Ty _m20;
+	_Ty _m21;
+	_Ty _m22;
 
 	/// Bulk transpose matrices.
-	static void BulkTranspose(float* dest, const float* src, unsigned count)
+	static void BulkTranspose(_Ty* dest, const _Ty* src, unsigned count)
 	{
 		for (unsigned i = 0; i < count; ++i)
 		{
@@ -288,8 +289,17 @@ public:
 };
 
 /// Multiply a 3x3 matrix with a scalar.
-inline Matrix3x3 operator *(float lhs, const Matrix3x3& rhs) { return rhs * lhs; }
+template<typename _Ty> Matrix3x3<_Ty> operator *(_Ty lhs, const Matrix3x3<_Ty> & rhs) { return rhs * lhs; }
 
+using Matrix3x3F = Matrix3x3<float>;
+
+using Matrix3x3I = Matrix3x3<int>;
+
+using Matrix3x3C = Matrix3x3<char>;
+
+using Matrix3x3D = Matrix3x3<double>;
+
+using Matrix3x3U = Matrix3x3<unsigned>;
 
 }
 

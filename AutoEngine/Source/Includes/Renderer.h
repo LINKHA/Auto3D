@@ -14,7 +14,11 @@ class Renderer : public GlobalGameManager
 	REGISTER_OBJECT_CLASS(Renderer, GlobalGameManager)
 public:
 	explicit Renderer(SharedPtr<Ambient> ambient);
-	
+	//void SetupShadowMaps(size_t num, int size, ImageFormat format);
+	void Init();
+private:
+	/// Shadow maps.
+	//Vector<ShadowMap> shadowMaps;
 };
 
 }

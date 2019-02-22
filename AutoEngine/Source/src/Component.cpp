@@ -38,10 +38,10 @@ void Component::SetNode(SharedPtr<Node> node)
 	_node = node;
 }
 
-Vector3 Component::GetPosition()
+Vector3F Component::GetPosition()
 {
 	if(!GetNode())
-		return Vector3();
+		return Vector3F();
 	return GetNode()->GetPosition();
 }
 

@@ -84,13 +84,13 @@ SharedPtr<Node> Node::GetNode()
 	return SharedFromThis(Node);
 }
 
-void Node::SetPosition(const Vector2& position)
+void Node::SetPosition(const Vector2F& position)
 {
 	auto transform = GetComponent<Transform>();
 	transform->SetPosition(position._x, position._y, transform->GetPosition()._z);
 }
 
-void Node::SetPosition(const Vector3& position)
+void Node::SetPosition(const Vector3F& position)
 {
 	GetComponent<Transform>()->SetPosition(position._x, position._y, position._z);
 }
@@ -106,17 +106,17 @@ void Node::SetPosition(float x, float y, float z)
 	GetComponent<Transform>()->SetPosition(x, y, z);
 }
 
-void Node::SetRotation(const Quaternion& rotation)
+void Node::SetRotation(const QuaternionF& rotation)
 {
 	GetComponent<Transform>()->SetRotation(rotation);
 }
 
-void Node::SetRotation(const Vector3& euler)
+void Node::SetRotation(const Vector3F& euler)
 {
 	GetComponent<Transform>()->SetRotation(euler);
 }
 
-void Node::SetRotation(float Angle, const Vector3& axis)
+void Node::SetRotation(float Angle, const Vector3F& axis)
 {
 	GetComponent<Transform>()->SetRotation(Angle, axis);
 }
@@ -137,18 +137,18 @@ void Node::SetScale(float scaleX, float scaleY, float scaleZ)
 	GetComponent<Transform>()->SetScale(scaleX, scaleY, scaleZ);
 }
 
-void Node::SetScale(const Vector2& scale)
+void Node::SetScale(const Vector2F& scale)
 {
 	auto transform = GetComponent<Transform>();
 	transform->SetScale(scale._x, scale._y, transform->GetScale()._z);
 }
 
-void Node::SetScale(const Vector3& scale)
+void Node::SetScale(const Vector3F& scale)
 {
 	GetComponent<Transform>()->SetScale(scale);
 }
 
-Vector3 Node::GetPosition()
+Vector3F Node::GetPosition()
 {
 	return GetComponent<Transform>()->GetPosition();
 }

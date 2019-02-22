@@ -2,17 +2,37 @@
 #include "Matrix3x4.h"
 namespace Auto3D {
 
-const Matrix4x4 Matrix4x4::ZERO(
+const Matrix4x4F Matrix4x4F::ZERO(
 	0.0f, 0.0f, 0.0f, 0.0f,
 	0.0f, 0.0f, 0.0f, 0.0f,
 	0.0f, 0.0f, 0.0f, 0.0f,
 	0.0f, 0.0f, 0.0f, 0.0f);
+const Matrix4x4F Matrix4x4F::IDENTITY;
 
-const Matrix4x4 Matrix4x4::IDENTITY;
+const Matrix4x4I Matrix4x4I::ZERO(
+	0, 0, 0, 0,
+	0, 0, 0, 0,
+	0, 0, 0, 0,
+	0, 0, 0, 0);
+const Matrix4x4I Matrix4x4I::IDENTITY;
 
-Matrix4x4 Matrix4x4::operator *(const Matrix3x4& rhs) const
+const Matrix4x4C Matrix4x4C::ZERO(
+	0, 0, 0, 0,
+	0, 0, 0, 0,
+	0, 0, 0, 0,
+	0, 0, 0, 0);
+const Matrix4x4C Matrix4x4C::IDENTITY;
+
+const Matrix4x4D Matrix4x4D::ZERO(
+	0.0, 0.0, 0.0, 0.0,
+	0.0, 0.0, 0.0, 0.0,
+	0.0, 0.0, 0.0, 0.0,
+	0.0, 0.0, 0.0, 0.0);
+const Matrix4x4D Matrix4x4D::IDENTITY;
+
+template<typename _Ty> Matrix4x4<_Ty> Matrix4x4<_Ty>::operator *(const Matrix3x4<_Ty>& rhs) const
 {
-	return Matrix4x4(
+	return Matrix4x4<_Ty>(
 		_m00 * rhs._m00 + _m01 * rhs._m10 + _m02 * rhs._m20,
 		_m00 * rhs._m01 + _m01 * rhs._m11 + _m02 * rhs._m21,
 		_m00 * rhs._m02 + _m01 * rhs._m12 + _m02 * rhs._m22,
@@ -32,7 +52,7 @@ Matrix4x4 Matrix4x4::operator *(const Matrix3x4& rhs) const
 	);
 }
 
-void Matrix4x4::Decompose(Vector3& translation, Quaternion& rotation, Vector3& scale) const
+template<typename _Ty> void Matrix4x4<_Ty>::Decompose(Vector3<_Ty>& translation, Quaternion<_Ty>& rotation, Vector3<_Ty>& scale) const
 {
 	translation._x = _m03;
 	translation._y = _m13;
@@ -46,7 +66,7 @@ void Matrix4x4::Decompose(Vector3& translation, Quaternion& rotation, Vector3& s
 	rotation = Quaternion(ToMatrix3x3().Scaled(invScale));
 }
 
-Matrix4x4 Matrix4x4::Inverse() const
+template<typename _Ty> Matrix4x4<_Ty> Matrix4x4<_Ty>::Inverse() const
 {
 	float v0 = _m20 * _m31 - _m21 * _m30;
 	float v1 = _m20 * _m32 - _m22 * _m30;
@@ -96,14 +116,14 @@ Matrix4x4 Matrix4x4::Inverse() const
 	float i23 = -(v4 * _m00 - v2 * _m01 + v0 * _m03) * invDet;
 	float i33 = (v3 * _m00 - v1 * _m01 + v0 * _m02) * invDet;
 
-	return Matrix4x4(
+	return Matrix4x4<_Ty>(
 		i00, i01, i02, i03,
 		i10, i11, i12, i13,
 		i20, i21, i22, i23,
 		i30, i31, i32, i33);
 }
 
-STRING Matrix4x4::ToString() const
+template<typename _Ty> STRING Matrix4x4<_Ty>::ToString() const
 {
 	char tempBuffer[KhSTL::MATRIX_CONVERSION_BUFFER_LENGTH];
 	sprintf(tempBuffer, "%g %g %g %g %g %g %g %g %g %g %g %g %g %g %g %g", _m00, _m01, _m02, _m03, _m10, _m11, _m12, _m13, _m20,

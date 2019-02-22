@@ -15,7 +15,7 @@ public:
 	}
 
 	/// Construct from minimum and maximum vectors.
-	Rect(const Vector2& min, const Vector2& max) noexcept :
+	Rect(const Vector2F& min, const Vector2F& max) noexcept :
 		_min(min),
 		_max(max)
 	{
@@ -29,7 +29,7 @@ public:
 	}
 
 	/// Construct from a Vector4.
-	explicit Rect(const Vector4& vector) noexcept :
+	explicit Rect(const Vector4F& vector) noexcept :
 		_min(vector._x, vector._y),
 		_max(vector._z, vector._w)
 	{
@@ -118,20 +118,20 @@ public:
 	}
 
 	/// Define from minimum and maximum vectors.
-	void Define(const Vector2& min, const Vector2& max)
+	void Define(const Vector2F& min, const Vector2F& max)
 	{
 		_min = min;
 		_max = max;
 	}
 
 	/// Define from a point.
-	void Define(const Vector2& point)
+	void Define(const Vector2F& point)
 	{
 		_min = _max = point;
 	}
 
 	/// Merge a point.
-	void Merge(const Vector2& point)
+	void Merge(const Vector2F& point)
 	{
 		if (point._x < _min._x)
 			_min._x = point._x;
@@ -159,8 +159,8 @@ public:
 	/// Clear to undefined state.
 	void Clear()
 	{
-		_min = Vector2(M_INFINITY, M_INFINITY);
-		_max = Vector2(-M_INFINITY, -M_INFINITY);
+		_min = Vector2F(M_INFINITY, M_INFINITY);
+		_max = Vector2F(-M_INFINITY, -M_INFINITY);
 	}
 
 	/// Clip with another rect.
@@ -173,19 +173,19 @@ public:
 	}
 
 	/// Return center.
-	Vector2 Center() const { return (_max + _min) * 0.5f; }
+	Vector2F Center() const { return (_max + _min) * 0.5f; }
 
 	/// Return size.
-	Vector2 Size() const { return _max - _min; }
+	Vector2F Size() const { return _max - _min; }
 
 	/// Return half-size.
-	Vector2 HalfSize() const { return (_max - _min) * 0.5f; }
+	Vector2F HalfSize() const { return (_max - _min) * 0.5f; }
 
 	/// Test for equality with another rect with epsilon.
 	bool Equals(const Rect& rhs) const { return _min.Equals(rhs._min) && _max.Equals(rhs._max); }
 
 	/// Test whether a point is inside.
-	Intersection IsInside(const Vector2& point) const
+	Intersection IsInside(const Vector2F& point) const
 	{
 		if (point._x < _min._x || point._y < _min._y || point._x > _max._x || point._y > _max._y)
 			return OUTSIDE;
@@ -208,22 +208,22 @@ public:
 	const void* Data() const { return &_min._x; }
 
 	/// Return as a vector.
-	Vector4 ToVector4() const { return Vector4(_min._x, _min.y, _max._x, _max._y); }
+	Vector4F ToVector4() const { return Vector4F(_min._x, _min._y, _max._x, _max._y); }
 
 	/// Return as string.
 	STRING ToString() const;
 
 	/// Return left-top corner position.
-	Vector2 Min() const { return _min; }
+	Vector2F Min() const { return _min; }
 
 	/// Return right-bottom corner position.
-	Vector2 Max() const { return _max; }
+	Vector2F Max() const { return _max; }
 
 	/// Return left coordinate.
 	float Left() const { return _min._x; }
 
 	/// Return top coordinate.
-	float Top() const { return _min.y; }
+	float Top() const { return _min._y; }
 
 	/// Return right coordinate.
 	float Right() const { return _max._x; }
@@ -232,9 +232,9 @@ public:
 	float Bottom() const { return _max._y; }
 
 	/// Minimum vector.
-	Vector2 _min;
+	Vector2F _min;
 	/// Maximum vector.
-	Vector2 _max;
+	Vector2F _max;
 
 	/// Rect in the range (-1, -1) - (1, 1)
 	static const Rect FULL;
@@ -258,11 +258,11 @@ public:
 	}
 
 	/// Construct from minimum and maximum vectors.
-	RectInt(const Vector2& min, const Vector2& max) noexcept :
+	RectInt(const Vector2I& min, const Vector2I& max) noexcept :
 		_left(min._x),
 		_top(min._y),
 		_right(max._x),
-		_bottom(max.y)
+		_bottom(max._y)
 	{
 	}
 
@@ -373,7 +373,7 @@ public:
 	}
 
 	/// Return size.
-	Vector2 Size() const { return Vector2(Width(), Height()); }
+	Vector2I Size() const { return Vector2I(Width(), Height()); }
 
 	/// Return width.
 	int Width() const { return _right - _left; }
@@ -382,9 +382,9 @@ public:
 	int Height() const { return  _top - _bottom; }
 
 	/// Test whether a point is inside.
-	Intersection IsInside(const Vector2& point) const
+	Intersection IsInside(const Vector2I& point) const
 	{
-		if (point._x < _left || point.y < _top || point._x >= _right || point._y >= _bottom)
+		if (point._x < _left || point._y < _top || point._x >= _right || point._y >= _bottom)
 			return OUTSIDE;
 		else
 			return INSIDE;
@@ -405,10 +405,10 @@ public:
 	STRING ToString() const;
 
 	/// Return left-top corner position.
-	Vector2 Min() const { return { (float)_left, (float)_top }; }
+	Vector2I Min() const { return { _left, _top }; }
 
 	/// Return right-bottom corner position.
-	Vector2 Max() const { return { (float)_right, (float)_bottom }; }
+	Vector2I Max() const { return { _right, _bottom }; }
 
 	/// Return left coordinate.
 	int Left() const { return _left; }

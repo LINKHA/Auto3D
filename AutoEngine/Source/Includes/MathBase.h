@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <limits>
+#include "AutoSTL.h"
 #include "AutoString.h"
 
 namespace Auto3D {

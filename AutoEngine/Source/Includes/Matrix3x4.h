@@ -6,7 +6,8 @@ namespace Auto3D
 {
 
 /// 3x4 matrix for scene node transform calculations.
-class Matrix3x4
+
+template<typename _Ty> class Matrix3x4
 {
 public:
 	/// Construct an identity matrix.
@@ -30,7 +31,7 @@ public:
 	Matrix3x4(const Matrix3x4& matrix) noexcept = default;
 
 	/// Copy-construct from a 3x3 matrix and set the extra elements to identity.
-	explicit Matrix3x4(const Matrix3x3& matrix) noexcept :
+	explicit Matrix3x4(const Matrix3x3<_Ty>& matrix) noexcept :
 		_m00(matrix._m00),
 		_m01(matrix._m01),
 		_m02(matrix._m02),
@@ -47,7 +48,7 @@ public:
 	}
 
 	/// Copy-construct from a 4x4 matrix which is assumed to contain no projection.
-	explicit Matrix3x4(const Matrix4x4& matrix) noexcept
+	explicit Matrix3x4(const Matrix4x4<_Ty>& matrix) noexcept
 		:_m00(matrix._m00),
 		_m01(matrix._m01),
 		_m02(matrix._m02),
@@ -64,9 +65,9 @@ public:
 	}
 
 	/// Construct from values.
-	Matrix3x4(float v00, float v01, float v02, float v03,
-		float v10, float v11, float v12, float v13,
-		float v20, float v21, float v22, float v23) noexcept :
+	Matrix3x4(_Ty v00, _Ty v01, _Ty v02, _Ty v03,
+		_Ty v10, _Ty v11, _Ty v12, _Ty v13,
+		_Ty v20, _Ty v21, _Ty v22, _Ty v23) noexcept :
 		_m00(v00),
 		_m01(v01),
 		_m02(v02),
@@ -82,8 +83,8 @@ public:
 	{
 	}
 
-	/// Construct from a float array.
-	explicit Matrix3x4(const float* data) noexcept
+	/// Construct from a _Ty array.
+	explicit Matrix3x4(const _Ty* data) noexcept
 		:_m00(data[0]),
 		_m01(data[1]),
 		_m02(data[2]),
@@ -100,14 +101,14 @@ public:
 	}
 
 	/// Construct from translation, rotation and uniform scale.
-	Matrix3x4(const Vector3& translation, const Quaternion& rotation, float scale) noexcept
+	Matrix3x4(const Vector3<_Ty>& translation, const Quaternion<_Ty>& rotation, _Ty scale) noexcept
 	{
 		SetRotation(rotation.RotationMatrix() * scale);
 		SetTranslation(translation);
 	}
 
 	/// Construct from translation, rotation and nonuniform scale.
-	Matrix3x4(const Vector3& translation, const Quaternion& rotation, const Vector3& scale) noexcept
+	Matrix3x4(const Vector3<_Ty>& translation, const Quaternion<_Ty>& rotation, const Vector3<_Ty>& scale) noexcept
 	{
 		SetRotation(rotation.RotationMatrix().Scaled(scale));
 		SetTranslation(translation);
@@ -117,7 +118,7 @@ public:
 	Matrix3x4& operator =(const Matrix3x4& rhs) noexcept = default;
 
 	/// Assign from a 3x3 matrix and set the extra elements to identity.
-	Matrix3x4& operator =(const Matrix3x3& rhs) noexcept
+	Matrix3x4& operator =(const Matrix3x3<_Ty>& rhs) noexcept
 	{
 		_m00 = rhs._m00;
 		_m01 = rhs._m01;
@@ -135,7 +136,7 @@ public:
 	}
 
 	/// Assign from a 4x4 matrix which is assumed to contain no projection.
-	Matrix3x4& operator =(const Matrix4x4& rhs) noexcept
+	Matrix3x4& operator =(const Matrix4x4<_Ty>& rhs) noexcept
 	{
 		_m00 = rhs._m00;
 		_m01 = rhs._m01;
@@ -156,8 +157,8 @@ public:
 	/// Test for equality with another matrix without epsilon.
 	bool operator ==(const Matrix3x4& rhs) const
 	{
-		const float* leftData = Data();
-		const float* rightData = rhs.Data();
+		const _Ty* leftData = Data();
+		const _Ty* rightData = rhs.Data();
 
 		for (unsigned i = 0; i < 12; ++i)
 		{
@@ -172,9 +173,9 @@ public:
 	bool operator !=(const Matrix3x4& rhs) const { return !(*this == rhs); }
 
 	/// Multiply a Vector3 which is assumed to represent position.
-	Vector3 operator *(const Vector3& rhs) const
+	Vector3<_Ty> operator *(const Vector3<_Ty>& rhs) const
 	{
-		return Vector3(
+		return Vector3<_Ty>(
 			(_m00 * rhs._x + _m01 * rhs._y + _m02 * rhs._z + _m03),
 			(_m10 * rhs._x + _m11 * rhs._y + _m12 * rhs._z + _m13),
 			(_m20 * rhs._x + _m21 * rhs._y + _m22 * rhs._z + _m23)
@@ -182,9 +183,9 @@ public:
 	}
 
 	/// Multiply a Vector4.
-	Vector3 operator *(const Vector4& rhs) const
+	Vector3<_Ty> operator *(const Vector4<_Ty>& rhs) const
 	{
-		return Vector3(
+		return Vector3<_Ty>(
 			(_m00 * rhs._x + _m01 * rhs._y + _m02 * rhs._z + _m03 * rhs._w),
 			(_m10 * rhs._x + _m11 * rhs._y + _m12 * rhs._z + _m13 * rhs._w),
 			(_m20 * rhs._x + _m21 * rhs._y + _m22 * rhs._z + _m23 * rhs._w)
@@ -230,7 +231,7 @@ public:
 	}
 
 	/// Multiply with a scalar.
-	Matrix3x4 operator *(float rhs) const
+	Matrix3x4 operator *(_Ty rhs) const
 	{
 		return Matrix3x4(
 			_m00 * rhs,
@@ -268,9 +269,9 @@ public:
 	}
 
 	/// Multiply a 4x4 matrix.
-	Matrix4x4 operator *(const Matrix4x4& rhs) const
+	Matrix4x4<_Ty> operator *(const Matrix4x4<_Ty>& rhs) const
 	{
-		return Matrix4x4(
+		return Matrix4x4<_Ty>(
 			_m00 * rhs._m00 + _m01 * rhs._m10 + _m02 * rhs._m20 + _m03 * rhs._m30,
 			_m00 * rhs._m01 + _m01 * rhs._m11 + _m02 * rhs._m21 + _m03 * rhs._m31,
 			_m00 * rhs._m02 + _m01 * rhs._m12 + _m02 * rhs._m22 + _m03 * rhs._m32,
@@ -291,7 +292,7 @@ public:
 	}
 
 	/// Set translation elements.
-	void SetTranslation(const Vector3& translation)
+	void SetTranslation(const Vector3<_Ty>& translation)
 	{
 		_m03 = translation._x;
 		_m13 = translation._y;
@@ -299,7 +300,7 @@ public:
 	}
 
 	/// Set rotation elements from a 3x3 matrix.
-	void SetRotation(const Matrix3x3& rotation)
+	void SetRotation(const Matrix3x3<_Ty>& rotation)
 	{
 		_m00 = rotation._m00;
 		_m01 = rotation._m01;
@@ -313,7 +314,7 @@ public:
 	}
 
 	/// Set scaling elements.
-	void SetScale(const Vector3& scale)
+	void SetScale(const Vector3<_Ty>& scale)
 	{
 		_m00 = scale._x;
 		_m11 = scale._y;
@@ -321,7 +322,7 @@ public:
 	}
 
 	/// Set uniform scaling elements.
-	void SetScale(float scale)
+	void SetScale(_Ty scale)
 	{
 		_m00 = scale;
 		_m11 = scale;
@@ -329,9 +330,9 @@ public:
 	}
 
 	/// Return the combined rotation and scaling matrix.
-	Matrix3x3 ToMatrix3() const
+	Matrix3x3<_Ty> ToMatrix3() const
 	{
-		return Matrix3x3(
+		return Matrix3x3<_Ty>(
 			_m00,
 			_m01,
 			_m02,
@@ -345,9 +346,9 @@ public:
 	}
 
 	/// Convert to a 4x4 matrix by filling in an identity last row.
-	Matrix4x4 ToMatrix4() const
+	Matrix4x4<_Ty> ToMatrix4() const
 	{
-		return Matrix4x4(
+		return Matrix4x4<_Ty>(
 			_m00,
 			_m01,
 			_m02,
@@ -368,9 +369,9 @@ public:
 	}
 
 	/// Return the rotation matrix with scaling removed.
-	Matrix3x3 RotationMatrix() const
+	Matrix3x3<_Ty> RotationMatrix() const
 	{
-		Vector3 invScale(
+		Vector3<_Ty> invScale(
 			1.0f / sqrtf(_m00 * _m00 + _m10 * _m10 + _m20 * _m20),
 			1.0f / sqrtf(_m01 * _m01 + _m11 * _m11 + _m21 * _m21),
 			1.0f / sqrtf(_m02 * _m02 + _m12 * _m12 + _m22 * _m22)
@@ -380,9 +381,9 @@ public:
 	}
 
 	/// Return the translation part.
-	Vector3 Translation() const
+	Vector3<_Ty> Translation() const
 	{
-		return Vector3(
+		return Vector3<_Ty>(
 			_m03,
 			_m13,
 			_m23
@@ -390,12 +391,12 @@ public:
 	}
 
 	/// Return the rotation part.
-	Quaternion Rotation() const { return Quaternion(RotationMatrix()); }
+	Quaternion<_Ty> Rotation() const { return Quaternion<_Ty>(RotationMatrix()); }
 
 	/// Return the scaling part.
-	Vector3 Scale() const
+	Vector3<_Ty> Scale() const
 	{
-		return Vector3(
+		return Vector3<_Ty>(
 			sqrtf(_m00 * _m00 + _m10 * _m10 + _m20 * _m20),
 			sqrtf(_m01 * _m01 + _m11 * _m11 + _m21 * _m21),
 			sqrtf(_m02 * _m02 + _m12 * _m12 + _m22 * _m22)
@@ -403,9 +404,9 @@ public:
 	}
 
 	/// Return the scaling part with the sign. Reference rotation matrix is required to avoid ambiguity.
-	Vector3 SignedScale(const Matrix3x3& rotation) const
+	Vector3<_Ty> SignedScale(const Matrix3x3<_Ty>& rotation) const
 	{
-		return Vector3(
+		return Vector3<_Ty>(
 			rotation._m00 * _m00 + rotation._m10 * _m10 + rotation._m20 * _m20,
 			rotation._m01 * _m01 + rotation._m11 * _m11 + rotation._m21 * _m21,
 			rotation._m02 * _m02 + rotation._m12 * _m12 + rotation._m22 * _m22
@@ -415,8 +416,8 @@ public:
 	/// Test for equality with another matrix with epsilon.
 	bool Equals(const Matrix3x4& rhs) const
 	{
-		const float* leftData = Data();
-		const float* rightData = rhs.Data();
+		const _Ty* leftData = Data();
+		const _Ty* rightData = rhs.Data();
 
 		for (unsigned i = 0; i < 12; ++i)
 		{
@@ -428,38 +429,38 @@ public:
 	}
 
 	/// Return decomposition to translation, rotation and scale.
-	void Decompose(Vector3& translation, Quaternion& rotation, Vector3& scale) const;
+	void Decompose(Vector3<_Ty>& translation, Quaternion<_Ty>& rotation, Vector3<_Ty>& scale) const;
 
 	/// Return inverse.
 	Matrix3x4 Inverse() const;
 
-	/// Return float data.
-	const float* Data() const { return &_m00; }
+	/// Return _Ty data.
+	const _Ty* Data() const { return &_m00; }
 
 	/// Return matrix element.
-	float Element(unsigned i, unsigned j) const { return Data()[i * 4 + j]; }
+	_Ty Element(unsigned i, unsigned j) const { return Data()[i * 4 + j]; }
 
 	/// Return matrix row.
-	Vector4 Row(unsigned i) const { return Vector4(Element(i, 0), Element(i, 1), Element(i, 2), Element(i, 3)); }
+	Vector4<_Ty> Row(unsigned i) const { return Vector4<_Ty>(Element(i, 0), Element(i, 1), Element(i, 2), Element(i, 3)); }
 
 	/// Return matrix column.
-	Vector3 Column(unsigned j) const { return Vector3(Element(0, j), Element(1, j), Element(2, j)); }
+	Vector3<_Ty> Column(unsigned j) const { return Vector3<_Ty>(Element(0, j), Element(1, j), Element(2, j)); }
 
 	/// Return as string.
 	STRING ToString() const;
 
-	float _m00;
-	float _m01;
-	float _m02;
-	float _m03;
-	float _m10;
-	float _m11;
-	float _m12;
-	float _m13;
-	float _m20;
-	float _m21;
-	float _m22;
-	float _m23;
+	_Ty _m00;
+	_Ty _m01;
+	_Ty _m02;
+	_Ty _m03;
+	_Ty _m10;
+	_Ty _m11;
+	_Ty _m12;
+	_Ty _m13;
+	_Ty _m20;
+	_Ty _m21;
+	_Ty _m22;
+	_Ty _m23;
 
 	/// Zero matrix.
 	static const Matrix3x4 ZERO;
@@ -468,6 +469,16 @@ public:
 };
 
 /// Multiply a 3x4 matrix with a scalar.
-inline Matrix3x4 operator *(float lhs, const Matrix3x4& rhs) { return rhs * lhs; }
+template <typename _Ty> Matrix3x4<_Ty> operator *(_Ty lhs, const Matrix3x4<_Ty>& rhs) { return rhs * lhs; }
+
+using Matrix3x4F = Matrix3x4<float>;
+
+using Matrix3x4I = Matrix3x4<int>;
+
+using Matrix3x4C = Matrix3x4<char>;
+
+using Matrix3x4D = Matrix3x4<double>;
+
+using Matrix3x4U = Matrix3x4<unsigned>;
 
 }

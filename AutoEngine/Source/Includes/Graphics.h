@@ -50,10 +50,6 @@ public:
 	*/
 	void CreateDevice();
 	/**
-	* @brief : Create engine icon in window title
-	*/
-	void CreateIcon();
-	/**
 	* @brief : Delete game window and if OpenGL delete context
 	*/
 	void DestoryWindow();
@@ -127,7 +123,7 @@ public:
 	/**
 	* @brief : Set window rect with float (only in space awake function)
 	*/
-	void SetWindowRect(float x, float y) { _windowRect._left = x; _windowRect._right = y; }
+	void SetWindowRect(int x, int y) { _windowRect._left = x; _windowRect._right = y; }
 	/**
 	* @brief : Set window rect with RectInt (only in space awake function)
 	*/
@@ -135,7 +131,7 @@ public:
 	/**
 	* @brief : Set window rect with Vector2 (only in space awake function)
 	*/
-	void SetWindowRect(Vector2 vec) { SetWindowRect(vec._x, vec._y); }
+	void SetWindowRect(Vector2I vec) { SetWindowRect(vec._x, vec._y); }
 	
 	/// Set multiple color rendertargets and the depth stencil buffer.
 	void SetRenderTargets(VECTOR<SharedPtr<Texture> >& renderTargets, SharedPtr<Texture> depthStencil_);
@@ -158,6 +154,9 @@ public:
 	void SetRenderTarget(SharedPtr<Texture> renderTarget, SharedPtr<Texture> stencilBuffer);
 	/// Set the viewport rectangle. On window resize the viewport will automatically revert to full window.
 	void SetViewport(const RectInt& viewport);
+
+	/// Remove all framebuffers except the currently bound one. Called automatically on backbuffer resize, but can also be called manually if you have used rendertarget resolutions or color formats that you will not need any more.
+	void CleanupFramebuffers();
 #if AUTO_OPENGL
 
 #endif
@@ -206,6 +205,9 @@ private:
 
 	/// Create and initialize the OpenGL context. Return true on success.
 	bool createContext(int multisample);
+
+	/// Prepare framebuffer changes.
+	void prepareFramebuffer();
 private:
 
 #if AUTO_OPENGL
@@ -283,9 +285,9 @@ private:
 	/// GPU objects.
 	VECTOR<GPUObject*> _gpuObjects;
 	/// Current size of the backbuffer.
-	Vector2 _backbufferSize;
+	Vector2F _backbufferSize;
 	/// Current size of the active rendertarget.
-	Vector2 _renderTargetSize;
+	Vector2F _renderTargetSize;
 	/// Helper vector for defining just one color rendertarget.
 	VECTOR<SharedPtr<Texture> > _renderTargetVector;
 	/// Current mapping of vertex attributes by semantic.
@@ -308,6 +310,9 @@ private:
 	SharedPtr<Texture> _textures[MAX_TEXTURE_UNITS];
 	/// OpenGL active texture targets by texture unit.
 	unsigned _textureTargets[MAX_TEXTURE_UNITS];
+	
+		/// Bound rendertarget textures.
+	SharedPtr<Texture> _renderTargets[MAX_RENDERTARGETS];
 	/// Current renderstate requested by the application.
 	RenderState _currentRenderState;
 	/// Renderstate applied to OpenGL.

@@ -5,9 +5,9 @@ namespace Auto3D {
 
 Transform::Transform(SharedPtr<Ambient> ambient)
 	:Super(ambient)
-	, _position(Vector3())
-	, _rotation(Quaternion())
-	, _scale(Vector3(1.0f,1.0f,1.0f))
+	, _position(Vector3F())
+	, _rotation(QuaternionF())
+	, _scale(Vector3F(1.0f,1.0f,1.0f))
 {}
 
 Transform::~Transform()
@@ -17,42 +17,42 @@ void Transform::RegisterObject(SharedPtr<Ambient> ambient)
 {
 	ambient->RegisterFactory<Transform>(SCENE_ATTACH);
 }
-void Transform::Rotation(const Vector3& Euler)
+void Transform::Rotation(const Vector3F& Euler)
 {
 	//_rotation.SetValueWithEuler(Euler);
 }
 
-void Transform::Rotation(float Angle, const Vector3& axis)
+void Transform::Rotation(float Angle, const Vector3F& axis)
 {
 	//_rotation.SetValueWithAngleAxis(Angle, axis);
 }
 
-void Transform::SetPosition(const Vector3& position)
+void Transform::SetPosition(const Vector3F& position)
 {
 	_position = position;
 }
 
 void Transform::SetPosition(float x,float y,float z)
 {
-	_position = Vector3(x, y, z);
+	_position = Vector3F(x, y, z);
 }
 
-void Transform::SetRotation(const Quaternion& rotation)
+void Transform::SetRotation(const QuaternionF& rotation)
 {
 	_rotation = rotation;
 }
 
-void Transform::SetRotation(const Vector3& euler)
+void Transform::SetRotation(const Vector3F& euler)
 {
 	//_rotation.SetValueWithEuler(euler);
 }
 
-void Transform::SetRotation(float Angle, const Vector3& axis)
+void Transform::SetRotation(float Angle, const Vector3F& axis)
 {
 	//_rotation.SetValueWithAngleAxis(Angle, axis);
 }
 
-void Transform::SetScale(const Vector3& scale)
+void Transform::SetScale(const Vector3F& scale)
 {
 	setScaleAbs(scale._x, scale._y, scale._z);
 }
@@ -67,17 +67,17 @@ void Transform::SetScale(float scaleX, float scaleY, float scaleZ)
 	setScaleAbs(scaleX, scaleY, scaleZ);
 }
 
-Vector3 Transform::GetPosition()
+Vector3F Transform::GetPosition()
 {
 	return _position;
 }
 
-Quaternion Transform::GetRotation()
+QuaternionF Transform::GetRotation()
 {
 	return _rotation;
 }
 
-Vector3 Transform::GetScale()
+Vector3F Transform::GetScale()
 {
 	return _scale;
 }
@@ -95,7 +95,7 @@ glm::mat4 Transform::GetTransformMat()
 
 void Transform::setScaleAbs(float x, float y, float z)
 {
-	_scale = Vector3(Auto3D::Abs(x), Auto3D::Abs(y), Auto3D::Abs(z));
+	_scale = Vector3F(Auto3D::Abs(x), Auto3D::Abs(y), Auto3D::Abs(z));
 }
 
 

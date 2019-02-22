@@ -5,7 +5,7 @@
 namespace Auto3D {
 
 /// Four-dimensional vector.
-class Vector4
+template <typename _Ty> class Vector4
 {
 public:
 	/// Construct a zero vector.
@@ -21,7 +21,7 @@ public:
 	Vector4(const Vector4& vector) noexcept = default;
 
 	/// Construct from a 3-dimensional vector and the W coordinate.
-	Vector4(const Vector3& vector, float w) noexcept :
+	Vector4(const Vector3<_Ty>& vector, _Ty w) noexcept :
 		_x(vector._x),
 		_y(vector._y),
 		_z(vector._z),
@@ -30,7 +30,7 @@ public:
 	}
 
 	/// Construct from coordinates.
-	Vector4(float x, float y, float z, float w) noexcept :
+	Vector4(_Ty x, _Ty y, _Ty z, _Ty w) noexcept :
 		_x(x),
 		_y(y),
 		_z(z),
@@ -38,8 +38,8 @@ public:
 	{
 	}
 
-	/// Construct from a float array.
-	explicit Vector4(const float* data) noexcept :
+	/// Construct from a _Ty array.
+	explicit Vector4(const _Ty* data) noexcept :
 		_x(data[0]),
 		_y(data[1]),
 		_z(data[2]),
@@ -66,13 +66,13 @@ public:
 	Vector4 operator -(const Vector4& rhs) const { return Vector4(_x - rhs._x, _y - rhs._y, _z - rhs._z, _w - rhs._w); }
 
 	/// Multiply with a scalar.
-	Vector4 operator *(float rhs) const { return Vector4(_x * rhs, _y * rhs, _z * rhs, _w * rhs); }
+	Vector4 operator *(_Ty rhs) const { return Vector4(_x * rhs, _y * rhs, _z * rhs, _w * rhs); }
 
 	/// Multiply with a vector.
 	Vector4 operator *(const Vector4& rhs) const { return Vector4(_x * rhs._x, _y * rhs._y, _z * rhs._z, _w * rhs._w); }
 
 	/// Divide by a scalar.
-	Vector4 operator /(float rhs) const { return Vector4(_x / rhs, _y / rhs, _z / rhs, _w / rhs); }
+	Vector4 operator /(_Ty rhs) const { return Vector4(_x / rhs, _y / rhs, _z / rhs, _w / rhs); }
 
 	/// Divide by a vector.
 	Vector4 operator /(const Vector4& rhs) const { return Vector4(_x / rhs._x, _y / rhs._y, _z / rhs._z, _w / rhs._w); }
@@ -98,7 +98,7 @@ public:
 	}
 
 	/// Multiply-assign a scalar.
-	Vector4& operator *=(float rhs)
+	Vector4& operator *=(_Ty rhs)
 	{
 		_x *= rhs;
 		_y *= rhs;
@@ -118,9 +118,9 @@ public:
 	}
 
 	/// Divide-assign a scalar.
-	Vector4& operator /=(float rhs)
+	Vector4& operator /=(_Ty rhs)
 	{
-		float invRhs = 1.0f / rhs;
+		_Ty invRhs = 1.0f / rhs;
 		_x *= invRhs;
 		_y *= invRhs;
 		_z *= invRhs;
@@ -139,28 +139,28 @@ public:
 	}
 
 	/// Return const value by index.
-	float operator[](unsigned index) const { return (&_x)[index]; }
+	_Ty operator[](unsigned index) const { return (&_x)[index]; }
 
 	/// Return mutable value by index.
-	float& operator[](unsigned index) { return (&_x)[index]; }
+	_Ty& operator[](unsigned index) { return (&_x)[index]; }
 
 	/// Calculate dot product.
-	float DotProduct(const Vector4& rhs) const { return _x * rhs._x + _y * rhs._y + _z * rhs._z + _w * rhs._w; }
+	_Ty DotProduct(const Vector4& rhs) const { return _x * rhs._x + _y * rhs._y + _z * rhs._z + _w * rhs._w; }
 
 	/// Calculate absolute dot product.
-	float AbsDotProduct(const Vector4& rhs) const
+	_Ty AbsDotProduct(const Vector4& rhs) const
 	{
 		return Auto3D::Abs(_x * rhs._x) + Auto3D::Abs(_y * rhs._y) + Auto3D::Abs(_z * rhs._z) + Auto3D::Abs(_w * rhs._w);
 	}
 
 	/// Project vector onto axis.
-	float ProjectOntoAxis(const Vector3& axis) const { return DotProduct(Vector4(axis.Normalized(), 0.0f)); }
+	_Ty ProjectOntoAxis(const Vector3<_Ty>& axis) const { return DotProduct(Vector4(axis.Normalized(), 0.0f)); }
 
 	/// Return absolute vector.
 	Vector4 Abs() const { return Vector4(Auto3D::Abs(_x), Auto3D::Abs(_y), Auto3D::Abs(_z), Auto3D::Abs(_w)); }
 
 	/// Linear interpolation with another vector.
-	Vector4 Lerp(const Vector4& rhs, float t) const { return *this * (1.0f - t) + rhs * t; }
+	Vector4 Lerp(const Vector4& rhs, _Ty t) const { return *this * (1.0f - t) + rhs * t; }
 
 	/// Test for equality with another vector with epsilon.
 	bool Equals(const Vector4& rhs) const
@@ -171,8 +171,8 @@ public:
 	/// Return whether is NaN.
 	bool IsNaN() const { return Auto3D::IsNaN(_x) || Auto3D::IsNaN(_y) || Auto3D::IsNaN(_z) || Auto3D::IsNaN(_w); }
 
-	/// Return float data.
-	const float* Data() const { return &_x; }
+	/// Return _Ty data.
+	const _Ty* Data() const { return &_x; }
 
 	/// Return as string.
 	STRING ToString() const;
@@ -190,13 +190,13 @@ public:
 	}
 
 	/// X coordinate.
-	float _x;
+	_Ty _x;
 	/// Y coordinate.
-	float _y;
+	_Ty _y;
 	/// Z coordinate.
-	float _z;
+	_Ty _z;
 	/// W coordinate.
-	float _w;
+	_Ty _w;
 
 	/// Zero vector.
 	static const Vector4 ZERO;
@@ -204,25 +204,35 @@ public:
 	static const Vector4 ONE;
 };
 
-/// Multiply Vector4 with a scalar.
-inline Vector4 operator *(float lhs, const Vector4& rhs) { return rhs * lhs; }
+/// Multiply Vector4<_Ty> with a scalar.
+template <typename _Ty>  Vector4<_Ty> operator *(_Ty lhs, const Vector4<_Ty>& rhs) { return rhs * lhs; }
 
 /// Per-component linear interpolation between two 4-vectors.
-inline Vector4 VectorLerp(const Vector4& lhs, const Vector4& rhs, const Vector4& t) { return lhs + (rhs - lhs) * t; }
+template <typename _Ty>  Vector4<_Ty> VectorLerp(const Vector4<_Ty>& lhs, const Vector4<_Ty>& rhs, const Vector4<_Ty>& t) { return lhs + (rhs - lhs) * t; }
 
 /// Per-component min of two 4-vectors.
-inline Vector4 VectorMin(const Vector4& lhs, const Vector4& rhs) { return Vector4(Min(lhs._x, rhs._x), Min(lhs._y, rhs._y), Min(lhs._z, rhs._z), Min(lhs._w, rhs._w)); }
+template <typename _Ty>  Vector4<_Ty> VectorMin(const Vector4<_Ty>& lhs, const Vector4<_Ty>& rhs) { return Vector4<_Ty>(Min(lhs._x, rhs._x), Min(lhs._y, rhs._y), Min(lhs._z, rhs._z), Min(lhs._w, rhs._w)); }
 
 /// Per-component max of two 4-vectors.
-inline Vector4 VectorMax(const Vector4& lhs, const Vector4& rhs) { return Vector4(Max(lhs._x, rhs._x), Max(lhs._y, rhs._y), Max(lhs._z, rhs._z), Max(lhs._w, rhs._w)); }
+template <typename _Ty>  Vector4<_Ty> VectorMax(const Vector4<_Ty>& lhs, const Vector4<_Ty>& rhs) { return Vector4<_Ty>(Max(lhs._x, rhs._x), Max(lhs._y, rhs._y), Max(lhs._z, rhs._z), Max(lhs._w, rhs._w)); }
 
 /// Per-component floor of 4-vector.
-inline Vector4 VectorFloor(const Vector4& vec) { return Vector4(Floor(vec._x), Floor(vec._y), Floor(vec._z), Floor(vec._w)); }
+template <typename _Ty>  Vector4<_Ty> VectorFloor(const Vector4<_Ty>& vec) { return Vector4<_Ty>(Floor(vec._x), Floor(vec._y), Floor(vec._z), Floor(vec._w)); }
 
 /// Per-component round of 4-vector.
-inline Vector4 VectorRound(const Vector4& vec) { return Vector4(Round(vec._x), Round(vec._y), Round(vec._z), Round(vec._w)); }
+template <typename _Ty>  Vector4<_Ty> VectorRound(const Vector4<_Ty>& vec) { return Vector4<_Ty>(Round(vec._x), Round(vec._y), Round(vec._z), Round(vec._w)); }
 
 /// Per-component ceil of 4-vector.
-inline Vector4 VectorCeil(const Vector4& vec) { return Vector4(Ceil(vec._x), Ceil(vec._y), Ceil(vec._z), Ceil(vec._w)); }
+template <typename _Ty>  Vector4<_Ty> VectorCeil(const Vector4<_Ty>& vec) { return Vector4<_Ty>(Ceil(vec._x), Ceil(vec._y), Ceil(vec._z), Ceil(vec._w)); }
+
+using Vector4F = Vector4<float>;
+
+using Vector4I = Vector4<int>;
+
+using Vector4C = Vector4<char>;
+
+using Vector4D = Vector4<double>;
+
+using Vector4U = Vector4<unsigned>;
 
 }

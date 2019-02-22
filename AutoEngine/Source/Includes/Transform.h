@@ -19,7 +19,7 @@ public:
 	/**
 	* @brief : Set position from Vector3
 	*/
-	void SetPosition(const Vector3& position);
+	void SetPosition(const Vector3F& position);
 	/**
 	* @brief : Set position from x,y,z
 	*/
@@ -27,19 +27,19 @@ public:
 	/**
 	* @brief : Set Rotation from rotation
 	*/
-	void SetRotation(const Quaternion& rotation);
+	void SetRotation(const QuaternionF& rotation);
 	/**
 	* @brief : Set Rotation from euler(Vector3)
 	*/
-	void SetRotation(const Vector3& euler);
+	void SetRotation(const Vector3F& euler);
 	/**
 	* @brief : Set Rotation from angle and axis
 	*/
-	void SetRotation(float Angle, const Vector3& axis);
+	void SetRotation(float Angle, const Vector3F& axis);
 	/**
 	* @brief : Set Scale from Vector3
 	*/
-	void SetScale(const Vector3& scale);
+	void SetScale(const Vector3F& scale);
 	/**
 	* @brief : Set Scale from float
 	*/
@@ -52,17 +52,17 @@ public:
 	* @brief : Get Position
 	* @return : Vector3&
 	*/
-	Vector3 GetPosition();
+	Vector3F GetPosition();
 	/**
 	* @brief : Get Rotation
 	* @return : Quaternion&
 	*/
-	Quaternion GetRotation();
+	QuaternionF GetRotation();
 	/**
 	* @brief : Get Scale
 	* @return : Vector3&
 	*/
-	Vector3 GetScale();
+	Vector3F GetScale();
 	/**
 	* @brief : Get transform matrix and update transform matrix data
 	* @return : glm::mat4
@@ -70,12 +70,12 @@ public:
 	glm::mat4 GetTransformMat();
 protected:
 	void setScaleAbs(float x, float y, float z);
-	void Rotation(const Vector3& Euler);
-	void Rotation(float Angle, const Vector3& axis);
+	void Rotation(const Vector3F& Euler);
+	void Rotation(float Angle, const Vector3F& axis);
 private:
-	Vector3 _position;
-	Quaternion _rotation;
-	Vector3 _scale;
+	Vector3F _position;
+	QuaternionF _rotation;
+	Vector3F _scale;
 };
 }
 

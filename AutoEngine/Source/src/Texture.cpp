@@ -8,11 +8,12 @@ Texture::Texture(SharedPtr<Ambient> ambient)
 	, _texture(0)
 	, _type(TextureType::TwoD)
 	, _usage(ResourceUsage::Default)
-	, _size(Vector2::ZERO)
+	, _size(Vector2F::ZERO)
 	, _format(ImageFormat::NONE)
 {
 }
 
 Texture::~Texture() = default;
+
 
 }

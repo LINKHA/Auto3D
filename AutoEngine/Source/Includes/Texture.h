@@ -22,7 +22,7 @@ public:
 	/// Return texture type.
 	TextureType TexType() const { return _type; }
 	/// Return dimensions.
-	const Vector2& Size() const { return _size; }
+	const Vector2F& Size() const { return _size; }
 	/// Return width.
 	int Width() const { return _size._x; }
 	/// Return height.
@@ -33,6 +33,10 @@ public:
 	bool IsCompressed() const { return _format >= ImageFormat::DXT1; }
 	/// Return number of mipmap levels.
 	size_t NumLevels() const { return _numLevels; }
+	/// Return the OpenGL texture identifier. Used internally and should not be called by portable application code.
+	unsigned GLTexture() const { return _texture; }
+	/// Return the OpenGL binding target of the texture. Used internally and should not be called by portable application code.
+	unsigned GLTarget() const;
 private:
 	/// OpenGL texture object identifier.
 	unsigned _texture;
@@ -41,7 +45,7 @@ private:
 	/// Texture usage mode.
 	ResourceUsage _usage;
 	/// Texture dimensions in pixels.
-	Vector2 _size;
+	Vector2F _size;
 	/// Image format.
 	ImageFormat _format;
 	/// Number of mipmap levels.

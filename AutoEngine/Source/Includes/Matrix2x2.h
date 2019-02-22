@@ -6,7 +6,7 @@ namespace Auto3D
 {
 
 /// 2x2 matrix for rotation and scaling.
-class Matrix2x2
+template<typename _Ty> class Matrix2x2
 {
 public:
 	/// Construct an identity matrix.
@@ -22,8 +22,8 @@ public:
 	Matrix2x2(const Matrix2x2& matrix) noexcept = default;
 
 	/// Construct from values.
-	Matrix2x2(float v00, float v01,
-		float v10, float v11) noexcept :
+	Matrix2x2(_Ty v00, _Ty v01,
+		_Ty v10, _Ty v11) noexcept :
 		_m00(v00),
 		_m01(v01),
 		_m10(v10),
@@ -31,8 +31,8 @@ public:
 	{
 	}
 
-	/// Construct from a float array.
-	explicit Matrix2x2(const float* data) noexcept :
+	/// Construct from a _Ty array.
+	explicit Matrix2x2(const _Ty* data) noexcept :
 		_m00(data[0]),
 		_m01(data[1]),
 		_m10(data[2]),
@@ -46,8 +46,8 @@ public:
 	/// Test for equality with another matrix without epsilon.
 	bool operator ==(const Matrix2x2& rhs) const
 	{
-		const float* leftData = Data();
-		const float* rightData = rhs.Data();
+		const _Ty* leftData = Data();
+		const _Ty* rightData = rhs.Data();
 
 		for (unsigned i = 0; i != 4; ++i)
 		{
@@ -62,9 +62,9 @@ public:
 	bool operator !=(const Matrix2x2& rhs) const { return !(*this == rhs); }
 
 	/// Multiply a Vector2.
-	Vector2 operator *(const Vector2& rhs) const
+	Vector2<_Ty> operator *(const Vector2<_Ty>& rhs) const
 	{
-		return Vector2(
+		return Vector2<_Ty>(
 			_m00 * rhs._x + _m01 * rhs._y,
 			_m10 * rhs._x + _m11 * rhs._y
 		);
@@ -93,7 +93,7 @@ public:
 	}
 
 	/// Multiply with a scalar.
-	Matrix2x2 operator *(float rhs) const
+	Matrix2x2 operator *(_Ty rhs) const
 	{
 		return Matrix2x2(
 			_m00 * rhs,
@@ -115,23 +115,23 @@ public:
 	}
 
 	/// Set scaling elements.
-	void SetScale(const Vector2& scale)
+	void SetScale(const Vector2<_Ty>& scale)
 	{
 		_m00 = scale._x;
 		_m11 = scale._y;
 	}
 
 	/// Set uniform scaling elements.
-	void SetScale(float scale)
+	void SetScale(_Ty scale)
 	{
 		_m00 = scale;
 		_m11 = scale;
 	}
 
 	/// Return the scaling part.
-	Vector2 Scale() const
+	Vector2<_Ty> Scale() const
 	{
-		return Vector2(
+		return Vector2<_Ty>(
 			sqrtf(_m00 * _m00 + _m10 * _m10),
 			sqrtf(_m01 * _m01 + _m11 * _m11)
 		);
@@ -149,7 +149,7 @@ public:
 	}
 
 	/// Return scaled by a vector.
-	Matrix2x2 Scaled(const Vector2& scale) const
+	Matrix2x2 Scaled(const Vector2<_Ty>& scale) const
 	{
 		return Matrix2x2(
 			_m00 * scale._x,
@@ -162,8 +162,8 @@ public:
 	/// Test for equality with another matrix with epsilon.
 	bool Equals(const Matrix2x2& rhs) const
 	{
-		const float* leftData = Data();
-		const float* rightData = rhs.Data();
+		const _Ty* leftData = Data();
+		const _Ty* rightData = rhs.Data();
 
 		for (unsigned i = 0; i != 4; ++i)
 		{
@@ -177,19 +177,19 @@ public:
 	/// Return inverse.
 	Matrix2x2 Inverse() const;
 
-	/// Return float data.
-	const float* Data() const { return &_m00; }
+	/// Return _Ty data.
+	const _Ty* Data() const { return &_m00; }
 
 	/// Return as string.
 	STRING ToString() const;
 
-	float _m00;
-	float _m01;
-	float _m10;
-	float _m11;
+	_Ty _m00;
+	_Ty _m01;
+	_Ty _m10;
+	_Ty _m11;
 
 	/// Bulk transpose matrices.
-	static void BulkTranspose(float* dest, const float* src, unsigned count)
+	static void BulkTranspose(_Ty* dest, const _Ty* src, unsigned count)
 	{
 		for (unsigned i = 0; i < count; ++i)
 		{
@@ -210,6 +210,16 @@ public:
 };
 
 /// Multiply a 2x2 matrix with a scalar.
-inline Matrix2x2 operator *(float lhs, const Matrix2x2& rhs) { return rhs * lhs; }
+template<typename _Ty> Matrix2x2<_Ty> operator *(_Ty lhs, const Matrix2x2<_Ty>& rhs) { return rhs * lhs; }
+
+using Matrix2x2F = Matrix2x2<float>;
+
+using Matrix2x2I = Matrix2x2<int>;
+
+using Matrix2x2C = Matrix2x2<char>;
+
+using Matrix2x2D = Matrix2x2<double>;
+
+using Matrix2x2U = Matrix2x2<unsigned>;
 
 }

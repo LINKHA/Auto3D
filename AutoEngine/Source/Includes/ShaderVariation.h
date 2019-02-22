@@ -45,14 +45,14 @@ public:
 	void SetInt(const STRING &name, int value) const;
 	void SetFloat(const STRING &name, float value) const;
 	void SetVec2(const STRING &name, const glm::vec2 &value) const;
-	void SetVec2(const STRING &name, const Vector2 &value) const;
+	void SetVec2(const STRING &name, const Vector2F &value) const;
 	void SetVec2(const STRING &name, float x, float y) const;
 	void SetVec3(const STRING &name, const glm::vec3 &value) const;
 	void SetVec3(const STRING &name, const Color &value) const;
-	void SetVec3(const STRING &name, const Vector3 &value) const;
+	void SetVec3(const STRING &name, const Vector3F &value) const;
 	void SetVec3(const STRING &name, float x, float y, float z) const;
 	void SetVec4(const STRING &name, const glm::vec4 &value) const;
-	void SetVec4(const STRING &name, const Vector4 &value) const;
+	void SetVec4(const STRING &name, const Vector4F &value) const;
 	void SetVec4(const STRING &name, float x, float y, float z, float w);
 	void SetMat2(const STRING &name, const glm::mat2 &mat) const;
 	void SetMat3(const STRING &name, const glm::mat3 &mat) const;

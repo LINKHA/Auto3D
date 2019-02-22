@@ -53,11 +53,11 @@ public:
 	/**
 	* @brief : Get mouse position absolute coordinate
 	*/
-	Vector2 GetMousePosition() { return _mousePosition; }
+	Vector2F GetMousePosition() { return _mousePosition; }
 	/**
 	* @brief : Get mouse move relative coordinate
 	*/
-	Vector2 GetMouseMove() { return _mouseMove; }
+	Vector2F GetMouseMove() { return _mouseMove; }
 	/**
 	* @brief : To determine whether the mouse is moving or not
 	*/
@@ -109,11 +109,11 @@ private:
 	///all buttons pressed in the same frame
 	SET<int> _keysPress;
 	///mouse position limit in window
-	Vector2	_mousePosition;
+	Vector2F _mousePosition;
 	///last mouse position limit in window
-	Vector2	_lastMousePosition;
+	Vector2F _lastMousePosition;
 	///mouse offset
-	Vector2	_mouseMove;
+	Vector2F	_mouseMove;
 	///mouse wheel offset
 	int	_mouseWheelOffset{};
 	///mouse wheel move
@@ -131,7 +131,7 @@ private:
 
 	bool _isQuit{};
 	///lock mouse in position
-	Vector2	_lockMousePosition;
+	Vector2F	_lockMousePosition;
 };
 
 }
