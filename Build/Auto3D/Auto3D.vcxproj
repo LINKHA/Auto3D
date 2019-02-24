@@ -1,0 +1,477 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|Win32">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|Win32">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{DB6DA749-18AA-3EC7-ACFF-E447A00B1642}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>Win32</Platform>
+    <ProjectName>Auto3D</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\Project\MyProject\Auto3D\Build\Auto3D\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Auto3D.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Auto3D</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:\Project\MyProject\Auto3D\Build\Auto3D\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Auto3D.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Auto3D</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:\Project\MyProject\Auto3D\Build\Auto3D\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Auto3D.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Auto3D</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:\Project\MyProject\Auto3D\Build\Auto3D\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Auto3D.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Auto3D</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\Auto3D;D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\STB;D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\FlextGL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\Auto3D;D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\STB;D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\FlextGL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\Auto3D;D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\STB;D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\FlextGL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\Auto3D;D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\STB;D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\FlextGL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\Auto3D;D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\STB;D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\FlextGL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\Auto3D;D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\STB;D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\FlextGL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\Auto3D;D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\STB;D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\FlextGL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\Auto3D;D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\STB;D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\FlextGL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\Auto3D;D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\STB;D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\FlextGL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\Auto3D;D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\STB;D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\FlextGL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\Auto3D;D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\STB;D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\FlextGL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Project\MyProject\Auto3D\Auto3D;D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\STB;D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\FlextGL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Project\MyProject\Auto3D\Auto3D\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule D:/Project/MyProject/Auto3D/Auto3D/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -SD:/Project/MyProject/Auto3D -BD:/Project/MyProject/Auto3D/Build --check-stamp-file D:/Project/MyProject/Auto3D/Build/Auto3D/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:/Project/MyProject/Auto3D/Auto3D/CMakeLists.txt;D:\Program Files\CMake\share\cmake-3.13\Modules\FindOpenGL.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\Auto3D\AutoConfig.h.in;D:\Project\MyProject\Auto3D\Auto3D\CMakeLists.txt;D:\Project\MyProject\Auto3D\Auto3D\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\Project\MyProject\Auto3D\Build\Auto3D\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule D:/Project/MyProject/Auto3D/Auto3D/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -SD:/Project/MyProject/Auto3D -BD:/Project/MyProject/Auto3D/Build --check-stamp-file D:/Project/MyProject/Auto3D/Build/Auto3D/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:/Project/MyProject/Auto3D/Auto3D/CMakeLists.txt;D:\Program Files\CMake\share\cmake-3.13\Modules\FindOpenGL.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\Auto3D\AutoConfig.h.in;D:\Project\MyProject\Auto3D\Auto3D\CMakeLists.txt;D:\Project\MyProject\Auto3D\Auto3D\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:\Project\MyProject\Auto3D\Build\Auto3D\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule D:/Project/MyProject/Auto3D/Auto3D/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -SD:/Project/MyProject/Auto3D -BD:/Project/MyProject/Auto3D/Build --check-stamp-file D:/Project/MyProject/Auto3D/Build/Auto3D/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:/Project/MyProject/Auto3D/Auto3D/CMakeLists.txt;D:\Program Files\CMake\share\cmake-3.13\Modules\FindOpenGL.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\Auto3D\AutoConfig.h.in;D:\Project\MyProject\Auto3D\Auto3D\CMakeLists.txt;D:\Project\MyProject\Auto3D\Auto3D\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:\Project\MyProject\Auto3D\Build\Auto3D\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule D:/Project/MyProject/Auto3D/Auto3D/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -SD:/Project/MyProject/Auto3D -BD:/Project/MyProject/Auto3D/Build --check-stamp-file D:/Project/MyProject/Auto3D/Build/Auto3D/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:/Project/MyProject/Auto3D/Auto3D/CMakeLists.txt;D:\Program Files\CMake\share\cmake-3.13\Modules\FindOpenGL.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\FindPackageHandleStandardArgs.cmake;D:\Program Files\CMake\share\cmake-3.13\Modules\FindPackageMessage.cmake;D:\Project\MyProject\Auto3D\Auto3D\AutoConfig.h.in;D:\Project\MyProject\Auto3D\Auto3D\CMakeLists.txt;D:\Project\MyProject\Auto3D\Auto3D\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:\Project\MyProject\Auto3D\Build\Auto3D\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Base\Allocator.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Base\Allocator.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Base\AutoPtr.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Base\ConslonDef.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Base\Hash.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Base\Hash.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Base\HashMap.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Base\HashSet.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Base\Iterator.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Base\Launch.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Base\List.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Base\List.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Base\Pair.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Base\Ptr.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Base\Ptr.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Base\Sort.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Base\String.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Base\String.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Base\StringHash.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Base\StringHash.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Base\Swap.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Base\Vector.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Base\Vector.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Base\WString.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Base\WString.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Engine\Engine.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Engine\Engine.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Debug\DebugNew.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Debug\Log.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Debug\Log.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Debug\Profiler.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Debug\Profiler.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\ConstantBuffer.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\ConstantBuffer.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\GPUObject.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\GPUObject.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\Graphics.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\GraphicsDefs.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\GraphicsDefs.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\IndexBuffer.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\IndexBuffer.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\Shader.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\Shader.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\ShaderVariation.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\Texture.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\Texture.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\VertexBuffer.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\VertexBuffer.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\IO\Arguments.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\IO\Arguments.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\IO\Console.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\IO\Console.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\IO\File.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\IO\File.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\IO\FileSystem.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\IO\FileSystem.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\IO\JSONValue.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\IO\JSONValue.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\IO\MemoryBuffer.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\IO\MemoryBuffer.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\IO\ObjectRef.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\IO\ResourceRef.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\IO\ResourceRef.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\IO\Stream.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\IO\Stream.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\IO\VectorBuffer.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\IO\VectorBuffer.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Math\AreaAllocator.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Math\AreaAllocator.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Math\BoundingBox.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Math\BoundingBox.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Color.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Color.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Frustum.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Frustum.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Math\IntRect.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Math\IntRect.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Math\IntVector2.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Math\IntVector2.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Math.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Matrix3.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Matrix3.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Matrix3x4.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Matrix3x4.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Matrix4.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Matrix4.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Plane.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Plane.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Polyhedron.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Polyhedron.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Quaternion.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Quaternion.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Random.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Random.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Ray.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Ray.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Rect.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Rect.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Sphere.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Sphere.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Vector2.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Vector2.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Vector3.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Vector3.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Vector4.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Math\Vector4.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Object\Attribute.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Object\Attribute.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Object\Event.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Object\Event.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Object\Object.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Object\Object.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Object\ObjectResolver.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Object\ObjectResolver.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Object\Serializable.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Object\Serializable.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Renderer\Batch.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Renderer\Batch.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Renderer\Camera.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Renderer\Camera.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Renderer\GeometryNode.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Renderer\GeometryNode.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Renderer\Light.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Renderer\Light.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Renderer\Material.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Renderer\Material.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Renderer\Model.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Renderer\Model.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Renderer\Octree.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Renderer\Octree.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Renderer\OctreeNode.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Renderer\OctreeNode.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Renderer\Renderer.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Renderer\Renderer.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Renderer\StaticModel.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Renderer\StaticModel.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Resource\Decompress.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Resource\Decompress.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Resource\Image.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Resource\Image.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Resource\JSONFile.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Resource\JSONFile.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Resource\Resource.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Resource\Resource.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Resource\ResourceCache.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Resource\ResourceCache.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Scene\Node.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Scene\Node.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Scene\Scene.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Scene\Scene.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Scene\SpatialNode.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Scene\SpatialNode.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Thread\Condition.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Thread\Condition.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Thread\Mutex.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Thread\Mutex.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Thread\Thread.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Thread\Thread.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Thread\ThreadLocalValue.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Thread\ThreadLocalValue.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Thread\Timer.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Thread\Timer.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\STB\stb_image.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\STB\stb_image_write.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Window\GLContext.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Window\Input.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Window\Input.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Window\Window.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\OGL\OGLConstantBuffer.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\OGL\OGLConstantBuffer.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\OGL\OGLGraphics.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\OGL\OGLGraphics.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\OGL\OGLIndexBuffer.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\OGL\OGLIndexBuffer.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\OGL\OGLShaderProgram.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\OGL\OGLShaderProgram.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\OGL\OGLShaderVariation.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\OGL\OGLShaderVariation.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\OGL\OGLTexture.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\OGL\OGLTexture.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\OGL\OGLVertexBuffer.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Graphics\OGL\OGLVertexBuffer.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\FlextGL\flextGL.c">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">CompileAsC</CompileAs>
+    </ClCompile>
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\ThirdParty\FlextGL\flextGL.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Window\Win32\Win32GLContext.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Window\Win32\Win32GLContext.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Window\Win32\Win32Window.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Window\Win32\Win32Window.h" />
+    <ClCompile Include="D:\Project\MyProject\Auto3D\Auto3D\Application.cpp" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Application.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\Auto.h" />
+    <ClInclude Include="D:\Project\MyProject\Auto3D\Auto3D\AutoConfig.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\Project\MyProject\Auto3D\Build\ZERO_CHECK.vcxproj">
+      <Project>{FC736B34-44D5-3872-B395-63E379B652FE}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
