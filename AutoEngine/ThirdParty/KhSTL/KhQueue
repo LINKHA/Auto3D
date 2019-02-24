@@ -1,3 +1,0 @@
-#ifndef KH_STL_QUEUE_H_
-#	include "KhQueue.h"
-#endif //!KH_STL_QUEUE_H_

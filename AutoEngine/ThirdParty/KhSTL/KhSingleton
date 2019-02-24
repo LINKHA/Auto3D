@@ -1,3 +1,0 @@
-#ifndef KH_STL_SINGLETON_H_
-#	include "KhSingleton.h"
-#endif // !KH_STL_SINGLETON_H_
