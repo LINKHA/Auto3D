@@ -1,12 +1,12 @@
 #pragma once
-#include "Object.h"
+#include "Node.h"
 
 
 namespace Auto3D {
 
-class Scene : public Object
+class Scene : public Node
 {
-	REGISTER_OBJECT_CLASS(Scene, Object)
+	REGISTER_OBJECT_CLASS(Scene, Node)
 public:
 	explicit Scene(SharedPtr<Ambient> ambient);
 

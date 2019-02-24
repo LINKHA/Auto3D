@@ -9,6 +9,8 @@
 #include "UI.h"
 #include "FileSystem.h"
 #include "EngineParameter.h"
+#include "Batch.h"
+
 
 namespace Auto3D {
 
@@ -47,6 +49,13 @@ void Engine::Init()
 	GetSubSystem<IO>()->GetEngineInfo()->state = EngineState::Initing;
 	GetSubSystem<ResourceSystem>()->Init();
 	GetSubSystem<Graphics>()->Init();
+	renderer->SetupShadowMaps(1, 2048, ImageFormat::D16);
+
+//	SharedPtr<Scene> scene = MakeShared<Scene>(_ambient);
+	//scene->CreateChild<Octree>();
+	//Camera* camera = scene->CreateChild<Camera>();
+	//camera->SetPosition(Vector3(0.0f, 20.0f, -75.0f));
+	//camera->SetAmbientColor(Color(0.1f, 0.1f, 0.1f));
 
 
 	_isInitialized = true;
@@ -65,6 +74,11 @@ void Engine::Render()
 
 	if (!graphics->BeginFrame())
 		return;
+	auto renderer = GetSubSystem<Renderer>();
+	//VECTOR<PassDesc> passes;
+	//passes.push_back(PassDesc("opaque", SORT_STATE, true));
+	//passes.push_back(PassDesc("alpha", SORT_BACK_TO_FRONT, true));
+	//renderer->PrepareView(scene, camera, passes);
 
 	graphics->EndFrame();
 }

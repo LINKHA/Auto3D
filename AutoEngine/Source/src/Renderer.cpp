@@ -22,7 +22,10 @@ void Renderer::SetupShadowMaps(size_t num, int size, ImageFormat format)
 		size = 1;
 	size = NextPowerOfTwo(size);
 
-	_shadowMaps.resize(num);
+	_shadowMaps.clear();
+	for (int i = 0; i < num; i++)
+		_shadowMaps.push_back(MakeShared<ShadowMap>(_ambient));
+
 	for (auto it = _shadowMaps.begin(); it != _shadowMaps.end(); ++it)
 	{
 		if ((*it)->_texture->Define(TextureType::TwoD, ResourceUsage::RenderTarget, Vector2I(size, size), format, 1))

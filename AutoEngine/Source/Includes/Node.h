@@ -30,6 +30,20 @@ public:
 	* @brief : Construct
 	*/
 	explicit Node(SharedPtr<Ambient> ambient);
+	/// Add node as a child. Same as calling SetParent for the child node.
+	void AddChild(SharedPtr<Node> child);
+	/// Create child node of specified type. A registered object factory for the type is required.
+	SharedPtr<Node> CreateChild(STRING childType);
+	/// Create named child node of specified type.
+	SharedPtr<Node> CreateChild(STRING childType, const STRING& childName);
+	/// Create named child node of specified type.
+	SharedPtr<Node> CreateChild(STRING childType, const char* childName);
+	/// Create child node of the specified type, template version.
+	template <class _Ty> _Ty* CreateChild() { return StaticCast<_Ty>(CreateChild(_Ty::GetClassStringStatic())); }
+	/// Create named child node of the specified type, template version.
+	template <class _Ty> _Ty* CreateChild(const STRING& childName) { return StaticCast<_Ty>(CreateChild(_Ty::GetClassStringStatic(), childName)); }
+	/// Create named child node of the specified type, template version.
+	template <class _Ty> _Ty* CreateChild(const char* childName) { return StaticCast<_Ty>(CreateChild(_Ty::GetClassStringStatic(), childName)); }
 private:
 	/// Parent node.
 	SharedPtr<Node> parent;

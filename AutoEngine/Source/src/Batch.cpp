@@ -4,6 +4,12 @@
 namespace Auto3D {
 
 
+void BatchQueue::Clear()
+{
+	batches.clear();
+	additiveBatches.clear();
+}
+
 ShadowMap::ShadowMap(SharedPtr<Ambient> ambient)
 	:Super(ambient)
 {

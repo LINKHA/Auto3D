@@ -24,7 +24,6 @@ enum class AsyncLoadState
 	Fail = 4
 };
 
-const static char* RESOURCE_ATTACH = "Resource_attach";
 /**
 * Base of all reource
 */
