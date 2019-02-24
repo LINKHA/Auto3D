@@ -154,6 +154,8 @@ public:
 	void SetRenderTarget(SharedPtr<Texture> renderTarget, SharedPtr<Texture> stencilBuffer);
 	/// Set the viewport rectangle. On window resize the viewport will automatically revert to full window.
 	void SetViewport(const RectInt& viewport);
+	/// Bind a texture.
+	void SetTexture(size_t index, SharedPtr<Texture> texture);
 
 	/// Remove all framebuffers except the currently bound one. Called automatically on backbuffer resize, but can also be called manually if you have used rendertarget resolutions or color formats that you will not need any more.
 	void CleanupFramebuffers();

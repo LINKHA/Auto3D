@@ -389,6 +389,16 @@ public:
 		else
 			return INSIDE;
 	}
+	/// Test whether another rect is inside or intersects.
+	Intersection IsInside(const RectInt& rect) const
+	{
+		if (rect._right <= _left || rect._left >= _right || rect._bottom <= _top || rect._top >= _bottom)
+			return OUTSIDE;
+		else if (rect._left >= _left && rect._right <= _right && rect._top >= _top && rect._bottom <= _bottom)
+			return INSIDE;
+		else
+			return INTERSECTS;
+	}
 
 	/// Clip with another rect.  Since IntRect does not have an undefined state
 	/// like Rect, return (0, 0, 0, 0) if the result is empty.

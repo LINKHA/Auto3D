@@ -11,6 +11,37 @@
 namespace Auto3D {
 
 
+const size_t Image::pixelByteSizes[] =
+{
+	0,      // FMT_NONE
+	1,      // FMT_R8
+	2,      // FMT_RG8
+	4,      // FMT_RGBA8
+	1,      // FMT_A8
+	2,      // FMT_R16
+	4,      // FMT_RG16
+	8,      // FMT_RGBA16
+	2,      // FMT_R16F
+	4,      // FMT_RG16F
+	8,      // FMT_RGBA16F
+	4,      // FMT_R32F
+	8,      // FMT_RG32F
+	12,     // FMT_RGB32F
+	16,     // FMT_RGBA32F
+	2,      // FMT_D16
+	4,      // FMT_D32
+	4,      // FMT_D24S8
+	0,      // FMT_DXT1
+	0,      // FMT_DXT3
+	0,      // FMT_DXT5
+	0,      // FMT_ETC1
+	0,      // FMT_PVRTC_RGB_2BPP
+	0,      // FMT_PVRTC_RGBA_2BPP
+	0,      // FMT_PVRTC_RGB_4BPP
+	0       // FMT_PVRTC_RGBA_4BPP
+};
+
+
 bool CompressedLevel::Decompress(unsigned char* dest)
 {
 	if (!_data)
@@ -685,5 +716,39 @@ CompressedLevel Image::GetCompressedLevel(unsigned index) const
 		}
 	}
 }
+
+size_t Image::CalculateDataSize(const Vector2I& size, ImageFormat format, size_t* dstRows, size_t* dstRowSize)
+{
+	size_t rows, rowSize, dataSize;
+
+	if (format < ImageFormat::DXT1)
+	{
+		rows = size._y;
+		rowSize = size._x * pixelByteSizes[(int)format];
+		dataSize = rows * rowSize;
+	}
+	else if (format < ImageFormat::PVRTC_RGB_2BPP)
+	{
+		size_t blockSize = (format == ImageFormat::DXT1 || format == ImageFormat::ETC1) ? 8 : 16;
+		rows = (size._y + 3) / 4;
+		rowSize = ((size._x + 3) / 4) * blockSize;
+		dataSize = rows * rowSize;
+	}
+	else
+	{
+		size_t blockSize = format < ImageFormat::PVRTC_RGB_4BPP ? 2 : 4;
+		size_t dataWidth = Max(size._x, blockSize == 2 ? 16 : 8);
+		rows = Max(size._y, 8);
+		dataSize = (dataWidth * rows * blockSize + 7) >> 3;
+		rowSize = dataSize / rows;
+	}
+
+	if (dstRows)
+		*dstRows = rows;
+	if (dstRowSize)
+		*dstRowSize = rowSize;
+	return dataSize;
+}
+
 
 }

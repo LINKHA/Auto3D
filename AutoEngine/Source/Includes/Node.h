@@ -6,13 +6,21 @@
 
 namespace Auto3D {
 
-class Component;
-class Transform;
-class SceneNode;
-class Node;
+class Scene;
 
-/// define gameobject with node
-using GameNode = SharedPtr<Node>;
+static const unsigned short NF_ENABLED = 0x1;
+static const unsigned short NF_TEMPORARY = 0x2;
+static const unsigned short NF_SPATIAL = 0x4;
+static const unsigned short NF_SPATIAL_PARENT = 0x8;
+static const unsigned short NF_WORLD_TRANSFORM_DIRTY = 0x10;
+static const unsigned short NF_BOUNDING_BOX_DIRTY = 0x20;
+static const unsigned short NF_OCTREE_UPDATE_QUEUED = 0x40;
+static const unsigned short NF_GEOMETRY = 0x80;
+static const unsigned short NF_LIGHT = 0x100;
+static const unsigned short NF_CASTSHADOWS = 0x200;
+static const unsigned char LAYER_DEFAULT = 0x0;
+static const unsigned char TAG_NONE = 0x0;
+static const unsigned LAYERMASK_ALL = 0xffffffff;
 
 class Node :public Object
 {
@@ -21,185 +29,26 @@ public:
 	/**
 	* @brief : Construct
 	*/
-	explicit Node(SharedPtr<Ambient> ambient, int sceneID);
-	/**
-	* @brief : Destory node
-	*/
-	void Destory();
-	/**
-	* @brief :Add Child
-	* @param : GameObject*
-	*/
-	virtual void AddChild(SharedPtr<Node> node);
-	/**
-	* @brief : Mount component in this GameObject
-	*/
-	void AddComponent(SharedPtr<Component> com);
-	/**
-	* @brief : Remove component at index
-	*/
-	void RemoveComponentAtIndex(int index);
-	/**
-	* @brief : Remove child with index
-	*/
-	virtual void RemoveChild(int index);
-	/**
-	* @brief : Get this objct child with index
-	* @return :GameObject*
-	*/
-	virtual SharedPtr<Node> GetChild(int index);
-	/**
-	* @brief : Get this objct all child
-	* @return : GameObjectChildArray&
-	*/
-	virtual VECTOR<SharedPtr<Node> >& GetAllChild();
-	/**
-	* @brief : Set layer
-	*/
-	void SetLayer(const NodeLayout& layer) { _layer = layer; }
-	/**
-	* @brief : Set tag
-	*/
-	void SetTag(const NodeTag& tag) { _tag = tag; }
-	/**
-	* @brief : Get layer
-	*/
-	NodeLayout GetLayer() const { return _layer; }
-	/**
-	* @brief : Get tag
-	*/
-	NodeTag GetTag() const { return _tag; }
-	/**
-	* @brief : Get game object enable
-	*/
-	bool GetEnable() { return _isEnable; }
-	/**
-	* @brief : Get scene ID
-	*/
-	int GetLevelID() { return _levelID; }
-
-	/**
-	* @brief : Get component from index
-	*/
-	SharedPtr<Component> GetComponentIndex(int index);
-	/**
-	* @brief : Get components size
-	*/
-	int GetComponentsSize();
-	/**
-	* @brief : Get game object
-	*/
-	SharedPtr<Node> GetNode();
-	/**
-	* @brief : Get Components
-	* @return : PAIR_VECTOR(int, Component*)
-	*/
-	PAIR_VECTOR<STRING, SharedPtr<Component> >& GetComponentsArray() { return _components; }
-	/**
-	* @brief : Set position from vector2
-	*/
-	void SetPosition(const Vector2F& position);
-	/**
-	* @brief : Set position from vector3
-	*/
-	void SetPosition(const Vector3F& position);
-	/**
-	* @brief : Set position from x,y
-	*/
-	void SetPosition(float x, float y);
-	/**
-	* @brief : Set position from x,y,z
-	*/
-	void SetPosition(float x,float y,float z);
-	/**
-	* @brief : Set Rotation from rotation
-	*/
-	void SetRotation(const QuaternionF& rotation);
-	/**
-	* @brief : Set Rotation from euler(Vector3)
-	*/
-	void SetRotation(const Vector3F& euler);
-	/**
-	* @brief : Set Rotation from angle and axis
-	*/
-	void SetRotation(float Angle, const Vector3F& axis);
-	/**
-	* @brief : Set position from scale
-	*/
-	void SetScale(float scale);
-	/**
-	* @brief : Set position from scaleX,scaleY
-	*/
-	void SetScale(float scaleX, float scaleY);
-	/**
-	* @brief : Set position from scaleX,scaleY,scaleZ
-	*/
-	void SetScale(float scaleX, float scaleY, float scaleZ);
-	/**
-	* @brief : Set position from scaleX,scaleY,scaleZ
-	*/
-	void SetScale(const Vector2F& scale);
-	/**
-	* @brief : Set position from scale
-	*/
-	void SetScale(const Vector3F& scale);
-	/**
-	* @brief : Set node name
-	*/
-	void SetName(const STRING& name) { _name = name; }
-	/**
-	* @brief : Get this object position
-	*/
-	Vector3F GetPosition();
-	/**
-	* @brief : Get node name
-	*/
-	const STRING GetName() const { return _name; }
-	/**
-	* @brief : Find component from class id
-	*/
-	SharedPtr<Component> GetComponent(STRING type);
-	/**
-	* @brief : Get component in _components if nullptr will breaking
-	*/
-	template<typename _Ty> SharedPtr<_Ty> GetComponent();
-	/**
-	* @brief : Create component with stirng type
-	*/
-	SharedPtr<Component> CreateComponent(STRING type);
-	/**
-	* @brief : Create component with template
-	*/
-	template<typename _Ty> SharedPtr<_Ty> CreateComponent();
-protected:
-	SharedPtr<Transform> _transform;
-	/// node name
-	STRING _name;
-	/// node childs (VECTOR(Node*))
-	VECTOR<SharedPtr<Node> > _childs;
-	/// layer id
-	NodeLayout _layer{};
-	/// tag id
-	NodeTag _tag{};
-	/// is active
-	bool _isActive;
-	/// level id
-	int _levelID{};
-	/// this gameobject components container
-	PAIR_VECTOR<STRING, SharedPtr<Component> > _components;
-	/// enable
-	bool _isEnable;
+	explicit Node(SharedPtr<Ambient> ambient);
+private:
+	/// Parent node.
+	SharedPtr<Node> parent;
+	/// Parent scene.
+	SharedPtr<Scene> scene;
+	/// Child nodes.
+	VECTOR<SharedPtr<Node> > children;
+	/// Id within the scene.
+	unsigned id;
+	/// %Node name.
+	STRING name;
+	/// %Node flags. Used to hold several boolean values (some subclass-specific) to reduce memory use.
+	mutable unsigned short flags;
+	/// Layer number.
+	unsigned char layer;
+	/// Tag number.
+	unsigned char tag;
 };
 
-template<typename _Ty> SharedPtr<_Ty> Node::CreateComponent()
-{
-	return StaticCast<_Ty>(CreateComponent(_Ty::GetClassStringStatic()));
-}
-
-template<typename _Ty> SharedPtr<_Ty> Node::GetComponent()
-{
-	return StaticCast<_Ty>(GetComponent(_Ty::GetClassStringStatic()));
-}
 
 
 

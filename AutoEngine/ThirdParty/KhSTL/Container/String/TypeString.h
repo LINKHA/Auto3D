@@ -1911,6 +1911,8 @@ public:
 			}
 		}
 	}
+	/// Return the amount of substrings split by a separator char.
+	static size_t CountElements(const char* str, char separator);
 	/// Position for "not found."
 	static const unsigned NO_POS = 0xffffffff;
 	/// Initial dynamic allocation size.

@@ -31,4 +31,17 @@ extern const VertexElement LEGACY_VERTEXELEMENTS[] =
 	VertexElement(VertexElementType::Int, VertexElementSemantic::Objectindex, 0, false)       // objectindex
 };
 
+extern const BlendModeDesc blendModes[] =
+{
+	BlendModeDesc(false, BlendFactor::One, BlendFactor::One, BlendOp::Add, BlendFactor::One, BlendFactor::One, BlendOp::Add),
+	BlendModeDesc(true, BlendFactor::One, BlendFactor::One, BlendOp::Add, BlendFactor::One, BlendFactor::One, BlendOp::Add),
+	BlendModeDesc(true, BlendFactor::DestAlpha, BlendFactor::Zero, BlendOp::Add, BlendFactor::DestAlpha, BlendFactor::Zero, BlendOp::Add),
+	BlendModeDesc(true, BlendFactor::SrcAlpha, BlendFactor::InvSrcAlpha, BlendOp::Add, BlendFactor::SrcAlpha, BlendFactor::InvSrcAlpha, BlendOp::Add),
+	BlendModeDesc(true, BlendFactor::SrcAlpha, BlendFactor::One, BlendOp::Add, BlendFactor::SrcAlpha, BlendFactor::One, BlendOp::Add),
+	BlendModeDesc(true, BlendFactor::One, BlendFactor::InvSrcAlpha, BlendOp::Add, BlendFactor::One, BlendFactor::InvSrcAlpha, BlendOp::Add),
+	BlendModeDesc(true, BlendFactor::InvDestAlpha, BlendFactor::DestAlpha, BlendOp::Add, BlendFactor::InvDestAlpha, BlendFactor::DestAlpha, BlendOp::Add),
+	BlendModeDesc(true, BlendFactor::One, BlendFactor::One, BlendOp::RevSubtract , BlendFactor::One, BlendFactor::One, BlendOp::RevSubtract),
+	BlendModeDesc(true, BlendFactor::SrcAlpha, BlendFactor::One, BlendOp::RevSubtract, BlendFactor::SrcAlpha, BlendFactor::One, BlendOp::RevSubtract)
+};
+
 }

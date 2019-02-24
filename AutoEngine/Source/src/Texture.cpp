@@ -8,12 +8,17 @@ Texture::Texture(SharedPtr<Ambient> ambient)
 	, _texture(0)
 	, _type(TextureType::TwoD)
 	, _usage(ResourceUsage::Default)
-	, _size(Vector2F::ZERO)
+	, _size(Vector2I::ZERO)
 	, _format(ImageFormat::NONE)
 {
 }
 
 Texture::~Texture() = default;
 
+
+size_t Texture::NumFaces() const
+{
+	return _type == TextureType::Cube ? MAX_CUBE_FACES : 1;
+}
 
 }

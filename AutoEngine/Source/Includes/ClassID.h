@@ -23,7 +23,7 @@ enum ClassIDType
 	DO_CLASS_ID(tLight, 20)
 	DO_CLASS_ID(Camera, 21)
 	DO_CLASS_ID(ScriptComponent, 22)
-	DO_CLASS_ID(tTexture3D, 23)
+	DO_CLASS_ID(ShadowMap, 23)
 	DO_CLASS_ID(SkyBox, 24)
 	DO_CLASS_ID(Prefab, 31)
 	DO_CLASS_ID(tTextureMap, 32)
@@ -93,6 +93,9 @@ enum ClassIDType
 	DO_CLASS_ID(Scene, 116)
 	DO_CLASS_ID(ConstantBuffer, 117)
 	DO_CLASS_ID(WorkQueue, 118)
+	DO_CLASS_ID(SpatialNode, 119)
+	DO_CLASS_ID(OctreeNode, 120)
+	DO_CLASS_ID(Octree, 121)
 	
 	
 	CLASS_ID_Count

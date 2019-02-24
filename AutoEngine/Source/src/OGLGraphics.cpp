@@ -579,6 +579,35 @@ void Graphics::SetViewport(const RectInt& viewport)
 		glViewport(_viewport._left, _viewport._top, _viewport.Width(), _viewport.Height());
 }
 
+void Graphics::SetTexture(size_t index, SharedPtr<Texture> texture)
+{
+	if (index < MAX_TEXTURE_UNITS && texture != _textures[index])
+	{
+		_textures[index] = texture;
+
+		if (index != _activeTexture)
+		{
+			glActiveTexture(GL_TEXTURE0 + (unsigned)index);
+			_activeTexture = index;
+		}
+
+		if (texture)
+		{
+			unsigned target = texture->GLTarget();
+			// Make sure we do not have multiple targets bound in the same unit
+			if (_textureTargets[index] && _textureTargets[index] != target)
+				glBindTexture(_textureTargets[index], 0);
+			glBindTexture(target, texture->GLTexture());
+			_textureTargets[index] = target;
+		}
+		else if (_textureTargets[index])
+		{
+			glBindTexture(_textureTargets[index], 0);
+			_textureTargets[index] = 0;
+		}
+	}
+}
+
 bool Graphics::BeginFrame()
 {
 

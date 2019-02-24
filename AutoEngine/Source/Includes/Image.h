@@ -84,6 +84,29 @@ enum class ImageType
 	Custom,
 	Translucent,
 };
+
+/// Description of image mip level data.
+struct ImageLevel
+{
+	/// Default construct.
+	ImageLevel() :
+		data(nullptr),
+		size(Vector2I::ZERO),
+		rowSize(0),
+		rows(0)
+	{
+	}
+
+	/// Pointer to pixel data.
+	unsigned char* data;
+	/// Level size in pixels.
+	Vector2I size;
+	/// Row size in bytes.
+	size_t rowSize;
+	/// Number of rows.
+	size_t rows;
+};
+
 class Image : public Resource
 {
 	REGISTER_OBJECT_CLASS(Image, Resource)
@@ -170,6 +193,15 @@ public:
 	CompressedLevel GetCompressedLevel(unsigned index) const;
 	/// Return number of compressed mip levels. Returns 0 if the image is has not been loaded from a source file containing multiple mip levels.
 	unsigned GetNumCompressedLevels() const { return _numCompressedLevels; }
+
+
+	/// Calculate the data size of an image level.
+	static size_t CalculateDataSize(const Vector2I& size, ImageFormat format, size_t* numRows = 0, size_t* rowSize = 0);
+	
+	/// Pixel components per format.
+	static const int components[];
+	/// Pixel byte sizes per format.
+	static const size_t pixelByteSizes[];
 private:
 
 	/**

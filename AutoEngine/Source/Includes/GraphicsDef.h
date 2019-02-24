@@ -18,6 +18,19 @@
 #else
 #define DESKTOP_GRAPHICS
 #endif
+/// Maximum simultaneous vertex buffers.
+static const size_t MAX_VERTEX_STREAMS = 4;
+/// Maximum simultaneous constant buffers.
+static const size_t MAX_CONSTANT_BUFFERS = 15;
+/// Maximum number of textures in use at once.
+static const size_t MAX_TEXTURE_UNITS = 16;
+/// Maximum number of textures reserved for materials, starting from 0.
+static const size_t MAX_MATERIAL_TEXTURE_UNITS = 8;
+/// Maximum number of color rendertargets in use at once.
+static const size_t MAX_RENDERTARGETS = 4;
+/// Number of cube map faces.
+static const size_t MAX_CUBE_FACES = 6;
+
 /// Disable color write.
 static const unsigned char COLORMASK_NONE = 0x0;
 /// Write to red channel.
@@ -30,8 +43,6 @@ static const unsigned char COLORMASK_B = 0x4;
 static const unsigned char COLORMASK_A = 0x8;
 /// Write to all color channels (default.)
 static const unsigned char COLORMASK_ALL = 0xf;
-/// Maximum simultaneous constant buffers.
-static const size_t MAX_CONSTANT_BUFFERS = 15;
 
 namespace Auto3D {
 
@@ -132,7 +143,6 @@ enum class ElementSemantic
 	Count
 };
 
-
 enum class MaterialQuality : unsigned
 {
 	Low = 0,
@@ -159,26 +169,26 @@ enum class CullMode
 	Count
 };
 
-/// Texture filtering mode.
-enum class TextureFilterMode
+/// Texture filtering modes.
+enum TextureFilterMode
 {
-	Nearest = 0,
-	Bilinear,
-	Trilinear,
-	Anisotropic,
-	NearestAnisotropic,
-	Default,
-	Count
+	FILTER_POINT = 0,
+	FILTER_BILINEAR,
+	FILTER_TRILINEAR,
+	FILTER_ANISOTROPIC,
+	COMPARE_POINT,
+	COMPARE_BILINEAR,
+	COMPARE_TRILINEAR,
+	COMPARE_ANISOTROPIC
 };
-
-/// Texture addressing mode
-enum class TextureAddressMode
+/// Texture addressing modes.
+enum TextureAddressMode
 {
-	Wrap = 0,
-	Mirror,
-	Clamp,
-	Border,
-	Count
+	ADDRESS_WRAP = 1,
+	ADDRESS_MIRROR,
+	ADDRESS_CLAMP,
+	ADDRESS_BORDER,
+	ADDRESS_MIRROR_ONCE
 };
 
 /// Texture coordinates.
@@ -631,4 +641,6 @@ enum class ShadowQuality
 	BlurVsm
 };
 
+/// Predefined blend modes.
+extern const BlendModeDesc blendModes[];
 }

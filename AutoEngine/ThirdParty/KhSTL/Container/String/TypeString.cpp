@@ -60,4 +60,57 @@ std::wostream& operator <<(std::wostream& out, tWString& rhs)
 	return out;
 }
 
+size_t tString::CountElements(const char* buffer, char separator)
+{
+	if (!buffer)
+		return 0;
+
+	const char* endPos = buffer + tString::CStrLength(buffer);
+	const char* pos = buffer;
+	size_t ret = 0;
+
+	while (pos < endPos)
+	{
+		if (*pos != separator)
+			break;
+		++pos;
+	}
+
+	while (pos < endPos)
+	{
+		const char* start = pos;
+
+		while (start < endPos)
+		{
+			if (*start == separator)
+				break;
+
+			++start;
+		}
+
+		if (start == endPos)
+		{
+			++ret;
+			break;
+		}
+
+		const char* end = start;
+
+		while (end < endPos)
+		{
+			if (*end != separator)
+				break;
+
+			++end;
+		}
+
+		++ret;
+		pos = end;
+	}
+
+	return ret;
+}
+
+
+
 }
