@@ -1056,7 +1056,7 @@ bool Graphics::PrepareDraw(bool instanced, size_t instanceStart)
                             dataStart += instanceStart * buffer->VertexSize();
                             if (!(instancingVertexAttributes & locationMask))
                             {
-                                glVertexAttribDivisorARB(location, 1);
+                                glVertexAttribDivisor(location, 1);
                                 instancingVertexAttributes |= locationMask;
                             }
                         }
@@ -1064,7 +1064,7 @@ bool Graphics::PrepareDraw(bool instanced, size_t instanceStart)
                         {
                             if (instancingVertexAttributes & locationMask)
                             {
-                                glVertexAttribDivisorARB(location, 0);
+								glVertexAttribDivisor(location, 0);
                                 instancingVertexAttributes &= ~locationMask;
                             }
                         }

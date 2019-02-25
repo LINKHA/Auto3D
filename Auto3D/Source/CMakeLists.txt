@@ -32,12 +32,6 @@ add_engine_directory (Thread)
 add_engine_directory (Window)
 add_engine_directory_group (Graphics/OGL Graphics)
 
-if (AUTO_DIRECT3D_12)
-    add_engine_directory_group (Window/Win32 Window)
-elseif (AUTO_OPENGL)
-    add_engine_directory_group (Window/SDL2 Window)
-endif ()
-
 
 
 # Add root-level files
@@ -54,9 +48,6 @@ target_link_libraries (${TARGET_NAME} ${OPENGL_gl_LIBRARY})
 target_link_libraries (${TARGET_NAME}  SDL2-static)
 target_link_libraries (${TARGET_NAME}  SDL2main)
 include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/SDL2/include)
-
-target_link_libraries (${TARGET_NAME}  FlextGL)
-include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/FlextGL)
 
 target_link_libraries (${TARGET_NAME}  STB)
 include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/STB)
