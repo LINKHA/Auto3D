@@ -32,9 +32,13 @@ add_engine_directory (Thread)
 add_engine_directory (Window)
 add_engine_directory_group (Graphics/OGL Graphics)
 
-if (WIN32)
+if (AUTO_DIRECT3D_12)
     add_engine_directory_group (Window/Win32 Window)
+elseif (AUTO_OPENGL)
+    add_engine_directory_group (Window/SDL2 Window)
 endif ()
+
+
 
 # Add root-level files
 file (GLOB AUTO_FILES *.h *.c *.cpp)
@@ -74,6 +78,9 @@ include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/LZ4)
 
 target_link_libraries (${TARGET_NAME}  OpenAL)
 include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/OpenAL/include)
+
+target_link_libraries (${TARGET_NAME}  glad)
+include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/glad)
 
 # Add OS-specific library dependencies
 if (WIN32)

@@ -166,6 +166,8 @@ public:
     void OnChar(unsigned unicodeChar);
     /// React to a mouse move. Called by window message handling.
     void OnMouseMove(const IntVector2& position, const IntVector2& delta);
+
+	void OnMouseWheel(const IntVector2& delta);
     /// React to a mouse button. Called by window message handling.
     void OnMouseButton(unsigned button, bool pressed);
     /// React to a touch. Called by window message handling.
@@ -203,6 +205,8 @@ private:
     Vector<Touch> touches;
     /// Accumulated mouse move since last frame.
     IntVector2 mouseMove;
+
+	IntVector2 mouseWhellOffset;
     /// Mouse buttons bitmask.
     unsigned mouseButtons;
     /// Mouse buttons pressed bitmask.

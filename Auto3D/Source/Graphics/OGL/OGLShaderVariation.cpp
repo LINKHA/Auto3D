@@ -4,7 +4,7 @@
 #include "OGLGraphics.h"
 #include "OGLShaderVariation.h"
 
-#include <flextGL.h>
+#include <glad.h>
 
 #include "../../Debug/DebugNew.h"
 

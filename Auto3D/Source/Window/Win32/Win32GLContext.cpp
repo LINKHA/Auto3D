@@ -8,7 +8,7 @@
 #include "Win32Window.h"
 
 #include <cstring>
-#include <flextGL.h>
+#include <glad.h>
 #include <Windows.h>
 #include <wingdi.h>
 

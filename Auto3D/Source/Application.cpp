@@ -7,9 +7,6 @@ namespace Auto3D
 Application::Application()
 {
 	_engine = new Engine();
-	RegisterGraphicsLibrary();
-	RegisterResourceLibrary();
-	RegisterRendererLibrary();
 }
 
 

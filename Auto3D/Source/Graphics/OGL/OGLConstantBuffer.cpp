@@ -6,7 +6,7 @@
 #include "OGLConstantBuffer.h"
 #include "OGLGraphics.h"
 
-#include <flextGL.h>
+#include <glad.h>
 
 #include "../../Debug/DebugNew.h"
 

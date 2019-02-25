@@ -3,7 +3,7 @@
 #include "OGLGraphics.h"
 #include "OGLVertexBuffer.h"
 
-#include <flextGL.h>
+#include <glad.h>
 
 #include "../../Debug/DebugNew.h"
 

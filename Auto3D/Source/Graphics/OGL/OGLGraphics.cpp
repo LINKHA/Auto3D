@@ -13,7 +13,7 @@
 #include "OGLVertexBuffer.h"
 
 #include <cstdlib>
-#include <flextGL.h>
+#include <glad.h>
 
 #ifdef WIN32
 #include <Windows.h>

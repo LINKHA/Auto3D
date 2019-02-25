@@ -23,6 +23,7 @@ void Input::Update()
     // Clear accumulated input from last frame
     mouseButtonsPressed = 0;
     mouseMove = IntVector2::ZERO;
+	mouseWhellOffset = IntVector2::ZERO;
     keyPressed.Clear();
     rawKeyPress.Clear();
     for (auto it = touches.Begin(); it != touches.End(); ++it)
@@ -117,6 +118,11 @@ void Input::OnMouseMove(const IntVector2& position, const IntVector2& delta)
     mouseMoveEvent.position = position;
     mouseMoveEvent.delta = delta;
     SendEvent(mouseMoveEvent);
+}
+
+void Input::OnMouseWheel(const IntVector2& delta)
+{
+	mouseWhellOffset = delta;
 }
 
 void Input::OnMouseButton(unsigned button, bool pressed)

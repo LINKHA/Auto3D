@@ -7,16 +7,13 @@ namespace Auto3D
 
 Engine::Engine()
 {
-
+	RegisterGraphicsLibrary();
+	RegisterResourceLibrary();
+	RegisterRendererLibrary();
 }
 
 Engine::~Engine()
 {
-	delete frameTimer;
-	frameTimer = nullptr;
-
-	delete profilerTimer;
-	profilerTimer = nullptr;
 }
 
 void Engine::Init()

@@ -104,4 +104,18 @@ void RendererSample::Update()
 void RendererSample::Stop()
 {
 }
-AUTO_APPLICATION_MAIN(RendererSample)
+int runApplication() 
+{ 
+	RendererSample app;
+return app.Run(); 
+} 
+SELECT_DEDICATED_GRAPHICS_CARD
+int main(int argc, char** argv) 
+{ 
+	DETECT_MEMORY_LEAKS(); 
+	int flag = runApplication();
+	_CrtDumpMemoryLeaks(); 
+	return flag; 
+}
+
+//AUTO_APPLICATION_MAIN(RendererSample)

@@ -59,8 +59,8 @@ private:
 	AutoPtr<Log> _log;
 	AutoPtr<Profiler> _profiler;
 
-	HiresTimer* frameTimer;
-	Timer* profilerTimer;
+	AutoPtr<HiresTimer> frameTimer;
+	AutoPtr<Timer> profilerTimer;
 	float dt = 0.0f;
 	String profilerOutput;
 

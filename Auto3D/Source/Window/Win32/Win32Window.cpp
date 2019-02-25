@@ -418,7 +418,8 @@ bool Window::OnWindowMessage(unsigned msg, unsigned wParam, unsigned lParam)
         }
         handled = true;
         break;
-
+	case WM_MOUSEHWHEEL:
+		break;
     case WM_LBUTTONDOWN:
     case WM_MBUTTONDOWN:
     case WM_RBUTTONDOWN:
