@@ -28,7 +28,8 @@ Window::Window() :
 	resizable(false),
 	fullscreen(false),
 	inResize(false),
-	mouseVisible(true),
+	mouseHide(false),
+	mouseLock(false),
 	mouseVisibleInternal(true)
 {
 	RegisterSubsystem(this);
@@ -57,7 +58,7 @@ void Window::SetTitle(const String& newTitle)
 	title = newTitle;
 }
 
-bool Window::SetSize(const IntVector2& size_, bool fullscreen_, bool resizable_)
+bool Window::SetSize(const IntVector2& size_, bool fullscreen_, bool resizable_, bool borderless, bool highDPI)
 {
 	size = size_;
 	// Create the window
@@ -66,6 +67,9 @@ bool Window::SetSize(const IntVector2& size_, bool fullscreen_, bool resizable_)
 		flags |= SDL_WINDOW_FULLSCREEN;
 	if (resizable_)
 		flags |= SDL_WINDOW_RESIZABLE;
+	if (borderless)
+		flags |= SDL_WINDOW_BORDERLESS;
+
 
 	// The position size will be reset later
 	handle = SDL_CreateWindow(
@@ -85,12 +89,21 @@ void Window::SetPosition(const IntVector2& position)
 
 }
 
-void Window::SetMouseVisible(bool enable)
+void Window::SetMouseHide(bool enable)
 {
-	if (enable != mouseVisible)
+	if (enable != mouseHide)
 	{
-		mouseVisible = enable;
-		UpdateMouseVisible();
+		mouseHide = enable;
+		
+	}
+}
+
+void Window::SetMouseLock(bool enable)
+{
+	if (enable != mouseLock)
+	{
+		mouseLock = enable;
+		SDL_SetWindowGrab(handle, (SDL_bool)enable);
 	}
 }
 
@@ -128,6 +141,7 @@ void Window::PumpMessages()
 	while (SDL_PollEvent(&evt))
 	{
 		OnWindowMessage(&evt);
+		
 	}
 }
 
@@ -150,7 +164,7 @@ bool Window::OnWindowMessage(void* sdlEvent)
 		break;
 	case SDL_KEYUP:
 		if (input)
-			input->OnKey(evt.key.keysym.sym, (evt.key.keysym.sym >> 16) & 0xff, true);
+			input->OnKey(evt.key.keysym.sym, (evt.key.keysym.sym >> 16) & 0xff, false);
 		break;
 	case SDL_MOUSEMOTION:
 		int x, y;
@@ -183,7 +197,15 @@ bool Window::OnWindowMessage(void* sdlEvent)
 			break;
 
 		case SDL_WINDOWEVENT_RESIZED:
-			//_graphics->OnWindowResized();
+			int x, y;
+			SDL_GetWindowSize(handle, &x, &y);
+			SendEvent(resizeEvent);
+			if (IntVector2(x, y) != size) 
+			{
+				size = IntVector2(x, y);
+				resizeEvent.size = IntVector2(x, y);
+				SendEvent(resizeEvent);
+			}
 			break;
 		case SDL_WINDOWEVENT_MOVED:
 			//_graphics->OnWindowMoved();
@@ -197,34 +219,10 @@ bool Window::OnWindowMessage(void* sdlEvent)
 		return false;
 		break;
 	}
+	//Handles whether the mouse is visible
+	SDL_SetRelativeMouseMode((SDL_bool)mouseHide);
+
 	return true;
-}
-
-
-IntVector2 Window::ClientRectSize() const
-{
-	return IntVector2();
-}
-
-void Window::UpdateMouseVisible()
-{
-	if (!handle)
-		return;
-	// When the window is unfocused, mouse should never be hidden
-	bool newMouseVisible = HasFocus() ? mouseVisible : true;
-
-}
-
-
-void Window::UpdateMouseClipping()
-{
-
-}
-
-
-void Window::UpdateMousePosition()
-{
-
 }
 
 }

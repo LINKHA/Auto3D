@@ -70,16 +70,16 @@ void RendererSample::Update()
 	yaw += input->MouseMove().x * 0.25f;
 	pitch = Clamp(pitch, -90.0f, 90.0f);
 
-	float moveSpeed = input->IsKeyDown(VK_SHIFT) ? 50.0f : 10.0f;
+	float moveSpeed = input->IsKeyDown(KEY_LSHIFT) ? 50.0f : 10.0f;
 
 	camera->SetRotation(Quaternion(pitch, yaw, 0.0f));
-	if (input->IsKeyDown('W'))
+	if (input->IsKeyDown(KEY_W))
 		camera->Translate(Vector3::FORWARD * 0.00234699994 * moveSpeed);
-	if (input->IsKeyDown('S'))
+	if (input->IsKeyDown(KEY_S))
 		camera->Translate(Vector3::BACK * 0.00234699994  * moveSpeed);
-	if (input->IsKeyDown('A'))
+	if (input->IsKeyDown(KEY_A))
 		camera->Translate(Vector3::LEFT * 0.00234699994  * moveSpeed);
-	if (input->IsKeyDown('D'))
+	if (input->IsKeyDown(KEY_D))
 		camera->Translate(Vector3::RIGHT * 0.00234699994  * moveSpeed);
 
 	// Update camera aspect ratio based on window size

@@ -30,11 +30,13 @@ public:
 	/// Set window title.
 	void SetTitle(const String& newTitle);
 	/// Set window size. Open the window if not opened yet. Return true on success.
-	bool SetSize(const IntVector2& size, bool fullscreen, bool resizable);
+	bool SetSize(const IntVector2& size, bool fullscreen = false, bool resizable = false, bool borderless = false, bool highDPI = false);
 	/// Set window position.
 	void SetPosition(const IntVector2& position);
 	/// Set mouse cursor visible. Default is true. When hidden, the mouse cursor is confined to the window and kept centered; relative mouse motion can be read "endlessly" but absolute mouse position should not be used.
-	void SetMouseVisible(bool enable);
+	void SetMouseHide(bool enable);
+
+	void SetMouseLock(bool enable);
 	/// Move the mouse cursor to a window top-left relative position.
 	void SetMousePosition(const IntVector2& position);
 	/// Close the window.
@@ -71,7 +73,7 @@ public:
 	/// Return whether has input focus.
 	bool HasFocus() const { return focus; }
 	/// Return whether mouse cursor is visible.
-	bool IsMouseVisible() const { return mouseVisible; }
+	bool IsMouseHide() const { return mouseHide; }
 	/// Return window handle. Can be cast to a HWND.
 	SDL_Window* Handle() const { return handle; }
 
@@ -97,15 +99,8 @@ public:
 private:
 	/// Change display mode. If width and height are zero, will restore desktop resolution.
 	void SetDisplayMode(int width, int height);
-	/// Update mouse visibility and clipping region to the OS.
-	void UpdateMouseVisible();
-	/// Update mouse clipping region.
-	void UpdateMouseClipping();
-	/// Refresh the internally tracked mouse cursor position.
-	void UpdateMousePosition();
-	/// Verify window size from the window client rect.
-	IntVector2 ClientRectSize() const;
 
+	/// Verify window size from the window client rect.
 	/// Window handle.
 	SDL_Window* handle;
 	/// Window title.
@@ -134,7 +129,9 @@ private:
 	/// Performing window resize flag. Used internally to suppress resize events during it.
 	bool inResize;
 	/// Mouse visible flag as requested by the application.
-	bool mouseVisible;
+	bool mouseHide;
+
+	bool mouseLock;
 	/// Internal mouse visible flag. The mouse is automatically shown when the window is unfocused, while mouseVisible represents the application's desired state. Used to prevent multiple calls to OS mouse visibility functions, which utilize a counter.
 	bool mouseVisibleInternal;
 };

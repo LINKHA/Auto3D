@@ -28,13 +28,14 @@ void Engine::Init()
 	_renderer = new Renderer();
 
 	_graphics->RenderWindow()->SetTitle("Renderer test");
-	_graphics->RenderWindow()->SetMouseVisible(false);
+	
 	if (!_graphics->SetMode(IntVector2(800, 600), false, true))
 		return;
+	_graphics->RenderWindow()->SetMouseLock(true);
+	_graphics->RenderWindow()->SetMouseHide(true);
+	
 
 	_renderer->SetupShadowMaps(1, 2048, FMT_D16);
-
-	//SubscribeToEvent(_renderer->RenderWindow()->closeRequestEvent, &RendererTest::HandleCloseRequest);
 }
 void Engine::Start()
 {
