@@ -1,0 +1,3 @@
+#ifndef KH_STL_VECTOR_H_
+#	include "KhVector.h"
+#endif

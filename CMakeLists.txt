@@ -5,7 +5,10 @@ cmake_minimum_required (VERSION 2.8)
 # Define CMake options
 include (CMakeDependentOption)
 # Set Auto3D as a global include directory
+
 include_directories (Auto3D)
+# Use folders
+set_property(GLOBAL PROPERTY USE_FOLDERS On)
 
 option (AUTO_SHARED "Compile the library into a health library" FALSE)
 option (AUTO_LOGGING "Enable logging macros" TRUE)

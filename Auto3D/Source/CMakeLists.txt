@@ -29,11 +29,8 @@ add_engine_directory (Renderer)
 add_engine_directory (Resource)
 add_engine_directory (Scene)
 add_engine_directory (Thread)
-add_engine_directory (ThirdParty/STB)
 add_engine_directory (Window)
-
 add_engine_directory_group (Graphics/OGL Graphics)
-add_engine_directory (ThirdParty/FlextGL)
 
 if (WIN32)
     add_engine_directory_group (Window/Win32 Window)
@@ -46,12 +43,37 @@ list (APPEND SOURCE_FILES ${AUTO_FILES})
 # Define the Auto3D library target
 add_library (${TARGET_NAME} ${AUTO_LIB_TYPE} ${SOURCE_FILES})
 
-# Add third party include directories. Only used internally
-include_directories (ThirdParty/STB)
-
-include_directories (ThirdParty/FlextGL)
 find_package (OpenGL REQUIRED)
+
+# Add third party include directories. Only used internally
 target_link_libraries (${TARGET_NAME} ${OPENGL_gl_LIBRARY})
+target_link_libraries (${TARGET_NAME}  SDL2-static)
+target_link_libraries (${TARGET_NAME}  SDL2main)
+include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/SDL2/include)
+
+target_link_libraries (${TARGET_NAME}  FlextGL)
+include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/FlextGL)
+
+target_link_libraries (${TARGET_NAME}  STB)
+include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/STB)
+
+target_link_libraries (${TARGET_NAME}  Assimp)
+include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/assimp/include)
+
+target_link_libraries (${TARGET_NAME}  Box2D)
+include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/Box2D)
+
+target_link_libraries (${TARGET_NAME}  Bullet)
+include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/Bullet)
+
+target_link_libraries (${TARGET_NAME}  KhSTL)
+include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/KhSTL)
+
+target_link_libraries (${TARGET_NAME}  LZ4)
+include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/LZ4)
+
+target_link_libraries (${TARGET_NAME}  OpenAL)
+include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/OpenAL/include)
 
 # Add OS-specific library dependencies
 if (WIN32)

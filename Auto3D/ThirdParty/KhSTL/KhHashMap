@@ -1,0 +1,3 @@
+#ifndef KH_STL_HASH_MAP_H_
+#	include "KhHashMap.h"
+#endif //!KH_STL_HASH_MAP_H_

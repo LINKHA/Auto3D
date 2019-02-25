@@ -1,0 +1,3 @@
+#ifndef KH_STL_DEQUE_H_
+#	include "KhDeque.h"
+#endif //!KH_STL_DEQUE_H_
