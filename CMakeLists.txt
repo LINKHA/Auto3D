@@ -17,6 +17,9 @@ option (AUTO_WIN32_CONSOLE "Enable Direct3D12" TRUE)
 option (AUTO_NVIDIA "Enable Nvidia discrete graphics" FALSE)
 option (AUTO_AMD "Enable amd discrete graphics" FALSE)
 
+# Auto root path
+set(AUTO_ROOT_PATH ${CMAKE_SOURCE_DIR})
+
 # Macro to set output directories on all configurations
 macro (set_output_directories OUTPUT_PATH)
     foreach (TYPE ${ARGN})
