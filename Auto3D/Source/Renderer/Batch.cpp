@@ -28,7 +28,7 @@ void BatchQueue::Clear()
     _additiveBatches.Clear();
 }
 
-void BatchQueue::Sort(Vector<Matrix3x4>& instanceTransforms)
+void BatchQueue::Sort(Vector<Matrix3x4F>& instanceTransforms)
 {
     switch (_sort)
     {
@@ -57,7 +57,7 @@ void BatchQueue::Sort(Vector<Matrix3x4>& instanceTransforms)
     BuildInstances(_additiveBatches, instanceTransforms);
 }
 
-void BatchQueue::BuildInstances(Vector<Batch>& batches, Vector<Matrix3x4>& instanceTransforms)
+void BatchQueue::BuildInstances(Vector<Batch>& batches, Vector<Matrix3x4F>& instanceTransforms)
 {
     Batch* start = nullptr;
     for (auto it = batches.Begin(), end = batches.End(); it != end; ++it)

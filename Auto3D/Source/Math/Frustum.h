@@ -40,17 +40,17 @@ public:
     Frustum& operator = (const Frustum& rhs);
     
     /// Define with projection parameters and a transform matrix.
-    void Define(float fov, float aspectRatio, float zoom, float nearZ, float farZ, const Matrix3x4& transform = Matrix3x4::IDENTITY);
+    void Define(float fov, float aspectRatio, float zoom, float nearZ, float farZ, const Matrix3x4F& transform = Matrix3x4F::IDENTITY);
     /// Define with near and far dimension vectors and a transform matrix.
-    void Define(const Vector3F& near, const Vector3F& far, const Matrix3x4& transform = Matrix3x4::IDENTITY);
+    void Define(const Vector3F& near, const Vector3F& far, const Matrix3x4F& transform = Matrix3x4F::IDENTITY);
     /// Define with a bounding box and a transform matrix.
-    void Define(const BoundingBox& box, const Matrix3x4& transform = Matrix3x4::IDENTITY);
+    void Define(const BoundingBox& box, const Matrix3x4F& transform = Matrix3x4F::IDENTITY);
     /// Define with orthographic projection parameters and a transform matrix.
-    void DefineOrtho(float orthoSize, float aspectRatio, float zoom, float nearZ, float farZ, const Matrix3x4& transform = Matrix3x4::IDENTITY);
+    void DefineOrtho(float orthoSize, float aspectRatio, float zoom, float nearZ, float farZ, const Matrix3x4F& transform = Matrix3x4F::IDENTITY);
     /// Transform by a 3x3 matrix.
-    void Transform(const Matrix3& transform);
+    void Transform(const Matrix3x3F& transform);
     /// Transform by a 3x4 matrix.
-    void Transform(const Matrix3x4& transform);
+    void Transform(const Matrix3x4F& transform);
     
     /// Test if a point is inside or outside.
     Intersection IsInside(const Vector3F& point) const
@@ -144,11 +144,11 @@ public:
     }
     
     /// Return transformed by a 3x3 matrix.
-    Frustum Transformed(const Matrix3& transform) const;
+    Frustum Transformed(const Matrix3x3F& transform) const;
     /// Return transformed by a 3x4 matrix.
-    Frustum Transformed(const Matrix3x4& transform) const;
+    Frustum Transformed(const Matrix3x4F& transform) const;
     /// Return projected by a 4x4 projection matrix.
-    Rect Projected(const Matrix4x4F& transform) const;
+    RectF Projected(const Matrix4x4F& transform) const;
     
     /// Update the planes. Called internally.
     void UpdatePlanes();

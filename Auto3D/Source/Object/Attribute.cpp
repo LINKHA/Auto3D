@@ -53,10 +53,10 @@ const size_t Attribute::byteSizes[] =
     sizeof(Vector4F),
     sizeof(Quaternion),
     sizeof(Color),
-    sizeof(Rect),
+    sizeof(RectF),
     sizeof(BoundingBox),
-    sizeof(Matrix3),
-    sizeof(Matrix3x4),
+    sizeof(Matrix3x3F),
+    sizeof(Matrix3x4F),
     sizeof(Matrix4x4F),
     0,
     0,
@@ -185,19 +185,19 @@ void Attribute::FromJSON(AttributeType type, void* dest, const JSONValue& source
         break;
 
     case ATTR_RECT:
-        reinterpret_cast<Rect*>(dest)->FromString(source.GetString());
+        reinterpret_cast<RectF*>(dest)->FromString(source.GetString());
         break;
 
     case ATTR_BOUNDINGBOX:
-        reinterpret_cast<Rect*>(dest)->FromString(source.GetString());
+        reinterpret_cast<RectF*>(dest)->FromString(source.GetString());
         break;
 
     case ATTR_MATRIX3:
-        reinterpret_cast<Matrix3*>(dest)->FromString(source.GetString());
+        reinterpret_cast<Matrix3x3F*>(dest)->FromString(source.GetString());
         break;
 
     case ATTR_MATRIX3X4:
-        reinterpret_cast<Matrix3x4*>(dest)->FromString(source.GetString());
+        reinterpret_cast<Matrix3x4F*>(dest)->FromString(source.GetString());
         break;
 
     case ATTR_MATRIX4:
@@ -282,7 +282,7 @@ void Attribute::ToJSON(AttributeType type, JSONValue& dest, const void* source)
         break;
 
     case ATTR_RECT:
-        dest = reinterpret_cast<const Rect*>(source)->ToString();
+        dest = reinterpret_cast<const RectF*>(source)->ToString();
         break;
 
     case ATTR_BOUNDINGBOX:
@@ -290,11 +290,11 @@ void Attribute::ToJSON(AttributeType type, JSONValue& dest, const void* source)
         break;
 
     case ATTR_MATRIX3:
-        dest = reinterpret_cast<const Matrix3*>(source)->ToString();
+        dest = reinterpret_cast<const Matrix3x3F*>(source)->ToString();
         break;
 
     case ATTR_MATRIX3X4:
-        dest = reinterpret_cast<const Matrix3x4*>(source)->ToString();
+        dest = reinterpret_cast<const Matrix3x4F*>(source)->ToString();
         break;
 
     case ATTR_MATRIX4:

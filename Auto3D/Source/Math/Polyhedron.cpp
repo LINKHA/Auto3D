@@ -248,7 +248,7 @@ void Polyhedron::Clear()
     _faces.Clear();
 }
 
-void Polyhedron::Transform(const Matrix3& transform)
+void Polyhedron::Transform(const Matrix3x3F& transform)
 {
     for (size_t i = 0; i < _faces.Size(); ++i)
     {
@@ -258,7 +258,7 @@ void Polyhedron::Transform(const Matrix3& transform)
     }
 }
 
-void Polyhedron::Transform(const Matrix3x4& transform)
+void Polyhedron::Transform(const Matrix3x4F& transform)
 {
     for (size_t i = 0; i < _faces.Size(); ++i)
     {
@@ -268,7 +268,7 @@ void Polyhedron::Transform(const Matrix3x4& transform)
     }
 }
 
-Polyhedron Polyhedron::Transformed(const Matrix3& transform) const
+Polyhedron Polyhedron::Transformed(const Matrix3x3F& transform) const
 {
     Polyhedron ret;
     ret._faces.Resize(_faces.Size());
@@ -286,7 +286,7 @@ Polyhedron Polyhedron::Transformed(const Matrix3& transform) const
     return ret;
 }
 
-Polyhedron Polyhedron::Transformed(const Matrix3x4& transform) const
+Polyhedron Polyhedron::Transformed(const Matrix3x4F& transform) const
 {
     Polyhedron ret;
     ret._faces.Resize(_faces.Size());

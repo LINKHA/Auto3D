@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Matrix3.h"
+#include "Matrix3x3.h"
 
 namespace Auto3D
 {
@@ -72,7 +72,7 @@ public:
     }
 
     /// Construct from a rotation matrix.
-    Quaternion(const Matrix3& matrix)
+    Quaternion(const Matrix3x3F& matrix)
     {
         FromRotationMatrix(matrix);
     }
@@ -162,7 +162,7 @@ public:
     /// Define from orthonormal axes.
     void FromAxes(const Vector3F& xAxis, const Vector3F& yAxis, const Vector3F& zAxis);
     /// Define from a rotation matrix.
-    void FromRotationMatrix(const Matrix3& matrix);
+    void FromRotationMatrix(const Matrix3x3F& matrix);
     /// Define from a direction to look in and an up direction. Return true on success, or false if would result in a NaN, in which case the current value remains.
     bool FromLookRotation(const Vector3F& direction, const Vector3F& up = Vector3F::UP);
     /// Parse from a string. Return true on success.
@@ -229,7 +229,7 @@ public:
     /// Return roll angle in degrees.
     float RollAngle() const;
     /// Return the rotation matrix that corresponds to this quaternion.
-    Matrix3 RotationMatrix() const;
+    Matrix3x3F RotationMatrix() const;
     /// Spherical interpolation with another quaternion.
     Quaternion Slerp(Quaternion rhs, float t) const;
     /// Normalized linear interpolation with another quaternion.

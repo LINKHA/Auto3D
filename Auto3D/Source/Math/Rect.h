@@ -1,23 +1,24 @@
 #pragma once
 
 #include "Vector4.h"
+#include "../Base/Swap.h"
 
 namespace Auto3D
 {
 
 /// Two-dimensional bounding rectangle.
-class AUTO_API Rect
+template <typename _Ty> class AUTO_API Rect
 {
 public:
     /// Minimum vector.
-    Vector2F _min;
+    Vector2<_Ty> _min;
     /// Maximum vector.
-    Vector2F _max;
+    Vector2<_Ty> _max;
     
     /// Construct as undefined (negative _size.)
     Rect() :
-        _min(Vector2F(M_INFINITY, M_INFINITY)),
-        _max(Vector2F(-M_INFINITY, -M_INFINITY))
+        _min(Vector2<_Ty>(M_INFINITY, M_INFINITY)),
+        _max(Vector2<_Ty>(-M_INFINITY, -M_INFINITY))
     {
     }
     
@@ -29,7 +30,7 @@ public:
     }
     
     /// Construct from minimum and maximum vectors.
-    Rect(const Vector2F& min_, const Vector2F& max_) :
+    Rect(const Vector2<_Ty>& min_, const Vector2<_Ty>& max_) :
         _min(min_),
         _max(max_)
     {
@@ -43,7 +44,7 @@ public:
     }
     
     /// Construct from a Vector4.
-    Rect(const Vector4F& vector) :
+    Rect(const Vector4<_Ty>& vector) :
         _min(vector._x, vector._y),
         _max(vector._z, vector._w)
     {
@@ -89,20 +90,20 @@ public:
     }
     
     /// Define from minimum and maximum vectors.
-    void Define(const Vector2F& min_, const Vector2F& max_)
+    void Define(const Vector2<_Ty>& min_, const Vector2<_Ty>& max_)
     {
         _min = min_;
         _max = max_;
     }
     
     /// Define from a point.
-    void Define(const Vector2F& point)
+    void Define(const Vector2<_Ty>& point)
     {
         _min = _max = point;
     }
     
     /// Merge a point.
-    void Merge(const Vector2F& point)
+    void Merge(const Vector2<_Ty>& point)
     {
         // If undefined, set initial dimensions
         if (!IsDefined())
@@ -144,30 +145,62 @@ public:
     /// Set as undefined to allow the next merge to set initial _size.
     void Undefine()
     {
-        _min = Vector2F(M_INFINITY, M_INFINITY);
+        _min = Vector2<_Ty>(M_INFINITY, M_INFINITY);
         _max = -_min;
     }
     
     /// Clip with another rect.
-    void Clip(const Rect& rect);
+	void Clip(const Rect& rect)
+	{
+		if (rect._min._x > _min._x)
+			_min._x = rect._min._x;
+		if (rect._max._x < _max._x)
+			_max._x = rect._max._x;
+		if (rect._min._y > _min._y)
+			_min._y = rect._min._y;
+		if (rect._max._y < _max._y)
+			_max._y = rect._max._y;
+
+		if (_min._x > _max._x)
+			Swap(_min._x, _max._x);
+		if (_min._y > _max._y)
+			Swap(_min._y, _max._y);
+	}
    /// Parse from a string. Return true on success.
-    bool FromString(const String& str);
+	bool FromString(const String& str)
+	{
+		return FromString(str.CString());
+	}
+
     /// Parse from a C string. Return true on success.
-    bool FromString(const char* str);
+	bool FromString(const char* str)
+	{
+		size_t elements = String::CountElements(str, ' ');
+		if (elements < 4)
+			return false;
+
+		char* ptr = (char*)str;
+		_min._x = (float)strtod(ptr, &ptr);
+		_min._y = (float)strtod(ptr, &ptr);
+		_max._x = (float)strtod(ptr, &ptr);
+		_max._y = (float)strtod(ptr, &ptr);
+
+		return true;
+	}
     
     /// Return whether has non-negative _size.
     bool IsDefined() const { return (_min._x <= _max._x); }
     /// Return center.
-    Vector2F Center() const { return (_max + _min) * 0.5f; }
+    Vector2<_Ty> Center() const { return (_max + _min) * 0.5f; }
     /// Return _size.
-    Vector2F Size() const { return _max - _min; }
+    Vector2<_Ty> Size() const { return _max - _min; }
     /// Return half-_size.
-    Vector2F HalfSize() const { return (_max - _min) * 0.5f; }
+    Vector2<_Ty> HalfSize() const { return (_max - _min) * 0.5f; }
     /// Test for equality with another rect with epsilon.
     bool Equals(const Rect& rhs) const { return _min.Equals(rhs._min) && _max.Equals(rhs._max); }
     
     /// Test whether a point is inside.
-    Intersection IsInside(const Vector2F& point) const
+    Intersection IsInside(const Vector2<_Ty>& point) const
     {
         if (point._x < _min._x || point._y < _min._y || point._x > _max._x || point._y > _max._y)
             return OUTSIDE;
@@ -178,9 +211,13 @@ public:
     /// Return float data.
     const void* Data() const { return &_min._x; }
     /// Return as a vector.
-    Vector4F ToVector4() const { return Vector4F(_min._x, _min._y, _max._x, _max._y); }
+    Vector4<_Ty> ToVector4() const { return Vector4<_Ty>(_min._x, _min._y, _max._x, _max._y); }
     /// Return as string.
-    String ToString() const;
+	String ToString() const
+	{
+		return _min.ToString() + " " + _max.ToString();
+	}
+
     
     /// Rect in the range (-1, -1) - (1, 1)
     static const Rect FULL;
@@ -189,5 +226,16 @@ public:
     /// Zero-sized rect.
     static const Rect ZERO;
 };
+
+using RectF = Rect<float>;
+
+using RectI = Rect<int>;
+
+using RectC = Rect<char>;
+
+using RectD = Rect<double>;
+
+using RectU = Rect<unsigned>;
+
 
 }

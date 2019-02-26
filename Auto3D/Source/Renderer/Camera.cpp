@@ -20,7 +20,7 @@ static const Matrix4x4F flipMatrix(
     );
 
 Camera::Camera() :
-    _viewMatrix(Matrix3x4::IDENTITY),
+    _viewMatrix(Matrix3x4F::IDENTITY),
     _viewMatrixDirty(false),
     _orthographic(false),
     _flipVertical(false),
@@ -165,7 +165,7 @@ float Camera::NearClip() const
 Frustum Camera::WorldFrustum() const
 {
     Frustum ret;
-    Matrix3x4 worldTransform = EffectiveWorldTransform();
+    Matrix3x4F worldTransform = EffectiveWorldTransform();
 
     if (!_orthographic)
         ret.Define(_fov, _aspectRatio, _zoom, NearClip(), _farClip, worldTransform);
@@ -178,7 +178,7 @@ Frustum Camera::WorldFrustum() const
 Frustum Camera::WorldSplitFrustum(float nearClip, float farClip) const
 {
     Frustum ret;
-    Matrix3x4 worldTransform = EffectiveWorldTransform();
+    Matrix3x4F worldTransform = EffectiveWorldTransform();
 
     nearClip = Max(nearClip, NearClip());
     farClip = Min(farClip, _farClip);
@@ -222,7 +222,7 @@ Frustum Camera::ViewSpaceSplitFrustum(float nearClip, float farClip) const
     return ret;
 }
 
-const Matrix3x4& Camera::ViewMatrix() const
+const Matrix3x4F& Camera::ViewMatrix() const
 {
     if (_viewMatrixDirty)
     {
@@ -448,9 +448,9 @@ Quaternion Camera::FaceCameraRotation(const Vector3F& position, const Quaternion
     }
 }
 
-Matrix3x4 Camera::EffectiveWorldTransform() const
+Matrix3x4F Camera::EffectiveWorldTransform() const
 {
-    Matrix3x4 worldTransform(WorldPosition(), WorldRotation(), 1.0f);
+    Matrix3x4F worldTransform(WorldPosition(), WorldRotation(), 1.0f);
     return _useReflection ? _reflectionMatrix * worldTransform : worldTransform;
 }
 

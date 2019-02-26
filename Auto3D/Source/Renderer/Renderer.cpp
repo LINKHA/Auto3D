@@ -814,7 +814,7 @@ void Renderer::RenderBatches(const Vector<Batch>& batches, Camera* camera, bool 
     if (setPerFrameConstants)
     {
         // Set per-frame values to the frame constant buffers
-        Matrix3x4 viewMatrix = camera->ViewMatrix();
+        Matrix3x4F viewMatrix = camera->ViewMatrix();
         Matrix4x4F projectionMatrix = camera->ProjectionMatrix();
         Matrix4x4F viewProjMatrix = projectionMatrix * viewMatrix;
         Vector4F depthParameters(Vector4F::ZERO);

@@ -16,7 +16,7 @@ Bone::Bone() :
     _initialPosition(Vector3F::ZERO),
     _initialRotation(Quaternion::IDENTITY),
     _initialScale(Vector3F::ONE),
-    _offsetMatrix(Matrix3x4::IDENTITY),
+    _offsetMatrix(Matrix3x4F::IDENTITY),
     _radius(0.0f),
     _boundingBox(0.0f, 0.0f),
     _parentIndex(0),
@@ -182,7 +182,7 @@ bool Model::BeginLoad(Stream& source)
         bone._initialPosition = source.Read<Vector3F>();
         bone._initialRotation = source.Read<Quaternion>();
         bone._initialScale = source.Read<Vector3F>();
-        bone._offsetMatrix = source.Read<Matrix3x4>();
+        bone._offsetMatrix = source.Read<Matrix3x4F>();
 
         unsigned char boneCollisionType = source.Read<unsigned char>();
         if (boneCollisionType & 1)

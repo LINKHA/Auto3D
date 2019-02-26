@@ -68,7 +68,7 @@ struct AUTO_API Bone
     /// Reset scale.
     Vector3F _initialScale;
     /// Offset matrix for skinning.
-    Matrix3x4 _offsetMatrix;
+    Matrix3x4F _offsetMatrix;
     /// Collision radius.
     float _radius;
     /// Collision bounding box.

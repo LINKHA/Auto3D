@@ -14,7 +14,7 @@ inline Vector3F ClipEdgeZ(const Vector3F& v0, const Vector3F& v1, float clipZ)
     );
 }
 
-void ProjectAndMergeEdge(Vector3F v0, Vector3F v1, Rect& rect, const Matrix4x4F& projection)
+void ProjectAndMergeEdge(Vector3F v0, Vector3F v1, RectF& rect, const Matrix4x4F& projection)
 {
     // Check if both vertices behind near plane
     if (v0._z < M_EPSILON && v1._z < M_EPSILON)
@@ -56,7 +56,7 @@ Frustum& Frustum::operator = (const Frustum& rhs)
     return *this;
 }
 
-void Frustum::Define(float fov, float aspectRatio, float zoom, float nearZ, float farZ, const Matrix3x4& transform)
+void Frustum::Define(float fov, float aspectRatio, float zoom, float nearZ, float farZ, const Matrix3x4F& transform)
 {
     nearZ = Max(nearZ, 0.0f);
     farZ = Max(farZ, nearZ);
@@ -73,7 +73,7 @@ void Frustum::Define(float fov, float aspectRatio, float zoom, float nearZ, floa
     Define(near, far, transform);
 }
 
-void Frustum::Define(const Vector3F& near, const Vector3F& far, const Matrix3x4& transform)
+void Frustum::Define(const Vector3F& near, const Vector3F& far, const Matrix3x4F& transform)
 {
     _vertices[0] = transform * near;
     _vertices[1] = transform * Vector3F(near._x, -near._y, near._z);
@@ -87,7 +87,7 @@ void Frustum::Define(const Vector3F& near, const Vector3F& far, const Matrix3x4&
     UpdatePlanes();
 }
 
-void Frustum::Define(const BoundingBox& box, const Matrix3x4& transform)
+void Frustum::Define(const BoundingBox& box, const Matrix3x4F& transform)
 {
     _vertices[0] = transform * Vector3F(box._max._x, box._max._y, box._min._z);
     _vertices[1] = transform * Vector3F(box._max._x, box._min._y, box._min._z);
@@ -101,7 +101,7 @@ void Frustum::Define(const BoundingBox& box, const Matrix3x4& transform)
     UpdatePlanes();
 }
 
-void Frustum::DefineOrtho(float orthoSize, float aspectRatio, float zoom, float nearZ, float farZ, const Matrix3x4& transform)
+void Frustum::DefineOrtho(float orthoSize, float aspectRatio, float zoom, float nearZ, float farZ, const Matrix3x4F& transform)
 {
     nearZ = Max(nearZ, 0.0f);
     farZ = Max(farZ, nearZ);
@@ -116,7 +116,7 @@ void Frustum::DefineOrtho(float orthoSize, float aspectRatio, float zoom, float 
     Define(near, far, transform);
 }
 
-void Frustum::Transform(const Matrix3& transform)
+void Frustum::Transform(const Matrix3x3F& transform)
 {
     for (size_t i = 0; i < NUM_FRUSTUM_VERTICES; ++i)
         _vertices[i] = transform * _vertices[i];
@@ -124,7 +124,7 @@ void Frustum::Transform(const Matrix3& transform)
     UpdatePlanes();
 }
 
-void Frustum::Transform(const Matrix3x4& transform)
+void Frustum::Transform(const Matrix3x4F& transform)
 {
     for (size_t i = 0; i < NUM_FRUSTUM_VERTICES; ++i)
         _vertices[i] = transform * _vertices[i];
@@ -132,7 +132,7 @@ void Frustum::Transform(const Matrix3x4& transform)
     UpdatePlanes();
 }
 
-Frustum Frustum::Transformed(const Matrix3& transform) const
+Frustum Frustum::Transformed(const Matrix3x3F& transform) const
 {
     Frustum transformed;
     for (size_t i = 0; i < NUM_FRUSTUM_VERTICES; ++i)
@@ -142,7 +142,7 @@ Frustum Frustum::Transformed(const Matrix3& transform) const
     return transformed;
 }
 
-Frustum Frustum::Transformed(const Matrix3x4& transform) const
+Frustum Frustum::Transformed(const Matrix3x4F& transform) const
 {
     Frustum transformed;
     for (size_t i = 0; i < NUM_FRUSTUM_VERTICES; ++i)
@@ -152,9 +152,9 @@ Frustum Frustum::Transformed(const Matrix3x4& transform) const
     return transformed;
 }
 
-Rect Frustum::Projected(const Matrix4x4F& projection) const
+RectF Frustum::Projected(const Matrix4x4F& projection) const
 {
-    Rect rect;
+    RectF rect;
     
     ProjectAndMergeEdge(_vertices[0], _vertices[4], rect, projection);
     ProjectAndMergeEdge(_vertices[1], _vertices[5], rect, projection);

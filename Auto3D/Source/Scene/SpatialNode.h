@@ -88,7 +88,7 @@ public:
     /// Return scale in parent space.
     const Vector3F& Scale() const { return _scale; }
     /// Return transform matrix in parent space.
-    Matrix3x4 Transform() const { return Matrix3x4(_position, _rotation, _scale); }
+    Matrix3x4F Transform() const { return Matrix3x4F(_position, _rotation, _scale); }
     /// Return _position in world space.
     Vector3F WorldPosition() const { return WorldTransform().Translation(); }
     /// Return rotation in world space.
@@ -98,7 +98,7 @@ public:
     /// Return scale in world space. As it is calculated from the world transform matrix, it may not be meaningful or accurate in all cases.
     Vector3F WorldScale() const { return WorldTransform().Scale(); }
     /// Return world transform matrix.
-    const Matrix3x4& WorldTransform() const { if (TestFlag(NF_WORLD_TRANSFORM_DIRTY)) UpdateWorldTransform(); return _worldTransform; }
+    const Matrix3x4F& WorldTransform() const { if (TestFlag(NF_WORLD_TRANSFORM_DIRTY)) UpdateWorldTransform(); return _worldTransform; }
     /// Convert a local space _position to world space.
     Vector3F LocalToWorld(const Vector3F& point) const { return WorldTransform() * point; }
     /// Convert a local space vector (either _position or direction) to world space.
@@ -119,7 +119,7 @@ private:
     void UpdateWorldTransform() const;
 
     /// World transform matrix.
-    mutable Matrix3x4 _worldTransform;
+    mutable Matrix3x4F _worldTransform;
     /// Parent space _position.
     Vector3F _position;
     /// Parent space rotation.

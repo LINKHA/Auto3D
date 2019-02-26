@@ -72,7 +72,7 @@ void Quaternion::FromRotationTo(const Vector3F& start, const Vector3F& end)
 
 void Quaternion::FromAxes(const Vector3F& xAxis, const Vector3F& yAxis, const Vector3F& zAxis)
 {
-    Matrix3 matrix(
+    Matrix3x3F matrix(
         xAxis._x, yAxis._x, zAxis._x,
         xAxis._y, yAxis._y, zAxis._y,
         xAxis._z, yAxis._z, zAxis._z
@@ -81,7 +81,7 @@ void Quaternion::FromAxes(const Vector3F& xAxis, const Vector3F& yAxis, const Ve
     FromRotationMatrix(matrix);
 }
 
-void Quaternion::FromRotationMatrix(const Matrix3& matrix)
+void Quaternion::FromRotationMatrix(const Matrix3x3F& matrix)
 {
     float t = matrix._m00 + matrix._m11 + matrix._m22;
     
@@ -233,9 +233,9 @@ float Quaternion::RollAngle() const
     return EulerAngles()._z;
 }
 
-Matrix3 Quaternion::RotationMatrix() const
+Matrix3x3F Quaternion::RotationMatrix() const
 {
-    return Matrix3(
+    return Matrix3x3F(
         1.0f - 2.0f * _y * _y - 2.0f * _z * _z,
         2.0f * _x * _y - 2.0f * _w * _z,
         2.0f * _x * _z + 2.0f * _w * _y,

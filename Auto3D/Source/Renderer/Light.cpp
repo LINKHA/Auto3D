@@ -271,8 +271,8 @@ size_t Light::NumShadowCoords() const
 
 Frustum Light::WorldFrustum() const
 {
-    const Matrix3x4& transform = WorldTransform();
-    Matrix3x4 frustumTransform(transform.Translation(), transform.Rotation(), 1.0f);
+    const Matrix3x4F& transform = WorldTransform();
+    Matrix3x4F frustumTransform(transform.Translation(), transform.Rotation(), 1.0f);
     Frustum ret;
     ret.Define(_fov, 1.0f, 1.0f, 0.0f, _range, frustumTransform);
     return ret;
@@ -331,7 +331,7 @@ void Light::SetupShadowViews(Camera* mainCamera, Vector<AutoPtr<ShadowView> >& s
 
                 // Calculate main camera shadowed frustum in light's view space
                 Frustum splitFrustum = mainCamera->WorldSplitFrustum(splitStart, splitEnd);
-                const Matrix3x4& lightView = shadowCamera.ViewMatrix();
+                const Matrix3x4F& lightView = shadowCamera.ViewMatrix();
                 Frustum lightViewFrustum = splitFrustum.Transformed(lightView);
 
                 // Fit the frustum inside a bounding box

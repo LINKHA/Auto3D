@@ -8,8 +8,8 @@ namespace Auto3D
 
 class BoundingBox;
 class Frustum;
-class Matrix3;
-class Matrix3x4;
+template<typename _Ty> class Matrix3x3;
+template<typename _Ty> class Matrix4x4;
 class Plane;
 
 /// A convex volume built from polygon faces.
@@ -53,14 +53,14 @@ public:
     /// Clear all faces.
     void Clear();
     /// Transform with a 3x3 matrix.
-    void Transform(const Matrix3& transform);
+    void Transform(const Matrix3x3F& transform);
     /// Transform with a 3x4 matrix.
-    void Transform(const Matrix3x4& transform);
+    void Transform(const Matrix3x4F& transform);
     
     /// Return transformed with a 3x3 matrix.
-    Polyhedron Transformed(const Matrix3& transform) const;
+    Polyhedron Transformed(const Matrix3x3F& transform) const;
     /// Return transformed with a 3x4 matrix.
-    Polyhedron Transformed(const Matrix3x4& transform) const;
+    Polyhedron Transformed(const Matrix3x4F& transform) const;
     /// Return whether has no faces.
     bool IsEmpty() const { return _faces.IsEmpty(); }
     

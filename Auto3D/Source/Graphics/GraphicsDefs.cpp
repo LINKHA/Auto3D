@@ -14,7 +14,7 @@ extern AUTO_API const size_t elementSizes[] =
     sizeof(Vector3F),
     sizeof(Vector4F),
     sizeof(unsigned),
-    sizeof(Matrix3x4),
+    sizeof(Matrix3x4F),
     sizeof(Matrix4x4F)
 };
 

@@ -303,7 +303,7 @@ namespace Auto3D
 		}
 
 		/// Return the rotation part.
-		Quaternion<_Ty> Rotation() const { return Quaternion<_Ty>(RotationMatrix()); }
+		Quaternion Rotation() const { return Quaternion(RotationMatrix()); }
 
 		/// Return the scaling part.
 		Vector3<_Ty> Scale() const

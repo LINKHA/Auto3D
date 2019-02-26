@@ -367,7 +367,7 @@ bool Ray::InsideGeometry(const void* vertexData, size_t vertexSize, const void* 
     return false;
 }
 
-Ray Ray::Transformed(const Matrix3x4& transform) const
+Ray Ray::Transformed(const Matrix3x4F& transform) const
 {
     Ray ret;
     ret._origin = transform * _origin;

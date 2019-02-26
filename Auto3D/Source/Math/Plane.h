@@ -73,9 +73,9 @@ public:
     }
     
     /// Transform with a 3x3 matrix.
-    void Transform(const Matrix3& transform);
+    void Transform(const Matrix3x3F& transform);
     /// Transform with a 3x4 matrix.
-    void Transform(const Matrix3x4& transform);
+    void Transform(const Matrix3x4F& transform);
     /// Transform with a 4x4 matrix.
     void Transform(const Matrix4x4F& transform);
     
@@ -86,11 +86,11 @@ public:
     /// Reflect a normalized direction vector.
     Vector3F Reflect(const Vector3F& direction) const { return direction - (2.0f * _normal.DotProduct(direction) * _normal); }
     /// Return a reflection matrix.
-    Matrix3x4 ReflectionMatrix() const;
+    Matrix3x4F ReflectionMatrix() const;
     /// Return transformed by a 3x3 matrix.
-    Plane Transformed(const Matrix3& transform) const;
+    Plane Transformed(const Matrix3x3F& transform) const;
     /// Return transformed by a 3x4 matrix.
-    Plane Transformed(const Matrix3x4& transform) const;
+    Plane Transformed(const Matrix3x4F& transform) const;
     /// Return transformed by a 4x4 matrix.
     Plane Transformed(const Matrix4x4F& transform) const;
     /// Return as a vector.

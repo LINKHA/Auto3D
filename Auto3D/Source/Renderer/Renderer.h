@@ -147,7 +147,7 @@ private:
     /// Batch queues per pass.
     HashMap<unsigned char, BatchQueue> _batchQueues;
     /// Instance transforms for uploading to the instance vertex buffer.
-    Vector<Matrix3x4> _instanceTransforms;
+    Vector<Matrix3x4F> _instanceTransforms;
     /// Lit geometries query result.
     Vector<GeometryNode*> _litGeometries;
     /// %Light lists.

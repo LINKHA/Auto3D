@@ -109,7 +109,7 @@ public:
     /// Return split frustum in view space.
     Frustum ViewSpaceSplitFrustum(float nearClip, float farClip) const;
     /// Return view matrix.
-    const Matrix3x4& ViewMatrix() const;
+    const Matrix3x4F& ViewMatrix() const;
     /// Return either API-specific or API-independent (D3D convention) projection matrix.
     Matrix4x4F ProjectionMatrix(bool apiSpecific = true) const;
     /// Return frustum near and far sizes.
@@ -129,7 +129,7 @@ public:
     /// Return a world rotation for facing a camera on certain axes based on the existing world rotation.
     Quaternion FaceCameraRotation(const Vector3F& position, const Quaternion& rotation, FaceCameraMode mode);
     /// Get effective world transform for matrix and frustum calculations including reflection but excluding node scaling.
-    Matrix3x4 EffectiveWorldTransform() const;
+    Matrix3x4F EffectiveWorldTransform() const;
     /// Return if projection parameters are _valid for rendering and raycasting.
     bool IsProjectionValid() const;
 
@@ -148,7 +148,7 @@ private:
     Vector4F ClipPlaneAttr() const;
 
     /// Cached view matrix.
-    mutable Matrix3x4 _viewMatrix;
+    mutable Matrix3x4F _viewMatrix;
     /// View matrix dirty flag.
     mutable bool _viewMatrixDirty;
     /// Orthographic mode flag.
@@ -180,7 +180,7 @@ private:
     /// Clipping plane.
     Plane _clipPlane;
     /// Reflection matrix calculated from the plane.
-    Matrix3x4 _reflectionMatrix;
+    Matrix3x4F _reflectionMatrix;
     /// Reflection mode enabled flag.
     bool _useReflection;
     /// Use custom clip plane flag.

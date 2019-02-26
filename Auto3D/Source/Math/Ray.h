@@ -98,7 +98,7 @@ public:
     /// Return whether ray is inside indexed geometry.
     bool InsideGeometry(const void* vertexData, size_t vertexSize, const void* indexData, size_t indexSize, size_t indexStart, size_t indexCount) const;
     /// Return transformed by a 3x4 matrix. This may result in a non-normalized direction.
-    Ray Transformed(const Matrix3x4& transform) const;
+    Ray Transformed(const Matrix3x4F& transform) const;
 };
 
 }
