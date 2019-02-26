@@ -12,12 +12,12 @@ namespace Auto3D
 static Vector<SharedPtr<Node> > noChildren;
 
 Node::Node() :
-    flags(NF_ENABLED),
-    layer(LAYER_DEFAULT),
-    tag(TAG_NONE),
-    parent(nullptr),
-    scene(nullptr),
-    id(0)
+    _flags(NF_ENABLED),
+    _layer(LAYER_DEFAULT),
+    _tag(TAG_NONE),
+    _parent(nullptr),
+    _scene(nullptr),
+    _id(0)
 {
 }
 
@@ -25,8 +25,8 @@ Node::~Node()
 {
     RemoveAllChildren();
     // At the time of destruction the node should not have a parent, or be in a scene
-    assert(!parent);
-    assert(!scene);
+    assert(!_parent);
+    assert(!_scene);
 }
 
 void Node::RegisterObject()
@@ -41,7 +41,7 @@ void Node::RegisterObject()
 
 void Node::Load(Stream& source, ObjectResolver& resolver)
 {
-    // Type and id has been read by the parent
+    // Type and _id has been read by the parent
     Serializable::Load(source, resolver);
 
     size_t numChildren = source.ReadVLE();
@@ -71,7 +71,7 @@ void Node::Save(Stream& dest)
     Serializable::Save(dest);
     dest.WriteVLE(NumPersistentChildren());
 
-    for (auto it = children.Begin(); it != children.End(); ++it)
+    for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         Node* child = *it;
         if (!child->IsTemporary())
@@ -81,7 +81,7 @@ void Node::Save(Stream& dest)
 
 void Node::LoadJSON(const JSONValue& source, ObjectResolver& resolver)
 {
-    // Type and id has been read by the parent
+    // Type and _id has been read by the parent
     Serializable::LoadJSON(source, resolver);
     
     const JSONArray& children = source["children"].GetArray();
@@ -111,7 +111,7 @@ void Node::SaveJSON(JSONValue& dest)
     if (NumPersistentChildren())
     {
         dest["children"].SetEmptyArray();
-        for (auto it = children.Begin(); it != children.End(); ++it)
+        for (auto it = _children.Begin(); it != _children.End(); ++it)
         {
             Node* child = *it;
             if (!child->IsTemporary())
@@ -138,46 +138,46 @@ void Node::SetName(const String& newName)
 
 void Node::SetName(const char* newName)
 {
-    name = newName;
+    _name = newName;
 }
 
 void Node::SetLayer(unsigned char newLayer)
 {
-    if (layer < 32)
-        layer = newLayer;
+    if (_layer < 32)
+        _layer = newLayer;
     else
-        LOGERROR("Can not set layer 32 or higher");
+        ErrorString("Can not set layer 32 or higher");
 }
 
 void Node::SetLayerName(const String& newLayerName)
 {
-    if (!scene)
+    if (!_scene)
         return;
     
-    const HashMap<String, unsigned char>& layers = scene->Layers();
+    const HashMap<String, unsigned char>& layers = _scene->Layers();
     auto it = layers.Find(newLayerName);
     if (it != layers.End())
-        layer = it->second;
+        _layer = it->second;
     else
-        LOGERROR("Layer " + newLayerName + " not defined in the scene");
+        ErrorString("Layer " + newLayerName + " not defined in the scene");
 }
 
 void Node::SetTag(unsigned char newTag)
 {
-    tag = newTag;
+    _tag = newTag;
 }
 
 void Node::SetTagName(const String& newTagName)
 {
-    if (!scene)
+    if (!_scene)
         return;
 
-    const HashMap<String, unsigned char>& tags = scene->Tags();
+    const HashMap<String, unsigned char>& tags = _scene->Tags();
     auto it = tags.Find(newTagName);
     if (it != tags.End())
-        tag = it->second;
+        _tag = it->second;
     else
-        LOGERROR("Tag " + newTagName + " not defined in the scene");
+        ErrorString("Tag " + newTagName + " not defined in the scene");
 }
 
 void Node::SetEnabled(bool enable)
@@ -189,7 +189,7 @@ void Node::SetEnabled(bool enable)
 void Node::SetEnabledRecursive(bool enable)
 {
     SetEnabled(enable);
-    for (auto it = children.Begin(); it != children.End(); ++it)
+    for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         Node* child = *it;
         child->SetEnabledRecursive(enable);
@@ -206,7 +206,7 @@ void Node::SetParent(Node* newParent)
     if (newParent)
         newParent->AddChild(this);
     else
-        LOGERROR("Could not set null parent");
+        ErrorString("Could not set null parent");
 }
 
 Node* Node::CreateChild(StringHash childType)
@@ -214,13 +214,13 @@ Node* Node::CreateChild(StringHash childType)
     SharedPtr<Object> newObject = Create(childType);
     if (!newObject)
     {
-        LOGERROR("Could not create child node of unknown type " + childType.ToString());
+        ErrorString("Could not create child node of unknown type " + childType.ToString());
         return nullptr;
     }
     Node* child = dynamic_cast<Node*>(newObject.Get());
     if (!child)
     {
-        LOGERROR(newObject->TypeName() + " is not a Node subclass, could not add as a child");
+        ErrorString(newObject->TypeName() + " is not a Node subclass, could not add as a child");
         return nullptr;
     }
 
@@ -244,45 +244,45 @@ Node* Node::CreateChild(StringHash childType, const char* childName)
 void Node::AddChild(Node* child)
 {
     // Check for illegal or redundant parent assignment
-    if (!child || child->parent == this)
+    if (!child || child->_parent == this)
         return;
     
     if (child == this)
     {
-        LOGERROR("Attempted parenting node to self");
+        ErrorString("Attempted parenting node to self");
         return;
     }
 
     // Check for possible cyclic parent assignment
-    Node* current = parent;
+    Node* current = _parent;
     while (current)
     {
         if (current == child)
         {
-            LOGERROR("Attempted cyclic node parenting");
+            ErrorString("Attempted cyclic node parenting");
             return;
         }
-        current = current->parent;
+        current = current->_parent;
     }
 
-    Node* oldParent = child->parent;
+    Node* oldParent = child->_parent;
     if (oldParent)
-        oldParent->children.Remove(child);
-    children.Push(child);
-    child->parent = this;
+        oldParent->_children.Remove(child);
+    _children.Push(child);
+    child->_parent = this;
     child->OnParentSet(this, oldParent);
-    if (scene)
-        scene->AddNode(child);
+    if (_scene)
+        _scene->AddNode(child);
 }
 
 void Node::RemoveChild(Node* child)
 {
-    if (!child || child->parent != this)
+    if (!child || child->_parent != this)
         return;
 
-    for (size_t i = 0; i < children.Size(); ++i)
+    for (size_t i = 0; i < _children.Size(); ++i)
     {
-        if (children[i] == child)
+        if (_children[i] == child)
         {
             RemoveChild(i);
             break;
@@ -292,64 +292,64 @@ void Node::RemoveChild(Node* child)
 
 void Node::RemoveChild(size_t index)
 {
-    if (index >= children.Size())
+    if (index >= _children.Size())
         return;
 
-    Node* child = children[index];
-    // Detach from both the parent and the scene (removes id assignment)
-    child->parent = nullptr;
+    Node* child = _children[index];
+    // Detach from both the parent and the scene (removes _id assignment)
+    child->_parent = nullptr;
     child->OnParentSet(this, nullptr);
-    if (scene)
-        scene->RemoveNode(child);
-    children.Erase(index);
+    if (_scene)
+        _scene->RemoveNode(child);
+    _children.Erase(index);
 }
 
 void Node::RemoveAllChildren()
 {
-    for (auto it = children.Begin(); it != children.End(); ++it)
+    for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         Node* child = *it;
-        child->parent = nullptr;
+        child->_parent = nullptr;
         child->OnParentSet(this, nullptr);
-        if (scene)
-            scene->RemoveNode(child);
+        if (_scene)
+            _scene->RemoveNode(child);
         it->Reset();
     }
 
-    children.Clear();
+    _children.Clear();
 }
 
 void Node::RemoveSelf()
 {
-    if (parent)
-        parent->RemoveChild(this);
+    if (_parent)
+        _parent->RemoveChild(this);
     else
         delete this;
 }
 
 const String& Node::LayerName() const
 {
-    if (!scene)
+    if (!_scene)
         return String::EMPTY;
 
-    const Vector<String>& layerNames = scene->LayerNames();
-    return layer < layerNames.Size() ? layerNames[layer] : String::EMPTY;
+    const Vector<String>& layerNames = _scene->LayerNames();
+    return _layer < layerNames.Size() ? layerNames[_layer] : String::EMPTY;
 }
 
 const String& Node::TagName() const
 {
-    if (!scene)
+    if (!_scene)
         return String::EMPTY;
 
-    const Vector<String>& tagNames = scene->TagNames();
-    return tag < tagNames.Size() ? tagNames[layer] : String::EMPTY;
+    const Vector<String>& tagNames = _scene->TagNames();
+    return _tag < tagNames.Size() ? tagNames[_layer] : String::EMPTY;
 }
 
 size_t Node::NumPersistentChildren() const
 {
     size_t ret = 0;
 
-    for (auto it = children.Begin(); it != children.End(); ++it)
+    for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         Node* child = *it;
         if (!child->IsTemporary())
@@ -361,7 +361,7 @@ size_t Node::NumPersistentChildren() const
 
 void Node::AllChildren(Vector<Node*>& result) const
 {
-    for (auto it = children.Begin(); it != children.End(); ++it)
+    for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         Node* child = *it;
         result.Push(child);
@@ -376,12 +376,12 @@ Node* Node::FindChild(const String& childName, bool recursive) const
 
 Node* Node::FindChild(const char* childName, bool recursive) const
 {
-    for (auto it = children.Begin(); it != children.End(); ++it)
+    for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         Node* child = *it;
-        if (child->name == childName)
+        if (child->_name == childName)
             return child;
-        else if (recursive && child->children.Size())
+        else if (recursive && child->_children.Size())
         {
             Node* childResult = child->FindChild(childName, recursive);
             if (childResult)
@@ -394,12 +394,12 @@ Node* Node::FindChild(const char* childName, bool recursive) const
 
 Node* Node::FindChild(StringHash childType, bool recursive) const
 {
-    for (auto it = children.Begin(); it != children.End(); ++it)
+    for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         Node* child = *it;
         if (child->Type() == childType)
             return child;
-        else if (recursive && child->children.Size())
+        else if (recursive && child->_children.Size())
         {
             Node* childResult = child->FindChild(childType, recursive);
             if (childResult)
@@ -417,12 +417,12 @@ Node* Node::FindChild(StringHash childType, const String& childName, bool recurs
 
 Node* Node::FindChild(StringHash childType, const char* childName, bool recursive) const
 {
-    for (auto it = children.Begin(); it != children.End(); ++it)
+    for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         Node* child = *it;
-        if (child->Type() == childType && child->name == childName)
+        if (child->Type() == childType && child->_name == childName)
             return child;
-        else if (recursive && child->children.Size())
+        else if (recursive && child->_children.Size())
         {
             Node* childResult = child->FindChild(childType, childName, recursive);
             if (childResult)
@@ -435,12 +435,12 @@ Node* Node::FindChild(StringHash childType, const char* childName, bool recursiv
 
 Node* Node::FindChildByLayer(unsigned layerMask, bool recursive) const
 {
-    for (auto it = children.Begin(); it != children.End(); ++it)
+    for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         Node* child = *it;
         if (child->LayerMask() && layerMask)
             return child;
-        else if (recursive && child->children.Size())
+        else if (recursive && child->_children.Size())
         {
             Node* childResult = child->FindChildByLayer(layerMask, recursive);
             if (childResult)
@@ -451,16 +451,16 @@ Node* Node::FindChildByLayer(unsigned layerMask, bool recursive) const
     return nullptr;
 }
 
-Node* Node::FindChildByTag(unsigned char tag_, bool recursive) const
+Node* Node::FindChildByTag(unsigned char tag, bool recursive) const
 {
-    for (auto it = children.Begin(); it != children.End(); ++it)
+    for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         Node* child = *it;
-        if (child->tag == tag_)
+        if (child->_tag == tag)
             return child;
-        else if (recursive && child->children.Size())
+        else if (recursive && child->_children.Size())
         {
-            Node* childResult = child->FindChildByTag(tag_, recursive);
+            Node* childResult = child->FindChildByTag(tag, recursive);
             if (childResult)
                 return childResult;
         }
@@ -476,12 +476,12 @@ Node* Node::FindChildByTag(const String& tagName, bool recursive) const
 
 Node* Node::FindChildByTag(const char* tagName, bool recursive) const
 {
-    for (auto it = children.Begin(); it != children.End(); ++it)
+    for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         Node* child = *it;
         if (!String::Compare(child->TagName().CString(), tagName))
             return child;
-        else if (recursive && child->children.Size())
+        else if (recursive && child->_children.Size())
         {
             Node* childResult = child->FindChildByTag(tagName, recursive);
             if (childResult)
@@ -494,37 +494,37 @@ Node* Node::FindChildByTag(const char* tagName, bool recursive) const
 
 void Node::FindChildren(Vector<Node*>& result, StringHash childType, bool recursive) const
 {
-    for (auto it = children.Begin(); it != children.End(); ++it)
+    for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         Node* child = *it;
         if (child->Type() == childType)
             result.Push(child);
-        if (recursive && child->children.Size())
+        if (recursive && child->_children.Size())
             child->FindChildren(result, childType, recursive);
     }
 }
 
 void Node::FindChildrenByLayer(Vector<Node*>& result, unsigned layerMask, bool recursive) const
 {
-    for (auto it = children.Begin(); it != children.End(); ++it)
+    for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         Node* child = *it;
         if (child->LayerMask() & layerMask)
             result.Push(child);
-        if (recursive && child->children.Size())
+        if (recursive && child->_children.Size())
             child->FindChildrenByLayer(result, layerMask, recursive);
     }
 }
 
-void Node::FindChildrenByTag(Vector<Node*>& result, unsigned char tag_, bool recursive) const
+void Node::FindChildrenByTag(Vector<Node*>& result, unsigned char tag, bool recursive) const
 {
-    for (auto it = children.Begin(); it != children.End(); ++it)
+    for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         Node* child = *it;
-        if (child->tag == tag_)
+        if (child->_tag == tag)
             result.Push(child);
-        if (recursive && child->children.Size())
-            child->FindChildrenByTag(result, tag_, recursive);
+        if (recursive && child->_children.Size())
+            child->FindChildrenByTag(result, tag, recursive);
     }
 }
 
@@ -535,26 +535,26 @@ void Node::FindChildrenByTag(Vector<Node*>& result, const String& tagName, bool 
 
 void Node::FindChildrenByTag(Vector<Node*>& result, const char* tagName, bool recursive) const
 {
-    for (auto it = children.Begin(); it != children.End(); ++it)
+    for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         Node* child = *it;
         if (!String::Compare(child->TagName().CString(), tagName))
             result.Push(child);
-        if (recursive && child->children.Size())
+        if (recursive && child->_children.Size())
             child->FindChildrenByTag(result, tagName, recursive);
     }
 }
 
 void Node::SetScene(Scene* newScene)
 {
-    Scene* oldScene = scene;
-    scene = newScene;
-    OnSceneSet(scene, oldScene);
+    Scene* oldScene = _scene;
+    _scene = newScene;
+    OnSceneSet(_scene, oldScene);
 }
 
 void Node::SetId(unsigned newId)
 {
-    id = newId;
+    _id = newId;
 }
 
 void Node::SkipHierarchy(Stream& source)

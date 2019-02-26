@@ -34,7 +34,7 @@ public:
     /// Recreate the GPU resource after data loss.
     void Recreate() override;
 
-    /// Define texture type and dimensions and set initial data. %ImageLevel structures only need the data pointer and row byte size filled. Return true on success.
+    /// Define texture type and dimensions and set initial data. %ImageLevel structures only need the data pointer and row byte _size filled. Return true on success.
     bool Define(TextureType type, ResourceUsage usage, const IntVector2& size, ImageFormat format, size_t numLevels, const ImageLevel* initialData = 0);
     /// Define sampling parameters. Return true on success.
     bool DefineSampler(TextureFilterMode filter = FILTER_TRILINEAR, TextureAddressMode u = ADDRESS_WRAP, TextureAddressMode v = ADDRESS_WRAP, TextureAddressMode w = ADDRESS_WRAP, unsigned maxAnisotropy = 16, float minLod = -M_MAX_FLOAT, float maxLod = M_MAX_FLOAT, const Color& borderColor = Color::BLACK);
@@ -42,65 +42,65 @@ public:
     bool SetData(size_t face, size_t level, IntRect rect, const ImageLevel& data);
 
     /// Return texture type.
-    TextureType TexType() const { return type; }
+    TextureType TexType() const { return _type; }
     /// Return dimensions.
-    const IntVector2& Size() const { return size; }
+    const IntVector2& Size() const { return _size; }
     /// Return width.
-    int Width() const { return size.x; }
+    int Width() const { return _size._x; }
     /// Return height.
-    int Height() const { return size.y; }
+    int Height() const { return _size._y; }
     /// Return image format.
-    ImageFormat Format() const { return format; }
+    ImageFormat Format() const { return _format; }
     /// Return whether uses a compressed format.
-    bool IsCompressed() const { return format >= FMT_DXT1; }
+    bool IsCompressed() const { return _format >= FMT_DXT1; }
     /// Return number of mipmap levels.
-    size_t NumLevels() const { return numLevels; }
+    size_t NumLevels() const { return _numLevels; }
     /// Return number of faces or Z-slices.
     size_t NumFaces() const;
     /// Return resource usage type.
-    ResourceUsage Usage() const { return usage; }
+    ResourceUsage Usage() const { return _usage; }
     /// Return whether is dynamic.
-    bool IsDynamic() const { return usage == USAGE_DYNAMIC; }
+    bool IsDynamic() const { return _usage == USAGE_DYNAMIC; }
     /// Return whether is immutable.
-    bool IsImmutable() const { return usage == USAGE_IMMUTABLE; }
+    bool IsImmutable() const { return _usage == USAGE_IMMUTABLE; }
     /// Return whether is a color rendertarget texture.
-    bool IsRenderTarget() const { return usage == USAGE_RENDERTARGET && (format < FMT_D16 || format > FMT_D24S8); }
+    bool IsRenderTarget() const { return _usage == USAGE_RENDERTARGET && (_format < FMT_D16 || _format > FMT_D24S8); }
     /// Return whether is a depth-stencil texture.
-    bool IsDepthStencil() const { return usage == USAGE_RENDERTARGET && format >= FMT_D16 && format <= FMT_D24S8; }
+    bool IsDepthStencil() const { return _usage == USAGE_RENDERTARGET && _format >= FMT_D16 && _format <= FMT_D24S8; }
 
     /// Return the OpenGL texture identifier. Used internally and should not be called by portable application code.
-    unsigned GLTexture() const { return texture; }
+    unsigned GLTexture() const { return _texture; }
     /// Return the OpenGL binding target of the texture. Used internally and should not be called by portable application code.
     unsigned GLTarget() const;
 
     /// Texture filtering mode.
-    TextureFilterMode filter;
+    TextureFilterMode _filter;
     /// Texture addressing modes for each coordinate axis.
-    TextureAddressMode addressModes[3];
+    TextureAddressMode _addressModes[3];
     /// Maximum anisotropy.
-    unsigned maxAnisotropy;
+    unsigned _maxAnisotropy;
     /// Minimum LOD.
-    float minLod;
+    float _minLod;
     /// Maximum LOD.
-    float maxLod;
+    float _maxLod;
     /// Border color. Only effective in border addressing mode.
-    Color borderColor;
+    Color _borderColor;
 
 private:
     /// OpenGL texture object identifier.
-    unsigned texture;
+    unsigned _texture;
     /// Texture type.
-    TextureType type;
+    TextureType _type;
     /// Texture usage mode.
-    ResourceUsage usage;
+    ResourceUsage _usage;
     /// Texture dimensions in pixels.
-    IntVector2 size;
+    IntVector2 _size;
     /// Image format.
-    ImageFormat format;
+    ImageFormat _format;
     /// Number of mipmap levels.
-    size_t numLevels;
+    size_t _numLevels;
     /// Images used for loading.
-    Vector<AutoPtr<Image> > loadImages;
+    Vector<AutoPtr<Image> > _loadImages;
 };
 
 }

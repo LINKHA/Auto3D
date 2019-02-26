@@ -18,7 +18,7 @@ void VectorBase::Swap(VectorBase& vector)
 
 unsigned char* VectorBase::AllocateBuffer(size_t size)
 {
-    // Include space for size and capacity
+    // Include space for _size and capacity
     return new unsigned char[size + 2 * sizeof(size_t)];
 }
 

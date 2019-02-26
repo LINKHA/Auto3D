@@ -30,26 +30,26 @@ public:
     bool SetData(size_t firstVertex, size_t numVertices, const void* data);
 
     /// Return CPU-side shadow data if exists.
-    unsigned char* ShadowData() const { return shadowData.Get(); }
+    unsigned char* ShadowData() const { return _shadowData.Get(); }
     /// Return number of vertices.
-    size_t NumVertices() const { return numVertices; }
+    size_t NumVertices() const { return _numVertices; }
     /// Return number of vertex elements.
-    size_t NumElements() const { return elements.Size(); }
+    size_t NumElements() const { return _elements.Size(); }
     /// Return vertex elements.
-    const Vector<VertexElement>& Elements() const { return elements; }
-    /// Return size of vertex in bytes.
-    size_t VertexSize() const { return vertexSize; }
+    const Vector<VertexElement>& Elements() const { return _elements; }
+    /// Return _size of vertex in bytes.
+    size_t VertexSize() const { return _vertexSize; }
     /// Return vertex declaration hash code.
-    unsigned ElementHash() const { return elementHash; }
+    unsigned ElementHash() const { return _elementHash; }
     /// Return resource usage type.
-    ResourceUsage Usage() const { return usage; }
+    ResourceUsage Usage() const { return _usage; }
     /// Return whether is dynamic.
-    bool IsDynamic() const { return usage == USAGE_DYNAMIC; }
+    bool IsDynamic() const { return _usage == USAGE_DYNAMIC; }
     /// Return whether is immutable.
-    bool IsImmutable() const { return usage == USAGE_IMMUTABLE; }
+    bool IsImmutable() const { return _usage == USAGE_IMMUTABLE; }
 
     /// Return the OpenGL buffer identifier. Used internally and should not be called by portable application code.
-    unsigned GLBuffer() const { return buffer; }
+    unsigned GLBuffer() const { return _buffer; }
 
     /// Compute the hash code of one vertex element by index and semantic.
     static unsigned ElementHash(size_t index, ElementSemantic semantic) { return (semantic + 1) << (index * 3); }
@@ -64,19 +64,19 @@ private:
     bool Create(const void* data);
 
     /// OpenGL buffer object identifier.
-    unsigned buffer;
+    unsigned _buffer;
     /// CPU-side shadow data.
-    AutoArrayPtr<unsigned char> shadowData;
+    AutoArrayPtr<unsigned char> _shadowData;
     /// Number of vertices.
-    size_t numVertices;
+    size_t _numVertices;
     /// Size of vertex in bytes.
-    size_t vertexSize;
+    size_t _vertexSize;
     /// Vertex elements.
-    Vector<VertexElement> elements;
+    Vector<VertexElement> _elements;
     /// Vertex element hash code.
-    unsigned elementHash;
+    unsigned _elementHash;
     /// Resource usage type.
-    ResourceUsage usage;
+    ResourceUsage _usage;
 };
 
 }

@@ -28,25 +28,25 @@ bool ResourceCache::AddResourceDir(const String& pathName, bool addFirst)
 
     if (!DirExists(pathName))
     {
-        LOGERROR("Could not open directory " + pathName);
+        ErrorString("Could not open directory " + pathName);
         return false;
     }
 
     String fixedPath = SanitateResourceDirName(pathName);
 
     // Check that the same path does not already exist
-    for (size_t i = 0; i < resourceDirs.Size(); ++i)
+    for (size_t i = 0; i < _resourceDirs.Size(); ++i)
     {
-        if (!resourceDirs[i].Compare(fixedPath, false))
+        if (!_resourceDirs[i].Compare(fixedPath, false))
             return true;
     }
 
     if (addFirst)
-        resourceDirs.Insert(0, fixedPath);
+        _resourceDirs.Insert(0, fixedPath);
     else
-        resourceDirs.Push(fixedPath);
+        _resourceDirs.Push(fixedPath);
 
-    LOGINFO("Added resource path " + fixedPath);
+    InfoString("Added resource path " + fixedPath);
     return true;
 }
 
@@ -54,17 +54,17 @@ bool ResourceCache::AddManualResource(Resource* resource)
 {
     if (!resource)
     {
-        LOGERROR("Null manual resource");
+        ErrorString("Null manual resource");
         return false;
     }
 
     if (resource->Name().IsEmpty())
     {
-        LOGERROR("Manual resource with empty name, can not add");
+        ErrorString("Manual resource with empty name, can not add");
         return false;
     }
 
-    resources[MakePair(resource->Type(), StringHash(resource->Name()))] = resource;
+    _resources[MakePair(resource->Type(), StringHash(resource->Name()))] = resource;
     return true;
 }
 
@@ -73,12 +73,12 @@ void ResourceCache::RemoveResourceDir(const String& pathName)
     // Convert path to absolute
     String fixedPath = SanitateResourceDirName(pathName);
 
-    for (size_t i = 0; i < resourceDirs.Size(); ++i)
+    for (size_t i = 0; i < _resourceDirs.Size(); ++i)
     {
-        if (!resourceDirs[i].Compare(fixedPath, false))
+        if (!_resourceDirs[i].Compare(fixedPath, false))
         {
-            resourceDirs.Erase(i);
-            LOGINFO("Removed resource path " + fixedPath);
+            _resourceDirs.Erase(i);
+            InfoString("Removed resource path " + fixedPath);
             return;
         }
     }
@@ -87,23 +87,23 @@ void ResourceCache::RemoveResourceDir(const String& pathName)
 void ResourceCache::UnloadResource(StringHash type, const String& name, bool force)
 {
     auto key = MakePair(type, StringHash(name));
-    auto it = resources.Find(key);
-    if (it == resources.End())
+    auto it = _resources.Find(key);
+    if (it == _resources.End())
         return;
 
     Resource* resource = it->second;
     if (resource->Refs() == 1 || force)
-        resources.Erase(key);
+        _resources.Erase(key);
 }
 
 void ResourceCache::UnloadResources(StringHash type, bool force)
 {
-    // In case resources refer to other resources, repeat until there are no further unloads
+    // In case resources refer to other resources, _repeat until there are no further unloads
     for (;;)
     {
         size_t unloaded = 0;
 
-        for (auto it = resources.Begin(); it != resources.End();)
+        for (auto it = _resources.Begin(); it != _resources.End();)
         {
             auto current = it++;
             if (current->first.first == type)
@@ -111,7 +111,7 @@ void ResourceCache::UnloadResources(StringHash type, bool force)
                 Resource* resource = current->second;
                 if (resource->Refs() == 1 || force)
                 {
-                    resources.Erase(current);
+                    _resources.Erase(current);
                     ++unloaded;
                 }
             }
@@ -124,12 +124,12 @@ void ResourceCache::UnloadResources(StringHash type, bool force)
 
 void ResourceCache::UnloadResources(StringHash type, const String& partialName, bool force)
 {
-    // In case resources refer to other resources, repeat until there are no further unloads
+    // In case resources refer to other resources, _repeat until there are no further unloads
     for (;;)
     {
         size_t unloaded = 0;
 
-        for (auto it = resources.Begin(); it != resources.End();)
+        for (auto it = _resources.Begin(); it != _resources.End();)
         {
             auto current = it++;
             if (current->first.first == type)
@@ -137,7 +137,7 @@ void ResourceCache::UnloadResources(StringHash type, const String& partialName, 
                 Resource* resource = current->second;
                 if (resource->Name().StartsWith(partialName) && (resource->Refs() == 1 || force))
                 {
-                    resources.Erase(current);
+                    _resources.Erase(current);
                     ++unloaded;
                 }
             }
@@ -150,18 +150,18 @@ void ResourceCache::UnloadResources(StringHash type, const String& partialName, 
 
 void ResourceCache::UnloadResources(const String& partialName, bool force)
 {
-    // In case resources refer to other resources, repeat until there are no further unloads
+    // In case resources refer to other resources, _repeat until there are no further unloads
     for (;;)
     {
         size_t unloaded = 0;
 
-        for (auto it = resources.Begin(); it != resources.End();)
+        for (auto it = _resources.Begin(); it != _resources.End();)
         {
             auto current = it++;
             Resource* resource = current->second;
             if (resource->Name().StartsWith(partialName) && (!resource->Refs() == 1 || force))
             {
-                resources.Erase(current);
+                _resources.Erase(current);
                 ++unloaded;
             }
         }
@@ -173,18 +173,18 @@ void ResourceCache::UnloadResources(const String& partialName, bool force)
 
 void ResourceCache::UnloadAllResources(bool force)
 {
-    // In case resources refer to other resources, repeat until there are no further unloads
+    // In case resources refer to other resources, _repeat until there are no further unloads
     for (;;)
     {
         size_t unloaded = 0;
 
-        for (auto it = resources.Begin(); it != resources.End();)
+        for (auto it = _resources.Begin(); it != _resources.End();)
         {
             auto current = it++;
             Resource* resource = current->second;
             if (resource->Refs() == 1 || force)
             {
-                resources.Erase(current);
+                _resources.Erase(current);
                 ++unloaded;
             }
         }
@@ -208,13 +208,13 @@ AutoPtr<Stream> ResourceCache::OpenResource(const String& nameIn)
     String name = SanitateResourceName(nameIn);
     AutoPtr<Stream> ret;
 
-    for (size_t i = 0; i < resourceDirs.Size(); ++i)
+    for (size_t i = 0; i < _resourceDirs.Size(); ++i)
     {
-        if (FileExists(resourceDirs[i] + name))
+        if (FileExists(_resourceDirs[i] + name))
         {
             // Construct the file first with full path, then rename it to not contain the resource path,
             // so that the file's name can be used in further OpenResource() calls (for example over the network)
-            ret = new File(resourceDirs[i] + name);
+            ret = new File(_resourceDirs[i] + name);
             break;
         }
     }
@@ -225,7 +225,7 @@ AutoPtr<Stream> ResourceCache::OpenResource(const String& nameIn)
 
     if (!ret->IsReadable())
     {
-        LOGERROR("Could not open resource file " + name);
+        ErrorString("Could not open resource file " + name);
         ret.Reset();
     }
 
@@ -242,20 +242,20 @@ Resource* ResourceCache::LoadResource(StringHash type, const String& nameIn)
 
     // Check for existing resource
     auto key = MakePair(type, StringHash(name));
-    auto it = resources.Find(key);
-    if (it != resources.End())
+    auto it = _resources.Find(key);
+    if (it != _resources.End())
         return it->second;
 
     SharedPtr<Object> newObject = Create(type);
     if (!newObject)
     {
-        LOGERROR("Could not load unknown resource type " + String(type));
+        ErrorString("Could not load unknown resource type " + String(type));
         return nullptr;
     }
     Resource* newResource = dynamic_cast<Resource*>(newObject.Get());
     if (!newResource)
     {
-        LOGERROR("Type " + String(type) + " is not a resource");
+        ErrorString("Type " + String(type) + " is not a resource");
         return nullptr;
     }
 
@@ -264,13 +264,13 @@ Resource* ResourceCache::LoadResource(StringHash type, const String& nameIn)
     if (!stream)
         return nullptr;
 
-    LOGDEBUG("Loading resource " + name);
+    LogString("Loading resource " + name);
     newResource->SetName(name);
     if (!newResource->Load(*stream))
         return nullptr;
 
     // Store to cache
-    resources[key] = newResource;
+    _resources[key] = newResource;
     return newResource;
 }
 
@@ -278,7 +278,7 @@ void ResourceCache::ResourcesByType(Vector<Resource*>& result, StringHash type) 
 {
     result.Clear();
 
-    for (auto it = resources.Begin(); it != resources.End(); ++it)
+    for (auto it = _resources.Begin(); it != _resources.End(); ++it)
     {
         if (it->second->Type() == type)
             result.Push(it->second);
@@ -289,9 +289,9 @@ bool ResourceCache::Exists(const String& nameIn) const
 {
     String name = SanitateResourceName(nameIn);
 
-    for (size_t i = 0; i < resourceDirs.Size(); ++i)
+    for (size_t i = 0; i < _resourceDirs.Size(); ++i)
     {
-        if (FileExists(resourceDirs[i] + name))
+        if (FileExists(_resourceDirs[i] + name))
             return true;
     }
 
@@ -301,10 +301,10 @@ bool ResourceCache::Exists(const String& nameIn) const
 
 String ResourceCache::ResourceFileName(const String& name) const
 {
-    for (unsigned i = 0; i < resourceDirs.Size(); ++i)
+    for (unsigned i = 0; i < _resourceDirs.Size(); ++i)
     {
-        if (FileExists(resourceDirs[i] + name))
-            return resourceDirs[i] + name;
+        if (FileExists(_resourceDirs[i] + name))
+            return _resourceDirs[i] + name;
     }
 
     return String();
@@ -318,18 +318,18 @@ String ResourceCache::SanitateResourceName(const String& nameIn) const
     name.Replace("./", "");
 
     // If the path refers to one of the resource directories, normalize the resource name
-    if (resourceDirs.Size())
+    if (_resourceDirs.Size())
     {
         String namePath = Path(name);
         String exePath = ExecutableDir();
-        for (unsigned i = 0; i < resourceDirs.Size(); ++i)
+        for (unsigned i = 0; i < _resourceDirs.Size(); ++i)
         {
-            String relativeResourcePath = resourceDirs[i];
+            String relativeResourcePath = _resourceDirs[i];
             if (relativeResourcePath.StartsWith(exePath))
                 relativeResourcePath = relativeResourcePath.Substring(exePath.Length());
 
-            if (namePath.StartsWith(resourceDirs[i], false))
-                namePath = namePath.Substring(resourceDirs[i].Length());
+            if (namePath.StartsWith(_resourceDirs[i], false))
+                namePath = namePath.Substring(_resourceDirs[i].Length());
             else if (namePath.StartsWith(relativeResourcePath, false))
                 namePath = namePath.Substring(relativeResourcePath.Length());
         }

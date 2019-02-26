@@ -12,16 +12,16 @@
 namespace Auto3D
 {
 
-SharedPtr<Material> Material::defaultMaterial;
-HashMap<String, unsigned char> Material::passIndices;
-Vector<String> Material::passNames;
-unsigned char Material::nextPassIndex = 0;
+SharedPtr<Material> Material::_defaultMaterial;
+HashMap<String, unsigned char> Material::_passIndices;
+Vector<String> Material::_passNames;
+unsigned char Material::_nextPassIndex = 0;
 
 Pass::Pass(Material* parent_, const String& name_) :
-    parent(parent_),
-    name(name_),
-    shaderHash(0),
-    shadersLoaded(false)
+    _parent(parent_),
+    _name(name_),
+    _shaderHash(0),
+    _shadersLoaded(false)
 {
     Reset();
 }
@@ -33,48 +33,48 @@ Pass::~Pass()
 bool Pass::LoadJSON(const JSONValue& source)
 {
     if (source.Contains("vs"))
-        shaderNames[SHADER_VS] = source["vs"].GetString();
+        _shaderNames[SHADER_VS] = source["vs"].GetString();
     if (source.Contains("ps"))
-        shaderNames[SHADER_PS] = source["ps"].GetString();
+        _shaderNames[SHADER_PS] = source["ps"].GetString();
     if (source.Contains("vsDefines"))
-        shaderDefines[SHADER_VS] = source["vsDefines"].GetString();
+        _shaderDefines[SHADER_VS] = source["vsDefines"].GetString();
     if (source.Contains("psDefines"))
-        shaderDefines[SHADER_PS] = source["psDefines"].GetString();
+        _shaderDefines[SHADER_PS] = source["psDefines"].GetString();
 
     if (source.Contains("depthFunc"))
-        depthFunc = (CompareFunc)String::ListIndex(source["depthFunc"].GetString(), compareFuncNames, CMP_LESS_EQUAL);
+        _depthFunc = (CompareFunc)String::ListIndex(source["depthFunc"].GetString(), compareFuncNames, CMP_LESS_EQUAL);
     if (source.Contains("depthWrite"))
-        depthWrite = source["depthWrite"].GetBool();
+        _depthWrite = source["depthWrite"].GetBool();
     if (source.Contains("depthClip"))
-        depthClip = source["depthClip"].GetBool();
+        _depthClip = source["depthClip"].GetBool();
     if (source.Contains("alphaToCoverage"))
-        alphaToCoverage = source["alphaToCoverage"].GetBool();
+        _alphaToCoverage = source["alphaToCoverage"].GetBool();
     if (source.Contains("colorWriteMask"))
-        colorWriteMask = (unsigned char)source["colorWriteMask"].GetNumber();
+        _colorWriteMask = (unsigned char)source["colorWriteMask"].GetNumber();
     if (source.Contains("blendMode"))
-        blendMode = blendModes[String::ListIndex(source["blendMode"].GetString(), blendModeNames, BLEND_MODE_REPLACE)];
+        _blendMode = blendModes[String::ListIndex(source["blendMode"].GetString(), blendModeNames, BLEND_MODE_REPLACE)];
     else
     {
         if (source.Contains("blendEnable"))
-            blendMode.blendEnable = source["blendEnable"].GetBool();
+            _blendMode._blendEnable = source["blendEnable"].GetBool();
         if (source.Contains("srcBlend"))
-            blendMode.srcBlend = (BlendFactor)String::ListIndex(source["srcBlend"].GetString(), blendFactorNames, BLEND_ONE);
+            _blendMode._srcBlend = (BlendFactor)String::ListIndex(source["srcBlend"].GetString(), blendFactorNames, BLEND_ONE);
         if (source.Contains("destBlend"))
-            blendMode.destBlend = (BlendFactor)String::ListIndex(source["destBlend"].GetString(), blendFactorNames, BLEND_ONE);
+            _blendMode._destBlend = (BlendFactor)String::ListIndex(source["destBlend"].GetString(), blendFactorNames, BLEND_ONE);
         if (source.Contains("blendOp"))
-            blendMode.blendOp = (BlendOp)String::ListIndex(source["blendOp"].GetString(), blendOpNames, BLEND_OP_ADD);
+            _blendMode._blendOp = (BlendOp)String::ListIndex(source["blendOp"].GetString(), blendOpNames, BLEND_OP_ADD);
         if (source.Contains("srcBlendAlpha"))
-            blendMode.srcBlendAlpha = (BlendFactor)String::ListIndex(source["srcBlendAlpha"].GetString(), blendFactorNames, BLEND_ONE);
+            _blendMode._srcBlendAlpha = (BlendFactor)String::ListIndex(source["srcBlendAlpha"].GetString(), blendFactorNames, BLEND_ONE);
         if (source.Contains("destBlendAlpha"))
-            blendMode.destBlendAlpha = (BlendFactor)String::ListIndex(source["destBlendAlpha"].GetString(), blendFactorNames, BLEND_ONE);
+            _blendMode._destBlendAlpha = (BlendFactor)String::ListIndex(source["destBlendAlpha"].GetString(), blendFactorNames, BLEND_ONE);
         if (source.Contains("blendOpAlpha"))
-            blendMode.blendOpAlpha = (BlendOp)String::ListIndex(source["blendOpAlpha"].GetString(), blendOpNames, BLEND_OP_ADD);
+            _blendMode._blendOpAlpha = (BlendOp)String::ListIndex(source["blendOpAlpha"].GetString(), blendOpNames, BLEND_OP_ADD);
     }
 
     if (source.Contains("fillMode"))
-        fillMode = (FillMode)String::ListIndex(source["fillMode"].GetString(), fillModeNames, FILL_SOLID);
+        _fillMode = (FillMode)String::ListIndex(source["fillMode"].GetString(), fillModeNames, FILL_SOLID);
     if (source.Contains("cullMode"))
-        cullMode = (CullMode)String::ListIndex(source["cullMode"].GetString(), cullModeNames, CULL_BACK);
+        _cullMode = (CullMode)String::ListIndex(source["cullMode"].GetString(), cullModeNames, CULL_BACK);
 
     OnShadersChanged();
     return true;
@@ -84,26 +84,26 @@ bool Pass::SaveJSON(JSONValue& dest)
 {
     dest.SetEmptyObject();
 
-    if (shaderNames[SHADER_VS].Length())
-        dest["vs"] = shaderNames[SHADER_VS];
-    if (shaderNames[SHADER_PS].Length())
-        dest["ps"] = shaderNames[SHADER_PS];
-    if (shaderDefines[SHADER_VS].Length())
-        dest["vsDefines"] = shaderDefines[SHADER_VS];
-    if (shaderDefines[SHADER_PS].Length())
-        dest["psDefines"] = shaderDefines[SHADER_PS];
+    if (_shaderNames[SHADER_VS].Length())
+        dest["vs"] = _shaderNames[SHADER_VS];
+    if (_shaderNames[SHADER_PS].Length())
+        dest["ps"] = _shaderNames[SHADER_PS];
+    if (_shaderDefines[SHADER_VS].Length())
+        dest["vsDefines"] = _shaderDefines[SHADER_VS];
+    if (_shaderDefines[SHADER_PS].Length())
+        dest["psDefines"] = _shaderDefines[SHADER_PS];
 
-    dest["depthFunc"] = compareFuncNames[depthFunc];
-    dest["depthWrite"] = depthWrite;
-    dest["depthClip"] = depthClip;
-    dest["alphaToCoverage"] = alphaToCoverage;
-    dest["colorWriteMask"] = colorWriteMask;
+    dest["depthFunc"] = compareFuncNames[_depthFunc];
+    dest["depthWrite"] = _depthWrite;
+    dest["depthClip"] = _depthClip;
+    dest["alphaToCoverage"] = _alphaToCoverage;
+    dest["colorWriteMask"] = _colorWriteMask;
 
     // Prefer saving a predefined blend mode if possible for better readability
     bool blendModeFound = false;
     for (size_t i = 0; i < MAX_BLEND_MODES; ++i)
     {
-        if (blendMode == blendModes[i])
+        if (_blendMode == blendModes[i])
         {
             dest["blendMode"] = blendModeNames[i];
             blendModeFound = true;
@@ -113,50 +113,50 @@ bool Pass::SaveJSON(JSONValue& dest)
 
     if (!blendModeFound)
     {
-        dest["blendEnable"] = blendMode.blendEnable;
-        dest["srcBlend"] = blendFactorNames[blendMode.srcBlend];
-        dest["destBlend"] = blendFactorNames[blendMode.destBlend];
-        dest["blendOp"] = blendOpNames[blendMode.blendOp];
-        dest["srcBlendAlpha"] = blendFactorNames[blendMode.srcBlendAlpha];
-        dest["destBlendAlpha"] = blendFactorNames[blendMode.destBlendAlpha];
-        dest["blendOpAlpha"] = blendOpNames[blendMode.blendOpAlpha];
+        dest["blendEnable"] = _blendMode._blendEnable;
+        dest["srcBlend"] = blendFactorNames[_blendMode._srcBlend];
+        dest["destBlend"] = blendFactorNames[_blendMode._destBlend];
+        dest["blendOp"] = blendOpNames[_blendMode._blendOp];
+        dest["srcBlendAlpha"] = blendFactorNames[_blendMode._srcBlendAlpha];
+        dest["destBlendAlpha"] = blendFactorNames[_blendMode._destBlendAlpha];
+        dest["blendOpAlpha"] = blendOpNames[_blendMode._blendOpAlpha];
     }
 
-    dest["fillMode"] = fillModeNames[fillMode];
-    dest["cullMode"] = cullModeNames[cullMode];
+    dest["fillMode"] = fillModeNames[_fillMode];
+    dest["cullMode"] = cullModeNames[_cullMode];
 
     return true;
 }
 
 void Pass::SetBlendMode(BlendMode mode)
 {
-    blendMode = blendModes[mode];
+    _blendMode = blendModes[mode];
 }
 
 void Pass::SetShaders(const String& vsName, const String& psName, const String& vsDefines, const String& psDefines)
 {
-    shaderNames[SHADER_VS] = vsName;
-    shaderNames[SHADER_PS] = psName;
-    shaderDefines[SHADER_VS] = vsDefines;
-    shaderDefines[SHADER_PS] = psDefines;
+    _shaderNames[SHADER_VS] = vsName;
+    _shaderNames[SHADER_PS] = psName;
+    _shaderDefines[SHADER_VS] = vsDefines;
+    _shaderDefines[SHADER_PS] = psDefines;
     OnShadersChanged();
 }
 
 void Pass::Reset()
 {
-    depthFunc = CMP_LESS_EQUAL;
-    depthWrite = true;
-    depthClip = true;
-    alphaToCoverage = false;
-    colorWriteMask = COLORMASK_ALL;
-    blendMode.Reset();
-    cullMode = CULL_BACK;
-    fillMode = FILL_SOLID;
+    _depthFunc = CMP_LESS_EQUAL;
+    _depthWrite = true;
+    _depthClip = true;
+    _alphaToCoverage = false;
+    _colorWriteMask = COLORMASK_ALL;
+    _blendMode.Reset();
+    _cullMode = CULL_BACK;
+    _fillMode = FILL_SOLID;
 }
 
 Material* Pass::Parent() const
 {
-    return parent;
+    return _parent;
 }
 
 void Pass::OnShadersChanged()
@@ -164,24 +164,24 @@ void Pass::OnShadersChanged()
     // Reset existing variations
     for (size_t i = 0; i < MAX_SHADER_STAGES; ++i)
     {
-        shaders[i].Reset();
-        shaderVariations[i].Clear();
+        _shaders[i].Reset();
+        _shaderVariations[i].Clear();
     }
 
-    shadersLoaded = false;
+    _shadersLoaded = false;
 
     // Combine and trim the shader defines
     for (size_t i = 0; i < MAX_SHADER_STAGES; ++i)
     {
-        const String& materialDefines = parent->ShaderDefines((ShaderStage)i);
+        const String& materialDefines = _parent->ShaderDefines((ShaderStage)i);
         if (materialDefines.Length())
-            combinedShaderDefines[i] = (materialDefines.Trimmed() + " " + shaderDefines[i]).Trimmed();
+            _combinedShaderDefines[i] = (materialDefines.Trimmed() + " " + _shaderDefines[i]).Trimmed();
         else
-            combinedShaderDefines[i] = shaderDefines[i].Trimmed();
+            _combinedShaderDefines[i] = _shaderDefines[i].Trimmed();
     }
 
-    shaderHash = StringHash(shaderNames[SHADER_VS] + shaderNames[SHADER_PS] + combinedShaderDefines[SHADER_VS] +
-        combinedShaderDefines[SHADER_PS]).Value();
+    _shaderHash = StringHash(_shaderNames[SHADER_VS] + _shaderNames[SHADER_PS] + _combinedShaderDefines[SHADER_VS] +
+        _combinedShaderDefines[SHADER_PS]).Value();
 }
 
 Material::Material()
@@ -201,18 +201,18 @@ bool Material::BeginLoad(Stream& source)
 {
     PROFILE(BeginLoadMaterial);
 
-    loadJSON = new JSONFile();
-    if (!loadJSON->Load(source))
+    _loadJSON = new JSONFile();
+    if (!_loadJSON->Load(source))
         return false;
 
-    const JSONValue& root = loadJSON->Root();
+    const JSONValue& root = _loadJSON->Root();
 
-    shaderDefines[SHADER_VS].Clear();
-    shaderDefines[SHADER_PS].Clear();
+    _shaderDefines[SHADER_VS].Clear();
+    _shaderDefines[SHADER_PS].Clear();
     if (root.Contains("vsDefines"))
-        shaderDefines[SHADER_VS] = root["vsDefines"].GetString();
+        _shaderDefines[SHADER_VS] = root["vsDefines"].GetString();
     if (root.Contains("psDefines"))
-        shaderDefines[SHADER_PS] = root["psDefines"].GetString();
+        _shaderDefines[SHADER_PS] = root["psDefines"].GetString();
 
     return true;
 }
@@ -221,9 +221,9 @@ bool Material::EndLoad()
 {
     PROFILE(EndLoadMaterial);
 
-    const JSONValue& root = loadJSON->Root();
+    const JSONValue& root = _loadJSON->Root();
 
-    passes.Clear();
+    _passes.Clear();
     if (root.Contains("passes"))
     {
         const JSONObject& jsonPasses = root["passes"].GetObject();
@@ -234,31 +234,31 @@ bool Material::EndLoad()
         }
     }
 
-    constantBuffers[SHADER_VS].Reset();
+    _constantBuffers[SHADER_VS].Reset();
     if (root.Contains("vsConstantBuffer"))
     {
-        constantBuffers[SHADER_VS] = new ConstantBuffer();
-        constantBuffers[SHADER_VS]->LoadJSON(root["vsConstantBuffer"].GetObject());
+        _constantBuffers[SHADER_VS] = new ConstantBuffer();
+        _constantBuffers[SHADER_VS]->LoadJSON(root["vsConstantBuffer"].GetObject());
     }
 
-    constantBuffers[SHADER_PS].Reset();
+    _constantBuffers[SHADER_PS].Reset();
     if (root.Contains("psConstantBuffer"))
     {
-        constantBuffers[SHADER_PS] = new ConstantBuffer();
-        constantBuffers[SHADER_PS]->LoadJSON(root["psConstantBuffer"].GetObject());
+        _constantBuffers[SHADER_PS] = new ConstantBuffer();
+        _constantBuffers[SHADER_PS]->LoadJSON(root["psConstantBuffer"].GetObject());
     }
     
     /// \todo Queue texture loads during BeginLoad()
     ResetTextures();
     if (root.Contains("textures"))
     {
-        ResourceCache* cache = Subsystem<ResourceCache>();
+        ResourceCache* cache = GetSubsystem<ResourceCache>();
         const JSONObject& jsonTextures = root["textures"].GetObject();
         for (auto it = jsonTextures.Begin(); it != jsonTextures.End(); ++it)
             SetTexture(it->first.ToInt(), cache->LoadResource<Texture>(it->second.GetString()));
     }
 
-    loadJSON.Reset();
+    _loadJSON.Reset();
     return true;
 }
 
@@ -270,15 +270,15 @@ bool Material::Save(Stream& dest)
     JSONValue& root = saveJSON.Root();
     root.SetEmptyObject();
 
-    if (shaderDefines[SHADER_VS].Length())
-        root["vsDefines"] = shaderDefines[SHADER_VS];
-    if (shaderDefines[SHADER_PS].Length())
-        root["psDefines"] = shaderDefines[SHADER_PS];
+    if (_shaderDefines[SHADER_VS].Length())
+        root["vsDefines"] = _shaderDefines[SHADER_VS];
+    if (_shaderDefines[SHADER_PS].Length())
+        root["psDefines"] = _shaderDefines[SHADER_PS];
     
-    if (passes.Size())
+    if (_passes.Size())
     {
         root["passes"].SetEmptyObject();
-        for (auto it = passes.Begin(); it != passes.End(); ++it)
+        for (auto it = _passes.Begin(); it != _passes.End(); ++it)
         {
             Pass* pass = *it;
             if (pass)
@@ -286,16 +286,16 @@ bool Material::Save(Stream& dest)
         }
     }
 
-    if (constantBuffers[SHADER_VS])
-        constantBuffers[SHADER_VS]->SaveJSON(root["vsConstantBuffer"]);
-    if (constantBuffers[SHADER_PS])
-        constantBuffers[SHADER_PS]->SaveJSON(root["psConstantBuffer"]);
+    if (_constantBuffers[SHADER_VS])
+        _constantBuffers[SHADER_VS]->SaveJSON(root["vsConstantBuffer"]);
+    if (_constantBuffers[SHADER_PS])
+        _constantBuffers[SHADER_PS]->SaveJSON(root["psConstantBuffer"]);
 
     root["textures"].SetEmptyObject();
     for (size_t i = 0; i < MAX_MATERIAL_TEXTURE_UNITS; ++i)
     {
-        if (textures[i])
-            root["textures"][String((int)i)] = textures[i]->Name();
+        if (_textures[i])
+            root["textures"][String((int)i)] = _textures[i]->Name();
     }
 
     return saveJSON.Save(dest);
@@ -304,46 +304,46 @@ bool Material::Save(Stream& dest)
 Pass* Material::CreatePass(const String& name)
 {
     size_t index = PassIndex(name);
-    if (passes.Size() <= index)
-        passes.Resize(index + 1);
+    if (_passes.Size() <= index)
+        _passes.Resize(index + 1);
 
-    if (!passes[index])
-        passes[index] = new Pass(this, name);
+    if (!_passes[index])
+        _passes[index] = new Pass(this, name);
     
-    return passes[index];
+    return _passes[index];
 }
 
 void Material::RemovePass(const String& name)
 {
     size_t index = PassIndex(name, false);
-    if (index < passes.Size())
-        passes[index].Reset();
+    if (index < _passes.Size())
+        _passes[index].Reset();
 }
 
 void Material::SetTexture(size_t index, Texture* texture)
 {
     if (index < MAX_MATERIAL_TEXTURE_UNITS)
-        textures[index] = texture;
+        _textures[index] = texture;
 }
 
 void Material::ResetTextures()
 {
     for (size_t i = 0; i < MAX_MATERIAL_TEXTURE_UNITS; ++i)
-        textures[i].Reset();
+        _textures[i].Reset();
 }
 
 void Material::SetConstantBuffer(ShaderStage stage, ConstantBuffer* buffer)
 {
     if (stage < MAX_SHADER_STAGES)
-        constantBuffers[stage] = buffer;
+        _constantBuffers[stage] = buffer;
 }
 
 void Material::SetShaderDefines(const String& vsDefines, const String& psDefines)
 {
-    shaderDefines[SHADER_VS] = vsDefines;
-    shaderDefines[SHADER_PS] = psDefines;
+    _shaderDefines[SHADER_VS] = vsDefines;
+    _shaderDefines[SHADER_PS] = psDefines;
     
-    for (auto it = passes.Begin(); it != passes.End(); ++it)
+    for (auto it = _passes.Begin(); it != _passes.End(); ++it)
     {
         Pass* pass = *it;
         if (pass)
@@ -358,37 +358,37 @@ Pass* Material::FindPass(const String& name) const
 
 Pass* Material::GetPass(unsigned char index) const
 {
-    return index < passes.Size() ? passes[index].Get() : nullptr;
+    return index < _passes.Size() ? _passes[index].Get() : nullptr;
 }
 
 Texture* Material::GetTexture(size_t index) const
 {
-    return index < MAX_MATERIAL_TEXTURE_UNITS ? textures[index].Get() : nullptr;
+    return index < MAX_MATERIAL_TEXTURE_UNITS ? _textures[index].Get() : nullptr;
 }
 
 ConstantBuffer* Material::GetConstantBuffer(ShaderStage stage) const
 {
-    return stage < MAX_SHADER_STAGES ? constantBuffers[stage].Get() : nullptr;
+    return stage < MAX_SHADER_STAGES ? _constantBuffers[stage].Get() : nullptr;
 }
 
 const String& Material::ShaderDefines(ShaderStage stage) const
 {
-    return stage < MAX_SHADER_STAGES ? shaderDefines[stage] : String::EMPTY;
+    return stage < MAX_SHADER_STAGES ? _shaderDefines[stage] : String::EMPTY;
 }
 
 unsigned char Material::PassIndex(const String& name, bool createNew)
 {
     String nameLower = name.ToLower();
-    auto it = passIndices.Find(nameLower);
-    if (it != passIndices.End())
+    auto it = _passIndices.Find(nameLower);
+    if (it != _passIndices.End())
         return it->second;
     else
     {
         if (createNew)
         {
-            passIndices[nameLower] = nextPassIndex;
-            passNames.Push(nameLower);
-            return nextPassIndex++;
+            _passIndices[nameLower] = _nextPassIndex;
+            _passNames.Push(nameLower);
+            return _nextPassIndex++;
         }
         else
             return 0xff;
@@ -397,29 +397,29 @@ unsigned char Material::PassIndex(const String& name, bool createNew)
 
 const String& Material::PassName(unsigned char index)
 {
-    return index < passNames.Size() ? passNames[index] : String::EMPTY;
+    return index < _passNames.Size() ? _passNames[index] : String::EMPTY;
 }
 
 Material* Material::DefaultMaterial()
 {
     // Create on demand
-    if (!defaultMaterial)
+    if (!_defaultMaterial)
     {
-        defaultMaterial = new Material();
-        Pass* pass = defaultMaterial->CreatePass("opaque");
+        _defaultMaterial = new Material();
+        Pass* pass = _defaultMaterial->CreatePass("opaque");
         pass->SetShaders("NoTexture", "NoTexture");
 
-        pass = defaultMaterial->CreatePass("opaqueadd");
+        pass = _defaultMaterial->CreatePass("opaqueadd");
         pass->SetShaders("NoTexture", "NoTexture");
         pass->SetBlendMode(BLEND_MODE_ADD);
-        pass->depthWrite = false;
+        pass->_depthWrite = false;
 
-        pass = defaultMaterial->CreatePass("shadow");
+        pass = _defaultMaterial->CreatePass("shadow");
         pass->SetShaders("Shadow", "Shadow");
-        pass->colorWriteMask = COLORMASK_NONE;
+        pass->_colorWriteMask = COLORMASK_NONE;
     }
 
-    return defaultMaterial.Get();
+    return _defaultMaterial.Get();
 }
 
 

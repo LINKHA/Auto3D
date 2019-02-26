@@ -175,11 +175,11 @@ public:
     bool IsEmpty() const { return Size() == 0; }
     
 protected:
-    /// Allocate bucket head pointers + room for size and bucket count variables.
+    /// Allocate bucket head pointers + room for _size and bucket count variables.
     void AllocateBuckets(size_t size, size_t numBuckets);
     /// Reset bucket head pointers.
     void ResetPtrs();
-    /// Set new size.
+    /// Set new _size.
     void SetSize(size_t size) { reinterpret_cast<size_t*>(ptrs)[0] = size; }
     /// Set new head node.
     void SetHead(HashNodeBase* head) { ptrs[2] = head; }

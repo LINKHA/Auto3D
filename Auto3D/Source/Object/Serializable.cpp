@@ -9,7 +9,7 @@
 namespace Auto3D
 {
 
-HashMap<StringHash, Vector<SharedPtr<Attribute> > > Serializable::classAttributes;
+HashMap<StringHash, Vector<SharedPtr<Attribute> > > Serializable::_classAttributes;
 
 void Serializable::Load(Stream& source, ObjectResolver& resolver)
 {
@@ -111,8 +111,8 @@ void Serializable::AttributeValue(Attribute* attr, void* dest)
 
 const Vector<SharedPtr<Attribute> >* Serializable::Attributes() const
 {
-    auto it = classAttributes.Find(Type());
-    return it != classAttributes.End() ? &it->second : nullptr;
+    auto it = _classAttributes.Find(Type());
+    return it != _classAttributes.End() ? &it->second : nullptr;
 }
 
 Attribute* Serializable::FindAttribute(const String& name) const
@@ -138,7 +138,7 @@ Attribute* Serializable::FindAttribute(const char* name) const
 
 void Serializable::RegisterAttribute(StringHash type, Attribute* attr)
 {
-    Vector<SharedPtr<Attribute> >& attributes = classAttributes[type];
+    Vector<SharedPtr<Attribute> >& attributes = _classAttributes[type];
     for (size_t i = 0; i < attributes.Size(); ++i)
     {
         if (attributes[i]->Name() == attr->Name())
@@ -156,7 +156,7 @@ void Serializable::CopyBaseAttributes(StringHash type, StringHash baseType)
     // Make sure the types are different, which may not be true if the OBJECT macro has been omitted
     if (type != baseType)
     {
-        Vector<SharedPtr<Attribute> >& attributes = classAttributes[baseType];
+        Vector<SharedPtr<Attribute> >& attributes = _classAttributes[baseType];
         for (size_t i = 0; i < attributes.Size(); ++i)
             RegisterAttribute(type, attributes[i]);
     }
@@ -167,7 +167,7 @@ void Serializable::CopyBaseAttribute(StringHash type, StringHash baseType, const
     // Make sure the types are different, which may not be true if the OBJECT macro has been omitted
     if (type != baseType)
     {
-        Vector<SharedPtr<Attribute> >& attributes = classAttributes[baseType];
+        Vector<SharedPtr<Attribute> >& attributes = _classAttributes[baseType];
         for (size_t i = 0; i < attributes.Size(); ++i)
         {
             if (attributes[i]->Name() == name)

@@ -27,15 +27,15 @@ public:
     void SetName(const String& newName);
 
     /// Return name of the resource.
-    const String& Name() const { return name; }
+    const String& Name() const { return _name; }
     /// Return name hash of the resource.
-    const StringHash& NameHash() const { return nameHash; }
+    const StringHash& NameHash() const { return _nameHash; }
 
 private:
     /// Resource name.
-    String name;
+    String _name;
     /// Resource name hash.
-    StringHash nameHash;
+    StringHash _nameHash;
 };
 
 /// Return name from a resource pointer.

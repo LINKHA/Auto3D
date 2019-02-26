@@ -62,21 +62,21 @@ public:
     void SetSlopeScaledDepthBias(float bias);
 
     /// Return light type.
-    LightType GetLightType() const { return lightType; }
+    LightType GetLightType() const { return _lightType; }
     /// Return color.
-    const Color& GetColor() const { return color; }
+    const Color& GetColor() const { return _color; }
     /// Return range.
-    float Range() const { return range; }
+    float Range() const { return _range; }
     /// Return spotlight field of view.
-    float Fov() const { return fov; }
+    float Fov() const { return _fov; }
     /// Return light layer mask.
-    unsigned LightMask() const { return lightMask; }
+    unsigned LightMask() const { return _lightMask; }
     /// Return shadow map face resolution in pixels.
-    int ShadowMapSize() const { return shadowMapSize; }
+    int ShadowMapSize() const { return _shadowMapSize; }
     /// Return directional light shadow split distances.
-    const Vector4& ShadowSplits() const { return shadowSplits; }
+    const Vector4& ShadowSplits() const { return _shadowSplits; }
     /// Return directional light shadow fade start depth.
-    float ShadowFadeStart() const { return shadowFadeStart; }
+    float ShadowFadeStart() const { return _shadowFadeStart; }
     /// Return number of directional light shadow splits.
     int NumShadowSplits() const;
     /// Return shadow split distance by index.
@@ -84,10 +84,10 @@ public:
     /// Return shadow maximum distance.
     float MaxShadowDistance() const;
     /// Return constant depth bias.
-    int DepthBias() const { return depthBias; }
+    int DepthBias() const { return _depthBias; }
     /// Return slope-scaled depth bias.
-    float SlopeScaledDepthBias() const { return slopeScaledDepthBias; }
-    /// Return total requested shadow map size, accounting for multiple faces / splits for directional and point lights.
+    float SlopeScaledDepthBias() const { return _slopeScaledDepthBias; }
+    /// Return total requested shadow map _size, accounting for multiple faces / splits for directional and point lights.
     IntVector2 TotalShadowMapSize() const;
     /// Return number of required shadow views / cameras.
     size_t NumShadowViews() const;
@@ -103,15 +103,15 @@ public:
     /// Setup shadow cameras and viewports. Called by Renderer.
     void SetupShadowViews(Camera* mainCamera, Vector<AutoPtr<ShadowView> >& shadowViews, size_t& useIndex);
     /// Return shadow map.
-    Texture* ShadowMap() const { return shadowMap; }
-    /// Return actual shadow map rectangle. May be smaller than the requested total shadow map size.
-    const IntRect& ShadowRect() const { return shadowRect; }
+    Texture* ShadowMap() const { return _shadowMap; }
+    /// Return actual shadow map rectangle. May be smaller than the requested total shadow map _size.
+    const IntRect& ShadowRect() const { return _shadowRect; }
     /// Return shadow mapping matrices.
-    const Vector<Matrix4>& ShadowMatrices() const { return shadowMatrices; }
+    const Vector<Matrix4>& ShadowMatrices() const { return _shadowMatrices; }
     /// Return shadow map offset and depth parameters.
-    const Vector4& ShadowParameters() const { return shadowParameters; }
+    const Vector4& ShadowParameters() const { return _shadowParameters; }
     /// Return point light shadow extra parameters.
-    const Vector4& PointShadowParameters() const { return pointShadowParameters; }
+    const Vector4& PointShadowParameters() const { return _pointShadowParameters; }
 
 protected:
     /// Recalculate the world space bounding box.
@@ -124,35 +124,35 @@ private:
     int LightTypeAttr() const;
     
     /// Light type.
-    LightType lightType;
+    LightType _lightType;
     /// Light color.
-    Color color;
+    Color _color;
     /// Range.
-    float range;
+    float _range;
     /// Spotlight field of view.
-    float fov;
+    float _fov;
     /// Light layer mask.
-    unsigned lightMask;
+    unsigned _lightMask;
     /// Shadow map resolution in pixels.
-    int shadowMapSize;
+    int _shadowMapSize;
     /// Directional shadow splits.
-    Vector4 shadowSplits;
+    Vector4 _shadowSplits;
     /// Directional shadow fade start.
-    float shadowFadeStart;
+    float _shadowFadeStart;
     /// Constant depth bias.
-    int depthBias;
+    int _depthBias;
     /// Slope-scaled depth bias.
-    float slopeScaledDepthBias;
+    float _slopeScaledDepthBias;
     /// Current shadow map texture.
-    Texture* shadowMap;
+    Texture* _shadowMap;
     /// Rectangle within the shadow map.
-    IntRect shadowRect;
+    IntRect _shadowRect;
     /// Shadow mapping matrices.
-    Vector<Matrix4> shadowMatrices;
+    Vector<Matrix4> _shadowMatrices;
     /// Shadow mapping parameters.
-    Vector4 shadowParameters;
+    Vector4 _shadowParameters;
     /// Shadow mapping extra parameters for point lights.
-    Vector4 pointShadowParameters;
+    Vector4 _pointShadowParameters;
 };
 
 }

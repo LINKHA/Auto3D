@@ -6,11 +6,11 @@ void RendererSample::Init()
 }
 void RendererSample::Start()
 {
-	auto* cache = Object::Subsystem<ResourceCache>();
-	auto* graphics = Object::Subsystem<Graphics>();
-	auto* renderer = Object::Subsystem<Renderer>();
-	auto* input = Object::Subsystem<Input>();
-	auto* profiler = Object::Subsystem<Profiler>();
+	auto* cache = Object::GetSubsystem<ResourceCache>();
+	auto* graphics = Object::GetSubsystem<Graphics>();
+	auto* renderer = Object::GetSubsystem<Renderer>();
+	auto* input = Object::GetSubsystem<Input>();
+	auto* profiler = Object::GetSubsystem<Profiler>();
 
 
 	SubscribeToEvent(graphics->RenderWindow()->closeRequestEvent, &RendererSample::HandleCloseRequest);
@@ -36,7 +36,7 @@ void RendererSample::Start()
 	for (unsigned i = 0; i < 435; ++i)
 	{
 		StaticModel* object = scene->CreateChild<StaticModel>();
-		object->SetPosition(Vector3(Random() * 100.0f - 50.0f, 1.0f, Random() * 100.0f - 50.0f));
+		object->SetPosition(Vector3(Random() * 100.0f - 50.0f, 0.0f, Random() * 100.0f - 50.0f));
 		object->SetScale(1.5f);
 		object->SetModel(cache->LoadResource<Model>("Mushroom.mdl"));
 		object->SetMaterial(cache->LoadResource<Material>("Mushroom.json"));
@@ -50,7 +50,7 @@ void RendererSample::Start()
 		light->SetLightType(LIGHT_POINT);
 		light->SetCastShadows(true);
 		Vector3 colorVec = 2.0f * Vector3(Random(), Random(), Random()).Normalized();
-		light->SetColor(Color(colorVec.x, colorVec.y, colorVec.z));
+		light->SetColor(Color(colorVec._x, colorVec._y, colorVec._z));
 		light->SetFov(90.0f);
 		light->SetRange(20.0f);
 		light->SetPosition(Vector3(Random() * 120.0f - 60.0f, 7.0f, Random() * 120.0f - 60.0f));
@@ -60,14 +60,14 @@ void RendererSample::Start()
 }
 void RendererSample::Update()
 {
-	auto* input = Object::Subsystem<Input>();
-	auto* graphics = Object::Subsystem<Graphics>();
-	auto* renderer = Object::Subsystem<Renderer>();
+	auto* input = Object::GetSubsystem<Input>();
+	auto* graphics = Object::GetSubsystem<Graphics>();
+	auto* renderer = Object::GetSubsystem<Renderer>();
 	if (input->IsKeyPress('F'))
 		graphics->SetFullscreen(!graphics->IsFullscreen());
 
-	pitch += input->MouseMove().y * 0.25f;
-	yaw += input->MouseMove().x * 0.25f;
+	pitch += input->MouseMove()._y * 0.25f;
+	yaw += input->MouseMove()._x * 0.25f;
 	pitch = Clamp(pitch, -90.0f, 90.0f);
 
 	float moveSpeed = input->IsKeyDown(KEY_LSHIFT) ? 50.0f : 10.0f;

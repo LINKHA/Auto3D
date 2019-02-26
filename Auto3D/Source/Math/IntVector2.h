@@ -13,9 +13,9 @@ class AUTO_API IntVector2
 {
 public:
     /// X coordinate.
-    int x;
+    int _x;
     /// Y coordinate.
-    int y;
+    int _y;
     
     /// Construct undefined.
     IntVector2()
@@ -24,22 +24,22 @@ public:
     
     /// Copy-construct.
     IntVector2(const IntVector2& vector) :
-        x(vector.x),
-        y(vector.y)
+        _x(vector._x),
+        _y(vector._y)
     {
     }
     
     /// Construct from coordinates.
     IntVector2(int x_, int y_) :
-        x(x_),
-        y(y_)
+        _x(x_),
+        _y(y_)
     {
     }
     
     /// Construct from an int array.
     IntVector2(const int* data) :
-        x(data[0]),
-        y(data[1])
+        _x(data[0]),
+        _y(data[1])
     {
     }
     
@@ -58,49 +58,49 @@ public:
     /// Add-assign a vector.
     IntVector2& operator += (const IntVector2& rhs)
     {
-        x += rhs.x;
-        y += rhs.y;
+        _x += rhs._x;
+        _y += rhs._y;
         return *this;
     }
     
     /// Subtract-assign a vector.
     IntVector2& operator -= (const IntVector2& rhs)
     {
-        x -= rhs.x;
-        y -= rhs.y;
+        _x -= rhs._x;
+        _y -= rhs._y;
         return *this;
     }
     
     /// Multiply-assign a scalar.
     IntVector2& operator *= (int rhs)
     {
-        x *= rhs;
-        y *= rhs;
+        _x *= rhs;
+        _y *= rhs;
         return *this;
     }
     
     /// Divide-assign a scalar.
     IntVector2& operator /= (int rhs)
     {
-        x /= rhs;
-        y /= rhs;
+        _x /= rhs;
+        _y /= rhs;
         return *this;
     }
     
     /// Test for equality with another vector.
-    bool operator == (const IntVector2& rhs) const { return x == rhs.x && y == rhs.y; }
+    bool operator == (const IntVector2& rhs) const { return _x == rhs._x && _y == rhs._y; }
     /// Test for inequality with another vector.
     bool operator != (const IntVector2& rhs) const { return !(*this == rhs); }
     /// Add a vector.
-    IntVector2 operator + (const IntVector2& rhs) const { return IntVector2(x + rhs.x, y + rhs.y); }
+    IntVector2 operator + (const IntVector2& rhs) const { return IntVector2(_x + rhs._x, _y + rhs._y); }
     /// Return negation.
-    IntVector2 operator - () const { return IntVector2(-x, -y); }
+    IntVector2 operator - () const { return IntVector2(-_x, -_y); }
     /// Subtract a vector.
-    IntVector2 operator - (const IntVector2& rhs) const { return IntVector2(x - rhs.x, y - rhs.y); }
+    IntVector2 operator - (const IntVector2& rhs) const { return IntVector2(_x - rhs._x, _y - rhs._y); }
     /// Multiply with a scalar.
-    IntVector2 operator * (int rhs) const { return IntVector2(x * rhs, y * rhs); }
+    IntVector2 operator * (int rhs) const { return IntVector2(_x * rhs, _y * rhs); }
     /// Divide by a scalar.
-    IntVector2 operator / (int rhs) const { return IntVector2(x / rhs, y / rhs); }
+    IntVector2 operator / (int rhs) const { return IntVector2(_x / rhs, _y / rhs); }
 
     /// Parse from a string. Return true on success.
     bool FromString(const String& str);
@@ -108,7 +108,7 @@ public:
     bool FromString(const char* str);
     
     /// Return integer data.
-    const int* Data() const { return &x; }
+    const int* Data() const { return &_x; }
     /// Return as string.
     String ToString() const;
     

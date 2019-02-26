@@ -27,18 +27,18 @@ static const char* openModes[] =
 #endif
 
 File::File() :
-    mode(FILE_READ),
-    handle(nullptr),
-    readSyncNeeded(false),
-    writeSyncNeeded(false)
+    _mode(FILE_READ),
+    _handle(nullptr),
+    _readSyncNeeded(false),
+    _writeSyncNeeded(false)
 {
 }
 
 File::File(const String& fileName, FileMode mode) :
-    mode(FILE_READ),
-    handle(nullptr),
-    readSyncNeeded(false),
-    writeSyncNeeded(false)
+    _mode(FILE_READ),
+    _handle(nullptr),
+    _readSyncNeeded(false),
+    _writeSyncNeeded(false)
 {
     Open(fileName, mode);
 }
@@ -56,142 +56,142 @@ bool File::Open(const String& fileName, FileMode fileMode)
         return false;
     
     #ifdef _WIN32
-    handle = _wfopen(WideNativePath(fileName).CString(), openModes[fileMode]);
+    _handle = _wfopen(WideNativePath(fileName).CString(), openModes[fileMode]);
     #else
-    handle = fopen(NativePath(fileName).CString(), openModes[fileMode]);
+    _handle = fopen(NativePath(fileName).CString(), openModes[fileMode]);
     #endif
 
     // If file did not exist in readwrite mode, retry with write-update mode
-    if (mode == FILE_READWRITE && !handle)
+    if (_mode == FILE_READWRITE && !_handle)
     {
         #ifdef _WIN32
-        handle = _wfopen(WideNativePath(fileName).CString(), openModes[fileMode + 1]);
+        _handle = _wfopen(WideNativePath(fileName).CString(), openModes[fileMode + 1]);
         #else
-        handle = fopen(NativePath(fileName).CString(), openModes[fileMode + 1]);
+        _handle = fopen(NativePath(fileName).CString(), openModes[fileMode + 1]);
         #endif
     }
     
-    if (!handle)
+    if (!_handle)
         return false;
 
-    name = fileName;
-    mode = fileMode;
-    position = 0;
-    readSyncNeeded = false;
-    writeSyncNeeded = false;
+    _name = fileName;
+    _mode = fileMode;
+    _position = 0;
+    _readSyncNeeded = false;
+    _writeSyncNeeded = false;
 
-    fseek((FILE*)handle, 0, SEEK_END);
-    size = ftell((FILE*)handle);
-    fseek((FILE*)handle, 0, SEEK_SET);
+    fseek((FILE*)_handle, 0, SEEK_END);
+    _size = ftell((FILE*)_handle);
+    fseek((FILE*)_handle, 0, SEEK_SET);
     return true;
 }
 
 size_t File::Read(void* dest, size_t numBytes)
 {
-    if (!handle || mode == FILE_WRITE)
+    if (!_handle || _mode == FILE_WRITE)
         return 0;
 
-    if (numBytes + position > size)
-        numBytes = size - position;
+    if (numBytes + _position > _size)
+        numBytes = _size - _position;
     if (!numBytes)
         return 0;
 
-    // Need to reassign the position due to internal buffering when transitioning from writing to reading
-    if (readSyncNeeded)
+    // Need to reassign the _position due to internal buffering when transitioning from writing to reading
+    if (_readSyncNeeded)
     {
-        fseek((FILE*)handle, (long)position, SEEK_SET);
-        readSyncNeeded = false;
+        fseek((FILE*)_handle, (long)_position, SEEK_SET);
+        _readSyncNeeded = false;
     }
     
-    size_t ret = fread(dest, numBytes, 1, (FILE*)handle);
+    size_t ret = fread(dest, numBytes, 1, (FILE*)_handle);
     if (ret != 1)
     {
-        // If error, return to the position where the read began
-        fseek((FILE*)handle, (long)position, SEEK_SET);
+        // If error, return to the _position where the read began
+        fseek((FILE*)_handle, (long)_position, SEEK_SET);
         return 0;
     }
 
-    writeSyncNeeded = true;
-    position += numBytes;
+    _writeSyncNeeded = true;
+    _position += numBytes;
     return numBytes;
 }
 
 size_t File::Seek(size_t newPosition)
 {
-    if (!handle)
+    if (!_handle)
         return 0;
     
     // Allow sparse seeks if writing
-    if (mode == FILE_READ && newPosition > size)
-        newPosition = size;
+    if (_mode == FILE_READ && newPosition > _size)
+        newPosition = _size;
 
-    fseek((FILE*)handle, (long)newPosition, SEEK_SET);
-    position = newPosition;
-    readSyncNeeded = false;
-    writeSyncNeeded = false;
-    return position;
+    fseek((FILE*)_handle, (long)newPosition, SEEK_SET);
+    _position = newPosition;
+    _readSyncNeeded = false;
+    _writeSyncNeeded = false;
+    return _position;
 }
 
 size_t File::Write(const void* data, size_t numBytes)
 {
-    if (!handle || mode == FILE_READ)
+    if (!_handle || _mode == FILE_READ)
         return 0;
 
     if (!numBytes)
         return 0;
 
-    // Need to reassign the position due to internal buffering when transitioning from reading to writing
-    if (writeSyncNeeded)
+    // Need to reassign the _position due to internal buffering when transitioning from reading to writing
+    if (_writeSyncNeeded)
     {
-        fseek((FILE*)handle, (long)position, SEEK_SET);
-        writeSyncNeeded = false;
+        fseek((FILE*)_handle, (long)_position, SEEK_SET);
+        _writeSyncNeeded = false;
     }
     
-    if (fwrite(data, numBytes, 1, (FILE*)handle) != 1)
+    if (fwrite(data, numBytes, 1, (FILE*)_handle) != 1)
     {
-        // If error, return to the position where the write began
-        fseek((FILE*)handle, (long)position, SEEK_SET);
+        // If error, return to the _position where the write began
+        fseek((FILE*)_handle, (long)_position, SEEK_SET);
         return 0;
     }
 
-    readSyncNeeded = true;
-    position += numBytes;
-    if (position > size)
-        size = position;
+    _readSyncNeeded = true;
+    _position += numBytes;
+    if (_position > _size)
+        _size = _position;
 
-    return size;
+    return _size;
 }
 
 bool File::IsReadable() const
 {
-    return handle != 0 && mode != FILE_WRITE;
+    return _handle != 0 && _mode != FILE_WRITE;
 }
 
 bool File::IsWritable() const
 {
-    return handle != 0 && mode != FILE_READ;
+    return _handle != 0 && _mode != FILE_READ;
 }
 
 void File::Close()
 {
-    if (handle)
+    if (_handle)
     {
-        fclose((FILE*)handle);
-        handle = 0;
-        position = 0;
-        size = 0;
+        fclose((FILE*)_handle);
+        _handle = 0;
+        _position = 0;
+        _size = 0;
     }
 }
 
 void File::Flush()
 {
-    if (handle)
-        fflush((FILE*)handle);
+    if (_handle)
+        fflush((FILE*)_handle);
 }
 
 bool File::IsOpen() const
 {
-    return handle != 0;
+    return _handle != 0;
 }
 
 }

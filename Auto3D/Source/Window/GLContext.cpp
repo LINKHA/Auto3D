@@ -30,8 +30,8 @@ typedef BOOL(APIENTRY *PFNWGLSWAPINTERVALFARPROC)(int);
 static PFNWGLSWAPINTERVALFARPROC wglSwapIntervalEXT = (PFNWGLSWAPINTERVALFARPROC)wglGetProcAddress("wglSwapIntervalEXT");
 
 GLContext::GLContext(Window* window_) :
-	window(window_),
-	contextHandle(nullptr)
+	_window(window_),
+	_contextHandle(nullptr)
 {
 }
 
@@ -42,19 +42,19 @@ GLContext::~GLContext()
 
 bool GLContext::Create(int multisample)
 {
-	if (contextHandle)
+	if (_contextHandle)
 		return true;
-	if (!window)
+	if (!_window)
 	{
-		LOGERROR("Window is null, can not create OpenGL context");
+		ErrorString("Window is null, can not create OpenGL context");
 		return false;
 	}
-	contextHandle = SDL_GL_CreateContext(window->Handle());
-	SDL_GL_MakeCurrent(window->Handle(), contextHandle);
+	_contextHandle = SDL_GL_CreateContext(_window->Handle());
+	SDL_GL_MakeCurrent(_window->Handle(), _contextHandle);
 
 	if (!gladLoadGLLoader(SDL_GL_GetProcAddress))
 	{
-		LOGERROR("Failed to initialize GLAD from Engine");
+		ErrorString("Failed to initialize GLAD from Engine");
 		return false;
 	}
 
@@ -63,22 +63,22 @@ bool GLContext::Create(int multisample)
 
 void GLContext::SetVSync(bool enable)
 {
-	if (contextHandle && wglSwapIntervalEXT)
+	if (_contextHandle && wglSwapIntervalEXT)
 		wglSwapIntervalEXT(enable ? 1 : 0);
 }
 
 void GLContext::Present()
 {
-	if (contextHandle)
-		SDL_GL_SwapWindow(window->Handle());
+	if (_contextHandle)
+		SDL_GL_SwapWindow(_window->Handle());
 }
 
 void GLContext::Release()
 {
-	if (contextHandle)
+	if (_contextHandle)
 	{
 		SDL_GL_MakeCurrent(nullptr, nullptr);
-		SDL_GL_DeleteContext(contextHandle);
+		SDL_GL_DeleteContext(_contextHandle);
 	}
 }
 

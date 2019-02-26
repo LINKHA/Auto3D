@@ -40,13 +40,13 @@ void Engine::Init()
 void Engine::Start()
 {
 
-	frameTimer = new HiresTimer();
-	profilerTimer = new Timer();
+	_frameTimer = new HiresTimer();
+	_profilerTimer = new Timer();
 }
 
 void Engine::Exit()
 {
-	LOGRAW(profilerOutput);
+	LogRawString(_profilerOutput);
 }
 
 void Engine::Render()
@@ -67,13 +67,13 @@ void Engine::Render()
 
 bool Engine::Update()
 {
-	auto* input = Subsystem<Input>();
-	auto* graphics = Subsystem<Graphics>();
-	frameTimer->Reset();
-	if (profilerTimer->ElapsedMSec() >= 1000)
+	auto* input = GetSubsystem<Input>();
+	auto* graphics = GetSubsystem<Graphics>();
+	_frameTimer->Reset();
+	if (_profilerTimer->ElapsedMSec() >= 1000)
 	{
-		profilerOutput = _profiler->OutputResults();
-		profilerTimer->Reset();
+		_profilerOutput = _profiler->OutputResults();
+		_profilerTimer->Reset();
 		_profiler->BeginInterval();
 	}
 
@@ -98,7 +98,7 @@ void Engine::FrameFinish()
 	_graphics->Present();
 
 	_profiler->EndFrame();
-	dt = frameTimer->ElapsedUSec() * 0.000001f;
+	_dt = _frameTimer->ElapsedUSec() * 0.000001f;
 }
 
 void Engine::SetPauseMinimized(bool enable)

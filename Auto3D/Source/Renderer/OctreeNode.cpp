@@ -7,10 +7,10 @@ namespace Auto3D
 {
 
 OctreeNode::OctreeNode() :
-    octree(nullptr),
-    octant(nullptr),
-    lastFrameNumber(0),
-    distance(0.0f)
+    _octree(nullptr),
+    _octant(nullptr),
+    _lastFrameNumber(0),
+    _distance(0.0f)
 {
     SetFlag(NF_BOUNDING_BOX_DIRTY, true);
 }
@@ -33,8 +33,8 @@ void OctreeNode::SetCastShadows(bool enable)
 
 void OctreeNode::OnPrepareRender(unsigned frameNumber, Camera* camera)
 {
-    lastFrameNumber = frameNumber;
-    distance = camera->Distance(WorldPosition());
+    _lastFrameNumber = frameNumber;
+    _distance = camera->Distance(WorldPosition());
 }
 
 void OctreeNode::OnRaycast(Vector<RaycastResult>& dest, const Ray& ray, float maxDistance)
@@ -43,11 +43,11 @@ void OctreeNode::OnRaycast(Vector<RaycastResult>& dest, const Ray& ray, float ma
     if (distance < maxDistance)
     {
         RaycastResult res;
-        res.position = ray.origin + distance * ray.direction;
-        res.normal = -ray.direction;
-        res.distance = distance;
-        res.node = this;
-        res.subObject = 0;
+        res._position = ray._origin + distance * ray._direction;
+        res._normal = -ray._direction;
+        res._distance = distance;
+        res._node = this;
+        res._subObject = 0;
         dest.Push(res);
     }
 }
@@ -60,10 +60,10 @@ void OctreeNode::OnSceneSet(Scene* newScene, Scene*)
     if (newScene)
     {
         // Octree must be attached to the scene root as a child
-        octree = newScene->FindChild<Octree>();
+        _octree = newScene->FindChild<Octree>();
         // Transform may not be final yet. Schedule update but do not insert into octree yet
-        if (octree)
-            octree->QueueUpdate(this);
+        if (_octree)
+            _octree->QueueUpdate(this);
     }
 }
 
@@ -72,23 +72,23 @@ void OctreeNode::OnTransformChanged()
     SpatialNode::OnTransformChanged();
     SetFlag(NF_BOUNDING_BOX_DIRTY, true);
 
-    if (!TestFlag(NF_OCTREE_UPDATE_QUEUED) && octree)
-        octree->QueueUpdate(this);
+    if (!TestFlag(NF_OCTREE_UPDATE_QUEUED) && _octree)
+        _octree->QueueUpdate(this);
 }
 
 void OctreeNode::OnWorldBoundingBoxUpdate() const
 {
-    // The OctreeNode base class does not have a defined size, so represent as a point
-    worldBoundingBox.Define(WorldPosition());
+    // The OctreeNode base class does not have a defined _size, so represent as a point
+    _worldBoundingBox.Define(WorldPosition());
     SetFlag(NF_BOUNDING_BOX_DIRTY, false);
 }
 
 void OctreeNode::RemoveFromOctree()
 {
-    if (octree)
+    if (_octree)
     {
-        octree->RemoveNode(this);
-        octree = nullptr;
+        _octree->RemoveNode(this);
+        _octree = nullptr;
     }
 }
 

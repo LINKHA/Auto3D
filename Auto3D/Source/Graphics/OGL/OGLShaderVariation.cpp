@@ -11,12 +11,12 @@
 namespace Auto3D
 {
 
-ShaderVariation::ShaderVariation(Shader* parent_, const String& defines_) :
-    shader(0),
-    parent(parent_),
-    stage(parent->Stage()),
-    defines(defines_),
-    compiled(false)
+ShaderVariation::ShaderVariation(Shader* parent_, const String& defines) :
+    _shader(0),
+    _parent(parent_),
+    _stage(_parent->Stage()),
+    _defines(defines),
+    _compiled(false)
 {
 }
 
@@ -27,57 +27,57 @@ ShaderVariation::~ShaderVariation()
 
 void ShaderVariation::Release()
 {
-    if (graphics)
+    if (_graphics)
     {
-        if (graphics->GetVertexShader() == this || graphics->GetPixelShader() == this)
-            graphics->SetShaders(nullptr, nullptr);
-        graphics->CleanupShaderPrograms(this);
+        if (_graphics->GetVertexShader() == this || _graphics->GetPixelShader() == this)
+            _graphics->SetShaders(nullptr, nullptr);
+        _graphics->CleanupShaderPrograms(this);
     }
 
-    if (shader)
+    if (_shader)
     {
-        glDeleteShader(shader);
-        shader = 0;
+        glDeleteShader(_shader);
+        _shader = 0;
     }
 
-    compiled = false;
+    _compiled = false;
 }
 
 bool ShaderVariation::Compile()
 {
-    if (compiled)
-        return shader != 0;
+    if (_compiled)
+        return _shader != 0;
 
     PROFILE(CompileShaderVariation);
 
     // Do not retry without a Release() inbetween
-    compiled = true;
+    _compiled = true;
 
-    if (!graphics || !graphics->IsInitialized())
+    if (!_graphics || !_graphics->IsInitialized())
     {
-        LOGERROR("Can not compile shader without initialized Graphics subsystem");
+        ErrorString("Can not compile shader without initialized Graphics subsystem");
         return false;
     }
-    if (!parent)
+    if (!_parent)
     {
-        LOGERROR("Can not compile shader without parent shader resource");
+        ErrorString("Can not compile shader without parent shader resource");
         return false;
     }
 
-    shader = glCreateShader(stage == SHADER_VS ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER);
-    if (!shader)
+    _shader = glCreateShader(_stage == SHADER_VS ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER);
+    if (!_shader)
     {
-        LOGERROR("Could not create shader object");
+        ErrorString("Could not create shader object");
         return false;
     }
 
     // Collect defines into macros
-    Vector<String> defineNames = defines.Split(' ');
+    Vector<String> defineNames = _defines.Split(' ');
 
     for (auto it = defineNames.Begin(); it != defineNames.End(); ++it)
         it->Replace('=', ' ');
 
-    const String& originalShaderCode = parent->SourceCode();
+    const String& originalShaderCode = _parent->SourceCode();
     String shaderCode;
 
     // Check if the shader code contains a version define
@@ -112,39 +112,39 @@ bool ShaderVariation::Compile()
         shaderCode += originalShaderCode;
 
     const char* shaderCStr = shaderCode.CString();
-    glShaderSource(shader, 1, &shaderCStr, 0);
-    glCompileShader(shader);
+    glShaderSource(_shader, 1, &shaderCStr, 0);
+    glCompileShader(_shader);
 
     int compiled;
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
+    glGetShaderiv(_shader, GL_COMPILE_STATUS, &compiled);
     if (!compiled)
     {
         int length, outLength;
         String errorString;
 
-        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
+        glGetShaderiv(_shader, GL_INFO_LOG_LENGTH, &length);
         errorString.Resize(length);
-        glGetShaderInfoLog(shader, length, &outLength, &errorString[0]);
-        glDeleteShader(shader);
-        shader = 0;
+        glGetShaderInfoLog(_shader, length, &outLength, &errorString[0]);
+        glDeleteShader(_shader);
+        _shader = 0;
 
-        LOGERRORF("Could not compile shader %s: %s", FullName().CString(), errorString.CString());
+        ErrorStringF("Could not compile shader %s: %s", FullName().CString(), errorString.CString());
         return false;
     }
 
-    LOGDEBUG("Compiled shader " + FullName());
+    LogString("Compiled shader " + FullName());
     return true;
 }
 
 Shader* ShaderVariation::Parent() const
 {
-    return parent;
+    return _parent;
 }
 
 String ShaderVariation::FullName() const
 {
-    if (parent)
-        return defines.IsEmpty() ? parent->Name() : parent->Name() + " (" + defines + ")";
+    if (_parent)
+        return _defines.IsEmpty() ? _parent->Name() : _parent->Name() + " (" + _defines + ")";
     else
         return String::EMPTY;
 }

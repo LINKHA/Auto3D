@@ -70,21 +70,21 @@ AttributeAccessor::~AttributeAccessor()
 {
 }
 
-Attribute::Attribute(const char* name_, AttributeAccessor* accessor_, const char** enumNames_) :
-    name(name_),
-    accessor(accessor_),
-    enumNames(enumNames_)
+Attribute::Attribute(const char* name, AttributeAccessor* accessor, const char** enumNames) :
+    _name(name),
+    _accessor(accessor),
+    _enumNames(enumNames)
 {
 }
 
 void Attribute::FromValue(Serializable* instance, const void* source)
 {
-    accessor->Set(instance, source);
+    _accessor->Set(instance, source);
 }
 
 void Attribute::ToValue(Serializable* instance, void* dest)
 {
-    accessor->Get(instance, dest);
+    _accessor->Get(instance, dest);
 }
 
 void Attribute::Skip(AttributeType type, Stream& source)
@@ -217,7 +217,7 @@ void Attribute::FromJSON(AttributeType type, void* dest, const JSONValue& source
         break;
 
     case ATTR_OBJECTREF:
-        reinterpret_cast<ObjectRef*>(dest)->id = (unsigned)source.GetNumber();
+        reinterpret_cast<ObjectRef*>(dest)->_id = (unsigned)source.GetNumber();
         break;
 
     case ATTR_JSONVALUE:
@@ -314,7 +314,7 @@ void Attribute::ToJSON(AttributeType type, JSONValue& dest, const void* source)
         break;
 
     case ATTR_OBJECTREF:
-        dest = reinterpret_cast<const ObjectRef*>(source)->id;
+        dest = reinterpret_cast<const ObjectRef*>(source)->_id;
         break;
 
     case ATTR_JSONVALUE:

@@ -12,7 +12,7 @@ namespace Auto3D
 {
 
 Scene::Scene() :
-    nextNodeId(1)
+    _nextNodeId(1)
 {
     // Register self to allow finding by ID
     AddNode(this);
@@ -23,11 +23,11 @@ Scene::Scene() :
 
 Scene::~Scene()
 {
-    // Node destructor will also remove children. But at that point the node<>id maps have been destroyed 
+    // Node destructor will also remove children. But at that point the node<>_id maps have been destroyed 
     // so must tear down the scene tree already here
     RemoveAllChildren();
     RemoveNode(this);
-    assert(nodes.IsEmpty());
+    assert(_nodes.IsEmpty());
 }
 
 void Scene::RegisterObject()
@@ -42,7 +42,7 @@ void Scene::Save(Stream& dest)
 {
     PROFILE(SaveScene);
     
-    LOGINFO("Saving scene to " + dest.Name());
+    InfoString("Saving scene to " + dest.Name());
     
     dest.WriteFileID("SCNE");
     Node::Save(dest);
@@ -52,12 +52,12 @@ bool Scene::Load(Stream& source)
 {
     PROFILE(LoadScene);
     
-    LOGINFO("Loading scene from " + source.Name());
+    InfoString("Loading scene from " + source.Name());
     
     String fileId = source.ReadFileID();
     if (fileId != "SCNE")
     {
-        LOGERROR("File is not a binary scene file");
+        ErrorString("File is not a binary scene file");
         return false;
     }
 
@@ -65,7 +65,7 @@ bool Scene::Load(Stream& source)
     unsigned ownId = source.Read<unsigned>();
     if (ownType != TypeStatic())
     {
-        LOGERROR("Mismatching type of scene root node in scene file");
+        ErrorString("Mismatching type of scene root node in scene file");
         return false;
     }
 
@@ -88,7 +88,7 @@ bool Scene::LoadJSON(const JSONValue& source)
 
     if (ownType != TypeStatic())
     {
-        LOGERROR("Mismatching type of scene root node in scene file");
+        ErrorString("Mismatching type of scene root node in scene file");
         return false;
     }
 
@@ -104,7 +104,7 @@ bool Scene::LoadJSON(const JSONValue& source)
 
 bool Scene::LoadJSON(Stream& source)
 {
-    LOGINFO("Loading scene from " + source.Name());
+    InfoString("Loading scene from " + source.Name());
     
     JSONFile json;
     bool success = json.Load(source);
@@ -116,7 +116,7 @@ bool Scene::SaveJSON(Stream& dest)
 {
     PROFILE(SaveSceneJSON);
     
-    LOGINFO("Saving scene to " + dest.Name());
+    InfoString("Saving scene to " + dest.Name());
     
     JSONFile json;
     Node::SaveJSON(json.Root());
@@ -172,34 +172,34 @@ void Scene::DefineLayer(unsigned char index, const String& name)
 {
     if (index >= 32)
     {
-        LOGERROR("Can not define more than 32 layers");
+        ErrorString("Can not define more than 32 layers");
         return;
     }
 
-    if (layerNames.Size() <= index)
-        layerNames.Resize(index + 1);
-    layerNames[index] = name;
-    layers[name] = index;
+    if (_layerNames.Size() <= index)
+        _layerNames.Resize(index + 1);
+    _layerNames[index] = name;
+    _layers[name] = index;
 }
 
 void Scene::DefineTag(unsigned char index, const String& name)
 {
-    if (tagNames.Size() <= index)
-        tagNames.Resize(index + 1);
-    tagNames[index] = name;
-    tags[name] = index;
+    if (_tagNames.Size() <= index)
+        _tagNames.Resize(index + 1);
+    _tagNames[index] = name;
+    _tags[name] = index;
 }
 
 void Scene::Clear()
 {
     RemoveAllChildren();
-    nextNodeId = 1;
+    _nextNodeId = 1;
 }
 
 Node* Scene::FindNode(unsigned id) const
 {
-    auto it = nodes.Find(id);
-    return it != nodes.End() ? it->second : nullptr;
+    auto it = _nodes.Find(id);
+    return it != _nodes.End() ? it->second : nullptr;
 }
 
 void Scene::AddNode(Node* node)
@@ -207,24 +207,24 @@ void Scene::AddNode(Node* node)
     if (!node || node->ParentScene() == this)
         return;
 
-    while (nodes.Contains(nextNodeId))
+    while (_nodes.Contains(_nextNodeId))
     {
-        ++nextNodeId;
-        if (!nextNodeId)
-            ++nextNodeId;
+        ++_nextNodeId;
+        if (!_nextNodeId)
+            ++_nextNodeId;
     }
 
     Scene* oldScene = node->ParentScene();
     if (oldScene)
     {
         unsigned oldId = node->Id();
-        oldScene->nodes.Erase(oldId);
+        oldScene->_nodes.Erase(oldId);
     }
-    nodes[nextNodeId] = node;
+    _nodes[_nextNodeId] = node;
     node->SetScene(this);
-    node->SetId(nextNodeId);
+    node->SetId(_nextNodeId);
 
-    ++nextNodeId;
+    ++_nextNodeId;
 
     // If node has children, add them to the scene as well
     if (node->NumChildren())
@@ -240,7 +240,7 @@ void Scene::RemoveNode(Node* node)
     if (!node || node->ParentScene() != this)
         return;
 
-    nodes.Erase(node->Id());
+    _nodes.Erase(node->Id());
     node->SetScene(nullptr);
     node->SetId(0);
     
@@ -255,15 +255,15 @@ void Scene::RemoveNode(Node* node)
 
 void Scene::SetLayerNamesAttr(JSONValue names)
 {
-    layerNames.Clear();
-    layers.Clear();
+    _layerNames.Clear();
+    _layers.Clear();
 
     const JSONArray& array = names.GetArray();
     for (size_t i = 0; i < array.Size(); ++i)
     {
         const String& name = array[i].GetString();
-        layerNames.Push(name);
-        layers[name] = (unsigned char)i;
+        _layerNames.Push(name);
+        _layers[name] = (unsigned char)i;
     }
 }
 
@@ -272,7 +272,7 @@ JSONValue Scene::LayerNamesAttr() const
     JSONValue ret;
 
     ret.SetEmptyArray();
-    for (auto it = layerNames.Begin(); it != layerNames.End(); ++it)
+    for (auto it = _layerNames.Begin(); it != _layerNames.End(); ++it)
         ret.Push(*it);
     
     return ret;
@@ -280,15 +280,15 @@ JSONValue Scene::LayerNamesAttr() const
 
 void Scene::SetTagNamesAttr(JSONValue names)
 {
-    tagNames.Clear();
-    tags.Clear();
+    _tagNames.Clear();
+    _tags.Clear();
 
     const JSONArray& array = names.GetArray();
     for (size_t i = 0; i < array.Size(); ++i)
     {
         const String& name = array[i].GetString();
-        tagNames.Push(name);
-        tags[name] = (unsigned char)i;
+        _tagNames.Push(name);
+        _tags[name] = (unsigned char)i;
     }
 }
 
@@ -297,7 +297,7 @@ JSONValue Scene::TagNamesAttr() const
     JSONValue ret;
 
     ret.SetEmptyArray();
-    for (auto it = tagNames.Begin(); it != tagNames.End(); ++it)
+    for (auto it = _tagNames.Begin(); it != _tagNames.End(); ++it)
         ret.Push(*it);
 
     return ret;

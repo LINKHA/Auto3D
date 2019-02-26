@@ -17,16 +17,16 @@ class Ray;
 /// Structure for raycast query results.
 struct AUTO_API RaycastResult
 {
-    /// Hit world position.
-    Vector3 position;
+    /// Hit world _position.
+    Vector3 _position;
     /// Hit world normal.
-    Vector3 normal;
+    Vector3 _normal;
     /// Hit distance along the ray.
-    float distance;
+    float _distance;
     /// Hit node.
-    OctreeNode* node;
+    OctreeNode* _node;
     /// Hit geometry index or other, GeometryNode subclass-specific subobject index.
-    size_t subObject;
+    size_t _subObject;
 };
 
 /// %Octree cell, contains up to 8 child octants.
@@ -39,27 +39,27 @@ struct AUTO_API Octant
     void Initialize(Octant* parent, const BoundingBox& boundingBox, int level);
     /// Test if a node should be inserted in this octant or if a smaller child octant should be created.
     bool FitBoundingBox(const BoundingBox& box, const Vector3& boxSize) const;
-    /// Return child octant index based on position.
-    size_t ChildIndex(const Vector3& position) const { size_t ret = position.x < center.x ? 0 : 1; ret += position.y < center.y ? 0 : 2; ret += position.z < center.z ? 0 : 4; return ret; }
+    /// Return child octant index based on _position.
+    size_t ChildIndex(const Vector3& position) const { size_t ret = position._x < _center._x ? 0 : 1; ret += position._y < _center._y ? 0 : 2; ret += position._z < _center._z ? 0 : 4; return ret; }
     
     /// Expanded (loose) bounding box used for culling the octant and the nodes within it.
-    BoundingBox cullingBox;
+    BoundingBox _cullingBox;
     /// Actual bounding box of the octant.
-    BoundingBox worldBoundingBox;
+    BoundingBox _worldBoundingBox;
     /// Bounding box center.
-    Vector3 center;
-    /// Bounding box half size.
-    Vector3 halfSize;
+    Vector3 _center;
+    /// Bounding box half _size.
+    Vector3 _halfSize;
     /// Subdivision level.
-    int level;
+    int _level;
     /// Nodes contained in the octant.
-    Vector<OctreeNode*> nodes;
+    Vector<OctreeNode*> _nodes;
     /// Child octants.
-    Octant* children[NUM_OCTANTS];
+    Octant* _children[NUM_OCTANTS];
     /// Parent octant.
-    Octant* parent;
+    Octant* _parent;
     /// Number of nodes in this octant and the child octants combined.
-    size_t numNodes;
+    size_t _numNodes;
 };
 
 /// Acceleration structure for rendering. Should be created as a child of the scene root.
@@ -95,21 +95,21 @@ public:
     template <class _Ty> void FindNodes(Vector<OctreeNode*>& result, const _Ty& volume, unsigned short nodeFlags, unsigned layerMask = LAYERMASK_ALL) const
     {
         PROFILE(QueryOctree);
-        CollectNodes(result, &root, volume, nodeFlags, layerMask);
+        CollectNodes(result, &_root, volume, nodeFlags, layerMask);
     }
 
     /// Query for nodes using a volume such as frustum or sphere. Invoke a function for each octant.
     template <class _Ty> void FindNodes(const _Ty& volume, void(*callback)(Vector<OctreeNode*>::ConstIterator, Vector<OctreeNode*>::ConstIterator, bool)) const
     {
         PROFILE(QueryOctree);
-        CollectNodesCallback(&root, volume, callback);
+        CollectNodesCallback(&_root, volume, callback);
     }
 
     /// Query for nodes using a volume such as frustum or sphere. Invoke a member function for each octant.
     template <class _Ty, class U> void FindNodes(const _Ty& volume, U* object, void (U::*callback)(Vector<OctreeNode*>::ConstIterator, Vector<OctreeNode*>::ConstIterator, bool)) const
     {
         PROFILE(QueryOctree);
-        CollectNodesMemberCallback(&root, volume, object, callback);
+        CollectNodesMemberCallback(&_root, volume, object, callback);
     }
 
 private:
@@ -143,7 +143,7 @@ private:
     /// Collect nodes matching flags using a volume such as frustum or sphere.
     template <class _Ty> void CollectNodes(Vector<OctreeNode*>& result, const Octant* octant, const _Ty& volume, unsigned short nodeFlags, unsigned layerMask) const
     {
-        Intersection res = volume.IsInside(octant->cullingBox);
+        Intersection res = volume.IsInside(octant->_cullingBox);
         if (res == OUTSIDE)
             return;
         
@@ -152,7 +152,7 @@ private:
             CollectNodes(result, octant, nodeFlags, layerMask);
         else
         {
-            const Vector<OctreeNode*>& octantNodes = octant->nodes;
+            const Vector<OctreeNode*>& octantNodes = octant->_nodes;
             for (auto it = octantNodes.Begin(); it != octantNodes.End(); ++it)
             {
                 OctreeNode* node = *it;
@@ -163,8 +163,8 @@ private:
             
             for (size_t i = 0; i < NUM_OCTANTS; ++i)
             {
-                if (octant->children[i])
-                    CollectNodes(result, octant->children[i], volume, nodeFlags, layerMask);
+                if (octant->_children[i])
+                    CollectNodes(result, octant->_children[i], volume, nodeFlags, layerMask);
             }
         }
     }
@@ -172,20 +172,20 @@ private:
     /// Collect nodes from octant and child octants. Invoke a function for each octant.
     void CollectNodesCallback(const Octant* octant, void(*callback)(Vector<OctreeNode*>::ConstIterator, Vector<OctreeNode*>::ConstIterator, bool)) const
     {
-        const Vector<OctreeNode*>& octantNodes = octant->nodes;
+        const Vector<OctreeNode*>& octantNodes = octant->_nodes;
         callback(octantNodes.Begin(), octantNodes.End(), true);
 
         for (size_t i = 0; i < NUM_OCTANTS; ++i)
         {
-            if (octant->children[i])
-                CollectNodesCallback(octant->children[i], callback);
+            if (octant->_children[i])
+                CollectNodesCallback(octant->_children[i], callback);
         }
     }
 
     /// Collect nodes using a volume such as frustum or sphere. Invoke a function for each octant.
     template <class _Ty> void CollectNodesCallback(const Octant* octant, const _Ty& volume, void(*callback)(Vector<OctreeNode*>::ConstIterator, Vector<OctreeNode*>::ConstIterator, bool)) const
     {
-        Intersection res = volume.IsInside(octant->cullingBox);
+        Intersection res = volume.IsInside(octant->_cullingBox);
         if (res == OUTSIDE)
             return;
 
@@ -194,13 +194,13 @@ private:
             CollectNodesCallback(octant, callback);
         else
         {
-            const Vector<OctreeNode*>& octantNodes = octant->nodes;
+            const Vector<OctreeNode*>& octantNodes = octant->_nodes;
             callback(octantNodes.Begin(), octantNodes.End(), false);
 
             for (size_t i = 0; i < NUM_OCTANTS; ++i)
             {
-                if (octant->children[i])
-                    CollectNodesCallback(octant->children[i], volume, callback);
+                if (octant->_children[i])
+                    CollectNodesCallback(octant->_children[i], volume, callback);
             }
         }
     }
@@ -208,20 +208,20 @@ private:
     /// Collect nodes from octant and child octants. Invoke a member function for each octant.
     template <class _Ty> void CollectNodesMemberCallback(const Octant* octant, _Ty* object, void (_Ty::*callback)(Vector<OctreeNode*>::ConstIterator, Vector<OctreeNode*>::ConstIterator, bool)) const
     {
-        const Vector<OctreeNode*>& octantNodes = octant->nodes;
+        const Vector<OctreeNode*>& octantNodes = octant->_nodes;
         (object->*callback)(octantNodes.Begin(), octantNodes.End(), true);
 
         for (size_t i = 0; i < NUM_OCTANTS; ++i)
         {
-            if (octant->children[i])
-                CollectNodesMemberCallback(octant->children[i], object, callback);
+            if (octant->_children[i])
+                CollectNodesMemberCallback(octant->_children[i], object, callback);
         }
     }
 
     /// Collect nodes using a volume such as frustum or sphere. Invoke a member function for each octant.
     template <class _Ty, class U> void CollectNodesMemberCallback(const Octant* octant, const _Ty& volume, U* object, void (U::*callback)(Vector<OctreeNode*>::ConstIterator, Vector<OctreeNode*>::ConstIterator, bool)) const
     {
-        Intersection res = volume.IsInside(octant->cullingBox);
+        Intersection res = volume.IsInside(octant->_cullingBox);
         if (res == OUTSIDE)
             return;
 
@@ -230,27 +230,27 @@ private:
             CollectNodesMemberCallback(octant, object, callback);
         else
         {
-            const Vector<OctreeNode*>& octantNodes = octant->nodes;
+            const Vector<OctreeNode*>& octantNodes = octant->_nodes;
             (object->*callback)(octantNodes.Begin(), octantNodes.End(), false);
 
             for (size_t i = 0; i < NUM_OCTANTS; ++i)
             {
-                if (octant->children[i])
-                    CollectNodesMemberCallback(octant->children[i], volume, object, callback);
+                if (octant->_children[i])
+                    CollectNodesMemberCallback(octant->_children[i], volume, object, callback);
             }
         }
     }
 
     /// Queue of nodes to be reinserted.
-    Vector<OctreeNode*> updateQueue;
+    Vector<OctreeNode*> _updateQueue;
     /// RaycastSingle initial coarse result.
-    Vector<Pair<OctreeNode*, float> > initialRes;
+    Vector<Pair<OctreeNode*, float> > _initialRes;
     /// RaycastSingle final result.
-    Vector<RaycastResult> finalRes;
+    Vector<RaycastResult> _finalRes;
     /// Allocator for child octants.
-    Allocator<Octant> allocator;
+    Allocator<Octant> _allocator;
     /// Root octant.
-    Octant root;
+    Octant _root;
 };
 
 }

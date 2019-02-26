@@ -37,9 +37,9 @@ public:
     void SetFarClip(float farClip);
     /// Set vertical field of view in degrees.
     void SetFov(float fov);
-    /// Set orthographic mode view uniform size.
+    /// Set orthographic mode view uniform _size.
     void SetOrthoSize(float orthoSize);
-    /// Set orthographic mode view non-uniform size.
+    /// Set orthographic mode view non-uniform _size.
     void SetOrthoSize(const Vector2& orthoSize);
     /// Set aspect ratio.
     void SetAspectRatio(float aspectRatio);
@@ -67,39 +67,39 @@ public:
     void SetFlipVertical(bool enable);
 
     /// Return far clip distance.
-    float FarClip() const { return farClip; }
+    float FarClip() const { return _farClip; }
     /// Return near clip distance.
     float NearClip() const;
     /// Return vertical field of view in degrees.
-    float Fov() const { return fov; }
-    /// Return orthographic mode size.
-    float OrthoSize() const { return orthoSize; }
+    float Fov() const { return _fov; }
+    /// Return orthographic mode _size.
+    float OrthoSize() const { return _orthoSize; }
     /// Return aspect ratio.
-    float AspectRatio() const { return aspectRatio; }
+    float AspectRatio() const { return _aspectRatio; }
     /// Return zoom.
-    float Zoom() const { return zoom; }
+    float Zoom() const { return _zoom; }
     /// Return LOD bias.
-    float LodBias() const { return lodBias; }
+    float LodBias() const { return _lodBias; }
     /// Return view layer mask.
-    unsigned ViewMask() const { return viewMask; }
+    unsigned ViewMask() const { return _viewMask; }
     /// Return whether is orthographic.
-    bool IsOrthographic() const { return orthographic; }
+    bool IsOrthographic() const { return _orthographic; }
     /// Return ambient light color.
-    const Color& AmbientColor() const { return ambientColor; }
+    const Color& AmbientColor() const { return _ambientColor; }
     /// Return projection offset.
-    const Vector2& ProjectionOffset() const { return projectionOffset; }
+    const Vector2& ProjectionOffset() const { return _projectionOffset; }
     /// Return whether is using reflection.
-    bool UseReflection() const { return useReflection; }
+    bool UseReflection() const { return _useReflection; }
     /// Return the reflection plane.
-    const Plane& ReflectionPlane() const { return reflectionPlane; }
+    const Plane& ReflectionPlane() const { return _reflectionPlane; }
     /// Return whether is using a custom clipping plane.
-    bool UseClipping() const { return useClipping; }
+    bool UseClipping() const { return _useClipping; }
     /// Return the custom clipping plane.
-    const Plane& ClipPlane() const { return clipPlane; }
+    const Plane& ClipPlane() const { return _clipPlane; }
     /// Return vertical flipping mode.
-    bool FlipVertical() const { return flipVertical; }
+    bool FlipVertical() const { return _flipVertical; }
     /// Return whether to reverse culling; affected by vertical flipping and reflection.
-    bool UseReverseCulling() const { return flipVertical ^ useReflection; }
+    bool UseReverseCulling() const { return _flipVertical ^ _useReflection; }
     /// Return frustum in world space.
     Frustum WorldFrustum() const;
     /// Return world space frustum split by custom near and far clip distances.
@@ -114,7 +114,7 @@ public:
     Matrix4 ProjectionMatrix(bool apiSpecific = true) const;
     /// Return frustum near and far sizes.
     void FrustumSize(Vector3& near, Vector3& far) const;
-    /// Return half view size.
+    /// Return half view _size.
     float HalfViewSize() const;
     /// Return ray corresponding to normalized screen coordinates (0.0 - 1.0).
     Ray ScreenRay(float x, float y) const;
@@ -122,7 +122,7 @@ public:
     Vector2 WorldToScreenPoint(const Vector3& worldPos) const;
     // Convert normalized screen coordinates (0.0 - 1.0) and depth to a world space point.
     Vector3 ScreenToWorldPoint(const Vector3& screenPos) const;
-    /// Return distance to position. In orthographic mode uses only Z coordinate.
+    /// Return distance to _position. In orthographic mode uses only Z coordinate.
     float Distance(const Vector3& worldPos) const;
     /// Return a scene node's LOD scaled distance.
     float LodDistance(float distance, float scale, float bias) const;
@@ -130,7 +130,7 @@ public:
     Quaternion FaceCameraRotation(const Vector3& position, const Quaternion& rotation, FaceCameraMode mode);
     /// Get effective world transform for matrix and frustum calculations including reflection but excluding node scaling.
     Matrix3x4 EffectiveWorldTransform() const;
-    /// Return if projection parameters are valid for rendering and raycasting.
+    /// Return if projection parameters are _valid for rendering and raycasting.
     bool IsProjectionValid() const;
 
 protected:
@@ -148,43 +148,43 @@ private:
     Vector4 ClipPlaneAttr() const;
 
     /// Cached view matrix.
-    mutable Matrix3x4 viewMatrix;
+    mutable Matrix3x4 _viewMatrix;
     /// View matrix dirty flag.
-    mutable bool viewMatrixDirty;
+    mutable bool _viewMatrixDirty;
     /// Orthographic mode flag.
-    bool orthographic;
+    bool _orthographic;
     /// Flip vertical flag.
-    bool flipVertical;
+    bool _flipVertical;
     /// Near clip distance.
-    float nearClip;
+    float _nearClip;
     /// Far clip distance.
-    float farClip;
+    float _farClip;
     /// Field of view.
-    float fov;
-    /// Orthographic view size.
-    float orthoSize;
+    float _fov;
+    /// Orthographic view _size.
+    float _orthoSize;
     /// Aspect ratio.
-    float aspectRatio;
+    float _aspectRatio;
     /// Zoom.
-    float zoom;
+    float _zoom;
     /// LOD bias.
-    float lodBias;
+    float _lodBias;
     /// View layer mask.
-    unsigned viewMask;
+    unsigned _viewMask;
     /// Ambient light color.
-    Color ambientColor;
+    Color _ambientColor;
     /// Projection offset.
-    Vector2 projectionOffset;
+    Vector2 _projectionOffset;
     /// Reflection plane.
-    Plane reflectionPlane;
+    Plane _reflectionPlane;
     /// Clipping plane.
-    Plane clipPlane;
+    Plane _clipPlane;
     /// Reflection matrix calculated from the plane.
-    Matrix3x4 reflectionMatrix;
+    Matrix3x4 _reflectionMatrix;
     /// Reflection mode enabled flag.
-    bool useReflection;
+    bool _useReflection;
     /// Use custom clip plane flag.
-    bool useClipping;
+    bool _useClipping;
 };
 
 }

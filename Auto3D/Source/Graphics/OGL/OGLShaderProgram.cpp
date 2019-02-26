@@ -26,10 +26,10 @@ int NumberPostfix(const String& str)
     return -1;
 }
 
-ShaderProgram::ShaderProgram(ShaderVariation* vs_, ShaderVariation* ps_) :
-    program(0),
-    vs(vs_),
-    ps(ps_)
+ShaderProgram::ShaderProgram(ShaderVariation* vs, ShaderVariation* ps) :
+    _program(0),
+    _vs(vs),
+    _ps(ps)
 {
 }
 
@@ -40,10 +40,10 @@ ShaderProgram::~ShaderProgram()
 
 void ShaderProgram::Release()
 {
-    if (program)
+    if (_program)
     {
-        glDeleteProgram(program);
-        program = 0;
+        glDeleteProgram(_program);
+        _program = 0;
     }
 }
 
@@ -53,106 +53,106 @@ bool ShaderProgram::Link()
 
     Release();
 
-    if (!graphics || !graphics->IsInitialized())
+    if (!_graphics || !_graphics->IsInitialized())
     {
-        LOGERROR("Can not link shader program without initialized Graphics subsystem");
+        ErrorString("Can not link shader program without initialized Graphics subsystem");
         return false;
     }
-    if (!vs || !ps)
+    if (!_vs || !_ps)
     {
-        LOGERROR("Shader(s) are null, can not link shader program");
+        ErrorString("Shader(s) are null, can not link shader program");
         return false;
     }
-    if (!vs->GLShader() || !ps->GLShader())
+    if (!_vs->GLShader() || !_ps->GLShader())
     {
-        LOGERROR("Shaders have not been compiled, can not link shader program");
+        ErrorString("Shaders have not been compiled, can not link shader program");
         return false;
     }
     
-    const String& vsSourceCode = vs->Parent() ? vs->Parent()->SourceCode() : String::EMPTY;
-    const String& psSourceCode = ps->Parent() ? ps->Parent()->SourceCode() : String::EMPTY;
+    const String& vsSourceCode = _vs->Parent() ? _vs->Parent()->SourceCode() : String::EMPTY;
+    const String& psSourceCode = _ps->Parent() ? _ps->Parent()->SourceCode() : String::EMPTY;
 
-    program = glCreateProgram();
-    if (!program)
+    _program = glCreateProgram();
+    if (!_program)
     {
-        LOGERROR("Could not create shader program");
+        ErrorString("Could not create shader program");
         return false;
     }
 
-    glAttachShader(program, vs->GLShader());
-    glAttachShader(program, ps->GLShader());
-    glLinkProgram(program);
+    glAttachShader(_program, _vs->GLShader());
+    glAttachShader(_program, _ps->GLShader());
+    glLinkProgram(_program);
 
     int linked;
-    glGetProgramiv(program, GL_LINK_STATUS, &linked);
+    glGetProgramiv(_program, GL_LINK_STATUS, &linked);
     if (!linked)
     {
         int length, outLength;
         String errorString;
 
-        glGetProgramiv(program, GL_INFO_LOG_LENGTH, &length);
+        glGetProgramiv(_program, GL_INFO_LOG_LENGTH, &length);
         errorString.Resize(length);
-        glGetProgramInfoLog(program, length, &outLength, &errorString[0]);
-        glDeleteProgram(program);
-        program = 0;
+        glGetProgramInfoLog(_program, length, &outLength, &errorString[0]);
+        glDeleteProgram(_program);
+        _program = 0;
 
-        LOGERRORF("Could not link shaders %s: %s", FullName().CString(), errorString.CString());
+        ErrorStringF("Could not link shaders %s: %s", FullName().CString(), errorString.CString());
         return false;
     }
 
-    LOGDEBUGF("Linked shaders %s", FullName().CString());
+    LogStringF("Linked shaders %s", FullName().CString());
 
-    glUseProgram(program);
+    glUseProgram(_program);
 
     char nameBuffer[MAX_NAME_LENGTH];
     int numAttributes, numUniforms, numUniformBlocks, nameLength, numElements;
     GLenum type;
 
-    attributes.Clear();
+    _attributes.Clear();
 
-    glGetProgramiv(program, GL_ACTIVE_ATTRIBUTES, &numAttributes);
+    glGetProgramiv(_program, GL_ACTIVE_ATTRIBUTES, &numAttributes);
     for (int i = 0; i < numAttributes; ++i)
     {
-        glGetActiveAttrib(program, i, (GLsizei)MAX_NAME_LENGTH, &nameLength, &numElements, &type, nameBuffer);
+        glGetActiveAttrib(_program, i, (GLsizei)MAX_NAME_LENGTH, &nameLength, &numElements, &type, nameBuffer);
         
         VertexAttribute newAttribute;
-        newAttribute.name = String(nameBuffer, nameLength);
-        newAttribute.semantic = SEM_POSITION;
-        newAttribute.index = 0;
+        newAttribute._name = String(nameBuffer, nameLength);
+        newAttribute._semantic = SEM_POSITION;
+        newAttribute._index = 0;
 
         for (size_t j = 0; elementSemanticNames[j]; ++j)
         {
-            if (newAttribute.name.StartsWith(elementSemanticNames[j], false))
+            if (newAttribute._name.StartsWith(elementSemanticNames[j], false))
             {
-                int index = NumberPostfix(newAttribute.name);
+                int index = NumberPostfix(newAttribute._name);
                 if (index >= 0)
-                    newAttribute.index = (unsigned char)index;
+                    newAttribute._index = (unsigned char)index;
                 break;
             }
-            newAttribute.semantic = (ElementSemantic)(newAttribute.semantic + 1);
+            newAttribute._semantic = (ElementSemantic)(newAttribute._semantic + 1);
         }
 
-        if (newAttribute.semantic == MAX_ELEMENT_SEMANTICS)
+        if (newAttribute._semantic == MAX_ELEMENT_SEMANTICS)
         {
-            LOGWARNINGF("Found vertex attribute %s with no known semantic in shader program %s", newAttribute.name.CString(), FullName().CString());
+            WarnningStringF("Found vertex attribute %s with no known semantic in shader program %s", newAttribute._name.CString(), FullName().CString());
             continue;
         }
 
-        newAttribute.location = glGetAttribLocation(program, newAttribute.name.CString());
-        attributes.Push(newAttribute);
+        newAttribute._location = glGetAttribLocation(_program, newAttribute._name.CString());
+        _attributes.Push(newAttribute);
     }
 
-    glGetProgramiv(program, GL_ACTIVE_UNIFORMS, &numUniforms);
+    glGetProgramiv(_program, GL_ACTIVE_UNIFORMS, &numUniforms);
     int numTextures = 0;
     for (int i = 0; i < numUniforms; ++i)
     {
-        glGetActiveUniform(program, i, MAX_NAME_LENGTH, &nameLength, &numElements, &type, nameBuffer);
+        glGetActiveUniform(_program, i, MAX_NAME_LENGTH, &nameLength, &numElements, &type, nameBuffer);
 
         String name(nameBuffer, nameLength);
         if (type >= GL_SAMPLER_1D && type <= GL_SAMPLER_2D_SHADOW)
         {
             // Assign sampler uniforms to a texture unit according to the number appended to the sampler name
-            int location = glGetUniformLocation(program, name.CString());
+            int location = glGetUniformLocation(_program, name.CString());
             int unit = NumberPostfix(name);
             // If no unit number specified, assign in appearance order starting from unit 0
             if (unit < 0)
@@ -173,10 +173,10 @@ bool ShaderProgram::Link()
         }
     }
 
-    glGetProgramiv(program, GL_ACTIVE_UNIFORM_BLOCKS, &numUniformBlocks);
+    glGetProgramiv(_program, GL_ACTIVE_UNIFORM_BLOCKS, &numUniformBlocks);
     for (int i = 0; i < numUniformBlocks; ++i)
     {
-        glGetActiveUniformBlockName(program, i, (GLsizei)MAX_NAME_LENGTH, &nameLength, nameBuffer);
+        glGetActiveUniformBlockName(_program, i, (GLsizei)MAX_NAME_LENGTH, &nameLength, nameBuffer);
         
         // Determine whether uniform block belongs to vertex or pixel shader
         String name(nameBuffer, nameLength);
@@ -184,22 +184,22 @@ bool ShaderProgram::Link()
         bool foundPs = psSourceCode.Contains(name);
         if (foundVs && foundPs)
         {
-            LOGWARNINGF("Found uniform block %s in both vertex and pixel shader in shader program %s");
+            WarnningStringF("Found uniform block %s in both vertex and pixel shader in shader program %s");
             continue;
         }
 
         // Vertex shader constant buffer bindings occupy slots starting from zero to maximum supported, pixel shader bindings
         // from that point onward
-        unsigned blockIndex = glGetUniformBlockIndex(program, name.CString());
+        unsigned blockIndex = glGetUniformBlockIndex(_program, name.CString());
 
         int bindingIndex = NumberPostfix(name);
         // If no number postfix in the name, use the block index
         if (bindingIndex < 0)
             bindingIndex = blockIndex;
         if (foundPs)
-            bindingIndex += (unsigned)graphics->NumVSConstantBuffers();
+            bindingIndex += (unsigned)_graphics->NumVSConstantBuffers();
 
-        glUniformBlockBinding(program, blockIndex, bindingIndex);
+        glUniformBlockBinding(_program, blockIndex, bindingIndex);
     }
 
     return true;
@@ -207,17 +207,17 @@ bool ShaderProgram::Link()
 
 ShaderVariation* ShaderProgram::VertexShader() const
 {
-    return vs;
+    return _vs;
 }
 
 ShaderVariation* ShaderProgram::PixelShader() const
 {
-    return ps;
+    return _ps;
 }
 
 String ShaderProgram::FullName() const
 {
-    return (vs && ps) ? vs->FullName() + " " + ps->FullName() : String::EMPTY;
+    return (_vs && _ps) ? _vs->FullName() + " " + _ps->FullName() : String::EMPTY;
 }
 
 }

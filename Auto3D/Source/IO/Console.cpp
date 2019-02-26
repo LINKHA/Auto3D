@@ -66,7 +66,7 @@ void PrintUnicode(const String& str, bool error)
     DWORD charsWritten;
     WriteConsoleW(stream, strW.CString(), (DWORD)strW.Length(), &charsWritten, 0);
     #else
-    fprintf(error ? stderr : stdout, "%s", str.CString());
+    fprintf(_error ? stderr : stdout, "%s", str.CString());
     #endif
     #endif
 }
@@ -137,8 +137,8 @@ String ReadLine()
         }
     }
     #else
-    int flags = fcntl(STDIN_FILENO, F_GETFL);
-    fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK);
+    int _flags = fcntl(STDIN_FILENO, F_GETFL);
+    fcntl(STDIN_FILENO, F_SETFL, _flags | O_NONBLOCK);
     for (;;)
     {
         int ch = fgetc(stdin);

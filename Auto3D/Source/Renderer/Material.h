@@ -38,55 +38,55 @@ public:
     /// Return parent material resource.
     Material* Parent() const;
     /// Return pass name.
-    const String& Name() const { return name; }
+    const String& Name() const { return _name; }
     /// Return shader name by stage.
-    const String& ShaderName(ShaderStage stage) const { return shaderNames[stage]; }
+    const String& ShaderName(ShaderStage stage) const { return _shaderNames[stage]; }
     /// Return shader defines by stage.
-    const String& ShaderDefines(ShaderStage stage) const { return shaderDefines[stage]; }
+    const String& ShaderDefines(ShaderStage stage) const { return _shaderDefines[stage]; }
     /// Return combined shader defines from the material and pass by stage.
-    const String& CombinedShaderDefines(ShaderStage stage) const { return combinedShaderDefines[stage]; }
+    const String& CombinedShaderDefines(ShaderStage stage) const { return _combinedShaderDefines[stage]; }
     /// Return shader hash value for state sorting.
-    unsigned ShaderHash() const { return shaderHash; }
+    unsigned ShaderHash() const { return _shaderHash; }
 
     /// Refresh the combined shader defines and shader hash and clear any cached shader variations. Called internally.
     void OnShadersChanged();
 
     /// Depth compare function.
-    CompareFunc depthFunc;
+    CompareFunc _depthFunc;
     /// Depth write enable.
-    bool depthWrite;
+    bool _depthWrite;
     /// Depth clipping enable.
-    bool depthClip;
+    bool _depthClip;
     /// Alpha to coverage enable.
-    bool alphaToCoverage;
+    bool _alphaToCoverage;
     /// Color write mask.
-    unsigned char colorWriteMask;
+    unsigned char _colorWriteMask;
     /// Blend mode parameters.
-    BlendModeDesc blendMode;
+    BlendModeDesc _blendMode;
     /// Polygon culling mode.
-    CullMode cullMode;
+    CullMode _cullMode;
     /// Polygon fill mode.
-    FillMode fillMode;
+    FillMode _fillMode;
     /// Shader resources. Filled by Renderer.
-    SharedPtr<Shader> shaders[MAX_SHADER_STAGES];
+    SharedPtr<Shader> _shaders[MAX_SHADER_STAGES];
     /// Cached shader variations. Filled by Renderer.
-    HashMap<unsigned short, WeakPtr<ShaderVariation> > shaderVariations[MAX_SHADER_STAGES];
+    HashMap<unsigned short, WeakPtr<ShaderVariation> > _shaderVariations[MAX_SHADER_STAGES];
     /// Shader load attempted flag. Filled by Renderer.
-    bool shadersLoaded;
+    bool _shadersLoaded;
 
 private:
     /// Parent material resource.
-    WeakPtr<Material> parent;
+    WeakPtr<Material> _parent;
     /// Pass name.
-    String name;
+    String _name;
     /// Shader names.
-    String shaderNames[MAX_SHADER_STAGES];
+    String _shaderNames[MAX_SHADER_STAGES];
     /// Shader defines.
-    String shaderDefines[MAX_SHADER_STAGES];
+    String _shaderDefines[MAX_SHADER_STAGES];
     /// Combined shader defines from both the pass and material. Filled by Renderer.
-    String combinedShaderDefines[MAX_SHADER_STAGES];
+    String _combinedShaderDefines[MAX_SHADER_STAGES];
     /// Shader hash calculated from names and defines.
-    unsigned shaderHash;
+    unsigned _shaderHash;
 };
 
 /// %Material resource, which describes how to render 3D geometry and refers to textures. A material can contain several passes (for example normal rendering, and depth only.)
@@ -142,26 +142,26 @@ public:
     static Material* DefaultMaterial();
 
     /// Material textures.
-    SharedPtr<Texture> textures[MAX_MATERIAL_TEXTURE_UNITS];
+    SharedPtr<Texture> _textures[MAX_MATERIAL_TEXTURE_UNITS];
     /// Constant buffers.
-    SharedPtr<ConstantBuffer> constantBuffers[MAX_SHADER_STAGES];
+    SharedPtr<ConstantBuffer> _constantBuffers[MAX_SHADER_STAGES];
 
 private:
     /// Passes by index.
-    Vector<SharedPtr<Pass> > passes;
+    Vector<SharedPtr<Pass> > _passes;
     /// Global shader defines.
-    String shaderDefines[MAX_SHADER_STAGES];
+    String _shaderDefines[MAX_SHADER_STAGES];
     /// JSON data used for loading.
-    AutoPtr<JSONFile> loadJSON;
+    AutoPtr<JSONFile> _loadJSON;
 
     /// Default material.
-    static SharedPtr<Material> defaultMaterial;
+    static SharedPtr<Material> _defaultMaterial;
     /// Pass name to index mapping.
-    static HashMap<String, unsigned char> passIndices;
+    static HashMap<String, unsigned char> _passIndices;
     /// Pass names by index.
-    static Vector<String> passNames;
+    static Vector<String> _passNames;
     /// Next free pass index.
-    static unsigned char nextPassIndex;
+    static unsigned char _nextPassIndex;
 };
 
 }

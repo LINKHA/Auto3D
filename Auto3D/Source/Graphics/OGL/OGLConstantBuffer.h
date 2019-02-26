@@ -49,9 +49,9 @@ public:
     template <class _Ty> bool SetConstant(const char* name, const _Ty& data, size_t numElements = 0) { return SetConstant(name, (const void*)&data, numElements); }
 
     /// Return number of constants.
-    size_t NumConstants() const { return constants.Size(); }
+    size_t NumConstants() const { return _constants.Size(); }
     /// Return the constant descriptions.
-    const Vector<Constant>& Constants() const { return constants; }
+    const Vector<Constant>& Constants() const { return _constants; }
     /// Return the index of a constant, or NPOS if not found.
     size_t FindConstantIndex(const String& name) const;
     /// Return the index of a constant, or NPOS if not found.
@@ -84,19 +84,19 @@ public:
         return value ? *(reinterpret_cast<const _Ty*>(value)) : _Ty();
     }
 
-    /// Return total byte size of the buffer.
-    size_t ByteSize() const { return byteSize; }
+    /// Return total byte _size of the buffer.
+    size_t ByteSize() const { return _byteSize; }
     /// Return whether buffer has unapplied changes.
-    bool IsDirty() const { return dirty; }
+    bool IsDirty() const { return _dirty; }
     /// Return resource usage type.
-    ResourceUsage Usage() const { return usage; }
+    ResourceUsage Usage() const { return _usage; }
     /// Return whether is dynamic.
-    bool IsDynamic() const { return usage == USAGE_DYNAMIC; }
+    bool IsDynamic() const { return _usage == USAGE_DYNAMIC; }
     /// Return whether is immutable.
-    bool IsImmutable() const { return usage == USAGE_IMMUTABLE; }
+    bool IsImmutable() const { return _usage == USAGE_IMMUTABLE; }
 
     /// Return the OpenGL buffer identifier. Used internally and should not be called by portable application code.
-    unsigned GLBuffer() const { return buffer; }
+    unsigned GLBuffer() const { return _buffer; }
 
     /// Index for "constant not found."
     static const size_t NPOS = (size_t)-1;
@@ -106,17 +106,17 @@ private:
     bool Create(const void* data = nullptr);
 
     /// OpenGL buffer object identifier.
-    unsigned buffer;
+    unsigned _buffer;
     /// Constant definitions.
-    Vector<Constant> constants;
+    Vector<Constant> _constants;
     /// CPU-side data where updates are collected before applying.
-    AutoArrayPtr<unsigned char> shadowData;
-    /// Total byte size.
-    size_t byteSize;
+    AutoArrayPtr<unsigned char> _shadowData;
+    /// Total byte _size.
+    size_t _byteSize;
     /// Resource usage type.
-    ResourceUsage usage;
+    ResourceUsage _usage;
     /// Dirty flag.
-    bool dirty;
+    bool _dirty;
 };
 
 }

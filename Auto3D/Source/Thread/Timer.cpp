@@ -38,8 +38,8 @@ public:
 
 static TimerInitializer initializer;
 
-bool HiresTimer::supported = false;
-long long HiresTimer::frequency = 1000;
+bool HiresTimer::_supported = false;
+long long HiresTimer::_frequency = 1000;
 
 Timer::Timer()
 {
@@ -51,22 +51,22 @@ unsigned Timer::ElapsedMSec()
     #ifdef _WIN32
     unsigned currentTime = timeGetTime();
     #else
-    struct timeval time;
-    gettimeofday(&time, 0);
-    unsigned currentTime = time.tv_sec * 1000 + time.tv_usec / 1000;
+    struct timeval _time;
+    gettimeofday(&_time, 0);
+    unsigned currentTime = _time.tv_sec * 1000 + _time.tv_usec / 1000;
     #endif
     
-    return currentTime - startTime;
+    return currentTime - _startTime;
 }
 
 void Timer::Reset()
 {
     #ifdef _WIN32
-    startTime = timeGetTime();
+    _startTime = timeGetTime();
     #else
-    struct timeval time;
-    gettimeofday(&time, 0);
-    startTime = time.tv_sec * 1000 + time.tv_usec / 1000;
+    struct timeval _time;
+    gettimeofday(&_time, 0);
+    _startTime = _time.tv_sec * 1000 + _time.tv_usec / 1000;
     #endif
 }
 
@@ -80,7 +80,7 @@ long long HiresTimer::ElapsedUSec()
     long long currentTime;
     
     #ifdef _WIN32
-    if (supported)
+    if (_supported)
     {
         LARGE_INTEGER counter;
         QueryPerformanceCounter(&counter);
@@ -89,35 +89,35 @@ long long HiresTimer::ElapsedUSec()
     else
         currentTime = timeGetTime();
     #else
-    struct timeval time;
-    gettimeofday(&time, 0);
-    currentTime = time.tv_sec * 1000000LL + time.tv_usec;
+    struct timeval _time;
+    gettimeofday(&_time, 0);
+    currentTime = _time.tv_sec * 1000000LL + _time.tv_usec;
     #endif
     
-    long long elapsedTime = currentTime - startTime;
+    long long elapsedTime = currentTime - _startTime;
     
     // Correct for possible weirdness with changing internal frequency
     if (elapsedTime < 0)
         elapsedTime = 0;
     
-    return (elapsedTime * 1000000LL) / frequency;
+    return (elapsedTime * 1000000LL) / _frequency;
 }
 
 void HiresTimer::Reset()
 {
     #ifdef _WIN32
-    if (supported)
+    if (_supported)
     {
         LARGE_INTEGER counter;
         QueryPerformanceCounter(&counter);
-        startTime = counter.QuadPart;
+        _startTime = counter.QuadPart;
     }
     else
-        startTime = timeGetTime();
+        _startTime = timeGetTime();
     #else
-    struct timeval time;
-    gettimeofday(&time, 0);
-    startTime = time.tv_sec * 1000000LL + time.tv_usec;
+    struct timeval _time;
+    gettimeofday(&_time, 0);
+    _startTime = _time.tv_sec * 1000000LL + _time.tv_usec;
     #endif
 }
 
@@ -127,12 +127,12 @@ void HiresTimer::Initialize()
     LARGE_INTEGER frequency_;
     if (QueryPerformanceFrequency(&frequency_))
     {
-        frequency = frequency_.QuadPart;
-        supported = true;
+        _frequency = frequency_.QuadPart;
+        _supported = true;
     }
     #else
-    frequency = 1000000;
-    supported = true;
+    _frequency = 1000000;
+    _supported = true;
     #endif
 }
 

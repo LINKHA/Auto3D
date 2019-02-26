@@ -43,20 +43,20 @@ public:
     /// Destroy child nodes recursively, leaving the scene empty.
     void Clear();
 
-    /// Find node by id.
+    /// Find node by _id.
     Node* FindNode(unsigned id) const;
     /// Return the layer names.
-    const Vector<String>& LayerNames() const { return layerNames; }
+    const Vector<String>& LayerNames() const { return _layerNames; }
     /// Return the layer name-to-index map.
-    const HashMap<String, unsigned char>& Layers() const { return layers; }
+    const HashMap<String, unsigned char>& Layers() const { return _layers; }
     /// Return the tag names.
-    const Vector<String>& TagNames() const { return tagNames; }
+    const Vector<String>& TagNames() const { return _tagNames; }
     /// Return the tag name-to-index map.
-    const HashMap<String, unsigned char>& Tags() const { return tags; }
+    const HashMap<String, unsigned char>& Tags() const { return _tags; }
 
-    /// Add node to the scene. This assigns a scene-unique id to it. Called internally.
+    /// Add node to the scene. This assigns a scene-unique _id to it. Called internally.
     void AddNode(Node* node);
-    /// Remove node from the scene. This removes the id mapping but does not destroy the node. Called internally.
+    /// Remove node from the scene. This removes the _id mapping but does not destroy the node. Called internally.
     void RemoveNode(Node* node);
     
     using Node::Load;
@@ -73,18 +73,18 @@ private:
     /// Return tag names. Used in serialization.
     JSONValue TagNamesAttr() const;
 
-    /// Map from id's to nodes.
-    HashMap<unsigned, Node*> nodes;
-    /// Next free node id.
-    unsigned nextNodeId;
+    /// Map from _id's to nodes.
+    HashMap<unsigned, Node*> _nodes;
+    /// Next free node _id.
+    unsigned _nextNodeId;
     /// List of layer names by index.
-    Vector<String> layerNames;
+    Vector<String> _layerNames;
     /// Map from layer names to indices.
-    HashMap<String, unsigned char> layers;
+    HashMap<String, unsigned char> _layers;
     /// List of tag names by index.
-    Vector<String> tagNames;
+    Vector<String> _tagNames;
     /// Map from tag names to indices.
-    HashMap<String, unsigned char> tags;
+    HashMap<String, unsigned char> _tags;
 };
 
 /// Register Scene related object factories and attributes.

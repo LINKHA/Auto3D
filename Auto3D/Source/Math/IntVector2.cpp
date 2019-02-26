@@ -23,8 +23,8 @@ bool IntVector2::FromString(const char* str)
         return false;
     
     char* ptr = (char*)str;
-    x = strtol(ptr, &ptr, 10);
-    y = strtol(ptr, &ptr, 10);
+    _x = strtol(ptr, &ptr, 10);
+    _y = strtol(ptr, &ptr, 10);
     
     return true;
 }
@@ -32,7 +32,7 @@ bool IntVector2::FromString(const char* str)
 String IntVector2::ToString() const
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
-    sprintf(tempBuffer, "%d %d", x, y);
+    sprintf(tempBuffer, "%d %d", _x, _y);
     return String(tempBuffer);
 }
 

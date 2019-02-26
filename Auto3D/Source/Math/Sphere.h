@@ -14,28 +14,28 @@ class AUTO_API Sphere
 {
 public:
     /// Sphere center.
-    Vector3 center;
+    Vector3 _center;
     /// Sphere radius.
-    float radius;
+    float _radius;
     
     /// Construct as undefined (negative radius.)
     Sphere() :
-        center(Vector3::ZERO),
-        radius(-M_INFINITY)
+        _center(Vector3::ZERO),
+        _radius(-M_INFINITY)
     {
     }
     
     /// Copy-construct.
     Sphere(const Sphere& sphere) :
-        center(sphere.center),
-        radius(sphere.radius)
+        _center(sphere._center),
+        _radius(sphere._radius)
     {
     }
     
     /// Construct from center and radius.
-    Sphere(const Vector3& center_, float radius_) :
-        center(center_),
-        radius(radius_)
+    Sphere(const Vector3& center, float radius) :
+        _center(center),
+        _radius(radius)
     {
     }
     
@@ -66,28 +66,28 @@ public:
     /// Assign from another sphere.
     Sphere& operator = (const Sphere& rhs)
     {
-        center = rhs.center;
-        radius = rhs.radius;
+        _center = rhs._center;
+        _radius = rhs._radius;
         return *this;
     }
     
     /// Test for equality with another sphere without epsilon.
-    bool operator == (const Sphere& rhs) const { return center == rhs.center && radius == rhs.radius; }
+    bool operator == (const Sphere& rhs) const { return _center == rhs._center && _radius == rhs._radius; }
     /// Test for inequality with another sphere without epsilon.
     bool operator != (const Sphere& rhs) const { return !(*this == rhs); }
     
     /// Define from another sphere.
     void Define(const Sphere& sphere)
     {
-        center = sphere.center;
-        radius = sphere.radius;
+        _center = sphere._center;
+        _radius = sphere._radius;
     }
     
     /// Define from center and radius.
     void Define(const Vector3& center_, float radius_)
     {
-        center = center_;
-        radius = radius_;
+        _center = center_;
+        _radius = radius_;
     }
     
     /// Define from an array of vertices.
@@ -105,26 +105,26 @@ public:
         // If undefined, set initial dimensions
         if (!IsDefined())
         {
-            center = point;
-            radius = 0.0f;
+            _center = point;
+            _radius = 0.0f;
             return;
         }
         
-        Vector3 offset = point - center;
+        Vector3 offset = point - _center;
         float dist = offset.Length();
         
-        if (dist > radius)
+        if (dist > _radius)
         {
-            float half = (dist - radius) * 0.5f;
-            radius += half;
-            center += (half / dist) * offset;
+            float half = (dist - _radius) * 0.5f;
+            _radius += half;
+            _center += (half / dist) * offset;
         }
     }
     
-    /// Set as undefined to allow the next merge to set initial size.
+    /// Set as undefined to allow the next merge to set initial _size.
     void Undefine()
     {
-        radius = -M_INFINITY;
+        _radius = -M_INFINITY;
     }
     
     /// Merge an array of vertices.
@@ -139,13 +139,13 @@ public:
     void Merge(const Sphere& sphere);
     
     /// Return whether has non-negative radius.
-    bool IsDefined() const { return radius >= 0.0f; }
+    bool IsDefined() const { return _radius >= 0.0f; }
 
     /// Test if a point is inside.
     Intersection IsInside(const Vector3& point) const
     {
-        float distSquared = (point - center).LengthSquared();
-        if (distSquared < radius * radius)
+        float distSquared = (point - _center).LengthSquared();
+        if (distSquared < _radius * _radius)
             return INSIDE;
         else
             return OUTSIDE;
@@ -154,10 +154,10 @@ public:
     /// Test if another sphere is inside, outside or intersects.
     Intersection IsInside(const Sphere& sphere) const
     {
-        float dist = (sphere.center - center).Length();
-        if (dist >= sphere.radius + radius)
+        float dist = (sphere._center - _center).Length();
+        if (dist >= sphere._radius + _radius)
             return OUTSIDE;
-        else if (dist + sphere.radius < radius)
+        else if (dist + sphere._radius < _radius)
             return INSIDE;
         else
             return INTERSECTS;
@@ -166,8 +166,8 @@ public:
     /// Test if another sphere is (partially) inside or outside.
     Intersection IsInsideFast(const Sphere& sphere) const
     {
-        float distSquared = (sphere.center - center).LengthSquared();
-        float combined = sphere.radius + radius;
+        float distSquared = (sphere._center - _center).LengthSquared();
+        float combined = sphere._radius + _radius;
         
         if (distSquared >= combined * combined)
             return OUTSIDE;
@@ -181,7 +181,7 @@ public:
     Intersection IsInsideFast(const BoundingBox& box) const;
     
     /// Return distance of a point to the surface, or 0 if inside.
-    float Distance(const Vector3& point) const { return Max((point - center).Length() - radius, 0.0f); }
+    float Distance(const Vector3& point) const { return Max((point - _center).Length() - _radius, 0.0f); }
 };
 
 }

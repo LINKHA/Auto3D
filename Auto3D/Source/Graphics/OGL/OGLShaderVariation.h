@@ -29,24 +29,24 @@ public:
     /// Return full name combined from parent resource name and compilation defines.
     String FullName() const;
     /// Return shader stage.
-    ShaderStage Stage() const { return stage; }
+    ShaderStage Stage() const { return _stage; }
     /// Return whether compile attempted.
-    bool IsCompiled() const { return compiled; }
+    bool IsCompiled() const { return _compiled; }
 
     /// Return the OpenGL shader identifier. Used internally and should not be called by portable application code.
-    unsigned GLShader() const { return shader; }
+    unsigned GLShader() const { return _shader; }
 
 private:
     /// OpenGL shader object identifier.
-    unsigned shader;
+    unsigned _shader;
     /// Parent shader resource.
-    WeakPtr<Shader> parent;
+    WeakPtr<Shader> _parent;
     /// Shader stage.
-    ShaderStage stage;
+    ShaderStage _stage;
     /// Compilation defines.
-    String defines;
+    String _defines;
     /// Compile attempted flag.
-    bool compiled;
+    bool _compiled;
 };
 
 }

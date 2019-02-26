@@ -30,7 +30,7 @@ public:
     /// Return the model resource.
     Model* GetModel() const;
     /// Return LOD bias.
-    float LodBias() const { return lodBias; }
+    float LodBias() const { return _lodBias; }
 
 private:
     /// Set model attribute. Used in serialization.
@@ -39,11 +39,11 @@ private:
     ResourceRef ModelAttr() const;
 
     /// Current model resource.
-    SharedPtr<Model> model;
+    SharedPtr<Model> _model;
     /// LOD bias value.
-    float lodBias;
+    float _lodBias;
     /// Lod levels flag.
-    bool hasLodLevels;
+    bool _hasLodLevels;
 };
 
 }

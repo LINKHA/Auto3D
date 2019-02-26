@@ -45,21 +45,21 @@ struct AUTO_API ImageLevel
 {
     /// Default construct.
     ImageLevel() :
-        data(nullptr),
-        size(IntVector2::ZERO),
-        rowSize(0),
-        rows(0)
+        _data(nullptr),
+        _size(IntVector2::ZERO),
+        _rowSize(0),
+        _rows(0)
     {
     }
 
     /// Pointer to pixel data.
-    unsigned char* data;
-    /// Level size in pixels.
-    IntVector2 size;
-    /// Row size in bytes.
-    size_t rowSize;
+    unsigned char* _data;
+    /// Level _size in pixels.
+    IntVector2 _size;
+    /// Row _size in bytes.
+    size_t _rowSize;
     /// Number of rows.
-    size_t rows;
+    size_t _rows;
 };
 
 /// %Image resource.
@@ -89,12 +89,12 @@ public:
     /// Return image dimensions in pixels.
     const IntVector2& Size() const { return size; }
     /// Return image width in pixels.
-    int Width() const { return size.x; }
+    int Width() const { return size._x; }
     /// Return image height in pixels.
-    int Height() const { return size.y; }
+    int Height() const { return size._y; }
     /// Return number of components in a pixel. Will return 0 for formats which are not 8 bits per pixel.
     int Components() const { return components[format]; }
-    /// Return byte size of a pixel. Will return 0 for block compressed formats.
+    /// Return byte _size of a pixel. Will return 0 for block compressed formats.
     size_t PixelByteSize() const { return pixelByteSizes[format]; } 
     /// Return pixel data.
     unsigned char* Data() const { return data.Get(); }
@@ -111,7 +111,7 @@ public:
     /// Decompress a mip level as 8-bit RGBA. Supports compressed images only. Return true on success.
     bool DecompressLevel(unsigned char* dest, size_t levelIndex) const;
 
-    /// Calculate the data size of an image level.
+    /// Calculate the data _size of an image level.
     static size_t CalculateDataSize(const IntVector2& size, ImageFormat format, size_t* numRows = 0, size_t* rowSize = 0);
 
     /// Pixel components per format.

@@ -30,9 +30,9 @@ bool Vector3::FromString(const char* str)
         return false;
     
     char* ptr = (char*)str;
-    x = (float)strtod(ptr, &ptr);
-    y = (float)strtod(ptr, &ptr);
-    z = (float)strtod(ptr, &ptr);
+    _x = (float)strtod(ptr, &ptr);
+    _y = (float)strtod(ptr, &ptr);
+    _z = (float)strtod(ptr, &ptr);
     
     return true;
 }
@@ -40,7 +40,7 @@ bool Vector3::FromString(const char* str)
 String Vector3::ToString() const
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
-    sprintf(tempBuffer, "%g %g %g", x, y, z);
+    sprintf(tempBuffer, "%g %g %g", _x, _y, _z);
     return String(tempBuffer);
 }
 

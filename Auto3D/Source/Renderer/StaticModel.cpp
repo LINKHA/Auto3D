@@ -15,8 +15,8 @@ namespace Auto3D
 static Vector3 DOT_SCALE(1 / 3.0f, 1 / 3.0f, 1 / 3.0f);
 
 StaticModel::StaticModel() :
-    lodBias(1.0f),
-    hasLodLevels(false)
+    _lodBias(1.0f),
+    _hasLodLevels(false)
 {
 }
 
@@ -37,75 +37,75 @@ void StaticModel::RegisterObject()
 
 void StaticModel::OnPrepareRender(unsigned frameNumber, Camera* camera)
 {
-    lastFrameNumber = frameNumber;
-    lightList = nullptr;
-    distance = camera->Distance(WorldPosition());
+    _lastFrameNumber = frameNumber;
+    _lightList = nullptr;
+    _distance = camera->Distance(WorldPosition());
 
     // Find out the new LOD level if model has LODs
-    if (hasLodLevels)
+    if (_hasLodLevels)
     {
-        float lodDistance = camera->LodDistance(distance, WorldScale().DotProduct(DOT_SCALE), lodBias);
+        float lodDistance = camera->LodDistance(_distance, WorldScale().DotProduct(DOT_SCALE), _lodBias);
 
-        for (size_t i = 0; i < batches.Size(); ++i)
+        for (size_t i = 0; i < _batches.Size(); ++i)
         {
-            const Vector<SharedPtr<Geometry> >& lodGeometries = model->LodGeometries(i);
+            const Vector<SharedPtr<Geometry> >& lodGeometries = _model->LodGeometries(i);
             if (lodGeometries.Size() > 1)
             {
                 size_t j;
                 for (j = 1; j < lodGeometries.Size(); ++j)
                 {
-                    if (lodDistance <= lodGeometries[j]->lodDistance)
+                    if (lodDistance <= lodGeometries[j]->_lodDistance)
                         break;
                 }
-                batches[i].geometry = lodGeometries[j - 1];
+                _batches[i]._geometry = lodGeometries[j - 1];
             }
         }
     }
 }
 
-void StaticModel::SetModel(Model* model_)
+void StaticModel::SetModel(Model* model)
 {
-    model = model_;
-    hasLodLevels = false;
+    _model = model;
+    _hasLodLevels = false;
 
-    if (!model)
+    if (!_model)
     {
         SetNumGeometries(0);
         SetLocalBoundingBox(BoundingBox(0.0f, 0.0f));
         return;
     }
 
-    SetNumGeometries(model->NumGeometries());
+    SetNumGeometries(_model->NumGeometries());
     // Start at LOD level 0
-    for (size_t i = 0; i < batches.Size(); ++i)
+    for (size_t i = 0; i < _batches.Size(); ++i)
     {
-        SetGeometry(i, model->GetGeometry(i, 0));
-        if (model->NumLodLevels(i) > 1)
-            hasLodLevels = true;
+        SetGeometry(i, _model->GetGeometry(i, 0));
+        if (_model->NumLodLevels(i) > 1)
+            _hasLodLevels = true;
     }
 
-    SetLocalBoundingBox(model->LocalBoundingBox());
+    SetLocalBoundingBox(_model->LocalBoundingBox());
 }
 
 void StaticModel::SetLodBias(float bias)
 {
-    lodBias = Max(bias, M_EPSILON);
+    _lodBias = Max(bias, M_EPSILON);
 }
 
 Model* StaticModel::GetModel() const
 {
-    return model.Get();
+    return _model.Get();
 }
 
-void StaticModel::SetModelAttr(const ResourceRef& model_)
+void StaticModel::SetModelAttr(const ResourceRef& model)
 {
-    ResourceCache* cache = Subsystem<ResourceCache>();
-    SetModel(cache->LoadResource<Model>(model_.name));
+    ResourceCache* cache = GetSubsystem<ResourceCache>();
+    SetModel(cache->LoadResource<Model>(model._name));
 }
 
 ResourceRef StaticModel::ModelAttr() const
 {
-    return ResourceRef(Model::TypeStatic(), ResourceName(model.Get()));
+    return ResourceRef(Model::TypeStatic(), ResourceName(_model.Get()));
 }
 
 }

@@ -23,11 +23,11 @@ public:
     
 private:
     #ifndef WIN32
-    /// Mutex for the event, necessary for pthreads-based implementation.
-    void* mutex;
+    /// Mutex for the _event, necessary for pthreads-based implementation.
+    void* _mutex;
     #endif
-    /// Operating system specific event.
-    void* event;
+    /// Operating system specific _event.
+    void* _event;
 };
 
 }

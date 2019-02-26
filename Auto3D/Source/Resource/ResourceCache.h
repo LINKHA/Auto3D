@@ -51,7 +51,7 @@ public:
     /// Return resources by type.
     void ResourcesByType(Vector<Resource*>& result, StringHash type) const;
     /// Return resource directories.
-    const Vector<String>& ResourceDirs() const { return resourceDirs; }
+    const Vector<String>& ResourceDirs() const { return _resourceDirs; }
     /// Return whether a file exists in the resource directories.
     bool Exists(const String& name) const;
     /// Return an absolute filename from a resource name.
@@ -78,8 +78,8 @@ public:
     String SanitateResourceDirName(const String& name) const;
 
 private:
-    ResourceMap resources;
-    Vector<String> resourceDirs;
+    ResourceMap _resources;
+    Vector<String> _resourceDirs;
 };
 
 /// Register Resource related object factories and attributes.

@@ -18,7 +18,7 @@ void BoundingBox::Define(const Vector3* vertices, size_t count)
 
 void BoundingBox::Define(const Frustum& frustum)
 {
-    Define(frustum.vertices, NUM_FRUSTUM_VERTICES);
+    Define(frustum._vertices, NUM_FRUSTUM_VERTICES);
 }
 
 void BoundingBox::Define(const Polyhedron& poly)
@@ -29,11 +29,11 @@ void BoundingBox::Define(const Polyhedron& poly)
 
 void BoundingBox::Define(const Sphere& sphere)
 {
-    const Vector3& center = sphere.center;
-    float radius = sphere.radius;
+    const Vector3& center = sphere._center;
+    float radius = sphere._radius;
     
-    min = center + Vector3(-radius, -radius, -radius);
-    max = center + Vector3(radius, radius, radius);
+    _min = center + Vector3(-radius, -radius, -radius);
+    _max = center + Vector3(radius, radius, radius);
 }
 
 void BoundingBox::Merge(const Vector3* vertices, size_t count)
@@ -44,14 +44,14 @@ void BoundingBox::Merge(const Vector3* vertices, size_t count)
 
 void BoundingBox::Merge(const Frustum& frustum)
 {
-    Merge(frustum.vertices, NUM_FRUSTUM_VERTICES);
+    Merge(frustum._vertices, NUM_FRUSTUM_VERTICES);
 }
 
 void BoundingBox::Merge(const Polyhedron& poly)
 {
-    for (size_t i = 0; i < poly.faces.Size(); ++i)
+    for (size_t i = 0; i < poly._faces.Size(); ++i)
     {
-        const Vector<Vector3>& face = poly.faces[i];
+        const Vector<Vector3>& face = poly._faces[i];
         if (!face.IsEmpty())
             Merge(&face[0], face.Size());
     }
@@ -59,8 +59,8 @@ void BoundingBox::Merge(const Polyhedron& poly)
 
 void BoundingBox::Merge(const Sphere& sphere)
 {
-    const Vector3& center = sphere.center;
-    float radius = sphere.radius;
+    const Vector3& center = sphere._center;
+    float radius = sphere._radius;
     
     Merge(center + Vector3(radius, radius, radius));
     Merge(center + Vector3(-radius, -radius, -radius));
@@ -68,25 +68,25 @@ void BoundingBox::Merge(const Sphere& sphere)
 
 void BoundingBox::Clip(const BoundingBox& box)
 {
-    if (box.min.x > min.x)
-        min.x = box.min.x;
-    if (box.max.x < max.x)
-        max.x = box.max.x;
-    if (box.min.y > min.y)
-        min.y = box.min.y;
-    if (box.max.y < max.y)
-        max.y = box.max.y;
-    if (box.min.z > min.z)
-        min.z = box.min.z;
-    if (box.max.z < max.z)
-        max.z = box.max.z;
+    if (box._min._x > _min._x)
+        _min._x = box._min._x;
+    if (box._max._x < _max._x)
+        _max._x = box._max._x;
+    if (box._min._y > _min._y)
+        _min._y = box._min._y;
+    if (box._max._y < _max._y)
+        _max._y = box._max._y;
+    if (box._min._z > _min._z)
+        _min._z = box._min._z;
+    if (box._max._z < _max._z)
+        _max._z = box._max._z;
     
-    if (min.x > max.x)
-        Swap(min.x, max.x);
-    if (min.y > max.y)
-        Swap(min.y, max.y);
-    if (min.z > max.z)
-        Swap(min.z, max.z);
+    if (_min._x > _max._x)
+        Swap(_min._x, _max._x);
+    if (_min._y > _max._y)
+        Swap(_min._y, _max._y);
+    if (_min._z > _max._z)
+        Swap(_min._z, _max._z);
 }
 
 void BoundingBox::Transform(const Matrix3& transform)
@@ -111,12 +111,12 @@ bool BoundingBox::FromString(const char* str)
         return false;
     
     char* ptr = (char*)str;
-    min.x = (float)strtod(ptr, &ptr);
-    min.y = (float)strtod(ptr, &ptr);
-    min.z = (float)strtod(ptr, &ptr);
-    max.x = (float)strtod(ptr, &ptr);
-    max.y = (float)strtod(ptr, &ptr);
-    max.z = (float)strtod(ptr, &ptr);
+    _min._x = (float)strtod(ptr, &ptr);
+    _min._y = (float)strtod(ptr, &ptr);
+    _min._z = (float)strtod(ptr, &ptr);
+    _max._x = (float)strtod(ptr, &ptr);
+    _max._y = (float)strtod(ptr, &ptr);
+    _max._z = (float)strtod(ptr, &ptr);
     
     return true;
 }
@@ -129,12 +129,12 @@ BoundingBox BoundingBox::Transformed(const Matrix3& transform) const
 BoundingBox BoundingBox::Transformed(const Matrix3x4& transform) const
 {
     Vector3 oldCenter = Center();
-    Vector3 oldEdge = max - oldCenter;
+    Vector3 oldEdge = _max - oldCenter;
     Vector3 newCenter = transform * oldCenter;
     Vector3 newEdge(
-        Abs(transform.m00) * oldEdge.x + Abs(transform.m01) * oldEdge.y + Abs(transform.m02) * oldEdge.z,
-        Abs(transform.m10) * oldEdge.x + Abs(transform.m11) * oldEdge.y + Abs(transform.m12) * oldEdge.z,
-        Abs(transform.m20) * oldEdge.x + Abs(transform.m21) * oldEdge.y + Abs(transform.m22) * oldEdge.z
+        Abs(transform._m00) * oldEdge._x + Abs(transform._m01) * oldEdge._y + Abs(transform._m02) * oldEdge._z,
+        Abs(transform._m10) * oldEdge._x + Abs(transform._m11) * oldEdge._y + Abs(transform._m12) * oldEdge._z,
+        Abs(transform._m20) * oldEdge._x + Abs(transform._m21) * oldEdge._y + Abs(transform._m22) * oldEdge._z
     );
     
     return BoundingBox(newCenter - newEdge, newCenter + newEdge);
@@ -142,28 +142,28 @@ BoundingBox BoundingBox::Transformed(const Matrix3x4& transform) const
 
 Rect BoundingBox::Projected(const Matrix4& projection) const
 {
-    Vector3 projMin = min;
-    Vector3 projMax = max;
-    if (projMin.z < M_EPSILON)
-        projMin.z = M_EPSILON;
-    if (projMax.z < M_EPSILON)
-        projMax.z = M_EPSILON;
+    Vector3 projMin = _min;
+    Vector3 projMax = _max;
+    if (projMin._z < M_EPSILON)
+        projMin._z = M_EPSILON;
+    if (projMax._z < M_EPSILON)
+        projMax._z = M_EPSILON;
     
     Vector3 vertices[8];
     vertices[0] = projMin;
-    vertices[1] = Vector3(projMax.x, projMin.y, projMin.z);
-    vertices[2] = Vector3(projMin.x, projMax.y, projMin.z);
-    vertices[3] = Vector3(projMax.x, projMax.y, projMin.z);
-    vertices[4] = Vector3(projMin.x, projMin.y, projMax.z);
-    vertices[5] = Vector3(projMax.x, projMin.y, projMax.z);
-    vertices[6] = Vector3(projMin.x, projMax.y, projMax.z);
+    vertices[1] = Vector3(projMax._x, projMin._y, projMin._z);
+    vertices[2] = Vector3(projMin._x, projMax._y, projMin._z);
+    vertices[3] = Vector3(projMax._x, projMax._y, projMin._z);
+    vertices[4] = Vector3(projMin._x, projMin._y, projMax._z);
+    vertices[5] = Vector3(projMax._x, projMin._y, projMax._z);
+    vertices[6] = Vector3(projMin._x, projMax._y, projMax._z);
     vertices[7] = projMax;
     
     Rect rect;
     for (size_t i = 0; i < 8; ++i)
     {
         Vector3 projected = projection * vertices[i];
-        rect.Merge(Vector2(projected.x, projected.y));
+        rect.Merge(Vector2(projected._x, projected._y));
     }
     
     return rect;
@@ -173,44 +173,44 @@ Intersection BoundingBox::IsInside(const Sphere& sphere) const
 {
     float distSquared = 0;
     float temp;
-    const Vector3& center = sphere.center;
+    const Vector3& center = sphere._center;
     
-    if (center.x < min.x)
+    if (center._x < _min._x)
     {
-        temp = center.x - min.x;
+        temp = center._x - _min._x;
         distSquared += temp * temp;
     }
-    else if (center.x > max.x)
+    else if (center._x > _max._x)
     {
-        temp = center.x - max.x;
+        temp = center._x - _max._x;
         distSquared += temp * temp;
     }
-    if (center.y < min.y)
+    if (center._y < _min._y)
     {
-        temp = center.y - min.y;
+        temp = center._y - _min._y;
         distSquared += temp * temp;
     }
-    else if (center.y > max.y)
+    else if (center._y > _max._y)
     {
-        temp = center.y - max.y;
+        temp = center._y - _max._y;
         distSquared += temp * temp;
     }
-    if (center.z < min.z)
+    if (center._z < _min._z)
     {
-        temp = center.z - min.z;
+        temp = center._z - _min._z;
         distSquared += temp * temp;
     }
-    else if (center.z > max.z)
+    else if (center._z > _max._z)
     {
-        temp = center.z - max.z;
+        temp = center._z - _max._z;
         distSquared += temp * temp;
     }
     
-    float radius = sphere.radius;
+    float radius = sphere._radius;
     if (distSquared >= radius * radius)
         return OUTSIDE;
-    else if (center.x - radius < min.x || center.x + radius > max.x || center.y - radius < min.y ||
-        center.y + radius > max.y || center.z - radius < min.z || center.z + radius > max.z)
+    else if (center._x - radius < _min._x || center._x + radius > _max._x || center._y - radius < _min._y ||
+        center._y + radius > _max._y || center._z - radius < _min._z || center._z + radius > _max._z)
         return INTERSECTS;
     else
         return INSIDE;
@@ -220,40 +220,40 @@ Intersection BoundingBox::IsInsideFast(const Sphere& sphere) const
 {
     float distSquared = 0;
     float temp;
-    const Vector3& center = sphere.center;
+    const Vector3& center = sphere._center;
     
-    if (center.x < min.x)
+    if (center._x < _min._x)
     {
-        temp = center.x - min.x;
+        temp = center._x - _min._x;
         distSquared += temp * temp;
     }
-    else if (center.x > max.x)
+    else if (center._x > _max._x)
     {
-        temp = center.x - max.x;
+        temp = center._x - _max._x;
         distSquared += temp * temp;
     }
-    if (center.y < min.y)
+    if (center._y < _min._y)
     {
-        temp = center.y - min.y;
+        temp = center._y - _min._y;
         distSquared += temp * temp;
     }
-    else if (center.y > max.y)
+    else if (center._y > _max._y)
     {
-        temp = center.y - max.y;
+        temp = center._y - _max._y;
         distSquared += temp * temp;
     }
-    if (center.z < min.z)
+    if (center._z < _min._z)
     {
-        temp = center.z - min.z;
+        temp = center._z - _min._z;
         distSquared += temp * temp;
     }
-    else if (center.z > max.z)
+    else if (center._z > _max._z)
     {
-        temp = center.z - max.z;
+        temp = center._z - _max._z;
         distSquared += temp * temp;
     }
     
-    float radius = sphere.radius;
+    float radius = sphere._radius;
     if (distSquared >= radius * radius)
         return OUTSIDE;
     else
@@ -262,7 +262,7 @@ Intersection BoundingBox::IsInsideFast(const Sphere& sphere) const
 
 String BoundingBox::ToString() const
 {
-    return min.ToString() + " " + max.ToString();
+    return _min.ToString() + " " + _max.ToString();
 }
 
 }

@@ -146,7 +146,7 @@ public:
         glDeleteFramebuffers(1, &buffer);
     }
 
-    /// OpenGL FBO handle.
+    /// OpenGL FBO _handle.
     unsigned buffer;
     /// Color rendertargets bound to this FBO.
     Texture* renderTargets[MAX_RENDERTARGETS];
@@ -159,15 +159,15 @@ public:
 };
 
 Graphics::Graphics() :
-    backbufferSize(IntVector2::ZERO),
-    renderTargetSize(IntVector2::ZERO),
-    attributesBySemantic(MAX_ELEMENT_SEMANTICS),
-    multisample(1),
-    vsync(false)
+    _backbufferSize(IntVector2::ZERO),
+    _renderTargetSize(IntVector2::ZERO),
+    _attributesBySemantic(MAX_ELEMENT_SEMANTICS),
+    _multisample(1),
+    _vsync(false)
 {
     RegisterSubsystem(this);
-    window = new Window();
-    SubscribeToEvent(window->resizeEvent, &Graphics::HandleResize);
+    _window = new Window();
+    SubscribeToEvent(_window->resizeEvent, &Graphics::HandleResize);
     ResetState();
 }
 
@@ -181,8 +181,8 @@ bool Graphics::SetMode(const IntVector2& size, bool fullscreen, bool resizable, 
 {
     multisample_ = Clamp(multisample_, 1, 16);
 
-    // Changing multisample requires destroying the window, as OpenGL pixel format can only be set once
-    if (!context || multisample_ != multisample)
+    // Changing multisample requires destroying the _window, as OpenGL pixel format can only be set once
+    if (!_context || multisample_ != _multisample)
     {
         bool recreate = false;
 
@@ -190,10 +190,10 @@ bool Graphics::SetMode(const IntVector2& size, bool fullscreen, bool resizable, 
         {
             recreate = true;
             Close();
-            SendEvent(contextLossEvent);
+            SendEvent(_contextLossEvent);
         }
 
-        if (!window->SetSize(size, fullscreen, resizable))
+        if (!_window->SetSize(size, fullscreen, resizable))
             return false;
         if (!CreateContext(multisample_))
             return false;
@@ -201,35 +201,35 @@ bool Graphics::SetMode(const IntVector2& size, bool fullscreen, bool resizable, 
         if (recreate)
         {
             // Recreate GPU objects that can be recreated
-            for (auto it = gpuObjects.Begin(); it != gpuObjects.End(); ++it)
+            for (auto it = _gpuObjects.Begin(); it != _gpuObjects.End(); ++it)
             {
                 GPUObject* object = *it;
                 object->Recreate();
             }
-            SendEvent(contextRestoreEvent);
+            SendEvent(_contextRestoreEvent);
         }
     }
     else
     {
-        // If no context creation, just need to resize the window
-        if (!window->SetSize(size, fullscreen, resizable))
+        // If no context creation, just need to resize the _window
+        if (!_window->SetSize(size, fullscreen, resizable))
             return false;
     }
 
-    backbufferSize = window->Size();
+    _backbufferSize = _window->Size();
     ResetRenderTargets();
     ResetViewport();
     // Cleanup framebuffers defined during the old resolution now
     CleanupFramebuffers();
 
-    screenModeEvent.size = backbufferSize;
-    screenModeEvent.fullscreen = IsFullscreen();
-    screenModeEvent.resizable = IsResizable();
-    screenModeEvent.multisample = multisample;
-    SendEvent(screenModeEvent);
+    _screenModeEvent._size = _backbufferSize;
+    _screenModeEvent._fullscreen = IsFullscreen();
+    _screenModeEvent._resizable = IsResizable();
+    _screenModeEvent._multisample = _multisample;
+    SendEvent(_screenModeEvent);
 
-    LOGDEBUGF("Set screen mode %dx%d fullscreen %d resizable %d multisample %d", backbufferSize.x, backbufferSize.y,
-        IsFullscreen(), IsResizable(), multisample);
+    LogStringF("Set screen mode %dx%d fullscreen %d resizable %d multisample %d", _backbufferSize._x, _backbufferSize._y,
+        IsFullscreen(), IsResizable(), _multisample);
 
     return true;
 }
@@ -239,7 +239,7 @@ bool Graphics::SetFullscreen(bool enable)
     if (!IsInitialized())
         return false;
     else
-        return SetMode(backbufferSize, enable, window->IsResizable(), multisample);
+        return SetMode(_backbufferSize, enable, _window->IsResizable(), _multisample);
 }
 
 bool Graphics::SetMultisample(int multisample_)
@@ -247,31 +247,31 @@ bool Graphics::SetMultisample(int multisample_)
     if (!IsInitialized())
         return false;
     else
-        return SetMode(backbufferSize, window->IsFullscreen(), window->IsResizable(), multisample_);
+        return SetMode(_backbufferSize, _window->IsFullscreen(), _window->IsResizable(), multisample_);
 }
 
 void Graphics::SetVSync(bool enable)
 {
-    vsync = enable;
-    if (context)
-        context->SetVSync(enable);
+    _vsync = enable;
+    if (_context)
+        _context->SetVSync(enable);
 }
 
 void Graphics::Close()
 {
-    shaderPrograms.Clear();
-    framebuffers.Clear();
+    _shaderPrograms.Clear();
+    _framebuffers.Clear();
 
     // Release all GPU objects
-    for (auto it = gpuObjects.Begin(); it != gpuObjects.End(); ++it)
+    for (auto it = _gpuObjects.Begin(); it != _gpuObjects.End(); ++it)
     {
         GPUObject* object = *it;
         object->Release();
     }
 
-    context.Reset();
+    _context.Reset();
 
-    window->Close();
+    _window->Close();
     ResetState();
 }
 
@@ -279,7 +279,7 @@ void Graphics::Present()
 {
     PROFILE(Present);
 
-    context->Present();
+    _context->Present();
 
     // In case of third party hooks which modify the GL state and don't restore it properly, re-enable depth test now
     /// \todo Need to restore other state?
@@ -288,29 +288,29 @@ void Graphics::Present()
 
 void Graphics::SetRenderTarget(Texture* renderTarget_, Texture* depthStencil_)
 {
-    renderTargetVector.Resize(1);
-    renderTargetVector[0] = renderTarget_;
-    SetRenderTargets(renderTargetVector, depthStencil_);
+    _renderTargetVector.Resize(1);
+    _renderTargetVector[0] = renderTarget_;
+    SetRenderTargets(_renderTargetVector, depthStencil_);
 }
 
 void Graphics::SetRenderTargets(const Vector<Texture*>& renderTargets_, Texture* depthStencil_)
 {
     for (size_t i = 0; i < MAX_RENDERTARGETS && i < renderTargets_.Size(); ++i)
-        renderTargets[i] = (renderTargets_[i] && renderTargets_[i]->IsRenderTarget()) ? renderTargets_[i] : nullptr;
+        _renderTargets[i] = (renderTargets_[i] && renderTargets_[i]->IsRenderTarget()) ? renderTargets_[i] : nullptr;
 
     for (size_t i = renderTargets_.Size(); i < MAX_RENDERTARGETS; ++i)
-        renderTargets[i] = nullptr;
+        _renderTargets[i] = nullptr;
 
-    depthStencil = (depthStencil_ && depthStencil_->IsDepthStencil()) ? depthStencil_ : nullptr;
+    _depthStencil = (depthStencil_ && depthStencil_->IsDepthStencil()) ? depthStencil_ : nullptr;
 
-    if (renderTargets[0])
-        renderTargetSize = IntVector2(renderTargets[0]->Width(), renderTargets[0]->Height());
-    else if (depthStencil)
-        renderTargetSize = IntVector2(depthStencil->Width(), depthStencil->Height());
+    if (_renderTargets[0])
+        _renderTargetSize = IntVector2(_renderTargets[0]->Width(), _renderTargets[0]->Height());
+    else if (_depthStencil)
+        _renderTargetSize = IntVector2(_depthStencil->Width(), _depthStencil->Height());
     else
-        renderTargetSize = backbufferSize;
+        _renderTargetSize = _backbufferSize;
 
-    framebufferDirty = true;
+    _framebufferDirty = true;
 }
 
 void Graphics::SetViewport(const IntRect& viewport_)
@@ -318,58 +318,58 @@ void Graphics::SetViewport(const IntRect& viewport_)
     PrepareFramebuffer();
 
     /// \todo Implement a member function in IntRect for clipping
-    viewport.left = Clamp(viewport_.left, 0, renderTargetSize.x - 1);
-    viewport.top = Clamp(viewport_.top, 0, renderTargetSize.y - 1);
-    viewport.right = Clamp(viewport_.right, viewport.left + 1, renderTargetSize.x);
-    viewport.bottom = Clamp(viewport_.bottom, viewport.top + 1, renderTargetSize.y);
+    _viewport._left = Clamp(viewport_._left, 0, _renderTargetSize._x - 1);
+    _viewport._top = Clamp(viewport_._top, 0, _renderTargetSize._y - 1);
+    _viewport._right = Clamp(viewport_._right, _viewport._left + 1, _renderTargetSize._x);
+    _viewport._bottom = Clamp(viewport_._bottom, _viewport._top + 1, _renderTargetSize._y);
 
     // When rendering to the backbuffer, use Direct3D convention with the vertical coordinates ie. 0 is top
-    if (!framebuffer)
-        glViewport(viewport.left, renderTargetSize.y - viewport.bottom, viewport.Width(), viewport.Height());
+    if (!_framebuffer)
+        glViewport(_viewport._left, _renderTargetSize._y - _viewport._bottom, _viewport.Width(), _viewport.Height());
     else
-        glViewport(viewport.left, viewport.top, viewport.Width(), viewport.Height());
+        glViewport(_viewport._left, _viewport._top, _viewport.Width(), _viewport.Height());
 }
 
 void Graphics::SetVertexBuffer(size_t index, VertexBuffer* buffer)
 {
-    if (index < MAX_VERTEX_STREAMS && buffer != vertexBuffers[index])
+    if (index < MAX_VERTEX_STREAMS && buffer != _vertexBuffers[index])
     {
-        vertexBuffers[index] = buffer;
-        vertexBuffersDirty = true;
+        _vertexBuffers[index] = buffer;
+        _vertexBuffersDirty = true;
     }
 }
 
 void Graphics::SetIndexBuffer(IndexBuffer* buffer)
 {
-    if (indexBuffer != buffer)
+    if (_indexBuffer != buffer)
     {
-        indexBuffer = buffer;
+        _indexBuffer = buffer;
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer ? buffer->GLBuffer() : 0);
     }
 }
 
 void Graphics::SetConstantBuffer(ShaderStage stage, size_t index, ConstantBuffer* buffer)
 {
-    if (stage < MAX_SHADER_STAGES && index < MAX_CONSTANT_BUFFERS && buffer != constantBuffers[stage][index])
+    if (stage < MAX_SHADER_STAGES && index < MAX_CONSTANT_BUFFERS && buffer != _constantBuffers[stage][index])
     {
-        constantBuffers[stage][index] = buffer;
+        _constantBuffers[stage][index] = buffer;
         unsigned bufferObject = buffer ? buffer->GLBuffer() : 0;
 
         switch (stage)
         {
         case SHADER_VS:
-            if (index < vsConstantBuffers)
+            if (index < _vsConstantBuffers)
             {
                 glBindBufferBase(GL_UNIFORM_BUFFER, (unsigned)index, bufferObject);
-                boundUBO = bufferObject;
+                _boundUBO = bufferObject;
             }
             break;
 
         case SHADER_PS:
-            if (index < psConstantBuffers)
+            if (index < _psConstantBuffers)
             {
-                glBindBufferBase(GL_UNIFORM_BUFFER, (unsigned)(index + vsConstantBuffers), bufferObject);
-                boundUBO = bufferObject;
+                glBindBufferBase(GL_UNIFORM_BUFFER, (unsigned)(index + _vsConstantBuffers), bufferObject);
+                _boundUBO = bufferObject;
             }
             break;
 
@@ -381,39 +381,39 @@ void Graphics::SetConstantBuffer(ShaderStage stage, size_t index, ConstantBuffer
 
 void Graphics::SetTexture(size_t index, Texture* texture)
 {
-    if (index < MAX_TEXTURE_UNITS && texture != textures[index])
+    if (index < MAX_TEXTURE_UNITS && texture != _textures[index])
     {
-        textures[index] = texture;
+        _textures[index] = texture;
         
-        if (index != activeTexture)
+        if (index != _activeTexture)
         {
             glActiveTexture(GL_TEXTURE0 + (unsigned)index);
-            activeTexture = index;
+            _activeTexture = index;
         }
 
         if (texture)
         {
             unsigned target = texture->GLTarget();
             // Make sure we do not have multiple targets bound in the same unit
-            if (textureTargets[index] && textureTargets[index] != target)
-                glBindTexture(textureTargets[index], 0);
+            if (_textureTargets[index] && _textureTargets[index] != target)
+                glBindTexture(_textureTargets[index], 0);
             glBindTexture(target, texture->GLTexture());
-            textureTargets[index] = target;
+            _textureTargets[index] = target;
         }
-        else if (textureTargets[index])
+        else if (_textureTargets[index])
         {
-            glBindTexture(textureTargets[index], 0);
-            textureTargets[index] = 0;
+            glBindTexture(_textureTargets[index], 0);
+            _textureTargets[index] = 0;
         }
     }
 }
 
 void Graphics::SetShaders(ShaderVariation* vs, ShaderVariation* ps)
 {
-    if (vs == vertexShader && ps == pixelShader)
+    if (vs == _vertexShader && ps == _pixelShader)
         return;
 
-    if (vs != vertexShader)
+    if (vs != _vertexShader)
     {
         if (vs && vs->Stage() == SHADER_VS)
         {
@@ -421,10 +421,10 @@ void Graphics::SetShaders(ShaderVariation* vs, ShaderVariation* ps)
                 vs->Compile();
         }
 
-        vertexShader = vs;
+        _vertexShader = vs;
     }
 
-    if (ps != pixelShader)
+    if (ps != _pixelShader)
     {
         if (ps && ps->Stage() == SHADER_PS)
         {
@@ -432,99 +432,99 @@ void Graphics::SetShaders(ShaderVariation* vs, ShaderVariation* ps)
                 ps->Compile();
         }
 
-        pixelShader = ps;
+        _pixelShader = ps;
     }
 
-    if (vertexShader && pixelShader && vertexShader->GLShader() && pixelShader->GLShader())
+    if (_vertexShader && _pixelShader && _vertexShader->GLShader() && _pixelShader->GLShader())
     {
         // Check if program already exists, if not, link now
-        auto key = MakePair(vertexShader, pixelShader);
-        auto it = shaderPrograms.Find(key);
-        if (it != shaderPrograms.End())
+        auto key = MakePair(_vertexShader, _pixelShader);
+        auto it = _shaderPrograms.Find(key);
+        if (it != _shaderPrograms.End())
         {
-            shaderProgram = it->second;
+            _shaderProgram = it->second;
             glUseProgram(it->second->GLProgram());
         }
         else
         {
-            ShaderProgram* newProgram = new ShaderProgram(vertexShader, pixelShader);
-            shaderPrograms[key] = newProgram;
+            ShaderProgram* newProgram = new ShaderProgram(_vertexShader, _pixelShader);
+            _shaderPrograms[key] = newProgram;
             // Note: if the linking is successful, glUseProgram() will have been called
             if (newProgram->Link())
-                shaderProgram = newProgram;
+                _shaderProgram = newProgram;
             else
             {
-                shaderProgram = nullptr;
+                _shaderProgram = nullptr;
                 glUseProgram(0);
             }
         }
     }
     else
     {
-        shaderProgram = nullptr;
+        _shaderProgram = nullptr;
         glUseProgram(0);
     }
 
-    vertexAttributesDirty = true;
+    _vertexAttributesDirty = true;
 }
 
 void Graphics::SetColorState(const BlendModeDesc& blendMode, bool alphaToCoverage, unsigned char colorWriteMask)
 {
-    renderState.blendMode = blendMode;
-    renderState.colorWriteMask = colorWriteMask;
-    renderState.alphaToCoverage = alphaToCoverage;
+    _renderState._blendMode = blendMode;
+    _renderState._colorWriteMask = colorWriteMask;
+    _renderState._alphaToCoverage = alphaToCoverage;
     
-    blendStateDirty = true;
+    _blendStateDirty = true;
 }
 
 void Graphics::SetColorState(BlendMode blendMode, bool alphaToCoverage, unsigned char colorWriteMask)
 {
-    renderState.blendMode = blendModes[blendMode];
-    renderState.colorWriteMask = colorWriteMask;
-    renderState.alphaToCoverage = alphaToCoverage;
+    _renderState._blendMode = blendModes[blendMode];
+    _renderState._colorWriteMask = colorWriteMask;
+    _renderState._alphaToCoverage = alphaToCoverage;
 
-    blendStateDirty = true;
+    _blendStateDirty = true;
 }
 
 void Graphics::SetDepthState(CompareFunc depthFunc, bool depthWrite, bool depthClip, int depthBias, float slopeScaledDepthBias)
 {
-    renderState.depthFunc = depthFunc;
-    renderState.depthWrite = depthWrite;
-    renderState.depthClip = depthClip;
-    renderState.depthBias = depthBias;
-    renderState.slopeScaledDepthBias = slopeScaledDepthBias;
+    _renderState._depthFunc = depthFunc;
+    _renderState._depthWrite = depthWrite;
+    _renderState._depthClip = depthClip;
+    _renderState._depthBias = depthBias;
+    _renderState._slopeScaledDepthBias = slopeScaledDepthBias;
 
-    depthStateDirty = true;
-    rasterizerStateDirty = true;
+    _depthStateDirty = true;
+    _rasterizerStateDirty = true;
 }
 
 void Graphics::SetRasterizerState(CullMode cullMode, FillMode fillMode)
 {
-    renderState.cullMode = cullMode;
-    renderState.fillMode = fillMode;
+    _renderState._cullMode = cullMode;
+    _renderState._fillMode = fillMode;
 
-    rasterizerStateDirty = true;
+    _rasterizerStateDirty = true;
 }
 
 void Graphics::SetScissorTest(bool scissorEnable, const IntRect& scissorRect)
 {
-    renderState.scissorEnable = scissorEnable;
+    _renderState._scissorEnable = scissorEnable;
     /// \todo Implement a member function in IntRect for clipping
-    renderState.scissorRect.left = Clamp(scissorRect.left, 0, renderTargetSize.x - 1);
-    renderState.scissorRect.top = Clamp(scissorRect.top, 0, renderTargetSize.y - 1);
-    renderState.scissorRect.right = Clamp(scissorRect.right, renderState.scissorRect.left + 1, renderTargetSize.x);
-    renderState.scissorRect.bottom = Clamp(scissorRect.bottom, renderState.scissorRect.top + 1, renderTargetSize.y);
+    _renderState._scissorRect._left = Clamp(scissorRect._left, 0, _renderTargetSize._x - 1);
+    _renderState._scissorRect._top = Clamp(scissorRect._top, 0, _renderTargetSize._y - 1);
+    _renderState._scissorRect._right = Clamp(scissorRect._right, _renderState._scissorRect._left + 1, _renderTargetSize._x);
+    _renderState._scissorRect._bottom = Clamp(scissorRect._bottom, _renderState._scissorRect._top + 1, _renderTargetSize._y);
 
-    rasterizerStateDirty = true;
+    _rasterizerStateDirty = true;
 }
 
 void Graphics::SetStencilTest(bool stencilEnable, const StencilTestDesc& stencilTest, unsigned char stencilRef)
 {
-    renderState.stencilEnable = stencilEnable;
-    renderState.stencilTest = stencilTest;
-    renderState.stencilRef = stencilRef;
+    _renderState._stencilEnable = stencilEnable;
+    _renderState._stencilTest = stencilTest;
+    _renderState._stencilRef = stencilRef;
 
-    depthStateDirty = true;
+    _depthStateDirty = true;
 }
 
 void Graphics::ResetRenderTargets()
@@ -534,7 +534,7 @@ void Graphics::ResetRenderTargets()
 
 void Graphics::ResetViewport()
 {
-    SetViewport(IntRect(0, 0, renderTargetSize.x, renderTargetSize.y));
+    SetViewport(IntRect(0, 0, _renderTargetSize._x, _renderTargetSize._y));
 }
 
 void Graphics::ResetVertexBuffers()
@@ -566,7 +566,7 @@ void Graphics::Clear(unsigned clearFlags, const Color& clearColor, float clearDe
     if (clearFlags & CLEAR_COLOR)
     {
         glFlags |= GL_COLOR_BUFFER_BIT;
-        glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
+        glClearColor(clearColor._r, clearColor._g, clearColor._b, clearColor._a);
     }
     if (clearFlags & CLEAR_DEPTH)
     {
@@ -579,31 +579,31 @@ void Graphics::Clear(unsigned clearFlags, const Color& clearColor, float clearDe
         glClearStencil(clearStencil);
     }
 
-    if ((clearFlags & CLEAR_COLOR) && glRenderState.colorWriteMask != COLORMASK_ALL)
+    if ((clearFlags & CLEAR_COLOR) && _glRenderState._colorWriteMask != COLORMASK_ALL)
         glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-    if ((clearFlags & CLEAR_DEPTH) && !glRenderState.depthWrite)
+    if ((clearFlags & CLEAR_DEPTH) && !_glRenderState._depthWrite)
         glDepthMask(GL_TRUE);
-    if ((clearFlags & CLEAR_STENCIL) && glRenderState.stencilTest.stencilWriteMask != 0xff)
+    if ((clearFlags & CLEAR_STENCIL) && _glRenderState._stencilTest._stencilWriteMask != 0xff)
         glStencilMask(0xff);
-    if (glRenderState.scissorEnable)
+    if (_glRenderState._scissorEnable)
         glDisable(GL_SCISSOR_TEST);
 
     glClear(glFlags);
 
-    if ((clearFlags & CLEAR_COLOR) && glRenderState.colorWriteMask != COLORMASK_ALL)
+    if ((clearFlags & CLEAR_COLOR) && _glRenderState._colorWriteMask != COLORMASK_ALL)
     {
         glColorMask(
-            (glRenderState.colorWriteMask & COLORMASK_R) ? GL_TRUE : GL_FALSE,
-            (glRenderState.colorWriteMask & COLORMASK_G) ? GL_TRUE : GL_FALSE,
-            (glRenderState.colorWriteMask & COLORMASK_B) ? GL_TRUE : GL_FALSE,
-            (glRenderState.colorWriteMask & COLORMASK_A) ? GL_TRUE : GL_FALSE
+            (_glRenderState._colorWriteMask & COLORMASK_R) ? GL_TRUE : GL_FALSE,
+            (_glRenderState._colorWriteMask & COLORMASK_G) ? GL_TRUE : GL_FALSE,
+            (_glRenderState._colorWriteMask & COLORMASK_B) ? GL_TRUE : GL_FALSE,
+            (_glRenderState._colorWriteMask & COLORMASK_A) ? GL_TRUE : GL_FALSE
         );
     }
-    if ((clearFlags & CLEAR_DEPTH) && !glRenderState.depthWrite)
+    if ((clearFlags & CLEAR_DEPTH) && !_glRenderState._depthWrite)
         glDepthMask(GL_FALSE);
-    if ((clearFlags & CLEAR_STENCIL) && glRenderState.stencilTest.stencilWriteMask != 0xff)
-        glStencilMask(glRenderState.stencilTest.stencilWriteMask);
-    if (glRenderState.scissorEnable)
+    if ((clearFlags & CLEAR_STENCIL) && _glRenderState._stencilTest._stencilWriteMask != 0xff)
+        glStencilMask(_glRenderState._stencilTest._stencilWriteMask);
+    if (_glRenderState._scissorEnable)
         glEnable(GL_SCISSOR_TEST);
 }
 
@@ -618,10 +618,10 @@ void Graphics::Draw(PrimitiveType type, size_t vertexStart, size_t vertexCount)
 void Graphics::DrawIndexed(PrimitiveType type, size_t indexStart, size_t indexCount, size_t vertexStart)
 {
     // Drawing with trashed index data can lead to a crash within the OpenGL driver
-    if (!indexBuffer || indexBuffer->IsDataLost() || !PrepareDraw())
+    if (!_indexBuffer || _indexBuffer->IsDataLost() || !PrepareDraw())
         return;
     
-    size_t indexSize = indexBuffer->IndexSize();
+    size_t indexSize = _indexBuffer->IndexSize();
 
     if (!vertexStart)
     {
@@ -648,10 +648,10 @@ void Graphics::DrawInstanced(PrimitiveType type, size_t vertexStart, size_t vert
 void Graphics::DrawIndexedInstanced(PrimitiveType type, size_t indexStart, size_t indexCount, size_t vertexStart, size_t instanceStart,
     size_t instanceCount)
 {
-    if (!indexBuffer || indexBuffer->IsDataLost() || !PrepareDraw(true, instanceStart))
+    if (!_indexBuffer || _indexBuffer->IsDataLost() || !PrepareDraw(true, instanceStart))
         return;
 
-    size_t indexSize = indexBuffer->IndexSize();
+    size_t indexSize = _indexBuffer->IndexSize();
     
     if (!vertexStart)
     {
@@ -668,54 +668,54 @@ void Graphics::DrawIndexedInstanced(PrimitiveType type, size_t indexStart, size_
 
 bool Graphics::IsInitialized() const
 {
-    return window->IsOpen() && context;
+    return _window->IsOpen() && _context;
 }
 
 bool Graphics::IsFullscreen() const
 {
-    return window->IsFullscreen();
+    return _window->IsFullscreen();
 }
 
 bool Graphics::IsResizable() const
 {
-    return window->IsResizable();
+    return _window->IsResizable();
 }
 
 Window* Graphics::RenderWindow() const
 {
-    return window;
+    return _window;
 }
 
 Texture* Graphics::RenderTarget(size_t index) const
 {
-    return index < MAX_RENDERTARGETS ? renderTargets[index] : nullptr;
+    return index < MAX_RENDERTARGETS ? _renderTargets[index] : nullptr;
 }
 
 VertexBuffer* Graphics::GetVertexBuffer(size_t index) const
 {
-    return index < MAX_VERTEX_STREAMS ? vertexBuffers[index] : nullptr;
+    return index < MAX_VERTEX_STREAMS ? _vertexBuffers[index] : nullptr;
 }
 
 ConstantBuffer* Graphics::GetConstantBuffer(ShaderStage stage, size_t index) const
 {
-    return (stage < MAX_SHADER_STAGES && index < MAX_CONSTANT_BUFFERS) ? constantBuffers[stage][index] : nullptr;
+    return (stage < MAX_SHADER_STAGES && index < MAX_CONSTANT_BUFFERS) ? _constantBuffers[stage][index] : nullptr;
 }
 
 Texture* Graphics::GetTexture(size_t index) const
 {
-    return (index < MAX_TEXTURE_UNITS) ? textures[index] : nullptr;
+    return (index < MAX_TEXTURE_UNITS) ? _textures[index] : nullptr;
 }
 
 void Graphics::AddGPUObject(GPUObject* object)
 {
     if (object)
-        gpuObjects.Push(object);
+        _gpuObjects.Push(object);
 }
 
 void Graphics::RemoveGPUObject(GPUObject* object)
 {
     /// \todo Requires a linear search, needs to be profiled whether becomes a problem with a large number of objects
-    gpuObjects.Remove(object);
+    _gpuObjects.Remove(object);
 }
 
 void Graphics::CleanupShaderPrograms(ShaderVariation* shader)
@@ -725,13 +725,13 @@ void Graphics::CleanupShaderPrograms(ShaderVariation* shader)
 
     if (shader->Stage() == SHADER_VS)
     {
-        for (auto it = shaderPrograms.Begin(); it != shaderPrograms.End();)
+        for (auto it = _shaderPrograms.Begin(); it != _shaderPrograms.End();)
         {
             if (it->first.first == shader)
             {
-                if (shaderProgram == it->second)
-                    shaderProgram = nullptr;
-                it = shaderPrograms.Erase(it);
+                if (_shaderProgram == it->second)
+                    _shaderProgram = nullptr;
+                it = _shaderPrograms.Erase(it);
             }
             else
                 ++it;
@@ -739,13 +739,13 @@ void Graphics::CleanupShaderPrograms(ShaderVariation* shader)
     }
     else
     {
-        for (auto it = shaderPrograms.Begin(); it != shaderPrograms.End();)
+        for (auto it = _shaderPrograms.Begin(); it != _shaderPrograms.End();)
         {
             if (it->first.second == shader)
             {
-                if (shaderProgram == it->second)
-                    shaderProgram = nullptr;
-                it = shaderPrograms.Erase(it);
+                if (_shaderProgram == it->second)
+                    _shaderProgram = nullptr;
+                it = _shaderPrograms.Erase(it);
             }
             else
                 ++it;
@@ -758,7 +758,7 @@ void Graphics::CleanupFramebuffers(Texture* texture)
     if (!texture)
         return;
 
-    for (auto it = framebuffers.Begin(); it != framebuffers.End(); ++it)
+    for (auto it = _framebuffers.Begin(); it != _framebuffers.End(); ++it)
     {
         Framebuffer* framebuffer = it->second;
 
@@ -774,40 +774,40 @@ void Graphics::CleanupFramebuffers(Texture* texture)
 
 void Graphics::BindVBO(unsigned vbo)
 {
-    if (vbo != boundVBO)
+    if (vbo != _boundVBO)
     {
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
-        boundVBO = vbo;
+        _boundVBO = vbo;
     }
 }
 
 void Graphics::BindUBO(unsigned ubo)
 {
-    if (ubo != boundUBO)
+    if (ubo != _boundUBO)
     {
         glBindBuffer(GL_UNIFORM_BUFFER, ubo);
-        boundUBO = ubo;
+        _boundUBO = ubo;
     }
 }
 
 bool Graphics::CreateContext(int multisample_)
 {
-    context = new GLContext(window);
-    if (!context->Create(multisample_))
+    _context = new GLContext(_window);
+    if (!_context->Create(multisample_))
     {
-        context.Reset();
+        _context.Reset();
         return false;
     }
     
-    multisample = multisample_;
-    context->SetVSync(vsync);
+    _multisample = multisample_;
+    _context->SetVSync(_vsync);
 
     // Query OpenGL capabilities
     int numBlocks;
     glGetIntegerv(GL_MAX_VERTEX_UNIFORM_BLOCKS, &numBlocks);
-    vsConstantBuffers = numBlocks;
+    _vsConstantBuffers = numBlocks;
     glGetIntegerv(GL_MAX_FRAGMENT_UNIFORM_BLOCKS, &numBlocks);
-    psConstantBuffers = numBlocks;
+    _psConstantBuffers = numBlocks;
 
     // Create and bind a vertex array object that will stay in use throughout
     /// \todo Investigate performance gain of using multiple VAO's
@@ -831,9 +831,9 @@ bool Graphics::CreateContext(int multisample_)
 void Graphics::HandleResize(WindowResizeEvent& event)
 {
     // Reset viewport in case the application does not set it
-    if (context)
+    if (_context)
     {
-        backbufferSize = event.size;
+        _backbufferSize = event._size;
         ResetRenderTargets();
         ResetViewport();
     }
@@ -845,10 +845,10 @@ void Graphics::CleanupFramebuffers()
     PrepareFramebuffer();
 
     // Clear all except the framebuffer currently in use
-    for (auto it = framebuffers.Begin(); it != framebuffers.End();)
+    for (auto it = _framebuffers.Begin(); it != _framebuffers.End();)
     {
-        if (it->second != framebuffer)
-            it = framebuffers.Erase(it);
+        if (it->second != _framebuffer)
+            it = _framebuffers.Erase(it);
         else
             ++it;
     }
@@ -856,67 +856,67 @@ void Graphics::CleanupFramebuffers()
 
 void Graphics::PrepareFramebuffer()
 {
-    if (framebufferDirty)
+    if (_framebufferDirty)
     {
-        framebufferDirty = false;
+        _framebufferDirty = false;
         
         unsigned newDrawBuffers = 0;
         bool useBackbuffer = true;
 
         // If rendertarget changes, scissor rect may need to be re-evaluated
-        if (renderState.scissorEnable)
+        if (_renderState._scissorEnable)
         {
-            glRenderState.scissorRect = IntRect::ZERO;
-            rasterizerStateDirty = true;
+            _glRenderState._scissorRect = IntRect::ZERO;
+            _rasterizerStateDirty = true;
         }
 
         for (size_t i = 0; i < MAX_RENDERTARGETS; ++i)
         {
-            if (renderTargets[i])
+            if (_renderTargets[i])
             {
                 useBackbuffer = false;
                 newDrawBuffers |= (1 << i);
             }
         }
-        if (depthStencil)
+        if (_depthStencil)
             useBackbuffer = false;
 
         if (useBackbuffer)
         {
-            if (framebuffer)
+            if (_framebuffer)
             {
                 glBindFramebuffer(GL_FRAMEBUFFER, 0);
-                framebuffer = nullptr;
+                _framebuffer = nullptr;
             }
             return;
         }
 
-        // Search for a new framebuffer based on format & size, or create new
+        // Search for a new framebuffer based on format & _size, or create new
         ImageFormat format = FMT_NONE;
-        if (renderTargets[0])
-            format = renderTargets[0]->Format();
-        else if (depthStencil)
-            format = depthStencil->Format();
-        unsigned long long key = (renderTargetSize.x << 16 | renderTargetSize.y) | (((unsigned long long)format) << 32);
+        if (_renderTargets[0])
+            format = _renderTargets[0]->Format();
+        else if (_depthStencil)
+            format = _depthStencil->Format();
+        unsigned long long key = (_renderTargetSize._x << 16 | _renderTargetSize._y) | (((unsigned long long)format) << 32);
         
-        auto it = framebuffers.Find(key);
-        if (it == framebuffers.End())
-            it = framebuffers.Insert(MakePair(key, AutoPtr<Framebuffer>(new Framebuffer())));
+        auto it = _framebuffers.Find(key);
+        if (it == _framebuffers.End())
+            it = _framebuffers.Insert(MakePair(key, AutoPtr<Framebuffer>(new Framebuffer())));
 
-        if (it->second != framebuffer)
+        if (it->second != _framebuffer)
         {
             glBindFramebuffer(GL_FRAMEBUFFER, it->second->buffer);
-            framebuffer = it->second;
+            _framebuffer = it->second;
         }
 
         // Setup readbuffers & drawbuffers
-        if (framebuffer->firstUse)
+        if (_framebuffer->firstUse)
         {
             glReadBuffer(GL_NONE);
-            framebuffer->firstUse = false;
+            _framebuffer->firstUse = false;
         }
 
-        if (newDrawBuffers != framebuffer->drawBuffers)
+        if (newDrawBuffers != _framebuffer->drawBuffers)
         {
             if (!newDrawBuffers)
                 glDrawBuffer(GL_NONE);
@@ -933,38 +933,38 @@ void Graphics::PrepareFramebuffer()
                 glDrawBuffers(drawBufferCount, (const GLenum*)drawBufferIds);
             }
 
-            framebuffer->drawBuffers = newDrawBuffers;
+            _framebuffer->drawBuffers = newDrawBuffers;
         }
 
         // Setup color attachments
         for (size_t i = 0; i < MAX_RENDERTARGETS; ++i)
         {
-            if (renderTargets[i] != framebuffer->renderTargets[i])
+            if (_renderTargets[i] != _framebuffer->renderTargets[i])
             {
-                if (renderTargets[i])
+                if (_renderTargets[i])
                 {
-                    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + (unsigned)i, renderTargets[i]->GLTarget(),
-                        renderTargets[i]->GLTexture(), 0);
+                    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + (unsigned)i, _renderTargets[i]->GLTarget(),
+                        _renderTargets[i]->GLTexture(), 0);
                 }
                 else
                     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + (unsigned)i, GL_TEXTURE_2D, 0, 0);
                 
-                framebuffer->renderTargets[i] = renderTargets[i];
+                _framebuffer->renderTargets[i] = _renderTargets[i];
             }
         }
 
         // Setup depth & stencil attachments
-        if (depthStencil != framebuffer->depthStencil)
+        if (_depthStencil != _framebuffer->depthStencil)
         {
-            if (depthStencil)
+            if (_depthStencil)
             {
-                bool hasStencil = depthStencil->Format() == FMT_D24S8;
-                glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthStencil->GLTarget(), 
-                    depthStencil->GLTexture(), 0);
+                bool hasStencil = _depthStencil->Format() == FMT_D24S8;
+                glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, _depthStencil->GLTarget(), 
+                    _depthStencil->GLTexture(), 0);
                 if (hasStencil)
                 {
-                    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, depthStencil->GLTarget(),
-                        depthStencil->GLTexture(), 0);
+                    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, _depthStencil->GLTarget(),
+                        _depthStencil->GLTexture(), 0);
                 }
                 else
                     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, 0, 0);
@@ -975,32 +975,32 @@ void Graphics::PrepareFramebuffer()
                 glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, 0, 0);
             }
 
-            framebuffer->depthStencil = depthStencil;
+            _framebuffer->depthStencil = _depthStencil;
         }
     }
 }
 
 bool Graphics::PrepareDraw(bool instanced, size_t instanceStart)
 {
-    if (framebufferDirty)
+    if (_framebufferDirty)
         PrepareFramebuffer();
 
-    if (!shaderProgram)
+    if (!_shaderProgram)
         return false;
 
-    if (vertexAttributesDirty)
+    if (_vertexAttributesDirty)
     {
-        usedVertexAttributes = 0;
+        _usedVertexAttributes = 0;
 
-        for (auto it = attributesBySemantic.Begin(); it != attributesBySemantic.End(); ++it)
+        for (auto it = _attributesBySemantic.Begin(); it != _attributesBySemantic.End(); ++it)
             it->Clear();
 
-        const Vector<VertexAttribute>& attributes = shaderProgram->Attributes();
+        const Vector<VertexAttribute>& attributes = _shaderProgram->Attributes();
         for (auto it = attributes.Begin(); it != attributes.End(); ++it)
         {
             const VertexAttribute& attribute = *it;
-            Vector<unsigned>& attributeVector = attributesBySemantic[attribute.semantic];
-            unsigned char index = attribute.index;
+            Vector<unsigned>& attributeVector = _attributesBySemantic[attribute._semantic];
+            unsigned char index = attribute._index;
 
             // Mark semantic as required
             size_t size = attributeVector.Size();
@@ -1011,280 +1011,280 @@ bool Graphics::PrepareDraw(bool instanced, size_t instanceStart)
                 for (size_t j = size; j < index; ++j)
                     attributeVector[j] = M_MAX_UNSIGNED;
             }
-            attributeVector[index] = attribute.location;
-            usedVertexAttributes |= (1 << attribute.location);
+            attributeVector[index] = attribute._location;
+            _usedVertexAttributes |= (1 << attribute._location);
         }
 
-        vertexAttributesDirty = false;
-        vertexBuffersDirty = true;
+        _vertexAttributesDirty = false;
+        _vertexBuffersDirty = true;
     }
 
-    if (vertexBuffersDirty || instanced)
+    if (_vertexBuffersDirty || instanced)
     {
         // Now go through currently bound vertex buffers and set the attribute pointers that are available & required
         for (size_t i = 0; i < MAX_VERTEX_STREAMS; ++i)
         {
-            if (vertexBuffers[i])
+            if (_vertexBuffers[i])
             {
-                VertexBuffer* buffer = vertexBuffers[i];
+                VertexBuffer* buffer = _vertexBuffers[i];
                 const Vector<VertexElement>& elements = buffer->Elements();
 
                 for (auto it = elements.Begin(); it != elements.End(); ++it)
                 {
                     const VertexElement& element = *it;
-                    const Vector<unsigned>& attributeVector = attributesBySemantic[element.semantic];
+                    const Vector<unsigned>& attributeVector = _attributesBySemantic[element._semantic];
 
                     // If making several instanced draw calls with the same vertex buffers, only need to update the instancing
                     // data attribute pointers
-                    if (element.index < attributeVector.Size() && attributeVector[element.index] < M_MAX_UNSIGNED &&
-                        (vertexBuffersDirty || (instanced && element.perInstance)))
+                    if (element._index < attributeVector.Size() && attributeVector[element._index] < M_MAX_UNSIGNED &&
+                        (_vertexBuffersDirty || (instanced && element._perInstance)))
                     {
-                        unsigned location = attributeVector[element.index];
+                        unsigned location = attributeVector[element._index];
                         unsigned locationMask = 1 << location;
 
                         // Enable attribute if not enabled yet
-                        if (!(enabledVertexAttributes & locationMask))
+                        if (!(_enabledVertexAttributes & locationMask))
                         {
                             glEnableVertexAttribArray(location);
-                            enabledVertexAttributes |= locationMask;
+                            _enabledVertexAttributes |= locationMask;
                         }
 
                         // Enable/disable instancing divisor as necessary
-                        size_t dataStart = element.offset;
-                        if (element.perInstance)
+                        size_t dataStart = element._offset;
+                        if (element._perInstance)
                         {
                             dataStart += instanceStart * buffer->VertexSize();
-                            if (!(instancingVertexAttributes & locationMask))
+                            if (!(_instancingVertexAttributes & locationMask))
                             {
                                 glVertexAttribDivisor(location, 1);
-                                instancingVertexAttributes |= locationMask;
+                                _instancingVertexAttributes |= locationMask;
                             }
                         }
                         else
                         {
-                            if (instancingVertexAttributes & locationMask)
+                            if (_instancingVertexAttributes & locationMask)
                             {
 								glVertexAttribDivisor(location, 0);
-                                instancingVertexAttributes &= ~locationMask;
+                                _instancingVertexAttributes &= ~locationMask;
                             }
                         }
 
                         BindVBO(buffer->GLBuffer());
-                        glVertexAttribPointer(location, elementGLComponents[element.type], elementGLTypes[element.type],
-                            element.semantic == SEM_COLOR ? GL_TRUE : GL_FALSE, (unsigned)buffer->VertexSize(),
+                        glVertexAttribPointer(location, elementGLComponents[element._type], elementGLTypes[element._type],
+                            element._semantic == SEM_COLOR ? GL_TRUE : GL_FALSE, (unsigned)buffer->VertexSize(),
                             (const void *)dataStart);
                     }
                 }
             }
         }
 
-        vertexBuffersDirty = false;
+        _vertexBuffersDirty = false;
     }
 
     // Finally disable unnecessary vertex attributes
-    unsigned disableVertexAttributes = enabledVertexAttributes & (~usedVertexAttributes);
+    unsigned disableVertexAttributes = _enabledVertexAttributes & (~_usedVertexAttributes);
     unsigned location = 0;
     while (disableVertexAttributes)
     {
         if (disableVertexAttributes & 1)
         {
             glDisableVertexAttribArray(location);
-            enabledVertexAttributes &= ~(1 << location);
+            _enabledVertexAttributes &= ~(1 << location);
         }
         ++location;
         disableVertexAttributes >>= 1;
     }
 
     // Apply blend state
-    if (blendStateDirty)
+    if (_blendStateDirty)
     {
-        if (renderState.blendMode.blendEnable != glRenderState.blendMode.blendEnable)
+        if (_renderState._blendMode._blendEnable != _glRenderState._blendMode._blendEnable)
         {
-            if (renderState.blendMode.blendEnable)
+            if (_renderState._blendMode._blendEnable)
                 glEnable(GL_BLEND);
             else
                 glDisable(GL_BLEND);
-            glRenderState.blendMode.blendEnable = renderState.blendMode.blendEnable;
+            _glRenderState._blendMode._blendEnable = _renderState._blendMode._blendEnable;
         }
 
-        if (renderState.blendMode.blendEnable)
+        if (_renderState._blendMode._blendEnable)
         {
-            if (renderState.blendMode.srcBlend != glRenderState.blendMode.srcBlend || renderState.blendMode.destBlend !=
-                glRenderState.blendMode.destBlend || renderState.blendMode.srcBlendAlpha != glRenderState.blendMode.srcBlendAlpha ||
-                renderState.blendMode.destBlendAlpha != glRenderState.blendMode.destBlendAlpha)
+            if (_renderState._blendMode._srcBlend != _glRenderState._blendMode._srcBlend || _renderState._blendMode._destBlend !=
+                _glRenderState._blendMode._destBlend || _renderState._blendMode._srcBlendAlpha != _glRenderState._blendMode._srcBlendAlpha ||
+                _renderState._blendMode._destBlendAlpha != _glRenderState._blendMode._destBlendAlpha)
             {
-                glBlendFuncSeparate(glBlendFactors[renderState.blendMode.srcBlend], glBlendFactors[renderState.blendMode.destBlend],
-                    glBlendFactors[renderState.blendMode.srcBlendAlpha], glBlendFactors[renderState.blendMode.destBlendAlpha]);
-                glRenderState.blendMode.srcBlend = renderState.blendMode.srcBlend;
-                glRenderState.blendMode.destBlend = renderState.blendMode.destBlend;
-                glRenderState.blendMode.srcBlendAlpha = renderState.blendMode.srcBlendAlpha;
-                glRenderState.blendMode.destBlendAlpha = renderState.blendMode.destBlendAlpha;
+                glBlendFuncSeparate(glBlendFactors[_renderState._blendMode._srcBlend], glBlendFactors[_renderState._blendMode._destBlend],
+                    glBlendFactors[_renderState._blendMode._srcBlendAlpha], glBlendFactors[_renderState._blendMode._destBlendAlpha]);
+                _glRenderState._blendMode._srcBlend = _renderState._blendMode._srcBlend;
+                _glRenderState._blendMode._destBlend = _renderState._blendMode._destBlend;
+                _glRenderState._blendMode._srcBlendAlpha = _renderState._blendMode._srcBlendAlpha;
+                _glRenderState._blendMode._destBlendAlpha = _renderState._blendMode._destBlendAlpha;
             }
 
-            if (renderState.blendMode.blendOp != glRenderState.blendMode.blendOp || renderState.blendMode.blendOpAlpha !=
-                glRenderState.blendMode.blendOpAlpha)
+            if (_renderState._blendMode._blendOp != _glRenderState._blendMode._blendOp || _renderState._blendMode._blendOpAlpha !=
+                _glRenderState._blendMode._blendOpAlpha)
             {
-                glBlendEquationSeparate(glBlendOps[renderState.blendMode.blendOp], glBlendOps[renderState.blendMode.blendOpAlpha]);
-                glRenderState.blendMode.blendOp = renderState.blendMode.blendOp;
-                glRenderState.blendMode.blendOpAlpha = renderState.blendMode.blendOpAlpha;
+                glBlendEquationSeparate(glBlendOps[_renderState._blendMode._blendOp], glBlendOps[_renderState._blendMode._blendOpAlpha]);
+                _glRenderState._blendMode._blendOp = _renderState._blendMode._blendOp;
+                _glRenderState._blendMode._blendOpAlpha = _renderState._blendMode._blendOpAlpha;
             }
         }
 
-        if (renderState.colorWriteMask != glRenderState.colorWriteMask)
+        if (_renderState._colorWriteMask != _glRenderState._colorWriteMask)
         {
             glColorMask(
-                (renderState.colorWriteMask & COLORMASK_R) ? GL_TRUE : GL_FALSE,
-                (renderState.colorWriteMask & COLORMASK_G) ? GL_TRUE : GL_FALSE,
-                (renderState.colorWriteMask & COLORMASK_B) ? GL_TRUE : GL_FALSE,
-                (renderState.colorWriteMask & COLORMASK_A) ? GL_TRUE : GL_FALSE
+                (_renderState._colorWriteMask & COLORMASK_R) ? GL_TRUE : GL_FALSE,
+                (_renderState._colorWriteMask & COLORMASK_G) ? GL_TRUE : GL_FALSE,
+                (_renderState._colorWriteMask & COLORMASK_B) ? GL_TRUE : GL_FALSE,
+                (_renderState._colorWriteMask & COLORMASK_A) ? GL_TRUE : GL_FALSE
             );
-            glRenderState.colorWriteMask = renderState.colorWriteMask;
+            _glRenderState._colorWriteMask = _renderState._colorWriteMask;
         }
 
-        if (renderState.alphaToCoverage != glRenderState.alphaToCoverage)
+        if (_renderState._alphaToCoverage != _glRenderState._alphaToCoverage)
         {
-            if (renderState.alphaToCoverage)
+            if (_renderState._alphaToCoverage)
                 glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
             else
                 glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
-            glRenderState.alphaToCoverage = renderState.alphaToCoverage;
+            _glRenderState._alphaToCoverage = _renderState._alphaToCoverage;
         }
 
-        blendStateDirty = false;
+        _blendStateDirty = false;
     }
 
     // Apply depth state
-    if (depthStateDirty)
+    if (_depthStateDirty)
     {
-        if (renderState.depthWrite != glRenderState.depthWrite)
+        if (_renderState._depthWrite != _glRenderState._depthWrite)
         {
-            glDepthMask(renderState.depthWrite ? GL_TRUE : GL_FALSE);
-            glRenderState.depthWrite = renderState.depthWrite;
+            glDepthMask(_renderState._depthWrite ? GL_TRUE : GL_FALSE);
+            _glRenderState._depthWrite = _renderState._depthWrite;
         }
 
-        if (renderState.depthFunc != glRenderState.depthFunc)
+        if (_renderState._depthFunc != _glRenderState._depthFunc)
         {
-            glDepthFunc(glCompareFuncs[renderState.depthFunc]);
-            glRenderState.depthFunc = renderState.depthFunc;
+            glDepthFunc(glCompareFuncs[_renderState._depthFunc]);
+            _glRenderState._depthFunc = _renderState._depthFunc;
         }
 
-        if (renderState.stencilEnable != glRenderState.stencilEnable)
+        if (_renderState._stencilEnable != _glRenderState._stencilEnable)
         {
-            if (renderState.stencilEnable)
+            if (_renderState._stencilEnable)
                 glEnable(GL_STENCIL_TEST);
             else
                 glDisable(GL_STENCIL_TEST);
-            glRenderState.stencilEnable = renderState.stencilEnable;
+            _glRenderState._stencilEnable = _renderState._stencilEnable;
         }
 
-        if (renderState.stencilEnable)
+        if (_renderState._stencilEnable)
         {
             // Note: as polygons use Direct3D convention (clockwise = front) reversed front/back faces are used here
-            if (renderState.stencilTest.frontFunc != glRenderState.stencilTest.frontFunc || renderState.stencilRef !=
-                glRenderState.stencilRef || renderState.stencilTest.stencilReadMask != glRenderState.stencilTest.stencilReadMask)
+            if (_renderState._stencilTest._frontFunc != _glRenderState._stencilTest._frontFunc || _renderState._stencilRef !=
+                _glRenderState._stencilRef || _renderState._stencilTest._stencilReadMask != _glRenderState._stencilTest._stencilReadMask)
             {
-                glStencilFuncSeparate(GL_BACK, glCompareFuncs[renderState.stencilTest.frontFunc], renderState.stencilRef,
-                    renderState.stencilTest.stencilReadMask);
-                glRenderState.stencilTest.frontFunc = renderState.stencilTest.frontFunc;
+                glStencilFuncSeparate(GL_BACK, glCompareFuncs[_renderState._stencilTest._frontFunc], _renderState._stencilRef,
+                    _renderState._stencilTest._stencilReadMask);
+                _glRenderState._stencilTest._frontFunc = _renderState._stencilTest._frontFunc;
             }
-            if (renderState.stencilTest.backFunc != glRenderState.stencilTest.backFunc || renderState.stencilRef !=
-                glRenderState.stencilRef || renderState.stencilTest.stencilReadMask != glRenderState.stencilTest.stencilReadMask)
+            if (_renderState._stencilTest._backFunc != _glRenderState._stencilTest._backFunc || _renderState._stencilRef !=
+                _glRenderState._stencilRef || _renderState._stencilTest._stencilReadMask != _glRenderState._stencilTest._stencilReadMask)
             {
-                glStencilFuncSeparate(GL_BACK, glCompareFuncs[renderState.stencilTest.backFunc], renderState.stencilRef,
-                    renderState.stencilTest.stencilReadMask);
-                glRenderState.stencilTest.frontFunc = renderState.stencilTest.frontFunc;
+                glStencilFuncSeparate(GL_BACK, glCompareFuncs[_renderState._stencilTest._backFunc], _renderState._stencilRef,
+                    _renderState._stencilTest._stencilReadMask);
+                _glRenderState._stencilTest._frontFunc = _renderState._stencilTest._frontFunc;
             }
-            glRenderState.stencilRef = renderState.stencilRef;
-            glRenderState.stencilTest.stencilReadMask = renderState.stencilTest.stencilReadMask;
+            _glRenderState._stencilRef = _renderState._stencilRef;
+            _glRenderState._stencilTest._stencilReadMask = _renderState._stencilTest._stencilReadMask;
 
-            if (renderState.stencilTest.stencilWriteMask != glRenderState.stencilTest.stencilWriteMask)
+            if (_renderState._stencilTest._stencilWriteMask != _glRenderState._stencilTest._stencilWriteMask)
             {
-                glStencilMask(renderState.stencilTest.stencilWriteMask);
-                glRenderState.stencilTest.stencilWriteMask = renderState.stencilTest.stencilWriteMask;
+                glStencilMask(_renderState._stencilTest._stencilWriteMask);
+                _glRenderState._stencilTest._stencilWriteMask = _renderState._stencilTest._stencilWriteMask;
             }
 
-            if (renderState.stencilTest.frontFail != glRenderState.stencilTest.frontFail ||
-                renderState.stencilTest.frontDepthFail != glRenderState.stencilTest.frontDepthFail ||
-                renderState.stencilTest.frontPass != glRenderState.stencilTest.frontPass)
+            if (_renderState._stencilTest._frontFail != _glRenderState._stencilTest._frontFail ||
+                _renderState._stencilTest._frontDepthFail != _glRenderState._stencilTest._frontDepthFail ||
+                _renderState._stencilTest._frontPass != _glRenderState._stencilTest._frontPass)
             {
-                glStencilOpSeparate(GL_BACK, glStencilOps[renderState.stencilTest.frontFail],
-                    glStencilOps[renderState.stencilTest.frontDepthFail], glStencilOps[renderState.stencilTest.frontPass]);
-                glRenderState.stencilTest.frontFail = renderState.stencilTest.frontFail;
-                glRenderState.stencilTest.frontDepthFail = renderState.stencilTest.frontDepthFail;
-                glRenderState.stencilTest.frontPass = renderState.stencilTest.frontPass;
+                glStencilOpSeparate(GL_BACK, glStencilOps[_renderState._stencilTest._frontFail],
+                    glStencilOps[_renderState._stencilTest._frontDepthFail], glStencilOps[_renderState._stencilTest._frontPass]);
+                _glRenderState._stencilTest._frontFail = _renderState._stencilTest._frontFail;
+                _glRenderState._stencilTest._frontDepthFail = _renderState._stencilTest._frontDepthFail;
+                _glRenderState._stencilTest._frontPass = _renderState._stencilTest._frontPass;
             }
-            if (renderState.stencilTest.backFail != glRenderState.stencilTest.backFail || renderState.stencilTest.backDepthFail !=
-                glRenderState.stencilTest.backDepthFail || renderState.stencilTest.backPass != glRenderState.stencilTest.backPass)
+            if (_renderState._stencilTest._backFail != _glRenderState._stencilTest._backFail || _renderState._stencilTest._backDepthFail !=
+                _glRenderState._stencilTest._backDepthFail || _renderState._stencilTest._backPass != _glRenderState._stencilTest._backPass)
             {
-                glStencilOpSeparate(GL_FRONT, glStencilOps[renderState.stencilTest.backFail], 
-                    glStencilOps[renderState.stencilTest.backDepthFail], glStencilOps[renderState.stencilTest.backPass]);
-                glRenderState.stencilTest.backFail = renderState.stencilTest.backFail;
-                glRenderState.stencilTest.backDepthFail = renderState.stencilTest.backDepthFail;
-                glRenderState.stencilTest.backPass = renderState.stencilTest.backPass;
+                glStencilOpSeparate(GL_FRONT, glStencilOps[_renderState._stencilTest._backFail], 
+                    glStencilOps[_renderState._stencilTest._backDepthFail], glStencilOps[_renderState._stencilTest._backPass]);
+                _glRenderState._stencilTest._backFail = _renderState._stencilTest._backFail;
+                _glRenderState._stencilTest._backDepthFail = _renderState._stencilTest._backDepthFail;
+                _glRenderState._stencilTest._backPass = _renderState._stencilTest._backPass;
             }
         }
 
-        depthStateDirty = false;
+        _depthStateDirty = false;
     }
 
     // Apply rasterizer state
-    if (rasterizerStateDirty)
+    if (_rasterizerStateDirty)
     {
-        if (renderState.fillMode != glRenderState.fillMode)
+        if (_renderState._fillMode != _glRenderState._fillMode)
         {
-            glPolygonMode(GL_FRONT_AND_BACK, glFillModes[renderState.fillMode]);
-            glRenderState.fillMode = renderState.fillMode;
+            glPolygonMode(GL_FRONT_AND_BACK, glFillModes[_renderState._fillMode]);
+            _glRenderState._fillMode = _renderState._fillMode;
         }
 
-        if (renderState.cullMode != glRenderState.cullMode)
+        if (_renderState._cullMode != _glRenderState._cullMode)
         {
-            if (renderState.cullMode == CULL_NONE)
+            if (_renderState._cullMode == CULL_NONE)
                 glDisable(GL_CULL_FACE);
             else
             {
-                if (glRenderState.cullMode == CULL_NONE)
+                if (_glRenderState._cullMode == CULL_NONE)
                     glEnable(GL_CULL_FACE);
                 // Note: as polygons use Direct3D convention (clockwise = front) reversed front/back faces are used here
-                glCullFace(renderState.cullMode == CULL_BACK ? GL_FRONT : GL_BACK);
+                glCullFace(_renderState._cullMode == CULL_BACK ? GL_FRONT : GL_BACK);
             }
-            glRenderState.cullMode = renderState.cullMode;
+            _glRenderState._cullMode = _renderState._cullMode;
         }
 
-        if (renderState.depthBias != glRenderState.depthBias || renderState.slopeScaledDepthBias !=
-            glRenderState.slopeScaledDepthBias)
+        if (_renderState._depthBias != _glRenderState._depthBias || _renderState._slopeScaledDepthBias !=
+            _glRenderState._slopeScaledDepthBias)
         {
             /// \todo Check if this matches Direct3D
-            glPolygonOffset(renderState.slopeScaledDepthBias, (float)renderState.depthBias);
-            glRenderState.depthBias = renderState.depthBias;
-            glRenderState.slopeScaledDepthBias = renderState.slopeScaledDepthBias;
+            glPolygonOffset(_renderState._slopeScaledDepthBias, (float)_renderState._depthBias);
+            _glRenderState._depthBias = _renderState._depthBias;
+            _glRenderState._slopeScaledDepthBias = _renderState._slopeScaledDepthBias;
         }
 
-        if (renderState.depthClip != glRenderState.depthClip)
+        if (_renderState._depthClip != _glRenderState._depthClip)
         {
-            if (renderState.depthClip)
+            if (_renderState._depthClip)
                 glDisable(GL_DEPTH_CLAMP);
             else
                 glEnable(GL_DEPTH_CLAMP);
-            glRenderState.depthClip = renderState.depthClip;
+            _glRenderState._depthClip = _renderState._depthClip;
         }
 
-        if (renderState.scissorEnable != glRenderState.scissorEnable)
+        if (_renderState._scissorEnable != _glRenderState._scissorEnable)
         {
-            if (renderState.scissorEnable)
+            if (_renderState._scissorEnable)
                 glEnable(GL_SCISSOR_TEST);
             else
                 glDisable(GL_SCISSOR_TEST);
-            glRenderState.scissorEnable = renderState.scissorEnable;
+            _glRenderState._scissorEnable = _renderState._scissorEnable;
         }
 
-        if (renderState.scissorEnable && renderState.scissorRect != glRenderState.scissorRect)
+        if (_renderState._scissorEnable && _renderState._scissorRect != _glRenderState._scissorRect)
         {
-            glScissor(renderState.scissorRect.left, renderTargetSize.y - renderState.scissorRect.bottom,
-                scissorRect.Width(), scissorRect.Height());
-            glRenderState.scissorRect = renderState.scissorRect;
+            glScissor(_renderState._scissorRect._left, _renderTargetSize._y - _renderState._scissorRect._bottom,
+                _scissorRect.Width(), _scissorRect.Height());
+            _glRenderState._scissorRect = _renderState._scissorRect;
         }
 
-        rasterizerStateDirty = false;
+        _rasterizerStateDirty = false;
     }
 
     return true;
@@ -1293,70 +1293,70 @@ bool Graphics::PrepareDraw(bool instanced, size_t instanceStart)
 void Graphics::ResetState()
 {
     for (size_t i = 0; i < MAX_VERTEX_STREAMS; ++i)
-        vertexBuffers[i] = nullptr;
+        _vertexBuffers[i] = nullptr;
 
-    enabledVertexAttributes = 0;
-    usedVertexAttributes = 0;
-    instancingVertexAttributes = 0;
+    _enabledVertexAttributes = 0;
+    _usedVertexAttributes = 0;
+    _instancingVertexAttributes = 0;
 
     for (size_t i = 0; i < MAX_SHADER_STAGES; ++i)
     {
         for (size_t j = 0; j < MAX_CONSTANT_BUFFERS; ++j)
-            constantBuffers[i][j] = nullptr;
+            _constantBuffers[i][j] = nullptr;
     }
 
     for (size_t i = 0; i < MAX_TEXTURE_UNITS; ++i)
     {
-        textures[i] = nullptr;
-        textureTargets[i] = 0;
+        _textures[i] = nullptr;
+        _textureTargets[i] = 0;
     }
 
-    indexBuffer = nullptr;
-    vertexShader = nullptr;
-    pixelShader = nullptr;
-    shaderProgram = nullptr;
-    framebuffer = nullptr;
-    vertexAttributesDirty = false;
-    vertexBuffersDirty = false;
-    blendStateDirty = false;
-    depthStateDirty = false;
-    rasterizerStateDirty = false;
-    framebufferDirty = false;
-    activeTexture = 0;
-    boundVBO = 0;
-    boundUBO = 0;
+    _indexBuffer = nullptr;
+    _vertexShader = nullptr;
+    _pixelShader = nullptr;
+    _shaderProgram = nullptr;
+    _framebuffer = nullptr;
+    _vertexAttributesDirty = false;
+    _vertexBuffersDirty = false;
+    _blendStateDirty = false;
+    _depthStateDirty = false;
+    _rasterizerStateDirty = false;
+    _framebufferDirty = false;
+    _activeTexture = 0;
+    _boundVBO = 0;
+    _boundUBO = 0;
 
-    glRenderState.depthWrite = false;
-    glRenderState.depthFunc = CMP_ALWAYS;
-    glRenderState.depthBias = 0;
-    glRenderState.slopeScaledDepthBias = 0;
-    glRenderState.depthClip = true;
-    glRenderState.colorWriteMask = COLORMASK_ALL;
-    glRenderState.alphaToCoverage = false;
-    glRenderState.blendMode.blendEnable = false;
-    glRenderState.blendMode.srcBlend = MAX_BLEND_FACTORS;
-    glRenderState.blendMode.destBlend = MAX_BLEND_FACTORS;
-    glRenderState.blendMode.blendOp = MAX_BLEND_OPS;
-    glRenderState.blendMode.srcBlendAlpha = MAX_BLEND_FACTORS;
-    glRenderState.blendMode.destBlendAlpha = MAX_BLEND_FACTORS;
-    glRenderState.blendMode.blendOpAlpha = MAX_BLEND_OPS;
-    glRenderState.fillMode = FILL_SOLID;
-    glRenderState.cullMode = CULL_NONE;
-    glRenderState.scissorEnable = false;
-    glRenderState.scissorRect = IntRect::ZERO;
-    glRenderState.stencilEnable = false;
-    glRenderState.stencilRef = 0;
-    glRenderState.stencilTest.stencilReadMask = 0xff;
-    glRenderState.stencilTest.stencilWriteMask = 0xff;
-    glRenderState.stencilTest.frontFail = STENCIL_OP_KEEP;
-    glRenderState.stencilTest.frontDepthFail = STENCIL_OP_KEEP;
-    glRenderState.stencilTest.frontPass = STENCIL_OP_KEEP;
-    glRenderState.stencilTest.frontFunc = CMP_ALWAYS;
-    glRenderState.stencilTest.backFail = STENCIL_OP_KEEP;
-    glRenderState.stencilTest.backDepthFail = STENCIL_OP_KEEP;
-    glRenderState.stencilTest.backPass = STENCIL_OP_KEEP;
-    glRenderState.stencilTest.backFunc = CMP_ALWAYS;
-    renderState = glRenderState;
+    _glRenderState._depthWrite = false;
+    _glRenderState._depthFunc = CMP_ALWAYS;
+    _glRenderState._depthBias = 0;
+    _glRenderState._slopeScaledDepthBias = 0;
+    _glRenderState._depthClip = true;
+    _glRenderState._colorWriteMask = COLORMASK_ALL;
+    _glRenderState._alphaToCoverage = false;
+    _glRenderState._blendMode._blendEnable = false;
+    _glRenderState._blendMode._srcBlend = MAX_BLEND_FACTORS;
+    _glRenderState._blendMode._destBlend = MAX_BLEND_FACTORS;
+    _glRenderState._blendMode._blendOp = MAX_BLEND_OPS;
+    _glRenderState._blendMode._srcBlendAlpha = MAX_BLEND_FACTORS;
+    _glRenderState._blendMode._destBlendAlpha = MAX_BLEND_FACTORS;
+    _glRenderState._blendMode._blendOpAlpha = MAX_BLEND_OPS;
+    _glRenderState._fillMode = FILL_SOLID;
+    _glRenderState._cullMode = CULL_NONE;
+    _glRenderState._scissorEnable = false;
+    _glRenderState._scissorRect = IntRect::ZERO;
+    _glRenderState._stencilEnable = false;
+    _glRenderState._stencilRef = 0;
+    _glRenderState._stencilTest._stencilReadMask = 0xff;
+    _glRenderState._stencilTest._stencilWriteMask = 0xff;
+    _glRenderState._stencilTest._frontFail = STENCIL_OP_KEEP;
+    _glRenderState._stencilTest._frontDepthFail = STENCIL_OP_KEEP;
+    _glRenderState._stencilTest._frontPass = STENCIL_OP_KEEP;
+    _glRenderState._stencilTest._frontFunc = CMP_ALWAYS;
+    _glRenderState._stencilTest._backFail = STENCIL_OP_KEEP;
+    _glRenderState._stencilTest._backDepthFail = STENCIL_OP_KEEP;
+    _glRenderState._stencilTest._backPass = STENCIL_OP_KEEP;
+    _glRenderState._stencilTest._backFunc = CMP_ALWAYS;
+    _renderState = _glRenderState;
 }
 
 void RegisterGraphicsLibrary()

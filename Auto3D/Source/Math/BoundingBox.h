@@ -18,42 +18,42 @@ class AUTO_API BoundingBox
 {
 public:
     /// Minimum vector.
-    Vector3 min;
+    Vector3 _min;
     /// Maximum vector.
-    Vector3 max;
+    Vector3 _max;
     
-    /// Construct as undefined (negative size.)
+    /// Construct as undefined (negative _size.)
     BoundingBox() :
-        min(Vector3(M_INFINITY, M_INFINITY, M_INFINITY)),
-        max(Vector3(-M_INFINITY, -M_INFINITY, -M_INFINITY))
+        _min(Vector3(M_INFINITY, M_INFINITY, M_INFINITY)),
+        _max(Vector3(-M_INFINITY, -M_INFINITY, -M_INFINITY))
     {
     }
     
     /// Copy-construct.
     BoundingBox(const BoundingBox& box) :
-        min(box.min),
-        max(box.max)
+        _min(box._min),
+        _max(box._max)
     {
     }
     
     /// Construct from a rect, with the Z dimension left zero.
     BoundingBox(const Rect& rect) :
-        min(Vector3(rect.min)),
-        max(Vector3(rect.max))
+        _min(Vector3(rect._min)),
+        _max(Vector3(rect._max))
     {
     }
     
     /// Construct from minimum and maximum vectors.
     BoundingBox(const Vector3& min_, const Vector3& max_) :
-        min(min_),
-        max(max_)
+        _min(min_),
+        _max(max_)
     {
     }
     
     /// Construct from minimum and maximum floats (all dimensions same.)
     BoundingBox(float min_, float max_) :
-        min(Vector3(min_, min_, min_)),
-        max(Vector3(max_, max_, max_))
+        _min(Vector3(min_, min_, min_)),
+        _max(Vector3(max_, max_, max_))
     {
     }
     
@@ -96,56 +96,56 @@ public:
     /// Assign from another bounding box.
     BoundingBox& operator = (const BoundingBox& rhs)
     {
-        min = rhs.min;
-        max = rhs.max;
+        _min = rhs._min;
+        _max = rhs._max;
         return *this;
     }
     
     /// Assign from a Rect, with the Z dimension left zero.
     BoundingBox& operator = (const Rect& rhs)
     {
-        min = Vector3(rhs.min);
-        max = Vector3(rhs.max);
+        _min = Vector3(rhs._min);
+        _max = Vector3(rhs._max);
         return *this;
     }
     
     /// Test for equality with another bounding box without epsilon.
-    bool operator == (const BoundingBox& rhs) const { return min == rhs.min && max == rhs.max; }
+    bool operator == (const BoundingBox& rhs) const { return _min == rhs._min && _max == rhs._max; }
     /// Test for inequality with another bounding box without epsilon.
     bool operator != (const BoundingBox& rhs) const { return !(*this == rhs); }
     
     /// Define from another bounding box.
     void Define(const BoundingBox& box)
     {
-        min = box.min;
-        max = box.max;
+        _min = box._min;
+        _max = box._max;
     }
     
     /// Define from a Rect.
     void Define(const Rect& rect)
     {
-        min = Vector3(rect.min);
-        max = Vector3(rect.max);
+        _min = Vector3(rect._min);
+        _max = Vector3(rect._max);
     }
     
     /// Define from minimum and maximum vectors.
     void Define(const Vector3& min_, const Vector3& max_)
     {
-        min = min_;
-        max = max_;
+        _min = min_;
+        _max = max_;
     }
     
     /// Define from minimum and maximum floats (all dimensions same.)
     void Define(float min_, float max_)
     {
-        min = Vector3(min_, min_, min_);
-        max = Vector3(max_, max_, max_);
+        _min = Vector3(min_, min_, min_);
+        _max = Vector3(max_, max_, max_);
     }
     
     /// Define from a point.
     void Define(const Vector3& point)
     {
-        min = max = point;
+        _min = _max = point;
     }
     
     /// Merge a point.
@@ -154,53 +154,53 @@ public:
         // If undefined, set initial dimensions
         if (!IsDefined())
         {
-            min = max = point;
+            _min = _max = point;
             return;
         }
         
-        if (point.x < min.x)
-            min.x = point.x;
-        if (point.y < min.y)
-            min.y = point.y;
-        if (point.z < min.z)
-            min.z = point.z;
-        if (point.x > max.x)
-            max.x = point.x;
-        if (point.y > max.y)
-            max.y = point.y;
-        if (point.z > max.z)
-            max.z = point.z;
+        if (point._x < _min._x)
+            _min._x = point._x;
+        if (point._y < _min._y)
+            _min._y = point._y;
+        if (point._z < _min._z)
+            _min._z = point._z;
+        if (point._x > _max._x)
+            _max._x = point._x;
+        if (point._y > _max._y)
+            _max._y = point._y;
+        if (point._z > _max._z)
+            _max._z = point._z;
     }
     
     /// Merge another bounding box.
     void Merge(const BoundingBox& box)
     {
-        if (min.x > max.x)
+        if (_min._x > _max._x)
         {
-            min = box.min;
-            max = box.max;
+            _min = box._min;
+            _max = box._max;
             return;
         }
     
-        if (box.min.x < min.x)
-            min.x = box.min.x;
-        if (box.min.y < min.y)
-            min.y = box.min.y;
-        if (box.min.z < min.z)
-            min.z = box.min.z;
-        if (box.max.x > max.x)
-            max.x = box.max.x;
-        if (box.max.y > max.y)
-            max.y = box.max.y;
-        if (box.max.z > max.z)
-            max.z = box.max.z;
+        if (box._min._x < _min._x)
+            _min._x = box._min._x;
+        if (box._min._y < _min._y)
+            _min._y = box._min._y;
+        if (box._min._z < _min._z)
+            _min._z = box._min._z;
+        if (box._max._x > _max._x)
+            _max._x = box._max._x;
+        if (box._max._y > _max._y)
+            _max._y = box._max._y;
+        if (box._max._z > _max._z)
+            _max._z = box._max._z;
     }
     
-    /// Set as undefined (negative size) to allow the next merge to set initial size.
+    /// Set as undefined (negative _size) to allow the next merge to set initial _size.
     void Undefine()
     {
-        min = Vector3(M_INFINITY, M_INFINITY, M_INFINITY);
-        max = -min;
+        _min = Vector3(M_INFINITY, M_INFINITY, M_INFINITY);
+        _max = -_min;
     }
     
     /// Define from an array of vertices.
@@ -230,16 +230,16 @@ public:
     /// Parse from a C string. Return true on success.
     bool FromString(const char* str);
     
-    /// Return whether has non-negative size.
-    bool IsDefined() const { return (min.x <= max.x); }
+    /// Return whether has non-negative _size.
+    bool IsDefined() const { return (_min._x <= _max._x); }
     /// Return center.
-    Vector3 Center() const { return (max + min) * 0.5f; }
-    /// Return size.
-    Vector3 Size() const { return max - min; }
-    /// Return half-size.
-    Vector3 HalfSize() const { return (max - min) * 0.5f; }
+    Vector3 Center() const { return (_max + _min) * 0.5f; }
+    /// Return _size.
+    Vector3 Size() const { return _max - _min; }
+    /// Return half-_size.
+    Vector3 HalfSize() const { return (_max - _min) * 0.5f; }
     /// Test for equality with another bounding box with epsilon.
-    bool Equals(const BoundingBox& box) const { return min.Equals(box.min) && max.Equals(box.max); }
+    bool Equals(const BoundingBox& box) const { return _min.Equals(box._min) && _max.Equals(box._max); }
     
     /// Return transformed by a 3x3 matrix.
     BoundingBox Transformed(const Matrix3& transform) const;
@@ -251,8 +251,8 @@ public:
     /// Test if a point is inside.
     Intersection IsInside(const Vector3& point) const
     {
-        if (point.x < min.x || point.x > max.x || point.y < min.y || point.y > max.y ||
-            point.z < min.z || point.z > max.z)
+        if (point._x < _min._x || point._x > _max._x || point._y < _min._y || point._y > _max._y ||
+            point._z < _min._z || point._z > _max._z)
             return OUTSIDE;
         else
             return INSIDE;
@@ -261,11 +261,11 @@ public:
     /// Test if another bounding box is inside, outside or intersects.
     Intersection IsInside(const BoundingBox& box) const
     {
-        if (box.max.x < min.x || box.min.x > max.x || box.max.y < min.y || box.min.y > max.y ||
-            box.max.z < min.z || box.min.z > max.z)
+        if (box._max._x < _min._x || box._min._x > _max._x || box._max._y < _min._y || box._min._y > _max._y ||
+            box._max._z < _min._z || box._min._z > _max._z)
             return OUTSIDE;
-        else if (box.min.x < min.x || box.max.x > max.x || box.min.y < min.y || box.max.y > max.y ||
-            box.min.z < min.z || box.max.z > max.z)
+        else if (box._min._x < _min._x || box._max._x > _max._x || box._min._y < _min._y || box._max._y > _max._y ||
+            box._min._z < _min._z || box._max._z > _max._z)
             return INTERSECTS;
         else
             return INSIDE;
@@ -274,8 +274,8 @@ public:
     /// Test if another bounding box is (partially) inside or outside.
     Intersection IsInsideFast(const BoundingBox& box) const
     {
-        if (box.max.x < min.x || box.min.x > max.x || box.max.y < min.y || box.min.y > max.y ||
-            box.max.z < min.z || box.min.z > max.z)
+        if (box._max._x < _min._x || box._min._x > _max._x || box._max._y < _min._y || box._min._y > _max._y ||
+            box._max._z < _min._z || box._min._z > _max._z)
             return OUTSIDE;
         else
             return INSIDE;

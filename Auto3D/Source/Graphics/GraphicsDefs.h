@@ -223,34 +223,34 @@ struct AUTO_API VertexElement
 {
     /// Default-construct.
     VertexElement() :
-        type(ELEM_VECTOR3),
-        semantic(SEM_POSITION),
-        index(0),
-        perInstance(false),
-        offset(0)
+        _type(ELEM_VECTOR3),
+        _semantic(SEM_POSITION),
+        _index(0),
+        _perInstance(false),
+        _offset(0)
     {
     }
 
     /// Construct with type, semantic, index and whether is per-instance data.
-    VertexElement(ElementType type_, ElementSemantic semantic_, unsigned char index_ = 0, bool perInstance_ = false) :
-        type(type_),
-        semantic(semantic_),
-        index(index_),
-        perInstance(perInstance_),
-        offset(0)
+    VertexElement(ElementType type, ElementSemantic semantic, unsigned char index = 0, bool perInstance = false) :
+        _type(type),
+        _semantic(semantic),
+        _index(index),
+        _perInstance(perInstance),
+        _offset(0)
     {
     }
 
     /// Data type of element.
-    ElementType type;
+    ElementType _type;
     /// Semantic of element.
-    ElementSemantic semantic;
+    ElementSemantic _semantic;
     /// Semantic index of element, for example multi-texcoords.
-    unsigned char index;
+    unsigned char _index;
     /// Per-instance flag.
-    bool perInstance;
+    bool _perInstance;
     /// Offset of element from vertex start. Filled by VertexBuffer.
-    size_t offset;
+    size_t _offset;
 };
 
 /// Description of a shader constant.
@@ -258,36 +258,36 @@ struct AUTO_API Constant
 {
     /// Construct empty.
     Constant() :
-        numElements(1)
+        _numElements(1)
     {
     }
 
     /// Construct with type, name and optional number of elements.
-    Constant(ElementType type_, const String& name_, size_t numElements_ = 1) :
-        type(type_),
-        name(name_),
-        numElements(numElements_)
+    Constant(ElementType type, const String& name, size_t numElements = 1) :
+        _type(type),
+        _name(name),
+        _numElements(numElements)
     {
     }
 
     /// Construct with type, name and optional number of elements.
-    Constant(ElementType type_, const char* name_, size_t numElements_ = 1) :
-        type(type_),
-        name(name_),
-        numElements(numElements_)
+    Constant(ElementType type, const char* name, size_t numElements = 1) :
+        _type(type),
+        _name(name),
+        _numElements(numElements)
     {
     }
 
     /// Data type of constant.
-    ElementType type;
+    ElementType _type;
     /// Name of constant.
-    String name;
+    String _name;
     /// Number of elements. Default 1.
-    size_t numElements;
-    /// Element size. Filled by ConstantBuffer.
-    size_t elementSize;
+    size_t _numElements;
+    /// Element _size. Filled by ConstantBuffer.
+    size_t _elementSize;
     /// Offset from the beginning of the buffer. Filled by ConstantBuffer.
-    size_t offset;
+    size_t _offset;
 };
 
 /// Description of a blend mode.
@@ -300,48 +300,48 @@ struct AUTO_API BlendModeDesc
     }
 
     /// Construct with parameters.
-    BlendModeDesc(bool blendEnable_, BlendFactor srcBlend_, BlendFactor destBlend_, BlendOp blendOp_, BlendFactor srcBlendAlpha_, BlendFactor destBlendAlpha_, BlendOp blendOpAlpha_) :
-        blendEnable(blendEnable_),
-        srcBlend(srcBlend_),
-        destBlend(destBlend_),
-        blendOp(blendOp_),
-        srcBlendAlpha(srcBlendAlpha_),
-        destBlendAlpha(destBlendAlpha_),
-        blendOpAlpha(blendOpAlpha_)
+    BlendModeDesc(bool blendEnable, BlendFactor srcBlend, BlendFactor destBlend, BlendOp blendOp, BlendFactor srcBlendAlpha, BlendFactor destBlendAlpha, BlendOp blendOpAlpha) :
+        _blendEnable(blendEnable),
+        _srcBlend(srcBlend),
+        _destBlend(destBlend),
+        _blendOp(blendOp),
+        _srcBlendAlpha(srcBlendAlpha),
+        _destBlendAlpha(destBlendAlpha),
+        _blendOpAlpha(blendOpAlpha)
     {
     }
 
     /// Reset to defaults.
     void Reset()
     {
-        blendEnable = false;
-        srcBlend = BLEND_ONE;
-        destBlend = BLEND_ONE;
-        blendOp = BLEND_OP_ADD;
-        srcBlendAlpha = BLEND_ONE;
-        destBlendAlpha = BLEND_ONE;
-        blendOpAlpha = BLEND_OP_ADD;
+        _blendEnable = false;
+        _srcBlend = BLEND_ONE;
+        _destBlend = BLEND_ONE;
+        _blendOp = BLEND_OP_ADD;
+        _srcBlendAlpha = BLEND_ONE;
+        _destBlendAlpha = BLEND_ONE;
+        _blendOpAlpha = BLEND_OP_ADD;
     }
 
     /// Test for equality with another blend mode description.
-    bool operator == (const BlendModeDesc& rhs) const { return blendEnable == rhs.blendEnable && srcBlend == rhs.srcBlend && destBlend == rhs.destBlend && blendOp == rhs.blendOp && srcBlendAlpha == rhs.srcBlendAlpha && destBlendAlpha == rhs.destBlendAlpha && blendOpAlpha == rhs.blendOpAlpha; }
+    bool operator == (const BlendModeDesc& rhs) const { return _blendEnable == rhs._blendEnable && _srcBlend == rhs._srcBlend && _destBlend == rhs._destBlend && _blendOp == rhs._blendOp && _srcBlendAlpha == rhs._srcBlendAlpha && _destBlendAlpha == rhs._destBlendAlpha && _blendOpAlpha == rhs._blendOpAlpha; }
     /// Test for inequality with another blend mode description.
     bool operator != (const BlendModeDesc& rhs) const { return !(*this == rhs); }
 
     /// Blend enable flag.
-    bool blendEnable;
+    bool _blendEnable;
     /// Source color blend factor.
-    BlendFactor srcBlend;
+    BlendFactor _srcBlend;
     /// Destination color blend factor.
-    BlendFactor destBlend;
+    BlendFactor _destBlend;
     /// Color blend operation.
-    BlendOp blendOp;
+    BlendOp _blendOp;
     /// Source alpha blend factor.
-    BlendFactor srcBlendAlpha;
+    BlendFactor _srcBlendAlpha;
     /// Destination alpha blend factor.
-    BlendFactor destBlendAlpha;
+    BlendFactor _destBlendAlpha;
     /// Alpha blend operation.
-    BlendOp blendOpAlpha;
+    BlendOp _blendOpAlpha;
 };
 
 /// Description of a stencil test.
@@ -356,38 +356,38 @@ struct AUTO_API StencilTestDesc
     /// Reset to defaults.
     void Reset()
     {
-        stencilReadMask = 0xff;
-        stencilWriteMask = 0xff;
-        frontFunc = CMP_ALWAYS;
-        frontFail = STENCIL_OP_KEEP;
-        frontDepthFail = STENCIL_OP_KEEP;
-        frontPass = STENCIL_OP_KEEP;
-        backFunc = CMP_ALWAYS;
-        backFail = STENCIL_OP_KEEP;
-        backDepthFail = STENCIL_OP_KEEP;
-        backPass = STENCIL_OP_KEEP;
+        _stencilReadMask = 0xff;
+        _stencilWriteMask = 0xff;
+        _frontFunc = CMP_ALWAYS;
+        _frontFail = STENCIL_OP_KEEP;
+        _frontDepthFail = STENCIL_OP_KEEP;
+        _frontPass = STENCIL_OP_KEEP;
+        _backFunc = CMP_ALWAYS;
+        _backFail = STENCIL_OP_KEEP;
+        _backDepthFail = STENCIL_OP_KEEP;
+        _backPass = STENCIL_OP_KEEP;
     }
 
     /// Stencil read bit mask.
-    unsigned char stencilReadMask;
+    unsigned char _stencilReadMask;
     /// Stencil write bit mask.
-    unsigned char stencilWriteMask;
+    unsigned char _stencilWriteMask;
     /// Stencil front face compare function.
-    CompareFunc frontFunc;
+    CompareFunc _frontFunc;
     /// Operation for front face stencil test fail.
-    StencilOp frontFail;
+    StencilOp _frontFail;
     /// Operation for front face depth test fail.
-    StencilOp frontDepthFail;
+    StencilOp _frontDepthFail;
     /// Operation for front face pass.
-    StencilOp frontPass;
+    StencilOp _frontPass;
     /// Stencil back face compare function.
-    CompareFunc backFunc;
+    CompareFunc _backFunc;
     /// Operation for back face stencil test fail.
-    StencilOp backFail;
+    StencilOp _backFail;
     /// Operation for back face depth test fail.
-    StencilOp backDepthFail;
+    StencilOp _backDepthFail;
     /// Operation for back face pass.
-    StencilOp backPass;
+    StencilOp _backPass;
 };
 
 /// Collection of render state.
@@ -402,53 +402,53 @@ struct RenderState
     /// Reset to defaults.
     void Reset()
     {
-        depthFunc = CMP_LESS_EQUAL;
-        depthWrite = true;
-        depthClip = true;
-        depthBias = 0;
-        slopeScaledDepthBias = 0.0f;
-        colorWriteMask = COLORMASK_ALL;
-        alphaToCoverage = false;
-        blendMode.Reset();
-        cullMode = CULL_BACK;
-        fillMode = FILL_SOLID;
-        scissorEnable = false;
-        scissorRect = IntRect::ZERO;
-        stencilEnable = false;
-        stencilRef = 0;
-        stencilTest.Reset();
+        _depthFunc = CMP_LESS_EQUAL;
+        _depthWrite = true;
+        _depthClip = true;
+        _depthBias = 0;
+        _slopeScaledDepthBias = 0.0f;
+        _colorWriteMask = COLORMASK_ALL;
+        _alphaToCoverage = false;
+        _blendMode.Reset();
+        _cullMode = CULL_BACK;
+        _fillMode = FILL_SOLID;
+        _scissorEnable = false;
+        _scissorRect = IntRect::ZERO;
+        _stencilEnable = false;
+        _stencilRef = 0;
+        _stencilTest.Reset();
     }
 
     /// Depth test function.
-    CompareFunc depthFunc;
+    CompareFunc _depthFunc;
     /// Depth write enable.
-    bool depthWrite;
+    bool _depthWrite;
     /// Depth clipping enable.
-    bool depthClip;
+    bool _depthClip;
     /// Constant depth bias.
-    int depthBias;
+    int _depthBias;
     /// Slope-scaled depth bias.
-    float slopeScaledDepthBias;
+    float _slopeScaledDepthBias;
     /// Rendertarget color channel write mask.
-    unsigned char colorWriteMask;
+    unsigned char _colorWriteMask;
     /// Alpha-to-coverage enable.
-    bool alphaToCoverage;
+    bool _alphaToCoverage;
     /// Blend mode parameters.
-    BlendModeDesc blendMode;
+    BlendModeDesc _blendMode;
     /// Polygon culling mode.
-    CullMode cullMode;
+    CullMode _cullMode;
     /// Polygon fill mode.
-    FillMode fillMode;
+    FillMode _fillMode;
     /// Scissor test enable.
-    bool scissorEnable;
+    bool _scissorEnable;
     /// Scissor rectangle as pixels from rendertarget top left corner.
-    IntRect scissorRect;
+    IntRect _scissorRect;
     /// Stencil test enable.
-    bool stencilEnable;
+    bool _stencilEnable;
     /// Stencil reference value.
-    unsigned char stencilRef;
+    unsigned char _stencilRef;
     /// Stencil test parameters.
-    StencilTestDesc stencilTest;
+    StencilTestDesc _stencilTest;
 };
 
 /// Vertex element sizes by element type.

@@ -20,7 +20,7 @@ public:
     
 private:
     /// Starting clock value in milliseconds.
-    unsigned startTime;
+    unsigned _startTime;
 };
 
 /// High-resolution operating system timer used in profiling.
@@ -38,18 +38,18 @@ public:
     /// Perform one-time initialization to check support and frequency. Is called automatically at program start.
     static void Initialize();
     /// Return if high-resolution timer is supported.
-    static bool IsSupported() { return supported; }
+    static bool IsSupported() { return _supported; }
     /// Return high-resolution timer frequency if supported.
-    static long long Frequency() { return frequency; }
+    static long long Frequency() { return _frequency; }
 
 private:
     /// Starting clock value in CPU ticks.
-    long long startTime;
+    long long _startTime;
 
     /// High-resolution timer support flag.
-    static bool supported;
+    static bool _supported;
     /// High-resolution timer frequency.
-    static long long frequency;
+    static long long _frequency;
 };
 
 /// Return a date/time stamp as a string.

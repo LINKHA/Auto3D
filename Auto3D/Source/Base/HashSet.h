@@ -20,7 +20,7 @@ public:
         {
         }
         
-        /// Construct with key.
+        /// Construct with _key.
         Node(const _Ty& rhs) :
             key(rhs)
         {
@@ -60,9 +60,9 @@ public:
         /// Postdecrement the pointer.
         Iterator operator -- (int) { Iterator it = *this; GotoPrev(); return it; }
         
-        /// Point to the key.
+        /// Point to the _key.
         const _Ty* operator -> () const { return &(static_cast<Node*>(ptr))->key; }
-        /// Dereference the key.
+        /// Dereference the _key.
         const _Ty& operator * () const { return (static_cast<Node*>(ptr))->key; }
     };
     
@@ -97,9 +97,9 @@ public:
         /// Postdecrement the pointer.
         ConstIterator operator -- (int) { ConstIterator it = *this; GotoPrev(); return it; }
         
-        /// Point to the key.
+        /// Point to the _key.
         const _Ty* operator -> () const { return &(static_cast<Node*>(ptr))->key; }
-        /// Dereference the key.
+        /// Dereference the _key.
         const _Ty& operator * () const { return (static_cast<Node*>(ptr))->key; }
     };
     
@@ -169,7 +169,7 @@ public:
     /// Test for inequality with another hash set.
     bool operator != (const HashSet<_Ty>& rhs) const { return !(*this == rhs); }
 
-    /// Insert a key. Return an iterator to it.
+    /// Insert a _key. Return an iterator to it.
     Iterator Insert(const _Ty& key)
     {
         unsigned hashKey = Hash(key);
@@ -199,13 +199,13 @@ public:
             Insert(*it);
     }
     
-    /// Insert a key by iterator. Return iterator to the value.
+    /// Insert a _key by iterator. Return iterator to the value.
     Iterator Insert(const ConstIterator& it)
     {
         return Iterator(InsertNode(*it));
     }
     
-    /// Erase a key. Return true if was found.
+    /// Erase a _key. Return true if was found.
     bool Erase(const _Ty& key)
     {
         if (!ptrs)
@@ -227,7 +227,7 @@ public:
         return true;
     }
     
-    /// Erase a key by iterator. Return iterator to the next key.
+    /// Erase a _key by iterator. Return iterator to the next _key.
     Iterator Erase(const Iterator& it)
     {
         if (!ptrs || !it.ptr)
@@ -324,7 +324,7 @@ public:
         return true;
     }
     
-    /// Return iterator to the key, or end iterator if not found.
+    /// Return iterator to the _key, or end iterator if not found.
     Iterator Find(const _Ty& key)
     {
         if (!ptrs)
@@ -338,7 +338,7 @@ public:
             return End();
     }
     
-    /// Return const iterator to the key, or end iterator if not found.
+    /// Return const iterator to the _key, or end iterator if not found.
     ConstIterator Find(const _Ty& key) const
     {
         if (!ptrs)
@@ -352,7 +352,7 @@ public:
             return End();
     }
     
-    /// Return whether contains a key.
+    /// Return whether contains a _key.
     bool Contains(const _Ty& key) const
     {
         if (!ptrs)
@@ -370,9 +370,9 @@ public:
     Iterator End() { return Iterator(Tail()); }
     /// Return const iterator to the end.
     ConstIterator End() const { return ConstIterator(Tail()); }
-    /// Return first key. Is not the lowest value unless the set has been sorted.
+    /// Return first _key. Is not the lowest value unless the set has been sorted.
     const _Ty& Front() const { return *Begin(); }
-    /// Return last key.
+    /// Return last _key.
     const _Ty& Back() const { assert(Size()); return *(--End()); }
     
 private:
@@ -477,7 +477,7 @@ private:
         return next;
     }
     
-    /// Allocate a node with optionally specified key.
+    /// Allocate a node with optionally specified _key.
     Node* AllocateNode(const _Ty& key = _Ty())
     {
         Node* newNode = static_cast<Node*>(AllocatorGet(allocator));
@@ -507,7 +507,7 @@ private:
     /// Compare two nodes.
     static bool CompareNodes(Node*& lhs, Node*& rhs) { return lhs->key < rhs->key; }
 
-    /// Compute a hash based on the key and the bucket size
+    /// Compute a hash based on the _key and the bucket _size
     unsigned Hash(const _Ty& key) const { return MakeHash(key) & (NumBuckets() - 1); }
 };
 

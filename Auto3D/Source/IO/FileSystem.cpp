@@ -65,7 +65,7 @@ bool CopyFile(const String& srcFileName, const String& destFileName)
     if (!destFile.IsOpen())
         return false;
 
-    /// \todo Should use a fixed-size buffer to allow copying very large files
+    /// \todo Should use a fixed-_size buffer to allow copying very large files
     size_t fileSize = srcFile.Size();
     AutoArrayPtr<unsigned char> buffer(new unsigned char[fileSize]);
 
@@ -205,8 +205,8 @@ static void ScanDirInternal(Vector<String>& result, String path, const String& s
 
 #ifdef _WIN32
     WIN32_FIND_DATAW info;
-    HANDLE handle = FindFirstFileW(WString(path + "*").CString(), &info);
-    if (handle != INVALID_HANDLE_VALUE)
+    HANDLE _handle = FindFirstFileW(WString(path + "*").CString(), &info);
+    if (_handle != INVALID_HANDLE_VALUE)
     {
         do
         {
@@ -228,9 +228,9 @@ static void ScanDirInternal(Vector<String>& result, String path, const String& s
                         result.Push(deltaPath + fileName);
                 }
             }
-        } while (FindNextFileW(handle, &info));
+        } while (FindNextFileW(_handle, &info));
 
-        FindClose(handle);
+        FindClose(_handle);
     }
 #else
     DIR *dir;
@@ -244,19 +244,19 @@ static void ScanDirInternal(Vector<String>& result, String path, const String& s
             /// \todo Filename may be unnormalized Unicode on Mac OS X. Re-normalize as necessary
             String fileName(de->d_name);
             bool normalEntry = fileName != "." && fileName != "..";
-            if (normalEntry && !(flags & SCAN_HIDDEN) && fileName.StartsWith("."))
+            if (normalEntry && !(_flags & SCAN_HIDDEN) && fileName.StartsWith("."))
                 continue;
             String pathAndName = path + fileName;
             if (!stat(pathAndName.CString(), &st))
             {
                 if (st.st_mode & S_IFDIR)
                 {
-                    if (flags & SCAN_DIRS)
+                    if (_flags & SCAN_DIRS)
                         result.Push(deltaPath + fileName);
                     if (recursive && normalEntry)
-                        ScanDirInternal(result, path + fileName, startPath, filter, flags, recursive);
+                        ScanDirInternal(result, path + fileName, startPath, _filter, _flags, recursive);
                 }
-                else if (flags & SCAN_FILES)
+                else if (_flags & SCAN_FILES)
                 {
                     if (filterExtension.IsEmpty() || fileName.EndsWith(filterExtension))
                         result.Push(deltaPath + fileName);
@@ -286,8 +286,8 @@ String ExecutableDir()
     #elif defined(__APPLE__)
     char exeName[MAX_PATH];
     memset(exeName, 0, MAX_PATH);
-    unsigned size = MAX_PATH;
-    _NSGetExecutablePath(exeName, &size);
+    unsigned _size = MAX_PATH;
+    _NSGetExecutablePath(exeName, &_size);
     ret = Path(String(exeName));
     #elif defined(__linux__)
     char exeName[MAX_PATH];

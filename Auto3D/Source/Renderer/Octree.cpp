@@ -15,7 +15,7 @@ static const int MAX_OCTREE_LEVELS = 256;
 
 bool CompareRaycastResults(const RaycastResult& lhs, const RaycastResult& rhs)
 {
-    return lhs.distance < rhs.distance;
+    return lhs._distance < rhs._distance;
 }
 
 bool CompareNodeDistances(const Pair<OctreeNode*, float>& lhs, const Pair<OctreeNode*, float>& rhs)
@@ -24,34 +24,34 @@ bool CompareNodeDistances(const Pair<OctreeNode*, float>& lhs, const Pair<Octree
 }
 
 Octant::Octant() :
-    parent(nullptr),
-    numNodes(0)
+    _parent(nullptr),
+    _numNodes(0)
 {
     for (size_t i = 0; i < NUM_OCTANTS; ++i)
-        children[i] = nullptr;
+        _children[i] = nullptr;
 }
 
-void Octant::Initialize(Octant* parent_, const BoundingBox& boundingBox, int level_)
+void Octant::Initialize(Octant* parent, const BoundingBox& boundingBox, int level)
 {
-    worldBoundingBox = boundingBox;
-    center = worldBoundingBox.Center();
-    halfSize = worldBoundingBox.HalfSize();
-    cullingBox = BoundingBox(worldBoundingBox.min - halfSize, worldBoundingBox.max + halfSize);
-    level = level_;
-    parent = parent_;
+    _worldBoundingBox = boundingBox;
+    _center = _worldBoundingBox.Center();
+    _halfSize = _worldBoundingBox.HalfSize();
+    _cullingBox = BoundingBox(_worldBoundingBox._min - _halfSize, _worldBoundingBox._max + _halfSize);
+    _level = level;
+    _parent = parent;
 }
 
 bool Octant::FitBoundingBox(const BoundingBox& box, const Vector3& boxSize) const
 {
-    // If max split level, size always OK, otherwise check that box is at least half size of octant
-    if (level <= 1 || boxSize.x >= halfSize.x || boxSize.y >= halfSize.y || boxSize.z >= halfSize.z)
+    // If max split level, _size always OK, otherwise check that box is at least half _size of octant
+    if (_level <= 1 || boxSize._x >= _halfSize._x || boxSize._y >= _halfSize._y || boxSize._z >= _halfSize._z)
         return true;
-    // Also check if the box can not fit inside a child octant's culling box, in that case size OK (must insert here)
+    // Also check if the box can not fit inside a child octant's culling box, in that case _size OK (must insert here)
     else
     {
-        if (box.min.x <= worldBoundingBox.min.x - 0.5f * halfSize.x || box.min.y <= worldBoundingBox.min.y - 0.5f * halfSize.y ||
-            box.min.z <= worldBoundingBox.min.z - 0.5f * halfSize.z || box.max.x >= worldBoundingBox.max.x + 0.5f * halfSize.x ||
-            box.max.y >= worldBoundingBox.max.y + 0.5f * halfSize.y || box.max.z >= worldBoundingBox.max.z + 0.5f * halfSize.z)
+        if (box._min._x <= _worldBoundingBox._min._x - 0.5f * _halfSize._x || box._min._y <= _worldBoundingBox._min._y - 0.5f * _halfSize._y ||
+            box._min._z <= _worldBoundingBox._min._z - 0.5f * _halfSize._z || box._max._x >= _worldBoundingBox._max._x + 0.5f * _halfSize._x ||
+            box._max._y >= _worldBoundingBox._max._y + 0.5f * _halfSize._y || box._max._z >= _worldBoundingBox._max._z + 0.5f * _halfSize._z)
             return true;
     }
 
@@ -61,12 +61,12 @@ bool Octant::FitBoundingBox(const BoundingBox& box, const Vector3& boxSize) cons
 
 Octree::Octree()
 {
-    root.Initialize(nullptr, BoundingBox(-DEFAULT_OCTREE_SIZE, DEFAULT_OCTREE_SIZE), DEFAULT_OCTREE_LEVELS);
+    _root.Initialize(nullptr, BoundingBox(-DEFAULT_OCTREE_SIZE, DEFAULT_OCTREE_SIZE), DEFAULT_OCTREE_LEVELS);
 }
 
 Octree::~Octree()
 {
-    DeleteChildOctants(&root, true);
+    DeleteChildOctants(&_root, true);
 }
 
 void Octree::RegisterObject()
@@ -81,7 +81,7 @@ void Octree::Update()
 {
     PROFILE(UpdateOctree);
 
-    for (auto it = updateQueue.Begin(); it != updateQueue.End(); ++it)
+    for (auto it = _updateQueue.Begin(); it != _updateQueue.End(); ++it)
     {
         OctreeNode* node = *it;
         // If node was removed before update could happen, a null pointer will be in its place
@@ -92,20 +92,20 @@ void Octree::Update()
             // Do nothing if still fits the current octant
             const BoundingBox& box = node->WorldBoundingBox();
             Vector3 boxSize = box.Size();
-            Octant* oldOctant = node->octant;
-            if (oldOctant && oldOctant->cullingBox.IsInside(box) == INSIDE && oldOctant->FitBoundingBox(box, boxSize))
+            Octant* oldOctant = node->_octant;
+            if (oldOctant && oldOctant->_cullingBox.IsInside(box) == INSIDE && oldOctant->FitBoundingBox(box, boxSize))
                 continue;
 
             // Begin reinsert process. Start from root and check what level child needs to be used
-            Octant* newOctant = &root;
+            Octant* newOctant = &_root;
             Vector3 boxCenter = box.Center();
 
             for (;;)
             {
                 bool insertHere;
                 // If node does not fit fully inside root octant, must remain in it
-                if (newOctant == &root)
-                    insertHere = newOctant->cullingBox.IsInside(box) != INSIDE || newOctant->FitBoundingBox(box, boxSize);
+                if (newOctant == &_root)
+                    insertHere = newOctant->_cullingBox.IsInside(box) != INSIDE || newOctant->FitBoundingBox(box, boxSize);
                 else
                     insertHere = newOctant->FitBoundingBox(box, boxSize);
 
@@ -126,7 +126,7 @@ void Octree::Update()
         }
     }
 
-    updateQueue.Clear();
+    _updateQueue.Clear();
 }
 
 void Octree::Resize(const BoundingBox& boundingBox, int numLevels)
@@ -134,11 +134,11 @@ void Octree::Resize(const BoundingBox& boundingBox, int numLevels)
     PROFILE(ResizeOctree);
 
     // Collect nodes to the root and delete all child octants
-    updateQueue.Clear();
-    CollectNodes(updateQueue, &root);
-    DeleteChildOctants(&root, false);
-    allocator.Reset();
-    root.Initialize(nullptr, boundingBox, Clamp(numLevels, 1, MAX_OCTREE_LEVELS));
+    _updateQueue.Clear();
+    CollectNodes(_updateQueue, &_root);
+    DeleteChildOctants(&_root, false);
+    _allocator.Reset();
+    _root.Initialize(nullptr, boundingBox, Clamp(numLevels, 1, MAX_OCTREE_LEVELS));
 
     // Reinsert all nodes (recreates new child octants as necessary)
     Update();
@@ -147,24 +147,24 @@ void Octree::Resize(const BoundingBox& boundingBox, int numLevels)
 void Octree::RemoveNode(OctreeNode* node)
 {
     assert(node);
-    RemoveNode(node, node->octant);
+    RemoveNode(node, node->_octant);
     if (node->TestFlag(NF_OCTREE_UPDATE_QUEUED))
         CancelUpdate(node);
-    node->octant = nullptr;
+    node->_octant = nullptr;
 }
 
 void Octree::QueueUpdate(OctreeNode* node)
 {
     assert(node);
-    updateQueue.Push(node);
+    _updateQueue.Push(node);
     node->SetFlag(NF_OCTREE_UPDATE_QUEUED, true);
 }
 
 void Octree::CancelUpdate(OctreeNode* node)
 {
     assert(node);
-    auto it = updateQueue.Find(node);
-    if (it != updateQueue.End())
+    auto it = _updateQueue.Find(node);
+    if (it != _updateQueue.End())
         *it = nullptr;
     node->SetFlag(NF_OCTREE_UPDATE_QUEUED, false);
 }
@@ -174,7 +174,7 @@ void Octree::Raycast(Vector<RaycastResult>& result, const Ray& ray, unsigned sho
     PROFILE(OctreeRaycast);
 
     result.Clear();
-    CollectNodes(result, &root, ray, nodeFlags, maxDistance, layerMask);
+    CollectNodes(result, &_root, ray, nodeFlags, maxDistance, layerMask);
     Sort(result.Begin(), result.End(), CompareRaycastResults);
 }
 
@@ -183,169 +183,169 @@ RaycastResult Octree::RaycastSingle(const Ray& ray, unsigned short nodeFlags, fl
     PROFILE(OctreeRaycastSingle);
 
     // Get first the potential hits
-    initialRes.Clear();
-    CollectNodes(initialRes, &root, ray, nodeFlags, maxDistance, layerMask);
-    Sort(initialRes.Begin(), initialRes.End(), CompareNodeDistances);
+    _initialRes.Clear();
+    CollectNodes(_initialRes, &_root, ray, nodeFlags, maxDistance, layerMask);
+    Sort(_initialRes.Begin(), _initialRes.End(), CompareNodeDistances);
 
     // Then perform actual per-node ray tests and early-out when possible
-    finalRes.Clear();
+    _finalRes.Clear();
     float closestHit = M_INFINITY;
-    for (auto it = initialRes.Begin(); it != initialRes.End(); ++it)
+    for (auto it = _initialRes.Begin(); it != _initialRes.End(); ++it)
     {
         if (it->second < Min(closestHit, maxDistance))
         {
-            size_t oldSize = finalRes.Size();
-            it->first->OnRaycast(finalRes, ray, maxDistance);
-            if (finalRes.Size() > oldSize)
-                closestHit = Min(closestHit, finalRes.Back().distance);
+            size_t oldSize = _finalRes.Size();
+            it->first->OnRaycast(_finalRes, ray, maxDistance);
+            if (_finalRes.Size() > oldSize)
+                closestHit = Min(closestHit, _finalRes.Back()._distance);
         }
         else
             break;
     }
 
-    if (finalRes.Size())
+    if (_finalRes.Size())
     {
-        Sort(finalRes.Begin(), finalRes.End(), CompareRaycastResults);
-        return finalRes.Front();
+        Sort(_finalRes.Begin(), _finalRes.End(), CompareRaycastResults);
+        return _finalRes.Front();
     }
     else
     {
         RaycastResult emptyRes;
-        emptyRes.position = emptyRes.normal = Vector3::ZERO;
-        emptyRes.distance = M_INFINITY;
-        emptyRes.node = nullptr;
-        emptyRes.subObject = 0;
+        emptyRes._position = emptyRes._normal = Vector3::ZERO;
+        emptyRes._distance = M_INFINITY;
+        emptyRes._node = nullptr;
+        emptyRes._subObject = 0;
         return emptyRes;
     }
 }
 
 void Octree::SetBoundingBoxAttr(const BoundingBox& boundingBox)
 {
-    root.worldBoundingBox = boundingBox;
+    _root._worldBoundingBox = boundingBox;
 }
 
 const BoundingBox& Octree::BoundingBoxAttr() const
 {
-    return root.worldBoundingBox;
+    return _root._worldBoundingBox;
 }
 
 void Octree::SetNumLevelsAttr(int numLevels)
 {
     /// Setting the number of level (last attribute) triggers octree resize when deserializing
-    Resize(root.worldBoundingBox, numLevels);
+    Resize(_root._worldBoundingBox, numLevels);
 }
 
 int Octree::NumLevelsAttr() const
 {
-    return root.level;
+    return _root._level;
 }
 
 void Octree::AddNode(OctreeNode* node, Octant* octant)
 {
-    octant->nodes.Push(node);
-    node->octant = octant;
+    octant->_nodes.Push(node);
+    node->_octant = octant;
 
     // Increment the node count in the whole parent branch
     while (octant)
     {
-        ++octant->numNodes;
-        octant = octant->parent;
+        ++octant->_numNodes;
+        octant = octant->_parent;
     }
 }
 
 void Octree::RemoveNode(OctreeNode* node, Octant* octant)
 {
     // Do not set the node's octant pointer to zero, as the node may already be added into another octant
-    octant->nodes.Remove(node);
+    octant->_nodes.Remove(node);
     
     // Decrement the node count in the whole parent branch and erase empty octants as necessary
     while (octant)
     {
-        --octant->numNodes;
-        Octant* next = octant->parent;
-        if (!octant->numNodes && next)
-            DeleteChildOctant(next, next->ChildIndex(octant->center));
+        --octant->_numNodes;
+        Octant* next = octant->_parent;
+        if (!octant->_numNodes && next)
+            DeleteChildOctant(next, next->ChildIndex(octant->_center));
         octant = next;
     }
 }
 
 Octant* Octree::CreateChildOctant(Octant* octant, size_t index)
 {
-    if (octant->children[index])
-        return octant->children[index];
+    if (octant->_children[index])
+        return octant->_children[index];
 
-    Vector3 newMin = octant->worldBoundingBox.min;
-    Vector3 newMax = octant->worldBoundingBox.max;
-    const Vector3& oldCenter = octant->center;
+    Vector3 newMin = octant->_worldBoundingBox._min;
+    Vector3 newMax = octant->_worldBoundingBox._max;
+    const Vector3& oldCenter = octant->_center;
 
     if (index & 1)
-        newMin.x = oldCenter.x;
+        newMin._x = oldCenter._x;
     else
-        newMax.x = oldCenter.x;
+        newMax._x = oldCenter._x;
 
     if (index & 2)
-        newMin.y = oldCenter.y;
+        newMin._y = oldCenter._y;
     else
-        newMax.y = oldCenter.y;
+        newMax._y = oldCenter._y;
 
     if (index & 4)
-        newMin.z = oldCenter.z;
+        newMin._z = oldCenter._z;
     else
-        newMax.z = oldCenter.z;
+        newMax._z = oldCenter._z;
 
-    Octant* child = allocator.Allocate();
-    child->Initialize(octant, BoundingBox(newMin, newMax), octant->level - 1);
-    octant->children[index] = child;
+    Octant* child = _allocator.Allocate();
+    child->Initialize(octant, BoundingBox(newMin, newMax), octant->_level - 1);
+    octant->_children[index] = child;
 
     return child;
 }
 
 void Octree::DeleteChildOctant(Octant* octant, size_t index)
 {
-    allocator.Free(octant->children[index]);
-    octant->children[index] = nullptr;
+    _allocator.Free(octant->_children[index]);
+    octant->_children[index] = nullptr;
 }
 
 void Octree::DeleteChildOctants(Octant* octant, bool deletingOctree)
 {
-    for (auto it = octant->nodes.Begin(); it != octant->nodes.End(); ++it)
+    for (auto it = octant->_nodes.Begin(); it != octant->_nodes.End(); ++it)
     {
         OctreeNode* node = *it;
-        node->octant = nullptr;
+        node->_octant = nullptr;
         node->SetFlag(NF_OCTREE_UPDATE_QUEUED, false);
         if (deletingOctree)
-            node->octree = nullptr;
+            node->_octree = nullptr;
     }
-    octant->nodes.Clear();
-    octant->numNodes = 0;
+    octant->_nodes.Clear();
+    octant->_numNodes = 0;
 
     for (size_t i = 0; i < NUM_OCTANTS; ++i)
     {
-        if (octant->children[i])
+        if (octant->_children[i])
         {
-            DeleteChildOctants(octant->children[i], deletingOctree);
-            octant->children[i] = nullptr;
+            DeleteChildOctants(octant->_children[i], deletingOctree);
+            octant->_children[i] = nullptr;
         }
     }
 
-    if (octant != &root)
-        allocator.Free(octant);
+    if (octant != &_root)
+        _allocator.Free(octant);
 }
 
 void Octree::CollectNodes(Vector<OctreeNode*>& result, const Octant* octant) const
 {
-    result.Push(octant->nodes);
+    result.Push(octant->_nodes);
 
     for (size_t i = 0; i < NUM_OCTANTS; ++i)
     {
-        if (octant->children[i])
-            CollectNodes(result, octant->children[i]);
+        if (octant->_children[i])
+            CollectNodes(result, octant->_children[i]);
     }
 }
 
 void Octree::CollectNodes(Vector<OctreeNode*>& result, const Octant* octant, unsigned short nodeFlags, unsigned layerMask) const
 {
-    const Vector<OctreeNode*>& octantNodes = octant->nodes;
+    const Vector<OctreeNode*>& octantNodes = octant->_nodes;
     for (auto it = octantNodes.Begin(); it != octantNodes.End(); ++it)
     {
         OctreeNode* node = *it;
@@ -355,19 +355,19 @@ void Octree::CollectNodes(Vector<OctreeNode*>& result, const Octant* octant, uns
 
     for (size_t i = 0; i < NUM_OCTANTS; ++i)
     {
-        if (octant->children[i])
-            CollectNodes(result, octant->children[i], nodeFlags, layerMask);
+        if (octant->_children[i])
+            CollectNodes(result, octant->_children[i], nodeFlags, layerMask);
     }
 }
 
 void Octree::CollectNodes(Vector<RaycastResult>& result, const Octant* octant, const Ray& ray, unsigned short nodeFlags, 
     float maxDistance, unsigned layerMask) const
 {
-    float octantDist = ray.HitDistance(octant->cullingBox);
+    float octantDist = ray.HitDistance(octant->_cullingBox);
     if (octantDist >= maxDistance)
         return;
 
-    const Vector<OctreeNode*>& octantNodes = octant->nodes;
+    const Vector<OctreeNode*>& octantNodes = octant->_nodes;
     for (auto it = octantNodes.Begin(); it != octantNodes.End(); ++it)
     {
         OctreeNode* node = *it;
@@ -377,19 +377,19 @@ void Octree::CollectNodes(Vector<RaycastResult>& result, const Octant* octant, c
 
     for (size_t i = 0; i < NUM_OCTANTS; ++i)
     {
-        if (octant->children[i])
-            CollectNodes(result, octant->children[i], ray, nodeFlags, maxDistance, layerMask);
+        if (octant->_children[i])
+            CollectNodes(result, octant->_children[i], ray, nodeFlags, maxDistance, layerMask);
     }
 }
 
 void Octree::CollectNodes(Vector<Pair<OctreeNode*, float> >& result, const Octant* octant, const Ray& ray, unsigned short nodeFlags,
     float maxDistance, unsigned layerMask) const
 {
-    float octantDist = ray.HitDistance(octant->cullingBox);
+    float octantDist = ray.HitDistance(octant->_cullingBox);
     if (octantDist >= maxDistance)
         return;
 
-    const Vector<OctreeNode*>& octantNodes = octant->nodes;
+    const Vector<OctreeNode*>& octantNodes = octant->_nodes;
     for (auto it = octantNodes.Begin(); it != octantNodes.End(); ++it)
     {
         OctreeNode* node = *it;
@@ -403,8 +403,8 @@ void Octree::CollectNodes(Vector<Pair<OctreeNode*, float> >& result, const Octan
 
     for (size_t i = 0; i < NUM_OCTANTS; ++i)
     {
-        if (octant->children[i])
-            CollectNodes(result, octant->children[i], ray, nodeFlags, maxDistance, layerMask);
+        if (octant->_children[i])
+            CollectNodes(result, octant->_children[i], ray, nodeFlags, maxDistance, layerMask);
     }
 }
 

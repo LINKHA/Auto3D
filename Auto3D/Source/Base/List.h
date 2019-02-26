@@ -90,9 +90,9 @@ public:
     bool IsEmpty() const { return Size() == 0; }
     
 protected:
-    /// Allocate head & tail pointers + room for size variable.
+    /// Allocate head & tail pointers + room for _size variable.
     void AllocatePtrs();
-    /// Set new size.
+    /// Set new _size.
     void SetSize(size_t size) { reinterpret_cast<size_t*>(ptrs)[0] = size; }
     /// Set new head node.
     void SetHead(ListNodeBase* head) { ptrs[1] = head; }
@@ -104,7 +104,7 @@ protected:
     /// Return list tail node.
     ListNodeBase* Tail() const { return ptrs ? ptrs[2] : nullptr; }
 
-    /// Head & tail pointers and list size.
+    /// Head & tail pointers and list _size.
     ListNodeBase** ptrs;
     /// %Node allocator.
     AllocatorBlock* allocator;
@@ -211,7 +211,7 @@ public:
     /// Copy-construct.
     List(const List<_Ty>& list)
     {
-        // Reserve the tail node + initial capacity according to the list's size
+        // Reserve the tail node + initial capacity according to the list's _size
         Initialize(list.Size() + 1);
         *this = list;
     }
@@ -278,10 +278,10 @@ public:
     void Push(const _Ty& value) { InsertNode(Tail(), value); }
     /// Insert an element to the beginning.
     void PushFront(const _Ty& value) { InsertNode(Head(), value); }
-    /// Insert an element at position.
+    /// Insert an element at _position.
     void Insert(const Iterator& dest, const _Ty& value) { InsertNode(static_cast<Node*>(dest.ptr_), value); }
     
-    /// Insert a list at position.
+    /// Insert a list at _position.
     void Insert(const Iterator& dest, const List<_Ty>& list)
     {
         Node* destNode = static_cast<Node*>(dest.ptr);

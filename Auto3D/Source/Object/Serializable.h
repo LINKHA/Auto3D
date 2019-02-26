@@ -20,7 +20,7 @@ public:
     virtual void LoadJSON(const JSONValue& source, ObjectResolver& resolver);
     /// Save as JSON data.
     virtual void SaveJSON(JSONValue& dest);
-    /// Return id for referring to the object in serialization.
+    /// Return _id for referring to the object in serialization.
     virtual unsigned Id() const { return 0; }
 
     /// Set attribute value from memory.
@@ -109,7 +109,7 @@ public:
     
 private:
     /// Per-class attributes.
-    static HashMap<StringHash, Vector<SharedPtr<Attribute> > > classAttributes;
+    static HashMap<StringHash, Vector<SharedPtr<Attribute> > > _classAttributes;
 };
 
 }

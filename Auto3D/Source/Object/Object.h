@@ -18,20 +18,20 @@ public:
     /// Return type name.
     virtual const String& TypeName() const = 0;
 
-    /// Subscribe to an event.
+    /// Subscribe to an _event.
     void SubscribeToEvent(Event& event, EventHandler* handler);
-    /// Unsubscribe from an event.
+    /// Unsubscribe from an _event.
     void UnsubscribeFromEvent(Event& event);
-    /// Send an event.
+    /// Send an _event.
     void SendEvent(Event& event);
     
-    /// Subscribe to an event, template version.
+    /// Subscribe to an _event, template version.
     template <class _Ty, class U> void SubscribeToEvent(U& event, void (_Ty::*handlerFunction)(U&))
     {
         SubscribeToEvent(event, new EventHandlerImpl<_Ty, U>(this, handlerFunction)); 
     }
 
-    /// Return whether is subscribed to an event.
+    /// Return whether is subscribed to an _event.
     bool IsSubscribedToEvent(const Event& event) const;
     
     /// Register an object as a subsystem that can be accessed globally. Note that the subsystems container does not own the objects.
@@ -41,7 +41,7 @@ public:
     /// Remove a subsystem by type.
     static void RemoveSubsystem(StringHash type);
     /// Return a subsystem by type, or null if not registered.
-    static Object* Subsystem(StringHash type);
+    static Object* GetSubsystem(StringHash type);
     /// Register an object factory.
     static void RegisterFactory(ObjectFactory* factory);
     /// Create and return an object through a factory. The caller is assumed to take ownership of the object. Return null if no factory registered. 
@@ -49,7 +49,7 @@ public:
     /// Return a type name from hash, or empty if not known. Requires a registered object factory.
     static const String& TypeNameFromType(StringHash type);
     /// Return a subsystem, template version.
-    template <class _Ty> static _Ty* Subsystem() { return static_cast<_Ty*>(Subsystem(_Ty::TypeStatic())); }
+    template <class _Ty> static _Ty* GetSubsystem() { return static_cast<_Ty*>(GetSubsystem(_Ty::TypeStatic())); }
     /// Register an object factory, template version.
     template <class _Ty> static void RegisterFactory() { RegisterFactory(new ObjectFactoryImpl<_Ty>()); }
     /// Create and return an object through a factory, template version.
@@ -57,9 +57,9 @@ public:
     
 private:
     /// Registered subsystems.
-    static HashMap<StringHash, Object*> subsystems;
+    static HashMap<StringHash, Object*> _subsystems;
     /// Registered object factories.
-    static HashMap<StringHash, AutoPtr<ObjectFactory> > factories;
+    static HashMap<StringHash, AutoPtr<ObjectFactory> > _factories;
 };
 
 /// Base class for object factories.
@@ -73,15 +73,15 @@ public:
     virtual Object* Create() = 0;
 
     /// Return type name hash of the objects created by this factory.
-    StringHash Type() const { return type; }
+    StringHash Type() const { return _type; }
     /// Return type name of the objects created by this factory.
-    const String& TypeName() const { return typeName; }
+    const String& TypeName() const { return _typeName; }
 
 protected:
     /// %Object type name hash.
-    StringHash type;
+    StringHash _type;
     /// %Object type name.
-    String typeName;
+    String _typeName;
 };
 
 /// Template implementation of the object factory.
@@ -91,8 +91,8 @@ public:
     /// Construct.
     ObjectFactoryImpl()
     {
-        type = _Ty::TypeStatic();
-        typeName = _Ty::TypeNameStatic();
+        _type = _Ty::TypeStatic();
+        _typeName = _Ty::TypeNameStatic();
     }
 
     /// Create and return an object of the specific type.

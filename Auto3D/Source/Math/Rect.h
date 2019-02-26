@@ -10,49 +10,49 @@ class AUTO_API Rect
 {
 public:
     /// Minimum vector.
-    Vector2 min;
+    Vector2 _min;
     /// Maximum vector.
-    Vector2 max;
+    Vector2 _max;
     
-    /// Construct as undefined (negative size.)
+    /// Construct as undefined (negative _size.)
     Rect() :
-        min(Vector2(M_INFINITY, M_INFINITY)),
-        max(Vector2(-M_INFINITY, -M_INFINITY))
+        _min(Vector2(M_INFINITY, M_INFINITY)),
+        _max(Vector2(-M_INFINITY, -M_INFINITY))
     {
     }
     
     /// Copy-construct.
     Rect(const Rect& rect) :
-        min(rect.min),
-        max(rect.max)
+        _min(rect._min),
+        _max(rect._max)
     {
     }
     
     /// Construct from minimum and maximum vectors.
     Rect(const Vector2& min_, const Vector2& max_) :
-        min(min_),
-        max(max_)
+        _min(min_),
+        _max(max_)
     {
     }
     
     /// Construct from coordinates.
     Rect(float left, float top, float right, float bottom) :
-        min(left, top),
-        max(right, bottom)
+        _min(left, top),
+        _max(right, bottom)
     {
     }
     
     /// Construct from a Vector4.
     Rect(const Vector4& vector) :
-        min(vector.x, vector.y),
-        max(vector.z, vector.w)
+        _min(vector._x, vector._y),
+        _max(vector._z, vector._w)
     {
     }
 
     /// Construct from a float array.
     Rect(const float* data) :
-        min(data[0], data[1]),
-        max(data[2], data[3])
+        _min(data[0], data[1]),
+        _max(data[2], data[3])
     {
     }
     
@@ -71,34 +71,34 @@ public:
     /// Assign from another rect.
     Rect& operator = (const Rect& rhs)
     {
-        min = rhs.min;
-        max = rhs.max;
+        _min = rhs._min;
+        _max = rhs._max;
         return *this;
     }
     
     /// Test for equality with another rect without epsilon.
-    bool operator == (const Rect& rhs) const { return min == rhs.min && max == rhs.max; }
+    bool operator == (const Rect& rhs) const { return _min == rhs._min && _max == rhs._max; }
     /// Test for inequality with another rect without epsilon.
     bool operator != (const Rect& rhs) const { return !(*this == rhs); }
     
     /// Define from another rect.
     void Define(const Rect& rect)
     {
-        min = rect.min;
-        max = rect.max;
+        _min = rect._min;
+        _max = rect._max;
     }
     
     /// Define from minimum and maximum vectors.
     void Define(const Vector2& min_, const Vector2& max_)
     {
-        min = min_;
-        max = max_;
+        _min = min_;
+        _max = max_;
     }
     
     /// Define from a point.
     void Define(const Vector2& point)
     {
-        min = max = point;
+        _min = _max = point;
     }
     
     /// Merge a point.
@@ -107,45 +107,45 @@ public:
         // If undefined, set initial dimensions
         if (!IsDefined())
         {
-            min = max = point;
+            _min = _max = point;
             return;
         }
         
-        if (point.x < min.x)
-            min.x = point.x;
-        if (point.x > max.x)
-            max.x = point.x;
-        if (point.y < min.y)
-            min.y = point.y;
-        if (point.y > max.y)
-            max.y = point.y;
+        if (point._x < _min._x)
+            _min._x = point._x;
+        if (point._x > _max._x)
+            _max._x = point._x;
+        if (point._y < _min._y)
+            _min._y = point._y;
+        if (point._y > _max._y)
+            _max._y = point._y;
     }
     
     /// Merge a rect.
     void Merge(const Rect& rect)
     {
-       if (min.x > max.x)
+       if (_min._x > _max._x)
         {
-            min = rect.min;
-            max = rect.max;
+            _min = rect._min;
+            _max = rect._max;
             return;
         }
         
-        if (rect.min.x < min.x)
-            min.x = rect.min.x;
-        if (rect.min.y < min.y)
-            min.y = rect.min.y;
-        if (rect.max.x > max.x)
-            max.x = rect.max.x;
-        if (rect.max.y > max.y)
-            max.y = rect.max.y;
+        if (rect._min._x < _min._x)
+            _min._x = rect._min._x;
+        if (rect._min._y < _min._y)
+            _min._y = rect._min._y;
+        if (rect._max._x > _max._x)
+            _max._x = rect._max._x;
+        if (rect._max._y > _max._y)
+            _max._y = rect._max._y;
     }
     
-    /// Set as undefined to allow the next merge to set initial size.
+    /// Set as undefined to allow the next merge to set initial _size.
     void Undefine()
     {
-        min = Vector2(M_INFINITY, M_INFINITY);
-        max = -min;
+        _min = Vector2(M_INFINITY, M_INFINITY);
+        _max = -_min;
     }
     
     /// Clip with another rect.
@@ -155,30 +155,30 @@ public:
     /// Parse from a C string. Return true on success.
     bool FromString(const char* str);
     
-    /// Return whether has non-negative size.
-    bool IsDefined() const { return (min.x <= max.x); }
+    /// Return whether has non-negative _size.
+    bool IsDefined() const { return (_min._x <= _max._x); }
     /// Return center.
-    Vector2 Center() const { return (max + min) * 0.5f; }
-    /// Return size.
-    Vector2 Size() const { return max - min; }
-    /// Return half-size.
-    Vector2 HalfSize() const { return (max - min) * 0.5f; }
+    Vector2 Center() const { return (_max + _min) * 0.5f; }
+    /// Return _size.
+    Vector2 Size() const { return _max - _min; }
+    /// Return half-_size.
+    Vector2 HalfSize() const { return (_max - _min) * 0.5f; }
     /// Test for equality with another rect with epsilon.
-    bool Equals(const Rect& rhs) const { return min.Equals(rhs.min) && max.Equals(rhs.max); }
+    bool Equals(const Rect& rhs) const { return _min.Equals(rhs._min) && _max.Equals(rhs._max); }
     
     /// Test whether a point is inside.
     Intersection IsInside(const Vector2& point) const
     {
-        if (point.x < min.x || point.y < min.y || point.x > max.x || point.y > max.y)
+        if (point._x < _min._x || point._y < _min._y || point._x > _max._x || point._y > _max._y)
             return OUTSIDE;
         else
             return INSIDE;
     }
     
     /// Return float data.
-    const void* Data() const { return &min.x; }
+    const void* Data() const { return &_min._x; }
     /// Return as a vector.
-    Vector4 ToVector4() const { return Vector4(min.x, min.y, max.x, max.y); }
+    Vector4 ToVector4() const { return Vector4(_min._x, _min._y, _max._x, _max._y); }
     /// Return as string.
     String ToString() const;
     

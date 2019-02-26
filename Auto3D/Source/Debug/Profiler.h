@@ -30,37 +30,37 @@ public:
     ProfilerBlock* FindOrCreateChild(const char* name);
 
     /// Block name.
-    const char* name;
+    const char* _name;
     /// Hires timer for time measurement.
-    HiresTimer timer;
+    HiresTimer _timer;
     /// Parent block.
-    ProfilerBlock* parent;
+    ProfilerBlock* _parent;
     /// Child blocks.
-    Vector<AutoPtr<ProfilerBlock > > children;
+    Vector<AutoPtr<ProfilerBlock > > _children;
     /// Current frame's accumulated time.
-    long long time;
+    long long _time;
     /// Current frame's longest call.
-    long long maxTime;
+    long long _maxTime;
     /// Current frame's call count.
-    unsigned count;
+    unsigned _count;
     /// Previous frame's accumulated time.
-    long long frameTime;
+    long long _frameTime;
     /// Previous frame's longest call.
-    long long frameMaxTime;
+    long long _frameMaxTime;
     /// Previous frame's call count.
-    unsigned frameCount;
+    unsigned _frameCount;
     /// Current interval's accumulated time.
-    long long intervalTime;
+    long long _intervalTime;
     /// Current interval's longest call.
-    long long intervalMaxTime;
+    long long _intervalMaxTime;
     /// Current interval's call count.
-    unsigned intervalCount;
+    unsigned _intervalCount;
     /// Accumulated time since start.
-    long long totalTime;
+    long long _totalTime;
     /// Longest call since start.
-    long long totalMaxTime;
+    long long _totalMaxTime;
     /// Call count since start.
-    unsigned totalCount;
+    unsigned _totalCount;
 };
 
 /// Hierarchical performance profiler subsystem.
@@ -88,22 +88,22 @@ public:
     /// Output results into a string.
     String OutputResults(bool showUnused = false, bool showTotal = false, size_t maxDepth = M_MAX_UNSIGNED) const;
     /// Return the current profiling block.
-    const ProfilerBlock* CurrentBlock() const { return current; }
+    const ProfilerBlock* CurrentBlock() const { return _current; }
     /// Return the root profiling block.
-    const ProfilerBlock* RootBlock() const { return root; }
+    const ProfilerBlock* RootBlock() const { return _root; }
 
 private:
     /// Output results recursively.
     void OutputResults(ProfilerBlock* block, String& output, size_t depth, size_t maxDepth, bool showUnused, bool showTotal) const;
 
     /// Current profiling block.
-    ProfilerBlock* current;
+    ProfilerBlock* _current;
     /// Root profiling block.
-    AutoPtr<ProfilerBlock> root;
+    AutoPtr<ProfilerBlock> _root;
     /// Frames in the current interval.
-    size_t intervalFrames;
+    size_t _intervalFrames;
     /// Total frames since start.
-    size_t totalFrames;
+    size_t _totalFrames;
 };
 
 /// Helper class for automatically beginning and ending a profiling block
@@ -113,27 +113,27 @@ public:
     /// Construct and begin a profiling block. The name must be persistent; string literals are recommended.
     AutoProfileBlock(const char* name)
     {
-        profiler = Object::Subsystem<Profiler>();
-        if (profiler)
-            profiler->BeginBlock(name);
+        _profiler = Object::GetSubsystem<Profiler>();
+        if (_profiler)
+            _profiler->BeginBlock(name);
     }
 
     /// Destruct. End the profiling block.
     ~AutoProfileBlock()
     {
-        if (profiler)
-            profiler->EndBlock();
+        if (_profiler)
+            _profiler->EndBlock();
     }
 
 private:
     /// Profiler subsystem.
-    Profiler* profiler;
+    Profiler* _profiler;
 };
 
 #ifdef AUTO_PROFILING
 #define PROFILE(name) AutoProfileBlock profile_ ## name (#name)
 #else
-#define PROFILE(name)
+#define PROFILE(_name)
 #endif
 
 }

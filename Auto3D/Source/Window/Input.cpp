@@ -7,8 +7,8 @@ namespace Auto3D
 {
 
 Input::Input() :
-    mouseButtons(0),
-    mouseButtonsPressed(0)
+    _mouseButtons(0),
+    _mouseButtonsPressed(0)
 {
     RegisterSubsystem(this);
 }
@@ -21,65 +21,65 @@ Input::~Input()
 void Input::Update()
 {
     // Clear accumulated input from last frame
-    mouseButtonsPressed = 0;
-    mouseMove = IntVector2::ZERO;
-	mouseWhellOffset = IntVector2::ZERO;
-    keyPressed.Clear();
-    rawKeyPress.Clear();
-    for (auto it = touches.Begin(); it != touches.End(); ++it)
-        it->delta = IntVector2::ZERO;
+    _mouseButtonsPressed = 0;
+    _mouseMove = IntVector2::ZERO;
+	_mouseWhellOffset = IntVector2::ZERO;
+    _keyPressed.Clear();
+    _rawKeyPress.Clear();
+    for (auto it = _touches.Begin(); it != _touches.End(); ++it)
+        it->_delta = IntVector2::ZERO;
 
-    // The OS-specific window message handling will call back to Input and update the state
-    Window* window = Subsystem<Window>();
+    // The OS-specific _window message handling will call back to Input and update the state
+    Window* window = GetSubsystem<Window>();
     if (window)
         window->PumpMessages();
 }
 
 bool Input::IsKeyDown(unsigned keyCode) const
 {
-    auto it = keyDown.Find(keyCode);
-    return it != keyDown.End() ? it->second : false;
+    auto it = _keyDown.Find(keyCode);
+    return it != _keyDown.End() ? it->second : false;
 }
 
 bool Input::IsKeyDownRaw(unsigned rawKeyCode) const
 {
-    auto it = rawKeyDown.Find(rawKeyCode);
-    return it != rawKeyDown.End() ? it->second : false;
+    auto it = _rawKeyDown.Find(rawKeyCode);
+    return it != _rawKeyDown.End() ? it->second : false;
 }
 
 bool Input::IsKeyPress(unsigned keyCode) const
 {
-    auto it = keyPressed.Find(keyCode);
-    return it != keyPressed.End() ? it->second : false;
+    auto it = _keyPressed.Find(keyCode);
+    return it != _keyPressed.End() ? it->second : false;
 }
 
 bool Input::IsKeyPressRaw(unsigned rawKeyCode) const
 {
-    auto it = rawKeyPress.Find(rawKeyCode);
-    return it != rawKeyPress.End() ? it->second : false;
+    auto it = _rawKeyPress.Find(rawKeyCode);
+    return it != _rawKeyPress.End() ? it->second : false;
 }
 
 const IntVector2& Input::MousePosition() const
 {
-    Window* window = Subsystem<Window>();
+    Window* window = GetSubsystem<Window>();
     return window ? window->MousePosition() : IntVector2::ZERO;
 }
 
 bool Input::IsMouseButtonDown(unsigned button) const
 {
-    return (mouseButtons & (1 << button)) != 0;
+    return (_mouseButtons & (1 << button)) != 0;
 }
 
 bool Input::IsMouseButtonPress(unsigned button) const
 {
-    return (mouseButtonsPressed & (1 << button)) != 0;
+    return (_mouseButtonsPressed & (1 << button)) != 0;
 }
 
 const Touch* Input::FindTouch(unsigned id) const
 {
-    for (auto it = touches.Begin(); it != touches.End(); ++it)
+    for (auto it = _touches.Begin(); it != _touches.End(); ++it)
     {
-        if (it->id == id)
+        if (it->_id == id)
             return it.ptr;
     }
 
@@ -90,39 +90,39 @@ void Input::OnKey(unsigned keyCode, unsigned rawKeyCode, bool pressed)
 {
     bool wasDown = IsKeyDown(keyCode);
 
-    keyDown[keyCode] = pressed;
-    rawKeyDown[rawKeyCode] = pressed;
+    _keyDown[keyCode] = pressed;
+    _rawKeyDown[rawKeyCode] = pressed;
     if (pressed)
     {
-        keyPressed[keyCode] = true;
-        rawKeyPress[rawKeyCode] = true;
+        _keyPressed[keyCode] = true;
+        _rawKeyPress[rawKeyCode] = true;
     }
 
-    keyEvent.keyCode = keyCode;
-    keyEvent.rawKeyCode = rawKeyCode;
-    keyEvent.pressed = pressed;
-    keyEvent.repeat = wasDown;
+    keyEvent._keyCode = keyCode;
+    keyEvent._rawKeyCode = rawKeyCode;
+    keyEvent._pressed = pressed;
+    keyEvent._repeat = wasDown;
     SendEvent(keyEvent);
 }
 
 void Input::OnChar(unsigned unicodeChar)
 {
-    charInputEvent.unicodeChar = unicodeChar;
+    charInputEvent._unicodeChar = unicodeChar;
     SendEvent(charInputEvent);
 }
 
 void Input::OnMouseMove(const IntVector2& position, const IntVector2& delta)
 {
-    mouseMove += delta;
+    _mouseMove += delta;
 
-    mouseMoveEvent.position = position;
-    mouseMoveEvent.delta = delta;
+    mouseMoveEvent._position = position;
+    mouseMoveEvent._delta = delta;
     SendEvent(mouseMoveEvent);
 }
 
 void Input::OnMouseWheel(const IntVector2& delta)
 {
-	mouseWhellOffset = delta;
+	_mouseWhellOffset = delta;
 }
 
 void Input::OnMouseButton(unsigned button, bool pressed)
@@ -131,16 +131,16 @@ void Input::OnMouseButton(unsigned button, bool pressed)
 
     if (pressed)
     {
-        mouseButtons |= bit;
-        mouseButtonsPressed |= bit;
+        _mouseButtons |= bit;
+        _mouseButtonsPressed |= bit;
     }
     else
-        mouseButtons &= ~bit;
+        _mouseButtons &= ~bit;
 
-    mouseButtonEvent.button = button;
-    mouseButtonEvent.buttons = mouseButtons;
-    mouseButtonEvent.pressed = pressed;
-    mouseButtonEvent.position = MousePosition();
+    mouseButtonEvent._button = button;
+    mouseButtonEvent._buttons = _mouseButtons;
+    mouseButtonEvent._pressed = pressed;
+    mouseButtonEvent._position = MousePosition();
     SendEvent(mouseButtonEvent);
 }
 
@@ -151,23 +151,23 @@ void Input::OnTouch(unsigned internalId, bool pressed, const IntVector2& positio
         bool found = false;
 
         // Ongoing touch
-        for (auto it = touches.Begin(); it != touches.End(); ++it)
+        for (auto it = _touches.Begin(); it != _touches.End(); ++it)
         {
-            if (it->internalId == internalId)
+            if (it->_internalId == internalId)
             {
                 found = true;
-                it->lastDelta = position - it->position;
+                it->_lastDelta = position - it->_position;
                 
-                if (it->lastDelta != IntVector2::ZERO || pressure != it->pressure)
+                if (it->_lastDelta != IntVector2::ZERO || pressure != it->_pressure)
                 {
-                    it->delta += it->lastDelta;
-                    it->position = position;
-                    it->pressure = pressure;
+                    it->_delta += it->_lastDelta;
+                    it->_position = position;
+                    it->_pressure = pressure;
 
-                    touchMoveEvent.id = it->id;
-                    touchMoveEvent.position = it->position;
-                    touchMoveEvent.delta = it->lastDelta;
-                    touchMoveEvent.pressure = it->pressure;
+                    touchMoveEvent._id = it->_id;
+                    touchMoveEvent._position = it->_position;
+                    touchMoveEvent._delta = it->_lastDelta;
+                    touchMoveEvent._pressure = it->_pressure;
                     SendEvent(touchMoveEvent);
                 }
 
@@ -178,47 +178,47 @@ void Input::OnTouch(unsigned internalId, bool pressed, const IntVector2& positio
         // New touch
         if (!found)
         {
-            // Use the first gap in current touches, or insert to the end if no gaps
-            size_t insertIndex = touches.Size();
-            unsigned newId = (unsigned)touches.Size();
+            // Use the first gap in current _touches, or insert to the end if no gaps
+            size_t insertIndex = _touches.Size();
+            unsigned newId = (unsigned)_touches.Size();
 
-            for (size_t i = 0; i < touches.Size(); ++i)
+            for (size_t i = 0; i < _touches.Size(); ++i)
             {
-                if (touches[i].id > i)
+                if (_touches[i]._id > i)
                 {
                     insertIndex = i;
-                    newId = i ? touches[i - 1].id + 1 : 0;
+                    newId = i ? _touches[i - 1]._id + 1 : 0;
                     break;
                 }
             }
 
             Touch newTouch;
-            newTouch.id = newId;
-            newTouch.internalId = internalId;
-            newTouch.position = position;
-            newTouch.pressure = pressure;
-            touches.Insert(insertIndex, newTouch);
+            newTouch._id = newId;
+            newTouch._internalId = internalId;
+            newTouch._position = position;
+            newTouch._pressure = pressure;
+            _touches.Insert(insertIndex, newTouch);
 
-            touchBeginEvent.id = newTouch.id;
-            touchBeginEvent.position = newTouch.position;
-            touchBeginEvent.pressure = newTouch.pressure;
+            touchBeginEvent._id = newTouch._id;
+            touchBeginEvent._position = newTouch._position;
+            touchBeginEvent._pressure = newTouch._pressure;
             SendEvent(touchBeginEvent);
         }
     }
     else
     {
         // End touch
-        for (auto it = touches.Begin(); it != touches.End(); ++it)
+        for (auto it = _touches.Begin(); it != _touches.End(); ++it)
         {
-            if (it->internalId == internalId)
+            if (it->_internalId == internalId)
             {
-                it->position = position;
-                it->pressure = pressure;
+                it->_position = position;
+                it->_pressure = pressure;
 
-                touchEndEvent.id = it->id;
-                touchEndEvent.position = it->position;
+                touchEndEvent._id = it->_id;
+                touchEndEvent._position = it->_position;
                 SendEvent(touchEndEvent);
-                touches.Erase(it);
+                _touches.Erase(it);
                 break;
             }
         }
@@ -231,13 +231,13 @@ void Input::OnGainFocus()
 
 void Input::OnLoseFocus()
 {
-    mouseButtons = 0;
-    mouseButtonsPressed = 0;
-    mouseMove = IntVector2::ZERO;
-    keyDown.Clear();
-    keyPressed.Clear();
-    rawKeyDown.Clear();
-    rawKeyPress.Clear();
+    _mouseButtons = 0;
+    _mouseButtonsPressed = 0;
+    _mouseMove = IntVector2::ZERO;
+    _keyDown.Clear();
+    _keyPressed.Clear();
+    _rawKeyDown.Clear();
+    _rawKeyPress.Clear();
 }
 
 }

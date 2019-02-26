@@ -60,8 +60,8 @@ inline bool CompareLights(Light* lhs, Light* rhs)
 }
 
 Renderer::Renderer() :
-    frameNumber(0),
-    instanceTransformsDirty(false)
+    _frameNumber(0),
+    _instanceTransformsDirty(false)
 {
 	RegisterSubsystem(this);
 }
@@ -76,20 +76,20 @@ void Renderer::SetupShadowMaps(size_t num, int size, ImageFormat format)
         size = 1;
     size = NextPowerOfTwo(size);
 
-    shadowMaps.Resize(num);
-    for (auto it = shadowMaps.Begin(); it != shadowMaps.End(); ++it)
+    _shadowMaps.Resize(num);
+    for (auto it = _shadowMaps.Begin(); it != _shadowMaps.End(); ++it)
     {
-        if (it->texture->Define(TEX_2D, USAGE_RENDERTARGET, IntVector2(size, size), format, 1))
+        if (it->_texture->Define(TEX_2D, USAGE_RENDERTARGET, IntVector2(size, size), format, 1))
         {
             // Setup shadow map sampling with hardware depth compare
-            it->texture->DefineSampler(COMPARE_BILINEAR, ADDRESS_CLAMP, ADDRESS_CLAMP, ADDRESS_CLAMP, 1);
+            it->_texture->DefineSampler(COMPARE_BILINEAR, ADDRESS_CLAMP, ADDRESS_CLAMP, ADDRESS_CLAMP, 1);
         }
     }
 }
 
-bool Renderer::PrepareView(Scene* scene_, Camera* camera_, const Vector<PassDesc>& passes)
+bool Renderer::PrepareView(Scene* scene, Camera* camera, const Vector<PassDesc>& passes)
 {
-    if (!CollectObjects(scene_, camera_))
+    if (!CollectObjects(scene, camera))
         return false;
     
     CollectLightInteractions();
@@ -97,42 +97,42 @@ bool Renderer::PrepareView(Scene* scene_, Camera* camera_, const Vector<PassDesc
     return true;
 }
 
-bool Renderer::CollectObjects(Scene* scene_, Camera* camera_)
+bool Renderer::CollectObjects(Scene* scene, Camera* camera)
 {
     PROFILE(CollectObjects);
 
     // Acquire Graphics subsystem now, which needs to be initialized with a screen mode
-    if (!graphics)
+    if (!_graphics)
         Initialize();
 
-    geometries.Clear();
-    lights.Clear();
-    instanceTransforms.Clear();
-    lightLists.Clear();
-    lightPasses.Clear();
-    for (auto it = batchQueues.Begin(); it != batchQueues.End(); ++it)
+    _geometries.Clear();
+    _lights.Clear();
+    _instanceTransforms.Clear();
+    _lightLists.Clear();
+    _lightPasses.Clear();
+    for (auto it = _batchQueues.Begin(); it != _batchQueues.End(); ++it)
         it->second.Clear();
-    for (auto it = shadowMaps.Begin(); it != shadowMaps.End(); ++it)
+    for (auto it = _shadowMaps.Begin(); it != _shadowMaps.End(); ++it)
         it->Clear();
-    usedShadowViews = 0;
+    _usedShadowViews = 0;
 
-    scene = scene_;
-    camera = camera_;
-    octree = scene ? scene->FindChild<Octree>() : nullptr;
-    if (!scene || !camera || !octree)
+    _scene = scene;
+    _camera = camera;
+    _octree = _scene ? _scene->FindChild<Octree>() : nullptr;
+    if (!_scene || !_camera || !_octree)
         return false;
 
     // Increment frame number. Never use 0, as that is the default for objects that have never been rendered
-    ++frameNumber;
-    if (!frameNumber)
-        ++frameNumber;
+    ++_frameNumber;
+    if (!_frameNumber)
+        ++_frameNumber;
 
     // Reinsert moved objects to the octree
-    octree->Update();
+    _octree->Update();
 
-    frustum = camera->WorldFrustum();
-    viewMask = camera->ViewMask();
-    octree->FindNodes(frustum, this, &Renderer::CollectGeometriesAndLights);
+    _frustum = _camera->WorldFrustum();
+    _viewMask = _camera->ViewMask();
+    _octree->FindNodes(_frustum, this, &Renderer::CollectGeometriesAndLights);
 
     return true;
 }
@@ -145,28 +145,28 @@ void Renderer::CollectLightInteractions()
         // Sort lights by increasing distance. Directional lights will have distance 0 which ensure they have the first
         // opportunity to allocate shadow maps
         PROFILE(SortLights);
-        Sort(lights.Begin(), lights.End(), CompareLights);
+        Sort(_lights.Begin(), _lights.End(), CompareLights);
     }
 
-    for (auto it = lights.Begin(), end = lights.End(); it != end; ++it)
+    for (auto it = _lights.Begin(), end = _lights.End(); it != end; ++it)
     {
         Light* light = *it;
         unsigned lightMask = light->LightMask();
 
-        litGeometries.Clear();
+        _litGeometries.Clear();
         bool hasReceivers = false;
 
         // Create a light list that contains only this light. It will be used for nodes that have no light interactions so far
         unsigned long long key = (unsigned long long)light;
-        LightList* lightList = &lightLists[key];
-        lightList->lights.Push(light);
-        lightList->key = key;
-        lightList->useCount = 0;
+        LightList* lightList = &_lightLists[key];
+        lightList->_lights.Push(light);
+        lightList->_key = key;
+        lightList->_useCount = 0;
         
         switch (light->GetLightType())
         {
         case LIGHT_DIRECTIONAL:
-            for (auto gIt = geometries.Begin(), gEnd = geometries.End(); gIt != gEnd; ++gIt)
+            for (auto gIt = _geometries.Begin(), gEnd = _geometries.End(); gIt != gEnd; ++gIt)
             {
                 GeometryNode* node = *gIt;
                 if (node->LayerMask() & lightMask)
@@ -178,13 +178,13 @@ void Renderer::CollectLightInteractions()
             break;
 
         case LIGHT_POINT:
-            octree->FindNodes(reinterpret_cast<Vector<OctreeNode*>&>(litGeometries), light->WorldSphere(), NF_ENABLED |
+            _octree->FindNodes(reinterpret_cast<Vector<OctreeNode*>&>(_litGeometries), light->WorldSphere(), NF_ENABLED |
                 NF_GEOMETRY, lightMask);
-            for (auto gIt = litGeometries.Begin(), gEnd = litGeometries.End(); gIt != gEnd; ++gIt)
+            for (auto gIt = _litGeometries.Begin(), gEnd = _litGeometries.End(); gIt != gEnd; ++gIt)
             {
                 GeometryNode* node = *gIt;
                 // Add light only to nodes which are actually inside the frustum this frame
-                if (node->LastFrameNumber() == frameNumber)
+                if (node->LastFrameNumber() == _frameNumber)
                 {
                     AddLightToNode(node, light, lightList);
                     hasReceivers = true;
@@ -193,12 +193,12 @@ void Renderer::CollectLightInteractions()
             break;
 
         case LIGHT_SPOT:
-            octree->FindNodes(reinterpret_cast<Vector<OctreeNode*>&>(litGeometries), light->WorldFrustum(), NF_ENABLED |
+            _octree->FindNodes(reinterpret_cast<Vector<OctreeNode*>&>(_litGeometries), light->WorldFrustum(), NF_ENABLED |
                 NF_GEOMETRY, lightMask);
-            for (auto gIt = litGeometries.Begin(), gEnd = litGeometries.End(); gIt != gEnd; ++gIt)
+            for (auto gIt = _litGeometries.Begin(), gEnd = _litGeometries.End(); gIt != gEnd; ++gIt)
             {
                 GeometryNode* node = *gIt;
-                if (node->LastFrameNumber() == frameNumber)
+                if (node->LastFrameNumber() == _frameNumber)
                 {
                     AddLightToNode(node, light, lightList);
                     hasReceivers = true;
@@ -213,7 +213,7 @@ void Renderer::CollectLightInteractions()
             continue;
         }
 
-        // Try to allocate shadow map rectangle. Retry with smaller size two times if fails
+        // Try to allocate shadow map rectangle. Retry with smaller _size two times if fails
         IntVector2 request = light->TotalShadowMapSize();
         IntRect shadowRect;
         size_t retries = 3;
@@ -221,80 +221,80 @@ void Renderer::CollectLightInteractions()
 
         while (retries--)
         {
-            for (index = 0; index < shadowMaps.Size(); ++index)
+            for (index = 0; index < _shadowMaps.Size(); ++index)
             {
-                ShadowMap& shadowMap = shadowMaps[index];
+                ShadowMap& shadowMap = _shadowMaps[index];
                 int x, y;
-                if (shadowMap.allocator.Allocate(request.x, request.y, x, y))
+                if (shadowMap._allocator.Allocate(request._x, request._y, x, y))
                 {
-                    light->SetShadowMap(shadowMaps[index].texture, IntRect(x, y, x + request.x, y + request.y));
+                    light->SetShadowMap(_shadowMaps[index]._texture, IntRect(x, y, x + request._x, y + request._y));
                     break;
                 }
             }
 
-            if (index < shadowMaps.Size())
+            if (index < _shadowMaps.Size())
                 break;
             else
             {
-                request.x /= 2;
-                request.y /= 2;
+                request._x /= 2;
+                request._y /= 2;
             }
         }
 
         // If no room in any shadow map, render unshadowed
-        if (index >= shadowMaps.Size())
+        if (index >= _shadowMaps.Size())
         {
             light->SetShadowMap(nullptr);
             continue;
         }
 
         // Setup shadow cameras & find shadow casters
-        size_t startIndex = usedShadowViews;
-        light->SetupShadowViews(camera, shadowViews, usedShadowViews);
+        size_t startIndex = _usedShadowViews;
+        light->SetupShadowViews(_camera, _shadowViews, _usedShadowViews);
         bool hasShadowBatches = false;
 
-        for (size_t i = startIndex; i < usedShadowViews; ++i)
+        for (size_t i = startIndex; i < _usedShadowViews; ++i)
         {
-            ShadowView* view = shadowViews[i].Get();
-            Frustum shadowFrustum = view->shadowCamera.WorldFrustum();
-            BatchQueue& shadowQueue = view->shadowQueue;
-            shadowQueue.sort = SORT_STATE;
-            shadowQueue.lit = false;
-            shadowQueue.baseIndex = Material::PassIndex("shadow");
-            shadowQueue.additiveIndex = 0;
+            ShadowView* view = _shadowViews[i].Get();
+            Frustum shadowFrustum = view->_shadowCamera.WorldFrustum();
+            BatchQueue& shadowQueue = view->_shadowQueue;
+            shadowQueue._sort = SORT_STATE;
+            shadowQueue._lit = false;
+            shadowQueue._baseIndex = Material::PassIndex("shadow");
+            shadowQueue._additiveIndex = 0;
 
             switch (light->GetLightType())
             {
             case LIGHT_DIRECTIONAL:
                 // Directional light needs a new frustum query for each split, as the shadow cameras are typically far outside
                 // the main view
-                litGeometries.Clear();
-                octree->FindNodes(reinterpret_cast<Vector<OctreeNode*>&>(litGeometries),
+                _litGeometries.Clear();
+                _octree->FindNodes(reinterpret_cast<Vector<OctreeNode*>&>(_litGeometries),
                     shadowFrustum, NF_ENABLED | NF_GEOMETRY | NF_CASTSHADOWS, light->LightMask());
-                CollectShadowBatches(litGeometries, shadowQueue, shadowFrustum, false, false);
+                CollectShadowBatches(_litGeometries, shadowQueue, shadowFrustum, false, false);
                 break;
 
             case LIGHT_POINT:
                 // Check which lit geometries are shadow casters and inside each shadow frustum. First check whether the
                 // shadow frustum is inside the view at all
                 /// \todo Could use a frustum-frustum test for more accuracy
-                if (frustum.IsInsideFast(BoundingBox(shadowFrustum)))
-                    CollectShadowBatches(litGeometries, shadowQueue, shadowFrustum, true, true);
+                if (_frustum.IsInsideFast(BoundingBox(shadowFrustum)))
+                    CollectShadowBatches(_litGeometries, shadowQueue, shadowFrustum, true, true);
                 break;
 
             case LIGHT_SPOT:
                 // For spot light only need to check which lit geometries are shadow casters
-                CollectShadowBatches(litGeometries, shadowQueue, shadowFrustum, true, false);
+                CollectShadowBatches(_litGeometries, shadowQueue, shadowFrustum, true, false);
                 break;
             }
 
-            shadowQueue.Sort(instanceTransforms);
+            shadowQueue.Sort(_instanceTransforms);
 
             // Mark shadow map for rendering only if it has a view with some batches
-            if (shadowQueue.batches.Size())
+            if (shadowQueue._batches.Size())
             {
-                shadowMaps[index].shadowViews.Push(view);
-                shadowMaps[index].used = true;
+                _shadowMaps[index]._shadowViews.Push(view);
+                _shadowMaps[index]._used = true;
                 hasShadowBatches = true;
             }
         }
@@ -303,24 +303,24 @@ void Renderer::CollectLightInteractions()
         {
             // Light did not have any shadow batches: convert to unshadowed and reuse the views
             light->SetShadowMap(nullptr);
-            usedShadowViews = startIndex;
+            _usedShadowViews = startIndex;
         }
     }
 
     {
         PROFILE(BuildLightPasses);
 
-        for (auto it = lightLists.Begin(), end = lightLists.End(); it != end; ++it)
+        for (auto it = _lightLists.Begin(), end = _lightLists.End(); it != end; ++it)
         {
             LightList& list = it->second;
-            if (!list.useCount)
+            if (!list._useCount)
                 continue;
 
             // Sort lights according to the light pointer to prevent camera angle from changing the light list order and
             // causing extra shader variations to be compiled
-            Sort(list.lights.Begin(), list.lights.End());
+            Sort(list._lights.Begin(), list._lights.End());
 
-            size_t lightsLeft = list.lights.Size();
+            size_t lightsLeft = list._lights.Size();
             static Vector<bool> lightDone;
             static Vector<Light*> currentPass;
             lightDone.Resize(lightsLeft);
@@ -339,7 +339,7 @@ void Renderer::CollectLightInteractions()
                 {
                     if (!lightDone[index])
                     {
-                        Light* light = list.lights[index];
+                        Light* light = list._lights[index];
                         size_t shadowCoords = light->NumShadowCoords();
                         if (shadowCoords <= shadowCoordsLeft)
                         {
@@ -350,7 +350,7 @@ void Renderer::CollectLightInteractions()
                         }
                     }
 
-                    index = (index + 1) % list.lights.Size();
+                    index = (index + 1) % list._lights.Size();
                     if (index == startIndex)
                         break;
                 }
@@ -358,61 +358,61 @@ void Renderer::CollectLightInteractions()
                 unsigned long long passKey = 0;
                 for (size_t i = 0; i < currentPass.Size(); ++i)
                     passKey += (unsigned long long)currentPass[i] << (i * 16);
-                if (list.lightPasses.IsEmpty())
+                if (list._lightPasses.IsEmpty())
                     ++passKey; // First pass includes ambient light
 
-                HashMap<unsigned long long, LightPass>::Iterator lpIt = lightPasses.Find(passKey);
-                if (lpIt != lightPasses.End())
-                    list.lightPasses.Push(&lpIt->second);
+                HashMap<unsigned long long, LightPass>::Iterator lpIt = _lightPasses.Find(passKey);
+                if (lpIt != _lightPasses.End())
+                    list._lightPasses.Push(&lpIt->second);
                 else
                 {
-                    LightPass* newLightPass = &lightPasses[passKey];
-                    newLightPass->vsBits = 0;
-                    newLightPass->psBits = list.lightPasses.IsEmpty() ? LPS_AMBIENT : 0;
+                    LightPass* newLightPass = &_lightPasses[passKey];
+                    newLightPass->_vsBits = 0;
+                    newLightPass->_psBits = list._lightPasses.IsEmpty() ? LPS_AMBIENT : 0;
                     for (size_t i = 0; i < MAX_LIGHTS_PER_PASS; ++i)
-                        newLightPass->shadowMaps[i] = nullptr;
+                        newLightPass->_shadowMaps[i] = nullptr;
 
                     size_t numShadowCoords = 0;
                     for (size_t i = 0; i < currentPass.Size(); ++i)
                     {
                         Light* light = currentPass[i];
-                        newLightPass->psBits |= (light->GetLightType() + 1) << (i * 3 + 4);
+                        newLightPass->_psBits |= (light->GetLightType() + 1) << (i * 3 + 4);
 
                         float cutoff = cosf(light->Fov() * 0.5f * M_DEGTORAD);
-                        newLightPass->lightPositions[i] = Vector4(light->WorldPosition(), 1.0f);
-                        newLightPass->lightDirections[i] = Vector4(-light->WorldDirection(), 0.0f);
-                        newLightPass->lightAttenuations[i] = Vector4(1.0f / Max(light->Range(), M_EPSILON), cutoff, 1.0f /
+                        newLightPass->_lightPositions[i] = Vector4(light->WorldPosition(), 1.0f);
+                        newLightPass->_lightDirections[i] = Vector4(-light->WorldDirection(), 0.0f);
+                        newLightPass->_lightAttenuations[i] = Vector4(1.0f / Max(light->Range(), M_EPSILON), cutoff, 1.0f /
                             (1.0f - cutoff), 0.0f);
-                        newLightPass->lightColors[i] = light->GetColor();
+                        newLightPass->_lightColors[i] = light->GetColor();
 
                         if (light->ShadowMap())
                         {
                             // Enable shadowed shader variation, setup shadow parameters
-                            newLightPass->psBits |= 4 << (i * 3 + 4);
-                            newLightPass->shadowMaps[i] = light->ShadowMap();
+                            newLightPass->_psBits |= 4 << (i * 3 + 4);
+                            newLightPass->_shadowMaps[i] = light->ShadowMap();
 
                             const Vector<Matrix4>& shadowMatrices = light->ShadowMatrices();
                             for (size_t j = 0; j < shadowMatrices.Size() && numShadowCoords < MAX_LIGHTS_PER_PASS; ++j)
-                                newLightPass->shadowMatrices[numShadowCoords++] = shadowMatrices[j];
+                                newLightPass->_shadowMatrices[numShadowCoords++] = shadowMatrices[j];
 
-                            newLightPass->shadowParameters[i] = light->ShadowParameters();
+                            newLightPass->_shadowParameters[i] = light->ShadowParameters();
 
                             if (light->GetLightType() == LIGHT_DIRECTIONAL)
                             {
-                                float fadeStart = light->ShadowFadeStart() * light->MaxShadowDistance() / camera->FarClip();
-                                float fadeRange = light->MaxShadowDistance() / camera->FarClip() - fadeStart;
-                                newLightPass->dirShadowSplits = light->ShadowSplits() / camera->FarClip();
-                                newLightPass->dirShadowFade = Vector4(fadeStart / fadeRange, 1.0f / fadeRange, 0.0f, 0.0f);
+                                float fadeStart = light->ShadowFadeStart() * light->MaxShadowDistance() / _camera->FarClip();
+                                float fadeRange = light->MaxShadowDistance() / _camera->FarClip() - fadeStart;
+                                newLightPass->_dirShadowSplits = light->ShadowSplits() / _camera->FarClip();
+                                newLightPass->_dirShadowFade = Vector4(fadeStart / fadeRange, 1.0f / fadeRange, 0.0f, 0.0f);
                             }
                             else if (light->GetLightType() == LIGHT_POINT)
-                                newLightPass->pointShadowParameters[i] = light->PointShadowParameters();
+                                newLightPass->_pointShadowParameters[i] = light->PointShadowParameters();
                         }
 
-                        newLightPass->vsBits |= numShadowCoords << 2;
-                        newLightPass->psBits |= numShadowCoords << 1;
+                        newLightPass->_vsBits |= numShadowCoords << 2;
+                        newLightPass->_psBits |= numShadowCoords << 1;
                     }
 
-                    list.lightPasses.Push(newLightPass);
+                    list._lightPasses.Push(newLightPass);
                 }
             }
         }
@@ -430,69 +430,69 @@ void Renderer::CollectBatches(const Vector<PassDesc>& passes)
     {
         const PassDesc& srcPass = passes[i];
         unsigned char baseIndex = Material::PassIndex(srcPass.name);
-        BatchQueue* batchQueue = &batchQueues[baseIndex];
+        BatchQueue* batchQueue = &_batchQueues[baseIndex];
         currentQueues[i] = batchQueue;
-        batchQueue->sort = srcPass.sort;
-        batchQueue->lit = srcPass.lit;
-        batchQueue->baseIndex = baseIndex;
-        batchQueue->additiveIndex = srcPass.lit ? Material::PassIndex(srcPass.name + "add") : 0;
+        batchQueue->_sort = srcPass.sort;
+        batchQueue->_lit = srcPass.lit;
+        batchQueue->_baseIndex = baseIndex;
+        batchQueue->_additiveIndex = srcPass.lit ? Material::PassIndex(srcPass.name + "add") : 0;
     }
 
     // Loop through geometry nodes
-    for (auto gIt = geometries.Begin(), gEnd = geometries.End(); gIt != gEnd; ++gIt)
+    for (auto gIt = _geometries.Begin(), gEnd = _geometries.End(); gIt != gEnd; ++gIt)
     {
         GeometryNode* node = *gIt;
         LightList* lightList = node->GetLightList();
 
         Batch newBatch;
-        newBatch.type = node->GetGeometryType();
-        newBatch.worldMatrix = &node->WorldTransform();
+        newBatch._type = node->GetGeometryType();
+        newBatch._worldMatrix = &node->WorldTransform();
 
         // Loop through node's geometries
         for (auto bIt = node->Batches().Begin(), bEnd = node->Batches().End(); bIt != bEnd; ++bIt)
         {
-            newBatch.geometry = bIt->geometry.Get();
-            Material* material = bIt->material.Get();
+            newBatch._geometry = bIt->_geometry.Get();
+            Material* material = bIt->_material.Get();
             assert(material);
 
             // Loop through requested queues
             for (auto qIt = currentQueues.Begin(); qIt != currentQueues.End(); ++qIt)
             {
                 BatchQueue& batchQueue = **qIt;
-                newBatch.pass = material->GetPass(batchQueue.baseIndex);
+                newBatch._pass = material->GetPass(batchQueue._baseIndex);
                 // Material may not have the requested pass at all, skip further processing as fast as possible in that case
-                if (!newBatch.pass)
+                if (!newBatch._pass)
                     continue;
 
-                newBatch.lights = batchQueue.lit ? lightList ? lightList->lightPasses[0] : &ambientLightPass : nullptr;
-                if (batchQueue.sort < SORT_BACK_TO_FRONT)
+                newBatch._lights = batchQueue._lit ? lightList ? lightList->_lightPasses[0] : &_ambientLightPass : nullptr;
+                if (batchQueue._sort < SORT_BACK_TO_FRONT)
                     newBatch.CalculateSortKey();
                 else
-                    newBatch.distance = node->Distance();
+                    newBatch._distance = node->Distance();
 
-                batchQueue.batches.Push(newBatch);
+                batchQueue._batches.Push(newBatch);
 
                 // Create additive light batches if necessary
-                if (batchQueue.lit && lightList && lightList->lightPasses.Size() > 1)
+                if (batchQueue._lit && lightList && lightList->_lightPasses.Size() > 1)
                 {
-                    newBatch.pass = material->GetPass(batchQueue.additiveIndex);
-                    if (!newBatch.pass)
+                    newBatch._pass = material->GetPass(batchQueue._additiveIndex);
+                    if (!newBatch._pass)
                         continue;
 
-                    for (size_t i = 1; i < lightList->lightPasses.Size(); ++i)
+                    for (size_t i = 1; i < lightList->_lightPasses.Size(); ++i)
                     {
-                        newBatch.lights = lightList->lightPasses[i];
-                        if (batchQueue.sort != SORT_BACK_TO_FRONT)
+                        newBatch._lights = lightList->_lightPasses[i];
+                        if (batchQueue._sort != SORT_BACK_TO_FRONT)
                         {
                             newBatch.CalculateSortKey();
-                            batchQueue.additiveBatches.Push(newBatch);
+                            batchQueue._additiveBatches.Push(newBatch);
                         }
                         else
                         {
                             // In back-to-front mode base and additive batches must be mixed. Manipulate distance to make
                             // the additive batches render later
-                            newBatch.distance = node->Distance() * 0.99999f;
-                            batchQueue.batches.Push(newBatch);
+                            newBatch._distance = node->Distance() * 0.99999f;
+                            batchQueue._batches.Push(newBatch);
                         }
                     }
                 }
@@ -500,17 +500,17 @@ void Renderer::CollectBatches(const Vector<PassDesc>& passes)
         }
     }
 
-    size_t oldSize = instanceTransforms.Size();
+    size_t oldSize = _instanceTransforms.Size();
 
     for (auto qIt = currentQueues.Begin(); qIt != currentQueues.End(); ++qIt)
     {
         BatchQueue& batchQueue = **qIt;
-        batchQueue.Sort(instanceTransforms);
+        batchQueue.Sort(_instanceTransforms);
     }
 
     // Check if more instances where added
-    if (instanceTransforms.Size() != oldSize)
-        instanceTransformsDirty = true;
+    if (_instanceTransforms.Size() != oldSize)
+        _instanceTransformsDirty = true;
 }
 
 void Renderer::CollectBatches(const PassDesc& pass)
@@ -525,22 +525,22 @@ void Renderer::RenderShadowMaps()
     PROFILE(RenderShadowMaps);
 
     // Make sure the shadow maps are not bound on any unit
-    graphics->ResetTextures();
+    _graphics->ResetTextures();
 
-    for (auto it = shadowMaps.Begin(); it != shadowMaps.End(); ++it)
+    for (auto it = _shadowMaps.Begin(); it != _shadowMaps.End(); ++it)
     {
-        if (!it->used)
+        if (!it->_used)
             continue;
 
-        graphics->SetRenderTarget(nullptr, it->texture);
-        graphics->Clear(CLEAR_DEPTH, Color::BLACK, 1.0f);
+        _graphics->SetRenderTarget(nullptr, it->_texture);
+        _graphics->Clear(CLEAR_DEPTH, Color::BLACK, 1.0f);
 
-        for (auto vIt = it->shadowViews.Begin(); vIt < it->shadowViews.End(); ++vIt)
+        for (auto vIt = it->_shadowViews.Begin(); vIt < it->_shadowViews.End(); ++vIt)
         {
             ShadowView* view = *vIt;
-            Light* light = view->light;
-            graphics->SetViewport(view->viewport);
-            RenderBatches(view->shadowQueue.batches, &view->shadowCamera, true, true, light->DepthBias(), light->SlopeScaledDepthBias());
+            Light* light = view->_light;
+            _graphics->SetViewport(view->_viewport);
+            RenderBatches(view->_shadowQueue._batches, &view->_shadowCamera, true, true, light->DepthBias(), light->SlopeScaledDepthBias());
         }
     }
 }
@@ -552,9 +552,9 @@ void Renderer::RenderBatches(const Vector<PassDesc>& passes)
     for (size_t i = 0; i < passes.Size(); ++i)
     {
         unsigned char passIndex = Material::PassIndex(passes[i].name);
-        BatchQueue& batchQueue = batchQueues[passIndex];
-        RenderBatches(batchQueue.batches, camera, i == 0);
-        RenderBatches(batchQueue.additiveBatches, camera, false);
+        BatchQueue& batchQueue = _batchQueues[passIndex];
+        RenderBatches(batchQueue._batches, _camera, i == 0);
+        RenderBatches(batchQueue._additiveBatches, _camera, false);
     }
 }
 
@@ -563,41 +563,41 @@ void Renderer::RenderBatches(const String& pass)
     PROFILE(RenderBatches);
 
     unsigned char passIndex = Material::PassIndex(pass);
-    BatchQueue& batchQueue = batchQueues[passIndex];
-    RenderBatches(batchQueue.batches, camera);
-    RenderBatches(batchQueue.additiveBatches, camera, false);
+    BatchQueue& batchQueue = _batchQueues[passIndex];
+    RenderBatches(batchQueue._batches, _camera);
+    RenderBatches(batchQueue._additiveBatches, _camera, false);
 }
 
 void Renderer::Initialize()
 {
-    graphics = Subsystem<Graphics>();
-    assert(graphics && graphics->IsInitialized());
+    _graphics = GetSubsystem<Graphics>();
+    assert(_graphics && _graphics->IsInitialized());
 
     Vector<Constant> constants;
 
-    vsFrameConstantBuffer = new ConstantBuffer();
+    _vsFrameConstantBuffer = new ConstantBuffer();
     constants.Push(Constant(ELEM_MATRIX3X4, "viewMatrix"));
     constants.Push(Constant(ELEM_MATRIX4, "projectionMatrix"));
     constants.Push(Constant(ELEM_MATRIX4, "viewProjMatrix"));
     constants.Push(Constant(ELEM_VECTOR4, "depthParameters"));
-    vsFrameConstantBuffer->Define(USAGE_DEFAULT, constants);
+    _vsFrameConstantBuffer->Define(USAGE_DEFAULT, constants);
 
-    psFrameConstantBuffer = new ConstantBuffer();
+    _psFrameConstantBuffer = new ConstantBuffer();
     constants.Clear();
     constants.Push(Constant(ELEM_VECTOR4, "ambientColor"));
-    psFrameConstantBuffer->Define(USAGE_DEFAULT, constants);
+    _psFrameConstantBuffer->Define(USAGE_DEFAULT, constants);
 
-    vsObjectConstantBuffer = new ConstantBuffer();
+    _vsObjectConstantBuffer = new ConstantBuffer();
     constants.Clear();
     constants.Push(Constant(ELEM_MATRIX3X4, "worldMatrix"));
-    vsObjectConstantBuffer->Define(USAGE_DEFAULT, constants);
+    _vsObjectConstantBuffer->Define(USAGE_DEFAULT, constants);
 
-    vsLightConstantBuffer = new ConstantBuffer();
+    _vsLightConstantBuffer = new ConstantBuffer();
     constants.Clear();
     constants.Push(Constant(ELEM_MATRIX4, "shadowMatrices", MAX_LIGHTS_PER_PASS));
-    vsLightConstantBuffer->Define(USAGE_DEFAULT, constants);
+    _vsLightConstantBuffer->Define(USAGE_DEFAULT, constants);
 
-    psLightConstantBuffer = new ConstantBuffer();
+    _psLightConstantBuffer = new ConstantBuffer();
     constants.Clear();
     constants.Push(Constant(ELEM_VECTOR4, "lightPositions", MAX_LIGHTS_PER_PASS));
     constants.Push(Constant(ELEM_VECTOR4, "lightDirections", MAX_LIGHTS_PER_PASS));
@@ -607,21 +607,21 @@ void Renderer::Initialize()
     constants.Push(Constant(ELEM_VECTOR4, "pointShadowParameters", MAX_LIGHTS_PER_PASS));
     constants.Push(Constant(ELEM_VECTOR4, "dirShadowSplits"));
     constants.Push(Constant(ELEM_VECTOR4, "dirShadowFade"));
-    psLightConstantBuffer->Define(USAGE_DEFAULT, constants);
+    _psLightConstantBuffer->Define(USAGE_DEFAULT, constants);
 
     // Instance vertex buffer contains texcoords 4-6 which define the instances' world matrices
-    instanceVertexBuffer = new VertexBuffer();
-    instanceVertexElements.Push(VertexElement(ELEM_VECTOR4, SEM_TEXCOORD, INSTANCE_TEXCOORD, true));
-    instanceVertexElements.Push(VertexElement(ELEM_VECTOR4, SEM_TEXCOORD, INSTANCE_TEXCOORD + 1, true));
-    instanceVertexElements.Push(VertexElement(ELEM_VECTOR4, SEM_TEXCOORD, INSTANCE_TEXCOORD + 2, true));
+    _instanceVertexBuffer = new VertexBuffer();
+    _instanceVertexElements.Push(VertexElement(ELEM_VECTOR4, SEM_TEXCOORD, INSTANCE_TEXCOORD, true));
+    _instanceVertexElements.Push(VertexElement(ELEM_VECTOR4, SEM_TEXCOORD, INSTANCE_TEXCOORD + 1, true));
+    _instanceVertexElements.Push(VertexElement(ELEM_VECTOR4, SEM_TEXCOORD, INSTANCE_TEXCOORD + 2, true));
 
     // Setup ambient light only -pass
-    ambientLightPass.vsBits = 0;
-    ambientLightPass.psBits = LPS_AMBIENT;
+    _ambientLightPass._vsBits = 0;
+    _ambientLightPass._psBits = LPS_AMBIENT;
 
     // Setup point light face selection textures
-    faceSelectionTexture1 = new Texture();
-    faceSelectionTexture2 = new Texture();
+    _faceSelectionTexture1 = new Texture();
+    _faceSelectionTexture2 = new Texture();
     DefineFaceSelectionTextures();
 }
 
@@ -652,20 +652,20 @@ void Renderer::DefineFaceSelectionTextures()
     for (size_t i = 0; i < MAX_CUBE_FACES; ++i)
     {
         ImageLevel level;
-        level.rowSize = 4 * sizeof(float);
-        level.data = (unsigned char*)&faceSelectionData1[4 * i];
+        level._rowSize = 4 * sizeof(float);
+        level._data = (unsigned char*)&faceSelectionData1[4 * i];
         faces1.Push(level);
-        level.data = (unsigned char*)&faceSelectionData2[4 * i];
+        level._data = (unsigned char*)&faceSelectionData2[4 * i];
         faces2.Push(level);
     }
 
-    faceSelectionTexture1->Define(TEX_CUBE, USAGE_DEFAULT, IntVector2(1, 1), FMT_RGBA32F, 1, &faces1[0]);
-    faceSelectionTexture1->DefineSampler(FILTER_POINT, ADDRESS_CLAMP, ADDRESS_CLAMP, ADDRESS_CLAMP);
-    faceSelectionTexture1->SetDataLost(false);
+    _faceSelectionTexture1->Define(TEX_CUBE, USAGE_DEFAULT, IntVector2(1, 1), FMT_RGBA32F, 1, &faces1[0]);
+    _faceSelectionTexture1->DefineSampler(FILTER_POINT, ADDRESS_CLAMP, ADDRESS_CLAMP, ADDRESS_CLAMP);
+    _faceSelectionTexture1->SetDataLost(false);
 
-    faceSelectionTexture2->Define(TEX_CUBE, USAGE_DEFAULT, IntVector2(1, 1), FMT_RGBA32F, 1, &faces2[0]);
-    faceSelectionTexture2->DefineSampler(FILTER_POINT, ADDRESS_CLAMP, ADDRESS_CLAMP, ADDRESS_CLAMP);
-    faceSelectionTexture2->SetDataLost(false);
+    _faceSelectionTexture2->Define(TEX_CUBE, USAGE_DEFAULT, IntVector2(1, 1), FMT_RGBA32F, 1, &faces2[0]);
+    _faceSelectionTexture2->DefineSampler(FILTER_POINT, ADDRESS_CLAMP, ADDRESS_CLAMP, ADDRESS_CLAMP);
+    _faceSelectionTexture2->SetDataLost(false);
 }
 
 void Renderer::CollectGeometriesAndLights(Vector<OctreeNode*>::ConstIterator begin, Vector<OctreeNode*>::ConstIterator end,
@@ -677,19 +677,19 @@ void Renderer::CollectGeometriesAndLights(Vector<OctreeNode*>::ConstIterator beg
         {
             OctreeNode* node = *it;
             unsigned short flags = node->Flags();
-            if ((flags & NF_ENABLED) && (flags & (NF_GEOMETRY | NF_LIGHT)) && (node->LayerMask() & viewMask))
+            if ((flags & NF_ENABLED) && (flags & (NF_GEOMETRY | NF_LIGHT)) && (node->LayerMask() & _viewMask))
             {
                 if (flags & NF_GEOMETRY)
                 {
                     GeometryNode* geometry = static_cast<GeometryNode*>(node);
-                    geometry->OnPrepareRender(frameNumber, camera);
-                    geometries.Push(geometry);
+                    geometry->OnPrepareRender(_frameNumber, _camera);
+                    _geometries.Push(geometry);
                 }
                 else
                 {
                     Light* light = static_cast<Light*>(node);
-                    light->OnPrepareRender(frameNumber, camera);
-                    lights.Push(light);
+                    light->OnPrepareRender(_frameNumber, _camera);
+                    _lights.Push(light);
                 }
             }
         }
@@ -700,20 +700,20 @@ void Renderer::CollectGeometriesAndLights(Vector<OctreeNode*>::ConstIterator beg
         {
             OctreeNode* node = *it;
             unsigned short flags = node->Flags();
-            if ((flags & NF_ENABLED) && (flags & (NF_GEOMETRY | NF_LIGHT)) && (node->LayerMask() & viewMask) &&
-                frustum.IsInsideFast(node->WorldBoundingBox()))
+            if ((flags & NF_ENABLED) && (flags & (NF_GEOMETRY | NF_LIGHT)) && (node->LayerMask() & _viewMask) &&
+                _frustum.IsInsideFast(node->WorldBoundingBox()))
             {
                 if (flags & NF_GEOMETRY)
                 {
                     GeometryNode* geometry = static_cast<GeometryNode*>(node);
-                    geometry->OnPrepareRender(frameNumber, camera);
-                    geometries.Push(geometry);
+                    geometry->OnPrepareRender(_frameNumber, _camera);
+                    _geometries.Push(geometry);
                 }
                 else
                 {
                     Light* light = static_cast<Light*>(node);
-                    light->OnPrepareRender(frameNumber, camera);
-                    lights.Push(light);
+                    light->OnPrepareRender(_frameNumber, _camera);
+                    _lights.Push(light);
                 }
             }
         }
@@ -728,28 +728,28 @@ void Renderer::AddLightToNode(GeometryNode* node, Light* light, LightList* light
     {
         // First light assigned on this frame
         node->SetLightList(lightList);
-        ++lightList->useCount;
+        ++lightList->_useCount;
     }
     else
     {
         // Create new light list based on the node's existing one
-        --oldList->useCount;
-        unsigned long long newListKey = oldList->key;
-        newListKey += (unsigned long long)light << ((oldList->lights.Size() & 3) * 16);
-        HashMap<unsigned long long, LightList>::Iterator it = lightLists.Find(newListKey);
-        if (it != lightLists.End())
+        --oldList->_useCount;
+        unsigned long long newListKey = oldList->_key;
+        newListKey += (unsigned long long)light << ((oldList->_lights.Size() & 3) * 16);
+        HashMap<unsigned long long, LightList>::Iterator it = _lightLists.Find(newListKey);
+        if (it != _lightLists.End())
         {
             LightList* newList = &it->second;
             node->SetLightList(newList);
-            ++newList->useCount;
+            ++newList->_useCount;
         }
         else
         {
-            LightList* newList = &lightLists[newListKey];
-            newList->key = newListKey;
-            newList->lights = oldList->lights;
-            newList->lights.Push(light);
-            newList->useCount = 1;
+            LightList* newList = &_lightLists[newListKey];
+            newList->_key = newListKey;
+            newList->_lights = oldList->_lights;
+            newList->_lights.Push(light);
+            newList->_useCount = 1;
             node->SetLightList(newList);
         }
     }
@@ -759,7 +759,7 @@ void Renderer::CollectShadowBatches(const Vector<GeometryNode*>& nodes, BatchQue
     bool checkShadowCaster, bool checkFrustum)
 {
     Batch newBatch;
-    newBatch.lights = nullptr;
+    newBatch._lights = nullptr;
     
     for (auto gIt = nodes.Begin(), gEnd = nodes.End(); gIt != gEnd; ++gIt)
     {
@@ -770,89 +770,89 @@ void Renderer::CollectShadowBatches(const Vector<GeometryNode*>& nodes, BatchQue
             continue;
 
         // Node was possibly not in the main view. Update geometry first in that case
-        if (node->LastFrameNumber() != frameNumber)
-            node->OnPrepareRender(frameNumber, camera);
+        if (node->LastFrameNumber() != _frameNumber)
+            node->OnPrepareRender(_frameNumber, _camera);
 
-        newBatch.type = node->GetGeometryType();
-        newBatch.worldMatrix = &node->WorldTransform();
+        newBatch._type = node->GetGeometryType();
+        newBatch._worldMatrix = &node->WorldTransform();
 
         // Loop through node's geometries
         for (auto bIt = node->Batches().Begin(), bEnd = node->Batches().End(); bIt != bEnd; ++bIt)
         {
-            newBatch.geometry = bIt->geometry.Get();
-            Material* material = bIt->material.Get();
+            newBatch._geometry = bIt->_geometry.Get();
+            Material* material = bIt->_material.Get();
             assert(material);
 
-            newBatch.pass = material->GetPass(batchQueue.baseIndex);
+            newBatch._pass = material->GetPass(batchQueue._baseIndex);
             // Material may not have the requested pass at all, skip further processing as fast as possible in that case
-            if (!newBatch.pass)
+            if (!newBatch._pass)
                 continue;
 
             newBatch.CalculateSortKey();
-            batchQueue.batches.Push(newBatch);
+            batchQueue._batches.Push(newBatch);
         }
     }
 }
 
-void Renderer::RenderBatches(const Vector<Batch>& batches, Camera* camera_, bool setPerFrameConstants, bool overrideDepthBias,
+void Renderer::RenderBatches(const Vector<Batch>& batches, Camera* camera, bool setPerFrameConstants, bool overrideDepthBias,
     int depthBias, float slopeScaledDepthBias)
 {
-    if (faceSelectionTexture1->IsDataLost() || faceSelectionTexture2->IsDataLost())
+    if (_faceSelectionTexture1->IsDataLost() || _faceSelectionTexture2->IsDataLost())
         DefineFaceSelectionTextures();
 
     // Bind point light shadow face selection textures
-    graphics->SetTexture(MAX_MATERIAL_TEXTURE_UNITS + MAX_LIGHTS_PER_PASS, faceSelectionTexture1);
-    graphics->SetTexture(MAX_MATERIAL_TEXTURE_UNITS + MAX_LIGHTS_PER_PASS + 1, faceSelectionTexture2);
+    _graphics->SetTexture(MAX_MATERIAL_TEXTURE_UNITS + MAX_LIGHTS_PER_PASS, _faceSelectionTexture1);
+    _graphics->SetTexture(MAX_MATERIAL_TEXTURE_UNITS + MAX_LIGHTS_PER_PASS + 1, _faceSelectionTexture2);
 
     // If rendering to a texture on OpenGL, flip the camera vertically to ensure similar texture coordinate addressing
     #ifdef AUTO_OPENGL
-    bool flipVertical = camera_->FlipVertical();
-    if (graphics->RenderTarget(0) || graphics->DepthStencil())
-        camera_->SetFlipVertical(!flipVertical);
+    bool flipVertical = camera->FlipVertical();
+    if (_graphics->RenderTarget(0) || _graphics->DepthStencil())
+        camera->SetFlipVertical(!flipVertical);
     #endif
 
     if (setPerFrameConstants)
     {
         // Set per-frame values to the frame constant buffers
-        Matrix3x4 viewMatrix = camera_->ViewMatrix();
-        Matrix4 projectionMatrix = camera_->ProjectionMatrix();
+        Matrix3x4 viewMatrix = camera->ViewMatrix();
+        Matrix4 projectionMatrix = camera->ProjectionMatrix();
         Matrix4 viewProjMatrix = projectionMatrix * viewMatrix;
         Vector4 depthParameters(Vector4::ZERO);
-        depthParameters.x = camera_->NearClip();
-        depthParameters.y = camera_->FarClip();
-        if (camera_->IsOrthographic())
+        depthParameters._x = camera->NearClip();
+        depthParameters._y = camera->FarClip();
+        if (camera->IsOrthographic())
         {
             #ifdef USE_OPENGL
-            depthParameters.z = 0.5f;
-            depthParameters.w = 0.5f;
+            depthParameters._z = 0.5f;
+            depthParameters._w = 0.5f;
             #else
-            depthParameters.z = 1.0f;
+            depthParameters._z = 1.0f;
             #endif
         }
         else
-            depthParameters.w = 1.0f / camera->FarClip();
+            depthParameters._w = 1.0f / _camera->FarClip();
 
-        vsFrameConstantBuffer->SetConstant(VS_FRAME_VIEW_MATRIX, viewMatrix);
-        vsFrameConstantBuffer->SetConstant(VS_FRAME_PROJECTION_MATRIX, projectionMatrix);
-        vsFrameConstantBuffer->SetConstant(VS_FRAME_VIEWPROJ_MATRIX, viewProjMatrix);
-        vsFrameConstantBuffer->SetConstant(VS_FRAME_DEPTH_PARAMETERS, depthParameters);
-        vsFrameConstantBuffer->Apply();
+        _vsFrameConstantBuffer->SetConstant(VS_FRAME_VIEW_MATRIX, viewMatrix);
+        _vsFrameConstantBuffer->SetConstant(VS_FRAME_PROJECTION_MATRIX, projectionMatrix);
+        _vsFrameConstantBuffer->SetConstant(VS_FRAME_VIEWPROJ_MATRIX, viewProjMatrix);
+        _vsFrameConstantBuffer->SetConstant(VS_FRAME_DEPTH_PARAMETERS, depthParameters);
+        _vsFrameConstantBuffer->Apply();
 
         /// \todo Add also fog settings
-        psFrameConstantBuffer->SetConstant(PS_FRAME_AMBIENT_COLOR, camera_->AmbientColor());
-        psFrameConstantBuffer->Apply();
+        _psFrameConstantBuffer->SetConstant(PS_FRAME_AMBIENT_COLOR, camera->AmbientColor());
+        _psFrameConstantBuffer->Apply();
 
-        graphics->SetConstantBuffer(SHADER_VS, CB_FRAME, vsFrameConstantBuffer);
-        graphics->SetConstantBuffer(SHADER_PS, CB_FRAME, psFrameConstantBuffer);
+        _graphics->SetConstantBuffer(SHADER_VS, CB_FRAME, _vsFrameConstantBuffer);
+        _graphics->SetConstantBuffer(SHADER_PS, CB_FRAME, _psFrameConstantBuffer);
     }
 
-    if (instanceTransformsDirty && instanceTransforms.Size())
+    if (_instanceTransformsDirty && _instanceTransforms.Size())
     {
-        if (instanceVertexBuffer->NumVertices() < instanceTransforms.Size())
-            instanceVertexBuffer->Define(USAGE_DYNAMIC, NextPowerOfTwo(instanceTransforms.Size()), instanceVertexElements, false);
-        instanceVertexBuffer->SetData(0, instanceTransforms.Size(), &instanceTransforms[0]);
-        graphics->SetVertexBuffer(1, instanceVertexBuffer);
-        instanceTransformsDirty = false;
+        if (_instanceVertexBuffer->NumVertices() < _instanceTransforms.Size())
+            _instanceVertexBuffer->Define(USAGE_DYNAMIC, NextPowerOfTwo(_instanceTransforms.Size()), _instanceVertexElements, false);
+        _instanceVertexBuffer->SetData(0, _instanceTransforms.Size(), &_instanceTransforms[0]);
+        _graphics->SetVertexBuffer(1, _instanceVertexBuffer);
+        _instanceTransformsDirty = false;
     }
     
     {
@@ -863,38 +863,38 @@ void Renderer::RenderBatches(const Vector<Batch>& batches, Camera* camera_, bool
         for (auto it = batches.Begin(); it != batches.End();)
         {
             const Batch& batch = *it;
-            bool instanced = batch.type == GEOM_INSTANCED;
+            bool instanced = batch._type == GEOM_INSTANCED;
 
-            Pass* pass = batch.pass;
-            if (!pass->shadersLoaded)
+            Pass* pass = batch._pass;
+            if (!pass->_shadersLoaded)
                 LoadPassShaders(pass);
 
             // Check that pass is legal
-            if (pass->shaders[SHADER_VS].Get() && pass->shaders[SHADER_PS].Get())
+            if (pass->_shaders[SHADER_VS].Get() && pass->_shaders[SHADER_PS].Get())
             {
                 // Get the shader variations
-                LightPass* lights = batch.lights;
-                ShaderVariation* vs = FindShaderVariation(SHADER_VS, pass, (unsigned short)batch.type | (lights ? lights->vsBits : 0));
-                ShaderVariation* ps = FindShaderVariation(SHADER_PS, pass, lights ? lights->psBits : 0);
-                graphics->SetShaders(vs, ps);
+                LightPass* lights = batch._lights;
+                ShaderVariation* vs = FindShaderVariation(SHADER_VS, pass, (unsigned short)batch._type | (lights ? lights->_vsBits : 0));
+                ShaderVariation* ps = FindShaderVariation(SHADER_PS, pass, lights ? lights->_psBits : 0);
+                _graphics->SetShaders(vs, ps);
 
-                Geometry* geometry = batch.geometry;
+                Geometry* geometry = batch._geometry;
                 assert(geometry);
 
                 // Apply pass render state
                 if (pass != lastPass)
                 {
-                    graphics->SetColorState(pass->blendMode, pass->alphaToCoverage, pass->colorWriteMask);
+                    _graphics->SetColorState(pass->_blendMode, pass->_alphaToCoverage, pass->_colorWriteMask);
                     
                     if (!overrideDepthBias)
-                        graphics->SetDepthState(pass->depthFunc, pass->depthWrite, pass->depthClip);
+                        _graphics->SetDepthState(pass->_depthFunc, pass->_depthWrite, pass->_depthClip);
                     else
-                        graphics->SetDepthState(pass->depthFunc, pass->depthWrite, pass->depthClip, depthBias, slopeScaledDepthBias);
+                        _graphics->SetDepthState(pass->_depthFunc, pass->_depthWrite, pass->_depthClip, depthBias, slopeScaledDepthBias);
                     
-                    if (!camera_->UseReverseCulling())
-                        graphics->SetRasterizerState(pass->cullMode, pass->fillMode);
+                    if (!camera->UseReverseCulling())
+                        _graphics->SetRasterizerState(pass->_cullMode, pass->_fillMode);
                     else
-                        graphics->SetRasterizerState(cullModeFlip[pass->cullMode], pass->fillMode);
+                        _graphics->SetRasterizerState(cullModeFlip[pass->_cullMode], pass->_fillMode);
 
                     lastPass = pass;
                 }
@@ -905,43 +905,43 @@ void Renderer::RenderBatches(const Vector<Batch>& batches, Camera* camera_, bool
                 {
                     for (size_t i = 0; i < MAX_MATERIAL_TEXTURE_UNITS; ++i)
                     {
-                        if (material->textures[i])
-                            graphics->SetTexture(i, material->textures[i]);
+                        if (material->_textures[i])
+                            _graphics->SetTexture(i, material->_textures[i]);
                     }
-                    graphics->SetConstantBuffer(SHADER_VS, CB_MATERIAL, material->constantBuffers[SHADER_VS].Get());
-                    graphics->SetConstantBuffer(SHADER_PS, CB_MATERIAL, material->constantBuffers[SHADER_PS].Get());
+                    _graphics->SetConstantBuffer(SHADER_VS, CB_MATERIAL, material->_constantBuffers[SHADER_VS].Get());
+                    _graphics->SetConstantBuffer(SHADER_PS, CB_MATERIAL, material->_constantBuffers[SHADER_PS].Get());
 
                     lastMaterial = material;
                 }
 
                 // Apply object render state
-                if (geometry->constantBuffers[SHADER_VS])
-                    graphics->SetConstantBuffer(SHADER_VS, CB_OBJECT, geometry->constantBuffers[SHADER_VS].Get());
+                if (geometry->_constantBuffers[SHADER_VS])
+                    _graphics->SetConstantBuffer(SHADER_VS, CB_OBJECT, geometry->_constantBuffers[SHADER_VS].Get());
                 else if (!instanced)
                 {
-                    vsObjectConstantBuffer->SetConstant(VS_OBJECT_WORLD_MATRIX, *batch.worldMatrix);
-                    vsObjectConstantBuffer->Apply();
-                    graphics->SetConstantBuffer(SHADER_VS, CB_OBJECT, vsObjectConstantBuffer.Get());
+                    _vsObjectConstantBuffer->SetConstant(VS_OBJECT_WORLD_MATRIX, *batch._worldMatrix);
+                    _vsObjectConstantBuffer->Apply();
+                    _graphics->SetConstantBuffer(SHADER_VS, CB_OBJECT, _vsObjectConstantBuffer.Get());
                 }
-                graphics->SetConstantBuffer(SHADER_PS, CB_OBJECT, geometry->constantBuffers[SHADER_PS].Get());
+                _graphics->SetConstantBuffer(SHADER_PS, CB_OBJECT, geometry->_constantBuffers[SHADER_PS].Get());
 
                 // Apply light constant buffers and shadow maps
                 if (lights && lights != lastLights)
                 {
                     // If light queue is ambient only, no need to update the constants
-                    if (lights->psBits > LPS_AMBIENT)
+                    if (lights->_psBits > LPS_AMBIENT)
                     {
-                        if (lights->vsBits & LVS_NUMSHADOWCOORDS)
+                        if (lights->_vsBits & LVS_NUMSHADOWCOORDS)
                         {
-                            vsLightConstantBuffer->SetData(lights->shadowMatrices);
-                            graphics->SetConstantBuffer(SHADER_VS, CB_LIGHTS, vsLightConstantBuffer.Get());
+                            _vsLightConstantBuffer->SetData(lights->_shadowMatrices);
+                            _graphics->SetConstantBuffer(SHADER_VS, CB_LIGHTS, _vsLightConstantBuffer.Get());
                         }
                         
-                        psLightConstantBuffer->SetData(lights->lightPositions);
-                        graphics->SetConstantBuffer(SHADER_PS, CB_LIGHTS, psLightConstantBuffer.Get());
+                        _psLightConstantBuffer->SetData(lights->_lightPositions);
+                        _graphics->SetConstantBuffer(SHADER_PS, CB_LIGHTS, _psLightConstantBuffer.Get());
 
                         for (size_t i = 0; i < MAX_LIGHTS_PER_PASS; ++i)
-                            graphics->SetTexture(MAX_MATERIAL_TEXTURE_UNITS + i, lights->shadowMaps[i]);
+                            _graphics->SetTexture(MAX_MATERIAL_TEXTURE_UNITS + i, lights->_shadowMaps[i]);
                     }
 
                     lastLights = lights;
@@ -949,19 +949,19 @@ void Renderer::RenderBatches(const Vector<Batch>& batches, Camera* camera_, bool
                 
                 // Set vertex / index buffers and draw
                 if (instanced)
-                    geometry->DrawInstanced(graphics, batch.instanceStart, batch.instanceCount);
+                    geometry->DrawInstanced(_graphics, batch._instanceStart, batch._instanceCount);
                 else
-                    geometry->Draw(graphics);
+                    geometry->Draw(_graphics);
             }
 
             // Advance. If instanced, skip over the batches that were converted
-            it += instanced ? batch.instanceCount : 1;
+            it += instanced ? batch._instanceCount : 1;
         }
     }
 
     // Restore original camera vertical flipping state now
     #ifdef AUTO_OPENGL
-    camera_->SetFlipVertical(flipVertical);
+    camera->SetFlipVertical(flipVertical);
     #endif
 }
 
@@ -969,23 +969,23 @@ void Renderer::LoadPassShaders(Pass* pass)
 {
     PROFILE(LoadPassShaders);
 
-    ResourceCache* cache = Subsystem<ResourceCache>();
+    ResourceCache* cache = GetSubsystem<ResourceCache>();
     // Use different extensions for GLSL & HLSL shaders
     #ifdef AUTO_OPENGL
-    pass->shaders[SHADER_VS] = cache->LoadResource<Shader>(pass->ShaderName(SHADER_VS) + ".vert");
-    pass->shaders[SHADER_PS] = cache->LoadResource<Shader>(pass->ShaderName(SHADER_PS) + ".frag");
+    pass->_shaders[SHADER_VS] = cache->LoadResource<Shader>(pass->ShaderName(SHADER_VS) + ".vert");
+    pass->_shaders[SHADER_PS] = cache->LoadResource<Shader>(pass->ShaderName(SHADER_PS) + ".frag");
     #else
-    pass->shaders[SHADER_VS] = cache->LoadResource<Shader>(pass->ShaderName(SHADER_VS) + ".vs");
-    pass->shaders[SHADER_PS] = cache->LoadResource<Shader>(pass->ShaderName(SHADER_PS) + ".ps");
+    _pass->_shaders[SHADER_VS] = cache->LoadResource<Shader>(_pass->ShaderName(SHADER_VS) + ".vs");
+    _pass->_shaders[SHADER_PS] = cache->LoadResource<Shader>(_pass->ShaderName(SHADER_PS) + ".ps");
     #endif
 
-    pass->shadersLoaded = true;
+    pass->_shadersLoaded = true;
 }
 
 ShaderVariation* Renderer::FindShaderVariation(ShaderStage stage, Pass* pass, unsigned short bits)
 {
     /// \todo Evaluate whether the hash lookup is worth the memory save vs using just straightforward vectors
-    HashMap<unsigned short, WeakPtr<ShaderVariation> >& variations = pass->shaderVariations[stage];
+    HashMap<unsigned short, WeakPtr<ShaderVariation> >& variations = pass->_shaderVariations[stage];
     HashMap<unsigned short, WeakPtr<ShaderVariation> >::Iterator it = variations.Find(bits);
 
     if (it != variations.End())
@@ -998,7 +998,7 @@ ShaderVariation* Renderer::FindShaderVariation(ShaderStage stage, Pass* pass, un
             if (bits & LVS_NUMSHADOWCOORDS)
                 vsString += " " + lightDefines[1] + "=" + String((bits & LVS_NUMSHADOWCOORDS) >> 2);
 
-            it = variations.Insert(MakePair(bits, WeakPtr<ShaderVariation>(pass->shaders[stage]->CreateVariation(vsString.Trimmed()))));
+            it = variations.Insert(MakePair(bits, WeakPtr<ShaderVariation>(pass->_shaders[stage]->CreateVariation(vsString.Trimmed()))));
             return it->second.Get();
         }
         else
@@ -1017,7 +1017,7 @@ ShaderVariation* Renderer::FindShaderVariation(ShaderStage stage, Pass* pass, un
                     psString += " " + lightDefines[5] + String((int)i);
             }
 
-            it = variations.Insert(MakePair(bits, WeakPtr<ShaderVariation>(pass->shaders[stage]->CreateVariation(psString.Trimmed()))));
+            it = variations.Insert(MakePair(bits, WeakPtr<ShaderVariation>(pass->_shaders[stage]->CreateVariation(psString.Trimmed()))));
             return it->second.Get();
         }
     }

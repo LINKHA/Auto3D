@@ -33,9 +33,9 @@ public:
     ShaderVariation* CreateVariation(const String& defines = String::EMPTY);
     
     /// Return shader stage.
-    ShaderStage Stage() const { return stage; }
+    ShaderStage Stage() const { return _stage; }
     /// Return shader source code.
-    const String& SourceCode() const { return sourceCode; }
+    const String& SourceCode() const { return _sourceCode; }
 
     /// Sort the defines and strip extra spaces to prevent creation of unnecessary duplicate shader variations. When requesting variations, the defines should preferably be normalized already to save time.
     static String NormalizeDefines(const String& defines);
@@ -45,11 +45,11 @@ private:
     bool ProcessIncludes(String& code, Stream& source);
 
     /// %Shader variations.
-    HashMap<StringHash, SharedPtr<ShaderVariation> > variations;
+    HashMap<StringHash, SharedPtr<ShaderVariation> > _variations;
     /// %Shader stage.
-    ShaderStage stage;
+    ShaderStage _stage;
     /// %Shader source code.
-    String sourceCode;
+    String _sourceCode;
 };
 
 }

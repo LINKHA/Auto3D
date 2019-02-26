@@ -14,7 +14,7 @@ enum TransformSpace
     TS_WORLD
 };
 
-/// Base class for scene nodes with position in three-dimensional space.
+/// Base class for scene nodes with _position in three-dimensional space.
 class AUTO_API SpatialNode : public Node
 {
     REGISTER_OBJECT_CLASS(SpatialNode, Node)
@@ -26,7 +26,7 @@ public:
     /// Register factory and attributes.
     static void RegisterObject();
 
-    /// Set position in parent space.
+    /// Set _position in parent space.
     void SetPosition(const Vector3& newPosition);
     /// Set rotation in parent space.
     void SetRotation(const Quaternion& newRotation);
@@ -42,7 +42,7 @@ public:
     void SetTransform(const Vector3& newPosition, const Quaternion& newRotation, const Vector3& newScale);
     /// Set transform in parent space.
     void SetTransform(const Vector3& newPosition, const Quaternion& newRotation, float newScale);
-    /// Set position in world space.
+    /// Set _position in world space.
     void SetWorldPosition(const Vector3& newPosition);
     /// Set rotation in world space
     void SetWorldRotation(const Quaternion& newRotation);
@@ -70,7 +70,7 @@ public:
     void Yaw(float angle, TransformSpace space = TS_LOCAL);
     /// Rotate around the Z axis.
     void Roll(float angle, TransformSpace space = TS_LOCAL);
-    /// Look at a target position in the chosen transform space. Note that the up vector is always specified in world space. Return true if successful, or false if resulted in an illegal rotation, in which case the current rotation remains.
+    /// Look at a target _position in the chosen transform space. Note that the up vector is always specified in world space. Return true if successful, or false if resulted in an illegal rotation, in which case the current rotation remains.
     bool LookAt(const Vector3& target, const Vector3& up = Vector3::UP, TransformSpace space = TS_WORLD);
     /// Apply a scale change.
     void ApplyScale(const Vector3& delta);
@@ -79,17 +79,17 @@ public:
 
     /// Return the parent spatial node, or null if it is not spatial.
     SpatialNode* SpatialParent() const { return TestFlag(NF_SPATIAL_PARENT) ? static_cast<SpatialNode*>(Parent()) : nullptr; }
-    /// Return position in parent space.
-    const Vector3& Position() const { return position; }
+    /// Return _position in parent space.
+    const Vector3& Position() const { return _position; }
     /// Return rotation in parent space.
-    const Quaternion& Rotation() const { return rotation; }
+    const Quaternion& Rotation() const { return _rotation; }
     /// Return forward direction in parent space.
-    Vector3 Direction() const { return rotation * Vector3::FORWARD; }
+    Vector3 Direction() const { return _rotation * Vector3::FORWARD; }
     /// Return scale in parent space.
-    const Vector3& Scale() const { return scale; }
+    const Vector3& Scale() const { return _scale; }
     /// Return transform matrix in parent space.
-    Matrix3x4 Transform() const { return Matrix3x4(position, rotation, scale); }
-    /// Return position in world space.
+    Matrix3x4 Transform() const { return Matrix3x4(_position, _rotation, _scale); }
+    /// Return _position in world space.
     Vector3 WorldPosition() const { return WorldTransform().Translation(); }
     /// Return rotation in world space.
     Quaternion WorldRotation() const { return WorldTransform().Rotation(); }
@@ -98,14 +98,14 @@ public:
     /// Return scale in world space. As it is calculated from the world transform matrix, it may not be meaningful or accurate in all cases.
     Vector3 WorldScale() const { return WorldTransform().Scale(); }
     /// Return world transform matrix.
-    const Matrix3x4& WorldTransform() const { if (TestFlag(NF_WORLD_TRANSFORM_DIRTY)) UpdateWorldTransform(); return worldTransform; }
-    /// Convert a local space position to world space.
+    const Matrix3x4& WorldTransform() const { if (TestFlag(NF_WORLD_TRANSFORM_DIRTY)) UpdateWorldTransform(); return _worldTransform; }
+    /// Convert a local space _position to world space.
     Vector3 LocalToWorld(const Vector3& point) const { return WorldTransform() * point; }
-    /// Convert a local space vector (either position or direction) to world space.
+    /// Convert a local space vector (either _position or direction) to world space.
     Vector3 LocalToWorld(const Vector4& vector) const { return WorldTransform() * vector; }
-    /// Convert a world space position to local space.
+    /// Convert a world space _position to local space.
     Vector3 WorldToLocal(const Vector3& point) const { return WorldTransform().Inverse() * point; }
-    /// Convert a world space vector (either position or direction) to world space.
+    /// Convert a world space vector (either _position or direction) to world space.
     Vector3 WorldToLocal(const Vector4& vector) const { return WorldTransform().Inverse() * vector; }
 
 protected:
@@ -119,13 +119,13 @@ private:
     void UpdateWorldTransform() const;
 
     /// World transform matrix.
-    mutable Matrix3x4 worldTransform;
-    /// Parent space position.
-    Vector3 position;
+    mutable Matrix3x4 _worldTransform;
+    /// Parent space _position.
+    Vector3 _position;
     /// Parent space rotation.
-    Quaternion rotation;
+    Quaternion _rotation;
     /// Parent space scale.
-    Vector3 scale;
+    Vector3 _scale;
 };
 
 }

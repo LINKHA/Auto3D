@@ -12,7 +12,7 @@ namespace Auto3D
 template <class _Ty, class U> class HashMap : public HashBase
 {
 public:
-    /// Hash map key-value pair with const key.
+    /// Hash map _key-value pair with const _key.
     class KeyValue
     {
     public:
@@ -22,7 +22,7 @@ public:
         {
         }
         
-        /// Construct with key and value.
+        /// Construct with _key and value.
         KeyValue(const _Ty& key, const U& value) :
             first(key),
             second(value)
@@ -54,7 +54,7 @@ public:
         {
         }
         
-        /// Construct with key and value.
+        /// Construct with _key and value.
         Node(const _Ty& key, const U& value) :
             pair(key, value)
         {
@@ -204,7 +204,7 @@ public:
     /// Test for inequality with another hash map.
     bool operator != (const HashMap<_Ty, U>& rhs) const { return !(*this == rhs); }
 
-    /// Index the map. Create a new pair if key not found.
+    /// Index the map. Create a new pair if _key not found.
     U& operator [] (const _Ty& key)
     {
         return InsertNode(key)->pair.second;
@@ -234,7 +234,7 @@ public:
             Insert(*it++);
     }
     
-    /// Erase a pair by key. Return true if was found.
+    /// Erase a pair by _key. Return true if was found.
     bool Erase(const _Ty& key)
     {
         if (!ptrs)
@@ -353,7 +353,7 @@ public:
         return true;
     }
     
-    /// Return iterator to the pair with key, or end iterator if not found.
+    /// Return iterator to the pair with _key, or end iterator if not found.
     Iterator Find(const _Ty& key)
     {
         if (!ptrs)
@@ -367,7 +367,7 @@ public:
             return End();
     }
     
-    /// Return const iterator to the pair with key, or end iterator if not found.
+    /// Return const iterator to the pair with _key, or end iterator if not found.
     ConstIterator Find(const _Ty& key) const
     {
         if (!ptrs)
@@ -381,7 +381,7 @@ public:
             return End();
     }
     
-    /// Return whether contains a pair with key.
+    /// Return whether contains a pair with _key.
     bool Contains(const _Ty& key) const
     {
         if (!ptrs)
@@ -411,7 +411,7 @@ public:
         return result;
     }
 
-    /// Return iterator to the first element. Is not the lowest key unless the map has been sorted.
+    /// Return iterator to the first element. Is not the lowest _key unless the map has been sorted.
     Iterator Begin() { return Iterator(Head()); }
     /// Return const iterator to the beginning.
     ConstIterator Begin() const { return ConstIterator(Head()); }
@@ -419,7 +419,7 @@ public:
     Iterator End() { return Iterator(Tail()); }
     /// Return const iterator to the end.
     ConstIterator End() const { return ConstIterator(Tail()); }
-    /// Return first keyvalue. Is not the lowest key unless the map has been sorted.
+    /// Return first keyvalue. Is not the lowest _key unless the map has been sorted.
     const _Ty& Front() const { return *Begin(); }
     /// Return last keyvalue.
     const _Ty& Back() const { assert(Size()); return *(--End()); }
@@ -476,7 +476,7 @@ private:
         return nullptr;
     }
     
-    /// Insert a key and default value and return either the new or existing node.
+    /// Insert a _key and default value and return either the new or existing node.
     Node* InsertNode(const _Ty& key)
     {
         unsigned hashKey = Hash(key);
@@ -500,7 +500,7 @@ private:
         return newNode;
     }
 
-    /// Insert a key and value and return either the new or existing node.
+    /// Insert a _key and value and return either the new or existing node.
     Node* InsertNode(const _Ty& key, const U& value)
     {
         unsigned hashKey = Hash(key);
@@ -577,7 +577,7 @@ private:
         return next;
     }
     
-    /// Allocate a node with optionally specified key and value.
+    /// Allocate a node with optionally specified _key and value.
     Node* AllocateNode(const _Ty& key = _Ty(), const U& value = U())
     {
         Node* newNode = static_cast<Node*>(AllocatorGet(allocator));
@@ -607,7 +607,7 @@ private:
     /// Compare two nodes.
     static bool CompareNodes(Node*& lhs, Node*& rhs) { return lhs->pair.first < rhs->pair.first; }
     
-    /// Compute a hash based on the key and the bucket size
+    /// Compute a hash based on the _key and the bucket _size
     unsigned Hash(const _Ty& key) const { return MakeHash(key) & (NumBuckets() - 1); }
 };
 

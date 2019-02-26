@@ -10,14 +10,14 @@ namespace Auto3D
 {
 
 Stream::Stream() :
-    position(0),
-    size(0)
+    _position(0),
+    _size(0)
 {
 }
 
 Stream::Stream(size_t numBytes) :
-    position(0),
-    size(numBytes)
+    _position(0),
+    _size(numBytes)
 {
 }
 
@@ -27,12 +27,12 @@ Stream::~Stream()
 
 void Stream::SetName(const String& newName)
 {
-    name = newName;
+    _name = newName;
 }
 
 void Stream::SetName(const char* newName)
 {
-    name = newName;
+    _name = newName;
 }
 
 unsigned Stream::ReadVLE()
@@ -76,7 +76,7 @@ String Stream::ReadLine()
             {
                 char next = Read<char>();
                 if (next != 10)
-                    Seek(position - 1);
+                    Seek(_position - 1);
             }
             break;
         }
@@ -146,7 +146,7 @@ template<> ResourceRefList Stream::Read<ResourceRefList>()
 template<> ObjectRef Stream::Read<ObjectRef>()
 {
     ObjectRef ret;
-    ret.id = Read<unsigned>();
+    ret._id = Read<unsigned>();
     return ret;
 }
 
@@ -237,7 +237,7 @@ template<> void Stream::Write<ResourceRefList>(const ResourceRefList& value)
 
 template<> void Stream::Write<ObjectRef>(const ObjectRef& value)
 {
-    Write(value.id);
+    Write(value._id);
 }
 
 template<> void Stream::Write<JSONValue>(const JSONValue& value)

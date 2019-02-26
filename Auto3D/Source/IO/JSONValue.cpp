@@ -14,66 +14,66 @@ const JSONArray JSONValue::emptyJSONArray;
 const JSONObject JSONValue::emptyJSONObject;
 
 JSONValue::JSONValue() :
-    type(JSON_NULL)
+    _type(JSON_NULL)
 {
 }
 
 JSONValue::JSONValue(const JSONValue& value) :
-    type(JSON_NULL)
+    _type(JSON_NULL)
 {
     *this = value;
 }
 
 JSONValue::JSONValue(bool value) :
-    type(JSON_NULL)
+    _type(JSON_NULL)
 {
     *this = value;
 }
 
 JSONValue::JSONValue(int value) :
-    type(JSON_NULL)
+    _type(JSON_NULL)
 {
     *this = value;
 }
 
 JSONValue::JSONValue(unsigned value) :
-    type(JSON_NULL)
+    _type(JSON_NULL)
 {
     *this = value;
 }
 
 JSONValue::JSONValue(float value) :
-    type(JSON_NULL)
+    _type(JSON_NULL)
 {
     *this = value;
 }
 
 JSONValue::JSONValue(double value) :
-    type(JSON_NULL)
+    _type(JSON_NULL)
 {
     *this = value;
 }
 
 JSONValue::JSONValue(const String& value) :
-    type(JSON_NULL)
+    _type(JSON_NULL)
 {
     *this = value;
 }
 
 JSONValue::JSONValue(const char* value) :
-    type(JSON_NULL)
+    _type(JSON_NULL)
 {
     *this = value;
 }
 
 JSONValue::JSONValue(const JSONArray& value) :
-    type(JSON_NULL)
+    _type(JSON_NULL)
 {
     *this = value;
 }
 
 JSONValue::JSONValue(const JSONObject& value) :
-    type(JSON_NULL)
+    _type(JSON_NULL)
 {
     *this = value;
 }
@@ -85,28 +85,28 @@ JSONValue::~JSONValue()
 
 JSONValue& JSONValue::operator = (const JSONValue& rhs)
 {
-    SetType(rhs.type);
+    SetType(rhs._type);
     
-    switch (type)
+    switch (_type)
     {
     case JSON_BOOL:
-        data.boolValue = rhs.data.boolValue;
+        _data.boolValue = rhs._data.boolValue;
         break;
         
     case JSON_NUMBER:
-        data.numberValue = rhs.data.numberValue;
+        _data.numberValue = rhs._data.numberValue;
         break;
         
     case JSON_STRING:
-        *(reinterpret_cast<String*>(&data)) = *(reinterpret_cast<const String*>(&rhs.data));
+        *(reinterpret_cast<String*>(&_data)) = *(reinterpret_cast<const String*>(&rhs._data));
         break;
         
     case JSON_ARRAY:
-        *(reinterpret_cast<JSONArray*>(&data)) = *(reinterpret_cast<const JSONArray*>(&rhs.data));
+        *(reinterpret_cast<JSONArray*>(&_data)) = *(reinterpret_cast<const JSONArray*>(&rhs._data));
         break;
         
     case JSON_OBJECT:
-        *(reinterpret_cast<JSONObject*>(&data)) = *(reinterpret_cast<const JSONObject*>(&rhs.data));
+        *(reinterpret_cast<JSONObject*>(&_data)) = *(reinterpret_cast<const JSONObject*>(&rhs._data));
         break;
         
     default:
@@ -119,95 +119,95 @@ JSONValue& JSONValue::operator = (const JSONValue& rhs)
 JSONValue& JSONValue::operator = (bool rhs)
 {
     SetType(JSON_BOOL);
-    data.boolValue = rhs;
+    _data.boolValue = rhs;
     return *this;
 }
 
 JSONValue& JSONValue::operator = (int rhs)
 {
     SetType(JSON_NUMBER);
-    data.numberValue = (double)rhs;
+    _data.numberValue = (double)rhs;
     return *this;
 }
 
 JSONValue& JSONValue::operator = (unsigned rhs)
 {
     SetType(JSON_NUMBER);
-    data.numberValue = (double)rhs;
+    _data.numberValue = (double)rhs;
     return *this;
 }
 
 JSONValue& JSONValue::operator = (float rhs)
 {
     SetType(JSON_NUMBER);
-    data.numberValue = (double)rhs;
+    _data.numberValue = (double)rhs;
     return *this;
 }
 
 JSONValue& JSONValue::operator = (double rhs)
 {
     SetType(JSON_NUMBER);
-    data.numberValue = rhs;
+    _data.numberValue = rhs;
     return *this;
 }
 
 JSONValue& JSONValue::operator = (const String& value)
 {
     SetType(JSON_STRING);
-    *(reinterpret_cast<String*>(&data)) = value;
+    *(reinterpret_cast<String*>(&_data)) = value;
     return *this;
 }
 
 JSONValue& JSONValue::operator = (const char* value)
 {
     SetType(JSON_STRING);
-    *(reinterpret_cast<String*>(&data)) = value;
+    *(reinterpret_cast<String*>(&_data)) = value;
     return *this;
 }
 
 JSONValue& JSONValue::operator = (const JSONArray& value)
 {
     SetType(JSON_ARRAY);
-    *(reinterpret_cast<JSONArray*>(&data)) = value;
+    *(reinterpret_cast<JSONArray*>(&_data)) = value;
     return *this;
 }
 
 JSONValue& JSONValue::operator = (const JSONObject& value)
 {
     SetType(JSON_OBJECT);
-    *(reinterpret_cast<JSONObject*>(&data)) = value;
+    *(reinterpret_cast<JSONObject*>(&_data)) = value;
     return *this;
 }
 
 JSONValue& JSONValue::operator [] (size_t index)
 {
-    if (type != JSON_ARRAY)
+    if (_type != JSON_ARRAY)
         SetType(JSON_ARRAY);
     
-    return (*(reinterpret_cast<JSONArray*>(&data)))[index];
+    return (*(reinterpret_cast<JSONArray*>(&_data)))[index];
 }
 
 const JSONValue& JSONValue::operator [] (size_t index) const
 {
-    if (type == JSON_ARRAY)
-        return (*(reinterpret_cast<const JSONArray*>(&data)))[index];
+    if (_type == JSON_ARRAY)
+        return (*(reinterpret_cast<const JSONArray*>(&_data)))[index];
     else
         return EMPTY;
 }
 
 JSONValue& JSONValue::operator [] (const String& key)
 {
-    if (type != JSON_OBJECT)
+    if (_type != JSON_OBJECT)
         SetType(JSON_OBJECT);
     
-    return (*(reinterpret_cast<JSONObject*>(&data)))[key];
+    return (*(reinterpret_cast<JSONObject*>(&_data)))[key];
 }
 
 const JSONValue& JSONValue::operator [] (const String& key) const
 {
-    if (type == JSON_OBJECT)
+    if (_type == JSON_OBJECT)
     {
-        const JSONObject& object = *(reinterpret_cast<const JSONObject*>(&data));
+        const JSONObject& object = *(reinterpret_cast<const JSONObject*>(&_data));
         auto it = object.Find(key);
         return it != object.End() ? it->second : EMPTY;
     }
@@ -217,25 +217,25 @@ const JSONValue& JSONValue::operator [] (const String& key) const
 
 bool JSONValue::operator == (const JSONValue& rhs) const
 {
-    if (type != rhs.type)
+    if (_type != rhs._type)
         return false;
     
-    switch (type)
+    switch (_type)
     {
     case JSON_BOOL:
-        return data.boolValue == rhs.data.boolValue;
+        return _data.boolValue == rhs._data.boolValue;
         
     case JSON_NUMBER:
-        return data.numberValue == rhs.data.numberValue;
+        return _data.numberValue == rhs._data.numberValue;
         
     case JSON_STRING:
-        return *(reinterpret_cast<const String*>(&data)) == *(reinterpret_cast<const String*>(&rhs.data));
+        return *(reinterpret_cast<const String*>(&_data)) == *(reinterpret_cast<const String*>(&rhs._data));
         
     case JSON_ARRAY:
-        return *(reinterpret_cast<const JSONArray*>(&data)) == *(reinterpret_cast<const JSONArray*>(&rhs.data));
+        return *(reinterpret_cast<const JSONArray*>(&_data)) == *(reinterpret_cast<const JSONArray*>(&rhs._data));
         
     case JSON_OBJECT:
-        return *(reinterpret_cast<const JSONObject*>(&data)) == *(reinterpret_cast<const JSONObject*>(&rhs.data));
+        return *(reinterpret_cast<const JSONObject*>(&_data)) == *(reinterpret_cast<const JSONObject*>(&rhs._data));
         
     default:
         return true;
@@ -306,18 +306,18 @@ void JSONValue::FromBinary(Stream& source)
 
 void JSONValue::ToString(String& dest, int spacing, int indent) const
 {
-    switch (type)
+    switch (_type)
     {
     case JSON_BOOL:
-        dest += data.boolValue;
+        dest += _data.boolValue;
         return;
         
     case JSON_NUMBER:
-        dest += data.numberValue;
+        dest += _data.numberValue;
         return;
         
     case JSON_STRING:
-        WriteJSONString(dest, *(reinterpret_cast<const String*>(&data)));
+        WriteJSONString(dest, *(reinterpret_cast<const String*>(&_data)));
         return;
         
     case JSON_ARRAY:
@@ -386,16 +386,16 @@ String JSONValue::ToString(int spacing) const
 
 void JSONValue::ToBinary(Stream& dest) const
 {
-    dest.Write((unsigned char)type);
+    dest.Write((unsigned char)_type);
 
-    switch (type)
+    switch (_type)
     {
     case JSON_BOOL:
-        dest.Write(data.boolValue);
+        dest.Write(_data.boolValue);
         break;
 
     case JSON_NUMBER:
-        dest.Write(data.numberValue);
+        dest.Write(_data.numberValue);
         break;
 
     case JSON_STRING:
@@ -431,51 +431,51 @@ void JSONValue::ToBinary(Stream& dest) const
 void JSONValue::Push(const JSONValue& value)
 {
     SetType(JSON_ARRAY);
-    (*(reinterpret_cast<JSONArray*>(&data))).Push(value);
+    (*(reinterpret_cast<JSONArray*>(&_data))).Push(value);
 }
 
 void JSONValue::Insert(size_t index, const JSONValue& value)
 {
     SetType(JSON_ARRAY);
-    (*(reinterpret_cast<JSONArray*>(&data))).Insert(index, value);
+    (*(reinterpret_cast<JSONArray*>(&_data))).Insert(index, value);
 }
 
 void JSONValue::Pop()
 {
-    if (type == JSON_ARRAY)
-        (*(reinterpret_cast<JSONArray*>(&data))).Pop();
+    if (_type == JSON_ARRAY)
+        (*(reinterpret_cast<JSONArray*>(&_data))).Pop();
 }
 
 void JSONValue::Erase(size_t pos, size_t length)
 {
-    if (type == JSON_ARRAY)
-        (*(reinterpret_cast<JSONArray*>(&data))).Erase(pos, length);
+    if (_type == JSON_ARRAY)
+        (*(reinterpret_cast<JSONArray*>(&_data))).Erase(pos, length);
 }
 
 void JSONValue::Resize(size_t newSize)
 {
     SetType(JSON_ARRAY);
-    (*(reinterpret_cast<JSONArray*>(&data))).Resize(newSize);
+    (*(reinterpret_cast<JSONArray*>(&_data))).Resize(newSize);
 }
 
 void JSONValue::Insert(const Pair<String, JSONValue>& pair)
 {
     SetType(JSON_OBJECT);
-    (*(reinterpret_cast<JSONObject*>(&data))).Insert(pair);
+    (*(reinterpret_cast<JSONObject*>(&_data))).Insert(pair);
 }
 
 void JSONValue::Erase(const String& key)
 {
-    if (type == JSON_OBJECT)
-        (*(reinterpret_cast<JSONObject*>(&data))).Erase(key);
+    if (_type == JSON_OBJECT)
+        (*(reinterpret_cast<JSONObject*>(&_data))).Erase(key);
 }
 
 void JSONValue::Clear()
 {
-    if (type == JSON_ARRAY)
-        (*(reinterpret_cast<JSONArray*>(&data))).Clear();
-    else if (type == JSON_OBJECT)
-        (*(reinterpret_cast<JSONObject*>(&data))).Clear();
+    if (_type == JSON_ARRAY)
+        (*(reinterpret_cast<JSONArray*>(&_data))).Clear();
+    else if (_type == JSON_OBJECT)
+        (*(reinterpret_cast<JSONObject*>(&_data))).Clear();
 }
 
 void JSONValue::SetEmptyArray()
@@ -497,28 +497,28 @@ void JSONValue::SetNull()
 
 size_t JSONValue::Size() const
 {
-    if (type == JSON_ARRAY)
-        return (*(reinterpret_cast<const JSONArray*>(&data))).Size();
-    else if (type == JSON_OBJECT)
-        return (*(reinterpret_cast<const JSONObject*>(&data))).Size();
+    if (_type == JSON_ARRAY)
+        return (*(reinterpret_cast<const JSONArray*>(&_data))).Size();
+    else if (_type == JSON_OBJECT)
+        return (*(reinterpret_cast<const JSONObject*>(&_data))).Size();
     else
         return 0;
 }
 
 bool JSONValue::IsEmpty() const
 {
-    if (type == JSON_ARRAY)
-        return (*(reinterpret_cast<const JSONArray*>(&data))).IsEmpty();
-    else if (type == JSON_OBJECT)
-        return (*(reinterpret_cast<const JSONObject*>(&data))).IsEmpty();
+    if (_type == JSON_ARRAY)
+        return (*(reinterpret_cast<const JSONArray*>(&_data))).IsEmpty();
+    else if (_type == JSON_OBJECT)
+        return (*(reinterpret_cast<const JSONObject*>(&_data))).IsEmpty();
     else
         return false;
 }
 
 bool JSONValue::Contains(const String& key) const
 {
-    if (type == JSON_OBJECT)
-        return (*(reinterpret_cast<const JSONObject*>(&data))).Contains(key);
+    if (_type == JSON_OBJECT)
+        return (*(reinterpret_cast<const JSONObject*>(&_data))).Contains(key);
     else
         return false;
 }
@@ -584,7 +584,7 @@ bool JSONValue::Parse(const char*& pos, const char*& end)
     else if (c == '\"')
     {
         SetType(JSON_STRING);
-        return ReadJSONString(*(reinterpret_cast<String*>(&data)), pos, end, true);
+        return ReadJSONString(*(reinterpret_cast<String*>(&_data)), pos, end, true);
     }
     else if (c == '[')
     {
@@ -651,41 +651,41 @@ bool JSONValue::Parse(const char*& pos, const char*& end)
 
 void JSONValue::SetType(JSONType newType)
 {
-    if (type == newType)
+    if (_type == newType)
         return;
     
-    switch (type)
+    switch (_type)
     {
     case JSON_STRING:
-        (reinterpret_cast<String*>(&data))->~String();
+        (reinterpret_cast<String*>(&_data))->~String();
         break;
         
     case JSON_ARRAY:
-        (reinterpret_cast<JSONArray*>(&data))->~JSONArray();
+        (reinterpret_cast<JSONArray*>(&_data))->~JSONArray();
         break;
         
     case JSON_OBJECT:
-        (reinterpret_cast<JSONObject*>(&data))->~JSONObject();
+        (reinterpret_cast<JSONObject*>(&_data))->~JSONObject();
         break;
         
     default:
         break;
     }
     
-    type = newType;
+    _type = newType;
     
-    switch (type)
+    switch (_type)
     {
     case JSON_STRING:
-        new(reinterpret_cast<String*>(&data)) String();
+        new(reinterpret_cast<String*>(&_data)) String();
         break;
         
     case JSON_ARRAY:
-        new(reinterpret_cast<JSONArray*>(&data)) JSONArray();
+        new(reinterpret_cast<JSONArray*>(&_data)) JSONArray();
         break;
         
     case JSON_OBJECT:
-        new(reinterpret_cast<JSONObject*>(&data)) JSONObject();
+        new(reinterpret_cast<JSONObject*>(&_data)) JSONObject();
         break;
         
     default:
@@ -811,7 +811,7 @@ bool JSONValue::ReadJSONString(String& dest, const char*& pos, const char*& end,
                 
             case 'u':
                 {
-                    /// \todo Doesn't handle unicode surrogate pairs
+                    /// \todo Doesn't _handle unicode surrogate pairs
                     unsigned code;
                     sscanf(pos, "%x", &code);
                     pos += 4;

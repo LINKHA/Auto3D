@@ -262,7 +262,7 @@ bool Image::BeginLoad(Stream& source)
             break;
 
         default:
-            LOGERROR("Unsupported DDS format");
+            ErrorString("Unsupported DDS format");
             return false;
         }
 
@@ -292,25 +292,25 @@ bool Image::BeginLoad(Stream& source)
 
         if (endianness != 0x04030201)
         {
-            LOGERROR("Big-endian KTX files not supported");
+            ErrorString("Big-endian KTX files not supported");
             return false;
         }
 
         if (type != 0 || imageFormat != 0)
         {
-            LOGERROR("Uncompressed KTX files not supported");
+            ErrorString("Uncompressed KTX files not supported");
             return false;
         }
 
         if (faces > 1 || depth > 1)
         {
-            LOGERROR("3D or cube KTX files not supported");
+            ErrorString("3D or cube KTX files not supported");
             return false;
         }
 
         if (mipmaps == 0)
         {
-            LOGERROR("KTX files without explicitly specified mipmap count not supported");
+            ErrorString("KTX files without explicitly specified mipmap count not supported");
             return false;
         }
 
@@ -352,7 +352,7 @@ bool Image::BeginLoad(Stream& source)
 
         if (format == FMT_NONE)
         {
-            LOGERROR("Unsupported texture format in KTX file");
+            ErrorString("Unsupported texture format in KTX file");
             return false;
         }
 
@@ -369,7 +369,7 @@ bool Image::BeginLoad(Stream& source)
             size_t levelSize = source.Read<unsigned>();
             if (levelSize + dataOffset > dataSize)
             {
-                LOGERROR("KTX mipmap level data size exceeds file size");
+                ErrorString("KTX mipmap level data size exceeds file size");
                 return false;
             }
 
@@ -396,13 +396,13 @@ bool Image::BeginLoad(Stream& source)
 
         if (depth > 1 || numFaces > 1)
         {
-            LOGERROR("3D or cube PVR files not supported");
+            ErrorString("3D or cube PVR files not supported");
             return false;
         }
 
         if (mipmapCount == 0)
         {
-            LOGERROR("PVR files without explicitly specified mipmap count not supported");
+            ErrorString("PVR files without explicitly specified mipmap count not supported");
             return false;
         }
 
@@ -444,7 +444,7 @@ bool Image::BeginLoad(Stream& source)
 
         if (format == FMT_NONE)
         {
-            LOGERROR("Unsupported texture format in PVR file");
+            ErrorString("Unsupported texture format in PVR file");
             return false;
         }
 
@@ -466,7 +466,7 @@ bool Image::BeginLoad(Stream& source)
         unsigned char* pixelData = DecodePixelData(source, imageWidth, imageHeight, imageComponents);
         if (!pixelData)
         {
-            LOGERROR("Could not load image " + source.Name() + ": " + String(stbi_failure_reason()));
+            ErrorString("Could not load image " + source.Name() + ": " + String(stbi_failure_reason()));
             return false;
         }
         
@@ -503,25 +503,25 @@ bool Image::Save(Stream& dest)
 
     if (IsCompressed())
     {
-        LOGERROR("Can not save compressed image " + Name());
+        ErrorString("Can not save compressed image " + Name());
         return false;
     }
 
     if (!data)
     {
-        LOGERROR("Can not save zero-sized image " + Name());
+        ErrorString("Can not save zero-sized image " + Name());
         return false;
     }
 
     int components = (int)PixelByteSize();
     if (components < 1 || components > 4)
     {
-        LOGERROR("Unsupported pixel format for PNG save on image " + Name());
+        ErrorString("Unsupported pixel format for PNG save on image " + Name());
         return false;
     }
 
     int len;
-    unsigned char *png = stbi_write_png_to_mem(data.Get(), 0, size.x, size.y, components, &len);
+    unsigned char *png = stbi_write_png_to_mem(data.Get(), 0, size._x, size._y, components, &len);
     bool success = dest.Write(png, len) == (size_t)len;
     free(png);
     return success;
@@ -532,18 +532,18 @@ void Image::SetSize(const IntVector2& newSize, ImageFormat newFormat)
     if (newSize == size && newFormat == format)
         return;
 
-    if (newSize.x <= 0 || newSize.y <= 0)
+    if (newSize._x <= 0 || newSize._y <= 0)
     {
-        LOGERROR("Can not set zero or negative image size");
+        ErrorString("Can not set zero or negative image size");
         return;
     }
     if (pixelByteSizes[newFormat] == 0)
     {
-        LOGERROR("Can not set image size with unspecified pixel byte size (including compressed formats)");
+        ErrorString("Can not set image size with unspecified pixel byte size (including compressed formats)");
         return;
     }
 
-    data = new unsigned char[newSize.x * newSize.y * pixelByteSizes[newFormat]];
+    data = new unsigned char[newSize._x * newSize._y * pixelByteSizes[newFormat]];
     size = newSize;
     format = newFormat;
     numLevels = 1;
@@ -552,9 +552,9 @@ void Image::SetSize(const IntVector2& newSize, ImageFormat newFormat)
 void Image::SetData(const unsigned char* pixelData)
 {
     if (!IsCompressed())
-        memcpy(data.Get(), pixelData, size.x * size.y * PixelByteSize());
+        memcpy(data.Get(), pixelData, size._x * size._y * PixelByteSize());
     else
-        LOGERROR("Can not set pixel data of a compressed image");
+        ErrorString("Can not set pixel data of a compressed image");
 }
 
 unsigned char* Image::DecodePixelData(Stream& source, int& width, int& height, unsigned& components)
@@ -581,11 +581,11 @@ bool Image::GenerateMipImage(Image& dest) const
     int components = Components();
     if (components < 1 || components > 4)
     {
-        LOGERROR("Unsupported format for calculating the next mip level");
+        ErrorString("Unsupported format for calculating the next mip level");
         return false;
     }
 
-    IntVector2 sizeOut(Max(size.x / 2, 1), Max(size.y / 2, 1));
+    IntVector2 sizeOut(Max(size._x / 2, 1), Max(size._y / 2, 1));
     dest.SetSize(sizeOut, format);
 
     const unsigned char* pixelDataIn = data.Get();
@@ -594,25 +594,25 @@ bool Image::GenerateMipImage(Image& dest) const
     switch (components)
     {
     case 1:
-        for (int y = 0; y < sizeOut.y; ++y)
+        for (int y = 0; y < sizeOut._y; ++y)
         {
-            const unsigned char* inUpper = &pixelDataIn[(y * 2) * size.x];
-            const unsigned char* inLower = &pixelDataIn[(y * 2 + 1) * size.x];
-            unsigned char* out = &pixelDataOut[y * sizeOut.x];
+            const unsigned char* inUpper = &pixelDataIn[(y * 2) * size._x];
+            const unsigned char* inLower = &pixelDataIn[(y * 2 + 1) * size._x];
+            unsigned char* out = &pixelDataOut[y * sizeOut._x];
 
-            for (int x = 0; x < sizeOut.x; ++x)
+            for (int x = 0; x < sizeOut._x; ++x)
                 out[x] = ((unsigned)inUpper[x * 2] + inUpper[x * 2 + 1] + inLower[x * 2] + inLower[x * 2 + 1]) >> 2;
         }
         break;
 
     case 2:
-        for (int y = 0; y < sizeOut.y; ++y)
+        for (int y = 0; y < sizeOut._y; ++y)
         {
-            const unsigned char* inUpper = &pixelDataIn[(y * 2) * size.x * 2];
-            const unsigned char* inLower = &pixelDataIn[(y * 2 + 1) * size.x * 2];
-            unsigned char* out = &pixelDataOut[y * sizeOut.x * 2];
+            const unsigned char* inUpper = &pixelDataIn[(y * 2) * size._x * 2];
+            const unsigned char* inLower = &pixelDataIn[(y * 2 + 1) * size._x * 2];
+            unsigned char* out = &pixelDataOut[y * sizeOut._x * 2];
 
-            for (int x = 0; x < sizeOut.x * 2; x += 2)
+            for (int x = 0; x < sizeOut._x * 2; x += 2)
             {
                 out[x] = ((unsigned)inUpper[x * 2] + inUpper[x * 2 + 2] + inLower[x * 2] + inLower[x * 2 + 2]) >> 2;
                 out[x + 1] = ((unsigned)inUpper[x * 2 + 1] + inUpper[x * 2 + 3] + inLower[x * 2 + 1] + inLower[x * 2 + 3]) >> 2;
@@ -621,13 +621,13 @@ bool Image::GenerateMipImage(Image& dest) const
         break;
 
     case 4:
-        for (int y = 0; y < sizeOut.y; ++y)
+        for (int y = 0; y < sizeOut._y; ++y)
         {
-            const unsigned char* inUpper = &pixelDataIn[(y * 2) * size.x * 4];
-            const unsigned char* inLower = &pixelDataIn[(y * 2 + 1) * size.x * 4];
-            unsigned char* out = &pixelDataOut[y * sizeOut.x * 4];
+            const unsigned char* inUpper = &pixelDataIn[(y * 2) * size._x * 4];
+            const unsigned char* inLower = &pixelDataIn[(y * 2 + 1) * size._x * 4];
+            unsigned char* out = &pixelDataOut[y * sizeOut._x * 4];
 
-            for (int x = 0; x < sizeOut.x * 4; x += 4)
+            for (int x = 0; x < sizeOut._x * 4; x += 4)
             {
                 out[x] = ((unsigned)inUpper[x * 2] + inUpper[x * 2 + 4] + inLower[x * 2] + inLower[x * 2 + 4]) >> 2;
                 out[x + 1] = ((unsigned)inUpper[x * 2 + 1] + inUpper[x * 2 + 5] + inLower[x * 2 + 1] + inLower[x * 2 + 5]) >> 2;
@@ -653,10 +653,10 @@ ImageLevel Image::Level(size_t index) const
 
     for (;;)
     {
-        level.size = IntVector2(Max(size.x >> i, 1), Max(size.y >> i, 1));
-        level.data = data.Get() + offset;
+        level._size = IntVector2(Max(size._x >> i, 1), Max(size._y >> i, 1));
+        level._data = data.Get() + offset;
 
-        size_t dataSize = CalculateDataSize(level.size, format, &level.rows, &level.rowSize);
+        size_t dataSize = CalculateDataSize(level._size, format, &level._rows, &level._rowSize);
         if (i == index)
             return level;
 
@@ -671,13 +671,13 @@ bool Image::DecompressLevel(unsigned char* dest, size_t index) const
 
     if (!dest)
     {
-        LOGERROR("Null destination data for DecompressLevel");
+        ErrorString("Null destination data for DecompressLevel");
         return false;
     }
 
     if (index >= numLevels)
     {
-        LOGERROR("Mip level index out of bounds for DecompressLevel");
+        ErrorString("Mip level index out of bounds for DecompressLevel");
         return false;
     }
 
@@ -688,22 +688,22 @@ bool Image::DecompressLevel(unsigned char* dest, size_t index) const
     case FMT_DXT1:
     case FMT_DXT3:
     case FMT_DXT5:
-        DecompressImageDXT(dest, level.data, level.size.x, level.size.y, format);
+        DecompressImageDXT(dest, level._data, level._size._x, level._size._y, format);
         break;
 
     case FMT_ETC1:
-        DecompressImageETC(dest, level.data, level.size.x, level.size.y);
+        DecompressImageETC(dest, level._data, level._size._x, level._size._y);
         break;
 
     case FMT_PVRTC_RGB_2BPP:
     case FMT_PVRTC_RGBA_2BPP:
     case FMT_PVRTC_RGB_4BPP:
     case FMT_PVRTC_RGBA_4BPP:
-        DecompressImagePVRTC(dest, level.data, level.size.x, level.size.y, format);
+        DecompressImagePVRTC(dest, level._data, level._size._x, level._size._y, format);
         break;
 
     default:
-        LOGERROR("Unsupported format for DecompressLevel");
+        ErrorString("Unsupported format for DecompressLevel");
         return false;
     }
 
@@ -716,22 +716,22 @@ size_t Image::CalculateDataSize(const IntVector2& size, ImageFormat format, size
 
     if (format < FMT_DXT1)
     {
-        rows = size.y;
-        rowSize = size.x * pixelByteSizes[format];
+        rows = size._y;
+        rowSize = size._x * pixelByteSizes[format];
         dataSize = rows * rowSize;
     }
     else if (format < FMT_PVRTC_RGB_2BPP)
     {
         size_t blockSize = (format == FMT_DXT1 || format == FMT_ETC1) ? 8 : 16;
-        rows = (size.y + 3) / 4;
-        rowSize = ((size.x + 3) / 4) * blockSize;
+        rows = (size._y + 3) / 4;
+        rowSize = ((size._x + 3) / 4) * blockSize;
         dataSize = rows * rowSize;
     }
     else
     {
         size_t blockSize = format < FMT_PVRTC_RGB_4BPP ? 2 : 4;
-        size_t dataWidth = Max(size.x, blockSize == 2 ? 16 : 8);
-        rows = Max(size.y, 8);
+        size_t dataWidth = Max(size._x, blockSize == 2 ? 16 : 8);
+        rows = Max(size._y, 8);
         dataSize = (dataWidth * rows * blockSize + 7) >> 3;
         rowSize = dataSize / rows;
     }

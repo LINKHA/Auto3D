@@ -9,9 +9,9 @@ namespace Auto3D
 class AUTO_API MemoryBuffer : public Stream
 {
 public:
-    /// Construct with a pointer and size.
+    /// Construct with a pointer and _size.
     MemoryBuffer(void* data, size_t numBytes);
-    /// Construct as read-only with a pointer and size.
+    /// Construct as read-only with a pointer and _size.
     MemoryBuffer(const void* data, size_t numBytes);
     /// Construct from a vector, which must not go out of scope before MemoryBuffer.
     MemoryBuffer(Vector<unsigned char>& data);
@@ -20,7 +20,7 @@ public:
     
     /// Read bytes from the memory area. Return number of bytes actually read.
     size_t Read(void* dest, size_t numBytes) override;
-    /// Set position in bytes from the beginning of the memory area.
+    /// Set _position in bytes from the beginning of the memory area.
     size_t Seek(size_t newPosition) override;
     /// Write bytes to the memory area.
     size_t Write(const void* data, size_t numBytes) override;
@@ -30,16 +30,16 @@ public:
     bool IsWritable() const override;
 
     /// Return memory area.
-    unsigned char* Data() { return buffer; }
+    unsigned char* Data() { return _buffer; }
     
     using Stream::Read;
     using Stream::Write;
     
 private:
     /// Pointer to the memory area.
-    unsigned char* buffer;
+    unsigned char* _buffer;
     /// Read-only flag.
-    bool readOnly;
+    bool _readOnly;
 };
 
 }

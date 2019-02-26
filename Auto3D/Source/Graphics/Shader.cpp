@@ -10,7 +10,7 @@ namespace Auto3D
 {
 
 Shader::Shader() :
-    stage(SHADER_VS)
+    _stage(SHADER_VS)
 {
 }
 
@@ -26,48 +26,48 @@ void Shader::RegisterObject()
 bool Shader::BeginLoad(Stream& source)
 {
     String extension = Extension(source.Name());
-    stage = (extension == ".vs" || extension == ".vert") ? SHADER_VS : SHADER_PS;
-    sourceCode.Clear();
-    return ProcessIncludes(sourceCode, source);
+    _stage = (extension == ".vs" || extension == ".vert") ? SHADER_VS : SHADER_PS;
+    _sourceCode.Clear();
+    return ProcessIncludes(_sourceCode, source);
 }
 
 bool Shader::EndLoad()
 {
     // Release existing variations (if any) to allow them to be recompiled with changed code
-    for (auto it = variations.Begin(); it != variations.End(); ++it)
+    for (auto it = _variations.Begin(); it != _variations.End(); ++it)
         it->second->Release();
     return true;
 }
 
 void Shader::Define(ShaderStage stage_, const String& code)
 {
-    stage = stage_;
-    sourceCode = code;
+    _stage = stage_;
+    _sourceCode = code;
     EndLoad();
 }
 
 ShaderVariation* Shader::CreateVariation(const String& definesIn)
 {
     StringHash definesHash(definesIn);
-    auto it = variations.Find(definesHash);
-    if (it != variations.End())
+    auto it = _variations.Find(definesHash);
+    if (it != _variations.End())
         return it->second.Get();
     
     // If initially not found, normalize the defines and try again
     String defines = NormalizeDefines(definesIn);
     definesHash = defines;
-    it = variations.Find(definesHash);
-    if (it != variations.End())
+    it = _variations.Find(definesHash);
+    if (it != _variations.End())
         return it->second.Get();
 
     ShaderVariation* newVariation = new ShaderVariation(this, defines);
-    variations[definesHash] = newVariation;
+    _variations[definesHash] = newVariation;
     return newVariation;
 }
 
 bool Shader::ProcessIncludes(String& code, Stream& source)
 {
-    ResourceCache* cache = Subsystem<ResourceCache>();
+    ResourceCache* cache = GetSubsystem<ResourceCache>();
 
     while (!source.IsEof())
     {

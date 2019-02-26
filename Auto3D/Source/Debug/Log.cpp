@@ -23,13 +23,13 @@ const char* logLevelPrefixes[] =
 
 Log::Log() :
 #ifdef _DEBUG
-    level(LOG_DEBUG),
+    _level(LOG_DEBUG),
 #else
-    level(LOG_INFO),
+    _level(LOG_INFO),
 #endif
-    timeStamp(false),
-    inWrite(false),
-    quiet(false)
+    _timeStamp(false),
+    _inWrite(false),
+    _quiet(false)
 {
     RegisterSubsystem(this);
 }
@@ -45,30 +45,30 @@ void Log::Open(const String& fileName)
     if (fileName.IsEmpty())
         return;
     
-    if (logFile && logFile->IsOpen())
+    if (_logFile && _logFile->IsOpen())
     {
-        if (logFile->Name() == fileName)
+        if (_logFile->Name() == fileName)
             return;
         else
             Close();
     }
 
-    logFile = new File();
-    if (logFile->Open(fileName, FILE_WRITE))
-        LOGINFO("Opened log file " + fileName);
+    _logFile = new File();
+    if (_logFile->Open(fileName, FILE_WRITE))
+        InfoString("Opened log file " + fileName);
     else
     {
-        logFile.Reset();
-        LOGERROR("Failed to create log file " + fileName);
+        _logFile.Reset();
+        ErrorString("Failed to create log file " + fileName);
     }
 }
 
 void Log::Close()
 {
-    if (logFile && logFile->IsOpen())
+    if (_logFile && _logFile->IsOpen())
     {
-        logFile->Close();
-        logFile.Reset();
+        _logFile->Close();
+        _logFile.Reset();
     }
 }
 
@@ -76,34 +76,34 @@ void Log::SetLevel(int newLevel)
 {
     assert(newLevel >= LOG_DEBUG && newLevel < LOG_NONE);
 
-    level = newLevel;
+    _level = newLevel;
 }
 
 void Log::SetTimeStamp(bool enable)
 {
-    timeStamp = enable;
+    _timeStamp = enable;
 }
 
 void Log::SetQuiet(bool enable)
 {
-    quiet = enable;
+    _quiet = enable;
 }
 
 void Log::EndFrame()
 {
-    MutexLock lock(logMutex);
+    MutexLock lock(_logMutex);
 
     // Process messages accumulated from other threads (if any)
-    while (!threadMessages.IsEmpty())
+    while (!_threadMessages.IsEmpty())
     {
-        const StoredLogMessage& stored = threadMessages.Front();
+        const StoredLogMessage& stored = _threadMessages.Front();
 
-        if (stored.level != LOG_RAW)
-            Write(stored.level, stored.message);
+        if (stored._level != LOG_RAW)
+            Write(stored._level, stored._message);
         else
-            WriteRaw(stored.message, stored.error);
+            WriteRaw(stored._message, stored._error);
 
-        threadMessages.PopFront();
+        _threadMessages.PopFront();
     }
 }
 
@@ -111,30 +111,30 @@ void Log::Write(int msgLevel, const String& message)
 {
     assert(msgLevel >= LOG_DEBUG && msgLevel < LOG_NONE);
     
-    Log* instance = Subsystem<Log>();
+    Log* instance = GetSubsystem<Log>();
     if (!instance)
         return;
 
     // If not in the main thread, store message for later processing
     if (!Thread::IsMainThread())
     {
-        MutexLock lock(instance->logMutex);
-        instance->threadMessages.Push(StoredLogMessage(message, msgLevel, false));
+        MutexLock lock(instance->_logMutex);
+        instance->_threadMessages.Push(StoredLogMessage(message, msgLevel, false));
         return;
     }
 
-    // Do not log if message level excluded or if currently sending a log event
-    if (instance->level > msgLevel || instance->inWrite)
+    // Do not log if message level excluded or if currently sending a log _event
+    if (instance->_level > msgLevel || instance->_inWrite)
         return;
 
     String formattedMessage = logLevelPrefixes[msgLevel];
     formattedMessage += ": " + message;
-    instance->lastMessage = message;
+    instance->_lastMessage = message;
 
-    if (instance->timeStamp)
+    if (instance->_timeStamp)
         formattedMessage = "[" + TimeStamp() + "] " + formattedMessage;
     
-    if (instance->quiet)
+    if (instance->_quiet)
     {
         // If in quiet mode, still print the error message to the standard error stream
         if (msgLevel == LOG_ERROR)
@@ -143,43 +143,43 @@ void Log::Write(int msgLevel, const String& message)
     else
         PrintUnicodeLine(formattedMessage, msgLevel == LOG_ERROR);
 
-    if (instance->logFile)
+    if (instance->_logFile)
     {
-        instance->logFile->WriteLine(formattedMessage);
-        instance->logFile->Flush();
+        instance->_logFile->WriteLine(formattedMessage);
+        instance->_logFile->Flush();
     }
 
-    instance->inWrite = true;
+    instance->_inWrite = true;
 
-    LogMessageEvent& event = instance->logMessageEvent;
-    event.message = formattedMessage;
-    event.level = msgLevel;
+    LogMessageEvent& event = instance->_logMessageEvent;
+    event._message = formattedMessage;
+    event._level = msgLevel;
     instance->SendEvent(event);
 
-    instance->inWrite = false;
+    instance->_inWrite = false;
 }
 
 void Log::WriteRaw(const String& message, bool error)
 {
-    Log* instance = Subsystem<Log>();
+    Log* instance = GetSubsystem<Log>();
     if (!instance)
         return;
 
     // If not in the main thread, store message for later processing
     if (!Thread::IsMainThread())
     {
-        MutexLock lock(instance->logMutex);
-        instance->threadMessages.Push(StoredLogMessage(message, LOG_RAW, error));
+        MutexLock lock(instance->_logMutex);
+        instance->_threadMessages.Push(StoredLogMessage(message, LOG_RAW, error));
         return;
     }
     
-    // Prevent recursion during log event
-    if (instance->inWrite)
+    // Prevent recursion during log _event
+    if (instance->_inWrite)
         return;
 
-    instance->lastMessage = message;
+    instance->_lastMessage = message;
 
-    if (instance->quiet)
+    if (instance->_quiet)
     {
         // If in quiet mode, still print the error message to the standard error stream
         if (error)
@@ -188,20 +188,20 @@ void Log::WriteRaw(const String& message, bool error)
     else
         PrintUnicode(message, error);
 
-    if (instance->logFile)
+    if (instance->_logFile)
     {
-        instance->logFile->Write(message.CString(), message.Length());
-        instance->logFile->Flush();
+        instance->_logFile->Write(message.CString(), message.Length());
+        instance->_logFile->Flush();
     }
 
-    instance->inWrite = true;
+    instance->_inWrite = true;
 
-    LogMessageEvent& event = instance->logMessageEvent;
-    event.message = message;
-    event.level = error ? LOG_ERROR : LOG_INFO;
+    LogMessageEvent& event = instance->_logMessageEvent;
+    event._message = message;
+    event._level = error ? LOG_ERROR : LOG_INFO;
     instance->SendEvent(event);
 
-    instance->inWrite = false;
+    instance->_inWrite = false;
 }
 
 }

@@ -7,17 +7,17 @@ namespace Auto3D
 {
 
 GPUObject::GPUObject() :
-    dataLost(false)
+    _dataLost(false)
 {
-    graphics = Object::Subsystem<Graphics>();
-    if (graphics)
-        graphics->AddGPUObject(this);
+    _graphics = Object::GetSubsystem<Graphics>();
+    if (_graphics)
+        _graphics->AddGPUObject(this);
 }
 
 GPUObject::~GPUObject()
 {
-    if (graphics)
-        graphics->RemoveGPUObject(this);
+    if (_graphics)
+        _graphics->RemoveGPUObject(this);
 }
 
 void GPUObject::Release()

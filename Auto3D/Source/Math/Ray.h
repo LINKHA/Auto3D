@@ -16,9 +16,9 @@ class AUTO_API Ray
 {
 public:
     /// Ray origin.
-    Vector3 origin;
+    Vector3 _origin;
     /// Ray direction.
-    Vector3 direction;
+    Vector3 _direction;
     
     /// Construct undefined ray.
     Ray()
@@ -27,8 +27,8 @@ public:
     
     /// Copy-construct.
     Ray(const Ray& ray) :
-        origin(ray.origin),
-        direction(ray.direction)
+        _origin(ray._origin),
+        _direction(ray._direction)
     {
     }
     
@@ -41,28 +41,28 @@ public:
     /// Assign from another ray.
     Ray& operator = (const Ray& rhs)
     {
-        origin = rhs.origin;
-        direction = rhs.direction;
+        _origin = rhs._origin;
+        _direction = rhs._direction;
         return *this;
     }
     
     /// Check for equality with another ray without epsilon.
-    bool operator == (const Ray& rhs) const { return origin == rhs.origin && direction == rhs.direction; }
+    bool operator == (const Ray& rhs) const { return _origin == rhs._origin && _direction == rhs._direction; }
     /// Check for inequality with another ray without epsilon.
     bool operator != (const Ray& rhs) const { return !(*this == rhs); }
     
     /// Define from origin and direction. The direction will be normalized.
-    void Define(const Vector3& origin_, const Vector3& direction_)
+    void Define(const Vector3& origin, const Vector3& direction)
     {
-        origin = origin_;
-        direction = direction_.Normalized();
+        _origin = origin;
+        _direction = direction.Normalized();
     }
     
     /// Project a point on the ray.
     Vector3 Project(const Vector3& point) const
     {
-        Vector3 offset = point - origin;
-        return origin + offset.DotProduct(direction) * direction;
+        Vector3 offset = point - _origin;
+        return _origin + offset.DotProduct(_direction) * _direction;
     }
 
     /// Return distance of a point from the ray.
@@ -73,7 +73,7 @@ public:
     }
 
     /// Test for equality with another ray with epsilon.
-    bool Equals(const Ray& ray) const { return origin.Equals(ray.origin) && direction.Equals(ray.direction); }
+    bool Equals(const Ray& ray) const { return _origin.Equals(ray._origin) && _direction.Equals(ray._direction); }
     
     /// Return closest point to another ray.
     Vector3 ClosestPoint(const Ray& ray) const;

@@ -14,10 +14,10 @@ namespace Auto3D
 {
 
 ConstantBuffer::ConstantBuffer() :
-    buffer(0),
-    byteSize(0),
-    usage(USAGE_DEFAULT),
-    dirty(false)
+    _buffer(0),
+    _byteSize(0),
+    _usage(USAGE_DEFAULT),
+    _dirty(false)
 {
 }
 
@@ -28,35 +28,35 @@ ConstantBuffer::~ConstantBuffer()
 
 void ConstantBuffer::Release()
 {
-    if (graphics)
+    if (_graphics)
     {
         for (size_t i = 0; i < MAX_SHADER_STAGES; ++i)
         {
             for (size_t j = 0; j < MAX_CONSTANT_BUFFERS; ++j)
             {
-                if (graphics->GetConstantBuffer((ShaderStage)i, j) == this)
-                    graphics->SetConstantBuffer((ShaderStage)i, j, 0);
+                if (_graphics->GetConstantBuffer((ShaderStage)i, j) == this)
+                    _graphics->SetConstantBuffer((ShaderStage)i, j, 0);
             }
         }
     }
 
-    if (buffer)
+    if (_buffer)
     {
-        if (graphics && graphics->BoundUBO() == buffer)
-            graphics->BindUBO(0);
+        if (_graphics && _graphics->BoundUBO() == _buffer)
+            _graphics->BindUBO(0);
 
-        glDeleteBuffers(1, &buffer);
-        buffer = 0;
+        glDeleteBuffers(1, &_buffer);
+        _buffer = 0;
     }
 }
 
 void ConstantBuffer::Recreate()
 {
-    if (constants.Size())
+    if (_constants.Size())
     {
         // Make a copy of the current constants, as they are passed by reference and manipulated by Define()
-        Vector<Constant> srcConstants = constants;
-        Define(usage, srcConstants);
+        Vector<Constant> srcConstants = _constants;
+        Define(_usage, srcConstants);
         Apply();
     }
 }
@@ -64,44 +64,44 @@ void ConstantBuffer::Recreate()
 bool ConstantBuffer::SetData(const void* data, bool copyToShadow)
 {
     if (copyToShadow)
-        memcpy(shadowData.Get(), data, byteSize);
+        memcpy(_shadowData.Get(), data, _byteSize);
 
-    if (usage == USAGE_IMMUTABLE)
+    if (_usage == USAGE_IMMUTABLE)
     {
-        if (!buffer)
+        if (!_buffer)
             return Create(data);
         else
         {
-            LOGERROR("Apply can only be called once on an immutable constant buffer");
+            ErrorString("Apply can only be called once on an immutable constant buffer");
             return false;
         }
     }
 
-    if (buffer)
+    if (_buffer)
     {
-        graphics->BindUBO(buffer);
-        glBufferData(GL_UNIFORM_BUFFER, byteSize, data, usage != USAGE_IMMUTABLE ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+        _graphics->BindUBO(_buffer);
+        glBufferData(GL_UNIFORM_BUFFER, _byteSize, data, _usage != USAGE_IMMUTABLE ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
     }
 
-    dirty = false;
+    _dirty = false;
     return true;
 }
 
 bool ConstantBuffer::Create(const void* data)
 {
-    dirty = false;
+    _dirty = false;
 
-    if (graphics && graphics->IsInitialized())
+    if (_graphics && _graphics->IsInitialized())
     {
-        glGenBuffers(1, &buffer);
-        if (!buffer)
+        glGenBuffers(1, &_buffer);
+        if (!_buffer)
         {
-            LOGERROR("Failed to create constant buffer");
+            ErrorString("Failed to create constant buffer");
             return false;
         }
 
-        graphics->BindUBO(buffer);
-        glBufferData(GL_UNIFORM_BUFFER, byteSize, data, usage != USAGE_IMMUTABLE ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+        _graphics->BindUBO(_buffer);
+        glBufferData(GL_UNIFORM_BUFFER, _byteSize, data, _usage != USAGE_IMMUTABLE ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
     }
 
     return true;

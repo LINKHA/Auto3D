@@ -25,7 +25,7 @@ public:
 	*/
 	virtual void Start() { }
 	/**
-	* @brief : This function is mainly used to handle non-rendering operations, running once per frame
+	* @brief : This function is mainly used to _handle non-rendering operations, running once per frame
 	*/
 	virtual void Update() { }
 	/**

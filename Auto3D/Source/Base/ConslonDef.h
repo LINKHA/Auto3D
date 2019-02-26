@@ -14,9 +14,9 @@
 #	else
 #		define DETECT_MEMORY_LEAKS() \
 		do{\
-			int flags = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG); \
-			flags |= _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF;\
-			_CrtSetDbgFlag(flags);\
+			int _flags = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG); \
+			_flags |= _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF;\
+			_CrtSetDbgFlag(_flags);\
 		}while(0)
 #	endif
 #else

@@ -270,11 +270,11 @@ enum ScancodeKey
 	KEY_AUDIOFASTFORWARD = TO_KEYCODE(SDL_SCANCODE_AUDIOFASTFORWARD)
 };
 
-/// Left mouse button index.
+/// Left mouse _button index.
 static const unsigned MOUSEB_LEFT = 0;
-/// Middle mouse button index.
+/// Middle mouse _button index.
 static const unsigned MOUSEB_MIDDLE = 1;
-/// Right mouse button index.
+/// Right mouse _button index.
 static const unsigned MOUSEB_RIGHT = 2;
 
 /// Finger touch.
@@ -282,110 +282,110 @@ struct AUTO_API Touch
 {
     /// Construct.
     Touch() :
-        delta(IntVector2::ZERO),
-        lastDelta(IntVector2::ZERO)
+        _delta(IntVector2::ZERO),
+        _lastDelta(IntVector2::ZERO)
     {
     }
 
-    /// Zero-based touch id.
-    unsigned id;
-    /// Operating system id, which may be an arbitrary number.
-    unsigned internalId;
-    /// Position within window.
-    IntVector2 position;
-    /// Accumulated delta on this frame.
-    IntVector2 delta;
-    /// Delta from last move event.
-    IntVector2 lastDelta;
-    /// Current finger pressure.
-    float pressure;
+    /// Zero-based touch _id.
+    unsigned _id;
+    /// Operating system _id, which may be an arbitrary number.
+    unsigned _internalId;
+    /// Position within _window.
+    IntVector2 _position;
+    /// Accumulated _delta on this frame.
+    IntVector2 _delta;
+    /// Delta from last move _event.
+    IntVector2 _lastDelta;
+    /// Current finger _pressure.
+    float _pressure;
 };
 
-/// Key press or release event.
+/// Key press or release _event.
 class AUTO_API KeyEvent : public Event
 {
 public:
     /// Key code.
-    unsigned keyCode;
-    /// Raw key code.
-    unsigned rawKeyCode;
+    unsigned _keyCode;
+    /// Raw _key code.
+    unsigned _rawKeyCode;
     /// Pressed flag.
-    bool pressed;
+    bool _pressed;
     /// Repeat flag.
-    bool repeat;
+    bool _repeat;
 };
 
-/// Unicode character input event.
+/// Unicode character input _event.
 class AUTO_API CharInputEvent : public Event
 {
 public:
     /// Unicode codepoint.
-    unsigned unicodeChar;
+    unsigned _unicodeChar;
 };
 
-/// Mouse button press or release event.
+/// Mouse _button press or release _event.
 class AUTO_API MouseButtonEvent : public Event
 {
 public:
     /// Button index.
-    unsigned button;
-    /// Bitmask of currently held down buttons.
-    unsigned buttons;
+    unsigned _button;
+    /// Bitmask of currently held down _buttons.
+    unsigned _buttons;
     /// Pressed flag.
-    bool pressed;
-    /// Mouse position within window.
-    IntVector2 position;
+    bool _pressed;
+    /// Mouse _position within _window.
+    IntVector2 _position;
 };
 
-/// Mouse move event.
+/// Mouse move _event.
 class AUTO_API MouseMoveEvent : public Event
 {
 public:
-    /// Bitmask of currently held down buttons.
-    unsigned buttons;
-    /// Mouse position within window.
-    IntVector2 position;
-    /// Delta from last position.
-    IntVector2 delta;
+    /// Bitmask of currently held down _buttons.
+    unsigned _buttons;
+    /// Mouse _position within _window.
+    IntVector2 _position;
+    /// Delta from last _position.
+    IntVector2 _delta;
 };
 
-/// Touch begin event.
+/// Touch begin _event.
 class AUTO_API TouchBeginEvent : public Event
 {
 public:
-    /// Zero-based touch id.
-    unsigned id;
-    /// Touch position within window.
-    IntVector2 position;
-    /// Finger pressure between 0-1.
-    float pressure;
+    /// Zero-based touch _id.
+    unsigned _id;
+    /// Touch _position within _window.
+    IntVector2 _position;
+    /// Finger _pressure between 0-1.
+    float _pressure;
 };
 
-/// Touch move event.
+/// Touch move _event.
 class AUTO_API TouchMoveEvent : public Event
 {
 public:
-    /// Zero-based touch id.
-    unsigned id;
-    /// Touch position within window.
-    IntVector2 position;
-    /// Delta from last position.
-    IntVector2 delta;
-    /// Finger pressure between 0-1.
-    float pressure;
+    /// Zero-based touch _id.
+    unsigned _id;
+    /// Touch _position within _window.
+    IntVector2 _position;
+    /// Delta from last _position.
+    IntVector2 _delta;
+    /// Finger _pressure between 0-1.
+    float _pressure;
 };
 
-/// Touch end event.
+/// Touch end _event.
 class AUTO_API TouchEndEvent : public Event
 {
 public:
-    /// Zero-based touch id.
-    unsigned id;
-    /// Touch position within window.
-    IntVector2 position;
+    /// Zero-based touch _id.
+    unsigned _id;
+    /// Touch _position within _window.
+    IntVector2 _position;
 };
 
-/// %Input subsystem for reading keyboard/mouse/etc. input. Updated from OS window messages by the Window class.
+/// %Input subsystem for reading keyboard/mouse/etc. input. Updated from OS _window messages by the Window class.
 class AUTO_API Input : public Object
 {
     REGISTER_OBJECT_CLASS(Input, Object)
@@ -396,85 +396,85 @@ public:
     /// Destruct.
     ~Input();
 
-    /// Poll the window (if any) for OS window messages and update input state.
+    /// Poll the _window (if any) for OS _window messages and update input state.
     void Update();
 
-    /// Return whether key is down by key code.
+    /// Return whether _key is down by _key code.
     bool IsKeyDown(unsigned keyCode) const;
-    /// Return whether key is down by raw key code.
+    /// Return whether _key is down by raw _key code.
     bool IsKeyDownRaw(unsigned rawKeyCode) const;
-    /// Return whether key was pressed on this frame by key code.
+    /// Return whether _key was _pressed on this frame by _key code.
     bool IsKeyPress(unsigned keyCode) const;
-    /// Return whether key was pressed on this frame by raw key code.
+    /// Return whether _key was _pressed on this frame by raw _key code.
     bool IsKeyPressRaw(unsigned rawKeyCode) const;
-    /// Return current mouse position.
+    /// Return current mouse _position.
     const IntVector2& MousePosition() const;
     /// Return accumulated mouse movement since last frame.
-    IntVector2 MouseMove() const { return mouseMove; }
-    /// Return pressed down mouse buttons bitmask.
-    unsigned MouseButtons() const { return mouseButtons; }
-    /// Return whether a mouse button is down.
+    IntVector2 MouseMove() const { return _mouseMove; }
+    /// Return _pressed down mouse _buttons bitmask.
+    unsigned MouseButtons() const { return _mouseButtons; }
+    /// Return whether a mouse _button is down.
     bool IsMouseButtonDown(unsigned button) const;
-    /// Return whether a mouse button was pressed on this frame.
+    /// Return whether a mouse _button was _pressed on this frame.
     bool IsMouseButtonPress(unsigned button) const;
-    /// Return number of active touches.
-    size_t NumTouches() const { return touches.Size(); }
-    /// Return an active touch by id, or null if not found.
+    /// Return number of active _touches.
+    size_t NumTouches() const { return _touches.Size(); }
+    /// Return an active touch by _id, or null if not found.
     const Touch* FindTouch(unsigned id) const;
-    /// Return all touches.
-    const Vector<Touch>& Touches() const { return touches; }
+    /// Return all _touches.
+    const Vector<Touch>& Touches() const { return _touches; }
 
-    /// React to a key press or release. Called by window message handling.
+    /// React to a _key press or release. Called by _window message handling.
     void OnKey(unsigned keyCode, unsigned rawKeyCode, bool pressed);
-    /// React to char input. Called by window message handling.
+    /// React to char input. Called by _window message handling.
     void OnChar(unsigned unicodeChar);
-    /// React to a mouse move. Called by window message handling.
+    /// React to a mouse move. Called by _window message handling.
     void OnMouseMove(const IntVector2& position, const IntVector2& delta);
 
 	void OnMouseWheel(const IntVector2& delta);
-    /// React to a mouse button. Called by window message handling.
+    /// React to a mouse _button. Called by _window message handling.
     void OnMouseButton(unsigned button, bool pressed);
-    /// React to a touch. Called by window message handling.
+    /// React to a touch. Called by _window message handling.
     void OnTouch(unsigned internalId, bool pressed, const IntVector2& position, float pressure);
-    /// React to gaining focus. Called by window message handling.
+    /// React to gaining _focus. Called by _window message handling.
     void OnGainFocus();
-    /// React to losing focus. Called by window message handling.
+    /// React to losing _focus. Called by _window message handling.
     void OnLoseFocus();
 
-    /// Key press/release event.
+    /// Key press/release _event.
     KeyEvent keyEvent;
-    /// Unicode char input event.
+    /// Unicode char input _event.
     CharInputEvent charInputEvent;
-    /// Mouse button press/release event.
+    /// Mouse _button press/release _event.
     MouseButtonEvent mouseButtonEvent;
-    /// Mouse move event.
+    /// Mouse move _event.
     MouseMoveEvent mouseMoveEvent;
-    /// Touch begin event.
+    /// Touch begin _event.
     TouchBeginEvent touchBeginEvent;
-    /// Touch move event.
+    /// Touch move _event.
     TouchMoveEvent touchMoveEvent;
-    /// Touch end event.
+    /// Touch end _event.
     TouchEndEvent touchEndEvent;
 
 private:
     /// Key code held down status.
-    HashMap<unsigned, bool> keyDown;
-    /// Key code pressed status.
-    HashMap<unsigned, bool> keyPressed;
-    /// Raw key code held down status.
-    HashMap<unsigned, bool> rawKeyDown;
-    /// Raw key code pressed status.
-    HashMap<unsigned, bool> rawKeyPress;
-    /// Active touches.
-    Vector<Touch> touches;
+    HashMap<unsigned, bool> _keyDown;
+    /// Key code _pressed status.
+    HashMap<unsigned, bool> _keyPressed;
+    /// Raw _key code held down status.
+    HashMap<unsigned, bool> _rawKeyDown;
+    /// Raw _key code _pressed status.
+    HashMap<unsigned, bool> _rawKeyPress;
+    /// Active _touches.
+    Vector<Touch> _touches;
     /// Accumulated mouse move since last frame.
-    IntVector2 mouseMove;
+    IntVector2 _mouseMove;
 
-	IntVector2 mouseWhellOffset;
-    /// Mouse buttons bitmask.
-    unsigned mouseButtons;
-    /// Mouse buttons pressed bitmask.
-    unsigned mouseButtonsPressed;
+	IntVector2 _mouseWhellOffset;
+    /// Mouse _buttons bitmask.
+    unsigned _mouseButtons;
+    /// Mouse _buttons _pressed bitmask.
+    unsigned _mouseButtonsPressed;
 };
 
 }

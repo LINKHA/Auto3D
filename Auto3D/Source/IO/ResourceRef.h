@@ -12,9 +12,9 @@ class Stream;
 struct AUTO_API ResourceRef
 {
     /// Resource type.
-    StringHash type;
+    StringHash _type;
     /// Resource name.
-    String name;
+    String _name;
 
     /// Construct.
     ResourceRef()
@@ -23,8 +23,8 @@ struct AUTO_API ResourceRef
 
     // Copy-construct.
     ResourceRef(const ResourceRef& ref) :
-        type(ref.type),
-        name(ref.name)
+        _type(ref._type),
+        _name(ref._name)
     {
     }
 
@@ -42,8 +42,8 @@ struct AUTO_API ResourceRef
     
     /// Construct with type and resource name.
     ResourceRef(StringHash type, const String& name_ = String::EMPTY) :
-        type(type),
-        name(name_)
+        _type(type),
+        _name(name_)
     {
     }
 
@@ -60,7 +60,7 @@ struct AUTO_API ResourceRef
     void ToBinary(Stream& dest) const;
 
     /// Test for equality with another reference.
-    bool operator == (const ResourceRef& rhs) const { return type == rhs.type && name == rhs.name; }
+    bool operator == (const ResourceRef& rhs) const { return _type == rhs._type && _name == rhs._name; }
     /// Test for inequality with another reference.
     bool operator != (const ResourceRef& rhs) const { return !(*this == rhs); }
 };
@@ -69,9 +69,9 @@ struct AUTO_API ResourceRef
 struct AUTO_API ResourceRefList
 {
     /// Resource type.
-    StringHash type;
+    StringHash _type;
     /// List of resource names.
-    Vector<String> names;
+    Vector<String> _names;
 
     /// Construct.
     ResourceRefList()
@@ -80,8 +80,8 @@ struct AUTO_API ResourceRefList
 
     // Copy-construct.
     ResourceRefList(const ResourceRefList& refList) :
-        type(refList.type),
-        names(refList.names)
+        _type(refList._type),
+        _names(refList._names)
     {
     }
 
@@ -98,9 +98,9 @@ struct AUTO_API ResourceRefList
     }
 
     /// Construct with type and name list.
-    ResourceRefList(StringHash type, const Vector<String>& names_ = Vector<String>()) :
-        type(type),
-        names(names_)
+    ResourceRefList(StringHash type, const Vector<String>& names = Vector<String>()) :
+        _type(type),
+        _names(names)
     {
     }
 
@@ -117,7 +117,7 @@ struct AUTO_API ResourceRefList
     void ToBinary(Stream& dest) const;
 
     /// Test for equality with another reference list.
-    bool operator == (const ResourceRefList& rhs) const { return type == rhs.type && names == rhs.names; }
+    bool operator == (const ResourceRefList& rhs) const { return _type == rhs._type && _names == rhs._names; }
     /// Test for inequality with another reference list.
     bool operator != (const ResourceRefList& rhs) const { return !(*this == rhs); }
 };

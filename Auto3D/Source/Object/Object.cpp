@@ -6,8 +6,8 @@
 namespace Auto3D
 {
 
-HashMap<StringHash, Object*> Object::subsystems;
-HashMap<StringHash, AutoPtr<ObjectFactory> > Object::factories;
+HashMap<StringHash, Object*> Object::_subsystems;
+HashMap<StringHash, AutoPtr<ObjectFactory> > Object::_factories;
 
 ObjectFactory::~ObjectFactory()
 {
@@ -38,7 +38,7 @@ void Object::RegisterSubsystem(Object* subsystem)
     if (!subsystem)
         return;
     
-    subsystems[subsystem->Type()] = subsystem;
+    _subsystems[subsystem->Type()] = subsystem;
 }
 
 void Object::RemoveSubsystem(Object* subsystem)
@@ -46,20 +46,20 @@ void Object::RemoveSubsystem(Object* subsystem)
     if (!subsystem)
         return;
     
-    auto it = subsystems.Find(subsystem->Type());
-    if (it != subsystems.End() && it->second == subsystem)
-        subsystems.Erase(it);
+    auto it = _subsystems.Find(subsystem->Type());
+    if (it != _subsystems.End() && it->second == subsystem)
+        _subsystems.Erase(it);
 }
 
 void Object::RemoveSubsystem(StringHash type)
 {
-    subsystems.Erase(type);
+    _subsystems.Erase(type);
 }
 
-Object* Object::Subsystem(StringHash type)
+Object* Object::GetSubsystem(StringHash type)
 {
-    auto it = subsystems.Find(type);
-    return it != subsystems.End() ? it->second : nullptr;
+    auto it = _subsystems.Find(type);
+    return it != _subsystems.End() ? it->second : nullptr;
 }
 
 void Object::RegisterFactory(ObjectFactory* factory)
@@ -67,19 +67,19 @@ void Object::RegisterFactory(ObjectFactory* factory)
     if (!factory)
         return;
     
-    factories[factory->Type()] = factory;
+    _factories[factory->Type()] = factory;
 }
 
 Object* Object::Create(StringHash type)
 {
-    auto it = factories.Find(type);
-    return it != factories.End() ? it->second->Create() : nullptr;
+    auto it = _factories.Find(type);
+    return it != _factories.End() ? it->second->Create() : nullptr;
 }
 
 const String& Object::TypeNameFromType(StringHash type)
 {
-    auto it = factories.Find(type);
-    return it != factories.End() ? it->second->TypeName() : String::EMPTY;
+    auto it = _factories.Find(type);
+    return it != _factories.End() ? it->second->TypeName() : String::EMPTY;
 }
 
 }

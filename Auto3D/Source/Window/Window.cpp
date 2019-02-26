@@ -15,27 +15,27 @@ namespace Auto3D
 {
 
 Window::Window() :
-	handle(nullptr),
-	title("Auto3D Window"),
-	size(IntVector2::ZERO),
-	savedPosition(IntVector2(M_MIN_INT, M_MIN_INT)),
-	mousePosition(IntVector2::ZERO),
-	mouseWheelOffset(IntVector2::ZERO),
-	mouseMoveWheel(IntVector2::ZERO),
-	windowStyle(0),
-	minimized(false),
-	focus(false),
-	resizable(false),
-	fullscreen(false),
-	inResize(false),
-	mouseHide(false),
-	mouseLock(false),
-	mouseVisibleInternal(true)
+	_handle(nullptr),
+	_title("Auto3D Window"),
+	_size(IntVector2::ZERO),
+	_savedPosition(IntVector2(M_MIN_INT, M_MIN_INT)),
+	_mousePosition(IntVector2::ZERO),
+	_mouseWheelOffset(IntVector2::ZERO),
+	_mouseMoveWheel(IntVector2::ZERO),
+	_windowStyle(0),
+	_minimized(false),
+	_focus(false),
+	_resizable(false),
+	_fullscreen(false),
+	_inResize(false),
+	_mouseHide(false),
+	_mouseLock(false),
+	_mouseVisibleInternal(true)
 {
 	RegisterSubsystem(this);
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
-		LOGERROR("Couldn't initialize SDL");
+		ErrorString("Couldn't initialize SDL");
 	atexit(SDL_Quit);
 	SDL_GL_LoadLibrary(NULL);
 
@@ -55,31 +55,31 @@ Window::~Window()
 }
 void Window::SetTitle(const String& newTitle)
 {
-	title = newTitle;
+	_title = newTitle;
 }
 
-bool Window::SetSize(const IntVector2& size_, bool fullscreen_, bool resizable_, bool borderless, bool highDPI)
+bool Window::SetSize(const IntVector2& size, bool fullscreen, bool resizable, bool borderless, bool highDPI)
 {
-	size = size_;
-	// Create the window
+	_size = size;
+	// Create the _window
 	unsigned flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
-	if (fullscreen_)
+	if (fullscreen)
 		flags |= SDL_WINDOW_FULLSCREEN;
-	if (resizable_)
+	if (resizable)
 		flags |= SDL_WINDOW_RESIZABLE;
 	if (borderless)
 		flags |= SDL_WINDOW_BORDERLESS;
 
 
-	// The position size will be reset later
-	handle = SDL_CreateWindow(
-		title.CString(),
+	// The _position _size will be reset later
+	_handle = SDL_CreateWindow(
+		_title.CString(),
 		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-		size_.x, size_.y, flags
+		size._x, size._y, flags
 	);
 
-	if (handle == NULL)
-		LOGERROR("Couldn't set video mode");
+	if (_handle == NULL)
+		ErrorString("Couldn't set video mode");
 
 	return true;
 }
@@ -91,19 +91,19 @@ void Window::SetPosition(const IntVector2& position)
 
 void Window::SetMouseHide(bool enable)
 {
-	if (enable != mouseHide)
+	if (enable != _mouseHide)
 	{
-		mouseHide = enable;
+		_mouseHide = enable;
 		
 	}
 }
 
 void Window::SetMouseLock(bool enable)
 {
-	if (enable != mouseLock)
+	if (enable != _mouseLock)
 	{
-		mouseLock = enable;
-		SDL_SetWindowGrab(handle, (SDL_bool)enable);
+		_mouseLock = enable;
+		SDL_SetWindowGrab(_handle, (SDL_bool)enable);
 	}
 }
 
@@ -134,7 +134,7 @@ void Window::Restore()
 
 void Window::PumpMessages()
 {
-	if (!handle)
+	if (!_handle)
 		return;
 
 	SDL_Event evt;
@@ -153,7 +153,7 @@ IntVector2 Window::Position() const
 
 bool Window::OnWindowMessage(void* sdlEvent)
 {
-	auto* input = Subsystem<Input>();
+	auto* input = GetSubsystem<Input>();
 
 	SDL_Event& evt = *static_cast<SDL_Event*>(sdlEvent);
 	switch (evt.type)
@@ -169,10 +169,10 @@ bool Window::OnWindowMessage(void* sdlEvent)
 	case SDL_MOUSEMOTION:
 		int x, y;
 		SDL_GetMouseState(&x, &y);
-		mousePosition.x = x;
-		mousePosition.y = y;
+		_mousePosition._x = x;
+		_mousePosition._y = y;
 		if (input)
-			input->OnMouseMove(mousePosition, IntVector2(evt.motion.xrel, evt.motion.yrel));
+			input->OnMouseMove(_mousePosition, IntVector2(evt.motion.xrel, evt.motion.yrel));
 		//_isMouseMove = true;
 		break;
 	case SDL_MOUSEBUTTONDOWN:
@@ -198,12 +198,12 @@ bool Window::OnWindowMessage(void* sdlEvent)
 
 		case SDL_WINDOWEVENT_RESIZED:
 			int x, y;
-			SDL_GetWindowSize(handle, &x, &y);
+			SDL_GetWindowSize(_handle, &x, &y);
 			SendEvent(resizeEvent);
-			if (IntVector2(x, y) != size) 
+			if (IntVector2(x, y) != _size) 
 			{
-				size = IntVector2(x, y);
-				resizeEvent.size = IntVector2(x, y);
+				_size = IntVector2(x, y);
+				resizeEvent._size = IntVector2(x, y);
 				SendEvent(resizeEvent);
 			}
 			break;
@@ -220,7 +220,7 @@ bool Window::OnWindowMessage(void* sdlEvent)
 		break;
 	}
 	//Handles whether the mouse is visible
-	SDL_SetRelativeMouseMode((SDL_bool)mouseHide);
+	SDL_SetRelativeMouseMode((SDL_bool)_mouseHide);
 
 	return true;
 }

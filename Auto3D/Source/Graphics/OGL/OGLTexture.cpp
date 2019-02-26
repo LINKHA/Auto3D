@@ -120,11 +120,11 @@ static const unsigned glWrapModes[] =
 };
 
 Texture::Texture() :
-    texture(0),
-    type(TEX_2D),
-    usage(USAGE_DEFAULT),
-    size(IntVector2::ZERO),
-    format(FMT_NONE)
+    _texture(0),
+    _type(TEX_2D),
+    _usage(USAGE_DEFAULT),
+    _size(IntVector2::ZERO),
+    _format(FMT_NONE)
 {
 }
 
@@ -135,42 +135,42 @@ Texture::~Texture()
 
 void Texture::Release()
 {
-    if (graphics)
+    if (_graphics)
     {
         for (size_t i = 0; i < MAX_TEXTURE_UNITS; ++i)
         {
-            if (graphics->GetTexture(i) == this)
-                graphics->SetTexture(i, 0);
+            if (_graphics->GetTexture(i) == this)
+                _graphics->SetTexture(i, 0);
         }
 
-        if (usage == USAGE_RENDERTARGET)
+        if (_usage == USAGE_RENDERTARGET)
         {
             bool clear = false;
 
             for (size_t i = 0; i < MAX_RENDERTARGETS; ++i)
             {
-                if (graphics->RenderTarget(i) == this)
+                if (_graphics->RenderTarget(i) == this)
                 {
                     clear = true;
                     break;
                 }
             }
 
-            if (!clear && graphics->DepthStencil() == this)
+            if (!clear && _graphics->DepthStencil() == this)
                 clear = true;
 
             if (clear)
-                graphics->ResetRenderTargets();
+                _graphics->ResetRenderTargets();
 
             // Clear from all FBO's
-            graphics->CleanupFramebuffers(this);
+            _graphics->CleanupFramebuffers(this);
         }
     }
 
-    if (texture)
+    if (_texture)
     {
-        glDeleteTextures(1, &texture);
-        texture = 0;
+        glDeleteTextures(1, &_texture);
+        _texture = 0;
     }
 }
 
@@ -179,17 +179,17 @@ void Texture::Recreate()
     // If has a name, attempt to reload through the resource cache
     if (Name().Length())
     {
-        ResourceCache* cache = Subsystem<ResourceCache>();
+        ResourceCache* cache = GetSubsystem<ResourceCache>();
         if (cache && cache->ReloadResource(this))
             return;
     }
 
     // If failed to reload, recreate the texture without data and mark data lost
-    Define(type, usage, size, format, numLevels);
+    Define(_type, _usage, _size, _format, _numLevels);
     SetDataLost(true);
 }
 
-bool Texture::Define(TextureType type_, ResourceUsage usage_, const IntVector2& size_, ImageFormat format_, size_t numLevels_, const ImageLevel* initialData)
+bool Texture::Define(TextureType type_, ResourceUsage usage, const IntVector2& size, ImageFormat format, size_t numLevels, const ImageLevel* initialData)
 {
     PROFILE(DefineTexture);
 
@@ -197,168 +197,168 @@ bool Texture::Define(TextureType type_, ResourceUsage usage_, const IntVector2& 
 
     if (type_ != TEX_2D && type_ != TEX_CUBE)
     {
-        LOGERROR("Only 2D textures and cube maps supported for now");
+        ErrorString("Only 2D textures and cube maps supported for now");
         return false;
     }
-    if (format_ > FMT_DXT5)
+    if (format > FMT_DXT5)
     {
-        LOGERROR("ETC1 and PVRTC formats are unsupported");
+        ErrorString("ETC1 and PVRTC formats are unsupported");
         return false;
     }
-    if (type_ == TEX_CUBE && size_.x != size_.y)
+    if (type_ == TEX_CUBE && size._x != size._y)
     {
-        LOGERROR("Cube map must have square dimensions");
+        ErrorString("Cube map must have square dimensions");
         return false;
     }
 
-    if (numLevels_ < 1)
-        numLevels_ = 1;
+    if (numLevels < 1)
+        numLevels = 1;
 
-    type = type_;
-    usage = usage_;
+    _type = type_;
+    _usage = usage;
 
-    if (graphics && graphics->IsInitialized())
+    if (_graphics && _graphics->IsInitialized())
     {
-        glGenTextures(1, &texture);
-        if (!texture)
+        glGenTextures(1, &_texture);
+        if (!_texture)
         {
-            size = IntVector2::ZERO;
-            format = FMT_NONE;
-            numLevels = 0;
+            _size = IntVector2::ZERO;
+            _format = FMT_NONE;
+            _numLevels = 0;
 
-            LOGERROR("Failed to create texture");
+            ErrorString("Failed to create texture");
             return false;
         }
 
         // Ensure the texture is bound for creation
-        graphics->SetTexture(0, this);
+        _graphics->SetTexture(0, this);
 
-        size = size_;
-        format = format_;
-        numLevels = numLevels_;
+        _size = size;
+        _format = format;
+        _numLevels = numLevels;
 
         // If not compressed and no initial data, create the initial level 0 texture with null data
         // Clear previous error first to be able to check whether the data was successfully set
         glGetError();
         if (!IsCompressed() && !initialData)
         {
-            if (type == TEX_2D)
-                glTexImage2D(glTargets[type], 0, glInternalFormats[format], size.x, size.y, 0, glFormats[format], glDataTypes[format], 0);
-            else if (type == TEX_CUBE)
+            if (_type == TEX_2D)
+                glTexImage2D(glTargets[_type], 0, glInternalFormats[_format], _size._x, _size._y, 0, glFormats[_format], glDataTypes[_format], 0);
+            else if (_type == TEX_CUBE)
             {
                 for (size_t i = 0; i < MAX_CUBE_FACES; ++i)
-                    glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, glInternalFormats[format], size.x, size.y, 0, glFormats[format], glDataTypes[format], 0);
+                    glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, glInternalFormats[_format], _size._x, _size._y, 0, glFormats[_format], glDataTypes[_format], 0);
             }
         }
 
         if (initialData)
         {
             // Hack for allowing immutable texture to set initial data
-            usage = USAGE_DEFAULT;
+            _usage = USAGE_DEFAULT;
             size_t idx = 0;
             for (size_t i = 0; i < NumFaces(); ++i)
             {
-                for (size_t j = 0; j < numLevels; ++j)
-                    SetData(i, j, IntRect(0, 0, Max(size.x >> j, 1), Max(size.y >> j, 1)), initialData[idx++]);
+                for (size_t j = 0; j < _numLevels; ++j)
+                    SetData(i, j, IntRect(0, 0, Max(_size._x >> j, 1), Max(_size._y >> j, 1)), initialData[idx++]);
             }
-            usage = usage_;
+            _usage = usage;
         }
 
         // If we have an error now, the texture was not created correctly
         if (glGetError() != GL_NO_ERROR)
         {
             Release();
-            size = IntVector2::ZERO;
-            format = FMT_NONE;
-            numLevels = 0;
+            _size = IntVector2::ZERO;
+            _format = FMT_NONE;
+            _numLevels = 0;
 
-            LOGERROR("Failed to create texture");
+            ErrorString("Failed to create texture");
             return false;
         }
 
-        glTexParameteri(glTargets[type], GL_TEXTURE_BASE_LEVEL, 0);
-        glTexParameteri(glTargets[type], GL_TEXTURE_MAX_LEVEL, (unsigned)numLevels - 1);
-        LOGDEBUGF("Created texture width %d height %d format %d numLevels %d", size.x, size.y, (int)format, numLevels);
+        glTexParameteri(glTargets[_type], GL_TEXTURE_BASE_LEVEL, 0);
+        glTexParameteri(glTargets[_type], GL_TEXTURE_MAX_LEVEL, (unsigned)_numLevels - 1);
+        LogStringF("Created texture width %d height %d format %d numLevels %d", _size._x, _size._y, (int)_format, _numLevels);
     }
 
     return true;
 }
 
-bool Texture::DefineSampler(TextureFilterMode filter_, TextureAddressMode u, TextureAddressMode v, TextureAddressMode w, unsigned maxAnisotropy_, float minLod_, float maxLod_, const Color& borderColor_)
+bool Texture::DefineSampler(TextureFilterMode filter_, TextureAddressMode u, TextureAddressMode v, TextureAddressMode w, unsigned maxAnisotropy_, float minLod_, float maxLod_, const Color& borderColor)
 {
     PROFILE(DefineTextureSampler);
 
-    filter = filter_;
-    addressModes[0] = u;
-    addressModes[1] = v;
-    addressModes[2] = w;
-    maxAnisotropy = maxAnisotropy_;
-    minLod = minLod_;
-    maxLod = maxLod_;
-    borderColor = borderColor_;
+    _filter = filter_;
+    _addressModes[0] = u;
+    _addressModes[1] = v;
+    _addressModes[2] = w;
+    _maxAnisotropy = maxAnisotropy_;
+    _minLod = minLod_;
+    _maxLod = maxLod_;
+    _borderColor = borderColor;
 
-    if (graphics && graphics->IsInitialized())
+    if (_graphics && _graphics->IsInitialized())
     {
-        if (!texture)
+        if (!_texture)
         {
-            LOGERROR("On OpenGL texture must be defined before defining sampling parameters");
+            ErrorString("On OpenGL texture must be defined before defining sampling parameters");
             return false;
         }
 
         // Bind for defining sampling parameters
-        graphics->SetTexture(0, this);
+        _graphics->SetTexture(0, this);
 
-        switch (filter)
+        switch (_filter)
         {
         case FILTER_POINT:
         case COMPARE_POINT:
-            glTexParameteri(glTargets[type], GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-            glTexParameteri(glTargets[type], GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            glTexParameteri(glTargets[_type], GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameteri(glTargets[_type], GL_TEXTURE_MAG_FILTER, GL_NEAREST);
             break;
 
         case FILTER_BILINEAR:
         case COMPARE_BILINEAR:
-            if (numLevels < 2)
-                glTexParameteri(glTargets[type], GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            if (_numLevels < 2)
+                glTexParameteri(glTargets[_type], GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             else
-                glTexParameteri(glTargets[type], GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
-            glTexParameteri(glTargets[type], GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                glTexParameteri(glTargets[_type], GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+            glTexParameteri(glTargets[_type], GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             break;
 
         case FILTER_ANISOTROPIC:
         case FILTER_TRILINEAR:
         case COMPARE_ANISOTROPIC:
         case COMPARE_TRILINEAR:
-            if (numLevels < 2)
-                glTexParameteri(glTargets[type], GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            if (_numLevels < 2)
+                glTexParameteri(glTargets[_type], GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             else
-                glTexParameteri(glTargets[type], GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-            glTexParameteri(glTargets[type], GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                glTexParameteri(glTargets[_type], GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+            glTexParameteri(glTargets[_type], GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             break;
 
         default:
             break;
         }
 
-        glTexParameteri(glTargets[type], GL_TEXTURE_WRAP_S, glWrapModes[addressModes[0]]);
-        glTexParameteri(glTargets[type], GL_TEXTURE_WRAP_T, glWrapModes[addressModes[1]]);
-        glTexParameteri(glTargets[type], GL_TEXTURE_WRAP_R, glWrapModes[addressModes[2]]);
+        glTexParameteri(glTargets[_type], GL_TEXTURE_WRAP_S, glWrapModes[_addressModes[0]]);
+        glTexParameteri(glTargets[_type], GL_TEXTURE_WRAP_T, glWrapModes[_addressModes[1]]);
+        glTexParameteri(glTargets[_type], GL_TEXTURE_WRAP_R, glWrapModes[_addressModes[2]]);
 
-        glTexParameterf(glTargets[type], GL_TEXTURE_MAX_ANISOTROPY_EXT, filter == FILTER_ANISOTROPIC ?
-            maxAnisotropy : 1.0f);
+        glTexParameterf(glTargets[_type], GL_TEXTURE_MAX_ANISOTROPY_EXT, _filter == FILTER_ANISOTROPIC ?
+            _maxAnisotropy : 1.0f);
 
-        glTexParameterf(glTargets[type], GL_TEXTURE_MIN_LOD, minLod);
-        glTexParameterf(glTargets[type], GL_TEXTURE_MAX_LOD, maxLod);
+        glTexParameterf(glTargets[_type], GL_TEXTURE_MIN_LOD, _minLod);
+        glTexParameterf(glTargets[_type], GL_TEXTURE_MAX_LOD, _maxLod);
 
-        glTexParameterfv(glTargets[type], GL_TEXTURE_BORDER_COLOR, borderColor.Data());
+        glTexParameterfv(glTargets[_type], GL_TEXTURE_BORDER_COLOR, _borderColor.Data());
         
-        if (filter >= COMPARE_POINT)
+        if (_filter >= COMPARE_POINT)
         {
-            glTexParameteri(glTargets[type], GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
-            glTexParameteri(glTargets[type], GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
+            glTexParameteri(glTargets[_type], GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
+            glTexParameteri(glTargets[_type], GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
         }
         else
-            glTexParameteri(glTargets[type], GL_TEXTURE_COMPARE_MODE, GL_NONE);
+            glTexParameteri(glTargets[_type], GL_TEXTURE_COMPARE_MODE, GL_NONE);
     }
 
     return true;
@@ -368,62 +368,62 @@ bool Texture::SetData(size_t face, size_t level, IntRect rect, const ImageLevel&
 {
     PROFILE(UpdateTextureLevel);
 
-    if (texture)
+    if (_texture)
     {
-        if (usage == USAGE_IMMUTABLE)
+        if (_usage == USAGE_IMMUTABLE)
         {
-            LOGERROR("Can not update immutable texture");
+            ErrorString("Can not update immutable texture");
             return false;
         }
         if (face >= NumFaces())
         {
-            LOGERROR("Face to update out of bounds");
+            ErrorString("Face to update out of bounds");
             return false;
         }
-        if (level >= numLevels)
+        if (level >= _numLevels)
         {
-            LOGERROR("Mipmap level to update out of bounds");
+            ErrorString("Mipmap level to update out of bounds");
             return false;
         }
 
-        IntRect levelRect(0, 0, Max(size.x >> level, 1), Max(size.y >> level, 1));
+        IntRect levelRect(0, 0, Max(_size._x >> level, 1), Max(_size._y >> level, 1));
         if (levelRect.IsInside(rect) != INSIDE)
         {
-            LOGERRORF("Texture update region %s is outside level %s", rect.ToString().CString(), levelRect.ToString().CString());
+            ErrorStringF("Texture update region %s is outside level %s", rect.ToString().CString(), levelRect.ToString().CString());
             return false;
         }
 
         // Bind for updating
-        graphics->SetTexture(0, this);
+        _graphics->SetTexture(0, this);
 
         bool wholeLevel = rect == levelRect;
-        unsigned target = (type == TEX_CUBE) ? GL_TEXTURE_CUBE_MAP_POSITIVE_X + face: glTargets[type];
+        unsigned target = (_type == TEX_CUBE) ? GL_TEXTURE_CUBE_MAP_POSITIVE_X + face: glTargets[_type];
         
         if (!IsCompressed())
         {
             if (wholeLevel)
             {
-                glTexImage2D(target, (unsigned)level, glInternalFormats[format], rect.Width(), rect.Height(), 0,
-                    glFormats[format], glDataTypes[format], data.data);
+                glTexImage2D(target, (unsigned)level, glInternalFormats[_format], rect.Width(), rect.Height(), 0,
+                    glFormats[_format], glDataTypes[_format], data._data);
             }
             else
             {
-                glTexSubImage2D(target, (unsigned)level, rect.left, rect.top, rect.Width(), rect.Height(), 
-                    glFormats[format], glDataTypes[format], data.data);
+                glTexSubImage2D(target, (unsigned)level, rect._left, rect._top, rect.Width(), rect.Height(), 
+                    glFormats[_format], glDataTypes[_format], data._data);
             }
         }
         else
         {
             if (wholeLevel)
             {
-                glCompressedTexImage2D(target, (unsigned)level, glInternalFormats[format], rect.Width(), rect.Height(),
-                    0, (unsigned)Image::CalculateDataSize(IntVector2(rect.Width(), rect.Height()), format), data.data);
+                glCompressedTexImage2D(target, (unsigned)level, glInternalFormats[_format], rect.Width(), rect.Height(),
+                    0, (unsigned)Image::CalculateDataSize(IntVector2(rect.Width(), rect.Height()), _format), data._data);
             }
             else
             {
-                glCompressedTexSubImage2D(target, (unsigned)level, rect.left, rect.top, rect.Width(), rect.Height(),
-                    glFormats[format], (unsigned)Image::CalculateDataSize(IntVector2(rect.Width(), rect.Height()), format),
-                    data.data);
+                glCompressedTexSubImage2D(target, (unsigned)level, rect._left, rect._top, rect.Width(), rect.Height(),
+                    glFormats[_format], (unsigned)Image::CalculateDataSize(IntVector2(rect.Width(), rect.Height()), _format),
+                    data._data);
             }
         }
     }
@@ -433,7 +433,7 @@ bool Texture::SetData(size_t face, size_t level, IntRect rect, const ImageLevel&
 
 unsigned Texture::GLTarget() const
 {
-    return glTargets[type];
+    return glTargets[_type];
 }
 
 }

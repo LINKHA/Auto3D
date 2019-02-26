@@ -12,45 +12,45 @@ namespace Auto3D
 ThreadLocalValue::ThreadLocalValue()
 {
     #ifdef _WIN32
-    key = TlsAlloc();
-    valid = key != TLS_OUT_OF_INDEXES;
+    _key = TlsAlloc();
+    _valid = _key != TLS_OUT_OF_INDEXES;
     #else
-    valid = pthread_key_create(&key, 0) == 0;
+    _valid = pthread_key_create(&_key, 0) == 0;
     #endif
 }
 
 ThreadLocalValue::~ThreadLocalValue()
 {
-    if (valid)
+    if (_valid)
     {
         #ifdef _WIN32
-        TlsFree(key);
+        TlsFree(_key);
         #else
-        pthread_key_delete(key);
+        pthread_key_delete(_key);
         #endif
     }
 }
 
 void ThreadLocalValue::SetValue(void* value)
 {
-    if (valid)
+    if (_valid)
     {
         #ifdef _WIN32
-        TlsSetValue(key, value);
+        TlsSetValue(_key, value);
         #else
-        pthread_setspecific(key, value);
+        pthread_setspecific(_key, value);
         #endif
     }
 }
 
 void* ThreadLocalValue::Value() const
 {
-    if (valid)
+    if (_valid)
     {
         #ifdef _WIN32
-        return TlsGetValue(key);
+        return TlsGetValue(_key);
         #else
-        return pthread_getspecific(key);
+        return pthread_getspecific(_key);
         #endif
     }
     else

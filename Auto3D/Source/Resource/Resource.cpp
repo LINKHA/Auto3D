@@ -19,7 +19,7 @@ bool Resource::EndLoad()
 
 bool Resource::Save(Stream&)
 {
-    LOGERROR("Save not supported for " + TypeName());
+    ErrorString("Save not supported for " + TypeName());
     return false;
 }
 
@@ -34,8 +34,8 @@ bool Resource::Load(Stream& source)
 
 void Resource::SetName(const String& newName)
 {
-    name = newName;
-    nameHash = StringHash(newName);
+    _name = newName;
+    _nameHash = StringHash(newName);
 }
 
 }

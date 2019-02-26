@@ -227,9 +227,9 @@ public:
     char Front() const { return CString()[0]; }
     /// Return last char, or 0 if empty.
     char Back() const { return Length() ? CString()[Length()- 1] : CString()[0]; }
-    /// Return a substring from position to end.
+    /// Return a substring from _position to end.
     String Substring(size_t pos) const;
-    /// Return a substring with length from position.
+    /// Return a substring with length from _position.
     String Substring(size_t pos, size_t numChars) const;
     /// Return string with whitespace trimmed from the beginning and the end.
     String Trimmed() const;
@@ -296,9 +296,9 @@ public:
     void ReplaceUTF8(size_t index, unsigned unicodeChar);
     /// Append Unicode character at the end as UTF8.
     String& AppendUTF8(unsigned unicodeChar);
-    /// Return a UTF8 substring from position to end.
+    /// Return a UTF8 substring from _position to end.
     String SubstringUTF8(size_t pos) const;
-    /// Return a UTF8 substring with length from position.
+    /// Return a UTF8 substring with length from _position.
     String SubstringUTF8(size_t pos, size_t numChars) const;
 
     /// Parse a bool from the string. Is considered true if t/y/1 are found case-insensitively.
@@ -344,7 +344,7 @@ public:
 
     /// Position for "not found."
     static const size_t NPOS = (size_t)-1;
-    /// Initial dynamic allocation size.
+    /// Initial dynamic allocation _size.
     static const size_t MIN_CAPACITY = 8;
     /// Empty string.
     static const String EMPTY;

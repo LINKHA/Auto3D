@@ -11,10 +11,10 @@ class AUTO_API Matrix4
 {
 public:
     /// Matrix values.
-    float m00, m01, m02, m03;
-    float m10, m11, m12, m13;
-    float m20, m21, m22, m23;
-    float m30, m31, m32, m33;
+    float _m00, _m01, _m02, _m03;
+    float _m10, _m11, _m12, _m13;
+    float _m20, _m21, _m22, _m23;
+    float _m30, _m31, _m32, _m33;
     
     /// Construct undefined.
     Matrix4()
@@ -23,19 +23,19 @@ public:
     
     /// Copy-construct.
     Matrix4(const Matrix4& matrix) :
-        m00(matrix.m00), m01(matrix.m01), m02(matrix.m02), m03(matrix.m03),
-        m10(matrix.m10), m11(matrix.m11), m12(matrix.m12), m13(matrix.m13),
-        m20(matrix.m20), m21(matrix.m21), m22(matrix.m22), m23(matrix.m23),
-        m30(matrix.m30), m31(matrix.m31), m32(matrix.m32), m33(matrix.m33)
+        _m00(matrix._m00), _m01(matrix._m01), _m02(matrix._m02), _m03(matrix._m03),
+        _m10(matrix._m10), _m11(matrix._m11), _m12(matrix._m12), _m13(matrix._m13),
+        _m20(matrix._m20), _m21(matrix._m21), _m22(matrix._m22), _m23(matrix._m23),
+        _m30(matrix._m30), _m31(matrix._m31), _m32(matrix._m32), _m33(matrix._m33)
     {
     }
     
     /// Copy-cnstruct from a 3x3 matrix and set the extra elements to identity.
     Matrix4(const Matrix3& matrix) :
-        m00(matrix.m00), m01(matrix.m01), m02(matrix.m02), m03(0.0f),
-        m10(matrix.m10), m11(matrix.m11), m12(matrix.m12), m13(0.0f),
-        m20(matrix.m20), m21(matrix.m21), m22(matrix.m22), m23(0.0f),
-        m30(0.0f), m31(0.0f), m32(0.0f), m33(1.0f)
+        _m00(matrix._m00), _m01(matrix._m01), _m02(matrix._m02), _m03(0.0f),
+        _m10(matrix._m10), _m11(matrix._m11), _m12(matrix._m12), _m13(0.0f),
+        _m20(matrix._m20), _m21(matrix._m21), _m22(matrix._m22), _m23(0.0f),
+        _m30(0.0f), _m31(0.0f), _m32(0.0f), _m33(1.0f)
     {
     }
     
@@ -44,19 +44,19 @@ public:
             float v10, float v11, float v12, float v13,
             float v20, float v21, float v22, float v23,
             float v30, float v31, float v32, float v33) :
-        m00(v00), m01(v01), m02(v02), m03(v03),
-        m10(v10), m11(v11), m12(v12), m13(v13),
-        m20(v20), m21(v21), m22(v22), m23(v23),
-        m30(v30), m31(v31), m32(v32), m33(v33)
+        _m00(v00), _m01(v01), _m02(v02), _m03(v03),
+        _m10(v10), _m11(v11), _m12(v12), _m13(v13),
+        _m20(v20), _m21(v21), _m22(v22), _m23(v23),
+        _m30(v30), _m31(v31), _m32(v32), _m33(v33)
     {
     }
     
     /// Construct from a float array.
     Matrix4(const float* data) :
-        m00(data[0]), m01(data[1]), m02(data[2]), m03(data[3]),
-        m10(data[4]), m11(data[5]), m12(data[6]), m13(data[7]),
-        m20(data[8]), m21(data[9]), m22(data[10]), m23(data[11]),
-        m30(data[12]), m31(data[13]), m32(data[14]), m33(data[15])
+        _m00(data[0]), _m01(data[1]), _m02(data[2]), _m03(data[3]),
+        _m10(data[4]), _m11(data[5]), _m12(data[6]), _m13(data[7]),
+        _m20(data[8]), _m21(data[9]), _m22(data[10]), _m23(data[11]),
+        _m30(data[12]), _m31(data[13]), _m32(data[14]), _m33(data[15])
     {
     }
     
@@ -75,20 +75,20 @@ public:
     /// Assign from another matrix.
     Matrix4& operator = (const Matrix4& rhs)
     {
-        m00 = rhs.m00; m01 = rhs.m01; m02 = rhs.m02; m03 = rhs.m03;
-        m10 = rhs.m10; m11 = rhs.m11; m12 = rhs.m12; m13 = rhs.m13;
-        m20 = rhs.m20; m21 = rhs.m21; m22 = rhs.m22; m23 = rhs.m23;
-        m30 = rhs.m30; m31 = rhs.m31; m32 = rhs.m32; m33 = rhs.m33;
+        _m00 = rhs._m00; _m01 = rhs._m01; _m02 = rhs._m02; _m03 = rhs._m03;
+        _m10 = rhs._m10; _m11 = rhs._m11; _m12 = rhs._m12; _m13 = rhs._m13;
+        _m20 = rhs._m20; _m21 = rhs._m21; _m22 = rhs._m22; _m23 = rhs._m23;
+        _m30 = rhs._m30; _m31 = rhs._m31; _m32 = rhs._m32; _m33 = rhs._m33;
         return *this;
     }
     
     /// Assign from a 3x3 matrix. Set the extra elements to identity.
     Matrix4& operator = (const Matrix3& rhs)
     {
-        m00 = rhs.m00; m01 = rhs.m01; m02 = rhs.m02; m03 = 0.0f;
-        m10 = rhs.m10; m11 = rhs.m11; m12 = rhs.m12; m13 = 0.0f;
-        m20 = rhs.m20; m21 = rhs.m21;  m22 = rhs.m22; m23 = 0.0f;
-        m30 = 0.0f; m31 = 0.0f; m32 = 0.0f; m33 = 1.0f;
+        _m00 = rhs._m00; _m01 = rhs._m01; _m02 = rhs._m02; _m03 = 0.0f;
+        _m10 = rhs._m10; _m11 = rhs._m11; _m12 = rhs._m12; _m13 = 0.0f;
+        _m20 = rhs._m20; _m21 = rhs._m21;  _m22 = rhs._m22; _m23 = 0.0f;
+        _m30 = 0.0f; _m31 = 0.0f; _m32 = 0.0f; _m33 = 1.0f;
         return *this;
     }
     
@@ -110,15 +110,15 @@ public:
     /// Test for inequality with another matrix without epsilon.
     bool operator != (const Matrix4& rhs) const { return !(*this == rhs); }
     
-    /// Multiply a Vector3 which is assumed to represent position.
+    /// Multiply a Vector3 which is assumed to represent _position.
     Vector3 operator * (const Vector3& rhs) const
     {
-        float invW = 1.0f / (m30 * rhs.x + m31 * rhs.y + m32 * rhs.z + m33);
+        float invW = 1.0f / (_m30 * rhs._x + _m31 * rhs._y + _m32 * rhs._z + _m33);
         
         return Vector3(
-            (m00 * rhs.x + m01 * rhs.y + m02 * rhs.z + m03) * invW,
-            (m10 * rhs.x + m11 * rhs.y + m12 * rhs.z + m13) * invW,
-            (m20 * rhs.x + m21 * rhs.y + m22 * rhs.z + m23) * invW
+            (_m00 * rhs._x + _m01 * rhs._y + _m02 * rhs._z + _m03) * invW,
+            (_m10 * rhs._x + _m11 * rhs._y + _m12 * rhs._z + _m13) * invW,
+            (_m20 * rhs._x + _m21 * rhs._y + _m22 * rhs._z + _m23) * invW
         );
     }
     
@@ -126,10 +126,10 @@ public:
     Vector4 operator * (const Vector4& rhs) const
     {
         return Vector4(
-            m00 * rhs.x + m01 * rhs.y + m02 * rhs.z + m03 * rhs.w,
-            m10 * rhs.x + m11 * rhs.y + m12 * rhs.z + m13 * rhs.w,
-            m20 * rhs.x + m21 * rhs.y + m22 * rhs.z + m23 * rhs.w,
-            m30 * rhs.x + m31 * rhs.y + m32 * rhs.z + m33 * rhs.w
+            _m00 * rhs._x + _m01 * rhs._y + _m02 * rhs._z + _m03 * rhs._w,
+            _m10 * rhs._x + _m11 * rhs._y + _m12 * rhs._z + _m13 * rhs._w,
+            _m20 * rhs._x + _m21 * rhs._y + _m22 * rhs._z + _m23 * rhs._w,
+            _m30 * rhs._x + _m31 * rhs._y + _m32 * rhs._z + _m33 * rhs._w
         );
     }
     
@@ -137,10 +137,10 @@ public:
     Matrix4 operator + (const Matrix4& rhs) const
     {
         return Matrix4(
-            m00 + rhs.m00, m01 + rhs.m01, m02 + rhs.m02, m03 + rhs.m03,
-            m10 + rhs.m10, m11 + rhs.m11, m12 + rhs.m12, m13 + rhs.m13,
-            m20 + rhs.m20, m21 + rhs.m21, m22 + rhs.m22, m23 + rhs.m23,
-            m30 + rhs.m30, m31 + rhs.m31, m32 + rhs.m32, m33 + rhs.m33
+            _m00 + rhs._m00, _m01 + rhs._m01, _m02 + rhs._m02, _m03 + rhs._m03,
+            _m10 + rhs._m10, _m11 + rhs._m11, _m12 + rhs._m12, _m13 + rhs._m13,
+            _m20 + rhs._m20, _m21 + rhs._m21, _m22 + rhs._m22, _m23 + rhs._m23,
+            _m30 + rhs._m30, _m31 + rhs._m31, _m32 + rhs._m32, _m33 + rhs._m33
         );
     }
     
@@ -148,10 +148,10 @@ public:
     Matrix4 operator - (const Matrix4& rhs) const
     {
         return Matrix4(
-            m00 - rhs.m00, m01 - rhs.m01, m02 - rhs.m02, m03 - rhs.m03,
-            m10 - rhs.m10, m11 - rhs.m11, m12 - rhs.m12, m13 - rhs.m13,
-            m20 - rhs.m20, m21 - rhs.m21, m22 - rhs.m22, m23 - rhs.m23,
-            m30 - rhs.m30, m31 - rhs.m31, m32 - rhs.m32, m33 - rhs.m33
+            _m00 - rhs._m00, _m01 - rhs._m01, _m02 - rhs._m02, _m03 - rhs._m03,
+            _m10 - rhs._m10, _m11 - rhs._m11, _m12 - rhs._m12, _m13 - rhs._m13,
+            _m20 - rhs._m20, _m21 - rhs._m21, _m22 - rhs._m22, _m23 - rhs._m23,
+            _m30 - rhs._m30, _m31 - rhs._m31, _m32 - rhs._m32, _m33 - rhs._m33
         );
     }
     
@@ -159,10 +159,10 @@ public:
     Matrix4 operator * (float rhs) const
     {
         return Matrix4(
-            m00 * rhs, m01 * rhs, m02 * rhs, m03 * rhs,
-            m10 * rhs, m11 * rhs, m12 * rhs, m13 * rhs,
-            m20 * rhs, m21 * rhs, m22 * rhs, m23 * rhs,
-            m30 * rhs, m31 * rhs, m32 * rhs, m33 * rhs
+            _m00 * rhs, _m01 * rhs, _m02 * rhs, _m03 * rhs,
+            _m10 * rhs, _m11 * rhs, _m12 * rhs, _m13 * rhs,
+            _m20 * rhs, _m21 * rhs, _m22 * rhs, _m23 * rhs,
+            _m30 * rhs, _m31 * rhs, _m32 * rhs, _m33 * rhs
         );
     }
     
@@ -170,55 +170,55 @@ public:
     Matrix4 operator * (const Matrix4& rhs) const
     {
         return Matrix4(
-            m00 * rhs.m00 + m01 * rhs.m10 + m02 * rhs.m20 + m03 * rhs.m30,
-            m00 * rhs.m01 + m01 * rhs.m11 + m02 * rhs.m21 + m03 * rhs.m31,
-            m00 * rhs.m02 + m01 * rhs.m12 + m02 * rhs.m22 + m03 * rhs.m32,
-            m00 * rhs.m03 + m01 * rhs.m13 + m02 * rhs.m23 + m03 * rhs.m33,
-            m10 * rhs.m00 + m11 * rhs.m10 + m12 * rhs.m20 + m13 * rhs.m30,
-            m10 * rhs.m01 + m11 * rhs.m11 + m12 * rhs.m21 + m13 * rhs.m31,
-            m10 * rhs.m02 + m11 * rhs.m12 + m12 * rhs.m22 + m13 * rhs.m32,
-            m10 * rhs.m03 + m11 * rhs.m13 + m12 * rhs.m23 + m13 * rhs.m33,
-            m20 * rhs.m00 + m21 * rhs.m10 + m22 * rhs.m20 + m23 * rhs.m30,
-            m20 * rhs.m01 + m21 * rhs.m11 + m22 * rhs.m21 + m23 * rhs.m31,
-            m20 * rhs.m02 + m21 * rhs.m12 + m22 * rhs.m22 + m23 * rhs.m32,
-            m20 * rhs.m03 + m21 * rhs.m13 + m22 * rhs.m23 + m23 * rhs.m33,
-            m30 * rhs.m00 + m31 * rhs.m10 + m32 * rhs.m20 + m33 * rhs.m30,
-            m30 * rhs.m01 + m31 * rhs.m11 + m32 * rhs.m21 + m33 * rhs.m31,
-            m30 * rhs.m02 + m31 * rhs.m12 + m32 * rhs.m22 + m33 * rhs.m32,
-            m30 * rhs.m03 + m31 * rhs.m13 + m32 * rhs.m23 + m33 * rhs.m33
+            _m00 * rhs._m00 + _m01 * rhs._m10 + _m02 * rhs._m20 + _m03 * rhs._m30,
+            _m00 * rhs._m01 + _m01 * rhs._m11 + _m02 * rhs._m21 + _m03 * rhs._m31,
+            _m00 * rhs._m02 + _m01 * rhs._m12 + _m02 * rhs._m22 + _m03 * rhs._m32,
+            _m00 * rhs._m03 + _m01 * rhs._m13 + _m02 * rhs._m23 + _m03 * rhs._m33,
+            _m10 * rhs._m00 + _m11 * rhs._m10 + _m12 * rhs._m20 + _m13 * rhs._m30,
+            _m10 * rhs._m01 + _m11 * rhs._m11 + _m12 * rhs._m21 + _m13 * rhs._m31,
+            _m10 * rhs._m02 + _m11 * rhs._m12 + _m12 * rhs._m22 + _m13 * rhs._m32,
+            _m10 * rhs._m03 + _m11 * rhs._m13 + _m12 * rhs._m23 + _m13 * rhs._m33,
+            _m20 * rhs._m00 + _m21 * rhs._m10 + _m22 * rhs._m20 + _m23 * rhs._m30,
+            _m20 * rhs._m01 + _m21 * rhs._m11 + _m22 * rhs._m21 + _m23 * rhs._m31,
+            _m20 * rhs._m02 + _m21 * rhs._m12 + _m22 * rhs._m22 + _m23 * rhs._m32,
+            _m20 * rhs._m03 + _m21 * rhs._m13 + _m22 * rhs._m23 + _m23 * rhs._m33,
+            _m30 * rhs._m00 + _m31 * rhs._m10 + _m32 * rhs._m20 + _m33 * rhs._m30,
+            _m30 * rhs._m01 + _m31 * rhs._m11 + _m32 * rhs._m21 + _m33 * rhs._m31,
+            _m30 * rhs._m02 + _m31 * rhs._m12 + _m32 * rhs._m22 + _m33 * rhs._m32,
+            _m30 * rhs._m03 + _m31 * rhs._m13 + _m32 * rhs._m23 + _m33 * rhs._m33
         );
     }
     
     /// Set translation elements.
     void SetTranslation(const Vector3& translation)
     {
-        m03 = translation.x;
-        m13 = translation.y;
-        m23 = translation.z;
+        _m03 = translation._x;
+        _m13 = translation._y;
+        _m23 = translation._z;
     }
     
     /// Set rotation elements from a 3x3 matrix.
     void SetRotation(const Matrix3& rotation)
     {
-        m00 = rotation.m00; m01 = rotation.m01; m02 = rotation.m02;
-        m10 = rotation.m10; m11 = rotation.m11; m12 = rotation.m12;
-        m20 = rotation.m20; m21 = rotation.m21; m22 = rotation.m22;
+        _m00 = rotation._m00; _m01 = rotation._m01; _m02 = rotation._m02;
+        _m10 = rotation._m10; _m11 = rotation._m11; _m12 = rotation._m12;
+        _m20 = rotation._m20; _m21 = rotation._m21; _m22 = rotation._m22;
     }
     
     // Set scaling elements.
     void SetScale(const Vector3& scale)
     {
-        m00 = scale.x;
-        m11 = scale.y;
-        m22 = scale.z;
+        _m00 = scale._x;
+        _m11 = scale._y;
+        _m22 = scale._z;
     }
     
     // Set uniform scaling elements.
     void SetScale(float scale)
     {
-        m00 = scale;
-        m11 = scale;
-        m22 = scale;
+        _m00 = scale;
+        _m11 = scale;
+        _m22 = scale;
     }
     
     /// Parse from a string. Return true on success.
@@ -230,9 +230,9 @@ public:
     Matrix3 ToMatrix3() const
     {
         return Matrix3(
-            m00, m01, m02,
-            m10, m11, m12,
-            m20, m21, m22
+            _m00, _m01, _m02,
+            _m10, _m11, _m12,
+            _m20, _m21, _m22
         );
     }
     
@@ -240,9 +240,9 @@ public:
     Matrix3 RotationMatrix() const
     {
         Vector3 invScale(
-            1.0f / sqrtf(m00 * m00 + m10 * m10 + m20 * m20),
-            1.0f / sqrtf(m01 * m01 + m11 * m11 + m21 * m21),
-            1.0f / sqrtf(m02 * m02 + m12 * m12 + m22 * m22)
+            1.0f / sqrtf(_m00 * _m00 + _m10 * _m10 + _m20 * _m20),
+            1.0f / sqrtf(_m01 * _m01 + _m11 * _m11 + _m21 * _m21),
+            1.0f / sqrtf(_m02 * _m02 + _m12 * _m12 + _m22 * _m22)
         );
         
         return ToMatrix3().Scaled(invScale);
@@ -252,9 +252,9 @@ public:
     Vector3 Translation() const
     {
         return Vector3(
-            m03,
-            m13,
-            m23
+            _m03,
+            _m13,
+            _m23
         );
     }
     
@@ -265,9 +265,9 @@ public:
     Vector3 Scale() const
     {
         return Vector3(
-            sqrtf(m00 * m00 + m10 * m10 + m20 * m20),
-            sqrtf(m01 * m01 + m11 * m11 + m21 * m21),
-            sqrtf(m02 * m02 + m12 * m12 + m22 * m22)
+            sqrtf(_m00 * _m00 + _m10 * _m10 + _m20 * _m20),
+            sqrtf(_m01 * _m01 + _m11 * _m11 + _m21 * _m21),
+            sqrtf(_m02 * _m02 + _m12 * _m12 + _m22 * _m22)
         );
     }
     
@@ -275,10 +275,10 @@ public:
     Matrix4 Transpose() const
     {
         return Matrix4(
-            m00, m10, m20, m30,
-            m01, m11, m21, m31,
-            m02, m12, m22, m32,
-            m03, m13, m23, m33
+            _m00, _m10, _m20, _m30,
+            _m01, _m11, _m21, _m31,
+            _m02, _m12, _m22, _m32,
+            _m03, _m13, _m23, _m33
         );
     }
     
@@ -303,7 +303,7 @@ public:
     Matrix4 Inverse() const;
     
     /// Return float data
-    const float* Data() const { return &m00; }
+    const float* Data() const { return &_m00; }
     /// Return as string.
     String ToString() const;
     

@@ -11,28 +11,28 @@ namespace Auto3D
 void ObjectResolver::StoreObject(unsigned oldId, Serializable* object)
 {
     if (object)
-        objects[oldId] = object;
+        _objects[oldId] = object;
 }
 
 void ObjectResolver::StoreObjectRef(Serializable* object, Attribute* attr, const ObjectRef& value)
 {
     if (object && attr && attr->Type() == ATTR_OBJECTREF)
-        objectRefs.Push(StoredObjectRef(object, attr, value.id));
+        _objectRefs.Push(StoredObjectRef(object, attr, value._id));
 }
 
 void ObjectResolver::Resolve()
 {
-    for (auto it = objectRefs.Begin(); it != objectRefs.End(); ++it)
+    for (auto it = _objectRefs.Begin(); it != _objectRefs.End(); ++it)
     {
-        auto refIt = objects.Find(it->oldId);
+        auto refIt = _objects.Find(it->_oldId);
         // See if we can find the referred to object
-        if (refIt != objects.End())
+        if (refIt != _objects.End())
         {
-            AttributeImpl<ObjectRef>* typedAttr = static_cast<AttributeImpl<ObjectRef>*>(it->attr);
-            typedAttr->SetValue(it->object, ObjectRef(refIt->second->Id()));
+            AttributeImpl<ObjectRef>* typedAttr = static_cast<AttributeImpl<ObjectRef>*>(it->_attr);
+            typedAttr->SetValue(it->_object, ObjectRef(refIt->second->Id()));
         }
         else
-            LOGWARNING("Could not resolve object reference " + String(it->oldId));
+            WarinningString("Could not resolve object reference " + String(it->_oldId));
     }
 }
 

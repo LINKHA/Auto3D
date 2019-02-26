@@ -24,10 +24,10 @@ bool Vector4::FromString(const char* str)
         return false;
     
     char* ptr = (char*)str;
-    x = (float)strtod(ptr, &ptr);
-    y = (float)strtod(ptr, &ptr);
-    z = (float)strtod(ptr, &ptr);
-    w = (float)strtod(ptr, &ptr);
+    _x = (float)strtod(ptr, &ptr);
+    _y = (float)strtod(ptr, &ptr);
+    _z = (float)strtod(ptr, &ptr);
+    _w = (float)strtod(ptr, &ptr);
     
     return true;
 }
@@ -35,7 +35,7 @@ bool Vector4::FromString(const char* str)
 String Vector4::ToString() const
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
-    sprintf(tempBuffer, "%g %g %g %g", x, y, z, w);
+    sprintf(tempBuffer, "%g %g %g %g", _x, _y, _z, _w);
     return String(tempBuffer);
 }
 

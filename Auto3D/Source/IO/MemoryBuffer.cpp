@@ -10,44 +10,44 @@ namespace Auto3D
 
 MemoryBuffer::MemoryBuffer(void* data, size_t numBytes) :
     Stream(data ? numBytes : 0),
-    buffer((unsigned char*)data),
-    readOnly(false)
+    _buffer((unsigned char*)data),
+    _readOnly(false)
 {
     SetName("Memory");
 }
 
 MemoryBuffer::MemoryBuffer(const void* data, size_t numBytes) :
     Stream(data ? numBytes : 0),
-    buffer((unsigned char*)data),
-    readOnly(true)
+    _buffer((unsigned char*)data),
+    _readOnly(true)
 {
     SetName("Memory");
 }
 
 MemoryBuffer::MemoryBuffer(Vector<unsigned char>& data) :
     Stream(data.Size()),
-    buffer(data.Begin().ptr),
-    readOnly(false)
+    _buffer(data.Begin().ptr),
+    _readOnly(false)
 {
 }
 
 MemoryBuffer::MemoryBuffer(const Vector<unsigned char>& data) :
     Stream(data.Size()),
-    buffer(data.Begin().ptr),
-    readOnly(true)
+    _buffer(data.Begin().ptr),
+    _readOnly(true)
 {
 }
 
 size_t MemoryBuffer::Read(void* dest, size_t numBytes)
 {
-    if (numBytes + position > size)
-        numBytes = size - position;
+    if (numBytes + _position > _size)
+        numBytes = _size - _position;
     if (!numBytes)
         return 0;
     
-    unsigned char* srcPtr = &buffer[position];
+    unsigned char* srcPtr = &_buffer[_position];
     unsigned char* destPtr = (unsigned char*)dest;
-    position += numBytes;
+    _position += numBytes;
     
     size_t copySize = numBytes;
     while (copySize >= sizeof(unsigned))
@@ -71,23 +71,23 @@ size_t MemoryBuffer::Read(void* dest, size_t numBytes)
 
 size_t MemoryBuffer::Seek(size_t newPosition)
 {
-    if (newPosition > size)
-        newPosition = size;
+    if (newPosition > _size)
+        newPosition = _size;
     
-    position = newPosition;
-    return position;
+    _position = newPosition;
+    return _position;
 }
 
 size_t MemoryBuffer::Write(const void* data, size_t numBytes)
 {
-    if (numBytes + position > size)
-        numBytes = size - position;
-    if (!numBytes || readOnly)
+    if (numBytes + _position > _size)
+        numBytes = _size - _position;
+    if (!numBytes || _readOnly)
         return 0;
     
     unsigned char* srcPtr = (unsigned char*)data;
-    unsigned char* destPtr = &buffer[position];
-    position += numBytes;
+    unsigned char* destPtr = &_buffer[_position];
+    _position += numBytes;
     
     size_t copySize = numBytes;
     while (copySize >= sizeof(unsigned))
@@ -111,12 +111,12 @@ size_t MemoryBuffer::Write(const void* data, size_t numBytes)
 
 bool MemoryBuffer::IsReadable() const
 {
-    return buffer != nullptr;
+    return _buffer != nullptr;
 }
 
 bool MemoryBuffer::IsWritable() const
 {
-    return buffer && !readOnly;
+    return _buffer && !_readOnly;
 }
 
 }

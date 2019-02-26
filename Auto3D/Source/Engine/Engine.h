@@ -27,17 +27,17 @@ public:
 	/**
 	* @brief : Shut down engine
 	*/
-	void ShutDownEngine() { _isExiting = true; }
+	void ShutDownEngine() { _exiting = true; }
 	/**
 	* @brief : Engine exit flag
 	*/
-	bool IsExiting()const { return _isExiting; }
+	bool IsExiting()const { return _exiting; }
 	/**
 	* @brief : Render geometry
 	*/
 	void Render();
 	/**
-	* @brief : Sub system update data,  If pause when minimized -mode return false
+	* @brief : Sub system update data,  If pause when _minimized -mode return false
 	*/
 	bool Update();
 	/**
@@ -46,9 +46,9 @@ public:
 	void FrameFinish();
 
 
-	/// Return whether to pause update events and audio when minimized.
+	/// Return whether to pause update events and audio when _minimized.
 	bool GetPauseMinimized() const { return _pauseMinimized; }
-	/// Set whether to pause update events and audio when minimized
+	/// Set whether to pause update events and audio when _minimized
 	void SetPauseMinimized(bool enable);
 
 private:
@@ -59,16 +59,16 @@ private:
 	AutoPtr<Log> _log;
 	AutoPtr<Profiler> _profiler;
 
-	AutoPtr<HiresTimer> frameTimer;
-	AutoPtr<Timer> profilerTimer;
-	float dt = 0.0f;
-	String profilerOutput;
+	AutoPtr<HiresTimer> _frameTimer;
+	AutoPtr<Timer> _profilerTimer;
+	float _dt = 0.0f;
+	String _profilerOutput;
 
 	/// Is exiting
-	bool _isExiting{};
+	bool _exiting{};
 	/// Is initialized
-	bool _isInitialized{};
-	/// Pause when minimized flag.
+	bool _initialized{};
+	/// Pause when _minimized flag.
 	bool _pauseMinimized;
 };
 

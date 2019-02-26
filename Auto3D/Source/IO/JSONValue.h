@@ -116,7 +116,7 @@ public:
     
     /// Push a value at the end. Becomes an array if was not before.
     void Push(const JSONValue& value);
-    /// Insert a value at position. Becomes an array if was not before.
+    /// Insert a value at _position. Becomes an array if was not before.
     void Insert(size_t index, const JSONValue& value);
     /// Remove the last value. No-op if not an array.
     void Pop();
@@ -143,29 +143,29 @@ public:
     bool IsEmpty() const;
     
     /// Return type.
-    JSONType Type() const { return type; }
+    JSONType Type() const { return _type; }
     /// Return whether is null.
-    bool IsNull() const { return type == JSON_NULL; }
+    bool IsNull() const { return _type == JSON_NULL; }
     /// Return whether is a bool.
-    bool IsBool() const { return type == JSON_BOOL; }
+    bool IsBool() const { return _type == JSON_BOOL; }
     /// Return whether is a number.
-    bool IsNumber() const { return type == JSON_NUMBER; }
+    bool IsNumber() const { return _type == JSON_NUMBER; }
     /// Return whether is a string.
-    bool IsString() const { return type == JSON_STRING; }
+    bool IsString() const { return _type == JSON_STRING; }
     /// Return whether is an array.
-    bool IsArray() const { return type == JSON_ARRAY; }
+    bool IsArray() const { return _type == JSON_ARRAY; }
     /// Return whether is an object.
-    bool IsObject() const { return type == JSON_OBJECT; }
+    bool IsObject() const { return _type == JSON_OBJECT; }
     /// Return value as a bool, or false on type mismatch.
-    bool GetBool() const { return type == JSON_BOOL ? data.boolValue : false; }
+    bool GetBool() const { return _type == JSON_BOOL ? _data.boolValue : false; }
     /// Return value as a number, or zero on type mismatch.
-    double GetNumber() const { return type == JSON_NUMBER ? data.numberValue : 0.0; }
+    double GetNumber() const { return _type == JSON_NUMBER ? _data.numberValue : 0.0; }
     /// Return value as a string, or empty string on type mismatch.
-    const String& GetString() const { return type == JSON_STRING ? *(reinterpret_cast<const String*>(&data)) : String::EMPTY; }
+    const String& GetString() const { return _type == JSON_STRING ? *(reinterpret_cast<const String*>(&_data)) : String::EMPTY; }
     /// Return value as an array, or empty on type mismatch.
-    const JSONArray& GetArray() const { return type == JSON_ARRAY ? *(reinterpret_cast<const JSONArray*>(&data)) : emptyJSONArray; }
+    const JSONArray& GetArray() const { return _type == JSON_ARRAY ? *(reinterpret_cast<const JSONArray*>(&_data)) : emptyJSONArray; }
     /// Return value as an object, or empty on type mismatch.
-    const JSONObject& GetObject() const { return type == JSON_OBJECT ? *(reinterpret_cast<const JSONObject*>(&data)) : emptyJSONObject; }
+    const JSONObject& GetObject() const { return _type == JSON_OBJECT ? *(reinterpret_cast<const JSONObject*>(&_data)) : emptyJSONObject; }
     /// Return whether has an associative value.
     bool Contains(const String& key) const;
     
@@ -208,9 +208,9 @@ private:
     }
     
     /// Type.
-    JSONType type;
+    JSONType _type;
     /// Value data.
-    JSONData data;
+    JSONData _data;
 };
 
 }

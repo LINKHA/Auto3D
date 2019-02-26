@@ -26,18 +26,18 @@ void Plane::Transform(const Matrix4& transform)
 Matrix3x4 Plane::ReflectionMatrix() const
 {
     return Matrix3x4(
-        -2.0f * normal.x * normal.x + 1.0f,
-        -2.0f * normal.x * normal.y,
-        -2.0f * normal.x * normal.z,
-        -2.0f * normal.x * d,
-        -2.0f * normal.y * normal.x ,
-        -2.0f * normal.y * normal.y + 1.0f,
-        -2.0f * normal.y * normal.z,
-        -2.0f * normal.y * d,
-        -2.0f * normal.z * normal.x,
-        -2.0f * normal.z * normal.y,
-        -2.0f * normal.z * normal.z + 1.0f,
-        -2.0f * normal.z * d
+        -2.0f * _normal._x * _normal._x + 1.0f,
+        -2.0f * _normal._x * _normal._y,
+        -2.0f * _normal._x * _normal._z,
+        -2.0f * _normal._x * _d,
+        -2.0f * _normal._y * _normal._x ,
+        -2.0f * _normal._y * _normal._y + 1.0f,
+        -2.0f * _normal._y * _normal._z,
+        -2.0f * _normal._y * _d,
+        -2.0f * _normal._z * _normal._x,
+        -2.0f * _normal._z * _normal._y,
+        -2.0f * _normal._z * _normal._z + 1.0f,
+        -2.0f * _normal._z * _d
     );
 }
 

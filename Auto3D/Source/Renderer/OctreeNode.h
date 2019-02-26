@@ -37,17 +37,17 @@ public:
     void SetCastShadows(bool enable);
     
     /// Return world space bounding box. Update if necessary.
-    const BoundingBox& WorldBoundingBox() const { if (TestFlag(NF_BOUNDING_BOX_DIRTY)) OnWorldBoundingBoxUpdate(); return worldBoundingBox; }
+    const BoundingBox& WorldBoundingBox() const { if (TestFlag(NF_BOUNDING_BOX_DIRTY)) OnWorldBoundingBoxUpdate(); return _worldBoundingBox; }
     /// Return whether casts shadows.
     bool CastShadows() const { return TestFlag(NF_CASTSHADOWS); }
     /// Return current octree this node resides in.
-    Octree* GetOctree() const { return octree; }
+    Octree* GetOctree() const { return _octree; }
     /// Return current octree octant this node resides in.
-    Octant* GetOctant() const { return octant; }
+    Octant* GetOctant() const { return _octant; }
     /// Return distance from camera in the current view.
-    float Distance() const { return distance; }
+    float Distance() const { return _distance; }
     /// Return last frame number when was visible. The frames are counted by Renderer internally and have no significance outside it.
-    unsigned LastFrameNumber() const { return lastFrameNumber; }
+    unsigned LastFrameNumber() const { return _lastFrameNumber; }
 
 protected:
     /// Search for an octree from the scene root and add self to it.
@@ -58,20 +58,20 @@ protected:
     virtual void OnWorldBoundingBoxUpdate() const;
 
     /// World space bounding box.
-    mutable BoundingBox worldBoundingBox;
+    mutable BoundingBox _worldBoundingBox;
     /// Distance from camera in the current view.
-    float distance;
+    float _distance;
     /// Last frame number when was visible.
-    unsigned lastFrameNumber;
+    unsigned _lastFrameNumber;
 
 private:
     /// Remove from the current octree.
     void RemoveFromOctree();
 
     /// Current octree.
-    Octree* octree;
+    Octree* _octree;
     /// Current octree octant.
-    Octant* octant;
+    Octant* _octant;
 };
 
 }

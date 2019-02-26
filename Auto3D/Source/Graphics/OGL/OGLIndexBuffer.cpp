@@ -11,10 +11,10 @@ namespace Auto3D
 {
 
 IndexBuffer::IndexBuffer() :
-    buffer(0),
-    numIndices(0),
-    indexSize(0),
-    usage(USAGE_DEFAULT)
+    _buffer(0),
+    _numIndices(0),
+    _indexSize(0),
+    _usage(USAGE_DEFAULT)
 {
 }
 
@@ -25,55 +25,55 @@ IndexBuffer::~IndexBuffer()
 
 void IndexBuffer::Release()
 {
-    if (graphics && graphics->GetIndexBuffer() == this)
-        graphics->SetIndexBuffer(nullptr);
+    if (_graphics && _graphics->GetIndexBuffer() == this)
+        _graphics->SetIndexBuffer(nullptr);
 
-    if (buffer)
+    if (_buffer)
     {
-        glDeleteBuffers(1, &buffer);
-        buffer = 0;
+        glDeleteBuffers(1, &_buffer);
+        _buffer = 0;
     }
 }
 
 void IndexBuffer::Recreate()
 {
-    if (numIndices)
+    if (_numIndices)
     {
-        Define(usage, numIndices, indexSize, !shadowData.IsNull(), shadowData.Get());
-        SetDataLost(!shadowData.IsNull());
+        Define(_usage, _numIndices, _indexSize, !_shadowData.IsNull(), _shadowData.Get());
+        SetDataLost(!_shadowData.IsNull());
     }
 }
 
-bool IndexBuffer::SetData(size_t firstIndex, size_t numIndices_, const void* data)
+bool IndexBuffer::SetData(size_t firstIndex, size_t numIndices, const void* data)
 {
     PROFILE(UpdateIndexBuffer);
 
     if (!data)
     {
-        LOGERROR("Null source data for updating index buffer");
+        ErrorString("Null source data for updating index buffer");
         return false;
     }
-    if (firstIndex + numIndices_ > numIndices)
+    if (firstIndex + numIndices > _numIndices)
     {
-        LOGERROR("Out of bounds range for updating index buffer");
+        ErrorString("Out of bounds range for updating index buffer");
         return false;
     }
-    if (buffer && usage == USAGE_IMMUTABLE)
+    if (_buffer && _usage == USAGE_IMMUTABLE)
     {
-        LOGERROR("Can not update immutable index buffer");
+        ErrorString("Can not update immutable index buffer");
         return false;
     }
 
-    if (shadowData)
-        memcpy(shadowData.Get() + firstIndex * indexSize, data, numIndices_ * indexSize);
+    if (_shadowData)
+        memcpy(_shadowData.Get() + firstIndex * _indexSize, data, numIndices * _indexSize);
 
-    if (buffer)
+    if (_buffer)
     {
-        graphics->SetIndexBuffer(this);
-        if (numIndices_ == numIndices)
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices_ * indexSize, data, usage == USAGE_DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+        _graphics->SetIndexBuffer(this);
+        if (numIndices == _numIndices)
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * _indexSize, data, _usage == USAGE_DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
         else
-            glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, firstIndex * indexSize, numIndices_ * indexSize, data);
+            glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, firstIndex * _indexSize, numIndices * _indexSize, data);
     }
 
     return true;
@@ -81,18 +81,18 @@ bool IndexBuffer::SetData(size_t firstIndex, size_t numIndices_, const void* dat
 
 bool IndexBuffer::Create(const void* data)
 {
-    if (graphics && graphics->IsInitialized())
+    if (_graphics && _graphics->IsInitialized())
     {
-        glGenBuffers(1, &buffer);
-        if (!buffer)
+        glGenBuffers(1, &_buffer);
+        if (!_buffer)
         {
-            LOGERROR("Failed to create index buffer");
+            ErrorString("Failed to create index buffer");
             return false;
         }
 
-        graphics->SetIndexBuffer(this);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * indexSize, data, usage == USAGE_DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
-        LOGDEBUGF("Created index buffer numIndices %u indexSize %u", (unsigned)numIndices, (unsigned)indexSize);
+        _graphics->SetIndexBuffer(this);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, _numIndices * _indexSize, data, _usage == USAGE_DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+        LogStringF("Created index buffer numIndices %u indexSize %u", (unsigned)_numIndices, (unsigned)_indexSize);
     }
 
     return true;

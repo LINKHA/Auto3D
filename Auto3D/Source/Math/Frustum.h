@@ -27,9 +27,9 @@ class AUTO_API Frustum
 {
 public:
     /// Frustum planes.
-    Plane planes[NUM_FRUSTUM_PLANES];
+    Plane _planes[NUM_FRUSTUM_PLANES];
     /// Frustum vertices.
-    Vector3 vertices[NUM_FRUSTUM_VERTICES];
+    Vector3 _vertices[NUM_FRUSTUM_VERTICES];
     
     /// Construct a degenerate frustum with all points at origin.
     Frustum();
@@ -57,7 +57,7 @@ public:
     {
         for (size_t i = 0; i < NUM_FRUSTUM_PLANES; ++i)
         {
-            if (planes[i].Distance(point) < 0.0f)
+            if (_planes[i].Distance(point) < 0.0f)
                 return OUTSIDE;
         }
         
@@ -70,10 +70,10 @@ public:
         bool allInside = true;
         for (size_t i = 0; i < NUM_FRUSTUM_PLANES; ++i)
         {
-            float dist = planes[i].Distance(sphere.center);
-            if (dist < -sphere.radius)
+            float dist = _planes[i].Distance(sphere._center);
+            if (dist < -sphere._radius)
                 return OUTSIDE;
-            else if (dist < sphere.radius)
+            else if (dist < sphere._radius)
                 allInside = false;
         }
         
@@ -85,7 +85,7 @@ public:
     {
         for (size_t i = 0; i < NUM_FRUSTUM_PLANES; ++i)
         {
-            if (planes[i].Distance(sphere.center) < -sphere.radius)
+            if (_planes[i].Distance(sphere._center) < -sphere._radius)
                 return OUTSIDE;
         }
         
@@ -96,14 +96,14 @@ public:
     Intersection IsInside(const BoundingBox& box) const
     {
         Vector3 center = box.Center();
-        Vector3 edge = center - box.min;
+        Vector3 edge = center - box._min;
         bool allInside = true;
         
         for (size_t i = 0; i < NUM_FRUSTUM_PLANES; ++i)
         {
-            const Plane& plane = planes[i];
-            float dist = plane.normal.DotProduct(center) + plane.d;
-            float absDist = plane.absNormal.DotProduct(edge);
+            const Plane& plane = _planes[i];
+            float dist = plane._normal.DotProduct(center) + plane._d;
+            float absDist = plane._absNormal.DotProduct(edge);
             
             if (dist < -absDist)
                 return OUTSIDE;
@@ -118,13 +118,13 @@ public:
     Intersection IsInsideFast(const BoundingBox& box) const
     {
         Vector3 center = box.Center();
-        Vector3 edge = center - box.min;
+        Vector3 edge = center - box._min;
         
         for (size_t i = 0; i < NUM_FRUSTUM_PLANES; ++i)
         {
-            const Plane& plane = planes[i];
-            float dist = plane.normal.DotProduct(center) + plane.d;
-            float absDist = plane.absNormal.DotProduct(edge);
+            const Plane& plane = _planes[i];
+            float dist = plane._normal.DotProduct(center) + plane._d;
+            float absDist = plane._absNormal.DotProduct(edge);
             
             if (dist < -absDist)
                 return OUTSIDE;
@@ -138,7 +138,7 @@ public:
     {
         float distance = 0.0f;
         for (size_t i = 0; i < NUM_FRUSTUM_PLANES; ++i)
-            distance = Max(-planes[i].Distance(point), distance);
+            distance = Max(-_planes[i].Distance(point), distance);
         
         return distance;
     }

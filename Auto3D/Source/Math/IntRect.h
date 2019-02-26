@@ -12,13 +12,13 @@ class AUTO_API IntRect
 {
 public:
     /// Left coordinate.
-    int left;
+    int _left;
     /// Top coordinate.
-    int top;
+    int _top;
     /// Right coordinate.
-    int right;
+    int _right;
     /// Bottom coordinate.
-    int bottom;
+    int _bottom;
     
     /// Construct undefined.
     IntRect()
@@ -27,28 +27,28 @@ public:
     
     /// Copy-construct.
     IntRect(const IntRect& rect) :
-        left(rect.left),
-        top(rect.top),
-        right(rect.right),
-        bottom(rect.bottom)
+        _left(rect._left),
+        _top(rect._top),
+        _right(rect._right),
+        _bottom(rect._bottom)
     {
     }
     
     /// Construct from coordinates.
     IntRect(int left_, int top_, int right_, int bottom_) :
-        left(left_),
-        top(top_),
-        right(right_),
-        bottom(bottom_)
+        _left(left_),
+        _top(top_),
+        _right(right_),
+        _bottom(bottom_)
     {
     }
     
     /// Construct from an int array.
     IntRect(const int* data) :
-        left(data[0]),
-        top(data[1]),
-        right(data[2]),
-        bottom(data[3])
+        _left(data[0]),
+        _top(data[1]),
+        _right(data[2]),
+        _bottom(data[3])
     {
     }
 
@@ -65,7 +65,7 @@ public:
     }
     
     /// Test for equality with another rect.
-    bool operator == (const IntRect& rhs) const { return left == rhs.left && top == rhs.top && right == rhs.right && bottom == rhs.bottom; }
+    bool operator == (const IntRect& rhs) const { return _left == rhs._left && _top == rhs._top && _right == rhs._right && _bottom == rhs._bottom; }
     /// Test for inequality with another rect.
     bool operator != (const IntRect& rhs) const { return !(*this == rhs); }
     
@@ -74,17 +74,17 @@ public:
     /// Parse from a C string. Return true on success.
     bool FromString(const char* str);
     
-    /// Return size.
+    /// Return _size.
     IntVector2 Size() const { return IntVector2(Width(), Height()); }
     /// Return width.
-    int Width() const { return right - left; }
+    int Width() const { return _right - _left; }
     /// Return height.
-    int Height() const { return bottom - top; }
+    int Height() const { return _bottom - _top; }
     
     /// Test whether a point is inside.
     Intersection IsInside(const IntVector2& point) const
     {
-        if (point.x < left || point.y < top || point.x >= right || point.y >= bottom)
+        if (point._x < _left || point._y < _top || point._x >= _right || point._y >= _bottom)
             return OUTSIDE;
         else
             return INSIDE;
@@ -93,16 +93,16 @@ public:
     /// Test whether another rect is inside or intersects.
     Intersection IsInside(const IntRect& rect) const
     {
-        if (rect.right <= left || rect.left >= right || rect.bottom <= top || rect.top >= bottom)
+        if (rect._right <= _left || rect._left >= _right || rect._bottom <= _top || rect._top >= _bottom)
             return OUTSIDE;
-        else if (rect.left >= left && rect.right <= right && rect.top >= top && rect.bottom <= bottom)
+        else if (rect._left >= _left && rect._right <= _right && rect._top >= _top && rect._bottom <= _bottom)
             return INSIDE;
         else
             return INTERSECTS;
     }
     
     /// Return integer data.
-    const int* Data() const { return &left; }
+    const int* Data() const { return &_left; }
     /// Return as string.
     String ToString() const;
     

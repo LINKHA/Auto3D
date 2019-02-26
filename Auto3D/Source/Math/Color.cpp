@@ -22,10 +22,10 @@ const Color Color::TRANSPARENT(0.0f, 0.0f, 0.0f, 0.0f);
 
 unsigned Color::ToUInt() const
 {
-    unsigned r_ = Clamp(((int)(r * 255.0f)), 0, 255);
-    unsigned g_ = Clamp(((int)(g * 255.0f)), 0, 255);
-    unsigned b_ = Clamp(((int)(b * 255.0f)), 0, 255);
-    unsigned a_ = Clamp(((int)(a * 255.0f)), 0, 255);
+    unsigned r_ = Clamp(((int)(_r * 255.0f)), 0, 255);
+    unsigned g_ = Clamp(((int)(_g * 255.0f)), 0, 255);
+    unsigned b_ = Clamp(((int)(_b * 255.0f)), 0, 255);
+    unsigned a_ = Clamp(((int)(_a * 255.0f)), 0, 255);
     return (a_ << 24) | (b_ << 16) | (g_ << 8) | r_;
 }
 
@@ -65,7 +65,7 @@ void Color::FromHSL(float h, float s, float l, float a_)
 
     FromHCM(h, c, m);
 
-    a = a_;
+    _a = a_;
 }
 
 void Color::FromHSV(float h, float s, float v, float a_)
@@ -75,7 +75,7 @@ void Color::FromHSV(float h, float s, float v, float a_)
 
     FromHCM(h, c, m);
 
-    a = a_;
+    _a = a_;
 }
 
 bool Color::FromString(const String& str)
@@ -90,11 +90,11 @@ bool Color::FromString(const char* str)
         return false;
     
     char* ptr = (char*)str;
-    r = (float)strtod(ptr, &ptr);
-    g = (float)strtod(ptr, &ptr);
-    b = (float)strtod(ptr, &ptr);
+    _r = (float)strtod(ptr, &ptr);
+    _g = (float)strtod(ptr, &ptr);
+    _b = (float)strtod(ptr, &ptr);
     if (elements > 3)
-        a = (float)strtod(ptr, &ptr);
+        _a = (float)strtod(ptr, &ptr);
     
     return true;
 }
@@ -143,30 +143,30 @@ void Color::Bounds(float* min, float* max, bool clipped) const
 {
     assert(min && max);
 
-    if (r > g)
+    if (_r > _g)
     {
-        if (g > b) // r > g > b
+        if (_g > _b) // r > g > b
         {
-            *max = r;
-            *min = b;
+            *max = _r;
+            *min = _b;
         }
         else // r > g && g <= b
         {
-            *max = r > b ? r : b;
-            *min = g;
+            *max = _r > _b ? _r : _b;
+            *min = _g;
         }
     }
     else
     {
-        if (b > g) // r <= g < b
+        if (_b > _g) // r <= g < b
         {
-            *max = b;
-            *min = r;
+            *max = _b;
+            *min = _r;
         }
         else // r <= g && b <= g
         {
-            *max = g;
-            *min = r < b ? r : b;
+            *max = _g;
+            *min = _r < _b ? _r : _b;
         }
     }
 
@@ -179,18 +179,18 @@ void Color::Bounds(float* min, float* max, bool clipped) const
 
 float Color::MaxRGB() const
 {
-    if (r > g)
-        return (r > b) ? r : b;
+    if (_r > _g)
+        return (_r > _b) ? _r : _b;
     else
-        return (g > b) ? g : b;
+        return (_g > _b) ? _g : _b;
 }
 
 float Color::MinRGB() const
 {
-    if (r < g)
-        return (r < b) ? r : b;
+    if (_r < _g)
+        return (_r < _b) ? _r : _b;
     else
-        return (g < b) ? g : b;
+        return (_g < _b) ? _g : _b;
 }
 
 float Color::Range() const
@@ -202,39 +202,39 @@ float Color::Range() const
 
 void Color::Clip(bool clipAlpha)
 {
-    r = (r > 1.0f) ? 1.0f : ((r < 0.0f) ? 0.0f : r);
-    g = (g > 1.0f) ? 1.0f : ((g < 0.0f) ? 0.0f : g);
-    b = (b > 1.0f) ? 1.0f : ((b < 0.0f) ? 0.0f : b);
+    _r = (_r > 1.0f) ? 1.0f : ((_r < 0.0f) ? 0.0f : _r);
+    _g = (_g > 1.0f) ? 1.0f : ((_g < 0.0f) ? 0.0f : _g);
+    _b = (_b > 1.0f) ? 1.0f : ((_b < 0.0f) ? 0.0f : _b);
 
     if (clipAlpha)
-        a = (a > 1.0f) ? 1.0f : ((a < 0.0f) ? 0.0f : a);
+        _a = (_a > 1.0f) ? 1.0f : ((_a < 0.0f) ? 0.0f : _a);
 }
 
 void Color::Invert(bool invertAlpha)
 {
-    r = 1.0f - r;
-    g = 1.0f - g;
-    b = 1.0f - b;
+    _r = 1.0f - _r;
+    _g = 1.0f - _g;
+    _b = 1.0f - _b;
 
     if (invertAlpha)
-        a = 1.0f - a;
+        _a = 1.0f - _a;
 }
 
 Color Color::Lerp(const Color &rhs, float t) const
 {
     float invT = 1.0f - t;
     return Color(
-        r * invT + rhs.r * t,
-        g * invT + rhs.g * t,
-        b * invT + rhs.b * t,
-        a * invT + rhs.a * t
+        _r * invT + rhs._r * t,
+        _g * invT + rhs._g * t,
+        _b * invT + rhs._b * t,
+        _a * invT + rhs._a * t
     );
 }
 
 String Color::ToString() const
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
-    sprintf(tempBuffer, "%g %g %g %g", r, g, b, a);
+    sprintf(tempBuffer, "%g %g %g %g", _r, _g, _b, _a);
     return String(tempBuffer);
 }
 
@@ -247,13 +247,13 @@ float Color::Hue(float min, float max) const
         return 0.0f;
 
     // Calculate and return hue
-    if (Auto3D::Equals(g, max))
-        return (b + 2.0f*chroma - r) / (6.0f * chroma);
-    else if (Auto3D::Equals(b, max))
-        return (4.0f * chroma - g + r) / (6.0f * chroma);
+    if (Auto3D::Equals(_g, max))
+        return (_b + 2.0f*chroma - _r) / (6.0f * chroma);
+    else if (Auto3D::Equals(_b, max))
+        return (4.0f * chroma - _g + _r) / (6.0f * chroma);
     else
     {
-        float h = (g - b) / (6.0f * chroma);
+        float h = (_g - _b) / (6.0f * chroma);
         return (h < 0.0f) ? 1.0f + h : ((h >= 1.0f) ? h - 1.0f : h);
     }
 
@@ -295,50 +295,50 @@ void Color::FromHCM(float h, float c, float m)
     // Reconstruct r', g', b' from hue
     if (hs < 2.0f)
     {
-        b = 0.0f;
+        _b = 0.0f;
         if (hs < 1.0f)
         {
-            g = x;
-            r = c;
+            _g = x;
+            _r = c;
         }
         else
         {
-            g = c;
-            r = x;
+            _g = c;
+            _r = x;
         }
     }
     else if (hs < 4.0f)
     {
-        r = 0.0f;
+        _r = 0.0f;
         if (hs < 3.0f)
         {
-            g = c;
-            b = x;
+            _g = c;
+            _b = x;
         }
         else
         {
-            g = x;
-            b = c;
+            _g = x;
+            _b = c;
         }
     }
     else
     {
-        g = 0.0f;
+        _g = 0.0f;
         if (hs < 5.0f)
         {
-            r = x;
-            b = c;
+            _r = x;
+            _b = c;
         }
         else
         {
-            r = c;
-            b = x;
+            _r = c;
+            _b = x;
         }
     }
 
-    r += m;
-    g += m;
-    b += m;
+    _r += m;
+    _g += m;
+    _b += m;
 }
 
 }

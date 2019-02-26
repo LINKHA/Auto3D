@@ -8,89 +8,89 @@ struct SDL_Window;
 namespace Auto3D
 {
 
-/// %Window resized event.
+/// %Window resized _event.
 class AUTO_API WindowResizeEvent : public Event
 {
 public:
-	/// New window size.
-	IntVector2 size;
+	/// New _window _size.
+	IntVector2 _size;
 };
 
-/// Operating system window, Win32 implementation.
+/// Operating system _window, Win32 implementation.
 class AUTO_API Window : public Object
 {
 	REGISTER_OBJECT_CLASS(Window, Object)
 
 public:
-	/// Construct and register subsystem. The window is not yet opened.
+	/// Construct and register subsystem. The _window is not yet opened.
 	Window();
-	/// Destruct. Close window if open.
+	/// Destruct. Close _window if open.
 	~Window();
 
-	/// Set window title.
+	/// Set _window _title.
 	void SetTitle(const String& newTitle);
-	/// Set window size. Open the window if not opened yet. Return true on success.
+	/// Set _window _size. Open the _window if not opened yet. Return true on success.
 	bool SetSize(const IntVector2& size, bool fullscreen = false, bool resizable = false, bool borderless = false, bool highDPI = false);
-	/// Set window position.
+	/// Set _window _position.
 	void SetPosition(const IntVector2& position);
-	/// Set mouse cursor visible. Default is true. When hidden, the mouse cursor is confined to the window and kept centered; relative mouse motion can be read "endlessly" but absolute mouse position should not be used.
+	/// Set mouse cursor visible. Default is true. When hidden, the mouse cursor is confined to the _window and kept centered; relative mouse motion can be read "endlessly" but absolute mouse _position should not be used.
 	void SetMouseHide(bool enable);
 
 	void SetMouseLock(bool enable);
-	/// Move the mouse cursor to a window top-left relative position.
+	/// Move the mouse cursor to a _window top-left relative _position.
 	void SetMousePosition(const IntVector2& position);
-	/// Close the window.
+	/// Close the _window.
 	void Close();
-	/// Minimize the window.
+	/// Minimize the _window.
 	void Minimize();
-	/// Maximize the window.
+	/// Maximize the _window.
 	void Maximize();
-	/// Restore window size.
+	/// Restore _window _size.
 	void Restore();
-	/// Pump window messages from the operating system.
+	/// Pump _window messages from the operating system.
 	void PumpMessages();
 
-	/// Return window title.
-	const String& Title() const { return title; }
-	/// Return window client area size.
-	const IntVector2& Size() const { return size; }
-	/// Return window client area width.
-	int Width() const { return size.x; }
-	/// Return window client area height.
-	int Height() const { return size.y; }
-	/// Return window position.
+	/// Return _window _title.
+	const String& Title() const { return _title; }
+	/// Return _window client area _size.
+	const IntVector2& Size() const { return _size; }
+	/// Return _window client area width.
+	int Width() const { return _size._x; }
+	/// Return _window client area height.
+	int Height() const { return _size._y; }
+	/// Return _window _position.
 	IntVector2 Position() const;
-	/// Return last known mouse cursor position relative to window top-left.
-	const IntVector2& MousePosition() const { return mousePosition; }
-	/// Return whether window is open.
-	bool IsOpen() const { return handle != nullptr; }
-	/// Return whether is resizable.
-	bool IsResizable() const { return resizable; }
+	/// Return last known mouse cursor _position relative to _window top-left.
+	const IntVector2& MousePosition() const { return _mousePosition; }
+	/// Return whether _window is open.
+	bool IsOpen() const { return _handle != nullptr; }
+	/// Return whether is _resizable.
+	bool IsResizable() const { return _resizable; }
 	/// Return whether is fullscren.
-	bool IsFullscreen() const { return fullscreen; }
-	/// Return whether is currently minimized.
-	bool IsMinimized() const { return minimized; }
-	/// Return whether has input focus.
-	bool HasFocus() const { return focus; }
+	bool IsFullscreen() const { return _fullscreen; }
+	/// Return whether is currently _minimized.
+	bool IsMinimized() const { return _minimized; }
+	/// Return whether has input _focus.
+	bool HasFocus() const { return _focus; }
 	/// Return whether mouse cursor is visible.
-	bool IsMouseHide() const { return mouseHide; }
-	/// Return window handle. Can be cast to a HWND.
-	SDL_Window* Handle() const { return handle; }
+	bool IsMouseHide() const { return _mouseHide; }
+	/// Return _window _handle. Can be cast to a HWND.
+	SDL_Window* Handle() const { return _handle; }
 
-	/// Handle a window message. Return true if handled and should not be passed to the default window procedure.
+	/// Handle a _window message. Return true if handled and should not be passed to the default _window procedure.
 	bool OnWindowMessage(void* sdlEvent);
 
-	/// Close requested event.
+	/// Close requested _event.
 	Event closeRequestEvent;
-	/// Gained focus event.
+	/// Gained _focus _event.
 	Event gainFocusEvent;
-	/// Lost focus event.
+	/// Lost _focus _event.
 	Event loseFocusEvent;
-	/// Minimized event.
+	/// Minimized _event.
 	Event minimizeEvent;
-	/// Restored after minimization -event.
+	/// Restored after minimization -_event.
 	Event restoreEvent;
-	/// Size changed event.
+	/// Size changed _event.
 	WindowResizeEvent resizeEvent;
 
 	/// Window class name
@@ -100,40 +100,40 @@ private:
 	/// Change display mode. If width and height are zero, will restore desktop resolution.
 	void SetDisplayMode(int width, int height);
 
-	/// Verify window size from the window client rect.
-	/// Window handle.
-	SDL_Window* handle;
-	/// Window title.
-	String title;
-	/// Current client area size.
-	IntVector2 size;
-	/// Last stored windowed mode position.
-	IntVector2 savedPosition;
-	/// Current mouse cursor position.
-	IntVector2 mousePosition;
+	/// Verify _window _size from the _window client rect.
+	/// Window _handle.
+	SDL_Window* _handle;
+	/// Window _title.
+	String _title;
+	/// Current client area _size.
+	IntVector2 _size;
+	/// Last stored windowed mode _position.
+	IntVector2 _savedPosition;
+	/// Current mouse cursor _position.
+	IntVector2 _mousePosition;
 	///mouse wheel offset
-	IntVector2 mouseWheelOffset;
+	IntVector2 _mouseWheelOffset;
 	///mouse wheel move
-	IntVector2 mouseMoveWheel;
+	IntVector2 _mouseMoveWheel;
 
 	/// Window style flags.
-	unsigned windowStyle;
+	unsigned _windowStyle;
 	/// Current minimization state.
-	bool minimized;
-	/// Current focus state.
-	bool focus;
+	bool _minimized;
+	/// Current _focus state.
+	bool _focus;
 	/// Resizable flag.
-	bool resizable;
+	bool _resizable;
 	/// Fullscreen flag.
-	bool fullscreen;
-	/// Performing window resize flag. Used internally to suppress resize events during it.
-	bool inResize;
+	bool _fullscreen;
+	/// Performing _window resize flag. Used internally to suppress resize events during it.
+	bool _inResize;
 	/// Mouse visible flag as requested by the application.
-	bool mouseHide;
+	bool _mouseHide;
 
-	bool mouseLock;
-	/// Internal mouse visible flag. The mouse is automatically shown when the window is unfocused, while mouseVisible represents the application's desired state. Used to prevent multiple calls to OS mouse visibility functions, which utilize a counter.
-	bool mouseVisibleInternal;
+	bool _mouseLock;
+	/// Internal mouse visible flag. The mouse is automatically shown when the _window is unfocused, while mouseVisible represents the application's desired state. Used to prevent multiple calls to OS mouse visibility functions, which utilize a counter.
+	bool _mouseVisibleInternal;
 };
 
 }

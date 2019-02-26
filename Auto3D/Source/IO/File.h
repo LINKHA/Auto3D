@@ -28,7 +28,7 @@ public:
     
     /// Read bytes from the file. Return number of bytes actually read.
     size_t Read(void* dest, size_t numBytes) override;
-    /// Set position in bytes from the beginning of the file.
+    /// Set _position in bytes from the beginning of the file.
     size_t Seek(size_t newPosition) override;
     /// Write bytes to the file. Return number of bytes actually written.
     size_t Write(const void* data, size_t numBytes) override;
@@ -45,24 +45,24 @@ public:
     void Flush();
     
     /// Return the open mode.
-    FileMode Mode() const { return mode; }
+    FileMode Mode() const { return _mode; }
     /// Return whether is open.
     bool IsOpen() const;
-    /// Return the file handle.
-    void* Handle() const { return handle; }
+    /// Return the file _handle.
+    void* Handle() const { return _handle; }
     
     using Stream::Read;
     using Stream::Write;
     
 private:
     /// Open mode.
-    FileMode mode;
-    /// File handle.
-    void* handle;
+    FileMode _mode;
+    /// File _handle.
+    void* _handle;
     /// Synchronization needed before read -flag.
-    bool readSyncNeeded;
+    bool _readSyncNeeded;
     /// Synchronization needed before write -flag.
-    bool writeSyncNeeded;
+    bool _writeSyncNeeded;
 };
 
 }

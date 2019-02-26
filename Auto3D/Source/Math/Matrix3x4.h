@@ -10,9 +10,9 @@ class AUTO_API Matrix3x4
 {
 public:
     /// Matrix values.
-    float m00, m01, m02, m03;
-    float m10, m11, m12, m13;
-    float m20, m21, m22, m23;
+    float _m00, _m01, _m02, _m03;
+    float _m10, _m11, _m12, _m13;
+    float _m20, _m21, _m22, _m23;
     
     /// Construct undefined.
     Matrix3x4()
@@ -21,25 +21,25 @@ public:
     
     /// Copy-construct.
     Matrix3x4(const Matrix3x4& matrix) :
-        m00(matrix.m00), m01(matrix.m01), m02(matrix.m02), m03(matrix.m03),
-        m10(matrix.m10), m11(matrix.m11), m12(matrix.m12), m13(matrix.m13),
-        m20(matrix.m20), m21(matrix.m21), m22(matrix.m22), m23(matrix.m23)
+        _m00(matrix._m00), _m01(matrix._m01), _m02(matrix._m02), _m03(matrix._m03),
+        _m10(matrix._m10), _m11(matrix._m11), _m12(matrix._m12), _m13(matrix._m13),
+        _m20(matrix._m20), _m21(matrix._m21), _m22(matrix._m22), _m23(matrix._m23)
     {
     }
     
     /// Copy-construct from a 3x3 matrix and set the extra elements to identity.
     Matrix3x4(const Matrix3& matrix) :
-        m00(matrix.m00), m01(matrix.m01), m02(matrix.m02), m03(0.0f),
-        m10(matrix.m10), m11(matrix.m11), m12(matrix.m12), m13(0.0f),
-        m20(matrix.m20), m21(matrix.m21), m22(matrix.m22), m23(0.0f)
+        _m00(matrix._m00), _m01(matrix._m01), _m02(matrix._m02), _m03(0.0f),
+        _m10(matrix._m10), _m11(matrix._m11), _m12(matrix._m12), _m13(0.0f),
+        _m20(matrix._m20), _m21(matrix._m21), _m22(matrix._m22), _m23(0.0f)
     {
     }
     
     /// Copy-construct from a 4x4 matrix which is assumed to contain no projection.
     Matrix3x4(const Matrix4& matrix) :
-        m00(matrix.m00), m01(matrix.m01), m02(matrix.m02), m03(matrix.m03),
-        m10(matrix.m10), m11(matrix.m11), m12(matrix.m12), m13(matrix.m13),
-        m20(matrix.m20), m21(matrix.m21), m22(matrix.m22), m23(matrix.m23)
+        _m00(matrix._m00), _m01(matrix._m01), _m02(matrix._m02), _m03(matrix._m03),
+        _m10(matrix._m10), _m11(matrix._m11), _m12(matrix._m12), _m13(matrix._m13),
+        _m20(matrix._m20), _m21(matrix._m21), _m22(matrix._m22), _m23(matrix._m23)
     {
     }
     
@@ -47,17 +47,17 @@ public:
     Matrix3x4(float v00, float v01, float v02, float v03,
             float v10, float v11, float v12, float v13,
             float v20, float v21, float v22, float v23) :
-        m00(v00), m01(v01), m02(v02), m03(v03),
-        m10(v10), m11(v11), m12(v12), m13(v13),
-        m20(v20), m21(v21), m22(v22), m23(v23)
+        _m00(v00), _m01(v01), _m02(v02), _m03(v03),
+        _m10(v10), _m11(v11), _m12(v12), _m13(v13),
+        _m20(v20), _m21(v21), _m22(v22), _m23(v23)
     {
     }
     
     /// Construct from a float array.
     Matrix3x4(const float* data) :
-        m00(data[0]), m01(data[1]), m02(data[2]), m03(data[3]),
-        m10(data[4]), m11(data[5]), m12(data[6]), m13(data[7]),
-        m20(data[8]), m21(data[9]), m22(data[10]), m23(data[11])
+        _m00(data[0]), _m01(data[1]), _m02(data[2]), _m03(data[3]),
+        _m10(data[4]), _m11(data[5]), _m12(data[6]), _m13(data[7]),
+        _m20(data[8]), _m21(data[9]), _m22(data[10]), _m23(data[11])
     {
     }
     
@@ -81,27 +81,27 @@ public:
     /// Assign from another matrix.
     Matrix3x4& operator = (const Matrix3x4& rhs)
     {
-        m00 = rhs.m00; m01 = rhs.m01; m02 = rhs.m02; m03 = rhs.m03;
-        m10 = rhs.m10; m11 = rhs.m11; m12 = rhs.m12; m13 = rhs.m13;
-        m20 = rhs.m20; m21 = rhs.m21; m22 = rhs.m22; m23 = rhs.m23;
+        _m00 = rhs._m00; _m01 = rhs._m01; _m02 = rhs._m02; _m03 = rhs._m03;
+        _m10 = rhs._m10; _m11 = rhs._m11; _m12 = rhs._m12; _m13 = rhs._m13;
+        _m20 = rhs._m20; _m21 = rhs._m21; _m22 = rhs._m22; _m23 = rhs._m23;
         return *this;
     }
     
     /// Assign from a 3x3 matrix and set the extra elements to identity.
     Matrix3x4& operator = (const Matrix3& rhs)
     {
-        m00 = rhs.m00; m01 = rhs.m01; m02 = rhs.m02; m03 = 0.0;
-        m10 = rhs.m10; m11 = rhs.m11; m12 = rhs.m12; m13 = 0.0;
-        m20 = rhs.m20; m21 = rhs.m21; m22 = rhs.m22; m23 = 0.0;
+        _m00 = rhs._m00; _m01 = rhs._m01; _m02 = rhs._m02; _m03 = 0.0;
+        _m10 = rhs._m10; _m11 = rhs._m11; _m12 = rhs._m12; _m13 = 0.0;
+        _m20 = rhs._m20; _m21 = rhs._m21; _m22 = rhs._m22; _m23 = 0.0;
         return *this;
     }
     
     /// Assign from a 4x4 matrix which is assumed to contain no projection.
     Matrix3x4& operator = (const Matrix4& rhs)
     {
-        m00 = rhs.m00; m01 = rhs.m01; m02 = rhs.m02; m03 = rhs.m03;
-        m10 = rhs.m10; m11 = rhs.m11; m12 = rhs.m12; m13 = rhs.m13;
-        m20 = rhs.m20; m21 = rhs.m21; m22 = rhs.m22; m23 = rhs.m23;
+        _m00 = rhs._m00; _m01 = rhs._m01; _m02 = rhs._m02; _m03 = rhs._m03;
+        _m10 = rhs._m10; _m11 = rhs._m11; _m12 = rhs._m12; _m13 = rhs._m13;
+        _m20 = rhs._m20; _m21 = rhs._m21; _m22 = rhs._m22; _m23 = rhs._m23;
         return *this;
     }
     
@@ -123,13 +123,13 @@ public:
     /// Test for inequality with another matrix without epsilon.
     bool operator != (const Matrix3x4& rhs) const { return !(*this == rhs); }
     
-    /// Multiply a Vector3 which is assumed to represent position.
+    /// Multiply a Vector3 which is assumed to represent _position.
     Vector3 operator * (const Vector3& rhs) const
     {
         return Vector3(
-            (m00 * rhs.x + m01 * rhs.y + m02 * rhs.z + m03),
-            (m10 * rhs.x + m11 * rhs.y + m12 * rhs.z + m13),
-            (m20 * rhs.x + m21 * rhs.y + m22 * rhs.z + m23)
+            (_m00 * rhs._x + _m01 * rhs._y + _m02 * rhs._z + _m03),
+            (_m10 * rhs._x + _m11 * rhs._y + _m12 * rhs._z + _m13),
+            (_m20 * rhs._x + _m21 * rhs._y + _m22 * rhs._z + _m23)
         );
     }
     
@@ -137,9 +137,9 @@ public:
     Vector3 operator * (const Vector4& rhs) const
     {
         return Vector3(
-            (m00 * rhs.x + m01 * rhs.y + m02 * rhs.z + m03 * rhs.w),
-            (m10 * rhs.x + m11 * rhs.y + m12 * rhs.z + m13 * rhs.w),
-            (m20 * rhs.x + m21 * rhs.y + m22 * rhs.z + m23 * rhs.w)
+            (_m00 * rhs._x + _m01 * rhs._y + _m02 * rhs._z + _m03 * rhs._w),
+            (_m10 * rhs._x + _m11 * rhs._y + _m12 * rhs._z + _m13 * rhs._w),
+            (_m20 * rhs._x + _m21 * rhs._y + _m22 * rhs._z + _m23 * rhs._w)
         );
     }
     
@@ -147,9 +147,9 @@ public:
     Matrix3x4 operator + (const Matrix3x4& rhs) const
     {
         return Matrix3x4(
-            m00 + rhs.m00, m01 + rhs.m01, m02 + rhs.m02, m03 + rhs.m03,
-            m10 + rhs.m10, m11 + rhs.m11, m12 + rhs.m12, m13 + rhs.m13,
-            m20 + rhs.m20, m21 + rhs.m21, m22 + rhs.m22, m23 + rhs.m23
+            _m00 + rhs._m00, _m01 + rhs._m01, _m02 + rhs._m02, _m03 + rhs._m03,
+            _m10 + rhs._m10, _m11 + rhs._m11, _m12 + rhs._m12, _m13 + rhs._m13,
+            _m20 + rhs._m20, _m21 + rhs._m21, _m22 + rhs._m22, _m23 + rhs._m23
         );
     }
     
@@ -157,9 +157,9 @@ public:
     Matrix3x4 operator - (const Matrix3x4& rhs) const
     {
         return Matrix3x4(
-            m00 - rhs.m00, m01 - rhs.m01, m02 - rhs.m02, m03 - rhs.m03,
-            m10 - rhs.m10, m11 - rhs.m11, m12 - rhs.m12, m13 - rhs.m13,
-            m20 - rhs.m20, m21 - rhs.m21, m22 - rhs.m22, m23 - rhs.m23
+            _m00 - rhs._m00, _m01 - rhs._m01, _m02 - rhs._m02, _m03 - rhs._m03,
+            _m10 - rhs._m10, _m11 - rhs._m11, _m12 - rhs._m12, _m13 - rhs._m13,
+            _m20 - rhs._m20, _m21 - rhs._m21, _m22 - rhs._m22, _m23 - rhs._m23
         );
     }
     
@@ -167,9 +167,9 @@ public:
     Matrix3x4 operator * (float rhs) const
     {
         return Matrix3x4(
-            m00 * rhs, m01 * rhs, m02 * rhs, m03 * rhs,
-            m10 * rhs, m11 * rhs, m12 * rhs, m13 * rhs,
-            m20 * rhs, m21 * rhs, m22 * rhs, m23 * rhs
+            _m00 * rhs, _m01 * rhs, _m02 * rhs, _m03 * rhs,
+            _m10 * rhs, _m11 * rhs, _m12 * rhs, _m13 * rhs,
+            _m20 * rhs, _m21 * rhs, _m22 * rhs, _m23 * rhs
         );
     }
     
@@ -177,18 +177,18 @@ public:
     Matrix3x4 operator * (const Matrix3x4& rhs) const
     {
         return Matrix3x4(
-            m00 * rhs.m00 + m01 * rhs.m10 + m02 * rhs.m20,
-            m00 * rhs.m01 + m01 * rhs.m11 + m02 * rhs.m21,
-            m00 * rhs.m02 + m01 * rhs.m12 + m02 * rhs.m22,
-            m00 * rhs.m03 + m01 * rhs.m13 + m02 * rhs.m23 + m03,
-            m10 * rhs.m00 + m11 * rhs.m10 + m12 * rhs.m20,
-            m10 * rhs.m01 + m11 * rhs.m11 + m12 * rhs.m21,
-            m10 * rhs.m02 + m11 * rhs.m12 + m12 * rhs.m22,
-            m10 * rhs.m03 + m11 * rhs.m13 + m12 * rhs.m23 + m13,
-            m20 * rhs.m00 + m21 * rhs.m10 + m22 * rhs.m20,
-            m20 * rhs.m01 + m21 * rhs.m11 + m22 * rhs.m21,
-            m20 * rhs.m02 + m21 * rhs.m12 + m22 * rhs.m22,
-            m20 * rhs.m03 + m21 * rhs.m13 + m22 * rhs.m23 + m23
+            _m00 * rhs._m00 + _m01 * rhs._m10 + _m02 * rhs._m20,
+            _m00 * rhs._m01 + _m01 * rhs._m11 + _m02 * rhs._m21,
+            _m00 * rhs._m02 + _m01 * rhs._m12 + _m02 * rhs._m22,
+            _m00 * rhs._m03 + _m01 * rhs._m13 + _m02 * rhs._m23 + _m03,
+            _m10 * rhs._m00 + _m11 * rhs._m10 + _m12 * rhs._m20,
+            _m10 * rhs._m01 + _m11 * rhs._m11 + _m12 * rhs._m21,
+            _m10 * rhs._m02 + _m11 * rhs._m12 + _m12 * rhs._m22,
+            _m10 * rhs._m03 + _m11 * rhs._m13 + _m12 * rhs._m23 + _m13,
+            _m20 * rhs._m00 + _m21 * rhs._m10 + _m22 * rhs._m20,
+            _m20 * rhs._m01 + _m21 * rhs._m11 + _m22 * rhs._m21,
+            _m20 * rhs._m02 + _m21 * rhs._m12 + _m22 * rhs._m22,
+            _m20 * rhs._m03 + _m21 * rhs._m13 + _m22 * rhs._m23 + _m23
         );
     }
     
@@ -196,55 +196,55 @@ public:
     Matrix4 operator * (const Matrix4& rhs) const
     {
         return Matrix4(
-            m00 * rhs.m00 + m01 * rhs.m10 + m02 * rhs.m20 + m03 * rhs.m30,
-            m00 * rhs.m01 + m01 * rhs.m11 + m02 * rhs.m21 + m03 * rhs.m31,
-            m00 * rhs.m02 + m01 * rhs.m12 + m02 * rhs.m22 + m03 * rhs.m32,
-            m00 * rhs.m03 + m01 * rhs.m13 + m02 * rhs.m23 + m03 * rhs.m33,
-            m10 * rhs.m00 + m11 * rhs.m10 + m12 * rhs.m20 + m13 * rhs.m30,
-            m10 * rhs.m01 + m11 * rhs.m11 + m12 * rhs.m21 + m13 * rhs.m31,
-            m10 * rhs.m02 + m11 * rhs.m12 + m12 * rhs.m22 + m13 * rhs.m32,
-            m10 * rhs.m03 + m11 * rhs.m13 + m12 * rhs.m23 + m13 * rhs.m33,
-            m20 * rhs.m00 + m21 * rhs.m10 + m22 * rhs.m20 + m23 * rhs.m30,
-            m20 * rhs.m01 + m21 * rhs.m11 + m22 * rhs.m21 + m23 * rhs.m31,
-            m20 * rhs.m02 + m21 * rhs.m12 + m22 * rhs.m22 + m23 * rhs.m32,
-            m20 * rhs.m03 + m21 * rhs.m13 + m22 * rhs.m23 + m23 * rhs.m33,
-            rhs.m30,
-            rhs.m31,
-            rhs.m32,
-            rhs.m33
+            _m00 * rhs._m00 + _m01 * rhs._m10 + _m02 * rhs._m20 + _m03 * rhs._m30,
+            _m00 * rhs._m01 + _m01 * rhs._m11 + _m02 * rhs._m21 + _m03 * rhs._m31,
+            _m00 * rhs._m02 + _m01 * rhs._m12 + _m02 * rhs._m22 + _m03 * rhs._m32,
+            _m00 * rhs._m03 + _m01 * rhs._m13 + _m02 * rhs._m23 + _m03 * rhs._m33,
+            _m10 * rhs._m00 + _m11 * rhs._m10 + _m12 * rhs._m20 + _m13 * rhs._m30,
+            _m10 * rhs._m01 + _m11 * rhs._m11 + _m12 * rhs._m21 + _m13 * rhs._m31,
+            _m10 * rhs._m02 + _m11 * rhs._m12 + _m12 * rhs._m22 + _m13 * rhs._m32,
+            _m10 * rhs._m03 + _m11 * rhs._m13 + _m12 * rhs._m23 + _m13 * rhs._m33,
+            _m20 * rhs._m00 + _m21 * rhs._m10 + _m22 * rhs._m20 + _m23 * rhs._m30,
+            _m20 * rhs._m01 + _m21 * rhs._m11 + _m22 * rhs._m21 + _m23 * rhs._m31,
+            _m20 * rhs._m02 + _m21 * rhs._m12 + _m22 * rhs._m22 + _m23 * rhs._m32,
+            _m20 * rhs._m03 + _m21 * rhs._m13 + _m22 * rhs._m23 + _m23 * rhs._m33,
+            rhs._m30,
+            rhs._m31,
+            rhs._m32,
+            rhs._m33
         );
     }
     
     /// Set translation elements.
     void SetTranslation(const Vector3& translation)
     {
-        m03 = translation.x;
-        m13 = translation.y;
-        m23 = translation.z;
+        _m03 = translation._x;
+        _m13 = translation._y;
+        _m23 = translation._z;
     }
     
     /// Set rotation elements from a 3x3 matrix.
     void SetRotation(const Matrix3& rotation)
     {
-        m00 = rotation.m00; m01 = rotation.m01; m02 = rotation.m02;
-        m10 = rotation.m10; m11 = rotation.m11; m12 = rotation.m12;
-        m20 = rotation.m20; m21 = rotation.m21; m22 = rotation.m22;
+        _m00 = rotation._m00; _m01 = rotation._m01; _m02 = rotation._m02;
+        _m10 = rotation._m10; _m11 = rotation._m11; _m12 = rotation._m12;
+        _m20 = rotation._m20; _m21 = rotation._m21; _m22 = rotation._m22;
     }
     
     /// Set scaling elements.
     void SetScale(const Vector3& scale)
     {
-        m00 = scale.x;
-        m11 = scale.y;
-        m22 = scale.z;
+        _m00 = scale._x;
+        _m11 = scale._y;
+        _m22 = scale._z;
     }
     
     /// Set uniform scaling elements.
     void SetScale(float scale)
     {
-        m00 = scale;
-        m11 = scale;
-        m22 = scale;
+        _m00 = scale;
+        _m11 = scale;
+        _m22 = scale;
     }
     
     /// Parse from a string. Return true on success.
@@ -256,9 +256,9 @@ public:
     Matrix3 ToMatrix3() const
     {
         return Matrix3(
-            m00, m01, m02,
-            m10, m11, m12,
-            m20, m21, m22
+            _m00, _m01, _m02,
+            _m10, _m11, _m12,
+            _m20, _m21, _m22
         );
     }
     
@@ -266,9 +266,9 @@ public:
     Matrix4 ToMatrix4() const
     {
         return Matrix4(
-            m00, m01, m02, m03,
-            m10, m11, m12, m13,
-            m20, m21, m22, m23,
+            _m00, _m01, _m02, _m03,
+            _m10, _m11, _m12, _m13,
+            _m20, _m21, _m22, _m23,
             0.0f, 0.0f, 0.0f, 1.0f
         );
     }
@@ -277,9 +277,9 @@ public:
     Matrix3 RotationMatrix() const
     {
         Vector3 invScale(
-            1.0f / sqrtf(m00 * m00 + m10 * m10 + m20 * m20),
-            1.0f / sqrtf(m01 * m01 + m11 * m11 + m21 * m21),
-            1.0f / sqrtf(m02 * m02 + m12 * m12 + m22 * m22)
+            1.0f / sqrtf(_m00 * _m00 + _m10 * _m10 + _m20 * _m20),
+            1.0f / sqrtf(_m01 * _m01 + _m11 * _m11 + _m21 * _m21),
+            1.0f / sqrtf(_m02 * _m02 + _m12 * _m12 + _m22 * _m22)
         );
         
         return ToMatrix3().Scaled(invScale);
@@ -289,9 +289,9 @@ public:
     Vector3 Translation() const
     {
         return Vector3(
-            m03,
-            m13,
-            m23
+            _m03,
+            _m13,
+            _m23
         );
     }
     
@@ -302,9 +302,9 @@ public:
     Vector3 Scale() const
     {
         return Vector3(
-            sqrtf(m00 * m00 + m10 * m10 + m20 * m20),
-            sqrtf(m01 * m01 + m11 * m11 + m21 * m21),
-            sqrtf(m02 * m02 + m12 * m12 + m22 * m22)
+            sqrtf(_m00 * _m00 + _m10 * _m10 + _m20 * _m20),
+            sqrtf(_m01 * _m01 + _m11 * _m11 + _m21 * _m21),
+            sqrtf(_m02 * _m02 + _m12 * _m12 + _m22 * _m22)
         );
     }
     
@@ -329,7 +329,7 @@ public:
     Matrix3x4 Inverse() const;
     
     /// Return float data.
-    const float* Data() const { return &m00; }
+    const float* Data() const { return &_m00; }
     /// Return as string.
     String ToString() const;
     
@@ -346,22 +346,22 @@ inline Matrix3x4 operator * (float lhs, const Matrix3x4& rhs) { return rhs * lhs
 inline Matrix4 operator * (const Matrix4& lhs, const Matrix3x4& rhs)
 {
     return Matrix4(
-        lhs.m00 * rhs.m00 + lhs.m01 * rhs.m10 + lhs.m02 * rhs.m20,
-        lhs.m00 * rhs.m01 + lhs.m01 * rhs.m11 + lhs.m02 * rhs.m21,
-        lhs.m00 * rhs.m02 + lhs.m01 * rhs.m12 + lhs.m02 * rhs.m22,
-        lhs.m00 * rhs.m03 + lhs.m01 * rhs.m13 + lhs.m02 * rhs.m23 + lhs.m03,
-        lhs.m10 * rhs.m00 + lhs.m11 * rhs.m10 + lhs.m12 * rhs.m20,
-        lhs.m10 * rhs.m01 + lhs.m11 * rhs.m11 + lhs.m12 * rhs.m21,
-        lhs.m10 * rhs.m02 + lhs.m11 * rhs.m12 + lhs.m12 * rhs.m22,
-        lhs.m10 * rhs.m03 + lhs.m11 * rhs.m13 + lhs.m12 * rhs.m23 + lhs.m13,
-        lhs.m20 * rhs.m00 + lhs.m21 * rhs.m10 + lhs.m22 * rhs.m20,
-        lhs.m20 * rhs.m01 + lhs.m21 * rhs.m11 + lhs.m22 * rhs.m21,
-        lhs.m20 * rhs.m02 + lhs.m21 * rhs.m12 + lhs.m22 * rhs.m22,
-        lhs.m20 * rhs.m03 + lhs.m21 * rhs.m13 + lhs.m22 * rhs.m23 + lhs.m23,
-        lhs.m30 * rhs.m00 + lhs.m31 * rhs.m10 + lhs.m32 * rhs.m20,
-        lhs.m30 * rhs.m01 + lhs.m31 * rhs.m11 + lhs.m32 * rhs.m21,
-        lhs.m30 * rhs.m02 + lhs.m31 * rhs.m12 + lhs.m32 * rhs.m22,
-        lhs.m30 * rhs.m03 + lhs.m31 * rhs.m13 + lhs.m32 * rhs.m23 + lhs.m33
+        lhs._m00 * rhs._m00 + lhs._m01 * rhs._m10 + lhs._m02 * rhs._m20,
+        lhs._m00 * rhs._m01 + lhs._m01 * rhs._m11 + lhs._m02 * rhs._m21,
+        lhs._m00 * rhs._m02 + lhs._m01 * rhs._m12 + lhs._m02 * rhs._m22,
+        lhs._m00 * rhs._m03 + lhs._m01 * rhs._m13 + lhs._m02 * rhs._m23 + lhs._m03,
+        lhs._m10 * rhs._m00 + lhs._m11 * rhs._m10 + lhs._m12 * rhs._m20,
+        lhs._m10 * rhs._m01 + lhs._m11 * rhs._m11 + lhs._m12 * rhs._m21,
+        lhs._m10 * rhs._m02 + lhs._m11 * rhs._m12 + lhs._m12 * rhs._m22,
+        lhs._m10 * rhs._m03 + lhs._m11 * rhs._m13 + lhs._m12 * rhs._m23 + lhs._m13,
+        lhs._m20 * rhs._m00 + lhs._m21 * rhs._m10 + lhs._m22 * rhs._m20,
+        lhs._m20 * rhs._m01 + lhs._m21 * rhs._m11 + lhs._m22 * rhs._m21,
+        lhs._m20 * rhs._m02 + lhs._m21 * rhs._m12 + lhs._m22 * rhs._m22,
+        lhs._m20 * rhs._m03 + lhs._m21 * rhs._m13 + lhs._m22 * rhs._m23 + lhs._m23,
+        lhs._m30 * rhs._m00 + lhs._m31 * rhs._m10 + lhs._m32 * rhs._m20,
+        lhs._m30 * rhs._m01 + lhs._m31 * rhs._m11 + lhs._m32 * rhs._m21,
+        lhs._m30 * rhs._m02 + lhs._m31 * rhs._m12 + lhs._m32 * rhs._m22,
+        lhs._m30 * rhs._m03 + lhs._m31 * rhs._m13 + lhs._m32 * rhs._m23 + lhs._m33
     );
 }
 

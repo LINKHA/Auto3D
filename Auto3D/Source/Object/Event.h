@@ -9,7 +9,7 @@ namespace Auto3D
 
 class Event;
 
-/// Internal helper class for invoking event handler functions.
+/// Internal helper class for invoking _event handler functions.
 class AUTO_API EventHandler
 {
 public:
@@ -22,14 +22,14 @@ public:
     virtual void Invoke(Event& event) = 0;
 
     /// Return the receiver object.
-    RefCounted* Receiver() const { return receiver.Get(); }
+    RefCounted* Receiver() const { return _receiver.Get(); }
 
 protected:
     /// Receiver object.
-    WeakPtr<RefCounted> receiver;
+    WeakPtr<RefCounted> _receiver;
 };
 
-/// Template implementation of the event handler invoke helper, stores a function pointer of specific class.
+/// Template implementation of the _event handler invoke helper, stores a function pointer of specific class.
 template <class _Ty, class U> class EventHandlerImpl : public EventHandler
 {
 public:
@@ -38,25 +38,25 @@ public:
     /// Construct with receiver and function pointers.
     EventHandlerImpl(RefCounted* receiver_, HandlerFunctionPtr function_) :
         EventHandler(receiver_),
-        function(function_)
+        _function(function_)
     {
-        assert(function);
+        assert(_function);
     }
 
     /// Invoke the handler function.
     void Invoke(Event& event) override
     {
-        _Ty* typedReceiver = static_cast<_Ty*>(receiver.Get());
+        _Ty* typedReceiver = static_cast<_Ty*>(_receiver.Get());
         U& typedEvent = static_cast<U&>(event);
-        (typedReceiver->*function)(typedEvent);
+        (typedReceiver->*_function)(typedEvent);
     }
 
 private:
-    /// Pointer to the event handler function.
-    HandlerFunctionPtr function;
+    /// Pointer to the _event handler function.
+    HandlerFunctionPtr _function;
 };
 
-/// Notification and data passing mechanism, to which objects can subscribe by specifying a handler function. Subclass to include event-specific data.
+/// Notification and data passing mechanism, to which objects can subscribe by specifying a handler function. Subclass to include _event-specific data.
 class AUTO_API Event
 {
 public:
@@ -65,19 +65,19 @@ public:
     /// Destruct.
     virtual ~Event();
     
-    /// Send the event.
+    /// Send the _event.
     void Send(RefCounted* sender);
-    /// Subscribe to the event. The event takes ownership of the handler data. If there is already handler data for the same receiver, it is overwritten.
+    /// Subscribe to the _event. The _event takes ownership of the handler data. If there is already handler data for the same receiver, it is overwritten.
     void Subscribe(EventHandler* handler);
-    /// Unsubscribe from the event.
+    /// Unsubscribe from the _event.
     void Unsubscribe(RefCounted* receiver);
 
-    /// Return whether has at least one valid receiver.
+    /// Return whether has at least one _valid receiver.
     bool HasReceivers() const;
     /// Return whether has a specific receiver.
     bool HasReceiver(const RefCounted* receiver) const;
     /// Return current sender.
-    RefCounted* Sender() const { return currentSender; }
+    RefCounted* Sender() const { return _currentSender; }
     
 private:
     /// Prevent copy construction.
@@ -86,9 +86,9 @@ private:
     Event& operator = (const Event& rhs);
     
     /// Event handlers.
-    Vector<AutoPtr<EventHandler> > handlers;
+    Vector<AutoPtr<EventHandler> > _handlers;
     /// Current sender.
-    WeakPtr<RefCounted> currentSender;
+    WeakPtr<RefCounted> _currentSender;
 };
 
 }

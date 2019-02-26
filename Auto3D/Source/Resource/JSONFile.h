@@ -23,13 +23,13 @@ public:
     static void RegisterObject();
 
     /// Return the root value.
-    JSONValue& Root() { return root; }
+    JSONValue& Root() { return _root; }
     /// Return the const root value.
-    const JSONValue& Root() const { return root; }
+    const JSONValue& Root() const { return _root; }
 
 private:
     /// Root value.
-    JSONValue root;
+    JSONValue _root;
 };
 
 }

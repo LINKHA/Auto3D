@@ -44,8 +44,8 @@ public:
     void LoadJSON(const JSONValue& source, ObjectResolver& resolver) override;
     /// Save as JSON data.
     void SaveJSON(JSONValue& dest) override;
-    /// Return unique id within the scene, or 0 if not in a scene.
-    unsigned Id() const override { return id; }
+    /// Return unique _id within the scene, or 0 if not in a scene.
+    unsigned Id() const override { return _id; }
 
     /// Save as JSON text data to a binary stream. Return true on success.
     bool SaveJSON(Stream& dest);
@@ -93,15 +93,15 @@ public:
     template <class _Ty> _Ty* CreateChild(const char* childName) { return static_cast<_Ty*>(CreateChild(_Ty::TypeStatic(), childName)); }
 
     /// Return name.
-    const String& Name() const { return name; }
+    const String& Name() const { return _name; }
     /// Return layer.
-    unsigned char Layer() const { return layer; }
+    unsigned char Layer() const { return _layer; }
     /// Return layer name, or empty if not registered in the scene root.
     const String& LayerName() const;
     /// Return bitmask corresponding to layer.
-    unsigned LayerMask() const { return 1 << layer; }
+    unsigned LayerMask() const { return 1 << _layer; }
     /// Return tag.
-    unsigned char Tag() const { return tag; }
+    unsigned char Tag() const { return _tag; }
     /// Return tag name, or empty if not registered in the scene root.
     const String& TagName() const;
     /// Return enabled status.
@@ -109,17 +109,17 @@ public:
     /// Return whether is temporary.
     bool IsTemporary() const { return TestFlag(NF_TEMPORARY); }
     /// Return parent node.
-    Node* Parent() const { return parent; }
+    Node* Parent() const { return _parent; }
     /// Return the scene that the node belongs to.
-    Scene* ParentScene() const { return scene; }
+    Scene* ParentScene() const { return _scene; }
     /// Return number of immediate child nodes.
-    size_t NumChildren() const { return children.Size(); }
+    size_t NumChildren() const { return _children.Size(); }
     /// Return number of immediate child nodes that are not temporary.
     size_t NumPersistentChildren() const;
     /// Return immediate child node by index.
-    Node* Child(size_t index) const { return index < children.Size() ? children[index].Get() : nullptr; }
+    Node* Child(size_t index) const { return index < _children.Size() ? _children[index].Get() : nullptr; }
     /// Return all immediate child nodes.
-    const Vector<SharedPtr<Node> >& Children() const { return children; }
+    const Vector<SharedPtr<Node> >& Children() const { return _children; }
     /// Return child nodes recursively.
     void AllChildren(Vector<Node*>& result) const;
     /// Return first child node that matches name.
@@ -160,14 +160,14 @@ public:
     template <class _Ty> void FindChildren(Vector<_Ty*>& result, bool recursive = false) const { return FindChildren(reinterpret_cast<Vector<_Ty*>&>(result), recursive); }
     
     /// Set bit flag. Called internally.
-    void SetFlag(unsigned short bit, bool set) const { if (set) flags |= bit; else flags &= ~bit; }
+    void SetFlag(unsigned short bit, bool set) const { if (set) _flags |= bit; else _flags &= ~bit; }
     /// Test bit flag. Called internally.
-    bool TestFlag(unsigned short bit) const { return (flags & bit) != 0; }
+    bool TestFlag(unsigned short bit) const { return (_flags & bit) != 0; }
     /// Return bit flags. Used internally eg. by octree queries.
-    unsigned short Flags() const { return flags; }
+    unsigned short Flags() const { return _flags; }
     /// Assign node to a new scene. Called internally.
     void SetScene(Scene* newScene);
-    /// Assign new id. Called internally.
+    /// Assign new _id. Called internally.
     void SetId(unsigned newId);
     
     /// Skip the binary data of a node hierarchy, in case the node could not be created.
@@ -183,21 +183,21 @@ protected:
 
 private:
     /// Parent node.
-    Node* parent;
+    Node* _parent;
     /// Parent scene.
-    Scene* scene;
+    Scene* _scene;
     /// Child nodes.
-    Vector<SharedPtr<Node> > children;
+    Vector<SharedPtr<Node> > _children;
     /// Id within the scene.
-    unsigned id;
+    unsigned _id;
     /// %Node name.
-    String name;
+    String _name;
     /// %Node flags. Used to hold several boolean values (some subclass-specific) to reduce memory use.
-    mutable unsigned short flags;
+    mutable unsigned short _flags;
     /// Layer number.
-    unsigned char layer;
+    unsigned char _layer;
     /// Tag number.
-    unsigned char tag;
+    unsigned char _tag;
 };
 
 }

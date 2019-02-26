@@ -32,29 +32,29 @@ struct AUTO_API StoredLogMessage
     }
     
     /// Construct with parameters.
-    StoredLogMessage(const String& message_, int level_, bool error_) :
-        message(message_),
-        level(level_),
-        error(error_)
+    StoredLogMessage(const String& message, int level, bool error) :
+        _message(message),
+        _level(level),
+        _error(error)
     {
     }
     
     /// Message text.
-    String message;
+    String _message;
     /// Message level. -1 for raw messages.
-    int level;
+    int _level;
     /// Error flag for raw messages.
-    bool error;
+    bool _error;
 };
 
-/// %Log message event.
+/// %Log message _event.
 class AUTO_API LogMessageEvent : public Event
 {
 public:
     /// Message.
-    String message;
+    String _message;
     /// Message level.
-    int level;
+    int _level;
 };
 
 /// Logging subsystem.
@@ -81,65 +81,65 @@ public:
     void EndFrame();
 
     /// Return logging level.
-    int Level() const { return level; }
+    int Level() const { return _level; }
     /// Return whether log messages are timestamped.
-    bool HasTimeStamp() const { return timeStamp; }
+    bool HasTimeStamp() const { return _timeStamp; }
     /// Return last log message.
-    String LastMessage() const { return lastMessage; }
+    String LastMessage() const { return _lastMessage; }
 
     /// Write to the log. If logging level is higher than the level of the message, the message is ignored.
     static void Write(int msgLevel, const String& message);
     /// Write raw output to the log.
     static void WriteRaw(const String& message, bool error = false);
 
-    /// %Log message event.
-    LogMessageEvent logMessageEvent;
+    /// %Log message _event.
+    LogMessageEvent _logMessageEvent;
 
 private:
     /// Mutex for threaded operation.
-    Mutex logMutex;
+    Mutex _logMutex;
     /// %Log messages from other threads.
-    List<StoredLogMessage> threadMessages;
+    List<StoredLogMessage> _threadMessages;
     /// %Log file.
-    AutoPtr<File> logFile;
+    AutoPtr<File> _logFile;
     /// Last log message.
-    String lastMessage;
+    String _lastMessage;
     /// Logging level.
-    int level;
+    int _level;
     /// Use timestamps flag.
-    bool timeStamp;
+    bool _timeStamp;
     /// In write flag to prevent recursion.
-    bool inWrite;
+    bool _inWrite;
     /// Quite mode flag.
-    bool quiet;
+    bool _quiet;
 };
 
 }
 
 #ifdef AUTO_LOGGING
 
-#define LOGDEBUG(message) Auto3D::Log::Write(Auto3D::LOG_DEBUG, message)
-#define LOGINFO(message) Auto3D::Log::Write(Auto3D::LOG_INFO, message)
-#define LOGWARNING(message) Auto3D::Log::Write(Auto3D::LOG_WARNING, message)
-#define LOGERROR(message) Auto3D::Log::Write(Auto3D::LOG_ERROR, message)
-#define LOGRAW(message) Auto3D::Log::WriteRaw(message)
-#define LOGDEBUGF(format, ...) Auto3D::Log::Write(Auto3D::LOG_DEBUG, Auto3D::String::Format(format, ##__VA_ARGS__))
-#define LOGINFOF(format, ...) Auto3D::Log::Write(Auto3D::LOG_INFO, Auto3D::String::Format(format, ##__VA_ARGS__))
-#define LOGWARNINGF(format, ...) Auto3D::Log::Write(Auto3D::LOG_WARNING, Auto3D::String::Format(format, ##__VA_ARGS__))
-#define LOGERRORF(format, ...) Auto3D::Log::Write(Auto3D::LOG_ERROR, Auto3D::String::Format(format, ##__VA_ARGS__))
-#define LOGRAWF(format, ...) Auto3D::Log::WriteRaw(Auto3D::String::Format(format, ##__VA_ARGS__))
+#define LogString(message) Auto3D::Log::Write(Auto3D::LOG_DEBUG, message)
+#define InfoString(message) Auto3D::Log::Write(Auto3D::LOG_INFO, message)
+#define WarinningString(message) Auto3D::Log::Write(Auto3D::LOG_WARNING, message)
+#define ErrorString(message) Auto3D::Log::Write(Auto3D::LOG_ERROR, message)
+#define LogRawString(message) Auto3D::Log::WriteRaw(message)
+#define LogStringF(format, ...) Auto3D::Log::Write(Auto3D::LOG_DEBUG, Auto3D::String::Format(format, ##__VA_ARGS__))
+#define InfoStringF(format, ...) Auto3D::Log::Write(Auto3D::LOG_INFO, Auto3D::String::Format(format, ##__VA_ARGS__))
+#define WarnningStringF(format, ...) Auto3D::Log::Write(Auto3D::LOG_WARNING, Auto3D::String::Format(format, ##__VA_ARGS__))
+#define ErrorStringF(format, ...) Auto3D::Log::Write(Auto3D::LOG_ERROR, Auto3D::String::Format(format, ##__VA_ARGS__))
+#define LogRawStringF(format, ...) Auto3D::Log::WriteRaw(Auto3D::String::Format(format, ##__VA_ARGS__))
 
 #else
 
-#define LOGDEBUG(message)
-#define LOGINFO(message)
-#define LOGWARNING(message)
-#define LOGERROR(message)
-#define LOGRAW(message)
-#define LOGDEBUGF(format, ...)
-#define LOGINFOF(format, ...)
-#define LOGWARNINGF(format, ...)
-#define LOGERRORF(format, ...)
-#define LOGRAWF(format, ...)
+#define LogString(_message)
+#define InfoString(_message)
+#define WarinningString(_message)
+#define ErrorString(_message)
+#define LogRawString(_message)
+#define LogStringF(_format, ...)
+#define InfoStringF(_format, ...)
+#define WarnningStringF(_format, ...)
+#define ErrorStringF(_format, ...)
+#define LogRawStringF(_format, ...)
 
 #endif

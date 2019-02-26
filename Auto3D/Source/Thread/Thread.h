@@ -35,7 +35,7 @@ public:
     void SetPriority(int priority);
     
     /// Return whether thread exists.
-    bool IsStarted() const { return handle != nullptr; }
+    bool IsStarted() const { return _handle != nullptr; }
 
     /// Sleep the current thread for the specified amount of milliseconds. 0 to just yield the timeslice.
     static void Sleep(unsigned mSec);
@@ -47,13 +47,13 @@ public:
     static bool IsMainThread();
     
 protected:
-    /// Thread handle.
-    void* handle;
+    /// Thread _handle.
+    void* _handle;
     /// Running flag.
-    volatile bool shouldRun;
+    volatile bool _shouldRun;
     
     /// Main thread's thread ID.
-    static ThreadID mainThreadID;
+    static ThreadID _mainThreadID;
 };
 
 }

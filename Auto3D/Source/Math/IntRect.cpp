@@ -23,10 +23,10 @@ bool IntRect::FromString(const char* str)
         return false;
     
     char* ptr = (char*)str;
-    left = strtol(ptr, &ptr, 10);
-    top = strtol(ptr, &ptr, 10);
-    right = strtol(ptr, &ptr, 10);
-    bottom = strtol(ptr, &ptr, 10);
+    _left = strtol(ptr, &ptr, 10);
+    _top = strtol(ptr, &ptr, 10);
+    _right = strtol(ptr, &ptr, 10);
+    _bottom = strtol(ptr, &ptr, 10);
     
     return true;
 }
@@ -34,7 +34,7 @@ bool IntRect::FromString(const char* str)
 String IntRect::ToString() const
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
-    sprintf(tempBuffer, "%d %d %d %d", left, top, right, bottom);
+    sprintf(tempBuffer, "%d %d %d %d", _left, _top, _right, _bottom);
     return String(tempBuffer);
 }
 

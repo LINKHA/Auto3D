@@ -7,43 +7,43 @@
 namespace Auto3D
 {
 
-bool IndexBuffer::Define(ResourceUsage usage_, size_t numIndices_, size_t indexSize_, bool useShadowData, const void* data)
+bool IndexBuffer::Define(ResourceUsage usage, size_t numIndices, size_t indexSize, bool useShadowData, const void* data)
 {
     PROFILE(DefineIndexBuffer);
 
     Release();
 
-    if (!numIndices_)
+    if (!numIndices)
     {
-        LOGERROR("Can not define index buffer with no indices");
+        ErrorString("Can not define index buffer with no indices");
         return false;
     }
-    if (usage_ == USAGE_RENDERTARGET)
+    if (usage == USAGE_RENDERTARGET)
     {
-        LOGERROR("Rendertarget usage is illegal for index buffers");
+        ErrorString("Rendertarget usage is illegal for index buffers");
         return false;
     }
-    if (usage_ == USAGE_IMMUTABLE && !data)
+    if (usage == USAGE_IMMUTABLE && !data)
     {
-        LOGERROR("Immutable index buffer must define initial data");
+        ErrorString("Immutable index buffer must define initial data");
         return false;
     }
-    if (indexSize_ != sizeof(unsigned) && indexSize_ != sizeof(unsigned short))
+    if (indexSize != sizeof(unsigned) && indexSize != sizeof(unsigned short))
     {
-        LOGERROR("Index buffer index size must be 2 or 4");
+        ErrorString("Index buffer index size must be 2 or 4");
         return false;
     }
 
-    numIndices = numIndices_;
-    indexSize = indexSize_;
-    usage = usage_;
+    _numIndices = numIndices;
+    _indexSize = indexSize;
+    _usage = usage;
 
     // If buffer is reinitialized with the same shadow data, no need to reallocate
-    if (useShadowData && (!data || data != shadowData.Get()))
+    if (useShadowData && (!data || data != _shadowData.Get()))
     {
-        shadowData = new unsigned char[numIndices * indexSize];
+        _shadowData = new unsigned char[_numIndices * _indexSize];
         if (data)
-            memcpy(shadowData.Get(), data, numIndices * indexSize);
+            memcpy(_shadowData.Get(), data, _numIndices * _indexSize);
     }
 
     return Create(data);

@@ -10,9 +10,9 @@ namespace Auto3D
 
 Vector3 Ray::ClosestPoint(const Ray& ray) const
 {
-    Vector3 p13 = origin - ray.origin;
-    Vector3 p43 = ray.direction;
-    Vector3 p21 = direction;
+    Vector3 p13 = _origin - ray._origin;
+    Vector3 p43 = ray._direction;
+    Vector3 p21 = _direction;
     
     float d1343 = p13.DotProduct(p43);
     float d4321 = p43.DotProduct(p21);
@@ -22,19 +22,19 @@ Vector3 Ray::ClosestPoint(const Ray& ray) const
     
     float d = d2121 * d4343 - d4321 * d4321;
     if (Abs(d) < M_EPSILON)
-        return origin;
+        return _origin;
     float n = d1343 * d4321 - d1321 * d4343;
     float a = n / d;
     
-    return origin + a * direction;
+    return _origin + a * _direction;
 }
 
 float Ray::HitDistance(const Plane& plane) const
 {
-    float d = plane.normal.DotProduct(direction);
+    float d = plane._normal.DotProduct(_direction);
     if (Abs(d) >= M_EPSILON)
     {
-        float t = -(plane.normal.DotProduct(origin) + plane.d) / d;
+        float t = -(plane._normal.DotProduct(_origin) + plane._d) / d;
         if (t >= 0.0f)
             return t;
         else
@@ -47,71 +47,71 @@ float Ray::HitDistance(const Plane& plane) const
 float Ray::HitDistance(const BoundingBox& box) const
 {
     // Check for ray origin being inside the box
-    if (box.IsInside(origin))
+    if (box.IsInside(_origin))
         return 0.0f;
     
     float dist = M_INFINITY;
     
     // Check for intersecting in the X-direction
-    if (origin.x < box.min.x && direction.x > 0.0f)
+    if (_origin._x < box._min._x && _direction._x > 0.0f)
     {
-        float x = (box.min.x - origin.x) / direction.x;
+        float x = (box._min._x - _origin._x) / _direction._x;
         if (x < dist)
         {
-            Vector3 point = origin + x * direction;
-            if (point.y >= box.min.y && point.y <= box.max.y && point.z >= box.min.z && point.z <= box.max.z)
+            Vector3 point = _origin + x * _direction;
+            if (point._y >= box._min._y && point._y <= box._max._y && point._z >= box._min._z && point._z <= box._max._z)
                 dist = x;
         }
     }
-    if (origin.x > box.max.x && direction.x < 0.0f)
+    if (_origin._x > box._max._x && _direction._x < 0.0f)
     {
-        float x = (box.max.x - origin.x) / direction.x;
+        float x = (box._max._x - _origin._x) / _direction._x;
         if (x < dist)
         {
-            Vector3 point = origin + x * direction;
-            if (point.y >= box.min.y && point.y <= box.max.y && point.z >= box.min.z && point.z <= box.max.z)
+            Vector3 point = _origin + x * _direction;
+            if (point._y >= box._min._y && point._y <= box._max._y && point._z >= box._min._z && point._z <= box._max._z)
                 dist = x;
         }
     }
     // Check for intersecting in the Y-direction
-    if (origin.y < box.min.y && direction.y > 0.0f)
+    if (_origin._y < box._min._y && _direction._y > 0.0f)
     {
-        float x = (box.min.y - origin.y) / direction.y;
+        float x = (box._min._y - _origin._y) / _direction._y;
         if (x < dist)
         {
-            Vector3 point = origin + x * direction;
-            if (point.x >= box.min.x && point.x <= box.max.x && point.z >= box.min.z && point.z <= box.max.z)
+            Vector3 point = _origin + x * _direction;
+            if (point._x >= box._min._x && point._x <= box._max._x && point._z >= box._min._z && point._z <= box._max._z)
                 dist = x;
         }
     }
-    if (origin.y > box.max.y && direction.y < 0.0f)
+    if (_origin._y > box._max._y && _direction._y < 0.0f)
     {
-        float x = (box.max.y - origin.y) / direction.y;
+        float x = (box._max._y - _origin._y) / _direction._y;
         if (x < dist)
         {
-            Vector3 point = origin + x * direction;
-            if (point.x >= box.min.x && point.x <= box.max.x && point.z >= box.min.z && point.z <= box.max.z)
+            Vector3 point = _origin + x * _direction;
+            if (point._x >= box._min._x && point._x <= box._max._x && point._z >= box._min._z && point._z <= box._max._z)
                 dist = x;
         }
     }
     // Check for intersecting in the Z-direction
-    if (origin.z < box.min.z && direction.z > 0.0f)
+    if (_origin._z < box._min._z && _direction._z > 0.0f)
     {
-        float x = (box.min.z - origin.z) / direction.z;
+        float x = (box._min._z - _origin._z) / _direction._z;
         if (x < dist)
         {
-            Vector3 point = origin + x * direction;
-            if (point.x >= box.min.x && point.x <= box.max.x && point.y >= box.min.y && point.y <= box.max.y)
+            Vector3 point = _origin + x * _direction;
+            if (point._x >= box._min._x && point._x <= box._max._x && point._y >= box._min._y && point._y <= box._max._y)
                 dist = x;
         }
     }
-    if (origin.z > box.max.z && direction.z < 0.0f)
+    if (_origin._z > box._max._z && _direction._z < 0.0f)
     {
-        float x = (box.max.z - origin.z) / direction.z;
+        float x = (box._max._z - _origin._z) / _direction._z;
         if (x < dist)
         {
-            Vector3 point = origin + x * direction;
-            if (point.x >= box.min.x && point.x <= box.max.x && point.y >= box.min.y && point.y <= box.max.y)
+            Vector3 point = _origin + x * _direction;
+            if (point._x >= box._min._x && point._x <= box._max._x && point._y >= box._min._y && point._y <= box._max._y)
                 dist = x;
         }
     }
@@ -127,10 +127,10 @@ float Ray::HitDistance(const Frustum& frustum, bool solidInside) const
     
     for (size_t i = 0; i < NUM_FRUSTUM_PLANES; ++i)
     {
-        const Plane& plane = frustum.planes[i];
-        float distance = HitDistance(frustum.planes[i]);
+        const Plane& plane = frustum._planes[i];
+        float distance = HitDistance(frustum._planes[i]);
         
-        if (plane.Distance(origin) < 0.0f)
+        if (plane.Distance(_origin) < 0.0f)
         {
             maxOutside = Max(maxOutside, distance);
             allInside = false;
@@ -149,16 +149,16 @@ float Ray::HitDistance(const Frustum& frustum, bool solidInside) const
 
 float Ray::HitDistance(const Sphere& sphere) const
 {
-    Vector3 centeredOrigin = origin - sphere.center;
-    float squaredRadius = sphere.radius * sphere.radius;
+    Vector3 centeredOrigin = _origin - sphere._center;
+    float squaredRadius = sphere._radius * sphere._radius;
     
     // Check if ray originates inside the sphere
     if (centeredOrigin.LengthSquared() <= squaredRadius)
         return 0.0f;
     
     // Calculate intersection by quadratic equation
-    float a = direction.DotProduct(direction);
-    float b = 2.0f * centeredOrigin.DotProduct(direction);
+    float a = _direction.DotProduct(_direction);
+    float b = 2.0f * centeredOrigin.DotProduct(_direction);
     float c = centeredOrigin.DotProduct(centeredOrigin) - squaredRadius;
     float d = b * b - 4.0f * a * c;
     
@@ -189,17 +189,17 @@ float Ray::HitDistance(const Vector3& v0, const Vector3& v1, const Vector3& v2, 
     Vector3 edge2(v2 - v0);
     
     // Calculate determinant & check backfacing
-    Vector3 p(direction.CrossProduct(edge2));
+    Vector3 p(_direction.CrossProduct(edge2));
     float det = edge1.DotProduct(p);
     if (det >= M_EPSILON)
     {
         // Calculate u & v parameters and test
-        Vector3 t(origin - v0);
+        Vector3 t(_origin - v0);
         float u = t.DotProduct(p);
         if (u >= 0.0f && u <= det)
         {
             Vector3 q(t.CrossProduct(edge1));
-            float v = direction.DotProduct(q);
+            float v = _direction.DotProduct(q);
             if (v >= 0.0f && u + v <= det)
             {
                 float distance = edge2.DotProduct(q) / det;
@@ -370,8 +370,8 @@ bool Ray::InsideGeometry(const void* vertexData, size_t vertexSize, const void* 
 Ray Ray::Transformed(const Matrix3x4& transform) const
 {
     Ray ret;
-    ret.origin = transform * origin;
-    ret.direction = transform * Vector4(direction, 0.0f);
+    ret._origin = transform * _origin;
+    ret._direction = transform * Vector4(_direction, 0.0f);
     return ret;
 }
 

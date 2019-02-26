@@ -17,8 +17,8 @@ bool ResourceRef::FromString(const char* str)
     Vector<String> values = String::Split(str, ';');
     if (values.Size() == 2)
     {
-        type = values[0];
-        name = values[1];
+        _type = values[0];
+        _name = values[1];
         return true;
     }
     else
@@ -27,19 +27,19 @@ bool ResourceRef::FromString(const char* str)
 
 void ResourceRef::FromBinary(Stream& source)
 {
-    type = source.Read<StringHash>();
-    name = source.Read<String>();
+    _type = source.Read<StringHash>();
+    _name = source.Read<String>();
 }
 
 String ResourceRef::ToString() const
 {
-    return Object::TypeNameFromType(type) + ";" + name;
+    return Object::TypeNameFromType(_type) + ";" + _name;
 }
 
 void ResourceRef::ToBinary(Stream& dest) const
 {
-    dest.Write(type);
-    dest.Write(name);
+    dest.Write(_type);
+    dest.Write(_name);
 }
 
 bool ResourceRefList::FromString(const String& str)
@@ -52,10 +52,10 @@ bool ResourceRefList::FromString(const char* str)
     Vector<String> values = String::Split(str, ';');
     if (values.Size() >= 1)
     {
-        type = values[0];
-        names.Clear();
+        _type = values[0];
+        _names.Clear();
         for (size_t i = 1; i < values.Size(); ++i)
-            names.Push(values[i]);
+            _names.Push(values[i]);
         return true;
     }
     else
@@ -64,17 +64,17 @@ bool ResourceRefList::FromString(const char* str)
 
 void ResourceRefList::FromBinary(Stream& source)
 {
-    type = source.Read<StringHash>();
+    _type = source.Read<StringHash>();
     size_t num = source.ReadVLE();
-    names.Clear();
+    _names.Clear();
     for (size_t i = 0; i < num && !source.IsEof(); ++i)
-        names.Push(source.Read<String>());
+        _names.Push(source.Read<String>());
 }
 
 String ResourceRefList::ToString() const
 {
-    String ret(Object::TypeNameFromType(type));
-    for (auto it = names.Begin(); it != names.End(); ++it)
+    String ret(Object::TypeNameFromType(_type));
+    for (auto it = _names.Begin(); it != _names.End(); ++it)
     {
         ret += ";";
         ret += *it;
@@ -84,9 +84,9 @@ String ResourceRefList::ToString() const
 
 void ResourceRefList::ToBinary(Stream& dest) const
 {
-    dest.Write(type);
-    dest.WriteVLE(names.Size());
-    for (auto it = names.Begin(); it != names.End(); ++it)
+    dest.Write(_type);
+    dest.WriteVLE(_names.Size());
+    for (auto it = _names.Begin(); it != _names.End(); ++it)
         dest.Write(*it);
 }
 

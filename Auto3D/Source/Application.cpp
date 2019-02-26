@@ -32,7 +32,7 @@ int Application::Run()
 				_engine->FrameFinish();
 			}
 		}
-		//LOGRAW(profilerOutput);
+		//LogRawString(profilerOutput);
 		Stop();
 		_engine->Exit();
 

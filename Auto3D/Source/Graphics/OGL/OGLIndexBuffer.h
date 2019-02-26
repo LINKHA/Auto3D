@@ -27,35 +27,35 @@ public:
     bool SetData(size_t firstIndex, size_t numIndices, const void* data);
 
     /// Return CPU-side shadow data if exists.
-    unsigned char* ShadowData() const { return shadowData.Get(); }
+    unsigned char* ShadowData() const { return _shadowData.Get(); }
     /// Return number of indices.
-    size_t NumIndices() const { return numIndices; }
-    /// Return size of index in bytes.
-    size_t IndexSize() const { return indexSize; }
+    size_t NumIndices() const { return _numIndices; }
+    /// Return _size of index in bytes.
+    size_t IndexSize() const { return _indexSize; }
     /// Return resource usage type.
-    ResourceUsage Usage() const { return usage; }
+    ResourceUsage Usage() const { return _usage; }
     /// Return whether is dynamic.
-    bool IsDynamic() const { return usage == USAGE_DYNAMIC; }
+    bool IsDynamic() const { return _usage == USAGE_DYNAMIC; }
     /// Return whether is immutable.
-    bool IsImmutable() const { return usage == USAGE_IMMUTABLE; }
+    bool IsImmutable() const { return _usage == USAGE_IMMUTABLE; }
 
     /// Return the OpenGL buffer identifier. Used internally and should not be called by portable application code.
-    unsigned GLBuffer() const { return buffer; }
+    unsigned GLBuffer() const { return _buffer; }
 
 private:
     /// Create the GPU-side index buffer. Return true on success.
     bool Create(const void* data);
 
     /// OpenGL buffer object identifier.
-    unsigned buffer;
+    unsigned _buffer;
     /// CPU-side shadow data.
-    AutoArrayPtr<unsigned char> shadowData;
+    AutoArrayPtr<unsigned char> _shadowData;
     /// Number of indices.
-    size_t numIndices;
+    size_t _numIndices;
     /// Size of index in bytes.
-    size_t indexSize;
+    size_t _indexSize;
     /// Resource usage type.
-    ResourceUsage usage;
+    ResourceUsage _usage;
 };
 
 }

@@ -14,23 +14,23 @@ public:
     /// Destruct.
     ~Mutex();
     
-    /// Acquire the mutex. Block if already acquired.
+    /// Acquire the _mutex. Block if already acquired.
     void Acquire();
-    /// Release the mutex.
+    /// Release the _mutex.
     void Release();
     
 private:
-    /// Mutex handle.
-    void* handle;
+    /// Mutex _handle.
+    void* _handle;
 };
 
-/// Lock that automatically acquires and releases a mutex.
+/// Lock that automatically acquires and releases a _mutex.
 class AUTO_API MutexLock
 {
 public:
-    /// Construct and acquire the mutex.
+    /// Construct and acquire the _mutex.
     MutexLock(Mutex& mutex);
-    /// Destruct. Release the mutex.
+    /// Destruct. Release the _mutex.
     ~MutexLock();
     
 private:
@@ -40,7 +40,7 @@ private:
     MutexLock& operator = (const MutexLock& rhs);
     
     /// Mutex reference.
-    Mutex& mutex;
+    Mutex& _mutex;
 };
 
 }

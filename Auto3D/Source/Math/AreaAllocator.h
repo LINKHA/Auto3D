@@ -10,7 +10,7 @@ namespace Auto3D
 class AUTO_API AreaAllocator
 {
 public:
-    /// Default construct with empty size.
+    /// Default construct with empty _size.
     AreaAllocator();
     /// Construct with given width and height.
     AreaAllocator(int width, int height, bool fastMode = true);
@@ -22,20 +22,20 @@ public:
     /// Try to allocate a rectangle. Return true on success, with x & y coordinates filled.
     bool Allocate(int width, int height, int& x, int& y);
 
-    /// Return the current size.
-    const IntVector2& Size() const { return size; }
+    /// Return the current _size.
+    const IntVector2& Size() const { return _size; }
     /// Return the current width.
-    int Width() const { return size.x; }
+    int Width() const { return _size._x; }
     /// Return the current height.
-    int Height() const { return size.y; }
-    /// Return the maximum size.
-    const IntVector2& MaxSize() const { return maxSize; }
+    int Height() const { return _size._y; }
+    /// Return the maximum _size.
+    const IntVector2& MaxSize() const { return _maxSize; }
     /// Return the maximum width.
-    int MaxWidth() const { return maxSize.x; }
+    int MaxWidth() const { return _maxSize._x; }
     /// Return the maximum height.
-    int MaxHeight() const { return maxSize.y; }
+    int MaxHeight() const { return _maxSize._y; }
     /// Return whether uses fast mode. Fast mode uses a simpler allocation scheme which may waste free space, but is OK for eg. fonts.
-    bool IsFastMode() const { return fastMode; }
+    bool IsFastMode() const { return _fastMode; }
 
 private:
     /// Remove space from a free rectangle. Return true if the original rectangle should be erased from the free list. Not called in fast mode.
@@ -44,15 +44,15 @@ private:
     void Cleanup();
 
     /// Free rectangles.
-    Vector<IntRect> freeAreas;
-    /// Current size.
-    IntVector2 size;
-    /// Maximum size allowed to grow to. It is zero when it is not allowed to grow.
-    IntVector2 maxSize;
+    Vector<IntRect> _freeAreas;
+    /// Current _size.
+    IntVector2 _size;
+    /// Maximum _size allowed to grow to. It is zero when it is not allowed to grow.
+    IntVector2 _maxSize;
     /// The dimension used for next growth. Used internally.
-    bool doubleWidth;
+    bool _doubleWidth;
     /// Fast mode flag.
-    bool fastMode;
+    bool _fastMode;
 };
 
 }

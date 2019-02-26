@@ -17,7 +17,7 @@ class AUTO_API Polyhedron
 {
 public:
     /// Polygon faces.
-    Vector<Vector<Vector3> > faces;
+    Vector<Vector<Vector3> > _faces;
     
     /// Construct empty.
     Polyhedron();
@@ -62,7 +62,7 @@ public:
     /// Return transformed with a 3x4 matrix.
     Polyhedron Transformed(const Matrix3x4& transform) const;
     /// Return whether has no faces.
-    bool IsEmpty() const { return faces.IsEmpty(); }
+    bool IsEmpty() const { return _faces.IsEmpty(); }
     
 private:
     /// Set a triangle face by index.

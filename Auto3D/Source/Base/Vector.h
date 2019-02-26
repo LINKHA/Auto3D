@@ -32,7 +32,7 @@ public:
     bool IsEmpty() const { return Size() == 0; }
 
 protected:
-    /// Set new size.
+    /// Set new _size.
     void SetSize(size_t size) { reinterpret_cast<size_t*>(buffer)[0] = size; } 
     /// Set new capacity.
     void SetCapacity(size_t capacity) { reinterpret_cast<size_t*>(buffer)[1] = capacity; } 
@@ -40,7 +40,7 @@ protected:
     /// Allocate the buffer for elements.
     static unsigned char* AllocateBuffer(size_t size);
 
-    /// Buffer. Contains size and capacity in the beginning.
+    /// Buffer. Contains _size and capacity in the beginning.
     unsigned char* buffer;
 };
 
@@ -56,7 +56,7 @@ public:
     {
     }
 
-    /// Construct with initial size.
+    /// Construct with initial _size.
     explicit Vector(size_t startSize)
     {
         Resize(startSize, 0);
@@ -160,7 +160,7 @@ public:
             Resize(Size() - 1, 0);
     }
 
-    /// Insert an element at position.
+    /// Insert an element at _position.
     void Insert(size_t pos, const _Ty& value)
     {
         if (pos > Size())
@@ -172,7 +172,7 @@ public:
         Buffer()[pos] = value;
     }
 
-    /// Insert another vector at position.
+    /// Insert another vector at _position.
     void Insert(size_t pos, const Vector<_Ty>& vector)
     {
         if (pos > Size())

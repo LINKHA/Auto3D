@@ -26,40 +26,40 @@ enum BatchSortMode
 /// Description of a draw call.
 struct AUTO_API Batch
 {
-    /// Calculate sort key for state sorting.
+    /// Calculate sort _key for state sorting.
     void CalculateSortKey()
     {
-        sortKey = ((((unsigned long long)pass->ShaderHash() * type) & 0xffff) << 48) |
-            ((((unsigned long long)lights) & 0xffff) << 32) |
-            ((((unsigned long long)pass->Parent()) & 0xffff) << 16) |
-            (((unsigned long long)geometry) & 0xffff);
+        _sortKey = ((((unsigned long long)_pass->ShaderHash() * _type) & 0xffff) << 48) |
+            ((((unsigned long long)_lights) & 0xffff) << 32) |
+            ((((unsigned long long)_pass->Parent()) & 0xffff) << 16) |
+            (((unsigned long long)_geometry) & 0xffff);
     }
 
     /// Geometry.
-    Geometry* geometry;
+    Geometry* _geometry;
     /// Material pass.
-    Pass* pass;
+    Pass* _pass;
     /// Light pass.
-    LightPass* lights;
+    LightPass* _lights;
     /// Geometry type.
-    GeometryType type;
+    GeometryType _type;
 
     union
     {
         /// Non-instanced use world matrix.
-        const Matrix3x4* worldMatrix;
+        const Matrix3x4* _worldMatrix;
         /// Instanced mode start index.
-        size_t instanceStart;
+        size_t _instanceStart;
     };
 
     union
     {
-        /// Sort key for state sorting.
-        unsigned long long sortKey;
+        /// Sort _key for state sorting.
+        unsigned long long _sortKey;
         /// Distance for sorting.
-        float distance;
+        float _distance;
         /// Instanced mode instance count.
-        size_t instanceCount;
+        size_t _instanceCount;
     };
 };
 
@@ -75,59 +75,59 @@ struct AUTO_API BatchQueue
     static void BuildInstances(Vector<Batch>& batches, Vector<Matrix3x4>& instanceTransforms);
 
     /// Batches, which may be instanced or non-instanced.
-    Vector<Batch> batches;
+    Vector<Batch> _batches;
     /// Additive lighting batches.
-    Vector<Batch> additiveBatches;
+    Vector<Batch> _additiveBatches;
     /// Sorting mode.
-    BatchSortMode sort;
+    BatchSortMode _sort;
     /// Lighting flag.
-    bool lit;
+    bool _lit;
     /// Base pass index.
-    unsigned char baseIndex;
+    unsigned char _baseIndex;
     /// Additive pass index (if needed.)
-    unsigned char additiveIndex;
+    unsigned char _additiveIndex;
 };
 
 /// %List of lights for a geometry node.
 struct AUTO_API LightList
 {
-    /// %List key.
-    unsigned long long key;
+    /// %List _key.
+    unsigned long long _key;
     /// Lights.
-    Vector<Light*> lights;
+    Vector<Light*> _lights;
     /// Associated light passes.
-    Vector<LightPass*> lightPasses;
+    Vector<LightPass*> _lightPasses;
     /// Use count
-    size_t useCount;
+    size_t _useCount;
 };
 
 /// %Light information for a rendering pass, including properly formatted constant data.
 struct AUTO_API LightPass
 {
     /// %Light positions.
-    Vector4 lightPositions[MAX_LIGHTS_PER_PASS];
+    Vector4 _lightPositions[MAX_LIGHTS_PER_PASS];
     /// %Light directions.
-    Vector4 lightDirections[MAX_LIGHTS_PER_PASS];
+    Vector4 _lightDirections[MAX_LIGHTS_PER_PASS];
     /// %Light attenuation parameters.
-    Vector4 lightAttenuations[MAX_LIGHTS_PER_PASS];
+    Vector4 _lightAttenuations[MAX_LIGHTS_PER_PASS];
     /// %Light colors.
-    Color lightColors[MAX_LIGHTS_PER_PASS];
+    Color _lightColors[MAX_LIGHTS_PER_PASS];
     /// Shadow map sampling parameters.
-    Vector4 shadowParameters[MAX_LIGHTS_PER_PASS];
+    Vector4 _shadowParameters[MAX_LIGHTS_PER_PASS];
     /// Point light shadow viewport parameters.
-    Vector4 pointShadowParameters[MAX_LIGHTS_PER_PASS];
+    Vector4 _pointShadowParameters[MAX_LIGHTS_PER_PASS];
     /// Directional light shadow split depths.
-    Vector4 dirShadowSplits;
+    Vector4 _dirShadowSplits;
     /// Directional light shadow fade parameters.
-    Vector4 dirShadowFade;
+    Vector4 _dirShadowFade;
     /// Shadow mapping matrices.
-    Matrix4 shadowMatrices[MAX_LIGHTS_PER_PASS];
+    Matrix4 _shadowMatrices[MAX_LIGHTS_PER_PASS];
     /// Shadow maps.
-    Texture* shadowMaps[MAX_LIGHTS_PER_PASS];
+    Texture* _shadowMaps[MAX_LIGHTS_PER_PASS];
     /// Vertex shader variation bits.
-    unsigned short vsBits;
+    unsigned short _vsBits;
     /// Pixel shader variation bits.
-    unsigned short psBits;
+    unsigned short _psBits;
 };
 
 /// Shadow rendering view data structure.
@@ -137,13 +137,13 @@ struct AUTO_API ShadowView
     void Clear();
 
     /// %Light that is using this view.
-    Light* light;
+    Light* _light;
     /// Viewport within the shadow map.
-    IntRect viewport;
+    IntRect _viewport;
     /// Shadow batch queue.
-    BatchQueue shadowQueue;
+    BatchQueue _shadowQueue;
     /// Shadow camera.
-    Camera shadowCamera;
+    Camera _shadowCamera;
 };
 
 /// Shadow map data structure. May be shared by several lights.
@@ -158,13 +158,13 @@ struct AUTO_API ShadowMap
     void Clear();
 
     /// Rectangle allocator.
-    AreaAllocator allocator;
+    AreaAllocator _allocator;
     /// Shadow map texture.
-    SharedPtr<Texture> texture;
+    SharedPtr<Texture> _texture;
     /// Shadow views that use this shadow map.
-    Vector<ShadowView*> shadowViews;
+    Vector<ShadowView*> _shadowViews;
     /// Use flag. When false, clearing the shadow map and rendering the views can be skipped.
-    bool used;
+    bool _used;
 };
 
 }

@@ -28,8 +28,8 @@ bool Vector2::FromString(const char* str)
         return false;
     
     char* ptr = (char*)str;
-    x = (float)strtod(ptr, &ptr);
-    y = (float)strtod(ptr, &ptr);
+    _x = (float)strtod(ptr, &ptr);
+    _y = (float)strtod(ptr, &ptr);
 
     return true;
 }
@@ -37,7 +37,7 @@ bool Vector2::FromString(const char* str)
 String Vector2::ToString() const
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
-    sprintf(tempBuffer, "%g %g", x, y);
+    sprintf(tempBuffer, "%g %g", _x, _y);
     return String(tempBuffer);
 }
 

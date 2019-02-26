@@ -13,57 +13,57 @@ namespace Auto3D
 
 #ifdef _WIN32
 Condition::Condition() :
-    event(nullptr)
+    _event(nullptr)
 {
-    event = CreateEvent(0, FALSE, FALSE, 0);
+    _event = CreateEvent(0, FALSE, FALSE, 0);
 }
 
 Condition::~Condition()
 {
-    CloseHandle((HANDLE)event);
-    event = nullptr;
+    CloseHandle((HANDLE)_event);
+    _event = nullptr;
 }
 
 void Condition::Set()
 {
-    SetEvent((HANDLE)event);
+    SetEvent((HANDLE)_event);
 }
 
 void Condition::Wait()
 {
-    WaitForSingleObject((HANDLE)event, INFINITE);
+    WaitForSingleObject((HANDLE)_event, INFINITE);
 }
 #else
 Condition::Condition() :
-    mutex(new pthread_mutex_t),
-    event(new pthread_cond_t)
+	_mutex(new pthread_mutex_t),
+    _event(new pthread_cond_t)
 {
-    pthread_mutex_init((pthread_mutex_t*)mutex, 0);
-    pthread_cond_init((pthread_cond_t*)event, 0);
+    pthread_mutex_init((pthread_mutex_t*)_mutex, 0);
+    pthread_cond_init((pthread_cond_t*)_event, 0);
 }
 
 Condition::~Condition()
 {
-    pthread_cond_t* c = (pthread_cond_t*)event;
-    pthread_mutex_t* m = (pthread_mutex_t*)mutex;
+    pthread_cond_t* c = (pthread_cond_t*)_event;
+    pthread_mutex_t* m = (pthread_mutex_t*)_mutex;
 
     pthread_cond_destroy(c);
     pthread_mutex_destroy(m);
     delete c;
     delete m;
-    event = nullptr;
-    mutex = nullptr;
+    _event = nullptr;
+	_mutex = nullptr;
 }
 
 void Condition::Set()
 {
-    pthread_cond_signal((pthread_cond_t*)event);
+    pthread_cond_signal((pthread_cond_t*)_event);
 }
 
 void Condition::Wait()
 {
-    pthread_cond_t* c = (pthread_cond_t*)event;
-    pthread_mutex_t* m = (pthread_mutex_t*)mutex;
+    pthread_cond_t* c = (pthread_cond_t*)_event;
+    pthread_mutex_t* m = (pthread_mutex_t*)_mutex;
 
     pthread_mutex_lock(m);
     pthread_cond_wait(c, m);

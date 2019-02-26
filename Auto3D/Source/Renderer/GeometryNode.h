@@ -35,19 +35,19 @@ struct AUTO_API Geometry : public RefCounted
     void DrawInstanced(Graphics* graphics, size_t start, size_t count);
 
     /// %Geometry vertex buffer.
-    SharedPtr<VertexBuffer> vertexBuffer;
+    SharedPtr<VertexBuffer> _vertexBuffer;
     /// %Geometry index buffer.
-    SharedPtr<IndexBuffer> indexBuffer;
+    SharedPtr<IndexBuffer> _indexBuffer;
     /// Constant buffers.
-    SharedPtr<ConstantBuffer> constantBuffers[MAX_SHADER_STAGES];
+    SharedPtr<ConstantBuffer> _constantBuffers[MAX_SHADER_STAGES];
     /// %Geometry's primitive type.
-    PrimitiveType primitiveType;
+    PrimitiveType _primitiveType;
     /// Draw range start. Specifies index start if index buffer defined, vertex start otherwise.
-    size_t drawStart;
+    size_t _drawStart;
     /// Draw range count. Specifies number of indices if index buffer defined, number of vertices otherwise.
-    size_t drawCount;
+    size_t _drawCount;
     /// LOD transition distance.
-    float lodDistance;
+    float _lodDistance;
 };
 
 /// Draw call source data.
@@ -59,9 +59,9 @@ struct AUTO_API SourceBatch
     ~SourceBatch();
 
     /// The geometry to render. Must be non-null.
-    SharedPtr<Geometry> geometry;
+    SharedPtr<Geometry> _geometry;
     /// The material to use for rendering. Must be non-null.
-    SharedPtr<Material> material;
+    SharedPtr<Material> _material;
 };
 
 /// Base class for scene nodes that contain geometry to be rendered.
@@ -95,22 +95,22 @@ public:
     void SetLocalBoundingBox(const BoundingBox& box);
 
     /// Return geometry type.
-    GeometryType GetGeometryType() const { return geometryType; }
+    GeometryType GetGeometryType() const { return _geometryType; }
     /// Return number of geometries.
-    size_t NumGeometries() const { return batches.Size(); }
+    size_t NumGeometries() const { return _batches.Size(); }
     /// Return geometry by index.
     Geometry* GetGeometry(size_t index) const;
     /// Return material by geometry index.
     Material* GetMaterial(size_t index) const;
     /// Return source information for all draw calls.
-    const Vector<SourceBatch>& Batches() const { return batches; }
+    const Vector<SourceBatch>& Batches() const { return _batches; }
     /// Return local space bounding box.
-    const BoundingBox& LocalBoundingBox() const { return boundingBox; }
+    const BoundingBox& LocalBoundingBox() const { return _boundingBox; }
 
     /// Set new light list. Called by Renderer.
-    void SetLightList(LightList* list) { lightList = list; }
+    void SetLightList(LightList* list) { _lightList = list; }
     /// Return current light list.
-    LightList* GetLightList() const { return lightList; }
+    LightList* GetLightList() const { return _lightList; }
 
 protected:
     /// Recalculate the world space bounding box.
@@ -121,13 +121,13 @@ protected:
     ResourceRefList MaterialsAttr() const;
 
     /// %Light list for rendering.
-    LightList* lightList;
+    LightList* _lightList;
     /// Geometry type.
-    GeometryType geometryType;
+    GeometryType _geometryType;
     /// Draw call source datas.
-    Vector<SourceBatch> batches;
+    Vector<SourceBatch> _batches;
     /// Local space bounding box.
-    BoundingBox boundingBox;
+    BoundingBox _boundingBox;
 };
 
 }

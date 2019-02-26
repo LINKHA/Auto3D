@@ -11,11 +11,11 @@ namespace Auto3D
 {
 
 VertexBuffer::VertexBuffer() :
-    buffer(0),
-    numVertices(0),
-    vertexSize(0),
-    elementHash(0),
-    usage(USAGE_DEFAULT)
+    _buffer(0),
+    _numVertices(0),
+    _vertexSize(0),
+    _elementHash(0),
+    _usage(USAGE_DEFAULT)
 {
 }
 
@@ -26,66 +26,66 @@ VertexBuffer::~VertexBuffer()
 
 void VertexBuffer::Release()
 {
-    if (graphics)
+    if (_graphics)
     {
         for (size_t i = 0; i < MAX_VERTEX_STREAMS; ++i)
         {
-            if (graphics->GetVertexBuffer(i) == this)
-                graphics->SetVertexBuffer(i, 0);
+            if (_graphics->GetVertexBuffer(i) == this)
+                _graphics->SetVertexBuffer(i, 0);
         }
     }
 
-    if (buffer)
+    if (_buffer)
     {
-        if (graphics && graphics->BoundVBO() == buffer)
-            graphics->BindVBO(0);
+        if (_graphics && _graphics->BoundVBO() == _buffer)
+            _graphics->BindVBO(0);
 
-        glDeleteBuffers(1, &buffer);
-        buffer = 0;
+        glDeleteBuffers(1, &_buffer);
+        _buffer = 0;
     }
 }
 
 void VertexBuffer::Recreate()
 {
-    if (numVertices)
+    if (_numVertices)
     {
         // Also make a copy of the current vertex elements, as they are passed by reference and manipulated by Define()
-        Vector<VertexElement> srcElements = elements;
-        Define(usage, numVertices, srcElements, !shadowData.IsNull(), shadowData.Get());
-        SetDataLost(!shadowData.IsNull());
+        Vector<VertexElement> srcElements = _elements;
+        Define(_usage, _numVertices, srcElements, !_shadowData.IsNull(), _shadowData.Get());
+        SetDataLost(!_shadowData.IsNull());
     }
 }
 
-bool VertexBuffer::SetData(size_t firstVertex, size_t numVertices_, const void* data)
+bool VertexBuffer::SetData(size_t firstVertex, size_t numVertices, const void* data)
 {
     PROFILE(UpdateVertexBuffer);
 
     if (!data)
     {
-        LOGERROR("Null source data for updating vertex buffer");
+        ErrorString("Null source data for updating vertex buffer");
         return false;
     }
-    if (firstVertex + numVertices_ > numVertices)
+    if (firstVertex + numVertices > _numVertices)
     {
-        LOGERROR("Out of bounds range for updating vertex buffer");
+        ErrorString("Out of bounds range for updating vertex buffer");
         return false;
     }
-    if (buffer && usage == USAGE_IMMUTABLE)
+    if (_buffer && _usage == USAGE_IMMUTABLE)
     {
-        LOGERROR("Can not update immutable vertex buffer");
+        ErrorString("Can not update immutable vertex buffer");
         return false;
     }
 
-    if (shadowData)
-        memcpy(shadowData.Get() + firstVertex * vertexSize, data, numVertices_ * vertexSize);
+    if (_shadowData)
+        memcpy(_shadowData.Get() + firstVertex * _vertexSize, data, numVertices * _vertexSize);
 
-    if (buffer)
+    if (_buffer)
     {
-        graphics->BindVBO(buffer);
-        if (numVertices_ == numVertices)
-            glBufferData(GL_ARRAY_BUFFER, numVertices_ * vertexSize, data, usage == USAGE_DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+        _graphics->BindVBO(_buffer);
+        if (numVertices == _numVertices)
+            glBufferData(GL_ARRAY_BUFFER, numVertices * _vertexSize, data, _usage == USAGE_DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
         else
-            glBufferSubData(GL_ARRAY_BUFFER, firstVertex * vertexSize, numVertices_ * vertexSize, data);
+            glBufferSubData(GL_ARRAY_BUFFER, firstVertex * _vertexSize, numVertices * _vertexSize, data);
     }
 
     return true;
@@ -93,18 +93,18 @@ bool VertexBuffer::SetData(size_t firstVertex, size_t numVertices_, const void* 
 
 bool VertexBuffer::Create(const void* data)
 {
-    if (graphics && graphics->IsInitialized())
+    if (_graphics && _graphics->IsInitialized())
     {
-        glGenBuffers(1, &buffer);
-        if (!buffer)
+        glGenBuffers(1, &_buffer);
+        if (!_buffer)
         {
-            LOGERROR("Failed to create vertex buffer");
+            ErrorString("Failed to create vertex buffer");
             return false;
         }
 
-        graphics->BindVBO(buffer);
-        glBufferData(GL_ARRAY_BUFFER, numVertices * vertexSize, data, usage == USAGE_DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
-        LOGDEBUGF("Created vertex buffer numVertices %u vertexSize %u", (unsigned)numVertices, (unsigned)vertexSize);
+        _graphics->BindVBO(_buffer);
+        glBufferData(GL_ARRAY_BUFFER, _numVertices * _vertexSize, data, _usage == USAGE_DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+        LogStringF("Created vertex buffer numVertices %u vertexSize %u", (unsigned)_numVertices, (unsigned)_vertexSize);
     }
 
     return true;

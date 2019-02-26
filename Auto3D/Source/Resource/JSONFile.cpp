@@ -27,12 +27,12 @@ bool JSONFile::BeginLoad(Stream& source)
     const char* end = pos + dataSize;
     
     // Remove any previous content
-    root.SetNull();
+    _root.SetNull();
     /// \todo If fails, log the line number on which the error occurred
-    bool success = root.Parse(pos, end);
+    bool success = _root.Parse(pos, end);
     if (!success)
     {
-        LOGERROR("Parsing JSON from " + source.Name() + " failed; data may be partial");
+        ErrorString("Parsing JSON from " + source.Name() + " failed; data may be partial");
     }
 
     return success;
@@ -43,7 +43,7 @@ bool JSONFile::Save(Stream& dest)
     PROFILE(SaveJSONFile);
     
     String buffer;
-    root.ToString(buffer);
+    _root.ToString(buffer);
     return dest.Write(buffer.Begin().ptr, buffer.Length()) == buffer.Length();
 }
 

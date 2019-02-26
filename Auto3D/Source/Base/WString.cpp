@@ -40,7 +40,7 @@ WString::WString(const String& str) :
     Resize(str.LengthUTF8());
     
     size_t byteOffset = 0;
-    wchar_t* dest = buffer;
+    wchar_t* dest = _buffer;
     while (byteOffset < str.Length())
         *dest++ = str.NextUTF8Char(byteOffset);
     #endif

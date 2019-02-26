@@ -9,43 +9,43 @@ namespace Auto3D
 
 inline bool CompareBatchState(Batch& lhs, Batch& rhs)
 {
-    return lhs.sortKey < rhs.sortKey;
+    return lhs._sortKey < rhs._sortKey;
 }
 
 inline bool CompareBatchDistanceFrontToBack(Batch& lhs, Batch& rhs)
 {
-    return lhs.distance < rhs.distance;
+    return lhs._distance < rhs._distance;
 }
 
 inline bool CompareBatchDistanceBackToFront(Batch& lhs, Batch& rhs)
 {
-    return lhs.distance > rhs.distance;
+    return lhs._distance > rhs._distance;
 }
 
 void BatchQueue::Clear()
 {
-    batches.Clear();
-    additiveBatches.Clear();
+    _batches.Clear();
+    _additiveBatches.Clear();
 }
 
 void BatchQueue::Sort(Vector<Matrix3x4>& instanceTransforms)
 {
-    switch (sort)
+    switch (_sort)
     {
     case SORT_STATE:
-        Auto3D::Sort(batches.Begin(), batches.End(), CompareBatchState);
-        Auto3D::Sort(additiveBatches.Begin(), additiveBatches.End(), CompareBatchState);
+        Auto3D::Sort(_batches.Begin(), _batches.End(), CompareBatchState);
+        Auto3D::Sort(_additiveBatches.Begin(), _additiveBatches.End(), CompareBatchState);
         break;
 
     case SORT_FRONT_TO_BACK:
-        Auto3D::Sort(batches.Begin(), batches.End(), CompareBatchDistanceFrontToBack);
+        Auto3D::Sort(_batches.Begin(), _batches.End(), CompareBatchDistanceFrontToBack);
         // After drawing the base batches, the Z buffer has been prepared. Additive batches can be sorted per state now
-        Auto3D::Sort(additiveBatches.Begin(), additiveBatches.End(), CompareBatchState);
+        Auto3D::Sort(_additiveBatches.Begin(), _additiveBatches.End(), CompareBatchState);
         break;
 
     case SORT_BACK_TO_FRONT:
-        Auto3D::Sort(batches.Begin(), batches.End(), CompareBatchDistanceBackToFront);
-        Auto3D::Sort(additiveBatches.Begin(), additiveBatches.End(), CompareBatchDistanceBackToFront);
+        Auto3D::Sort(_batches.Begin(), _batches.End(), CompareBatchDistanceBackToFront);
+        Auto3D::Sort(_additiveBatches.Begin(), _additiveBatches.End(), CompareBatchDistanceBackToFront);
         break;
 
     default:
@@ -53,8 +53,8 @@ void BatchQueue::Sort(Vector<Matrix3x4>& instanceTransforms)
     }
 
     // Build instances where adjacent batches have same state
-    BuildInstances(batches, instanceTransforms);
-    BuildInstances(additiveBatches, instanceTransforms);
+    BuildInstances(_batches, instanceTransforms);
+    BuildInstances(_additiveBatches, instanceTransforms);
 }
 
 void BatchQueue::BuildInstances(Vector<Batch>& batches, Vector<Matrix3x4>& instanceTransforms)
@@ -63,34 +63,34 @@ void BatchQueue::BuildInstances(Vector<Batch>& batches, Vector<Matrix3x4>& insta
     for (auto it = batches.Begin(), end = batches.End(); it != end; ++it)
     {
         Batch* current = &*it;
-        if (start && current->type == GEOM_STATIC && current->pass == start->pass && current->geometry == start->geometry &&
-            current->lights == start->lights)
+        if (start && current->_type == GEOM_STATIC && current->_pass == start->_pass && current->_geometry == start->_geometry &&
+            current->_lights == start->_lights)
         {
-            if (start->type == GEOM_INSTANCED)
+            if (start->_type == GEOM_INSTANCED)
             {
-                instanceTransforms.Push(*current->worldMatrix);
-                ++start->instanceCount;
+                instanceTransforms.Push(*current->_worldMatrix);
+                ++start->_instanceCount;
             }
             else
             {
                 // Begin new instanced batch
-                start->type = GEOM_INSTANCED;
+                start->_type = GEOM_INSTANCED;
                 size_t instanceStart = instanceTransforms.Size();
-                instanceTransforms.Push(*start->worldMatrix);
-                instanceTransforms.Push(*current->worldMatrix);
-                start->instanceStart = instanceStart; // Overwrites non-instance world matrix
-                start->instanceCount = 2; // Overwrites sort key / distance
+                instanceTransforms.Push(*start->_worldMatrix);
+                instanceTransforms.Push(*current->_worldMatrix);
+                start->_instanceStart = instanceStart; // Overwrites non-instance world matrix
+                start->_instanceCount = 2; // Overwrites sort _key / distance
             }
         }
         else
-            start = (current->type == GEOM_STATIC) ? current : nullptr;
+            start = (current->_type == GEOM_STATIC) ? current : nullptr;
     }
 }
 
 ShadowMap::ShadowMap()
 {
-    // Construct texture but do not define its size yet
-    texture = new Texture();
+    // Construct texture but do not define its _size yet
+    _texture = new Texture();
 }
 
 ShadowMap::~ShadowMap()
@@ -99,14 +99,14 @@ ShadowMap::~ShadowMap()
 
 void ShadowMap::Clear()
 {
-    allocator.Reset(texture->Width(), texture->Height(), 0, 0, false);
-    shadowViews.Clear();
-    used = false;
+    _allocator.Reset(_texture->Width(), _texture->Height(), 0, 0, false);
+    _shadowViews.Clear();
+    _used = false;
 }
 
 void ShadowView::Clear()
 {
-    shadowQueue.Clear();
+    _shadowQueue.Clear();
 }
 
 }

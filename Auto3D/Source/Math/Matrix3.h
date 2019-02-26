@@ -10,9 +10,9 @@ class AUTO_API Matrix3
 {
 public:
     /// Matrix values.
-    float m00, m01, m02;
-    float m10, m11, m12;
-    float m20, m21, m22;
+    float _m00, _m01, _m02;
+    float _m10, _m11, _m12;
+    float _m20, _m21, _m22;
 
     /// Construct undefined.
     Matrix3()
@@ -21,9 +21,9 @@ public:
     
     /// Copy-construct.
     Matrix3(const Matrix3& matrix) :
-        m00(matrix.m00), m01(matrix.m01), m02(matrix.m02),
-        m10(matrix.m10), m11(matrix.m11), m12(matrix.m12),
-        m20(matrix.m20), m21(matrix.m21), m22(matrix.m22)
+        _m00(matrix._m00), _m01(matrix._m01), _m02(matrix._m02),
+        _m10(matrix._m10), _m11(matrix._m11), _m12(matrix._m12),
+        _m20(matrix._m20), _m21(matrix._m21), _m22(matrix._m22)
     {
     }
     
@@ -31,17 +31,17 @@ public:
     Matrix3(float v00, float v01, float v02,
             float v10, float v11, float v12,
             float v20, float v21, float v22) :
-        m00(v00), m01(v01), m02(v02),
-        m10(v10), m11(v11), m12(v12),
-        m20(v20), m21(v21), m22(v22)
+        _m00(v00), _m01(v01), _m02(v02),
+        _m10(v10), _m11(v11), _m12(v12),
+        _m20(v20), _m21(v21), _m22(v22)
     {
     }
     
     /// Construct from a float array.
     Matrix3(const float* data) :
-        m00(data[0]), m01(data[1]), m02(data[2]),
-        m10(data[3]), m11(data[4]), m12(data[5]),
-        m20(data[6]), m21(data[7]), m22(data[8])
+        _m00(data[0]), _m01(data[1]), _m02(data[2]),
+        _m10(data[3]), _m11(data[4]), _m12(data[5]),
+        _m20(data[6]), _m21(data[7]), _m22(data[8])
     {
     }
     
@@ -60,9 +60,9 @@ public:
     /// Assign from another matrix.
     Matrix3& operator = (const Matrix3& rhs)
     {
-        m00 = rhs.m00; m01 = rhs.m01; m02 = rhs.m02;
-        m10 = rhs.m10; m11 = rhs.m11; m12 = rhs.m12;
-        m20 = rhs.m20; m21 = rhs.m21; m22 = rhs.m22;
+        _m00 = rhs._m00; _m01 = rhs._m01; _m02 = rhs._m02;
+        _m10 = rhs._m10; _m11 = rhs._m11; _m12 = rhs._m12;
+        _m20 = rhs._m20; _m21 = rhs._m21; _m22 = rhs._m22;
         return *this;
     }
     
@@ -88,9 +88,9 @@ public:
     Vector3 operator * (const Vector3& rhs) const
     {
         return Vector3(
-            m00 * rhs.x + m01 * rhs.y + m02 * rhs.z,
-            m10 * rhs.x + m11 * rhs.y + m12 * rhs.z,
-            m20 * rhs.x + m21 * rhs.y + m22 * rhs.z
+            _m00 * rhs._x + _m01 * rhs._y + _m02 * rhs._z,
+            _m10 * rhs._x + _m11 * rhs._y + _m12 * rhs._z,
+            _m20 * rhs._x + _m21 * rhs._y + _m22 * rhs._z
         );
     }
     
@@ -98,9 +98,9 @@ public:
     Matrix3 operator + (const Matrix3& rhs) const
     {
         return Matrix3(
-            m00 + rhs.m00, m01 + rhs.m01, m02 + rhs.m02,
-            m10 + rhs.m10, m11 + rhs.m11, m12 + rhs.m12,
-            m20 + rhs.m20, m21 + rhs.m21, m22 + rhs.m22
+            _m00 + rhs._m00, _m01 + rhs._m01, _m02 + rhs._m02,
+            _m10 + rhs._m10, _m11 + rhs._m11, _m12 + rhs._m12,
+            _m20 + rhs._m20, _m21 + rhs._m21, _m22 + rhs._m22
         );
     }
     
@@ -108,9 +108,9 @@ public:
     Matrix3 operator - (const Matrix3& rhs) const
     {
         return Matrix3(
-            m00 - rhs.m00, m01 - rhs.m01, m02 - rhs.m02,
-            m10 - rhs.m10, m11 - rhs.m11, m12 - rhs.m12,
-            m20 - rhs.m20, m21 - rhs.m21, m22 - rhs.m22
+            _m00 - rhs._m00, _m01 - rhs._m01, _m02 - rhs._m02,
+            _m10 - rhs._m10, _m11 - rhs._m11, _m12 - rhs._m12,
+            _m20 - rhs._m20, _m21 - rhs._m21, _m22 - rhs._m22
         );
     }
     
@@ -118,9 +118,9 @@ public:
     Matrix3 operator * (float rhs) const
     {
         return Matrix3(
-            m00 * rhs, m01 * rhs, m02 * rhs,
-            m10 * rhs, m11 * rhs, m12 * rhs,
-            m20 * rhs, m21 * rhs, m22 * rhs
+            _m00 * rhs, _m01 * rhs, _m02 * rhs,
+            _m10 * rhs, _m11 * rhs, _m12 * rhs,
+            _m20 * rhs, _m21 * rhs, _m22 * rhs
         );
     }
     
@@ -128,32 +128,32 @@ public:
     Matrix3 operator * (const Matrix3& rhs) const
     {
         return Matrix3(
-            m00 * rhs.m00 + m01 * rhs.m10 + m02 * rhs.m20,
-            m00 * rhs.m01 + m01 * rhs.m11 + m02 * rhs.m21,
-            m00 * rhs.m02 + m01 * rhs.m12 + m02 * rhs.m22,
-            m10 * rhs.m00 + m11 * rhs.m10 + m12 * rhs.m20,
-            m10 * rhs.m01 + m11 * rhs.m11 + m12 * rhs.m21,
-            m10 * rhs.m02 + m11 * rhs.m12 + m12 * rhs.m22,
-            m20 * rhs.m00 + m21 * rhs.m10 + m22 * rhs.m20,
-            m20 * rhs.m01 + m21 * rhs.m11 + m22 * rhs.m21,
-            m20 * rhs.m02 + m21 * rhs.m12 + m22 * rhs.m22
+            _m00 * rhs._m00 + _m01 * rhs._m10 + _m02 * rhs._m20,
+            _m00 * rhs._m01 + _m01 * rhs._m11 + _m02 * rhs._m21,
+            _m00 * rhs._m02 + _m01 * rhs._m12 + _m02 * rhs._m22,
+            _m10 * rhs._m00 + _m11 * rhs._m10 + _m12 * rhs._m20,
+            _m10 * rhs._m01 + _m11 * rhs._m11 + _m12 * rhs._m21,
+            _m10 * rhs._m02 + _m11 * rhs._m12 + _m12 * rhs._m22,
+            _m20 * rhs._m00 + _m21 * rhs._m10 + _m22 * rhs._m20,
+            _m20 * rhs._m01 + _m21 * rhs._m11 + _m22 * rhs._m21,
+            _m20 * rhs._m02 + _m21 * rhs._m12 + _m22 * rhs._m22
         );
     }
     
     /// Set scaling elements.
     void SetScale(const Vector3& scale)
     {
-        m00 = scale.x;
-        m11 = scale.y;
-        m22 = scale.z;
+        _m00 = scale._x;
+        _m11 = scale._y;
+        _m22 = scale._z;
     }
     
     /// Set uniform scaling elements.
     void SetScale(float scale)
     {
-        m00 = scale;
-        m11 = scale;
-        m22 = scale;
+        _m00 = scale;
+        _m11 = scale;
+        _m22 = scale;
     }
     
     /// Parse from a string. Return true on success.
@@ -165,9 +165,9 @@ public:
     Vector3 Scale() const
     {
         return Vector3(
-            sqrtf(m00 * m00 + m10 * m10 + m20 * m20),
-            sqrtf(m01 * m01 + m11 * m11 + m21 * m21),
-            sqrtf(m02 * m02 + m12 * m12 + m22 * m22)
+            sqrtf(_m00 * _m00 + _m10 * _m10 + _m20 * _m20),
+            sqrtf(_m01 * _m01 + _m11 * _m11 + _m21 * _m21),
+            sqrtf(_m02 * _m02 + _m12 * _m12 + _m22 * _m22)
         );
     }
     
@@ -175,9 +175,9 @@ public:
     Matrix3 Transpose() const
     {
         return Matrix3(
-            m00, m10, m20,
-            m01, m11, m21,
-            m02, m12, m22
+            _m00, _m10, _m20,
+            _m01, _m11, _m21,
+            _m02, _m12, _m22
         );
     }
     
@@ -185,9 +185,9 @@ public:
     Matrix3 Scaled(const Vector3& scale) const
     {
         return Matrix3(
-            m00 * scale.x, m01 * scale.y, m02 * scale.z,
-            m10 * scale.x, m11 * scale.y, m12 * scale.z,
-            m20 * scale.x, m21 * scale.y, m22 * scale.z
+            _m00 * scale._x, _m01 * scale._y, _m02 * scale._z,
+            _m10 * scale._x, _m11 * scale._y, _m12 * scale._z,
+            _m20 * scale._x, _m21 * scale._y, _m22 * scale._z
         );
     }
     
@@ -210,7 +210,7 @@ public:
     Matrix3 Inverse() const;
     
     /// Return float data.
-    const float* Data() const { return &m00; }
+    const float* Data() const { return &_m00; }
     /// Return as string.
     String ToString() const;
     

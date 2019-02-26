@@ -15,39 +15,39 @@ struct Geometry;
 struct AUTO_API VertexBufferDesc
 {
     /// Vertex declaration.
-    Vector<VertexElement> vertexElements;
+    Vector<VertexElement> _vertexElements;
     /// Number of vertices.
-    size_t numVertices;
+    size_t _numVertices;
     /// Vertex data.
-    SharedArrayPtr<unsigned char> vertexData;
+    SharedArrayPtr<unsigned char> _vertexData;
 };
 
 /// Load-time description of an index buffer, to be uploaded on the GPU later.
 struct AUTO_API IndexBufferDesc
 {
-    /// Index size.
-    size_t indexSize;
+    /// Index _size.
+    size_t _indexSize;
     /// Number of indices.
-    size_t numIndices;
+    size_t _numIndices;
     /// Index data.
-    SharedArrayPtr<unsigned char> indexData;
+    SharedArrayPtr<unsigned char> _indexData;
 };
 
 /// Load-time description of a geometry.
 struct AUTO_API GeometryDesc
 {
     /// LOD distance.
-    float lodDistance;
+    float _lodDistance;
     /// Primitive type.
-    PrimitiveType primitiveType;
+    PrimitiveType _primitiveType;
     /// Vertex buffer ref.
-    unsigned vbRef;
+    unsigned _vbRef;
     /// Index buffer ref.
-    unsigned ibRef;
+    unsigned _ibRef;
     /// Draw range start.
-    unsigned drawStart;
+    unsigned _drawStart;
     /// Draw range element count.
-    unsigned drawCount;
+    unsigned _drawCount;
 };
 
 
@@ -60,25 +60,25 @@ struct AUTO_API Bone
     ~Bone();
 
     /// Name.
-    String name;
-    /// Reset position.
-    Vector3 initialPosition;
+    String _name;
+    /// Reset _position.
+    Vector3 _initialPosition;
     /// Reset rotation.
-    Quaternion initialRotation;
+    Quaternion _initialRotation;
     /// Reset scale.
-    Vector3 initialScale;
+    Vector3 _initialScale;
     /// Offset matrix for skinning.
-    Matrix3x4 offsetMatrix;
+    Matrix3x4 _offsetMatrix;
     /// Collision radius.
-    float radius;
+    float _radius;
     /// Collision bounding box.
-    BoundingBox boundingBox;
+    BoundingBox _boundingBox;
     /// Parent bone index.
-    size_t parentIndex;
+    size_t _parentIndex;
     /// Associated scene node.
-    WeakPtr<Node> node;
+    WeakPtr<Node> _node;
     /// Animated flag.
-    bool animated;
+    bool _animated;
 };
 
 /// 3D model resource.
@@ -112,39 +112,39 @@ public:
     void SetBoneMappings(const Vector<Vector<size_t> >& boneMappings);
     
     /// Return number of geometries.
-    size_t NumGeometries() const { return geometries.Size(); }
+    size_t NumGeometries() const { return _geometries.Size(); }
     /// Return number of LOD levels in a geometry.
     size_t NumLodLevels(size_t index) const;
     /// Return the geometry at batch index and LOD level.
     Geometry* GetGeometry(size_t index, size_t lodLevel) const;
     /// Return the LOD geometries at batch index.
-    const Vector<SharedPtr<Geometry> >& LodGeometries(size_t index) const { return geometries[index]; }
+    const Vector<SharedPtr<Geometry> >& LodGeometries(size_t index) const { return _geometries[index]; }
     /// Return the local space bounding box.
-    const BoundingBox& LocalBoundingBox() const { return boundingBox; }
+    const BoundingBox& LocalBoundingBox() const { return _boundingBox; }
     /// Return the model's bones.
-    const Vector<Bone>& Bones() const { return bones; }
+    const Vector<Bone>& Bones() const { return _bones; }
     /// Return the root bone index.
-    size_t RootBoneIndex() const { return rootBoneIndex; }
+    size_t RootBoneIndex() const { return _rootBoneIndex; }
     /// Return per-geometry bone mapping.
-    const Vector<Vector<size_t> > BoneMappings() const { return boneMappings; }
+    const Vector<Vector<size_t> > BoneMappings() const { return _boneMappings; }
 
 private:
     /// Geometry LOD levels.
-    Vector<Vector<SharedPtr<Geometry> > > geometries;
+    Vector<Vector<SharedPtr<Geometry> > > _geometries;
     /// Local space bounding box.
-    BoundingBox boundingBox;
+    BoundingBox _boundingBox;
     /// %Model's bones.
-    Vector<Bone> bones;
+    Vector<Bone> _bones;
     /// Root bone index.
-    size_t rootBoneIndex;
+    size_t _rootBoneIndex;
     /// Per-geometry bone mappings.
-    Vector<Vector<size_t> > boneMappings;
+    Vector<Vector<size_t> > _boneMappings;
     /// Vertex buffer data for loading.
-    Vector<VertexBufferDesc> vbDescs;
+    Vector<VertexBufferDesc> _vbDescs;
     /// Index buffer data for loading.
-    Vector<IndexBufferDesc> ibDescs;
+    Vector<IndexBufferDesc> _ibDescs;
     /// Geometry descriptions for loading.
-    Vector<Vector<GeometryDesc> > geomDescs;
+    Vector<Vector<GeometryDesc> > _geomDescs;
 };
 
 }

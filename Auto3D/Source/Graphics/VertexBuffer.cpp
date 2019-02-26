@@ -7,69 +7,69 @@
 namespace Auto3D
 {
 
-bool VertexBuffer::Define(ResourceUsage usage_, size_t numVertices_, const Vector<VertexElement>& elements_, bool useShadowData, const void* data)
+bool VertexBuffer::Define(ResourceUsage usage, size_t numVertices, const Vector<VertexElement>& elements, bool useShadowData, const void* data)
 {
-    if (!numVertices_ || !elements_.Size())
+    if (!numVertices || !elements.Size())
     {
-        LOGERROR("Can not define vertex buffer with no vertices or no elements");
+        ErrorString("Can not define vertex buffer with no vertices or no elements");
         return false;
     }
 
-    return Define(usage_, numVertices_, elements_.Size(), &elements_[0], useShadowData, data);
+    return Define(usage, numVertices, elements.Size(), &elements[0], useShadowData, data);
 }
 
-bool VertexBuffer::Define(ResourceUsage usage_, size_t numVertices_, size_t numElements_, const VertexElement* elements_, bool useShadowData, const void* data)
+bool VertexBuffer::Define(ResourceUsage usage, size_t numVertices, size_t numElements, const VertexElement* elements, bool useShadowData, const void* data)
 {
     PROFILE(DefineVertexBuffer);
 
-    if (!numVertices_ || !numElements_ || !elements_)
+    if (!numVertices || !numElements || !elements)
     {
-        LOGERROR("Can not define vertex buffer with no vertices or no elements");
+        ErrorString("Can not define vertex buffer with no vertices or no elements");
         return false;
     }
-    if (usage_ == USAGE_RENDERTARGET)
+    if (usage == USAGE_RENDERTARGET)
     {
-        LOGERROR("Rendertarget usage is illegal for vertex buffers");
+        ErrorString("Rendertarget usage is illegal for vertex buffers");
         return false;
     }
-    if (usage_ == USAGE_IMMUTABLE && !data)
+    if (usage == USAGE_IMMUTABLE && !data)
     {
-        LOGERROR("Immutable vertex buffer must define initial data");
+        ErrorString("Immutable vertex buffer must define initial data");
         return false;
     }
 
-    for (size_t i = 0; i < numElements_; ++i)
+    for (size_t i = 0; i < numElements; ++i)
     {
-        if (elements_[i].type >= ELEM_MATRIX3X4)
+        if (elements[i]._type >= ELEM_MATRIX3X4)
         {
-            LOGERROR("Matrix elements are not supported in vertex buffers");
+            ErrorString("Matrix elements are not supported in vertex buffers");
             return false;
         }
     }
 
     Release();
 
-    numVertices = numVertices_;
-    usage = usage_;
+    _numVertices = numVertices;
+    _usage = usage;
 
-    // Determine offset of elements and the vertex size & element hash
-    vertexSize = 0;
-    elementHash = 0;
-    elements.Resize(numElements_);
-    for (size_t i = 0; i < numElements_; ++i)
+    // Determine offset of elements and the vertex _size & element hash
+    _vertexSize = 0;
+    _elementHash = 0;
+    _elements.Resize(numElements);
+    for (size_t i = 0; i < numElements; ++i)
     {
-        elements[i] = elements_[i];
-        elements[i].offset = vertexSize;
-        vertexSize += elementSizes[elements[i].type];
-        elementHash |= ElementHash(i, elements[i].semantic);
+        _elements[i] = elements[i];
+        _elements[i]._offset = _vertexSize;
+        _vertexSize += elementSizes[_elements[i]._type];
+        _elementHash |= ElementHash(i, _elements[i]._semantic);
     }
 
     // If buffer is reinitialized with the same shadow data, no need to reallocate
-    if (useShadowData && (!data || data != shadowData.Get()))
+    if (useShadowData && (!data || data != _shadowData.Get()))
     {
-        shadowData = new unsigned char[numVertices * vertexSize];
+        _shadowData = new unsigned char[_numVertices * _vertexSize];
         if (data)
-            memcpy(shadowData.Get(), data, numVertices * vertexSize);
+            memcpy(_shadowData.Get(), data, _numVertices * _vertexSize);
     }
 
     return Create(data);

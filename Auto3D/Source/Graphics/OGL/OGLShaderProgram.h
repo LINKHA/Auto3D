@@ -14,13 +14,13 @@ class ShaderVariation;
 struct AUTO_API VertexAttribute
 {
     /// Name of attribute.
-    String name;
+    String _name;
     /// Attribute binding point. 
-    unsigned location;
+    unsigned _location;
     /// Attribute semantic.
-    ElementSemantic semantic;
+    ElementSemantic _semantic;
     /// Attribute's semantic index.
-    unsigned char index;
+    unsigned char _index;
 };
 
 /// Linked shader program consisting of vertex and pixel shaders.
@@ -43,22 +43,22 @@ public:
     /// Return the pixel shader.
     ShaderVariation* PixelShader() const;
     /// Return vertex attribute descriptions.
-    const Vector<VertexAttribute>& Attributes() const { return attributes; }
+    const Vector<VertexAttribute>& Attributes() const { return _attributes; }
     /// Return combined name of the shader program.
     String FullName() const;
 
     /// Return the OpenGL shader program identifier. Used internally and should not be called by portable application code.
-    unsigned GLProgram() const { return program; }
+    unsigned GLProgram() const { return _program; }
 
 private:
     /// OpenGL shader program identifier.
-    unsigned program;
+    unsigned _program;
     /// Vertex shader.
-    WeakPtr<ShaderVariation> vs;
+    WeakPtr<ShaderVariation> _vs;
     /// Pixel shader.
-    WeakPtr<ShaderVariation> ps;
+    WeakPtr<ShaderVariation> _ps;
     /// Vertex attribute semantics and indices.
-    Vector<VertexAttribute> attributes;
+    Vector<VertexAttribute> _attributes;
 };
 
 }

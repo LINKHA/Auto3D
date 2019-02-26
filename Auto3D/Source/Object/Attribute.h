@@ -78,12 +78,12 @@ public:
     void ToValue(Serializable* instance, void* dest);
     
     /// Return variable name.
-    const String& Name() const { return name; }
+    const String& Name() const { return _name; }
     /// Return zero-based enum names, or null if none.
-    const char** EnumNames() const { return enumNames; }
+    const char** EnumNames() const { return _enumNames; }
     /// Return type name.
     const String& TypeName() const;
-    /// Return byte size of the attribute data, or 0 if it can be variable.
+    /// Return byte _size of the attribute data, or 0 if it can be variable.
     size_t ByteSize() const;
     
     /// Skip binary data of an attribute.
@@ -104,11 +104,11 @@ public:
 
 protected:
     /// Variable name.
-    String name;
+    String _name;
     /// Attribute accessor.
-    AutoPtr<AttributeAccessor> accessor;
+    AutoPtr<AttributeAccessor> _accessor;
     /// Enum names.
-    const char** enumNames;
+    const char** _enumNames;
 
 private:
     /// Prevent copy construction.
@@ -122,9 +122,9 @@ template <class _Ty> class AttributeImpl : public Attribute
 {
 public:
     /// Construct.
-    AttributeImpl(const char* name, AttributeAccessor* accessor, const _Ty& defaultValue_, const char** enumNames = 0) :
+    AttributeImpl(const char* name, AttributeAccessor* accessor, const _Ty& defaultValue, const char** enumNames = 0) :
         Attribute(name, accessor, enumNames),
-        defaultValue(defaultValue_)
+        _defaultValue(defaultValue)
     {
     }
     
@@ -132,33 +132,33 @@ public:
     void FromBinary(Serializable* instance, Stream& source) override
     {
         _Ty value = source.Read<_Ty>();
-        accessor->Set(instance, &value);
+        _accessor->Set(instance, &value);
     }
     
     /// Serialize to a binary stream.
     void ToBinary(Serializable* instance, Stream& dest) override
     {
         _Ty value;
-        accessor->Get(instance, &value);
+        _accessor->Get(instance, &value);
         dest.Write<_Ty>(value);
     }
     
     /// Return whether is default value.
-    bool IsDefault(Serializable* instance) override { return Value(instance) == defaultValue; }
+    bool IsDefault(Serializable* instance) override { return Value(instance) == _defaultValue; }
     
     /// Deserialize from JSON.
     void FromJSON(Serializable* instance, const JSONValue& source) override
     {
         _Ty value;
         Attribute::FromJSON(Type(), &value, source);
-        accessor->Set(instance, &value);
+        _accessor->Set(instance, &value);
     }
 
     /// Serialize to JSON.
     void ToJSON(Serializable* instance, JSONValue& dest) override
     {
         _Ty value;
-        accessor->Get(instance, &value);
+        _accessor->Get(instance, &value);
         Attribute::ToJSON(Type(), dest, &value);
     }
 
@@ -166,24 +166,24 @@ public:
     AttributeType Type() const override;
     
     /// Set new attribute value.
-    void SetValue(Serializable* instance, const _Ty& source) { accessor->Set(instance, &source); }
+    void SetValue(Serializable* instance, const _Ty& source) { _accessor->Set(instance, &source); }
     /// Copy current attribute value.
-    void Value(Serializable* instance, _Ty& dest) { accessor->Get(instance, &dest); }
+    void Value(Serializable* instance, _Ty& dest) { _accessor->Get(instance, &dest); }
     
     /// Return current attribute value.
     _Ty Value(Serializable* instance)
     {
         _Ty ret;
-        accessor->Get(instance, &ret);
+        _accessor->Get(instance, &ret);
         return ret;
     }
     
     /// Return default value.
-    const _Ty& DefaultValue() const { return defaultValue; }
+    const _Ty& DefaultValue() const { return _defaultValue; }
     
 private:
     /// Default value.
-    _Ty defaultValue;
+    _Ty _defaultValue;
 };
 
 /// Template implementation for accessing serializable variables.
@@ -195,11 +195,11 @@ public:
 
     /// Construct with function pointers.
     AttributeAccessorImpl(GetFunctionPtr getPtr, SetFunctionPtr setPtr) :
-        get(getPtr),
-        set(setPtr)
+        _get(getPtr),
+        _set(setPtr)
     {
-        assert(get);
-        assert(set);
+        assert(_get);
+        assert(_set);
     }
 
     /// Get current value of the variable.
@@ -209,7 +209,7 @@ public:
 
         U& value = *(reinterpret_cast<U*>(dest));
         const _Ty* classInstance = static_cast<const _Ty*>(instance);
-        value = (classInstance->*get)();
+        value = (classInstance->*_get)();
     }
 
     /// Set new value for the variable.
@@ -219,14 +219,14 @@ public:
 
         const U& value = *(reinterpret_cast<const U*>(source));
         _Ty* classInstance = static_cast<_Ty*>(instance);
-        (classInstance->*set)(value);
+        (classInstance->*_set)(value);
     }
 
 private:
     /// Getter function pointer.
-    GetFunctionPtr get;
+    GetFunctionPtr _get;
     /// Setter function pointer.
-    SetFunctionPtr set;
+    SetFunctionPtr _set;
 };
 
 /// Template implementation for accessing serializable variables via functions that use references.
@@ -238,11 +238,11 @@ public:
 
     /// Set new value for the variable.
     RefAttributeAccessorImpl(GetFunctionPtr getPtr, SetFunctionPtr setPtr) :
-        get(getPtr),
-        set(setPtr)
+        _get(getPtr),
+        _set(setPtr)
     {
-        assert(get);
-        assert(set);
+        assert(_get);
+        assert(_set);
     }
 
     /// Get current value of the variable.
@@ -252,7 +252,7 @@ public:
 
         U& value = *(reinterpret_cast<U*>(dest));
         const _Ty* classPtr = static_cast<const _Ty*>(instance);
-        value = (classPtr->*get)();
+        value = (classPtr->*_get)();
     }
 
     /// Set new value for the variable.
@@ -262,14 +262,14 @@ public:
 
         const U& value = *(reinterpret_cast<const U*>(source));
         _Ty* classPtr = static_cast<_Ty*>(instance);
-        (classPtr->*set)(value);
+        (classPtr->*_set)(value);
     }
 
 private:
     /// Getter function pointer.
-    GetFunctionPtr get;
+    GetFunctionPtr _get;
     /// Setter function pointer.
-    SetFunctionPtr set;
+    SetFunctionPtr _set;
 };
 
 /// Template implementation for accessing serializable variables via functions where the setter uses reference, but the getter does not.
@@ -281,11 +281,11 @@ public:
 
     /// Set new value for the variable.
     MixedRefAttributeAccessorImpl(GetFunctionPtr getPtr, SetFunctionPtr setPtr) :
-        get(getPtr),
-        set(setPtr)
+        _get(getPtr),
+        _set(setPtr)
     {
-        assert(get);
-        assert(set);
+        assert(_get);
+        assert(_set);
     }
 
     /// Get current value of the variable.
@@ -295,7 +295,7 @@ public:
 
         U& value = *(reinterpret_cast<U*>(dest));
         const _Ty* classPtr = static_cast<const _Ty*>(instance);
-        value = (classPtr->*get)();
+        value = (classPtr->*_get)();
     }
 
     /// Set new value for the variable.
@@ -305,14 +305,14 @@ public:
 
         const U& value = *(reinterpret_cast<const U*>(source));
         _Ty* classPtr = static_cast<_Ty*>(instance);
-        (classPtr->*set)(value);
+        (classPtr->*_set)(value);
     }
 
 private:
     /// Getter function pointer.
-    GetFunctionPtr get;
+    GetFunctionPtr _get;
     /// Setter function pointer.
-    SetFunctionPtr set;
+    SetFunctionPtr _set;
 };
 
 }

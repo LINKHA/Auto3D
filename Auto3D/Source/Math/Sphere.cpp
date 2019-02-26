@@ -17,23 +17,23 @@ void Sphere::Define(const Vector3* vertices, size_t count)
 
 void Sphere::Define(const BoundingBox& box)
 {
-    const Vector3& min = box.min;
-    const Vector3& max = box.max;
+    const Vector3& min = box._min;
+    const Vector3& max = box._max;
     
     Undefine();
     Merge(min);
-    Merge(Vector3(max.x, min.y, min.z));
-    Merge(Vector3(min.x, max.y, min.z));
-    Merge(Vector3(max.x, max.y, min.z));
-    Merge(Vector3(min.x, min.y, max.z));
-    Merge(Vector3(max.x, min.y, max.z));
-    Merge(Vector3(min.x, max.y, max.z));
+    Merge(Vector3(max._x, min._y, min._z));
+    Merge(Vector3(min._x, max._y, min._z));
+    Merge(Vector3(max._x, max._y, min._z));
+    Merge(Vector3(min._x, min._y, max._z));
+    Merge(Vector3(max._x, min._y, max._z));
+    Merge(Vector3(min._x, max._y, max._z));
     Merge(max);
 }
 
 void Sphere::Define(const Frustum& frustum)
 {
-    Define(frustum.vertices, NUM_FRUSTUM_VERTICES);
+    Define(frustum._vertices, NUM_FRUSTUM_VERTICES);
 }
 
 void Sphere::Define(const Polyhedron& poly)
@@ -50,30 +50,30 @@ void Sphere::Merge(const Vector3* vertices, size_t count)
 
 void Sphere::Merge(const BoundingBox& box)
 {
-    const Vector3& min = box.min;
-    const Vector3& max = box.max;
+    const Vector3& min = box._min;
+    const Vector3& max = box._max;
     
     Merge(min);
-    Merge(Vector3(max.x, min.y, min.z));
-    Merge(Vector3(min.x, max.y, min.z));
-    Merge(Vector3(max.x, max.y, min.z));
-    Merge(Vector3(min.x, min.y, max.z));
-    Merge(Vector3(max.x, min.y, max.z));
-    Merge(Vector3(min.x, max.y, max.z));
+    Merge(Vector3(max._x, min._y, min._z));
+    Merge(Vector3(min._x, max._y, min._z));
+    Merge(Vector3(max._x, max._y, min._z));
+    Merge(Vector3(min._x, min._y, max._z));
+    Merge(Vector3(max._x, min._y, max._z));
+    Merge(Vector3(min._x, max._y, max._z));
     Merge(max);
 }
 
 void Sphere::Merge(const Frustum& frustum)
 {
-    const Vector3* vertices = frustum.vertices;
+    const Vector3* vertices = frustum._vertices;
     Merge(vertices, NUM_FRUSTUM_VERTICES);
 }
 
 void Sphere::Merge(const Polyhedron& poly)
 {
-    for (size_t i = 0; i < poly.faces.Size(); ++i)
+    for (size_t i = 0; i < poly._faces.Size(); ++i)
     {
-        const Vector<Vector3>& face = poly.faces[i];
+        const Vector<Vector3>& face = poly._faces[i];
         if (!face.IsEmpty())
             Merge(&face[0], face.Size());
     }
@@ -84,102 +84,102 @@ void Sphere::Merge(const Sphere& sphere)
     // If undefined, set initial dimensions
     if (!IsDefined())
     {
-        center = sphere.center;
-        radius = sphere.radius;
+        _center = sphere._center;
+        _radius = sphere._radius;
         return;
     }
     
-    Vector3 offset = sphere.center - center;
+    Vector3 offset = sphere._center - _center;
     float dist = offset.Length();
     
     // If sphere fits inside, do nothing
-    if (dist + sphere.radius < radius)
+    if (dist + sphere._radius < _radius)
         return;
     
     // If we fit inside the other sphere, become it
-    if (dist + radius < sphere.radius)
+    if (dist + _radius < sphere._radius)
     {
-        center = sphere.center;
-        radius = sphere.radius;
+        _center = sphere._center;
+        _radius = sphere._radius;
     }
     else
     {
         Vector3 normalizedOffset = offset / dist;
         
-        Vector3 min = center - radius * normalizedOffset;
-        Vector3 max = sphere.center + sphere.radius * normalizedOffset;
-        center = (min + max) * 0.5f;
-        radius = (max - center).Length();
+        Vector3 min = _center - _radius * normalizedOffset;
+        Vector3 max = sphere._center + sphere._radius * normalizedOffset;
+        _center = (min + max) * 0.5f;
+        _radius = (max - _center).Length();
     }
 }
 
 Intersection Sphere::IsInside(const BoundingBox& box) const
 {
-    float radiusSquared = radius * radius;
+    float radiusSquared = _radius * _radius;
     float distSquared = 0;
     float temp;
-    Vector3 min = box.min;
-    Vector3 max = box.max;
+    Vector3 min = box._min;
+    Vector3 max = box._max;
     
-    if (center.x < min.x)
+    if (_center._x < min._x)
     {
-        temp = center.x - min.x;
+        temp = _center._x - min._x;
         distSquared += temp * temp;
     }
-    else if (center.x > max.x)
+    else if (_center._x > max._x)
     {
-        temp = center.x - max.x;
+        temp = _center._x - max._x;
         distSquared += temp * temp;
     }
-    if (center.y < min.y)
+    if (_center._y < min._y)
     {
-        temp = center.y - min.y;
+        temp = _center._y - min._y;
         distSquared += temp * temp;
     }
-    else if (center.y > max.y)
+    else if (_center._y > max._y)
     {
-        temp = center.y - max.y;
+        temp = _center._y - max._y;
         distSquared += temp * temp;
     }
-    if (center.z < min.z)
+    if (_center._z < min._z)
     {
-        temp = center.z - min.z;
+        temp = _center._z - min._z;
         distSquared += temp * temp;
     }
-    else if (center.z > max.z)
+    else if (_center._z > max._z)
     {
-        temp = center.z - max.z;
+        temp = _center._z - max._z;
         distSquared += temp * temp;
     }
     
     if (distSquared >= radiusSquared)
         return OUTSIDE;
     
-    min -= center;
-    max -= center;
+    min -= _center;
+    max -= _center;
     
     Vector3 tempVec = min; // - - -
     if (tempVec.LengthSquared() >= radiusSquared)
         return INTERSECTS;
-    tempVec.x = max.x; // + - -
+    tempVec._x = max._x; // + - -
     if (tempVec.LengthSquared() >= radiusSquared)
         return INTERSECTS;
-    tempVec.y = max.y; // + + -
+    tempVec._y = max._y; // + + -
     if (tempVec.LengthSquared() >= radiusSquared)
         return INTERSECTS;
-    tempVec.x = min.x; // - + -
+    tempVec._x = min._x; // - + -
     if (tempVec.LengthSquared() >= radiusSquared)
         return INTERSECTS;
-    tempVec.z = max.z; // - + +
+    tempVec._z = max._z; // - + +
     if (tempVec.LengthSquared() >= radiusSquared)
         return INTERSECTS;
-    tempVec.y = min.y; // - - +
+    tempVec._y = min._y; // - - +
     if (tempVec.LengthSquared() >= radiusSquared)
         return INTERSECTS;
-    tempVec.x = max.x; // + - +
+    tempVec._x = max._x; // + - +
     if (tempVec.LengthSquared() >= radiusSquared)
         return INTERSECTS;
-    tempVec.y = max.y; // + + +
+    tempVec._y = max._y; // + + +
     if (tempVec.LengthSquared() >= radiusSquared)
         return INTERSECTS;
     
@@ -188,40 +188,40 @@ Intersection Sphere::IsInside(const BoundingBox& box) const
 
 Intersection Sphere::IsInsideFast(const BoundingBox& box) const
 {
-    float radiusSquared = radius * radius;
+    float radiusSquared = _radius * _radius;
     float distSquared = 0;
     float temp;
-    Vector3 min = box.min;
-    Vector3 max = box.max;
+    Vector3 min = box._min;
+    Vector3 max = box._max;
     
-    if (center.x < min.x)
+    if (_center._x < min._x)
     {
-        temp = center.x - min.x;
+        temp = _center._x - min._x;
         distSquared += temp * temp;
     }
-    else if (center.x > max.x)
+    else if (_center._x > max._x)
     {
-        temp = center.x - max.x;
+        temp = _center._x - max._x;
         distSquared += temp * temp;
     }
-    if (center.y < min.y)
+    if (_center._y < min._y)
     {
-        temp = center.y - min.y;
+        temp = _center._y - min._y;
         distSquared += temp * temp;
     }
-    else if (center.y > max.y)
+    else if (_center._y > max._y)
     {
-        temp = center.y - max.y;
+        temp = _center._y - max._y;
         distSquared += temp * temp;
     }
-    if (center.z < min.z)
+    if (_center._z < min._z)
     {
-        temp = center.z - min.z;
+        temp = _center._z - min._z;
         distSquared += temp * temp;
     }
-    else if (center.z > max.z)
+    else if (_center._z > max._z)
     {
-        temp = center.z - max.z;
+        temp = _center._z - max._z;
         distSquared += temp * temp;
     }
     

@@ -33,9 +33,9 @@ struct AUTO_API AllocatorNode
     /// Data follows.
 };
 
-/// Initialize a fixed-size allocator with the node size and initial capacity.
+/// Initialize a fixed-_size allocator with the node _size and initial capacity.
 AUTO_API AllocatorBlock* AllocatorInitialize(size_t nodeSize, size_t initialCapacity = 1);
-/// Uninitialize a fixed-size allocator. Frees all blocks in the chain.
+/// Uninitialize a fixed-_size allocator. Frees all blocks in the chain.
 AUTO_API void AllocatorUninitialize(AllocatorBlock* allocator);
 /// Allocate a node. Creates a new block if necessary.
 AUTO_API void* AllocatorGet(AllocatorBlock* allocator);
