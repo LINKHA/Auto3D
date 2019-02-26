@@ -53,7 +53,7 @@ public:
     /// Set shadow map face resolution in pixels.
     void SetShadowMapSize(int size);
     /// Set directional light shadow split distances. Fill unused splits with zero.
-    void SetShadowSplits(const Vector4& splits);
+    void SetShadowSplits(const Vector4F& splits);
     /// Set directional light shadow fade start depth, where 1 represents shadow max distance.
     void SetShadowFadeStart(float start);
     /// Set constant depth bias for shadows.
@@ -74,7 +74,7 @@ public:
     /// Return shadow map face resolution in pixels.
     int ShadowMapSize() const { return _shadowMapSize; }
     /// Return directional light shadow split distances.
-    const Vector4& ShadowSplits() const { return _shadowSplits; }
+    const Vector4F& ShadowSplits() const { return _shadowSplits; }
     /// Return directional light shadow fade start depth.
     float ShadowFadeStart() const { return _shadowFadeStart; }
     /// Return number of directional light shadow splits.
@@ -107,11 +107,11 @@ public:
     /// Return actual shadow map rectangle. May be smaller than the requested total shadow map _size.
     const IntRect& ShadowRect() const { return _shadowRect; }
     /// Return shadow mapping matrices.
-    const Vector<Matrix4>& ShadowMatrices() const { return _shadowMatrices; }
+    const Vector<Matrix4x4F>& ShadowMatrices() const { return _shadowMatrices; }
     /// Return shadow map offset and depth parameters.
-    const Vector4& ShadowParameters() const { return _shadowParameters; }
+    const Vector4F& ShadowParameters() const { return _shadowParameters; }
     /// Return point light shadow extra parameters.
-    const Vector4& PointShadowParameters() const { return _pointShadowParameters; }
+    const Vector4F& PointShadowParameters() const { return _pointShadowParameters; }
 
 protected:
     /// Recalculate the world space bounding box.
@@ -136,7 +136,7 @@ private:
     /// Shadow map resolution in pixels.
     int _shadowMapSize;
     /// Directional shadow splits.
-    Vector4 _shadowSplits;
+    Vector4F _shadowSplits;
     /// Directional shadow fade start.
     float _shadowFadeStart;
     /// Constant depth bias.
@@ -148,11 +148,11 @@ private:
     /// Rectangle within the shadow map.
     IntRect _shadowRect;
     /// Shadow mapping matrices.
-    Vector<Matrix4> _shadowMatrices;
+    Vector<Matrix4x4F> _shadowMatrices;
     /// Shadow mapping parameters.
-    Vector4 _shadowParameters;
+    Vector4F _shadowParameters;
     /// Shadow mapping extra parameters for point lights.
-    Vector4 _pointShadowParameters;
+    Vector4F _pointShadowParameters;
 };
 
 }

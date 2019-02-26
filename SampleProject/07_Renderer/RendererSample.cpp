@@ -18,7 +18,7 @@ void RendererSample::Start()
 	scene = new Scene();
 	scene->CreateChild<Octree>();
 	camera = scene->CreateChild<Camera>();
-	camera->SetPosition(Vector3(0.0f, 20.0f, -75.0f));
+	camera->SetPosition(Vector3F(0.0f, 20.0f, -75.0f));
 	camera->SetAmbientColor(Color(0.1f, 0.1f, 0.1f));
 
 	for (int y = -5; y <= 5; ++y)
@@ -26,8 +26,8 @@ void RendererSample::Start()
 		for (int x = -5; x <= 5; ++x)
 		{
 			StaticModel* object = scene->CreateChild<StaticModel>();
-			object->SetPosition(Vector3(10.5f * x, -0.1f, 10.5f * y));
-			object->SetScale(Vector3(10.0f, 0.1f, 10.0f));
+			object->SetPosition(Vector3F(10.5f * x, -0.1f, 10.5f * y));
+			object->SetScale(Vector3F(10.0f, 0.1f, 10.0f));
 			object->SetModel(cache->LoadResource<Model>("Box.mdl"));
 			object->SetMaterial(cache->LoadResource<Material>("Stone.json"));
 		}
@@ -36,7 +36,7 @@ void RendererSample::Start()
 	for (unsigned i = 0; i < 435; ++i)
 	{
 		StaticModel* object = scene->CreateChild<StaticModel>();
-		object->SetPosition(Vector3(Random() * 100.0f - 50.0f, 0.0f, Random() * 100.0f - 50.0f));
+		object->SetPosition(Vector3F(Random() * 100.0f - 50.0f, 0.0f, Random() * 100.0f - 50.0f));
 		object->SetScale(1.5f);
 		object->SetModel(cache->LoadResource<Model>("Mushroom.mdl"));
 		object->SetMaterial(cache->LoadResource<Material>("Mushroom.json"));
@@ -49,12 +49,12 @@ void RendererSample::Start()
 		Light* light = scene->CreateChild<Light>();
 		light->SetLightType(LIGHT_POINT);
 		light->SetCastShadows(true);
-		Vector3 colorVec = 2.0f * Vector3(Random(), Random(), Random()).Normalized();
+		Vector3F colorVec = 2.0f * Vector3F(Random(), Random(), Random()).Normalized();
 		light->SetColor(Color(colorVec._x, colorVec._y, colorVec._z));
 		light->SetFov(90.0f);
 		light->SetRange(20.0f);
-		light->SetPosition(Vector3(Random() * 120.0f - 60.0f, 7.0f, Random() * 120.0f - 60.0f));
-		light->SetDirection(Vector3(0.0f, -1.0f, 0.0f));
+		light->SetPosition(Vector3F(Random() * 120.0f - 60.0f, 7.0f, Random() * 120.0f - 60.0f));
+		light->SetDirection(Vector3F(0.0f, -1.0f, 0.0f));
 		light->SetShadowMapSize(256);
 	}
 }
@@ -74,13 +74,13 @@ void RendererSample::Update()
 
 	camera->SetRotation(Quaternion(pitch, yaw, 0.0f));
 	if (input->IsKeyDown(KEY_W))
-		camera->Translate(Vector3::FORWARD * 0.00234699994 * moveSpeed);
+		camera->Translate(Vector3F::FORWARD * 0.00234699994 * moveSpeed);
 	if (input->IsKeyDown(KEY_S))
-		camera->Translate(Vector3::BACK * 0.00234699994  * moveSpeed);
+		camera->Translate(Vector3F::BACK * 0.00234699994  * moveSpeed);
 	if (input->IsKeyDown(KEY_A))
-		camera->Translate(Vector3::LEFT * 0.00234699994  * moveSpeed);
+		camera->Translate(Vector3F::LEFT * 0.00234699994  * moveSpeed);
 	if (input->IsKeyDown(KEY_D))
-		camera->Translate(Vector3::RIGHT * 0.00234699994  * moveSpeed);
+		camera->Translate(Vector3F::RIGHT * 0.00234699994  * moveSpeed);
 
 	// Update camera aspect ratio based on window size
 	camera->SetAspectRatio((float)graphics->Width() / (float)graphics->Height());

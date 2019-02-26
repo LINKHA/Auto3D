@@ -112,9 +112,9 @@ public:
     /// Return color packed to a 32-bit integer, with R component in the lowest 8 bits. Components are clamped to [0, 1] range.
     unsigned ToUInt() const;
     /// Return HSL color-space representation as a Vector3; the RGB values are clipped before conversion but not changed in the process.
-    Vector3 ToHSL() const;
+    Vector3F ToHSL() const;
     /// Return HSV color-space representation as a Vector3; the RGB values are clipped before conversion but not changed in the process.
-    Vector3 ToHSV() const;
+    Vector3F ToHSV() const;
     /// Set RGBA values from specified HSL values and alpha.
     void FromHSL(float h, float s, float l, float a = 1.0f);
     /// Set RGBA values from specified HSV values and alpha.
@@ -125,9 +125,9 @@ public:
     bool FromString(const char* str);
 
     /// Return RGB as a three-dimensional vector.
-    Vector3 ToVector3() const { return Vector3(_r, _g, _b); }
+    Vector3F ToVector3() const { return Vector3F(_r, _g, _b); }
     /// Return RGBA as a four-dimensional vector.
-    Vector4 ToVector4() const { return Vector4(_r, _g, _b, _a); }
+    Vector4F ToVector4() const { return Vector4F(_r, _g, _b, _a); }
 
     /// Return sum of RGB components.
     float SumRGB() const { return _r + _g + _b; }

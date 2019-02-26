@@ -3,6 +3,7 @@
 #include "../Base/HashMap.h"
 #include "../Base/String.h"
 #include "../Base/Vector.h"
+//#include "../Math/Vector2.h"
 
 namespace Auto3D
 {

@@ -8,11 +8,11 @@
 namespace Auto3D
 {
 
-Vector3 Ray::ClosestPoint(const Ray& ray) const
+Vector3F Ray::ClosestPoint(const Ray& ray) const
 {
-    Vector3 p13 = _origin - ray._origin;
-    Vector3 p43 = ray._direction;
-    Vector3 p21 = _direction;
+    Vector3F p13 = _origin - ray._origin;
+    Vector3F p43 = ray._direction;
+    Vector3F p21 = _direction;
     
     float d1343 = p13.DotProduct(p43);
     float d4321 = p43.DotProduct(p21);
@@ -58,7 +58,7 @@ float Ray::HitDistance(const BoundingBox& box) const
         float x = (box._min._x - _origin._x) / _direction._x;
         if (x < dist)
         {
-            Vector3 point = _origin + x * _direction;
+            Vector3F point = _origin + x * _direction;
             if (point._y >= box._min._y && point._y <= box._max._y && point._z >= box._min._z && point._z <= box._max._z)
                 dist = x;
         }
@@ -68,7 +68,7 @@ float Ray::HitDistance(const BoundingBox& box) const
         float x = (box._max._x - _origin._x) / _direction._x;
         if (x < dist)
         {
-            Vector3 point = _origin + x * _direction;
+            Vector3F point = _origin + x * _direction;
             if (point._y >= box._min._y && point._y <= box._max._y && point._z >= box._min._z && point._z <= box._max._z)
                 dist = x;
         }
@@ -79,7 +79,7 @@ float Ray::HitDistance(const BoundingBox& box) const
         float x = (box._min._y - _origin._y) / _direction._y;
         if (x < dist)
         {
-            Vector3 point = _origin + x * _direction;
+            Vector3F point = _origin + x * _direction;
             if (point._x >= box._min._x && point._x <= box._max._x && point._z >= box._min._z && point._z <= box._max._z)
                 dist = x;
         }
@@ -89,7 +89,7 @@ float Ray::HitDistance(const BoundingBox& box) const
         float x = (box._max._y - _origin._y) / _direction._y;
         if (x < dist)
         {
-            Vector3 point = _origin + x * _direction;
+            Vector3F point = _origin + x * _direction;
             if (point._x >= box._min._x && point._x <= box._max._x && point._z >= box._min._z && point._z <= box._max._z)
                 dist = x;
         }
@@ -100,7 +100,7 @@ float Ray::HitDistance(const BoundingBox& box) const
         float x = (box._min._z - _origin._z) / _direction._z;
         if (x < dist)
         {
-            Vector3 point = _origin + x * _direction;
+            Vector3F point = _origin + x * _direction;
             if (point._x >= box._min._x && point._x <= box._max._x && point._y >= box._min._y && point._y <= box._max._y)
                 dist = x;
         }
@@ -110,7 +110,7 @@ float Ray::HitDistance(const BoundingBox& box) const
         float x = (box._max._z - _origin._z) / _direction._z;
         if (x < dist)
         {
-            Vector3 point = _origin + x * _direction;
+            Vector3F point = _origin + x * _direction;
             if (point._x >= box._min._x && point._x <= box._max._x && point._y >= box._min._y && point._y <= box._max._y)
                 dist = x;
         }
@@ -149,7 +149,7 @@ float Ray::HitDistance(const Frustum& frustum, bool solidInside) const
 
 float Ray::HitDistance(const Sphere& sphere) const
 {
-    Vector3 centeredOrigin = _origin - sphere._center;
+    Vector3F centeredOrigin = _origin - sphere._center;
     float squaredRadius = sphere._radius * sphere._radius;
     
     // Check if ray originates inside the sphere
@@ -175,30 +175,30 @@ float Ray::HitDistance(const Sphere& sphere) const
         return (-b + dSqrt) / (2.0f * a);
 }
 
-float Ray::HitDistance(const Vector3& v0, const Vector3& v1, const Vector3& v2) const
+float Ray::HitDistance(const Vector3F& v0, const Vector3F& v1, const Vector3F& v2) const
 {
     return HitDistance(v0, v1, v2, 0);
 }
 
-float Ray::HitDistance(const Vector3& v0, const Vector3& v1, const Vector3& v2, Vector3* outNormal) const
+float Ray::HitDistance(const Vector3F& v0, const Vector3F& v1, const Vector3F& v2, Vector3F* outNormal) const
 {
     // Based on Fast, Minimum Storage Ray/Triangle Intersection by Möller & Trumbore
     // http://www.graphics.cornell.edu/pubs/1997/MT97.pdf
     // Calculate edge vectors
-    Vector3 edge1(v1 - v0);
-    Vector3 edge2(v2 - v0);
+    Vector3F edge1(v1 - v0);
+    Vector3F edge2(v2 - v0);
     
     // Calculate determinant & check backfacing
-    Vector3 p(_direction.CrossProduct(edge2));
+    Vector3F p(_direction.CrossProduct(edge2));
     float det = edge1.DotProduct(p);
     if (det >= M_EPSILON)
     {
         // Calculate u & v parameters and test
-        Vector3 t(_origin - v0);
+        Vector3F t(_origin - v0);
         float u = t.DotProduct(p);
         if (u >= 0.0f && u <= det)
         {
-            Vector3 q(t.CrossProduct(edge1));
+            Vector3F q(t.CrossProduct(edge1));
             float v = _direction.DotProduct(q);
             if (v >= 0.0f && u + v <= det)
             {
@@ -218,7 +218,7 @@ float Ray::HitDistance(const Vector3& v0, const Vector3& v1, const Vector3& v2, 
     return M_INFINITY;
 }
 
-float Ray::HitDistance(const void* vertexData, size_t vertexSize, size_t vertexStart, size_t vertexCount, Vector3* outNormal) const
+float Ray::HitDistance(const void* vertexData, size_t vertexSize, size_t vertexStart, size_t vertexCount, Vector3F* outNormal) const
 {
     float nearest = M_INFINITY;
     const unsigned char* vertices = ((const unsigned char*)vertexData) + vertexStart * vertexSize;
@@ -226,9 +226,9 @@ float Ray::HitDistance(const void* vertexData, size_t vertexSize, size_t vertexS
     
     while (index + 2 < vertexCount)
     {
-        const Vector3& v0 = *((const Vector3*)(&vertices[index * vertexSize]));
-        const Vector3& v1 = *((const Vector3*)(&vertices[(index + 1) * vertexSize]));
-        const Vector3& v2 = *((const Vector3*)(&vertices[(index + 2) * vertexSize]));
+        const Vector3F& v0 = *((const Vector3F*)(&vertices[index * vertexSize]));
+        const Vector3F& v1 = *((const Vector3F*)(&vertices[(index + 1) * vertexSize]));
+        const Vector3F& v2 = *((const Vector3F*)(&vertices[(index + 2) * vertexSize]));
         nearest = Min(nearest, HitDistance(v0, v1, v2, outNormal));
         index += 3;
     }
@@ -237,7 +237,7 @@ float Ray::HitDistance(const void* vertexData, size_t vertexSize, size_t vertexS
 }
 
 float Ray::HitDistance(const void* vertexData, size_t vertexSize, const void* indexData, size_t indexSize,
-    size_t indexStart, size_t indexCount, Vector3* outNormal) const
+    size_t indexStart, size_t indexCount, Vector3F* outNormal) const
 {
     float nearest = M_INFINITY;
     const unsigned char* vertices = (const unsigned char*)vertexData;
@@ -250,9 +250,9 @@ float Ray::HitDistance(const void* vertexData, size_t vertexSize, const void* in
         
         while (indices < indicesEnd)
         {
-            const Vector3& v0 = *((const Vector3*)(&vertices[indices[0] * vertexSize]));
-            const Vector3& v1 = *((const Vector3*)(&vertices[indices[1] * vertexSize]));
-            const Vector3& v2 = *((const Vector3*)(&vertices[indices[2] * vertexSize]));
+            const Vector3F& v0 = *((const Vector3F*)(&vertices[indices[0] * vertexSize]));
+            const Vector3F& v1 = *((const Vector3F*)(&vertices[indices[1] * vertexSize]));
+            const Vector3F& v2 = *((const Vector3F*)(&vertices[indices[2] * vertexSize]));
             nearest = Min(nearest, HitDistance(v0, v1, v2, outNormal));
             indices += 3;
         }
@@ -265,9 +265,9 @@ float Ray::HitDistance(const void* vertexData, size_t vertexSize, const void* in
         
         while (indices < indicesEnd)
         {
-            const Vector3& v0 = *((const Vector3*)(&vertices[indices[0] * vertexSize]));
-            const Vector3& v1 = *((const Vector3*)(&vertices[indices[1] * vertexSize]));
-            const Vector3& v2 = *((const Vector3*)(&vertices[indices[2] * vertexSize]));
+            const Vector3F& v0 = *((const Vector3F*)(&vertices[indices[0] * vertexSize]));
+            const Vector3F& v1 = *((const Vector3F*)(&vertices[indices[1] * vertexSize]));
+            const Vector3F& v2 = *((const Vector3F*)(&vertices[indices[2] * vertexSize]));
             nearest = Min(nearest, HitDistance(v0, v1, v2, outNormal));
             indices += 3;
         }
@@ -285,9 +285,9 @@ bool Ray::InsideGeometry(const void* vertexData, size_t vertexSize, size_t verte
     
     while (index + 2 < vertexCount)
     {
-        const Vector3& v0 = *((const Vector3*)(&vertices[index * vertexSize]));
-        const Vector3& v1 = *((const Vector3*)(&vertices[(index + 1) * vertexSize]));
-        const Vector3& v2 = *((const Vector3*)(&vertices[(index + 2) * vertexSize]));
+        const Vector3F& v0 = *((const Vector3F*)(&vertices[index * vertexSize]));
+        const Vector3F& v1 = *((const Vector3F*)(&vertices[(index + 1) * vertexSize]));
+        const Vector3F& v2 = *((const Vector3F*)(&vertices[(index + 2) * vertexSize]));
         float frontFaceDistance = HitDistance(v0, v1, v2);
         float backFaceDistance = HitDistance(v2, v1, v0);
         currentFrontFace = Min(frontFaceDistance > 0.0f ? frontFaceDistance : M_INFINITY, currentFrontFace);
@@ -323,9 +323,9 @@ bool Ray::InsideGeometry(const void* vertexData, size_t vertexSize, const void* 
         
         while (indices < indicesEnd)
         {
-            const Vector3& v0 = *((const Vector3*)(&vertices[indices[0] * vertexSize]));
-            const Vector3& v1 = *((const Vector3*)(&vertices[indices[1] * vertexSize]));
-            const Vector3& v2 = *((const Vector3*)(&vertices[indices[2] * vertexSize]));
+            const Vector3F& v0 = *((const Vector3F*)(&vertices[indices[0] * vertexSize]));
+            const Vector3F& v1 = *((const Vector3F*)(&vertices[indices[1] * vertexSize]));
+            const Vector3F& v2 = *((const Vector3F*)(&vertices[indices[2] * vertexSize]));
             float frontFaceDistance = HitDistance(v0, v1, v2);
             float backFaceDistance = HitDistance(v2, v1, v0);
             currentFrontFace = Min(frontFaceDistance > 0.0f ? frontFaceDistance : M_INFINITY, currentFrontFace);
@@ -343,9 +343,9 @@ bool Ray::InsideGeometry(const void* vertexData, size_t vertexSize, const void* 
         
         while (indices < indicesEnd)
         {
-            const Vector3& v0 = *((const Vector3*)(&vertices[indices[0] * vertexSize]));
-            const Vector3& v1 = *((const Vector3*)(&vertices[indices[1] * vertexSize]));
-            const Vector3& v2 = *((const Vector3*)(&vertices[indices[2] * vertexSize]));
+            const Vector3F& v0 = *((const Vector3F*)(&vertices[indices[0] * vertexSize]));
+            const Vector3F& v1 = *((const Vector3F*)(&vertices[indices[1] * vertexSize]));
+            const Vector3F& v2 = *((const Vector3F*)(&vertices[indices[2] * vertexSize]));
             float frontFaceDistance = HitDistance(v0, v1, v2);
             float backFaceDistance = HitDistance(v2, v1, v0);
             currentFrontFace = Min(frontFaceDistance > 0.0f ? frontFaceDistance : M_INFINITY, currentFrontFace);
@@ -371,7 +371,7 @@ Ray Ray::Transformed(const Matrix3x4& transform) const
 {
     Ray ret;
     ret._origin = transform * _origin;
-    ret._direction = transform * Vector4(_direction, 0.0f);
+    ret._direction = transform * Vector4F(_direction, 0.0f);
     return ret;
 }
 

@@ -14,13 +14,13 @@ class AUTO_API Sphere
 {
 public:
     /// Sphere center.
-    Vector3 _center;
+    Vector3F _center;
     /// Sphere radius.
     float _radius;
     
     /// Construct as undefined (negative radius.)
     Sphere() :
-        _center(Vector3::ZERO),
+        _center(Vector3F::ZERO),
         _radius(-M_INFINITY)
     {
     }
@@ -33,14 +33,14 @@ public:
     }
     
     /// Construct from center and radius.
-    Sphere(const Vector3& center, float radius) :
+    Sphere(const Vector3F& center, float radius) :
         _center(center),
         _radius(radius)
     {
     }
     
     /// Construct from an array of vertices.
-    Sphere(const Vector3* vertices, size_t count)
+    Sphere(const Vector3F* vertices, size_t count)
     {
         Define(vertices, count);
     }
@@ -84,14 +84,14 @@ public:
     }
     
     /// Define from center and radius.
-    void Define(const Vector3& center_, float radius_)
+    void Define(const Vector3F& center_, float radius_)
     {
         _center = center_;
         _radius = radius_;
     }
     
     /// Define from an array of vertices.
-    void Define(const Vector3* vertices, size_t count);
+    void Define(const Vector3F* vertices, size_t count);
     /// Define from a bounding box.
     void Define(const BoundingBox& box);
     /// Define from a frustum.
@@ -100,7 +100,7 @@ public:
     void Define(const Polyhedron& poly);
     
     /// Merge a point.
-    void Merge(const Vector3& point)
+    void Merge(const Vector3F& point)
     {
         // If undefined, set initial dimensions
         if (!IsDefined())
@@ -110,7 +110,7 @@ public:
             return;
         }
         
-        Vector3 offset = point - _center;
+        Vector3F offset = point - _center;
         float dist = offset.Length();
         
         if (dist > _radius)
@@ -128,7 +128,7 @@ public:
     }
     
     /// Merge an array of vertices.
-    void Merge(const Vector3* vertices, size_t count);
+    void Merge(const Vector3F* vertices, size_t count);
     /// Merge a bounding box.
     void Merge(const BoundingBox& box);
     /// Merge a frustum.
@@ -142,7 +142,7 @@ public:
     bool IsDefined() const { return _radius >= 0.0f; }
 
     /// Test if a point is inside.
-    Intersection IsInside(const Vector3& point) const
+    Intersection IsInside(const Vector3F& point) const
     {
         float distSquared = (point - _center).LengthSquared();
         if (distSquared < _radius * _radius)
@@ -181,7 +181,7 @@ public:
     Intersection IsInsideFast(const BoundingBox& box) const;
     
     /// Return distance of a point to the surface, or 0 if inside.
-    float Distance(const Vector3& point) const { return Max((point - _center).Length() - _radius, 0.0f); }
+    float Distance(const Vector3F& point) const { return Max((point - _center).Length() - _radius, 0.0f); }
 };
 
 }

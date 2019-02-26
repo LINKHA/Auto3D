@@ -16,9 +16,9 @@ class AUTO_API Ray
 {
 public:
     /// Ray origin.
-    Vector3 _origin;
+    Vector3F _origin;
     /// Ray direction.
-    Vector3 _direction;
+    Vector3F _direction;
     
     /// Construct undefined ray.
     Ray()
@@ -33,7 +33,7 @@ public:
     }
     
     /// Construct from origin and direction. The direction will be normalized.
-    Ray(const Vector3& origin, const Vector3& direction)
+    Ray(const Vector3F& origin, const Vector3F& direction)
     {
         Define(origin, direction);
     }
@@ -52,23 +52,23 @@ public:
     bool operator != (const Ray& rhs) const { return !(*this == rhs); }
     
     /// Define from origin and direction. The direction will be normalized.
-    void Define(const Vector3& origin, const Vector3& direction)
+    void Define(const Vector3F& origin, const Vector3F& direction)
     {
         _origin = origin;
         _direction = direction.Normalized();
     }
     
     /// Project a point on the ray.
-    Vector3 Project(const Vector3& point) const
+    Vector3F Project(const Vector3F& point) const
     {
-        Vector3 offset = point - _origin;
+        Vector3F offset = point - _origin;
         return _origin + offset.DotProduct(_direction) * _direction;
     }
 
     /// Return distance of a point from the ray.
-    float Distance(const Vector3& point) const
+    float Distance(const Vector3F& point) const
     {
-        Vector3 projected = Project(point);
+        Vector3F projected = Project(point);
         return (point - projected).Length();
     }
 
@@ -76,7 +76,7 @@ public:
     bool Equals(const Ray& ray) const { return _origin.Equals(ray._origin) && _direction.Equals(ray._direction); }
     
     /// Return closest point to another ray.
-    Vector3 ClosestPoint(const Ray& ray) const;
+    Vector3F ClosestPoint(const Ray& ray) const;
     /// Return hit distance to a plane, or infinity if no hit.
     float HitDistance(const Plane& plane) const;
     /// Return hit distance to a bounding box, or infinity if no hit.
@@ -86,13 +86,13 @@ public:
     /// Return hit distance to a sphere, or infinity if no hit.
     float HitDistance(const Sphere& sphere) const;
     /// Return hit distance to a triangle, or infinity if no hit.
-    float HitDistance(const Vector3& v0, const Vector3& v1, const Vector3& v2) const;
+    float HitDistance(const Vector3F& v0, const Vector3F& v1, const Vector3F& v2) const;
     /// Return hit distance to a triangle and out normal, or infinity if no hit.
-    float HitDistance(const Vector3& v0, const Vector3& v1, const Vector3& v2, Vector3* outNormal) const;
+    float HitDistance(const Vector3F& v0, const Vector3F& v1, const Vector3F& v2, Vector3F* outNormal) const;
     /// Return hit distance to non-indexed geometry data, or infinity if no hit. Optionally return normal.
-    float HitDistance(const void* vertexData, size_t vertexSize, size_t vertexStart, size_t vertexCount, Vector3* outNormal = 0) const;
+    float HitDistance(const void* vertexData, size_t vertexSize, size_t vertexStart, size_t vertexCount, Vector3F* outNormal = 0) const;
     /// Return hit distance to indexed geometry data, or infinity if no hit.
-    float HitDistance(const void* vertexData, size_t vertexSize, const void* indexData, size_t indexSize, size_t indexStart, size_t indexCount, Vector3* outNormal = 0) const;
+    float HitDistance(const void* vertexData, size_t vertexSize, const void* indexData, size_t indexSize, size_t indexStart, size_t indexCount, Vector3F* outNormal = 0) const;
     /// Return whether ray is inside non-indexed geometry.
     bool InsideGeometry(const void* vertexData, size_t vertexSize, size_t vertexStart, size_t vertexCount) const;
     /// Return whether ray is inside indexed geometry.

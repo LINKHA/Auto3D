@@ -40,7 +40,7 @@ public:
     /// Set orthographic mode view uniform _size.
     void SetOrthoSize(float orthoSize);
     /// Set orthographic mode view non-uniform _size.
-    void SetOrthoSize(const Vector2& orthoSize);
+    void SetOrthoSize(const Vector2F& orthoSize);
     /// Set aspect ratio.
     void SetAspectRatio(float aspectRatio);
     /// Set zoom.
@@ -54,7 +54,7 @@ public:
     /// Set ambient light color to use when rendering with this camera.
     void SetAmbientColor(const Color& color);
     /// Set projection offset. It needs to be calculated as (offset in pixels) / (viewport dimensions.)
-    void SetProjectionOffset(const Vector2& offset);
+    void SetProjectionOffset(const Vector2F& offset);
     /// Set reflection mode.
     void SetUseReflection(bool enable);
     /// Set reflection plane in world space for reflection mode.
@@ -87,7 +87,7 @@ public:
     /// Return ambient light color.
     const Color& AmbientColor() const { return _ambientColor; }
     /// Return projection offset.
-    const Vector2& ProjectionOffset() const { return _projectionOffset; }
+    const Vector2F& ProjectionOffset() const { return _projectionOffset; }
     /// Return whether is using reflection.
     bool UseReflection() const { return _useReflection; }
     /// Return the reflection plane.
@@ -111,23 +111,23 @@ public:
     /// Return view matrix.
     const Matrix3x4& ViewMatrix() const;
     /// Return either API-specific or API-independent (D3D convention) projection matrix.
-    Matrix4 ProjectionMatrix(bool apiSpecific = true) const;
+    Matrix4x4F ProjectionMatrix(bool apiSpecific = true) const;
     /// Return frustum near and far sizes.
-    void FrustumSize(Vector3& near, Vector3& far) const;
+    void FrustumSize(Vector3F& near, Vector3F& far) const;
     /// Return half view _size.
     float HalfViewSize() const;
     /// Return ray corresponding to normalized screen coordinates (0.0 - 1.0).
     Ray ScreenRay(float x, float y) const;
     // Convert a world space point to normalized screen coordinates (0.0 - 1.0).
-    Vector2 WorldToScreenPoint(const Vector3& worldPos) const;
+    Vector2F WorldToScreenPoint(const Vector3F& worldPos) const;
     // Convert normalized screen coordinates (0.0 - 1.0) and depth to a world space point.
-    Vector3 ScreenToWorldPoint(const Vector3& screenPos) const;
+    Vector3F ScreenToWorldPoint(const Vector3F& screenPos) const;
     /// Return distance to _position. In orthographic mode uses only Z coordinate.
-    float Distance(const Vector3& worldPos) const;
+    float Distance(const Vector3F& worldPos) const;
     /// Return a scene node's LOD scaled distance.
     float LodDistance(float distance, float scale, float bias) const;
     /// Return a world rotation for facing a camera on certain axes based on the existing world rotation.
-    Quaternion FaceCameraRotation(const Vector3& position, const Quaternion& rotation, FaceCameraMode mode);
+    Quaternion FaceCameraRotation(const Vector3F& position, const Quaternion& rotation, FaceCameraMode mode);
     /// Get effective world transform for matrix and frustum calculations including reflection but excluding node scaling.
     Matrix3x4 EffectiveWorldTransform() const;
     /// Return if projection parameters are _valid for rendering and raycasting.
@@ -139,13 +139,13 @@ protected:
 
 private:
     /// Set reflection plane as vector. Used in serialization.
-    void SetReflectionPlaneAttr(const Vector4& value);
+    void SetReflectionPlaneAttr(const Vector4F& value);
     /// Return reflection plane as vector. Used in serialization.
-    Vector4 ReflectionPlaneAttr() const;
+    Vector4F ReflectionPlaneAttr() const;
     /// Set clipping plane attribute as vector. Used in serialization.
-    void SetClipPlaneAttr(const Vector4& value);
+    void SetClipPlaneAttr(const Vector4F& value);
     /// Return clipping plane attribute as vector. Used in serialization.
-    Vector4 ClipPlaneAttr() const;
+    Vector4F ClipPlaneAttr() const;
 
     /// Cached view matrix.
     mutable Matrix3x4 _viewMatrix;
@@ -174,7 +174,7 @@ private:
     /// Ambient light color.
     Color _ambientColor;
     /// Projection offset.
-    Vector2 _projectionOffset;
+    Vector2F _projectionOffset;
     /// Reflection plane.
     Plane _reflectionPlane;
     /// Clipping plane.

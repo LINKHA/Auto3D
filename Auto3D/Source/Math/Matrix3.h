@@ -85,9 +85,9 @@ public:
     bool operator != (const Matrix3& rhs) const { return !(*this == rhs); }
     
     /// Multiply a Vector3.
-    Vector3 operator * (const Vector3& rhs) const
+    Vector3F operator * (const Vector3F& rhs) const
     {
-        return Vector3(
+        return Vector3F(
             _m00 * rhs._x + _m01 * rhs._y + _m02 * rhs._z,
             _m10 * rhs._x + _m11 * rhs._y + _m12 * rhs._z,
             _m20 * rhs._x + _m21 * rhs._y + _m22 * rhs._z
@@ -141,7 +141,7 @@ public:
     }
     
     /// Set scaling elements.
-    void SetScale(const Vector3& scale)
+    void SetScale(const Vector3F& scale)
     {
         _m00 = scale._x;
         _m11 = scale._y;
@@ -162,9 +162,9 @@ public:
     bool FromString(const char* str);
     
     /// Return the scaling part.
-    Vector3 Scale() const
+    Vector3F Scale() const
     {
-        return Vector3(
+        return Vector3F(
             sqrtf(_m00 * _m00 + _m10 * _m10 + _m20 * _m20),
             sqrtf(_m01 * _m01 + _m11 * _m11 + _m21 * _m21),
             sqrtf(_m02 * _m02 + _m12 * _m12 + _m22 * _m22)
@@ -182,7 +182,7 @@ public:
     }
     
     /// Return scaled by a vector.
-    Matrix3 Scaled(const Vector3& scale) const
+    Matrix3 Scaled(const Vector3F& scale) const
     {
         return Matrix3(
             _m00 * scale._x, _m01 * scale._y, _m02 * scale._z,

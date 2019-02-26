@@ -11,9 +11,9 @@ namespace Auto3D
 
 const Quaternion Quaternion::IDENTITY(1.0f, 0.0f, 0.0f, 0.0f);
 
-void Quaternion::FromAngleAxis(float angle, const Vector3& axis)
+void Quaternion::FromAngleAxis(float angle, const Vector3F& axis)
 {
-    Vector3 normAxis = axis.Normalized();
+    Vector3F normAxis = axis.Normalized();
     angle *= M_DEGTORAD_2;
     float sinAngle = sinf(angle);
     float cosAngle = cosf(angle);
@@ -43,15 +43,15 @@ void Quaternion::FromEulerAngles(float x, float y, float z)
     _z = cosY * cosX * sinZ - sinY * sinX * cosZ;
 }
 
-void Quaternion::FromRotationTo(const Vector3& start, const Vector3& end)
+void Quaternion::FromRotationTo(const Vector3F& start, const Vector3F& end)
 {
-    Vector3 normStart = start.Normalized();
-    Vector3 normEnd = end.Normalized();
+    Vector3F normStart = start.Normalized();
+    Vector3F normEnd = end.Normalized();
     float d = normStart.DotProduct(normEnd);
     
     if (d > -1.0f + M_EPSILON)
     {
-        Vector3 c = normStart.CrossProduct(normEnd);
+        Vector3F c = normStart.CrossProduct(normEnd);
         float s = sqrtf((1.0f + d) * 2.0f);
         float invS = 1.0f / s;
         
@@ -62,15 +62,15 @@ void Quaternion::FromRotationTo(const Vector3& start, const Vector3& end)
     }
     else
     {
-        Vector3 axis = Vector3::RIGHT.CrossProduct(normStart);
+        Vector3F axis = Vector3F::RIGHT.CrossProduct(normStart);
         if (axis.Length() < M_EPSILON)
-            axis = Vector3::UP.CrossProduct(normStart);
+            axis = Vector3F::UP.CrossProduct(normStart);
         
         FromAngleAxis(180.f, axis);
     }
 }
 
-void Quaternion::FromAxes(const Vector3& xAxis, const Vector3& yAxis, const Vector3& zAxis)
+void Quaternion::FromAxes(const Vector3F& xAxis, const Vector3F& yAxis, const Vector3F& zAxis)
 {
     Matrix3 matrix(
         xAxis._x, yAxis._x, zAxis._x,
@@ -126,22 +126,22 @@ void Quaternion::FromRotationMatrix(const Matrix3& matrix)
     }
 }
 
-bool Quaternion::FromLookRotation(const Vector3& direction, const Vector3& upDirection)
+bool Quaternion::FromLookRotation(const Vector3F& direction, const Vector3F& upDirection)
 {
     Quaternion ret;
-    Vector3 forward = direction.Normalized();
+    Vector3F forward = direction.Normalized();
 
-    Vector3 v = forward.CrossProduct(upDirection);
+    Vector3F v = forward.CrossProduct(upDirection);
     // If direction & upDirection are parallel and crossproduct becomes zero, use FromRotationTo() fallback
     if (v.LengthSquared() >= M_EPSILON)
     {
         v.Normalize();
-        Vector3 up = v.CrossProduct(forward);
-        Vector3 right = up.CrossProduct(forward);
+        Vector3F up = v.CrossProduct(forward);
+        Vector3F right = up.CrossProduct(forward);
         ret.FromAxes(right, up, forward);
     }
     else
-        ret.FromRotationTo(Vector3::FORWARD, forward);
+        ret.FromRotationTo(Vector3F::FORWARD, forward);
 
     if (!ret.IsNaN())
     {
@@ -186,7 +186,7 @@ bool Quaternion::FromString(const char* str)
     return true;
 }
 
-Vector3 Quaternion::EulerAngles() const
+Vector3F Quaternion::EulerAngles() const
 {
     // Derivation from http://www.geometrictools.com/Documentation/EulerAngles.pdf
     // Order of rotations: Z first, then X, then Y
@@ -194,7 +194,7 @@ Vector3 Quaternion::EulerAngles() const
     
     if (check < -0.995f)
     {
-        return Vector3(
+        return Vector3F(
             -90.0f,
             0.0f,
             -atan2f(2.0f * (_x * _z - _w * _y), 1.0f - 2.0f * (_y * _y + _z * _z)) * M_RADTODEG
@@ -202,7 +202,7 @@ Vector3 Quaternion::EulerAngles() const
     }
     else if (check > 0.995f)
     {
-        return Vector3(
+        return Vector3F(
             90.0f,
             0.0f,
             atan2f(2.0f * (_x * _z - _w * _y), 1.0f - 2.0f * (_y * _y + _z * _z)) * M_RADTODEG
@@ -210,7 +210,7 @@ Vector3 Quaternion::EulerAngles() const
     }
     else
     {
-        return Vector3(
+        return Vector3F(
             asinf(check) * M_RADTODEG,
             atan2f(2.0f * (_x * _z + _w * _y), 1.0f - 2.0f * (_x * _x + _y * _y)) * M_RADTODEG,
             atan2f(2.0f * (_x * _y + _w * _z), 1.0f - 2.0f * (_x * _x + _z * _z)) * M_RADTODEG

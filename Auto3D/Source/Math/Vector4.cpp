@@ -1,42 +1,18 @@
-#include "../Base/String.h"
 #include "Vector4.h"
-
-#include <cstdio>
-#include <cstdlib>
-
-#include "../Debug/DebugNew.h"
 
 namespace Auto3D
 {
 
-const Vector4 Vector4::ZERO(0.0f, 0.0f, 0.0f, 0.0f);
-const Vector4 Vector4::ONE(1.0f, 1.0f, 1.0f, 1.0f);
+const Vector4F Vector4F::ZERO;
+const Vector4F Vector4F::ONE(1.0f, 1.0f, 1.0f, 1.0f);
 
-bool Vector4::FromString(const String& str)
-{
-    return FromString(str.CString());
-}
+const Vector4I Vector4I::ZERO;
+const Vector4I Vector4I::ONE(1, 1, 1, 1);
 
-bool Vector4::FromString(const char* str)
-{
-    size_t elements = String::CountElements(str, ' ');
-    if (elements < 4)
-        return false;
-    
-    char* ptr = (char*)str;
-    _x = (float)strtod(ptr, &ptr);
-    _y = (float)strtod(ptr, &ptr);
-    _z = (float)strtod(ptr, &ptr);
-    _w = (float)strtod(ptr, &ptr);
-    
-    return true;
-}
+const Vector4C Vector4C::ZERO;
+const Vector4C Vector4C::ONE(1, 1, 1, 1);
 
-String Vector4::ToString() const
-{
-    char tempBuffer[CONVERSION_BUFFER_LENGTH];
-    sprintf(tempBuffer, "%g %g %g %g", _x, _y, _z, _w);
-    return String(tempBuffer);
-}
+const Vector4D Vector4D::ZERO;
+const Vector4D Vector4D::ONE(1.0, 1.0, 1.0, 1.0);
 
 }

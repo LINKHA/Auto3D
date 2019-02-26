@@ -13,9 +13,9 @@ namespace Auto3D
 {
 
 Bone::Bone() :
-    _initialPosition(Vector3::ZERO),
+    _initialPosition(Vector3F::ZERO),
     _initialRotation(Quaternion::IDENTITY),
-    _initialScale(Vector3::ONE),
+    _initialScale(Vector3F::ONE),
     _offsetMatrix(Matrix3x4::IDENTITY),
     _radius(0.0f),
     _boundingBox(0.0f, 0.0f),
@@ -69,12 +69,12 @@ bool Model::BeginLoad(Stream& source)
         if (elementMask & 1)
         {
             vbDesc._vertexElements.Push(VertexElement(ELEM_VECTOR3, SEM_POSITION));
-            vertexSize += sizeof(Vector3);
+            vertexSize += sizeof(Vector3F);
         }
         if (elementMask & 2)
         {
             vbDesc._vertexElements.Push(VertexElement(ELEM_VECTOR3, SEM_NORMAL));
-            vertexSize += sizeof(Vector3);
+            vertexSize += sizeof(Vector3F);
         }
         if (elementMask & 4)
         {
@@ -84,32 +84,32 @@ bool Model::BeginLoad(Stream& source)
         if (elementMask & 8)
         {
             vbDesc._vertexElements.Push(VertexElement(ELEM_VECTOR2, SEM_TEXCOORD));
-            vertexSize += sizeof(Vector2);
+            vertexSize += sizeof(Vector2F);
         }
         if (elementMask & 16)
         {
             vbDesc._vertexElements.Push(VertexElement(ELEM_VECTOR2, SEM_TEXCOORD, 1));
-            vertexSize += sizeof(Vector2);
+            vertexSize += sizeof(Vector2F);
         }
         if (elementMask & 32)
         {
             vbDesc._vertexElements.Push(VertexElement(ELEM_VECTOR3, SEM_TEXCOORD));
-            vertexSize += sizeof(Vector3);
+            vertexSize += sizeof(Vector3F);
         }
         if (elementMask & 64)
         {
             vbDesc._vertexElements.Push(VertexElement(ELEM_VECTOR3, SEM_TEXCOORD, 1));
-            vertexSize += sizeof(Vector3);
+            vertexSize += sizeof(Vector3F);
         }
         if (elementMask & 128)
         {
             vbDesc._vertexElements.Push(VertexElement(ELEM_VECTOR4, SEM_TANGENT));
-            vertexSize += sizeof(Vector4);
+            vertexSize += sizeof(Vector4F);
         }
         if (elementMask & 256)
         {
             vbDesc._vertexElements.Push(VertexElement(ELEM_VECTOR4, SEM_BLENDWEIGHT));
-            vertexSize += sizeof(Vector4);
+            vertexSize += sizeof(Vector4F);
         }
         if (elementMask & 512)
         {
@@ -179,9 +179,9 @@ bool Model::BeginLoad(Stream& source)
         Bone& bone = _bones[i];
         bone._name = source.Read<String>();
         bone._parentIndex = source.Read<unsigned>();
-        bone._initialPosition = source.Read<Vector3>();
+        bone._initialPosition = source.Read<Vector3F>();
         bone._initialRotation = source.Read<Quaternion>();
-        bone._initialScale = source.Read<Vector3>();
+        bone._initialScale = source.Read<Vector3F>();
         bone._offsetMatrix = source.Read<Matrix3x4>();
 
         unsigned char boneCollisionType = source.Read<unsigned char>();

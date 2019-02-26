@@ -10,14 +10,14 @@ class AUTO_API Rect
 {
 public:
     /// Minimum vector.
-    Vector2 _min;
+    Vector2F _min;
     /// Maximum vector.
-    Vector2 _max;
+    Vector2F _max;
     
     /// Construct as undefined (negative _size.)
     Rect() :
-        _min(Vector2(M_INFINITY, M_INFINITY)),
-        _max(Vector2(-M_INFINITY, -M_INFINITY))
+        _min(Vector2F(M_INFINITY, M_INFINITY)),
+        _max(Vector2F(-M_INFINITY, -M_INFINITY))
     {
     }
     
@@ -29,7 +29,7 @@ public:
     }
     
     /// Construct from minimum and maximum vectors.
-    Rect(const Vector2& min_, const Vector2& max_) :
+    Rect(const Vector2F& min_, const Vector2F& max_) :
         _min(min_),
         _max(max_)
     {
@@ -43,7 +43,7 @@ public:
     }
     
     /// Construct from a Vector4.
-    Rect(const Vector4& vector) :
+    Rect(const Vector4F& vector) :
         _min(vector._x, vector._y),
         _max(vector._z, vector._w)
     {
@@ -89,20 +89,20 @@ public:
     }
     
     /// Define from minimum and maximum vectors.
-    void Define(const Vector2& min_, const Vector2& max_)
+    void Define(const Vector2F& min_, const Vector2F& max_)
     {
         _min = min_;
         _max = max_;
     }
     
     /// Define from a point.
-    void Define(const Vector2& point)
+    void Define(const Vector2F& point)
     {
         _min = _max = point;
     }
     
     /// Merge a point.
-    void Merge(const Vector2& point)
+    void Merge(const Vector2F& point)
     {
         // If undefined, set initial dimensions
         if (!IsDefined())
@@ -144,7 +144,7 @@ public:
     /// Set as undefined to allow the next merge to set initial _size.
     void Undefine()
     {
-        _min = Vector2(M_INFINITY, M_INFINITY);
+        _min = Vector2F(M_INFINITY, M_INFINITY);
         _max = -_min;
     }
     
@@ -158,16 +158,16 @@ public:
     /// Return whether has non-negative _size.
     bool IsDefined() const { return (_min._x <= _max._x); }
     /// Return center.
-    Vector2 Center() const { return (_max + _min) * 0.5f; }
+    Vector2F Center() const { return (_max + _min) * 0.5f; }
     /// Return _size.
-    Vector2 Size() const { return _max - _min; }
+    Vector2F Size() const { return _max - _min; }
     /// Return half-_size.
-    Vector2 HalfSize() const { return (_max - _min) * 0.5f; }
+    Vector2F HalfSize() const { return (_max - _min) * 0.5f; }
     /// Test for equality with another rect with epsilon.
     bool Equals(const Rect& rhs) const { return _min.Equals(rhs._min) && _max.Equals(rhs._max); }
     
     /// Test whether a point is inside.
-    Intersection IsInside(const Vector2& point) const
+    Intersection IsInside(const Vector2F& point) const
     {
         if (point._x < _min._x || point._y < _min._y || point._x > _max._x || point._y > _max._y)
             return OUTSIDE;
@@ -178,7 +178,7 @@ public:
     /// Return float data.
     const void* Data() const { return &_min._x; }
     /// Return as a vector.
-    Vector4 ToVector4() const { return Vector4(_min._x, _min._y, _max._x, _max._y); }
+    Vector4F ToVector4() const { return Vector4F(_min._x, _min._y, _max._x, _max._y); }
     /// Return as string.
     String ToString() const;
     

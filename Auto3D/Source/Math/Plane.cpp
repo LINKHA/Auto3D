@@ -6,11 +6,11 @@ namespace Auto3D
 {
 
 // Static initialization order can not be relied on, so do not use Vector3 constants
-const Plane Plane::UP(Vector3(0.0f, 1.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f));
+const Plane Plane::UP(Vector3F(0.0f, 1.0f, 0.0f), Vector3F(0.0f, 0.0f, 0.0f));
 
 void Plane::Transform(const Matrix3& transform)
 {
-    Define(Matrix4(transform).Inverse().Transpose() * ToVector4());
+    Define(Matrix4x4F(transform).Inverse().Transpose() * ToVector4());
 }
 
 void Plane::Transform(const Matrix3x4& transform)
@@ -18,7 +18,7 @@ void Plane::Transform(const Matrix3x4& transform)
     Define(transform.ToMatrix4().Inverse().Transpose() * ToVector4());
 }
 
-void Plane::Transform(const Matrix4& transform)
+void Plane::Transform(const Matrix4x4F& transform)
 {
     Define(transform.Inverse().Transpose() * ToVector4());
 }
@@ -43,7 +43,7 @@ Matrix3x4 Plane::ReflectionMatrix() const
 
 Plane Plane::Transformed(const Matrix3& transform) const
 {
-    return Plane(Matrix4(transform).Inverse().Transpose() * ToVector4());
+    return Plane(Matrix4x4F(transform).Inverse().Transpose() * ToVector4());
 }
 
 Plane Plane::Transformed(const Matrix3x4& transform) const
@@ -51,7 +51,7 @@ Plane Plane::Transformed(const Matrix3x4& transform) const
     return Plane(transform.ToMatrix4().Inverse().Transpose() * ToVector4());
 }
 
-Plane Plane::Transformed(const Matrix4& transform) const
+Plane Plane::Transformed(const Matrix4x4F& transform) const
 {
     return Plane(transform.Inverse().Transpose() * ToVector4());
 }

@@ -10,12 +10,12 @@ extern AUTO_API const size_t elementSizes[] =
 {
     sizeof(int),
     sizeof(float),
-    sizeof(Vector2),
-    sizeof(Vector3),
-    sizeof(Vector4),
+    sizeof(Vector2F),
+    sizeof(Vector3F),
+    sizeof(Vector4F),
     sizeof(unsigned),
     sizeof(Matrix3x4),
-    sizeof(Matrix4)
+    sizeof(Matrix4x4F)
 };
 
 extern AUTO_API const char* elementSemanticNames[] =

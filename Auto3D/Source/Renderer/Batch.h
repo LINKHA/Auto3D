@@ -105,23 +105,23 @@ struct AUTO_API LightList
 struct AUTO_API LightPass
 {
     /// %Light positions.
-    Vector4 _lightPositions[MAX_LIGHTS_PER_PASS];
+    Vector4F _lightPositions[MAX_LIGHTS_PER_PASS];
     /// %Light directions.
-    Vector4 _lightDirections[MAX_LIGHTS_PER_PASS];
+    Vector4F _lightDirections[MAX_LIGHTS_PER_PASS];
     /// %Light attenuation parameters.
-    Vector4 _lightAttenuations[MAX_LIGHTS_PER_PASS];
+    Vector4F _lightAttenuations[MAX_LIGHTS_PER_PASS];
     /// %Light colors.
     Color _lightColors[MAX_LIGHTS_PER_PASS];
     /// Shadow map sampling parameters.
-    Vector4 _shadowParameters[MAX_LIGHTS_PER_PASS];
+    Vector4F _shadowParameters[MAX_LIGHTS_PER_PASS];
     /// Point light shadow viewport parameters.
-    Vector4 _pointShadowParameters[MAX_LIGHTS_PER_PASS];
+    Vector4F _pointShadowParameters[MAX_LIGHTS_PER_PASS];
     /// Directional light shadow split depths.
-    Vector4 _dirShadowSplits;
+    Vector4F _dirShadowSplits;
     /// Directional light shadow fade parameters.
-    Vector4 _dirShadowFade;
+    Vector4F _dirShadowFade;
     /// Shadow mapping matrices.
-    Matrix4 _shadowMatrices[MAX_LIGHTS_PER_PASS];
+    Matrix4x4F _shadowMatrices[MAX_LIGHTS_PER_PASS];
     /// Shadow maps.
     Texture* _shadowMaps[MAX_LIGHTS_PER_PASS];
     /// Vertex shader variation bits.

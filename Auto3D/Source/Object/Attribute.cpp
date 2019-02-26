@@ -48,16 +48,16 @@ const size_t Attribute::byteSizes[] =
     sizeof(IntVector2),
     sizeof(IntRect),
     sizeof(float),
-    sizeof(Vector2),
-    sizeof(Vector3),
-    sizeof(Vector4),
+    sizeof(Vector2F),
+    sizeof(Vector3F),
+    sizeof(Vector4F),
     sizeof(Quaternion),
     sizeof(Color),
     sizeof(Rect),
     sizeof(BoundingBox),
     sizeof(Matrix3),
     sizeof(Matrix3x4),
-    sizeof(Matrix4),
+    sizeof(Matrix4x4F),
     0,
     0,
     0,
@@ -165,19 +165,19 @@ void Attribute::FromJSON(AttributeType type, void* dest, const JSONValue& source
         break;
 
     case ATTR_VECTOR2:
-        reinterpret_cast<Vector2*>(dest)->FromString(source.GetString());
+        reinterpret_cast<Vector2F*>(dest)->FromString(source.GetString());
         break;
 
     case ATTR_VECTOR3:
-        reinterpret_cast<Vector3*>(dest)->FromString(source.GetString());
+        reinterpret_cast<Vector3F*>(dest)->FromString(source.GetString());
         break;
 
     case ATTR_VECTOR4:
-        reinterpret_cast<Vector4*>(dest)->FromString(source.GetString());
+        reinterpret_cast<Vector4F*>(dest)->FromString(source.GetString());
         break;
 
     case ATTR_QUATERNION:
-        reinterpret_cast<Vector4*>(dest)->FromString(source.GetString());
+        reinterpret_cast<Vector4F*>(dest)->FromString(source.GetString());
         break;
 
     case ATTR_COLOR:
@@ -201,7 +201,7 @@ void Attribute::FromJSON(AttributeType type, void* dest, const JSONValue& source
         break;
 
     case ATTR_MATRIX4:
-        reinterpret_cast<Matrix4*>(dest)->FromString(source.GetString());
+        reinterpret_cast<Matrix4x4F*>(dest)->FromString(source.GetString());
         break;
 
     case ATTR_STRING:
@@ -262,15 +262,15 @@ void Attribute::ToJSON(AttributeType type, JSONValue& dest, const void* source)
         break;
 
     case ATTR_VECTOR2:
-        dest = reinterpret_cast<const Vector2*>(source)->ToString();
+        dest = reinterpret_cast<const Vector2<float>*>(source)->ToString();
         break;
 
     case ATTR_VECTOR3:
-        dest = reinterpret_cast<const Vector3*>(source)->ToString();
+        dest = reinterpret_cast<const Vector3F*>(source)->ToString();
         break;
 
     case ATTR_VECTOR4:
-        dest = reinterpret_cast<const Vector4*>(source)->ToString();
+        dest = reinterpret_cast<const Vector4F*>(source)->ToString();
         break;
 
     case ATTR_QUATERNION:
@@ -298,7 +298,7 @@ void Attribute::ToJSON(AttributeType type, JSONValue& dest, const void* source)
         break;
 
     case ATTR_MATRIX4:
-        dest = reinterpret_cast<const Matrix4*>(source)->ToString();
+        dest = reinterpret_cast<const Matrix4x4F*>(source)->ToString();
         break;
 
     case ATTR_STRING:
@@ -366,17 +366,17 @@ template<> AUTO_API AttributeType AttributeImpl<String>::Type() const
     return ATTR_STRING;
 }
 
-template<> AUTO_API AttributeType AttributeImpl<Vector2>::Type() const
+template<> AUTO_API AttributeType AttributeImpl<Vector2F>::Type() const
 {
     return ATTR_VECTOR2;
 }
 
-template<> AUTO_API AttributeType AttributeImpl<Vector3>::Type() const
+template<> AUTO_API AttributeType AttributeImpl<Vector3F>::Type() const
 {
     return ATTR_VECTOR3;
 }
 
-template<> AUTO_API AttributeType AttributeImpl<Vector4>::Type() const
+template<> AUTO_API AttributeType AttributeImpl<Vector4F>::Type() const
 {
     return ATTR_VECTOR4;
 }

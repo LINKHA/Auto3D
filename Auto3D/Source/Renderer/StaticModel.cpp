@@ -12,7 +12,7 @@
 namespace Auto3D
 {
 
-static Vector3 DOT_SCALE(1 / 3.0f, 1 / 3.0f, 1 / 3.0f);
+static Vector3F DOT_SCALE(1 / 3.0f, 1 / 3.0f, 1 / 3.0f);
 
 StaticModel::StaticModel() :
     _lodBias(1.0f),

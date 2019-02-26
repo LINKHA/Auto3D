@@ -10,7 +10,7 @@
 namespace Auto3D
 {
 
-void BoundingBox::Define(const Vector3* vertices, size_t count)
+void BoundingBox::Define(const Vector3F* vertices, size_t count)
 {
     Undefine();
     Merge(vertices, count);
@@ -29,14 +29,14 @@ void BoundingBox::Define(const Polyhedron& poly)
 
 void BoundingBox::Define(const Sphere& sphere)
 {
-    const Vector3& center = sphere._center;
+    const Vector3F& center = sphere._center;
     float radius = sphere._radius;
     
-    _min = center + Vector3(-radius, -radius, -radius);
-    _max = center + Vector3(radius, radius, radius);
+    _min = center + Vector3F(-radius, -radius, -radius);
+    _max = center + Vector3F(radius, radius, radius);
 }
 
-void BoundingBox::Merge(const Vector3* vertices, size_t count)
+void BoundingBox::Merge(const Vector3F* vertices, size_t count)
 {
     while (count--)
         Merge(*vertices++);
@@ -51,7 +51,7 @@ void BoundingBox::Merge(const Polyhedron& poly)
 {
     for (size_t i = 0; i < poly._faces.Size(); ++i)
     {
-        const Vector<Vector3>& face = poly._faces[i];
+        const Vector<Vector3F>& face = poly._faces[i];
         if (!face.IsEmpty())
             Merge(&face[0], face.Size());
     }
@@ -59,11 +59,11 @@ void BoundingBox::Merge(const Polyhedron& poly)
 
 void BoundingBox::Merge(const Sphere& sphere)
 {
-    const Vector3& center = sphere._center;
+    const Vector3F& center = sphere._center;
     float radius = sphere._radius;
     
-    Merge(center + Vector3(radius, radius, radius));
-    Merge(center + Vector3(-radius, -radius, -radius));
+    Merge(center + Vector3F(radius, radius, radius));
+    Merge(center + Vector3F(-radius, -radius, -radius));
 }
 
 void BoundingBox::Clip(const BoundingBox& box)
@@ -128,10 +128,10 @@ BoundingBox BoundingBox::Transformed(const Matrix3& transform) const
 
 BoundingBox BoundingBox::Transformed(const Matrix3x4& transform) const
 {
-    Vector3 oldCenter = Center();
-    Vector3 oldEdge = _max - oldCenter;
-    Vector3 newCenter = transform * oldCenter;
-    Vector3 newEdge(
+    Vector3F oldCenter = Center();
+    Vector3F oldEdge = _max - oldCenter;
+    Vector3F newCenter = transform * oldCenter;
+    Vector3F newEdge(
         Abs(transform._m00) * oldEdge._x + Abs(transform._m01) * oldEdge._y + Abs(transform._m02) * oldEdge._z,
         Abs(transform._m10) * oldEdge._x + Abs(transform._m11) * oldEdge._y + Abs(transform._m12) * oldEdge._z,
         Abs(transform._m20) * oldEdge._x + Abs(transform._m21) * oldEdge._y + Abs(transform._m22) * oldEdge._z
@@ -140,30 +140,30 @@ BoundingBox BoundingBox::Transformed(const Matrix3x4& transform) const
     return BoundingBox(newCenter - newEdge, newCenter + newEdge);
 }
 
-Rect BoundingBox::Projected(const Matrix4& projection) const
+Rect BoundingBox::Projected(const Matrix4x4F& projection) const
 {
-    Vector3 projMin = _min;
-    Vector3 projMax = _max;
+    Vector3F projMin = _min;
+    Vector3F projMax = _max;
     if (projMin._z < M_EPSILON)
         projMin._z = M_EPSILON;
     if (projMax._z < M_EPSILON)
         projMax._z = M_EPSILON;
     
-    Vector3 vertices[8];
+    Vector3F vertices[8];
     vertices[0] = projMin;
-    vertices[1] = Vector3(projMax._x, projMin._y, projMin._z);
-    vertices[2] = Vector3(projMin._x, projMax._y, projMin._z);
-    vertices[3] = Vector3(projMax._x, projMax._y, projMin._z);
-    vertices[4] = Vector3(projMin._x, projMin._y, projMax._z);
-    vertices[5] = Vector3(projMax._x, projMin._y, projMax._z);
-    vertices[6] = Vector3(projMin._x, projMax._y, projMax._z);
+    vertices[1] = Vector3F(projMax._x, projMin._y, projMin._z);
+    vertices[2] = Vector3F(projMin._x, projMax._y, projMin._z);
+    vertices[3] = Vector3F(projMax._x, projMax._y, projMin._z);
+    vertices[4] = Vector3F(projMin._x, projMin._y, projMax._z);
+    vertices[5] = Vector3F(projMax._x, projMin._y, projMax._z);
+    vertices[6] = Vector3F(projMin._x, projMax._y, projMax._z);
     vertices[7] = projMax;
     
     Rect rect;
     for (size_t i = 0; i < 8; ++i)
     {
-        Vector3 projected = projection * vertices[i];
-        rect.Merge(Vector2(projected._x, projected._y));
+        Vector3F projected = projection * vertices[i];
+        rect.Merge(Vector2F(projected._x, projected._y));
     }
     
     return rect;
@@ -173,7 +173,7 @@ Intersection BoundingBox::IsInside(const Sphere& sphere) const
 {
     float distSquared = 0;
     float temp;
-    const Vector3& center = sphere._center;
+    const Vector3F& center = sphere._center;
     
     if (center._x < _min._x)
     {
@@ -220,7 +220,7 @@ Intersection BoundingBox::IsInsideFast(const Sphere& sphere) const
 {
     float distSquared = 0;
     float temp;
-    const Vector3& center = sphere._center;
+    const Vector3F& center = sphere._center;
     
     if (center._x < _min._x)
     {

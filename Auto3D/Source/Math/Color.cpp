@@ -29,7 +29,7 @@ unsigned Color::ToUInt() const
     return (a_ << 24) | (b_ << 16) | (g_ << 8) | r_;
 }
 
-Vector3 Color::ToHSL() const
+Vector3F Color::ToHSL() const
 {
     float min, max;
     Bounds(&min, &max, true);
@@ -38,10 +38,10 @@ Vector3 Color::ToHSL() const
     float s = SaturationHSL(min, max);
     float l = (max + min) * 0.5f;
 
-    return Vector3(h, s, l);
+    return Vector3F(h, s, l);
 }
 
-Vector3 Color::ToHSV() const
+Vector3F Color::ToHSV() const
 {
     float min, max;
     Bounds(&min, &max, true);
@@ -50,7 +50,7 @@ Vector3 Color::ToHSV() const
     float s = SaturationHSV(min, max);
     float v = max;
 
-    return Vector3(h, s, v);
+    return Vector3F(h, s, v);
 }
 
 void Color::FromHSL(float h, float s, float l, float a_)

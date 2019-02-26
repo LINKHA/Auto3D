@@ -36,7 +36,7 @@ public:
     }
     
     /// Copy-construct from a 4x4 matrix which is assumed to contain no projection.
-    Matrix3x4(const Matrix4& matrix) :
+    Matrix3x4(const Matrix4x4F& matrix) :
         _m00(matrix._m00), _m01(matrix._m01), _m02(matrix._m02), _m03(matrix._m03),
         _m10(matrix._m10), _m11(matrix._m11), _m12(matrix._m12), _m13(matrix._m13),
         _m20(matrix._m20), _m21(matrix._m21), _m22(matrix._m22), _m23(matrix._m23)
@@ -62,9 +62,9 @@ public:
     }
     
     /// Construct from translation, rotation and uniform scale.
-    Matrix3x4(const Vector3& translation, const Quaternion& rotation, float scale);
+    Matrix3x4(const Vector3F& translation, const Quaternion& rotation, float scale);
     /// Construct from translation, rotation and nonuniform scale.
-    Matrix3x4(const Vector3& translation, const Quaternion& rotation, const Vector3& scale);
+    Matrix3x4(const Vector3F& translation, const Quaternion& rotation, const Vector3F& scale);
     
     /// Construct by parsing a string.
     Matrix3x4(const String& str)
@@ -97,7 +97,7 @@ public:
     }
     
     /// Assign from a 4x4 matrix which is assumed to contain no projection.
-    Matrix3x4& operator = (const Matrix4& rhs)
+    Matrix3x4& operator = (const Matrix4x4F& rhs)
     {
         _m00 = rhs._m00; _m01 = rhs._m01; _m02 = rhs._m02; _m03 = rhs._m03;
         _m10 = rhs._m10; _m11 = rhs._m11; _m12 = rhs._m12; _m13 = rhs._m13;
@@ -124,9 +124,9 @@ public:
     bool operator != (const Matrix3x4& rhs) const { return !(*this == rhs); }
     
     /// Multiply a Vector3 which is assumed to represent _position.
-    Vector3 operator * (const Vector3& rhs) const
+    Vector3F operator * (const Vector3F& rhs) const
     {
-        return Vector3(
+        return Vector3F(
             (_m00 * rhs._x + _m01 * rhs._y + _m02 * rhs._z + _m03),
             (_m10 * rhs._x + _m11 * rhs._y + _m12 * rhs._z + _m13),
             (_m20 * rhs._x + _m21 * rhs._y + _m22 * rhs._z + _m23)
@@ -134,9 +134,9 @@ public:
     }
     
     /// Multiply a Vector4.
-    Vector3 operator * (const Vector4& rhs) const
+    Vector3F operator * (const Vector4F& rhs) const
     {
-        return Vector3(
+        return Vector3F(
             (_m00 * rhs._x + _m01 * rhs._y + _m02 * rhs._z + _m03 * rhs._w),
             (_m10 * rhs._x + _m11 * rhs._y + _m12 * rhs._z + _m13 * rhs._w),
             (_m20 * rhs._x + _m21 * rhs._y + _m22 * rhs._z + _m23 * rhs._w)
@@ -193,9 +193,9 @@ public:
     }
     
     /// Multiply a 4x4 matrix.
-    Matrix4 operator * (const Matrix4& rhs) const
+    Matrix4x4F operator * (const Matrix4x4F& rhs) const
     {
-        return Matrix4(
+        return Matrix4x4F(
             _m00 * rhs._m00 + _m01 * rhs._m10 + _m02 * rhs._m20 + _m03 * rhs._m30,
             _m00 * rhs._m01 + _m01 * rhs._m11 + _m02 * rhs._m21 + _m03 * rhs._m31,
             _m00 * rhs._m02 + _m01 * rhs._m12 + _m02 * rhs._m22 + _m03 * rhs._m32,
@@ -216,7 +216,7 @@ public:
     }
     
     /// Set translation elements.
-    void SetTranslation(const Vector3& translation)
+    void SetTranslation(const Vector3F& translation)
     {
         _m03 = translation._x;
         _m13 = translation._y;
@@ -232,7 +232,7 @@ public:
     }
     
     /// Set scaling elements.
-    void SetScale(const Vector3& scale)
+    void SetScale(const Vector3F& scale)
     {
         _m00 = scale._x;
         _m11 = scale._y;
@@ -263,9 +263,9 @@ public:
     }
     
     /// Convert to a 4x4 matrix by filling in an identity last row.
-    Matrix4 ToMatrix4() const
+    Matrix4x4F ToMatrix4() const
     {
-        return Matrix4(
+        return Matrix4x4F(
             _m00, _m01, _m02, _m03,
             _m10, _m11, _m12, _m13,
             _m20, _m21, _m22, _m23,
@@ -276,7 +276,7 @@ public:
     /// Return the rotation matrix with scaling removed.
     Matrix3 RotationMatrix() const
     {
-        Vector3 invScale(
+        Vector3F invScale(
             1.0f / sqrtf(_m00 * _m00 + _m10 * _m10 + _m20 * _m20),
             1.0f / sqrtf(_m01 * _m01 + _m11 * _m11 + _m21 * _m21),
             1.0f / sqrtf(_m02 * _m02 + _m12 * _m12 + _m22 * _m22)
@@ -286,9 +286,9 @@ public:
     }
     
     /// Return the translation part.
-    Vector3 Translation() const
+    Vector3F Translation() const
     {
-        return Vector3(
+        return Vector3F(
             _m03,
             _m13,
             _m23
@@ -299,9 +299,9 @@ public:
     Quaternion Rotation() const { return Quaternion(RotationMatrix()); }
     
     /// Return the scaling part.
-    Vector3 Scale() const
+    Vector3F Scale() const
     {
-        return Vector3(
+        return Vector3F(
             sqrtf(_m00 * _m00 + _m10 * _m10 + _m20 * _m20),
             sqrtf(_m01 * _m01 + _m11 * _m11 + _m21 * _m21),
             sqrtf(_m02 * _m02 + _m12 * _m12 + _m22 * _m22)
@@ -324,7 +324,7 @@ public:
     }
     
     /// Return decomposition to translation, rotation and scale.
-    void Decompose(Vector3& translation, Quaternion& rotation, Vector3& scale) const;
+    void Decompose(Vector3F& translation, Quaternion& rotation, Vector3F& scale) const;
     /// Return inverse.
     Matrix3x4 Inverse() const;
     
@@ -343,9 +343,9 @@ public:
 inline Matrix3x4 operator * (float lhs, const Matrix3x4& rhs) { return rhs * lhs; }
 
 /// Multiply a 3x4 matrix with a 4x4 matrix.
-inline Matrix4 operator * (const Matrix4& lhs, const Matrix3x4& rhs)
+inline Matrix4x4F operator * (const Matrix4x4F& lhs, const Matrix3x4& rhs)
 {
-    return Matrix4(
+    return Matrix4x4F(
         lhs._m00 * rhs._m00 + lhs._m01 * rhs._m10 + lhs._m02 * rhs._m20,
         lhs._m00 * rhs._m01 + lhs._m01 * rhs._m11 + lhs._m02 * rhs._m21,
         lhs._m00 * rhs._m02 + lhs._m01 * rhs._m12 + lhs._m02 * rhs._m22,

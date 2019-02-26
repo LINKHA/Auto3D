@@ -12,7 +12,7 @@ static const float DEFAULT_FOV = 45.0f;
 static const float DEFAULT_ORTHOSIZE = 20.0f;
 static const Color DEFAULT_AMBIENT_COLOR(0.25f, 0.25f, 0.25f, 1.0f);
 
-static const Matrix4 flipMatrix(
+static const Matrix4x4F flipMatrix(
     1.0f, 0.0f, 0.0f, 0.0f,
     0.0f, -1.0f, 0.0f, 0.0f,
     0.0f, 0.0f, 1.0f, 0.0f,
@@ -33,7 +33,7 @@ Camera::Camera() :
     _lodBias(1.0f),
     _viewMask(M_MAX_UNSIGNED),
     _ambientColor(DEFAULT_AMBIENT_COLOR),
-    _projectionOffset(Vector2::ZERO),
+    _projectionOffset(Vector2F::ZERO),
     _reflectionPlane(Plane::UP),
     _clipPlane(Plane::UP),
     _useReflection(false),
@@ -57,9 +57,9 @@ void Camera::RegisterObject()
     RegisterAttribute("lodBias", &Camera::LodBias, &Camera::SetLodBias, 1.0f);
     RegisterAttribute("viewMask", &Camera::ViewMask, &Camera::SetViewMask, M_MAX_UNSIGNED);
     RegisterRefAttribute("ambientColor", &Camera::AmbientColor, &Camera::SetAmbientColor, DEFAULT_AMBIENT_COLOR);
-    RegisterRefAttribute("projectionOffset", &Camera::ProjectionOffset, &Camera::SetProjectionOffset, Vector2::ZERO);
-    RegisterMixedRefAttribute("reflectionPlane", &Camera::ReflectionPlaneAttr, &Camera::SetReflectionPlaneAttr, Vector4(0.0f, 1.0f, 0.0f, 0.0f));
-    RegisterMixedRefAttribute("clipPlane", &Camera::ClipPlaneAttr, &Camera::SetClipPlaneAttr, Vector4(0.0f, 1.0f, 0.0f, 0.0f));
+    RegisterRefAttribute("projectionOffset", &Camera::ProjectionOffset, &Camera::SetProjectionOffset, Vector2F::ZERO);
+    RegisterMixedRefAttribute("reflectionPlane", &Camera::ReflectionPlaneAttr, &Camera::SetReflectionPlaneAttr, Vector4F(0.0f, 1.0f, 0.0f, 0.0f));
+    RegisterMixedRefAttribute("clipPlane", &Camera::ClipPlaneAttr, &Camera::SetClipPlaneAttr, Vector4F(0.0f, 1.0f, 0.0f, 0.0f));
     RegisterAttribute("useReflection", &Camera::UseReflection, &Camera::SetUseReflection, false);
     RegisterAttribute("useClipping", &Camera::UseClipping, &Camera::SetUseClipping, false);
 }
@@ -85,7 +85,7 @@ void Camera::SetOrthoSize(float orthoSize)
     _aspectRatio = 1.0f;
 }
 
-void Camera::SetOrthoSize(const Vector2& orthoSize)
+void Camera::SetOrthoSize(const Vector2F& orthoSize)
 {
     _orthoSize = orthoSize._y;
     _aspectRatio = orthoSize._x / orthoSize._y;
@@ -121,7 +121,7 @@ void Camera::SetAmbientColor(const Color& color)
     _ambientColor = color;
 }
 
-void Camera::SetProjectionOffset(const Vector2& offset)
+void Camera::SetProjectionOffset(const Vector2F& offset)
 {
     _projectionOffset = offset;
 }
@@ -233,9 +233,9 @@ const Matrix3x4& Camera::ViewMatrix() const
     return _viewMatrix;
 }
 
-Matrix4 Camera::ProjectionMatrix(bool apiSpecific) const
+Matrix4x4F Camera::ProjectionMatrix(bool apiSpecific) const
 {
-    Matrix4 ret(Matrix4::ZERO);
+    Matrix4x4F ret(Matrix4x4F::ZERO);
 
     bool openGLFormat = apiSpecific;
 
@@ -302,7 +302,7 @@ Matrix4 Camera::ProjectionMatrix(bool apiSpecific) const
     return ret;
 }
 
-void Camera::FrustumSize(Vector3& near, Vector3& far) const
+void Camera::FrustumSize(Vector3F& near, Vector3F& far) const
 {
     near._z = NearClip();
     far._z = _farClip;
@@ -349,27 +349,27 @@ Ray Camera::ScreenRay(float x, float y) const
         return ret;
     }
 
-    Matrix4 viewProjInverse = (ProjectionMatrix(false) * ViewMatrix()).Inverse();
+    Matrix4x4F viewProjInverse = (ProjectionMatrix(false) * ViewMatrix()).Inverse();
 
     // The parameters range from 0.0 to 1.0. Expand to normalized device coordinates (-1.0 to 1.0) & flip Y axis
     x = 2.0f * x - 1.0f;
     y = 1.0f - 2.0f * y;
-    Vector3 near(x, y, 0.0f);
-    Vector3 far(x, y, 1.0f);
+    Vector3F near(x, y, 0.0f);
+    Vector3F far(x, y, 1.0f);
 
     ret._origin = viewProjInverse * near;
     ret._direction = ((viewProjInverse * far) - ret._origin).Normalized();
     return ret;
 }
 
-Vector2 Camera::WorldToScreenPoint(const Vector3& worldPos) const
+Vector2F Camera::WorldToScreenPoint(const Vector3F& worldPos) const
 {
-    Vector3 eyeSpacePos = ViewMatrix() * worldPos;
-    Vector2 ret;
+    Vector3F eyeSpacePos = ViewMatrix() * worldPos;
+    Vector2F ret;
 
     if (eyeSpacePos._z > 0.0f)
     {
-        Vector3 screenSpacePos = ProjectionMatrix(false) * eyeSpacePos;
+        Vector3F screenSpacePos = ProjectionMatrix(false) * eyeSpacePos;
         ret._x = screenSpacePos._x;
         ret._y = screenSpacePos._y;
     }
@@ -384,13 +384,13 @@ Vector2 Camera::WorldToScreenPoint(const Vector3& worldPos) const
     return ret;
 }
 
-Vector3 Camera::ScreenToWorldPoint(const Vector3& screenPos) const
+Vector3F Camera::ScreenToWorldPoint(const Vector3F& screenPos) const
 {
     Ray ray = ScreenRay(screenPos._x, screenPos._y);
     return ray._origin + ray._direction * screenPos._z;
 }
 
-float Camera::Distance(const Vector3& worldPos) const
+float Camera::Distance(const Vector3F& worldPos) const
 {
     if (!_orthographic)
         return (worldPos - WorldPosition()).Length();
@@ -407,7 +407,7 @@ float Camera::LodDistance(float distance, float scale, float bias) const
         return _orthoSize / d;
 }
 
-Quaternion Camera::FaceCameraRotation(const Vector3& position, const Quaternion& rotation, FaceCameraMode mode)
+Quaternion Camera::FaceCameraRotation(const Vector3F& position, const Quaternion& rotation, FaceCameraMode mode)
 {
     switch (mode)
     {
@@ -419,7 +419,7 @@ Quaternion Camera::FaceCameraRotation(const Vector3& position, const Quaternion&
 
     case FC_ROTATE_Y:
         {
-            Vector3 euler = rotation.EulerAngles();
+            Vector3F euler = rotation.EulerAngles();
             euler._y = WorldRotation().EulerAngles()._y;
             return Quaternion(euler._x, euler._y, euler._z);
         }
@@ -435,13 +435,13 @@ Quaternion Camera::FaceCameraRotation(const Vector3& position, const Quaternion&
         {
             // Make the Y-only lookat happen on an XZ plane to make sure there are no unwanted transitions
             // or singularities
-            Vector3 lookAtVec(position - WorldPosition());
+            Vector3F lookAtVec(position - WorldPosition());
             lookAtVec._y = 0.0f;
 
             Quaternion lookAt;
             lookAt.FromLookRotation(lookAtVec);
 
-            Vector3 euler = rotation.EulerAngles();
+            Vector3F euler = rotation.EulerAngles();
             euler._y = lookAt.EulerAngles()._y;
             return Quaternion(euler._x, euler._y, euler._z);
         }
@@ -466,22 +466,22 @@ void Camera::OnTransformChanged()
     _viewMatrixDirty = true;
 }
 
-void Camera::SetReflectionPlaneAttr(const Vector4& value)
+void Camera::SetReflectionPlaneAttr(const Vector4F& value)
 {
     SetReflectionPlane(Plane(value));
 }
 
-void Camera::SetClipPlaneAttr(const Vector4& value)
+void Camera::SetClipPlaneAttr(const Vector4F& value)
 {
     SetClipPlane(Plane(value));
 }
 
-Vector4 Camera::ReflectionPlaneAttr() const
+Vector4F Camera::ReflectionPlaneAttr() const
 {
     return _reflectionPlane.ToVector4();
 }
 
-Vector4 Camera::ClipPlaneAttr() const
+Vector4F Camera::ClipPlaneAttr() const
 {
     return _clipPlane.ToVector4();
 }

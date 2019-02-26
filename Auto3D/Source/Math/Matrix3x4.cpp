@@ -19,13 +19,13 @@ const Matrix3x4 Matrix3x4::IDENTITY(
     0.0f, 1.0f, 0.0f, 0.0f,
     0.0f, 0.0f, 1.0f, 0.0f);
 
-Matrix3x4::Matrix3x4(const Vector3& translation, const Quaternion& rotation, float scale)
+Matrix3x4::Matrix3x4(const Vector3F& translation, const Quaternion& rotation, float scale)
 {
     SetRotation(rotation.RotationMatrix() * scale);
     SetTranslation(translation);
 }
 
-Matrix3x4::Matrix3x4(const Vector3& translation, const Quaternion& rotation, const Vector3& scale)
+Matrix3x4::Matrix3x4(const Vector3F& translation, const Quaternion& rotation, const Vector3F& scale)
 {
     SetRotation(rotation.RotationMatrix().Scaled(scale));
     SetTranslation(translation);
@@ -59,7 +59,7 @@ bool Matrix3x4::FromString(const char* str)
     return true;
 }
 
-void Matrix3x4::Decompose(Vector3& translation, Quaternion& rotation, Vector3& scale) const
+void Matrix3x4::Decompose(Vector3F& translation, Quaternion& rotation, Vector3F& scale) const
 {
     translation._x = _m03;
     translation._y = _m13;
@@ -69,7 +69,7 @@ void Matrix3x4::Decompose(Vector3& translation, Quaternion& rotation, Vector3& s
     scale._y = sqrtf(_m01 * _m01 + _m11 * _m11 + _m21 * _m21);
     scale._z = sqrtf(_m02 * _m02 + _m12 * _m12 + _m22 * _m22);
 
-    Vector3 invScale(1.0f / scale._x, 1.0f / scale._y, 1.0f / scale._z);
+    Vector3F invScale(1.0f / scale._x, 1.0f / scale._y, 1.0f / scale._z);
     rotation = Quaternion(ToMatrix3().Scaled(invScale));
 }
 

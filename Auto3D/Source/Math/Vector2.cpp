@@ -1,44 +1,34 @@
-#include "../Base/String.h"
 #include "Vector2.h"
-
-#include <cstdio>
-#include <cstdlib>
-
-#include "../Debug/DebugNew.h"
 
 namespace Auto3D
 {
 
-const Vector2 Vector2::ZERO(0.0f, 0.0f);
-const Vector2 Vector2::LEFT(-1.0f, 0.0f);
-const Vector2 Vector2::RIGHT(1.0f, 0.0f);
-const Vector2 Vector2::UP(0.0f, 1.0f);
-const Vector2 Vector2::DOWN(0.0f, -1.0f);
-const Vector2 Vector2::ONE(1.0f, 1.0f);
+const Vector2F Vector2F::ZERO;
+const Vector2F Vector2F::LEFT(-1.0f, 0.0f);
+const Vector2F Vector2F::RIGHT(1.0f, 0.0f);
+const Vector2F Vector2F::UP(0.0f, 1.0f);
+const Vector2F Vector2F::DOWN(0.0f, -1.0f);
+const Vector2F Vector2F::ONE(1.0f, 1.0f);
 
-bool Vector2::FromString(const String& str)
-{
-    return FromString(str.CString());
-}
+const Vector2I Vector2I::ZERO;
+const Vector2I Vector2I::LEFT(-1, 0);
+const Vector2I Vector2I::RIGHT(1, 0);
+const Vector2I Vector2I::UP(0, 1.0);
+const Vector2I Vector2I::DOWN(0, -1);
+const Vector2I Vector2I::ONE(1, 1);
 
-bool Vector2::FromString(const char* str)
-{
-    size_t elements = String::CountElements(str, ' ');
-    if (elements < 2)
-        return false;
-    
-    char* ptr = (char*)str;
-    _x = (float)strtod(ptr, &ptr);
-    _y = (float)strtod(ptr, &ptr);
+const Vector2C Vector2C::ZERO;
+const Vector2C Vector2C::LEFT(-1, 0);
+const Vector2C Vector2C::RIGHT(1, 0);
+const Vector2C Vector2C::UP(0, 1.0);
+const Vector2C Vector2C::DOWN(0, -1);
+const Vector2C Vector2C::ONE(1, 1);
 
-    return true;
-}
-
-String Vector2::ToString() const
-{
-    char tempBuffer[CONVERSION_BUFFER_LENGTH];
-    sprintf(tempBuffer, "%g %g", _x, _y);
-    return String(tempBuffer);
-}
+const Vector2D Vector2D::ZERO;
+const Vector2D Vector2D::LEFT(-1.0, 0.0);
+const Vector2D Vector2D::RIGHT(1.0, 0.0);
+const Vector2D Vector2D::UP(0.0, 1.0);
+const Vector2D Vector2D::DOWN(0.0, -1.0);
+const Vector2D Vector2D::ONE(1.0, 1.0);
 
 }

@@ -9,7 +9,7 @@
 namespace Auto3D
 {
 
-void Sphere::Define(const Vector3* vertices, size_t count)
+void Sphere::Define(const Vector3F* vertices, size_t count)
 {
     Undefine();
     Merge(vertices, count);
@@ -17,17 +17,17 @@ void Sphere::Define(const Vector3* vertices, size_t count)
 
 void Sphere::Define(const BoundingBox& box)
 {
-    const Vector3& min = box._min;
-    const Vector3& max = box._max;
+    const Vector3F& min = box._min;
+    const Vector3F& max = box._max;
     
     Undefine();
     Merge(min);
-    Merge(Vector3(max._x, min._y, min._z));
-    Merge(Vector3(min._x, max._y, min._z));
-    Merge(Vector3(max._x, max._y, min._z));
-    Merge(Vector3(min._x, min._y, max._z));
-    Merge(Vector3(max._x, min._y, max._z));
-    Merge(Vector3(min._x, max._y, max._z));
+    Merge(Vector3F(max._x, min._y, min._z));
+    Merge(Vector3F(min._x, max._y, min._z));
+    Merge(Vector3F(max._x, max._y, min._z));
+    Merge(Vector3F(min._x, min._y, max._z));
+    Merge(Vector3F(max._x, min._y, max._z));
+    Merge(Vector3F(min._x, max._y, max._z));
     Merge(max);
 }
 
@@ -42,7 +42,7 @@ void Sphere::Define(const Polyhedron& poly)
     Merge(poly);
 }
 
-void Sphere::Merge(const Vector3* vertices, size_t count)
+void Sphere::Merge(const Vector3F* vertices, size_t count)
 {
     while (count--)
         Merge(*vertices++);
@@ -50,22 +50,22 @@ void Sphere::Merge(const Vector3* vertices, size_t count)
 
 void Sphere::Merge(const BoundingBox& box)
 {
-    const Vector3& min = box._min;
-    const Vector3& max = box._max;
+    const Vector3F& min = box._min;
+    const Vector3F& max = box._max;
     
     Merge(min);
-    Merge(Vector3(max._x, min._y, min._z));
-    Merge(Vector3(min._x, max._y, min._z));
-    Merge(Vector3(max._x, max._y, min._z));
-    Merge(Vector3(min._x, min._y, max._z));
-    Merge(Vector3(max._x, min._y, max._z));
-    Merge(Vector3(min._x, max._y, max._z));
+    Merge(Vector3F(max._x, min._y, min._z));
+    Merge(Vector3F(min._x, max._y, min._z));
+    Merge(Vector3F(max._x, max._y, min._z));
+    Merge(Vector3F(min._x, min._y, max._z));
+    Merge(Vector3F(max._x, min._y, max._z));
+    Merge(Vector3F(min._x, max._y, max._z));
     Merge(max);
 }
 
 void Sphere::Merge(const Frustum& frustum)
 {
-    const Vector3* vertices = frustum._vertices;
+    const Vector3F* vertices = frustum._vertices;
     Merge(vertices, NUM_FRUSTUM_VERTICES);
 }
 
@@ -73,7 +73,7 @@ void Sphere::Merge(const Polyhedron& poly)
 {
     for (size_t i = 0; i < poly._faces.Size(); ++i)
     {
-        const Vector<Vector3>& face = poly._faces[i];
+        const Vector<Vector3F>& face = poly._faces[i];
         if (!face.IsEmpty())
             Merge(&face[0], face.Size());
     }
@@ -89,7 +89,7 @@ void Sphere::Merge(const Sphere& sphere)
         return;
     }
     
-    Vector3 offset = sphere._center - _center;
+    Vector3F offset = sphere._center - _center;
     float dist = offset.Length();
     
     // If sphere fits inside, do nothing
@@ -104,10 +104,10 @@ void Sphere::Merge(const Sphere& sphere)
     }
     else
     {
-        Vector3 normalizedOffset = offset / dist;
+        Vector3F normalizedOffset = offset / dist;
         
-        Vector3 min = _center - _radius * normalizedOffset;
-        Vector3 max = sphere._center + sphere._radius * normalizedOffset;
+        Vector3F min = _center - _radius * normalizedOffset;
+        Vector3F max = sphere._center + sphere._radius * normalizedOffset;
         _center = (min + max) * 0.5f;
         _radius = (max - _center).Length();
     }
@@ -118,8 +118,8 @@ Intersection Sphere::IsInside(const BoundingBox& box) const
     float radiusSquared = _radius * _radius;
     float distSquared = 0;
     float temp;
-    Vector3 min = box._min;
-    Vector3 max = box._max;
+    Vector3F min = box._min;
+    Vector3F max = box._max;
     
     if (_center._x < min._x)
     {
@@ -158,7 +158,7 @@ Intersection Sphere::IsInside(const BoundingBox& box) const
     min -= _center;
     max -= _center;
     
-    Vector3 tempVec = min; // - - -
+    Vector3F tempVec = min; // - - -
     if (tempVec.LengthSquared() >= radiusSquared)
         return INTERSECTS;
     tempVec._x = max._x; // + - -
@@ -191,8 +191,8 @@ Intersection Sphere::IsInsideFast(const BoundingBox& box) const
     float radiusSquared = _radius * _radius;
     float distSquared = 0;
     float temp;
-    Vector3 min = box._min;
-    Vector3 max = box._max;
+    Vector3F min = box._min;
+    Vector3F max = box._max;
     
     if (_center._x < min._x)
     {

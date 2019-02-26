@@ -42,7 +42,7 @@ public:
     }
     
     /// Construct from an angle (in degrees) and axis.
-    Quaternion(float angle, const Vector3& axis)
+    Quaternion(float angle, const Vector3F& axis)
     {
         FromAngleAxis(angle, axis);
     }
@@ -50,7 +50,7 @@ public:
     /// Construct from a rotation angle (in degrees) about the Z axis.
     Quaternion(float angle)
     {
-        FromAngleAxis(angle, Vector3::FORWARD);
+        FromAngleAxis(angle, Vector3F::FORWARD);
     }
     
     /// Construct from Euler angles (in degrees.)
@@ -60,13 +60,13 @@ public:
     }
     
     /// Construct from the rotation difference between two direction vectors.
-    Quaternion(const Vector3& start, const Vector3& end)
+    Quaternion(const Vector3F& start, const Vector3F& end)
     {
         FromRotationTo(start, end);
     }
     
     /// Construct from orthonormal axes.
-    Quaternion(const Vector3& xAxis, const Vector3& yAxis, const Vector3& zAxis)
+    Quaternion(const Vector3F& xAxis, const Vector3F& yAxis, const Vector3F& zAxis)
     {
         FromAxes(xAxis, yAxis, zAxis);
     }
@@ -144,27 +144,27 @@ public:
     }
     
     /// Multiply a Vector3.
-    Vector3 operator * (const Vector3& rhs) const
+    Vector3F operator * (const Vector3F& rhs) const
     {
-        Vector3 qVec(_x, _y, _z);
-        Vector3 cross1(qVec.CrossProduct(rhs));
-        Vector3 cross2(qVec.CrossProduct(cross1));
+        Vector3F qVec(_x, _y, _z);
+        Vector3F cross1(qVec.CrossProduct(rhs));
+        Vector3F cross2(qVec.CrossProduct(cross1));
         
         return rhs + 2.0f * (cross1 * _w + cross2);
     }
     
     /// Define from an angle (in degrees) and axis.
-    void FromAngleAxis(float angle, const Vector3& axis);
+    void FromAngleAxis(float angle, const Vector3F& axis);
     /// Define from Euler angles (in degrees.)
     void FromEulerAngles(float x, float y, float z);
     /// Define from the rotation difference between two direction vectors.
-    void FromRotationTo(const Vector3& start, const Vector3& end);
+    void FromRotationTo(const Vector3F& start, const Vector3F& end);
     /// Define from orthonormal axes.
-    void FromAxes(const Vector3& xAxis, const Vector3& yAxis, const Vector3& zAxis);
+    void FromAxes(const Vector3F& xAxis, const Vector3F& yAxis, const Vector3F& zAxis);
     /// Define from a rotation matrix.
     void FromRotationMatrix(const Matrix3& matrix);
     /// Define from a direction to look in and an up direction. Return true on success, or false if would result in a NaN, in which case the current value remains.
-    bool FromLookRotation(const Vector3& direction, const Vector3& up = Vector3::UP);
+    bool FromLookRotation(const Vector3F& direction, const Vector3F& up = Vector3F::UP);
     /// Parse from a string. Return true on success.
     bool FromString(const String& str);
     /// Parse from a C string. Return true on success.
@@ -221,7 +221,7 @@ public:
     Quaternion Conjugate() const { return Quaternion(_w, -_x, -_y, -_z); }
     
     /// Return Euler angles in degrees.
-    Vector3 EulerAngles() const;
+    Vector3F EulerAngles() const;
     /// Return yaw angle in degrees.
     float YawAngle() const;
     /// Return pitch angle in degrees.

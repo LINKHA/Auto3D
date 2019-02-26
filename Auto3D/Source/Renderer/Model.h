@@ -62,11 +62,11 @@ struct AUTO_API Bone
     /// Name.
     String _name;
     /// Reset _position.
-    Vector3 _initialPosition;
+    Vector3F _initialPosition;
     /// Reset rotation.
     Quaternion _initialRotation;
     /// Reset scale.
-    Vector3 _initialScale;
+    Vector3F _initialScale;
     /// Offset matrix for skinning.
     Matrix3x4 _offsetMatrix;
     /// Collision radius.

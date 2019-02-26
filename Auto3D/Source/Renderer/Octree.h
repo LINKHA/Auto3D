@@ -18,9 +18,9 @@ class Ray;
 struct AUTO_API RaycastResult
 {
     /// Hit world _position.
-    Vector3 _position;
+    Vector3F _position;
     /// Hit world normal.
-    Vector3 _normal;
+    Vector3F _normal;
     /// Hit distance along the ray.
     float _distance;
     /// Hit node.
@@ -38,18 +38,18 @@ struct AUTO_API Octant
     /// Initialize parent and bounds.
     void Initialize(Octant* parent, const BoundingBox& boundingBox, int level);
     /// Test if a node should be inserted in this octant or if a smaller child octant should be created.
-    bool FitBoundingBox(const BoundingBox& box, const Vector3& boxSize) const;
+    bool FitBoundingBox(const BoundingBox& box, const Vector3F& boxSize) const;
     /// Return child octant index based on _position.
-    size_t ChildIndex(const Vector3& position) const { size_t ret = position._x < _center._x ? 0 : 1; ret += position._y < _center._y ? 0 : 2; ret += position._z < _center._z ? 0 : 4; return ret; }
+    size_t ChildIndex(const Vector3F& position) const { size_t ret = position._x < _center._x ? 0 : 1; ret += position._y < _center._y ? 0 : 2; ret += position._z < _center._z ? 0 : 4; return ret; }
     
     /// Expanded (loose) bounding box used for culling the octant and the nodes within it.
     BoundingBox _cullingBox;
     /// Actual bounding box of the octant.
     BoundingBox _worldBoundingBox;
     /// Bounding box center.
-    Vector3 _center;
+    Vector3F _center;
     /// Bounding box half _size.
-    Vector3 _halfSize;
+    Vector3F _halfSize;
     /// Subdivision level.
     int _level;
     /// Nodes contained in the octant.

@@ -9,7 +9,7 @@ namespace Auto3D
 class Polyhedron;
 class Frustum;
 class Matrix3;
-class Matrix4;
+class Matrix4x4F;
 class Matrix3x4;
 class Sphere;
 
@@ -18,14 +18,14 @@ class AUTO_API BoundingBox
 {
 public:
     /// Minimum vector.
-    Vector3 _min;
+    Vector3F _min;
     /// Maximum vector.
-    Vector3 _max;
+    Vector3F _max;
     
     /// Construct as undefined (negative _size.)
     BoundingBox() :
-        _min(Vector3(M_INFINITY, M_INFINITY, M_INFINITY)),
-        _max(Vector3(-M_INFINITY, -M_INFINITY, -M_INFINITY))
+        _min(Vector3F(M_INFINITY, M_INFINITY, M_INFINITY)),
+        _max(Vector3F(-M_INFINITY, -M_INFINITY, -M_INFINITY))
     {
     }
     
@@ -38,13 +38,13 @@ public:
     
     /// Construct from a rect, with the Z dimension left zero.
     BoundingBox(const Rect& rect) :
-        _min(Vector3(rect._min)),
-        _max(Vector3(rect._max))
+        _min(Vector3F(rect._min)),
+        _max(Vector3F(rect._max))
     {
     }
     
     /// Construct from minimum and maximum vectors.
-    BoundingBox(const Vector3& min_, const Vector3& max_) :
+    BoundingBox(const Vector3F& min_, const Vector3F& max_) :
         _min(min_),
         _max(max_)
     {
@@ -52,13 +52,13 @@ public:
     
     /// Construct from minimum and maximum floats (all dimensions same.)
     BoundingBox(float min_, float max_) :
-        _min(Vector3(min_, min_, min_)),
-        _max(Vector3(max_, max_, max_))
+        _min(Vector3F(min_, min_, min_)),
+        _max(Vector3F(max_, max_, max_))
     {
     }
     
     /// Construct from an array of vertices.
-    BoundingBox(const Vector3* vertices, size_t count)
+    BoundingBox(const Vector3F* vertices, size_t count)
     {
         Define(vertices, count);
     }
@@ -104,8 +104,8 @@ public:
     /// Assign from a Rect, with the Z dimension left zero.
     BoundingBox& operator = (const Rect& rhs)
     {
-        _min = Vector3(rhs._min);
-        _max = Vector3(rhs._max);
+        _min = Vector3F(rhs._min);
+        _max = Vector3F(rhs._max);
         return *this;
     }
     
@@ -124,12 +124,12 @@ public:
     /// Define from a Rect.
     void Define(const Rect& rect)
     {
-        _min = Vector3(rect._min);
-        _max = Vector3(rect._max);
+        _min = Vector3F(rect._min);
+        _max = Vector3F(rect._max);
     }
     
     /// Define from minimum and maximum vectors.
-    void Define(const Vector3& min_, const Vector3& max_)
+    void Define(const Vector3F& min_, const Vector3F& max_)
     {
         _min = min_;
         _max = max_;
@@ -138,18 +138,18 @@ public:
     /// Define from minimum and maximum floats (all dimensions same.)
     void Define(float min_, float max_)
     {
-        _min = Vector3(min_, min_, min_);
-        _max = Vector3(max_, max_, max_);
+        _min = Vector3F(min_, min_, min_);
+        _max = Vector3F(max_, max_, max_);
     }
     
     /// Define from a point.
-    void Define(const Vector3& point)
+    void Define(const Vector3F& point)
     {
         _min = _max = point;
     }
     
     /// Merge a point.
-    void Merge(const Vector3& point)
+    void Merge(const Vector3F& point)
     {
         // If undefined, set initial dimensions
         if (!IsDefined())
@@ -199,12 +199,12 @@ public:
     /// Set as undefined (negative _size) to allow the next merge to set initial _size.
     void Undefine()
     {
-        _min = Vector3(M_INFINITY, M_INFINITY, M_INFINITY);
+        _min = Vector3F(M_INFINITY, M_INFINITY, M_INFINITY);
         _max = -_min;
     }
     
     /// Define from an array of vertices.
-    void Define(const Vector3* vertices, size_t count);
+    void Define(const Vector3F* vertices, size_t count);
     /// Define from a frustum.
     void Define(const Frustum& frustum);
     /// Define from a polyhedron.
@@ -212,7 +212,7 @@ public:
     /// Define from a sphere.
     void Define(const Sphere& sphere);
     /// Merge an array of vertices.
-    void Merge(const Vector3* vertices, size_t count);
+    void Merge(const Vector3F* vertices, size_t count);
     /// Merge a frustum.
     void Merge(const Frustum& frustum);
     /// Merge a polyhedron.
@@ -233,11 +233,11 @@ public:
     /// Return whether has non-negative _size.
     bool IsDefined() const { return (_min._x <= _max._x); }
     /// Return center.
-    Vector3 Center() const { return (_max + _min) * 0.5f; }
+    Vector3F Center() const { return (_max + _min) * 0.5f; }
     /// Return _size.
-    Vector3 Size() const { return _max - _min; }
+    Vector3F Size() const { return _max - _min; }
     /// Return half-_size.
-    Vector3 HalfSize() const { return (_max - _min) * 0.5f; }
+    Vector3F HalfSize() const { return (_max - _min) * 0.5f; }
     /// Test for equality with another bounding box with epsilon.
     bool Equals(const BoundingBox& box) const { return _min.Equals(box._min) && _max.Equals(box._max); }
     
@@ -246,10 +246,10 @@ public:
     /// Return transformed by a 3x4 matrix.
     BoundingBox Transformed(const Matrix3x4& transform) const;
     /// Return projected by a 4x4 projection matrix.
-    Rect Projected(const Matrix4& projection) const;
+    Rect Projected(const Matrix4x4F& projection) const;
     
     /// Test if a point is inside.
-    Intersection IsInside(const Vector3& point) const
+    Intersection IsInside(const Vector3F& point) const
     {
         if (point._x < _min._x || point._x > _max._x || point._y < _min._y || point._y > _max._y ||
             point._z < _min._z || point._z > _max._z)

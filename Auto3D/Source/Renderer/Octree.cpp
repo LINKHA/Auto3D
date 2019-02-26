@@ -41,7 +41,7 @@ void Octant::Initialize(Octant* parent, const BoundingBox& boundingBox, int leve
     _parent = parent;
 }
 
-bool Octant::FitBoundingBox(const BoundingBox& box, const Vector3& boxSize) const
+bool Octant::FitBoundingBox(const BoundingBox& box, const Vector3F& boxSize) const
 {
     // If max split level, _size always OK, otherwise check that box is at least half _size of octant
     if (_level <= 1 || boxSize._x >= _halfSize._x || boxSize._y >= _halfSize._y || boxSize._z >= _halfSize._z)
@@ -91,14 +91,14 @@ void Octree::Update()
 
             // Do nothing if still fits the current octant
             const BoundingBox& box = node->WorldBoundingBox();
-            Vector3 boxSize = box.Size();
+            Vector3F boxSize = box.Size();
             Octant* oldOctant = node->_octant;
             if (oldOctant && oldOctant->_cullingBox.IsInside(box) == INSIDE && oldOctant->FitBoundingBox(box, boxSize))
                 continue;
 
             // Begin reinsert process. Start from root and check what level child needs to be used
             Octant* newOctant = &_root;
-            Vector3 boxCenter = box.Center();
+            Vector3F boxCenter = box.Center();
 
             for (;;)
             {
@@ -211,7 +211,7 @@ RaycastResult Octree::RaycastSingle(const Ray& ray, unsigned short nodeFlags, fl
     else
     {
         RaycastResult emptyRes;
-        emptyRes._position = emptyRes._normal = Vector3::ZERO;
+        emptyRes._position = emptyRes._normal = Vector3F::ZERO;
         emptyRes._distance = M_INFINITY;
         emptyRes._node = nullptr;
         emptyRes._subObject = 0;
@@ -274,9 +274,9 @@ Octant* Octree::CreateChildOctant(Octant* octant, size_t index)
     if (octant->_children[index])
         return octant->_children[index];
 
-    Vector3 newMin = octant->_worldBoundingBox._min;
-    Vector3 newMax = octant->_worldBoundingBox._max;
-    const Vector3& oldCenter = octant->_center;
+    Vector3F newMin = octant->_worldBoundingBox._min;
+    Vector3F newMax = octant->_worldBoundingBox._max;
+    const Vector3F& oldCenter = octant->_center;
 
     if (index & 1)
         newMin._x = oldCenter._x;

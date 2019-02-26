@@ -14,7 +14,7 @@ static const Color DEFAULT_COLOR = Color(1.0f, 1.0f, 1.0f, 0.5f);
 static const float DEFAULT_RANGE = 10.0f;
 static const float DEFAULT_SPOT_FOV = 30.0f;
 static const int DEFAULT_SHADOWMAP_SIZE = 512;
-static const Vector4 DEFAULT_SHADOW_SPLITS = Vector4(10.0f, 50.0f, 150.0f, 0.0f);
+static const Vector4F DEFAULT_SHADOW_SPLITS = Vector4F(10.0f, 50.0f, 150.0f, 0.0f);
 static const float DEFAULT_FADE_START = 0.9f;
 static const int DEFAULT_DEPTH_BIAS = 5;
 static const float DEFAULT_SLOPE_SCALED_DEPTH_BIAS = 0.5f;
@@ -167,7 +167,7 @@ void Light::SetShadowMapSize(int size)
     _shadowMapSize = NextPowerOfTwo(size);
 }
 
-void Light::SetShadowSplits(const Vector4& splits)
+void Light::SetShadowSplits(const Vector4F& splits)
 {
     _shadowSplits = splits;
 }
@@ -344,7 +344,7 @@ void Light::SetupShadowViews(Camera* mainCamera, Vector<AutoPtr<ShadowView> >& s
                 if (shadowBox._min._z > minDistance)
                 {
                     float move = shadowBox._min._z - minDistance;
-                    shadowCamera.Translate(Vector3(0.0f, 0.f, move));
+                    shadowCamera.Translate(Vector3F(0.0f, 0.f, move));
                     shadowBox._min._z -= move,
                     shadowBox._max._z -= move;
                 }
@@ -352,23 +352,23 @@ void Light::SetupShadowViews(Camera* mainCamera, Vector<AutoPtr<ShadowView> >& s
                 shadowCamera.SetOrthographic(true);
                 shadowCamera.SetFarClip(shadowBox._max._z);
 
-                Vector3 center = shadowBox.Center();
-                Vector3 size = shadowBox.Size();
-                shadowCamera.SetOrthoSize(Vector2(size._x, size._y));
+                Vector3F center = shadowBox.Center();
+                Vector3F size = shadowBox.Size();
+                shadowCamera.SetOrthoSize(Vector2F(size._x, size._y));
                 shadowCamera.SetZoom(1.0f);
 
                 // Center shadow camera to the view space bounding box
-                Vector3 pos(shadowCamera.WorldPosition());
+                Vector3F pos(shadowCamera.WorldPosition());
                 Quaternion rot(shadowCamera.WorldRotation());
-                Vector3 adjust(center._x, center._y, 0.0f);
+                Vector3F adjust(center._x, center._y, 0.0f);
                 shadowCamera.Translate(rot * adjust, TS_WORLD);
 
                 // Snap to whole texels
                 {
-                    Vector3 viewPos(rot.Inverse() * shadowCamera.WorldPosition());
+                    Vector3F viewPos(rot.Inverse() * shadowCamera.WorldPosition());
                     float invSize = 1.0f / actualShadowMapSize;
-                    Vector2 texelSize(size._x * invSize, size._y * invSize);
-                    Vector3 snap(-fmodf(viewPos._x, texelSize._x), -fmodf(viewPos._y, texelSize._y), 0.0f);
+                    Vector2F texelSize(size._x * invSize, size._y * invSize);
+                    Vector3F snap(-fmodf(viewPos._x, texelSize._x), -fmodf(viewPos._y, texelSize._y), 0.0f);
                     shadowCamera.Translate(rot * snap, TS_WORLD);
                 }
             }
@@ -427,8 +427,8 @@ void Light::SetupShadowViews(Camera* mainCamera, Vector<AutoPtr<ShadowView> >& s
             Camera& shadowCamera = view->_shadowCamera;
             float width = (float)_shadowMap->Width();
             float height = (float)_shadowMap->Height();
-            Vector3 offset((float)view->_viewport._left / width, (float)view->_viewport._top / height, 0.0f);
-            Vector3 scale(0.5f * (float)view->_viewport.Width() / width, 0.5f * (float)view->_viewport.Height() / height, 1.0f);
+            Vector3F offset((float)view->_viewport._left / width, (float)view->_viewport._top / height, 0.0f);
+            Vector3F scale(0.5f * (float)view->_viewport.Width() / width, 0.5f * (float)view->_viewport.Height() / height, 1.0f);
 
             offset._x += scale._x;
             offset._y += scale._y;
@@ -440,7 +440,7 @@ void Light::SetupShadowViews(Camera* mainCamera, Vector<AutoPtr<ShadowView> >& s
             scale._z = 0.5f;
             #endif
             
-            Matrix4 texAdjust(Matrix4::IDENTITY);
+            Matrix4x4F texAdjust(Matrix4x4F::IDENTITY);
             texAdjust.SetTranslation(offset);
             texAdjust.SetScale(scale);
 
@@ -452,8 +452,8 @@ void Light::SetupShadowViews(Camera* mainCamera, Vector<AutoPtr<ShadowView> >& s
         // Point lights use an extra constant instead
         _shadowMatrices.Clear();
 
-        Vector2 textureSize((float)_shadowMap->Width(), (float)_shadowMap->Height());
-        _pointShadowParameters = Vector4(actualShadowMapSize / textureSize._x, actualShadowMapSize / textureSize._y,
+        Vector2F textureSize((float)_shadowMap->Width(), (float)_shadowMap->Height());
+        _pointShadowParameters = Vector4F(actualShadowMapSize / textureSize._x, actualShadowMapSize / textureSize._y,
             (float)_shadowRect._left / textureSize._x, (float)_shadowRect._top / textureSize._y);
     }
 
@@ -463,7 +463,7 @@ void Light::SetupShadowViews(Camera* mainCamera, Vector<AutoPtr<ShadowView> >& s
     float farClip = shadowCamera.FarClip();
     float q = farClip / (farClip - nearClip);
     float r = -q * nearClip;
-    _shadowParameters = Vector4(0.5f / (float)_shadowMap->Width(), 0.5f / (float)_shadowMap->Height(), q, r);
+    _shadowParameters = Vector4F(0.5f / (float)_shadowMap->Width(), 0.5f / (float)_shadowMap->Height(), q, r);
     
     useIndex += numViews;
 }
@@ -479,8 +479,8 @@ void Light::OnWorldBoundingBoxUpdate() const
         
     case LIGHT_POINT:
         {
-            const Vector3& center = WorldPosition();
-            Vector3 edge(_range, _range, _range);
+            const Vector3F& center = WorldPosition();
+            Vector3F edge(_range, _range, _range);
             _worldBoundingBox.Define(center - edge, center + edge);
         }
         break;

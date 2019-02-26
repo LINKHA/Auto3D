@@ -379,9 +379,9 @@ void Renderer::CollectLightInteractions()
                         newLightPass->_psBits |= (light->GetLightType() + 1) << (i * 3 + 4);
 
                         float cutoff = cosf(light->Fov() * 0.5f * M_DEGTORAD);
-                        newLightPass->_lightPositions[i] = Vector4(light->WorldPosition(), 1.0f);
-                        newLightPass->_lightDirections[i] = Vector4(-light->WorldDirection(), 0.0f);
-                        newLightPass->_lightAttenuations[i] = Vector4(1.0f / Max(light->Range(), M_EPSILON), cutoff, 1.0f /
+                        newLightPass->_lightPositions[i] = Vector4F(light->WorldPosition(), 1.0f);
+                        newLightPass->_lightDirections[i] = Vector4F(-light->WorldDirection(), 0.0f);
+                        newLightPass->_lightAttenuations[i] = Vector4F(1.0f / Max(light->Range(), M_EPSILON), cutoff, 1.0f /
                             (1.0f - cutoff), 0.0f);
                         newLightPass->_lightColors[i] = light->GetColor();
 
@@ -391,7 +391,7 @@ void Renderer::CollectLightInteractions()
                             newLightPass->_psBits |= 4 << (i * 3 + 4);
                             newLightPass->_shadowMaps[i] = light->ShadowMap();
 
-                            const Vector<Matrix4>& shadowMatrices = light->ShadowMatrices();
+                            const Vector<Matrix4x4F>& shadowMatrices = light->ShadowMatrices();
                             for (size_t j = 0; j < shadowMatrices.Size() && numShadowCoords < MAX_LIGHTS_PER_PASS; ++j)
                                 newLightPass->_shadowMatrices[numShadowCoords++] = shadowMatrices[j];
 
@@ -402,7 +402,7 @@ void Renderer::CollectLightInteractions()
                                 float fadeStart = light->ShadowFadeStart() * light->MaxShadowDistance() / _camera->FarClip();
                                 float fadeRange = light->MaxShadowDistance() / _camera->FarClip() - fadeStart;
                                 newLightPass->_dirShadowSplits = light->ShadowSplits() / _camera->FarClip();
-                                newLightPass->_dirShadowFade = Vector4(fadeStart / fadeRange, 1.0f / fadeRange, 0.0f, 0.0f);
+                                newLightPass->_dirShadowFade = Vector4F(fadeStart / fadeRange, 1.0f / fadeRange, 0.0f, 0.0f);
                             }
                             else if (light->GetLightType() == LIGHT_POINT)
                                 newLightPass->_pointShadowParameters[i] = light->PointShadowParameters();
@@ -815,9 +815,9 @@ void Renderer::RenderBatches(const Vector<Batch>& batches, Camera* camera, bool 
     {
         // Set per-frame values to the frame constant buffers
         Matrix3x4 viewMatrix = camera->ViewMatrix();
-        Matrix4 projectionMatrix = camera->ProjectionMatrix();
-        Matrix4 viewProjMatrix = projectionMatrix * viewMatrix;
-        Vector4 depthParameters(Vector4::ZERO);
+        Matrix4x4F projectionMatrix = camera->ProjectionMatrix();
+        Matrix4x4F viewProjMatrix = projectionMatrix * viewMatrix;
+        Vector4F depthParameters(Vector4F::ZERO);
         depthParameters._x = camera->NearClip();
         depthParameters._y = camera->FarClip();
         if (camera->IsOrthographic())
