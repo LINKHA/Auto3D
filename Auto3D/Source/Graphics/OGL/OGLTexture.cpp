@@ -123,7 +123,7 @@ Texture::Texture() :
     _texture(0),
     _type(TEX_2D),
     _usage(USAGE_DEFAULT),
-    _size(IntVector2::ZERO),
+    _size(Vector2I::ZERO),
     _format(FMT_NONE)
 {
 }
@@ -189,7 +189,7 @@ void Texture::Recreate()
     SetDataLost(true);
 }
 
-bool Texture::Define(TextureType type_, ResourceUsage usage, const IntVector2& size, ImageFormat format, size_t numLevels, const ImageLevel* initialData)
+bool Texture::Define(TextureType type_, ResourceUsage usage, const Vector2I& size, ImageFormat format, size_t numLevels, const ImageLevel* initialData)
 {
     PROFILE(DefineTexture);
 
@@ -222,7 +222,7 @@ bool Texture::Define(TextureType type_, ResourceUsage usage, const IntVector2& s
         glGenTextures(1, &_texture);
         if (!_texture)
         {
-            _size = IntVector2::ZERO;
+            _size = Vector2I::ZERO;
             _format = FMT_NONE;
             _numLevels = 0;
 
@@ -268,7 +268,7 @@ bool Texture::Define(TextureType type_, ResourceUsage usage, const IntVector2& s
         if (glGetError() != GL_NO_ERROR)
         {
             Release();
-            _size = IntVector2::ZERO;
+            _size = Vector2I::ZERO;
             _format = FMT_NONE;
             _numLevels = 0;
 
@@ -417,12 +417,12 @@ bool Texture::SetData(size_t face, size_t level, IntRect rect, const ImageLevel&
             if (wholeLevel)
             {
                 glCompressedTexImage2D(target, (unsigned)level, glInternalFormats[_format], rect.Width(), rect.Height(),
-                    0, (unsigned)Image::CalculateDataSize(IntVector2(rect.Width(), rect.Height()), _format), data._data);
+                    0, (unsigned)Image::CalculateDataSize(Vector2I(rect.Width(), rect.Height()), _format), data._data);
             }
             else
             {
                 glCompressedTexSubImage2D(target, (unsigned)level, rect._left, rect._top, rect.Width(), rect.Height(),
-                    glFormats[_format], (unsigned)Image::CalculateDataSize(IntVector2(rect.Width(), rect.Height()), _format),
+                    glFormats[_format], (unsigned)Image::CalculateDataSize(Vector2I(rect.Width(), rect.Height()), _format),
                     data._data);
             }
         }

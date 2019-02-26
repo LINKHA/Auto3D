@@ -2,7 +2,7 @@
 
 #include "../../Math/Color.h"
 #include "../../Math/IntRect.h"
-#include "../../Math/IntVector2.h"
+#include "../../Math/Vector2.h"
 #include "../../Object/Object.h"
 #include "../GraphicsDefs.h"
 
@@ -31,7 +31,7 @@ class ScreenModeEvent : public Event
 {
 public:
     /// New backbuffer _size.
-    IntVector2 _size;
+    Vector2I _size;
     /// Fullscreen flag.
     bool _fullscreen;
     /// Window _resizable flag.
@@ -52,7 +52,7 @@ public:
     ~Graphics();
 
     /// Set graphics mode. Create the _window and rendering context if not created yet. Return true on success.
-    bool SetMode(const IntVector2& size, bool fullscreen = false, bool resizable = false, int multisample = 1);
+    bool SetMode(const Vector2I& size, bool fullscreen = false, bool resizable = false, int multisample = 1);
     /// Set _fullscreen mode on/off while retaining previous resolution. The initial graphics mode must have been set first. Return true on success.
     bool SetFullscreen(bool enable);
     /// Set new multisample level while retaining previous resolution. The initial graphics mode must have been set first. Return true on success.
@@ -115,7 +115,7 @@ public:
     /// Return whether has the rendering _window and context.
     bool IsInitialized() const;
     /// Return backbuffer _size, or 0,0 if not initialized.
-    const IntVector2& Size() const { return _backbufferSize; }
+    const Vector2I& Size() const { return _backbufferSize; }
     /// Return backbuffer width, or 0 if not initialized.
     int Width() const { return _backbufferSize._x; }
     /// Return backbuffer height, or 0 if not initialized.
@@ -202,9 +202,9 @@ private:
     /// OS-level rendering _window.
     AutoPtr<Window> _window;
     /// Current _size of the backbuffer.
-    IntVector2 _backbufferSize;
+    Vector2I _backbufferSize;
     /// Current _size of the active rendertarget.
-    IntVector2 _renderTargetSize;
+    Vector2I _renderTargetSize;
     /// Bound vertex buffers.
     VertexBuffer* _vertexBuffers[MAX_VERTEX_STREAMS];
     /// Enabled vertex attributes bitmask.

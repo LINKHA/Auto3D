@@ -33,22 +33,22 @@ enum Intersection
 };
 
 /// Check whether two floating point values are equal within accuracy.
-inline bool Equals(float lhs, float rhs) { return lhs + M_EPSILON >= rhs && lhs - M_EPSILON <= rhs; }
+template<typename _Ty> inline bool Equals(_Ty lhs, _Ty rhs) { return lhs + M_EPSILON >= rhs && lhs - M_EPSILON <= rhs; }
 /// Check whether a floating point value is NaN.
-inline bool IsNaN(float value) { return value != value; }
+template<typename _Ty> inline bool IsNaN(_Ty value) { return value != value; }
 /// Linear interpolation between two float values.
-inline float Lerp(float lhs, float rhs, float t) { return lhs * (1.0f - t) + rhs * t; }
+template<typename _Ty, class U> inline _Ty Lerp(_Ty lhs, _Ty rhs, U t) { return lhs * (1.0 - t) + rhs * t; }
 /// Return the smaller of two floats.
-inline float Min(float lhs, float rhs) { return lhs < rhs ? lhs : rhs; }
+template<typename _Ty, typename U> inline _Ty Min(_Ty lhs, U rhs) { return lhs < rhs ? lhs : rhs; }
 /// Return the larger of two floats.
-inline float Max(float lhs, float rhs) { return lhs > rhs ? lhs : rhs; }
+template<typename _Ty, typename U> inline _Ty Max(_Ty lhs, U rhs) { return lhs > rhs ? lhs : rhs; }
 /// Return absolute value of a float.
-inline float Abs(float value) { return value >= 0.0f ? value : -value; }
+template<typename _Ty> inline _Ty Abs(_Ty value) { return value >= 0 ? value : -value; }
 /// Return the sign of a float (-1, 0 or 1.)
-inline float Sign(float value) { return value > 0.0f ? 1.0f : (value < 0.0f ? -1.0f : 0.0f); }
+template<typename _Ty> inline _Ty Sign(_Ty value) { return value > 0 ? 1 : (value < 0 ? -1 : 0); }
 
 /// Clamp a float to a range.
-inline float Clamp(float value, float min, float max)
+template<typename _Ty> inline _Ty Clamp(float value, float min, float max)
 {
     if (value < min)
         return min;
@@ -59,36 +59,30 @@ inline float Clamp(float value, float min, float max)
 }
 
 /// Smoothly damp between values.
-inline float SmoothStep(float lhs, float rhs, float t)
+template<typename _Ty> inline _Ty SmoothStep(_Ty lhs, _Ty rhs, _Ty t)
 {
-    t = Clamp((t - lhs) / (rhs - lhs), 0.0f, 1.0f); // Saturate t
-    return t * t * (3.0f - 2.0f * t);
+    t = Clamp((t - lhs) / (rhs - lhs), 0, 1); // Saturate t
+    return t * t * (3 - 2 * t);
 }
 
 /// Return sine of an angle in degrees.
-inline float Sin(float angle) { return sinf(angle * M_DEGTORAD); }
+template<typename _Ty> inline _Ty Sin(_Ty angle) { return sinf(angle * M_DEGTORAD); }
 /// Return cosine of an angle in degrees.
-inline float Cos(float angle) { return cosf(angle * M_DEGTORAD); }
+template<typename _Ty> inline _Ty Cos(_Ty angle) { return cosf(angle * M_DEGTORAD); }
 /// Return tangent of an angle in degrees.
-inline float Tan(float angle) { return tanf(angle * M_DEGTORAD); }
+template<typename _Ty> inline _Ty Tan(_Ty angle) { return tanf(angle * M_DEGTORAD); }
 /// Return arc sine in degrees.
-inline float Asin(float x) { return M_RADTODEG * asinf(Clamp(x, -1.0f, 1.0f)); }
+template<typename _Ty> inline _Ty Asin(_Ty x) { return M_RADTODEG * asinf(Clamp(x, -1, 1)); }
 /// Return arc cosine in degrees.
-inline float Acos(float x) { return M_RADTODEG * acosf(Clamp(x, -1.0f, 1.0f)); }
+template<typename _Ty> inline _Ty Acos(_Ty x) { return M_RADTODEG * acosf(Clamp(x, -1, 1)); }
 /// Return arc tangent in degrees.
-inline float Atan(float x) { return M_RADTODEG * atanf(x); }
+template<typename _Ty> inline _Ty Atan(_Ty x) { return M_RADTODEG * atanf(x); }
 /// Return arc tangent of y/x in degrees.
-inline float Atan2(float y, float x) { return M_RADTODEG * atan2f(y, x); }
+template<typename _Ty> inline _Ty Atan2(_Ty y, _Ty x) { return M_RADTODEG * atan2f(y, x); }
 
-/// Return the smaller of two integers.
-inline int Min(int lhs, int rhs) { return lhs < rhs ? lhs : rhs; }
-/// Return the larger of two integers.
-inline int Max(int lhs, int rhs) { return lhs > rhs ? lhs : rhs; }
-/// Return absolute value of an integer
-inline int Abs(int value) { return value >= 0 ? value : -value; }
 
-/// Clamp an integer to a range.
-inline int Clamp(int value, int min, int max)
+/// Clamp an _Tyeger to a range.
+template<typename _Ty> inline _Ty Clamp(_Ty value, _Ty min, _Ty max)
 {
     if (value < min)
         return min;

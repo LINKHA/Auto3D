@@ -23,8 +23,8 @@ AreaAllocator::AreaAllocator(int width, int height, int maxWidth, int maxHeight,
 void AreaAllocator::Reset(int width, int height, int maxWidth, int maxHeight, bool fastMode_)
 {
     _doubleWidth = true;
-    _size = IntVector2(width, height);
-    _maxSize = IntVector2(maxWidth, maxHeight);
+    _size = Vector2I(width, height);
+    _maxSize = Vector2I(maxWidth, maxHeight);
     _fastMode = fastMode_;
 
     _freeAreas.Clear();

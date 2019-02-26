@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IntRect.h"
+#include "Vector2.h"
 #include "../Base/Vector.h"
 
 namespace Auto3D
@@ -23,13 +24,13 @@ public:
     bool Allocate(int width, int height, int& x, int& y);
 
     /// Return the current _size.
-    const IntVector2& Size() const { return _size; }
+    const Vector2I& Size() const { return _size; }
     /// Return the current width.
     int Width() const { return _size._x; }
     /// Return the current height.
     int Height() const { return _size._y; }
     /// Return the maximum _size.
-    const IntVector2& MaxSize() const { return _maxSize; }
+    const Vector2I& MaxSize() const { return _maxSize; }
     /// Return the maximum width.
     int MaxWidth() const { return _maxSize._x; }
     /// Return the maximum height.
@@ -46,9 +47,9 @@ private:
     /// Free rectangles.
     Vector<IntRect> _freeAreas;
     /// Current _size.
-    IntVector2 _size;
+    Vector2I _size;
     /// Maximum _size allowed to grow to. It is zero when it is not allowed to grow.
-    IntVector2 _maxSize;
+    Vector2I _maxSize;
     /// The dimension used for next growth. Used internally.
     bool _doubleWidth;
     /// Fast mode flag.

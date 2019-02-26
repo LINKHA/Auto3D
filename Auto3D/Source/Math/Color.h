@@ -22,6 +22,15 @@ public:
     float _b;
     /// Alpha value.
     float _a;
+	///// The alias of r
+	//float& _red = _r;
+	///// The alias of g
+	//float& _green = _g;
+	///// The alias of b
+	//float& _blue = _b;
+	///// The alias of a
+	//float& _alpha = _a;
+
 
     /// Construct undefined.
     Color()
@@ -105,7 +114,20 @@ public:
     Color operator + (const Color& rhs) const { return Color(_r + rhs._r, _g + rhs._g, _b + rhs._b, _a + rhs._a); }
     /// Substract a color.
     Color operator - (const Color& rhs) const { return Color(_r - rhs._r, _g - rhs._g, _b - rhs._b, _a - rhs._a); }
-    
+	///// Assign from another color.
+	//Color& operator =(const Color& rhs) noexcept 
+	//{
+	//	/*_alpha = rhs._alpha;
+	//	_red = rhs._red;
+	//	_green = rhs._green;
+	//	_blue = rhs._blue;*/
+	//	_a = rhs._a;
+	//	_r = rhs._r;
+	//	_g = rhs._g;
+	//	_b = rhs._b;
+	//	return *this;
+	//}
+
     /// Return float data.
     const float* Data() const { return &_r; }
 

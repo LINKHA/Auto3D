@@ -3,7 +3,7 @@
 #include "../Math/Color.h"
 #include "../Math/Frustum.h"
 #include "../Math/IntRect.h"
-#include "../Math/IntVector2.h"
+#include "../Math/Vector2.h"
 #include "../Math/Sphere.h"
 #include "OctreeNode.h"
 
@@ -88,7 +88,7 @@ public:
     /// Return slope-scaled depth bias.
     float SlopeScaledDepthBias() const { return _slopeScaledDepthBias; }
     /// Return total requested shadow map _size, accounting for multiple faces / splits for directional and point lights.
-    IntVector2 TotalShadowMapSize() const;
+    Vector2I TotalShadowMapSize() const;
     /// Return number of required shadow views / cameras.
     size_t NumShadowViews() const;
     /// Return number of required shadow coordinates in the vertex shader.

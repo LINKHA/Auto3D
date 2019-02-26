@@ -219,7 +219,7 @@ struct DDSurfaceDesc2
 /// \endcond
 
 Image::Image() :
-    size(IntVector2::ZERO),
+    size(Vector2I::ZERO),
     format(FMT_NONE),
     numLevels(1)
 {
@@ -268,7 +268,7 @@ bool Image::BeginLoad(Stream& source)
 
         size_t dataSize = source.Size() - source.Position();
         data = new unsigned char[dataSize];
-        size = IntVector2(ddsd.dwWidth, ddsd.dwHeight);
+        size = Vector2I(ddsd.dwWidth, ddsd.dwHeight);
         numLevels = ddsd.dwMipMapCount ? ddsd.dwMipMapCount : 1;
         source.Read(data.Get(), dataSize);
     }
@@ -360,7 +360,7 @@ bool Image::BeginLoad(Stream& source)
         size_t dataSize = source.Size() - source.Position() - mipmaps * sizeof(unsigned);
 
         data = new unsigned char[dataSize];
-        size = IntVector2(imageWidth, imageHeight);
+        size = Vector2I(imageWidth, imageHeight);
         numLevels = mipmaps;
 
         size_t dataOffset = 0;
@@ -452,7 +452,7 @@ bool Image::BeginLoad(Stream& source)
         size_t dataSize = source.Size() - source.Position();
 
         data = new unsigned char[dataSize];
-        size = IntVector2(imageWidth, imageHeight);
+        size = Vector2I(imageWidth, imageHeight);
         numLevels = mipmapCount;
 
         source.Read(data.Get(), dataSize);
@@ -470,7 +470,7 @@ bool Image::BeginLoad(Stream& source)
             return false;
         }
         
-        SetSize(IntVector2(imageWidth, imageHeight), componentsToFormat[imageComponents]);
+        SetSize(Vector2I(imageWidth, imageHeight), componentsToFormat[imageComponents]);
 
         if (imageComponents != 3)
             SetData(pixelData);
@@ -527,7 +527,7 @@ bool Image::Save(Stream& dest)
     return success;
 }
 
-void Image::SetSize(const IntVector2& newSize, ImageFormat newFormat)
+void Image::SetSize(const Vector2I& newSize, ImageFormat newFormat)
 {
     if (newSize == size && newFormat == format)
         return;
@@ -585,7 +585,7 @@ bool Image::GenerateMipImage(Image& dest) const
         return false;
     }
 
-    IntVector2 sizeOut(Max(size._x / 2, 1), Max(size._y / 2, 1));
+    Vector2I sizeOut(Max(size._x / 2, 1), Max(size._y / 2, 1));
     dest.SetSize(sizeOut, format);
 
     const unsigned char* pixelDataIn = data.Get();
@@ -653,7 +653,7 @@ ImageLevel Image::Level(size_t index) const
 
     for (;;)
     {
-        level._size = IntVector2(Max(size._x >> i, 1), Max(size._y >> i, 1));
+        level._size = Vector2I(Max(size._x >> i, 1), Max(size._y >> i, 1));
         level._data = data.Get() + offset;
 
         size_t dataSize = CalculateDataSize(level._size, format, &level._rows, &level._rowSize);
@@ -710,7 +710,7 @@ bool Image::DecompressLevel(unsigned char* dest, size_t index) const
     return true;
 }
 
-size_t Image::CalculateDataSize(const IntVector2& size, ImageFormat format, size_t* dstRows, size_t* dstRowSize)
+size_t Image::CalculateDataSize(const Vector2I& size, ImageFormat format, size_t* dstRows, size_t* dstRowSize)
 {
     size_t rows, rowSize, dataSize;
 

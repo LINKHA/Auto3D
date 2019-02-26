@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Math/IntVector2.h"
+#include "../Math/Vector2.h"
 #include "../Object/Object.h"
 
 #include <SDL_scancode.h>
@@ -282,8 +282,8 @@ struct AUTO_API Touch
 {
     /// Construct.
     Touch() :
-        _delta(IntVector2::ZERO),
-        _lastDelta(IntVector2::ZERO)
+        _delta(Vector2I::ZERO),
+        _lastDelta(Vector2I::ZERO)
     {
     }
 
@@ -292,11 +292,11 @@ struct AUTO_API Touch
     /// Operating system _id, which may be an arbitrary number.
     unsigned _internalId;
     /// Position within _window.
-    IntVector2 _position;
+    Vector2I _position;
     /// Accumulated _delta on this frame.
-    IntVector2 _delta;
+    Vector2I _delta;
     /// Delta from last move _event.
-    IntVector2 _lastDelta;
+    Vector2I _lastDelta;
     /// Current finger _pressure.
     float _pressure;
 };
@@ -334,7 +334,7 @@ public:
     /// Pressed flag.
     bool _pressed;
     /// Mouse _position within _window.
-    IntVector2 _position;
+    Vector2I _position;
 };
 
 /// Mouse move _event.
@@ -344,9 +344,9 @@ public:
     /// Bitmask of currently held down _buttons.
     unsigned _buttons;
     /// Mouse _position within _window.
-    IntVector2 _position;
+    Vector2I _position;
     /// Delta from last _position.
-    IntVector2 _delta;
+    Vector2I _delta;
 };
 
 /// Touch begin _event.
@@ -356,7 +356,7 @@ public:
     /// Zero-based touch _id.
     unsigned _id;
     /// Touch _position within _window.
-    IntVector2 _position;
+    Vector2I _position;
     /// Finger _pressure between 0-1.
     float _pressure;
 };
@@ -368,9 +368,9 @@ public:
     /// Zero-based touch _id.
     unsigned _id;
     /// Touch _position within _window.
-    IntVector2 _position;
+    Vector2I _position;
     /// Delta from last _position.
-    IntVector2 _delta;
+    Vector2I _delta;
     /// Finger _pressure between 0-1.
     float _pressure;
 };
@@ -382,7 +382,7 @@ public:
     /// Zero-based touch _id.
     unsigned _id;
     /// Touch _position within _window.
-    IntVector2 _position;
+    Vector2I _position;
 };
 
 /// %Input subsystem for reading keyboard/mouse/etc. input. Updated from OS _window messages by the Window class.
@@ -408,9 +408,9 @@ public:
     /// Return whether _key was _pressed on this frame by raw _key code.
     bool IsKeyPressRaw(unsigned rawKeyCode) const;
     /// Return current mouse _position.
-    const IntVector2& MousePosition() const;
+    const Vector2I& MousePosition() const;
     /// Return accumulated mouse movement since last frame.
-    IntVector2 MouseMove() const { return _mouseMove; }
+    Vector2I MouseMove() const { return _mouseMove; }
     /// Return _pressed down mouse _buttons bitmask.
     unsigned MouseButtons() const { return _mouseButtons; }
     /// Return whether a mouse _button is down.
@@ -429,13 +429,13 @@ public:
     /// React to char input. Called by _window message handling.
     void OnChar(unsigned unicodeChar);
     /// React to a mouse move. Called by _window message handling.
-    void OnMouseMove(const IntVector2& position, const IntVector2& delta);
+    void OnMouseMove(const Vector2I& position, const Vector2I& delta);
 
-	void OnMouseWheel(const IntVector2& delta);
+	void OnMouseWheel(const Vector2I& delta);
     /// React to a mouse _button. Called by _window message handling.
     void OnMouseButton(unsigned button, bool pressed);
     /// React to a touch. Called by _window message handling.
-    void OnTouch(unsigned internalId, bool pressed, const IntVector2& position, float pressure);
+    void OnTouch(unsigned internalId, bool pressed, const Vector2I& position, float pressure);
     /// React to gaining _focus. Called by _window message handling.
     void OnGainFocus();
     /// React to losing _focus. Called by _window message handling.
@@ -468,9 +468,9 @@ private:
     /// Active _touches.
     Vector<Touch> _touches;
     /// Accumulated mouse move since last frame.
-    IntVector2 _mouseMove;
+    Vector2I _mouseMove;
 
-	IntVector2 _mouseWhellOffset;
+	Vector2I _mouseWhellOffset;
     /// Mouse _buttons bitmask.
     unsigned _mouseButtons;
     /// Mouse _buttons _pressed bitmask.

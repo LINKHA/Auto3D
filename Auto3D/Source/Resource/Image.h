@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Base/AutoPtr.h"
-#include "../Math/IntVector2.h"
+#include "../Math/Vector2.h"
 #include "Resource.h"
 
 struct SDL_Surface;
@@ -46,7 +46,7 @@ struct AUTO_API ImageLevel
     /// Default construct.
     ImageLevel() :
         _data(nullptr),
-        _size(IntVector2::ZERO),
+        _size(Vector2I::ZERO),
         _rowSize(0),
         _rows(0)
     {
@@ -55,7 +55,7 @@ struct AUTO_API ImageLevel
     /// Pointer to pixel data.
     unsigned char* _data;
     /// Level _size in pixels.
-    IntVector2 _size;
+    Vector2I _size;
     /// Row _size in bytes.
     size_t _rowSize;
     /// Number of rows.
@@ -82,12 +82,12 @@ public:
     bool Save(Stream& dest) override;
 
     /// Set new image pixel dimensions and format. Setting a compressed format is not supported.
-    void SetSize(const IntVector2& newSize, ImageFormat newFormat);
+    void SetSize(const Vector2I& newSize, ImageFormat newFormat);
     /// Set new pixel data.
     void SetData(const unsigned char* pixelData);
 
     /// Return image dimensions in pixels.
-    const IntVector2& Size() const { return size; }
+    const Vector2I& Size() const { return size; }
     /// Return image width in pixels.
     int Width() const { return size._x; }
     /// Return image height in pixels.
@@ -112,7 +112,7 @@ public:
     bool DecompressLevel(unsigned char* dest, size_t levelIndex) const;
 
     /// Calculate the data _size of an image level.
-    static size_t CalculateDataSize(const IntVector2& size, ImageFormat format, size_t* numRows = 0, size_t* rowSize = 0);
+    static size_t CalculateDataSize(const Vector2I& size, ImageFormat format, size_t* numRows = 0, size_t* rowSize = 0);
 
     /// Pixel components per format.
     static const int components[];
@@ -126,7 +126,7 @@ private:
     static void FreePixelData(unsigned char* pixelData);
 
     /// Image dimensions.
-    IntVector2 size;
+    Vector2I size;
     /// Image format.
     ImageFormat format;
     /// Number of mip levels. 1 for uncompressed images.

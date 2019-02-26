@@ -187,22 +187,22 @@ void Light::SetSlopeScaledDepthBias(float bias)
     _slopeScaledDepthBias = Max(bias, 0.0f);
 }
 
-IntVector2 Light::TotalShadowMapSize() const
+Vector2I Light::TotalShadowMapSize() const
 {
     if (_lightType == LIGHT_DIRECTIONAL)
     {
         int splits = NumShadowSplits();
         if (splits == 1)
-            return IntVector2(_shadowMapSize, _shadowMapSize);
+            return Vector2I(_shadowMapSize, _shadowMapSize);
         else if (splits == 2)
-            return IntVector2(_shadowMapSize * 2, _shadowMapSize);
+            return Vector2I(_shadowMapSize * 2, _shadowMapSize);
         else
-            return IntVector2(_shadowMapSize * 2, _shadowMapSize * 2);
+            return Vector2I(_shadowMapSize * 2, _shadowMapSize * 2);
     }
     else if (_lightType == LIGHT_POINT)
-        return IntVector2(_shadowMapSize * 3, _shadowMapSize * 2);
+        return Vector2I(_shadowMapSize * 3, _shadowMapSize * 2);
     else
-        return IntVector2(_shadowMapSize, _shadowMapSize);
+        return Vector2I(_shadowMapSize, _shadowMapSize);
 }
 
 int Light::NumShadowSplits() const
@@ -315,7 +315,7 @@ void Light::SetupShadowViews(Camera* mainCamera, Vector<AutoPtr<ShadowView> >& s
         {
         case LIGHT_DIRECTIONAL:
             {
-                IntVector2 topLeft(_shadowRect._left, _shadowRect._top);
+                Vector2I topLeft(_shadowRect._left, _shadowRect._top);
                 if (i & 1)
                     topLeft._x += actualShadowMapSize;
                 if (i & 2)

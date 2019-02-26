@@ -79,7 +79,7 @@ void Renderer::SetupShadowMaps(size_t num, int size, ImageFormat format)
     _shadowMaps.Resize(num);
     for (auto it = _shadowMaps.Begin(); it != _shadowMaps.End(); ++it)
     {
-        if (it->_texture->Define(TEX_2D, USAGE_RENDERTARGET, IntVector2(size, size), format, 1))
+        if (it->_texture->Define(TEX_2D, USAGE_RENDERTARGET, Vector2I(size, size), format, 1))
         {
             // Setup shadow map sampling with hardware depth compare
             it->_texture->DefineSampler(COMPARE_BILINEAR, ADDRESS_CLAMP, ADDRESS_CLAMP, ADDRESS_CLAMP, 1);
@@ -214,8 +214,8 @@ void Renderer::CollectLightInteractions()
         }
 
         // Try to allocate shadow map rectangle. Retry with smaller _size two times if fails
-        IntVector2 request = light->TotalShadowMapSize();
         IntRect shadowRect;
+        Vector2I request = light->TotalShadowMapSize();
         size_t retries = 3;
         size_t index = 0;
 
@@ -659,11 +659,11 @@ void Renderer::DefineFaceSelectionTextures()
         faces2.Push(level);
     }
 
-    _faceSelectionTexture1->Define(TEX_CUBE, USAGE_DEFAULT, IntVector2(1, 1), FMT_RGBA32F, 1, &faces1[0]);
+    _faceSelectionTexture1->Define(TEX_CUBE, USAGE_DEFAULT, Vector2I(1, 1), FMT_RGBA32F, 1, &faces1[0]);
     _faceSelectionTexture1->DefineSampler(FILTER_POINT, ADDRESS_CLAMP, ADDRESS_CLAMP, ADDRESS_CLAMP);
     _faceSelectionTexture1->SetDataLost(false);
 
-    _faceSelectionTexture2->Define(TEX_CUBE, USAGE_DEFAULT, IntVector2(1, 1), FMT_RGBA32F, 1, &faces2[0]);
+    _faceSelectionTexture2->Define(TEX_CUBE, USAGE_DEFAULT, Vector2I(1, 1), FMT_RGBA32F, 1, &faces2[0]);
     _faceSelectionTexture2->DefineSampler(FILTER_POINT, ADDRESS_CLAMP, ADDRESS_CLAMP, ADDRESS_CLAMP);
     _faceSelectionTexture2->SetDataLost(false);
 }

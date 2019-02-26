@@ -153,7 +153,7 @@ void Attribute::FromJSON(AttributeType type, void* dest, const JSONValue& source
         break;
 
     case ATTR_INTVECTOR2:
-        reinterpret_cast<IntVector2*>(dest)->FromString(source.GetString());
+        reinterpret_cast<Vector2I*>(dest)->FromString(source.GetString());
         break;
 
     case ATTR_INTRECT:
@@ -250,7 +250,7 @@ void Attribute::ToJSON(AttributeType type, JSONValue& dest, const void* source)
         break;
 
     case ATTR_INTVECTOR2:
-        dest = reinterpret_cast<const IntVector2*>(source)->ToString();
+        dest = reinterpret_cast<const Vector2I*>(source)->ToString();
         break;
 
     case ATTR_INTRECT:

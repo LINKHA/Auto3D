@@ -9,7 +9,7 @@
 namespace Auto3D
 {
 
-const Quaternion Quaternion::IDENTITY(1.0f, 0.0f, 0.0f, 0.0f);
+const Quaternion Quaternion::IDENTITY;
 
 void Quaternion::FromAngleAxis(float angle, const Vector3F& axis)
 {

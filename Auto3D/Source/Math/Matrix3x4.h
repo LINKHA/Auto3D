@@ -13,8 +13,17 @@ namespace Auto3D
 		_Ty _m00, _m01, _m02, _m03;
 		_Ty _m10, _m11, _m12, _m13;
 		_Ty _m20, _m21, _m22, _m23;
-
-		/// Construct an identity matrix.
+		/*/// Addresses of all members
+		_Ty* _data[12] =
+		{
+			&_m00, &_m01, &_m02, &_m03
+			&_m10, &_m11, &_m12, &_m13
+			&_m20, &_m21, &_m22, &_m23
+		}*/
+		/// Construct an identity matrix
+		///|1,0,0,0|
+		///|0,1,0,0|
+		///|0,0,1,0|
 		Matrix3x4() noexcept
 			:_m00(1),
 			_m01(0),

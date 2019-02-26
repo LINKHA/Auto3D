@@ -22,12 +22,12 @@ void Input::Update()
 {
     // Clear accumulated input from last frame
     _mouseButtonsPressed = 0;
-    _mouseMove = IntVector2::ZERO;
-	_mouseWhellOffset = IntVector2::ZERO;
+    _mouseMove = Vector2I::ZERO;
+	_mouseWhellOffset = Vector2I::ZERO;
     _keyPressed.Clear();
     _rawKeyPress.Clear();
     for (auto it = _touches.Begin(); it != _touches.End(); ++it)
-        it->_delta = IntVector2::ZERO;
+        it->_delta = Vector2I::ZERO;
 
     // The OS-specific _window message handling will call back to Input and update the state
     Window* window = GetSubsystem<Window>();
@@ -59,10 +59,10 @@ bool Input::IsKeyPressRaw(unsigned rawKeyCode) const
     return it != _rawKeyPress.End() ? it->second : false;
 }
 
-const IntVector2& Input::MousePosition() const
+const Vector2I& Input::MousePosition() const
 {
     Window* window = GetSubsystem<Window>();
-    return window ? window->MousePosition() : IntVector2::ZERO;
+    return window ? window->MousePosition() : Vector2I::ZERO;
 }
 
 bool Input::IsMouseButtonDown(unsigned button) const
@@ -111,7 +111,7 @@ void Input::OnChar(unsigned unicodeChar)
     SendEvent(charInputEvent);
 }
 
-void Input::OnMouseMove(const IntVector2& position, const IntVector2& delta)
+void Input::OnMouseMove(const Vector2I& position, const Vector2I& delta)
 {
     _mouseMove += delta;
 
@@ -120,7 +120,7 @@ void Input::OnMouseMove(const IntVector2& position, const IntVector2& delta)
     SendEvent(mouseMoveEvent);
 }
 
-void Input::OnMouseWheel(const IntVector2& delta)
+void Input::OnMouseWheel(const Vector2I& delta)
 {
 	_mouseWhellOffset = delta;
 }
@@ -144,7 +144,7 @@ void Input::OnMouseButton(unsigned button, bool pressed)
     SendEvent(mouseButtonEvent);
 }
 
-void Input::OnTouch(unsigned internalId, bool pressed, const IntVector2& position, float pressure)
+void Input::OnTouch(unsigned internalId, bool pressed, const Vector2I& position, float pressure)
 {
     if (pressed)
     {
@@ -158,7 +158,7 @@ void Input::OnTouch(unsigned internalId, bool pressed, const IntVector2& positio
                 found = true;
                 it->_lastDelta = position - it->_position;
                 
-                if (it->_lastDelta != IntVector2::ZERO || pressure != it->_pressure)
+                if (it->_lastDelta != Vector2I::ZERO || pressure != it->_pressure)
                 {
                     it->_delta += it->_lastDelta;
                     it->_position = position;
@@ -233,7 +233,7 @@ void Input::OnLoseFocus()
 {
     _mouseButtons = 0;
     _mouseButtonsPressed = 0;
-    _mouseMove = IntVector2::ZERO;
+    _mouseMove = Vector2I::ZERO;
     _keyDown.Clear();
     _keyPressed.Clear();
     _rawKeyDown.Clear();

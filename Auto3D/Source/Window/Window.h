@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Math/IntVector2.h"
+#include "../Math/Vector2.h"
 #include "../Object/Object.h"
 
 struct SDL_Window;
@@ -13,7 +13,7 @@ class AUTO_API WindowResizeEvent : public Event
 {
 public:
 	/// New _window _size.
-	IntVector2 _size;
+	Vector2I _size;
 };
 
 /// Operating system _window, Win32 implementation.
@@ -30,15 +30,15 @@ public:
 	/// Set _window _title.
 	void SetTitle(const String& newTitle);
 	/// Set _window _size. Open the _window if not opened yet. Return true on success.
-	bool SetSize(const IntVector2& size, bool fullscreen = false, bool resizable = false, bool borderless = false, bool highDPI = false);
+	bool SetSize(const Vector2I& size, bool fullscreen = false, bool resizable = false, bool borderless = false, bool highDPI = false);
 	/// Set _window _position.
-	void SetPosition(const IntVector2& position);
+	void SetPosition(const Vector2I& position);
 	/// Set mouse cursor visible. Default is true. When hidden, the mouse cursor is confined to the _window and kept centered; relative mouse motion can be read "endlessly" but absolute mouse _position should not be used.
 	void SetMouseHide(bool enable);
 
 	void SetMouseLock(bool enable);
 	/// Move the mouse cursor to a _window top-left relative _position.
-	void SetMousePosition(const IntVector2& position);
+	void SetMousePosition(const Vector2I& position);
 	/// Close the _window.
 	void Close();
 	/// Minimize the _window.
@@ -53,15 +53,15 @@ public:
 	/// Return _window _title.
 	const String& Title() const { return _title; }
 	/// Return _window client area _size.
-	const IntVector2& Size() const { return _size; }
+	const Vector2I& Size() const { return _size; }
 	/// Return _window client area width.
 	int Width() const { return _size._x; }
 	/// Return _window client area height.
 	int Height() const { return _size._y; }
 	/// Return _window _position.
-	IntVector2 Position() const;
+	Vector2I Position() const;
 	/// Return last known mouse cursor _position relative to _window top-left.
-	const IntVector2& MousePosition() const { return _mousePosition; }
+	const Vector2I& MousePosition() const { return _mousePosition; }
 	/// Return whether _window is open.
 	bool IsOpen() const { return _handle != nullptr; }
 	/// Return whether is _resizable.
@@ -106,15 +106,15 @@ private:
 	/// Window _title.
 	String _title;
 	/// Current client area _size.
-	IntVector2 _size;
+	Vector2I _size;
 	/// Last stored windowed mode _position.
-	IntVector2 _savedPosition;
+	Vector2I _savedPosition;
 	/// Current mouse cursor _position.
-	IntVector2 _mousePosition;
+	Vector2I _mousePosition;
 	///mouse wheel offset
-	IntVector2 _mouseWheelOffset;
+	Vector2I _mouseWheelOffset;
 	///mouse wheel move
-	IntVector2 _mouseMoveWheel;
+	Vector2I _mouseMoveWheel;
 
 	/// Window style flags.
 	unsigned _windowStyle;

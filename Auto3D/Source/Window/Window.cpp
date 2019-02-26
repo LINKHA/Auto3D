@@ -17,11 +17,11 @@ namespace Auto3D
 Window::Window() :
 	_handle(nullptr),
 	_title("Auto3D Window"),
-	_size(IntVector2::ZERO),
-	_savedPosition(IntVector2(M_MIN_INT, M_MIN_INT)),
-	_mousePosition(IntVector2::ZERO),
-	_mouseWheelOffset(IntVector2::ZERO),
-	_mouseMoveWheel(IntVector2::ZERO),
+	_size(Vector2I::ZERO),
+	_savedPosition(Vector2I(M_MIN_INT, M_MIN_INT)),
+	_mousePosition(Vector2I::ZERO),
+	_mouseWheelOffset(Vector2I::ZERO),
+	_mouseMoveWheel(Vector2I::ZERO),
 	_windowStyle(0),
 	_minimized(false),
 	_focus(false),
@@ -58,7 +58,7 @@ void Window::SetTitle(const String& newTitle)
 	_title = newTitle;
 }
 
-bool Window::SetSize(const IntVector2& size, bool fullscreen, bool resizable, bool borderless, bool highDPI)
+bool Window::SetSize(const Vector2I& size, bool fullscreen, bool resizable, bool borderless, bool highDPI)
 {
 	_size = size;
 	// Create the _window
@@ -84,7 +84,7 @@ bool Window::SetSize(const IntVector2& size, bool fullscreen, bool resizable, bo
 	return true;
 }
 
-void Window::SetPosition(const IntVector2& position)
+void Window::SetPosition(const Vector2I& position)
 {
 
 }
@@ -107,7 +107,7 @@ void Window::SetMouseLock(bool enable)
 	}
 }
 
-void Window::SetMousePosition(const IntVector2& position)
+void Window::SetMousePosition(const Vector2I& position)
 {
 
 }
@@ -146,9 +146,9 @@ void Window::PumpMessages()
 }
 
 
-IntVector2 Window::Position() const
+Vector2I Window::Position() const
 {
-	return IntVector2();
+	return Vector2I();
 }
 
 bool Window::OnWindowMessage(void* sdlEvent)
@@ -172,7 +172,7 @@ bool Window::OnWindowMessage(void* sdlEvent)
 		_mousePosition._x = x;
 		_mousePosition._y = y;
 		if (input)
-			input->OnMouseMove(_mousePosition, IntVector2(evt.motion.xrel, evt.motion.yrel));
+			input->OnMouseMove(_mousePosition, Vector2I(evt.motion.xrel, evt.motion.yrel));
 		//_isMouseMove = true;
 		break;
 	case SDL_MOUSEBUTTONDOWN:
@@ -181,7 +181,7 @@ bool Window::OnWindowMessage(void* sdlEvent)
 		break;
 	case SDL_MOUSEWHEEL:
 		if (input)
-			input->OnMouseWheel(IntVector2(evt.wheel.x, evt.wheel.y));
+			input->OnMouseWheel(Vector2I(evt.wheel.x, evt.wheel.y));
 		break;
 	case SDL_WINDOWEVENT:
 	{
@@ -200,10 +200,10 @@ bool Window::OnWindowMessage(void* sdlEvent)
 			int x, y;
 			SDL_GetWindowSize(_handle, &x, &y);
 			SendEvent(resizeEvent);
-			if (IntVector2(x, y) != _size) 
+			if (Vector2I(x, y) != _size) 
 			{
-				_size = IntVector2(x, y);
-				resizeEvent._size = IntVector2(x, y);
+				_size = Vector2I(x, y);
+				resizeEvent._size = Vector2I(x, y);
 				SendEvent(resizeEvent);
 			}
 			break;

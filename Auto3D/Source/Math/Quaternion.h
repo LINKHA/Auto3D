@@ -10,7 +10,11 @@ class AUTO_API Quaternion
 {
 public:
     /// Construct undefined.
-    Quaternion()
+    Quaternion() :
+		_w(1.0f),
+		_x(0.0f),
+		_y(0.0f),
+		_z(0.0f)
     {
     }
     

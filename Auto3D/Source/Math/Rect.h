@@ -14,7 +14,15 @@ public:
     Vector2<_Ty> _min;
     /// Maximum vector.
     Vector2<_Ty> _max;
-    
+	///// Left coordinate.
+ //   _Ty& _left = _min._x;
+ //   /// Top coordinate.
+	//_Ty& _top = _min._y;
+ //   /// Right coordinate.
+	//_Ty& _right = _max._x;
+ //   /// Bottom coordinate.
+	//_Ty& _bottom = _max._y;
+
     /// Construct as undefined (negative _size.)
     Rect() :
         _min(Vector2<_Ty>(M_INFINITY, M_INFINITY)),
@@ -30,9 +38,9 @@ public:
     }
     
     /// Construct from minimum and maximum vectors.
-    Rect(const Vector2<_Ty>& min_, const Vector2<_Ty>& max_) :
-        _min(min_),
-        _max(max_)
+    Rect(const Vector2<_Ty>& min, const Vector2<_Ty>& max) :
+        _min(min),
+        _max(max)
     {
     }
     
@@ -74,6 +82,7 @@ public:
     {
         _min = rhs._min;
         _max = rhs._max;
+		
         return *this;
     }
     
@@ -87,6 +96,7 @@ public:
     {
         _min = rect._min;
         _max = rect._max;
+		
     }
     
     /// Define from minimum and maximum vectors.
@@ -109,6 +119,7 @@ public:
         if (!IsDefined())
         {
             _min = _max = point;
+			
             return;
         }
         
@@ -129,6 +140,7 @@ public:
         {
             _min = rect._min;
             _max = rect._max;
+			
             return;
         }
         
@@ -147,6 +159,7 @@ public:
     {
         _min = Vector2<_Ty>(M_INFINITY, M_INFINITY);
         _max = -_min;
+		
     }
     
     /// Clip with another rect.
@@ -165,6 +178,7 @@ public:
 			Swap(_min._x, _max._x);
 		if (_min._y > _max._y)
 			Swap(_min._y, _max._y);
+		
 	}
    /// Parse from a string. Return true on success.
 	bool FromString(const String& str)
@@ -185,6 +199,7 @@ public:
 		_max._x = (float)strtod(ptr, &ptr);
 		_max._y = (float)strtod(ptr, &ptr);
 
+		
 		return true;
 	}
     
@@ -194,12 +209,42 @@ public:
     Vector2<_Ty> Center() const { return (_max + _min) * 0.5f; }
     /// Return _size.
     Vector2<_Ty> Size() const { return _max - _min; }
+    /// Return width.
+	_Ty Width() const { return _max._x - _min._y; }
+    /// Return height.
+	_Ty Height() const { return _max._y - _min._x; }
+	/// Return left
+	_Ty& Left() { return _min._x; }
+	/// Return top
+	_Ty& Top() { return _min._y; }
+	/// Return right
+	_Ty& Right() { return _max._x; }
+	/// Return bottom
+	_Ty& Bottom() { return _max._y; }
+	/// Return left
+	const _Ty& Left() const { return _min._x; }
+	/// Return top
+	const _Ty& Top() const { return _min._y; }
+	/// Return right
+	const _Ty& Right() const { return _max._x; }
+	/// Return bottom
+	const _Ty& Bottom() const { return _max._y; }
+
+	///// Return left
+	//_Ty&& Left() { return _min._x; }
+	///// Return top
+	//_Ty&& Top() { return _min._y; }
+	///// Return right
+	//_Ty&& Right() { return _max._x; }
+	///// Return bottom
+	//_Ty&& Bottom() { return _max._y; }
+
     /// Return half-_size.
     Vector2<_Ty> HalfSize() const { return (_max - _min) * 0.5f; }
     /// Test for equality with another rect with epsilon.
     bool Equals(const Rect& rhs) const { return _min.Equals(rhs._min) && _max.Equals(rhs._max); }
     
-    /// Test whether a point is inside.
+    /// Test whether a point is inside with Vector2
     Intersection IsInside(const Vector2<_Ty>& point) const
     {
         if (point._x < _min._x || point._y < _min._y || point._x > _max._x || point._y > _max._y)
@@ -207,7 +252,16 @@ public:
         else
             return INSIDE;
     }
-    
+	/// Test whether another rect is inside with Rect
+	Intersection IsInside(const Rect& rect) const
+	{
+		if (rect._max._x <= _min._x || rect._min._x >= _max._x || rect._max._y <= _min._y || rect._min._y >= _max._y)
+			return OUTSIDE;
+		else if (rect._min._x >= _min._x && rect._max._x <= _max._x && rect._min._y >= _min._y && rect._max._y <= _max._y)
+			return INSIDE;
+		else
+			return INTERSECTS;
+	}
     /// Return float data.
     const void* Data() const { return &_min._x; }
     /// Return as a vector.

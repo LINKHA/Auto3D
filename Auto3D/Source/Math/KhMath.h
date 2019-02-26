@@ -3,8 +3,6 @@
 #include "BoundingBox.h"
 #include "Color.h"
 #include "Frustum.h"
-#include "IntRect.h"
-#include "IntVector2.h"
 #include "Matrix2x2.h"
 #include "Matrix3x3.h"
 #include "Matrix3x4.h"

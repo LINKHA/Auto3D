@@ -159,8 +159,8 @@ public:
 };
 
 Graphics::Graphics() :
-    _backbufferSize(IntVector2::ZERO),
-    _renderTargetSize(IntVector2::ZERO),
+    _backbufferSize(Vector2I::ZERO),
+    _renderTargetSize(Vector2I::ZERO),
     _attributesBySemantic(MAX_ELEMENT_SEMANTICS),
     _multisample(1),
     _vsync(false)
@@ -177,7 +177,7 @@ Graphics::~Graphics()
     RemoveSubsystem(this);
 }
 
-bool Graphics::SetMode(const IntVector2& size, bool fullscreen, bool resizable, int multisample_)
+bool Graphics::SetMode(const Vector2I& size, bool fullscreen, bool resizable, int multisample_)
 {
     multisample_ = Clamp(multisample_, 1, 16);
 
@@ -304,9 +304,9 @@ void Graphics::SetRenderTargets(const Vector<Texture*>& renderTargets_, Texture*
     _depthStencil = (depthStencil_ && depthStencil_->IsDepthStencil()) ? depthStencil_ : nullptr;
 
     if (_renderTargets[0])
-        _renderTargetSize = IntVector2(_renderTargets[0]->Width(), _renderTargets[0]->Height());
+        _renderTargetSize = Vector2I(_renderTargets[0]->Width(), _renderTargets[0]->Height());
     else if (_depthStencil)
-        _renderTargetSize = IntVector2(_depthStencil->Width(), _depthStencil->Height());
+        _renderTargetSize = Vector2I(_depthStencil->Width(), _depthStencil->Height());
     else
         _renderTargetSize = _backbufferSize;
 
