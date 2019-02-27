@@ -30,6 +30,12 @@ add_engine_directory (Resource)
 add_engine_directory (Scene)
 add_engine_directory (Thread)
 add_engine_directory (Window)
+add_engine_directory (Audio)
+add_engine_directory (UI)
+add_engine_directory (Physics)
+add_engine_directory (Script)
+add_engine_directory (Time)
+add_engine_directory (Adapter)
 add_engine_directory_group (Graphics/OGL Graphics)
 
 

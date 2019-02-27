@@ -20,6 +20,8 @@ void RendererSample::Start()
 	camera = scene->CreateChild<Camera>();
 	camera->SetPosition(Vector3F(0.0f, 20.0f, -75.0f));
 	camera->SetAmbientColor(Color(0.1f, 0.1f, 0.1f));
+	// Register scene to scene system use to render
+	Object::GetSubsystem<SceneSystem>()->RegisterScene(scene, camera);
 
 	for (int y = -5; y <= 5; ++y)
 	{
@@ -87,37 +89,10 @@ void RendererSample::Update()
 	// Update camera aspect ratio based on window size
 	camera->SetAspectRatio((float)graphics->Width() / (float)graphics->Height());
 
-	{
-		PROFILE(RenderScene);
-		Vector<PassDesc> passes;
-		passes.Push(PassDesc("opaque", SORT_STATE, true));
-		passes.Push(PassDesc("alpha", SORT_BACK_TO_FRONT, true));
-		renderer->PrepareView(scene, camera, passes);
-
-		renderer->RenderShadowMaps();
-		graphics->ResetRenderTargets();
-		graphics->ResetViewport();
-		graphics->Clear(CLEAR_COLOR | CLEAR_DEPTH, Color::BLACK);
-		renderer->RenderBatches(passes);
-	}
-
 }
 
 void RendererSample::Stop()
 {
 }
-int runApplication() 
-{ 
-	RendererSample app;
-return app.Run(); 
-} 
-SELECT_DEDICATED_GRAPHICS_CARD
-int main(int argc, char** argv) 
-{ 
-	DETECT_MEMORY_LEAKS(); 
-	int flag = runApplication();
-	_CrtDumpMemoryLeaks(); 
-	return flag; 
-}
 
-//AUTO_APPLICATION_MAIN(RendererSample)
+AUTO_APPLICATION_MAIN(RendererSample)

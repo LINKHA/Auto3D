@@ -22,7 +22,6 @@ int Application::Run()
 		_engine->Init();
 
 		Start();
-		_engine->Start();
 		while (!_engine->IsExiting())
 		{
 			if (_engine->Update())
