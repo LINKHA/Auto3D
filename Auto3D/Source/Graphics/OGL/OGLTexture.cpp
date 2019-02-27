@@ -259,7 +259,7 @@ bool Texture::Define(TextureType type_, ResourceUsage usage, const Vector2I& siz
             for (size_t i = 0; i < NumFaces(); ++i)
             {
                 for (size_t j = 0; j < _numLevels; ++j)
-                    SetData(i, j, IntRect(0, 0, Max(_size._x >> j, 1), Max(_size._y >> j, 1)), initialData[idx++]);
+                    SetData(i, j, RectI(0, 0, Max(_size._x >> j, 1), Max(_size._y >> j, 1)), initialData[idx++]);
             }
             _usage = usage;
         }
@@ -364,7 +364,7 @@ bool Texture::DefineSampler(TextureFilterMode filter_, TextureAddressMode u, Tex
     return true;
 }
 
-bool Texture::SetData(size_t face, size_t level, IntRect rect, const ImageLevel& data)
+bool Texture::SetData(size_t face, size_t level, RectI rect, const ImageLevel& data)
 {
     PROFILE(UpdateTextureLevel);
 
@@ -386,7 +386,7 @@ bool Texture::SetData(size_t face, size_t level, IntRect rect, const ImageLevel&
             return false;
         }
 
-        IntRect levelRect(0, 0, Max(_size._x >> level, 1), Max(_size._y >> level, 1));
+		RectI levelRect(0, 0, Max(_size._x >> level, 1), Max(_size._y >> level, 1));
         if (levelRect.IsInside(rect) != INSIDE)
         {
             ErrorStringF("Texture update region %s is outside level %s", rect.ToString().CString(), levelRect.ToString().CString());
@@ -408,7 +408,7 @@ bool Texture::SetData(size_t face, size_t level, IntRect rect, const ImageLevel&
             }
             else
             {
-                glTexSubImage2D(target, (unsigned)level, rect._left, rect._top, rect.Width(), rect.Height(), 
+                glTexSubImage2D(target, (unsigned)level, rect.Left(), rect.Top(), rect.Width(), rect.Height(), 
                     glFormats[_format], glDataTypes[_format], data._data);
             }
         }
@@ -421,7 +421,7 @@ bool Texture::SetData(size_t face, size_t level, IntRect rect, const ImageLevel&
             }
             else
             {
-                glCompressedTexSubImage2D(target, (unsigned)level, rect._left, rect._top, rect.Width(), rect.Height(),
+                glCompressedTexSubImage2D(target, (unsigned)level, rect.Left(), rect.Top(), rect.Width(), rect.Height(),
                     glFormats[_format], (unsigned)Image::CalculateDataSize(Vector2I(rect.Width(), rect.Height()), _format),
                     data._data);
             }

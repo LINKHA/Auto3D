@@ -36,7 +36,7 @@ void RendererSample::Start()
 	for (unsigned i = 0; i < 435; ++i)
 	{
 		StaticModel* object = scene->CreateChild<StaticModel>();
-		object->SetPosition(Vector3F(Random() * 100.0f - 50.0f, 0.0f, Random() * 100.0f - 50.0f));
+		object->SetPosition(Vector3F(Random() * 100.0f - 50.0f, 1.0f, Random() * 100.0f - 50.0f));
 		object->SetScale(1.5f);
 		object->SetModel(cache->LoadResource<Model>("Mushroom.mdl"));
 		object->SetMaterial(cache->LoadResource<Material>("Mushroom.json"));
@@ -70,7 +70,7 @@ void RendererSample::Update()
 	yaw += input->MouseMove()._x * 0.25f;
 	pitch = Clamp(pitch, -90.0f, 90.0f);
 
-	float moveSpeed = input->IsKeyDown(KEY_LSHIFT) ? 50.0f : 10.0f;
+	float moveSpeed = input->IsKeyDown(KEY_LSHIFT) ? 200.0f : 50.0f;
 
 	camera->SetRotation(Quaternion(pitch, yaw, 0.0f));
 	if (input->IsKeyDown(KEY_W))

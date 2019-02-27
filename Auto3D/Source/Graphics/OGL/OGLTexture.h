@@ -39,7 +39,7 @@ public:
     /// Define sampling parameters. Return true on success.
     bool DefineSampler(TextureFilterMode filter = FILTER_TRILINEAR, TextureAddressMode u = ADDRESS_WRAP, TextureAddressMode v = ADDRESS_WRAP, TextureAddressMode w = ADDRESS_WRAP, unsigned maxAnisotropy = 16, float minLod = -M_MAX_FLOAT, float maxLod = M_MAX_FLOAT, const Color& borderColor = Color::BLACK);
     /// Set data for a mipmap level. Not supported for immutable textures. Return true on success.
-    bool SetData(size_t face, size_t level, IntRect rect, const ImageLevel& data);
+    bool SetData(size_t face, size_t level, RectI rect, const ImageLevel& data);
 
     /// Return texture type.
     TextureType TexType() const { return _type; }
