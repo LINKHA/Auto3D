@@ -27,6 +27,9 @@ void Engine::Init()
 	_graphics = new Graphics();
 	_renderer = new Renderer();
 	_time = new Time();
+	// Seed by time (don't ask me why I'm using these operators, I'm scribbling)
+	Time::RealTime& realTime = _time->GetRealTime();
+	SetRandomSeed(realTime._year & realTime._month << realTime._day | realTime._hour * realTime._minute ^ realTime._second);
 
 	_graphics->RenderWindow()->SetTitle("Renderer test");
 	

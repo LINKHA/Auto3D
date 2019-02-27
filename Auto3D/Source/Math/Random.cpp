@@ -5,33 +5,61 @@
 namespace Auto3D
 {
 
-static unsigned randomSeed = 1;
+static unsigned x = 0;
+static unsigned y = x * 1812433253U + 1;
+static unsigned z = y * 1812433253U + 1;
+static unsigned w = z * 1812433253U + 1;
 
 void SetRandomSeed(unsigned seed)
 {
-    randomSeed = seed;
+	x = seed;
+	y = x * 1812433253U + 1;
+	z = y * 1812433253U + 1;
+	w = z * 1812433253U + 1;
 }
 
-unsigned RandomSeed()
+unsigned Rand()
 {
-    return randomSeed;
+	unsigned t;
+	t = x ^ (x << 11);
+	x = y; y = z; z = w;
+	return w = (w ^ (w >> 19)) ^ (t ^ (t >> 8));
 }
 
-int Rand()
+unsigned RandomSeed() { return x; }
+
+float GetFloatFromInt(unsigned value)
 {
-    randomSeed = randomSeed * 214013 + 2531011;
-    return (randomSeed >> 16) & 32767;
+	// take 23 bits of integer, and divide by 2^23-1
+	return float(value & 0x007FFFFF) * (1.0f / 8388607.0f);
 }
 
-float RandStandardNormal()
+unsigned char GetByteFromInt(unsigned value)
 {
-    float val = 0.0f;
-    for (int i = 0; i < 12; i++)
-        val += Rand() / 32768.0f;
-    val -= 6.0f;
-    
-    // Now val is approximatly standard normal distributed
-    return val;
+	// take the most significant byte from the 23-bit value
+	return unsigned(value >> (23 - 8));
+}
+
+// random number between 0.0 and 1.0
+float RandomFloat()
+{
+	return GetFloatFromInt(Rand());
+}
+
+// random number between -1.0 and 1.0
+float RandomSignedFloat()
+{
+	return RandomFloat() * 2.0f - 1.0f;
+}
+// random number between 0 and RAND_MAX
+int RandomInt(int t)
+{
+	return t * RandomFloat();
+}
+// random number between -RAND_MAX and RAND_MAX
+int RandomSignedInt(int t)
+{
+	return t * RandomSignedFloat();
 }
 
 }
