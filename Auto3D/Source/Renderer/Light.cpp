@@ -283,7 +283,7 @@ Sphere Light::WorldSphere() const
     return Sphere(WorldPosition(), _range);
 }
 
-void Light::SetShadowMap(Texture* shadowMap, const BaseRect& shadowRect)
+void Light::SetShadowMap(Texture* shadowMap, const RectI& shadowRect)
 {
     _shadowMap = shadowMap;
     _shadowRect = shadowRect;
@@ -315,12 +315,12 @@ void Light::SetupShadowViews(Camera* mainCamera, Vector<AutoPtr<ShadowView> >& s
         {
         case LIGHT_DIRECTIONAL:
             {
-                Vector2I topLeft(_shadowRect._left, _shadowRect._top);
+                Vector2I topLeft(_shadowRect.Left(), _shadowRect.Top());
                 if (i & 1)
                     topLeft._x += actualShadowMapSize;
                 if (i & 2)
                     topLeft._y += actualShadowMapSize;
-                view->_viewport = BaseRect(topLeft._x, topLeft._y, topLeft._x + actualShadowMapSize, topLeft._y + actualShadowMapSize);
+                view->_viewport = RectI(topLeft._x, topLeft._y, topLeft._x + actualShadowMapSize, topLeft._y + actualShadowMapSize);
 
                 float splitStart = Max(mainCamera->NearClip(), (i == 0) ? 0.0f : ShadowSplit(i - 1));
                 float splitEnd = Min(mainCamera->FarClip(), ShadowSplit(i));
@@ -385,11 +385,11 @@ void Light::SetupShadowViews(Camera* mainCamera, Vector<AutoPtr<ShadowView> >& s
                     Quaternion(0.0f, 180.0f, 0.0f)
                 };
 
-                Vector2I topLeft(_shadowRect._left, _shadowRect._top);
+                Vector2I topLeft(_shadowRect.Left(), _shadowRect.Top());
                 if (i & 1)
                     topLeft._y += actualShadowMapSize;
                 topLeft._x += ((unsigned)i >> 1) * actualShadowMapSize;
-                view->_viewport = BaseRect(topLeft._x, topLeft._y, topLeft._x + actualShadowMapSize, topLeft._y + actualShadowMapSize);
+                view->_viewport = RectI(topLeft._x, topLeft._y, topLeft._x + actualShadowMapSize, topLeft._y + actualShadowMapSize);
 
                 shadowCamera.SetTransform(WorldPosition(), pointLightFaceRotations[i]);
                 shadowCamera.SetFov(90.0f);
@@ -427,7 +427,7 @@ void Light::SetupShadowViews(Camera* mainCamera, Vector<AutoPtr<ShadowView> >& s
             Camera& shadowCamera = view->_shadowCamera;
             float width = (float)_shadowMap->Width();
             float height = (float)_shadowMap->Height();
-            Vector3F offset((float)view->_viewport._left / width, (float)view->_viewport._top / height, 0.0f);
+            Vector3F offset((float)view->_viewport.Left() / width, (float)view->_viewport.Top() / height, 0.0f);
             Vector3F scale(0.5f * (float)view->_viewport.Width() / width, 0.5f * (float)view->_viewport.Height() / height, 1.0f);
 
             offset._x += scale._x;
@@ -454,7 +454,7 @@ void Light::SetupShadowViews(Camera* mainCamera, Vector<AutoPtr<ShadowView> >& s
 
         Vector2F textureSize((float)_shadowMap->Width(), (float)_shadowMap->Height());
         _pointShadowParameters = Vector4F(actualShadowMapSize / textureSize._x, actualShadowMapSize / textureSize._y,
-            (float)_shadowRect._left / textureSize._x, (float)_shadowRect._top / textureSize._y);
+            (float)_shadowRect.Left() / textureSize._x, (float)_shadowRect.Top() / textureSize._y);
     }
 
     // Calculate shadow mapping constants

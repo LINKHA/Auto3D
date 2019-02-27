@@ -139,7 +139,7 @@ struct AUTO_API ShadowView
     /// %Light that is using this view.
     Light* _light;
     /// Viewport within the shadow map.
-    BaseRect _viewport;
+    RectI _viewport;
     /// Shadow batch queue.
     BatchQueue _shadowQueue;
     /// Shadow camera.

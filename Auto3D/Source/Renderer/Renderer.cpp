@@ -214,7 +214,7 @@ void Renderer::CollectLightInteractions()
         }
 
         // Try to allocate shadow map rectangle. Retry with smaller _size two times if fails
-        BaseRect shadowRect;
+        RectI shadowRect;
         Vector2I request = light->TotalShadowMapSize();
         size_t retries = 3;
         size_t index = 0;
@@ -227,7 +227,7 @@ void Renderer::CollectLightInteractions()
                 int x, y;
                 if (shadowMap._allocator.Allocate(request._x, request._y, x, y))
                 {
-                    light->SetShadowMap(_shadowMaps[index]._texture, BaseRect(x, y, x + request._x, y + request._y));
+                    light->SetShadowMap(_shadowMaps[index]._texture, RectI(x, y, x + request._x, y + request._y));
                     break;
                 }
             }

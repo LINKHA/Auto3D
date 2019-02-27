@@ -311,21 +311,21 @@ void Graphics::SetRenderTargets(const Vector<Texture*>& renderTargets_, Texture*
     _framebufferDirty = true;
 }
 
-void Graphics::SetViewport(const BaseRect& viewport_)
+void Graphics::SetViewport(const RectI& viewport_)
 {
     PrepareFramebuffer();
 
     /// \todo Implement a member function in IntRect for clipping
-    _viewport._left = Clamp(viewport_._left, 0, _renderTargetSize._x - 1);
-    _viewport._top = Clamp(viewport_._top, 0, _renderTargetSize._y - 1);
-    _viewport._right = Clamp(viewport_._right, _viewport._left + 1, _renderTargetSize._x);
-    _viewport._bottom = Clamp(viewport_._bottom, _viewport._top + 1, _renderTargetSize._y);
+    _viewport.Left() = Clamp(viewport_.Left(), 0, _renderTargetSize._x - 1);
+    _viewport.Top() = Clamp(viewport_.Top(), 0, _renderTargetSize._y - 1);
+    _viewport.Right() = Clamp(viewport_.Right(), _viewport.Left() + 1, _renderTargetSize._x);
+    _viewport.Bottom() = Clamp(viewport_.Bottom(), _viewport.Top() + 1, _renderTargetSize._y);
 
     // When rendering to the backbuffer, use Direct3D convention with the vertical coordinates ie. 0 is top
     if (!_framebuffer)
-        glViewport(_viewport._left, _renderTargetSize._y - _viewport._bottom, _viewport.Width(), _viewport.Height());
+        glViewport(_viewport.Left(), _renderTargetSize._y - _viewport.Bottom(), _viewport.Width(), _viewport.Height());
     else
-        glViewport(_viewport._left, _viewport._top, _viewport.Width(), _viewport.Height());
+        glViewport(_viewport.Left(), _viewport.Top(), _viewport.Width(), _viewport.Height());
 }
 
 void Graphics::SetVertexBuffer(size_t index, VertexBuffer* buffer)
@@ -504,14 +504,14 @@ void Graphics::SetRasterizerState(CullMode cullMode, FillMode fillMode)
     _rasterizerStateDirty = true;
 }
 
-void Graphics::SetScissorTest(bool scissorEnable, const BaseRect& scissorRect)
+void Graphics::SetScissorTest(bool scissorEnable, const RectI& scissorRect)
 {
     _renderState._scissorEnable = scissorEnable;
     /// \todo Implement a member function in IntRect for clipping
-    _renderState._scissorRect._left = Clamp(scissorRect._left, 0, _renderTargetSize._x - 1);
-    _renderState._scissorRect._top = Clamp(scissorRect._top, 0, _renderTargetSize._y - 1);
-    _renderState._scissorRect._right = Clamp(scissorRect._right, _renderState._scissorRect._left + 1, _renderTargetSize._x);
-    _renderState._scissorRect._bottom = Clamp(scissorRect._bottom, _renderState._scissorRect._top + 1, _renderTargetSize._y);
+    _renderState._scissorRect.Left() = Clamp(scissorRect.Left(), 0, _renderTargetSize._x - 1);
+    _renderState._scissorRect.Top() = Clamp(scissorRect.Top(), 0, _renderTargetSize._y - 1);
+    _renderState._scissorRect.Right() = Clamp(scissorRect.Right(), _renderState._scissorRect.Left() + 1, _renderTargetSize._x);
+    _renderState._scissorRect.Bottom() = Clamp(scissorRect.Bottom(), _renderState._scissorRect.Top() + 1, _renderTargetSize._y);
 
     _rasterizerStateDirty = true;
 }
@@ -532,7 +532,7 @@ void Graphics::ResetRenderTargets()
 
 void Graphics::ResetViewport()
 {
-    SetViewport(BaseRect(0, 0, _renderTargetSize._x, _renderTargetSize._y));
+    SetViewport(RectI(0, 0, _renderTargetSize._x, _renderTargetSize._y));
 }
 
 void Graphics::ResetVertexBuffers()
@@ -869,7 +869,7 @@ void Graphics::PrepareFramebuffer()
         // If rendertarget changes, scissor rect may need to be re-evaluated
         if (_renderState._scissorEnable)
         {
-            _glRenderState._scissorRect = BaseRect::ZERO;
+            _glRenderState._scissorRect = RectI::ZERO;
             _rasterizerStateDirty = true;
         }
 
@@ -1282,7 +1282,7 @@ bool Graphics::PrepareDraw(bool instanced, size_t instanceStart)
 
         if (_renderState._scissorEnable && _renderState._scissorRect != _glRenderState._scissorRect)
         {
-            glScissor(_renderState._scissorRect._left, _renderTargetSize._y - _renderState._scissorRect._bottom,
+            glScissor(_renderState._scissorRect.Left(), _renderTargetSize._y - _renderState._scissorRect.Bottom(),
                 _scissorRect.Width(), _scissorRect.Height());
             _glRenderState._scissorRect = _renderState._scissorRect;
         }
@@ -1346,7 +1346,7 @@ void Graphics::ResetState()
     _glRenderState._fillMode = FILL_SOLID;
     _glRenderState._cullMode = CULL_NONE;
     _glRenderState._scissorEnable = false;
-    _glRenderState._scissorRect = BaseRect::ZERO;
+    _glRenderState._scissorRect = RectI::ZERO;
     _glRenderState._stencilEnable = false;
     _glRenderState._stencilRef = 0;
     _glRenderState._stencilTest._stencilReadMask = 0xff;

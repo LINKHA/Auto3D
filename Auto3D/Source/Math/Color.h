@@ -108,7 +108,6 @@ public:
     Color operator - (const Color& rhs) const { return Color(_r - rhs._r, _g - rhs._g, _b - rhs._b, _a - rhs._a); }
     /// Return float data.
     const float* Data() const { return &_r; }
-
     /// Return color packed to a 32-bit integer, with R component in the lowest 8 bits. Components are clamped to [0, 1] range.
     unsigned ToUInt() const;
     /// Return HSL color-space representation as a Vector3; the RGB values are clipped before conversion but not changed in the process.

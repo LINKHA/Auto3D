@@ -46,7 +46,7 @@ const size_t Attribute::byteSizes[] =
     sizeof(unsigned),
     sizeof(int),
     sizeof(Vector2I),
-    sizeof(BaseRect),
+    sizeof(RectI),
     sizeof(float),
     sizeof(Vector2F),
     sizeof(Vector3F),
@@ -157,7 +157,7 @@ void Attribute::FromJSON(AttributeType type, void* dest, const JSONValue& source
         break;
 
     case ATTR_INTRECT:
-        reinterpret_cast<BaseRect*>(dest)->FromString(source.GetString());
+        reinterpret_cast<RectI*>(dest)->FromString(source.GetString());
         break;
 
     case ATTR_FLOAT:
@@ -254,7 +254,7 @@ void Attribute::ToJSON(AttributeType type, JSONValue& dest, const void* source)
         break;
 
     case ATTR_INTRECT:
-        dest = reinterpret_cast<const BaseRect*>(source)->ToString();
+        dest = reinterpret_cast<const RectI*>(source)->ToString();
         break;
 
     case ATTR_FLOAT:

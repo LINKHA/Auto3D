@@ -3,8 +3,6 @@
 namespace Auto3D
 {
 
-const BaseRect BaseRect::ZERO(0, 0, 0, 0);
-
 const RectF RectF::FULL(-1.0f, -1.0f, 1.0f, 1.0f);
 const RectF RectF::POSITIVE(0.0f, 0.0f, 1.0f, 1.0f);
 const RectF RectF::ZERO(0.0f, 0.0f, 0.0f, 0.0f);

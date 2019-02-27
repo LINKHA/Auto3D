@@ -413,7 +413,7 @@ struct RenderState
         _cullMode = CULL_BACK;
         _fillMode = FILL_SOLID;
         _scissorEnable = false;
-        _scissorRect = BaseRect::ZERO;
+        _scissorRect = RectI::ZERO;
         _stencilEnable = false;
         _stencilRef = 0;
         _stencilTest.Reset();
@@ -442,7 +442,7 @@ struct RenderState
     /// Scissor test enable.
     bool _scissorEnable;
     /// Scissor rectangle as pixels from rendertarget top left corner.
-    BaseRect _scissorRect;
+    RectI _scissorRect;
     /// Stencil test enable.
     bool _stencilEnable;
     /// Stencil reference value.

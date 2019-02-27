@@ -40,12 +40,12 @@ public:
 
 private:
     /// Remove space from a free rectangle. Return true if the original rectangle should be erased from the free list. Not called in fast mode.
-    bool SplitRect(BaseRect original, const BaseRect& reserve);
+    bool SplitRect(RectI original, const RectI& reserve);
     /// Clean up redundant free space. Not called in fast mode.
     void Cleanup();
 
     /// Free rectangles.
-    Vector<BaseRect> _freeAreas;
+    Vector<RectI> _freeAreas;
     /// Current _size.
     Vector2I _size;
     /// Maximum _size allowed to grow to. It is zero when it is not allowed to grow.

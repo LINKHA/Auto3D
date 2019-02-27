@@ -28,7 +28,7 @@ void AreaAllocator::Reset(int width, int height, int maxWidth, int maxHeight, bo
     _fastMode = fastMode_;
 
     _freeAreas.Clear();
-    BaseRect initialArea(0, 0, width, height);
+    RectI initialArea(0, 0, width, height);
     _freeAreas.Push(initialArea);
 }
 
@@ -39,7 +39,7 @@ bool AreaAllocator::Allocate(int width, int height, int& x, int& y)
     if (height < 0)
         height = 0;
 
-    Vector<BaseRect>::Iterator best;
+    Vector<RectI>::Iterator best;
     int bestFreeArea;
 
     for (;;)
@@ -71,12 +71,12 @@ bool AreaAllocator::Allocate(int width, int height, int& x, int& y)
                 int oldWidth = _size._x;
                 _size._x <<= 1;
                 // If no allocations yet, simply expand the single free area
-                BaseRect& first = _freeAreas.Front();
-                if (_freeAreas.Size() == 1 && first._left == 0 && first._top == 0 && first._right == oldWidth && first._bottom == _size._y)
-                    first._right = _size._x;
+                RectI& first = _freeAreas.Front();
+                if (_freeAreas.Size() == 1 && first.Left() == 0 && first.Top() == 0 && first.Right() == oldWidth && first.Bottom() == _size._y)
+                    first.Right() = _size._x;
                 else
                 {
-                    BaseRect newArea(oldWidth, 0, _size._x, _size._y);
+                    RectI newArea(oldWidth, 0, _size._x, _size._y);
                     _freeAreas.Push(newArea);
                 }
             }
@@ -84,12 +84,12 @@ bool AreaAllocator::Allocate(int width, int height, int& x, int& y)
             {
                 int oldHeight = _size._y;
                 _size._y <<= 1;
-                BaseRect& first = _freeAreas.Front();
-                if (_freeAreas.Size() == 1 && first._left == 0 && first._top == 0 && first._right == _size._x && first._bottom == oldHeight)
-                    first._bottom = _size._y;
+                RectI& first = _freeAreas.Front();
+                if (_freeAreas.Size() == 1 && first.Left() == 0 && first.Top() == 0 && first.Right() == _size._x && first.Bottom() == oldHeight)
+                    first.Bottom() = _size._y;
                 else
                 {
-                    BaseRect newArea(0, oldHeight, _size._x, _size._y);
+                    RectI newArea(0, oldHeight, _size._x, _size._y);
                     _freeAreas.Push(newArea);
                 }
             }
@@ -102,18 +102,18 @@ bool AreaAllocator::Allocate(int width, int height, int& x, int& y)
             break;
     }
 
-    BaseRect reserved(best->_left, best->_top, best->_left + width, best->_top + height);
-    x = best->_left;
-    y = best->_top;
+    RectI reserved(best->Left(), best->Top(), best->Left() + width, best->Top() + height);
+    x = best->Left();
+    y = best->Top();
 
     if (_fastMode)
     {
         // Reserve the area by splitting up the remaining free area
-        best->_left = reserved._right;
+        best->Left() = reserved.Right();
         if (best->Height() > 2 * height || height >= _size._y / 2)
         {
-            BaseRect splitArea(reserved._left, reserved._bottom, best->_right, best->_bottom);
-            best->_bottom = reserved._bottom;
+            RectI splitArea(reserved.Left(), reserved.Bottom(), best->Right(), best->Bottom());
+            best->Bottom() = reserved.Bottom();
             _freeAreas.Push(splitArea);
         }
     }
@@ -134,37 +134,37 @@ bool AreaAllocator::Allocate(int width, int height, int& x, int& y)
     return true;
 }
 
-bool AreaAllocator::SplitRect(BaseRect original, const BaseRect& reserve)
+bool AreaAllocator::SplitRect(RectI original, const RectI& reserve)
 {
-    if (reserve._right > original._left && reserve._left < original._right && reserve._bottom > original._top &&
-        reserve._top < original._bottom)
+    if (reserve.Right() > original.Left() && reserve.Left() < original.Right() && reserve.Bottom() > original.Top() &&
+        reserve.Top() < original.Bottom())
     {
         // Check for splitting from the right
-        if (reserve._right < original._right)
+        if (reserve.Right() < original.Right())
         {
-            BaseRect newRect = original;
-            newRect._left = reserve._right;
+            RectI newRect = original;
+            newRect.Left() = reserve.Right();
             _freeAreas.Push(newRect);
         }
         // Check for splitting from the left
-        if (reserve._left > original._left)
+        if (reserve.Left() > original.Left())
         {
-            BaseRect newRect = original;
-            newRect._right = reserve._left;
+            RectI newRect = original;
+            newRect.Right() = reserve.Left();
             _freeAreas.Push(newRect);
         }
         // Check for splitting from the bottom
-        if (reserve._bottom < original._bottom)
+        if (reserve.Bottom() < original.Bottom())
         {
-            BaseRect newRect = original;
-            newRect._top = reserve._bottom;
+            RectI newRect = original;
+            newRect.Top() = reserve.Bottom();
             _freeAreas.Push(newRect);
         }
         // Check for splitting from the top
-        if (reserve._top > original._top)
+        if (reserve.Top() > original.Top())
         {
-            BaseRect newRect = original;
-            newRect._bottom = reserve._top;
+            RectI newRect = original;
+            newRect.Bottom() = reserve.Top();
             _freeAreas.Push(newRect);
         }
 
@@ -182,19 +182,19 @@ void AreaAllocator::Cleanup()
         bool erased = false;
         for (size_t j = i + 1; j < _freeAreas.Size();)
         {
-            if ((_freeAreas[i]._left >= _freeAreas[j]._left) &&
-                (_freeAreas[i]._top >= _freeAreas[j]._top) &&
-                (_freeAreas[i]._right <= _freeAreas[j]._right) &&
-                (_freeAreas[i]._bottom <= _freeAreas[j]._bottom))
+            if ((_freeAreas[i].Left() >= _freeAreas[j].Left()) &&
+                (_freeAreas[i].Top() >= _freeAreas[j].Top()) &&
+                (_freeAreas[i].Right() <= _freeAreas[j].Right()) &&
+                (_freeAreas[i].Bottom() <= _freeAreas[j].Bottom()))
             {
                 _freeAreas.Erase(i);
                 erased = true;
                 break;
             }
-            if ((_freeAreas[j]._left >= _freeAreas[i]._left) &&
-                (_freeAreas[j]._top >= _freeAreas[i]._top) &&
-                (_freeAreas[j]._right <= _freeAreas[i]._right) &&
-                (_freeAreas[j]._bottom <= _freeAreas[i]._bottom))
+            if ((_freeAreas[j].Left() >= _freeAreas[i].Left()) &&
+                (_freeAreas[j].Top() >= _freeAreas[i].Top()) &&
+                (_freeAreas[j].Right() <= _freeAreas[i].Right()) &&
+                (_freeAreas[j].Bottom() <= _freeAreas[i].Bottom()))
                 _freeAreas.Erase(j);
             else
                 ++j;
