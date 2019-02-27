@@ -800,7 +800,7 @@ bool Graphics::CreateContext(int multisample)
 
 	int maxSamples;
 	glGetIntegerv(GL_MAX_SAMPLES, &maxSamples);
-	Clamp(multisample, 0, maxSamples);
+	Clamp(multisample, 1, maxSamples);
 
     _multisample = multisample;
     _context->SetVSync(_vsync);

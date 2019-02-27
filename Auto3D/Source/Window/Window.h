@@ -34,7 +34,7 @@ public:
 	/// Set _window _title.
 	void SetTitle(const String& newTitle);
 	/// Set _window _size. Open the _window if not opened yet. Return true on success.
-	bool SetSize(const RectI& rect, bool fullscreen = false, bool resizable = false,bool center = true, bool borderless = false, bool highDPI = false);
+	bool SetSize(const RectI& rect, int multisample = 1, bool fullscreen = false, bool resizable = false,bool center = true, bool borderless = false, bool highDPI = false);
 	/// Set _window _position.
 	void SetPosition(const Vector2I& position);
 	/// Set mouse cursor visible. Default is true. When hidden, the mouse cursor is confined to the _window and kept centered; relative mouse motion can be read "endlessly" but absolute mouse _position should not be used.
@@ -62,11 +62,11 @@ public:
 	const RectI& WindowRect() const { return _rect; }
 
 	/// Return _window client area _size.
-	const Vector2I& Size() const { return _size; }
+	const Vector2I Size() const { return Vector2I(_rect.Width(), _rect.Height()); }
 	/// Return _window client area width.
-	int Width() const { return _size._x; }
+	int Width() const { return _rect.Width(); }
 	/// Return _window client area height.
-	int Height() const { return _size._y; }
+	int Height() const { return _rect.Height(); }
 	/// Return _window _position.
 	Vector2I Position() const;
 	/// Return last known mouse cursor _position relative to _window top-left.
@@ -116,8 +116,6 @@ private:
 	String _title;
 
 	RectI _rect;
-	/// Current client area _size.
-	Vector2I _size;
 	/// Last stored windowed mode _position.
 	Vector2I _savedPosition;
 	/// Current mouse cursor _position.

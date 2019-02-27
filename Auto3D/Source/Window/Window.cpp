@@ -17,7 +17,6 @@ namespace Auto3D
 Window::Window() :
 	_handle(nullptr),
 	_title("Auto3D Window"),
-	_size(Vector2I::ZERO),
 	_savedPosition(Vector2I(M_MIN_INT, M_MIN_INT)),
 	_mousePosition(Vector2I::ZERO),
 	_mouseWheelOffset(Vector2I::ZERO),
@@ -61,10 +60,10 @@ void Window::SetTitle(const String& newTitle)
 	_title = newTitle;
 }
 
-bool Window::SetSize(const RectI& rect, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
+bool Window::SetSize(const RectI& rect, int multisample, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
 {
 	_rect = rect;
-	_size = Vector2I(rect.Width(), rect.Height());
+	_multisample = multisample;
 	/// Set MSAA
 	if (_multisample != 1)
 	{
@@ -246,13 +245,14 @@ bool Window::OnWindowMessage(void* sdlEvent)
 			break;
 
 		case SDL_WINDOWEVENT_RESIZED:
-			int x, y;
-			SDL_GetWindowSize(_handle, &x, &y);
+			int newWidth, newHeight;
+			SDL_GetWindowSize(_handle, &newWidth, &newHeight);
 			SendEvent(resizeEvent);
-			if (Vector2I(x, y) != _size) 
+			if (Vector2I(newWidth, newHeight) != Size()) 
 			{
-				_size = Vector2I(x, y);
-				resizeEvent._size = Vector2I(x, y);
+				_rect.Right() = _rect.Left() + newWidth;
+				_rect.Bottom() = _rect.Top() + newHeight;
+				resizeEvent._size = Vector2I(newWidth, newHeight);
 				SendEvent(resizeEvent);
 			}
 			break;
