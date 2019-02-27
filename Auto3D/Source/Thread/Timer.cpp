@@ -1,154 +1,121 @@
-// For conditions of distribution and use, see copyright notice in License.txt
-
 #include "Timer.h"
 
-#include <ctime>
-
-#ifdef _WIN32
-#include <Windows.h>
-#include <MMSystem.h>
-#else
-#include <sys/time.h>
-#include <unistd.h>
-#endif
-
-#include "../Debug/DebugNew.h"
+#include <thread>
 
 namespace Auto3D
 {
 
-	/// \cond PRIVATE
-	class TimerInitializer
-	{
-	public:
-		TimerInitializer()
+Timer::Timer(TimerCallback callback, int interval)
+{
+	Timer(callback, interval, 0, 0);
+
+}
+
+Timer::Timer(std::function<void()> callback, int interval)
+{
+	Timer(callback, interval, 0, 0);
+}
+
+Timer::Timer(TimerCallback callback, int interval, int delayTime)
+{
+	Timer(callback, interval, delayTime, 0);
+}
+
+Timer::Timer(std::function<void()> callback, int interval, int delayTime)
+{
+	Timer(callback, interval, delayTime, 0);
+}
+
+Timer::Timer(TimerCallback callback, int interval, int delayTime, int count)
+	: _interval(interval)
+	, _delayTime(delayTime)
+	, _count(count)
+{
+	std::thread timerThread(&Timer::TimerCount, this, callback, interval, delayTime, count);
+	timerThread.detach();
+	_state = TimerState::Running;
+}
+
+Timer::Timer(std::function<void()> callback, int interval, int delayTime, int count)
+	: _interval(interval)
+	, _delayTime(delayTime)
+	, _count(count)
+{
+	std::thread timerThread(&Timer::TimerCountClass, this, callback, interval, delayTime, count);
+	timerThread.detach();
+	_state = TimerState::Running;
+}
+
+void Timer::Stop()
+{
+	_stop = true;
+	_state = TimerState::Stopping;
+}
+
+void Timer::Begin()
+{
+	_stop = false;
+	_pause = false;
+	_state = TimerState::Running;
+}
+
+void Timer::Pause()
+{
+	_pause = true;
+	_state = TimerState::Pauseing;
+}
+
+void Timer::Destory()
+{
+	_destory = true;
+}
+
+void Timer::TimerCount(TimerCallback callback, int interval, int delayTime, int count)
+{
+	std::chrono::milliseconds dura(delayTime);
+	std::this_thread::sleep_for(dura);
+	if (count < 0)
+		return;
+	if (count == 0)
+		while (1)
 		{
-			HiresTimer::Initialize();
-#ifdef _WIN32
-			timeBeginPeriod(1);
-#endif
-		}
+			std::chrono::milliseconds dura(interval);
+			std::this_thread::sleep_for(dura);
 
-		~TimerInitializer()
+			(*callback)();
+		}
+	int tmpCount = count;
+	while (tmpCount--)
+	{
+		std::chrono::milliseconds dura(interval);
+		std::this_thread::sleep_for(dura);
+		(*callback)();
+	}
+}
+
+void Timer::TimerCountClass(std::function<void()> callback, int interval, int delayTime, int count)
+{
+	std::chrono::milliseconds dura(delayTime);
+	std::this_thread::sleep_for(dura);
+	if (count < 0)
+		return;
+	if (count == 0)
+		while (1)
 		{
-#ifdef _WIN32
-			timeEndPeriod(1);
-#endif
+			std::chrono::milliseconds dura(interval);
+			std::this_thread::sleep_for(dura);
+
+			callback();
 		}
-	};
-	/// \endcond
-
-	static TimerInitializer initializer;
-
-	bool HiresTimer::supported = false;
-	long long HiresTimer::frequency = 1000;
-
-	Timer::Timer()
+	int tmpCount = count;
+	while (tmpCount--)
 	{
-		Reset();
+		std::chrono::milliseconds dura(interval);
+		std::this_thread::sleep_for(dura);
+		callback();
 	}
+}
 
-	unsigned Timer::ElapsedMSec()
-	{
-#ifdef _WIN32
-		unsigned currentTime = timeGetTime();
-#else
-		struct timeval time;
-		gettimeofday(&time, 0);
-		unsigned currentTime = time.tv_sec * 1000 + time.tv_usec / 1000;
-#endif
 
-		return currentTime - startTime;
-	}
-
-	void Timer::Reset()
-	{
-#ifdef _WIN32
-		startTime = timeGetTime();
-#else
-		struct timeval time;
-		gettimeofday(&time, 0);
-		startTime = time.tv_sec * 1000 + time.tv_usec / 1000;
-#endif
-	}
-
-	HiresTimer::HiresTimer()
-	{
-		Reset();
-	}
-
-	long long HiresTimer::ElapsedUSec()
-	{
-		long long currentTime;
-
-#ifdef _WIN32
-		if (supported)
-		{
-			LARGE_INTEGER counter;
-			QueryPerformanceCounter(&counter);
-			currentTime = counter.QuadPart;
-		}
-		else
-			currentTime = timeGetTime();
-#else
-		struct timeval time;
-		gettimeofday(&time, 0);
-		currentTime = time.tv_sec * 1000000LL + time.tv_usec;
-#endif
-
-		long long elapsedTime = currentTime - startTime;
-
-		// Correct for possible weirdness with changing internal frequency
-		if (elapsedTime < 0)
-			elapsedTime = 0;
-
-		return (elapsedTime * 1000000LL) / frequency;
-	}
-
-	void HiresTimer::Reset()
-	{
-#ifdef _WIN32
-		if (supported)
-		{
-			LARGE_INTEGER counter;
-			QueryPerformanceCounter(&counter);
-			startTime = counter.QuadPart;
-		}
-		else
-			startTime = timeGetTime();
-#else
-		struct timeval time;
-		gettimeofday(&time, 0);
-		startTime = time.tv_sec * 1000000LL + time.tv_usec;
-#endif
-	}
-
-	void HiresTimer::Initialize()
-	{
-#ifdef _WIN32
-		LARGE_INTEGER frequency_;
-		if (QueryPerformanceFrequency(&frequency_))
-		{
-			frequency = frequency_.QuadPart;
-			supported = true;
-		}
-#else
-		frequency = 1000000;
-		supported = true;
-#endif
-	}
-
-	String TimeStamp()
-	{
-		time_t sysTime;
-		time(&sysTime);
-		const char* dateTime = ctime(&sysTime);
-		return String(dateTime).Replaced("\n", "");
-	}
-
-	unsigned CurrentTime()
-	{
-		return (unsigned)time(NULL);
-	}
 
 }

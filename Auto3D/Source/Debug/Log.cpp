@@ -1,7 +1,7 @@
 #include "../IO/Console.h"
 #include "../IO/File.h"
 #include "../Thread/Thread.h"
-#include "../Thread/Timer.h"
+#include "../Thread/Time.h"
 #include "Log.h"
 
 #include <cstdio>

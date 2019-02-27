@@ -26,6 +26,7 @@ void Engine::Init()
 	_profiler = new Profiler();
 	_graphics = new Graphics();
 	_renderer = new Renderer();
+	_time = new Time();
 
 	_graphics->RenderWindow()->SetTitle("Renderer test");
 	
@@ -70,6 +71,7 @@ bool Engine::Update()
 
 	_profiler->BeginFrame();
 
+	_time->Update();
 	_input->Update();
 
 	if (input->IsKeyPress(27))
@@ -89,7 +91,6 @@ void Engine::FrameFinish()
 	_graphics->Present();
 
 	_profiler->EndFrame();
-	//_dt = _frameTimer->ElapsedUSec() * 0.000001f;
 }
 
 void Engine::SetPauseMinimized(bool enable)

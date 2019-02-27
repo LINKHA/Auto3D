@@ -58,6 +58,7 @@ private:
 	AutoPtr<Input> _input;
 	AutoPtr<Log> _log;
 	AutoPtr<Profiler> _profiler;
+	AutoPtr<Time> _time;
 
 	/// Is exiting
 	bool _exiting{};

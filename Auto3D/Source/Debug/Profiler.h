@@ -4,7 +4,7 @@
 #include "../Base/String.h"
 #include "../Math/Math.h"
 #include "../Object/GameManager.h"
-#include "../Thread/Timer.h"
+#include "../Thread/Time.h"
 
 namespace Auto3D
 {

@@ -1,62 +1,65 @@
-// For conditions of distribution and use, see copyright notice in License.txt
-
-#include "../Base/String.h"
-#include "../AutoConfig.h"
-
 #pragma once
+#include "../AutoConfig.h"
+#include <functional>
 
-namespace Auto3D
+namespace Auto3D {
+
+enum class TimerState
 {
+	Default,
+	Init,
+	Running,
+	Stopping,
+	Pauseing,
+};
 
-	/// Low-resolution operating system timer.
-	class AUTO_API Timer
-	{
-	public:
-		/// Construct. Get the starting clock value.
-		Timer();
 
-		/// Return elapsed milliseconds.
-		unsigned ElapsedMSec();
-		/// Reset the timer.
-		void Reset();
-
-	private:
-		/// Starting clock value in milliseconds.
-		unsigned startTime;
-	};
-
-	/// High-resolution operating system timer used in profiling.
-	class AUTO_API HiresTimer
-	{
-	public:
-		/// Construct. Get the starting high-resolution clock value.
-		HiresTimer();
-
-		/// Return elapsed microseconds.
-		long long ElapsedUSec();
-		/// Reset the timer.
-		void Reset();
-
-		/// Perform one-time initialization to check support and frequency. Is called automatically at program start.
-		static void Initialize();
-		/// Return if high-resolution timer is supported.
-		static bool IsSupported() { return supported; }
-		/// Return high-resolution timer frequency if supported.
-		static long long Frequency() { return frequency; }
-
-	private:
-		/// Starting clock value in CPU ticks.
-		long long startTime;
-
-		/// High-resolution timer support flag.
-		static bool supported;
-		/// High-resolution timer frequency.
-		static long long frequency;
-	};
-
-	/// Return a date/time stamp as a string.
-	AUTO_API String TimeStamp();
-	/// Return current time as seconds since epoch.
-	AUTO_API unsigned CurrentTime();
+/// Timer independent system
+class AUTO_API Timer
+{
+	typedef void(__cdecl* TimerCallback) ();
+public:
+	/// The constructor
+	Timer(TimerCallback callback, int interval);
+	/// The constructor with class member function
+	Timer(std::function<void()> callback, int interval);
+	/// The constructor
+	Timer(TimerCallback callback, int interval, int delayTime);
+	/// The constructor with class member function
+	Timer(std::function<void()> callback, int interval, int delayTime);
+	/// There is no msTime running once after delayTime (if count is 0, there is no limit)
+	Timer(TimerCallback callback, int interval, int delayTime, int count);
+	/// There is no msTime running once after delayTime with class member funcation (if count is 0, there is no limit)
+	Timer(std::function<void()> callback, int interval, int delayTime, int count);
+	/// The destructor
+	~Timer() = default;
+	/// Stop timer begin from start
+	void Stop();
+	/// Begin timer
+	void Begin();
+	/// Pause timer begin from current
+	void Pause();
+	/// Destory timer but not destructor class
+	void Destory();
+private:
+	/// Timer count with function
+	void TimerCount(TimerCallback callback, int interval, int delayTime, int count);
+	/// Timer count with class member function
+	void TimerCountClass(std::function<void()> callback, int interval, int delayTime, int count);
+	/// The time interval milliseconds
+	int _interval;
+	/// Delay time milliseconds
+	int _delayTime;
+	/// The number of runs is infinite if it's zero
+	int _count;
+	/// break timer thread flag
+	bool _destory{};
+	/// stop timer thread flag
+	bool _stop{};
+	/// pause timer thread flag
+	bool _pause{};
+	/// timer state
+	TimerState _state;
+};
 
 }

@@ -63,6 +63,8 @@ void RendererSample::Update()
 	auto* input = Object::GetSubsystem<Input>();
 	auto* graphics = Object::GetSubsystem<Graphics>();
 	auto* renderer = Object::GetSubsystem<Renderer>();
+	auto* time = Object::GetSubsystem<Time>();
+
 	if (input->IsKeyPress(KEY_F))
 		graphics->SetFullscreen(!graphics->IsFullscreen());
 
@@ -74,13 +76,13 @@ void RendererSample::Update()
 
 	camera->SetRotation(Quaternion(pitch, yaw, 0.0f));
 	if (input->IsKeyDown(KEY_W))
-		camera->Translate(Vector3F::FORWARD * 0.00234699994 * moveSpeed);
+		camera->Translate(Vector3F::FORWARD * time->GetDeltaTime() * moveSpeed);
 	if (input->IsKeyDown(KEY_S))
-		camera->Translate(Vector3F::BACK * 0.00234699994  * moveSpeed);
+		camera->Translate(Vector3F::BACK * time->GetDeltaTime()  * moveSpeed);
 	if (input->IsKeyDown(KEY_A))
-		camera->Translate(Vector3F::LEFT * 0.00234699994  * moveSpeed);
+		camera->Translate(Vector3F::LEFT * time->GetDeltaTime()  * moveSpeed);
 	if (input->IsKeyDown(KEY_D))
-		camera->Translate(Vector3F::RIGHT * 0.00234699994  * moveSpeed);
+		camera->Translate(Vector3F::RIGHT * time->GetDeltaTime()  * moveSpeed);
 
 	// Update camera aspect ratio based on window size
 	camera->SetAspectRatio((float)graphics->Width() / (float)graphics->Height());
