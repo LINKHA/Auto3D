@@ -3,7 +3,7 @@
 #include "../Base/AutoPtr.h"
 #include "../Base/String.h"
 #include "../Math/Math.h"
-#include "../Object/Object.h"
+#include "../Object/GameManager.h"
 #include "../Thread/Timer.h"
 
 namespace Auto3D
@@ -64,9 +64,9 @@ public:
 };
 
 /// Hierarchical performance profiler subsystem.
-class AUTO_API Profiler : public Object
+class AUTO_API Profiler : public Subsystem
 {
-	REGISTER_OBJECT_CLASS(Profiler, Object)
+	REGISTER_OBJECT_CLASS(Profiler, Subsystem)
 
 public:
     /// Construct.

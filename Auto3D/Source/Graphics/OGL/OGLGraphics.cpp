@@ -191,7 +191,7 @@ bool Graphics::SetMode(const RectI& size,int multisample, bool fullscreen, bool 
             SendEvent(_contextLossEvent);
         }
 
-        if (!_window->SetSize(size, fullscreen, resizable, center, borderless, highDPI))
+        if (!_window->SetSize(size, multisample, fullscreen, resizable, center, borderless, highDPI))
             return false;
         if (!CreateContext(multisample))
             return false;

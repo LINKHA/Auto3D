@@ -3,7 +3,7 @@
 #include "../Base/AutoPtr.h"
 #include "../Base/List.h"
 #include "../Thread/Mutex.h"
-#include "../Object/Object.h"
+#include "../Object/GameManager.h"
 
 namespace Auto3D
 {
@@ -58,9 +58,9 @@ public:
 };
 
 /// Logging subsystem.
-class AUTO_API Log : public Object
+class AUTO_API Log : public Subsystem
 {
-	REGISTER_OBJECT_CLASS(Log, Object)
+	REGISTER_OBJECT_CLASS(Log, Subsystem)
 public:
     /// Construct and register subsystem.
     Log();

@@ -99,8 +99,6 @@ bool Window::SetSize(const RectI& rect, int multisample, bool fullscreen, bool r
 			int i = 0;
 		}
 	}
-	//SDL_SetWindowSize(_handle, _rect.Width(), _rect.Height());
-	//SDL_SetWindowPosition(_handle, _rect.Left(), _rect.Top());
 	// Create the _window
 	unsigned flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 	if (fullscreen)

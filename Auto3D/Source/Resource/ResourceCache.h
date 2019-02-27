@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Object/Object.h"
+#include "../Object/GameManager.h"
 
 namespace Auto3D
 {
@@ -11,9 +11,9 @@ class Stream;
 typedef HashMap<Pair<StringHash, StringHash>, SharedPtr<Resource> > ResourceMap;
  
 /// %Resource cache subsystem. Loads resources on demand and stores them for later access.
-class AUTO_API ResourceCache : public Object
+class AUTO_API ResourceCache : public Subsystem
 {
-    REGISTER_OBJECT_CLASS(ResourceCache, Object)
+    REGISTER_OBJECT_CLASS(ResourceCache, Subsystem)
 
 public:
     /// Construct and register subsystem.

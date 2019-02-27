@@ -10,19 +10,26 @@ namespace Auto3D
 {
 
 #undef M_PI
-static const float M_PI = 3.14159265358979323846264338327950288f;
-static const float M_HALF_PI = M_PI * 0.5f;
+static const float M_DEG = 0.01745329251994329576923690768489f;			//One degree equals several radians
+static const float M_RAD = 57.29577951f;				//One Radian equals several angles
+static const float M_FLOAT_SMALL = 1.0e-37f;		    //Infinite approach and 0
+static const float M_TOLERANCE = 2e-37f;
+static const float M_EPSILON = 0.00001f;				//A tiny floating point value (Read Only).
+static const float M_E = 2.71828182845904523536f;	//e
+static const float M_PI = 3.14159265358979323846f;	//pi
+static const float M_PI_2 = 1.57079632679489661923f;//pi/2
+static const float M_PI_4 = 0.785398163397448309616f;//pi/4
+static const float M_DEGTORAD = M_PI / 180.0f;
+static const float M_DEGTORAD_2 = M_PI / 360.0f;    // M_DEGTORAD / 2.f
+static const float M_RADTODEG = 1.0f / M_DEGTORAD;
+
 static const int M_MIN_INT = 0x80000000;
 static const int M_MAX_INT = 0x7fffffff;
 static const unsigned M_MIN_UNSIGNED = 0x00000000;
 static const unsigned M_MAX_UNSIGNED = 0xffffffff;
-
-static const float M_EPSILON = 0.000001f;
 static const float M_MAX_FLOAT = 3.402823466e+38f;
 static const float M_INFINITY = (float)HUGE_VAL;
-static const float M_DEGTORAD = (float)M_PI / 180.0f;
-static const float M_DEGTORAD_2 = (float)M_PI / 360.0f; // M_DEGTORAD / 2.f
-static const float M_RADTODEG = 1.0f / M_DEGTORAD;
+
 
 /// Intersection test result.
 enum Intersection
@@ -109,6 +116,13 @@ inline unsigned NextPowerOfTwo(unsigned value)
     while (ret < value && ret < 0x80000000)
         ret <<= 1;
     return ret;
+}
+
+inline bool CompareApproximately(float f0, float f1, float epsilon = M_EPSILON)
+{
+	float dist = f0 - f1;
+	dist = Abs(dist);
+	return dist < epsilon;
 }
 
 }

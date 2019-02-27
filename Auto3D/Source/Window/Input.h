@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Math/Vector2.h"
-#include "../Object/Object.h"
+#include "../Object/GameManager.h"
 
 #include <SDL_scancode.h>
 
@@ -386,9 +386,9 @@ public:
 };
 
 /// %Input subsystem for reading keyboard/mouse/etc. input. Updated from OS _window messages by the Window class.
-class AUTO_API Input : public Object
+class AUTO_API Input : public Subsystem
 {
-    REGISTER_OBJECT_CLASS(Input, Object)
+    REGISTER_OBJECT_CLASS(Input, Subsystem)
 
 public:
     /// Construct and register subsystem.

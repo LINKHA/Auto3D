@@ -3,7 +3,7 @@
 #include "../../Math/Color.h"
 #include "../../Math/Rect.h"
 #include "../../Math/Vector2.h"
-#include "../../Object/Object.h"
+#include "../../Object/GameManager.h"
 #include "../GraphicsDefs.h"
 
 namespace Auto3D
@@ -41,9 +41,9 @@ public:
 };
 
 /// 3D graphics rendering context. Manages the rendering _window and GPU objects.
-class AUTO_API Graphics : public Object
+class AUTO_API Graphics : public Subsystem
 {
-	REGISTER_OBJECT_CLASS(Graphics, Object)
+	REGISTER_OBJECT_CLASS(Graphics, Subsystem)
 
 public:
     /// Construct and register subsystem. The graphics mode is not set & _window is not opened yet.

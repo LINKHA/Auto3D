@@ -59,11 +59,6 @@ private:
 	AutoPtr<Log> _log;
 	AutoPtr<Profiler> _profiler;
 
-	AutoPtr<HiresTimer> _frameTimer;
-	AutoPtr<Timer> _profilerTimer;
-	float _dt = 0.0f;
-	String _profilerOutput;
-
 	/// Is exiting
 	bool _exiting{};
 	/// Is initialized
