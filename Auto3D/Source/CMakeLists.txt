@@ -1,3 +1,5 @@
+cmake_minimum_required(VERSION 3.1)
+
 set (TARGET_NAME Auto3D)
 
 # Macro to add files from a directory grouped to the solution file

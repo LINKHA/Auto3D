@@ -79,7 +79,8 @@ public:
     Renderer();
     /// Destruct.
     ~Renderer();
-
+	/// Render scene
+	void Render(Scene* scene, Camera* camera);
     /// Set number, _size and format of shadow maps. These will be divided among the lights that need to render shadow maps.
     void SetupShadowMaps(size_t num, int size, ImageFormat format);
     /// Prepare a view for rendering. Convenience function that calls CollectObjects(), CollectLightInteractions() and CollectBatches() in one go. Return true on success.

@@ -1330,7 +1330,7 @@ SET(ALC_OBJS  ${ALC_OBJS} "${OpenAL_BINARY_DIR}/bsinc_inc.h")
 
 
 IF(ALSOFT_UTILS AND NOT ALSOFT_NO_CONFIG_UTIL)
-    add_subdirectory(utils/alsoft-config)
+    #add_subdirectory(utils/alsoft-config)
 ENDIF()
 IF(ALSOFT_EXAMPLES)
     IF(NOT SDL2_FOUND)

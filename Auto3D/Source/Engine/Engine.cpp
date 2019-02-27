@@ -56,22 +56,10 @@ void Engine::Exit()
 
 void Engine::Render()
 {
-	
 	for (auto it = _sceneSystem->GetScenes().Begin(); it != _sceneSystem->GetScenes().End(); it++)
 	{
-		PROFILE(RenderScene);
-		Vector<PassDesc> passes;
-		passes.Push(PassDesc("opaque", SORT_STATE, true));
-		passes.Push(PassDesc("alpha", SORT_BACK_TO_FRONT, true));
-		_renderer->PrepareView((*it).first, (*it).second, passes);
-
-		_renderer->RenderShadowMaps();
-		_graphics->ResetRenderTargets();
-		_graphics->ResetViewport();
-		_graphics->Clear(CLEAR_COLOR | CLEAR_DEPTH, Color::BLACK);
-		_renderer->RenderBatches(passes);
-	}
-	
+		_renderer->Render((*it).first, (*it).second);
+	}	
 }
 
 

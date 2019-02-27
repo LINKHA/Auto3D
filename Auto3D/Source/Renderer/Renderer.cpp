@@ -68,8 +68,23 @@ Renderer::Renderer() :
 
 Renderer::~Renderer()
 {
+	RemoveSubsystem(this);
 }
+void Renderer::Render(Scene* scene, Camera* camera)
+{
+	PROFILE(RenderScene);
+	Vector<PassDesc> passes;
+	passes.Push(PassDesc("opaque", SORT_STATE, true));
+	passes.Push(PassDesc("alpha", SORT_BACK_TO_FRONT, true));
+	PrepareView(scene, camera, passes);
 
+	RenderShadowMaps();
+	_graphics->ResetRenderTargets();
+	_graphics->ResetViewport();
+	_graphics->Clear(CLEAR_COLOR | CLEAR_DEPTH, Color::BLACK);
+	RenderBatches(passes);
+
+}
 void Renderer::SetupShadowMaps(size_t num, int size, ImageFormat format)
 {
     if (size < 1)

@@ -67,9 +67,6 @@ void RendererSample::Update()
 	auto* renderer = Object::GetSubsystem<Renderer>();
 	auto* time = Object::GetSubsystem<Time>();
 
-	if (input->IsKeyPress(KEY_F))
-		graphics->SetFullscreen(!graphics->IsFullscreen());
-
 	pitch += input->MouseMove()._y * 0.25f;
 	yaw += input->MouseMove()._x * 0.25f;
 	pitch = Clamp(pitch, -90.0f, 90.0f);
