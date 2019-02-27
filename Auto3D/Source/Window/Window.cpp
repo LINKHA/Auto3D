@@ -22,7 +22,9 @@ Window::Window() :
 	_mousePosition(Vector2I::ZERO),
 	_mouseWheelOffset(Vector2I::ZERO),
 	_mouseMoveWheel(Vector2I::ZERO),
+	_rect(RectI::ZERO),
 	_windowStyle(0),
+	_multisample(1),
 	_minimized(false),
 	_focus(false),
 	_resizable(false),
@@ -46,6 +48,7 @@ Window::Window() :
 	// Also request a depth buffer
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+
 }
 
 Window::~Window()
@@ -58,9 +61,47 @@ void Window::SetTitle(const String& newTitle)
 	_title = newTitle;
 }
 
-bool Window::SetSize(const Vector2I& size, bool fullscreen, bool resizable, bool borderless, bool highDPI)
+bool Window::SetSize(const RectI& rect, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
 {
-	_size = size;
+	_rect = rect;
+	_size = Vector2I(rect.Width(), rect.Height());
+	/// Set MSAA
+	if (_multisample != 1)
+	{
+		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, _multisample);
+	}
+
+	// Init window position
+	SDL_Rect windowRect;
+	SDL_GetDisplayBounds(0, &windowRect);
+	if (fullscreen)
+	{
+		_rect.Left() = 0;
+		_rect.Top() = 0;
+		_rect.Right() = windowRect.w;
+		_rect.Bottom() = windowRect.h;
+	}
+	else
+	{
+		if (center)
+		{
+			int w = _rect.Width();
+			int h = _rect.Height();
+			_rect.Left() = windowRect.w / 2 - w / 2;
+			_rect.Top() = windowRect.h / 2 - h / 2;
+			_rect.Right() = windowRect.w / 2 + w / 2;
+			_rect.Bottom() = windowRect.h / 2 + h / 2;
+
+			int a1 = _rect.Left();
+			int a2 = _rect.Top();
+			int a3 = _rect.Right();
+			int a4 = _rect.Bottom();
+			int i = 0;
+		}
+	}
+	//SDL_SetWindowSize(_handle, _rect.Width(), _rect.Height());
+	//SDL_SetWindowPosition(_handle, _rect.Left(), _rect.Top());
 	// Create the _window
 	unsigned flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 	if (fullscreen)
@@ -69,24 +110,30 @@ bool Window::SetSize(const Vector2I& size, bool fullscreen, bool resizable, bool
 		flags |= SDL_WINDOW_RESIZABLE;
 	if (borderless)
 		flags |= SDL_WINDOW_BORDERLESS;
-
+	if (highDPI)
+		flags |= SDL_WINDOW_ALLOW_HIGHDPI;
 
 	// The _position _size will be reset later
 	_handle = SDL_CreateWindow(
 		_title.CString(),
-		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-		size._x, size._y, flags
+		_rect.Left(), _rect.Top(),
+		_rect.Width(), _rect.Height(), flags
 	);
 
 	if (_handle == NULL)
 		ErrorString("Couldn't set video mode");
+
 
 	return true;
 }
 
 void Window::SetPosition(const Vector2I& position)
 {
+	if (_handle)
+	{
 
+		SDL_SetWindowPosition(_handle, position._x, position._y);
+	}
 }
 
 void Window::SetMouseHide(bool enable)
@@ -94,7 +141,6 @@ void Window::SetMouseHide(bool enable)
 	if (enable != _mouseHide)
 	{
 		_mouseHide = enable;
-		
 	}
 }
 
@@ -109,7 +155,11 @@ void Window::SetMouseLock(bool enable)
 
 void Window::SetMousePosition(const Vector2I& position)
 {
-
+	if (_handle)
+	{
+		_mousePosition = position;
+		SDL_WarpMouseInWindow(_handle, position._x, position._y);
+	}
 }
 
 void Window::Close()
@@ -141,7 +191,6 @@ void Window::PumpMessages()
 	while (SDL_PollEvent(&evt))
 	{
 		OnWindowMessage(&evt);
-		
 	}
 }
 

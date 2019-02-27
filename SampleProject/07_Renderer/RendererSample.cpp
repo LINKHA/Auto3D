@@ -63,7 +63,7 @@ void RendererSample::Update()
 	auto* input = Object::GetSubsystem<Input>();
 	auto* graphics = Object::GetSubsystem<Graphics>();
 	auto* renderer = Object::GetSubsystem<Renderer>();
-	if (input->IsKeyPress('F'))
+	if (input->IsKeyPress(KEY_F))
 		graphics->SetFullscreen(!graphics->IsFullscreen());
 
 	pitch += input->MouseMove()._y * 0.25f;

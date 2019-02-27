@@ -177,12 +177,10 @@ Graphics::~Graphics()
     RemoveSubsystem(this);
 }
 
-bool Graphics::SetMode(const Vector2I& size, bool fullscreen, bool resizable, int multisample_)
+bool Graphics::SetMode(const RectI& size,int multisample, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
 {
-    multisample_ = Clamp(multisample_, 1, 16);
-
     // Changing multisample requires destroying the _window, as OpenGL pixel format can only be set once
-    if (!_context || multisample_ != _multisample)
+    if (!_context || multisample != _multisample)
     {
         bool recreate = false;
 
@@ -193,9 +191,9 @@ bool Graphics::SetMode(const Vector2I& size, bool fullscreen, bool resizable, in
             SendEvent(_contextLossEvent);
         }
 
-        if (!_window->SetSize(size, fullscreen, resizable))
+        if (!_window->SetSize(size, fullscreen, resizable, center, borderless, highDPI))
             return false;
-        if (!CreateContext(multisample_))
+        if (!CreateContext(multisample))
             return false;
 
         if (recreate)
@@ -212,7 +210,7 @@ bool Graphics::SetMode(const Vector2I& size, bool fullscreen, bool resizable, in
     else
     {
         // If no context creation, just need to resize the _window
-        if (!_window->SetSize(size, fullscreen, resizable))
+        if (!_window->SetSize(size, fullscreen, resizable, center, borderless, highDPI))
             return false;
     }
 
@@ -236,10 +234,10 @@ bool Graphics::SetMode(const Vector2I& size, bool fullscreen, bool resizable, in
 
 bool Graphics::SetFullscreen(bool enable)
 {
-    if (!IsInitialized())
-        return false;
-    else
-        return SetMode(_backbufferSize, enable, _window->IsResizable(), _multisample);
+	if (!IsInitialized())
+		return false;
+	else
+		return SetMode(RectI(0, 0, _backbufferSize._x, _backbufferSize._y), enable, _window->IsResizable(), _multisample);
 }
 
 bool Graphics::SetMultisample(int multisample_)
@@ -247,7 +245,7 @@ bool Graphics::SetMultisample(int multisample_)
     if (!IsInitialized())
         return false;
     else
-        return SetMode(_backbufferSize, _window->IsFullscreen(), _window->IsResizable(), multisample_);
+        return SetMode(RectI(0, 0, _backbufferSize._x, _backbufferSize._y), _window->IsFullscreen(), _window->IsResizable(), multisample_);
 }
 
 void Graphics::SetVSync(bool enable)
@@ -790,16 +788,21 @@ void Graphics::BindUBO(unsigned ubo)
     }
 }
 
-bool Graphics::CreateContext(int multisample_)
+bool Graphics::CreateContext(int multisample)
 {
     _context = new GLContext(_window);
-    if (!_context->Create(multisample_))
+
+    if (!_context->Create())
     {
         _context.Reset();
         return false;
     }
-    
-    _multisample = multisample_;
+
+	int maxSamples;
+	glGetIntegerv(GL_MAX_SAMPLES, &maxSamples);
+	Clamp(multisample, 0, maxSamples);
+
+    _multisample = multisample;
     _context->SetVSync(_vsync);
 
     // Query OpenGL capabilities

@@ -1,18 +1,21 @@
+#pragma once
+#include "../Object/Object.h"
 #include "../Base/String.h"
 #include "../AutoConfig.h"
 
-#pragma once
 
 namespace Auto3D
 {
 
 /// Low-resolution operating system timer.
-class AUTO_API Timer
+class AUTO_API Timer : public Object
 {
+	REGISTER_OBJECT_CLASS(Timer, Object)
 public:
     /// Construct. Get the starting clock value.
     Timer();
-    
+
+	~Timer() = default;
     /// Return elapsed milliseconds.
     unsigned ElapsedMSec();
     /// Reset the timer.

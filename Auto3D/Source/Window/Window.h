@@ -21,6 +21,10 @@ class AUTO_API Window : public Object
 {
 	REGISTER_OBJECT_CLASS(Window, Object)
 
+#ifdef AUTO_OPENGL
+	friend class GLContext;
+#endif
+
 public:
 	/// Construct and register subsystem. The _window is not yet opened.
 	Window();
@@ -30,7 +34,7 @@ public:
 	/// Set _window _title.
 	void SetTitle(const String& newTitle);
 	/// Set _window _size. Open the _window if not opened yet. Return true on success.
-	bool SetSize(const Vector2I& size, bool fullscreen = false, bool resizable = false, bool borderless = false, bool highDPI = false);
+	bool SetSize(const RectI& rect, bool fullscreen = false, bool resizable = false,bool center = true, bool borderless = false, bool highDPI = false);
 	/// Set _window _position.
 	void SetPosition(const Vector2I& position);
 	/// Set mouse cursor visible. Default is true. When hidden, the mouse cursor is confined to the _window and kept centered; relative mouse motion can be read "endlessly" but absolute mouse _position should not be used.
@@ -39,6 +43,8 @@ public:
 	void SetMouseLock(bool enable);
 	/// Move the mouse cursor to a _window top-left relative _position.
 	void SetMousePosition(const Vector2I& position);
+
+	void SetMultisample(unsigned multi) { _multisample = multi; }
 	/// Close the _window.
 	void Close();
 	/// Minimize the _window.
@@ -52,6 +58,9 @@ public:
 
 	/// Return _window _title.
 	const String& Title() const { return _title; }
+
+	const RectI& WindowRect() const { return _rect; }
+
 	/// Return _window client area _size.
 	const Vector2I& Size() const { return _size; }
 	/// Return _window client area width.
@@ -105,6 +114,8 @@ private:
 	SDL_Window* _handle;
 	/// Window _title.
 	String _title;
+
+	RectI _rect;
 	/// Current client area _size.
 	Vector2I _size;
 	/// Last stored windowed mode _position.
@@ -118,6 +129,8 @@ private:
 
 	/// Window style flags.
 	unsigned _windowStyle;
+
+	unsigned _multisample;
 	/// Current minimization state.
 	bool _minimized;
 	/// Current _focus state.

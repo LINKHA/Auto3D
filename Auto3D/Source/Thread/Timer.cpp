@@ -43,6 +43,7 @@ long long HiresTimer::_frequency = 1000;
 
 Timer::Timer()
 {
+	RegisterSubsystem(this);
     Reset();
 }
 

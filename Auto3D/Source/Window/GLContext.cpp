@@ -40,7 +40,7 @@ GLContext::~GLContext()
 	Release();
 }
 
-bool GLContext::Create(int multisample)
+bool GLContext::Create()
 {
 	if (_contextHandle)
 		return true;

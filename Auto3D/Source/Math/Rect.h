@@ -326,9 +326,9 @@ public:
     /// Return _size.
     Vector2<_Ty> Size() const { return _max - _min; }
     /// Return width.
-	_Ty Width() const { return _max._x - _min._y; }
+	_Ty Width() const { return _max._x - _min._x; }
     /// Return height.
-	_Ty Height() const { return _max._y - _min._x; }
+	_Ty Height() const { return _max._y - _min._y; }
 	/// Return left
 	_Ty& Left() { return _min._x; }
 	/// Return top
