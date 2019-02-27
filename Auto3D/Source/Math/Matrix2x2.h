@@ -12,13 +12,6 @@ public:
 	/// Matrix values.
 	_Ty _m00, _m01;
 	_Ty _m10, _m11;
-	/*/// Addresses of all members
-	_Ty* _data[4] =
-	{
-		&_m00, &_m01,
-		&_m10, &_m11
-	}*/
-
 	/// Construct an identity matrix.
 	///|1,0|
 	///|0,1|

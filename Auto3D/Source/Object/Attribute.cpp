@@ -3,7 +3,7 @@
 #include "../IO/ResourceRef.h"
 #include "../Math/BoundingBox.h"
 #include "../Math/Color.h"
-#include "../Math/IntRect.h"
+#include "../Math/Rect.h"
 #include "../Math/Matrix3x4.h"
 #include "Attribute.h"
 
@@ -45,8 +45,8 @@ const size_t Attribute::byteSizes[] =
     sizeof(unsigned char),
     sizeof(unsigned),
     sizeof(int),
-    sizeof(IntVector2),
-    sizeof(IntRect),
+    sizeof(Vector2I),
+    sizeof(BaseRect),
     sizeof(float),
     sizeof(Vector2F),
     sizeof(Vector3F),
@@ -157,7 +157,7 @@ void Attribute::FromJSON(AttributeType type, void* dest, const JSONValue& source
         break;
 
     case ATTR_INTRECT:
-        reinterpret_cast<IntRect*>(dest)->FromString(source.GetString());
+        reinterpret_cast<BaseRect*>(dest)->FromString(source.GetString());
         break;
 
     case ATTR_FLOAT:
@@ -254,7 +254,7 @@ void Attribute::ToJSON(AttributeType type, JSONValue& dest, const void* source)
         break;
 
     case ATTR_INTRECT:
-        dest = reinterpret_cast<const IntRect*>(source)->ToString();
+        dest = reinterpret_cast<const BaseRect*>(source)->ToString();
         break;
 
     case ATTR_FLOAT:

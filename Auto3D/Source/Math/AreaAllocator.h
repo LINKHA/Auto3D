@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IntRect.h"
+#include "Rect.h"
 #include "Vector2.h"
 #include "../Base/Vector.h"
 
@@ -40,12 +40,12 @@ public:
 
 private:
     /// Remove space from a free rectangle. Return true if the original rectangle should be erased from the free list. Not called in fast mode.
-    bool SplitRect(IntRect original, const IntRect& reserve);
+    bool SplitRect(BaseRect original, const BaseRect& reserve);
     /// Clean up redundant free space. Not called in fast mode.
     void Cleanup();
 
     /// Free rectangles.
-    Vector<IntRect> _freeAreas;
+    Vector<BaseRect> _freeAreas;
     /// Current _size.
     Vector2I _size;
     /// Maximum _size allowed to grow to. It is zero when it is not allowed to grow.

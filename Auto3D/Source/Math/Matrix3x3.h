@@ -13,13 +13,6 @@ namespace Auto3D
 		_Ty _m00, _m01, _m02;
 		_Ty _m10, _m11, _m12;
 		_Ty _m20, _m21, _m22;
-	/*	/// Addresses of all members
-		_Ty* _data[9] =
-		{ 
-			&_m00, &_m01, &_m02,
-			&_m10, &_m11, &_m12,
-			&_m20, &_m21, &_m22
-		}*/
 
 		/// Construct an identity matrix.
 		///|1,0,0|

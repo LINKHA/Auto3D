@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../Math/Color.h"
-#include "../../Math/IntRect.h"
+#include "../../Math/Rect.h"
 #include "../../Resource/Image.h"
 #include "../GPUObject.h"
 #include "../GraphicsDefs.h"

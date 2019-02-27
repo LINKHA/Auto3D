@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../Math/Color.h"
-#include "../../Math/IntRect.h"
+#include "../../Math/Rect.h"
 #include "../../Math/Vector2.h"
 #include "../../Object/Object.h"
 #include "../GraphicsDefs.h"
@@ -68,7 +68,7 @@ public:
     /// Set multiple color rendertargets and the depth stencil buffer.
     void SetRenderTargets(const Vector<Texture*>& renderTargets, Texture* stencilBuffer);
     /// Set the viewport rectangle. On _window resize the viewport will automatically revert to full _window.
-    void SetViewport(const IntRect& viewport);
+    void SetViewport(const BaseRect& viewport);
     /// Bind a vertex buffer.
     void SetVertexBuffer(size_t index, VertexBuffer* buffer);
     /// Bind an index buffer.
@@ -88,7 +88,7 @@ public:
     /// Set rasterizer related state.
     void SetRasterizerState(CullMode cullMode, FillMode fillMode);
     /// Set scissor test.
-    void SetScissorTest(bool scissorEnable = false, const IntRect& scissorRect = IntRect::ZERO);
+    void SetScissorTest(bool scissorEnable = false, const BaseRect& scissorRect = BaseRect::ZERO);
     /// Set stencil test.
     void SetStencilTest(bool stencilEnable, const StencilTestDesc& stencilTest = StencilTestDesc(), unsigned char stencilRef = 0);
     /// Reset rendertarget and depth stencil buffer to the backbuffer.
@@ -139,7 +139,7 @@ public:
     /// Return the current depth-stencil buffer, or null if rendering to the backbuffer.
     Texture* DepthStencil() const { return _depthStencil; }
     /// Return the current viewport rectangle.
-    const IntRect& Viewport() const { return _viewport; }
+    const BaseRect& Viewport() const { return _viewport; }
     /// Return currently bound vertex buffer by index.
     VertexBuffer* GetVertexBuffer(size_t index) const;
     /// Return currently bound index buffer.
@@ -264,9 +264,9 @@ private:
     /// Last bound uniform buffer object.
     unsigned _boundUBO;
     /// Current scissor rectangle.
-    IntRect _scissorRect;
+    BaseRect _scissorRect;
     /// Current viewport rectangle.
-    IntRect _viewport;
+    BaseRect _viewport;
     /// GPU objects.
     Vector<GPUObject*> _gpuObjects;
     /// Shader programs.

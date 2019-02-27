@@ -6,6 +6,130 @@
 namespace Auto3D
 {
 
+/// Two-dimensional bounding rectangle with integer values.
+class AUTO_API BaseRect
+{
+public:
+	/// Left coordinate.
+	int _left;
+	/// Top coordinate.
+	int _top;
+	/// Right coordinate.
+	int _right;
+	/// Bottom coordinate.
+	int _bottom;
+
+	/// Construct undefined.
+	BaseRect()
+	{
+	}
+
+	/// Copy-construct.
+	BaseRect(const BaseRect& rect) :
+		_left(rect._left),
+		_top(rect._top),
+		_right(rect._right),
+		_bottom(rect._bottom)
+	{
+	}
+
+	/// Construct from coordinates.
+	BaseRect(int left_, int top_, int right_, int bottom_) :
+		_left(left_),
+		_top(top_),
+		_right(right_),
+		_bottom(bottom_)
+	{
+	}
+
+	/// Construct from an int array.
+	BaseRect(const int* data) :
+		_left(data[0]),
+		_top(data[1]),
+		_right(data[2]),
+		_bottom(data[3])
+	{
+	}
+
+	/// Construct by parsing a string.
+	BaseRect(const String& str)
+	{
+		FromString(str);
+	}
+
+	/// Construct by parsing a C string.
+	BaseRect(const char* str)
+	{
+		FromString(str);
+	}
+
+	/// Test for equality with another rect.
+	bool operator == (const BaseRect& rhs) const { return _left == rhs._left && _top == rhs._top && _right == rhs._right && _bottom == rhs._bottom; }
+	/// Test for inequality with another rect.
+	bool operator != (const BaseRect& rhs) const { return !(*this == rhs); }
+
+	/// Parse from a string. Return true on success.
+	bool FromString(const String& str)
+	{
+		return FromString(str.CString());
+	}
+	/// Parse from a C string. Return true on success.
+	bool FromString(const char* str)
+	{
+		size_t elements = String::CountElements(str, ' ');
+		if (elements < 4)
+			return false;
+
+		char* ptr = (char*)str;
+		_left = strtol(ptr, &ptr, 10);
+		_top = strtol(ptr, &ptr, 10);
+		_right = strtol(ptr, &ptr, 10);
+		_bottom = strtol(ptr, &ptr, 10);
+
+		return true;
+	}
+
+	/// Return _size.
+	Vector2I Size() const { return Vector2I(Width(), Height()); }
+	/// Return width.
+	int Width() const { return _right - _left; }
+	/// Return height.
+	int Height() const { return _bottom - _top; }
+
+	/// Test whether a point is inside.
+	Intersection IsInside(const Vector2I& point) const
+	{
+		if (point._x < _left || point._y < _top || point._x >= _right || point._y >= _bottom)
+			return OUTSIDE;
+		else
+			return INSIDE;
+	}
+
+	/// Test whether another rect is inside or intersects.
+	Intersection IsInside(const BaseRect& rect) const
+	{
+		if (rect._right <= _left || rect._left >= _right || rect._bottom <= _top || rect._top >= _bottom)
+			return OUTSIDE;
+		else if (rect._left >= _left && rect._right <= _right && rect._top >= _top && rect._bottom <= _bottom)
+			return INSIDE;
+		else
+			return INTERSECTS;
+	}
+
+	/// Return integer data.
+	const int* Data() const { return &_left; }
+	/// Return as string.
+	String ToString() const
+	{
+		char tempBuffer[CONVERSION_BUFFER_LENGTH];
+		sprintf(tempBuffer, "%d %d %d %d", _left, _top, _right, _bottom);
+		return String(tempBuffer);
+	}
+
+	/// Zero-sized rect.
+	static const BaseRect ZERO;
+};
+
 /// Two-dimensional bounding rectangle.
 template <typename _Ty> class AUTO_API Rect
 {
@@ -14,14 +138,6 @@ public:
     Vector2<_Ty> _min;
     /// Maximum vector.
     Vector2<_Ty> _max;
-	///// Left coordinate.
- //   _Ty& _left = _min._x;
- //   /// Top coordinate.
-	//_Ty& _top = _min._y;
- //   /// Right coordinate.
-	//_Ty& _right = _max._x;
- //   /// Bottom coordinate.
-	//_Ty& _bottom = _max._y;
 
     /// Construct as undefined (negative _size.)
     Rect() :
@@ -229,15 +345,6 @@ public:
 	const _Ty& Right() const { return _max._x; }
 	/// Return bottom
 	const _Ty& Bottom() const { return _max._y; }
-
-	///// Return left
-	//_Ty&& Left() { return _min._x; }
-	///// Return top
-	//_Ty&& Top() { return _min._y; }
-	///// Return right
-	//_Ty&& Right() { return _max._x; }
-	///// Return bottom
-	//_Ty&& Bottom() { return _max._y; }
 
     /// Return half-_size.
     Vector2<_Ty> HalfSize() const { return (_max - _min) * 0.5f; }

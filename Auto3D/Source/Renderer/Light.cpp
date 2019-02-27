@@ -283,7 +283,7 @@ Sphere Light::WorldSphere() const
     return Sphere(WorldPosition(), _range);
 }
 
-void Light::SetShadowMap(Texture* shadowMap, const IntRect& shadowRect)
+void Light::SetShadowMap(Texture* shadowMap, const BaseRect& shadowRect)
 {
     _shadowMap = shadowMap;
     _shadowRect = shadowRect;
@@ -320,7 +320,7 @@ void Light::SetupShadowViews(Camera* mainCamera, Vector<AutoPtr<ShadowView> >& s
                     topLeft._x += actualShadowMapSize;
                 if (i & 2)
                     topLeft._y += actualShadowMapSize;
-                view->_viewport = IntRect(topLeft._x, topLeft._y, topLeft._x + actualShadowMapSize, topLeft._y + actualShadowMapSize);
+                view->_viewport = BaseRect(topLeft._x, topLeft._y, topLeft._x + actualShadowMapSize, topLeft._y + actualShadowMapSize);
 
                 float splitStart = Max(mainCamera->NearClip(), (i == 0) ? 0.0f : ShadowSplit(i - 1));
                 float splitEnd = Min(mainCamera->FarClip(), ShadowSplit(i));
@@ -385,11 +385,11 @@ void Light::SetupShadowViews(Camera* mainCamera, Vector<AutoPtr<ShadowView> >& s
                     Quaternion(0.0f, 180.0f, 0.0f)
                 };
 
-                IntVector2 topLeft(_shadowRect._left, _shadowRect._top);
+                Vector2I topLeft(_shadowRect._left, _shadowRect._top);
                 if (i & 1)
                     topLeft._y += actualShadowMapSize;
                 topLeft._x += ((unsigned)i >> 1) * actualShadowMapSize;
-                view->_viewport = IntRect(topLeft._x, topLeft._y, topLeft._x + actualShadowMapSize, topLeft._y + actualShadowMapSize);
+                view->_viewport = BaseRect(topLeft._x, topLeft._y, topLeft._x + actualShadowMapSize, topLeft._y + actualShadowMapSize);
 
                 shadowCamera.SetTransform(WorldPosition(), pointLightFaceRotations[i]);
                 shadowCamera.SetFov(90.0f);

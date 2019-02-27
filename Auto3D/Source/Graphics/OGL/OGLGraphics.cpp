@@ -313,7 +313,7 @@ void Graphics::SetRenderTargets(const Vector<Texture*>& renderTargets_, Texture*
     _framebufferDirty = true;
 }
 
-void Graphics::SetViewport(const IntRect& viewport_)
+void Graphics::SetViewport(const BaseRect& viewport_)
 {
     PrepareFramebuffer();
 
@@ -506,7 +506,7 @@ void Graphics::SetRasterizerState(CullMode cullMode, FillMode fillMode)
     _rasterizerStateDirty = true;
 }
 
-void Graphics::SetScissorTest(bool scissorEnable, const IntRect& scissorRect)
+void Graphics::SetScissorTest(bool scissorEnable, const BaseRect& scissorRect)
 {
     _renderState._scissorEnable = scissorEnable;
     /// \todo Implement a member function in IntRect for clipping
@@ -534,7 +534,7 @@ void Graphics::ResetRenderTargets()
 
 void Graphics::ResetViewport()
 {
-    SetViewport(IntRect(0, 0, _renderTargetSize._x, _renderTargetSize._y));
+    SetViewport(BaseRect(0, 0, _renderTargetSize._x, _renderTargetSize._y));
 }
 
 void Graphics::ResetVertexBuffers()
@@ -866,7 +866,7 @@ void Graphics::PrepareFramebuffer()
         // If rendertarget changes, scissor rect may need to be re-evaluated
         if (_renderState._scissorEnable)
         {
-            _glRenderState._scissorRect = IntRect::ZERO;
+            _glRenderState._scissorRect = BaseRect::ZERO;
             _rasterizerStateDirty = true;
         }
 
@@ -1343,7 +1343,7 @@ void Graphics::ResetState()
     _glRenderState._fillMode = FILL_SOLID;
     _glRenderState._cullMode = CULL_NONE;
     _glRenderState._scissorEnable = false;
-    _glRenderState._scissorRect = IntRect::ZERO;
+    _glRenderState._scissorRect = BaseRect::ZERO;
     _glRenderState._stencilEnable = false;
     _glRenderState._stencilRef = 0;
     _glRenderState._stencilTest._stencilReadMask = 0xff;

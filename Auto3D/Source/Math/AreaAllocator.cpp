@@ -28,7 +28,7 @@ void AreaAllocator::Reset(int width, int height, int maxWidth, int maxHeight, bo
     _fastMode = fastMode_;
 
     _freeAreas.Clear();
-    IntRect initialArea(0, 0, width, height);
+    BaseRect initialArea(0, 0, width, height);
     _freeAreas.Push(initialArea);
 }
 
@@ -39,7 +39,7 @@ bool AreaAllocator::Allocate(int width, int height, int& x, int& y)
     if (height < 0)
         height = 0;
 
-    Vector<IntRect>::Iterator best;
+    Vector<BaseRect>::Iterator best;
     int bestFreeArea;
 
     for (;;)
@@ -71,12 +71,12 @@ bool AreaAllocator::Allocate(int width, int height, int& x, int& y)
                 int oldWidth = _size._x;
                 _size._x <<= 1;
                 // If no allocations yet, simply expand the single free area
-                IntRect& first = _freeAreas.Front();
+                BaseRect& first = _freeAreas.Front();
                 if (_freeAreas.Size() == 1 && first._left == 0 && first._top == 0 && first._right == oldWidth && first._bottom == _size._y)
                     first._right = _size._x;
                 else
                 {
-                    IntRect newArea(oldWidth, 0, _size._x, _size._y);
+                    BaseRect newArea(oldWidth, 0, _size._x, _size._y);
                     _freeAreas.Push(newArea);
                 }
             }
@@ -84,12 +84,12 @@ bool AreaAllocator::Allocate(int width, int height, int& x, int& y)
             {
                 int oldHeight = _size._y;
                 _size._y <<= 1;
-                IntRect& first = _freeAreas.Front();
+                BaseRect& first = _freeAreas.Front();
                 if (_freeAreas.Size() == 1 && first._left == 0 && first._top == 0 && first._right == _size._x && first._bottom == oldHeight)
                     first._bottom = _size._y;
                 else
                 {
-                    IntRect newArea(0, oldHeight, _size._x, _size._y);
+                    BaseRect newArea(0, oldHeight, _size._x, _size._y);
                     _freeAreas.Push(newArea);
                 }
             }
@@ -102,7 +102,7 @@ bool AreaAllocator::Allocate(int width, int height, int& x, int& y)
             break;
     }
 
-    IntRect reserved(best->_left, best->_top, best->_left + width, best->_top + height);
+    BaseRect reserved(best->_left, best->_top, best->_left + width, best->_top + height);
     x = best->_left;
     y = best->_top;
 
@@ -112,7 +112,7 @@ bool AreaAllocator::Allocate(int width, int height, int& x, int& y)
         best->_left = reserved._right;
         if (best->Height() > 2 * height || height >= _size._y / 2)
         {
-            IntRect splitArea(reserved._left, reserved._bottom, best->_right, best->_bottom);
+            BaseRect splitArea(reserved._left, reserved._bottom, best->_right, best->_bottom);
             best->_bottom = reserved._bottom;
             _freeAreas.Push(splitArea);
         }
@@ -134,7 +134,7 @@ bool AreaAllocator::Allocate(int width, int height, int& x, int& y)
     return true;
 }
 
-bool AreaAllocator::SplitRect(IntRect original, const IntRect& reserve)
+bool AreaAllocator::SplitRect(BaseRect original, const BaseRect& reserve)
 {
     if (reserve._right > original._left && reserve._left < original._right && reserve._bottom > original._top &&
         reserve._top < original._bottom)
@@ -142,28 +142,28 @@ bool AreaAllocator::SplitRect(IntRect original, const IntRect& reserve)
         // Check for splitting from the right
         if (reserve._right < original._right)
         {
-            IntRect newRect = original;
+            BaseRect newRect = original;
             newRect._left = reserve._right;
             _freeAreas.Push(newRect);
         }
         // Check for splitting from the left
         if (reserve._left > original._left)
         {
-            IntRect newRect = original;
+            BaseRect newRect = original;
             newRect._right = reserve._left;
             _freeAreas.Push(newRect);
         }
         // Check for splitting from the bottom
         if (reserve._bottom < original._bottom)
         {
-            IntRect newRect = original;
+            BaseRect newRect = original;
             newRect._top = reserve._bottom;
             _freeAreas.Push(newRect);
         }
         // Check for splitting from the top
         if (reserve._top > original._top)
         {
-            IntRect newRect = original;
+            BaseRect newRect = original;
             newRect._bottom = reserve._top;
             _freeAreas.Push(newRect);
         }

@@ -2,7 +2,7 @@
 
 #include "../Math/Color.h"
 #include "../Math/Frustum.h"
-#include "../Math/IntRect.h"
+#include "../Math/Rect.h"
 #include "../Math/Vector2.h"
 #include "../Math/Sphere.h"
 #include "OctreeNode.h"
@@ -99,13 +99,13 @@ public:
     Sphere WorldSphere() const;
 
     /// Set shadow map and viewport within it. Called by Renderer.
-    void SetShadowMap(Texture* shadowMap, const IntRect& shadowRect = IntRect::ZERO);
+    void SetShadowMap(Texture* shadowMap, const BaseRect& shadowRect = BaseRect::ZERO);
     /// Setup shadow cameras and viewports. Called by Renderer.
     void SetupShadowViews(Camera* mainCamera, Vector<AutoPtr<ShadowView> >& shadowViews, size_t& useIndex);
     /// Return shadow map.
     Texture* ShadowMap() const { return _shadowMap; }
     /// Return actual shadow map rectangle. May be smaller than the requested total shadow map _size.
-    const IntRect& ShadowRect() const { return _shadowRect; }
+    const BaseRect& ShadowRect() const { return _shadowRect; }
     /// Return shadow mapping matrices.
     const Vector<Matrix4x4F>& ShadowMatrices() const { return _shadowMatrices; }
     /// Return shadow map offset and depth parameters.
@@ -146,7 +146,7 @@ private:
     /// Current shadow map texture.
     Texture* _shadowMap;
     /// Rectangle within the shadow map.
-    IntRect _shadowRect;
+    BaseRect _shadowRect;
     /// Shadow mapping matrices.
     Vector<Matrix4x4F> _shadowMatrices;
     /// Shadow mapping parameters.
