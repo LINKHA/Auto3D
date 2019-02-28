@@ -16,7 +16,7 @@ void ObjectResolver::StoreObject(unsigned oldId, Serializable* object)
 
 void ObjectResolver::StoreObjectRef(Serializable* object, Attribute* attr, const ObjectRef& value)
 {
-    if (object && attr && attr->Type() == ATTR_OBJECTREF)
+    if (object && attr && attr->Type() == AttributeType::OBJECTREF)
         _objectRefs.Push(StoredObjectRef(object, attr, value._id));
 }
 

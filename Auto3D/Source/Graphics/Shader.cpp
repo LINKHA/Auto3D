@@ -10,7 +10,7 @@ namespace Auto3D
 {
 
 Shader::Shader() :
-    _stage(SHADER_VS)
+    _stage(ShaderStage::VS)
 {
 }
 
@@ -26,7 +26,7 @@ void Shader::RegisterObject()
 bool Shader::BeginLoad(Stream& source)
 {
     String extension = Extension(source.Name());
-    _stage = (extension == ".vs" || extension == ".vert") ? SHADER_VS : SHADER_PS;
+    _stage = (extension == ".vs" || extension == ".vert") ? ShaderStage::VS : ShaderStage::PS;
     _sourceCode.Clear();
     return ProcessIncludes(_sourceCode, source);
 }

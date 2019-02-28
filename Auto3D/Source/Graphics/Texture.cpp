@@ -23,10 +23,10 @@ bool Texture::BeginLoad(Stream& source)
     }
 
     // If image uses unsupported format, decompress to RGBA now
-    if (_loadImages[0]->GetFormat() >= FMT_ETC1)
+    if (_loadImages[0]->GetFormat() >= ImageFormat::ETC1)
     {
         Image* rgbaImage = new Image();
-        rgbaImage->SetSize(_loadImages[0]->GetSize(), FMT_RGBA8);
+        rgbaImage->SetSize(_loadImages[0]->GetSize(), ImageFormat::RGBA8);
         _loadImages[0]->DecompressLevel(rgbaImage->Data(), 0);
         _loadImages[0] = rgbaImage; // This destroys the original compressed image
     }
@@ -61,9 +61,9 @@ bool Texture::EndLoad()
     }
 
     Image* image = _loadImages[0];
-    bool success = Define(TEX_2D, USAGE_IMMUTABLE, image->GetSize(), image->GetFormat(), initialData.Size(), &initialData[0]);
+    bool success = Define(TextureType::TEX_2D, ResourceUsage::IMMUTABLE, image->GetSize(), image->GetFormat(), initialData.Size(), &initialData[0]);
     /// \todo Read a parameter file for the sampling parameters
-    success &= DefineSampler(FILTER_TRILINEAR, ADDRESS_WRAP, ADDRESS_WRAP, ADDRESS_WRAP);
+    success &= DefineSampler(TextureFilterMode::FILTER_TRILINEAR, TextureAddressMode::WRAP, TextureAddressMode::WRAP, TextureAddressMode::WRAP);
 
     _loadImages.Clear();
     return success;
@@ -71,7 +71,7 @@ bool Texture::EndLoad()
 
 size_t Texture::GetNumFaces() const
 {
-    return _type == TEX_CUBE ? MAX_CUBE_FACES : 1;
+    return _type == TextureType::TEX_CUBE ? MAX_CUBE_FACES : 1;
 }
 
 }

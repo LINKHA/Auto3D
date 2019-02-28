@@ -15,7 +15,7 @@ VertexBuffer::VertexBuffer() :
     _numVertices(0),
     _vertexSize(0),
     _elementHash(0),
-    _usage(USAGE_DEFAULT)
+    _usage(ResourceUsage::DEFAULT)
 {
 }
 
@@ -70,7 +70,7 @@ bool VertexBuffer::SetData(size_t firstVertex, size_t numVertices, const void* d
         ErrorString("Out of bounds range for updating vertex buffer");
         return false;
     }
-    if (_buffer && _usage == USAGE_IMMUTABLE)
+    if (_buffer && _usage == ResourceUsage::IMMUTABLE)
     {
         ErrorString("Can not update immutable vertex buffer");
         return false;
@@ -83,7 +83,7 @@ bool VertexBuffer::SetData(size_t firstVertex, size_t numVertices, const void* d
     {
         _graphics->BindVBO(_buffer);
         if (numVertices == _numVertices)
-            glBufferData(GL_ARRAY_BUFFER, numVertices * _vertexSize, data, _usage == USAGE_DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, numVertices * _vertexSize, data, _usage == ResourceUsage::DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
         else
             glBufferSubData(GL_ARRAY_BUFFER, firstVertex * _vertexSize, numVertices * _vertexSize, data);
     }
@@ -103,7 +103,7 @@ bool VertexBuffer::Create(const void* data)
         }
 
         _graphics->BindVBO(_buffer);
-        glBufferData(GL_ARRAY_BUFFER, _numVertices * _vertexSize, data, _usage == USAGE_DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, _numVertices * _vertexSize, data, _usage == ResourceUsage::DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
         LogStringF("Created vertex buffer numVertices %u vertexSize %u", (unsigned)_numVertices, (unsigned)_vertexSize);
     }
 

@@ -121,10 +121,10 @@ static const unsigned glWrapModes[] =
 
 Texture::Texture() :
     _texture(0),
-    _type(TEX_2D),
-    _usage(USAGE_DEFAULT),
+    _type(TextureType::TEX_2D),
+    _usage(ResourceUsage::DEFAULT),
     _size(Vector2I::ZERO),
-    _format(FMT_NONE)
+    _format(ImageFormat::NONE)
 {
 }
 
@@ -143,7 +143,7 @@ void Texture::Release()
                 _graphics->SetTexture(i, 0);
         }
 
-        if (_usage == USAGE_RENDERTARGET)
+        if (_usage == ResourceUsage::RENDERTARGET)
         {
             bool clear = false;
 
@@ -195,17 +195,17 @@ bool Texture::Define(TextureType type_, ResourceUsage usage, const Vector2I& siz
 
     Release();
 
-    if (type_ != TEX_2D && type_ != TEX_CUBE)
+    if (type_ != TextureType::TEX_2D && type_ != TextureType::TEX_CUBE)
     {
         ErrorString("Only 2D textures and cube maps supported for now");
         return false;
     }
-    if (format > FMT_DXT5)
+    if (format > ImageFormat::DXT5)
     {
         ErrorString("ETC1 and PVRTC formats are unsupported");
         return false;
     }
-    if (type_ == TEX_CUBE && size._x != size._y)
+    if (type_ == TextureType::TEX_CUBE && size._x != size._y)
     {
         ErrorString("Cube map must have square dimensions");
         return false;
@@ -223,7 +223,7 @@ bool Texture::Define(TextureType type_, ResourceUsage usage, const Vector2I& siz
         if (!_texture)
         {
             _size = Vector2I::ZERO;
-            _format = FMT_NONE;
+            _format = ImageFormat::NONE;
             _numLevels = 0;
 
             ErrorString("Failed to create texture");
@@ -242,9 +242,9 @@ bool Texture::Define(TextureType type_, ResourceUsage usage, const Vector2I& siz
         glGetError();
         if (!IsCompressed() && !initialData)
         {
-            if (_type == TEX_2D)
+            if (_type == TextureType::TEX_2D)
                 glTexImage2D(glTargets[_type], 0, glInternalFormats[_format], _size._x, _size._y, 0, glFormats[_format], glDataTypes[_format], 0);
-            else if (_type == TEX_CUBE)
+            else if (_type == TextureType::TEX_CUBE)
             {
                 for (size_t i = 0; i < MAX_CUBE_FACES; ++i)
                     glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, glInternalFormats[_format], _size._x, _size._y, 0, glFormats[_format], glDataTypes[_format], 0);
@@ -254,7 +254,7 @@ bool Texture::Define(TextureType type_, ResourceUsage usage, const Vector2I& siz
         if (initialData)
         {
             // Hack for allowing immutable texture to set initial data
-            _usage = USAGE_DEFAULT;
+            _usage = ResourceUsage::DEFAULT;
             size_t idx = 0;
             for (size_t i = 0; i < GetNumFaces(); ++i)
             {
@@ -269,7 +269,7 @@ bool Texture::Define(TextureType type_, ResourceUsage usage, const Vector2I& siz
         {
             Release();
             _size = Vector2I::ZERO;
-            _format = FMT_NONE;
+            _format = ImageFormat::NONE;
             _numLevels = 0;
 
             ErrorString("Failed to create texture");
@@ -310,14 +310,14 @@ bool Texture::DefineSampler(TextureFilterMode filter_, TextureAddressMode u, Tex
 
         switch (_filter)
         {
-        case FILTER_POINT:
-        case COMPARE_POINT:
+        case TextureFilterMode::FILTER_POINT:
+        case TextureFilterMode::COMPARE_POINT:
             glTexParameteri(glTargets[_type], GL_TEXTURE_MIN_FILTER, GL_NEAREST);
             glTexParameteri(glTargets[_type], GL_TEXTURE_MAG_FILTER, GL_NEAREST);
             break;
 
-        case FILTER_BILINEAR:
-        case COMPARE_BILINEAR:
+        case TextureFilterMode::FILTER_BILINEAR:
+        case TextureFilterMode::COMPARE_BILINEAR:
             if (_numLevels < 2)
                 glTexParameteri(glTargets[_type], GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             else
@@ -325,10 +325,10 @@ bool Texture::DefineSampler(TextureFilterMode filter_, TextureAddressMode u, Tex
             glTexParameteri(glTargets[_type], GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             break;
 
-        case FILTER_ANISOTROPIC:
-        case FILTER_TRILINEAR:
-        case COMPARE_ANISOTROPIC:
-        case COMPARE_TRILINEAR:
+        case TextureFilterMode::FILTER_ANISOTROPIC:
+        case TextureFilterMode::FILTER_TRILINEAR:
+        case TextureFilterMode::COMPARE_ANISOTROPIC:
+        case TextureFilterMode::COMPARE_TRILINEAR:
             if (_numLevels < 2)
                 glTexParameteri(glTargets[_type], GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             else
@@ -344,7 +344,7 @@ bool Texture::DefineSampler(TextureFilterMode filter_, TextureAddressMode u, Tex
         glTexParameteri(glTargets[_type], GL_TEXTURE_WRAP_T, glWrapModes[_addressModes[1]]);
         glTexParameteri(glTargets[_type], GL_TEXTURE_WRAP_R, glWrapModes[_addressModes[2]]);
 
-        glTexParameterf(glTargets[_type], GL_TEXTURE_MAX_ANISOTROPY_EXT, _filter == FILTER_ANISOTROPIC ?
+        glTexParameterf(glTargets[_type], GL_TEXTURE_MAX_ANISOTROPY_EXT, _filter == TextureFilterMode::FILTER_ANISOTROPIC ?
             _maxAnisotropy : 1.0f);
 
         glTexParameterf(glTargets[_type], GL_TEXTURE_MIN_LOD, _minLod);
@@ -352,7 +352,7 @@ bool Texture::DefineSampler(TextureFilterMode filter_, TextureAddressMode u, Tex
 
         glTexParameterfv(glTargets[_type], GL_TEXTURE_BORDER_COLOR, _borderColor.Data());
         
-        if (_filter >= COMPARE_POINT)
+        if (_filter >= TextureFilterMode::COMPARE_POINT)
         {
             glTexParameteri(glTargets[_type], GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
             glTexParameteri(glTargets[_type], GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
@@ -370,7 +370,7 @@ bool Texture::SetData(size_t face, size_t level, RectI rect, const ImageLevel& d
 
     if (_texture)
     {
-        if (_usage == USAGE_IMMUTABLE)
+        if (_usage == ResourceUsage::IMMUTABLE)
         {
             ErrorString("Can not update immutable texture");
             return false;
@@ -397,7 +397,7 @@ bool Texture::SetData(size_t face, size_t level, RectI rect, const ImageLevel& d
         _graphics->SetTexture(0, this);
 
         bool wholeLevel = rect == levelRect;
-        unsigned target = (_type == TEX_CUBE) ? GL_TEXTURE_CUBE_MAP_POSITIVE_X + face: glTargets[_type];
+        unsigned target = (_type == TextureType::TEX_CUBE) ? GL_TEXTURE_CUBE_MAP_POSITIVE_X + face: glTargets[_type];
         
         if (!IsCompressed())
         {

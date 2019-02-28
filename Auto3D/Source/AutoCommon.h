@@ -1,5 +1,4 @@
 #pragma once
-#include "Math/KhMath.h"
 
 #ifdef ENUM
 #	undef ENUM

@@ -15,11 +15,10 @@ class VertexBuffer;
 struct LightList;
 
 /// Geometry types.
-enum GeometryType
-{
-    GEOM_STATIC = 0,
-    GEOM_INSTANCED
-};
+ENUM(GeometryType)
+	STATIC = 0,
+	INSTANCED
+ENUM_END(GeometryType);
 
 /// Description of geometry to be rendered. %Scene nodes that render the same object can share these to reduce memory load and allow instancing.
 struct AUTO_API Geometry : public RefCounted
@@ -39,7 +38,7 @@ struct AUTO_API Geometry : public RefCounted
     /// %Geometry index buffer.
     SharedPtr<IndexBuffer> _indexBuffer;
     /// Constant buffers.
-    SharedPtr<ConstantBuffer> _constantBuffers[MAX_SHADER_STAGES];
+    SharedPtr<ConstantBuffer> _constantBuffers[ShaderStage::Count];
     /// %Geometry's primitive type.
     PrimitiveType _primitiveType;
     /// Draw range start. Specifies index start if index buffer defined, vertex start otherwise.

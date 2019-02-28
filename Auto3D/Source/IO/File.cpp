@@ -27,7 +27,7 @@ static const char* openModes[] =
 #endif
 
 File::File() :
-    _mode(FILE_READ),
+    _mode(FileMode::READ),
     _handle(nullptr),
     _readSyncNeeded(false),
     _writeSyncNeeded(false)
@@ -35,7 +35,7 @@ File::File() :
 }
 
 File::File(const String& fileName, FileMode mode) :
-    _mode(FILE_READ),
+    _mode(FileMode::READ),
     _handle(nullptr),
     _readSyncNeeded(false),
     _writeSyncNeeded(false)
@@ -62,7 +62,7 @@ bool File::Open(const String& fileName, FileMode fileMode)
     #endif
 
     // If file did not exist in readwrite mode, retry with write-update mode
-    if (_mode == FILE_READWRITE && !_handle)
+    if (_mode == FileMode::READWRITE && !_handle)
     {
         #ifdef _WIN32
         _handle = _wfopen(WideNativePath(fileName).CString(), openModes[fileMode + 1]);
@@ -88,7 +88,7 @@ bool File::Open(const String& fileName, FileMode fileMode)
 
 size_t File::Read(void* dest, size_t numBytes)
 {
-    if (!_handle || _mode == FILE_WRITE)
+    if (!_handle || _mode == FileMode::WRITE)
         return 0;
 
     if (numBytes + _position > _size)
@@ -122,7 +122,7 @@ size_t File::Seek(size_t newPosition)
         return 0;
     
     // Allow sparse seeks if writing
-    if (_mode == FILE_READ && newPosition > _size)
+    if (_mode == FileMode::READ && newPosition > _size)
         newPosition = _size;
 
     fseek((FILE*)_handle, (long)newPosition, SEEK_SET);
@@ -134,7 +134,7 @@ size_t File::Seek(size_t newPosition)
 
 size_t File::Write(const void* data, size_t numBytes)
 {
-    if (!_handle || _mode == FILE_READ)
+    if (!_handle || _mode == FileMode::READ)
         return 0;
 
     if (!numBytes)
@@ -164,12 +164,12 @@ size_t File::Write(const void* data, size_t numBytes)
 
 bool File::IsReadable() const
 {
-    return _handle != 0 && _mode != FILE_WRITE;
+    return _handle != 0 && _mode != FileMode::WRITE;
 }
 
 bool File::IsWritable() const
 {
-    return _handle != 0 && _mode != FILE_READ;
+    return _handle != 0 && _mode != FileMode::READ;
 }
 
 void File::Close()

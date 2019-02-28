@@ -143,15 +143,15 @@ extern AUTO_API const char* stencilOpNames[] =
 
 extern AUTO_API const BlendModeDesc blendModes[] =
 {
-    BlendModeDesc(false, BLEND_ONE, BLEND_ONE, BLEND_OP_ADD, BLEND_ONE, BLEND_ONE, BLEND_OP_ADD),
-    BlendModeDesc(true, BLEND_ONE, BLEND_ONE, BLEND_OP_ADD, BLEND_ONE, BLEND_ONE, BLEND_OP_ADD),
-    BlendModeDesc(true, BLEND_DEST_COLOR, BLEND_ZERO, BLEND_OP_ADD, BLEND_DEST_COLOR, BLEND_ZERO, BLEND_OP_ADD),
-    BlendModeDesc(true, BLEND_SRC_ALPHA, BLEND_INV_SRC_ALPHA, BLEND_OP_ADD, BLEND_SRC_ALPHA, BLEND_INV_SRC_ALPHA, BLEND_OP_ADD),
-    BlendModeDesc(true, BLEND_SRC_ALPHA, BLEND_ONE, BLEND_OP_ADD, BLEND_SRC_ALPHA, BLEND_ONE, BLEND_OP_ADD),
-    BlendModeDesc(true, BLEND_ONE, BLEND_INV_SRC_ALPHA, BLEND_OP_ADD, BLEND_ONE, BLEND_INV_SRC_ALPHA, BLEND_OP_ADD),
-    BlendModeDesc(true, BLEND_INV_DEST_ALPHA, BLEND_DEST_ALPHA, BLEND_OP_ADD, BLEND_INV_DEST_ALPHA, BLEND_DEST_ALPHA, BLEND_OP_ADD),
-    BlendModeDesc(true, BLEND_ONE, BLEND_ONE, BLEND_OP_REV_SUBTRACT, BLEND_ONE, BLEND_ONE, BLEND_OP_REV_SUBTRACT),
-    BlendModeDesc(true, BLEND_SRC_ALPHA, BLEND_ONE, BLEND_OP_REV_SUBTRACT, BLEND_SRC_ALPHA, BLEND_ONE, BLEND_OP_REV_SUBTRACT)
+    BlendModeDesc(false, BlendFactor::ONE, BlendFactor::ONE, BlendOp::ADD, BlendFactor::ONE, BlendFactor::ONE, BlendOp::ADD),
+    BlendModeDesc(true, BlendFactor::ONE, BlendFactor::ONE, BlendOp::ADD, BlendFactor::ONE, BlendFactor::ONE, BlendOp::ADD),
+    BlendModeDesc(true, BlendFactor::DEST_COLOR, BlendFactor::ZERO, BlendOp::ADD, BlendFactor::DEST_COLOR, BlendFactor::ZERO, BlendOp::ADD),
+    BlendModeDesc(true, BlendFactor::SRC_ALPHA, BlendFactor::INV_SRC_ALPHA, BlendOp::ADD, BlendFactor::SRC_ALPHA, BlendFactor::INV_SRC_ALPHA, BlendOp::ADD),
+    BlendModeDesc(true, BlendFactor::SRC_ALPHA, BlendFactor::ONE, BlendOp::ADD, BlendFactor::SRC_ALPHA, BlendFactor::ONE, BlendOp::ADD),
+    BlendModeDesc(true, BlendFactor::ONE, BlendFactor::INV_SRC_ALPHA, BlendOp::ADD, BlendFactor::ONE, BlendFactor::INV_SRC_ALPHA, BlendOp::ADD),
+    BlendModeDesc(true, BlendFactor::INV_DEST_ALPHA, BlendFactor::DEST_ALPHA, BlendOp::ADD, BlendFactor::INV_DEST_ALPHA, BlendFactor::DEST_ALPHA, BlendOp::ADD),
+    BlendModeDesc(true, BlendFactor::ONE, BlendFactor::ONE, BlendOp::REV_SUBTRACT, BlendFactor::ONE, BlendFactor::ONE, BlendOp::REV_SUBTRACT),
+    BlendModeDesc(true, BlendFactor::SRC_ALPHA, BlendFactor::ONE, BlendOp::REV_SUBTRACT, BlendFactor::SRC_ALPHA, BlendFactor::ONE, BlendOp::REV_SUBTRACT)
 };
 
 }

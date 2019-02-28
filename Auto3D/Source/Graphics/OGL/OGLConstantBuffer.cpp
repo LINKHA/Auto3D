@@ -16,7 +16,7 @@ namespace Auto3D
 ConstantBuffer::ConstantBuffer() :
     _buffer(0),
     _byteSize(0),
-    _usage(USAGE_DEFAULT),
+    _usage(ResourceUsage::DEFAULT),
     _dirty(false)
 {
 }
@@ -30,7 +30,7 @@ void ConstantBuffer::Release()
 {
     if (_graphics)
     {
-        for (size_t i = 0; i < MAX_SHADER_STAGES; ++i)
+        for (size_t i = 0; i < ShaderStage::Count; ++i)
         {
             for (size_t j = 0; j < MAX_CONSTANT_BUFFERS; ++j)
             {
@@ -66,7 +66,7 @@ bool ConstantBuffer::SetData(const void* data, bool copyToShadow)
     if (copyToShadow)
         memcpy(_shadowData.Get(), data, _byteSize);
 
-    if (_usage == USAGE_IMMUTABLE)
+    if (_usage == ResourceUsage::IMMUTABLE)
     {
         if (!_buffer)
             return Create(data);
@@ -80,7 +80,7 @@ bool ConstantBuffer::SetData(const void* data, bool copyToShadow)
     if (_buffer)
     {
         _graphics->BindUBO(_buffer);
-        glBufferData(GL_UNIFORM_BUFFER, _byteSize, data, _usage != USAGE_IMMUTABLE ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+        glBufferData(GL_UNIFORM_BUFFER, _byteSize, data, _usage != ResourceUsage::IMMUTABLE ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
     }
 
     _dirty = false;
@@ -101,7 +101,7 @@ bool ConstantBuffer::Create(const void* data)
         }
 
         _graphics->BindUBO(_buffer);
-        glBufferData(GL_UNIFORM_BUFFER, _byteSize, data, _usage != USAGE_IMMUTABLE ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+        glBufferData(GL_UNIFORM_BUFFER, _byteSize, data, _usage != ResourceUsage::IMMUTABLE ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
     }
 
     return true;

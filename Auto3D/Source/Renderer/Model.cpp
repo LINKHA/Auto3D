@@ -68,52 +68,52 @@ bool Model::BeginLoad(Stream& source)
         size_t vertexSize = 0;
         if (elementMask & 1)
         {
-            vbDesc._vertexElements.Push(VertexElement(ELEM_VECTOR3, SEM_POSITION));
+            vbDesc._vertexElements.Push(VertexElement(ElementType::VECTOR3, ElementSemantic::POSITION));
             vertexSize += sizeof(Vector3F);
         }
         if (elementMask & 2)
         {
-            vbDesc._vertexElements.Push(VertexElement(ELEM_VECTOR3, SEM_NORMAL));
+            vbDesc._vertexElements.Push(VertexElement(ElementType::VECTOR3, ElementSemantic::NORMAL));
             vertexSize += sizeof(Vector3F);
         }
         if (elementMask & 4)
         {
-            vbDesc._vertexElements.Push(VertexElement(ELEM_UBYTE4, SEM_COLOR));
+            vbDesc._vertexElements.Push(VertexElement(ElementType::UBYTE4, ElementSemantic::COLOR));
             vertexSize += 4;
         }
         if (elementMask & 8)
         {
-            vbDesc._vertexElements.Push(VertexElement(ELEM_VECTOR2, SEM_TEXCOORD));
+            vbDesc._vertexElements.Push(VertexElement(ElementType::VECTOR2, ElementSemantic::TEXCOORD));
             vertexSize += sizeof(Vector2F);
         }
         if (elementMask & 16)
         {
-            vbDesc._vertexElements.Push(VertexElement(ELEM_VECTOR2, SEM_TEXCOORD, 1));
+            vbDesc._vertexElements.Push(VertexElement(ElementType::VECTOR2, ElementSemantic::TEXCOORD, 1));
             vertexSize += sizeof(Vector2F);
         }
         if (elementMask & 32)
         {
-            vbDesc._vertexElements.Push(VertexElement(ELEM_VECTOR3, SEM_TEXCOORD));
+            vbDesc._vertexElements.Push(VertexElement(ElementType::VECTOR3, ElementSemantic::TEXCOORD));
             vertexSize += sizeof(Vector3F);
         }
         if (elementMask & 64)
         {
-            vbDesc._vertexElements.Push(VertexElement(ELEM_VECTOR3, SEM_TEXCOORD, 1));
+            vbDesc._vertexElements.Push(VertexElement(ElementType::VECTOR3, ElementSemantic::TEXCOORD, 1));
             vertexSize += sizeof(Vector3F);
         }
         if (elementMask & 128)
         {
-            vbDesc._vertexElements.Push(VertexElement(ELEM_VECTOR4, SEM_TANGENT));
+            vbDesc._vertexElements.Push(VertexElement(ElementType::VECTOR4, ElementSemantic::TANGENT));
             vertexSize += sizeof(Vector4F);
         }
         if (elementMask & 256)
         {
-            vbDesc._vertexElements.Push(VertexElement(ELEM_VECTOR4, SEM_BLENDWEIGHT));
+            vbDesc._vertexElements.Push(VertexElement(ElementType::VECTOR4, ElementSemantic::BLENDWEIGHT));
             vertexSize += sizeof(Vector4F);
         }
         if (elementMask & 512)
         {
-            vbDesc._vertexElements.Push(VertexElement(ELEM_UBYTE4, SEM_BLENDINDICES));
+            vbDesc._vertexElements.Push(VertexElement(ElementType::UBYTE4, ElementSemantic::BLENDINDICES));
             vertexSize += 4;
         }
 
@@ -155,7 +155,7 @@ bool Model::BeginLoad(Stream& source)
 
             geomDesc._lodDistance = source.Read<float>();
             source.Read<unsigned>(); // Primitive type
-            geomDesc._primitiveType = TRIANGLE_LIST; // Always assume triangle list for now
+            geomDesc._primitiveType = PrimitiveType::TRIANGLE_LIST; // Always assume triangle list for now
             geomDesc._vbRef = source.Read<unsigned>();
             geomDesc._ibRef = source.Read<unsigned>();
             geomDesc._drawStart = source.Read<unsigned>();
@@ -208,7 +208,7 @@ bool Model::EndLoad()
         const VertexBufferDesc& vbDesc = _vbDescs[i];
         SharedPtr<VertexBuffer> vb(new VertexBuffer());
 
-        vb->Define(USAGE_IMMUTABLE, vbDesc._numVertices, vbDesc._vertexElements, true, vbDesc._vertexData.Get());
+        vb->Define(ResourceUsage::IMMUTABLE, vbDesc._numVertices, vbDesc._vertexElements, true, vbDesc._vertexData.Get());
         vbs.Push(vb);
     }
 
@@ -218,7 +218,7 @@ bool Model::EndLoad()
         const IndexBufferDesc& ibDesc = _ibDescs[i];
         SharedPtr<IndexBuffer> ib(new IndexBuffer());
 
-        ib->Define(USAGE_IMMUTABLE, ibDesc._numIndices, ibDesc._indexSize, true, ibDesc._indexData.Get());
+        ib->Define(ResourceUsage::IMMUTABLE, ibDesc._numIndices, ibDesc._indexSize, true, ibDesc._indexData.Get());
         ibs.Push(ib);
     }
 

@@ -179,16 +179,16 @@ static void DecompressDXT( unsigned char* rgba, const void* block, ImageFormat f
     // get the block locations
     void const* colourBlock = block;
     void const* alphaBock = block;
-    if( format == FMT_DXT3 || format == FMT_DXT5)
+    if( format == ImageFormat::DXT3 || format == ImageFormat::DXT5)
         colourBlock = reinterpret_cast< unsigned char const* >( block ) + 8;
 
     // decompress colour
-    DecompressColourDXT( rgba, colourBlock, format == FMT_DXT1 );
+    DecompressColourDXT( rgba, colourBlock, format == ImageFormat::DXT1 );
 
     // decompress alpha separately if necessary
-    if( format == FMT_DXT3 )
+    if( format == ImageFormat::DXT3 )
         DecompressAlphaDXT3( rgba, alphaBock );
-    else if ( format == FMT_DXT5 )
+    else if ( format == ImageFormat::DXT5 )
         DecompressAlphaDXT5( rgba, alphaBock );
 }
 
@@ -196,7 +196,7 @@ void DecompressImageDXT( unsigned char* rgba, const void* blocks, int width, int
 {
     // initialise the block input
     unsigned char const* sourceBlock = reinterpret_cast< unsigned char const* >( blocks );
-    int bytesPerBlock = format == FMT_DXT1 ? 8 : 16;
+    int bytesPerBlock = format == ImageFormat::DXT1 ? 8 : 16;
 
     // loop over blocks
     for( int y = 0; y < height; y += 4 )
@@ -774,7 +774,7 @@ void DecompressImagePVRTC(unsigned char* dest, const void *blocks, int width, in
 {
     AMTC_BLOCK_STRUCT* pCompressedData = (AMTC_BLOCK_STRUCT*)blocks;
     int AssumeImageTiles = 1;
-    int Do2bitMode = format == FMT_PVRTC_RGB_2BPP || format == FMT_PVRTC_RGBA_2BPP;
+    int Do2bitMode = format == ImageFormat::PVRTC_RGB_2BPP || format == ImageFormat::PVRTC_RGBA_2BPP;
 
     int x, y;
     int i, j;

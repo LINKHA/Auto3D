@@ -1,9 +1,11 @@
 #pragma once
 
+#include "../AutoCommon.h"
 #include "../Math/AreaAllocator.h"
 #include "Camera.h"
 #include "GeometryNode.h"
 #include "Material.h"
+
 
 namespace Auto3D
 {
@@ -15,13 +17,12 @@ struct LightPass;
 static const size_t MAX_LIGHTS_PER_PASS = 4;
 
 /// Batch sorting modes.
-enum BatchSortMode
-{
-    SORT_NONE = 0,
-    SORT_STATE,
-    SORT_BACK_TO_FRONT,
-    SORT_FRONT_TO_BACK,
-};
+ENUM(BatchSortMode)
+	NONE = 0,
+	STATE,
+	BACK_TO_FRONT,
+	FRONT_TO_BACK,
+ENUM_END(BatchSortMode);
 
 /// Description of a draw call.
 struct AUTO_API Batch

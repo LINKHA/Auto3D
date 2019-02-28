@@ -10,35 +10,34 @@ namespace Auto3D
 {
 
 /// Image formats.
-enum ImageFormat
-{
-    FMT_NONE = 0,
-    FMT_R8,
-    FMT_RG8,
-    FMT_RGBA8,
-    FMT_A8,
-    FMT_R16,
-    FMT_RG16,
-    FMT_RGBA16,
-    FMT_R16F,
-    FMT_RG16F,
-    FMT_RGBA16F,
-    FMT_R32F,
-    FMT_RG32F,
-    FMT_RGB32F,
-    FMT_RGBA32F,
-    FMT_D16,
-    FMT_D32,
-    FMT_D24S8,
-    FMT_DXT1,
-    FMT_DXT3,
-    FMT_DXT5,
-    FMT_ETC1,
-    FMT_PVRTC_RGB_2BPP,
-    FMT_PVRTC_RGBA_2BPP,
-    FMT_PVRTC_RGB_4BPP,
-    FMT_PVRTC_RGBA_4BPP
-};
+ENUM(ImageFormat)
+	NONE = 0,
+	R8,
+	RG8,
+	RGBA8,
+	A8,
+	R16,
+	RG16,
+	RGBA16,
+	R16F,
+	RG16F,
+	RGBA16F,
+	R32F,
+	RG32F,
+	RGB32F,
+	RGBA32F,
+	D16,
+	D32,
+	D24S8,
+	DXT1,
+	DXT3,
+	DXT5,
+	ETC1,
+	PVRTC_RGB_2BPP,
+	PVRTC_RGBA_2BPP,
+	PVRTC_RGB_4BPP,
+	PVRTC_RGBA_4BPP
+ENUM_END(ImageFormat);
 
 /// Description of image mip level data.
 struct AUTO_API ImageLevel
@@ -101,7 +100,7 @@ public:
     /// Return the image format.
     ImageFormat GetFormat() const { return format; }
     /// Return whether is a compressed image.
-    bool IsCompressed() const { return format >= FMT_DXT1; }
+    bool IsCompressed() const { return format >= ImageFormat::DXT1; }
     /// Return number of mip levels contained in the image data.
     size_t GetNumLevels() const { return numLevels; }
     /// Calculate the next mip image with halved width and height. Supports uncompressed 8 bits per pixel images only. Return true on success.

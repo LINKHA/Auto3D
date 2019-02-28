@@ -47,7 +47,7 @@ void Engine::Init()
 	_graphics->RenderWindow()->SetMouseHide(true);
 	
 
-	_renderer->SetupShadowMaps(1, 2048, FMT_D16);
+	_renderer->SetupShadowMaps(1, 2048, ImageFormat::D16);
 }
 void Engine::Exit()
 {

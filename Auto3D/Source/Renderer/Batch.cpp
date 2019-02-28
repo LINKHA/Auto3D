@@ -32,18 +32,18 @@ void BatchQueue::Sort(Vector<Matrix3x4F>& instanceTransforms)
 {
     switch (_sort)
     {
-    case SORT_STATE:
+    case BatchSortMode::STATE:
         Auto3D::Sort(_batches.Begin(), _batches.End(), CompareBatchState);
         Auto3D::Sort(_additiveBatches.Begin(), _additiveBatches.End(), CompareBatchState);
         break;
 
-    case SORT_FRONT_TO_BACK:
+    case BatchSortMode::FRONT_TO_BACK:
         Auto3D::Sort(_batches.Begin(), _batches.End(), CompareBatchDistanceFrontToBack);
         // After drawing the base batches, the Z buffer has been prepared. Additive batches can be sorted per state now
         Auto3D::Sort(_additiveBatches.Begin(), _additiveBatches.End(), CompareBatchState);
         break;
 
-    case SORT_BACK_TO_FRONT:
+    case BatchSortMode::BACK_TO_FRONT:
         Auto3D::Sort(_batches.Begin(), _batches.End(), CompareBatchDistanceBackToFront);
         Auto3D::Sort(_additiveBatches.Begin(), _additiveBatches.End(), CompareBatchDistanceBackToFront);
         break;
@@ -63,10 +63,10 @@ void BatchQueue::BuildInstances(Vector<Batch>& batches, Vector<Matrix3x4F>& inst
     for (auto it = batches.Begin(), end = batches.End(); it != end; ++it)
     {
         Batch* current = &*it;
-        if (start && current->_type == GEOM_STATIC && current->_pass == start->_pass && current->_geometry == start->_geometry &&
+        if (start && current->_type == GeometryType::STATIC && current->_pass == start->_pass && current->_geometry == start->_geometry &&
             current->_lights == start->_lights)
         {
-            if (start->_type == GEOM_INSTANCED)
+            if (start->_type == GeometryType::INSTANCED)
             {
                 instanceTransforms.Push(*current->_worldMatrix);
                 ++start->_instanceCount;
@@ -74,7 +74,7 @@ void BatchQueue::BuildInstances(Vector<Batch>& batches, Vector<Matrix3x4F>& inst
             else
             {
                 // Begin new instanced batch
-                start->_type = GEOM_INSTANCED;
+                start->_type = GeometryType::INSTANCED;
                 size_t instanceStart = instanceTransforms.Size();
                 instanceTransforms.Push(*start->_worldMatrix);
                 instanceTransforms.Push(*current->_worldMatrix);
@@ -83,7 +83,7 @@ void BatchQueue::BuildInstances(Vector<Batch>& batches, Vector<Matrix3x4F>& inst
             }
         }
         else
-            start = (current->_type == GEOM_STATIC) ? current : nullptr;
+            start = (current->_type == GeometryType::STATIC) ? current : nullptr;
     }
 }
 

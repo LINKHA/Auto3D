@@ -35,9 +35,9 @@ public:
     /// Return resource usage type.
     ResourceUsage Usage() const { return _usage; }
     /// Return whether is dynamic.
-    bool IsDynamic() const { return _usage == USAGE_DYNAMIC; }
+    bool IsDynamic() const { return _usage == ResourceUsage::DYNAMIC; }
     /// Return whether is immutable.
-    bool IsImmutable() const { return _usage == USAGE_IMMUTABLE; }
+    bool IsImmutable() const { return _usage == ResourceUsage::IMMUTABLE; }
 
     /// Return the OpenGL buffer identifier. Used internally and should not be called by portable application code.
     unsigned GetGLBuffer() const { return _buffer; }

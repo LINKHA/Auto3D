@@ -40,7 +40,7 @@ void MeshSample::Start()
 		mushroom->SetLodBias(2.0f);
 
 		Light* light = scene->CreateChild<Light>();
-		light->SetLightType(LIGHT_POINT);
+		light->SetLightType(LightType::POINT);
 		light->SetCastShadows(true);
 		light->SetColor(Color(1.0f,1.0f,1.0f));
 		light->SetFov(90.0f);

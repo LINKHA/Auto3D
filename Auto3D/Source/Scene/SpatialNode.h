@@ -7,12 +7,11 @@ namespace Auto3D
 {
 
 /// Transform space for translations and rotations.
-enum TransformSpace
-{
-    TS_LOCAL = 0,
-    TS_PARENT,
-    TS_WORLD
-};
+ENUM(TransformSpace)
+	LOCAL = 0,
+	PARENT,
+	WORLD
+ENUM_END(TransformSpace);
 
 /// Base class for scene nodes with _position in three-dimensional space.
 class AUTO_API SpatialNode : public Node
@@ -59,19 +58,19 @@ public:
     /// Set transform in world space.
     void SetWorldTransform(const Vector3F& newPosition, const Quaternion& newRotation, float newScale);
     /// Move the scene node in the chosen transform space.
-    void Translate(const Vector3F& delta, TransformSpace space = TS_LOCAL);
+    void Translate(const Vector3F& delta, TransformSpace space = TransformSpace::LOCAL);
     /// Rotate the scene node in the chosen transform space.
-    void Rotate(const Quaternion& delta, TransformSpace space = TS_LOCAL);
+    void Rotate(const Quaternion& delta, TransformSpace space = TransformSpace::LOCAL);
     /// Rotate around a point in the chosen transform space.
-    void RotateAround(const Vector3F& point, const Quaternion& delta, TransformSpace space = TS_LOCAL);
+    void RotateAround(const Vector3F& point, const Quaternion& delta, TransformSpace space = TransformSpace::LOCAL);
     /// Rotate around the X axis.
-    void Pitch(float angle, TransformSpace space = TS_LOCAL);
+    void Pitch(float angle, TransformSpace space = TransformSpace::LOCAL);
     /// Rotate around the Y axis.
-    void Yaw(float angle, TransformSpace space = TS_LOCAL);
+    void Yaw(float angle, TransformSpace space = TransformSpace::LOCAL);
     /// Rotate around the Z axis.
-    void Roll(float angle, TransformSpace space = TS_LOCAL);
+    void Roll(float angle, TransformSpace space = TransformSpace::LOCAL);
     /// Look at a target _position in the chosen transform space. Note that the up vector is always specified in world space. Return true if successful, or false if resulted in an illegal rotation, in which case the current rotation remains.
-    bool LookAt(const Vector3F& target, const Vector3F& up = Vector3F::UP, TransformSpace space = TS_WORLD);
+    bool LookAt(const Vector3F& target, const Vector3F& up = Vector3F::UP, TransformSpace space = TransformSpace::WORLD);
     /// Apply a scale change.
     void ApplyScale(const Vector3F& delta);
     /// Apply an uniform scale change.

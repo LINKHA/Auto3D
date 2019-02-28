@@ -12,22 +12,22 @@ namespace Auto3D
 
 static const AttributeType elementToAttribute[] =
 {
-    ATTR_INT,
-    ATTR_FLOAT,
-    ATTR_VECTOR2,
-    ATTR_VECTOR3,
-    ATTR_VECTOR4,
-    MAX_ATTR_TYPES,
-    ATTR_MATRIX3X4,
-    ATTR_MATRIX4,
-    MAX_ATTR_TYPES
+    AttributeType::INT,
+    AttributeType::FLOAT,
+    AttributeType::VECTOR2,
+    AttributeType::VECTOR3,
+    AttributeType::VECTOR4,
+    AttributeType::Count,
+    AttributeType::MATRIX3X4,
+    AttributeType::MATRIX4,
+    AttributeType::Count
 };
 
 bool ConstantBuffer::LoadJSON(const JSONValue& source)
 {
-    ResourceUsage usage_ = USAGE_DEFAULT;
+    ResourceUsage usage_ = ResourceUsage::DEFAULT;
     if (source.Contains("usage"))
-        usage_ = (ResourceUsage)String::ListIndex(source["usage"].GetString(), resourceUsageNames, USAGE_DEFAULT);
+        usage_ = (ResourceUsage)String::ListIndex(source["usage"].GetString(), resourceUsageNames, ResourceUsage::DEFAULT);
 
     Vector<Constant> constants_;
 
@@ -39,8 +39,8 @@ bool ConstantBuffer::LoadJSON(const JSONValue& source)
 
         Constant newConstant;
         newConstant._name = jsonConstant["name"].GetString();
-        newConstant._type = (ElementType)String::ListIndex(type, elementTypeNames, MAX_ELEMENT_TYPES);
-        if (newConstant._type == MAX_ELEMENT_TYPES)
+        newConstant._type = (ElementType)String::ListIndex(type, elementTypeNames, ElementType::Count);
+        if (newConstant._type == ElementType::Count)
         {
             ErrorStringF("Unknown element type %s in constant buffer JSON", type.CString());
             break;
@@ -119,7 +119,7 @@ bool ConstantBuffer::Define(ResourceUsage usage, size_t numConstants, const Cons
         ErrorString("Can not define constant buffer with no constants");
         return false;
     }
-    if (usage == USAGE_RENDERTARGET)
+    if (usage == ResourceUsage::RENDERTARGET)
     {
         ErrorString("Rendertarget usage is illegal for constant buffers");
         return false;
@@ -131,7 +131,7 @@ bool ConstantBuffer::Define(ResourceUsage usage, size_t numConstants, const Cons
     
     while (numConstants--)
     {
-        if (srcConstants->_type == ELEM_UBYTE4)
+        if (srcConstants->_type == ElementType::UBYTE4)
         {
             ErrorString("UBYTE4 type is not supported in constant buffers");
             _constants.Clear();
@@ -161,7 +161,7 @@ bool ConstantBuffer::Define(ResourceUsage usage, size_t numConstants, const Cons
     
     _shadowData = new unsigned char[_byteSize];
 
-    if (_usage != USAGE_IMMUTABLE)
+    if (_usage != ResourceUsage::IMMUTABLE)
         return Create();
     else
         return true;

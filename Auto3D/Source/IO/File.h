@@ -1,17 +1,16 @@
 #pragma once
 
 #include "Stream.h"
-
+#include "../AutoCommon.h"
 namespace Auto3D
 {
 
 /// %File open mode.
-enum FileMode
-{
-    FILE_READ = 0,
-    FILE_WRITE,
-    FILE_READWRITE
-};
+ENUM(FileMode)
+	READ = 0,
+	WRITE,
+	READWRITE
+ENUM_END(FileMode);
 
 class PackageFile;
 
@@ -22,7 +21,7 @@ public:
     /// Construct.
     File();
     /// Construct and open a file.
-    File(const String& fileName, FileMode fileMode = FILE_READ);
+    File(const String& fileName, FileMode fileMode = FileMode::READ);
     /// Destruct. Close the file if open.
     ~File();
     
@@ -38,7 +37,7 @@ public:
     bool IsWritable() const override;
 
     /// Open a file. Return true on success.
-    bool Open(const String& fileName, FileMode fileMode = FILE_READ);
+    bool Open(const String& fileName, FileMode fileMode = FileMode::READ);
     /// Close the file.
     void Close();
     /// Flush any buffered output to the file.

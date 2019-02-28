@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../AutoCommon.h"
 #include "../Base/AutoPtr.h"
 #include "../Base/Ptr.h"
 #include "../IO/Stream.h"
@@ -12,32 +13,31 @@ class Serializable;
 class Stream;
 
 /// Supported attribute types.
-enum AttributeType
-{
-    ATTR_BOOL = 0,
-    ATTR_BYTE,
-    ATTR_UNSIGNED,
-    ATTR_INT,
-    ATTR_INTVECTOR2,
-    ATTR_INTRECT,
-    ATTR_FLOAT,
-    ATTR_VECTOR2,
-    ATTR_VECTOR3,
-    ATTR_VECTOR4,
-    ATTR_QUATERNION,
-    ATTR_COLOR,
-    ATTR_RECT,
-    ATTR_BOUNDINGBOX,
-    ATTR_MATRIX3,
-    ATTR_MATRIX3X4,
-    ATTR_MATRIX4,
-    ATTR_STRING,
-    ATTR_RESOURCEREF,
-    ATTR_RESOURCEREFLIST,
-    ATTR_OBJECTREF,
-    ATTR_JSONVALUE,
-    MAX_ATTR_TYPES
-};
+ENUM(AttributeType)
+	BOOL = 0,
+	BYTE,
+	UNSIGNED,
+	INT,
+	INTVECTOR2,
+	INTRECT,
+	FLOAT,
+	VECTOR2,
+	VECTOR3,
+	VECTOR4,
+	QUATERNION,
+	COLOR,
+	RECT,
+	BOUNDINGBOX,
+	MATRIX3,
+	MATRIX3X4,
+	MATRIX4,
+	STRING,
+	RESOURCEREF,
+	RESOURCEREFLIST,
+	OBJECTREF,
+	JSONVALUE,
+	Count
+ENUM_END(AttributeType);
 
 /// Helper class for accessing serializable variables via getter and setter functions.
 class AUTO_API AttributeAccessor

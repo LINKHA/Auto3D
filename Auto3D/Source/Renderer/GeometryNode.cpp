@@ -14,7 +14,7 @@ namespace Auto3D
 {
 
 Geometry::Geometry() : 
-    _primitiveType(TRIANGLE_LIST),
+    _primitiveType(PrimitiveType::TRIANGLE_LIST),
     _drawStart(0),
     _drawCount(0),
     _lodDistance(0.0f)
@@ -59,7 +59,7 @@ SourceBatch::~SourceBatch()
 
 GeometryNode::GeometryNode() :
     _lightList(nullptr),
-    _geometryType(GEOM_STATIC)
+    _geometryType(GeometryType::STATIC)
 {
     SetFlag(NF_GEOMETRY, true);
 }

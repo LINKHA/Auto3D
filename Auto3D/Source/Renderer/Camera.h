@@ -10,14 +10,13 @@ namespace Auto3D
 {
 
 /// Billboard camera facing modes.
-enum FaceCameraMode
-{
-    FC_NONE = 0,
-    FC_ROTATE_XYZ,
-    FC_ROTATE_Y,
-    FC_LOOKAT_XYZ,
-    FC_LOOKAT_Y
-};
+ENUM(FaceCameraMode)
+	NONE = 0,
+	ROTATE_XYZ,
+	ROTATE_Y,
+	LOOKAT_XYZ,
+	LOOKAT_Y
+ENUM_END(FaceCameraMode);
 
 /// %Camera scene node.
 class AUTO_API Camera : public SpatialNode

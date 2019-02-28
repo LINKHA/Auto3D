@@ -414,24 +414,24 @@ Quaternion Camera::FaceCameraRotation(const Vector3F& position, const Quaternion
     default:
         return rotation;
 
-    case FC_ROTATE_XYZ:
+    case FaceCameraMode::ROTATE_XYZ:
         return GetWorldRotation();
 
-    case FC_ROTATE_Y:
+    case FaceCameraMode::ROTATE_Y:
         {
             Vector3F euler = rotation.EulerAngles();
             euler._y = GetWorldRotation().EulerAngles()._y;
             return Quaternion(euler._x, euler._y, euler._z);
         }
 
-    case FC_LOOKAT_XYZ:
+    case FaceCameraMode::LOOKAT_XYZ:
         {
             Quaternion lookAt;
             lookAt.FromLookRotation(position - GetWorldPosition());
             return lookAt;
         }
 
-    case FC_LOOKAT_Y:
+    case FaceCameraMode::LOOKAT_Y:
         {
             // Make the Y-only lookat happen on an XZ plane to make sure there are no unwanted transitions
             // or singularities

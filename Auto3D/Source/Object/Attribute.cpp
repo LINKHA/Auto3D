@@ -97,23 +97,23 @@ void Attribute::Skip(AttributeType type, Stream& source)
 
     switch (type)
     {
-    case ATTR_STRING:
+    case AttributeType::STRING:
         source.Read<String>();
         break;
 
-    case ATTR_RESOURCEREF:
+    case AttributeType::RESOURCEREF:
         source.Read<ResourceRef>();
         break;
 
-    case ATTR_RESOURCEREFLIST:
+    case AttributeType::RESOURCEREFLIST:
         source.Read<ResourceRefList>();
         break;
 
-    case ATTR_OBJECTREF:
+    case AttributeType::OBJECTREF:
         source.Read<ObjectRef>();
         break;
 
-    case ATTR_JSONVALUE:
+    case AttributeType::JSONVALUE:
         source.Read<JSONValue>();
         break;
 
@@ -136,91 +136,91 @@ void Attribute::FromJSON(AttributeType type, void* dest, const JSONValue& source
 {
     switch (type)
     {
-    case ATTR_BOOL:
+    case AttributeType::BOOL:
         *(reinterpret_cast<bool*>(dest)) = source.GetBool();
         break;
 
-    case ATTR_BYTE:
+    case AttributeType::BYTE:
         *(reinterpret_cast<unsigned char*>(dest)) = (unsigned char)source.GetNumber();
         break;
 
-    case ATTR_UNSIGNED:
+    case AttributeType::UNSIGNED:
         *(reinterpret_cast<unsigned*>(dest)) = (unsigned)source.GetNumber();
         break;
 
-    case ATTR_INT:
+    case AttributeType::INT:
         *(reinterpret_cast<int*>(dest)) = (int)source.GetNumber();
         break;
 
-    case ATTR_INTVECTOR2:
+    case AttributeType::INTVECTOR2:
         reinterpret_cast<Vector2I*>(dest)->FromString(source.GetString());
         break;
 
-    case ATTR_INTRECT:
+    case AttributeType::INTRECT:
         reinterpret_cast<RectI*>(dest)->FromString(source.GetString());
         break;
 
-    case ATTR_FLOAT:
+    case AttributeType::FLOAT:
         *(reinterpret_cast<float*>(dest)) = (float)source.GetNumber();
         break;
 
-    case ATTR_VECTOR2:
+    case AttributeType::VECTOR2:
         reinterpret_cast<Vector2F*>(dest)->FromString(source.GetString());
         break;
 
-    case ATTR_VECTOR3:
+    case AttributeType::VECTOR3:
         reinterpret_cast<Vector3F*>(dest)->FromString(source.GetString());
         break;
 
-    case ATTR_VECTOR4:
+    case AttributeType::VECTOR4:
         reinterpret_cast<Vector4F*>(dest)->FromString(source.GetString());
         break;
 
-    case ATTR_QUATERNION:
+    case AttributeType::QUATERNION:
         reinterpret_cast<Vector4F*>(dest)->FromString(source.GetString());
         break;
 
-    case ATTR_COLOR:
+    case AttributeType::COLOR:
         reinterpret_cast<Color*>(dest)->FromString(source.GetString());
         break;
 
-    case ATTR_RECT:
+    case AttributeType::RECT:
         reinterpret_cast<RectF*>(dest)->FromString(source.GetString());
         break;
 
-    case ATTR_BOUNDINGBOX:
+    case AttributeType::BOUNDINGBOX:
         reinterpret_cast<RectF*>(dest)->FromString(source.GetString());
         break;
 
-    case ATTR_MATRIX3:
+    case AttributeType::MATRIX3:
         reinterpret_cast<Matrix3x3F*>(dest)->FromString(source.GetString());
         break;
 
-    case ATTR_MATRIX3X4:
+    case AttributeType::MATRIX3X4:
         reinterpret_cast<Matrix3x4F*>(dest)->FromString(source.GetString());
         break;
 
-    case ATTR_MATRIX4:
+    case AttributeType::MATRIX4:
         reinterpret_cast<Matrix4x4F*>(dest)->FromString(source.GetString());
         break;
 
-    case ATTR_STRING:
+    case AttributeType::STRING:
         *(reinterpret_cast<String*>(dest)) = source.GetString();
         break;
 
-    case ATTR_RESOURCEREF:
+    case AttributeType::RESOURCEREF:
         reinterpret_cast<ResourceRef*>(dest)->FromString(source.GetString());
         break;
 
-    case ATTR_RESOURCEREFLIST:
+    case AttributeType::RESOURCEREFLIST:
         reinterpret_cast<ResourceRefList*>(dest)->FromString(source.GetString());
         break;
 
-    case ATTR_OBJECTREF:
+    case AttributeType::OBJECTREF:
         reinterpret_cast<ObjectRef*>(dest)->_id = (unsigned)source.GetNumber();
         break;
 
-    case ATTR_JSONVALUE:
+    case AttributeType::JSONVALUE:
         *(reinterpret_cast<JSONValue*>(dest)) = source;
         break;
 
@@ -233,91 +233,91 @@ void Attribute::ToJSON(AttributeType type, JSONValue& dest, const void* source)
 {
     switch (type)
     {
-    case ATTR_BOOL:
+    case AttributeType::BOOL:
         dest = *(reinterpret_cast<const bool*>(source));
         break;
 
-    case ATTR_BYTE:
+    case AttributeType::BYTE:
         dest = *(reinterpret_cast<const unsigned char*>(source));
         break;
 
-    case ATTR_UNSIGNED:
+    case AttributeType::UNSIGNED:
         dest = *(reinterpret_cast<const unsigned*>(source));
         break;
 
-    case ATTR_INT:
+    case AttributeType::INT:
         dest = *(reinterpret_cast<const int*>(source));
         break;
 
-    case ATTR_INTVECTOR2:
+    case AttributeType::INTVECTOR2:
         dest = reinterpret_cast<const Vector2I*>(source)->ToString();
         break;
 
-    case ATTR_INTRECT:
+    case AttributeType::INTRECT:
         dest = reinterpret_cast<const RectI*>(source)->ToString();
         break;
 
-    case ATTR_FLOAT:
+    case AttributeType::FLOAT:
         dest = *(reinterpret_cast<const float*>(source));
         break;
 
-    case ATTR_VECTOR2:
+    case AttributeType::VECTOR2:
         dest = reinterpret_cast<const Vector2<float>*>(source)->ToString();
         break;
 
-    case ATTR_VECTOR3:
+    case AttributeType::VECTOR3:
         dest = reinterpret_cast<const Vector3F*>(source)->ToString();
         break;
 
-    case ATTR_VECTOR4:
+    case AttributeType::VECTOR4:
         dest = reinterpret_cast<const Vector4F*>(source)->ToString();
         break;
 
-    case ATTR_QUATERNION:
+    case AttributeType::QUATERNION:
         dest = reinterpret_cast<const Quaternion*>(source)->ToString();
         break;
 
-    case ATTR_COLOR:
+    case AttributeType::COLOR:
         dest = reinterpret_cast<const Color*>(source)->ToString();
         break;
 
-    case ATTR_RECT:
+    case AttributeType::RECT:
         dest = reinterpret_cast<const RectF*>(source)->ToString();
         break;
 
-    case ATTR_BOUNDINGBOX:
+    case AttributeType::BOUNDINGBOX:
         dest = reinterpret_cast<const BoundingBox*>(source)->ToString();
         break;
 
-    case ATTR_MATRIX3:
+    case AttributeType::MATRIX3:
         dest = reinterpret_cast<const Matrix3x3F*>(source)->ToString();
         break;
 
-    case ATTR_MATRIX3X4:
+    case AttributeType::MATRIX3X4:
         dest = reinterpret_cast<const Matrix3x4F*>(source)->ToString();
         break;
 
-    case ATTR_MATRIX4:
+    case AttributeType::MATRIX4:
         dest = reinterpret_cast<const Matrix4x4F*>(source)->ToString();
         break;
 
-    case ATTR_STRING:
+    case AttributeType::STRING:
         dest = *(reinterpret_cast<const String*>(source));
         break;
 
-    case ATTR_RESOURCEREF:
+    case AttributeType::RESOURCEREF:
         dest = reinterpret_cast<const ResourceRef*>(source)->ToString();
         break;
 
-    case ATTR_RESOURCEREFLIST:
+    case AttributeType::RESOURCEREFLIST:
         dest = reinterpret_cast<const ResourceRefList*>(source)->ToString();
         break;
 
-    case ATTR_OBJECTREF:
+    case AttributeType::OBJECTREF:
         dest = reinterpret_cast<const ObjectRef*>(source)->_id;
         break;
 
-    case ATTR_JSONVALUE:
+    case AttributeType::JSONVALUE:
         dest = *(reinterpret_cast<const JSONValue*>(source));
         break;
 
@@ -328,92 +328,92 @@ void Attribute::ToJSON(AttributeType type, JSONValue& dest, const void* source)
 
 AttributeType Attribute::TypeFromName(const String& name)
 {
-    return (AttributeType)String::ListIndex(name, &typeNames[0], MAX_ATTR_TYPES);
+    return (AttributeType)String::ListIndex(name, &typeNames[0], AttributeType::Count);
 }
 
 AttributeType Attribute::TypeFromName(const char* name)
 {
-    return (AttributeType)String::ListIndex(name, &typeNames[0], MAX_ATTR_TYPES);
+    return (AttributeType)String::ListIndex(name, &typeNames[0], AttributeType::Count);
 }
 
 template<> AUTO_API AttributeType AttributeImpl<bool>::Type() const
 {
-    return ATTR_BOOL;
+    return AttributeType::BOOL;
 }
 
 template<> AUTO_API AttributeType AttributeImpl<int>::Type() const
 {
-    return ATTR_INT;
+    return AttributeType::INT;
 }
 
 template<> AUTO_API AttributeType AttributeImpl<unsigned>::Type() const
 {
-    return ATTR_UNSIGNED;
+    return AttributeType::UNSIGNED;
 }
 
 template<> AUTO_API AttributeType AttributeImpl<unsigned char>::Type() const
 {
-    return ATTR_BYTE;
+    return AttributeType::BYTE;
 }
 
 template<> AUTO_API AttributeType AttributeImpl<float>::Type() const
 {
-    return ATTR_FLOAT;
+    return AttributeType::FLOAT;
 }
 
 template<> AUTO_API AttributeType AttributeImpl<String>::Type() const
 {
-    return ATTR_STRING;
+    return AttributeType::STRING;
 }
 
 template<> AUTO_API AttributeType AttributeImpl<Vector2F>::Type() const
 {
-    return ATTR_VECTOR2;
+    return AttributeType::VECTOR2;
 }
 
 template<> AUTO_API AttributeType AttributeImpl<Vector3F>::Type() const
 {
-    return ATTR_VECTOR3;
+    return AttributeType::VECTOR3;
 }
 
 template<> AUTO_API AttributeType AttributeImpl<Vector4F>::Type() const
 {
-    return ATTR_VECTOR4;
+    return AttributeType::VECTOR4;
 }
 
 template<> AUTO_API AttributeType AttributeImpl<Quaternion>::Type() const
 {
-    return ATTR_QUATERNION;
+    return AttributeType::QUATERNION;
 }
 
 template<> AUTO_API AttributeType AttributeImpl<Color>::Type() const
 {
-    return ATTR_COLOR;
+    return AttributeType::COLOR;
 }
 
 template<> AUTO_API AttributeType AttributeImpl<BoundingBox>::Type() const
 {
-    return ATTR_BOUNDINGBOX;
+    return AttributeType::BOUNDINGBOX;
 }
 
 template<> AUTO_API AttributeType AttributeImpl<ResourceRef>::Type() const
 {
-    return ATTR_RESOURCEREF;
+    return AttributeType::RESOURCEREF;
 }
 
 template<> AUTO_API AttributeType AttributeImpl<ResourceRefList>::Type() const
 {
-    return ATTR_RESOURCEREFLIST;
+    return AttributeType::RESOURCEREFLIST;
 }
 
 template<> AUTO_API AttributeType AttributeImpl<ObjectRef>::Type() const
 {
-    return ATTR_OBJECTREF;
+    return AttributeType::OBJECTREF;
 }
 
 template<> AUTO_API AttributeType AttributeImpl<JSONValue>::Type() const
 {
-    return ATTR_JSONVALUE;
+    return AttributeType::JSONVALUE;
 }
 
 }

@@ -117,7 +117,7 @@ bool ShaderProgram::Link()
         
         VertexAttribute newAttribute;
         newAttribute._name = String(nameBuffer, nameLength);
-        newAttribute._semantic = SEM_POSITION;
+        newAttribute._semantic = ElementSemantic::POSITION;
         newAttribute._index = 0;
 
         for (size_t j = 0; elementSemanticNames[j]; ++j)
@@ -132,7 +132,7 @@ bool ShaderProgram::Link()
             newAttribute._semantic = (ElementSemantic)(newAttribute._semantic + 1);
         }
 
-        if (newAttribute._semantic == MAX_ELEMENT_SEMANTICS)
+        if (newAttribute._semantic == ElementSemantic::Count)
         {
             WarnningStringF("Found vertex attribute %s with no known semantic in shader program %s", newAttribute._name.CString(), FullName().CString());
             continue;

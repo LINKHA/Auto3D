@@ -68,9 +68,9 @@ public:
     /// Polygon fill mode.
     FillMode _fillMode;
     /// Shader resources. Filled by Renderer.
-    SharedPtr<Shader> _shaders[MAX_SHADER_STAGES];
+    SharedPtr<Shader> _shaders[ShaderStage::Count];
     /// Cached shader variations. Filled by Renderer.
-    HashMap<unsigned short, WeakPtr<ShaderVariation> > _shaderVariations[MAX_SHADER_STAGES];
+    HashMap<unsigned short, WeakPtr<ShaderVariation> > _shaderVariations[ShaderStage::Count];
     /// Shader load attempted flag. Filled by Renderer.
     bool _shadersLoaded;
 
@@ -80,11 +80,11 @@ private:
     /// Pass name.
     String _name;
     /// Shader names.
-    String _shaderNames[MAX_SHADER_STAGES];
+    String _shaderNames[ShaderStage::Count];
     /// Shader defines.
-    String _shaderDefines[MAX_SHADER_STAGES];
+    String _shaderDefines[ShaderStage::Count];
     /// Combined shader defines from both the pass and material. Filled by Renderer.
-    String _combinedShaderDefines[MAX_SHADER_STAGES];
+    String _combinedShaderDefines[ShaderStage::Count];
     /// Shader hash calculated from names and defines.
     unsigned _shaderHash;
 };
@@ -144,13 +144,13 @@ public:
     /// Material textures.
     SharedPtr<Texture> _textures[MAX_MATERIAL_TEXTURE_UNITS];
     /// Constant buffers.
-    SharedPtr<ConstantBuffer> _constantBuffers[MAX_SHADER_STAGES];
+    SharedPtr<ConstantBuffer> _constantBuffers[ShaderStage::Count];
 
 private:
     /// Passes by index.
     Vector<SharedPtr<Pass> > _passes;
     /// Global shader defines.
-    String _shaderDefines[MAX_SHADER_STAGES];
+    String _shaderDefines[ShaderStage::Count];
     /// JSON data used for loading.
     AutoPtr<JSONFile> _loadJSON;
 

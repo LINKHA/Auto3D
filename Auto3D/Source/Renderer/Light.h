@@ -14,12 +14,11 @@ class Texture;
 struct ShadowView;
 
 /// %Light types.
-enum LightType
-{
-    LIGHT_DIRECTIONAL = 0,
-    LIGHT_POINT,
-    LIGHT_SPOT
-};
+ENUM(LightType)
+	DIRECTIONAL = 0,
+	POINT,
+	SPOT
+ENUM_END(LightType);
 
 /// Dynamic light scene node.
 class AUTO_API Light : public OctreeNode

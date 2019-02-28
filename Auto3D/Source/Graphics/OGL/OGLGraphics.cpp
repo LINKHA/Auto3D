@@ -55,12 +55,12 @@ static const unsigned elementGLComponents[] =
 
 static const unsigned glPrimitiveTypes[] =
 {
-    0,
-    GL_POINTS,
-    GL_LINES,
-    GL_LINE_STRIP,
-    GL_TRIANGLES,
-    GL_TRIANGLE_STRIP
+	0,
+	GL_POINTS,
+	GL_LINES,
+	GL_LINE_STRIP,
+	GL_TRIANGLES,
+	GL_TRIANGLE_STRIP
 };
 
 static const unsigned glBlendFactors[] =
@@ -161,7 +161,7 @@ public:
 Graphics::Graphics() :
     _backbufferSize(Vector2I::ZERO),
     _renderTargetSize(Vector2I::ZERO),
-    _attributesBySemantic(MAX_ELEMENT_SEMANTICS),
+    _attributesBySemantic(ElementSemantic::Count),
     _multisample(1),
     _vsync(false)
 {
@@ -348,14 +348,14 @@ void Graphics::SetIndexBuffer(IndexBuffer* buffer)
 
 void Graphics::SetConstantBuffer(ShaderStage stage, size_t index, ConstantBuffer* buffer)
 {
-    if (stage < MAX_SHADER_STAGES && index < MAX_CONSTANT_BUFFERS && buffer != _constantBuffers[stage][index])
+    if (stage < ShaderStage::Count && index < MAX_CONSTANT_BUFFERS && buffer != _constantBuffers[stage][index])
     {
         _constantBuffers[stage][index] = buffer;
         unsigned bufferObject = buffer ? buffer->GetGLBuffer() : 0;
 
         switch (stage)
         {
-        case SHADER_VS:
+        case ShaderStage::VS:
             if (index < _vsConstantBuffers)
             {
                 glBindBufferBase(GL_UNIFORM_BUFFER, (unsigned)index, bufferObject);
@@ -363,7 +363,7 @@ void Graphics::SetConstantBuffer(ShaderStage stage, size_t index, ConstantBuffer
             }
             break;
 
-        case SHADER_PS:
+        case ShaderStage::PS:
             if (index < _psConstantBuffers)
             {
                 glBindBufferBase(GL_UNIFORM_BUFFER, (unsigned)(index + _vsConstantBuffers), bufferObject);
@@ -413,7 +413,7 @@ void Graphics::SetShaders(ShaderVariation* vs, ShaderVariation* ps)
 
     if (vs != _vertexShader)
     {
-        if (vs && vs->GetStage() == SHADER_VS)
+        if (vs && vs->GetStage() == ShaderStage::VS)
         {
             if (!vs->IsCompiled())
                 vs->Compile();
@@ -424,7 +424,7 @@ void Graphics::SetShaders(ShaderVariation* vs, ShaderVariation* ps)
 
     if (ps != _pixelShader)
     {
-        if (ps && ps->GetStage() == SHADER_PS)
+        if (ps && ps->GetStage() == ShaderStage::PS)
         {
             if (!ps->IsCompiled())
                 ps->Compile();
@@ -543,7 +543,7 @@ void Graphics::ResetVertexBuffers()
 
 void Graphics::ResetConstantBuffers()
 {
-    for (size_t i = 0; i < MAX_SHADER_STAGES; ++i)
+    for (size_t i = 0; i < ShaderStage::Count; ++i)
     {
         for (size_t j = 0; i < MAX_CONSTANT_BUFFERS; ++j)
             SetConstantBuffer((ShaderStage)i, j, nullptr);
@@ -696,7 +696,7 @@ VertexBuffer* Graphics::GetVertexBuffer(size_t index) const
 
 ConstantBuffer* Graphics::GetConstantBuffer(ShaderStage stage, size_t index) const
 {
-    return (stage < MAX_SHADER_STAGES && index < MAX_CONSTANT_BUFFERS) ? _constantBuffers[stage][index] : nullptr;
+    return (stage < ShaderStage::Count && index < MAX_CONSTANT_BUFFERS) ? _constantBuffers[stage][index] : nullptr;
 }
 
 Texture* Graphics::GetTexture(size_t index) const
@@ -721,7 +721,7 @@ void Graphics::CleanupShaderPrograms(ShaderVariation* shader)
     if (!shader)
         return;
 
-    if (shader->GetStage() == SHADER_VS)
+    if (shader->GetStage() == ShaderStage::VS)
     {
         for (auto it = _shaderPrograms.Begin(); it != _shaderPrograms.End();)
         {
@@ -895,7 +895,7 @@ void Graphics::PrepareFramebuffer()
         }
 
         // Search for a new framebuffer based on format & _size, or create new
-        ImageFormat format = FMT_NONE;
+        ImageFormat format = ImageFormat::NONE;
         if (_renderTargets[0])
             format = _renderTargets[0]->GetFormat();
         else if (_depthStencil)
@@ -961,7 +961,7 @@ void Graphics::PrepareFramebuffer()
         {
             if (_depthStencil)
             {
-                bool hasStencil = _depthStencil->GetFormat() == FMT_D24S8;
+                bool hasStencil = _depthStencil->GetFormat() == ImageFormat::D24S8;
                 glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, _depthStencil->GetGLTarget(), 
                     _depthStencil->GetGLTexture(), 0);
                 if (hasStencil)
@@ -1074,7 +1074,7 @@ bool Graphics::PrepareDraw(bool instanced, size_t instanceStart)
 
                         BindVBO(buffer->GetGLBuffer());
                         glVertexAttribPointer(location, elementGLComponents[element._type], elementGLTypes[element._type],
-                            element._semantic == SEM_COLOR ? GL_TRUE : GL_FALSE, (unsigned)buffer->GetVertexSize(),
+                            element._semantic == ElementSemantic::COLOR ? GL_TRUE : GL_FALSE, (unsigned)buffer->GetVertexSize(),
                             (const void *)dataStart);
                     }
                 }
@@ -1241,14 +1241,14 @@ bool Graphics::PrepareDraw(bool instanced, size_t instanceStart)
 
         if (_renderState._cullMode != _glRenderState._cullMode)
         {
-            if (_renderState._cullMode == CULL_NONE)
+            if (_renderState._cullMode == CullMode::NONE)
                 glDisable(GL_CULL_FACE);
             else
             {
-                if (_glRenderState._cullMode == CULL_NONE)
+                if (_glRenderState._cullMode == CullMode::NONE)
                     glEnable(GL_CULL_FACE);
                 // Note: as polygons use Direct3D convention (clockwise = front) reversed front/back faces are used here
-                glCullFace(_renderState._cullMode == CULL_BACK ? GL_FRONT : GL_BACK);
+                glCullFace(_renderState._cullMode == CullMode::BACK ? GL_FRONT : GL_BACK);
             }
             _glRenderState._cullMode = _renderState._cullMode;
         }
@@ -1302,7 +1302,7 @@ void Graphics::ResetState()
     _usedVertexAttributes = 0;
     _instancingVertexAttributes = 0;
 
-    for (size_t i = 0; i < MAX_SHADER_STAGES; ++i)
+    for (size_t i = 0; i < ShaderStage::Count; ++i)
     {
         for (size_t j = 0; j < MAX_CONSTANT_BUFFERS; ++j)
             _constantBuffers[i][j] = nullptr;
@@ -1330,35 +1330,35 @@ void Graphics::ResetState()
     _boundUBO = 0;
 
     _glRenderState._depthWrite = false;
-    _glRenderState._depthFunc = CMP_ALWAYS;
+    _glRenderState._depthFunc = CompareFunc::ALWAYS;
     _glRenderState._depthBias = 0;
     _glRenderState._slopeScaledDepthBias = 0;
     _glRenderState._depthClip = true;
     _glRenderState._colorWriteMask = COLORMASK_ALL;
     _glRenderState._alphaToCoverage = false;
     _glRenderState._blendMode._blendEnable = false;
-    _glRenderState._blendMode._srcBlend = MAX_BLEND_FACTORS;
-    _glRenderState._blendMode._destBlend = MAX_BLEND_FACTORS;
-    _glRenderState._blendMode._blendOp = MAX_BLEND_OPS;
-    _glRenderState._blendMode._srcBlendAlpha = MAX_BLEND_FACTORS;
-    _glRenderState._blendMode._destBlendAlpha = MAX_BLEND_FACTORS;
-    _glRenderState._blendMode._blendOpAlpha = MAX_BLEND_OPS;
-    _glRenderState._fillMode = FILL_SOLID;
-    _glRenderState._cullMode = CULL_NONE;
+    _glRenderState._blendMode._srcBlend = BlendFactor::Count;
+    _glRenderState._blendMode._destBlend = BlendFactor::Count;
+    _glRenderState._blendMode._blendOp = BlendOp::Count;
+    _glRenderState._blendMode._srcBlendAlpha = BlendFactor::Count;
+    _glRenderState._blendMode._destBlendAlpha = BlendFactor::Count;
+    _glRenderState._blendMode._blendOpAlpha = BlendOp::Count;
+    _glRenderState._fillMode = FillMode::SOLID;
+    _glRenderState._cullMode = CullMode::NONE;
     _glRenderState._scissorEnable = false;
     _glRenderState._scissorRect = RectI::ZERO;
     _glRenderState._stencilEnable = false;
     _glRenderState._stencilRef = 0;
     _glRenderState._stencilTest._stencilReadMask = 0xff;
     _glRenderState._stencilTest._stencilWriteMask = 0xff;
-    _glRenderState._stencilTest._frontFail = STENCIL_OP_KEEP;
-    _glRenderState._stencilTest._frontDepthFail = STENCIL_OP_KEEP;
-    _glRenderState._stencilTest._frontPass = STENCIL_OP_KEEP;
-    _glRenderState._stencilTest._frontFunc = CMP_ALWAYS;
-    _glRenderState._stencilTest._backFail = STENCIL_OP_KEEP;
-    _glRenderState._stencilTest._backDepthFail = STENCIL_OP_KEEP;
-    _glRenderState._stencilTest._backPass = STENCIL_OP_KEEP;
-    _glRenderState._stencilTest._backFunc = CMP_ALWAYS;
+    _glRenderState._stencilTest._frontFail = StencilOp::KEEP;
+    _glRenderState._stencilTest._frontDepthFail = StencilOp::KEEP;
+    _glRenderState._stencilTest._frontPass = StencilOp::KEEP;
+    _glRenderState._stencilTest._frontFunc = CompareFunc::ALWAYS;
+    _glRenderState._stencilTest._backFail = StencilOp::KEEP;
+    _glRenderState._stencilTest._backDepthFail = StencilOp::KEEP;
+    _glRenderState._stencilTest._backPass = StencilOp::KEEP;
+    _glRenderState._stencilTest._backFunc = CompareFunc::ALWAYS;
     _renderState = _glRenderState;
 }
 

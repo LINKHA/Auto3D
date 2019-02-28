@@ -54,7 +54,7 @@ void Log::Open(const String& fileName)
     }
 
     _logFile = new File();
-    if (_logFile->Open(fileName, FILE_WRITE))
+    if (_logFile->Open(fileName, FileMode::WRITE))
         InfoString("Opened log file " + fileName);
     else
     {

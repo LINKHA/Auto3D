@@ -17,13 +17,12 @@ class Scene;
 class VertexBuffer;
 
 /// Shader constant buffers used by high-level rendering.
-enum RendererConstantBuffer
-{
-    CB_FRAME = 0,
-    CB_OBJECT,
-    CB_MATERIAL,
-    CB_LIGHTS
-};
+ENUM(RendererConstantBuffer)
+	FRAME = 0,
+	OBJECT,
+	MATERIAL,
+	LIGHTS
+ENUM_END(RendererConstantBuffer);
 
 /// Parameter indices in constant buffers used by high-level rendering.
 static const size_t VS_FRAME_VIEW_MATRIX = 0;
@@ -54,7 +53,7 @@ struct AUTO_API PassDesc
     }
     
     /// Construct with parameters.
-    PassDesc(const String& name_, BatchSortMode sort_ = SORT_STATE, bool lit_ = true) :
+    PassDesc(const String& name_, BatchSortMode sort_ = BatchSortMode::STATE, bool lit_ = true) :
         name(name_),
         sort(sort_),
         lit(lit_)

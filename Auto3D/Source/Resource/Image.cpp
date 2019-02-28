@@ -30,71 +30,71 @@ namespace Auto3D
 
 const int Image::components[] =
 {
-    0,      // FMT_NONE
-    1,      // FMT_R8
-    2,      // FMT_RG8
-    4,      // FMT_RGBA8
-    1,      // FMT_A8
-    0,      // FMT_R16
-    0,      // FMT_RG16
-    0,      // FMT_RGBA16
-    0,      // FMT_R16F
-    0,      // FMT_RG16F
-    0,      // FMT_RGBA16F
-    0,      // FMT_R32F
-    0,      // FMT_RG32F
-    0,      // FMT_RGB32F
-    0,      // FMT_RGBA32F
-    0,      // FMT_D16
-    0,      // FMT_D32
-    0,      // FMT_D24S8
-    0,      // FMT_DXT1
-    0,      // FMT_DXT3
-    0,      // FMT_DXT5
-    0,      // FMT_ETC1
-    0,      // FMT_PVRTC_RGB_2BPP
-    0,      // FMT_PVRTC_RGBA_2BPP
-    0,      // FMT_PVRTC_RGB_4BPP
-    0       // FMT_PVRTC_RGBA_4BPP
+    0,      // ImageFormat::NONE
+    1,      // ImageFormat::R8
+    2,      // ImageFormat::RG8
+    4,      // ImageFormat::RGBA8
+    1,      // ImageFormat::A8
+    0,      // ImageFormat::R16
+    0,      // ImageFormat::RG16
+    0,      // ImageFormat::RGBA16
+    0,      // ImageFormat::R16F
+    0,      // ImageFormat::RG16F
+    0,      // ImageFormat::RGBA16F
+    0,      // ImageFormat::R32F
+    0,      // ImageFormat::RG32F
+    0,      // ImageFormat::RGB32F
+    0,      // ImageFormat::RGBA32F
+    0,      // ImageFormat::D16
+    0,      // ImageFormat::D32
+    0,      // ImageFormat::D24S8
+    0,      // ImageFormat::DXT1
+    0,      // ImageFormat::DXT3
+    0,      // ImageFormat::DXT5
+    0,      // ImageFormat::ETC1
+    0,      // ImageFormat::PVRTC_RGB_2BPP
+    0,      // ImageFormat::PVRTC_RGBA_2BPP
+    0,      // ImageFormat::PVRTC_RGB_4BPP
+    0       // ImageFormat::PVRTC_RGBA_4BPP
 };
 
 const size_t Image::pixelByteSizes[] =
 {
-    0,      // FMT_NONE
-    1,      // FMT_R8
-    2,      // FMT_RG8
-    4,      // FMT_RGBA8
-    1,      // FMT_A8
-    2,      // FMT_R16
-    4,      // FMT_RG16
-    8,      // FMT_RGBA16
-    2,      // FMT_R16F
-    4,      // FMT_RG16F
-    8,      // FMT_RGBA16F
-    4,      // FMT_R32F
-    8,      // FMT_RG32F
-    12,     // FMT_RGB32F
-    16,     // FMT_RGBA32F
-    2,      // FMT_D16
-    4,      // FMT_D32
-    4,      // FMT_D24S8
-    0,      // FMT_DXT1
-    0,      // FMT_DXT3
-    0,      // FMT_DXT5
-    0,      // FMT_ETC1
-    0,      // FMT_PVRTC_RGB_2BPP
-    0,      // FMT_PVRTC_RGBA_2BPP
-    0,      // FMT_PVRTC_RGB_4BPP
-    0       // FMT_PVRTC_RGBA_4BPP
+    0,      // ImageFormat::NONE
+    1,      // ImageFormat::R8
+    2,      // ImageFormat::RG8
+    4,      // ImageFormat::RGBA8
+    1,      // ImageFormat::A8
+    2,      // ImageFormat::R16
+    4,      // ImageFormat::RG16
+    8,      // ImageFormat::RGBA16
+    2,      // ImageFormat::R16F
+    4,      // ImageFormat::RG16F
+    8,      // ImageFormat::RGBA16F
+    4,      // ImageFormat::R32F
+    8,      // ImageFormat::RG32F
+    12,     // ImageFormat::RGB32F
+    16,     // ImageFormat::RGBA32F
+    2,      // ImageFormat::D16
+    4,      // ImageFormat::D32
+    4,      // ImageFormat::D24S8
+    0,      // ImageFormat::DXT1
+    0,      // ImageFormat::DXT3
+    0,      // ImageFormat::DXT5
+    0,      // ImageFormat::ETC1
+    0,      // ImageFormat::PVRTC_RGB_2BPP
+    0,      // ImageFormat::PVRTC_RGBA_2BPP
+    0,      // ImageFormat::PVRTC_RGB_4BPP
+    0       // ImageFormat::PVRTC_RGBA_4BPP
 };
 
 static const ImageFormat componentsToFormat[] =
 {
-    FMT_NONE,
-    FMT_R8,
-    FMT_RG8,
-    FMT_RGBA8,
-    FMT_RGBA8
+    ImageFormat::NONE,
+    ImageFormat::R8,
+    ImageFormat::RG8,
+    ImageFormat::RGBA8,
+    ImageFormat::RGBA8
 };
 
 /// \cond PRIVATE
@@ -220,7 +220,7 @@ struct DDSurfaceDesc2
 
 Image::Image() :
     size(Vector2I::ZERO),
-    format(FMT_NONE),
+    format(ImageFormat::NONE),
     numLevels(1)
 {
 }
@@ -250,15 +250,15 @@ bool Image::BeginLoad(Stream& source)
         switch (ddsd.ddpfPixelFormat.dwFourCC)
         {
         case FOURCC_DXT1:
-            format = FMT_DXT1;
+            format = ImageFormat::DXT1;
             break;
 
         case FOURCC_DXT3:
-            format = FMT_DXT3;
+            format = ImageFormat::DXT3;
             break;
 
         case FOURCC_DXT5:
-            format = FMT_DXT5;
+            format = ImageFormat::DXT5;
             break;
 
         default:
@@ -314,43 +314,43 @@ bool Image::BeginLoad(Stream& source)
             return false;
         }
 
-        format = FMT_NONE;
+        format = ImageFormat::NONE;
         switch (internalFormat)
         {
         case 0x83f1:
-            format = FMT_DXT1;
+            format = ImageFormat::DXT1;
             break;
 
         case 0x83f2:
-            format = FMT_DXT3;
+            format = ImageFormat::DXT3;
             break;
 
         case 0x83f3:
-            format = FMT_DXT5;
+            format = ImageFormat::DXT5;
             break;
 
         case 0x8d64:
-            format = FMT_ETC1;
+            format = ImageFormat::ETC1;
             break;
 
         case 0x8c00:
-            format = FMT_PVRTC_RGB_4BPP;
+            format = ImageFormat::PVRTC_RGB_4BPP;
             break;
 
         case 0x8c01:
-            format = FMT_PVRTC_RGB_2BPP;
+            format = ImageFormat::PVRTC_RGB_2BPP;
             break;
 
         case 0x8c02:
-            format = FMT_PVRTC_RGBA_4BPP;
+            format = ImageFormat::PVRTC_RGBA_4BPP;
             break;
 
         case 0x8c03:
-            format = FMT_PVRTC_RGBA_2BPP;
+            format = ImageFormat::PVRTC_RGBA_2BPP;
             break;
         }
 
-        if (format == FMT_NONE)
+        if (format == ImageFormat::NONE)
         {
             ErrorString("Unsupported texture format in KTX file");
             return false;
@@ -406,43 +406,43 @@ bool Image::BeginLoad(Stream& source)
             return false;
         }
 
-        format = FMT_NONE;
+        format = ImageFormat::NONE;
         switch (pixelFormatLo)
         {
         case 0:
-            format = FMT_PVRTC_RGB_2BPP;
+            format = ImageFormat::PVRTC_RGB_2BPP;
             break;
 
         case 1:
-            format = FMT_PVRTC_RGBA_2BPP;
+            format = ImageFormat::PVRTC_RGBA_2BPP;
             break;
 
         case 2:
-            format = FMT_PVRTC_RGB_4BPP;
+            format = ImageFormat::PVRTC_RGB_4BPP;
             break;
 
         case 3:
-            format = FMT_PVRTC_RGBA_4BPP;
+            format = ImageFormat::PVRTC_RGBA_4BPP;
             break;
 
         case 6:
-            format = FMT_ETC1;
+            format = ImageFormat::ETC1;
             break;
 
         case 7:
-            format = FMT_DXT1;
+            format = ImageFormat::DXT1;
             break;
 
         case 9:
-            format = FMT_DXT3;
+            format = ImageFormat::DXT3;
             break;
 
         case 11:
-            format = FMT_DXT5;
+            format = ImageFormat::DXT5;
             break;
         }
 
-        if (format == FMT_NONE)
+        if (format == ImageFormat::NONE)
         {
             ErrorString("Unsupported texture format in PVR file");
             return false;
@@ -685,20 +685,20 @@ bool Image::DecompressLevel(unsigned char* dest, size_t index) const
 
     switch (format)
     {
-    case FMT_DXT1:
-    case FMT_DXT3:
-    case FMT_DXT5:
+    case ImageFormat::DXT1:
+    case ImageFormat::DXT3:
+    case ImageFormat::DXT5:
         DecompressImageDXT(dest, level._data, level._size._x, level._size._y, format);
         break;
 
-    case FMT_ETC1:
+    case ImageFormat::ETC1:
         DecompressImageETC(dest, level._data, level._size._x, level._size._y);
         break;
 
-    case FMT_PVRTC_RGB_2BPP:
-    case FMT_PVRTC_RGBA_2BPP:
-    case FMT_PVRTC_RGB_4BPP:
-    case FMT_PVRTC_RGBA_4BPP:
+    case ImageFormat::PVRTC_RGB_2BPP:
+    case ImageFormat::PVRTC_RGBA_2BPP:
+    case ImageFormat::PVRTC_RGB_4BPP:
+    case ImageFormat::PVRTC_RGBA_4BPP:
         DecompressImagePVRTC(dest, level._data, level._size._x, level._size._y, format);
         break;
 
@@ -714,22 +714,22 @@ size_t Image::CalculateDataSize(const Vector2I& size, ImageFormat format, size_t
 {
     size_t rows, rowSize, dataSize;
 
-    if (format < FMT_DXT1)
+    if (format < ImageFormat::DXT1)
     {
         rows = size._y;
         rowSize = size._x * pixelByteSizes[format];
         dataSize = rows * rowSize;
     }
-    else if (format < FMT_PVRTC_RGB_2BPP)
+    else if (format < ImageFormat::PVRTC_RGB_2BPP)
     {
-        size_t blockSize = (format == FMT_DXT1 || format == FMT_ETC1) ? 8 : 16;
+        size_t blockSize = (format == ImageFormat::DXT1 || format == ImageFormat::ETC1) ? 8 : 16;
         rows = (size._y + 3) / 4;
         rowSize = ((size._x + 3) / 4) * blockSize;
         dataSize = rows * rowSize;
     }
     else
     {
-        size_t blockSize = format < FMT_PVRTC_RGB_4BPP ? 2 : 4;
+        size_t blockSize = format < ImageFormat::PVRTC_RGB_4BPP ? 2 : 4;
         size_t dataWidth = Max(size._x, blockSize == 2 ? 16 : 8);
         rows = Max(size._y, 8);
         dataSize = (dataWidth * rows * blockSize + 7) >> 3;

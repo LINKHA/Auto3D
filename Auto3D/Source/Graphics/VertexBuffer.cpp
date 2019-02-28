@@ -27,12 +27,12 @@ bool VertexBuffer::Define(ResourceUsage usage, size_t numVertices, size_t numEle
         ErrorString("Can not define vertex buffer with no vertices or no elements");
         return false;
     }
-    if (usage == USAGE_RENDERTARGET)
+    if (usage == ResourceUsage::RENDERTARGET)
     {
         ErrorString("Rendertarget usage is illegal for vertex buffers");
         return false;
     }
-    if (usage == USAGE_IMMUTABLE && !data)
+    if (usage == ResourceUsage::IMMUTABLE && !data)
     {
         ErrorString("Immutable vertex buffer must define initial data");
         return false;
@@ -40,7 +40,7 @@ bool VertexBuffer::Define(ResourceUsage usage, size_t numVertices, size_t numEle
 
     for (size_t i = 0; i < numElements; ++i)
     {
-        if (elements[i]._type >= ELEM_MATRIX3X4)
+        if (elements[i]._type >= ElementType::MATRIX3X4)
         {
             ErrorString("Matrix elements are not supported in vertex buffers");
             return false;

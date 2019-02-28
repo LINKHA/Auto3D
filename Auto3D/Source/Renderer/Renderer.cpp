@@ -32,10 +32,10 @@ static const unsigned LPS_LIGHT3 = (0x2000 | 0x4000 | 0x8000);
 
 static const CullMode cullModeFlip[] =
 {
-    CULL_NONE,
-    CULL_NONE,
-    CULL_BACK,
-    CULL_FRONT
+    CullMode::NONE,
+    CullMode::NONE,
+    CullMode::BACK,
+    CullMode::FRONT
 };
 
 const String geometryDefines[] =
@@ -74,8 +74,8 @@ void Renderer::Render(Scene* scene, Camera* camera)
 {
 	PROFILE(RenderScene);
 	Vector<PassDesc> passes;
-	passes.Push(PassDesc("opaque", SORT_STATE, true));
-	passes.Push(PassDesc("alpha", SORT_BACK_TO_FRONT, true));
+	passes.Push(PassDesc("opaque", BatchSortMode::STATE, true));
+	passes.Push(PassDesc("alpha", BatchSortMode::BACK_TO_FRONT, true));
 	PrepareView(scene, camera, passes);
 
 	RenderShadowMaps();
@@ -94,10 +94,10 @@ void Renderer::SetupShadowMaps(size_t num, int size, ImageFormat format)
     _shadowMaps.Resize(num);
     for (auto it = _shadowMaps.Begin(); it != _shadowMaps.End(); ++it)
     {
-        if (it->_texture->Define(TEX_2D, USAGE_RENDERTARGET, Vector2I(size, size), format, 1))
+        if (it->_texture->Define(TextureType::TEX_2D, ResourceUsage::RENDERTARGET, Vector2I(size, size), format, 1))
         {
             // Setup shadow map sampling with hardware depth compare
-            it->_texture->DefineSampler(COMPARE_BILINEAR, ADDRESS_CLAMP, ADDRESS_CLAMP, ADDRESS_CLAMP, 1);
+            it->_texture->DefineSampler(TextureFilterMode::COMPARE_BILINEAR, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, 1);
         }
     }
 }
@@ -180,7 +180,7 @@ void Renderer::CollectLightInteractions()
         
         switch (light->GetLightType())
         {
-        case LIGHT_DIRECTIONAL:
+        case LightType::DIRECTIONAL:
             for (auto gIt = _geometries.Begin(), gEnd = _geometries.End(); gIt != gEnd; ++gIt)
             {
                 GeometryNode* node = *gIt;
@@ -192,7 +192,7 @@ void Renderer::CollectLightInteractions()
             }
             break;
 
-        case LIGHT_POINT:
+        case LightType::POINT:
             _octree->FindNodes(reinterpret_cast<Vector<OctreeNode*>&>(_litGeometries), light->GetWorldSphere(), NF_ENABLED |
                 NF_GEOMETRY, lightMask);
             for (auto gIt = _litGeometries.Begin(), gEnd = _litGeometries.End(); gIt != gEnd; ++gIt)
@@ -207,7 +207,7 @@ void Renderer::CollectLightInteractions()
             }
             break;
 
-        case LIGHT_SPOT:
+        case LightType::SPOT:
             _octree->FindNodes(reinterpret_cast<Vector<OctreeNode*>&>(_litGeometries), light->GetWorldFrustum(), NF_ENABLED |
                 NF_GEOMETRY, lightMask);
             for (auto gIt = _litGeometries.Begin(), gEnd = _litGeometries.End(); gIt != gEnd; ++gIt)
@@ -273,14 +273,14 @@ void Renderer::CollectLightInteractions()
             ShadowView* view = _shadowViews[i].Get();
             Frustum shadowFrustum = view->_shadowCamera.GetWorldFrustum();
             BatchQueue& shadowQueue = view->_shadowQueue;
-            shadowQueue._sort = SORT_STATE;
+            shadowQueue._sort = BatchSortMode::STATE;
             shadowQueue._lit = false;
             shadowQueue._baseIndex = Material::PassIndex("shadow");
             shadowQueue._additiveIndex = 0;
 
             switch (light->GetLightType())
             {
-            case LIGHT_DIRECTIONAL:
+            case LightType::DIRECTIONAL:
                 // Directional light needs a new frustum query for each split, as the shadow cameras are typically far outside
                 // the main view
                 _litGeometries.Clear();
@@ -289,7 +289,7 @@ void Renderer::CollectLightInteractions()
                 CollectShadowBatches(_litGeometries, shadowQueue, shadowFrustum, false, false);
                 break;
 
-            case LIGHT_POINT:
+            case LightType::POINT:
                 // Check which lit geometries are shadow casters and inside each shadow frustum. First check whether the
                 // shadow frustum is inside the view at all
                 /// \todo Could use a frustum-frustum test for more accuracy
@@ -297,7 +297,7 @@ void Renderer::CollectLightInteractions()
                     CollectShadowBatches(_litGeometries, shadowQueue, shadowFrustum, true, true);
                 break;
 
-            case LIGHT_SPOT:
+            case LightType::SPOT:
                 // For spot light only need to check which lit geometries are shadow casters
                 CollectShadowBatches(_litGeometries, shadowQueue, shadowFrustum, true, false);
                 break;
@@ -412,14 +412,14 @@ void Renderer::CollectLightInteractions()
 
                             newLightPass->_shadowParameters[i] = light->GetShadowParameters();
 
-                            if (light->GetLightType() == LIGHT_DIRECTIONAL)
+                            if (light->GetLightType() == LightType::DIRECTIONAL)
                             {
                                 float fadeStart = light->GetShadowFadeStart() * light->GetMaxShadowDistance() / _camera->GetFarClip();
                                 float fadeRange = light->GetMaxShadowDistance() / _camera->GetFarClip() - fadeStart;
                                 newLightPass->_dirShadowSplits = light->GetShadowSplits() / _camera->GetFarClip();
                                 newLightPass->_dirShadowFade = Vector4F(fadeStart / fadeRange, 1.0f / fadeRange, 0.0f, 0.0f);
                             }
-                            else if (light->GetLightType() == LIGHT_POINT)
+                            else if (light->GetLightType() == LightType::POINT)
                                 newLightPass->_pointShadowParameters[i] = light->GetPointShadowParameters();
                         }
 
@@ -480,7 +480,7 @@ void Renderer::CollectBatches(const Vector<PassDesc>& passes)
                     continue;
 
                 newBatch._lights = batchQueue._lit ? lightList ? lightList->_lightPasses[0] : &_ambientLightPass : nullptr;
-                if (batchQueue._sort < SORT_BACK_TO_FRONT)
+                if (batchQueue._sort < BatchSortMode::BACK_TO_FRONT)
                     newBatch.CalculateSortKey();
                 else
                     newBatch._distance = node->Distance();
@@ -497,7 +497,7 @@ void Renderer::CollectBatches(const Vector<PassDesc>& passes)
                     for (size_t i = 1; i < lightList->_lightPasses.Size(); ++i)
                     {
                         newBatch._lights = lightList->_lightPasses[i];
-                        if (batchQueue._sort != SORT_BACK_TO_FRONT)
+                        if (batchQueue._sort != BatchSortMode::BACK_TO_FRONT)
                         {
                             newBatch.CalculateSortKey();
                             batchQueue._additiveBatches.Push(newBatch);
@@ -591,44 +591,44 @@ void Renderer::Initialize()
     Vector<Constant> constants;
 
     _vsFrameConstantBuffer = new ConstantBuffer();
-    constants.Push(Constant(ELEM_MATRIX3X4, "viewMatrix"));
-    constants.Push(Constant(ELEM_MATRIX4, "projectionMatrix"));
-    constants.Push(Constant(ELEM_MATRIX4, "viewProjMatrix"));
-    constants.Push(Constant(ELEM_VECTOR4, "depthParameters"));
-    _vsFrameConstantBuffer->Define(USAGE_DEFAULT, constants);
+    constants.Push(Constant(ElementType::MATRIX3X4, "viewMatrix"));
+    constants.Push(Constant(ElementType::MATRIX4, "projectionMatrix"));
+    constants.Push(Constant(ElementType::MATRIX4, "viewProjMatrix"));
+    constants.Push(Constant(ElementType::VECTOR4, "depthParameters"));
+    _vsFrameConstantBuffer->Define(ResourceUsage::DEFAULT, constants);
 
     _psFrameConstantBuffer = new ConstantBuffer();
     constants.Clear();
-    constants.Push(Constant(ELEM_VECTOR4, "ambientColor"));
-    _psFrameConstantBuffer->Define(USAGE_DEFAULT, constants);
+    constants.Push(Constant(ElementType::VECTOR4, "ambientColor"));
+    _psFrameConstantBuffer->Define(ResourceUsage::DEFAULT, constants);
 
     _vsObjectConstantBuffer = new ConstantBuffer();
     constants.Clear();
-    constants.Push(Constant(ELEM_MATRIX3X4, "worldMatrix"));
-    _vsObjectConstantBuffer->Define(USAGE_DEFAULT, constants);
+    constants.Push(Constant(ElementType::MATRIX3X4, "worldMatrix"));
+    _vsObjectConstantBuffer->Define(ResourceUsage::DEFAULT, constants);
 
     _vsLightConstantBuffer = new ConstantBuffer();
     constants.Clear();
-    constants.Push(Constant(ELEM_MATRIX4, "shadowMatrices", MAX_LIGHTS_PER_PASS));
-    _vsLightConstantBuffer->Define(USAGE_DEFAULT, constants);
+    constants.Push(Constant(ElementType::MATRIX4, "shadowMatrices", MAX_LIGHTS_PER_PASS));
+    _vsLightConstantBuffer->Define(ResourceUsage::DEFAULT, constants);
 
     _psLightConstantBuffer = new ConstantBuffer();
     constants.Clear();
-    constants.Push(Constant(ELEM_VECTOR4, "lightPositions", MAX_LIGHTS_PER_PASS));
-    constants.Push(Constant(ELEM_VECTOR4, "lightDirections", MAX_LIGHTS_PER_PASS));
-    constants.Push(Constant(ELEM_VECTOR4, "lightColors", MAX_LIGHTS_PER_PASS));
-    constants.Push(Constant(ELEM_VECTOR4, "lightAttenuations", MAX_LIGHTS_PER_PASS));
-    constants.Push(Constant(ELEM_VECTOR4, "shadowParameters", MAX_LIGHTS_PER_PASS));
-    constants.Push(Constant(ELEM_VECTOR4, "pointShadowParameters", MAX_LIGHTS_PER_PASS));
-    constants.Push(Constant(ELEM_VECTOR4, "dirShadowSplits"));
-    constants.Push(Constant(ELEM_VECTOR4, "dirShadowFade"));
-    _psLightConstantBuffer->Define(USAGE_DEFAULT, constants);
+    constants.Push(Constant(ElementType::VECTOR4, "lightPositions", MAX_LIGHTS_PER_PASS));
+    constants.Push(Constant(ElementType::VECTOR4, "lightDirections", MAX_LIGHTS_PER_PASS));
+    constants.Push(Constant(ElementType::VECTOR4, "lightColors", MAX_LIGHTS_PER_PASS));
+    constants.Push(Constant(ElementType::VECTOR4, "lightAttenuations", MAX_LIGHTS_PER_PASS));
+    constants.Push(Constant(ElementType::VECTOR4, "shadowParameters", MAX_LIGHTS_PER_PASS));
+    constants.Push(Constant(ElementType::VECTOR4, "pointShadowParameters", MAX_LIGHTS_PER_PASS));
+    constants.Push(Constant(ElementType::VECTOR4, "dirShadowSplits"));
+    constants.Push(Constant(ElementType::VECTOR4, "dirShadowFade"));
+    _psLightConstantBuffer->Define(ResourceUsage::DEFAULT, constants);
 
     // Instance vertex buffer contains texcoords 4-6 which define the instances' world matrices
     _instanceVertexBuffer = new VertexBuffer();
-    _instanceVertexElements.Push(VertexElement(ELEM_VECTOR4, SEM_TEXCOORD, INSTANCE_TEXCOORD, true));
-    _instanceVertexElements.Push(VertexElement(ELEM_VECTOR4, SEM_TEXCOORD, INSTANCE_TEXCOORD + 1, true));
-    _instanceVertexElements.Push(VertexElement(ELEM_VECTOR4, SEM_TEXCOORD, INSTANCE_TEXCOORD + 2, true));
+    _instanceVertexElements.Push(VertexElement(ElementType::VECTOR4, ElementSemantic::TEXCOORD, INSTANCE_TEXCOORD, true));
+    _instanceVertexElements.Push(VertexElement(ElementType::VECTOR4, ElementSemantic::TEXCOORD, INSTANCE_TEXCOORD + 1, true));
+    _instanceVertexElements.Push(VertexElement(ElementType::VECTOR4, ElementSemantic::TEXCOORD, INSTANCE_TEXCOORD + 2, true));
 
     // Setup ambient light only -pass
     _ambientLightPass._vsBits = 0;
@@ -674,12 +674,12 @@ void Renderer::DefineFaceSelectionTextures()
         faces2.Push(level);
     }
 
-    _faceSelectionTexture1->Define(TEX_CUBE, USAGE_DEFAULT, Vector2I(1, 1), FMT_RGBA32F, 1, &faces1[0]);
-    _faceSelectionTexture1->DefineSampler(FILTER_POINT, ADDRESS_CLAMP, ADDRESS_CLAMP, ADDRESS_CLAMP);
+    _faceSelectionTexture1->Define(TextureType::TEX_CUBE, ResourceUsage::DEFAULT, Vector2I(1, 1), ImageFormat::RGBA32F, 1, &faces1[0]);
+    _faceSelectionTexture1->DefineSampler(TextureFilterMode::FILTER_POINT, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP);
     _faceSelectionTexture1->SetDataLost(false);
 
-    _faceSelectionTexture2->Define(TEX_CUBE, USAGE_DEFAULT, Vector2I(1, 1), FMT_RGBA32F, 1, &faces2[0]);
-    _faceSelectionTexture2->DefineSampler(FILTER_POINT, ADDRESS_CLAMP, ADDRESS_CLAMP, ADDRESS_CLAMP);
+    _faceSelectionTexture2->Define(TextureType::TEX_CUBE, ResourceUsage::DEFAULT, Vector2I(1, 1), ImageFormat::RGBA32F, 1, &faces2[0]);
+    _faceSelectionTexture2->DefineSampler(TextureFilterMode::FILTER_POINT, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP);
     _faceSelectionTexture2->SetDataLost(false);
 }
 
@@ -857,14 +857,14 @@ void Renderer::RenderBatches(const Vector<Batch>& batches, Camera* camera, bool 
         _psFrameConstantBuffer->SetConstant(PS_FRAME_AMBIENT_COLOR, camera->GetAmbientColor());
         _psFrameConstantBuffer->Apply();
 
-        _graphics->SetConstantBuffer(SHADER_VS, CB_FRAME, _vsFrameConstantBuffer);
-        _graphics->SetConstantBuffer(SHADER_PS, CB_FRAME, _psFrameConstantBuffer);
+        _graphics->SetConstantBuffer(ShaderStage::VS, RendererConstantBuffer::FRAME, _vsFrameConstantBuffer);
+        _graphics->SetConstantBuffer(ShaderStage::PS, RendererConstantBuffer::FRAME, _psFrameConstantBuffer);
     }
 
     if (_instanceTransformsDirty && _instanceTransforms.Size())
     {
         if (_instanceVertexBuffer->GetNumVertices() < _instanceTransforms.Size())
-            _instanceVertexBuffer->Define(USAGE_DYNAMIC, NextPowerOfTwo(_instanceTransforms.Size()), _instanceVertexElements, false);
+            _instanceVertexBuffer->Define(ResourceUsage::DYNAMIC, NextPowerOfTwo(_instanceTransforms.Size()), _instanceVertexElements, false);
         _instanceVertexBuffer->SetData(0, _instanceTransforms.Size(), &_instanceTransforms[0]);
         _graphics->SetVertexBuffer(1, _instanceVertexBuffer);
         _instanceTransformsDirty = false;
@@ -878,19 +878,19 @@ void Renderer::RenderBatches(const Vector<Batch>& batches, Camera* camera, bool 
         for (auto it = batches.Begin(); it != batches.End();)
         {
             const Batch& batch = *it;
-            bool instanced = batch._type == GEOM_INSTANCED;
+            bool instanced = batch._type == GeometryType::INSTANCED;
 
             Pass* pass = batch._pass;
             if (!pass->_shadersLoaded)
                 LoadPassShaders(pass);
 
             // Check that pass is legal
-            if (pass->_shaders[SHADER_VS].Get() && pass->_shaders[SHADER_PS].Get())
+            if (pass->_shaders[ShaderStage::VS].Get() && pass->_shaders[ShaderStage::PS].Get())
             {
                 // Get the shader variations
                 LightPass* lights = batch._lights;
-                ShaderVariation* vs = FindShaderVariation(SHADER_VS, pass, (unsigned short)batch._type | (lights ? lights->_vsBits : 0));
-                ShaderVariation* ps = FindShaderVariation(SHADER_PS, pass, lights ? lights->_psBits : 0);
+                ShaderVariation* vs = FindShaderVariation(ShaderStage::VS, pass, (unsigned short)batch._type | (lights ? lights->_vsBits : 0));
+                ShaderVariation* ps = FindShaderVariation(ShaderStage::PS, pass, lights ? lights->_psBits : 0);
                 _graphics->SetShaders(vs, ps);
 
                 Geometry* geometry = batch._geometry;
@@ -923,22 +923,22 @@ void Renderer::RenderBatches(const Vector<Batch>& batches, Camera* camera, bool 
                         if (material->_textures[i])
                             _graphics->SetTexture(i, material->_textures[i]);
                     }
-                    _graphics->SetConstantBuffer(SHADER_VS, CB_MATERIAL, material->_constantBuffers[SHADER_VS].Get());
-                    _graphics->SetConstantBuffer(SHADER_PS, CB_MATERIAL, material->_constantBuffers[SHADER_PS].Get());
+                    _graphics->SetConstantBuffer(ShaderStage::VS, RendererConstantBuffer::MATERIAL, material->_constantBuffers[ShaderStage::VS].Get());
+                    _graphics->SetConstantBuffer(ShaderStage::PS, RendererConstantBuffer::MATERIAL, material->_constantBuffers[ShaderStage::PS].Get());
 
                     lastMaterial = material;
                 }
 
                 // Apply object render state
-                if (geometry->_constantBuffers[SHADER_VS])
-                    _graphics->SetConstantBuffer(SHADER_VS, CB_OBJECT, geometry->_constantBuffers[SHADER_VS].Get());
+                if (geometry->_constantBuffers[ShaderStage::VS])
+                    _graphics->SetConstantBuffer(ShaderStage::VS, RendererConstantBuffer::OBJECT, geometry->_constantBuffers[ShaderStage::VS].Get());
                 else if (!instanced)
                 {
                     _vsObjectConstantBuffer->SetConstant(VS_OBJECT_WORLD_MATRIX, *batch._worldMatrix);
                     _vsObjectConstantBuffer->Apply();
-                    _graphics->SetConstantBuffer(SHADER_VS, CB_OBJECT, _vsObjectConstantBuffer.Get());
+                    _graphics->SetConstantBuffer(ShaderStage::VS, RendererConstantBuffer::OBJECT, _vsObjectConstantBuffer.Get());
                 }
-                _graphics->SetConstantBuffer(SHADER_PS, CB_OBJECT, geometry->_constantBuffers[SHADER_PS].Get());
+                _graphics->SetConstantBuffer(ShaderStage::PS, RendererConstantBuffer::OBJECT, geometry->_constantBuffers[ShaderStage::PS].Get());
 
                 // Apply light constant buffers and shadow maps
                 if (lights && lights != lastLights)
@@ -949,11 +949,11 @@ void Renderer::RenderBatches(const Vector<Batch>& batches, Camera* camera, bool 
                         if (lights->_vsBits & LVS_NUMSHADOWCOORDS)
                         {
                             _vsLightConstantBuffer->SetData(lights->_shadowMatrices);
-                            _graphics->SetConstantBuffer(SHADER_VS, CB_LIGHTS, _vsLightConstantBuffer.Get());
+                            _graphics->SetConstantBuffer(ShaderStage::VS, RendererConstantBuffer::LIGHTS, _vsLightConstantBuffer.Get());
                         }
                         
                         _psLightConstantBuffer->SetData(lights->_lightPositions);
-                        _graphics->SetConstantBuffer(SHADER_PS, CB_LIGHTS, _psLightConstantBuffer.Get());
+                        _graphics->SetConstantBuffer(ShaderStage::PS, RendererConstantBuffer::LIGHTS, _psLightConstantBuffer.Get());
 
                         for (size_t i = 0; i < MAX_LIGHTS_PER_PASS; ++i)
                             _graphics->SetTexture(MAX_MATERIAL_TEXTURE_UNITS + i, lights->_shadowMaps[i]);
@@ -987,11 +987,11 @@ void Renderer::LoadPassShaders(Pass* pass)
     ResourceCache* cache = Subsystem<ResourceCache>();
     // Use different extensions for GLSL & HLSL shaders
     #ifdef AUTO_OPENGL
-    pass->_shaders[SHADER_VS] = cache->LoadResource<Shader>(pass->GetShaderName(SHADER_VS) + ".vert");
-    pass->_shaders[SHADER_PS] = cache->LoadResource<Shader>(pass->GetShaderName(SHADER_PS) + ".frag");
+    pass->_shaders[ShaderStage::VS] = cache->LoadResource<Shader>(pass->GetShaderName(ShaderStage::VS) + ".vert");
+    pass->_shaders[ShaderStage::PS] = cache->LoadResource<Shader>(pass->GetShaderName(ShaderStage::PS) + ".frag");
     #else
-    _pass->_shaders[SHADER_VS] = cache->LoadResource<Shader>(_pass->GetShaderName(SHADER_VS) + ".vs");
-    _pass->_shaders[SHADER_PS] = cache->LoadResource<Shader>(_pass->GetShaderName(SHADER_PS) + ".ps");
+    _pass->_shaders[ShaderStage::VS] = cache->LoadResource<Shader>(_pass->GetShaderName(ShaderStage::VS) + ".vs");
+    _pass->_shaders[ShaderStage::PS] = cache->LoadResource<Shader>(_pass->GetShaderName(ShaderStage::PS) + ".ps");
     #endif
 
     pass->_shadersLoaded = true;
@@ -1007,7 +1007,7 @@ ShaderVariation* Renderer::FindShaderVariation(ShaderStage stage, Pass* pass, un
         return it->second.Get();
     else
     {
-        if (stage == SHADER_VS)
+        if (stage == ShaderStage::VS)
         {
             String vsString = pass->GetCombinedShaderDefines(stage) + " " + geometryDefines[bits & LVS_GEOMETRY];
             if (bits & LVS_NUMSHADOWCOORDS)

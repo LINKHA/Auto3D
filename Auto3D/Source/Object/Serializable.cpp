@@ -30,7 +30,7 @@ void Serializable::Load(Stream& source, ObjectResolver& resolver)
             if (attr->Type() == type)
             {
                 // Store object refs to the resolver instead of immediately setting
-                if (type != ATTR_OBJECTREF)
+                if (type != AttributeType::OBJECTREF)
                     attr->FromBinary(this, source);
                 else
                     resolver.StoreObjectRef(this, attr, source.Read<ObjectRef>());
@@ -74,7 +74,7 @@ void Serializable::LoadJSON(const JSONValue& source, ObjectResolver& resolver)
         if (jsonIt != object.End())
         {
             // Store object refs to the resolver instead of immediately setting
-            if (attr->Type() != ATTR_OBJECTREF)
+            if (attr->Type() != AttributeType::OBJECTREF)
                 attr->FromJSON(this, jsonIt->second);
             else
                 resolver.StoreObjectRef(this, attr, ObjectRef((unsigned)jsonIt->second.GetNumber()));

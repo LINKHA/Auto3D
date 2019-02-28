@@ -18,12 +18,12 @@ bool IndexBuffer::Define(ResourceUsage usage, size_t numIndices, size_t indexSiz
         ErrorString("Can not define index buffer with no indices");
         return false;
     }
-    if (usage == USAGE_RENDERTARGET)
+    if (usage == ResourceUsage::RENDERTARGET)
     {
         ErrorString("Rendertarget usage is illegal for index buffers");
         return false;
     }
-    if (usage == USAGE_IMMUTABLE && !data)
+    if (usage == ResourceUsage::IMMUTABLE && !data)
     {
         ErrorString("Immutable index buffer must define initial data");
         return false;

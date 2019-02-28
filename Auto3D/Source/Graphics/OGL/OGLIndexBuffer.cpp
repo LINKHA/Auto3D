@@ -14,7 +14,7 @@ IndexBuffer::IndexBuffer() :
     _buffer(0),
     _numIndices(0),
     _indexSize(0),
-    _usage(USAGE_DEFAULT)
+    _usage(ResourceUsage::DEFAULT)
 {
 }
 
@@ -58,7 +58,7 @@ bool IndexBuffer::SetData(size_t firstIndex, size_t numIndices, const void* data
         ErrorString("Out of bounds range for updating index buffer");
         return false;
     }
-    if (_buffer && _usage == USAGE_IMMUTABLE)
+    if (_buffer && _usage == ResourceUsage::IMMUTABLE)
     {
         ErrorString("Can not update immutable index buffer");
         return false;
@@ -71,7 +71,7 @@ bool IndexBuffer::SetData(size_t firstIndex, size_t numIndices, const void* data
     {
         _graphics->SetIndexBuffer(this);
         if (numIndices == _numIndices)
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * _indexSize, data, _usage == USAGE_DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * _indexSize, data, _usage == ResourceUsage::DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
         else
             glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, firstIndex * _indexSize, numIndices * _indexSize, data);
     }
@@ -91,7 +91,7 @@ bool IndexBuffer::Create(const void* data)
         }
 
         _graphics->SetIndexBuffer(this);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, _numIndices * _indexSize, data, _usage == USAGE_DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, _numIndices * _indexSize, data, _usage == ResourceUsage::DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
         LogStringF("Created index buffer numIndices %u indexSize %u", (unsigned)_numIndices, (unsigned)_indexSize);
     }
 

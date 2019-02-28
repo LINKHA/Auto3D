@@ -218,7 +218,7 @@ private:
     /// Bound index buffer.
     IndexBuffer* _indexBuffer;
     /// Bound constant buffers by shader stage.
-    ConstantBuffer* _constantBuffers[MAX_SHADER_STAGES][MAX_CONSTANT_BUFFERS];
+    ConstantBuffer* _constantBuffers[ShaderStage::Count][MAX_CONSTANT_BUFFERS];
     /// Bound textures by texture unit.
     Texture* _textures[MAX_TEXTURE_UNITS];
     /// OpenGL active texture targets by texture unit.

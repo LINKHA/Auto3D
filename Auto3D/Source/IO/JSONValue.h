@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../AutoCommon.h"
 #include "../Base/HashMap.h"
 #include "../Base/String.h"
 #include "../Base/Vector.h"
@@ -15,16 +16,15 @@ typedef Vector<JSONValue> JSONArray;
 typedef HashMap<String, JSONValue> JSONObject;
 
 /// JSON value types.
-enum JSONType
-{
-    JSON_NULL = 0,
-    JSON_BOOL,
-    JSON_NUMBER,
-    JSON_STRING,
-    JSON_ARRAY,
-    JSON_OBJECT,
-    MAX_JSON_TYPES
-};
+ENUM(JSONType)
+	Null = 0,
+	BOOL,
+	NUMBER,
+	STRING,
+	ARRAY,
+	OBJECT,
+	Count
+ENUM_END(JSONType);
 
 /// JSON data union.
 struct JSONData
@@ -146,27 +146,27 @@ public:
     /// Return type.
     JSONType Type() const { return _type; }
     /// Return whether is null.
-    bool IsNull() const { return _type == JSON_NULL; }
+    bool IsNull() const { return _type == JSONType::Null; }
     /// Return whether is a bool.
-    bool IsBool() const { return _type == JSON_BOOL; }
+    bool IsBool() const { return _type == JSONType::BOOL; }
     /// Return whether is a number.
-    bool IsNumber() const { return _type == JSON_NUMBER; }
+    bool IsNumber() const { return _type == JSONType::NUMBER; }
     /// Return whether is a string.
-    bool IsString() const { return _type == JSON_STRING; }
+    bool IsString() const { return _type == JSONType::STRING; }
     /// Return whether is an array.
-    bool IsArray() const { return _type == JSON_ARRAY; }
+    bool IsArray() const { return _type == JSONType::ARRAY; }
     /// Return whether is an object.
-    bool IsObject() const { return _type == JSON_OBJECT; }
+    bool IsObject() const { return _type == JSONType::OBJECT; }
     /// Return value as a bool, or false on type mismatch.
-    bool GetBool() const { return _type == JSON_BOOL ? _data.boolValue : false; }
+    bool GetBool() const { return _type == JSONType::BOOL ? _data.boolValue : false; }
     /// Return value as a number, or zero on type mismatch.
-    double GetNumber() const { return _type == JSON_NUMBER ? _data.numberValue : 0.0; }
+    double GetNumber() const { return _type == JSONType::NUMBER ? _data.numberValue : 0.0; }
     /// Return value as a string, or empty string on type mismatch.
-    const String& GetString() const { return _type == JSON_STRING ? *(reinterpret_cast<const String*>(&_data)) : String::EMPTY; }
+    const String& GetString() const { return _type == JSONType::STRING ? *(reinterpret_cast<const String*>(&_data)) : String::EMPTY; }
     /// Return value as an array, or empty on type mismatch.
-    const JSONArray& GetArray() const { return _type == JSON_ARRAY ? *(reinterpret_cast<const JSONArray*>(&_data)) : emptyJSONArray; }
+    const JSONArray& GetArray() const { return _type == JSONType::ARRAY ? *(reinterpret_cast<const JSONArray*>(&_data)) : emptyJSONArray; }
     /// Return value as an object, or empty on type mismatch.
-    const JSONObject& GetObject() const { return _type == JSON_OBJECT ? *(reinterpret_cast<const JSONObject*>(&_data)) : emptyJSONObject; }
+    const JSONObject& GetObject() const { return _type == JSONType::OBJECT ? *(reinterpret_cast<const JSONObject*>(&_data)) : emptyJSONObject; }
     /// Return whether has an associative value.
     bool Contains(const String& key) const;
     

@@ -64,7 +64,7 @@ bool ShaderVariation::Compile()
         return false;
     }
 
-    _shader = glCreateShader(_stage == SHADER_VS ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER);
+    _shader = glCreateShader(_stage == ShaderStage::VS ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER);
     if (!_shader)
     {
         ErrorString("Could not create shader object");

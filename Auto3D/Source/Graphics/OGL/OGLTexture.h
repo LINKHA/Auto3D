@@ -37,7 +37,7 @@ public:
     /// Define texture type and dimensions and set initial data. %ImageLevel structures only need the data pointer and row byte _size filled. Return true on success.
     bool Define(TextureType type, ResourceUsage usage, const Vector2I& size, ImageFormat format, size_t numLevels, const ImageLevel* initialData = 0);
     /// Define sampling parameters. Return true on success.
-    bool DefineSampler(TextureFilterMode filter = FILTER_TRILINEAR, TextureAddressMode u = ADDRESS_WRAP, TextureAddressMode v = ADDRESS_WRAP, TextureAddressMode w = ADDRESS_WRAP, unsigned maxAnisotropy = 16, float minLod = -M_MAX_FLOAT, float maxLod = M_MAX_FLOAT, const Color& borderColor = Color::BLACK);
+    bool DefineSampler(TextureFilterMode filter = TextureFilterMode::FILTER_TRILINEAR, TextureAddressMode u = TextureAddressMode::WRAP, TextureAddressMode v = TextureAddressMode::WRAP, TextureAddressMode w = TextureAddressMode::WRAP, unsigned maxAnisotropy = 16, float minLod = -M_MAX_FLOAT, float maxLod = M_MAX_FLOAT, const Color& borderColor = Color::BLACK);
     /// Set data for a mipmap level. Not supported for immutable textures. Return true on success.
     bool SetData(size_t face, size_t level, RectI rect, const ImageLevel& data);
 
@@ -52,7 +52,7 @@ public:
     /// Return image format.
     ImageFormat GetFormat() const { return _format; }
     /// Return whether uses a compressed format.
-    bool IsCompressed() const { return _format >= FMT_DXT1; }
+    bool IsCompressed() const { return _format >= ImageFormat::DXT1; }
     /// Return number of mipmap levels.
     size_t GetNumLevels() const { return _numLevels; }
     /// Return number of faces or Z-slices.
@@ -60,13 +60,13 @@ public:
     /// Return resource usage type.
     ResourceUsage GetUsage() const { return _usage; }
     /// Return whether is dynamic.
-    bool IsDynamic() const { return _usage == USAGE_DYNAMIC; }
+    bool IsDynamic() const { return _usage == ResourceUsage::DYNAMIC; }
     /// Return whether is immutable.
-    bool IsImmutable() const { return _usage == USAGE_IMMUTABLE; }
+    bool IsImmutable() const { return _usage == ResourceUsage::IMMUTABLE; }
     /// Return whether is a color rendertarget texture.
-    bool IsRenderTarget() const { return _usage == USAGE_RENDERTARGET && (_format < FMT_D16 || _format > FMT_D24S8); }
+    bool IsRenderTarget() const { return _usage == ResourceUsage::RENDERTARGET && (_format < ImageFormat::D16 || _format > ImageFormat::D24S8); }
     /// Return whether is a depth-stencil texture.
-    bool IsDepthStencil() const { return _usage == USAGE_RENDERTARGET && _format >= FMT_D16 && _format <= FMT_D24S8; }
+    bool IsDepthStencil() const { return _usage == ResourceUsage::RENDERTARGET && _format >= ImageFormat::D16 && _format <= ImageFormat::D24S8; }
 
     /// Return the OpenGL texture identifier. Used internally and should not be called by portable application code.
     unsigned GetGLTexture() const { return _texture; }
