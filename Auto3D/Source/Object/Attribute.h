@@ -58,7 +58,11 @@ class AUTO_API Attribute : public RefCounted
 public:
     /// Construct.
     Attribute(const char* name, AttributeAccessor* accessor, const char** enumNames = 0);
-    
+	/// Prevent copy construction.
+	Attribute(const Attribute& rhs) = delete;
+	/// Prevent assignment.
+	Attribute& operator = (const Attribute& rhs) = delete;
+
     /// Deserialize from a binary stream.
     virtual void FromBinary(Serializable* instance, Stream& source) = 0;
     /// Serialize to a binary stream.
@@ -110,11 +114,6 @@ protected:
     /// Enum names.
     const char** _enumNames;
 
-private:
-    /// Prevent copy construction.
-    Attribute(const Attribute& rhs);
-    /// Prevent assignment.
-    Attribute& operator = (const Attribute& rhs);
 };
 
 /// Template implementation of an attribute description with specific type.

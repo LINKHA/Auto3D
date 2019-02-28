@@ -25,14 +25,14 @@ void TextureSample::Update()
 	auto graphics = Subsystem<Graphics>();
 
 	auto* input = Object::Subsystem<Input>();
-	pitch += input->MouseMove()._y * 0.25f;
-	yaw += input->MouseMove()._x * 0.25f;
+	pitch += input->GetMouseMove()._y * 0.25f;
+	yaw += input->GetMouseMove()._x * 0.25f;
 	pitch = Clamp(pitch, -90.0f, 90.0f);
 
 	camera->SetRotation(Quaternion(pitch, yaw, 0.0f));
 
 	// Update camera aspect ratio based on window size
-	camera->SetAspectRatio((float)graphics->Width() / (float)graphics->Height());
+	camera->SetAspectRatio((float)graphics->GetWidth() / (float)graphics->GetHeight());
 
 }
 

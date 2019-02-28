@@ -240,12 +240,12 @@ bool Graphics::SetFullscreen(bool enable)
 		return SetMode(RectI(0, 0, _backbufferSize._x, _backbufferSize._y), enable, _window->IsResizable(), _multisample);
 }
 
-bool Graphics::SetMultisample(int multisample_)
+bool Graphics::SetMultisample(int multisample)
 {
     if (!IsInitialized())
         return false;
     else
-        return SetMode(RectI(0, 0, _backbufferSize._x, _backbufferSize._y), _window->IsFullscreen(), _window->IsResizable(), multisample_);
+        return SetMode(RectI(0, 0, _backbufferSize._x, _backbufferSize._y), _window->IsFullscreen(), _window->IsResizable(), multisample);
 }
 
 void Graphics::SetVSync(bool enable)
@@ -280,26 +280,25 @@ void Graphics::Present()
     _context->Present();
 
     // In case of third party hooks which modify the GL state and don't restore it properly, re-enable depth test now
-    /// \todo Need to restore other state?
     glEnable(GL_DEPTH_TEST);
 }
 
-void Graphics::SetRenderTarget(Texture* renderTarget_, Texture* depthStencil_)
+void Graphics::SetRenderTarget(Texture* renderTarget, Texture* depthStencil)
 {
     _renderTargetVector.Resize(1);
-    _renderTargetVector[0] = renderTarget_;
-    SetRenderTargets(_renderTargetVector, depthStencil_);
+    _renderTargetVector[0] = renderTarget;
+    SetRenderTargets(_renderTargetVector, depthStencil);
 }
 
-void Graphics::SetRenderTargets(const Vector<Texture*>& renderTargets_, Texture* depthStencil_)
+void Graphics::SetRenderTargets(const Vector<Texture*>& renderTargets, Texture* depthStencil)
 {
-    for (size_t i = 0; i < MAX_RENDERTARGETS && i < renderTargets_.Size(); ++i)
-        _renderTargets[i] = (renderTargets_[i] && renderTargets_[i]->IsRenderTarget()) ? renderTargets_[i] : nullptr;
+    for (size_t i = 0; i < MAX_RENDERTARGETS && i < renderTargets.Size(); ++i)
+        _renderTargets[i] = (renderTargets[i] && renderTargets[i]->IsRenderTarget()) ? renderTargets[i] : nullptr;
 
-    for (size_t i = renderTargets_.Size(); i < MAX_RENDERTARGETS; ++i)
+    for (size_t i = renderTargets.Size(); i < MAX_RENDERTARGETS; ++i)
         _renderTargets[i] = nullptr;
 
-    _depthStencil = (depthStencil_ && depthStencil_->IsDepthStencil()) ? depthStencil_ : nullptr;
+    _depthStencil = (depthStencil && depthStencil->IsDepthStencil()) ? depthStencil : nullptr;
 
     if (_renderTargets[0])
         _renderTargetSize = Vector2I(_renderTargets[0]->GetWidth(), _renderTargets[0]->GetHeight());
@@ -311,15 +310,15 @@ void Graphics::SetRenderTargets(const Vector<Texture*>& renderTargets_, Texture*
     _framebufferDirty = true;
 }
 
-void Graphics::SetViewport(const RectI& viewport_)
+void Graphics::SetViewport(const RectI& viewport)
 {
     PrepareFramebuffer();
 
     /// \todo Implement a member function in IntRect for clipping
-    _viewport.Left() = Clamp(viewport_.Left(), 0, _renderTargetSize._x - 1);
-    _viewport.Top() = Clamp(viewport_.Top(), 0, _renderTargetSize._y - 1);
-    _viewport.Right() = Clamp(viewport_.Right(), _viewport.Left() + 1, _renderTargetSize._x);
-    _viewport.Bottom() = Clamp(viewport_.Bottom(), _viewport.Top() + 1, _renderTargetSize._y);
+    _viewport.Left() = Clamp(viewport.Left(), 0, _renderTargetSize._x - 1);
+    _viewport.Top() = Clamp(viewport.Top(), 0, _renderTargetSize._y - 1);
+    _viewport.Right() = Clamp(viewport.Right(), _viewport.Left() + 1, _renderTargetSize._x);
+    _viewport.Bottom() = Clamp(viewport.Bottom(), _viewport.Top() + 1, _renderTargetSize._y);
 
     // When rendering to the backbuffer, use Direct3D convention with the vertical coordinates ie. 0 is top
     if (!_framebuffer)

@@ -51,7 +51,7 @@ void Camera::RegisterObject()
     RegisterAttribute("farClip", &Camera::GetFarClip, &Camera::SetFarClip, DEFAULT_FARCLIP);
     RegisterAttribute("fov", &Camera::GetFov, &Camera::SetFov, DEFAULT_FOV);
     RegisterAttribute("aspectRatio", &Camera::GetAspectRatio, &Camera::SetAspectRatio, 1.0f);
-    RegisterAttribute("orthographic", &Camera::GetIsOrthographic, &Camera::SetOrthographic, false);
+    RegisterAttribute("orthographic", &Camera::IsOrthographic, &Camera::SetOrthographic, false);
     RegisterAttribute("orthoSize", &Camera::GetOrthoSize, &Camera::SetOrthoSize, DEFAULT_ORTHOSIZE);
     RegisterAttribute("zoom", &Camera::GetZoom, &Camera::SetZoom, 1.0f);
     RegisterAttribute("lodBias", &Camera::GetLodBias, &Camera::SetLodBias, 1.0f);

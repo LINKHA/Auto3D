@@ -54,7 +54,7 @@ private:
 	/// Is initialized
 	bool _initialized{};
 	/// Pause when _minimized flag.
-	bool _pauseMinimized;
+	bool _pauseMinimized{};
 };
 
 

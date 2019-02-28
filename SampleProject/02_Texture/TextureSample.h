@@ -16,7 +16,7 @@ public:
 	{
 		Subsystem<Graphics>()->Close();
 	}
-	float yaw = 0.0f, pitch = 20.0f;
+	float yaw = 0.0f, pitch = 0.0f;
 	Camera* camera;
 	SharedPtr<Scene> scene;
 };

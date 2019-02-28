@@ -30,6 +30,11 @@ void MeshSample::Start()
 		plane->SetModel(cache->LoadResource<Model>("Box.mdl"));
 		plane->SetMaterial(cache->LoadResource<Material>("Stone.json"));
 
+		StaticModel* plane2 = scene->CreateChild<StaticModel>();
+		plane2->SetPosition(Vector3F(0.0f, 0.2f, 0.0f));
+		plane2->SetScale(Vector3F(10.0f, 0.1f, 10.0f));
+		plane2->SetModel(cache->LoadResource<Model>("Box.mdl"));
+		plane2->SetMaterial(cache->LoadResource<Material>("Stone.json"));
 
 		StaticModel* mushroom = scene->CreateChild<StaticModel>();
 		mushroom->SetPosition(Vector3F(0.0f, 1.0f,0.0f));

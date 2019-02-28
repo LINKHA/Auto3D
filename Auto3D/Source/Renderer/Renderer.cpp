@@ -104,6 +104,9 @@ void Renderer::SetupShadowMaps(size_t num, int size, ImageFormat format)
 
 bool Renderer::PrepareView(Scene* scene, Camera* camera, const Vector<PassDesc>& passes)
 {
+	if (!_graphics)
+		Initialize();
+
     if (!CollectObjects(scene, camera))
         return false;
     
@@ -117,8 +120,7 @@ bool Renderer::CollectObjects(Scene* scene, Camera* camera)
     PROFILE(CollectObjects);
 
     // Acquire Graphics subsystem now, which needs to be initialized with a screen mode
-    if (!_graphics)
-        Initialize();
+   
 
     _geometries.Clear();
     _lights.Clear();
@@ -835,7 +837,7 @@ void Renderer::RenderBatches(const Vector<Batch>& batches, Camera* camera, bool 
         Vector4F depthParameters(Vector4F::ZERO);
         depthParameters._x = camera->GetNearClip();
         depthParameters._y = camera->GetFarClip();
-        if (camera->GetIsOrthographic())
+        if (camera->IsOrthographic())
         {
             #ifdef USE_OPENGL
             depthParameters._z = 0.5f;

@@ -60,6 +60,9 @@ void Engine::Render()
 	{
 		_renderer->Render((*it).first, (*it).second);
 	}	
+
+	_ui->Render();
+
 }
 
 

@@ -26,7 +26,8 @@ class AUTO_API Camera : public SpatialNode
 public:
     /// Construct.
     Camera();
-
+	/// Destructor
+	~Camera() = default;
     /// Register factory and attributes.
     static void RegisterObject();
 
@@ -82,7 +83,7 @@ public:
     /// Return view layer mask.
     unsigned GetViewMask() const { return _viewMask; }
     /// Return whether is orthographic.
-    bool GetIsOrthographic() const { return _orthographic; }
+    bool IsOrthographic() const { return _orthographic; }
     /// Return ambient light color.
     const Color& GetAmbientColor() const { return _ambientColor; }
     /// Return projection offset.
