@@ -302,7 +302,7 @@ void Model::SetBoneMappings(const Vector<Vector<size_t> >& boneMappings)
     _boneMappings = boneMappings;
 }
 
-size_t Model::NumLodLevels(size_t index) const
+size_t Model::GetNumLodLevels(size_t index) const
 {
     return index < _geometries.Size() ? _geometries[index].Size() : 0;
 }

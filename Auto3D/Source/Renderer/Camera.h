@@ -67,55 +67,55 @@ public:
     void SetFlipVertical(bool enable);
 
     /// Return far clip distance.
-    float FarClip() const { return _farClip; }
+    float GetFarClip() const { return _farClip; }
     /// Return near clip distance.
-    float NearClip() const;
+    float GetNearClip() const;
     /// Return vertical field of view in degrees.
-    float Fov() const { return _fov; }
+    float GetFov() const { return _fov; }
     /// Return orthographic mode _size.
-    float OrthoSize() const { return _orthoSize; }
+    float GetOrthoSize() const { return _orthoSize; }
     /// Return aspect ratio.
-    float AspectRatio() const { return _aspectRatio; }
+    float GetAspectRatio() const { return _aspectRatio; }
     /// Return zoom.
-    float Zoom() const { return _zoom; }
+    float GetZoom() const { return _zoom; }
     /// Return LOD bias.
-    float LodBias() const { return _lodBias; }
+    float GetLodBias() const { return _lodBias; }
     /// Return view layer mask.
-    unsigned ViewMask() const { return _viewMask; }
+    unsigned GetViewMask() const { return _viewMask; }
     /// Return whether is orthographic.
-    bool IsOrthographic() const { return _orthographic; }
+    bool GetIsOrthographic() const { return _orthographic; }
     /// Return ambient light color.
-    const Color& AmbientColor() const { return _ambientColor; }
+    const Color& GetAmbientColor() const { return _ambientColor; }
     /// Return projection offset.
-    const Vector2F& ProjectionOffset() const { return _projectionOffset; }
+    const Vector2F& GetProjectionOffset() const { return _projectionOffset; }
     /// Return whether is using reflection.
-    bool UseReflection() const { return _useReflection; }
+    bool GetUseReflection() const { return _useReflection; }
     /// Return the reflection plane.
-    const Plane& ReflectionPlane() const { return _reflectionPlane; }
+    const Plane& GetReflectionPlane() const { return _reflectionPlane; }
     /// Return whether is using a custom clipping plane.
-    bool UseClipping() const { return _useClipping; }
+    bool GetUseClipping() const { return _useClipping; }
     /// Return the custom clipping plane.
-    const Plane& ClipPlane() const { return _clipPlane; }
+    const Plane& GetClipPlane() const { return _clipPlane; }
     /// Return vertical flipping mode.
-    bool FlipVertical() const { return _flipVertical; }
+    bool GetFlipVertical() const { return _flipVertical; }
     /// Return whether to reverse culling; affected by vertical flipping and reflection.
-    bool UseReverseCulling() const { return _flipVertical ^ _useReflection; }
+    bool GetUseReverseCulling() const { return _flipVertical ^ _useReflection; }
     /// Return frustum in world space.
-    Frustum WorldFrustum() const;
+    Frustum GetWorldFrustum() const;
     /// Return world space frustum split by custom near and far clip distances.
     Frustum WorldSplitFrustum(float nearClip, float farClip) const;
     /// Return frustum in view space.
-    Frustum ViewSpaceFrustum() const;
+    Frustum GetViewSpaceFrustum() const;
     /// Return split frustum in view space.
     Frustum ViewSpaceSplitFrustum(float nearClip, float farClip) const;
     /// Return view matrix.
-    const Matrix3x4F& ViewMatrix() const;
+    const Matrix3x4F& GetViewMatrix() const;
     /// Return either API-specific or API-independent (D3D convention) projection matrix.
-    Matrix4x4F ProjectionMatrix(bool apiSpecific = true) const;
+    Matrix4x4F GetProjectionMatrix(bool apiSpecific = true) const;
     /// Return frustum near and far sizes.
     void FrustumSize(Vector3F& near, Vector3F& far) const;
     /// Return half view _size.
-    float HalfViewSize() const;
+    float GetHalfViewSize() const;
     /// Return ray corresponding to normalized screen coordinates (0.0 - 1.0).
     Ray ScreenRay(float x, float y) const;
     // Convert a world space point to normalized screen coordinates (0.0 - 1.0).

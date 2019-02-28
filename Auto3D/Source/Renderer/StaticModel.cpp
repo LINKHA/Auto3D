@@ -39,16 +39,16 @@ void StaticModel::OnPrepareRender(unsigned frameNumber, Camera* camera)
 {
     _lastFrameNumber = frameNumber;
     _lightList = nullptr;
-    _distance = camera->Distance(WorldPosition());
+    _distance = camera->Distance(GetWorldPosition());
 
     // Find out the new LOD level if model has LODs
     if (_hasLodLevels)
     {
-        float lodDistance = camera->LodDistance(_distance, WorldScale().DotProduct(DOT_SCALE), _lodBias);
+        float lodDistance = camera->LodDistance(_distance, GetWorldScale().DotProduct(DOT_SCALE), _lodBias);
 
         for (size_t i = 0; i < _batches.Size(); ++i)
         {
-            const Vector<SharedPtr<Geometry> >& lodGeometries = _model->LodGeometries(i);
+            const Vector<SharedPtr<Geometry> >& lodGeometries = _model->GetLodGeometries(i);
             if (lodGeometries.Size() > 1)
             {
                 size_t j;
@@ -75,16 +75,16 @@ void StaticModel::SetModel(Model* model)
         return;
     }
 
-    SetNumGeometries(_model->NumGeometries());
+    SetNumGeometries(_model->GetNumGeometries());
     // Start at LOD level 0
     for (size_t i = 0; i < _batches.Size(); ++i)
     {
         SetGeometry(i, _model->GetGeometry(i, 0));
-        if (_model->NumLodLevels(i) > 1)
+        if (_model->GetNumLodLevels(i) > 1)
             _hasLodLevels = true;
     }
 
-    SetLocalBoundingBox(_model->LocalBoundingBox());
+    SetLocalBoundingBox(_model->GetLocalBoundingBox());
 }
 
 void StaticModel::SetLodBias(float bias)
@@ -99,7 +99,7 @@ Model* StaticModel::GetModel() const
 
 void StaticModel::SetModelAttr(const ResourceRef& model)
 {
-    ResourceCache* cache = GetSubsystem<ResourceCache>();
+    ResourceCache* cache = Subsystem<ResourceCache>();
     SetModel(cache->LoadResource<Model>(model._name));
 }
 

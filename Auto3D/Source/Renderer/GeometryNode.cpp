@@ -80,7 +80,7 @@ void GeometryNode::OnPrepareRender(unsigned frameNumber, Camera* camera)
 {
     _lastFrameNumber = frameNumber;
     _lightList = nullptr;
-    _distance = camera->Distance(WorldPosition());
+    _distance = camera->Distance(GetWorldPosition());
 }
 
 void GeometryNode::SetGeometryType(GeometryType type)
@@ -154,13 +154,13 @@ Material* GeometryNode::GetMaterial(size_t index) const
 
 void GeometryNode::OnWorldBoundingBoxUpdate() const
 {
-    _worldBoundingBox = _boundingBox.Transformed(WorldTransform());
+    _worldBoundingBox = _boundingBox.Transformed(GetWorldTransform());
     SetFlag(NF_BOUNDING_BOX_DIRTY, false);
 }
 
 void GeometryNode::SetMaterialsAttr(const ResourceRefList& materials)
 {
-    ResourceCache* cache = GetSubsystem<ResourceCache>();
+    ResourceCache* cache = Subsystem<ResourceCache>();
     for (size_t i = 0; i < materials._names.Size(); ++i)
         SetMaterial(i, cache->LoadResource<Material>(materials._names[i]));
 }

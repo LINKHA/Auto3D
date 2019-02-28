@@ -66,52 +66,52 @@ public:
     /// Return color.
     const Color& GetColor() const { return _color; }
     /// Return range.
-    float Range() const { return _range; }
+    float GetRange() const { return _range; }
     /// Return spotlight field of view.
-    float Fov() const { return _fov; }
+    float GetFov() const { return _fov; }
     /// Return light layer mask.
-    unsigned LightMask() const { return _lightMask; }
+    unsigned GetLightMask() const { return _lightMask; }
     /// Return shadow map face resolution in pixels.
-    int ShadowMapSize() const { return _shadowMapSize; }
+    int GetShadowMapSize() const { return _shadowMapSize; }
     /// Return directional light shadow split distances.
-    const Vector4F& ShadowSplits() const { return _shadowSplits; }
+    const Vector4F& GetShadowSplits() const { return _shadowSplits; }
     /// Return directional light shadow fade start depth.
-    float ShadowFadeStart() const { return _shadowFadeStart; }
+    float GetShadowFadeStart() const { return _shadowFadeStart; }
     /// Return number of directional light shadow splits.
-    int NumShadowSplits() const;
+    int GetNumShadowSplits() const;
     /// Return shadow split distance by index.
-    float ShadowSplit(size_t index) const;
+    float GetShadowSplit(size_t index) const;
     /// Return shadow maximum distance.
-    float MaxShadowDistance() const;
+    float GetMaxShadowDistance() const;
     /// Return constant depth bias.
-    int DepthBias() const { return _depthBias; }
+    int GetDepthBias() const { return _depthBias; }
     /// Return slope-scaled depth bias.
-    float SlopeScaledDepthBias() const { return _slopeScaledDepthBias; }
+    float GetSlopeScaledDepthBias() const { return _slopeScaledDepthBias; }
     /// Return total requested shadow map _size, accounting for multiple faces / splits for directional and point lights.
-    Vector2I TotalShadowMapSize() const;
+    Vector2I GetTotalShadowMapSize() const;
     /// Return number of required shadow views / cameras.
-    size_t NumShadowViews() const;
+    size_t GetNumShadowViews() const;
     /// Return number of required shadow coordinates in the vertex shader.
-    size_t NumShadowCoords() const;
+    size_t GetNumShadowCoords() const;
     /// Return spotlight world space frustum.
-    Frustum WorldFrustum() const;
+    Frustum GetWorldFrustum() const;
     /// Return point light world space sphere.
-    Sphere WorldSphere() const;
+    Sphere GetWorldSphere() const;
 
     /// Set shadow map and viewport within it. Called by Renderer.
     void SetShadowMap(Texture* shadowMap, const RectI& shadowRect = RectI::ZERO);
     /// Setup shadow cameras and viewports. Called by Renderer.
     void SetupShadowViews(Camera* mainCamera, Vector<AutoPtr<ShadowView> >& shadowViews, size_t& useIndex);
     /// Return shadow map.
-    Texture* ShadowMap() const { return _shadowMap; }
+    Texture* GetShadowMap() const { return _shadowMap; }
     /// Return actual shadow map rectangle. May be smaller than the requested total shadow map _size.
-    const RectI& ShadowRect() const { return _shadowRect; }
+    const RectI& GetShadowRect() const { return _shadowRect; }
     /// Return shadow mapping matrices.
-    const Vector<Matrix4x4F>& ShadowMatrices() const { return _shadowMatrices; }
+    const Vector<Matrix4x4F>& GetShadowMatrices() const { return _shadowMatrices; }
     /// Return shadow map offset and depth parameters.
-    const Vector4F& ShadowParameters() const { return _shadowParameters; }
+    const Vector4F& GetShadowParameters() const { return _shadowParameters; }
     /// Return point light shadow extra parameters.
-    const Vector4F& PointShadowParameters() const { return _pointShadowParameters; }
+    const Vector4F& GetPointShadowParameters() const { return _pointShadowParameters; }
 
 protected:
     /// Recalculate the world space bounding box.

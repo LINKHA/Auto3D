@@ -6,8 +6,8 @@ void HelloWorldSample::Init()
 }
 void HelloWorldSample::Start()
 {
-	auto* cache = Object::GetSubsystem<ResourceCache>();
-	auto* graphics = Object::GetSubsystem<Graphics>();
+	auto* cache = Object::Subsystem<ResourceCache>();
+	auto* graphics = Object::Subsystem<Graphics>();
 
 	SubscribeToEvent(graphics->RenderWindow()->closeRequestEvent, &HelloWorldSample::HandleCloseRequest);
 
@@ -17,14 +17,14 @@ void HelloWorldSample::Start()
 	//camera->SetPosition(Vector3F(0.0f, 20.0f, -75.0f));
 	camera->SetAmbientColor(Color(0.1f, 0.1f, 0.1f));
 	// Register scene to scene system use to render
-	Object::GetSubsystem<SceneSystem>()->RegisterScene(scene, camera);
+	Object::Subsystem<SceneSystem>()->RegisterScene(scene, camera);
 
 }
 void HelloWorldSample::Update()
 {
-	auto graphics = GetSubsystem<Graphics>();
+	auto graphics = Subsystem<Graphics>();
 
-	auto* input = Object::GetSubsystem<Input>();
+	auto* input = Object::Subsystem<Input>();
 	pitch += input->MouseMove()._y * 0.25f;
 	yaw += input->MouseMove()._x * 0.25f;
 	pitch = Clamp(pitch, -90.0f, 90.0f);

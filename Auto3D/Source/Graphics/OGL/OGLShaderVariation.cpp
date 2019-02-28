@@ -14,7 +14,7 @@ namespace Auto3D
 ShaderVariation::ShaderVariation(Shader* parent_, const String& defines) :
     _shader(0),
     _parent(parent_),
-    _stage(_parent->Stage()),
+    _stage(_parent->GetStage()),
     _defines(defines),
     _compiled(false)
 {
@@ -77,7 +77,7 @@ bool ShaderVariation::Compile()
     for (auto it = defineNames.Begin(); it != defineNames.End(); ++it)
         it->Replace('=', ' ');
 
-    const String& originalShaderCode = _parent->SourceCode();
+    const String& originalShaderCode = _parent->GetSourceCode();
     String shaderCode;
 
     // Check if the shader code contains a version define

@@ -41,9 +41,9 @@ public:
 };
 
 /// 3D graphics rendering context. Manages the rendering _window and GPU objects.
-class AUTO_API Graphics : public Subsystem
+class AUTO_API Graphics : public BaseSubsystem
 {
-	REGISTER_OBJECT_CLASS(Graphics, Subsystem)
+	REGISTER_OBJECT_CLASS(Graphics, BaseSubsystem)
 
 public:
     /// Construct and register subsystem. The graphics mode is not set & _window is not opened yet.
@@ -115,23 +115,23 @@ public:
     /// Return whether has the rendering _window and context.
     bool IsInitialized() const;
     /// Return backbuffer _size, or 0,0 if not initialized.
-    const Vector2I& Size() const { return _backbufferSize; }
+    const Vector2I& GetSize() const { return _backbufferSize; }
     /// Return backbuffer width, or 0 if not initialized.
-    int Width() const { return _backbufferSize._x; }
+    int GetWidth() const { return _backbufferSize._x; }
     /// Return backbuffer height, or 0 if not initialized.
-    int Height() const { return _backbufferSize._y; }
+    int GetHeight() const { return _backbufferSize._y; }
     /// Return multisample level, or 1 if not using multisampling.
-    int Multisample() const { return _multisample; }
+    int GetMultisample() const { return _multisample; }
     /// Return current rendertarget width.
-    int RenderTargetWidth() const { return _renderTargetSize._x; }
+    int GetRenderTargetWidth() const { return _renderTargetSize._x; }
     /// Return current rendertarget height.
-    int RenderTargetHeight() const { return _renderTargetSize._y; }
+    int GetRenderTargetHeight() const { return _renderTargetSize._y; }
     /// Return whether is using _fullscreen mode.
     bool IsFullscreen() const;
     /// Return whether the _window is _resizable.
     bool IsResizable() const;
     /// Return whether is using vertical sync.
-    bool VSync() const { return _vsync; }
+    bool GetVSync() const { return _vsync; }
     /// Return the rendering _window.
     Window* RenderWindow() const;
     /// Return the current color rendertarget by index, or null if rendering to the backbuffer.
@@ -139,7 +139,7 @@ public:
     /// Return the current depth-stencil buffer, or null if rendering to the backbuffer.
     Texture* DepthStencil() const { return _depthStencil; }
     /// Return the current viewport rectangle.
-    const RectI& Viewport() const { return _viewport; }
+    const RectI& GetViewport() const { return _viewport; }
     /// Return currently bound vertex buffer by index.
     VertexBuffer* GetVertexBuffer(size_t index) const;
     /// Return currently bound index buffer.

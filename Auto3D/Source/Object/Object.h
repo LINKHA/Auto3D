@@ -50,7 +50,7 @@ public:
     /// Return a type name from hash, or empty if not known. Requires a registered object factory.
     static const String& TypeNameFromType(StringHash type);
     /// Return a subsystem, template version.
-    template <class _Ty> static _Ty* GetSubsystem() { return static_cast<_Ty*>(GetSubsystem(_Ty::TypeStatic())); }
+    template <class _Ty> static _Ty* Subsystem() { return static_cast<_Ty*>(GetSubsystem(_Ty::TypeStatic())); }
     /// Register an object factory, template version.
     template <class _Ty> static void RegisterFactory() { RegisterFactory(new ObjectFactoryImpl<_Ty>()); }
     /// Create and return an object through a factory, template version.

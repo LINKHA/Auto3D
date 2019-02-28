@@ -11,9 +11,9 @@ class Stream;
 typedef HashMap<Pair<StringHash, StringHash>, SharedPtr<Resource> > ResourceMap;
  
 /// %Resource cache subsystem. Loads resources on demand and stores them for later access.
-class AUTO_API ResourceCache : public Subsystem
+class AUTO_API ResourceCache : public BaseSubsystem
 {
-    REGISTER_OBJECT_CLASS(ResourceCache, Subsystem)
+    REGISTER_OBJECT_CLASS(ResourceCache, BaseSubsystem)
 
 public:
     /// Construct and register subsystem.

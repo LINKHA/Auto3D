@@ -578,7 +578,7 @@ bool Image::GenerateMipImage(Image& dest) const
 {
     PROFILE(GenerateMipImage);
 
-    int components = Components();
+    int components = GetComponents();
     if (components < 1 || components > 4)
     {
         ErrorString("Unsupported format for calculating the next mip level");
@@ -641,7 +641,7 @@ bool Image::GenerateMipImage(Image& dest) const
     return true;
 }
 
-ImageLevel Image::Level(size_t index) const
+ImageLevel Image::GetLevel(size_t index) const
 {
     ImageLevel level;
 
@@ -681,7 +681,7 @@ bool Image::DecompressLevel(unsigned char* dest, size_t index) const
         return false;
     }
 
-    ImageLevel level = Level(index);
+    ImageLevel level = GetLevel(index);
 
     switch (format)
     {

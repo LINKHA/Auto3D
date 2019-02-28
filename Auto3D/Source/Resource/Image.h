@@ -87,27 +87,27 @@ public:
     void SetData(const unsigned char* pixelData);
 
     /// Return image dimensions in pixels.
-    const Vector2I& Size() const { return size; }
+    const Vector2I& GetSize() const { return size; }
     /// Return image width in pixels.
-    int Width() const { return size._x; }
+    int GetWidth() const { return size._x; }
     /// Return image height in pixels.
-    int Height() const { return size._y; }
+    int GetHeight() const { return size._y; }
     /// Return number of components in a pixel. Will return 0 for formats which are not 8 bits per pixel.
-    int Components() const { return components[format]; }
+    int GetComponents() const { return components[format]; }
     /// Return byte _size of a pixel. Will return 0 for block compressed formats.
     size_t PixelByteSize() const { return pixelByteSizes[format]; } 
     /// Return pixel data.
     unsigned char* Data() const { return data.Get(); }
     /// Return the image format.
-    ImageFormat Format() const { return format; }
+    ImageFormat GetFormat() const { return format; }
     /// Return whether is a compressed image.
     bool IsCompressed() const { return format >= FMT_DXT1; }
     /// Return number of mip levels contained in the image data.
-    size_t NumLevels() const { return numLevels; }
+    size_t GetNumLevels() const { return numLevels; }
     /// Calculate the next mip image with halved width and height. Supports uncompressed 8 bits per pixel images only. Return true on success.
     bool GenerateMipImage(Image& dest) const;
     /// Return the data for a mip level. Images loaded from eg. PNG or JPG formats will only have one (index 0) level.
-    ImageLevel Level(size_t index) const;
+    ImageLevel GetLevel(size_t index) const;
     /// Decompress a mip level as 8-bit RGBA. Supports compressed images only. Return true on success.
     bool DecompressLevel(unsigned char* dest, size_t levelIndex) const;
 

@@ -7,11 +7,11 @@ void MeshSample::Init()
 void MeshSample::Start()
 {
 
-	auto* cache = Object::GetSubsystem<ResourceCache>();
-	auto* graphics = Object::GetSubsystem<Graphics>();
-	auto* renderer = Object::GetSubsystem<Renderer>();
-	auto* input = Object::GetSubsystem<Input>();
-	auto* profiler = Object::GetSubsystem<Profiler>();
+	auto* cache = Object::Subsystem<ResourceCache>();
+	auto* graphics = Object::Subsystem<Graphics>();
+	auto* renderer = Object::Subsystem<Renderer>();
+	auto* input = Object::Subsystem<Input>();
+	auto* profiler = Object::Subsystem<Profiler>();
 
 
 	SubscribeToEvent(graphics->RenderWindow()->closeRequestEvent, &MeshSample::HandleCloseRequest);
@@ -22,7 +22,7 @@ void MeshSample::Start()
 	camera->SetPosition(Vector3F(0.0f, 5.0f, -10.0f));
 	camera->SetAmbientColor(Color(0.1f, 0.1f, 0.1f));
 	// Register scene to scene system use to render
-	Object::GetSubsystem<SceneSystem>()->RegisterScene(scene, camera);
+	Object::Subsystem<SceneSystem>()->RegisterScene(scene, camera);
 
 
 		StaticModel* plane = scene->CreateChild<StaticModel>();
@@ -52,16 +52,16 @@ void MeshSample::Start()
 }
 void MeshSample::Update()
 {
-	auto* input = Object::GetSubsystem<Input>();
-	auto* graphics = Object::GetSubsystem<Graphics>();
-	auto* renderer = Object::GetSubsystem<Renderer>();
-	auto* time = Object::GetSubsystem<Time>();
+	auto* input = Object::Subsystem<Input>();
+	auto* graphics = Object::Subsystem<Graphics>();
+	auto* renderer = Object::Subsystem<Renderer>();
+	auto* time = Object::Subsystem<Time>();
 
-	pitch += input->MouseMove()._y * 0.25f;
-	yaw += input->MouseMove()._x * 0.25f;
+	pitch += input->GetMouseMove()._y * 0.25f;
+	yaw += input->GetMouseMove()._x * 0.25f;
 	pitch = Clamp(pitch, -90.0f, 90.0f);
 
-	float moveSpeed = input->IsKeyDown(KEY_LSHIFT) ? 200.0f : 50.0f;
+	float moveSpeed = input->IsKeyDown(KEY_LSHIFT) ? 50 : 10.0f;
 
 	camera->SetRotation(Quaternion(pitch, yaw, 0.0f));
 	if (input->IsKeyDown(KEY_W))

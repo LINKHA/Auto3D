@@ -42,23 +42,23 @@ public:
     bool SetData(size_t face, size_t level, RectI rect, const ImageLevel& data);
 
     /// Return texture type.
-    TextureType TexType() const { return _type; }
+    TextureType GetTexType() const { return _type; }
     /// Return dimensions.
-    const Vector2I& Size() const { return _size; }
+    const Vector2I& GetSize() const { return _size; }
     /// Return width.
-    int Width() const { return _size._x; }
+    int GetWidth() const { return _size._x; }
     /// Return height.
-    int Height() const { return _size._y; }
+    int GetHeight() const { return _size._y; }
     /// Return image format.
-    ImageFormat Format() const { return _format; }
+    ImageFormat GetFormat() const { return _format; }
     /// Return whether uses a compressed format.
     bool IsCompressed() const { return _format >= FMT_DXT1; }
     /// Return number of mipmap levels.
-    size_t NumLevels() const { return _numLevels; }
+    size_t GetNumLevels() const { return _numLevels; }
     /// Return number of faces or Z-slices.
-    size_t NumFaces() const;
+    size_t GetNumFaces() const;
     /// Return resource usage type.
-    ResourceUsage Usage() const { return _usage; }
+    ResourceUsage GetUsage() const { return _usage; }
     /// Return whether is dynamic.
     bool IsDynamic() const { return _usage == USAGE_DYNAMIC; }
     /// Return whether is immutable.
@@ -69,9 +69,9 @@ public:
     bool IsDepthStencil() const { return _usage == USAGE_RENDERTARGET && _format >= FMT_D16 && _format <= FMT_D24S8; }
 
     /// Return the OpenGL texture identifier. Used internally and should not be called by portable application code.
-    unsigned GLTexture() const { return _texture; }
+    unsigned GetGLTexture() const { return _texture; }
     /// Return the OpenGL binding target of the texture. Used internally and should not be called by portable application code.
-    unsigned GLTarget() const;
+    unsigned GetGLTarget() const;
 
     /// Texture filtering mode.
     TextureFilterMode _filter;

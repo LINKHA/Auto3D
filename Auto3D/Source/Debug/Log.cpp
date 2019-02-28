@@ -111,7 +111,7 @@ void Log::Write(int msgLevel, const String& message)
 {
     assert(msgLevel >= LOG_DEBUG && msgLevel < LOG_NONE);
     
-    Log* instance = GetSubsystem<Log>();
+    Log* instance = Subsystem<Log>();
     if (!instance)
         return;
 
@@ -161,7 +161,7 @@ void Log::Write(int msgLevel, const String& message)
 
 void Log::WriteRaw(const String& message, bool error)
 {
-    Log* instance = GetSubsystem<Log>();
+    Log* instance = Subsystem<Log>();
     if (!instance)
         return;
 

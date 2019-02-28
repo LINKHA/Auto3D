@@ -9,9 +9,9 @@ typedef struct ALCcontext_struct ALCcontext;
 namespace Auto3D {
 
 /// Audio sub system ,Process all sound sources and calculate sound
-class AUTO_API Audio : public Subsystem
+class AUTO_API Audio : public BaseSubsystem
 {
-	REGISTER_OBJECT_CLASS(Audio, Subsystem)
+	REGISTER_OBJECT_CLASS(Audio, BaseSubsystem)
 public:
 	/// Construct
 	Audio();

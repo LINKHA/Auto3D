@@ -9,7 +9,7 @@ namespace Auto3D
 GPUObject::GPUObject() :
     _dataLost(false)
 {
-    _graphics = Object::GetSubsystem<Graphics>();
+    _graphics = Object::Subsystem<Graphics>();
     if (_graphics)
         _graphics->AddGPUObject(this);
 }

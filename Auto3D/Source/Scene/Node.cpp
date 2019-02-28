@@ -32,11 +32,11 @@ Node::~Node()
 void Node::RegisterObject()
 {
     RegisterFactory<Node>();
-    RegisterRefAttribute("name", &Node::Name, &Node::SetName);
+    RegisterRefAttribute("name", &Node::GetName, &Node::SetName);
     RegisterAttribute("enabled", &Node::IsEnabled, &Node::SetEnabled, true);
     RegisterAttribute("temporary", &Node::IsTemporary, &Node::SetTemporary, false);
-    RegisterAttribute("layer", &Node::Layer, &Node::SetLayer, LAYER_DEFAULT);
-    RegisterAttribute("tag", &Node::Tag, &Node::SetTag, TAG_NONE);
+    RegisterAttribute("layer", &Node::GetLayer, &Node::SetLayer, LAYER_DEFAULT);
+    RegisterAttribute("tag", &Node::GetTag, &Node::SetTag, TAG_NONE);
 }
 
 void Node::Load(Stream& source, ObjectResolver& resolver)
@@ -327,7 +327,7 @@ void Node::RemoveSelf()
         delete this;
 }
 
-const String& Node::LayerName() const
+const String& Node::GetLayerName() const
 {
     if (!_scene)
         return String::EMPTY;
@@ -336,7 +336,7 @@ const String& Node::LayerName() const
     return _layer < layerNames.Size() ? layerNames[_layer] : String::EMPTY;
 }
 
-const String& Node::TagName() const
+const String& Node::GetTagName() const
 {
     if (!_scene)
         return String::EMPTY;
@@ -438,7 +438,7 @@ Node* Node::FindChildByLayer(unsigned layerMask, bool recursive) const
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         Node* child = *it;
-        if (child->LayerMask() && layerMask)
+        if (child->GetLayerMask() && layerMask)
             return child;
         else if (recursive && child->_children.Size())
         {
@@ -479,7 +479,7 @@ Node* Node::FindChildByTag(const char* tagName, bool recursive) const
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         Node* child = *it;
-        if (!String::Compare(child->TagName().CString(), tagName))
+        if (!String::Compare(child->GetTagName().CString(), tagName))
             return child;
         else if (recursive && child->_children.Size())
         {
@@ -509,7 +509,7 @@ void Node::FindChildrenByLayer(Vector<Node*>& result, unsigned layerMask, bool r
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         Node* child = *it;
-        if (child->LayerMask() & layerMask)
+        if (child->GetLayerMask() & layerMask)
             result.Push(child);
         if (recursive && child->_children.Size())
             child->FindChildrenByLayer(result, layerMask, recursive);
@@ -538,7 +538,7 @@ void Node::FindChildrenByTag(Vector<Node*>& result, const char* tagName, bool re
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         Node* child = *it;
-        if (!String::Compare(child->TagName().CString(), tagName))
+        if (!String::Compare(child->GetTagName().CString(), tagName))
             result.Push(child);
         if (recursive && child->_children.Size())
             child->FindChildrenByTag(result, tagName, recursive);

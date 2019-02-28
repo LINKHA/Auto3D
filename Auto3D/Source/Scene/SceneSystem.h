@@ -8,9 +8,9 @@ namespace Auto3D
 class Scene;
 class Camera;
 
-class AUTO_API SceneSystem : public Subsystem
+class AUTO_API SceneSystem : public BaseSubsystem
 {
-	REGISTER_OBJECT_CLASS(SceneSystem, Subsystem)
+	REGISTER_OBJECT_CLASS(SceneSystem, BaseSubsystem)
 public:
 	SceneSystem();
 	~SceneSystem();

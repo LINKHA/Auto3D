@@ -14,7 +14,7 @@ public:
 	void Stop()override;
 	void HandleCloseRequest(Event& /* event */)
 	{
-		GetSubsystem<Graphics>()->Close();
+		Subsystem<Graphics>()->Close();
 	}
 	float yaw = 0.0f, pitch = 20.0f;
 	Camera* camera;

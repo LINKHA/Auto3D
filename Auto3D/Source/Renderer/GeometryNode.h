@@ -97,15 +97,15 @@ public:
     /// Return geometry type.
     GeometryType GetGeometryType() const { return _geometryType; }
     /// Return number of geometries.
-    size_t NumGeometries() const { return _batches.Size(); }
+    size_t GetNumGeometries() const { return _batches.Size(); }
     /// Return geometry by index.
     Geometry* GetGeometry(size_t index) const;
     /// Return material by geometry index.
     Material* GetMaterial(size_t index) const;
     /// Return source information for all draw calls.
-    const Vector<SourceBatch>& Batches() const { return _batches; }
+    const Vector<SourceBatch>& GetBatches() const { return _batches; }
     /// Return local space bounding box.
-    const BoundingBox& LocalBoundingBox() const { return _boundingBox; }
+    const BoundingBox& GetLocalBoundingBox() const { return _boundingBox; }
 
     /// Set new light list. Called by Renderer.
     void SetLightList(LightList* list) { _lightList = list; }

@@ -78,35 +78,35 @@ public:
     void ApplyScale(float delta);
 
     /// Return the parent spatial node, or null if it is not spatial.
-    SpatialNode* SpatialParent() const { return TestFlag(NF_SPATIAL_PARENT) ? static_cast<SpatialNode*>(Parent()) : nullptr; }
+    SpatialNode* GetSpatialParent() const { return TestFlag(NF_SPATIAL_PARENT) ? static_cast<SpatialNode*>(Parent()) : nullptr; }
     /// Return _position in parent space.
-    const Vector3F& Position() const { return _position; }
+    const Vector3F& GetPosition() const { return _position; }
     /// Return rotation in parent space.
-    const Quaternion& Rotation() const { return _rotation; }
+    const Quaternion& GetRotation() const { return _rotation; }
     /// Return forward direction in parent space.
-    Vector3F Direction() const { return _rotation * Vector3F::FORWARD; }
+    Vector3F GetDirection() const { return _rotation * Vector3F::FORWARD; }
     /// Return scale in parent space.
-    const Vector3F& Scale() const { return _scale; }
+    const Vector3F& GetScale() const { return _scale; }
     /// Return transform matrix in parent space.
-    Matrix3x4F Transform() const { return Matrix3x4F(_position, _rotation, _scale); }
+    Matrix3x4F GetTransform() const { return Matrix3x4F(_position, _rotation, _scale); }
     /// Return _position in world space.
-    Vector3F WorldPosition() const { return WorldTransform().Translation(); }
+    Vector3F GetWorldPosition() const { return GetWorldTransform().Translation(); }
     /// Return rotation in world space.
-    Quaternion WorldRotation() const { return WorldTransform().Rotation(); }
+    Quaternion GetWorldRotation() const { return GetWorldTransform().Rotation(); }
     /// Return forward direction in world space.
-    Vector3F WorldDirection() const { return WorldRotation() * Vector3F::FORWARD; }
+    Vector3F GetWorldDirection() const { return GetWorldRotation() * Vector3F::FORWARD; }
     /// Return scale in world space. As it is calculated from the world transform matrix, it may not be meaningful or accurate in all cases.
-    Vector3F WorldScale() const { return WorldTransform().Scale(); }
+    Vector3F GetWorldScale() const { return GetWorldTransform().Scale(); }
     /// Return world transform matrix.
-    const Matrix3x4F& WorldTransform() const { if (TestFlag(NF_WORLD_TRANSFORM_DIRTY)) UpdateWorldTransform(); return _worldTransform; }
+    const Matrix3x4F& GetWorldTransform() const { if (TestFlag(NF_WORLD_TRANSFORM_DIRTY)) UpdateWorldTransform(); return _worldTransform; }
     /// Convert a local space _position to world space.
-    Vector3F LocalToWorld(const Vector3F& point) const { return WorldTransform() * point; }
+    Vector3F GetLocalToWorld(const Vector3F& point) const { return GetWorldTransform() * point; }
     /// Convert a local space vector (either _position or direction) to world space.
-    Vector3F LocalToWorld(const Vector4F& vector) const { return WorldTransform() * vector; }
+    Vector3F GetLocalToWorld(const Vector4F& vector) const { return GetWorldTransform() * vector; }
     /// Convert a world space _position to local space.
-    Vector3F WorldToLocal(const Vector3F& point) const { return WorldTransform().Inverse() * point; }
+    Vector3F GetWorldToLocal(const Vector3F& point) const { return GetWorldTransform().Inverse() * point; }
     /// Convert a world space vector (either _position or direction) to world space.
-    Vector3F WorldToLocal(const Vector4F& vector) const { return WorldTransform().Inverse() * vector; }
+    Vector3F GetWorldToLocal(const Vector4F& vector) const { return GetWorldTransform().Inverse() * vector; }
 
 protected:
     /// Handle being assigned to a new parent node.

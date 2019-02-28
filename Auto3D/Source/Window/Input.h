@@ -386,9 +386,9 @@ public:
 };
 
 /// %Input subsystem for reading keyboard/mouse/etc. input. Updated from OS _window messages by the Window class.
-class AUTO_API Input : public Subsystem
+class AUTO_API Input : public BaseSubsystem
 {
-    REGISTER_OBJECT_CLASS(Input, Subsystem)
+    REGISTER_OBJECT_CLASS(Input, BaseSubsystem)
 
 public:
     /// Construct and register subsystem.
@@ -408,17 +408,17 @@ public:
     /// Return whether _key was _pressed on this frame by raw _key code.
     bool IsKeyPressRaw(unsigned rawKeyCode) const;
     /// Return current mouse _position.
-    const Vector2I& MousePosition() const;
+    const Vector2I& GetMousePosition() const;
     /// Return accumulated mouse movement since last frame.
-    Vector2I MouseMove() const { return _mouseMove; }
-    /// Return _pressed down mouse _buttons bitmask.
-    unsigned MouseButtons() const { return _mouseButtons; }
+    Vector2I GetMouseMove() const { return _mouseMove; }
+    /// Return pressed down mouse buttons bitmask.
+    unsigned GetMouseButtons() const { return _mouseButtons; }
     /// Return whether a mouse _button is down.
     bool IsMouseButtonDown(unsigned button) const;
     /// Return whether a mouse _button was _pressed on this frame.
     bool IsMouseButtonPress(unsigned button) const;
     /// Return number of active _touches.
-    size_t NumTouches() const { return _touches.Size(); }
+    size_t GetNumTouches() const { return _touches.Size(); }
     /// Return an active touch by _id, or null if not found.
     const Touch* FindTouch(unsigned id) const;
     /// Return all _touches.
@@ -442,19 +442,19 @@ public:
     void OnLoseFocus();
 
     /// Key press/release _event.
-    KeyEvent keyEvent;
+    KeyEvent _keyEvent;
     /// Unicode char input _event.
-    CharInputEvent charInputEvent;
+    CharInputEvent _charInputEvent;
     /// Mouse _button press/release _event.
-    MouseButtonEvent mouseButtonEvent;
+    MouseButtonEvent _mouseButtonEvent;
     /// Mouse move _event.
-    MouseMoveEvent mouseMoveEvent;
+    MouseMoveEvent _mouseMoveEvent;
     /// Touch begin _event.
-    TouchBeginEvent touchBeginEvent;
+    TouchBeginEvent _touchBeginEvent;
     /// Touch move _event.
-    TouchMoveEvent touchMoveEvent;
+    TouchMoveEvent _touchMoveEvent;
     /// Touch end _event.
-    TouchEndEvent touchEndEvent;
+    TouchEndEvent _touchEndEvent;
 
 private:
     /// Key code held down status.

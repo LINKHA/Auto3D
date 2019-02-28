@@ -252,7 +252,7 @@ bool Material::EndLoad()
     ResetTextures();
     if (root.Contains("textures"))
     {
-        ResourceCache* cache = GetSubsystem<ResourceCache>();
+        ResourceCache* cache = Subsystem<ResourceCache>();
         const JSONObject& jsonTextures = root["textures"].GetObject();
         for (auto it = jsonTextures.Begin(); it != jsonTextures.End(); ++it)
             SetTexture(it->first.ToInt(), cache->LoadResource<Texture>(it->second.GetString()));
@@ -282,7 +282,7 @@ bool Material::Save(Stream& dest)
         {
             Pass* pass = *it;
             if (pass)
-                pass->SaveJSON(root["passes"][pass->Name()]);
+                pass->SaveJSON(root["passes"][pass->GetName()]);
         }
     }
 

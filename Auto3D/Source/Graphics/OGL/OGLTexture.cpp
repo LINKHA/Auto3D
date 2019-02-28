@@ -179,7 +179,7 @@ void Texture::Recreate()
     // If has a name, attempt to reload through the resource cache
     if (Name().Length())
     {
-        ResourceCache* cache = GetSubsystem<ResourceCache>();
+        ResourceCache* cache = Subsystem<ResourceCache>();
         if (cache && cache->ReloadResource(this))
             return;
     }
@@ -256,7 +256,7 @@ bool Texture::Define(TextureType type_, ResourceUsage usage, const Vector2I& siz
             // Hack for allowing immutable texture to set initial data
             _usage = USAGE_DEFAULT;
             size_t idx = 0;
-            for (size_t i = 0; i < NumFaces(); ++i)
+            for (size_t i = 0; i < GetNumFaces(); ++i)
             {
                 for (size_t j = 0; j < _numLevels; ++j)
                     SetData(i, j, RectI(0, 0, Max(_size._x >> j, 1), Max(_size._y >> j, 1)), initialData[idx++]);
@@ -375,7 +375,7 @@ bool Texture::SetData(size_t face, size_t level, RectI rect, const ImageLevel& d
             ErrorString("Can not update immutable texture");
             return false;
         }
-        if (face >= NumFaces())
+        if (face >= GetNumFaces())
         {
             ErrorString("Face to update out of bounds");
             return false;
@@ -431,7 +431,7 @@ bool Texture::SetData(size_t face, size_t level, RectI rect, const ImageLevel& d
     return true;
 }
 
-unsigned Texture::GLTarget() const
+unsigned Texture::GetGLTarget() const
 {
     return glTargets[_type];
 }

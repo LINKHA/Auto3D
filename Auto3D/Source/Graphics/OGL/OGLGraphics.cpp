@@ -214,7 +214,7 @@ bool Graphics::SetMode(const RectI& size,int multisample, bool fullscreen, bool 
             return false;
     }
 
-    _backbufferSize = _window->Size();
+    _backbufferSize = _window->GetSize();
     ResetRenderTargets();
     ResetViewport();
     // Cleanup framebuffers defined during the old resolution now
@@ -302,9 +302,9 @@ void Graphics::SetRenderTargets(const Vector<Texture*>& renderTargets_, Texture*
     _depthStencil = (depthStencil_ && depthStencil_->IsDepthStencil()) ? depthStencil_ : nullptr;
 
     if (_renderTargets[0])
-        _renderTargetSize = Vector2I(_renderTargets[0]->Width(), _renderTargets[0]->Height());
+        _renderTargetSize = Vector2I(_renderTargets[0]->GetWidth(), _renderTargets[0]->GetHeight());
     else if (_depthStencil)
-        _renderTargetSize = Vector2I(_depthStencil->Width(), _depthStencil->Height());
+        _renderTargetSize = Vector2I(_depthStencil->GetWidth(), _depthStencil->GetHeight());
     else
         _renderTargetSize = _backbufferSize;
 
@@ -342,7 +342,7 @@ void Graphics::SetIndexBuffer(IndexBuffer* buffer)
     if (_indexBuffer != buffer)
     {
         _indexBuffer = buffer;
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer ? buffer->GLBuffer() : 0);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer ? buffer->GetGLBuffer() : 0);
     }
 }
 
@@ -351,7 +351,7 @@ void Graphics::SetConstantBuffer(ShaderStage stage, size_t index, ConstantBuffer
     if (stage < MAX_SHADER_STAGES && index < MAX_CONSTANT_BUFFERS && buffer != _constantBuffers[stage][index])
     {
         _constantBuffers[stage][index] = buffer;
-        unsigned bufferObject = buffer ? buffer->GLBuffer() : 0;
+        unsigned bufferObject = buffer ? buffer->GetGLBuffer() : 0;
 
         switch (stage)
         {
@@ -391,11 +391,11 @@ void Graphics::SetTexture(size_t index, Texture* texture)
 
         if (texture)
         {
-            unsigned target = texture->GLTarget();
+            unsigned target = texture->GetGLTarget();
             // Make sure we do not have multiple targets bound in the same unit
             if (_textureTargets[index] && _textureTargets[index] != target)
                 glBindTexture(_textureTargets[index], 0);
-            glBindTexture(target, texture->GLTexture());
+            glBindTexture(target, texture->GetGLTexture());
             _textureTargets[index] = target;
         }
         else if (_textureTargets[index])
@@ -413,7 +413,7 @@ void Graphics::SetShaders(ShaderVariation* vs, ShaderVariation* ps)
 
     if (vs != _vertexShader)
     {
-        if (vs && vs->Stage() == SHADER_VS)
+        if (vs && vs->GetStage() == SHADER_VS)
         {
             if (!vs->IsCompiled())
                 vs->Compile();
@@ -424,7 +424,7 @@ void Graphics::SetShaders(ShaderVariation* vs, ShaderVariation* ps)
 
     if (ps != _pixelShader)
     {
-        if (ps && ps->Stage() == SHADER_PS)
+        if (ps && ps->GetStage() == SHADER_PS)
         {
             if (!ps->IsCompiled())
                 ps->Compile();
@@ -433,7 +433,7 @@ void Graphics::SetShaders(ShaderVariation* vs, ShaderVariation* ps)
         _pixelShader = ps;
     }
 
-    if (_vertexShader && _pixelShader && _vertexShader->GLShader() && _pixelShader->GLShader())
+    if (_vertexShader && _pixelShader && _vertexShader->GetGLShader() && _pixelShader->GetGLShader())
     {
         // Check if program already exists, if not, link now
         auto key = MakePair(_vertexShader, _pixelShader);
@@ -721,7 +721,7 @@ void Graphics::CleanupShaderPrograms(ShaderVariation* shader)
     if (!shader)
         return;
 
-    if (shader->Stage() == SHADER_VS)
+    if (shader->GetStage() == SHADER_VS)
     {
         for (auto it = _shaderPrograms.Begin(); it != _shaderPrograms.End();)
         {
@@ -897,9 +897,9 @@ void Graphics::PrepareFramebuffer()
         // Search for a new framebuffer based on format & _size, or create new
         ImageFormat format = FMT_NONE;
         if (_renderTargets[0])
-            format = _renderTargets[0]->Format();
+            format = _renderTargets[0]->GetFormat();
         else if (_depthStencil)
-            format = _depthStencil->Format();
+            format = _depthStencil->GetFormat();
         unsigned long long key = (_renderTargetSize._x << 16 | _renderTargetSize._y) | (((unsigned long long)format) << 32);
         
         auto it = _framebuffers.Find(key);
@@ -946,8 +946,8 @@ void Graphics::PrepareFramebuffer()
             {
                 if (_renderTargets[i])
                 {
-                    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + (unsigned)i, _renderTargets[i]->GLTarget(),
-                        _renderTargets[i]->GLTexture(), 0);
+                    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + (unsigned)i, _renderTargets[i]->GetGLTarget(),
+                        _renderTargets[i]->GetGLTexture(), 0);
                 }
                 else
                     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + (unsigned)i, GL_TEXTURE_2D, 0, 0);
@@ -961,13 +961,13 @@ void Graphics::PrepareFramebuffer()
         {
             if (_depthStencil)
             {
-                bool hasStencil = _depthStencil->Format() == FMT_D24S8;
-                glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, _depthStencil->GLTarget(), 
-                    _depthStencil->GLTexture(), 0);
+                bool hasStencil = _depthStencil->GetFormat() == FMT_D24S8;
+                glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, _depthStencil->GetGLTarget(), 
+                    _depthStencil->GetGLTexture(), 0);
                 if (hasStencil)
                 {
-                    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, _depthStencil->GLTarget(),
-                        _depthStencil->GLTexture(), 0);
+                    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, _depthStencil->GetGLTarget(),
+                        _depthStencil->GetGLTexture(), 0);
                 }
                 else
                     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, 0, 0);
@@ -1030,7 +1030,7 @@ bool Graphics::PrepareDraw(bool instanced, size_t instanceStart)
             if (_vertexBuffers[i])
             {
                 VertexBuffer* buffer = _vertexBuffers[i];
-                const Vector<VertexElement>& elements = buffer->Elements();
+                const Vector<VertexElement>& elements = buffer->GetElements();
 
                 for (auto it = elements.Begin(); it != elements.End(); ++it)
                 {
@@ -1056,7 +1056,7 @@ bool Graphics::PrepareDraw(bool instanced, size_t instanceStart)
                         size_t dataStart = element._offset;
                         if (element._perInstance)
                         {
-                            dataStart += instanceStart * buffer->VertexSize();
+                            dataStart += instanceStart * buffer->GetVertexSize();
                             if (!(_instancingVertexAttributes & locationMask))
                             {
                                 glVertexAttribDivisor(location, 1);
@@ -1072,9 +1072,9 @@ bool Graphics::PrepareDraw(bool instanced, size_t instanceStart)
                             }
                         }
 
-                        BindVBO(buffer->GLBuffer());
+                        BindVBO(buffer->GetGLBuffer());
                         glVertexAttribPointer(location, elementGLComponents[element._type], elementGLTypes[element._type],
-                            element._semantic == SEM_COLOR ? GL_TRUE : GL_FALSE, (unsigned)buffer->VertexSize(),
+                            element._semantic == SEM_COLOR ? GL_TRUE : GL_FALSE, (unsigned)buffer->GetVertexSize(),
                             (const void *)dataStart);
                     }
                 }

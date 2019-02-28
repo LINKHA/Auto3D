@@ -349,7 +349,7 @@ void Octree::CollectNodes(Vector<OctreeNode*>& result, const Octant* octant, uns
     for (auto it = octantNodes.Begin(); it != octantNodes.End(); ++it)
     {
         OctreeNode* node = *it;
-        if ((node->Flags() & nodeFlags) == nodeFlags && (node->LayerMask() & layerMask))
+        if ((node->Flags() & nodeFlags) == nodeFlags && (node->GetLayerMask() & layerMask))
             result.Push(node);
     }
 
@@ -371,7 +371,7 @@ void Octree::CollectNodes(Vector<RaycastResult>& result, const Octant* octant, c
     for (auto it = octantNodes.Begin(); it != octantNodes.End(); ++it)
     {
         OctreeNode* node = *it;
-        if ((node->Flags() & nodeFlags) == nodeFlags && (node->LayerMask() & layerMask))
+        if ((node->Flags() & nodeFlags) == nodeFlags && (node->GetLayerMask() & layerMask))
             node->OnRaycast(result, ray, maxDistance);
     }
 
@@ -393,7 +393,7 @@ void Octree::CollectNodes(Vector<Pair<OctreeNode*, float> >& result, const Octan
     for (auto it = octantNodes.Begin(); it != octantNodes.End(); ++it)
     {
         OctreeNode* node = *it;
-        if ((node->Flags() & nodeFlags) == nodeFlags && (node->LayerMask() & layerMask))
+        if ((node->Flags() & nodeFlags) == nodeFlags && (node->GetLayerMask() & layerMask))
         {
             float distance = ray.HitDistance(node->WorldBoundingBox());
             if (distance < maxDistance)

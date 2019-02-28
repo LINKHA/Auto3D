@@ -29,7 +29,7 @@ struct AUTO_API Batch
     /// Calculate sort _key for state sorting.
     void CalculateSortKey()
     {
-        _sortKey = ((((unsigned long long)_pass->ShaderHash() * _type) & 0xffff) << 48) |
+        _sortKey = ((((unsigned long long)_pass->GetShaderHash() * _type) & 0xffff) << 48) |
             ((((unsigned long long)_lights) & 0xffff) << 32) |
             ((((unsigned long long)_pass->Parent()) & 0xffff) << 16) |
             (((unsigned long long)_geometry) & 0xffff);

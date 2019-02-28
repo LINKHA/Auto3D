@@ -40,7 +40,7 @@ public:
     bool IsImmutable() const { return _usage == USAGE_IMMUTABLE; }
 
     /// Return the OpenGL buffer identifier. Used internally and should not be called by portable application code.
-    unsigned GLBuffer() const { return _buffer; }
+    unsigned GetGLBuffer() const { return _buffer; }
 
 private:
     /// Create the GPU-side index buffer. Return true on success.

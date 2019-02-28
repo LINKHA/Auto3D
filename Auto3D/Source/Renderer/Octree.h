@@ -156,7 +156,7 @@ private:
             for (auto it = octantNodes.Begin(); it != octantNodes.End(); ++it)
             {
                 OctreeNode* node = *it;
-                if ((node->Flags() & nodeFlags) == nodeFlags && (node->LayerMask() & layerMask) &&
+                if ((node->Flags() & nodeFlags) == nodeFlags && (node->GetLayerMask() & layerMask) &&
                     volume.IsInsideFast(node->WorldBoundingBox()) != OUTSIDE)
                     result.Push(node);
             }

@@ -31,14 +31,13 @@ int Application::Run()
 				_engine->FrameFinish();
 			}
 		}
-		//LogRawString(profilerOutput);
 		Stop();
 		_engine->Exit();
 
 	}
 	catch (std::bad_alloc&)
 	{
-		//ErrorString("An application that has an out-of-memory condition will exit immediately.");
+		ErrorString("An application that has an out-of-memory condition will exit immediately.");
 		return EXIT_FAILURE;
 	}
 	return EXIT_SUCCESS;

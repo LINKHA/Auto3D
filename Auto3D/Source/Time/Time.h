@@ -12,9 +12,9 @@ namespace Auto3D
 {
 
 /// SubSystem class for time
-class AUTO_API Time : public Subsystem
+class AUTO_API Time : public BaseSubsystem
 {
-	REGISTER_OBJECT_CLASS(Time, Subsystem)
+	REGISTER_OBJECT_CLASS(Time, BaseSubsystem)
 	typedef void(__cdecl* TimerCallback) ();
 	/// Save world time information
 	using RealTime = struct {

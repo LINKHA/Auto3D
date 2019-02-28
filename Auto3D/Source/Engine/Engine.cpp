@@ -65,8 +65,8 @@ void Engine::Render()
 
 bool Engine::Update()
 {
-	auto* input = GetSubsystem<Input>();
-	auto* graphics = GetSubsystem<Graphics>();
+	auto* input = Subsystem<Input>();
+	auto* graphics = Subsystem<Graphics>();
 
 	_profiler->BeginFrame();
 

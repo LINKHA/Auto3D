@@ -112,21 +112,21 @@ public:
     void SetBoneMappings(const Vector<Vector<size_t> >& boneMappings);
     
     /// Return number of geometries.
-    size_t NumGeometries() const { return _geometries.Size(); }
+    size_t GetNumGeometries() const { return _geometries.Size(); }
     /// Return number of LOD levels in a geometry.
-    size_t NumLodLevels(size_t index) const;
+    size_t GetNumLodLevels(size_t index) const;
     /// Return the geometry at batch index and LOD level.
     Geometry* GetGeometry(size_t index, size_t lodLevel) const;
     /// Return the LOD geometries at batch index.
-    const Vector<SharedPtr<Geometry> >& LodGeometries(size_t index) const { return _geometries[index]; }
+    const Vector<SharedPtr<Geometry> >& GetLodGeometries(size_t index) const { return _geometries[index]; }
     /// Return the local space bounding box.
-    const BoundingBox& LocalBoundingBox() const { return _boundingBox; }
+    const BoundingBox& GetLocalBoundingBox() const { return _boundingBox; }
     /// Return the model's bones.
-    const Vector<Bone>& Bones() const { return _bones; }
+    const Vector<Bone>& GetBones() const { return _bones; }
     /// Return the root bone index.
-    size_t RootBoneIndex() const { return _rootBoneIndex; }
+    size_t GetRootBoneIndex() const { return _rootBoneIndex; }
     /// Return per-geometry bone mapping.
-    const Vector<Vector<size_t> > BoneMappings() const { return _boneMappings; }
+    const Vector<Vector<size_t> > GetBoneMappings() const { return _boneMappings; }
 
 private:
     /// Geometry LOD levels.

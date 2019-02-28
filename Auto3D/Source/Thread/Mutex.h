@@ -32,12 +32,11 @@ public:
     MutexLock(Mutex& mutex);
     /// Destruct. Release the _mutex.
     ~MutexLock();
-    
-private:
+
     /// Prevent copy construction.
-    MutexLock(const MutexLock& rhs);
+	MutexLock(const MutexLock& rhs) = delete;
     /// Prevent assignment.
-    MutexLock& operator = (const MutexLock& rhs);
+    MutexLock& operator = (const MutexLock& rhs) = delete;
     
     /// Mutex reference.
     Mutex& _mutex;

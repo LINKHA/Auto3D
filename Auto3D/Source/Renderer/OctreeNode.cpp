@@ -34,7 +34,7 @@ void OctreeNode::SetCastShadows(bool enable)
 void OctreeNode::OnPrepareRender(unsigned frameNumber, Camera* camera)
 {
     _lastFrameNumber = frameNumber;
-    _distance = camera->Distance(WorldPosition());
+    _distance = camera->Distance(GetWorldPosition());
 }
 
 void OctreeNode::OnRaycast(Vector<RaycastResult>& dest, const Ray& ray, float maxDistance)
@@ -79,7 +79,7 @@ void OctreeNode::OnTransformChanged()
 void OctreeNode::OnWorldBoundingBoxUpdate() const
 {
     // The OctreeNode base class does not have a defined _size, so represent as a point
-    _worldBoundingBox.Define(WorldPosition());
+    _worldBoundingBox.Define(GetWorldPosition());
     SetFlag(NF_BOUNDING_BOX_DIRTY, false);
 }
 

@@ -63,14 +63,14 @@ bool ShaderProgram::Link()
         ErrorString("Shader(s) are null, can not link shader program");
         return false;
     }
-    if (!_vs->GLShader() || !_ps->GLShader())
+    if (!_vs->GetGLShader() || !_ps->GetGLShader())
     {
         ErrorString("Shaders have not been compiled, can not link shader program");
         return false;
     }
     
-    const String& vsSourceCode = _vs->Parent() ? _vs->Parent()->SourceCode() : String::EMPTY;
-    const String& psSourceCode = _ps->Parent() ? _ps->Parent()->SourceCode() : String::EMPTY;
+    const String& vsSourceCode = _vs->Parent() ? _vs->Parent()->GetSourceCode() : String::EMPTY;
+    const String& psSourceCode = _ps->Parent() ? _ps->Parent()->GetSourceCode() : String::EMPTY;
 
     _program = glCreateProgram();
     if (!_program)
@@ -79,8 +79,8 @@ bool ShaderProgram::Link()
         return false;
     }
 
-    glAttachShader(_program, _vs->GLShader());
-    glAttachShader(_program, _ps->GLShader());
+    glAttachShader(_program, _vs->GetGLShader());
+    glAttachShader(_program, _ps->GetGLShader());
     glLinkProgram(_program);
 
     int linked;

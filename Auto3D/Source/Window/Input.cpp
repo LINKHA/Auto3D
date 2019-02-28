@@ -30,7 +30,7 @@ void Input::Update()
         it->_delta = Vector2I::ZERO;
 
     // The OS-specific _window message handling will call back to Input and update the state
-    Window* window = GetSubsystem<Window>();
+    Window* window = Subsystem<Window>();
     if (window)
         window->PumpMessages();
 }
@@ -59,10 +59,10 @@ bool Input::IsKeyPressRaw(unsigned rawKeyCode) const
     return it != _rawKeyPress.End() ? it->second : false;
 }
 
-const Vector2I& Input::MousePosition() const
+const Vector2I& Input::GetMousePosition() const
 {
-    Window* window = GetSubsystem<Window>();
-    return window ? window->MousePosition() : Vector2I::ZERO;
+    Window* window = Subsystem<Window>();
+    return window ? window->GetMousePosition() : Vector2I::ZERO;
 }
 
 bool Input::IsMouseButtonDown(unsigned button) const
@@ -98,26 +98,26 @@ void Input::OnKey(unsigned keyCode, unsigned rawKeyCode, bool pressed)
         _rawKeyPress[rawKeyCode] = true;
     }
 
-    keyEvent._keyCode = keyCode;
-    keyEvent._rawKeyCode = rawKeyCode;
-    keyEvent._pressed = pressed;
-    keyEvent._repeat = wasDown;
-    SendEvent(keyEvent);
+    _keyEvent._keyCode = keyCode;
+    _keyEvent._rawKeyCode = rawKeyCode;
+    _keyEvent._pressed = pressed;
+    _keyEvent._repeat = wasDown;
+    SendEvent(_keyEvent);
 }
 
 void Input::OnChar(unsigned unicodeChar)
 {
-    charInputEvent._unicodeChar = unicodeChar;
-    SendEvent(charInputEvent);
+    _charInputEvent._unicodeChar = unicodeChar;
+    SendEvent(_charInputEvent);
 }
 
 void Input::OnMouseMove(const Vector2I& position, const Vector2I& delta)
 {
     _mouseMove += delta;
 
-    mouseMoveEvent._position = position;
-    mouseMoveEvent._delta = delta;
-    SendEvent(mouseMoveEvent);
+    _mouseMoveEvent._position = position;
+    _mouseMoveEvent._delta = delta;
+    SendEvent(_mouseMoveEvent);
 }
 
 void Input::OnMouseWheel(const Vector2I& delta)
@@ -137,11 +137,11 @@ void Input::OnMouseButton(unsigned button, bool pressed)
     else
         _mouseButtons &= ~bit;
 
-    mouseButtonEvent._button = button;
-    mouseButtonEvent._buttons = _mouseButtons;
-    mouseButtonEvent._pressed = pressed;
-    mouseButtonEvent._position = MousePosition();
-    SendEvent(mouseButtonEvent);
+    _mouseButtonEvent._button = button;
+    _mouseButtonEvent._buttons = _mouseButtons;
+    _mouseButtonEvent._pressed = pressed;
+    _mouseButtonEvent._position = GetMousePosition();
+    SendEvent(_mouseButtonEvent);
 }
 
 void Input::OnTouch(unsigned internalId, bool pressed, const Vector2I& position, float pressure)
@@ -164,11 +164,11 @@ void Input::OnTouch(unsigned internalId, bool pressed, const Vector2I& position,
                     it->_position = position;
                     it->_pressure = pressure;
 
-                    touchMoveEvent._id = it->_id;
-                    touchMoveEvent._position = it->_position;
-                    touchMoveEvent._delta = it->_lastDelta;
-                    touchMoveEvent._pressure = it->_pressure;
-                    SendEvent(touchMoveEvent);
+                    _touchMoveEvent._id = it->_id;
+                    _touchMoveEvent._position = it->_position;
+                    _touchMoveEvent._delta = it->_lastDelta;
+                    _touchMoveEvent._pressure = it->_pressure;
+                    SendEvent(_touchMoveEvent);
                 }
 
                 break;
@@ -199,10 +199,10 @@ void Input::OnTouch(unsigned internalId, bool pressed, const Vector2I& position,
             newTouch._pressure = pressure;
             _touches.Insert(insertIndex, newTouch);
 
-            touchBeginEvent._id = newTouch._id;
-            touchBeginEvent._position = newTouch._position;
-            touchBeginEvent._pressure = newTouch._pressure;
-            SendEvent(touchBeginEvent);
+            _touchBeginEvent._id = newTouch._id;
+            _touchBeginEvent._position = newTouch._position;
+            _touchBeginEvent._pressure = newTouch._pressure;
+            SendEvent(_touchBeginEvent);
         }
     }
     else
@@ -215,9 +215,9 @@ void Input::OnTouch(unsigned internalId, bool pressed, const Vector2I& position,
                 it->_position = position;
                 it->_pressure = pressure;
 
-                touchEndEvent._id = it->_id;
-                touchEndEvent._position = it->_position;
-                SendEvent(touchEndEvent);
+                _touchEndEvent._id = it->_id;
+                _touchEndEvent._position = it->_position;
+                SendEvent(_touchEndEvent);
                 _touches.Erase(it);
                 break;
             }

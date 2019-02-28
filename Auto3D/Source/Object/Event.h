@@ -64,7 +64,12 @@ public:
     Event();
     /// Destruct.
     virtual ~Event();
-    
+	/// Prevent copy construction.
+	Event(const Event& rhs) = delete;
+	/// Prevent assignment.
+	Event& operator = (const Event& rhs) = delete;
+
+
     /// Send the _event.
     void Send(RefCounted* sender);
     /// Subscribe to the _event. The _event takes ownership of the handler data. If there is already handler data for the same receiver, it is overwritten.
@@ -78,13 +83,8 @@ public:
     bool HasReceiver(const RefCounted* receiver) const;
     /// Return current sender.
     RefCounted* Sender() const { return _currentSender; }
-    
+
 private:
-    /// Prevent copy construction.
-    Event(const Event& rhs);
-    /// Prevent assignment.
-    Event& operator = (const Event& rhs);
-    
     /// Event handlers.
     Vector<AutoPtr<EventHandler> > _handlers;
     /// Current sender.

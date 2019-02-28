@@ -47,10 +47,11 @@ public:
     static bool IsMainThread();
     
 protected:
+	/// Running flag.
+	volatile bool _shouldRun;
     /// Thread _handle.
     void* _handle;
-    /// Running flag.
-    volatile bool _shouldRun;
+   
     
     /// Main thread's thread ID.
     static ThreadID _mainThreadID;

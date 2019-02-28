@@ -49,9 +49,9 @@ public:
     template <class _Ty> bool SetConstant(const char* name, const _Ty& data, size_t numElements = 0) { return SetConstant(name, (const void*)&data, numElements); }
 
     /// Return number of constants.
-    size_t NumConstants() const { return _constants.Size(); }
+    size_t GetNumConstants() const { return _constants.Size(); }
     /// Return the constant descriptions.
-    const Vector<Constant>& Constants() const { return _constants; }
+    const Vector<Constant>& GetConstants() const { return _constants; }
     /// Return the index of a constant, or NPOS if not found.
     size_t FindConstantIndex(const String& name) const;
     /// Return the index of a constant, or NPOS if not found.
@@ -85,18 +85,18 @@ public:
     }
 
     /// Return total byte _size of the buffer.
-    size_t ByteSize() const { return _byteSize; }
+    size_t GetByteSize() const { return _byteSize; }
     /// Return whether buffer has unapplied changes.
     bool IsDirty() const { return _dirty; }
     /// Return resource usage type.
-    ResourceUsage Usage() const { return _usage; }
+    ResourceUsage GetUsage() const { return _usage; }
     /// Return whether is dynamic.
     bool IsDynamic() const { return _usage == USAGE_DYNAMIC; }
     /// Return whether is immutable.
     bool IsImmutable() const { return _usage == USAGE_IMMUTABLE; }
 
     /// Return the OpenGL buffer identifier. Used internally and should not be called by portable application code.
-    unsigned GLBuffer() const { return _buffer; }
+    unsigned GetGLBuffer() const { return _buffer; }
 
     /// Index for "constant not found."
     static const size_t NPOS = (size_t)-1;

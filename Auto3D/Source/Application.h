@@ -44,6 +44,7 @@ protected:
 #define AUTO_APPLICATION_MAIN(_Class) \
 int runApplication() \
 { \
+	Thread::SetMainThread();\
     _Class app;\
     return app.Run(); \
 } \

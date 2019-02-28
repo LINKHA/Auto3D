@@ -29,12 +29,12 @@ public:
     /// Return full name combined from parent resource name and compilation defines.
     String FullName() const;
     /// Return shader stage.
-    ShaderStage Stage() const { return _stage; }
+    ShaderStage GetStage() const { return _stage; }
     /// Return whether compile attempted.
     bool IsCompiled() const { return _compiled; }
 
     /// Return the OpenGL shader identifier. Used internally and should not be called by portable application code.
-    unsigned GLShader() const { return _shader; }
+    unsigned GetGLShader() const { return _shader; }
 
 private:
     /// OpenGL shader object identifier.

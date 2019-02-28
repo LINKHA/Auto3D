@@ -38,15 +38,15 @@ public:
     /// Return parent material resource.
     Material* Parent() const;
     /// Return pass name.
-    const String& Name() const { return _name; }
+    const String& GetName() const { return _name; }
     /// Return shader name by stage.
-    const String& ShaderName(ShaderStage stage) const { return _shaderNames[stage]; }
+    const String& GetShaderName(ShaderStage stage) const { return _shaderNames[stage]; }
     /// Return shader defines by stage.
-    const String& ShaderDefines(ShaderStage stage) const { return _shaderDefines[stage]; }
+    const String& GetShaderDefines(ShaderStage stage) const { return _shaderDefines[stage]; }
     /// Return combined shader defines from the material and pass by stage.
-    const String& CombinedShaderDefines(ShaderStage stage) const { return _combinedShaderDefines[stage]; }
+    const String& GetCombinedShaderDefines(ShaderStage stage) const { return _combinedShaderDefines[stage]; }
     /// Return shader hash value for state sorting.
-    unsigned ShaderHash() const { return _shaderHash; }
+    unsigned GetShaderHash() const { return _shaderHash; }
 
     /// Refresh the combined shader defines and shader hash and clear any cached shader variations. Called internally.
     void OnShadersChanged();

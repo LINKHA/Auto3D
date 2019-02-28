@@ -99,7 +99,7 @@ ShadowMap::~ShadowMap()
 
 void ShadowMap::Clear()
 {
-    _allocator.Reset(_texture->Width(), _texture->Height(), 0, 0, false);
+    _allocator.Reset(_texture->GetWidth(), _texture->GetHeight(), 0, 0, false);
     _shadowViews.Clear();
     _used = false;
 }

@@ -6,11 +6,11 @@ void RendererSample::Init()
 }
 void RendererSample::Start()
 {
-	auto* cache = Object::GetSubsystem<ResourceCache>();
-	auto* graphics = Object::GetSubsystem<Graphics>();
-	auto* renderer = Object::GetSubsystem<Renderer>();
-	auto* input = Object::GetSubsystem<Input>();
-	auto* profiler = Object::GetSubsystem<Profiler>();
+	auto* cache = Object::Subsystem<ResourceCache>();
+	auto* graphics = Object::Subsystem<Graphics>();
+	auto* renderer = Object::Subsystem<Renderer>();
+	auto* input = Object::Subsystem<Input>();
+	auto* profiler = Object::Subsystem<Profiler>();
 
 
 	SubscribeToEvent(graphics->RenderWindow()->closeRequestEvent, &RendererSample::HandleCloseRequest);
@@ -21,7 +21,7 @@ void RendererSample::Start()
 	camera->SetPosition(Vector3F(0.0f, 20.0f, -75.0f));
 	camera->SetAmbientColor(Color(0.1f, 0.1f, 0.1f));
 	// Register scene to scene system use to render
-	Object::GetSubsystem<SceneSystem>()->RegisterScene(scene, camera);
+	Object::Subsystem<SceneSystem>()->RegisterScene(scene, camera);
 
 	for (int y = -5; y <= 5; ++y)
 	{
@@ -62,10 +62,10 @@ void RendererSample::Start()
 }
 void RendererSample::Update()
 {
-	auto* input = Object::GetSubsystem<Input>();
-	auto* graphics = Object::GetSubsystem<Graphics>();
-	auto* renderer = Object::GetSubsystem<Renderer>();
-	auto* time = Object::GetSubsystem<Time>();
+	auto* input = Object::Subsystem<Input>();
+	auto* graphics = Object::Subsystem<Graphics>();
+	auto* renderer = Object::Subsystem<Renderer>();
+	auto* time = Object::Subsystem<Time>();
 
 	pitch += input->MouseMove()._y * 0.25f;
 	yaw += input->MouseMove()._x * 0.25f;

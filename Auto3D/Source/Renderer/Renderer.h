@@ -70,9 +70,9 @@ struct AUTO_API PassDesc
 };
 
 /// High-level rendering subsystem. Performs rendering of 3D scenes.
-class AUTO_API Renderer : public Subsystem
+class AUTO_API Renderer : public BaseSubsystem
 {
-    REGISTER_OBJECT_CLASS(Renderer , Subsystem)
+    REGISTER_OBJECT_CLASS(Renderer , BaseSubsystem)
 
 public:
     /// Construct and register subsystem.

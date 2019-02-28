@@ -57,20 +57,20 @@ public:
 	void PumpMessages();
 
 	/// Return _window _title.
-	const String& Title() const { return _title; }
+	const String& GetTitle() const { return _title; }
 
-	const RectI& WindowRect() const { return _rect; }
+	const RectI& GetRect() const { return _rect; }
 
 	/// Return _window client area _size.
-	const Vector2I Size() const { return Vector2I(_rect.Width(), _rect.Height()); }
+	const Vector2I GetSize() const { return Vector2I(_rect.Width(), _rect.Height()); }
 	/// Return _window client area width.
-	int Width() const { return _rect.Width(); }
+	int GetWidth() const { return _rect.Width(); }
 	/// Return _window client area height.
-	int Height() const { return _rect.Height(); }
+	int GetHeight() const { return _rect.Height(); }
 	/// Return _window _position.
-	Vector2I Position() const;
+	const Vector2I GetPosition() const;
 	/// Return last known mouse cursor _position relative to _window top-left.
-	const Vector2I& MousePosition() const { return _mousePosition; }
+	const Vector2I& GetMousePosition() const { return _mousePosition; }
 	/// Return whether _window is open.
 	bool IsOpen() const { return _handle != nullptr; }
 	/// Return whether is _resizable.

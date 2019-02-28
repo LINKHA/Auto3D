@@ -145,8 +145,8 @@ bool Renderer::CollectObjects(Scene* scene, Camera* camera)
     // Reinsert moved objects to the octree
     _octree->Update();
 
-    _frustum = _camera->WorldFrustum();
-    _viewMask = _camera->ViewMask();
+    _frustum = _camera->GetWorldFrustum();
+    _viewMask = _camera->GetViewMask();
     _octree->FindNodes(_frustum, this, &Renderer::CollectGeometriesAndLights);
 
     return true;
@@ -166,7 +166,7 @@ void Renderer::CollectLightInteractions()
     for (auto it = _lights.Begin(), end = _lights.End(); it != end; ++it)
     {
         Light* light = *it;
-        unsigned lightMask = light->LightMask();
+        unsigned lightMask = light->GetLightMask();
 
         _litGeometries.Clear();
         bool hasReceivers = false;
@@ -184,7 +184,7 @@ void Renderer::CollectLightInteractions()
             for (auto gIt = _geometries.Begin(), gEnd = _geometries.End(); gIt != gEnd; ++gIt)
             {
                 GeometryNode* node = *gIt;
-                if (node->LayerMask() & lightMask)
+                if (node->GetLayerMask() & lightMask)
                 {
                     AddLightToNode(node, light, lightList);
                     hasReceivers = true;
@@ -193,7 +193,7 @@ void Renderer::CollectLightInteractions()
             break;
 
         case LIGHT_POINT:
-            _octree->FindNodes(reinterpret_cast<Vector<OctreeNode*>&>(_litGeometries), light->WorldSphere(), NF_ENABLED |
+            _octree->FindNodes(reinterpret_cast<Vector<OctreeNode*>&>(_litGeometries), light->GetWorldSphere(), NF_ENABLED |
                 NF_GEOMETRY, lightMask);
             for (auto gIt = _litGeometries.Begin(), gEnd = _litGeometries.End(); gIt != gEnd; ++gIt)
             {
@@ -208,7 +208,7 @@ void Renderer::CollectLightInteractions()
             break;
 
         case LIGHT_SPOT:
-            _octree->FindNodes(reinterpret_cast<Vector<OctreeNode*>&>(_litGeometries), light->WorldFrustum(), NF_ENABLED |
+            _octree->FindNodes(reinterpret_cast<Vector<OctreeNode*>&>(_litGeometries), light->GetWorldFrustum(), NF_ENABLED |
                 NF_GEOMETRY, lightMask);
             for (auto gIt = _litGeometries.Begin(), gEnd = _litGeometries.End(); gIt != gEnd; ++gIt)
             {
@@ -230,7 +230,7 @@ void Renderer::CollectLightInteractions()
 
         // Try to allocate shadow map rectangle. Retry with smaller _size two times if fails
         RectI shadowRect;
-        Vector2I request = light->TotalShadowMapSize();
+        Vector2I request = light->GetTotalShadowMapSize();
         size_t retries = 3;
         size_t index = 0;
 
@@ -271,7 +271,7 @@ void Renderer::CollectLightInteractions()
         for (size_t i = startIndex; i < _usedShadowViews; ++i)
         {
             ShadowView* view = _shadowViews[i].Get();
-            Frustum shadowFrustum = view->_shadowCamera.WorldFrustum();
+            Frustum shadowFrustum = view->_shadowCamera.GetWorldFrustum();
             BatchQueue& shadowQueue = view->_shadowQueue;
             shadowQueue._sort = SORT_STATE;
             shadowQueue._lit = false;
@@ -285,7 +285,7 @@ void Renderer::CollectLightInteractions()
                 // the main view
                 _litGeometries.Clear();
                 _octree->FindNodes(reinterpret_cast<Vector<OctreeNode*>&>(_litGeometries),
-                    shadowFrustum, NF_ENABLED | NF_GEOMETRY | NF_CASTSHADOWS, light->LightMask());
+                    shadowFrustum, NF_ENABLED | NF_GEOMETRY | NF_CASTSHADOWS, light->GetLightMask());
                 CollectShadowBatches(_litGeometries, shadowQueue, shadowFrustum, false, false);
                 break;
 
@@ -355,7 +355,7 @@ void Renderer::CollectLightInteractions()
                     if (!lightDone[index])
                     {
                         Light* light = list._lights[index];
-                        size_t shadowCoords = light->NumShadowCoords();
+                        size_t shadowCoords = light->GetNumShadowCoords();
                         if (shadowCoords <= shadowCoordsLeft)
                         {
                             lightDone[index] = true;
@@ -393,34 +393,34 @@ void Renderer::CollectLightInteractions()
                         Light* light = currentPass[i];
                         newLightPass->_psBits |= (light->GetLightType() + 1) << (i * 3 + 4);
 
-                        float cutoff = cosf(light->Fov() * 0.5f * M_DEGTORAD);
-                        newLightPass->_lightPositions[i] = Vector4F(light->WorldPosition(), 1.0f);
-                        newLightPass->_lightDirections[i] = Vector4F(-light->WorldDirection(), 0.0f);
-                        newLightPass->_lightAttenuations[i] = Vector4F(1.0f / Max(light->Range(), M_EPSILON), cutoff, 1.0f /
+                        float cutoff = cosf(light->GetFov() * 0.5f * M_DEGTORAD);
+                        newLightPass->_lightPositions[i] = Vector4F(light->GetWorldPosition(), 1.0f);
+                        newLightPass->_lightDirections[i] = Vector4F(-light->GetWorldDirection(), 0.0f);
+                        newLightPass->_lightAttenuations[i] = Vector4F(1.0f / Max(light->GetRange(), M_EPSILON), cutoff, 1.0f /
                             (1.0f - cutoff), 0.0f);
                         newLightPass->_lightColors[i] = light->GetColor();
 
-                        if (light->ShadowMap())
+                        if (light->GetShadowMap())
                         {
                             // Enable shadowed shader variation, setup shadow parameters
                             newLightPass->_psBits |= 4 << (i * 3 + 4);
-                            newLightPass->_shadowMaps[i] = light->ShadowMap();
+                            newLightPass->_shadowMaps[i] = light->GetShadowMap();
 
-                            const Vector<Matrix4x4F>& shadowMatrices = light->ShadowMatrices();
+                            const Vector<Matrix4x4F>& shadowMatrices = light->GetShadowMatrices();
                             for (size_t j = 0; j < shadowMatrices.Size() && numShadowCoords < MAX_LIGHTS_PER_PASS; ++j)
                                 newLightPass->_shadowMatrices[numShadowCoords++] = shadowMatrices[j];
 
-                            newLightPass->_shadowParameters[i] = light->ShadowParameters();
+                            newLightPass->_shadowParameters[i] = light->GetShadowParameters();
 
                             if (light->GetLightType() == LIGHT_DIRECTIONAL)
                             {
-                                float fadeStart = light->ShadowFadeStart() * light->MaxShadowDistance() / _camera->FarClip();
-                                float fadeRange = light->MaxShadowDistance() / _camera->FarClip() - fadeStart;
-                                newLightPass->_dirShadowSplits = light->ShadowSplits() / _camera->FarClip();
+                                float fadeStart = light->GetShadowFadeStart() * light->GetMaxShadowDistance() / _camera->GetFarClip();
+                                float fadeRange = light->GetMaxShadowDistance() / _camera->GetFarClip() - fadeStart;
+                                newLightPass->_dirShadowSplits = light->GetShadowSplits() / _camera->GetFarClip();
                                 newLightPass->_dirShadowFade = Vector4F(fadeStart / fadeRange, 1.0f / fadeRange, 0.0f, 0.0f);
                             }
                             else if (light->GetLightType() == LIGHT_POINT)
-                                newLightPass->_pointShadowParameters[i] = light->PointShadowParameters();
+                                newLightPass->_pointShadowParameters[i] = light->GetPointShadowParameters();
                         }
 
                         newLightPass->_vsBits |= numShadowCoords << 2;
@@ -461,10 +461,10 @@ void Renderer::CollectBatches(const Vector<PassDesc>& passes)
 
         Batch newBatch;
         newBatch._type = node->GetGeometryType();
-        newBatch._worldMatrix = &node->WorldTransform();
+        newBatch._worldMatrix = &node->GetWorldTransform();
 
         // Loop through node's geometries
-        for (auto bIt = node->Batches().Begin(), bEnd = node->Batches().End(); bIt != bEnd; ++bIt)
+        for (auto bIt = node->GetBatches().Begin(), bEnd = node->GetBatches().End(); bIt != bEnd; ++bIt)
         {
             newBatch._geometry = bIt->_geometry.Get();
             Material* material = bIt->_material.Get();
@@ -555,7 +555,7 @@ void Renderer::RenderShadowMaps()
             ShadowView* view = *vIt;
             Light* light = view->_light;
             _graphics->SetViewport(view->_viewport);
-            RenderBatches(view->_shadowQueue._batches, &view->_shadowCamera, true, true, light->DepthBias(), light->SlopeScaledDepthBias());
+            RenderBatches(view->_shadowQueue._batches, &view->_shadowCamera, true, true, light->GetDepthBias(), light->GetSlopeScaledDepthBias());
         }
     }
 }
@@ -585,7 +585,7 @@ void Renderer::RenderBatches(const String& pass)
 
 void Renderer::Initialize()
 {
-    _graphics = GetSubsystem<Graphics>();
+    _graphics = Subsystem<Graphics>();
     assert(_graphics && _graphics->IsInitialized());
 
     Vector<Constant> constants;
@@ -692,7 +692,7 @@ void Renderer::CollectGeometriesAndLights(Vector<OctreeNode*>::ConstIterator beg
         {
             OctreeNode* node = *it;
             unsigned short flags = node->Flags();
-            if ((flags & NF_ENABLED) && (flags & (NF_GEOMETRY | NF_LIGHT)) && (node->LayerMask() & _viewMask))
+            if ((flags & NF_ENABLED) && (flags & (NF_GEOMETRY | NF_LIGHT)) && (node->GetLayerMask() & _viewMask))
             {
                 if (flags & NF_GEOMETRY)
                 {
@@ -715,7 +715,7 @@ void Renderer::CollectGeometriesAndLights(Vector<OctreeNode*>::ConstIterator beg
         {
             OctreeNode* node = *it;
             unsigned short flags = node->Flags();
-            if ((flags & NF_ENABLED) && (flags & (NF_GEOMETRY | NF_LIGHT)) && (node->LayerMask() & _viewMask) &&
+            if ((flags & NF_ENABLED) && (flags & (NF_GEOMETRY | NF_LIGHT)) && (node->GetLayerMask() & _viewMask) &&
                 _frustum.IsInsideFast(node->WorldBoundingBox()))
             {
                 if (flags & NF_GEOMETRY)
@@ -789,10 +789,10 @@ void Renderer::CollectShadowBatches(const Vector<GeometryNode*>& nodes, BatchQue
             node->OnPrepareRender(_frameNumber, _camera);
 
         newBatch._type = node->GetGeometryType();
-        newBatch._worldMatrix = &node->WorldTransform();
+        newBatch._worldMatrix = &node->GetWorldTransform();
 
         // Loop through node's geometries
-        for (auto bIt = node->Batches().Begin(), bEnd = node->Batches().End(); bIt != bEnd; ++bIt)
+        for (auto bIt = node->GetBatches().Begin(), bEnd = node->GetBatches().End(); bIt != bEnd; ++bIt)
         {
             newBatch._geometry = bIt->_geometry.Get();
             Material* material = bIt->_material.Get();
@@ -821,7 +821,7 @@ void Renderer::RenderBatches(const Vector<Batch>& batches, Camera* camera, bool 
 
     // If rendering to a texture on OpenGL, flip the camera vertically to ensure similar texture coordinate addressing
     #ifdef AUTO_OPENGL
-    bool flipVertical = camera->FlipVertical();
+    bool flipVertical = camera->GetFlipVertical();
     if (_graphics->RenderTarget(0) || _graphics->DepthStencil())
         camera->SetFlipVertical(!flipVertical);
     #endif
@@ -829,13 +829,13 @@ void Renderer::RenderBatches(const Vector<Batch>& batches, Camera* camera, bool 
     if (setPerFrameConstants)
     {
         // Set per-frame values to the frame constant buffers
-        Matrix3x4F viewMatrix = camera->ViewMatrix();
-        Matrix4x4F projectionMatrix = camera->ProjectionMatrix();
+        Matrix3x4F viewMatrix = camera->GetViewMatrix();
+        Matrix4x4F projectionMatrix = camera->GetProjectionMatrix();
         Matrix4x4F viewProjMatrix = projectionMatrix * viewMatrix;
         Vector4F depthParameters(Vector4F::ZERO);
-        depthParameters._x = camera->NearClip();
-        depthParameters._y = camera->FarClip();
-        if (camera->IsOrthographic())
+        depthParameters._x = camera->GetNearClip();
+        depthParameters._y = camera->GetFarClip();
+        if (camera->GetIsOrthographic())
         {
             #ifdef USE_OPENGL
             depthParameters._z = 0.5f;
@@ -845,7 +845,7 @@ void Renderer::RenderBatches(const Vector<Batch>& batches, Camera* camera, bool 
             #endif
         }
         else
-            depthParameters._w = 1.0f / _camera->FarClip();
+            depthParameters._w = 1.0f / _camera->GetFarClip();
 
         _vsFrameConstantBuffer->SetConstant(VS_FRAME_VIEW_MATRIX, viewMatrix);
         _vsFrameConstantBuffer->SetConstant(VS_FRAME_PROJECTION_MATRIX, projectionMatrix);
@@ -854,7 +854,7 @@ void Renderer::RenderBatches(const Vector<Batch>& batches, Camera* camera, bool 
         _vsFrameConstantBuffer->Apply();
 
         /// \todo Add also fog settings
-        _psFrameConstantBuffer->SetConstant(PS_FRAME_AMBIENT_COLOR, camera->AmbientColor());
+        _psFrameConstantBuffer->SetConstant(PS_FRAME_AMBIENT_COLOR, camera->GetAmbientColor());
         _psFrameConstantBuffer->Apply();
 
         _graphics->SetConstantBuffer(SHADER_VS, CB_FRAME, _vsFrameConstantBuffer);
@@ -863,7 +863,7 @@ void Renderer::RenderBatches(const Vector<Batch>& batches, Camera* camera, bool 
 
     if (_instanceTransformsDirty && _instanceTransforms.Size())
     {
-        if (_instanceVertexBuffer->NumVertices() < _instanceTransforms.Size())
+        if (_instanceVertexBuffer->GetNumVertices() < _instanceTransforms.Size())
             _instanceVertexBuffer->Define(USAGE_DYNAMIC, NextPowerOfTwo(_instanceTransforms.Size()), _instanceVertexElements, false);
         _instanceVertexBuffer->SetData(0, _instanceTransforms.Size(), &_instanceTransforms[0]);
         _graphics->SetVertexBuffer(1, _instanceVertexBuffer);
@@ -906,7 +906,7 @@ void Renderer::RenderBatches(const Vector<Batch>& batches, Camera* camera, bool 
                     else
                         _graphics->SetDepthState(pass->_depthFunc, pass->_depthWrite, pass->_depthClip, depthBias, slopeScaledDepthBias);
                     
-                    if (!camera->UseReverseCulling())
+                    if (!camera->GetUseReverseCulling())
                         _graphics->SetRasterizerState(pass->_cullMode, pass->_fillMode);
                     else
                         _graphics->SetRasterizerState(cullModeFlip[pass->_cullMode], pass->_fillMode);
@@ -984,14 +984,14 @@ void Renderer::LoadPassShaders(Pass* pass)
 {
     PROFILE(LoadPassShaders);
 
-    ResourceCache* cache = GetSubsystem<ResourceCache>();
+    ResourceCache* cache = Subsystem<ResourceCache>();
     // Use different extensions for GLSL & HLSL shaders
     #ifdef AUTO_OPENGL
-    pass->_shaders[SHADER_VS] = cache->LoadResource<Shader>(pass->ShaderName(SHADER_VS) + ".vert");
-    pass->_shaders[SHADER_PS] = cache->LoadResource<Shader>(pass->ShaderName(SHADER_PS) + ".frag");
+    pass->_shaders[SHADER_VS] = cache->LoadResource<Shader>(pass->GetShaderName(SHADER_VS) + ".vert");
+    pass->_shaders[SHADER_PS] = cache->LoadResource<Shader>(pass->GetShaderName(SHADER_PS) + ".frag");
     #else
-    _pass->_shaders[SHADER_VS] = cache->LoadResource<Shader>(_pass->ShaderName(SHADER_VS) + ".vs");
-    _pass->_shaders[SHADER_PS] = cache->LoadResource<Shader>(_pass->ShaderName(SHADER_PS) + ".ps");
+    _pass->_shaders[SHADER_VS] = cache->LoadResource<Shader>(_pass->GetShaderName(SHADER_VS) + ".vs");
+    _pass->_shaders[SHADER_PS] = cache->LoadResource<Shader>(_pass->GetShaderName(SHADER_PS) + ".ps");
     #endif
 
     pass->_shadersLoaded = true;
@@ -1009,7 +1009,7 @@ ShaderVariation* Renderer::FindShaderVariation(ShaderStage stage, Pass* pass, un
     {
         if (stage == SHADER_VS)
         {
-            String vsString = pass->CombinedShaderDefines(stage) + " " + geometryDefines[bits & LVS_GEOMETRY];
+            String vsString = pass->GetCombinedShaderDefines(stage) + " " + geometryDefines[bits & LVS_GEOMETRY];
             if (bits & LVS_NUMSHADOWCOORDS)
                 vsString += " " + lightDefines[1] + "=" + String((bits & LVS_NUMSHADOWCOORDS) >> 2);
 
@@ -1018,7 +1018,7 @@ ShaderVariation* Renderer::FindShaderVariation(ShaderStage stage, Pass* pass, un
         }
         else
         {
-            String psString = pass->CombinedShaderDefines(stage);
+            String psString = pass->GetCombinedShaderDefines(stage);
             if (bits & LPS_AMBIENT)
                 psString += " " + lightDefines[0];
             if (bits & LPS_NUMSHADOWCOORDS)

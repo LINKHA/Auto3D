@@ -32,7 +32,7 @@ public:
     void* Value() const;
     
     /// Return whether was successfully allocated. Returns false when the OS resources for thread local values have been exhausted.
-    bool Valid() const { return _valid; }
+    bool GetValid() const { return _valid; }
 
 private:
     /// Key used by the OS to identify the value.

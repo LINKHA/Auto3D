@@ -192,14 +192,14 @@ void Window::PumpMessages()
 }
 
 
-Vector2I Window::Position() const
+const Vector2I Window::GetPosition() const
 {
-	return Vector2I();
+	return Vector2I(_rect.Left(),_rect.Top());
 }
 
 bool Window::OnWindowMessage(void* sdlEvent)
 {
-	auto* input = GetSubsystem<Input>();
+	auto* input = Subsystem<Input>();
 
 	SDL_Event& evt = *static_cast<SDL_Event*>(sdlEvent);
 	switch (evt.type)
@@ -246,7 +246,7 @@ bool Window::OnWindowMessage(void* sdlEvent)
 			int newWidth, newHeight;
 			SDL_GetWindowSize(_handle, &newWidth, &newHeight);
 			SendEvent(resizeEvent);
-			if (Vector2I(newWidth, newHeight) != Size()) 
+			if (Vector2I(newWidth, newHeight) != GetSize()) 
 			{
 				_rect.Right() = _rect.Left() + newWidth;
 				_rect.Bottom() = _rect.Top() + newHeight;

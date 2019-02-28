@@ -93,17 +93,17 @@ public:
     template <class _Ty> _Ty* CreateChild(const char* childName) { return static_cast<_Ty*>(CreateChild(_Ty::TypeStatic(), childName)); }
 
     /// Return name.
-    const String& Name() const { return _name; }
+    const String& GetName() const { return _name; }
     /// Return layer.
-    unsigned char Layer() const { return _layer; }
+    unsigned char GetLayer() const { return _layer; }
     /// Return layer name, or empty if not registered in the scene root.
-    const String& LayerName() const;
+    const String& GetLayerName() const;
     /// Return bitmask corresponding to layer.
-    unsigned LayerMask() const { return 1 << _layer; }
+    unsigned GetLayerMask() const { return 1 << _layer; }
     /// Return tag.
-    unsigned char Tag() const { return _tag; }
+    unsigned char GetTag() const { return _tag; }
     /// Return tag name, or empty if not registered in the scene root.
-    const String& TagName() const;
+    const String& GetTagName() const;
     /// Return enabled status.
     bool IsEnabled() const { return TestFlag(NF_ENABLED); }
     /// Return whether is temporary.

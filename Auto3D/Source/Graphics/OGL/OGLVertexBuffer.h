@@ -32,24 +32,24 @@ public:
     /// Return CPU-side shadow data if exists.
     unsigned char* ShadowData() const { return _shadowData.Get(); }
     /// Return number of vertices.
-    size_t NumVertices() const { return _numVertices; }
+    size_t GetNumVertices() const { return _numVertices; }
     /// Return number of vertex elements.
-    size_t NumElements() const { return _elements.Size(); }
+    size_t GetNumElements() const { return _elements.Size(); }
     /// Return vertex elements.
-    const Vector<VertexElement>& Elements() const { return _elements; }
+    const Vector<VertexElement>& GetElements() const { return _elements; }
     /// Return _size of vertex in bytes.
-    size_t VertexSize() const { return _vertexSize; }
+    size_t GetVertexSize() const { return _vertexSize; }
     /// Return vertex declaration hash code.
-    unsigned ElementHash() const { return _elementHash; }
+    unsigned GetElementHash() const { return _elementHash; }
     /// Return resource usage type.
-    ResourceUsage Usage() const { return _usage; }
+    ResourceUsage GetUsage() const { return _usage; }
     /// Return whether is dynamic.
     bool IsDynamic() const { return _usage == USAGE_DYNAMIC; }
     /// Return whether is immutable.
     bool IsImmutable() const { return _usage == USAGE_IMMUTABLE; }
 
     /// Return the OpenGL buffer identifier. Used internally and should not be called by portable application code.
-    unsigned GLBuffer() const { return _buffer; }
+    unsigned GetGLBuffer() const { return _buffer; }
 
     /// Compute the hash code of one vertex element by index and semantic.
     static unsigned ElementHash(size_t index, ElementSemantic semantic) { return (semantic + 1) << (index * 3); }

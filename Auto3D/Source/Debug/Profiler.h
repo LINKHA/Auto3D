@@ -64,9 +64,9 @@ public:
 };
 
 /// Hierarchical performance profiler subsystem.
-class AUTO_API Profiler : public Subsystem
+class AUTO_API Profiler : public BaseSubsystem
 {
-	REGISTER_OBJECT_CLASS(Profiler, Subsystem)
+	REGISTER_OBJECT_CLASS(Profiler, BaseSubsystem)
 
 public:
     /// Construct.
@@ -113,7 +113,7 @@ public:
     /// Construct and begin a profiling block. The name must be persistent; string literals are recommended.
     AutoProfileBlock(const char* name)
     {
-        _profiler = Object::GetSubsystem<Profiler>();
+        _profiler = Object::Subsystem<Profiler>();
         if (_profiler)
             _profiler->BeginBlock(name);
     }
