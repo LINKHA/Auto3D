@@ -1,6 +1,4 @@
 #pragma once
-
-#include "../AutoCommon.h"
 #include "../Math/AreaAllocator.h"
 #include "Camera.h"
 #include "GeometryNode.h"
@@ -17,12 +15,18 @@ struct LightPass;
 static const size_t MAX_LIGHTS_PER_PASS = 4;
 
 /// Batch sorting modes.
-ENUM(BatchSortMode)
-	NONE = 0,
-	STATE,
-	BACK_TO_FRONT,
-	FRONT_TO_BACK,
-ENUM_END(BatchSortMode);
+struct __BatchSortMode
+{
+	enum _BatchSortMode
+	{
+		NONE = 0,
+		STATE,
+		BACK_TO_FRONT,
+		FRONT_TO_BACK,
+	};
+};
+using BatchSortMode = __BatchSortMode::_BatchSortMode;
+
 
 /// Description of a draw call.
 struct AUTO_API Batch

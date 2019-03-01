@@ -17,12 +17,18 @@ class Scene;
 class VertexBuffer;
 
 /// Shader constant buffers used by high-level rendering.
-ENUM(RendererConstantBuffer)
-	FRAME = 0,
-	OBJECT,
-	MATERIAL,
-	LIGHTS
-ENUM_END(RendererConstantBuffer);
+struct __RendererConstantBuffer
+{
+	enum _RendererConstantBuffer
+	{
+		FRAME = 0,
+		OBJECT,
+		MATERIAL,
+		LIGHTS
+	};
+};
+using RendererConstantBuffer = __RendererConstantBuffer::_RendererConstantBuffer;
+
 
 /// Parameter indices in constant buffers used by high-level rendering.
 static const size_t VS_FRAME_VIEW_MATRIX = 0;

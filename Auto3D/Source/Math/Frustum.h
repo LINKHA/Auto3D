@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../AutoCommon.h"
 #include "BoundingBox.h"
 #include "Matrix3x4.h"
 #include "Plane.h"
@@ -10,14 +9,19 @@ namespace Auto3D
 {
 
 /// Frustum planes.
-ENUM(FrustumPlane)
-	NEAR = 0,
-	LEFT,
-	RIGHT,
-	UP,
-	DOWN,
-	FAR,
-ENUM_END(FrustumPlane);
+struct __FrustumPlane
+{
+	enum _FrustumPlane
+	{
+		NEAR = 0,
+		LEFT,
+		RIGHT,
+		UP,
+		DOWN,
+		FAR,
+	};
+};
+using FrustumPlane = __FrustumPlane::_FrustumPlane;
 
 static const size_t NUM_FRUSTUM_PLANES = 6;
 static const size_t NUM_FRUSTUM_VERTICES = 8;

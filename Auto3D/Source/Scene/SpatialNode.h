@@ -7,11 +7,17 @@ namespace Auto3D
 {
 
 /// Transform space for translations and rotations.
-ENUM(TransformSpace)
-	LOCAL = 0,
-	PARENT,
-	WORLD
-ENUM_END(TransformSpace);
+struct __TransformSpace
+{
+	enum _TransformSpace
+	{
+		LOCAL = 0,
+		PARENT,
+		WORLD
+	};
+};
+using TransformSpace = __TransformSpace::_TransformSpace;
+
 
 /// Base class for scene nodes with _position in three-dimensional space.
 class AUTO_API SpatialNode : public Node

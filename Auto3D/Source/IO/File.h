@@ -1,16 +1,22 @@
 #pragma once
 
 #include "Stream.h"
-#include "../AutoCommon.h"
+
 namespace Auto3D
 {
 
 /// %File open mode.
-ENUM(FileMode)
-	READ = 0,
-	WRITE,
-	READWRITE
-ENUM_END(FileMode);
+struct __FileMode
+{
+	enum _FileMode
+	{
+		READ = 0,
+		WRITE,
+		READWRITE
+	};
+};
+using FileMode = __FileMode::_FileMode;
+
 
 class PackageFile;
 

@@ -61,7 +61,7 @@ void Engine::Render()
 		_renderer->Render((*it).first, (*it).second);
 	}	
 
-	_ui->Render();
+	//_ui->Render();
 
 }
 

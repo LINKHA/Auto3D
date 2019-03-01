@@ -3,7 +3,7 @@
 #include "../AutoConfig.h"
 #include "../Base/String.h"
 #include "../Math/Rect.h"
-#include "../AutoCommon.h"
+
 
 namespace Auto3D
 {
@@ -44,165 +44,242 @@ static const unsigned char COLORMASK_A = 0x8;
 static const unsigned char COLORMASK_ALL = 0xf;
 
 /// Shader stages.
-ENUM(ShaderStage)
-	VS = 0,
-	PS,
-	Count
-ENUM_END(ShaderStage);
+struct __ShaderStage
+{
+	enum _ShaderStage
+	{
+		VS = 0,
+		PS,
+		Count
+	};
+};
+using ShaderStage = __ShaderStage::_ShaderStage;
 
 /// Element types for constant buffers and vertex elements.
-ENUM(ElementType)
-    INT = 0,
-    FLOAT,
-    VECTOR2,
-    VECTOR3,
-    VECTOR4,
-    UBYTE4,
-    MATRIX3X4,
-    MATRIX4,
-    Count
-ENUM_END(ElementType);
+struct __ElementType
+{
+	enum _ElementType
+	{
+		INT = 0,
+		FLOAT,
+		VECTOR2,
+		VECTOR3,
+		VECTOR4,
+		UBYTE4,
+		MATRIX3X4,
+		MATRIX4,
+		Count
+	};
+};
+using ElementType = __ElementType::_ElementType;
 
 /// Element semantics for vertex elements.
-ENUM(ElementSemantic)
-    POSITION = 0,
-    NORMAL,
-    BINORMAL,
-    TANGENT,
-    TEXCOORD,
-    COLOR,
-    BLENDWEIGHT,
-    BLENDINDICES,
-	Count
-ENUM_END(ElementSemantic);
+struct __ElementSemantic
+{
+	enum _ElementSemantic
+	{
+		POSITION = 0,
+		NORMAL,
+		BINORMAL,
+		TANGENT,
+		TEXCOORD,
+		COLOR,
+		BLENDWEIGHT,
+		BLENDINDICES,
+		Count
+	};
+};
+using ElementSemantic = __ElementSemantic::_ElementSemantic;
 
 /// Primitive types.
-ENUM(PrimitiveType)
-	POINT_LIST = 1,
-	LINE_LIST,
-	LINE_STRIP,
-	TRIANGLE_LIST,
-	TRIANGLE_STRIP,
-	Count
-ENUM_END(PrimitiveType);
+struct __PrimitiveType
+{
+	enum _PrimitiveType
+	{
+		POINT_LIST = 1,
+		LINE_LIST,
+		LINE_STRIP,
+		TRIANGLE_LIST,
+		TRIANGLE_STRIP,
+		Count
+	};
+};
+using PrimitiveType = __PrimitiveType::_PrimitiveType;
 
 /// Blend factors.
-ENUM(BlendFactor)
-    ZERO = 1,
-    ONE,
-    SRC_COLOR,
-    INV_SRC_COLOR,
-    SRC_ALPHA,
-    INV_SRC_ALPHA,
-    DEST_ALPHA,
-    INV_DEST_ALPHA,
-    DEST_COLOR,
-    INV_DEST_COLOR,
-    SRC_ALPHA_SAT,
-    Count
-ENUM_END(BlendFactor);
+struct __BlendFactor
+{
+	enum _BlendFactor
+	{
+		ZERO = 1,
+		ONE,
+		SRC_COLOR,
+		INV_SRC_COLOR,
+		SRC_ALPHA,
+		INV_SRC_ALPHA,
+		DEST_ALPHA,
+		INV_DEST_ALPHA,
+		DEST_COLOR,
+		INV_DEST_COLOR,
+		SRC_ALPHA_SAT,
+		Count
+	};
+};
+using BlendFactor = __BlendFactor::_BlendFactor;
 
 /// Blend operations.
-ENUM(BlendOp)
-    ADD = 1,
-    SUBTRACT,
-    REV_SUBTRACT,
-    MIN,
-    MAX,
-    Count
-ENUM_END(BlendOp);
+struct __BlendOp
+{
+	enum _BlendOp
+	{
+		ADD = 1,
+		SUBTRACT,
+		REV_SUBTRACT,
+		MIN,
+		MAX,
+		Count
+	};
+};
+using BlendOp = __BlendOp::_BlendOp;
 
 /// Predefined blend modes.
-ENUM(BlendMode)
-    REPLACE = 0,
-    ADD,
-    MULTIPLY,
-    ALPHA,
-    ADDALPHA,
-    PREMULALPHA,
-    INVDESTALPHA,
-    SUBTRACT,
-    SUBTRACTALPHA,
-    Count
-ENUM_END(BlendMode);
+struct __BlendMode
+{
+	enum _BlendMode
+	{
+		REPLACE = 0,
+		ADD,
+		MULTIPLY,
+		ALPHA,
+		ADDALPHA,
+		PREMULALPHA,
+		INVDESTALPHA,
+		SUBTRACT,
+		SUBTRACTALPHA,
+		Count
+	};
+};
+using BlendMode = __BlendMode::_BlendMode;
 
 /// Fill modes.
-ENUM(FillMode)
+struct __FillMode
+{
+	enum _FillMode
+	{
 	WIREFRAME = 2,
 	SOLID = 3,
 	Count
-ENUM_END(FillMode);
+	};
+};
+using FillMode = __FillMode::_FillMode;
 
 /// Triangle culling modes.
-ENUM(CullMode)
-    NONE = 1,
-    FRONT,
-    BACK,
-    Count
-ENUM_END(CullMode);
+struct __CullMode
+{
+	enum _CullMode
+	{
+		NONE = 1,
+		FRONT,
+		BACK,
+		Count
+	};
+}; 
+using CullMode = __CullMode::_CullMode;
+
 
 /// Depth or stencil compare modes.
-ENUM(CompareFunc)
-	NEVER = 1,
-	LESS,
-	EQUAL,
-	LESS_EQUAL,
-	GREATER,
-	NOT_EQUAL,
-	GREATER_EQUAL,
-	ALWAYS,
-	Count
-ENUM_END(CompareFunc);
+struct __CompareFunc
+{
+	enum _CompareFunc
+	{
+		NEVER = 1,
+		LESS,
+		EQUAL,
+		LESS_EQUAL,
+		GREATER,
+		NOT_EQUAL,
+		GREATER_EQUAL,
+		ALWAYS,
+		Count
+	};
+};
+using CompareFunc = __CompareFunc::_CompareFunc;
 
 /// Stencil operations.
-ENUM(StencilOp)
-    KEEP = 1,
-    ZERO,
-    REPLACE,
-    INCR_SAT,
-    DECR_SAT,
-    INVERT,
-    INCR,
-    DECR,
-    Count
-ENUM_END(StencilOp);
+struct __StencilOp
+{
+	enum _StencilOp
+	{
+		KEEP = 1,
+		ZERO,
+		REPLACE,
+		INCR_SAT,
+		DECR_SAT,
+		INVERT,
+		INCR,
+		DECR,
+		Count
+	};
+};
+using StencilOp = __StencilOp::_StencilOp;
 
 /// Texture types.
-ENUM(TextureType)
-    TEX_1D = 0,
-    TEX_2D,
-    TEX_3D,
-    TEX_CUBE,
-ENUM_END(TextureType);
+struct __TextureType
+{
+	enum _TextureType
+	{
+		TEX_1D = 0,
+		TEX_2D,
+		TEX_3D,
+		TEX_CUBE,
+	};
+};
+using TextureType = __TextureType::_TextureType;
 
 /// Resource usage modes. Rendertarget usage can only be used with textures.
-ENUM(ResourceUsage)
-    DEFAULT = 0,
-    IMMUTABLE,
-    DYNAMIC,
-    RENDERTARGET
-ENUM_END(ResourceUsage);
+struct __ResourceUsage
+{
+	enum _ResourceUsage
+	{
+		DEFAULT = 0,
+		IMMUTABLE,
+		DYNAMIC,
+		RENDERTARGET
+	};
+};
+using ResourceUsage = __ResourceUsage::_ResourceUsage;
 
 /// Texture filtering modes.
-ENUM(TextureFilterMode)
-    FILTER_POINT = 0,
-    FILTER_BILINEAR,
-    FILTER_TRILINEAR,
-    FILTER_ANISOTROPIC,
-    COMPARE_POINT,
-    COMPARE_BILINEAR,
-    COMPARE_TRILINEAR,
-    COMPARE_ANISOTROPIC
-ENUM_END(TextureFilterMode);
+struct __TextureFilterMode
+{
+	enum _TextureFilterMode
+	{
+		FILTER_POINT = 0,
+		FILTER_BILINEAR,
+		FILTER_TRILINEAR,
+		FILTER_ANISOTROPIC,
+		COMPARE_POINT,
+		COMPARE_BILINEAR,
+		COMPARE_TRILINEAR,
+		COMPARE_ANISOTROPIC
+	};
+};
+using TextureFilterMode = __TextureFilterMode::_TextureFilterMode;
+
 
 /// Texture addressing modes.
-ENUM(TextureAddressMode)
-    WRAP = 1,
-    MIRROR,
-    CLAMP,
-    BORDER,
-    MIRROR_ONCE
-ENUM_END(TextureAddressMode);
+struct __TextureAddressMode
+{
+	enum _TextureAddressMode
+	{
+		WRAP = 1,
+		MIRROR,
+		CLAMP,
+		BORDER,
+		MIRROR_ONCE
+	};
+};
+using TextureAddressMode = __TextureAddressMode::_TextureAddressMode;
 
 
 /// Description of an element in a vertex declaration.

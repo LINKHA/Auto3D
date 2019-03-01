@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../AutoCommon.h"
 #include "../Base/HashMap.h"
 #include "../Base/String.h"
 #include "../Base/Vector.h"
@@ -16,15 +15,20 @@ typedef Vector<JSONValue> JSONArray;
 typedef HashMap<String, JSONValue> JSONObject;
 
 /// JSON value types.
-ENUM(JSONType)
-	Null = 0,
-	BOOL,
-	NUMBER,
-	STRING,
-	ARRAY,
-	OBJECT,
-	Count
-ENUM_END(JSONType);
+struct __JSONType
+{
+	enum _JSONType
+	{
+		Null = 0,
+		BOOL,
+		NUMBER,
+		STRING,
+		ARRAY,
+		OBJECT,
+		Count
+	};
+};
+using JSONType = __JSONType::_JSONType;
 
 /// JSON data union.
 struct JSONData

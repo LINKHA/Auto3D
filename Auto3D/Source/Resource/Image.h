@@ -10,34 +10,40 @@ namespace Auto3D
 {
 
 /// Image formats.
-ENUM(ImageFormat)
-	NONE = 0,
-	R8,
-	RG8,
-	RGBA8,
-	A8,
-	R16,
-	RG16,
-	RGBA16,
-	R16F,
-	RG16F,
-	RGBA16F,
-	R32F,
-	RG32F,
-	RGB32F,
-	RGBA32F,
-	D16,
-	D32,
-	D24S8,
-	DXT1,
-	DXT3,
-	DXT5,
-	ETC1,
-	PVRTC_RGB_2BPP,
-	PVRTC_RGBA_2BPP,
-	PVRTC_RGB_4BPP,
-	PVRTC_RGBA_4BPP
-ENUM_END(ImageFormat);
+struct __ImageFormat
+{
+	enum _ImageFormat
+	{
+		NONE = 0,
+		R8,
+		RG8,
+		RGBA8,
+		A8,
+		R16,
+		RG16,
+		RGBA16,
+		R16F,
+		RG16F,
+		RGBA16F,
+		R32F,
+		RG32F,
+		RGB32F,
+		RGBA32F,
+		D16,
+		D32,
+		D24S8,
+		DXT1,
+		DXT3,
+		DXT5,
+		ETC1,
+		PVRTC_RGB_2BPP,
+		PVRTC_RGBA_2BPP,
+		PVRTC_RGB_4BPP,
+		PVRTC_RGBA_4BPP
+	};
+};
+using ImageFormat = __ImageFormat::_ImageFormat;
+
 
 /// Description of image mip level data.
 struct AUTO_API ImageLevel

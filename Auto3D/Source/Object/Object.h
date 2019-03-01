@@ -2,7 +2,6 @@
 
 #include "../Base/StringHash.h"
 #include "Event.h"
-#include "../AutoCommon.h"
 #include "../Math/KhMath.h"
 
 namespace Auto3D
