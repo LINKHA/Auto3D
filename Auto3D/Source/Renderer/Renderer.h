@@ -59,19 +59,19 @@ struct AUTO_API PassDesc
     }
     
     /// Construct with parameters.
-    PassDesc(const String& name_, BatchSortMode sort_ = BatchSortMode::STATE, bool lit_ = true) :
-        name(name_),
-        sort(sort_),
-        lit(lit_)
+    PassDesc(const String& name, BatchSortMode sort = BatchSortMode::STATE, bool lit = true) :
+        _name(name),
+        _sort(sort),
+        _lit(lit)
     {
     }
 
     /// %Pass name.
-    String name;
+    String _name;
     /// Sorting mode.
-    BatchSortMode sort;
+    BatchSortMode _sort;
     /// Lighting flag.
-    bool lit;
+    bool _lit;
 };
 
 /// High-level rendering subsystem. Performs rendering of 3D scenes.

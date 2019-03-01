@@ -263,7 +263,7 @@ bool Window::OnWindowMessage(void* sdlEvent)
 	}
 	break;
 	case SDL_QUIT:
-		return false;
+		Close();
 		break;
 	}
 	//Handles whether the mouse is visible

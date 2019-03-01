@@ -9,6 +9,8 @@ class VertexBuffer;
 class IndexBuffer;
 class ConstantBuffer;
 class ShaderVariation;
+class VertexElement;
+class Shader;
 
 /// Physics sub system 
 class AUTO_API UI : public BaseSubsystem
@@ -26,7 +28,7 @@ public:
 
 	bool PrepareView();
 
-	bool IsInitialize() { return _initialized; }
+	bool IsInitialized() { return _initialized; }
 
 private:
 	/// Graphics subsystem.
@@ -49,6 +51,11 @@ private:
 	ShaderVariation* _vsv;
 
 	ShaderVariation* _psv;
+
+
+	AutoPtr<Shader> vs;
+
+	AutoPtr<Shader> ps;
 };
 
 

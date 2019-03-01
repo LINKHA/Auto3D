@@ -93,6 +93,8 @@ void Octree::Update()
             const BoundingBox& box = node->WorldBoundingBox();
             Vector3F boxSize = box.Size();
             Octant* oldOctant = node->_octant;
+
+		
             if (oldOctant && oldOctant->_cullingBox.IsInside(box) == INSIDE && oldOctant->FitBoundingBox(box, boxSize))
                 continue;
 

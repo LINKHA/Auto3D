@@ -43,8 +43,8 @@ void Engine::Init()
 	
 	if (!_graphics->SetMode(RectI(0, 0, 800, 600), 4, false, true))
 		return;
-	_graphics->RenderWindow()->SetMouseLock(true);
-	_graphics->RenderWindow()->SetMouseHide(true);
+	//_graphics->RenderWindow()->SetMouseLock(true);
+	//_graphics->RenderWindow()->SetMouseHide(true);
 	
 
 	_renderer->SetupShadowMaps(1, 2048, ImageFormat::D16);
@@ -56,13 +56,21 @@ void Engine::Exit()
 
 void Engine::Render()
 {
+	// Check renderer render Prepare
+	if (!_graphics || !_renderer || !_ui)
+	{
+		ErrorString("Fail to render,graphics or renderer missing!");
+		return;
+	}
+	// Render scene
 	for (auto it = _sceneSystem->GetScenes().Begin(); it != _sceneSystem->GetScenes().End(); it++)
 	{
 		_renderer->Render((*it).first, (*it).second);
+		// Render UI
+	//	_ui->Render();
 	}	
-
-	//_ui->Render();
-
+	
+	_graphics->Present();
 }
 
 
@@ -90,8 +98,6 @@ bool Engine::Update()
 }
 void Engine::FrameFinish()
 {
-	_graphics->Present();
-
 	_profiler->EndFrame();
 }
 

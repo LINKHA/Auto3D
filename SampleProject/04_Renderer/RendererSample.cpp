@@ -49,7 +49,7 @@ void RendererSample::Start()
 	for (unsigned i = 0; i < 10; ++i)
 	{
 		Light* light = scene->CreateChild<Light>();
-		light->SetLightType(LIGHT_POINT);
+		light->SetLightType(LightType::POINT);
 		light->SetCastShadows(true);
 		Vector3F colorVec = 2.0f * Vector3F(Random(), Random(), Random()).Normalized();
 		light->SetColor(Color(colorVec._x, colorVec._y, colorVec._z));
@@ -67,8 +67,8 @@ void RendererSample::Update()
 	auto* renderer = Object::Subsystem<Renderer>();
 	auto* time = Object::Subsystem<Time>();
 
-	pitch += input->MouseMove()._y * 0.25f;
-	yaw += input->MouseMove()._x * 0.25f;
+	pitch += input->GetMouseMove()._y * 0.25f;
+	yaw += input->GetMouseMove()._x * 0.25f;
 	pitch = Clamp(pitch, -90.0f, 90.0f);
 
 	float moveSpeed = input->IsKeyDown(KEY_LSHIFT) ? 200.0f : 50.0f;
@@ -84,7 +84,7 @@ void RendererSample::Update()
 		camera->Translate(Vector3F::RIGHT * time->GetDeltaTime()  * moveSpeed);
 
 	// Update camera aspect ratio based on window size
-	camera->SetAspectRatio((float)graphics->Width() / (float)graphics->Height());
+	camera->SetAspectRatio((float)graphics->GetWidth() / (float)graphics->GetHeight());
 
 }
 

@@ -81,7 +81,7 @@ void Renderer::Render(Scene* scene, Camera* camera)
 	RenderShadowMaps();
 	_graphics->ResetRenderTargets();
 	_graphics->ResetViewport();
-	_graphics->Clear(CLEAR_COLOR | CLEAR_DEPTH, Color::BLACK);
+	_graphics->Clear(CLEAR_COLOR | CLEAR_DEPTH | CLEAR_STENCIL, Color::BLACK);
 	RenderBatches(passes);
 
 }
@@ -120,8 +120,6 @@ bool Renderer::CollectObjects(Scene* scene, Camera* camera)
     PROFILE(CollectObjects);
 
     // Acquire Graphics subsystem now, which needs to be initialized with a screen mode
-   
-
     _geometries.Clear();
     _lights.Clear();
     _instanceTransforms.Clear();
@@ -446,13 +444,13 @@ void Renderer::CollectBatches(const Vector<PassDesc>& passes)
     for (size_t i = 0; i < passes.Size(); ++i)
     {
         const PassDesc& srcPass = passes[i];
-        unsigned char baseIndex = Material::PassIndex(srcPass.name);
+        unsigned char baseIndex = Material::PassIndex(srcPass._name);
         BatchQueue* batchQueue = &_batchQueues[baseIndex];
         currentQueues[i] = batchQueue;
-        batchQueue->_sort = srcPass.sort;
-        batchQueue->_lit = srcPass.lit;
+        batchQueue->_sort = srcPass._sort;
+        batchQueue->_lit = srcPass._lit;
         batchQueue->_baseIndex = baseIndex;
-        batchQueue->_additiveIndex = srcPass.lit ? Material::PassIndex(srcPass.name + "add") : 0;
+        batchQueue->_additiveIndex = srcPass._lit ? Material::PassIndex(srcPass._name + "add") : 0;
     }
 
     // Loop through geometry nodes
@@ -568,7 +566,7 @@ void Renderer::RenderBatches(const Vector<PassDesc>& passes)
 
     for (size_t i = 0; i < passes.Size(); ++i)
     {
-        unsigned char passIndex = Material::PassIndex(passes[i].name);
+        unsigned char passIndex = Material::PassIndex(passes[i]._name);
         BatchQueue& batchQueue = _batchQueues[passIndex];
         RenderBatches(batchQueue._batches, _camera, i == 0);
         RenderBatches(batchQueue._additiveBatches, _camera, false);
@@ -877,6 +875,7 @@ void Renderer::RenderBatches(const Vector<Batch>& batches, Camera* camera, bool 
         Material* lastMaterial = nullptr;
         LightPass* lastLights = nullptr;
 
+	
         for (auto it = batches.Begin(); it != batches.End();)
         {
             const Batch& batch = *it;

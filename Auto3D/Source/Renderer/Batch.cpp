@@ -60,9 +60,11 @@ void BatchQueue::Sort(Vector<Matrix3x4F>& instanceTransforms)
 void BatchQueue::BuildInstances(Vector<Batch>& batches, Vector<Matrix3x4F>& instanceTransforms)
 {
     Batch* start = nullptr;
+
     for (auto it = batches.Begin(), end = batches.End(); it != end; ++it)
     {
         Batch* current = &*it;
+
         if (start && current->_type == GeometryType::STATIC && current->_pass == start->_pass && current->_geometry == start->_geometry &&
             current->_lights == start->_lights)
         {
