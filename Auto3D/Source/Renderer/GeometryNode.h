@@ -3,6 +3,7 @@
 #include "../Graphics/GraphicsDefs.h"
 #include "../IO/ResourceRef.h"
 #include "OctreeNode.h"
+#include "../UI/UISpatialNode.h"
 
 namespace Auto3D
 {
@@ -24,6 +25,46 @@ struct __GeometryType
 	};
 };
 using GeometryType = __GeometryType::_GeometryType;
+
+
+/// Load-time description of a vertex buffer, to be uploaded on the GPU later.
+struct AUTO_API VertexBufferDesc
+{
+	/// Vertex declaration.
+	Vector<VertexElement> _vertexElements;
+	/// Number of vertices.
+	size_t _numVertices;
+	/// Vertex data.
+	SharedArrayPtr<unsigned char> _vertexData;
+};
+
+/// Load-time description of an index buffer, to be uploaded on the GPU later.
+struct AUTO_API IndexBufferDesc
+{
+	/// Index _size.
+	size_t _indexSize;
+	/// Number of indices.
+	size_t _numIndices;
+	/// Index data.
+	SharedArrayPtr<unsigned char> _indexData;
+};
+
+/// Load-time description of a geometry.
+struct AUTO_API GeometryDesc
+{
+	/// LOD distance.
+	float _lodDistance;
+	/// Primitive type.
+	PrimitiveType _primitiveType;
+	/// Vertex buffer ref.
+	unsigned _vbRef;
+	/// Index buffer ref.
+	unsigned _ibRef;
+	/// Draw range start.
+	unsigned _drawStart;
+	/// Draw range element count.
+	unsigned _drawCount;
+};
 
 /// Description of geometry to be rendered. %Scene nodes that render the same object can share these to reduce memory load and allow instancing.
 struct AUTO_API Geometry : public RefCounted
@@ -132,6 +173,32 @@ protected:
     Vector<SourceBatch> _batches;
     /// Local space bounding box.
     BoundingBox _boundingBox;
+};
+
+class AUTO_API UIGeometryNode : public UISpatialNode
+{
+	REGISTER_OBJECT_CLASS(GeometryNode, OctreeNode)
+
+public:
+	/// Construct.
+	UIGeometryNode();
+	/// Destruct.
+	~UIGeometryNode();
+	/// Register factory and attributes.
+	static void RegisterObject();
+	/// Set geometry type, which is shared by all geometries.
+	void SetGeometryType(GeometryType type);
+	/// Set geometry at index.
+	void SetGeometry(Geometry* geometry);
+	/// Return geometry type.
+	GeometryType GetGeometryType() const { return _geometryType; }
+	/// Return geometry by index.
+	Geometry* GetGeometry() const;
+protected:
+	/// Geometry type.
+	GeometryType _geometryType;
+	/// Draw call source datas.
+	SharedPtr<Geometry> _geometry;
 };
 
 }

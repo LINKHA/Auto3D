@@ -37,6 +37,8 @@ public:
 	/// Find UINode by _id.
 	UINode* FindUINode(unsigned id) const;
 
+	const HashMap<unsigned, UINode*>& GetAllUINode() const;
+
 	/// Add node to the canvas. This assigns a canvas-unique id to it. Called internally.
 	void AddNode(UINode* node);
 	/// Remove node from the canvas. This removes the id mapping but does not destroy the node. Called internally.
@@ -55,7 +57,7 @@ private:
 	/// Return tag names. Used in serialization.
 	JSONValue TagNamesAttr() const;
 
-	/// Map from _id's to nodes.
+	/// Map from id to nodes.
 	HashMap<unsigned, UINode*> _nodes;
 	/// Next free node _id.
 	unsigned _nextNodeId;

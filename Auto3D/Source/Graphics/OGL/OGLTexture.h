@@ -10,6 +10,7 @@ namespace Auto3D
 {
 
 class Image;
+class Geometry;
 
 /// %Texture on the GPU.
 class AUTO_API Texture : public Resource, public GPUObject
@@ -67,6 +68,7 @@ public:
     bool IsRenderTarget() const { return _usage == ResourceUsage::RENDERTARGET && (_format < ImageFormat::D16 || _format > ImageFormat::D24S8); }
     /// Return whether is a depth-stencil texture.
     bool IsDepthStencil() const { return _usage == ResourceUsage::RENDERTARGET && _format >= ImageFormat::D16 && _format <= ImageFormat::D24S8; }
+	
 
     /// Return the OpenGL texture identifier. Used internally and should not be called by portable application code.
     unsigned GetGLTexture() const { return _texture; }

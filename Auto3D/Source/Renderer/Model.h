@@ -3,6 +3,7 @@
 #include "../Graphics/GraphicsDefs.h"
 #include "../Math/BoundingBox.h"
 #include "../Resource/Resource.h"
+#include "GeometryNode.h"
 
 namespace Auto3D
 {
@@ -10,45 +11,6 @@ namespace Auto3D
 class VertexBuffer;
 class IndexBuffer;
 struct Geometry;
-
-/// Load-time description of a vertex buffer, to be uploaded on the GPU later.
-struct AUTO_API VertexBufferDesc
-{
-    /// Vertex declaration.
-    Vector<VertexElement> _vertexElements;
-    /// Number of vertices.
-    size_t _numVertices;
-    /// Vertex data.
-    SharedArrayPtr<unsigned char> _vertexData;
-};
-
-/// Load-time description of an index buffer, to be uploaded on the GPU later.
-struct AUTO_API IndexBufferDesc
-{
-    /// Index _size.
-    size_t _indexSize;
-    /// Number of indices.
-    size_t _numIndices;
-    /// Index data.
-    SharedArrayPtr<unsigned char> _indexData;
-};
-
-/// Load-time description of a geometry.
-struct AUTO_API GeometryDesc
-{
-    /// LOD distance.
-    float _lodDistance;
-    /// Primitive type.
-    PrimitiveType _primitiveType;
-    /// Vertex buffer ref.
-    unsigned _vbRef;
-    /// Index buffer ref.
-    unsigned _ibRef;
-    /// Draw range start.
-    unsigned _drawStart;
-    /// Draw range element count.
-    unsigned _drawCount;
-};
 
 
 /// Model's bone description.

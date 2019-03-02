@@ -197,6 +197,7 @@ protected:
 	Vector<String> _tagNames;
 	/// Map from tag names to indices.
 	HashMap<String, unsigned char> _tags;
+
 private:
 	/// Parent node.
 	UINode* _parent;

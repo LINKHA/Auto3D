@@ -25,14 +25,14 @@ void MeshSample::Start()
 	Object::Subsystem<RegisteredBox>()->RegisterScene(scene, camera);
 
 
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		StaticModel* plane = scene->CreateChild<StaticModel>();
 		plane->SetScale(Vector3F(10.0f, 0.1f, 10.0f));
 		plane->SetModel(cache->LoadResource<Model>("Box.mdl"));
 		plane->SetMaterial(cache->LoadResource<Material>("Stone.json"));
 	}
-		StaticModel* mushroom = scene->CreateChild<StaticModel>();
+		/*StaticModel* mushroom = scene->CreateChild<StaticModel>();
 		mushroom->SetPosition(Vector3F(0.0f, 1.0f,0.0f));
 		mushroom->SetScale(1.5f);
 		mushroom->SetModel(cache->LoadResource<Model>("Mushroom.mdl"));
@@ -48,7 +48,7 @@ void MeshSample::Start()
 		light->SetRange(20.0f);
 		light->SetPosition(Vector3F(0.0f, 7.0f, 0.0f));
 		light->SetDirection(Vector3F(0.0f, -1.0f, 0.0f));
-		light->SetShadowMapSize(256);
+		light->SetShadowMapSize(256);*/
 
 }
 void MeshSample::Update()

@@ -181,6 +181,11 @@ UINode* Canvas::FindUINode(unsigned id) const
 	return it != _nodes.End() ? it->second : nullptr;
 }
 
+const HashMap<unsigned, UINode*>& Canvas::GetAllUINode() const
+{
+	return _nodes;
+}
+
 void Canvas::AddNode(UINode* node)
 {
 	if (!node || node->ParentCanvas() == this)

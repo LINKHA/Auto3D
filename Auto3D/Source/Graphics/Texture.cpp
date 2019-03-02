@@ -1,6 +1,7 @@
 #include "../Debug/Log.h"
 #include "../Debug/Profiler.h"
 #include "Texture.h"
+#include "../Renderer/GeometryNode.h"
 
 #include "../Debug/DebugNew.h"
 
@@ -66,6 +67,7 @@ bool Texture::EndLoad()
     success &= DefineSampler(TextureFilterMode::FILTER_TRILINEAR, TextureAddressMode::WRAP, TextureAddressMode::WRAP, TextureAddressMode::WRAP);
 
     _loadImages.Clear();
+
     return success;
 }
 

@@ -6,7 +6,7 @@ namespace Auto3D {
 
 class Canvas;
 class UICamera;
-
+class UINode;
 
 class Graphics;
 class VertexBuffer;
@@ -25,8 +25,7 @@ public:
 	UI();
 	/// Destructor
 	~UI();
-	/// Initialize when screen mode initially set.
-	void Initialize();
+	
 	/// Render the UI. If renderUICommand is false (default), is assumed to be the default UI render to backbuffer called by Engine, and will be performed only once. Additional UI renders to a different rendertarget may be triggered from the renderpath.
 	void Render(Canvas* scene, UICamera* camera);
 
@@ -39,17 +38,27 @@ public:
 	/// Collect and sort batches from the visible objects. To not go through the objects several times, all the passes should be specified at once instead of multiple calls to CollectBatches().
 	void CollectUIBatches();
 
+	void RenderBatches();
+
 private:
+	/// Initialize when screen mode initially set.
+	void Initialize();
+	/// Render batches from a specific queue and camera.
+	void RenderBatches(const Vector<UIBatch>& batches, UICamera* camera);
 	/// Graphics subsystem.
 	WeakPtr<Graphics> _graphics;
 	/// UI rendering batches.
 	Vector<UIBatch> _batches;
 
-	/// Current scene.
-	Canvas* _scene;
-	/// Current scene camera.
+	/// Current canvas.
+	Canvas* _canvas;
+	/// Current ui camera.
 	UICamera* _camera;
 
+	Vector<UIGeometryNode*> _geometryNode;
+
+	/// UI does not have multiple queues
+	UIBatchQueue _batchQueue;
 
 	/// Initialized flag.
 	bool _initialized;
