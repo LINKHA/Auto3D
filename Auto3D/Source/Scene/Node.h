@@ -46,7 +46,6 @@ public:
     void SaveJSON(JSONValue& dest) override;
     /// Return unique _id within the scene, or 0 if not in a scene.
     unsigned Id() const override { return _id; }
-
     /// Save as JSON text data to a binary stream. Return true on success.
     bool SaveJSON(Stream& dest);
     /// Set name. Is not required to be unique within the scene.
@@ -69,6 +68,10 @@ public:
     void SetTemporary(bool enable);
     /// Reparent the node.
     void SetParent(Node* newParent);
+	/// Define a layer name. There can be 32 different layers (indices 0-31.)
+	void DefineLayer(unsigned char index, const String& name);
+	/// Define a tag name.
+	void DefineTag(unsigned char index, const String& name);
     /// Create child node of specified type. A registered object factory for the type is required.
     Node* CreateChild(StringHash childType);
     /// Create named child node of specified type.
@@ -169,7 +172,15 @@ public:
     void SetScene(Scene* newScene);
     /// Assign new _id. Called internally.
     void SetId(unsigned newId);
-    
+	/// Return the layer names.
+	const Vector<String>& LayerNames() const { return _layerNames; }
+	/// Return the layer name-to-index map.
+	const HashMap<String, unsigned char>& Layers() const { return _layers; }
+	/// Return the tag names.
+	const Vector<String>& TagNames() const { return _tagNames; }
+	/// Return the tag name-to-index map.
+	const HashMap<String, unsigned char>& Tags() const { return _tags; }
+
     /// Skip the binary data of a node hierarchy, in case the node could not be created.
     static void SkipHierarchy(Stream& source);
 
@@ -181,10 +192,18 @@ protected:
     /// Handle the enabled status changing.
     virtual void OnSetEnabled(bool newEnabled);
 
+	/// List of layer names by index.
+	Vector<String> _layerNames;
+	/// Map from layer names to indices.
+	HashMap<String, unsigned char> _layers;
+	/// List of tag names by index.
+	Vector<String> _tagNames;
+	/// Map from tag names to indices.
+	HashMap<String, unsigned char> _tags;
 private:
     /// Parent node.
     Node* _parent;
-    /// Parent scene.
+    /// Parent scene (If in the scene)
     Scene* _scene;
     /// Child nodes.
     Vector<SharedPtr<Node> > _children;

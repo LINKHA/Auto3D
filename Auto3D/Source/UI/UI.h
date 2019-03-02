@@ -4,6 +4,10 @@
 
 namespace Auto3D {
 
+class Canvas;
+class UICamera;
+
+
 class Graphics;
 class VertexBuffer;
 class IndexBuffer;
@@ -24,17 +28,29 @@ public:
 	/// Initialize when screen mode initially set.
 	void Initialize();
 	/// Render the UI. If renderUICommand is false (default), is assumed to be the default UI render to backbuffer called by Engine, and will be performed only once. Additional UI renders to a different rendertarget may be triggered from the renderpath.
-	void Render(bool renderUICommand = false);
+	void Render(Canvas* scene, UICamera* camera);
 
-	bool PrepareView();
+	bool PrepareView(Canvas* canvas, UICamera* camera);
 
 	bool IsInitialized() { return _initialized; }
+
+	/// Initialize rendering of a new view and collect visible objects from the camera's point of view. Return true on success (scene, camera and octree are non-null.)
+	bool CollectUIObjects(Canvas* scene, UICamera* camera);
+	/// Collect and sort batches from the visible objects. To not go through the objects several times, all the passes should be specified at once instead of multiple calls to CollectBatches().
+	void CollectUIBatches();
 
 private:
 	/// Graphics subsystem.
 	WeakPtr<Graphics> _graphics;
 	/// UI rendering batches.
 	Vector<UIBatch> _batches;
+
+	/// Current scene.
+	Canvas* _scene;
+	/// Current scene camera.
+	UICamera* _camera;
+
+
 	/// Initialized flag.
 	bool _initialized;
 	/// Flag for UI already being rendered this frame.
@@ -58,5 +74,7 @@ private:
 	AutoPtr<Shader> ps;
 };
 
+/// Register UI related object factories and attributes.
+AUTO_API void RegisterUILibrary();
 
 }

@@ -36,27 +36,17 @@ public:
     Node* InstantiateJSON(const JSONValue& source);
     /// Load JSON data as text from a binary stream, then instantiate node(s) from it and return the root node.
     Node* InstantiateJSON(Stream& source);
-    /// Define a layer name. There can be 32 different layers (indices 0-31.)
-    void DefineLayer(unsigned char index, const String& name);
-    /// Define a tag name.
-    void DefineTag(unsigned char index, const String& name);
+
     /// Destroy child nodes recursively, leaving the scene empty.
     void Clear();
 
     /// Find node by _id.
     Node* FindNode(unsigned id) const;
-    /// Return the layer names.
-    const Vector<String>& LayerNames() const { return _layerNames; }
-    /// Return the layer name-to-index map.
-    const HashMap<String, unsigned char>& Layers() const { return _layers; }
-    /// Return the tag names.
-    const Vector<String>& TagNames() const { return _tagNames; }
-    /// Return the tag name-to-index map.
-    const HashMap<String, unsigned char>& Tags() const { return _tags; }
+   
 
-    /// Add node to the scene. This assigns a scene-unique _id to it. Called internally.
+    /// Add node to the scene. This assigns a scene-unique id to it. Called internally.
     void AddNode(Node* node);
-    /// Remove node from the scene. This removes the _id mapping but does not destroy the node. Called internally.
+    /// Remove node from the scene. This removes the id mapping but does not destroy the node. Called internally.
     void RemoveNode(Node* node);
     
     using Node::Load;
@@ -77,14 +67,7 @@ private:
     HashMap<unsigned, Node*> _nodes;
     /// Next free node _id.
     unsigned _nextNodeId;
-    /// List of layer names by index.
-    Vector<String> _layerNames;
-    /// Map from layer names to indices.
-    HashMap<String, unsigned char> _layers;
-    /// List of tag names by index.
-    Vector<String> _tagNames;
-    /// Map from tag names to indices.
-    HashMap<String, unsigned char> _tags;
+
 };
 
 /// Register Scene related object factories and attributes.

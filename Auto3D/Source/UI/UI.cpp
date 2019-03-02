@@ -1,4 +1,8 @@
 #include "UI.h"
+#include "Canvas.h"
+#include "Sprite.h"
+#include "UICamera.h"
+
 #include "../Graphics/Graphics.h"
 #include "../Graphics/VertexBuffer.h"
 #include "../Graphics/ConstantBuffer.h"
@@ -45,8 +49,6 @@ void UI::Initialize()
 
 	_graphics = graphics;
 	_initialized = true;
-
-
 
 
 	float vertexData[] = {
@@ -129,16 +131,29 @@ void UI::Initialize()
 
 }
 
-bool UI::PrepareView()
+bool UI::PrepareView(Canvas* canvas,UICamera* camera)
 {
 	if (!IsInitialized())
 		Initialize();
+	CollectUIObjects(canvas, camera);
 
+	CollectUIBatches();
 	return true;
 }
-void UI::Render(bool renderUICommand)
+
+bool UI::CollectUIObjects(Canvas* scene, UICamera* camera)
 {
-	PrepareView();
+	return false;
+}
+
+void UI::CollectUIBatches()
+{
+
+}
+
+void UI::Render(Canvas* scene, UICamera* camera)
+{
+	PrepareView(scene, camera);
 	PROFILE(RenderUI);
 
 	Vector3F instanceData[NUM_OBJECTS];
@@ -162,6 +177,20 @@ void UI::Render(bool renderUICommand)
 	_graphics->SetRasterizerState(CullMode::BACK, FillMode::SOLID);
 	_graphics->DrawIndexedInstanced(PrimitiveType::TRIANGLE_LIST, 0, 6, 0, 0, NUM_OBJECTS);
 	//RenderBatches(passes);
+}
+
+void RegisterUILibrary()
+{
+	static bool registered = false;
+	if (registered)
+		return;
+	registered = true;
+
+	Canvas::RegisterObject();
+	Sprite::RegisterObject();
+	UISpatialNode::RegisterObject();
+	UICamera::RegisterObject();
+	UINode::RegisterObject();
 }
 
 }

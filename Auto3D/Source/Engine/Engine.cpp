@@ -10,6 +10,7 @@ Engine::Engine()
 	RegisterGraphicsLibrary();
 	RegisterResourceLibrary();
 	RegisterRendererLibrary();
+	RegisterUILibrary();
 
 	_cache = new ResourceCache();
 	_cache->AddResourceDir(ExecutableDir() + "Data");
@@ -20,7 +21,7 @@ Engine::Engine()
 	_graphics = new Graphics();
 	_renderer = new Renderer();
 	_time = new Time();
-	_sceneSystem = new SceneSystem();
+	_registeredBox = new RegisteredBox();
 	_audio = new Audio();
 	_script = new Script();
 	_ui = new UI();
@@ -62,13 +63,24 @@ void Engine::Render()
 		ErrorString("Fail to render,graphics or renderer missing!");
 		return;
 	}
+	// If the scene is not created, clear the previous frame's texture here
+	if (!_registeredBox->GetScenes().Size())
+	{
+		_graphics->ResetRenderTargets();
+		_graphics->ResetViewport();
+		_graphics->Clear(CLEAR_COLOR | CLEAR_DEPTH | CLEAR_STENCIL, Color::BLACK);
+	}
 	// Render scene
-	for (auto it = _sceneSystem->GetScenes().Begin(); it != _sceneSystem->GetScenes().End(); it++)
+	for (auto it = _registeredBox->GetScenes().Begin(); it != _registeredBox->GetScenes().End(); it++)
 	{
 		_renderer->Render((*it).first, (*it).second);
-		// Render UI
-	//	_ui->Render();
+		
 	}	
+	// Render UI
+	for (auto it = _registeredBox->GetCanvases().Begin(); it != _registeredBox->GetCanvases().End(); it++)
+	{
+		_ui->Render((*it).first, (*it).second);
+	}
 	
 	_graphics->Present();
 }

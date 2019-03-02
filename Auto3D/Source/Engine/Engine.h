@@ -44,7 +44,7 @@ private:
 	AutoPtr<Log> _log;
 	AutoPtr<Profiler> _profiler;
 	AutoPtr<Time> _time;
-	AutoPtr<SceneSystem> _sceneSystem;
+	AutoPtr<RegisteredBox> _registeredBox;
 	AutoPtr<Audio> _audio;
 	AutoPtr<Script> _script;
 	AutoPtr<UI> _ui;

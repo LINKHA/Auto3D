@@ -209,6 +209,28 @@ void Node::SetParent(Node* newParent)
         ErrorString("Could not set null parent");
 }
 
+void Node::DefineLayer(unsigned char index, const String& name)
+{
+	if (index >= 32)
+	{
+		ErrorString("Can not define more than 32 layers");
+		return;
+	}
+
+	if (_layerNames.Size() <= index)
+		_layerNames.Resize(index + 1);
+	_layerNames[index] = name;
+	_layers[name] = index;
+}
+
+void Node::DefineTag(unsigned char index, const String& name)
+{
+	if (_tagNames.Size() <= index)
+		_tagNames.Resize(index + 1);
+	_tagNames[index] = name;
+	_tags[name] = index;
+}
+
 Node* Node::CreateChild(StringHash childType)
 {
     SharedPtr<Object> newObject = Create(childType);
