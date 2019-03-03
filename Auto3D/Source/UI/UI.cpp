@@ -42,39 +42,14 @@ void UI::Render(Canvas* scene, UICamera* camera)
 	PrepareView(scene, camera);
 
 	PROFILE(RenderUI);
-	//_graphics->SetVertexBuffer(0, _vb);
-	//_graphics->SetVertexBuffer(1, _ivb);
-	//_graphics->SetIndexBuffer(_ib);
 	_graphics->SetConstantBuffer(ShaderStage::PS, 0, _pcb);
 
 	_graphics->SetShaders(_vsv, _psv);
-	_graphics->SetTexture(0, tex);
 	_graphics->SetDepthState(CompareFunc::LESS_EQUAL, true);
 	_graphics->SetColorState(BlendMode::REPLACE);
 	_graphics->SetRasterizerState(CullMode::BACK, FillMode::SOLID);
 
 	RenderBatches();
-
-	//Vector3F instanceData[NUM_OBJECTS];
-	//for (size_t i = 0; i < NUM_OBJECTS; ++i)
-	//{
-	//	//instanceData[i] = Vector3F(Random() * 2.0f - 1.0f, Random() * 2.0f - 1.0f, 0.0f);
-	//	instanceData[i] = Vector3F();
-	//}
-
-	//_ivb->SetData(0, NUM_OBJECTS, instanceData);
-
-	//_graphics->SetVertexBuffer(0, _vb);
-	//_graphics->SetVertexBuffer(1, _ivb);
-	//_graphics->SetIndexBuffer(_ib);
-	//_graphics->SetConstantBuffer(ShaderStage::PS, 0, _pcb);
-
-	//_graphics->SetShaders(_vsv, _psv);
-	//_graphics->SetTexture(0, tex);
-	//_graphics->SetDepthState(CompareFunc::LESS_EQUAL, true);
-	//_graphics->SetColorState(BlendMode::REPLACE);
-	//_graphics->SetRasterizerState(CullMode::BACK, FillMode::SOLID);
-	//_graphics->DrawIndexedInstanced(PrimitiveType::TRIANGLE_LIST, 0, 6, 0, 0, NUM_OBJECTS);
 }
 
 bool UI::PrepareView(Canvas* canvas,UICamera* camera)
@@ -102,8 +77,10 @@ bool UI::CollectUIObjects(Canvas* canvas, UICamera* camera)
 	//\note TEMP Temporarily all join
 	for (auto it = canvas->GetAllUINode().Begin(); it != canvas->GetAllUINode().End(); it++)
 	{
-		if(it->second->TestFlag(UNF_GEOMETRY))
+		if (it->second->TestFlag(UNF_GEOMETRY))
+		{
 			_geometryNode.Push(static_cast<UIGeometryNode*>(it->second));
+		}
 	}
 
 	return true;
@@ -115,6 +92,7 @@ void UI::CollectUIBatches()
 
 	for (auto it = _geometryNode.Begin(); it != _geometryNode.End(); it++)
 	{
+		
 		UIGeometryNode* node = *it;
 
 		UIBatch newBatch;
@@ -225,7 +203,7 @@ void UI::Initialize()
 	ps->Define(ShaderStage::PS, psCode);
 	_psv = ps->CreateVariation();
 
-	tex = Subsystem<ResourceCache>()->LoadResource<Texture>("Test.png");
+	//tex = Subsystem<ResourceCache>()->LoadResource<Texture>("Test.png");
 
 }
 
@@ -243,6 +221,9 @@ void UI::RenderBatches(const Vector<UIBatch>& batches, UICamera* camera)
 			geometry->DrawInstanced(_graphics, 0, batch._instanceCount);
 		else
 			geometry->Draw(_graphics);
+
+		// Advance. If instanced, skip over the batches that were converted
+		it += instanced ? batch._instanceCount : 1;
 	}
 }
 

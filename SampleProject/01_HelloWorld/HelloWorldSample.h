@@ -19,4 +19,6 @@ public:
 	float yaw = 0.0f, pitch = 20.0f;
 	Camera* camera;
 	SharedPtr<Scene> scene;
+	UICamera* uiCamera;
+	SharedPtr<Canvas> canvas;
 };

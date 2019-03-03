@@ -7,7 +7,7 @@ void TextureSample::Init()
 void TextureSample::Start()
 {
 	auto* cache = Object::Subsystem<ResourceCache>();
-	auto texture = (cache->LoadResource<Texture>("Test.png"));
+	auto texture = (cache->LoadResource<Texture>("HelloWorld.png"));
 	SubscribeToEvent(Subsystem<Graphics>()->RenderWindow()->closeRequestEvent, &TextureSample::HandleCloseRequest);
 
 	canvas = new Canvas();
@@ -15,13 +15,11 @@ void TextureSample::Start()
 	uiCamera->SetPosition(Vector3F(0.0f, 0.0f, 0.0f));
 	Subsystem<RegisteredBox>()->RegisterCanvas(canvas, uiCamera);
 
-	Sprite* sprite = canvas->CreateChild<Sprite>();
-	sprite->SetTexture(texture);
-	Sprite* sprite2 = canvas->CreateChild<Sprite>();
-	sprite->SetTexture(texture);
-	Sprite* sprite3 = canvas->CreateChild<Sprite>();
-	sprite->SetTexture(texture);
-	
+	for (int i = 0; i < 2; i++)
+	{
+		Sprite* sprite = canvas->CreateChild<Sprite>();
+		sprite->SetTexture(texture);
+	}
 }
 void TextureSample::Update()
 {

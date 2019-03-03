@@ -42,7 +42,7 @@ void Engine::Init()
 
 	_graphics->RenderWindow()->SetTitle("Renderer test");
 	
-	if (!_graphics->SetMode(RectI(0, 0, 800, 600), 4, false, true))
+	if (!_graphics->SetMode(RectI(0, 0, 1024, 768), 4, false, true))
 		return;
 	//_graphics->RenderWindow()->SetMouseLock(true);
 	//_graphics->RenderWindow()->SetMouseHide(true);

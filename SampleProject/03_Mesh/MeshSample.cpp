@@ -24,7 +24,6 @@ void MeshSample::Start()
 	// Register scene to scene system use to render
 	Object::Subsystem<RegisteredBox>()->RegisterScene(scene, camera);
 
-
 	for (int i = 0; i < 2; i++)
 	{
 		StaticModel* plane = scene->CreateChild<StaticModel>();

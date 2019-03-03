@@ -46,7 +46,6 @@ public:
 	using UINode::Load;
 	using UINode::LoadJSON;
 	using UINode::SaveJSON;
-
 private:
 	/// Set layer names. Used in serialization.
 	void SetLayerNamesAttr(JSONValue names);

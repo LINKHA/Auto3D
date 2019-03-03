@@ -75,6 +75,8 @@ public:
     /// Return the OpenGL binding target of the texture. Used internally and should not be called by portable application code.
     unsigned GetGLTarget() const;
 
+	Geometry* GetGeometry() const;
+
     /// Texture filtering mode.
     TextureFilterMode _filter;
     /// Texture addressing modes for each coordinate axis.
@@ -103,6 +105,8 @@ private:
     size_t _numLevels;
     /// Images used for loading.
     Vector<AutoPtr<Image> > _loadImages;
+	/// Draw call source datas.
+	SharedPtr<Geometry> _geometry;
 };
 
 }

@@ -1,6 +1,8 @@
 #include "../../Debug/Log.h"
 #include "../../Debug/Profiler.h"
 #include "../../Resource/ResourceCache.h"
+#include "../../Renderer/GeometryNode.h"
+
 #include "OGLGraphics.h"
 #include "OGLTexture.h"
 
@@ -434,6 +436,10 @@ bool Texture::SetData(size_t face, size_t level, RectI rect, const ImageLevel& d
 unsigned Texture::GetGLTarget() const
 {
     return glTargets[_type];
+}
+Geometry* Texture::GetGeometry() const
+{ 
+	return _geometry; 
 }
 
 }
