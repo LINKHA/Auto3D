@@ -1013,7 +1013,6 @@ ShaderVariation* Renderer::FindShaderVariation(ShaderStage stage, Pass* pass, un
             String vsString = pass->GetCombinedShaderDefines(stage) + " " + geometryDefines[bits & LVS_GEOMETRY];
             if (bits & LVS_NUMSHADOWCOORDS)
                 vsString += " " + lightDefines[1] + "=" + String((bits & LVS_NUMSHADOWCOORDS) >> 2);
-
             it = variations.Insert(MakePair(bits, WeakPtr<ShaderVariation>(pass->_shaders[stage]->CreateVariation(vsString.Trimmed()))));
             return it->second.Get();
         }

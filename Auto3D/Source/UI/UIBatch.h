@@ -28,6 +28,14 @@ struct AUTO_API UIBatch
 		/// Instanced mode instance count.
 		size_t _instanceCount;
 	};
+
+	union
+	{
+		/// Non-instanced use world matrix.
+		const Matrix3x4F* _worldMatrix;
+		/// Instanced mode start index.
+		size_t _instanceStart;
+	};
 };
 
 /// Per-pass batch queue structure.

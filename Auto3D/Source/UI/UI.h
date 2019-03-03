@@ -16,6 +16,19 @@ class ShaderVariation;
 class VertexElement;
 class Shader;
 
+/// Shader constant buffers used by high-level rendering.
+struct __UIConstantBuffer
+{
+	enum _UIConstantBuffer
+	{
+		FRAME = 0,
+		OBJECT,
+		MATERIAL,
+		LIGHTS
+	};
+};
+using UIConstantBuffer = __UIConstantBuffer::_UIConstantBuffer;
+
 /// Physics sub system 
 class AUTO_API UI : public BaseSubsystem
 {
@@ -65,13 +78,13 @@ private:
 	/// Flag for UI already being rendered this frame.
 	bool _uiRendered;
 
-	AutoPtr<VertexBuffer> _vb;
+	/// Per-frame vertex shader constant buffer.
+	SharedPtr<ConstantBuffer> _vsFrameConstantBuffer;
 
-	SharedPtr<VertexBuffer> _ivb;
+	SharedPtr<ConstantBuffer> _vsObjectConstantBuffer;
+	/// Per-frame pixel shader constant buffer.
+	SharedPtr<ConstantBuffer> _psFrameConstantBuffer;
 
-	AutoPtr<IndexBuffer> _ib;
-
-	AutoPtr<ConstantBuffer> _pcb;
 
 	ShaderVariation* _vsv;
 
