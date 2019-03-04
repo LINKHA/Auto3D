@@ -1,3 +1,5 @@
+![Image text](https://github.com/LINKHA/Auto3D/blob/master/Bin/Data/NewLongLogo.png)
+
 Auto3D
 ====  
 2D and 3D game engine
@@ -8,4 +10,4 @@ Branch master's CMakeList may have problems, compile branch V0.2
 
 PBR-DEMO
 -------
-![Image text](https://github.com/LINKHA/Auto3D/blob/master/Assets/Engine_Effect_Pbr.png)
+![Image text](https://github.com/LINKHA/Auto3D/blob/master/Bin/Data/figure/Engine_Effect_Pbr.png)
