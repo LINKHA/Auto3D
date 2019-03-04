@@ -1,5 +1,5 @@
 #include "Sprite.h"
-#include "../Graphics/Texture.h"
+
 #include "../Debug/DebugNew.h"
 
 namespace Auto3D
@@ -20,11 +20,6 @@ void Sprite::RegisterObject()
 	RegisterFactory<Sprite>();
 }
 
-void Sprite::SetTexture(Texture* texture)
-{
-	_texture = texture;
 
-	SetGeometry(texture->GetGeometry());
-}
 
 }

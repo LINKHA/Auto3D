@@ -74,12 +74,16 @@ void Engine::Render()
 	for (auto it = _registeredBox->GetScenes().Begin(); it != _registeredBox->GetScenes().End(); it++)
 	{
 		_renderer->Render((*it).first, (*it).second);
-		
+		// Update camera aspect ratio based on window size
+		(*it).second->SetAspectRatio((float)Subsystem<Graphics>()->GetWidth() / (float)Subsystem<Graphics>()->GetHeight());
 	}	
+
 	// Render UI
 	for (auto it = _registeredBox->GetCanvases().Begin(); it != _registeredBox->GetCanvases().End(); it++)
 	{
 		_ui->Render((*it).first, (*it).second);
+		// Update camera aspect ratio based on window size
+		//(*it).second->SetAspectRatio((float)Subsystem<Graphics>()->GetWidth() / (float)Subsystem<Graphics>()->GetHeight());
 	}
 	
 	_graphics->Present();

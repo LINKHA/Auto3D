@@ -4,6 +4,7 @@
 #include "../Graphics/IndexBuffer.h"
 #include "../Graphics/VertexBuffer.h"
 #include "../Resource/ResourceCache.h"
+#include "../Graphics/Texture.h"
 #include "Camera.h"
 #include "GeometryNode.h"
 #include "Material.h"
@@ -214,5 +215,10 @@ Geometry* UIGeometryNode::GetGeometry() const
 	return _geometry;
 }
 
+void UIGeometryNode::SetTexture(Texture* texture)
+{
+	_texture = texture;
 
+	SetGeometry(texture->GetGeometry());
+}
 }

@@ -14,13 +14,9 @@ public:
 	~Sprite();
 	/// Register factory and attributes.
 	static void RegisterObject();
-	/// Set texture.
-	void SetTexture(Texture* texture);
-	/// Return texture.
-	Texture* GetTexture() const { return _texture; }
+
 private:
-	/// Texture.
-	SharedPtr<Texture> _texture;
+	
 
 };
 

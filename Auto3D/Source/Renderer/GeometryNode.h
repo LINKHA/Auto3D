@@ -14,6 +14,7 @@ class IndexBuffer;
 class Material;
 class VertexBuffer;
 struct LightList;
+class Texture;
 
 /// Geometry types.
 struct __GeometryType
@@ -194,11 +195,17 @@ public:
 	GeometryType GetGeometryType() const { return _geometryType; }
 	/// Return geometry by index.
 	Geometry* GetGeometry() const;
+	/// Set texture.
+	void SetTexture(Texture* texture);
+	/// Return texture.
+	Texture* GetTexture() const { return _texture; }
 protected:
 	/// Geometry type.
 	GeometryType _geometryType;
 	/// Draw call source datas.
 	SharedPtr<Geometry> _geometry;
+	/// Texture.
+	SharedPtr<Texture> _texture;
 };
 
 }

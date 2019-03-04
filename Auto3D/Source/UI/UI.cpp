@@ -10,8 +10,6 @@
 #include "../Graphics/Shader.h"
 #include "../Resource/ResourceCache.h"
 
-#include <stb_image.h>
-
 #include "../Debug/Profiler.h"
 #include "../Debug/DebugNew.h"
 
@@ -73,7 +71,7 @@ void UI::Render(Canvas* scene, UICamera* camera)
 
 	_vsFrameConstantBuffer->Apply();
 
-	_psFrameConstantBuffer->SetConstant((size_t)0, Color::BLUE);
+	_psFrameConstantBuffer->SetConstant((size_t)0, Color::WHITE);
 	_psFrameConstantBuffer->Apply();
 
 
@@ -135,6 +133,7 @@ void UI::CollectUIBatches()
 		newBatch._type = node->GetGeometryType();
 		newBatch._geometry = node->GetGeometry();
 		newBatch._worldMatrix = &node->GetWorldTransform();
+		newBatch._texture = node->GetTexture();
 
 		newBatch.CalculateSortKey();
 		
@@ -154,8 +153,6 @@ void UI::Initialize()
 	auto* graphics = Subsystem<Graphics>();
 	auto* cache = Subsystem<ResourceCache>();
 	assert(!_graphics && !IsInitialized());
-	// Invert the UI image to make it display correctly
-	stbi_set_flip_vertically_on_load(true);
 
 	PROFILE(InitUI);
 
@@ -207,7 +204,7 @@ void UI::RenderBatches(const Vector<UIBatch>& batches, UICamera* camera)
 
 		_graphics->SetConstantBuffer(ShaderStage::VS, UIConstantBuffer::OBJECT, _vsObjectConstantBuffer);
 
-
+		_graphics->SetTexture(0, batch._texture);
 		_graphics->SetShaders(_vsv, _psv);
 
 		Geometry* geometry = batch._geometry;

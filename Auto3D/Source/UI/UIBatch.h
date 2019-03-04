@@ -1,6 +1,7 @@
 #pragma once
 #include "../AutoConfig.h"
 #include "../Renderer/GeometryNode.h"
+#include "../Graphics/Texture.h"
 
 namespace Auto3D
 {
@@ -11,7 +12,8 @@ struct AUTO_API UIBatch
 	void CalculateSortKey()
 	{
 		_sortKey = ((((unsigned long long) _geometry) & 0xffff) << 48) |
-			((((unsigned long long)_type) & 0xffff) << 32);
+			((((unsigned long long)_type) & 0xffff) << 32) |
+			((((unsigned long long)_texture) & 0xffff) << 16);
 	}
 
 	/// Geometry.
@@ -19,6 +21,7 @@ struct AUTO_API UIBatch
 	/// Geometry type.
 	GeometryType _type;
 
+	Texture* _texture;
 	union
 	{
 		/// Sort _key for state sorting.

@@ -82,10 +82,6 @@ void RendererSample::Update()
 		camera->Translate(Vector3F::LEFT * time->GetDeltaTime()  * moveSpeed);
 	if (input->IsKeyDown(KEY_D))
 		camera->Translate(Vector3F::RIGHT * time->GetDeltaTime()  * moveSpeed);
-
-	// Update camera aspect ratio based on window size
-	camera->SetAspectRatio((float)graphics->GetWidth() / (float)graphics->GetHeight());
-
 }
 
 void RendererSample::Stop()

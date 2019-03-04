@@ -46,8 +46,6 @@ void TextureSample::Update()
 	if (input->IsKeyDown(KEY_D))
 		uiCamera->Translate(Vector3F::RIGHT * time->GetDeltaTime()  * moveSpeed);
 
-	// Update uiCamera aspect ratio based on window size
-	uiCamera->SetAspectRatio((float)graphics->GetWidth() / (float)graphics->GetHeight());
 }
 
 void TextureSample::Stop()
