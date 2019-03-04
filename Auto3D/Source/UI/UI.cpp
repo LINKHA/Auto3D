@@ -171,7 +171,7 @@ void UI::Initialize()
 	constants.Push(Constant(ElementType::MATRIX4, "viewProjMatrix"));
 	constants.Push(Constant(ElementType::VECTOR4, "depthParameters"));
 	_vsFrameConstantBuffer->Define(ResourceUsage::DEFAULT, constants);
-	//_vsFrameConstantBuffer->Apply();
+
 
 	_vsObjectConstantBuffer = new ConstantBuffer();
 	constants.Clear();
@@ -180,7 +180,7 @@ void UI::Initialize()
 
 	_psFrameConstantBuffer = new ConstantBuffer();
 	constants.Clear();
-	constants.Push(Constant(ElementType::VECTOR4, "Color"));
+	constants.Push(Constant(ElementType::VECTOR4, "color"));
 	_psFrameConstantBuffer->Define(ResourceUsage::DEFAULT, constants);
 
 	vs = new Shader();
@@ -200,20 +200,9 @@ void UI::RenderBatches(const Vector<UIBatch>& batches, UICamera* camera)
 	{
 		const UIBatch& batch = *it;
 
-		auto sss = batch._worldMatrix;
-
 		bool instanced = batch._type == GeometryType::INSTANCED;
-		/*Matrix4x4F worldMatrixf(
-			1.0f, 0.0f, 0.0f, 0.0f,
-			0.0f, 1.0f, 0.0f, 0.0f,
-			0.0f, 0.0f, 1.0f, 0.0f,
-			0.0f, 0.0f, 0.0f, 1.0f);*/
-		Matrix3x4F worldMatrixf(
-			1.0f, 0.0f, 0.0f, 0.0f,
-			0.0f, 1.0f, 0.0f, 0.0f,
-			0.0f, 0.0f, 1.0f, 0.0f);
-		_vsObjectConstantBuffer->SetConstant(VS_OBJECT_WORLD_MATRIX, worldMatrixf);
-		//_vsObjectConstantBuffer->SetConstant(VS_OBJECT_WORLD_MATRIX, batch._worldMatrix);
+
+		_vsObjectConstantBuffer->SetConstant(VS_OBJECT_WORLD_MATRIX,* batch._worldMatrix);
 		_vsObjectConstantBuffer->Apply();
 
 		_graphics->SetConstantBuffer(ShaderStage::VS, UIConstantBuffer::OBJECT, _vsObjectConstantBuffer);

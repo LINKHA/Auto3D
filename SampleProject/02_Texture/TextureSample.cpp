@@ -20,7 +20,7 @@ void TextureSample::Start()
 	{
 		Sprite* sprite = canvas->CreateChild<Sprite>();
 		sprite->SetTexture(texture);
-		sprite->SetScale(Vector3F(0.0f, 0.0f, -1.0f));
+		sprite->SetScale(Vector3F(10.0f, 10.0f, 4.0f));
 	}
 }
 void TextureSample::Update()
@@ -38,9 +38,9 @@ void TextureSample::Update()
 
 	uiCamera->SetRotation(Quaternion(pitch, yaw, 0.0f));
 	if (input->IsKeyDown(KEY_W))
-		uiCamera->Translate(Vector3F::FORWARD * time->GetDeltaTime() * moveSpeed);
+		uiCamera->Translate(Vector3F::UP * time->GetDeltaTime() * moveSpeed);
 	if (input->IsKeyDown(KEY_S))
-		uiCamera->Translate(Vector3F::BACK * time->GetDeltaTime()  * moveSpeed);
+		uiCamera->Translate(Vector3F::DOWN * time->GetDeltaTime()  * moveSpeed);
 	if (input->IsKeyDown(KEY_A))
 		uiCamera->Translate(Vector3F::LEFT * time->GetDeltaTime()  * moveSpeed);
 	if (input->IsKeyDown(KEY_D))
