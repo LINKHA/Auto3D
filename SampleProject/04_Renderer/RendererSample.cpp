@@ -2,6 +2,8 @@
 
 void RendererSample::Init()
 {
+	auto* graphics = Object::Subsystem<Graphics>();
+	graphics->RenderWindow()->SetTitle("Renderer Sample");
 
 }
 void RendererSample::Start()
@@ -12,8 +14,11 @@ void RendererSample::Start()
 	auto* input = Object::Subsystem<Input>();
 	auto* profiler = Object::Subsystem<Profiler>();
 
+	graphics->RenderWindow()->SetMouseLock(true);
+	graphics->RenderWindow()->SetMouseHide(true);
 
 	SubscribeToEvent(graphics->RenderWindow()->closeRequestEvent, &RendererSample::HandleCloseRequest);
+
 
 	scene = new Scene();
 	scene->CreateChild<Octree>();
