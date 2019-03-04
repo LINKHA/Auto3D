@@ -2,7 +2,8 @@
 
 Auto3D
 ====  
-2D and 3D game engine
+2D and 3D game engine  
+Game rendering framework based on OpenGL(future plans to use vulkan and Direct3D 12)
 
 Written in the beginning
 -------
