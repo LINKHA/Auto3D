@@ -90,10 +90,9 @@ private:
 
 	ShaderVariation* _psv;
 
+	SharedPtr<Shader> vs;
 
-	AutoPtr<Shader> vs;
-
-	AutoPtr<Shader> ps;
+	SharedPtr<Shader> ps;
 };
 
 /// Register UI related object factories and attributes.

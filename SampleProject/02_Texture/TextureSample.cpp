@@ -13,14 +13,14 @@ void TextureSample::Start()
 	canvas = new Canvas();
 	uiCamera = canvas->CreateChild<UICamera>();
 	uiCamera->SetOrthographic(true);
-	uiCamera->SetPosition(Vector3F(0.0f, 0.0f, 0.0f));
+	uiCamera->SetPosition(Vector3F(0.0f, 0.0f, -1.0f));
 	Subsystem<RegisteredBox>()->RegisterCanvas(canvas, uiCamera);
 
 	for (int i = 0; i < 1; i++)
 	{
 		Sprite* sprite = canvas->CreateChild<Sprite>();
 		sprite->SetTexture(texture);
-		//sprite->SetScale(Vector3F(0.1f, 0.1f, 0.1f));
+		sprite->SetScale(Vector3F(0.0f, 0.0f, -1.0f));
 	}
 }
 void TextureSample::Update()

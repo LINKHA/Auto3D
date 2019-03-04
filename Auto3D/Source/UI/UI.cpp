@@ -8,6 +8,7 @@
 #include "../Graphics/ConstantBuffer.h"
 #include "../Graphics/IndexBuffer.h"
 #include "../Graphics/Shader.h"
+#include "../Resource/ResourceCache.h"
 
 #include <stb_image.h>
 
@@ -67,18 +68,18 @@ void UI::Render(Canvas* scene, UICamera* camera)
 	_vsFrameConstantBuffer->SetConstant(VS_FRAME_VIEW_MATRIX, viewMatrix);
 	_vsFrameConstantBuffer->SetConstant(VS_FRAME_PROJECTION_MATRIX, projectionMatrix);
 	_vsFrameConstantBuffer->SetConstant(VS_FRAME_VIEWPROJ_MATRIX, viewProjMatrix);
+	
 	_vsFrameConstantBuffer->SetConstant(VS_FRAME_DEPTH_PARAMETERS, depthParameters);
-
 
 	_vsFrameConstantBuffer->Apply();
 
-	
-
-
-	_psFrameConstantBuffer->SetConstant("Color", Color::WHITE);
+	_psFrameConstantBuffer->SetConstant((size_t)0, Color::BLUE);
 	_psFrameConstantBuffer->Apply();
 
-	
+
+	_graphics->SetConstantBuffer(ShaderStage::VS, UIConstantBuffer::FRAME, _vsFrameConstantBuffer);
+	_graphics->SetConstantBuffer(ShaderStage::PS, UIConstantBuffer::FRAME, _psFrameConstantBuffer);
+
 	_graphics->SetDepthState(CompareFunc::LESS_EQUAL, true);
 	_graphics->SetColorState(BlendMode::REPLACE);
 	_graphics->SetRasterizerState(CullMode::BACK, FillMode::SOLID);
@@ -151,7 +152,7 @@ void UI::RenderBatches()
 void UI::Initialize()
 {
 	auto* graphics = Subsystem<Graphics>();
-
+	auto* cache = Subsystem<ResourceCache>();
 	assert(!_graphics && !IsInitialized());
 	// Invert the UI image to make it display correctly
 	stbi_set_flip_vertically_on_load(true);
@@ -181,62 +182,13 @@ void UI::Initialize()
 	constants.Clear();
 	constants.Push(Constant(ElementType::VECTOR4, "Color"));
 	_psFrameConstantBuffer->Define(ResourceUsage::DEFAULT, constants);
-	
-
-
-	String vsCode =
-		"#version 150\n"
-		"\n"
-		"in vec3 position;\n"
-		"in vec2 texCoord;\n"
-		"in vec3 texCoord1; // objectPosition\n"
-		"layout(std140) uniform PerFrameVS0\n"
-		"{\n"
-		"mat3x4 viewMatrix;\n"
-		"mat4 projectionMatrix;\n"
-		"mat4 viewProjMatrix;\n"
-		"vec4 depthParameters;\n"
-		"};\n"
-		"layout(std140) uniform PerObjectVS1\n"
-		"{\n"
-		"mat3x4 worldMatrix;\n"
-		"};\n"
-		"out vec4 vWorldPos;\n"
-		"\n"
-		"out vec2 vTexCoord;\n"
-		"\n"
-		"void main()\n"
-		"{\n"
-		"	vWorldPos.xyz = vec4(position, 1.0) * worldMatrix;\n"
-		"	gl_Position = vec4(vWorldPos.xyz, 1.0) * viewProjMatrix;\n"
-		"   vTexCoord = texCoord;\n"
-		"}\n";
 
 	vs = new Shader();
-	vs->SetName("Test.vs");
-	vs->Define(ShaderStage::VS, vsCode);
+	vs = cache->LoadResource<Shader>("TextureTransform.vert");
 	_vsv = vs->CreateVariation();
 
-	String psCode =
-		"#version 150\n"
-		"\n"
-		"layout(std140) uniform ConstantBuffer0\n"
-		"{\n"
-		"    vec4 color;\n"
-		"};\n"
-		"\n"
-		"uniform sampler2D Texture0;\n"
-		"in vec2 vTexCoord;\n"
-		"out vec4 fragColor;\n"
-		"\n"
-		"void main()\n"
-		"{\n"
-		"    fragColor = color * texture(Texture0, vTexCoord);\n"
-		"}\n";
-
 	ps = new Shader();
-	ps->SetName("Test.ps");
-	ps->Define(ShaderStage::PS, psCode);
+	ps = cache->LoadResource<Shader>("TextureTransform.frag");
 	_psv = ps->CreateVariation();
 
 }
@@ -247,13 +199,22 @@ void UI::RenderBatches(const Vector<UIBatch>& batches, UICamera* camera)
 	for (auto it = batches.Begin(); it != batches.End();)
 	{
 		const UIBatch& batch = *it;
+
+		auto sss = batch._worldMatrix;
+
 		bool instanced = batch._type == GeometryType::INSTANCED;
-
-		_vsObjectConstantBuffer->SetConstant(VS_OBJECT_WORLD_MATRIX, batch._worldMatrix);
+		/*Matrix4x4F worldMatrixf(
+			1.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, 1.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 1.0f, 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f);*/
+		Matrix3x4F worldMatrixf(
+			1.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, 1.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 1.0f, 0.0f);
+		_vsObjectConstantBuffer->SetConstant(VS_OBJECT_WORLD_MATRIX, worldMatrixf);
+		//_vsObjectConstantBuffer->SetConstant(VS_OBJECT_WORLD_MATRIX, batch._worldMatrix);
 		_vsObjectConstantBuffer->Apply();
-
-		_graphics->SetConstantBuffer(ShaderStage::VS, UIConstantBuffer::FRAME, _vsFrameConstantBuffer);
-		_graphics->SetConstantBuffer(ShaderStage::PS, UIConstantBuffer::FRAME, _psFrameConstantBuffer);
 
 		_graphics->SetConstantBuffer(ShaderStage::VS, UIConstantBuffer::OBJECT, _vsObjectConstantBuffer);
 
