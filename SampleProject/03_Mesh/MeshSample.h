@@ -12,6 +12,7 @@ public:
 	void Start()override;
 	void Update()override;
 	void Stop()override;
+	void CreateLogo();
 	void HandleCloseRequest(Event& /* event */)
 	{
 		Subsystem<Graphics>()->Close();
@@ -19,4 +20,6 @@ public:
 	float yaw = 0.0f, pitch = 20.0f;
 	Camera* camera;
 	SharedPtr<Scene> scene;
+	UICamera* uiCamera;
+	SharedPtr<Canvas> canvas;
 };
