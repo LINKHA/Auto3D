@@ -133,11 +133,12 @@ void AudioSource::attachBuffer()
 
 	long dataSize = 0;
 
-	const ALvoid* data = _audioBuffer->GetData();
-	dataSize = _audioBuffer->GetSize();
+	const ALvoid* data = _audioBuffer->GetStart();
+	dataSize = _audioBuffer->GetDataSize();
 
-	/* for simplicity, assume raw file is signed-16b at 44.1kHz */
-	alBufferData(_buffer, AL_FORMAT_MONO16, data, dataSize, 44100);
+
+	/* for simplicity, assume raw file is signed-16b at frequency */
+	alBufferData(_buffer, AL_FORMAT_MONO16, data, dataSize, _audioBuffer->GetFrequency() * 2);
 
 	alSourcei(_source, AL_BUFFER, _buffer);
 }

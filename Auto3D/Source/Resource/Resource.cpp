@@ -37,5 +37,9 @@ void Resource::SetName(const String& newName)
     _name = newName;
     _nameHash = StringHash(newName);
 }
+void Resource::SetMemoryUse(unsigned size)
+{
+	_memoryUse = size;
+}
 
 }

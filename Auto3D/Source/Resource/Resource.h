@@ -26,16 +26,22 @@ public:
     /// Set name of the resource, usually the same as the file being loaded from.
     void SetName(const String& newName);
 
+	void SetMemoryUse(unsigned size);
+
     /// Return name of the resource.
     const String& Name() const { return _name; }
     /// Return name hash of the resource.
     const StringHash& NameHash() const { return _nameHash; }
-
+	/// Return memory use in bytes, possibly approximate.
+	unsigned GetMemoryUse() const { return _memoryUse; }
 private:
     /// Resource name.
     String _name;
     /// Resource name hash.
     StringHash _nameHash;
+
+	/// Memory use in bytes.
+	unsigned _memoryUse;
 };
 
 /// Return name from a resource pointer.
