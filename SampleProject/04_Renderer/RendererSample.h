@@ -22,4 +22,16 @@ public:
 	SharedPtr<Scene> scene;
 	UICamera* uiCamera;
 	SharedPtr<Canvas> canvas;
+
+	typedef struct RandMSG
+	{
+		Light* light;
+		Vector3F position;
+		Vector3F color;
+		float xRand;
+		float yRand;
+		float zRand;
+	};
+
+	Vector<RandMSG> lights;
 };

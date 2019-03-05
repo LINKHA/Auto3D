@@ -22,4 +22,5 @@ public:
 	SharedPtr<Scene> scene;
 	UICamera* uiCamera;
 	SharedPtr<Canvas> canvas;
+	Vector<Sprite*> sprites;
 };
