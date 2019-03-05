@@ -37,7 +37,8 @@ namespace Auto3D
 #endif
 
 // Auto3D build configuration
-#define AUTO_LOGGING
+/* #undef AUTO_LOGGING_L1 */
+#define AUTO_LOGGING_L2
 #define AUTO_PROFILING
 #define AUTO_OPENGL
 /* #undef AUTO_DIRECT3D_12 */

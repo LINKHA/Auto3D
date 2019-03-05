@@ -116,30 +116,43 @@ private:
 
 }
 
-#ifdef AUTO_LOGGING
+#ifdef AUTO_LOGGING_L1 
 
-#define LogString(message) Auto3D::Log::Write(Auto3D::LOG_DEBUG, message)
-#define InfoString(message) Auto3D::Log::Write(Auto3D::LOG_INFO, message)
-#define WarinningString(message) Auto3D::Log::Write(Auto3D::LOG_WARNING, message)
-#define ErrorString(message) Auto3D::Log::Write(Auto3D::LOG_ERROR, message)
-#define LogRawString(message) Auto3D::Log::WriteRaw(message)
-#define LogStringF(format, ...) Auto3D::Log::Write(Auto3D::LOG_DEBUG, Auto3D::String::Format(format, ##__VA_ARGS__))
-#define InfoStringF(format, ...) Auto3D::Log::Write(Auto3D::LOG_INFO, Auto3D::String::Format(format, ##__VA_ARGS__))
-#define WarnningStringF(format, ...) Auto3D::Log::Write(Auto3D::LOG_WARNING, Auto3D::String::Format(format, ##__VA_ARGS__))
-#define ErrorStringF(format, ...) Auto3D::Log::Write(Auto3D::LOG_ERROR, Auto3D::String::Format(format, ##__VA_ARGS__))
-#define LogRawStringF(format, ...) Auto3D::Log::WriteRaw(Auto3D::String::Format(format, ##__VA_ARGS__))
+	#define LOGDEBUG(message) Turso3D::Log::Write(Turso3D::LOG_DEBUG, message)
+	#define LOGINFO(message) Turso3D::Log::Write(Turso3D::LOG_INFO, message)
+	#define LOGWARNING(message) Turso3D::Log::Write(Turso3D::LOG_WARNING, message)
+	#define LOGERROR(message) Turso3D::Log::Write(Turso3D::LOG_ERROR, message)
+	#define LOGRAW(message) Turso3D::Log::WriteRaw(message)
+	#define LOGDEBUGF(format, ...) Turso3D::Log::Write(Turso3D::LOG_DEBUG, Turso3D::String::Format(format, ##__VA_ARGS__))
+	#define LOGINFOF(format, ...) Turso3D::Log::Write(Turso3D::LOG_INFO, Turso3D::String::Format(format, ##__VA_ARGS__))
+	#define LOGWARNINGF(format, ...) Turso3D::Log::Write(Turso3D::LOG_WARNING, Turso3D::String::Format(format, ##__VA_ARGS__))
+	#define LOGERRORF(format, ...) Turso3D::Log::Write(Turso3D::LOG_ERROR, Turso3D::String::Format(format, ##__VA_ARGS__))
+	#define LOGRAWF(format, ...) Turso3D::Log::WriteRaw(Turso3D::String::Format(format, ##__VA_ARGS__))
+
+#elif defined(AUTO_LOGGING_L2)
+
+	#define LogString(message)	do { String str(message); Auto3D::Log::Write(Auto3D::LOG_DEBUG, Auto3D::String::Format("%s(%d) : %s",__FILE__,__LINE__,str.CString())); } while(0)
+	#define InfoString(message)	do { String str(message); Auto3D::Log::Write(Auto3D::LOG_INFO, Auto3D::String::Format("%s(%d) : %s",__FILE__,__LINE__,str.CString())); } while(0)
+	#define WarinningString(message)	do { String str(message); Auto3D::Log::Write(Auto3D::LOG_WARNING, Auto3D::String::Format("%s(%d) : %s",__FILE__,__LINE__,str.CString())); } while(0)
+	#define ErrorString(message)	do { String str(message); Auto3D::Log::Write(Auto3D::LOG_ERROR, Auto3D::String::Format("%s(%d) : %s",__FILE__,__LINE__,str.CString())); } while(0)
+	#define LogRawString(message)	do { String str(message); Auto3D::Log::WriteRaw(Auto3D::String::Format("%s(%d) : %s",__FILE__,__LINE__,str.CString())); } while(0)
+	#define LogStringF(format, ...) do { String str = "%s(%d) :" + String(format); Auto3D::Log::Write(Auto3D::LOG_DEBUG, Auto3D::String::Format(str.CString(),__FILE__,__LINE__,##__VA_ARGS__)); }while(0)
+	#define InfoStringF(format, ...) do { String str = "%s(%d) :" + String(format); Auto3D::Log::Write(Auto3D::LOG_INFO, Auto3D::String::Format(str.CString(),__FILE__,__LINE__,##__VA_ARGS__)); }while(0)
+	#define WarnningStringF(format, ...) do { String str = "%s(%d) :" + String(format); Auto3D::Log::Write(Auto3D::LOG_WARNING, Auto3D::String::Format(str.CString(),__FILE__,__LINE__,##__VA_ARGS__)); }while(0)
+	#define ErrorStringF(format, ...) do { String str = "%s(%d) :" + String(format); Auto3D::Log::Write(Auto3D::LOG_ERROR, Auto3D::String::Format(str.CString(),__FILE__,__LINE__,##__VA_ARGS__)); }while(0)
+	#define LogRawStringF(format, ...) do { String str = "%s(%d) :" + String(format); Auto3D::Log::WriteRaw(Auto3D::String::Format(str.CString(),__FILE__,__LINE__,##__VA_ARGS__)); }while(0)
 
 #else
 
-#define LogString(_message)
-#define InfoString(_message)
-#define WarinningString(_message)
-#define ErrorString(_message)
-#define LogRawString(_message)
-#define LogStringF(_format, ...)
-#define InfoStringF(_format, ...)
-#define WarnningStringF(_format, ...)
-#define ErrorStringF(_format, ...)
-#define LogRawStringF(_format, ...)
+	#define LogString(_message)
+	#define InfoString(_message)
+	#define WarinningString(_message)
+	#define ErrorString(_message)
+	#define LogRawString(_message)
+	#define LogStringF(_format, ...)
+	#define InfoStringF(_format, ...)
+	#define WarnningStringF(_format, ...)
+	#define ErrorStringF(_format, ...)
+	#define LogRawStringF(_format, ...)
 
 #endif

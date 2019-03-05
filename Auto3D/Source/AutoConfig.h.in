@@ -37,7 +37,8 @@ namespace Auto3D
 #endif
 
 // Auto3D build configuration
-#cmakedefine AUTO_LOGGING
+#cmakedefine AUTO_LOGGING_L1
+#cmakedefine AUTO_LOGGING_L2
 #cmakedefine AUTO_PROFILING
 #cmakedefine AUTO_OPENGL
 #cmakedefine AUTO_DIRECT3D_12
