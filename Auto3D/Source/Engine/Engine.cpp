@@ -40,13 +40,8 @@ void Engine::Init()
 	Time::RealTime& realTime = _time->GetRealTime();
 	SetRandomSeed(realTime._year & realTime._month << realTime._day | realTime._hour * realTime._minute ^ realTime._second);
 
-	//_graphics->RenderWindow()->SetTitle("Renderer test");
-	
 	if (!_graphics->SetMode(RectI(0, 0, 1024, 768), 4, false, true))
 		return;
-	//_graphics->RenderWindow()->SetMouseLock(true);
-	//_graphics->RenderWindow()->SetMouseHide(true);
-	
 
 	_renderer->SetupShadowMaps(1, 2048, ImageFormat::D16);
 }

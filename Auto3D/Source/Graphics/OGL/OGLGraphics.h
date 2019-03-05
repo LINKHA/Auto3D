@@ -101,9 +101,11 @@ public:
     void ResetConstantBuffers();
     /// Reset all bound textures.
     void ResetTextures();
+	/// Reset graphics
+	void ResetGraphics();
     /// Clear the current rendertarget. This is not affected by the defined viewport, but will always clear the whole target.
     void Clear(unsigned clearFlags, const Color& clearColor = Color::BLACK, float clearDepth = 1.0f, unsigned char clearStencil = 0);
-    /// Draw non-indexed geometry.
+	/// Draw non-indexed geometry.
     void Draw(PrimitiveType type, size_t vertexStart, size_t vertexCount);
     /// Draw indexed geometry.
     void DrawIndexed(PrimitiveType type, size_t indexStart, size_t indexCount, size_t vertexStart);

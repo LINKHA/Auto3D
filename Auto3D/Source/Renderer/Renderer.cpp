@@ -14,6 +14,7 @@
 #include "Octree.h"
 #include "Renderer.h"
 #include "StaticModel.h"
+#include "SkyBox.h"
 
 #include "../Debug/DebugNew.h"
 
@@ -82,6 +83,7 @@ void Renderer::Render(Scene* scene, Camera* camera)
 	_graphics->ResetRenderTargets();
 	_graphics->ResetViewport();
 	_graphics->Clear(CLEAR_COLOR | CLEAR_DEPTH | CLEAR_STENCIL, Color::BLACK);
+
 	RenderBatches(passes);
 
 }
@@ -1055,6 +1057,7 @@ void RegisterRendererLibrary()
     Light::RegisterObject();
     Material::RegisterObject();
     Model::RegisterObject();
+	SkyBox::RegisterObject();
 }
 
 }

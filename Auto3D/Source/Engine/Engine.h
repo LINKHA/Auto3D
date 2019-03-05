@@ -31,6 +31,8 @@ public:
 	bool Update();
 	/// Frame finish
 	void FrameFinish();
+
+	void ClearGraphics();
 	/// Return whether to pause update events and audio when _minimized.
 	bool GetPauseMinimized() const { return _pauseMinimized; }
 	/// Set whether to pause update events and audio when _minimized

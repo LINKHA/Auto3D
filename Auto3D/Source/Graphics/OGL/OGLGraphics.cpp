@@ -555,6 +555,16 @@ void Graphics::ResetTextures()
         SetTexture(i, nullptr);
 }
 
+void Graphics::ResetGraphics()
+{
+	ResetViewport();
+	ResetVertexBuffers();
+	ResetConstantBuffers();
+	ResetTextures();
+	ResetRenderTargets();
+	ResetViewport();
+}
+
 void Graphics::Clear(unsigned clearFlags, const Color& clearColor, float clearDepth, unsigned char clearStencil)
 {
     PrepareFramebuffer();
