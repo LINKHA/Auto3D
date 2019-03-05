@@ -1,5 +1,6 @@
 add_subdirectory (01_HelloWorld)
 add_subdirectory (02_Sprite)
 add_subdirectory (03_Mesh)
-add_subdirectory (04_Renderer)
-add_subdirectory (05_PBR)
+add_subdirectory (04_FirstPerson)
+add_subdirectory (05_Audio)
+add_subdirectory (06_UI)

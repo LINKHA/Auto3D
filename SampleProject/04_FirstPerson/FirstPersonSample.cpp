@@ -1,12 +1,12 @@
-#include "RendererSample.h"
+#include "FirstPersonSample.h"
 
-void RendererSample::Init()
+void FirstPersonSample::Init()
 {
 	auto* graphics = Object::Subsystem<Graphics>();
-	graphics->RenderWindow()->SetTitle("Renderer Sample");
+	graphics->RenderWindow()->SetTitle("FirstPerson Sample");
 
 }
-void RendererSample::Start()
+void FirstPersonSample::Start()
 {
 	auto* cache = Object::Subsystem<ResourceCache>();
 	auto* graphics = Object::Subsystem<Graphics>();
@@ -17,13 +17,13 @@ void RendererSample::Start()
 	graphics->RenderWindow()->SetMouseLock(true);
 	graphics->RenderWindow()->SetMouseHide(true);
 
-	SubscribeToEvent(graphics->RenderWindow()->closeRequestEvent, &RendererSample::HandleCloseRequest);
+	SubscribeToEvent(graphics->RenderWindow()->closeRequestEvent, &FirstPersonSample::HandleCloseRequest);
 
 
 	scene = new Scene();
 	scene->CreateChild<Octree>();
 	camera = scene->CreateChild<Camera>();
-	camera->SetPosition(Vector3F(0.0f, 20.0f, -75.0f));
+	//camera->SetPosition(Vector3F(0.0f, 20.0f, -75.0f));
 	camera->SetAmbientColor(Color(0.1f, 0.1f, 0.1f));
 	// Register scene to scene system use to render
 	Object::Subsystem<RegisteredBox>()->RegisterScene(scene, camera);
@@ -81,7 +81,7 @@ void RendererSample::Start()
 
 	CreateLogo();
 }
-void RendererSample::Update()
+void FirstPersonSample::Update()
 {
 	auto* input = Object::Subsystem<Input>();
 	auto* graphics = Object::Subsystem<Graphics>();
@@ -92,7 +92,7 @@ void RendererSample::Update()
 	yaw += input->GetMouseMove()._x * 0.25f;
 	pitch = Clamp(pitch, -90.0f, 90.0f);
 
-	float moveSpeed = input->IsKeyDown(KEY_LSHIFT) ? 200.0f : 50.0f;
+	float moveSpeed = input->IsKeyDown(KEY_LSHIFT) ? 10.0f : 5.0f;
 
 	camera->SetRotation(Quaternion(pitch, yaw, 0.0f));
 	if (input->IsKeyDown(KEY_W))
@@ -104,6 +104,9 @@ void RendererSample::Update()
 	if (input->IsKeyDown(KEY_D))
 		camera->Translate(Vector3F::RIGHT * time->GetDeltaTime()  * moveSpeed);
 
+	Vector3F cameraVec = camera->GetPosition();
+	camera->SetPosition(Vector3F(cameraVec._x, 1.0f, cameraVec._z));
+	
 	float scaleAmountx = (float)sin(time->GetCurTime());
 
 	float scaleAmounty = (float)cos(time->GetCurTime());
@@ -119,10 +122,10 @@ void RendererSample::Update()
 	}
 }
 
-void RendererSample::Stop()
+void FirstPersonSample::Stop()
 {
 }
-void RendererSample::CreateLogo()
+void FirstPersonSample::CreateLogo()
 {
 	auto* cache = Object::Subsystem<ResourceCache>();
 	Sprite* logoLong = canvas->CreateChild<Sprite>();
@@ -130,4 +133,4 @@ void RendererSample::CreateLogo()
 	logoLong->SetScale(Vector3F(3.0f, 0.8f, 1.0f));
 	logoLong->SetPosition(Vector3F(7.0f, -9.2f, -0.1f));
 }
-AUTO_APPLICATION_MAIN(RendererSample)
+AUTO_APPLICATION_MAIN(FirstPersonSample)

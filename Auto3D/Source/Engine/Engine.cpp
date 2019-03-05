@@ -11,6 +11,7 @@ Engine::Engine()
 	RegisterResourceLibrary();
 	RegisterRendererLibrary();
 	RegisterUILibrary();
+	RegisterAudioLibrary();
 
 	_cache = new ResourceCache();
 	_cache->AddResourceDir(ExecutableDir() + "Data");

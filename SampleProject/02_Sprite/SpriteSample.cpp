@@ -38,8 +38,8 @@ void SpriteSample::Start()
 
 	for (int i = 0; i < 200; i++)
 	{
-		Sprite* sprite = canvas->CreateChild<Sprite>();
-		sprite->SetTexture(flower);
+		//Sprite* sprite = canvas->CreateChild<Sprite>();
+		//sprite->SetTexture(flower);
 		//sprite->SetColor(Color(Random(1.0f), Random(1.0f), Random(1.0f), 1.0f));
 		// Set blend mode
 		//sprite->SetBlendMode(BLEND_ALPHA);

@@ -4,9 +4,9 @@
 
 using namespace Auto3D;
 
-class RendererSample : public Application
+class AudioSample : public Application
 {
-	REGISTER_OBJECT_CLASS(RendererSample, Application)
+	REGISTER_OBJECT_CLASS(AudioSample, Application)
 public:
 	void Init()override;
 	void Start()override;
@@ -22,16 +22,7 @@ public:
 	SharedPtr<Scene> scene;
 	UICamera* uiCamera;
 	SharedPtr<Canvas> canvas;
-
-	typedef struct RandMSG
-	{
-		Light* light;
-		Vector3F position;
-		Vector3F color;
-		float xRand;
-		float yRand;
-		float zRand;
-	};
-
-	Vector<RandMSG> lights;
+	AudioListener* listener;
+	AudioSource* source1;
+	AudioSource* source2;
 };

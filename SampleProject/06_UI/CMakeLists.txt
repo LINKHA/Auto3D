@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1)
 
-set (TARGET_NAME 05_PBR)
+set (TARGET_NAME 06_UI)
 
 file (GLOB SOURCE_FILES *.cpp *.h)
 
