@@ -32,7 +32,7 @@ void AudioSample::Start()
 	camera = scene->CreateChild<Camera>();
 	// Register scene to scene system use to render
 	Object::Subsystem<RegisteredBox>()->RegisterScene(scene, camera);
-	auto audioBuffer = cache->LoadResource<AudioBuffer>("SoundTest.wav");
+	auto audioBuffer = cache->LoadResource<Sound>("SoundTest.wav");
 
 	listener = scene->CreateChild<AudioListener>();
 	//listener->Temp();

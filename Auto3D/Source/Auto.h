@@ -45,7 +45,7 @@
 #include "Window/Input.h"
 #include "Window/Window.h"
 #include "Audio/Audio.h"
-#include "Audio/AudioBuffer.h"
+#include "Audio/Sound.h"
 #include "Audio/AudioListener.h"
 #include "Audio/AudioSource.h"
 #include "Script/Script.h"

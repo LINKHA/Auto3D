@@ -36,7 +36,8 @@ public:
 	void SourceStop(unsigned source, int delay = 0);
 	/// The first person delays ms according to the buffer rewind
 	void SourceRewind(unsigned source, int delay = 0);
-
+	/// Update all dynamic listener and source
+	void UpdateAudioData();
 private:
 	/// OpenAL device
 	ALCdevice* _device;

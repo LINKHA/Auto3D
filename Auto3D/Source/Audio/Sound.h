@@ -4,13 +4,13 @@
 namespace Auto3D 
 {
 
-class AudioBuffer : public Resource
+class Sound : public Resource
 {
-	REGISTER_OBJECT_CLASS(AudioBuffer, Resource)
+	REGISTER_OBJECT_CLASS(Sound, Resource)
 public:
-	AudioBuffer();
+	Sound();
 
-	~AudioBuffer();
+	~Sound();
 	/**
 	* @brief : Register object factory
 	*/
@@ -19,6 +19,12 @@ public:
 	* @brief : Load resource from stream.May be called from a worker thread.Return true if successful
 	*/
 	bool BeginLoad(Stream& source)override;
+	/// Load raw sound data.
+	bool LoadRaw(Stream& source);
+	/// Load WAV format sound data.
+	bool LoadWav(Stream& source);
+	/// Load Ogg Vorbis format sound data. Does not decode at load, but will rather be decoded while playing.
+	bool LoadOggVorbis(Stream& source);
 	/**
 	* @brief : Set data with void*
 	*/

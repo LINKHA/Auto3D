@@ -1,5 +1,5 @@
 #include "AudioSource.h"
-#include "AudioBuffer.h"
+#include "Sound.h"
 #include "Audio.h"
 #include "../Debug/Log.h"
 
@@ -24,6 +24,32 @@ AudioSource::~AudioSource()
 	alSourceStop(_source);
 	alDeleteSources(1, &_source);
 	alDeleteBuffers(1, &_buffer);
+}
+void AudioSource::Start()
+{
+
+	// Generate an AL Buffer
+	alGenBuffers(1, &_buffer);
+	alGenSources(1, &_source);
+
+	if (_audioBuffer)
+	{
+		attachBuffer();
+	}
+
+	alSourcei(_source, AL_BUFFER, _buffer);
+
+	alSourcef(_source, AL_PITCH, 1.0f);
+
+	alSourcef(_source, AL_GAIN, 1.0f);
+
+	Vector3F vec = GetPosition();
+	alSource3f(_source, AL_POSITION, vec._x, vec._y, vec._z);
+
+	ALfloat SourceVel[] = { 0.0, 0.0, 0.1 };
+	alSourcefv(_source, AL_VELOCITY, SourceVel);
+
+	alSourcei(_source, AL_LOOPING, _isLoop);
 }
 
 
@@ -88,40 +114,14 @@ AudioSourceState AudioSource::GetState()
 		return AudioSourceState::Default;
 }
 
-void AudioSource::Start()
-{
 
-	// Generate an AL Buffer
-	alGenBuffers(1, &_buffer);
-	alGenSources(1, &_source);
-
-	if (_audioBuffer)
-	{
-		attachBuffer();
-	}
-
-	alSourcei(_source, AL_BUFFER, _buffer);
-
-	alSourcef(_source, AL_PITCH, 1.0f);
-
-	alSourcef(_source, AL_GAIN, 1.0f);
-
-	Vector3F vec = GetPosition();
-	alSource3f(_source, AL_POSITION, vec._x, vec._y, vec._z);
-
-	ALfloat SourceVel[] = { 0.0, 0.0, 0.1 };
-	alSourcefv(_source, AL_VELOCITY, SourceVel);
-
-	alSourcei(_source, AL_LOOPING, _isLoop);
-}
-
-void AudioSource::AttachBuffer(AudioBuffer* clip)
+void AudioSource::AttachBuffer(Sound* clip)
 {
 	_audioBuffer = clip;
 	attachBuffer();
 }
 
-void AudioSource::SetAudioBuffer(AudioBuffer* audioBuffer)
+void AudioSource::SetAudioBuffer(Sound* audioBuffer)
 {
 	_audioBuffer = audioBuffer;
 }
@@ -140,26 +140,6 @@ void AudioSource::attachBuffer()
 	alBufferData(_buffer, AL_FORMAT_MONO16, data, dataSize, 44100);
 
 	alSourcei(_source, AL_BUFFER, _buffer);
-}
-
-void AudioSource::callPlay()
-{
-	alSourcePlay(_source);
-}
-
-void AudioSource::callPause()
-{
-	alSourcePause(_source);
-}
-
-void AudioSource::callStop()
-{
-	alSourceStop(_source);
-}
-
-void AudioSource::callRewind()
-{
-	alSourceRewind(_source);
 }
 
 }

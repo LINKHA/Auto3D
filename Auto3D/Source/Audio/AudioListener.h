@@ -1,14 +1,14 @@
 #pragma once
-#include "../Scene/SpatialNode.h"
+#include "AudioNode.h"
 
 namespace Auto3D
 {
 
 class Audio;
 
-class AUTO_API AudioListener : public SpatialNode
+class AUTO_API AudioListener : public AudioNode
 {
-	REGISTER_OBJECT_CLASS(AudioListener, SpatialNode)
+	REGISTER_OBJECT_CLASS(AudioListener, AudioNode)
 
 public:
 	AudioListener();
@@ -21,7 +21,6 @@ public:
 	void Update();
 
 private:
-	WeakPtr<Audio> _audio;
 	//Listener speed
 	Vector3F _listenerVel;
 	// Listener direction elements are at

@@ -1,7 +1,9 @@
 #include "Audio.h"
 #include "../Time/Time.h"
 #include "../Time/Timer.h"
-#include "AudioBuffer.h"
+#include "../Debug/Log.h"
+
+#include "Sound.h"
 #include "AudioListener.h"
 #include "AudioSource.h"
 
@@ -60,6 +62,12 @@ void Audio::SetListenerValue(Vector3F position, Vector3F listenerVel, Vector3F l
 
 void Audio::SourcePlay(unsigned source, int delay)
 {
+	if (!source)
+	{
+		ErrorString("Audio source invalid play failed");
+		return;
+	}
+		
 	if (!delay)
 		alSourcePlay(source);
 	else
@@ -68,6 +76,11 @@ void Audio::SourcePlay(unsigned source, int delay)
 
 void Audio::SourcePause(unsigned source, int delay)
 {
+	if (!source)
+	{
+		ErrorString("Audio source invalid pause failed");
+		return;
+	}
 	if (!delay)
 		alSourcePause(source);
 	else
@@ -76,6 +89,11 @@ void Audio::SourcePause(unsigned source, int delay)
 
 void Audio::SourceStop(unsigned source, int delay)
 {
+	if (!source)
+	{
+		ErrorString("Audio source invalid stop failed");
+		return;
+	}
 	if (!delay)
 		alSourceStop(source);
 	else
@@ -84,11 +102,21 @@ void Audio::SourceStop(unsigned source, int delay)
 
 void Audio::SourceRewind(unsigned source, int delay)
 {
+	if (!source)
+	{
+		ErrorString("Audio source invalid rewind failed");
+		return;
+	}
 	if (!delay)
 		alSourceRewind(source);
 	else
 		Subsystem<Time>()->OneShotTimer(std::bind(&This::SourceRewind, this, source, 0), delay);
 }
+void Audio::UpdateAudioData()
+{
+
+}
+
 
 void RegisterAudioLibrary()
 {
@@ -99,7 +127,9 @@ void RegisterAudioLibrary()
 
 	AudioListener::RegisterObject();
 	AudioSource::RegisterObject();
-	AudioBuffer::RegisterObject();
+	Sound::RegisterObject();
+	AudioNode::RegisterObject();
+
 }
 
 }

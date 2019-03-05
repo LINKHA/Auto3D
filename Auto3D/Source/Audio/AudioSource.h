@@ -1,27 +1,30 @@
 #pragma once
-#include "../Scene/SpatialNode.h"
+#include "AudioNode.h"
 
 
-namespace Auto3D {
+namespace Auto3D 
+{
 
-class AudioBuffer;
+class Sound;
 class Audio;
 
-class Graphics;
-
-enum class AudioSourceState
+struct __AudioSourceState
 {
-	Default,
-	Initial,
-	Playing,
-	Paused,
-	Stopped
+	enum _AudioSourceState
+	{
+		Default,
+		Initial,
+		Playing,
+		Paused,
+		Stopped
+	};
 };
+using AudioSourceState = __AudioSourceState::_AudioSourceState;
 
-class AUTO_API AudioSource : public SpatialNode
+class AUTO_API AudioSource : public AudioNode
 {
 
-	REGISTER_OBJECT_CLASS(AudioSource, SpatialNode)
+	REGISTER_OBJECT_CLASS(AudioSource, AudioNode)
 
 public:
 	/**
@@ -59,19 +62,7 @@ public:
 	/**
 	* @brief : Set buffer
 	*/
-	void SetAudioBuffer(AudioBuffer* audioBuffer);
-	/**
-	* @brief : Is the audio source currently playing
-	*/
-	bool IsPlaying() const { return _isPlaying; }
-	/**
-	* @brief : Is the audio source currently paused
-	*/
-	bool IsPaused() const { return _isPaused; }
-	/**
-	* @brief : Is the audio source currently stop
-	*/
-	bool IsStop() const { return _isStop; }
+	void SetAudioBuffer(Sound* audioBuffer);
 	/**
 	* @brief : Get audio source state with AudioSourceState
 	*/
@@ -79,30 +70,14 @@ public:
 	/**
 	* @brief : Attach buffer for point
 	*/
-	void AttachBuffer(AudioBuffer* clip);
+	void AttachBuffer(Sound* clip);
 private:
 	/**
 	* @brief : Attach buffer for point
 	*/
 	void attachBuffer();
-	/**
-	* @brief : Play audio
-	*/
-	void callPlay();
-	/**
-	* @brief : Pause audio
-	*/
-	void callPause();
-	/**
-	* @brief : Stop audio
-	*/
-	void callStop();
-	/**
-	* @brief : Rewind audio
-	*/
-	void callRewind();
 private:
-	WeakPtr<Audio> _audio;
+	
 	/// is playing in this audio source
 	bool _isPlaying{};
 	///	is pause in this audio source
@@ -118,7 +93,7 @@ private:
 	/// autio source state
 	int _state{};
 	/// audio buffer
-	SharedPtr<AudioBuffer> _audioBuffer;
+	SharedPtr<Sound> _audioBuffer;
 };
 
 }
