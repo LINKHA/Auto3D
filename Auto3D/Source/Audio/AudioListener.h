@@ -18,8 +18,9 @@ public:
 	/// Register factory and attributes.
 	static void RegisterObject();
 
-	void Update();
-
+	const Vector3F GetVel()const { return _listenerVel; }
+	const Vector3F GetOriAt()const { return _listenerOriAt; }
+	const Vector3F GetOriUp()const { return _listenerOriUp; }
 private:
 	//Listener speed
 	Vector3F _listenerVel;

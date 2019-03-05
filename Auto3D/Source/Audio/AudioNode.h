@@ -3,16 +3,16 @@
 
 namespace Auto3D
 {
-/// Audio fFrequency 
-struct __AudioFrequency
+/// Audio fUsage 
+struct __AudioUsage
 {
-	enum _AudioFrequency
+	enum _AudioUsage
 	{
 		Static = 0,
 		Dynamic,
 	};
 };
-using AudioFrequency = __AudioFrequency::_AudioFrequency;
+using AudioUsage = __AudioUsage::_AudioUsage;
 
 class Audio;
 
@@ -25,15 +25,15 @@ public:
 	~AudioNode();
 	/// Register factory and attributes.
 	static void RegisterObject();
-	/// Set audio frequency
-	void SetFrequency(AudioFrequency fre) { _fre = fre; }
-	/// Get audio frequency
-	AudioFrequency GetFrequency() { return _fre; }
+	/// Set audio Usage
+	void SetUsage(AudioUsage fre) { _fre = fre; }
+	/// Get audio Usage
+	AudioUsage GetUsage() { return _fre; }
 protected:
 	/// Audio weak ptr
 	WeakPtr<Audio> _audio;
-	/// Audio frequency 
-	AudioFrequency _fre;
+	/// Audio Usage 
+	AudioUsage _fre;
 };
 
 }

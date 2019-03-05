@@ -5,7 +5,7 @@ namespace Auto3D
 {
 
 AudioNode::AudioNode() :
-	_fre(AudioFrequency::Static)
+	_fre(AudioUsage::Static)
 {
 	_audio = Subsystem<Audio>();
 

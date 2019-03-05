@@ -10,6 +10,18 @@ typedef struct ALCcontext_struct ALCcontext;
 
 namespace Auto3D 
 {
+struct __AudioSourceState
+{
+	enum _AudioSourceState
+	{
+		Default,
+		Initial,
+		Playing,
+		Paused,
+		Stopped
+	};
+};
+using AudioSourceState = __AudioSourceState::_AudioSourceState;
 
 class AudioListener;
 
@@ -25,6 +37,8 @@ public:
 
 	~Audio();
 	
+	void AddSource(unsigned sourceID,AudioSource* source);
+
 	void SetListener(AudioListener* listener);
 
 	void SetListenerValue(Vector3F position, Vector3F listenerVel, Vector3F listenerOriAt, Vector3F listenerOriUp);
@@ -36,8 +50,22 @@ public:
 	void SourceStop(unsigned source, int delay = 0);
 	/// The first person delays ms according to the buffer rewind
 	void SourceRewind(unsigned source, int delay = 0);
+
+	void SetPitch(unsigned source, float val);
+
+	void SetGain(unsigned source, float val);
+
+	void SetVel(unsigned source, Vector3F vel);
+
+	AudioSourceState GetState(unsigned source);
+
+	const AudioSource* GetSource(unsigned index);
+
+	HashMap<unsigned, AudioSource*>& Sources(AudioSource* source) { return _sources; }
 	/// Update all dynamic listener and source
-	void UpdateAudioData();
+	void Update();
+
+	bool IsInitialized();
 private:
 	/// OpenAL device
 	ALCdevice* _device;
@@ -46,7 +74,7 @@ private:
 
 	SharedPtr<AudioListener> _listener;
 
-	HashMap<unsigned, AudioSource*> _source;
+	HashMap<unsigned, AudioSource*> _sources;
 };
 /// Register Audio related object factories and attributes.
 AUTO_API void RegisterAudioLibrary();

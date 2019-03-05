@@ -95,6 +95,7 @@ bool Engine::Update()
 
 	_time->Update();
 	_input->Update();
+	_audio->Update();
 
 	if (input->IsKeyPress(27))
 		graphics->Close();

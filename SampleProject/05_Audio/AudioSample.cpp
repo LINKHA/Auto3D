@@ -32,27 +32,19 @@ void AudioSample::Start()
 	camera = scene->CreateChild<Camera>();
 	// Register scene to scene system use to render
 	Object::Subsystem<RegisteredBox>()->RegisterScene(scene, camera);
-	auto audioBuffer = cache->LoadResource<Sound>("SoundTest.wav");
+	auto sound = cache->LoadResource<Sound>("SoundTest.wav");
 
 	listener = scene->CreateChild<AudioListener>();
-	//listener->Temp();
+
 	source1 = scene->CreateChild<AudioSource>();
-	source1->AttachBuffer(audioBuffer);
+	source1->SetSound(sound);
 	source2 = scene->CreateChild<AudioSource>();
-	source2->AttachBuffer(audioBuffer);
-
-
-	source1->Start();
-	source2->Start();
+	source2->SetSound(sound);
 
 	CreateLogo();
 }
 void AudioSample::Update()
 {
-	listener->Update();
-	source1->Update();
-	source2->Update();
-
 	auto* input = Object::Subsystem<Input>();
 	if (input->IsKeyDown(KEY_A) && source1->GetState() != AudioSourceState::Playing)
 		source1->Play(0);
