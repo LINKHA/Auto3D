@@ -1,4 +1,4 @@
-Source/ThirdParty/* linguist-vendored
+Auto3D/ThirdParty/* linguist-vendored
 *.h linguist-language=C++
 *.frag linguist-language=GLSL
 *.vert linguist-language=GLSL
