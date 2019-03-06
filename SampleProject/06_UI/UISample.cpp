@@ -8,12 +8,12 @@ void UISample::Init()
 }
 void UISample::Start()
 {
-	
+
 	CreateLogo();
 }
 void UISample::Update()
 {
-	
+
 }
 
 void UISample::Stop()

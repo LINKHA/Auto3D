@@ -83,6 +83,10 @@ include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/OpenAL/include)
 target_link_libraries (${TARGET_NAME}  glad)
 include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/glad)
 
+target_link_libraries (${TARGET_NAME}  FreeType)
+include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/FreeType/include)
+
+
 # Add OS-specific library dependencies
 if (WIN32)
     target_link_libraries (${TARGET_NAME} winmm)

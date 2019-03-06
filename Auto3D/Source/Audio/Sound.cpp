@@ -12,19 +12,19 @@ namespace Auto3D {
 /// WAV format header.
 struct WavHeader
 {
-	unsigned char riffText_[4];
-	unsigned totalLength_;
-	unsigned char waveText_[4];
-	unsigned char formatText_[4];
-	unsigned formatLength_;
-	unsigned short format_;
-	unsigned short channels_;
+	unsigned char _riffText[4];
+	unsigned _totalLength;
+	unsigned char _waveText[4];
+	unsigned char _formatText[4];
+	unsigned _formatLength;
+	unsigned short _format;
+	unsigned short _channels;
 	unsigned _frequency;
-	unsigned avgBytes_;
-	unsigned short blockAlign_;
-	unsigned short bits_;
-	unsigned char dataText_[4];
-	unsigned dataLength_;
+	unsigned _avgBytes;
+	unsigned short _blockAlign;
+	unsigned short _bits;
+	unsigned char _dataText[4];
+	unsigned _dataLength;
 };
 
 static const unsigned IP_SAFETY = 4;
@@ -71,11 +71,11 @@ bool Sound::LoadWav(Stream& source)
 
 	// Try to open
 	memset(&header, 0, sizeof header);
-	source.Read(&header.riffText_, 4);
-	header.totalLength_ = source.Read<unsigned>();
-	source.Read(&header.waveText_, 4);
+	source.Read(&header._riffText, 4);
+	header._totalLength = source.Read<unsigned>();
+	source.Read(&header._waveText, 4);
 
-	if (memcmp("RIFF", header.riffText_, 4) != 0 || memcmp("WAVE", header.waveText_, 4) != 0)
+	if (memcmp("RIFF", header._riffText, 4) != 0 || memcmp("WAVE", header._waveText, 4) != 0)
 	{
 		ErrorString("Could not read WAV data from " + source.Name());
 		return false;
@@ -84,13 +84,13 @@ bool Sound::LoadWav(Stream& source)
 	// Search for the FORMAT chunk
 	for (;;)
 	{
-		source.Read(&header.formatText_, 4);
-		header.formatLength_ = source.Read<unsigned>();
-		if (!memcmp("fmt ", &header.formatText_, 4))
+		source.Read(&header._formatText, 4);
+		header._formatLength = source.Read<unsigned>();
+		if (!memcmp("fmt ", &header._formatText, 4))
 			break;
 
-		source.Seek(source.Position() + header.formatLength_);
-		if (!header.formatLength_ || source.Position() >= source.Size())
+		source.Seek(source.Position() + header._formatLength);
+		if (!header._formatLength || source.Position() >= source.Size())
 		{
 			ErrorString("Could not read WAV data from " + source.Name());
 			return false;
@@ -98,18 +98,18 @@ bool Sound::LoadWav(Stream& source)
 	}
 
 	// Read the FORMAT chunk
-	header.format_ = source.Read<unsigned short>();
-	header.channels_ = source.Read<unsigned short>();
+	header._format = source.Read<unsigned short>();
+	header._channels = source.Read<unsigned short>();
 	header._frequency = source.Read<unsigned>();
-	header.avgBytes_ = source.Read<unsigned>();
-	header.blockAlign_ = source.Read<unsigned short>();
-	header.bits_ = source.Read<unsigned short>();
+	header._avgBytes = source.Read<unsigned>();
+	header._blockAlign = source.Read<unsigned short>();
+	header._bits = source.Read<unsigned short>();
 
 	// Skip data if the format chunk was bigger than what we use
-	source.Seek(source.Position() + header.formatLength_ - 16);
+	source.Seek(source.Position() + header._formatLength - 16);
 
 	// Check for correct format
-	if (header.format_ != 1)
+	if (header._format != 1)
 	{
 		ErrorString("Could not read WAV data from " + source.Name());
 		return false;
@@ -118,13 +118,13 @@ bool Sound::LoadWav(Stream& source)
 	// Search for the DATA chunk
 	for (;;)
 	{
-		source.Read(&header.dataText_, 4);
-		header.dataLength_ = source.Read<unsigned>();
-		if (!memcmp("data", &header.dataText_, 4))
+		source.Read(&header._dataText, 4);
+		header._dataLength = source.Read<unsigned>();
+		if (!memcmp("data", &header._dataText, 4))
 			break;
 
-		source.Seek(source.Position() + header.dataLength_);
-		if (!header.dataLength_ || source.Position() >= source.Size())
+		source.Seek(source.Position() + header._dataLength);
+		if (!header._dataLength || source.Position() >= source.Size())
 		{
 			ErrorString("Could not read WAV data from " + source.Name());
 			return false;
@@ -132,9 +132,9 @@ bool Sound::LoadWav(Stream& source)
 	}
 
 	// Allocate sound and load audio data
-	unsigned length = header.dataLength_;
+	unsigned length = header._dataLength;
 	SetSize(length);
-	SetFormat(header._frequency, header.bits_ == 16, header.channels_ == 2);
+	SetFormat(header._frequency, header._bits == 16, header._channels == 2);
 	source.Read(_data.Get(), length);
 
 	// Convert 8-bit audio to signed
