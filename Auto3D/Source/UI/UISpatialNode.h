@@ -27,11 +27,12 @@ class AUTO_API UISpatialNode : public UINode
 public:
 	/// Construct.
 	UISpatialNode();
-
+	/// The destructor
+	~UISpatialNode() = default;
 	/// Register factory and attributes.
 	static void RegisterObject();
 
-	/// Set _position in parent space.
+	/// Set position in parent space.
 	void SetPosition(const Vector3F& newPosition);
 	/// Set rotation in parent space.
 	void SetRotation(const Quaternion& newRotation);

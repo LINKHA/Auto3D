@@ -106,16 +106,16 @@ struct AUTO_API LightList
     size_t _useCount;
 };
 
-/// %Light information for a rendering pass, including properly formatted constant data.
+/// Light information for a rendering pass, including properly formatted constant data.
 struct AUTO_API LightPass
 {
-    /// %Light positions.
+    /// Light positions.
     Vector4F _lightPositions[MAX_LIGHTS_PER_PASS];
-    /// %Light directions.
+    /// Light directions.
     Vector4F _lightDirections[MAX_LIGHTS_PER_PASS];
-    /// %Light attenuation parameters.
+    /// Light attenuation parameters.
     Vector4F _lightAttenuations[MAX_LIGHTS_PER_PASS];
-    /// %Light colors.
+    /// Light colors.
     Color _lightColors[MAX_LIGHTS_PER_PASS];
     /// Shadow map sampling parameters.
     Vector4F _shadowParameters[MAX_LIGHTS_PER_PASS];

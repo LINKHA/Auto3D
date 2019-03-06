@@ -3,19 +3,20 @@
 
 namespace Auto3D
 {
-
+/// Location of all components of the UI
 class AUTO_API Canvas : public UINode
 {
 	REGISTER_OBJECT_CLASS(Canvas, UINode)
 public:
+	/// The constructor
 	Canvas();
+	/// The destructor
 	~Canvas();
 	/// Register factory and attributes.
 	static void RegisterObject();
 
 	/// Save canvas to binary stream.
 	void Save(Stream& dest) override;
-
 	/// Load canvas from a binary stream. Existing UINodes will be destroyed. Return true on success.
 	bool Load(Stream& source);
 	/// Load canvas from JSON data. Existing UINodes will be destroyed. Return true on success.
@@ -30,19 +31,17 @@ public:
 	UINode* InstantiateJSON(const JSONValue& source);
 	/// Load JSON data as text from a binary stream, then instantiate UINode(s) from it and return the root UINode.
 	UINode* InstantiateJSON(Stream& source);
-
 	/// Destroy child UINodes recursively, leaving the canvas empty.
 	void Clear();
-
-	/// Find UINode by _id.
+	/// Find UINode by id.
 	UINode* FindUINode(unsigned id) const;
-
+	/// Return all ui node.
 	const HashMap<unsigned, UINode*>& GetAllUINode() const;
-
 	/// Add node to the canvas. This assigns a canvas-unique id to it. Called internally.
 	void AddNode(UINode* node);
 	/// Remove node from the canvas. This removes the id mapping but does not destroy the node. Called internally.
 	void RemoveNode(UINode* node);
+
 	using UINode::Load;
 	using UINode::LoadJSON;
 	using UINode::SaveJSON;

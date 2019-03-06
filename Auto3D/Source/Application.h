@@ -12,31 +12,21 @@ class AUTO_API Application : public Object
 public:
 	Application();
 	~Application();
-	/**
-	* @brief : Setup before engine initialization.
-	*		This is a chance to eg. modify the engine parameters.
-	*		Call ErrorExit() to terminate without initializing the engine.
-	*		Called by Application.
-	*/
+	
+	/// Setup before engine initialization.This is a chance to eg. modify the engine parameters.
+	///	Call ErrorExit() to terminate without initializing the engine.Called by Application.
 	virtual void Init() { }
-	/**
-	* @brief :Setup after engine initialization and before running the main loop.Call ErrorExit() to terminate without running the main loop.
-	*		Called by Application.
-	*/
+	/// Setup after engine initialization and before running the main loop.Call ErrorExit() to terminate without running the main loop.
+	///	Called by Application.
 	virtual void Start() { }
-	/**
-	* @brief : This function is mainly used to _handle non-rendering operations, running once per frame
-	*/
+	/// This function is mainly used to _handle non-rendering operations, running once per frame
 	virtual void Update() { }
-	/**
-	* @brief : Cleanup after the main loop. Called by Application
-	*/
+	/// Cleanup after the main loop. Called by Application
 	virtual void Stop() { }
-	/*
-	* @brief : this is Engine important funcation init awake runloop and finish run
-	*/
+	/// this is Engine important funcation init awake runloop and finish run
 	int Run();
 protected:
+	/// Engine
 	AutoPtr<Engine> _engine;
 };
 

@@ -77,11 +77,22 @@ void Audio::SourcePlay(unsigned source, int delay)
 		ErrorString("Audio source invalid play failed");
 		return;
 	}
-		
-	if (!delay)
-		alSourcePlay(source);
-	else
-		Subsystem<Time>()->OneShotTimer(std::bind(&This::SourcePlay, this, source, 0), delay);
+	CallSourcePlay(source, delay);
+}
+
+void Audio::SourcePlay(AudioSource* source, int delay)
+{
+	if (!source)
+	{
+		ErrorString("AudioSource invalid play failed");
+		return;
+	}	
+	if (!source->GetBuffer()->Source())
+	{
+		ErrorString("Audio source invalid play failed");
+		return;
+	}
+	CallSourcePlay(source->GetBuffer()->Source(), delay);
 }
 
 void Audio::SourcePause(unsigned source, int delay)
@@ -91,10 +102,22 @@ void Audio::SourcePause(unsigned source, int delay)
 		ErrorString("Audio source invalid pause failed");
 		return;
 	}
-	if (!delay)
-		alSourcePause(source);
-	else
-		Subsystem<Time>()->OneShotTimer(std::bind(&This::SourcePause, this, source, 0), delay);
+	CallSourcePause(source, delay);
+}
+
+void Audio::SourcePause(AudioSource* source, int delay)
+{
+	if (!source)
+	{
+		ErrorString("AudioSource invalid pause failed");
+		return;
+	}
+	if (!source->GetBuffer()->Source())
+	{
+		ErrorString("Audio source invalid pause failed");
+		return;
+	}
+	CallSourcePause(source->GetBuffer()->Source(), delay);
 }
 
 void Audio::SourceStop(unsigned source, int delay)
@@ -104,10 +127,22 @@ void Audio::SourceStop(unsigned source, int delay)
 		ErrorString("Audio source invalid stop failed");
 		return;
 	}
-	if (!delay)
-		alSourceStop(source);
-	else
-		Subsystem<Time>()->OneShotTimer(std::bind(&This::SourceStop, this, source, 0), delay);
+	CallSourceStop(source, delay);
+}
+
+void Audio::SourceStop(AudioSource* source, int delay)
+{
+	if (!source)
+	{
+		ErrorString("AudioSource invalid stop failed");
+		return;
+	}
+	if (!source->GetBuffer()->Source())
+	{
+		ErrorString("Audio source invalid stop failed");
+		return;
+	}
+	CallSourceStop(source->GetBuffer()->Source(), delay);
 }
 
 void Audio::SourceRewind(unsigned source, int delay)
@@ -117,12 +152,23 @@ void Audio::SourceRewind(unsigned source, int delay)
 		ErrorString("Audio source invalid rewind failed");
 		return;
 	}
-	if (!delay)
-		alSourceRewind(source);
-	else
-		Subsystem<Time>()->OneShotTimer(std::bind(&This::SourceRewind, this, source, 0), delay);
+	CallSourceRewind(source, delay);
 }
 
+void Audio::SourceRewind(AudioSource* source, int delay)
+{
+	if (!source)
+	{
+		ErrorString("AudioSource invalid rewind failed");
+		return;
+	}
+	if (!source->GetBuffer()->Source())
+	{
+		ErrorString("Audio source invalid rewind failed");
+		return;
+	}
+	CallSourceRewind(source->GetBuffer()->Source(), delay);
+}
 
 void Audio::SetPitch(unsigned source, float val)
 {
@@ -155,9 +201,33 @@ AudioSourceState Audio::GetState(unsigned source)
 	else if (state == AL_STOPPED)
 		return AudioSourceState::Stopped;
 	else
-		return AudioSourceState::Default;
+		return AudioSourceState::DEFAULT;
 }
-
+AudioSourceState Audio::GetState(AudioSource* source)
+{
+	if (!source)
+	{
+		ErrorString("AudioSource invalid get state failed");
+		return;
+	}
+	if (!source->GetBuffer()->Source())
+	{
+		ErrorString("Audio source invalid get state failed");
+		return;
+	}
+	ALint state;
+	alGetSourcei(source->GetBuffer()->Source(), AL_SOURCE_STATE, &state);
+	if (state == AL_INITIAL)
+		return AudioSourceState::Initial;
+	else if (state == AL_PLAYING)
+		return AudioSourceState::Playing;
+	else if (state == AL_PAUSED)
+		return AudioSourceState::Paused;
+	else if (state == AL_STOPPED)
+		return AudioSourceState::Stopped;
+	else
+		return AudioSourceState::DEFAULT;
+}
 const AudioSource* Audio::GetSource(unsigned index)
 {
 	return _sources.Find(index) != _sources.End() ? _sources[index] : nullptr;
@@ -165,6 +235,9 @@ const AudioSource* Audio::GetSource(unsigned index)
 
 void Audio::Update()
 {
+	if (!_listener)
+		return;
+
 	Vector3F vec = _listener->GetPosition();
 	Vector3F ListenerVel = _listener->GetVel();
 	Vector3F listenerOriAt = _listener->GetOriAt();
@@ -190,6 +263,59 @@ void Audio::Update()
 bool Audio::IsInitialized()
 {
 	return _device && _context;
+}
+
+void Audio::CallSourcePlay(unsigned source, int delay)
+{
+	if (!source)
+	{
+		ErrorString("Audio source invalid play failed");
+		return;
+	}
+
+	if (!delay)
+		alSourcePlay(source);
+	else
+		Subsystem<Time>()->OneShotTimer(std::bind(&This::CallSourcePlay, this, source, 0), delay);
+}
+
+void Audio::CallSourcePause(unsigned source, int delay)
+{
+	if (!source)
+	{
+		ErrorString("Audio source invalid pause failed");
+		return;
+	}
+	if (!delay)
+		alSourcePause(source);
+	else
+		Subsystem<Time>()->OneShotTimer(std::bind(&This::CallSourcePause, this, source, 0), delay);
+}
+
+void Audio::CallSourceStop(unsigned source, int delay)
+{
+	if (!source)
+	{
+		ErrorString("Audio source invalid stop failed");
+		return;
+	}
+	if (!delay)
+		alSourceStop(source);
+	else
+		Subsystem<Time>()->OneShotTimer(std::bind(&This::CallSourceStop, this, source, 0), delay);
+}
+
+void Audio::CallSourceRewind(unsigned source, int delay)
+{
+	if (!source)
+	{
+		ErrorString("Audio source invalid rewind failed");
+		return;
+	}
+	if (!delay)
+		alSourceRewind(source);
+	else
+		Subsystem<Time>()->OneShotTimer(std::bind(&This::CallSourceRewind, this, source, 0), delay);
 }
 
 void RegisterAudioLibrary()

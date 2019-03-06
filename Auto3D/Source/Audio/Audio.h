@@ -1,9 +1,9 @@
 #pragma once
 #include "../Object/GameManager.h"
 
-/** Opaque device handle */
+/// Opaque device handle 
 typedef struct ALCdevice_struct ALCdevice;
-/** Opaque context handle */
+/// Opaque context handle 
 typedef struct ALCcontext_struct ALCcontext;
 
 
@@ -14,7 +14,7 @@ struct __AudioSourceState
 {
 	enum _AudioSourceState
 	{
-		Default,
+		DEFAULT,
 		Initial,
 		Playing,
 		Paused,
@@ -34,46 +34,64 @@ class AUTO_API Audio : public BaseSubsystem
 public:
 	/// Construct
 	Audio();
-
+	/// Destructor
 	~Audio();
-	
-	void AddSource(unsigned sourceID,AudioSource* source);
-
+	/// Add source with source address and source
+	void AddSource(unsigned sourceID, AudioSource* source);
+	/// Set listener (if listener NULL this subsystem cant run)
 	void SetListener(AudioListener* listener);
-
+	/// Set listener value
 	void SetListenerValue(Vector3F position, Vector3F listenerVel, Vector3F listenerOriAt, Vector3F listenerOriUp);
 	/// The first person delays ms according to the buffer play
 	void SourcePlay(unsigned source,int delay = 0);
+	/// The first person delays ms according to the buffer play
+	void SourcePlay(AudioSource* source, int delay = 0);
 	/// The first person delays ms according to the buffer pause
-	void SourcePause(unsigned source, int delay);
+	void SourcePause(unsigned source, int delay = 0);
+	/// The first person delays ms according to the buffer pause
+	void SourcePause(AudioSource* source, int delay = 0);
 	/// The first person delays ms according to the buffer stop
 	void SourceStop(unsigned source, int delay = 0);
+	/// The first person delays ms according to the buffer stop
+	void SourceStop(AudioSource* source, int delay = 0);
 	/// The first person delays ms according to the buffer rewind
 	void SourceRewind(unsigned source, int delay = 0);
-
+	/// The first person delays ms according to the buffer rewind
+	void SourceRewind(AudioSource* source, int delay = 0);
+	/// Set pitch of source address
 	void SetPitch(unsigned source, float val);
-
+	/// Set gain of source address
 	void SetGain(unsigned source, float val);
-
+	/// Set vel of source address
 	void SetVel(unsigned source, Vector3F vel);
-
+	/// Set get state of source
 	AudioSourceState GetState(unsigned source);
-
+	/// Set get state of source
+	AudioSourceState GetState(AudioSource* source);
+	/// Get source of index
 	const AudioSource* GetSource(unsigned index);
-
+	/// Return sources
 	HashMap<unsigned, AudioSource*>& Sources(AudioSource* source) { return _sources; }
 	/// Update all dynamic listener and source
 	void Update();
-
+	/// Return is initialized flag
 	bool IsInitialized();
 private:
+	/// The first person delays ms according to the buffer play
+	void CallSourcePlay(unsigned source, int delay = 0);
+	/// The first person delays ms according to the buffer pause
+	void CallSourcePause(unsigned source, int delay);
+	/// The first person delays ms according to the buffer stop
+	void CallSourceStop(unsigned source, int delay = 0);
+	/// The first person delays ms according to the buffer rewind
+	void CallSourceRewind(unsigned source, int delay = 0);
 	/// OpenAL device
 	ALCdevice* _device;
 	/// OpenAL context
 	ALCcontext* _context;
-
+	/// Listener
 	SharedPtr<AudioListener> _listener;
-
+	/// Source array of hash
 	HashMap<unsigned, AudioSource*> _sources;
 };
 /// Register Audio related object factories and attributes.

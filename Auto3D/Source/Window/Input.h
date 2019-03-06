@@ -365,13 +365,13 @@ public:
 class AUTO_API TouchMoveEvent : public Event
 {
 public:
-    /// Zero-based touch _id.
+    /// Zero-based touch id.
     unsigned _id;
-    /// Touch _position within _window.
+    /// Touch position within _window.
     Vector2I _position;
-    /// Delta from last _position.
+    /// Delta from last position.
     Vector2I _delta;
-    /// Finger _pressure between 0-1.
+    /// Finger pressure between 0-1.
     float _pressure;
 };
 
@@ -379,13 +379,13 @@ public:
 class AUTO_API TouchEndEvent : public Event
 {
 public:
-    /// Zero-based touch _id.
+    /// Zero-based touch id.
     unsigned _id;
     /// Touch _position within _window.
     Vector2I _position;
 };
 
-/// %Input subsystem for reading keyboard/mouse/etc. input. Updated from OS _window messages by the Window class.
+/// Input subsystem for reading keyboard/mouse/etc. input. Updated from OS _window messages by the Window class.
 class AUTO_API Input : public BaseSubsystem
 {
     REGISTER_OBJECT_CLASS(Input, BaseSubsystem)

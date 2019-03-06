@@ -38,21 +38,18 @@ public:
 	UI();
 	/// Destructor
 	~UI();
-	
 	/// Render the UI. If renderUICommand is false (default), is assumed to be the default UI render to backbuffer called by Engine, and will be performed only once. Additional UI renders to a different rendertarget may be triggered from the renderpath.
 	void Render(Canvas* scene, UICamera* camera);
-
+	/// Prepare view of objects and batch
 	bool PrepareView(Canvas* canvas, UICamera* camera);
-
+	/// Return initialized flag
 	bool IsInitialized() { return _initialized; }
-
 	/// Initialize rendering of a new view and collect visible objects from the camera's point of view. Return true on success (scene, camera and octree are non-null.)
 	bool CollectUIObjects(Canvas* scene, UICamera* camera);
 	/// Collect and sort batches from the visible objects. To not go through the objects several times, all the passes should be specified at once instead of multiple calls to CollectBatches().
 	void CollectUIBatches();
-
+	/// Render of batchs
 	void RenderBatches();
-
 private:
 	/// Initialize when screen mode initially set.
 	void Initialize();
@@ -62,36 +59,31 @@ private:
 	WeakPtr<Graphics> _graphics;
 	/// UI rendering batches.
 	Vector<UIBatch> _batches;
-
 	/// Current canvas.
 	Canvas* _canvas;
 	/// Current ui camera.
 	UICamera* _camera;
-
+	/// Geometry nodes
 	Vector<UIGeometryNode*> _geometryNode;
-
 	/// UI does not have multiple queues
 	UIBatchQueue _batchQueue;
-
 	/// Initialized flag.
 	bool _initialized;
 	/// Flag for UI already being rendered this frame.
 	bool _uiRendered;
-
 	/// Per-frame vertex shader constant buffer.
 	SharedPtr<ConstantBuffer> _vsFrameConstantBuffer;
-
+	/// Per-object vertex shader constant buffer.
 	SharedPtr<ConstantBuffer> _vsObjectConstantBuffer;
 	/// Per-frame pixel shader constant buffer.
 	SharedPtr<ConstantBuffer> _psFrameConstantBuffer;
-
-
+	/// ShaderVariation vs 
 	ShaderVariation* _vsv;
-
+	///ShaderVariation ps
 	ShaderVariation* _psv;
-
+	/// Shader of vs
 	SharedPtr<Shader> vs;
-
+	/// Shader of ps
 	SharedPtr<Shader> ps;
 };
 

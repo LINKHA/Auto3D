@@ -21,6 +21,7 @@ static const unsigned char U_LAYER_DEFAULT = 0x0;
 static const unsigned char U_TAG_NONE = 0x0;
 static const unsigned U_LAYERMASK_ALL = 0xffffffff;
 
+/// UI nodes provide tag and layout
 class AUTO_API UINode : public Serializable
 {
 	REGISTER_OBJECT_CLASS(UINode, Serializable)

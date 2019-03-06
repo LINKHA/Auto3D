@@ -23,17 +23,14 @@ public:
     Thread();
     /// Destruct. If running, stop and wait for thread to finish.
     virtual ~Thread();
-    
     /// The function to run in the thread.
     virtual void ThreadFunction() = 0;
-    
     /// Start running the thread. Return true on success, or false if already running or if can not create the thread.
     bool Run();
     /// Set the running flag to false and wait for the thread to finish.
     void Stop();
     /// Set thread priority. The thread must have been started first.
     void SetPriority(int priority);
-    
     /// Return whether thread exists.
     bool IsStarted() const { return _handle != nullptr; }
 
@@ -51,8 +48,6 @@ protected:
 	volatile bool _shouldRun;
     /// Thread _handle.
     void* _handle;
-   
-    
     /// Main thread's thread ID.
     static ThreadID _mainThreadID;
 };

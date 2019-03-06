@@ -13,7 +13,7 @@ public:
     Mutex();
     /// Destruct.
     ~Mutex();
-    
+
     /// Acquire the _mutex. Block if already acquired.
     void Acquire();
     /// Release the _mutex.

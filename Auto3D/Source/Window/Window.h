@@ -8,11 +8,11 @@ struct SDL_Window;
 namespace Auto3D
 {
 
-/// %Window resized _event.
+/// Window resized event.
 class AUTO_API WindowResizeEvent : public Event
 {
 public:
-	/// New _window _size.
+	///New _window size.
 	Vector2I _size;
 };
 
@@ -39,11 +39,11 @@ public:
 	void SetPosition(const Vector2I& position);
 	/// Set mouse cursor visible. Default is true. When hidden, the mouse cursor is confined to the _window and kept centered; relative mouse motion can be read "endlessly" but absolute mouse _position should not be used.
 	void SetMouseHide(bool enable);
-
+	/// Set mouse cusor lock in window
 	void SetMouseLock(bool enable);
 	/// Move the mouse cursor to a _window top-left relative _position.
 	void SetMousePosition(const Vector2I& position);
-
+	/// Set multi sample point num
 	void SetMultisample(unsigned multi) { _multisample = multi; }
 	/// Close the _window.
 	void Close();
@@ -56,9 +56,9 @@ public:
 	/// Pump _window messages from the operating system.
 	void PumpMessages();
 
-	/// Return _window _title.
+	/// Return window title.
 	const String& GetTitle() const { return _title; }
-
+	/// Return window rect
 	const RectI& GetRect() const { return _rect; }
 
 	/// Return _window client area _size.
@@ -114,7 +114,7 @@ private:
 	SDL_Window* _handle;
 	/// Window _title.
 	String _title;
-
+	/// Window rect
 	RectI _rect;
 	/// Last stored windowed mode _position.
 	Vector2I _savedPosition;
@@ -127,7 +127,7 @@ private:
 
 	/// Window style flags.
 	unsigned _windowStyle;
-
+	/// window multi sample num
 	unsigned _multisample;
 	/// Current minimization state.
 	bool _minimized;
@@ -141,7 +141,7 @@ private:
 	bool _inResize;
 	/// Mouse visible flag as requested by the application.
 	bool _mouseHide;
-
+	/// Mouse lock in window flag
 	bool _mouseLock;
 	/// Internal mouse visible flag. The mouse is automatically shown when the _window is unfocused, while mouseVisible represents the application's desired state. Used to prevent multiple calls to OS mouse visibility functions, which utilize a counter.
 	bool _mouseVisibleInternal;

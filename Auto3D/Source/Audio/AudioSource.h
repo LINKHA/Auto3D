@@ -7,61 +7,41 @@ namespace Auto3D
 
 class Sound;
 class AudioBuffer;
-
-
-
-
+/// Responsible for the operation of 3d sound source
 class AUTO_API AudioSource : public AudioNode
 {
-
 	REGISTER_OBJECT_CLASS(AudioSource, AudioNode)
-
 public:
-	/**
-	* @brief : The constructor
-	*/
+	/// The constructor
 	AudioSource();
-
+	/// The destructor
 	~AudioSource();
-	/**
-	* @brief : Register object factory.
-	*/
+	/// Register object factory.
 	static void RegisterObject();
-	/**
-	* @brief : Plays the active audioclip at (future) scheduled time. If time < 0 it specifies a delay
-	*/
+	/// Plays the active audioclip at (future) scheduled time. If time < 0 it specifies a delay
 	void Play(int delayTime = 0);
-	/**
-	* @brief : Pauses the active audioclip
-	*/
+	/// Pauses the active audioclip
 	void Pause(int delayTime = 0);
-	/**
-	* @brief : Stops the active audio clip
-	*/
+	/// Stops the active audio clip
 	void Stop(int delayTime = 0);
-	/**
-	* @brief : Rewind audio clip
-	*/
+	/// Rewind audio clip
 	void Rewind(int delayTime = 0);
-	/**
-	* @brief : Attach buffer for point
-	*/
+	/// Attach buffer for point
 	void SetSound(Sound* sound);
-
+	/// Get audio buffer
 	AudioBuffer* GetBuffer() { return  _buffer; }
-
+	/// Get source state
 	AudioSourceState GetState();
 private:
-
-	/// audio buffer
+	/// Audio sound resource
 	SharedPtr<Sound> _sound;
-
+	/// Audio buffer
 	SharedPtr<AudioBuffer> _buffer;
-
+	/// Pitch
 	float _pitch;
-
+	/// Gain
 	float _gain;
-
+	/// Vel
 	Vector3F _vel;
 };
 

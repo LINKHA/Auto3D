@@ -33,7 +33,7 @@ Timer::Timer(TimerCallback callback, int interval, int delayTime, int count)
 {
 	std::thread timerThread(&Timer::TimerCount, this, callback, interval, delayTime, count);
 	timerThread.detach();
-	_state = TimerState::Running;
+	_state = TimerState::RUNNING;
 }
 
 Timer::Timer(std::function<void()> callback, int interval, int delayTime, int count)
@@ -43,26 +43,26 @@ Timer::Timer(std::function<void()> callback, int interval, int delayTime, int co
 {
 	std::thread timerThread(&Timer::TimerCountClass, this, callback, interval, delayTime, count);
 	timerThread.detach();
-	_state = TimerState::Running;
+	_state = TimerState::RUNNING;
 }
 
 void Timer::Stop()
 {
 	_stop = true;
-	_state = TimerState::Stopping;
+	_state = TimerState::STOPPING;
 }
 
 void Timer::Begin()
 {
 	_stop = false;
 	_pause = false;
-	_state = TimerState::Running;
+	_state = TimerState::RUNNING;
 }
 
 void Timer::Pause()
 {
 	_pause = true;
-	_state = TimerState::Pauseing;
+	_state = TimerState::PAUSEING;
 }
 
 void Timer::Destory()

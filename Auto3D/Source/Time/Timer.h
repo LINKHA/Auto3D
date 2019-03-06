@@ -6,11 +6,11 @@ namespace Auto3D {
 
 enum class TimerState
 {
-	Default,
-	Init,
-	Running,
-	Stopping,
-	Pauseing,
+	DEFAULT,
+	INIT,
+	RUNNING,
+	STOPPING,
+	PAUSEING,
 };
 
 
