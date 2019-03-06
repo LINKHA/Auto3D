@@ -3,6 +3,7 @@
 #include "../IO/Stream.h"
 #include "../Object/ObjectResolver.h"
 #include "../Resource/JSONFile.h"
+#include "../Renderer/Renderer.h"
 #include "Scene.h"
 #include "SpatialNode.h"
 
@@ -19,6 +20,8 @@ Scene::Scene() :
 
     DefineLayer(LAYER_DEFAULT, "Default");
     DefineTag(TAG_NONE, "None");
+	// The scene creates a shadow map by default
+	Subsystem<Renderer>()->SetupShadowMaps(1, 2048, ImageFormat::D16);
 }
 
 Scene::~Scene()

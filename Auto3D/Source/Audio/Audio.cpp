@@ -208,12 +208,12 @@ AudioSourceState Audio::GetState(AudioSource* source)
 	if (!source)
 	{
 		ErrorString("AudioSource invalid get state failed");
-		return;
+		return AudioSourceState::DEFAULT;
 	}
 	if (!source->GetBuffer()->Source())
 	{
 		ErrorString("Audio source invalid get state failed");
-		return;
+		return AudioSourceState::DEFAULT;
 	}
 	ALint state;
 	alGetSourcei(source->GetBuffer()->Source(), AL_SOURCE_STATE, &state);

@@ -41,16 +41,20 @@ void MeshSample::Start()
 	teaPot->SetCastShadows(true);
 	teaPot->SetLodBias(2.0f);
 
-	Light* light = scene->CreateChild<Light>();
-	light->SetLightType(LightType::POINT);
-	light->SetCastShadows(true);
-	light->SetColor(Color(1.0f, 1.0f, 1.0f));
-	light->SetFov(90.0f);
-	light->SetRange(20.0f);
-	light->SetPosition(Vector3F(5.0f, 10.0f, 5.0f));
-	light->SetDirection(Vector3F(0.0f, -1.0f, 0.0f));
-	light->SetShadowMapSize(256);
+	for (int i = 0; i < 2; i++)
+	{
+		Light* light = scene->CreateChild<Light>();
+		light->SetLightType(LightType::POINT);
+		light->SetCastShadows(true);
+		light->SetColor(Color(1.0f, 1.0f, 1.0f));
+		light->SetFov(90.0f);
+		light->SetRange(20.0f);
+		light->SetPosition(Vector3F(i * 5.0f - 10.0f, 10.0f, 5.0f));
+		light->SetDirection(Vector3F(0.0f, -1.0f, 0.0f));
+		light->SetShadowMapSize(256);
+	}
 	
+
 	canvas = new Canvas();
 	uiCamera = canvas->CreateChild<UICamera>();
 	uiCamera->SetOrthographic(true);

@@ -42,9 +42,10 @@ void Engine::Init()
 	SetRandomSeed(realTime._year & realTime._month << realTime._day | realTime._hour * realTime._minute ^ realTime._second);
 
 	if (!_graphics->SetMode(RectI(0, 0, 1024, 768), 4, false, true))
+	{
+		ErrorString("Failed to create a gutter.");
 		return;
-
-	_renderer->SetupShadowMaps(1, 2048, ImageFormat::D16);
+	}
 }
 void Engine::Exit()
 {
