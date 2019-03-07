@@ -73,20 +73,53 @@ template<typename _Ty> inline _Ty SmoothStep(_Ty lhs, _Ty rhs, _Ty t)
 }
 
 /// Return sine of an angle in degrees.
-template<typename _Ty> inline _Ty Sin(_Ty angle) { return sinf(angle * M_DEGTORAD); }
+template <typename _Ty> inline _Ty Sin(_Ty angle) { return sinf(angle * M_DEGTORAD); }
 /// Return cosine of an angle in degrees.
-template<typename _Ty> inline _Ty Cos(_Ty angle) { return cosf(angle * M_DEGTORAD); }
+template <typename _Ty> inline _Ty Cos(_Ty angle) { return cosf(angle * M_DEGTORAD); }
 /// Return tangent of an angle in degrees.
-template<typename _Ty> inline _Ty Tan(_Ty angle) { return tanf(angle * M_DEGTORAD); }
+template <typename _Ty> inline _Ty Tan(_Ty angle) { return tanf(angle * M_DEGTORAD); }
 /// Return arc sine in degrees.
-template<typename _Ty> inline _Ty Asin(_Ty x) { return M_RADTODEG * asinf(Clamp(x, -1, 1)); }
+template <typename _Ty> inline _Ty Asin(_Ty x) { return M_RADTODEG * asinf(Clamp(x, -1, 1)); }
 /// Return arc cosine in degrees.
-template<typename _Ty> inline _Ty Acos(_Ty x) { return M_RADTODEG * acosf(Clamp(x, -1, 1)); }
+template <typename _Ty> inline _Ty Acos(_Ty x) { return M_RADTODEG * acosf(Clamp(x, -1, 1)); }
 /// Return arc tangent in degrees.
-template<typename _Ty> inline _Ty Atan(_Ty x) { return M_RADTODEG * atanf(x); }
+template <typename _Ty> inline _Ty Atan(_Ty x) { return M_RADTODEG * atanf(x); }
 /// Return arc tangent of y/x in degrees.
-template<typename _Ty> inline _Ty Atan2(_Ty y, _Ty x) { return M_RADTODEG * atan2f(y, x); }
+template <typename _Ty> inline _Ty Atan2(_Ty y, _Ty x) { return M_RADTODEG * atan2f(y, x); }
 
+
+/// Return X in power Y.
+template <typename _Ty> inline _Ty Pow(_Ty x, _Ty y) { return pow(x, y); }
+
+/// Return natural logarithm of X.
+template <typename _Ty> inline _Ty Ln(_Ty x) { return log(x); }
+
+/// Return square root of X.
+template <typename _Ty> inline _Ty Sqrt(_Ty x) { return sqrt(x); }
+
+/// Return floating-point remainder of X/Y.
+template <typename _Ty> inline _Ty Mod(_Ty x, _Ty y) { return fmod(x, y); }
+
+/// Return fractional part of passed value in range [0, 1).
+template <typename _Ty> inline _Ty Fract(_Ty value) { return value - floor(value); }
+
+/// Round value down.
+template <typename _Ty> inline _Ty Floor(_Ty x) { return floor(x); }
+
+/// Round value down. Returns integer value.
+template <typename _Ty> inline int FloorToInt(_Ty x) { return static_cast<int>(floor(x)); }
+
+/// Round value to nearest integer.
+template <typename _Ty> inline _Ty Round(_Ty x) { return round(x); }
+
+/// Round value to nearest integer.
+template <typename _Ty> inline int RoundToInt(_Ty x) { return static_cast<int>(round(x)); }
+
+/// Round value up.
+template <typename _Ty> inline _Ty Ceil(_Ty x) { return ceil(x); }
+
+/// Round value up.
+template <typename _Ty> inline int CeilToInt(_Ty x) { return static_cast<int>(ceil(x)); }
 
 /// Clamp an _Tyeger to a range.
 template<typename _Ty> inline _Ty Clamp(_Ty value, _Ty min, _Ty max)

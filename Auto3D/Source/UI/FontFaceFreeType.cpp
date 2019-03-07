@@ -17,7 +17,7 @@ public:
 	/// Construct.
 	FreeTypeLibrary()
 	{
-		FT_Error error = FT_Init_FreeType(&library_);
+		FT_Error error = FT_Init_FreeType(&_library);
 		if (error)
 			ErrorString("Could not initialize FreeType library");
 	}
@@ -25,23 +25,35 @@ public:
 	/// Destruct.
 	~FreeTypeLibrary() override
 	{
-		FT_Done_FreeType(library_);
+		FT_Done_FreeType(_library);
 	}
 
-	FT_Library GetLibrary() const { return library_; }
+	FT_Library GetLibrary() const { return _library; }
 
 private:
 	/// FreeType library.
-	FT_Library library_{};
+	FT_Library _library{};
 };
 
-FontFaceFreeType::FontFaceFreeType()
+
+FontFaceFreeType::FontFaceFreeType(Font* font) :
+	FontFace(font),
+	loadMode_(FT_LOAD_DEFAULT)
 {
-	new FreeTypeLibrary();
 }
+
 FontFaceFreeType::~FontFaceFreeType()
 {
+	if (face_)
+	{
+		FT_Done_Face((FT_Face)face_);
+		face_ = nullptr;
+	}
+}
 
+bool FontFaceFreeType::Load(const unsigned char* fontData, unsigned fontDataSize, float pointSize)
+{
+	return false;
 }
 	
 }
