@@ -29,7 +29,7 @@ Audio::Audio() :
 	_context = alcCreateContext(_device, contextAttr);
 	alcMakeContextCurrent(_context);
 
-	RegisterSubsystem(this);
+	//RegisterSubsystem(this);
 }
 
 

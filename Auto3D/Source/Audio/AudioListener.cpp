@@ -14,6 +14,7 @@ AudioListener::AudioListener() :
 	_listenerOriUp(0.0f, 1.0f, 0.0f)
 {
 	_audio->SetListener(this);
+
 }
 AudioListener::~AudioListener()
 {

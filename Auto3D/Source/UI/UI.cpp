@@ -80,7 +80,7 @@ void UI::Render(Canvas* scene, UICamera* camera)
 	_graphics->SetConstantBuffer(ShaderStage::PS, UIConstantBuffer::FRAME, _psFrameConstantBuffer);
 
 	_graphics->SetDepthState(CompareFunc::LESS_EQUAL, true);
-	_graphics->SetColorState(BlendMode::REPLACE);
+	_graphics->SetColorState(BlendMode::ALPHA);
 	_graphics->SetRasterizerState(CullMode::BACK, FillMode::SOLID);
 
 	RenderBatches();

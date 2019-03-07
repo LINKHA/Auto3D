@@ -22,7 +22,6 @@ Engine::Engine()
 	_renderer = new Renderer();
 	_time = new Time();
 	_registeredBox = new RegisteredBox();
-	_audio = new Audio();
 	_script = new Script();
 	_ui = new UI();
 	_physics = new Physics();
@@ -95,7 +94,8 @@ bool Engine::Update()
 
 	_time->Update();
 	_input->Update();
-	_audio->Update();
+	if(Subsystem<Audio>())
+		Subsystem<Audio>()->Update();
 
 	if (input->IsKeyPress(27))
 		graphics->Close();

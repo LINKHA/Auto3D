@@ -195,7 +195,7 @@ bool Graphics::SetMode(const RectI& size,int multisample, bool fullscreen, bool 
             return false;
         if (!CreateContext(multisample))
             return false;
-
+		
         if (recreate)
         {
             // Recreate GPU objects that can be recreated
@@ -281,6 +281,7 @@ void Graphics::Present()
 
     // In case of third party hooks which modify the GL state and don't restore it properly, re-enable depth test now
     glEnable(GL_DEPTH_TEST);
+	
 }
 
 void Graphics::SetRenderTarget(Texture* renderTarget, Texture* depthStencil)
@@ -616,7 +617,7 @@ void Graphics::Clear(unsigned clearFlags, const Color& clearColor, float clearDe
 
 void Graphics::Draw(PrimitiveType type, size_t vertexStart, size_t vertexCount)
 {
-    if (!PrepareDraw())
+	if (!PrepareDraw())
         return;
 
     glDrawArrays(glPrimitiveTypes[type], (unsigned)vertexStart, (unsigned)vertexCount);

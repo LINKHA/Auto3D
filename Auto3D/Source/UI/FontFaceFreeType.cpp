@@ -1,6 +1,9 @@
 #include "FontFaceFreeType.h"
-#include "../Object/Object.h"
+#include "Font.h"
+#include "../Object/GameManager.h"
 #include "../Debug/Log.h"
+
+#include "../Debug/DebugNew.h"
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -10,9 +13,9 @@ namespace Auto3D
 {
 
 /// FreeType library subsystem.
-class FreeTypeLibrary : public Object
+class FreeTypeLibrary : public BaseSubsystem
 {
-	REGISTER_OBJECT_CLASS(FreeTypeLibrary, Object)
+	REGISTER_OBJECT_CLASS(FreeTypeLibrary, BaseSubsystem)
 public:
 	/// Construct.
 	FreeTypeLibrary()
@@ -53,6 +56,11 @@ FontFaceFreeType::~FontFaceFreeType()
 
 bool FontFaceFreeType::Load(const unsigned char* fontData, unsigned fontDataSize, float pointSize)
 {
+	// Create & initialize FreeType library if it does not exist yet
+	auto freeType = font_->Subsystem<FreeTypeLibrary>();
+	if (!freeType)
+		font_->RegisterSubsystem(freeType = new FreeTypeLibrary());
+
 	return false;
 }
 	

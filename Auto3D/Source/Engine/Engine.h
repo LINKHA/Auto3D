@@ -31,8 +31,6 @@ public:
 	bool Update();
 	/// Frame finish
 	void FrameFinish();
-
-	void ClearGraphics();
 	/// Return whether to pause update events and audio when _minimized.
 	bool GetPauseMinimized() const { return _pauseMinimized; }
 	/// Set whether to pause update events and audio when _minimized
@@ -47,10 +45,13 @@ private:
 	AutoPtr<Profiler> _profiler;
 	AutoPtr<Time> _time;
 	AutoPtr<RegisteredBox> _registeredBox;
-	AutoPtr<Audio> _audio;
 	AutoPtr<Script> _script;
 	AutoPtr<UI> _ui;
 	AutoPtr<Physics> _physics;
+	//This subsystem is implemented in the Audio component, the first one created
+	//AutoPtr<Audio> _audio;
+
+
 	/// Is exiting
 	bool _exiting{};
 	/// Is initialized
