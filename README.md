@@ -1,4 +1,4 @@
-![Image text](https://github.com/LINKHA/Auto3D/blob/master/Bin/Data/NewLongLogo.png)
+![Image text](https://github.com/LINKHA/Auto3D/blob/master/Bin/Data/LogoLong.png)
 
 Auto3D
 ====  
