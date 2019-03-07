@@ -56,7 +56,7 @@ void Object::RemoveSubsystem(StringHash type)
     _subsystems.Erase(type);
 }
 
-Object* Object::GetSubsystem(StringHash type)
+Object* Object::Subsystem(StringHash type)
 {
     auto it = _subsystems.Find(type);
     return it != _subsystems.End() ? it->second : nullptr;

@@ -42,7 +42,7 @@ public:
     /// Remove a subsystem by type.
     static void RemoveSubsystem(StringHash type);
     /// Return a subsystem by type, or null if not registered.
-    static Object* GetSubsystem(StringHash type);
+    static Object* Subsystem(StringHash type);
     /// Register an object factory.
     static void RegisterFactory(ObjectFactory* factory);
     /// Create and return an object through a factory. The caller is assumed to take ownership of the object. Return null if no factory registered. 
@@ -50,7 +50,7 @@ public:
     /// Return a type name from hash, or empty if not known. Requires a registered object factory.
     static const String& TypeNameFromType(StringHash type);
     /// Return a subsystem, template version.
-    template <class _Ty> static _Ty* Subsystem() { return static_cast<_Ty*>(GetSubsystem(_Ty::TypeStatic())); }
+    template <class _Ty> static _Ty* Subsystem() { return static_cast<_Ty*>(Subsystem(_Ty::TypeStatic())); }
     /// Register an object factory, template version.
     template <class _Ty> static void RegisterFactory() { RegisterFactory(new ObjectFactoryImpl<_Ty>()); }
     /// Create and return an object through a factory, template version.
