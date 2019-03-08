@@ -27,6 +27,7 @@ Third-party libraries
 - OpenAL-soft (https://github.com/kcat/openal-soft)
 - SDL2 (https://www.libsdl.org)
 - STB (https://github.com/nothings/stb)
+- FreeType (https://www.freetype.org)
 
 PBR-DEMO
 -------
