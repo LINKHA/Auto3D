@@ -8,27 +8,18 @@ void SpriteSample::Start()
 {
 	Super::Start();
 	auto* cache = Object::Subsystem<ResourceCache>();
-	auto texture = (cache->LoadResource<Texture>("HelloWorld.png"));
 	auto flower = (cache->LoadResource<Texture>("flower.png"));
 	SubscribeToEvent(Subsystem<Graphics>()->RenderWindow()->closeRequestEvent, &SpriteSample::HandleCloseRequest);
-	scene = new Scene();
-	camera = scene->CreateChild<Camera>();
-	Subsystem<RegisteredBox>()->RegisterScene(scene, camera);
 
-	Sprite* sprite = canvas->CreateChild<Sprite>();
-	sprite->SetTexture(texture);
-	sprite->SetScale(Vector3F(10.0f, 10.0f, 4.0f));
+	for (int i = 0; i < 3; i++)
+	{
+		Sprite* logo = canvas->CreateChild<Sprite>();
+		logo->SetTexture(cache->LoadResource<Texture>("Star.png"));
+		float s = RandomSignedFloat();
+		logo->SetPosition(Vector3F(RandomSignedFloat()*10.0f, RandomSignedFloat()*10.0f, -0.1f));
+		logo->SetScale(Vector3F(1.0f, 1.0f, 1.0f));
+	}
 
-	Sprite* bakcground = canvas->CreateChild<Sprite>();
-	bakcground->SetTexture(cache->LoadResource<Texture>("HelloWorld.png"));
-	bakcground->SetScale(Vector3F(20.0f, 15.0f, 1.0f));
-
-	Sprite* logo = canvas->CreateChild<Sprite>();
-	logo->SetTexture(cache->LoadResource<Texture>("Newlogo.png"));
-	logo->SetPosition(Vector3F(0.0f, 0.0f, -0.1f));
-	logo->SetScale(Vector3F(3.0f, 3.0f, 1.0f));
-
-	sprites.Push(logo);
 }
 void SpriteSample::Update()
 {
@@ -40,7 +31,6 @@ void SpriteSample::Update()
 
 	float moveSpeed = input->IsKeyDown(KEY_LSHIFT) ? 50 : 10.0f;
 
-	uiCamera->SetRotation(Quaternion(pitch, yaw, 0.0f));
 	if (input->IsKeyDown(KEY_W))
 		uiCamera->Translate(Vector3F::UP * time->GetDeltaTime() * moveSpeed);
 	if (input->IsKeyDown(KEY_S))
@@ -51,12 +41,6 @@ void SpriteSample::Update()
 		uiCamera->Translate(Vector3F::RIGHT * time->GetDeltaTime()  * moveSpeed);
 
 	float scaleAmount = (float)sin(time->GetCurTime());
-
-	for (auto it = sprites.Begin(); it != sprites.End(); it++)
-	{
-		Vector3F oldScale = (*it)->GetScale();
-		(*it)->SetScale(5 * scaleAmount);
-	}
 }
 
 void SpriteSample::Stop()
