@@ -28,7 +28,7 @@ public:
     /// Set _position in bytes from the beginning of the stream. Return the _position after the seek.
     virtual size_t Seek(size_t position) = 0;
     /// Write bytes to the stream. Return number of bytes actually written.
-    virtual size_t Write(const void* data, size_t size) = 0;
+    virtual size_t Write(const void* _data, size_t _size) = 0;
     /// Return whether read operations are allowed.
     virtual bool IsReadable() const = 0;
     /// Return whether write operations are allowed.

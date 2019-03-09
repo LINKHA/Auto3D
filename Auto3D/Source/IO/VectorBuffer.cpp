@@ -12,15 +12,15 @@ VectorBuffer::VectorBuffer()
     SetName("Vector");
 }
 
-VectorBuffer::VectorBuffer(const Vector<unsigned char>& data)
+VectorBuffer::VectorBuffer(const Vector<unsigned char>& _data)
 {
-    SetData(data);
+    SetData(_data);
     SetName("Vector");
 }
 
-VectorBuffer::VectorBuffer(const void* data, size_t numBytes)
+VectorBuffer::VectorBuffer(const void* _data, size_t numBytes)
 {
-    SetData(data, numBytes);
+    SetData(_data, numBytes);
     SetName("Vector");
 }
 
@@ -70,7 +70,7 @@ size_t VectorBuffer::Seek(size_t newPosition)
     return _position;
 }
 
-size_t VectorBuffer::Write(const void* data, size_t numBytes)
+size_t VectorBuffer::Write(const void* _data, size_t numBytes)
 {
     if (!numBytes)
         return 0;
@@ -82,7 +82,7 @@ size_t VectorBuffer::Write(const void* data, size_t numBytes)
         _buffer.Resize(_size);
     }
     
-    unsigned char* srcPtr = (unsigned char*)data;
+    unsigned char* srcPtr = (unsigned char*)_data;
     unsigned char* destPtr = &_buffer[_position];
     _position += numBytes;
     
@@ -116,21 +116,21 @@ bool VectorBuffer::IsWritable() const
     return true;
 }
 
-void VectorBuffer::SetData(const Vector<unsigned char>& data)
+void VectorBuffer::SetData(const Vector<unsigned char>& _data)
 {
-    _buffer = data;
+    _buffer = _data;
     _position = 0;
-    _size = data.Size();
+    _size = _data.Size();
 }
 
-void VectorBuffer::SetData(const void* data, size_t numBytes)
+void VectorBuffer::SetData(const void* _data, size_t numBytes)
 {
-    if (!data)
+    if (!_data)
         numBytes = 0;
     
     _buffer.Resize(numBytes);
     if (numBytes)
-        memcpy(&_buffer[0], data, numBytes);
+        memcpy(&_buffer[0], _data, numBytes);
     
     _position = 0;
     _size = numBytes;

@@ -12,9 +12,9 @@ namespace Auto3D
 {
 
 #ifdef _WIN32
-DWORD WINAPI ThreadFunctionStatic(void* data)
+DWORD WINAPI ThreadFunctionStatic(void* _data)
 {
-    Thread* thread = static_cast<Thread*>(data);
+    Thread* thread = static_cast<Thread*>(_data);
     thread->ThreadFunction();
     return 0;
 }

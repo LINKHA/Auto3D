@@ -32,21 +32,21 @@ public:
     /// Define the constants being used and create the GPU-side buffer. Return true on success.
     bool Define(ResourceUsage usage, size_t numConstants, const Constant* srcConstants);
     /// Set a constant by index. Optionally specify how many elements to update, default all. Return true on success.
-    bool SetConstant(size_t index, const void* data, size_t numElements = 0);
+    bool SetConstant(size_t index, const void* _data, size_t numElements = 0);
     /// Set a constant by name. Optionally specify how many elements to update, default all. Return true on success.
-    bool SetConstant(const String& name, const void* data, size_t numElements = 0);
+    bool SetConstant(const String& name, const void* _data, size_t numElements = 0);
     /// Set a constant by name. Optionally specify how many elements to update, default all. Return true on success.
-    bool SetConstant(const char* name, const void* data, size_t numElements = 0);
+    bool SetConstant(const char* name, const void* _data, size_t numElements = 0);
     /// Apply to the GPU-side buffer if has changes. Can only be used once on an immutable buffer. Return true on success.
     bool Apply();
     /// Set raw data directly to the GPU-side buffer. Optionally copy back to the shadow constants. Return true on success.
-    bool SetData(const void* data, bool copyToShadow = false);
+    bool SetData(const void* _data, bool copyToShadow = false);
     /// Set a constant by index, template version.
-    template <class _Ty> bool SetConstant(size_t index, const _Ty& data, size_t numElements = 0) { return SetConstant(index, (const void*)&data, numElements); }
+    template <class _Ty> bool SetConstant(size_t index, const _Ty& _data, size_t numElements = 0) { return SetConstant(index, (const void*)&_data, numElements); }
     /// Set a constant by name, template version.
-    template <class _Ty> bool SetConstant(const String& name, const _Ty& data, size_t numElements = 0) { return SetConstant(name, (const void*)&data, numElements); }
+    template <class _Ty> bool SetConstant(const String& name, const _Ty& _data, size_t numElements = 0) { return SetConstant(name, (const void*)&_data, numElements); }
     /// Set a constant by name, template version.
-    template <class _Ty> bool SetConstant(const char* name, const _Ty& data, size_t numElements = 0) { return SetConstant(name, (const void*)&data, numElements); }
+    template <class _Ty> bool SetConstant(const char* name, const _Ty& _data, size_t numElements = 0) { return SetConstant(name, (const void*)&_data, numElements); }
 
     /// Return number of constants.
     size_t GetNumConstants() const { return _constants.Size(); }
@@ -103,7 +103,7 @@ public:
 
 private:
     /// Create the GPU-side constant buffer. Called on the first Apply() if the buffer is immutable. Return true on success.
-    bool Create(const void* data = nullptr);
+    bool Create(const void* _data = nullptr);
 
     /// OpenGL buffer object identifier.
     unsigned _buffer;

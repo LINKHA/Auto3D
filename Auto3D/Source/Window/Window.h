@@ -8,6 +8,8 @@ struct SDL_Window;
 namespace Auto3D
 {
 
+class Image;
+
 /// Window resized event.
 class AUTO_API WindowResizeEvent : public Event
 {
@@ -31,8 +33,10 @@ public:
 	/// Destruct. Close _window if open.
 	~Window();
 
-	/// Set _window _title.
+	/// Set window title.
 	void SetTitle(const String& newTitle);
+	/// Set window icon
+	void SetIcon(Image* icon);
 	/// Set _window _size. Open the _window if not opened yet. Return true on success.
 	bool SetSize(const RectI& rect, int multisample = 1, bool fullscreen = false, bool resizable = false,bool center = true, bool borderless = false, bool highDPI = false);
 	/// Set _window _position.
@@ -45,6 +49,8 @@ public:
 	void SetMousePosition(const Vector2I& position);
 	/// Set multi sample point num
 	void SetMultisample(unsigned multi) { _multisample = multi; }
+	/// Create window icon
+	void CreateWindowIcon();
 	/// Close the _window.
 	void Close();
 	/// Minimize the _window.
@@ -60,7 +66,6 @@ public:
 	const String& GetTitle() const { return _title; }
 	/// Return window rect
 	const RectI& GetRect() const { return _rect; }
-
 	/// Return _window client area _size.
 	const Vector2I GetSize() const { return Vector2I(_rect.Width(), _rect.Height()); }
 	/// Return _window client area width.
@@ -85,7 +90,6 @@ public:
 	bool IsMouseHide() const { return _mouseHide; }
 	/// Return _window _handle. Can be cast to a HWND.
 	SDL_Window* Handle() const { return _handle; }
-
 	/// Handle a _window message. Return true if handled and should not be passed to the default _window procedure.
 	bool OnWindowMessage(void* sdlEvent);
 
@@ -108,10 +112,10 @@ public:
 private:
 	/// Change display mode. If width and height are zero, will restore desktop resolution.
 	void SetDisplayMode(int width, int height);
-
-	/// Verify _window _size from the _window client rect.
 	/// Window _handle.
 	SDL_Window* _handle;
+	/// Window icon image.
+	WeakPtr<Image> _icon;
 	/// Window _title.
 	String _title;
 	/// Window rect

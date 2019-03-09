@@ -131,7 +131,7 @@ void Octree::Update()
     _updateQueue.Clear();
 }
 
-void Octree::Resize(const BoundingBox& boundingBox, int numLevels)
+void Octree::Resize(const BoundingBox& boundingBox, int _numLevels)
 {
     PROFILE(ResizeOctree);
 
@@ -140,7 +140,7 @@ void Octree::Resize(const BoundingBox& boundingBox, int numLevels)
     CollectNodes(_updateQueue, &_root);
     DeleteChildOctants(&_root, false);
     _allocator.Reset();
-    _root.Initialize(nullptr, boundingBox, Clamp(numLevels, 1, MAX_OCTREE_LEVELS));
+    _root.Initialize(nullptr, boundingBox, Clamp(_numLevels, 1, MAX_OCTREE_LEVELS));
 
     // Reinsert all nodes (recreates new child octants as necessary)
     Update();
@@ -231,10 +231,10 @@ const BoundingBox& Octree::BoundingBoxAttr() const
     return _root._worldBoundingBox;
 }
 
-void Octree::SetNumLevelsAttr(int numLevels)
+void Octree::SetNumLevelsAttr(int _numLevels)
 {
     /// Setting the number of level (last attribute) triggers octree resize when deserializing
-    Resize(_root._worldBoundingBox, numLevels);
+    Resize(_root._worldBoundingBox, _numLevels);
 }
 
 int Octree::NumLevelsAttr() const

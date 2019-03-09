@@ -44,6 +44,8 @@ void Engine::Init()
 		ErrorString("Failed to create a gutter.");
 		return;
 	}
+	// Set default Logo
+	_graphics->RenderWindow()->SetIcon(_cache->LoadResource<Image>("NewLogo.png"));
 }
 void Engine::Exit()
 {

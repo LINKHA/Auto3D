@@ -66,11 +66,11 @@ public:
     }
 
     /// Construct from a float array.
-    Color(const float* data) :
-        _r(data[0]),
-        _g(data[1]),
-        _b(data[2]),
-        _a(data[3])
+    Color(const float* _data) :
+        _r(_data[0]),
+        _g(_data[1]),
+        _b(_data[2]),
+        _a(_data[3])
     {
     }
     

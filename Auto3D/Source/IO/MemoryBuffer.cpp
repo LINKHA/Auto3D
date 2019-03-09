@@ -8,32 +8,32 @@
 namespace Auto3D
 {
 
-MemoryBuffer::MemoryBuffer(void* data, size_t numBytes) :
-    Stream(data ? numBytes : 0),
-    _buffer((unsigned char*)data),
+MemoryBuffer::MemoryBuffer(void* _data, size_t numBytes) :
+    Stream(_data ? numBytes : 0),
+    _buffer((unsigned char*)_data),
     _readOnly(false)
 {
     SetName("Memory");
 }
 
-MemoryBuffer::MemoryBuffer(const void* data, size_t numBytes) :
-    Stream(data ? numBytes : 0),
-    _buffer((unsigned char*)data),
+MemoryBuffer::MemoryBuffer(const void* _data, size_t numBytes) :
+    Stream(_data ? numBytes : 0),
+    _buffer((unsigned char*)_data),
     _readOnly(true)
 {
     SetName("Memory");
 }
 
-MemoryBuffer::MemoryBuffer(Vector<unsigned char>& data) :
-    Stream(data.Size()),
-    _buffer(data.Begin().ptr),
+MemoryBuffer::MemoryBuffer(Vector<unsigned char>& _data) :
+    Stream(_data.Size()),
+    _buffer(_data.Begin().ptr),
     _readOnly(false)
 {
 }
 
-MemoryBuffer::MemoryBuffer(const Vector<unsigned char>& data) :
-    Stream(data.Size()),
-    _buffer(data.Begin().ptr),
+MemoryBuffer::MemoryBuffer(const Vector<unsigned char>& _data) :
+    Stream(_data.Size()),
+    _buffer(_data.Begin().ptr),
     _readOnly(true)
 {
 }
@@ -78,14 +78,14 @@ size_t MemoryBuffer::Seek(size_t newPosition)
     return _position;
 }
 
-size_t MemoryBuffer::Write(const void* data, size_t numBytes)
+size_t MemoryBuffer::Write(const void* _data, size_t numBytes)
 {
     if (numBytes + _position > _size)
         numBytes = _size - _position;
     if (!numBytes || _readOnly)
         return 0;
     
-    unsigned char* srcPtr = (unsigned char*)data;
+    unsigned char* srcPtr = (unsigned char*)_data;
     unsigned char* destPtr = &_buffer[_position];
     _position += numBytes;
     

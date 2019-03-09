@@ -79,7 +79,7 @@ public:
     /// Process the queue of nodes to be reinserted.
     void Update();
     /// Resize octree.
-    void Resize(const BoundingBox& boundingBox, int numLevels);
+    void Resize(const BoundingBox& boundingBox, int _numLevels);
     /// Remove a node from the octree.
     void RemoveNode(OctreeNode* node);
     /// Queue a reinsertion for a node.
@@ -118,7 +118,7 @@ private:
     /// Return bounding box. Used in serialization.
     const BoundingBox& BoundingBoxAttr() const;
     /// Set number of levels. Used in serialization.
-    void SetNumLevelsAttr(int numLevels);
+    void SetNumLevelsAttr(int _numLevels);
     /// Return number of levels. Used in serialization.
     int NumLevelsAttr() const;
     /// Add node to a specific octant.

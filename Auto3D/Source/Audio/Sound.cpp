@@ -150,12 +150,12 @@ bool Sound::LoadWav(Stream& source)
 bool Sound::LoadOggVorbis(Stream& source)
 {
 	unsigned dataSize = source.Size();
-	SharedArrayPtr<signed char> data(new signed char[dataSize]);
-	source.Read(data.Get(), dataSize);
+	SharedArrayPtr<signed char> _data(new signed char[dataSize]);
+	source.Read(_data.Get(), dataSize);
 
 	// Check for validity of data
 	int error;
-	stb_vorbis* vorbis = stb_vorbis_open_memory((unsigned char*)data.Get(), dataSize, &error, nullptr);
+	stb_vorbis* vorbis = stb_vorbis_open_memory((unsigned char*)_data.Get(), dataSize, &error, nullptr);
 	if (!vorbis)
 	{
 		ErrorString("Could not read Ogg Vorbis data from " + source.Name());
@@ -169,7 +169,7 @@ bool Sound::LoadOggVorbis(Stream& source)
 	_stereo = info.channels > 1;
 	stb_vorbis_close(vorbis);
 
-	_data = data;
+	_data = _data;
 	_dataSize = dataSize;
 	_sixteenBit = true;
 	_compressed = true;
@@ -265,12 +265,12 @@ float Sound::GetLength() const
 
 unsigned Sound::GetSampleSize() const
 {
-	unsigned size = 1;
+	unsigned _size = 1;
 	if (_sixteenBit)
-		size <<= 1;
+		_size <<= 1;
 	if (_stereo)
-		size <<= 1;
-	return size;
+		_size <<= 1;
+	return _size;
 }
 
 void Sound::FixInterpolation()

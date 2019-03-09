@@ -56,11 +56,11 @@ void VertexBuffer::Recreate()
     }
 }
 
-bool VertexBuffer::SetData(size_t firstVertex, size_t numVertices, const void* data)
+bool VertexBuffer::SetData(size_t firstVertex, size_t numVertices, const void* _data)
 {
     PROFILE(UpdateVertexBuffer);
 
-    if (!data)
+    if (!_data)
     {
         ErrorString("Null source data for updating vertex buffer");
         return false;
@@ -77,21 +77,21 @@ bool VertexBuffer::SetData(size_t firstVertex, size_t numVertices, const void* d
     }
 
     if (_shadowData)
-        memcpy(_shadowData.Get() + firstVertex * _vertexSize, data, numVertices * _vertexSize);
+        memcpy(_shadowData.Get() + firstVertex * _vertexSize, _data, numVertices * _vertexSize);
 
     if (_buffer)
     {
         _graphics->BindVBO(_buffer);
         if (numVertices == _numVertices)
-            glBufferData(GL_ARRAY_BUFFER, numVertices * _vertexSize, data, _usage == ResourceUsage::DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, numVertices * _vertexSize, _data, _usage == ResourceUsage::DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
         else
-            glBufferSubData(GL_ARRAY_BUFFER, firstVertex * _vertexSize, numVertices * _vertexSize, data);
+            glBufferSubData(GL_ARRAY_BUFFER, firstVertex * _vertexSize, numVertices * _vertexSize, _data);
     }
 
     return true;
 }
 
-bool VertexBuffer::Create(const void* data)
+bool VertexBuffer::Create(const void* _data)
 {
     if (_graphics && _graphics->IsInitialized())
     {
@@ -103,7 +103,7 @@ bool VertexBuffer::Create(const void* data)
         }
 
         _graphics->BindVBO(_buffer);
-        glBufferData(GL_ARRAY_BUFFER, _numVertices * _vertexSize, data, _usage == ResourceUsage::DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, _numVertices * _vertexSize, _data, _usage == ResourceUsage::DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
         LogStringF("Created vertex buffer numVertices %u vertexSize %u", (unsigned)_numVertices, (unsigned)_vertexSize);
     }
 

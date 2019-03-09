@@ -193,99 +193,98 @@ void Texture::Recreate()
 
 bool Texture::Define(TextureType type_, ResourceUsage usage, const Vector2I& size, ImageFormat format, size_t numLevels, const ImageLevel* initialData)
 {
-    PROFILE(DefineTexture);
+	PROFILE(DefineTexture);
 
-    Release();
+	Release();
 
-    if (type_ != TextureType::TEX_2D && type_ != TextureType::TEX_CUBE)
-    {
-        ErrorString("Only 2D textures and cube maps supported for now");
-        return false;
-    }
-    if (format > ImageFormat::DXT5)
-    {
-        ErrorString("ETC1 and PVRTC formats are unsupported");
-        return false;
-    }
-    if (type_ == TextureType::TEX_CUBE && size._x != size._y)
-    {
-        ErrorString("Cube map must have square dimensions");
-        return false;
-    }
+	if (type_ != TextureType::TEX_2D && type_ != TextureType::TEX_CUBE)
+	{
+		ErrorString("Only 2D textures and cube maps supported for now");
+		return false;
+	}
+	if (format > ImageFormat::DXT5)
+	{
+		ErrorString("ETC1 and PVRTC formats are unsupported");
+		return false;
+	}
+	if (type_ == TextureType::TEX_CUBE && size._x != size._y)
+	{
+		ErrorString("Cube map must have square dimensions");
+		return false;
+	}
 
-    if (numLevels < 1)
-        numLevels = 1;
+	if (numLevels < 1)
+		numLevels = 1;
 
-    _type = type_;
-    _usage = usage;
+	_type = type_;
+	_usage = usage;
 
-    if (_graphics && _graphics->IsInitialized())
-    {
-        glGenTextures(1, &_texture);
-        if (!_texture)
-        {
-            _size = Vector2I::ZERO;
-            _format = ImageFormat::NONE;
-            _numLevels = 0;
+	if (_graphics && _graphics->IsInitialized())
+	{
+		glGenTextures(1, &_texture);
+		if (!_texture)
+		{
+			_size = Vector2I::ZERO;
+			_format = ImageFormat::NONE;
+			_numLevels = 0;
 
-            ErrorString("Failed to create texture");
-            return false;
-        }
+			ErrorString("Failed to create texture");
+			return false;
+		}
 
-        // Ensure the texture is bound for creation
-        _graphics->SetTexture(0, this);
+		// Ensure the texture is bound for creation
+		_graphics->SetTexture(0, this);
 
-        _size = size;
-        _format = format;
-        _numLevels = numLevels;
+		_size = size;
+		_format = format;
+		_numLevels = numLevels;
 
-        // If not compressed and no initial data, create the initial level 0 texture with null data
-        // Clear previous error first to be able to check whether the data was successfully set
-        glGetError();
-        if (!IsCompressed() && !initialData)
-        {
-            if (_type == TextureType::TEX_2D)
-                glTexImage2D(glTargets[_type], 0, glInternalFormats[_format], _size._x, _size._y, 0, glFormats[_format], glDataTypes[_format], 0);
-            else if (_type == TextureType::TEX_CUBE)
-            {
-                for (size_t i = 0; i < MAX_CUBE_FACES; ++i)
-                    glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, glInternalFormats[_format], _size._x, _size._y, 0, glFormats[_format], glDataTypes[_format], 0);
-            }
-        }
+		// If not compressed and no initial data, create the initial level 0 texture with null data
+		// Clear previous error first to be able to check whether the data was successfully set
+		glGetError();
+		if (!IsCompressed() && !initialData)
+		{
+			if (_type == TextureType::TEX_2D)
+				glTexImage2D(glTargets[_type], 0, glInternalFormats[_format], _size._x, _size._y, 0, glFormats[_format], glDataTypes[_format], 0);
+			else if (_type == TextureType::TEX_CUBE)
+			{
+				for (size_t i = 0; i < MAX_CUBE_FACES; ++i)
+					glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, glInternalFormats[_format], _size._x, _size._y, 0, glFormats[_format], glDataTypes[_format], 0);
+			}
+		}
 
-        if (initialData)
-        {
-            // Hack for allowing immutable texture to set initial data
-            _usage = ResourceUsage::DEFAULT;
-            size_t idx = 0;
-            for (size_t i = 0; i < GetNumFaces(); ++i)
-            {
-                for (size_t j = 0; j < _numLevels; ++j)
-                    SetData(i, j, RectI(0, 0, Max(_size._x >> j, 1), Max(_size._y >> j, 1)), initialData[idx++]);
-            }
-            _usage = usage;
-        }
+		if (initialData)
+		{
+			// Hack for allowing immutable texture to set initial data
+			_usage = ResourceUsage::DEFAULT;
+			size_t idx = 0;
+			for (size_t i = 0; i < GetNumFaces(); ++i)
+			{
+				for (size_t j = 0; j < _numLevels; ++j)
+					SetData(i, j, RectI(0, 0, Max(_size._x >> j, 1), Max(_size._y >> j, 1)), initialData[idx++]);
+			}
+			_usage = usage;
+		}
 
-        // If we have an error now, the texture was not created correctly
-        if (glGetError() != GL_NO_ERROR)
-        {
-            Release();
-            _size = Vector2I::ZERO;
-            _format = ImageFormat::NONE;
-            _numLevels = 0;
+		// If we have an error now, the texture was not created correctly
+		if (glGetError() != GL_NO_ERROR)
+		{
+			Release();
+			_size = Vector2I::ZERO;
+			_format = ImageFormat::NONE;
+			_numLevels = 0;
 
-            ErrorString("Failed to create texture");
-            return false;
-        }
+			ErrorString("Failed to create texture");
+			return false;
+		}
 
-        glTexParameteri(glTargets[_type], GL_TEXTURE_BASE_LEVEL, 0);
-        glTexParameteri(glTargets[_type], GL_TEXTURE_MAX_LEVEL, (unsigned)_numLevels - 1);
-        LogStringF("Created texture width %d height %d format %d numLevels %d", _size._x, _size._y, (int)_format, _numLevels);
-    }
+		glTexParameteri(glTargets[_type], GL_TEXTURE_BASE_LEVEL, 0);
+		glTexParameteri(glTargets[_type], GL_TEXTURE_MAX_LEVEL, (unsigned)_numLevels - 1);
+		LogStringF("Created texture width %d height %d format %d numLevels %d", _size._x, _size._y, (int)_format, _numLevels);
+	}
 
-    return true;
+	return true;
 }
-
 bool Texture::DefineSampler(TextureFilterMode filter_, TextureAddressMode u, TextureAddressMode v, TextureAddressMode w, unsigned maxAnisotropy_, float minLod_, float maxLod_, const Color& borderColor)
 {
     PROFILE(DefineTextureSampler);
@@ -366,7 +365,7 @@ bool Texture::DefineSampler(TextureFilterMode filter_, TextureAddressMode u, Tex
     return true;
 }
 
-bool Texture::SetData(size_t face, size_t level, RectI rect, const ImageLevel& data)
+bool Texture::SetData(size_t face, size_t level, RectI rect, const ImageLevel& _data)
 {
     PROFILE(UpdateTextureLevel);
 
@@ -406,12 +405,12 @@ bool Texture::SetData(size_t face, size_t level, RectI rect, const ImageLevel& d
             if (wholeLevel)
             {
                 glTexImage2D(target, (unsigned)level, glInternalFormats[_format], rect.Width(), rect.Height(), 0,
-                    glFormats[_format], glDataTypes[_format], data._data);
+                    glFormats[_format], glDataTypes[_format], _data._data);
             }
             else
             {
                 glTexSubImage2D(target, (unsigned)level, rect.Left(), rect.Top(), rect.Width(), rect.Height(), 
-                    glFormats[_format], glDataTypes[_format], data._data);
+                    glFormats[_format], glDataTypes[_format], _data._data);
             }
         }
         else
@@ -419,13 +418,13 @@ bool Texture::SetData(size_t face, size_t level, RectI rect, const ImageLevel& d
             if (wholeLevel)
             {
                 glCompressedTexImage2D(target, (unsigned)level, glInternalFormats[_format], rect.Width(), rect.Height(),
-                    0, (unsigned)Image::CalculateDataSize(Vector2I(rect.Width(), rect.Height()), _format), data._data);
+                    0, (unsigned)Image::CalculateDataSize(Vector2I(rect.Width(), rect.Height()), _format), _data._data);
             }
             else
             {
                 glCompressedTexSubImage2D(target, (unsigned)level, rect.Left(), rect.Top(), rect.Width(), rect.Height(),
                     glFormats[_format], (unsigned)Image::CalculateDataSize(Vector2I(rect.Width(), rect.Height()), _format),
-                    data._data);
+                    _data._data);
             }
         }
     }

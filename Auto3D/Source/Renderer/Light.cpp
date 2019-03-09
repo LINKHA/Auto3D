@@ -159,12 +159,12 @@ void Light::SetLightMask(unsigned lightMask)
     _lightMask = lightMask;
 }
 
-void Light::SetShadowMapSize(int size)
+void Light::SetShadowMapSize(int _size)
 {
-    if (size < 1)
-        size = 1;
+    if (_size < 1)
+        _size = 1;
 
-    _shadowMapSize = NextPowerOfTwo(size);
+    _shadowMapSize = NextPowerOfTwo(_size);
 }
 
 void Light::SetShadowSplits(const Vector4F& splits)
@@ -353,8 +353,8 @@ void Light::SetupShadowViews(Camera* mainCamera, Vector<AutoPtr<ShadowView> >& s
                 shadowCamera.SetFarClip(shadowBox._max._z);
 
                 Vector3F center = shadowBox.Center();
-                Vector3F size = shadowBox.Size();
-                shadowCamera.SetOrthoSize(Vector2F(size._x, size._y));
+                Vector3F _size = shadowBox.Size();
+                shadowCamera.SetOrthoSize(Vector2F(_size._x, _size._y));
                 shadowCamera.SetZoom(1.0f);
 
                 // Center shadow camera to the view space bounding box
@@ -367,7 +367,7 @@ void Light::SetupShadowViews(Camera* mainCamera, Vector<AutoPtr<ShadowView> >& s
                 {
                     Vector3F viewPos(rot.Inverse() * shadowCamera.GetWorldPosition());
                     float invSize = 1.0f / actualShadowMapSize;
-                    Vector2F texelSize(size._x * invSize, size._y * invSize);
+                    Vector2F texelSize(_size._x * invSize, _size._y * invSize);
                     Vector3F snap(-fmodf(viewPos._x, texelSize._x), -fmodf(viewPos._y, texelSize._y), 0.0f);
                     shadowCamera.Translate(rot * snap, TransformSpace::WORLD);
                 }

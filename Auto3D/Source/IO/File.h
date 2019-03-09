@@ -36,7 +36,7 @@ public:
     /// Set _position in bytes from the beginning of the file.
     size_t Seek(size_t newPosition) override;
     /// Write bytes to the file. Return number of bytes actually written.
-    size_t Write(const void* data, size_t numBytes) override;
+    size_t Write(const void* _data, size_t numBytes) override;
     /// Return whether read operations are allowed.
     bool IsReadable() const override;
     /// Return whether write operations are allowed.

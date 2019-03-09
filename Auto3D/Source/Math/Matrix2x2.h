@@ -37,11 +37,11 @@ public:
 	}
 
 	/// Construct from a _Ty array.
-	explicit Matrix2x2(const _Ty* data) noexcept :
-		_m00(data[0]),
-		_m01(data[1]),
-		_m10(data[2]),
-		_m11(data[3])
+	explicit Matrix2x2(const _Ty* _data) noexcept :
+		_m00(_data[0]),
+		_m01(_data[1]),
+		_m10(_data[2]),
+		_m11(_data[3])
 	{
 	}
 

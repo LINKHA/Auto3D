@@ -10,20 +10,20 @@ class AUTO_API MemoryBuffer : public Stream
 {
 public:
     /// Construct with a pointer and _size.
-    MemoryBuffer(void* data, size_t numBytes);
+    MemoryBuffer(void* _data, size_t numBytes);
     /// Construct as read-only with a pointer and _size.
-    MemoryBuffer(const void* data, size_t numBytes);
+    MemoryBuffer(const void* _data, size_t numBytes);
     /// Construct from a vector, which must not go out of scope before MemoryBuffer.
-    MemoryBuffer(Vector<unsigned char>& data);
+    MemoryBuffer(Vector<unsigned char>& _data);
     /// Construct from a read-only vector, which must not go out of scope before MemoryBuffer.
-    MemoryBuffer(const Vector<unsigned char>& data);
+    MemoryBuffer(const Vector<unsigned char>& _data);
     
     /// Read bytes from the memory area. Return number of bytes actually read.
     size_t Read(void* dest, size_t numBytes) override;
     /// Set _position in bytes from the beginning of the memory area.
     size_t Seek(size_t newPosition) override;
     /// Write bytes to the memory area.
-    size_t Write(const void* data, size_t numBytes) override;
+    size_t Write(const void* _data, size_t numBytes) override;
     /// Return whether read operations are allowed.
     bool IsReadable() const override;
     /// Return whether write operations are allowed.

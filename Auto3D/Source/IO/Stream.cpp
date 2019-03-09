@@ -175,30 +175,30 @@ void Stream::WriteBuffer(const Vector<unsigned char>& value)
 
 void Stream::WriteVLE(size_t value)
 {
-    unsigned char data[4];
+    unsigned char _data[4];
     
     if (value < 0x80)
         Write((unsigned char)value);
     else if (value < 0x4000)
     {
-        data[0] = (unsigned char)value | 0x80;
-        data[1] = (unsigned char)(value >> 7);
-        Write(data, 2);
+        _data[0] = (unsigned char)value | 0x80;
+        _data[1] = (unsigned char)(value >> 7);
+        Write(_data, 2);
     }
     else if (value < 0x200000)
     {
-        data[0] = (unsigned char)value | 0x80;
-        data[1] = (unsigned char)((value >> 7) | 0x80);
-        data[2] = (unsigned char)(value >> 14);
-        Write(data, 3);
+        _data[0] = (unsigned char)value | 0x80;
+        _data[1] = (unsigned char)((value >> 7) | 0x80);
+        _data[2] = (unsigned char)(value >> 14);
+        Write(_data, 3);
     }
     else
     {
-        data[0] = (unsigned char)value | 0x80;
-        data[1] = (unsigned char)((value >> 7) | 0x80);
-        data[2] = (unsigned char)((value >> 14) | 0x80);
-        data[3] = (unsigned char)(value >> 21);
-        Write(data, 4);
+        _data[0] = (unsigned char)value | 0x80;
+        _data[1] = (unsigned char)((value >> 7) | 0x80);
+        _data[2] = (unsigned char)((value >> 14) | 0x80);
+        _data[3] = (unsigned char)(value >> 21);
+        Write(_data, 4);
     }
 }
 

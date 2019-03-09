@@ -174,29 +174,29 @@ static void DecompressAlphaDXT5( unsigned char* rgba, void const* block )
         rgba[4*i + 3] = codes[indices[i]];
 }
 
-static void DecompressDXT( unsigned char* rgba, const void* block, ImageFormat format)
+static void DecompressDXT( unsigned char* rgba, const void* block, ImageFormat _format)
 {
     // get the block locations
     void const* colourBlock = block;
     void const* alphaBock = block;
-    if( format == ImageFormat::DXT3 || format == ImageFormat::DXT5)
+    if( _format == ImageFormat::DXT3 || _format == ImageFormat::DXT5)
         colourBlock = reinterpret_cast< unsigned char const* >( block ) + 8;
 
     // decompress colour
-    DecompressColourDXT( rgba, colourBlock, format == ImageFormat::DXT1 );
+    DecompressColourDXT( rgba, colourBlock, _format == ImageFormat::DXT1 );
 
     // decompress alpha separately if necessary
-    if( format == ImageFormat::DXT3 )
+    if( _format == ImageFormat::DXT3 )
         DecompressAlphaDXT3( rgba, alphaBock );
-    else if ( format == ImageFormat::DXT5 )
+    else if ( _format == ImageFormat::DXT5 )
         DecompressAlphaDXT5( rgba, alphaBock );
 }
 
-void DecompressImageDXT( unsigned char* rgba, const void* blocks, int width, int height, ImageFormat format )
+void DecompressImageDXT( unsigned char* rgba, const void* blocks, int width, int height, ImageFormat _format )
 {
     // initialise the block input
     unsigned char const* sourceBlock = reinterpret_cast< unsigned char const* >( blocks );
-    int bytesPerBlock = format == ImageFormat::DXT1 ? 8 : 16;
+    int bytesPerBlock = _format == ImageFormat::DXT1 ? 8 : 16;
 
     // loop over blocks
     for( int y = 0; y < height; y += 4 )
@@ -205,7 +205,7 @@ void DecompressImageDXT( unsigned char* rgba, const void* blocks, int width, int
         {
             // decompress the block
             unsigned char targetRgba[4*16];
-            DecompressDXT( targetRgba, sourceBlock, format );
+            DecompressDXT( targetRgba, sourceBlock, _format );
 
             // write the decompressed pixels to the correct image locations
             unsigned char const* sourcePixel = targetRgba;
@@ -770,11 +770,11 @@ static unsigned TwiddleUV(unsigned YSize, unsigned XSize, unsigned YPos, unsigne
     return Twiddled;
 }
 
-void DecompressImagePVRTC(unsigned char* dest, const void *blocks, int width, int height, ImageFormat format)
+void DecompressImagePVRTC(unsigned char* dest, const void *blocks, int width, int height, ImageFormat _format)
 {
     AMTC_BLOCK_STRUCT* pCompressedData = (AMTC_BLOCK_STRUCT*)blocks;
     int AssumeImageTiles = 1;
-    int Do2bitMode = format == ImageFormat::PVRTC_RGB_2BPP || format == ImageFormat::PVRTC_RGBA_2BPP;
+    int Do2bitMode = _format == ImageFormat::PVRTC_RGB_2BPP || _format == ImageFormat::PVRTC_RGBA_2BPP;
 
     int x, y;
     int i, j;

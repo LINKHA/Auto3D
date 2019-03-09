@@ -14,7 +14,7 @@ void HashBase::Swap(HashBase& hash)
     Auto3D::Swap(allocator, hash.allocator);
 }
 
-void HashBase::AllocateBuckets(size_t size, size_t numBuckets)
+void HashBase::AllocateBuckets(size_t _size, size_t numBuckets)
 {
     assert(numBuckets >= MIN_BUCKETS);
 
@@ -24,9 +24,9 @@ void HashBase::AllocateBuckets(size_t size, size_t numBuckets)
     delete[] ptrs;
 
     HashNodeBase** newPtrs = new HashNodeBase*[numBuckets + 4];
-    size_t* data = reinterpret_cast<size_t*>(newPtrs);
-    data[0] = size;
-    data[1] = numBuckets;
+    size_t* _data = reinterpret_cast<size_t*>(newPtrs);
+    _data[0] = _size;
+    _data[1] = numBuckets;
     newPtrs[2] = head;
     newPtrs[3] = tail;
     ptrs = newPtrs;
@@ -39,9 +39,9 @@ void HashBase::ResetPtrs()
     if (ptrs)
     {
         size_t numBuckets = NumBuckets();
-        HashNodeBase** data = Ptrs();
+        HashNodeBase** _data = Ptrs();
         for (size_t i = 0; i < numBuckets; ++i)
-            data[i] = nullptr;
+            _data[i] = nullptr;
     }
 }
 

@@ -50,10 +50,10 @@ public:
 	}
 
 	/// Construct from a _Ty array.
-	Matrix3x3(const _Ty* data) :
-		_m00(data[0]), _m01(data[1]), _m02(data[2]),
-		_m10(data[3]), _m11(data[4]), _m12(data[5]),
-		_m20(data[6]), _m21(data[7]), _m22(data[8])
+	Matrix3x3(const _Ty* _data) :
+		_m00(_data[0]), _m01(_data[1]), _m02(_data[2]),
+		_m10(_data[3]), _m11(_data[4]), _m12(_data[5]),
+		_m20(_data[6]), _m21(_data[7]), _m22(_data[8])
 	{
 	}
 

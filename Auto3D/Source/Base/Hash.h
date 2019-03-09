@@ -176,11 +176,11 @@ public:
     
 protected:
     /// Allocate bucket head pointers + room for _size and bucket count variables.
-    void AllocateBuckets(size_t size, size_t numBuckets);
+    void AllocateBuckets(size_t _size, size_t numBuckets);
     /// Reset bucket head pointers.
     void ResetPtrs();
     /// Set new _size.
-    void SetSize(size_t size) { reinterpret_cast<size_t*>(ptrs)[0] = size; }
+    void SetSize(size_t _size) { reinterpret_cast<size_t*>(ptrs)[0] = _size; }
     /// Set new head node.
     void SetHead(HashNodeBase* head) { ptrs[2] = head; }
     /// Set new tail node.

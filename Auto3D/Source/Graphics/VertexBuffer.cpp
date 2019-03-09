@@ -7,7 +7,7 @@
 namespace Auto3D
 {
 
-bool VertexBuffer::Define(ResourceUsage usage, size_t numVertices, const Vector<VertexElement>& elements, bool useShadowData, const void* data)
+bool VertexBuffer::Define(ResourceUsage usage, size_t numVertices, const Vector<VertexElement>& elements, bool useShadowData, const void* _data)
 {
     if (!numVertices || !elements.Size())
     {
@@ -15,10 +15,10 @@ bool VertexBuffer::Define(ResourceUsage usage, size_t numVertices, const Vector<
         return false;
     }
 
-    return Define(usage, numVertices, elements.Size(), &elements[0], useShadowData, data);
+    return Define(usage, numVertices, elements.Size(), &elements[0], useShadowData, _data);
 }
 
-bool VertexBuffer::Define(ResourceUsage usage, size_t numVertices, size_t numElements, const VertexElement* elements, bool useShadowData, const void* data)
+bool VertexBuffer::Define(ResourceUsage usage, size_t numVertices, size_t numElements, const VertexElement* elements, bool useShadowData, const void* _data)
 {
     PROFILE(DefineVertexBuffer);
 
@@ -32,7 +32,7 @@ bool VertexBuffer::Define(ResourceUsage usage, size_t numVertices, size_t numEle
         ErrorString("Rendertarget usage is illegal for vertex buffers");
         return false;
     }
-    if (usage == ResourceUsage::IMMUTABLE && !data)
+    if (usage == ResourceUsage::IMMUTABLE && !_data)
     {
         ErrorString("Immutable vertex buffer must define initial data");
         return false;
@@ -65,14 +65,14 @@ bool VertexBuffer::Define(ResourceUsage usage, size_t numVertices, size_t numEle
     }
 
     // If buffer is reinitialized with the same shadow data, no need to reallocate
-    if (useShadowData && (!data || data != _shadowData.Get()))
+    if (useShadowData && (!_data || _data != _shadowData.Get()))
     {
         _shadowData = new unsigned char[_numVertices * _vertexSize];
-        if (data)
-            memcpy(_shadowData.Get(), data, _numVertices * _vertexSize);
+        if (_data)
+            memcpy(_shadowData.Get(), _data, _numVertices * _vertexSize);
     }
 
-    return Create(data);
+    return Create(_data);
 }
 
 }

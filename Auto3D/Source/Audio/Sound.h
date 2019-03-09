@@ -22,7 +22,7 @@ public:
 	/// Load Ogg Vorbis format sound data. Does not decode at load, but will rather be decoded while playing.
 	bool LoadOggVorbis(Stream& source);
 	/// Set data with void*
-	void SetData(void* data, unsigned dataSize);
+	void SetData(void* _data, unsigned dataSize);
 	/// Set size with long
 	void SetSize(unsigned dataSize);
 	/// Set uncompressed sound data format.

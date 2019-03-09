@@ -65,10 +65,10 @@ public:
 	}
 
 	/// Construct from a _Ty array.
-	Vector3(const _Ty* data) :
-		_x(data[0]),
-		_y(data[1]),
-		_z(data[2])
+	Vector3(const _Ty* _data) :
+		_x(_data[0]),
+		_y(_data[1]),
+		_z(_data[2])
 	{
 	}
 

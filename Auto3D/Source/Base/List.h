@@ -93,7 +93,7 @@ protected:
     /// Allocate head & tail pointers + room for _size variable.
     void AllocatePtrs();
     /// Set new _size.
-    void SetSize(size_t size) { reinterpret_cast<size_t*>(ptrs)[0] = size; }
+    void SetSize(size_t _size) { reinterpret_cast<size_t*>(ptrs)[0] = _size; }
     /// Set new head node.
     void SetHead(ListNodeBase* head) { ptrs[1] = head; }
     /// Set new tail node.

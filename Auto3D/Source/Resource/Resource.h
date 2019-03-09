@@ -26,7 +26,7 @@ public:
     /// Set name of the resource, usually the same as the file being loaded from.
     void SetName(const String& newName);
 
-	void SetMemoryUse(unsigned size);
+	void SetMemoryUse(unsigned _size);
 
     /// Return name of the resource.
     const String& Name() const { return _name; }

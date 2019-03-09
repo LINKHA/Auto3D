@@ -37,11 +37,11 @@ public:
     }
     
     /// Construct from a float array.
-    Quaternion(const float* data) :
-        _w(data[0]),
-        _x(data[1]),
-        _y(data[2]),
-        _z(data[3])
+    Quaternion(const float* _data) :
+        _w(_data[0]),
+        _x(_data[1]),
+        _y(_data[2]),
+        _z(_data[3])
     {
     }
     

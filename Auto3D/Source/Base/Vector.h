@@ -33,12 +33,12 @@ public:
 
 protected:
     /// Set new _size.
-    void SetSize(size_t size) { reinterpret_cast<size_t*>(buffer)[0] = size; } 
+    void SetSize(size_t _size) { reinterpret_cast<size_t*>(buffer)[0] = _size; } 
     /// Set new capacity.
     void SetCapacity(size_t capacity) { reinterpret_cast<size_t*>(buffer)[1] = capacity; } 
 
     /// Allocate the buffer for elements.
-    static unsigned char* AllocateBuffer(size_t size);
+    static unsigned char* AllocateBuffer(size_t _size);
 
     /// Buffer. Contains _size and capacity in the beginning.
     unsigned char* buffer;
@@ -63,9 +63,9 @@ public:
     }
 
     /// Construct with initial data.
-    Vector(const _Ty* data, size_t dataSize)
+    Vector(const _Ty* _data, size_t dataSize)
     {
-        Resize(dataSize, data);
+        Resize(dataSize, _data);
     }
 
     /// Copy-construct.
@@ -125,14 +125,14 @@ public:
     /// Test for equality with another vector.
     bool operator == (const Vector<_Ty>& rhs) const
     {
-        size_t size = Size();
-        if (rhs.Size() != size)
+        size_t _size = Size();
+        if (rhs.Size() != _size)
             return false;
 
         _Ty* lhsBuffer = Buffer();
         _Ty* rhsBuffer = rhs.Buffer();
 
-        for (size_t i = 0; i < size; ++i)
+        for (size_t i = 0; i < _size; ++i)
         {
             if (lhsBuffer[i] != rhsBuffer[i])
                 return false;
@@ -295,9 +295,9 @@ public:
     /// Set new capacity.
     void Reserve(size_t newCapacity)
     {
-        size_t size = Size();
-        if (newCapacity < size)
-            newCapacity = size;
+        size_t _size = Size();
+        if (newCapacity < _size)
+            newCapacity = _size;
 
         if (newCapacity != Capacity())
         {
@@ -310,13 +310,13 @@ public:
                 // This assumes the elements are safe to move without copy-constructing and deleting the old elements;
                 // ie. they should not contain pointers to self, or interact with outside objects in their constructors
                 // or destructors
-                MoveElements(reinterpret_cast<_Ty*>(newBuffer + 2 * sizeof(size_t)), Buffer(), size);
+                MoveElements(reinterpret_cast<_Ty*>(newBuffer + 2 * sizeof(size_t)), Buffer(), _size);
             }
 
             // Delete the old buffer
             delete[] buffer;
             buffer = newBuffer;
-            SetSize(size);
+            SetSize(_size);
             SetCapacity(newCapacity);
         }
     }
@@ -373,14 +373,14 @@ private:
    /// Resize the vector and create/remove new elements as necessary.
     void Resize(size_t newSize, const _Ty* src)
     {
-        size_t size = Size();
+        size_t _size = Size();
         
-        if (newSize < size)
+        if (newSize < _size)
         {
-            DestructElements(Buffer() + newSize, size - newSize);
+            DestructElements(Buffer() + newSize, _size - newSize);
             SetSize(newSize);
         }
-        else if (newSize > size)
+        else if (newSize > _size)
         {
             size_t capacity = Capacity();
             unsigned char* oldBuffer = nullptr;
@@ -399,14 +399,14 @@ private:
                 oldBuffer = buffer;
                 buffer = AllocateBuffer(capacity * sizeof(_Ty));
                 if (oldBuffer)
-                    MoveElements(Buffer(), reinterpret_cast<_Ty*>(oldBuffer + 2 * sizeof(size_t)), size);
+                    MoveElements(Buffer(), reinterpret_cast<_Ty*>(oldBuffer + 2 * sizeof(size_t)), _size);
 
                 SetCapacity(capacity);
             }
 
             // Initialize the new elements. Optimize for case of 1 element with source (push)
-            size_t count = newSize - size;
-            _Ty* dest = Buffer() + size;
+            size_t count = newSize - _size;
+            _Ty* dest = Buffer() + _size;
             if (src)
             {
                 if (count == 1)
@@ -442,16 +442,16 @@ private:
     /// Move a range of elements within the vector.
     void MoveRange(size_t dest, size_t src, size_t count)
     {
-        _Ty* data = Buffer();
+        _Ty* _data = Buffer();
         if (src < dest)
         {
             for (size_t i = count - 1; i < count; --i)
-                data[dest + i] = data[src + i];
+                _data[dest + i] = _data[src + i];
         }
         if (src > dest)
         {
             for (size_t i = 0; i < count; ++i)
-                data[dest + i] = data[src + i];
+                _data[dest + i] = _data[src + i];
         }
     }
 

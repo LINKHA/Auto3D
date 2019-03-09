@@ -55,7 +55,7 @@ public:
     /// Set light layer mask. Will be checked against scene objects' layers to see what objects to illuminate.
     void SetLightMask(unsigned mask);
     /// Set shadow map face resolution in pixels.
-    void SetShadowMapSize(int size);
+    void SetShadowMapSize(int _size);
     /// Set directional light shadow split distances. Fill unused splits with zero.
     void SetShadowSplits(const Vector4F& splits);
     /// Set directional light shadow fade start depth, where 1 represents shadow max distance.

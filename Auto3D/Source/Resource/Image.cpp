@@ -6,6 +6,7 @@
 
 #include <cstdlib>
 #include <cstring>
+#include <SDL_surface.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
@@ -219,9 +220,9 @@ struct DDSurfaceDesc2
 /// \endcond
 
 Image::Image() :
-    size(Vector2I::ZERO),
-    format(ImageFormat::NONE),
-    numLevels(1)
+    _size(Vector2I::ZERO),
+    _format(ImageFormat::NONE),
+    _numLevels(1)
 {
 }
 
@@ -250,15 +251,15 @@ bool Image::BeginLoad(Stream& source)
         switch (ddsd.ddpfPixelFormat.dwFourCC)
         {
         case FOURCC_DXT1:
-            format = ImageFormat::DXT1;
+            _format = ImageFormat::DXT1;
             break;
 
         case FOURCC_DXT3:
-            format = ImageFormat::DXT3;
+            _format = ImageFormat::DXT3;
             break;
 
         case FOURCC_DXT5:
-            format = ImageFormat::DXT5;
+            _format = ImageFormat::DXT5;
             break;
 
         default:
@@ -267,10 +268,10 @@ bool Image::BeginLoad(Stream& source)
         }
 
         size_t dataSize = source.Size() - source.Position();
-        data = new unsigned char[dataSize];
-        size = Vector2I(ddsd.dwWidth, ddsd.dwHeight);
-        numLevels = ddsd.dwMipMapCount ? ddsd.dwMipMapCount : 1;
-        source.Read(data.Get(), dataSize);
+        _data = new unsigned char[dataSize];
+        _size = Vector2I(ddsd.dwWidth, ddsd.dwHeight);
+        _numLevels = ddsd.dwMipMapCount ? ddsd.dwMipMapCount : 1;
+        source.Read(_data.Get(), dataSize);
     }
     else if (fileID == "\253KTX")
     {
@@ -314,43 +315,43 @@ bool Image::BeginLoad(Stream& source)
             return false;
         }
 
-        format = ImageFormat::NONE;
+        _format = ImageFormat::NONE;
         switch (internalFormat)
         {
         case 0x83f1:
-            format = ImageFormat::DXT1;
+            _format = ImageFormat::DXT1;
             break;
 
         case 0x83f2:
-            format = ImageFormat::DXT3;
+            _format = ImageFormat::DXT3;
             break;
 
         case 0x83f3:
-            format = ImageFormat::DXT5;
+            _format = ImageFormat::DXT5;
             break;
 
         case 0x8d64:
-            format = ImageFormat::ETC1;
+            _format = ImageFormat::ETC1;
             break;
 
         case 0x8c00:
-            format = ImageFormat::PVRTC_RGB_4BPP;
+            _format = ImageFormat::PVRTC_RGB_4BPP;
             break;
 
         case 0x8c01:
-            format = ImageFormat::PVRTC_RGB_2BPP;
+            _format = ImageFormat::PVRTC_RGB_2BPP;
             break;
 
         case 0x8c02:
-            format = ImageFormat::PVRTC_RGBA_4BPP;
+            _format = ImageFormat::PVRTC_RGBA_4BPP;
             break;
 
         case 0x8c03:
-            format = ImageFormat::PVRTC_RGBA_2BPP;
+            _format = ImageFormat::PVRTC_RGBA_2BPP;
             break;
         }
 
-        if (format == ImageFormat::NONE)
+        if (_format == ImageFormat::NONE)
         {
             ErrorString("Unsupported texture format in KTX file");
             return false;
@@ -359,9 +360,9 @@ bool Image::BeginLoad(Stream& source)
         source.Seek(source.Position() + keyValueBytes);
         size_t dataSize = source.Size() - source.Position() - mipmaps * sizeof(unsigned);
 
-        data = new unsigned char[dataSize];
-        size = Vector2I(imageWidth, imageHeight);
-        numLevels = mipmaps;
+        _data = new unsigned char[dataSize];
+        _size = Vector2I(imageWidth, imageHeight);
+        _numLevels = mipmaps;
 
         size_t dataOffset = 0;
         for (size_t i = 0; i < mipmaps; ++i)
@@ -373,7 +374,7 @@ bool Image::BeginLoad(Stream& source)
                 return false;
             }
 
-            source.Read(&data[dataOffset], levelSize);
+            source.Read(&_data[dataOffset], levelSize);
             dataOffset += levelSize;
             if (source.Position() & 3)
                 source.Seek((source.Position() + 3) & 0xfffffffc);
@@ -406,43 +407,43 @@ bool Image::BeginLoad(Stream& source)
             return false;
         }
 
-        format = ImageFormat::NONE;
+        _format = ImageFormat::NONE;
         switch (pixelFormatLo)
         {
         case 0:
-            format = ImageFormat::PVRTC_RGB_2BPP;
+            _format = ImageFormat::PVRTC_RGB_2BPP;
             break;
 
         case 1:
-            format = ImageFormat::PVRTC_RGBA_2BPP;
+            _format = ImageFormat::PVRTC_RGBA_2BPP;
             break;
 
         case 2:
-            format = ImageFormat::PVRTC_RGB_4BPP;
+            _format = ImageFormat::PVRTC_RGB_4BPP;
             break;
 
         case 3:
-            format = ImageFormat::PVRTC_RGBA_4BPP;
+            _format = ImageFormat::PVRTC_RGBA_4BPP;
             break;
 
         case 6:
-            format = ImageFormat::ETC1;
+            _format = ImageFormat::ETC1;
             break;
 
         case 7:
-            format = ImageFormat::DXT1;
+            _format = ImageFormat::DXT1;
             break;
 
         case 9:
-            format = ImageFormat::DXT3;
+            _format = ImageFormat::DXT3;
             break;
 
         case 11:
-            format = ImageFormat::DXT5;
+            _format = ImageFormat::DXT5;
             break;
         }
 
-        if (format == ImageFormat::NONE)
+        if (_format == ImageFormat::NONE)
         {
             ErrorString("Unsupported texture format in PVR file");
             return false;
@@ -451,11 +452,11 @@ bool Image::BeginLoad(Stream& source)
         source.Seek(source.Position() + metaDataSize);
         size_t dataSize = source.Size() - source.Position();
 
-        data = new unsigned char[dataSize];
-        size = Vector2I(imageWidth, imageHeight);
-        numLevels = mipmapCount;
+        _data = new unsigned char[dataSize];
+        _size = Vector2I(imageWidth, imageHeight);
+        _numLevels = mipmapCount;
 
-        source.Read(data.Get(), dataSize);
+        source.Read(_data.Get(), dataSize);
     }
     else
     {
@@ -507,7 +508,7 @@ bool Image::Save(Stream& dest)
         return false;
     }
 
-    if (!data)
+    if (!_data)
     {
         ErrorString("Can not save zero-sized image " + Name());
         return false;
@@ -521,7 +522,7 @@ bool Image::Save(Stream& dest)
     }
 
     int len;
-    unsigned char *png = stbi_write_png_to_mem(data.Get(), 0, size._x, size._y, components, &len);
+    unsigned char *png = stbi_write_png_to_mem(_data.Get(), 0, _size._x, _size._y, components, &len);
     bool success = dest.Write(png, len) == (size_t)len;
     free(png);
     return success;
@@ -529,7 +530,7 @@ bool Image::Save(Stream& dest)
 
 void Image::SetSize(const Vector2I& newSize, ImageFormat newFormat)
 {
-    if (newSize == size && newFormat == format)
+    if (newSize == _size && newFormat == _format)
         return;
 
     if (newSize._x <= 0 || newSize._y <= 0)
@@ -543,16 +544,16 @@ void Image::SetSize(const Vector2I& newSize, ImageFormat newFormat)
         return;
     }
 
-    data = new unsigned char[newSize._x * newSize._y * pixelByteSizes[newFormat]];
-    size = newSize;
-    format = newFormat;
-    numLevels = 1;
+    _data = new unsigned char[newSize._x * newSize._y * pixelByteSizes[newFormat]];
+    _size = newSize;
+    _format = newFormat;
+    _numLevels = 1;
 }
 
 void Image::SetData(const unsigned char* pixelData)
 {
     if (!IsCompressed())
-        memcpy(data.Get(), pixelData, size._x * size._y * PixelByteSize());
+        memcpy(_data.Get(), pixelData, _size._x * _size._y * PixelByteSize());
     else
         ErrorString("Can not set pixel data of a compressed image");
 }
@@ -585,19 +586,19 @@ bool Image::GenerateMipImage(Image& dest) const
         return false;
     }
 
-    Vector2I sizeOut(Max(size._x / 2, 1), Max(size._y / 2, 1));
-    dest.SetSize(sizeOut, format);
+    Vector2I sizeOut(Max(_size._x / 2, 1), Max(_size._y / 2, 1));
+    dest.SetSize(sizeOut, _format);
 
-    const unsigned char* pixelDataIn = data.Get();
-    unsigned char* pixelDataOut = dest.data.Get();
+    const unsigned char* pixelDataIn = _data.Get();
+    unsigned char* pixelDataOut = dest._data.Get();
 
     switch (components)
     {
     case 1:
         for (int y = 0; y < sizeOut._y; ++y)
         {
-            const unsigned char* inUpper = &pixelDataIn[(y * 2) * size._x];
-            const unsigned char* inLower = &pixelDataIn[(y * 2 + 1) * size._x];
+            const unsigned char* inUpper = &pixelDataIn[(y * 2) * _size._x];
+            const unsigned char* inLower = &pixelDataIn[(y * 2 + 1) * _size._x];
             unsigned char* out = &pixelDataOut[y * sizeOut._x];
 
             for (int x = 0; x < sizeOut._x; ++x)
@@ -608,8 +609,8 @@ bool Image::GenerateMipImage(Image& dest) const
     case 2:
         for (int y = 0; y < sizeOut._y; ++y)
         {
-            const unsigned char* inUpper = &pixelDataIn[(y * 2) * size._x * 2];
-            const unsigned char* inLower = &pixelDataIn[(y * 2 + 1) * size._x * 2];
+            const unsigned char* inUpper = &pixelDataIn[(y * 2) * _size._x * 2];
+            const unsigned char* inLower = &pixelDataIn[(y * 2 + 1) * _size._x * 2];
             unsigned char* out = &pixelDataOut[y * sizeOut._x * 2];
 
             for (int x = 0; x < sizeOut._x * 2; x += 2)
@@ -623,8 +624,8 @@ bool Image::GenerateMipImage(Image& dest) const
     case 4:
         for (int y = 0; y < sizeOut._y; ++y)
         {
-            const unsigned char* inUpper = &pixelDataIn[(y * 2) * size._x * 4];
-            const unsigned char* inLower = &pixelDataIn[(y * 2 + 1) * size._x * 4];
+            const unsigned char* inUpper = &pixelDataIn[(y * 2) * _size._x * 4];
+            const unsigned char* inLower = &pixelDataIn[(y * 2 + 1) * _size._x * 4];
             unsigned char* out = &pixelDataOut[y * sizeOut._x * 4];
 
             for (int x = 0; x < sizeOut._x * 4; x += 4)
@@ -645,7 +646,7 @@ ImageLevel Image::GetLevel(size_t index) const
 {
     ImageLevel level;
 
-    if (index >= numLevels)
+    if (index >= _numLevels)
         return level;
 
     size_t i = 0;
@@ -653,16 +654,77 @@ ImageLevel Image::GetLevel(size_t index) const
 
     for (;;)
     {
-        level._size = Vector2I(Max(size._x >> i, 1), Max(size._y >> i, 1));
-        level._data = data.Get() + offset;
+        level._size = Vector2I(Max(_size._x >> i, 1), Max(_size._y >> i, 1));
+        level._data = _data.Get() + offset;
 
-        size_t dataSize = CalculateDataSize(level._size, format, &level._rows, &level._rowSize);
+        size_t dataSize = CalculateDataSize(level._size, _format, &level._rows, &level._rowSize);
         if (i == index)
             return level;
 
         offset += dataSize;
         ++i;
     }
+}
+
+
+SDL_Surface* Image::GetSDLSurface(const RectI& rect) const
+{
+	if (!_data)
+		return nullptr;
+
+	if (IsCompressed())
+	{
+		ErrorString("Can not get SDL surface from compressed image " + Name());
+		return nullptr;
+	}
+
+	if (GetComponents() < 3)
+	{
+		ErrorString("Can not get SDL surface from image " + Name() + " with less than 3 components");
+		return nullptr;
+	}
+
+	RectI imageRect = rect;
+	// Use full image if illegal rect
+	if (imageRect.Left() < 0 || imageRect.Top() < 0 || imageRect.Right() > _size._x || imageRect.Bottom() > _size._y ||
+		imageRect.Left() >= imageRect.Right() || imageRect.Top() >= imageRect.Bottom())
+	{
+		imageRect.Left() = 0;
+		imageRect.Top() = 0;
+		imageRect.Right() = _size._x;
+		imageRect.Bottom() = _size._y;
+	}
+
+	int imageWidth = _size._x;
+	int width = imageRect.Width();
+	int height = imageRect.Height();
+
+	// Assume little-endian for all the supported platforms
+	unsigned rMask = 0x000000ff;
+	unsigned gMask = 0x0000ff00;
+	unsigned bMask = 0x00ff0000;
+	unsigned aMask = 0xff000000;
+
+	SDL_Surface* surface = SDL_CreateRGBSurface(0, width, height, GetComponents() * 8, rMask, gMask, bMask, aMask);
+	if (surface)
+	{
+		SDL_LockSurface(surface);
+
+		auto* destination = reinterpret_cast<unsigned char*>(surface->pixels);
+		unsigned char* source = _data.Get() + GetComponents() * (imageWidth * imageRect.Top() + imageRect.Left());
+		for (int i = 0; i < height; ++i)
+		{
+			memcpy(destination, source, (size_t)GetComponents() * width);
+			destination += surface->pitch;
+			source += GetComponents() * imageWidth;
+		}
+
+		SDL_UnlockSurface(surface);
+	}
+	else
+		ErrorString("Failed to create SDL surface from image " + Name());
+
+	return surface;
 }
 
 bool Image::DecompressLevel(unsigned char* dest, size_t index) const
@@ -675,7 +737,7 @@ bool Image::DecompressLevel(unsigned char* dest, size_t index) const
         return false;
     }
 
-    if (index >= numLevels)
+    if (index >= _numLevels)
     {
         ErrorString("Mip level index out of bounds for DecompressLevel");
         return false;
@@ -683,12 +745,12 @@ bool Image::DecompressLevel(unsigned char* dest, size_t index) const
 
     ImageLevel level = GetLevel(index);
 
-    switch (format)
+    switch (_format)
     {
     case ImageFormat::DXT1:
     case ImageFormat::DXT3:
     case ImageFormat::DXT5:
-        DecompressImageDXT(dest, level._data, level._size._x, level._size._y, format);
+        DecompressImageDXT(dest, level._data, level._size._x, level._size._y, _format);
         break;
 
     case ImageFormat::ETC1:
@@ -699,7 +761,7 @@ bool Image::DecompressLevel(unsigned char* dest, size_t index) const
     case ImageFormat::PVRTC_RGBA_2BPP:
     case ImageFormat::PVRTC_RGB_4BPP:
     case ImageFormat::PVRTC_RGBA_4BPP:
-        DecompressImagePVRTC(dest, level._data, level._size._x, level._size._y, format);
+        DecompressImagePVRTC(dest, level._data, level._size._x, level._size._y, _format);
         break;
 
     default:
@@ -710,28 +772,28 @@ bool Image::DecompressLevel(unsigned char* dest, size_t index) const
     return true;
 }
 
-size_t Image::CalculateDataSize(const Vector2I& size, ImageFormat format, size_t* dstRows, size_t* dstRowSize)
+size_t Image::CalculateDataSize(const Vector2I& _size, ImageFormat _format, size_t* dstRows, size_t* dstRowSize)
 {
     size_t rows, rowSize, dataSize;
 
-    if (format < ImageFormat::DXT1)
+    if (_format < ImageFormat::DXT1)
     {
-        rows = size._y;
-        rowSize = size._x * pixelByteSizes[format];
+        rows = _size._y;
+        rowSize = _size._x * pixelByteSizes[_format];
         dataSize = rows * rowSize;
     }
-    else if (format < ImageFormat::PVRTC_RGB_2BPP)
+    else if (_format < ImageFormat::PVRTC_RGB_2BPP)
     {
-        size_t blockSize = (format == ImageFormat::DXT1 || format == ImageFormat::ETC1) ? 8 : 16;
-        rows = (size._y + 3) / 4;
-        rowSize = ((size._x + 3) / 4) * blockSize;
+        size_t blockSize = (_format == ImageFormat::DXT1 || _format == ImageFormat::ETC1) ? 8 : 16;
+        rows = (_size._y + 3) / 4;
+        rowSize = ((_size._x + 3) / 4) * blockSize;
         dataSize = rows * rowSize;
     }
     else
     {
-        size_t blockSize = format < ImageFormat::PVRTC_RGB_4BPP ? 2 : 4;
-        size_t dataWidth = Max(size._x, blockSize == 2 ? 16 : 8);
-        rows = Max(size._y, 8);
+        size_t blockSize = _format < ImageFormat::PVRTC_RGB_4BPP ? 2 : 4;
+        size_t dataWidth = Max(_size._x, blockSize == 2 ? 16 : 8);
+        rows = Max(_size._y, 8);
         dataSize = (dataWidth * rows * blockSize + 7) >> 3;
         rowSize = dataSize / rows;
     }

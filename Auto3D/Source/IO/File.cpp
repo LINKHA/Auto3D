@@ -132,7 +132,7 @@ size_t File::Seek(size_t newPosition)
     return _position;
 }
 
-size_t File::Write(const void* data, size_t numBytes)
+size_t File::Write(const void* _data, size_t numBytes)
 {
     if (!_handle || _mode == FileMode::READ)
         return 0;
@@ -147,7 +147,7 @@ size_t File::Write(const void* data, size_t numBytes)
         _writeSyncNeeded = false;
     }
     
-    if (fwrite(data, numBytes, 1, (FILE*)_handle) != 1)
+    if (fwrite(_data, numBytes, 1, (FILE*)_handle) != 1)
     {
         // If error, return to the _position where the write began
         fseek((FILE*)_handle, (long)_position, SEEK_SET);

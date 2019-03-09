@@ -51,9 +51,9 @@ public:
     }
 
     /// Construct from a float array.
-    Rect(const float* data) :
-        _min(data[0], data[1]),
-        _max(data[2], data[3])
+    Rect(const float* _data) :
+        _min(_data[0], _data[1]),
+        _max(_data[2], _data[3])
     {
     }
     

@@ -1,6 +1,8 @@
 #include "../Base/WString.h"
 #include "../Debug/Log.h"
 #include "../Math/Math.h"
+#include "../Resource/Image.h"
+
 #include "Input.h"
 #include "Window.h"
 
@@ -58,6 +60,13 @@ Window::~Window()
 void Window::SetTitle(const String& newTitle)
 {
 	_title = newTitle;
+}
+
+void Window::SetIcon(Image* icon)
+{
+	_icon = icon;
+	if (_handle)
+		CreateWindowIcon();
 }
 
 bool Window::SetSize(const RectI& rect, int multisample, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
@@ -158,7 +167,18 @@ void Window::SetMousePosition(const Vector2I& position)
 		SDL_WarpMouseInWindow(_handle, position._x, position._y);
 	}
 }
-
+void Window::CreateWindowIcon()
+{
+	if (_icon)
+	{
+		SDL_Surface* surface = _icon->GetSDLSurface();
+		if (surface)
+		{
+			SDL_SetWindowIcon(_handle, surface);
+			SDL_FreeSurface(surface);
+		}
+	}
+}
 void Window::Close()
 {
 

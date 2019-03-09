@@ -55,11 +55,11 @@ public:
 	}
 
 	/// Construct from a float array.
-	Vector4(const float* data) :
-		_x(data[0]),
-		_y(data[1]),
-		_z(data[2]),
-		_w(data[3])
+	Vector4(const float* _data) :
+		_x(_data[0]),
+		_y(_data[1]),
+		_z(_data[2]),
+		_w(_data[3])
 	{
 	}
 

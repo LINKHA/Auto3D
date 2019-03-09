@@ -87,16 +87,16 @@ void Renderer::Render(Scene* scene, Camera* camera)
 	RenderBatches(passes);
 
 }
-void Renderer::SetupShadowMaps(size_t num, int size, ImageFormat format)
+void Renderer::SetupShadowMaps(size_t num, int _size, ImageFormat _format)
 {
-    if (size < 1)
-        size = 1;
-    size = NextPowerOfTwo(size);
+    if (_size < 1)
+        _size = 1;
+    _size = NextPowerOfTwo(_size);
 
     _shadowMaps.Resize(num);
     for (auto it = _shadowMaps.Begin(); it != _shadowMaps.End(); ++it)
     {
-        if (it->_texture->Define(TextureType::TEX_2D, ResourceUsage::RENDERTARGET, Vector2I(size, size), format, 1))
+        if (it->_texture->Define(TextureType::TEX_2D, ResourceUsage::RENDERTARGET, Vector2I(_size, _size), _format, 1))
         {
             // Setup shadow map sampling with hardware depth compare
             it->_texture->DefineSampler(TextureFilterMode::COMPARE_BILINEAR, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, 1);

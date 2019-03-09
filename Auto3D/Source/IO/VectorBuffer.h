@@ -13,27 +13,27 @@ public:
     /// Construct an empty buffer.
     VectorBuffer();
     /// Construct from another buffer.
-    VectorBuffer(const Vector<unsigned char>& data);
+    VectorBuffer(const Vector<unsigned char>& _data);
     /// Construct from a memory area.
-    VectorBuffer(const void* data, size_t numBytes);
+    VectorBuffer(const void* _data, size_t numBytes);
     /// Construct from a stream.
     VectorBuffer(Stream& source, size_t numBytes);
     
     /// Read bytes from the buffer. Return number of bytes actually read.
-    size_t Read(void* dest, size_t size) override;
+    size_t Read(void* dest, size_t _size) override;
     /// Set _position in bytes from the beginning of the buffer.
     size_t Seek(size_t newPosition) override;
     /// Write bytes to the buffer. Return number of bytes actually written.
-    size_t Write(const void* data, size_t size) override;
+    size_t Write(const void* _data, size_t _size) override;
     /// Return whether read operations are allowed.
     bool IsReadable() const override;
     /// Return whether write operations are allowed.
     bool IsWritable() const override;
 
     /// Set data from another buffer.
-    void SetData(const Vector<unsigned char>& data);
+    void SetData(const Vector<unsigned char>& _data);
     /// Set data from a memory area.
-    void SetData(const void* data, size_t numBytes);
+    void SetData(const void* _data, size_t numBytes);
     /// Set data from a stream.
     void SetData(Stream& source, size_t numBytes);
     /// Reset to zero _size.

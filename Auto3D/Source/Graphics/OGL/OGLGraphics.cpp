@@ -177,7 +177,7 @@ Graphics::~Graphics()
     RemoveSubsystem(this);
 }
 
-bool Graphics::SetMode(const RectI& size,int multisample, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
+bool Graphics::SetMode(const RectI& _size,int multisample, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
 {
     // Changing multisample requires destroying the _window, as OpenGL pixel format can only be set once
     if (!_context || multisample != _multisample)
@@ -191,7 +191,7 @@ bool Graphics::SetMode(const RectI& size,int multisample, bool fullscreen, bool 
             SendEvent(_contextLossEvent);
         }
 
-        if (!_window->SetSize(size, multisample, fullscreen, resizable, center, borderless, highDPI))
+        if (!_window->SetSize(_size, multisample, fullscreen, resizable, center, borderless, highDPI))
             return false;
         if (!CreateContext(multisample))
             return false;
@@ -210,7 +210,7 @@ bool Graphics::SetMode(const RectI& size,int multisample, bool fullscreen, bool 
     else
     {
         // If no context creation, just need to resize the _window
-        if (!_window->SetSize(size, fullscreen, resizable, center, borderless, highDPI))
+        if (!_window->SetSize(_size, fullscreen, resizable, center, borderless, highDPI))
             return false;
     }
 
@@ -905,12 +905,12 @@ void Graphics::PrepareFramebuffer()
         }
 
         // Search for a new framebuffer based on format & _size, or create new
-        ImageFormat format = ImageFormat::NONE;
+        ImageFormat _format = ImageFormat::NONE;
         if (_renderTargets[0])
-            format = _renderTargets[0]->GetFormat();
+            _format = _renderTargets[0]->GetFormat();
         else if (_depthStencil)
-            format = _depthStencil->GetFormat();
-        unsigned long long key = (_renderTargetSize._x << 16 | _renderTargetSize._y) | (((unsigned long long)format) << 32);
+            _format = _depthStencil->GetFormat();
+        unsigned long long key = (_renderTargetSize._x << 16 | _renderTargetSize._y) | (((unsigned long long)_format) << 32);
         
         auto it = _framebuffers.Find(key);
         if (it == _framebuffers.End())
@@ -1016,12 +1016,12 @@ bool Graphics::PrepareDraw(bool instanced, size_t instanceStart)
             unsigned char index = attribute._index;
 
             // Mark semantic as required
-            size_t size = attributeVector.Size();
-            if (size <= index)
+            size_t _size = attributeVector.Size();
+            if (_size <= index)
             {
                 attributeVector.Resize(index + 1);
                 // If there are gaps (eg. texcoord1 used without texcoord0), fill them with illegal index
-                for (size_t j = size; j < index; ++j)
+                for (size_t j = _size; j < index; ++j)
                     attributeVector[j] = M_MAX_UNSIGNED;
             }
             attributeVector[index] = attribute._location;

@@ -92,32 +92,34 @@ public:
     void SetData(const unsigned char* pixelData);
 
     /// Return image dimensions in pixels.
-    const Vector2I& GetSize() const { return size; }
+    const Vector2I& GetSize() const { return _size; }
     /// Return image width in pixels.
-    int GetWidth() const { return size._x; }
+    int GetWidth() const { return _size._x; }
     /// Return image height in pixels.
-    int GetHeight() const { return size._y; }
+    int GetHeight() const { return _size._y; }
     /// Return number of components in a pixel. Will return 0 for formats which are not 8 bits per pixel.
-    int GetComponents() const { return components[format]; }
+    int GetComponents() const { return components[_format]; }
     /// Return byte _size of a pixel. Will return 0 for block compressed formats.
-    size_t PixelByteSize() const { return pixelByteSizes[format]; } 
+    size_t PixelByteSize() const { return pixelByteSizes[_format]; } 
     /// Return pixel data.
-    unsigned char* Data() const { return data.Get(); }
+    unsigned char* Data() const { return _data.Get(); }
     /// Return the image format.
-    ImageFormat GetFormat() const { return format; }
+    ImageFormat GetFormat() const { return _format; }
     /// Return whether is a compressed image.
-    bool IsCompressed() const { return format >= ImageFormat::DXT1; }
+    bool IsCompressed() const { return _format >= ImageFormat::DXT1; }
     /// Return number of mip levels contained in the image data.
-    size_t GetNumLevels() const { return numLevels; }
+    size_t GetNumLevels() const { return _numLevels; }
     /// Calculate the next mip image with halved width and height. Supports uncompressed 8 bits per pixel images only. Return true on success.
     bool GenerateMipImage(Image& dest) const;
     /// Return the data for a mip level. Images loaded from eg. PNG or JPG formats will only have one (index 0) level.
     ImageLevel GetLevel(size_t index) const;
-    /// Decompress a mip level as 8-bit RGBA. Supports compressed images only. Return true on success.
+	/// Return an SDL surface from the image, or null if failed. Only RGB images are supported. Specify rect to only return partial image. You must free the surface yourself.
+	SDL_Surface* GetSDLSurface(const RectI& rect = RectI::ZERO) const;
+	/// Decompress a mip level as 8-bit RGBA. Supports compressed images only. Return true on success.
     bool DecompressLevel(unsigned char* dest, size_t levelIndex) const;
 
     /// Calculate the data _size of an image level.
-    static size_t CalculateDataSize(const Vector2I& size, ImageFormat format, size_t* numRows = 0, size_t* rowSize = 0);
+    static size_t CalculateDataSize(const Vector2I& _size, ImageFormat _format, size_t* numRows = 0, size_t* rowSize = 0);
 
     /// Pixel components per format.
     static const int components[];
@@ -131,13 +133,13 @@ private:
     static void FreePixelData(unsigned char* pixelData);
 
     /// Image dimensions.
-    Vector2I size;
+    Vector2I _size;
     /// Image format.
-    ImageFormat format;
+    ImageFormat _format;
     /// Number of mip levels. 1 for uncompressed images.
-    size_t numLevels;
+    size_t _numLevels;
     /// Image pixel data.
-    AutoArrayPtr<unsigned char> data;
+    SharedArrayPtr<unsigned char> _data;
 };
 
 }

@@ -34,11 +34,11 @@ bool AudioBuffer::Create(Sound* sound)
 			ErrorString("Failed to create vertex buffer");
 			return false;
 		}
-		const ALvoid* data = sound->GetStart();
+		const ALvoid* _data = sound->GetStart();
 		long dataSize = sound->GetDataSize();
 		float frequency = sound->GetFrequency();
 		/* for simplicity, assume raw file is signed-16b at frequency */
-		alBufferData(_buffer, AL_FORMAT_MONO16, data, dataSize, frequency * 2);
+		alBufferData(_buffer, AL_FORMAT_MONO16, _data, dataSize, frequency * 2);
 		alSourcei(_source, AL_BUFFER, _buffer);
 	}
 

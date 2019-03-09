@@ -43,9 +43,9 @@ public:
 	}
 
 	/// Construct from a _Ty array.
-	Vector2(const _Ty* data) :
-		_x(data[0]),
-		_y(data[1])
+	Vector2(const _Ty* _data) :
+		_x(_data[0]),
+		_y(_data[1])
 	{
 	}
 
