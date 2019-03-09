@@ -78,13 +78,7 @@ public:
 		FromString(str);
 	}
 
-	/* /// Construct by parsing a C string.
-		Vector3(const char* str)
-		{
-			FromString(str);
-		}
-		*/
-		/// Assign from another vector.
+	/// Assign from another vector.
 	Vector3& operator = (const Vector3& rhs)
 	{
 		_x = rhs._x;
@@ -273,6 +267,12 @@ public:
 	static const Vector3 ONE;
 };
 
+/// Construct by parsing a C string.
+Vector3<char>::Vector3<char>(const char* str)
+{
+	FromString(str);
+}
+	
 /// Multiply Vector3 with a scalar.
 template <typename _Ty> Vector3<_Ty> operator * (_Ty lhs, const Vector3<_Ty>& rhs) { return rhs * lhs; }
 

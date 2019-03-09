@@ -62,13 +62,7 @@ public:
 	{
 		FromString(str);
 	}
-
-	/*  /// Construct by parsing a C string.
-		Matrix3x3(const char* str)
-		{
-			FromString(str);
-		}
-		*/
+		
 		/// Assign from another matrix.
 	Matrix3x3& operator = (const Matrix3x3& rhs)
 	{
@@ -280,6 +274,12 @@ public:
 	/// Identity matrix.
 	static const Matrix3x3 IDENTITY;
 };
+
+/// Construct by parsing a C string.
+template<> Matrix3x3<char>::Matrix3x3<char>(const char* str)
+{
+	FromString(str);
+}
 
 /// Multiply a 3x3 matrix with a scalar.
 template<typename _Ty> Matrix3x3<_Ty> operator * (_Ty lhs, const Matrix3x3<_Ty>& rhs) { return rhs * lhs; }

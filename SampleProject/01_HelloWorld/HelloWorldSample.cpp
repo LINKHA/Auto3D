@@ -25,7 +25,6 @@ void HelloWorldSample::Start()
 	logo->SetTexture(cache->LoadResource<Texture>("Newlogo.png"));
 	logo->SetPosition(Vector3F(0.0f, 0.0f, -0.1f));
 	logo->SetScale(Vector3F(3.0f, 3.0f, 1.0f));
-
 	CreateLogo();
 }
 void HelloWorldSample::Update()
