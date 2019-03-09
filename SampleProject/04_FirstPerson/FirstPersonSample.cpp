@@ -2,12 +2,14 @@
 
 void FirstPersonSample::Init()
 {
+	Super::Init();
 	auto* graphics = Object::Subsystem<Graphics>();
 	graphics->RenderWindow()->SetTitle("FirstPerson Sample");
 
 }
 void FirstPersonSample::Start()
 {
+	Super::Start();
 	auto* cache = Object::Subsystem<ResourceCache>();
 	auto* graphics = Object::Subsystem<Graphics>();
 	auto* renderer = Object::Subsystem<Renderer>();
@@ -73,16 +75,10 @@ void FirstPersonSample::Start()
 		randMsg.zRand = Random() * 40 - 20;
 		lights.Push(randMsg);
 	}
-	canvas = new Canvas();
-	uiCamera = canvas->CreateChild<UICamera>();
-	uiCamera->SetOrthographic(true);
-	uiCamera->SetPosition(Vector3F(0.0f, 0.0f, -100.0f));
-	Subsystem<RegisteredBox>()->RegisterCanvas(canvas, uiCamera);
-
-	CreateLogo();
 }
 void FirstPersonSample::Update()
 {
+	Super::Update();
 	auto* input = Object::Subsystem<Input>();
 	auto* graphics = Object::Subsystem<Graphics>();
 	auto* renderer = Object::Subsystem<Renderer>();
@@ -124,13 +120,6 @@ void FirstPersonSample::Update()
 
 void FirstPersonSample::Stop()
 {
-}
-void FirstPersonSample::CreateLogo()
-{
-	auto* cache = Object::Subsystem<ResourceCache>();
-	Sprite* logoLong = canvas->CreateChild<Sprite>();
-	logoLong->SetTexture(cache->LoadResource<Texture>("LogoLong.png"));
-	logoLong->SetScale(Vector3F(3.0f, 0.8f, 1.0f));
-	logoLong->SetPosition(Vector3F(7.0f, -9.2f, -0.1f));
+	Super::Stop();
 }
 AUTO_APPLICATION_MAIN(FirstPersonSample)

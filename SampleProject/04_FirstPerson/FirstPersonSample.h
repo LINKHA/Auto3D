@@ -1,18 +1,17 @@
 #pragma once
 
-#include "Source/Application.h"
+#include "../Sample.h"
 
 using namespace Auto3D;
 
-class FirstPersonSample : public Application
+class FirstPersonSample : public Sample
 {
-	REGISTER_OBJECT_CLASS(FirstPersonSample, Application)
+	REGISTER_OBJECT_CLASS(FirstPersonSample, Sample)
 public:
 	void Init()override;
 	void Start()override;
 	void Update()override;
 	void Stop()override;
-	void CreateLogo();
 	void HandleCloseRequest(Event& /* event */)
 	{
 		Subsystem<Graphics>()->Close();
@@ -20,8 +19,6 @@ public:
 	float yaw = 0.0f, pitch = 0.0f;
 	Camera* camera;
 	SharedPtr<Scene> scene;
-	UICamera* uiCamera;
-	SharedPtr<Canvas> canvas;
 
 	typedef struct RandMSG
 	{

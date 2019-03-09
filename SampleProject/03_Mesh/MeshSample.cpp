@@ -2,12 +2,13 @@
 
 void MeshSample::Init()
 {
+	Super::Init();
 	auto* graphics = Object::Subsystem<Graphics>();
 	graphics->RenderWindow()->SetTitle("Mesh Sample");
 }
 void MeshSample::Start()
 {
-
+	Super::Start();
 	auto* cache = Object::Subsystem<ResourceCache>();
 	auto* graphics = Object::Subsystem<Graphics>();
 	auto* renderer = Object::Subsystem<Renderer>();
@@ -53,18 +54,10 @@ void MeshSample::Start()
 		light->SetDirection(Vector3F(0.0f, -1.0f, 0.0f));
 		light->SetShadowMapSize(256);
 	}
-	
-
-	canvas = new Canvas();
-	uiCamera = canvas->CreateChild<UICamera>();
-	uiCamera->SetOrthographic(true);
-	uiCamera->SetPosition(Vector3F(0.0f, 0.0f, -100.0f));
-	Subsystem<RegisteredBox>()->RegisterCanvas(canvas, uiCamera);
-
-	CreateLogo();
 }
 void MeshSample::Update()
 {
+	Super::Update();
 	auto* input = Object::Subsystem<Input>();
 	auto* graphics = Object::Subsystem<Graphics>();
 	auto* renderer = Object::Subsystem<Renderer>();
@@ -89,14 +82,7 @@ void MeshSample::Update()
 
 void MeshSample::Stop()
 {
+	Super::Stop();
 }
 
-void MeshSample::CreateLogo()
-{
-	auto* cache = Object::Subsystem<ResourceCache>();
-	Sprite* logoLong = canvas->CreateChild<Sprite>();
-	logoLong->SetTexture(cache->LoadResource<Texture>("logoLong.png"));
-	logoLong->SetScale(Vector3F(3.0f, 0.8f, 1.0f));
-	logoLong->SetPosition(Vector3F(7.0f, -9.2f, -0.1f));
-}
 AUTO_APPLICATION_MAIN(MeshSample)

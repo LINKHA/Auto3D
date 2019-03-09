@@ -269,7 +269,6 @@ void Graphics::Close()
 
     _context.Reset();
 
-    _window->Close();
     ResetState();
 }
 

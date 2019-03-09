@@ -99,10 +99,9 @@ bool Engine::Update()
 	if(Subsystem<Audio>())
 		Subsystem<Audio>()->Update();
 
-	if (input->IsKeyPress(27))
+	if(graphics->RenderWindow()->IsClose())
 		graphics->Close();
 
-	
 	if (!graphics->IsInitialized())
 	{
 		ShutDownEngine();

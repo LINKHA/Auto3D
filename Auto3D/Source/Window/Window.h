@@ -53,11 +53,13 @@ public:
 	void CreateWindowIcon();
 	/// Close the _window.
 	void Close();
-	/// Minimize the _window.
+	/// Raises window if it was minimized.
+	void Raise();
+	/// Minimize the window.
 	void Minimize();
-	/// Maximize the _window.
+	/// Maximize the window.
 	void Maximize();
-	/// Restore _window _size.
+	/// Restore window size.
 	void Restore();
 	/// Pump _window messages from the operating system.
 	void PumpMessages();
@@ -76,6 +78,8 @@ public:
 	const Vector2I GetPosition() const;
 	/// Return last known mouse cursor _position relative to _window top-left.
 	const Vector2I& GetMousePosition() const { return _mousePosition; }
+	/// Return close flags
+	bool IsClose() const { return _close; }
 	/// Return whether _window is open.
 	bool IsOpen() const { return _handle != nullptr; }
 	/// Return whether is _resizable.
@@ -124,11 +128,13 @@ private:
 	Vector2I _savedPosition;
 	/// Current mouse cursor _position.
 	Vector2I _mousePosition;
-	///mouse wheel offset
+	/// Mouse wheel offset
 	Vector2I _mouseWheelOffset;
-	///mouse wheel move
+	/// Mouse wheel move
 	Vector2I _mouseMoveWheel;
 
+	/// Window close flag
+	bool _close;
 	/// Window style flags.
 	unsigned _windowStyle;
 	/// window multi sample num

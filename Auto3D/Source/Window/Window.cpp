@@ -24,6 +24,7 @@ Window::Window() :
 	_mouseWheelOffset(Vector2I::ZERO),
 	_mouseMoveWheel(Vector2I::ZERO),
 	_rect(RectI::ZERO),
+	_close(false),
 	_windowStyle(0),
 	_multisample(1),
 	_minimized(false),
@@ -179,24 +180,39 @@ void Window::CreateWindowIcon()
 		}
 	}
 }
+
 void Window::Close()
 {
+	_close = true;
+}
 
+void Window::Raise()
+{
+	if (!_handle)
+		return;
+
+	SDL_RaiseWindow(_handle);
 }
 
 void Window::Minimize()
 {
+	if (!_handle)
+		return;
 
+	SDL_MinimizeWindow(_handle);
 }
 
 void Window::Maximize()
 {
+	if (!_handle)
+		return;
 
+	SDL_MaximizeWindow(_handle);
 }
 
 void Window::Restore()
 {
-
+	
 }
 
 void Window::PumpMessages()
@@ -210,7 +226,6 @@ void Window::PumpMessages()
 		OnWindowMessage(&evt);
 	}
 }
-
 
 const Vector2I Window::GetPosition() const
 {
@@ -239,7 +254,6 @@ bool Window::OnWindowMessage(void* sdlEvent)
 		_mousePosition._y = y;
 		if (input)
 			input->OnMouseMove(_mousePosition, Vector2I(evt.motion.xrel, evt.motion.yrel));
-		//_isMouseMove = true;
 		break;
 	case SDL_MOUSEBUTTONDOWN:
 		break;
@@ -254,12 +268,10 @@ bool Window::OnWindowMessage(void* sdlEvent)
 		switch (evt.window.event)
 		{
 		case SDL_WINDOWEVENT_MINIMIZED:
-			//_isMinimized = true;
 			break;
 
 		case SDL_WINDOWEVENT_MAXIMIZED:
 		case SDL_WINDOWEVENT_RESTORED:
-			//_isMinimized = false;
 			break;
 
 		case SDL_WINDOWEVENT_RESIZED:
@@ -275,7 +287,6 @@ bool Window::OnWindowMessage(void* sdlEvent)
 			}
 			break;
 		case SDL_WINDOWEVENT_MOVED:
-			//_graphics->OnWindowMoved();
 			break;
 
 		default: break;

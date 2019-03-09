@@ -2,10 +2,11 @@
 
 void SpriteSample::Init()
 {
-
+	Super::Init();
 }
 void SpriteSample::Start()
 {
+	Super::Start();
 	auto* cache = Object::Subsystem<ResourceCache>();
 	auto texture = (cache->LoadResource<Texture>("HelloWorld.png"));
 	auto flower = (cache->LoadResource<Texture>("flower.png"));
@@ -14,18 +15,9 @@ void SpriteSample::Start()
 	camera = scene->CreateChild<Camera>();
 	Subsystem<RegisteredBox>()->RegisterScene(scene, camera);
 
-	canvas = new Canvas();
-	uiCamera = canvas->CreateChild<UICamera>();
-	uiCamera->SetOrthographic(true);
-	uiCamera->SetPosition(Vector3F(0.0f, 0.0f, -1.0f));
-	Subsystem<RegisteredBox>()->RegisterCanvas(canvas, uiCamera);
-
-
 	Sprite* sprite = canvas->CreateChild<Sprite>();
 	sprite->SetTexture(texture);
 	sprite->SetScale(Vector3F(10.0f, 10.0f, 4.0f));
-	
-
 
 	Sprite* bakcground = canvas->CreateChild<Sprite>();
 	bakcground->SetTexture(cache->LoadResource<Texture>("HelloWorld.png"));
@@ -36,23 +28,11 @@ void SpriteSample::Start()
 	logo->SetPosition(Vector3F(0.0f, 0.0f, -0.1f));
 	logo->SetScale(Vector3F(3.0f, 3.0f, 1.0f));
 
-	for (int i = 0; i < 200; i++)
-	{
-		//Sprite* sprite = canvas->CreateChild<Sprite>();
-		//sprite->SetTexture(flower);
-		//sprite->SetColor(Color(Random(1.0f), Random(1.0f), Random(1.0f), 1.0f));
-		// Set blend mode
-		//sprite->SetBlendMode(BLEND_ALPHA);
-	}
-
-
 	sprites.Push(logo);
-
-
-	CreateLogo();
 }
 void SpriteSample::Update()
 {
+	Super::Update();
 	auto* input = Object::Subsystem<Input>();
 	auto* graphics = Object::Subsystem<Graphics>();
 	auto* renderer = Object::Subsystem<Renderer>();
@@ -81,15 +61,7 @@ void SpriteSample::Update()
 
 void SpriteSample::Stop()
 {
-}
-
-void SpriteSample::CreateLogo()
-{
-	auto* cache = Object::Subsystem<ResourceCache>();
-	Sprite* logoLong = canvas->CreateChild<Sprite>();
-	logoLong->SetTexture(cache->LoadResource<Texture>("logoLong.png"));
-	logoLong->SetScale(Vector3F(3.0f, 0.8f, 1.0f));
-	logoLong->SetPosition(Vector3F(7.0f, -9.2f, -0.1f));
+	Super::Stop();
 }
 
 AUTO_APPLICATION_MAIN(SpriteSample)
