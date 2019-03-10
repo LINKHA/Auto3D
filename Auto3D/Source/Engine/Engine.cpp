@@ -93,21 +93,21 @@ bool Engine::Update()
 	auto* graphics = Subsystem<Graphics>();
 
 	_profiler->BeginFrame();
-
 	_time->Update();
 	_input->Update();
-	if(Subsystem<Audio>())
-		Subsystem<Audio>()->Update();
-
-	if(graphics->RenderWindow()->IsClose())
+	if (graphics->RenderWindow()->IsClose())
 		graphics->Close();
-
+	if (graphics->RenderWindow()->IsMinimized())
+		return false;
 	if (!graphics->IsInitialized())
 	{
 		ShutDownEngine();
 		return false;
 	}
+	if(Subsystem<Audio>())
+		Subsystem<Audio>()->Update();
 
+	
 	return true;
 }
 void Engine::FrameFinish()

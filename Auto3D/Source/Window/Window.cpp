@@ -268,10 +268,11 @@ bool Window::OnWindowMessage(void* sdlEvent)
 		switch (evt.window.event)
 		{
 		case SDL_WINDOWEVENT_MINIMIZED:
+			_minimized = true;
 			break;
-
 		case SDL_WINDOWEVENT_MAXIMIZED:
 		case SDL_WINDOWEVENT_RESTORED:
+			_minimized = false;
 			break;
 
 		case SDL_WINDOWEVENT_RESIZED:

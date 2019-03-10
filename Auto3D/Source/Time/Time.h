@@ -10,7 +10,8 @@
 
 namespace Auto3D
 {
-
+const int MIN_FRAMES_PER_SECOND = 10;
+const int MAX_FRAMES_PER_SECOND = 200;
 /// SubSystem class for time
 class AUTO_API Time : public BaseSubsystem
 {
