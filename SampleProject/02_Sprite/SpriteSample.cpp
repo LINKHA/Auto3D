@@ -11,13 +11,13 @@ void SpriteSample::Start()
 	auto flower = (cache->LoadResource<Texture>("flower.png"));
 	SubscribeToEvent(Subsystem<Graphics>()->RenderWindow()->closeRequestEvent, &SpriteSample::HandleCloseRequest);
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < flowerNum; i++)
 	{
-		Sprite* logo = canvas->CreateChild<Sprite>();
-		logo->SetTexture(cache->LoadResource<Texture>("Star.png"));
-		float s = RandomSignedFloat();
-		logo->SetPosition(Vector3F(RandomSignedFloat()*10.0f, RandomSignedFloat()*10.0f, -0.1f));
-		logo->SetScale(Vector3F(1.0f, 1.0f, 1.0f));
+		Sprite* flower = canvas->CreateChild<Sprite>();
+		flower->SetTexture(cache->LoadResource<Texture>("flower.png"));
+		flower->SetPosition(Vector3F(RandomSignedFloat()*10.0f, RandomSignedFloat()*10.0f, -0.1f));
+		flower->SetScale(Vector3F(1.0f, 1.0f, 1.0f));
+		sprites.Push(Pair<FlowerMSG, Sprite*>(FlowerMSG(Random() * 5, RandomSignedFloat()) , flower));
 	}
 
 }
@@ -41,6 +41,17 @@ void SpriteSample::Update()
 		uiCamera->Translate(Vector3F::RIGHT * time->GetDeltaTime()  * moveSpeed);
 
 	float scaleAmount = (float)sin(time->GetCurTime());
+	for (auto it = sprites.Begin(); it != sprites.End(); it++)
+	{
+		float speed = it->first.speed;
+		float rotateOffset = it->first.rotateOffset;
+		Sprite* speite = it->second;
+		speite->Translate(Vector3F::DOWN * time->GetDeltaTime() * speed, UITransformSpace::WORLD);
+		speite->Rotate(Quaternion(0.0f, 0.0f, rotateOffset));
+		Vector3F oldPos = speite->GetPosition();
+		if (oldPos._y <= -11.0f)
+			speite->SetPosition(Vector3F(oldPos._x, 11.0f, oldPos._z));
+	}
 }
 
 void SpriteSample::Stop()

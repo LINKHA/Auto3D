@@ -22,6 +22,7 @@ struct AUTO_API UIBatch
 	GeometryType _type;
 
 	Texture* _texture;
+
 	union
 	{
 		/// Sort _key for state sorting.
@@ -47,10 +48,10 @@ struct AUTO_API UIBatchQueue
 	/// Clear structures.
 	void Clear();
 	/// Sort batches and build instances.
-	void Sort();
+	void Sort(Vector<Matrix3x4F>& instanceTransforms);
 
 	/// Build instances from adjacent batches with same state.
-	static void BuildInstances(Vector<UIBatch>& batches);
+	static void BuildInstances(Vector<UIBatch>& batches, Vector<Matrix3x4F>& instanceTransforms);
 
 	/// Batches, which may be instanced or non-instanced.
 	Vector<UIBatch> _batches;

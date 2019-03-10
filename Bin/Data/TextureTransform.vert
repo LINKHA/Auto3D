@@ -1,7 +1,12 @@
 #version 150
 in vec3 position;
 in vec2 texCoord;
-in vec3 texCoord1; // objectPosition
+
+#ifdef INSTANCED
+in vec4 texCoord4;
+in vec4 texCoord5;
+in vec4 texCoord6;
+#endif
 
 layout(std140) uniform PerFrameVS0
 {
@@ -22,7 +27,13 @@ out vec2 vTexCoord;
 
 void main()
 {
-	vWorldPos.xyz = vec4(position, 1.0) * worldMatrix;
+    #ifdef INSTANCED
+		mat3x4 instanceWorldMatrix = mat3x4(texCoord4, texCoord5, texCoord6);
+		vWorldPos.xyz = vec4(position, 1.0) * instanceWorldMatrix;
+	#else
+		vWorldPos.xyz = vec4(position, 1.0) * worldMatrix;
+	#endif
+	
 	gl_Position = vec4(vWorldPos.xyz, 1.0) * viewProjMatrix;
-   vTexCoord = texCoord;
+    vTexCoord = texCoord;
 };

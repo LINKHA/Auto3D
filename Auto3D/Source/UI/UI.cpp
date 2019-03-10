@@ -24,10 +24,17 @@ static const size_t VS_FRAME_VIEWPROJ_MATRIX = 2;
 static const size_t VS_FRAME_DEPTH_PARAMETERS = 3;
 static const size_t VS_OBJECT_WORLD_MATRIX = 0;
 
+const String geometryDefines[] =
+{
+	"",
+	"INSTANCED"
+};
+
 UI::UI() :
 	_graphics(nullptr),
 	_initialized(false),
-	_uiRendered(false)
+	_uiRendered(false),
+	_instanceTransformsDirty(false)
 {
 	RegisterSubsystem(this);
 
@@ -103,7 +110,7 @@ bool UI::CollectUIObjects(Canvas* canvas, UICamera* camera)
 
 	_geometryNode.Clear();
 	_batchQueue.Clear();
-
+	_instanceTransforms.Clear();
 	_canvas = canvas;
 	_camera = camera;
 	//Classify UI nodes to remove nodes that are not in the view
@@ -139,7 +146,13 @@ void UI::CollectUIBatches()
 		
 		_batchQueue._batches.Push(newBatch);
 	}
-	_batchQueue.Sort();
+	size_t oldSize = _instanceTransforms.Size();
+
+	_batchQueue.Sort(_instanceTransforms);
+
+	// Check if more instances where added
+	if (_instanceTransforms.Size() != oldSize)
+		_instanceTransformsDirty = true;
 }
 
 void UI::RenderBatches()
@@ -162,7 +175,6 @@ void UI::Initialize()
 
 	Vector<Constant> constants;
 	_vsFrameConstantBuffer = new ConstantBuffer();
-
 	constants.Push(Constant(ElementType::MATRIX3X4, "viewMatrix"));
 	constants.Push(Constant(ElementType::MATRIX4, "projectionMatrix"));
 	constants.Push(Constant(ElementType::MATRIX4, "viewProjMatrix"));
@@ -180,13 +192,22 @@ void UI::Initialize()
 	constants.Push(Constant(ElementType::VECTOR4, "color"));
 	_psFrameConstantBuffer->Define(ResourceUsage::DEFAULT, constants);
 
-	vs = new Shader();
-	vs = cache->LoadResource<Shader>("TextureTransform.vert");
-	_vsv = vs->CreateVariation();
+	// Instance vertex buffer contains texcoords 4-6 which define the instances' world matrices
+	_instanceVertexBuffer = new VertexBuffer();
+	_instanceVertexElements.Push(VertexElement(ElementType::VECTOR4, ElementSemantic::TEXCOORD, U_INSTANCE_TEXCOORD, true));
+	_instanceVertexElements.Push(VertexElement(ElementType::VECTOR4, ElementSemantic::TEXCOORD, U_INSTANCE_TEXCOORD + 1, true));
+	_instanceVertexElements.Push(VertexElement(ElementType::VECTOR4, ElementSemantic::TEXCOORD, U_INSTANCE_TEXCOORD + 2, true));
 
+	// Because UI images change less, their shaders are temporarily fixed
+	vs = new Shader();
 	ps = new Shader();
+	vs = cache->LoadResource<Shader>("TextureTransform.vert");
 	ps = cache->LoadResource<Shader>("TextureTransform.frag");
+	_vsv = vs->CreateVariation();
 	_psv = ps->CreateVariation();
+	_ivsv = vs->CreateVariation(geometryDefines[1]);
+	_ipsv = ps->CreateVariation(geometryDefines[1]);
+
 
 }
 
@@ -196,16 +217,30 @@ void UI::RenderBatches(const Vector<UIBatch>& batches, UICamera* camera)
 	for (auto it = batches.Begin(); it != batches.End();)
 	{
 		const UIBatch& batch = *it;
-
 		bool instanced = batch._type == GeometryType::INSTANCED;
-
-		_vsObjectConstantBuffer->SetConstant(VS_OBJECT_WORLD_MATRIX,* batch._worldMatrix);
-		_vsObjectConstantBuffer->Apply();
-
-		_graphics->SetConstantBuffer(ShaderStage::VS, UIConstantBuffer::OBJECT, _vsObjectConstantBuffer);
+		
+		if (_instanceTransformsDirty && _instanceTransforms.Size())
+		{
+			if (_instanceVertexBuffer->GetNumVertices() < _instanceTransforms.Size())
+				_instanceVertexBuffer->Define(ResourceUsage::DYNAMIC, NextPowerOfTwo(_instanceTransforms.Size()), _instanceVertexElements, false);
+			_instanceVertexBuffer->SetData(0, _instanceTransforms.Size(), &_instanceTransforms[0]);
+			_graphics->SetVertexBuffer(1, _instanceVertexBuffer);
+			_instanceTransformsDirty = false;
+		}
+		if (!instanced)
+		{
+			_vsObjectConstantBuffer->SetConstant(VS_OBJECT_WORLD_MATRIX, *batch._worldMatrix);
+			_vsObjectConstantBuffer->Apply();
+			_graphics->SetConstantBuffer(ShaderStage::VS, UIConstantBuffer::OBJECT, _vsObjectConstantBuffer);
+		}
 
 		_graphics->SetTexture(0, batch._texture);
-		_graphics->SetShaders(_vsv, _psv);
+		if (instanced)
+			_graphics->SetShaders(_ivsv, _ipsv);
+		else
+			_graphics->SetShaders(_vsv, _psv);
+
+
 
 		Geometry* geometry = batch._geometry;
 		// Set vertex / index buffers and draw

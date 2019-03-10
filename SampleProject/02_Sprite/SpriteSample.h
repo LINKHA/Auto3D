@@ -16,5 +16,19 @@ public:
 	{
 		Subsystem<Graphics>()->Close();
 	}
-	const int starNum = 200;
+	const int flowerNum = 200;
+	struct FlowerMSG
+	{
+		FlowerMSG() = default;
+		FlowerMSG(float _speed, float _rotateOffset):
+			speed(_speed),
+			rotateOffset(_rotateOffset)
+		{}
+		//Rang[0,10]
+		float speed;
+		//Rang[-1.0,1.0]
+		float rotateOffset;
+	};
+	//First speed ,Second sprite
+	Vector<Pair<FlowerMSG, Sprite*> > sprites;
 };

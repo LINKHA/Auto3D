@@ -10,7 +10,7 @@ void Sample::Start()
 	uiCamera->SetPosition(Vector3F(0.0f, 0.0f, -100.0f));
 	Subsystem<RegisteredBox>()->RegisterCanvas(canvas, uiCamera);
 
-	//CreateLogo();
+	CreateLogo();
 }
 void Sample::Update()
 {

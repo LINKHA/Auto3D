@@ -13,14 +13,14 @@ void UIBatchQueue::Clear()
 	_batches.Clear();
 }
 
-void UIBatchQueue::Sort()
+void UIBatchQueue::Sort(Vector<Matrix3x4F>& instanceTransforms)
 {
 	Auto3D::Sort(_batches.Begin(), _batches.End(), CompareBatchState);
 	// Build instances where adjacent batches have same state
-	BuildInstances(_batches);
+	BuildInstances(_batches, instanceTransforms);
 }
 
-void UIBatchQueue::BuildInstances(Vector<UIBatch>& batches)
+void UIBatchQueue::BuildInstances(Vector<UIBatch>& batches, Vector<Matrix3x4F>& instanceTransforms)
 {
 	UIBatch* start = nullptr;
 
@@ -32,12 +32,17 @@ void UIBatchQueue::BuildInstances(Vector<UIBatch>& batches)
 		{
 			if (start->_type == GeometryType::INSTANCED)
 			{
+				instanceTransforms.Push(*current->_worldMatrix);
 				++start->_instanceCount;
 			}
 			else
 			{
 				// Begin new instanced batch
 				start->_type = GeometryType::INSTANCED;
+				size_t instanceStart = instanceTransforms.Size();
+				instanceTransforms.Push(*start->_worldMatrix);
+				instanceTransforms.Push(*current->_worldMatrix);
+				start->_instanceStart = instanceStart; // Overwrites non-instance world matrix
 				start->_instanceCount = 2; // Overwrites sort _key / distance
 			}
 		}

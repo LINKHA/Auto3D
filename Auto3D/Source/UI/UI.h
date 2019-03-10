@@ -15,6 +15,8 @@ class ConstantBuffer;
 class ShaderVariation;
 class VertexElement;
 class Shader;
+/// Texture coordinate index for the instance world matrix.
+static const size_t U_INSTANCE_TEXCOORD = 4;
 
 /// Shader constant buffers used by high-level rendering.
 struct __UIConstantBuffer
@@ -71,16 +73,28 @@ private:
 	bool _initialized;
 	/// Flag for UI already being rendered this frame.
 	bool _uiRendered;
+	/// Instance vertex buffer dirty flag.
+	bool _instanceTransformsDirty;
+	/// Instance transforms for uploading to the instance vertex buffer.
+	Vector<Matrix3x4F> _instanceTransforms;
 	/// Per-frame vertex shader constant buffer.
 	SharedPtr<ConstantBuffer> _vsFrameConstantBuffer;
 	/// Per-object vertex shader constant buffer.
 	SharedPtr<ConstantBuffer> _vsObjectConstantBuffer;
 	/// Per-frame pixel shader constant buffer.
 	SharedPtr<ConstantBuffer> _psFrameConstantBuffer;
+	/// Instance transform vertex buffer.
+	AutoPtr<VertexBuffer> _instanceVertexBuffer;
+	/// Vertex elements for the instance vertex buffer.
+	Vector<VertexElement> _instanceVertexElements;
 	/// ShaderVariation vs 
 	ShaderVariation* _vsv;
-	///ShaderVariation ps
+	/// ShaderVariation ps
 	ShaderVariation* _psv;
+	/// Instance shaderVariation vs 
+	ShaderVariation* _ivsv;
+	/// Instance ShaderVariation ps
+	ShaderVariation* _ipsv;
 	/// Shader of vs
 	SharedPtr<Shader> vs;
 	/// Shader of ps
