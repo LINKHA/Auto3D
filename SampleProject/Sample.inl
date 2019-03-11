@@ -14,7 +14,7 @@ void Sample::Start()
 }
 void Sample::Update()
 {
-	if (Object::Subsystem<Input>()->IsKeyPress(27))
+	if (Object::Subsystem<Input>()->IsKeyPress(KEY_ESCAPE))
 		Object::Subsystem<Graphics>()->RenderWindow()->Close();
 }
 

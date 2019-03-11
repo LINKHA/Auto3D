@@ -6,6 +6,8 @@
 namespace Auto3D
 {
 
+template<typename _Ty>class Matrix3x4;
+
 /// 4x4 matrix for arbitrary linear transforms including projection.
 template<typename _Ty> class AUTO_API Matrix4x4
 {
@@ -59,7 +61,16 @@ public:
 	{
 	}
 
-	// Construct from values.
+	/// Copy-cnstruct from a 3x4 matrix and set the extra elements to identity.
+	Matrix4x4(const Matrix3x4<_Ty>& matrix) :
+		_m00(matrix._m00), _m01(matrix._m01), _m02(matrix._m02), _m03(matrix._m03),
+		_m10(matrix._m10), _m11(matrix._m11), _m12(matrix._m12), _m13(matrix._m13),
+		_m20(matrix._m20), _m21(matrix._m21), _m22(matrix._m22), _m23(matrix._m23),
+		_m30(0.0f), _m31(0.0f), _m32(0.0f), _m33(1.0f)
+	{
+	}
+
+	/// Construct from values.
 	Matrix4x4(_Ty v00, _Ty v01, _Ty v02, _Ty v03,
 		_Ty v10, _Ty v11, _Ty v12, _Ty v13,
 		_Ty v20, _Ty v21, _Ty v22, _Ty v23,
@@ -446,5 +457,48 @@ using Matrix4x4C = Matrix4x4<char>;
 using Matrix4x4D = Matrix4x4<double>;
 
 using Matrix4x4U = Matrix4x4<unsigned>;
+
+
+template <typename _Ty> Matrix4x4<_Ty> LookAt(const Vector3<_Ty>& eye, const Vector3<_Ty>& center, const Vector3<_Ty>& up)
+{
+	Vector3<_Ty> f(center - eye);
+	f.Normalize();
+	Vector3<_Ty> s(Cross(f, up));
+	s.Normalize();
+	Vector3<_Ty> u(Cross(s, f));
+
+	Matrix4x4<_Ty> result;
+	result._m00 = s._x;
+	result._m10 = s._y;
+	result._m20 = s._z;
+	result._m01 = u._x;
+	result._m11 = u._y;
+	result._m21 = u._z;
+	result._m02 = -f._x;
+	result._m12 = -f._y;
+	result._m22 = -f._z;
+	result._m30 = -Dot(s, eye);
+	result._m31 = -Dot(u, eye);
+	result._m32 = Dot(f, eye);
+	return result;
+}
+
+
+template <typename _Ty> Matrix4x4<_Ty> Perspective(const _Ty& fovy, const _Ty& aspect, const _Ty& zNear, const _Ty& zFar)
+{
+
+	const _Ty rad = fovy * _Ty(0.01745329251994329576923690768489);
+
+	_Ty tanHalfFovy = Tan(rad / static_cast<_Ty>(2));
+
+	Matrix4x4<_Ty> result;
+	result._m00 = static_cast<_Ty>(1) / (aspect * tanHalfFovy);
+	result._m11 = static_cast<_Ty>(1) / (tanHalfFovy);
+	result._m22 = -(zFar + zNear) / (zFar - zNear);
+	result._m23 = -static_cast<_Ty>(1);
+	result._m32 = -(static_cast<_Ty>(2) * zFar * zNear) / (zFar - zNear);
+	result._m33 = 0;
+	return result;
+}
 
 }

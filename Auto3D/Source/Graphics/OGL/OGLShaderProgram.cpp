@@ -220,4 +220,64 @@ String ShaderProgram::FullName() const
     return (_vs && _ps) ? _vs->FullName() + " " + _ps->FullName() : String::EMPTY;
 }
 
+void ShaderProgram::SetBool(const String& name, bool value) const
+{
+	glUniform1i(glGetUniformLocation(_program, name.CString()), (int)value);
+}
+
+void ShaderProgram::SetInt(const String& name, int value) const
+{
+	glUniform1i(glGetUniformLocation(_program, name.CString()), value);
+}
+
+void ShaderProgram::SetFloat(const String& name, float value) const
+{
+	glUniform1f(glGetUniformLocation(_program, name.CString()), value);
+}
+
+void ShaderProgram::SetVec2(const String& name, const Vector2F& value) const
+{
+	glUniform2fv(glGetUniformLocation(_program, name.CString()), 1, value.Data());
+}
+
+void ShaderProgram::SetVec2(const String& name, float x, float y) const
+{
+	glUniform2f(glGetUniformLocation(_program, name.CString()), x, y);
+}
+
+void ShaderProgram::SetVec3(const String& name, const Vector3F& value) const
+{
+	glUniform3fv(glGetUniformLocation(_program, name.CString()), 1, value.Data());
+}
+
+void ShaderProgram::SetVec3(const String& name, float x, float y, float z) const
+{
+	glUniform3f(glGetUniformLocation(_program, name.CString()), x, y, z);
+}
+
+void ShaderProgram::SetVec4(const String& name, const Vector4F& value) const
+{
+	glUniform4fv(glGetUniformLocation(_program, name.CString()), 1, value.Data());
+}
+
+void ShaderProgram::SetVec4(const String& name, float x, float y, float z, float w)
+{
+	glUniform4f(glGetUniformLocation(_program, name.CString()), x, y, z, w);
+}
+
+void ShaderProgram::SetMat2(const String& name, const Matrix2x2F& mat) const
+{
+	glUniformMatrix2fv(glGetUniformLocation(_program, name.CString()), 1, GL_FALSE, mat.Data());
+}
+
+void ShaderProgram::SetMat3(const String& name, const Matrix3x3F& mat) const
+{
+	glUniformMatrix3fv(glGetUniformLocation(_program, name.CString()), 1, GL_FALSE, mat.Data());
+}
+
+void ShaderProgram::SetMat4(const String& name, const Matrix4x4F& mat) const
+{
+	glUniformMatrix4fv(glGetUniformLocation(_program, name.CString()), 1, GL_FALSE, mat.Data());
+}
+
 }

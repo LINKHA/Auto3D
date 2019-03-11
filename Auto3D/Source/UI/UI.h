@@ -95,10 +95,6 @@ private:
 	ShaderVariation* _ivsv;
 	/// Instance ShaderVariation ps
 	ShaderVariation* _ipsv;
-	/// Shader of vs
-	SharedPtr<Shader> vs;
-	/// Shader of ps
-	SharedPtr<Shader> ps;
 };
 
 /// Register UI related object factories and attributes.

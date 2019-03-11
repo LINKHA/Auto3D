@@ -1,5 +1,8 @@
-#include "../Math/Matrix3x4.h"
 #include "Camera.h"
+#include "../Math/Matrix3x4.h"
+#include "../Renderer/SkyBox.h"
+#include "../Resource/Image.h"
+#include "../Graphics/Texture.h"
 
 #include "../Debug/DebugNew.h"
 
@@ -63,7 +66,12 @@ void Camera::RegisterObject()
     RegisterAttribute("useReflection", &Camera::GetUseReflection, &Camera::SetUseReflection, false);
     RegisterAttribute("useClipping", &Camera::GetUseClipping, &Camera::SetUseClipping, false);
 }
-
+SkyBox* Camera::CreateSkyBox(Texture* texture)
+{
+	_skyBox = Create<SkyBox>();
+	_skyBox->SetImage(texture);
+	return _skyBox;
+}
 void Camera::SetNearClip(float nearClip)
 {
     _nearClip = Max(nearClip, M_EPSILON);
@@ -154,12 +162,21 @@ void Camera::SetFlipVertical(bool enable)
 {
     _flipVertical = enable;
 }
-
+void Camera::SetSkyBox(SkyBox* skybox)
+{
+	if (skybox)
+		_skyBox = skybox;
+}
 float Camera::GetNearClip() const
 {
     // Orthographic camera has always near clip at 0 to avoid trouble with shader depth parameters,
     // and unlike in perspective mode there should be no depth buffer precision issue
     return _orthographic ? 0.0f : _nearClip;
+}
+
+SkyBox* Camera::Skybox() 
+{ 
+	return _skyBox; 
 }
 
 Frustum Camera::GetWorldFrustum() const

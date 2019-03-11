@@ -286,4 +286,14 @@ using Vector3D = Vector3<double>;
 
 using Vector3U = Vector3<unsigned>;
 
+template<typename _Ty> Vector3<_Ty> Cross(const Vector3<_Ty>& x, const Vector3<_Ty>& y)
+{
+	return Vector3<_Ty>(
+		x._y * y._z - y._y * x._z,
+		x._z * y._x - y._z * x._x,
+		x._x * y._y - y._x * x._y);
+}
+/// Peform the dot product on two vectors.
+template<typename _Ty> inline _Ty Dot(const Vector3<_Ty>& a, const Vector3<_Ty>& b) { Vector3<_Ty>tmp(a*b); return tmp._x + tmp._y+ tmp._z; }
+
 }

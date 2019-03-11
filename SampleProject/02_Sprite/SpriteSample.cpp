@@ -11,6 +11,7 @@ void SpriteSample::Start()
 	auto flower = (cache->LoadResource<Texture>("flower.png"));
 	SubscribeToEvent(Subsystem<Graphics>()->RenderWindow()->closeRequestEvent, &SpriteSample::HandleCloseRequest);
 
+
 	for (int i = 0; i < flowerNum; i++)
 	{
 		Sprite* flower = canvas->CreateChild<Sprite>();

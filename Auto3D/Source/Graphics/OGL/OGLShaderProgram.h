@@ -50,6 +50,18 @@ public:
     /// Return the OpenGL shader program identifier. Used internally and should not be called by portable application code.
     unsigned GLProgram() const { return _program; }
 
+	void SetBool(const String& name, bool value) const;
+	void SetInt(const String& name, int value) const;
+	void SetFloat(const String& name, float value) const;
+	void SetVec2(const String& name, const Vector2F& value) const;
+	void SetVec2(const String& name, float x, float y) const;
+	void SetVec3(const String& name, const Vector3F& value) const;
+	void SetVec3(const String& name, float x, float y, float z) const;
+	void SetVec4(const String& name, const Vector4F& value) const;
+	void SetVec4(const String& name, float x, float y, float z, float w);
+	void SetMat2(const String& name, const Matrix2x2F& mat) const;
+	void SetMat3(const String& name, const Matrix3x3F& mat) const;
+	void SetMat4(const String& name, const Matrix4x4F& mat) const;
 private:
     /// OpenGL shader program identifier.
     unsigned _program;

@@ -8,6 +8,9 @@
 #include "../Graphics/VertexBuffer.h"
 #include "../Resource/ResourceCache.h"
 #include "../Scene/Scene.h"
+#include "../Math/Matrix4x4.h"
+#include "../Math/Matrix3x4.h"
+
 #include "Light.h"
 #include "Material.h"
 #include "Model.h"
@@ -83,6 +86,13 @@ void Renderer::Render(Scene* scene, Camera* camera)
 	_graphics->ResetRenderTargets();
 	_graphics->ResetViewport();
 	_graphics->Clear(CLEAR_COLOR | CLEAR_DEPTH | CLEAR_STENCIL, Color::BLACK);
+
+#pragma warning
+	Matrix4x4F projection = _camera->GetProjectionMatrix();
+	Matrix3x4F view = _camera->GetViewMatrix();
+	Matrix4x4F _view = Matrix4x4F(view);
+	_skyBox->Draw(projection, _view);
+
 
 	RenderBatches(passes);
 

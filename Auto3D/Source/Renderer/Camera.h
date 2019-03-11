@@ -5,6 +5,7 @@
 #include "../Math/Plane.h"
 #include "../Math/Ray.h"
 #include "../Scene/SpatialNode.h"
+#include "../Renderer/SkyBox.h"
 
 namespace Auto3D
 {
@@ -23,7 +24,10 @@ struct __FaceCameraMode
 };
 using FaceCameraMode = __FaceCameraMode::_FaceCameraMode;
 
-/// %Camera scene node.
+class SkyBox;
+class Texture;
+
+/// Camera scene node.
 class AUTO_API Camera : public SpatialNode
 {
 	REGISTER_OBJECT_CLASS(Camera, SpatialNode)
@@ -35,7 +39,8 @@ public:
 	~Camera() = default;
     /// Register factory and attributes.
     static void RegisterObject();
-
+	/// Create sky box
+	SkyBox* CreateSkyBox(Texture* texture);
     /// Set near clip distance.
     void SetNearClip(float nearClip);
     /// Set far clip distance.
@@ -70,7 +75,8 @@ public:
     void SetClipPlane(const Plane& plane);
     /// Set vertical flipping mode.
     void SetFlipVertical(bool enable);
-
+	/// Set sky box
+	void SetSkyBox(SkyBox* skybox);
     /// Return far clip distance.
     float GetFarClip() const { return _farClip; }
     /// Return near clip distance.
@@ -87,6 +93,8 @@ public:
     float GetLodBias() const { return _lodBias; }
     /// Return view layer mask.
     unsigned GetViewMask() const { return _viewMask; }
+	/// Return sky box
+	SkyBox* Skybox();
     /// Return whether is orthographic.
     bool IsOrthographic() const { return _orthographic; }
     /// Return ambient light color.
@@ -190,6 +198,9 @@ private:
     bool _useReflection;
     /// Use custom clip plane flag.
     bool _useClipping;
+	/// Skybox each camera has a maximum of one
+	SharedPtr<SkyBox> _skyBox;
+
 };
 
 }

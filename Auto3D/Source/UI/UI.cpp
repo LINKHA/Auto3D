@@ -199,8 +199,8 @@ void UI::Initialize()
 	_instanceVertexElements.Push(VertexElement(ElementType::VECTOR4, ElementSemantic::TEXCOORD, U_INSTANCE_TEXCOORD + 2, true));
 
 	// Because UI images change less, their shaders are temporarily fixed
-	vs = new Shader();
-	ps = new Shader();
+	SharedPtr<Shader> vs = new Shader();
+	SharedPtr<Shader> ps = new Shader();
 	vs = cache->LoadResource<Shader>("TextureTransform.vert");
 	ps = cache->LoadResource<Shader>("TextureTransform.frag");
 	_vsv = vs->CreateVariation();

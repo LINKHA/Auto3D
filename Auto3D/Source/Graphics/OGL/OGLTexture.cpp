@@ -285,11 +285,11 @@ bool Texture::Define(TextureType type_, ResourceUsage usage, const Vector2I& siz
 
 	return true;
 }
-bool Texture::DefineSampler(TextureFilterMode filter_, TextureAddressMode u, TextureAddressMode v, TextureAddressMode w, unsigned maxAnisotropy_, float minLod_, float maxLod_, const Color& borderColor)
+bool Texture::DefineSampler(TextureFilterMode filter, TextureAddressMode u, TextureAddressMode v, TextureAddressMode w, unsigned maxAnisotropy_, float minLod_, float maxLod_, const Color& borderColor)
 {
     PROFILE(DefineTextureSampler);
 
-    _filter = filter_;
+    _filter = filter;
     _addressModes[0] = u;
     _addressModes[1] = v;
     _addressModes[2] = w;

@@ -5,6 +5,7 @@
 #include "../../Math/Vector2.h"
 #include "../../Object/GameManager.h"
 #include "../GraphicsDefs.h"
+#include "../../Graphics/OGL/OGLShaderProgram.h"
 
 namespace Auto3D
 {
@@ -91,7 +92,7 @@ public:
     void SetScissorTest(bool scissorEnable = false, const RectI& scissorRect = RectI::ZERO);
     /// Set stencil test.
     void SetStencilTest(bool stencilEnable, const StencilTestDesc& stencilTest = StencilTestDesc(), unsigned char stencilRef = 0);
-    /// Reset rendertarget and depth stencil buffer to the backbuffer.
+	/// Reset rendertarget and depth stencil buffer to the backbuffer.
     void ResetRenderTargets();
     /// Set the viewport to the entire rendertarget or backbuffer.
     void ResetViewport();
@@ -156,6 +157,8 @@ public:
     ShaderVariation* GetPixelShader() const { return _pixelShader; }
     /// Return the current renderstate.
     const RenderState& GetRenderState() const { return _renderState; }
+	/// Return the shader program
+	ShaderProgram* Shaderprogram() { return _shaderProgram; }
     /// Return number of supported constant buffer bindings for vertex shaders.
     size_t NumVSConstantBuffers() const { return _vsConstantBuffers; }
     /// Return number of supported constant buffer bindings for pixel shaders.

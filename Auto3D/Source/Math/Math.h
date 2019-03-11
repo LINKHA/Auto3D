@@ -54,6 +54,8 @@ template<typename _Ty> inline _Ty Abs(_Ty value) { return value >= 0 ? value : -
 /// Return the sign of a float (-1, 0 or 1.)
 template<typename _Ty> inline _Ty Sign(_Ty value) { return value > 0 ? 1 : (value < 0 ? -1 : 0); }
 
+
+
 /// Clamp a float to a range.
 template<typename _Ty> inline _Ty Clamp(float value, float min, float max)
 {

@@ -15,14 +15,13 @@ class AUTO_API Color
 {
 public:
     /// Red value.
-    float _r;
+	union { float _r, _red; };
     /// Green value.
-    float _g;
+	union { float _g, _green; };
     /// Blue value.
-    float _b;
+	union { float _b, _blue; };
     /// Alpha value.
-    float _a;
-
+	union { float _a, _alpha; };
 
     /// Construct undefined.
     Color()
