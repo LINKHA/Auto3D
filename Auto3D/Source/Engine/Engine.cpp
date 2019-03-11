@@ -55,9 +55,13 @@ bool Engine::Init()
 	PROFILE(EngineInit);
 
 	
-	// Seed by time (don't ask me why I'm using these operators, I'm scribbling)
+	// Set random seeds based on time
 	Time::RealTime& realTime = _time->GetRealTime();
-	SetRandomSeed(realTime._year & realTime._month << realTime._day | realTime._hour * realTime._minute ^ realTime._second);
+
+	SetRandomSeed(((unsigned)(realTime._day & 0xff) << 24) |
+		((unsigned)(realTime._hour & 0xff) << 16) |
+		((unsigned)(realTime._minute & 0xff) << 8) |
+		((unsigned)(realTime._second & 0xff)));
 
 	if (!_graphics->SetMode(RectI(0, 0, 1024, 768), 4, false, true))
 	{
