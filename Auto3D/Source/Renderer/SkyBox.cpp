@@ -7,6 +7,7 @@
 #include "../Resource/ResourceCache.h"
 #include "../Graphics/Graphics.h"
 #include "../Graphics/ShaderVariation.h"
+#include "../Renderer/Camera.h"
 #include "../Debug/Log.h"
 
 #include <stb_image.h>
@@ -17,6 +18,100 @@
 
 namespace Auto3D
 {
+unsigned int sphereVAO = 0;
+unsigned int indexCount;
+void renderSphere()
+{
+	if (sphereVAO == 0)
+	{
+		glGenVertexArrays(1, &sphereVAO);
+
+		unsigned int vbo, ebo;
+		glGenBuffers(1, &vbo);
+		glGenBuffers(1, &ebo);
+
+		Vector<Vector3F> positions;
+		Vector<Vector2F> uv;
+		Vector<Vector3F> normals;
+		Vector<unsigned int> indices;
+
+		const unsigned int X_SEGMENTS = 64;
+		const unsigned int Y_SEGMENTS = 64;
+		const float PI = 3.14159265359;
+		for (unsigned int y = 0; y <= Y_SEGMENTS; ++y)
+		{
+			for (unsigned int x = 0; x <= X_SEGMENTS; ++x)
+			{
+				float xSegment = (float)x / (float)X_SEGMENTS;
+				float ySegment = (float)y / (float)Y_SEGMENTS;
+				float xPos = std::cos(xSegment * 2.0f * PI) * std::sin(ySegment * PI);
+				float yPos = std::cos(ySegment * PI);
+				float zPos = std::sin(xSegment * 2.0f * PI) * std::sin(ySegment * PI);
+
+				positions.Push(Vector3F(xPos, yPos, zPos));
+				uv.Push(Vector2F(xSegment, ySegment));
+				normals.Push(Vector3F(xPos, yPos, zPos));
+			}
+		}
+
+		bool oddRow = false;
+		for (int y = 0; y < Y_SEGMENTS; ++y)
+		{
+			if (!oddRow) // even rows: y == 0, y == 2; and so on
+			{
+				for (int x = 0; x <= X_SEGMENTS; ++x)
+				{
+					indices.Push(y       * (X_SEGMENTS + 1) + x);
+					indices.Push((y + 1) * (X_SEGMENTS + 1) + x);
+				}
+			}
+			else
+			{
+				for (int x = X_SEGMENTS; x >= 0; --x)
+				{
+					indices.Push((y + 1) * (X_SEGMENTS + 1) + x);
+					indices.Push(y       * (X_SEGMENTS + 1) + x);
+				}
+			}
+			oddRow = !oddRow;
+		}
+		indexCount = indices.Size();
+
+		Vector<float> data;
+		for (int i = 0; i < positions.Size(); ++i)
+		{
+			data.Push(positions[i]._x);
+			data.Push(positions[i]._y);
+			data.Push(positions[i]._z);
+			if (uv.Size() > 0)
+			{
+				data.Push(uv[i]._x);
+				data.Push(uv[i]._y);
+			}
+			if (normals.Size() > 0)
+			{
+				data.Push(normals[i]._x);
+				data.Push(normals[i]._y);
+				data.Push(normals[i]._z);
+			}
+		}
+		glBindVertexArray(sphereVAO);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, data.Size() * sizeof(float), &data[0], GL_STATIC_DRAW);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.Size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+		float stride = (3 + 2 + 3) * sizeof(float);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (void*)0);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, stride, (void*)(3 * sizeof(float)));
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, stride, (void*)(5 * sizeof(float)));
+	}
+
+	glBindVertexArray(sphereVAO);
+	glDrawElements(GL_TRIANGLE_STRIP, indexCount, GL_UNSIGNED_INT, 0);
+}
 
 void renderQuad(unsigned int * quadVAO, unsigned int * quadVBO)
 {
@@ -115,33 +210,48 @@ void renderCube(unsigned int * cubeVAO, unsigned int * cubeVBO)
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindVertexArray(0);
 }
+// utility function for loading a 2D texture from file
+// ---------------------------------------------------
+unsigned int loadTexture(char const * path)
+{
+	unsigned int textureID;
+	glGenTextures(1, &textureID);
+
+	int width, height, nrComponents;
+	unsigned char *data = stbi_load(path, &width, &height, &nrComponents, 0);
+	if (data)
+	{
+		GLenum format;
+		if (nrComponents == 1)
+			format = GL_RED;
+		else if (nrComponents == 3)
+			format = GL_RGB;
+		else if (nrComponents == 4)
+			format = GL_RGBA;
+
+		glBindTexture(GL_TEXTURE_2D, textureID);
+		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		stbi_image_free(data);
+	}
+	else
+	{
+		
+		stbi_image_free(data);
+	}
+
+	return textureID;
+}
 
 SkyBox::SkyBox()
 {
-	
 
-}
-
-SkyBox::~SkyBox()
-{
-
-}
-//
-void SkyBox::RegisterObject()
-{
-	RegisterFactory<SkyBox>();
-	CopyBaseAttributes<SkyBox, GeometryNode>();
-}
-//
-void SkyBox::SetImage(Image* image)
-{
-	if (image)
-		_image = image;
-}
-
-
-void SkyBox::Init()
-{
 	auto cache = Subsystem<ResourceCache>();
 	//equirectangularToCubemapShader
 	SharedPtr<Shader> cubemap = new Shader();
@@ -159,6 +269,9 @@ void SkyBox::Init()
 	//backgroundShader
 	SharedPtr<Shader> backgroundVs = cache->LoadResource<Shader>("shader/background.vert");
 	SharedPtr<Shader> backgroundPs = cache->LoadResource<Shader>("shader/background.frag");
+	//pbr shader
+	SharedPtr<Shader> pbrShaderVS = cache->LoadResource<Shader>("shader/pbr.vert");
+	SharedPtr<Shader> pbrShaderPS = cache->LoadResource<Shader>("shader/pbr.frag");
 
 
 	_cubemap = cubemap->CreateVariation();
@@ -169,15 +282,37 @@ void SkyBox::Init()
 	_brdfPs = brdfPs->CreateVariation();
 	_backgroundVs = backgroundVs->CreateVariation();
 	_backgroundPs = backgroundPs->CreateVariation();
-
+	_pbrVs = pbrShaderVS->CreateVariation();
+	_pbrPs = pbrShaderPS->CreateVariation();
+	
 
 	auto graphics = Subsystem<Graphics>();
-	//glEnable(GL_DEPTH_TEST);
-	//glDepthFunc(GL_LEQUAL);                                                                    
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LEQUAL);                                                                    
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+
+	graphics->SetShaders(_pbrVs, _pbrPs);
+	graphics->Shaderprogram()->SetInt("irradianceMap", 0);
+	graphics->Shaderprogram()->SetInt("prefilterMap", 1);
+	graphics->Shaderprogram()->SetInt("brdfLUT", 2);
+	graphics->Shaderprogram()->SetInt("albedoMap", 3);
+	graphics->Shaderprogram()->SetInt("normalMap", 4);
+	graphics->Shaderprogram()->SetInt("metallicMap", 5);
+	graphics->Shaderprogram()->SetInt("roughnessMap", 6);
+	graphics->Shaderprogram()->SetInt("aoMap", 7);
+
 
 	graphics->SetShaders(_backgroundVs, _backgroundPs);
 	graphics->Shaderprogram()->SetInt("environmentMap", 0);
+
+
+	ironAlbedoMap = loadTexture("D:/Project/MyProject/Auto3D/Bin/Data/pbr/gold/albedo.png");
+	ironNormalMap = loadTexture("D:/Project/MyProject/Auto3D/Bin/Data/pbr/gold/normal.png");
+	ironMetallicMap = loadTexture("D:/Project/MyProject/Auto3D/Bin/Data/pbr/gold/metallic.png");
+	ironRoughnessMap = loadTexture("D:/Project/MyProject/Auto3D/Bin/Data/pbr/gold/roughness.png");
+	ironAOMap = loadTexture("D:/Project/MyProject/Auto3D/Bin/Data/pbr/gold/ao.png");
+
+
 
 	glGenFramebuffers(1, &captureFBO);
 	glGenRenderbuffers(1, &captureRBO);
@@ -365,10 +500,59 @@ void SkyBox::Init()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 }
-void SkyBox::Draw(const Matrix4x4F& projection,const Matrix4x4F& view)
+
+SkyBox::~SkyBox()
+{
+
+}
+
+void SkyBox::RegisterObject()
+{
+	RegisterFactory<SkyBox>();
+	CopyBaseAttributes<SkyBox, GeometryNode>();
+}
+
+void SkyBox::SetImage(Image* image)
+{
+	if (image)
+		_image = image;
+}
+
+void SkyBox::Draw(const Matrix4x4F& projection,const Matrix4x4F& view,Camera* camera)
 {
 	auto graphics = Subsystem<Graphics>();
 	glDepthFunc(GL_LEQUAL);
+	graphics->SetShaders(_pbrVs, _pbrVs);
+	graphics->Shaderprogram()->SetMat4("projection", projection);
+	Matrix4x4F model;
+
+	graphics->Shaderprogram()->SetMat4("view", view);
+	graphics->Shaderprogram()->SetVec3("camPos", camera->GetPosition());
+
+	// bind pre-computed IBL data
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, irradianceMap);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, prefilterMap);
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, brdfLUTTexture);
+
+	// rusted iron
+	glActiveTexture(GL_TEXTURE3);
+	glBindTexture(GL_TEXTURE_2D, ironAlbedoMap);
+	glActiveTexture(GL_TEXTURE4);
+	glBindTexture(GL_TEXTURE_2D, ironNormalMap);
+	glActiveTexture(GL_TEXTURE5);
+	glBindTexture(GL_TEXTURE_2D, ironMetallicMap);
+	glActiveTexture(GL_TEXTURE6);
+	glBindTexture(GL_TEXTURE_2D, ironRoughnessMap);
+	glActiveTexture(GL_TEXTURE7);
+	glBindTexture(GL_TEXTURE_2D, ironAOMap);
+
+	model = Matrix4x4F();
+	//model = glm::translate(model, glm::vec3(-5.0, 0.0, 2.0));
+	graphics->Shaderprogram()->SetMat4("model", model);
+	renderSphere();
 
 	graphics->SetShaders(_backgroundVs,_backgroundPs);
 	graphics->Shaderprogram()->SetMat4("projection", projection);

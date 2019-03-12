@@ -80,8 +80,6 @@ class AUTO_API Renderer : public BaseSubsystem
     REGISTER_OBJECT_CLASS(Renderer , BaseSubsystem)
 
 public:
-#pragma warning
-	SkyBox* _skyBox;
     /// Construct and register subsystem.
     Renderer();
     /// Destruct.

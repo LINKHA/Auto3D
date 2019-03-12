@@ -23,18 +23,21 @@ void PBRSample::Start()
 	scene = new Scene();
 	scene->CreateChild<Octree>();
 	camera = scene->CreateChild<Camera>();
-	//camera->SetPosition(Vector3F(0.0f, 20.0f, -75.0f));
+	//camera->SetPosition(Vector3F(0.0f, 5.0f, -15.0f));
 	camera->SetAmbientColor(Color(0.1f, 0.1f, 0.1f));
 	camera->SetFov(120.0f);
 	
 	// Register scene to scene system use to render
 	Object::Subsystem<RegisteredBox>()->RegisterScene(scene, camera);
 
+	StaticModel* plane = scene->CreateChild<StaticModel>();
+	plane->SetScale(Vector3F(50.0f, 0.1f, 50.0f));
+	plane->SetModel(resourceCache->LoadResource<Model>("Box.mdl"));
+	plane->SetMaterial(resourceCache->LoadResource<Material>("Stone.json"));
+
 
 	SkyBox* skybox = camera->CreateSkyBox(image);
 
-	Subsystem<Renderer>()->_skyBox = skybox;
-		
 }
 void PBRSample::Update()
 {

@@ -182,11 +182,6 @@ float Camera::GetNearClip() const
     return _orthographic ? 0.0f : _nearClip;
 }
 
-SkyBox* Camera::Skybox() 
-{ 
-	return _skyBox; 
-}
-
 Frustum Camera::GetWorldFrustum() const
 {
     Frustum ret;
@@ -198,6 +193,14 @@ Frustum Camera::GetWorldFrustum() const
         ret.DefineOrtho(_orthoSize, _aspectRatio, _zoom, GetNearClip(), _farClip, worldTransform);
 
     return ret;
+}
+
+SkyBox* Camera::Skybox()
+{
+	if (_skyBox)
+		return _skyBox;
+	else
+		return nullptr;
 }
 
 Frustum Camera::WorldSplitFrustum(float nearClip, float farClip) const

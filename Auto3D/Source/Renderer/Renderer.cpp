@@ -101,8 +101,12 @@ void Renderer::Render(Scene* scene, Camera* camera)
 		0.0f, 1.0f, 0.0f, 0.0f,
 		0.0f, 0.0f, 1.0f, 0.0f,
 		0.0f, 0.0f, -3.0f, 1.0f);
-	_skyBox->Draw(projection, _view);
-	
+	//If you have skybox
+	if (camera->Skybox())
+	{
+		camera->Skybox()->Draw(projection, _view, camera);
+	}
+
 	RenderBatches(passes);
 
 }
@@ -606,7 +610,6 @@ void Renderer::RenderBatches(const String& pass)
 
 void Renderer::Initialize()
 {
-	_skyBox->Init();
     _graphics = Subsystem<Graphics>();
     assert(_graphics && _graphics->IsInitialized());
 

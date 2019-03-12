@@ -93,8 +93,6 @@ public:
     float GetLodBias() const { return _lodBias; }
     /// Return view layer mask.
     unsigned GetViewMask() const { return _viewMask; }
-	/// Return sky box
-	SkyBox* Skybox();
     /// Return whether is orthographic.
     bool IsOrthographic() const { return _orthographic; }
     /// Return ambient light color.
@@ -115,6 +113,8 @@ public:
     bool GetUseReverseCulling() const { return _flipVertical ^ _useReflection; }
     /// Return frustum in world space.
     Frustum GetWorldFrustum() const;
+	/// Return sky box
+	SkyBox* Skybox();
     /// Return world space frustum split by custom near and far clip distances.
     Frustum WorldSplitFrustum(float nearClip, float farClip) const;
     /// Return frustum in view space.
