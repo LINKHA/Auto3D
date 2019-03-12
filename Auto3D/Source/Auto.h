@@ -33,7 +33,6 @@
 #include "Renderer/Octree.h"
 #include "Renderer/Renderer.h"
 #include "Renderer/StaticModel.h"
-#include "Renderer/SkyBox.h"
 #include "Resource/Image.h"
 #include "Resource/JSONFile.h"
 #include "Resource/ResourceCache.h"

@@ -7,7 +7,7 @@ void MeshSample::Init()
 	graphics->RenderWindow()->SetTitle("Mesh Sample");
 }
 void MeshSample::Start()
-{
+{ 
 	Super::Start();
 	auto* cache = Object::Subsystem<ResourceCache>();
 	auto* graphics = Object::Subsystem<Graphics>();

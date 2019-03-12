@@ -1,6 +1,5 @@
 #include "Camera.h"
 #include "../Math/Matrix3x4.h"
-#include "../Renderer/SkyBox.h"
 #include "../Resource/Image.h"
 #include "../Graphics/Texture.h"
 #include "../Debug/Log.h"
@@ -66,19 +65,6 @@ void Camera::RegisterObject()
     RegisterMixedRefAttribute("clipPlane", &Camera::ClipPlaneAttr, &Camera::SetClipPlaneAttr, Vector4F(0.0f, 1.0f, 0.0f, 0.0f));
     RegisterAttribute("useReflection", &Camera::GetUseReflection, &Camera::SetUseReflection, false);
     RegisterAttribute("useClipping", &Camera::GetUseClipping, &Camera::SetUseClipping, false);
-}
-SkyBox* Camera::CreateSkyBox(Image* image)
-{
-	SharedPtr<Object> newObject = Create<SkyBox>();
-	if (!newObject)
-	{
-		ErrorString("Could not create node of unknown type ");
-		return nullptr;
-	}
-	SkyBox* skyBox = dynamic_cast<SkyBox*>(newObject.Get());
-	_skyBox = skyBox;
-	_skyBox->SetImage(image);
-	return _skyBox;
 }
 void Camera::SetNearClip(float nearClip)
 {
@@ -170,11 +156,7 @@ void Camera::SetFlipVertical(bool enable)
 {
     _flipVertical = enable;
 }
-void Camera::SetSkyBox(SkyBox* skybox)
-{
-	if (skybox)
-		_skyBox = skybox;
-}
+
 float Camera::GetNearClip() const
 {
     // Orthographic camera has always near clip at 0 to avoid trouble with shader depth parameters,
@@ -193,14 +175,6 @@ Frustum Camera::GetWorldFrustum() const
         ret.DefineOrtho(_orthoSize, _aspectRatio, _zoom, GetNearClip(), _farClip, worldTransform);
 
     return ret;
-}
-
-SkyBox* Camera::Skybox()
-{
-	if (_skyBox)
-		return _skyBox;
-	else
-		return nullptr;
 }
 
 Frustum Camera::WorldSplitFrustum(float nearClip, float farClip) const

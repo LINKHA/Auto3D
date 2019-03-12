@@ -17,7 +17,6 @@
 #include "Octree.h"
 #include "Renderer.h"
 #include "StaticModel.h"
-#include "SkyBox.h"
 
 #include "../Debug/DebugNew.h"
 
@@ -86,26 +85,6 @@ void Renderer::Render(Scene* scene, Camera* camera)
 	_graphics->ResetRenderTargets();
 	_graphics->ResetViewport();
 	_graphics->Clear(CLEAR_COLOR | CLEAR_DEPTH | CLEAR_STENCIL, Color::BLACK);
-
-#pragma warning
-	Matrix4x4F projection = _camera->GetProjectionMatrix();
-	Matrix3x4F view = _camera->GetViewMatrix();
-	Matrix4x4F _view = Matrix4x4F(view);
-	Matrix4x4F __projection(
-		1.35799515f, 0.0f, 0.0f, 0.0f,
-		0.0f, 2.41421342f, 0.0f, 0.0f,
-		0.0f, 0.0f, -1.00019991f, -1.0f,
-		0.0f, 0.0f, -0.20002f, 0.0f);
-	Matrix4x4F __view(
-		1.0f, 0.0f, 0.0f, 0.0f,
-		0.0f, 1.0f, 0.0f, 0.0f,
-		0.0f, 0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, -3.0f, 1.0f);
-	//If you have skybox
-	if (camera->Skybox())
-	{
-		camera->Skybox()->Draw(projection, _view, camera);
-	}
 
 	RenderBatches(passes);
 
@@ -1080,7 +1059,6 @@ void RegisterRendererLibrary()
     Light::RegisterObject();
     Material::RegisterObject();
     Model::RegisterObject();
-	SkyBox::RegisterObject();
 }
 
 }

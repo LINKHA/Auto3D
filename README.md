@@ -29,9 +29,6 @@ Third-party libraries
 - STB (https://github.com/nothings/stb)
 - FreeType (https://www.freetype.org)
 
-PBR-DEMO
--------
-![Image text](https://github.com/LINKHA/Auto3D/blob/master/Bin/Data/figure/Engine_Effect_Pbr.png)
 
 Scene-DEMO
 -------

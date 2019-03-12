@@ -5,7 +5,6 @@
 #include "../Math/Plane.h"
 #include "../Math/Ray.h"
 #include "../Scene/SpatialNode.h"
-#include "../Renderer/SkyBox.h"
 
 namespace Auto3D
 {
@@ -39,8 +38,6 @@ public:
 	~Camera() = default;
     /// Register factory and attributes.
     static void RegisterObject();
-	/// Create sky box
-	SkyBox* CreateSkyBox(Image* image);
     /// Set near clip distance.
     void SetNearClip(float nearClip);
     /// Set far clip distance.
@@ -198,9 +195,6 @@ private:
     bool _useReflection;
     /// Use custom clip plane flag.
     bool _useClipping;
-	/// Skybox each camera has a maximum of one
-	SharedPtr<SkyBox> _skyBox;
-
 };
 
 }
