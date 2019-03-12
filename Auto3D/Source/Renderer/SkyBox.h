@@ -4,7 +4,7 @@
 namespace Auto3D
 {
 
-class Texture;
+class Image;
 class ShaderVariation;
 
 class AUTO_API SkyBox : public Serializable
@@ -20,7 +20,7 @@ public:
 	/// Register factory and attributes.
 	static void RegisterObject();
 	/// Set image to skybox
-	void SetImage(Texture* texture);
+	void SetImage(Image* image);
 
 	void Init();
 	void Draw(const Matrix4x4F& projection, const Matrix4x4F& view);
@@ -49,7 +49,7 @@ public:
 	unsigned int brdfLUTTexture;
 	unsigned int irradianceMap;
 	/// SkyBox image
-	AutoPtr<Texture> _texture;
+	AutoPtr<Image> _image;
 };
 
 }

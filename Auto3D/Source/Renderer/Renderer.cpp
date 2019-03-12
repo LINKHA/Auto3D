@@ -91,9 +91,18 @@ void Renderer::Render(Scene* scene, Camera* camera)
 	Matrix4x4F projection = _camera->GetProjectionMatrix();
 	Matrix3x4F view = _camera->GetViewMatrix();
 	Matrix4x4F _view = Matrix4x4F(view);
+	Matrix4x4F __projection(
+		1.35799515f, 0.0f, 0.0f, 0.0f,
+		0.0f, 2.41421342f, 0.0f, 0.0f,
+		0.0f, 0.0f, -1.00019991f, -1.0f,
+		0.0f, 0.0f, -0.20002f, 0.0f);
+	Matrix4x4F __view(
+		1.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, -3.0f, 1.0f);
 	_skyBox->Draw(projection, _view);
-
-
+	
 	RenderBatches(passes);
 
 }
@@ -597,6 +606,7 @@ void Renderer::RenderBatches(const String& pass)
 
 void Renderer::Initialize()
 {
+	_skyBox->Init();
     _graphics = Subsystem<Graphics>();
     assert(_graphics && _graphics->IsInitialized());
 

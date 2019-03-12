@@ -40,7 +40,7 @@ public:
     /// Register factory and attributes.
     static void RegisterObject();
 	/// Create sky box
-	SkyBox* CreateSkyBox(Texture* texture);
+	SkyBox* CreateSkyBox(Image* image);
     /// Set near clip distance.
     void SetNearClip(float nearClip);
     /// Set far clip distance.

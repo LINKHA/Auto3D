@@ -2,11 +2,14 @@
 #include "../Graphics/Texture.h"
 #include "../Math/MathTransform.h"
 #include "../Math/Matrix4x4.h"
-
+#include "../Resource/Image.h"
 #include "../Graphics/Shader.h"
 #include "../Resource/ResourceCache.h"
 #include "../Graphics/Graphics.h"
 #include "../Graphics/ShaderVariation.h"
+#include "../Debug/Log.h"
+
+#include <stb_image.h>
 
 #include "../Debug/DebugNew.h"
 #pragma warning
@@ -115,10 +118,34 @@ void renderCube(unsigned int * cubeVAO, unsigned int * cubeVBO)
 
 SkyBox::SkyBox()
 {
+	
+
+}
+
+SkyBox::~SkyBox()
+{
+
+}
+//
+void SkyBox::RegisterObject()
+{
+	RegisterFactory<SkyBox>();
+	CopyBaseAttributes<SkyBox, GeometryNode>();
+}
+//
+void SkyBox::SetImage(Image* image)
+{
+	if (image)
+		_image = image;
+}
+
+
+void SkyBox::Init()
+{
 	auto cache = Subsystem<ResourceCache>();
 	//equirectangularToCubemapShader
 	SharedPtr<Shader> cubemap = new Shader();
-	cubemap  = cache->LoadResource<Shader>("cubemap.vert");
+	cubemap = cache->LoadResource<Shader>("shader/cubemap.vert");
 	SharedPtr<Shader> equirectangularToCubemap = cache->LoadResource<Shader>("shader/equirectangular_to_cubemap.frag");
 	//irradianceShader
 	//vs = cache->LoadResource<Shader>("cubemap.vert");
@@ -134,37 +161,16 @@ SkyBox::SkyBox()
 	SharedPtr<Shader> backgroundPs = cache->LoadResource<Shader>("shader/background.frag");
 
 
-	 _cubemap = cubemap->CreateVariation();
-	 _equirectangularToCubemap = equirectangularToCubemap->CreateVariation();
-	 _irradianceConvolution = irradianceConvolution->CreateVariation();
-	 _prefilter = prefilter->CreateVariation();
-	 _brdfVs = brdfVs->CreateVariation();
-	 _brdfPs = brdfPs->CreateVariation();
-	 _backgroundVs = backgroundVs->CreateVariation();
-	 _backgroundPs = backgroundPs->CreateVariation();
-
-}
-
-SkyBox::~SkyBox()
-{
-
-}
-//
-void SkyBox::RegisterObject()
-{
-	RegisterFactory<SkyBox>();
-	CopyBaseAttributes<SkyBox, GeometryNode>();
-}
-//
-void SkyBox::SetImage(Texture* texture)
-{
-	if (texture)
-		_texture = texture;
-}
+	_cubemap = cubemap->CreateVariation();
+	_equirectangularToCubemap = equirectangularToCubemap->CreateVariation();
+	_irradianceConvolution = irradianceConvolution->CreateVariation();
+	_prefilter = prefilter->CreateVariation();
+	_brdfVs = brdfVs->CreateVariation();
+	_brdfPs = brdfPs->CreateVariation();
+	_backgroundVs = backgroundVs->CreateVariation();
+	_backgroundPs = backgroundPs->CreateVariation();
 
 
-void SkyBox::Init()
-{
 	auto graphics = Subsystem<Graphics>();
 	//glEnable(GL_DEPTH_TEST);
 	//glDepthFunc(GL_LEQUAL);                                                                    
@@ -180,7 +186,41 @@ void SkyBox::Init()
 	glBindRenderbuffer(GL_RENDERBUFFER, captureRBO);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, 512, 512);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, captureRBO);
-	hdrTexture = _texture->GetGLTexture();
+	stbi_set_flip_vertically_on_load(true);
+	int width, height, nrComponents;
+	float *data = stbi_loadf("D:/Project/MyProject/Auto3D/Bin/Data/Mt-Washington-Gold-Room_Ref.hdr", &width, &height, &nrComponents, 0);
+
+	//if (_image->Data())
+	//{
+	//	glGenTextures(1, &hdrTexture);
+	//	glBindTexture(GL_TEXTURE_2D, hdrTexture);
+	//	int width = _image->GetWidth();
+	//	int height = _image->GetHeight();
+	//	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, _image->Data()); // note how we specify the texture's data value to be float
+
+	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	//}
+	if (data)
+	{
+		glGenTextures(1, &hdrTexture);
+		glBindTexture(GL_TEXTURE_2D, hdrTexture);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_FLOAT, data); // note how we specify the texture's data value to be float
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		//stbi_image_free(data);
+	}
+	else
+	{
+		ErrorString("Failed to load HDR image.");
+	}
 
 	glGenTextures(1, &envCubemap);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, envCubemap);

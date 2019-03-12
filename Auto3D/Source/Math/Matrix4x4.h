@@ -488,7 +488,6 @@ template <typename _Ty> Matrix4x4<_Ty> Perspective(const _Ty& fovy, const _Ty& a
 {
 
 	const _Ty rad = fovy * _Ty(0.01745329251994329576923690768489);
-
 	_Ty tanHalfFovy = Tan(rad / static_cast<_Ty>(2));
 
 	Matrix4x4<_Ty> result;

@@ -3,6 +3,7 @@
 #include "../Renderer/SkyBox.h"
 #include "../Resource/Image.h"
 #include "../Graphics/Texture.h"
+#include "../Debug/Log.h"
 
 #include "../Debug/DebugNew.h"
 
@@ -66,10 +67,17 @@ void Camera::RegisterObject()
     RegisterAttribute("useReflection", &Camera::GetUseReflection, &Camera::SetUseReflection, false);
     RegisterAttribute("useClipping", &Camera::GetUseClipping, &Camera::SetUseClipping, false);
 }
-SkyBox* Camera::CreateSkyBox(Texture* texture)
+SkyBox* Camera::CreateSkyBox(Image* image)
 {
-	_skyBox = Create<SkyBox>();
-	_skyBox->SetImage(texture);
+	SharedPtr<Object> newObject = Create<SkyBox>();
+	if (!newObject)
+	{
+		ErrorString("Could not create node of unknown type ");
+		return nullptr;
+	}
+	SkyBox* skyBox = dynamic_cast<SkyBox*>(newObject.Get());
+	_skyBox = skyBox;
+	_skyBox->SetImage(image);
 	return _skyBox;
 }
 void Camera::SetNearClip(float nearClip)

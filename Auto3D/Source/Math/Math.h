@@ -75,11 +75,11 @@ template<typename _Ty> inline _Ty SmoothStep(_Ty lhs, _Ty rhs, _Ty t)
 }
 
 /// Return sine of an angle in degrees.
-template <typename _Ty> inline _Ty Sin(_Ty angle) { return sinf(angle * M_DEGTORAD); }
+template <typename _Ty> inline _Ty Sin(_Ty angle) { return sinf(angle); }
 /// Return cosine of an angle in degrees.
-template <typename _Ty> inline _Ty Cos(_Ty angle) { return cosf(angle * M_DEGTORAD); }
+template <typename _Ty> inline _Ty Cos(_Ty angle) { return cosf(angle); }
 /// Return tangent of an angle in degrees.
-template <typename _Ty> inline _Ty Tan(_Ty angle) { return tanf(angle * M_DEGTORAD); }
+template <typename _Ty> inline _Ty Tan(_Ty angle) { return tanf(angle); }
 /// Return arc sine in degrees.
 template <typename _Ty> inline _Ty Asin(_Ty x) { return M_RADTODEG * asinf(Clamp(x, -1, 1)); }
 /// Return arc cosine in degrees.
