@@ -149,7 +149,6 @@ bool Window::SetSize(const RectI& rect, int multisample, bool fullscreen, bool r
 			int a2 = _rect.Top();
 			int a3 = _rect.Right();
 			int a4 = _rect.Bottom();
-			int i = 0;
 		}
 	}
 	// Create the _window

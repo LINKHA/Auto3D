@@ -31,7 +31,7 @@
 			_CrtDumpMemoryLeaks();\
 			return flag;\
 		}
-#elif defined(_MSC_VER) && AUTO_RELEASE &&!AUTO_WIN32_CONSOLE
+#elif defined(_MSC_VER) && NDEBUG &&!defined(AUTO_WIN32_CONSOLE)
 #	define AUTO_MAIN(_function) \
 		HINSTANCE g_hInstance;HINSTANCE g_prevInstance;PSTR g_cmdLine;int g_showCmd;\
 		SELECT_HITH_PERFORMANCE \
