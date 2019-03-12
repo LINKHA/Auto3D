@@ -42,7 +42,5 @@ private:
 	WeakPtr<Window> _window;
 };
 
-
 }
-
 #endif // AUTO_OPENGL
