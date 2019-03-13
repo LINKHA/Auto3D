@@ -17,32 +17,32 @@ char String::endZero = 0;
 const String String::EMPTY;
 
 String::String(const char* str, size_t numChars) :
-    buffer(nullptr)
+    _buffer(nullptr)
 {
     Resize(numChars);
     CopyChars(Buffer(), str, numChars);
 }
 
 String::String(const wchar_t* str) :
-    buffer(nullptr)
+    _buffer(nullptr)
 {
     SetUTF8FromWChar(str);
 }
 
 String::String(wchar_t* str) :
-    buffer(nullptr)
+    _buffer(nullptr)
 {
     SetUTF8FromWChar(str);
 }
 
 String::String(const WString& str) :
-    buffer(nullptr)
+    _buffer(nullptr)
 {
     SetUTF8FromWChar(str.CString());
 }
 
 String::String(int value) :
-    buffer(nullptr)
+    _buffer(nullptr)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%d", value);
@@ -50,7 +50,7 @@ String::String(int value) :
 }
 
 String::String(short value) :
-    buffer(nullptr)
+    _buffer(nullptr)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%d", value);
@@ -58,7 +58,7 @@ String::String(short value) :
 }
 
 String::String(long value) :
-    buffer(nullptr)
+    _buffer(nullptr)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%ld", value);
@@ -66,7 +66,7 @@ String::String(long value) :
 }
     
 String::String(long long value) :
-    buffer(nullptr)
+    _buffer(nullptr)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%lld", value);
@@ -74,7 +74,7 @@ String::String(long long value) :
 }
 
 String::String(unsigned value) :
-    buffer(nullptr)
+    _buffer(nullptr)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%u", value);
@@ -82,7 +82,7 @@ String::String(unsigned value) :
 }
 
 String::String(unsigned short value) :
-    buffer(nullptr)
+    _buffer(nullptr)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%u", value);
@@ -90,7 +90,7 @@ String::String(unsigned short value) :
 }
 
 String::String(unsigned long value) :
-    buffer(nullptr)
+    _buffer(nullptr)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%lu", value);
@@ -98,7 +98,7 @@ String::String(unsigned long value) :
 }
     
 String::String(unsigned long long value) :
-    buffer(nullptr)
+    _buffer(nullptr)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%llu", value);
@@ -106,7 +106,7 @@ String::String(unsigned long long value) :
 }
 
 String::String(float value) :
-    buffer(nullptr)
+    _buffer(nullptr)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%g", value);
@@ -114,7 +114,7 @@ String::String(float value) :
 }
 
 String::String(double value) :
-    buffer(nullptr)
+    _buffer(nullptr)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%.15g", value);
@@ -122,7 +122,7 @@ String::String(double value) :
 }
 
 String::String(bool value) :
-    buffer(nullptr)
+    _buffer(nullptr)
 {
     if (value)
         *this = "true";
@@ -131,14 +131,14 @@ String::String(bool value) :
 }
 
 String::String(char value) :
-    buffer(nullptr)
+    _buffer(nullptr)
 {
     Resize(1);
     Buffer()[0] = value;
 }
 
 String::String(char value, size_t numChars) :
-    buffer(nullptr)
+    _buffer(nullptr)
 {
     Resize(numChars);
     for (Iterator it = Begin(); it != End(); ++it)
@@ -147,7 +147,7 @@ String::String(char value, size_t numChars) :
 
 String::~String()
 {
-    delete[] buffer;
+    delete[] _buffer;
 }
 
 String& String::operator = (const String& rhs)
@@ -533,7 +533,7 @@ String::Iterator String::Erase(const String::Iterator& start, const String::Iter
 
 void String::Resize(size_t newLength)
 {
-    if (!buffer)
+    if (!_buffer)
     {
         // If zero length requested, do not allocate buffer yet
         if (!newLength)
@@ -544,7 +544,7 @@ void String::Resize(size_t newLength)
         if (capacity < MIN_CAPACITY)
             capacity = MIN_CAPACITY;
         
-        buffer = new char[capacity + 2 * sizeof(size_t)];
+        _buffer = new char[capacity + 2 * sizeof(size_t)];
         SetCapacity(capacity);
     }
     else
@@ -561,9 +561,9 @@ void String::Resize(size_t newLength)
             // Move the existing data to the new buffer, then delete the old buffer
             if (Length())
                 CopyChars(newBuffer + 2 * sizeof(size_t), Buffer(), Length());
-            delete[] buffer;
+            delete[] _buffer;
             
-            buffer = newBuffer;
+            _buffer = newBuffer;
             SetCapacity(capacity);
         }
     }
@@ -584,9 +584,9 @@ void String::Reserve(size_t newCapacity)
     // Move the existing data to the new buffer (including the end zero), then delete the old buffer
     if (length)
         CopyChars(newBuffer + 2 * sizeof(size_t), Buffer(), length + 1);
-    delete[] buffer;
+    delete[] _buffer;
 
-    buffer = newBuffer;
+    _buffer = newBuffer;
     SetLength(length);
     SetCapacity(newCapacity);
 }
@@ -604,7 +604,7 @@ void String::Clear()
 
 void String::Swap(String& str)
 {
-    Auto3D::Swap(buffer, str.buffer);
+    Auto3D::Swap(_buffer, str._buffer);
 }
 
 String& String::AppendWithFormat(const char* formatStr, ... )
@@ -1039,7 +1039,7 @@ size_t String::ByteOffsetUTF8(size_t index) const
 
 unsigned String::NextUTF8Char(size_t& byteOffset) const
 {
-    if (!buffer)
+    if (!_buffer)
         return 0;
     
     const char* src = Buffer() + byteOffset;
@@ -1127,10 +1127,10 @@ size_t String::CStringLength(const char* str)
     #ifdef _MSC_VER
     return strlen(str);
     #else
-    const char* ptr = str;
-    while (*ptr)
-        ++ptr;
-    return ptr - str;
+    const char* _ptr = str;
+    while (*_ptr)
+        ++_ptr;
+    return _ptr - str;
     #endif
 }
 

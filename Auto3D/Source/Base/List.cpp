@@ -12,11 +12,11 @@ template<> void Swap<ListBase>(ListBase& first, ListBase& second)
 
 void ListBase::AllocatePtrs()
 {
-    ptrs = new ListNodeBase*[3];
+    _ptrs = new ListNodeBase*[3];
 
     SetSize(0);
-    ptrs[1] = nullptr;
-    ptrs[2] = nullptr;
+    _ptrs[1] = nullptr;
+    _ptrs[2] = nullptr;
 }
 
 }

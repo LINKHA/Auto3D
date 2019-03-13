@@ -178,7 +178,7 @@ void Canvas::Clear()
 UINode* Canvas::FindUINode(unsigned id) const
 {
 	auto it = _nodes.Find(id);
-	return it != _nodes.End() ? it->second : nullptr;
+	return it != _nodes.End() ? it->_second : nullptr;
 }
 
 const HashMap<unsigned, UINode*>& Canvas::GetAllUINode() const

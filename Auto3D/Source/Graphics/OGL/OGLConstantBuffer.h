@@ -42,11 +42,11 @@ public:
     /// Set raw data directly to the GPU-side buffer. Optionally copy back to the shadow constants. Return true on success.
     bool SetData(const void* _data, bool copyToShadow = false);
     /// Set a constant by index, template version.
-    template <class _Ty> bool SetConstant(size_t index, const _Ty& _data, size_t numElements = 0) { return SetConstant(index, (const void*)&_data, numElements); }
+    template <typename _Ty> bool SetConstant(size_t index, const _Ty& _data, size_t numElements = 0) { return SetConstant(index, (const void*)&_data, numElements); }
     /// Set a constant by name, template version.
-    template <class _Ty> bool SetConstant(const String& name, const _Ty& _data, size_t numElements = 0) { return SetConstant(name, (const void*)&_data, numElements); }
+    template <typename _Ty> bool SetConstant(const String& name, const _Ty& _data, size_t numElements = 0) { return SetConstant(name, (const void*)&_data, numElements); }
     /// Set a constant by name, template version.
-    template <class _Ty> bool SetConstant(const char* name, const _Ty& _data, size_t numElements = 0) { return SetConstant(name, (const void*)&_data, numElements); }
+    template <typename _Ty> bool SetConstant(const char* name, const _Ty& _data, size_t numElements = 0) { return SetConstant(name, (const void*)&_data, numElements); }
 
     /// Return number of constants.
     size_t GetNumConstants() const { return _constants.Size(); }
@@ -64,21 +64,21 @@ public:
     const void* ConstantValue(const char* name, size_t elementIndex = 0) const;
 
     /// Return constant value, template version.
-    template <class _Ty> _Ty ConstantValue(size_t index, size_t elementIndex = 0) const
+    template <typename _Ty> _Ty ConstantValue(size_t index, size_t elementIndex = 0) const
     {
         const void* value = ConstantValue(index, elementIndex);
         return value ? *(reinterpret_cast<const _Ty*>(value)) : _Ty();
     }
 
     /// Return constant value, template version.
-    template <class _Ty> _Ty ConstantValue(const String& name, size_t elementIndex = 0) const
+    template <typename _Ty> _Ty ConstantValue(const String& name, size_t elementIndex = 0) const
     {
         const void* value = ConstantValue(name, elementIndex);
         return value ? *(reinterpret_cast<const _Ty*>(value)) : _Ty();
     }
 
     /// Return constant value, template version.
-    template <class _Ty> _Ty ConstantValue(const char* name, size_t elementIndex = 0) const
+    template <typename _Ty> _Ty ConstantValue(const char* name, size_t elementIndex = 0) const
     {
         const void* value = ConstantValue(name, elementIndex);
         return value ? *(reinterpret_cast<const _Ty*>(value)) : _Ty();

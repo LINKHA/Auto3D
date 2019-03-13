@@ -35,7 +35,7 @@ bool Shader::EndLoad()
 {
     // Release existing variations (if any) to allow them to be recompiled with changed code
     for (auto it = _variations.Begin(); it != _variations.End(); ++it)
-        it->second->Release();
+        it->_second->Release();
     return true;
 }
 
@@ -51,14 +51,14 @@ ShaderVariation* Shader::CreateVariation(const String& definesIn)
     StringHash definesHash(definesIn);
     auto it = _variations.Find(definesHash);
     if (it != _variations.End())
-        return it->second.Get();
+        return it->_second.Get();
     
     // If initially not found, normalize the defines and try again
     String defines = NormalizeDefines(definesIn);
     definesHash = defines;
     it = _variations.Find(definesHash);
     if (it != _variations.End())
-        return it->second.Get();
+        return it->_second.Get();
 
     ShaderVariation* newVariation = new ShaderVariation(this, defines);
     _variations[definesHash] = newVariation;

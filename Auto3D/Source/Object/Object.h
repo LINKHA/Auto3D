@@ -8,7 +8,7 @@ namespace Auto3D
 {
 
 class ObjectFactory;
-template <class _Ty> class ObjectFactoryImpl;
+template <typename _Ty> class ObjectFactoryImpl;
 
 /// Base class for objects with type identification and possibility to create through a factory.
 class AUTO_API Object : public RefCounted
@@ -27,7 +27,7 @@ public:
     void SendEvent(Event& event);
     
     /// Subscribe to an _event, template version.
-    template <class _Ty, class U> void SubscribeToEvent(U& event, void (_Ty::*handlerFunction)(U&))
+    template <typename _Ty, class U> void SubscribeToEvent(U& event, void (_Ty::*handlerFunction)(U&))
     {
         SubscribeToEvent(event, new EventHandlerImpl<_Ty, U>(this, handlerFunction)); 
     }
@@ -50,11 +50,11 @@ public:
     /// Return a type name from hash, or empty if not known. Requires a registered object factory.
     static const String& TypeNameFromType(StringHash type);
     /// Return a subsystem, template version.
-    template <class _Ty> static _Ty* Subsystem() { return static_cast<_Ty*>(Subsystem(_Ty::TypeStatic())); }
+    template <typename _Ty> static _Ty* Subsystem() { return static_cast<_Ty*>(Subsystem(_Ty::TypeStatic())); }
     /// Register an object factory, template version.
-    template <class _Ty> static void RegisterFactory() { RegisterFactory(new ObjectFactoryImpl<_Ty>()); }
+    template <typename _Ty> static void RegisterFactory() { RegisterFactory(new ObjectFactoryImpl<_Ty>()); }
     /// Create and return an object through a factory, template version.
-    template <class _Ty> static _Ty* Create() { return static_cast<_Ty*>(Create(_Ty::TypeStatic())); }
+    template <typename _Ty> static _Ty* Create() { return static_cast<_Ty*>(Create(_Ty::TypeStatic())); }
     
 private:
     /// Registered subsystems.
@@ -86,7 +86,7 @@ protected:
 };
 
 /// Template implementation of the object factory.
-template <class _Ty> class ObjectFactoryImpl : public ObjectFactory
+template <typename _Ty> class ObjectFactoryImpl : public ObjectFactory
 {
 public:
     /// Construct.

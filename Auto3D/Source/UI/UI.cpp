@@ -117,9 +117,9 @@ bool UI::CollectUIObjects(Canvas* canvas, UICamera* camera)
 	//\note TEMP Temporarily all join
 	for (auto it = canvas->GetAllUINode().Begin(); it != canvas->GetAllUINode().End(); it++)
 	{
-		if (it->second->TestFlag(UNF_GEOMETRY))
+		if (it->_second->TestFlag(UNF_GEOMETRY))
 		{
-			_geometryNode.Push(static_cast<UIGeometryNode*>(it->second));
+			_geometryNode.Push(static_cast<UIGeometryNode*>(it->_second));
 		}
 	}
 

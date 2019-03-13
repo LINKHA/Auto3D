@@ -38,25 +38,25 @@ void Input::Update()
 bool Input::IsKeyDown(unsigned keyCode) const
 {
     auto it = _keyDown.Find(keyCode);
-    return it != _keyDown.End() ? it->second : false;
+    return it != _keyDown.End() ? it->_second : false;
 }
 
 bool Input::IsKeyDownRaw(unsigned rawKeyCode) const
 {
     auto it = _rawKeyDown.Find(rawKeyCode);
-    return it != _rawKeyDown.End() ? it->second : false;
+    return it != _rawKeyDown.End() ? it->_second : false;
 }
 
 bool Input::IsKeyPress(unsigned keyCode) const
 {
     auto it = _keyPressed.Find(keyCode);
-    return it != _keyPressed.End() ? it->second : false;
+    return it != _keyPressed.End() ? it->_second : false;
 }
 
 bool Input::IsKeyPressRaw(unsigned rawKeyCode) const
 {
     auto it = _rawKeyPress.Find(rawKeyCode);
-    return it != _rawKeyPress.End() ? it->second : false;
+    return it != _rawKeyPress.End() ? it->_second : false;
 }
 
 const Vector2I& Input::GetMousePosition() const
@@ -80,7 +80,7 @@ const Touch* Input::FindTouch(unsigned id) const
     for (auto it = _touches.Begin(); it != _touches.End(); ++it)
     {
         if (it->_id == id)
-            return it.ptr;
+            return it._ptr;
     }
 
     return nullptr;

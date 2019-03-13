@@ -20,7 +20,7 @@ bool CompareRaycastResults(const RaycastResult& lhs, const RaycastResult& rhs)
 
 bool CompareNodeDistances(const Pair<OctreeNode*, float>& lhs, const Pair<OctreeNode*, float>& rhs)
 {
-    return lhs.second < rhs.second;
+    return lhs._second < rhs._second;
 }
 
 Octant::Octant() :
@@ -194,10 +194,10 @@ RaycastResult Octree::RaycastSingle(const Ray& ray, unsigned short nodeFlags, fl
     float closestHit = M_INFINITY;
     for (auto it = _initialRes.Begin(); it != _initialRes.End(); ++it)
     {
-        if (it->second < Min(closestHit, maxDistance))
+        if (it->_second < Min(closestHit, maxDistance))
         {
             size_t oldSize = _finalRes.Size();
-            it->first->OnRaycast(_finalRes, ray, maxDistance);
+            it->_first->OnRaycast(_finalRes, ray, maxDistance);
             if (_finalRes.Size() > oldSize)
                 closestHit = Min(closestHit, _finalRes.Back()._distance);
         }

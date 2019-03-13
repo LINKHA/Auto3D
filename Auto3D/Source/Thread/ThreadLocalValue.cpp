@@ -38,7 +38,7 @@ void ThreadLocalValue::SetValue(void* value)
         #ifdef _WIN32
         TlsSetValue(_key, value);
         #else
-        pthread_setspecific(_key, value);
+        pthread_setspecific(_key, _value);
         #endif
     }
 }

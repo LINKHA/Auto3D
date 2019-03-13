@@ -130,7 +130,7 @@ bool Renderer::CollectObjects(Scene* scene, Camera* camera)
     _lightLists.Clear();
     _lightPasses.Clear();
     for (auto it = _batchQueues.Begin(); it != _batchQueues.End(); ++it)
-        it->second.Clear();
+        it->_second.Clear();
     for (auto it = _shadowMaps.Begin(); it != _shadowMaps.End(); ++it)
         it->Clear();
     _usedShadowViews = 0;
@@ -331,7 +331,7 @@ void Renderer::CollectLightInteractions()
 
         for (auto it = _lightLists.Begin(), end = _lightLists.End(); it != end; ++it)
         {
-            LightList& list = it->second;
+            LightList& list = it->_second;
             if (!list._useCount)
                 continue;
 
@@ -382,7 +382,7 @@ void Renderer::CollectLightInteractions()
 
                 HashMap<unsigned long long, LightPass>::Iterator lpIt = _lightPasses.Find(passKey);
                 if (lpIt != _lightPasses.End())
-                    list._lightPasses.Push(&lpIt->second);
+                    list._lightPasses.Push(&lpIt->_second);
                 else
                 {
                     LightPass* newLightPass = &_lightPasses[passKey];
@@ -758,7 +758,7 @@ void Renderer::AddLightToNode(GeometryNode* node, Light* light, LightList* light
         HashMap<unsigned long long, LightList>::Iterator it = _lightLists.Find(newListKey);
         if (it != _lightLists.End())
         {
-            LightList* newList = &it->second;
+            LightList* newList = &it->_second;
             node->SetLightList(newList);
             ++newList->_useCount;
         }
@@ -1009,7 +1009,7 @@ ShaderVariation* Renderer::FindShaderVariation(ShaderStage stage, Pass* pass, un
     HashMap<unsigned short, WeakPtr<ShaderVariation> >::Iterator it = variations.Find(bits);
 
     if (it != variations.End())
-        return it->second.Get();
+        return it->_second.Get();
     else
     {
         if (stage == ShaderStage::VS)
@@ -1018,7 +1018,7 @@ ShaderVariation* Renderer::FindShaderVariation(ShaderStage stage, Pass* pass, un
             if (bits & LVS_NUMSHADOWCOORDS)
                 vsString += " " + lightDefines[1] + "=" + String((bits & LVS_NUMSHADOWCOORDS) >> 2);
             it = variations.Insert(MakePair(bits, WeakPtr<ShaderVariation>(pass->_shaders[stage]->CreateVariation(vsString.Trimmed()))));
-            return it->second.Get();
+            return it->_second.Get();
         }
         else
         {
@@ -1037,7 +1037,7 @@ ShaderVariation* Renderer::FindShaderVariation(ShaderStage stage, Pass* pass, un
             }
 
             it = variations.Insert(MakePair(bits, WeakPtr<ShaderVariation>(pass->_shaders[stage]->CreateVariation(psString.Trimmed()))));
-            return it->second.Get();
+            return it->_second.Get();
         }
     }
 }

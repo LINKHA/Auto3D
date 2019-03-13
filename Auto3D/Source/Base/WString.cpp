@@ -9,14 +9,14 @@ namespace Auto3D
 {
 
 WString::WString() :
-    length(0),
-    buffer(nullptr)
+    _length(0),
+    _buffer(nullptr)
 {
 }
 
 WString::WString(const String& str) :
-    length(0),
-    buffer(nullptr)
+    _length(0),
+    _buffer(nullptr)
 {
     #ifdef _WIN32
     size_t neededSize = 0;
@@ -33,7 +33,7 @@ WString::WString(const String& str) :
     Resize(neededSize);
     
     byteOffset = 0;
-    wchar_t* dest = buffer;
+    wchar_t* dest = _buffer;
     while (byteOffset < str.Length())
         String::EncodeUTF16(dest, str.NextUTF8Char(byteOffset));
     #else
@@ -48,29 +48,29 @@ WString::WString(const String& str) :
 
 WString::~WString()
 {
-    delete[] buffer;
+    delete[] _buffer;
 }
 
 void WString::Resize(size_t newLength)
 {
     if (!newLength)
     {
-        delete[] buffer;
-        buffer = nullptr;
-        length = 0;
+        delete[] _buffer;
+        _buffer = nullptr;
+        _length = 0;
     }
     else
     {
         wchar_t* newBuffer = new wchar_t[newLength + 1];
-        if (buffer)
+        if (_buffer)
         {
-            size_t copyLength = length < newLength ? length : newLength;
-            memcpy(newBuffer, buffer, copyLength * sizeof(wchar_t));
-            delete[] buffer;
+            size_t copyLength = _length < newLength ? _length : newLength;
+            memcpy(newBuffer, _buffer, copyLength * sizeof(wchar_t));
+            delete[] _buffer;
         }
         newBuffer[newLength] = 0;
-        buffer = newBuffer;
-        length = newLength;
+        _buffer = newBuffer;
+        _length = newLength;
     }
 }
 

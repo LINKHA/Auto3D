@@ -229,8 +229,8 @@ bool Material::EndLoad()
         const JSONObject& jsonPasses = root["passes"].GetObject();
         for (auto it = jsonPasses.Begin(); it != jsonPasses.End(); ++it)
         {
-            Pass* newPass = CreatePass(it->first);
-            newPass->LoadJSON(it->second);
+            Pass* newPass = CreatePass(it->_first);
+            newPass->LoadJSON(it->_second);
         }
     }
 
@@ -255,7 +255,7 @@ bool Material::EndLoad()
         ResourceCache* cache = Subsystem<ResourceCache>();
         const JSONObject& jsonTextures = root["textures"].GetObject();
         for (auto it = jsonTextures.Begin(); it != jsonTextures.End(); ++it)
-            SetTexture(it->first.ToInt(), cache->LoadResource<Texture>(it->second.GetString()));
+            SetTexture(it->_first.ToInt(), cache->LoadResource<Texture>(it->_second.GetString()));
     }
 
     _loadJSON.Reset();
@@ -381,7 +381,7 @@ unsigned char Material::PassIndex(const String& name, bool createNew)
     String nameLower = name.ToLower();
     auto it = _passIndices.Find(nameLower);
     if (it != _passIndices.End())
-        return it->second;
+        return it->_second;
     else
     {
         if (createNew)

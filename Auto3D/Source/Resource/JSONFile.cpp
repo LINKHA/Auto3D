@@ -44,7 +44,7 @@ bool JSONFile::Save(Stream& dest)
     
     String buffer;
     _root.ToString(buffer);
-    return dest.Write(buffer.Begin().ptr, buffer.Length()) == buffer.Length();
+    return dest.Write(buffer.Begin()._ptr, buffer.Length()) == buffer.Length();
 }
 
 }

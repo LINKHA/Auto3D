@@ -29,7 +29,7 @@ public:
     void AttributeValue(Attribute* attr, void* dest);
     
     /// Set attribute value, template version. Return true if value was right type.
-    template <class _Ty> bool SetAttributeValue(Attribute* attr, const _Ty& source)
+    template <typename _Ty> bool SetAttributeValue(Attribute* attr, const _Ty& source)
     {
         AttributeImpl<_Ty>* typedAttr = dynamic_cast<AttributeImpl<_Ty>*>(attr);
         if (typedAttr)
@@ -42,7 +42,7 @@ public:
     }
     
     /// Copy attribute value, template version. Return true if value was right type.
-    template <class _Ty> bool AttributeValue(Attribute* attr, _Ty& dest)
+    template <typename _Ty> bool AttributeValue(Attribute* attr, _Ty& dest)
     {
         AttributeImpl<_Ty>* typedAttr = dynamic_cast<AttributeImpl<_Ty>*>(attr);
         if (typedAttr)
@@ -55,7 +55,7 @@ public:
     }
     
     /// Return attribute value, template version.
-    template <class _Ty> _Ty AttributeValue(Attribute* attr)
+    template <typename _Ty> _Ty AttributeValue(Attribute* attr)
     {
         AttributeImpl<_Ty>* typedAttr = dynamic_cast<AttributeImpl<_Ty>*>(attr);
         return typedAttr ? typedAttr->Value(this) : _Ty();
@@ -78,31 +78,31 @@ public:
     static void Skip(Stream& source);
     
     /// Register a per-class attribute, template version. Should not be used for base class attributes unless the type is explicitly specified, as by default the attribute will be re-registered to the base class redundantly.
-    template <class _Ty, class U> static void RegisterAttribute(const char* name, U (_Ty::*getFunction)() const, void (_Ty::*setFunction)(U), const U& defaultValue = U(), const char** enumNames = 0)
+    template <typename _Ty, class U> static void RegisterAttribute(const char* name, U (_Ty::*getFunction)() const, void (_Ty::*setFunction)(U), const U& defaultValue = U(), const char** enumNames = 0)
     {
         RegisterAttribute(_Ty::TypeStatic(), new AttributeImpl<U>(name, new AttributeAccessorImpl<_Ty, U>(getFunction, setFunction), defaultValue, enumNames));
     }
     
     /// Register a per-class attribute with reference access, template version. Should not be used for base class attributes unless the type is explicitly specified, as by default the attribute will be re-registered to the base class redundantly.
-    template <class _Ty, class U> static void RegisterRefAttribute(const char* name, const U& (_Ty::*getFunction)() const, void (_Ty::*setFunction)(const U&), const U& defaultValue = U(), const char** enumNames = 0)
+    template <typename _Ty, class U> static void RegisterRefAttribute(const char* name, const U& (_Ty::*getFunction)() const, void (_Ty::*setFunction)(const U&), const U& defaultValue = U(), const char** enumNames = 0)
     {
         RegisterAttribute(_Ty::TypeStatic(), new AttributeImpl<U>(name, new RefAttributeAccessorImpl<_Ty, U>(getFunction, setFunction), defaultValue, enumNames));
     }
 
     /// Register a per-class attribute with mixed reference access, template version. Should not be used for base class attributes unless the type is explicitly specified, as by default the attribute will be re-registered to the base class redundantly.
-    template <class _Ty, class U> static void RegisterMixedRefAttribute(const char* name, U (_Ty::*getFunction)() const, void (_Ty::*setFunction)(const U&), const U& defaultValue = U(), const char** enumNames = 0)
+    template <typename _Ty, class U> static void RegisterMixedRefAttribute(const char* name, U (_Ty::*getFunction)() const, void (_Ty::*setFunction)(const U&), const U& defaultValue = U(), const char** enumNames = 0)
     {
         RegisterAttribute(_Ty::TypeStatic(), new AttributeImpl<U>(name, new MixedRefAttributeAccessorImpl<_Ty, U>(getFunction, setFunction), defaultValue, enumNames));
     }
 
     /// Copy all base class attributes, template version.
-    template <class _Ty, class U> static void CopyBaseAttributes()
+    template <typename _Ty, class U> static void CopyBaseAttributes()
     {
         CopyBaseAttributes(_Ty::TypeStatic(), U::TypeStatic());
     }
 
     /// Copy one base class attribute, template version.
-    template <class _Ty, class U> static void CopyBaseAttribute(const String& name)
+    template <typename _Ty, class U> static void CopyBaseAttribute(const String& name)
     {
         CopyBaseAttribute(_Ty::TypeStatic(), U::TypeStatic(), name);
     }

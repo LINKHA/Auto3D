@@ -9,7 +9,7 @@ namespace Auto3D
 {
 
 /// Hash set template class.
-template <class _Ty> class HashSet : public HashBase
+template <typename _Ty> class HashSet : public HashBase
 {
 public:
     /// Hash set node.
@@ -22,19 +22,19 @@ public:
         
         /// Construct with _key.
         Node(const _Ty& rhs) :
-            key(rhs)
+            _key(rhs)
         {
         }
         
         /// Key.
-        _Ty key;
+        _Ty _key;
         
         /// Return next node.
-        Node* Next() const { return static_cast<Node*>(next); }
+        Node* Next() const { return static_cast<Node*>(_next); }
         /// Return previous node.
-        Node* Prev() const { return static_cast<Node*>(prev); }
+        Node* Prev() const { return static_cast<Node*>(_prev); }
         /// Return next node in the bucket.
-        Node* Down() const { return static_cast<Node*>(down); }
+        Node* Down() const { return static_cast<Node*>(_down); }
     };
     
     /// Hash set node iterator.
@@ -61,9 +61,9 @@ public:
         Iterator operator -- (int) { Iterator it = *this; GotoPrev(); return it; }
         
         /// Point to the _key.
-        const _Ty* operator -> () const { return &(static_cast<Node*>(ptr))->key; }
+        const _Ty* operator -> () const { return &(static_cast<Node*>(_ptr))->key; }
         /// Dereference the _key.
-        const _Ty& operator * () const { return (static_cast<Node*>(ptr))->key; }
+        const _Ty& operator * () const { return (static_cast<Node*>(_ptr))->key; }
     };
     
     /// Hash set node const iterator.
@@ -87,7 +87,7 @@ public:
         }
         
         /// Assign from a non-const iterator.
-        ConstIterator& operator = (const Iterator& rhs) { ptr = rhs.ptr; return *this; }
+        ConstIterator& operator = (const Iterator& rhs) { _ptr = rhs.ptr; return *this; }
         /// Preincrement the pointer.
         ConstIterator& operator ++ () { GotoNext(); return *this; }
         /// Postincrement the pointer.
@@ -98,9 +98,9 @@ public:
         ConstIterator operator -- (int) { ConstIterator it = *this; GotoPrev(); return it; }
         
         /// Point to the _key.
-        const _Ty* operator -> () const { return &(static_cast<Node*>(ptr))->key; }
+        const _Ty* operator -> () const { return &(static_cast<Node*>(_ptr))->key; }
         /// Dereference the _key.
-        const _Ty& operator * () const { return (static_cast<Node*>(ptr))->key; }
+        const _Ty& operator * () const { return (static_cast<Node*>(_ptr))->key; }
     };
     
     /// Construct empty.
@@ -118,11 +118,11 @@ public:
     /// Destruct.
     ~HashSet()
     {
-        if (ptrs && allocator)
+        if (_ptrs && _allocator)
         {
             Clear();
             FreeNode(Tail());
-            AllocatorUninitialize(allocator);
+            AllocatorUninitialize(_allocator);
         }
     }
     
@@ -208,7 +208,7 @@ public:
     /// Erase a _key. Return true if was found.
     bool Erase(const _Ty& key)
     {
-        if (!ptrs)
+        if (!_ptrs)
             return false;
         
         unsigned hashKey = Hash(key);
@@ -230,7 +230,7 @@ public:
     /// Erase a _key by iterator. Return iterator to the next _key.
     Iterator Erase(const Iterator& it)
     {
-        if (!ptrs || !it.ptr)
+        if (!_ptrs || !it.ptr)
             return End();
         
         Node* node = static_cast<Node*>(it.ptr);
@@ -327,7 +327,7 @@ public:
     /// Return iterator to the _key, or end iterator if not found.
     Iterator Find(const _Ty& key)
     {
-        if (!ptrs)
+        if (!_ptrs)
             return End();
         
         unsigned hashKey = Hash(key);
@@ -341,7 +341,7 @@ public:
     /// Return const iterator to the _key, or end iterator if not found.
     ConstIterator Find(const _Ty& key) const
     {
-        if (!ptrs)
+        if (!_ptrs)
             return End();
         
         unsigned hashKey = Hash(key);
@@ -355,7 +355,7 @@ public:
     /// Return whether contains a _key.
     bool Contains(const _Ty& key) const
     {
-        if (!ptrs)
+        if (!_ptrs)
             return false;
         
         unsigned hashKey = Hash(key);
@@ -385,7 +385,7 @@ private:
     void Initialize(size_t numBuckets, size_t numNodes)
     {
         AllocateBuckets(0, numBuckets);
-        allocator = AllocatorInitialize(sizeof(Node), numNodes);
+        _allocator = AllocatorInitialize(sizeof(Node), numNodes);
         HashNodeBase* tail = AllocateNode();
         SetHead(tail);
         SetTail(tail);
@@ -394,7 +394,7 @@ private:
     /// Find a node from the buckets.
     Node* FindNode(const _Ty& key, unsigned hashKey) const
     {
-        if (!ptrs)
+        if (!_ptrs)
             return nullptr;
 
         Node* node = static_cast<Node*>(Ptrs()[hashKey]);
@@ -412,7 +412,7 @@ private:
     Node* FindNode(const _Ty& key, unsigned hashKey, Node*& previous) const
     {
         previous = nullptr;
-        if (!ptrs)
+        if (!_ptrs)
             return nullptr;
         
         Node* node = static_cast<Node*>(Ptrs()[hashKey]);
@@ -431,7 +431,7 @@ private:
     Node* InsertNode(Node* dest, const _Ty& key)
     {
         // If no pointers yet, allocate with minimum bucket count
-        if (!ptrs)
+        if (!_ptrs)
         {
             Initialize(MIN_BUCKETS, 2);
             dest = Head();
@@ -480,7 +480,7 @@ private:
     /// Allocate a node with optionally specified _key.
     Node* AllocateNode(const _Ty& key = _Ty())
     {
-        Node* newNode = static_cast<Node*>(AllocatorGet(allocator));
+        Node* newNode = static_cast<Node*>(AllocatorGet(_allocator));
         new(newNode) Node(key);
         return newNode;
     }
@@ -489,7 +489,7 @@ private:
     void FreeNode(Node* node)
     {
         (node)->~Node();
-        AllocatorFree(allocator, node);
+        AllocatorFree(_allocator, node);
     }
     
     /// Rehash the buckets.

@@ -91,7 +91,7 @@ void ResourceCache::UnloadResource(StringHash type, const String& name, bool for
     if (it == _resources.End())
         return;
 
-    Resource* resource = it->second;
+    Resource* resource = it->_second;
     if (resource->Refs() == 1 || force)
         _resources.Erase(key);
 }
@@ -106,9 +106,9 @@ void ResourceCache::UnloadResources(StringHash type, bool force)
         for (auto it = _resources.Begin(); it != _resources.End();)
         {
             auto current = it++;
-            if (current->first.first == type)
+            if (current->_first._first == type)
             {
-                Resource* resource = current->second;
+                Resource* resource = current->_second;
                 if (resource->Refs() == 1 || force)
                 {
                     _resources.Erase(current);
@@ -131,10 +131,10 @@ void ResourceCache::UnloadResources(StringHash type, const String& partialName, 
 
         for (auto it = _resources.Begin(); it != _resources.End();)
         {
-            auto current = it++;
-            if (current->first.first == type)
+            auto current  = it++;
+            if (current->_first._first == type)
             {
-                Resource* resource = current->second;
+                Resource* resource = current->_second;
                 if (resource->Name().StartsWith(partialName) && (resource->Refs() == 1 || force))
                 {
                     _resources.Erase(current);
@@ -158,7 +158,7 @@ void ResourceCache::UnloadResources(const String& partialName, bool force)
         for (auto it = _resources.Begin(); it != _resources.End();)
         {
             auto current = it++;
-            Resource* resource = current->second;
+            Resource* resource = current->_second;
             if (resource->Name().StartsWith(partialName) && (!resource->Refs() == 1 || force))
             {
                 _resources.Erase(current);
@@ -181,7 +181,7 @@ void ResourceCache::UnloadAllResources(bool force)
         for (auto it = _resources.Begin(); it != _resources.End();)
         {
             auto current = it++;
-            Resource* resource = current->second;
+            Resource* resource = current->_second;
             if (resource->Refs() == 1 || force)
             {
                 _resources.Erase(current);
@@ -244,7 +244,7 @@ Resource* ResourceCache::LoadResource(StringHash type, const String& nameIn)
     auto key = MakePair(type, StringHash(name));
     auto it = _resources.Find(key);
     if (it != _resources.End())
-        return it->second;
+        return it->_second;
 
     SharedPtr<Object> newObject = Create(type);
     if (!newObject)
@@ -280,8 +280,8 @@ void ResourceCache::ResourcesByType(Vector<Resource*>& result, StringHash type) 
 
     for (auto it = _resources.Begin(); it != _resources.End(); ++it)
     {
-        if (it->second->Type() == type)
-            result.Push(it->second);
+        if (it->_second->Type() == type)
+            result.Push(it->_second);
     }
 }
 

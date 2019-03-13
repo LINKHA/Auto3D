@@ -7,7 +7,7 @@ namespace Auto3D
 
 class JSONValue;
 class StringHash;
-template <class _Ty> class Vector;
+template <typename _Ty> class Vector;
 struct ObjectRef;
 struct ResourceRef;
 struct ResourceRefList;
@@ -56,10 +56,10 @@ public:
     void WriteLine(const String& value);
 
     /// Write a value, template version.
-    template <class _Ty> void Write(const _Ty& value) { Write(&value, sizeof value); }
+    template <typename _Ty> void Write(const _Ty& value) { Write(&value, sizeof value); }
 
     /// Read a value, template version.
-    template <class _Ty> _Ty Read()
+    template <typename _Ty> _Ty Read()
     {
         _Ty ret;
         Read(&ret, sizeof ret);

@@ -63,7 +63,7 @@ inline ResourceRef MakeResourceRef(Resource* resource, StringHash defaultType)
 }
 
 /// Return resource names from a vector of resource pointers.
-template <class _Ty> Vector<String> ResourceNames(const Vector<_Ty*>& resources)
+template <typename _Ty> Vector<String> ResourceNames(const Vector<_Ty*>& resources)
 {
     Vector<String> ret(resources.Size());
     for (size_t i = 0; i < resources.Size(); ++i)
@@ -73,7 +73,7 @@ template <class _Ty> Vector<String> ResourceNames(const Vector<_Ty*>& resources)
 }
 
 /// Make a resource ref list from a vector of resource poitners.
-template <class _Ty> ResourceRefList MakeResourceRefList(const Vector<_Ty*>& resources)
+template <typename _Ty> ResourceRefList MakeResourceRefList(const Vector<_Ty*>& resources)
 {
     return ResourceRefList(_Ty::TypeStatic(), GetResourceNames(resources));
 }

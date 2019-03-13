@@ -42,9 +42,9 @@ public:
     void Resize(size_t newSize);
     
     /// Return data.
-    const unsigned char* Data() const { return _buffer.Begin().ptr; }
+    const unsigned char* Data() const { return _buffer.Begin()._ptr; }
     /// Return non-const data.
-    unsigned char* ModifiableData() { return _buffer.Begin().ptr; }
+    unsigned char* ModifiableData() { return _buffer.Begin()._ptr; }
     /// Return the buffer.
     const Vector<unsigned char>& Buffer() const { return _buffer; }
     

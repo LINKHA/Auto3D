@@ -121,7 +121,7 @@ protected:
 };
 
 /// Template implementation of an attribute description with specific type.
-template <class _Ty> class AttributeImpl : public Attribute
+template <typename _Ty> class AttributeImpl : public Attribute
 {
 public:
     /// Construct.
@@ -190,7 +190,7 @@ private:
 };
 
 /// Template implementation for accessing serializable variables.
-template <class _Ty, class U> class AttributeAccessorImpl : public AttributeAccessor
+template <typename _Ty, class U> class AttributeAccessorImpl : public AttributeAccessor
 {
 public:
     typedef U (_Ty::*GetFunctionPtr)() const;
@@ -233,7 +233,7 @@ private:
 };
 
 /// Template implementation for accessing serializable variables via functions that use references.
-template <class _Ty, class U> class RefAttributeAccessorImpl : public AttributeAccessor
+template <typename _Ty, class U> class RefAttributeAccessorImpl : public AttributeAccessor
 {
 public:
     typedef const U& (_Ty::*GetFunctionPtr)() const;
@@ -276,7 +276,7 @@ private:
 };
 
 /// Template implementation for accessing serializable variables via functions where the setter uses reference, but the getter does not.
-template <class _Ty, class U> class MixedRefAttributeAccessorImpl : public AttributeAccessor
+template <typename _Ty, class U> class MixedRefAttributeAccessorImpl : public AttributeAccessor
 {
 public:
     typedef U (_Ty::*GetFunctionPtr)() const;

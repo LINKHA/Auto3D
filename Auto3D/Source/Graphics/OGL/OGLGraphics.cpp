@@ -439,8 +439,8 @@ void Graphics::SetShaders(ShaderVariation* vs, ShaderVariation* ps)
         auto it = _shaderPrograms.Find(key);
         if (it != _shaderPrograms.End())
         {
-            _shaderProgram = it->second;
-            glUseProgram(it->second->GLProgram());
+            _shaderProgram = it->_second;
+            glUseProgram(it->_second->GLProgram());
         }
         else
         {
@@ -734,9 +734,9 @@ void Graphics::CleanupShaderPrograms(ShaderVariation* shader)
     {
         for (auto it = _shaderPrograms.Begin(); it != _shaderPrograms.End();)
         {
-            if (it->first.first == shader)
+            if (it->_first._first == shader)
             {
-                if (_shaderProgram == it->second)
+                if (_shaderProgram == it->_second)
                     _shaderProgram = nullptr;
                 it = _shaderPrograms.Erase(it);
             }
@@ -748,9 +748,9 @@ void Graphics::CleanupShaderPrograms(ShaderVariation* shader)
     {
         for (auto it = _shaderPrograms.Begin(); it != _shaderPrograms.End();)
         {
-            if (it->first.second == shader)
+            if (it->_first._second == shader)
             {
-                if (_shaderProgram == it->second)
+                if (_shaderProgram == it->_second)
                     _shaderProgram = nullptr;
                 it = _shaderPrograms.Erase(it);
             }
@@ -767,7 +767,7 @@ void Graphics::CleanupFramebuffers(Texture* texture)
 
     for (auto it = _framebuffers.Begin(); it != _framebuffers.End(); ++it)
     {
-        Framebuffer* framebuffer = it->second;
+        Framebuffer* framebuffer = it->_second;
 
         for (size_t i = 0; i < MAX_RENDERTARGETS; ++i)
         {
@@ -859,7 +859,7 @@ void Graphics::CleanupFramebuffers()
     // Clear all except the framebuffer currently in use
     for (auto it = _framebuffers.Begin(); it != _framebuffers.End();)
     {
-        if (it->second != _framebuffer)
+        if (it->_second != _framebuffer)
             it = _framebuffers.Erase(it);
         else
             ++it;
@@ -915,10 +915,10 @@ void Graphics::PrepareFramebuffer()
         if (it == _framebuffers.End())
             it = _framebuffers.Insert(MakePair(key, AutoPtr<Framebuffer>(new Framebuffer())));
 
-        if (it->second != _framebuffer)
+        if (it->_second != _framebuffer)
         {
-            glBindFramebuffer(GL_FRAMEBUFFER, it->second->buffer);
-            _framebuffer = it->second;
+            glBindFramebuffer(GL_FRAMEBUFFER, it->_second->buffer);
+            _framebuffer = it->_second;
         }
 
         // Setup readbuffers & drawbuffers

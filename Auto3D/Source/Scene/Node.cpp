@@ -157,7 +157,7 @@ void Node::SetLayerName(const String& newLayerName)
     const HashMap<String, unsigned char>& layers = _scene->Layers();
     auto it = layers.Find(newLayerName);
     if (it != layers.End())
-        _layer = it->second;
+        _layer = it->_second;
     else
         ErrorString("Layer " + newLayerName + " not defined in the scene");
 }
@@ -175,7 +175,7 @@ void Node::SetTagName(const String& newTagName)
     const HashMap<String, unsigned char>& tags = _scene->Tags();
     auto it = tags.Find(newTagName);
     if (it != tags.End())
-        _tag = it->second;
+        _tag = it->_second;
     else
         ErrorString("Tag " + newTagName + " not defined in the scene");
 }

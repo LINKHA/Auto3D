@@ -254,9 +254,9 @@ void Audio::Update()
 
 	for (auto it = _sources.Begin(); it != _sources.End(); it++)
 	{
-		AudioSource& source = *it->second;
-		Vector3F vec = (*it).second->GetPosition();
-		alSource3f((*it).second->GetBuffer()->Source(), AL_POSITION, vec._x, vec._y, vec._z);
+		AudioSource& source = *it->_second;
+		Vector3F vec = (*it)._second->GetPosition();
+		alSource3f((*it)._second->GetBuffer()->Source(), AL_POSITION, vec._x, vec._y, vec._z);
 	}
 
 }

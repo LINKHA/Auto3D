@@ -10,19 +10,19 @@ namespace Auto3D
 struct AllocatorBlock;
 
 /// Pointer hash function.
-template <class _Ty> unsigned MakeHash(_Ty* value)
+template <typename _Ty> unsigned MakeHash(_Ty* value)
 {
     return ((unsigned)(size_t)value) / sizeof(_Ty);
 }
 
 /// Const pointer hash function.
-template <class _Ty> unsigned MakeHash(const _Ty* value)
+template <typename _Ty> unsigned MakeHash(const _Ty* value)
 {
     return ((unsigned)(size_t)value) / sizeof(_Ty);
 }
 
 /// Generic hash function.
-template <class _Ty> unsigned MakeHash(const _Ty& value)
+template <typename _Ty> unsigned MakeHash(const _Ty& value)
 {
     return value.ToHash();
 }
@@ -92,18 +92,18 @@ struct AUTO_API HashNodeBase
 {
     /// Construct.
     HashNodeBase() :
-        down(nullptr),
-        prev(nullptr),
-        next(nullptr)
+        _down(nullptr),
+        _prev(nullptr),
+        _next(nullptr)
     {
     }
     
     /// Next node in the bucket.
-    HashNodeBase* down;
+    HashNodeBase* _down;
     /// Previous node.
-    HashNodeBase* prev;
+    HashNodeBase* _prev;
     /// Next node.
-    HashNodeBase* next;
+    HashNodeBase* _next;
 };
 
 /// Hash set/map iterator base class.
@@ -111,37 +111,37 @@ struct AUTO_API HashIteratorBase
 {
     /// Construct.
     HashIteratorBase() :
-        ptr(nullptr)
+        _ptr(nullptr)
     {
     }
     
     /// Construct with a node pointer.
-    explicit HashIteratorBase(HashNodeBase* ptr_) :
-        ptr(ptr_)
+    explicit HashIteratorBase(HashNodeBase* ptr) :
+        _ptr(ptr)
     {
     }
     
     /// Test for equality with another iterator.
-    bool operator == (const HashIteratorBase& rhs) const { return ptr == rhs.ptr; }
+    bool operator == (const HashIteratorBase& rhs) const { return _ptr == rhs._ptr; }
     /// Test for inequality with another iterator.
-    bool operator != (const HashIteratorBase& rhs) const { return ptr != rhs.ptr; }
+    bool operator != (const HashIteratorBase& rhs) const { return _ptr != rhs._ptr; }
     
     /// Go to the next node.
     void GotoNext()
     {
-        if (ptr)
-            ptr = ptr->next;
+        if (_ptr)
+            _ptr = _ptr->_next;
     }
     
     /// Go to the previous node.
     void GotoPrev()
     {
-        if (ptr)
-            ptr = ptr->prev;
+        if (_ptr)
+            _ptr = _ptr->_prev;
     }
     
     /// %Node pointer.
-    HashNodeBase* ptr;
+    HashNodeBase* _ptr;
 };
 
 /// Hash set/map base class.
@@ -155,22 +155,22 @@ public:
     
     /// Construct.
     HashBase() :
-        ptrs(nullptr),
-        allocator(nullptr)
+        _ptrs(nullptr),
+        _allocator(nullptr)
     {
     }
 
     /// Destruct.
     ~HashBase()
     {
-        delete[] ptrs;
+        delete[] _ptrs;
     }
     
     /// Swap with another hash set or map.
     void Swap(HashBase& hash);
 
     /// Return number of elements.
-    size_t Size() const { return ptrs ? (reinterpret_cast<size_t*>(ptrs))[0] : 0; }
+    size_t Size() const { return _ptrs ? (reinterpret_cast<size_t*>(_ptrs))[0] : 0; }
     /// Return whether has no elements.
     bool IsEmpty() const { return Size() == 0; }
     
@@ -180,25 +180,25 @@ protected:
     /// Reset bucket head pointers.
     void ResetPtrs();
     /// Set new _size.
-    void SetSize(size_t _size) { reinterpret_cast<size_t*>(ptrs)[0] = _size; }
+    void SetSize(size_t _size) { reinterpret_cast<size_t*>(_ptrs)[0] = _size; }
     /// Set new head node.
-    void SetHead(HashNodeBase* head) { ptrs[2] = head; }
+    void SetHead(HashNodeBase* head) { _ptrs[2] = head; }
     /// Set new tail node.
-    void SetTail(HashNodeBase* tail) { ptrs[3] = tail; }
+    void SetTail(HashNodeBase* tail) { _ptrs[3] = tail; }
 
     /// Return number of buckets.
-    size_t NumBuckets() const { return ptrs ? (reinterpret_cast<size_t*>(ptrs))[1] : MIN_BUCKETS; }
+    size_t NumBuckets() const { return _ptrs ? (reinterpret_cast<size_t*>(_ptrs))[1] : MIN_BUCKETS; }
     /// Return list head node.
-    HashNodeBase* Head() const { return ptrs ? ptrs[2] : nullptr; }
+    HashNodeBase* Head() const { return _ptrs ? _ptrs[2] : nullptr; }
     /// Return list tail node.
-    HashNodeBase* Tail() const { return ptrs ? ptrs[3] : nullptr; }
+    HashNodeBase* Tail() const { return _ptrs ? _ptrs[3] : nullptr; }
     /// Return bucket head pointers.
-    HashNodeBase** Ptrs() const { return ptrs ? ptrs + 4 : nullptr; }
+    HashNodeBase** Ptrs() const { return _ptrs ? _ptrs + 4 : nullptr; }
     
     /// Bucket head pointers.
-    HashNodeBase** ptrs;
+    HashNodeBase** _ptrs;
     /// %Node allocator.
-    AllocatorBlock* allocator;
+    AllocatorBlock* _allocator;
 };
 
 }

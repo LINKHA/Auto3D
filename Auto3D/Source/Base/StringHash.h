@@ -11,65 +11,65 @@ class AUTO_API StringHash
 public:
     /// Construct with zero value.
     StringHash() :
-        value(0)
+        _value(0)
     {
     }
     
     /// Copy-construct.
     StringHash(const StringHash& hash) :
-        value(hash.value)
+        _value(hash._value)
     {
     }
     
     /// Construct with an initial value.
     explicit StringHash(unsigned value_) :
-        value(value_)
+        _value(value_)
     {
     }
     
     /// Construct from a string case-insensitively.
     explicit StringHash(const String& str) :
-        value(String::CaseInsensitiveHash(str.CString()))
+        _value(String::CaseInsensitiveHash(str.CString()))
     {
     }
     
     /// Construct from a C string case-insensitively.
     explicit StringHash(const char* str) :
-        value(String::CaseInsensitiveHash(str))
+        _value(String::CaseInsensitiveHash(str))
     {
     }
     
     /// Construct from a C string case-insensitively.
     explicit StringHash(char* str) :
-        value(String::CaseInsensitiveHash(str))
+        _value(String::CaseInsensitiveHash(str))
     {
     }
     
     /// Assign from another hash.
     StringHash& operator = (const StringHash& rhs)
     {
-        value = rhs.value;
+        _value = rhs._value;
         return *this;
     }
     
     /// Assign from a string.
     StringHash& operator = (const String& rhs)
     {
-        value = String::CaseInsensitiveHash(rhs.CString());
+        _value = String::CaseInsensitiveHash(rhs.CString());
         return *this;
     }
     
     /// Assign from a C string.
     StringHash& operator = (const char* rhs)
     {
-        value = String::CaseInsensitiveHash(rhs);
+        _value = String::CaseInsensitiveHash(rhs);
         return *this;
     }
     
     /// Assign from a C string.
     StringHash& operator = (char* rhs)
     {
-        value = String::CaseInsensitiveHash(rhs);
+        _value = String::CaseInsensitiveHash(rhs);
         return *this;
     }
     
@@ -77,33 +77,33 @@ public:
     StringHash operator + (const StringHash& rhs) const
     {
         StringHash ret;
-        ret.value = value + rhs.value;
+        ret._value = _value + rhs._value;
         return ret;
     }
     
     /// Add-assign a hash.
     StringHash& operator += (const StringHash& rhs)
     {
-        value += rhs.value;
+        _value += rhs._value;
         return *this;
     }
     
     // Test for equality with another hash.
-    bool operator == (const StringHash& rhs) const { return value == rhs.value; }
+    bool operator == (const StringHash& rhs) const { return _value == rhs._value; }
     /// Test for inequality with another hash.
-    bool operator != (const StringHash& rhs) const { return value != rhs.value; }
+    bool operator != (const StringHash& rhs) const { return _value != rhs._value; }
     /// Test if less than another hash.
-    bool operator < (const StringHash& rhs) const { return value < rhs.value; }
+    bool operator < (const StringHash& rhs) const { return _value < rhs._value; }
     /// Test if greater than another hash.
-    bool operator > (const StringHash& rhs) const { return value > rhs.value; }
+    bool operator > (const StringHash& rhs) const { return _value > rhs._value; }
     /// Return true if nonzero hash value.
-    operator bool () const { return value != 0; }
+    operator bool () const { return _value != 0; }
     /// Return hash value.
-    unsigned Value() const { return value; }
+    unsigned Value() const { return _value; }
     /// Return as string.
     String ToString() const;
     /// Return hash value for HashSet & HashMap.
-    unsigned ToHash() const { return value; }
+    unsigned ToHash() const { return _value; }
     
     /// Calculate hash value case-insensitively from a C string.
     static unsigned Calculate(const char* str);
@@ -113,7 +113,7 @@ public:
     
 private:
     /// Hash value.
-    unsigned value;
+    unsigned _value;
 };
 
 }

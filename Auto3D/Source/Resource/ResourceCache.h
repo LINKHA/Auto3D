@@ -44,9 +44,9 @@ public:
     /// Reload an existing resource. Return true on success.
     bool ReloadResource(Resource* resource);
     /// Load and return a resource, template version.
-    template <class _Ty> _Ty* LoadResource(const String& name) { return static_cast<_Ty*>(LoadResource(_Ty::TypeStatic(), name)); }
+    template <typename _Ty> _Ty* LoadResource(const String& name) { return static_cast<_Ty*>(LoadResource(_Ty::TypeStatic(), name)); }
     /// Load and return a resource, template version.
-    template <class _Ty> _Ty* LoadResource(const char* name) { return static_cast<_Ty*>(LoadResource(_Ty::TypeStatic(), name)); }
+    template <typename _Ty> _Ty* LoadResource(const char* name) { return static_cast<_Ty*>(LoadResource(_Ty::TypeStatic(), name)); }
 
     /// Return resources by type.
     void ResourcesByType(Vector<Resource*>& result, StringHash type) const;
@@ -58,7 +58,7 @@ public:
     String ResourceFileName(const String& name) const;
 
     /// Return resources by type, template version.
-    template <class _Ty> void ResourcesByType(Vector<_Ty*>& dest) const
+    template <typename _Ty> void ResourcesByType(Vector<_Ty*>& dest) const
     {
         Vector<Resource*>& resources = reinterpret_cast<Vector<Resource*>&>(dest);
         StringHash type = _Ty::TypeStatic();

@@ -10,7 +10,7 @@ namespace Auto3D
 
 static const size_t CONVERSION_BUFFER_LENGTH = 256;
 
-template <class _Ty> class Vector;
+template <typename _Ty> class Vector;
 class WString;
 
 /// %String class.
@@ -22,27 +22,27 @@ public:
     
     /// Construct empty.
     String() :
-        buffer(nullptr)
+        _buffer(nullptr)
     {
     }
     
     /// Copy-construct.
     String(const String& str) :
-        buffer(nullptr)
+        _buffer(nullptr)
     {
         *this = str;
     }
     
     /// Construct from a C string.
     String(const char* str) :
-        buffer(nullptr)
+        _buffer(nullptr)
     {
         *this = str;
     }
     
     /// Construct from a C string.
     String(char* str) :
-        buffer(nullptr)
+        _buffer(nullptr)
     {
         *this = (const char*)str;
     }
@@ -83,8 +83,8 @@ public:
     explicit String(char value, size_t numChars);
     
     /// Construct from a convertible value.
-    template <class _Ty> explicit String(const _Ty& value) :
-        buffer(nullptr)
+    template <typename _Ty> explicit String(const _Ty& value) :
+        _buffer(nullptr)
     {
         *this = value.ToString();
     }
@@ -129,7 +129,7 @@ public:
     /// Add-assign a bool.
     String& operator += (bool rhs);
     /// Add-assign an arbitrary type.
-    template <class _Ty> String operator += (const _Ty& rhs) { return *this += rhs.ToString(); }
+    template <typename _Ty> String operator += (const _Ty& rhs) { return *this += rhs.ToString(); }
     
     /// Add a string.
     String operator + (const String& rhs) const;
@@ -252,13 +252,13 @@ public:
     /// Return whether ends with a string.
     bool EndsWith(const String& str, bool caseSensitive = true) const;
     /// Return the C string.
-    const char* CString() const { return buffer ? buffer + 2 * sizeof(size_t) : &endZero; }
+    const char* CString() const { return _buffer ? _buffer + 2 * sizeof(size_t) : &endZero; }
     /// Return the char buffer.
-    char* Buffer() const { return buffer ? buffer + 2 * sizeof(size_t) : &endZero; }
+    char* Buffer() const { return _buffer ? _buffer + 2 * sizeof(size_t) : &endZero; }
     /// Return number of characters in the string.
-    size_t Length() const { return buffer ? reinterpret_cast<size_t*>(buffer)[0] : 0; }
+    size_t Length() const { return _buffer ? reinterpret_cast<size_t*>(_buffer)[0] : 0; }
     /// Return buffer capacity.
-    size_t Capacity() const { return buffer ? reinterpret_cast<size_t*>(buffer)[1] : 0; }
+    size_t Capacity() const { return _buffer ? reinterpret_cast<size_t*>(_buffer)[1] : 0; }
     /// Return whether the string is zero characters long.
     bool IsEmpty() const { return Length() == 0; }
     /// Return comparision result with a string.
@@ -278,7 +278,7 @@ public:
     /// Parse a float.
     float ToFloat() const;
     /// Return hash value for HashSet & HashMap.
-    unsigned ToHash() const { return CaseSensitiveHash(buffer); }
+    unsigned ToHash() const { return CaseSensitiveHash(_buffer); }
 
     /// Construct UTF8 content from Latin1.
     void SetUTF8FromLatin1(const char* str);
@@ -351,9 +351,9 @@ public:
 
 private:
     /// Set new length.
-    void SetLength(size_t length) { reinterpret_cast<size_t*>(buffer)[0] = length; }
+    void SetLength(size_t length) { reinterpret_cast<size_t*>(_buffer)[0] = length; }
     /// Set new capacity.
-    void SetCapacity(size_t capacity) { reinterpret_cast<size_t*>(buffer)[1] = capacity; }
+    void SetCapacity(size_t capacity) { reinterpret_cast<size_t*>(_buffer)[1] = capacity; }
     /// Replace a substring with another substring.
     void Replace(size_t pos, size_t numChars, const char* srcStart, size_t srcLength);
     /// Move a range of characters within the string.
@@ -363,7 +363,7 @@ private:
     static void CopyChars(char* dest, const char* src, size_t numChars);
 
     /// String buffer, null if not allocated. Contains length and capacity in the beginning.
-    char* buffer;
+    char* _buffer;
     
     /// End zero for empty strings.
     static char endZero;

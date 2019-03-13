@@ -209,7 +209,7 @@ const JSONValue& JSONValue::operator [] (const String& key) const
     {
         const JSONObject& object = *(reinterpret_cast<const JSONObject*>(&_data));
         auto it = object.Find(key);
-        return it != object.End() ? it->second : EMPTY;
+        return it != object.End() ? it->_second : EMPTY;
     }
     else
         return EMPTY;
@@ -359,9 +359,9 @@ void JSONValue::ToString(String& dest, int spacing, int indent) const
                         dest += ',';
                     dest += '\n';
                     WriteIndent(dest, indent);
-                    WriteJSONString(dest, it->first);
+                    WriteJSONString(dest, it->_first);
                     dest += ": ";
-                    it->second.ToString(dest, spacing, indent);
+                    it->_second.ToString(dest, spacing, indent);
                 }
                 indent -= spacing;
                 dest += '\n';
@@ -417,8 +417,8 @@ void JSONValue::ToBinary(Stream& dest) const
             dest.WriteVLE(object.Size());
             for (auto it = object.Begin(); it != object.End(); ++it)
             {
-                dest.Write(it->first);
-                it->second.ToBinary(dest);
+                dest.Write(it->_first);
+                it->_second.ToBinary(dest);
             }
         }
         break;

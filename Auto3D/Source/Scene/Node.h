@@ -89,11 +89,11 @@ public:
     /// Remove self immediately. As this will delete the node (if no other strong references exist) no operations on the node are permitted after calling this.
     void RemoveSelf();
     /// Create child node of the specified type, template version.
-    template <class _Ty> _Ty* CreateChild() { return static_cast<_Ty*>(CreateChild(_Ty::TypeStatic())); }
+    template <typename _Ty> _Ty* CreateChild() { return static_cast<_Ty*>(CreateChild(_Ty::TypeStatic())); }
     /// Create named child node of the specified type, template version.
-    template <class _Ty> _Ty* CreateChild(const String& childName) { return static_cast<_Ty*>(CreateChild(_Ty::TypeStatic(), childName)); }
+    template <typename _Ty> _Ty* CreateChild(const String& childName) { return static_cast<_Ty*>(CreateChild(_Ty::TypeStatic(), childName)); }
     /// Create named child node of the specified type, template version.
-    template <class _Ty> _Ty* CreateChild(const char* childName) { return static_cast<_Ty*>(CreateChild(_Ty::TypeStatic(), childName)); }
+    template <typename _Ty> _Ty* CreateChild(const char* childName) { return static_cast<_Ty*>(CreateChild(_Ty::TypeStatic(), childName)); }
 
     /// Return name.
     const String& GetName() const { return _name; }
@@ -154,13 +154,13 @@ public:
     /// Find child nodes that match tag name.
     void FindChildrenByTag(Vector<Node*>& result, const char* tagName, bool recursive = false) const;
     /// Return first child node of specified type, template version.
-    template <class _Ty> _Ty* FindChild(bool recursive = false) const { return static_cast<_Ty*>(FindChild(_Ty::TypeStatic(), recursive)); }
+    template <typename _Ty> _Ty* FindChild(bool recursive = false) const { return static_cast<_Ty*>(FindChild(_Ty::TypeStatic(), recursive)); }
     /// Return first child node that matches type and name, template version.
-    template <class _Ty> _Ty* FindChild(const String& childName, bool recursive = false) const { return static_cast<_Ty*>(FindChild(_Ty::TypeStatic(), childName, recursive)); }
+    template <typename _Ty> _Ty* FindChild(const String& childName, bool recursive = false) const { return static_cast<_Ty*>(FindChild(_Ty::TypeStatic(), childName, recursive)); }
     /// Return first child node that matches type and name, template version.
-    template <class _Ty> _Ty* FindChild(const char* childName, bool recursive = false) const { return static_cast<_Ty*>(FindChild(_Ty::TypeStatic(), childName, recursive)); }
+    template <typename _Ty> _Ty* FindChild(const char* childName, bool recursive = false) const { return static_cast<_Ty*>(FindChild(_Ty::TypeStatic(), childName, recursive)); }
     /// Find child nodes of specified type, template version.
-    template <class _Ty> void FindChildren(Vector<_Ty*>& result, bool recursive = false) const { return FindChildren(reinterpret_cast<Vector<_Ty*>&>(result), recursive); }
+    template <typename _Ty> void FindChildren(Vector<_Ty*>& result, bool recursive = false) const { return FindChildren(reinterpret_cast<Vector<_Ty*>&>(result), recursive); }
     
     /// Set bit flag. Called internally.
     void SetFlag(unsigned short bit, bool set) const { if (set) _flags |= bit; else _flags &= ~bit; }

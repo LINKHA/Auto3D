@@ -75,9 +75,9 @@ void Serializable::LoadJSON(const JSONValue& source, ObjectResolver& resolver)
         {
             // Store object refs to the resolver instead of immediately setting
             if (attr->Type() != AttributeType::OBJECTREF)
-                attr->FromJSON(this, jsonIt->second);
+                attr->FromJSON(this, jsonIt->_second);
             else
-                resolver.StoreObjectRef(this, attr, ObjectRef((unsigned)jsonIt->second.GetNumber()));
+                resolver.StoreObjectRef(this, attr, ObjectRef((unsigned)jsonIt->_second.GetNumber()));
         }
     }
 }
@@ -112,7 +112,7 @@ void Serializable::AttributeValue(Attribute* attr, void* dest)
 const Vector<SharedPtr<Attribute> >* Serializable::Attributes() const
 {
     auto it = _classAttributes.Find(Type());
-    return it != _classAttributes.End() ? &it->second : nullptr;
+    return it != _classAttributes.End() ? &it->_second : nullptr;
 }
 
 Attribute* Serializable::FindAttribute(const String& name) const

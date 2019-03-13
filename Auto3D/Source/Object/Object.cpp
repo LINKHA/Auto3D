@@ -47,7 +47,7 @@ void Object::RemoveSubsystem(Object* subsystem)
         return;
     
     auto it = _subsystems.Find(subsystem->Type());
-    if (it != _subsystems.End() && it->second == subsystem)
+    if (it != _subsystems.End() && it->_second == subsystem)
         _subsystems.Erase(it);
 }
 
@@ -59,7 +59,7 @@ void Object::RemoveSubsystem(StringHash type)
 Object* Object::Subsystem(StringHash type)
 {
     auto it = _subsystems.Find(type);
-    return it != _subsystems.End() ? it->second : nullptr;
+    return it != _subsystems.End() ? it->_second : nullptr;
 }
 
 void Object::RegisterFactory(ObjectFactory* factory)
@@ -73,13 +73,13 @@ void Object::RegisterFactory(ObjectFactory* factory)
 Object* Object::Create(StringHash type)
 {
     auto it = _factories.Find(type);
-    return it != _factories.End() ? it->second->Create() : nullptr;
+    return it != _factories.End() ? it->_second->Create() : nullptr;
 }
 
 const String& Object::TypeNameFromType(StringHash type)
 {
     auto it = _factories.Find(type);
-    return it != _factories.End() ? it->second->TypeName() : String::EMPTY;
+    return it != _factories.End() ? it->_second->TypeName() : String::EMPTY;
 }
 
 }

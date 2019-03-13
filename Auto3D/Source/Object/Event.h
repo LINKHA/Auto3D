@@ -30,7 +30,7 @@ protected:
 };
 
 /// Template implementation of the _event handler invoke helper, stores a function pointer of specific class.
-template <class _Ty, class U> class EventHandlerImpl : public EventHandler
+template <typename _Ty, class U> class EventHandlerImpl : public EventHandler
 {
 public:
     typedef void (_Ty::*HandlerFunctionPtr)(U&);

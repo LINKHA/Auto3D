@@ -25,27 +25,27 @@ public:
     void Swap(VectorBase& vector);
 
     /// Return number of elements in the vector.
-    size_t Size() const { return buffer ? reinterpret_cast<size_t*>(buffer)[0] : 0; }
+    size_t Size() const { return _buffer ? reinterpret_cast<size_t*>(_buffer)[0] : 0; }
     /// Return element capacity of the vector.
-    size_t Capacity() const { return buffer ? reinterpret_cast<size_t*>(buffer)[1] : 0; }
+    size_t Capacity() const { return _buffer ? reinterpret_cast<size_t*>(_buffer)[1] : 0; }
     /// Return whether has no elements.
     bool IsEmpty() const { return Size() == 0; }
 
 protected:
-    /// Set new _size.
-    void SetSize(size_t _size) { reinterpret_cast<size_t*>(buffer)[0] = _size; } 
+    /// Set new size.
+    void SetSize(size_t size) { reinterpret_cast<size_t*>(_buffer)[0] = size; } 
     /// Set new capacity.
-    void SetCapacity(size_t capacity) { reinterpret_cast<size_t*>(buffer)[1] = capacity; } 
+    void SetCapacity(size_t capacity) { reinterpret_cast<size_t*>(_buffer)[1] = capacity; } 
 
     /// Allocate the buffer for elements.
-    static unsigned char* AllocateBuffer(size_t _size);
+    static unsigned char* AllocateBuffer(size_t size);
 
-    /// Buffer. Contains _size and capacity in the beginning.
-    unsigned char* buffer;
+    /// Buffer. Contains size and capacity in the beginning.
+    unsigned char* _buffer;
 };
 
 /// %Vector template class. Implements a dynamic-sized array where the elements are in continuous memory. The elements need to be safe to move with block copy.
-template <class _Ty> class Vector : public VectorBase
+template <typename _Ty> class Vector : public VectorBase
 {
 public:
     typedef RandomAccessIterator<_Ty> Iterator;
@@ -56,16 +56,16 @@ public:
     {
     }
 
-    /// Construct with initial _size.
+    /// Construct with initial size.
     explicit Vector(size_t startSize)
     {
         Resize(startSize, 0);
     }
 
     /// Construct with initial data.
-    Vector(const _Ty* _data, size_t dataSize)
+    Vector(const _Ty* data, size_t dataSize)
     {
-        Resize(dataSize, _data);
+        Resize(dataSize, data);
     }
 
     /// Copy-construct.
@@ -78,7 +78,7 @@ public:
     ~Vector()
     {
         DestructElements(Buffer(), Size());
-        delete[] buffer;
+        delete[] _buffer;
     }
 
     /// Assign from another vector.
@@ -314,8 +314,8 @@ public:
             }
 
             // Delete the old buffer
-            delete[] buffer;
-            buffer = newBuffer;
+            delete[] _buffer;
+            _buffer = newBuffer;
             SetSize(_size);
             SetCapacity(newCapacity);
         }
@@ -368,19 +368,19 @@ public:
 
 private:
     /// Return the buffer with right type.
-    _Ty* Buffer() const { return reinterpret_cast<_Ty*>(buffer + 2 * sizeof(size_t)); }
+    _Ty* Buffer() const { return reinterpret_cast<_Ty*>(_buffer + 2 * sizeof(size_t)); }
 
    /// Resize the vector and create/remove new elements as necessary.
     void Resize(size_t newSize, const _Ty* src)
     {
-        size_t _size = Size();
+        size_t size = Size();
         
-        if (newSize < _size)
+        if (newSize < size)
         {
-            DestructElements(Buffer() + newSize, _size - newSize);
+            DestructElements(Buffer() + newSize, size - newSize);
             SetSize(newSize);
         }
-        else if (newSize > _size)
+        else if (newSize > size)
         {
             size_t capacity = Capacity();
             unsigned char* oldBuffer = nullptr;
@@ -396,17 +396,17 @@ private:
                         capacity += (capacity + 1) >> 1;
                 }
 
-                oldBuffer = buffer;
-                buffer = AllocateBuffer(capacity * sizeof(_Ty));
+                oldBuffer = _buffer;
+                _buffer = AllocateBuffer(capacity * sizeof(_Ty));
                 if (oldBuffer)
-                    MoveElements(Buffer(), reinterpret_cast<_Ty*>(oldBuffer + 2 * sizeof(size_t)), _size);
+                    MoveElements(Buffer(), reinterpret_cast<_Ty*>(oldBuffer + 2 * sizeof(size_t)), size);
 
                 SetCapacity(capacity);
             }
 
             // Initialize the new elements. Optimize for case of 1 element with source (push)
-            size_t count = newSize - _size;
-            _Ty* dest = Buffer() + _size;
+            size_t count = newSize - size;
+            _Ty* dest = Buffer() + size;
             if (src)
             {
                 if (count == 1)

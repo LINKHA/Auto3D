@@ -180,7 +180,7 @@ void Scene::Clear()
 Node* Scene::FindNode(unsigned id) const
 {
     auto it = _nodes.Find(id);
-    return it != _nodes.End() ? it->second : nullptr;
+    return it != _nodes.End() ? it->_second : nullptr;
 }
 
 void Scene::AddNode(Node* node)

@@ -92,21 +92,21 @@ public:
     RaycastResult RaycastSingle(const Ray& ray, unsigned short nodeFlags, float maxDistance = M_INFINITY, unsigned layerMask = LAYERMASK_ALL);
 
     /// Query for nodes using a volume such as frustum or sphere.
-    template <class _Ty> void FindNodes(Vector<OctreeNode*>& result, const _Ty& volume, unsigned short nodeFlags, unsigned layerMask = LAYERMASK_ALL) const
+    template <typename _Ty> void FindNodes(Vector<OctreeNode*>& result, const _Ty& volume, unsigned short nodeFlags, unsigned layerMask = LAYERMASK_ALL) const
     {
         PROFILE(QueryOctree);
         CollectNodes(result, &_root, volume, nodeFlags, layerMask);
     }
 
     /// Query for nodes using a volume such as frustum or sphere. Invoke a function for each octant.
-    template <class _Ty> void FindNodes(const _Ty& volume, void(*callback)(Vector<OctreeNode*>::ConstIterator, Vector<OctreeNode*>::ConstIterator, bool)) const
+    template <typename _Ty> void FindNodes(const _Ty& volume, void(*callback)(Vector<OctreeNode*>::ConstIterator, Vector<OctreeNode*>::ConstIterator, bool)) const
     {
         PROFILE(QueryOctree);
         CollectNodesCallback(&_root, volume, callback);
     }
 
     /// Query for nodes using a volume such as frustum or sphere. Invoke a member function for each octant.
-    template <class _Ty, class U> void FindNodes(const _Ty& volume, U* object, void (U::*callback)(Vector<OctreeNode*>::ConstIterator, Vector<OctreeNode*>::ConstIterator, bool)) const
+    template <typename _Ty, class U> void FindNodes(const _Ty& volume, U* object, void (U::*callback)(Vector<OctreeNode*>::ConstIterator, Vector<OctreeNode*>::ConstIterator, bool)) const
     {
         PROFILE(QueryOctree);
         CollectNodesMemberCallback(&_root, volume, object, callback);
@@ -141,7 +141,7 @@ private:
     void CollectNodes(Vector<Pair<OctreeNode*, float> >& result, const Octant* octant, const Ray& ray, unsigned short nodeFlags, float maxDistance, unsigned layerMask) const;
 
     /// Collect nodes matching flags using a volume such as frustum or sphere.
-    template <class _Ty> void CollectNodes(Vector<OctreeNode*>& result, const Octant* octant, const _Ty& volume, unsigned short nodeFlags, unsigned layerMask) const
+    template <typename _Ty> void CollectNodes(Vector<OctreeNode*>& result, const Octant* octant, const _Ty& volume, unsigned short nodeFlags, unsigned layerMask) const
     {
         Intersection res = volume.IsInside(octant->_cullingBox);
         if (res == OUTSIDE)
@@ -183,7 +183,7 @@ private:
     }
 
     /// Collect nodes using a volume such as frustum or sphere. Invoke a function for each octant.
-    template <class _Ty> void CollectNodesCallback(const Octant* octant, const _Ty& volume, void(*callback)(Vector<OctreeNode*>::ConstIterator, Vector<OctreeNode*>::ConstIterator, bool)) const
+    template <typename _Ty> void CollectNodesCallback(const Octant* octant, const _Ty& volume, void(*callback)(Vector<OctreeNode*>::ConstIterator, Vector<OctreeNode*>::ConstIterator, bool)) const
     {
         Intersection res = volume.IsInside(octant->_cullingBox);
         if (res == OUTSIDE)
@@ -206,7 +206,7 @@ private:
     }
 
     /// Collect nodes from octant and child octants. Invoke a member function for each octant.
-    template <class _Ty> void CollectNodesMemberCallback(const Octant* octant, _Ty* object, void (_Ty::*callback)(Vector<OctreeNode*>::ConstIterator, Vector<OctreeNode*>::ConstIterator, bool)) const
+    template <typename _Ty> void CollectNodesMemberCallback(const Octant* octant, _Ty* object, void (_Ty::*callback)(Vector<OctreeNode*>::ConstIterator, Vector<OctreeNode*>::ConstIterator, bool)) const
     {
         const Vector<OctreeNode*>& octantNodes = octant->_nodes;
         (object->*callback)(octantNodes.Begin(), octantNodes.End(), true);
@@ -219,7 +219,7 @@ private:
     }
 
     /// Collect nodes using a volume such as frustum or sphere. Invoke a member function for each octant.
-    template <class _Ty, class U> void CollectNodesMemberCallback(const Octant* octant, const _Ty& volume, U* object, void (U::*callback)(Vector<OctreeNode*>::ConstIterator, Vector<OctreeNode*>::ConstIterator, bool)) const
+    template <typename _Ty, class U> void CollectNodesMemberCallback(const Octant* octant, const _Ty& volume, U* object, void (U::*callback)(Vector<OctreeNode*>::ConstIterator, Vector<OctreeNode*>::ConstIterator, bool)) const
     {
         Intersection res = volume.IsInside(octant->_cullingBox);
         if (res == OUTSIDE)

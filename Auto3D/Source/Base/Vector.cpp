@@ -7,19 +7,19 @@ namespace Auto3D
 {
 
 VectorBase::VectorBase() :
-    buffer(nullptr)
+    _buffer(nullptr)
 {
 }
 
 void VectorBase::Swap(VectorBase& vector)
 {
-    Auto3D::Swap(buffer, vector.buffer);
+    Auto3D::Swap(_buffer, vector._buffer);
 }
 
-unsigned char* VectorBase::AllocateBuffer(size_t _size)
+unsigned char* VectorBase::AllocateBuffer(size_t size)
 {
     // Include space for _size and capacity
-    return new unsigned char[_size + 2 * sizeof(size_t)];
+    return new unsigned char[size + 2 * sizeof(size_t)];
 }
 
 template<> void Swap<VectorBase>(VectorBase& first, VectorBase& second)
