@@ -5,14 +5,15 @@ namespace Auto3D
 {
 
 class Engine;
-
+/// The superclass implementation of the project space, where the engine is implemented
 class AUTO_API Application : public Object
 {
 	REGISTER_OBJECT_CLASS(Application, Object)
 public:
+	/// Create engine
 	Application();
+	/// Destructor
 	~Application();
-	
 	/// Setup before engine initialization.This is a chance to eg. modify the engine parameters.
 	///	Call ErrorExit() to terminate without initializing the engine.Called by Application.
 	virtual void Init() { }
@@ -23,7 +24,7 @@ public:
 	virtual void Update() { }
 	/// Cleanup after the main loop. Called by Application
 	virtual void Stop() { }
-	/// this is Engine important funcation init awake runloop and finish run
+	/// This is Engine important funcation init awake runloop and finish run
 	int Run();
 protected:
 	/// Engine

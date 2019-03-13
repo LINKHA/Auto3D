@@ -1,12 +1,7 @@
-// For conditions of distribution and use, see copyright notice in License.txt
-
-#include "../Base/String.h"
-#include "../AutoConfig.h"
+#pragma once
 #include "../Object/GameManager.h"
 
 #include <functional>
-
-#pragma once
 
 namespace Auto3D
 {

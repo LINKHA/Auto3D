@@ -1,4 +1,5 @@
 #include "UIBatch.h"
+#include "../Graphics/Texture.h"
 
 namespace Auto3D
 {

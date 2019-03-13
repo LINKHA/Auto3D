@@ -6,7 +6,8 @@ namespace Auto3D
 
 Application::Application()
 {
-	_engine = new Engine();
+	if(!_engine)
+		_engine = new Engine();
 }
 
 

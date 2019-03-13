@@ -1,21 +1,17 @@
-// For conditions of distribution and use, see copyright notice in License.txt
-
 #include "Time.h"
 #include "../Debug/Log.h"
 
-#include <ctime>
-
 #ifdef _WIN32
-#include <Windows.h>
-#include <MMSystem.h>
+#	include <Windows.h>
+#	include <MMSystem.h>
 #else
-#include <sys/time.h>
-#include <unistd.h>
+#	include <sys/time.h>
+#	include <unistd.h>
 #endif
 
 #include <SDL.h>
-
 #include <thread>
+#include <ctime>
 
 #include "../Debug/DebugNew.h"
 

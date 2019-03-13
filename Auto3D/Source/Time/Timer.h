@@ -4,14 +4,18 @@
 
 namespace Auto3D {
 
-enum class TimerState
+struct __TimerState
 {
-	DEFAULT,
-	INIT,
-	RUNNING,
-	STOPPING,
-	PAUSEING,
+	enum _TimerState
+	{
+		DEFAULT,
+		INIT,
+		RUNNING,
+		STOPPING,
+		PAUSEING,
+	};
 };
+using TimerState = __TimerState::_TimerState;
 
 
 /// Timer independent system

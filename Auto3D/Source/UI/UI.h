@@ -15,6 +15,7 @@ class ConstantBuffer;
 class ShaderVariation;
 class VertexElement;
 class Shader;
+
 /// Texture coordinate index for the instance world matrix.
 static const size_t U_INSTANCE_TEXCOORD = 4;
 

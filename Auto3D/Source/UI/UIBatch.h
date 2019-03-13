@@ -1,10 +1,12 @@
 #pragma once
 #include "../AutoConfig.h"
 #include "../Renderer/GeometryNode.h"
-#include "../Graphics/Texture.h"
+
 
 namespace Auto3D
 {
+
+class Texture;
 
 struct AUTO_API UIBatch
 {
