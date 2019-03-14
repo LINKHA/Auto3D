@@ -68,20 +68,20 @@ template <typename _Ty> class SharedPtr
 public:
     /// Construct a null pointer.
     SharedPtr() :
-        ptr(nullptr)
+        _ptr(nullptr)
     {
     }
     
     /// Copy-construct.
     SharedPtr(const SharedPtr<_Ty>& ptr) :
-        ptr(nullptr)
+        _ptr(nullptr)
     {
         *this = ptr;
     }
 
     /// Construct from a raw pointer.
     SharedPtr(_Ty* ptr) :
-        ptr(nullptr)
+        _ptr(nullptr)
     {
         *this = ptr;
     }
@@ -99,9 +99,9 @@ public:
             return *this;
 
         Reset();
-        ptr = rhs;
-        if (ptr)
-            ptr->AddRef();
+        _ptr = rhs;
+        if (_ptr)
+            _ptr->AddRef();
         return *this;
     }
     
@@ -112,26 +112,26 @@ public:
             return *this;
 
         Reset();
-        ptr = rhs.ptr;
-        if (ptr)
-            ptr->AddRef();
+        _ptr = rhs._ptr;
+        if (_ptr)
+            _ptr->AddRef();
         return *this;
     }
     
     /// Release the object reference and reset to null. Destroy the object if was the last reference.
     void Reset()
     {
-        if (ptr)
+        if (_ptr)
         {
-            ptr->ReleaseRef();
-            ptr = nullptr;
+            _ptr->ReleaseRef();
+            _ptr = nullptr;
         }
     }
     
     /// Perform a static cast from a shared pointer of another type.
     template <typename _Oth> void StaticCast(const SharedPtr<_Oth>& rhs)
     {
-        *this = static_cast<_Ty*>(rhs.ptr);
+        *this = static_cast<_Ty*>(rhs._ptr);
     }
 
     /// Perform a dynamic cast from a weak pointer of another type.
@@ -144,46 +144,46 @@ public:
     }
     
     /// Test for equality with another shared pointer.
-    bool operator == (const SharedPtr<_Ty>& rhs) const { return ptr == rhs.ptr; }
+    bool operator == (const SharedPtr<_Ty>& rhs) const { return _ptr == rhs._ptr; }
     /// Test for equality with a raw pointer.
-    bool operator == (_Ty* rhs) const { return ptr == rhs; }
+    bool operator == (_Ty* rhs) const { return _ptr == rhs; }
     /// Test for inequality with another shared pointer.
     bool operator != (const SharedPtr<_Ty>& rhs) const { return !(*this == rhs); }
     /// Test for inequality with a raw pointer.
     bool operator != (_Ty* rhs) const { return !(*this == rhs); }
     /// Point to the object.
-    _Ty* operator -> () const { assert(ptr); return ptr; }
+    _Ty* operator -> () const { assert(_ptr); return _ptr; }
     /// Dereference the object.
-    _Ty& operator * () const { assert(ptr); return ptr; }
+    _Ty& operator * () const { assert(_ptr); return _ptr; }
     /// Convert to the object.
-    operator _Ty* () const { return ptr; }
+    operator _Ty* () const { return _ptr; }
     
     /// Return the object.
-    _Ty* Get() const { return ptr; }
+    _Ty* Get() const { return _ptr; }
     /// Return the number of strong references.
-    unsigned Refs() const { return ptr ? ptr->Refs() : 0; }
+    unsigned Refs() const { return _ptr ? _ptr->Refs() : 0; }
     /// Return the number of weak references.
-    unsigned WeakRefs() const { return ptr ? ptr->WeakRefs() : 0; }
+    unsigned WeakRefs() const { return _ptr ? _ptr->WeakRefs() : 0; }
     /// Return whether is a null pointer.
-    bool IsNull() const { return ptr == nullptr; }
+    bool IsNull() const { return _ptr == nullptr; }
     
 private:
     /// %Object pointer.
-    _Ty* ptr;
+    _Ty* _ptr;
 };
 
 /// Perform a static cast between shared pointers of two types.
-template <typename _Ty, class U> SharedPtr<_Ty> StaticCast(const SharedPtr<U>& rhs)
+template <typename _Ty1, typename _Ty2> SharedPtr<_Ty1> StaticCast(const SharedPtr<_Ty2>& rhs)
 {
-    SharedPtr<_Ty> ret;
+    SharedPtr<_Ty1> ret;
     ret.StaticCast(rhs);
     return ret;
 }
 
 /// Perform a dynamic cast between shared pointers of two types.
-template <typename _Ty, class U> SharedPtr<_Ty> DynamicCast(const SharedPtr<U>& rhs)
+template <typename _Ty1, typename _Ty2> SharedPtr<_Ty1> DynamicCast(const SharedPtr<_Ty2>& rhs)
 {
-    SharedPtr<_Ty> ret;
+    SharedPtr<_Ty1> ret;
     ret.DynamicCast(rhs);
     return ret;
 }

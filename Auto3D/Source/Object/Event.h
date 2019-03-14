@@ -9,7 +9,7 @@ namespace Auto3D
 
 class Event;
 
-/// Internal helper class for invoking _event handler functions.
+/// Internal helper class for invoking event handler functions.
 class AUTO_API EventHandler
 {
 public:
@@ -29,16 +29,16 @@ protected:
     WeakPtr<RefCounted> _receiver;
 };
 
-/// Template implementation of the _event handler invoke helper, stores a function pointer of specific class.
+/// Template implementation of the event handler invoke helper, stores a function pointer of specific class.
 template <typename _Ty, class U> class EventHandlerImpl : public EventHandler
 {
 public:
     typedef void (_Ty::*HandlerFunctionPtr)(U&);
 
     /// Construct with receiver and function pointers.
-    EventHandlerImpl(RefCounted* receiver_, HandlerFunctionPtr function_) :
-        EventHandler(receiver_),
-        _function(function_)
+    EventHandlerImpl(RefCounted* receiver, HandlerFunctionPtr function) :
+        EventHandler(receiver),
+        _function(function)
     {
         assert(_function);
     }

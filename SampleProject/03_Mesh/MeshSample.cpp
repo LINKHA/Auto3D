@@ -34,6 +34,11 @@ void MeshSample::Start()
 	plane->SetModel(cache->LoadResource<Model>("Box.mdl"));
 	plane->SetMaterial(cache->LoadResource<Material>("Stone.json"));
 
+	StaticModel* plane2 = scene->CreateChild<StaticModel>();
+	plane2->SetScale(Vector3F(50.0f, 0.1f, 50.0f));
+	plane2->SetPosition(Vector3F(0.0f, -1.0f, 0.0f));
+	plane2->SetModel(cache->LoadResource<Model>("Box.mdl"));
+	plane2->SetMaterial(cache->LoadResource<Material>("Stone.json"));
 	
 	StaticModel* teaPot = scene->CreateChild<StaticModel>();
 	teaPot->SetPosition(Vector3F(0.0f, 0.0f, 0.0f));
