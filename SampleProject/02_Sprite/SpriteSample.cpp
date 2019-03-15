@@ -44,9 +44,9 @@ void SpriteSample::Update()
 	float scaleAmount = (float)sin(time->GetCurTime());
 	for (auto it = sprites.Begin(); it != sprites.End(); it++)
 	{
-		float speed = it->first.speed;
-		float rotateOffset = it->first.rotateOffset;
-		Sprite* speite = it->second;
+		float speed = it->_first.speed;
+		float rotateOffset = it->_first.rotateOffset;
+		Sprite* speite = it->_second;
 		speite->Translate(Vector3F::DOWN * time->GetDeltaTime() * speed, UITransformSpace::WORLD);
 		speite->Rotate(Quaternion(0.0f, 0.0f, rotateOffset));
 		Vector3F oldPos = speite->GetPosition();
