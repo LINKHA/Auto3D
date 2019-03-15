@@ -703,4 +703,119 @@ template <typename _Ty, typename _Oth> WeakArrayPtr<_Ty> ReinterpretCast(const W
     return ret;
 }
 
+/// Delete object of type T. T must be complete. See boost::checked_delete.
+template<typename _Ty> inline void CheckedDelete(_Ty* x)
+{
+	// intentionally complex - simplification causes regressions
+	using type_must_be_complete = char[sizeof(_Ty) ? 1 : -1];
+	(void) sizeof(type_must_be_complete);
+	delete x;
+}
+
+/// Unique pointer template class.
+template <typename _Ty> class UniquePtr
+{
+public:
+	/// Construct empty.
+	UniquePtr() : _ptr(nullptr) { }
+
+	/// Construct from pointer.
+	explicit UniquePtr(_Ty* ptr) : _ptr(ptr) { }
+
+	/// Prevent copy construction.
+	UniquePtr(const UniquePtr&) = delete;
+	/// Prevent assignment.
+	UniquePtr& operator=(const UniquePtr&) = delete;
+
+	/// Assign from pointer.
+	UniquePtr& operator = (_Ty* ptr)
+	{
+		Reset(ptr);
+		return *this;
+	}
+
+	/// Construct empty.
+	UniquePtr(std::nullptr_t) { }   // NOLINT(google-explicit-constructor)
+
+	/// Move-construct from UniquePtr.
+	UniquePtr(UniquePtr&& up) noexcept :
+		_ptr(up.Detach()) {}
+
+	/// Move-assign from UniquePtr.
+	UniquePtr& operator =(UniquePtr&& up) noexcept
+	{
+		Reset(up.Detach());
+		return *this;
+	}
+
+	/// Point to the object.
+	_Ty* operator ->() const
+	{
+		assert(ptr_);
+		return _ptr;
+	}
+
+	/// Dereference the object.
+	_Ty& operator *() const
+	{
+		assert(ptr_);
+		return *_ptr;
+	}
+
+	/// Test for less than with another unique pointer.
+	template <typename _Oth>
+	bool operator <(const UniquePtr<_Oth>& rhs) const { return _ptr < rhs._ptr; }
+
+	/// Test for equality with another unique pointer.
+	template <typename _Oth>
+	bool operator ==(const UniquePtr<_Oth>& rhs) const { return _ptr == rhs._ptr; }
+
+	/// Test for inequality with another unique pointer.
+	template <typename _Oth>
+	bool operator !=(const UniquePtr<_Oth>& rhs) const { return _ptr != rhs._ptr; }
+
+	/// Cast pointer to bool.
+	operator bool() const { return !!_ptr; }    // NOLINT(google-explicit-constructor)
+
+	/// Swap with another UniquePtr.
+	void Swap(UniquePtr& up) { Auto3D::Swap(_ptr, up._ptr); }
+
+	/// Detach pointer from UniquePtr without destroying.
+	_Ty* Detach()
+	{
+		_Ty* ptr = _ptr;
+		_ptr = nullptr;
+		return ptr;
+	}
+
+	/// Check if the pointer is null.
+	bool Null() const { return _ptr == 0; }
+
+	/// Check if the pointer is not null.
+	bool NotNull() const { return _ptr != 0; }
+
+	/// Return the raw pointer.
+	_Ty* Get() const { return _ptr; }
+
+	/// Reset.
+	void Reset(_Ty* ptr = nullptr)
+	{
+		CheckedDelete(_ptr);
+		_ptr = ptr;
+	}
+
+	/// Return hash value for HashSet & HashMap.
+	unsigned ToHash() const { return (unsigned)((size_t)_ptr / sizeof(_Ty)); }
+
+	/// Destruct.
+	~UniquePtr()
+	{
+		Reset();
+	}
+
+private:
+	_Ty* _ptr;
+
+};
+
 }
