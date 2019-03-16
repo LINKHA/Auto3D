@@ -77,7 +77,7 @@ void Timer::TimerCount(TimerCallback callback, int interval, int delayTime, int 
 	if (count < 0)
 		return;
 	if (count == 0)
-		while (1)
+		for(;;)
 		{
 			std::chrono::milliseconds dura(interval);
 			std::this_thread::sleep_for(dura);
@@ -100,7 +100,7 @@ void Timer::TimerCountClass(std::function<void()> callback, int interval, int de
 	if (count < 0)
 		return;
 	if (count == 0)
-		while (1)
+		for (;;)
 		{
 			std::chrono::milliseconds dura(interval);
 			std::this_thread::sleep_for(dura);

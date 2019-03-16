@@ -28,7 +28,7 @@ Audio::Audio() :
 	_device = alcOpenDevice(NULL);
 	_context = alcCreateContext(_device, contextAttr);
 	alcMakeContextCurrent(_context);
-
+	// The application has been placed in the AudioListener
 	//RegisterSubsystem(this);
 }
 
