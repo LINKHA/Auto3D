@@ -8,17 +8,17 @@
 namespace Auto3D
 {
 
-MemoryBuffer::MemoryBuffer(void* _data, size_t numBytes) :
-    Stream(_data ? numBytes : 0),
-    _buffer((unsigned char*)_data),
+MemoryBuffer::MemoryBuffer(void* data, size_t numBytes) :
+    Stream(data ? numBytes : 0),
+    _buffer((unsigned char*)data),
     _readOnly(false)
 {
     SetName("Memory");
 }
 
-MemoryBuffer::MemoryBuffer(const void* _data, size_t numBytes) :
-    Stream(_data ? numBytes : 0),
-    _buffer((unsigned char*)_data),
+MemoryBuffer::MemoryBuffer(const void* data, size_t numBytes) :
+    Stream(data ? numBytes : 0),
+    _buffer((unsigned char*)data),
     _readOnly(true)
 {
     SetName("Memory");

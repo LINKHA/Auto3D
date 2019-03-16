@@ -40,9 +40,9 @@ public:
     /// Destruct. If no weak references, destroy also the reference count, else mark it expired.
     virtual ~RefCounted();
 	/// Prevent copy construction.
-	RefCounted(const RefCounted& rhs);
+	RefCounted(const RefCounted& rhs) = delete;
 	/// Prevent assignment.
-	RefCounted& operator = (const RefCounted& rhs);
+	RefCounted& operator = (const RefCounted& rhs) = delete;
 
     /// Add a strong reference. Allocate the reference count structure first if necessary.
     void AddRef();
