@@ -635,11 +635,11 @@ void Graphics::DrawIndexed(PrimitiveType type, size_t indexStart, size_t indexCo
         glDrawElements(glPrimitiveTypes[type], (unsigned)indexCount, indexSize == sizeof(unsigned short) ? GL_UNSIGNED_SHORT :
             GL_UNSIGNED_INT, (const void*)(indexStart * indexSize));
     }
-    else
-    {
-        glDrawElementsBaseVertex(glPrimitiveTypes[type], (unsigned)indexCount, indexSize == sizeof(unsigned short) ?
-            GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, (const void*)(indexStart * indexSize), (unsigned)vertexStart);
-    }
+	else
+	{
+		glDrawElementsBaseVertex(glPrimitiveTypes[type], (unsigned)indexCount, indexSize == sizeof(unsigned short) ?
+			GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, (const void*)(indexStart * indexSize), (unsigned)vertexStart);
+	}
 
 }
 

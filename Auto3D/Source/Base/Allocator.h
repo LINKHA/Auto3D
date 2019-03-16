@@ -83,48 +83,36 @@ AUTO_API void* AllocatorGet(AllocatorBlock* allocator);
 /// Free a node. Does not free any blocks.
 AUTO_API void AllocatorFree(AllocatorBlock* allocator, void* node);
 
-template <class _Ty>
+template <typename _Ty>
 class Allocator
 {
 public:
 	using ValueType = _Ty;
 public:
-	/**
-	* @brief : Construct default allocator (do nothing)
-	*/
+	/// Construct default allocator (do nothing)
 	constexpr Allocator() noexcept
 		: _allocator(nullptr)
 	{
 		_allocator = AllocatorInitialize((unsigned)sizeof(_Ty));
 	}
-	/**
-	* @brief : Construct
-	*/
+	/// Construct
 	explicit Allocator(unsigned initialCapacity)
 		: _allocator(nullptr)
 	{
 		if (initialCapacity)
 			_allocator = AllocatorInitialize((unsigned)sizeof(_Ty), initialCapacity);
 	}
-	/**
-	* @brief : Destruct
-	*/
+	/// Destruct
 	virtual ~Allocator()
 	{
 		AllocatorUninitialize(_allocator);
 	}
-	/**
-	* @brief : Prevent copy construction
-	*/
+	/// Prevent copy construction
 	Allocator(const Allocator<_Ty>& rhs) = delete;
-	/**
-	* @brief : Prevent assignment
-	*/
+	/// Prevent assignment
 	Allocator<_Ty>& operator =(const Allocator<_Ty>& rhs) = delete;
 
-	/**
-	* @brief : Reserve and default-construct an object
-	*/
+	/// Reserve and default-construct an object
 	_Ty* Reserve()
 	{
 		if (!_allocator)
@@ -134,9 +122,7 @@ public:
 
 		return newObject;
 	}
-	/**
-	* @brief : Reserve and copy-construct an object
-	*/
+	/// Reserve and copy-construct an object
 	_Ty* Reserve(const _Ty& object)
 	{
 		if (!_allocator)
@@ -146,17 +132,13 @@ public:
 
 		return newObject;
 	}
-	/**
-	* @brief : Destruct and free an object
-	*/
+	/// Destruct and free an object
 	void Free(_Ty* object)
 	{
 		(object)->~_Ty();
 		AllocatorFree(_allocator, object);
 	}
-	/**
-	* @brief : Destruct and free an other object
-	*/
+	/// Destruct and free an other object
 	template <typename _Other> void Free(_Other* object)
 	{
 		(object)->~_Other();
@@ -189,14 +171,12 @@ public:
 		AllocatorUninitialize(_allocator);
 		_allocator = nullptr;
 	}
-	/**
-	* @brief : Allocate allocator
-	*/
+	/// Allocate allocator
 	void* Allocation()
 	{
 		return AllocatorReserve(_allocator);
 	}
-
+	/// Allocate base
 	template<typename _Other>
 	_Other* Allocate(unsigned size)
 	{
@@ -209,7 +189,7 @@ public:
 		}
 		return tmp;
 	}
-
+	/// Deallocate
 	template<class _Other>
 	void Deallocate(_Other* buffer)
 	{
