@@ -19,16 +19,16 @@ public:
     }
 
     /// Copy-construct. Ownership is transferred, making the source pointer null.
-    AutoPtr(const AutoPtr<_Ty>& ptr_) :
-        _ptr(ptr_._ptr)
+    AutoPtr(const AutoPtr<_Ty>& ptr) :
+        _ptr(ptr._ptr)
     {
         // Trick the compiler so that the AutoPtr can be copied to containers; the latest copy stays non-null
-        const_cast<AutoPtr<_Ty>&>(ptr_)._ptr = nullptr;
+        const_cast<AutoPtr<_Ty>&>(ptr)._ptr = nullptr;
     }
 
     /// Construct with a raw pointer; take ownership of the object.
-    AutoPtr(_Ty* ptr_) :
-       _ptr(ptr_)
+    AutoPtr(_Ty* ptr) :
+       _ptr(ptr)
     {
     }
 

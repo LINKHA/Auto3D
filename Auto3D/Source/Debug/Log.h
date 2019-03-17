@@ -118,16 +118,16 @@ private:
 
 #ifdef AUTO_LOGGING_L1 
 
-	#define LOGDEBUG(message) Turso3D::Log::Write(Turso3D::LOG_DEBUG, message)
-	#define LOGINFO(message) Turso3D::Log::Write(Turso3D::LOG_INFO, message)
-	#define LOGWARNING(message) Turso3D::Log::Write(Turso3D::LOG_WARNING, message)
-	#define LOGERROR(message) Turso3D::Log::Write(Turso3D::LOG_ERROR, message)
-	#define LOGRAW(message) Turso3D::Log::WriteRaw(message)
-	#define LOGDEBUGF(_format, ...) Turso3D::Log::Write(Turso3D::LOG_DEBUG, Turso3D::String::Format(_format, ##__VA_ARGS__))
-	#define LOGINFOF(_format, ...) Turso3D::Log::Write(Turso3D::LOG_INFO, Turso3D::String::Format(_format, ##__VA_ARGS__))
-	#define LOGWARNINGF(_format, ...) Turso3D::Log::Write(Turso3D::LOG_WARNING, Turso3D::String::Format(_format, ##__VA_ARGS__))
-	#define LOGERRORF(_format, ...) Turso3D::Log::Write(Turso3D::LOG_ERROR, Turso3D::String::Format(_format, ##__VA_ARGS__))
-	#define LOGRAWF(_format, ...) Turso3D::Log::WriteRaw(Turso3D::String::Format(_format, ##__VA_ARGS__))
+	#define LOGDEBUG(message) Auto3D::Log::Write(Auto3D::LOG_DEBUG, message)
+	#define LOGINFO(message) Auto3D::Log::Write(Auto3D::LOG_INFO, message)
+	#define LOGWARNING(message) Auto3D::Log::Write(Auto3D::LOG_WARNING, message)
+	#define LOGERROR(message) Auto3D::Log::Write(Auto3D::LOG_ERROR, message)
+	#define LOGRAW(message) Auto3D::Log::WriteRaw(message)
+	#define LOGDEBUGF(_format, ...) Auto3D::Log::Write(Auto3D::LOG_DEBUG, Auto3D::String::Format(_format, ##__VA_ARGS__))
+	#define LOGINFOF(_format, ...) Auto3D::Log::Write(Auto3D::LOG_INFO, Auto3D::String::Format(_format, ##__VA_ARGS__))
+	#define LOGWARNINGF(_format, ...) Auto3D::Log::Write(Auto3D::LOG_WARNING, Auto3D::String::Format(_format, ##__VA_ARGS__))
+	#define LOGERRORF(_format, ...) Auto3D::Log::Write(Auto3D::LOG_ERROR, Auto3D::String::Format(_format, ##__VA_ARGS__))
+	#define LOGRAWF(_format, ...) Auto3D::Log::WriteRaw(Auto3D::String::Format(_format, ##__VA_ARGS__))
 
 #elif defined(AUTO_LOGGING_L2)
 
