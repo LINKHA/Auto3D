@@ -49,7 +49,7 @@ protected:
     /// Thread _handle.
     void* _handle;
     /// Main thread's thread ID.
-    static ThreadID _mainThreadID;
+    static ThreadID mainThreadID;
 };
 
 }

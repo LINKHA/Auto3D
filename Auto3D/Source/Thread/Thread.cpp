@@ -28,7 +28,7 @@ void* ThreadFunctionStatic(void* _data)
 }
 #endif
 
-ThreadID Thread::_mainThreadID = Thread::CurrentThreadID();
+ThreadID Thread::mainThreadID = Thread::CurrentThreadID();
 
 Thread::Thread() :
     _handle(nullptr),
@@ -103,7 +103,7 @@ void Thread::Sleep(unsigned mSec)
 
 void Thread::SetMainThread()
 {
-    _mainThreadID = CurrentThreadID();
+    mainThreadID = CurrentThreadID();
 }
 
 ThreadID Thread::CurrentThreadID()
@@ -117,7 +117,7 @@ ThreadID Thread::CurrentThreadID()
 
 bool Thread::IsMainThread()
 {
-    return CurrentThreadID() == _mainThreadID;
+    return CurrentThreadID() == mainThreadID;
 }
 
 }

@@ -118,16 +118,18 @@ private:
 
 #ifdef AUTO_LOGGING_L1 
 
-	#define LOGDEBUG(message) Auto3D::Log::Write(Auto3D::LOG_DEBUG, message)
-	#define LOGINFO(message) Auto3D::Log::Write(Auto3D::LOG_INFO, message)
-	#define LOGWARNING(message) Auto3D::Log::Write(Auto3D::LOG_WARNING, message)
-	#define LOGERROR(message) Auto3D::Log::Write(Auto3D::LOG_ERROR, message)
-	#define LOGRAW(message) Auto3D::Log::WriteRaw(message)
-	#define LOGDEBUGF(_format, ...) Auto3D::Log::Write(Auto3D::LOG_DEBUG, Auto3D::String::Format(_format, ##__VA_ARGS__))
-	#define LOGINFOF(_format, ...) Auto3D::Log::Write(Auto3D::LOG_INFO, Auto3D::String::Format(_format, ##__VA_ARGS__))
-	#define LOGWARNINGF(_format, ...) Auto3D::Log::Write(Auto3D::LOG_WARNING, Auto3D::String::Format(_format, ##__VA_ARGS__))
-	#define LOGERRORF(_format, ...) Auto3D::Log::Write(Auto3D::LOG_ERROR, Auto3D::String::Format(_format, ##__VA_ARGS__))
-	#define LOGRAWF(_format, ...) Auto3D::Log::WriteRaw(Auto3D::String::Format(_format, ##__VA_ARGS__))
+	#define LogString(message) Auto3D::Log::Write(Auto3D::LOG_DEBUG, message)
+	#define InfoString(message) Auto3D::Log::Write(Auto3D::LOG_INFO, message)
+	#define WarinningString(message) Auto3D::Log::Write(Auto3D::LOG_WARNING, message)
+	#define ErrorString(message) Auto3D::Log::Write(Auto3D::LOG_ERROR, message)
+	#define LogRawString(message) Auto3D::Log::WriteRaw(message)
+	#define LogStringF(_format, ...) Auto3D::Log::Write(Auto3D::LOG_DEBUG, Auto3D::String::Format(_format, ##__VA_ARGS__))
+	#define InfoStringF(_format, ...) Auto3D::Log::Write(Auto3D::LOG_INFO, Auto3D::String::Format(_format, ##__VA_ARGS__))
+	#define WarnningStringF(_format, ...) Auto3D::Log::Write(Auto3D::LOG_WARNING, Auto3D::String::Format(_format, ##__VA_ARGS__))
+	#define ErrorStringF(_format, ...) Auto3D::Log::Write(Auto3D::LOG_ERROR, Auto3D::String::Format(_format, ##__VA_ARGS__))
+	#define LogRawStringF(_format, ...) Auto3D::Log::WriteRaw(Auto3D::String::Format(_format, ##__VA_ARGS__))
+	#define Print(message) LogString(message)
+	#define print(message) LogString(message)
 
 #elif defined(AUTO_LOGGING_L2)
 
@@ -141,6 +143,8 @@ private:
 	#define WarnningStringF(_format, ...) do { String str = "%s(%d) :" + String(_format); Auto3D::Log::Write(Auto3D::LOG_WARNING, Auto3D::String::Format(str.CString(),__FILE__,__LINE__,##__VA_ARGS__)); }while(0)
 	#define ErrorStringF(_format, ...) do { String str = "%s(%d) :" + String(_format); Auto3D::Log::Write(Auto3D::LOG_ERROR, Auto3D::String::Format(str.CString(),__FILE__,__LINE__,##__VA_ARGS__)); }while(0)
 	#define LogRawStringF(_format, ...) do { String str = "%s(%d) :" + String(_format); Auto3D::Log::WriteRaw(Auto3D::String::Format(str.CString(),__FILE__,__LINE__,##__VA_ARGS__)); }while(0)
+	#define Print(message) LogString(message)
+	#define print(message) LogString(message)
 
 #else
 
@@ -154,5 +158,6 @@ private:
 	#define WarnningStringF(_format, ...)
 	#define ErrorStringF(_format, ...)
 	#define LogRawStringF(_format, ...)
-
+	#define Print(message) LogString(message)
+	#define print(message) LogString(message)
 #endif
