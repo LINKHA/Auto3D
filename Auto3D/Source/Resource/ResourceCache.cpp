@@ -345,7 +345,7 @@ String ResourceCache::SanitateResourceDirName(const String& nameIn) const
     // Convert path to absolute
     String fixedPath = AddTrailingSlash(nameIn);
     if (!IsAbsolutePath(fixedPath))
-        fixedPath = CurrentDir() + fixedPath;
+        fixedPath = Subsystem<FileSystem>()->GetCurrentDir() + fixedPath;
 
     // Sanitate away /./ construct
     fixedPath.Replace("/./", "/");

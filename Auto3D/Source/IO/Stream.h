@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Base/String.h"
+#include "../Base/Ptr.h"
 
 namespace Auto3D
 {
@@ -13,7 +14,7 @@ struct ResourceRef;
 struct ResourceRefList;
 
 /// Abstract stream for reading and writing.
-class AUTO_API Stream
+class AUTO_API Stream : public RefCounted
 {
 public:
     /// Default-construct with zero _size.

@@ -61,9 +61,9 @@ public:
         Iterator operator -- (int) { Iterator it = *this; GotoPrev(); return it; }
         
         /// Point to the _key.
-        const _Ty* operator -> () const { return &(static_cast<Node*>(_ptr))->key; }
+        const _Ty* operator -> () const { return &(static_cast<Node*>(_ptr))->_key; }
         /// Dereference the _key.
-        const _Ty& operator * () const { return (static_cast<Node*>(_ptr))->key; }
+        const _Ty& operator * () const { return (static_cast<Node*>(_ptr))->_key; }
     };
     
     /// Hash set node const iterator.
@@ -179,7 +179,7 @@ public:
             return Iterator(existing);
         
         Node* newNode = InsertNode(Tail(), key);
-        newNode->down = Ptrs()[hashKey];
+        newNode->_down = Ptrs()[hashKey];
         Ptrs()[hashKey] = newNode;
         
         // Rehash if the maximum load factor has been exceeded
@@ -263,10 +263,10 @@ public:
         if (Size())
         {
             for (Iterator it = Begin(); it != End(); )
-                FreeNode(static_cast<Node*>(it++.ptr));
+                FreeNode(static_cast<Node*>(it++._ptr));
             
             Node* tail = Tail();
-            tail->prev = nullptr;
+            tail->_prev = nullptr;
             SetHead(tail);
             SetSize(0);
             ResetPtrs();
@@ -400,7 +400,7 @@ private:
         Node* node = static_cast<Node*>(Ptrs()[hashKey]);
         while (node)
         {
-            if (node->key == key)
+            if (node->_key == key)
                 return node;
             node = node->Down();
         }
@@ -439,11 +439,11 @@ private:
 
         Node* newNode = AllocateNode(key);
         Node* prev = dest->Prev();
-        newNode->next = dest;
-        newNode->prev = prev;
+        newNode->_next = dest;
+        newNode->_prev = prev;
         if (prev)
-            prev->next = newNode;
-        dest->prev = newNode;
+            prev->_next = newNode;
+        dest->_prev = newNode;
         
         // Reassign the head node if necessary
         if (dest == Head())
@@ -497,9 +497,9 @@ private:
     {
         for (Iterator it = Begin(); it != End(); ++it)
         {
-            Node* node = static_cast<Node*>(it.ptr);
+            Node* node = static_cast<Node*>(it._ptr);
             unsigned hashKey = Hash(*it);
-            node->down = Ptrs()[hashKey];
+            node->_down = Ptrs()[hashKey];
             Ptrs()[hashKey] = node;
         }
     }

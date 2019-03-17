@@ -48,6 +48,7 @@ private:
 	AutoPtr<Script> _script;
 	AutoPtr<UI> _ui;
 	AutoPtr<Physics> _physics;
+	AutoPtr<FileSystem> _fileSystem;
 	//This subsystem is implemented in the Audio component, the first one created
 	//AutoPtr<Audio> _audio;
 

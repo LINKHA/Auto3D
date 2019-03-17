@@ -1,8 +1,9 @@
 #pragma once
-
+#include "../Object/GameManager.h"
 #include "../Base/String.h"
 #include "../Base/Vector.h"
 #include "../Base/WString.h"
+#include "../Base/HashSet.h"
 
 namespace Auto3D
 {
@@ -14,18 +15,40 @@ static const unsigned SCAN_DIRS = 0x2;
 /// Return also hidden files.
 static const unsigned SCAN_HIDDEN = 0x4;
 
-/// Set the current working directory.
-AUTO_API bool SetCurrentDir(const String& pathName);
-/// Create a directory.
-AUTO_API bool CreateDir(const String& pathName);
-/// Copy a file. Return true on success.
-AUTO_API bool CopyFile(const String& srcFileName, const String& destFileName);
-/// Rename a file. Return true on success.
-AUTO_API bool RenameFile(const String& srcFileName, const String& destFileName);
-/// Delete a file. Return true on success.
-AUTO_API bool DeleteFile(const String& fileName);
-/// Return the absolute current working directory.
-AUTO_API String CurrentDir();
+/// Subsystem for file and directory operations and access control.
+class AUTO_API FileSystem : public BaseSubsystem
+{
+	REGISTER_OBJECT_CLASS(FileSystem, BaseSubsystem)
+public:
+	/// Construct.
+	FileSystem();
+	/// Destruct.
+	~FileSystem();
+	/// Register a path as allowed to access. If no paths are registered,
+	///	all are allowed. Registering allowed paths is considered securing the Auto3D
+	///	execution environment: running programs and opening files externally through the system will fail afterward
+	void RegisterPath(const String& pathName);
+	/// Set the current working directory.
+	bool SetCurrentDir(const String& pathName);
+	/// Create a directory.
+	bool CreateDir(const String& pathName);
+	/// Run a program using the command interpreter, block until it exits and return the exit code.Will fail if any allowed paths are defined
+	int SystemCommand(const String& commandLine, bool redirectStdOutToLog = false);
+	/// Run a specific program, block until it exits and return the exit code.Will fail if any allowed paths are defined
+	int SystemRun(const String& fileName, const Vector<String>& arguments);
+	/// Copy a file. Return true on success.
+	bool Copy(const String& srcFileName, const String& destFileName);
+	/// Rename a file. Return true on success.
+	bool Rename(const String& srcFileName, const String& destFileName);
+	/// Delete a file. Return true on success.
+	bool Delete(const String& fileName);
+	/// Return the absolute current working directory.
+	String GetCurrentDir();
+private:
+	/// Allowed directories
+	HashSet<String> _allowedPaths{};
+};
+
 /// Return the file's last modified time as seconds since epoch, or 0 if can not be accessed.
 AUTO_API unsigned LastModifiedTime(const String& fileName);
 /// Set the file's last modified time as seconds since epoch. Return true on success.

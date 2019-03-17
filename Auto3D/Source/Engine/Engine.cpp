@@ -25,7 +25,7 @@ Engine::Engine()
 	_script = new Script();
 	_ui = new UI();
 	_physics = new Physics();
-
+	_fileSystem = new FileSystem();
 }
 
 Engine::~Engine()
