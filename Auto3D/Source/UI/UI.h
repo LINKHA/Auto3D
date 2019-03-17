@@ -13,7 +13,7 @@ class VertexBuffer;
 class IndexBuffer;
 class ConstantBuffer;
 class ShaderVariation;
-class VertexElement;
+struct VertexElement;
 class Shader;
 
 /// Texture coordinate index for the instance world matrix.

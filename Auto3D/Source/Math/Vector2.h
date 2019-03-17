@@ -217,7 +217,7 @@ public:
 };
 
 /// Construct by parsing a C string.
-Vector2<char>::Vector2<char>(const char* str)
+Vector2<char>::Vector2(const char* str)
 {
 	FromString(str);
 }

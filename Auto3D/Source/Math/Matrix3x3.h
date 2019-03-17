@@ -276,7 +276,7 @@ public:
 };
 
 /// Construct by parsing a C string.
-template<> Matrix3x3<char>::Matrix3x3<char>(const char* str)
+template<> Matrix3x3<char>::Matrix3x3(const char* str)
 {
 	FromString(str);
 }

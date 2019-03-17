@@ -4,22 +4,32 @@
 #include "../Base/WString.h"
 #include "File.h"
 #include "FileSystem.h"
+#ifdef __ANDROID__
+#	include <SDL_rwops.h>
+#endif
 
+#include <SDL_filesystem.h>
 #include <cstdio>
 #include <cstring>
 #include <sys/stat.h>
 
 #ifdef _WIN32
-#include <Windows.h>
-#include <sys/types.h>
-#include <sys/utime.h>
+#	ifndef _MSC_VER
+#		define _WIN32_IE 0x501
+#	endif
+#	include <windows.h>
+#	include <shellapi.h>
+#	include <direct.h>
+#	include <shlobj.h>
+#	include <sys/types.h>
+#	include <sys/utime.h>
 #else
-#include <dirent.h>
-#include <errno.h>
-#include <unistd.h>
-#include <utime.h>
-#include <sys/wait.h>
-#define MAX_PATH 256
+#	include <dirent.h>
+#	include <cerrno>
+#	include <unistd.h>
+#	include <utime.h>
+#	include <sys/wait.h>
+#	define MAX_PATH 256
 #endif
 
 #if defined(__APPLE__)
@@ -83,7 +93,7 @@ bool RenameFile(const String& srcFileName, const String& destFileName)
     #endif
 }
 
-bool DeleteFIle(const String& fileName)
+bool DeleteFile(const String& fileName)
 {
     #ifdef _WIN32
     return DeleteFileW(WideNativePath(fileName).CString()) != 0;

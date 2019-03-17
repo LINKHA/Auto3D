@@ -425,7 +425,7 @@ public:
 };
 
 /// Construct by parsing a C string.
-Matrix3x4<char>::Matrix3x4<char>(const char* str)
+Matrix3x4<char>::Matrix3x4(const char* str)
 {
 	FromString(str);
 }
