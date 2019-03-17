@@ -751,14 +751,14 @@ public:
 	/// Point to the object.
 	_Ty* operator ->() const
 	{
-		assert(ptr_);
+		assert(_ptr);
 		return _ptr;
 	}
 
 	/// Dereference the object.
 	_Ty& operator *() const
 	{
-		assert(ptr_);
+		assert(_ptr);
 		return *_ptr;
 	}
 

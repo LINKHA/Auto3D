@@ -37,20 +37,20 @@ public:
 	void SetPauseMinimized(bool enable);
 
 private:
-	AutoPtr<ResourceCache> _cache;
-	AutoPtr<Graphics> _graphics;
-	AutoPtr<Renderer> _renderer;
-	AutoPtr<Input> _input;
-	AutoPtr<Log> _log;
-	AutoPtr<Profiler> _profiler;
-	AutoPtr<Time> _time;
-	AutoPtr<RegisteredBox> _registeredBox;
-	AutoPtr<Script> _script;
-	AutoPtr<UI> _ui;
-	AutoPtr<Physics> _physics;
-	AutoPtr<FileSystem> _fileSystem;
+	UniquePtr<ResourceCache> _cache;
+	UniquePtr<Graphics> _graphics;
+	UniquePtr<Renderer> _renderer;
+	UniquePtr<Input> _input;
+	UniquePtr<Log> _log;
+	UniquePtr<Profiler> _profiler;
+	UniquePtr<Time> _time;
+	UniquePtr<RegisteredBox> _registeredBox;
+	UniquePtr<Script> _script;
+	UniquePtr<UI> _ui;
+	UniquePtr<Physics> _physics;
+	UniquePtr<FileSystem> _fileSystem;
 	//This subsystem is implemented in the Audio component, the first one created
-	//AutoPtr<Audio> _audio;
+	//UniquePtr<Audio> _audio;
 
 
 	/// Is exiting

@@ -114,7 +114,7 @@ protected:
     /// Variable name.
     String _name;
     /// Attribute accessor.
-    AutoPtr<AttributeAccessor> _accessor;
+	UniquePtr<AttributeAccessor> _accessor;
     /// Enum names.
     const char** _enumNames;
 

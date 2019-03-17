@@ -101,7 +101,7 @@ private:
     /// %Log messages from other threads.
     List<StoredLogMessage> _threadMessages;
     /// %Log file.
-    AutoPtr<File> _logFile;
+	UniquePtr<File> _logFile;
     /// Last log message.
     String _lastMessage;
     /// Logging level.
