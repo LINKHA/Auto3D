@@ -27,9 +27,9 @@ public:
     void SendEvent(Event& event);
     
     /// Subscribe to an _event, template version.
-    template <typename _Ty, class U> void SubscribeToEvent(U& event, void (_Ty::*handlerFunction)(U&))
+    template <typename _Ty, typename _Event> void SubscribeToEvent(_Event& event, void (_Ty::*handlerFunction)(_Event&))
     {
-        SubscribeToEvent(event, new EventHandlerImpl<_Ty, U>(this, handlerFunction)); 
+        SubscribeToEvent(event, new EventHandlerImpl<_Ty, _Event>(this, handlerFunction));
     }
 
     /// Return whether is subscribed to an _event.

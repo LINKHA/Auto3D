@@ -10,17 +10,17 @@ namespace Auto3D
 {
 
 #undef M_PI
-static const float M_DEG = 0.01745329251994329576923690768489f;			//One degree equals several radians
-static const float M_RAD = 57.29577951f;				//One Radian equals several angles
-static const float M_FLOAT_SMALL = 1.0e-37f;		    //Infinite approach and 0
+static const float M_DEG = 0.01745329251994329576923690768489f;	//One degree equals several radians
+static const float M_RAD = 57.29577951f; //One Radian equals several angles
+static const float M_FLOAT_SMALL = 1.0e-37f; //Infinite approach and 0
 static const float M_TOLERANCE = 2e-37f;
-static const float M_EPSILON = 0.00001f;				//A tiny floating point value (Read Only).
-static const float M_E = 2.71828182845904523536f;	//e
-static const float M_PI = 3.14159265358979323846f;	//pi
-static const float M_PI_2 = 1.57079632679489661923f;//pi/2
-static const float M_PI_4 = 0.785398163397448309616f;//pi/4
+static const float M_EPSILON = 0.00001f; //A tiny floating point value (Read Only).
+static const float M_E = 2.71828182845904523536f; //e
+static const float M_PI = 3.14159265358979323846f; //pi
+static const float M_PI_2 = 1.57079632679489661923f; //pi/2
+static const float M_PI_4 = 0.785398163397448309616f; //pi/4
 static const float M_DEGTORAD = M_PI / 180.0f;
-static const float M_DEGTORAD_2 = M_PI / 360.0f;    // M_DEGTORAD / 2.f
+static const float M_DEGTORAD_2 = M_PI / 360.0f; // M_DEGTORAD / 2.f
 static const float M_RADTODEG = 1.0f / M_DEGTORAD;
 
 static const int M_MIN_INT = 0x80000000;
@@ -44,11 +44,11 @@ template<typename _Ty> inline bool Equals(_Ty lhs, _Ty rhs) { return lhs + M_EPS
 /// Check whether a floating point value is NaN.
 template<typename _Ty> inline bool IsNaN(_Ty value) { return value != value; }
 /// Linear interpolation between two float values.
-template<typename _Ty, class U> inline _Ty Lerp(_Ty lhs, _Ty rhs, U t) { return lhs * (1.0 - t) + rhs * t; }
+template<typename _Ty, typename _Tar> inline _Ty Lerp(_Ty lhs, _Ty rhs, _Tar t) { return lhs * (1.0 - t) + rhs * t; }
 /// Return the smaller of two floats.
-template<typename _Ty, typename U> inline _Ty Min(_Ty lhs, U rhs) { return lhs < rhs ? lhs : rhs; }
+template<typename _Ty1, typename _Ty2> inline _Ty1 Min(_Ty1 lhs, _Ty2 rhs) { return lhs < rhs ? lhs : rhs; }
 /// Return the larger of two floats.
-template<typename _Ty, typename U> inline _Ty Max(_Ty lhs, U rhs) { return lhs > rhs ? lhs : rhs; }
+template<typename _Ty1, typename _Ty2> inline _Ty1 Max(_Ty1 lhs, _Ty2 rhs) { return lhs > rhs ? lhs : rhs; }
 /// Return absolute value of a float.
 template<typename _Ty> inline _Ty Abs(_Ty value) { return value >= 0 ? value : -value; }
 /// Return the sign of a float (-1, 0 or 1.)

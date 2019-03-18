@@ -4,7 +4,21 @@
 namespace Auto3D
 {
 
-Engine::Engine()
+Engine::Engine():
+	_exiting(false),
+	_initialized(false),
+	_timeStep(0.0f),
+	_timeStepSmoothing(2),
+	_minFps(10),
+#if defined(IOS) || defined(TVOS) || defined(__ANDROID__) || defined(__arm__) || defined(__aarch64__)
+	_maxFps(60),
+	_maxInactiveFps(10),
+	_pauseMinimized(true),
+#else
+	_maxFps(200),
+	_maxInactiveFps(60),
+	_pauseMinimized(false)
+#endif
 {
 	RegisterGraphicsLibrary();
 	RegisterResourceLibrary();
@@ -34,7 +48,7 @@ Engine::~Engine()
 
 void Engine::Init()
 {
-	
+	PROFILE(EngineInit);
 	// Seed by time (don't ask me why I'm using these operators, I'm scribbling)
 	Time::RealTime& realTime = _time->GetRealTime();
 	SetRandomSeed(realTime._year & realTime._month << realTime._day | realTime._hour * realTime._minute ^ realTime._second);
@@ -46,6 +60,8 @@ void Engine::Init()
 	}
 	// Set default Logo
 	_graphics->RenderWindow()->SetIcon(_cache->LoadResource<Image>("NewLogo.png"));
+
+	_frameTimer.Reset();
 }
 void Engine::Exit()
 {
@@ -112,12 +128,105 @@ bool Engine::Update()
 }
 void Engine::FrameFinish()
 {
+	ApplyFrameLimit();
 	_profiler->EndFrame();
+}
+
+void Engine::SetMinFps(int fps)
+{
+	_minFps = (unsigned)Max(fps, 0);
+}
+
+void Engine::SetMaxFps(int fps)
+{
+	_maxFps = (unsigned)Max(fps, 0);
+}
+
+void Engine::SetMaxInactiveFps(int fps)
+{
+	_maxInactiveFps = (unsigned)Max(fps, 0);
+}
+
+void Engine::SetTimeStepSmoothing(int frames)
+{
+	_timeStepSmoothing = (unsigned)Clamp(frames, 1, 20);
 }
 
 void Engine::SetPauseMinimized(bool enable)
 {
 	_pauseMinimized = enable;
+}
+
+void Engine::SetNextTimeStep(float seconds)
+{
+	_timeStep = Max(seconds, 0.0f);
+}
+
+void Engine::ApplyFrameLimit()
+{
+	if (!_initialized)
+		return;
+
+	unsigned maxFps = _maxFps;
+	auto* input = Subsystem<Input>();
+	if (input)
+		maxFps = Min(_maxInactiveFps, maxFps);
+
+	long long elapsed = 0;
+
+#ifndef __EMSCRIPTEN__
+	// Perform waiting loop if maximum FPS set
+#if !defined(IOS) && !defined(TVOS)
+	if (maxFps)
+#else
+	// If on iOS/tvOS and target framerate is 60 or above, just let the animation callback handle frame timing
+	// instead of waiting ourselves
+	if (maxFps < 60)
+#endif
+	{
+		PROFILE(ApplyFrameLimit);
+
+		long long targetMax = 1000000LL / maxFps;
+
+		for (;;)
+		{
+			elapsed = _frameTimer.ElapsedUSec(false);
+			if (elapsed >= targetMax)
+				break;
+
+			// Sleep if 1 ms or more off the frame limiting goal
+			if (targetMax - elapsed >= 1000LL)
+			{
+				auto sleepTime = (unsigned)((targetMax - elapsed) / 1000LL);
+				Thread::Sleep(sleepTime);
+			}
+		}
+	}
+#endif
+
+	elapsed = _frameTimer.ElapsedUSec(true);
+
+	// If FPS lower than minimum, clamp elapsed time
+	if (_minFps)
+	{
+		long long targetMin = 1000000LL / _minFps;
+		if (elapsed > targetMin)
+			elapsed = targetMin;
+	}
+
+	// Perform timestep smoothing
+	_timeStep = 0.0f;
+	_lastTimeSteps.Push(elapsed / 1000000.0f);
+	if (_lastTimeSteps.Size() > _timeStepSmoothing)
+	{
+		// If the smoothing configuration was changed, ensure correct amount of samples
+		_lastTimeSteps.Erase(0, _lastTimeSteps.Size() - _timeStepSmoothing);
+		for (unsigned i = 0; i < _lastTimeSteps.Size(); ++i)
+			_timeStep += _lastTimeSteps[i];
+		_timeStep /= _lastTimeSteps.Size();
+	}
+	else
+		_timeStep = _lastTimeSteps.Back();
 }
 
 }

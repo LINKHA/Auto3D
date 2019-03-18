@@ -114,7 +114,7 @@ public:
 	/// Construct. Get the starting high-resolution clock value.
 	HiresTimer();
 	/// Return elapsed microseconds.
-	long long ElapsedUSec();
+	long long ElapsedUSec(bool reset);
 	/// Reset the timer.
 	void Reset();
 	/// Perform one-time initialization to check support and frequency. Is called automatically at program start.
@@ -125,7 +125,7 @@ public:
 	static long long Frequency() { return frequency; }
 private:
 	/// Starting clock value in CPU ticks.
-	long long startTime;
+	long long _startTime;
 	/// High-resolution timer support flag.
 	static bool supported;
 	/// High-resolution timer frequency.

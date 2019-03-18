@@ -29,8 +29,8 @@ namespace Auto3D
 typedef BOOL(APIENTRY *PFNWGLSWAPINTERVALFARPROC)(int);
 static PFNWGLSWAPINTERVALFARPROC wglSwapIntervalEXT = (PFNWGLSWAPINTERVALFARPROC)wglGetProcAddress("wglSwapIntervalEXT");
 
-GLContext::GLContext(Window* window_) :
-	_window(window_),
+GLContext::GLContext(Window* window) :
+	_window(window),
 	_contextHandle(nullptr)
 {
 }

@@ -247,7 +247,7 @@ HiresTimer::HiresTimer()
 	Reset();
 }
 
-long long HiresTimer::ElapsedUSec()
+long long HiresTimer::ElapsedUSec(bool reset)
 {
 	long long currentTime;
 
@@ -266,11 +266,14 @@ long long HiresTimer::ElapsedUSec()
 	currentTime = time.tv_sec * 1000000LL + time.tv_usec;
 #endif
 
-	long long elapsedTime = currentTime - startTime;
+	long long elapsedTime = currentTime - _startTime;
 
 	// Correct for possible weirdness with changing internal frequency
 	if (elapsedTime < 0)
 		elapsedTime = 0;
+
+	if (reset)
+		_startTime = currentTime;
 
 	return (elapsedTime * 1000000LL) / frequency;
 }
@@ -282,14 +285,14 @@ void HiresTimer::Reset()
 	{
 		LARGE_INTEGER counter;
 		QueryPerformanceCounter(&counter);
-		startTime = counter.QuadPart;
+		_startTime = counter.QuadPart;
 	}
 	else
-		startTime = timeGetTime();
+		_startTime = timeGetTime();
 #else
 	struct timeval time;
 	gettimeofday(&time, 0);
-	startTime = time.tv_sec * 1000000LL + time.tv_usec;
+	_startTime = time.tv_sec * 1000000LL + time.tv_usec;
 #endif
 }
 
