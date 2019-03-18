@@ -15,8 +15,6 @@ void MeshSample::Start()
 	auto* input = Object::Subsystem<Input>();
 	auto* profiler = Object::Subsystem<Profiler>();
 
-	SubscribeToEvent(graphics->RenderWindow()->closeRequestEvent, &MeshSample::HandleCloseRequest);
-	
 	graphics->RenderWindow()->SetMouseLock(true);
 	graphics->RenderWindow()->SetMouseHide(true);
 

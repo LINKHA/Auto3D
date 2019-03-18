@@ -8,8 +8,6 @@ void HelloWorldSample::Start()
 {
 	Super::Start();
 	auto* cache = Object::Subsystem<ResourceCache>();
-	
-	SubscribeToEvent(Object::Subsystem<Graphics>()->RenderWindow()->closeRequestEvent, &HelloWorldSample::HandleCloseRequest);
 
 	Sprite* bakcground = canvas->CreateChild<Sprite>();
 	bakcground->SetTexture(cache->LoadResource<Texture>("HelloWorld.png"));

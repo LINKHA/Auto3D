@@ -19,9 +19,6 @@ void FirstPersonSample::Start()
 	graphics->RenderWindow()->SetMouseLock(true);
 	graphics->RenderWindow()->SetMouseHide(true);
 
-	SubscribeToEvent(graphics->RenderWindow()->closeRequestEvent, &FirstPersonSample::HandleCloseRequest);
-
-
 	scene = new Scene();
 	scene->CreateChild<Octree>();
 	camera = scene->CreateChild<Camera>();

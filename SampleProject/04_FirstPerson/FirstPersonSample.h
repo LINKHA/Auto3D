@@ -12,10 +12,7 @@ public:
 	void Start()override;
 	void Update()override;
 	void Stop()override;
-	void HandleCloseRequest(Event& /* event */)
-	{
-		Subsystem<Graphics>()->Close();
-	}
+
 	float yaw = 0.0f, pitch = 0.0f;
 	Camera* camera;
 	SharedPtr<Scene> scene;

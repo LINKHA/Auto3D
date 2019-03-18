@@ -12,8 +12,6 @@ void AudioSample::Start()
 	Super::Start();
 	auto* cache = Object::Subsystem<ResourceCache>();
 
-	SubscribeToEvent(Object::Subsystem<Graphics>()->RenderWindow()->closeRequestEvent, &AudioSample::HandleCloseRequest);
-
 	Sprite* bakcground = canvas->CreateChild<Sprite>();
 	bakcground->SetTexture(cache->LoadResource<Texture>("HelloWorld.png"));
 	bakcground->SetScale(Vector3F(20.0f, 15.0f, 1.0f));

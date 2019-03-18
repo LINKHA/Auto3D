@@ -13,6 +13,7 @@ public:
 	void Update()override;
 	void Stop()override;
 	void CreateLogo();
+
 	UICamera* uiCamera;
 	SharedPtr<Canvas> canvas;
 };
