@@ -44,11 +44,11 @@ void IndexBuffer::Recreate()
     }
 }
 
-bool IndexBuffer::SetData(size_t firstIndex, size_t numIndices, const void* _data)
+bool IndexBuffer::SetData(size_t firstIndex, size_t numIndices, const void* data)
 {
     PROFILE(UpdateIndexBuffer);
 
-    if (!_data)
+    if (!data)
     {
         ErrorString("Null source data for updating index buffer");
         return false;
@@ -65,21 +65,21 @@ bool IndexBuffer::SetData(size_t firstIndex, size_t numIndices, const void* _dat
     }
 
     if (_shadowData)
-        memcpy(_shadowData.Get() + firstIndex * _indexSize, _data, numIndices * _indexSize);
+        memcpy(_shadowData.Get() + firstIndex * _indexSize, data, numIndices * _indexSize);
 
     if (_buffer)
     {
         _graphics->SetIndexBuffer(this);
         if (numIndices == _numIndices)
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * _indexSize, _data, _usage == ResourceUsage::DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * _indexSize, data, _usage == ResourceUsage::DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
         else
-            glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, firstIndex * _indexSize, numIndices * _indexSize, _data);
+            glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, firstIndex * _indexSize, numIndices * _indexSize, data);
     }
 
     return true;
 }
 
-bool IndexBuffer::Create(const void* _data)
+bool IndexBuffer::Create(const void* data)
 {
     if (_graphics && _graphics->IsInitialized())
     {
@@ -91,7 +91,7 @@ bool IndexBuffer::Create(const void* _data)
         }
 
         _graphics->SetIndexBuffer(this);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, _numIndices * _indexSize, _data, _usage == ResourceUsage::DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, _numIndices * _indexSize, data, _usage == ResourceUsage::DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
         LogStringF("Created index buffer numIndices %u indexSize %u", (unsigned)_numIndices, (unsigned)_indexSize);
     }
 

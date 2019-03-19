@@ -7,7 +7,7 @@
 namespace Auto3D
 {
 
-bool IndexBuffer::Define(ResourceUsage usage, size_t numIndices, size_t indexSize, bool useShadowData, const void* _data)
+bool IndexBuffer::Define(ResourceUsage usage, size_t numIndices, size_t indexSize, bool useShadowData, const void* data)
 {
     PROFILE(DefineIndexBuffer);
 
@@ -23,7 +23,7 @@ bool IndexBuffer::Define(ResourceUsage usage, size_t numIndices, size_t indexSiz
         ErrorString("Rendertarget usage is illegal for index buffers");
         return false;
     }
-    if (usage == ResourceUsage::IMMUTABLE && !_data)
+    if (usage == ResourceUsage::IMMUTABLE && !data)
     {
         ErrorString("Immutable index buffer must define initial data");
         return false;
@@ -39,14 +39,14 @@ bool IndexBuffer::Define(ResourceUsage usage, size_t numIndices, size_t indexSiz
     _usage = usage;
 
     // If buffer is reinitialized with the same shadow data, no need to reallocate
-    if (useShadowData && (!_data || _data != _shadowData.Get()))
+    if (useShadowData && (!data || data != _shadowData.Get()))
     {
         _shadowData = new unsigned char[_numIndices * _indexSize];
-        if (_data)
-            memcpy(_shadowData.Get(), _data, _numIndices * _indexSize);
+        if (data)
+            memcpy(_shadowData.Get(), data, _numIndices * _indexSize);
     }
 
-    return Create(_data);
+    return Create(data);
 }
 
 }

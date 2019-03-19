@@ -365,7 +365,7 @@ bool Texture::DefineSampler(TextureFilterMode filter, TextureAddressMode u, Text
     return true;
 }
 
-bool Texture::SetData(size_t face, size_t level, RectI rect, const ImageLevel& _data)
+bool Texture::SetData(size_t face, size_t level, RectI rect, const ImageLevel& data)
 {
     PROFILE(UpdateTextureLevel);
 
@@ -405,12 +405,12 @@ bool Texture::SetData(size_t face, size_t level, RectI rect, const ImageLevel& _
             if (wholeLevel)
             {
                 glTexImage2D(target, (unsigned)level, glInternalFormats[_format], rect.Width(), rect.Height(), 0,
-                    glFormats[_format], glDataTypes[_format], _data._data);
+                    glFormats[_format], glDataTypes[_format], data._data);
             }
             else
             {
                 glTexSubImage2D(target, (unsigned)level, rect.Left(), rect.Top(), rect.Width(), rect.Height(), 
-                    glFormats[_format], glDataTypes[_format], _data._data);
+                    glFormats[_format], glDataTypes[_format], data._data);
             }
         }
         else
@@ -418,13 +418,13 @@ bool Texture::SetData(size_t face, size_t level, RectI rect, const ImageLevel& _
             if (wholeLevel)
             {
                 glCompressedTexImage2D(target, (unsigned)level, glInternalFormats[_format], rect.Width(), rect.Height(),
-                    0, (unsigned)Image::CalculateDataSize(Vector2I(rect.Width(), rect.Height()), _format), _data._data);
+                    0, (unsigned)Image::CalculateDataSize(Vector2I(rect.Width(), rect.Height()), _format), data._data);
             }
             else
             {
                 glCompressedTexSubImage2D(target, (unsigned)level, rect.Left(), rect.Top(), rect.Width(), rect.Height(),
                     glFormats[_format], (unsigned)Image::CalculateDataSize(Vector2I(rect.Width(), rect.Height()), _format),
-                    _data._data);
+                    data._data);
             }
         }
     }

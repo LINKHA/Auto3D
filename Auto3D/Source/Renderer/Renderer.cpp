@@ -547,6 +547,7 @@ void Renderer::RenderShadowMaps()
     // Make sure the shadow maps are not bound on any unit
     _graphics->ResetTextures();
 
+	int size1 = _shadowMaps.Size();
     for (auto it = _shadowMaps.Begin(); it != _shadowMaps.End(); ++it)
     {
         if (!it->_used)
@@ -555,11 +556,13 @@ void Renderer::RenderShadowMaps()
         _graphics->SetRenderTarget(nullptr, it->_texture);
         _graphics->Clear(CLEAR_DEPTH, Color::BLACK, 1.0f);
 
+		int size2 = it->_shadowViews.Size();
         for (auto vIt = it->_shadowViews.Begin(); vIt < it->_shadowViews.End(); ++vIt)
         {
             ShadowView* view = *vIt;
             Light* light = view->_light;
             _graphics->SetViewport(view->_viewport);
+			int i = view->_shadowQueue._batches.Size();
             RenderBatches(view->_shadowQueue._batches, &view->_shadowCamera, true, true, light->GetDepthBias(), light->GetSlopeScaledDepthBias());
         }
     }

@@ -166,9 +166,9 @@ struct __FillMode
 {
 	enum _FillMode
 	{
-	WIREFRAME = 2,
-	SOLID = 3,
-	Count
+		WIREFRAME = 2,
+		SOLID = 3,
+		Count
 	};
 };
 using FillMode = __FillMode::_FillMode;

@@ -180,7 +180,7 @@ Graphics::~Graphics()
     RemoveSubsystem(this);
 }
 
-bool Graphics::SetMode(const RectI& _size,int multisample, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
+bool Graphics::SetMode(const RectI& size,int multisample, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
 {
     // Changing multisample requires destroying the _window, as OpenGL pixel format can only be set once
     if (!_context || multisample != _multisample)
@@ -194,7 +194,7 @@ bool Graphics::SetMode(const RectI& _size,int multisample, bool fullscreen, bool
             SendEvent(_contextLossEvent);
         }
 
-        if (!_window->SetSize(_size, multisample, fullscreen, resizable, center, borderless, highDPI))
+        if (!_window->SetSize(size, multisample, fullscreen, resizable, center, borderless, highDPI))
             return false;
         if (!CreateContext(multisample))
             return false;
@@ -213,7 +213,7 @@ bool Graphics::SetMode(const RectI& _size,int multisample, bool fullscreen, bool
     else
     {
         // If no context creation, just need to resize the _window
-        if (!_window->SetSize(_size, fullscreen, resizable, center, borderless, highDPI))
+        if (!_window->SetSize(size, fullscreen, resizable, center, borderless, highDPI))
             return false;
     }
 
@@ -906,7 +906,7 @@ void Graphics::PrepareFramebuffer()
             return;
         }
 
-        // Search for a new framebuffer based on format & _size, or create new
+        // Search for a new framebuffer based on format & size, or create new
         ImageFormat _format = ImageFormat::NONE;
         if (_renderTargets[0])
             _format = _renderTargets[0]->GetFormat();
