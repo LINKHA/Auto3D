@@ -30,10 +30,10 @@ protected:
 };
 
 /// Template implementation of the event handler invoke helper, stores a function pointer of specific class.
-template <typename _Ty, class U> class EventHandlerImpl : public EventHandler
+template <typename _Ty, typename _Event> class EventHandlerImpl : public EventHandler
 {
 public:
-    typedef void (_Ty::*HandlerFunctionPtr)(U&);
+    typedef void (_Ty::*HandlerFunctionPtr)(_Event&);
 
     /// Construct with receiver and function pointers.
     EventHandlerImpl(RefCounted* receiver, HandlerFunctionPtr function) :
@@ -47,12 +47,12 @@ public:
     void Invoke(Event& event) override
     {
         _Ty* typedReceiver = static_cast<_Ty*>(_receiver.Get());
-        U& typedEvent = static_cast<U&>(event);
+		_Event& typedEvent = static_cast<_Event&>(event);
         (typedReceiver->*_function)(typedEvent);
     }
 
 private:
-    /// Pointer to the _event handler function.
+    /// Pointer to the event handler function.
     HandlerFunctionPtr _function;
 };
 

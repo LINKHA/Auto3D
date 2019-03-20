@@ -219,7 +219,7 @@ private:
     }
 
     /// Collect nodes using a volume such as frustum or sphere. Invoke a member function for each octant.
-    template <typename _Ty, class U> void CollectNodesMemberCallback(const Octant* octant, const _Ty& volume, U* object, void (U::*callback)(Vector<OctreeNode*>::ConstIterator, Vector<OctreeNode*>::ConstIterator, bool)) const
+    template <typename _Ty, typename _Event> void CollectNodesMemberCallback(const Octant* octant, const _Ty& volume, _Event* object, void (_Event::*callback)(Vector<OctreeNode*>::ConstIterator, Vector<OctreeNode*>::ConstIterator, bool)) const
     {
         Intersection res = volume.IsInside(octant->_cullingBox);
         if (res == OUTSIDE)
