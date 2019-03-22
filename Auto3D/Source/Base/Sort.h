@@ -28,7 +28,7 @@ template <typename _Ty> void InsertionSort(RandomAccessIterator<_Ty> begin, Rand
 }
 
 /// Perform insertion sort on an array using a compare function.
-template <typename _Ty, class U> void InsertionSort(RandomAccessIterator<_Ty> begin, RandomAccessIterator<_Ty> end, U compare)
+template <typename _Ty, typename _Oth> void InsertionSort(RandomAccessIterator<_Ty> begin, RandomAccessIterator<_Ty> end, _Oth compare)
 {
     for (RandomAccessIterator<_Ty> i = begin + 1; i < end; ++i)
     {
@@ -75,7 +75,7 @@ template <typename _Ty> void InitialQuickSort(RandomAccessIterator<_Ty> begin, R
 }
 
 /// Perform quick sort initial pass on an array using a compare function. Does not sort fully.
-template <typename _Ty, class U> void InitialQuickSort(RandomAccessIterator<_Ty> begin, RandomAccessIterator<_Ty> end, U compare)
+template <typename _Ty, typename _Fun> void InitialQuickSort(RandomAccessIterator<_Ty> begin, RandomAccessIterator<_Ty> end, _Fun compare)
 {
     while (end - begin > QUICKSORT_THRESHOLD)
     {
@@ -113,7 +113,7 @@ template <typename _Ty> void Sort(RandomAccessIterator<_Ty> begin, RandomAccessI
 }
 
 /// Sort in ascending order using quicksort for initial passes, then an insertion sort to finalize, using a compare function.
-template <typename _Ty, class U> void Sort(RandomAccessIterator<_Ty> begin, RandomAccessIterator<_Ty> end, U compare)
+template <typename _Ty, typename _Fun> void Sort(RandomAccessIterator<_Ty> begin, RandomAccessIterator<_Ty> end, _Fun compare)
 {
     InitialQuickSort(begin, end, compare);
     InsertionSort(begin, end, compare);

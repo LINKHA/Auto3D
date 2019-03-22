@@ -106,7 +106,7 @@ public:
     }
 
     /// Query for nodes using a volume such as frustum or sphere. Invoke a member function for each octant.
-    template <typename _Ty, class U> void FindNodes(const _Ty& volume, U* object, void (U::*callback)(Vector<OctreeNode*>::ConstIterator, Vector<OctreeNode*>::ConstIterator, bool)) const
+    template <typename _Ty, typename U> void FindNodes(const _Ty& volume, U* object, void (U::*callback)(Vector<OctreeNode*>::ConstIterator, Vector<OctreeNode*>::ConstIterator, bool)) const
     {
         PROFILE(QueryOctree);
         CollectNodesMemberCallback(&_root, volume, object, callback);

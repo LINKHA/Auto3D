@@ -171,7 +171,7 @@ private:
     float _farClip;
     /// Field of view.
     float _fov;
-    /// Orthographic view _size.
+    /// Orthographic view size.
     float _orthoSize;
     /// Aspect ratio.
     float _aspectRatio;
