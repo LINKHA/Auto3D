@@ -17,6 +17,7 @@
 #include "Octree.h"
 #include "Renderer.h"
 #include "StaticModel.h"
+#include "SkyBox.h"
 
 #include "../Debug/DebugNew.h"
 
@@ -1066,6 +1067,7 @@ void RegisterRendererLibrary()
     Light::RegisterObject();
     Material::RegisterObject();
     Model::RegisterObject();
+	SkyBox::RegisterObject();
 }
 
 }
