@@ -27,11 +27,11 @@ namespace Auto3D
 #cmakedefine AUTO_AMD
 
 #if defined(AUTO_NVIDIA)
-#	define SELECT_DEDICATED_GRAPHICS_CARD extern "C"{__declspec(dllexport) unsigned long NvOptimusEnablement = 0x00000001;}
+#	define SELECT_HITH_PERFORMANCE extern "C"{__declspec(dllexport) unsigned long NvOptimusEnablement = 0x00000001;}
 #elif defined(AUTO_AMD)
-#	define SELECT_DEDICATED_GRAPHICS_CARD extern "C"{__declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;}
+#	define SELECT_HITH_PERFORMANCE extern "C"{__declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;}
 #else
-#	define SELECT_DEDICATED_GRAPHICS_CARD
+#	define SELECT_HITH_PERFORMANCE
 #endif
 
 // Auto3D build configuration

@@ -115,7 +115,6 @@ public:
     SharedPtr<ConstantBuffer> _vsLightConstantBuffer;
     /// Lights pixel shader constant buffer.
     SharedPtr<ConstantBuffer> _psLightConstantBuffer;
-
 private:
     /// Initialize. Needs the Graphics subsystem and rendering context to exist.
     void Initialize();

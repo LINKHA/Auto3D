@@ -59,9 +59,9 @@ struct AUTO_API ImageLevel
 
     /// Pointer to pixel data.
     unsigned char* _data;
-    /// Level _size in pixels.
+    /// Level size in pixels.
     Vector2I _size;
-    /// Row _size in bytes.
+    /// Row size in bytes.
     size_t _rowSize;
     /// Number of rows.
     size_t _rows;

@@ -33,7 +33,9 @@ public:
 	void SetImage(Image* right, Image* left, Image* top, Image*  bottom, Image* front, Image* back);
 	/// Set the image resource with skybox buffer
 	void SetImage(SkyBoxBuffer* buffer);
-
+	
+private:
+	/// Skybox buffer
 	AutoPtr<SkyBoxBuffer> _buffer;
 };
 

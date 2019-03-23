@@ -36,6 +36,7 @@
 #include "Resource/Image.h"
 #include "Resource/JSONFile.h"
 #include "Resource/ResourceCache.h"
+#include "Renderer/SkyBox.h"
 #include "Scene/Scene.h"
 #include "RegisteredBox/RegisteredBox.h"
 #include "Thread/Condition.h"
@@ -55,3 +56,4 @@
 #include "UI/Canvas.h"
 #include "UI/Sprite.h"
 #include "Physics/Physics.h"
+

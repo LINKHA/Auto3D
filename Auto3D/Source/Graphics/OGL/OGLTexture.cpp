@@ -191,13 +191,13 @@ void Texture::Recreate()
     SetDataLost(true);
 }
 
-bool Texture::Define(TextureType type_, ResourceUsage usage, const Vector2I& size, ImageFormat format, size_t numLevels, const ImageLevel* initialData)
+bool Texture::Define(TextureType type, ResourceUsage usage, const Vector2I& size, ImageFormat format, size_t numLevels, const ImageLevel* initialData)
 {
 	PROFILE(DefineTexture);
 
 	Release();
 
-	if (type_ != TextureType::TEX_2D && type_ != TextureType::TEX_CUBE)
+	if (type != TextureType::TEX_2D && type != TextureType::TEX_CUBE)
 	{
 		ErrorString("Only 2D textures and cube maps supported for now");
 		return false;
@@ -207,7 +207,7 @@ bool Texture::Define(TextureType type_, ResourceUsage usage, const Vector2I& siz
 		ErrorString("ETC1 and PVRTC formats are unsupported");
 		return false;
 	}
-	if (type_ == TextureType::TEX_CUBE && size._x != size._y)
+	if (type == TextureType::TEX_CUBE && size._x != size._y)
 	{
 		ErrorString("Cube map must have square dimensions");
 		return false;
@@ -216,7 +216,7 @@ bool Texture::Define(TextureType type_, ResourceUsage usage, const Vector2I& siz
 	if (numLevels < 1)
 		numLevels = 1;
 
-	_type = type_;
+	_type = type;
 	_usage = usage;
 
 	if (_graphics && _graphics->IsInitialized())
