@@ -23,12 +23,12 @@ void TestSample::Start()
 	_vsv = vs->CreateVariation();
 	_psv = ps->CreateVariation();
 
-	Image* right = cache->LoadResource<Image>("skybox/right.jpg");
-	Image* left = cache->LoadResource<Image>("skybox/left.jpg");
-	Image* top = cache->LoadResource<Image>("skybox/top.jpg");
-	Image* bottom = cache->LoadResource<Image>("skybox/bottom.jpg");
-	Image* front = cache->LoadResource<Image>("skybox/front.jpg");
-	Image* back = cache->LoadResource<Image>("skybox/back.jpg");
+	Image* right = cache->LoadResource<Image>("skybox/arrakisday_bk.tga");
+	Image* left = cache->LoadResource<Image>("skybox/arrakisday_bk.tga");
+	Image* top = cache->LoadResource<Image>("skybox/arrakisday_bk.tga");
+	Image* bottom = cache->LoadResource<Image>("skybox/arrakisday_bk.tga");
+	Image* front = cache->LoadResource<Image>("skybox/arrakisday_bk.tga");
+	Image* back = cache->LoadResource<Image>("skybox/arrakisday_bk.tga");
 
 	AutoPtr<SkyBoxBuffer> skyBoxBuffer = new SkyBoxBuffer(right, left, top, bottom, front, back);
 
@@ -36,6 +36,19 @@ void TestSample::Start()
 	skyBox->SetImage(skyBoxBuffer);
 
 	AutoPtr<Texture> textureCube = new Texture();
+	Vector<ImageLevel> faces;
+	faces.Push(right->GetLevel(0));
+	faces.Push(left->GetLevel(0));
+	faces.Push(top->GetLevel(0));
+	faces.Push(bottom->GetLevel(0));
+	faces.Push(front->GetLevel(0));
+	faces.Push(back->GetLevel(0));
+
+
+	textureCube->Define(TextureType::TEX_CUBE, ResourceUsage::DEFAULT, Vector2I(1, 1), ImageFormat::RGBA32F, 1, &faces[0]);
+	textureCube->DefineSampler(TextureFilterMode::FILTER_POINT, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP);
+	textureCube->SetDataLost(false);
+
 
 	float skyboxVertices[] = {
 		// positions          
@@ -82,18 +95,7 @@ void TestSample::Start()
 		 1.0f, -1.0f,  1.0f
 	};
 
-	Vector<ImageLevel> faces;
-	for (size_t i = 0; i < MAX_CUBE_FACES; ++i)
-	{
-		ImageLevel level;
-		level._rowSize = 3 * sizeof(float);
-		level._data = (unsigned char*)&skyboxVertices[3 * i];
-		faces.Push(level);
-	}
 
-	textureCube->Define(TextureType::TEX_CUBE, ResourceUsage::DEFAULT, Vector2I(1, 1), ImageFormat::RGBA32F, 1, &faces[0]);
-	textureCube->DefineSampler(TextureFilterMode::FILTER_POINT, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP);
-	textureCube->SetDataLost(false);
 
 
 }
