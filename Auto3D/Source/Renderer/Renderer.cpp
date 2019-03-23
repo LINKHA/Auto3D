@@ -547,7 +547,6 @@ void Renderer::RenderShadowMaps()
     // Make sure the shadow maps are not bound on any unit
     _graphics->ResetTextures();
 
-	int size1 = _shadowMaps.Size();
     for (auto it = _shadowMaps.Begin(); it != _shadowMaps.End(); ++it)
     {
         if (!it->_used)
@@ -556,7 +555,6 @@ void Renderer::RenderShadowMaps()
         _graphics->SetRenderTarget(nullptr, it->_texture);
         _graphics->Clear(CLEAR_DEPTH, Color::BLACK, 1.0f);
 
-		int size2 = it->_shadowViews.Size();
         for (auto vIt = it->_shadowViews.Begin(); vIt < it->_shadowViews.End(); ++vIt)
         {
             ShadowView* view = *vIt;
@@ -898,9 +896,14 @@ void Renderer::RenderBatches(const Vector<Batch>& batches, Camera* camera, bool 
             {
                 // Get the shader variations
                 LightPass* lights = batch._lights;
+				
                 ShaderVariation* vs = FindShaderVariation(ShaderStage::VS, pass, (unsigned short)batch._type | (lights ? lights->_vsBits : 0));
                 ShaderVariation* ps = FindShaderVariation(ShaderStage::PS, pass, lights ? lights->_psBits : 0);
-                _graphics->SetShaders(vs, ps);
+				// Test Shader for this lot
+				//const char* cVs = vs->Parent()->GetSourceCode().CString();
+				//const char* cPs = ps->Parent()->GetSourceCode().CString();
+
+				_graphics->SetShaders(vs, ps);
 
                 Geometry* geometry = batch._geometry;
                 assert(geometry);

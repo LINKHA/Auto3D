@@ -37,7 +37,7 @@ void MeshSample::Start()
 	teaPot->SetCastShadows(true);
 	teaPot->SetLodBias(2.0f);
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		Light* light = scene->CreateChild<Light>();
 		light->SetLightType(LightType::POINT);

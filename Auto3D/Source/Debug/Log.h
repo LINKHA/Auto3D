@@ -77,15 +77,16 @@ public:
     void SetTimeStamp(bool enable);
     /// Set quiet mode, ie. only output error messages to the standard error stream.
     void SetQuiet(bool enable);
+	/// Return logging level.
+	int GetLevel() const { return _level; }
+	/// Return whether log messages are timestamped.
+	bool GetTimeStamp() const { return _timeStamp; }
+	/// Return last log message.
+	String GetLastMessage() const { return _lastMessage; }
+	/// Return whether log is in quiet mode (only errors printed to standard error stream).
+	bool IsQuiet() const { return _quiet; }
     /// Process threaded log messages at the end of a frame.
     void EndFrame();
-
-    /// Return logging level.
-    int Level() const { return _level; }
-    /// Return whether log messages are timestamped.
-    bool HasTimeStamp() const { return _timeStamp; }
-    /// Return last log message.
-    String LastMessage() const { return _lastMessage; }
 
     /// Write to the log. If logging level is higher than the level of the message, the message is ignored.
     static void Write(int msgLevel, const String& message);

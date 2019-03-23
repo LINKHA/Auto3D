@@ -201,8 +201,8 @@ void UI::Initialize()
 	// Because UI images change less, their shaders are temporarily fixed
 	SharedPtr<Shader> vs = new Shader();
 	SharedPtr<Shader> ps = new Shader();
-	vs = cache->LoadResource<Shader>("TextureTransform.vert");
-	ps = cache->LoadResource<Shader>("TextureTransform.frag");
+	vs = cache->LoadResource<Shader>("Texture.vert");
+	ps = cache->LoadResource<Shader>("Texture.frag");
 	_vsv = vs->CreateVariation();
 	_psv = ps->CreateVariation();
 	_ivsv = vs->CreateVariation(geometryDefines[1]);
