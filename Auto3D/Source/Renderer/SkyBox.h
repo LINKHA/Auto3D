@@ -1,5 +1,5 @@
 #pragma once
-#include "../Scene/Node.h"
+#include "../Renderer/GeometryNode.h"
 
 namespace Auto3D
 {
@@ -18,7 +18,7 @@ struct SkyBoxBuffer
 };
 
 // Relative to the three - dimensional space independent skybox
-class AUTO_API SkyBox : public Node
+class AUTO_API SkyBox : public GeometryNode
 {
 	REGISTER_OBJECT_CLASS(SkyBox, Node)
 public:

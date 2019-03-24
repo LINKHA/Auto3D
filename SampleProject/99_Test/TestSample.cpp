@@ -1,4 +1,5 @@
 #include "TestSample.h"
+#include "../../Auto3D/ThirdParty/glad/glad.h"
 
 void TestSample::Init()
 {
@@ -14,7 +15,22 @@ void TestSample::Start()
 	scene->CreateChild<Octree>();
 	camera = scene->CreateChild<Camera>();
 	// Register scene to scene system use to render
-	Object::Subsystem<RegisteredBox>()->RegisterScene(scene, camera);
+	//Object::Subsystem<RegisteredBox>()->RegisterScene(scene, camera);
+	
+	Vector<Constant> constants;
+	_vsFrameConstantBuffer = new ConstantBuffer();
+	constants.Push(Constant(ElementType::MATRIX3X4, "viewMatrix"));
+	constants.Push(Constant(ElementType::MATRIX4, "projectionMatrix"));
+	constants.Push(Constant(ElementType::MATRIX4, "viewProjMatrix"));
+	_vsFrameConstantBuffer->Define(ResourceUsage::DEFAULT, constants);
+
+	_psFrameConstantBuffer = new ConstantBuffer();
+	constants.Clear();
+	constants.Push(Constant(ElementType::VECTOR4, "color"));
+	_psFrameConstantBuffer->Define(ResourceUsage::DEFAULT, constants);
+
+
+
 
 	SharedPtr<Shader> vs = new Shader();
 	SharedPtr<Shader> ps = new Shader();
@@ -30,12 +46,12 @@ void TestSample::Start()
 	Image* front = cache->LoadResource<Image>("skybox/arrakisday_bk.tga");
 	Image* back = cache->LoadResource<Image>("skybox/arrakisday_bk.tga");
 
-	AutoPtr<SkyBoxBuffer> skyBoxBuffer = new SkyBoxBuffer(right, left, top, bottom, front, back);
+	skyBoxBuffer = new SkyBoxBuffer(right, left, top, bottom, front, back);
 
 	SkyBox* skyBox = new SkyBox();
 	skyBox->SetImage(skyBoxBuffer);
 
-	AutoPtr<Texture> textureCube = new Texture();
+	textureCube = new Texture();
 	Vector<ImageLevel> faces;
 	faces.Push(right->GetLevel(0));
 	faces.Push(left->GetLevel(0));
@@ -95,8 +111,15 @@ void TestSample::Start()
 		 1.0f, -1.0f,  1.0f
 	};
 
-
-
+	// skybox VAO
+	unsigned int skyboxVAO, skyboxVBO;
+	glGenVertexArrays(1, &skyboxVAO);
+	glGenBuffers(1, &skyboxVBO);
+	glBindVertexArray(skyboxVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 
 }
 
@@ -121,6 +144,44 @@ void TestSample::Update()
 		camera->Translate(Vector3F::LEFT * time->GetDeltaTime()  * moveSpeed);
 	if (input->IsKeyDown(KEY_D))
 		camera->Translate(Vector3F::RIGHT * time->GetDeltaTime()  * moveSpeed);
+
+	///Render
+	{
+		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		auto* _graphics = Subsystem<Graphics>();
+
+		// Set per-frame values to the frame constant buffers
+		Matrix3x4F viewMatrix = camera->GetViewMatrix();
+		Matrix4x4F projectionMatrix = camera->GetProjectionMatrix();
+		Matrix4x4F viewProjMatrix = projectionMatrix * viewMatrix;
+		Vector4F depthParameters(Vector4F::ZERO);
+		depthParameters._x = camera->GetNearClip();
+		depthParameters._y = camera->GetFarClip();
+		if (camera->IsOrthographic())
+		{
+			depthParameters._z = 1.0f;
+		}
+		else
+			depthParameters._w = 1.0f / camera->GetFarClip();
+
+		_vsFrameConstantBuffer->SetConstant(VS_FRAME_VIEW_MATRIX, viewMatrix);
+		_vsFrameConstantBuffer->SetConstant(VS_FRAME_PROJECTION_MATRIX, projectionMatrix);
+		_vsFrameConstantBuffer->SetConstant(VS_FRAME_VIEWPROJ_MATRIX, viewProjMatrix);
+
+		_vsFrameConstantBuffer->SetConstant(VS_FRAME_DEPTH_PARAMETERS, depthParameters);
+
+		_vsFrameConstantBuffer->Apply();
+
+		_psFrameConstantBuffer->SetConstant((size_t)0, Color::WHITE);
+		_psFrameConstantBuffer->Apply();
+
+
+		_graphics->SetConstantBuffer(ShaderStage::VS, UIConstantBuffer::FRAME, _vsFrameConstantBuffer);
+		_graphics->SetConstantBuffer(ShaderStage::PS, UIConstantBuffer::FRAME, _psFrameConstantBuffer);
+	}
+
 }
 
 void TestSample::Stop()

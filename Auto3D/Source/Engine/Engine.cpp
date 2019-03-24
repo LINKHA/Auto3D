@@ -76,13 +76,6 @@ void Engine::Render()
 		ErrorString("Fail to render,graphics or renderer missing!");
 		return;
 	}
-	// If the scene is not created, clear the previous frame's texture here
-	if (!_registeredBox->GetScenes().Size())
-	{
-		_graphics->ResetRenderTargets();
-		_graphics->ResetViewport();
-		_graphics->Clear(CLEAR_COLOR | CLEAR_DEPTH | CLEAR_STENCIL, Color::BLACK);
-	}
 	// Render scene
 	for (auto it = _registeredBox->GetScenes().Begin(); it != _registeredBox->GetScenes().End(); it++)
 	{
@@ -98,7 +91,6 @@ void Engine::Render()
 		// Update camera aspect ratio based on window size
 		//(*it).second->SetAspectRatio((float)Subsystem<Graphics>()->GetWidth() / (float)Subsystem<Graphics>()->GetHeight());
 	}
-	
 	_graphics->Present();
 }
 

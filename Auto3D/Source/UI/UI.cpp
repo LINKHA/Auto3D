@@ -68,7 +68,7 @@ void UI::Render(Canvas* scene, UICamera* camera)
 #endif
 	}
 	else
-		depthParameters._w = 1.0f / _camera->GetFarClip();
+		depthParameters._w = 1.0f / camera->GetFarClip();
 
 	_vsFrameConstantBuffer->SetConstant(VS_FRAME_VIEW_MATRIX, viewMatrix);
 	_vsFrameConstantBuffer->SetConstant(VS_FRAME_PROJECTION_MATRIX, projectionMatrix);

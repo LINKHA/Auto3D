@@ -102,7 +102,6 @@ bool Texture::EndLoad()
 	ib->Define(ResourceUsage::IMMUTABLE, 6, sizeof(unsigned short), true, indexData);
 	_geometry->_indexBuffer = ib;
 
-
     return success;
 }
 

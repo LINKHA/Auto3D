@@ -285,7 +285,7 @@ bool Texture::Define(TextureType type, ResourceUsage usage, const Vector2I& size
 
 	return true;
 }
-bool Texture::DefineSampler(TextureFilterMode filter, TextureAddressMode u, TextureAddressMode v, TextureAddressMode w, unsigned maxAnisotropy_, float minLod_, float maxLod_, const Color& borderColor)
+bool Texture::DefineSampler(TextureFilterMode filter, TextureAddressMode u, TextureAddressMode v, TextureAddressMode w, unsigned maxAnisotropy, float minLod, float maxLod, const Color& borderColor)
 {
     PROFILE(DefineTextureSampler);
 
@@ -293,9 +293,9 @@ bool Texture::DefineSampler(TextureFilterMode filter, TextureAddressMode u, Text
     _addressModes[0] = u;
     _addressModes[1] = v;
     _addressModes[2] = w;
-    _maxAnisotropy = maxAnisotropy_;
-    _minLod = minLod_;
-    _maxLod = maxLod_;
+    _maxAnisotropy = maxAnisotropy;
+    _minLod = minLod;
+    _maxLod = maxLod;
     _borderColor = borderColor;
 
     if (_graphics && _graphics->IsInitialized())

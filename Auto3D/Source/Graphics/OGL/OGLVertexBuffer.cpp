@@ -91,7 +91,7 @@ bool VertexBuffer::SetData(size_t firstVertex, size_t numVertices, const void* _
     return true;
 }
 
-bool VertexBuffer::Create(const void* _data)
+bool VertexBuffer::Create(const void* data)
 {
     if (_graphics && _graphics->IsInitialized())
     {
@@ -103,7 +103,7 @@ bool VertexBuffer::Create(const void* _data)
         }
 
         _graphics->BindVBO(_buffer);
-        glBufferData(GL_ARRAY_BUFFER, _numVertices * _vertexSize, _data, _usage == ResourceUsage::DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, _numVertices * _vertexSize, data, _usage == ResourceUsage::DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
         LogStringF("Created vertex buffer numVertices %u vertexSize %u", (unsigned)_numVertices, (unsigned)_vertexSize);
     }
 

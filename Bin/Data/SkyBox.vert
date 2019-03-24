@@ -2,13 +2,16 @@
 in vec3 position;
 
 out vec3 TexCoords;
-
-uniform mat4 projection;
-uniform mat4 view;
+layout(std140) uniform PerFrameVS0
+{
+	mat3x4 viewMatrix;
+	mat4 projectionMatrix;
+	mat4 viewProjMatrix;
+};
 
 void main()
 {
     TexCoords = position;
-    vec4 pos = projection * view * vec4(position, 1.0);
+    vec4 pos = viewProjMatrix * vec4(position, 1.0);
     gl_Position = pos.xyww;
 }  
