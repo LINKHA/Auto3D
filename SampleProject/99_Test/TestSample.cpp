@@ -308,6 +308,7 @@ void TestSample::Start()
 	//textureCube->SetDataLost(false);
 
 	}
+
 	{
 		 skyboxShader = new TestShader("D:/Project/MyProject/Auto3D/Bin/Data/SkyBox.vert",
 			"D:/Project/MyProject/Auto3D/Bin/Data/SkyBox.frag");
@@ -318,9 +319,9 @@ void TestSample::Start()
 
 		// skybox VAO
 		
-		glGenVertexArrays(1, &skyboxVAO);
+		//glGenVertexArrays(1, &skyboxVAO);
 		glGenBuffers(1, &skyboxVBO);
-		glBindVertexArray(skyboxVAO);
+		//glBindVertexArray(skyboxVAO);
 		glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
 		glEnableVertexAttribArray(0);
@@ -367,9 +368,6 @@ void TestSample::Update()
 
 	/////Render
 	//{
-	//	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-	//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	//	auto* _graphics = Subsystem<Graphics>();
 
 	//	// Set per-frame values to the frame constant buffers
@@ -404,13 +402,6 @@ void TestSample::Update()
 	//	_graphics->SetShaders(_vsv, _psv);
 	//}
 	{
-		// render
-	   // ------
-		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		//	auto* _graphics = Subsystem<Graphics>();
-
 		// Set per-frame values to the frame constant buffers
 		Matrix3x4F viewMatrix = camera->GetViewMatrix();
 		// Remove translation from the view matrix
@@ -428,7 +419,6 @@ void TestSample::Update()
 		{
 			depthParameters._z = 1.0f;
 		}
-
 		else
 			depthParameters._w = 1.0f / camera->GetFarClip();
 
@@ -436,11 +426,10 @@ void TestSample::Update()
 		// draw skybox as last
 		glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
 		skyboxShader->use();
-
 		skyboxShader->setMat4("viewProjection", viewProjMatrix);
 		
 		// skybox cube
-		glBindVertexArray(skyboxVAO);
+		glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
