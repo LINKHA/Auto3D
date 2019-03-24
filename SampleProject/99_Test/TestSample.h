@@ -1,7 +1,7 @@
 #pragma once
 #include "../Sample.h"
 using namespace Auto3D;
-
+class TestShader;
 class TestSample : public Application
 {
 	REGISTER_OBJECT_CLASS(TestSample, Application)
@@ -28,4 +28,5 @@ public:
 
 	AutoPtr<SkyBoxBuffer> skyBoxBuffer;
 	AutoPtr<Texture> textureCube;
+	TestShader* skyboxShader;
 };
