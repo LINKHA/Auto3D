@@ -249,6 +249,10 @@ void TestSample::Start()
 {
 	Super::Start();
 	auto* cache = Object::Subsystem<ResourceCache>();
+	auto* graphics = Object::Subsystem<Graphics>();
+
+	graphics->RenderWindow()->SetMouseLock(true);
+	graphics->RenderWindow()->SetMouseHide(true);
 
 	scene = new Scene();
 	scene->CreateChild<Octree>();
@@ -324,12 +328,12 @@ void TestSample::Start()
 
 
 		Vector<String> facess;
+		facess.Push("D:/Project/MyProject/Auto3D/Bin/Data/skybox/arrakisday_ft.tga");
 		facess.Push("D:/Project/MyProject/Auto3D/Bin/Data/skybox/arrakisday_bk.tga");
-		facess.Push("D:/Project/MyProject/Auto3D/Bin/Data/skybox/arrakisday_bk.tga");
-		facess.Push("D:/Project/MyProject/Auto3D/Bin/Data/skybox/arrakisday_bk.tga");
-		facess.Push("D:/Project/MyProject/Auto3D/Bin/Data/skybox/arrakisday_bk.tga");
-		facess.Push("D:/Project/MyProject/Auto3D/Bin/Data/skybox/arrakisday_bk.tga");
-		facess.Push("D:/Project/MyProject/Auto3D/Bin/Data/skybox/arrakisday_bk.tga");
+		facess.Push("D:/Project/MyProject/Auto3D/Bin/Data/skybox/arrakisday_up.tga");
+		facess.Push("D:/Project/MyProject/Auto3D/Bin/Data/skybox/arrakisday_dn.tga");
+		facess.Push("D:/Project/MyProject/Auto3D/Bin/Data/skybox/arrakisday_rt.tga");
+		facess.Push("D:/Project/MyProject/Auto3D/Bin/Data/skybox/arrakisday_lf.tga");
 
 		cubemapTexture = loadCubemap(facess);
 
@@ -409,8 +413,14 @@ void TestSample::Update()
 
 		// Set per-frame values to the frame constant buffers
 		Matrix3x4F viewMatrix = camera->GetViewMatrix();
+		// Remove translation from the view matrix
+		viewMatrix._m03 = 0;
+		viewMatrix._m13 = 0;
+		viewMatrix._m23 = 0;
+
 		Matrix4x4F projectionMatrix = camera->GetProjectionMatrix();
 		Matrix4x4F viewProjMatrix = projectionMatrix * viewMatrix;
+
 		Vector4F depthParameters(Vector4F::ZERO);
 		depthParameters._x = camera->GetNearClip();
 		depthParameters._y = camera->GetFarClip();
@@ -436,9 +446,6 @@ void TestSample::Update()
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		glDepthFunc(GL_LESS); // set depth function back to default
 	}
-		
-
-	
 
 }
 
