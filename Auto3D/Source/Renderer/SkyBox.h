@@ -3,6 +3,7 @@
 
 namespace Auto3D
 {
+
 class Image;
 /// Skybox data buffering
 struct SkyBoxBuffer
@@ -33,12 +34,14 @@ public:
 	void SetImage(Image* right, Image* left, Image* top, Image*  bottom, Image* front, Image* back);
 	/// Set the image resource with skybox buffer
 	void SetImage(SkyBoxBuffer* buffer);
-	
+	/// Update Cube texture
+	void UpdateTexture(SkyBoxBuffer* buffer);
 private:
 	/// Skybox buffer
 	AutoPtr<SkyBoxBuffer> _buffer;
+	/// Cube texture
+	AutoPtr<Texture> _texture;
 };
-
 
 }
 

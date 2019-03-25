@@ -52,11 +52,14 @@ void SkyBox::SetImage(Image* right, Image* left, Image* top, Image*  bottom, Ima
 	_buffer = new SkyBoxBuffer(right, left, top, bottom, front, back);
 }
 
-/// Set the image resource with skybox buffer
 void SkyBox::SetImage(SkyBoxBuffer* buffer)
 {
 	_buffer = buffer;
 }
 
+void SkyBox::UpdateTexture(SkyBoxBuffer* buffer)
+{
+
+}
 
 }

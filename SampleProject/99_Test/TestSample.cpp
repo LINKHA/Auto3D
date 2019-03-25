@@ -177,18 +177,62 @@ void TestSample::Start()
 		_vsv = vs->CreateVariation();
 		_psv = ps->CreateVariation();
 
-		Vector<String> facess;
-		facess.Push("D:/Project/MyProject/Auto3D/Bin/Data/skybox/arrakisday_ft.tga");
-		facess.Push("D:/Project/MyProject/Auto3D/Bin/Data/skybox/arrakisday_bk.tga");
-		facess.Push("D:/Project/MyProject/Auto3D/Bin/Data/skybox/arrakisday_up.tga");
-		facess.Push("D:/Project/MyProject/Auto3D/Bin/Data/skybox/arrakisday_dn.tga");
-		facess.Push("D:/Project/MyProject/Auto3D/Bin/Data/skybox/arrakisday_rt.tga");
-		facess.Push("D:/Project/MyProject/Auto3D/Bin/Data/skybox/arrakisday_lf.tga");
+		//Vector<String> faces;
+		//faces.Push("D:/Project/MyProject/Auto3D/Bin/Data/skybox/arrakisday_ft.tga");
+		//faces.Push("D:/Project/MyProject/Auto3D/Bin/Data/skybox/arrakisday_bk.tga");
+		//faces.Push("D:/Project/MyProject/Auto3D/Bin/Data/skybox/arrakisday_up.tga");
+		//faces.Push("D:/Project/MyProject/Auto3D/Bin/Data/skybox/arrakisday_dn.tga");
+		//faces.Push("D:/Project/MyProject/Auto3D/Bin/Data/skybox/arrakisday_rt.tga");
+		//faces.Push("D:/Project/MyProject/Auto3D/Bin/Data/skybox/arrakisday_lf.tga");
 
-		cubemapTexture = loadCubemap(facess);
+		////cubemapTexture = loadCubemap(facess);
+		//glGenTextures(1, &cubemapTexture);
+		//glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
 
-		//skyboxShader->use();
-		//skyboxShader->setInt("skybox", 0);
+		//int width, height, nrChannels;
+		//for (unsigned int i = 0; i < faces.Size(); i++)
+		//{
+		//	unsigned char *data = stbi_load(faces[i].CString(), &width, &height, &nrChannels, 0);
+		//	if (data)
+		//	{
+		//		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		//		stbi_image_free(data);
+		//	}
+		//	else
+		//	{
+		//		ErrorString("Cubemap texture failed to load at path: ");
+		//		stbi_image_free(data);
+		//	}
+		//}
+		//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		//glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+		Image* right = cache->LoadResource<Image>("skybox/arrakisday_bk.tga");
+		Image* left = cache->LoadResource<Image>("skybox/arrakisday_bk.tga");
+		Image* top = cache->LoadResource<Image>("skybox/arrakisday_bk.tga");
+		Image* bottom = cache->LoadResource<Image>("skybox/arrakisday_bk.tga");
+		Image* front = cache->LoadResource<Image>("skybox/arrakisday_bk.tga");
+		Image* back = cache->LoadResource<Image>("skybox/arrakisday_bk.tga");
+
+		skyBoxBuffer = new SkyBoxBuffer(right, left, top, bottom, front, back);
+		SkyBox* skyBox = new SkyBox();
+		skyBox->SetImage(skyBoxBuffer);
+		Vector<ImageLevel> faces;
+		faces.Push(right->GetLevel(0));
+		faces.Push(left->GetLevel(0));
+		faces.Push(top->GetLevel(0));
+		faces.Push(bottom->GetLevel(0));
+		faces.Push(front->GetLevel(0));
+		faces.Push(back->GetLevel(0));
+
+		textureCube = new Texture();
+		textureCube->Define(TextureType::TEX_CUBE, ResourceUsage::DEFAULT, right->GetLevel(0)._size, right->GetFormat(), 1, &faces[0]);
+		textureCube->DefineSampler(TextureFilterMode::FILTER_POINT, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP);
+		textureCube->SetDataLost(false);
+
 	}
 	
 }
@@ -277,13 +321,20 @@ void TestSample::Update()
 
 		graphics->SetShaders(_vsv, _psv);
 
+		glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
+
+		graphics->SetTexture(0, textureCube);
+
 		//skyboxShader->use();
 		//skyboxShader->setMat4("viewProjMatrix", viewProjMatrix);
 		
 		// skybox cube
-		glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
+		//glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
+		//glActiveTexture(GL_TEXTURE0);
+		//glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
+
+
+
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		glDepthFunc(GL_LESS); // set depth function back to default
 	}

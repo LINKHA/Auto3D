@@ -56,11 +56,11 @@ void VertexBuffer::Recreate()
     }
 }
 
-bool VertexBuffer::SetData(size_t firstVertex, size_t numVertices, const void* _data)
+bool VertexBuffer::SetData(size_t firstVertex, size_t numVertices, const void* data)
 {
     PROFILE(UpdateVertexBuffer);
 
-    if (!_data)
+    if (!data)
     {
         ErrorString("Null source data for updating vertex buffer");
         return false;
@@ -77,15 +77,15 @@ bool VertexBuffer::SetData(size_t firstVertex, size_t numVertices, const void* _
     }
 
     if (_shadowData)
-        memcpy(_shadowData.Get() + firstVertex * _vertexSize, _data, numVertices * _vertexSize);
+        memcpy(_shadowData.Get() + firstVertex * _vertexSize, data, numVertices * _vertexSize);
 
     if (_buffer)
     {
         _graphics->BindVBO(_buffer);
         if (numVertices == _numVertices)
-            glBufferData(GL_ARRAY_BUFFER, numVertices * _vertexSize, _data, _usage == ResourceUsage::DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, numVertices * _vertexSize, data, _usage == ResourceUsage::DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
         else
-            glBufferSubData(GL_ARRAY_BUFFER, firstVertex * _vertexSize, numVertices * _vertexSize, _data);
+            glBufferSubData(GL_ARRAY_BUFFER, firstVertex * _vertexSize, numVertices * _vertexSize, data);
     }
 
     return true;
