@@ -65,8 +65,8 @@ void TestSample::Start()
 	auto* cache = Object::Subsystem<ResourceCache>();
 	auto* graphics = Object::Subsystem<Graphics>();
 
-	//graphics->RenderWindow()->SetMouseLock(true);
-	//graphics->RenderWindow()->SetMouseHide(true);
+	graphics->RenderWindow()->SetMouseLock(true);
+	graphics->RenderWindow()->SetMouseHide(true);
 
 	scene = new Scene();
 	scene->CreateChild<Octree>();
@@ -99,12 +99,14 @@ void TestSample::Start()
 		_vsv = vs->CreateVariation();
 		_psv = ps->CreateVariation();
 
-		Image* right = cache->LoadResource<Image>("skybox/arrakisday_ft.tga");
-		Image* left = cache->LoadResource<Image>("skybox/arrakisday_bk.tga");
-		Image* top = cache->LoadResource<Image>("skybox/arrakisday_up.tga");
-		Image* bottom = cache->LoadResource<Image>("skybox/arrakisday_dn.tga");
-		Image* front = cache->LoadResource<Image>("skybox/arrakisday_rt.tga");
-		Image* back = cache->LoadResource<Image>("skybox/arrakisday_lf.tga");
+		Image* right = cache->LoadResource<Image>("skybox/output_skybox_posx.dds");
+		Image* left = cache->LoadResource<Image>("skybox/output_skybox_negx.dds");
+
+		Image* top = cache->LoadResource<Image>("skybox/output_skybox_posy.dds");
+		Image* bottom = cache->LoadResource<Image>("skybox/output_skybox_negy.dds");
+
+		Image* front = cache->LoadResource<Image>("skybox/output_skybox_posz.dds");
+		Image* back = cache->LoadResource<Image>("skybox/output_skybox_negz.dds");
 
 		buffer = new SkyBoxBuffer(right, left, top, bottom, front, back);
 		skyBox = new SkyBox();

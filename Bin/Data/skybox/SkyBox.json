@@ -36,11 +36,11 @@
     }
   },
   "textures": {
-    "0": "arrakisday_bk.tga",
-    "1": "arrakisday_dn.tga"
-	"2": "arrakisday_ft.tga",
-    "3": "arrakisday_lf.tga"
-	"4": "arrakisday_rt.tga",
-    "5": "arrakisday_up.tga"
+    "0": "output_skybox_negx.tga",
+    "1": "output_skybox_negy.tga"
+	"2": "output_skybox_negz.tga",
+    "3": "output_skybox_posx.tga"
+	"4": "output_skybox_posy.tga",
+    "5": "output_skybox_posz.tga"
   }
 }
