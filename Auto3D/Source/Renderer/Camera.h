@@ -6,6 +6,7 @@
 #include "../Math/Ray.h"
 #include "../Scene/SpatialNode.h"
 
+
 namespace Auto3D
 {
 
@@ -195,6 +196,8 @@ private:
     bool _useReflection;
     /// Use custom clip plane flag.
     bool _useClipping;
+	/// 
+	AutoPtr<SkyBox> _skyBox;
 };
 
 }

@@ -7,7 +7,6 @@
 #include <sstream>
 #include <iostream>
 
-unsigned int cubemapTexture;
 unsigned int skyboxVBO;
 
 float skyboxVertices[] = {
@@ -55,37 +54,6 @@ float skyboxVertices[] = {
 	 1.0f, -1.0f,  1.0f
 };
 
-unsigned int loadCubemap(Vector<String> faces)
-{
-	unsigned int textureID;
-	glGenTextures(1, &textureID);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
-
-	int width, height, nrChannels;
-	for (unsigned int i = 0; i < faces.Size(); i++)
-	{
-		unsigned char *data = stbi_load(faces[i].CString(), &width, &height, &nrChannels, 0);
-		if (data)
-		{
-			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-			stbi_image_free(data);
-		}
-		else
-		{
-			ErrorString("Cubemap texture failed to load at path: ");
-			stbi_image_free(data);
-		}
-	}
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-
-	return textureID;
-}
-
-
 void TestSample::Init()
 {
 	Super::Init();
@@ -97,8 +65,8 @@ void TestSample::Start()
 	auto* cache = Object::Subsystem<ResourceCache>();
 	auto* graphics = Object::Subsystem<Graphics>();
 
-	graphics->RenderWindow()->SetMouseLock(true);
-	graphics->RenderWindow()->SetMouseHide(true);
+	//graphics->RenderWindow()->SetMouseLock(true);
+	//graphics->RenderWindow()->SetMouseHide(true);
 
 	scene = new Scene();
 	scene->CreateChild<Octree>();
@@ -106,13 +74,15 @@ void TestSample::Start()
 	// Register scene to scene system use to render
 	//Object::Subsystem<RegisteredBox>()->RegisterScene(scene, camera);
 	{
-		//glGenVertexArrays(1, &skyboxVAO);
 		glGenBuffers(1, &skyboxVBO);
-		//glBindVertexArray(skyboxVAO);
 		glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
+		//_instanceVertexBuffer = new VertexBuffer();
+		//_instanceVertexElements.Push(VertexElement(ElementType::VECTOR3, ElementSemantic::POSITION, 0, true));
+
 
 		Vector<Constant> constants;
 		_vsFrameConstantBuffer = new ConstantBuffer();
@@ -136,21 +106,20 @@ void TestSample::Start()
 		Image* front = cache->LoadResource<Image>("skybox/arrakisday_rt.tga");
 		Image* back = cache->LoadResource<Image>("skybox/arrakisday_lf.tga");
 
-		skyBoxBuffer = new SkyBoxBuffer(right, left, top, bottom, front, back);
-		SkyBox* skyBox = new SkyBox();
-		skyBox->SetImage(skyBoxBuffer);
-		Vector<ImageLevel> faces;
-		faces.Push(right->GetLevel(0));
-		faces.Push(left->GetLevel(0));
-		faces.Push(top->GetLevel(0));
-		faces.Push(bottom->GetLevel(0));
-		faces.Push(front->GetLevel(0));
-		faces.Push(back->GetLevel(0));
+		buffer = new SkyBoxBuffer(right, left, top, bottom, front, back);
+		//SkyBox* skyBox = new SkyBox();
+		//skyBox->SetImage(skyBoxBuffer);
 
-		textureCube = new Texture();
-		textureCube->Define(TextureType::TEX_CUBE, ResourceUsage::DEFAULT, right->GetLevel(0)._size, right->GetFormat(), 1, &faces[0]);
-		textureCube->DefineSampler(TextureFilterMode::FILTER_POINT, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP);
-		textureCube->SetDataLost(false);
+		Vector<ImageLevel> faces;
+		for (int i = 0; i < MAX_CUBE_FACES; ++i)
+		{
+			faces.Push(buffer->_data[i]->GetLevel(0));
+		}
+
+		_texture = new Texture();
+		_texture->Define(TextureType::TEX_CUBE, ResourceUsage::DEFAULT, buffer->_data[0]->GetLevel(0)._size, buffer->_data[0]->GetFormat(), 1, &faces[0]);
+		_texture->DefineSampler(TextureFilterMode::COMPARE_TRILINEAR, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP);
+		_texture->SetDataLost(false);
 
 	}
 	
@@ -214,7 +183,7 @@ void TestSample::Update()
 
 		glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
 
-		graphics->SetTexture(0, textureCube);
+		graphics->SetTexture(0, _texture);
 
 
 		glDrawArrays(GL_TRIANGLES, 0, 36);

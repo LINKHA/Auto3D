@@ -6,7 +6,7 @@ namespace Auto3D
 
 class Image;
 /// Skybox data buffering
-struct SkyBoxBuffer
+struct SkyBoxBuffer : public RefCounted
 {
 	/// Construct
 	SkyBoxBuffer();
@@ -21,7 +21,7 @@ struct SkyBoxBuffer
 // Relative to the three - dimensional space independent skybox
 class AUTO_API SkyBox : public GeometryNode
 {
-	REGISTER_OBJECT_CLASS(SkyBox, Node)
+	REGISTER_OBJECT_CLASS(SkyBox, GeometryNode)
 public:
 	/// Construct
 	SkyBox();

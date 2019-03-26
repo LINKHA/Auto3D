@@ -1,6 +1,6 @@
 #include "SkyBox.h"
 #include "../Resource/Image.h"
-
+#include "../Graphics/Texture.h"
 #include "../Debug/DebugNew.h"
 
 namespace Auto3D
@@ -50,16 +50,27 @@ void SkyBox::RegisterObject()
 void SkyBox::SetImage(Image* right, Image* left, Image* top, Image*  bottom, Image* front, Image* back)
 {
 	_buffer = new SkyBoxBuffer(right, left, top, bottom, front, back);
+	UpdateTexture(_buffer);
 }
 
 void SkyBox::SetImage(SkyBoxBuffer* buffer)
 {
 	_buffer = buffer;
+	UpdateTexture(_buffer);
 }
 
 void SkyBox::UpdateTexture(SkyBoxBuffer* buffer)
 {
+	Vector<ImageLevel> faces;
+	for (int i = 0; i < MAX_CUBE_FACES; ++i)
+	{
+		faces.Push(buffer->_data[i]->GetLevel(0));
+	}
 
+	_texture = new Texture();
+	_texture->Define(TextureType::TEX_CUBE, ResourceUsage::DEFAULT, buffer->_data[0]->GetLevel(0)._size, buffer->_data[0]->GetFormat(), 1, &faces[0]);
+	_texture->DefineSampler(TextureFilterMode::COMPARE_TRILINEAR, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP);
+	_texture->SetDataLost(false);
 }
 
 }

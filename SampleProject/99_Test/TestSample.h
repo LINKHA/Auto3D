@@ -26,7 +26,10 @@ public:
 	/// Per-object vertex shader constant buffer.
 	SharedPtr<ConstantBuffer> _psFrameConstantBuffer;
 
-	AutoPtr<SkyBoxBuffer> skyBoxBuffer;
-	AutoPtr<Texture> textureCube;
-	TestShader* skyboxShader;
+	SkyBoxBuffer* buffer;
+	AutoPtr<Texture> _texture;
+
+	AutoPtr<VertexBuffer> _instanceVertexBuffer;
+	/// Vertex elements for the instance vertex buffer.
+	Vector<VertexElement> _instanceVertexElements;
 };
