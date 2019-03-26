@@ -1,0 +1,46 @@
+{
+  "passes": {
+    "opaque": {
+      "vs": "SkyBox",
+      "ps": "SkyBox",
+      "depthFunc": "lessEqual",
+      "depthWrite": true,
+      "depthClip": true,
+      "alphaToCoverage": false,
+      "blendMode": "replace",
+      "fillMode": "solid",
+      "cullMode": "back"
+    },
+    "opaqueadd": {
+      "vs": "SkyBox",
+      "ps": "SkyBox",
+      "depthFunc": "lessEqual",
+      "depthWrite": false,
+      "depthClip": true,
+      "alphaToCoverage": false,
+      "blendMode": "add",
+      "fillMode": "solid",
+      "cullMode": "back"
+    },
+    "shadow": {
+      "vs": "Shadow",
+      "ps": "Shadow",
+      "depthFunc": "lessEqual",
+      "depthWrite": true,
+      "depthClip": true,
+      "alphaToCoverage": false,
+      "blendMode": "replace",
+      "colorWriteMask": 0,
+      "fillMode": "solid",
+      "cullMode": "back"
+    }
+  },
+  "textures": {
+    "0": "arrakisday_bk.tga",
+    "1": "arrakisday_dn.tga"
+	"2": "arrakisday_ft.tga",
+    "3": "arrakisday_lf.tga"
+	"4": "arrakisday_rt.tga",
+    "5": "arrakisday_up.tga"
+  }
+}

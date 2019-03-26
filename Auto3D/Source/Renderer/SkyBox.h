@@ -36,6 +36,8 @@ public:
 	void SetImage(SkyBoxBuffer* buffer);
 	/// Update Cube texture
 	void UpdateTexture(SkyBoxBuffer* buffer);
+
+	Texture* GetTexture();
 private:
 	/// Skybox buffer
 	AutoPtr<SkyBoxBuffer> _buffer;

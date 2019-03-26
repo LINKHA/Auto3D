@@ -73,4 +73,9 @@ void SkyBox::UpdateTexture(SkyBoxBuffer* buffer)
 	_texture->SetDataLost(false);
 }
 
+Texture* SkyBox::GetTexture()
+{
+	return _texture;
+}
+
 }

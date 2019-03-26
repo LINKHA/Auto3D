@@ -94,8 +94,8 @@ void TestSample::Start()
 
 		SharedPtr<Shader> vs = new Shader();
 		SharedPtr<Shader> ps = new Shader();
-		vs = cache->LoadResource<Shader>("SkyBox.vert");
-		ps = cache->LoadResource<Shader>("SkyBox.frag");
+		vs = cache->LoadResource<Shader>("skyBox/SkyBox.vert");
+		ps = cache->LoadResource<Shader>("skyBox/SkyBox.frag");
 		_vsv = vs->CreateVariation();
 		_psv = ps->CreateVariation();
 
@@ -107,20 +107,8 @@ void TestSample::Start()
 		Image* back = cache->LoadResource<Image>("skybox/arrakisday_lf.tga");
 
 		buffer = new SkyBoxBuffer(right, left, top, bottom, front, back);
-		//SkyBox* skyBox = new SkyBox();
-		//skyBox->SetImage(skyBoxBuffer);
-
-		Vector<ImageLevel> faces;
-		for (int i = 0; i < MAX_CUBE_FACES; ++i)
-		{
-			faces.Push(buffer->_data[i]->GetLevel(0));
-		}
-
-		_texture = new Texture();
-		_texture->Define(TextureType::TEX_CUBE, ResourceUsage::DEFAULT, buffer->_data[0]->GetLevel(0)._size, buffer->_data[0]->GetFormat(), 1, &faces[0]);
-		_texture->DefineSampler(TextureFilterMode::COMPARE_TRILINEAR, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP);
-		_texture->SetDataLost(false);
-
+		skyBox = new SkyBox();
+		skyBox->SetImage(buffer);
 	}
 	
 }
@@ -183,7 +171,7 @@ void TestSample::Update()
 
 		glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
 
-		graphics->SetTexture(0, _texture);
+		graphics->SetTexture(0, skyBox->GetTexture());
 
 
 		glDrawArrays(GL_TRIANGLES, 0, 36);

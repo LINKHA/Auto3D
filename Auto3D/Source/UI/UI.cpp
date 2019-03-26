@@ -37,7 +37,6 @@ UI::UI() :
 	_instanceTransformsDirty(false)
 {
 	RegisterSubsystem(this);
-
 }
 
 UI::~UI()

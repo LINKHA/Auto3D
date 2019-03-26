@@ -27,6 +27,7 @@ public:
 	SharedPtr<ConstantBuffer> _psFrameConstantBuffer;
 
 	SkyBoxBuffer* buffer;
+	SkyBox* skyBox;
 	AutoPtr<Texture> _texture;
 
 	AutoPtr<VertexBuffer> _instanceVertexBuffer;
