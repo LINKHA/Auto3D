@@ -257,7 +257,28 @@ bool Material::EndLoad()
         for (auto it = jsonTextures.Begin(); it != jsonTextures.End(); ++it)
             SetTexture(it->_first.ToInt(), cache->LoadResource<Texture>(it->_second.GetString()));
     }
+	if (root.Contains("texturesMap"))
+	{
+		ResourceCache* cache = Subsystem<ResourceCache>();
+		const JSONObject& jsonTextures = root["texturesMap"].GetObject();
+		Vector<AutoPtr<Image> > imageData;
 
+		for (auto it = jsonTextures.Begin(); it != jsonTextures.End(); ++it)
+			imageData.Push(cache->LoadResource<Image>(it->_second.GetString()));
+
+		Vector<ImageLevel> faces;
+		for (int i = 0; i < MAX_CUBE_FACES; ++i)
+		{
+			faces.Push(imageData[i]->GetLevel(0));
+		}
+
+		Texture* textureCube = new Texture();
+		textureCube->Define(TextureType::TEX_CUBE, ResourceUsage::DEFAULT, imageData[0]->GetLevel(0)._size, imageData[0]->GetFormat(), 1, &faces[0]);
+		textureCube->DefineSampler(TextureFilterMode::COMPARE_TRILINEAR, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP);
+		textureCube->SetDataLost(false);
+		SetTexture(jsonTextures.Begin()->_first.ToInt(), textureCube);
+		
+	}
     _loadJSON.Reset();
     return true;
 }

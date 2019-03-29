@@ -1,0 +1,23 @@
+{
+  "passes": {
+    "opaque": {
+      "vs": "SkyBox",
+      "ps": "SkyBox",
+      "depthFunc": "lessEqual",
+      "depthWrite": true,
+      "depthClip": true,
+      "alphaToCoverage": false,
+      "blendMode": "replace",
+      "fillMode": "solid",
+      "cullMode": "front"
+    }
+  },
+  "texturesMap": {
+    "0": "output_skybox_negx.dds",
+    "1": "output_skybox_negy.dds",
+	"2": "output_skybox_negz.dds",
+    "3": "output_skybox_posx.dds",
+	"4": "output_skybox_posy.dds",
+    "5": "output_skybox_posz.dds"
+  }
+}
