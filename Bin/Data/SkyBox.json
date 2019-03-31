@@ -4,12 +4,8 @@
       "vs": "SkyBox",
       "ps": "SkyBox",
       "depthFunc": "lessEqual",
-      "depthWrite": true,
-      "depthClip": true,
-      "alphaToCoverage": true,
-      "blendMode": "replace",
-      "fillMode": "solid",
-      "cullMode": "front"
+	  "blendMode": "replace",
+	  "cullMode": "front"
     }
   },
   "texturesMap": {
