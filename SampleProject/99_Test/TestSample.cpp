@@ -6,6 +6,7 @@ void MeshSample::Init()
 	auto* graphics = Object::Subsystem<Graphics>();
 	graphics->RenderWindow()->SetTitle("Mesh Sample");
 }
+StaticModel* plane;
 void MeshSample::Start()
 {
 	Super::Start();
@@ -23,34 +24,16 @@ void MeshSample::Start()
 	// Register scene to scene system use to render
 	Object::Subsystem<RegisteredBox>()->RegisterScene(scene, camera);
 
-	StaticModel* plane = scene->CreateChild<StaticModel>();
+	plane = scene->CreateChild<StaticModel>();
 	plane->SetScale(Vector3F(1.0f, 1.0f, 1.0f));
 	plane->SetCastShadows(true);
 	plane->SetModel(cache->LoadResource<Model>("Box.mdl"));
 	plane->SetMaterial(cache->LoadResource<Material>("SkyBox.json"));
 
-	/*StaticModel* teaPot = scene->CreateChild<StaticModel>();
-	teaPot->SetPosition(Vector3F(0.0f, 0.0f, 0.0f));
-	teaPot->SetScale(10.0f);
-	teaPot->SetModel(cache->LoadResource<Model>("TeaPot.mdl"));
-	teaPot->SetCastShadows(true);
-	teaPot->SetLodBias(2.0f);
-
-	for (int i = 0; i < 2; i++)
-	{
-		Light* light = scene->CreateChild<Light>();
-		light->SetLightType(LightType::POINT);
-		light->SetCastShadows(true);
-		light->SetColor(Color(1.0f, 1.0f, 1.0f));
-		light->SetFov(90.0f);
-		light->SetRange(20.0f);
-		light->SetPosition(Vector3F(i * 5.0f - 10.0f, 10.0f, 5.0f));
-		light->SetDirection(Vector3F(0.0f, -1.0f, 0.0f));
-		light->SetShadowMapSize(256);
-	}*/
 }
 void MeshSample::Update()
 {
+	
 	Super::Update();
 	auto* input = Object::Subsystem<Input>();
 	auto* graphics = Object::Subsystem<Graphics>();

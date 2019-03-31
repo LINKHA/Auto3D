@@ -4,7 +4,7 @@
 
 namespace Auto3D
 {
-
+class Model;
 /// %Scene node that renders an unanimated model.
 class AUTO_API StaticModel : public GeometryNode
 {
