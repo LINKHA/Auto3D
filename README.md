@@ -33,3 +33,8 @@ Third-party libraries
 Scene-DEMO
 -------
 ![Image text](https://github.com/LINKHA/Auto3D/blob/master/Bin/Data/figure/Engine_Effect_Mesh.png)
+
+Skybox-DEMO
+-------
+![Image text](https://github.com/LINKHA/Auto3D/blob/master/Bin/Data/figure/Engine_Effect_Skybox.png)
+

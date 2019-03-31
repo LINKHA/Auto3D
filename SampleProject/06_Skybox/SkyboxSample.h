@@ -3,9 +3,9 @@
 
 using namespace Auto3D;
 
-class MeshSample : public Sample
+class SkyboxSample : public Sample
 {
-	REGISTER_OBJECT_CLASS(MeshSample, Sample)
+	REGISTER_OBJECT_CLASS(SkyboxSample, Sample)
 public:
 	void Init()override;
 	void Start()override;

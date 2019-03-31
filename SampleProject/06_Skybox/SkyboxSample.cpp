@@ -1,13 +1,13 @@
-#include "TestSample.h"
+#include "SkyboxSample.h"
 
-void MeshSample::Init()
+void SkyboxSample::Init()
 {
 	Super::Init();
 	auto* graphics = Object::Subsystem<Graphics>();
-	graphics->RenderWindow()->SetTitle("Mesh Sample");
+	graphics->RenderWindow()->SetTitle("Skybox Sample");
 }
-StaticModel* plane;
-void MeshSample::Start()
+
+void SkyboxSample::Start()
 {
 	Super::Start();
 	auto* cache = Object::Subsystem<ResourceCache>();
@@ -24,14 +24,13 @@ void MeshSample::Start()
 	// Register scene to scene system use to render
 	Object::Subsystem<RegisteredBox>()->RegisterScene(scene, camera);
 
-	plane = camera->CreateChild<StaticModel>();
-	plane->SetScale(Vector3F(1.0f, 1.0f, 1.0f));
-	plane->SetCastShadows(true);
-	plane->SetModel(cache->LoadResource<Model>("Box.mdl"));
-	plane->SetMaterial(cache->LoadResource<Material>("SkyBox.json"));
+	StaticModel* skybox = camera->CreateChild<StaticModel>();
+	skybox->SetScale(Vector3F(1.0f, 1.0f, 1.0f));
+	skybox->SetModel(cache->LoadResource<Model>("Box.mdl"));
+	skybox->SetMaterial(cache->LoadResource<Material>("SkyBox.json"));
 
 }
-void MeshSample::Update()
+void SkyboxSample::Update()
 {
 	
 	Super::Update();
@@ -57,9 +56,9 @@ void MeshSample::Update()
 		camera->Translate(Vector3F::RIGHT * time->GetDeltaTime()  * moveSpeed);
 }
 
-void MeshSample::Stop()
+void SkyboxSample::Stop()
 {
 	Super::Stop();
 }
 
-AUTO_APPLICATION_MAIN(MeshSample)
+AUTO_APPLICATION_MAIN(SkyboxSample)

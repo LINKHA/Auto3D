@@ -53,7 +53,7 @@ void Engine::Init()
 	Time::RealTime& realTime = _time->GetRealTime();
 	SetRandomSeed(realTime._year & realTime._month << realTime._day | realTime._hour * realTime._minute ^ realTime._second);
 
-	if (!_graphics->SetMode(RectI(0, 0, 1024, 768), 4, false, true))
+	if (!_graphics->SetMode(RectI(0, 0, 1024, 768), 4, true, true))
 	{
 		ErrorString("Failed to create a gutter.");
 		return;

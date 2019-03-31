@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1)
 
-set (TARGET_NAME 99_Test)
+set (TARGET_NAME 06_Skybox)
 
 file (GLOB SOURCE_FILES *.cpp *.h)
 
