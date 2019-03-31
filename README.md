@@ -36,5 +36,5 @@ Scene-DEMO
 
 Skybox-DEMO
 -------
-![Image text](https://github.com/LINKHA/Auto3D/blob/master/Bin/Data/figure/Engine_Effect_Skybox.png)
+![Image text](https://github.com/LINKHA/Auto3D/blob/master/Bin/Data/figure/Engine_Effect_Skybox.PNG)
 
