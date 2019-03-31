@@ -261,12 +261,13 @@ bool Material::EndLoad()
 	{
 		ResourceCache* cache = Subsystem<ResourceCache>();
 		const JSONObject& jsonTextures = root["texturesMap"].GetObject();
-		Vector<AutoPtr<Image> > imageData;
+		Vector<Image*> imageData;
+		Vector<ImageLevel> faces;
 
 		for (auto it = jsonTextures.Begin(); it != jsonTextures.End(); ++it)
 			imageData.Push(cache->LoadResource<Image>(it->_second.GetString()));
 
-		Vector<ImageLevel> faces;
+		
 		for (int i = 0; i < MAX_CUBE_FACES; ++i)
 		{
 			faces.Push(imageData[i]->GetLevel(0));
