@@ -3,7 +3,6 @@
 #include "../Resource/Image.h"
 #include "../Graphics/Texture.h"
 #include "../Debug/Log.h"
-#include "SkyBox.h"
 
 #include "../Debug/DebugNew.h"
 
@@ -158,12 +157,6 @@ void Camera::SetFlipVertical(bool enable)
     _flipVertical = enable;
 }
 
-void Camera::SetSkyBox(SkyBox* skybox)
-{
-	if (_skyBox != skybox)
-		_skyBox = skybox;
-}
-
 float Camera::GetNearClip() const
 {
     // Orthographic camera has always near clip at 0 to avoid trouble with shader depth parameters,
@@ -182,13 +175,6 @@ Frustum Camera::GetWorldFrustum() const
         ret.DefineOrtho(_orthoSize, _aspectRatio, _zoom, GetNearClip(), _farClip, worldTransform);
 
     return ret;
-}
-
-SkyBox* Camera::Skybox()
-{
-	if (!_skyBox)
-		return nullptr;
-	return _skyBox;
 }
 
 Frustum Camera::WorldSplitFrustum(float nearClip, float farClip) const

@@ -24,7 +24,6 @@ struct __FaceCameraMode
 };
 using FaceCameraMode = __FaceCameraMode::_FaceCameraMode;
 
-class SkyBox;
 class Texture;
 
 /// Camera scene node.
@@ -73,8 +72,6 @@ public:
     void SetClipPlane(const Plane& plane);
     /// Set vertical flipping mode.
     void SetFlipVertical(bool enable);
-	/// Set sky box
-	void SetSkyBox(SkyBox* skybox);
     /// Return far clip distance.
     float GetFarClip() const { return _farClip; }
     /// Return near clip distance.
@@ -111,8 +108,6 @@ public:
     bool GetUseReverseCulling() const { return _flipVertical ^ _useReflection; }
     /// Return frustum in world space.
     Frustum GetWorldFrustum() const;
-	/// Return sky box
-	SkyBox* Skybox();
     /// Return world space frustum split by custom near and far clip distances.
     Frustum WorldSplitFrustum(float nearClip, float farClip) const;
     /// Return frustum in view space.
@@ -196,8 +191,6 @@ private:
     bool _useReflection;
     /// Use custom clip plane flag.
     bool _useClipping;
-	/// 
-	AutoPtr<SkyBox> _skyBox;
 };
 
 }

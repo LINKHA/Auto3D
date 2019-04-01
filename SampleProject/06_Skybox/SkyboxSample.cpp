@@ -20,15 +20,12 @@ void SkyboxSample::Start()
 	scene->CreateChild<Octree>();
 	camera = scene->CreateChild<Camera>();
 	camera->SetPosition(Vector3F(0.0f, 0.0f, 0.0f));
-	camera->SetAmbientColor(Color(1.0f,1.0f, 1.0f));
+	camera->SetAmbientColor(Color(0.1f, 0.1f, 0.1f));
 	// Register scene to scene system use to render
 	Object::Subsystem<RegisteredBox>()->RegisterScene(scene, camera);
 
-	StaticModel* skybox = camera->CreateChild<StaticModel>();
-	skybox->SetScale(Vector3F(1.0f, 1.0f, 1.0f));
-	skybox->SetModel(cache->LoadResource<Model>("Box.mdl"));
+	SkyBox* skybox = camera->CreateChild<SkyBox>();
 	skybox->SetMaterial(cache->LoadResource<Material>("SkyBox.json"));
-
 }
 void SkyboxSample::Update()
 {

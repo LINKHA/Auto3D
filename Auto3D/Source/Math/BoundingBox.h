@@ -44,16 +44,16 @@ public:
 	}
 
 	/// Construct from minimum and maximum vectors.
-	BoundingBox(const Vector3<float>& min_, const Vector3<float>& max_) :
-		_min(min_),
-		_max(max_)
+	BoundingBox(const Vector3<float>& min, const Vector3<float>& max) :
+		_min(min),
+		_max(max)
 	{
 	}
 
 	/// Construct from minimum and maximum floats (all dimensions same.)
-	BoundingBox(float min_, float max_) :
-		_min(Vector3<float>(min_, min_, min_)),
-		_max(Vector3<float>(max_, max_, max_))
+	BoundingBox(float min, float max) :
+		_min(Vector3<float>(min, min, min)),
+		_max(Vector3<float>(max, max, max))
 	{
 	}
 
