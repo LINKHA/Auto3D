@@ -63,7 +63,6 @@ private:
 
 	/// buffer data
 	SharedArrayPtr<signed char> _data;
-	//void* _data;
 	/// Loop start.
 	signed char* _repeat;
 	/// Sound data end.

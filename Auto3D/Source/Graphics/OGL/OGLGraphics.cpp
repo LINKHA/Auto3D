@@ -179,7 +179,29 @@ Graphics::~Graphics()
     Close();
     RemoveSubsystem(this);
 }
+void Graphics::CheckFeatureSupport()
+{
+	// Check supported features: light pre-pass, deferred rendering and hardware depth texture
+	_lightPrepassSupport = false;
+	_deferredSupport = false;
 
+	int numSupportedRTs = 1;
+
+	// Work around GLEW failure to check extensions properly from a GL3 context
+	_instancingSupport = glDrawElementsInstanced != nullptr && glVertexAttribDivisor != nullptr;
+	_dxtTextureSupport = true;
+	_anisotropySupport = true;
+	_sRGBSupport = true;
+	_sRGBWriteSupport = true;
+
+	glGetIntegerv(GL_MAX_COLOR_ATTACHMENTS, &numSupportedRTs);
+
+	// Must support 2 rendertargets for light pre-pass, and 4 for deferred
+	if (numSupportedRTs >= 2)
+		_lightPrepassSupport = true;
+	if (numSupportedRTs >= 4)
+		_deferredSupport = true;
+}
 bool Graphics::SetMode(const RectI& size,int multisample, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
 {
     // Changing multisample requires destroying the _window, as OpenGL pixel format can only be set once
@@ -231,6 +253,8 @@ bool Graphics::SetMode(const RectI& size,int multisample, bool fullscreen, bool 
 
     LogStringF("Set screen mode %dx%d fullscreen %d resizable %d multisample %d", _backbufferSize._x, _backbufferSize._y,
         IsFullscreen(), IsResizable(), _multisample);
+	/// Check freature support
+	CheckFeatureSupport();
 
     return true;
 }

@@ -51,7 +51,8 @@ public:
     Graphics();
     /// Destruct. Clean up the _window, rendering context and GPU objects.
     ~Graphics();
-
+	/// Check supported rendering features.
+	void CheckFeatureSupport();
     /// Set graphics mode. Create the _window and rendering context if not created yet. Return true on success.
     bool SetMode(const RectI& _size, int multisample = 1, bool fullscreen = false, bool resizable = false, bool center = true, bool borderless = false, bool highDPI = false);
     /// Set _fullscreen mode on/off while retaining previous resolution. The initial graphics mode must have been set first. Return true on success.
@@ -157,6 +158,19 @@ public:
     ShaderVariation* GetPixelShader() const { return _pixelShader; }
     /// Return the current renderstate.
     const RenderState& GetRenderState() const { return _renderState; }
+	/// Return whether hardware instancing is supported.
+	bool GetInstancingSupport() const { return _instancingSupport; }
+	/// Return whether light pre-pass rendering is supported.
+	bool GetLightPrepassSupport() const { return _lightPrepassSupport; }
+	/// Return whether deferred rendering is supported.
+	bool GetDeferredSupport() const { return _deferredSupport; }
+	/// Return whether anisotropic texture filtering is supported.
+	bool GetAnisotropySupport() const { return _anisotropySupport; }
+	/// Return whether sRGB conversion on texture sampling is supported.
+	bool GetSRGBSupport() const { return _sRGBSupport; }
+	/// Return whether sRGB conversion on rendertarget writing is supported.
+	bool GetSRGBWriteSupport() const { return _sRGBWriteSupport; }
+
 	/// Return the shader program
 	ShaderProgram* Shaderprogram() { return _shaderProgram; }
     /// Return number of supported constant buffer bindings for vertex shaders.
@@ -202,6 +216,20 @@ private:
     /// Reset internally tracked state.
     void ResetState();
 
+	/// Light pre-pass rendering support flag.
+	bool _lightPrepassSupport{};
+	/// Deferred rendering support flag.
+	bool _deferredSupport{};
+	/// Instancing support flag.
+	bool _instancingSupport{};
+	/// sRGB conversion on read support flag.
+	bool _sRGBSupport{};
+	/// sRGB conversion on write support flag.
+	bool _sRGBWriteSupport{};
+	/// Anisotropic filtering support flag.
+	bool _anisotropySupport{};
+	/// DXT format support flag.
+	bool _dxtTextureSupport{};
     /// OpenGL context.
     AutoPtr<GLContext> _context;
     /// OS-level rendering _window.
