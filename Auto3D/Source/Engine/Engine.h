@@ -39,6 +39,8 @@ public:
 	void SetPauseMinimized(bool enable);
 	/// Override timestep of the next frame. Should be called in between RunFrame() calls.
 	void SetNextTimeStep(float seconds);
+	/// Set whether to exit automatically on exit request (window close button.)
+	void SetAutoExit(bool enable);
 	/// Return whether to pause update events and audio when _minimized.
 	bool GetPauseMinimized() const { return _pauseMinimized; }
 	/// Get timestep of the next frame. Updated by ApplyFrameLimit().
@@ -51,9 +53,13 @@ public:
 	int GetMaxInactiveFps() const { return _maxInactiveFps; }
 	/// Return how many frames to average for timestep smoothing.
 	int GetTimeStepSmoothing() const { return _timeStepSmoothing; }
+	/// Return whether to exit automatically on exit request.
+	bool GetAutoExit() const { return _autoExit; }
 	/// Get the timestep for the next frame and sleep for frame limiting if necessary.
 	void ApplyFrameLimit();
 private:
+	/// Actually perform the exit actions.
+	void DoExit();
 	/// Manage the subsystem of all resource loads
 	UniquePtr<ResourceCache> _cache;
 	/// ADAPTS the low-level rendering interface as well as the form's rendering function
@@ -89,6 +95,8 @@ private:
 	bool _initialized;
 	/// Pause when _minimized flag.
 	bool _pauseMinimized;
+	/// Auto-exit flag.
+	bool _autoExit;
 	/// Previous timesteps for smoothing.
 	Vector<float> _lastTimeSteps;
 	/// Next frame timestep in seconds.

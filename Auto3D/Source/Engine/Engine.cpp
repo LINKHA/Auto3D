@@ -17,8 +17,9 @@ Engine::Engine():
 #else
 	_maxFps(200),
 	_maxInactiveFps(60),
-	_pauseMinimized(false)
+	_pauseMinimized(false),
 #endif
+	_autoExit(true)
 {
 	RegisterGraphicsLibrary();
 	RegisterResourceLibrary();
@@ -65,7 +66,10 @@ void Engine::Init()
 }
 void Engine::Exit()
 {
-
+	if (_autoExit)
+	{
+		DoExit();
+	}
 }
 
 void Engine::Render()
@@ -154,6 +158,15 @@ void Engine::SetNextTimeStep(float seconds)
 	_timeStep = Max(seconds, 0.0f);
 }
 
+void Engine::SetAutoExit(bool enable)
+{
+	// On mobile platforms exit is mandatory if requested by the platform itself and should not be attempted to be disabled
+#if defined(__ANDROID__) || defined(IOS) || defined(TVOS)
+	enable = true;
+#endif
+	_autoExit = enable;
+}
+
 void Engine::ApplyFrameLimit()
 {
 	if (!_initialized)
@@ -219,6 +232,15 @@ void Engine::ApplyFrameLimit()
 	}
 	else
 		_timeStep = _lastTimeSteps.Back();
+}
+
+void Engine::DoExit()
+{
+	auto* graphics = Subsystem<Graphics>();
+	if (graphics)
+		graphics->Close();
+
+	_exiting = true;
 }
 
 }
