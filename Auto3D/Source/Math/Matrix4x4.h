@@ -6,7 +6,7 @@
 namespace Auto3D
 {
 
-template<typename _Ty>class Matrix3x4;
+template<typename _Ty> class Matrix3x4;
 
 /// 4x4 matrix for arbitrary linear transforms including projection.
 template<typename _Ty> class AUTO_API Matrix4x4
