@@ -15,6 +15,7 @@ void Sample::Start()
 void Sample::Update()
 {
 	if (Object::Subsystem<Input>()->IsKeyPress(KEY_ESCAPE))
+		// Closing the render window responds to the engine closing
 		Object::Subsystem<Graphics>()->RenderWindow()->Close();
 }
 

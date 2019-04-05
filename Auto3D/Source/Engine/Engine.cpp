@@ -101,17 +101,14 @@ void Engine::Render()
 
 bool Engine::Update()
 {
-	auto* input = Subsystem<Input>();
-	auto* graphics = Subsystem<Graphics>();
-
 	_profiler->BeginFrame();
 	_time->Update();
 	_input->Update();
-	if (graphics->RenderWindow()->IsClose())
-		graphics->Close();
-	if (graphics->RenderWindow()->IsMinimized())
+	//If the window is minimized do not render
+	if (_graphics->RenderWindow()->IsMinimized())
 		return false;
-	if (!graphics->IsInitialized())
+	// If the window is not initialized successfully or shutdown engine is shutdown
+	if (!_graphics->IsInitialized() || _graphics->RenderWindow()->IsClose())
 	{
 		ShutDownEngine();
 		return false;
