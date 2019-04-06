@@ -216,10 +216,21 @@ bool Graphics::SetMode(const RectI& size,int multisample, bool fullscreen, bool 
             SendEvent(_contextLossEvent);
         }
 
-        if (!_window->SetSize(size, multisample, fullscreen, resizable, center, borderless, highDPI))
-            return false;
+		if (!_window->InitMsg())
+		{
+			ErrorString("Failed to initialize the form");
+			return false;
+		}
+		if (!_window->SetSize(size, multisample, fullscreen, resizable, center, borderless, highDPI))
+		{
+			ErrorString("Failed to create form");
+			return false;
+		}
         if (!CreateContext(multisample))
-            return false;
+		{
+			ErrorString("Context creation failed");
+			return false;
+		}
 		
         if (recreate)
         {
@@ -235,8 +246,11 @@ bool Graphics::SetMode(const RectI& size,int multisample, bool fullscreen, bool 
     else
     {
         // If no context creation, just need to resize the _window
-        if (!_window->SetSize(size, fullscreen, resizable, center, borderless, highDPI))
-            return false;
+		if (!_window->SetSize(size, fullscreen, resizable, center, borderless, highDPI))
+		{
+			ErrorString("Failed to create form");
+			return false;
+		}
     }
 
     _backbufferSize = _window->GetSize();

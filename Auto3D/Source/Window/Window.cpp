@@ -38,8 +38,22 @@ Window::Window() :
 {
 	RegisterSubsystem(this);
 
+
+}
+
+Window::~Window()
+{
+	Close();
+	RemoveSubsystem(this);
+}
+
+bool Window::InitMsg()
+{
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	{
 		ErrorString("Couldn't initialize SDL");
+		return false;
+	}
 	atexit(SDL_Quit);
 	SDL_GL_LoadLibrary(NULL);
 
@@ -51,13 +65,9 @@ Window::Window() :
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
+	return true;
 }
 
-Window::~Window()
-{
-	Close();
-	RemoveSubsystem(this);
-}
 void Window::SetTitle(const String& newTitle)
 {
 	_title = newTitle;

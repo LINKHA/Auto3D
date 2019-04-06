@@ -32,7 +32,8 @@ public:
 	Window();
 	/// Destruct. Close _window if open.
 	~Window();
-
+	/// Initializes the context version and its support
+	bool InitMsg();
 	/// Set window title.
 	void SetTitle(const String& newTitle);
 	/// Set window icon
