@@ -34,6 +34,8 @@ public:
 	~Window();
 	/// Initializes the context version and its support
 	bool InitMsg();
+	/// Delete game window and if OpenGL delete context
+	void DestoryWindow();
 	/// Set window title.
 	void SetTitle(const String& newTitle);
 	/// Set window icon

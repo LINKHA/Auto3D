@@ -187,7 +187,7 @@ void Graphics::CheckFeatureSupport()
 
 	int numSupportedRTs = 1;
 
-	// Work around GLEW failure to check extensions properly from a GL3 context
+	// Work around glad failure to check extensions properly from a GL3 context
 	_instancingSupport = glDrawElementsInstanced != nullptr && glVertexAttribDivisor != nullptr;
 	_dxtTextureSupport = true;
 	_anisotropySupport = true;

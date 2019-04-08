@@ -73,6 +73,19 @@ void Window::SetTitle(const String& newTitle)
 	_title = newTitle;
 }
 
+void Window::DestoryWindow()
+{
+	if (_handle)
+	{
+		SDL_DestroyWindow(_handle);
+		_handle = nullptr;
+	}
+	else
+		ErrorString("Destroy window operation failed and exiting program");
+
+	SDL_Quit();
+}
+
 void Window::SetIcon(Image* icon)
 {
 	_icon = icon;
@@ -148,7 +161,6 @@ void Window::SetPosition(const Vector2I& position)
 {
 	if (_handle)
 	{
-
 		SDL_SetWindowPosition(_handle, position._x, position._y);
 	}
 }
