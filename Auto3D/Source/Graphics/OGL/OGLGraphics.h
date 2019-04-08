@@ -206,7 +206,7 @@ public:
 
 private:
     /// Create and initialize the OpenGL context. Return true on success.
-    bool CreateContext(int multisample);
+    bool CreateContext(Window* window,int multisample);
     /// Handle _window resize _event.
     void HandleResize(WindowResizeEvent& event);
     /// Prepare framebuffer changes.

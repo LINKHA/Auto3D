@@ -213,6 +213,9 @@ bool Graphics::SetMode(const RectI& size,int multisample, bool fullscreen, bool 
         {
             recreate = true;
             Close();
+			if(_window)
+				_window->DestoryWindow();
+
             SendEvent(_contextLossEvent);
         }
 
@@ -226,7 +229,7 @@ bool Graphics::SetMode(const RectI& size,int multisample, bool fullscreen, bool 
 			ErrorString("Failed to create form");
 			return false;
 		}
-        if (!CreateContext(multisample))
+		if (!CreateContext(_window, multisample)) 
 		{
 			ErrorString("Context creation failed");
 			return false;
@@ -245,7 +248,7 @@ bool Graphics::SetMode(const RectI& size,int multisample, bool fullscreen, bool 
     }
     else
     {
-        // If no context creation, just need to resize the _window
+		// If no context creation, just need to resize the _window
 		if (!_window->SetSize(size, fullscreen, resizable, center, borderless, highDPI))
 		{
 			ErrorString("Failed to create form");
@@ -842,9 +845,10 @@ void Graphics::BindUBO(unsigned ubo)
     }
 }
 
-bool Graphics::CreateContext(int multisample)
+bool Graphics::CreateContext(Window* window, int multisample)
 {
-    _context = new GLContext(_window);
+	// Create or recreate
+    _context = new GLContext(window);
 
     if (!_context->Create())
     {

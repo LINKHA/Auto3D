@@ -43,7 +43,9 @@ Window::Window() :
 
 Window::~Window()
 {
-	Close();
+	// Really destroy the game form
+	DestoryWindow();
+
 	RemoveSubsystem(this);
 }
 
@@ -79,11 +81,10 @@ void Window::DestoryWindow()
 	{
 		SDL_DestroyWindow(_handle);
 		_handle = nullptr;
+		SDL_Quit();
 	}
 	else
 		ErrorString("Destroy window operation failed and exiting program");
-
-	SDL_Quit();
 }
 
 void Window::SetIcon(Image* icon)
