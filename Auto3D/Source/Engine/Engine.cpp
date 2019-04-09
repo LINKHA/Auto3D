@@ -92,8 +92,6 @@ void Engine::Render()
 	for (auto it = _registeredBox->GetCanvases().Begin(); it != _registeredBox->GetCanvases().End(); it++)
 	{
 		_ui->Render((*it)._first, (*it)._second);
-		// Update camera aspect ratio based on window size
-		//(*it).second->SetAspectRatio((float)Subsystem<Graphics>()->GetWidth() / (float)Subsystem<Graphics>()->GetHeight());
 	}
 	_graphics->Present();
 }

@@ -89,8 +89,9 @@ void Window::DestoryWindow()
 
 void Window::SetIcon(Image* icon)
 {
-	_icon = icon;
-	if (_handle)
+	if(icon)
+		_icon = icon;
+	if (_handle && _icon)
 		CreateWindowIcon();
 }
 

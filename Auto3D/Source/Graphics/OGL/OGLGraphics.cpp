@@ -204,6 +204,8 @@ void Graphics::CheckFeatureSupport()
 }
 bool Graphics::SetMode(const RectI& size,int multisample, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
 {
+	// Ensure that MSAA between 1~16
+	Clamp(multisample, 1, 16);
     // Changing multisample requires destroying the _window, as OpenGL pixel format can only be set once
     if (!_context || multisample != _multisample)
     {
