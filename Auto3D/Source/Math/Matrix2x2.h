@@ -132,6 +132,27 @@ public:
 		_m00 = scale;
 		_m11 = scale;
 	}
+	/// Parse from a string. Return true on success.
+	bool FromString(const String& str)
+	{
+		return FromString(str.CString());
+	}
+
+	/// Parse from a C string. Return true on success.
+	bool FromString(const char* str)
+	{
+		size_t elements = String::CountElements(str, ' ');
+		if (elements < 4)
+			return false;
+
+		char* ptr = (char*)str;
+		_m00 = (float)strtod(ptr, &ptr);
+		_m01 = (float)strtod(ptr, &ptr);
+		_m10 = (float)strtod(ptr, &ptr);
+		_m11 = (float)strtod(ptr, &ptr);
+
+		return true;
+	}
 
 	/// Return the scaling part.
 	Vector2<_Ty> Scale() const

@@ -29,6 +29,7 @@ struct __AttributeType
 		COLOR,
 		RECT,
 		BOUNDINGBOX,
+		MATRIX2,
 		MATRIX3,
 		MATRIX3X4,
 		MATRIX4,

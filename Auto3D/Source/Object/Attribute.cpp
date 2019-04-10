@@ -5,6 +5,8 @@
 #include "../Math/Color.h"
 #include "../Math/Rect.h"
 #include "../Math/Matrix3x4.h"
+#include "../Math/Matrix2x2.h"
+
 #include "Attribute.h"
 
 #include "../Debug/DebugNew.h"
@@ -28,6 +30,7 @@ const String Attribute::typeNames[] =
     "Color",
     "Rect",
     "BoundingBox",
+	"Matrix2",
     "Matrix3",
     "Matrix3x4",
     "Matrix4",
@@ -55,6 +58,7 @@ const size_t Attribute::byteSizes[] =
     sizeof(Color),
     sizeof(RectF),
     sizeof(BoundingBox),
+	sizeof(Matrix2x2F),
     sizeof(Matrix3x3F),
     sizeof(Matrix3x4F),
     sizeof(Matrix4x4F),
@@ -191,6 +195,10 @@ void Attribute::FromJSON(AttributeType type, void* dest, const JSONValue& source
     case AttributeType::BOUNDINGBOX:
         reinterpret_cast<RectF*>(dest)->FromString(source.GetString());
         break;
+
+	case AttributeType::MATRIX2:
+		reinterpret_cast<Matrix2x2F*>(dest)->FromString(source.GetString());
+		break;
 
     case AttributeType::MATRIX3:
         reinterpret_cast<Matrix3x3F*>(dest)->FromString(source.GetString());
