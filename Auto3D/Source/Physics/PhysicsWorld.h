@@ -30,6 +30,8 @@ public:
 	~PhysicsWorld();
 	/// Register factory and attributes.
 	static void RegisterObject();
+
+	void Update();
 	/// Set fps
 	void SetFPS(int fps);
 	/// Return 3d dynamics world
@@ -52,19 +54,16 @@ public:
 	Vector<Collider*> GetColliders() { return _colliders; }
 	/// Get constraints (VECTOR<SharedPtr<Constraint> >)
 	Vector<Constraint*> GetConstraints() { return _constraints; }*/
-private:
-	/**
-	/// Delete collision shapes
-	*/
-	void deleteColliders();
-public:
+
 	/// Overrides of the internal configuration
 	static struct PhysicsWorldConfig config;
 private:
+	/// Delete collision shapes
+	void DeleteColliders();
 	/// FPS
 	unsigned _fps{ DEFAULT_FPS };
 	/// Time system
-	AutoPtr<Time> time;
+	WeakPtr<Time> _time;
 	/// Bullet collision configuration
 	btCollisionConfiguration* _collisionConfiguration{};
 	/// Bullet collision dispatcher
