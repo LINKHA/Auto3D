@@ -385,7 +385,6 @@ inline String operator + (const wchar_t* lhs, const String& rhs)
     return ret;
 }
 
-
 /// Convert a char to uppercase.
 inline char ToUpper(char c) { return (c >= 'a' && c <= 'z') ? c - 0x20 : c; }
 /// Convert a char to lowercase.
