@@ -188,14 +188,14 @@ bool Model::BeginLoad(Stream& source)
         if (boneCollisionType & 1)
             bone._radius = source.Read<float>();
         if (boneCollisionType & 2)
-            bone._boundingBox = source.Read<BoundingBox>();
+            bone._boundingBox = source.Read<BoundingBoxF>();
 
         if (bone._parentIndex == i)
             _rootBoneIndex = i;
     }
 
     // Read bounding box
-    _boundingBox = source.Read<BoundingBox>();
+    _boundingBox = source.Read<BoundingBoxF>();
 
     return true;
 }
@@ -286,7 +286,7 @@ void Model::SetNumLodLevels(size_t index, size_t num)
     }
 }
 
-void Model::SetLocalBoundingBox(const BoundingBox& box)
+void Model::SetLocalBoundingBox(const BoundingBoxF& box)
 {
     _boundingBox = box;
 }

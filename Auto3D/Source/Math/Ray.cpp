@@ -44,7 +44,7 @@ float Ray::HitDistance(const Plane& plane) const
         return M_INFINITY;
 }
 
-float Ray::HitDistance(const BoundingBox& box) const
+float Ray::HitDistance(const BoundingBox<float>& box) const
 {
     // Check for ray origin being inside the box
     if (box.IsInside(_origin))

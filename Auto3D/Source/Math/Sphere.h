@@ -5,7 +5,7 @@
 namespace Auto3D
 {
 
-class BoundingBox;
+template<typename _Ty> class BoundingBox;
 class Polyhedron;
 class Frustum;
 
@@ -46,7 +46,7 @@ public:
     }
     
     /// Construct from a bounding box.
-    Sphere(const BoundingBox& box)
+    Sphere(const BoundingBoxF& box)
     {
         Define(box);
     }
@@ -93,7 +93,7 @@ public:
     /// Define from an array of vertices.
     void Define(const Vector3F* vertices, size_t count);
     /// Define from a bounding box.
-    void Define(const BoundingBox& box);
+    void Define(const BoundingBoxF& box);
     /// Define from a frustum.
     void Define(const Frustum& frustum);
     /// Define from a polyhedron.
@@ -130,7 +130,7 @@ public:
     /// Merge an array of vertices.
     void Merge(const Vector3F* vertices, size_t count);
     /// Merge a bounding box.
-    void Merge(const BoundingBox& box);
+    void Merge(const BoundingBoxF& box);
     /// Merge a frustum.
     void Merge(const Frustum& frustum);
     /// Merge a polyhedron.
@@ -176,9 +176,9 @@ public:
     }
     
     /// Test if a bounding box is inside, outside or intersects.
-    Intersection IsInside(const BoundingBox& box) const;
+    Intersection IsInside(const BoundingBoxF& box) const;
     /// Test if a bounding box is (partially) inside or outside.
-    Intersection IsInsideFast(const BoundingBox& box) const;
+    Intersection IsInsideFast(const BoundingBoxF& box) const;
     
     /// Return distance of a point to the surface, or 0 if inside.
     float Distance(const Vector3F& point) const { return Max((point - _center).Length() - _radius, 0.0f); }

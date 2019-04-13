@@ -335,7 +335,7 @@ void Light::SetupShadowViews(Camera* mainCamera, Vector<AutoPtr<ShadowView> >& s
                 Frustum lightViewFrustum = splitFrustum.Transformed(lightView);
 
                 // Fit the frustum inside a bounding box
-                BoundingBox shadowBox;
+                BoundingBoxF shadowBox;
                 shadowBox.Define(lightViewFrustum);
 
                 // If shadow camera is far away from the frustum, can bring it closer for better depth precision

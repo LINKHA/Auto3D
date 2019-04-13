@@ -57,7 +57,7 @@ const size_t Attribute::byteSizes[] =
     sizeof(Quaternion),
     sizeof(Color),
     sizeof(RectF),
-    sizeof(BoundingBox),
+    sizeof(BoundingBoxF),
 	sizeof(Matrix2x2F),
     sizeof(Matrix3x3F),
     sizeof(Matrix3x4F),
@@ -294,7 +294,7 @@ void Attribute::ToJSON(AttributeType type, JSONValue& dest, const void* source)
         break;
 
     case AttributeType::BOUNDINGBOX:
-        dest = reinterpret_cast<const BoundingBox*>(source)->ToString();
+        dest = reinterpret_cast<const BoundingBoxF*>(source)->ToString();
         break;
 
     case AttributeType::MATRIX3:
@@ -399,7 +399,7 @@ template<> AUTO_API AttributeType AttributeImpl<Color>::Type() const
     return AttributeType::COLOR;
 }
 
-template<> AUTO_API AttributeType AttributeImpl<BoundingBox>::Type() const
+template<> AUTO_API AttributeType AttributeImpl<BoundingBoxF>::Type() const
 {
     return AttributeType::BOUNDINGBOX;
 }

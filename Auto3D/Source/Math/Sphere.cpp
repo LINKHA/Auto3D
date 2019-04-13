@@ -15,7 +15,7 @@ void Sphere::Define(const Vector3F* vertices, size_t count)
     Merge(vertices, count);
 }
 
-void Sphere::Define(const BoundingBox& box)
+void Sphere::Define(const BoundingBoxF& box)
 {
     const Vector3F& min = box._min;
     const Vector3F& max = box._max;
@@ -48,7 +48,7 @@ void Sphere::Merge(const Vector3F* vertices, size_t count)
         Merge(*vertices++);
 }
 
-void Sphere::Merge(const BoundingBox& box)
+void Sphere::Merge(const BoundingBoxF& box)
 {
     const Vector3F& min = box._min;
     const Vector3F& max = box._max;
@@ -113,7 +113,7 @@ void Sphere::Merge(const Sphere& sphere)
     }
 }
 
-Intersection Sphere::IsInside(const BoundingBox& box) const
+Intersection Sphere::IsInside(const BoundingBoxF& box) const
 {
     float radiusSquared = _radius * _radius;
     float distSquared = 0;
@@ -186,7 +186,7 @@ Intersection Sphere::IsInside(const BoundingBox& box) const
     return INSIDE;
 }
 
-Intersection Sphere::IsInsideFast(const BoundingBox& box) const
+Intersection Sphere::IsInsideFast(const BoundingBoxF& box) const
 {
     float radiusSquared = _radius * _radius;
     float distSquared = 0;

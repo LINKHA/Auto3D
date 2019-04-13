@@ -6,7 +6,7 @@
 namespace Auto3D
 {
 
-class BoundingBox;
+template<typename _Ty> class BoundingBox;
 class Frustum;
 class Plane;
 class Sphere;
@@ -80,7 +80,7 @@ public:
     /// Return hit distance to a plane, or infinity if no hit.
     float HitDistance(const Plane& plane) const;
     /// Return hit distance to a bounding box, or infinity if no hit.
-    float HitDistance(const BoundingBox& box) const;
+    float HitDistance(const BoundingBox<float>& box) const;
     /// Return hit distance to a frustum, or infinity if no hit. If solidInside parameter is true (default) rays originating from inside return zero distance, otherwise the distance to the closest plane.
     float HitDistance(const Frustum& frustum, bool solidInside = true) const;
     /// Return hit distance to a sphere, or infinity if no hit.

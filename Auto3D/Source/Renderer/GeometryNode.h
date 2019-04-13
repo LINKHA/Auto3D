@@ -138,7 +138,7 @@ public:
     /// Set material at geometry index.
     void SetMaterial(size_t index, Material* material);
     /// Set local space bounding box.
-    void SetLocalBoundingBox(const BoundingBox& box);
+    void SetLocalBoundingBox(const BoundingBoxF& box);
 
     /// Return geometry type.
     GeometryType GetGeometryType() const { return _geometryType; }
@@ -151,7 +151,7 @@ public:
     /// Return source information for all draw calls.
     const Vector<SourceBatch>& GetBatches() const { return _batches; }
     /// Return local space bounding box.
-    const BoundingBox& GetLocalBoundingBox() const { return _boundingBox; }
+    const BoundingBoxF& GetLocalBoundingBox() const { return _boundingBox; }
 
     /// Set new light list. Called by Renderer.
     void SetLightList(LightList* list) { _lightList = list; }
@@ -173,7 +173,7 @@ protected:
     /// Draw call source datas.
     Vector<SourceBatch> _batches;
     /// Local space bounding box.
-    BoundingBox _boundingBox;
+    BoundingBoxF _boundingBox;
 };
 
 class AUTO_API UIGeometryNode : public UISpatialNode

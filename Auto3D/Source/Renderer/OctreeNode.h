@@ -37,7 +37,7 @@ public:
     void SetCastShadows(bool enable);
     
     /// Return world space bounding box. Update if necessary.
-    const BoundingBox& WorldBoundingBox() const { if (TestFlag(NF_BOUNDING_BOX_DIRTY)) OnWorldBoundingBoxUpdate(); return _worldBoundingBox; }
+    const BoundingBoxF& WorldBoundingBox() const { if (TestFlag(NF_BOUNDING_BOX_DIRTY)) OnWorldBoundingBoxUpdate(); return _worldBoundingBox; }
     /// Return whether casts shadows.
     bool CastShadows() const { return TestFlag(NF_CASTSHADOWS); }
     /// Return current octree this node resides in.
@@ -58,7 +58,7 @@ protected:
     virtual void OnWorldBoundingBoxUpdate() const;
 
     /// World space bounding box.
-    mutable BoundingBox _worldBoundingBox;
+    mutable BoundingBoxF _worldBoundingBox;
     /// Distance from camera in the current view.
     float _distance;
     /// Last frame number when was visible.

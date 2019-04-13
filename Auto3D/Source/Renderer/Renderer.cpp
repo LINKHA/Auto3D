@@ -299,7 +299,7 @@ void Renderer::CollectLightInteractions()
                 // Check which lit geometries are shadow casters and inside each shadow frustum. First check whether the
                 // shadow frustum is inside the view at all
                 /// \todo Could use a frustum-frustum test for more accuracy
-                if (_frustum.IsInsideFast(BoundingBox(shadowFrustum)))
+                if (_frustum.IsInsideFast(BoundingBoxF(shadowFrustum)))
                     CollectShadowBatches(_litGeometries, shadowQueue, shadowFrustum, true, true);
                 break;
 

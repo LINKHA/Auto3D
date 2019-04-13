@@ -71,7 +71,7 @@ void StaticModel::SetModel(Model* model)
     if (!_model)
     {
         SetNumGeometries(0);
-        SetLocalBoundingBox(BoundingBox(0.0f, 0.0f));
+        SetLocalBoundingBox(BoundingBoxF(0.0f, 0.0f));
         return;
     }
 

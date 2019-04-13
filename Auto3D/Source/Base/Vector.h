@@ -305,7 +305,7 @@ public:
             
             if (newCapacity)
             {
-                newBuffer = AllocateBuffer(newCapacity * sizeof(_Ty));
+                newBuffer = AllocateBuffer(newgithubCapacity * sizeof(_Ty));
                 // Move the data into the new buffer
                 // This assumes the elements are safe to move without copy-constructing and deleting the old elements;
                 // ie. they should not contain pointers to self, or interact with outside objects in their constructors

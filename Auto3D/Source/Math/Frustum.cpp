@@ -87,7 +87,7 @@ void Frustum::Define(const Vector3F& near, const Vector3F& far, const Matrix3x4F
     UpdatePlanes();
 }
 
-void Frustum::Define(const BoundingBox& box, const Matrix3x4F& transform)
+void Frustum::Define(const BoundingBoxF& box, const Matrix3x4F& transform)
 {
     _vertices[0] = transform * Vector3F(box._max._x, box._max._y, box._min._z);
     _vertices[1] = transform * Vector3F(box._max._x, box._min._y, box._min._z);

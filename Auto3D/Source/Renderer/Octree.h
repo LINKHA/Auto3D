@@ -36,16 +36,16 @@ struct AUTO_API Octant
     Octant();
    
     /// Initialize parent and bounds.
-    void Initialize(Octant* parent, const BoundingBox& boundingBox, int level);
+    void Initialize(Octant* parent, const BoundingBoxF& boundingBox, int level);
     /// Test if a node should be inserted in this octant or if a smaller child octant should be created.
-    bool FitBoundingBox(const BoundingBox& box, const Vector3F& boxSize) const;
+    bool FitBoundingBox(const BoundingBoxF& box, const Vector3F& boxSize) const;
     /// Return child octant index based on _position.
     size_t ChildIndex(const Vector3F& position) const { size_t ret = position._x < _center._x ? 0 : 1; ret += position._y < _center._y ? 0 : 2; ret += position._z < _center._z ? 0 : 4; return ret; }
     
     /// Expanded (loose) bounding box used for culling the octant and the nodes within it.
-    BoundingBox _cullingBox;
+    BoundingBoxF _cullingBox;
     /// Actual bounding box of the octant.
-    BoundingBox _worldBoundingBox;
+    BoundingBoxF _worldBoundingBox;
     /// Bounding box center.
     Vector3F _center;
     /// Bounding box half _size.
@@ -79,7 +79,7 @@ public:
     /// Process the queue of nodes to be reinserted.
     void Update();
     /// Resize octree.
-    void Resize(const BoundingBox& boundingBox, int numLevels);
+    void Resize(const BoundingBoxF& boundingBox, int numLevels);
     /// Remove a node from the octree.
     void RemoveNode(OctreeNode* node);
     /// Queue a reinsertion for a node.
@@ -114,9 +114,9 @@ public:
 
 private:
     /// Set bounding box. Used in serialization.
-    void SetBoundingBoxAttr(const BoundingBox& boundingBox);
+    void SetBoundingBoxAttr(const BoundingBoxF& boundingBox);
     /// Return bounding box. Used in serialization.
-    const BoundingBox& BoundingBoxAttr() const;
+    const BoundingBoxF& BoundingBoxAttr() const;
     /// Set number of levels. Used in serialization.
     void SetNumLevelsAttr(int numLevels);
     /// Return number of levels. Used in serialization.

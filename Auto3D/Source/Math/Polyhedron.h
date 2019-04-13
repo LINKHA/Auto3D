@@ -6,10 +6,10 @@
 namespace Auto3D
 {
 
-class BoundingBox;
-class Frustum;
+template<typename _Ty> class BoundingBox;
 template<typename _Ty> class Matrix3x3;
 template<typename _Ty> class Matrix4x4;
+class Frustum;
 class Plane;
 
 /// A convex volume built from polygon faces.
@@ -26,14 +26,14 @@ public:
     /// Construct from a list of faces.
     Polyhedron(const Vector<Vector<Vector3F> >& faces);
     /// Construct from a bounding box.
-    Polyhedron(const BoundingBox& box);
+    Polyhedron(const BoundingBoxF& box);
     /// Construct from a frustum.
     Polyhedron(const Frustum& frustum);
     /// Destruct.
     ~Polyhedron();
     
     /// Define from a bounding box.
-    void Define(const BoundingBox& box);
+    void Define(const BoundingBoxF& box);
     /// Define from a frustum.
     void Define(const Frustum& frustum);
     /// Add a triangle face.
@@ -47,7 +47,7 @@ public:
     /// Clip with a plane.
     void Clip(const Plane& plane);
     /// Clip with a bounding box.
-    void Clip(const BoundingBox& box);
+    void Clip(const BoundingBoxF& box);
     /// Clip with a frustum.
     void Clip(const Frustum& box);
     /// Clear all faces.

@@ -48,7 +48,7 @@ public:
     /// Define with near and far dimension vectors and a transform matrix.
     void Define(const Vector3F& near, const Vector3F& far, const Matrix3x4F& transform = Matrix3x4F::IDENTITY);
     /// Define with a bounding box and a transform matrix.
-    void Define(const BoundingBox& box, const Matrix3x4F& transform = Matrix3x4F::IDENTITY);
+    void Define(const BoundingBoxF& box, const Matrix3x4F& transform = Matrix3x4F::IDENTITY);
     /// Define with orthographic projection parameters and a transform matrix.
     void DefineOrtho(float orthoSize, float aspectRatio, float zoom, float nearZ, float farZ, const Matrix3x4F& transform = Matrix3x4F::IDENTITY);
     /// Transform by a 3x3 matrix.
@@ -97,7 +97,7 @@ public:
     }
     
     /// Test if a bounding box is inside, outside or intersects.
-    Intersection IsInside(const BoundingBox& box) const
+    Intersection IsInside(const BoundingBoxF& box) const
     {
         Vector3F center = box.Center();
         Vector3F edge = center - box._min;
@@ -119,7 +119,7 @@ public:
     }
     
     /// Test if a bounding box is (partially) inside or outside.
-    Intersection IsInsideFast(const BoundingBox& box) const
+    Intersection IsInsideFast(const BoundingBoxF& box) const
     {
         Vector3F center = box.Center();
         Vector3F edge = center - box._min;

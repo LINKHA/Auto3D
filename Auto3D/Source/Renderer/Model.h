@@ -34,7 +34,7 @@ struct AUTO_API Bone
     /// Collision radius.
     float _radius;
     /// Collision bounding box.
-    BoundingBox _boundingBox;
+    BoundingBoxF _boundingBox;
     /// Parent bone index.
     size_t _parentIndex;
     /// Associated scene node.
@@ -67,7 +67,7 @@ public:
     /// Set number of LOD levels in a geometry.
     void SetNumLodLevels(size_t index, size_t num);
     /// Set local space bounding box.
-    void SetLocalBoundingBox(const BoundingBox& box);
+    void SetLocalBoundingBox(const BoundingBoxF& box);
     /// Set bones.
     void SetBones(const Vector<Bone>& bones, size_t rootBoneIndex);
     /// Set per-geometry bone mappings.
@@ -82,7 +82,7 @@ public:
     /// Return the LOD geometries at batch index.
     const Vector<SharedPtr<Geometry> >& GetLodGeometries(size_t index) const { return _geometries[index]; }
     /// Return the local space bounding box.
-    const BoundingBox& GetLocalBoundingBox() const { return _boundingBox; }
+    const BoundingBoxF& GetLocalBoundingBox() const { return _boundingBox; }
     /// Return the model's bones.
     const Vector<Bone>& GetBones() const { return _bones; }
     /// Return the root bone index.
@@ -94,7 +94,7 @@ private:
     /// Geometry LOD levels.
     Vector<Vector<SharedPtr<Geometry> > > _geometries;
     /// Local space bounding box.
-    BoundingBox _boundingBox;
+    BoundingBoxF _boundingBox;
     /// %Model's bones.
     Vector<Bone> _bones;
     /// Root bone index.

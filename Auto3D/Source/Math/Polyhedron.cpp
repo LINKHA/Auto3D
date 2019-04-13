@@ -20,7 +20,7 @@ Polyhedron::Polyhedron(const Vector<Vector<Vector3F> >& faces) :
 {
 }
 
-Polyhedron::Polyhedron(const BoundingBox& box)
+Polyhedron::Polyhedron(const BoundingBoxF& box)
 {
     Define(box);
 }
@@ -34,7 +34,7 @@ Polyhedron::~Polyhedron()
 {
 }
 
-void Polyhedron::Define(const BoundingBox& box)
+void Polyhedron::Define(const BoundingBoxF& box)
 {
     Vector3F vertices[8];
     vertices[0] = box._min;
@@ -220,7 +220,7 @@ void Polyhedron::Clip(const Frustum& frustum)
         Clip(frustum._planes[i], clippedVertices, outFace);
 }
 
-void Polyhedron::Clip(const BoundingBox& box)
+void Polyhedron::Clip(const BoundingBoxF& box)
 {
     Vector<Vector3F> clippedVertices;
     Vector<Vector3F> outFace;

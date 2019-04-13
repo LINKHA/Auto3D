@@ -31,17 +31,17 @@ Octant::Octant() :
         _children[i] = nullptr;
 }
 
-void Octant::Initialize(Octant* parent, const BoundingBox& boundingBox, int level)
+void Octant::Initialize(Octant* parent, const BoundingBoxF& boundingBox, int level)
 {
     _worldBoundingBox = boundingBox;
     _center = _worldBoundingBox.Center();
     _halfSize = _worldBoundingBox.HalfSize();
-    _cullingBox = BoundingBox(_worldBoundingBox._min - _halfSize, _worldBoundingBox._max + _halfSize);
+    _cullingBox = BoundingBoxF(_worldBoundingBox._min - _halfSize, _worldBoundingBox._max + _halfSize);
     _level = level;
     _parent = parent;
 }
 
-bool Octant::FitBoundingBox(const BoundingBox& box, const Vector3F& boxSize) const
+bool Octant::FitBoundingBox(const BoundingBoxF& box, const Vector3F& boxSize) const
 {
     // If max split level, _size always OK, otherwise check that box is at least half _size of octant
     if (_level <= 1 || boxSize._x >= _halfSize._x || boxSize._y >= _halfSize._y || boxSize._z >= _halfSize._z)
@@ -61,7 +61,7 @@ bool Octant::FitBoundingBox(const BoundingBox& box, const Vector3F& boxSize) con
 
 Octree::Octree()
 {
-    _root.Initialize(nullptr, BoundingBox(-DEFAULT_OCTREE_SIZE, DEFAULT_OCTREE_SIZE), DEFAULT_OCTREE_LEVELS);
+    _root.Initialize(nullptr, BoundingBoxF(-DEFAULT_OCTREE_SIZE, DEFAULT_OCTREE_SIZE), DEFAULT_OCTREE_LEVELS);
 }
 
 Octree::~Octree()
@@ -90,7 +90,7 @@ void Octree::Update()
             node->SetFlag(NF_OCTREE_UPDATE_QUEUED, false);
 
             // Do nothing if still fits the current octant
-            const BoundingBox& box = node->WorldBoundingBox();
+            const BoundingBoxF& box = node->WorldBoundingBox();
             Vector3F boxSize = box.Size();
             Octant* oldOctant = node->_octant;
 
@@ -131,7 +131,7 @@ void Octree::Update()
     _updateQueue.Clear();
 }
 
-void Octree::Resize(const BoundingBox& boundingBox, int numLevels)
+void Octree::Resize(const BoundingBoxF& boundingBox, int numLevels)
 {
     PROFILE(ResizeOctree);
 
@@ -221,12 +221,12 @@ RaycastResult Octree::RaycastSingle(const Ray& ray, unsigned short nodeFlags, fl
     }
 }
 
-void Octree::SetBoundingBoxAttr(const BoundingBox& boundingBox)
+void Octree::SetBoundingBoxAttr(const BoundingBoxF& boundingBox)
 {
     _root._worldBoundingBox = boundingBox;
 }
 
-const BoundingBox& Octree::BoundingBoxAttr() const
+const BoundingBoxF& Octree::BoundingBoxAttr() const
 {
     return _root._worldBoundingBox;
 }
@@ -296,7 +296,7 @@ Octant* Octree::CreateChildOctant(Octant* octant, size_t index)
         newMax._z = oldCenter._z;
 
     Octant* child = _allocator.Allocate();
-    child->Initialize(octant, BoundingBox(newMin, newMax), octant->_level - 1);
+    child->Initialize(octant, BoundingBoxF(newMin, newMax), octant->_level - 1);
     octant->_children[index] = child;
 
     return child;
