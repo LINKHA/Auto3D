@@ -36,7 +36,7 @@ public:
 	/// Construct
 	Collider();
 	/// Destructor
-	~Collider();
+	virtual ~Collider();
 	/// Register object factory.
 	static void RegisterObject();
 	/// Get parent compound shape

@@ -8,7 +8,6 @@ namespace Auto3D
 Timer::Timer(TimerCallback callback, int interval)
 {
 	Timer(callback, interval, 0, 0);
-
 }
 
 Timer::Timer(std::function<void()> callback, int interval)
