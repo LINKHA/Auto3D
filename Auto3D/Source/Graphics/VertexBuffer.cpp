@@ -7,7 +7,7 @@
 namespace Auto3D
 {
 
-bool VertexBuffer::Define(ResourceUsage usage, size_t numVertices, const Vector<VertexElement>& elements, bool useShadowData, const void* _data)
+bool VertexBuffer::Define(ResourceUsage::Type usage, size_t numVertices, const Vector<VertexElement>& elements, bool useShadowData, const void* _data)
 {
     if (!numVertices || !elements.Size())
     {
@@ -18,7 +18,7 @@ bool VertexBuffer::Define(ResourceUsage usage, size_t numVertices, const Vector<
     return Define(usage, numVertices, elements.Size(), &elements[0], useShadowData, _data);
 }
 
-bool VertexBuffer::Define(ResourceUsage usage, size_t numVertices, size_t numElements, const VertexElement* elements, bool useShadowData, const void* _data)
+bool VertexBuffer::Define(ResourceUsage::Type usage, size_t numVertices, size_t numElements, const VertexElement* elements, bool useShadowData, const void* _data)
 {
     PROFILE(DefineVertexBuffer);
 

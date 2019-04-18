@@ -84,7 +84,7 @@ void GeometryNode::OnPrepareRender(unsigned frameNumber, Camera* camera)
     _distance = camera->Distance(GetWorldPosition());
 }
 
-void GeometryNode::SetGeometryType(GeometryType type)
+void GeometryNode::SetGeometryType(GeometryType::Type type)
 {
     _geometryType = type;
 }
@@ -194,7 +194,7 @@ void UIGeometryNode::RegisterObject()
 	CopyBaseAttributes<UIGeometryNode, UISpatialNode>();
 }
 
-void UIGeometryNode::SetGeometryType(GeometryType type)
+void UIGeometryNode::SetGeometryType(GeometryType::Type type)
 {
 	_geometryType = type;
 }

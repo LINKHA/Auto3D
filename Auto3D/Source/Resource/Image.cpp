@@ -89,7 +89,7 @@ const size_t Image::pixelByteSizes[] =
     0       // ImageFormat::PVRTC_RGBA_4BPP
 };
 
-static const ImageFormat componentsToFormat[] =
+static const ImageFormat::Type componentsToFormat[] =
 {
     ImageFormat::NONE,
     ImageFormat::R8,
@@ -528,7 +528,7 @@ bool Image::Save(Stream& dest)
     return success;
 }
 
-void Image::SetSize(const Vector2I& newSize, ImageFormat newFormat)
+void Image::SetSize(const Vector2I& newSize, ImageFormat::Type newFormat)
 {
     if (newSize == _size && newFormat == _format)
         return;
@@ -772,7 +772,7 @@ bool Image::DecompressLevel(unsigned char* dest, size_t index) const
     return true;
 }
 
-size_t Image::CalculateDataSize(const Vector2I& _size, ImageFormat _format, size_t* dstRows, size_t* dstRowSize)
+size_t Image::CalculateDataSize(const Vector2I& _size, ImageFormat::Type _format, size_t* dstRows, size_t* dstRowSize)
 {
     size_t rows, rowSize, dataSize;
 

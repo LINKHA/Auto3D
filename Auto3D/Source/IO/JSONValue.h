@@ -15,9 +15,9 @@ typedef Vector<JSONValue> JSONArray;
 typedef HashMap<String, JSONValue> JSONObject;
 
 /// JSON value types.
-struct __JSONType
+namespace JSONType
 {
-	enum _JSONType
+	enum Type
 	{
 		Null = 0,
 		BOOL,
@@ -28,7 +28,7 @@ struct __JSONType
 		Count
 	};
 };
-using JSONType = __JSONType::_JSONType;
+
 
 /// JSON data union.
 struct JSONData
@@ -148,7 +148,7 @@ public:
     bool IsEmpty() const;
     
     /// Return type.
-    JSONType Type() const { return _type; }
+    JSONType::Type Type() const { return _type; }
     /// Return whether is null.
     bool IsNull() const { return _type == JSONType::Null; }
     /// Return whether is a bool.
@@ -185,7 +185,7 @@ private:
     /// Parse from a char buffer. Return true on success.
     bool Parse(const char*&pos, const char*& end);
     /// Assign a new type and perform the necessary dynamic allocation / deletion.
-    void SetType(JSONType newType);
+    void SetType(JSONType::Type newType);
     
     /// Append a string in JSON format into the destination.
     static void WriteJSONString(String& dest, const String& str);
@@ -213,7 +213,7 @@ private:
     }
     
     /// Type.
-    JSONType _type;
+    JSONType::Type _type;
     /// Value data.
     JSONData _data;
 };

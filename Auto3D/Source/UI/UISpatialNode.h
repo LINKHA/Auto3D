@@ -7,16 +7,15 @@ namespace Auto3D
 {
 
 /// Transform space for translations and rotations.
-struct __UITransformSpace
+namespace UITransformSpace
 {
-	enum _UITransformSpace
+	enum Type
 	{
 		LOCAL = 0,
 		PARENT,
 		WORLD
 	};
 };
-using UITransformSpace = __UITransformSpace::_UITransformSpace;
 
 
 /// Base class for scene nodes with _position in three-dimensional space.
@@ -65,19 +64,19 @@ public:
 	/// Set transform in world space.
 	void SetWorldTransform(const Vector3F& newPosition, const Quaternion& newRotation, float newScale);
 	/// Move the scene node in the chosen transform space.
-	void Translate(const Vector3F& delta, UITransformSpace space = UITransformSpace::LOCAL);
+	void Translate(const Vector3F& delta, UITransformSpace::Type space = UITransformSpace::LOCAL);
 	/// Rotate the scene node in the chosen transform space.
-	void Rotate(const Quaternion& delta, UITransformSpace space = UITransformSpace::LOCAL);
+	void Rotate(const Quaternion& delta, UITransformSpace::Type space = UITransformSpace::LOCAL);
 	/// Rotate around a point in the chosen transform space.
-	void RotateAround(const Vector3F& point, const Quaternion& delta, UITransformSpace space = UITransformSpace::LOCAL);
+	void RotateAround(const Vector3F& point, const Quaternion& delta, UITransformSpace::Type space = UITransformSpace::LOCAL);
 	/// Rotate around the X axis.
-	void Pitch(float angle, UITransformSpace space = UITransformSpace::LOCAL);
+	void Pitch(float angle, UITransformSpace::Type space = UITransformSpace::LOCAL);
 	/// Rotate around the Y axis.
-	void Yaw(float angle, UITransformSpace space = UITransformSpace::LOCAL);
+	void Yaw(float angle, UITransformSpace::Type space = UITransformSpace::LOCAL);
 	/// Rotate around the Z axis.
-	void Roll(float angle, UITransformSpace space = UITransformSpace::LOCAL);
+	void Roll(float angle, UITransformSpace::Type space = UITransformSpace::LOCAL);
 	/// Look at a target _position in the chosen transform space. Note that the up vector is always specified in world space. Return true if successful, or false if resulted in an illegal rotation, in which case the current rotation remains.
-	bool LookAt(const Vector3F& target, const Vector3F& up = Vector3F::UP, UITransformSpace space = UITransformSpace::WORLD);
+	bool LookAt(const Vector3F& target, const Vector3F& up = Vector3F::UP, UITransformSpace::Type space = UITransformSpace::WORLD);
 	/// Apply a scale change.
 	void ApplyScale(const Vector3F& delta);
 	/// Apply an uniform scale change.

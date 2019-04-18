@@ -6,16 +6,15 @@ namespace Auto3D
 {
 
 /// %File open mode.
-struct __FileMode
+namespace FileMode
 {
-	enum _FileMode
+	enum Type
 	{
 		READ = 0,
 		WRITE,
 		READWRITE
 	};
 };
-using FileMode = __FileMode::_FileMode;
 
 
 class PackageFile;
@@ -27,7 +26,7 @@ public:
     /// Construct.
     File();
     /// Construct and open a file.
-    File(const String& fileName, FileMode fileMode = FileMode::READ);
+    File(const String& fileName, FileMode::Type fileMode = FileMode::READ);
     /// Destruct. Close the file if open.
     ~File();
     
@@ -43,14 +42,14 @@ public:
     bool IsWritable() const override;
 
     /// Open a file. Return true on success.
-    bool Open(const String& fileName, FileMode fileMode = FileMode::READ);
+    bool Open(const String& fileName, FileMode::Type fileMode = FileMode::READ);
     /// Close the file.
     void Close();
     /// Flush any buffered output to the file.
     void Flush();
     
     /// Return the open mode.
-    FileMode Mode() const { return _mode; }
+    FileMode::Type Mode() const { return _mode; }
     /// Return whether is open.
     bool IsOpen() const;
     /// Return the file _handle.
@@ -61,7 +60,7 @@ public:
     
 private:
     /// Open mode.
-    FileMode _mode;
+    FileMode::Type _mode;
     /// File _handle.
     void* _handle;
     /// Synchronization needed before read -flag.

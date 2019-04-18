@@ -409,7 +409,7 @@ float Camera::LodDistance(float distance, float scale, float bias) const
         return _orthoSize / d;
 }
 
-Quaternion Camera::FaceCameraRotation(const Vector3F& position, const Quaternion& rotation, FaceCameraMode mode)
+Quaternion Camera::FaceCameraRotation(const Vector3F& position, const Quaternion& rotation, FaceCameraMode::Type mode)
 {
     switch (mode)
     {

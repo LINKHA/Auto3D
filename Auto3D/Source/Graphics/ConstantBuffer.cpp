@@ -10,7 +10,7 @@
 namespace Auto3D
 {
 
-static const AttributeType elementToAttribute[] =
+static const AttributeType::Type elementToAttribute[] =
 {
     AttributeType::INT,
     AttributeType::FLOAT,
@@ -25,9 +25,9 @@ static const AttributeType elementToAttribute[] =
 
 bool ConstantBuffer::LoadJSON(const JSONValue& source)
 {
-    ResourceUsage usage_ = ResourceUsage::DEFAULT;
+    ResourceUsage::Type usage_ = ResourceUsage::DEFAULT;
     if (source.Contains("usage"))
-        usage_ = (ResourceUsage)String::ListIndex(source["usage"].GetString(), resourceUsageNames, ResourceUsage::DEFAULT);
+        usage_ = (ResourceUsage::Type)String::ListIndex(source["usage"].GetString(), resourceUsageNames, ResourceUsage::DEFAULT);
 
     Vector<Constant> constants_;
 
@@ -57,7 +57,7 @@ bool ConstantBuffer::LoadJSON(const JSONValue& source)
     for (size_t i = 0; i < _constants.Size() && i < jsonConstants.Size(); ++i)
     {
         const JSONValue& value = jsonConstants[i]["value"];
-        AttributeType attrType = elementToAttribute[_constants[i]._type];
+        AttributeType::Type attrType = elementToAttribute[_constants[i]._type];
 
         if (value.IsArray())
         {
@@ -82,7 +82,7 @@ void ConstantBuffer::SaveJSON(JSONValue& dest)
     for (size_t i = 0; i < _constants.Size(); ++i)
     {
         const Constant& constant = _constants[i];
-        AttributeType attrType = elementToAttribute[constant._type];
+        AttributeType::Type attrType = elementToAttribute[constant._type];
 
         JSONValue jsonConstant;
         jsonConstant["name"] = constant._name;
@@ -103,12 +103,12 @@ void ConstantBuffer::SaveJSON(JSONValue& dest)
     }
 }
 
-bool ConstantBuffer::Define(ResourceUsage usage, const Vector<Constant>& srcConstants)
+bool ConstantBuffer::Define(ResourceUsage::Type usage, const Vector<Constant>& srcConstants)
 {
     return Define(usage, srcConstants.Size(), srcConstants.Size() ? &srcConstants[0] : nullptr);
 }
 
-bool ConstantBuffer::Define(ResourceUsage usage, size_t numConstants, const Constant* srcConstants)
+bool ConstantBuffer::Define(ResourceUsage::Type usage, size_t numConstants, const Constant* srcConstants)
 {
     PROFILE(DefineConstantBuffer);
     

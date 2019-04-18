@@ -258,7 +258,7 @@ bool JSONValue::FromString(const char* str)
 
 void JSONValue::FromBinary(Stream& source)
 {
-    JSONType newType = (JSONType)source.Read<unsigned char>();
+    JSONType::Type newType = (JSONType::Type)source.Read<unsigned char>();
 
     switch (newType)
     {
@@ -649,7 +649,7 @@ bool JSONValue::Parse(const char*& pos, const char*& end)
     return false;
 }
 
-void JSONValue::SetType(JSONType newType)
+void JSONValue::SetType(JSONType::Type newType)
 {
     if (_type == newType)
         return;

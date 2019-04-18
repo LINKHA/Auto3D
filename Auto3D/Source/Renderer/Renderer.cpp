@@ -34,7 +34,7 @@ static const unsigned LPS_LIGHT1 = (0x80 | 0x100 | 0x200);
 static const unsigned LPS_LIGHT2 = (0x400 | 0x800 | 0x1000);
 static const unsigned LPS_LIGHT3 = (0x2000 | 0x4000 | 0x8000);
 
-static const CullMode cullModeFlip[] =
+static const CullMode::Type cullModeFlip[] =
 {
     CullMode::NONE,
     CullMode::NONE,
@@ -91,7 +91,7 @@ void Renderer::Render(Scene* scene, Camera* camera)
 	RenderBatches(passes);
 
 }
-void Renderer::SetupShadowMaps(size_t num, int size, ImageFormat format)
+void Renderer::SetupShadowMaps(size_t num, int size, ImageFormat::Type format)
 {
     if (size < 1)
         size = 1;

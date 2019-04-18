@@ -15,9 +15,9 @@ struct LightPass;
 static const size_t MAX_LIGHTS_PER_PASS = 4;
 
 /// Batch sorting modes.
-struct __BatchSortMode
+namespace BatchSortMode
 {
-	enum _BatchSortMode
+	enum Type
 	{
 		NONE = 0,
 		STATE,
@@ -25,7 +25,6 @@ struct __BatchSortMode
 		FRONT_TO_BACK,
 	};
 };
-using BatchSortMode = __BatchSortMode::_BatchSortMode;
 
 
 /// Description of a draw call.
@@ -47,7 +46,7 @@ struct AUTO_API Batch
     /// Light pass.
     LightPass* _lights;
     /// Geometry type.
-    GeometryType _type;
+    GeometryType::Type _type;
 
     union
     {
@@ -84,7 +83,7 @@ struct AUTO_API BatchQueue
     /// Additive lighting batches.
     Vector<Batch> _additiveBatches;
     /// Sorting mode.
-    BatchSortMode _sort;
+    BatchSortMode::Type _sort;
     /// Lighting flag.
     bool _lit;
     /// Base pass index.

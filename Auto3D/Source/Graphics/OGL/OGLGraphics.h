@@ -84,11 +84,11 @@ public:
     /// Set color write and blending related state using an arbitrary blend mode.
     void SetColorState(const BlendModeDesc& blendMode, bool alphaToCoverage = false, unsigned char colorWriteMask = COLORMASK_ALL);
     /// Set color write and blending related state using a predefined blend mode.
-    void SetColorState(BlendMode blendMode, bool alphaToCoverage = false, unsigned char colorWriteMask = COLORMASK_ALL);
+    void SetColorState(BlendMode::Type blendMode, bool alphaToCoverage = false, unsigned char colorWriteMask = COLORMASK_ALL);
     /// Set depth buffer related state.
-    void SetDepthState(CompareFunc depthFunc, bool depthWrite, bool depthClip = true, int depthBias = 0, float slopeScaledDepthBias = 0.0f);
+    void SetDepthState(CompareFunc::Type depthFunc, bool depthWrite, bool depthClip = true, int depthBias = 0, float slopeScaledDepthBias = 0.0f);
     /// Set rasterizer related state.
-    void SetRasterizerState(CullMode cullMode, FillMode fillMode);
+    void SetRasterizerState(CullMode::Type cullMode, FillMode::Type fillMode);
     /// Set scissor test.
     void SetScissorTest(bool scissorEnable = false, const RectI& scissorRect = RectI::ZERO);
     /// Set stencil test.

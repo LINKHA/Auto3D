@@ -21,7 +21,7 @@ struct AUTO_API UIBatch
 	/// Geometry.
 	Geometry* _geometry;
 	/// Geometry type.
-	GeometryType _type;
+	GeometryType::Type _type;
 
 	Texture* _texture;
 

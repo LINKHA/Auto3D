@@ -174,7 +174,7 @@ static void DecompressAlphaDXT5( unsigned char* rgba, void const* block )
         rgba[4*i + 3] = codes[indices[i]];
 }
 
-static void DecompressDXT( unsigned char* rgba, const void* block, ImageFormat _format)
+static void DecompressDXT( unsigned char* rgba, const void* block, ImageFormat::Type _format)
 {
     // get the block locations
     void const* colourBlock = block;
@@ -192,7 +192,7 @@ static void DecompressDXT( unsigned char* rgba, const void* block, ImageFormat _
         DecompressAlphaDXT5( rgba, alphaBock );
 }
 
-void DecompressImageDXT( unsigned char* rgba, const void* blocks, int width, int height, ImageFormat _format )
+void DecompressImageDXT( unsigned char* rgba, const void* blocks, int width, int height, ImageFormat::Type _format )
 {
     // initialise the block input
     unsigned char const* sourceBlock = reinterpret_cast< unsigned char const* >( blocks );
@@ -770,7 +770,7 @@ static unsigned TwiddleUV(unsigned YSize, unsigned XSize, unsigned YPos, unsigne
     return Twiddled;
 }
 
-void DecompressImagePVRTC(unsigned char* dest, const void *blocks, int width, int height, ImageFormat _format)
+void DecompressImagePVRTC(unsigned char* dest, const void *blocks, int width, int height, ImageFormat::Type _format)
 {
     AMTC_BLOCK_STRUCT* pCompressedData = (AMTC_BLOCK_STRUCT*)blocks;
     int AssumeImageTiles = 1;

@@ -7,9 +7,9 @@ namespace Auto3D
 {
 
 /// Collision shape type.
-struct __ShapeType
+namespace ShapeType
 {
-	enum _ShapeType
+	enum Type
 	{
 		Box = 0,
 		Sphere,
@@ -23,8 +23,6 @@ struct __ShapeType
 		Gimpactmesh
 	};
 };
-using ShapeType = __ShapeType::_ShapeType;
-
 
 
 class PhysicsWorld;
@@ -55,7 +53,7 @@ protected:
 	/// Shape form this collider
 	btCollisionShape* _shape;
 	/// Shape type
-	ShapeType _shapeType;
+	ShapeType::Type _shapeType;
 };
 
 }

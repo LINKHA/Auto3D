@@ -22,7 +22,7 @@ public:
     void Recreate() override;
 
     /// Define buffer. Immutable buffers must specify initial data here.  Return true on success.
-    bool Define(ResourceUsage usage, size_t numIndices, size_t indexSize, bool useShadowData, const void* _data = nullptr);
+    bool Define(ResourceUsage::Type usage, size_t numIndices, size_t indexSize, bool useShadowData, const void* _data = nullptr);
     /// Redefine buffer data either completely or partially. Not supported for immutable buffers. Return true on success.
     bool SetData(size_t firstIndex, size_t numIndices, const void* _data);
 
@@ -33,7 +33,7 @@ public:
     /// Return _size of index in bytes.
     size_t IndexSize() const { return _indexSize; }
     /// Return resource usage type.
-    ResourceUsage Usage() const { return _usage; }
+    ResourceUsage::Type Usage() const { return _usage; }
     /// Return whether is dynamic.
     bool IsDynamic() const { return _usage == ResourceUsage::DYNAMIC; }
     /// Return whether is immutable.
@@ -55,7 +55,7 @@ private:
     /// Size of index in bytes.
     size_t _indexSize;
     /// Resource usage type.
-    ResourceUsage _usage;
+    ResourceUsage::Type _usage;
 };
 
 }

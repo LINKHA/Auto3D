@@ -7,7 +7,7 @@
 namespace Auto3D
 {
 
-bool IndexBuffer::Define(ResourceUsage usage, size_t numIndices, size_t indexSize, bool useShadowData, const void* data)
+bool IndexBuffer::Define(ResourceUsage::Type usage, size_t numIndices, size_t indexSize, bool useShadowData, const void* data)
 {
     PROFILE(DefineIndexBuffer);
 

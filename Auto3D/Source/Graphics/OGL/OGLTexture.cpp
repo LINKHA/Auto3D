@@ -191,7 +191,7 @@ void Texture::Recreate()
     SetDataLost(true);
 }
 
-bool Texture::Define(TextureType type, ResourceUsage usage, const Vector2I& size, ImageFormat format, size_t numLevels, const ImageLevel* initialData)
+bool Texture::Define(TextureType::Type type, ResourceUsage::Type usage, const Vector2I& size, ImageFormat::Type format, size_t numLevels, const ImageLevel* initialData)
 {
 	PROFILE(DefineTexture);
 
@@ -285,7 +285,7 @@ bool Texture::Define(TextureType type, ResourceUsage usage, const Vector2I& size
 
 	return true;
 }
-bool Texture::DefineSampler(TextureFilterMode filter, TextureAddressMode u, TextureAddressMode v, TextureAddressMode w, unsigned maxAnisotropy, float minLod, float maxLod, const Color& borderColor)
+bool Texture::DefineSampler(TextureFilterMode::Type filter, TextureAddressMode::Type u, TextureAddressMode::Type v, TextureAddressMode::Type w, unsigned maxAnisotropy, float minLod, float maxLod, const Color& borderColor)
 {
     PROFILE(DefineTextureSampler);
 

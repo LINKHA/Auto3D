@@ -524,7 +524,7 @@ void Graphics::SetColorState(const BlendModeDesc& blendMode, bool alphaToCoverag
     _blendStateDirty = true;
 }
 
-void Graphics::SetColorState(BlendMode blendMode, bool alphaToCoverage, unsigned char colorWriteMask)
+void Graphics::SetColorState(BlendMode::Type blendMode, bool alphaToCoverage, unsigned char colorWriteMask)
 {
     _renderState._blendMode = blendModes[blendMode];
     _renderState._colorWriteMask = colorWriteMask;
@@ -533,7 +533,7 @@ void Graphics::SetColorState(BlendMode blendMode, bool alphaToCoverage, unsigned
     _blendStateDirty = true;
 }
 
-void Graphics::SetDepthState(CompareFunc depthFunc, bool depthWrite, bool depthClip, int depthBias, float slopeScaledDepthBias)
+void Graphics::SetDepthState(CompareFunc::Type depthFunc, bool depthWrite, bool depthClip, int depthBias, float slopeScaledDepthBias)
 {
     _renderState._depthFunc = depthFunc;
     _renderState._depthWrite = depthWrite;
@@ -545,7 +545,7 @@ void Graphics::SetDepthState(CompareFunc depthFunc, bool depthWrite, bool depthC
     _rasterizerStateDirty = true;
 }
 
-void Graphics::SetRasterizerState(CullMode cullMode, FillMode fillMode)
+void Graphics::SetRasterizerState(CullMode::Type cullMode, FillMode::Type fillMode)
 {
     _renderState._cullMode = cullMode;
     _renderState._fillMode = fillMode;
@@ -955,7 +955,7 @@ void Graphics::PrepareFramebuffer()
         }
 
         // Search for a new framebuffer based on format & size, or create new
-        ImageFormat _format = ImageFormat::NONE;
+        ImageFormat::Type _format = ImageFormat::NONE;
         if (_renderTargets[0])
             _format = _renderTargets[0]->GetFormat();
         else if (_depthStencil)
@@ -993,7 +993,7 @@ void Graphics::PrepareFramebuffer()
                     if (newDrawBuffers & (1 << i))
                         drawBufferIds[drawBufferCount++] = GL_COLOR_ATTACHMENT0 + i;
                 }
-                glDrawBuffers(drawBufferCount, (const GLenum*)drawBufferIds);
+				glDrawBuffers(drawBufferCount, (const GLenum*)drawBufferIds);
             }
 
             _framebuffer->drawBuffers = newDrawBuffers;

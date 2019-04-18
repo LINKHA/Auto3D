@@ -9,7 +9,7 @@
 namespace Auto3D
 {
 
-static const LightType DEFAULT_LIGHTTYPE = LightType::POINT;
+static const LightType::Type DEFAULT_LIGHTTYPE = LightType::POINT;
 static const Color DEFAULT_COLOR = Color(1.0f, 1.0f, 1.0f, 0.5f);
 static const float DEFAULT_RANGE = 10.0f;
 static const float DEFAULT_SPOT_FOV = 30.0f;
@@ -117,7 +117,7 @@ void Light::OnRaycast(Vector<RaycastResult>& dest, const Ray& ray, float maxDist
     }
 }
 
-void Light::SetLightType(LightType type)
+void Light::SetLightType(LightType::Type type)
 {
     if (type != _lightType)
     {
@@ -496,7 +496,7 @@ void Light::OnWorldBoundingBoxUpdate() const
 void Light::SetLightTypeAttr(int type)
 {
     if (type <= LightType::SPOT)
-        SetLightType((LightType)type);
+        SetLightType((LightType::Type)type);
 }
 
 int Light::LightTypeAttr() const

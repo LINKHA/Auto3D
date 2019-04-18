@@ -4,9 +4,9 @@
 
 namespace Auto3D {
 
-struct __TimerState
+namespace TimerState
 {
-	enum _TimerState
+	enum Type
 	{
 		DEFAULT,
 		INIT,
@@ -15,7 +15,6 @@ struct __TimerState
 		PAUSEING,
 	};
 };
-using TimerState = __TimerState::_TimerState;
 
 
 /// Timer independent system
@@ -63,7 +62,7 @@ private:
 	/// pause timer thread flag
 	bool _pause{};
 	/// timer state
-	TimerState _state;
+	TimerState::Type _state;
 };
 
 }

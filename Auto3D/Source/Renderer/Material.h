@@ -29,7 +29,7 @@ public:
     /// Save to JSON data. Return true on success.
     bool SaveJSON(JSONValue& dest);
     /// Set a predefined blend mode.
-    void SetBlendMode(BlendMode mode);
+    void SetBlendMode(BlendMode::Type mode);
     /// Set shader names and defines.
     void SetShaders(const String& vsName, const String& psName, const String& vsDefines = String::EMPTY, const String& psDefines = String::EMPTY);
     /// Reset render state to defaults.
@@ -52,7 +52,7 @@ public:
     void OnShadersChanged();
 
     /// Depth compare function.
-    CompareFunc _depthFunc;
+    CompareFunc::Type _depthFunc;
     /// Depth write enable.
     bool _depthWrite;
     /// Depth clipping enable.
@@ -64,9 +64,9 @@ public:
     /// Blend mode parameters.
     BlendModeDesc _blendMode;
     /// Polygon culling mode.
-    CullMode _cullMode;
+    CullMode::Type _cullMode;
     /// Polygon fill mode.
-    FillMode _fillMode;
+    FillMode::Type _fillMode;
     /// Shader resources. Filled by Renderer.
     SharedPtr<Shader> _shaders[ShaderStage::Count];
     /// Cached shader variations. Filled by Renderer.

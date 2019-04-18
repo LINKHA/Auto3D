@@ -141,7 +141,7 @@ void SpatialNode::SetWorldTransform(const Vector3F& newPosition, const Quaternio
     SetWorldTransform(newPosition, newRotation, Vector3F(newScale, newScale, newScale));
 }
 
-void SpatialNode::Translate(const Vector3F& delta, TransformSpace space)
+void SpatialNode::Translate(const Vector3F& delta, TransformSpace::Type space)
 {
     SpatialNode* parentNode = GetSpatialParent();
 
@@ -164,7 +164,7 @@ void SpatialNode::Translate(const Vector3F& delta, TransformSpace space)
     OnTransformChanged();
 }
 
-void SpatialNode::Rotate(const Quaternion& delta, TransformSpace space)
+void SpatialNode::Rotate(const Quaternion& delta, TransformSpace::Type space)
 {
     SpatialNode* parentNode = GetSpatialParent();
     
@@ -192,7 +192,7 @@ void SpatialNode::Rotate(const Quaternion& delta, TransformSpace space)
     OnTransformChanged();
 }
 
-void SpatialNode::RotateAround(const Vector3F& point, const Quaternion& delta, TransformSpace space)
+void SpatialNode::RotateAround(const Vector3F& point, const Quaternion& delta, TransformSpace::Type space)
 {
     SpatialNode* parentNode = GetSpatialParent();
     Vector3F parentSpacePoint;
@@ -231,22 +231,22 @@ void SpatialNode::RotateAround(const Vector3F& point, const Quaternion& delta, T
     OnTransformChanged();
 }
 
-void SpatialNode::Yaw(float angle, TransformSpace space)
+void SpatialNode::Yaw(float angle, TransformSpace::Type space)
 {
     Rotate(Quaternion(angle, Vector3F::UP), space);
 }
 
-void SpatialNode::Pitch(float angle, TransformSpace space)
+void SpatialNode::Pitch(float angle, TransformSpace::Type space)
 {
     Rotate(Quaternion(angle, Vector3F::RIGHT), space);
 }
 
-void SpatialNode::Roll(float angle, TransformSpace space)
+void SpatialNode::Roll(float angle, TransformSpace::Type space)
 {
     Rotate(Quaternion(angle, Vector3F::FORWARD), space);
 }
 
-bool SpatialNode::LookAt(const Vector3F& target, const Vector3F& up, TransformSpace space)
+bool SpatialNode::LookAt(const Vector3F& target, const Vector3F& up, TransformSpace::Type space)
 {
     SpatialNode* parentNode = GetSpatialParent();
     Vector3F worldSpaceTarget;

@@ -20,9 +20,9 @@ class Shader;
 static const size_t U_INSTANCE_TEXCOORD = 4;
 
 /// Shader constant buffers used by high-level rendering.
-struct __UIConstantBuffer
+namespace UIConstantBuffer
 {
-	enum _UIConstantBuffer
+	enum Type
 	{
 		FRAME = 0,
 		OBJECT,
@@ -30,7 +30,7 @@ struct __UIConstantBuffer
 		LIGHTS
 	};
 };
-using UIConstantBuffer = __UIConstantBuffer::_UIConstantBuffer;
+
 
 /// Physics sub system 
 class AUTO_API UI : public BaseSubsystem

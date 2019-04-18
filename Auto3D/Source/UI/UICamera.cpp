@@ -409,7 +409,7 @@ float UICamera::LodDistance(float distance, float scale, float bias) const
 		return _orthoSize / d;
 }
 
-Quaternion UICamera::FaceCameraRotation(const Vector3F& position, const Quaternion& rotation, UIFaceCameraMode mode)
+Quaternion UICamera::FaceCameraRotation(const Vector3F& position, const Quaternion& rotation, UIFaceCameraMode::Type mode)
 {
 	switch (mode)
 	{

@@ -14,16 +14,16 @@ class Texture;
 struct ShadowView;
 
 /// %Light types.
-struct __LightType
+namespace LightType
 {
-	enum _LightType
+	enum Type
 	{
 		DIRECTIONAL = 0,
 		POINT,
 		SPOT
 	};
 };
-using LightType = __LightType::_LightType;
+
 
 /// Dynamic light scene node.
 class AUTO_API Light : public OctreeNode
@@ -45,7 +45,7 @@ public:
     void OnRaycast(Vector<RaycastResult>& dest, const Ray& ray, float maxDistance) override;
 
     /// Set light type.
-    void SetLightType(LightType type);
+    void SetLightType(LightType::Type type);
     /// Set color. Alpha component contains specular intensity.
     void SetColor(const Color& color);
     /// Set range.
@@ -66,7 +66,7 @@ public:
     void SetSlopeScaledDepthBias(float bias);
 
     /// Return light type.
-    LightType GetLightType() const { return _lightType; }
+    LightType::Type GetLightType() const { return _lightType; }
     /// Return color.
     const Color& GetColor() const { return _color; }
     /// Return range.
@@ -128,7 +128,7 @@ private:
     int LightTypeAttr() const;
     
     /// Light type.
-    LightType _lightType;
+    LightType::Type _lightType;
     /// Light color.
     Color _color;
     /// Range.

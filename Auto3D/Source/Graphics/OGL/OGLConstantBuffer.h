@@ -28,9 +28,9 @@ public:
     /// Save as JSON data.
     void SaveJSON(JSONValue& dest);
     /// Define the constants being used and create the GPU-side buffer. Return true on success.
-    bool Define(ResourceUsage usage, const Vector<Constant>& srcConstants);
+    bool Define(ResourceUsage::Type usage, const Vector<Constant>& srcConstants);
     /// Define the constants being used and create the GPU-side buffer. Return true on success.
-    bool Define(ResourceUsage usage, size_t numConstants, const Constant* srcConstants);
+    bool Define(ResourceUsage::Type usage, size_t numConstants, const Constant* srcConstants);
     /// Set a constant by index. Optionally specify how many elements to update, default all. Return true on success.
     bool SetConstant(size_t index, const void* _data, size_t numElements = 0);
     /// Set a constant by name. Optionally specify how many elements to update, default all. Return true on success.
@@ -89,7 +89,7 @@ public:
     /// Return whether buffer has unapplied changes.
     bool IsDirty() const { return _dirty; }
     /// Return resource usage type.
-    ResourceUsage GetUsage() const { return _usage; }
+    ResourceUsage::Type GetUsage() const { return _usage; }
     /// Return whether is dynamic.
     bool IsDynamic() const { return _usage == ResourceUsage::DYNAMIC; }
     /// Return whether is immutable.
@@ -114,7 +114,7 @@ private:
     /// Total byte _size.
     size_t _byteSize;
     /// Resource usage type.
-    ResourceUsage _usage;
+    ResourceUsage::Type _usage;
     /// Dirty flag.
     bool _dirty;
 };

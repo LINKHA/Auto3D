@@ -23,9 +23,9 @@ public:
     void Recreate() override;
 
     /// Define buffer. Immutable buffers must specify initial data here. Return true on success.
-    bool Define(ResourceUsage usage, size_t numVertices, const Vector<VertexElement>& elements, bool useShadowData, const void* _data = nullptr);
+    bool Define(ResourceUsage::Type usage, size_t numVertices, const Vector<VertexElement>& elements, bool useShadowData, const void* _data = nullptr);
     /// Define buffer. Immutable buffers must specify initial data here. Return true on success.
-    bool Define(ResourceUsage usage, size_t numVertices, size_t numElements, const VertexElement* elements, bool useShadowData, const void* _data = nullptr);
+    bool Define(ResourceUsage::Type usage, size_t numVertices, size_t numElements, const VertexElement* elements, bool useShadowData, const void* _data = nullptr);
     /// Redefine buffer data either completely or partially. Not supported for immutable buffers. Return true on success.
     bool SetData(size_t firstVertex, size_t numVertices, const void* _data);
 
@@ -42,7 +42,7 @@ public:
     /// Return vertex declaration hash code.
     unsigned GetElementHash() const { return _elementHash; }
     /// Return resource usage type.
-    ResourceUsage GetUsage() const { return _usage; }
+    ResourceUsage::Type GetUsage() const { return _usage; }
     /// Return whether is dynamic.
     bool IsDynamic() const { return _usage == ResourceUsage::DYNAMIC; }
     /// Return whether is immutable.
@@ -76,7 +76,7 @@ private:
     /// Vertex element hash code.
     unsigned _elementHash;
     /// Resource usage type.
-    ResourceUsage _usage;
+    ResourceUsage::Type _usage;
 };
 
 }

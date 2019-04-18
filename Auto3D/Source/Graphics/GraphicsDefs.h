@@ -105,9 +105,9 @@ namespace PrimitiveType
 };
 
 /// Blend factors.
-struct __BlendFactor
+namespace BlendFactor
 {
-	enum _BlendFactor
+	enum Type
 	{
 		ZERO = 1,
 		ONE,
@@ -123,12 +123,12 @@ struct __BlendFactor
 		Count
 	};
 };
-using BlendFactor = __BlendFactor::_BlendFactor;
+
 
 /// Blend operations.
-struct __BlendOp
+namespace BlendOp
 {
-	enum _BlendOp
+	enum Type
 	{
 		ADD = 1,
 		SUBTRACT,
@@ -138,12 +138,11 @@ struct __BlendOp
 		Count
 	};
 };
-using BlendOp = __BlendOp::_BlendOp;
 
 /// Predefined blend modes.
-struct __BlendMode
+namespace BlendMode
 {
-	enum _BlendMode
+	enum Type
 	{
 		REPLACE = 0,
 		ADD,
@@ -157,24 +156,22 @@ struct __BlendMode
 		Count
 	};
 };
-using BlendMode = __BlendMode::_BlendMode;
 
 /// Fill modes.
-struct __FillMode
+namespace FillMode
 {
-	enum _FillMode
+	enum Type
 	{
 		WIREFRAME = 2,
 		SOLID = 3,
 		Count
 	};
 };
-using FillMode = __FillMode::_FillMode;
 
 /// Triangle culling modes.
-struct __CullMode
+namespace CullMode
 {
-	enum _CullMode
+	enum Type
 	{
 		NONE = 1,
 		FRONT,
@@ -182,13 +179,12 @@ struct __CullMode
 		Count
 	};
 }; 
-using CullMode = __CullMode::_CullMode;
 
 
 /// Depth or stencil compare modes.
-struct __CompareFunc
+namespace CompareFunc
 {
-	enum _CompareFunc
+	enum Type
 	{
 		NEVER = 1,
 		LESS,
@@ -201,12 +197,11 @@ struct __CompareFunc
 		Count
 	};
 };
-using CompareFunc = __CompareFunc::_CompareFunc;
 
 /// Stencil operations.
-struct __StencilOp
+namespace StencilOp
 {
-	enum _StencilOp
+	enum Type
 	{
 		KEEP = 1,
 		ZERO,
@@ -219,12 +214,11 @@ struct __StencilOp
 		Count
 	};
 };
-using StencilOp = __StencilOp::_StencilOp;
 
 /// Texture types.
-struct __TextureType
+namespace TextureType
 {
-	enum _TextureType
+	enum Type
 	{
 		TEX_1D = 0,
 		TEX_2D,
@@ -232,12 +226,11 @@ struct __TextureType
 		TEX_CUBE,
 	};
 };
-using TextureType = __TextureType::_TextureType;
 
 /// Resource usage modes. Rendertarget usage can only be used with textures.
-struct __ResourceUsage
+namespace ResourceUsage
 {
-	enum _ResourceUsage
+	enum Type
 	{
 		DEFAULT = 0,
 		IMMUTABLE,
@@ -245,12 +238,11 @@ struct __ResourceUsage
 		RENDERTARGET
 	};
 };
-using ResourceUsage = __ResourceUsage::_ResourceUsage;
 
 /// Texture filtering modes.
-struct __TextureFilterMode
+namespace TextureFilterMode
 {
-	enum _TextureFilterMode
+	enum Type
 	{
 		FILTER_POINT = 0,
 		FILTER_BILINEAR,
@@ -262,13 +254,11 @@ struct __TextureFilterMode
 		COMPARE_ANISOTROPIC
 	};
 };
-using TextureFilterMode = __TextureFilterMode::_TextureFilterMode;
-
 
 /// Texture addressing modes.
-struct __TextureAddressMode
+namespace TextureAddressMode
 {
-	enum _TextureAddressMode
+	enum Type
 	{
 		WRAP = 1,
 		MIRROR,
@@ -277,7 +267,6 @@ struct __TextureAddressMode
 		MIRROR_ONCE
 	};
 };
-using TextureAddressMode = __TextureAddressMode::_TextureAddressMode;
 
 
 /// Description of an element in a vertex declaration.
@@ -362,7 +351,7 @@ struct AUTO_API BlendModeDesc
     }
 
     /// Construct with parameters.
-    BlendModeDesc(bool blendEnable, BlendFactor srcBlend, BlendFactor destBlend, BlendOp blendOp, BlendFactor srcBlendAlpha, BlendFactor destBlendAlpha, BlendOp blendOpAlpha) :
+    BlendModeDesc(bool blendEnable, BlendFactor::Type srcBlend, BlendFactor::Type destBlend, BlendOp::Type blendOp, BlendFactor::Type srcBlendAlpha, BlendFactor::Type destBlendAlpha, BlendOp::Type blendOpAlpha) :
         _blendEnable(blendEnable),
         _srcBlend(srcBlend),
         _destBlend(destBlend),
@@ -393,17 +382,17 @@ struct AUTO_API BlendModeDesc
     /// Blend enable flag.
     bool _blendEnable;
     /// Source color blend factor.
-    BlendFactor _srcBlend;
+    BlendFactor::Type _srcBlend;
     /// Destination color blend factor.
-    BlendFactor _destBlend;
+    BlendFactor::Type _destBlend;
     /// Color blend operation.
-    BlendOp _blendOp;
+    BlendOp::Type _blendOp;
     /// Source alpha blend factor.
-    BlendFactor _srcBlendAlpha;
+    BlendFactor::Type _srcBlendAlpha;
     /// Destination alpha blend factor.
-    BlendFactor _destBlendAlpha;
+    BlendFactor::Type _destBlendAlpha;
     /// Alpha blend operation.
-    BlendOp _blendOpAlpha;
+    BlendOp::Type _blendOpAlpha;
 };
 
 /// Description of a stencil test.
@@ -435,21 +424,21 @@ struct AUTO_API StencilTestDesc
     /// Stencil write bit mask.
     unsigned char _stencilWriteMask;
     /// Stencil front face compare function.
-    CompareFunc _frontFunc;
+    CompareFunc::Type _frontFunc;
     /// Operation for front face stencil test fail.
-    StencilOp _frontFail;
+    StencilOp::Type _frontFail;
     /// Operation for front face depth test fail.
-    StencilOp _frontDepthFail;
+    StencilOp::Type _frontDepthFail;
     /// Operation for front face pass.
-    StencilOp _frontPass;
+    StencilOp::Type _frontPass;
     /// Stencil back face compare function.
-    CompareFunc _backFunc;
+    CompareFunc::Type _backFunc;
     /// Operation for back face stencil test fail.
-    StencilOp _backFail;
+    StencilOp::Type _backFail;
     /// Operation for back face depth test fail.
-    StencilOp _backDepthFail;
+    StencilOp::Type _backDepthFail;
     /// Operation for back face pass.
-    StencilOp _backPass;
+    StencilOp::Type _backPass;
 };
 
 /// Collection of render state.
@@ -482,7 +471,7 @@ struct RenderState
     }
 
     /// Depth test function.
-    CompareFunc _depthFunc;
+    CompareFunc::Type _depthFunc;
     /// Depth write enable.
     bool _depthWrite;
     /// Depth clipping enable.
@@ -498,9 +487,9 @@ struct RenderState
     /// Blend mode parameters.
     BlendModeDesc _blendMode;
     /// Polygon culling mode.
-    CullMode _cullMode;
+    CullMode::Type _cullMode;
     /// Polygon fill mode.
-    FillMode _fillMode;
+    FillMode::Type _fillMode;
     /// Scissor test enable.
     bool _scissorEnable;
     /// Scissor rectangle as pixels from rendertarget top left corner.

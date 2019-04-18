@@ -36,14 +36,14 @@ public:
     void Recreate() override;
 
     /// Define texture type and dimensions and set initial data. %ImageLevel structures only need the data pointer and row byte _size filled. Return true on success.
-    bool Define(TextureType type, ResourceUsage usage, const Vector2I& _size, ImageFormat _format, size_t _numLevels, const ImageLevel* initialData = 0);
+    bool Define(TextureType::Type type, ResourceUsage::Type usage, const Vector2I& _size, ImageFormat::Type _format, size_t _numLevels, const ImageLevel* initialData = 0);
     /// Define sampling parameters. Return true on success.
-    bool DefineSampler(TextureFilterMode filter = TextureFilterMode::FILTER_TRILINEAR, TextureAddressMode u = TextureAddressMode::WRAP, TextureAddressMode v = TextureAddressMode::WRAP, TextureAddressMode w = TextureAddressMode::WRAP, unsigned maxAnisotropy = 16, float minLod = -M_MAX_FLOAT, float maxLod = M_MAX_FLOAT, const Color& borderColor = Color::BLACK);
+    bool DefineSampler(TextureFilterMode::Type filter = TextureFilterMode::FILTER_TRILINEAR, TextureAddressMode::Type u = TextureAddressMode::WRAP, TextureAddressMode::Type v = TextureAddressMode::WRAP, TextureAddressMode::Type w = TextureAddressMode::WRAP, unsigned maxAnisotropy = 16, float minLod = -M_MAX_FLOAT, float maxLod = M_MAX_FLOAT, const Color& borderColor = Color::BLACK);
     /// Set data for a mipmap level. Not supported for immutable textures. Return true on success.
     bool SetData(size_t face, size_t level, RectI rect, const ImageLevel& data);
 
     /// Return texture type.
-    TextureType GetTexType() const { return _type; }
+    TextureType::Type GetTexType() const { return _type; }
     /// Return dimensions.
     const Vector2I& GetSize() const { return _size; }
     /// Return width.
@@ -51,7 +51,7 @@ public:
     /// Return height.
     int GetHeight() const { return _size._y; }
     /// Return image format.
-    ImageFormat GetFormat() const { return _format; }
+    ImageFormat::Type GetFormat() const { return _format; }
     /// Return whether uses a compressed format.
     bool IsCompressed() const { return _format >= ImageFormat::DXT1; }
     /// Return number of mipmap levels.
@@ -59,7 +59,7 @@ public:
     /// Return number of faces or Z-slices.
     size_t GetNumFaces() const;
     /// Return resource usage type.
-    ResourceUsage GetUsage() const { return _usage; }
+    ResourceUsage::Type GetUsage() const { return _usage; }
     /// Return whether is dynamic.
     bool IsDynamic() const { return _usage == ResourceUsage::DYNAMIC; }
     /// Return whether is immutable.
@@ -78,9 +78,9 @@ public:
 	Geometry* GetGeometry() const;
 
     /// Texture filtering mode.
-    TextureFilterMode _filter;
+    TextureFilterMode::Type _filter;
     /// Texture addressing modes for each coordinate axis.
-    TextureAddressMode _addressModes[3];
+    TextureAddressMode::Type _addressModes[3];
     /// Maximum anisotropy.
     unsigned _maxAnisotropy;
     /// Minimum LOD.
@@ -94,13 +94,13 @@ private:
     /// OpenGL texture object identifier.
     unsigned _texture;
     /// Texture type.
-    TextureType _type;
+    TextureType::Type _type;
     /// Texture usage mode.
-    ResourceUsage _usage;
+    ResourceUsage::Type _usage;
     /// Texture dimensions in pixels.
     Vector2I _size;
     /// Image format.
-    ImageFormat _format;
+    ImageFormat::Type _format;
     /// Number of mipmap levels.
     size_t _numLevels;
     /// Images used for loading.

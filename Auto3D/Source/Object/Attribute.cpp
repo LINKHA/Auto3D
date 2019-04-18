@@ -91,7 +91,7 @@ void Attribute::ToValue(Serializable* instance, void* dest)
     _accessor->Get(instance, dest);
 }
 
-void Attribute::Skip(AttributeType type, Stream& source)
+void Attribute::Skip(AttributeType::Type type, Stream& source)
 {
     if (byteSizes[type])
     {
@@ -136,7 +136,7 @@ size_t Attribute::ByteSize() const
     return byteSizes[Type()];
 }
 
-void Attribute::FromJSON(AttributeType type, void* dest, const JSONValue& source)
+void Attribute::FromJSON(AttributeType::Type type, void* dest, const JSONValue& source)
 {
     switch (type)
     {
@@ -237,7 +237,7 @@ void Attribute::FromJSON(AttributeType type, void* dest, const JSONValue& source
     }
 }
 
-void Attribute::ToJSON(AttributeType type, JSONValue& dest, const void* source)
+void Attribute::ToJSON(AttributeType::Type type, JSONValue& dest, const void* source)
 {
     switch (type)
     {
@@ -334,92 +334,92 @@ void Attribute::ToJSON(AttributeType type, JSONValue& dest, const void* source)
     }
 }
 
-AttributeType Attribute::TypeFromName(const String& name)
+AttributeType::Type Attribute::TypeFromName(const String& name)
 {
-    return (AttributeType)String::ListIndex(name, &typeNames[0], AttributeType::Count);
+    return (AttributeType::Type)String::ListIndex(name, &typeNames[0], AttributeType::Count);
 }
 
-AttributeType Attribute::TypeFromName(const char* name)
+AttributeType::Type Attribute::TypeFromName(const char* name)
 {
-    return (AttributeType)String::ListIndex(name, &typeNames[0], AttributeType::Count);
+    return (AttributeType::Type)String::ListIndex(name, &typeNames[0], AttributeType::Count);
 }
 
-template<> AUTO_API AttributeType AttributeImpl<bool>::Type() const
+template<> AUTO_API AttributeType::Type AttributeImpl<bool>::Type() const
 {
     return AttributeType::BOOL;
 }
 
-template<> AUTO_API AttributeType AttributeImpl<int>::Type() const
+template<> AUTO_API AttributeType::Type AttributeImpl<int>::Type() const
 {
     return AttributeType::INT;
 }
 
-template<> AUTO_API AttributeType AttributeImpl<unsigned>::Type() const
+template<> AUTO_API AttributeType::Type AttributeImpl<unsigned>::Type() const
 {
     return AttributeType::UNSIGNED;
 }
 
-template<> AUTO_API AttributeType AttributeImpl<unsigned char>::Type() const
+template<> AUTO_API AttributeType::Type AttributeImpl<unsigned char>::Type() const
 {
     return AttributeType::BYTE;
 }
 
-template<> AUTO_API AttributeType AttributeImpl<float>::Type() const
+template<> AUTO_API AttributeType::Type AttributeImpl<float>::Type() const
 {
     return AttributeType::FLOAT;
 }
 
-template<> AUTO_API AttributeType AttributeImpl<String>::Type() const
+template<> AUTO_API AttributeType::Type AttributeImpl<String>::Type() const
 {
     return AttributeType::STRING;
 }
 
-template<> AUTO_API AttributeType AttributeImpl<Vector2F>::Type() const
+template<> AUTO_API AttributeType::Type AttributeImpl<Vector2F>::Type() const
 {
     return AttributeType::VECTOR2;
 }
 
-template<> AUTO_API AttributeType AttributeImpl<Vector3F>::Type() const
+template<> AUTO_API AttributeType::Type AttributeImpl<Vector3F>::Type() const
 {
     return AttributeType::VECTOR3;
 }
 
-template<> AUTO_API AttributeType AttributeImpl<Vector4F>::Type() const
+template<> AUTO_API AttributeType::Type AttributeImpl<Vector4F>::Type() const
 {
     return AttributeType::VECTOR4;
 }
 
-template<> AUTO_API AttributeType AttributeImpl<Quaternion>::Type() const
+template<> AUTO_API AttributeType::Type AttributeImpl<Quaternion>::Type() const
 {
     return AttributeType::QUATERNION;
 }
 
-template<> AUTO_API AttributeType AttributeImpl<Color>::Type() const
+template<> AUTO_API AttributeType::Type AttributeImpl<Color>::Type() const
 {
     return AttributeType::COLOR;
 }
 
-template<> AUTO_API AttributeType AttributeImpl<BoundingBoxF>::Type() const
+template<> AUTO_API AttributeType::Type AttributeImpl<BoundingBoxF>::Type() const
 {
     return AttributeType::BOUNDINGBOX;
 }
 
-template<> AUTO_API AttributeType AttributeImpl<ResourceRef>::Type() const
+template<> AUTO_API AttributeType::Type AttributeImpl<ResourceRef>::Type() const
 {
     return AttributeType::RESOURCEREF;
 }
 
-template<> AUTO_API AttributeType AttributeImpl<ResourceRefList>::Type() const
+template<> AUTO_API AttributeType::Type AttributeImpl<ResourceRefList>::Type() const
 {
     return AttributeType::RESOURCEREFLIST;
 }
 
-template<> AUTO_API AttributeType AttributeImpl<ObjectRef>::Type() const
+template<> AUTO_API AttributeType::Type AttributeImpl<ObjectRef>::Type() const
 {
     return AttributeType::OBJECTREF;
 }
 
-template<> AUTO_API AttributeType AttributeImpl<JSONValue>::Type() const
+template<> AUTO_API AttributeType::Type AttributeImpl<JSONValue>::Type() const
 {
     return AttributeType::JSONVALUE;
 }

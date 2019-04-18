@@ -21,7 +21,7 @@ void Serializable::Load(Stream& source, ObjectResolver& resolver)
     for (size_t i = 0; i < numAttrs; ++i)
     {
         // Skip attribute if wrong type or extra data
-        AttributeType type = (AttributeType)source.Read<unsigned char>();
+        AttributeType::Type type = (AttributeType::Type)source.Read<unsigned char>();
         bool skip = true;
         
         if (i < attributes->Size())
@@ -184,7 +184,7 @@ void Serializable::Skip(Stream& source)
     size_t numAttrs = source.ReadVLE();
     for (size_t i = 0; i < numAttrs; ++i)
     {
-        AttributeType type = (AttributeType)source.Read<unsigned char>();
+        AttributeType::Type type = (AttributeType::Type)source.Read<unsigned char>();
         Attribute::Skip(type, source);
     }
 }

@@ -141,7 +141,7 @@ void UISpatialNode::SetWorldTransform(const Vector3F& newPosition, const Quatern
 	SetWorldTransform(newPosition, newRotation, Vector3F(newScale, newScale, newScale));
 }
 
-void UISpatialNode::Translate(const Vector3F& delta, UITransformSpace space)
+void UISpatialNode::Translate(const Vector3F& delta, UITransformSpace::Type space)
 {
 	UISpatialNode* parentNode = GetSpatialParent();
 
@@ -164,7 +164,7 @@ void UISpatialNode::Translate(const Vector3F& delta, UITransformSpace space)
 	OnTransformChanged();
 }
 
-void UISpatialNode::Rotate(const Quaternion& delta, UITransformSpace space)
+void UISpatialNode::Rotate(const Quaternion& delta, UITransformSpace::Type space)
 {
 	UISpatialNode* parentNode = GetSpatialParent();
 
@@ -192,7 +192,7 @@ void UISpatialNode::Rotate(const Quaternion& delta, UITransformSpace space)
 	OnTransformChanged();
 }
 
-void UISpatialNode::RotateAround(const Vector3F& point, const Quaternion& delta, UITransformSpace space)
+void UISpatialNode::RotateAround(const Vector3F& point, const Quaternion& delta, UITransformSpace::Type space)
 {
 	UISpatialNode* parentNode = GetSpatialParent();
 	Vector3F parentSpacePoint;
@@ -231,22 +231,22 @@ void UISpatialNode::RotateAround(const Vector3F& point, const Quaternion& delta,
 	OnTransformChanged();
 }
 
-void UISpatialNode::Yaw(float angle, UITransformSpace space)
+void UISpatialNode::Yaw(float angle, UITransformSpace::Type space)
 {
 	Rotate(Quaternion(angle, Vector3F::UP), space);
 }
 
-void UISpatialNode::Pitch(float angle, UITransformSpace space)
+void UISpatialNode::Pitch(float angle, UITransformSpace::Type space)
 {
 	Rotate(Quaternion(angle, Vector3F::RIGHT), space);
 }
 
-void UISpatialNode::Roll(float angle, UITransformSpace space)
+void UISpatialNode::Roll(float angle, UITransformSpace::Type space)
 {
 	Rotate(Quaternion(angle, Vector3F::FORWARD), space);
 }
 
-bool UISpatialNode::LookAt(const Vector3F& target, const Vector3F& up, UITransformSpace space)
+bool UISpatialNode::LookAt(const Vector3F& target, const Vector3F& up, UITransformSpace::Type space)
 {
 	UISpatialNode* parentNode = GetSpatialParent();
 	Vector3F worldSpaceTarget;

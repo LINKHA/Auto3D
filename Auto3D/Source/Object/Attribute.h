@@ -11,9 +11,9 @@ class Serializable;
 class Stream;
 
 /// Supported attribute types.
-struct __AttributeType
+namespace AttributeType
 {
-	enum _AttributeType
+	enum Type
 	{
 		BOOL = 0,
 		BYTE,
@@ -41,7 +41,6 @@ struct __AttributeType
 		Count
 	};
 };
-using AttributeType = __AttributeType::_AttributeType;
 
 
 /// Helper class for accessing serializable variables via getter and setter functions.
@@ -77,7 +76,7 @@ public:
     /// Serialize to JSON.
     virtual void ToJSON(Serializable* instance, JSONValue& dest) = 0;
     /// Return type.
-    virtual AttributeType Type() const = 0;
+    virtual AttributeType::Type Type() const = 0;
     /// Return whether is default value.
     virtual bool IsDefault(Serializable* instance) = 0;
     
@@ -96,15 +95,15 @@ public:
     size_t ByteSize() const;
     
     /// Skip binary data of an attribute.
-    static void Skip(AttributeType type, Stream& source);
+    static void Skip(AttributeType::Type type, Stream& source);
     /// Serialize attribute value to JSON.
-    static void ToJSON(AttributeType type, JSONValue& dest, const void* source);
+    static void ToJSON(AttributeType::Type type, JSONValue& dest, const void* source);
     /// Deserialize attribute value from JSON.
-    static void FromJSON(AttributeType type, void* dest, const JSONValue& source);
+    static void FromJSON(AttributeType::Type type, void* dest, const JSONValue& source);
     /// Return attribute type from type name.
-    static AttributeType TypeFromName(const String& name);
+    static AttributeType::Type TypeFromName(const String& name);
     /// Return attribute type from type name.
-    static AttributeType TypeFromName(const char* name);
+    static AttributeType::Type TypeFromName(const char* name);
     
     /// Type names.
     static const String typeNames[];
@@ -167,7 +166,7 @@ public:
     }
 
     /// Return type.
-    AttributeType Type() const override;
+    AttributeType::Type Type() const override;
     
     /// Set new attribute value.
     void SetValue(Serializable* instance, const _Ty& source) { _accessor->Set(instance, &source); }

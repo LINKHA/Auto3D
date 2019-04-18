@@ -17,15 +17,14 @@ struct LightList;
 class Texture;
 
 /// Geometry types.
-struct __GeometryType
+namespace GeometryType
 {
-	enum _GeometryType
+	enum Type
 	{
 		STATIC = 0,
 		INSTANCED
 	};
 };
-using GeometryType = __GeometryType::_GeometryType;
 
 
 /// Load-time description of a vertex buffer, to be uploaded on the GPU later.
@@ -128,7 +127,7 @@ public:
     void OnPrepareRender(unsigned frameNumber, Camera* camera) override;
 
     /// Set geometry type, which is shared by all geometries.
-    void SetGeometryType(GeometryType type);
+    void SetGeometryType(GeometryType::Type type);
     /// Set number of geometries.
     void SetNumGeometries(size_t num);
     /// Set geometry at index.
@@ -141,7 +140,7 @@ public:
     void SetLocalBoundingBox(const BoundingBoxF& box);
 
     /// Return geometry type.
-    GeometryType GetGeometryType() const { return _geometryType; }
+    GeometryType::Type GetGeometryType() const { return _geometryType; }
     /// Return number of geometries.
     size_t GetNumGeometries() const { return _batches.Size(); }
     /// Return geometry by index.
@@ -169,7 +168,7 @@ protected:
     /// %Light list for rendering.
     LightList* _lightList;
     /// Geometry type.
-    GeometryType _geometryType;
+    GeometryType::Type _geometryType;
     /// Draw call source datas.
     Vector<SourceBatch> _batches;
     /// Local space bounding box.
@@ -188,11 +187,11 @@ public:
 	/// Register factory and attributes.
 	static void RegisterObject();
 	/// Set geometry type, which is shared by all geometries.
-	void SetGeometryType(GeometryType type);
+	void SetGeometryType(GeometryType::Type type);
 	/// Set geometry at index.
 	void SetGeometry(Geometry* geometry);
 	/// Return geometry type.
-	GeometryType GetGeometryType() const { return _geometryType; }
+	GeometryType::Type GetGeometryType() const { return _geometryType; }
 	/// Return geometry by index.
 	Geometry* GetGeometry() const;
 	/// Set texture.
@@ -201,7 +200,7 @@ public:
 	Texture* GetTexture() const { return _texture; }
 protected:
 	/// Geometry type.
-	GeometryType _geometryType;
+	GeometryType::Type _geometryType;
 	/// Draw call source datas.
 	SharedPtr<Geometry> _geometry;
 	/// Texture.

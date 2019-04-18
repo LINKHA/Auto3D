@@ -10,9 +10,9 @@ namespace Auto3D
 {
 
 /// Image formats.
-struct __ImageFormat
+namespace ImageFormat
 {
-	enum _ImageFormat
+	enum Type
 	{
 		NONE = 0,
 		R8,
@@ -42,7 +42,6 @@ struct __ImageFormat
 		PVRTC_RGBA_4BPP
 	};
 };
-using ImageFormat = __ImageFormat::_ImageFormat;
 
 
 /// Description of image mip level data.
@@ -87,7 +86,7 @@ public:
     bool Save(Stream& dest) override;
 
     /// Set new image pixel dimensions and format. Setting a compressed format is not supported.
-    void SetSize(const Vector2I& newSize, ImageFormat newFormat);
+    void SetSize(const Vector2I& newSize, ImageFormat::Type newFormat);
     /// Set new pixel data.
     void SetData(const unsigned char* pixelData);
 
@@ -104,7 +103,7 @@ public:
     /// Return pixel data.
     unsigned char* Data() const { return _data.Get(); }
     /// Return the image format.
-    ImageFormat GetFormat() const { return _format; }
+    ImageFormat::Type GetFormat() const { return _format; }
     /// Return whether is a compressed image.
     bool IsCompressed() const { return _format >= ImageFormat::DXT1; }
     /// Return number of mip levels contained in the image data.
@@ -119,7 +118,7 @@ public:
     bool DecompressLevel(unsigned char* dest, size_t levelIndex) const;
 
     /// Calculate the data _size of an image level.
-    static size_t CalculateDataSize(const Vector2I& _size, ImageFormat _format, size_t* numRows = 0, size_t* rowSize = 0);
+    static size_t CalculateDataSize(const Vector2I& _size, ImageFormat::Type _format, size_t* numRows = 0, size_t* rowSize = 0);
 
     /// Pixel components per format.
     static const int components[];
@@ -135,7 +134,7 @@ private:
     /// Image dimensions.
     Vector2I _size;
     /// Image format.
-    ImageFormat _format;
+    ImageFormat::Type _format;
     /// Number of mip levels. 1 for uncompressed images.
     size_t _numLevels;
     /// Image pixel data.

@@ -9,9 +9,9 @@ namespace Auto3D
 {
 
 /// Frustum planes.
-struct __FrustumPlane
+namespace FrustumPlane
 {
-	enum _FrustumPlane
+	enum Type
 	{
 		NEAR = 0,
 		LEFT,
@@ -21,7 +21,7 @@ struct __FrustumPlane
 		FAR,
 	};
 };
-using FrustumPlane = __FrustumPlane::_FrustumPlane;
+
 
 static const size_t NUM_FRUSTUM_PLANES = 6;
 static const size_t NUM_FRUSTUM_VERTICES = 8;

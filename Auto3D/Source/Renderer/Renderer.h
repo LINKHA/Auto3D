@@ -17,9 +17,9 @@ class Scene;
 class VertexBuffer;
 
 /// Shader constant buffers used by high-level rendering.
-struct __RendererConstantBuffer
+namespace RendererConstantBuffer
 {
-	enum _RendererConstantBuffer
+	enum Type
 	{
 		FRAME = 0,
 		OBJECT,
@@ -27,7 +27,6 @@ struct __RendererConstantBuffer
 		LIGHTS
 	};
 };
-using RendererConstantBuffer = __RendererConstantBuffer::_RendererConstantBuffer;
 
 
 /// Parameter indices in constant buffers used by high-level rendering.
@@ -59,7 +58,7 @@ struct AUTO_API PassDesc
     }
     
     /// Construct with parameters.
-    PassDesc(const String& name, BatchSortMode sort = BatchSortMode::STATE, bool lit = true) :
+    PassDesc(const String& name, BatchSortMode::Type sort = BatchSortMode::STATE, bool lit = true) :
         _name(name),
         _sort(sort),
         _lit(lit)
@@ -69,7 +68,7 @@ struct AUTO_API PassDesc
     /// %Pass name.
     String _name;
     /// Sorting mode.
-    BatchSortMode _sort;
+    BatchSortMode::Type _sort;
     /// Lighting flag.
     bool _lit;
 };
@@ -87,7 +86,7 @@ public:
 	/// Render scene
 	void Render(Scene* scene, Camera* camera);
     /// Set number, _size and format of shadow maps. These will be divided among the lights that need to render shadow maps.
-    void SetupShadowMaps(size_t num, int _size, ImageFormat _format);
+    void SetupShadowMaps(size_t num, int _size, ImageFormat::Type _format);
     /// Prepare a view for rendering. Convenience function that calls CollectObjects(), CollectLightInteractions() and CollectBatches() in one go. Return true on success.
     bool PrepareView(Scene* scene, Camera* camera, const Vector<PassDesc>& passes);
     /// Initialize rendering of a new view and collect visible objects from the camera's point of view. Return true on success (scene, camera and octree are non-null.)

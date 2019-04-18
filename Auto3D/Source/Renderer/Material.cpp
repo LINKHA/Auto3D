@@ -42,7 +42,7 @@ bool Pass::LoadJSON(const JSONValue& source)
         _shaderDefines[ShaderStage::PS] = source["psDefines"].GetString();
 
     if (source.Contains("depthFunc"))
-        _depthFunc = (CompareFunc)String::ListIndex(source["depthFunc"].GetString(), compareFuncNames, CompareFunc::LESS_EQUAL);
+        _depthFunc = (CompareFunc::Type)String::ListIndex(source["depthFunc"].GetString(), compareFuncNames, CompareFunc::LESS_EQUAL);
     if (source.Contains("depthWrite"))
         _depthWrite = source["depthWrite"].GetBool();
     if (source.Contains("depthClip"))
@@ -58,23 +58,23 @@ bool Pass::LoadJSON(const JSONValue& source)
         if (source.Contains("blendEnable"))
             _blendMode._blendEnable = source["blendEnable"].GetBool();
         if (source.Contains("srcBlend"))
-            _blendMode._srcBlend = (BlendFactor)String::ListIndex(source["srcBlend"].GetString(), blendFactorNames, BlendFactor::ONE);
+            _blendMode._srcBlend = (BlendFactor::Type)String::ListIndex(source["srcBlend"].GetString(), blendFactorNames, BlendFactor::ONE);
         if (source.Contains("destBlend"))
-            _blendMode._destBlend = (BlendFactor)String::ListIndex(source["destBlend"].GetString(), blendFactorNames, BlendFactor::ONE);
+            _blendMode._destBlend = (BlendFactor::Type)String::ListIndex(source["destBlend"].GetString(), blendFactorNames, BlendFactor::ONE);
         if (source.Contains("blendOp"))
-            _blendMode._blendOp = (BlendOp)String::ListIndex(source["blendOp"].GetString(), blendOpNames, BlendOp::ADD);
+            _blendMode._blendOp = (BlendOp::Type)String::ListIndex(source["blendOp"].GetString(), blendOpNames, BlendOp::ADD);
         if (source.Contains("srcBlendAlpha"))
-            _blendMode._srcBlendAlpha = (BlendFactor)String::ListIndex(source["srcBlendAlpha"].GetString(), blendFactorNames, BlendFactor::ONE);
+            _blendMode._srcBlendAlpha = (BlendFactor::Type)String::ListIndex(source["srcBlendAlpha"].GetString(), blendFactorNames, BlendFactor::ONE);
         if (source.Contains("destBlendAlpha"))
-            _blendMode._destBlendAlpha = (BlendFactor)String::ListIndex(source["destBlendAlpha"].GetString(), blendFactorNames, BlendFactor::ONE);
+            _blendMode._destBlendAlpha = (BlendFactor::Type)String::ListIndex(source["destBlendAlpha"].GetString(), blendFactorNames, BlendFactor::ONE);
         if (source.Contains("blendOpAlpha"))
-            _blendMode._blendOpAlpha = (BlendOp)String::ListIndex(source["blendOpAlpha"].GetString(), blendOpNames, BlendOp::ADD);
+            _blendMode._blendOpAlpha = (BlendOp::Type)String::ListIndex(source["blendOpAlpha"].GetString(), blendOpNames, BlendOp::ADD);
     }
 
     if (source.Contains("fillMode"))
-        _fillMode = (FillMode)String::ListIndex(source["fillMode"].GetString(), fillModeNames, FillMode::SOLID);
+        _fillMode = (FillMode::Type)String::ListIndex(source["fillMode"].GetString(), fillModeNames, FillMode::SOLID);
     if (source.Contains("cullMode"))
-        _cullMode = (CullMode)String::ListIndex(source["cullMode"].GetString(), cullModeNames, CullMode::BACK);
+        _cullMode = (CullMode::Type)String::ListIndex(source["cullMode"].GetString(), cullModeNames, CullMode::BACK);
 
     OnShadersChanged();
     return true;
@@ -128,7 +128,7 @@ bool Pass::SaveJSON(JSONValue& dest)
     return true;
 }
 
-void Pass::SetBlendMode(BlendMode mode)
+void Pass::SetBlendMode(BlendMode::Type mode)
 {
     _blendMode = blendModes[mode];
 }
