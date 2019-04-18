@@ -77,11 +77,11 @@ public:
 	/// Check current instance is type of specified type.
 	bool IsInstanceOf(const TypeInfo* typeInfo) const;
 	/// Check current instance is type of specified class.
-	template<typename T> bool IsInstanceOf() const { return IsInstanceOf(T::GetTypeInfoStatic()); }
+	template<typename _Ty> bool IsInstanceOf() const { return IsInstanceOf(_Ty::GetTypeInfoStatic()); }
 	/// Cast the object to specified most derived class.
-	template<typename T> T* Cast() { return IsInstanceOf<T>() ? static_cast<T*>(this) : nullptr; }
+	template<typename _Ty> _Ty* Cast() { return IsInstanceOf<_Ty>() ? static_cast<_Ty*>(this) : nullptr; }
 	/// Cast the object to specified most derived class.
-	template<typename T> const T* Cast() const { return IsInstanceOf<T>() ? static_cast<const T*>(this) : nullptr; }
+	template<typename _Ty> const _Ty* Cast() const { return IsInstanceOf<_Ty>() ? static_cast<const _Ty*>(this) : nullptr; }
 
 	/// Subscribe to an _event.
     void SubscribeToEvent(Event& event, EventHandler* handler);
@@ -138,9 +138,9 @@ public:
     virtual Object* Create() = 0;
 
     /// Return type name hash of the objects created by this factory.
-    StringHash Type() const { return _type; }
+    StringHash GetType() const { return _type; }
     /// Return type name of the objects created by this factory.
-    const String& TypeName() const { return _typeName; }
+    const String& GetTypeName() const { return _typeName; }
 
 protected:
     /// %Object type name hash.

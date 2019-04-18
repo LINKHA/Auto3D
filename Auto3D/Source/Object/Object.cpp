@@ -115,7 +115,7 @@ void Object::RegisterFactory(ObjectFactory* factory)
     if (!factory)
         return;
     
-    _factories[factory->Type()] = factory;
+    _factories[factory->GetType()] = factory;
 }
 
 Object* Object::Create(StringHash type)
@@ -127,7 +127,7 @@ Object* Object::Create(StringHash type)
 const String& Object::TypeNameFromType(StringHash type)
 {
     auto it = _factories.Find(type);
-    return it != _factories.End() ? it->_second->TypeName() : String::EMPTY;
+    return it != _factories.End() ? it->_second->GetTypeName() : String::EMPTY;
 }
 
 }
