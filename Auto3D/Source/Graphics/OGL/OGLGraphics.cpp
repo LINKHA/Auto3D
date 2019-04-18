@@ -395,7 +395,7 @@ void Graphics::SetIndexBuffer(IndexBuffer* buffer)
     }
 }
 
-void Graphics::SetConstantBuffer(ShaderStage stage, size_t index, ConstantBuffer* buffer)
+void Graphics::SetConstantBuffer(ShaderStage::Type stage, size_t index, ConstantBuffer* buffer)
 {
     if (stage < ShaderStage::Count && index < MAX_CONSTANT_BUFFERS && buffer != _constantBuffers[stage][index])
     {
@@ -595,7 +595,7 @@ void Graphics::ResetConstantBuffers()
     for (size_t i = 0; i < ShaderStage::Count; ++i)
     {
         for (size_t j = 0; i < MAX_CONSTANT_BUFFERS; ++j)
-            SetConstantBuffer((ShaderStage)i, j, nullptr);
+            SetConstantBuffer((ShaderStage::Type)i, j, nullptr);
     }
 }
 
@@ -664,7 +664,7 @@ void Graphics::Clear(unsigned clearFlags, const Color& clearColor, float clearDe
         glEnable(GL_SCISSOR_TEST);
 }
 
-void Graphics::Draw(PrimitiveType type, size_t vertexStart, size_t vertexCount)
+void Graphics::Draw(PrimitiveType::Type type, size_t vertexStart, size_t vertexCount)
 {
 	if (!PrepareDraw())
         return;
@@ -672,7 +672,7 @@ void Graphics::Draw(PrimitiveType type, size_t vertexStart, size_t vertexCount)
     glDrawArrays(glPrimitiveTypes[type], (unsigned)vertexStart, (unsigned)vertexCount);
 }
 
-void Graphics::DrawIndexed(PrimitiveType type, size_t indexStart, size_t indexCount, size_t vertexStart)
+void Graphics::DrawIndexed(PrimitiveType::Type type, size_t indexStart, size_t indexCount, size_t vertexStart)
 {
     // Drawing with trashed index data can lead to a crash within the OpenGL driver
     if (!_indexBuffer || _indexBuffer->IsDataLost() || !PrepareDraw())
@@ -693,7 +693,7 @@ void Graphics::DrawIndexed(PrimitiveType type, size_t indexStart, size_t indexCo
 
 }
 
-void Graphics::DrawInstanced(PrimitiveType type, size_t vertexStart, size_t vertexCount, size_t instanceStart, size_t
+void Graphics::DrawInstanced(PrimitiveType::Type type, size_t vertexStart, size_t vertexCount, size_t instanceStart, size_t
     instanceCount)
 {
     if (!PrepareDraw(true, instanceStart))
@@ -702,7 +702,7 @@ void Graphics::DrawInstanced(PrimitiveType type, size_t vertexStart, size_t vert
     glDrawArraysInstanced(glPrimitiveTypes[type], (unsigned)vertexStart, (unsigned)vertexCount, (unsigned)instanceCount);
 }
 
-void Graphics::DrawIndexedInstanced(PrimitiveType type, size_t indexStart, size_t indexCount, size_t vertexStart, size_t instanceStart,
+void Graphics::DrawIndexedInstanced(PrimitiveType::Type type, size_t indexStart, size_t indexCount, size_t vertexStart, size_t instanceStart,
     size_t instanceCount)
 {
     if (!_indexBuffer || _indexBuffer->IsDataLost() || !PrepareDraw(true, instanceStart))
@@ -753,7 +753,7 @@ VertexBuffer* Graphics::GetVertexBuffer(size_t index) const
     return index < MAX_VERTEX_STREAMS ? _vertexBuffers[index] : nullptr;
 }
 
-ConstantBuffer* Graphics::GetConstantBuffer(ShaderStage stage, size_t index) const
+ConstantBuffer* Graphics::GetConstantBuffer(ShaderStage::Type stage, size_t index) const
 {
     return (stage < ShaderStage::Count && index < MAX_CONSTANT_BUFFERS) ? _constantBuffers[stage][index] : nullptr;
 }

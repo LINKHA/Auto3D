@@ -34,8 +34,8 @@ void ConstantBuffer::Release()
         {
             for (size_t j = 0; j < MAX_CONSTANT_BUFFERS; ++j)
             {
-                if (_graphics->GetConstantBuffer((ShaderStage)i, j) == this)
-                    _graphics->SetConstantBuffer((ShaderStage)i, j, 0);
+                if (_graphics->GetConstantBuffer((ShaderStage::Type)i, j) == this)
+                    _graphics->SetConstantBuffer((ShaderStage::Type)i, j, 0);
             }
         }
     }

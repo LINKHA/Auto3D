@@ -76,7 +76,7 @@ public:
     /// Bind an index buffer.
     void SetIndexBuffer(IndexBuffer* buffer);
     /// Bind a constant buffer.
-    void SetConstantBuffer(ShaderStage stage, size_t index, ConstantBuffer* buffer);
+    void SetConstantBuffer(ShaderStage::Type stage, size_t index, ConstantBuffer* buffer);
     /// Bind a texture.
     void SetTexture(size_t index, Texture* texture);
     /// Bind vertex and pixel shaders.
@@ -108,13 +108,13 @@ public:
     /// Clear the current rendertarget. This is not affected by the defined viewport, but will always clear the whole target.
     void Clear(unsigned clearFlags, const Color& clearColor = Color::BLACK, float clearDepth = 1.0f, unsigned char clearStencil = 0);
 	/// Draw non-indexed geometry.
-    void Draw(PrimitiveType type, size_t vertexStart, size_t vertexCount);
+    void Draw(PrimitiveType::Type type, size_t vertexStart, size_t vertexCount);
     /// Draw indexed geometry.
-    void DrawIndexed(PrimitiveType type, size_t indexStart, size_t indexCount, size_t vertexStart);
+    void DrawIndexed(PrimitiveType::Type type, size_t indexStart, size_t indexCount, size_t vertexStart);
     /// Draw instanced non-indexed geometry.
-    void DrawInstanced(PrimitiveType type, size_t vertexStart, size_t vertexCount, size_t instanceStart, size_t instanceCount);
+    void DrawInstanced(PrimitiveType::Type type, size_t vertexStart, size_t vertexCount, size_t instanceStart, size_t instanceCount);
     /// Draw instanced indexed geometry.
-    void DrawIndexedInstanced(PrimitiveType type, size_t indexStart, size_t indexCount, size_t vertexStart, size_t instanceStart, size_t instanceCount);
+    void DrawIndexedInstanced(PrimitiveType::Type type, size_t indexStart, size_t indexCount, size_t vertexStart, size_t instanceStart, size_t instanceCount);
 
     /// Return whether has the rendering _window and context.
     bool IsInitialized() const;
@@ -149,7 +149,7 @@ public:
     /// Return currently bound index buffer.
     IndexBuffer* GetIndexBuffer() const { return _indexBuffer; }
     /// Return currently bound constant buffer by shader stage and index.
-    ConstantBuffer* GetConstantBuffer(ShaderStage stage, size_t index) const;
+    ConstantBuffer* GetConstantBuffer(ShaderStage::Type stage, size_t index) const;
     /// Return currently bound texture by texture unit.
     Texture* GetTexture(size_t index) const;
     /// Return currently bound vertex shader.

@@ -1010,7 +1010,7 @@ void Renderer::LoadPassShaders(Pass* pass)
     pass->_shadersLoaded = true;
 }
 
-ShaderVariation* Renderer::FindShaderVariation(ShaderStage stage, Pass* pass, unsigned short bits)
+ShaderVariation* Renderer::FindShaderVariation(ShaderStage::Type stage, Pass* pass, unsigned short bits)
 {
     /// \todo Evaluate whether the hash lookup is worth the memory save vs using just straightforward vectors
     HashMap<unsigned short, WeakPtr<ShaderVariation> >& variations = pass->_shaderVariations[stage];

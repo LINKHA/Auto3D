@@ -10,9 +10,10 @@ typedef struct ALCcontext_struct ALCcontext;
 
 namespace Auto3D 
 {
-struct __AudioSourceState
+
+namespace AudioSourceState
 {
-	enum _AudioSourceState
+	enum Type
 	{
 		DEFAULT,
 		Initial,
@@ -21,7 +22,7 @@ struct __AudioSourceState
 		Stopped
 	};
 };
-using AudioSourceState = __AudioSourceState::_AudioSourceState;
+
 
 class AudioListener;
 
@@ -65,9 +66,9 @@ public:
 	/// Set vel of source address
 	void SetVel(unsigned source, Vector3F vel);
 	/// Set get state of source
-	AudioSourceState GetState(unsigned source);
+	AudioSourceState::Type GetState(unsigned source);
 	/// Set get state of source
-	AudioSourceState GetState(AudioSource* source);
+	AudioSourceState::Type GetState(AudioSource* source);
 	/// Get source of index
 	const AudioSource* GetSource(unsigned index);
 	/// Return sources

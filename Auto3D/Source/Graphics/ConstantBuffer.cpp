@@ -39,7 +39,7 @@ bool ConstantBuffer::LoadJSON(const JSONValue& source)
 
         Constant newConstant;
         newConstant._name = jsonConstant["name"].GetString();
-        newConstant._type = (ElementType)String::ListIndex(type, elementTypeNames, ElementType::Count);
+        newConstant._type = (ElementType::Type)String::ListIndex(type, elementTypeNames, ElementType::Count);
         if (newConstant._type == ElementType::Count)
         {
             ErrorStringF("Unknown element type %s in constant buffer JSON", type.CString());

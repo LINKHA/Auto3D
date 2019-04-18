@@ -44,21 +44,21 @@ static const unsigned char COLORMASK_A = 0x8;
 static const unsigned char COLORMASK_ALL = 0xf;
 
 /// Shader stages.
-struct __ShaderStage
+namespace ShaderStage
 {
-	enum _ShaderStage
+	enum Type
 	{
 		VS = 0,
 		PS,
 		Count
 	};
 };
-using ShaderStage = __ShaderStage::_ShaderStage;
+
 
 /// Element types for constant buffers and vertex elements.
-struct __ElementType
+namespace ElementType
 {
-	enum _ElementType
+	enum Type
 	{
 		INT = 0,
 		FLOAT,
@@ -71,12 +71,11 @@ struct __ElementType
 		Count
 	};
 };
-using ElementType = __ElementType::_ElementType;
 
 /// Element semantics for vertex elements.
-struct __ElementSemantic
+namespace ElementSemantic
 {
-	enum _ElementSemantic
+	enum Type
 	{
 		POSITION = 0,
 		NORMAL,
@@ -89,12 +88,12 @@ struct __ElementSemantic
 		Count
 	};
 };
-using ElementSemantic = __ElementSemantic::_ElementSemantic;
+
 
 /// Primitive types.
-struct __PrimitiveType
+namespace PrimitiveType
 {
-	enum _PrimitiveType
+	enum Type
 	{
 		POINT_LIST = 1,
 		LINE_LIST,
@@ -104,7 +103,6 @@ struct __PrimitiveType
 		Count
 	};
 };
-using PrimitiveType = __PrimitiveType::_PrimitiveType;
 
 /// Blend factors.
 struct __BlendFactor
@@ -296,7 +294,7 @@ struct AUTO_API VertexElement
     }
 
     /// Construct with type, semantic, index and whether is per-instance data.
-    VertexElement(ElementType type, ElementSemantic semantic, unsigned char index = 0, bool perInstance = false) :
+    VertexElement(ElementType::Type type, ElementSemantic::Type semantic, unsigned char index = 0, bool perInstance = false) :
         _type(type),
         _semantic(semantic),
         _index(index),
@@ -306,9 +304,9 @@ struct AUTO_API VertexElement
     }
 
     /// Data type of element.
-    ElementType _type;
+    ElementType::Type _type;
     /// Semantic of element.
-    ElementSemantic _semantic;
+    ElementSemantic::Type _semantic;
     /// Semantic index of element, for example multi-texcoords.
     unsigned char _index;
     /// Per-instance flag.
@@ -327,7 +325,7 @@ struct AUTO_API Constant
     }
 
     /// Construct with type, name and optional number of elements.
-    Constant(ElementType type, const String& name, size_t numElements = 1) :
+    Constant(ElementType::Type type, const String& name, size_t numElements = 1) :
         _type(type),
         _name(name),
         _numElements(numElements)
@@ -335,7 +333,7 @@ struct AUTO_API Constant
     }
 
     /// Construct with type, name and optional number of elements.
-    Constant(ElementType type, const char* name, size_t numElements = 1) :
+    Constant(ElementType::Type type, const char* name, size_t numElements = 1) :
         _type(type),
         _name(name),
         _numElements(numElements)
@@ -343,7 +341,7 @@ struct AUTO_API Constant
     }
 
     /// Data type of constant.
-    ElementType _type;
+    ElementType::Type _type;
     /// Name of constant.
     String _name;
     /// Number of elements. Default 1.

@@ -52,7 +52,7 @@ public:
     unsigned GetGLBuffer() const { return _buffer; }
 
     /// Compute the hash code of one vertex element by index and semantic.
-    static unsigned ElementHash(size_t index, ElementSemantic semantic) { return (semantic + 1) << (index * 3); }
+    static unsigned ElementHash(size_t index, ElementSemantic::Type semantic) { return (semantic + 1) << (index * 3); }
 
     /// Vertex element D3D11 format by element type.
     static const unsigned elementFormats[];

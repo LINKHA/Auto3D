@@ -188,7 +188,7 @@ void Audio::SetVel(unsigned source, Vector3F vel)
 		alSource3f(source, AL_VELOCITY, vel._x, vel._y, vel._z);
 }
 
-AudioSourceState Audio::GetState(unsigned source)
+AudioSourceState::Type Audio::GetState(unsigned source)
 {
 	ALint state;
 	alGetSourcei(source, AL_SOURCE_STATE, &state);
@@ -203,7 +203,7 @@ AudioSourceState Audio::GetState(unsigned source)
 	else
 		return AudioSourceState::DEFAULT;
 }
-AudioSourceState Audio::GetState(AudioSource* source)
+AudioSourceState::Type Audio::GetState(AudioSource* source)
 {
 	if (!source)
 	{

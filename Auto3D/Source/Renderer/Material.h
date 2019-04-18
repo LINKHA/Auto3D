@@ -40,11 +40,11 @@ public:
     /// Return pass name.
     const String& GetName() const { return _name; }
     /// Return shader name by stage.
-    const String& GetShaderName(ShaderStage stage) const { return _shaderNames[stage]; }
+    const String& GetShaderName(ShaderStage::Type stage) const { return _shaderNames[stage]; }
     /// Return shader defines by stage.
-    const String& GetShaderDefines(ShaderStage stage) const { return _shaderDefines[stage]; }
+    const String& GetShaderDefines(ShaderStage::Type stage) const { return _shaderDefines[stage]; }
     /// Return combined shader defines from the material and pass by stage.
-    const String& GetCombinedShaderDefines(ShaderStage stage) const { return _combinedShaderDefines[stage]; }
+    const String& GetCombinedShaderDefines(ShaderStage::Type stage) const { return _combinedShaderDefines[stage]; }
     /// Return shader hash value for state sorting.
     unsigned GetShaderHash() const { return _shaderHash; }
 
@@ -119,7 +119,7 @@ public:
     /// Reset all texture assignments.
     void ResetTextures();
     /// Set a constant buffer.
-    void SetConstantBuffer(ShaderStage stage, ConstantBuffer* buffer);
+    void SetConstantBuffer(ShaderStage::Type stage, ConstantBuffer* buffer);
     /// Set global shader defines. Clears existing shader cached variations from all passes.
     void SetShaderDefines(const String& vsDefines = String::EMPTY, const String& psDefines = String::EMPTY);
 
@@ -130,9 +130,9 @@ public:
     /// Return texture by texture unit.
     Texture* GetTexture(size_t index) const;
     /// Return constant buffer by stage.
-    ConstantBuffer* GetConstantBuffer(ShaderStage stage) const;
+    ConstantBuffer* GetConstantBuffer(ShaderStage::Type stage) const;
     /// Return shader defines by stage.
-    const String& ShaderDefines(ShaderStage stage) const;
+    const String& ShaderDefines(ShaderStage::Type stage) const;
 
     /// Return pass index from name. By default reserve a new index if the name was not known.
     static unsigned char PassIndex(const String& name, bool createNew = true);

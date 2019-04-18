@@ -56,7 +56,7 @@ struct AUTO_API GeometryDesc
 	/// LOD distance.
 	float _lodDistance;
 	/// Primitive type.
-	PrimitiveType _primitiveType;
+	PrimitiveType::Type _primitiveType;
 	/// Vertex buffer ref.
 	unsigned _vbRef;
 	/// Index buffer ref.
@@ -87,7 +87,7 @@ struct AUTO_API Geometry : public RefCounted
     /// Constant buffers.
     SharedPtr<ConstantBuffer> _constantBuffers[ShaderStage::Count];
     /// %Geometry's primitive type.
-    PrimitiveType _primitiveType;
+    PrimitiveType::Type _primitiveType;
     /// Draw range start. Specifies index start if index buffer defined, vertex start otherwise.
     size_t _drawStart;
     /// Draw range count. Specifies number of indices if index buffer defined, number of vertices otherwise.

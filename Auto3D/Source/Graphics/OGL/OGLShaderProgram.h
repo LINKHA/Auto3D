@@ -18,7 +18,7 @@ struct AUTO_API VertexAttribute
     /// Attribute binding point. 
     unsigned _location;
     /// Attribute semantic.
-    ElementSemantic _semantic;
+    ElementSemantic::Type _semantic;
     /// Attribute's semantic index.
     unsigned char _index;
 };

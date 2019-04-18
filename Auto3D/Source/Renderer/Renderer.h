@@ -131,7 +131,7 @@ private:
     /// Load shaders for a pass.
     void LoadPassShaders(Pass* pass);
     /// Return or create a shader variation for a pass. Vertex shader variations _handle different geometry types and pixel shader variations _handle different light combinations.
-    ShaderVariation* FindShaderVariation(ShaderStage stage, Pass* pass, unsigned short bits);
+    ShaderVariation* FindShaderVariation(ShaderStage::Type stage, Pass* pass, unsigned short bits);
     
     /// Graphics subsystem pointer.
     WeakPtr<Graphics> _graphics;

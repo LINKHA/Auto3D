@@ -173,7 +173,7 @@ void Pass::OnShadersChanged()
     // Combine and trim the shader defines
     for (size_t i = 0; i < ShaderStage::Count; ++i)
     {
-        const String& materialDefines = _parent->ShaderDefines((ShaderStage)i);
+        const String& materialDefines = _parent->ShaderDefines((ShaderStage::Type)i);
         if (materialDefines.Length())
             _combinedShaderDefines[i] = (materialDefines.Trimmed() + " " + _shaderDefines[i]).Trimmed();
         else
@@ -354,7 +354,7 @@ void Material::ResetTextures()
         _textures[i].Reset();
 }
 
-void Material::SetConstantBuffer(ShaderStage stage, ConstantBuffer* buffer)
+void Material::SetConstantBuffer(ShaderStage::Type stage, ConstantBuffer* buffer)
 {
     if (stage < ShaderStage::Count)
         _constantBuffers[stage] = buffer;
@@ -388,12 +388,12 @@ Texture* Material::GetTexture(size_t index) const
     return index < MAX_MATERIAL_TEXTURE_UNITS ? _textures[index].Get() : nullptr;
 }
 
-ConstantBuffer* Material::GetConstantBuffer(ShaderStage stage) const
+ConstantBuffer* Material::GetConstantBuffer(ShaderStage::Type stage) const
 {
     return stage < ShaderStage::Count ? _constantBuffers[stage].Get() : nullptr;
 }
 
-const String& Material::ShaderDefines(ShaderStage stage) const
+const String& Material::ShaderDefines(ShaderStage::Type stage) const
 {
     return stage < ShaderStage::Count ? _shaderDefines[stage] : String::EMPTY;
 }

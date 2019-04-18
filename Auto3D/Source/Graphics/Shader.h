@@ -28,12 +28,12 @@ public:
     bool EndLoad() override;
 
     /// Define shader stage and source code. All existing variations are destroyed.
-    void Define(ShaderStage stage, const String& code);
+    void Define(ShaderStage::Type stage, const String& code);
     /// Create and return a variation with defines, eg. "PERPIXEL NORMALMAP NUMLIGHTS=4". Existing variation is returned if possible. Variations should be cached to avoid repeated query.
     ShaderVariation* CreateVariation(const String& defines = String::EMPTY);
     
     /// Return shader stage.
-    ShaderStage GetStage() const { return _stage; }
+    ShaderStage::Type GetStage() const { return _stage; }
     /// Return shader source code.
     const String& GetSourceCode() const { return _sourceCode; }
 
@@ -47,7 +47,7 @@ private:
     /// %Shader variations.
     HashMap<StringHash, SharedPtr<ShaderVariation> > _variations;
     /// %Shader stage.
-    ShaderStage _stage;
+    ShaderStage::Type _stage;
     /// %Shader source code.
     String _sourceCode;
 };

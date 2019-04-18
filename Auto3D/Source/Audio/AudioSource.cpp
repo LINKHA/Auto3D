@@ -59,7 +59,7 @@ void AudioSource::Rewind(int delayTime)
 	_audio->SourceRewind(_buffer->Source(), delayTime);
 }
 
-AudioSourceState AudioSource::GetState()
+AudioSourceState::Type AudioSource::GetState()
 {
 	return _audio->GetState(GetBuffer()->Source());
 }

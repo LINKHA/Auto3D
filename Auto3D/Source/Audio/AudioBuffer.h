@@ -3,16 +3,15 @@
 
 namespace Auto3D
 {
-struct __AudioSourceUsage
+namespace AudioSourceUsage
 {
-	enum _AudioSourceUsage
+	enum Type
 	{
 		DEFAULT = 0,
 		IMMUTABLE,
 		DYNAMIC,
 	};
 };
-using AudioSourceUsage = __AudioSourceUsage::_AudioSourceUsage;
 
 class Audio;
 class Sound;
@@ -37,7 +36,7 @@ private:
 
 	unsigned _source;
 
-	AudioSourceUsage _usage;
+	AudioSourceUsage::Type _usage;
 };
 
 }

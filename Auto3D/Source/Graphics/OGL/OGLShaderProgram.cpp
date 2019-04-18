@@ -129,7 +129,7 @@ bool ShaderProgram::Link()
                     newAttribute._index = (unsigned char)index;
                 break;
             }
-            newAttribute._semantic = (ElementSemantic)(newAttribute._semantic + 1);
+            newAttribute._semantic = (ElementSemantic::Type)(newAttribute._semantic + 1);
         }
 
         if (newAttribute._semantic == ElementSemantic::Count)

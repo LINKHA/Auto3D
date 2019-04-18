@@ -29,7 +29,7 @@ public:
     /// Return full name combined from parent resource name and compilation defines.
     String FullName() const;
     /// Return shader stage.
-    ShaderStage GetStage() const { return _stage; }
+    ShaderStage::Type GetStage() const { return _stage; }
     /// Return whether compile attempted.
     bool IsCompiled() const { return _compiled; }
 
@@ -42,7 +42,7 @@ private:
     /// Parent shader resource.
     WeakPtr<Shader> _parent;
     /// Shader stage.
-    ShaderStage _stage;
+    ShaderStage::Type _stage;
     /// Compilation defines.
     String _defines;
     /// Compile attempted flag.

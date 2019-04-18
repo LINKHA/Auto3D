@@ -39,7 +39,7 @@ bool Shader::EndLoad()
     return true;
 }
 
-void Shader::Define(ShaderStage stage_, const String& code)
+void Shader::Define(ShaderStage::Type stage_, const String& code)
 {
     _stage = stage_;
     _sourceCode = code;

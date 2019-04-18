@@ -31,7 +31,7 @@ public:
 	/// Get audio buffer
 	AudioBuffer* GetBuffer() { return  _buffer; }
 	/// Get source state
-	AudioSourceState GetState();
+	AudioSourceState::Type GetState();
 private:
 	/// Audio sound resource
 	SharedPtr<Sound> _sound;
