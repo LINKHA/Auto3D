@@ -10,6 +10,55 @@ namespace Auto3D
 class ObjectFactory;
 template <typename _Ty> class ObjectFactoryImpl;
 
+
+/// Type info.
+class AUTO_API TypeInfo
+{
+public:
+	/// Construct.
+	TypeInfo(const char* typeName, const TypeInfo* baseTypeInfo);
+	/// Destruct.
+	~TypeInfo();
+
+	/// Check current type is type of specified type.
+	bool IsTypeOf(StringHash type) const;
+	/// Check current type is type of specified type.
+	bool IsTypeOf(const TypeInfo* typeInfo) const;
+	/// Check current type is type of specified class type.
+	template<typename _Ty> bool IsTypeOf() const { return IsTypeOf(_Ty::GetTypeInfoStatic()); }
+
+	/// Return type.
+	StringHash GetType() const { return _type; }
+	/// Return type name.
+	const String& GetTypeName() const { return _typeName; }
+	/// Return base type info.
+	const TypeInfo* GetBaseTypeInfo() const { return _baseTypeInfo; }
+
+private:
+	/// Type.
+	StringHash _type;
+	/// Type name.
+	String _typeName;
+	/// Base class type info.
+	const TypeInfo* _baseTypeInfo;
+};
+
+#define REGISTER_OBJECT_CLASS(_This,_Base) \
+public: \
+	using This = _This;\
+	using Super = _Base;\
+	virtual Auto3D::StringHash Type() const override { return TypeStatic(); } \
+	virtual const Auto3D::String& TypeName() const override { return TypeNameStatic(); } \
+    virtual const Auto3D::TypeInfo* GetTypeInfo() const override { return GetTypeInfoStatic(); } \
+	static Auto3D::StringHash TypeStatic() { static const Auto3D::StringHash type(#_This); return type; } \
+    static const Auto3D::String& TypeNameStatic() { static const Auto3D::String type(#_This); return type; } \
+	static const Auto3D::TypeInfo* GetTypeInfoStatic() { static const Auto3D::TypeInfo typeInfoStatic(#_This, _Base::GetTypeInfoStatic()); return &typeInfoStatic; } \
+private: \
+    static const Auto3D::StringHash typeStatic; \
+    static const Auto3D::String typeNameStatic; \
+public: \
+
+
 /// Base class for objects with type identification and possibility to create through a factory.
 class AUTO_API Object : public RefCounted
 {
@@ -18,7 +67,11 @@ public:
     virtual StringHash Type() const = 0;
     /// Return type name.
     virtual const String& TypeName() const = 0;
+	/// Return type info.
+	virtual const TypeInfo* GetTypeInfo() const = 0;
 
+	/// Return type info static.
+	static const TypeInfo* GetTypeInfoStatic() { return nullptr; }
     /// Subscribe to an _event.
     void SubscribeToEvent(Event& event, EventHandler* handler);
     /// Unsubscribe from an _event.
@@ -100,19 +153,5 @@ public:
     Object* Create() override { return new _Ty(); }
 };
 
+
 }
-
-#define REGISTER_OBJECT_CLASS(_This,_Base) \
-public: \
-	using This = _This;\
-	using Super = _Base;\
-	Auto3D::StringHash Type() const override { return TypeStatic(); } \
-    const Auto3D::String& TypeName() const override { return TypeNameStatic(); } \
-    static Auto3D::StringHash TypeStatic() { static const Auto3D::StringHash type(#_This); return type; } \
-    static const Auto3D::String& TypeNameStatic() { static const Auto3D::String type(#_This); return type; } \
-private: \
-    static const Auto3D::StringHash typeStatic; \
-    static const Auto3D::String typeNameStatic; \
-public: \
-       
-

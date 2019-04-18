@@ -6,6 +6,44 @@
 namespace Auto3D
 {
 
+TypeInfo::TypeInfo(const char* typeName, const TypeInfo* baseTypeInfo) :
+	_type(typeName),
+	_typeName(typeName),
+	_baseTypeInfo(baseTypeInfo)
+{
+}
+
+TypeInfo::~TypeInfo() = default;
+
+bool TypeInfo::IsTypeOf(StringHash type) const
+{
+	const TypeInfo* current = this;
+	while (current)
+	{
+		if (current->GetType() == type)
+			return true;
+
+		current = current->GetBaseTypeInfo();
+	}
+
+	return false;
+}
+
+bool TypeInfo::IsTypeOf(const TypeInfo* typeInfo) const
+{
+	const TypeInfo* current = this;
+	while (current)
+	{
+		if (current == typeInfo)
+			return true;
+
+		current = current->GetBaseTypeInfo();
+	}
+
+	return false;
+}
+
+
 HashMap<StringHash, Object*> Object::_subsystems;
 HashMap<StringHash, AutoPtr<ObjectFactory> > Object::_factories;
 
