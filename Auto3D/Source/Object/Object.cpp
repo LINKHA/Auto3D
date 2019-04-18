@@ -51,6 +51,16 @@ ObjectFactory::~ObjectFactory()
 {
 }
 
+bool Object::IsInstanceOf(StringHash type) const
+{
+	return GetTypeInfo()->IsTypeOf(type);
+}
+
+bool Object::IsInstanceOf(const TypeInfo* typeInfo) const
+{
+	return GetTypeInfo()->IsTypeOf(typeInfo);
+}
+
 void Object::SubscribeToEvent(Event& event, EventHandler* handler)
 {
     event.Subscribe(handler);
