@@ -47,11 +47,11 @@ private:
 public: \
 	using This = _This;\
 	using Super = _Base;\
-	virtual Auto3D::StringHash Type() const override { return TypeStatic(); } \
-	virtual const Auto3D::String& TypeName() const override { return TypeNameStatic(); } \
+	virtual Auto3D::StringHash GetType() const override { return GetTypeStatic(); } \
+	virtual const Auto3D::String& GetTypeName() const override { return GetTypeNameStatic(); } \
     virtual const Auto3D::TypeInfo* GetTypeInfo() const override { return GetTypeInfoStatic(); } \
-	static Auto3D::StringHash TypeStatic() { static const Auto3D::StringHash type(#_This); return type; } \
-    static const Auto3D::String& TypeNameStatic() { static const Auto3D::String type(#_This); return type; } \
+	static Auto3D::StringHash GetTypeStatic() { static const Auto3D::StringHash type(#_This); return type; } \
+    static const Auto3D::String& GetTypeNameStatic() { static const Auto3D::String type(#_This); return type; } \
 	static const Auto3D::TypeInfo* GetTypeInfoStatic() { static const Auto3D::TypeInfo typeInfoStatic(#_This, _Base::GetTypeInfoStatic()); return &typeInfoStatic; } \
 private: \
     static const Auto3D::StringHash typeStatic; \
@@ -64,9 +64,9 @@ class AUTO_API Object : public RefCounted
 {
 public:
     /// Return hash of the type name.
-    virtual StringHash Type() const = 0;
+    virtual StringHash GetType() const = 0;
     /// Return type name.
-    virtual const String& TypeName() const = 0;
+    virtual const String& GetTypeName() const = 0;
 	/// Return type info.
 	virtual const TypeInfo* GetTypeInfo() const = 0;
 
@@ -103,11 +103,11 @@ public:
     /// Return a type name from hash, or empty if not known. Requires a registered object factory.
     static const String& TypeNameFromType(StringHash type);
     /// Return a subsystem, template version.
-    template <typename _Ty> static _Ty* Subsystem() { return static_cast<_Ty*>(Subsystem(_Ty::TypeStatic())); }
+    template <typename _Ty> static _Ty* Subsystem() { return static_cast<_Ty*>(Subsystem(_Ty::GetTypeStatic())); }
     /// Register an object factory, template version.
     template <typename _Ty> static void RegisterFactory() { RegisterFactory(new ObjectFactoryImpl<_Ty>()); }
     /// Create and return an object through a factory, template version.
-    template <typename _Ty> static _Ty* Create() { return static_cast<_Ty*>(Create(_Ty::TypeStatic())); }
+    template <typename _Ty> static _Ty* Create() { return static_cast<_Ty*>(Create(_Ty::GetTypeStatic())); }
     
 private:
     /// Registered subsystems.
@@ -145,8 +145,8 @@ public:
     /// Construct.
     ObjectFactoryImpl()
     {
-        _type = _Ty::TypeStatic();
-        _typeName = _Ty::TypeNameStatic();
+        _type = _Ty::GetTypeStatic();
+        _typeName = _Ty::GetTypeNameStatic();
     }
 
     /// Create and return an object of the specific type.

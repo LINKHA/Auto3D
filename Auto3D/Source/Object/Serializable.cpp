@@ -111,7 +111,7 @@ void Serializable::AttributeValue(Attribute* attr, void* dest)
 
 const Vector<SharedPtr<Attribute> >* Serializable::Attributes() const
 {
-    auto it = _classAttributes.Find(Type());
+    auto it = _classAttributes.Find(GetType());
     return it != _classAttributes.End() ? &it->_second : nullptr;
 }
 

@@ -64,7 +64,7 @@ bool Canvas::Load(Stream& source)
 
 	StringHash ownType = source.Read<StringHash>();
 	unsigned ownId = source.Read<unsigned>();
-	if (ownType != TypeStatic())
+	if (ownType != GetTypeStatic())
 	{
 		ErrorString("Mismatching type of scene root node in scene file");
 		return false;
@@ -87,7 +87,7 @@ bool Canvas::LoadJSON(const JSONValue& source)
 	StringHash ownType(source["type"].GetString());
 	unsigned ownId = (unsigned)source["id"].GetNumber();
 
-	if (ownType != TypeStatic())
+	if (ownType != GetTypeStatic())
 	{
 		ErrorString("Mismatching type of scene root node in scene file");
 		return false;

@@ -74,7 +74,7 @@ void GeometryNode::RegisterObject()
     RegisterFactory<GeometryNode>();
     CopyBaseAttributes<GeometryNode, OctreeNode>();
     RegisterMixedRefAttribute("materials", &GeometryNode::MaterialsAttr, &GeometryNode::SetMaterialsAttr,
-        ResourceRefList(Material::TypeStatic()));
+        ResourceRefList(Material::GetTypeStatic()));
 }
 
 void GeometryNode::OnPrepareRender(unsigned frameNumber, Camera* camera)
@@ -168,7 +168,7 @@ void GeometryNode::SetMaterialsAttr(const ResourceRefList& materials)
 
 ResourceRefList GeometryNode::MaterialsAttr() const
 {
-    ResourceRefList ret(Material::TypeStatic());
+    ResourceRefList ret(Material::GetTypeStatic());
     
     ret._names.Resize(_batches.Size());
     for (size_t i = 0; i < _batches.Size(); ++i)

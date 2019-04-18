@@ -66,7 +66,7 @@ void Node::Load(Stream& source, ObjectResolver& resolver)
 void Node::Save(Stream& dest)
 {
     // Write type and ID first, followed by attributes and child nodes
-    dest.Write(Type());
+    dest.Write(GetType());
     dest.Write(Id());
     Serializable::Save(dest);
     dest.WriteVLE(NumPersistentChildren());
@@ -104,7 +104,7 @@ void Node::LoadJSON(const JSONValue& source, ObjectResolver& resolver)
 
 void Node::SaveJSON(JSONValue& dest)
 {
-    dest["type"] = TypeName();
+    dest["type"] = GetTypeName();
     dest["id"] = Id();
     Serializable::SaveJSON(dest);
     
@@ -242,7 +242,7 @@ Node* Node::CreateChild(StringHash childType)
     Node* child = dynamic_cast<Node*>(newObject.Get());
     if (!child)
     {
-        ErrorString(newObject->TypeName() + " is not a Node subclass, could not add as a child");
+        ErrorString(newObject->GetTypeName() + " is not a Node subclass, could not add as a child");
         return nullptr;
     }
 
@@ -419,7 +419,7 @@ Node* Node::FindChild(StringHash childType, bool recursive) const
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         Node* child = *it;
-        if (child->Type() == childType)
+        if (child->GetType() == childType)
             return child;
         else if (recursive && child->_children.Size())
         {
@@ -442,7 +442,7 @@ Node* Node::FindChild(StringHash childType, const char* childName, bool recursiv
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         Node* child = *it;
-        if (child->Type() == childType && child->_name == childName)
+        if (child->GetType() == childType && child->_name == childName)
             return child;
         else if (recursive && child->_children.Size())
         {
@@ -519,7 +519,7 @@ void Node::FindChildren(Vector<Node*>& result, StringHash childType, bool recurs
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         Node* child = *it;
-        if (child->Type() == childType)
+        if (child->GetType() == childType)
             result.Push(child);
         if (recursive && child->_children.Size())
             child->FindChildren(result, childType, recursive);

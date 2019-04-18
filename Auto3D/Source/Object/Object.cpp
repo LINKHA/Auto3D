@@ -76,7 +76,7 @@ void Object::RegisterSubsystem(Object* subsystem)
     if (!subsystem)
         return;
     
-    _subsystems[subsystem->Type()] = subsystem;
+    _subsystems[subsystem->GetType()] = subsystem;
 }
 
 void Object::RemoveSubsystem(Object* subsystem)
@@ -84,7 +84,7 @@ void Object::RemoveSubsystem(Object* subsystem)
     if (!subsystem)
         return;
     
-    auto it = _subsystems.Find(subsystem->Type());
+    auto it = _subsystems.Find(subsystem->GetType());
     if (it != _subsystems.End() && it->_second == subsystem)
         _subsystems.Erase(it);
 }

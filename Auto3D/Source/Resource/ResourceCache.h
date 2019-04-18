@@ -44,9 +44,9 @@ public:
     /// Reload an existing resource. Return true on success.
     bool ReloadResource(Resource* resource);
     /// Load and return a resource, template version.
-    template <typename _Ty> _Ty* LoadResource(const String& name) { return static_cast<_Ty*>(LoadResource(_Ty::TypeStatic(), name)); }
+    template <typename _Ty> _Ty* LoadResource(const String& name) { return static_cast<_Ty*>(LoadResource(_Ty::GetTypeStatic(), name)); }
     /// Load and return a resource, template version.
-    template <typename _Ty> _Ty* LoadResource(const char* name) { return static_cast<_Ty*>(LoadResource(_Ty::TypeStatic(), name)); }
+    template <typename _Ty> _Ty* LoadResource(const char* name) { return static_cast<_Ty*>(LoadResource(_Ty::GetTypeStatic(), name)); }
 
     /// Return resources by type.
     void ResourcesByType(Vector<Resource*>& result, StringHash type) const;

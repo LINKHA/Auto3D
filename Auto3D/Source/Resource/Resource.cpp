@@ -19,7 +19,7 @@ bool Resource::EndLoad()
 
 bool Resource::Save(Stream&)
 {
-    ErrorString("Save not supported for " + TypeName());
+    ErrorString("Save not supported for " + GetTypeName());
     return false;
 }
 

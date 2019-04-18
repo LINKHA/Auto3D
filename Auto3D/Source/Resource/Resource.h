@@ -53,7 +53,7 @@ inline const String& ResourceName(Resource* resource)
 /// Return type from a resource pointer, or default type if null.
 inline StringHash ResourceType(Resource* resource, StringHash defaultType)
 {
-    return resource ? resource->Type() : defaultType;
+    return resource ? resource->GetType() : defaultType;
 }
 
 /// Make a resource ref from a resource pointer.

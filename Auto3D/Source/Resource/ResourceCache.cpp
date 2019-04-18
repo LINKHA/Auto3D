@@ -64,7 +64,7 @@ bool ResourceCache::AddManualResource(Resource* resource)
         return false;
     }
 
-    _resources[MakePair(resource->Type(), StringHash(resource->Name()))] = resource;
+    _resources[MakePair(resource->GetType(), StringHash(resource->Name()))] = resource;
     return true;
 }
 
@@ -280,7 +280,7 @@ void ResourceCache::ResourcesByType(Vector<Resource*>& result, StringHash type) 
 
     for (auto it = _resources.Begin(); it != _resources.End(); ++it)
     {
-        if (it->_second->Type() == type)
+        if (it->_second->GetType() == type)
             result.Push(it->_second);
     }
 }

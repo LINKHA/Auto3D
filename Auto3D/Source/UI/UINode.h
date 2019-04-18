@@ -87,11 +87,11 @@ public:
 	/// Remove self immediately. As this will delete the node (if no other strong references exist) no operations on the node are permitted after calling this.
 	void RemoveSelf();
 	/// Create child node of the specified type, template version.
-	template <typename _Ty> _Ty* CreateChild() { return static_cast<_Ty*>(CreateChild(_Ty::TypeStatic())); }
+	template <typename _Ty> _Ty* CreateChild() { return static_cast<_Ty*>(CreateChild(_Ty::GetTypeStatic())); }
 	/// Create named child node of the specified type, template version.
-	template <typename _Ty> _Ty* CreateChild(const String& childName) { return static_cast<_Ty*>(CreateChild(_Ty::TypeStatic(), childName)); }
+	template <typename _Ty> _Ty* CreateChild(const String& childName) { return static_cast<_Ty*>(CreateChild(_Ty::GetTypeStatic(), childName)); }
 	/// Create named child node of the specified type, template version.
-	template <typename _Ty> _Ty* CreateChild(const char* childName) { return static_cast<_Ty*>(CreateChild(_Ty::TypeStatic(), childName)); }
+	template <typename _Ty> _Ty* CreateChild(const char* childName) { return static_cast<_Ty*>(CreateChild(_Ty::GetTypeStatic(), childName)); }
 
 	/// Return name.
 	const String& GetName() const { return _name; }
