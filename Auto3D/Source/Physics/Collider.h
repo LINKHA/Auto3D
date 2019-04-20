@@ -11,16 +11,16 @@ namespace ShapeType
 {
 	enum Type
 	{
-		Box = 0,
-		Sphere,
-		Staticplane,
-		Cylinder,
-		Capsule,
-		Cone,
-		Trianglemesh,
-		Convexhull,
-		Terrain,
-		Gimpactmesh
+		BOX = 0,
+		SPHERE,
+		STATICPLANE,
+		CYLINDER,
+		CAPSULE,
+		CONE,
+		TRIANGLEMESH,
+		CONVEXHULL,
+		TERRAIN,
+		GIMPACTMESH
 	};
 };
 

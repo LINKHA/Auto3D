@@ -8,8 +8,8 @@ namespace AudioUsage
 {
 	enum Type
 	{
-		Static = 0,
-		Dynamic,
+		STATIC = 0,
+		DYNAMIC,
 	};
 };
 
