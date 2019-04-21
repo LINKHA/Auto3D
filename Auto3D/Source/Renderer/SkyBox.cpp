@@ -13,16 +13,21 @@ SkyBox::SkyBox()
 {
 	auto* cache = Object::Subsystem<ResourceCache>();
 	SetModel(cache->LoadResource<Model>("Box.mdl"));
+	OnWorldBoundingBoxUpdate();
 }
 
-SkyBox::~SkyBox()
-{
+SkyBox::~SkyBox() = default;
 
-}
 
 void SkyBox::RegisterObject()
 {
 	RegisterFactory<SkyBox>();
+}
+
+void SkyBox::OnWorldBoundingBoxUpdate()
+{
+	// The skybox is supposed to be visible everywhere, so set a humongous bounding box
+	_boundingBox.Define(-M_FLOAT_BIG, M_FLOAT_BIG);
 }
 
 }

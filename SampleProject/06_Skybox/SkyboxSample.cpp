@@ -24,7 +24,7 @@ void SkyboxSample::Start()
 	// Register scene to scene system use to render
 	Object::Subsystem<RegisteredBox>()->RegisterScene(scene, camera);
 
-	SkyBox* skybox = camera->CreateChild<SkyBox>();
+	SkyBox* skybox = scene->CreateChild<SkyBox>();
 	skybox->SetMaterial(cache->LoadResource<Material>("SkyBox.json"));
 }
 void SkyboxSample::Update()

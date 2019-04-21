@@ -15,6 +15,9 @@ public:
 	~SkyBox();
 	/// Register factory and attributes.
 	static void RegisterObject();
+private:
+	/// Recalculate the world-space bounding box.
+	void OnWorldBoundingBoxUpdate();
 };
 
 }
