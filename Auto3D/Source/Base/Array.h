@@ -40,9 +40,7 @@ public:
 		++*this;
 		return temp;
 	}
-	/**
 	/// Predecrement
-	*/
 	ArrayIterator& operator --()
 	{
 		--_index;
