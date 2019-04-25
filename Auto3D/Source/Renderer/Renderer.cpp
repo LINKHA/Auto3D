@@ -78,7 +78,7 @@ void Renderer::Render(Scene* scene, Camera* camera)
 {
 	PROFILE(RenderScene);
 	Vector<PassDesc> passes;
-	passes.Push(PassDesc("opaque", BatchSortMode::STATE, true));
+	passes.Push(PassDesc("opaque", BatchSortMode::FRONT_TO_BACK, true));
 	passes.Push(PassDesc("alpha", BatchSortMode::BACK_TO_FRONT, true));
 
 	PrepareView(scene, camera, passes);

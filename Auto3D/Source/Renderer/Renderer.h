@@ -59,8 +59,8 @@ struct AUTO_API PassDesc
     
     /// Construct with parameters.
     PassDesc(const String& name, BatchSortMode::Type sort = BatchSortMode::STATE, bool lit = true) :
-        _name(name),
-        _sort(sort),
+		_name(name),
+		_sort(sort),
         _lit(lit)
     {
     }
