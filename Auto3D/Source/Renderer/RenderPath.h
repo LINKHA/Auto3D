@@ -1,4 +1,8 @@
 #pragma once
+#include "../Base/String.h"
+
+namespace Auto3D
+{
 
 /// Rendering path command types.
 namespace RenderCommandType
@@ -7,6 +11,7 @@ namespace RenderCommandType
 	{
 		NONE = 0,
 		CLEAR,
+		DRAW_GEOMETRY,
 		FORWARD_LIGHT,
 		DEFERRED_LIGHT,
 		RENDER_UI
@@ -23,4 +28,31 @@ namespace RenderCommandSortMode
 		BACK_TO_FRONT,
 		FRONT_TO_BACK,
 	};
+}
+
+
+/// Description of a pass from the client to the renderer.
+struct AUTO_API RenderPassDesc
+{
+	/// Construct undefined.
+	RenderPassDesc()
+	{
+	}
+
+	/// Construct with parameters.
+	RenderPassDesc(const String& name, RenderCommandSortMode::Type sort = RenderCommandSortMode::STATE, bool lit = true) :
+		_name(name),
+		_sort(sort),
+		_lit(lit)
+	{
+	}
+
+	/// %Pass name.
+	String _name;
+	/// Sorting mode.
+	RenderCommandSortMode::Type _sort;
+	/// Lighting flag.
+	bool _lit;
+};
+
 }

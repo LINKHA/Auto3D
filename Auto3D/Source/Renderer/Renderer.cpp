@@ -11,6 +11,7 @@
 #include "../Math/Matrix4x4.h"
 #include "../Math/Matrix3x4.h"
 
+#include "RenderPath.h"
 #include "Light.h"
 #include "Material.h"
 #include "Model.h"
@@ -77,9 +78,9 @@ Renderer::~Renderer()
 void Renderer::Render(Scene* scene, Camera* camera)
 {
 	PROFILE(RenderScene);
-	Vector<PassDesc> passes;
-	passes.Push(PassDesc("opaque", BatchSortMode::FRONT_TO_BACK, true));
-	passes.Push(PassDesc("alpha", BatchSortMode::BACK_TO_FRONT, true));
+	Vector<RenderPassDesc> passes;
+	passes.Push(RenderPassDesc("opaque", RenderCommandSortMode::FRONT_TO_BACK, true));
+	passes.Push(RenderPassDesc("alpha", RenderCommandSortMode::BACK_TO_FRONT, true));
 
 	PrepareView(scene, camera, passes);
 
@@ -108,7 +109,7 @@ void Renderer::SetupShadowMaps(size_t num, int size, ImageFormat::Type format)
     }
 }
 
-bool Renderer::PrepareView(Scene* scene, Camera* camera, const Vector<PassDesc>& passes)
+bool Renderer::PrepareView(Scene* scene, Camera* camera, const Vector<RenderPassDesc>& passes)
 {
 	if (!_graphics)
 		Initialize();
@@ -278,8 +279,8 @@ void Renderer::CollectLightInteractions()
         {
             ShadowView* view = _shadowViews[i].Get();
             Frustum shadowFrustum = view->_shadowCamera.GetWorldFrustum();
-            BatchQueue& shadowQueue = view->_shadowQueue;
-            shadowQueue._sort = BatchSortMode::STATE;
+            RenderQueue& shadowQueue = view->_shadowQueue;
+            shadowQueue._sort = RenderCommandSortMode::STATE;
             shadowQueue._lit = false;
             shadowQueue._baseIndex = Material::PassIndex("shadow");
             shadowQueue._additiveIndex = 0;
@@ -440,18 +441,18 @@ void Renderer::CollectLightInteractions()
     }
 }
 
-void Renderer::CollectBatches(const Vector<PassDesc>& passes)
+void Renderer::CollectBatches(const Vector<RenderPassDesc>& passes)
 {
     PROFILE(CollectBatches);
 
     // Setup batch queues for each requested pass
-    static Vector<BatchQueue*> currentQueues;
+    static Vector<RenderQueue*> currentQueues;
     currentQueues.Resize(passes.Size());
     for (size_t i = 0; i < passes.Size(); ++i)
     {
-        const PassDesc& srcPass = passes[i];
+        const RenderPassDesc& srcPass = passes[i];
         unsigned char baseIndex = Material::PassIndex(srcPass._name);
-        BatchQueue* batchQueue = &_batchQueues[baseIndex];
+        RenderQueue* batchQueue = &_batchQueues[baseIndex];
         currentQueues[i] = batchQueue;
         batchQueue->_sort = srcPass._sort;
         batchQueue->_lit = srcPass._lit;
@@ -479,14 +480,14 @@ void Renderer::CollectBatches(const Vector<PassDesc>& passes)
             // Loop through requested queues
             for (auto qIt = currentQueues.Begin(); qIt != currentQueues.End(); ++qIt)
             {
-                BatchQueue& batchQueue = **qIt;
+                RenderQueue& batchQueue = **qIt;
                 newBatch._pass = material->GetPass(batchQueue._baseIndex);
                 // Material may not have the requested pass at all, skip further processing as fast as possible in that case
                 if (!newBatch._pass)
                     continue;
 
                 newBatch._lights = batchQueue._lit ? lightList ? lightList->_lightPasses[0] : &_ambientLightPass : nullptr;
-                if (batchQueue._sort < BatchSortMode::BACK_TO_FRONT)
+                if (batchQueue._sort < RenderCommandSortMode::BACK_TO_FRONT)
                     newBatch.CalculateSortKey();
                 else
                     newBatch._distance = node->Distance();
@@ -503,7 +504,7 @@ void Renderer::CollectBatches(const Vector<PassDesc>& passes)
                     for (size_t i = 1; i < lightList->_lightPasses.Size(); ++i)
                     {
                         newBatch._lights = lightList->_lightPasses[i];
-                        if (batchQueue._sort != BatchSortMode::BACK_TO_FRONT)
+                        if (batchQueue._sort != RenderCommandSortMode::BACK_TO_FRONT)
                         {
                             newBatch.CalculateSortKey();
                             batchQueue._additiveBatches.Push(newBatch);
@@ -525,7 +526,7 @@ void Renderer::CollectBatches(const Vector<PassDesc>& passes)
 
     for (auto qIt = currentQueues.Begin(); qIt != currentQueues.End(); ++qIt)
     {
-        BatchQueue& batchQueue = **qIt;
+        RenderQueue& batchQueue = **qIt;
         batchQueue.Sort(_instanceTransforms);
     }
 
@@ -534,9 +535,9 @@ void Renderer::CollectBatches(const Vector<PassDesc>& passes)
         _instanceTransformsDirty = true;
 }
 
-void Renderer::CollectBatches(const PassDesc& pass)
+void Renderer::CollectBatches(const RenderPassDesc& pass)
 {
-    static Vector<PassDesc> passDescs(1);
+    static Vector<RenderPassDesc> passDescs(1);
     passDescs[0] = pass;
     CollectBatches(passDescs);
 }
@@ -567,14 +568,14 @@ void Renderer::RenderShadowMaps()
     }
 }
 
-void Renderer::RenderBatches(const Vector<PassDesc>& passes)
+void Renderer::RenderBatches(const Vector<RenderPassDesc>& passes)
 {
     PROFILE(RenderBatches);
 
     for (size_t i = 0; i < passes.Size(); ++i)
     {
         unsigned char passIndex = Material::PassIndex(passes[i]._name);
-        BatchQueue& batchQueue = _batchQueues[passIndex];
+        RenderQueue& batchQueue = _batchQueues[passIndex];
         RenderBatches(batchQueue._batches, _camera, i == 0);
         RenderBatches(batchQueue._additiveBatches, _camera, false);
     }
@@ -585,7 +586,7 @@ void Renderer::RenderBatches(const String& pass)
     PROFILE(RenderBatches);
 
     unsigned char passIndex = Material::PassIndex(pass);
-    BatchQueue& batchQueue = _batchQueues[passIndex];
+    RenderQueue& batchQueue = _batchQueues[passIndex];
     RenderBatches(batchQueue._batches, _camera);
     RenderBatches(batchQueue._additiveBatches, _camera, false);
 }
@@ -777,7 +778,7 @@ void Renderer::AddLightToNode(GeometryNode* node, Light* light, LightList* light
     }
 }
 
-void Renderer::CollectShadowBatches(const Vector<GeometryNode*>& nodes, BatchQueue& batchQueue, const Frustum& frustum,
+void Renderer::CollectShadowBatches(const Vector<GeometryNode*>& nodes, RenderQueue& batchQueue, const Frustum& frustum,
     bool checkShadowCaster, bool checkFrustum)
 {
     Batch newBatch;

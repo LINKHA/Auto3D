@@ -22,28 +22,28 @@ inline bool CompareBatchDistanceBackToFront(Batch& lhs, Batch& rhs)
     return lhs._distance > rhs._distance;
 }
 
-void BatchQueue::Clear()
+void RenderQueue::Clear()
 {
     _batches.Clear();
     _additiveBatches.Clear();
 }
 
-void BatchQueue::Sort(Vector<Matrix3x4F>& instanceTransforms)
+void RenderQueue::Sort(Vector<Matrix3x4F>& instanceTransforms)
 {
     switch (_sort)
     {
-    case BatchSortMode::STATE:
+    case RenderCommandSortMode::STATE:
         Auto3D::Sort(_batches.Begin(), _batches.End(), CompareBatchState);
         Auto3D::Sort(_additiveBatches.Begin(), _additiveBatches.End(), CompareBatchState);
         break;
 
-    case BatchSortMode::FRONT_TO_BACK:
+    case RenderCommandSortMode::FRONT_TO_BACK:
         Auto3D::Sort(_batches.Begin(), _batches.End(), CompareBatchDistanceFrontToBack);
         // After drawing the base batches, the Z buffer has been prepared. Additive batches can be sorted per state now
         Auto3D::Sort(_additiveBatches.Begin(), _additiveBatches.End(), CompareBatchState);
         break;
 
-    case BatchSortMode::BACK_TO_FRONT:
+    case RenderCommandSortMode::BACK_TO_FRONT:
         Auto3D::Sort(_batches.Begin(), _batches.End(), CompareBatchDistanceBackToFront);
         Auto3D::Sort(_additiveBatches.Begin(), _additiveBatches.End(), CompareBatchDistanceBackToFront);
         break;
@@ -57,7 +57,7 @@ void BatchQueue::Sort(Vector<Matrix3x4F>& instanceTransforms)
     BuildInstances(_additiveBatches, instanceTransforms);
 }
 
-void BatchQueue::BuildInstances(Vector<Batch>& batches, Vector<Matrix3x4F>& instanceTransforms)
+void RenderQueue::BuildInstances(Vector<Batch>& batches, Vector<Matrix3x4F>& instanceTransforms)
 {
     Batch* start = nullptr;
 

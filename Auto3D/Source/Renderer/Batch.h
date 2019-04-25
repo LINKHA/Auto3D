@@ -3,7 +3,7 @@
 #include "Camera.h"
 #include "GeometryNode.h"
 #include "Material.h"
-
+#include "RenderPath.h"
 
 namespace Auto3D
 {
@@ -13,18 +13,6 @@ struct LightPass;
 
 /// Maximum number of lights per pass.
 static const size_t MAX_LIGHTS_PER_PASS = 4;
-
-/// Batch sorting modes.
-namespace BatchSortMode
-{
-	enum Type
-	{
-		NONE = 0,
-		STATE,
-		BACK_TO_FRONT,
-		FRONT_TO_BACK,
-	};
-};
 
 
 /// Description of a draw call.
@@ -68,7 +56,7 @@ struct AUTO_API Batch
 };
 
 /// Per-pass batch queue structure.
-struct AUTO_API BatchQueue
+struct AUTO_API RenderQueue
 {
     /// Clear structures.
     void Clear();
@@ -83,7 +71,7 @@ struct AUTO_API BatchQueue
     /// Additive lighting batches.
     Vector<Batch> _additiveBatches;
     /// Sorting mode.
-    BatchSortMode::Type _sort;
+	RenderCommandSortMode::Type _sort;
     /// Lighting flag.
     bool _lit;
     /// Base pass index.
@@ -145,7 +133,7 @@ struct AUTO_API ShadowView
     /// Viewport within the shadow map.
     RectI _viewport;
     /// Shadow batch queue.
-    BatchQueue _shadowQueue;
+    RenderQueue _shadowQueue;
     /// Shadow camera.
     Camera _shadowCamera;
 };

@@ -5,6 +5,8 @@
 #include "../Math/Color.h"
 #include "../Math/Frustum.h"
 #include "../Resource/Image.h"
+
+#include "RenderPath.h"
 #include "Batch.h"
 
 namespace Auto3D
@@ -49,29 +51,6 @@ static const size_t PS_LIGHT_POINT_SHADOW_PARAMETERS = 7;
 /// Texture coordinate index for the instance world matrix.
 static const size_t INSTANCE_TEXCOORD = 4;
 
-/// Description of a pass from the client to the renderer.
-struct AUTO_API PassDesc
-{
-    /// Construct undefined.
-    PassDesc()
-    {
-    }
-    
-    /// Construct with parameters.
-    PassDesc(const String& name, BatchSortMode::Type sort = BatchSortMode::STATE, bool lit = true) :
-		_name(name),
-		_sort(sort),
-        _lit(lit)
-    {
-    }
-
-    /// %Pass name.
-    String _name;
-    /// Sorting mode.
-    BatchSortMode::Type _sort;
-    /// Lighting flag.
-    bool _lit;
-};
 
 /// High-level rendering subsystem. Performs rendering of 3D scenes.
 class AUTO_API Renderer : public BaseSubsystem
@@ -88,19 +67,19 @@ public:
     /// Set number, _size and format of shadow maps. These will be divided among the lights that need to render shadow maps.
     void SetupShadowMaps(size_t num, int _size, ImageFormat::Type _format);
     /// Prepare a view for rendering. Convenience function that calls CollectObjects(), CollectLightInteractions() and CollectBatches() in one go. Return true on success.
-    bool PrepareView(Scene* scene, Camera* camera, const Vector<PassDesc>& passes);
+    bool PrepareView(Scene* scene, Camera* camera, const Vector<RenderPassDesc>& passes);
     /// Initialize rendering of a new view and collect visible objects from the camera's point of view. Return true on success (scene, camera and octree are non-null.)
     bool CollectObjects(Scene* scene, Camera* camera);
     /// Collect light interactions with geometries from the current view. If lights are shadowed, collects batches for shadow casters.
     void CollectLightInteractions();
     /// Collect and sort batches from the visible objects. To not go through the objects several times, all the passes should be specified at once instead of multiple calls to CollectBatches().
-    void CollectBatches(const Vector<PassDesc>& passes);
+    void CollectBatches(const Vector<RenderPassDesc>& passes);
     /// Collect and sort batches from the visible objects. Convenience function for one pass only.
-    void CollectBatches(const PassDesc& pass);
+    void CollectBatches(const RenderPassDesc& pass);
     /// Render shadow maps. Should be called after all CollectBatches() calls but before RenderBatches(). Note that you must reassign your rendertarget and viewport after calling this.
     void RenderShadowMaps();
     /// Render several passes to the currently set rendertarget and viewport. Avoids setting the per-frame constants multiple times.
-    void RenderBatches(const Vector<PassDesc>& passes);
+    void RenderBatches(const Vector<RenderPassDesc>& passes);
     /// Render a pass to the currently set rendertarget and viewport. Convenience function for one pass only.
     void RenderBatches(const String& pass);
 
@@ -124,7 +103,7 @@ private:
     /// Assign a light list to a node. Creates new light lists as necessary to _handle multiple lights.
     void AddLightToNode(GeometryNode* node, Light* light, LightList* lightList);
     /// Collect shadow caster batches.
-    void CollectShadowBatches(const Vector<GeometryNode*>& nodes, BatchQueue& batchQueue, const Frustum& frustum, bool checkShadowCaster, bool checkFrustum);
+    void CollectShadowBatches(const Vector<GeometryNode*>& nodes, RenderQueue& batchQueue, const Frustum& frustum, bool checkShadowCaster, bool checkFrustum);
     /// Render batches from a specific queue and camera.
     void RenderBatches(const Vector<Batch>& batches, Camera* camera, bool setPerFrameContants = true, bool overrideDepthBias = false, int depthBias = 0, float slopeScaledDepthBias = 0.0f);
     /// Load shaders for a pass.
@@ -149,7 +128,7 @@ private:
     /// Lights in frustum.
     Vector<Light*> _lights;
     /// Batch queues per pass.
-    HashMap<unsigned char, BatchQueue> _batchQueues;
+    HashMap<unsigned char, RenderQueue> _batchQueues;
     /// Instance transforms for uploading to the instance vertex buffer.
     Vector<Matrix3x4F> _instanceTransforms;
     /// Lit geometries query result.
