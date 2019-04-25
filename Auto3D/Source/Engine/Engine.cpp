@@ -1,5 +1,6 @@
 #include "Engine.h"
 
+#include "../Base/ProcessUtils.h"
 #include "../Debug/DebugNew.h"
 namespace Auto3D
 {
@@ -61,6 +62,9 @@ void Engine::Init()
 	}
 	// Set default Logo
 	_graphics->RenderWindow()->SetIcon(_cache->LoadResource<Image>("NewLogo.png"));
+
+	// Init FPU state of main thread
+	InitFPU();
 
 	_frameTimer.Reset();
 }
