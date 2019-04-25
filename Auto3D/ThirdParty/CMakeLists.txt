@@ -10,3 +10,5 @@ add_subdirectory(${AUTO_ROOT_PATH}/Auto3D/ThirdParty/SDL2)
 add_subdirectory(${AUTO_ROOT_PATH}/Auto3D/ThirdParty/STB)
 add_subdirectory(${AUTO_ROOT_PATH}/Auto3D/ThirdParty/glad)
 add_subdirectory(${AUTO_ROOT_PATH}/Auto3D/ThirdParty/FreeType)
+add_subdirectory(${AUTO_ROOT_PATH}/Auto3D/ThirdParty/LibCpuId)
+

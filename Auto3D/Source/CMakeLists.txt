@@ -86,6 +86,8 @@ include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/glad)
 target_link_libraries (${TARGET_NAME}  FreeType)
 include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/FreeType/include)
 
+target_link_libraries (${TARGET_NAME}  LibCpuId)
+include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/LibCpuId)
 
 # Add OS-specific library dependencies
 if (WIN32)
