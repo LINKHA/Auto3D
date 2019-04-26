@@ -5,21 +5,13 @@
 namespace Auto3D
 {
 
-Sprite::Sprite()
-{
+Sprite::Sprite() = default;
 
-}
-
-Sprite::~Sprite()
-{
-
-}
+Sprite::~Sprite() = default;
 
 void Sprite::RegisterObject()
 {
 	RegisterFactory<Sprite>();
 }
-
-
 
 }
