@@ -3,7 +3,9 @@
 #include "../Base/HashMap.h"
 #include "../Base/String.h"
 #include "../Base/Vector.h"
-//#include "../Math/Vector2.h"
+#include "../Base/Ptr.h"
+#include "../Math/Vector3.h"
+
 
 namespace Auto3D
 {
@@ -22,6 +24,7 @@ namespace JSONType
 		Null = 0,
 		BOOL,
 		NUMBER,
+		VECTOR3,
 		STRING,
 		ARRAY,
 		OBJECT,
@@ -33,6 +36,7 @@ namespace JSONType
 /// JSON data union.
 struct JSONData
 {
+	
     union
     {
         char charValue;
@@ -62,6 +66,8 @@ public:
     JSONValue(float value);
     /// Construct from a floating point number.
     JSONValue(double value);
+	/// Construct from a vector3
+	JSONValue(const Vector3F& value);
     /// Construct from a string.
     JSONValue(const String& value);
     /// Construct from a C string.
@@ -85,6 +91,8 @@ public:
     JSONValue& operator = (float rhs);
     /// Assign a floating point number.
     JSONValue& operator = (double rhs);
+	/// Assign a vetor3
+	JSONValue& operator = (const Vector3F& value);
     /// Assign a string.
     JSONValue& operator = (const String& value);
     /// Assign a C string.
@@ -165,6 +173,8 @@ public:
     bool GetBool() const { return _type == JSONType::BOOL ? _data.boolValue : false; }
     /// Return value as a number, or zero on type mismatch.
     double GetNumber() const { return _type == JSONType::NUMBER ? _data.numberValue : 0.0; }
+	/// Return value as a number, or zero on type mismatch.
+	const Vector3F& GetVec3() const { return _type == JSONType::VECTOR3 ? *(reinterpret_cast<const Vector3F*>(&_data)) : Vector3F::ZERO; }
     /// Return value as a string, or empty string on type mismatch.
     const String& GetString() const { return _type == JSONType::STRING ? *(reinterpret_cast<const String*>(&_data)) : String::EMPTY; }
     /// Return value as an array, or empty on type mismatch.

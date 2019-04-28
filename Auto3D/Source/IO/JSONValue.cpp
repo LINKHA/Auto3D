@@ -1,5 +1,6 @@
 #include "../Base/Vector.h"
 #include "../Base/HashMap.h"
+#include "../Math/Vector3.h"
 #include "JSONValue.h"
 #include "Stream.h"
 
@@ -53,6 +54,12 @@ JSONValue::JSONValue(double value) :
 {
     *this = value;
 }
+JSONValue::JSONValue(const Vector3F& value) :
+	_type(JSONType::Null)
+{
+	*this = value;
+}
+
 
 JSONValue::JSONValue(const String& value) :
     _type(JSONType::Null)
@@ -96,7 +103,10 @@ JSONValue& JSONValue::operator = (const JSONValue& rhs)
     case JSONType::NUMBER:
         _data.numberValue = rhs._data.numberValue;
         break;
-        
+	case JSONType::VECTOR3:
+		*(reinterpret_cast<Vector3F*>(&_data)) = *(reinterpret_cast<const Vector3F*>(&rhs._data));
+		break;
+
     case JSONType::STRING:
         *(reinterpret_cast<String*>(&_data)) = *(reinterpret_cast<const String*>(&rhs._data));
         break;
@@ -149,6 +159,12 @@ JSONValue& JSONValue::operator = (double rhs)
     SetType(JSONType::NUMBER);
     _data.numberValue = rhs;
     return *this;
+}
+JSONValue& JSONValue::operator = (const Vector3F& value)
+{
+	SetType(JSONType::VECTOR3);
+	*(reinterpret_cast<Vector3F*>(&_data)) = value;
+	return *this;
 }
 
 JSONValue& JSONValue::operator = (const String& value)
@@ -560,22 +576,69 @@ bool JSONValue::Parse(const char*& pos, const char*& end)
 
     if (c == '}' || c == ']')
         return false;
-    else if (c == 'n')
+	else if (c == 'v')	//vec3
+	{
+		if (!MatchString("ec3", pos, end))
+			return false;
+		if (!NextChar(c, pos, end, true))
+			return false;
+		if (c == '(')
+		{
+			float x, y, z;
+			if (!NextChar(c, pos, end, true))
+				return false;
+			// JSON value vector3 x
+			if (IsDigit(c) || c == '-')	
+			{
+				--pos;
+				x = strtod(pos, const_cast<char**>(&pos));
+			}
+			else 
+				return false;
+
+			if (!NextChar(c, pos, end, true) || c!=',' || !NextChar(c, pos, end, true))
+				return false;
+			// JSON value vector3 y
+			if (IsDigit(c) || c == '-')
+			{
+				--pos;
+				y = strtod(pos, const_cast<char**>(&pos));
+			}
+			else
+				return false;
+
+			if (!NextChar(c, pos, end, true) || c != ',' || !NextChar(c, pos, end, true))
+				return false;
+			// JSON value vector3 z
+			if (IsDigit(c) || c == '-')
+			{
+				--pos;
+				z = strtod(pos, const_cast<char**>(&pos));
+			}
+			else
+				return false;
+
+			if (!NextChar(c, pos, end, true) || c!=')')
+				return false;
+			return true;
+		}
+	}
+    else if (c == 'n')	//null
     {
         SetNull();
         return MatchString("ull", pos, end);
     }
-    else if (c == 'f')
+    else if (c == 'f')	//false
     {
         *this = false;
         return MatchString("alse", pos, end);
     }
-    else if (c == 't')
+    else if (c == 't')	//true
     {
         *this = true;
         return MatchString("rue", pos, end);
     }
-    else if (IsDigit(c) || c == '-')
+    else if (IsDigit(c) || c == '-')	//digit
     {
         --pos;
         *this = strtod(pos, const_cast<char**>(&pos));
