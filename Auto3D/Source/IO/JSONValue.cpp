@@ -1,6 +1,7 @@
 #include "../Base/Vector.h"
 #include "../Base/HashMap.h"
-#include "../Math/Vector3.h"
+#include "../Math/Vector4.h"
+
 #include "JSONValue.h"
 #include "Stream.h"
 
@@ -54,12 +55,24 @@ JSONValue::JSONValue(double value) :
 {
     *this = value;
 }
+
+JSONValue::JSONValue(const Vector2F& value) :
+	_type(JSONType::Null)
+{
+	*this = value;
+}
+
 JSONValue::JSONValue(const Vector3F& value) :
 	_type(JSONType::Null)
 {
 	*this = value;
 }
 
+JSONValue::JSONValue(const Vector4F& value) :
+	_type(JSONType::Null)
+{
+	*this = value;
+}
 
 JSONValue::JSONValue(const String& value) :
     _type(JSONType::Null)
@@ -103,10 +116,15 @@ JSONValue& JSONValue::operator = (const JSONValue& rhs)
     case JSONType::NUMBER:
         _data.numberValue = rhs._data.numberValue;
         break;
+	case JSONType::VECTOR2:
+		*(reinterpret_cast<Vector2F*>(&_data)) = *(reinterpret_cast<const Vector2F*>(&rhs._data));
+		break;
 	case JSONType::VECTOR3:
 		*(reinterpret_cast<Vector3F*>(&_data)) = *(reinterpret_cast<const Vector3F*>(&rhs._data));
 		break;
-
+	case JSONType::VECTOR4:
+		*(reinterpret_cast<Vector4F*>(&_data)) = *(reinterpret_cast<const Vector4F*>(&rhs._data));
+		break;
     case JSONType::STRING:
         *(reinterpret_cast<String*>(&_data)) = *(reinterpret_cast<const String*>(&rhs._data));
         break;
@@ -160,10 +178,25 @@ JSONValue& JSONValue::operator = (double rhs)
     _data.numberValue = rhs;
     return *this;
 }
+
+JSONValue& JSONValue::operator = (const Vector2F& value)
+{
+	SetType(JSONType::VECTOR2);
+	*(reinterpret_cast<Vector2F*>(&_data)) = value;
+	return *this;
+}
+
 JSONValue& JSONValue::operator = (const Vector3F& value)
 {
 	SetType(JSONType::VECTOR3);
 	*(reinterpret_cast<Vector3F*>(&_data)) = value;
+	return *this;
+}
+
+JSONValue& JSONValue::operator = (const Vector4F& value)
+{
+	SetType(JSONType::VECTOR4);
+	*(reinterpret_cast<Vector4F*>(&_data)) = value;
 	return *this;
 }
 
@@ -243,7 +276,15 @@ bool JSONValue::operator == (const JSONValue& rhs) const
         
     case JSONType::NUMBER:
         return _data.numberValue == rhs._data.numberValue;
-        
+	case JSONType::VECTOR2:
+		return *(reinterpret_cast<const Vector2F*>(&_data)) == *(reinterpret_cast<const Vector2F*>(&rhs._data));
+	
+	case JSONType::VECTOR3:
+		return *(reinterpret_cast<const Vector3F*>(&_data)) == *(reinterpret_cast<const Vector3F*>(&rhs._data));
+	
+	case JSONType::VECTOR4:
+		return *(reinterpret_cast<const Vector4F*>(&_data)) == *(reinterpret_cast<const Vector4F*>(&rhs._data));
+
     case JSONType::STRING:
         return *(reinterpret_cast<const String*>(&_data)) == *(reinterpret_cast<const String*>(&rhs._data));
         
@@ -578,9 +619,24 @@ bool JSONValue::Parse(const char*& pos, const char*& end)
         return false;
 	else if (c == 'v')	//vec3
 	{
-		SetType(JSONType::VECTOR3);
-		if (MatchString("ec3", pos, end))
-			return ReadJSONVector3(*(reinterpret_cast<Vector3F*>(&_data)), pos, end, true);
+		if (MatchString("ec", pos, end))
+		{
+			if (MatchString("2", pos, end))
+			{
+				SetType(JSONType::VECTOR2);
+				return ReadJSONVector2(*(reinterpret_cast<Vector2F*>(&_data)), pos, end);
+			}
+			else if (MatchString("3", pos, end))
+			{
+				SetType(JSONType::VECTOR3);
+				return ReadJSONVector3(*(reinterpret_cast<Vector3F*>(&_data)), pos, end);
+			}	
+			else if (MatchString("4", pos, end))
+			{
+				SetType(JSONType::VECTOR4);
+				return ReadJSONVector4(*(reinterpret_cast<Vector4F*>(&_data)), pos, end);
+			}
+		}	
 		else
 			return false;
 	}
@@ -680,8 +736,16 @@ void JSONValue::SetType(JSONType::Type newType)
     
     switch (_type)
     {
+	case JSONType::VECTOR2:
+		(reinterpret_cast<Vector2F*>(&_data))->~Vector2F();
+		break;
+	
 	case JSONType::VECTOR3:
 		(reinterpret_cast<Vector3F*>(&_data))->~Vector3F();
+		break;
+
+	case JSONType::VECTOR4:
+		(reinterpret_cast<Vector4F*>(&_data))->~Vector4F();
 		break;
 
     case JSONType::STRING:
@@ -704,8 +768,16 @@ void JSONValue::SetType(JSONType::Type newType)
     
     switch (_type)
     {
+	case JSONType::VECTOR2:
+		new(reinterpret_cast<Vector2F*>(&_data)) Vector2F();
+		break;
+
 	case JSONType::VECTOR3:
 		new(reinterpret_cast<Vector3F*>(&_data)) Vector3F();
+		break;
+
+	case JSONType::VECTOR4:
+		new(reinterpret_cast<Vector3F*>(&_data)) Vector4F();
 		break;
 
     case JSONType::STRING:
@@ -788,7 +860,7 @@ void JSONValue::WriteIndent(String& dest, int indent)
         dest[oldLength + i] = ' ';
 }
 
-bool JSONValue::ReadJSONVector3(Vector3F& dest, const char*& pos, const char*& end, bool inQuote)
+bool JSONValue::ReadJSONVector2(Vector2F& dest, const char*& pos, const char*& end)
 {
 	char c;
 	if (!NextChar(c, pos, end, true))
@@ -797,7 +869,7 @@ bool JSONValue::ReadJSONVector3(Vector3F& dest, const char*& pos, const char*& e
 	{
 		if (!NextChar(c, pos, end, true))
 			return false;
-		// JSON value vector3 x
+		// JSON value vector2 x
 		if (IsDigit(c) || c == '-')
 		{
 			--pos;
@@ -808,7 +880,89 @@ bool JSONValue::ReadJSONVector3(Vector3F& dest, const char*& pos, const char*& e
 
 		if (!NextChar(c, pos, end, true) || c != ',' || !NextChar(c, pos, end, true))
 			return false;
-		// JSON value vector3 y
+		// JSON value vector2 y
+		if (IsDigit(c) || c == '-')
+		{
+			--pos;
+			dest._y = strtod(pos, const_cast<char**>(&pos));
+		}
+		else
+			return false;
+
+		if (!NextChar(c, pos, end, true) || c != ')')
+			return false;
+		return true;
+	}
+	return false;
+}
+
+bool JSONValue::ReadJSONVector3(Vector3F& dest, const char*& pos, const char*& end)
+{
+	char c;
+	if (!NextChar(c, pos, end, true))
+		return false;
+	if (c == '(')
+	{
+		if (!NextChar(c, pos, end, true))
+			return false;
+		// JSON value vector2 x
+		if (IsDigit(c) || c == '-')
+		{
+			--pos;
+			dest._x = strtod(pos, const_cast<char**>(&pos));
+		}
+		else
+			return false;
+
+		if (!NextChar(c, pos, end, true) || c != ',' || !NextChar(c, pos, end, true))
+			return false;
+		// JSON value vector2 y
+		if (IsDigit(c) || c == '-')
+		{
+			--pos;
+			dest._y = strtod(pos, const_cast<char**>(&pos));
+		}
+		else
+			return false;
+		if (!NextChar(c, pos, end, true) || c != ',' || !NextChar(c, pos, end, true))
+			return false;
+		// JSON value vector4 z
+		if (IsDigit(c) || c == '-')
+		{
+			--pos;
+			dest._z = strtod(pos, const_cast<char**>(&pos));
+		}
+		else
+			return false;
+
+		if (!NextChar(c, pos, end, true) || c != ')')
+			return false;
+		return true;
+	}
+	return false;
+}
+
+bool JSONValue::ReadJSONVector4(Vector4F& dest, const char*& pos, const char*& end)
+{
+	char c;
+	if (!NextChar(c, pos, end, true))
+		return false;
+	if (c == '(')
+	{
+		if (!NextChar(c, pos, end, true))
+			return false;
+		// JSON value vector4 x
+		if (IsDigit(c) || c == '-')
+		{
+			--pos;
+			dest._x = strtod(pos, const_cast<char**>(&pos));
+		}
+		else
+			return false;
+
+		if (!NextChar(c, pos, end, true) || c != ',' || !NextChar(c, pos, end, true))
+			return false;
+		// JSON value vector4 y
 		if (IsDigit(c) || c == '-')
 		{
 			--pos;
@@ -819,11 +973,22 @@ bool JSONValue::ReadJSONVector3(Vector3F& dest, const char*& pos, const char*& e
 
 		if (!NextChar(c, pos, end, true) || c != ',' || !NextChar(c, pos, end, true))
 			return false;
-		// JSON value vector3 z
+		// JSON value vector4 z
 		if (IsDigit(c) || c == '-')
 		{
 			--pos;
 			dest._z = strtod(pos, const_cast<char**>(&pos));
+		}
+		else
+			return false;
+
+		if (!NextChar(c, pos, end, true) || c != ',' || !NextChar(c, pos, end, true))
+			return false;
+		// JSON value vector4 w
+		if (IsDigit(c) || c == '-')
+		{
+			--pos;
+			dest._w = strtod(pos, const_cast<char**>(&pos));
 		}
 		else
 			return false;
