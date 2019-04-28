@@ -104,11 +104,11 @@ public:
     static void RegisterObject();
 
     /// Load material from a stream. Return true on success.
-    bool BeginLoad(Stream& source) override;
+	virtual bool BeginLoad(Stream& source);
     /// Finalize material loading in the main thread. Return true on success.
-    bool EndLoad() override;
+	virtual bool EndLoad();
     /// Save the material to a stream. Return true on success.
-    bool Save(Stream& dest) override;
+	virtual bool Save(Stream& dest);
 
     /// Create and return a new pass. If pass with same name exists, it will be returned.
     Pass* CreatePass(const String& name);
@@ -146,7 +146,7 @@ public:
     /// Constant buffers.
     SharedPtr<ConstantBuffer> _constantBuffers[ShaderStage::Count];
 
-private:
+protected:
     /// Passes by index.
     Vector<SharedPtr<Pass> > _passes;
     /// Global shader defines.
