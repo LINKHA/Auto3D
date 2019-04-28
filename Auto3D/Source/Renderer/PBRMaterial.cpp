@@ -102,7 +102,7 @@ bool PBRMaterial::EndLoad()
 void PBRMaterial::LoadJSON(const JSONValue& source)
 {
 	if (source.Contains("albedo"))
-		_albedo = source["albedo"].GetVec3();
+		_albedo = source["albedo"].GetVector3();
 	if (source.Contains("metallic"))
 		_metallic = source["metallic"].GetNumber();
 	if (source.Contains("roughness"))

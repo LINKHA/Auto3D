@@ -42,7 +42,7 @@ struct JSONData
         char charValue;
         bool boolValue;
         double numberValue;
-        size_t padding[2];
+        size_t padding[4];
     };
 };
 
@@ -163,6 +163,8 @@ public:
     bool IsBool() const { return _type == JSONType::BOOL; }
     /// Return whether is a number.
     bool IsNumber() const { return _type == JSONType::NUMBER; }
+	/// Return whether is a vector3.
+	bool IsVector3() const { return _type == JSONType::VECTOR3; }
     /// Return whether is a string.
     bool IsString() const { return _type == JSONType::STRING; }
     /// Return whether is an array.
@@ -174,7 +176,7 @@ public:
     /// Return value as a number, or zero on type mismatch.
     double GetNumber() const { return _type == JSONType::NUMBER ? _data.numberValue : 0.0; }
 	/// Return value as a number, or zero on type mismatch.
-	const Vector3F& GetVec3() const { return _type == JSONType::VECTOR3 ? *(reinterpret_cast<const Vector3F*>(&_data)) : Vector3F::ZERO; }
+	const Vector3F& GetVector3() const { return _type == JSONType::VECTOR3 ? *(reinterpret_cast<const Vector3F*>(&_data)) : Vector3F::ZERO; }
     /// Return value as a string, or empty string on type mismatch.
     const String& GetString() const { return _type == JSONType::STRING ? *(reinterpret_cast<const String*>(&_data)) : String::EMPTY; }
     /// Return value as an array, or empty on type mismatch.
@@ -201,6 +203,8 @@ private:
     static void WriteJSONString(String& dest, const String& str);
     /// Append indent spaces to the destination.
     static void WriteIndent(String& dest, int indent);
+	/// Read a vector3 in JSON format from a stream. Return true on success.
+	static bool ReadJSONVector3(Vector3F& dest, const char*& pos, const char*& end, bool inQuote);
     /// Read a string in JSON format from a stream. Return true on success.
     static bool ReadJSONString(String& dest, const char*& pos, const char*& end, bool inQuote);
     /// Match until the end of a string. Return true if successfully matched.

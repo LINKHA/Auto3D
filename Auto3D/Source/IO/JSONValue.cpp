@@ -578,50 +578,11 @@ bool JSONValue::Parse(const char*& pos, const char*& end)
         return false;
 	else if (c == 'v')	//vec3
 	{
-		if (!MatchString("ec3", pos, end))
+		SetType(JSONType::VECTOR3);
+		if (MatchString("ec3", pos, end))
+			return ReadJSONVector3(*(reinterpret_cast<Vector3F*>(&_data)), pos, end, true);
+		else
 			return false;
-		if (!NextChar(c, pos, end, true))
-			return false;
-		if (c == '(')
-		{
-			float x, y, z;
-			if (!NextChar(c, pos, end, true))
-				return false;
-			// JSON value vector3 x
-			if (IsDigit(c) || c == '-')	
-			{
-				--pos;
-				x = strtod(pos, const_cast<char**>(&pos));
-			}
-			else 
-				return false;
-
-			if (!NextChar(c, pos, end, true) || c!=',' || !NextChar(c, pos, end, true))
-				return false;
-			// JSON value vector3 y
-			if (IsDigit(c) || c == '-')
-			{
-				--pos;
-				y = strtod(pos, const_cast<char**>(&pos));
-			}
-			else
-				return false;
-
-			if (!NextChar(c, pos, end, true) || c != ',' || !NextChar(c, pos, end, true))
-				return false;
-			// JSON value vector3 z
-			if (IsDigit(c) || c == '-')
-			{
-				--pos;
-				z = strtod(pos, const_cast<char**>(&pos));
-			}
-			else
-				return false;
-
-			if (!NextChar(c, pos, end, true) || c!=')')
-				return false;
-			return true;
-		}
 	}
     else if (c == 'n')	//null
     {
@@ -719,6 +680,10 @@ void JSONValue::SetType(JSONType::Type newType)
     
     switch (_type)
     {
+	case JSONType::VECTOR3:
+		(reinterpret_cast<Vector3F*>(&_data))->~Vector3F();
+		break;
+
     case JSONType::STRING:
         (reinterpret_cast<String*>(&_data))->~String();
         break;
@@ -739,6 +704,10 @@ void JSONValue::SetType(JSONType::Type newType)
     
     switch (_type)
     {
+	case JSONType::VECTOR3:
+		new(reinterpret_cast<Vector3F*>(&_data)) Vector3F();
+		break;
+
     case JSONType::STRING:
         new(reinterpret_cast<String*>(&_data)) String();
         break;
@@ -817,6 +786,53 @@ void JSONValue::WriteIndent(String& dest, int indent)
     dest.Resize(oldLength + indent);
     for (int i = 0; i < indent; ++i)
         dest[oldLength + i] = ' ';
+}
+
+bool JSONValue::ReadJSONVector3(Vector3F& dest, const char*& pos, const char*& end, bool inQuote)
+{
+	char c;
+	if (!NextChar(c, pos, end, true))
+		return false;
+	if (c == '(')
+	{
+		if (!NextChar(c, pos, end, true))
+			return false;
+		// JSON value vector3 x
+		if (IsDigit(c) || c == '-')
+		{
+			--pos;
+			dest._x = strtod(pos, const_cast<char**>(&pos));
+		}
+		else
+			return false;
+
+		if (!NextChar(c, pos, end, true) || c != ',' || !NextChar(c, pos, end, true))
+			return false;
+		// JSON value vector3 y
+		if (IsDigit(c) || c == '-')
+		{
+			--pos;
+			dest._y = strtod(pos, const_cast<char**>(&pos));
+		}
+		else
+			return false;
+
+		if (!NextChar(c, pos, end, true) || c != ',' || !NextChar(c, pos, end, true))
+			return false;
+		// JSON value vector3 z
+		if (IsDigit(c) || c == '-')
+		{
+			--pos;
+			dest._z = strtod(pos, const_cast<char**>(&pos));
+		}
+		else
+			return false;
+
+		if (!NextChar(c, pos, end, true) || c != ')')
+			return false;
+		return true;
+	}
+	return false;
 }
 
 bool JSONValue::ReadJSONString(String& dest, const char*& pos, const char*& end, bool inQuote)
