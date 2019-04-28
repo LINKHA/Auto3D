@@ -25,6 +25,7 @@ void PBRSample::Start()
 	Object::Subsystem<RegisteredBox>()->RegisterScene(scene, camera);
 
 	StaticModel* node = scene->CreateChild<StaticModel>();
+	node->SetModel(cache->LoadResource<Model>("Box.mdl"));
 	node->SetMaterial(cache->LoadResource<PBRMaterial>("PBRNoTexture.json"));
 }
 void PBRSample::Update()

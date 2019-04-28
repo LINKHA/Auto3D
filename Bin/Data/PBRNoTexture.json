@@ -1,12 +1,29 @@
 {
   "passes": {
     "opaque": {
-      "vs": "SkyBox",
-      "ps": "SkyBox",
+      "vs": "Diffuse",
+      "ps": "Diffuse",
       "depthFunc": "lessEqual",
-	  "blendMode": "replace",
-	  "cullMode": "front"
+      "depthWrite": true,
+      "depthClip": true,
+      "alphaToCoverage": false,
+      "blendMode": "replace",
+      "fillMode": "solid",
+      "cullMode": "back"
     }
+  },
+  "vsConstantBuffer": {
+	"constants":{
+		"vec4": "lightPositions" [4],
+		"vec4" lightDirections[4],
+		"vec4" lightAttenuations[4],
+		"vec4" lightColors[4],
+		"vec4" shadowParameters[4],
+		"vec4" pointShadowParameters[4],
+		"vec4" dirShadowSplits,
+		"vec4" dirShadowFade
+	}
+		
   },
   "PBR": {
 	"albedo": vec3(1.1,2.2,3.3),

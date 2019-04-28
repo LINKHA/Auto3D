@@ -902,6 +902,7 @@ void Renderer::RenderBatches(const Vector<Batch>& batches, Camera* camera, bool 
 				
                 ShaderVariation* vs = FindShaderVariation(ShaderStage::VS, pass, (unsigned short)batch._type | (lights ? lights->_vsBits : 0));
                 ShaderVariation* ps = FindShaderVariation(ShaderStage::PS, pass, lights ? lights->_psBits : 0);
+
 				// Test Shader for this lot
 				//const char* cVs = vs->Parent()->GetSourceCode().CString();
 				//const char* cPs = ps->Parent()->GetSourceCode().CString();
