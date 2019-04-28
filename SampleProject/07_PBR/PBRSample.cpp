@@ -24,8 +24,8 @@ void PBRSample::Start()
 	// Register scene to scene system use to render
 	Object::Subsystem<RegisteredBox>()->RegisterScene(scene, camera);
 
-	SkyBox* skybox = scene->CreateChild<SkyBox>();
-	skybox->SetMaterial(cache->LoadResource<Material>("SkyBox.json"));
+	StaticModel* node = scene->CreateChild<StaticModel>();
+	node->SetMaterial(cache->LoadResource<PBRMaterial>("PBRNoTexture.json"));
 }
 void PBRSample::Update()
 {

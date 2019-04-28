@@ -19,6 +19,7 @@
 #include "Renderer.h"
 #include "StaticModel.h"
 #include "SkyBox.h"
+#include "PBRMaterial.h"
 
 #include "../Debug/DebugNew.h"
 
@@ -1069,6 +1070,7 @@ void RegisterRendererLibrary()
     Material::RegisterObject();
     Model::RegisterObject();
 	SkyBox::RegisterObject();
+	PBRMaterial::RegisterObject();
 }
 
 }

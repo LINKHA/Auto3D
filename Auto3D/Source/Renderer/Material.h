@@ -98,7 +98,7 @@ public:
     /// Construct.
     Material();
     /// Destruct.
-    ~Material();
+	virtual ~Material();
 
     /// Register object factory.
     static void RegisterObject();

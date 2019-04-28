@@ -1,0 +1,16 @@
+{
+  "passes": {
+    "opaque": {
+      "vs": "SkyBox",
+      "ps": "SkyBox",
+      "depthFunc": "lessEqual",
+	  "blendMode": "replace",
+	  "cullMode": "front"
+    }
+  },
+  "PBR": {
+	"metallic" : 1,
+	"roughness" : 5.0,
+	"ao" : 3.1
+  }
+}

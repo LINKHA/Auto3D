@@ -28,6 +28,7 @@
 #include "Renderer/Camera.h"
 #include "Renderer/Light.h"
 #include "Renderer/Material.h"
+#include "Renderer/PBRMaterial.h"
 #include "Renderer/Model.h"
 #include "Renderer/Octree.h"
 #include "Renderer/Renderer.h"
