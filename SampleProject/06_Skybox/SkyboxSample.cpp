@@ -29,7 +29,6 @@ void SkyboxSample::Start()
 }
 void SkyboxSample::Update()
 {
-	
 	Super::Update();
 	auto* input = Object::Subsystem<Input>();
 	auto* graphics = Object::Subsystem<Graphics>();

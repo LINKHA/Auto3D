@@ -25,11 +25,11 @@ static const AttributeType::Type elementToAttribute[] =
 
 bool ConstantBuffer::LoadJSON(const JSONValue& source)
 {
-    ResourceUsage::Type usage_ = ResourceUsage::DEFAULT;
+    ResourceUsage::Type usage = ResourceUsage::DEFAULT;
     if (source.Contains("usage"))
-        usage_ = (ResourceUsage::Type)String::ListIndex(source["usage"].GetString(), resourceUsageNames, ResourceUsage::DEFAULT);
+        usage = (ResourceUsage::Type)String::ListIndex(source["usage"].GetString(), resourceUsageNames, ResourceUsage::DEFAULT);
 
-    Vector<Constant> constants_;
+    Vector<Constant> constants;
 
     const JSONValue& jsonConstants = source["constants"];
     for (size_t i = 0; i < jsonConstants.Size(); ++i)
@@ -49,10 +49,10 @@ bool ConstantBuffer::LoadJSON(const JSONValue& source)
         if (jsonConstant.Contains("numElements"))
             newConstant._numElements = (int)jsonConstant["numElements"].GetNumber();
 
-        constants_.Push(newConstant);
+        constants.Push(newConstant);
     }
 
-    if (!Define(usage_, constants_))
+    if (!Define(usage, constants))
         return false;
 
     for (size_t i = 0; i < _constants.Size() && i < jsonConstants.Size(); ++i)

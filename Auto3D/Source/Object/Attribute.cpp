@@ -156,10 +156,6 @@ void Attribute::FromJSON(AttributeType::Type type, void* dest, const JSONValue& 
         *(reinterpret_cast<int*>(dest)) = (int)source.GetNumber();
         break;
 
-    case AttributeType::INTVECTOR2:
-        reinterpret_cast<Vector2I*>(dest)->FromString(source.GetString());
-        break;
-
     case AttributeType::INTRECT:
         reinterpret_cast<RectI*>(dest)->FromString(source.GetString());
         break;
@@ -169,15 +165,15 @@ void Attribute::FromJSON(AttributeType::Type type, void* dest, const JSONValue& 
         break;
 
     case AttributeType::VECTOR2:
-        reinterpret_cast<Vector2F*>(dest)->FromString(source.GetString());
+        *reinterpret_cast<Vector2F*>(dest) = source.GetVector2();
         break;
 
     case AttributeType::VECTOR3:
-        reinterpret_cast<Vector3F*>(dest)->FromString(source.GetString());
+		*reinterpret_cast<Vector3F*>(dest) = source.GetVector3();
         break;
 
     case AttributeType::VECTOR4:
-        reinterpret_cast<Vector4F*>(dest)->FromString(source.GetString());
+        *reinterpret_cast<Vector4F*>(dest) = source.GetVector4();
         break;
 
     case AttributeType::QUATERNION:
@@ -204,12 +200,12 @@ void Attribute::FromJSON(AttributeType::Type type, void* dest, const JSONValue& 
         reinterpret_cast<Matrix3x3F*>(dest)->FromString(source.GetString());
         break;
 
+	case AttributeType::MATRIX4:
+		reinterpret_cast<Matrix4x4F*>(dest)->FromString(source.GetString());
+		break;
+
     case AttributeType::MATRIX3X4:
         reinterpret_cast<Matrix3x4F*>(dest)->FromString(source.GetString());
-        break;
-
-    case AttributeType::MATRIX4:
-        reinterpret_cast<Matrix4x4F*>(dest)->FromString(source.GetString());
         break;
 
     case AttributeType::STRING:

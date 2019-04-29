@@ -13,16 +13,12 @@
     }
   },
   "vsConstantBuffer": {
-	"constants":{
-		"vec4": "lightPositions" [4],
-		"vec4" lightDirections[4],
-		"vec4" lightAttenuations[4],
-		"vec4" lightColors[4],
-		"vec4" shadowParameters[4],
-		"vec4" pointShadowParameters[4],
-		"vec4" dirShadowSplits,
-		"vec4" dirShadowFade
-	}
+	"constants":[
+		{ "type":"vector3" , "name":"albedo" , "value": vec3(1.1,2.2,3.3) } ,
+		{ "type":"float" , "name":"metallic" , "value": 1} ,
+		{ "type":"float" , "name":"roughness" , "value": 5.0 } ,
+		{ "type":"float" , "name":"ao" , "value": 3.1} 
+	]
 		
   },
   "PBR": {
