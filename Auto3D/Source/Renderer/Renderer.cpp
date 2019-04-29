@@ -939,7 +939,7 @@ void Renderer::RenderBatches(const Vector<Batch>& batches, Camera* camera, bool 
                         if (material->_textures[i])
                             _graphics->SetTexture(i, material->_textures[i]);
                     }
-                    _graphics->SetConstantBuffer(ShaderStage::VS, RendererConstantBuffer::MATERIAL, material->_constantBuffers[ShaderStage::VS].Get());
+					_graphics->SetConstantBuffer(ShaderStage::VS, RendererConstantBuffer::MATERIAL, material->_constantBuffers[ShaderStage::VS].Get());
                     _graphics->SetConstantBuffer(ShaderStage::PS, RendererConstantBuffer::MATERIAL, material->_constantBuffers[ShaderStage::PS].Get());
 
                     lastMaterial = material;
