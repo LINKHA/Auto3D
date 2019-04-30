@@ -2,6 +2,7 @@
 
 #include "CommonCode.frag"
 #include "BRDF.frag"
+#include "math.glsl"
 
 in vec4 vWorldPos;
 in vec3 vNormal;
@@ -23,7 +24,6 @@ uniform vec3 lightColors[4];
 
 uniform vec3 camPos; 
 
-const float PI = 3.14159265359;
 // ----------------------------------------------------------------------------
 float DistributionGGX(vec3 N, vec3 H, float roughness) 
 {

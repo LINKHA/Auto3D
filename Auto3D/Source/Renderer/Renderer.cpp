@@ -1036,8 +1036,10 @@ ShaderVariation* Renderer::FindShaderVariation(ShaderStage::Type stage, Pass* pa
             String psString = pass->GetCombinedShaderDefines(stage);
             if (bits & LPS_AMBIENT)
                 psString += " " + lightDefines[0];
-            if (bits & LPS_NUMSHADOWCOORDS)
-                psString += " " + lightDefines[1] + "=" + String((bits & LPS_NUMSHADOWCOORDS) >> 1);
+			if (bits & LPS_NUMSHADOWCOORDS)
+				psString += " " + lightDefines[1] + "=" + String((bits & LPS_NUMSHADOWCOORDS) >> 1);
+				
+
             for (size_t i = 0; i < MAX_LIGHTS_PER_PASS; ++i)
             {
                 unsigned short lightBits = (bits >> (i * 3 + 4)) & 7;
