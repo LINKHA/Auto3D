@@ -20,11 +20,5 @@
 		{ "type":"float" , "name":"ao" , "value": 3.1} 
 	]
 		
-  },
-  "PBR": {
-	"albedo": vec3(1.1,2.2,3.3),
-	"metallic": 1,
-	"roughness": 5.0,
-	"ao": 3.1
   }
 }

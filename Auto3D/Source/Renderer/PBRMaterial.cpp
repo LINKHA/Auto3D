@@ -88,11 +88,6 @@ bool PBRMaterial::EndLoad()
 		SetTexture(jsonTextures.Begin()->_first.ToInt(), textureCube);
 
 	}
-	if (root.Contains("PBR"))
-	{
-		const JSONObject& jsonTextures = root["PBR"].GetObject();
-		this->LoadJSON(jsonTextures);
-	}
 
 	_loadJSON.Reset();
 	return true;
