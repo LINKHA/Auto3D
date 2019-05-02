@@ -28,7 +28,7 @@ Third-party libraries
 - SDL2 (https://www.libsdl.org)
 - STB (https://github.com/nothings/stb)
 - FreeType (https://www.freetype.org)
-
+- LibCpuId (http://libcpuid.sourceforge.net)
 
 Scene-DEMO
 -------
