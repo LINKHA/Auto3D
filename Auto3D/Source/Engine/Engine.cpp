@@ -51,6 +51,8 @@ Engine::~Engine()
 void Engine::Init()
 {
 	PROFILE(EngineInit);
+
+	
 	// Seed by time (don't ask me why I'm using these operators, I'm scribbling)
 	Time::RealTime& realTime = _time->GetRealTime();
 	SetRandomSeed(realTime._year & realTime._month << realTime._day | realTime._hour * realTime._minute ^ realTime._second);
@@ -67,6 +69,8 @@ void Engine::Init()
 	InitFPU();
 
 	_frameTimer.Reset();
+
+	_initialized = true;
 }
 void Engine::Exit()
 {

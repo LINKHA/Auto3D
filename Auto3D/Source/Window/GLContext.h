@@ -7,8 +7,6 @@
 #ifdef AUTO_OPENGL
 #include "../Base/Ptr.h"
 
-
-
 namespace Auto3D
 {
 
@@ -40,6 +38,7 @@ private:
 	void* _contextHandle;
 	/// Associated _window.
 	WeakPtr<Window> _window;
+
 };
 
 }
