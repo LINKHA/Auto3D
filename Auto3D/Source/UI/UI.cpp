@@ -2,6 +2,7 @@
 #include "Canvas.h"
 #include "Sprite.h"
 #include "UICamera.h"
+#include "Button.h"
 
 #include "../Graphics/Graphics.h"
 #include "../Graphics/VertexBuffer.h"
@@ -266,6 +267,7 @@ void RegisterUILibrary()
 	UICamera::RegisterObject();
 	UINode::RegisterObject();
 	UIGeometryNode::RegisterObject();
+	Button::RegisterObject();
 }
 
 }
