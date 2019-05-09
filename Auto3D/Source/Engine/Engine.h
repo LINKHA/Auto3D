@@ -13,7 +13,7 @@ public:
 
 	~Engine();
 	/// Init engine, Register some SubSystem
-	void Init();
+	bool Init();
 	/// Engine normal exit
 	void Exit();
 	/// Render geometry

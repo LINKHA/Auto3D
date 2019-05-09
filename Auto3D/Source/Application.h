@@ -26,20 +26,26 @@ public:
 	virtual void Stop() { }
 	/// This is Engine important funcation init awake runloop and finish run
 	int Run();
+	/// Show an error message (last log message if empty), terminate the main loop, and set failure exit code.
+	void ErrorExit(const String& message = String::EMPTY);
 protected:
-	/// Engine
+	/// Auto3D Engine
 	AutoPtr<Engine> _engine;
+	/// Collected startup error log messages.
+	String _startupErrors;
+	/// Application exit code.
+	int _exitCode;
 };
 
 /// @brief : Regisiter application in main function
 #define AUTO_APPLICATION_MAIN(_Class) \
-int runApplication() \
+int RunApplication() \
 { \
 	Thread::SetMainThread();\
     _Class app;\
     return app.Run(); \
 } \
-AUTO_MAIN(runApplication())\
+AUTO_MAIN(RunApplication())\
 
 
 }

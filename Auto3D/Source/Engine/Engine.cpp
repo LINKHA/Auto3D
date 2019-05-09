@@ -48,8 +48,10 @@ Engine::~Engine()
 {
 }
 
-void Engine::Init()
+bool Engine::Init()
 {
+	if (_initialized)
+		return true;
 	PROFILE(EngineInit);
 
 	
@@ -60,10 +62,13 @@ void Engine::Init()
 	if (!_graphics->SetMode(RectI(0, 0, 1024, 768), 4, false, true))
 	{
 		ErrorString("Failed to create a gutter.");
-		return;
+		return false;
 	}
 	// Set default Logo
 	_graphics->RenderWindow()->SetIcon(_cache->LoadResource<Image>("NewLogo.png"));
+
+	if (!_graphics->RenderWindow())
+		return false;
 
 	// Init FPU state of main thread
 	InitFPU();
@@ -71,6 +76,8 @@ void Engine::Init()
 	_frameTimer.Reset();
 
 	_initialized = true;
+
+	return true;
 }
 void Engine::Exit()
 {
