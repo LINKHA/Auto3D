@@ -21,6 +21,12 @@ option (AUTO_WIN32_CONSOLE "Enable Direct3D12" TRUE)
 option (AUTO_NVIDIA "Enable Nvidia discrete graphics" FALSE)
 option (AUTO_AMD "Enable amd discrete graphics" FALSE)
 
+#if (CMAKE_CL_64)    
+#	set(AUTO_64BIT 64)
+#else ()
+#	set(AUTO_32BIT 32)
+#endif ()
+
 # Auto root path
 set(AUTO_ROOT_PATH ${CMAKE_SOURCE_DIR})
 

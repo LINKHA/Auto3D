@@ -15,3 +15,6 @@ Bin/SDL2d.dll
 Bin/OpenAL.pdb
 Bin/03_Mesh.exe
 Bin/SDL2d.ilk
+Bin/01_HelloWorld.pdb
+Bin/01_HelloWorld.ilk
+Bin/01_HelloWorld.exe
