@@ -231,9 +231,9 @@ private:
 	/// DXT format support flag.
 	bool _dxtTextureSupport{};
     /// OpenGL context.
-    AutoPtr<GLContext> _context;
+    SharedPtr<GLContext> _context;
     /// OS-level rendering _window.
-    AutoPtr<Window> _window;
+	SharedPtr<Window> _window;
     /// Current _size of the backbuffer.
     Vector2I _backbufferSize;
     /// Current _size of the active rendertarget.

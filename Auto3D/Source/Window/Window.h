@@ -115,10 +115,7 @@ public:
 
 	/// Window class name
 	static String className;
-
 private:
-	/// Change display mode. If width and height are zero, will restore desktop resolution.
-	void SetDisplayMode(int width, int height);
 	/// Window _handle.
 	SDL_Window* _handle;
 	/// Window icon image.
@@ -127,9 +124,9 @@ private:
 	String _title;
 	/// Window rect
 	RectI _rect;
-	/// Last stored windowed mode _position.
+	/// Last stored windowed mode position.
 	Vector2I _savedPosition;
-	/// Current mouse cursor _position.
+	/// Current mouse cursor position.
 	Vector2I _mousePosition;
 	/// Mouse wheel offset
 	Vector2I _mouseWheelOffset;
