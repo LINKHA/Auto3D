@@ -30,7 +30,7 @@ public:
 	void ErrorExit(const String& message = String::EMPTY);
 protected:
 	/// Auto3D Engine
-	AutoPtr<Engine> _engine;
+	UniquePtr<Engine> _engine;
 	/// Collected startup error log messages.
 	String _startupErrors;
 	/// Application exit code.
