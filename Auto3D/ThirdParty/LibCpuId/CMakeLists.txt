@@ -9,7 +9,7 @@ add_definitions (-DVERSION="0.4.0+")
 #endif ()
 
 # Define generated source files
-if (MSVC AND AUTO_64BIT)
+if (MSVC AND CMAKE_CL_64)
     enable_language (ASM_MASM)
     # Commented out due to cmake bug
     set (ASM_FILES masm-x64.asm)
@@ -27,6 +27,6 @@ file(GLOB_RECURSE _SCRS  *.c *.cpp *.cxx *.cc)
 list (APPEND SOURCE_FILES ${ASM_FILES})
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-add_library(${THIS_PROJECT} ${_SCRS} ${_HEADERS} )
+add_library(${THIS_PROJECT} ${_SCRS} ${_HEADERS} ${SOURCE_FILES})
 set_target_properties(${THIS_PROJECT} PROPERTIES FOLDER "ThirdParty") 
 set_target_properties(${THIS_PROJECT} PROPERTIES LINKER_LANGUAGE cxx)
