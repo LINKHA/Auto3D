@@ -49,6 +49,7 @@
 #include "Audio/Sound.h"
 #include "Audio/AudioListener.h"
 #include "Audio/AudioSource.h"
+#include "Audio/AudioNode.h"
 #include "Script/Script.h"
 #include "UI/UI.h"
 #include "UI/UIBatch.h"
