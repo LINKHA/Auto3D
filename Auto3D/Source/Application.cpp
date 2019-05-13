@@ -62,7 +62,8 @@ int Application::Run()
 
 void Application::ErrorExit(const String& message)
 {
-	_engine->Exit(); // Close the rendering window
+	// Close the rendering window
+	_engine->Exit(); 
 	_exitCode = EXIT_FAILURE;
 
 	if (!message.Length())

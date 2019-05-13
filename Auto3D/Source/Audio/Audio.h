@@ -2,10 +2,9 @@
 #include "../Object/GameManager.h"
 
 /// Opaque device handle 
-typedef struct ALCdevice_struct ALCdevice;
+using ALCdevice = struct ALCdevice_struct;
 /// Opaque context handle 
-typedef struct ALCcontext_struct ALCcontext;
-
+using ALCcontext = struct ALCcontext_struct;
 
 
 namespace Auto3D 
