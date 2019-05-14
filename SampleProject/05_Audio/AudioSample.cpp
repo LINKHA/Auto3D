@@ -30,7 +30,7 @@ void AudioSample::Update()
 {
 	Super::Update();
 	auto* input = Object::Subsystem<Input>();
-	if (input->IsKeyDown(KEY_A) && source1->GetState() != AudioSourceState::Playing)
+	if (input->IsKeyDown(KEY_A) && source1->GetState() != AudioSourceState::PLAYING)
 		source1->Play(0);
 	if (input->IsKeyDown(KEY_S))
 		source1->Pause();
@@ -39,7 +39,7 @@ void AudioSample::Update()
 	if (input->IsKeyDown(KEY_F))
 		source1->Rewind();
 
-	if (input->IsKeyDown(KEY_Q) && source2->GetState() != AudioSourceState::Playing)
+	if (input->IsKeyDown(KEY_Q) && source2->GetState() != AudioSourceState::PLAYING)
 		source2->Play(1000);
 }
 

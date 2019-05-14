@@ -193,13 +193,13 @@ AudioSourceState::Type Audio::GetState(unsigned source)
 	ALint state;
 	alGetSourcei(source, AL_SOURCE_STATE, &state);
 	if (state == AL_INITIAL)
-		return AudioSourceState::Initial;
+		return AudioSourceState::INITIAL;
 	else if (state == AL_PLAYING)
-		return AudioSourceState::Playing;
+		return AudioSourceState::PLAYING;
 	else if (state == AL_PAUSED)
-		return AudioSourceState::Paused;
+		return AudioSourceState::PAUSED;
 	else if (state == AL_STOPPED)
-		return AudioSourceState::Stopped;
+		return AudioSourceState::STOPPED;
 	else
 		return AudioSourceState::DEFAULT;
 }
@@ -218,13 +218,13 @@ AudioSourceState::Type Audio::GetState(AudioSource* source)
 	ALint state;
 	alGetSourcei(source->GetBuffer()->Source(), AL_SOURCE_STATE, &state);
 	if (state == AL_INITIAL)
-		return AudioSourceState::Initial;
+		return AudioSourceState::INITIAL;
 	else if (state == AL_PLAYING)
-		return AudioSourceState::Playing;
+		return AudioSourceState::PLAYING;
 	else if (state == AL_PAUSED)
-		return AudioSourceState::Paused;
+		return AudioSourceState::PAUSED;
 	else if (state == AL_STOPPED)
-		return AudioSourceState::Stopped;
+		return AudioSourceState::STOPPED;
 	else
 		return AudioSourceState::DEFAULT;
 }

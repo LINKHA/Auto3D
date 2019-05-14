@@ -15,10 +15,10 @@ namespace AudioSourceState
 	enum Type
 	{
 		DEFAULT,
-		Initial,
-		Playing,
-		Paused,
-		Stopped
+		INITIAL,
+		PLAYING,
+		PAUSED,
+		STOPPED
 	};
 };
 
