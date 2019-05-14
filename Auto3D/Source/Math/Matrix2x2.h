@@ -146,10 +146,10 @@ public:
 			return false;
 
 		char* ptr = (char*)str;
-		_m00 = (float)strtod(ptr, &ptr);
-		_m01 = (float)strtod(ptr, &ptr);
-		_m10 = (float)strtod(ptr, &ptr);
-		_m11 = (float)strtod(ptr, &ptr);
+		_m00 = (_Ty)strtod(ptr, &ptr);
+		_m01 = (_Ty)strtod(ptr, &ptr);
+		_m10 = (_Ty)strtod(ptr, &ptr);
+		_m11 = (_Ty)strtod(ptr, &ptr);
 
 		return true;
 	}

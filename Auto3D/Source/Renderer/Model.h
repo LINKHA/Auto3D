@@ -10,7 +10,7 @@ namespace Auto3D
 
 class VertexBuffer;
 class IndexBuffer;
-struct Geometry;
+class Geometry;
 
 
 /// Model's bone description.

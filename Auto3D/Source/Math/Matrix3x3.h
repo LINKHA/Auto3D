@@ -176,15 +176,15 @@ public:
 			return false;
 
 		char* ptr = (char*)str;
-		_m00 = (float)strtod(ptr, &ptr);
-		_m01 = (float)strtod(ptr, &ptr);
-		_m02 = (float)strtod(ptr, &ptr);
-		_m10 = (float)strtod(ptr, &ptr);
-		_m11 = (float)strtod(ptr, &ptr);
-		_m12 = (float)strtod(ptr, &ptr);
-		_m20 = (float)strtod(ptr, &ptr);
-		_m21 = (float)strtod(ptr, &ptr);
-		_m22 = (float)strtod(ptr, &ptr);
+		_m00 = (_Ty)strtod(ptr, &ptr);
+		_m01 = (_Ty)strtod(ptr, &ptr);
+		_m02 = (_Ty)strtod(ptr, &ptr);
+		_m10 = (_Ty)strtod(ptr, &ptr);
+		_m11 = (_Ty)strtod(ptr, &ptr);
+		_m12 = (_Ty)strtod(ptr, &ptr);
+		_m20 = (_Ty)strtod(ptr, &ptr);
+		_m21 = (_Ty)strtod(ptr, &ptr);
+		_m22 = (_Ty)strtod(ptr, &ptr);
 
 		return true;
 	}
