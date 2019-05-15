@@ -1006,8 +1006,8 @@ void Renderer::LoadPassShaders(Pass* pass)
     pass->_shaders[ShaderStage::VS] = cache->LoadResource<Shader>(pass->GetShaderName(ShaderStage::VS) + ".vert");
     pass->_shaders[ShaderStage::PS] = cache->LoadResource<Shader>(pass->GetShaderName(ShaderStage::PS) + ".frag");
     #else
-    _pass->_shaders[ShaderStage::VS] = cache->LoadResource<Shader>(_pass->GetShaderName(ShaderStage::VS) + ".vs");
-    _pass->_shaders[ShaderStage::PS] = cache->LoadResource<Shader>(_pass->GetShaderName(ShaderStage::PS) + ".ps");
+	pass->_shaders[ShaderStage::VS] = cache->LoadResource<Shader>(pass->GetShaderName(ShaderStage::VS) + ".vs");
+	pass->_shaders[ShaderStage::PS] = cache->LoadResource<Shader>(pass->GetShaderName(ShaderStage::PS) + ".ps");
     #endif
 
     pass->_shadersLoaded = true;
