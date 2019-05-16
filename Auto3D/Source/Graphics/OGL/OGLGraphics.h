@@ -10,14 +10,12 @@
 namespace Auto3D
 {
 
-class BlendState;
 class ConstantBuffer;
 class DepthState;
 class Framebuffer;
 class GLContext;
 class GPUObject;
 class IndexBuffer;
-class RasterizerState;
 class ShaderProgram;
 class ShaderVariation;
 class Texture;
