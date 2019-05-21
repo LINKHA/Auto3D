@@ -1,11 +1,11 @@
-#include "UISpatialNode.h"
+#include "SpatialNode2D.h"
 
 #include "../Debug/DebugNew.h"
 
 namespace Auto3D
 {
 
-UISpatialNode::UISpatialNode() :
+SpatialNode2D::SpatialNode2D() :
 	_worldTransform(Matrix3x4F::IDENTITY),
 	_position(Vector3F::ZERO),
 	_rotation(Quaternion::IDENTITY),
@@ -14,34 +14,34 @@ UISpatialNode::UISpatialNode() :
 	SetFlag(UNF_SPATIAL, true);
 }
 
-void UISpatialNode::RegisterObject()
+void SpatialNode2D::RegisterObject()
 {
-	RegisterFactory<UISpatialNode>();
-	CopyBaseAttributes<UISpatialNode, UINode>();
-	RegisterRefAttribute("position", &UISpatialNode::GetPosition, &UISpatialNode::SetPosition, Vector3F::ZERO);
-	RegisterRefAttribute("rotation", &UISpatialNode::GetRotation, &UISpatialNode::SetRotation, Quaternion::IDENTITY);
-	RegisterRefAttribute("scale", &UISpatialNode::GetScale, &UISpatialNode::SetScale, Vector3F::ONE);
+	RegisterFactory<SpatialNode2D>();
+	CopyBaseAttributes<SpatialNode2D, Node2D>();
+	RegisterRefAttribute("position", &SpatialNode2D::GetPosition, &SpatialNode2D::SetPosition, Vector3F::ZERO);
+	RegisterRefAttribute("rotation", &SpatialNode2D::GetRotation, &SpatialNode2D::SetRotation, Quaternion::IDENTITY);
+	RegisterRefAttribute("scale", &SpatialNode2D::GetScale, &SpatialNode2D::SetScale, Vector3F::ONE);
 }
 
-void UISpatialNode::SetPosition(const Vector3F& newPosition)
+void SpatialNode2D::SetPosition(const Vector3F& newPosition)
 {
 	_position = newPosition;
 	OnTransformChanged();
 }
 
-void UISpatialNode::SetRotation(const Quaternion& newRotation)
+void SpatialNode2D::SetRotation(const Quaternion& newRotation)
 {
 	_rotation = newRotation;
 	OnTransformChanged();
 }
 
-void UISpatialNode::SetDirection(const Vector3F& newDirection)
+void SpatialNode2D::SetDirection(const Vector3F& newDirection)
 {
 	_rotation = Quaternion(Vector3F::FORWARD, newDirection);
 	OnTransformChanged();
 }
 
-void UISpatialNode::SetScale(const Vector3F& newScale)
+void SpatialNode2D::SetScale(const Vector3F& newScale)
 {
 	_scale = newScale;
 	// Make sure scale components never go to exactly zero, to prevent problems with decomposing the world matrix
@@ -55,19 +55,19 @@ void UISpatialNode::SetScale(const Vector3F& newScale)
 	OnTransformChanged();
 }
 
-void UISpatialNode::SetScale(float newScale)
+void SpatialNode2D::SetScale(float newScale)
 {
 	SetScale(Vector3F(newScale, newScale, newScale));
 }
 
-void UISpatialNode::SetTransform(const Vector3F& newPosition, const Quaternion& newRotation)
+void SpatialNode2D::SetTransform(const Vector3F& newPosition, const Quaternion& newRotation)
 {
 	_position = newPosition;
 	_rotation = newRotation;
 	OnTransformChanged();
 }
 
-void UISpatialNode::SetTransform(const Vector3F& newPosition, const Quaternion& newRotation, const Vector3F& newScale)
+void SpatialNode2D::SetTransform(const Vector3F& newPosition, const Quaternion& newRotation, const Vector3F& newScale)
 {
 	_position = newPosition;
 	_rotation = newRotation;
@@ -75,43 +75,43 @@ void UISpatialNode::SetTransform(const Vector3F& newPosition, const Quaternion& 
 	OnTransformChanged();
 }
 
-void UISpatialNode::SetTransform(const Vector3F& newPosition, const Quaternion& newRotation, float newScale)
+void SpatialNode2D::SetTransform(const Vector3F& newPosition, const Quaternion& newRotation, float newScale)
 {
 	SetTransform(newPosition, newRotation, Vector3F(newScale, newScale, newScale));
 }
 
-void UISpatialNode::SetWorldPosition(const Vector3F& newPosition)
+void SpatialNode2D::SetWorldPosition(const Vector3F& newPosition)
 {
-	UISpatialNode* parentNode = GetSpatialParent();
+	SpatialNode2D* parentNode = GetSpatialParent();
 	SetPosition(parentNode ? parentNode->GetWorldTransform().Inverse() * newPosition : newPosition);
 }
 
-void UISpatialNode::SetWorldRotation(const Quaternion& newRotation)
+void SpatialNode2D::SetWorldRotation(const Quaternion& newRotation)
 {
-	UISpatialNode* parentNode = GetSpatialParent();
+	SpatialNode2D* parentNode = GetSpatialParent();
 	SetRotation(parentNode ? parentNode->GetWorldRotation().Inverse() * newRotation : newRotation);
 }
 
-void UISpatialNode::SetWorldDirection(const Vector3F& newDirection)
+void SpatialNode2D::SetWorldDirection(const Vector3F& newDirection)
 {
-	UISpatialNode* parentNode = GetSpatialParent();
+	SpatialNode2D* parentNode = GetSpatialParent();
 	SetDirection(parentNode ? parentNode->GetWorldRotation().Inverse() * newDirection : newDirection);
 }
 
-void UISpatialNode::SetWorldScale(const Vector3F& newScale)
+void SpatialNode2D::SetWorldScale(const Vector3F& newScale)
 {
-	UISpatialNode* parentNode = GetSpatialParent();
+	SpatialNode2D* parentNode = GetSpatialParent();
 	SetScale(parentNode ? newScale / parentNode->GetWorldScale() : newScale);
 }
 
-void UISpatialNode::SetWorldScale(float newScale)
+void SpatialNode2D::SetWorldScale(float newScale)
 {
 	SetWorldScale(Vector3F(newScale, newScale, newScale));
 }
 
-void UISpatialNode::SetWorldTransform(const Vector3F& newPosition, const Quaternion& newRotation)
+void SpatialNode2D::SetWorldTransform(const Vector3F& newPosition, const Quaternion& newRotation)
 {
-	UISpatialNode* parentNode = GetSpatialParent();
+	SpatialNode2D* parentNode = GetSpatialParent();
 	if (parentNode)
 	{
 		Vector3F localPosition = parentNode->GetWorldTransform().Inverse() * newPosition;
@@ -122,9 +122,9 @@ void UISpatialNode::SetWorldTransform(const Vector3F& newPosition, const Quatern
 		SetTransform(newPosition, newRotation);
 }
 
-void UISpatialNode::SetWorldTransform(const Vector3F& newPosition, const Quaternion& newRotation, const Vector3F& newScale)
+void SpatialNode2D::SetWorldTransform(const Vector3F& newPosition, const Quaternion& newRotation, const Vector3F& newScale)
 {
-	UISpatialNode* parentNode = GetSpatialParent();
+	SpatialNode2D* parentNode = GetSpatialParent();
 	if (parentNode)
 	{
 		Vector3F localPosition = parentNode->GetWorldTransform().Inverse() * newPosition;
@@ -136,27 +136,27 @@ void UISpatialNode::SetWorldTransform(const Vector3F& newPosition, const Quatern
 		SetTransform(newPosition, newRotation);
 }
 
-void UISpatialNode::SetWorldTransform(const Vector3F& newPosition, const Quaternion& newRotation, float newScale)
+void SpatialNode2D::SetWorldTransform(const Vector3F& newPosition, const Quaternion& newRotation, float newScale)
 {
 	SetWorldTransform(newPosition, newRotation, Vector3F(newScale, newScale, newScale));
 }
 
-void UISpatialNode::Translate(const Vector3F& delta, UITransformSpace::Type space)
+void SpatialNode2D::Translate(const Vector3F& delta, Transform2DSpace::Type space)
 {
-	UISpatialNode* parentNode = GetSpatialParent();
+	SpatialNode2D* parentNode = GetSpatialParent();
 
 	switch (space)
 	{
-	case UITransformSpace::LOCAL:
+	case Transform2DSpace::LOCAL:
 		// Note: local space translation disregards local scale for scale-independent movement speed
 		_position += _rotation * delta;
 		break;
 
-	case UITransformSpace::PARENT:
+	case Transform2DSpace::PARENT:
 		_position += delta;
 		break;
 
-	case UITransformSpace::WORLD:
+	case Transform2DSpace::WORLD:
 		_position += !parentNode ? delta : parentNode->GetWorldTransform().Inverse() * Vector4F(delta, 0.0f);
 		break;
 	}
@@ -164,21 +164,21 @@ void UISpatialNode::Translate(const Vector3F& delta, UITransformSpace::Type spac
 	OnTransformChanged();
 }
 
-void UISpatialNode::Rotate(const Quaternion& delta, UITransformSpace::Type space)
+void SpatialNode2D::Rotate(const Quaternion& delta, Transform2DSpace::Type space)
 {
-	UISpatialNode* parentNode = GetSpatialParent();
+	SpatialNode2D* parentNode = GetSpatialParent();
 
 	switch (space)
 	{
-	case UITransformSpace::LOCAL:
+	case Transform2DSpace::LOCAL:
 		_rotation = (_rotation * delta).Normalized();
 		break;
 
-	case UITransformSpace::PARENT:
+	case Transform2DSpace::PARENT:
 		_rotation = (delta * _rotation).Normalized();
 		break;
 
-	case UITransformSpace::WORLD:
+	case Transform2DSpace::WORLD:
 		if (!parentNode)
 			_rotation = (delta * _rotation).Normalized();
 		else
@@ -192,25 +192,25 @@ void UISpatialNode::Rotate(const Quaternion& delta, UITransformSpace::Type space
 	OnTransformChanged();
 }
 
-void UISpatialNode::RotateAround(const Vector3F& point, const Quaternion& delta, UITransformSpace::Type space)
+void SpatialNode2D::RotateAround(const Vector3F& point, const Quaternion& delta, Transform2DSpace::Type space)
 {
-	UISpatialNode* parentNode = GetSpatialParent();
+	SpatialNode2D* parentNode = GetSpatialParent();
 	Vector3F parentSpacePoint;
 	Quaternion oldRotation = _rotation;
 
 	switch (space)
 	{
-	case UITransformSpace::LOCAL:
+	case Transform2DSpace::LOCAL:
 		parentSpacePoint = GetTransform() * point;
 		_rotation = (_rotation * delta).Normalized();
 		break;
 
-	case UITransformSpace::PARENT:
+	case Transform2DSpace::PARENT:
 		parentSpacePoint = point;
 		_rotation = (delta * _rotation).Normalized();
 		break;
 
-	case UITransformSpace::WORLD:
+	case Transform2DSpace::WORLD:
 		if (!parentNode)
 		{
 			parentSpacePoint = point;
@@ -231,37 +231,37 @@ void UISpatialNode::RotateAround(const Vector3F& point, const Quaternion& delta,
 	OnTransformChanged();
 }
 
-void UISpatialNode::Yaw(float angle, UITransformSpace::Type space)
+void SpatialNode2D::Yaw(float angle, Transform2DSpace::Type space)
 {
 	Rotate(Quaternion(angle, Vector3F::UP), space);
 }
 
-void UISpatialNode::Pitch(float angle, UITransformSpace::Type space)
+void SpatialNode2D::Pitch(float angle, Transform2DSpace::Type space)
 {
 	Rotate(Quaternion(angle, Vector3F::RIGHT), space);
 }
 
-void UISpatialNode::Roll(float angle, UITransformSpace::Type space)
+void SpatialNode2D::Roll(float angle, Transform2DSpace::Type space)
 {
 	Rotate(Quaternion(angle, Vector3F::FORWARD), space);
 }
 
-bool UISpatialNode::LookAt(const Vector3F& target, const Vector3F& up, UITransformSpace::Type space)
+bool SpatialNode2D::LookAt(const Vector3F& target, const Vector3F& up, Transform2DSpace::Type space)
 {
-	UISpatialNode* parentNode = GetSpatialParent();
+	SpatialNode2D* parentNode = GetSpatialParent();
 	Vector3F worldSpaceTarget;
 
 	switch (space)
 	{
-	case UITransformSpace::LOCAL:
+	case Transform2DSpace::LOCAL:
 		worldSpaceTarget = GetWorldTransform() * target;
 		break;
 
-	case UITransformSpace::PARENT:
+	case Transform2DSpace::PARENT:
 		worldSpaceTarget = !parentNode ? target : parentNode->GetWorldTransform() * target;
 		break;
 
-	case UITransformSpace::WORLD:
+	case Transform2DSpace::WORLD:
 		worldSpaceTarget = target;
 		break;
 	}
@@ -279,40 +279,40 @@ bool UISpatialNode::LookAt(const Vector3F& target, const Vector3F& up, UITransfo
 	return true;
 }
 
-void UISpatialNode::ApplyScale(float delta)
+void SpatialNode2D::ApplyScale(float delta)
 {
 	ApplyScale(Vector3F(delta, delta, delta));
 }
 
-void UISpatialNode::ApplyScale(const Vector3F& delta)
+void SpatialNode2D::ApplyScale(const Vector3F& delta)
 {
 	_scale *= delta;
 	OnTransformChanged();
 }
 
-void UISpatialNode::OnParentSet(UINode* newParent, UINode*)
+void SpatialNode2D::OnParentSet(Node2D* newParent, Node2D*)
 {
-	SetFlag(UNF_SPATIAL_PARENT, dynamic_cast<UISpatialNode*>(newParent) != 0);
+	SetFlag(UNF_SPATIAL_PARENT, dynamic_cast<SpatialNode2D*>(newParent) != 0);
 	OnTransformChanged();
 }
 
-void UISpatialNode::OnTransformChanged()
+void SpatialNode2D::OnTransformChanged()
 {
 	SetFlag(UNF_WORLD_TRANSFORM_DIRTY, true);
 
-	const Vector<SharedPtr<UINode> >& children = Children();
+	const Vector<SharedPtr<Node2D> >& children = Children();
 	for (auto it = children.Begin(); it != children.End(); ++it)
 	{
-		UINode* child = *it;
+		Node2D* child = *it;
 		if (child->TestFlag(UNF_SPATIAL))
-			static_cast<UISpatialNode*>(child)->OnTransformChanged();
+			static_cast<SpatialNode2D*>(child)->OnTransformChanged();
 	}
 }
 
-void UISpatialNode::UpdateWorldTransform() const
+void SpatialNode2D::UpdateWorldTransform() const
 {
 	if (TestFlag(UNF_SPATIAL_PARENT))
-		_worldTransform = static_cast<UISpatialNode*>(Parent())->GetWorldTransform() * Matrix3x4F(_position, _rotation, _scale);
+		_worldTransform = static_cast<SpatialNode2D*>(Parent())->GetWorldTransform() * Matrix3x4F(_position, _rotation, _scale);
 	else
 		_worldTransform = Matrix3x4F(_position, _rotation, _scale);
 	SetFlag(UNF_WORLD_TRANSFORM_DIRTY, false);

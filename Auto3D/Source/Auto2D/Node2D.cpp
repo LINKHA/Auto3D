@@ -2,13 +2,14 @@
 #include "../IO/Stream.h"
 #include "../Object/ObjectResolver.h"
 #include "../Resource/JSONFile.h"
-#include "Canvas.h"
+#include "Scene2D.h"
+#include "Node2D.h"
 
 #include "../Debug/DebugNew.h"
 namespace Auto3D
 {
 
-UINode::UINode():
+Node2D::Node2D():
 	_flags(UNF_ENABLED),
 	_layer(U_LAYER_DEFAULT),
 	_tag(U_TAG_NONE),
@@ -19,7 +20,7 @@ UINode::UINode():
 
 }
 
-UINode::~UINode()
+Node2D::~Node2D()
 {
 	RemoveAllChildren();
 	// At the time of destruction the node should not have a parent, or be in a scene
@@ -27,13 +28,13 @@ UINode::~UINode()
 	assert(!_canvas);
 }
 
-void UINode::RegisterObject()
+void Node2D::RegisterObject()
 {
-	RegisterFactory<UINode>();
+	RegisterFactory<Node2D>();
 }
 
 
-void UINode::Load(Stream& source, ObjectResolver& resolver)
+void Node2D::Load(Stream& source, ObjectResolver& resolver)
 {
 	// Type and _id has been read by the parent
 	Serializable::Load(source, resolver);
@@ -43,7 +44,7 @@ void UINode::Load(Stream& source, ObjectResolver& resolver)
 	{
 		StringHash childType(source.Read<StringHash>());
 		unsigned childId = source.Read<unsigned>();
-		UINode* child = CreateChild(childType);
+		Node2D* child = CreateChild(childType);
 		if (child)
 		{
 			resolver.StoreObject(childId, child);
@@ -57,7 +58,7 @@ void UINode::Load(Stream& source, ObjectResolver& resolver)
 	}
 }
 
-void UINode::Save(Stream& dest)
+void Node2D::Save(Stream& dest)
 {
 	// Write type and ID first, followed by attributes and child nodes
 	dest.Write(GetType());
@@ -67,13 +68,13 @@ void UINode::Save(Stream& dest)
 
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		UINode* child = *it;
+		Node2D* child = *it;
 		if (!child->IsTemporary())
 			child->Save(dest);
 	}
 }
 
-void UINode::LoadJSON(const JSONValue& source, ObjectResolver& resolver)
+void Node2D::LoadJSON(const JSONValue& source, ObjectResolver& resolver)
 {
 	// Type and _id has been read by the parent
 	Serializable::LoadJSON(source, resolver);
@@ -86,7 +87,7 @@ void UINode::LoadJSON(const JSONValue& source, ObjectResolver& resolver)
 			const JSONValue& childJSON = *it;
 			StringHash childType(childJSON["type"].GetString());
 			unsigned childId = (unsigned)childJSON["id"].GetNumber();
-			UINode* child = CreateChild(childType);
+			Node2D* child = CreateChild(childType);
 			if (child)
 			{
 				resolver.StoreObject(childId, child);
@@ -96,7 +97,7 @@ void UINode::LoadJSON(const JSONValue& source, ObjectResolver& resolver)
 	}
 }
 
-void UINode::SaveJSON(JSONValue& dest)
+void Node2D::SaveJSON(JSONValue& dest)
 {
 	dest["type"] = GetTypeName();
 	dest["id"] = Id();
@@ -107,7 +108,7 @@ void UINode::SaveJSON(JSONValue& dest)
 		dest["children"].SetEmptyArray();
 		for (auto it = _children.Begin(); it != _children.End(); ++it)
 		{
-			UINode* child = *it;
+			Node2D* child = *it;
 			if (!child->IsTemporary())
 			{
 				JSONValue childJSON;
@@ -118,24 +119,24 @@ void UINode::SaveJSON(JSONValue& dest)
 	}
 }
 
-bool UINode::SaveJSON(Stream& dest)
+bool Node2D::SaveJSON(Stream& dest)
 {
 	JSONFile json;
 	SaveJSON(json.Root());
 	return json.Save(dest);
 }
 
-void UINode::SetName(const String& newName)
+void Node2D::SetName(const String& newName)
 {
 	SetName(newName.CString());
 }
 
-void UINode::SetName(const char* newName)
+void Node2D::SetName(const char* newName)
 {
 	_name = newName;
 }
 
-void UINode::SetLayer(unsigned char newLayer)
+void Node2D::SetLayer(unsigned char newLayer)
 {
 	if (_layer < 32)
 		_layer = newLayer;
@@ -143,7 +144,7 @@ void UINode::SetLayer(unsigned char newLayer)
 		ErrorString("Can not set layer 32 or higher");
 }
 
-void UINode::SetLayerName(const String& newLayerName)
+void Node2D::SetLayerName(const String& newLayerName)
 {
 	if (!_canvas)
 		return;
@@ -156,12 +157,12 @@ void UINode::SetLayerName(const String& newLayerName)
 		ErrorString("Layer " + newLayerName + " not defined in the scene");
 }
 
-void UINode::SetTag(unsigned char newTag)
+void Node2D::SetTag(unsigned char newTag)
 {
 	_tag = newTag;
 }
 
-void UINode::SetTagName(const String& newTagName)
+void Node2D::SetTagName(const String& newTagName)
 {
 	if (!_canvas)
 		return;
@@ -174,28 +175,28 @@ void UINode::SetTagName(const String& newTagName)
 		ErrorString("Tag " + newTagName + " not defined in the scene");
 }
 
-void UINode::SetEnabled(bool enable)
+void Node2D::SetEnabled(bool enable)
 {
 	SetFlag(UNF_ENABLED, enable);
 	OnSetEnabled(TestFlag(UNF_ENABLED));
 }
 
-void UINode::SetEnabledRecursive(bool enable)
+void Node2D::SetEnabledRecursive(bool enable)
 {
 	SetEnabled(enable);
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		UINode* child = *it;
+		Node2D* child = *it;
 		child->SetEnabledRecursive(enable);
 	}
 }
 
-void UINode::SetTemporary(bool enable)
+void Node2D::SetTemporary(bool enable)
 {
 	SetFlag(UNF_TEMPORARY, enable);
 }
 
-void UINode::SetParent(UINode* newParent)
+void Node2D::SetParent(Node2D* newParent)
 {
 	if (newParent)
 		newParent->AddChild(this);
@@ -203,7 +204,7 @@ void UINode::SetParent(UINode* newParent)
 		ErrorString("Could not set null parent");
 }
 
-void UINode::DefineLayer(unsigned char index, const String& name)
+void Node2D::DefineLayer(unsigned char index, const String& name)
 {
 	if (index >= 32)
 	{
@@ -217,7 +218,7 @@ void UINode::DefineLayer(unsigned char index, const String& name)
 	_layers[name] = index;
 }
 
-void UINode::DefineTag(unsigned char index, const String& name)
+void Node2D::DefineTag(unsigned char index, const String& name)
 {
 	if (_tagNames.Size() <= index)
 		_tagNames.Resize(index + 1);
@@ -225,7 +226,7 @@ void UINode::DefineTag(unsigned char index, const String& name)
 	_tags[name] = index;
 }
 
-UINode* UINode::CreateChild(StringHash childType)
+Node2D* Node2D::CreateChild(StringHash childType)
 {
 	SharedPtr<Object> newObject = Create(childType);
 	if (!newObject)
@@ -233,7 +234,7 @@ UINode* UINode::CreateChild(StringHash childType)
 		ErrorString("Could not create child node of unknown type " + childType.ToString());
 		return nullptr;
 	}
-	UINode* child = dynamic_cast<UINode*>(newObject.Get());
+	Node2D* child = dynamic_cast<Node2D*>(newObject.Get());
 	if (!child)
 	{
 		ErrorString(newObject->GetTypeName() + " is not a UINode subclass, could not add as a child");
@@ -244,20 +245,20 @@ UINode* UINode::CreateChild(StringHash childType)
 	return child;
 }
 
-UINode* UINode::CreateChild(StringHash childType, const String& childName)
+Node2D* Node2D::CreateChild(StringHash childType, const String& childName)
 {
 	return CreateChild(childType, childName.CString());
 }
 
-UINode* UINode::CreateChild(StringHash childType, const char* childName)
+Node2D* Node2D::CreateChild(StringHash childType, const char* childName)
 {
-	UINode* child = CreateChild(childType);
+	Node2D* child = CreateChild(childType);
 	if (child)
 		child->SetName(childName);
 	return child;
 }
 
-void UINode::AddChild(UINode* child)
+void Node2D::AddChild(Node2D* child)
 {
 	// Check for illegal or redundant parent assignment
 	if (!child || child->_parent == this)
@@ -270,7 +271,7 @@ void UINode::AddChild(UINode* child)
 	}
 
 	// Check for possible cyclic parent assignment
-	UINode* current = _parent;
+	Node2D* current = _parent;
 	while (current)
 	{
 		if (current == child)
@@ -281,7 +282,7 @@ void UINode::AddChild(UINode* child)
 		current = current->_parent;
 	}
 
-	UINode* oldParent = child->_parent;
+	Node2D* oldParent = child->_parent;
 	if (oldParent)
 		oldParent->_children.Remove(child);
 	_children.Push(child);
@@ -291,7 +292,7 @@ void UINode::AddChild(UINode* child)
 		_canvas->AddNode(child);
 }
 
-void UINode::RemoveChild(UINode* child)
+void Node2D::RemoveChild(Node2D* child)
 {
 	if (!child || child->_parent != this)
 		return;
@@ -306,12 +307,12 @@ void UINode::RemoveChild(UINode* child)
 	}
 }
 
-void UINode::RemoveChild(size_t index)
+void Node2D::RemoveChild(size_t index)
 {
 	if (index >= _children.Size())
 		return;
 
-	UINode* child = _children[index];
+	Node2D* child = _children[index];
 	// Detach from both the parent and the scene (removes _id assignment)
 	child->_parent = nullptr;
 	child->OnParentSet(this, nullptr);
@@ -320,11 +321,11 @@ void UINode::RemoveChild(size_t index)
 	_children.Erase(index);
 }
 
-void UINode::RemoveAllChildren()
+void Node2D::RemoveAllChildren()
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		UINode* child = *it;
+		Node2D* child = *it;
 		child->_parent = nullptr;
 		child->OnParentSet(this, nullptr);
 		if (_canvas)
@@ -335,7 +336,7 @@ void UINode::RemoveAllChildren()
 	_children.Clear();
 }
 
-void UINode::RemoveSelf()
+void Node2D::RemoveSelf()
 {
 	if (_parent)
 		_parent->RemoveChild(this);
@@ -343,7 +344,7 @@ void UINode::RemoveSelf()
 		delete this;
 }
 
-const String& UINode::GetLayerName() const
+const String& Node2D::GetLayerName() const
 {
 	if (!_canvas)
 		return String::EMPTY;
@@ -352,7 +353,7 @@ const String& UINode::GetLayerName() const
 	return _layer < layerNames.Size() ? layerNames[_layer] : String::EMPTY;
 }
 
-const String& UINode::GetTagName() const
+const String& Node2D::GetTagName() const
 {
 	if (!_canvas)
 		return String::EMPTY;
@@ -361,13 +362,13 @@ const String& UINode::GetTagName() const
 	return _tag < tagNames.Size() ? tagNames[_layer] : String::EMPTY;
 }
 
-size_t UINode::NumPersistentChildren() const
+size_t Node2D::NumPersistentChildren() const
 {
 	size_t ret = 0;
 
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		UINode* child = *it;
+		Node2D* child = *it;
 		if (!child->IsTemporary())
 			++ret;
 	}
@@ -375,31 +376,31 @@ size_t UINode::NumPersistentChildren() const
 	return ret;
 }
 
-void UINode::AllChildren(Vector<UINode*>& result) const
+void Node2D::AllChildren(Vector<Node2D*>& result) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		UINode* child = *it;
+		Node2D* child = *it;
 		result.Push(child);
 		child->AllChildren(result);
 	}
 }
 
-UINode* UINode::FindChild(const String& childName, bool recursive) const
+Node2D* Node2D::FindChild(const String& childName, bool recursive) const
 {
 	return FindChild(childName.CString(), recursive);
 }
 
-UINode* UINode::FindChild(const char* childName, bool recursive) const
+Node2D* Node2D::FindChild(const char* childName, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		UINode* child = *it;
+		Node2D* child = *it;
 		if (child->_name == childName)
 			return child;
 		else if (recursive && child->_children.Size())
 		{
-			UINode* childResult = child->FindChild(childName, recursive);
+			Node2D* childResult = child->FindChild(childName, recursive);
 			if (childResult)
 				return childResult;
 		}
@@ -408,16 +409,16 @@ UINode* UINode::FindChild(const char* childName, bool recursive) const
 	return nullptr;
 }
 
-UINode* UINode::FindChild(StringHash childType, bool recursive) const
+Node2D* Node2D::FindChild(StringHash childType, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		UINode* child = *it;
+		Node2D* child = *it;
 		if (child->GetType() == childType)
 			return child;
 		else if (recursive && child->_children.Size())
 		{
-			UINode* childResult = child->FindChild(childType, recursive);
+			Node2D* childResult = child->FindChild(childType, recursive);
 			if (childResult)
 				return childResult;
 		}
@@ -426,21 +427,21 @@ UINode* UINode::FindChild(StringHash childType, bool recursive) const
 	return nullptr;
 }
 
-UINode* UINode::FindChild(StringHash childType, const String& childName, bool recursive) const
+Node2D* Node2D::FindChild(StringHash childType, const String& childName, bool recursive) const
 {
 	return FindChild(childType, childName.CString(), recursive);
 }
 
-UINode* UINode::FindChild(StringHash childType, const char* childName, bool recursive) const
+Node2D* Node2D::FindChild(StringHash childType, const char* childName, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		UINode* child = *it;
+		Node2D* child = *it;
 		if (child->GetType() == childType && child->_name == childName)
 			return child;
 		else if (recursive && child->_children.Size())
 		{
-			UINode* childResult = child->FindChild(childType, childName, recursive);
+			Node2D* childResult = child->FindChild(childType, childName, recursive);
 			if (childResult)
 				return childResult;
 		}
@@ -449,16 +450,16 @@ UINode* UINode::FindChild(StringHash childType, const char* childName, bool recu
 	return nullptr;
 }
 
-UINode* UINode::FindChildByLayer(unsigned layerMask, bool recursive) const
+Node2D* Node2D::FindChildByLayer(unsigned layerMask, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		UINode* child = *it;
+		Node2D* child = *it;
 		if (child->GetLayerMask() && layerMask)
 			return child;
 		else if (recursive && child->_children.Size())
 		{
-			UINode* childResult = child->FindChildByLayer(layerMask, recursive);
+			Node2D* childResult = child->FindChildByLayer(layerMask, recursive);
 			if (childResult)
 				return childResult;
 		}
@@ -467,16 +468,16 @@ UINode* UINode::FindChildByLayer(unsigned layerMask, bool recursive) const
 	return nullptr;
 }
 
-UINode* UINode::FindChildByTag(unsigned char tag, bool recursive) const
+Node2D* Node2D::FindChildByTag(unsigned char tag, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		UINode* child = *it;
+		Node2D* child = *it;
 		if (child->_tag == tag)
 			return child;
 		else if (recursive && child->_children.Size())
 		{
-			UINode* childResult = child->FindChildByTag(tag, recursive);
+			Node2D* childResult = child->FindChildByTag(tag, recursive);
 			if (childResult)
 				return childResult;
 		}
@@ -485,21 +486,21 @@ UINode* UINode::FindChildByTag(unsigned char tag, bool recursive) const
 	return nullptr;
 }
 
-UINode* UINode::FindChildByTag(const String& tagName, bool recursive) const
+Node2D* Node2D::FindChildByTag(const String& tagName, bool recursive) const
 {
 	return FindChildByTag(tagName.CString(), recursive);
 }
 
-UINode* UINode::FindChildByTag(const char* tagName, bool recursive) const
+Node2D* Node2D::FindChildByTag(const char* tagName, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		UINode* child = *it;
+		Node2D* child = *it;
 		if (!String::Compare(child->GetTagName().CString(), tagName))
 			return child;
 		else if (recursive && child->_children.Size())
 		{
-			UINode* childResult = child->FindChildByTag(tagName, recursive);
+			Node2D* childResult = child->FindChildByTag(tagName, recursive);
 			if (childResult)
 				return childResult;
 		}
@@ -508,11 +509,11 @@ UINode* UINode::FindChildByTag(const char* tagName, bool recursive) const
 	return nullptr;
 }
 
-void UINode::FindChildren(Vector<UINode*>& result, StringHash childType, bool recursive) const
+void Node2D::FindChildren(Vector<Node2D*>& result, StringHash childType, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		UINode* child = *it;
+		Node2D* child = *it;
 		if (child->GetType() == childType)
 			result.Push(child);
 		if (recursive && child->_children.Size())
@@ -520,11 +521,11 @@ void UINode::FindChildren(Vector<UINode*>& result, StringHash childType, bool re
 	}
 }
 
-void UINode::FindChildrenByLayer(Vector<UINode*>& result, unsigned layerMask, bool recursive) const
+void Node2D::FindChildrenByLayer(Vector<Node2D*>& result, unsigned layerMask, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		UINode* child = *it;
+		Node2D* child = *it;
 		if (child->GetLayerMask() & layerMask)
 			result.Push(child);
 		if (recursive && child->_children.Size())
@@ -532,11 +533,11 @@ void UINode::FindChildrenByLayer(Vector<UINode*>& result, unsigned layerMask, bo
 	}
 }
 
-void UINode::FindChildrenByTag(Vector<UINode*>& result, unsigned char tag, bool recursive) const
+void Node2D::FindChildrenByTag(Vector<Node2D*>& result, unsigned char tag, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		UINode* child = *it;
+		Node2D* child = *it;
 		if (child->_tag == tag)
 			result.Push(child);
 		if (recursive && child->_children.Size())
@@ -544,16 +545,16 @@ void UINode::FindChildrenByTag(Vector<UINode*>& result, unsigned char tag, bool 
 	}
 }
 
-void UINode::FindChildrenByTag(Vector<UINode*>& result, const String& tagName, bool recursive) const
+void Node2D::FindChildrenByTag(Vector<Node2D*>& result, const String& tagName, bool recursive) const
 {
 	FindChildrenByTag(result, tagName.CString(), recursive);
 }
 
-void UINode::FindChildrenByTag(Vector<UINode*>& result, const char* tagName, bool recursive) const
+void Node2D::FindChildrenByTag(Vector<Node2D*>& result, const char* tagName, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		UINode* child = *it;
+		Node2D* child = *it;
 		if (!String::Compare(child->GetTagName().CString(), tagName))
 			result.Push(child);
 		if (recursive && child->_children.Size())
@@ -561,19 +562,19 @@ void UINode::FindChildrenByTag(Vector<UINode*>& result, const char* tagName, boo
 	}
 }
 
-void UINode::SetCanvas(Canvas* newCanvas)
+void Node2D::SetCanvas(Scene2D* newCanvas)
 {
-	Canvas* oldCanvas = _canvas;
+	Scene2D* oldCanvas = _canvas;
 	_canvas = newCanvas;
 	OnCanvasSet(_canvas, oldCanvas);
 }
 
-void UINode::SetId(unsigned newId)
+void Node2D::SetId(unsigned newId)
 {
 	_id = newId;
 }
 
-void UINode::SkipHierarchy(Stream& source)
+void Node2D::SkipHierarchy(Stream& source)
 {
 	Serializable::Skip(source);
 
@@ -586,15 +587,15 @@ void UINode::SkipHierarchy(Stream& source)
 	}
 }
 
-void UINode::OnParentSet(UINode*, UINode*)
+void Node2D::OnParentSet(Node2D*, Node2D*)
 {
 }
 
-void UINode::OnCanvasSet(Canvas*, Canvas*)
+void Node2D::OnCanvasSet(Scene2D*, Scene2D*)
 {
 }
 
-void UINode::OnSetEnabled(bool)
+void Node2D::OnSetEnabled(bool)
 {
 }
 

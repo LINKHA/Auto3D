@@ -3,7 +3,7 @@
 #include "../Graphics/GraphicsDefs.h"
 #include "../IO/ResourceRef.h"
 #include "OctreeNode.h"
-#include "../UI/UISpatialNode.h"
+#include "../Auto2D/SpatialNode2D.h"
 
 namespace Auto3D
 {
@@ -174,38 +174,6 @@ protected:
     Vector<SourceBatch> _batches;
     /// Local space bounding box.
     BoundingBoxF _boundingBox;
-};
-
-class AUTO_API UIGeometryNode : public UISpatialNode
-{
-	REGISTER_OBJECT_CLASS(GeometryNode, OctreeNode)
-
-public:
-	/// Construct.
-	UIGeometryNode();
-	/// Destruct.
-	~UIGeometryNode();
-	/// Register factory and attributes.
-	static void RegisterObject();
-	/// Set geometry type, which is shared by all geometries.
-	void SetGeometryType(GeometryType::Type type);
-	/// Set geometry at index.
-	void SetGeometry(Geometry* geometry);
-	/// Return geometry type.
-	GeometryType::Type GetGeometryType() const { return _geometryType; }
-	/// Return geometry by index.
-	Geometry* GetGeometry() const;
-	/// Set texture.
-	void SetTexture(Texture* texture);
-	/// Return texture.
-	Texture* GetTexture() const { return _texture; }
-protected:
-	/// Geometry type.
-	GeometryType::Type _geometryType;
-	/// Draw call source datas.
-	SharedPtr<Geometry> _geometry;
-	/// Texture.
-	SharedPtr<Texture> _texture;
 };
 
 }

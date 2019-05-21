@@ -3,7 +3,7 @@
 #include "../IO/Stream.h"
 #include "../Object/ObjectResolver.h"
 #include "../Resource/JSONFile.h"
-#include "Canvas.h"
+#include "Scene2D.h"
 
 #include "../Scene/SpatialNode.h"
 
@@ -12,7 +12,7 @@
 namespace Auto3D
 {
 
-Canvas::Canvas() :
+Scene2D::Scene2D() :
 	_nextNodeId(1)
 {
 	// Register self to allow finding by ID
@@ -21,7 +21,7 @@ Canvas::Canvas() :
 	DefineLayer(LAYER_DEFAULT, "Default");
 	DefineTag(TAG_NONE, "None");
 }
-Canvas::~Canvas()
+Scene2D::~Scene2D()
 {
 	// Node destructor will also remove children. But at that point the node<>_id maps have been destroyed 
    // so must tear down the scene tree already here
@@ -30,26 +30,26 @@ Canvas::~Canvas()
 	assert(_nodes.IsEmpty());
 }
 
-void Canvas::RegisterObject()
+void Scene2D::RegisterObject()
 {
-	RegisterFactory<Canvas>();
-	CopyBaseAttributes<Canvas, UINode>();
-	RegisterAttribute("layerNames", &Canvas::LayerNamesAttr, &Canvas::SetLayerNamesAttr);
-	RegisterAttribute("tagNames", &Canvas::TagNamesAttr, &Canvas::SetTagNamesAttr);
+	RegisterFactory<Scene2D>();
+	CopyBaseAttributes<Scene2D, Node2D>();
+	RegisterAttribute("layerNames", &Scene2D::LayerNamesAttr, &Scene2D::SetLayerNamesAttr);
+	RegisterAttribute("tagNames", &Scene2D::TagNamesAttr, &Scene2D::SetTagNamesAttr);
 }
 
 
-void Canvas::Save(Stream& dest)
+void Scene2D::Save(Stream& dest)
 {
 	PROFILE(SaveScene);
 
 	InfoString("Saving scene to " + dest.Name());
 
 	dest.WriteFileID("SCNE");
-	UINode::Save(dest);
+	Node2D::Save(dest);
 }
 
-bool Canvas::Load(Stream& source)
+bool Scene2D::Load(Stream& source)
 {
 	PROFILE(LoadScene);
 
@@ -74,13 +74,13 @@ bool Canvas::Load(Stream& source)
 
 	ObjectResolver resolver;
 	resolver.StoreObject(ownId, this);
-	UINode::Load(source, resolver);
+	Node2D::Load(source, resolver);
 	resolver.Resolve();
 
 	return true;
 }
 
-bool Canvas::LoadJSON(const JSONValue& source)
+bool Scene2D::LoadJSON(const JSONValue& source)
 {
 	PROFILE(LoadSceneJSON);
 
@@ -97,13 +97,13 @@ bool Canvas::LoadJSON(const JSONValue& source)
 
 	ObjectResolver resolver;
 	resolver.StoreObject(ownId, this);
-	UINode::LoadJSON(source, resolver);
+	Node2D::LoadJSON(source, resolver);
 	resolver.Resolve();
 
 	return true;
 }
 
-bool Canvas::LoadJSON(Stream& source)
+bool Scene2D::LoadJSON(Stream& source)
 {
 	InfoString("Loading scene from " + source.Name());
 
@@ -113,18 +113,18 @@ bool Canvas::LoadJSON(Stream& source)
 	return success;
 }
 
-bool Canvas::SaveJSON(Stream& dest)
+bool Scene2D::SaveJSON(Stream& dest)
 {
 	PROFILE(SaveSceneJSON);
 
 	InfoString("Saving scene to " + dest.Name());
 
 	JSONFile json;
-	UINode::SaveJSON(json.Root());
+	Node2D::SaveJSON(json.Root());
 	return json.Save(dest);
 }
 
-UINode* Canvas::Instantiate(Stream& source)
+Node2D* Scene2D::Instantiate(Stream& source)
 {
 	PROFILE(Instantiate);
 
@@ -132,7 +132,7 @@ UINode* Canvas::Instantiate(Stream& source)
 	StringHash childType(source.Read<StringHash>());
 	unsigned childId = source.Read<unsigned>();
 
-	UINode* child = CreateChild(childType);
+	Node2D* child = CreateChild(childType);
 	if (child)
 	{
 		resolver.StoreObject(childId, child);
@@ -143,7 +143,7 @@ UINode* Canvas::Instantiate(Stream& source)
 	return child;
 }
 
-UINode* Canvas::InstantiateJSON(const JSONValue& source)
+Node2D* Scene2D::InstantiateJSON(const JSONValue& source)
 {
 	PROFILE(InstantiateJSON);
 
@@ -151,7 +151,7 @@ UINode* Canvas::InstantiateJSON(const JSONValue& source)
 	StringHash childType(source["type"].GetString());
 	unsigned childId = (unsigned)source["id"].GetNumber();
 
-	UINode* child = CreateChild(childType);
+	Node2D* child = CreateChild(childType);
 	if (child)
 	{
 		resolver.StoreObject(childId, child);
@@ -162,31 +162,31 @@ UINode* Canvas::InstantiateJSON(const JSONValue& source)
 	return child;
 }
 
-UINode* Canvas::InstantiateJSON(Stream& source)
+Node2D* Scene2D::InstantiateJSON(Stream& source)
 {
 	JSONFile json;
 	json.Load(source);
 	return InstantiateJSON(json.Root());
 }
 
-void Canvas::Clear()
+void Scene2D::Clear()
 {
 	RemoveAllChildren();
 	_nextNodeId = 1;
 }
 
-UINode* Canvas::FindUINode(unsigned id) const
+Node2D* Scene2D::Find2dNode(unsigned id) const
 {
 	auto it = _nodes.Find(id);
 	return it != _nodes.End() ? it->_second : nullptr;
 }
 
-const HashMap<unsigned, UINode*>& Canvas::GetAllUINode() const
+const HashMap<unsigned, Node2D*>& Scene2D::GetAll2dNode() const
 {
 	return _nodes;
 }
 
-void Canvas::AddNode(UINode* node)
+void Scene2D::AddNode(Node2D* node)
 {
 	if (!node || node->ParentCanvas() == this)
 		return;
@@ -198,7 +198,7 @@ void Canvas::AddNode(UINode* node)
 			++_nextNodeId;
 	}
 
-	Canvas* oldScene = node->ParentCanvas();
+	Scene2D* oldScene = node->ParentCanvas();
 	if (oldScene)
 	{
 		unsigned oldId = node->Id();
@@ -213,13 +213,13 @@ void Canvas::AddNode(UINode* node)
 	// If node has children, add them to the scene as well
 	if (node->NumChildren())
 	{
-		const Vector<SharedPtr<UINode> >& children = node->Children();
+		const Vector<SharedPtr<Node2D> >& children = node->Children();
 		for (auto it = children.Begin(); it != children.End(); ++it)
 			AddNode(*it);
 	}
 }
 
-void Canvas::RemoveNode(UINode* node)
+void Scene2D::RemoveNode(Node2D* node)
 {
 	if (!node || node->ParentCanvas() != this)
 		return;
@@ -231,7 +231,7 @@ void Canvas::RemoveNode(UINode* node)
 	// If node has children, remove them from the scene as well
 	if (node->NumChildren())
 	{
-		const Vector<SharedPtr<UINode> >& children = node->Children();
+		const Vector<SharedPtr<Node2D> >& children = node->Children();
 		for (auto it = children.Begin(); it != children.End(); ++it)
 			RemoveNode(*it);
 	}
@@ -240,7 +240,7 @@ void Canvas::RemoveNode(UINode* node)
 
 
 
-void Canvas::SetLayerNamesAttr(JSONValue names)
+void Scene2D::SetLayerNamesAttr(JSONValue names)
 {
 	_layerNames.Clear();
 	_layers.Clear();
@@ -254,7 +254,7 @@ void Canvas::SetLayerNamesAttr(JSONValue names)
 	}
 }
 
-JSONValue Canvas::LayerNamesAttr() const
+JSONValue Scene2D::LayerNamesAttr() const
 {
 	JSONValue ret;
 
@@ -265,7 +265,7 @@ JSONValue Canvas::LayerNamesAttr() const
 	return ret;
 }
 
-void Canvas::SetTagNamesAttr(JSONValue names)
+void Scene2D::SetTagNamesAttr(JSONValue names)
 {
 	_tagNames.Clear();
 	_tags.Clear();
@@ -279,7 +279,7 @@ void Canvas::SetTagNamesAttr(JSONValue names)
 	}
 }
 
-JSONValue Canvas::TagNamesAttr() const
+JSONValue Scene2D::TagNamesAttr() const
 {
 	JSONValue ret;
 

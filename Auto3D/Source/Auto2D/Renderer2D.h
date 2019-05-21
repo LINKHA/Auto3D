@@ -1,12 +1,12 @@
 #pragma once
 #include "../Object/GameManager.h"
-#include "UIBatch.h"
+#include "Batch2D.h"
 
 namespace Auto3D {
 
-class Canvas;
-class UICamera;
-class UINode;
+class Scene2D;
+class Camera2D;
+class Node2D;
 
 class Graphics;
 class VertexBuffer;
@@ -20,7 +20,7 @@ class Shader;
 static const size_t U_INSTANCE_TEXCOORD = 4;
 
 /// Shader constant buffers used by high-level rendering.
-namespace UIConstantBuffer
+namespace ConstantBuffer2D
 {
 	enum Type
 	{
@@ -33,47 +33,47 @@ namespace UIConstantBuffer
 
 
 /// Physics sub system 
-class AUTO_API UI : public BaseSubsystem
+class AUTO_API Renderer2D : public BaseSubsystem
 {
-	REGISTER_OBJECT_CLASS(UI, BaseSubsystem)
+	REGISTER_OBJECT_CLASS(Renderer2D, BaseSubsystem)
 public:
 	/// Construct
-	UI();
+	Renderer2D();
 	/// Destructor
-	~UI();
-	/// Render the UI. If renderUICommand is false (default), is assumed to be the default UI render to backbuffer called by Engine, and will be performed only once. Additional UI renders to a different rendertarget may be triggered from the renderpath.
-	void Render(Canvas* scene, UICamera* camera);
+	~Renderer2D();
+	/// Render the Renderer2D. If render command is false (default), is assumed to be the default Renderer2D render to backbuffer called by Engine, and will be performed only once. Additional Renderer2D renders to a different rendertarget may be triggered from the renderpath.
+	void Render(Scene2D* scene, Camera2D* camera);
 	/// Prepare view of objects and batch
-	bool PrepareView(Canvas* canvas, UICamera* camera);
+	bool PrepareView(Scene2D* canvas, Camera2D* camera);
 	/// Return initialized flag
 	bool IsInitialized() { return _initialized; }
 	/// Initialize rendering of a new view and collect visible objects from the camera's point of view. Return true on success (scene, camera and octree are non-null.)
-	bool CollectUIObjects(Canvas* scene, UICamera* camera);
+	bool Collect2dObjects(Scene2D* scene, Camera2D* camera);
 	/// Collect and sort batches from the visible objects. To not go through the objects several times, all the passes should be specified at once instead of multiple calls to CollectBatches().
-	void CollectUIBatches();
+	void Collect2dBatches();
 	/// Render of batchs
 	void RenderBatches();
 private:
 	/// Initialize when screen mode initially set.
 	void Initialize();
 	/// Render batches from a specific queue and camera.
-	void RenderBatches(const Vector<UIBatch>& batches, UICamera* camera);
+	void RenderBatches(const Vector<Batch2D>& batches, Camera2D* camera);
 	/// Graphics subsystem.
 	WeakPtr<Graphics> _graphics;
-	/// UI rendering batches.
-	Vector<UIBatch> _batches;
-	/// Current canvas.
-	Canvas* _canvas;
-	/// Current ui camera.
-	UICamera* _camera;
+	/// Renderer2D rendering batches.
+	Vector<Batch2D> _batches;
+	/// Current scene.
+	Scene2D* _scene;
+	/// Current 2d camera.
+	Camera2D* _camera;
 	/// Geometry nodes
-	Vector<UIGeometryNode*> _geometryNode;
-	/// UI does not have multiple queues
-	UIBatchQueue _batchQueue;
+	Vector<GeometryNode2D*> _geometryNode;
+	/// Renderer does not have multiple queues
+	Batch2DQueue _batchQueue;
 	/// Initialized flag.
 	bool _initialized;
-	/// Flag for UI already being rendered this frame.
-	bool _uiRendered;
+	/// Flag for Renderer2D already being rendered this frame.
+	bool _rendered;
 	/// Instance vertex buffer dirty flag.
 	bool _instanceTransformsDirty;
 	/// Instance transforms for uploading to the instance vertex buffer.
@@ -98,7 +98,7 @@ private:
 	ShaderVariation* _ipsv;
 };
 
-/// Register UI related object factories and attributes.
-AUTO_API void RegisterUILibrary();
+/// Register Renderer2D related object factories and attributes.
+AUTO_API void RegisterRenderer2DLibrary();
 
 }

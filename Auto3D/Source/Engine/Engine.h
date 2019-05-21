@@ -78,8 +78,8 @@ private:
 	UniquePtr<RegisteredBox> _registeredBox;
 	/// Use of game scripts
 	UniquePtr<Script> _script;
-	/// Ui-related operations and rendering capabilities
-	UniquePtr<UI> _ui;
+	/// 2d-related operations and rendering capabilities
+	UniquePtr<Renderer2D> _renderer2d;
 	/// Physical world and functional storage
 	UniquePtr<Physics> _physics;
 	/// An adapter system that operates on files based on the platform

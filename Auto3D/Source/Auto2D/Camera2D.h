@@ -1,13 +1,13 @@
 #pragma once
 #include "../AutoConfig.h"
 
-#include "UISpatialNode.h"
+#include "SpatialNode2D.h"
 
 namespace Auto3D
 {
 
 /// Billboard camera facing modes.
-namespace UIFaceCameraMode
+namespace Face2DCameraMode
 {
 	enum Type
 	{
@@ -20,12 +20,12 @@ namespace UIFaceCameraMode
 };
 
 
-class AUTO_API UICamera : public UISpatialNode
+class AUTO_API Camera2D : public SpatialNode2D
 {
-	REGISTER_OBJECT_CLASS(UICamera, UISpatialNode)
+	REGISTER_OBJECT_CLASS(Camera2D, SpatialNode2D)
 public:
-	UICamera();
-	~UICamera();
+	Camera2D();
+	~Camera2D();
 	/// Register factory and attributes.
 	static void RegisterObject();
 
@@ -125,7 +125,7 @@ public:
 	/// Return a scene node's LOD scaled distance.
 	float LodDistance(float distance, float scale, float bias) const;
 	/// Return a world rotation for facing a camera on certain axes based on the existing world rotation.
-	Quaternion FaceCameraRotation(const Vector3F& position, const Quaternion& rotation, UIFaceCameraMode::Type mode);
+	Quaternion FaceCameraRotation(const Vector3F& position, const Quaternion& rotation, Face2DCameraMode::Type mode);
 	/// Get effective world transform for matrix and frustum calculations including reflection but excluding node scaling.
 	Matrix3x4F EffectiveWorldTransform() const;
 	/// Return if projection parameters are _valid for rendering and raycasting.

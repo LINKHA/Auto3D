@@ -1,13 +1,13 @@
 #pragma once
 
 #include "../Math/Matrix3x4.h"
-#include "UINode.h"
+#include "Node2D.h"
 
 namespace Auto3D
 {
 
 /// Transform space for translations and rotations.
-namespace UITransformSpace
+namespace Transform2DSpace
 {
 	enum Type
 	{
@@ -19,15 +19,15 @@ namespace UITransformSpace
 
 
 /// Base class for scene nodes with _position in three-dimensional space.
-class AUTO_API UISpatialNode : public UINode
+class AUTO_API SpatialNode2D : public Node2D
 {
-	REGISTER_OBJECT_CLASS(UISpatialNode, UINode)
+	REGISTER_OBJECT_CLASS(SpatialNode2D, Node2D)
 
 public:
 	/// Construct.
-	UISpatialNode();
+	SpatialNode2D();
 	/// The destructor
-	~UISpatialNode() = default;
+	~SpatialNode2D() = default;
 	/// Register factory and attributes.
 	static void RegisterObject();
 
@@ -64,26 +64,26 @@ public:
 	/// Set transform in world space.
 	void SetWorldTransform(const Vector3F& newPosition, const Quaternion& newRotation, float newScale);
 	/// Move the scene node in the chosen transform space.
-	void Translate(const Vector3F& delta, UITransformSpace::Type space = UITransformSpace::LOCAL);
+	void Translate(const Vector3F& delta, Transform2DSpace::Type space = Transform2DSpace::LOCAL);
 	/// Rotate the scene node in the chosen transform space.
-	void Rotate(const Quaternion& delta, UITransformSpace::Type space = UITransformSpace::LOCAL);
+	void Rotate(const Quaternion& delta, Transform2DSpace::Type space = Transform2DSpace::LOCAL);
 	/// Rotate around a point in the chosen transform space.
-	void RotateAround(const Vector3F& point, const Quaternion& delta, UITransformSpace::Type space = UITransformSpace::LOCAL);
+	void RotateAround(const Vector3F& point, const Quaternion& delta, Transform2DSpace::Type space = Transform2DSpace::LOCAL);
 	/// Rotate around the X axis.
-	void Pitch(float angle, UITransformSpace::Type space = UITransformSpace::LOCAL);
+	void Pitch(float angle, Transform2DSpace::Type space = Transform2DSpace::LOCAL);
 	/// Rotate around the Y axis.
-	void Yaw(float angle, UITransformSpace::Type space = UITransformSpace::LOCAL);
+	void Yaw(float angle, Transform2DSpace::Type space = Transform2DSpace::LOCAL);
 	/// Rotate around the Z axis.
-	void Roll(float angle, UITransformSpace::Type space = UITransformSpace::LOCAL);
+	void Roll(float angle, Transform2DSpace::Type space = Transform2DSpace::LOCAL);
 	/// Look at a target _position in the chosen transform space. Note that the up vector is always specified in world space. Return true if successful, or false if resulted in an illegal rotation, in which case the current rotation remains.
-	bool LookAt(const Vector3F& target, const Vector3F& up = Vector3F::UP, UITransformSpace::Type space = UITransformSpace::WORLD);
+	bool LookAt(const Vector3F& target, const Vector3F& up = Vector3F::UP, Transform2DSpace::Type space = Transform2DSpace::WORLD);
 	/// Apply a scale change.
 	void ApplyScale(const Vector3F& delta);
 	/// Apply an uniform scale change.
 	void ApplyScale(float delta);
 
 	/// Return the parent spatial node, or null if it is not spatial.
-	UISpatialNode* GetSpatialParent() const { return TestFlag(UNF_SPATIAL_PARENT) ? static_cast<UISpatialNode*>(Parent()) : nullptr; }
+	SpatialNode2D* GetSpatialParent() const { return TestFlag(UNF_SPATIAL_PARENT) ? static_cast<SpatialNode2D*>(Parent()) : nullptr; }
 	/// Return _position in parent space.
 	const Vector3F& GetPosition() const { return _position; }
 	/// Return rotation in parent space.
@@ -115,7 +115,7 @@ public:
 
 protected:
 	/// Handle being assigned to a new parent node.
-	virtual void OnParentSet(UINode* newParent, UINode* oldParent);
+	virtual void OnParentSet(Node2D* newParent, Node2D* oldParent);
 	/// Handle the transform matrix changing.
 	virtual void OnTransformChanged();
 

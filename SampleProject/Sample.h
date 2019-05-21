@@ -14,8 +14,8 @@ public:
 	void Stop()override;
 	void CreateLogo();
 
-	UICamera* uiCamera;
-	SharedPtr<Canvas> canvas;
+	Camera2D* uiCamera;
+	SharedPtr<Scene2D> scene2d;
 };
 
 #include "Sample.inl"

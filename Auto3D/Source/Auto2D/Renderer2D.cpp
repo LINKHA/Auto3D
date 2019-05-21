@@ -1,8 +1,7 @@
-#include "UI.h"
-#include "Canvas.h"
-#include "Sprite.h"
-#include "UICamera.h"
-#include "Button.h"
+#include "Renderer2D.h"
+#include "Scene2D.h"
+#include "Sprite2D.h"
+#include "Camera2D.h"
 
 #include "../Graphics/Graphics.h"
 #include "../Graphics/VertexBuffer.h"
@@ -31,25 +30,25 @@ const String geometryDefines[] =
 	"INSTANCED"
 };
 
-UI::UI() :
+Renderer2D::Renderer2D() :
 	_graphics(nullptr),
 	_initialized(false),
-	_uiRendered(false),
+	_rendered(false),
 	_instanceTransformsDirty(false)
 {
 	RegisterSubsystem(this);
 }
 
-UI::~UI()
+Renderer2D::~Renderer2D()
 {
 	RemoveSubsystem(this);
 }
 
-void UI::Render(Canvas* scene, UICamera* camera)
+void Renderer2D::Render(Scene2D* scene, Camera2D* camera)
 {
 	PrepareView(scene, camera);
 
-	PROFILE(RenderUI);
+	PROFILE(Render2d);
 
 	// Set per-frame values to the frame constant buffers
 	Matrix3x4F viewMatrix = camera->GetViewMatrix();
@@ -82,8 +81,8 @@ void UI::Render(Canvas* scene, UICamera* camera)
 	_psFrameConstantBuffer->Apply();
 
 
-	_graphics->SetConstantBuffer(ShaderStage::VS, UIConstantBuffer::FRAME, _vsFrameConstantBuffer);
-	_graphics->SetConstantBuffer(ShaderStage::PS, UIConstantBuffer::FRAME, _psFrameConstantBuffer);
+	_graphics->SetConstantBuffer(ShaderStage::VS, ConstantBuffer2D::FRAME, _vsFrameConstantBuffer);
+	_graphics->SetConstantBuffer(ShaderStage::PS, ConstantBuffer2D::FRAME, _psFrameConstantBuffer);
 
 	_graphics->SetDepthState(CompareFunc::LESS_EQUAL, true);
 	_graphics->SetColorState(BlendMode::ALPHA);
@@ -92,50 +91,50 @@ void UI::Render(Canvas* scene, UICamera* camera)
 	RenderBatches();
 }
 
-bool UI::PrepareView(Canvas* canvas,UICamera* camera)
+bool Renderer2D::PrepareView(Scene2D* canvas,Camera2D* camera)
 {
 	if (!IsInitialized())
 		Initialize();
-	if (!CollectUIObjects(canvas, camera))
+	if (!Collect2dObjects(canvas, camera))
 		return false;
 	
 
-	CollectUIBatches();
+	Collect2dBatches();
 	return true;
 }
 
-bool UI::CollectUIObjects(Canvas* canvas, UICamera* camera)
+bool Renderer2D::Collect2dObjects(Scene2D* canvas, Camera2D* camera)
 {
-	PROFILE(CollectUIObjects);
+	PROFILE(Collect2dObjects);
 
 	_geometryNode.Clear();
 	_batchQueue.Clear();
 	_instanceTransforms.Clear();
-	_canvas = canvas;
+	_scene = canvas;
 	_camera = camera;
-	//Classify UI nodes to remove nodes that are not in the view
+	//Classify Renderer2D nodes to remove nodes that are not in the view
 	//\note TEMP Temporarily all join
-	for (auto it = canvas->GetAllUINode().Begin(); it != canvas->GetAllUINode().End(); it++)
+	for (auto it = canvas->GetAll2dNode().Begin(); it != canvas->GetAll2dNode().End(); it++)
 	{
 		if (it->_second->TestFlag(UNF_GEOMETRY))
 		{
-			_geometryNode.Push(static_cast<UIGeometryNode*>(it->_second));
+			_geometryNode.Push(static_cast<GeometryNode2D*>(it->_second));
 		}
 	}
 
 	return true;
 }
 
-void UI::CollectUIBatches()
+void Renderer2D::Collect2dBatches()
 {
-	PROFILE(CollectUIBatches);
+	PROFILE(Collect2dBatches);
 
 	for (auto it = _geometryNode.Begin(); it != _geometryNode.End(); it++)
 	{
 		
-		UIGeometryNode* node = *it;
+		GeometryNode2D* node = *it;
 
-		UIBatch newBatch;
+		Batch2D newBatch;
 
 		newBatch._type = node->GetGeometryType();
 		newBatch._geometry = node->GetGeometry();
@@ -155,19 +154,19 @@ void UI::CollectUIBatches()
 		_instanceTransformsDirty = true;
 }
 
-void UI::RenderBatches()
+void Renderer2D::RenderBatches()
 {
-	PROFILE(RenderUIBatches);
+	PROFILE(Rende2dBatches);
 	RenderBatches(_batchQueue._batches, _camera);
 }
 
-void UI::Initialize()
+void Renderer2D::Initialize()
 {
 	auto* graphics = Subsystem<Graphics>();
 	auto* cache = Subsystem<ResourceCache>();
 	assert(!_graphics && !IsInitialized());
 
-	PROFILE(InitUI);
+	PROFILE(InitRenderer2D);
 
 	_graphics = graphics;
 	_initialized = true;
@@ -198,7 +197,7 @@ void UI::Initialize()
 	_instanceVertexElements.Push(VertexElement(ElementType::VECTOR4, ElementSemantic::TEXCOORD, U_INSTANCE_TEXCOORD + 1, true));
 	_instanceVertexElements.Push(VertexElement(ElementType::VECTOR4, ElementSemantic::TEXCOORD, U_INSTANCE_TEXCOORD + 2, true));
 
-	// Because UI images change less, their shaders are temporarily fixed
+	// Because Renderer2D images change less, their shaders are temporarily fixed
 	SharedPtr<Shader> vs = new Shader();
 	SharedPtr<Shader> ps = new Shader();
 	vs = cache->LoadResource<Shader>("Texture.vert");
@@ -211,12 +210,12 @@ void UI::Initialize()
 
 }
 
-void UI::RenderBatches(const Vector<UIBatch>& batches, UICamera* camera)
+void Renderer2D::RenderBatches(const Vector<Batch2D>& batches, Camera2D* camera)
 {
 
 	for (auto it = batches.Begin(); it != batches.End();)
 	{
-		const UIBatch& batch = *it;
+		const Batch2D& batch = *it;
 		bool instanced = batch._type == GeometryType::INSTANCED;
 		
 		if (_instanceTransformsDirty && _instanceTransforms.Size())
@@ -231,7 +230,7 @@ void UI::RenderBatches(const Vector<UIBatch>& batches, UICamera* camera)
 		{
 			_vsObjectConstantBuffer->SetConstant(VS_OBJECT_WORLD_MATRIX, *batch._worldMatrix);
 			_vsObjectConstantBuffer->Apply();
-			_graphics->SetConstantBuffer(ShaderStage::VS, UIConstantBuffer::OBJECT, _vsObjectConstantBuffer);
+			_graphics->SetConstantBuffer(ShaderStage::VS, ConstantBuffer2D::OBJECT, _vsObjectConstantBuffer);
 		}
 
 		_graphics->SetTexture(0, batch._texture);
@@ -254,20 +253,19 @@ void UI::RenderBatches(const Vector<UIBatch>& batches, UICamera* camera)
 	}
 }
 
-void RegisterUILibrary()
+void RegisterRenderer2DLibrary()
 {
 	static bool registered = false;
 	if (registered)
 		return;
 	registered = true;
 
-	Canvas::RegisterObject();
-	Sprite::RegisterObject();
-	UISpatialNode::RegisterObject();
-	UICamera::RegisterObject();
-	UINode::RegisterObject();
-	UIGeometryNode::RegisterObject();
-	Button::RegisterObject();
+	Scene2D::RegisterObject();
+	Sprite2D::RegisterObject();
+	SpatialNode2D::RegisterObject();
+	Camera2D::RegisterObject();
+	Node2D::RegisterObject();
+	GeometryNode2D::RegisterObject();
 }
 
 }

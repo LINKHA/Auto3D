@@ -1,33 +1,33 @@
-#include "UIBatch.h"
+#include "Batch2D.h"
 #include "../Graphics/Texture.h"
 
 namespace Auto3D
 {
 		
-inline bool CompareBatchState(UIBatch& lhs, UIBatch& rhs)
+inline bool CompareBatchState(Batch2D& lhs, Batch2D& rhs)
 {
 	return lhs._sortKey < rhs._sortKey;
 }
 
-void UIBatchQueue::Clear()
+void Batch2DQueue::Clear()
 {
 	_batches.Clear();
 }
 
-void UIBatchQueue::Sort(Vector<Matrix3x4F>& instanceTransforms)
+void Batch2DQueue::Sort(Vector<Matrix3x4F>& instanceTransforms)
 {
 	Auto3D::Sort(_batches.Begin(), _batches.End(), CompareBatchState);
 	// Build instances where adjacent batches have same state
 	BuildInstances(_batches, instanceTransforms);
 }
 
-void UIBatchQueue::BuildInstances(Vector<UIBatch>& batches, Vector<Matrix3x4F>& instanceTransforms)
+void Batch2DQueue::BuildInstances(Vector<Batch2D>& batches, Vector<Matrix3x4F>& instanceTransforms)
 {
-	UIBatch* start = nullptr;
+	Batch2D* start = nullptr;
 
 	for (auto it = batches.Begin(), end = batches.End(); it != end; ++it)
 	{
-		UIBatch* current = &*it;
+		Batch2D* current = &*it;
 
 		if (start && current->_type == GeometryType::STATIC && current->_geometry == start->_geometry)
 		{

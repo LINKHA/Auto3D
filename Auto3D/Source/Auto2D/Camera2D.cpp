@@ -1,4 +1,4 @@
-#include "UICamera.h"
+#include "Camera2D.h"
 
 namespace Auto3D
 {
@@ -15,7 +15,7 @@ static const Matrix4x4F flipMatrix(
 	0.0f, 0.0f, 0.0f, 1.0f
 );
 
-UICamera::UICamera() :
+Camera2D::Camera2D() :
 	_viewMatrix(Matrix3x4F::IDENTITY),
 	_viewMatrixDirty(false),
 	_orthographic(false),
@@ -38,133 +38,133 @@ UICamera::UICamera() :
 	_reflectionMatrix = _reflectionPlane.ReflectionMatrix();
 }
 
-UICamera::~UICamera()
+Camera2D::~Camera2D()
 {
 
 }
 
-void UICamera::RegisterObject()
+void Camera2D::RegisterObject()
 {
-	RegisterFactory<UICamera>();
-	CopyBaseAttributes<UICamera, UISpatialNode>();
+	RegisterFactory<Camera2D>();
+	CopyBaseAttributes<Camera2D, SpatialNode2D>();
 
-	RegisterAttribute("nearClip", &UICamera::GetNearClip, &UICamera::SetNearClip, DEFAULT_NEARCLIP);
-	RegisterAttribute("farClip", &UICamera::GetFarClip, &UICamera::SetFarClip, DEFAULT_FARCLIP);
-	RegisterAttribute("fov", &UICamera::GetFov, &UICamera::SetFov, DEFAULT_FOV);
-	RegisterAttribute("aspectRatio", &UICamera::GetAspectRatio, &UICamera::SetAspectRatio, 1.0f);
-	RegisterAttribute("orthographic", &UICamera::IsOrthographic, &UICamera::SetOrthographic, false);
-	RegisterAttribute("orthoSize", &UICamera::GetOrthoSize, &UICamera::SetOrthoSize, DEFAULT_ORTHOSIZE);
-	RegisterAttribute("zoom", &UICamera::GetZoom, &UICamera::SetZoom, 1.0f);
-	RegisterAttribute("lodBias", &UICamera::GetLodBias, &UICamera::SetLodBias, 1.0f);
-	RegisterAttribute("viewMask", &UICamera::GetViewMask, &UICamera::SetViewMask, M_MAX_UNSIGNED);
-	RegisterRefAttribute("ambientColor", &UICamera::GetAmbientColor, &UICamera::SetAmbientColor, DEFAULT_AMBIENT_COLOR);
-	RegisterRefAttribute("projectionOffset", &UICamera::GetProjectionOffset, &UICamera::SetProjectionOffset, Vector2F::ZERO);
-	RegisterMixedRefAttribute("reflectionPlane", &UICamera::ReflectionPlaneAttr, &UICamera::SetReflectionPlaneAttr, Vector4F(0.0f, 1.0f, 0.0f, 0.0f));
-	RegisterMixedRefAttribute("clipPlane", &UICamera::ClipPlaneAttr, &UICamera::SetClipPlaneAttr, Vector4F(0.0f, 1.0f, 0.0f, 0.0f));
-	RegisterAttribute("useReflection", &UICamera::GetUseReflection, &UICamera::SetUseReflection, false);
-	RegisterAttribute("useClipping", &UICamera::GetUseClipping, &UICamera::SetUseClipping, false);
+	RegisterAttribute("nearClip", &Camera2D::GetNearClip, &Camera2D::SetNearClip, DEFAULT_NEARCLIP);
+	RegisterAttribute("farClip", &Camera2D::GetFarClip, &Camera2D::SetFarClip, DEFAULT_FARCLIP);
+	RegisterAttribute("fov", &Camera2D::GetFov, &Camera2D::SetFov, DEFAULT_FOV);
+	RegisterAttribute("aspectRatio", &Camera2D::GetAspectRatio, &Camera2D::SetAspectRatio, 1.0f);
+	RegisterAttribute("orthographic", &Camera2D::IsOrthographic, &Camera2D::SetOrthographic, false);
+	RegisterAttribute("orthoSize", &Camera2D::GetOrthoSize, &Camera2D::SetOrthoSize, DEFAULT_ORTHOSIZE);
+	RegisterAttribute("zoom", &Camera2D::GetZoom, &Camera2D::SetZoom, 1.0f);
+	RegisterAttribute("lodBias", &Camera2D::GetLodBias, &Camera2D::SetLodBias, 1.0f);
+	RegisterAttribute("viewMask", &Camera2D::GetViewMask, &Camera2D::SetViewMask, M_MAX_UNSIGNED);
+	RegisterRefAttribute("ambientColor", &Camera2D::GetAmbientColor, &Camera2D::SetAmbientColor, DEFAULT_AMBIENT_COLOR);
+	RegisterRefAttribute("projectionOffset", &Camera2D::GetProjectionOffset, &Camera2D::SetProjectionOffset, Vector2F::ZERO);
+	RegisterMixedRefAttribute("reflectionPlane", &Camera2D::ReflectionPlaneAttr, &Camera2D::SetReflectionPlaneAttr, Vector4F(0.0f, 1.0f, 0.0f, 0.0f));
+	RegisterMixedRefAttribute("clipPlane", &Camera2D::ClipPlaneAttr, &Camera2D::SetClipPlaneAttr, Vector4F(0.0f, 1.0f, 0.0f, 0.0f));
+	RegisterAttribute("useReflection", &Camera2D::GetUseReflection, &Camera2D::SetUseReflection, false);
+	RegisterAttribute("useClipping", &Camera2D::GetUseClipping, &Camera2D::SetUseClipping, false);
 }
 
 
-void UICamera::SetNearClip(float nearClip)
+void Camera2D::SetNearClip(float nearClip)
 {
 	_nearClip = Max(nearClip, M_EPSILON);
 }
 
-void UICamera::SetFarClip(float farClip)
+void Camera2D::SetFarClip(float farClip)
 {
 	_farClip = Max(farClip, M_EPSILON);
 }
 
-void UICamera::SetFov(float fov)
+void Camera2D::SetFov(float fov)
 {
 	_fov = Clamp(fov, 0.0f, 180.0f);
 }
 
-void UICamera::SetOrthoSize(float orthoSize)
+void Camera2D::SetOrthoSize(float orthoSize)
 {
 	_orthoSize = orthoSize;
 	_aspectRatio = 1.0f;
 }
 
-void UICamera::SetOrthoSize(const Vector2F& orthoSize)
+void Camera2D::SetOrthoSize(const Vector2F& orthoSize)
 {
 	_orthoSize = orthoSize._y;
 	_aspectRatio = orthoSize._x / orthoSize._y;
 }
 
-void UICamera::SetAspectRatio(float aspectRatio)
+void Camera2D::SetAspectRatio(float aspectRatio)
 {
 	_aspectRatio = Max(aspectRatio, M_EPSILON);
 }
 
-void UICamera::SetZoom(float zoom)
+void Camera2D::SetZoom(float zoom)
 {
 	_zoom = Max(zoom, M_EPSILON);
 }
 
-void UICamera::SetLodBias(float bias)
+void Camera2D::SetLodBias(float bias)
 {
 	_lodBias = Max(bias, M_EPSILON);
 }
 
-void UICamera::SetViewMask(unsigned mask)
+void Camera2D::SetViewMask(unsigned mask)
 {
 	_viewMask = mask;
 }
 
-void UICamera::SetOrthographic(bool enable)
+void Camera2D::SetOrthographic(bool enable)
 {
 	_orthographic = enable;
 }
 
-void UICamera::SetAmbientColor(const Color& color)
+void Camera2D::SetAmbientColor(const Color& color)
 {
 	_ambientColor = color;
 }
 
-void UICamera::SetProjectionOffset(const Vector2F& offset)
+void Camera2D::SetProjectionOffset(const Vector2F& offset)
 {
 	_projectionOffset = offset;
 }
 
-void UICamera::SetUseReflection(bool enable)
+void Camera2D::SetUseReflection(bool enable)
 {
 	_useReflection = enable;
 	_viewMatrixDirty = true;
 }
 
-void UICamera::SetReflectionPlane(const Plane& plane)
+void Camera2D::SetReflectionPlane(const Plane& plane)
 {
 	_reflectionPlane = plane;
 	_reflectionMatrix = plane.ReflectionMatrix();
 	_viewMatrixDirty = true;
 }
 
-void UICamera::SetUseClipping(bool enable)
+void Camera2D::SetUseClipping(bool enable)
 {
 	_useClipping = enable;
 }
 
-void UICamera::SetClipPlane(const Plane& plane)
+void Camera2D::SetClipPlane(const Plane& plane)
 {
 	_clipPlane = plane;
 }
 
 
-void UICamera::SetFlipVertical(bool enable)
+void Camera2D::SetFlipVertical(bool enable)
 {
 	_flipVertical = enable;
 }
 
-float UICamera::GetNearClip() const
+float Camera2D::GetNearClip() const
 {
 	// Orthographic camera has always near clip at 0 to avoid trouble with shader depth parameters,
 	// and unlike in perspective mode there should be no depth buffer precision issue
 	return _orthographic ? 0.0f : _nearClip;
 }
 
-Frustum UICamera::GetWorldFrustum() const
+Frustum Camera2D::GetWorldFrustum() const
 {
 	Frustum ret;
 	Matrix3x4F worldTransform = EffectiveWorldTransform();
@@ -177,7 +177,7 @@ Frustum UICamera::GetWorldFrustum() const
 	return ret;
 }
 
-Frustum UICamera::WorldSplitFrustum(float nearClip, float farClip) const
+Frustum Camera2D::WorldSplitFrustum(float nearClip, float farClip) const
 {
 	Frustum ret;
 	Matrix3x4F worldTransform = EffectiveWorldTransform();
@@ -195,7 +195,7 @@ Frustum UICamera::WorldSplitFrustum(float nearClip, float farClip) const
 	return ret;
 }
 
-Frustum UICamera::GetViewSpaceFrustum() const
+Frustum Camera2D::GetViewSpaceFrustum() const
 {
 	Frustum ret;
 
@@ -207,7 +207,7 @@ Frustum UICamera::GetViewSpaceFrustum() const
 	return ret;
 }
 
-Frustum UICamera::ViewSpaceSplitFrustum(float nearClip, float farClip) const
+Frustum Camera2D::ViewSpaceSplitFrustum(float nearClip, float farClip) const
 {
 	Frustum ret;
 
@@ -224,7 +224,7 @@ Frustum UICamera::ViewSpaceSplitFrustum(float nearClip, float farClip) const
 	return ret;
 }
 
-const Matrix3x4F& UICamera::GetViewMatrix() const
+const Matrix3x4F& Camera2D::GetViewMatrix() const
 {
 	if (_viewMatrixDirty)
 	{
@@ -235,7 +235,7 @@ const Matrix3x4F& UICamera::GetViewMatrix() const
 	return _viewMatrix;
 }
 
-Matrix4x4F UICamera::GetProjectionMatrix(bool apiSpecific) const
+Matrix4x4F Camera2D::GetProjectionMatrix(bool apiSpecific) const
 {
 	Matrix4x4F ret(Matrix4x4F::ZERO);
 
@@ -304,7 +304,7 @@ Matrix4x4F UICamera::GetProjectionMatrix(bool apiSpecific) const
 	return ret;
 }
 
-void UICamera::FrustumSize(Vector3F& near, Vector3F& far) const
+void Camera2D::FrustumSize(Vector3F& near, Vector3F& far) const
 {
 	near._z = GetNearClip();
 	far._z = _farClip;
@@ -331,7 +331,7 @@ void UICamera::FrustumSize(Vector3F& near, Vector3F& far) const
 	}
 }
 
-float UICamera::GetHalfViewSize() const
+float Camera2D::GetHalfViewSize() const
 {
 	if (!_orthographic)
 		return tanf(_fov * M_DEGTORAD * 0.5f) / _zoom;
@@ -339,7 +339,7 @@ float UICamera::GetHalfViewSize() const
 		return _orthoSize * 0.5f / _zoom;
 }
 
-Ray UICamera::ScreenRay(float x, float y) const
+Ray Camera2D::ScreenRay(float x, float y) const
 {
 	Ray ret;
 
@@ -364,7 +364,7 @@ Ray UICamera::ScreenRay(float x, float y) const
 	return ret;
 }
 
-Vector2F UICamera::WorldToScreenPoint(const Vector3F& worldPos) const
+Vector2F Camera2D::WorldToScreenPoint(const Vector3F& worldPos) const
 {
 	Vector3F eyeSpacePos = GetViewMatrix() * worldPos;
 	Vector2F ret;
@@ -386,13 +386,13 @@ Vector2F UICamera::WorldToScreenPoint(const Vector3F& worldPos) const
 	return ret;
 }
 
-Vector3F UICamera::ScreenToWorldPoint(const Vector3F& screenPos) const
+Vector3F Camera2D::ScreenToWorldPoint(const Vector3F& screenPos) const
 {
 	Ray ray = ScreenRay(screenPos._x, screenPos._y);
 	return ray._origin + ray._direction * screenPos._z;
 }
 
-float UICamera::Distance(const Vector3F& worldPos) const
+float Camera2D::Distance(const Vector3F& worldPos) const
 {
 	if (!_orthographic)
 		return (worldPos - GetWorldPosition()).Length();
@@ -400,7 +400,7 @@ float UICamera::Distance(const Vector3F& worldPos) const
 		return Abs((GetViewMatrix() * worldPos)._z);
 }
 
-float UICamera::LodDistance(float distance, float scale, float bias) const
+float Camera2D::LodDistance(float distance, float scale, float bias) const
 {
 	float d = Max(_lodBias * bias * scale * _zoom, M_EPSILON);
 	if (!_orthographic)
@@ -409,31 +409,31 @@ float UICamera::LodDistance(float distance, float scale, float bias) const
 		return _orthoSize / d;
 }
 
-Quaternion UICamera::FaceCameraRotation(const Vector3F& position, const Quaternion& rotation, UIFaceCameraMode::Type mode)
+Quaternion Camera2D::FaceCameraRotation(const Vector3F& position, const Quaternion& rotation, Face2DCameraMode::Type mode)
 {
 	switch (mode)
 	{
 	default:
 		return rotation;
 
-	case UIFaceCameraMode::ROTATE_XYZ:
+	case Face2DCameraMode::ROTATE_XYZ:
 		return GetWorldRotation();
 
-	case UIFaceCameraMode::ROTATE_Y:
+	case Face2DCameraMode::ROTATE_Y:
 	{
 		Vector3F euler = rotation.EulerAngles();
 		euler._y = GetWorldRotation().EulerAngles()._y;
 		return Quaternion(euler._x, euler._y, euler._z);
 	}
 
-	case UIFaceCameraMode::LOOKAT_XYZ:
+	case Face2DCameraMode::LOOKAT_XYZ:
 	{
 		Quaternion lookAt;
 		lookAt.FromLookRotation(position - GetWorldPosition());
 		return lookAt;
 	}
 
-	case UIFaceCameraMode::LOOKAT_Y:
+	case Face2DCameraMode::LOOKAT_Y:
 	{
 		// Make the Y-only lookat happen on an XZ plane to make sure there are no unwanted transitions
 		// or singularities
@@ -450,40 +450,40 @@ Quaternion UICamera::FaceCameraRotation(const Vector3F& position, const Quaterni
 	}
 }
 
-Matrix3x4F UICamera::EffectiveWorldTransform() const
+Matrix3x4F Camera2D::EffectiveWorldTransform() const
 {
 	Matrix3x4F worldTransform(GetWorldPosition(), GetWorldRotation(), 1.0f);
 	return _useReflection ? _reflectionMatrix * worldTransform : worldTransform;
 }
 
-bool UICamera::IsProjectionValid() const
+bool Camera2D::IsProjectionValid() const
 {
 	return _farClip > GetNearClip();
 }
 
-void UICamera::OnTransformChanged()
+void Camera2D::OnTransformChanged()
 {
-	UISpatialNode::OnTransformChanged();
+	SpatialNode2D::OnTransformChanged();
 
 	_viewMatrixDirty = true;
 }
 
-void UICamera::SetReflectionPlaneAttr(const Vector4F& value)
+void Camera2D::SetReflectionPlaneAttr(const Vector4F& value)
 {
 	SetReflectionPlane(Plane(value));
 }
 
-void UICamera::SetClipPlaneAttr(const Vector4F& value)
+void Camera2D::SetClipPlaneAttr(const Vector4F& value)
 {
 	SetClipPlane(Plane(value));
 }
 
-Vector4F UICamera::ReflectionPlaneAttr() const
+Vector4F Camera2D::ReflectionPlaneAttr() const
 {
 	return _reflectionPlane.ToVector4();
 }
 
-Vector4F UICamera::ClipPlaneAttr() const
+Vector4F Camera2D::ClipPlaneAttr() const
 {
 	return _clipPlane.ToVector4();
 }

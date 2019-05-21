@@ -1,6 +1,6 @@
 #pragma once
 #include "../AutoConfig.h"
-#include "../Renderer/GeometryNode.h"
+#include "GeometryNode2D.h"
 
 
 namespace Auto3D
@@ -8,7 +8,7 @@ namespace Auto3D
 
 class Texture;
 
-struct AUTO_API UIBatch
+struct AUTO_API Batch2D
 {
 	/// Calculate sort _key for state sorting.
 	void CalculateSortKey()
@@ -45,7 +45,7 @@ struct AUTO_API UIBatch
 };
 
 /// Per-pass batch queue structure.
-struct AUTO_API UIBatchQueue
+struct AUTO_API Batch2DQueue
 {
 	/// Clear structures.
 	void Clear();
@@ -53,10 +53,10 @@ struct AUTO_API UIBatchQueue
 	void Sort(Vector<Matrix3x4F>& instanceTransforms);
 
 	/// Build instances from adjacent batches with same state.
-	static void BuildInstances(Vector<UIBatch>& batches, Vector<Matrix3x4F>& instanceTransforms);
+	static void BuildInstances(Vector<Batch2D>& batches, Vector<Matrix3x4F>& instanceTransforms);
 
 	/// Batches, which may be instanced or non-instanced.
-	Vector<UIBatch> _batches;
+	Vector<Batch2D> _batches;
 	/// Base pass index.
 	unsigned char _baseIndex;
 	/// Additive pass index (if needed.)

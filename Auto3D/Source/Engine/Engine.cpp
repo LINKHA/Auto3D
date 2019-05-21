@@ -26,7 +26,7 @@ Engine::Engine():
 	RegisterGraphicsLibrary();
 	RegisterResourceLibrary();
 	RegisterRendererLibrary();
-	RegisterUILibrary();
+	RegisterRenderer2DLibrary();
 	RegisterAudioLibrary();
 
 	_cache = new ResourceCache();
@@ -40,7 +40,7 @@ Engine::Engine():
 	_time = new Time();
 	_registeredBox = new RegisteredBox();
 	_script = new Script();
-	_ui = new UI();
+	_renderer2d = new Renderer2D();
 	_physics = new Physics();
 	_fileSystem = new FileSystem();
 }
@@ -95,7 +95,7 @@ void Engine::Exit()
 void Engine::Render()
 {
 	// Check renderer render Prepare
-	if (!_graphics || !_renderer || !_ui)
+	if (!_graphics || !_renderer || !_renderer2d)
 	{
 		ErrorString("Fail to render,graphics or renderer missing!");
 		return;
@@ -108,10 +108,10 @@ void Engine::Render()
 		(*it)._second->SetAspectRatio((float)Subsystem<Graphics>()->GetWidth() / (float)Subsystem<Graphics>()->GetHeight());
 	}	
 
-	// Render UI
+	// Render Renderer2D
 	for (auto it = _registeredBox->GetCanvases().Begin(); it != _registeredBox->GetCanvases().End(); it++)
 	{
-		_ui->Render((*it)._first, (*it)._second);
+		_renderer2d->Render((*it)._first, (*it)._second);
 	}
 	_graphics->Present();
 }

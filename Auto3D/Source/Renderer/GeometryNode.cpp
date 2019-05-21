@@ -177,48 +177,4 @@ ResourceRefList GeometryNode::MaterialsAttr() const
     return ret;
 }
 
-
-UIGeometryNode::UIGeometryNode() :
-	_geometryType(GeometryType::STATIC)
-{
-	SetFlag(UNF_GEOMETRY, true);
-}
-
-UIGeometryNode::~UIGeometryNode()
-{
-}
-
-void UIGeometryNode::RegisterObject()
-{
-	RegisterFactory<UIGeometryNode>();
-	CopyBaseAttributes<UIGeometryNode, UISpatialNode>();
-}
-
-void UIGeometryNode::SetGeometryType(GeometryType::Type type)
-{
-	_geometryType = type;
-}
-
-void UIGeometryNode::SetGeometry(Geometry* geometry)
-{
-	if (!geometry)
-	{
-		ErrorString("Can not assign null geometry");
-		return;
-	}
-	_geometry = geometry;
-
-}
-
-Geometry* UIGeometryNode::GetGeometry() const
-{
-	return _geometry;
-}
-
-void UIGeometryNode::SetTexture(Texture* texture)
-{
-	_texture = texture;
-
-	SetGeometry(texture->GetGeometry());
-}
 }
