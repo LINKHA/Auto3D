@@ -89,6 +89,9 @@ include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/FreeType/include)
 target_link_libraries (${TARGET_NAME}  LibCpuId)
 include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/LibCpuId)
 
+target_link_libraries (${TARGET_NAME}  Imgui)
+include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/Imgui)
+
 # Add OS-specific library dependencies
 if (WIN32)
     target_link_libraries (${TARGET_NAME} winmm)
