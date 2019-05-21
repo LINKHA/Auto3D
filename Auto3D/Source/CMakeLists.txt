@@ -39,6 +39,7 @@ add_engine_directory (Script)
 add_engine_directory (Time)
 add_engine_directory (Adapter)
 add_engine_directory (RegisteredBox)
+add_engine_directory (UI)
 
 add_engine_directory_group (Graphics/OGL Graphics)
 

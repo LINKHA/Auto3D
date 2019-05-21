@@ -1,8 +1,23 @@
+#pragma once
 #include "../Object/Object.h"
-#include "../Auto.h"
+#include "../Time/Time.h"
 
 namespace Auto3D
 {
+
+class ResourceCache;
+class Graphics;
+class Renderer;
+class Input;
+class Log;
+class Profiler;
+class Time;
+class RegisteredBox;
+class Script;
+class Renderer2D;
+class Physics;
+class FileSystem;
+class UI;
 
 class AUTO_API Engine : public Object
 {
@@ -84,6 +99,9 @@ private:
 	UniquePtr<Physics> _physics;
 	/// An adapter system that operates on files based on the platform
 	UniquePtr<FileSystem> _fileSystem;
+	/// UI-related operations and rendering capabilities
+	UniquePtr<UI> _ui;
+
 	//This subsystem is implemented in the Audio component, the first one created
 	//UniquePtr<Audio> _audio;
 

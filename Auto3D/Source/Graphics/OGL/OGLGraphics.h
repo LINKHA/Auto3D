@@ -134,8 +134,10 @@ public:
     bool IsResizable() const;
     /// Return whether is using vertical sync.
     bool GetVSync() const { return _vsync; }
-    /// Return the rendering _window.
+    /// Return the rendering window.
     Window* RenderWindow() const;
+	/// Return thr opengl context
+	GLContext* RenderContext() const;
     /// Return the current color rendertarget by index, or null if rendering to the backbuffer.
     Texture* RenderTarget(size_t index) const;
     /// Return the current depth-stencil buffer, or null if rendering to the backbuffer.
@@ -168,7 +170,11 @@ public:
 	bool GetSRGBSupport() const { return _sRGBSupport; }
 	/// Return whether sRGB conversion on rendertarget writing is supported.
 	bool GetSRGBWriteSupport() const { return _sRGBWriteSupport; }
-
+	/// Get graphics api version
+	const String& GetGraphicsApiVersion()const { return _graphicsApiVersion; }
+	/// Get graphics glsl version
+	const String& GetGraphicsGLSLVersion()const { return _graphicsGLSLVersion; }
+	
 	/// Return the shader program
 	ShaderProgram* Shaderprogram() { return _shaderProgram; }
     /// Return number of supported constant buffer bindings for vertex shaders.
@@ -306,8 +312,12 @@ private:
     HashMap<unsigned long long, AutoPtr<Framebuffer> > _framebuffers;
     /// Multisample level.
     int _multisample;
-    /// Vertical sync flag.
-    bool _vsync;
+	/// Graphics api version
+	String _graphicsApiVersion;
+	/// Graphics glsl version
+	String _graphicsGLSLVersion;
+	/// Vertical sync flag.
+	bool _vsync;
 };
 
 /// Register Graphics related object factories and attributes.

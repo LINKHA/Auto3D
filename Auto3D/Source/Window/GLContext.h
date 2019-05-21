@@ -5,6 +5,8 @@
 #ifdef AUTO_OPENGL
 #include "../Base/Ptr.h"
 
+using SDL_GLContext = void *;
+
 namespace Auto3D
 {
 
@@ -25,15 +27,15 @@ public:
 	void Present();
 	/// Set vsync on/off.
 	void SetVSync(bool enable);
-
 	/// Return whether is initialized with a _valid context.
 	bool IsInitialized() const { return _contextHandle != nullptr; }
-
+	/// Return gl context
+	SDL_GLContext Context() { return _contextHandle; }
 private:
 	/// Destroy the context.
 	void Release();
-
-	void* _contextHandle;
+	/// OpenGL context
+	SDL_GLContext _contextHandle;
 	/// Associated _window.
 	WeakPtr<Window> _window;
 

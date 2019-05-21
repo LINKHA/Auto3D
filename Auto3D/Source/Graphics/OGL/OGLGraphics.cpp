@@ -166,7 +166,14 @@ Graphics::Graphics() :
     _renderTargetSize(Vector2I::ZERO),
     _attributesBySemantic(ElementSemantic::Count),
     _multisample(1),
-    _vsync(false)
+#if _WIN32 || _WIN64
+	_graphicsApiVersion("GL 4.3"),
+	_graphicsGLSLVersion("#version 430"),
+#else
+	_graphicsApiVersion("GL 3.2"),
+	_graphicsGLSLVersion("#version 150"),
+#endif
+	_vsync(false)
 {
     RegisterSubsystem(this);
     _window = new Window();
@@ -741,6 +748,11 @@ bool Graphics::IsResizable() const
 Window* Graphics::RenderWindow() const
 {
     return _window;
+}
+
+GLContext* Graphics::RenderContext() const
+{
+	return _context;
 }
 
 Texture* Graphics::RenderTarget(size_t index) const

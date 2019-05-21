@@ -116,7 +116,7 @@ public:
 	/// Window class name
 	static String className;
 private:
-	/// Window _handle.
+	/// Window handle.
 	SDL_Window* _handle;
 	/// Window icon image.
 	WeakPtr<Image> _icon;

@@ -1,5 +1,24 @@
 #include "Engine.h"
 
+#include "../Window/Window.h"
+#include "../Thread/Thread.h"
+
+#include "../Audio/Audio.h"
+#include "../Resource/ResourceCache.h"
+#include "../Graphics/Graphics.h"
+#include "../Renderer/Renderer.h"
+#include "../Window/Input.h"
+#include "../Debug/Log.h"
+#include "../Debug/Profiler.h"
+#include "../Time/Time.h"
+#include "../RegisteredBox/RegisteredBox.h"
+#include "../Script/Script.h"
+#include "../Physics/Physics.h"
+#include "../IO/FileSystem.h"
+#include "../UI/UI.h"
+#include "../Auto2D/renderer2D.h"
+
+
 #include "../Base/ProcessUtils.h"
 #include "../Debug/DebugNew.h"
 
@@ -43,6 +62,7 @@ Engine::Engine():
 	_renderer2d = new Renderer2D();
 	_physics = new Physics();
 	_fileSystem = new FileSystem();
+	_ui = new UI();
 }
 
 Engine::~Engine()
@@ -55,7 +75,6 @@ bool Engine::Init()
 		return true;
 	PROFILE(EngineInit);
 
-	
 	// Set random seeds based on time
 	Time::RealTime& realTime = _time->GetRealTime();
 
@@ -74,6 +93,16 @@ bool Engine::Init()
 
 	if (!_graphics->RenderWindow())
 		return false;
+
+#ifdef AUTO_OPENGL
+	if (!_ui->SetMode(_graphics->RenderWindow(), _graphics->RenderContext()))
+#else
+	if (!_ui->SetMode(_graphics->RenderWindow()))
+#endif
+	{
+		ErrorString("Failed to create a ui.");
+		return false;
+	}
 
 	// Init FPU state of main thread
 	InitFPU();
@@ -109,10 +138,18 @@ void Engine::Render()
 	}	
 
 	// Render Renderer2D
-	for (auto it = _registeredBox->GetCanvases().Begin(); it != _registeredBox->GetCanvases().End(); it++)
+	for (auto it = _registeredBox->GetScene2D().Begin(); it != _registeredBox->GetScene2D().End(); it++)
 	{
 		_renderer2d->Render((*it)._first, (*it)._second);
 	}
+
+	_ui->BeginUI();
+
+	// UI render
+	_ui->Render();
+
+	//Present ui and graphics
+	_ui->Present();
 	_graphics->Present();
 }
 

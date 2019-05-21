@@ -1,6 +1,8 @@
 #pragma once
 #include "Base/Launch.h"
 #include "Engine/Engine.h"
+
+#include "Auto.h"
 namespace Auto3D
 {
 

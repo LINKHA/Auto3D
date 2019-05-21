@@ -2,6 +2,8 @@
 #include "../Debug/Log.h"
 #include "../Math/Math.h"
 #include "../Resource/Image.h"
+#include "../Graphics/Graphics.h"
+#include "../UI/UI.h"
 
 #include "Input.h"
 #include "Window.h"
@@ -37,8 +39,6 @@ Window::Window() :
 	_mouseVisibleInternal(true)
 {
 	RegisterSubsystem(this);
-
-
 }
 
 Window::~Window()
@@ -70,8 +70,22 @@ bool Window::InitMsg()
 	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+	auto* graphics = Subsystem<Graphics>();
+	if (graphics->GetGraphicsApiVersion() == "GL 4.3")
+	{
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+	}
+	else if (graphics->GetGraphicsApiVersion() == "GL 3.2")
+	{
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+	}
+	else
+	{
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+	}
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
 	if (_multisample > 1)
@@ -264,6 +278,9 @@ void Window::PumpMessages()
 	SDL_Event evt;
 	while (SDL_PollEvent(&evt))
 	{
+		auto* ui = Subsystem<UI>();
+
+		ui->ProcessEvent(&evt);
 		OnWindowMessage(&evt);
 	}
 }

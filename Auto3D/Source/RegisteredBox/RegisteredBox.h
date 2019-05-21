@@ -22,16 +22,16 @@ public:
 	/// Register scene
 	void RegisterScene(Scene* scene, Camera* camera) { _scene.Push(Pair<Scene*, Camera*>(scene, camera)); }
 	/// Register canvas
-	void RegisterCanvas(Scene2D* canvas, Camera2D* camera) { _canvases.Push(Pair<Scene2D*, Camera2D*>(canvas, camera)); }
+	void RegisterCanvas(Scene2D* canvas, Camera2D* camera) { _scene2d.Push(Pair<Scene2D*, Camera2D*>(canvas, camera)); }
 	/// Return scenes
 	const Vector<Pair<Scene*, Camera*> >& GetScenes() { return _scene; }
-	/// Return canvases
-	const Vector<Pair<Scene2D*, Camera2D*> >& GetCanvases() { return _canvases; }
+	/// Return scene2d
+	const Vector<Pair<Scene2D*, Camera2D*> >& GetScene2D() { return _scene2d; }
 private:
 	/// Scene array
 	Vector<Pair<Scene*, Camera*> > _scene;
 	/// Scene2D array 
-	Vector<Pair<Scene2D*, Camera2D*> > _canvases;
+	Vector<Pair<Scene2D*, Camera2D*> > _scene2d;
 };
 
 }
