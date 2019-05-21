@@ -549,11 +549,16 @@ localexit:
     /* *INDENT-ON* */
 }
 
-void
-_ftol2_sse()
-{
-    _ftol();
-}
+/**
+* Time : 2019-05-21 
+* Type : Discard
+* Reasons : Using imgui conflict, discard this function to resolve
+*/
+//void
+//_ftol2_sse()
+//{
+//	_ftol();
+//}
 
 /* 64-bit math operators for 32-bit systems */
 void
