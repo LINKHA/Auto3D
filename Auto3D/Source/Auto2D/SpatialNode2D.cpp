@@ -11,7 +11,7 @@ SpatialNode2D::SpatialNode2D() :
 	_rotation(Quaternion::IDENTITY),
 	_scale(Vector3F::ONE)
 {
-	SetFlag(UNF_SPATIAL, true);
+	SetFlag(NF_2D_SPATIAL, true);
 }
 
 void SpatialNode2D::RegisterObject()
@@ -292,30 +292,30 @@ void SpatialNode2D::ApplyScale(const Vector3F& delta)
 
 void SpatialNode2D::OnParentSet(Node2D* newParent, Node2D*)
 {
-	SetFlag(UNF_SPATIAL_PARENT, dynamic_cast<SpatialNode2D*>(newParent) != 0);
+	SetFlag(NF_2D_SPATIAL_PARENT, dynamic_cast<SpatialNode2D*>(newParent) != 0);
 	OnTransformChanged();
 }
 
 void SpatialNode2D::OnTransformChanged()
 {
-	SetFlag(UNF_WORLD_TRANSFORM_DIRTY, true);
+	SetFlag(NF_2D_WORLD_TRANSFORM_DIRTY, true);
 
 	const Vector<SharedPtr<Node2D> >& children = Children();
 	for (auto it = children.Begin(); it != children.End(); ++it)
 	{
 		Node2D* child = *it;
-		if (child->TestFlag(UNF_SPATIAL))
+		if (child->TestFlag(NF_2D_SPATIAL))
 			static_cast<SpatialNode2D*>(child)->OnTransformChanged();
 	}
 }
 
 void SpatialNode2D::UpdateWorldTransform() const
 {
-	if (TestFlag(UNF_SPATIAL_PARENT))
+	if (TestFlag(NF_2D_SPATIAL_PARENT))
 		_worldTransform = static_cast<SpatialNode2D*>(Parent())->GetWorldTransform() * Matrix3x4F(_position, _rotation, _scale);
 	else
 		_worldTransform = Matrix3x4F(_position, _rotation, _scale);
-	SetFlag(UNF_WORLD_TRANSFORM_DIRTY, false);
+	SetFlag(NF_2D_WORLD_TRANSFORM_DIRTY, false);
 }
 
 }

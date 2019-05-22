@@ -188,7 +188,7 @@ const HashMap<unsigned, Node2D*>& Scene2D::GetAll2dNode() const
 
 void Scene2D::AddNode(Node2D* node)
 {
-	if (!node || node->ParentCanvas() == this)
+	if (!node || node->ParentScene2D() == this)
 		return;
 
 	while (_nodes.Contains(_nextNodeId))
@@ -198,14 +198,14 @@ void Scene2D::AddNode(Node2D* node)
 			++_nextNodeId;
 	}
 
-	Scene2D* oldScene = node->ParentCanvas();
+	Scene2D* oldScene = node->ParentScene2D();
 	if (oldScene)
 	{
 		unsigned oldId = node->Id();
 		oldScene->_nodes.Erase(oldId);
 	}
 	_nodes[_nextNodeId] = node;
-	node->SetCanvas(this);
+	node->SetScene2D(this);
 	node->SetId(_nextNodeId);
 
 	++_nextNodeId;
@@ -221,11 +221,11 @@ void Scene2D::AddNode(Node2D* node)
 
 void Scene2D::RemoveNode(Node2D* node)
 {
-	if (!node || node->ParentCanvas() != this)
+	if (!node || node->ParentScene2D() != this)
 		return;
 
 	_nodes.Erase(node->Id());
-	node->SetCanvas(nullptr);
+	node->SetScene2D(nullptr);
 	node->SetId(0);
 
 	// If node has children, remove them from the scene as well

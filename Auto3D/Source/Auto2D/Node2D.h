@@ -7,19 +7,19 @@ namespace Auto3D
 class Scene2D;
 class ObjectResolver;
 
-static const unsigned short UNF_ENABLED = 0x1;
-static const unsigned short UNF_TEMPORARY = 0x2;
-static const unsigned short UNF_SPATIAL = 0x4;
-static const unsigned short UNF_SPATIAL_PARENT = 0x8;
-static const unsigned short UNF_WORLD_TRANSFORM_DIRTY = 0x10;
-static const unsigned short UNF_BOUNDING_BOX_DIRTY = 0x20;
-static const unsigned short UNF_OCTREE_UPDATE_QUEUED = 0x40;
-static const unsigned short UNF_GEOMETRY = 0x80;
-static const unsigned short UNF_LIGHT = 0x100;
-static const unsigned short UNF_CASTSHADOWS = 0x200;
-static const unsigned char U_LAYER_DEFAULT = 0x0;
-static const unsigned char U_TAG_NONE = 0x0;
-static const unsigned U_LAYERMASK_ALL = 0xffffffff;
+static const unsigned short NF_2D_ENABLED = 0x1;
+static const unsigned short NF_2D_TEMPORARY = 0x2;
+static const unsigned short NF_2D_SPATIAL = 0x4;
+static const unsigned short NF_2D_SPATIAL_PARENT = 0x8;
+static const unsigned short NF_2D_WORLD_TRANSFORM_DIRTY = 0x10;
+static const unsigned short NF_2D_BOUNDING_BOX_DIRTY = 0x20;
+static const unsigned short NF_2D_OCTREE_UPDATE_QUEUED = 0x40;
+static const unsigned short NF_2D_GEOMETRY = 0x80;
+static const unsigned short NF_2D_LIGHT = 0x100;
+static const unsigned short NF_2D_CASTSHADOWS = 0x200;
+static const unsigned char LAYER_2D_DEFAULT = 0x0;
+static const unsigned char TAG_2D_NONE = 0x0;
+static const unsigned LAYERMASK_2D_ALL = 0xffffffff;
 
 /// Renderer2D nodes provide tag and layout
 class AUTO_API Node2D : public Serializable
@@ -106,13 +106,13 @@ public:
 	/// Return tag name, or empty if not registered in the scene root.
 	const String& GetTagName() const;
 	/// Return enabled status.
-	bool IsEnabled() const { return TestFlag(UNF_ENABLED); }
+	bool IsEnabled() const { return TestFlag(NF_2D_ENABLED); }
 	/// Return whether is temporary.
-	bool IsTemporary() const { return TestFlag(UNF_TEMPORARY); }
+	bool IsTemporary() const { return TestFlag(NF_2D_TEMPORARY); }
 	/// Return parent node.
 	Node2D* Parent() const { return _parent; }
 	/// Return the scene that the node belongs to.
-	Scene2D* ParentCanvas() const { return _canvas; }
+	Scene2D* ParentScene2D() const { return _scene2D; }
 	/// Return number of immediate child nodes.
 	size_t NumChildren() const { return _children.Size(); }
 	/// Return number of immediate child nodes that are not temporary.
@@ -167,7 +167,7 @@ public:
 	/// Return bit flags. Used internally eg. by octree queries.
 	unsigned short Flags() const { return _flags; }
 	/// Assign node to a new canvas. Called internally.
-	void SetCanvas(Scene2D* newScene);
+	void SetScene2D(Scene2D* newScene);
 	/// Assign new _id. Called internally.
 	void SetId(unsigned newId);
 	/// Return the layer names.
@@ -186,7 +186,7 @@ protected:
 	/// Handle being assigned to a new parent node.
 	virtual void OnParentSet(Node2D* newParent, Node2D* oldParent);
 	/// Handle being assigned to a new canvas.
-	virtual void OnCanvasSet(Scene2D* newScene, Scene2D* oldScene);
+	virtual void OnScene2DSet(Scene2D* newScene, Scene2D* oldScene);
 	/// Handle the enabled status changing.
 	virtual void OnSetEnabled(bool newEnabled);
 
@@ -203,7 +203,7 @@ private:
 	/// Parent node.
 	Node2D* _parent;
 	/// Parent canvas (If in the scene)
-	Scene2D* _canvas;
+	Scene2D* _scene2D;
 	/// Child nodes.
 	Vector<SharedPtr<Node2D> > _children;
 	/// Id within the scene.

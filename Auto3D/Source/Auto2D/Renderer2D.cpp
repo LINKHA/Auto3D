@@ -116,7 +116,7 @@ bool Renderer2D::Collect2dObjects(Scene2D* canvas, Camera2D* camera)
 	//\note TEMP Temporarily all join
 	for (auto it = canvas->GetAll2dNode().Begin(); it != canvas->GetAll2dNode().End(); it++)
 	{
-		if (it->_second->TestFlag(UNF_GEOMETRY))
+		if (it->_second->TestFlag(NF_2D_GEOMETRY))
 		{
 			_geometryNode.Push(static_cast<GeometryNode2D*>(it->_second));
 		}

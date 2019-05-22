@@ -10,11 +10,11 @@ namespace Auto3D
 {
 
 Node2D::Node2D():
-	_flags(UNF_ENABLED),
-	_layer(U_LAYER_DEFAULT),
-	_tag(U_TAG_NONE),
+	_flags(NF_2D_ENABLED),
+	_layer(LAYER_2D_DEFAULT),
+	_tag(TAG_2D_NONE),
 	_parent(nullptr),
-	_canvas(nullptr),
+	_scene2D(nullptr),
 	_id(0)
 {
 
@@ -25,7 +25,7 @@ Node2D::~Node2D()
 	RemoveAllChildren();
 	// At the time of destruction the node should not have a parent, or be in a scene
 	assert(!_parent);
-	assert(!_canvas);
+	assert(!_scene2D);
 }
 
 void Node2D::RegisterObject()
@@ -146,10 +146,10 @@ void Node2D::SetLayer(unsigned char newLayer)
 
 void Node2D::SetLayerName(const String& newLayerName)
 {
-	if (!_canvas)
+	if (!_scene2D)
 		return;
 
-	const HashMap<String, unsigned char>& layers = _canvas->Layers();
+	const HashMap<String, unsigned char>& layers = _scene2D->Layers();
 	auto it = layers.Find(newLayerName);
 	if (it != layers.End())
 		_layer = it->_second;
@@ -164,10 +164,10 @@ void Node2D::SetTag(unsigned char newTag)
 
 void Node2D::SetTagName(const String& newTagName)
 {
-	if (!_canvas)
+	if (!_scene2D)
 		return;
 
-	const HashMap<String, unsigned char>& tags = _canvas->Tags();
+	const HashMap<String, unsigned char>& tags = _scene2D->Tags();
 	auto it = tags.Find(newTagName);
 	if (it != tags.End())
 		_tag = it->_second;
@@ -177,8 +177,8 @@ void Node2D::SetTagName(const String& newTagName)
 
 void Node2D::SetEnabled(bool enable)
 {
-	SetFlag(UNF_ENABLED, enable);
-	OnSetEnabled(TestFlag(UNF_ENABLED));
+	SetFlag(NF_2D_ENABLED, enable);
+	OnSetEnabled(TestFlag(NF_2D_ENABLED));
 }
 
 void Node2D::SetEnabledRecursive(bool enable)
@@ -193,7 +193,7 @@ void Node2D::SetEnabledRecursive(bool enable)
 
 void Node2D::SetTemporary(bool enable)
 {
-	SetFlag(UNF_TEMPORARY, enable);
+	SetFlag(NF_2D_TEMPORARY, enable);
 }
 
 void Node2D::SetParent(Node2D* newParent)
@@ -288,8 +288,8 @@ void Node2D::AddChild(Node2D* child)
 	_children.Push(child);
 	child->_parent = this;
 	child->OnParentSet(this, oldParent);
-	if (_canvas)
-		_canvas->AddNode(child);
+	if (_scene2D)
+		_scene2D->AddNode(child);
 }
 
 void Node2D::RemoveChild(Node2D* child)
@@ -316,8 +316,8 @@ void Node2D::RemoveChild(size_t index)
 	// Detach from both the parent and the scene (removes _id assignment)
 	child->_parent = nullptr;
 	child->OnParentSet(this, nullptr);
-	if (_canvas)
-		_canvas->RemoveNode(child);
+	if (_scene2D)
+		_scene2D->RemoveNode(child);
 	_children.Erase(index);
 }
 
@@ -328,8 +328,8 @@ void Node2D::RemoveAllChildren()
 		Node2D* child = *it;
 		child->_parent = nullptr;
 		child->OnParentSet(this, nullptr);
-		if (_canvas)
-			_canvas->RemoveNode(child);
+		if (_scene2D)
+			_scene2D->RemoveNode(child);
 		it->Reset();
 	}
 
@@ -346,19 +346,19 @@ void Node2D::RemoveSelf()
 
 const String& Node2D::GetLayerName() const
 {
-	if (!_canvas)
+	if (!_scene2D)
 		return String::EMPTY;
 
-	const Vector<String>& layerNames = _canvas->LayerNames();
+	const Vector<String>& layerNames = _scene2D->LayerNames();
 	return _layer < layerNames.Size() ? layerNames[_layer] : String::EMPTY;
 }
 
 const String& Node2D::GetTagName() const
 {
-	if (!_canvas)
+	if (!_scene2D)
 		return String::EMPTY;
 
-	const Vector<String>& tagNames = _canvas->TagNames();
+	const Vector<String>& tagNames = _scene2D->TagNames();
 	return _tag < tagNames.Size() ? tagNames[_layer] : String::EMPTY;
 }
 
@@ -562,11 +562,11 @@ void Node2D::FindChildrenByTag(Vector<Node2D*>& result, const char* tagName, boo
 	}
 }
 
-void Node2D::SetCanvas(Scene2D* newCanvas)
+void Node2D::SetScene2D(Scene2D* newScene2D)
 {
-	Scene2D* oldCanvas = _canvas;
-	_canvas = newCanvas;
-	OnCanvasSet(_canvas, oldCanvas);
+	Scene2D* oldCanvas = _scene2D;
+	_scene2D = newScene2D;
+	OnScene2DSet(_scene2D, oldCanvas);
 }
 
 void Node2D::SetId(unsigned newId)
@@ -591,7 +591,7 @@ void Node2D::OnParentSet(Node2D*, Node2D*)
 {
 }
 
-void Node2D::OnCanvasSet(Scene2D*, Scene2D*)
+void Node2D::OnScene2DSet(Scene2D*, Scene2D*)
 {
 }
 

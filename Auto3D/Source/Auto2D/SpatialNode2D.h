@@ -83,7 +83,7 @@ public:
 	void ApplyScale(float delta);
 
 	/// Return the parent spatial node, or null if it is not spatial.
-	SpatialNode2D* GetSpatialParent() const { return TestFlag(UNF_SPATIAL_PARENT) ? static_cast<SpatialNode2D*>(Parent()) : nullptr; }
+	SpatialNode2D* GetSpatialParent() const { return TestFlag(NF_2D_SPATIAL_PARENT) ? static_cast<SpatialNode2D*>(Parent()) : nullptr; }
 	/// Return _position in parent space.
 	const Vector3F& GetPosition() const { return _position; }
 	/// Return rotation in parent space.
@@ -103,7 +103,7 @@ public:
 	/// Return scale in world space. As it is calculated from the world transform matrix, it may not be meaningful or accurate in all cases.
 	Vector3F GetWorldScale() const { return GetWorldTransform().Scale(); }
 	/// Return world transform matrix.
-	const Matrix3x4F& GetWorldTransform() const { if (TestFlag(UNF_WORLD_TRANSFORM_DIRTY)) UpdateWorldTransform(); return _worldTransform; }
+	const Matrix3x4F& GetWorldTransform() const { if (TestFlag(NF_2D_WORLD_TRANSFORM_DIRTY)) UpdateWorldTransform(); return _worldTransform; }
 	/// Convert a local space _position to world space.
 	Vector3F GetLocalToWorld(const Vector3F& point) const { return GetWorldTransform() * point; }
 	/// Convert a local space vector (either _position or direction) to world space.

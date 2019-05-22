@@ -8,7 +8,7 @@ namespace Auto3D
 GeometryNode2D::GeometryNode2D() :
 	_geometryType(GeometryType::STATIC)
 {
-	SetFlag(UNF_GEOMETRY, true);
+	SetFlag(NF_2D_GEOMETRY, true);
 }
 
 GeometryNode2D::~GeometryNode2D()
