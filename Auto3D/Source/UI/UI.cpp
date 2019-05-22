@@ -1,5 +1,6 @@
 #include "UI.h"
 #include "Canvas.h"
+#include "Text.h"
 
 #include <imgui.h>
 
@@ -99,8 +100,13 @@ void UI::Render(Canvas* canvas)
 	else
 		ImGui::Begin(title);
 
-	ImGui::Text("This is some useful text.");
-	
+	const Vector<SharedPtr<UINode> >& nodes = canvas->Children();
+	for (auto it = nodes.Begin(); it != nodes.End(); ++it)
+	{
+		UINode* node = *it;
+		node->DefineNode();
+	}
+
 	ImGui::End();
 }
 
@@ -117,6 +123,7 @@ void RegisterUILibrary()
 	registered = true;
 
 	Canvas::RegisterObject();
+	Text::RegisterObject();
 }
 
 }

@@ -331,6 +331,9 @@ public:
     static size_t ListIndex(const char* value, const char** strings, size_t defaultIndex, bool caseSensitive = false);
     /// Return a formatted string.
     static String Format(const char* formatString, ...);
+	/// Return a formatted string var.
+	static String FormatV(const char* formatString, va_list args);
+
     /// Encode Unicode character to UTF8. Pointer will be incremented.
     static void EncodeUTF8(char*& dest, unsigned unicodeChar);
     /// Decode Unicode character from UTF8. Pointer will be incremented.

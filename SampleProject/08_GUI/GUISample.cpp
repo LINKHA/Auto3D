@@ -10,9 +10,16 @@ void GUISample::Init()
 void GUISample::Start()
 {
 	Super::Start();
+
 	canvas = new Canvas();
-	canvas->SetTitle("Hello GUI");
+	canvas->SetTitle("Hello GUI"); 
 	canvas->SetCloseButtonEnable(true);
+
+	Text* text = canvas->CreateChild<Text>(); 
+	text->SetText("GUI Text test");
+
+	Text* text2 = canvas->CreateChild<Text>(); 
+	text2->SetText("Text id = %d", 0);
 
 	Object::Subsystem<RegisteredBox>()->RegisterCanvas(canvas);
 }

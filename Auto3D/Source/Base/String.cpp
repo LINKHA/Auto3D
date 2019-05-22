@@ -1557,12 +1557,19 @@ size_t String::ListIndex(const char* value, const char** strings, size_t default
 
 String String::Format(const char* formatString, ...)
 {
-    String ret;
-    va_list args;
-    va_start(args, formatString);
-    ret.AppendWithFormatArgs(formatString, args);
-    va_end(args);
-    return ret;
+	String ret;
+	va_list args;
+	va_start(args, formatString);
+	ret.AppendWithFormatArgs(formatString, args);
+	va_end(args);
+	return ret;
+}
+
+String String::FormatV(const char* formatString, va_list args)
+{
+	String ret;
+	ret.AppendWithFormatArgs(formatString, args);
+	return ret;
 }
 
 template<> void Swap<String>(String& first, String& second)

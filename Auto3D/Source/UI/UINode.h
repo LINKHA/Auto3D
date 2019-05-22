@@ -29,7 +29,7 @@ public:
 	/// Construct.
 	UINode();
 	/// Destruct. Destroy any child nodes.
-	~UINode();
+	virtual ~UINode();
 
 	/// Register factory and attributes.
 	static void RegisterObject();
@@ -178,6 +178,9 @@ public:
 	const Vector<String>& TagNames() const { return _tagNames; }
 	/// Return the tag name-to-index map.
 	const HashMap<String, unsigned char>& Tags() const { return _tags; }
+
+	/// Define node in ui sub system
+	virtual void DefineNode() { }
 
 	/// Skip the binary data of a node hierarchy, in case the node could not be created.
 	static void SkipHierarchy(Stream& source);
