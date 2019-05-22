@@ -83,6 +83,10 @@ void UI::Render(bool renderUICommand)
 	ImGui::Text("This is some useful text.");
 	ImGui::End();
 
+	ImGui::Begin("Hello, world!s");
+	ImGui::Text("This is some useful text.");
+	ImGui::End();
+
 	ImGui::Render();
 }
 

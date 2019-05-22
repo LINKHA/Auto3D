@@ -4,7 +4,7 @@ void UISample::Init()
 {
 	Super::Init();
 	auto* graphics = Object::Subsystem<Graphics>();
-	graphics->RenderWindow()->SetTitle("PBR Sample");
+	graphics->RenderWindow()->SetTitle("UI Sample");
 }
 
 void UISample::Start()

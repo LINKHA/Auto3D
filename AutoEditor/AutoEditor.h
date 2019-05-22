@@ -1,15 +1,14 @@
 #pragma once
+#include "Source/Application.h"
 
-#include <QtWidgets/QMainWindow>
-#include "ui_AutoEditor.h"
+using namespace Auto3D;
 
-class AutoEditor : public QMainWindow
+class AutoEditor : public Application
 {
-	Q_OBJECT
-
+	REGISTER_OBJECT_CLASS(AutoEditor, Application)
 public:
-	AutoEditor(QWidget *parent = Q_NULLPTR);
-
-private:
-	Ui::AutoEditorClass ui;
+	void Init()override;
+	void Start()override;
+	void Update()override;
+	void Stop()override;
 };

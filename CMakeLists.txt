@@ -39,4 +39,5 @@ endmacro ()
 set_output_directories (${PROJECT_SOURCE_DIR}/Bin RUNTIME PDB)
 
 add_subdirectory (Auto3D)
+add_subdirectory (AutoEditor)
 add_subdirectory (SampleProject)
