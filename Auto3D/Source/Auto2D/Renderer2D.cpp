@@ -114,7 +114,7 @@ bool Renderer2D::Collect2dObjects(Scene2D* canvas, Camera2D* camera)
 	_camera = camera;
 	//Classify Renderer2D nodes to remove nodes that are not in the view
 	//\note TEMP Temporarily all join
-	for (auto it = canvas->GetAll2dNode().Begin(); it != canvas->GetAll2dNode().End(); it++)
+	for (auto it = canvas->GetAllNode().Begin(); it != canvas->GetAllNode().End(); it++)
 	{
 		if (it->_second->TestFlag(NF_2D_GEOMETRY))
 		{

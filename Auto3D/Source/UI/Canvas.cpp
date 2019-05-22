@@ -13,7 +13,10 @@ namespace Auto3D
 {
 
 Canvas::Canvas() :
-	_nextNodeId(1)
+	_nextNodeId(1),
+	_title(String::EMPTY),
+	_closeButton(false),
+	_close(false)
 {
 	// Register self to allow finding by ID
 	AddNode(this);
@@ -175,13 +178,13 @@ void Canvas::Clear()
 	_nextNodeId = 1;
 }
 
-UINode* Canvas::Find2dNode(unsigned id) const
+UINode* Canvas::FindNode(unsigned id) const
 {
 	auto it = _nodes.Find(id);
 	return it != _nodes.End() ? it->_second : nullptr;
 }
 
-const HashMap<unsigned, UINode*>& Canvas::GetAll2dNode() const
+const HashMap<unsigned, UINode*>& Canvas::GetAllNode() const
 {
 	return _nodes;
 }
@@ -237,8 +240,16 @@ void Canvas::RemoveNode(UINode* node)
 	}
 }
 
+void Canvas::SetTitle(const String& title)
+{
+	_title = title;
+}
 
-
+void Canvas::SetTitle(const char* title)
+{
+	_title.Clear();
+	_title += title;
+}
 
 void Canvas::SetLayerNamesAttr(JSONValue names)
 {

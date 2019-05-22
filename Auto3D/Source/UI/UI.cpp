@@ -1,5 +1,8 @@
 #include "UI.h"
-#include "imgui.h"
+#include "Canvas.h"
+
+#include <imgui.h>
+
 #include "../Adapter/imgui_impl_sdl.h"
 #include "../Adapter/imgui_impl_opengl3.h"
 
@@ -74,20 +77,31 @@ bool UI::BeginUI()
 
 void UI::Present()
 {
+	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
-void UI::Render(bool renderUICommand)
+void UI::Render(Canvas* canvas)
 {
-	ImGui::Begin("Hello, world!");
-	ImGui::Text("This is some useful text.");
-	ImGui::End();
+	if (!canvas)
+	{
+		ErrorString("Fail render canvas,maybe canvas fail create");
+		return;
+	}
+	const char* title = canvas->GetTitle().CString();
+	
+	if (canvas->GetCloseButtonEnable())
+	{
+		bool state;
+		ImGui::Begin(title, &state);
+		canvas->SetCloseState(state);
+	}	
+	else
+		ImGui::Begin(title);
 
-	ImGui::Begin("Hello, world!s");
 	ImGui::Text("This is some useful text.");
+	
 	ImGui::End();
-
-	ImGui::Render();
 }
 
 void UI::ProcessEvent(const SDL_Event* event)
@@ -102,6 +116,7 @@ void RegisterUILibrary()
 		return;
 	registered = true;
 
+	Canvas::RegisterObject();
 }
 
 }

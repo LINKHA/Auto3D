@@ -175,13 +175,13 @@ void Scene2D::Clear()
 	_nextNodeId = 1;
 }
 
-Node2D* Scene2D::Find2dNode(unsigned id) const
+Node2D* Scene2D::FindNode(unsigned id) const
 {
 	auto it = _nodes.Find(id);
 	return it != _nodes.End() ? it->_second : nullptr;
 }
 
-const HashMap<unsigned, Node2D*>& Scene2D::GetAll2dNode() const
+const HashMap<unsigned, Node2D*>& Scene2D::GetAllNode() const
 {
 	return _nodes;
 }

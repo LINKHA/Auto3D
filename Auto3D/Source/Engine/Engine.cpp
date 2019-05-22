@@ -145,8 +145,13 @@ void Engine::Render()
 
 	_ui->BeginUI();
 
-	// UI render
-	_ui->Render();
+	// Render UI
+	for (auto it = _registeredBox->GetCanvas().Begin(); it != _registeredBox->GetCanvas().End(); it++)
+	{
+		_ui->Render(*it);
+	}
+
+	
 
 	//Present ui and graphics
 	_ui->Present();

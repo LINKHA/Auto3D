@@ -11,6 +11,8 @@ using SDL_Event =  union SDL_Event;
 namespace Auto3D
 {
 
+class Canvas;
+
 class AUTO_API UI : public BaseSubsystem
 {
 	REGISTER_OBJECT_CLASS(UI, BaseSubsystem)
@@ -32,12 +34,14 @@ public:
 	void Present();
 	/// Render the UI. If renderUICommand is false (default), is assumed to be the default UI render to backbuffer called by Engine, 
 	/// and will be performed only once. Additional UI renders to a different rendertarget may be triggered from the renderpath.
-	void Render(bool renderUICommand = false);
+	void Render(Canvas* canvas);
 	/// Process event to windows
 	void ProcessEvent(const SDL_Event* event);
 private:
 	/// Window this member is assigned in SetMode, make sure that SetMode calls this member later
 	WeakPtr<Window> _window;
+	/// UI node
+	Vector<Canvas*>	_uiNode;
 };
 
 /// Register UI related object factories and attributes.

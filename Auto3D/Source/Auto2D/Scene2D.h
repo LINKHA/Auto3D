@@ -34,9 +34,9 @@ public:
 	/// Destroy child nodes recursively, leaving the canvas empty.
 	void Clear();
 	/// Find Node2D by id.
-	Node2D* Find2dNode(unsigned id) const;
+	Node2D* FindNode(unsigned id) const;
 	/// Return all 2d node.
-	const HashMap<unsigned, Node2D*>& GetAll2dNode() const;
+	const HashMap<unsigned, Node2D*>& GetAllNode() const;
 	/// Add node to the canvas. This assigns a canvas-unique id to it. Called internally.
 	void AddNode(Node2D* node);
 	/// Remove node from the canvas. This removes the id mapping but does not destroy the node. Called internally.

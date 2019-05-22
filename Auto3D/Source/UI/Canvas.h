@@ -34,13 +34,29 @@ public:
 	/// Destroy child nodes recursively, leaving the canvas empty.
 	void Clear();
 	/// Find UINode by id.
-	UINode* Find2dNode(unsigned id) const;
-	/// Return all 2d node.
-	const HashMap<unsigned, UINode*>& GetAll2dNode() const;
+	UINode* FindNode(unsigned id) const;
+	/// Return all ui node.
+	const HashMap<unsigned, UINode*>& GetAllNode() const;
 	/// Add node to the canvas. This assigns a canvas-unique id to it. Called internally.
 	void AddNode(UINode* node);
 	/// Remove node from the canvas. This removes the id mapping but does not destroy the node. Called internally.
 	void RemoveNode(UINode* node);
+
+	/// Set canvas title
+	void SetTitle(const String& title);
+	/// Set canvas title
+	void SetTitle(const char* title);
+	/// Shows a window-closing widget in the upper-right corner of the window,
+	void SetCloseButtonEnable(bool enable) { _closeButton = enable; }
+	/// Set close state
+	void SetCloseState(bool enable) { _close = enable; }
+
+	/// Return canvas title
+	const String& GetTitle()const { return _title; }
+	/// Return window-closing enable
+	const bool GetCloseButtonEnable()const { return _closeButton; }
+	/// Return windwo close state
+	const bool GetCloseState()const { return _close; }
 
 	using UINode::Load;
 	using UINode::LoadJSON;
@@ -59,6 +75,12 @@ private:
 	HashMap<unsigned, UINode*> _nodes;
 	/// Next free node _id.
 	unsigned _nextNodeId;
+	/// Canvas title.
+	String _title;
+	/// Shows a window-closing widget in the upper-right corner of the window.
+	bool _closeButton;
+	/// This member receives button data if the close button is displayed on the form
+	bool _close;
 };
 
 }
