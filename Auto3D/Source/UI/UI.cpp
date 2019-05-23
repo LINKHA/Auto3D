@@ -1,6 +1,7 @@
 #include "UI.h"
 #include "Canvas.h"
 #include "Text.h"
+#include "Button.h"
 
 #include <imgui.h>
 
@@ -17,8 +18,6 @@ namespace Auto3D
 UI::UI() :
 	_window(nullptr)
 {
-	RegisterUILibrary();
-
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -29,8 +28,6 @@ UI::UI() :
 	// Setup Dear ImGui style
 	ImGui::StyleColorsYellow();
 
-
-	RegisterUILibrary();
 	RegisterSubsystem(this);
 }
 
@@ -124,6 +121,7 @@ void RegisterUILibrary()
 
 	Canvas::RegisterObject();
 	Text::RegisterObject();
+	Button::RegisterObject();
 }
 
 }

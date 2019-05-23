@@ -47,6 +47,7 @@ Engine::Engine():
 	RegisterRendererLibrary();
 	RegisterRenderer2DLibrary();
 	RegisterAudioLibrary();
+	RegisterUILibrary();
 
 	_cache = new ResourceCache();
 	_cache->AddResourceDir(ExecutableDir() + "Data");

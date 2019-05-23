@@ -22,6 +22,9 @@ void GUISample::Start()
 	text2->SetText("Text id = %d", 0);
 	text2->SetColor(Color(0.5f, 0.5f, 0.5f, 1.0f));
 
+	Button* button = canvas->CreateChild<Button>();
+	button->SetText("Button");
+
 	Object::Subsystem<RegisteredBox>()->RegisterCanvas(canvas);
 }
 void GUISample::Update()

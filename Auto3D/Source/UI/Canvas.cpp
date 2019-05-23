@@ -247,8 +247,7 @@ void Canvas::SetTitle(const String& title)
 
 void Canvas::SetTitle(const char* title)
 {
-	_title.Clear();
-	_title += title;
+	_title = title;
 }
 
 void Canvas::SetLayerNamesAttr(JSONValue names)
