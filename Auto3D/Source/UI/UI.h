@@ -11,6 +11,11 @@ using SDL_Event =  union SDL_Event;
 namespace Auto3D
 {
 
+namespace UIStyleColors
+{
+	const static Color Text = Color(1.00f, 1.00f, 1.00f, 1.00f);
+}
+
 class Canvas;
 
 class AUTO_API UI : public BaseSubsystem

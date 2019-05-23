@@ -1,4 +1,5 @@
 #include "Text.h"
+#include "UI.h"
 #include <imgui.h>
 
 #include "../Debug/Log.h"
@@ -7,7 +8,8 @@ namespace Auto3D
 {
 
 Text::Text():
-	_text(String::EMPTY)//,
+	_text(String::EMPTY),
+	_color(UIStyleColors::Text)
 {
 }
 
@@ -28,7 +30,6 @@ void Text::SetText(const char* fmt, ...)
 }
 void Text::SetText(const String& fmt, ...)
 {
-	
 	va_list args;
 	const char* tFmt = fmt.CString();
 	va_start(args, tFmt);
@@ -36,9 +37,15 @@ void Text::SetText(const String& fmt, ...)
 	va_end(args);
 }
 
+void Text::SetColor(const Color& color)
+{
+	_color = color;
+}
+
 void Text::DefineNode()
 {
-	ImGui::Text(_text.CString());
+	ImVec4 vec(_color._r, _color._g, _color._b, _color._a);
+	ImGui::TextColored(vec,_text.CString());
 }
 
 }
