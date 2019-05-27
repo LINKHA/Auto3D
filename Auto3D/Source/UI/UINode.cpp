@@ -5,11 +5,16 @@
 #include "Canvas.h"
 #include "UINode.h"
 
+#include <imgui.h>
+
 #include "../Debug/DebugNew.h"
 namespace Auto3D
 {
 
 UINode::UINode() :
+	_sameLineEnable(false),
+	_offsetFromStartX(0.0f),
+	_spacingW(0.0f),
 	_flags(UNF_ENABLED),
 	_layer(U_LAYER_DEFAULT),
 	_tag(U_TAG_NONE),
@@ -572,6 +577,13 @@ void UINode::SetCanvas(Canvas* newCanvas)
 void UINode::SetId(unsigned newId)
 {
 	_id = newId;
+}
+
+void UINode::SetSameLine(bool sameLineEnable, float offsetFromStartX, float spacingW)
+{
+	_sameLineEnable = sameLineEnable;
+	_offsetFromStartX = offsetFromStartX;
+	spacingW = _spacingW;
 }
 
 void UINode::SkipHierarchy(Stream& source)

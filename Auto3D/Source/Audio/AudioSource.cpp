@@ -34,28 +34,28 @@ void AudioSource::RegisterObject()
 void AudioSource::Play(int delayTime)
 {
 	if (!_audio)
-		WarinningString("Miss audio, can'y play this source.");
+		WarningString("Miss audio, can'y play this source.");
 	_audio->SourcePlay(_buffer->Source(), delayTime);
 }
 
 void AudioSource::Pause(int delayTime)
 {
 	if (!_audio)
-		WarinningString("Miss audio, can'y pause this source.");
+		WarningString("Miss audio, can'y pause this source.");
 	_audio->SourcePause(_buffer->Source(), delayTime);
 }
 
 void AudioSource::Stop(int delayTime)
 {
 	if (!_audio)
-		WarinningString("Miss audio, can'y stop this source.");
+		WarningString("Miss audio, can'y stop this source.");
 	_audio->SourceStop(_buffer->Source(), delayTime);
 }
 
 void AudioSource::Rewind(int delayTime)
 {
 	if (!_audio)
-		WarinningString("Miss audio, can'y rewind this source.");
+		WarningString("Miss audio, can'y rewind this source.");
 	_audio->SourceRewind(_buffer->Source(), delayTime);
 }
 

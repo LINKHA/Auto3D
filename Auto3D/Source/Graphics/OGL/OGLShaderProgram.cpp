@@ -134,7 +134,7 @@ bool ShaderProgram::Link()
 
         if (newAttribute._semantic == ElementSemantic::Count)
         {
-            WarnningStringF("Found vertex attribute %s with no known semantic in shader program %s", newAttribute._name.CString(), FullName().CString());
+            WarningStringF("Found vertex attribute %s with no known semantic in shader program %s", newAttribute._name.CString(), FullName().CString());
             continue;
         }
 
@@ -184,7 +184,7 @@ bool ShaderProgram::Link()
         bool foundPs = psSourceCode.Contains(name);
         if (foundVs && foundPs)
         {
-            WarnningStringF("Found uniform block %s in both vertex and pixel shader in shader program %s");
+            WarningStringF("Found uniform block %s in both vertex and pixel shader in shader program %s");
             continue;
         }
 

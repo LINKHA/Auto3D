@@ -13,4 +13,8 @@ public:
 	void Stop()override;
 
 	SharedPtr<Canvas> canvas;
+	Text* text;
+	Text* text2;
+	Button* button;
+	int count = 0;
 };

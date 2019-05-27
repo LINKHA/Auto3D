@@ -32,7 +32,7 @@ void ObjectResolver::Resolve()
             typedAttr->SetValue(it->_object, ObjectRef(refIt->_second->Id()));
         }
         else
-            WarinningString("Could not resolve object reference " + String(it->_oldId));
+            WarningString("Could not resolve object reference " + String(it->_oldId));
     }
 }
 

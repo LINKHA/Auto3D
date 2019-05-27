@@ -2,6 +2,9 @@
 #include "Canvas.h"
 #include "Text.h"
 #include "Button.h"
+#include "Slider.h"
+#include "ColorEdit.h"
+#include "CheckBox.h"
 
 #include <imgui.h>
 
@@ -122,6 +125,9 @@ void RegisterUILibrary()
 	Canvas::RegisterObject();
 	Text::RegisterObject();
 	Button::RegisterObject();
+	Slider::RegisterObject();
+	ColorEdit::RegisterObject();
+	CheckBox::RegisterObject();
 }
 
 }

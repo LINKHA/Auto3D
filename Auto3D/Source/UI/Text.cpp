@@ -7,6 +7,8 @@
 namespace Auto3D
 {
 
+static ImVec4 sColor;
+
 Text::Text():
 	_text(String::EMPTY),
 	_color(UIStyleColors::Text)
@@ -44,8 +46,14 @@ void Text::SetColor(const Color& color)
 
 void Text::DefineNode()
 {
-	ImVec4 vec(_color._r, _color._g, _color._b, _color._a);
-	ImGui::TextColored(vec,_text.CString());
+	if (_sameLineEnable)
+		ImGui::SameLine(_offsetFromStartX, _spacingW);
+
+	sColor.x = _color._r;
+	sColor.y = _color._g;
+	sColor.z = _color._b;
+	sColor.w = _color._a;
+	ImGui::TextColored(sColor,_text.CString());
 }
 
 }

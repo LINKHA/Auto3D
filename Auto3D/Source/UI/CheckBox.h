@@ -4,14 +4,14 @@
 namespace Auto3D
 {
 
-class AUTO_API Button : public UINode
+class AUTO_API CheckBox : public UINode
 {
-	REGISTER_OBJECT_CLASS(Button, UINode)
+	REGISTER_OBJECT_CLASS(CheckBox, UINode)
 public:
 	/// The constructor
-	Button();
+	CheckBox();
 	/// The destructor
-	~Button();
+	~CheckBox();
 	/// Register factory and attributes.
 	static void RegisterObject();
 
@@ -19,16 +19,15 @@ public:
 	void SetText(const char* fmt);
 	/// Set text
 	void SetText(const String& fmt);
-
-	/// Return button click state
-	bool IsClick();
+	/// Return value select state.
+	const bool IsSelect() const { return _value; }
 	/// Define node in ui
 	void DefineNode()override;
 private:
 	/// Text string
 	String _text;
-	/// Is click
-	bool _click;
+	/// Check bool value
+	bool _value;
 };
 
 }

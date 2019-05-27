@@ -13,7 +13,6 @@
 
 #if defined(_MSC_VER) && defined(_DEBUG) && defined(AUTO_WIN32_CONSOLE)
 #	define AUTO_MAIN(function) \
-		SELECT_HITH_PERFORMANCE \
 		int main(int argc, char** argv) \
 		{ \
 			DETECT_MEMORY_LEAKS();\
@@ -23,7 +22,6 @@
 		}
 #elif defined(_MSC_VER) && defined(_DEBUG) && !defined(AUTO_WIN32_CONSOLE)
 #	define AUTO_MAIN(_function) \
-		SELECT_HITH_PERFORMANCE \
 		int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd) \
 		{ \
 			DETECT_MEMORY_LEAKS();\
@@ -34,7 +32,6 @@
 #elif defined(_MSC_VER) && NDEBUG &&!defined(AUTO_WIN32_CONSOLE)
 #	define AUTO_MAIN(_function) \
 		HINSTANCE g_hInstance;HINSTANCE g_prevInstance;PSTR g_cmdLine;int g_showCmd;\
-		SELECT_HITH_PERFORMANCE \
 		int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd) \
 		{ \
 			int flag = _function;\
@@ -42,7 +39,6 @@
 		}
 #elif defined(__ANDROID__) || defined(IOS)
 #	define AUTO_MAIN(_function) \
-		SELECT_HITH_PERFORMANCE \
 		extern "C" __attribute__((visibility("default"))) int SDL_main(int argc, char** argv); \
 		int SDL_main(int argc, char** argv) \
 		{ \
@@ -51,7 +47,6 @@
 		}
 #else
 #	define AUTO_MAIN(_function) \
-		SELECT_HITH_PERFORMANCE \
 		int main(int argc, char** argv) \
 		{ \
 			int flag = _function;\

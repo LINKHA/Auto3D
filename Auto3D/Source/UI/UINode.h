@@ -179,6 +179,8 @@ public:
 	/// Return the tag name-to-index map.
 	const HashMap<String, unsigned char>& Tags() const { return _tags; }
 
+	///  Gets back to previous line and continue with horizontal layout
+	void SetSameLine(bool sameLineEnable = true ,float offsetFromStartX = 0.0f, float spacingW = 0.0f);
 	/// Define node in ui sub system
 	virtual void DefineNode() { }
 
@@ -201,7 +203,14 @@ protected:
 	Vector<String> _tagNames;
 	/// Map from tag names to indices.
 	HashMap<String, unsigned char> _tags;
-
+	/// Is same line enable
+	bool _sameLineEnable;
+	/// OffsetFromStartX == 0 : follow right after previous item
+	/// OffsetFromStartX != 0 : align to specified x position (relative to window/group left)
+	float _offsetFromStartX;
+	/// SpacingW < 0  : use default spacing if pos_x == 0, no spacing if pos_x != 0
+	/// SpacingW >= 0 : enforce spacing amount
+	float _spacingW;
 private:
 	/// Parent node.
 	UINode* _parent;

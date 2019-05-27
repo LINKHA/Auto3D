@@ -23,16 +23,7 @@ namespace Auto3D
 #else
 #	define AUTO_API
 #endif
-/* #undef AUTO_NVIDIA */
-/* #undef AUTO_AMD */
 
-#if defined(AUTO_NVIDIA)
-#	define SELECT_HITH_PERFORMANCE extern "C"{__declspec(dllexport) unsigned long NvOptimusEnablement = 0x00000001;}
-#elif defined(AUTO_AMD)
-#	define SELECT_HITH_PERFORMANCE extern "C"{__declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;}
-#else
-#	define SELECT_HITH_PERFORMANCE
-#endif
 
 // Auto3D build configuration
 /* #undef AUTO_LOGGING_L1 */

@@ -5,10 +5,9 @@ namespace Auto3D
 {
 
 Button::Button() :
-	_text(String::EMPTY)
-{
-
-}
+	_text(String::EMPTY),
+	_click(false)
+{}
 
 Button::~Button() = default;
 
@@ -24,12 +23,19 @@ void Button::SetText(const char* fmt)
 
 void Button::SetText(const String& fmt)
 {
-	_text += fmt;
+	_text = fmt;
+}
+
+bool Button::IsClick()
+{
+	return _click;
 }
 
 void Button::DefineNode()
 {
-	ImGui::Button(_text.CString());
+	if (_sameLineEnable)
+		ImGui::SameLine(_offsetFromStartX, _spacingW);
+	_click = ImGui::Button(_text.CString());
 }
 
 }

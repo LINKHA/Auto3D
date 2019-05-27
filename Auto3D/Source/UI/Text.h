@@ -21,6 +21,7 @@ public:
 	void SetText(const String& fmt, ...);
 	/// Set color
 	void SetColor(const Color& color);
+	
 	/// Define node in ui
 	void DefineNode()override;
 private:
@@ -28,6 +29,7 @@ private:
 	String _text;
 	/// Text color
 	Color _color;
+	/// Is some line
 };
 
 }

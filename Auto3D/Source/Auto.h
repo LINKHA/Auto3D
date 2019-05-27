@@ -60,3 +60,6 @@
 #include "UI/Canvas.h"
 #include "UI/Text.h"
 #include "UI/Button.h"
+#include "UI/Slider.h"
+#include "UI/ColorEdit.h"
+#include "UI/CheckBox.h"

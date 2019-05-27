@@ -17,14 +17,14 @@
 
 #if defined(WIN32)
 #	include <Windows.h>
-#	if defined(_DEBUG)
-// Prefer the high-performance GPU on switchable GPU systems
-// Only developer testing is provided, the correct way to use it is in the AutoConfig definition
-extern "C" {
-	__declspec(dllexport) unsigned long NvOptimusEnablement = 0x00000001;
-	__declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
-}
-#	endif
+// http://developer.download.nvidia.com/devzone/devcenter/gamegraphics/files/OptimusRenderingPolicies.pdf
+// The following line is to favor the high performance NVIDIA GPU if there are multiple GPUs
+// Has to be .exe module to be correctly detected.
+extern "C" { _declspec(dllexport) unsigned int NvOptimusEnablement = 0x00000001; }
+
+// And the AMD equivalent
+// Also has to be .exe module to be correctly detected.
+extern "C" { _declspec(dllexport) unsigned int AmdPowerXpressRequestHighPerformance = 0x00000001; }
 #endif
 
 #include "../../Debug/DebugNew.h"

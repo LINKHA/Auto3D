@@ -4,14 +4,14 @@
 namespace Auto3D
 {
 
-class AUTO_API Button : public UINode
+class AUTO_API ColorEdit : public UINode
 {
-	REGISTER_OBJECT_CLASS(Button, UINode)
+	REGISTER_OBJECT_CLASS(ColorEdit, UINode)
 public:
 	/// The constructor
-	Button();
+	ColorEdit();
 	/// The destructor
-	~Button();
+	~ColorEdit();
 	/// Register factory and attributes.
 	static void RegisterObject();
 
@@ -19,16 +19,13 @@ public:
 	void SetText(const char* fmt);
 	/// Set text
 	void SetText(const String& fmt);
-
-	/// Return button click state
-	bool IsClick();
 	/// Define node in ui
 	void DefineNode()override;
 private:
 	/// Text string
 	String _text;
-	/// Is click
-	bool _click;
+	/// Color value
+	Color _color;
 };
 
 }
