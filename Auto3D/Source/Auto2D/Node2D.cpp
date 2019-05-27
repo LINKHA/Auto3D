@@ -4,6 +4,7 @@
 #include "../Resource/JSONFile.h"
 #include "Scene2D.h"
 #include "Node2D.h"
+#include "Camera2D.h"
 
 #include "../Debug/DebugNew.h"
 namespace Auto3D
@@ -288,8 +289,15 @@ void Node2D::AddChild(Node2D* child)
 	_children.Push(child);
 	child->_parent = this;
 	child->OnParentSet(this, oldParent);
+
 	if (_scene2D)
+	{
 		_scene2D->AddNode(child);
+		if (child->GetType() == Camera2D::GetTypeStatic())
+		{
+			_scene2D->AddCamera(dynamic_cast<Camera2D*>(child));
+		}
+	}
 }
 
 void Node2D::RemoveChild(Node2D* child)

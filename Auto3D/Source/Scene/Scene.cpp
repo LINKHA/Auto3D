@@ -4,6 +4,7 @@
 #include "../Object/ObjectResolver.h"
 #include "../Resource/JSONFile.h"
 #include "../Renderer/Renderer.h"
+#include "../RegisteredBox/RegisteredBox.h"
 #include "Scene.h"
 #include "SpatialNode.h"
 
@@ -22,6 +23,9 @@ Scene::Scene() :
     DefineTag(TAG_NONE, "None");
 	// The scene creates a shadow map by default
 	Subsystem<Renderer>()->SetupShadowMaps(1, 2048, ImageFormat::D16);
+
+	// Register scene to scene system use to render
+	Subsystem<RegisteredBox>()->RegisterScene(this);
 }
 
 Scene::~Scene()
@@ -181,6 +185,11 @@ Node* Scene::FindNode(unsigned id) const
 {
     auto it = _nodes.Find(id);
     return it != _nodes.End() ? it->_second : nullptr;
+}
+
+Vector<Camera*>& Scene::GetAllCamera()
+{
+	return _cameras;
 }
 
 void Scene::AddNode(Node* node)

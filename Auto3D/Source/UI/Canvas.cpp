@@ -6,6 +6,7 @@
 #include "Canvas.h"
 
 #include "../Scene/SpatialNode.h"
+#include "../RegisteredBox/RegisteredBox.h"
 
 #include "../Debug/DebugNew.h"
 
@@ -23,6 +24,8 @@ Canvas::Canvas() :
 
 	DefineLayer(LAYER_DEFAULT, "Default");
 	DefineTag(TAG_NONE, "None");
+
+	Subsystem<RegisteredBox>()->RegisterCanvas(this);
 }
 Canvas::~Canvas()
 {

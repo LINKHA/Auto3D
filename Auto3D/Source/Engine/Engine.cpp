@@ -16,9 +16,10 @@
 #include "../Physics/Physics.h"
 #include "../IO/FileSystem.h"
 #include "../UI/UI.h"
-#include "../Auto2D/renderer2D.h"
-
-
+#include "../Auto2D/Renderer2D.h"
+#include "../UI/Canvas.h"
+#include "../Scene/Scene.h"
+#include "../Auto2D/Scene2D.h"
 #include "../Base/ProcessUtils.h"
 #include "../Debug/DebugNew.h"
 
@@ -133,15 +134,27 @@ void Engine::Render()
 	// Render scene
 	for (auto it = _registeredBox->GetScenes().Begin(); it != _registeredBox->GetScenes().End(); it++)
 	{
-		_renderer->Render((*it)._first, (*it)._second);
-		// Update camera aspect ratio based on window size
-		(*it)._second->SetAspectRatio((float)Subsystem<Graphics>()->GetWidth() / (float)Subsystem<Graphics>()->GetHeight());
+		Scene* scene = *it;
+		Vector<Camera*>& cameras = scene->GetAllCamera();
+		for (auto cameraIt = cameras.Begin(); cameraIt != cameras.End(); ++cameraIt)
+		{
+			Camera* camera = *cameraIt;
+			_renderer->Render(scene, camera);
+			// Update camera aspect ratio based on window size
+			camera->SetAspectRatio((float)Subsystem<Graphics>()->GetWidth() / (float)Subsystem<Graphics>()->GetHeight());
+		}
 	}	
 
 	// Render Renderer2D
 	for (auto it = _registeredBox->GetScene2D().Begin(); it != _registeredBox->GetScene2D().End(); it++)
 	{
-		_renderer2d->Render((*it)._first, (*it)._second);
+		Scene2D* scene = *it;
+		Vector<Camera2D*>& cameras = scene->GetAllCamera();
+		for (auto cameraIt = cameras.Begin(); cameraIt != cameras.End(); ++cameraIt)
+		{
+			Camera2D* camera = *cameraIt;
+			_renderer2d->Render(scene, camera);
+		}
 	}
 
 	_ui->BeginUI();
@@ -149,11 +162,9 @@ void Engine::Render()
 	// Render UI
 	for (auto it = _registeredBox->GetCanvas().Begin(); it != _registeredBox->GetCanvas().End(); it++)
 	{
-		_ui->Render(*it);
+		if ((*it)->IsEnabled())
+			_ui->Render(*it);
 	}
-
-	
-
 	//Present ui and graphics
 	_ui->Present();
 	_graphics->Present();

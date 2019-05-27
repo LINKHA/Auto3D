@@ -2,10 +2,11 @@
 #include "../Debug/Profiler.h"
 #include "../IO/Stream.h"
 #include "../Object/ObjectResolver.h"
-#include "../Resource/JSONFile.h"
-#include "Scene2D.h"
-
 #include "../Scene/SpatialNode.h"
+#include "../Resource/JSONFile.h"
+#include "../RegisteredBox/RegisteredBox.h"
+
+#include "Scene2D.h"
 
 #include "../Debug/DebugNew.h"
 
@@ -20,6 +21,7 @@ Scene2D::Scene2D() :
 
 	DefineLayer(LAYER_DEFAULT, "Default");
 	DefineTag(TAG_NONE, "None");
+	Subsystem<RegisteredBox>()->RegisterScene2D(this);
 }
 Scene2D::~Scene2D()
 {
@@ -184,6 +186,11 @@ Node2D* Scene2D::FindNode(unsigned id) const
 const HashMap<unsigned, Node2D*>& Scene2D::GetAllNode() const
 {
 	return _nodes;
+}
+
+Vector<Camera2D*>& Scene2D::GetAllCamera()
+{
+	return _cameras;
 }
 
 void Scene2D::AddNode(Node2D* node)

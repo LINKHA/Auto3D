@@ -22,22 +22,22 @@ public:
 	/// Destructor
 	~RegisteredBox();
 	/// Register scene
-	void RegisterScene(Scene* scene, Camera* camera) { _scene.Push(Pair<Scene*, Camera*>(scene, camera)); }
+	void RegisterScene(Scene* scene) { _scenes.Push(scene); }
 	/// Register scene2d
-	void RegisterScene2D(Scene2D* scene2d, Camera2D* camera) { _scene2d.Push(Pair<Scene2D*, Camera2D*>(scene2d, camera)); }
+	void RegisterScene2D(Scene2D* scene2d) { _scene2ds.Push(scene2d); }
 	/// Register uiScene
 	void RegisterCanvas(Canvas* canvas) { _canvases.Push(canvas); }
 	/// Return scenes
-	const Vector<Pair<Scene*, Camera*> >& GetScenes() { return _scene; }
+	const Vector<Scene*>& GetScenes() { return _scenes; }
 	/// Return scene2d
-	const Vector<Pair<Scene2D*, Camera2D*> >& GetScene2D() { return _scene2d; }
+	const Vector<Scene2D*>& GetScene2D() { return _scene2ds; }
 	/// Return canvases
 	const Vector<Canvas*>& GetCanvas() { return _canvases; }
 private:
 	/// Scene array
-	Vector<Pair<Scene*, Camera*> > _scene;
+	Vector<Scene*> _scenes;
 	/// Scene2D array 
-	Vector<Pair<Scene2D*, Camera2D*> > _scene2d;
+	Vector<Scene2D*> _scene2ds;
 	/// UI scene
 	Vector<Canvas*> _canvases;
 };

@@ -20,8 +20,7 @@ void MeshSample::Start()
 	camera = scene->CreateChild<Camera>();
 	camera->SetPosition(Vector3F(0.0f, 5.0f, -15.0f));
 	camera->SetAmbientColor(Color(0.1f, 0.1f, 0.1f));
-	// Register scene to scene system use to render
-	Object::Subsystem<RegisteredBox>()->RegisterScene(scene, camera);
+	
 
 	StaticModel* plane = scene->CreateChild<StaticModel>();
 	plane->SetScale(Vector3F(50.0f, 0.1f, 50.0f));

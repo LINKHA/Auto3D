@@ -114,7 +114,7 @@ private:
     /// Graphics subsystem pointer.
     WeakPtr<Graphics> _graphics;
     /// Current scene.
-    Scene* _scene;
+    Scene* _scenes;
     /// Current scene camera.
     Camera* _camera;
     /// Current octree.

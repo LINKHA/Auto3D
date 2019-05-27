@@ -3,6 +3,9 @@
 
 namespace Auto3D
 {
+
+class Camera2D;
+
 /// Location of all components of the Renderer2D
 class AUTO_API Scene2D : public Node2D
 {
@@ -37,11 +40,16 @@ public:
 	Node2D* FindNode(unsigned id) const;
 	/// Return all 2d node.
 	const HashMap<unsigned, Node2D*>& GetAllNode() const;
+	/// Return all camera vector
+	Vector<Camera2D*>& GetAllCamera();
 	/// Add node to the canvas. This assigns a canvas-unique id to it. Called internally.
 	void AddNode(Node2D* node);
 	/// Remove node from the canvas. This removes the id mapping but does not destroy the node. Called internally.
 	void RemoveNode(Node2D* node);
-
+	/// Add camera to the scene. 
+	void AddCamera(Camera2D* camera) { _cameras.Push(camera); }
+	/// Remove camera from the scene.
+	void RemoveCamera(Camera2D* camera) { _cameras.Remove(camera); }
 	using Node2D::Load;
 	using Node2D::LoadJSON;
 	using Node2D::SaveJSON;
@@ -57,6 +65,8 @@ private:
 
 	/// Map from id to nodes.
 	HashMap<unsigned, Node2D*> _nodes;
+	/// Camera to nodes
+	Vector<Camera2D*> _cameras;
 	/// Next free node _id.
 	unsigned _nextNodeId;
 };

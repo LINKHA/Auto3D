@@ -5,6 +5,8 @@
 namespace Auto3D
 {
 
+class Camera;
+
 /// %Scene root node, which also represents the whole scene.
 class AUTO_API Scene : public Node
 {
@@ -21,7 +23,6 @@ public:
 
     /// Save scene to binary stream.
     void Save(Stream& dest) override;
-    
     /// Load scene from a binary stream. Existing nodes will be destroyed. Return true on success.
     bool Load(Stream& source);
     /// Load scene from JSON data. Existing nodes will be destroyed. Return true on success.
@@ -36,19 +37,21 @@ public:
     Node* InstantiateJSON(const JSONValue& source);
     /// Load JSON data as text from a binary stream, then instantiate node(s) from it and return the root node.
     Node* InstantiateJSON(Stream& source);
-
     /// Destroy child nodes recursively, leaving the scene empty.
     void Clear();
-
     /// Find node by _id.
     Node* FindNode(unsigned id) const;
-   
-
+	/// Return all camera vector
+	Vector<Camera*>& GetAllCamera();
     /// Add node to the scene. This assigns a scene-unique id to it. Called internally.
     void AddNode(Node* node);
     /// Remove node from the scene. This removes the id mapping but does not destroy the node. Called internally.
     void RemoveNode(Node* node);
-    
+	/// Add camera to the scene. 
+	void AddCamera(Camera* camera) { _cameras.Push(camera); }
+	/// Remove camera from the scene.
+	void RemoveCamera(Camera* camera) { _cameras.Remove(camera); }
+
     using Node::Load;
     using Node::LoadJSON;
     using Node::SaveJSON;
@@ -63,9 +66,11 @@ private:
     /// Return tag names. Used in serialization.
     JSONValue TagNamesAttr() const;
 
-    /// Map from _id's to nodes.
+    /// Map from id's to nodes.
     HashMap<unsigned, Node*> _nodes;
-    /// Next free node _id.
+	/// Camera to nodes
+	Vector<Camera*> _cameras;
+    /// Next free node id.
     unsigned _nextNodeId;
 
 };

@@ -2,6 +2,7 @@
 #include "../IO/Stream.h"
 #include "../Object/ObjectResolver.h"
 #include "../Resource/JSONFile.h"
+#include "../Renderer/Camera.h"
 #include "Scene.h"
 
 #include "../Debug/DebugNew.h"
@@ -16,7 +17,7 @@ Node::Node() :
     _layer(LAYER_DEFAULT),
     _tag(TAG_NONE),
     _parent(nullptr),
-    _scene(nullptr),
+    _scenes(nullptr),
     _id(0)
 {
 }
@@ -26,7 +27,7 @@ Node::~Node()
     RemoveAllChildren();
     // At the time of destruction the node should not have a parent, or be in a scene
     assert(!_parent);
-    assert(!_scene);
+    assert(!_scenes);
 }
 
 void Node::RegisterObject()
@@ -151,10 +152,10 @@ void Node::SetLayer(unsigned char newLayer)
 
 void Node::SetLayerName(const String& newLayerName)
 {
-    if (!_scene)
+    if (!_scenes)
         return;
     
-    const HashMap<String, unsigned char>& layers = _scene->Layers();
+    const HashMap<String, unsigned char>& layers = _scenes->Layers();
     auto it = layers.Find(newLayerName);
     if (it != layers.End())
         _layer = it->_second;
@@ -169,10 +170,10 @@ void Node::SetTag(unsigned char newTag)
 
 void Node::SetTagName(const String& newTagName)
 {
-    if (!_scene)
+    if (!_scenes)
         return;
 
-    const HashMap<String, unsigned char>& tags = _scene->Tags();
+    const HashMap<String, unsigned char>& tags = _scenes->Tags();
     auto it = tags.Find(newTagName);
     if (it != tags.End())
         _tag = it->_second;
@@ -293,8 +294,15 @@ void Node::AddChild(Node* child)
     _children.Push(child);
     child->_parent = this;
     child->OnParentSet(this, oldParent);
-    if (_scene)
-        _scene->AddNode(child);
+	if (_scenes)
+	{
+		_scenes->AddNode(child);
+		if (child->GetType() == Camera::GetTypeStatic())
+		{
+			_scenes->AddCamera(dynamic_cast<Camera*>(child));
+		}
+	}
+        
 }
 
 void Node::RemoveChild(Node* child)
@@ -321,8 +329,8 @@ void Node::RemoveChild(size_t index)
     // Detach from both the parent and the scene (removes _id assignment)
     child->_parent = nullptr;
     child->OnParentSet(this, nullptr);
-    if (_scene)
-        _scene->RemoveNode(child);
+    if (_scenes)
+        _scenes->RemoveNode(child);
     _children.Erase(index);
 }
 
@@ -333,8 +341,8 @@ void Node::RemoveAllChildren()
         Node* child = *it;
         child->_parent = nullptr;
         child->OnParentSet(this, nullptr);
-        if (_scene)
-            _scene->RemoveNode(child);
+        if (_scenes)
+            _scenes->RemoveNode(child);
         it->Reset();
     }
 
@@ -351,19 +359,19 @@ void Node::RemoveSelf()
 
 const String& Node::GetLayerName() const
 {
-    if (!_scene)
+    if (!_scenes)
         return String::EMPTY;
 
-    const Vector<String>& layerNames = _scene->LayerNames();
+    const Vector<String>& layerNames = _scenes->LayerNames();
     return _layer < layerNames.Size() ? layerNames[_layer] : String::EMPTY;
 }
 
 const String& Node::GetTagName() const
 {
-    if (!_scene)
+    if (!_scenes)
         return String::EMPTY;
 
-    const Vector<String>& tagNames = _scene->TagNames();
+    const Vector<String>& tagNames = _scenes->TagNames();
     return _tag < tagNames.Size() ? tagNames[_layer] : String::EMPTY;
 }
 
@@ -569,9 +577,9 @@ void Node::FindChildrenByTag(Vector<Node*>& result, const char* tagName, bool re
 
 void Node::SetScene(Scene* newScene)
 {
-    Scene* oldScene = _scene;
-    _scene = newScene;
-    OnSceneSet(_scene, oldScene);
+    Scene* oldScene = _scenes;
+    _scenes = newScene;
+    OnSceneSet(_scenes, oldScene);
 }
 
 void Node::SetId(unsigned newId)

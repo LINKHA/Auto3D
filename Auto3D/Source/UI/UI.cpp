@@ -89,6 +89,7 @@ void UI::Render(Canvas* canvas)
 		ErrorString("Fail render canvas,maybe canvas fail create");
 		return;
 	}
+		
 	const char* title = canvas->GetTitle().CString();
 	
 	if (canvas->GetCloseButtonEnable())
@@ -104,7 +105,8 @@ void UI::Render(Canvas* canvas)
 	for (auto it = nodes.Begin(); it != nodes.End(); ++it)
 	{
 		UINode* node = *it;
-		node->DefineNode();
+		if(node->IsEnabled())
+			node->DefineNode();
 	}
 
 	ImGui::End();

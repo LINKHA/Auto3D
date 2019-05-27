@@ -139,10 +139,10 @@ bool Renderer::CollectObjects(Scene* scene, Camera* camera)
         it->Clear();
     _usedShadowViews = 0;
 
-    _scene = scene;
+    _scenes = scene;
     _camera = camera;
-    _octree = _scene ? _scene->FindChild<Octree>() : nullptr;
-    if (!_scene || !_camera || !_octree)
+    _octree = _scenes ? _scenes->FindChild<Octree>() : nullptr;
+    if (!_scenes || !_camera || !_octree)
         return false;
 
     // Increment frame number. Never use 0, as that is the default for objects that have never been rendered

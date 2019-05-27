@@ -63,7 +63,7 @@ private:
 	/// Renderer2D rendering batches.
 	Vector<Batch2D> _batches;
 	/// Current scene.
-	Scene2D* _scene;
+	Scene2D* _scenes;
 	/// Current 2d camera.
 	Camera2D* _camera;
 	/// Geometry nodes

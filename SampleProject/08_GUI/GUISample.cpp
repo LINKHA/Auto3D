@@ -32,10 +32,17 @@ void GUISample::Start()
 
 	ColorEdit* colorEdit = canvas->CreateChild<ColorEdit>();
 
-	CheckBox* checkBox = canvas->CreateChild<CheckBox>();
+	checkBox = canvas->CreateChild<CheckBox>();
 	checkBox->SetText("CheckBox");
 
-	Object::Subsystem<RegisteredBox>()->RegisterCanvas(canvas);
+
+
+	canvas2 = new Canvas();
+	canvas2->SetTitle("Add window");
+	canvas2->SetEnabled(false);
+
+	Text* text3 = canvas2->CreateChild<Text>();
+	text3->SetText("Hello window");
 }
 void GUISample::Update()
 {
@@ -45,6 +52,10 @@ void GUISample::Update()
 		count++;
 		text2->SetText(" Button count = %d", count);
 	}
+	if (checkBox->IsSelect())
+		canvas2->SetEnabled(true);
+	else
+		canvas2->SetEnabled(false);
 }
 
 void GUISample::Stop()

@@ -110,7 +110,7 @@ bool Renderer2D::Collect2dObjects(Scene2D* canvas, Camera2D* camera)
 	_geometryNode.Clear();
 	_batchQueue.Clear();
 	_instanceTransforms.Clear();
-	_scene = canvas;
+	_scenes = canvas;
 	_camera = camera;
 	//Classify Renderer2D nodes to remove nodes that are not in the view
 	//\note TEMP Temporarily all join

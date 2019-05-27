@@ -114,7 +114,7 @@ public:
     /// Return parent node.
     Node* Parent() const { return _parent; }
     /// Return the scene that the node belongs to.
-    Scene* ParentScene() const { return _scene; }
+    Scene* ParentScene() const { return _scenes; }
     /// Return number of immediate child nodes.
     size_t NumChildren() const { return _children.Size(); }
     /// Return number of immediate child nodes that are not temporary.
@@ -204,7 +204,7 @@ private:
     /// Parent node.
     Node* _parent;
     /// Parent scene (If in the scene)
-    Scene* _scene;
+    Scene* _scenes;
     /// Child nodes.
     Vector<SharedPtr<Node> > _children;
     /// Id within the scene.

@@ -17,4 +17,7 @@ public:
 	Text* text2;
 	Button* button;
 	int count = 0;
+	CheckBox* checkBox;
+
+	SharedPtr<Canvas> canvas2;
 };
