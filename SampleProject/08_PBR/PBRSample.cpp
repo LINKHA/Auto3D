@@ -1,13 +1,13 @@
-#include "SkyboxSample.h"
+#include "PBRSample.h"
 
-void SkyboxSample::Init()
+void PBRSample::Init()
 {
 	Super::Init();
 	auto* graphics = Object::Subsystem<Graphics>();
-	graphics->RenderWindow()->SetTitle("Skybox Sample");
+	graphics->RenderWindow()->SetTitle("PBR Sample");
 }
 
-void SkyboxSample::Start()
+void PBRSample::Start()
 {
 	Super::Start();
 	auto* cache = Object::Subsystem<ResourceCache>();
@@ -21,14 +21,14 @@ void SkyboxSample::Start()
 	camera = scene->CreateChild<Camera>();
 	camera->SetPosition(Vector3F(0.0f, 0.0f, 0.0f));
 	camera->SetAmbientColor(Color(0.1f, 0.1f, 0.1f));
-	// Register scene to scene system use to render
-	Object::Subsystem<RegisteredBox>()->RegisterScene(scene, camera);
 
-	SkyBox* skybox = scene->CreateChild<SkyBox>();
-	skybox->SetMaterial(cache->LoadResource<Material>("SkyBox.json"));
+	StaticModel* node = scene->CreateChild<StaticModel>();
+	node->SetModel(cache->LoadResource<Model>("Box.mdl"));
+	node->SetMaterial(cache->LoadResource<PBRMaterial>("PBRNoTexture.json"));
 }
-void SkyboxSample::Update()
+void PBRSample::Update()
 {
+
 	Super::Update();
 	auto* input = Object::Subsystem<Input>();
 	auto* graphics = Object::Subsystem<Graphics>();
@@ -52,9 +52,9 @@ void SkyboxSample::Update()
 		camera->Translate(Vector3F::RIGHT * time->GetDeltaTime()  * moveSpeed);
 }
 
-void SkyboxSample::Stop()
+void PBRSample::Stop()
 {
 	Super::Stop();
 }
 
-AUTO_APPLICATION_MAIN(SkyboxSample)
+AUTO_APPLICATION_MAIN(PBRSample)

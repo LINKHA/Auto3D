@@ -24,8 +24,6 @@ void FirstPersonSample::Start()
 	camera = scene->CreateChild<Camera>();
 	//camera->SetPosition(Vector3F(0.0f, 20.0f, -75.0f));
 	camera->SetAmbientColor(Color(0.1f, 0.1f, 0.1f));
-	// Register scene to scene system use to render
-	Object::Subsystem<RegisteredBox>()->RegisterScene(scene, camera);
 
 	for (int y = -5; y <= 5; ++y)
 	{

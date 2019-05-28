@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1)
 
-set (TARGET_NAME 05_Audio)
+set (TARGET_NAME 02_GUI)
 
 file (GLOB SOURCE_FILES *.cpp *.h)
 

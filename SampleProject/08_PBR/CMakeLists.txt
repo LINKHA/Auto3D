@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1)
 
-set (TARGET_NAME 04_FirstPerson)
+set (TARGET_NAME 08_PBR)
 
 file (GLOB SOURCE_FILES *.cpp *.h)
 

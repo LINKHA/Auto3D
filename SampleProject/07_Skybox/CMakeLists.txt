@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1)
 
-set (TARGET_NAME 07_PBR)
+set (TARGET_NAME 07_Skybox)
 
 file (GLOB SOURCE_FILES *.cpp *.h)
 

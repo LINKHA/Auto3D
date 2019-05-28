@@ -11,14 +11,13 @@ void SpriteSample::Start()
 	auto flower = (cache->LoadResource<Texture>("flower.png"));
 	SubscribeToEvent(Subsystem<Graphics>()->RenderWindow()->closeRequestEvent, &SpriteSample::HandleCloseRequest);
 
-
 	for (int i = 0; i < flowerNum; i++)
 	{
-		Sprite* flower = canvas->CreateChild<Sprite>();
+		Sprite2D* flower = scene2d->CreateChild<Sprite2D>();
 		flower->SetTexture(cache->LoadResource<Texture>("flower.png"));
 		flower->SetPosition(Vector3F(RandomSignedFloat()*10.0f, RandomSignedFloat()*10.0f, -0.1f));
 		flower->SetScale(Vector3F(1.0f, 1.0f, 1.0f));
-		sprites.Push(Pair<FlowerMSG, Sprite*>(FlowerMSG(Random() * 5, RandomSignedFloat()) , flower));
+		sprites.Push(Pair<FlowerMSG, Sprite2D*>(FlowerMSG(Random() * 5, RandomSignedFloat()) , flower));
 	}
 
 }
@@ -26,7 +25,6 @@ void SpriteSample::Update()
 {
 	Super::Update();
 	auto* input = Object::Subsystem<Input>();
-	auto* graphics = Object::Subsystem<Graphics>();
 	auto* renderer = Object::Subsystem<Renderer>();
 	auto* time = Object::Subsystem<Time>();
 
@@ -46,8 +44,8 @@ void SpriteSample::Update()
 	{
 		float speed = it->_first.speed;
 		float rotateOffset = it->_first.rotateOffset;
-		Sprite* speite = it->_second;
-		speite->Translate(Vector3F::DOWN * time->GetDeltaTime() * speed, UITransformSpace::WORLD);
+		Sprite2D* speite = it->_second;
+		speite->Translate(Vector3F::DOWN * time->GetDeltaTime() * speed, Transform2DSpace::WORLD);
 		speite->Rotate(Quaternion(0.0f, 0.0f, rotateOffset));
 		Vector3F oldPos = speite->GetPosition();
 		if (oldPos._y <= -11.0f)

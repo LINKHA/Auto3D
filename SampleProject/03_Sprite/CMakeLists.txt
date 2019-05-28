@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1)
 
-set (TARGET_NAME 02_Sprite)
+set (TARGET_NAME 03_Sprite)
 
 file (GLOB SOURCE_FILES *.cpp *.h)
 

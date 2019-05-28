@@ -30,5 +30,5 @@ public:
 		float rotateOffset;
 	};
 	//First speed ,Second sprite
-	Vector<Pair<FlowerMSG, Sprite*> > sprites;
+	Vector<Pair<FlowerMSG, Sprite2D*> > sprites;
 };

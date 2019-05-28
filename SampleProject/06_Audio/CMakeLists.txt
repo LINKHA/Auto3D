@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1)
 
-set (TARGET_NAME 03_Mesh)
+set (TARGET_NAME 06_Audio)
 
 file (GLOB SOURCE_FILES *.cpp *.h)
 
