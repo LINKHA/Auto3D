@@ -19,7 +19,6 @@
 #include "Renderer.h"
 #include "StaticModel.h"
 #include "SkyBox.h"
-#include "PBRMaterial.h"
 
 #include "../Debug/DebugNew.h"
 
@@ -608,7 +607,8 @@ void Renderer::Initialize()
 
     _psFrameConstantBuffer = new ConstantBuffer();
     constants.Clear();
-    constants.Push(Constant(ElementType::VECTOR4, "ambientColor"));
+    constants.Push(Constant(ElementType::VECTOR3, "ambientColor"));
+	constants.Push(Constant(ElementType::VECTOR3, "viewPosition"));
     _psFrameConstantBuffer->Define(ResourceUsage::DEFAULT, constants);
 
     _vsObjectConstantBuffer = new ConstantBuffer();
@@ -864,6 +864,7 @@ void Renderer::RenderBatches(const Vector<Batch>& batches, Camera* camera, bool 
 
         /// \todo Add also fog settings
         _psFrameConstantBuffer->SetConstant(PS_FRAME_AMBIENT_COLOR, camera->GetAmbientColor());
+		_psFrameConstantBuffer->SetConstant(PS_FRAME_VIEW_POSITION, camera->GetPosition());
         _psFrameConstantBuffer->Apply();
 
         _graphics->SetConstantBuffer(ShaderStage::VS, RendererConstantBuffer::FRAME, _vsFrameConstantBuffer);
@@ -904,8 +905,8 @@ void Renderer::RenderBatches(const Vector<Batch>& batches, Camera* camera, bool 
                 ShaderVariation* ps = FindShaderVariation(ShaderStage::PS, pass, lights ? lights->_psBits : 0);
 
 				// Test Shader for this lot
-				//const char* cVs = vs->Parent()->GetSourceCode().CString();
-				//const char* cPs = ps->Parent()->GetSourceCode().CString();
+				const char* cVs = vs->Parent()->GetSourceCode().CString();
+				const char* cPs = ps->Parent()->GetSourceCode().CString();
 
 				_graphics->SetShaders(vs, ps);
 
@@ -948,14 +949,14 @@ void Renderer::RenderBatches(const Vector<Batch>& batches, Camera* camera, bool 
                 // Apply object render state
                 if (geometry->_constantBuffers[ShaderStage::VS])
                     _graphics->SetConstantBuffer(ShaderStage::VS, RendererConstantBuffer::OBJECT, geometry->_constantBuffers[ShaderStage::VS].Get());
-                else if (!instanced)
+				else if (!instanced)
                 {
                     _vsObjectConstantBuffer->SetConstant(VS_OBJECT_WORLD_MATRIX, *batch._worldMatrix);
                     _vsObjectConstantBuffer->Apply();
                     _graphics->SetConstantBuffer(ShaderStage::VS, RendererConstantBuffer::OBJECT, _vsObjectConstantBuffer.Get());
                 }
-                _graphics->SetConstantBuffer(ShaderStage::PS, RendererConstantBuffer::OBJECT, geometry->_constantBuffers[ShaderStage::PS].Get());
-
+				_graphics->SetConstantBuffer(ShaderStage::PS, RendererConstantBuffer::OBJECT, geometry->_constantBuffers[ShaderStage::PS].Get());
+               
                 // Apply light constant buffers and shadow maps
                 if (lights && lights != lastLights)
                 {
@@ -1073,7 +1074,6 @@ void RegisterRendererLibrary()
     Material::RegisterObject();
     Model::RegisterObject();
 	SkyBox::RegisterObject();
-	PBRMaterial::RegisterObject();
 }
 
 }

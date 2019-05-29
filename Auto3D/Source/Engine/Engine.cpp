@@ -125,6 +125,7 @@ void Engine::Exit()
 
 void Engine::Render()
 {
+	PROFILE(Render);
 	// Check renderer render Prepare
 	if (!_graphics || !_renderer || !_renderer2d)
 	{
@@ -132,42 +133,51 @@ void Engine::Render()
 		return;
 	}
 	// Render scene
-	for (auto it = _registeredBox->GetScenes().Begin(); it != _registeredBox->GetScenes().End(); it++)
 	{
-		Scene* scene = *it;
-		Vector<Camera*>& cameras = scene->GetAllCamera();
-		for (auto cameraIt = cameras.Begin(); cameraIt != cameras.End(); ++cameraIt)
+		PROFILE(RenderScene);
+		for (auto it = _registeredBox->GetScenes().Begin(); it != _registeredBox->GetScenes().End(); it++)
 		{
-			Camera* camera = *cameraIt;
-			_renderer->Render(scene, camera);
-			// Update camera aspect ratio based on window size
-			camera->SetAspectRatio((float)Subsystem<Graphics>()->GetWidth() / (float)Subsystem<Graphics>()->GetHeight());
-		}
-	}	
-
-	// Render Renderer2D
-	for (auto it = _registeredBox->GetScene2D().Begin(); it != _registeredBox->GetScene2D().End(); it++)
-	{
-		Scene2D* scene = *it;
-		Vector<Camera2D*>& cameras = scene->GetAllCamera();
-		for (auto cameraIt = cameras.Begin(); cameraIt != cameras.End(); ++cameraIt)
-		{
-			Camera2D* camera = *cameraIt;
-			_renderer2d->Render(scene, camera);
+			Scene* scene = *it;
+			Vector<Camera*>& cameras = scene->GetAllCamera();
+			for (auto cameraIt = cameras.Begin(); cameraIt != cameras.End(); ++cameraIt)
+			{
+				Camera* camera = *cameraIt;
+				_renderer->Render(scene, camera);
+				// Update camera aspect ratio based on window size
+				camera->SetAspectRatio((float)Subsystem<Graphics>()->GetWidth() / (float)Subsystem<Graphics>()->GetHeight());
+			}
 		}
 	}
-
-	_ui->BeginUI();
-
-	// Render UI
-	for (auto it = _registeredBox->GetCanvas().Begin(); it != _registeredBox->GetCanvas().End(); it++)
+	// Render Renderer2D
 	{
-		if ((*it)->IsEnabled())
-			_ui->Render(*it);
+		PROFILE(RenderScene2D);
+		for (auto it = _registeredBox->GetScene2D().Begin(); it != _registeredBox->GetScene2D().End(); it++)
+		{
+			Scene2D* scene = *it;
+			Vector<Camera2D*>& cameras = scene->GetAllCamera();
+			for (auto cameraIt = cameras.Begin(); cameraIt != cameras.End(); ++cameraIt)
+			{
+				Camera2D* camera = *cameraIt;
+				_renderer2d->Render(scene, camera);
+			}
+		}
+	}
+	// Render UI
+	{
+		PROFILE(RenderUI);
+		_ui->BeginUI();
+		for (auto it = _registeredBox->GetCanvas().Begin(); it != _registeredBox->GetCanvas().End(); it++)
+		{
+			if ((*it)->IsEnabled())
+				_ui->Render(*it);
+		}
 	}
 	//Present ui and graphics
-	_ui->Present();
-	_graphics->Present();
+	{
+		PROFILE(RenderPresent);
+		_ui->Present();
+		_graphics->Present();
+	}
 }
 
 

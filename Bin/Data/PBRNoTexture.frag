@@ -1,28 +1,24 @@
 #version 150
 
 #include "CommonCode.frag"
-#include "BRDF.frag"
 #include "math.glsl"
+//#include "BRDF.frag"
+
+
+layout(std140) uniform MaterialPS3
+{
+    vec3 albedo;
+    float metallic;
+	float roughness;
+	float ao;
+};
 
 in vec4 vWorldPos;
 in vec3 vNormal;
 in vec2 vTexCoord;
 
-out vec4 FragColor;    
+out vec4 fragColor;    
 
-layout(std140) uniform material
-{
-	vec3 albedo;
-	float metallic;
-	float roughness;
-	float ao;
-};
-
-// lights
-uniform vec3 lightPositions[4];
-uniform vec3 lightColors[4];
-
-uniform vec3 camPos; 
 
 // ----------------------------------------------------------------------------
 float DistributionGGX(vec3 N, vec3 H, float roughness) 
@@ -34,7 +30,7 @@ float DistributionGGX(vec3 N, vec3 H, float roughness)
 
     float nom   = a2;							
     float denom = (NdotH2 * (a2 - 1.0) + 1.0);	
-    denom = PI * denom * denom;					 
+    denom = M_PI * denom * denom;					 
 
     return nom / max(denom, 0.001); 
 }
@@ -67,24 +63,29 @@ vec3 fresnelSchlick(float cosTheta, vec3 F0)
 // ----------------------------------------------------------------------------
 void main()
 {		
-    vec3 N = normalize(Normal);	
-    vec3 V = normalize(camPos - WorldPos); 
+	vec3 worldPos = vec3(vWorldPos);
+	//fragColor = vec4(worldPos, 1.0);
+	
+	
+    vec3 N = normalize(vNormal);	
+    vec3 V = normalize(viewPosition - worldPos); 
 
 
 	vec3 F0 = vec3(0.04); 
 	F0 = mix(F0, albedo, metallic);
 
 	vec3 Lo = vec3(0.0);
-	for(int i = 0; i < 4; ++i)			
+	for(int i = 0; i < 1; ++i)			
 	{
-		// calculate per-light radiance
-		vec3 L = normalize(lightPositions[i] - WorldPos);	 
-		vec3 H = normalize(V + L);							
-		float distance = length(lightPositions[i] - WorldPos);	
-		float attenuation = 1.0 / (distance * distance);
-		vec3 radiance = lightColors[i] * attenuation;
+		vec3 lightPosition = vec3(lightPositions[i]);
+		vec3 lightColor = vec3(lightColors[i]);
 
-		// Cook-Torrance BRDF 
+		vec3 L = normalize(lightPosition - worldPos);	 
+		vec3 H = normalize(V + L);							
+		float distance = length(lightPosition - worldPos);	
+		float attenuation = 1.0 / (distance * distance);
+		vec3 radiance = lightColor * attenuation;
+
 		float NDF = DistributionGGX(N, H, roughness);
 		float G   = GeometrySmith(N, V, L, roughness);
 		vec3 F    = fresnelSchlick(clamp(dot(H, V), 0.0, 1.0), F0);
@@ -103,17 +104,16 @@ void main()
 		float NdotL = max(dot(N, L), 0.0);        
 
 	
-		Lo += (kD * albedo / PI + specular) * radiance * NdotL;  // note that we already multiplied the BRDF by the Fresnel (kS) so we won't multiply by kS again
+		Lo += (kD * albedo / M_PI + specular) * radiance * NdotL;  // note that we already multiplied the BRDF by the Fresnel (kS) so we won't multiply by kS again
 	}   
 
     vec3 ambient = vec3(0.03) * albedo * ao;
 
     vec3 color = ambient + Lo;
 
-    // HDR tonemapping
     color = color / (color + vec3(1.0));
-    // gamma correct
+	
     color = pow(color, vec3(1.0/2.2)); 
 
-    FragColor = vec4(color, 1.0);
+    fragColor = vec4(color, 1.0);
 }

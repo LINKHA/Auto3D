@@ -44,7 +44,6 @@ void AudioSample::Start()
 
 	scene = new Scene();
 	scene->CreateChild<Octree>();
-	camera = scene->CreateChild<Camera>();
 	auto sound = cache->LoadResource<Sound>("SoundTest.wav");
 	listener = scene->CreateChild<AudioListener>();
 

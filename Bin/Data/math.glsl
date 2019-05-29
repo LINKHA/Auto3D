@@ -1,1 +1,1 @@
-const float PI = 3.14159265359;
+const float M_PI = 3.14159265359;

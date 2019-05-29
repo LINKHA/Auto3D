@@ -1,9 +1,15 @@
 layout(std140) uniform PerFramePS0
 {
     vec3 ambientColor;
+	vec3 viewPosition;
 };
 
-layout(std140) uniform LightsPS3
+layout(std140) uniform PerObjectPS1
+{
+    mat3x4 worldPosition;
+};
+
+layout(std140) uniform LightsPS2
 {
     vec4 lightPositions[4];
     vec4 lightDirections[4];

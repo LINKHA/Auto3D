@@ -10,15 +10,37 @@
       "blendMode": "replace",
       "fillMode": "solid",
       "cullMode": "back"
+    },
+	"opaqueadd": {
+      "vs": "PBRNoTexture",
+      "ps": "PBRNoTexture",
+      "depthFunc": "lessEqual",
+      "depthWrite": false,
+      "depthClip": true,
+      "alphaToCoverage": false,
+      "blendMode": "add",
+      "fillMode": "solid",
+      "cullMode": "back"
+    },
+	"shadow": {
+      "vs": "Shadow",
+      "ps": "Shadow",
+      "depthFunc": "lessEqual",
+      "depthWrite": true,
+      "depthClip": true,
+      "alphaToCoverage": false,
+      "blendMode": "replace",
+      "colorWriteMask": 0,
+      "fillMode": "solid",
+      "cullMode": "back"
     }
   },
-  "vsConstantBuffer": {
+  "psConstantBuffer": {
 	"constants":[
-		{ "type":"vector3" , "name":"albedo" , "value": vec3(1.1,2.2,3.3) } ,
-		{ "type":"float" , "name":"metallic" , "value": 1} ,
-		{ "type":"float" , "name":"roughness" , "value": 5.0 } ,
-		{ "type":"float" , "name":"ao" , "value": 3.1} 
+		{ "type":"vector3" , "name":"albedo" , "value": vec3(0.5,0.0,0.0) } ,
+		{ "type":"float" , "name":"metallic" , "value": 0.5} ,
+		{ "type":"float" , "name":"roughness" , "value": 0.5} ,
+		{ "type":"float" , "name":"ao" , "value": 1.1} 
 	]
-		
   }
 }

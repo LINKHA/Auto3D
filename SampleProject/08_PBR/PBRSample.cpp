@@ -19,16 +19,27 @@ void PBRSample::Start()
 	scene = new Scene();
 	scene->CreateChild<Octree>();
 	camera = scene->CreateChild<Camera>();
-	camera->SetPosition(Vector3F(0.0f, 0.0f, 0.0f));
+	camera->SetPosition(Vector3F(0.0f, 10.0f, -20.0f));
 	camera->SetAmbientColor(Color(0.1f, 0.1f, 0.1f));
 
-	StaticModel* node = scene->CreateChild<StaticModel>();
-	node->SetModel(cache->LoadResource<Model>("Box.mdl"));
-	node->SetMaterial(cache->LoadResource<PBRMaterial>("PBRNoTexture.json"));
+
+	StaticModel* plane = scene->CreateChild<StaticModel>();
+	plane->SetScale(Vector3F(10.0f, 10.0f, 10.0f));
+	plane->SetCastShadows(true);
+	plane->SetModel(cache->LoadResource<Model>("Sphere.mdl"));
+	plane->SetMaterial(cache->LoadResource<Material>("PBRNoTexture.json"));
+
+	
+	Light* light = scene->CreateChild<Light>();
+	light->SetLightType(LightType::POINT);
+	light->SetCastShadows(true);
+	light->SetColor(Color(500.0f, 500.0f, 500.0f));
+	light->SetRange(100.0f);
+	light->SetPosition(Vector3F(-10.0f, 10.0f, 10.0f));
+	
 }
 void PBRSample::Update()
 {
-
 	Super::Update();
 	auto* input = Object::Subsystem<Input>();
 	auto* graphics = Object::Subsystem<Graphics>();
@@ -54,7 +65,7 @@ void PBRSample::Update()
 
 void PBRSample::Stop()
 {
-	Super::Stop();
+	//Super::Stop();
 }
 
 AUTO_APPLICATION_MAIN(PBRSample)
