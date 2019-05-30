@@ -1,3 +1,4 @@
+const float M_PI = 3.14159265359;
 //Schlick Fresnel
 //specular  = the rgb specular color value of the pixel
 //VdotH     = the dot product of the camera view direction and the half vector 

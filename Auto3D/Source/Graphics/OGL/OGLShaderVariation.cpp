@@ -11,10 +11,10 @@
 namespace Auto3D
 {
 
-ShaderVariation::ShaderVariation(Shader* parent_, const String& defines) :
+ShaderVariation::ShaderVariation(Shader* parent, const String& defines) :
     _shader(0),
-    _parent(parent_),
-    _stage(_parent->GetStage()),
+    _parent(parent),
+    _stage(parent->GetStage()),
     _defines(defines),
     _compiled(false)
 {

@@ -25,6 +25,66 @@ uniform sampler2DShadow shadowMap8[4];
 uniform samplerCube faceSelectionTex12;
 uniform samplerCube faceSelectionTex13;
 
+int GetPointLightNum()
+{
+	int lightNum = 0;
+	#ifdef POINTLIGHT0
+	lightNum++;
+	#endif
+	#ifdef POINTLIGHT1
+	lightNum++;
+	#endif
+	#ifdef POINTLIGHT2
+	lightNum++;
+	#endif
+	#ifdef POINTLIGHT3
+	lightNum++;
+	#endif
+	return lightNum;
+}
+
+int GetSpotLightNum()
+{
+	int lightNum = 0;
+	#ifdef SPOTLIGHT0
+	lightNum++;
+	#endif
+	#ifdef SPOTLIGHT1
+	lightNum++;
+	#endif
+	#ifdef SPOTLIGHT2
+	lightNum++;
+	#endif
+	#ifdef SPOTLIGHT3
+	lightNum++;
+	#endif
+	return lightNum;
+}
+
+int GetDirLightNum()
+{
+	int lightNum = 0;
+	#ifdef DIRLIGHT0
+	lightNum++;
+	#endif
+	#ifdef DIRLIGHT1
+	lightNum++;
+	#endif
+	#ifdef DIRLIGHT2
+	lightNum++;
+	#endif
+	#ifdef DIRLIGHT3
+	lightNum++;
+	#endif
+	return lightNum;
+}
+
+int GetLightNum()
+{
+	int lightNum = GetDirLightNum() + GetSpotLightNum() + GetPointLightNum();
+	return lightNum;
+}
+
 float SampleShadowMap(int index, vec4 shadowPos)
 {
     vec4 offsets1 = vec4(shadowParameters[index].xy * shadowPos.w, 0, 0);
@@ -245,3 +305,4 @@ vec4 CalculateLighting(vec4 worldPos, vec3 normal)
 
     return totalLight;
 }
+

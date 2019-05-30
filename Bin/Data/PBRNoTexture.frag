@@ -1,8 +1,7 @@
 #version 150
 
 #include "CommonCode.frag"
-#include "math.glsl"
-//#include "BRDF.frag"
+#include "BRDF.frag"
 
 
 layout(std140) uniform MaterialPS3
@@ -75,7 +74,10 @@ void main()
 	F0 = mix(F0, albedo, metallic);
 
 	vec3 Lo = vec3(0.0);
-	for(int i = 0; i < 1; ++i)			
+	
+	int lightNum = GetLightNum();
+	
+	for(int i = 0; i < lightNum; ++i)			
 	{
 		vec3 lightPosition = vec3(lightPositions[i]);
 		vec3 lightColor = vec3(lightColors[i]);
@@ -104,7 +106,7 @@ void main()
 		float NdotL = max(dot(N, L), 0.0);        
 
 	
-		Lo += (kD * albedo / M_PI + specular) * radiance * NdotL;  // note that we already multiplied the BRDF by the Fresnel (kS) so we won't multiply by kS again
+		Lo += (kD * albedo / M_PI + specular) * radiance * NdotL;  
 	}   
 
     vec3 ambient = vec3(0.03) * albedo * ao;

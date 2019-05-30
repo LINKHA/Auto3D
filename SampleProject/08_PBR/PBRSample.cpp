@@ -35,7 +35,28 @@ void PBRSample::Start()
 	light->SetCastShadows(true);
 	light->SetColor(Color(500.0f, 500.0f, 500.0f));
 	light->SetRange(100.0f);
-	light->SetPosition(Vector3F(-10.0f, 10.0f, 10.0f));
+	light->SetPosition(Vector3F(-10.0f, 10.0f, -10.0f));
+
+	Light* light2 = scene->CreateChild<Light>();
+	light2->SetLightType(LightType::POINT);
+	light2->SetCastShadows(true);
+	light2->SetColor(Color(500.0f, 500.0f, 500.0f));
+	light2->SetRange(100.0f);
+	light2->SetPosition(Vector3F(10.0f, 10.0f, -10.0f));
+
+	Light* light3 = scene->CreateChild<Light>();
+	light3->SetLightType(LightType::POINT);
+	light3->SetCastShadows(true);
+	light3->SetColor(Color(500.0f, 500.0f, 500.0f));
+	light3->SetRange(100.0f);
+	light3->SetPosition(Vector3F(-10.0f, -10.0f, -10.0f));
+
+	Light* light4 = scene->CreateChild<Light>();
+	light4->SetLightType(LightType::POINT);
+	light4->SetCastShadows(true);
+	light4->SetColor(Color(500.0f, 500.0f, 500.0f));
+	light4->SetRange(100.0f);
+	light4->SetPosition(Vector3F(10.0f, -10.0f, -10.0f));
 	
 }
 void PBRSample::Update()
@@ -65,7 +86,7 @@ void PBRSample::Update()
 
 void PBRSample::Stop()
 {
-	//Super::Stop();
+	Super::Stop();
 }
 
 AUTO_APPLICATION_MAIN(PBRSample)
