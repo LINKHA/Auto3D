@@ -3,30 +3,30 @@
 #include "CommonCode.frag"
 #include "BRDF.frag"
 
-
-// material parameters
-uniform sampler2D albedoMap;
-uniform sampler2D normalMap;
-uniform sampler2D metallicMap;
-uniform sampler2D roughnessMap;
-uniform sampler2D aoMap;
-
 in vec4 vWorldPos;
 in vec3 vNormal;
+in vec4 vTangent;
 in vec2 vTexCoord;
+
+// material parameters
+uniform sampler2D albedoMap0;
+uniform sampler2D normalMap1;
+uniform sampler2D metallicMap2;
+uniform sampler2D roughnessMap3;
+uniform sampler2D aoMap4;
 
 out vec4 fragColor;    
 
-vec3 getNormalFromMap()
+vec3 getNormalFromMap(sampler2D normalMap,vec2 texCoord,vec3 normal,vec4 worldPos)
 {
-    vec3 tangentNormal = texture(normalMap, vTexCoord).xyz * 2.0 - 1.0;
+    vec3 tangentNormal = texture(normalMap, texCoord).xyz * 2.0 - 1.0;
 
-    vec3 Q1  = dFdx(vec3(vWorldPos));
-    vec3 Q2  = dFdy(vec3(vWorldPos));
-    vec2 st1 = dFdx(vTexCoord);
-    vec2 st2 = dFdy(vTexCoord);
+    vec3 Q1  = dFdx(vec3(worldPos));
+    vec3 Q2  = dFdy(vec3(worldPos));
+    vec2 st1 = dFdx(texCoord);
+    vec2 st2 = dFdy(texCoord);
 
-    vec3 N   = normalize(vNormal);
+    vec3 N   = normalize(normal);
     vec3 T  = normalize(Q1*st2.t - Q2*st1.t);
     vec3 B  = -normalize(cross(N, T));
     mat3 TBN = mat3(T, B, N);
@@ -36,13 +36,13 @@ vec3 getNormalFromMap()
 
 void main()
 {		
-	vec3 albedo     = pow(texture(albedoMap, vTexCoord).rgb, vec3(2.2));
-    float metallic  = texture(metallicMap, vTexCoord).r;
-    float roughness = texture(roughnessMap, vTexCoord).r;
-    float ao        = texture(aoMap, vTexCoord).r;
+	vec3 albedo     = pow(texture(albedoMap0, vTexCoord).rgb, vec3(2.2));
+    float metallic  = texture(metallicMap2, vTexCoord).r;
+    float roughness = texture(roughnessMap3, vTexCoord).r;
+    float ao        = texture(aoMap4, vTexCoord).r;
 
 	vec3 worldPos = vec3(vWorldPos);
-    vec3 normal = getNormalFromMap();	
+    vec3 normal = getNormalFromMap(normalMap1,vTexCoord,vNormal,vWorldPos);	
     vec3 viewVec = normalize(viewPosition - worldPos); 
 
 	vec3 Lo = vec3(0.0);

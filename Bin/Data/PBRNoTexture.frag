@@ -15,9 +15,11 @@ layout(std140) uniform MaterialPS3
 in vec4 vWorldPos;
 in vec3 vNormal;
 in vec2 vTexCoord;
+#ifdef NUMSHADOWCOORDS
+in vec4 vShadowPos[NUMSHADOWCOORDS];
+#endif
 
-out vec4 fragColor;    
-
+out vec4 fragColor;
 
 void main()
 {		

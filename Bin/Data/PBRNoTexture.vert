@@ -10,10 +10,14 @@ in vec4 texCoord4;
 in vec4 texCoord5;
 in vec4 texCoord6;
 #endif
+
 out vec4 vWorldPos;
 out vec3 vNormal;
 out vec2 vTexCoord;
 
+#ifdef NUMSHADOWCOORDS
+out vec4 vShadowPos[NUMSHADOWCOORDS];
+#endif
 
 void main()
 {
@@ -29,4 +33,8 @@ void main()
     gl_Position = vec4(vWorldPos.xyz, 1.0) * viewProjMatrix;
     vWorldPos.w = CalculateDepth(gl_Position);
     vTexCoord = texCoord;
+    #ifdef NUMSHADOWCOORDS
+    for (int i = 0; i < NUMSHADOWCOORDS; ++i)
+        vShadowPos[i] = vec4(vWorldPos, 1.0) * shadowMatrices[i];
+    #endif
 }

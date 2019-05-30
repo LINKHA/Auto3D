@@ -20,15 +20,21 @@ void PBRSample::Start()
 	scene->CreateChild<Octree>();
 	camera = scene->CreateChild<Camera>();
 	camera->SetPosition(Vector3F(0.0f, 10.0f, -20.0f));
-	camera->SetAmbientColor(Color(0.1f, 0.1f, 0.1f));
+	camera->SetAmbientColor(Color(1.0f, 0.1f, 0.1f));
 
+	StaticModel* sphere = scene->CreateChild<StaticModel>();
+	sphere->SetPosition(Vector3F(5.0f, 5.0f, 0.0f));
+	sphere->SetScale(Vector3F(2.0f, 2.0f,2.0f));
+	sphere->SetCastShadows(true);
+	sphere->SetModel(cache->LoadResource<Model>("Sphere.mdl"));
+	sphere->SetMaterial(cache->LoadResource<Material>("PBRNoTexture.json"));
 
-	StaticModel* plane = scene->CreateChild<StaticModel>();
-	plane->SetScale(Vector3F(10.0f, 10.0f, 10.0f));
-	plane->SetCastShadows(true);
-	plane->SetModel(cache->LoadResource<Model>("Sphere.mdl"));
-	plane->SetMaterial(cache->LoadResource<Material>("PBRNoTexture.json"));
-	//plane->SetMaterial(cache->LoadResource<Material>("PBRTexture.json"));
+	StaticModel* TeaPot = scene->CreateChild<StaticModel>();
+	TeaPot->SetPosition(Vector3F(-5.0f, 0.0f, 0.0f));
+	TeaPot->SetScale(Vector3F(10.0f, 10.0f, 10.0f));
+	TeaPot->SetCastShadows(true);
+	TeaPot->SetModel(cache->LoadResource<Model>("TeaPot.mdl"));
+	TeaPot->SetMaterial(cache->LoadResource<Material>("PBRTexture.json"));
 
 
 	Light* light = scene->CreateChild<Light>();
@@ -37,7 +43,6 @@ void PBRSample::Start()
 	light->SetColor(Color(500.0f, 500.0f, 500.0f));
 	light->SetRange(100.0f);
 	light->SetPosition(Vector3F(-10.0f, 10.0f, -10.0f));
-	light->SetShadowMapSize(256);
 
 	Light* light2 = scene->CreateChild<Light>();
 	light2->SetLightType(LightType::POINT);
