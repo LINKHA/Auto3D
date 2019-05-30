@@ -31,36 +31,49 @@ vec3 SchlickFresnelCustom(vec3 specular, float LdotH)
 //VdotH     = the dot product of the camera view direction and the half vector 
 vec3 Fresnel(vec3 specular, float VdotH, float LdotH)
 {
-	return SchlickFresnelCustom(specular, LdotH);
-	//return SchlickFresnel(specular, VdotH);
+	//return SchlickFresnelCustom(specular, LdotH);
+	return SchlickFresnel(specular, VdotH);
 }
 
-// Smith GGX corrected Visibility
+// GGX corrected Geometry
+// NdotV        = the dot product of the normal and the camera view direction
+// roughness    = the roughness of the pixel
+float GeometrySchlickGGX(float NdotV, float roughness) 
+{
+    float r = (roughness + 1.0);
+    float k = (r*r) / 8.0;
+
+    float nom   = NdotV;
+    float denom = NdotV * (1.0 - k) + k;
+
+    return nom / denom;
+}
+
+// Smith GGX corrected Geometry
 // NdotL        = the dot product of the normal and direction to the light
 // NdotV        = the dot product of the normal and the camera view direction
 // roughness    = the roughness of the pixel
-float SmithGGXSchlickVisibility(float NdotL, float NdotV, float roughness)
+float SmithGGXSchlickGeometry(float NdotL, float NdotV, float roughness)
 {
-	float rough2 = roughness * roughness;
-	float lambdaV = NdotL  * sqrt((-NdotV * rough2 + NdotV) * NdotV + rough2);   
-	float lambdaL = NdotV  * sqrt((-NdotL * rough2 + NdotL) * NdotL + rough2);
+	float ggx2 = GeometrySchlickGGX(NdotV, roughness);
+    float ggx1 = GeometrySchlickGGX(NdotL, roughness);
 
-	return 0.5 / (lambdaV + lambdaL);
+    return ggx1 * ggx2;
 }
 
-float NeumannVisibility(float NdotV, float NdotL) 
+float NeumannGeometry(float NdotV, float NdotL) 
 {
 	return NdotL * NdotV / max(1e-7, max(NdotL, NdotV));
 }
 
-// Get Visibility
+// Get Geometry
 // NdotL        = the dot product of the normal and direction to the light
 // NdotV        = the dot product of the normal and the camera view direction
 // roughness    = the roughness of the pixel
-float Visibility(float NdotL, float NdotV, float roughness)
+float Geometry(float NdotL, float NdotV, float roughness)
 {
-	return NeumannVisibility(NdotV, NdotL);
-	//return SmithGGXSchlickVisibility(NdotL, NdotV, roughness);
+	//return NeumannGeometry(NdotV, NdotL);
+	return SmithGGXSchlickGeometry(NdotL, NdotV, roughness);
 }
 
 // Blinn Distribution
@@ -89,9 +102,16 @@ float BeckmannDistribution(in float NdotH, in float roughness)
 // roughness    = the roughness of the pixel
 float GGXDistribution(float NdotH, float roughness)
 {
-	float rough2 = roughness * roughness;
-	float tmp =  (NdotH * rough2 - NdotH) * NdotH + 1.0;
-	return rough2 / (tmp * tmp);
+	float a = roughness*roughness;	
+    float a2 = a*a;							
+   			
+    float NdotH2 = NdotH*NdotH;				
+
+    float nom   = a2;							
+    float denom = (NdotH2 * (a2 - 1.0) + 1.0);	
+    denom = M_PI * denom * denom;					 
+
+    return nom / max(denom, 0.001); 
 }
 
 // Get Distribution
@@ -153,4 +173,48 @@ vec3 Diffuse(vec3 diffuseColor, float roughness, float NdotV, float NdotL, float
 	//return LambertianDiffuse(diffuseColor);
 	return CustomLambertianDiffuse(diffuseColor, NdotV, roughness);
 	//return BurleyDiffuse(diffuseColor, roughness, NdotV, NdotL, VdotH);
+}
+
+
+//Get BRDF
+//Formula kD*(c/PI) + kS*(Distribution*Fresnel*Geometry)/(4*w0*n)(wi*n)
+// lightVec 	= the rgb color value of the light
+// viewVec    	= the view vec3
+// normal       = the normal
+// lightColor   = the light color
+// distance     = the light to model distance
+// albedo		= the model albedo
+// metallic		= the model metallic
+// roughness	= the model roughness
+vec3 GetBRDF(vec3 lightVec,vec3 viewVec,vec3 normal,vec3 lightColor,float distance, vec3 albedo,float metallic,float roughness)
+{
+	vec3 F0 = vec3(0.04); 
+	F0 = mix(F0, albedo, metallic);
+	vec3 half = normalize(viewVec + lightVec);
+	float attenuation = 1.0 / (distance * distance);
+	
+	float VdotH = clamp(dot(half, viewVec), 0.0, 1.0);
+	float LdotH = clamp(dot(half, lightVec), 0.0, 1.0);
+	float NdotL = max(dot(normal, lightVec), 0.0);
+	float NdotV = max(dot(viewVec, normal), 0.0);
+	float NdotH = max(dot(normal, half), 0.0);	
+	
+	
+	vec3 radiance = lightColor * attenuation;
+	
+	float distributionValue = Distribution(NdotH,roughness);
+	float geometryValue = Geometry(NdotL,NdotV,roughness);
+	vec3 fresnelValue = Fresnel(F0,VdotH,LdotH);
+	   
+	vec3 nominator    = distributionValue * geometryValue * fresnelValue;
+	float denominator = 4 * max(dot(normal, viewVec), 0.0) * max(dot(normal, lightVec), 0.0);
+	vec3 specular = nominator / max(denominator, 0.001);
+
+	vec3 kS = fresnelValue;
+	
+	vec3 kD = vec3(1.0) - kS;
+
+	kD *= 1.0 - metallic;	  
+
+	return (kD * albedo / M_PI + specular) * radiance * NdotL;  
 }
