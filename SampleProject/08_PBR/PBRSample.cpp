@@ -28,21 +28,21 @@ void PBRSample::Start()
 	plane->SetCastShadows(true);
 	plane->SetModel(cache->LoadResource<Model>("Sphere.mdl"));
 	plane->SetMaterial(cache->LoadResource<Material>("PBRNoTexture.json"));
+	//plane->SetMaterial(cache->LoadResource<Material>("PBRTexture.json"));
 
-	
+
 	Light* light = scene->CreateChild<Light>();
 	light->SetLightType(LightType::POINT);
 	light->SetCastShadows(true);
 	light->SetColor(Color(500.0f, 500.0f, 500.0f));
-	//light->SetColor(Color(100.0f, 100.0f, 100.0f));
 	light->SetRange(100.0f);
 	light->SetPosition(Vector3F(-10.0f, 10.0f, -10.0f));
+	light->SetShadowMapSize(256);
 
 	Light* light2 = scene->CreateChild<Light>();
 	light2->SetLightType(LightType::POINT);
 	light2->SetCastShadows(true);
 	light2->SetColor(Color(500.0f, 500.0f, 500.0f));
-	//light2->SetColor(Color(5.0f, 5.0f, 5.0f));
 	light2->SetRange(100.0f);
 	light2->SetPosition(Vector3F(10.0f, 10.0f, -10.0f));
 
@@ -50,7 +50,6 @@ void PBRSample::Start()
 	light3->SetLightType(LightType::POINT);
 	light3->SetCastShadows(true);
 	light3->SetColor(Color(500.0f, 500.0f, 500.0f));
-	//light3->SetColor(Color(5.0f, 5.0f, 5.0f));
 	light3->SetRange(100.0f);
 	light3->SetPosition(Vector3F(-10.0f, -10.0f, -10.0f));
 
@@ -58,7 +57,6 @@ void PBRSample::Start()
 	light4->SetLightType(LightType::POINT);
 	light4->SetCastShadows(true);
 	light4->SetColor(Color(500.0f, 500.0f, 500.0f));
-	//light4->SetColor(Color(5.0f, 5.0f, 5.0f));
 	light4->SetRange(100.0f);
 	light4->SetPosition(Vector3F(10.0f, -10.0f, -10.0f));
 	

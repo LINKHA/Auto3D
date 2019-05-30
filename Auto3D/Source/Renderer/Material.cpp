@@ -437,7 +437,7 @@ Material* Material::DefaultMaterial()
         pass->_depthWrite = false;
 
         pass = _defaultMaterial->CreatePass("shadow");
-        pass->SetShaders("ShadowMap", "ShadowMap");
+        pass->SetShaders("Shadow", "Shadow");
         pass->_colorWriteMask = COLORMASK_NONE;
     }
 
