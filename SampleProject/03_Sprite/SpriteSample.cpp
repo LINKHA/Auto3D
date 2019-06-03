@@ -17,12 +17,8 @@ void SpriteSample::Start()
 		flower->SetTexture(cache->LoadResource<Texture>("flower.png"));
 		flower->SetPosition(Vector3F(RandomSignedFloat()*10.0f, RandomSignedFloat()*10.0f, -0.1f));
 		flower->SetScale(Vector3F(1.0f, 1.0f, 1.0f));
-		sprites.Push(Pair<FlowerMSG, Sprite2D*>(FlowerMSG(Random() * 5, RandomSignedFloat()) , flower));
+		sprites.Push(Pair<FlowerMSG, Sprite2D*>(FlowerMSG(Random() * 5, RandomSignedFloat()), flower));
 	}
-
-	/*Sprite2D* sprite = scene2d->CreateChild<Sprite2D>();
-	sprite->SetScale(10.0f);
-	sprite->SetTexture(cache->LoadResource<Texture>("Mt-Washington-Gold-Room_Ref.hdr"));*/
 }
 void SpriteSample::Update()
 {

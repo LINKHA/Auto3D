@@ -36,6 +36,8 @@ void PBRSample::Start()
 	TeaPot->SetModel(cache->LoadResource<Model>("TeaPot.mdl"));
 	TeaPot->SetMaterial(cache->LoadResource<Material>("PBRTexture.json"));
 
+	//SkyBox* skybox = scene->CreateChild<SkyBox>();
+	//skybox->SetMaterial(cache->LoadResource<Material>("HdrSkyBox.json"));
 
 	Light* light = scene->CreateChild<Light>();
 	light->SetLightType(LightType::POINT);

@@ -1,8 +1,8 @@
 {
   "passes": {
     "opaque": {
-      "vs": "SkyBox",
-      "ps": "SkyBox",
+      "vs": "HdrSkyBox",
+      "ps": "HdrSkyBox",
       "depthFunc": "lessEqual",
 	  "blendMode": "replace",
 	  "cullMode": "front"

@@ -1,6 +1,7 @@
 #include "OGLGraphicsUtils.h"
 #include "OGLGraphics.h"
 #include "../Shader.h"
+#include "../Texture.h"
 #include "../../Base/String.h"
 #include "../../Debug/Log.h"
 #include "../../Math/KhMath.h"
@@ -129,22 +130,11 @@ Texture* Texture2DtoTextureCube(Texture* texture2D)
 	glGenFramebuffers(1, &tempFrameBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, tempFrameBuffer);
 
+	Texture* textureCube = new Texture();
+	textureCube->Define(TextureType::TEX_CUBE, ResourceUsage::DEFAULT, texture2D->GetSize(), texture2D->GetFormat(), 1);
+	textureCube->DefineSampler(TextureFilterMode::COMPARE_TRILINEAR, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP);
+	textureCube->SetDataLost(false);
 
-
-	// pbr: setup cubemap to render to and attach to framebuffer
-	// ---------------------------------------------------------
-	unsigned int envCubemap;
-	glGenTextures(1, &envCubemap);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, envCubemap);
-	for (unsigned int i = 0; i < 6; ++i)
-	{
-		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F, 512, 512, 0, GL_RGB, GL_FLOAT, nullptr);
-	}
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	// pbr: set up projection and view matrices for capturing data onto the 6 cubemap face directions
 	Matrix4x4F captureProjection = Perspective<float>(90.0f * M_DEG, 1.0f, 0.1f, 10.0f);
 	Matrix4x4F captureViews[] =
@@ -169,12 +159,14 @@ Texture* Texture2DtoTextureCube(Texture* texture2D)
 	for (unsigned int i = 0; i < 6; ++i)
 	{
 		shaderPro.SetMat4("view", captureViews[i]);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, envCubemap, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, textureCube->GetGLTexture(), 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		renderCube();
 	}
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	return textureCube;
 }
 
 }

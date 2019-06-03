@@ -1,10 +1,12 @@
 #include "../Debug/Profiler.h"
+#include "../Graphics/GraphicsUtils.h"
 #include "../Graphics/ConstantBuffer.h"
 #include "../Graphics/ShaderVariation.h"
 #include "../Graphics/Shader.h"
 #include "../Graphics/Texture.h"
 #include "../Resource/JSONFile.h"
 #include "../Resource/ResourceCache.h"
+
 #include "Material.h"
 
 #include "../Debug/DebugNew.h"
@@ -287,12 +289,10 @@ bool Material::EndLoad()
 		for (auto it = jsonTextures.Begin(); it != jsonTextures.End(); ++it)
 		{
 			Texture* texture = cache->LoadResource<Texture>(it->_second.GetString());
-			Texture* textureCube = new Texture();
 			
+			Texture* textureCube = Texture2DtoTextureCube(texture);
+			SetTexture(it->_first.ToInt(), textureCube);
 		}
-			
-
-		
 	}
     _loadJSON.Reset();
     return true;
