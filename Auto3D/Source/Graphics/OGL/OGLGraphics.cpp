@@ -161,6 +161,26 @@ public:
     bool firstUse;
 };
 
+/// OpenGL renderbuffer.
+class Renderbuffer
+{
+public:
+	/// Construct.
+	Renderbuffer()
+	{
+		glGenFramebuffers(1, &buffer);
+	}
+
+	/// Destruct.
+	~Renderbuffer()
+	{
+		glDeleteFramebuffers(1, &buffer);
+	}
+
+	/// OpenGL FBO _handle.
+	unsigned buffer;
+};
+
 Graphics::Graphics() :
     _backbufferSize(Vector2I::ZERO),
     _renderTargetSize(Vector2I::ZERO),

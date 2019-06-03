@@ -223,6 +223,7 @@ bool Material::EndLoad()
 
     const JSONValue& root = _loadJSON->Root();
 
+
     _passes.Clear();
     if (root.Contains("passes"))
     {
@@ -250,16 +251,17 @@ bool Material::EndLoad()
     
     /// \todo Queue texture loads during BeginLoad()
     ResetTextures();
+
+	ResourceCache* cache = Subsystem<ResourceCache>();
+
     if (root.Contains("textures"))
     {
-        ResourceCache* cache = Subsystem<ResourceCache>();
         const JSONObject& jsonTextures = root["textures"].GetObject();
         for (auto it = jsonTextures.Begin(); it != jsonTextures.End(); ++it)
             SetTexture(it->_first.ToInt(), cache->LoadResource<Texture>(it->_second.GetString()));
     }
 	if (root.Contains("texturesMap"))
 	{
-		ResourceCache* cache = Subsystem<ResourceCache>();
 		const JSONObject& jsonTextures = root["texturesMap"].GetObject();
 		Vector<Image*> imageData;
 		Vector<ImageLevel> faces;
@@ -278,6 +280,18 @@ bool Material::EndLoad()
 		textureCube->DefineSampler(TextureFilterMode::COMPARE_TRILINEAR, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP);
 		textureCube->SetDataLost(false);
 		SetTexture(jsonTextures.Begin()->_first.ToInt(), textureCube);
+	}
+	if (root.Contains("toCubeMap"))
+	{
+		const JSONObject& jsonTextures = root["toCubeMap"].GetObject();
+		for (auto it = jsonTextures.Begin(); it != jsonTextures.End(); ++it)
+		{
+			Texture* texture = cache->LoadResource<Texture>(it->_second.GetString());
+			Texture* textureCube = new Texture();
+			
+		}
+			
+
 		
 	}
     _loadJSON.Reset();

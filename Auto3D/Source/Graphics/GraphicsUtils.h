@@ -2,8 +2,8 @@
 #include "../AutoConfig.h"
 
 #ifdef AUTO_DIRECT3D_12
-    #include "D3D12/D3D12Graphics.h"
+	#include "D3D12/D3D12GraphicsUtils.h"
 #endif
 #ifdef AUTO_OPENGL
-    #include "OGL/OGLGraphics.h"
+	#include "OGL/OGLGraphicsUtils.h"
 #endif

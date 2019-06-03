@@ -20,6 +20,9 @@ void SpriteSample::Start()
 		sprites.Push(Pair<FlowerMSG, Sprite2D*>(FlowerMSG(Random() * 5, RandomSignedFloat()) , flower));
 	}
 
+	/*Sprite2D* sprite = scene2d->CreateChild<Sprite2D>();
+	sprite->SetScale(10.0f);
+	sprite->SetTexture(cache->LoadResource<Texture>("Mt-Washington-Gold-Room_Ref.hdr"));*/
 }
 void SpriteSample::Update()
 {

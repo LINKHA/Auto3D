@@ -1,0 +1,14 @@
+{
+  "passes": {
+    "opaque": {
+      "vs": "SkyBox",
+      "ps": "SkyBox",
+      "depthFunc": "lessEqual",
+	  "blendMode": "replace",
+	  "cullMode": "front"
+    }
+  },
+  "toCubeMap": {
+    "0": "Mt-Washington-Gold-Room_Ref.hdr"
+  }
+}
