@@ -18,6 +18,11 @@ Application::~Application()
 
 int Application::Run()
 {
+	// Make sure the engine is created properly
+	if (_engine.Null())
+		_engine = new Engine();
+	
+		
 #if !defined(__GNUC__) || __EXCEPTIONS
 	try
 	{
