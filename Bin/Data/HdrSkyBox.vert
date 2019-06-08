@@ -1,22 +1,17 @@
-#version 150
-
+#version 330
 #include "CommonCode.vert"
 
 in vec3 position;
-#ifdef INSTANCED
-in vec4 texCoord4;
-in vec4 texCoord5;
-in vec4 texCoord6;
-#endif
+in vec3 normal;
+in vec4 tangent;
+in vec2 texCoord;
+
+
+out vec3 TexCoords;
 
 void main()
 {
-    #ifdef INSTANCED
-    mat3x4 instanceWorldMatrix = mat3x4(texCoord4, texCoord5, texCoord6);
-    vec3 worldPos = vec4(position, 1.0) * instanceWorldMatrix;
-    #else
-    vec3 worldPos = vec4(position, 1.0) * worldMatrix;
-    #endif
-
-    gl_Position = vec4(worldPos.xyz, 1.0) * viewProjMatrix;
+    TexCoords = position;
+	vec4 pos = vec4(position, 1.0) * mat4(mat3(viewMatrix)) * projectionMatrix;
+    gl_Position = pos.xyww;
 }
