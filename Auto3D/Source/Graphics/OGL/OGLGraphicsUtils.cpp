@@ -1,6 +1,7 @@
 #include "OGLGraphicsUtils.h"
 #include "OGLGraphics.h"
 #include "../Shader.h"
+#include "../ShaderVariation.h"
 #include "../Texture.h"
 #include "../../Base/String.h"
 #include "../../Debug/Log.h"
@@ -10,7 +11,7 @@
 namespace Auto3D
 {
 
-const char* TEXTURE_2D_TO_TEXTURE_CUBE_VS = "#version 330 core\n"
+const char* TEXTURE_2D_TO_TEXTURE_CUBE_VS = "#version 330\n"
 	"layout(location = 0) in vec3 aPos;\n"
 	"out vec3 WorldPos;\n"
 	"uniform mat4 projection;\n"
@@ -21,7 +22,7 @@ const char* TEXTURE_2D_TO_TEXTURE_CUBE_VS = "#version 330 core\n"
 	"	gl_Position = projection * view * vec4(WorldPos, 1.0); \n"
 	"};\0";
 
-const char* TEXTURE_2D_TO_TEXTURE_CUBE_FS = "#version 330 core\n"
+const char* TEXTURE_2D_TO_TEXTURE_CUBE_FS = "#version 330\n"
 	"out vec4 FragColor;\n"
 	"in vec3 WorldPos;\n"
 	"uniform sampler2D equirectangularMap;\n"
@@ -42,13 +43,15 @@ const char* TEXTURE_2D_TO_TEXTURE_CUBE_FS = "#version 330 core\n"
 
 // renderCube() renders a 1x1 3D cube in NDC.
 // -------------------------------------------------
-unsigned int cubeVAO = 0;
+//unsigned int cubeVAO = 0;
 unsigned int cubeVBO = 0;
+bool isDirty = false;
 void renderCube()
 {
 	// initialize (if necessary)
-	if (cubeVAO == 0)
+	if (!isDirty)
 	{
+		isDirty = true;
 		float vertices[] = {
 			// back face
 			-1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
@@ -93,13 +96,11 @@ void renderCube()
 			-1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f, 0.0f, 1.0f, // top-left
 			-1.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f, 0.0f, 0.0f  // bottom-left        
 		};
-		glGenVertexArrays(1, &cubeVAO);
 		glGenBuffers(1, &cubeVBO);
 		// fill buffer
 		glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 		// link vertex attributes
-		glBindVertexArray(cubeVAO);
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(1);
@@ -107,12 +108,8 @@ void renderCube()
 		glEnableVertexAttribArray(2);
 		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
 	}
-	// render Cube
-	glBindVertexArray(cubeVAO);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
-	glBindVertexArray(0);
 }
 
 
@@ -123,15 +120,19 @@ Texture* Texture2DtoTextureCube(Texture* texture2D)
 	
 	Shader fsShader;
 	fsShader.Define(ShaderStage::PS, TEXTURE_2D_TO_TEXTURE_CUBE_FS);
-
-	ShaderProgram shaderPro(vsShader.CreateVariation(), fsShader.CreateVariation());
+	
+	ShaderVariation* vsVar = vsShader.CreateVariation();
+	ShaderVariation* psVar = fsShader.CreateVariation();
+	vsVar->Compile();
+	psVar->Compile();
+	ShaderProgram shaderPro(vsVar, psVar);
 
 	unsigned int tempFrameBuffer;
 	glGenFramebuffers(1, &tempFrameBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, tempFrameBuffer);
 
 	Texture* textureCube = new Texture();
-	textureCube->Define(TextureType::TEX_CUBE, ResourceUsage::DEFAULT, texture2D->GetSize(), texture2D->GetFormat(), 1);
+	textureCube->Define(TextureType::TEX_CUBE, ResourceUsage::DEFAULT, Vector2I(512, 512), texture2D->GetFormat(), 1);
 	textureCube->DefineSampler(TextureFilterMode::COMPARE_TRILINEAR, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP);
 	textureCube->SetDataLost(false);
 
@@ -150,16 +151,17 @@ Texture* Texture2DtoTextureCube(Texture* texture2D)
 	
 	shaderPro.SetInt("equirectangularMap", 0);
 	shaderPro.SetMat4("projection", captureProjection);
+	
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture2D->GetGLTexture());
 
-
+	
 	glViewport(0, 0, 512, 512);
 	glBindFramebuffer(GL_FRAMEBUFFER, tempFrameBuffer);
 	for (unsigned int i = 0; i < 6; ++i)
 	{
 		shaderPro.SetMat4("view", captureViews[i]);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, textureCube->GetGLTexture(), 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, textureCube->_texture, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		renderCube();

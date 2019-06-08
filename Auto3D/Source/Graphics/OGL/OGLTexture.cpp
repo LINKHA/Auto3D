@@ -256,7 +256,7 @@ bool Texture::Define(TextureType::Type type, ResourceUsage::Type usage, const Ve
 		if (initialData)
 		{
 			// Hack for allowing immutable texture to set initial data
-			_usage = ResourceUsage::DEFAULT;
+ 			_usage = ResourceUsage::DEFAULT;
 			size_t idx = 0;
 			for (size_t i = 0; i < GetNumFaces(); ++i)
 			{
