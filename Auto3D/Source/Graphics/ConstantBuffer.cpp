@@ -167,7 +167,7 @@ bool ConstantBuffer::Define(ResourceUsage::Type usage, size_t numConstants, cons
         return true;
 }
 
-bool ConstantBuffer::SetConstant(size_t index, const void* _data, size_t numElements)
+bool ConstantBuffer::SetConstant(size_t index, const void* data, size_t numElements)
 {
     if (index >= _constants.Size())
         return false;
@@ -177,22 +177,22 @@ bool ConstantBuffer::SetConstant(size_t index, const void* _data, size_t numElem
     if (!numElements || numElements > constant._numElements)
         numElements = constant._numElements;
     
-    memcpy(_shadowData.Get() + constant._offset, _data, numElements * constant._elementSize);
+    memcpy(_shadowData.Get() + constant._offset, data, numElements * constant._elementSize);
     _dirty = true;
     return true;
 }
 
-bool ConstantBuffer::SetConstant(const String& name, const void* _data, size_t numElements)
+bool ConstantBuffer::SetConstant(const String& name, const void* data, size_t numElements)
 {
-    return SetConstant(name.CString(), _data, numElements);
+    return SetConstant(name.CString(), data, numElements);
 }
 
-bool ConstantBuffer::SetConstant(const char* name, const void* _data, size_t numElements)
+bool ConstantBuffer::SetConstant(const char* name, const void* data, size_t numElements)
 {
     for (size_t i = 0; i < _constants.Size(); ++i)
     {
         if (_constants[i]._name == name)
-            return SetConstant(i, _data, numElements);
+            return SetConstant(i, data, numElements);
     }
     
     return false;
