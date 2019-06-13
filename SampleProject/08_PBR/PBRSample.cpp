@@ -34,12 +34,12 @@ void PBRSample::Start()
 	TeaPot->SetScale(Vector3F(10.0f, 10.0f, 10.0f));
 	TeaPot->SetCastShadows(true);
 	TeaPot->SetModel(cache->LoadResource<Model>("TeaPot.mdl"));
-	TeaPot->SetMaterial(cache->LoadResource<Material>("PBRTexture.json"));*/
-
+	TeaPot->SetMaterial(cache->LoadResource<Material>("PBRTexture.json"));
+*/
 	SkyBox* skybox = scene->CreateChild<SkyBox>();
 	skybox->SetMaterial(cache->LoadResource<Material>("HdrSkyBox.json"));
-
-	/*Light* light = scene->CreateChild<Light>();
+/*
+	Light* light = scene->CreateChild<Light>();
 	light->SetLightType(LightType::POINT);
 	light->SetCastShadows(true);
 	light->SetColor(Color(500.0f, 500.0f, 500.0f));

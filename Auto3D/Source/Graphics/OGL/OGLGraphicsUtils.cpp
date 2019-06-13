@@ -153,11 +153,11 @@ Texture* Texture2DtoTextureCube(Texture* texture2D)
 	shaderPro.SetMat4("projection", captureProjection);
 	
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture2D->GetGLTexture());
+	glBindTexture(GL_TEXTURE_2D, texture2D->_texture);
 
 	
 	glViewport(0, 0, 512, 512);
-	glBindFramebuffer(GL_FRAMEBUFFER, tempFrameBuffer);
+	//glBindFramebuffer(GL_FRAMEBUFFER, tempFrameBuffer);
 	for (unsigned int i = 0; i < 6; ++i)
 	{
 		shaderPro.SetMat4("view", captureViews[i]);

@@ -284,7 +284,7 @@ bool Material::EndLoad()
 		textureCube->SetDataLost(false);
 		SetTexture(jsonTextures.Begin()->_first.ToInt(), textureCube);
 	}
-	if (root.Contains("toCubeMap"))
+	/*if (root.Contains("toCubeMap"))
 	{
 		const JSONObject& jsonTextures = root["toCubeMap"].GetObject();
 		for (auto it = jsonTextures.Begin(); it != jsonTextures.End(); ++it)
@@ -294,7 +294,7 @@ bool Material::EndLoad()
 			Texture* textureCube = Texture2DtoTextureCube(texture);
 			SetTexture(it->_first.ToInt(), textureCube);
 		}
-	}
+	}*/
     _loadJSON.Reset();
     return true;
 }

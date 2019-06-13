@@ -8,7 +8,12 @@
 	  "cullMode": "front"
     }
   },
-  "toCubeMap": {
-    "0": "Mt-Washington-Gold-Room_Ref.hdr"
+  "texturesMap": {
+    "0": "hdr_env_right.hdr",
+    "1": "hdr_env_left.hdr",
+	"2": "hdr_env_up.hdr",
+    "3": "hdr_env_down.hdr",
+	"4": "hdr_env_front.hdr",
+    "5": "hdr_env_back.hdr"
   }
 }
