@@ -18,9 +18,9 @@ HashMap<String, unsigned char> Material::_passIndices;
 Vector<String> Material::_passNames;
 unsigned char Material::_nextPassIndex = 0;
 
-Pass::Pass(Material* parent_, const String& name_) :
-    _parent(parent_),
-    _name(name_),
+Pass::Pass(Material* parent, const String& name) :
+    _parent(parent),
+    _name(name),
     _shaderHash(0),
     _shadersLoaded(false)
 {
@@ -277,7 +277,6 @@ bool Material::EndLoad()
 		}
 
 		Texture* textureCube = new Texture();
-		textureCube = new Texture();
 		textureCube->Define(TextureType::TEX_CUBE, ResourceUsage::DEFAULT, imageData[0]->GetLevel(0)._size, imageData[0]->GetFormat(), 1, &faces[0]);
 		textureCube->DefineSampler(TextureFilterMode::COMPARE_TRILINEAR, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP);
 		textureCube->SetDataLost(false);

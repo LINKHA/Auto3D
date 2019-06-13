@@ -90,10 +90,10 @@ public:
     /// Border color. Only effective in border addressing mode.
     Color _borderColor;
 
+	
+private:
 	/// OpenGL texture object identifier.
 	unsigned _texture;
-private:
-	
     /// Texture type.
     TextureType::Type _type;
     /// Texture usage mode.
