@@ -1,3 +1,0 @@
-#ifndef KH_STL_STRING_H_
-#	include "KhString.h"
-#endif

@@ -1,3 +1,0 @@
-#ifndef KH_STL_STACK_H_
-#	include "KhStack.h"
-#endif //!KH_STL_STACK_H_

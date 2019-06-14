@@ -1,3 +1,0 @@
-#ifndef KH_STL_SET_H_
-#	include "KhSet.h"
-#endif // !KH_STL_SET_H_

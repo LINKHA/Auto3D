@@ -22,7 +22,7 @@ public:
 	/// Maximum vector.
 	Vector3<_Ty> _max;
 
-	/// Construct as undefined (negative _size.)
+	/// Construct as undefined (negative size.)
 	BoundingBox() :
 		_min(Vector3<_Ty>(M_INFINITY, M_INFINITY, M_INFINITY)),
 		_max(Vector3<_Ty>(-M_INFINITY, -M_INFINITY, -M_INFINITY))

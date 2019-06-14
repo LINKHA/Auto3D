@@ -72,9 +72,6 @@ include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/Box2D)
 target_link_libraries (${TARGET_NAME}  Bullet)
 include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/Bullet)
 
-target_link_libraries (${TARGET_NAME}  KhSTL)
-include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/KhSTL)
-
 target_link_libraries (${TARGET_NAME}  LZ4)
 include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/LZ4)
 
