@@ -91,8 +91,6 @@ private:
 	UniquePtr<Time> _time;
 	/// The message management mechanism for the underlying interaction between the game project and the engine
 	UniquePtr<RegisteredBox> _registeredBox;
-	/// Use of game scripts
-	UniquePtr<Script> _script;
 	/// 2d-related operations and rendering capabilities
 	UniquePtr<Renderer2D> _renderer2d;
 	/// Physical world and functional storage

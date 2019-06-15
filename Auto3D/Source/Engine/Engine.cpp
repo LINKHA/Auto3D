@@ -60,7 +60,6 @@ Engine::Engine():
 	_renderer = new Renderer();
 	_time = new Time();
 	_registeredBox = new RegisteredBox();
-	_script = new Script();
 	_renderer2d = new Renderer2D();
 	_physics = new Physics();
 	_fileSystem = new FileSystem();
