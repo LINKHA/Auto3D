@@ -10,8 +10,4 @@ Set(INLINE_DIR ${AUTO_ROOT_PATH}/SampleProject/Sample.inl)
 
 add_executable (${TARGET_NAME} ${SOURCE_FILES} ${HANDER_DIR} ${INLINE_DIR})
 
-set_target_properties(${TARGET_NAME} PROPERTIES FOLDER "Sample") 
-
-set_target_properties(${TARGET_NAME} PROPERTIES LINKER_LANGUAGE cxx)
-
 target_link_libraries (${TARGET_NAME} Auto3D)
