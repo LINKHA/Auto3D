@@ -63,3 +63,4 @@ Bin/05_FirstPerson.exe
 Bin/04_Mesh.exe
 Bin/03_Sprite.exe
 Bin/imgui.ini
+Build_Vulkan/

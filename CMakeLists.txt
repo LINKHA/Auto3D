@@ -16,6 +16,7 @@ option (AUTO_LOGGING_L2 "Enable logging macros level 2" TRUE)
 option (AUTO_PROFILING "Enable performance profiling" TRUE)
 option (AUTO_OPENGL "Enable OpenGL" TRUE)
 option (AUTO_DIRECT3D_12 "Enable Direct3D12" FALSE)
+option (AUTO_VULKAN "Enable Vulkan" FALSE)
 option (AUTO_MEMORY_DEBUG "Enable OpenGL" TRUE)
 option (AUTO_WIN32_CONSOLE "Enable Direct3D12" TRUE)
 

@@ -41,8 +41,13 @@ add_engine_directory (Adapter)
 add_engine_directory (RegisteredBox)
 add_engine_directory (UI)
 
-add_engine_directory_group (Graphics/OGL Graphics)
-
+if (AUTO_OPENGL)
+	add_engine_directory_group (Graphics/OGL Graphics/OGL)
+elseif (AUTO_VULKAN)
+	add_engine_directory_group (Graphics/VK Graphics/VK)
+elseif (AUTO_DIRECT3D_12)
+#...
+endif ()
 
 
 # Add root-level files
@@ -78,9 +83,6 @@ include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/LZ4)
 target_link_libraries (${TARGET_NAME}  OpenAL)
 include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/OpenAL/include)
 
-target_link_libraries (${TARGET_NAME}  glad)
-include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/glad)
-
 target_link_libraries (${TARGET_NAME}  FreeType)
 include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/FreeType/include)
 
@@ -89,6 +91,21 @@ include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/LibCpuId)
 
 target_link_libraries (${TARGET_NAME}  Imgui)
 include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/Imgui)
+
+if (AUTO_OPENGL)
+	target_link_libraries (${TARGET_NAME}  glad)
+	include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/glad)
+elseif (AUTO_VULKAN)
+	if(CMAKE_CL_64)
+		link_directories(${AUTO_ROOT_PATH}/Auto3D/ThirdParty/Vulkan/Lib/x64)
+	else()
+		link_directories(${AUTO_ROOT_PATH}/Auto3D/ThirdParty/Vulkan/Lib/x86)
+	endif()
+	include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/Vulkan)
+elseif (AUTO_DIRECT3D_12)
+#...
+endif ()
+
 
 # Add OS-specific library dependencies
 if (WIN32)
