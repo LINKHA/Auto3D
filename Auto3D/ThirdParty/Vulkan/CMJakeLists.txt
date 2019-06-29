@@ -1,0 +1,1 @@
+add_subdirectory(${AUTO_ROOT_PATH}/Auto3D/ThirdParty/Vulkan/SpirvCompiler)
