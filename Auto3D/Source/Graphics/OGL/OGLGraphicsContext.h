@@ -13,13 +13,13 @@ namespace Auto3D
 class Window;
 
 /// OpenGL context associated with a _window, Win32 implementation.
-class AUTO_API GLContext : public RefCounted
+class AUTO_API GraphicsContext : public RefCounted
 {
 public:
 	/// Construct. Associate with a _window, but do not create the context yet.
-	GLContext(Window* window);
+	GraphicsContext(Window* window);
 	/// Destruct. Destroy the context if created.
-	~GLContext();
+	~GraphicsContext();
 
 	/// Create context and initialize extensions. Return true on success. The pixel format can only be chosen once, so a context can not be created more than once to the same _window.
 	bool Create();

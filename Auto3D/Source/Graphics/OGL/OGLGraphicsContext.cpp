@@ -4,7 +4,7 @@
 
 #include "../../Base/WString.h"
 #include "../../Debug/Log.h"
-#include "OGLContext.h"
+#include "OGLGraphicsContext.h"
 #include "../../Window/Window.h"
 
 #include <cstring>
@@ -27,18 +27,18 @@ namespace Auto3D
 typedef BOOL(APIENTRY *PFNWGLSWAPINTERVALFARPROC)(int);
 static PFNWGLSWAPINTERVALFARPROC wglSwapIntervalEXT = (PFNWGLSWAPINTERVALFARPROC)wglGetProcAddress("wglSwapIntervalEXT");
 
-GLContext::GLContext(Window* window) :
+GraphicsContext::GraphicsContext(Window* window) :
 	_window(window),
 	_contextHandle(nullptr)
 {
 }
 
-GLContext::~GLContext()
+GraphicsContext::~GraphicsContext()
 {
 	Release();
 }
 
-bool GLContext::Create()
+bool GraphicsContext::Create()
 {
 	if (_contextHandle)
 		return true;
@@ -59,19 +59,19 @@ bool GLContext::Create()
 	return true;
 }
 
-void GLContext::SetVSync(bool enable)
+void GraphicsContext::SetVSync(bool enable)
 {
 	if (_contextHandle && wglSwapIntervalEXT)
 		wglSwapIntervalEXT(enable ? 1 : 0);
 }
 
-void GLContext::Present()
+void GraphicsContext::Present()
 {
 	if (_contextHandle)
 		SDL_GL_SwapWindow(_window->Handle());
 }
 
-void GLContext::Release()
+void GraphicsContext::Release()
 {
 	if (_contextHandle)
 	{

@@ -45,7 +45,7 @@ UI::~UI()
 }
 
 #ifdef AUTO_OPENGL
-bool UI::SetMode(Window* window, GLContext* context)
+bool UI::SetMode(Window* window, GraphicsContext* context)
 #else
 bool UI::SetMode(SDL_Window* window)
 #endif

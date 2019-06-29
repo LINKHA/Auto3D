@@ -106,7 +106,6 @@ elseif (AUTO_DIRECT3D_12)
 #...
 endif ()
 
-
 # Add OS-specific library dependencies
 if (WIN32)
     target_link_libraries (${TARGET_NAME} winmm)

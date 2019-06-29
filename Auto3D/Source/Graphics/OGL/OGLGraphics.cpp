@@ -3,7 +3,7 @@
 #include "../../Window/Window.h"
 #include "../GPUObject.h"
 #include "../Shader.h"
-#include "OGLContext.h"
+#include "OGLGraphicsContext.h"
 #include "OGLGraphics.h"
 #include "OGLConstantBuffer.h"
 #include "OGLIndexBuffer.h"
@@ -770,7 +770,7 @@ Window* Graphics::RenderWindow() const
     return _window;
 }
 
-GLContext* Graphics::RenderContext() const
+GraphicsContext* Graphics::RenderContext() const
 {
 	return _context;
 }
@@ -882,7 +882,7 @@ void Graphics::BindUBO(unsigned ubo)
 bool Graphics::CreateContext(Window* window, int multisample)
 {
 	// Create or recreate
-    _context = new GLContext(window);
+    _context = new GraphicsContext(window);
 
     if (!_context->Create())
     {

@@ -13,7 +13,7 @@ namespace Auto3D
 class ConstantBuffer;
 class DepthState;
 class Framebuffer;
-class GLContext;
+class GraphicsContext;
 class GPUObject;
 class IndexBuffer;
 class ShaderProgram;
@@ -137,7 +137,7 @@ public:
     /// Return the rendering window.
     Window* RenderWindow() const;
 	/// Return thr opengl context
-	GLContext* RenderContext() const;
+	GraphicsContext* RenderContext() const;
     /// Return the current color rendertarget by index, or null if rendering to the backbuffer.
     Texture* RenderTarget(size_t index) const;
     /// Return the current depth-stencil buffer, or null if rendering to the backbuffer.
@@ -235,7 +235,7 @@ private:
 	/// DXT format support flag.
 	bool _dxtTextureSupport{};
     /// OpenGL context.
-    SharedPtr<GLContext> _context;
+    SharedPtr<GraphicsContext> _context;
     /// OS-level rendering _window.
 	SharedPtr<Window> _window;
     /// Current _size of the backbuffer.

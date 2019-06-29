@@ -27,7 +27,7 @@ public:
 
 	/// Init UI state
 #ifdef AUTO_OPENGL
-	bool SetMode(Window* window, GLContext* context);
+	bool SetMode(Window* window, GraphicsContext* context);
 #else
 	bool SetMode(Window* window);
 #endif
