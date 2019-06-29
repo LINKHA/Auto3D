@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../AutoConfig.h"
+#include "../../AutoConfig.h"
 
 #ifdef AUTO_OPENGL
-#include "../Base/Ptr.h"
+#include "../../Base/Ptr.h"
 
 using SDL_GLContext = void *;
 

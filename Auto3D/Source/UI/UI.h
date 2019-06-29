@@ -1,10 +1,8 @@
 #pragma once
 #include "../Object/GameManager.h"
 #include "../Window/Window.h"
+#include "../Graphics/GraphicsContext.h"
 
-#ifdef AUTO_OPENGL
-#	include "../Window/GLContext.h"
-#endif 
 
 using SDL_Event =  union SDL_Event;
 

@@ -39,15 +39,15 @@ public:
     int _multisample;
 };
 
-/// 3D graphics rendering context. Manages the rendering _window and GPU objects.
+/// 3D graphics rendering context. Manages the rendering window and GPU objects.
 class AUTO_API Graphics : public BaseSubsystem
 {
 	REGISTER_OBJECT_CLASS(Graphics, BaseSubsystem)
 
 public:
-    /// Construct and register subsystem. The graphics mode is not set & _window is not opened yet.
+    /// Construct and register subsystem. The graphics mode is not set & window is not opened yet.
     Graphics();
-    /// Destruct. Clean up the _window, rendering context and GPU objects.
+    /// Destruct. Clean up the window, rendering context and GPU objects.
     ~Graphics();
 	/// Check supported rendering features.
 	void CheckFeatureSupport();

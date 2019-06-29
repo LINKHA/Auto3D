@@ -1,11 +1,11 @@
-#include "../AutoConfig.h"
+#include "../../AutoConfig.h"
 
 #ifdef AUTO_OPENGL
 
-#include "../Base/WString.h"
-#include "../Debug/Log.h"
-#include "GLContext.h"
-#include "Window.h"
+#include "../../Base/WString.h"
+#include "../../Debug/Log.h"
+#include "OGLContext.h"
+#include "../../Window/Window.h"
 
 #include <cstring>
 #include <glad.h>
@@ -18,7 +18,7 @@
 #include <Windows.h>
 #include <wingdi.h>
 
-#include "../Debug/DebugNew.h"
+#include "../../Debug/DebugNew.h"
 
 
 
