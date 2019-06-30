@@ -171,9 +171,9 @@ public:
 	/// Return whether sRGB conversion on rendertarget writing is supported.
 	bool GetSRGBWriteSupport() const { return _sRGBWriteSupport; }
 	/// Get graphics api version
-	const String& GetGraphicsApiVersion()const { return _graphicsApiVersion; }
+	const String& GetGraphicsApiVersion()const { return _graphicsVersion; }
 	/// Get graphics glsl version
-	const String& GetGraphicsGLSLVersion()const { return _graphicsGLSLVersion; }
+	const String& GetGraphicsSLVersion()const { return _graphicsSLVersion; }
 	
 	/// Return the shader program
 	ShaderProgram* Shaderprogram() { return _shaderProgram; }
@@ -313,9 +313,9 @@ private:
     /// Multisample level.
     int _multisample;
 	/// Graphics api version
-	String _graphicsApiVersion;
+	String _graphicsVersion;
 	/// Graphics glsl version
-	String _graphicsGLSLVersion;
+	String _graphicsSLVersion;
 	/// Vertical sync flag.
 	bool _vsync;
 };

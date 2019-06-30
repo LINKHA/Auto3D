@@ -54,8 +54,18 @@ bool UI::SetMode(SDL_Window* window)
 		return false;
 
 	_window = window;
-	const char* glslVersion = Subsystem<Graphics>()->GetGraphicsGLSLVersion().CString();
 
+
+	const char* glslVersion;
+	GraphicsSLVersion::Type slVersion = Subsystem<Graphics>()->GetGraphicsSLVersion();
+	if (slVersion == GraphicsSLVersion::GLSL_430)
+		glslVersion = "#version 430";
+	else if(slVersion == GraphicsSLVersion::GLSL_330)
+		glslVersion = "#version 330";
+	else if (slVersion == GraphicsSLVersion::GLSL_150)
+		glslVersion = "#version 150";
+	else if (slVersion == GraphicsSLVersion::GLSL_450)
+		glslVersion = "#version 450";
 	// Setup Platform/Renderer bindings
 	ImGui_ImplSDL2_InitForOpenGL(window->Handle(), context->Context());
 	ImGui_ImplOpenGL3_Init(glslVersion);

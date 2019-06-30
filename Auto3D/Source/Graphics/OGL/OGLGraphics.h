@@ -4,8 +4,11 @@
 #include "../../Math/Rect.h"
 #include "../../Math/Vector2.h"
 #include "../../Object/GameManager.h"
+
 #include "../GraphicsDefs.h"
-#include "../../Graphics/OGL/OGLShaderProgram.h"
+#include "../GraphicsVersionDef.h"
+
+#include "OGLShaderProgram.h"
 
 namespace Auto3D
 {
@@ -171,9 +174,9 @@ public:
 	/// Return whether sRGB conversion on rendertarget writing is supported.
 	bool GetSRGBWriteSupport() const { return _sRGBWriteSupport; }
 	/// Get graphics api version
-	const String& GetGraphicsApiVersion()const { return _graphicsApiVersion; }
+	GraphicsVersion::Type GetGraphicsApiVersion()const { return _graphicsVersion; }
 	/// Get graphics glsl version
-	const String& GetGraphicsGLSLVersion()const { return _graphicsGLSLVersion; }
+	GraphicsSLVersion::Type GetGraphicsSLVersion()const { return _graphicsSLVersion; }
 	
 	/// Return the shader program
 	ShaderProgram* Shaderprogram() { return _shaderProgram; }
@@ -313,9 +316,9 @@ private:
     /// Multisample level.
     int _multisample;
 	/// Graphics api version
-	String _graphicsApiVersion;
+	GraphicsVersion::Type _graphicsVersion;
 	/// Graphics glsl version
-	String _graphicsGLSLVersion;
+	GraphicsSLVersion::Type _graphicsSLVersion;
 	/// Vertical sync flag.
 	bool _vsync;
 };

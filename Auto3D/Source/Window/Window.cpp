@@ -71,15 +71,15 @@ bool Window::InitMsg()
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 
 	auto* graphics = Subsystem<Graphics>();
-	if (graphics->GetGraphicsApiVersion() == "GL 4.3")
+	if (graphics->GetGraphicsApiVersion() == GraphicsVersion::OPENGL_4_3)
 	{
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 	}
-	else if (graphics->GetGraphicsApiVersion() == "GL 3.2")
+	else if (graphics->GetGraphicsApiVersion() == GraphicsVersion::OPENGL_3_3)
 	{
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 	}
 	else
 	{

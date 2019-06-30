@@ -187,11 +187,11 @@ Graphics::Graphics() :
     _attributesBySemantic(ElementSemantic::Count),
     _multisample(1),
 #if _WIN32 || _WIN64
-	_graphicsApiVersion("GL 4.3"),
-	_graphicsGLSLVersion("#version 430"),
+	_graphicsVersion(GraphicsVersion::OPENGL_4_3),
+	_graphicsSLVersion(GraphicsSLVersion::GLSL_430),
 #else
-	_graphicsApiVersion("GL 3.2"),
-	_graphicsGLSLVersion("#version 150"),
+	_graphicsVersion(GraphicsVersion::OPENGL_3_3),
+	_graphicsSLVersion(GraphicsSLVersion::GLSL_330),
 #endif
 	_vsync(false)
 {
