@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Source/Application.h"
+#include "Source/Auto.h"
 
 using namespace Auto3D;
 
