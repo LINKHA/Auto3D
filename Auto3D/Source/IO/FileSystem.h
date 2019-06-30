@@ -1,9 +1,9 @@
 #pragma once
 #include "../Object/GameManager.h"
-#include "../Base/String.h"
-#include "../Base/Vector.h"
-#include "../Base/WString.h"
-#include "../Base/HashSet.h"
+#include "../Container/String.h"
+#include "../Container/Vector.h"
+#include "../Container/WString.h"
+#include "../Container/HashSet.h"
 
 namespace Auto3D
 {

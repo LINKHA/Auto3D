@@ -2,7 +2,7 @@
 
 #ifdef AUTO_OPENGL
 
-#include "../../Base/WString.h"
+#include "../../Container/WString.h"
 #include "../../Debug/Log.h"
 #include "OGLGraphicsContext.h"
 #include "../../Window/Window.h"

@@ -1,5 +1,5 @@
-#include "../Base/Vector.h"
-#include "../Base/HashMap.h"
+#include "../Container/Vector.h"
+#include "../Container/HashMap.h"
 #include "../Math/Vector4.h"
 
 #include "JSONValue.h"

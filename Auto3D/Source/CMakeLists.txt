@@ -20,6 +20,7 @@ endmacro ()
 configure_file (AutoConfig.h.in ${CMAKE_CURRENT_SOURCE_DIR}/AutoConfig.h)
 
 # Add source files from subdirectories
+add_engine_directory (Container)
 add_engine_directory (Base)
 add_engine_directory (Engine)
 add_engine_directory (Debug)

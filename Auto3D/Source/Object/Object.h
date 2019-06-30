@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Base/StringHash.h"
+#include "../Container/StringHash.h"
 #include "Event.h"
 #include "../Math/KhMath.h"
 

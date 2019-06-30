@@ -1,6 +1,6 @@
 #pragma once
-#include "../Base/AutoPtr.h"
-#include "../Base/Ptr.h"
+#include "../Container/AutoPtr.h"
+#include "../Container/Ptr.h"
 #include "../IO/Stream.h"
 
 namespace Auto3D

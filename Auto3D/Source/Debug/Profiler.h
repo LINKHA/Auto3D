@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Base/AutoPtr.h"
-#include "../Base/String.h"
+#include "../Container/AutoPtr.h"
+#include "../Container/String.h"
 #include "../Math/Math.h"
 #include "../Object/GameManager.h"
 #include "../Time/Time.h"

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Base/String.h"
+#include "../../Container/String.h"
 #include "../GPUObject.h"
 #include "../GraphicsDefs.h"
 

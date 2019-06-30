@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../AutoConfig.h"
-#include "../Base/String.h"
+#include "../Container/String.h"
 #include "../Math/Rect.h"
 
 

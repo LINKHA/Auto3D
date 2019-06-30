@@ -1,7 +1,7 @@
-#include "../Base/AutoPtr.h"
-#include "../Base/String.h"
-#include "../Base/Vector.h"
-#include "../Base/WString.h"
+#include "../Container/AutoPtr.h"
+#include "../Container/String.h"
+#include "../Container/Vector.h"
+#include "../Container/WString.h"
 #include "File.h"
 #include "FileSystem.h"
 #ifdef __ANDROID__

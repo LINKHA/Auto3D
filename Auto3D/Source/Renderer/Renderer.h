@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Base/AutoPtr.h"
+#include "../Container/AutoPtr.h"
 #include "../Graphics/Texture.h"
 #include "../Math/Color.h"
 #include "../Math/Frustum.h"

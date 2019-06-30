@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Base/AutoPtr.h"
+#include "../../Container/AutoPtr.h"
 #include "../GPUObject.h"
 #include "../GraphicsDefs.h"
 

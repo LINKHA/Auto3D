@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Base/StringHash.h"
-#include "../Base/Vector.h"
+#include "../Container/StringHash.h"
+#include "../Container/Vector.h"
 
 namespace Auto3D
 {

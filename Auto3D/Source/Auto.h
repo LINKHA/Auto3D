@@ -3,9 +3,9 @@
 // Convenience header file for including commonly needed engine classes. Note: intentionally does not include Debug/DebugNew.h
 // so that placement new works as expected.
 
-#include "Base/HashSet.h"
-#include "Base/List.h"
-#include "Base/Ptr.h"
+#include "Container/HashSet.h"
+#include "Container/List.h"
+#include "Container/Ptr.h"
 #include "Base/ProcessUtils.h"
 #include "Debug/Log.h"
 #include "Debug/Profiler.h"

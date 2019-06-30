@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Base/AutoPtr.h"
-#include "../Base/Ptr.h"
+#include "../Container/AutoPtr.h"
+#include "../Container/Ptr.h"
 #include "../IO/JSONValue.h"
 
 namespace Auto3D

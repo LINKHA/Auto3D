@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Base/AutoPtr.h"
+#include "../Container/AutoPtr.h"
 #include "../Graphics/GraphicsDefs.h"
 #include "../Resource/Resource.h"
 
