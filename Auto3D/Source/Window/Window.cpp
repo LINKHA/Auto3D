@@ -48,7 +48,7 @@ Window::~Window()
 
 	RemoveSubsystem(this);
 }
-
+#if defined(AUTO_OPENGL)
 bool Window::InitMsg()
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0)
@@ -101,7 +101,12 @@ bool Window::InitMsg()
 
 	return true;
 }
+#elif defined(AUTO_VULKAN)
+bool Window::InitMsg()
+{
 
+}
+#endif
 void Window::SetTitle(const String& newTitle)
 {
 	_title = newTitle;
