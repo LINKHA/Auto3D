@@ -44,8 +44,10 @@ add_engine_directory (UI)
 
 if (AUTO_OPENGL)
 	add_engine_directory_group (Graphics/OGL Graphics/OGL)
+	add_engine_directory_group (Adapter/OGL Adapter/OGL)
 elseif (AUTO_VULKAN)
 	add_engine_directory_group (Graphics/VK Graphics/VK)
+	add_engine_directory_group (Adapter/VK Adapter/VK)
 elseif (AUTO_DIRECT3D_12)
 #...
 endif ()

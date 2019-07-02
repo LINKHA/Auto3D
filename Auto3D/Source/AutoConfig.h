@@ -29,8 +29,8 @@ namespace Auto3D
 /* #undef AUTO_LOGGING_L1 */
 #define AUTO_LOGGING_L2
 #define AUTO_PROFILING
-/* #undef AUTO_OPENGL */
-#define AUTO_VULKAN
+#define AUTO_OPENGL
+/* #undef AUTO_VULKAN */
 /* #undef AUTO_DIRECT3D_12 */
 #define AUTO_MEMORY_DEBUG
 #define AUTO_WIN32_CONSOLE

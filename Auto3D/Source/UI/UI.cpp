@@ -9,8 +9,11 @@
 #include <imgui.h>
 
 #include "../Adapter/imgui_impl_sdl.h"
-#include "../Adapter/imgui_impl_opengl3.h"
-
+#if defined(AUTO_OPENGL)
+#	include "../Adapter/OGL/imgui_impl_opengl3.h"
+#elif defined(AUTO_VULKAN)
+#	include "../Adapter/VK/imgui_impl_vulkan.h"
+#endif
 #include "../Graphics/Graphics.h"
 
 #include "../Debug/Log.h"
