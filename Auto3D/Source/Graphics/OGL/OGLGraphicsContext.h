@@ -2,7 +2,6 @@
 
 #include "../../AutoConfig.h"
 
-#ifdef AUTO_OPENGL
 #include "../../Container/Ptr.h"
 
 using SDL_GLContext = void *;
@@ -42,4 +41,3 @@ private:
 };
 
 }
-#endif // AUTO_OPENGL

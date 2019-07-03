@@ -104,7 +104,7 @@ bool Window::InitMsg()
 #elif defined(AUTO_VULKAN)
 bool Window::InitMsg()
 {
-
+	return true;
 }
 #endif
 void Window::SetTitle(const String& newTitle)

@@ -40,7 +40,9 @@ UI::UI() :
 UI::~UI()
 {
 	// Cleanup
+#if defined(AUTO_OPENGL)
 	ImGui_ImplOpenGL3_Shutdown();
+#endif
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
 
@@ -50,7 +52,7 @@ UI::~UI()
 #ifdef AUTO_OPENGL
 bool UI::SetMode(Window* window, GraphicsContext* context)
 #else
-bool UI::SetMode(SDL_Window* window)
+bool UI::SetMode(Window* window)
 #endif
 {
 	if (!window)
@@ -70,8 +72,10 @@ bool UI::SetMode(SDL_Window* window)
 	else if (slVersion == GraphicsSLVersion::GLSL_450)
 		glslVersion = "#version 450";
 	// Setup Platform/Renderer bindings
+#if defined(AUTO_OPENGL)
 	ImGui_ImplSDL2_InitForOpenGL(window->Handle(), context->Context());
 	ImGui_ImplOpenGL3_Init(glslVersion);
+#endif
 	return true;
 }
 
@@ -83,7 +87,9 @@ bool UI::BeginUI()
 		return false;
 	}
 	// Start the Dear ImGui frame
+#if defined(AUTO_OPENGL)
 	ImGui_ImplOpenGL3_NewFrame();
+#endif
 	ImGui_ImplSDL2_NewFrame(_window->Handle());
 	ImGui::NewFrame();
 	return true;
@@ -92,7 +98,9 @@ bool UI::BeginUI()
 void UI::Present()
 {
 	ImGui::Render();
+#if defined(AUTO_OPENGL)
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+#endif
 }
 
 void UI::Render(Canvas* canvas)
