@@ -37,6 +37,15 @@ endmacro ()
 # Set output directory for executables
 set_output_directories (${PROJECT_SOURCE_DIR}/Bin RUNTIME PDB)
 
+# Set vulkan lib
+if(AUTO_VULKAN)
+	if(CMAKE_CL_64)
+		link_directories(${AUTO_ROOT_PATH}/Auto3D/ThirdParty/Vulkan/Lib/x64)
+	else()
+		link_directories(${AUTO_ROOT_PATH}/Auto3D/ThirdParty/Vulkan/Lib/x86)
+	endif()
+endif()
+	
 add_subdirectory (Auto3D)
 add_subdirectory (AutoEditor)
 add_subdirectory (SampleProject)
