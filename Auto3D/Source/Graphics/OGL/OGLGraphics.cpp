@@ -720,8 +720,7 @@ void Graphics::DrawIndexed(PrimitiveType::Type type, size_t indexStart, size_t i
 
 }
 
-void Graphics::DrawInstanced(PrimitiveType::Type type, size_t vertexStart, size_t vertexCount, size_t instanceStart, size_t
-    instanceCount)
+void Graphics::DrawInstanced(PrimitiveType::Type type, size_t vertexStart, size_t vertexCount, size_t instanceStart, size_t instanceCount)
 {
     if (!PrepareDraw(true, instanceStart))
         return;
