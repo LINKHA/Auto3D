@@ -6,7 +6,15 @@
 #include "../../Window/Window.h"
 
 #include <cstring>
-#include <vulkan/vulkan.h>
+
+#define VK_NO_PROTOTYPES
+#define HAVE_VULKAN_H
+#ifdef HAVE_VULKAN_H
+#	include <vulkan/vulkan.h>
+#else
+/* SDL includes a copy for building on systems without the Vulkan SDK */
+#	include "../src/video/khronos/vulkan/vulkan.h"
+#endif
 
 #include <SDL_vulkan.h>
 
@@ -114,7 +122,7 @@ void GraphicsContext::Present()
 
 bool GraphicsContext::LoadGlobalFunctions()
 {
-	vkGetInstanceProcAddr = SDL_Vulkan_GetVkGetInstanceProcAddr();
+	vkGetInstanceProcAddr = reinterpret_cast<PFN_vkGetInstanceProcAddr>(SDL_Vulkan_GetVkGetInstanceProcAddr());
 	if (!vkGetInstanceProcAddr)
 	{
 		ErrorStringF("SDL_Vulkan_GetVkGetInstanceProcAddr(): %s\n",SDL_GetError());

@@ -12,7 +12,7 @@ class Window;
 
 struct ContextState
 {
-	static VkAllocationCallbacks*   g_Allocator = NULL;
+	/*static VkAllocationCallbacks*   g_Allocator = NULL;
 	static VkInstance               g_Instance = VK_NULL_HANDLE;
 	static VkPhysicalDevice         g_PhysicalDevice = VK_NULL_HANDLE;
 	static VkDevice                 g_Device = VK_NULL_HANDLE;
@@ -20,8 +20,10 @@ struct ContextState
 	static VkQueue                  g_Queue = VK_NULL_HANDLE;
 	static VkDebugReportCallbackEXT g_DebugReport = VK_NULL_HANDLE;
 	static VkPipelineCache          g_PipelineCache = VK_NULL_HANDLE;
-	static VkDescriptorPool         g_DescriptorPool = VK_NULL_HANDLE;
+	static VkDescriptorPool         g_DescriptorPool = VK_NULL_HANDLE;*/
 };
+
+using SDL_GLContext = void *;
 
 /// OpenGL context associated with a _window, Win32 implementation.
 class AUTO_API GraphicsContext : public RefCounted
@@ -39,7 +41,7 @@ public:
 	/// Set vsync on/off.
 	void SetVSync(bool enable);
 	/// Return whether is initialized with a valid context.
-	bool IsInitialized() const { return _contextHandle != nullptr; }
+	bool IsInitialized() const { return true; }
 	/// Return null context,because context is OpenGL only.
 	SDL_GLContext Context() { return NULL; }
 private:
