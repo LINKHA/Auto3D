@@ -32,8 +32,10 @@ public:
 	Window();
 	/// Destruct. Close _window if open.
 	~Window();
-	/// Initializes the context version and its support
-	bool InitMsg();
+	/// Initializes the opengl context version and its support
+	bool InitOglMsg();
+	/// Initializes the vulkan context version and its support
+	bool InitVulkanMsg();
 	/// Delete game window and if OpenGL delete context
 	void DestoryWindow();
 	/// Set window title.

@@ -48,8 +48,8 @@ Window::~Window()
 
 	RemoveSubsystem(this);
 }
-#if defined(AUTO_OPENGL)
-bool Window::InitMsg()
+
+bool Window::InitOglMsg()
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0)
 	{
@@ -101,12 +101,20 @@ bool Window::InitMsg()
 
 	return true;
 }
-#elif defined(AUTO_VULKAN)
-bool Window::InitMsg()
+
+bool Window::InitVulkanMsg()
 {
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0)
+	{
+		ErrorString(SDL_GetError());
+		return false;
+}
+	atexit(SDL_Quit);
+	SDL_GL_LoadLibrary(NULL);
+
 	return true;
 }
-#endif
+
 void Window::SetTitle(const String& newTitle)
 {
 	_title = newTitle;

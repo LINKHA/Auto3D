@@ -42,12 +42,12 @@ Graphics::Graphics() :
 
 Graphics::~Graphics()
 {
-	
+
 }
 
 void Graphics::CheckFeatureSupport()
 {
-	
+
 }
 
 bool Graphics::SetMode(const RectI& size, int multisample, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
@@ -57,6 +57,28 @@ bool Graphics::SetMode(const RectI& size, int multisample, bool fullscreen, bool
 
 	if (!_context || multisample != _multisample)
 	{
+		bool recreate = false;
+
+		if (IsInitialized())
+		{
+			recreate = true;
+			Close();
+			if (_window)
+				_window->DestoryWindow();
+
+			SendEvent(_contextLossEvent);
+		}
+
+		if (!_window->InitMsg())
+		{
+			ErrorString("Failed to initialize the form");
+			return false;
+		}
+		if (!_window->SetSize(size, multisample, fullscreen, resizable, center, borderless, highDPI))
+		{
+			ErrorString("Failed to create form");
+			return false;
+		}
 
 	}
 }
@@ -74,7 +96,7 @@ bool Graphics::SetMultisample(int multisample)
 
 void Graphics::SetVSync(bool enable)
 {
-	
+
 }
 
 void Graphics::Close()
@@ -96,33 +118,33 @@ void Graphics::Close()
 
 void Graphics::Present()
 {
-	
+
 }
 
 void Graphics::SetRenderTarget(Texture* renderTarget, Texture* depthStencil)
 {
-	
+
 }
 
 void Graphics::SetRenderTargets(const Vector<Texture*>& renderTargets, Texture* depthStencil)
 {
-	
+
 }
 
 void Graphics::SetViewport(const RectI& viewport)
 {
-	
+
 }
 
 
 void Graphics::SetVertexBuffer(size_t index, VertexBuffer* buffer)
 {
-	
+
 }
 
 void Graphics::SetIndexBuffer(IndexBuffer* buffer)
 {
-	
+
 }
 
 void Graphics::SetConstantBuffer(ShaderStage::Type stage, size_t index, ConstantBuffer* buffer)
@@ -157,74 +179,74 @@ void Graphics::SetColorState(BlendMode::Type blendMode, bool alphaToCoverage, un
 
 void Graphics::SetDepthState(CompareFunc::Type depthFunc, bool depthWrite, bool depthClip, int depthBias, float slopeScaledDepthBias)
 {
-    _renderState._depthFunc = depthFunc;
-    _renderState._depthWrite = depthWrite;
-    _renderState._depthClip = depthClip;
-    _renderState._depthBias = depthBias;
-    _renderState._slopeScaledDepthBias = slopeScaledDepthBias;
+	_renderState._depthFunc = depthFunc;
+	_renderState._depthWrite = depthWrite;
+	_renderState._depthClip = depthClip;
+	_renderState._depthBias = depthBias;
+	_renderState._slopeScaledDepthBias = slopeScaledDepthBias;
 
-    _depthStateDirty = true;
-    _rasterizerStateDirty = true;
+	_depthStateDirty = true;
+	_rasterizerStateDirty = true;
 }
 
 void Graphics::SetRasterizerState(CullMode::Type cullMode, FillMode::Type fillMode)
 {
-    _renderState._cullMode = cullMode;
-    _renderState._fillMode = fillMode;
+	_renderState._cullMode = cullMode;
+	_renderState._fillMode = fillMode;
 
-    _rasterizerStateDirty = true;
+	_rasterizerStateDirty = true;
 }
 
 void Graphics::SetScissorTest(bool scissorEnable, const RectI& scissorRect)
 {
-    _renderState._scissorEnable = scissorEnable;
-    /// \todo Implement a member function in IntRect for clipping
-    _renderState._scissorRect.Left() = Clamp(scissorRect.Left(), 0, _renderTargetSize._x - 1);
-    _renderState._scissorRect.Top() = Clamp(scissorRect.Top(), 0, _renderTargetSize._y - 1);
-    _renderState._scissorRect.Right() = Clamp(scissorRect.Right(), _renderState._scissorRect.Left() + 1, _renderTargetSize._x);
-    _renderState._scissorRect.Bottom() = Clamp(scissorRect.Bottom(), _renderState._scissorRect.Top() + 1, _renderTargetSize._y);
+	_renderState._scissorEnable = scissorEnable;
+	/// \todo Implement a member function in IntRect for clipping
+	_renderState._scissorRect.Left() = Clamp(scissorRect.Left(), 0, _renderTargetSize._x - 1);
+	_renderState._scissorRect.Top() = Clamp(scissorRect.Top(), 0, _renderTargetSize._y - 1);
+	_renderState._scissorRect.Right() = Clamp(scissorRect.Right(), _renderState._scissorRect.Left() + 1, _renderTargetSize._x);
+	_renderState._scissorRect.Bottom() = Clamp(scissorRect.Bottom(), _renderState._scissorRect.Top() + 1, _renderTargetSize._y);
 
-    _rasterizerStateDirty = true;
+	_rasterizerStateDirty = true;
 }
 
 void Graphics::SetStencilTest(bool stencilEnable, const StencilTestDesc& stencilTest, unsigned char stencilRef)
 {
-    _renderState._stencilEnable = stencilEnable;
-    _renderState._stencilTest = stencilTest;
-    _renderState._stencilRef = stencilRef;
+	_renderState._stencilEnable = stencilEnable;
+	_renderState._stencilTest = stencilTest;
+	_renderState._stencilRef = stencilRef;
 
-    _depthStateDirty = true;
+	_depthStateDirty = true;
 }
 
 void Graphics::ResetRenderTargets()
 {
-    SetRenderTarget(nullptr, nullptr);
+	SetRenderTarget(nullptr, nullptr);
 }
 
 void Graphics::ResetViewport()
 {
-    SetViewport(RectI(0, 0, _renderTargetSize._x, _renderTargetSize._y));
+	SetViewport(RectI(0, 0, _renderTargetSize._x, _renderTargetSize._y));
 }
 
 void Graphics::ResetVertexBuffers()
 {
-    for (size_t i = 0; i < MAX_VERTEX_STREAMS; ++i)
-        SetVertexBuffer(i, nullptr);
+	for (size_t i = 0; i < MAX_VERTEX_STREAMS; ++i)
+		SetVertexBuffer(i, nullptr);
 }
 
 void Graphics::ResetConstantBuffers()
 {
-    for (size_t i = 0; i < ShaderStage::Count; ++i)
-    {
-        for (size_t j = 0; i < MAX_CONSTANT_BUFFERS; ++j)
-            SetConstantBuffer((ShaderStage::Type)i, j, nullptr);
-    }
+	for (size_t i = 0; i < ShaderStage::Count; ++i)
+	{
+		for (size_t j = 0; i < MAX_CONSTANT_BUFFERS; ++j)
+			SetConstantBuffer((ShaderStage::Type)i, j, nullptr);
+	}
 }
 
 void Graphics::ResetTextures()
 {
-    for (size_t i = 0; i < MAX_TEXTURE_UNITS; ++i)
-        SetTexture(i, nullptr);
+	for (size_t i = 0; i < MAX_TEXTURE_UNITS; ++i)
+		SetTexture(i, nullptr);
 }
 
 void Graphics::ResetGraphics()
@@ -454,71 +476,7 @@ bool Graphics::PrepareDraw(bool instanced, size_t instanceStart)
 
 void Graphics::ResetState()
 {
-	for (size_t i = 0; i < MAX_VERTEX_STREAMS; ++i)
-		_vertexBuffers[i] = nullptr;
-
-	_enabledVertexAttributes = 0;
-	_usedVertexAttributes = 0;
-	_instancingVertexAttributes = 0;
-
-	for (size_t i = 0; i < ShaderStage::Count; ++i)
-	{
-		for (size_t j = 0; j < MAX_CONSTANT_BUFFERS; ++j)
-			_constantBuffers[i][j] = nullptr;
-	}
-
-	for (size_t i = 0; i < MAX_TEXTURE_UNITS; ++i)
-	{
-		_textures[i] = nullptr;
-		_textureTargets[i] = 0;
-	}
-
-	_indexBuffer = nullptr;
-	_vertexShader = nullptr;
-	_pixelShader = nullptr;
-	_shaderProgram = nullptr;
-	_framebuffer = nullptr;
-	_vertexAttributesDirty = false;
-	_vertexBuffersDirty = false;
-	_blendStateDirty = false;
-	_depthStateDirty = false;
-	_rasterizerStateDirty = false;
-	_framebufferDirty = false;
-	_activeTexture = 0;
-	_boundVBO = 0;
-	_boundUBO = 0;
-
-	_glRenderState._depthWrite = false;
-	_glRenderState._depthFunc = CompareFunc::ALWAYS;
-	_glRenderState._depthBias = 0;
-	_glRenderState._slopeScaledDepthBias = 0;
-	_glRenderState._depthClip = true;
-	_glRenderState._colorWriteMask = COLORMASK_ALL;
-	_glRenderState._alphaToCoverage = false;
-	_glRenderState._blendMode._blendEnable = false;
-	_glRenderState._blendMode._srcBlend = BlendFactor::Count;
-	_glRenderState._blendMode._destBlend = BlendFactor::Count;
-	_glRenderState._blendMode._blendOp = BlendOp::Count;
-	_glRenderState._blendMode._srcBlendAlpha = BlendFactor::Count;
-	_glRenderState._blendMode._destBlendAlpha = BlendFactor::Count;
-	_glRenderState._blendMode._blendOpAlpha = BlendOp::Count;
-	_glRenderState._fillMode = FillMode::SOLID;
-	_glRenderState._cullMode = CullMode::NONE;
-	_glRenderState._scissorEnable = false;
-	_glRenderState._scissorRect = RectI::ZERO;
-	_glRenderState._stencilEnable = false;
-	_glRenderState._stencilRef = 0;
-	_glRenderState._stencilTest._stencilReadMask = 0xff;
-	_glRenderState._stencilTest._stencilWriteMask = 0xff;
-	_glRenderState._stencilTest._frontFail = StencilOp::KEEP;
-	_glRenderState._stencilTest._frontDepthFail = StencilOp::KEEP;
-	_glRenderState._stencilTest._frontPass = StencilOp::KEEP;
-	_glRenderState._stencilTest._frontFunc = CompareFunc::ALWAYS;
-	_glRenderState._stencilTest._backFail = StencilOp::KEEP;
-	_glRenderState._stencilTest._backDepthFail = StencilOp::KEEP;
-	_glRenderState._stencilTest._backPass = StencilOp::KEEP;
-	_glRenderState._stencilTest._backFunc = CompareFunc::ALWAYS;
-	_renderState = _glRenderState;
+	
 }
 
 void RegisterGraphicsLibrary()
