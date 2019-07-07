@@ -54,7 +54,7 @@ bool Graphics::SetMode(const RectI& size, int multisample, bool fullscreen, bool
 {
 	// Ensure that MSAA between 1~16
 	Clamp(multisample, 1, 16);
-
+	// Changing multisample requires destroying the _window, as OpenGL pixel format can only be set once
 	if (!_context || multisample != _multisample)
 	{
 		bool recreate = false;
@@ -79,8 +79,51 @@ bool Graphics::SetMode(const RectI& size, int multisample, bool fullscreen, bool
 			ErrorString("Failed to create form");
 			return false;
 		}
+		if (!CreateContext(_window, multisample))
+		{
+			ErrorString("Context creation failed");
+			return false;
+		}
 
+		if (recreate)
+		{
+			// Recreate GPU objects that can be recreated
+			for (auto it = _gpuObjects.Begin(); it != _gpuObjects.End(); ++it)
+			{
+				GPUObject* object = *it;
+				object->Recreate();
+			}
+			SendEvent(_contextRestoreEvent);
+		}
 	}
+	else
+	{
+		// If no context creation, just need to resize the _window
+		if (!_window->SetSize(size, fullscreen, resizable, center, borderless, highDPI))
+		{
+			ErrorString("Failed to create form");
+			return false;
+		}
+	}
+
+	_backbufferSize = _window->GetSize();
+	ResetRenderTargets();
+	ResetViewport();
+	// Cleanup framebuffers defined during the old resolution now
+	CleanupFramebuffers();
+
+	_screenModeEvent._size = _backbufferSize;
+	_screenModeEvent._fullscreen = IsFullscreen();
+	_screenModeEvent._resizable = IsResizable();
+	_screenModeEvent._multisample = _multisample;
+	SendEvent(_screenModeEvent);
+
+	LogStringF("Set screen mode %dx%d fullscreen %d resizable %d multisample %d", _backbufferSize._x, _backbufferSize._y,
+		IsFullscreen(), IsResizable(), _multisample);
+	/// Check freature support
+	CheckFeatureSupport();
+
+	return true;
 }
 
 
@@ -438,6 +481,15 @@ void Graphics::BindUBO(unsigned ubo)
 
 bool Graphics::CreateContext(Window* window, int multisample)
 {
+	// Create or recreate
+	_context = new GraphicsContext(window);
+
+	if (!_context->Create())
+	{
+		_context.Reset();
+		return false;
+	}
+
 }
 
 void Graphics::HandleResize(WindowResizeEvent& event)

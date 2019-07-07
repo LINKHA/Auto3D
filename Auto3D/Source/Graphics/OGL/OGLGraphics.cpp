@@ -248,7 +248,7 @@ bool Graphics::SetMode(const RectI& size, int multisample, bool fullscreen, bool
 			SendEvent(_contextLossEvent);
 		}
 
-		if (!_window->InitOglMsg())
+		if (!_window->InitMsg())
 		{
 			ErrorString("Failed to initialize the form");
 			return false;

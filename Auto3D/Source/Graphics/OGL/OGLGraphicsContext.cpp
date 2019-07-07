@@ -1,7 +1,5 @@
 #include "../../AutoConfig.h"
 
-#ifdef AUTO_OPENGL
-
 #include "../../Container/WString.h"
 #include "../../Debug/Log.h"
 #include "OGLGraphicsContext.h"
@@ -11,12 +9,11 @@
 #include <glad.h>
 
 #include <SDL.h>
-#include <SDL_stdinc.h>
-#include <SDL_scancode.h>
-#include <SDL_syswm.h>
 
-#include <Windows.h>
-#include <wingdi.h>
+#if defined(_WIN32 )| defined(_WIN64)
+#	include <Windows.h>
+#	include <wingdi.h>
+#endif
 
 #include "../../Debug/DebugNew.h"
 
@@ -82,4 +79,3 @@ void GraphicsContext::Release()
 
 }
 
-#endif

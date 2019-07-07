@@ -49,7 +49,7 @@ Window::~Window()
 	RemoveSubsystem(this);
 }
 
-bool Window::InitOglMsg()
+bool Window::InitMsg()
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0)
 	{
@@ -70,6 +70,7 @@ bool Window::InitOglMsg()
 	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 
+#if defined(AUTO_OPENGL)
 	auto* graphics = Subsystem<Graphics>();
 	if (graphics->GetGraphicsApiVersion() == GraphicsVersion::OPENGL_4_3)
 	{
@@ -87,6 +88,7 @@ bool Window::InitOglMsg()
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 	}
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+#endif
 
 	if (_multisample > 1)
 	{
@@ -98,19 +100,6 @@ bool Window::InitOglMsg()
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 0);
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 0);
 	}
-
-	return true;
-}
-
-bool Window::InitVulkanMsg()
-{
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0)
-	{
-		ErrorString(SDL_GetError());
-		return false;
-}
-	atexit(SDL_Quit);
-	SDL_GL_LoadLibrary(NULL);
 
 	return true;
 }
@@ -171,15 +160,10 @@ bool Window::SetSize(const RectI& rect, int multisample, bool fullscreen, bool r
 			_rect.Top() = windowRect.h / 2 - h / 2;
 			_rect.Right() = windowRect.w / 2 + w / 2;
 			_rect.Bottom() = windowRect.h / 2 + h / 2;
-
-			int a1 = _rect.Left();
-			int a2 = _rect.Top();
-			int a3 = _rect.Right();
-			int a4 = _rect.Bottom();
 		}
 	}
 	// Create the _window
-	unsigned flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
+	unsigned flags =  SDL_WINDOW_SHOWN;
 	if (fullscreen)
 		flags |= SDL_WINDOW_FULLSCREEN;
 	if (resizable)
@@ -188,6 +172,11 @@ bool Window::SetSize(const RectI& rect, int multisample, bool fullscreen, bool r
 		flags |= SDL_WINDOW_BORDERLESS;
 	if (highDPI)
 		flags |= SDL_WINDOW_ALLOW_HIGHDPI;
+#if defined(AUTO_OPENGL)
+	flags |= SDL_WINDOW_OPENGL;
+#elif defined(AUTO_VULKAN)
+	flags |= SDL_WINDOW_VULKAN;
+#endif
 
 	// The _position _size will be reset later
 	_handle = SDL_CreateWindow(
