@@ -1,8 +1,21 @@
 #pragma once
 #include "UINode.h"
+#include <imgui.h>
 
 namespace Auto3D
 {
+
+namespace WindowFlags
+{
+	enum Type
+	{
+		NONE = ImGuiWindowFlags_None,
+		NO_TITLE_BAR = ImGuiWindowFlags_NoTitleBar,   // Disable title-bar
+		NO_RESIZE = ImGuiWindowFlags_NoResize = 1 << 1,   // Disable user resizing with the lower-right grip
+		NO_MOVE = ImGuiWindowFlags_NoMove = 1 << 2,   // Disable user moving the window
+	};
+}
+	
 /// Location of all components of the Renderer2D
 class AUTO_API Canvas : public UINode
 {
