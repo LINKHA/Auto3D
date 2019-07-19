@@ -164,7 +164,7 @@ void Engine::Render()
 	// Render UI
 	{
 		PROFILE(RenderUI);
-		_ui->BeginUI();
+		
 		for (auto it = _registeredBox->GetCanvas().Begin(); it != _registeredBox->GetCanvas().End(); it++)
 		{
 			if ((*it)->IsEnabled())
@@ -183,6 +183,7 @@ void Engine::Render()
 bool Engine::Update()
 {
 	_profiler->BeginFrame();
+	_ui->BeginUI();
 	_time->Update();
 	_input->Update();
 	//If the window is minimized do not render

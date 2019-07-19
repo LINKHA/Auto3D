@@ -1,6 +1,5 @@
 #pragma once
 #include "UINode.h"
-#include <imgui.h>
 
 namespace Auto3D
 {
@@ -9,10 +8,10 @@ namespace WindowFlags
 {
 	enum Type
 	{
-		NONE = ImGuiWindowFlags_None,
-		NO_TITLE_BAR = ImGuiWindowFlags_NoTitleBar,   // Disable title-bar
-		NO_RESIZE = ImGuiWindowFlags_NoResize = 1 << 1,   // Disable user resizing with the lower-right grip
-		NO_MOVE = ImGuiWindowFlags_NoMove = 1 << 2,   // Disable user moving the window
+		NONE = 0,
+		NO_TITLE_BAR = 1 << 0,   // Disable title-bar
+		NO_RESIZE = 1 << 1,   // Disable user resizing with the lower-right grip
+		NO_MOVE = 1 << 2,   // Disable user moving the window
 	};
 }
 	
