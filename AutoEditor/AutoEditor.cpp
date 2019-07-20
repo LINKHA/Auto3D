@@ -2,6 +2,8 @@
 #include "SelectProjectWindow.h"
 
 #include <ThirdParty/Imgui/imgui.h>
+#include <ThirdParty/Imgui/imgui_user/imgui_user.h>
+
 void AutoEditor::Init()
 {
 	auto* graphics = Object::Subsystem<Graphics>();
@@ -18,29 +20,28 @@ void AutoEditor::Update()
 	Vector2I windowSize = window->GetSize();
 
 	{
-		static float f = 0.0f;
-		static int counter = 0;
-
+		ImGui::PushFont("standard_big");
 		bool state;
 		ImGuiWindowFlags windowFlag = 0;
 		windowFlag |= ImGuiWindowFlags_NoTitleBar;
 		windowFlag |= ImGuiWindowFlags_NoResize;
 		windowFlag |= ImGuiWindowFlags_NoMove;
 		//windowFlag |= ImGuiWindowFlags_NoBackground;
-		ImGui::Begin("Hello, world!", &state, windowFlag);// Create a window called "Hello, world!" and append into it.
+		ImGui::Begin("SelectProjectWindow", &state, windowFlag);// Create a window called "Hello, world!" and append into it.
 		ImGui::SetWindowPos(ImVec2(0, 0));
 		ImGui::SetWindowSize(ImVec2(windowSize._x, windowSize._y));
 
-		ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
+		if (ImGui::Button("Project Create",ImVec2(372.0f,200.0f)))
+		{
+		}
+		//ImGui::SameLine();
+			
+		if (ImGui::Button("Project Select"))
+		{
+		}
+		//ImGui::SameLine();
+		ImGui::PopFont();
 
-		ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-
-		if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-			counter++;
-		ImGui::SameLine();
-		ImGui::Text("counter = %d", counter);
-
-		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 		ImGui::End();
 	}
 	

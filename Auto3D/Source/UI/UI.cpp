@@ -7,6 +7,7 @@
 #include "CheckBox.h"
 
 #include <imgui.h>
+#include <imgui_user/imgui_user.h>
 
 #include "../Adapter/imgui_impl_sdl.h"
 #if defined(AUTO_OPENGL)
@@ -17,6 +18,11 @@
 #include "../Graphics/Graphics.h"
 
 #include "../Debug/Log.h"
+
+#pragma region TTF
+#	include "tff.FontDefault.h"
+#pragma endregion
+
 
 namespace Auto3D
 {
@@ -34,6 +40,21 @@ UI::UI() :
 	// Setup Dear ImGui style
 	ImGui::StyleColorsYellow();
 
+
+	ImFontConfig config;
+	config.FontDataOwnedByAtlas = false;
+	config.MergeMode = false;
+
+	ImGui::AddFont("default", io.Fonts->AddFontDefault(&config));
+	ImGui::AddFont("standard",
+		io.Fonts->AddFontFromMemoryTTF(reinterpret_cast<void*>(std::intptr_t(sFontDefault)),
+			sizeof(sFontDefault), 20, &config));
+	
+	config.MergeMode = false;
+	config.PixelSnapH = false;
+	ImGui::AddFont("standard_big",
+		io.Fonts->AddFontFromMemoryTTF(reinterpret_cast<void*>(std::intptr_t(sFontDefault)),
+			sizeof(sFontDefault), 50, &config));
 	RegisterSubsystem(this);
 }
 
