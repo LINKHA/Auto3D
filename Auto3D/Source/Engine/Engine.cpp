@@ -171,12 +171,6 @@ void Engine::Render()
 				_ui->Render(*it);
 		}
 	}
-	//Present ui and graphics
-	{
-		PROFILE(RenderPresent);
-		_ui->Present();
-		_graphics->Present();
-	}
 }
 
 
@@ -203,6 +197,13 @@ bool Engine::Update()
 }
 void Engine::FrameFinish()
 {
+	//Present ui and graphics
+	{
+		PROFILE(RenderPresent);
+		_ui->Present();
+		_graphics->Present();
+	}
+
 	ApplyFrameLimit();
 	_profiler->EndFrame();
 }
