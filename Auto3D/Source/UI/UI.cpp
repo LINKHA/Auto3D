@@ -45,14 +45,14 @@ UI::UI() :
 	config.FontDataOwnedByAtlas = false;
 	config.MergeMode = false;
 
-	ImGui::AddFont("default", io.Fonts->AddFontDefault(&config));
-	ImGui::AddFont("standard",
+	ImGui::AddFont(UIFont::default, io.Fonts->AddFontDefault(&config));
+	ImGui::AddFont(UIFont::standard,
 		io.Fonts->AddFontFromMemoryTTF(reinterpret_cast<void*>(std::intptr_t(sFontDefault)),
 			sizeof(sFontDefault), 20, &config));
 	
 	config.MergeMode = false;
 	config.PixelSnapH = false;
-	ImGui::AddFont("standard_big",
+	ImGui::AddFont(UIFont::standard_big,
 		io.Fonts->AddFontFromMemoryTTF(reinterpret_cast<void*>(std::intptr_t(sFontDefault)),
 			sizeof(sFontDefault), 50, &config));
 	RegisterSubsystem(this);

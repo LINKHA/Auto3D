@@ -14,6 +14,13 @@ namespace UIStyleColors
 	const static Color Text = Color(1.00f, 1.00f, 1.00f, 1.00f);
 }
 
+namespace UIFont
+{
+	const static char* default = "default";
+	const static char* standard = "standard";
+	const static char* standard_big = "standard_big";
+}
+
 class Canvas;
 
 class AUTO_API UI : public BaseSubsystem

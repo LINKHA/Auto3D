@@ -4,10 +4,6 @@
 #include <ThirdParty/Imgui/imgui.h>
 #include <ThirdParty/Imgui/imgui_user/imgui_user.h>
 
-void DrawStartPage()
-{
-
-}
 
 void AutoEditor::Init()
 {
@@ -37,7 +33,7 @@ void AutoEditor::Update()
 		ImGui::SetWindowPos(ImVec2(0, 0));
 		ImGui::SetWindowSize(ImVec2(windowSize._x, windowSize._y));
 
-		ImGui::PushFont("standard_big");
+		ImGui::PushFont(UIFont::standard_big);
 
 		ImGuiWindowFlags flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove |
 			ImGuiWindowFlags_NoResize | ImGuiWindowFlags_HorizontalScrollbar |
