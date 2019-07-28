@@ -4,8 +4,14 @@
 #include <ThirdParty/Imgui/imgui.h>
 #include <ThirdParty/Imgui/imgui_user/imgui_user.h>
 
-void DrawStartPage(const Vector2I& windowSize)
+void DrawStartPage(Window* window)
 {
+	Vector2I windowSize = window->GetSize();
+	auto onCreateProject = [&](const String& p)
+	{
+
+	};
+
 	bool state;
 	ImGuiWindowFlags windowFlag = 0;
 	windowFlag |= ImGuiWindowFlags_NoTitleBar;
@@ -45,12 +51,20 @@ void DrawStartPage(const Vector2I& windowSize)
 	{
 		if (ImGui::Button("NEW PROJECT", ImVec2(ImGui::GetContentRegionAvailWidth(), 0.0f)))
 		{
-
+			String path;
+			if (PickFolderDialog("", path))
+			{
+				onCreateProject(path);
+			}
 		}
 
 		if (ImGui::Button("OPEN OTHER", ImVec2(ImGui::GetContentRegionAvailWidth(), 0.0f)))
 		{
-
+			String path;
+			if (PickFolderDialog("", path))
+			{
+				
+			}
 		}
 	}
 	ImGui::EndGroup();
@@ -72,9 +86,9 @@ void AutoEditor::Start()
 void AutoEditor::Update()
 {
 	auto* window = Subsystem<Graphics>()->RenderWindow();
-	Vector2I windowSize = window->GetSize();
 
-	DrawStartPage(windowSize);
+
+	DrawStartPage(window);
 	
 }
 

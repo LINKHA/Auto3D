@@ -16,7 +16,6 @@ macro (add_engine_directory_group DIRECTORY GROUP)
     list (APPEND SOURCE_FILES ${DIR_FILES})
 endmacro ()
 
-
 # Add root-level files
 file (GLOB AUTO_FILES *.h *.c *.cpp)
 list (APPEND SOURCE_FILES ${AUTO_FILES})

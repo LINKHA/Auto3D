@@ -10,6 +10,7 @@ add_subdirectory(${AUTO_ROOT_PATH}/Auto3D/ThirdParty/STB)
 add_subdirectory(${AUTO_ROOT_PATH}/Auto3D/ThirdParty/FreeType)
 add_subdirectory(${AUTO_ROOT_PATH}/Auto3D/ThirdParty/LibCpuId)
 add_subdirectory(${AUTO_ROOT_PATH}/Auto3D/ThirdParty/Imgui)
+add_subdirectory(${AUTO_ROOT_PATH}/Auto3D/ThirdParty/filedialog)
 
 if (AUTO_OPENGL)
 	add_subdirectory(${AUTO_ROOT_PATH}/Auto3D/ThirdParty/glad)

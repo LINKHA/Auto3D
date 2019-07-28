@@ -64,5 +64,6 @@
 #include "UI/Slider.h"
 #include "UI/ColorEdit.h"
 #include "UI/CheckBox.h"
+#include "Adapter/AutoFileDialog.h"
 
 #include "Application.h"
