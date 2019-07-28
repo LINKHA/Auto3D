@@ -11,4 +11,8 @@ public:
 	void Start()override;
 	void Update()override;
 	void Stop()override;
+private:
+	void DrawMainPage();
+
+	bool mainFlag = false;
 };
