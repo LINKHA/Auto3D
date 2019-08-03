@@ -22,8 +22,8 @@ void StartPage::DrawStartPage()
 	ImGuiWindowFlags windowFlag = 0;
 	windowFlag |= ImGuiWindowFlags_NoTitleBar;
 	windowFlag |= ImGuiWindowFlags_NoResize;
-	windowFlag |= ImGuiWindowFlags_NoMove;
-	//windowFlag |= ImGuiWindowFlags_NoBackground;
+	//windowFlag |= ImGuiWindowFlags_NoMove;
+	windowFlag |= ImGuiWindowFlags_NoBackground;
 	ImGui::Begin("SelectProjectWindow", &state, windowFlag);// Create a window called "Hello, world!" and append into it.
 
 	ImGui::SetWindowPos(ImVec2(0, 0));
@@ -48,6 +48,7 @@ void StartPage::DrawStartPage()
 			Vector<String> rencentProjects;
 			rencentProjects.Push("C:/Users/Administrator/Desktop/Test");
 			rencentProjects.Push("C:/Users/Administrator/Desktop/Test2");
+
 			for (auto it = rencentProjects.Begin(); it != rencentProjects.End(); ++it)
 			{
 				String path = *it;
