@@ -57,7 +57,6 @@
 #include "Auto2D/Sprite2D.h"
 #include "Physics/Physics.h"
 #include "UI/UI.h"
-#include "UI/GUI.h"
 #include "UI/Canvas.h"
 #include "UI/Text.h"
 #include "UI/Button.h"

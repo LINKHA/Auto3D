@@ -22,7 +22,7 @@ void PBRSample::Start()
 	camera->SetPosition(Vector3F(0.0f, 10.0f, -20.0f));
 	camera->SetAmbientColor(Color(1.0f, 0.1f, 0.1f));
 
-	/*StaticModel* sphere = scene->CreateChild<StaticModel>();
+	StaticModel* sphere = scene->CreateChild<StaticModel>();
 	sphere->SetPosition(Vector3F(5.0f, 5.0f, 0.0f));
 	sphere->SetScale(Vector3F(2.0f, 2.0f,2.0f));
 	sphere->SetCastShadows(true);
@@ -35,10 +35,10 @@ void PBRSample::Start()
 	TeaPot->SetCastShadows(true);
 	TeaPot->SetModel(cache->LoadResource<Model>("TeaPot.mdl"));
 	TeaPot->SetMaterial(cache->LoadResource<Material>("PBRTexture.json"));
-*/
+
 	SkyBox* skybox = scene->CreateChild<SkyBox>();
 	skybox->SetMaterial(cache->LoadResource<Material>("HdrSkyBox.json"));
-/*
+
 	Light* light = scene->CreateChild<Light>();
 	light->SetLightType(LightType::POINT);
 	light->SetCastShadows(true);
@@ -65,7 +65,7 @@ void PBRSample::Start()
 	light4->SetCastShadows(true);
 	light4->SetColor(Color(500.0f, 500.0f, 500.0f));
 	light4->SetRange(100.0f);
-	light4->SetPosition(Vector3F(10.0f, -10.0f, -10.0f));*/
+	light4->SetPosition(Vector3F(10.0f, -10.0f, -10.0f));
 	
 }
 void PBRSample::Update()
