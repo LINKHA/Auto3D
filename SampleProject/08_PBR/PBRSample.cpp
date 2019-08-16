@@ -29,12 +29,21 @@ void PBRSample::Start()
 	sphere->SetModel(cache->LoadResource<Model>("Sphere.mdl"));
 	sphere->SetMaterial(cache->LoadResource<Material>("PBRNoTexture.json"));
 
-	StaticModel* TeaPot = scene->CreateChild<StaticModel>();
-	TeaPot->SetPosition(Vector3F(-5.0f, 0.0f, 0.0f));
-	TeaPot->SetScale(Vector3F(10.0f, 10.0f, 10.0f));
-	TeaPot->SetCastShadows(true);
-	TeaPot->SetModel(cache->LoadResource<Model>("TeaPot.mdl"));
-	TeaPot->SetMaterial(cache->LoadResource<Material>("PBRTexture.json"));
+	StaticModel* teaPot = scene->CreateChild<StaticModel>();
+	teaPot->SetPosition(Vector3F(-5.0f, 0.0f, 0.0f));
+	teaPot->SetScale(Vector3F(10.0f, 10.0f, 10.0f));
+	teaPot->SetCastShadows(true);
+	teaPot->SetModel(cache->LoadResource<Model>("TeaPot.mdl"));
+	teaPot->SetMaterial(cache->LoadResource<Material>("PBRPlastic.json"));
+
+
+	StaticModel* plane = scene->CreateChild<StaticModel>();
+	plane->SetPosition(Vector3F(-5.0f, 0.0f, 0.0f));
+	plane->SetScale(Vector3F(100.0f, 1.0f, 100.0f));
+	plane->SetCastShadows(true);
+	plane->SetModel(cache->LoadResource<Model>("Box.mdl"));
+	plane->SetMaterial(cache->LoadResource<Material>("PBRWood.json"));
+
 
 	SkyBox* skybox = scene->CreateChild<SkyBox>();
 	skybox->SetMaterial(cache->LoadResource<Material>("HdrSkyBox.json"));
@@ -44,28 +53,28 @@ void PBRSample::Start()
 	light->SetCastShadows(true);
 	light->SetColor(Color(500.0f, 500.0f, 500.0f));
 	light->SetRange(100.0f);
-	light->SetPosition(Vector3F(-10.0f, 10.0f, -10.0f));
+	light->SetPosition(Vector3F(-10.0f, 10.0f, 10.0f));
 
 	Light* light2 = scene->CreateChild<Light>();
 	light2->SetLightType(LightType::POINT);
 	light2->SetCastShadows(true);
 	light2->SetColor(Color(500.0f, 500.0f, 500.0f));
 	light2->SetRange(100.0f);
-	light2->SetPosition(Vector3F(10.0f, 10.0f, -10.0f));
+	light2->SetPosition(Vector3F(10.0f, 10.0f, 10.0f));
 
 	Light* light3 = scene->CreateChild<Light>();
 	light3->SetLightType(LightType::POINT);
 	light3->SetCastShadows(true);
 	light3->SetColor(Color(500.0f, 500.0f, 500.0f));
 	light3->SetRange(100.0f);
-	light3->SetPosition(Vector3F(-10.0f, -10.0f, -10.0f));
+	light3->SetPosition(Vector3F(-10.0f, -10.0f, 10.0f));
 
 	Light* light4 = scene->CreateChild<Light>();
 	light4->SetLightType(LightType::POINT);
 	light4->SetCastShadows(true);
 	light4->SetColor(Color(500.0f, 500.0f, 500.0f));
 	light4->SetRange(100.0f);
-	light4->SetPosition(Vector3F(10.0f, -10.0f, -10.0f));
+	light4->SetPosition(Vector3F(10.0f, -10.0f, 10.0f));
 	
 }
 void PBRSample::Update()

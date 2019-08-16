@@ -1,0 +1,45 @@
+{
+  "passes": {
+    "opaque": {
+      "vs": "PBRTexture",
+      "ps": "PBRTexture",
+      "depthFunc": "lessEqual",
+      "depthWrite": true,
+      "depthClip": true,
+      "alphaToCoverage": false,
+      "blendMode": "replace",
+      "fillMode": "solid",
+      "cullMode": "back"
+    },
+	"opaqueadd": {
+      "vs": "PBRTexture",
+      "ps": "PBRTexture",
+      "depthFunc": "lessEqual",
+      "depthWrite": false,
+      "depthClip": true,
+      "alphaToCoverage": false,
+      "blendMode": "add",
+      "fillMode": "solid",
+      "cullMode": "back"
+    },
+	"shadow": {
+      "vs": "Shadow",
+      "ps": "Shadow",
+      "depthFunc": "lessEqual",
+      "depthWrite": true,
+      "depthClip": true,
+      "alphaToCoverage": false,
+      "blendMode": "replace",
+      "colorWriteMask": 0,
+      "fillMode": "solid",
+      "cullMode": "back"
+    }
+  },
+  "textures": {
+	"0": "PBR/Wood/bamboo-wood-semigloss-albedo.png",
+	"1": "PBR/Wood/bamboo-wood-semigloss-normal.png",
+	"2": "PBR/Wood/bamboo-wood-semigloss-metal.png",
+	"3": "PBR/Wood/bamboo-wood-semigloss-roughness.png",
+	"4": "PBR/Wood/bamboo-wood-semigloss-ao.png"
+  }
+}
