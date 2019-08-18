@@ -64,3 +64,6 @@ Bin/04_Mesh.exe
 Bin/03_Sprite.exe
 Bin/imgui.ini
 Build_Vulkan/
+Bin/09_Physics.pdb
+Bin/09_Physics.ilk
+Bin/09_Physics.exe
