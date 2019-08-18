@@ -30,6 +30,10 @@ Third-party libraries
 - FreeType (https://www.freetype.org)
 - LibCpuId (http://libcpuid.sourceforge.net)
 
+PBR-DEMO
+-------
+![Image text](https://github.com/LINKHA/Auto3D/blob/master/Bin/Data/figure/Engine_Effect_PBR.png)
+
 Scene-DEMO
 -------
 ![Image text](https://github.com/LINKHA/Auto3D/blob/master/Bin/Data/figure/Engine_Effect_Mesh.png)
@@ -37,4 +41,5 @@ Scene-DEMO
 Skybox-DEMO
 -------
 ![Image text](https://github.com/LINKHA/Auto3D/blob/master/Bin/Data/figure/Engine_Effect_Skyboxs.png)
+
 
