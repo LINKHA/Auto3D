@@ -317,10 +317,13 @@ void Engine::ApplyFrameLimit()
 void Engine::DoExit()
 {
 	auto* graphics = Subsystem<Graphics>();
+	auto* profiler = Subsystem<Profiler>();
 	if (graphics)
 		graphics->Close();
 
+	LogString(profiler->OutputResults());
 	_exiting = true;
+
 }
 
 }

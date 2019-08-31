@@ -165,7 +165,7 @@ void Profiler::BeginInterval()
 String Profiler::OutputResults(bool showUnused, bool showTotal, size_t maxDepth) const
 {
     String output;
-
+	output += String("\n--------------------------------------------------------------------------\n");
     if (!showTotal)
         output += String("Block                            Cnt     Avg      Max     Frame     Total\n\n");
     else
@@ -199,7 +199,7 @@ void Profiler::OutputResults(ProfilerBlock* block, String& output, size_t depth,
     {
         if (showUnused || block->_intervalCount || (showTotal && block->_totalCount))
         {
-            memset(indentedName, ' ', NAME_MAX_LENGTH);
+            memset(indentedName, '-', NAME_MAX_LENGTH);
             indentedName[depth] = 0;
             strcat(indentedName, block->_name);
             indentedName[strlen(indentedName)] = ' ';
