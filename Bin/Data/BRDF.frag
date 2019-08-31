@@ -190,14 +190,14 @@ vec3 GetBRDF(vec3 lightVec,vec3 viewVec,vec3 normal,vec3 lightColor,float distan
 {
 	vec3 F0 = vec3(0.04); 
 	F0 = mix(F0, albedo, metallic);
-	vec3 half = normalize(viewVec + lightVec);
+	vec3 halfVec = normalize(viewVec + lightVec);
 	float attenuation = 1.0 / (distance * distance);
 	
-	float VdotH = clamp(dot(half, viewVec), 0.0, 1.0);
-	float LdotH = clamp(dot(half, lightVec), 0.0, 1.0);
+	float VdotH = clamp(dot(halfVec, viewVec), 0.0, 1.0);
+	float LdotH = clamp(dot(halfVec, lightVec), 0.0, 1.0);
 	float NdotL = max(dot(normal, lightVec), 0.0);
 	float NdotV = max(dot(viewVec, normal), 0.0);
-	float NdotH = max(dot(normal, half), 0.0);	
+	float NdotH = max(dot(normal, halfVec), 0.0);	
 	
 	
 	vec3 radiance = lightColor * attenuation;

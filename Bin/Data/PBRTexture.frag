@@ -55,7 +55,7 @@ void main()
 		vec3 lightColor = vec3(lightColors[i]);
 
 		vec3 lightVec = normalize(lightPosition - worldPos);	 
-		vec3 half = normalize(viewVec + lightVec);		
+		vec3 halfVec = normalize(viewVec + lightVec);		
 		
 		float distance = length(lightPosition - worldPos);	
 		
