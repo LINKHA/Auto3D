@@ -85,8 +85,10 @@ private:
 	UniquePtr<Input> _input;
 	/// Engine Log
 	UniquePtr<Log> _log;
+#ifdef AUTO_PROFILING
 	/// Hierarchical performance profiler subsystem.
 	UniquePtr<Profiler> _profiler;
+#endif
 	/// Process all engine time, calculate FPS, etc
 	UniquePtr<Time> _time;
 	/// The message management mechanism for the underlying interaction between the game project and the engine

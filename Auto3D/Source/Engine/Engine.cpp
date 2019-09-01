@@ -55,7 +55,9 @@ Engine::Engine():
 
 	_log = new Log();
 	_input = new Input();
+#ifdef AUTO_PROFILING
 	_profiler = new Profiler();
+#endif
 	_graphics = new Graphics();
 	_renderer = new Renderer();
 	_time = new Time();
@@ -317,13 +319,14 @@ void Engine::ApplyFrameLimit()
 void Engine::DoExit()
 {
 	auto* graphics = Subsystem<Graphics>();
-	auto* profiler = Subsystem<Profiler>();
+	
 	if (graphics)
 		graphics->Close();
-
-	LogString(profiler->OutputResults());
 	_exiting = true;
-
+#ifdef AUTO_PROFILING
+	auto* profiler = Subsystem<Profiler>();
+	LogString(profiler->OutputResults());
+#endif
 }
 
 }
