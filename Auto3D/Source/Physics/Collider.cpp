@@ -20,6 +20,7 @@ Collider::~Collider()
 {
 	//if(_physicsWorld)
 	//	_physicsWorld->RemoveCollider(this);
+	SafeDelete(_shape);
 }
 
 void Collider::RegisterObject()

@@ -1,6 +1,6 @@
 #pragma once
-#include <btBulletDynamicsCommon.h>
 #include <btBulletCollisionCommon.h>
+#include <btBulletDynamicsCommon.h>
 
 #include "../Scene/Node.h"
 #include "../Time/Time.h"
