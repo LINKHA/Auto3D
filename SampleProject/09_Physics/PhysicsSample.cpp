@@ -25,8 +25,9 @@ void PhysicsSample::Start()
 	scene = new Scene();
 	scene->CreateChild<Octree>();
 	camera = scene->CreateChild<Camera>();
-	camera->SetPosition(Vector3F(0.0f, 10.0f, -20.0f));
-	camera->SetAmbientColor(Color(1.0f, 0.1f, 0.1f));
+	camera->SetPosition(Vector3F(0.0f, 10.0f, -60.0f));
+	//camera->SetOrthographic(true);
+	//camera->SetAmbientColor(Color(1.0f, 1.0f, 0.1f));
 
 	///-----includes_end-----
 
@@ -66,7 +67,7 @@ void PhysicsSample::Start()
 
 		btTransform groundTransform;
 		groundTransform.setIdentity();
-		groundTransform.setOrigin(btVector3(0, 0, 0));
+		groundTransform.setOrigin(btVector3(0, -50.0f, 0));
 
 		btScalar mass(0.);
 
@@ -119,9 +120,10 @@ void PhysicsSample::Start()
 	box1 = scene->CreateChild<StaticModel>();
 	box1->SetScale(Vector3F(50.0f, 50.0f, 50.0f));
 	box1->SetModel(cache->LoadResource<Model>("Box.mdl"));
+	box1->SetMaterial(cache->LoadResource<Material>("Stone.json"));
 
 	box2 = scene->CreateChild<StaticModel>();
-	box2->SetScale(Vector3F(1.0f, 1.0f, 1.0f));
+	box2->SetScale(Vector3F(2.0f, 2.0f, 2.0f));
 	box2->SetModel(cache->LoadResource<Model>("Sphere.mdl"));
 	
 }
@@ -168,8 +170,12 @@ void PhysicsSample::Update()
 		}
 		if (j == 0)
 		{
-			box1->SetPosition(Vector3F(float(trans.getOrigin().getX()), float(trans.getOrigin().getY()), float(trans.getOrigin().getZ())));
+			box1->SetPosition(Vector3F(float(trans.getOrigin().getX()), float(trans.getOrigin().getY() + 25.0f), float(trans.getOrigin().getZ())));
 			//box1->SetRotation(Quaternion(ToQuaternion(trans.getRotation())));
+			if (input->IsKeyDown(KEY_O))
+				box1->SetScale(box1->GetScale() + Vector3F(0.1f, 0.1f, 0.1f));
+			if (input->IsKeyDown(KEY_L))
+				box1->SetScale(box1->GetScale() - Vector3F(0.1f, 0.1f, 0.1f));
 		}
 		if (j == 1)
 		{
