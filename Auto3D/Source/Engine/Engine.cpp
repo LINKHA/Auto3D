@@ -137,9 +137,10 @@ void Engine::Render()
 	// Render scene
 	{
 		PROFILE(RenderScene);
-		for (auto it = _registeredBox->GetScenes().Begin(); it != _registeredBox->GetScenes().End(); it++)
+
+		Scene* scene = _registeredBox->GetActiveScene();/**it;*/
+		if (scene)
 		{
-			Scene* scene = *it;
 			Vector<Camera*>& cameras = scene->GetAllCamera();
 			for (auto cameraIt = cameras.Begin(); cameraIt != cameras.End(); ++cameraIt)
 			{
@@ -153,25 +154,27 @@ void Engine::Render()
 	// Render Renderer2D
 	{
 		PROFILE(RenderScene2D);
-		for (auto it = _registeredBox->GetScene2D().Begin(); it != _registeredBox->GetScene2D().End(); it++)
+
+		Scene2D* scene2d = _registeredBox->GetActiveScene2D();
+		if (scene2d)
 		{
-			Scene2D* scene = *it;
-			Vector<Camera2D*>& cameras = scene->GetAllCamera();
+			Vector<Camera2D*>& cameras = scene2d->GetAllCamera();
 			for (auto cameraIt = cameras.Begin(); cameraIt != cameras.End(); ++cameraIt)
 			{
 				Camera2D* camera = *cameraIt;
-				_renderer2d->Render(scene, camera);
+				_renderer2d->Render(scene2d, camera);
 			}
 		}
 	}
 	// Render UI
 	{
 		PROFILE(RenderUI);
-		
-		for (auto it = _registeredBox->GetCanvas().Begin(); it != _registeredBox->GetCanvas().End(); it++)
+
+		Canvas* canvas = _registeredBox->GetActiveCanvas();
+		if (canvas)
 		{
-			if ((*it)->IsEnabled())
-				_ui->Render(*it);
+			if (canvas->IsEnabled())
+				_ui->Render(canvas);
 		}
 	}
 }

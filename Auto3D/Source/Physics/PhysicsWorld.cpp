@@ -1,5 +1,7 @@
 #include "PhysicsWorld.h"
 #include "PhysicsUtils.h"
+#include "../RegisteredBox/RegisteredBox.h"
+#include "../Scene/Scene.h"
 
 namespace Auto3D 
 {
@@ -34,6 +36,10 @@ PhysicsWorld::PhysicsWorld():
 	//_world->setInternalTickCallback(InternalPreTickCallback, static_cast<void*>(this), true);
 	//_world->setInternalTickCallback(InternalTickCallback, static_cast<void*>(this), false);
 	_world->setSynchronizeAllMotionStates(true);
+
+
+	// Get active scene to set physics world
+	Object::Subsystem<RegisteredBox>()->GetActiveScene()->SetPhysicsWorld(this);
 }
 
 

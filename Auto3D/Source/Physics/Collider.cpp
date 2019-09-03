@@ -2,6 +2,8 @@
 #include "PhysicsWorld.h"
 #include "PhysicsUtils.h"
 
+#include "../RegisteredBox/RegisteredBox.h"
+#include "../Scene/Scene.h"
 #include "../Debug/DebugNew.h"
 
 namespace Auto3D {
@@ -10,7 +12,7 @@ namespace Auto3D {
 Collider::Collider() :
 	_cachedWorldScale(Vector3F::ONE)
 {
-	//_physicsWorld = GetCurrentSceneNode()->GetComponent<PhysicsWorld>();
+	_physicsWorld = Object::Subsystem<RegisteredBox>()->GetActiveScene()->GetPhysicsWorld();
 	//_physicsWorld->AddCollider(this);
 	//NotifyRigidBody();
 }

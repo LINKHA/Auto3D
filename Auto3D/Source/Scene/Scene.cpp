@@ -5,6 +5,8 @@
 #include "../Resource/JSONFile.h"
 #include "../Renderer/Renderer.h"
 #include "../RegisteredBox/RegisteredBox.h"
+#include "../Physics/PhysicsWorld.h"
+
 #include "Scene.h"
 #include "SpatialNode.h"
 
@@ -14,7 +16,8 @@ namespace Auto3D
 {
 
 Scene::Scene() :
-    _nextNodeId(1)
+    _nextNodeId(1),
+	_physicsWorld(nullptr)
 {
     // Register self to allow finding by ID
     AddNode(this);
@@ -241,6 +244,21 @@ void Scene::RemoveNode(Node* node)
         for (auto it = children.Begin(); it != children.End(); ++it)
             RemoveNode(*it);
     }
+}
+
+void Scene::SetPhysicsWorld(PhysicsWorld* physicsWorld)
+{
+	_physicsWorld = physicsWorld;
+}
+
+PhysicsWorld* Scene::GetPhysicsWorld()
+{
+	if (_physicsWorld)
+	{
+		return _physicsWorld;
+	}
+	WarningString("Physics world failed to read, may be not created");
+	return nullptr;
 }
 
 void Scene::SetLayerNamesAttr(JSONValue names)

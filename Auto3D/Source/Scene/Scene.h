@@ -6,6 +6,7 @@ namespace Auto3D
 {
 
 class Camera;
+class PhysicsWorld;
 
 /// %Scene root node, which also represents the whole scene.
 class AUTO_API Scene : public Node
@@ -51,6 +52,10 @@ public:
 	void AddCamera(Camera* camera) { _cameras.Push(camera); }
 	/// Remove camera from the scene.
 	void RemoveCamera(Camera* camera) { _cameras.Remove(camera); }
+	/// Set 3D physics world.
+	void SetPhysicsWorld(PhysicsWorld* physicsWorld);
+	/// Get 3D physics world.
+	PhysicsWorld* GetPhysicsWorld();
 
     using Node::Load;
     using Node::LoadJSON;
@@ -72,6 +77,9 @@ private:
 	Vector<Camera*> _cameras;
     /// Next free node id.
     unsigned _nextNodeId;
+
+	/// Physics world custom assign this variable
+	PhysicsWorld* _physicsWorld;
 
 };
 

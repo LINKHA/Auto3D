@@ -236,9 +236,6 @@
 
 
 #include "PhysicsSample.h"
-#include "ThirdParty/Bullet/btBulletCollisionCommon.h"
-#include "ThirdParty/Bullet/btBulletDynamicsCommon.h"
-//#include "Source/Physics/PhysicsUtils.h"
 
 void PhysicsSample::Init()
 {
@@ -259,6 +256,8 @@ void PhysicsSample::Start()
 	scene = new Scene();
 	scene->CreateChild<Octree>();
 	camera = scene->CreateChild<Camera>();
+	scene->CreateChild<PhysicsWorld>();
+
 	camera->SetPosition(Vector3F(0.0f, 10.0f, -60.0f));
 	
 }

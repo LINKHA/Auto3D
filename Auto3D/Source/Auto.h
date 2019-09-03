@@ -63,6 +63,12 @@
 #include "UI/Slider.h"
 #include "UI/ColorEdit.h"
 #include "UI/CheckBox.h"
+#include "Physics/Physics.h"
+#include "Physics/PhysicsWorld.h"
+#include "Physics/PhysicsUtils.h"
+#include "Physics/Collider.h"
+#include "Physics/ColliderBox.h"
+
 #include "Adapter/AutoFileDialog.h"
 
 #include "Application.h"
