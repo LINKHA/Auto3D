@@ -139,7 +139,7 @@ void Engine::Render()
 		PROFILE(RenderScene);
 
 		Scene* scene = _registeredBox->GetActiveScene();/**it;*/
-		if (scene)
+		if (scene && scene->IsEnabled())
 		{
 			Vector<Camera*>& cameras = scene->GetAllCamera();
 			for (auto cameraIt = cameras.Begin(); cameraIt != cameras.End(); ++cameraIt)
@@ -156,7 +156,7 @@ void Engine::Render()
 		PROFILE(RenderScene2D);
 
 		Scene2D* scene2d = _registeredBox->GetActiveScene2D();
-		if (scene2d)
+		if (scene2d && scene2d->IsEnabled())
 		{
 			Vector<Camera2D*>& cameras = scene2d->GetAllCamera();
 			for (auto cameraIt = cameras.Begin(); cameraIt != cameras.End(); ++cameraIt)
@@ -171,10 +171,9 @@ void Engine::Render()
 		PROFILE(RenderUI);
 
 		Canvas* canvas = _registeredBox->GetActiveCanvas();
-		if (canvas)
+		if (canvas && canvas->IsEnabled())
 		{
-			if (canvas->IsEnabled())
-				_ui->Render(canvas);
+			_ui->Render(canvas);
 		}
 	}
 }
