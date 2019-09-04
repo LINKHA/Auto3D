@@ -248,6 +248,8 @@ Node* Node::CreateChild(StringHash childType)
     }
 
     AddChild(child);
+	child->ParentCallBack();
+
     return child;
 }
 

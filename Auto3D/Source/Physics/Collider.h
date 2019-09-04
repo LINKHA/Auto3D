@@ -37,12 +37,18 @@ public:
 	virtual ~Collider();
 	/// Register object factory.
 	static void RegisterObject();
+	
+
 	/// Get parent compound shape
 	btCompoundShape* GetParentCompoundShape();
 	/// Set rigidBody shape
 	void NotifyRigidBody();
 	/// Get shape
 	btCollisionShape* GetShape() { return _shape; }
+
+	/// This function is called when the parent node of this class is assigned.
+	virtual void ParentCallBack() override;
+
 protected:
 	/// Physics world form this collider
 	SharedPtr<PhysicsWorld> _physicsWorld;

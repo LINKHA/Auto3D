@@ -12,7 +12,6 @@ namespace Auto3D {
 Collider::Collider() :
 	_cachedWorldScale(Vector3F::ONE)
 {
-	_physicsWorld = Object::Subsystem<RegisteredBox>()->GetActiveScene()->GetPhysicsWorld();
 	//_physicsWorld->AddCollider(this);
 	//NotifyRigidBody();
 }
@@ -58,6 +57,10 @@ void Collider::NotifyRigidBody()
 }
 #endif
 
-
+void Collider::ParentCallBack()
+{
+	_physicsWorld = ParentScene()->GetPhysicsWorld();
+	//_physicsWorld->AddCollider(this);
+}
 
 }

@@ -54,7 +54,7 @@ public:
 	Vector<Collider*> GetColliders() { return _colliders; }
 	/// Get constraints (VECTOR<SharedPtr<Constraint> >)
 	Vector<Constraint*> GetConstraints() { return _constraints; }*/
-
+	virtual void ParentCallBack()override;
 	/// Overrides of the internal configuration
 	static struct PhysicsWorldConfig config;
 private:

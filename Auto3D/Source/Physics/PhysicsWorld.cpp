@@ -36,10 +36,6 @@ PhysicsWorld::PhysicsWorld():
 	//_world->setInternalTickCallback(InternalPreTickCallback, static_cast<void*>(this), true);
 	//_world->setInternalTickCallback(InternalTickCallback, static_cast<void*>(this), false);
 	_world->setSynchronizeAllMotionStates(true);
-
-
-	// Get active scene to set physics world
-	Object::Subsystem<RegisteredBox>()->GetActiveScene()->SetPhysicsWorld(this);
 }
 
 
@@ -116,6 +112,12 @@ void PhysicsWorld::DeleteColliders()
 	//	//_colliders[j]->GetShape() = 0;
 	//	delete shape;
 	//}
+}
+
+void PhysicsWorld::ParentCallBack()
+{
+	// Get active scene to set physics world
+	ParentScene()->SetPhysicsWorld(this);
 }
 
 }

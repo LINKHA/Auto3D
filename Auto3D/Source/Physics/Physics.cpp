@@ -1,5 +1,7 @@
 #include "Physics.h"
 #include "PhysicsWorld.h"
+#include "Collider.h"
+#include "ColliderBox.h"
 
 namespace Auto3D
 {
@@ -22,7 +24,8 @@ AUTO_API void RegisterPhysicsLibrary()
 	registered = true;
 
 	PhysicsWorld::RegisterObject();
-
+	Collider::RegisterObject();
+	ColliderBox::RegisterObject();
 }
 
 }
