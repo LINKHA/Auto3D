@@ -15,7 +15,8 @@ static const Vector3F DEFAULT_GRAVITY = Vector3F(0.0f, -9.81f, 0.0f);
 PhysicsWorldConfig PhysicsWorld::config;
 
 PhysicsWorld::PhysicsWorld():
-		_fps(DEFAULT_FPS)
+	_fps(DEFAULT_FPS),
+	_maxSubSteps(0)
 {
 	_time = Subsystem<Time>();
 
@@ -30,17 +31,15 @@ PhysicsWorld::PhysicsWorld():
 	_world = new btDiscreteDynamicsWorld(_collisionDispatcher, _broadphase, _solver, _collisionConfiguration);
 
 	_world->setGravity(ToBtVector3(DEFAULT_GRAVITY));
-	_world->getDispatchInfo().m_useContinuous = true;
-	_world->getSolverInfo().m_splitImpulse = false; // Disable by default for performance
-	//_world->setDebugDrawer(this);
-	//_world->setInternalTickCallback(InternalPreTickCallback, static_cast<void*>(this), true);
-	//_world->setInternalTickCallback(InternalTickCallback, static_cast<void*>(this), false);
+
 	_world->setSynchronizeAllMotionStates(true);
 }
 
 
 PhysicsWorld::~PhysicsWorld()
 {
+	ClearColliders();
+
 	SafeDelete(_world);
 	SafeDelete(_solver);
 	SafeDelete(_broadphase);
@@ -57,61 +56,56 @@ void PhysicsWorld::RegisterObject()
 void PhysicsWorld::Update()
 {
 	float timeStep = 0.1f;
-	SetFPS(1 / _time->GetDeltaTime());
 	float internalTimeStep = 1.0f / _fps;
 	int maxSubSteps = (int)(timeStep * _fps) + 1;
 
-	if (maxSubSteps < 0)
+	if (_maxSubSteps < 0)
 	{
 		internalTimeStep = timeStep;
 		maxSubSteps = 1;
 	}
+	else if (_maxSubSteps > 0)
+		maxSubSteps = Min(maxSubSteps, _maxSubSteps);
+
 	_world->stepSimulation(timeStep, maxSubSteps, internalTimeStep);
+
+	//print positions of all objects
+	for (int j = _world->getNumCollisionObjects() - 1; j >= 0; j--)
+	{
+		btCollisionObject* obj = _world->getCollisionObjectArray()[j];
+		btRigidBody* body = btRigidBody::upcast(obj);
+		btTransform trans;
+		if (body && body->getMotionState())
+		{
+			body->getMotionState()->getWorldTransform(trans);
+		}
+		else
+		{
+			trans = obj->getWorldTransform();
+		}
+
+		printf("world pos object %d = %f,%f,%f\n", j, float(trans.getOrigin().getX()), float(trans.getOrigin().getY()), float(trans.getOrigin().getZ()));
+	}
 }
-//
-//void PhysicsWorld::AddRigidBody(SharedPtr<RigidBody> rigidBody)
-//{
-//	_rigidBodies.push_back(rigidBody);
-//}
-//
-//void PhysicsWorld::RemoveRigidBody(SharedPtr<RigidBody> rigidBody)
-//{
-//	VectorFindEarse(_rigidBodies, rigidBody);
-//}
-//
-//void PhysicsWorld::AddCollider(SharedPtr<Collider> collider)
-//{
-//	_colliders.push_back(collider);
-//}
-//
-//void PhysicsWorld::RemoveCollider(SharedPtr<Collider> collider)
-//{
-//	VectorFindEarse(_colliders, collider);
-//}
-//
-//void PhysicsWorld::AddConstraint(SharedPtr<Constraint> constraint)
-//{
-//	_constraints.push_back(constraint);
-//}
-//
-//void PhysicsWorld::RemoveConstraint(SharedPtr<Constraint> constraint)
-//{
-//	VectorFindEarse(_constraints, constraint);
-//}
+
+void PhysicsWorld::AddCollider(Collider* collider)
+{
+	_colliders.Push(collider);
+}
+
+void PhysicsWorld::RemoveCollider(Collider* collider)
+{
+	_colliders.Remove(collider);
+}
 
 void PhysicsWorld::SetFPS(int fps)
 {
 	_fps = (unsigned)Clamp(fps, 1, 1000);
 }
 
-void PhysicsWorld::DeleteColliders()
+void PhysicsWorld::ClearColliders()
 {
-	//for (int j = 0; j < _colliders.size(); j++)
-	//{
-	//	btCollisionShape* shape = _colliders[j]->GetShape();
-	//	//_colliders[j]->GetShape() = 0;
-	//	delete shape;
-	//}
+	_colliders.Clear();
 }
 
 void PhysicsWorld::ParentCallBack()

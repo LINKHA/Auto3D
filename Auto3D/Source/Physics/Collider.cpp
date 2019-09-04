@@ -2,25 +2,56 @@
 #include "PhysicsWorld.h"
 #include "PhysicsUtils.h"
 
+#include "../Debug/Log.h"
+#include "../Scene/SpatialNode.h"
 #include "../RegisteredBox/RegisteredBox.h"
 #include "../Scene/Scene.h"
-#include "../Debug/DebugNew.h"
 
 namespace Auto3D {
 
+void RigidBody::getWorldTransform(btTransform& worldTrans) const
+{
+	worldTrans.setOrigin(ToBtVector3(_postion));
+	worldTrans.setRotation(ToBtQuaternion(_quaternion));
+}
+
+void RigidBody::setWorldTransform(const btTransform& worldTrans)
+{
+	_quaternion = BtToQuaternion(worldTrans.getRotation());
+	_postion = BtToVector3(worldTrans.getOrigin());
+
+	RigidBody* parentRigidBody = nullptr;
+}
+
+void RigidBody::CreateRigidBody(float mass, const Vector3F& inertia, btCollisionShape* shape, const Vector3F& postion, const Quaternion& quaternion)
+{
+	bool isDynamic = (mass != 0.f);
+	_isDynamic = isDynamic;
+	_mass = mass;
+	_inertia = inertia;
+	_postion = postion;
+
+	btVector3 localInertia = ToBtVector3(inertia);
+
+	if (isDynamic)
+		shape->calculateLocalInertia(mass, localInertia);
+
+	_body = new btRigidBody(mass, this, shape, localInertia);
+
+	//add the body to the dynamics world
+	_physicsWorld->GetWorld()->addRigidBody(_body);
+}
 
 Collider::Collider() :
 	_cachedWorldScale(Vector3F::ONE)
 {
-	//_physicsWorld->AddCollider(this);
-	//NotifyRigidBody();
 }
 
 
 Collider::~Collider()
 {
-	//if(_physicsWorld)
-	//	_physicsWorld->RemoveCollider(this);
+	if(_physicsWorld)
+		_physicsWorld->RemoveCollider(this);
 	SafeDelete(_shape);
 }
 
@@ -29,38 +60,35 @@ void Collider::RegisterObject()
 	RegisterFactory<Collider>();
 }
 
-#if DebugCompoundShape
-btCompoundShape* Collider::GetParentCompoundShape()
+void Collider::SetPhysicsWroldPostion(const Vector3F& pos)
+{
+	btTransform transform;
+	transform.setIdentity();
+	transform.setOrigin(btVector3(0, -56, 0));
+	
+}
+
+void Collider::SetRigidBody(float mass, const Vector3F& inertia)
 {
 	if (!_rigidBody)
-		_rigidBody = GetNode()->GetComponent<RigidBody>();
+		_rigidBody = new RigidBody(_physicsWorld);
 
-	return _rigidBody ? _rigidBody->GetCompoundShape() : nullptr;
-}
-
-void Collider::NotifyRigidBody()
-{
-	btCompoundShape* compound = GetParentCompoundShape();
-	if (_shape && compound)
+	SpatialNode* parentNode = dynamic_cast<SpatialNode*>(Parent());
+	if (!parentNode)
 	{
-		compound->removeChildShape(_shape);
-		Vector3 position = GetNode()->GetComponent<Transform>()->GetPosition();
-		btTransform offset;
-		offset.setOrigin(ToBtVector3(position));
-		compound->addChildShape(offset, _shape);
+		WarningString("Fail set rigidBody,Maybe parent node dont spatial node.");
+		return;
 	}
+	Vector3F parentPostion = parentNode->GetPosition();
+	Quaternion parentQuaternion = parentNode->GetRotation();
+
+	_rigidBody->CreateRigidBody(mass, inertia, _shape, parentPostion, parentQuaternion);
 }
-#else
-void Collider::NotifyRigidBody()
-{
-	//GetNode()->GetComponent<RigidBody>()->_shape = _shape;
-}
-#endif
 
 void Collider::ParentCallBack()
 {
 	_physicsWorld = ParentScene()->GetPhysicsWorld();
-	//_physicsWorld->AddCollider(this);
+	_physicsWorld->AddCollider(this);
 }
 
 }

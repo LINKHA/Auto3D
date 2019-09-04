@@ -7,6 +7,8 @@
 
 namespace Auto3D {
 
+class Collider;
+
 struct PhysicsWorldConfig
 {
 
@@ -36,32 +38,24 @@ public:
 	void SetFPS(int fps);
 	/// Return 3d dynamics world
 	btDiscreteDynamicsWorld* GetWorld() { return _world; }
-	/*///
-	void AddRigidBody(SharedPtr<RigidBody> rigidBody);
-	/// Remove rigbody
-	void RemoveRigidBody(SharedPtr<RigidBody> rigidBody);
 	/// Add collider
-	void AddCollider(SharedPtr<Collider> collider);
+	void AddCollider(Collider* collider);
 	/// Remove collider
-	void RemoveCollider(SharedPtr<Collider> collider);
-	/// Add constraint
-	void AddConstraint(SharedPtr<Constraint> constraint);
-	/// Remove constraint
-	void RemoveConstraint(SharedPtr<Constraint> constraint);
-	/// Get rigbodies (VECTOR<SharedPtr<RigidBody> >)
-	Vector<RigidBody*> GetRigidBodies() { return _rigidBodies; }
-	/// Get colliders (VECTOR<SharedPtr<Collider> >)
+	void RemoveCollider(Collider* collider);
+
+	/// Get colliders with current physics world.
 	Vector<Collider*> GetColliders() { return _colliders; }
-	/// Get constraints (VECTOR<SharedPtr<Constraint> >)
-	Vector<Constraint*> GetConstraints() { return _constraints; }*/
+
 	virtual void ParentCallBack()override;
 	/// Overrides of the internal configuration
 	static struct PhysicsWorldConfig config;
 private:
 	/// Delete collision shapes
-	void DeleteColliders();
+	void ClearColliders();
 	/// FPS
 	unsigned _fps{ DEFAULT_FPS };
+	/// Maximum number of simulation substeps per frame. 0 (default) unlimited, or negative values for adaptive timestep.
+	int _maxSubSteps;
 	/// Time system
 	WeakPtr<Time> _time;
 	/// Bullet collision configuration
@@ -74,12 +68,8 @@ private:
 	btConstraintSolver* _solver;
 	/// Bullet physics world
 	btDiscreteDynamicsWorld* _world;
-	///// RigidBody container
-	//Vector<SharedPtr<RigidBody> > _rigidBodies;
-	///// Collision shapes in the world
-	//Vector<SharedPtr<Collider> > _colliders;
-	///// Constraints in the world
-	//Vector<SharedPtr<Constraint> > _constraints;
+	/// Collision shapes in the world
+	Vector<Collider*> _colliders;
 };
 
 }
