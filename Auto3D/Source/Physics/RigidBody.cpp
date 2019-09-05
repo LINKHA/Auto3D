@@ -68,6 +68,10 @@ void RigidBody::UpdateMass()
 		btVector3 localInertia(0, 0, 0);
 		_compoundShape->calculateLocalInertia(_mass, localInertia);
 	}
+	
+	//btVector3 localInertia(0.0f, 0.0f, 0.0f);
+
+	//_body->setMassProps(_mass, localInertia);
 }
 
 void RigidBody::ParentCallBack()
@@ -93,7 +97,15 @@ void RigidBody::AddBodyToWorld()
 	{
 		// Correct inertia will be calculated below
 		btVector3 localInertia(0.0f, 0.0f, 0.0f);
-		_body = new btRigidBody(_mass, this, _compoundShape.Get(), localInertia);
+
+		//_body = new btRigidBody(1.0f/*_mass*/, this, _compoundShape.Get(), localInertia);
+		btTransform groundTransform;
+		groundTransform.setIdentity();
+		groundTransform.setOrigin(ToBtVector3(dynamic_cast<SpatialNode*>(Parent())->GetPosition()));
+		
+		btDefaultMotionState* myMotionState = new btDefaultMotionState();
+		_body = new btRigidBody(1.0f/*_mass*/, myMotionState, _compoundShape.Get(), localInertia);
+		
 		_body->setUserPointer(this);
 
 		// Check if CollisionShapes already exist in the node and add them to the compound shape.
