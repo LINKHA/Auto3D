@@ -56,9 +56,18 @@ void RigidBody::UpdateMass()
 		return;
 
 	auto numShapes = (unsigned)_compoundShape->getNumChildShapes();
-
-	_body->setCollisionShape(_compoundShape.Get());
-	_physicsWorld->GetWorld()->addRigidBody(_body.Get());
+	if (numShapes && _physicsWorld)
+	{
+		_body->setCollisionShape(_compoundShape.Get());
+		
+		_physicsWorld->GetWorld()->removeRigidBody(_body.Get());
+		_physicsWorld->GetWorld()->addRigidBody(_body.Get());
+	}
+	if (_mass != 0)
+	{
+		btVector3 localInertia(0, 0, 0);
+		_compoundShape->calculateLocalInertia(_mass, localInertia);
+	}
 }
 
 void RigidBody::ParentCallBack()

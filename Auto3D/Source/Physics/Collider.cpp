@@ -98,7 +98,9 @@ void Collider::NotifyRigidBody(bool updateMass)
 		btTransform offset;
 		offset.setOrigin(ToBtVector3(parentNode->GetPosition()));
 		offset.setRotation(ToBtQuaternion(parentNode->GetRotation()));
-		compound->addChildShape(offset, _shape.Get());
+
+		// Offset will be replaced by default
+		compound->addChildShape(btTransform::getIdentity()/*offset*/, _shape.Get());
 
 		// Finally tell the rigid body to update its mass
 		if (updateMass)
