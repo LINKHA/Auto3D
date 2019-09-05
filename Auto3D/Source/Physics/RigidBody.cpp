@@ -34,7 +34,7 @@ void RigidBody::getWorldTransform(btTransform& worldTrans) const
 	if (Parent())
 	{
 		worldTrans.setOrigin(ToBtVector3(dynamic_cast<SpatialNode*>(Parent())->GetPosition()));
-		worldTrans.setRotation(ToBtQuaternion(dynamic_cast<SpatialNode*>(Parent())->GetRotation()));
+		//worldTrans.setRotation(ToBtQuaternion(dynamic_cast<SpatialNode*>(Parent())->GetRotation()));
 	}
 }
 
@@ -116,11 +116,10 @@ void RigidBody::AddBodyToWorld()
 		btTransform groundTransform;
 		groundTransform.setIdentity();
 
-		Vector3F pos = dynamic_cast<SpatialNode*>(Parent())->GetPosition();
-		groundTransform.setOrigin(ToBtVector3(pos));
+		groundTransform.setOrigin(ToBtVector3(dynamic_cast<SpatialNode*>(Parent())->GetPosition()));
 		
 		btDefaultMotionState* myMotionState = new btDefaultMotionState(groundTransform);
-		_body = new btRigidBody(/*1.0f*/_mass, myMotionState, _compoundShape.Get(), localInertia);
+		_body = new btRigidBody(_mass, /*this*/myMotionState, _compoundShape.Get(), localInertia);
 		
 		_body->setUserPointer(this);
 

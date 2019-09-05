@@ -55,7 +55,7 @@ void PhysicsWorld::RegisterObject()
 
 void PhysicsWorld::Update()
 {
-	/*float timeStep = 0.1f;
+	float timeStep = 0.1f;
 	float internalTimeStep = 1.0f / _fps;
 	int maxSubSteps = (int)(timeStep * _fps) + 1;
 
@@ -67,9 +67,9 @@ void PhysicsWorld::Update()
 	else if (_maxSubSteps > 0)
 		maxSubSteps = Min(maxSubSteps, _maxSubSteps);
 
-	_world->stepSimulation(timeStep, maxSubSteps, internalTimeStep);*/
+	_world->stepSimulation(timeStep, maxSubSteps, internalTimeStep);
 
-	_world->stepSimulation(1.f / 60.f, 10);
+	/*_world->stepSimulation(1.f / 60.f, 10);*/
 
 	//print positions of all objects
 	for (int j = _world->getNumCollisionObjects() - 1; j >= 0; j--)
