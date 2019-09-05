@@ -13,7 +13,8 @@ namespace Auto3D
 RigidBody::RigidBody() :
 	_mass(0.0f),
 	_isDynamic(false),
-	_isDirty(false)
+	_isDirty(false),
+	_inWorld(false)
 {
 	_compoundShape = new btCompoundShape();
 }
@@ -56,22 +57,35 @@ void RigidBody::UpdateMass()
 		return;
 
 	auto numShapes = (unsigned)_compoundShape->getNumChildShapes();
+	if (!numShapes)
+		return;
+
 	if (numShapes && _physicsWorld)
 	{
 		_body->setCollisionShape(_compoundShape.Get());
-		
-		_physicsWorld->GetWorld()->removeRigidBody(_body.Get());
-		_physicsWorld->GetWorld()->addRigidBody(_body.Get());
 	}
-	if (_mass != 0)
-	{
-		btVector3 localInertia(0, 0, 0);
-		_compoundShape->calculateLocalInertia(_mass, localInertia);
-	}
-	
-	//btVector3 localInertia(0.0f, 0.0f, 0.0f);
 
-	//_body->setMassProps(_mass, localInertia);
+	btVector3 localInertia(0, 0, 0);
+	if (_mass > 0.0f)
+		_compoundShape->calculateLocalInertia(_mass, localInertia);
+
+	_body->setMassProps(_mass, localInertia);
+	_body->updateInertiaTensor();
+
+	_physicsWorld->GetWorld()->removeRigidBody(_body.Get());
+	_physicsWorld->GetWorld()->addRigidBody(_body.Get());
+	
+}
+
+void RigidBody::SetMass(float mass)
+{
+	mass = Max(mass, 0.0f);
+
+	if (mass != _mass)
+	{
+		_mass = mass;
+		AddBodyToWorld();
+	}
 }
 
 void RigidBody::ParentCallBack()
@@ -91,7 +105,7 @@ void RigidBody::AddBodyToWorld()
 
 	if (_body)
 	{
-		//RemoveBody
+		RemoveBodyFromWorld();
 	}
 	else
 	{
@@ -101,10 +115,12 @@ void RigidBody::AddBodyToWorld()
 		//_body = new btRigidBody(1.0f/*_mass*/, this, _compoundShape.Get(), localInertia);
 		btTransform groundTransform;
 		groundTransform.setIdentity();
-		groundTransform.setOrigin(ToBtVector3(dynamic_cast<SpatialNode*>(Parent())->GetPosition()));
+
+		Vector3F pos = dynamic_cast<SpatialNode*>(Parent())->GetPosition();
+		groundTransform.setOrigin(ToBtVector3(pos));
 		
-		btDefaultMotionState* myMotionState = new btDefaultMotionState();
-		_body = new btRigidBody(1.0f/*_mass*/, myMotionState, _compoundShape.Get(), localInertia);
+		btDefaultMotionState* myMotionState = new btDefaultMotionState(groundTransform);
+		_body = new btRigidBody(/*1.0f*/_mass, myMotionState, _compoundShape.Get(), localInertia);
 		
 		_body->setUserPointer(this);
 
@@ -119,6 +135,18 @@ void RigidBody::AddBodyToWorld()
 	}
 
 	UpdateMass();
+
+	_inWorld = true;
+}
+
+void RigidBody::RemoveBodyFromWorld()
+{
+	if (_physicsWorld && _body && _inWorld)
+	{
+		btDiscreteDynamicsWorld* world = _physicsWorld->GetWorld();
+		world->removeRigidBody(_body.Get());
+		_inWorld = false;
+	}
 }
 
 }

@@ -38,7 +38,7 @@ void PhysicsSample::Start()
 
 	StaticModel* box1 = scene->CreateChild<StaticModel>();
 	box1->SetModel(cache->LoadResource<Model>("Box.mdl"));
-	box1->SetPosition(Vector3F(0.0f, 100.0f, 0.0f));
+	box1->SetPosition(Vector3F(0.0f, 50.0f, 0.0f));
 	box1->SetScale(Vector3F(1.0f, 1.0f, 1.0f));
 	RigidBody* box1RigidBody = box1->CreateChild<RigidBody>();
 	box1RigidBody->SetMass(1.0f);
