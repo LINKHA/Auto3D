@@ -160,7 +160,7 @@ public:
     /// Return first child node that matches type and name, template version.
     template <typename _Ty> _Ty* FindChild(const char* childName, bool recursive = false) const { return static_cast<_Ty*>(FindChild(_Ty::GetTypeStatic(), childName, recursive)); }
     /// Find child nodes of specified type, template version.
-    template <typename _Ty> void FindChildren(Vector<_Ty*>& result, bool recursive = false) const { return FindChildren(reinterpret_cast<Vector<_Ty*>&>(result), recursive); }
+    template <typename _Ty> void FindChildren(Vector<_Ty*>& result, bool recursive = false) const { return FindChildren(reinterpret_cast<Vector<Node*>&>(result), _Ty::GetTypeStatic(), recursive); }
     
     /// Set bit flag. Called internally.
     void SetFlag(unsigned short bit, bool set) const { if (set) _flags |= bit; else _flags &= ~bit; }

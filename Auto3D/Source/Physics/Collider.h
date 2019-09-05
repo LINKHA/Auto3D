@@ -1,9 +1,8 @@
 #pragma once
 #include "../Scene/Node.h"
+#include "RigidBody.h"
 
 #include <LinearMath/btMotionState.h>
-
-//#include "RigidBody.h"
 
 class btCompoundShape;
 class btCollisionShape;
@@ -34,13 +33,13 @@ namespace ShapeType
 
 class PhysicsWorld;
 
-struct RigidBody : public RefCounted, public btMotionState
+struct tRigidBody : public RefCounted, public btMotionState
 {
-	RigidBody(PhysicsWorld* physicsWorld):
+	tRigidBody(PhysicsWorld* physicsWorld):
 		_physicsWorld(physicsWorld)
 	{}
 
-	~RigidBody()
+	~tRigidBody()
 	{
 		SafeDelete(_body);
 	}
@@ -76,22 +75,27 @@ public:
 	/// Set physics world position
 	void SetPhysicsWroldPostion(const Vector3F& pos);
 	/// Get shape
-	btCollisionShape* GetShape() { return _shape; }
+	btCollisionShape* GetShape() { return _shape.Get(); }
 	/// Create rigidBody.
-	void SetRigidBody(float mass, const Vector3F& inertia);
+	//void SetRigidBody(float mass, const Vector3F& inertia);
 
+	void NotifyRigidBody(bool updateMass = true);
 	/// This function is called when the parent node of this class is assigned.
 	virtual void ParentCallBack() override;
 
 protected:
+	/// Find the parent rigid body component and return its compound collision shape.
+	btCompoundShape* GetParentCompoundShape();
+
 	/// Physics world form this collider
 	SharedPtr<PhysicsWorld> _physicsWorld;
 	/// Rigidbody form this collider
-	SharedPtr<RigidBody> _rigidBody;
+	//SharedPtr<tRigidBody> _rigidBody;
+	WeakPtr<RigidBody> _rigidBody;
 	/// Cached world scale.
 	Vector3F _cachedWorldScale;
 	/// Shape form this collider
-	btCollisionShape* _shape;
+	UniquePtr<btCollisionShape> _shape;
 	/// Shape type
 	ShapeType::Type _shapeType;
 };

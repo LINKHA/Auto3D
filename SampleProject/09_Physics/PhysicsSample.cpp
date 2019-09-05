@@ -29,18 +29,23 @@ void PhysicsSample::Start()
 	plane->SetPosition(Vector3F(0.0f, -25.0f, 0.0f));
 	plane->SetScale(Vector3F(50.0f, 50.0f, 50.0f));
 	plane->SetMaterial(cache->LoadResource<Material>("Stone.json"));
-	ColliderBox* colliderBox = plane->CreateChild<ColliderBox>();
-	colliderBox->SetSize(Vector3F(50.0f, 50.0f, 50.0f));
-	colliderBox->SetRigidBody(0.0f, Vector3F(0, 0, 0));
-
+	RigidBody* planeRigidBody = plane->CreateChild<RigidBody>();
+	planeRigidBody->SetMass(0.0f);
+	ColliderBox* planeColliderBox = plane->CreateChild<ColliderBox>();
+	planeColliderBox->SetSize(Vector3F(50.0f, 50.0f, 50.0f));
+	//colliderBox->SetRigidBody(0.0f, Vector3F(0, 0, 0));
+	
 
 	StaticModel* box1 = scene->CreateChild<StaticModel>();
 	box1->SetModel(cache->LoadResource<Model>("Box.mdl"));
 	box1->SetPosition(Vector3F(0.0f, 100.0f, 0.0f));
 	box1->SetScale(Vector3F(1.0f, 1.0f, 1.0f));
+	RigidBody* box1RigidBody = box1->CreateChild<RigidBody>();
+	box1RigidBody->SetMass(1.0f);
 	ColliderBox* box1colliderBox = box1->CreateChild<ColliderBox>();
 	box1colliderBox->SetSize(Vector3F(1.0f, 1.0f, 1.0f));
-	box1colliderBox->SetRigidBody(1.0f, Vector3F(0, 0, 0));
+	//box1colliderBox->SetRigidBody(1.0f, Vector3F(0, 0, 0));
+	
 }
 void PhysicsSample::Update()
 {

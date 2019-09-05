@@ -16,7 +16,6 @@ ColliderBox::ColliderBox():
 
 ColliderBox::~ColliderBox()
 {
-	SafeDelete(_shape);
 }
 
 void ColliderBox::RegisterObject()
@@ -47,7 +46,7 @@ void ColliderBox::Resize(const Vector3F& vec)
 {
 	if (!_shape)
 		return;
-	btBoxShape* shape = dynamic_cast<btBoxShape*>(_shape);
+	btBoxShape* shape = dynamic_cast<btBoxShape*>(_shape.Get());
 
 	float margin = _shape->getMargin();
 
@@ -56,6 +55,7 @@ void ColliderBox::Resize(const Vector3F& vec)
 	//Resize the edge
 	shape->setSafeMargin(ToBtVector3(vec));
 
+	NotifyRigidBody();
 }
 
 }

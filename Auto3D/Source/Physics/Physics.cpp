@@ -1,5 +1,6 @@
 #include "Physics.h"
 #include "PhysicsWorld.h"
+#include "RigidBody.h"
 #include "Collider.h"
 #include "ColliderBox.h"
 
@@ -24,6 +25,7 @@ AUTO_API void RegisterPhysicsLibrary()
 	registered = true;
 
 	PhysicsWorld::RegisterObject();
+	RigidBody::RegisterObject();
 	Collider::RegisterObject();
 	ColliderBox::RegisterObject();
 }

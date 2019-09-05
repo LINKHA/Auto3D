@@ -1,116 +1,103 @@
-//#include "RigidBody.h"
-//#include "PhysicsWorld.h"
-//#include "PhysicsUtils.h"
-//
-//#include "../Scene/Scene.h"
-//
-//namespace Auto3D 
-//{
-//
-//RigidBody::RigidBody():
-//	_mass(0.0f),
-//	_isDynamic(false),
-//	_isDirty(false)
-//{
-//#if DebugCompoundShape
-//	_compoundShape = new btCompoundShape();
-//#else
-//	_shape = nullptr;
-//#endif
-//}
-//
-//
-//RigidBody::~RigidBody()
-//{
-//	SafeDelete(_motionState);
-//#if DebugCompoundShape
-//	SafeDelete(_compoundShape);
-//#endif
-//}
-//
-//void RigidBody::RegisterObject()
-//{
-//	RegisterFactory<RigidBody>();
-//}
-//
-//void RigidBody::AddBodyToWorld()
-//{
-//}
-//
-//void RigidBody::UpdateMass()
-//{
-//
-//}
-//
-//void RigidBody::UpdateGravity()
-//{
-//
-//}
-//
-////
-////void RigidBody::Update()
-////{
-////	//The reason it only runs once here is that you have to wait until all 
-////	//	the collider Start functions are finished before you can register
-////	if (_isFirstUpdate)
-////	{
-////		_isFirstUpdate = false;
-////		RegisteredRigidBody();
-////	}
-////
-////
-////	UpdateMass();
-////	UpdateGravity();
-////}
-//
-//#if DebugCompoundShape
-//void RigidBody::registeredRigidBody()
-//{
-//	_isDynamic = (_mass != 0.0f);
-//	_physicsWorld = GetCurrentSceneNode()->GetPhysicsWorld();
-//
-//	Vector3 position = GetNode()->GetComponent<Transform>()->GetPosition();
-//	btTransform groundTransform;
-//	groundTransform.setIdentity();
-//	groundTransform.setOrigin(ToBtVector3(position));
-//
-//	btVector3 localInertia(0, 0, 0);
-//	if (_isDynamic)
-//		_compoundShape->calculateLocalInertia(_mass, localInertia);
-//
-//	AutoCout << _compoundShape->getNumChildShapes() << AutoEndl;
-//	_motionState = new btDefaultMotionState(groundTransform);
-//
-//	_body = new btRigidBody(_mass, _motionState, _compoundShape, localInertia);
-//
-//	_physicsWorld->GetWorld()->addRigidBody(_body);
-//}
-//#else
-//void RigidBody::RegisteredRigidBody()
-//{
-//	/*_isDynamic = (_mass != 0.0f);
-//	_physicsWorld = GetCurrentSceneNode()->GetComponent<PhysicsWorld>();
-//
-//	Vector3F position = GetNode()->GetComponent<Transform>()->GetPosition();
-//	btTransform groundTransform;
-//	groundTransform.setIdentity();
-//	groundTransform.setOrigin(ToBtVector3(position));
-//
-//	btVector3 localInertia(0, 0, 0);
-//	if (_isDynamic)
-//		_shape->calculateLocalInertia(_mass, localInertia);
-//
-//	_motionState = new btDefaultMotionState(groundTransform);
-//
-//	_body = new btRigidBody(_mass, _motionState, _shape, localInertia);
-//
-//	_physicsWorld->GetWorld()->addRigidBody(_body);*/
-//}
-//#endif
-//
-//void RigidBody::ParentCallBack()
-//{
-//	_physicsWorld = ParentScene()->GetPhysicsWorld();
-//}
-//
-//}
+#include "RigidBody.h"
+#include "Collider.h"
+#include "PhysicsWorld.h"
+#include "PhysicsUtils.h"
+
+#include "../Scene/SpatialNode.h"
+#include "../Scene/Scene.h"
+
+
+namespace Auto3D 
+{
+
+RigidBody::RigidBody() :
+	_mass(0.0f),
+	_isDynamic(false),
+	_isDirty(false)
+{
+	_compoundShape = new btCompoundShape();
+}
+
+
+RigidBody::~RigidBody()
+{
+}
+
+void RigidBody::RegisterObject()
+{
+	RegisterFactory<RigidBody>();
+}
+
+void RigidBody::getWorldTransform(btTransform& worldTrans) const
+{
+	if (Parent())
+	{
+		worldTrans.setOrigin(ToBtVector3(dynamic_cast<SpatialNode*>(Parent())->GetPosition()));
+		worldTrans.setRotation(ToBtQuaternion(dynamic_cast<SpatialNode*>(Parent())->GetRotation()));
+	}
+}
+
+void RigidBody::setWorldTransform(const btTransform& worldTrans)
+{
+
+	Quaternion newWorldRotation = BtToQuaternion(worldTrans.getRotation());
+	Vector3F newWorldPosition = BtToVector3(worldTrans.getOrigin());
+	RigidBody* parentRigidBody = nullptr;
+	
+	if (Parent())
+	{
+
+	}
+}
+
+void RigidBody::UpdateMass()
+{
+	if (!_body)
+		return;
+
+	auto numShapes = (unsigned)_compoundShape->getNumChildShapes();
+
+	_body->setCollisionShape(_compoundShape.Get());
+	_physicsWorld->GetWorld()->addRigidBody(_body.Get());
+}
+
+void RigidBody::ParentCallBack()
+{
+	_physicsWorld = ParentScene()->GetPhysicsWorld();
+
+	AddBodyToWorld();
+}
+
+void RigidBody::AddBodyToWorld()
+{
+	if (!_physicsWorld)
+		return;
+
+	if (_mass < 0.0f)
+		_mass = 0.0f;
+
+	if (_body)
+	{
+		//RemoveBody
+	}
+	else
+	{
+		// Correct inertia will be calculated below
+		btVector3 localInertia(0.0f, 0.0f, 0.0f);
+		_body = new btRigidBody(_mass, this, _compoundShape.Get(), localInertia);
+		_body->setUserPointer(this);
+
+		// Check if CollisionShapes already exist in the node and add them to the compound shape.
+		// Do not update mass yet, but do it once all shapes have been added.
+		Vector<Collider*> shapes;
+		Parent()->FindChildren<Collider>(shapes, false);
+		for (auto it = shapes.Begin(); it != shapes.End(); ++it)
+		{
+			(*it)->NotifyRigidBody(false);
+		}
+	}
+
+	UpdateMass();
+}
+
+}

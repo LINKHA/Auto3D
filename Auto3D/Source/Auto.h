@@ -66,6 +66,7 @@
 #include "Physics/Physics.h"
 #include "Physics/PhysicsWorld.h"
 #include "Physics/PhysicsUtils.h"
+#include "Physics/RigidBody.h"
 #include "Physics/Collider.h"
 #include "Physics/ColliderBox.h"
 
