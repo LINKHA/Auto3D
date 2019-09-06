@@ -4,6 +4,8 @@
 #include "Collider.h"
 #include "ColliderBox.h"
 #include "ColliderSphere.h"
+#include "ColliderCapsule.h"
+#include "ColliderCone.h"
 
 namespace Auto3D
 {
@@ -55,6 +57,8 @@ AUTO_API void RegisterPhysicsLibrary()
 	Collider::RegisterObject();
 	ColliderBox::RegisterObject();
 	ColliderSphere::RegisterObject();
+	ColliderCapsule::RegisterObject;
+	ColliderCone::RegisterObject;
 }
 
 }

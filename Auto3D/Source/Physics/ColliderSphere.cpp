@@ -10,7 +10,6 @@ ColliderSphere::ColliderSphere() :
 	_size(1.0f)
 {
 	_shapeType = ShapeType::SPHERE;
-	_shape = new btSphereShape(_size);
 }
 
 ColliderSphere::~ColliderSphere()
@@ -30,14 +29,11 @@ void ColliderSphere::SetSize(float scale)
 }
 
 
-void ColliderSphere::Resize(float vec)
+void ColliderSphere::Resize(float radius)
 {
-	if (!_shape)
-		return;
-	btSphereShape* shape = dynamic_cast<btSphereShape*>(_shape.Get());
-
-	//Resize the edge
-	shape->setMargin(vec);
+	ReleaseShape();
+	_shape.Reset();
+	_shape = new btSphereShape(radius);
 
 	NotifyRigidBody();
 }

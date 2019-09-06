@@ -11,7 +11,6 @@ ColliderBox::ColliderBox():
 	_size(Vector3F::ONE)
 {
 	_shapeType = ShapeType::BOX;
-	_shape = new btBoxShape(ToBtVector3(_size));
 }
 
 ColliderBox::~ColliderBox()
@@ -44,17 +43,10 @@ void ColliderBox::SetSize(float scale)
 
 void ColliderBox::Resize(const Vector3F& vec)
 {
-	if (!_shape)
-		return;
-	btBoxShape* shape = dynamic_cast<btBoxShape*>(_shape.Get());
-
-	float margin = _shape->getMargin();
-
-	//Resize implicit shape dimensions
-	shape->setImplicitShapeDimensions((ToBtVector3(vec) * shape->getLocalScaling()) - btVector3(margin, margin, margin));
-	//Resize the edge
-	shape->setSafeMargin(ToBtVector3(vec));
-
+	ReleaseShape();
+	_shape.Reset();
+	_shape = new btBoxShape(ToBtVector3(vec));
+	
 	NotifyRigidBody();
 }
 

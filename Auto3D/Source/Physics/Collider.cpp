@@ -24,6 +24,17 @@ void Collider::RegisterObject()
 	RegisterFactory<Collider>();
 }
 
+void Collider::ReleaseShape()
+{
+	btCompoundShape* compound = GetParentCompoundShape();
+	if (_shape && compound)
+	{
+		compound->removeChildShape(_shape.Get());
+		_rigidBody->UpdateMass();
+	}
+	_shape.Reset();
+}
+
 void Collider::NotifyRigidBody(bool updateMass)
 {
 	// Get this component rigidBody

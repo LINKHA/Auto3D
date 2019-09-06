@@ -73,7 +73,7 @@ void PhysicsSample::Start()
 			RigidBody* fenceRigidBody = fence->CreateChild<RigidBody>();
 			fenceRigidBody->SetMass(0.0f);
 			ColliderBox* fenceColliderBox = fence->CreateChild<ColliderBox>();
-			fenceColliderBox->SetSize(Vector3F(50.0f, 5.0f, 0.05f));
+			fenceColliderBox->SetSize(Vector3F(50.0f, 5.0f, 0.5f));
 		}
 
 		//Front
@@ -86,47 +86,48 @@ void PhysicsSample::Start()
 			RigidBody* fenceRigidBody = fence->CreateChild<RigidBody>();
 			fenceRigidBody->SetMass(0.0f);
 			ColliderBox* fenceColliderBox = fence->CreateChild<ColliderBox>();
-			fenceColliderBox->SetSize(Vector3F(50.0f, 5.0f, 0.05f));
+			fenceColliderBox->SetSize(Vector3F(50.0f, 5.0f, 0.5f));
 		}
 	}
 
 	for (int i = 0; i < 5; ++i)
 	{
-		for (int j = 0; j < 1; ++j)
+		for (int j = 0; j < 3; ++j)
 		{
 			for (int k = 0; k < 5; ++k)
 			{
 				StaticModel* box = scene->CreateChild<StaticModel>();
 				box->SetModel(cache->LoadResource<Model>("Sphere.mdl"));
-				box->SetPosition(Vector3F(i, 10.f + j, k));
+				box->SetPosition(Vector3F(i, 10.f + j * 2, k));
 				box->SetScale(Vector3F(2.0f, 2.0f, 2.0f));
 				box->SetCastShadows(true);
-				RigidBody* box1RigidBody = box->CreateChild<RigidBody>();
-				box1RigidBody->SetMass(1.0f);
-				ColliderSphere* box1colliderBox = box->CreateChild<ColliderSphere>();
-				box1colliderBox->SetSize(1.0f);
+				RigidBody* boxRigidBody = box->CreateChild<RigidBody>();
+				boxRigidBody->SetMass(1.0f);
+				ColliderSphere* boxcolliderBox = box->CreateChild<ColliderSphere>();
+				boxcolliderBox->SetSize(1.0f);
 			}
 		}
 	}
 
 	for (int i = 0; i < 5; ++i)
 	{
-		for (int j = 0; j < 1; ++j)
+		for (int j = 0; j < 3; ++j)
 		{
 			for (int k = 0; k < 5; ++k)
 			{
 				StaticModel* box = scene->CreateChild<StaticModel>();
 				box->SetModel(cache->LoadResource<Model>("Box.mdl"));
-				box->SetPosition(Vector3F(i, 11.f + j, k));
+				box->SetPosition(Vector3F(i, 11.f + j * 2, k));
 				box->SetScale(Vector3F(2.0f, 2.0f, 2.0f));
 				box->SetCastShadows(true);
-				RigidBody* box1RigidBody = box->CreateChild<RigidBody>();
-				box1RigidBody->SetMass(1.0f);
-				ColliderBox* box1colliderBox = box->CreateChild<ColliderBox>();
-				box1colliderBox->SetSize(Vector3F(1.0f, 1.0f, 1.0f));
+				RigidBody* boxRigidBody = box->CreateChild<RigidBody>();
+				boxRigidBody->SetMass(1.0f);
+				ColliderBox* boxcolliderBox = box->CreateChild<ColliderBox>();
+				boxcolliderBox->SetSize(Vector3F(1.0f, 1.0f, 1.0f));
 			}
 		}
 	}
+
 
 	Light* light = scene->CreateChild<Light>();
 	light->SetLightType(LightType::POINT);

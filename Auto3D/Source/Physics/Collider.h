@@ -45,6 +45,8 @@ public:
 
 	/// Get shape
 	btCollisionShape* GetShape() { return _shape.Get(); }
+	/// Release the collision shape.
+	void ReleaseShape();
 	/// Update the new collision shape to the RigidBody.
 	void NotifyRigidBody(bool updateMass = true);
 	/// This function is called when the parent node of this class is assigned.
