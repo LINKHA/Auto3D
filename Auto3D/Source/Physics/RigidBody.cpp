@@ -47,7 +47,7 @@ void RigidBody::setWorldTransform(const btTransform& worldTrans)
 	
 	if (Parent())
 	{
-
+		dynamic_cast<SpatialNode*>(Parent())->SetPosition(newWorldPosition);
 	}
 }
 
@@ -112,14 +112,7 @@ void RigidBody::AddBodyToWorld()
 		// Correct inertia will be calculated below
 		btVector3 localInertia(0.0f, 0.0f, 0.0f);
 
-		//_body = new btRigidBody(1.0f/*_mass*/, this, _compoundShape.Get(), localInertia);
-		btTransform groundTransform;
-		groundTransform.setIdentity();
-
-		groundTransform.setOrigin(ToBtVector3(dynamic_cast<SpatialNode*>(Parent())->GetPosition()));
-		
-		btDefaultMotionState* myMotionState = new btDefaultMotionState(groundTransform);
-		_body = new btRigidBody(_mass, /*this*/myMotionState, _compoundShape.Get(), localInertia);
+		_body = new btRigidBody(_mass, this, _compoundShape.Get(), localInertia);
 		
 		_body->setUserPointer(this);
 
