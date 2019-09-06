@@ -7,7 +7,7 @@
 
 namespace Auto3D {
 
-class Collider;
+class RigidBody;
 
 struct PhysicsWorldConfig
 {
@@ -33,19 +33,20 @@ public:
 	/// Register factory and attributes.
 	static void RegisterObject();
 
+	/// Physics wrold update step simulation.
 	void Update();
 	/// Set fps
 	void SetFPS(int fps);
 	/// Return 3d dynamics world
-	btDiscreteDynamicsWorld* GetWorld() { return _world; }
-	/// Add collider
-	void AddCollider(Collider* collider);
+	btDiscreteDynamicsWorld* GetWorld() { return _world.Get(); }
+	/// Add RigidBody
+	void AddRigidBody(RigidBody* rigidbody);
 	/// Remove collider
-	void RemoveCollider(Collider* collider);
+	void RemoveRigidBody(RigidBody* rigidbody);
 
 	/// Get colliders with current physics world.
-	Vector<Collider*> GetColliders() { return _colliders; }
-
+	Vector<RigidBody*> GetColliders() { return _rigidBody; }
+	/// This function is called when the parent node of this class is assigned.
 	virtual void ParentCallBack()override;
 	/// Overrides of the internal configuration
 	static struct PhysicsWorldConfig config;
@@ -59,17 +60,17 @@ private:
 	/// Time system
 	WeakPtr<Time> _time;
 	/// Bullet collision configuration
-	btCollisionConfiguration* _collisionConfiguration{};
+	UniquePtr<btCollisionConfiguration> _collisionConfiguration{};
 	/// Bullet collision dispatcher
-	btDispatcher* _collisionDispatcher;
+	UniquePtr<btDispatcher> _collisionDispatcher;
 	/// Bullet collision broadphase
-	btBroadphaseInterface* _broadphase;
+	UniquePtr<btBroadphaseInterface> _broadphase;
 	/// Bullet constraint solver
-	btConstraintSolver* _solver;
+	UniquePtr<btConstraintSolver> _solver;
 	/// Bullet physics world
-	btDiscreteDynamicsWorld* _world;
+	UniquePtr<btDiscreteDynamicsWorld> _world;
 	/// Collision shapes in the world
-	Vector<Collider*> _colliders;
+	Vector<RigidBody*> _rigidBody;
 };
 
 }

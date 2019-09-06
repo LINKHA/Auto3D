@@ -31,12 +31,13 @@ public:
 	void SetMass(float mass);
 	/// Get mass
 	float GetMass() { return _mass; }
-
 	/// Return Bullet rigid body.
-	btRigidBody* GetBody() const { return _body.Get(); }
-
+	btRigidBody* GetBody() const { return _body; }
+	/// Return compound shape.
 	btCompoundShape* GetCompoundShape() { return _compoundShape.Get(); }
-
+	/// Remove the rigid body.
+	void ReleaseBody();
+	/// This function is called when the parent node of this class is assigned.
 	virtual void ParentCallBack()override;
 
 private:
@@ -47,8 +48,8 @@ private:
 
 	/// Physics world form this rigidBody.
 	SharedPtr<PhysicsWorld> _physicsWorld;
-	/// bullet rigid body
-	UniquePtr<btRigidBody> _body;
+	/// bullet rigid body (Automatically destructs when the physical world is eliminated).
+	btRigidBody* _body;
 	/// Bullet compound collision shape.
 	UniquePtr<btCompoundShape> _compoundShape;
 	/// Rigidbody mass

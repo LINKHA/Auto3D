@@ -2,6 +2,7 @@
 #include "PhysicsUtils.h"
 #include "../RegisteredBox/RegisteredBox.h"
 #include "../Scene/Scene.h"
+#include "../Physics/Physics.h"
 
 namespace Auto3D 
 {
@@ -25,39 +26,38 @@ PhysicsWorld::PhysicsWorld():
 	else
 		_collisionConfiguration = new btDefaultCollisionConfiguration();
 
-	_collisionDispatcher = new btCollisionDispatcher(_collisionConfiguration);
+	_collisionDispatcher = new btCollisionDispatcher(_collisionConfiguration.Get());
 	_broadphase = new btDbvtBroadphase();
 	_solver = new btSequentialImpulseConstraintSolver();
-	_world = new btDiscreteDynamicsWorld(_collisionDispatcher, _broadphase, _solver, _collisionConfiguration);
+	_world = new btDiscreteDynamicsWorld(_collisionDispatcher.Get(), _broadphase.Get(), _solver.Get(), _collisionConfiguration.Get());
 
 	_world->setGravity(ToBtVector3(DEFAULT_GRAVITY));
 
 	_world->setSynchronizeAllMotionStates(true);
-}
 
+	// Register to the physics subsystem
+	auto physics = Object::Subsystem<Physics>();
+	physics->AddPhysicsWorld(this);
+	physics->SetActivePhysicsWrold(this);
+}
 
 PhysicsWorld::~PhysicsWorld()
 {
-	for (int i = _world->getNumCollisionObjects() - 1; i >= 0; i--)
-	{
-		btCollisionObject* obj = _world->getCollisionObjectArray()[i];
-		btRigidBody* body = btRigidBody::upcast(obj);
-		if (body && body->getMotionState())
-		{
-			delete body->getMotionState();
-		}
-		_world->removeCollisionObject(obj);
-		delete obj;
-	}
+	auto physics = Object::Subsystem<Physics>();
+	physics->RemovePhysicsWorld(this);
+	physics->SetActivePhysicsWrold(nullptr);
 
-	//ClearColliders();
-
-	SafeDelete(_world);
-	SafeDelete(_solver);
+	//SafeDelete(_world);
+	_world.Reset();
+	_solver.Reset();
+	_broadphase.Reset();
+	_collisionDispatcher.Reset();
+	/*SafeDelete(_solver);
 	SafeDelete(_broadphase);
-	SafeDelete(_collisionDispatcher);
+	SafeDelete(_collisionDispatcher);*/
 	if (!PhysicsWorld::config.collisionConfig)
-		SafeDelete(_collisionConfiguration);
+		_collisionConfiguration.Reset();
+		//SafeDelete(_collisionConfiguration);
 }
 
 void PhysicsWorld::RegisterObject()
@@ -85,14 +85,14 @@ void PhysicsWorld::Update()
 
 }
 
-void PhysicsWorld::AddCollider(Collider* collider)
+void PhysicsWorld::AddRigidBody(RigidBody* rigidbody)
 {
-	_colliders.Push(collider);
+	_rigidBody.Push(rigidbody);
 }
 
-void PhysicsWorld::RemoveCollider(Collider* collider)
+void PhysicsWorld::RemoveRigidBody(RigidBody* rigidbody)
 {
-	_colliders.Remove(collider);
+	_rigidBody.Remove(rigidbody);
 }
 
 void PhysicsWorld::SetFPS(int fps)
@@ -102,7 +102,7 @@ void PhysicsWorld::SetFPS(int fps)
 
 void PhysicsWorld::ClearColliders()
 {
-	_colliders.Clear();
+	_rigidBody.Clear();
 }
 
 void PhysicsWorld::ParentCallBack()

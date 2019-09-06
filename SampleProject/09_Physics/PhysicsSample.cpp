@@ -25,38 +25,6 @@ void PhysicsSample::Start()
 	camera->SetPosition(Vector3F(0.0f, 10.0f, -60.0f));
 
 
-	//{
-
-	//	btTransform groundTransform;
-	//	groundTransform.setIdentity();
-	//	groundTransform.setOrigin(btVector3(0, -56, 0));
-
-	//	btScalar mass(0.);
-
-	//	//rigidbody is dynamic if and only if mass is non zero, otherwise static
-	//	bool isDynamic = (mass != 0.f);
-
-	//	btVector3 localInertia(0, 0, 0);
-
-	//	btCompoundShape* compoundShape = new btCompoundShape();
-
-	//	//using motionstate is optional, it provides interpolation capabilities, and only synchronizes 'active' objects
-	//	btDefaultMotionState* myMotionState = new btDefaultMotionState(groundTransform);
-	//	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, compoundShape, localInertia);
-
-	//	btRigidBody* body = new btRigidBody(rbInfo);
-	//	btCollisionShape* groundShape = new btBoxShape(btVector3(btScalar(50.), btScalar(50.), btScalar(50.)));
-
-	//	compoundShape->addChildShape(btTransform::getIdentity(), groundShape);
-	//	
-	//	//add the body to the dynamics world
-	//	physics->GetWorld()->addRigidBody(body);
-
-	//	if (isDynamic)
-	//		groundShape->calculateLocalInertia(mass, localInertia);
-	//}
-
-
 	StaticModel* plane = scene->CreateChild<StaticModel>();
 	plane->SetModel(cache->LoadResource<Model>("Box.mdl"));
 	plane->SetPosition(Vector3F(0.0f, -20.0f, 0.0f));
@@ -67,8 +35,8 @@ void PhysicsSample::Start()
 	ColliderBox* planeColliderBox = plane->CreateChild<ColliderBox>();
 	planeColliderBox->SetSize(Vector3F(50.0f, 0.5f, 50.0f));
 
-	////
-	/*for (int i = 0; i < 5; ++i)
+	
+	for (int i = 0; i < 5; ++i)
 	{
 		for (int j = 0; j < 5; ++j)
 		{
@@ -86,7 +54,7 @@ void PhysicsSample::Start()
 			}
 		}
 	}
-*/
+
 	Light* light = scene->CreateChild<Light>();
 	light->SetLightType(LightType::POINT);
 	light->SetCastShadows(true);
@@ -121,8 +89,6 @@ void PhysicsSample::Update()
 		camera->Translate(Vector3F::LEFT * time->GetDeltaTime()  * moveSpeed);
 	if (input->IsKeyDown(KEY_D))
 		camera->Translate(Vector3F::RIGHT * time->GetDeltaTime()  * moveSpeed);
-
-	physics->Update();
 }
 
 void PhysicsSample::Stop()

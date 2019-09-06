@@ -17,21 +17,11 @@ Collider::Collider() :
 
 Collider::~Collider()
 {
-	if(_physicsWorld)
-		_physicsWorld->RemoveCollider(this);
 }
 
 void Collider::RegisterObject()
 {
 	RegisterFactory<Collider>();
-}
-
-void Collider::SetPhysicsWroldPostion(const Vector3F& pos)
-{
-	btTransform transform;
-	transform.setIdentity();
-	transform.setOrigin(btVector3(0, -56, 0));
-	
 }
 
 void Collider::NotifyRigidBody(bool updateMass)
@@ -61,7 +51,6 @@ void Collider::NotifyRigidBody(bool updateMass)
 void Collider::ParentCallBack()
 {
 	_physicsWorld = ParentScene()->GetPhysicsWorld();
-	_physicsWorld->AddCollider(this);
 }
 
 btCompoundShape* Collider::GetParentCompoundShape()

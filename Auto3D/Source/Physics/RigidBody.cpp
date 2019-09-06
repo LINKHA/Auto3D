@@ -14,7 +14,8 @@ RigidBody::RigidBody() :
 	_mass(0.0f),
 	_isDynamic(false),
 	_isDirty(false),
-	_inWorld(false)
+	_inWorld(false),
+	_body(nullptr)
 {
 	_compoundShape = new btCompoundShape();
 }
@@ -22,6 +23,10 @@ RigidBody::RigidBody() :
 
 RigidBody::~RigidBody()
 {
+	ReleaseBody();
+
+	if (_physicsWorld)
+		_physicsWorld->RemoveRigidBody(this);
 }
 
 void RigidBody::RegisterObject()
@@ -51,7 +56,6 @@ void RigidBody::setWorldTransform(const btTransform& worldTrans)
 		SpatialNode* parentNode = dynamic_cast<SpatialNode*>(Parent());
 		parentNode->SetPosition(newWorldPosition);
 		parentNode->SetRotation(newWorldRotation);
-
 	}
 }
 
@@ -76,8 +80,8 @@ void RigidBody::UpdateMass()
 	_body->setMassProps(_mass, localInertia);
 	_body->updateInertiaTensor();
 
-	_physicsWorld->GetWorld()->removeRigidBody(_body.Get());
-	_physicsWorld->GetWorld()->addRigidBody(_body.Get());
+	_physicsWorld->GetWorld()->removeRigidBody(_body);
+	_physicsWorld->GetWorld()->addRigidBody(_body);
 	
 }
 
@@ -92,9 +96,19 @@ void RigidBody::SetMass(float mass)
 	}
 }
 
+void RigidBody::ReleaseBody()
+{
+	if (_body)
+	{
+		RemoveBodyFromWorld();
+	}
+}
+
 void RigidBody::ParentCallBack()
 {
 	_physicsWorld = ParentScene()->GetPhysicsWorld();
+
+	_physicsWorld->AddRigidBody(this);
 
 	AddBodyToWorld();
 }
@@ -140,7 +154,7 @@ void RigidBody::RemoveBodyFromWorld()
 	if (_physicsWorld && _body && _inWorld)
 	{
 		btDiscreteDynamicsWorld* world = _physicsWorld->GetWorld();
-		world->removeRigidBody(_body.Get());
+		world->removeRigidBody(_body);
 		_inWorld = false;
 	}
 }

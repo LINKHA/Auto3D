@@ -7,7 +7,8 @@
 namespace Auto3D
 {
 
-Physics::Physics()
+Physics::Physics():
+	_activeWorlds(nullptr)
 {
 	RegisterSubsystem(this);
 }
@@ -15,6 +16,30 @@ Physics::Physics()
 Physics::~Physics()
 {
 	RemoveSubsystem(this);
+}
+
+void Physics::Update()
+{
+	if (_activeWorlds)
+		_activeWorlds->Update();
+}
+
+void Physics::AddPhysicsWorld(PhysicsWorld* activeWorlds)
+{
+	if(activeWorlds)
+		_physicsWorlds.Push(activeWorlds);
+}
+
+void Physics::RemovePhysicsWorld(PhysicsWorld* activeWorlds)
+{
+	if (activeWorlds)
+		_physicsWorlds.Remove(activeWorlds);
+}
+
+void Physics::SetActivePhysicsWrold(PhysicsWorld* activeWorlds)
+{
+	if (_activeWorlds != activeWorlds)
+		_activeWorlds = activeWorlds;
 }
 
 AUTO_API void RegisterPhysicsLibrary()

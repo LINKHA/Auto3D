@@ -42,14 +42,10 @@ public:
 	virtual ~Collider();
 	/// Register object factory.
 	static void RegisterObject();
-	
-	/// Set physics world position
-	void SetPhysicsWroldPostion(const Vector3F& pos);
+
 	/// Get shape
 	btCollisionShape* GetShape() { return _shape.Get(); }
-	/// Create rigidBody.
-	//void SetRigidBody(float mass, const Vector3F& inertia);
-
+	/// Update the new collision shape to the RigidBody.
 	void NotifyRigidBody(bool updateMass = true);
 	/// This function is called when the parent node of this class is assigned.
 	virtual void ParentCallBack() override;
@@ -57,7 +53,6 @@ public:
 protected:
 	/// Find the parent rigid body component and return its compound collision shape.
 	btCompoundShape* GetParentCompoundShape();
-
 	/// Physics world form this collider
 	SharedPtr<PhysicsWorld> _physicsWorld;
 	/// Rigidbody form this collider

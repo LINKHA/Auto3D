@@ -197,6 +197,7 @@ bool Engine::Update()
 	if(Subsystem<Audio>())
 		Subsystem<Audio>()->Update();
 
+	_physics->Update();
 	
 	return true;
 }
