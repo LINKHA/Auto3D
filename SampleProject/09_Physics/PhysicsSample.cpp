@@ -24,27 +24,100 @@ void PhysicsSample::Start()
 	camera = scene->CreateChild<Camera>();
 	camera->SetPosition(Vector3F(0.0f, 10.0f, -60.0f));
 
+	//Plane
+	{
+		StaticModel* plane = scene->CreateChild<StaticModel>();
+		plane->SetModel(cache->LoadResource<Model>("Box.mdl"));
+		plane->SetPosition(Vector3F(0.0f, -20.0f, 0.0f));
+		plane->SetScale(Vector3F(100.0f, 1.0f, 100.0f));
+		plane->SetMaterial(cache->LoadResource<Material>("Stone.json"));
+		RigidBody* planeRigidBody = plane->CreateChild<RigidBody>();
+		planeRigidBody->SetMass(0.0f);
+		ColliderBox* planeColliderBox = plane->CreateChild<ColliderBox>();
+		planeColliderBox->SetSize(Vector3F(50.0f, 0.5f, 50.0f));
+	}
 
-	StaticModel* plane = scene->CreateChild<StaticModel>();
-	plane->SetModel(cache->LoadResource<Model>("Box.mdl"));
-	plane->SetPosition(Vector3F(0.0f, -20.0f, 0.0f));
-	plane->SetScale(Vector3F(100.0f, 1.0f, 100.0f));
-	plane->SetMaterial(cache->LoadResource<Material>("Stone.json"));
-	RigidBody* planeRigidBody = plane->CreateChild<RigidBody>();
-	planeRigidBody->SetMass(0.0f);
-	ColliderBox* planeColliderBox = plane->CreateChild<ColliderBox>();
-	planeColliderBox->SetSize(Vector3F(50.0f, 0.5f, 50.0f));
+	//The fence
+	{
+		//Right
+		{
+			StaticModel* fence = scene->CreateChild<StaticModel>();
+			fence->SetModel(cache->LoadResource<Model>("Box.mdl"));
+			fence->SetPosition(Vector3F(50.0f, -20.0f, 0.0f));
+			fence->SetScale(Vector3F(1.0f, 10.0f, 100.0f));
+			fence->SetMaterial(cache->LoadResource<Material>("Stone.json"));
+			RigidBody* fenceRigidBody = fence->CreateChild<RigidBody>();
+			fenceRigidBody->SetMass(0.0f);
+			ColliderBox* fenceColliderBox = fence->CreateChild<ColliderBox>();
+			fenceColliderBox->SetSize(Vector3F(0.5f, 5.0f, 50.0f));
+		}
+		//Left
+		{
+			StaticModel* fence = scene->CreateChild<StaticModel>();
+			fence->SetModel(cache->LoadResource<Model>("Box.mdl"));
+			fence->SetPosition(Vector3F(-50.0f, -20.0f, 0.0f));
+			fence->SetScale(Vector3F(1.0f, 10.0f, 100.0f));
+			fence->SetMaterial(cache->LoadResource<Material>("Stone.json"));
+			RigidBody* fenceRigidBody = fence->CreateChild<RigidBody>();
+			fenceRigidBody->SetMass(0.0f);
+			ColliderBox* fenceColliderBox = fence->CreateChild<ColliderBox>();
+			fenceColliderBox->SetSize(Vector3F(0.5f, 5.0f, 50.0f));
+		}
+		//Back
+		{
+			StaticModel* fence = scene->CreateChild<StaticModel>();
+			fence->SetModel(cache->LoadResource<Model>("Box.mdl"));
+			fence->SetPosition(Vector3F(0.0f, -20.0f, 50.0f));
+			fence->SetScale(Vector3F(100.0f, 10.0f, 1.0f));
+			fence->SetMaterial(cache->LoadResource<Material>("Stone.json"));
+			RigidBody* fenceRigidBody = fence->CreateChild<RigidBody>();
+			fenceRigidBody->SetMass(0.0f);
+			ColliderBox* fenceColliderBox = fence->CreateChild<ColliderBox>();
+			fenceColliderBox->SetSize(Vector3F(50.0f, 5.0f, 0.05f));
+		}
 
-	
+		//Front
+		{
+			StaticModel* fence = scene->CreateChild<StaticModel>();
+			fence->SetModel(cache->LoadResource<Model>("Box.mdl"));
+			fence->SetPosition(Vector3F(0.0f, -20.0f, -50.0f));
+			fence->SetScale(Vector3F(100.0f, 10.0f, 1.0f));
+			fence->SetMaterial(cache->LoadResource<Material>("Stone.json"));
+			RigidBody* fenceRigidBody = fence->CreateChild<RigidBody>();
+			fenceRigidBody->SetMass(0.0f);
+			ColliderBox* fenceColliderBox = fence->CreateChild<ColliderBox>();
+			fenceColliderBox->SetSize(Vector3F(50.0f, 5.0f, 0.05f));
+		}
+	}
+
 	for (int i = 0; i < 5; ++i)
 	{
-		for (int j = 0; j < 5; ++j)
+		for (int j = 0; j < 1; ++j)
+		{
+			for (int k = 0; k < 5; ++k)
+			{
+				StaticModel* box = scene->CreateChild<StaticModel>();
+				box->SetModel(cache->LoadResource<Model>("Sphere.mdl"));
+				box->SetPosition(Vector3F(i, 10.f + j, k));
+				box->SetScale(Vector3F(2.0f, 2.0f, 2.0f));
+				box->SetCastShadows(true);
+				RigidBody* box1RigidBody = box->CreateChild<RigidBody>();
+				box1RigidBody->SetMass(1.0f);
+				ColliderSphere* box1colliderBox = box->CreateChild<ColliderSphere>();
+				box1colliderBox->SetSize(1.0f);
+			}
+		}
+	}
+
+	for (int i = 0; i < 5; ++i)
+	{
+		for (int j = 0; j < 1; ++j)
 		{
 			for (int k = 0; k < 5; ++k)
 			{
 				StaticModel* box = scene->CreateChild<StaticModel>();
 				box->SetModel(cache->LoadResource<Model>("Box.mdl"));
-				box->SetPosition(Vector3F(i, 10.f + j, k));
+				box->SetPosition(Vector3F(i, 11.f + j, k));
 				box->SetScale(Vector3F(2.0f, 2.0f, 2.0f));
 				box->SetCastShadows(true);
 				RigidBody* box1RigidBody = box->CreateChild<RigidBody>();
@@ -61,8 +134,7 @@ void PhysicsSample::Start()
 	light->SetColor(Color(1.0f, 1.0f, 1.0f));
 	light->SetFov(90.0f);
 	light->SetRange(2000.0f);
-	light->SetPosition(Vector3F(50.0f, 0.0f, 5.0f));
-	light->SetDirection(Vector3F(0.0f, -1.0f, -1.0f));
+	light->SetPosition(Vector3F(75.0f, 0.0f, 0.0f));
 	light->SetShadowMapSize(1024);
 	
 }

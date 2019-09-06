@@ -69,6 +69,7 @@
 #include "Physics/RigidBody.h"
 #include "Physics/Collider.h"
 #include "Physics/ColliderBox.h"
+#include "Physics/ColliderSphere.h"
 
 #include "Adapter/AutoFileDialog.h"
 

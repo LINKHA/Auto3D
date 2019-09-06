@@ -3,6 +3,7 @@
 #include "RigidBody.h"
 #include "Collider.h"
 #include "ColliderBox.h"
+#include "ColliderSphere.h"
 
 namespace Auto3D
 {
@@ -53,6 +54,7 @@ AUTO_API void RegisterPhysicsLibrary()
 	RigidBody::RegisterObject();
 	Collider::RegisterObject();
 	ColliderBox::RegisterObject();
+	ColliderSphere::RegisterObject();
 }
 
 }

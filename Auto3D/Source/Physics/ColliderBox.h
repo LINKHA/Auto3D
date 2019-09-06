@@ -24,7 +24,7 @@ private:
 	/// Resize form Vector3
 	void Resize(const Vector3F& vec);
 
-	/// Box shape size
+	/// Box shape size (radius)
 	Vector3F _size;
 };
 

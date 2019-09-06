@@ -47,17 +47,12 @@ PhysicsWorld::~PhysicsWorld()
 	physics->RemovePhysicsWorld(this);
 	physics->SetActivePhysicsWrold(nullptr);
 
-	//SafeDelete(_world);
 	_world.Reset();
 	_solver.Reset();
 	_broadphase.Reset();
 	_collisionDispatcher.Reset();
-	/*SafeDelete(_solver);
-	SafeDelete(_broadphase);
-	SafeDelete(_collisionDispatcher);*/
 	if (!PhysicsWorld::config.collisionConfig)
 		_collisionConfiguration.Reset();
-		//SafeDelete(_collisionConfiguration);
 }
 
 void PhysicsWorld::RegisterObject()
