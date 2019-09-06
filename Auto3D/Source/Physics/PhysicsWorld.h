@@ -1,9 +1,9 @@
 #pragma once
-#include <btBulletCollisionCommon.h>
-#include <btBulletDynamicsCommon.h>
-
 #include "../Scene/Node.h"
 #include "../Time/Time.h"
+
+#include <btBulletCollisionCommon.h>
+#include <btBulletDynamicsCommon.h>
 
 namespace Auto3D {
 
