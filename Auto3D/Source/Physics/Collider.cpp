@@ -38,7 +38,7 @@ void Collider::NotifyRigidBody(bool updateMass)
 {
 	// Get this component rigidBody
 	btCompoundShape* compound = GetParentCompoundShape();
-
+	
 	if (Parent() && _shape && compound)
 	{
 		// Remove the shape first to ensure it is not added twice

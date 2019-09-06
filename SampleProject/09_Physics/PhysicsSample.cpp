@@ -24,42 +24,78 @@ void PhysicsSample::Start()
 	camera = scene->CreateChild<Camera>();
 	camera->SetPosition(Vector3F(0.0f, 10.0f, -60.0f));
 
+
+	//{
+
+	//	btTransform groundTransform;
+	//	groundTransform.setIdentity();
+	//	groundTransform.setOrigin(btVector3(0, -56, 0));
+
+	//	btScalar mass(0.);
+
+	//	//rigidbody is dynamic if and only if mass is non zero, otherwise static
+	//	bool isDynamic = (mass != 0.f);
+
+	//	btVector3 localInertia(0, 0, 0);
+
+	//	btCompoundShape* compoundShape = new btCompoundShape();
+
+	//	//using motionstate is optional, it provides interpolation capabilities, and only synchronizes 'active' objects
+	//	btDefaultMotionState* myMotionState = new btDefaultMotionState(groundTransform);
+	//	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, compoundShape, localInertia);
+
+	//	btRigidBody* body = new btRigidBody(rbInfo);
+	//	btCollisionShape* groundShape = new btBoxShape(btVector3(btScalar(50.), btScalar(50.), btScalar(50.)));
+
+	//	compoundShape->addChildShape(btTransform::getIdentity(), groundShape);
+	//	
+	//	//add the body to the dynamics world
+	//	physics->GetWorld()->addRigidBody(body);
+
+	//	if (isDynamic)
+	//		groundShape->calculateLocalInertia(mass, localInertia);
+	//}
+
+
 	StaticModel* plane = scene->CreateChild<StaticModel>();
 	plane->SetModel(cache->LoadResource<Model>("Box.mdl"));
-	plane->SetPosition(Vector3F(0.0f, -55.0f, 0.0f));
-	plane->SetScale(Vector3F(50.0f, 50.0f, 50.0f));
+	plane->SetPosition(Vector3F(0.0f, -20.0f, 0.0f));
+	plane->SetScale(Vector3F(100.0f, 1.0f, 100.0f));
 	plane->SetMaterial(cache->LoadResource<Material>("Stone.json"));
 	RigidBody* planeRigidBody = plane->CreateChild<RigidBody>();
 	planeRigidBody->SetMass(0.0f);
 	ColliderBox* planeColliderBox = plane->CreateChild<ColliderBox>();
-	planeColliderBox->SetSize(Vector3F(50.0f, 50.0f, 50.0f));
-	
-	for (int i = 0; i < 5; ++i)
+	planeColliderBox->SetSize(Vector3F(50.0f, 0.5f, 50.0f));
+
+	////
+	/*for (int i = 0; i < 5; ++i)
 	{
 		for (int j = 0; j < 5; ++j)
 		{
 			for (int k = 0; k < 5; ++k)
 			{
-				StaticModel* box1 = scene->CreateChild<StaticModel>();
-				box1->SetModel(cache->LoadResource<Model>("Box.mdl"));
-				box1->SetPosition(Vector3F(i, 10.f + j, k));
-				box1->SetScale(Vector3F(1.0f, 1.0f, 1.0f));
-				RigidBody* box1RigidBody = box1->CreateChild<RigidBody>();
-				box1RigidBody->SetMass(0.01f);
-				ColliderBox* box1colliderBox = box1->CreateChild<ColliderBox>();
+				StaticModel* box = scene->CreateChild<StaticModel>();
+				box->SetModel(cache->LoadResource<Model>("Box.mdl"));
+				box->SetPosition(Vector3F(i, 10.f + j, k));
+				box->SetScale(Vector3F(2.0f, 2.0f, 2.0f));
+				box->SetCastShadows(true);
+				RigidBody* box1RigidBody = box->CreateChild<RigidBody>();
+				box1RigidBody->SetMass(1.0f);
+				ColliderBox* box1colliderBox = box->CreateChild<ColliderBox>();
 				box1colliderBox->SetSize(Vector3F(1.0f, 1.0f, 1.0f));
 			}
 		}
 	}
-
-	/*StaticModel* box1 = scene->CreateChild<StaticModel>();
-	box1->SetModel(cache->LoadResource<Model>("Box.mdl"));
-	box1->SetPosition(Vector3F(1.0f, 10.0f, 1.0f));
-	box1->SetScale(Vector3F(1.0f, 1.0f, 1.0f));
-	RigidBody* box1RigidBody = box1->CreateChild<RigidBody>();
-	box1RigidBody->SetMass(0.01f);
-	ColliderBox* box1colliderBox = box1->CreateChild<ColliderBox>();
-	box1colliderBox->SetSize(Vector3F(1.0f, 1.0f, 1.0f));*/
+*/
+	Light* light = scene->CreateChild<Light>();
+	light->SetLightType(LightType::POINT);
+	light->SetCastShadows(true);
+	light->SetColor(Color(1.0f, 1.0f, 1.0f));
+	light->SetFov(90.0f);
+	light->SetRange(2000.0f);
+	light->SetPosition(Vector3F(50.0f, 0.0f, 5.0f));
+	light->SetDirection(Vector3F(0.0f, -1.0f, -1.0f));
+	light->SetShadowMapSize(1024);
 	
 }
 void PhysicsSample::Update()

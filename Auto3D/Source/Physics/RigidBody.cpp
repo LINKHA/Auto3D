@@ -33,8 +33,9 @@ void RigidBody::getWorldTransform(btTransform& worldTrans) const
 {
 	if (Parent())
 	{
-		worldTrans.setOrigin(ToBtVector3(dynamic_cast<SpatialNode*>(Parent())->GetPosition()));
-		//worldTrans.setRotation(ToBtQuaternion(dynamic_cast<SpatialNode*>(Parent())->GetRotation()));
+		SpatialNode* parentNode = dynamic_cast<SpatialNode*>(Parent());
+		worldTrans.setOrigin(ToBtVector3(parentNode->GetPosition()));
+		worldTrans.setRotation(ToBtQuaternion(parentNode->GetRotation()));
 	}
 }
 
@@ -47,7 +48,10 @@ void RigidBody::setWorldTransform(const btTransform& worldTrans)
 	
 	if (Parent())
 	{
-		dynamic_cast<SpatialNode*>(Parent())->SetPosition(newWorldPosition);
+		SpatialNode* parentNode = dynamic_cast<SpatialNode*>(Parent());
+		parentNode->SetPosition(newWorldPosition);
+		parentNode->SetRotation(newWorldRotation);
+
 	}
 }
 
