@@ -14,17 +14,18 @@ public:
 	Physics();
 	/// Destructor
 	~Physics();
-
+	/// Update active physics world.
 	void Update();
-
+	/// Add physics world.
 	void AddPhysicsWorld(PhysicsWorld* activeWorlds);
-
+	/// Remove physics world.
 	void RemovePhysicsWorld(PhysicsWorld* activeWorlds);
-
+	/// Set active physics world. 
 	void SetActivePhysicsWrold(PhysicsWorld* activeWorlds);
 private:
+	/// All scene physics world.
 	Vector<PhysicsWorld*> _physicsWorlds;
-
+	/// Active physics world.
 	PhysicsWorld* _activeWorlds;
 };
 
