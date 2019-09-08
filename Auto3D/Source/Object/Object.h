@@ -63,6 +63,11 @@ public: \
 class AUTO_API Object : public RefCounted
 {
 public:
+	/// Structure
+	Object() = default;
+	/// Destructor
+	virtual ~Object() = default;
+
     /// Return hash of the type name.
     virtual StringHash GetType() const = 0;
     /// Return type name.

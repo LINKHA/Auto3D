@@ -17,7 +17,8 @@ namespace ShapeType
 {
 	enum Type
 	{
-		BOX = 0,
+		DEFAULT = 0,
+		BOX,
 		SPHERE,
 		STATICPLANE,
 		CYLINDER,

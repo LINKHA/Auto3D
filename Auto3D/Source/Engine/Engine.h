@@ -25,7 +25,7 @@ class AUTO_API Engine : public Object
 public:
 	/// Construct
 	Engine();
-
+	/// Cestructor
 	~Engine();
 	/// Init engine, Register some SubSystem
 	bool Init();
