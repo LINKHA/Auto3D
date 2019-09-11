@@ -3,7 +3,7 @@
 #include "../Container/AutoPtr.h"
 #include "../Container/String.h"
 #include "../Math/Math.h"
-#include "../Object/GameManager.h"
+#include "../Base/GameManager.h"
 #include "../Time/Time.h"
 
 namespace Auto3D

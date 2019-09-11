@@ -3,7 +3,7 @@
 #include "../../Math/Color.h"
 #include "../../Math/Rect.h"
 #include "../../Math/Vector2.h"
-#include "../../Object/GameManager.h"
+#include "../../Base/GameManager.h"
 
 #include "../GraphicsDefs.h"
 #include "../GraphicsVersionDef.h"

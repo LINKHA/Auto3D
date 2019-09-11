@@ -12,6 +12,8 @@ class ObjectResolver;
 class AUTO_API Serializable : public Object
 {
 public:
+	/// Destructor
+	virtual ~Serializable() {}
     /// Load from binary stream. Store object ref attributes to be resolved later.
     virtual void Load(Stream& source, ObjectResolver& resolver);
     /// Save to binary stream.

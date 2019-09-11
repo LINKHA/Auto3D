@@ -1,5 +1,5 @@
 #pragma once
-#include "../Object/GameManager.h"
+#include "../Base/GameManager.h"
 #include "Batch2D.h"
 
 namespace Auto3D {

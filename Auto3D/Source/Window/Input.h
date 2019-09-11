@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Math/Vector2.h"
-#include "../Object/GameManager.h"
+#include "../Base/GameManager.h"
 
 #include <SDL_scancode.h>
 

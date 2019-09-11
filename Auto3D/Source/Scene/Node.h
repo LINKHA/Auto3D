@@ -31,7 +31,7 @@ public:
     /// Construct.
     Node();
     /// Destruct. Destroy any child nodes.
-    ~Node();
+    virtual ~Node();
     
     /// Register factory and attributes.
     static void RegisterObject();
