@@ -80,10 +80,10 @@ void PBRSample::Start()
 void PBRSample::Update()
 {
 	Super::Update();
-	auto* input = Object::Module<Input>();
-	auto* graphics = Object::Module<Graphics>();
-	auto* renderer = Object::Module<Renderer>();
-	auto* time = Object::Module<Time>();
+	auto input = ModuleManager::Get()._input;
+	auto graphics = ModuleManager::Get()._graphics;
+	auto renderer = ModuleManager::Get()._renderer;
+	auto time = ModuleManager::Get()._time;
 
 	pitch += input->GetMouseMove()._y * 0.25f;
 	yaw += input->GetMouseMove()._x * 0.25f;

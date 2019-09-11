@@ -4,6 +4,7 @@
 
 namespace Auto3D
 {
+class ModuleManager;
 
 class ResourceCache;
 class Graphics;
@@ -75,35 +76,6 @@ public:
 private:
 	/// Actually perform the exit actions.
 	void DoExit();
-	/// Manage the subsystem of all resource loads
-	UniquePtr<ResourceCache> _cache;
-	/// ADAPTS the low-level rendering interface as well as the form's rendering function
-	UniquePtr<Graphics> _graphics;
-	/// 3D rendering of the scene
-	UniquePtr<Renderer> _renderer;
-	/// User input management events
-	UniquePtr<Input> _input;
-	/// Engine Log
-	UniquePtr<Log> _log;
-#ifdef AUTO_PROFILING
-	/// Hierarchical performance profiler subsystem.
-	UniquePtr<Profiler> _profiler;
-#endif
-	/// Process all engine time, calculate FPS, etc
-	UniquePtr<Time> _time;
-	/// The message management mechanism for the underlying interaction between the game project and the engine
-	UniquePtr<RegisteredBox> _registeredBox;
-	/// 2d-related operations and rendering capabilities
-	UniquePtr<Renderer2D> _renderer2d;
-	/// Physical world and functional storage
-	UniquePtr<Physics> _physics;
-	/// An adapter system that operates on files based on the platform
-	UniquePtr<FileSystem> _fileSystem;
-	/// UI-related operations and rendering capabilities
-	UniquePtr<UI> _ui;
-
-	//This subsystem is implemented in the Audio component, the first one created
-	//UniquePtr<Audio> _audio;
 
 	/// Frame update timer.
 	HiresTimer _frameTimer;
@@ -127,6 +99,34 @@ private:
 	unsigned _minFps;
 	/// Maximum frames per second when the application does not have input focus.
 	unsigned _maxInactiveFps;
+
+
+	/// Manage the subsystem of all resource loads
+	SharedPtr<ResourceCache> _cache;
+	/// ADAPTS the low-level rendering interface as well as the form's rendering function
+	SharedPtr<Graphics> _graphics;
+	/// 3D rendering of the scene
+	SharedPtr<Renderer> _renderer;
+	/// User input management events
+	SharedPtr<Input> _input;
+	/// Engine Log
+	SharedPtr<Log> _log;
+#ifdef AUTO_PROFILING
+	/// Hierarchical performance profiler subsystem.
+	SharedPtr<Profiler> _profiler;
+#endif
+	/// Process all engine time, calculate FPS, etc
+	SharedPtr<Time> _time;
+	/// The message management mechanism for the underlying interaction between the game project and the engine
+	SharedPtr<RegisteredBox> _registeredBox;
+	/// 2d-related operations and rendering capabilities
+	SharedPtr<Renderer2D> _renderer2d;
+	/// Physical world and functional storage
+	SharedPtr<Physics> _physics;
+	/// An adapter system that operates on files based on the platform
+	SharedPtr<FileSystem> _fileSystem;
+	/// UI-related operations and rendering capabilities
+	SharedPtr<UI> _ui;
 };
 
 

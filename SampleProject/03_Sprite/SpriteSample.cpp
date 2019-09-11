@@ -23,9 +23,9 @@ void SpriteSample::Start()
 void SpriteSample::Update()
 {
 	Super::Update();
-	auto* input = Object::Module<Input>();
-	auto* renderer = Object::Module<Renderer>();
-	auto* time = Object::Module<Time>();
+	auto input = ModuleManager::Get()._input;
+	auto renderer = ModuleManager::Get()._renderer;
+	auto time = ModuleManager::Get()._time;
 
 	float moveSpeed = input->IsKeyDown(KEY_LSHIFT) ? 50 : 10.0f;
 

@@ -44,7 +44,7 @@ bool TypeInfo::IsTypeOf(const TypeInfo* typeInfo) const
 }
 
 
-HashMap<StringHash, Object*> Object::_subsystems;
+HashMap<StringHash, Object*> Object::_modules;
 HashMap<StringHash, AutoPtr<ObjectFactory> > Object::_factories;
 
 ObjectFactory::~ObjectFactory()
@@ -86,7 +86,7 @@ void Object::RegisterModule(Object* subsystem)
     if (!subsystem)
         return;
     
-    _subsystems[subsystem->GetType()] = subsystem;
+    _modules[subsystem->GetType()] = subsystem;
 }
 
 void Object::RemoveModule(Object* subsystem)
@@ -94,20 +94,20 @@ void Object::RemoveModule(Object* subsystem)
     if (!subsystem)
         return;
     
-    auto it = _subsystems.Find(subsystem->GetType());
-    if (it != _subsystems.End() && it->_second == subsystem)
-        _subsystems.Erase(it);
+    auto it = _modules.Find(subsystem->GetType());
+    if (it != _modules.End() && it->_second == subsystem)
+        _modules.Erase(it);
 }
 
 void Object::RemoveModule(StringHash type)
 {
-    _subsystems.Erase(type);
+    _modules.Erase(type);
 }
 
 Object* Object::Module(StringHash type)
 {
-    auto it = _subsystems.Find(type);
-    return it != _subsystems.End() ? it->_second : nullptr;
+    auto it = _modules.Find(type);
+    return it != _modules.End() ? it->_second : nullptr;
 }
 
 void Object::RegisterFactory(ObjectFactory* factory)

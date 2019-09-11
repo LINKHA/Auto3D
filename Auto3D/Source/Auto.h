@@ -70,6 +70,7 @@
 #include "Physics/Collider.h"
 #include "Physics/ColliderBox.h"
 #include "Physics/ColliderSphere.h"
+#include "Engine/ModuleManager.h"
 
 #include "Adapter/AutoFileDialog.h"
 

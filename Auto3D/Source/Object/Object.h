@@ -126,8 +126,8 @@ public:
     template <typename _Ty> static _Ty* Create() { return static_cast<_Ty*>(Create(_Ty::GetTypeStatic())); }
     
 private:
-    /// Registered subsystems.
-    static HashMap<StringHash, Object*> _subsystems;
+    /// Registered modules.
+    static HashMap<StringHash, Object*> _modules;
     /// Registered object factories.
     static HashMap<StringHash, AutoPtr<ObjectFactory> > _factories;
 };

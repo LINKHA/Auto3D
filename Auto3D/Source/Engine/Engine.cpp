@@ -23,6 +23,9 @@
 #include "../Base/ProcessUtils.h"
 #include "../Debug/DebugNew.h"
 
+#include "ModuleManager.h"
+
+
 namespace Auto3D
 {
 
@@ -43,30 +46,24 @@ Engine::Engine():
 #endif
 	_autoExit(true)
 {
-	RegisterGraphicsLibrary();
-	RegisterResourceLibrary();
-	RegisterRendererLibrary();
-	RegisterRenderer2DLibrary();
-	RegisterAudioLibrary();
-	RegisterUILibrary();
-	RegisterPhysicsLibrary();
+	ModuleManager::Get().RegisterMoudleLibrary();
+	ModuleManager::Get().CreateModules();
 
-	_cache = new ResourceCache();
-	_cache->AddResourceDir(ExecutableDir() + "Data");
-
-	_log = new Log();
-	_input = new Input();
+	// Assign a value to this class
+	_cache = ModuleManager::Get()._cache;
+	_graphics = ModuleManager::Get()._graphics;
+	_renderer = ModuleManager::Get()._renderer;
+	_input = ModuleManager::Get()._input;
+	_log = ModuleManager::Get()._log;
 #ifdef AUTO_PROFILING
-	_profiler = new Profiler();
+	_profiler = ModuleManager::Get()._profiler;
 #endif
-	_graphics = new Graphics();
-	_renderer = new Renderer();
-	_time = new Time();
-	_registeredBox = new RegisteredBox();
-	_renderer2d = new Renderer2D();
-	_physics = new Physics();
-	_fileSystem = new FileSystem();
-	_ui = new UI();
+	_time = ModuleManager::Get()._time;
+	_registeredBox = ModuleManager::Get()._registeredBox;
+	_renderer2d = ModuleManager::Get()._renderer2d;
+	_physics = ModuleManager::Get()._physics;
+	_fileSystem = ModuleManager::Get()._fileSystem;
+	_ui = ModuleManager::Get()._ui;
 }
 
 Engine::~Engine()
@@ -147,7 +144,7 @@ void Engine::Render()
 				Camera* camera = *cameraIt;
 				_renderer->Render(scene, camera);
 				// Update camera aspect ratio based on window size
-				camera->SetAspectRatio((float)Module<Graphics>()->GetWidth() / (float)Module<Graphics>()->GetHeight());
+				camera->SetAspectRatio((float)_graphics->GetWidth() / (float)_graphics->GetHeight());
 			}
 		}
 	}
@@ -194,8 +191,8 @@ bool Engine::Update()
 		ShutDownEngine();
 		return false;
 	}
-	if(Module<Audio>())
-		Module<Audio>()->Update();
+	if(ModuleManager::Get()._audio)
+		ModuleManager::Get()._audio->Update();
 
 	_physics->Update();
 	
@@ -259,8 +256,8 @@ void Engine::ApplyFrameLimit()
 		return;
 
 	unsigned maxFps = _maxFps;
-	auto* input = Module<Input>();
-	if (input)
+
+	if (_input)
 		maxFps = Min(_maxInactiveFps, maxFps);
 
 	long long elapsed = 0;
@@ -322,10 +319,8 @@ void Engine::ApplyFrameLimit()
 
 void Engine::DoExit()
 {
-	auto* graphics = Module<Graphics>();
-	
-	if (graphics)
-		graphics->Close();
+	if (_graphics)
+		_graphics->Close();
 	_exiting = true;
 #ifdef AUTO_PROFILING
 	auto* profiler = Module<Profiler>();
