@@ -21,7 +21,7 @@ Scene2D::Scene2D() :
 
 	DefineLayer(LAYER_DEFAULT, "Default");
 	DefineTag(TAG_NONE, "None");
-	Subsystem<RegisteredBox>()->RegisterScene2D(this);
+	Module<RegisteredBox>()->RegisterScene2D(this);
 }
 Scene2D::~Scene2D()
 {

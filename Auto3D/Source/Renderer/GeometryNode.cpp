@@ -161,7 +161,7 @@ void GeometryNode::OnWorldBoundingBoxUpdate() const
 
 void GeometryNode::SetMaterialsAttr(const ResourceRefList& materials)
 {
-    ResourceCache* cache = Subsystem<ResourceCache>();
+    ResourceCache* cache = Module<ResourceCache>();
     for (size_t i = 0; i < materials._names.Size(); ++i)
         SetMaterial(i, cache->LoadResource<Material>(materials._names[i]));
 }

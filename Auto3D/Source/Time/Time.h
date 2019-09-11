@@ -8,9 +8,9 @@ namespace Auto3D
 const int MIN_FRAMES_PER_SECOND = 10;
 const int MAX_FRAMES_PER_SECOND = 200;
 /// SubSystem class for time
-class AUTO_API Time : public BaseSubsystem
+class AUTO_API Time : public BaseModule
 {
-	REGISTER_OBJECT_CLASS(Time, BaseSubsystem)
+	REGISTER_OBJECT_CLASS(Time, BaseModule)
 	typedef void(__cdecl* TimerCallback) ();
 	/// Save world time information
 	using RealTime = struct {

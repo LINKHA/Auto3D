@@ -161,12 +161,12 @@ int DoSystemRun(const String& fileName, const Vector<String>& arguments)
 
 FileSystem::FileSystem()
 {
-	RegisterSubsystem(this);
+	RegisterModule(this);
 }
 
 FileSystem::~FileSystem()
 {
-	RemoveSubsystem(this);
+	RemoveModule(this);
 }
 
 void FileSystem::RegisterPath(const String& pathName)

@@ -181,7 +181,7 @@ void Texture::Recreate()
     // If has a name, attempt to reload through the resource cache
     if (Name().Length())
     {
-        ResourceCache* cache = Subsystem<ResourceCache>();
+        ResourceCache* cache = Module<ResourceCache>();
         if (cache && cache->ReloadResource(this))
             return;
     }

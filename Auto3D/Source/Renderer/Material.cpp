@@ -253,7 +253,7 @@ bool Material::EndLoad()
     /// \todo Queue texture loads during BeginLoad()
     ResetTextures();
 
-	ResourceCache* cache = Subsystem<ResourceCache>();
+	ResourceCache* cache = Module<ResourceCache>();
 
     if (root.Contains("textures"))
     {

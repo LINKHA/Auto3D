@@ -67,7 +67,7 @@ ShaderVariation* Shader::CreateVariation(const String& definesIn)
 
 bool Shader::ProcessIncludes(String& code, Stream& source)
 {
-    ResourceCache* cache = Subsystem<ResourceCache>();
+    ResourceCache* cache = Module<ResourceCache>();
 
     while (!source.IsEof())
     {

@@ -13,12 +13,12 @@ namespace Auto3D
 Physics::Physics():
 	_activeWorlds(nullptr)
 {
-	RegisterSubsystem(this);
+	RegisterModule(this);
 }
 
 Physics::~Physics()
 {
-	RemoveSubsystem(this);
+	RemoveModule(this);
 }
 
 void Physics::Update()

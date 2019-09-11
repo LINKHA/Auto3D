@@ -11,7 +11,7 @@ namespace Auto3D
 
 SkyBox::SkyBox()
 {
-	auto* cache = Object::Subsystem<ResourceCache>();
+	auto* cache = Object::Module<ResourceCache>();
 	SetModel(cache->LoadResource<Model>("Box.mdl"));
 	OnWorldBoundingBoxUpdate();
 }

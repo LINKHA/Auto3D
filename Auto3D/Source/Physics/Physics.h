@@ -6,9 +6,9 @@ namespace Auto3D {
 class PhysicsWorld;
 
 /// Physics sub system 
-class AUTO_API Physics : public BaseSubsystem
+class AUTO_API Physics : public BaseModule
 {
-	REGISTER_OBJECT_CLASS(Physics, BaseSubsystem)
+	REGISTER_OBJECT_CLASS(Physics, BaseModule)
 public:
 	/// Construct
 	Physics();

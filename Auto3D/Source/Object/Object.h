@@ -101,17 +101,17 @@ public:
         SubscribeToEvent(event, new EventHandlerImpl<_Ty, _Event>(this, handlerFunction));
     }
 
-    /// Return whether is subscribed to an _event.
+    /// Return whether is subscribed to an event.
     bool IsSubscribedToEvent(const Event& event) const;
     
-    /// Register an object as a subsystem that can be accessed globally. Note that the subsystems container does not own the objects.
-    static void RegisterSubsystem(Object* subsystem);
-    /// Remove a subsystem by object pointer.
-    static void RemoveSubsystem(Object* subsystem);
-    /// Remove a subsystem by type.
-    static void RemoveSubsystem(StringHash type);
+    /// Register an object as a module that can be accessed globally. Note that the modules container does not own the objects.
+    static void RegisterModule(Object* module);
+    /// Remove a module by object pointer.
+    static void RemoveModule(Object* module);
+    /// Remove a module by type.
+    static void RemoveModule(StringHash type);
     /// Return a subsystem by type, or null if not registered.
-    static Object* Subsystem(StringHash type);
+    static Object* Module(StringHash type);
     /// Register an object factory.
     static void RegisterFactory(ObjectFactory* factory);
     /// Create and return an object through a factory. The caller is assumed to take ownership of the object. Return null if no factory registered. 
@@ -119,7 +119,7 @@ public:
     /// Return a type name from hash, or empty if not known. Requires a registered object factory.
     static const String& TypeNameFromType(StringHash type);
     /// Return a subsystem, template version.
-    template <typename _Ty> static _Ty* Subsystem() { return static_cast<_Ty*>(Subsystem(_Ty::GetTypeStatic())); }
+    template <typename _Ty> static _Ty* Module() { return static_cast<_Ty*>(Module(_Ty::GetTypeStatic())); }
     /// Register an object factory, template version.
     template <typename _Ty> static void RegisterFactory() { RegisterFactory(new ObjectFactoryImpl<_Ty>()); }
     /// Create and return an object through a factory, template version.

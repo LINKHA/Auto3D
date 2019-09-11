@@ -81,7 +81,7 @@ bool Object::IsSubscribedToEvent(const Event& event) const
     return event.HasReceiver(this);
 }
 
-void Object::RegisterSubsystem(Object* subsystem)
+void Object::RegisterModule(Object* subsystem)
 {
     if (!subsystem)
         return;
@@ -89,7 +89,7 @@ void Object::RegisterSubsystem(Object* subsystem)
     _subsystems[subsystem->GetType()] = subsystem;
 }
 
-void Object::RemoveSubsystem(Object* subsystem)
+void Object::RemoveModule(Object* subsystem)
 {
     if (!subsystem)
         return;
@@ -99,12 +99,12 @@ void Object::RemoveSubsystem(Object* subsystem)
         _subsystems.Erase(it);
 }
 
-void Object::RemoveSubsystem(StringHash type)
+void Object::RemoveModule(StringHash type)
 {
     _subsystems.Erase(type);
 }
 
-Object* Object::Subsystem(StringHash type)
+Object* Object::Module(StringHash type)
 {
     auto it = _subsystems.Find(type);
     return it != _subsystems.End() ? it->_second : nullptr;

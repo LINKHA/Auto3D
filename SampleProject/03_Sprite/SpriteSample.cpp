@@ -7,9 +7,9 @@ void SpriteSample::Init()
 void SpriteSample::Start()
 {
 	Super::Start();
-	auto* cache = Object::Subsystem<ResourceCache>();
+	auto* cache = Object::Module<ResourceCache>();
 	auto flower = (cache->LoadResource<Texture>("flower.png"));
-	SubscribeToEvent(Subsystem<Graphics>()->RenderWindow()->closeRequestEvent, &SpriteSample::HandleCloseRequest);
+	SubscribeToEvent(Module<Graphics>()->RenderWindow()->closeRequestEvent, &SpriteSample::HandleCloseRequest);
 
 	for (int i = 0; i < flowerNum; i++)
 	{
@@ -23,9 +23,9 @@ void SpriteSample::Start()
 void SpriteSample::Update()
 {
 	Super::Update();
-	auto* input = Object::Subsystem<Input>();
-	auto* renderer = Object::Subsystem<Renderer>();
-	auto* time = Object::Subsystem<Time>();
+	auto* input = Object::Module<Input>();
+	auto* renderer = Object::Module<Renderer>();
+	auto* time = Object::Module<Time>();
 
 	float moveSpeed = input->IsKeyDown(KEY_LSHIFT) ? 50 : 10.0f;
 

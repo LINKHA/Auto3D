@@ -3,18 +3,18 @@
 void FirstPersonSample::Init()
 {
 	Super::Init();
-	auto* graphics = Object::Subsystem<Graphics>();
+	auto* graphics = Object::Module<Graphics>();
 	graphics->RenderWindow()->SetTitle("FirstPerson Sample");
 
 }
 void FirstPersonSample::Start()
 {
 	Super::Start();
-	auto* cache = Object::Subsystem<ResourceCache>();
-	auto* graphics = Object::Subsystem<Graphics>();
-	auto* renderer = Object::Subsystem<Renderer>();
-	auto* input = Object::Subsystem<Input>();
-	auto* profiler = Object::Subsystem<Profiler>();
+	auto* cache = Object::Module<ResourceCache>();
+	auto* graphics = Object::Module<Graphics>();
+	auto* renderer = Object::Module<Renderer>();
+	auto* input = Object::Module<Input>();
+	auto* profiler = Object::Module<Profiler>();
 
 	graphics->RenderWindow()->SetMouseLock(true);
 	graphics->RenderWindow()->SetMouseHide(true);
@@ -74,10 +74,10 @@ void FirstPersonSample::Start()
 void FirstPersonSample::Update()
 {
 	Super::Update();
-	auto* input = Object::Subsystem<Input>();
-	auto* graphics = Object::Subsystem<Graphics>();
-	auto* renderer = Object::Subsystem<Renderer>();
-	auto* time = Object::Subsystem<Time>();
+	auto* input = Object::Module<Input>();
+	auto* graphics = Object::Module<Graphics>();
+	auto* renderer = Object::Module<Renderer>();
+	auto* time = Object::Module<Time>();
 
 	pitch += input->GetMouseMove()._y * 0.25f;
 	yaw += input->GetMouseMove()._x * 0.25f;

@@ -99,7 +99,7 @@ Model* StaticModel::GetModel() const
 
 void StaticModel::SetModelAttr(const ResourceRef& model)
 {
-    ResourceCache* cache = Subsystem<ResourceCache>();
+    ResourceCache* cache = Module<ResourceCache>();
     SetModel(cache->LoadResource<Model>(model._name));
 }
 

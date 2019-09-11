@@ -36,12 +36,12 @@ Renderer2D::Renderer2D() :
 	_rendered(false),
 	_instanceTransformsDirty(false)
 {
-	RegisterSubsystem(this);
+	RegisterModule(this);
 }
 
 Renderer2D::~Renderer2D()
 {
-	RemoveSubsystem(this);
+	RemoveModule(this);
 }
 
 void Renderer2D::Render(Scene2D* scene, Camera2D* camera)
@@ -162,8 +162,8 @@ void Renderer2D::RenderBatches()
 
 void Renderer2D::Initialize()
 {
-	auto* graphics = Subsystem<Graphics>();
-	auto* cache = Subsystem<ResourceCache>();
+	auto* graphics = Module<Graphics>();
+	auto* cache = Module<ResourceCache>();
 	assert(!_graphics && !IsInitialized());
 
 	PROFILE(InitRenderer2D);

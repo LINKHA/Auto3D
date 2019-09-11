@@ -106,12 +106,12 @@ Profiler::Profiler() :
 {
     _root = new ProfilerBlock(nullptr, "Root");
     _current = _root;
-    RegisterSubsystem(this);
+    RegisterModule(this);
 }
 
 Profiler::~Profiler()
 {
-    RemoveSubsystem(this);
+    RemoveModule(this);
 }
 
 void Profiler::BeginBlock(const char* name)

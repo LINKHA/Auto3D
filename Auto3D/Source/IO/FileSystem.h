@@ -15,10 +15,10 @@ static const unsigned SCAN_DIRS = 0x2;
 /// Return also hidden files.
 static const unsigned SCAN_HIDDEN = 0x4;
 
-/// Subsystem for file and directory operations and access control.
-class AUTO_API FileSystem : public BaseSubsystem
+/// Module for file and directory operations and access control.
+class AUTO_API FileSystem : public BaseModule
 {
-	REGISTER_OBJECT_CLASS(FileSystem, BaseSubsystem)
+	REGISTER_OBJECT_CLASS(FileSystem, BaseModule)
 public:
 	/// Construct.
 	FileSystem();

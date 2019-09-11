@@ -13,13 +13,13 @@ namespace Auto3D
 
 ResourceCache::ResourceCache()
 {
-    RegisterSubsystem(this);
+    RegisterModule(this);
 }
 
 ResourceCache::~ResourceCache()
 {
     UnloadAllResources(true);
-    RemoveSubsystem(this);
+    RemoveModule(this);
 }
 
 bool ResourceCache::AddResourceDir(const String& pathName, bool addFirst)
@@ -345,7 +345,7 @@ String ResourceCache::SanitateResourceDirName(const String& nameIn) const
     // Convert path to absolute
     String fixedPath = AddTrailingSlash(nameIn);
     if (!IsAbsolutePath(fixedPath))
-        fixedPath = Subsystem<FileSystem>()->GetCurrentDir() + fixedPath;
+        fixedPath = Module<FileSystem>()->GetCurrentDir() + fixedPath;
 
     // Sanitate away /./ construct
     fixedPath.Replace("/./", "/");

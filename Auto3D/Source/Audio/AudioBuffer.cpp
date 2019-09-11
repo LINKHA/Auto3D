@@ -12,7 +12,7 @@ namespace Auto3D
 
 AudioBuffer::AudioBuffer()
 {
-	_audio = Object::Subsystem<Audio>();
+	_audio = Object::Module<Audio>();
 }
 
 AudioBuffer::~AudioBuffer()

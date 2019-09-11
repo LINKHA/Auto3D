@@ -10,12 +10,12 @@ Input::Input() :
     _mouseButtons(0),
     _mouseButtonsPressed(0)
 {
-    RegisterSubsystem(this);
+    RegisterModule(this);
 }
 
 Input::~Input()
 {
-    RemoveSubsystem(this);
+    RemoveModule(this);
 }
 
 void Input::Update()
@@ -30,7 +30,7 @@ void Input::Update()
         it->_delta = Vector2I::ZERO;
 
     // The OS-specific _window message handling will call back to Input and update the state
-    Window* window = Subsystem<Window>();
+    Window* window = Module<Window>();
     if (window)
         window->PumpMessages();
 }
@@ -61,7 +61,7 @@ bool Input::IsKeyPressRaw(unsigned rawKeyCode) const
 
 const Vector2I& Input::GetMousePosition() const
 {
-    Window* window = Subsystem<Window>();
+    Window* window = Module<Window>();
     return window ? window->GetMousePosition() : Vector2I::ZERO;
 }
 

@@ -147,7 +147,7 @@ void Engine::Render()
 				Camera* camera = *cameraIt;
 				_renderer->Render(scene, camera);
 				// Update camera aspect ratio based on window size
-				camera->SetAspectRatio((float)Subsystem<Graphics>()->GetWidth() / (float)Subsystem<Graphics>()->GetHeight());
+				camera->SetAspectRatio((float)Module<Graphics>()->GetWidth() / (float)Module<Graphics>()->GetHeight());
 			}
 		}
 	}
@@ -194,8 +194,8 @@ bool Engine::Update()
 		ShutDownEngine();
 		return false;
 	}
-	if(Subsystem<Audio>())
-		Subsystem<Audio>()->Update();
+	if(Module<Audio>())
+		Module<Audio>()->Update();
 
 	_physics->Update();
 	
@@ -259,7 +259,7 @@ void Engine::ApplyFrameLimit()
 		return;
 
 	unsigned maxFps = _maxFps;
-	auto* input = Subsystem<Input>();
+	auto* input = Module<Input>();
 	if (input)
 		maxFps = Min(_maxInactiveFps, maxFps);
 
@@ -322,13 +322,13 @@ void Engine::ApplyFrameLimit()
 
 void Engine::DoExit()
 {
-	auto* graphics = Subsystem<Graphics>();
+	auto* graphics = Module<Graphics>();
 	
 	if (graphics)
 		graphics->Close();
 	_exiting = true;
 #ifdef AUTO_PROFILING
-	auto* profiler = Subsystem<Profiler>();
+	auto* profiler = Module<Profiler>();
 	LogString(profiler->OutputResults());
 #endif
 }

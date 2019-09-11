@@ -7,7 +7,7 @@ void HelloWorldSample::Init()
 void HelloWorldSample::Start()
 {
 	Super::Start();
-	auto* cache = Object::Subsystem<ResourceCache>();
+	auto* cache = Object::Module<ResourceCache>();
 
 	Sprite2D* bakcground = scene2d->CreateChild<Sprite2D>();
 	bakcground->SetTexture(cache->LoadResource<Texture>("HelloWorld.png"));

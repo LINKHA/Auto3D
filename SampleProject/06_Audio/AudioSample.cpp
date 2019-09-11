@@ -3,14 +3,14 @@
 void AudioSample::Init()
 {
 	Super::Init();
-	auto* graphics = Object::Subsystem<Graphics>();
+	auto* graphics = Object::Module<Graphics>();
 	graphics->RenderWindow()->SetTitle("Audio Sample");
 
 }
 void AudioSample::Start()
 {
 	Super::Start();
-	auto* cache = Object::Subsystem<ResourceCache>();
+	auto* cache = Object::Module<ResourceCache>();
 
 	canvas = new Canvas();
 	canvas->SetTitle("Sound 1");

@@ -3,14 +3,14 @@
 void MeshSample::Init()
 {
 	Super::Init();
-	auto* graphics = Object::Subsystem<Graphics>();
+	auto* graphics = Object::Module<Graphics>();
 	graphics->RenderWindow()->SetTitle("Mesh Sample");
 }
 void MeshSample::Start()
 { 
 	Super::Start();
-	auto* cache = Object::Subsystem<ResourceCache>();
-	auto* graphics = Object::Subsystem<Graphics>();
+	auto* cache = Object::Module<ResourceCache>();
+	auto* graphics = Object::Module<Graphics>();
 
 	graphics->RenderWindow()->SetMouseLock(true);
 	graphics->RenderWindow()->SetMouseHide(true);
@@ -51,10 +51,10 @@ void MeshSample::Start()
 void MeshSample::Update()
 {
 	Super::Update();
-	auto* input = Object::Subsystem<Input>();
-	auto* graphics = Object::Subsystem<Graphics>();
-	auto* renderer = Object::Subsystem<Renderer>();
-	auto* time = Object::Subsystem<Time>();
+	auto* input = Object::Module<Input>();
+	auto* graphics = Object::Module<Graphics>();
+	auto* renderer = Object::Module<Renderer>();
+	auto* time = Object::Module<Time>();
 
 	pitch += input->GetMouseMove()._y * 0.25f;
 	yaw += input->GetMouseMove()._x * 0.25f;

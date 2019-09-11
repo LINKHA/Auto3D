@@ -13,12 +13,12 @@ public:
 	~GameManager() = default;
 };
 
-class AUTO_API BaseSubsystem : public GameManager
+class AUTO_API BaseModule : public GameManager
 {
-	REGISTER_OBJECT_CLASS(BaseSubsystem, GameManager)
+	REGISTER_OBJECT_CLASS(BaseModule, GameManager)
 public:
-	BaseSubsystem() = default;
-	~BaseSubsystem() = default;
+	BaseModule() = default;
+	~BaseModule() = default;
 };
 
 }

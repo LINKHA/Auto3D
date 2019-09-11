@@ -68,12 +68,12 @@ Renderer::Renderer() :
     _frameNumber(0),
     _instanceTransformsDirty(false)
 {
-	RegisterSubsystem(this);
+	RegisterModule(this);
 }
 
 Renderer::~Renderer()
 {
-	RemoveSubsystem(this);
+	RemoveModule(this);
 }
 void Renderer::Render(Scene* scene, Camera* camera)
 {
@@ -593,7 +593,7 @@ void Renderer::RenderBatches(const String& pass)
 
 void Renderer::Initialize()
 {
-    _graphics = Subsystem<Graphics>();
+    _graphics = Module<Graphics>();
     assert(_graphics && _graphics->IsInitialized());
 
     Vector<Constant> constants;
@@ -997,7 +997,7 @@ void Renderer::LoadPassShaders(Pass* pass)
 {
     PROFILE(LoadPassShaders);
 
-    ResourceCache* cache = Subsystem<ResourceCache>();
+    ResourceCache* cache = Module<ResourceCache>();
     // Use different extensions for GLSL & HLSL shaders
     #ifdef AUTO_OPENGL
     pass->_shaders[ShaderStage::VS] = cache->LoadResource<Shader>(pass->GetShaderName(ShaderStage::VS) + ".vert");

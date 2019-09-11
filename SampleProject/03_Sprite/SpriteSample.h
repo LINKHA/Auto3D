@@ -14,7 +14,7 @@ public:
 	void Stop()override;
 	void HandleCloseRequest(Event& /* event */)
 	{
-		Subsystem<Graphics>()->Close();
+		Module<Graphics>()->Close();
 	}
 	const int flowerNum = 200;
 	struct FlowerMSG

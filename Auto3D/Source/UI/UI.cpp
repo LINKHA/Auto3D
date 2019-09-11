@@ -55,7 +55,7 @@ UI::UI() :
 	ImGui::AddFont(UIFont::standard_big,
 		io.Fonts->AddFontFromMemoryTTF(reinterpret_cast<void*>(std::intptr_t(sFontDefault)),
 			sizeof(sFontDefault), 50, &config));
-	RegisterSubsystem(this);
+	RegisterModule(this);
 }
 
 UI::~UI()
@@ -67,7 +67,7 @@ UI::~UI()
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
 
-	RemoveSubsystem(this);
+	RemoveModule(this);
 }
 
 #ifdef AUTO_OPENGL
@@ -83,7 +83,7 @@ bool UI::SetMode(Window* window)
 
 
 	const char* glslVersion;
-	GraphicsSLVersion::Type slVersion = Subsystem<Graphics>()->GetGraphicsSLVersion();
+	GraphicsSLVersion::Type slVersion = Module<Graphics>()->GetGraphicsSLVersion();
 	if (slVersion == GraphicsSLVersion::GLSL_430)
 		glslVersion = "#version 430";
 	else if(slVersion == GraphicsSLVersion::GLSL_330)

@@ -19,7 +19,7 @@ AudioSource::AudioSource() :
 	_gain(1.0f),
 	_vel(0.0f, 0.0f, 0.1f)
 {
-	_audio = Object::Subsystem<Audio>();
+	_audio = Object::Module<Audio>();
 }
 
 AudioSource::~AudioSource()

@@ -28,9 +28,9 @@ class AudioListener;
 class AudioSource;
 
 /// Audio sub system ,Process all sound sources and calculate sound
-class AUTO_API Audio : public BaseSubsystem
+class AUTO_API Audio : public BaseModule
 {
-	REGISTER_OBJECT_CLASS(Audio, BaseSubsystem)
+	REGISTER_OBJECT_CLASS(Audio, BaseModule)
 public:
 	/// Construct
 	Audio();

@@ -38,7 +38,7 @@ Window::Window() :
 	_mouseLock(false),
 	_mouseVisibleInternal(true)
 {
-	RegisterSubsystem(this);
+	RegisterModule(this);
 }
 
 Window::~Window()
@@ -46,7 +46,7 @@ Window::~Window()
 	// Really destroy the game form
 	DestoryWindow();
 
-	RemoveSubsystem(this);
+	RemoveModule(this);
 }
 
 bool Window::InitMsg()
@@ -71,7 +71,7 @@ bool Window::InitMsg()
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 
 #if defined(AUTO_OPENGL)
-	auto* graphics = Subsystem<Graphics>();
+	auto* graphics = Module<Graphics>();
 	if (graphics->GetGraphicsApiVersion() == GraphicsVersion::OPENGL_4_3)
 	{
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
@@ -280,7 +280,7 @@ void Window::PumpMessages()
 	SDL_Event evt;
 	while (SDL_PollEvent(&evt))
 	{
-		auto* ui = Subsystem<UI>();
+		auto* ui = Module<UI>();
 
 		ui->ProcessEvent(&evt);
 		OnWindowMessage(&evt);
@@ -294,7 +294,7 @@ const Vector2I Window::GetPosition() const
 
 bool Window::OnWindowMessage(void* sdlEvent)
 {
-	auto* input = Subsystem<Input>();
+	auto* input = Module<Input>();
 
 	SDL_Event& evt = *static_cast<SDL_Event*>(sdlEvent);
 	switch (evt.type)

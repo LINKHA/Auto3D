@@ -19,7 +19,7 @@ PhysicsWorld::PhysicsWorld():
 	_fps(DEFAULT_FPS),
 	_maxSubSteps(0)
 {
-	_time = Subsystem<Time>();
+	_time = Module<Time>();
 
 	if (PhysicsWorld::config.collisionConfig)
 		_collisionConfiguration = PhysicsWorld::config.collisionConfig;
@@ -36,14 +36,14 @@ PhysicsWorld::PhysicsWorld():
 	_world->setSynchronizeAllMotionStates(true);
 
 	// Register to the physics subsystem
-	auto physics = Object::Subsystem<Physics>();
+	auto physics = Object::Module<Physics>();
 	physics->AddPhysicsWorld(this);
 	physics->SetActivePhysicsWrold(this);
 }
 
 PhysicsWorld::~PhysicsWorld()
 {
-	auto physics = Object::Subsystem<Physics>();
+	auto physics = Object::Module<Physics>();
 	physics->RemovePhysicsWorld(this);
 	physics->SetActivePhysicsWrold(nullptr);
 

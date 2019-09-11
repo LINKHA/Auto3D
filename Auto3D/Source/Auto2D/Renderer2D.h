@@ -33,9 +33,9 @@ namespace ConstantBuffer2D
 
 
 /// Physics sub system 
-class AUTO_API Renderer2D : public BaseSubsystem
+class AUTO_API Renderer2D : public BaseModule
 {
-	REGISTER_OBJECT_CLASS(Renderer2D, BaseSubsystem)
+	REGISTER_OBJECT_CLASS(Renderer2D, BaseModule)
 public:
 	/// Construct
 	Renderer2D();

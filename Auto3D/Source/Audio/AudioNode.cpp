@@ -9,10 +9,10 @@ namespace Auto3D
 AudioNode::AudioNode() :
 	_fre(AudioUsage::STATIC)
 {
-	_audio = Subsystem<Audio>();
+	_audio = Module<Audio>();
 	// If you haven't created Audio, create it
 	if (!_audio)
-		RegisterSubsystem(_audio = new Audio());
+		RegisterModule(_audio = new Audio());
 		
 }
 AudioNode::~AudioNode()

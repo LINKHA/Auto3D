@@ -3,7 +3,7 @@ void Sample::Init()
 }
 void Sample::Start()
 {
-	auto* cache = Object::Subsystem<ResourceCache>();
+	auto* cache = Object::Module<ResourceCache>();
 	scene2d = new Scene2D();
 	uiCamera = scene2d->CreateChild<Camera2D>();
 	uiCamera->SetOrthographic(true);
@@ -13,9 +13,9 @@ void Sample::Start()
 }
 void Sample::Update()
 {
-	if (Object::Subsystem<Input>()->IsKeyPress(KEY_ESCAPE))
+	if (Object::Module<Input>()->IsKeyPress(KEY_ESCAPE))
 		// Closing the render window responds to the engine closing
-		Object::Subsystem<Graphics>()->RenderWindow()->Close();
+		Object::Module<Graphics>()->RenderWindow()->Close();
 }
 
 void Sample::Stop()
@@ -23,7 +23,7 @@ void Sample::Stop()
 }
 void Sample::CreateLogo()
 {
-	auto* cache = Object::Subsystem<ResourceCache>();
+	auto* cache = Object::Module<ResourceCache>();
 	Sprite2D* logoLong = scene2d->CreateChild<Sprite2D>();
 	logoLong->SetTexture(cache->LoadResource<Texture>("logoLong.png"));
 	logoLong->SetScale(Vector3F(3.0f, 0.8f, 1.0f));

@@ -195,7 +195,7 @@ Graphics::Graphics() :
 #endif
 	_vsync(false)
 {
-	RegisterSubsystem(this);
+	RegisterModule(this);
 	_window = new Window();
 	SubscribeToEvent(_window->resizeEvent, &Graphics::HandleResize);
 	ResetState();
@@ -204,7 +204,7 @@ Graphics::Graphics() :
 Graphics::~Graphics()
 {
 	Close();
-	RemoveSubsystem(this);
+	RemoveModule(this);
 }
 void Graphics::CheckFeatureSupport()
 {

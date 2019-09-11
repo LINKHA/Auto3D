@@ -23,9 +23,9 @@ namespace UIFont
 
 class Canvas;
 
-class AUTO_API UI : public BaseSubsystem
+class AUTO_API UI : public BaseModule
 {
-	REGISTER_OBJECT_CLASS(UI, BaseSubsystem)
+	REGISTER_OBJECT_CLASS(UI, BaseModule)
 public:
 	/// Construct.
 	UI();

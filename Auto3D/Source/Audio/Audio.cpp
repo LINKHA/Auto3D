@@ -29,7 +29,7 @@ Audio::Audio() :
 	_context = alcCreateContext(_device, contextAttr);
 	alcMakeContextCurrent(_context);
 	// The application has been placed in the AudioListener
-	//RegisterSubsystem(this);
+	//RegisterModule(this);
 }
 
 
@@ -38,7 +38,7 @@ Audio::~Audio()
 	alcDestroyContext(_context);
 	alcCloseDevice(_device);
 
-	RemoveSubsystem(this);
+	RemoveModule(this);
 }
 
 void Audio::AddSource(unsigned sourceID, AudioSource* source)
@@ -276,7 +276,7 @@ void Audio::CallSourcePlay(unsigned source, int delay)
 	if (!delay)
 		alSourcePlay(source);
 	else
-		Subsystem<Time>()->OneShotTimer(std::bind(&This::CallSourcePlay, this, source, 0), delay);
+		Module<Time>()->OneShotTimer(std::bind(&This::CallSourcePlay, this, source, 0), delay);
 }
 
 void Audio::CallSourcePause(unsigned source, int delay)
@@ -289,7 +289,7 @@ void Audio::CallSourcePause(unsigned source, int delay)
 	if (!delay)
 		alSourcePause(source);
 	else
-		Subsystem<Time>()->OneShotTimer(std::bind(&This::CallSourcePause, this, source, 0), delay);
+		Module<Time>()->OneShotTimer(std::bind(&This::CallSourcePause, this, source, 0), delay);
 }
 
 void Audio::CallSourceStop(unsigned source, int delay)
@@ -302,7 +302,7 @@ void Audio::CallSourceStop(unsigned source, int delay)
 	if (!delay)
 		alSourceStop(source);
 	else
-		Subsystem<Time>()->OneShotTimer(std::bind(&This::CallSourceStop, this, source, 0), delay);
+		Module<Time>()->OneShotTimer(std::bind(&This::CallSourceStop, this, source, 0), delay);
 }
 
 void Audio::CallSourceRewind(unsigned source, int delay)
@@ -315,7 +315,7 @@ void Audio::CallSourceRewind(unsigned source, int delay)
 	if (!delay)
 		alSourceRewind(source);
 	else
-		Subsystem<Time>()->OneShotTimer(std::bind(&This::CallSourceRewind, this, source, 0), delay);
+		Module<Time>()->OneShotTimer(std::bind(&This::CallSourceRewind, this, source, 0), delay);
 }
 
 void RegisterAudioLibrary()

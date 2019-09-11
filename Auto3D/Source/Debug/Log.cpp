@@ -31,13 +31,13 @@ Log::Log() :
     _inWrite(false),
     _quiet(false)
 {
-    RegisterSubsystem(this);
+    RegisterModule(this);
 }
 
 Log::~Log()
 {
     Close();
-    RemoveSubsystem(this);
+    RemoveModule(this);
 }
 
 void Log::Open(const String& fileName)
@@ -111,7 +111,7 @@ void Log::Write(int msgLevel, const String& message)
 {
     assert(msgLevel >= LOG_DEBUG && msgLevel < LOG_NONE);
     
-    Log* instance = Subsystem<Log>();
+    Log* instance = Module<Log>();
     if (!instance)
         return;
 
@@ -161,7 +161,7 @@ void Log::Write(int msgLevel, const String& message)
 
 void Log::WriteRaw(const String& message, bool error)
 {
-    Log* instance = Subsystem<Log>();
+    Log* instance = Module<Log>();
     if (!instance)
         return;
 
