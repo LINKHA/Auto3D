@@ -220,7 +220,9 @@ namespace TextureType
 {
 	enum Type
 	{
+#ifndef AUTO_OPENGL_ES
 		TEX_1D = 0,
+#endif
 		TEX_2D,
 		TEX_3D,
 		TEX_CUBE,
@@ -263,8 +265,10 @@ namespace TextureAddressMode
 		WRAP = 1,
 		MIRROR,
 		CLAMP,
+#ifndef AUTO_OPENGL_ES
 		BORDER,
 		MIRROR_ONCE
+#endif
 	};
 };
 

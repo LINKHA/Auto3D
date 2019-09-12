@@ -25,6 +25,7 @@ bool Texture::BeginLoad(Stream& source)
         return false;
     }
 
+#ifndef AUTO_OPENGL_ES
     // If image uses unsupported format, decompress to RGBA now
     if (_loadImages[0]->GetFormat() >= ImageFormat::ETC1)
     {
@@ -46,7 +47,7 @@ bool Texture::BeginLoad(Stream& source)
             mipImage = _loadImages.Back();
         }
     }
-    
+#endif
     return true;
 }
 

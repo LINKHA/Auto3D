@@ -26,6 +26,7 @@ namespace Auto3D
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
    -------------------------------------------------------------------------- */
+#ifndef AUTO_OPENGL_ES
 
 static int Unpack565( unsigned char const* packed, unsigned char* colour )
 {
@@ -914,5 +915,6 @@ void DecompressImagePVRTC(unsigned char* dest, const void *blocks, int width, in
         }
     }
 }
+#endif
 
 }

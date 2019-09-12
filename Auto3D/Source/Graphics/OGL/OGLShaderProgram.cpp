@@ -149,7 +149,11 @@ bool ShaderProgram::Link()
         glGetActiveUniform(_program, i, MAX_NAME_LENGTH, &nameLength, &numElements, &type, nameBuffer);
 
         String name(nameBuffer, nameLength);
+#ifndef AUTO_OPENGL_ES
         if (type >= GL_SAMPLER_1D && type <= GL_SAMPLER_2D_SHADOW)
+#else
+		if (type >= GL_SAMPLER_2D && type <= GL_SAMPLER_CUBE)
+#endif
         {
             // Assign sampler uniforms to a texture unit according to the number appended to the sampler name
             int location = glGetUniformLocation(_program, name.CString());

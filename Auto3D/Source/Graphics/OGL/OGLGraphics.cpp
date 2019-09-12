@@ -118,6 +118,7 @@ static const unsigned glStencilOps[] =
 	GL_DECR_WRAP,
 };
 
+#ifndef AUTO_OPENGL_ES
 static const unsigned glFillModes[] =
 {
 	0,
@@ -125,6 +126,7 @@ static const unsigned glFillModes[] =
 	GL_LINE,
 	GL_FILL
 };
+#endif
 
 static unsigned MAX_FRAMEBUFFER_AGE = 16;
 

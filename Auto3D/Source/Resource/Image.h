@@ -19,9 +19,11 @@ namespace ImageFormat
 		RG8,
 		RGBA8,
 		A8,
+#ifndef AUTO_OPENGL_ES
 		R16,
 		RG16,
 		RGBA16,
+#endif
 		R16F,
 		RG16F,
 		RGBA16F,
@@ -30,11 +32,15 @@ namespace ImageFormat
 		RGB32F,
 		RGBA32F,
 		D16,
+#ifndef AUTO_OPENGL_ES
 		D32,
+#endif
 		D24S8,
+#ifndef AUTO_OPENGL_ES
 		DXT1,
 		DXT3,
 		DXT5,
+#endif
 		ETC1,
 		PVRTC_RGB_2BPP,
 		PVRTC_RGBA_2BPP,
@@ -104,8 +110,12 @@ public:
     unsigned char* Data() const { return _data.Get(); }
     /// Return the image format.
     ImageFormat::Type GetFormat() const { return _format; }
+#ifndef AUTO_OPENGL_ES 
     /// Return whether is a compressed image.
     bool IsCompressed() const { return _format >= ImageFormat::DXT1; }
+#else
+	bool IsCompressed() const { return false; }
+#endif
     /// Return number of mip levels contained in the image data.
     size_t GetNumLevels() const { return _numLevels; }
     /// Calculate the next mip image with halved width and height. Supports uncompressed 8 bits per pixel images only. Return true on success.
@@ -114,10 +124,11 @@ public:
     ImageLevel GetLevel(size_t index) const;
 	/// Return an SDL surface from the image, or null if failed. Only RGB images are supported. Specify rect to only return partial image. You must free the surface yourself.
 	SDL_Surface* GetSDLSurface(const RectI& rect = RectI::ZERO) const;
+#ifndef AUTO_OPENGL_ES
 	/// Decompress a mip level as 8-bit RGBA. Supports compressed images only. Return true on success.
     bool DecompressLevel(unsigned char* dest, size_t levelIndex) const;
-
-    /// Calculate the data _size of an image level.
+#endif
+    /// Calculate the data size of an image level.
     static size_t CalculateDataSize(const Vector2I& _size, ImageFormat::Type _format, size_t* numRows = 0, size_t* rowSize = 0);
 
     /// Pixel components per format.

@@ -52,8 +52,12 @@ public:
     int GetHeight() const { return _size._y; }
     /// Return image format.
     ImageFormat::Type GetFormat() const { return _format; }
+#ifndef AUTO_OPENGL_ES 
     /// Return whether uses a compressed format.
     bool IsCompressed() const { return _format >= ImageFormat::DXT1; }
+#else
+	bool IsCompressed() const { return false; }
+#endif
     /// Return number of mipmap levels.
     size_t GetNumLevels() const { return _numLevels; }
     /// Return number of faces or Z-slices.

@@ -248,6 +248,7 @@ bool Image::BeginLoad(Stream& source)
         DDSurfaceDesc2 ddsd;
         source.Read(&ddsd, sizeof(ddsd));
 
+#ifndef AUTO_OPENGL_ES
         switch (ddsd.ddpfPixelFormat.dwFourCC)
         {
         case FOURCC_DXT1:
@@ -266,7 +267,7 @@ bool Image::BeginLoad(Stream& source)
             ErrorString("Unsupported DDS format");
             return false;
         }
-
+#endif
         size_t dataSize = source.Size() - source.Position();
         _data = new unsigned char[dataSize];
         _size = Vector2I(ddsd.dwWidth, ddsd.dwHeight);
@@ -318,6 +319,7 @@ bool Image::BeginLoad(Stream& source)
         _format = ImageFormat::NONE;
         switch (internalFormat)
         {
+#ifndef AUTO_OPENGL_ES
         case 0x83f1:
             _format = ImageFormat::DXT1;
             break;
@@ -329,7 +331,7 @@ bool Image::BeginLoad(Stream& source)
         case 0x83f3:
             _format = ImageFormat::DXT5;
             break;
-
+#endif
         case 0x8d64:
             _format = ImageFormat::ETC1;
             break;
@@ -429,7 +431,7 @@ bool Image::BeginLoad(Stream& source)
         case 6:
             _format = ImageFormat::ETC1;
             break;
-
+#ifndef AUTO_OPENGL_ES
         case 7:
             _format = ImageFormat::DXT1;
             break;
@@ -441,6 +443,7 @@ bool Image::BeginLoad(Stream& source)
         case 11:
             _format = ImageFormat::DXT5;
             break;
+#endif
         }
 
         if (_format == ImageFormat::NONE)
@@ -727,6 +730,7 @@ SDL_Surface* Image::GetSDLSurface(const RectI& rect) const
 	return surface;
 }
 
+#ifndef AUTO_OPENGL_ES
 bool Image::DecompressLevel(unsigned char* dest, size_t index) const
 {
     PROFILE(DecompressImageLevel);
@@ -771,17 +775,22 @@ bool Image::DecompressLevel(unsigned char* dest, size_t index) const
 
     return true;
 }
+#endif
 
 size_t Image::CalculateDataSize(const Vector2I& _size, ImageFormat::Type _format, size_t* dstRows, size_t* dstRowSize)
 {
     size_t rows, rowSize, dataSize;
-
+#ifndef AUTO_OPENGL_ES
     if (_format < ImageFormat::DXT1)
+#else
+	if (_format < ImageFormat::ETC1)
+#endif
     {
         rows = _size._y;
         rowSize = _size._x * pixelByteSizes[_format];
         dataSize = rows * rowSize;
     }
+#ifndef AUTO_OPENGL_ES
     else if (_format < ImageFormat::PVRTC_RGB_2BPP)
     {
         size_t blockSize = (_format == ImageFormat::DXT1 || _format == ImageFormat::ETC1) ? 8 : 16;
@@ -789,6 +798,7 @@ size_t Image::CalculateDataSize(const Vector2I& _size, ImageFormat::Type _format
         rowSize = ((_size._x + 3) / 4) * blockSize;
         dataSize = rows * rowSize;
     }
+#endif
     else
     {
         size_t blockSize = _format < ImageFormat::PVRTC_RGB_4BPP ? 2 : 4;

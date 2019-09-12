@@ -15,7 +15,9 @@ namespace Auto3D
 
 static const unsigned glTargets[] = 
 {
+#ifndef AUTO_OPENGL_ES
     GL_TEXTURE_1D,
+#endif
     GL_TEXTURE_2D,
     GL_TEXTURE_3D,
     GL_TEXTURE_CUBE_MAP
@@ -28,9 +30,11 @@ static const unsigned glInternalFormats[] =
     GL_RG8,
     GL_RGBA8,
     GL_ALPHA,
+#ifndef AUTO_OPENGL_ES
     GL_R16,
     GL_RG16,
     GL_RGBA16,
+#endif
     GL_R16F,
     GL_RG16F,
     GL_RGBA16F,
@@ -39,11 +43,15 @@ static const unsigned glInternalFormats[] =
     GL_RGB32F,
     GL_RGBA32F,
     GL_DEPTH_COMPONENT16,
+#ifndef AUTO_OPENGL_ES
     GL_DEPTH_COMPONENT32,
+#endif
     GL_DEPTH24_STENCIL8,
+#ifndef AUTO_OPENGL_ES
     GL_COMPRESSED_RGBA_S3TC_DXT1_EXT,
     GL_COMPRESSED_RGBA_S3TC_DXT3_EXT,
     GL_COMPRESSED_RGBA_S3TC_DXT5_EXT,
+#endif 
     0,
     0,
     0,
@@ -58,9 +66,11 @@ static const unsigned glFormats[] =
     GL_RG,
     GL_RGBA,
     GL_ALPHA,
+#ifndef AUTO_OPENGL_ES
     GL_RED,
     GL_RG,
     GL_RGBA,
+#endif
     GL_RED,
     GL_RG,
     GL_RGBA,
@@ -69,11 +79,15 @@ static const unsigned glFormats[] =
     GL_RGB,
     GL_RGBA,
     GL_DEPTH_COMPONENT,
+#ifndef AUTO_OPENGL_ES
     GL_DEPTH_COMPONENT,
+#endif
     GL_DEPTH_STENCIL,
+#ifndef AUTO_OPENGL_ES
     GL_COMPRESSED_RGBA_S3TC_DXT1_EXT,
     GL_COMPRESSED_RGBA_S3TC_DXT3_EXT,
     GL_COMPRESSED_RGBA_S3TC_DXT5_EXT,
+#endif
     0,
     0,
     0,
@@ -117,8 +131,10 @@ static const unsigned glWrapModes[] =
     GL_REPEAT,
     GL_MIRRORED_REPEAT,
     GL_CLAMP_TO_EDGE,
+#ifndef AUTO_OPENGL_ES
     GL_CLAMP_TO_BORDER,
     GL_MIRROR_CLAMP_EXT
+#endif
 };
 
 Texture::Texture() :
@@ -202,11 +218,13 @@ bool Texture::Define(TextureType::Type type, ResourceUsage::Type usage, const Ve
 		ErrorString("Only 2D textures and cube maps supported for now");
 		return false;
 	}
+#ifndef AUTO_OPENGL_ES 
 	if (format > ImageFormat::DXT5)
 	{
 		ErrorString("ETC1 and PVRTC formats are unsupported");
 		return false;
 	}
+#endif
 	if (type == TextureType::TEX_CUBE && size._x != size._y)
 	{
 		ErrorString("Cube map must have square dimensions");
@@ -345,13 +363,16 @@ bool Texture::DefineSampler(TextureFilterMode::Type filter, TextureAddressMode::
         glTexParameteri(glTargets[_type], GL_TEXTURE_WRAP_T, glWrapModes[_addressModes[1]]);
         glTexParameteri(glTargets[_type], GL_TEXTURE_WRAP_R, glWrapModes[_addressModes[2]]);
 
-        glTexParameterf(glTargets[_type], GL_TEXTURE_MAX_ANISOTROPY_EXT, _filter == TextureFilterMode::FILTER_ANISOTROPIC ?
-            _maxAnisotropy : 1.0f);
+#ifndef AUTO_OPENGL_ES
+		glTexParameterf(glTargets[_type], GL_TEXTURE_MAX_ANISOTROPY_EXT, _filter == TextureFilterMode::FILTER_ANISOTROPIC ?
+			_maxAnisotropy : 1.0f);
+		glTexParameterfv(glTargets[_type], GL_TEXTURE_BORDER_COLOR, _borderColor.Data());
+#endif 
 
         glTexParameterf(glTargets[_type], GL_TEXTURE_MIN_LOD, _minLod);
         glTexParameterf(glTargets[_type], GL_TEXTURE_MAX_LOD, _maxLod);
 
-        glTexParameterfv(glTargets[_type], GL_TEXTURE_BORDER_COLOR, _borderColor.Data());
+      
         
         if (_filter >= TextureFilterMode::COMPARE_POINT)
         {
