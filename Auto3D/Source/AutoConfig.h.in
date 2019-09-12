@@ -35,3 +35,9 @@ namespace Auto3D
 #cmakedefine AUTO_DIRECT3D_12
 #cmakedefine AUTO_MEMORY_DEBUG
 #cmakedefine AUTO_WIN32_CONSOLE
+
+#ifndef AUTO_OPENGL
+#	ifdef AUTO_OPENGL_ES
+#		define AUTO_OPENGL
+#	endif
+#endif

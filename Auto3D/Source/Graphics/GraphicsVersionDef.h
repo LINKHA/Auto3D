@@ -22,7 +22,9 @@ namespace GraphicsSLVersion
 		GLSL_430,
 		GLSL_330,
 		GLSL_150,
-		GLSL_450
+		GLSL_450,
+		GLSL_ES_300,
+		GLSL_ES_100
 	};
 }
 

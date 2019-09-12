@@ -47,11 +47,19 @@ bool GraphicsContext::Create()
 	_contextHandle = SDL_GL_CreateContext(_window->Handle());
 	SDL_GL_MakeCurrent(_window->Handle(), _contextHandle);
 
+#ifndef AUTO_OPENGL_ES
 	if (!gladLoadGLLoader(SDL_GL_GetProcAddress))
 	{
 		ErrorString("Failed to initialize GLAD from Engine");
 		return false;
 	}
+#else
+	if (!gladLoadGLES2Loader(SDL_GL_GetProcAddress))
+	{
+		ErrorString("Failed to initialize GLAD from Engine");
+		return false;
+	}
+#endif // !AUTO_OPENGL_ES
 
 	return true;
 }

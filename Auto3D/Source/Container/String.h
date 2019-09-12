@@ -46,7 +46,7 @@ public:
     {
         *this = (const char*)str;
     }
-    
+
     /// Construct from a char array and length.
     String(const char* str, size_t numChars);
     /// Construct from a wide character C string.

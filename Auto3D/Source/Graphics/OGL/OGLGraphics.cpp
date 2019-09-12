@@ -186,13 +186,19 @@ Graphics::Graphics() :
 	_renderTargetSize(Vector2I::ZERO),
 	_attributesBySemantic(ElementSemantic::Count),
 	_multisample(1),
-#if _WIN32 || _WIN64
+#ifndef AUTO_OPENGL_ES
+#	if _WIN32 || _WIN64
 	_graphicsVersion(GraphicsVersion::OPENGL_4_3),
 	_graphicsSLVersion(GraphicsSLVersion::GLSL_430),
-#else
+#	else
 	_graphicsVersion(GraphicsVersion::OPENGL_3_3),
 	_graphicsSLVersion(GraphicsSLVersion::GLSL_330),
+#	endif
+#else
+	_graphicsVersion(GraphicsVersion::OPENGL_ES_3_0),
+	_graphicsSLVersion(GraphicsSLVersion::GLSL_ES_300),
 #endif
+
 	_vsync(false)
 {
 	RegisterModule(this);
@@ -712,11 +718,16 @@ void Graphics::DrawIndexed(PrimitiveType::Type type, size_t indexStart, size_t i
 		glDrawElements(glPrimitiveTypes[type], (unsigned)indexCount, indexSize == sizeof(unsigned short) ? GL_UNSIGNED_SHORT :
 			GL_UNSIGNED_INT, (const void*)(indexStart * indexSize));
 	}
+#ifndef AUTO_OPENGL_ES
 	else
 	{
 		glDrawElementsBaseVertex(glPrimitiveTypes[type], (unsigned)indexCount, indexSize == sizeof(unsigned short) ?
 			GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, (const void*)(indexStart * indexSize), (unsigned)vertexStart);
 	}
+#else
+	if (vertexStart)
+		WarningString("Fail draw target,opengl es don't support vertexStart.");
+#endif
 
 }
 
@@ -741,12 +752,17 @@ void Graphics::DrawIndexedInstanced(PrimitiveType::Type type, size_t indexStart,
 		glDrawElementsInstanced(glPrimitiveTypes[type], (unsigned)indexCount, indexSize == sizeof(unsigned short) ?
 			GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, (const void*)(indexStart * indexSize), (unsigned)instanceCount);
 	}
+#ifndef AUTO_OPENGL_ES
 	else
 	{
 		glDrawElementsInstancedBaseVertex(glPrimitiveTypes[type], (unsigned)indexCount, indexSize == sizeof(unsigned short) ?
 			GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, (const void*)(indexStart * indexSize), (unsigned)instanceCount,
 			(unsigned)vertexStart);
 	}
+#else
+	if (vertexStart)
+		WarningString("Fail draw target,opengl es don't support vertexStart.");
+#endif
 }
 
 bool Graphics::IsInitialized() const
@@ -929,10 +945,11 @@ bool Graphics::CreateContext(Window* window, int multisample)
 
 	// These states are always enabled to match Direct3D
 	glEnable(GL_DEPTH_TEST);
+#ifndef AUTO_OPENGL_ES
 	glEnable(GL_MULTISAMPLE);
 	glEnable(GL_POLYGON_OFFSET_LINE);
+#endif 
 	glEnable(GL_POLYGON_OFFSET_FILL);
-
 	// Set up texture data read/write alignment. It is important that this is done before uploading any texture data
 	glPixelStorei(GL_PACK_ALIGNMENT, 1);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -1031,7 +1048,13 @@ void Graphics::PrepareFramebuffer()
 		if (newDrawBuffers != _framebuffer->drawBuffers)
 		{
 			if (!newDrawBuffers)
+			{
+#ifdef AUTO_OPENGL_ES
+				glDrawBuffers(0, GL_NONE);
+#else
 				glDrawBuffer(GL_NONE);
+#endif	
+			}
 			else
 			{
 				int drawBufferIds[MAX_RENDERTARGETS];
@@ -1342,12 +1365,13 @@ bool Graphics::PrepareDraw(bool instanced, size_t instanceStart)
 	// Apply rasterizer state
 	if (_rasterizerStateDirty)
 	{
+#ifndef AUTO_OPENGL_ES
 		if (_renderState._fillMode != _glRenderState._fillMode)
 		{
 			glPolygonMode(GL_FRONT_AND_BACK, glFillModes[_renderState._fillMode]);
 			_glRenderState._fillMode = _renderState._fillMode;
 		}
-
+#endif
 		if (_renderState._cullMode != _glRenderState._cullMode)
 		{
 			if (_renderState._cullMode == CullMode::NONE)
@@ -1365,12 +1389,12 @@ bool Graphics::PrepareDraw(bool instanced, size_t instanceStart)
 		if (_renderState._depthBias != _glRenderState._depthBias || _renderState._slopeScaledDepthBias !=
 			_glRenderState._slopeScaledDepthBias)
 		{
-			/// \todo Check if this matches Direct3D
+			/// Check if this matches Direct3D
 			glPolygonOffset(_renderState._slopeScaledDepthBias, (float)_renderState._depthBias);
 			_glRenderState._depthBias = _renderState._depthBias;
 			_glRenderState._slopeScaledDepthBias = _renderState._slopeScaledDepthBias;
 		}
-
+#ifndef AUTO_OPENGL_ES
 		if (_renderState._depthClip != _glRenderState._depthClip)
 		{
 			if (_renderState._depthClip)
@@ -1379,7 +1403,7 @@ bool Graphics::PrepareDraw(bool instanced, size_t instanceStart)
 				glEnable(GL_DEPTH_CLAMP);
 			_glRenderState._depthClip = _renderState._depthClip;
 		}
-
+#endif
 		if (_renderState._scissorEnable != _glRenderState._scissorEnable)
 		{
 			if (_renderState._scissorEnable)

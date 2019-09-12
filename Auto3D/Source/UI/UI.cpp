@@ -86,12 +86,18 @@ bool UI::SetMode(Window* window)
 	GraphicsSLVersion::Type slVersion = Module<Graphics>()->GetGraphicsSLVersion();
 	if (slVersion == GraphicsSLVersion::GLSL_430)
 		glslVersion = "#version 430";
-	else if(slVersion == GraphicsSLVersion::GLSL_330)
+	else if (slVersion == GraphicsSLVersion::GLSL_330)
 		glslVersion = "#version 330";
 	else if (slVersion == GraphicsSLVersion::GLSL_150)
 		glslVersion = "#version 150";
 	else if (slVersion == GraphicsSLVersion::GLSL_450)
 		glslVersion = "#version 450";
+	else if(slVersion == GraphicsSLVersion::GLSL_ES_300)
+		glslVersion = "#version 300 es";
+	else if(slVersion == GraphicsSLVersion::GLSL_ES_100)
+		glslVersion = "#version 100";
+	else
+		glslVersion = NULL;
 	// Setup Platform/Renderer bindings
 #if defined(AUTO_OPENGL)
 	ImGui_ImplSDL2_InitForOpenGL(window->Handle(), context->Context());

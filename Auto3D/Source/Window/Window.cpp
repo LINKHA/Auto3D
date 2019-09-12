@@ -4,6 +4,7 @@
 #include "../Resource/Image.h"
 #include "../Graphics/Graphics.h"
 #include "../UI/UI.h"
+#include "../Engine/ModuleManager.h"
 
 #include "Input.h"
 #include "Window.h"
@@ -71,7 +72,9 @@ bool Window::InitMsg()
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 
 #if defined(AUTO_OPENGL)
-	auto* graphics = Module<Graphics>();
+	auto graphics = ModuleManager::Get()._graphics;
+
+#	ifndef AUTO_OPENGL_ES
 	if (graphics->GetGraphicsApiVersion() == GraphicsVersion::OPENGL_4_3)
 	{
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
@@ -87,6 +90,20 @@ bool Window::InitMsg()
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 	}
+#	else
+	if (graphics->GetGraphicsApiVersion() == GraphicsVersion::OPENGL_ES_3_0)
+	{
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+	}
+	else
+	{
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+	}
+#	endif
+
+	
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 #endif
 
