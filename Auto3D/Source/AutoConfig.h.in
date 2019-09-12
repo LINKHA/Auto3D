@@ -30,6 +30,7 @@ namespace Auto3D
 #cmakedefine AUTO_LOGGING_L2
 #cmakedefine AUTO_PROFILING
 #cmakedefine AUTO_OPENGL
+#cmakedefine AUTO_OPENGL_ES
 #cmakedefine AUTO_VULKAN
 #cmakedefine AUTO_DIRECT3D_12
 #cmakedefine AUTO_MEMORY_DEBUG

@@ -655,7 +655,7 @@ void Graphics::Clear(unsigned clearFlags, const Color& clearColor, float clearDe
 	if (clearFlags & CLEAR_DEPTH)
 	{
 		glFlags |= GL_DEPTH_BUFFER_BIT;
-		glClearDepth(clearDepth);
+		glClearDepthf(clearDepth);
 	}
 	if (clearFlags & CLEAR_STENCIL)
 	{
