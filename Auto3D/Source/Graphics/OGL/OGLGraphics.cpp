@@ -880,6 +880,8 @@ void Graphics::BindUBO(unsigned ubo)
 
 bool Graphics::CreateContext(Window* window, int multisample)
 {
+
+
 	// Create or recreate
 	_context = new GraphicsContext(window);
 
@@ -887,6 +889,22 @@ bool Graphics::CreateContext(Window* window, int multisample)
 	{
 		_context.Reset();
 		return false;
+	}
+
+	// Display hardware
+	const GLubyte* renderer = glGetString(GL_RENDERER);
+	LogString(String((const char*)renderer));
+
+	// Extensions config
+	{
+		int maxExtensions = 0;
+		glGetIntegerv(GL_NUM_EXTENSIONS, &maxExtensions);
+		for (int i = 0; i < maxExtensions; i++) {
+			const GLubyte* s = glGetStringi(GL_EXTENSIONS, i);
+			if (!s)
+				break;
+			_extensions.Push((const char*)s);
+		}
 	}
 
 	int maxSamples;
@@ -904,7 +922,7 @@ bool Graphics::CreateContext(Window* window, int multisample)
 	_psConstantBuffers = numBlocks;
 
 	// Create and bind a vertex array object that will stay in use throughout
-	/// \todo Investigate performance gain of using multiple VAO's
+	// Investigate performance gain of using multiple VAO's
 	unsigned vertexArrayObject;
 	glGenVertexArrays(1, &vertexArrayObject);
 	glBindVertexArray(vertexArrayObject);

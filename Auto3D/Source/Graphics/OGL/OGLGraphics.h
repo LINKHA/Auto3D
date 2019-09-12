@@ -321,6 +321,8 @@ private:
 	GraphicsSLVersion::Type _graphicsSLVersion;
 	/// Vertical sync flag.
 	bool _vsync;
+	/// OpenGL extensions.
+	Vector<String> _extensions;
 };
 
 /// Register Graphics related object factories and attributes.
