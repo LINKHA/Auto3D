@@ -186,7 +186,7 @@ bool Engine::Update()
 		return false;
 
 	// If the window is not initialized successfully or shutdown engine is shutdown
-	if (!_graphics->IsInitialized() || _graphics->RenderWindow()->IsClose())
+	if (!_graphics->IsInitialized() || _graphics->RenderWindow()->IsCloseing())
 	{
 		ShutDownEngine();
 		return false;

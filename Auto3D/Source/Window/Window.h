@@ -82,7 +82,7 @@ public:
 	/// Return last known mouse cursor _position relative to _window top-left.
 	const Vector2I& GetMousePosition() const { return _mousePosition; }
 	/// Return close flags
-	bool IsClose() const { return _close; }
+	bool IsCloseing() const { return _close; }
 	/// Return whether _window is open.
 	bool IsOpen() const { return _handle != nullptr; }
 	/// Return whether is _resizable.
@@ -100,15 +100,17 @@ public:
 	/// Handle a _window message. Return true if handled and should not be passed to the default _window procedure.
 	bool OnWindowMessage(void* sdlEvent);
 
-	/// Close requested _event.
+	/// Close requested event.
 	Event _closeRequestEvent;
-	/// Gained _focus _event.
+	/// Gained focus event.
 	Event _gainFocusEvent;
-	/// Lost _focus _event.
+	/// Lost _focus event.
 	Event _loseFocusEvent;
-	/// Minimized _event.
+	/// Maximized event.
+	Event _maximizeEvent;
+	/// Minimized event.
 	Event _minimizeEvent;
-	/// Restored after minimization -_event.
+	/// Restored after minimization event.
 	Event _restoreEvent;
 	/// Size changed event.
 	WindowResizeEvent _resizeEvent;

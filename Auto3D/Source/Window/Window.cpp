@@ -286,7 +286,10 @@ void Window::Maximize()
 
 void Window::Restore()
 {
-	
+	if (!_handle)
+		return;
+
+	SDL_RestoreWindow(_handle);
 }
 
 void Window::PumpMessages()
@@ -297,7 +300,7 @@ void Window::PumpMessages()
 	SDL_Event evt;
 	while (SDL_PollEvent(&evt))
 	{
-		auto* ui = Module<UI>();
+		auto ui = ModuleManager::Get()._ui;
 
 		ui->ProcessEvent(&evt);
 		OnWindowMessage(&evt);
@@ -311,7 +314,7 @@ const Vector2I Window::GetPosition() const
 
 bool Window::OnWindowMessage(void* sdlEvent)
 {
-	auto* input = Module<Input>();
+	auto input = ModuleManager::Get()._input;
 
 	SDL_Event& evt = *static_cast<SDL_Event*>(sdlEvent);
 	switch (evt.type)
@@ -345,9 +348,11 @@ bool Window::OnWindowMessage(void* sdlEvent)
 		switch (evt.window.event)
 		{
 		case SDL_WINDOWEVENT_MINIMIZED:
+			SendEvent(_minimizeEvent);
 			_minimized = true;
 			break;
 		case SDL_WINDOWEVENT_MAXIMIZED:
+			SendEvent(_maximizeEvent);
 		case SDL_WINDOWEVENT_RESTORED:
 			_minimized = false;
 			break;
@@ -371,6 +376,7 @@ bool Window::OnWindowMessage(void* sdlEvent)
 	}
 	break;
 	case SDL_QUIT:
+		SendEvent(_closeRequestEvent);
 		Close();
 		break;
 	}
