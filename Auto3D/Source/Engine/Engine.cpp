@@ -179,12 +179,12 @@ void Engine::Render()
 bool Engine::Update()
 {
 	_profiler->BeginFrame();
-	_ui->BeginUI();
 	_time->Update();
 	_input->Update();
 	//If the window is minimized do not render
 	if (_graphics->RenderWindow()->IsMinimized())
 		return false;
+
 	// If the window is not initialized successfully or shutdown engine is shutdown
 	if (!_graphics->IsInitialized() || _graphics->RenderWindow()->IsClose())
 	{
@@ -195,7 +195,8 @@ bool Engine::Update()
 		ModuleManager::Get()._audio->Update();
 
 	_physics->Update();
-	
+	_ui->BeginUI();
+
 	return true;
 }
 void Engine::FrameFinish()

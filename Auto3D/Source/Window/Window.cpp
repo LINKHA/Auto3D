@@ -355,13 +355,12 @@ bool Window::OnWindowMessage(void* sdlEvent)
 		case SDL_WINDOWEVENT_RESIZED:
 			int newWidth, newHeight;
 			SDL_GetWindowSize(_handle, &newWidth, &newHeight);
-			SendEvent(resizeEvent);
 			if (Vector2I(newWidth, newHeight) != GetSize()) 
 			{
 				_rect.Right() = _rect.Left() + newWidth;
 				_rect.Bottom() = _rect.Top() + newHeight;
-				resizeEvent._size = Vector2I(newWidth, newHeight);
-				SendEvent(resizeEvent);
+				_resizeEvent._size = Vector2I(newWidth, newHeight);
+				SendEvent(_resizeEvent);
 			}
 			break;
 		case SDL_WINDOWEVENT_MOVED:

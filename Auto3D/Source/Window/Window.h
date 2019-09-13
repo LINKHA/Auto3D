@@ -101,17 +101,17 @@ public:
 	bool OnWindowMessage(void* sdlEvent);
 
 	/// Close requested _event.
-	Event closeRequestEvent;
+	Event _closeRequestEvent;
 	/// Gained _focus _event.
-	Event gainFocusEvent;
+	Event _gainFocusEvent;
 	/// Lost _focus _event.
-	Event loseFocusEvent;
+	Event _loseFocusEvent;
 	/// Minimized _event.
-	Event minimizeEvent;
+	Event _minimizeEvent;
 	/// Restored after minimization -_event.
-	Event restoreEvent;
-	/// Size changed _event.
-	WindowResizeEvent resizeEvent;
+	Event _restoreEvent;
+	/// Size changed event.
+	WindowResizeEvent _resizeEvent;
 
 	/// Window class name
 	static String className;

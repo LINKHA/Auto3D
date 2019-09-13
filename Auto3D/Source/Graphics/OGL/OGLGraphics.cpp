@@ -205,7 +205,7 @@ Graphics::Graphics() :
 {
 	RegisterModule(this);
 	_window = new Window();
-	SubscribeToEvent(_window->resizeEvent, &Graphics::HandleResize);
+	SubscribeToEvent(_window->_resizeEvent, &Graphics::HandleResize);
 	ResetState();
 }
 
