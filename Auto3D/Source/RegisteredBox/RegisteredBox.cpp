@@ -22,7 +22,10 @@ void RegisteredBox::SetActiveScene(Scene* scene)
 	{
 		_activeScene = scene;
 	}
-	WarningString("File set active scene.");
+	else
+	{
+		WarningString("File set active scene.");
+	}
 }
 
 void RegisteredBox::SetActiveScene2D(Scene2D* scene2d)
@@ -31,7 +34,10 @@ void RegisteredBox::SetActiveScene2D(Scene2D* scene2d)
 	{
 		_activeScene2d = scene2d;
 	}
-	WarningString("File set active scene.");
+	else
+	{
+		WarningString("File set active scene 2D.");
+	}
 }
 
 void RegisteredBox::SetActiveCanvas(Canvas* canva)
@@ -40,7 +46,10 @@ void RegisteredBox::SetActiveCanvas(Canvas* canva)
 	{
 		_activeCanvas = canva;
 	}
-	WarningString("File set active scene.");
+	else
+	{
+		WarningString("File set active canvas.");
+	}
 }
 
 Scene* RegisteredBox::GetActiveScene()

@@ -46,24 +46,25 @@ Engine::Engine():
 #endif
 	_autoExit(true)
 {
-	ModuleManager::Get().RegisterMoudleLibrary();
-	ModuleManager::Get().CreateModules();
+	ModuleManager& moduleManager = ModuleManager::Get();
+	moduleManager.RegisterMoudleLibrary();
+	moduleManager.CreateModules();
 
 	// Assign a value to this class
-	_cache = ModuleManager::Get()._cache;
-	_graphics = ModuleManager::Get()._graphics;
-	_renderer = ModuleManager::Get()._renderer;
-	_input = ModuleManager::Get()._input;
-	_log = ModuleManager::Get()._log;
+	_cache = moduleManager._cache;
+	_graphics = moduleManager._graphics;
+	_renderer = moduleManager._renderer;
+	_input = moduleManager._input;
+	_log = moduleManager._log;
 #ifdef AUTO_PROFILING
-	_profiler = ModuleManager::Get()._profiler;
+	_profiler = moduleManager._profiler;
 #endif
-	_time = ModuleManager::Get()._time;
-	_registeredBox = ModuleManager::Get()._registeredBox;
-	_renderer2d = ModuleManager::Get()._renderer2d;
-	_physics = ModuleManager::Get()._physics;
-	_fileSystem = ModuleManager::Get()._fileSystem;
-	_ui = ModuleManager::Get()._ui;
+	_time = moduleManager._time;
+	_registeredBox = moduleManager._registeredBox;
+	_renderer2d = moduleManager._renderer2d;
+	_physics = moduleManager._physics;
+	_fileSystem = moduleManager._fileSystem;
+	_ui = moduleManager._ui;
 }
 
 Engine::~Engine()
