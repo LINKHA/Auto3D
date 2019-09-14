@@ -95,7 +95,7 @@ void FirstPersonSample::Update()
 	if (input->IsKeyDown(KEY_D))
 		camera->Translate(Vector3F::RIGHT * time->GetDeltaTime()  * moveSpeed);
 
-	Vector3F cameraVec = camera->GetPosition();
+	/*Vector3F cameraVec = camera->GetPosition();
 	camera->SetPosition(Vector3F(cameraVec._x, 1.0f, cameraVec._z));
 	
 	float scaleAmountx = (float)sin(time->GetCurTime());
@@ -110,7 +110,7 @@ void FirstPersonSample::Update()
 		(*it).light->SetPosition(pos);
 		Vector3F colorf = (*it).color + Vector3F(scaleAmountx, scaleAmounty, scaleAmountx);
 		(*it).light->SetColor(Color(colorf._x, colorf._y, colorf._z));
-	}
+	}*/
 }
 
 void FirstPersonSample::Stop()
