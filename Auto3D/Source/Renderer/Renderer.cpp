@@ -65,6 +65,11 @@ inline bool CompareLights(Light* lhs, Light* rhs)
 }
 
 Renderer::Renderer() :
+	_camera(nullptr),
+	_octree(nullptr),
+	_scenes(nullptr),
+	_usedShadowViews(0),
+	_viewMask(NULL),
     _frameNumber(0),
     _instanceTransformsDirty(false)
 {
@@ -562,7 +567,6 @@ void Renderer::RenderShadowMaps()
             ShadowView* view = *vIt;
             Light* light = view->_light;
             _graphics->SetViewport(view->_viewport);
-			int i = view->_shadowQueue._batches.Size();
             RenderBatches(view->_shadowQueue._batches, &view->_shadowCamera, true, true, light->GetDepthBias(), light->GetSlopeScaledDepthBias());
         }
     }

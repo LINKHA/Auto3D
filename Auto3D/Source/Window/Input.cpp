@@ -1,5 +1,7 @@
 #include "Input.h"
 #include "Window.h"
+#include "../Engine/ModuleManager.h"
+#include "../Graphics/Graphics.h"
 
 #include "../Debug/DebugNew.h"
 
@@ -30,7 +32,7 @@ void Input::Update()
         it->_delta = Vector2I::ZERO;
 
     // The OS-specific _window message handling will call back to Input and update the state
-    Window* window = Module<Window>();
+    Window* window = ModuleManager::Get()._graphics->RenderWindow();
     if (window)
         window->PumpMessages();
 }
