@@ -1,6 +1,6 @@
 #include "../../Debug/Log.h"
 #include "../../Debug/Profiler.h"
-#include "../../Window/Window.h"
+#include "../../Platform/Window.h"
 #include "../GPUObject.h"
 #include "../Shader.h"
 #include "OGLGraphicsContext.h"

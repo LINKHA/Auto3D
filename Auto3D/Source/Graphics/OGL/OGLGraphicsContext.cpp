@@ -3,7 +3,7 @@
 #include "../../Container/WString.h"
 #include "../../Debug/Log.h"
 #include "OGLGraphicsContext.h"
-#include "../../Window/Window.h"
+#include "../../Platform/Window.h"
 
 #include <cstring>
 #include <glad.h>

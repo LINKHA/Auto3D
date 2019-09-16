@@ -1,13 +1,13 @@
 #include "Engine.h"
 
-#include "../Window/Window.h"
+#include "../Platform/Window.h"
 #include "../Thread/Thread.h"
 
 #include "../Audio/Audio.h"
 #include "../Resource/ResourceCache.h"
 #include "../Graphics/Graphics.h"
 #include "../Renderer/Renderer.h"
-#include "../Window/Input.h"
+#include "../Platform/Input.h"
 #include "../Debug/Log.h"
 #include "../Debug/Profiler.h"
 #include "../Time/Time.h"

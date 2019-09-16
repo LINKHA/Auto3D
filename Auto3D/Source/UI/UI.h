@@ -1,6 +1,6 @@
 #pragma once
 #include "../Base/GameManager.h"
-#include "../Window/Window.h"
+#include "../Platform/Window.h"
 #include "../Graphics/GraphicsContext.h"
 
 

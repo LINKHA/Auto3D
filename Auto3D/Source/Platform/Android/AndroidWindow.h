@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Math/Vector2.h"
-#include "../Object/Object.h"
+#include "../../Math/Vector2.h"
+#include "../../Object/Object.h"
 
 struct SDL_Window;
 

@@ -32,7 +32,7 @@ add_engine_directory (Renderer)
 add_engine_directory (Resource)
 add_engine_directory (Scene)
 add_engine_directory (Thread)
-add_engine_directory (Window)
+add_engine_directory (Platform)
 add_engine_directory (Audio)
 add_engine_directory (Auto2D)
 add_engine_directory (Physics)
@@ -52,6 +52,11 @@ elseif (AUTO_DIRECT3D_12)
 #...
 endif ()
 
+if (WIN32)
+	add_engine_directory_group (Platform/Windows Platform/Windows)
+else ()
+	add_engine_directory_group (Platform/Android Platform/Android)
+endif ()
 
 # Add root-level files
 file (GLOB AUTO_FILES *.h *.c *.cpp)

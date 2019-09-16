@@ -1,9 +1,9 @@
-#include "Input.h"
-#include "Window.h"
-#include "../Engine/ModuleManager.h"
-#include "../Graphics/Graphics.h"
+#include "AndroidInput.h"
+#include "AndroidWindow.h"
+#include "../../Engine/ModuleManager.h"
+#include "../../Graphics/Graphics.h"
 
-#include "../Debug/DebugNew.h"
+#include "../../Debug/DebugNew.h"
 
 namespace Auto3D
 {

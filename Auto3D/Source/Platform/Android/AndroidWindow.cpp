@@ -1,20 +1,20 @@
-#include "../Container/WString.h"
-#include "../Debug/Log.h"
-#include "../Math/Math.h"
-#include "../Resource/Image.h"
-#include "../Graphics/Graphics.h"
-#include "../UI/UI.h"
-#include "../Engine/ModuleManager.h"
+#include "../../Container/WString.h"
+#include "../../Debug/Log.h"
+#include "../../Math/Math.h"
+#include "../../Resource/Image.h"
+#include "../../Graphics/Graphics.h"
+#include "../../UI/UI.h"
+#include "../../Engine/ModuleManager.h"
 
-#include "Input.h"
-#include "Window.h"
+#include "AndroidInput.h"
+#include "AndroidWindow.h"
 
 #include <SDL.h>
 #include <SDL_stdinc.h>
 #include <SDL_scancode.h>
 #include <SDL_syswm.h>
 
-#include "../Debug/DebugNew.h"
+#include "../../Debug/DebugNew.h"
 
 namespace Auto3D
 {
