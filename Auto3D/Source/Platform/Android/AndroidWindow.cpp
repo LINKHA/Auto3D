@@ -34,6 +34,8 @@ Window::Window() :
 	_focus(false),
 	_resizable(false),
 	_fullscreen(false),
+	_borderless(false),
+	_highDPI(false),
 	_inResize(false),
 	_mouseHide(false),
 	_mouseLock(false),
@@ -137,6 +139,12 @@ void Window::SetIcon(Image* icon)
 
 bool Window::SetSize(const RectI& rect, int multisample, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
 {
+	_inResize = true;
+	_fullscreen = fullscreen;
+	_resizable = resizable;
+	_borderless = borderless;
+	_highDPI = highDPI;
+	
 	_rect = rect;
 	_multisample = multisample;
 	/// Set MSAA
@@ -174,32 +182,33 @@ bool Window::SetSize(const RectI& rect, int multisample, bool fullscreen, bool r
 		}
 	}
 	// Create the _window
-	unsigned flags =  SDL_WINDOW_SHOWN;
+	unsigned windowStyle =  SDL_WINDOW_SHOWN;
 	if (fullscreen)
-		flags |= SDL_WINDOW_FULLSCREEN;
+		windowStyle |= SDL_WINDOW_FULLSCREEN;
 	if (resizable)
-		flags |= SDL_WINDOW_RESIZABLE;
+		windowStyle |= SDL_WINDOW_RESIZABLE;
 	if (borderless)
-		flags |= SDL_WINDOW_BORDERLESS;
+		windowStyle |= SDL_WINDOW_BORDERLESS;
 	if (highDPI)
-		flags |= SDL_WINDOW_ALLOW_HIGHDPI;
+		windowStyle |= SDL_WINDOW_ALLOW_HIGHDPI;
 #if defined(AUTO_OPENGL)
-	flags |= SDL_WINDOW_OPENGL;
+	windowStyle |= SDL_WINDOW_OPENGL;
 #elif defined(AUTO_VULKAN)
-	flags |= SDL_WINDOW_VULKAN;
+	windowStyle |= SDL_WINDOW_VULKAN;
 #endif
 
 	// The _position _size will be reset later
 	_handle = SDL_CreateWindow(
 		_title.CString(),
 		_rect.Left(), _rect.Top(),
-		_rect.Width(), _rect.Height(), flags
+		_rect.Width(), _rect.Height(), windowStyle
 	);
 
 	if (_handle == NULL)
 		ErrorString("Couldn't set video mode");
 
-
+	_inResize = false;
+	
 	return true;
 }
 

@@ -3,8 +3,6 @@
 #include "../../Math/Vector2.h"
 #include "../../Object/Object.h"
 
-struct SDL_Window;
-
 namespace Auto3D
 {
 
@@ -96,9 +94,9 @@ public:
 	/// Return whether mouse cursor is visible.
 	bool IsMouseHide() const { return _mouseHide; }
 	/// Return _window _handle. Can be cast to a HWND.
-	SDL_Window* Handle() const { return _handle; }
+	void* Handle() const { return _handle; }
 	/// Handle a _window message. Return true if handled and should not be passed to the default _window procedure.
-	bool OnWindowMessage(void* sdlEvent);
+	bool OnWindowMessage(unsigned msg, unsigned wParam, unsigned lParam);
 
 	/// Close requested event.
 	Event _closeRequestEvent;
@@ -118,8 +116,19 @@ public:
 	/// Window class name
 	static String className;
 private:
+	/// Change display mode. If width and height are zero, will restore desktop resolution.
+	void SetDisplayMode(int width, int height);
+	/// Update mouse visibility and clipping region to the OS.
+	void UpdateMouseVisible();
+	/// Update mouse clipping region.
+	void UpdateMouseClipping();
+	/// Refresh the internally tracked mouse cursor position.
+	void UpdateMousePosition();
+	/// Verify window size from the window client rect.
+	Vector2I ClientRectSize() const;
+
 	/// Window handle.
-	SDL_Window* _handle;
+	void* _handle;
 	/// Window icon image.
 	WeakPtr<Image> _icon;
 	/// Window _title.
@@ -149,6 +158,10 @@ private:
 	bool _resizable;
 	/// Fullscreen flag.
 	bool _fullscreen;
+	/// Window borderless.
+	bool _borderless;
+	/// Support high DPI.
+	bool _highDPI;
 	/// Performing _window resize flag. Used internally to suppress resize events during it.
 	bool _inResize;
 	/// Mouse visible flag as requested by the application.

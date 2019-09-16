@@ -30,6 +30,9 @@ namespace Auto3D
 UI::UI() :
 	_window(nullptr)
 {
+#if defined(_WIN32) || defined(_WIN64)
+
+#else
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -56,18 +59,23 @@ UI::UI() :
 		io.Fonts->AddFontFromMemoryTTF(reinterpret_cast<void*>(std::intptr_t(sFontDefault)),
 			sizeof(sFontDefault), 50, &config));
 	RegisterModule(this);
+#endif
 }
 
 UI::~UI()
 {
+#if defined(_WIN32) || defined(_WIN64)
+
+#else
 	// Cleanup
-#if defined(AUTO_OPENGL)
+#	if defined(AUTO_OPENGL)
 	ImGui_ImplOpenGL3_Shutdown();
-#endif
+#	endif
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
 
 	RemoveModule(this);
+#endif
 }
 
 #ifdef AUTO_OPENGL
@@ -76,6 +84,9 @@ bool UI::SetMode(Window* window, GraphicsContext* context)
 bool UI::SetMode(Window* window)
 #endif
 {
+#if defined(_WIN32) || defined(_WIN64)
+
+#else
 	if (!window)
 		return false;
 
@@ -99,10 +110,10 @@ bool UI::SetMode(Window* window)
 	else
 		glslVersion = NULL;
 	// Setup Platform/Renderer bindings
-#if defined(AUTO_OPENGL)
+#	if defined(AUTO_OPENGL)
 	ImGui_ImplSDL2_InitForOpenGL(window->Handle(), context->Context());
 	ImGui_ImplOpenGL3_Init(glslVersion);
-#elif defined(AUTO_VULKAN)
+#	elif defined(AUTO_VULKAN)
 	/*ImGui_ImplSDL2_InitForVulkan(window->Handle());
 	ImGui_ImplVulkan_InitInfo init_info = {};
 	init_info.Instance = g_Instance;
@@ -117,36 +128,50 @@ bool UI::SetMode(Window* window)
 	init_info.ImageCount = wd->ImageCount;
 	init_info.CheckVkResultFn = check_vk_result;
 	ImGui_ImplVulkan_Init(&init_info, wd->RenderPass);*/
+#	endif
 #endif
 	return true;
 }
 
 bool UI::BeginUI()
 {
+#if defined(_WIN32) || defined(_WIN64)
+
+#else
 	if (!_window)
 	{
 		ErrorString("Fail update new frame from ui,may bo window not create.");
 		return false;
 	}
 	// Start the Dear ImGui frame
-#if defined(AUTO_OPENGL)
+#	if defined(AUTO_OPENGL)
 	ImGui_ImplOpenGL3_NewFrame();
-#endif
+#	endif
 	ImGui_ImplSDL2_NewFrame(_window->Handle());
 	ImGui::NewFrame();
+#endif
+	
 	return true;
 }
 
 void UI::Present()
 {
+#if defined(_WIN32) || defined(_WIN64)
+
+#else
 	ImGui::Render();
-#if defined(AUTO_OPENGL)
+#	if defined(AUTO_OPENGL)
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+#	endif
 #endif
+	
 }
 
 void UI::Render(Canvas* canvas)
 {
+#if defined(_WIN32) || defined(_WIN64)
+
+#else
 	if (!canvas)
 	{
 		ErrorString("Fail render canvas,maybe canvas fail create");
@@ -173,11 +198,16 @@ void UI::Render(Canvas* canvas)
 	}
 
 	ImGui::End();
+#endif
 }
 
 void UI::ProcessEvent(const SDL_Event* event)
 {
+#if defined(_WIN32) || defined(_WIN64)
+
+#else
 	ImGui_ImplSDL2_ProcessEvent(event);
+#endif
 }
 
 void RegisterUILibrary()

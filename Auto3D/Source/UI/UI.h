@@ -1,7 +1,7 @@
 #pragma once
 #include "../Base/GameManager.h"
 #include "../Platform/Window.h"
-#include "../Graphics/GraphicsContext.h"
+#include "../Platform/Context.h"
 
 
 using SDL_Event =  union SDL_Event;

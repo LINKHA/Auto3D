@@ -149,6 +149,10 @@ private:
 	bool _resizable;
 	/// Fullscreen flag.
 	bool _fullscreen;
+		/// Window borderless.
+	bool _borderless;
+	/// Support high DPI.
+	bool _highDPI;
 	/// Performing _window resize flag. Used internally to suppress resize events during it.
 	bool _inResize;
 	/// Mouse visible flag as requested by the application.
