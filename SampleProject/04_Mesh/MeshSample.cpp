@@ -12,7 +12,7 @@ void MeshSample::Start()
 	auto* cache = Object::Module<ResourceCache>();
 	auto* graphics = Object::Module<Graphics>();
 
-	graphics->RenderWindow()->SetMouseLock(true);
+	graphics->RenderWindow()->SetMouseLock(false);
 	graphics->RenderWindow()->SetMouseHide(true);
 
 	scene = new Scene();
@@ -63,13 +63,13 @@ void MeshSample::Update()
 	float moveSpeed = input->IsKeyDown(KEY_LSHIFT) ? 50 : 10.0f;
 
 	camera->SetRotation(Quaternion(pitch, yaw, 0.0f));
-	if (input->IsKeyDown(KEY_W))
+	if (input->IsKeyDown('W'))
 		camera->Translate(Vector3F::FORWARD * time->GetDeltaTime() * moveSpeed);
-	if (input->IsKeyDown(KEY_S))
+	if (input->IsKeyDown('S'))
 		camera->Translate(Vector3F::BACK * time->GetDeltaTime()  * moveSpeed);
-	if (input->IsKeyDown(KEY_A))
+	if (input->IsKeyDown('A'))
 		camera->Translate(Vector3F::LEFT * time->GetDeltaTime()  * moveSpeed);
-	if (input->IsKeyDown(KEY_D))
+	if (input->IsKeyDown('D'))
 		camera->Translate(Vector3F::RIGHT * time->GetDeltaTime()  * moveSpeed);
 }
 
