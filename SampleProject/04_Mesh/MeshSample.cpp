@@ -7,12 +7,12 @@ void MeshSample::Init()
 	graphics->RenderWindow()->SetTitle("Mesh Sample");
 }
 void MeshSample::Start()
-{ 
+{
 	Super::Start();
 	auto* cache = Object::Module<ResourceCache>();
 	auto* graphics = Object::Module<Graphics>();
 
-	graphics->RenderWindow()->SetMouseLock(false);
+	graphics->RenderWindow()->SetMouseLock(true);
 	graphics->RenderWindow()->SetMouseHide(true);
 
 	scene = new Scene();
@@ -20,7 +20,7 @@ void MeshSample::Start()
 	camera = scene->CreateChild<Camera>();
 	camera->SetPosition(Vector3F(0.0f, 5.0f, -15.0f));
 	camera->SetAmbientColor(Color(0.1f, 0.1f, 0.1f));
-	
+
 
 	StaticModel* plane = scene->CreateChild<StaticModel>();
 	plane->SetScale(Vector3F(50.0f, 0.1f, 50.0f));
@@ -63,14 +63,14 @@ void MeshSample::Update()
 	float moveSpeed = input->IsKeyDown(KEY_LSHIFT) ? 50 : 10.0f;
 
 	camera->SetRotation(Quaternion(pitch, yaw, 0.0f));
-	if (input->IsKeyDown('W'))
+	if (input->IsKeyDown(KEY_W))
 		camera->Translate(Vector3F::FORWARD * time->GetDeltaTime() * moveSpeed);
-	if (input->IsKeyDown('S'))
-		camera->Translate(Vector3F::BACK * time->GetDeltaTime()  * moveSpeed);
-	if (input->IsKeyDown('A'))
-		camera->Translate(Vector3F::LEFT * time->GetDeltaTime()  * moveSpeed);
-	if (input->IsKeyDown('D'))
-		camera->Translate(Vector3F::RIGHT * time->GetDeltaTime()  * moveSpeed);
+	if (input->IsKeyDown(KEY_S))
+		camera->Translate(Vector3F::BACK * time->GetDeltaTime() * moveSpeed);
+	if (input->IsKeyDown(KEY_A))
+		camera->Translate(Vector3F::LEFT * time->GetDeltaTime() * moveSpeed);
+	if (input->IsKeyDown(KEY_D))
+		camera->Translate(Vector3F::RIGHT * time->GetDeltaTime() * moveSpeed);
 }
 
 void MeshSample::Stop()

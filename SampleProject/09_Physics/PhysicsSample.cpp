@@ -98,6 +98,7 @@ void PhysicsSample::Start()
 			{
 				StaticModel* box = scene->CreateChild<StaticModel>();
 				box->SetModel(cache->LoadResource<Model>("Sphere.mdl"));
+				box->SetMaterial(cache->LoadResource<Material>("Stone.json"));
 				box->SetPosition(Vector3F(i, 10.f + j * 2, k));
 				box->SetScale(Vector3F(2.0f, 2.0f, 2.0f));
 				box->SetCastShadows(true);
@@ -117,6 +118,7 @@ void PhysicsSample::Start()
 			{
 				StaticModel* box = scene->CreateChild<StaticModel>();
 				box->SetModel(cache->LoadResource<Model>("Box.mdl"));
+				box->SetMaterial(cache->LoadResource<Material>("Stone.json"));
 				box->SetPosition(Vector3F(i, 11.f + j * 2, k));
 				box->SetScale(Vector3F(2.0f, 2.0f, 2.0f));
 				box->SetCastShadows(true);

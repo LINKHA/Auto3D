@@ -150,7 +150,7 @@ bool Window::SetSize(const RectI& rect, int multisample, bool fullscreen, bool r
 	_rect = rect;
 	_multisample = multisample;
 	Vector2I size = Vector2I(rect.Width(), rect.Height());
-	Vector2I position = Vector2I(rect.Left(), rect.Bottom());
+	Vector2I position = Vector2I(rect.Left(), rect.Top());
 
 	/// Set MSAA
 	if (_multisample > 1)
@@ -247,9 +247,11 @@ bool Window::SetSize(const RectI& rect, int multisample, bool fullscreen, bool r
 	_inResize = false;
 
 	Vector2I newSize = ClientRectSize();
-	if (newSize != size)
+	if (newSize != Vector2I(_rect.Width(), _rect.Height()))
 	{
-		size = newSize;
+		_rect.Right() = _rect.Left() + size._x;
+		_rect.Bottom() = _rect.Top() + size._y;
+
 		_resizeEvent._size = newSize;
 		SendEvent(_resizeEvent);
 	}
