@@ -156,19 +156,16 @@ bool Window::SetSize(const RectI& rect, int multisample, bool fullscreen, bool r
 
 	unsigned windowStyle;
 
-	if (!_fullscreen)
-	{
-		windowStyle = WS_OVERLAPPEDWINDOW & ~WS_THICKFRAME & ~WS_MAXIMIZEBOX;
-		if (_resizable)
-			windowStyle |= WS_THICKFRAME | WS_MAXIMIZEBOX;
-		
+	// Get the screen resolution
+	int cxScreen = GetSystemMetrics(SM_CXSCREEN);  
+	int cyScreen = GetSystemMetrics(SM_CYSCREEN);  
 
-		// Return to desktop resolution if was fullscreen
-		if (fullscreen)
-			SetDisplayMode(0, 0);
-	}
-	else
-	{
+	if (_fullscreen)
+	{		
+		_rect.Left() = 0;
+		_rect.Top() = 0;
+		_rect.Right() = cxScreen;
+		_rect.Bottom() = cyScreen;
 		// When switching to fullscreen, save last windowed mode position
 		if (!fullscreen)
 			_savedPosition = GetPosition();
@@ -177,9 +174,30 @@ bool Window::SetSize(const RectI& rect, int multisample, bool fullscreen, bool r
 		position = Vector2I::ZERO;
 		/// \todo Handle failure to set mode
 		SetDisplayMode(size._x, size._y);
+
+	}
+	else
+	{
+		if (center)
+		{
+			int w = _rect.Width();
+			int h = _rect.Height();
+			_rect.Left() = cxScreen / 2 - w / 2;
+			_rect.Top() = cyScreen / 2 - h / 2;
+			_rect.Right() = cxScreen / 2 + w / 2;
+			_rect.Bottom() = cyScreen / 2 + h / 2;
+		}
+
+		windowStyle = WS_OVERLAPPEDWINDOW & ~WS_THICKFRAME & ~WS_MAXIMIZEBOX;
+		if (_resizable)
+			windowStyle |= WS_THICKFRAME | WS_MAXIMIZEBOX;
+
+		// Return to desktop resolution if was fullscreen
+		if (fullscreen)
+			SetDisplayMode(0, 0);
 	}
 
-	RECT winRect = { 0, 0, size._x, size._y };
+	RECT winRect = { _rect.Left(), _rect.Top(), _rect.Right(), _rect.Bottom() };
 	AdjustWindowRect(&winRect, windowStyle, false);
 
 	if (!_handle)
@@ -198,8 +216,8 @@ bool Window::SetSize(const RectI& rect, int multisample, bool fullscreen, bool r
 
 		RegisterClass(&wc);
 
-		_handle = CreateWindowW(WString(className).CString(), WString(_title).CString(), windowStyle, position._x, position._y,
-			winRect.right - winRect.left, winRect.bottom - winRect.top, 0, 0, GetModuleHandle(0), nullptr);
+		_handle = CreateWindowW(WString(className).CString(), WString(_title).CString(), windowStyle, _rect.Left(), _rect.Top(),
+			_rect.Width(), _rect.Height(), 0, 0, GetModuleHandle(0), nullptr);
 		if (!_handle)
 		{
 			ErrorString("Failed to create window");
