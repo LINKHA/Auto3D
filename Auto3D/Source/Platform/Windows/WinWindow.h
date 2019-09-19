@@ -79,6 +79,8 @@ public:
 	const Vector2I GetPosition() const;
 	/// Return last known mouse cursor _position relative to _window top-left.
 	const Vector2I& GetMousePosition() const { return _mousePosition; }
+	/// Return multisample num.
+	int GetMultisample() { return _multisample; }
 	/// Return close flags
 	bool IsCloseing() const { return _close; }
 	/// Return whether _window is open.

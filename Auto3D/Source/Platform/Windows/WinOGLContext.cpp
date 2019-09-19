@@ -140,12 +140,12 @@ bool GraphicsContext::Create()
 		return false;
 	}
 	
-	int _multisample = 1;
+	int multisample = _window->GetMultisample();
 	// Now begin to create the real OpenGL context
 	int pixelFormatAttrs[] =
 	{
-		WGL_SAMPLE_BUFFERS_ARB, _multisample > 1 ? 1 : 0,
-		WGL_SAMPLES_ARB, _multisample > 1 ? _multisample : 0,
+		WGL_SAMPLE_BUFFERS_ARB, multisample > 1 ? 1 : 0,
+		WGL_SAMPLES_ARB, multisample > 1 ? multisample : 0,
 		WGL_SUPPORT_OPENGL_ARB, true,
 		WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
 		WGL_DRAW_TO_WINDOW_ARB, true,

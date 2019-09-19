@@ -148,20 +148,11 @@ bool Window::SetSize(const RectI& rect, int multisample, bool fullscreen, bool r
 	_highDPI = highDPI;
 
 	_rect = rect;
+
+	Clamp(multisample, 1, 16);
 	_multisample = multisample;
 	Vector2I size = Vector2I(rect.Width(), rect.Height());
 	Vector2I position = Vector2I(rect.Left(), rect.Top());
-
-	/// Set MSAA
-	if (_multisample > 1)
-	{
-		
-	}
-	else
-	{
-		
-	}
-
 
 	unsigned windowStyle;
 
@@ -304,6 +295,7 @@ void Window::CreateWindowIcon()
 {
 	if (_icon)
 	{
+
 		/*SDL_Surface* surface = _icon->GetSDLSurface();
 		if (surface)
 		{
