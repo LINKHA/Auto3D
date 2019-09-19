@@ -280,6 +280,7 @@ void Window::SetMouseHide(bool enable)
 
 void Window::SetMouseLock(bool enable)
 {
+	enable = !enable;
 	if (enable != _mouseLock)
 	{
 		_mouseLock = enable;
@@ -389,6 +390,7 @@ bool Window::OnWindowMessage(unsigned msg, unsigned wParam, unsigned lParam)
 	case WM_CLOSE:
 		SendEvent(_closeRequestEvent);
 		handled = true;
+		Close();
 		break;
 
 	case WM_ACTIVATE:
