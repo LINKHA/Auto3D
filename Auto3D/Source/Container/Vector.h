@@ -366,9 +366,10 @@ public:
     /// Return const last element.
     const _Ty& Back() const { assert(Size()); return Buffer()[Size() - 1]; }
 
+	/// Return the buffer with right type.
+	_Ty* Buffer() const { return reinterpret_cast<_Ty*>(_buffer + 2 * sizeof(size_t)); }
 private:
-    /// Return the buffer with right type.
-    _Ty* Buffer() const { return reinterpret_cast<_Ty*>(_buffer + 2 * sizeof(size_t)); }
+   
 
    /// Resize the vector and create/remove new elements as necessary.
     void Resize(size_t newSize, const _Ty* src)

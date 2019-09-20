@@ -5,6 +5,7 @@
 #include "../../Graphics/Graphics.h"
 #include "../../UI/UI.h"
 #include "../../Engine/ModuleManager.h"
+#include "../../IO/MarShalls.h"
 
 #include "WinInput.h"
 #include "WinWindow.h"
@@ -208,7 +209,7 @@ bool Window::SetSize(const RectI& rect, int multisample, bool fullscreen, bool r
 		wc.cbClsExtra = 0;
 		wc.cbWndExtra = 0;
 		wc.hInstance = GetModuleHandle(0);
-		wc.hIcon = LoadIcon(0, IDI_APPLICATION);
+		wc.hIcon = LoadIcon(NULL, IDI_WINLOGO);
 		wc.hCursor = LoadCursor(0, IDC_ARROW);
 		wc.hbrBackground = CreateSolidBrush(RGB(0, 0, 0));
 		wc.lpszMenuName = nullptr;
@@ -309,17 +310,60 @@ void Window::SetMousePosition(const Vector2I& position)
 		SetCursorPos(screenPosition.x, screenPosition.y);
 	}
 }
+
 void Window::CreateWindowIcon()
 {
 	if (_icon)
 	{
+		Image* icon = _icon;
+		//if (icon->GetFormat() != ImageFormat::RGBA8)
+		//	icon->convert(ImageFormat::RGBA8);
+		int w = icon->GetWidth();
+		int h = icon->GetHeight();
 
-		/*SDL_Surface* surface = _icon->GetSDLSurface();
-		if (surface)
-		{
-			SDL_SetWindowIcon(_handle, surface);
-			SDL_FreeSurface(surface);
-		}*/
+		/* Create temporary bitmap buffer */
+		int iconLen = 40 + h * w * 4;
+		Vector<BYTE> v;
+		v.Resize(iconLen);
+		BYTE* iconBmp = (BYTE*)v.Buffer();
+
+		EncodeUInt32(40, &iconBmp[0]);
+		EncodeUInt32(w, &iconBmp[4]);
+		EncodeUInt32(h * 2, &iconBmp[8]);
+		EncodeUInt16(1, &iconBmp[12]);
+		EncodeUInt16(32, &iconBmp[14]);
+		EncodeUInt32(BI_RGB, &iconBmp[16]);
+		EncodeUInt32(w * h * 4, &iconBmp[20]);
+		EncodeUInt32(0, &iconBmp[24]);
+		EncodeUInt32(0, &iconBmp[28]);
+		EncodeUInt32(0, &iconBmp[32]);
+		EncodeUInt32(0, &iconBmp[36]);
+
+		unsigned char* wr = &iconBmp[40];
+		Vector<unsigned char> r = Vector<unsigned char>(icon->Data(), h * w * 4);
+
+		for (int i = 0; i < h; i++) {
+
+			for (int j = 0; j < w; j++) {
+
+				const unsigned char* rpx = &r[((h - i - 1) * w + j) * 4];
+				unsigned char* wpx = &wr[(i * w + j) * 4];
+				wpx[0] = rpx[2];
+				wpx[1] = rpx[1];
+				wpx[2] = rpx[0];
+				wpx[3] = rpx[3];
+			}
+		}
+		ImageFormat::Type imageFormat = _icon->GetFormat();
+
+		HICON hicon = CreateIconFromResource((PBYTE)_icon->Data(),40+ w * h * 4, TRUE, 0x00030000);
+		int error = GetLastError();
+
+		/* Set the icon for the window */
+		SendMessage((HWND)_handle, WM_SETICON, ICON_SMALL, (LPARAM)hicon);
+
+		/* Set the icon in the task manager (should we do this?) */
+		SendMessage((HWND)_handle, WM_SETICON, ICON_BIG, (LPARAM)hicon);
 	}
 }
 
