@@ -23,7 +23,11 @@ public:
     virtual void Recreate();
     /// Return whether the contents have been lost due to graphics context having been destroyed.
     virtual bool IsDataLost() const { return _dataLost; }
-    
+
+	/// Clear the data lost flag.
+	void ClearDataLost();
+	/// Return the graphics subsystem associated with this GPU object.
+	Graphics* GetGraphics() const;
     /// Set data lost state. Not needed on all rendering API's.
     void SetDataLost(bool enable) { _dataLost = enable; }
 

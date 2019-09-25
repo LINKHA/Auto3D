@@ -2,6 +2,7 @@
 #include "../Time/Time.h"
 #include "../Time/Timer.h"
 #include "../Debug/Log.h"
+#include "../Engine/ModuleManager.h"
 
 #include "Sound.h"
 #include "AudioListener.h"
@@ -276,7 +277,7 @@ void Audio::CallSourcePlay(unsigned source, int delay)
 	if (!delay)
 		alSourcePlay(source);
 	else
-		Module<Time>()->OneShotTimer(std::bind(&This::CallSourcePlay, this, source, 0), delay);
+		ModuleManager::Get()._time->OneShotTimer(std::bind(&This::CallSourcePlay, this, source, 0), delay);
 }
 
 void Audio::CallSourcePause(unsigned source, int delay)
@@ -289,7 +290,7 @@ void Audio::CallSourcePause(unsigned source, int delay)
 	if (!delay)
 		alSourcePause(source);
 	else
-		Module<Time>()->OneShotTimer(std::bind(&This::CallSourcePause, this, source, 0), delay);
+		ModuleManager::Get()._time->OneShotTimer(std::bind(&This::CallSourcePause, this, source, 0), delay);
 }
 
 void Audio::CallSourceStop(unsigned source, int delay)

@@ -37,6 +37,37 @@ public:
 	/// Gets the singleton instance of the module manager.
 	static ModuleManager& Get();
 
+	/// Return resource loads.
+	ResourceCache* CacheModule() { return _cache; }
+	/// Return graphics.
+	Graphics* GraphicsModule() { return _graphics; }
+	/// Return 3D render.
+	Renderer* RendererModule() { return _renderer; }
+	/// Return input management events
+	Input* InputModule() { return _input; }
+	/// Engine Log
+	Log* LogModule() { return _log; }
+#ifdef AUTO_PROFILING
+	/// Return hierarchical performance profiler subsystem.
+	Profiler* ProfilerModule() { return _profiler; }
+#endif
+	/// Return process all engine time, calculate FPS, etc
+	Time* TimeModule() { return _time; }
+	/// Return the message management mechanism for the underlying interaction between the game project and the engine
+	RegisteredBox* RegisteredBoxModule() { return _registeredBox; }
+	/// Return 2d-related operations and rendering capabilities
+	Renderer2D* Renderer2dModule() { return _renderer2d; }
+	/// Return physical world and functional storage
+	Physics* PhysicsModule() { return _physics; }
+	/// Return an adapter system that operates on files based on the platform
+	FileSystem* FileSystemModule() { return _fileSystem; }
+	/// Return UI-related operations and rendering capabilities
+	UI* UiModule() { return _ui; }
+	/// Return component management of all audio.(Assign values when the component is first created)
+	Audio* AudioModule() { return _audio; }
+
+
+
 	/// Manage the subsystem of all resource loads
 	SharedPtr<ResourceCache> _cache;
 	/// ADAPTS the low-level rendering interface as well as the form's rendering function
