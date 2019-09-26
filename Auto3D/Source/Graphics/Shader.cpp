@@ -3,6 +3,8 @@
 #include "../Resource/ResourceCache.h"
 #include "../IO/File.h"
 #include "../IO/FileSystem.h"
+#include "../Engine/ModuleManager.h"
+
 #include "Shader.h"
 #include "ShaderVariation.h"
 
@@ -67,7 +69,7 @@ ShaderVariation* Shader::CreateVariation(const String& definesIn)
 
 bool Shader::ProcessIncludes(String& code, Stream& source)
 {
-    ResourceCache* cache = Module<ResourceCache>();
+	ResourceCache* cache = ModuleManager::Get().CacheModule();
 
     while (!source.IsEof())
     {

@@ -5,6 +5,7 @@
 #include "../Math/Math.h"
 #include "../Base/GameManager.h"
 #include "../Time/Time.h"
+#include "../Engine/ModuleManager.h"
 
 namespace Auto3D
 {
@@ -13,7 +14,7 @@ namespace Auto3D
 class AUTO_API ProfilerBlock
 {
 public:
-    /// Construct-
+    /// Construct.
     ProfilerBlock(ProfilerBlock* parent, const char* name);
     /// Destruct.
     ~ProfilerBlock();
@@ -113,7 +114,7 @@ public:
     /// Construct and begin a profiling block. The name must be persistent; string literals are recommended.
     AutoProfileBlock(const char* name)
     {
-        _profiler = Object::Module<Profiler>();
+		_profiler = ModuleManager::Get().ProfilerModule();
         if (_profiler)
             _profiler->BeginBlock(name);
     }

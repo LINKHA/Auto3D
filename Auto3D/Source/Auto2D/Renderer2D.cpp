@@ -9,6 +9,7 @@
 #include "../Graphics/IndexBuffer.h"
 #include "../Graphics/Shader.h"
 #include "../Resource/ResourceCache.h"
+#include "../Engine/ModuleManager.h"
 
 #include "../Debug/Profiler.h"
 #include "../Debug/DebugNew.h"
@@ -162,8 +163,8 @@ void Renderer2D::RenderBatches()
 
 void Renderer2D::Initialize()
 {
-	auto* graphics = Module<Graphics>();
-	auto* cache = Module<ResourceCache>();
+	auto* graphics = ModuleManager::Get().GraphicsModule();
+	auto* cache = ModuleManager::Get().CacheModule();
 	assert(!_graphics && !IsInitialized());
 
 	PROFILE(InitRenderer2D);

@@ -3,6 +3,7 @@
 #include "../RegisteredBox/RegisteredBox.h"
 #include "../Scene/Scene.h"
 #include "../Physics/Physics.h"
+#include "../Engine/ModuleManager.h"
 
 namespace Auto3D 
 {
@@ -19,7 +20,7 @@ PhysicsWorld::PhysicsWorld():
 	_fps(DEFAULT_FPS),
 	_maxSubSteps(0)
 {
-	_time = Module<Time>();
+	_time = ModuleManager::Get().TimeModule();
 
 	if (PhysicsWorld::config.collisionConfig)
 		_collisionConfiguration = PhysicsWorld::config.collisionConfig;
@@ -36,14 +37,14 @@ PhysicsWorld::PhysicsWorld():
 	_world->setSynchronizeAllMotionStates(true);
 
 	// Register to the physics subsystem
-	auto physics = Object::Module<Physics>();
+	auto physics = ModuleManager::Get().PhysicsModule();
 	physics->AddPhysicsWorld(this);
 	physics->SetActivePhysicsWrold(this);
 }
 
 PhysicsWorld::~PhysicsWorld()
 {
-	auto physics = Object::Module<Physics>();
+	auto physics = ModuleManager::Get().PhysicsModule();
 	physics->RemovePhysicsWorld(this);
 	physics->SetActivePhysicsWrold(nullptr);
 

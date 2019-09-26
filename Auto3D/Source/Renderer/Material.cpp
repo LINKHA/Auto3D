@@ -8,6 +8,7 @@
 
 #include "Material.h"
 
+#include "../Engine/ModuleManager.h"
 #include "../Debug/DebugNew.h"
 
 namespace Auto3D
@@ -253,7 +254,7 @@ bool Material::EndLoad()
     /// \todo Queue texture loads during BeginLoad()
     ResetTextures();
 
-	ResourceCache* cache = Module<ResourceCache>();
+	ResourceCache* cache = ModuleManager::Get().CacheModule();
 
     if (root.Contains("textures"))
     {

@@ -2,6 +2,8 @@
 #include "../IO/File.h"
 #include "../Thread/Thread.h"
 #include "../Time/Time.h"
+#include "../Engine/ModuleManager.h"
+
 #include "Log.h"
 
 #include <cstdio>
@@ -111,7 +113,7 @@ void Log::Write(int msgLevel, const String& message)
 {
     assert(msgLevel >= LOG_DEBUG && msgLevel < LOG_NONE);
     
-    Log* instance = Module<Log>();
+    Log* instance = ModuleManager::Get().LogModule();
     if (!instance)
         return;
 
@@ -161,7 +163,7 @@ void Log::Write(int msgLevel, const String& message)
 
 void Log::WriteRaw(const String& message, bool error)
 {
-    Log* instance = Module<Log>();
+	Log* instance = ModuleManager::Get().LogModule();
     if (!instance)
         return;
 

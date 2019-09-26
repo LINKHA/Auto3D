@@ -8,6 +8,7 @@
 #include <AL/alc.h>
 #include <AL/alext.h>
 
+#include "../Engine/ModuleManager.h"
 #include "../Debug/DebugNew.h"
 
 
@@ -19,7 +20,7 @@ AudioSource::AudioSource() :
 	_gain(1.0f),
 	_vel(0.0f, 0.0f, 0.1f)
 {
-	_audio = Object::Module<Audio>();
+	_audio = ModuleManager::Get().AudioModule();
 }
 
 AudioSource::~AudioSource()

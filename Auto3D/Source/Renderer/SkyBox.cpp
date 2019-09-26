@@ -3,6 +3,7 @@
 #include "../Graphics/Texture.h"
 #include "../Resource/ResourceCache.h"
 #include "../Debug/DebugNew.h"
+#include "../Engine/ModuleManager.h"
 
 #include "Model.h"
 
@@ -11,7 +12,7 @@ namespace Auto3D
 
 SkyBox::SkyBox()
 {
-	auto* cache = Object::Module<ResourceCache>();
+	auto cache = ModuleManager::Get().CacheModule();
 	SetModel(cache->LoadResource<Model>("Box.mdl"));
 	OnWorldBoundingBoxUpdate();
 }

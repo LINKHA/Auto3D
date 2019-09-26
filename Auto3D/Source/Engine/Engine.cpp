@@ -51,20 +51,20 @@ Engine::Engine():
 	moduleManager.CreateModules();
 
 	// Assign a value to this class
-	_cache = moduleManager._cache;
-	_graphics = moduleManager._graphics;
-	_renderer = moduleManager._renderer;
-	_input = moduleManager._input;
-	_log = moduleManager._log;
+	_cache = moduleManager.CacheModule();
+	_graphics = moduleManager.GraphicsModule();
+	_renderer = moduleManager.RendererModule();
+	_input = moduleManager.InputModule();
+	_log = moduleManager.LogModule();
 #ifdef AUTO_PROFILING
-	_profiler = moduleManager._profiler;
+	_profiler = moduleManager.ProfilerModule();
 #endif
-	_time = moduleManager._time;
-	_registeredBox = moduleManager._registeredBox;
-	_renderer2d = moduleManager._renderer2d;
-	_physics = moduleManager._physics;
-	_fileSystem = moduleManager._fileSystem;
-	_ui = moduleManager._ui;
+	_time = moduleManager.TimeModule();
+	_registeredBox = moduleManager.RegisteredBoxModule();
+	_renderer2d = moduleManager.Renderer2dModule();
+	_physics = moduleManager.PhysicsModule();
+	_fileSystem = moduleManager.FileSystemModule();
+	_ui = moduleManager.UiModule();
 }
 
 Engine::~Engine()
@@ -325,7 +325,7 @@ void Engine::DoExit()
 		_graphics->Close();
 	_exiting = true;
 #ifdef AUTO_PROFILING
-	auto* profiler = Module<Profiler>();
+	auto* profiler = ModuleManager::Get().ProfilerModule();
 	LogString(profiler->OutputResults());
 #endif
 }

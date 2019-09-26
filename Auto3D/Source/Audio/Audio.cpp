@@ -277,7 +277,7 @@ void Audio::CallSourcePlay(unsigned source, int delay)
 	if (!delay)
 		alSourcePlay(source);
 	else
-		ModuleManager::Get()._time->OneShotTimer(std::bind(&This::CallSourcePlay, this, source, 0), delay);
+		ModuleManager::Get().TimeModule()->OneShotTimer(std::bind(&This::CallSourcePlay, this, source, 0), delay);
 }
 
 void Audio::CallSourcePause(unsigned source, int delay)
@@ -290,7 +290,7 @@ void Audio::CallSourcePause(unsigned source, int delay)
 	if (!delay)
 		alSourcePause(source);
 	else
-		ModuleManager::Get()._time->OneShotTimer(std::bind(&This::CallSourcePause, this, source, 0), delay);
+		ModuleManager::Get().TimeModule()->OneShotTimer(std::bind(&This::CallSourcePause, this, source, 0), delay);
 }
 
 void Audio::CallSourceStop(unsigned source, int delay)
@@ -303,7 +303,7 @@ void Audio::CallSourceStop(unsigned source, int delay)
 	if (!delay)
 		alSourceStop(source);
 	else
-		Module<Time>()->OneShotTimer(std::bind(&This::CallSourceStop, this, source, 0), delay);
+		ModuleManager::Get().TimeModule()->OneShotTimer(std::bind(&This::CallSourceStop, this, source, 0), delay);
 }
 
 void Audio::CallSourceRewind(unsigned source, int delay)
@@ -316,7 +316,7 @@ void Audio::CallSourceRewind(unsigned source, int delay)
 	if (!delay)
 		alSourceRewind(source);
 	else
-		Module<Time>()->OneShotTimer(std::bind(&This::CallSourceRewind, this, source, 0), delay);
+		ModuleManager::Get().TimeModule()->OneShotTimer(std::bind(&This::CallSourceRewind, this, source, 0), delay);
 }
 
 void RegisterAudioLibrary()

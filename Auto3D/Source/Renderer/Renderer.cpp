@@ -20,6 +20,7 @@
 #include "StaticModel.h"
 #include "SkyBox.h"
 
+#include "../Engine/ModuleManager.h"
 #include "../Debug/DebugNew.h"
 
 namespace Auto3D
@@ -597,7 +598,7 @@ void Renderer::RenderBatches(const String& pass)
 
 void Renderer::Initialize()
 {
-    _graphics = Module<Graphics>();
+	_graphics = ModuleManager::Get().GraphicsModule();
     assert(_graphics && _graphics->IsInitialized());
 
     Vector<Constant> constants;
@@ -1001,7 +1002,7 @@ void Renderer::LoadPassShaders(Pass* pass)
 {
     PROFILE(LoadPassShaders);
 
-    ResourceCache* cache = Module<ResourceCache>();
+	ResourceCache* cache = ModuleManager::Get().CacheModule();
     // Use different extensions for GLSL & HLSL shaders
     #ifdef AUTO_OPENGL
     pass->_shaders[ShaderStage::VS] = cache->LoadResource<Shader>(pass->GetShaderName(ShaderStage::VS) + ".vert");

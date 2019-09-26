@@ -7,6 +7,7 @@
 #include "Model.h"
 #include "StaticModel.h"
 
+#include "../Engine/ModuleManager.h"
 #include "../Debug/DebugNew.h"
 
 namespace Auto3D
@@ -99,7 +100,7 @@ Model* StaticModel::GetModel() const
 
 void StaticModel::SetModelAttr(const ResourceRef& model)
 {
-    ResourceCache* cache = Module<ResourceCache>();
+	ResourceCache* cache = ModuleManager::Get().CacheModule();
     SetModel(cache->LoadResource<Model>(model._name));
 }
 

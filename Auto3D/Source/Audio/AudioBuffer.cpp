@@ -2,6 +2,7 @@
 #include "Audio.h"
 #include "Sound.h"
 #include "../Debug/Log.h"
+#include "../Engine/ModuleManager.h"
 
 #include <AL/al.h>
 #include <AL/alc.h>
@@ -12,7 +13,7 @@ namespace Auto3D
 
 AudioBuffer::AudioBuffer()
 {
-	_audio = Object::Module<Audio>();
+	_audio = ModuleManager::Get().AudioModule();
 }
 
 AudioBuffer::~AudioBuffer()

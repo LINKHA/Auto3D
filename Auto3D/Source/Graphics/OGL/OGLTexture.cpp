@@ -2,6 +2,7 @@
 #include "../../Debug/Profiler.h"
 #include "../../Resource/ResourceCache.h"
 #include "../../Renderer/GeometryNode.h"
+#include "../../Engine/ModuleManager.h"
 
 #include "OGLGraphics.h"
 #include "OGLTexture.h"
@@ -197,7 +198,7 @@ void Texture::Recreate()
     // If has a name, attempt to reload through the resource cache
     if (Name().Length())
     {
-        ResourceCache* cache = Module<ResourceCache>();
+		ResourceCache* cache = ModuleManager::Get().CacheModule();
         if (cache && cache->ReloadResource(this))
             return;
     }

@@ -37,6 +37,35 @@ public:
 	/// Gets the singleton instance of the module manager.
 	static ModuleManager& Get();
 
+	/// Recreate cache moudle if not null.
+	void RecreateCacheModule(ResourceCache* cache = nullptr);
+	/// Recreate graphics moudle if not null.
+	void RecreateGraphicsModule(Graphics* graphics = nullptr);
+	/// Recreate 3d render module if not null.
+	void RecreateRendererModule(Renderer* renderer = nullptr);
+	/// Recreate input management events module if not null.
+	void RecreateInputModule(Input* input = nullptr);
+	/// Recreate Engine Log
+	void RecreateLogModule(Log* log = nullptr);
+#ifdef AUTO_PROFILING
+	/// Recreate hierarchical performance profiler subsystem.
+	void RecreateProfilerModule(Profiler* profiler = nullptr);
+#endif
+	/// Recreate process all engine time, calculate FPS, etc
+	void RecreateTimeModule(Time* time = nullptr);
+	/// Recreate the message management mechanism for the underlying interaction between the game project and the engine
+	void RecreateRegisteredBoxModule(RegisteredBox* registeredBox = nullptr);
+	/// Recreate 2d-related operations and rendering capabilities
+	void RecreateRenderer2dModule(Renderer2D* renderer2d = nullptr);
+	/// Recreate physical world and functional storage
+	void RecreatePhysicsModule(Physics* physics = nullptr);
+	/// Recreate an adapter system that operates on files based on the platform
+	void RecreateFileSystemModule(FileSystem* fileSystem = nullptr);
+	/// Recreate UI-related operations and rendering capabilities
+	void RecreateUiModule(UI* ui = nullptr);
+	/// Recreate component management of all audio.(Assign values when the component is first created)
+	void RecreateAudioModule(Audio* audio = nullptr);
+
 	/// Return resource loads.
 	ResourceCache* CacheModule() { return _cache; }
 	/// Return graphics.

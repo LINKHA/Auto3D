@@ -5,6 +5,7 @@
 #include "../Scene/SpatialNode.h"
 #include "../Resource/JSONFile.h"
 #include "../RegisteredBox/RegisteredBox.h"
+#include "../Engine/ModuleManager.h"
 
 #include "Scene2D.h"
 
@@ -21,7 +22,7 @@ Scene2D::Scene2D() :
 
 	DefineLayer(LAYER_DEFAULT, "Default");
 	DefineTag(TAG_NONE, "None");
-	Module<RegisteredBox>()->RegisterScene2D(this);
+	ModuleManager::Get().RegisteredBoxModule()->RegisterScene2D(this);
 }
 Scene2D::~Scene2D()
 {
