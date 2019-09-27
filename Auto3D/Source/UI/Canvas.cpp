@@ -25,7 +25,7 @@ Canvas::Canvas() :
 	DefineLayer(LAYER_DEFAULT, "Default");
 	DefineTag(TAG_NONE, "None");
 
-	Module<RegisteredBox>()->RegisterCanvas(this);
+	ModuleManager::Get().RegisteredBoxModule()->RegisterCanvas(this);
 }
 Canvas::~Canvas()
 {

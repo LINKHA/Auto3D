@@ -95,8 +95,7 @@ public:
 	/// Return component management of all audio.(Assign values when the component is first created)
 	Audio* AudioModule() { return _audio; }
 
-
-
+private:
 	/// Manage the subsystem of all resource loads
 	SharedPtr<ResourceCache> _cache;
 	/// ADAPTS the low-level rendering interface as well as the form's rendering function

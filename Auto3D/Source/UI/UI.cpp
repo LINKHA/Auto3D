@@ -5,6 +5,7 @@
 #include "Slider.h"
 #include "ColorEdit.h"
 #include "CheckBox.h"
+#include "../Engine/ModuleManager.h"
 
 #include <imgui.h>
 #include <imgui_user/imgui_user.h>
@@ -97,7 +98,7 @@ bool UI::SetMode(Window* window)
 
 
 	const char* glslVersion;
-	GraphicsSLVersion::Type slVersion = Module<Graphics>()->GetGraphicsSLVersion();
+	GraphicsSLVersion::Type slVersion = ModuleManager::Get().GraphicsModule()->GetGraphicsSLVersion();
 	if (slVersion == GraphicsSLVersion::GLSL_430)
 		glslVersion = "#version 430";
 	else if (slVersion == GraphicsSLVersion::GLSL_330)

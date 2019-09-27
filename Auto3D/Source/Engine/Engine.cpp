@@ -192,8 +192,8 @@ bool Engine::Update()
 		ShutDownEngine();
 		return false;
 	}
-	if(ModuleManager::Get()._audio)
-		ModuleManager::Get()._audio->Update();
+	if (Audio * audio = ModuleManager::Get().AudioModule())
+		audio->Update();
 
 	_physics->Update();
 	_ui->BeginUI();
