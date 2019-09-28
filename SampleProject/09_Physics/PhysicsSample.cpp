@@ -144,10 +144,10 @@ void PhysicsSample::Start()
 void PhysicsSample::Update()
 {
 	Super::Update();
-	auto input = ModuleManager::Get()._input;
-	auto graphics = ModuleManager::Get()._graphics;
-	auto renderer = ModuleManager::Get()._renderer;
-	auto time = ModuleManager::Get()._time;
+	auto input = ModuleManager::Get().InputModule();
+	auto graphics = ModuleManager::Get().GraphicsModule();
+	auto renderer = ModuleManager::Get().RendererModule();
+	auto time = ModuleManager::Get().TimeModule();
 
 	pitch += input->GetMouseMove()._y * 0.25f;
 	yaw += input->GetMouseMove()._x * 0.25f;

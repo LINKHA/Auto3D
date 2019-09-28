@@ -75,7 +75,7 @@ Window::Window() :
 	_highDPI(false),
 	_inResize(false),
 	_mouseHide(false),
-	_mouseLock(false),
+	_mouseLock(true),
 	_mouseVisibleInternal(true)
 {
 	RegisterModule(this);
