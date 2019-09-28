@@ -11,9 +11,13 @@
 #include "WinWindow.h"
 
 #include <Windows.h>
+#include <imgui.h>
 
+#include "../../Adapter/imgui_impl_windows.h"
 #include "../../Debug/DebugNew.h"
 
+// Win32 message handler
+extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 namespace Auto3D
 {
@@ -714,8 +718,12 @@ void Window::UpdateMousePosition()
 	_mousePosition._y = screenPosition.y;
 }
 
+
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wParam, lParam))
+		return true;
+
 	Window* window = reinterpret_cast<Window*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 	bool handled = false;
 	// When the window is just opening and has not assigned the userdata yet, let the default procedure handle the messages
