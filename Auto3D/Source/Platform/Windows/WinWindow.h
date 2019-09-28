@@ -169,7 +169,7 @@ private:
 	/// Mouse visible flag as requested by the application.
 	bool _mouseHide;
 	/// Mouse lock in window flag
-	bool _mouseLock;
+	bool _mouseVisible;
 	/// Internal mouse visible flag. The mouse is automatically shown when the _window is unfocused, while mouseVisible represents the application's desired state. Used to prevent multiple calls to OS mouse visibility functions, which utilize a counter.
 	bool _mouseVisibleInternal;
 };

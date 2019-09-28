@@ -75,7 +75,7 @@ Window::Window() :
 	_highDPI(false),
 	_inResize(false),
 	_mouseHide(false),
-	_mouseLock(true),
+	_mouseVisible(true),
 	_mouseVisibleInternal(true)
 {
 	RegisterModule(this);
@@ -291,9 +291,9 @@ void Window::SetMouseHide(bool enable)
 void Window::SetMouseLock(bool enable)
 {
 	enable = !enable;
-	if (enable != _mouseLock)
+	if (enable != _mouseVisible)
 	{
-		_mouseLock = enable;
+		_mouseVisible = enable;
 		UpdateMouseVisible();
 	}
 }
@@ -553,7 +553,7 @@ bool Window::OnWindowMessage(unsigned msg, unsigned wParam, unsigned lParam)
 			newPosition._y = (int)(short)HIWORD(lParam);
 
 			// Do not transmit mouse move when mouse should be hidden, but is not due to no input focus
-			if (_mouseVisibleInternal == _mouseLock)
+			if (_mouseVisibleInternal == _mouseVisible)
 			{
 				Vector2I delta = newPosition - _mousePosition;
 				input->OnMouseMove(newPosition, delta);
@@ -579,7 +579,7 @@ bool Window::OnWindowMessage(unsigned msg, unsigned wParam, unsigned lParam)
 			// Make sure we track the button release even if mouse moves outside the window
 			SetCapture((HWND)_handle);
 			// Re-establish mouse cursor hiding & clipping
-			if (!_mouseLock && _mouseVisibleInternal)
+			if (!_mouseVisible && _mouseVisibleInternal)
 				UpdateMouseVisible();
 		}
 		handled = true;
@@ -663,7 +663,7 @@ void Window::UpdateMouseVisible()
 		return;
 
 	// When the window is unfocused, mouse should never be hidden
-	bool newMouseVisible = HasFocus() ? _mouseLock : true;
+	bool newMouseVisible = HasFocus() ? _mouseVisible : true;
 	if (newMouseVisible != _mouseVisibleInternal)
 	{
 		ShowCursor(newMouseVisible ? TRUE : FALSE);
