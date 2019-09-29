@@ -432,15 +432,15 @@ Material* Material::DefaultMaterial()
     {
         _defaultMaterial = new Material();
         Pass* pass = _defaultMaterial->CreatePass("opaque");
-        pass->SetShaders("NoTexture", "NoTexture");
+        pass->SetShaders("Shader/NoTexture", "Shader/NoTexture");
 
         pass = _defaultMaterial->CreatePass("opaqueadd");
-        pass->SetShaders("NoTexture", "NoTexture");
+        pass->SetShaders("Shader/NoTexture", "Shader/NoTexture");
         pass->SetBlendMode(BlendMode::ADD);
         pass->_depthWrite = false;
 
         pass = _defaultMaterial->CreatePass("shadow");
-        pass->SetShaders("Shadow", "Shadow");
+        pass->SetShaders("Shader/Shadow", "Shader/Shadow");
         pass->_colorWriteMask = COLORMASK_NONE;
     }
 

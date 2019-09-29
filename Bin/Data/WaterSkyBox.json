@@ -1,8 +1,8 @@
 {
   "passes": {
     "opaque": {
-      "vs": "SkyBox",
-      "ps": "SkyBox",
+      "vs": "Shader/SkyBox",
+      "ps": "Shader/SkyBox",
       "depthFunc": "lessEqual",
 	  "blendMode": "replace",
 	  "cullMode": "front"

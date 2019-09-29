@@ -91,7 +91,7 @@ bool Engine::Init()
 		return false;
 	}
 	// Set default Logo
-	_graphics->RenderWindow()->SetIcon(_cache->LoadResource<Image>("NewLogo.png"));
+	_graphics->RenderWindow()->SetIcon(_cache->LoadResource<Image>("Texture/NewLogo.png"));
 
 	if (!_graphics->RenderWindow())
 		return false;
@@ -136,7 +136,7 @@ void Engine::Render()
 	{
 		PROFILE(RenderScene);
 
-		Scene* scene = _registeredBox->GetActiveScene();/**it;*/
+		Scene* scene = _registeredBox->GetActiveScene();
 		if (scene && scene->IsEnabled())
 		{
 			Vector<Camera*>& cameras = scene->GetAllCamera();
