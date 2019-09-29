@@ -36,10 +36,10 @@
     }
   },
   "textures": {
-	"0": "PBR/Wood/bamboo-wood-semigloss-albedo.png",
-	"1": "PBR/Wood/bamboo-wood-semigloss-normal.png",
-	"2": "PBR/Wood/bamboo-wood-semigloss-metal.png",
-	"3": "PBR/Wood/bamboo-wood-semigloss-roughness.png",
-	"4": "PBR/Wood/bamboo-wood-semigloss-ao.png"
+	"0": "Material/PBR/Wood/bamboo-wood-semigloss-albedo.png",
+	"1": "Material/PBR/Wood/bamboo-wood-semigloss-normal.png",
+	"2": "Material/PBR/Wood/bamboo-wood-semigloss-metal.png",
+	"3": "Material/PBR/Wood/bamboo-wood-semigloss-roughness.png",
+	"4": "Material/PBR/Wood/bamboo-wood-semigloss-ao.png"
   }
 }

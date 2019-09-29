@@ -36,10 +36,10 @@
     }
   },
   "textures": {
-	"0": "PBR/Plastic/albedo.png",
-	"1": "PBR/Plastic/normal.png",
-	"2": "PBR/Plastic/metallic.png",
-	"3": "PBR/Plastic/roughness.png",
-	"4": "PBR/Plastic/ao.png"
+	"0": "Material/PBR/Plastic/albedo.png",
+	"1": "Material/PBR/Plastic/normal.png",
+	"2": "Material/PBR/Plastic/metallic.png",
+	"3": "Material/PBR/Plastic/roughness.png",
+	"4": "Material/PBR/Plastic/ao.png"
   }
 }

@@ -25,13 +25,13 @@ void MeshSample::Start()
 	StaticModel* plane = scene->CreateChild<StaticModel>();
 	plane->SetScale(Vector3F(50.0f, 0.1f, 50.0f));
 	plane->SetCastShadows(true);
-	plane->SetModel(cache->LoadResource<Model>("Box.mdl"));
+	plane->SetModel(cache->LoadResource<Model>("Model/Box.mdl"));
 	plane->SetMaterial(cache->LoadResource<Material>("Stone.json"));
 
 	StaticModel* teaPot = scene->CreateChild<StaticModel>();
 	teaPot->SetPosition(Vector3F(0.0f, 0.0f, 0.0f));
 	teaPot->SetScale(10.0f);
-	teaPot->SetModel(cache->LoadResource<Model>("TeaPot.mdl"));
+	teaPot->SetModel(cache->LoadResource<Model>("Model/TeaPot.mdl"));
 	teaPot->SetCastShadows(true);
 	teaPot->SetLodBias(2.0f);
 

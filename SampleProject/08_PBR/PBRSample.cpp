@@ -26,14 +26,14 @@ void PBRSample::Start()
 	sphere->SetPosition(Vector3F(5.0f, 5.0f, 0.0f));
 	sphere->SetScale(Vector3F(2.0f, 2.0f,2.0f));
 	sphere->SetCastShadows(true);
-	sphere->SetModel(cache->LoadResource<Model>("Sphere.mdl"));
+	sphere->SetModel(cache->LoadResource<Model>("Model/Sphere.mdl"));
 	sphere->SetMaterial(cache->LoadResource<Material>("PBRNoTexture.json"));
 
 	StaticModel* teaPot = scene->CreateChild<StaticModel>();
 	teaPot->SetPosition(Vector3F(-5.0f, 0.0f, 0.0f));
 	teaPot->SetScale(Vector3F(10.0f, 10.0f, 10.0f));
 	teaPot->SetCastShadows(true);
-	teaPot->SetModel(cache->LoadResource<Model>("TeaPot.mdl"));
+	teaPot->SetModel(cache->LoadResource<Model>("Model/TeaPot.mdl"));
 	teaPot->SetMaterial(cache->LoadResource<Material>("PBRPlastic.json"));
 
 
@@ -41,7 +41,7 @@ void PBRSample::Start()
 	plane->SetPosition(Vector3F(-5.0f, 0.0f, 0.0f));
 	plane->SetScale(Vector3F(100.0f, 1.0f, 100.0f));
 	plane->SetCastShadows(true);
-	plane->SetModel(cache->LoadResource<Model>("Box.mdl"));
+	plane->SetModel(cache->LoadResource<Model>("Model/Box.mdl"));
 	plane->SetMaterial(cache->LoadResource<Material>("PBRWood.json"));
 
 

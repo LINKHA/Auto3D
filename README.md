@@ -32,14 +32,14 @@ Third-party libraries
 
 PBR-DEMO
 -------
-![Image text](https://github.com/LINKHA/Auto3D/blob/master/Bin/Data/figure/Engine_Effect_PBR.png)
+![Image text](https://github.com/LINKHA/Auto3D/blob/master/Doc/figure/Engine_Effect_PBR.png)
 
 Scene-DEMO
 -------
-![Image text](https://github.com/LINKHA/Auto3D/blob/master/Bin/Data/figure/Engine_Effect_Mesh.png)
+![Image text](https://github.com/LINKHA/Auto3D/blob/master/Doc/figure/Engine_Effect_Mesh.png)
 
 Skybox-DEMO
 -------
-![Image text](https://github.com/LINKHA/Auto3D/blob/master/Bin/Data/figure/Engine_Effect_Skyboxs.png)
+![Image text](https://github.com/LINKHA/Auto3D/blob/master/Doc/Engine_Effect_Skyboxs.png)
 
 

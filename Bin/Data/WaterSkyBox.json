@@ -1,0 +1,19 @@
+{
+  "passes": {
+    "opaque": {
+      "vs": "SkyBox",
+      "ps": "SkyBox",
+      "depthFunc": "lessEqual",
+	  "blendMode": "replace",
+	  "cullMode": "front"
+    }
+  },
+  "texturesMap": {
+    "0": "Texture/SkyBox/WaterEnv/water_pos_x.tga",
+    "1": "Texture/SkyBox/WaterEnv/water_neg_x.tga",
+	"2": "Texture/SkyBox/WaterEnv/water_neg_y.tga",
+    "3": "Texture/SkyBox/WaterEnv/water_pos_y.tga",
+	"4": "Texture/SkyBox/WaterEnv/water_pos_z.tga",
+    "5": "Texture/SkyBox/WaterEnv/water_neg_z.tga"
+  }
+}

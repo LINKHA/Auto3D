@@ -36,7 +36,7 @@
     }
   },
   "textures": {
-    "0": "StoneDiffuse.dds",
-    "1": "StoneNormal.dds"
+    "0": "Material/StoneDiffuse.dds",
+    "1": "Material/StoneNormal.dds"
   }
 }

@@ -32,7 +32,7 @@ void FirstPersonSample::Start()
 			StaticModel* object = scene->CreateChild<StaticModel>();
 			object->SetPosition(Vector3F(10.5f * x, -0.1f, 10.5f * y));
 			object->SetScale(Vector3F(10.0f, 0.1f, 10.0f));
-			object->SetModel(cache->LoadResource<Model>("Box.mdl"));
+			object->SetModel(cache->LoadResource<Model>("Model/Box.mdl"));
 			object->SetMaterial(cache->LoadResource<Material>("Stone.json"));
 		}
 	}
@@ -42,7 +42,7 @@ void FirstPersonSample::Start()
 		StaticModel* object = scene->CreateChild<StaticModel>();
 		object->SetPosition(Vector3F(Random() * 100.0f - 50.0f, 0.0f, Random() * 100.0f - 50.0f));
 		object->SetScale(1.5f);
-		object->SetModel(cache->LoadResource<Model>("Mushroom.mdl"));
+		object->SetModel(cache->LoadResource<Model>("Model/Mushroom.mdl"));
 		object->SetMaterial(cache->LoadResource<Material>("Mushroom.json"));
 		object->SetCastShadows(true);
 		object->SetLodBias(2.0f);

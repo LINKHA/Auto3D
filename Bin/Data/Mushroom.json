@@ -36,6 +36,6 @@
     }
   },
   "textures": {
-    "0": "Mushroom.dds"
+    "0": "Material/Mushroom.dds"
   }
 }
