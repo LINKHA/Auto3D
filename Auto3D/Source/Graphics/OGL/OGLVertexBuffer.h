@@ -61,7 +61,7 @@ public:
 
 private:
     /// Create the GPU-side vertex buffer. Return true on success.
-    bool Create(const void* _data);
+    bool Create(const void* data);
 
     /// OpenGL buffer object identifier.
     unsigned _buffer;
