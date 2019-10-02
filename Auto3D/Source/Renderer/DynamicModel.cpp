@@ -28,5 +28,11 @@ void DynamicModel::RegisterObject()
 	RegisterFactory<DynamicModel>();
 }
 
+void DynamicModel::OnPrepareRender(unsigned frameNumber, Camera* camera)
+{
+	_lastFrameNumber = frameNumber;
+	_lightList = nullptr;
+	_distance = camera->Distance(GetWorldPosition());
+}
 
 }
