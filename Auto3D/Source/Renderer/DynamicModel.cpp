@@ -19,6 +19,14 @@ static const int WATER_PLANE_LENGTH = 128;
 
 static Vector3F DOT_SCALE(1 / 3.0f, 1 / 3.0f, 1 / 3.0f);
 
+unsigned int initWaterTexture()
+{
+	float projectionMatrixWaterTexture[16];
+	float modelViewMatrixWaterTexture[16];
+
+	return 0;
+}
+
 DynamicModel::DynamicModel()
 {
 }
@@ -37,6 +45,9 @@ void DynamicModel::OnPrepareRender(unsigned frameNumber, Camera* camera)
 	_lastFrameNumber = frameNumber;
 	_lightList = nullptr;
 	_distance = camera->Distance(GetWorldPosition());
+
+	//Draw water texture
+
 }
 
 void DynamicModel::SetWaterData()
@@ -99,10 +110,10 @@ void DynamicModel::SetWaterData()
 
 	SharedPtr<Geometry> geometry(new Geometry());
 	// Temp use this setting
-	geometry->_lodDistance = 0.0f;
+	geometry->_lodDistance = false;
 	geometry->_primitiveType = PrimitiveType::TRIANGLE_LIST;
 	geometry->_drawStart = 0;
-	geometry->_drawCount = 0;
+	geometry->_drawCount = WATER_PLANE_LENGTH * WATER_PLANE_LENGTH;
 
 	geometry->_vertexBuffer = vertexBuffer;
 	geometry->_indexBuffer = indexBuffer;
