@@ -113,7 +113,7 @@ static const unsigned glDataTypes[] =
     GL_FLOAT,
     GL_FLOAT,
     GL_FLOAT,
-    GL_UNSIGNED_SHORT,
+	GL_UNSIGNED_SHORT,
     GL_UNSIGNED_INT,
     GL_UNSIGNED_INT_24_8,
     0,

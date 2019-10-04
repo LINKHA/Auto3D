@@ -152,7 +152,7 @@ protected:
     /// Global shader defines.
     String _shaderDefines[ShaderStage::Count];
     /// JSON data used for loading.
-    AutoPtr<JSONFile> _loadJSON;
+    UniquePtr<JSONFile> _loadJSON;
 
     /// Default material.
     static SharedPtr<Material> _defaultMaterial;

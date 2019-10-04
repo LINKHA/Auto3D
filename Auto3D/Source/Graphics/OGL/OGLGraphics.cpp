@@ -245,6 +245,16 @@ bool Graphics::SetMode(WindowModeDesc& windowModeDesc)
 
 bool Graphics::SetMode(const RectI& size, int multisample, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
 {
+	WindowModeDesc& windowModeDesc = _window->ModeDesc();
+	windowModeDesc._size = size;
+	windowModeDesc._multisample = multisample;
+	windowModeDesc._fullscreen = fullscreen;
+	windowModeDesc._resizable = resizable;
+	windowModeDesc._center = center;
+	windowModeDesc._borderless = borderless;
+	windowModeDesc._highDPI = highDPI;
+
+
 	// Ensure that MSAA between 1~16
 	Clamp(multisample, 1, 16);
 	// Changing multisample requires destroying the _window, as OpenGL pixel format can only be set once
