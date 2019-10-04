@@ -1,5 +1,15 @@
 void Sample::Init()
 {
+	auto* graphics = Object::Module<Graphics>();
+	// Set window mode
+	WindowModeDesc& windowModeDesc = graphics->RenderWindow()->ModeDesc();
+	windowModeDesc._size = RectI(0, 0, 1024, 768);
+	windowModeDesc._multisample = 4;
+	windowModeDesc._fullscreen = false;
+	windowModeDesc._resizable = true;
+	windowModeDesc._center = true;
+	windowModeDesc._borderless = false;
+	windowModeDesc._highDPI = false;
 }
 void Sample::Start()
 {

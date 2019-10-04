@@ -85,11 +85,13 @@ bool Engine::Init()
 		((unsigned)(realTime._minute & 0xff) << 8) |
 		((unsigned)(realTime._second & 0xff)));
 
-	if (!_graphics->SetMode(RectI(0, 0, 1024, 768), 4, false, true))
+	WindowModeDesc& windowModeDesc = _graphics->RenderWindow()->ModeDesc();
+	if (!_graphics->SetMode(windowModeDesc))
 	{
 		ErrorString("Failed to create a gutter.");
 		return false;
 	}
+
 	// Set default Logo
 	_graphics->RenderWindow()->SetIcon(_cache->LoadResource<Image>("Texture/NewLogo.png"));
 

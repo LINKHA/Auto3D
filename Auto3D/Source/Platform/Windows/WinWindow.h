@@ -8,6 +8,34 @@ namespace Auto3D
 
 class Image;
 
+struct AUTO_API WindowModeDesc
+{
+	WindowModeDesc():
+		_size(RectI(0,0,1024, 768)),
+		_multisample(1),
+		_fullscreen(false),
+		_resizable(false),
+		_center(true),
+		_borderless(false),
+		_highDPI(false)
+	{
+	}
+	/// Window position and size.
+	RectI _size;
+	/// Multis sample num point;
+	int _multisample;
+	/// Window is full screen.
+	bool _fullscreen;
+	/// Window is resizable.
+	bool _resizable;
+	/// Window is center in screen.
+	bool _center;
+	/// Window is borderless.
+	bool _borderless;
+	/// Window is highDPI.
+	bool _highDPI;
+
+};
 /// Window resized event.
 class AUTO_API WindowResizeEvent : public Event
 {
@@ -97,9 +125,10 @@ public:
 	bool IsMouseHide() const { return _mouseHide; }
 	/// Return _window _handle. Can be cast to a HWND.
 	void* Handle() const { return _handle; }
-	/// Handle a _window message. Return true if handled and should not be passed to the default _window procedure.
+	/// Handle a window message. Return true if handled and should not be passed to the default _window procedure.
 	bool OnWindowMessage(unsigned msg, unsigned wParam, unsigned lParam);
-
+	/// Return window mode desc.
+	WindowModeDesc& ModeDesc() { return _windowModeDesc; }
 	/// Close requested event.
 	Event _closeRequestEvent;
 	/// Gained focus event.
@@ -172,6 +201,8 @@ private:
 	bool _mouseVisible;
 	/// Internal mouse visible flag. The mouse is automatically shown when the _window is unfocused, while mouseVisible represents the application's desired state. Used to prevent multiple calls to OS mouse visibility functions, which utilize a counter.
 	bool _mouseVisibleInternal;
+	/// Store the window mode information, and then create the mode.
+	WindowModeDesc _windowModeDesc;
 };
 
 }

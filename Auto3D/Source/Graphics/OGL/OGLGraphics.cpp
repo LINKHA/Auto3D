@@ -237,6 +237,12 @@ void Graphics::CheckFeatureSupport()
 	if (numSupportedRTs >= 4)
 		_deferredSupport = true;
 }
+
+bool Graphics::SetMode(WindowModeDesc& windowModeDesc)
+{
+	return SetMode(windowModeDesc._size, windowModeDesc._multisample, windowModeDesc._fullscreen, windowModeDesc._resizable, windowModeDesc._center, windowModeDesc._borderless, windowModeDesc._highDPI);
+}
+
 bool Graphics::SetMode(const RectI& size, int multisample, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
 {
 	// Ensure that MSAA between 1~16

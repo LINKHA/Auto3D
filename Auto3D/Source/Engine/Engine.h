@@ -4,8 +4,8 @@
 
 namespace Auto3D
 {
-class ModuleManager;
 
+class ModuleManager;
 class ResourceCache;
 class Graphics;
 class Renderer;
