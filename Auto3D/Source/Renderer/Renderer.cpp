@@ -91,6 +91,8 @@ void Renderer::Render(Scene* scene, Camera* camera)
 	PrepareView(scene, camera, passes);
 
 	RenderShadowMaps();
+	RenderWaterTexture();
+
 	_graphics->ResetRenderTargets();
 	_graphics->ResetViewport();
 	_graphics->Clear(CLEAR_COLOR | CLEAR_DEPTH | CLEAR_STENCIL, Color::BLACK);
@@ -113,6 +115,23 @@ void Renderer::SetupShadowMaps(size_t num, int size, ImageFormat::Type format)
             it->_texture->DefineSampler(TextureFilterMode::COMPARE_BILINEAR, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, 1);
         }
     }
+}
+
+void Renderer::SetupWaterTextures(size_t num, int size, ImageFormat::Type format)
+{
+	if (size < 1)
+		size = 1;
+	size = NextPowerOfTwo(size);
+
+	_waterTexture.Resize(num);
+	for (auto it = _waterTexture.Begin(); it != _waterTexture.End(); ++it)
+	{
+		if (it->_texture->Define(TextureType::TEX_2D, ResourceUsage::RENDERTARGET, Vector2I(size, size), format, 1))
+		{
+			// Setup shadow map sampling with hardware depth compare
+			it->_texture->DefineSampler(TextureFilterMode::COMPARE_BILINEAR, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, 1);
+		}
+	}
 }
 
 bool Renderer::PrepareView(Scene* scene, Camera* camera, const Vector<RenderPassDesc>& passes)
@@ -571,6 +590,21 @@ void Renderer::RenderShadowMaps()
             RenderBatches(view->_shadowQueue._batches, &view->_shadowCamera, true, true, light->GetDepthBias(), light->GetSlopeScaledDepthBias());
         }
     }
+}
+
+void Renderer::RenderWaterTexture()
+{
+	PROFILE(RenderWaterTexture);
+
+	_graphics->ResetTextures();
+
+	for (auto it = _waterTexture.Begin(); it != _waterTexture.End(); ++it)
+	{
+		if (!it->_used)
+			continue;
+
+
+	}
 }
 
 void Renderer::RenderBatches(const Vector<RenderPassDesc>& passes)

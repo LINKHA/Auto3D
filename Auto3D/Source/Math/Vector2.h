@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Math.h"
+#include "MathDef.h"
 #include "../AutoConfig.h"
 
 #include "../Container/String.h"

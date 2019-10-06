@@ -1,6 +1,6 @@
 #include "../../Container/WString.h"
 #include "../../Debug/Log.h"
-#include "../../Math/Math.h"
+#include "../../Math/MathDef.h"
 #include "../../Resource/Image.h"
 #include "../../Graphics/Graphics.h"
 #include "../../UI/UI.h"

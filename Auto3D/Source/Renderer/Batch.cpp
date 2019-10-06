@@ -28,7 +28,8 @@ void RenderQueue::Clear()
     _additiveBatches.Clear();
 }
 
-void RenderQueue::Sort(Vector<Matrix3x4F>& instanceTransforms)
+void RenderQueue::Sort(Vector
+	<Matrix3x4F>& instanceTransforms)
 {
     switch (_sort)
     {
@@ -89,6 +90,11 @@ void RenderQueue::BuildInstances(Vector<Batch>& batches, Vector<Matrix3x4F>& ins
     }
 }
 
+void ShadowView::Clear()
+{
+	_shadowQueue.Clear();
+}
+
 ShadowMap::ShadowMap()
 {
     // Construct texture but do not define its _size yet
@@ -106,9 +112,14 @@ void ShadowMap::Clear()
     _used = false;
 }
 
-void ShadowView::Clear()
+WaterTexture::WaterTexture()
 {
-    _shadowQueue.Clear();
+	// Construct texture but do not define its size yet
+	_texture = new Texture();
+}
+
+WaterTexture::~WaterTexture()
+{
 }
 
 }

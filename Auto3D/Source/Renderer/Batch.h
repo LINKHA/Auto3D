@@ -159,4 +159,19 @@ struct AUTO_API ShadowMap
     bool _used;
 };
 
+/// Water texture data structure.
+struct AUTO_API WaterTexture
+{
+	/// Default-construct.
+	WaterTexture();
+	/// Destruct.
+	~WaterTexture();
+	/// Rectangle allocator.
+	AreaAllocator _allocator;
+	/// Shadow map texture.
+	SharedPtr<Texture> _texture;
+	/// Use flag. When false, clearing the shadow map and rendering the views can be skipped.
+	bool _used;
+};
+
 }

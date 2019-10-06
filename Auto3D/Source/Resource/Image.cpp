@@ -1,7 +1,7 @@
 #include "../Debug/Log.h"
 #include "../Debug/Profiler.h"
 #include "../IO/Stream.h"
-#include "../Math/Math.h"
+#include "../Math/MathDef.h"
 #include "Decompress.h"
 
 #include <cstdlib>

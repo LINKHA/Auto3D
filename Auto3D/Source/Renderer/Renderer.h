@@ -65,9 +65,11 @@ public:
     ~Renderer();
 	/// Render scene
 	void Render(Scene* scene, Camera* camera);
-    /// Set number, _size and format of shadow maps. These will be divided among the lights that need to render shadow maps.
-    void SetupShadowMaps(size_t num, int _size, ImageFormat::Type _format);
-    /// Prepare a view for rendering. Convenience function that calls CollectObjects(), CollectLightInteractions() and CollectBatches() in one go. Return true on success.
+    /// Set number, size and format of shadow maps. These will be divided among the lights that need to render shadow maps.
+    void SetupShadowMaps(size_t num, int size, ImageFormat::Type format);
+	/// Set number, _size and format of water texture.
+	void SetupWaterTextures(size_t num, int size, ImageFormat::Type format);
+	/// Prepare a view for rendering. Convenience function that calls CollectObjects(), CollectLightInteractions() and CollectBatches() in one go. Return true on success.
     bool PrepareView(Scene* scene, Camera* camera, const Vector<RenderPassDesc>& passes);
     /// Initialize rendering of a new view and collect visible objects from the camera's point of view. Return true on success (scene, camera and octree are non-null.)
     bool CollectObjects(Scene* scene, Camera* camera);
@@ -79,6 +81,8 @@ public:
     void CollectBatches(const RenderPassDesc& pass);
     /// Render shadow maps. Should be called after all CollectBatches() calls but before RenderBatches(). Note that you must reassign your rendertarget and viewport after calling this.
     void RenderShadowMaps();
+	/// Render water texutre.
+	void RenderWaterTexture();
     /// Render several passes to the currently set rendertarget and viewport. Avoids setting the per-frame constants multiple times.
     void RenderBatches(const Vector<RenderPassDesc>& passes);
     /// Render a pass to the currently set rendertarget and viewport. Convenience function for one pass only.
@@ -144,6 +148,8 @@ private:
     unsigned _frameNumber;
     /// Instance vertex buffer dirty flag.
     bool _instanceTransformsDirty;
+	/// Water texture.
+	Vector<WaterTexture> _waterTexture;
     /// Shadow maps.
     Vector<ShadowMap> _shadowMaps;
     /// Shadow views.

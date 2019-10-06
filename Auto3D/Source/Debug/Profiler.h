@@ -2,7 +2,7 @@
 
 #include "../Container/AutoPtr.h"
 #include "../Container/String.h"
-#include "../Math/Math.h"
+#include "../Math/MathDef.h"
 #include "../Base/GameManager.h"
 #include "../Time/Time.h"
 #include "../Engine/ModuleManager.h"

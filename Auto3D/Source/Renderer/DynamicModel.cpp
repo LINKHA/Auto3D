@@ -4,9 +4,10 @@
 #include "../Resource/ResourceCache.h"
 #include "../Graphics/VertexBuffer.h"
 #include "../Graphics/IndexBuffer.h"
+#include "../Resource/Image.h"
+#include "../Renderer/Renderer.h"
+
 #include "Camera.h"
-#include "Material.h"
-#include "Model.h"
 #include "DynamicModel.h"
 
 #include "../Engine/ModuleManager.h"
@@ -29,6 +30,7 @@ unsigned int initWaterTexture()
 
 DynamicModel::DynamicModel()
 {
+	ModuleManager::Get().RendererModule()->SetupWaterTextures(1, 1024, ImageFormat::RGB32F);
 }
 
 DynamicModel::~DynamicModel()

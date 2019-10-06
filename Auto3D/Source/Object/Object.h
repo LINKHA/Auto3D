@@ -2,7 +2,7 @@
 
 #include "../Container/StringHash.h"
 #include "Event.h"
-#include "../Math/KhMath.h"
+#include "../Math/AutoMath.h"
 
 namespace Auto3D
 {

@@ -1,4 +1,4 @@
-#include "../Math/Math.h"
+#include "../Math/MathDef.h"
 #include "Stream.h"
 #include "JSONValue.h"
 #include "ObjectRef.h"
