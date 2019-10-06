@@ -122,4 +122,17 @@ WaterTexture::~WaterTexture()
 {
 }
 
+void WaterTextureView::Clear()
+{
+	_waterTextureQueue.Clear();
+}
+
+void WaterTexture::Clear()
+{
+	_allocator.Reset(_texture->GetWidth(), _texture->GetHeight(), 0, 0, false);
+	_waterTextureView.Clear();
+	_used = false;
+}
+
+
 }

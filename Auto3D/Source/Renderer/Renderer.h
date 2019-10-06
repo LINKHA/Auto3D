@@ -79,7 +79,9 @@ public:
     void CollectBatches(const Vector<RenderPassDesc>& passes);
     /// Collect and sort batches from the visible objects. Convenience function for one pass only.
     void CollectBatches(const RenderPassDesc& pass);
-    /// Render shadow maps. Should be called after all CollectBatches() calls but before RenderBatches(). Note that you must reassign your rendertarget and viewport after calling this.
+	/// Build water pass.
+	void BuildWaterPass();
+	/// Render shadow maps. Should be called after all CollectBatches() calls but before RenderBatches(). Note that you must reassign your rendertarget and viewport after calling this.
     void RenderShadowMaps();
 	/// Render water texutre.
 	void RenderWaterTextures();

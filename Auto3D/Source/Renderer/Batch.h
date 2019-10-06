@@ -159,6 +159,18 @@ struct AUTO_API ShadowMap
     bool _used;
 };
 
+/// Water texture rendering view data structure.
+struct AUTO_API WaterTextureView
+{
+	/// Clear existing shadow casters and batch queue.
+	void Clear();
+
+	/// Viewport within the shadow map.
+	RectI _viewport;
+	/// Water texture batch queue.
+	RenderQueue _waterTextureQueue;
+};
+
 /// Water texture data structure.
 struct AUTO_API WaterTexture
 {
@@ -166,10 +178,16 @@ struct AUTO_API WaterTexture
 	WaterTexture();
 	/// Destruct.
 	~WaterTexture();
+
+	/// Clear allocator and use flag.
+	void Clear();
+
 	/// Rectangle allocator.
 	AreaAllocator _allocator;
 	/// Shadow map texture.
 	SharedPtr<Texture> _texture;
+	/// Water texture view this use water texture.
+	Vector<WaterTextureView*> _waterTextureView;
 	/// Use flag. When false, clearing the shadow map and rendering the views can be skipped.
 	bool _used;
 };

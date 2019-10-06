@@ -234,7 +234,9 @@ bool Renderer::PrepareView(Scene* scene, Camera* camera, const Vector<RenderPass
 
     if (!CollectObjects(scene, camera))
         return false;
-    
+
+	BuildWaterPass();
+
     CollectLightInteractions();
     CollectBatches(passes);
     return true;
@@ -660,6 +662,23 @@ void Renderer::CollectBatches(const RenderPassDesc& pass)
     CollectBatches(passDescs);
 }
 
+void Renderer::BuildWaterPass()
+{
+	PROFILE(BuildWaterPass);
+	// Try to allocate shadow map rectangle. Retry with smaller _size two times if fails
+	size_t retries = 3;
+	size_t index = 0;
+
+	while (retries)
+	{
+		for (index = 0; index < _shadowMaps.Size(); ++index)
+		{
+			WaterTexture& waterTexture = _waterTexture[index];
+
+		}
+	}
+}
+
 void Renderer::RenderShadowMaps()
 {
     PROFILE(RenderShadowMaps);
@@ -1018,7 +1037,7 @@ void Renderer::CollectShadowBatches(const Vector<GeometryNode*>& nodes, RenderQu
 }
 
 void Renderer::RenderBatches(const Vector<Batch>& batches, Camera* camera, bool setPerFrameConstants, bool overrideDepthBias,
-    int depthBias, float slopeScaledDepthBias)
+	int depthBias, float slopeScaledDepthBias)
 {
     if (_faceSelectionTexture1->IsDataLost() || _faceSelectionTexture2->IsDataLost())
         DefineFaceSelectionTextures();
