@@ -151,7 +151,13 @@ public:
 		glDeleteFramebuffers(1, &buffer);
 	}
 
-	/// OpenGL FBO _handle.
+	/// Create render buffer.
+	void CreateRenderBuffer()
+	{
+
+	}
+
+	/// OpenGL FBO handle.
 	unsigned buffer;
 	/// Color rendertargets bound to this FBO.
 	Texture* renderTargets[MAX_RENDERTARGETS];
@@ -163,25 +169,6 @@ public:
 	bool firstUse;
 };
 
-/// OpenGL renderbuffer.
-class Renderbuffer
-{
-public:
-	/// Construct.
-	Renderbuffer()
-	{
-		glGenFramebuffers(1, &buffer);
-	}
-
-	/// Destruct.
-	~Renderbuffer()
-	{
-		glDeleteFramebuffers(1, &buffer);
-	}
-
-	/// OpenGL FBO _handle.
-	unsigned buffer;
-};
 
 Graphics::Graphics() :
 	_backbufferSize(Vector2I::ZERO),
