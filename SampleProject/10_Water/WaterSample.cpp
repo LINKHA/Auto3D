@@ -26,7 +26,7 @@ void WaterSample::Start()
 	skybox->SetMaterial(cache->LoadResource<Material>("WaterSkyBox.json"));
 
 	DynamicModel* water = scene->CreateChild<DynamicModel>();
-	water->SetWaterData();
+	//water->SetWaterData();
 
 }
 

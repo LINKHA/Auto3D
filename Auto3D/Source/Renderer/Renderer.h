@@ -152,6 +152,8 @@ private:
     bool _instanceTransformsDirty;
 	/// Water texture.
 	Vector<WaterTexture> _waterTexture;
+	/// Water texture views.
+	Vector<AutoPtr<WaterTextureView> > _waterTextureViews;
     /// Shadow maps.
     Vector<ShadowMap> _shadowMaps;
     /// Shadow views.

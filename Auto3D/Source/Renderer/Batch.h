@@ -169,6 +169,8 @@ struct AUTO_API WaterTextureView
 	RectI _viewport;
 	/// Water texture batch queue.
 	RenderQueue _waterTextureQueue;
+	/// Water camera.
+	Camera _waterCamera;
 };
 
 /// Water texture data structure.

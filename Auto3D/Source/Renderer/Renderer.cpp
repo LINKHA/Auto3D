@@ -669,11 +669,16 @@ void Renderer::BuildWaterPass()
 	size_t retries = 3;
 	size_t index = 0;
 
-	while (retries)
+	while (retries--)
 	{
-		for (index = 0; index < _shadowMaps.Size(); ++index)
+		for (index = 0; index < _waterTexture.Size(); ++index)
 		{
 			WaterTexture& waterTexture = _waterTexture[index];
+
+			AutoPtr<WaterTextureView> waterTextureView(new WaterTextureView());
+
+			waterTextureView->Clear();
+
 
 		}
 	}
