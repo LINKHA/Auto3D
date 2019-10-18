@@ -1,9 +1,9 @@
 #pragma once
 #include "../Base/GameManager.h"
-
 namespace Auto3D {
 
 class PhysicsWorld;
+class PhysicsWorld2D;
 
 /// Physics sub system 
 class AUTO_API Physics : public BaseModule
@@ -17,16 +17,27 @@ public:
 	/// Update active physics world.
 	void Update();
 	/// Add physics world.
-	void AddPhysicsWorld(PhysicsWorld* activeWorlds);
+	void AddPhysicsWorld(PhysicsWorld* physicsWorld);
 	/// Remove physics world.
-	void RemovePhysicsWorld(PhysicsWorld* activeWorlds);
+	void RemovePhysicsWorld(PhysicsWorld* physicsWorld);
 	/// Set active physics world. 
-	void SetActivePhysicsWrold(PhysicsWorld* activeWorlds);
+	void SetActivePhysicsWrold(PhysicsWorld* physicsWorld);
+	/// Add physics world.
+	void AddPhysicsWorld2D(PhysicsWorld2D* physicsWorld2d);
+	/// Remove physics world.
+	void RemovePhysicsWorld2D(PhysicsWorld2D* physicsWorld2d);
+	/// Set active physics world. 
+	void SetActivePhysicsWrold2D(PhysicsWorld2D* physicsWorld2d);
 private:
 	/// All scene physics world.
 	Vector<PhysicsWorld*> _physicsWorlds;
 	/// Active physics world.
-	PhysicsWorld* _activeWorlds;
+	PhysicsWorld* _activeWorld;
+	/// All scene2d physics world.
+	Vector<PhysicsWorld2D*> _physicsWorld2ds;
+	/// Active 2D physics world.
+	PhysicsWorld2D* _activeWorld2d;
+
 };
 
 /// Register physics related object factories and attributes.

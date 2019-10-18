@@ -7,11 +7,14 @@
 #include "ColliderCapsule.h"
 #include "ColliderCone.h"
 
+#include "../Auto2D/PhysicsWorld2D.h"
+
 namespace Auto3D
 {
 
 Physics::Physics():
-	_activeWorlds(nullptr)
+	_activeWorld(nullptr),
+	_activeWorld2d(nullptr)
 {
 	RegisterModule(this);
 }
@@ -23,26 +26,64 @@ Physics::~Physics()
 
 void Physics::Update()
 {
-	if (_activeWorlds)
-		_activeWorlds->Update();
+	if (_activeWorld)
+		_activeWorld->Update();
 }
 
-void Physics::AddPhysicsWorld(PhysicsWorld* activeWorlds)
+void Physics::AddPhysicsWorld(PhysicsWorld* physicsWorld)
 {
-	if(activeWorlds)
-		_physicsWorlds.Push(activeWorlds);
+	if (!physicsWorld)
+		return;
+
+	_physicsWorlds.Push(physicsWorld);
+	SetActivePhysicsWrold(physicsWorld);
 }
 
-void Physics::RemovePhysicsWorld(PhysicsWorld* activeWorlds)
+void Physics::RemovePhysicsWorld(PhysicsWorld* physicsWorld)
 {
-	if (activeWorlds)
-		_physicsWorlds.Remove(activeWorlds);
+	if (!physicsWorld)
+		return;
+
+	if (_activeWorld && _activeWorld == physicsWorld)
+	{
+		_activeWorld = _physicsWorlds[_physicsWorlds.Size() - 2];
+	}
+
+	_physicsWorlds.Remove(physicsWorld);
 }
 
-void Physics::SetActivePhysicsWrold(PhysicsWorld* activeWorlds)
+void Physics::SetActivePhysicsWrold(PhysicsWorld* physicsWorld)
 {
-	if (_activeWorlds != activeWorlds)
-		_activeWorlds = activeWorlds;
+	if (_activeWorld != physicsWorld)
+		_activeWorld = physicsWorld;
+}
+
+void Physics::AddPhysicsWorld2D(PhysicsWorld2D* physicsWorld2d)
+{
+	if (!physicsWorld2d)
+		return;
+
+	_physicsWorld2ds.Push(physicsWorld2d);
+	SetActivePhysicsWrold2D(physicsWorld2d);
+}
+
+void Physics::RemovePhysicsWorld2D(PhysicsWorld2D* physicsWorld2d)
+{
+	if (!physicsWorld2d)
+		return;
+
+	if (_activeWorld2d && _activeWorld2d == physicsWorld2d)
+	{
+		_activeWorld2d = _physicsWorld2ds[_physicsWorld2ds.Size() - 2];
+	}
+
+	_physicsWorld2ds.Remove(physicsWorld2d);
+}
+
+void Physics::SetActivePhysicsWrold2D(PhysicsWorld2D* physicsWorld2d)
+{
+	if (_activeWorld2d != physicsWorld2d)
+		_activeWorld2d = physicsWorld2d;
 }
 
 AUTO_API void RegisterPhysicsLibrary()

@@ -5,14 +5,15 @@
 #include "../Physics/Physics.h"
 #include "../Engine/ModuleManager.h"
 
-namespace Auto3D 
-{
+namespace Auto3D {
 
 const char* PHYSICS_CATEGORY = "Physics";
 extern const char* SUBSYSTEM_CATEGORY;
 
 static const int MAX_SOLVER_ITERATIONS = 256;
 static const Vector3F DEFAULT_GRAVITY = Vector3F(0.0f, -9.81f, 0.0f);
+static const int DEFAULT_FPS = 60;
+static const float DEFAULT_MAX_NETWORK_ANGULAR_VELOCITY = 100.0f;
 
 PhysicsWorldConfig PhysicsWorld::config;
 

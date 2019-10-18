@@ -19,9 +19,6 @@ struct PhysicsWorldConfig
 	btCollisionConfiguration* collisionConfig;
 };
 
-static const int DEFAULT_FPS = 60;
-static const float DEFAULT_MAX_NETWORK_ANGULAR_VELOCITY = 100.0f;
-
 class PhysicsWorld : public Node//, public btIDebugDraw
 {
 	REGISTER_OBJECT_CLASS(PhysicsWorld, Node)
@@ -33,7 +30,7 @@ public:
 	/// Register factory and attributes.
 	static void RegisterObject();
 
-	/// Physics wrold update step simulation.
+	/// Physics world update step simulation.
 	void Update();
 	/// Set fps
 	void SetFPS(int fps);
@@ -54,13 +51,13 @@ private:
 	/// Delete collision shapes
 	void ClearColliders();
 	/// FPS
-	unsigned _fps{ DEFAULT_FPS };
+	unsigned _fps;
 	/// Maximum number of simulation substeps per frame. 0 (default) unlimited, or negative values for adaptive timestep.
 	int _maxSubSteps;
-	/// Time system
+	/// Time system.
 	WeakPtr<Time> _time;
 	/// Bullet collision configuration
-	UniquePtr<btCollisionConfiguration> _collisionConfiguration{};
+	UniquePtr<btCollisionConfiguration> _collisionConfiguration;
 	/// Bullet collision dispatcher
 	UniquePtr<btDispatcher> _collisionDispatcher;
 	/// Bullet collision broadphase
