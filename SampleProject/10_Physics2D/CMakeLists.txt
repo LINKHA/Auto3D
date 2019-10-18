@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1)
 
-set (TARGET_NAME 10_Water)
+set (TARGET_NAME 10_Physics2D)
 
 file (GLOB SOURCE_FILES *.cpp *.h)
 
