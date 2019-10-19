@@ -36,7 +36,7 @@ void Physics::AddPhysicsWorld(PhysicsWorld* physicsWorld)
 		return;
 
 	_physicsWorlds.Push(physicsWorld);
-	SetActivePhysicsWrold(physicsWorld);
+	SetActivePhysicsWorld(physicsWorld);
 }
 
 void Physics::RemovePhysicsWorld(PhysicsWorld* physicsWorld)
@@ -52,7 +52,7 @@ void Physics::RemovePhysicsWorld(PhysicsWorld* physicsWorld)
 	_physicsWorlds.Remove(physicsWorld);
 }
 
-void Physics::SetActivePhysicsWrold(PhysicsWorld* physicsWorld)
+void Physics::SetActivePhysicsWorld(PhysicsWorld* physicsWorld)
 {
 	if (_activeWorld != physicsWorld)
 		_activeWorld = physicsWorld;

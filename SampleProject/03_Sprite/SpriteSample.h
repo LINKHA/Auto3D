@@ -12,10 +12,7 @@ public:
 	void Start()override;
 	void Update()override;
 	void Stop()override;
-	void HandleCloseRequest(Event& /* event */)
-	{
-		Module<Graphics>()->Close();
-	}
+
 	const int flowerNum = 200;
 	struct FlowerMSG
 	{

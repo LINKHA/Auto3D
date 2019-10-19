@@ -21,13 +21,18 @@ public:
 	/// Remove physics world.
 	void RemovePhysicsWorld(PhysicsWorld* physicsWorld);
 	/// Set active physics world. 
-	void SetActivePhysicsWrold(PhysicsWorld* physicsWorld);
+	void SetActivePhysicsWorld(PhysicsWorld* physicsWorld);
+	/// Get active physics world.
+	PhysicsWorld* GetActivePhysicsWorld()const { return _activeWorld; }
 	/// Add physics world.
 	void AddPhysicsWorld2D(PhysicsWorld2D* physicsWorld2d);
 	/// Remove physics world.
 	void RemovePhysicsWorld2D(PhysicsWorld2D* physicsWorld2d);
 	/// Set active physics world. 
 	void SetActivePhysicsWrold2D(PhysicsWorld2D* physicsWorld2d);
+	/// Get active 2d physics world.
+	PhysicsWorld2D* GetActivePhysicsWorld2D()const { return _activeWorld2d; }
+
 private:
 	/// All scene physics world.
 	Vector<PhysicsWorld*> _physicsWorlds;

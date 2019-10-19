@@ -59,7 +59,6 @@ protected:
 	/// Physics world form this collider
 	SharedPtr<PhysicsWorld> _physicsWorld;
 	/// Rigidbody form this collider
-	//SharedPtr<tRigidBody> _rigidBody;
 	WeakPtr<RigidBody> _rigidBody;
 	/// Cached world scale.
 	Vector3F _cachedWorldScale;

@@ -40,14 +40,14 @@ PhysicsWorld::PhysicsWorld():
 	// Register to the physics subsystem
 	auto physics = ModuleManager::Get().PhysicsModule();
 	physics->AddPhysicsWorld(this);
-	physics->SetActivePhysicsWrold(this);
+	physics->SetActivePhysicsWorld(this);
 }
 
 PhysicsWorld::~PhysicsWorld()
 {
 	auto physics = ModuleManager::Get().PhysicsModule();
 	physics->RemovePhysicsWorld(this);
-	physics->SetActivePhysicsWrold(nullptr);
+	physics->SetActivePhysicsWorld(nullptr);
 
 	_world.Reset();
 	_solver.Reset();

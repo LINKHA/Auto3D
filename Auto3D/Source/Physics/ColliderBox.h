@@ -4,7 +4,7 @@
 namespace Auto3D 
 {
 
-class ColliderBox : public Collider
+class AUTO_API ColliderBox : public Collider
 {
 	REGISTER_OBJECT_CLASS(ColliderBox, Collider)
 public:

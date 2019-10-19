@@ -10,7 +10,7 @@ namespace Auto3D
 {
 class PhysicsWorld;
 
-class RigidBody : public Node, public btMotionState
+class AUTO_API RigidBody : public Node, public btMotionState
 {
 	REGISTER_OBJECT_CLASS(RigidBody, Node)
 public:

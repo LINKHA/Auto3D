@@ -3,18 +3,19 @@
 void SpriteSample::Init()
 {
 	Super::Init();
+	auto* graphics = Object::Module<Graphics>();
+	graphics->RenderWindow()->SetTitle("Sprite Sample");
 }
 void SpriteSample::Start()
 {
 	Super::Start();
 	auto* cache = Object::Module<ResourceCache>();
-	auto flower = (cache->LoadResource<Texture>("Texture/flower.png"));
-	//SubscribeToEvent(Module<Graphics>()->RenderWindow()->closeRequestEvent, &SpriteSample::HandleCloseRequest);
+	auto flowerTexture = cache->LoadResource<Texture>("Texture/flower.png");
 
 	for (int i = 0; i < flowerNum; i++)
 	{
 		Sprite2D* flower = scene2d->CreateChild<Sprite2D>();
-		flower->SetTexture(cache->LoadResource<Texture>("Texture/flower.png"));
+		flower->SetTexture(flowerTexture);
 		flower->SetPosition(Vector3F(RandomSignedFloat()*10.0f, RandomSignedFloat()*10.0f, -0.1f));
 		flower->SetScale(Vector3F(1.0f, 1.0f, 1.0f));
 		sprites.Push(Pair<FlowerMSG, Sprite2D*>(FlowerMSG(Random() * 5, RandomSignedFloat()), flower));
