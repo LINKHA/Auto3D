@@ -8,6 +8,9 @@
 #include "ColliderCone.h"
 
 #include "../Auto2D/PhysicsWorld2D.h"
+#include "../Auto2D/RigidBody2D.h"
+#include "../Auto2D/Collider2D.h"
+#include "../Auto2D/ColliderBox2D.h"
 
 namespace Auto3D
 {
@@ -28,6 +31,9 @@ void Physics::Update()
 {
 	if (_activeWorld)
 		_activeWorld->Update();
+
+	if (_activeWorld2d)
+		_activeWorld2d->Update();
 }
 
 void Physics::AddPhysicsWorld(PhysicsWorld* physicsWorld)
@@ -46,7 +52,10 @@ void Physics::RemovePhysicsWorld(PhysicsWorld* physicsWorld)
 
 	if (_activeWorld && _activeWorld == physicsWorld)
 	{
-		_activeWorld = _physicsWorlds[_physicsWorlds.Size() - 2];
+		if (_physicsWorlds.Size() <= 1)
+			_activeWorld = nullptr;
+		else
+			_activeWorld = _physicsWorlds[_physicsWorlds.Size() - 2];
 	}
 
 	_physicsWorlds.Remove(physicsWorld);
@@ -74,8 +83,12 @@ void Physics::RemovePhysicsWorld2D(PhysicsWorld2D* physicsWorld2d)
 
 	if (_activeWorld2d && _activeWorld2d == physicsWorld2d)
 	{
-		_activeWorld2d = _physicsWorld2ds[_physicsWorld2ds.Size() - 2];
+		if(_physicsWorld2ds.Size() <= 1)
+			_activeWorld2d = nullptr;
+		else
+			_activeWorld2d = _physicsWorld2ds[_physicsWorld2ds.Size() - 2];
 	}
+		
 
 	_physicsWorld2ds.Remove(physicsWorld2d);
 }
@@ -100,6 +113,10 @@ AUTO_API void RegisterPhysicsLibrary()
 	ColliderSphere::RegisterObject();
 	ColliderCapsule::RegisterObject;
 	ColliderCone::RegisterObject;
+	PhysicsWorld2D::RegisterObject();
+	RigidBody2D::RegisterObject();
+	Collider2D::RegisterObject();
+	ColliderBox2D::RegisterObject();
 }
 
 }

@@ -47,7 +47,7 @@ private:
 	void RemoveBodyFromWorld();
 
 	/// Physics world form this rigidBody.
-	SharedPtr<PhysicsWorld> _physicsWorld;
+	WeakPtr<PhysicsWorld> _physicsWorld;
 	/// bullet rigid body (Automatically destructs when the physical world is eliminated).
 	btRigidBody* _body;
 	/// Bullet compound collision shape.

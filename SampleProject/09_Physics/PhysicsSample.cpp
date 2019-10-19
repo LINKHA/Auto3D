@@ -1,7 +1,5 @@
 #include "PhysicsSample.h"
 
-PhysicsWorld* physics;
-
 void PhysicsSample::Init()
 {
 	Super::Init();
@@ -20,7 +18,7 @@ void PhysicsSample::Start()
 
 	scene = new Scene();
 	scene->CreateChild<Octree>();
-	physics = scene->CreateChild<PhysicsWorld>();
+	scene->CreateChild<PhysicsWorld>();
 	camera = scene->CreateChild<Camera>();
 	camera->SetPosition(Vector3F(0.0f, 10.0f, -60.0f));
 

@@ -15,11 +15,15 @@ void Physics2DSample::Start()
 	auto* cache = Object::Module<ResourceCache>();
 	auto squareTexture = cache->LoadResource<Texture>("Texture/Square.png");
 	
+	scene2d->CreateChild<PhysicsWorld2D>();
+
 	Sprite2D* ground = scene2d->CreateChild<Sprite2D>();
 	ground->SetTexture(squareTexture);
 	ground->SetPosition(Vector2F(0.0f, -50.0f));
 	ground->SetScale(Vector3F(1.0f, 50.0f));
-	
+	ground->CreateChild()
+
+
 	Sprite2D* square = scene2d->CreateChild<Sprite2D>();
 	square->SetTexture(squareTexture);
 	square->SetPosition(Vector2F(0.0f, 0.0f));

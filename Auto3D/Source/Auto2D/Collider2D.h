@@ -1,5 +1,7 @@
 #pragma once
 #include "Node2D.h"
+#include <Box2D.h>
+
 namespace Auto3D{
 	
 class RigidBody2D;
