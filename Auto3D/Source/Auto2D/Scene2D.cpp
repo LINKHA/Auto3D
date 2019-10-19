@@ -6,6 +6,7 @@
 #include "../Resource/JSONFile.h"
 #include "../RegisteredBox/RegisteredBox.h"
 #include "../Engine/ModuleManager.h"
+#include "../Auto2D/PhysicsWorld2D.h"
 
 #include "Scene2D.h"
 
@@ -245,8 +246,20 @@ void Scene2D::RemoveNode(Node2D* node)
 	}
 }
 
+void Scene2D::SetPhysicsWorld(PhysicsWorld2D* physicsWorld)
+{
+	_physicsWorld = physicsWorld;
+}
 
-
+PhysicsWorld2D* Scene2D::GetPhysicsWorld()
+{
+	if (_physicsWorld)
+	{
+		return _physicsWorld;
+	}
+	WarningString("Physics world failed to read, may be not created");
+	return nullptr;
+}
 
 void Scene2D::SetLayerNamesAttr(JSONValue names)
 {

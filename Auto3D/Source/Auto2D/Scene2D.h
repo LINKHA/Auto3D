@@ -5,6 +5,7 @@ namespace Auto3D
 {
 
 class Camera2D;
+class PhysicsWorld2D;
 
 /// Location of all components of the Renderer2D
 class AUTO_API Scene2D : public Node2D
@@ -50,6 +51,11 @@ public:
 	void AddCamera(Camera2D* camera) { _cameras.Push(camera); }
 	/// Remove camera from the scene.
 	void RemoveCamera(Camera2D* camera) { _cameras.Remove(camera); }
+	/// Set 2D physics world.
+	void SetPhysicsWorld(PhysicsWorld2D* physicsWorld);
+	/// Get 2D physics world.
+	PhysicsWorld2D* GetPhysicsWorld();
+
 	using Node2D::Load;
 	using Node2D::LoadJSON;
 	using Node2D::SaveJSON;
@@ -69,6 +75,9 @@ private:
 	Vector<Camera2D*> _cameras;
 	/// Next free node _id.
 	unsigned _nextNodeId;
+
+	/// Physics world 2D custom assign this variable
+	PhysicsWorld2D* _physicsWorld;
 };
 
 

@@ -16,7 +16,10 @@ public:
 	~RigidBody2D();
 	/// Register object factory.
 	static void RegisterObject();
-
+	/// Get box2d body.
+	b2Body* GetBody() { return _body; }
+	/// This function is called when the parent node of this class is assigned.
+	virtual void ParentCallBack()override;
 private:
 	/// Create the rigid body, or re-add to the physics world with changed flags. Calls UpdateMass().
 	void AddBodyToWorld();

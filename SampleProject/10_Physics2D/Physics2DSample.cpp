@@ -17,11 +17,13 @@ void Physics2DSample::Start()
 	
 	scene2d->CreateChild<PhysicsWorld2D>();
 
-	Sprite2D* ground = scene2d->CreateChild<Sprite2D>();
-	ground->SetTexture(squareTexture);
-	ground->SetPosition(Vector2F(0.0f, -50.0f));
-	ground->SetScale(Vector3F(1.0f, 50.0f));
-	ground->CreateChild()
+	Sprite2D* plane = scene2d->CreateChild<Sprite2D>();
+	plane->SetTexture(squareTexture);
+	plane->SetPosition(Vector2F(0.0f, -50.0f));
+	plane->SetScale(Vector3F(1.0f, 50.0f));
+	plane->CreateChild<RigidBody2D>();
+	ColliderBox2D* planeColliderBox = plane->CreateChild<ColliderBox2D>();
+	planeColliderBox->SetSize(Vector2F(1.0f, 50.0f));
 
 
 	Sprite2D* square = scene2d->CreateChild<Sprite2D>();

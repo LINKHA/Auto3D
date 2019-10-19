@@ -243,6 +243,8 @@ Node2D* Node2D::CreateChild(StringHash childType)
 	}
 
 	AddChild(child);
+	child->ParentCallBack();
+
 	return child;
 }
 

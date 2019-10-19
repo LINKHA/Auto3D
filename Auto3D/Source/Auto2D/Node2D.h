@@ -179,6 +179,8 @@ public:
 	/// Return the tag name-to-index map.
 	const HashMap<String, unsigned char>& Tags() const { return _tags; }
 
+	/// This function is called when the parent node of this class is assigned.
+	virtual void ParentCallBack() { }
 	/// Skip the binary data of a node hierarchy, in case the node could not be created.
 	static void SkipHierarchy(Stream& source);
 

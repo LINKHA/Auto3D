@@ -13,6 +13,8 @@ public:
 	virtual ~ColliderBox2D();
 	/// Register object factory.
 	static void RegisterObject();
+
+	void SetSize(const Vector2F& size);
 private:
 	/// Box shape.
 	b2PolygonShape _boxShape;

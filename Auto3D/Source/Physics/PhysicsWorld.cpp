@@ -82,6 +82,11 @@ void PhysicsWorld::Update()
 
 }
 
+void PhysicsWorld::SetFPS(int fps)
+{
+	_fps = (unsigned)Clamp(fps, 1, 1000);
+}
+
 void PhysicsWorld::AddRigidBody(RigidBody* rigidbody)
 {
 	_rigidBody.Push(rigidbody);
@@ -92,10 +97,6 @@ void PhysicsWorld::RemoveRigidBody(RigidBody* rigidbody)
 	_rigidBody.Remove(rigidbody);
 }
 
-void PhysicsWorld::SetFPS(int fps)
-{
-	_fps = (unsigned)Clamp(fps, 1, 1000);
-}
 
 void PhysicsWorld::ClearColliders()
 {

@@ -50,4 +50,20 @@ void PhysicsWorld2D::SetFPS(int fps)
 	_fps = (unsigned)Clamp(fps, 1, 1000);
 }
 
+void PhysicsWorld2D::AddRigidBody(RigidBody2D* rigidbody)
+{
+	_rigidBody.Push(rigidbody);
+}
+
+void PhysicsWorld2D::RemoveRigidBody(RigidBody2D* rigidbody)
+{
+	_rigidBody.Remove(rigidbody);
+}
+
+void PhysicsWorld2D::ParentCallBack()
+{
+	// Get active scene to set physics world
+	ParentScene2D()->SetPhysicsWorld(this);
+}
+
 }
