@@ -26,14 +26,14 @@ void Physics2DSample::Start()
 	RigidBody2D* planeRigidBody = plane->CreateChild<RigidBody2D>();
 	planeRigidBody->SetBodyType(BodyType2D::STATIC);
 	ColliderBox2D* planeColliderBox = plane->CreateChild<ColliderBox2D>();
-	planeColliderBox->SetSize(Vector2F(50.0f, 1.0f));
+	planeColliderBox->SetSize(Vector2F(10.0f,1.0f));
 	body = planeRigidBody->GetBody();
 
 	for (int i = 0; i < 10; ++i)
 	{
 		Sprite2D* square = scene2d->CreateChild<Sprite2D>();
 		square->SetTexture(squareTexture);
-		square->SetPosition(Vector2F(0.0f+i/2, 25.0f + i));
+		square->SetPosition(Vector2F(0.0f+0.1*i, 25.0f + i));
 		square->SetScale(Vector3F(1.0f, 1.0f));
 		RigidBody2D* squareRigidBody = square->CreateChild<RigidBody2D>();
 		squareRigidBody->SetBodyType(BodyType2D::DYNAMIC);

@@ -98,16 +98,17 @@ void RigidBody2D::ApplyWorldTransform()
 	newWorldPosition._y = transform.p.y;
 	Quaternion newWorldRotation(transform.q.GetAngle() * M_RADTODEG, Vector3F::FORWARD);
 
-	ApplyWorldTransform(newWorldPosition);
+	ApplyWorldTransform(newWorldPosition, newWorldRotation);
 }
 
-void RigidBody2D::ApplyWorldTransform(const Vector3F& newWorldPosition)
+void RigidBody2D::ApplyWorldTransform(const Vector3F& newWorldPosition, const Quaternion& newWorldRotation)
 {
 	SpatialNode2D* node = dynamic_cast<SpatialNode2D*>(Parent());
 
-	if (newWorldPosition != node->GetPosition())
+	if (newWorldPosition != node->GetPosition() || newWorldRotation!= node->GetRotation())
 	{
 		node->SetWorldPosition(newWorldPosition);
+		node->SetWorldRotation(newWorldRotation);
 	}
 }
 

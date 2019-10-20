@@ -43,7 +43,7 @@ public:
 	/// Apply world transform from the Box2D body. Called by PhysicsWorld2D.
 	void ApplyWorldTransform();
 	/// Apply specified world position & rotation. Called by PhysicsWorld2D.
-	void ApplyWorldTransform(const Vector3F& newWorldPosition);
+	void ApplyWorldTransform(const Vector3F& newWorldPosition,const Quaternion& newWorldRotation);
 
 	/// This function is called when the parent node of this class is assigned.
 	virtual void ParentCallBack()override;
