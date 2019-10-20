@@ -152,11 +152,11 @@ public:
 	/// Find child nodes that match tag name.
 	void FindChildrenByTag(Vector<Node2D*>& result, const char* tagName, bool recursive = false) const;
 	/// Return first child node of specified type, template version.
-	template <typename _Ty> _Ty* FindChild(bool recursive = false) const { return static_cast<_Ty*>(FindChild(_Ty::TypeStatic(), recursive)); }
+	template <typename _Ty> _Ty* FindChild(bool recursive = false) const { return static_cast<_Ty*>(FindChild(_Ty::GetTypeStatic(), recursive)); }
 	/// Return first child node that matches type and name, template version.
-	template <typename _Ty> _Ty* FindChild(const String& childName, bool recursive = false) const { return static_cast<_Ty*>(FindChild(_Ty::TypeStatic(), childName, recursive)); }
+	template <typename _Ty> _Ty* FindChild(const String& childName, bool recursive = false) const { return static_cast<_Ty*>(FindChild(_Ty::GetTypeStatic(), childName, recursive)); }
 	/// Return first child node that matches type and name, template version.
-	template <typename _Ty> _Ty* FindChild(const char* childName, bool recursive = false) const { return static_cast<_Ty*>(FindChild(_Ty::TypeStatic(), childName, recursive)); }
+	template <typename _Ty> _Ty* FindChild(const char* childName, bool recursive = false) const { return static_cast<_Ty*>(FindChild(_Ty::GetTypeStatic(), childName, recursive)); }
 	/// Find child nodes of specified type, template version.
 	template <typename _Ty> void FindChildren(Vector<_Ty*>& result, bool recursive = false) const { return FindChildren(reinterpret_cast<Vector<_Ty*>&>(result), recursive); }
 

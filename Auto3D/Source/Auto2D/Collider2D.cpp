@@ -5,7 +5,8 @@
 
 namespace Auto3D {
 
-Collider2D::Collider2D()
+Collider2D::Collider2D():
+	_fixture(nullptr)
 {
 
 }
@@ -45,11 +46,34 @@ void Collider2D::NotifyRigidBody(bool updateMass)
 	{
 		b2MassData massData;
 		body->GetMassData(&massData);
+
 		_fixture = body->CreateFixture(&_fixtureDef);
-		//if (!_rigidBody->GetUseFixtureMass()) // Workaround for resetting mass in CreateFixture().
+
+		// Workaround for resetting mass in CreateFixture().
+		if (!_rigidBody->GetUseFixtureMass()) 
 			body->SetMassData(&massData);
 		_fixture->SetUserData(this);
 	}
+}
+
+void Collider2D::ReleaseShape()
+{
+	if (!_fixture)
+		return;
+
+	if (!_rigidBody)
+		return;
+
+	b2Body* body = _rigidBody->GetBody();
+	if (!body)
+		return;
+
+	b2MassData massData;
+	body->GetMassData(&massData);
+	body->DestroyFixture(_fixture);
+	if (!_rigidBody->GetUseFixtureMass()) // Workaround for resetting mass in DestroyFixture().
+		body->SetMassData(&massData);
+	_fixture = nullptr;
 }
 
 void Collider2D::ParentCallBack()

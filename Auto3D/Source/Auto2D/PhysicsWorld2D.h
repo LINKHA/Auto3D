@@ -30,7 +30,7 @@ public:
 	/// Remove collider
 	void RemoveRigidBody(RigidBody2D* rigidbody);
 	/// Get colliders with current physics world.
-	Vector<RigidBody2D*> GetColliders() { return _rigidBody; }
+	Vector<RigidBody2D*> GetColliders() { return _rigidBodies; }
 
 	/// This function is called when the parent node of this class is assigned.
 	virtual void ParentCallBack()override;
@@ -42,7 +42,14 @@ private:
 	/// Box2D world.
 	UniquePtr<b2World> _world;
 	/// Collision shapes in the world
-	Vector<RigidBody2D*> _rigidBody;
+	Vector<RigidBody2D*> _rigidBodies;
+
+	/// Gravity.
+	Vector2F _gravity;
+	/// Velocity iterations.
+	int _velocityIterations{};
+	/// Position iterations.
+	int _positionIterations{};
 };
 
 

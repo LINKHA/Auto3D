@@ -19,11 +19,13 @@ public:
 	static void RegisterObject();
 	/// Update the new collision shape to the RigidBody.
 	void NotifyRigidBody(bool updateMass = true);
+
+	void ReleaseShape();
 	/// This function is called when the parent node of this class is assigned.
 	virtual void ParentCallBack() override;
-private:
+protected:
 	/// Physics world form this collider
-	SharedPtr<PhysicsWorld2D> _physicsWorld;
+	WeakPtr<PhysicsWorld2D> _physicsWorld;
 	/// Rigid body.
 	WeakPtr<RigidBody2D> _rigidBody;
 	/// Fixture def.

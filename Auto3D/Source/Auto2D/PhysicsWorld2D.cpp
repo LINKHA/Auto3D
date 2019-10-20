@@ -1,5 +1,7 @@
 #include "Scene2D.h"
 #include "PhysicsWorld2D.h"
+#include "RigidBody2D.h"
+
 #include "../Physics/PhysicsUtils.h"
 #include "../Physics/Physics.h"
 #include "../Engine/ModuleManager.h"
@@ -9,13 +11,18 @@ namespace Auto3D {
 
 static const int DEFAULT_FPS = 60;
 static const Vector2F DEFAULT_GRAVITY = Vector2F(0.0f, -9.81f);
+static const int DEFAULT_VELOCITY_ITERATIONS = 8;
+static const int DEFAULT_POSITION_ITERATIONS = 3;
 
 PhysicsWorld2D::PhysicsWorld2D() :
-	_fps(DEFAULT_FPS)
+	_fps(DEFAULT_FPS),
+	_gravity(DEFAULT_GRAVITY),
+	_velocityIterations(DEFAULT_VELOCITY_ITERATIONS),
+	_positionIterations(DEFAULT_POSITION_ITERATIONS)
 {
 	_time = ModuleManager::Get().TimeModule();
 
-	_world = new b2World(ToB2Vector2(DEFAULT_GRAVITY));
+	_world = new b2World(ToB2Vector2(_gravity));
 
 	// Register to the physics subsystem
 	auto physics = ModuleManager::Get().PhysicsModule();
@@ -39,10 +46,23 @@ void PhysicsWorld2D::RegisterObject()
 
 void PhysicsWorld2D::Update()
 {
-	int velocityIterations = 6;
-	int positionIterations = 2;
 
-	_world->Step(_fps, velocityIterations, positionIterations);
+	_world->Step(_fps, _velocityIterations, _positionIterations);
+	// Apply world transforms. Unparented transforms first
+	for (unsigned i = 0; i < _rigidBodies.Size();)
+	{
+		if (_rigidBodies[i])
+		{
+			_rigidBodies[i]->ApplyWorldTransform();
+			++i;
+		}
+		else
+		{
+			// Erase possible stale weak pointer
+			_rigidBodies.Erase(i);
+		}
+	}
+
 }
 
 void PhysicsWorld2D::SetFPS(int fps)
@@ -52,12 +72,12 @@ void PhysicsWorld2D::SetFPS(int fps)
 
 void PhysicsWorld2D::AddRigidBody(RigidBody2D* rigidbody)
 {
-	_rigidBody.Push(rigidbody);
+	_rigidBodies.Push(rigidbody);
 }
 
 void PhysicsWorld2D::RemoveRigidBody(RigidBody2D* rigidbody)
 {
-	_rigidBody.Remove(rigidbody);
+	_rigidBodies.Remove(rigidbody);
 }
 
 void PhysicsWorld2D::ParentCallBack()
