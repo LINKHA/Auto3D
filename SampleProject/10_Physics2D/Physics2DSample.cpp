@@ -27,18 +27,21 @@ void Physics2DSample::Start()
 	planeRigidBody->SetBodyType(BodyType2D::STATIC);
 	ColliderBox2D* planeColliderBox = plane->CreateChild<ColliderBox2D>();
 	planeColliderBox->SetSize(Vector2F(10.0f,1.0f));
-	body = planeRigidBody->GetBody();
+	
 
-	for (int i = 0; i < 10; ++i)
+	for (int i = 0; i < 1; ++i)
 	{
 		Sprite2D* square = scene2d->CreateChild<Sprite2D>();
 		square->SetTexture(squareTexture);
 		square->SetPosition(Vector2F(0.0f+0.1*i, 25.0f + i));
+		square->SetRotation2D(40.0f);
 		square->SetScale(Vector3F(1.0f, 1.0f));
 		RigidBody2D* squareRigidBody = square->CreateChild<RigidBody2D>();
 		squareRigidBody->SetBodyType(BodyType2D::DYNAMIC);
 		ColliderBox2D* squareColliderBox = square->CreateChild<ColliderBox2D>();
 		squareColliderBox->SetSize(Vector2F(1.0f, 1.0f));
+
+		body = squareRigidBody->GetBody();
 	}
 	
 
@@ -48,6 +51,7 @@ void Physics2DSample::Update()
 	Super::Update();
 
 	//b2Vec2 position = body->GetPosition();
+	//float angle = body->GetAngle();
 
 	auto input = ModuleManager::Get().InputModule();
 	auto renderer = ModuleManager::Get().RendererModule();

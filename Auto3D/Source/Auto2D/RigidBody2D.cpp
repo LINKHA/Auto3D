@@ -134,9 +134,10 @@ void RigidBody2D::AddBodyToWorld()
 	{
 		SpatialNode2D* parentNode = dynamic_cast<SpatialNode2D*>(Parent());
 		Vector3F nodePosition = parentNode->GetPosition();
-		Vector3F nodeScale = parentNode->GetScale();
+		float nodeAngle = parentNode->GetRotation().RollAngle() * M_DEGTORAD;;
 
 		_bodyDef.position.Set(nodePosition._x, nodePosition._y);
+		_bodyDef.angle = nodeAngle;
 
 		_body = _physicsWorld2d->GetWorld()->CreateBody(&_bodyDef);
 	}

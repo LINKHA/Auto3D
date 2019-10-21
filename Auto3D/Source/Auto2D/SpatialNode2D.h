@@ -33,14 +33,23 @@ public:
 
 	/// Set position in parent space.
 	void SetPosition(const Vector3F& newPosition);
+	/// Set position in parent space 2D.
+	void SetPosition2D(const Vector2F& position) { SetPosition(Vector3F(position)); }
 	/// Set rotation in parent space.
 	void SetRotation(const Quaternion& newRotation);
+	/// Set rotation in parent space 2D.
+	void SetRotation2D(float rotation) { SetRotation(Quaternion(rotation)); }
 	/// Set forward direction in parent space.
 	void SetDirection(const Vector3F& newDirection);
 	/// Set scale in parent space.
 	void SetScale(const Vector3F& newScale);
 	/// Set uniform scale in parent space.
 	void SetScale(float newScale);
+	/// Set scale in parent space 2D.
+	void SetScale2D(const Vector2F& scale) { SetScale(Vector3F(scale, 1.0f)); }
+	/// Set scale in parent space 2D.
+	void SetScale2D(float x, float y) { SetScale(Vector3F(x, y, 1.0f)); }
+
 	/// Set transform in parent space.
 	void SetTransform(const Vector3F& newPosition, const Quaternion& newRotation);
 	/// Set transform in parent space.
