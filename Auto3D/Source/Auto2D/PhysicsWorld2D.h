@@ -8,7 +8,7 @@ namespace Auto3D {
 
 class RigidBody2D;
 
-class PhysicsWorld2D : public Node2D
+class PhysicsWorld2D : public Node2D, public b2ContactListener
 {
 	REGISTER_OBJECT_CLASS(PhysicsWorld2D, Node2D)
 public:

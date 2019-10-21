@@ -17,9 +17,15 @@ public:
 	virtual ~Collider2D();
 	/// Register object factory.
 	static void RegisterObject();
+	/// Set density.
+	void SetDensity(float density);
+	/// Set friction.
+	void SetFriction(float friction);
+	/// Set restitution .
+	void SetRestitution(float restitution);
 	/// Update the new collision shape to the RigidBody.
 	void NotifyRigidBody(bool updateMass = true);
-
+	/// Release fixture.
 	void ReleaseShape();
 	/// This function is called when the parent node of this class is assigned.
 	virtual void ParentCallBack() override;

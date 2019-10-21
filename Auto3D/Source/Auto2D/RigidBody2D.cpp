@@ -15,12 +15,20 @@ RigidBody2D::RigidBody2D():
 	_useFixtureMass(true)
 {
 	_physicsWorld2d = ModuleManager::Get().PhysicsModule()->GetActivePhysicsWorld2D();
-
+	// Make sure the massData members are zero-initialized.
+	_massData.mass = 0.0f;
+	_massData.I = 0.0f;
+	_massData.center.SetZero();
 
 }
 RigidBody2D::~RigidBody2D()
 {
+	/*if (_physicsWorld2d)
+	{
+		ReleaseBody();
 
+		_physicsWorld2d->RemoveRigidBody(this);
+	}*/
 }
 
 void RigidBody2D::RegisterObject()

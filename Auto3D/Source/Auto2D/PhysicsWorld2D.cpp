@@ -23,6 +23,7 @@ PhysicsWorld2D::PhysicsWorld2D() :
 	_time = ModuleManager::Get().TimeModule();
 
 	_world = new b2World(ToB2Vector2(_gravity));
+	_world->SetContactListener(this);
 
 	// Register to the physics subsystem
 	auto physics = ModuleManager::Get().PhysicsModule();
@@ -47,7 +48,7 @@ void PhysicsWorld2D::RegisterObject()
 void PhysicsWorld2D::Update()
 {
 
-	_world->Step(_fps, _velocityIterations, _positionIterations);
+	_world->Step(0.01f, _velocityIterations, _positionIterations);
 	// Apply world transforms. Unparented transforms first
 	for (unsigned i = 0; i < _rigidBodies.Size();)
 	{

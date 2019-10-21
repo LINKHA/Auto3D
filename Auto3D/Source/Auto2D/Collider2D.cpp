@@ -21,6 +21,30 @@ void Collider2D::RegisterObject()
 	RegisterFactory<Collider2D>();
 }
 
+void Collider2D::SetDensity(float density)
+{
+	if (_fixtureDef.density == density)
+		return;
+
+	_fixtureDef.density = density;
+}
+
+void Collider2D::SetFriction(float friction)
+{
+	if (_fixtureDef.friction == friction)
+		return;
+
+	_fixtureDef.friction = friction;
+}
+
+void Collider2D::SetRestitution(float restitution)
+{
+	if (_fixtureDef.restitution == restitution)
+		return;
+
+	_fixtureDef.restitution = restitution;
+}
+
 void Collider2D::NotifyRigidBody(bool updateMass)
 {
 	if (_fixture)

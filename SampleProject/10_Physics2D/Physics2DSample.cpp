@@ -1,6 +1,6 @@
 #include "Physics2DSample.h"
 
-b2Body* body;
+b2Body* body_;
 
 void Physics2DSample::Init()
 {
@@ -17,32 +17,80 @@ void Physics2DSample::Start()
 	auto* cache = Object::Module<ResourceCache>();
 	auto squareTexture = cache->LoadResource<Texture>("Texture/Square.png");
 	
-	scene2d->CreateChild<PhysicsWorld2D>();
+	PhysicsWorld2D* physicsWorld2d = scene2d->CreateChild<PhysicsWorld2D>();
 
-	Sprite2D* plane = scene2d->CreateChild<Sprite2D>();
-	plane->SetTexture(squareTexture);
-	plane->SetPosition(Vector2F(0.0f, -25.0f));
-	plane->SetScale(Vector3F(10.0f, 1.0f));
-	RigidBody2D* planeRigidBody = plane->CreateChild<RigidBody2D>();
-	planeRigidBody->SetBodyType(BodyType2D::STATIC);
-	ColliderBox2D* planeColliderBox = plane->CreateChild<ColliderBox2D>();
-	planeColliderBox->SetSize(Vector2F(10.0f,1.0f));
-	
+	//Sprite2D* plane = scene2d->CreateChild<Sprite2D>();
+	//plane->SetTexture(squareTexture);
+	//plane->SetPosition(Vector2F(0.0f, -25.0f));
+	//plane->SetScale(Vector3F(10.0f, 1.0f));
+	//RigidBody2D* planeRigidBody = plane->CreateChild<RigidBody2D>();
+	////planeRigidBody->SetBodyType(BodyType2D::STATIC);
+	//ColliderBox2D* planeColliderBox = plane->CreateChild<ColliderBox2D>();
+	//planeColliderBox->SetSize(Vector2F(0.32f,0.32f));
+	//planeColliderBox->SetFriction(0.5f);
 
-	for (int i = 0; i < 1; ++i)
+
+	//for (int i = 0; i < 1; ++i)
+	//{
+	//	Sprite2D* square = scene2d->CreateChild<Sprite2D>();
+	//	square->SetTexture(squareTexture);
+	//	square->SetPosition(Vector2F(0.0f+0.1*i, 25.0f + i));
+	//	square->SetRotation2D(40.0f);
+	//	square->SetScale(Vector3F(1.0f, 1.0f));
+	//	RigidBody2D* squareRigidBody = square->CreateChild<RigidBody2D>();
+	//	squareRigidBody->SetBodyType(BodyType2D::DYNAMIC);
+	//	ColliderBox2D* squareColliderBox = square->CreateChild<ColliderBox2D>();
+	//	squareColliderBox->SetSize(Vector2F(1.0f, 1.0f));
+	//	squareColliderBox->SetDensity(1.0f);
+	//	squareColliderBox->SetFriction(0.5f);
+	//	squareColliderBox->SetRestitution(0.1f);
+
+	//	body_ = squareRigidBody->GetBody();
+	//}
+
+
+
 	{
-		Sprite2D* square = scene2d->CreateChild<Sprite2D>();
-		square->SetTexture(squareTexture);
-		square->SetPosition(Vector2F(0.0f+0.1*i, 25.0f + i));
-		square->SetRotation2D(40.0f);
-		square->SetScale(Vector3F(1.0f, 1.0f));
-		RigidBody2D* squareRigidBody = square->CreateChild<RigidBody2D>();
-		squareRigidBody->SetBodyType(BodyType2D::DYNAMIC);
-		ColliderBox2D* squareColliderBox = square->CreateChild<ColliderBox2D>();
-		squareColliderBox->SetSize(Vector2F(1.0f, 1.0f));
+		float32 a = 0.5f;
+		b2BodyDef bd;
+		bd.position.y = -a;
+		b2Body* ground = physicsWorld2d->GetWorld()->CreateBody(&bd);
 
-		body = squareRigidBody->GetBody();
+		int32 N = 200;
+		int32 M = 10;
+		b2Vec2 position;
+		position.y = 0.0f;
+		for (int32 j = 0; j < M; ++j)
+		{
+			position.x = -N * a;
+			for (int32 i = 0; i < N; ++i)
+			{
+				b2PolygonShape shape;
+				shape.SetAsBox(a, a, position, 0.0f);
+				ground->CreateFixture(&shape, 0.0f);
+				position.x += 2.0f * a;
+			}
+			position.y -= 2.0f * a;
+		}
 	}
+
+	{
+		b2PolygonShape shape;
+		shape.SetAsBox(0.5f, 0.5f);
+
+		b2BodyDef bd;
+		bd.type = b2_dynamicBody;
+		bd.position = b2Vec2(7.0f, 1.75f);
+		bd.angle = 0.698131621;
+
+		b2Body* body = physicsWorld2d->GetWorld()->CreateBody(&bd);
+		body->CreateFixture(&shape, 5.0f);
+
+		body_ = body;
+	}
+
+
+
 	
 
 }
@@ -50,8 +98,8 @@ void Physics2DSample::Update()
 {
 	Super::Update();
 
-	//b2Vec2 position = body->GetPosition();
-	//float angle = body->GetAngle();
+	b2Vec2 position = body_->GetPosition();
+	float angle = body_->GetAngle();
 
 	auto input = ModuleManager::Get().InputModule();
 	auto renderer = ModuleManager::Get().RendererModule();
