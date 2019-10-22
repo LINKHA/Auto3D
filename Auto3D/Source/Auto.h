@@ -61,6 +61,7 @@
 #include "Auto2D/RigidBody2D.h"
 #include "Auto2D/Collider2D.h"
 #include "Auto2D/ColliderBox2D.h"
+#include "Auto2D/ColliderCircle2D.h"
 #include "UI/UI.h"
 #include "UI/Canvas.h"
 #include "UI/Text.h"

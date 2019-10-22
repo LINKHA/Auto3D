@@ -13,10 +13,7 @@ ColliderBox2D::ColliderBox2D() :
 	_fixtureDef.shape = &_boxShape;
 }
 
-ColliderBox2D::~ColliderBox2D()
-{
-
-}
+ColliderBox2D::~ColliderBox2D() = default;
 
 void ColliderBox2D::RegisterObject()
 {

@@ -23,12 +23,7 @@ RigidBody2D::RigidBody2D():
 }
 RigidBody2D::~RigidBody2D()
 {
-	/*if (_physicsWorld2d)
-	{
-		ReleaseBody();
-
-		_physicsWorld2d->RemoveRigidBody(this);
-	}*/
+	RemoveBodyFromWorld();
 }
 
 void RigidBody2D::RegisterObject()
@@ -124,7 +119,7 @@ void RigidBody2D::ParentCallBack()
 {
 	_physicsWorld2d = ParentScene2D()->GetPhysicsWorld();
 
-	_physicsWorld2d->AddRigidBody(this);
+	
 
 	AddBodyToWorld();
 }
@@ -133,6 +128,8 @@ void RigidBody2D::AddBodyToWorld()
 {
 	if (!_physicsWorld2d)
 		return;
+
+	_physicsWorld2d->AddRigidBody(this);
 
 	if (_body)
 	{
@@ -153,7 +150,12 @@ void RigidBody2D::AddBodyToWorld()
 
 void RigidBody2D::RemoveBodyFromWorld()
 {
+	if (!_physicsWorld2d)
+		return;
 
+	_physicsWorld2d->GetWorld()->DestroyBody(_body);
+
+	_physicsWorld2d->RemoveRigidBody(this);
 }
 
 }

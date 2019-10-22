@@ -48,7 +48,7 @@ void PhysicsWorld2D::RegisterObject()
 void PhysicsWorld2D::Update()
 {
 
-	_world->Step(0.01f, _velocityIterations, _positionIterations);
+	_world->Step(1.0f/ _fps, _velocityIterations, _positionIterations);
 	// Apply world transforms. Unparented transforms first
 	for (unsigned i = 0; i < _rigidBodies.Size();)
 	{

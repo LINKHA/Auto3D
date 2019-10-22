@@ -8,12 +8,12 @@ namespace Auto3D {
 Collider2D::Collider2D():
 	_fixture(nullptr)
 {
-
+	SetDensity(0.5f);
 }
 
 Collider2D::~Collider2D()
 {
-
+	ReleaseShape();
 }
 
 void Collider2D::RegisterObject()
@@ -27,6 +27,9 @@ void Collider2D::SetDensity(float density)
 		return;
 
 	_fixtureDef.density = density;
+
+	ReleaseShape();
+	NotifyRigidBody();
 }
 
 void Collider2D::SetFriction(float friction)
@@ -35,6 +38,9 @@ void Collider2D::SetFriction(float friction)
 		return;
 
 	_fixtureDef.friction = friction;
+
+	ReleaseShape();
+	NotifyRigidBody();
 }
 
 void Collider2D::SetRestitution(float restitution)
@@ -43,6 +49,9 @@ void Collider2D::SetRestitution(float restitution)
 		return;
 
 	_fixtureDef.restitution = restitution;
+
+	ReleaseShape();
+	NotifyRigidBody();
 }
 
 void Collider2D::NotifyRigidBody(bool updateMass)

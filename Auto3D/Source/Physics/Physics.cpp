@@ -11,6 +11,7 @@
 #include "../Auto2D/RigidBody2D.h"
 #include "../Auto2D/Collider2D.h"
 #include "../Auto2D/ColliderBox2D.h"
+#include "../Auto2D/ColliderCircle2D.h"
 
 namespace Auto3D
 {
@@ -117,6 +118,7 @@ AUTO_API void RegisterPhysicsLibrary()
 	RigidBody2D::RegisterObject();
 	Collider2D::RegisterObject();
 	ColliderBox2D::RegisterObject();
+	ColliderCircle2D::RegisterObject();
 }
 
 }
