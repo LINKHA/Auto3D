@@ -177,7 +177,7 @@ bool Window::SetSize(const RectI& rect, int multisample, bool fullscreen, bool r
 
 		windowStyle = WS_POPUP | WS_VISIBLE;
 		position = Vector2I::ZERO;
-		/// \todo Handle failure to set mode
+		/// Handle failure to set mode
 		SetDisplayMode(size._x, size._y);
 
 	}
@@ -212,17 +212,17 @@ bool Window::SetSize(const RectI& rect, int multisample, bool fullscreen, bool r
 		wc.lpfnWndProc = WndProc;
 		wc.cbClsExtra = 0;
 		wc.cbWndExtra = 0;
-		wc.hInstance = GetModuleHandle(0);
-		wc.hIcon = LoadIcon(NULL, IDI_WINLOGO);
-		wc.hCursor = LoadCursor(0, IDC_ARROW);
-		wc.hbrBackground = CreateSolidBrush(RGB(0, 0, 0));
+		wc.hInstance = ::GetModuleHandle(0);
+		wc.hIcon = ::LoadIcon(NULL, IDI_WINLOGO);
+		wc.hCursor = ::LoadCursor(0, IDC_ARROW);
+		wc.hbrBackground = ::CreateSolidBrush(RGB(0, 0, 0));
 		wc.lpszMenuName = nullptr;
 		wc.lpszClassName = className.CString();
 
 		RegisterClass(&wc);
 
 		_handle = CreateWindowW(WString(className).CString(), WString(_title).CString(), windowStyle, _rect.Left(), _rect.Top(),
-			_rect.Width(), _rect.Height(), 0, 0, GetModuleHandle(0), nullptr);
+			_rect.Width(), _rect.Height(), 0, 0, ::GetModuleHandle(0), nullptr);
 		if (!_handle)
 		{
 			ErrorString("Failed to create window");
@@ -238,22 +238,28 @@ bool Window::SetSize(const RectI& rect, int multisample, bool fullscreen, bool r
 		_focus = false;
 
 		SetWindowLongPtr((HWND)_handle, GWLP_USERDATA, (LONG_PTR)this);
-		ShowWindow((HWND)_handle, SW_SHOW);
+		::ShowWindow((HWND)_handle, SW_SHOW);
+		::UpdateWindow((HWND)_handle);
+		::SetForegroundWindow((HWND)_handle);
+		::SetFocus((HWND)_handle);
 	}
 	else
 	{
-		SetWindowLong((HWND)_handle, GWL_STYLE, windowStyle);
+		::SetWindowLong((HWND)_handle, GWL_STYLE, windowStyle);
 
 		if (!_fullscreen && (_savedPosition._x == M_MIN_INT || _savedPosition._y == M_MIN_INT))
 		{
 			WINDOWPLACEMENT placement;
 			placement.length = sizeof(placement);
-			GetWindowPlacement((HWND)_handle, &placement);
+			::GetWindowPlacement((HWND)_handle, &placement);
 			position = Vector2I(placement.rcNormalPosition.left, placement.rcNormalPosition.top);
 		}
 
-		SetWindowPos((HWND)_handle, NULL, position._x, position._y, winRect.right - winRect.left, winRect.bottom - winRect.top, SWP_NOZORDER);
-		ShowWindow((HWND)_handle, SW_SHOW);
+		::SetWindowPos((HWND)_handle, NULL, position._x, position._y, winRect.right - winRect.left, winRect.bottom - winRect.top, SWP_NOZORDER);
+		::ShowWindow((HWND)_handle, SW_SHOW);
+		::UpdateWindow((HWND)_handle);
+		::SetForegroundWindow((HWND)_handle);
+		::SetFocus((HWND)_handle);
 	}
 
 	fullscreen = _fullscreen;
@@ -389,7 +395,7 @@ void Window::Minimize()
 	if (!_handle)
 		return;
 
-	ShowWindow((HWND)_handle, SW_MINIMIZE);
+	::ShowWindow((HWND)_handle, SW_MINIMIZE);
 }
 
 void Window::Maximize()
@@ -397,7 +403,7 @@ void Window::Maximize()
 	if (!_handle)
 		return;
 
-	ShowWindow((HWND)_handle, SW_MAXIMIZE);
+	::ShowWindow((HWND)_handle, SW_MAXIMIZE);
 }
 
 void Window::Restore()
@@ -405,7 +411,7 @@ void Window::Restore()
 	if (!_handle)
 		return;
 
-	ShowWindow((HWND)_handle, SW_RESTORE);
+	::ShowWindow((HWND)_handle, SW_RESTORE);
 }
 
 void Window::PumpMessages()
@@ -415,14 +421,10 @@ void Window::PumpMessages()
 
 	MSG msg;
 
-	while (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+	while (::PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
 	{
-		//auto ui = ModuleManager::Get()._ui;
-
-		//ui->ProcessEvent(&evt);
-
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
+		::TranslateMessage(&msg);
+		::DispatchMessage(&msg);
 	}
 }
 
