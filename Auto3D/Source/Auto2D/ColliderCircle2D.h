@@ -5,7 +5,7 @@ namespace Auto3D {
 
 class AUTO_API ColliderCircle2D : public Collider2D
 {
-	REGISTER_OBJECT_CLASS(ColliderCircle2D, Node2D)
+	REGISTER_OBJECT_CLASS(ColliderCircle2D, Collider2D)
 public:
 	/// Construct
 	ColliderCircle2D();
@@ -26,7 +26,7 @@ public:
 	const Vector2F& GetCenter() const { return _center; }
 private:
 	/// Resize form Vector2
-	void Resize(const Vector2F& center, float radius);
+	void RecreateFixture();
 
 	/// Circle shape.
 	b2CircleShape _circleShape;

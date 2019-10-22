@@ -23,26 +23,26 @@ void ColliderBox2D::RegisterObject()
 void ColliderBox2D::SetSize(const Vector2F& size)
 {
 	_size = size;
-	Resize(_size);
+	RecreateFixture();
 }
 
 void ColliderBox2D::SetSize(float x, float y)
 {
 	_size = Vector2F(x, y);
-	Resize(_size);
+	RecreateFixture();
 }
 
 void ColliderBox2D::SetSize(float scale)
 {
 	_size = Vector2F(scale, scale);
-	Resize(_size);
+	RecreateFixture();
 }
 
-void ColliderBox2D::Resize(const Vector2F& vec)
+void ColliderBox2D::RecreateFixture()
 {
-	ReleaseShape();
-	_boxShape.SetAsBox(vec._x, vec._y);
-	NotifyRigidBody();
+	ReleaseFixture();
+	_boxShape.SetAsBox(_size._x, _size._y);
+	CreateFixture();
 
 }
 

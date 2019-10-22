@@ -27,7 +27,7 @@ void ColliderCircle2D::SetRadius(float radius)
 
 	_radius = radius;
 
-	Resize(_center, _radius);
+	RecreateFixture();
 }
 
 
@@ -38,7 +38,7 @@ void ColliderCircle2D::SetCenter(const Vector2F& center)
 
 	_center = center;
 
-	Resize(_center, _radius);
+	RecreateFixture();
 }
 
 
@@ -47,14 +47,14 @@ void ColliderCircle2D::SetCenter(float x, float y)
 	SetCenter(Vector2F(x, y));
 }
 
-void ColliderCircle2D::Resize(const Vector2F& center, float radius)
+void ColliderCircle2D::RecreateFixture()
 {
-	ReleaseShape(); 
+	ReleaseFixture(); 
 
 	_circleShape.m_p = ToB2Vector2(_center);
-	_circleShape.m_radius = radius;
+	_circleShape.m_radius = _radius;
 
-	NotifyRigidBody();
+	CreateFixture();
 }
 
 }

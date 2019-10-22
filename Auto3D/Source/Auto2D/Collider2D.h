@@ -24,9 +24,9 @@ public:
 	/// Set restitution .
 	void SetRestitution(float restitution);
 	/// Update the new collision shape to the RigidBody.
-	void NotifyRigidBody(bool updateMass = true);
+	void CreateFixture();
 	/// Release fixture.
-	void ReleaseShape();
+	void ReleaseFixture();
 	/// This function is called when the parent node of this class is assigned.
 	virtual void ParentCallBack() override;
 protected:

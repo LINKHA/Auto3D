@@ -5,7 +5,7 @@ namespace Auto3D {
 
 class AUTO_API ColliderBox2D : public Collider2D
 {
-	REGISTER_OBJECT_CLASS(Collider2D, Node2D)
+	REGISTER_OBJECT_CLASS(ColliderBox2D, Collider2D)
 public:
 	/// Construct
 	ColliderBox2D();
@@ -22,7 +22,7 @@ public:
 
 private:
 	/// Resize form Vector2
-	void Resize(const Vector2F& vec);
+	void RecreateFixture();
 
 	/// Box shape.
 	b2PolygonShape _boxShape;

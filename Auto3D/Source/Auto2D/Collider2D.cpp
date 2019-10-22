@@ -13,7 +13,7 @@ Collider2D::Collider2D():
 
 Collider2D::~Collider2D()
 {
-	ReleaseShape();
+	ReleaseFixture();
 }
 
 void Collider2D::RegisterObject()
@@ -28,8 +28,8 @@ void Collider2D::SetDensity(float density)
 
 	_fixtureDef.density = density;
 
-	ReleaseShape();
-	NotifyRigidBody();
+	ReleaseFixture();
+	CreateFixture();
 }
 
 void Collider2D::SetFriction(float friction)
@@ -39,8 +39,8 @@ void Collider2D::SetFriction(float friction)
 
 	_fixtureDef.friction = friction;
 
-	ReleaseShape();
-	NotifyRigidBody();
+	ReleaseFixture();
+	CreateFixture();
 }
 
 void Collider2D::SetRestitution(float restitution)
@@ -50,11 +50,11 @@ void Collider2D::SetRestitution(float restitution)
 
 	_fixtureDef.restitution = restitution;
 
-	ReleaseShape();
-	NotifyRigidBody();
+	ReleaseFixture();
+	CreateFixture();
 }
 
-void Collider2D::NotifyRigidBody(bool updateMass)
+void Collider2D::CreateFixture()
 {
 	if (_fixture)
 		return;
@@ -89,7 +89,7 @@ void Collider2D::NotifyRigidBody(bool updateMass)
 	}
 }
 
-void Collider2D::ReleaseShape()
+void Collider2D::ReleaseFixture()
 {
 	if (!_fixture)
 		return;
