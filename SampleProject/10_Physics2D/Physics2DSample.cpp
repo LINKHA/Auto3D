@@ -1,5 +1,4 @@
 #include "Physics2DSample.h"
-
 void Physics2DSample::Init()
 {
 	Super::Init();
@@ -53,44 +52,84 @@ void Physics2DSample::Start()
 	}
 	
 
-
-	for (int i = 0; i < 20; ++i)
+	int layerCount = 10;
+	for (int i = 0; i < layerCount; ++i)
 	{
-		
 		if (i % 2 == 0)
 		{
-			
-			Sprite2D* node = scene2d->CreateChild<Sprite2D>();
-			node->SetPosition(Vector2F(0.0f + 0.1 * i, 25.0f + i * 2));
-			node->SetScale(Vector3F(1.0f, 1.0f));
-			RigidBody2D* nodeRigidBody = node->CreateChild<RigidBody2D>();
-			nodeRigidBody->SetBodyType(BodyType2D::DYNAMIC);
+			static int count = layerCount / 2 + layerCount % 2;
+			const int countI = layerCount / 2 + layerCount % 2;
+			for (int k = 0; k <= countI - count; ++k)
+			{
+				Sprite2D* node = scene2d->CreateChild<Sprite2D>();
+				node->SetPosition(Vector2F(0.0f + k * 3.0f, 20.0f + i * 3.0f));
+				node->SetScale(Vector3F(1.0f, 1.0f));
+				node->SetTexture(squareTexture);
+				RigidBody2D* nodeRigidBody = node->CreateChild<RigidBody2D>();
+				nodeRigidBody->SetBodyType(BodyType2D::DYNAMIC);
 
-			node->SetTexture(squareTexture);
-			ColliderBox2D* squareColliderBox = node->CreateChild<ColliderBox2D>();
-			squareColliderBox->SetSize(Vector2F(1.0f, 1.0f));
-			squareColliderBox->SetDensity(1.0f);
-			squareColliderBox->SetFriction(0.5f);
-			squareColliderBox->SetRestitution(0.1f);
+				ColliderBox2D* squareColliderBox = node->CreateChild<ColliderBox2D>();
+				squareColliderBox->SetSize(Vector2F(1.0f, 1.0f));
+				squareColliderBox->SetDensity(1.0f);
+				squareColliderBox->SetFriction(0.5f);
+				squareColliderBox->SetRestitution(0.1f);
+			}
 
+			for (int k = 0; k <= countI - count; ++k)
+			{
+				Sprite2D* node = scene2d->CreateChild<Sprite2D>();
+				node->SetPosition(Vector2F(0.0f - k * 3.0f, 20.0f + i * 3.0f));
+				node->SetScale(Vector3F(1.0f, 1.0f));
+				node->SetTexture(squareTexture);
+				RigidBody2D* nodeRigidBody = node->CreateChild<RigidBody2D>();
+				nodeRigidBody->SetBodyType(BodyType2D::DYNAMIC);
+
+				ColliderBox2D* squareColliderBox = node->CreateChild<ColliderBox2D>();
+				squareColliderBox->SetSize(Vector2F(1.0f, 1.0f));
+				squareColliderBox->SetDensity(1.0f);
+				squareColliderBox->SetFriction(0.5f);
+				squareColliderBox->SetRestitution(0.1f);
+			}
+			count--;
 		}
 		else
 		{
-			Sprite2D* node = scene2d->CreateChild<Sprite2D>();
-			node->SetPosition(Vector2F(0.0f + 0.1 * i, 25.0f + i * 2));
-			node->SetScale(Vector3F(1.0f, 1.0f));
-			RigidBody2D* nodeRigidBody = node->CreateChild<RigidBody2D>();
-			nodeRigidBody->SetBodyType(BodyType2D::DYNAMIC);
+			static int count = layerCount / 2;
+			const int countI = layerCount / 2;
+			for (int k = 0; k <= countI - count; ++k)
+			{
+				Sprite2D* node = scene2d->CreateChild<Sprite2D>();
+				node->SetPosition(Vector2F(0.0f + k * 3.0f, 20.0f + i * 3.0f));
+				node->SetScale(Vector3F(1.0f, 1.0f));
+				node->SetTexture(circleTexture);
+				RigidBody2D* nodeRigidBody = node->CreateChild<RigidBody2D>();
+				nodeRigidBody->SetBodyType(BodyType2D::DYNAMIC);
 
-			node->SetTexture(circleTexture);
-			ColliderCircle2D* squareColliderBox = node->CreateChild<ColliderCircle2D>();
-			squareColliderBox->SetRadius(1.0f);
-			squareColliderBox->SetDensity(1.0f);
-			squareColliderBox->SetFriction(0.5f);
-			squareColliderBox->SetRestitution(0.1f);
+				
+				ColliderCircle2D* squareColliderBox = node->CreateChild<ColliderCircle2D>();
+				squareColliderBox->SetRadius(1.0f);
+				squareColliderBox->SetDensity(1.0f);
+				squareColliderBox->SetFriction(0.5f);
+				squareColliderBox->SetRestitution(0.1f);
+			}
+			for (int k = 0; k <= countI - count; ++k)
+			{
+				Sprite2D* node = scene2d->CreateChild<Sprite2D>();
+				node->SetPosition(Vector2F(0.0f - k * 3.0f, 20.0f + i * 3.0f));
+				node->SetScale(Vector3F(1.0f, 1.0f));
+				node->SetTexture(circleTexture);
+				RigidBody2D* nodeRigidBody = node->CreateChild<RigidBody2D>();
+				nodeRigidBody->SetBodyType(BodyType2D::DYNAMIC);
+
+				ColliderCircle2D* squareColliderBox = node->CreateChild<ColliderCircle2D>();
+				squareColliderBox->SetRadius(1.0f);
+				squareColliderBox->SetDensity(1.0f);
+				squareColliderBox->SetFriction(0.5f);
+				squareColliderBox->SetRestitution(0.1f);
+			}
+			count--;
 		}
 	}
-
 }
 void Physics2DSample::Update()
 {

@@ -41,7 +41,7 @@ void Geometry::Draw(Graphics* graphics)
 
 void Geometry::DrawInstanced(Graphics* graphics, size_t start, size_t count)
 {
-    graphics->SetVertexBuffer(0, _vertexBuffer.Get());
+	graphics->SetVertexBuffer(0, _vertexBuffer.Get());
     if (_indexBuffer.Get())
     {
         graphics->SetIndexBuffer(_indexBuffer.Get());

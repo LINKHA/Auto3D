@@ -44,7 +44,7 @@ public:
 	/// Render the Renderer2D. If render command is false (default), is assumed to be the default Renderer2D render to backbuffer called by Engine, and will be performed only once. Additional Renderer2D renders to a different rendertarget may be triggered from the renderpath.
 	void Render(Scene2D* scene, Camera2D* camera);
 	/// Prepare view of objects and batch
-	bool PrepareView(Scene2D* canvas, Camera2D* camera);
+	bool PrepareView(Scene2D* scend2d, Camera2D* camera);
 	/// Return initialized flag
 	bool IsInitialized() { return _initialized; }
 	/// Initialize rendering of a new view and collect visible objects from the camera's point of view. Return true on success (scene, camera and octree are non-null.)

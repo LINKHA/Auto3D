@@ -55,7 +55,7 @@ void PhysicsSample::Start()
 			fence->SetModel(cache->LoadResource<Model>("Model/Box.mdl"));
 			fence->SetPosition(Vector3F(-50.0f, -20.0f, 0.0f));
 			fence->SetScale(Vector3F(1.0f, 10.0f, 100.0f));
-			fence->SetMaterial(cache->LoadResource<Material>("Stone.json"));
+			fence->SetMaterial(cache->LoadResource<Material>("Mushroom.json"));
 			RigidBody* fenceRigidBody = fence->CreateChild<RigidBody>();
 			fenceRigidBody->SetMass(0.0f);
 			ColliderBox* fenceColliderBox = fence->CreateChild<ColliderBox>();
@@ -80,7 +80,7 @@ void PhysicsSample::Start()
 			fence->SetModel(cache->LoadResource<Model>("Model/Box.mdl"));
 			fence->SetPosition(Vector3F(0.0f, -20.0f, -50.0f));
 			fence->SetScale(Vector3F(100.0f, 10.0f, 1.0f));
-			fence->SetMaterial(cache->LoadResource<Material>("Stone.json"));
+			fence->SetMaterial(cache->LoadResource<Material>("Mushroom.json"));
 			RigidBody* fenceRigidBody = fence->CreateChild<RigidBody>();
 			fenceRigidBody->SetMass(0.0f);
 			ColliderBox* fenceColliderBox = fence->CreateChild<ColliderBox>();
@@ -88,55 +88,55 @@ void PhysicsSample::Start()
 		}
 	}
 
-	for (int i = 0; i < 5; ++i)
-	{
-		for (int j = 0; j < 3; ++j)
-		{
-			for (int k = 0; k < 5; ++k)
-			{
-				StaticModel* box = scene->CreateChild<StaticModel>();
-				box->SetModel(cache->LoadResource<Model>("Model/Sphere.mdl"));
-				box->SetMaterial(cache->LoadResource<Material>("Stone.json"));
-				box->SetPosition(Vector3F(i, 10.f + j * 2, k));
-				box->SetScale(Vector3F(2.0f, 2.0f, 2.0f));
-				box->SetCastShadows(true);
-				RigidBody* boxRigidBody = box->CreateChild<RigidBody>();
-				boxRigidBody->SetMass(1.0f);
-				ColliderSphere* boxcolliderBox = box->CreateChild<ColliderSphere>();
-				boxcolliderBox->SetSize(1.0f);
-			}
-		}
-	}
+	//for (int i = 0; i < 5; ++i)
+	//{
+	//	for (int j = 0; j < 3; ++j)
+	//	{
+	//		for (int k = 0; k < 5; ++k)
+	//		{
+	//			StaticModel* box = scene->CreateChild<StaticModel>();
+	//			box->SetModel(cache->LoadResource<Model>("Model/Sphere.mdl"));
+	//			box->SetMaterial(cache->LoadResource<Material>("Stone.json"));
+	//			box->SetPosition(Vector3F(i, 10.f + j * 2, k));
+	//			box->SetScale(Vector3F(2.0f, 2.0f, 2.0f));
+	//			box->SetCastShadows(true);
+	//			RigidBody* boxRigidBody = box->CreateChild<RigidBody>();
+	//			boxRigidBody->SetMass(1.0f);
+	//			ColliderSphere* boxcolliderBox = box->CreateChild<ColliderSphere>();
+	//			boxcolliderBox->SetSize(1.0f);
+	//		}
+	//	}
+	//}
 
-	for (int i = 0; i < 5; ++i)
-	{
-		for (int j = 0; j < 3; ++j)
-		{
-			for (int k = 0; k < 5; ++k)
-			{
-				StaticModel* box = scene->CreateChild<StaticModel>();
-				box->SetModel(cache->LoadResource<Model>("Model/Box.mdl"));
-				box->SetMaterial(cache->LoadResource<Material>("Stone.json"));
-				box->SetPosition(Vector3F(i, 11.f + j * 2, k));
-				box->SetScale(Vector3F(2.0f, 2.0f, 2.0f));
-				box->SetCastShadows(true);
-				RigidBody* boxRigidBody = box->CreateChild<RigidBody>();
-				boxRigidBody->SetMass(1.0f);
-				ColliderBox* boxcolliderBox = box->CreateChild<ColliderBox>();
-				boxcolliderBox->SetSize(Vector3F(1.0f, 1.0f, 1.0f));
-			}
-		}
-	}
+	//for (int i = 0; i < 5; ++i)
+	//{
+	//	for (int j = 0; j < 3; ++j)
+	//	{
+	//		for (int k = 0; k < 5; ++k)
+	//		{
+	//			StaticModel* box = scene->CreateChild<StaticModel>();
+	//			box->SetModel(cache->LoadResource<Model>("Model/Box.mdl"));
+	//			box->SetMaterial(cache->LoadResource<Material>("Mushroom.json"));
+	//			box->SetPosition(Vector3F(i, 11.f + j * 2, k));
+	//			box->SetScale(Vector3F(2.0f, 2.0f, 2.0f));
+	//			box->SetCastShadows(true);
+	//			RigidBody* boxRigidBody = box->CreateChild<RigidBody>();
+	//			boxRigidBody->SetMass(1.0f);
+	//			ColliderBox* boxcolliderBox = box->CreateChild<ColliderBox>();
+	//			boxcolliderBox->SetSize(Vector3F(1.0f, 1.0f, 1.0f));
+	//		}
+	//	}
+	//}
 
 
-	Light* light = scene->CreateChild<Light>();
-	light->SetLightType(LightType::POINT);
-	light->SetCastShadows(true);
-	light->SetColor(Color(1.0f, 1.0f, 1.0f));
-	light->SetFov(90.0f);
-	light->SetRange(2000.0f);
-	light->SetPosition(Vector3F(75.0f, 0.0f, 0.0f));
-	light->SetShadowMapSize(1024);
+	//Light* light = scene->CreateChild<Light>();
+	//light->SetLightType(LightType::POINT);
+	//light->SetCastShadows(true);
+	//light->SetColor(Color(1.0f, 1.0f, 1.0f));
+	//light->SetFov(90.0f);
+	//light->SetRange(2000.0f);
+	//light->SetPosition(Vector3F(75.0f, 0.0f, 0.0f));
+	//light->SetShadowMapSize(1024);
 	
 }
 void PhysicsSample::Update()

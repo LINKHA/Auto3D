@@ -14,7 +14,6 @@
 #include "../Debug/Profiler.h"
 #include "../Debug/DebugNew.h"
 
-
 namespace Auto3D
 {
 
@@ -92,11 +91,11 @@ void Renderer2D::Render(Scene2D* scene, Camera2D* camera)
 	RenderBatches();
 }
 
-bool Renderer2D::PrepareView(Scene2D* canvas,Camera2D* camera)
+bool Renderer2D::PrepareView(Scene2D* scend2d,Camera2D* camera)
 {
 	if (!IsInitialized())
 		Initialize();
-	if (!Collect2dObjects(canvas, camera))
+	if (!Collect2dObjects(scend2d, camera))
 		return false;
 	
 
@@ -104,18 +103,18 @@ bool Renderer2D::PrepareView(Scene2D* canvas,Camera2D* camera)
 	return true;
 }
 
-bool Renderer2D::Collect2dObjects(Scene2D* canvas, Camera2D* camera)
+bool Renderer2D::Collect2dObjects(Scene2D* scend2d, Camera2D* camera)
 {
 	PROFILE(Collect2dObjects);
 
 	_geometryNode.Clear();
 	_batchQueue.Clear();
 	_instanceTransforms.Clear();
-	_scenes = canvas;
+	_scenes = scend2d;
 	_camera = camera;
 	//Classify Renderer2D nodes to remove nodes that are not in the view
 	//\note TEMP Temporarily all join
-	for (auto it = canvas->GetAllNode().Begin(); it != canvas->GetAllNode().End(); it++)
+	for (auto it = scend2d->GetAllNode().Begin(); it != scend2d->GetAllNode().End(); it++)
 	{
 		if (it->_second->TestFlag(NF_2D_GEOMETRY))
 		{
@@ -214,19 +213,20 @@ void Renderer2D::Initialize()
 void Renderer2D::RenderBatches(const Vector<Batch2D>& batches, Camera2D* camera)
 {
 
+	if (_instanceTransformsDirty && _instanceTransforms.Size())
+	{
+		if (_instanceVertexBuffer->GetNumVertices() < _instanceTransforms.Size())
+			_instanceVertexBuffer->Define(ResourceUsage::DYNAMIC, NextPowerOfTwo(_instanceTransforms.Size()), _instanceVertexElements, false);
+		_instanceVertexBuffer->SetData(0, _instanceTransforms.Size(), &_instanceTransforms[0]);
+		_graphics->SetVertexBuffer(1, _instanceVertexBuffer);
+		_instanceTransformsDirty = false;
+	}
+
 	for (auto it = batches.Begin(); it != batches.End();)
 	{
 		const Batch2D& batch = *it;
 		bool instanced = batch._type == GeometryType::INSTANCED;
-		
-		if (_instanceTransformsDirty && _instanceTransforms.Size())
-		{
-			if (_instanceVertexBuffer->GetNumVertices() < _instanceTransforms.Size())
-				_instanceVertexBuffer->Define(ResourceUsage::DYNAMIC, NextPowerOfTwo(_instanceTransforms.Size()), _instanceVertexElements, false);
-			_instanceVertexBuffer->SetData(0, _instanceTransforms.Size(), &_instanceTransforms[0]);
-			_graphics->SetVertexBuffer(1, _instanceVertexBuffer);
-			_instanceTransformsDirty = false;
-		}
+
 		if (!instanced)
 		{
 			_vsObjectConstantBuffer->SetConstant(VS_OBJECT_WORLD_MATRIX, *batch._worldMatrix);
@@ -245,7 +245,7 @@ void Renderer2D::RenderBatches(const Vector<Batch2D>& batches, Camera2D* camera)
 		Geometry* geometry = batch._geometry;
 		// Set vertex / index buffers and draw
 		if (instanced)
-			geometry->DrawInstanced(_graphics, 0, batch._instanceCount);
+			geometry->DrawInstanced(_graphics, batch._instanceStart, batch._instanceCount);
 		else
 			geometry->Draw(_graphics);
 
