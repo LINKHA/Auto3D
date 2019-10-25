@@ -27,7 +27,7 @@ Camera2D::Camera2D() :
 	_aspectRatio(1.0f),
 	_zoom(1.0f),
 	_lodBias(1.0f),
-	_viewMask(M_MAX_UNSIGNED),
+	_viewLayoutMask(M_MAX_UNSIGNED),
 	_ambientColor(DEFAULT_AMBIENT_COLOR),
 	_projectionOffset(Vector2F::ZERO),
 	_reflectionPlane(Plane::UP),
@@ -110,7 +110,7 @@ void Camera2D::SetLodBias(float bias)
 
 void Camera2D::SetViewMask(unsigned mask)
 {
-	_viewMask = mask;
+	_viewLayoutMask = mask;
 }
 
 void Camera2D::SetOrthographic(bool enable)

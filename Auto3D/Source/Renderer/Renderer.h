@@ -129,7 +129,7 @@ private:
     /// Camera's view frustum.
     Frustum _frustum;
     /// Camera's view mask.
-    unsigned _viewMask;
+    unsigned _viewLayoutMask;
     /// Geometries in frustum.
     Vector<GeometryNode*> _geometries;
     /// Lights in frustum.

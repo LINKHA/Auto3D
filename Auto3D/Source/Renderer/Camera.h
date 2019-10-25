@@ -54,7 +54,9 @@ public:
     /// Set LOD bias. Values higher than 1 uses higher quality LOD (acts if distance is smaller.)
     void SetLodBias(float bias);
     /// Set view layer mask. Will be checked against scene objects' layers to see what to render.
-    void SetViewMask(unsigned mask);
+    void SetLayoutMask(unsigned maskIndex);
+	/// Set view layer mask from name. Will be checked against scene objects' layers to see what to render.
+	void SetLayoutMaskName(const String& name);
     /// Set orthographic projection mode.
     void SetOrthographic(bool enable);
     /// Set ambient light color to use when rendering with this camera.
@@ -86,7 +88,7 @@ public:
     /// Return LOD bias.
     float GetLodBias() const { return _lodBias; }
     /// Return view layer mask.
-    unsigned GetViewMask() const { return _viewMask; }
+    unsigned GetViewMask() const { return _viewLayoutMask; }
     /// Return whether is orthographic.
     bool IsOrthographic() const { return _orthographic; }
     /// Return ambient light color.
@@ -175,7 +177,7 @@ private:
     /// LOD bias.
     float _lodBias;
     /// View layer mask.
-    unsigned _viewMask;
+    unsigned _viewLayoutMask;
     /// Ambient light color.
     Color _ambientColor;
     /// Projection offset.

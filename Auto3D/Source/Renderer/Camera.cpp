@@ -3,7 +3,7 @@
 #include "../Resource/Image.h"
 #include "../Graphics/Texture.h"
 #include "../Debug/Log.h"
-
+#include "../Scene/Scene.h"
 #include "../Debug/DebugNew.h"
 
 namespace Auto3D
@@ -34,7 +34,7 @@ Camera::Camera() :
     _aspectRatio(1.0f),
     _zoom(1.0f),
     _lodBias(1.0f),
-    _viewMask(M_MAX_UNSIGNED),
+    _viewLayoutMask(M_MAX_UNSIGNED),
     _ambientColor(DEFAULT_AMBIENT_COLOR),
     _projectionOffset(Vector2F::ZERO),
     _reflectionPlane(Plane::UP),
@@ -58,7 +58,7 @@ void Camera::RegisterObject()
     RegisterAttribute("orthoSize", &Camera::GetOrthoSize, &Camera::SetOrthoSize, DEFAULT_ORTHOSIZE);
     RegisterAttribute("zoom", &Camera::GetZoom, &Camera::SetZoom, 1.0f);
     RegisterAttribute("lodBias", &Camera::GetLodBias, &Camera::SetLodBias, 1.0f);
-    RegisterAttribute("viewMask", &Camera::GetViewMask, &Camera::SetViewMask, M_MAX_UNSIGNED);
+    RegisterAttribute("viewMask", &Camera::GetViewMask, &Camera::SetLayoutMask, M_MAX_UNSIGNED);
     RegisterRefAttribute("ambientColor", &Camera::GetAmbientColor, &Camera::SetAmbientColor, DEFAULT_AMBIENT_COLOR);
     RegisterRefAttribute("projectionOffset", &Camera::GetProjectionOffset, &Camera::SetProjectionOffset, Vector2F::ZERO);
     RegisterMixedRefAttribute("reflectionPlane", &Camera::ReflectionPlaneAttr, &Camera::SetReflectionPlaneAttr, Vector4F(0.0f, 1.0f, 0.0f, 0.0f));
@@ -108,10 +108,26 @@ void Camera::SetLodBias(float bias)
     _lodBias = Max(bias, M_EPSILON);
 }
 
-void Camera::SetViewMask(unsigned mask)
+void Camera::SetLayoutMask(unsigned maskIndex)
 {
-    _viewMask = mask;
+	_viewLayoutMask &= ~(1 << maskIndex);
 }
+
+void Camera::SetLayoutMaskName(const String& name)
+{
+	Scene* scene = ParentScene();
+	if (!scene)
+		return;
+
+	const HashMap<String, unsigned char>& layous = scene->Layers();
+
+	auto it = layous.Find(name);
+	if (it != layous.End())
+		_viewLayoutMask &= ~(1 << it->_second);
+	else
+		ErrorString("Layer" + name + " not defined in the scene");
+}
+
 
 void Camera::SetOrthographic(bool enable)
 {

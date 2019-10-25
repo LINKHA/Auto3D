@@ -79,7 +79,7 @@ public:
 	/// Return LOD bias.
 	float GetLodBias() const { return _lodBias; }
 	/// Return view layer mask.
-	unsigned GetViewMask() const { return _viewMask; }
+	unsigned GetViewMask() const { return _viewLayoutMask; }
 	/// Return whether is orthographic.
 	bool IsOrthographic() const { return _orthographic; }
 	/// Return ambient light color.
@@ -168,7 +168,7 @@ private:
 	/// LOD bias.
 	float _lodBias;
 	/// View layer mask.
-	unsigned _viewMask;
+	unsigned _viewLayoutMask;
 	/// Ambient light color.
 	Color _ambientColor;
 	/// Projection offset.

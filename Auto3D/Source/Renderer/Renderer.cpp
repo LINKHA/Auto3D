@@ -70,7 +70,7 @@ Renderer::Renderer() :
 	_octree(nullptr),
 	_scenes(nullptr),
 	_usedShadowViews(0),
-	_viewMask(NULL),
+	_viewLayoutMask(NULL),
     _frameNumber(0),
     _instanceTransformsDirty(false)
 {
@@ -273,7 +273,7 @@ bool Renderer::CollectObjects(Scene* scene, Camera* camera)
     _octree->Update();
 
     _frustum = _camera->GetWorldFrustum();
-    _viewMask = _camera->GetViewMask();
+    _viewLayoutMask = _camera->GetViewMask();
     _octree->FindNodes(_frustum, this, &Renderer::CollectGeometriesAndLights);
 
     return true;
@@ -924,7 +924,7 @@ void Renderer::CollectGeometriesAndLights(Vector<OctreeNode*>::ConstIterator beg
         {
             OctreeNode* node = *it;
             unsigned short flags = node->Flags();
-            if ((flags & NF_ENABLED) && (flags & (NF_GEOMETRY | NF_LIGHT)) && (node->GetLayerMask() & _viewMask))
+            if ((flags & NF_ENABLED) && (flags & (NF_GEOMETRY | NF_LIGHT)) && (node->GetLayerMask() & _viewLayoutMask))
             {
                 if (flags & NF_GEOMETRY)
                 {
@@ -947,7 +947,7 @@ void Renderer::CollectGeometriesAndLights(Vector<OctreeNode*>::ConstIterator beg
         {
             OctreeNode* node = *it;
             unsigned short flags = node->Flags();
-            if ((flags & NF_ENABLED) && (flags & (NF_GEOMETRY | NF_LIGHT)) && (node->GetLayerMask() & _viewMask) &&
+            if ((flags & NF_ENABLED) && (flags & (NF_GEOMETRY | NF_LIGHT)) && (node->GetLayerMask() & _viewLayoutMask) &&
                 _frustum.IsInsideFast(node->WorldBoundingBox()))
             {
                 if (flags & NF_GEOMETRY)
