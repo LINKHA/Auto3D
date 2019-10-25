@@ -117,10 +117,6 @@ bool Renderer2D::Collect2dObjects(Scene2D* scend2d, Camera2D* camera)
 	for (auto it = scend2d->GetAllNode().Begin(); it != scend2d->GetAllNode().End(); it++)
 	{
 		Node2D* node = it->_second;
-
-		unsigned a1 = node->GetLayerMask();
-		unsigned a2 = _camera->GetViewMask();
-
 		if (node->TestFlag(NF_2D_GEOMETRY) && (node->GetLayerMask() & _camera->GetViewMask()))
 		{
 			_geometryNode.Push(static_cast<GeometryNode2D*>(it->_second));
