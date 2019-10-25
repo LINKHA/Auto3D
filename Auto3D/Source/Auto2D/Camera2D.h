@@ -47,6 +47,16 @@ public:
 	void SetLodBias(float bias);
 	/// Set view layer mask. Will be checked against scene objects' layers to see what to render.
 	void SetLayoutMask(unsigned mask);
+	/// Set view layer mask. Will be checked against scene objects' layers to see what to render.
+	void SetLayoutMaskIndex(unsigned maskIndex);
+	/// Set view layer mask from name. Will be checked against scene objects' layers to see what to render.
+	void SetLayoutMaskName(const String& name);
+	/// Set view layer out with mask.
+	void SetLayoutMaskOutIndex(unsigned maskIndex);
+	/// Set view layer out with mask.
+	void SetLayoutMaskOutName(const String& name);
+	/// Set view layer mask all layout.
+	void SetLayoutMaskAll();
 	/// Set orthographic projection mode.
 	void SetOrthographic(bool enable);
 	/// Set ambient light color to use when rendering with this camera.

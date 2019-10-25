@@ -29,7 +29,8 @@ void Sample::Start()
 	uiCamera = scene2d->CreateChild<Camera2D>();
 	uiCamera->SetOrthographic(true);
 	uiCamera->SetPosition(Vector3F(0.0f, 0.0f, -100.0f));
-	//uiCamera->SetViewMask();
+	uiCamera->SetLayoutMaskAll();
+	uiCamera->SetLayoutMaskOutName("UI");
 
 	CreateLogo();
 }

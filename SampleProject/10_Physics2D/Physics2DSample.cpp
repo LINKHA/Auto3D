@@ -9,13 +9,18 @@ void Physics2DSample::Init()
 void Physics2DSample::Start()
 {
 	Super::Start();
-	uiCamera->SetOrthoSize(50);
-
+	
 	auto* cache = Object::Module<ResourceCache>();
 	auto squareTexture = cache->LoadResource<Texture>("Texture/Box.png");
 	auto circleTexture = cache->LoadResource<Texture>("Texture/Ball.png");
 
 	PhysicsWorld2D* physicsWorld2d = scene2d->CreateChild<PhysicsWorld2D>();
+
+	camera2d = scene2d->CreateChild<Camera2D>();
+	camera2d->SetOrthoSize(50);
+	camera2d->SetOrthographic(true);
+	camera2d->SetPosition(Vector3F(0.0f, 0.0f, -100.0f));
+	camera2d->SetLayoutMaskName("UI");
 
 	{
 		Sprite2D* plane = scene2d->CreateChild<Sprite2D>();
@@ -142,13 +147,13 @@ void Physics2DSample::Update()
 	float moveSpeed = input->IsKeyDown(KEY_LSHIFT) ? 50 : 10.0f;
 
 	if (input->IsKeyDown(KEY_W))
-		uiCamera->Translate(Vector3F::UP * time->GetDeltaTime() * moveSpeed);
+		camera2d->Translate(Vector3F::UP * time->GetDeltaTime() * moveSpeed);
 	if (input->IsKeyDown(KEY_S))
-		uiCamera->Translate(Vector3F::DOWN * time->GetDeltaTime() * moveSpeed);
+		camera2d->Translate(Vector3F::DOWN * time->GetDeltaTime() * moveSpeed);
 	if (input->IsKeyDown(KEY_A))
-		uiCamera->Translate(Vector3F::LEFT * time->GetDeltaTime() * moveSpeed);
+		camera2d->Translate(Vector3F::LEFT * time->GetDeltaTime() * moveSpeed);
 	if (input->IsKeyDown(KEY_D))
-		uiCamera->Translate(Vector3F::RIGHT * time->GetDeltaTime() * moveSpeed);
+		camera2d->Translate(Vector3F::RIGHT * time->GetDeltaTime() * moveSpeed);
 }
 
 void Physics2DSample::Stop()

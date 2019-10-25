@@ -1,4 +1,7 @@
 #include "Camera2D.h"
+#include "Scene2D.h"
+
+#include "../Debug/Log.h"
 
 namespace Auto3D
 {
@@ -111,6 +114,51 @@ void Camera2D::SetLodBias(float bias)
 void Camera2D::SetLayoutMask(unsigned mask)
 {
 	_viewLayoutMask = mask;
+}
+
+void Camera2D::SetLayoutMaskIndex(unsigned maskIndex)
+{
+	_viewLayoutMask &= ~(1 << maskIndex);
+}
+
+void Camera2D::SetLayoutMaskName(const String& name)
+{
+	Scene2D* scene = ParentScene2D();
+	if (!scene)
+		return;
+
+	const HashMap<String, unsigned char>& layous = scene->Layers();
+
+	auto it = layous.Find(name);
+	if (it != layous.End())
+		_viewLayoutMask &= ~(1 << it->_second);
+	else
+		ErrorString("Layer" + name + " not defined in the scene");
+}
+
+void Camera2D::SetLayoutMaskOutIndex(unsigned maskIndex)
+{
+	_viewLayoutMask |= 1 << maskIndex;
+}
+
+void Camera2D::SetLayoutMaskOutName(const String& name)
+{
+	Scene2D* scene = ParentScene2D();
+	if (!scene)
+		return;
+
+	const HashMap<String, unsigned char>& layous = scene->Layers();
+
+	auto it = layous.Find(name);
+	if (it != layous.End())
+		_viewLayoutMask |= 1 << it->_second;
+	else
+		ErrorString("Layer" + name + " not defined in the scene");
+}
+
+void Camera2D::SetLayoutMaskAll()
+{
+	_viewLayoutMask = 0;
 }
 
 void Camera2D::SetOrthographic(bool enable)

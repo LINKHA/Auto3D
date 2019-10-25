@@ -108,7 +108,12 @@ void Camera::SetLodBias(float bias)
     _lodBias = Max(bias, M_EPSILON);
 }
 
-void Camera::SetLayoutMask(unsigned maskIndex)
+void Camera::SetLayoutMask(unsigned mask)
+{
+	_viewLayoutMask = mask;
+}
+
+void Camera::SetLayoutMaskIndex(unsigned maskIndex)
 {
 	_viewLayoutMask &= ~(1 << maskIndex);
 }
@@ -128,6 +133,30 @@ void Camera::SetLayoutMaskName(const String& name)
 		ErrorString("Layer" + name + " not defined in the scene");
 }
 
+void Camera::SetLayoutMaskOutIndex(unsigned maskIndex)
+{
+	_viewLayoutMask |= 1 << maskIndex;
+}
+
+void Camera::SetLayoutMaskOutName(const String& name)
+{
+	Scene* scene = ParentScene();
+	if (!scene)
+		return;
+
+	const HashMap<String, unsigned char>& layous = scene->Layers();
+
+	auto it = layous.Find(name);
+	if (it != layous.End())
+		_viewLayoutMask |= 1 << it->_second;
+	else
+		ErrorString("Layer" + name + " not defined in the scene");
+}
+
+void Camera::SetLayoutMaskAll()
+{
+	_viewLayoutMask = 0;
+}
 
 void Camera::SetOrthographic(bool enable)
 {

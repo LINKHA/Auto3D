@@ -9,6 +9,12 @@ void SpriteSample::Init()
 void SpriteSample::Start()
 {
 	Super::Start();
+
+	camera2d = scene2d->CreateChild<Camera2D>();
+	camera2d->SetOrthographic(true);
+	camera2d->SetPosition(Vector3F(0.0f, 0.0f, -100.0f));
+	camera2d->SetLayoutMaskName("UI");
+
 	auto* cache = Object::Module<ResourceCache>();
 	auto flowerTexture = cache->LoadResource<Texture>("Texture/flower.png");
 
@@ -31,13 +37,13 @@ void SpriteSample::Update()
 	float moveSpeed = input->IsKeyDown(KEY_LSHIFT) ? 50 : 10.0f;
 
 	if (input->IsKeyDown(KEY_W))
-		uiCamera->Translate(Vector3F::UP * time->GetDeltaTime() * moveSpeed);
+		camera2d->Translate(Vector3F::UP * time->GetDeltaTime() * moveSpeed);
 	if (input->IsKeyDown(KEY_S))
-		uiCamera->Translate(Vector3F::DOWN * time->GetDeltaTime()  * moveSpeed);
+		camera2d->Translate(Vector3F::DOWN * time->GetDeltaTime()  * moveSpeed);
 	if (input->IsKeyDown(KEY_A))
-		uiCamera->Translate(Vector3F::LEFT * time->GetDeltaTime()  * moveSpeed);
+		camera2d->Translate(Vector3F::LEFT * time->GetDeltaTime()  * moveSpeed);
 	if (input->IsKeyDown(KEY_D))
-		uiCamera->Translate(Vector3F::RIGHT * time->GetDeltaTime()  * moveSpeed);
+		camera2d->Translate(Vector3F::RIGHT * time->GetDeltaTime()  * moveSpeed);
 
 	float scaleAmount = (float)sin(time->GetCurTime());
 	for (auto it = sprites.Begin(); it != sprites.End(); it++)
