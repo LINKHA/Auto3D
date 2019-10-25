@@ -46,7 +46,7 @@ public:
 	/// Set LOD bias. Values higher than 1 uses higher quality LOD (acts if distance is smaller.)
 	void SetLodBias(float bias);
 	/// Set view layer mask. Will be checked against scene objects' layers to see what to render.
-	void SetViewMask(unsigned mask);
+	void SetLayoutMask(unsigned mask);
 	/// Set orthographic projection mode.
 	void SetOrthographic(bool enable);
 	/// Set ambient light color to use when rendering with this camera.

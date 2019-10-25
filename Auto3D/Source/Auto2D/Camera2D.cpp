@@ -56,7 +56,7 @@ void Camera2D::RegisterObject()
 	RegisterAttribute("orthoSize", &Camera2D::GetOrthoSize, &Camera2D::SetOrthoSize, DEFAULT_ORTHOSIZE);
 	RegisterAttribute("zoom", &Camera2D::GetZoom, &Camera2D::SetZoom, 1.0f);
 	RegisterAttribute("lodBias", &Camera2D::GetLodBias, &Camera2D::SetLodBias, 1.0f);
-	RegisterAttribute("viewMask", &Camera2D::GetViewMask, &Camera2D::SetViewMask, M_MAX_UNSIGNED);
+	RegisterAttribute("viewMask", &Camera2D::GetViewMask, &Camera2D::SetLayoutMask, M_MAX_UNSIGNED);
 	RegisterRefAttribute("ambientColor", &Camera2D::GetAmbientColor, &Camera2D::SetAmbientColor, DEFAULT_AMBIENT_COLOR);
 	RegisterRefAttribute("projectionOffset", &Camera2D::GetProjectionOffset, &Camera2D::SetProjectionOffset, Vector2F::ZERO);
 	RegisterMixedRefAttribute("reflectionPlane", &Camera2D::ReflectionPlaneAttr, &Camera2D::SetReflectionPlaneAttr, Vector4F(0.0f, 1.0f, 0.0f, 0.0f));
@@ -108,7 +108,7 @@ void Camera2D::SetLodBias(float bias)
 	_lodBias = Max(bias, M_EPSILON);
 }
 
-void Camera2D::SetViewMask(unsigned mask)
+void Camera2D::SetLayoutMask(unsigned mask)
 {
 	_viewLayoutMask = mask;
 }
