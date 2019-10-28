@@ -800,7 +800,9 @@ void Renderer::RenderBatches(const Vector<RenderPassDesc>& passes)
         unsigned char passIndex = Material::PassIndex(passes[i]._name);
         RenderQueue& batchQueue = _batchQueues[passIndex];
         RenderBatches(batchQueue._batches, _camera, i == 0);
-        RenderBatches(batchQueue._additiveBatches, _camera, false);
+
+		// Just remove additive batches to facilitate debugging
+        /*RenderBatches(batchQueue._additiveBatches, _camera, false);*/
     }
 }
 
@@ -811,7 +813,9 @@ void Renderer::RenderBatches(const String& pass)
     unsigned char passIndex = Material::PassIndex(pass);
     RenderQueue& batchQueue = _batchQueues[passIndex];
     RenderBatches(batchQueue._batches, _camera);
-    RenderBatches(batchQueue._additiveBatches, _camera, false);
+
+	// Just remove additive batches to facilitate debugging
+    /*RenderBatches(batchQueue._additiveBatches, _camera, false);*/
 }
 
 void Renderer::Initialize()
