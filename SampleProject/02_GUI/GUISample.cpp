@@ -15,10 +15,10 @@ void GUISample::Start()
 	UI* ui = ModuleManager::Get().UiModule();
 
 	Font* msyh26 = cache->LoadResource<Font>("Font/msyh.ttc");
-	ui->AddFontCN(msyh26, 26, "Myth_26");
+	ui->AddFont(msyh26, 26, "Myth_26", UIFontLanguage::CN);
 
 	Font* msyh48 = cache->LoadResource<Font>("Font/msyh.ttc");
-	ui->AddFontCN(msyh48, 48, "Msyh_48");
+	ui->AddFont(msyh48, 48, "Msyh_48", UIFontLanguage::CN);
 }
 
 void GUISample::Update()

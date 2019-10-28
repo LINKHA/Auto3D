@@ -22,7 +22,20 @@ struct UIFont
 	static HashMap<String, const char*> Data;
 	static int DefaultSize;
 };
-
+namespace UIFontLanguage
+{
+	enum Data
+	{
+		DEFAULT = 0,
+		CN,
+		CNF,
+		JP,
+		KR,
+		THA,
+		RUS,
+		VIE
+	};
+}
 
 //namespace UIFont
 //{
@@ -50,23 +63,9 @@ public:
 	bool BeginUI();
 	/// Draw data to screen
 	void Present();
-	/// Add font from font.
-	void AddFont(Font* font, int pixels = 24,String fontname = "Default");
-	/// Add font from font.
-	void AddFontCN(Font* font, int pixels = 24, String fontname = "Default");
-	/// Add font from font.
-	void AddFontCNF(Font* font, int pixels = 24, String fontname = "Default");
-	/// Add font from font.
-	void AddFontJP(Font* font, int pixels = 24, String fontname = "Default");
-	/// Add font from font.
-	void AddFontKR(Font* font, int pixels = 24, String fontname = "Default");
-	/// Add font from font.
-	void AddFontTHA(Font* font, int pixels = 24, String fontname = "Default");
-	/// Add font from font.
-	void AddFontRUS(Font* font, int pixels = 24, String fontname = "Default");
-	/// Add font from font.
-	void AddFontVIE(Font* font, int pixels = 24, String fontname = "Default");
 
+	/// Add font from font.
+	void AddFont(Font* font, int pixels = 24, String fontname = "Default", UIFontLanguage::Data languageType = UIFontLanguage::DEFAULT);
 
 	/// Get gui IO.
 	ImGuiIO& IO() { return ImGui::GetIO(); }

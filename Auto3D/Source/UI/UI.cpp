@@ -154,110 +154,56 @@ void UI::Present()
 #	endif
 }
 
-void UI::AddFont(Font* font, int pixels, String fontname)
+void UI::AddFont(Font* font, int pixels, String fontname, UIFontLanguage::Data languageType)
 {
 	if (fontname == "Default")
 		fontname = "Default" + UIFont::DefaultSize++;
+
+	// Ignore if you have the same Font
+	if (ImGui::GetFont(fontname.CString()))
+		return;
 
 	int fontSize = font->GetDataSize();
 	//This memory is automatically freed when the UI is deleted
 	unsigned char* data = new unsigned char[fontSize];
 	memcpy(data, font->Data(), fontSize);
 
-	ImGui::AddFont(UIFont::Data[fontname] = fontname.CString(),IO().Fonts->AddFontFromMemoryTTF(data, fontSize, pixels, &ImFontConfig(), IO().Fonts->GetGlyphRangesDefault()));
+	const ImWchar* laType;
+	switch (languageType)
+	{
+	case Auto3D::UIFontLanguage::DEFAULT:
+		laType = IO().Fonts->GetGlyphRangesDefault();
+		break;
+	case Auto3D::UIFontLanguage::CN:
+		laType = IO().Fonts->GetGlyphRangesChineseSimplifiedCommon();
+		break;
+	case Auto3D::UIFontLanguage::CNF:
+		laType = IO().Fonts->GetGlyphRangesChineseFull();
+		break;
+	case Auto3D::UIFontLanguage::JP:
+		laType = IO().Fonts->GetGlyphRangesJapanese();
+		break;
+	case Auto3D::UIFontLanguage::KR:
+		laType = IO().Fonts->GetGlyphRangesKorean();
+		break;
+	case Auto3D::UIFontLanguage::THA:
+		laType = IO().Fonts->GetGlyphRangesThai();
+		break;
+	case Auto3D::UIFontLanguage::RUS:
+		laType = IO().Fonts->GetGlyphRangesCyrillic();
+		break;
+	case Auto3D::UIFontLanguage::VIE:
+		laType = IO().Fonts->GetGlyphRangesVietnamese();
+		break;
+	default:
+		WarningString("Fail to add font,language type is non-standard,Automatic generation becomes default.");
+		laType = IO().Fonts->GetGlyphRangesDefault();
+		break;
+	}
+
+	ImFont* tFont = IO().Fonts->AddFontFromMemoryTTF(data, fontSize, pixels, &ImFontConfig(), laType);
+	ImGui::AddFont(UIFont::Data[fontname] = fontname.CString(), tFont);
 }
-
-void UI::AddFontCN(Font* font,int pixels, String fontname)
-{
-	if (fontname == "Default")
-		fontname = "Default" + UIFont::DefaultSize++;
-
-	int fontSize = font->GetDataSize();
-	//This memory is automatically freed when the UI is deleted
-	unsigned char* data = new unsigned char[fontSize];
-	memcpy(data, font->Data(), fontSize);
-
-	ImGui::AddFont(UIFont::Data[fontname] = fontname.CString(), IO().Fonts->AddFontFromMemoryTTF(data, fontSize, pixels, &ImFontConfig(), IO().Fonts->GetGlyphRangesChineseSimplifiedCommon()));
-}
-
-void UI::AddFontCNF(Font* font, int pixels, String fontname)
-{
-	if (fontname == "Default")
-		fontname = "Default" + UIFont::DefaultSize++;
-
-	int fontSize = font->GetDataSize();
-	//This memory is automatically freed when the UI is deleted
-	unsigned char* data = new unsigned char[fontSize];
-	memcpy(data, font->Data(), fontSize);
-
-	ImGui::AddFont(UIFont::Data[fontname] = fontname.CString(), IO().Fonts->AddFontFromMemoryTTF(font->Data(), fontSize, pixels, &ImFontConfig(), IO().Fonts->GetGlyphRangesChineseFull()));
-}
-
-void UI::AddFontJP(Font* font, int pixels, String fontname)
-{
-	if (fontname == "Default")
-		fontname = "Default" + UIFont::DefaultSize++;
-
-	int fontSize = font->GetDataSize();
-	//This memory is automatically freed when the UI is deleted
-	unsigned char* data = new unsigned char[fontSize];
-	memcpy(data, font->Data(), fontSize);
-
-	ImGui::AddFont(UIFont::Data[fontname] = fontname.CString(), IO().Fonts->AddFontFromMemoryTTF(data, fontSize, pixels, &ImFontConfig(), IO().Fonts->GetGlyphRangesJapanese()));
-}
-
-void UI::AddFontKR(Font* font, int pixels, String fontname)
-{
-	if (fontname == "Default")
-		fontname = "Default" + UIFont::DefaultSize++;
-
-	int fontSize = font->GetDataSize();
-	//This memory is automatically freed when the UI is deleted
-	unsigned char* data = new unsigned char[fontSize];
-	memcpy(data, font->Data(), fontSize);
-
-	ImGui::AddFont(UIFont::Data[fontname] = fontname.CString(), IO().Fonts->AddFontFromMemoryTTF(data, fontSize, pixels, &ImFontConfig(), IO().Fonts->GetGlyphRangesKorean()));
-}
-
-void UI::AddFontTHA(Font* font, int pixels, String fontname)
-{
-	if (fontname == "Default")
-		fontname = "Default" + UIFont::DefaultSize++;
-
-	int fontSize = font->GetDataSize();
-	//This memory is automatically freed when the UI is deleted
-	unsigned char* data = new unsigned char[fontSize];
-	memcpy(data, font->Data(), fontSize);
-
-	ImGui::AddFont(UIFont::Data[fontname] = fontname.CString(), IO().Fonts->AddFontFromMemoryTTF(data, fontSize, pixels, &ImFontConfig(), IO().Fonts->GetGlyphRangesThai()));
-}
-
-void UI::AddFontRUS(Font* font, int pixels, String fontname)
-{
-	if (fontname == "Default")
-		fontname = "Default" + UIFont::DefaultSize++;
-
-	int fontSize = font->GetDataSize();
-	//This memory is automatically freed when the UI is deleted
-	unsigned char* data = new unsigned char[fontSize];
-	memcpy(data, font->Data(), fontSize);
-
-	ImGui::AddFont(UIFont::Data[fontname] = fontname.CString(), IO().Fonts->AddFontFromMemoryTTF(data, fontSize, pixels, &ImFontConfig(), IO().Fonts->GetGlyphRangesCyrillic()));
-}
-
-void UI::AddFontVIE(Font* font, int pixels, String fontname)
-{
-	if (fontname == "Default")
-		fontname = "Default" + UIFont::DefaultSize++;
-
-	int fontSize = font->GetDataSize();
-	//This memory is automatically freed when the UI is deleted
-	unsigned char* data = new unsigned char[fontSize];
-	memcpy(data, font->Data(), fontSize);
-
-	ImGui::AddFont(UIFont::Data[fontname] = fontname.CString(), IO().Fonts->AddFontFromMemoryTTF(data, fontSize, pixels, &ImFontConfig(), IO().Fonts->GetGlyphRangesVietnamese()));
-}
-
 
 void UI::ProcessEvent(const SDL_Event* event)
 {
