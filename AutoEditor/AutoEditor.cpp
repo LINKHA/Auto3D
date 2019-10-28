@@ -1,18 +1,24 @@
 #include "AutoEditor.h"
 #include "StartPage.h"
 
-#include <ThirdParty/Imgui/imgui.h>
-#include <ThirdParty/Imgui/imgui_user/imgui_user.h>
-
 void AutoEditor::Init()
 {
-	auto* graphics = Object::Subsystem<Graphics>();
+	auto graphics = ModuleManager::Get().GraphicsModule();
 	graphics->RenderWindow()->SetTitle("AutoEditor");
+
+
 }
 
 void AutoEditor::Start()
 {
-	
+	auto cache = ModuleManager::Get().CacheModule();
+	auto ui = ModuleManager::Get().UiModule();
+
+	Font* msyh24 = cache->LoadResource<Font>("Font/msyh.ttc");
+	ui->AddFont(msyh24, 24, "Msyh_24", UIFontLanguage::CN);
+
+	Font* msyh48 = cache->LoadResource<Font>("Font/msyh.ttc");
+	ui->AddFont(msyh48, 36, "Msyh_36", UIFontLanguage::CN);
 }
 void AutoEditor::Update()
 {
