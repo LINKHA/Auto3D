@@ -11,13 +11,5 @@ public:
 	void Start()override;
 	void Update()override;
 	void Stop()override;
-
-	SharedPtr<Canvas> canvas;
-	Text* text;
-	Text* text2;
-	Button* button;
-	int count = 0;
-	CheckBox* checkBox;
-
-	SharedPtr<Canvas> canvas2;
+	void UIDraw()override;
 };

@@ -3,11 +3,11 @@
 #include "../Platform/Window.h"
 #include "../Platform/Context.h"
 #include "../Graphics/Texture.h"
-
+#include "../Resource/Font.h"
 #include "UIUtils.h"
 
 #include <imgui.h>
-
+#include <imgui_internal.h>
 using SDL_Event =  union SDL_Event;
 
 namespace Auto3D
@@ -17,15 +17,19 @@ namespace UIStyleColors
 {
 	const static Color Text = Color(1.00f, 1.00f, 1.00f, 1.00f);
 }
-
-namespace UIFont
+struct UIFont
 {
-	const static char* default = "default";
-	const static char* standard = "standard";
-	const static char* standard_big = "standard_big";
-}
+	static HashMap<String, const char*> Data;
+	static int DefaultSize;
+};
 
-class Canvas;
+
+//namespace UIFont
+//{
+//	const static char* default = "default";
+//	const static char* standard = "standard";
+//	const static char* standard_big = "standard_big";
+//}
 
 class AUTO_API UI : public BaseModule
 {
@@ -46,16 +50,31 @@ public:
 	bool BeginUI();
 	/// Draw data to screen
 	void Present();
-	/// Render the UI. If renderUICommand is false (default), is assumed to be the default UI render to backbuffer called by Engine, 
-	/// and will be performed only once. Additional UI renders to a different rendertarget may be triggered from the renderpath.
-	void Render(Canvas* canvas);
+	/// Add font from font.
+	void AddFont(Font* font, int pixels = 24,String fontname = "Default");
+	/// Add font from font.
+	void AddFontCN(Font* font, int pixels = 24, String fontname = "Default");
+	/// Add font from font.
+	void AddFontCNF(Font* font, int pixels = 24, String fontname = "Default");
+	/// Add font from font.
+	void AddFontJP(Font* font, int pixels = 24, String fontname = "Default");
+	/// Add font from font.
+	void AddFontKR(Font* font, int pixels = 24, String fontname = "Default");
+	/// Add font from font.
+	void AddFontTHA(Font* font, int pixels = 24, String fontname = "Default");
+	/// Add font from font.
+	void AddFontRUS(Font* font, int pixels = 24, String fontname = "Default");
+	/// Add font from font.
+	void AddFontVIE(Font* font, int pixels = 24, String fontname = "Default");
+
+
+	/// Get gui IO.
+	ImGuiIO& IO() { return ImGui::GetIO(); }
 	/// Process event to windows
 	void ProcessEvent(const SDL_Event* event);
 private:
 	/// Window this member is assigned in SetMode, make sure that SetMode calls this member later
 	WeakPtr<Window> _window;
-	/// UI node
-	Vector<Canvas*>	_uiNode;
 };
 
 /// Register UI related object factories and attributes.
@@ -162,6 +181,7 @@ AUTO_API void          SetScrollHereY(float center_y_ratio = 0.5f);             
 AUTO_API void          SetScrollFromPosY(float local_y, float center_y_ratio = 0.5f);  // adjust scrolling amount to make given position visible. Generally GetCursorStartPos() + offset to compute a valid position.
 
 // Parameters stacks (shared)
+AUTO_API void		   PushFont(const String& font);
 AUTO_API void          PushFont(Font* font);                                           // use NULL as a shortcut to push default font
 AUTO_API void          PopFont();
 AUTO_API void          PushStyleColor(Col idx, unsigned col);

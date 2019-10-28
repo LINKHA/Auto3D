@@ -1,6 +1,6 @@
 #include "GUISample.h"
-#include <ThirdParty/Imgui/imgui.h>
 
+#include <imgui.h>
 void GUISample::Init()
 {
 	Super::Init();
@@ -11,72 +11,43 @@ void GUISample::Init()
 void GUISample::Start()
 {
 	Super::Start();
+	ResourceCache* cache = ModuleManager::Get().CacheModule();
+	UI* ui = ModuleManager::Get().UiModule();
 
-	//canvas = new Canvas();
+	Font* msyh26 = cache->LoadResource<Font>("Font/msyh.ttc");
+	ui->AddFontCN(msyh26, 26, "Myth_26");
 
-	/*canvas->SetTitle("Hello GUI");
-	canvas->SetCloseButtonEnable(true);
-
-	text = canvas->CreateChild<Text>();
-	text->SetText("GUI Text test");
-
-	button = canvas->CreateChild<Button>();
-	button->SetText("Button");
-
-	text2 = canvas->CreateChild<Text>();
-	text2->SetText(" Button count = %d", count);
-	text2->SetColor(Color(1.0f, 0.5f, 0.0f, 1.0f));
-	text2->SetSameLine();
-
-	Slider* slider = canvas->CreateChild<Slider>();
-	slider->SetText("Slider");
-	slider->SetRange(0.0f, 100.0f);
-
-	ColorEdit* colorEdit = canvas->CreateChild<ColorEdit>();
-
-	checkBox = canvas->CreateChild<CheckBox>();
-	checkBox->SetText("CheckBox");
-
-
-
-	canvas2 = new Canvas();
-	canvas2->SetTitle("Add window");
-	canvas2->SetEnabled(false);
-
-	Text* text3 = canvas2->CreateChild<Text>();
-	text3->SetText("Hello window");*/
+	Font* msyh48 = cache->LoadResource<Font>("Font/msyh.ttc");
+	ui->AddFontCN(msyh48, 48, "Msyh_48");
 }
+
 void GUISample::Update()
 {
 	Super::Update();
+}
+
+void GUISample::UIDraw()
+{
 	static float f = 0.0f;
 	static int counter = 0;
 	auto* cache = Object::Module<ResourceCache>();
 	auto flowerTexture = cache->LoadResource<Texture>("Texture/flower.png");
 
-	ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+	GUI::Begin("Hello, world!");                      
 
-	ImGui::Text(u8"Hello, 中文测试world!");               // Display some text (you can use a format strings too)
-	ImGui::Image((void*)flowerTexture->GetGLTexture(), ImVec2(flowerTexture->GetWidth(), flowerTexture->GetHeight())); ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+	GUI::Text(u8"中文测试");            
+	GUI::Image(flowerTexture, Vector2F(flowerTexture->GetWidth(), flowerTexture->GetHeight())); GUI::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
 
-	if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+	if (GUI::Button("Button")) 
 		counter++;
-	ImGui::SameLine();
-	ImGui::Text("counter = %d", counter);
+	GUI::SameLine();
 
-	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-	ImGui::End();
+	GUI::PushFont("Msyh_48");
+	GUI::Text("counter = %d", counter);
+	GUI::PopFont();
 
-
-	/*if (button->IsClick())
-	{
-		count++;
-		text2->SetText(" Button count = %d", count);
-	}
-	if (checkBox->IsSelect())
-		canvas2->SetEnabled(true);
-	else
-		canvas2->SetEnabled(false);*/
+	GUI::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	GUI::End();
 }
 
 void GUISample::Stop()

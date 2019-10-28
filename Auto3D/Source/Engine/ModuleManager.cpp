@@ -14,7 +14,6 @@
 #include "../IO/FileSystem.h"
 #include "../UI/UI.h"
 #include "../Auto2D/Renderer2D.h"
-#include "../UI/Canvas.h"
 #include "../Scene/Scene.h"
 #include "../Auto2D/Scene2D.h"
 #include "../Base/ProcessUtils.h"

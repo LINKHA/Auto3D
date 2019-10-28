@@ -1,10 +1,5 @@
 #include "UI.h"
-#include "Canvas.h"
-#include "Text.h"
-#include "Button.h"
-#include "Slider.h"
-#include "ColorEdit.h"
-#include "CheckBox.h"
+#include "../IO/FileSystem.h"
 #include "../Engine/ModuleManager.h"
 
 #include <imgui.h>
@@ -27,13 +22,11 @@
 
 #include "../Debug/Log.h"
 
-#pragma region TTF
-#	include "tff.FontDefault.h"
-#pragma endregion
-
-
 namespace Auto3D
 {
+
+HashMap<String, const char*> UIFont::Data = HashMap<String, const char*>();
+int UIFont::DefaultSize = 0;
 
 UI::UI() :
 	_window(nullptr)
@@ -41,30 +34,16 @@ UI::UI() :
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
-	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls
-#ifdef WIN32 || WIN64
-	io.Fonts->AddFontFromFileTTF("c:/windows/fonts/simhei.ttf", 26.0f, NULL, io.Fonts->GetGlyphRangesChineseSimplifiedCommon());
-#endif
+	//IO().ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
+	//IO().ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls
+
 	// Setup Dear ImGui style
 	ImGui::StyleColorsYellow();
-
 
 	ImFontConfig config;
 	config.FontDataOwnedByAtlas = false;
 	config.MergeMode = false;
 
-	ImGui::AddFont(UIFont::default, io.Fonts->AddFontDefault(&config));
-	ImGui::AddFont(UIFont::standard,
-		io.Fonts->AddFontFromMemoryTTF(reinterpret_cast<void*>(std::intptr_t(sFontDefault)),
-			sizeof(sFontDefault), 20, &config));
-
-	config.MergeMode = false;
-	config.PixelSnapH = false;
-	ImGui::AddFont(UIFont::standard_big,
-		io.Fonts->AddFontFromMemoryTTF(reinterpret_cast<void*>(std::intptr_t(sFontDefault)),
-			sizeof(sFontDefault), 50, &config));
 	RegisterModule(this);
 }
 
@@ -81,7 +60,6 @@ UI::~UI()
 	ImGui_ImplSDL2_Shutdown();
 #endif
 	ImGui::DestroyContext();
-
 	RemoveModule(this);
 #endif
 }
@@ -124,7 +102,7 @@ bool UI::SetMode(Window* window)
 #endif
 	ImGui_ImplOpenGL3_Init(glslVersion);
 #	elif defined(AUTO_VULKAN)
-	/*ImGui_ImplSDL2_InitForVulkan(window->Handle());
+	ImGui_ImplSDL2_InitForVulkan(window->Handle());
 	ImGui_ImplVulkan_InitInfo init_info = {};
 	init_info.Instance = g_Instance;
 	init_info.PhysicalDevice = g_PhysicalDevice;
@@ -137,7 +115,7 @@ bool UI::SetMode(Window* window)
 	init_info.MinImageCount = g_MinImageCount;
 	init_info.ImageCount = wd->ImageCount;
 	init_info.CheckVkResultFn = check_vk_result;
-	ImGui_ImplVulkan_Init(&init_info, wd->RenderPass);*/
+	ImGui_ImplVulkan_Init(&init_info, wd->RenderPass);
 #	endif
 #endif
 	return true;
@@ -176,35 +154,110 @@ void UI::Present()
 #	endif
 }
 
-void UI::Render(Canvas* canvas)
+void UI::AddFont(Font* font, int pixels, String fontname)
 {
-	if (!canvas)
-	{
-		ErrorString("Fail render canvas,maybe canvas fail create");
-		return;
-	}
+	if (fontname == "Default")
+		fontname = "Default" + UIFont::DefaultSize++;
 
-	const char* title = canvas->GetTitle().CString();
+	int fontSize = font->GetDataSize();
+	//This memory is automatically freed when the UI is deleted
+	unsigned char* data = new unsigned char[fontSize];
+	memcpy(data, font->Data(), fontSize);
 
-	if (canvas->GetCloseButtonEnable())
-	{
-		bool state;
-		ImGui::Begin(title, &state);
-		canvas->SetCloseState(state);
-	}
-	else
-		ImGui::Begin(title);
-
-	const Vector<SharedPtr<UINode> >& nodes = canvas->Children();
-	for (auto it = nodes.Begin(); it != nodes.End(); ++it)
-	{
-		UINode* node = *it;
-		if (node->IsEnabled())
-			node->DefineNode();
-	}
-
-	ImGui::End();
+	ImGui::AddFont(UIFont::Data[fontname] = fontname.CString(),IO().Fonts->AddFontFromMemoryTTF(data, fontSize, pixels, &ImFontConfig(), IO().Fonts->GetGlyphRangesDefault()));
 }
+
+void UI::AddFontCN(Font* font,int pixels, String fontname)
+{
+	if (fontname == "Default")
+		fontname = "Default" + UIFont::DefaultSize++;
+
+	int fontSize = font->GetDataSize();
+	//This memory is automatically freed when the UI is deleted
+	unsigned char* data = new unsigned char[fontSize];
+	memcpy(data, font->Data(), fontSize);
+
+	ImGui::AddFont(UIFont::Data[fontname] = fontname.CString(), IO().Fonts->AddFontFromMemoryTTF(data, fontSize, pixels, &ImFontConfig(), IO().Fonts->GetGlyphRangesChineseSimplifiedCommon()));
+}
+
+void UI::AddFontCNF(Font* font, int pixels, String fontname)
+{
+	if (fontname == "Default")
+		fontname = "Default" + UIFont::DefaultSize++;
+
+	int fontSize = font->GetDataSize();
+	//This memory is automatically freed when the UI is deleted
+	unsigned char* data = new unsigned char[fontSize];
+	memcpy(data, font->Data(), fontSize);
+
+	ImGui::AddFont(UIFont::Data[fontname] = fontname.CString(), IO().Fonts->AddFontFromMemoryTTF(font->Data(), fontSize, pixels, &ImFontConfig(), IO().Fonts->GetGlyphRangesChineseFull()));
+}
+
+void UI::AddFontJP(Font* font, int pixels, String fontname)
+{
+	if (fontname == "Default")
+		fontname = "Default" + UIFont::DefaultSize++;
+
+	int fontSize = font->GetDataSize();
+	//This memory is automatically freed when the UI is deleted
+	unsigned char* data = new unsigned char[fontSize];
+	memcpy(data, font->Data(), fontSize);
+
+	ImGui::AddFont(UIFont::Data[fontname] = fontname.CString(), IO().Fonts->AddFontFromMemoryTTF(data, fontSize, pixels, &ImFontConfig(), IO().Fonts->GetGlyphRangesJapanese()));
+}
+
+void UI::AddFontKR(Font* font, int pixels, String fontname)
+{
+	if (fontname == "Default")
+		fontname = "Default" + UIFont::DefaultSize++;
+
+	int fontSize = font->GetDataSize();
+	//This memory is automatically freed when the UI is deleted
+	unsigned char* data = new unsigned char[fontSize];
+	memcpy(data, font->Data(), fontSize);
+
+	ImGui::AddFont(UIFont::Data[fontname] = fontname.CString(), IO().Fonts->AddFontFromMemoryTTF(data, fontSize, pixels, &ImFontConfig(), IO().Fonts->GetGlyphRangesKorean()));
+}
+
+void UI::AddFontTHA(Font* font, int pixels, String fontname)
+{
+	if (fontname == "Default")
+		fontname = "Default" + UIFont::DefaultSize++;
+
+	int fontSize = font->GetDataSize();
+	//This memory is automatically freed when the UI is deleted
+	unsigned char* data = new unsigned char[fontSize];
+	memcpy(data, font->Data(), fontSize);
+
+	ImGui::AddFont(UIFont::Data[fontname] = fontname.CString(), IO().Fonts->AddFontFromMemoryTTF(data, fontSize, pixels, &ImFontConfig(), IO().Fonts->GetGlyphRangesThai()));
+}
+
+void UI::AddFontRUS(Font* font, int pixels, String fontname)
+{
+	if (fontname == "Default")
+		fontname = "Default" + UIFont::DefaultSize++;
+
+	int fontSize = font->GetDataSize();
+	//This memory is automatically freed when the UI is deleted
+	unsigned char* data = new unsigned char[fontSize];
+	memcpy(data, font->Data(), fontSize);
+
+	ImGui::AddFont(UIFont::Data[fontname] = fontname.CString(), IO().Fonts->AddFontFromMemoryTTF(data, fontSize, pixels, &ImFontConfig(), IO().Fonts->GetGlyphRangesCyrillic()));
+}
+
+void UI::AddFontVIE(Font* font, int pixels, String fontname)
+{
+	if (fontname == "Default")
+		fontname = "Default" + UIFont::DefaultSize++;
+
+	int fontSize = font->GetDataSize();
+	//This memory is automatically freed when the UI is deleted
+	unsigned char* data = new unsigned char[fontSize];
+	memcpy(data, font->Data(), fontSize);
+
+	ImGui::AddFont(UIFont::Data[fontname] = fontname.CString(), IO().Fonts->AddFontFromMemoryTTF(data, fontSize, pixels, &ImFontConfig(), IO().Fonts->GetGlyphRangesVietnamese()));
+}
+
 
 void UI::ProcessEvent(const SDL_Event* event)
 {
@@ -221,13 +274,6 @@ void RegisterUILibrary()
 	if (registered)
 		return;
 	registered = true;
-
-	Canvas::RegisterObject();
-	Text::RegisterObject();
-	Button::RegisterObject();
-	Slider::RegisterObject();
-	ColorEdit::RegisterObject();
-	CheckBox::RegisterObject();
 }
 
 namespace GUI
@@ -453,6 +499,10 @@ void SetScrollFromPosY(float local_y, float center_y_ratio)
 }
 
 // Parameters stacks (shared)
+void PushFont(const String& font)
+{
+	ImGui::PushFont(font.CString());
+}
 void PushFont(Font* font)
 {
 	ImGui::PushFont(font);
@@ -702,7 +752,7 @@ void Text(const char* fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
-	ImGui::Text(fmt, args);
+	TextV(fmt, args);
 	va_end(args);
 }
 void TextV(const char* fmt, va_list args)
@@ -711,9 +761,10 @@ void TextV(const char* fmt, va_list args)
 }
 void TextColored(const Vector4F& col, const char* fmt, ...)
 {
+
 	va_list args;
 	va_start(args, fmt);
-	ImGui::TextColored(ToImVal(col),fmt, args);
+	TextColoredV(col, fmt, args);
 	va_end(args);
 }
 void TextColoredV(const Vector4F& col, const char* fmt, va_list args)
@@ -724,7 +775,7 @@ void TextDisabled(const char* fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
-	ImGui::TextDisabled(fmt, args);
+	TextDisabledV(fmt, args);
 	va_end(args);
 }
 void TextDisabledV(const char* fmt, va_list args)
@@ -735,29 +786,29 @@ void TextWrapped(const char* fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
-	ImGui::TextWrapped(fmt, args);
+	TextWrappedV(fmt, args);
 	va_end(args);
 }
 void TextWrappedV(const char* fmt, va_list args)
 {
 	ImGui::TextWrappedV(fmt,  args);
-	}
+}
 void LabelText(const char* label, const char* fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
-	ImGui::LabelText(label, fmt, args);
+	LabelTextV(label, fmt, args);
 	va_end(args);
-	}
+}
 void LabelTextV(const char* label, const char* fmt, va_list args)
 {
 	ImGui::LabelTextV(label,fmt,  args);
-	}
+}
 void BulletText(const char* fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
-	ImGui::BulletText(fmt, args);
+	BulletTextV(fmt, args);
 	va_end(args);
 }
 void BulletTextV(const char* fmt, va_list args)
@@ -1052,15 +1103,17 @@ bool TreeNode(const char* str_id, const char* fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
-	return ImGui::TreeNode(str_id, fmt, args);
+	bool is_open = TreeNodeExV(str_id, 0, fmt, args);
 	va_end(args);
+	return is_open;
 }
 bool TreeNode(const void* ptr_id, const char* fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
-	return ImGui::TreeNode(ptr_id, fmt, args);
+	bool is_open = TreeNodeExV(ptr_id, 0, fmt, args);
 	va_end(args);
+	return is_open;
 }
 bool TreeNodeV(const char* str_id, const char* fmt, va_list args)
 {
@@ -1078,15 +1131,17 @@ bool TreeNodeEx(const char* str_id, TreeNodeFlags flags, const char* fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
-	return ImGui::TreeNodeEx(str_id, flags, fmt, args);
+	bool is_open = TreeNodeExV(str_id, flags, fmt, args);
 	va_end(args);
+	return is_open;
 }
 bool TreeNodeEx(const void* ptr_id, TreeNodeFlags flags, const char* fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
-	return ImGui::TreeNodeEx(ptr_id, flags, fmt, args);
+	bool is_open = TreeNodeExV(ptr_id, flags, fmt, args);
 	va_end(args);
+	return is_open;
 }
 bool TreeNodeExV(const char* str_id, TreeNodeFlags flags, const char* fmt, va_list args)
 {
@@ -1248,7 +1303,7 @@ void SetTooltip(const char* fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
-	ImGui::SetTooltip(fmt, args);
+	SetTooltipV(fmt, args);
 	va_end(args);
 }
 void SetTooltipV(const char* fmt, va_list args)
@@ -1388,9 +1443,16 @@ void LogButtons()
 }
 void LogText(const char* fmt, ...)
 {
+	ImGuiContext& g = *ImGui::GetCurrentContext();
+	if (!g.LogEnabled)
+		return;
+
 	va_list args;
 	va_start(args, fmt);
-	ImGui::LogText(fmt, args);
+	if (g.LogFile)
+		vfprintf(g.LogFile, fmt, args);
+	else
+		g.LogBuffer.appendfv(fmt, args);
 	va_end(args);
 }
 

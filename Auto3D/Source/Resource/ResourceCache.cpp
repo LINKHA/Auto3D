@@ -5,6 +5,7 @@
 #include "Image.h"
 #include "JSONFile.h"
 #include "ResourceCache.h"
+#include "Font.h"
 
 #include "../Debug/DebugNew.h"
 
@@ -362,6 +363,7 @@ void RegisterResourceLibrary()
 
     Image::RegisterObject();
     JSONFile::RegisterObject();
+	Font::RegisterObject();
 }
 
 }

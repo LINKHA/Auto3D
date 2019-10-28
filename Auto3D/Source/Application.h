@@ -32,6 +32,8 @@ public:
 	virtual void Update() { }
 	/// Cleanup after the main loop. Called by Application
 	virtual void Stop() { }
+	/// This function is the UI rendered after the render function at the top
+	virtual void UIDraw() { }
 	/// This is Engine important funcation init awake runloop and finish run
 	int Run();
 	/// Show an error message (last log message if empty), terminate the main loop, and set failure exit code.

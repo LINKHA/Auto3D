@@ -17,7 +17,6 @@
 #include "../IO/FileSystem.h"
 #include "../UI/UI.h"
 #include "../Auto2D/Renderer2D.h"
-#include "../UI/Canvas.h"
 #include "../Scene/Scene.h"
 #include "../Auto2D/Scene2D.h"
 #include "../Base/ProcessUtils.h"
@@ -164,16 +163,6 @@ void Engine::Render()
 				Camera2D* camera = *cameraIt;
 				_renderer2d->Render(scene2d, camera);
 			}
-		}
-	}
-	// Render UI
-	{
-		PROFILE(RenderUI);
-
-		Canvas* canvas = _registeredBox->GetActiveCanvas();
-		if (canvas && canvas->IsEnabled())
-		{
-			_ui->Render(canvas);
 		}
 	}
 }

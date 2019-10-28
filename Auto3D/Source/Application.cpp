@@ -48,6 +48,7 @@ int Application::Run()
 			{
 				Update();
 				_engine->Render();
+				UIDraw();
 				_engine->FrameFinish();
 			}
 			else
