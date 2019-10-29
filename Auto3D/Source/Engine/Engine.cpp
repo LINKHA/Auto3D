@@ -55,9 +55,7 @@ Engine::Engine() :
 	_renderer = moduleManager.RendererModule();
 	_input = moduleManager.InputModule();
 	_log = moduleManager.LogModule();
-#ifdef AUTO_PROFILING
 	_profiler = moduleManager.ProfilerModule();
-#endif
 	_time = moduleManager.TimeModule();
 	_registeredBox = moduleManager.RegisteredBoxModule();
 	_renderer2d = moduleManager.Renderer2dModule();
@@ -170,9 +168,7 @@ void Engine::Render()
 
 bool Engine::Update()
 {
-#ifdef AUTO_PROFILING
 	_profiler->BeginFrame();
-#endif
 	_time->Update();
 	_input->Update();
 	//If the window is minimized do not render
@@ -203,9 +199,7 @@ void Engine::FrameFinish()
 	}
 
 	ApplyFrameLimit();
-#ifdef AUTO_PROFILING
 	_profiler->EndFrame();
-#endif
 }
 
 void Engine::SetMinFps(int fps)
@@ -319,10 +313,8 @@ void Engine::DoExit()
 	if (_graphics)
 		_graphics->Close();
 	_exiting = true;
-#ifdef AUTO_PROFILING
 	auto* profiler = ModuleManager::Get().ProfilerModule();
 	LogString(profiler->OutputResults());
-#endif
 }
 
 }

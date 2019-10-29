@@ -47,10 +47,8 @@ public:
 	void RecreateInputModule(Input* input = nullptr);
 	/// Recreate Engine Log
 	void RecreateLogModule(Log* log = nullptr);
-#ifdef AUTO_PROFILING
 	/// Recreate hierarchical performance profiler subsystem.
 	void RecreateProfilerModule(Profiler* profiler = nullptr);
-#endif
 	/// Recreate process all engine time, calculate FPS, etc
 	void RecreateTimeModule(Time* time = nullptr);
 	/// Recreate the message management mechanism for the underlying interaction between the game project and the engine
@@ -76,10 +74,8 @@ public:
 	Input* InputModule() { return _input; }
 	/// Engine Log
 	Log* LogModule() { return _log; }
-#ifdef AUTO_PROFILING
 	/// Return hierarchical performance profiler subsystem.
 	Profiler* ProfilerModule() { return _profiler; }
-#endif
 	/// Return process all engine time, calculate FPS, etc
 	Time* TimeModule() { return _time; }
 	/// Return the message management mechanism for the underlying interaction between the game project and the engine
@@ -106,10 +102,8 @@ private:
 	SharedPtr<Input> _input;
 	/// Engine Log
 	SharedPtr<Log> _log;
-#ifdef AUTO_PROFILING
 	/// Hierarchical performance profiler subsystem.
 	SharedPtr<Profiler> _profiler;
-#endif
 	/// Process all engine time, calculate FPS, etc
 	SharedPtr<Time> _time;
 	/// The message management mechanism for the underlying interaction between the game project and the engine

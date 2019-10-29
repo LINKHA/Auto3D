@@ -11,7 +11,7 @@ namespace Auto3D
 
 static const int LINE_MAX_LENGTH = 256;
 static const int NAME_MAX_LENGTH = 30;
-#ifdef AUTO_PROFILING
+
 ProfilerBlock::ProfilerBlock(ProfilerBlock* parent, const char* name) :
 	_name(name),
 	_parent(parent),
@@ -238,5 +238,5 @@ void Profiler::OutputResults(ProfilerBlock* block, String& output, size_t depth,
 	for (auto it = block->_children.Begin(); it != block->_children.End(); ++it)
 		OutputResults(*it, output, depth, maxDepth, showUnused, showTotal);
 }
-#endif
+
 }

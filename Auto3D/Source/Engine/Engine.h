@@ -111,10 +111,8 @@ private:
 	SharedPtr<Input> _input;
 	/// Engine Log
 	SharedPtr<Log> _log;
-#ifdef AUTO_PROFILING
 	/// Hierarchical performance profiler subsystem.
 	SharedPtr<Profiler> _profiler;
-#endif
 	/// Process all engine time, calculate FPS, etc
 	SharedPtr<Time> _time;
 	/// The message management mechanism for the underlying interaction between the game project and the engine

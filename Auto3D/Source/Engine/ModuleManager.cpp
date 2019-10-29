@@ -27,9 +27,7 @@ ModuleManager::ModuleManager() :
 	_renderer(nullptr),
 	_input(nullptr),
 	_log(nullptr),
-#ifdef AUTO_PROFILING
 	_profiler(nullptr),
-#endif
 	_time(nullptr),
 	_registeredBox(nullptr),
 	_renderer2d(nullptr),
@@ -60,9 +58,7 @@ void ModuleManager::CreateModules()
 
 	_log = new Log();
 	_input = new Input();
-#ifdef AUTO_PROFILING
 	_profiler = new Profiler();
-#endif
 	_graphics = new Graphics();
 	_renderer = new Renderer();
 	_time = new Time();
@@ -133,7 +129,6 @@ void ModuleManager::RecreateLogModule(Log* log)
 		_log = new Log();
 }
 
-#ifdef AUTO_PROFILING
 void ModuleManager::RecreateProfilerModule(Profiler* profiler)
 {
 	if (_profiler)
@@ -144,7 +139,6 @@ void ModuleManager::RecreateProfilerModule(Profiler* profiler)
 	else
 		_profiler = new Profiler();
 }
-#endif
 
 void ModuleManager::RecreateTimeModule(Time* time)
 {

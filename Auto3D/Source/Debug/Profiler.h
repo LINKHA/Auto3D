@@ -10,7 +10,6 @@
 namespace Auto3D
 {
 
-#ifdef AUTO_PROFILING
 /// Profiling data for one block in the profiling tree.
 class AUTO_API ProfilerBlock
 {
@@ -131,7 +130,6 @@ private:
 	/// Profiler subsystem.
 	Profiler* _profiler;
 };
-#endif
 
 #ifdef AUTO_PROFILING
 #define PROFILE(name) AutoProfileBlock profile_ ## name (#name)
