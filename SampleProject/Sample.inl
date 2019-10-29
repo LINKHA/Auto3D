@@ -14,23 +14,23 @@ void Sample::Init()
 void Sample::Start()
 {
 	auto* cache = Object::Module<ResourceCache>();
-	scene2d = new Scene2D();
+	logoScene = new Scene2D();
 
 	//Do not set this Layer or tag, which is generated automatically inside the engine. 
 	//Customizations need to start at index 1
 	/*scene2d->DefineLayer(0, "Default");*/
 	/*scene2d->DefineTag(0, "None");*/
 
-	scene2d->DefineLayer(1, "UI");
+	logoScene->DefineLayer(1, "UI");
 
-	scene2d->DefineTag(1, "Player");
-	scene2d->DefineTag(2, "Enemy");
+	logoScene->DefineTag(1, "Player");
+	logoScene->DefineTag(2, "Enemy");
 
-	uiCamera = scene2d->CreateChild<Camera2D>();
-	uiCamera->SetOrthographic(true);
-	uiCamera->SetPosition(Vector3F(0.0f, 0.0f, -100.0f));
-	uiCamera->SetLayoutMaskAll();
-	uiCamera->SetLayoutMaskOutName("UI");
+	logoCamera = logoScene->CreateChild<Camera2D>();
+	logoCamera->SetOrthographic(true);
+	logoCamera->SetPosition(Vector3F(0.0f, 0.0f, -100.0f));
+	logoCamera->SetLayoutMaskAll();
+	logoCamera->SetLayoutMaskOutName("UI");
 
 	CreateLogo();
 }
@@ -47,7 +47,7 @@ void Sample::Stop()
 void Sample::CreateLogo()
 {
 	auto* cache = Object::Module<ResourceCache>();
-	Sprite2D* logoLong = scene2d->CreateChild<Sprite2D>();
+	Sprite2D* logoLong = logoScene->CreateChild<Sprite2D>();
 	logoLong->SetTexture(cache->LoadResource<Texture>("Texture/logoLong.png"));
 	logoLong->SetScale(Vector3F(3.0f, 0.8f, 1.0f));
 	logoLong->SetPosition(Vector3F(7.0f, -9.2f, -10.0f));

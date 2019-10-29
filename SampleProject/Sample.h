@@ -13,9 +13,9 @@ public:
 	void Update()override;
 	void Stop()override;
 	void CreateLogo();
-
-	Camera2D* uiCamera;
-	SharedPtr<Scene2D> scene2d;
+private:
+	Camera2D* logoCamera;
+	SharedPtr<Scene2D> logoScene;
 };
 
 #include "Sample.inl"
