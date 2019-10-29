@@ -28,7 +28,7 @@
 namespace Auto3D
 {
 
-Engine::Engine():
+Engine::Engine() :
 	_exiting(false),
 	_initialized(false),
 	_timeStep(0.0f),
@@ -170,7 +170,9 @@ void Engine::Render()
 
 bool Engine::Update()
 {
+#ifdef AUTO_PROFILING
 	_profiler->BeginFrame();
+#endif
 	_time->Update();
 	_input->Update();
 	//If the window is minimized do not render
@@ -201,7 +203,9 @@ void Engine::FrameFinish()
 	}
 
 	ApplyFrameLimit();
+#ifdef AUTO_PROFILING
 	_profiler->EndFrame();
+#endif
 }
 
 void Engine::SetMinFps(int fps)
@@ -260,8 +264,8 @@ void Engine::ApplyFrameLimit()
 #if !defined(IOS) && !defined(TVOS)
 	if (maxFps)
 #else
-	// If on iOS/tvOS and target framerate is 60 or above, just let the animation callback handle frame timing
-	// instead of waiting ourselves
+// If on iOS/tvOS and target framerate is 60 or above, just let the animation callback handle frame timing
+// instead of waiting ourselves
 	if (maxFps < 60)
 #endif
 	{
