@@ -8,6 +8,14 @@ set(HANDER_DIR ${AUTO_ROOT_PATH}/SampleProject/Sample.h)
 			  
 Set(INLINE_DIR ${AUTO_ROOT_PATH}/SampleProject/Sample.inl)
 
+if (WIN32) 
+	if (AUTO_WIN32_CONSOLE)
+		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:CONSOLE")
+	else()
+		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS")
+	endif()
+endif()
+
 add_executable (${TARGET_NAME} ${SOURCE_FILES} ${HANDER_DIR} ${INLINE_DIR})
 
 target_link_libraries (${TARGET_NAME} Auto3D)

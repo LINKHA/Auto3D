@@ -1,4 +1,5 @@
-// dear imgui: Platform Binding for SDL2
+// dear imgui: Platform Binding for 
+2
 // This needs to be used along with a Renderer (e.g. DirectX11, OpenGL3, Vulkan..)
 // (Info: SDL2 is a cross-platform general purpose library for handling windows, inputs, graphics context creation, etc.)
 

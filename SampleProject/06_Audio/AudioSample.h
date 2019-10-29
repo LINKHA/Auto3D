@@ -15,17 +15,4 @@ public:
 	AudioListener* listener;
 	AudioSource* source1;
 	AudioSource* source2;
-
-
-	SharedPtr<Canvas> canvas;
-	Button* button;
-	Button* button2;
-	Button* button3;
-	Button* button4;
-
-	SharedPtr<Canvas> canvas2;
-	Button* button5;
-	Button* button6;
-	Button* button7;
-	Button* button8;
 };

@@ -18,8 +18,8 @@ option (AUTO_OPENGL "Enable OpenGL" TRUE)
 option (AUTO_OPENGL_ES "Enable OpenGL ES" FALSE)
 option (AUTO_DIRECT3D_12 "Enable Direct3D12" FALSE)
 option (AUTO_VULKAN "Enable Vulkan" FALSE)
-option (AUTO_MEMORY_DEBUG "Enable OpenGL" TRUE)
-option (AUTO_WIN32_CONSOLE "Enable Direct3D12" TRUE)
+option (AUTO_MEMORY_DEBUG "Enable OpenGL" FALSE)
+option (AUTO_WIN32_CONSOLE "Enable Direct3D12" FALSE)
 
 # Auto root path
 set(AUTO_ROOT_PATH ${CMAKE_SOURCE_DIR})

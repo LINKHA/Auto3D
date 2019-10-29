@@ -33,8 +33,8 @@ namespace Auto3D
 /* #undef AUTO_OPENGL_ES */
 /* #undef AUTO_VULKAN */
 /* #undef AUTO_DIRECT3D_12 */
-#define AUTO_MEMORY_DEBUG
-#define AUTO_WIN32_CONSOLE
+/* #undef AUTO_MEMORY_DEBUG */
+/* #undef AUTO_WIN32_CONSOLE */
 
 #ifndef AUTO_OPENGL
 #	ifdef AUTO_OPENGL_ES

@@ -69,8 +69,10 @@ find_package (OpenGL REQUIRED)
 
 # Add third party include directories. Only used internally
 target_link_libraries (${TARGET_NAME} ${OPENGL_gl_LIBRARY})
+
 target_link_libraries (${TARGET_NAME}  SDL2-static)
 target_link_libraries (${TARGET_NAME}  SDL2main)
+
 include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/SDL2/include)
 
 target_link_libraries (${TARGET_NAME}  STB)

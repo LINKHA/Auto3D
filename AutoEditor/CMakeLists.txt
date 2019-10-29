@@ -20,9 +20,18 @@ endmacro ()
 file (GLOB AUTO_FILES *.h *.c *.cpp)
 list (APPEND SOURCE_FILES ${AUTO_FILES})
 
-add_executable (${TARGET_NAME} ${SOURCE_FILES})
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS")
 
-set_target_properties(${THIS_PROJECT} PROPERTIES LINKER_LANGUAGE cxx)
+if (WIN32) 
+	if (AUTO_WIN32_CONSOLE)
+		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:CONSOLE")
+	else()
+		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS")
+	endif()
+endif()
+
+add_executable (${TARGET_NAME}  ${SOURCE_FILES})
+
 
 target_link_libraries (${TARGET_NAME} Auto3D)
 
