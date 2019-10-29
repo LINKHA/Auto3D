@@ -33,9 +33,9 @@ void GUISample::UIDraw()
 	auto* cache = Object::Module<ResourceCache>();
 	auto flowerTexture = cache->LoadResource<Texture>("Texture/flower.png");
 
-	GUI::Begin("Hello, world!");                      
+	GUI::Begin("Hello, world!");
 
-	GUI::Text(u8"中文测试");            
+	GUI::Text(u8"中文测试");
 	GUI::Image(flowerTexture, Vector2F(flowerTexture->GetWidth(), flowerTexture->GetHeight())); GUI::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
 
 	if (GUI::Button("Button")) 

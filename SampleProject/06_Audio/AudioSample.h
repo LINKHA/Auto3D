@@ -10,6 +10,7 @@ public:
 	void Start()override;
 	void Update()override;
 	void Stop()override;
+	void UIDraw()override;
 
 	SharedPtr<Scene> scene;
 	AudioListener* listener;
