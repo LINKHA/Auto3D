@@ -224,7 +224,55 @@ void RegisterUILibrary()
 
 namespace GUI
 {
+// Context creation and access
+// Each context create its own ImFontAtlas by default. You may instance one yourself and pass it to CreateContext() to share a font atlas between imgui contexts.
+// All those functions are not reliant on the current context.
+Context* CreateContext(FontAtlas* shared_font_atlas)
+{
+	return ImGui::CreateContext(shared_font_atlas);
+}
+void DestroyContext(Context* ctx)
+{
+	ImGui::DestroyContext(ctx);
+}
+Context* GetCurrentContext()
+{
+	return ImGui::GetCurrentContext();
+}
+void SetCurrentContext(Context* ctx)
+{
+	ImGui::SetCurrentContext(ctx);
+}
+bool DebugCheckVersionAndDataLayout(const char* version_str, size_t sz_io, size_t sz_style, size_t sz_vec2, size_t sz_vec4, size_t sz_drawvert, size_t sz_drawidx)
+{
+	return ImGui::DebugCheckVersionAndDataLayout(version_str, sz_io, sz_style, sz_vec2, sz_vec4, sz_drawvert, sz_drawidx);
+}
 
+// Main
+GUI::IO& GetIO()
+{
+	return ImGui::GetIO();
+}
+GUI::Style& GetStyle()
+{
+	return ImGui::GetStyle();
+}
+void NewFrame()
+{
+	ImGui::NewFrame();
+}
+void EndFrame()
+{
+	ImGui::EndFrame();
+}
+void Render()
+{
+	ImGui::Render();
+}
+DrawData* GetDrawData()
+{
+	return ImGui::GetDrawData();
+}
 // Windows
 // - Begin() = push window to the stack and start appending to it. End() = pop window from the stack.
 // - You may append multiple times to the same window during the same frame.

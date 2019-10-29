@@ -16,20 +16,23 @@ void StartPage::DrawStartPage()
 		auto fileSystem = ModuleManager::Get().FileSystemModule();
 	};
 
+	GUI::SetNextWindowPos(Vector2F(0, 0), ImGuiCond_Always);
+	GUI::SetNextWindowSize(Vector2F(windowSize._x, windowSize._y), ImGuiCond_Always);
+
 	bool state;
-	ImGuiWindowFlags windowFlag = 0;
+	GUI::WindowFlags windowFlag = 0;
 	windowFlag |= ImGuiWindowFlags_NoTitleBar;
 	windowFlag |= ImGuiWindowFlags_NoResize;
-	//windowFlag |= ImGuiWindowFlags_NoMove;
+	windowFlag |= ImGuiWindowFlags_NoMove;
 	windowFlag |= ImGuiWindowFlags_NoBackground;
 	GUI::Begin("SelectProjectWindow", &state, windowFlag);// Create a window called "Hello, world!" and append into it.
 
-	ImGui::SetWindowPos(ImVec2(0, 0));
-	ImGui::SetWindowSize(ImVec2(windowSize._x, windowSize._y));
+	//GUI::SetWindowPos(Vector2F(0, 0));
+	//GUI::SetWindowSize(Vector2F(windowSize._x, windowSize._y));
 
-	GUI::PushFont("msyh48");
+	GUI::PushFont("Msyh_36");
 
-	ImGuiWindowFlags flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove |
+	GUI::WindowFlags flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove |
 		ImGuiWindowFlags_NoResize | ImGuiWindowFlags_HorizontalScrollbar |
 		ImGuiWindowFlags_NoSavedSettings;
 

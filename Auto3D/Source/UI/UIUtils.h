@@ -18,6 +18,8 @@ inline AUTO_API ImVec2 ToImVal(const Vector2F& vec)
 
 inline AUTO_API ImVec2* ToImVal(const Vector2F* vec)
 {
+	if (vec == NULL)
+		return NULL;
 	ImVec2* imVec = new ImVec2(vec->_x, vec->_y);
 	delete vec;
 	vec = nullptr;
@@ -32,6 +34,9 @@ inline AUTO_API ImVec4 ToImVal(const Vector4F& vec)
 
 inline AUTO_API ImVec4* ToImVal(const Vector4F* vec)
 {
+	if (vec == NULL)
+		return NULL;
+
 	ImVec4* imVec = new ImVec4(vec->_x, vec->_y, vec->_z, vec->_w);
 	delete vec;
 	vec = nullptr;

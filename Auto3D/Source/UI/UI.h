@@ -17,6 +17,67 @@ namespace UIStyleColors
 {
 	const static Color Text = Color(1.00f, 1.00f, 1.00f, 1.00f);
 }
+namespace GUI
+{
+	using DrawChannel = ImDrawChannel;						// Temporary storage for ImDrawList ot output draw commands out of order, used by ImDrawList::ChannelsSplit()
+	using DrawCmd = ImDrawCmd;								// A single draw command within a parent ImDrawList (generally maps to 1 GPU draw call, unless it is a callback)
+	using DrawData = ImDrawData;							// All draw command lists required to render the frame + pos/size coordinates to use for the projection matrix.
+	using DrawList = ImDrawList;							// A single draw command list (generally one per window, conceptually you may see this as a dynamic "mesh" builder)
+	using DrawListSharedData = ImDrawListSharedData;        // Data shared among multiple draw lists (typically owned by parent ImGui context, but you may create one yourself)
+	using DrawVert = ImDrawVert;							// A single vertex (pos + uv + col = 20 bytes by default. Override layout with IMGUI_OVERRIDE_DRAWVERT_STRUCT_LAYOUT)
+	using Font = ImFont;									// Runtime data for a single font within a parent ImFontAtlas
+	using FontAtlas = ImFontAtlas;							// Runtime data for multiple fonts, bake multiple fonts into a single texture, TTF/OTF font loader
+	using FontConfig = ImFontConfig;						// Configuration data when adding a font or merging fonts
+	using FontGlyph = ImFontGlyph;							// A single font glyph (code point + coordinates within in ImFontAtlas + offset)
+	using FontGlyphRangesBuilder = ImFontGlyphRangesBuilder;// Helper to build glyph ranges from text/string data
+	using Color = ImColor;									// Helper functions to create a color that can be converted to either u32 or float4 (*OBSOLETE* please avoid using)
+	using Context = ImGuiContext;						// Dear ImGui context (opaque structure, unless including imgui_internal.h)
+	using IO = ImGuiIO;									// Main configuration and I/O between your application and ImGui
+	using InputTextCallbackData = ImGuiInputTextCallbackData;  // Shared state of InputText() when using custom ImGuiInputTextCallback (rare/advanced use)
+	using ListClipper = ImGuiListClipper;				// Helper to manually clip large list of items
+	using OnceUponAFrame = ImGuiOnceUponAFrame;			// Helper for running a block of code not more than once a frame, used by IMGUI_ONCE_UPON_A_FRAME macro
+	using Payload = ImGuiPayload;						// User data payload for drag and drop operations
+	using SizeCallbackData = ImGuiSizeCallbackData;     // Callback data when using SetNextWindowSizeConstraints() (rare/advanced use)
+	using Storage = ImGuiStorage;						// Helper for key->value storage
+	using Style = ImGuiStyle;							// Runtime data for styling/colors
+	using TextBuffer = ImGuiTextBuffer;					// Helper to hold and append into a text buffer (~string builder)
+	using TextFilter = ImGuiTextFilter;					// Helper to parse and apply text filters (e.g. "aaaaa[,bbbb][,ccccc]")
+
+	// Typedefs and Enums/Flags (declared as int for compatibility with old C++, to allow using as flags and to not pollute the top of this file)
+	// Use your programming IDE "Go to definition" facility on the names of the center columns to find the actual flags/enum lists.
+#ifndef ImTextureID
+	typedef void* ImTextureID;          // User data to identify a texture (this is whatever to you want it to be! read the FAQ about ImTextureID in imgui.cpp)
+#endif
+	typedef unsigned int ID;       // Unique ID used by widgets (typically hashed from a stack of string)
+	typedef unsigned short Wchar;  // A single U16 character for keyboard input/display. We encode them as multi bytes UTF-8 when used in strings.
+	typedef int Col;               // -> enum ImGuiCol_             // Enum: A color identifier for styling
+	typedef int Cond;              // -> enum ImGuiCond_            // Enum: A condition for Set*()
+	typedef int DataType;          // -> enum ImGuiDataType_        // Enum: A primary data type
+	typedef int Dir;               // -> enum ImGuiDir_             // Enum: A cardinal direction
+	typedef int Key;               // -> enum ImGuiKey_             // Enum: A key identifier (-side enum)
+	typedef int NavInput;          // -> enum ImGuiNavInput_        // Enum: An input identifier for navigation
+	typedef int MouseCursor;       // -> enum ImGuiMouseCursor_     // Enum: A mouse cursor identifier
+	typedef int StyleVar;          // -> enum ImGuiStyleVar_        // Enum: A variable identifier for styling
+	typedef int DrawCornerFlags;   // -> enum ImDrawCornerFlags_    // Flags: for ImDrawList::AddRect*() etc.
+	typedef int DrawListFlags;     // -> enum ImDrawListFlags_      // Flags: for ImDrawList
+	typedef int FontAtlasFlags;    // -> enum ImFontAtlasFlags_     // Flags: for ImFontAtlas
+	typedef int BackendFlags;      // -> enum ImGuiBackendFlags_    // Flags: for io.BackendFlags
+	typedef int ColorEditFlags;    // -> enum ImGuiColorEditFlags_  // Flags: for ColorEdit*(), ColorPicker*()
+	typedef int ColumnsFlags;      // -> enum ImGuiColumnsFlags_    // Flags: for Columns(), BeginColumns()
+	typedef int ConfigFlags;       // -> enum ImGuiConfigFlags_     // Flags: for io.ConfigFlags
+	typedef int ComboFlags;        // -> enum ImGuiComboFlags_      // Flags: for BeginCombo()
+	typedef int DragDropFlags;     // -> enum ImGuiDragDropFlags_   // Flags: for *DragDrop*()
+	typedef int FocusedFlags;      // -> enum ImGuiFocusedFlags_    // Flags: for IsWindowFocused()
+	typedef int HoveredFlags;      // -> enum ImGuiHoveredFlags_    // Flags: for IsItemHovered(), IsWindowHovered() etc.
+	typedef int InputTextFlags;    // -> enum ImGuiInputTextFlags_  // Flags: for InputText*()
+	typedef int SelectableFlags;   // -> enum ImGuiSelectableFlags_ // Flags: for Selectable()
+	typedef int TabBarFlags;       // -> enum ImGuiTabBarFlags_     // Flags: for BeginTabBar()
+	typedef int TabItemFlags;      // -> enum ImGuiTabItemFlags_    // Flags: for BeginTabItem()
+	typedef int TreeNodeFlags;     // -> enum ImGuiTreeNodeFlags_   // Flags: for TreeNode*(),CollapsingHeader()
+	typedef int WindowFlags;       // -> enum ImGuiWindowFlags_     // Flags: for Begin*()
+
+}
+
 struct UIFont
 {
 	static HashMap<String, const char*> Data;
@@ -36,13 +97,6 @@ namespace UIFontLanguage
 		VIE
 	};
 }
-
-//namespace UIFont
-//{
-//	const static char* default = "default";
-//	const static char* standard = "standard";
-//	const static char* standard_big = "standard_big";
-//}
 
 class AUTO_API UI : public BaseModule
 {
@@ -82,32 +136,22 @@ AUTO_API void RegisterUILibrary();
 namespace GUI
 {
 
-using WindowFlags = ImGuiWindowFlags;
-using FocusedFlags = ImGuiFocusedFlags;
-using HoveredFlags = ImGuiHoveredFlags;
-using Style = ImGuiStyle;
-using Cond = ImGuiCond;
-using ID = ImGuiID;
-using Font = ImFont;
-using DrawList = ImDrawList;
-using DrawListSharedData = ImDrawListSharedData;
-using MouseCursor = ImGuiMouseCursor;
-using Storage = ImGuiStorage;
-using Col = ImGuiCol;
+// Context creation and access
+   // Each context create its own ImFontAtlas by default. You may instance one yourself and pass it to CreateContext() to share a font atlas between imgui contexts.
+   // All those functions are not reliant on the current context.
+AUTO_API Context*	   CreateContext(FontAtlas* shared_font_atlas = NULL);
+AUTO_API void          DestroyContext(Context* ctx = NULL);   // NULL = destroy current context
+AUTO_API Context*	   GetCurrentContext();
+AUTO_API void          SetCurrentContext(Context* ctx);
+AUTO_API bool          DebugCheckVersionAndDataLayout(const char* version_str, size_t sz_io, size_t sz_style, size_t sz_vec2, size_t sz_vec4, size_t sz_drawvert, size_t sz_drawidx);
 
-using DragDropFlags = ImGuiDragDropFlags;
-using Payload = ImGuiPayload;
-using TabBarFlags = ImGuiTabBarFlags;
-using SelectableFlags = ImGuiSelectableFlags;
-using TreeNodeFlags = ImGuiTreeNodeFlags;
-using InputTextFlags = ImGuiInputTextFlags;
-using DataType = ImGuiDataType;
-using ComboFlags = ImGuiComboFlags;
-using StyleVar = ImGuiStyleVar;
-using Dir = ImGuiDir;
-using Key = ImGuiKey;
-using ColorEditFlags = ImGuiColorEditFlags;
-
+// Main
+AUTO_API GUI::IO&	   GetIO();                                    // access the IO structure (mouse/keyboard/gamepad inputs, time, various configuration options/flags)
+AUTO_API GUI::Style&   GetStyle();                                 // access the Style structure (colors, sizes). Always use PushStyleCol(), PushStyleVar() to modify style mid-frame.
+AUTO_API void          NewFrame();                                 // start a new Dear ImGui frame, you can submit any command from this point until Render()/EndFrame().
+AUTO_API void          EndFrame();                                 // ends the Dear ImGui frame. automatically called by Render(), you likely don't need to call that yourself directly. If you don't need to render data (skipping rendering) you may call EndFrame() but you'll have wasted CPU already! If you don't need to render, better to not create any imgui windows and not call NewFrame() at all!
+AUTO_API void          Render();                                   // ends the Dear ImGui frame, finalize the draw data. You can get call GetDrawData() to obtain it and run your rendering function. (Obsolete: this used to call io.RenderDrawListsFn(). Nowadays, we allow and prefer calling your render function yourself.)
+AUTO_API DrawData*     GetDrawData();                              // valid after Render() and until the next call to NewFrame(). this is what you have to render.
 
 // Windows
    // - Begin() = push window to the stack and start appending to it. End() = pop window from the stack.
@@ -569,6 +613,11 @@ AUTO_API const char*   SaveIniSettingsToMemory(size_t* out_ini_size = NULL);    
 AUTO_API void          SetAllocatorFunctions(void* (*alloc_func)(size_t sz, void* user_data), void (*free_func)(void* ptr, void* user_data), void* user_data = NULL);
 AUTO_API void*		   MemAlloc(size_t size);
 AUTO_API void          MemFree(void* ptr);
+
+
+static inline float GetContentRegionAvailWidth() { return ImGui::GetContentRegionAvailWidth(); }
+static inline DrawList* GetOverlayDrawList() { return ImGui::GetOverlayDrawList(); }
+static inline void  SetScrollHere(float center_ratio = 0.5f) { ImGui::SetScrollHereY(center_ratio); }
 
 }
 

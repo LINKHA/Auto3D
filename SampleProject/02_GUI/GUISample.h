@@ -12,4 +12,8 @@ public:
 	void Update()override;
 	void Stop()override;
 	void UIDraw()override;
+
+	void ShowExampleAppSimpleOverlay(bool* open);
+	void ShowExampleAppLog(bool* open);
+	void ShowExampleAppLayout(bool* open);
 };

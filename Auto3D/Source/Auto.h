@@ -64,6 +64,7 @@
 #include "Auto2D/ColliderBox2D.h"
 #include "Auto2D/ColliderCircle2D.h"
 #include "UI/UI.h"
+#include "UI/AppLog.h"
 #include "Physics/Physics.h"
 #include "Physics/PhysicsWorld.h"
 #include "Physics/PhysicsUtils.h"
