@@ -33,6 +33,6 @@ void main()
     vTexCoord = texCoord;
     #ifdef NUMSHADOWCOORDS
     for (int i = 0; i < NUMSHADOWCOORDS; ++i)
-        vShadowPos[i] = vec4(vWorldPos, 1.0) * shadowMatrices[i];
+        vShadowPos[i] = vec4(vWorldPos.xyz, 1.0) * shadowMatrices[i];
     #endif
 }

@@ -35,18 +35,35 @@ void MeshSample::Start()
 	teaPot->SetCastShadows(true);
 	teaPot->SetLodBias(2.0f);
 
-	for (int i = 0; i < 2; i++)
+	//Light directional point and spot
 	{
-		Light* light = scene->CreateChild<Light>();
-		light->SetLightType(LightType::POINT);
-		light->SetCastShadows(true);
-		light->SetColor(Color(1.0f, 1.0f, 1.0f));
-		light->SetFov(90.0f);
-		light->SetRange(20.0f);
-		light->SetPosition(Vector3F(i * 5.0f - 10.0f, 10.0f, 5.0f));
-		light->SetDirection(Vector3F(0.0f, -1.0f, 0.0f));
-		light->SetShadowMapSize(256);
+		Light* lightDir = scene->CreateChild<Light>();
+		lightDir->SetLightType(LightType::DIRECTIONAL);
+		lightDir->SetCastShadows(true);
+		lightDir->SetColor(Color(0.01f, 0.01f, 0.01f));
+		lightDir->SetDirection(Vector3F(0.0f, -1.0f, 0.5f));
+		lightDir->SetShadowMapSize(256);
+
+		Light* lightPoint = scene->CreateChild<Light>();
+		lightPoint->SetLightType(LightType::POINT);
+		lightPoint->SetCastShadows(true);
+		lightPoint->SetColor(Color(1.0f, 1.0f, 1.0f));
+		lightPoint->SetRange(20.0f);
+		lightPoint->SetPosition(Vector3F(-10.0f, 10.0f, 0.0f));
+		lightPoint->SetShadowMapSize(256);
+
+		Light* lightSpot = scene->CreateChild<Light>();
+		lightSpot->SetLightType(LightType::SPOT);
+		lightSpot->SetCastShadows(true);
+		lightSpot->SetColor(Color(10.0f, 10.0f, 10.0f));
+		lightSpot->SetPosition(Vector3F(10.0f, 10.0f, 0.0f));
+		lightSpot->SetDirection(Vector3F(-0.5f, -1.0f, 0.0f));
+		lightSpot->SetFov(60.0f);
+		lightSpot->SetRange(20.0f);
+		lightSpot->SetShadowMapSize(256);
 	}
+	
+
 }
 void MeshSample::Update()
 {
