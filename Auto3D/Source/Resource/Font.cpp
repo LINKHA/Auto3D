@@ -33,7 +33,6 @@ Font::Font() :
 
 Font::~Font()
 {
-	// To ensure FreeType deallocates properly, first clear all faces, then release the raw font data
 	_fontData.Reset();
 }
 

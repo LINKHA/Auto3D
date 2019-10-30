@@ -9,7 +9,6 @@ void HelloWorldSample::Start()
 	Super::Start();
 	auto* cache = Object::Module<ResourceCache>();
 
-	Scene2D* scene2d = new Scene2D();
 	Camera2D* camera = scene2d->CreateChild<Camera2D>();
 	camera->SetOrthographic(true);
 	camera->SetPosition(Vector3F(0.0f, 0.0f, -100.0f));

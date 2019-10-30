@@ -163,11 +163,6 @@ void UI::AddFont(Font* font, int pixels, String fontname, UIFontLanguage::Data l
 	if (ImGui::GetFont(fontname.CString()))
 		return;
 
-	int fontSize = font->GetDataSize();
-	//This memory is automatically freed when the UI is deleted
-	unsigned char* data = new unsigned char[fontSize];
-	memcpy(data, font->Data(), fontSize);
-
 	const ImWchar* laType;
 	switch (languageType)
 	{
@@ -201,7 +196,7 @@ void UI::AddFont(Font* font, int pixels, String fontname, UIFontLanguage::Data l
 		break;
 	}
 
-	ImFont* tFont = IO().Fonts->AddFontFromMemoryTTF(data, fontSize, pixels, &ImFontConfig(), laType);
+	ImFont* tFont = IO().Fonts->AddFontFromMemoryTTF(font->Data(), font->GetDataSize(), pixels, &ImFontConfig(), laType);
 	ImGui::AddFont(UIFont::Data[fontname] = fontname.CString(), tFont);
 }
 

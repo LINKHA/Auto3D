@@ -1,4 +1,6 @@
 #include "GUISample.h"
+#include <imgui.h>
+#include <imgui_user/imgui_user.h>
 
 void GUISample::Init()
 {
@@ -13,17 +15,13 @@ void GUISample::Start()
 	ResourceCache* cache = ModuleManager::Get().CacheModule();
 	UI* ui = ModuleManager::Get().UiModule();
 
-	Font* msyh26 = cache->LoadResource<Font>("Font/msyh.ttc");
-	ui->AddFont(msyh26, 26, "Msyh_26", UIFontLanguage::CN);
+	Font* msyh = cache->LoadResource<Font>("Font/msyh.ttc");
+	ui->AddFont(msyh, 26, "Msyh_26");
+	ui->AddFont(msyh, 48, "Msyh_48", UIFontLanguage::CN);
+	ui->AddFont(msyh, 15, "Msyh_15");
+	ui->AddFont(msyh, 20, "Msyh_20");
 
-	Font* msyh48 = cache->LoadResource<Font>("Font/msyh.ttc");
-	ui->AddFont(msyh48, 48, "Msyh_48", UIFontLanguage::CN);
-
-	Font* msyh14 = cache->LoadResource<Font>("Font/msyh.ttc");
-	ui->AddFont(msyh14, 15, "Msyh_15", UIFontLanguage::CN);
-
-	Font* msyh20 = cache->LoadResource<Font>("Font/msyh.ttc");
-	ui->AddFont(msyh14, 20, "Msyh_20", UIFontLanguage::CN);
+	imgTexture = cache->LoadResource<Texture>("Texture/flower.png");
 }
 
 void GUISample::Update()
@@ -39,19 +37,18 @@ void GUISample::UIDraw()
 
 	static float f = 0.0f;
 	static int counter = 0;
-	auto* cache = Object::Module<ResourceCache>();
-	auto flowerTexture = cache->LoadResource<Texture>("Texture/flower.png");
+	
 
 	GUI::Begin("Hello, world!");
 
+	GUI::PushFont("Msyh_48");
 	GUI::Text(u8"ÖÐÎÄ²âÊÔ");
-	GUI::Image(flowerTexture, Vector2F(flowerTexture->GetWidth(), flowerTexture->GetHeight())); GUI::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+	GUI::Image(imgTexture, Vector2F(imgTexture->GetWidth(), imgTexture->GetHeight())); GUI::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
 
 	if (GUI::Button("Button")) 
 		counter++;
 	GUI::SameLine();
-
-	GUI::PushFont("Msyh_48");
+	
 	GUI::Text("counter = %d", counter);
 	GUI::PopFont();
 

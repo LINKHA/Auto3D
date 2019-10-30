@@ -16,4 +16,6 @@ public:
 	void ShowExampleAppSimpleOverlay(bool* open);
 	void ShowExampleAppLog(bool* open);
 	void ShowExampleAppLayout(bool* open);
+
+	Texture* imgTexture;
 };
