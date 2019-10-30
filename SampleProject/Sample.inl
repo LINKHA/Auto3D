@@ -13,7 +13,7 @@ void Sample::Init()
 }
 void Sample::Start()
 {
-	auto* cache = Object::Module<ResourceCache>();
+	auto* cache = ModuleManager::Get().CacheModule();
 	scene2d = new Scene2D();
 
 	//Do not set this Layer or tag, which is generated automatically inside the engine. 
@@ -36,9 +36,11 @@ void Sample::Start()
 }
 void Sample::Update()
 {
-	if (Object::Module<Input>()->IsKeyPress(KEY_ESCAPE))
+	if (ModuleManager::Get().InputModule()->IsKeyPress(KEY_ESCAPE))
+	{
 		// Closing the render window responds to the engine closing
-		Object::Module<Graphics>()->RenderWindow()->Close();
+		ModuleManager::Get().GraphicsModule()->RenderWindow()->Close();
+	}
 }
 
 void Sample::Stop()
