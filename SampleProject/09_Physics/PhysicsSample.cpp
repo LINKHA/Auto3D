@@ -17,6 +17,7 @@ void PhysicsSample::Start()
 	graphics->RenderWindow()->SetMouseHide(true);
 
 	scene = new Scene();
+	scene->SetupShadowMap(1, 4096);
 	scene->CreateChild<Octree>();
 	scene->CreateChild<PhysicsWorld>();
 	camera = scene->CreateChild<Camera>();
@@ -96,7 +97,7 @@ void PhysicsSample::Start()
 			{
 				StaticModel* box = scene->CreateChild<StaticModel>();
 				box->SetModel(cache->LoadResource<Model>("Model/Sphere.mdl"));
-				box->SetMaterial(cache->LoadResource<Material>("Stone.json"));
+				//box->SetMaterial(cache->LoadResource<Material>("Stone.json"));
 				box->SetPosition(Vector3F(i, 10.f + j * 2, k));
 				box->SetScale(Vector3F(2.0f, 2.0f, 2.0f));
 				box->SetCastShadows(true);
@@ -116,7 +117,7 @@ void PhysicsSample::Start()
 			{
 				StaticModel* box = scene->CreateChild<StaticModel>();
 				box->SetModel(cache->LoadResource<Model>("Model/Box.mdl"));
-				box->SetMaterial(cache->LoadResource<Material>("Stone.json"));
+				//box->SetMaterial(cache->LoadResource<Material>("Stone.json"));
 				box->SetPosition(Vector3F(i, 11.f + j * 2, k));
 				box->SetScale(Vector3F(2.0f, 2.0f, 2.0f));
 				box->SetCastShadows(true);
@@ -129,14 +130,12 @@ void PhysicsSample::Start()
 	}
 
 
-	Light* light = scene->CreateChild<Light>();
-	light->SetLightType(LightType::POINT);
-	light->SetCastShadows(true);
-	light->SetColor(Color(1.0f, 1.0f, 1.0f));
-	light->SetFov(90.0f);
-	light->SetRange(2000.0f);
-	light->SetPosition(Vector3F(75.0f, 0.0f, 0.0f));
-	light->SetShadowMapSize(1024);
+	Light* lightDir = scene->CreateChild<Light>();
+	lightDir->SetLightType(LightType::DIRECTIONAL);
+	lightDir->SetCastShadows(true);
+	lightDir->SetColor(Color(1.0f, 1.0f, 1.0f));
+	lightDir->SetDirection(Vector3F(-0.5f, -1.0f, -0.5f));
+	lightDir->SetShadowMapSize(2048);
 	
 }
 void PhysicsSample::Update()

@@ -16,6 +16,7 @@ void MeshSample::Start()
 	graphics->RenderWindow()->SetMouseHide(true);
 
 	scene = new Scene();
+	scene->SetupShadowMap(3, 4096);
 	scene->CreateChild<Octree>();
 	camera = scene->CreateChild<Camera>();
 	camera->SetPosition(Vector3F(0.0f, 5.0f, -15.0f));
@@ -39,14 +40,14 @@ void MeshSample::Start()
 		Light* lightDir = scene->CreateChild<Light>();
 		lightDir->SetLightType(LightType::DIRECTIONAL);
 		lightDir->SetCastShadows(true);
-		lightDir->SetColor(Color(0.01f, 0.01f, 0.01f));
+		lightDir->SetColor(Color(1.0f, 0.0f, 0.0f));
 		lightDir->SetDirection(Vector3F(0.0f, -1.0f, 0.5f));
 		lightDir->SetShadowMapSize(2048);
 
 		Light* lightPoint = scene->CreateChild<Light>();
 		lightPoint->SetLightType(LightType::POINT);
 		lightPoint->SetCastShadows(true);
-		lightPoint->SetColor(Color(1.0f, 1.0f, 1.0f));
+		lightPoint->SetColor(Color(0.0f, 1.0f, 0.0f));
 		lightPoint->SetRange(20.0f);
 		lightPoint->SetPosition(Vector3F(-10.0f, 10.0f, 0.0f));
 		lightPoint->SetShadowMapSize(2048);

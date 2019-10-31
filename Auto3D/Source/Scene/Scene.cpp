@@ -24,8 +24,6 @@ Scene::Scene() :
 
     DefineLayer(LAYER_DEFAULT, "Default");
     DefineTag(TAG_NONE, "None");
-	// The scene creates a shadow map by default
-	ModuleManager::Get().RendererModule()->SetupShadowMaps(1, 4096, ImageFormat::D16);
 
 	// Register scene to scene system use to render
 	ModuleManager::Get().RegisteredBoxModule()->RegisterScene(this);
@@ -259,6 +257,13 @@ PhysicsWorld* Scene::GetPhysicsWorld()
 	}
 	WarningString("Physics world failed to read, may be not created");
 	return nullptr;
+}
+
+void Scene::SetupShadowMap(size_t num, int size)
+{
+	// The scene creates a shadow map by default
+	ModuleManager::Get().RendererModule()->SetupShadowMaps(num, size, ImageFormat::D16);
+
 }
 
 void Scene::SetLayerNamesAttr(JSONValue names)

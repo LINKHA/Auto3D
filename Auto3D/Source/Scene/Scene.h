@@ -56,6 +56,8 @@ public:
 	void SetPhysicsWorld(PhysicsWorld* physicsWorld);
 	/// Get 3D physics world.
 	PhysicsWorld* GetPhysicsWorld();
+	/// Setup shadow maps.
+	void SetupShadowMap(size_t num, int size);
 
     using Node::Load;
     using Node::LoadJSON;

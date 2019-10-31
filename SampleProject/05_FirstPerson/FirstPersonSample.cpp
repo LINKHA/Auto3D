@@ -20,6 +20,7 @@ void FirstPersonSample::Start()
 	graphics->RenderWindow()->SetMouseHide(true);
 
 	scene = new Scene();
+	scene->SetupShadowMap(1, 4096);
 	scene->CreateChild<Octree>();
 	camera = scene->CreateChild<Camera>();
 	//camera->SetPosition(Vector3F(0.0f, 20.0f, -75.0f));
