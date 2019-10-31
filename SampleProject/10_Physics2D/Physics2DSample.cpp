@@ -55,84 +55,72 @@ void Physics2DSample::Start()
 		wallLeftColliderBox->SetSize(Vector2F(1.0f, 25.0f));
 		wallLeftColliderBox->SetFriction(0.5f);
 	}
+
+	{
+		//Line left
+		Sprite2D* lineLeft = scene2d->CreateChild<Sprite2D>();
+		lineLeft->SetTexture(squareTexture);
+		lineLeft->SetPosition(Vector2F(-15.0f, 0.0f));
+		lineLeft->Rotate(Quaternion(0.0f, 0.0f, 45.0f));
+		lineLeft->SetScale(Vector3F(1.0f, 13.0f));
+		RigidBody2D* lineLeftRigidBody = lineLeft->CreateChild<RigidBody2D>();
+		lineLeftRigidBody->SetBodyType(BodyType2D::STATIC);
+		ColliderBox2D* lineLeftColliderBox = lineLeft->CreateChild<ColliderBox2D>();
+		lineLeftColliderBox->SetSize(Vector2F(1.0f, 15.0f));
+		lineLeftColliderBox->SetFriction(0.5f);
+
+		//Line right
+		Sprite2D* lineRight = scene2d->CreateChild<Sprite2D>();
+		lineRight->SetTexture(squareTexture);
+		lineRight->SetPosition(Vector2F(15.0f, 0.0f));
+		lineRight->Rotate(Quaternion(0.0f, 0.0f, -45.0f));
+		lineRight->SetScale(Vector3F(1.0f, 13.0f));
+		RigidBody2D* lineRightRigidBody = lineRight->CreateChild<RigidBody2D>();
+		lineRightRigidBody->SetBodyType(BodyType2D::STATIC);
+		ColliderBox2D* lineRightColliderBox = lineRight->CreateChild<ColliderBox2D>();
+		lineRightColliderBox->SetSize(Vector2F(1.0f, 15.0f));
+		lineRightColliderBox->SetFriction(0.5f);
+	}
+		
+
 	
 
-	int layerCount = 10;
+	int layerCount = 30;
 	for (int i = 0; i < layerCount; ++i)
 	{
 		if (i % 2 == 0)
 		{
-			static int count = layerCount / 2 + layerCount % 2;
-			const int countI = layerCount / 2 + layerCount % 2;
-			for (int k = 0; k <= countI - count; ++k)
-			{
-				Sprite2D* node = scene2d->CreateChild<Sprite2D>();
-				node->SetPosition(Vector2F(0.0f + k * 3.0f, 20.0f + i * 3.0f));
-				node->SetScale(Vector3F(1.0f, 1.0f));
-				node->SetTexture(squareTexture);
-				RigidBody2D* nodeRigidBody = node->CreateChild<RigidBody2D>();
-				nodeRigidBody->SetBodyType(BodyType2D::DYNAMIC);
 
-				ColliderBox2D* squareColliderBox = node->CreateChild<ColliderBox2D>();
-				squareColliderBox->SetSize(Vector2F(1.0f, 1.0f));
-				squareColliderBox->SetDensity(1.0f);
-				squareColliderBox->SetFriction(0.5f);
-				squareColliderBox->SetRestitution(0.1f);
-			}
+			Sprite2D* node = scene2d->CreateChild<Sprite2D>();
+			node->SetPosition(Vector2F(-10.0f, 20.0f + i * 3.0f));
+			node->SetScale(Vector3F(1.0f, 1.0f));
+			node->SetTexture(squareTexture);
+			RigidBody2D* nodeRigidBody = node->CreateChild<RigidBody2D>();
+			nodeRigidBody->SetBodyType(BodyType2D::DYNAMIC);
 
-			for (int k = 0; k <= countI - count; ++k)
-			{
-				Sprite2D* node = scene2d->CreateChild<Sprite2D>();
-				node->SetPosition(Vector2F(0.0f - k * 3.0f, 20.0f + i * 3.0f));
-				node->SetScale(Vector3F(1.0f, 1.0f));
-				node->SetTexture(squareTexture);
-				RigidBody2D* nodeRigidBody = node->CreateChild<RigidBody2D>();
-				nodeRigidBody->SetBodyType(BodyType2D::DYNAMIC);
-
-				ColliderBox2D* squareColliderBox = node->CreateChild<ColliderBox2D>();
-				squareColliderBox->SetSize(Vector2F(1.0f, 1.0f));
-				squareColliderBox->SetDensity(1.0f);
-				squareColliderBox->SetFriction(0.5f);
-				squareColliderBox->SetRestitution(0.1f);
-			}
-			count--;
+			ColliderBox2D* squareColliderBox = node->CreateChild<ColliderBox2D>();
+			squareColliderBox->SetSize(Vector2F(1.0f, 1.0f));
+			squareColliderBox->SetDensity(1.0f);
+			squareColliderBox->SetFriction(0.5f);
+			squareColliderBox->SetRestitution(0.1f);
+			
 		}
 		else
 		{
-			static int count = layerCount / 2;
-			const int countI = layerCount / 2;
-			for (int k = 0; k <= countI - count; ++k)
-			{
-				Sprite2D* node = scene2d->CreateChild<Sprite2D>();
-				node->SetPosition(Vector2F(0.0f + k * 3.0f, 20.0f + i * 3.0f));
-				node->SetScale(Vector3F(1.0f, 1.0f));
-				node->SetTexture(circleTexture);
-				RigidBody2D* nodeRigidBody = node->CreateChild<RigidBody2D>();
-				nodeRigidBody->SetBodyType(BodyType2D::DYNAMIC);
+			Sprite2D* node = scene2d->CreateChild<Sprite2D>();
+			node->SetPosition(Vector2F(10.0f, 20.0f + i * 3.0f));
+			node->SetScale(Vector3F(1.0f, 1.0f));
+			node->SetTexture(circleTexture);
+			RigidBody2D* nodeRigidBody = node->CreateChild<RigidBody2D>();
+			nodeRigidBody->SetBodyType(BodyType2D::DYNAMIC);
 
-				
-				ColliderCircle2D* squareColliderBox = node->CreateChild<ColliderCircle2D>();
-				squareColliderBox->SetRadius(1.0f);
-				squareColliderBox->SetDensity(1.0f);
-				squareColliderBox->SetFriction(0.5f);
-				squareColliderBox->SetRestitution(0.1f);
-			}
-			for (int k = 0; k <= countI - count; ++k)
-			{
-				Sprite2D* node = scene2d->CreateChild<Sprite2D>();
-				node->SetPosition(Vector2F(0.0f - k * 3.0f, 20.0f + i * 3.0f));
-				node->SetScale(Vector3F(1.0f, 1.0f));
-				node->SetTexture(circleTexture);
-				RigidBody2D* nodeRigidBody = node->CreateChild<RigidBody2D>();
-				nodeRigidBody->SetBodyType(BodyType2D::DYNAMIC);
 
-				ColliderCircle2D* squareColliderBox = node->CreateChild<ColliderCircle2D>();
-				squareColliderBox->SetRadius(1.0f);
-				squareColliderBox->SetDensity(1.0f);
-				squareColliderBox->SetFriction(0.5f);
-				squareColliderBox->SetRestitution(0.1f);
-			}
-			count--;
+			ColliderCircle2D* squareColliderBox = node->CreateChild<ColliderCircle2D>();
+			squareColliderBox->SetRadius(1.0f);
+			squareColliderBox->SetDensity(1.0f);
+			squareColliderBox->SetFriction(0.5f);
+			squareColliderBox->SetRestitution(0.1f);
+			
 		}
 	}
 }
