@@ -89,11 +89,14 @@ float SampleShadowMap(int index, vec4 shadowPos)
 {
     vec4 offsets1 = vec4(shadowParameters[index].xy * shadowPos.w, 0, 0);
     vec4 offsets2 = vec4(vec2(shadowParameters[index].x, -shadowParameters[index].y) * shadowPos.w, 0, 0);
-
-    return (textureProj(shadowMap8[index], shadowPos + offsets1) +
+	
+	//Temporarily remove offset, because this offset will make the image noise obvious
+    /*return (textureProj(shadowMap8[index], shadowPos + offsets1) +
         textureProj(shadowMap8[index], shadowPos - offsets1) +
         textureProj(shadowMap8[index], shadowPos + offsets2) +
-        textureProj(shadowMap8[index], shadowPos - offsets2)) * 0.25;
+        textureProj(shadowMap8[index], shadowPos - offsets2)) * 0.25;*/
+		
+		return (textureProj(shadowMap8[index], shadowPos));
 }
 
 vec4 GetPointShadowPos(int index, vec4 worldPos)

@@ -25,7 +25,7 @@ Scene::Scene() :
     DefineLayer(LAYER_DEFAULT, "Default");
     DefineTag(TAG_NONE, "None");
 	// The scene creates a shadow map by default
-	ModuleManager::Get().RendererModule()->SetupShadowMaps(1, 2048, ImageFormat::D16);
+	ModuleManager::Get().RendererModule()->SetupShadowMaps(1, 4096, ImageFormat::D16);
 
 	// Register scene to scene system use to render
 	ModuleManager::Get().RegisteredBoxModule()->RegisterScene(this);
