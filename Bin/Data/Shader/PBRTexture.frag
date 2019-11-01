@@ -52,7 +52,7 @@ void main()
 	
 	int lightNum = GetLightNum();
 	
-	for(int i = 0; i < lightNum; ++i)			
+	for(int i = 0; i < lightNum; ++i)
 	{
 		vec3 lightPosition = vec3(lightPositions[i]);
 		vec3 lightColor = vec3(lightColors[i]);
