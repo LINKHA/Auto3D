@@ -7,6 +7,9 @@ in vec4 vWorldPos;
 in vec3 vNormal;
 in vec4 vTangent;
 in vec2 vTexCoord;
+#ifdef NUMSHADOWCOORDS
+in vec4 vShadowPos[NUMSHADOWCOORDS];
+#endif
 
 // material parameters
 uniform sampler2D albedoMap0;
@@ -72,5 +75,11 @@ void main()
 	//Gamma Correction
     color = pow(color, vec3(1.0/2.2)); 
 
-    fragColor = vec4(color, 1.0);
+	#ifdef NUMSHADOWCOORDS
+    //vec4 totalLight = CalculateLighting(vWorldPos, normal, vShadowPos);
+    #else
+    //vec4 totalLight = CalculateLighting(vWorldPos, normal);
+    #endif
+
+    fragColor = /*totalLight **/ vec4(color, 1.0);
 }
