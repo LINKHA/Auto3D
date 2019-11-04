@@ -162,4 +162,9 @@ inline bool CompareApproximately(float f0, float f1, float epsilon = M_EPSILON)
 	return dist < epsilon;
 }
 
+template<typename _Ty> inline _Ty Radians(_Ty degress)
+{
+	return degress * static_cast<_Ty>(0.01745329251994329576923690768489);
+}
+
 }

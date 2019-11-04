@@ -6,7 +6,8 @@ void PBRSample::Init()
 	auto* graphics = Object::Module<Graphics>();
 	graphics->RenderWindow()->SetTitle("PBR Sample");
 }
-
+IBLMaterial* ibl;
+/*
 void PBRSample::Start()
 {
 	Super::Start();
@@ -22,12 +23,12 @@ void PBRSample::Start()
 	camera->SetPosition(Vector3F(0.0f, 10.0f, -20.0f));
 	camera->SetAmbientColor(Color(1.0f, 0.1f, 0.1f));
 
-	//StaticModel* sphere = scene->CreateChild<StaticModel>();
-	//sphere->SetPosition(Vector3F(5.0f, 5.0f, 0.0f));
-	//sphere->SetScale(Vector3F(2.0f, 2.0f,2.0f));
-	//sphere->SetCastShadows(true);
-	//sphere->SetModel(cache->LoadResource<Model>("Model/Sphere.mdl"));
-	//sphere->SetMaterial(cache->LoadResource<Material>("PBRNoTexture.json"));
+	StaticModel* sphere = scene->CreateChild<StaticModel>();
+	sphere->SetPosition(Vector3F(5.0f, 5.0f, 0.0f));
+	sphere->SetScale(Vector3F(2.0f, 2.0f,2.0f));
+	sphere->SetCastShadows(true);
+	sphere->SetModel(cache->LoadResource<Model>("Model/Sphere.mdl"));
+	sphere->SetMaterial(cache->LoadResource<Material>("PBRNoTexture.json"));
 
 	StaticModel* teaPot = scene->CreateChild<StaticModel>();
 	teaPot->SetPosition(Vector3F(-5.0f, 0.0f, 0.0f));
@@ -37,12 +38,12 @@ void PBRSample::Start()
 	teaPot->SetMaterial(cache->LoadResource<Material>("PBRTitanium.json"));
 
 
-	//StaticModel* plane = scene->CreateChild<StaticModel>();
-	//plane->SetPosition(Vector3F(-5.0f, 0.0f, 0.0f));
-	//plane->SetScale(Vector3F(100.0f, 1.0f, 100.0f));
-	//plane->SetCastShadows(true);
-	//plane->SetModel(cache->LoadResource<Model>("Model/Box.mdl"));
-	//plane->SetMaterial(cache->LoadResource<Material>("PBRWood.json"));
+	StaticModel* plane = scene->CreateChild<StaticModel>();
+	plane->SetPosition(Vector3F(-5.0f, 0.0f, 0.0f));
+	plane->SetScale(Vector3F(100.0f, 1.0f, 100.0f));
+	plane->SetCastShadows(true);
+	plane->SetModel(cache->LoadResource<Model>("Model/Box.mdl"));
+	plane->SetMaterial(cache->LoadResource<Material>("PBRWood.json"));
 
 
 	SkyBox* skybox = scene->CreateChild<SkyBox>();
@@ -75,10 +76,67 @@ void PBRSample::Start()
 	light4->SetColor(Color(500.0f, 500.0f, 500.0f));
 	light4->SetRange(100.0f);
 	light4->SetPosition(Vector3F(10.0f, -10.0f, 10.0f));
-	
 }
+*/
+Texture* iblCube;
+void PBRSample::Start()
+{
+	//Super::Start();
+	auto* cache = Object::Module<ResourceCache>();
+	auto* graphics = Object::Module<Graphics>();
+
+	graphics->RenderWindow()->SetMouseLock(true);
+	graphics->RenderWindow()->SetMouseHide(true);
+
+	scene = new Scene();
+	scene->CreateChild<Octree>();
+	camera = scene->CreateChild<Camera>();
+	camera->SetPosition(Vector3F(0.0f, 5.0f, -5.0f));
+	camera->SetAmbientColor(Color(1.0f, 0.1f, 0.1f));
+
+	//StaticModel* sphere = scene->CreateChild<StaticModel>();
+	//sphere->SetModel(cache->LoadResource<Model>("Model/Sphere.mdl"));
+	//sphere->SetMaterial(cache->LoadResource<Material>("PBRTitanium.json"));
+
+	SkyBox* skybox = scene->CreateChild<SkyBox>();
+	skybox->SetMaterial(cache->LoadResource<Material>("HdrSkyBox.json"));
+
+
+
+
+
+
+
+
+
+	iblCube = skybox->GetMaterial(0)->_textures[0];
+
+	ibl = cache->LoadResource<IBLMaterial>("IBLPBRTitanium.json");
+
+
+	StaticModel* sphere = scene->CreateChild<StaticModel>();
+	sphere->SetScale(10);
+	sphere->SetModel(cache->LoadResource<Model>("Model/TeaPot.mdl"));
+	sphere->SetMaterial(ibl);
+
+
+	////
+	ibl->SetAAA(iblCube);
+
+
+
+	//ibl->CreatePass(camera);
+}
+
+void PBRSample::UIDraw()
+{
+		//ibl->CreatePass(camera);
+
+}
+
 void PBRSample::Update()
 {
+
 	Super::Update();
 	auto input = ModuleManager::Get().InputModule();
 	auto graphics = ModuleManager::Get().GraphicsModule();

@@ -1,6 +1,6 @@
 #pragma once
 #include "Material.h"
-
+#include "../Renderer/Camera.h"
 namespace Auto3D
 {
 
@@ -17,7 +17,15 @@ public:
 	/// Register object factory.
 	static void RegisterObject();
 
-	void CreatePass();
+	void CreatePass(Camera* camera);
+
+	void SetIrradiance();
+
+	void SetPrefilter();
+
+	void SetBrdfLut();
+
+	void SetAAA(Texture* iblCube);
 };
 
 }

@@ -14,6 +14,7 @@
 #include "RenderPath.h"
 #include "Light.h"
 #include "Material.h"
+#include "IBLMaterial.h"
 #include "Model.h"
 #include "Octree.h"
 #include "Renderer.h"
@@ -1295,6 +1296,7 @@ void RegisterRendererLibrary()
     StaticModel::RegisterObject();
     Light::RegisterObject();
     Material::RegisterObject();
+	IBLMaterial::RegisterObject();
     Model::RegisterObject();
 	SkyBox::RegisterObject();
 }

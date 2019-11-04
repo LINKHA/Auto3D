@@ -39,6 +39,7 @@
 #include "Resource/Font.h"
 #include "Renderer/SkyBox.h"
 #include "Renderer/Water.h"
+#include "Renderer/IBLMaterial.h"
 #include "Scene/Scene.h"
 #include "RegisteredBox/RegisteredBox.h"
 #include "Thread/Condition.h"
