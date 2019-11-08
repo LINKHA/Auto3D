@@ -17,6 +17,8 @@ public:
 	/// Register object factory.
 	static void RegisterObject();
 
+	void SetMapSize(int mapSize) { _mapSize = mapSize; }
+
 	void CreatePass(Camera* camera);
 
 	void SetIrradiance();
@@ -26,6 +28,9 @@ public:
 	void SetBrdfLut();
 
 	void SetAAA(Texture* iblCube);
+
+private:
+	int _mapSize;
 };
 
 }

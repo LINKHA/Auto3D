@@ -266,7 +266,8 @@ unsigned int irradianceBuffer;
 unsigned int prefilterBuffer;
 unsigned int brdfLUTBuffer;
 
-IBLMaterial::IBLMaterial()
+IBLMaterial::IBLMaterial():
+	_mapSize(512)
 {
 	
 }
@@ -440,7 +441,7 @@ void IBLMaterial::SetAAA(Texture* iblCube)
 
 	// pre-allocate enough memory for the LUT texture.
 	glBindTexture(GL_TEXTURE_2D, brdfLUTBuffer);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RG16F, 512, 512, 0, GL_RG, GL_FLOAT, 0);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RG16F, _mapSize, _mapSize, 0, GL_RG, GL_FLOAT, 0);
 	// be sure to set wrapping mode to GL_CLAMP_TO_EDGE
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -450,10 +451,10 @@ void IBLMaterial::SetAAA(Texture* iblCube)
 	// then re-configure capture framebuffer object and render screen-space quad with BRDF shader.
 	glBindFramebuffer(GL_FRAMEBUFFER, captureFBO);
 	glBindRenderbuffer(GL_RENDERBUFFER, captureRBO);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, 512, 512);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, _mapSize, _mapSize);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, brdfLUTBuffer, 0);
 
-	glViewport(0, 0, 512, 512);
+	glViewport(0, 0, _mapSize, _mapSize);
 	brdfShader.use();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	renderQuad();
@@ -464,10 +465,10 @@ void IBLMaterial::SetAAA(Texture* iblCube)
 	SharedPtr<Texture> irradianceMap(new Texture());
 	SharedPtr<Texture> prefilterMap(new Texture());
 	SharedPtr<Texture> brdfLUTTexture(new Texture());
-	irradianceMap->Define(TextureType::TEX_CUBE, ResourceUsage::DEFAULT, Vector2I(512, 512), ImageFormat::D24S8, 1);
+	irradianceMap->Define(TextureType::TEX_CUBE, ResourceUsage::DEFAULT, Vector2I(_mapSize, _mapSize), ImageFormat::D24S8, 1);
 	irradianceMap->_texture = irradianceBuffer;
 
-	prefilterMap->Define(TextureType::TEX_CUBE, ResourceUsage::DEFAULT, Vector2I(512, 512), ImageFormat::D24S8, 1);
+	prefilterMap->Define(TextureType::TEX_CUBE, ResourceUsage::DEFAULT, Vector2I(_mapSize, _mapSize), ImageFormat::D24S8, 1);
 	prefilterMap->_texture = prefilterBuffer;
 	
 	brdfLUTTexture->_texture = brdfLUTBuffer;
