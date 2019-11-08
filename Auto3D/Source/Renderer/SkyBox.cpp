@@ -2,10 +2,12 @@
 #include "../Resource/Image.h"
 #include "../Graphics/Texture.h"
 #include "../Resource/ResourceCache.h"
-#include "../Debug/DebugNew.h"
 #include "../Engine/ModuleManager.h"
-
+#include "../RegisteredBox/RegisteredBox.h"
+#include "../Scene/Scene.h"
 #include "Model.h"
+
+#include "../Debug/DebugNew.h"
 
 namespace Auto3D
 {
@@ -15,6 +17,7 @@ SkyBox::SkyBox()
 	auto cache = ModuleManager::Get().CacheModule();
 	SetModel(cache->LoadResource<Model>("Model/Box.mdl"));
 	OnWorldBoundingBoxUpdate();
+	ModuleManager::Get().RegisteredBoxModule()->GetActiveScene()->SetSkyBox(this);
 }
 
 SkyBox::~SkyBox() = default;

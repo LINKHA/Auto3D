@@ -17,7 +17,8 @@ namespace Auto3D
 
 Scene::Scene() :
     _nextNodeId(1),
-	_physicsWorld(nullptr)
+	_physicsWorld(nullptr),
+	_skybox(nullptr)
 {
     // Register self to allow finding by ID
     AddNode(this);
@@ -249,6 +250,11 @@ void Scene::SetPhysicsWorld(PhysicsWorld* physicsWorld)
 	_physicsWorld = physicsWorld;
 }
 
+void Scene::SetSkyBox(SkyBox* skybox)
+{
+	_skybox = skybox;
+}
+
 PhysicsWorld* Scene::GetPhysicsWorld()
 {
 	if (_physicsWorld)
@@ -256,6 +262,16 @@ PhysicsWorld* Scene::GetPhysicsWorld()
 		return _physicsWorld;
 	}
 	WarningString("Physics world failed to read, may be not created");
+	return nullptr;
+}
+
+SkyBox* Scene::GetSkyBox()
+{
+	if (_skybox)
+	{
+		return _skybox;
+	}
+	WarningString("SkyBox failed to read, may be not created");
 	return nullptr;
 }
 

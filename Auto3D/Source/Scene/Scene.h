@@ -7,6 +7,7 @@ namespace Auto3D
 
 class Camera;
 class PhysicsWorld;
+class SkyBox;
 
 /// %Scene root node, which also represents the whole scene.
 class AUTO_API Scene : public Node
@@ -54,10 +55,16 @@ public:
 	void RemoveCamera(Camera* camera) { _cameras.Remove(camera); }
 	/// Set 3D physics world.
 	void SetPhysicsWorld(PhysicsWorld* physicsWorld);
+	/// Set skybox.
+	void SetSkyBox(SkyBox* skybox);
 	/// Get 3D physics world.
 	PhysicsWorld* GetPhysicsWorld();
+	/// Get skybox.
+	SkyBox* GetSkyBox();
 	/// Setup shadow maps.
 	void SetupShadowMap(size_t num, int size);
+
+
 
     using Node::Load;
     using Node::LoadJSON;
@@ -82,7 +89,8 @@ private:
 
 	/// Physics world custom assign this variable
 	PhysicsWorld* _physicsWorld;
-
+	/// Skybox in this scene.
+	SkyBox* _skybox;
 };
 
 /// Register Scene related object factories and attributes.

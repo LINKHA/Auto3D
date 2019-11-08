@@ -92,7 +92,7 @@ void PBRSample::Start()
 	scene->CreateChild<Octree>();
 	camera = scene->CreateChild<Camera>();
 	camera->SetPosition(Vector3F(0.0f, 5.0f, -5.0f));
-	camera->SetAmbientColor(Color(1.0f, 0.1f, 0.1f));
+	camera->SetAmbientColor(Color(0.1f, 0.1f, 0.1f));
 
 	//StaticModel* sphere = scene->CreateChild<StaticModel>();
 	//sphere->SetModel(cache->LoadResource<Model>("Model/Sphere.mdl"));
@@ -112,7 +112,8 @@ void PBRSample::Start()
 	iblCube = skybox->GetMaterial(0)->_textures[0];
 
 	ibl = cache->LoadResource<IBLMaterial>("IBLPBRTitanium.json");
-
+	//ibl->SetupIBL(skybox);
+	//ibl->SetAAA(iblCube);
 
 	StaticModel* sphere = scene->CreateChild<StaticModel>();
 	sphere->SetScale(10);
@@ -121,7 +122,7 @@ void PBRSample::Start()
 
 
 	////
-	ibl->SetAAA(iblCube);
+	
 
 
 

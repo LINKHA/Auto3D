@@ -3,6 +3,7 @@
 #include "../Renderer/Camera.h"
 namespace Auto3D
 {
+class SkyBox;
 
 class IBLMaterial : public Material 
 {
@@ -17,7 +18,11 @@ public:
 	/// Register object factory.
 	static void RegisterObject();
 
+	virtual bool EndLoad();
+
 	void SetMapSize(int mapSize) { _mapSize = mapSize; }
+
+	void SetIrradianceSize(int irradianceSize) { _irradianceSize = irradianceSize; }
 
 	void CreatePass(Camera* camera);
 
@@ -29,8 +34,13 @@ public:
 
 	void SetAAA(Texture* iblCube);
 
+	void SetupIBL(SkyBox* skybox);
 private:
 	int _mapSize;
+
+	int _irradianceSize;
+
+	Texture* _iblCubeMap;
 };
 
 }
