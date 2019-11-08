@@ -93,7 +93,7 @@ template <typename _Ty> inline _Ty Atan2(_Ty y, _Ty x) { return M_RADTODEG * ata
 
 
 /// Return X in power Y.
-template <typename _Ty> inline _Ty Pow(_Ty x, _Ty y) { return pow(x, y); }
+template <typename _Ty1, typename _Ty2> inline _Ty1 Pow(_Ty1 x, _Ty2 y) { return pow(x, y); }
 
 /// Return natural logarithm of X.
 template <typename _Ty> inline _Ty Ln(_Ty x) { return log(x); }

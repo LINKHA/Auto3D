@@ -277,7 +277,7 @@ bool Material::EndLoad()
 			faces.Push(imageData[i]->GetLevel(0));
 		}
 
-		Texture* textureCube = new Texture();
+		SharedPtr<Texture>textureCube(new Texture());
 		textureCube->Define(TextureType::TEX_CUBE, ResourceUsage::DEFAULT, imageData[0]->GetLevel(0)._size, imageData[0]->GetFormat(), 1, &faces[0]);
 		textureCube->DefineSampler(TextureFilterMode::COMPARE_TRILINEAR, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP);
 		textureCube->SetDataLost(false);

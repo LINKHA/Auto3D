@@ -151,12 +151,6 @@ public:
 		glDeleteFramebuffers(1, &buffer);
 	}
 
-	/// Create render buffer.
-	void CreateRenderBuffer()
-	{
-
-	}
-
 	/// OpenGL FBO handle.
 	unsigned buffer;
 	/// Color rendertargets bound to this FBO.

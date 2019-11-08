@@ -24,23 +24,29 @@ public:
 
 	void SetIrradianceSize(int irradianceSize) { _irradianceSize = irradianceSize; }
 
-	void CreatePass(Camera* camera);
-
-	void SetIrradiance();
-
-	void SetPrefilter();
-
-	void SetBrdfLut();
-
-	void SetAAA(Texture* iblCube);
-
 	void SetupIBL(SkyBox* skybox);
 private:
+
+	/// Create an irradiance cubemap, and re-scale capture FBO to irradiance scale.
+	SharedPtr<Texture> SetupIrradianceMap();
+	/// Create a pre-filter cubemap, and re-scale capture FBO to pre-filter scale.
+	SharedPtr<Texture> SetupPrefilterMap();
+	/// Generate a 2D LUT from the BRDF equations used.
+	SharedPtr<Texture> SetupBrdfLUT();
+
 	int _mapSize;
 
 	int _irradianceSize;
 
+	int _prefilterSize;
+
 	Texture* _iblCubeMap;
+
+	SharedPtr<Texture> _irradianceMap;
+
+	SharedPtr<Texture> _prefilterMap;
+
+	SharedPtr<Texture> _brdfLUT;
 };
 
 }
