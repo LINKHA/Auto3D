@@ -1,8 +1,8 @@
 {
   "passes": {
     "opaque": {
-      "vs": "Shader/IBLPBRTexture",
-      "ps": "Shader/IBLPBRTexture",
+      "vs": "Shader/PBR",
+      "ps": "Shader/PBR",
       "depthFunc": "lessEqual",
       "depthWrite": true,
       "depthClip": true,
@@ -12,8 +12,8 @@
       "cullMode": "back"
     },
 	"opaqueadd": {
-      "vs": "Shader/IBLPBRTexture",
-      "ps": "Shader/IBLPBRTexture",
+      "vs": "Shader/PBR",
+      "ps": "Shader/PBR",
       "depthFunc": "lessEqual",
       "depthWrite": false,
       "depthClip": true,
