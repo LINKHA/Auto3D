@@ -353,7 +353,7 @@ SharedPtr<Texture> IBLMaterial::SetupIrradianceMap()
 	_irradianceMap->DefineSampler(TextureFilterMode::COMPARE_TRILINEAR, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP);
 	_irradianceMap->SetDataLost(false);
 
-	glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+	//glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
 
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, _irradianceSize, _irradianceSize);
 
@@ -362,7 +362,7 @@ SharedPtr<Texture> IBLMaterial::SetupIrradianceMap()
 	irradianceShader.setInt("environmentMap", 0);
 	irradianceShader.setMat4("projection", captureProjection);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, _irradianceMap->GetGLTexture());
+	glBindTexture(GL_TEXTURE_CUBE_MAP, _iblCubeMap->GetGLTexture());
 
 	glViewport(0, 0, _irradianceSize, _irradianceSize);
 	for (unsigned int i = 0; i < 6; ++i)
