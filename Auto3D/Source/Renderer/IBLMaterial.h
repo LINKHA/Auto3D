@@ -33,24 +33,21 @@ private:
 	SharedPtr<Texture> SetupPrefilterMap();
 	/// Generate a 2D LUT from the BRDF equations used.
 	SharedPtr<Texture> SetupBrdfLUT();
-
+	/// IBL map size.
 	int _mapSize;
-
+	/// Irradiance map size.
 	int _irradianceSize;
-
+	/// Prefilter map size.
 	int _prefilterSize;
-
+	/// IBL cube map.
 	Texture* _iblCubeMap;
-
+	/// irradiance map.
 	SharedPtr<Texture> _irradianceMap;
 
 	SharedPtr<Texture> _prefilterMap;
 
 	SharedPtr<Texture> _brdfLUT;
 
-	ShaderVariation* _irradianceVSV;
-
-	ShaderVariation* _irradiancePSV;
 };
 
 }
