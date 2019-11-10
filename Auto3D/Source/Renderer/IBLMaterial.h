@@ -47,6 +47,10 @@ private:
 	SharedPtr<Texture> _prefilterMap;
 
 	SharedPtr<Texture> _brdfLUT;
+
+	ShaderVariation* _irradianceVSV;
+
+	ShaderVariation* _irradiancePSV;
 };
 
 }

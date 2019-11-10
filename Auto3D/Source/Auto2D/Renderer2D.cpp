@@ -199,8 +199,8 @@ void Renderer2D::Initialize()
 	_instanceVertexElements.Push(VertexElement(ElementType::VECTOR4, ElementSemantic::TEXCOORD, U_INSTANCE_TEXCOORD + 2, true));
 
 	// Because Renderer2D images change less, their shaders are temporarily fixed
-	SharedPtr<Shader> vs = new Shader();
-	SharedPtr<Shader> ps = new Shader();
+	SharedPtr<Shader> vs(new Shader());
+	SharedPtr<Shader> ps(new Shader());
 	vs = cache->LoadResource<Shader>("Shader/Texture.vert");
 	ps = cache->LoadResource<Shader>("Shader/Texture.frag");
 	_vsv = vs->CreateVariation();

@@ -88,9 +88,9 @@ private:
 	AutoPtr<VertexBuffer> _instanceVertexBuffer;
 	/// Vertex elements for the instance vertex buffer.
 	Vector<VertexElement> _instanceVertexElements;
-	/// ShaderVariation vs 
+	/// Render 2D shaderVariation vs.
 	ShaderVariation* _vsv;
-	/// ShaderVariation ps
+	/// Render 2D shaderVariation ps.
 	ShaderVariation* _psv;
 	/// Instance shaderVariation vs 
 	ShaderVariation* _ivsv;

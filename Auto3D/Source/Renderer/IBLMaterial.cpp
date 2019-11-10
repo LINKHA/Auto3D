@@ -7,6 +7,7 @@
 #include "../Renderer/SkyBox.h"
 #include "../Scene/Scene.h"
 #include "../RegisteredBox/RegisteredBox.h"
+#include "../Graphics/Shader.h"
 
 #include <glad.h>
 
@@ -19,178 +20,175 @@
 namespace Auto3D
 {
 
-	class tShader
-	{
-	public:
-		unsigned int ID;
-		tShader() {}
-		// constructor generates the shader on the fly
-		// ------------------------------------------------------------------------
-		tShader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr)
-		{
-			// 1. retrieve the vertex/fragment source code from filePath
-			std::string vertexCode;
-			std::string fragmentCode;
-			std::string geometryCode;
-			std::ifstream vShaderFile;
-			std::ifstream fShaderFile;
-			std::ifstream gShaderFile;
-			// ensure ifstream objects can throw exceptions:
-			vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-			fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-			gShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-			try
-			{
-				// open files
-				vShaderFile.open(vertexPath);
-				fShaderFile.open(fragmentPath);
-				std::stringstream vShaderStream, fShaderStream;
-				// read file's buffer contents into streams
-				vShaderStream << vShaderFile.rdbuf();
-				fShaderStream << fShaderFile.rdbuf();
-				// close file handlers
-				vShaderFile.close();
-				fShaderFile.close();
-				// convert stream into string
-				vertexCode = vShaderStream.str();
-				fragmentCode = fShaderStream.str();
-				// if geometry shader path is present, also load a geometry shader
-				if (geometryPath != nullptr)
-				{
-					gShaderFile.open(geometryPath);
-					std::stringstream gShaderStream;
-					gShaderStream << gShaderFile.rdbuf();
-					gShaderFile.close();
-					geometryCode = gShaderStream.str();
-				}
-			}
-			catch (std::ifstream::failure e)
-			{
-				std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
-			}
-			const char* vShaderCode = vertexCode.c_str();
-			const char* fShaderCode = fragmentCode.c_str();
-			// 2. compile shaders
-			unsigned int vertex, fragment;
-			// vertex shader
-			vertex = glCreateShader(GL_VERTEX_SHADER);
-			glShaderSource(vertex, 1, &vShaderCode, NULL);
-			glCompileShader(vertex);
-			checkCompileErrors(vertex, "VERTEX");
-			// fragment Shader
-			fragment = glCreateShader(GL_FRAGMENT_SHADER);
-			glShaderSource(fragment, 1, &fShaderCode, NULL);
-			glCompileShader(fragment);
-			checkCompileErrors(fragment, "FRAGMENT");
-			// if geometry shader is given, compile geometry shader
-			unsigned int geometry;
-			if (geometryPath != nullptr)
-			{
-				const char* gShaderCode = geometryCode.c_str();
-				geometry = glCreateShader(GL_GEOMETRY_SHADER);
-				glShaderSource(geometry, 1, &gShaderCode, NULL);
-				glCompileShader(geometry);
-				checkCompileErrors(geometry, "GEOMETRY");
-			}
-			// shader Program
-			ID = glCreateProgram();
-			glAttachShader(ID, vertex);
-			glAttachShader(ID, fragment);
-			if (geometryPath != nullptr)
-				glAttachShader(ID, geometry);
-			glLinkProgram(ID);
-			checkCompileErrors(ID, "PROGRAM");
-			// delete the shaders as they're linked into our program now and no longer necessery
-			glDeleteShader(vertex);
-			glDeleteShader(fragment);
-			if (geometryPath != nullptr)
-				glDeleteShader(geometry);
-
-		}
-		// activate the shader
-		// ------------------------------------------------------------------------
-		void use()
-		{
-			glUseProgram(ID);
-		}
-		// utility uniform functions
-		// ------------------------------------------------------------------------
-		void setBool(const std::string& name, bool value) const
-		{
-			glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value);
-		}
-		// ------------------------------------------------------------------------
-		void setInt(const std::string& name, int value) const
-		{
-			glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
-		}
-		// ------------------------------------------------------------------------
-		void setFloat(const std::string& name, float value) const
-		{
-			glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
-		}
-
-		void setVec3(const std::string& name, const Vector3F& value) const
-		{
-			glUniform3fv(glGetUniformLocation(ID, name.c_str()), 1, value.Data());
-		}
-		void setVec3(const std::string& name, float x, float y, float z) const
-		{
-			glUniform3f(glGetUniformLocation(ID, name.c_str()), x, y, z);
-		}
-		// ------------------------------------------------------------------------
-		void setMat4(const std::string& name, const Matrix4x4F& mat) const
-		{
-			glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, mat.Data());
-		}
-
-	private:
-		// utility function for checking shader compilation/linking errors.
-		// ------------------------------------------------------------------------
-		void checkCompileErrors(GLuint shader, std::string type)
-		{
-			GLint success;
-			GLchar infoLog[1024];
-			if (type != "PROGRAM")
-			{
-				glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-				if (!success)
-				{
-					glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-					std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
-				}
-			}
-			else
-			{
-				glGetProgramiv(shader, GL_LINK_STATUS, &success);
-				if (!success)
-				{
-					glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-					std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
-				}
-			}
-		}
-	};
-
-
-void renderCube()
+class tShader
 {
-	unsigned int cubeVAO = 0;
-	unsigned int cubeVBO = 0;
+public:
+	unsigned int ID;
+	tShader() {}
+	// constructor generates the shader on the fly
+	// ------------------------------------------------------------------------
+	tShader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr)
+	{
+		// 1. retrieve the vertex/fragment source code from filePath
+		std::string vertexCode;
+		std::string fragmentCode;
+		std::string geometryCode;
+		std::ifstream vShaderFile;
+		std::ifstream fShaderFile;
+		std::ifstream gShaderFile;
+		// ensure ifstream objects can throw exceptions:
+		vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+		fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+		gShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+		try
+		{
+			// open files
+			vShaderFile.open(vertexPath);
+			fShaderFile.open(fragmentPath);
+			std::stringstream vShaderStream, fShaderStream;
+			// read file's buffer contents into streams
+			vShaderStream << vShaderFile.rdbuf();
+			fShaderStream << fShaderFile.rdbuf();
+			// close file handlers
+			vShaderFile.close();
+			fShaderFile.close();
+			// convert stream into string
+			vertexCode = vShaderStream.str();
+			fragmentCode = fShaderStream.str();
+			// if geometry shader path is present, also load a geometry shader
+			if (geometryPath != nullptr)
+			{
+				gShaderFile.open(geometryPath);
+				std::stringstream gShaderStream;
+				gShaderStream << gShaderFile.rdbuf();
+				gShaderFile.close();
+				geometryCode = gShaderStream.str();
+			}
+		}
+		catch (std::ifstream::failure e)
+		{
+			std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
+		}
+		const char* vShaderCode = vertexCode.c_str();
+		const char* fShaderCode = fragmentCode.c_str();
+		// 2. compile shaders
+		unsigned int vertex, fragment;
+		// vertex shader
+		vertex = glCreateShader(GL_VERTEX_SHADER);
+		glShaderSource(vertex, 1, &vShaderCode, NULL);
+		glCompileShader(vertex);
+		checkCompileErrors(vertex, "VERTEX");
+		// fragment Shader
+		fragment = glCreateShader(GL_FRAGMENT_SHADER);
+		glShaderSource(fragment, 1, &fShaderCode, NULL);
+		glCompileShader(fragment);
+		checkCompileErrors(fragment, "FRAGMENT");
+		// if geometry shader is given, compile geometry shader
+		unsigned int geometry;
+		if (geometryPath != nullptr)
+		{
+			const char* gShaderCode = geometryCode.c_str();
+			geometry = glCreateShader(GL_GEOMETRY_SHADER);
+			glShaderSource(geometry, 1, &gShaderCode, NULL);
+			glCompileShader(geometry);
+			checkCompileErrors(geometry, "GEOMETRY");
+		}
+		// shader Program
+		ID = glCreateProgram();
+		glAttachShader(ID, vertex);
+		glAttachShader(ID, fragment);
+		if (geometryPath != nullptr)
+			glAttachShader(ID, geometry);
+		glLinkProgram(ID);
+		checkCompileErrors(ID, "PROGRAM");
+		// delete the shaders as they're linked into our program now and no longer necessery
+		glDeleteShader(vertex);
+		glDeleteShader(fragment);
+		if (geometryPath != nullptr)
+			glDeleteShader(geometry);
 
+	}
+	// activate the shader
+	// ------------------------------------------------------------------------
+	void use()
+	{
+		glUseProgram(ID);
+	}
+	// utility uniform functions
+	// ------------------------------------------------------------------------
+	void setBool(const std::string& name, bool value) const
+	{
+		glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value);
+	}
+	// ------------------------------------------------------------------------
+	void setInt(const std::string& name, int value) const
+	{
+		glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
+	}
+	// ------------------------------------------------------------------------
+	void setFloat(const std::string& name, float value) const
+	{
+		glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
+	}
+
+	void setVec3(const std::string& name, const Vector3F& value) const
+	{
+		glUniform3fv(glGetUniformLocation(ID, name.c_str()), 1, value.Data());
+	}
+	void setVec3(const std::string& name, float x, float y, float z) const
+	{
+		glUniform3f(glGetUniformLocation(ID, name.c_str()), x, y, z);
+	}
+	// ------------------------------------------------------------------------
+	void setMat4(const std::string& name, const Matrix4x4F& mat) const
+	{
+		glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, mat.Data());
+	}
+
+private:
+	// utility function for checking shader compilation/linking errors.
+	// ------------------------------------------------------------------------
+	void checkCompileErrors(GLuint shader, std::string type)
+	{
+		GLint success;
+		GLchar infoLog[1024];
+		if (type != "PROGRAM")
+		{
+			glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+			if (!success)
+			{
+				glGetShaderInfoLog(shader, 1024, NULL, infoLog);
+				std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+			}
+		}
+		else
+		{
+			glGetProgramiv(shader, GL_LINK_STATUS, &success);
+			if (!success)
+			{
+				glGetProgramInfoLog(shader, 1024, NULL, infoLog);
+				std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+			}
+		}
+	}
+};
+
+
+void RenderCube()
+{
 	float vertices[] = {
 		// back face
 		-1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
-			1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f, // top-right
-			1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 1.0f, 0.0f, // bottom-right         
-			1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f, // top-right
+		1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f, // top-right
+		1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 1.0f, 0.0f, // bottom-right         
+		1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f, // top-right
 		-1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
 		-1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 0.0f, 1.0f, // top-left
 		// front face
 		-1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f, 0.0f, // bottom-left
-			1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f, 0.0f, // bottom-right
-			1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f, 1.0f, // top-right
-			1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f, 1.0f, // top-right
+		1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f, 0.0f, // bottom-right
+		1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f, 1.0f, // top-right
+		1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f, 1.0f, // top-right
 		-1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f, 1.0f, // top-left
 		-1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f, 0.0f, // bottom-left
 		// left face
@@ -201,27 +199,30 @@ void renderCube()
 		-1.0f, -1.0f,  1.0f, -1.0f,  0.0f,  0.0f, 0.0f, 0.0f, // bottom-right
 		-1.0f,  1.0f,  1.0f, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-right
 		// right face
-			1.0f,  1.0f,  1.0f,  1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-left
-			1.0f, -1.0f, -1.0f,  1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-right
-			1.0f,  1.0f, -1.0f,  1.0f,  0.0f,  0.0f, 1.0f, 1.0f, // top-right         
-			1.0f, -1.0f, -1.0f,  1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-right
-			1.0f,  1.0f,  1.0f,  1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-left
-			1.0f, -1.0f,  1.0f,  1.0f,  0.0f,  0.0f, 0.0f, 0.0f, // bottom-left     
+		1.0f,  1.0f,  1.0f,  1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-left
+		1.0f, -1.0f, -1.0f,  1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-right
+		1.0f,  1.0f, -1.0f,  1.0f,  0.0f,  0.0f, 1.0f, 1.0f, // top-right         
+		1.0f, -1.0f, -1.0f,  1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-right
+		1.0f,  1.0f,  1.0f,  1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-left
+		1.0f, -1.0f,  1.0f,  1.0f,  0.0f,  0.0f, 0.0f, 0.0f, // bottom-left     
 		// bottom face
 		-1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f, 0.0f, 1.0f, // top-right
-			1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f, 1.0f, 1.0f, // top-left
-			1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f, 1.0f, 0.0f, // bottom-left
-			1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f, 1.0f, 0.0f, // bottom-left
+		1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f, 1.0f, 1.0f, // top-left
+		1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f, 1.0f, 0.0f, // bottom-left
+		1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f, 1.0f, 0.0f, // bottom-left
 		-1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f, 0.0f, 0.0f, // bottom-right
 		-1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f, 0.0f, 1.0f, // top-right
 		// top face
 		-1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f, 0.0f, 1.0f, // top-left
-			1.0f,  1.0f , 1.0f,  0.0f,  1.0f,  0.0f, 1.0f, 0.0f, // bottom-right
-			1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f, 1.0f, 1.0f, // top-right     
-			1.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f, 1.0f, 0.0f, // bottom-right
+		1.0f,  1.0f , 1.0f,  0.0f,  1.0f,  0.0f, 1.0f, 0.0f, // bottom-right
+		1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f, 1.0f, 1.0f, // top-right     
+		1.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f, 1.0f, 0.0f, // bottom-right
 		-1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f, 0.0f, 1.0f, // top-left
 		-1.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f, 0.0f, 0.0f  // bottom-left        
 	};
+
+	unsigned int cubeVBO = 0;
+
 	glGenBuffers(1, &cubeVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
@@ -236,18 +237,18 @@ void renderCube()
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
-void renderQuad()
+void RenderQuad()
 {
-	unsigned int quadVAO = 0;
-	unsigned int quadVBO;
-
+	
 	float quadVertices[] = {
 		// positions        // texture Coords
 		-1.0f,  1.0f, 0.0f, 0.0f, 1.0f,
 		-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
 		1.0f,  1.0f, 0.0f, 1.0f, 1.0f,
 		1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
-	};
+	}; 
+	
+	unsigned int quadVBO;
 	// setup plane VAO
 	glGenBuffers(1, &quadVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
@@ -313,7 +314,18 @@ void IBLMaterial::SetupIBL(SkyBox* skybox)
 	_iblCubeMap = skybox->GetMaterial(0)->_textures[0];
 
 	auto cache = ModuleManager::Get().CacheModule();
+	auto graphics = ModuleManager::Get().GraphicsModule();
+
 	String path = cache->ResourceDirs()[0];
+
+
+	//SharedPtr<Shader> irradianceVs(new Shader());
+	//SharedPtr<Shader> irradiancePs(new Shader());
+	//irradianceVs = cache->LoadResource<Shader>("Shader/IBL/Cubemap.vs");
+	//irradiancePs = cache->LoadResource<Shader>("Shader/IBL/IrradianceConvolution.fs");
+	//_irradianceVSV = irradianceVs->CreateVariation();
+	//_irradiancePSV = irradiancePs->CreateVariation();
+
 
 	irradianceShader = tShader((path + "Shader/IBL/Cubemap.vs").CString(), (path + "Shader/IBL/IrradianceConvolution.fs").CString());
 	prefilterShader = tShader((path + "Shader/IBL/Cubemap.vs").CString(), (path + "Shader/IBL/Prefilter.fs").CString());
@@ -343,6 +355,45 @@ void IBLMaterial::SetupIBL(SkyBox* skybox)
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
+
+//SharedPtr<Texture> IBLMaterial::SetupIrradianceMap()
+//{
+//	if (_irradianceMap)
+//		_irradianceMap.Reset();
+//
+//	auto graphics = ModuleManager::Get().GraphicsModule();
+//
+//	_irradianceMap = SharedPtr<Texture>(new Texture());
+//	_irradianceMap->Define(TextureType::TEX_CUBE, ResourceUsage::DEFAULT, Vector2I(_irradianceSize, _irradianceSize), ImageFormat::RGBA16F, 1);
+//	_irradianceMap->DefineSampler(TextureFilterMode::COMPARE_TRILINEAR, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP);
+//	_irradianceMap->SetDataLost(false);
+//
+//	glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+//
+//	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, _irradianceSize, _irradianceSize);
+//
+//	graphics->SetShaders(_irradianceVSV, _irradiancePSV);
+//	ShaderProgram* irradianceProgram = graphics->Shaderprogram();
+//
+//	irradianceProgram->SetInt("environmentMap", 0);
+//	irradianceProgram->SetMat4("projection", captureProjection);
+//	glActiveTexture(GL_TEXTURE0);
+//	glBindTexture(GL_TEXTURE_CUBE_MAP, _iblCubeMap->GetGLTexture());
+//
+//	glViewport(0, 0, _irradianceSize, _irradianceSize);
+//	for (unsigned int i = 0; i < 6; ++i)
+//	{
+//		irradianceProgram->SetMat4("view", captureViews[i]);
+//		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, _irradianceMap->GetGLTexture(), 0);
+//		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//
+//		RenderCube();
+//	}
+//
+//	return _irradianceMap;
+//}
+
+
 SharedPtr<Texture> IBLMaterial::SetupIrradianceMap()
 {
 	if (_irradianceMap)
@@ -353,7 +404,7 @@ SharedPtr<Texture> IBLMaterial::SetupIrradianceMap()
 	_irradianceMap->DefineSampler(TextureFilterMode::COMPARE_TRILINEAR, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP);
 	_irradianceMap->SetDataLost(false);
 
-	//glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+	glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
 
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, _irradianceSize, _irradianceSize);
 
@@ -371,7 +422,7 @@ SharedPtr<Texture> IBLMaterial::SetupIrradianceMap()
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, _irradianceMap->GetGLTexture(), 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		renderCube();
+		RenderCube();
 	}
 
 	return _irradianceMap;
@@ -413,7 +464,7 @@ SharedPtr<Texture> IBLMaterial::SetupPrefilterMap()
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, _prefilterMap->GetGLTexture(), mip);
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			renderCube();
+			RenderCube();
 		}
 	}
 
@@ -437,7 +488,7 @@ SharedPtr<Texture> IBLMaterial::SetupBrdfLUT()
 	glViewport(0, 0, _mapSize, _mapSize);
 	brdfShader.use();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	renderQuad();
+	RenderQuad();
 
 	return _brdfLUT;
 }

@@ -51,19 +51,19 @@ void PBRSample::Start()
 	//sphere3->SetModel(cache->LoadResource<Model>("Model/Sphere.mdl"));
 	//sphere3->SetMaterial(cache->LoadResource<IBLMaterial>("PBRPlastic.json"));
 
-	//StaticModel* sphere4 = scene->CreateChild<StaticModel>();
-	//sphere4->SetPosition(Vector3F(6.0f, 0.0f, 0.0f));
-	//sphere4->SetScale(Vector3F(2.0f, 2.0f, 2.0f));
-	//sphere4->SetCastShadows(true);
-	//sphere4->SetModel(cache->LoadResource<Model>("Model/Sphere.mdl"));
-	//sphere4->SetMaterial(cache->LoadResource<IBLMaterial>("PBRGold.json"));
+	StaticModel* sphere4 = scene->CreateChild<StaticModel>();
+	sphere4->SetPosition(Vector3F(6.0f, 0.0f, 0.0f));
+	sphere4->SetScale(Vector3F(2.0f, 2.0f, 2.0f));
+	sphere4->SetCastShadows(true);
+	sphere4->SetModel(cache->LoadResource<Model>("Model/Sphere.mdl"));
+	sphere4->SetMaterial(cache->LoadResource<IBLMaterial>("PBRGold.json"));
 
-	StaticModel* sphere5 = scene->CreateChild<StaticModel>();
-	sphere5->SetPosition(Vector3F(8.0f, 0.0f, 0.0f));
-	sphere5->SetScale(Vector3F(2.0f, 2.0f, 2.0f));
-	sphere5->SetCastShadows(true);
-	sphere5->SetModel(cache->LoadResource<Model>("Model/Sphere.mdl"));
-	sphere5->SetMaterial(cache->LoadResource<IBLMaterial>("PBRGrass.json"));
+	//StaticModel* sphere5 = scene->CreateChild<StaticModel>();
+	//sphere5->SetPosition(Vector3F(8.0f, 0.0f, 0.0f));
+	//sphere5->SetScale(Vector3F(2.0f, 2.0f, 2.0f));
+	//sphere5->SetCastShadows(true);
+	//sphere5->SetModel(cache->LoadResource<Model>("Model/Sphere.mdl"));
+	//sphere5->SetMaterial(cache->LoadResource<IBLMaterial>("PBRGrass.json"));
 
 	/*StaticModel* plane = scene->CreateChild<StaticModel>();
 	plane->SetPosition(Vector3F(-5.0f, 0.0f, 0.0f));
