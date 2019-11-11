@@ -30,7 +30,7 @@ unsigned int initWaterTexture()
 
 DynamicModel::DynamicModel()
 {
-	ModuleManager::Get().RendererModule()->SetupWaterTextures(1, 1024, ImageFormat::RGB32F);
+	//ModuleManager::Get().RendererModule()->SetupWaterTextures(1, 1024, ImageFormat::RGB32F);
 }
 
 DynamicModel::~DynamicModel()
