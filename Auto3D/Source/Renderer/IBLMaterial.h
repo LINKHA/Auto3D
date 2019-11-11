@@ -17,37 +17,13 @@ public:
 
 	/// Register object factory.
 	static void RegisterObject();
-
+	/// End load reousrce.
 	virtual bool EndLoad();
-
-	void SetMapSize(int mapSize) { _mapSize = mapSize; }
-
-	void SetIrradianceSize(int irradianceSize) { _irradianceSize = irradianceSize; }
-
-	void SetupIBL(SkyBox* skybox);
+	/// Set up ibl map.
+	bool SetupIBL(SkyBox* skybox);
 private:
-
-	/// Create an irradiance cubemap, and re-scale capture FBO to irradiance scale.
-	SharedPtr<Texture> SetupIrradianceMap();
-	/// Create a pre-filter cubemap, and re-scale capture FBO to pre-filter scale.
-	SharedPtr<Texture> SetupPrefilterMap();
-	/// Generate a 2D LUT from the BRDF equations used.
-	SharedPtr<Texture> SetupBrdfLUT();
-	/// IBL map size.
-	int _mapSize;
-	/// Irradiance map size.
-	int _irradianceSize;
-	/// Prefilter map size.
-	int _prefilterSize;
 	/// IBL cube map.
 	Texture* _iblCubeMap;
-	/// irradiance map.
-	SharedPtr<Texture> _irradianceMap;
-
-	SharedPtr<Texture> _prefilterMap;
-
-	SharedPtr<Texture> _brdfLUT;
-
 };
 
 }

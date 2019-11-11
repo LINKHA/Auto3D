@@ -24,7 +24,7 @@ void PBRSample::Start()
 
 	SkyBox* skybox = scene->CreateChild<SkyBox>();
 	skybox->SetMaterial(cache->LoadResource<Material>("HdrSkyBox.json"));
-
+	skybox->SetupIBLMap();
 	//StaticModel* teaPot = scene->CreateChild<StaticModel>();
 	//teaPot->SetScale(10);
 	//teaPot->SetModel(cache->LoadResource<Model>("Model/TeaPot.mdl"));
