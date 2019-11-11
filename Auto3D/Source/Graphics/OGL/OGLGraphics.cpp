@@ -606,6 +606,29 @@ void Graphics::SetStencilTest(bool stencilEnable, const StencilTestDesc& stencil
 	_depthStateDirty = true;
 }
 
+void Graphics::SetGraphicsDebug(GraphicsDebugType::Type debugTpye)
+{
+	switch (debugTpye)
+	{
+	case GraphicsDebugType::FILL:
+		glEnable(GL_POLYGON_OFFSET_FILL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		break;
+	case GraphicsDebugType::LINE :
+		glEnable(GL_POLYGON_OFFSET_LINE);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		break;
+	case GraphicsDebugType::POINT:
+		glEnable(GL_POLYGON_OFFSET_POINT);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+		break;
+	default:
+		glEnable(GL_POLYGON_OFFSET_FILL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		break;
+	}
+}
+
 void Graphics::ResetRenderTargets()
 {
 	SetRenderTarget(nullptr, nullptr);

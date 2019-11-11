@@ -27,7 +27,15 @@ class Window;
 class WindowResizeEvent;
 
 typedef HashMap<Pair<ShaderVariation*, ShaderVariation*>, AutoPtr<ShaderProgram> > ShaderProgramMap;
-
+namespace GraphicsDebugType
+{
+	enum Type
+	{
+		FILL,
+		LINE,
+		POINT
+	};
+}
 /// Screen mode set _event.
 class ScreenModeEvent : public Event
 {
@@ -96,6 +104,8 @@ public:
     void SetScissorTest(bool scissorEnable = false, const RectI& scissorRect = RectI::ZERO);
     /// Set stencil test.
     void SetStencilTest(bool stencilEnable, const StencilTestDesc& stencilTest = StencilTestDesc(), unsigned char stencilRef = 0);
+	/// Set graphics debug type,defaault is fill.
+	void SetGraphicsDebug(GraphicsDebugType::Type debugTpye);
 	/// Reset rendertarget and depth stencil buffer to the backbuffer.
     void ResetRenderTargets();
     /// Set the viewport to the entire rendertarget or backbuffer.
