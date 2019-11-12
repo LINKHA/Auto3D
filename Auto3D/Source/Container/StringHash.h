@@ -22,8 +22,8 @@ public:
     }
     
     /// Construct with an initial value.
-    explicit StringHash(unsigned value_) :
-        _value(value_)
+    explicit StringHash(unsigned value) :
+        _value(value)
     {
     }
     

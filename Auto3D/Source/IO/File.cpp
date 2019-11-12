@@ -14,7 +14,11 @@ static const wchar_t* openModes[] =
     L"rb",
     L"wb",
     L"r+b",
-    L"w+b"
+    L"w+b",
+	L"rt",
+	L"wt",
+	L"r+t",
+	L"w+t"
 };
 #else
 static const char* openModes[] =
@@ -22,7 +26,11 @@ static const char* openModes[] =
     "rb",
     "wb",
     "r+b",
-    "w+b"
+    "w+b",
+	"rt",
+	"wt",
+	"r+t",
+	"w+t"
 };
 #endif
 
@@ -62,7 +70,7 @@ bool File::Open(const String& fileName, FileMode::Type fileMode)
     #endif
 
     // If file did not exist in readwrite mode, retry with write-update mode
-    if (_mode == FileMode::READWRITE && !_handle)
+    if (_mode == FileMode::READ_WRITE && !_handle)
     {
         #ifdef _WIN32
         _handle = _wfopen(WideNativePath(fileName).CString(), openModes[fileMode + 1]);

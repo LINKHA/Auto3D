@@ -12,7 +12,12 @@ namespace FileMode
 	{
 		READ = 0,
 		WRITE,
-		READWRITE
+		READ_WRITE,
+		READ_WRITE_CLEAR,
+		READ_TXT,
+		WRITE_TXT,
+		READ_WRITE_TXT,
+		READ_WRITE_CLEAR_TXT
 	};
 };
 
