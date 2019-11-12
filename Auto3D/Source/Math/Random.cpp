@@ -54,12 +54,13 @@ float RandomSignedFloat()
 // random number between 0 and RAND_MAX
 int RandomInt(int t)
 {
-	return t * RandomFloat();
+	return (t + 1) * RandomFloat();
 }
+
 // random number between -RAND_MAX and RAND_MAX
 int RandomSignedInt(int t)
 {
-	return t * RandomSignedFloat();
+	return (t + 1) * RandomSignedFloat();
 }
 
 }

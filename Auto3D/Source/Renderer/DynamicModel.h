@@ -23,7 +23,15 @@ public:
 	/// Prepare object for rendering. Reset framenumber and light list and calculate distance from camera.
 	void OnPrepareRender(unsigned frameNumber, Camera* camera) override;
 
-	void SetWaterData();
+	//void SetWaterData();
+
+	bool init();
+	void reshape(unsigned width, unsigned height);
+	void renderWater(float passedTime);
+	bool update(float time);
+
+
+	void AAA();
 };
 
 }

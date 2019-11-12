@@ -16,17 +16,19 @@ void WaterSample::Start()
 	graphics->RenderWindow()->SetMouseLock(true);
 	graphics->RenderWindow()->SetMouseHide(true);
 
-	scene = new Scene();
+	/*scene = new Scene();
 	scene->CreateChild<Octree>();
 	camera = scene->CreateChild<Camera>();
 	camera->SetPosition(Vector3F(0.0f, 0.0f, 0.0f));
 	camera->SetAmbientColor(Color(0.1f, 0.1f, 0.1f));
 
 	SkyBox* skybox = scene->CreateChild<SkyBox>();
-	skybox->SetMaterial(cache->LoadResource<Material>("WaterSkyBox.json"));
+	skybox->SetMaterial(cache->LoadResource<Material>("WaterSkyBox.json"));*/
 
-	DynamicModel* water = scene->CreateChild<DynamicModel>();
-	//water->SetWaterData();
+	//DynamicModel* water = scene->CreateChild<DynamicModel>();
+
+	DynamicModel* water = new DynamicModel();
+	water->AAA();
 
 }
 
