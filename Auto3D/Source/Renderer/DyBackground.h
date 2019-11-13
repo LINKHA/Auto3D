@@ -1,6 +1,6 @@
 #pragma once
 #include "DyDlobal.h"
-namespace Auot3D
+namespace Auto3D
 {
 
 	GLUSboolean initBackground();
@@ -8,9 +8,5 @@ namespace Auot3D
 	GLUSvoid reshapeBackground(GLUSfloat projectionMatrix[16]);
 
 	GLUSboolean renderBackground(GLUSfloat viewMatrix[16]);
-
-	GLUSvoid terminateBackground(GLUSvoid);
-
-
 
 }
