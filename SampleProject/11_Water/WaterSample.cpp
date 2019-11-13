@@ -2,14 +2,14 @@
 
 void WaterSample::Init()
 {
-	Super::Init();
+	//Super::Init();
 	auto* graphics = Object::Module<Graphics>();
 	graphics->RenderWindow()->SetTitle("Water Sample");
 }
 
 void WaterSample::Start()
 {
-	Super::Start();
+	//Super::Start();
 	auto* cache = Object::Module<ResourceCache>();
 	auto* graphics = Object::Module<Graphics>();
 
