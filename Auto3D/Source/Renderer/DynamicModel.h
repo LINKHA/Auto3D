@@ -32,6 +32,7 @@ public:
 
 
 	void AAA();
+	void BBB();
 };
 
 }

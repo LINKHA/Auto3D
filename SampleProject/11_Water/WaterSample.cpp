@@ -7,6 +7,8 @@ void WaterSample::Init()
 	graphics->RenderWindow()->SetTitle("Water Sample");
 }
 
+DynamicModel* water;
+
 void WaterSample::Start()
 {
 	//Super::Start();
@@ -27,14 +29,16 @@ void WaterSample::Start()
 
 	//DynamicModel* water = scene->CreateChild<DynamicModel>();
 
-	DynamicModel* water = new DynamicModel();
+	water = new DynamicModel();
 	water->AAA();
 
 }
 
 void WaterSample::Update()
 {
-	Super::Update();
+	water->BBB();
+
+	/*Super::Update();
 	auto input = ModuleManager::Get().InputModule();
 	auto graphics = ModuleManager::Get().GraphicsModule();
 	auto renderer = ModuleManager::Get().RendererModule();
@@ -54,7 +58,7 @@ void WaterSample::Update()
 	if (input->IsKeyDown(KEY_A))
 		camera->Translate(Vector3F::LEFT * time->GetDeltaTime() * moveSpeed);
 	if (input->IsKeyDown(KEY_D))
-		camera->Translate(Vector3F::RIGHT * time->GetDeltaTime() * moveSpeed);
+		camera->Translate(Vector3F::RIGHT * time->GetDeltaTime() * moveSpeed);*/
 }
 
 void WaterSample::Stop()

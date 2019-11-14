@@ -150,10 +150,12 @@ void SkyBox::RegisterObject()
 void SkyBox::SetupIBLMap()
 {
 
-	auto cache = ModuleManager::Get().CacheModule();
+	
 
 	if (!isDirty)
 	{
+		auto cache = ModuleManager::Get().CacheModule();
+
 		isDirty = true;
 
 		irradianceVSV = cache->LoadResource<Shader>("Shader/IBL/Cubemap.vert")->CreateVariation();

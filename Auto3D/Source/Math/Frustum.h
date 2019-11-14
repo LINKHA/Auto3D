@@ -18,7 +18,7 @@ namespace FrustumPlane
 		RIGHT,
 		UP,
 		DOWN,
-		FAR,
+		FAR
 	};
 };
 

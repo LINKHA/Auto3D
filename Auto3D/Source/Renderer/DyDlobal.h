@@ -1,4 +1,9 @@
 #pragma once
+#include "../Graphics/Shader.h"
+#include "../Engine/ModuleManager.h"
+#include "../Resource/ResourceCache.h"
+#include "../Graphics/Graphics.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

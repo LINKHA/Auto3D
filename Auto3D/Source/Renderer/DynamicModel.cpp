@@ -453,12 +453,19 @@ void DynamicModel::AAA()
 	auto graphics = ModuleManager::Get().GraphicsModule();
 	init();
 	reshape(window->GetWidth(), window->GetHeight());
-	while (1)
+	/*while (1)
 	{
 		Sleep(10);
 		update(0);
 		graphics->RenderContext()->Present();
-	}
+	}*/
+}
+
+void DynamicModel::BBB()
+{
+	Sleep(10);
+	update(0);
+	//graphics->RenderContext()->Present();
 }
 
 }

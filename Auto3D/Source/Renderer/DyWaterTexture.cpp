@@ -1,4 +1,11 @@
 #include "DyWaterTexture.h"
+//#include "../Graphics/Shader.h"
+//#include "../Engine/ModuleManager.h"
+//#include "../Resource/ResourceCache.h"
+//#include "../Graphics/Graphics.h"
+
+#define FIX 0
+
 namespace Auto3D
 {
 	static GLUSprogram g_programWaterTexture;
@@ -53,6 +60,13 @@ namespace Auto3D
 	 */
 	static GLuint g_parentHeight;
 
+
+	static ShaderVariation* waterTextureVSV = nullptr;
+	static ShaderVariation* waterTexturePSV = nullptr;
+
+
+	static bool isDirty = false;
+
 	GLUSvoid reshapeWaterTexture(GLUSint width, GLUSint height)
 	{
 		// Store parent/caller width ..
@@ -65,13 +79,22 @@ namespace Auto3D
 
 	GLUSuint initWaterTexture(GLUSfloat waterPlaneLength)
 	{
-		GLfloat projectionMatrixWaterTexture[16];
-		GLfloat modelViewMatrixWaterTexture[16];
 
 		GLUSshape plane;
 
 		GLUStextfile vertexSource;
 		GLUStextfile fragmentSource;
+#if FIX
+		if (!isDirty)
+		{
+			auto cache = ModuleManager::Get().CacheModule();
+
+			isDirty = true;
+
+			waterTextureVSV = cache->LoadResource<Shader>("Shader/Water/WaterTexture.vert")->CreateVariation();
+			waterTexturePSV = cache->LoadResource<Shader>("Shader/Water/WaterTexture.frag")->CreateVariation();
+		}
+#else
 
 		glusFileLoadText("E:/Project/MyProject/opengl_tutorial_demo/Example15/shader/WaterTexture.vert.glsl", &vertexSource);
 		glusFileLoadText("E:/Project/MyProject/opengl_tutorial_demo/Example15/shader/WaterTexture.frag.glsl", &fragmentSource);
@@ -81,7 +104,7 @@ namespace Auto3D
 		glusFileDestroyText(&vertexSource);
 		glusFileDestroyText(&fragmentSource);
 
-		//
+
 
 		g_projectionMatrixWaterTextureLocation = glGetUniformLocation(g_programWaterTexture.program, "u_projectionMatrix");
 		g_modelViewMatrixWaterTextureLocation = glGetUniformLocation(g_programWaterTexture.program, "u_modelViewMatrix");
@@ -93,7 +116,7 @@ namespace Auto3D
 
 		g_vertexWaterTextureLocation = glGetAttribLocation(g_programWaterTexture.program, "a_vertex");
 		g_texCoordWaterTextureLocation = glGetAttribLocation(g_programWaterTexture.program, "a_texCoord");
-
+#endif
 		//
 
 		glGenTextures(1, &g_mirrorTexture);
@@ -169,32 +192,6 @@ namespace Auto3D
 
 		//
 
-		glUseProgram(g_programWaterTexture.program);
-
-		glusMatrix4x4LookAtf(modelViewMatrixWaterTexture, 0.0f, 0.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-		glUniformMatrix4fv(g_modelViewMatrixWaterTextureLocation, 1, GL_FALSE, modelViewMatrixWaterTexture);
-
-		glusMatrix4x4Orthof(projectionMatrixWaterTexture, -(GLfloat)TEXTURE_SIZE / 2, (GLfloat)TEXTURE_SIZE / 2, -(GLfloat)TEXTURE_SIZE / 2, (GLfloat)TEXTURE_SIZE / 2, 1.0f, 100.0f);
-		glUniformMatrix4fv(g_projectionMatrixWaterTextureLocation, 1, GL_FALSE, projectionMatrixWaterTexture);
-
-		glUniform1f(g_waterPlaneLengthWaterTextureLocation, waterPlaneLength);
-
-		//
-
-		glGenVertexArrays(1, &g_vaoWaterTexture);
-		glBindVertexArray(g_vaoWaterTexture);
-
-		glBindBuffer(GL_ARRAY_BUFFER, g_verticesWaterTextureVBO);
-		glVertexAttribPointer(g_vertexWaterTextureLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);
-		glEnableVertexAttribArray(g_vertexWaterTextureLocation);
-
-		glBindBuffer(GL_ARRAY_BUFFER, g_texCoordsWaterTextureVBO);
-		glVertexAttribPointer(g_texCoordWaterTextureLocation, 2, GL_FLOAT, GL_FALSE, 0, 0);
-		glEnableVertexAttribArray(g_texCoordWaterTextureLocation);
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesWaterTextureVBO);
-		//
-
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 		glClearDepth(1.0f);
@@ -209,6 +206,72 @@ namespace Auto3D
 
 	GLUSboolean renderWaterTexture(GLUSfloat passedTime)
 	{
+		GLfloat projectionMatrixWaterTexture[16];
+		GLfloat modelViewMatrixWaterTexture[16];
+
+		//
+#if FIX
+		auto graphics = ModuleManager::Get().GraphicsModule();
+		graphics->SetShaders(waterTextureVSV, waterTexturePSV);
+		ShaderProgram* waterTextureProgram = graphics->Shaderprogram();
+#else
+		glUseProgram(g_programWaterTexture.program);
+#endif
+
+
+
+
+		glusMatrix4x4LookAtf(modelViewMatrixWaterTexture, 0.0f, 0.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+#if FIX
+		waterTextureProgram->SetMat4("u_modelViewMatrix", modelViewMatrixWaterTexture);
+#else
+		glUniformMatrix4fv(g_modelViewMatrixWaterTextureLocation, 1, GL_FALSE, modelViewMatrixWaterTexture);
+#endif
+
+
+
+		glusMatrix4x4Orthof(projectionMatrixWaterTexture, -(GLfloat)TEXTURE_SIZE / 2, (GLfloat)TEXTURE_SIZE / 2, -(GLfloat)TEXTURE_SIZE / 2, (GLfloat)TEXTURE_SIZE / 2, 1.0f, 100.0f);
+#if FIX
+		waterTextureProgram->SetMat4("u_projectionMatrix", projectionMatrixWaterTexture);
+		waterTextureProgram->SetFloat("u_waterPlaneLength", WATER_PLANE_LENGTH);
+#else
+		glUniformMatrix4fv(g_projectionMatrixWaterTextureLocation, 1, GL_FALSE, projectionMatrixWaterTexture);
+		glUniform1f(g_waterPlaneLengthWaterTextureLocation, WATER_PLANE_LENGTH);
+#endif
+
+
+
+		//
+
+		glGenVertexArrays(1, &g_vaoWaterTexture);
+		glBindVertexArray(g_vaoWaterTexture);
+
+		glBindBuffer(GL_ARRAY_BUFFER, g_verticesWaterTextureVBO);
+#if FIX
+		glVertexAttribPointer(glGetAttribLocation(waterTextureProgram->GLProgram(), "a_vertex"), 4, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(glGetAttribLocation(waterTextureProgram->GLProgram(), "a_vertex"));
+#else
+		glVertexAttribPointer(g_vertexWaterTextureLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(g_vertexWaterTextureLocation);
+#endif
+
+
+		glBindBuffer(GL_ARRAY_BUFFER, g_texCoordsWaterTextureVBO);
+
+#if FIX
+		glVertexAttribPointer(glGetAttribLocation(waterTextureProgram->GLProgram(), "a_texCoord"), 2, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(glGetAttribLocation(waterTextureProgram->GLProgram(), "a_texCoord"));
+#else
+		glVertexAttribPointer(g_texCoordWaterTextureLocation, 2, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(g_texCoordWaterTextureLocation);
+#endif
+
+
+
+
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesWaterTextureVBO);
+
+
 		static WaveParameters waveParameters[NUMBERWAVES];
 		static WaveDirections waveDirections[NUMBERWAVES];
 
@@ -258,12 +321,22 @@ namespace Auto3D
 		//
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+#if FIX
 
+		auto graphics = ModuleManager::Get().GraphicsModule();
+		graphics->SetShaders(waterTextureVSV, waterTexturePSV);
+		ShaderProgram* waterTextureProgram = graphics->Shaderprogram();
+
+		waterTextureProgram->SetFloat("u_passedTime", passedTime);
+		glUniform4fv(glGetUniformLocation(waterTextureProgram->GLProgram(), "u_waveParameters"), 4 * NUMBERWAVES, (GLfloat*)waveParameters);
+		glUniform2fv(glGetUniformLocation(waterTextureProgram->GLProgram(), "u_waveDirections"), 2 * NUMBERWAVES, (GLfloat*)waveDirections);
+#else
 		glUseProgram(g_programWaterTexture.program);
 
 		glUniform1f(g_passedTimeWaterTextureLocation, passedTime);
 		glUniform4fv(g_waveParametersWaterTextureLocation, 4 * NUMBERWAVES, (GLfloat*)waveParameters);
 		glUniform2fv(g_waveDirectionsWaterTextureLocation, 2 * NUMBERWAVES, (GLfloat*)waveDirections);
+#endif
 
 		glFrontFace(GL_CCW);
 
