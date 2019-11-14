@@ -8,6 +8,9 @@
 #include "../Graphics/Graphics.h"
 #include "../Engine/ModuleManager.h"
 
+#include "../Platform/Context.h"
+#include <Windows.h>
+
 #include "Camera.h"
 #include "DynamicModel.h"
 
@@ -314,11 +317,11 @@ bool DynamicModel::init()
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesVBO);
 
-	//
+	
 
 	initBackground();
 
-	//
+	
 
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -454,7 +457,7 @@ void DynamicModel::AAA()
 	{
 		Sleep(10);
 		update(0);
-		graphics->Present();
+		graphics->RenderContext()->Present();
 	}
 }
 

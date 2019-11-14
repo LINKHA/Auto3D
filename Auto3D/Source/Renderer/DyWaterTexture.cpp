@@ -97,7 +97,7 @@ namespace Auto3D
 		//
 
 		glGenTextures(1, &g_mirrorTexture);
-		glActiveTexture(GL_TEXTURE1);
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, g_mirrorTexture);
 
 		glTexImage2D(GL_TEXTURE_2D, 0, GLUS_RGB, TEXTURE_SIZE, TEXTURE_SIZE, 0, GLUS_RGB, GL_UNSIGNED_BYTE, 0);
@@ -122,11 +122,14 @@ namespace Auto3D
 		glGenFramebuffers(1, &g_fboWaterTexture);
 		glBindFramebuffer(GL_FRAMEBUFFER, g_fboWaterTexture);
 
+
 		// Attach the color buffer ...
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, g_mirrorTexture, 0);
 
 		// ... and the depth buffer,
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, g_depthMirrorTexture);
+
+
 
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		{
