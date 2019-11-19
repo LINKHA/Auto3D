@@ -102,29 +102,29 @@ private:
 
 
 	/// Manage the subsystem of all resource loads
-	SharedPtr<ResourceCache> _cache;
+	ResourceCache* _cache;
 	/// ADAPTS the low-level rendering interface as well as the form's rendering function
-	SharedPtr<Graphics> _graphics;
+	Graphics* _graphics;
 	/// 3D rendering of the scene
-	SharedPtr<Renderer> _renderer;
+	Renderer* _renderer;
 	/// User input management events
-	SharedPtr<Input> _input;
+	Input* _input;
 	/// Engine Log
-	SharedPtr<Log> _log;
+	Log* _log;
 	/// Hierarchical performance profiler subsystem.
-	SharedPtr<Profiler> _profiler;
+	Profiler* _profiler;
 	/// Process all engine time, calculate FPS, etc
-	SharedPtr<Time> _time;
+	Time* _time;
 	/// The message management mechanism for the underlying interaction between the game project and the engine
-	SharedPtr<RegisteredBox> _registeredBox;
+	RegisteredBox* _registeredBox;
 	/// 2d-related operations and rendering capabilities
-	SharedPtr<Renderer2D> _renderer2d;
+	Renderer2D* _renderer2d;
 	/// Physical world and functional storage
-	SharedPtr<Physics> _physics;
+	Physics* _physics;
 	/// An adapter system that operates on files based on the platform
-	SharedPtr<FileSystem> _fileSystem;
+	FileSystem* _fileSystem;
 	/// UI-related operations and rendering capabilities
-	SharedPtr<UI> _ui;
+	UI* _ui;
 };
 
 

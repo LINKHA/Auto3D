@@ -20,12 +20,10 @@ Physics::Physics():
 	_activeWorld(nullptr),
 	_activeWorld2d(nullptr)
 {
-	RegisterModule(this);
 }
 
 Physics::~Physics()
 {
-	RemoveModule(this);
 }
 
 void Physics::Update()

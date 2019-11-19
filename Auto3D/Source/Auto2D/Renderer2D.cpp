@@ -36,12 +36,10 @@ Renderer2D::Renderer2D() :
 	_rendered(false),
 	_instanceTransformsDirty(false)
 {
-	RegisterModule(this);
 }
 
 Renderer2D::~Renderer2D()
 {
-	RemoveModule(this);
 }
 
 void Renderer2D::Render(Scene2D* scene, Camera2D* camera)

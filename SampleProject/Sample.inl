@@ -1,6 +1,6 @@
 void Sample::Init()
 {
-	auto* graphics = Object::Module<Graphics>();
+	auto* graphics = ModuleManager::Get().GraphicsModule();
 	// Set window mode
 	WindowModeDesc& windowModeDesc = graphics->RenderWindow()->ModeDesc();
 	windowModeDesc._size = RectI(0, 0, 1024, 768);
@@ -48,7 +48,7 @@ void Sample::Stop()
 }
 void Sample::CreateLogo()
 {
-	auto* cache = Object::Module<ResourceCache>();
+	auto* cache = ModuleManager::Get().CacheModule();
 	Sprite2D* logoLong = scene2d->CreateChild<Sprite2D>();
 	logoLong->SetTexture(cache->LoadResource<Texture>("Texture/logoLong.png"));
 	logoLong->SetScale(Vector3F(3.0f, 0.8f, 1.0f));

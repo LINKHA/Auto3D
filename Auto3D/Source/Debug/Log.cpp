@@ -33,13 +33,11 @@ Log::Log() :
     _inWrite(false),
     _quiet(false)
 {
-    RegisterModule(this);
 }
 
 Log::~Log()
 {
     Close();
-    RemoveModule(this);
 }
 
 void Log::Open(const String& fileName)

@@ -38,8 +38,6 @@ Audio::~Audio()
 {
 	alcDestroyContext(_context);
 	alcCloseDevice(_device);
-
-	RemoveModule(this);
 }
 
 void Audio::AddSource(unsigned sourceID, AudioSource* source)

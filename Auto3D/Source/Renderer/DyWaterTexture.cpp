@@ -190,22 +190,6 @@ namespace Auto3D
 
 		glusShapeDestroyf(&plane);
 
-		//
-
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
-		glClearDepth(1.0f);
-
-		glEnable(GL_DEPTH_TEST);
-
-		glEnable(GL_CULL_FACE);
-
-		return g_mirrorTexture;
-	}
-
-
-	GLUSboolean renderWaterTexture(GLUSfloat passedTime)
-	{
 		GLfloat projectionMatrixWaterTexture[16];
 		GLfloat modelViewMatrixWaterTexture[16];
 
@@ -271,6 +255,24 @@ namespace Auto3D
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesWaterTextureVBO);
 
+
+		//
+
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+		glClearDepth(1.0f);
+
+		glEnable(GL_DEPTH_TEST);
+
+		glEnable(GL_CULL_FACE);
+
+		return g_mirrorTexture;
+	}
+
+
+	GLUSboolean renderWaterTexture(GLUSfloat passedTime)
+	{
+		
 
 		static WaveParameters waveParameters[NUMBERWAVES];
 		static WaveDirections waveDirections[NUMBERWAVES];

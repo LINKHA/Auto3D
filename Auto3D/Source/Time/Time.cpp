@@ -28,14 +28,12 @@ const float NEW_DELTA_TIME_WEIGHT = 0.2f; // for smoothing
 
 Time::Time()
 {
-	RegisterModule(this);
 	_timeSpeedScale = 1.0f;
 	_maximumTimestep = MAXIMUM_DELTA_TIME;
 	ResetTime();
 }
 Time::~Time()
 {
-	RemoveModule(this);
 }
 
 void Time::Update()

@@ -184,7 +184,6 @@ Graphics::Graphics() :
 
 	_vsync(false)
 {
-	RegisterModule(this);
 	_window = new Window();
 	SubscribeToEvent(_window->_resizeEvent, &Graphics::HandleResize);
 	ResetState();
@@ -193,7 +192,6 @@ Graphics::Graphics() :
 Graphics::~Graphics()
 {
 	Close();
-	RemoveModule(this);
 }
 void Graphics::CheckFeatureSupport()
 {

@@ -43,8 +43,6 @@ UI::UI() :
 	ImFontConfig config;
 	config.FontDataOwnedByAtlas = false;
 	config.MergeMode = false;
-
-	RegisterModule(this);
 }
 
 UI::~UI()
@@ -60,7 +58,6 @@ UI::~UI()
 	ImGui_ImplSDL2_Shutdown();
 #endif
 	ImGui::DestroyContext();
-	RemoveModule(this);
 #endif
 }
 

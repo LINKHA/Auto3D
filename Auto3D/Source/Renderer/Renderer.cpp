@@ -75,12 +75,10 @@ Renderer::Renderer() :
     _frameNumber(0),
     _instanceTransformsDirty(false)
 {
-	RegisterModule(this);
 }
 
 Renderer::~Renderer()
 {
-	RemoveModule(this);
 }
 void Renderer::Render(Scene* scene, Camera* camera)
 {

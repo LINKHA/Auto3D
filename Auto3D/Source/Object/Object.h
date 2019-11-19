@@ -105,13 +105,13 @@ public:
     bool IsSubscribedToEvent(const Event& event) const;
     
     /// Register an object as a module that can be accessed globally. Note that the modules container does not own the objects.
-    static void RegisterModule(Object* module);
+    static void RegisterObjectModule(Object* module);
     /// Remove a module by object pointer.
-    static void RemoveModule(Object* module);
+    static void RemoveObjectModule(Object* module);
     /// Remove a module by type.
-    static void RemoveModule(StringHash type);
+    static void RemoveObjectModule(StringHash type);
     /// Return a subsystem by type, or null if not registered.
-    static Object* Module(StringHash type);
+    static Object* ObjectModule(StringHash type);
     /// Register an object factory.
     static void RegisterFactory(ObjectFactory* factory);
     /// Create and return an object through a factory. The caller is assumed to take ownership of the object. Return null if no factory registered. 
@@ -119,7 +119,7 @@ public:
     /// Return a type name from hash, or empty if not known. Requires a registered object factory.
     static const String& TypeNameFromType(StringHash type);
     /// Return a subsystem, template version.
-    template <typename _Ty> static _Ty* Module() { return static_cast<_Ty*>(Module(_Ty::GetTypeStatic())); }
+    template <typename _Ty> static _Ty* ObjectModule() { return static_cast<_Ty*>(ObjectModule(_Ty::GetTypeStatic())); }
     /// Register an object factory, template version.
     template <typename _Ty> static void RegisterFactory() { RegisterFactory(new ObjectFactoryImpl<_Ty>()); }
     /// Create and return an object through a factory, template version.
@@ -127,7 +127,7 @@ public:
     
 private:
     /// Registered modules.
-    static HashMap<StringHash, Object*> _modules;
+    static HashMap<StringHash, Object*> _objectModules;
     /// Registered object factories.
     static HashMap<StringHash, AutoPtr<ObjectFactory> > _factories;
 };

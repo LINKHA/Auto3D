@@ -14,13 +14,11 @@ namespace Auto3D
 
 ResourceCache::ResourceCache()
 {
-    RegisterModule(this);
 }
 
 ResourceCache::~ResourceCache()
 {
     UnloadAllResources(true);
-    RemoveModule(this);
 }
 
 bool ResourceCache::AddResourceDir(const String& pathName, bool addFirst)

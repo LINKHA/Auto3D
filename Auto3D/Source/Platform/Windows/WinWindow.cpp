@@ -82,15 +82,12 @@ Window::Window() :
 	_mouseVisible(true),
 	_mouseVisibleInternal(true)
 {
-	RegisterModule(this);
 }
 
 Window::~Window()
 {
 	// Really destroy the game form
 	DestoryWindow();
-
-	RemoveModule(this);
 }
 
 bool Window::InitMsg()

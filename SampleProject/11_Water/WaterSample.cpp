@@ -3,7 +3,7 @@
 void WaterSample::Init()
 {
 	//Super::Init();
-	auto* graphics = Object::Module<Graphics>();
+	auto* graphics = ModuleManager::Get().GraphicsModule();
 	graphics->RenderWindow()->SetTitle("Water Sample");
 }
 
@@ -12,8 +12,8 @@ DynamicModel* water;
 void WaterSample::Start()
 {
 	//Super::Start();
-	auto* cache = Object::Module<ResourceCache>();
-	auto* graphics = Object::Module<Graphics>();
+	auto* cache = ModuleManager::Get().CacheModule();
+	auto* graphics = ModuleManager::Get().GraphicsModule();
 
 	graphics->RenderWindow()->SetMouseLock(true);
 	graphics->RenderWindow()->SetMouseHide(true);

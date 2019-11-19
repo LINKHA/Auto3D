@@ -12,12 +12,10 @@ Input::Input() :
     _mouseButtons(0),
     _mouseButtonsPressed(0)
 {
-    RegisterModule(this);
 }
 
 Input::~Input()
 {
-    RemoveModule(this);
 }
 
 void Input::Update()

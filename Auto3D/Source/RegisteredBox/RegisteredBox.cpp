@@ -9,11 +9,9 @@ RegisteredBox::RegisteredBox() :
 	_activeScene2d(nullptr),
 	_activeCanvas(nullptr)
 {
-	RegisterModule(this);
 }
 RegisteredBox::~RegisteredBox()
 {
-	RemoveModule(this);
 }
 
 void RegisteredBox::SetActiveScene(Scene* scene)
