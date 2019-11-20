@@ -149,9 +149,6 @@ void SkyBox::RegisterObject()
 
 void SkyBox::SetupIBLMap()
 {
-
-	
-
 	if (!isDirty)
 	{
 		auto cache = ModuleManager::Get().CacheModule();

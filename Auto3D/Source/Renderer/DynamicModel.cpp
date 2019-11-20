@@ -7,8 +7,13 @@
 #include "../Renderer/Renderer.h"
 #include "../Graphics/Graphics.h"
 #include "../Engine/ModuleManager.h"
-
+#include "../Scene/Scene.h"
 #include "../Platform/Context.h"
+#include "../Graphics/Texture.h"
+#include "../Renderer/Material.h"
+#include "../RegisteredBox/RegisteredBox.h"
+#include "../Renderer/SkyBox.h"
+
 #include <Windows.h>
 
 #include "Camera.h"
@@ -258,7 +263,7 @@ bool DynamicModel::init()
 
 	//
 
-	glGenTextures(1, &g_cubemap);
+	/*glGenTextures(1, &g_cubemap);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, g_cubemap);
 
 	glusImageLoadTga("E:/Project/MyProject/opengl_tutorial_demo/Binaries/water_pos_x.tga", &image);
@@ -290,8 +295,9 @@ bool DynamicModel::init()
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
-
+	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);*/
+	Texture* cubeMap = ModuleManager::Get().RegisteredBoxModule()->GetActiveScene()->GetSkyBox()->GetMaterial(0)->GetTexture(0);
+	g_cubemap = cubeMap->GetGLTexture();
 	//
 
 	waterTexture = initWaterTexture((GLUSfloat)WATER_PLANE_LENGTH);
