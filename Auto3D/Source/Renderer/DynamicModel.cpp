@@ -32,45 +32,21 @@
 
 namespace Auto3D
 {
-	static GLfloat g_projectionMatrix[16];
+static GLfloat g_projectionMatrix[16];
 
-	static GLfloat g_viewMatrix[16];
+static GLfloat g_viewMatrix[16];
 
-	static GLfloat g_inverseViewNormalMatrix[9];
+static GLfloat g_inverseViewNormalMatrix[9];
 
-	//
+//
 
-	static GLUSprogram g_program;
+static GLuint g_vao;
 
-	static GLint g_projectionMatrixLocation;
+static GLuint g_verticesVBO;
 
-	static GLint g_viewMatrixLocation;
-
-	static GLint g_inverseViewNormalMatrixLocation;
-
-	static GLint g_waterPlaneLengthLocation;
-
-	static GLint g_passedTimeLocation;
-
-	static GLint g_waveParametersLocation;
-
-	static GLint g_waveDirectionsLocation;
-
-	static GLint g_vertexLocation;
-
-	static GLint g_cubemapLocation;
-
-	static GLint g_waterTextureLocation;
-
-	//
-
-	static GLuint g_vao;
-
-	static GLuint g_verticesVBO;
-
-	static GLuint g_indicesVBO;
-	//
-	static GLuint g_cubemap;
+static GLuint g_indicesVBO;
+//
+static GLuint g_cubemap;
 
 DynamicModel::DynamicModel()
 {
@@ -171,8 +147,6 @@ void DynamicModel::OnPrepareRender(unsigned frameNumber, Camera* camera)
 static ShaderVariation* waterVSV = nullptr;
 static ShaderVariation* waterPSV = nullptr;
 
-#define NoDebug 0
-
 bool DynamicModel::init()
 {
 
@@ -219,37 +193,10 @@ bool DynamicModel::init()
 		}
 	}
 
-#if NoDebug
-
-	glusFileLoadText("E:/Project/MyProject/opengl_tutorial_demo/Example15/shader/Water.vert.glsl", &vertexSource);
-	glusFileLoadText("E:/Project/MyProject/opengl_tutorial_demo/Example15/shader/Water.frag.glsl", &fragmentSource);
-
-	glusProgramBuildFromSource(&g_program, (const GLUSchar**)&vertexSource.text, 0, 0, 0, (const GLUSchar**)&fragmentSource.text);
-
-	glusFileDestroyText(&vertexSource);
-	glusFileDestroyText(&fragmentSource);
-
-	g_projectionMatrixLocation = glGetUniformLocation(g_program.program, "u_projectionMatrix");
-	g_viewMatrixLocation = glGetUniformLocation(g_program.program, "u_viewMatrix");
-	g_inverseViewNormalMatrixLocation = glGetUniformLocation(g_program.program, "u_inverseViewNormalMatrix");
-
-	g_waterPlaneLengthLocation = glGetUniformLocation(g_program.program, "u_waterPlaneLength");
-
-	g_cubemapLocation = glGetUniformLocation(g_program.program, "u_cubemap");
-
-	g_waterTextureLocation = glGetUniformLocation(g_program.program, "u_waterTexture");
-
-	g_passedTimeLocation = glGetUniformLocation(g_program.program, "u_passedTime");
-
-	g_waveParametersLocation = glGetUniformLocation(g_program.program, "u_waveParameters");
-	g_waveDirectionsLocation = glGetUniformLocation(g_program.program, "u_waveDirections");
-
-	g_vertexLocation = glGetAttribLocation(g_program.program, "a_vertex");
-#else
 	auto cache = ModuleManager::Get().CacheModule();
 	waterVSV = cache->LoadResource<Shader>("Shader/Water/Water.vert")->CreateVariation();
 	waterPSV = cache->LoadResource<Shader>("Shader/Water/Water.frag")->CreateVariation();
-#endif
+
 
 	glGenBuffers(1, &g_verticesVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
@@ -263,73 +210,16 @@ bool DynamicModel::init()
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	//
 
 	free(points);
 	free(indices);
 
-	//
-
-	//glGenTextures(1, &g_cubemap);
-	//glBindTexture(GL_TEXTURE_CUBE_MAP, g_cubemap);
-
-	//glusImageLoadTga("E:/Project/MyProject/opengl_tutorial_demo/Binaries/water_pos_x.tga", &image);
-	//glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
-	//glusImageDestroyTga(&image);
-
-	//glusImageLoadTga("E:/Project/MyProject/opengl_tutorial_demo/Binaries/water_neg_x.tga", &image);
-	//glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
-	//glusImageDestroyTga(&image);
-
-	//glusImageLoadTga("E:/Project/MyProject/opengl_tutorial_demo/Binaries/water_pos_y.tga", &image);
-	//glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
-	//glusImageDestroyTga(&image);
-
-	//glusImageLoadTga("E:/Project/MyProject/opengl_tutorial_demo/Binaries/water_neg_y.tga", &image);
-	//glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
-	//glusImageDestroyTga(&image);
-
-	//glusImageLoadTga("E:/Project/MyProject/opengl_tutorial_demo/Binaries/water_pos_z.tga", &image);
-	//glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
-	//glusImageDestroyTga(&image);
-
-	//glusImageLoadTga("E:/Project/MyProject/opengl_tutorial_demo/Binaries/water_neg_z.tga", &image);
-	//glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
-	//glusImageDestroyTga(&image);
-
-	/*glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);*/
 	Texture* cubeMap = ModuleManager::Get().RegisteredBoxModule()->GetActiveScene()->GetSkyBox()->GetMaterial(0)->GetTexture(0);
 	g_cubemap = cubeMap->GetGLTexture();
 	//
 
 	waterTexture = initWaterTexture((GLUSfloat)WATER_PLANE_LENGTH);
-#if NoDebug
-	glUseProgram(g_program.program);
 
-	glUniform1f(g_waterPlaneLengthLocation, (GLUSfloat)WATER_PLANE_LENGTH);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, g_cubemap);
-	glUniform1i(g_cubemapLocation, 0);
-
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, waterTexture);
-	glUniform1i(g_waterTextureLocation, 1);
-
-	glGenVertexArrays(1, &g_vao);
-	glBindVertexArray(g_vao);
-
-	glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
-	glVertexAttribPointer(g_vertexLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(g_vertexLocation);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesVBO);
-#else
 	auto graphics = ModuleManager::Get().GraphicsModule();
 
 	graphics->SetShaders(waterVSV, waterPSV);
@@ -353,12 +243,9 @@ bool DynamicModel::init()
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesVBO);
 
-#endif
-
 	glBindVertexArray(0);
 	initBackground();
 
-	
 
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -380,17 +267,12 @@ void DynamicModel::reshape(unsigned width,unsigned height)
 	reshapeBackground(g_projectionMatrix);
 
 	reshapeWaterTexture(width, height);
-#if NoDebug
-	glUseProgram(g_program.program);
 
-	glUniformMatrix4fv(g_projectionMatrixLocation, 1, GL_FALSE, g_projectionMatrix);
-#else
 	auto graphics = ModuleManager::Get().GraphicsModule();
 
 	graphics->SetShaders(waterVSV, waterPSV);
 	ShaderProgram* waterProgram = graphics->Shaderprogram();
 	waterProgram->SetMat4("u_projectionMatrix", g_projectionMatrix);
-#endif
 }
 
 void DynamicModel::renderWater(float passedTime)
@@ -436,18 +318,7 @@ void DynamicModel::renderWater(float passedTime)
 	waveParameters[3].steepness = overallSteepness / (waveParameters[1].wavelength * waveParameters[1].amplitude * (GLfloat)NUMBERWAVES);
 	waveDirections[3].x = -0.2f;
 	waveDirections[3].z = -0.1f;
-#if NoDebug
-	glUseProgram(g_program.program);
 
-	glUniformMatrix4fv(g_viewMatrixLocation, 1, GL_FALSE, g_viewMatrix);
-	glUniformMatrix3fv(g_inverseViewNormalMatrixLocation, 1, GL_FALSE, g_inverseViewNormalMatrix);
-
-	glUniform1f(g_passedTimeLocation, passedTime);
-
-	glUniform4fv(g_waveParametersLocation, 4 * NUMBERWAVES, (GLfloat*)waveParameters);
-	glUniform2fv(g_waveDirectionsLocation, 2 * NUMBERWAVES, (GLfloat*)waveDirections);
-
-#else
 	auto graphics = ModuleManager::Get().GraphicsModule();
 
 	graphics->SetShaders(waterVSV, waterPSV);
@@ -461,7 +332,6 @@ void DynamicModel::renderWater(float passedTime)
 	glUniform4fv(waterProgram->GetUniformLocation("u_waveParameters"), 4 * NUMBERWAVES, (GLfloat*)waveParameters);
 	glUniform2fv(waterProgram->GetUniformLocation("u_waveDirections"), 2 * NUMBERWAVES, (GLfloat*)waveDirections);
 
-#endif
 	glBindVertexArray(g_vao);
 
 	glFrontFace(GL_CCW);
