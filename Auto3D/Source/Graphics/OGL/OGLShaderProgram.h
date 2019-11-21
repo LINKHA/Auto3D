@@ -62,6 +62,9 @@ public:
 	void SetMat2(const String& name, const Matrix2x2F& mat) const;
 	void SetMat3(const String& name, const Matrix3x3F& mat) const;
 	void SetMat4(const String& name, const Matrix4x4F& mat) const;
+
+	unsigned GetUniformLocation(const String& uniformName) const;
+	unsigned GetAttribLocation(const String& AttribName) const;
 private:
     /// OpenGL shader program identifier.
     unsigned _program;

@@ -284,4 +284,14 @@ void ShaderProgram::SetMat4(const String& name, const Matrix4x4F& mat) const
 	glUniformMatrix4fv(glGetUniformLocation(_program, name.CString()), 1, GL_FALSE, mat.Data());
 }
 
+unsigned ShaderProgram::GetUniformLocation(const String& uniformName) const
+{
+	return glGetUniformLocation(_program, uniformName.CString());
+}
+
+unsigned ShaderProgram::GetAttribLocation(const String& AttribName) const
+{
+	return glGetAttribLocation(_program, AttribName.CString());
+}
+
 }

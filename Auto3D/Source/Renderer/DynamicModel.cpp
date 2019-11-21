@@ -13,6 +13,7 @@
 #include "../Renderer/Material.h"
 #include "../RegisteredBox/RegisteredBox.h"
 #include "../Renderer/SkyBox.h"
+#include "../Graphics/Shader.h"
 
 #include <Windows.h>
 
@@ -167,6 +168,11 @@ void DynamicModel::OnPrepareRender(unsigned frameNumber, Camera* camera)
 //
 //}
 
+static ShaderVariation* waterVSV = nullptr;
+static ShaderVariation* waterPSV = nullptr;
+
+#define NoDebug 0
+
 bool DynamicModel::init()
 {
 
@@ -213,7 +219,7 @@ bool DynamicModel::init()
 		}
 	}
 
-	//
+#if NoDebug
 
 	glusFileLoadText("E:/Project/MyProject/opengl_tutorial_demo/Example15/shader/Water.vert.glsl", &vertexSource);
 	glusFileLoadText("E:/Project/MyProject/opengl_tutorial_demo/Example15/shader/Water.frag.glsl", &fragmentSource);
@@ -222,8 +228,6 @@ bool DynamicModel::init()
 
 	glusFileDestroyText(&vertexSource);
 	glusFileDestroyText(&fragmentSource);
-
-	//
 
 	g_projectionMatrixLocation = glGetUniformLocation(g_program.program, "u_projectionMatrix");
 	g_viewMatrixLocation = glGetUniformLocation(g_program.program, "u_viewMatrix");
@@ -241,8 +245,11 @@ bool DynamicModel::init()
 	g_waveDirectionsLocation = glGetUniformLocation(g_program.program, "u_waveDirections");
 
 	g_vertexLocation = glGetAttribLocation(g_program.program, "a_vertex");
-
-	//
+#else
+	auto cache = ModuleManager::Get().CacheModule();
+	waterVSV = cache->LoadResource<Shader>("Shader/Water/Water.vert")->CreateVariation();
+	waterPSV = cache->LoadResource<Shader>("Shader/Water/Water.frag")->CreateVariation();
+#endif
 
 	glGenBuffers(1, &g_verticesVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
@@ -301,7 +308,7 @@ bool DynamicModel::init()
 	//
 
 	waterTexture = initWaterTexture((GLUSfloat)WATER_PLANE_LENGTH);
-
+#if NoDebug
 	glUseProgram(g_program.program);
 
 	glUniform1f(g_waterPlaneLengthLocation, (GLUSfloat)WATER_PLANE_LENGTH);
@@ -322,9 +329,33 @@ bool DynamicModel::init()
 	glEnableVertexAttribArray(g_vertexLocation);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesVBO);
+#else
+	auto graphics = ModuleManager::Get().GraphicsModule();
 
-	
+	graphics->SetShaders(waterVSV, waterPSV);
+	ShaderProgram* waterProgram = graphics->Shaderprogram();
 
+	waterProgram->SetFloat("u_waterPlaneLength",(float)WATER_PLANE_LENGTH);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, g_cubemap);
+	waterProgram->SetInt("u_cubemap", 0);
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, waterTexture);
+	waterProgram->SetInt("u_waterTexture", 1);
+
+	glGenVertexArrays(1, &g_vao);
+	glBindVertexArray(g_vao);
+
+	glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
+	glVertexAttribPointer(waterProgram->GetAttribLocation("a_vertex"), 4, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(waterProgram->GetAttribLocation("a_vertex"));
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesVBO);
+
+#endif
+
+	glBindVertexArray(0);
 	initBackground();
 
 	
@@ -349,10 +380,17 @@ void DynamicModel::reshape(unsigned width,unsigned height)
 	reshapeBackground(g_projectionMatrix);
 
 	reshapeWaterTexture(width, height);
-
+#if NoDebug
 	glUseProgram(g_program.program);
 
 	glUniformMatrix4fv(g_projectionMatrixLocation, 1, GL_FALSE, g_projectionMatrix);
+#else
+	auto graphics = ModuleManager::Get().GraphicsModule();
+
+	graphics->SetShaders(waterVSV, waterPSV);
+	ShaderProgram* waterProgram = graphics->Shaderprogram();
+	waterProgram->SetMat4("u_projectionMatrix", g_projectionMatrix);
+#endif
 }
 
 void DynamicModel::renderWater(float passedTime)
@@ -398,7 +436,7 @@ void DynamicModel::renderWater(float passedTime)
 	waveParameters[3].steepness = overallSteepness / (waveParameters[1].wavelength * waveParameters[1].amplitude * (GLfloat)NUMBERWAVES);
 	waveDirections[3].x = -0.2f;
 	waveDirections[3].z = -0.1f;
-
+#if NoDebug
 	glUseProgram(g_program.program);
 
 	glUniformMatrix4fv(g_viewMatrixLocation, 1, GL_FALSE, g_viewMatrix);
@@ -409,6 +447,21 @@ void DynamicModel::renderWater(float passedTime)
 	glUniform4fv(g_waveParametersLocation, 4 * NUMBERWAVES, (GLfloat*)waveParameters);
 	glUniform2fv(g_waveDirectionsLocation, 2 * NUMBERWAVES, (GLfloat*)waveDirections);
 
+#else
+	auto graphics = ModuleManager::Get().GraphicsModule();
+
+	graphics->SetShaders(waterVSV, waterPSV);
+	ShaderProgram* waterProgram = graphics->Shaderprogram();
+
+	waterProgram->SetMat4("u_viewMatrix", g_viewMatrix);
+	waterProgram->SetMat3("u_inverseViewNormalMatrix", g_inverseViewNormalMatrix);
+
+	waterProgram->SetFloat("u_passedTime", passedTime);
+
+	glUniform4fv(waterProgram->GetUniformLocation("u_waveParameters"), 4 * NUMBERWAVES, (GLfloat*)waveParameters);
+	glUniform2fv(waterProgram->GetUniformLocation("u_waveDirections"), 2 * NUMBERWAVES, (GLfloat*)waveDirections);
+
+#endif
 	glBindVertexArray(g_vao);
 
 	glFrontFace(GL_CCW);

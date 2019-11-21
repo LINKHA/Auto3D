@@ -2,6 +2,7 @@
 
 namespace Auto3D
 {
+#define NoDebug2 0
 
 	static GLUSprogram g_programBackground;
 
@@ -27,6 +28,8 @@ namespace Auto3D
 
 	static GLuint g_numberIndicesBackground;
 
+	static ShaderVariation* backGroundVSV = nullptr;
+	static ShaderVariation* backGroundPSV = nullptr;
 
 	GLUSboolean initBackground()
 	{
@@ -34,7 +37,7 @@ namespace Auto3D
 		GLUStextfile fragmentSource;
 
 		GLUSshape background;
-
+#if NoDebug2
 		glusFileLoadText("E:/Project/MyProject/opengl_tutorial_demo/Example15/shader/Background.vert.glsl", &vertexSource);
 		glusFileLoadText("E:/Project/MyProject/opengl_tutorial_demo/Example15/shader/Background.frag.glsl", &fragmentSource);
 
@@ -52,7 +55,11 @@ namespace Auto3D
 
 		g_vertexBackgroundLocation = glGetAttribLocation(g_programBackground.program, "a_vertex");
 		g_normalBackgroundLocation = glGetAttribLocation(g_programBackground.program, "a_normal");
-
+#else
+		auto cache = ModuleManager::Get().CacheModule();
+		backGroundVSV = cache->LoadResource<Shader>("Shader/Water/Background.vert")->CreateVariation();
+		backGroundPSV = cache->LoadResource<Shader>("Shader/Water/Background.frag")->CreateVariation();
+#endif
 		//
 
 		glBindVertexArray(0);
@@ -81,13 +88,11 @@ namespace Auto3D
 		glusShapeDestroyf(&background);
 
 		//
-
+#if NoDebug2
 		glUseProgram(g_programBackground.program);
 
 		// We assume, that the parent program created the texture!
 		glUniform1i(g_cubemapBackgroundLocation, 0);
-
-		//
 
 		glGenVertexArrays(1, &g_vaoBackground);
 		glBindVertexArray(g_vaoBackground);
@@ -102,6 +107,29 @@ namespace Auto3D
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesBackgroundVBO);
 
+#else
+		auto graphics = ModuleManager::Get().GraphicsModule();
+
+		graphics->SetShaders(backGroundVSV, backGroundPSV);
+		ShaderProgram* waterProgram = graphics->Shaderprogram();
+
+		waterProgram->SetInt("u_cubemap", 0);
+
+		glGenVertexArrays(1, &g_vaoBackground);
+		glBindVertexArray(g_vaoBackground);
+
+		glBindBuffer(GL_ARRAY_BUFFER, g_verticesBackgroundVBO);
+		glVertexAttribPointer(waterProgram->GetAttribLocation("a_vertex"), 4, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(waterProgram->GetAttribLocation("a_vertex"));
+
+		glBindBuffer(GL_ARRAY_BUFFER, g_normalsBackgroundVBO);
+		glVertexAttribPointer(waterProgram->GetAttribLocation("a_normal"), 3, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(waterProgram->GetAttribLocation("a_normal"));
+
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesBackgroundVBO);
+#endif
+	
+
 		return GLUS_TRUE;
 	}
 
@@ -109,19 +137,35 @@ namespace Auto3D
 
 	GLUSvoid reshapeBackground(GLUSfloat projectionMatrix[16])
 	{
+#if NoDebug2
 		glUseProgram(g_programBackground.program);
 
 		glUniformMatrix4fv(g_projectionMatrixBackgroundLocation, 1, GL_FALSE, projectionMatrix);
+#else
+		auto graphics = ModuleManager::Get().GraphicsModule();
+
+		graphics->SetShaders(backGroundVSV, backGroundPSV);
+		ShaderProgram* waterProgram = graphics->Shaderprogram();
+
+		waterProgram->SetMat4("u_projectionMatrix", projectionMatrix);
+#endif
 	}
 
 	GLUSboolean renderBackground(GLUSfloat viewMatrix[16])
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+#if NoDebug2
 		glUseProgram(g_programBackground.program);
 
 		glUniformMatrix4fv(g_modelViewMatrixBackgroundLocation, 1, GL_FALSE, viewMatrix);
+#else
+		auto graphics = ModuleManager::Get().GraphicsModule();
 
+		graphics->SetShaders(backGroundVSV, backGroundPSV);
+		ShaderProgram* waterProgram = graphics->Shaderprogram();
+
+		waterProgram->SetMat4("u_modelViewMatrix", viewMatrix);
+#endif
 		glBindVertexArray(g_vaoBackground);
 
 		glFrontFace(GL_CW);
