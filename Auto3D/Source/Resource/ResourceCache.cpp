@@ -14,6 +14,7 @@ namespace Auto3D
 
 ResourceCache::ResourceCache()
 {
+	AddResourceDir(ExecutableDir() + "Data");
 }
 
 ResourceCache::~ResourceCache()

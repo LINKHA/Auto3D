@@ -17,6 +17,7 @@
 #include "../Scene/Scene.h"
 #include "../Auto2D/Scene2D.h"
 #include "../Base/ProcessUtils.h"
+
 #include "../Debug/DebugNew.h"
 
 namespace Auto3D {
@@ -53,20 +54,18 @@ void ModuleManager::RegisterMoudleLibrary()
 
 void ModuleManager::CreateModules()
 {
-	_cache = new ResourceCache();
-	_cache->AddResourceDir(ExecutableDir() + "Data");
-
-	_log = new Log();
-	_input = new Input();
-	_profiler = new Profiler();
-	_graphics = new Graphics();
-	_renderer = new Renderer();
-	_time = new Time();
-	_registeredBox = new RegisteredBox();
-	_renderer2d = new Renderer2D();
-	_physics = new Physics();
-	_fileSystem = new FileSystem();
-	_ui = new UI();
+	_cache = UniquePtr<ResourceCache>(new ResourceCache());
+	_log = UniquePtr<Log>(new Log());
+	_input = UniquePtr<Input>(new Input());
+	_profiler = UniquePtr<Profiler>(new Profiler());
+	_graphics = UniquePtr<Graphics>(new Graphics());
+	_renderer = UniquePtr<Renderer>(new Renderer());
+	_time = UniquePtr<Time>(new Time());
+	_registeredBox = UniquePtr<RegisteredBox>(new RegisteredBox());
+	_renderer2d = UniquePtr<Renderer2D>(new Renderer2D());
+	_physics = UniquePtr<Physics>(new Physics());
+	_fileSystem = UniquePtr<FileSystem>(new FileSystem());
+	_ui = UniquePtr<UI>(new UI());
 }
 
 ModuleManager& ModuleManager::Get()
@@ -82,7 +81,7 @@ void ModuleManager::RecreateCacheModule(ResourceCache* cache)
 	if (cache)
 		_cache = cache;
 	else
-		_cache = new ResourceCache();
+		_cache = UniquePtr<ResourceCache>(new ResourceCache());
 }
 
 void ModuleManager::RecreateGraphicsModule(Graphics* graphics)
@@ -93,7 +92,7 @@ void ModuleManager::RecreateGraphicsModule(Graphics* graphics)
 	if (graphics)
 		_graphics = graphics;
 	else
-		_graphics = new Graphics();
+		_graphics = UniquePtr<Graphics>(new Graphics());
 }
 
 void ModuleManager::RecreateRendererModule(Renderer* renderer)
@@ -104,7 +103,7 @@ void ModuleManager::RecreateRendererModule(Renderer* renderer)
 	if (renderer)
 		_renderer = renderer;
 	else
-		_renderer = new Renderer();
+		_renderer = UniquePtr<Renderer>(new Renderer());
 }
 
 void ModuleManager::RecreateInputModule(Input* input)
@@ -115,7 +114,7 @@ void ModuleManager::RecreateInputModule(Input* input)
 	if (input)
 		_input = input;
 	else
-		_input = new Input();
+		_input = UniquePtr<Input>(new Input());
 }
 
 void ModuleManager::RecreateLogModule(Log* log)
@@ -126,7 +125,7 @@ void ModuleManager::RecreateLogModule(Log* log)
 	if (log)
 		_log = log;
 	else
-		_log = new Log();
+		_log = UniquePtr<Log>(new Log());
 }
 
 void ModuleManager::RecreateProfilerModule(Profiler* profiler)
@@ -137,7 +136,7 @@ void ModuleManager::RecreateProfilerModule(Profiler* profiler)
 	if (profiler)
 		_profiler = profiler;
 	else
-		_profiler = new Profiler();
+		_profiler = UniquePtr<Profiler>(new Profiler());
 }
 
 void ModuleManager::RecreateTimeModule(Time* time)
@@ -148,7 +147,7 @@ void ModuleManager::RecreateTimeModule(Time* time)
 	if (time)
 		_time = time;
 	else
-		_time = new Time();
+		_time = UniquePtr<Time>(new Time());
 }
 
 void ModuleManager::RecreateRegisteredBoxModule(RegisteredBox* registeredBox)
@@ -159,7 +158,7 @@ void ModuleManager::RecreateRegisteredBoxModule(RegisteredBox* registeredBox)
 	if (registeredBox)
 		_registeredBox = registeredBox;
 	else
-		_registeredBox = new RegisteredBox();
+		_registeredBox = UniquePtr<RegisteredBox>(new RegisteredBox());
 }
 
 void ModuleManager::RecreateRenderer2dModule(Renderer2D* renderer2d)
@@ -170,7 +169,7 @@ void ModuleManager::RecreateRenderer2dModule(Renderer2D* renderer2d)
 	if (renderer2d)
 		_renderer2d = renderer2d;
 	else
-		_renderer2d = new Renderer2D();
+		_renderer2d = UniquePtr<Renderer2D>(new Renderer2D());
 }
 
 void ModuleManager::RecreatePhysicsModule(Physics* physics)
@@ -181,7 +180,7 @@ void ModuleManager::RecreatePhysicsModule(Physics* physics)
 	if (physics)
 		_physics = physics;
 	else
-		_physics = new Physics();
+		_physics = UniquePtr<Physics>(new Physics());
 }
 
 void ModuleManager::RecreateFileSystemModule(FileSystem* fileSystem)
@@ -192,7 +191,7 @@ void ModuleManager::RecreateFileSystemModule(FileSystem* fileSystem)
 	if (fileSystem)
 		_fileSystem = fileSystem;
 	else
-		_fileSystem = new FileSystem();
+		_fileSystem = UniquePtr<FileSystem>(new FileSystem());
 }
 
 void ModuleManager::RecreateUiModule(UI* ui)
@@ -203,7 +202,7 @@ void ModuleManager::RecreateUiModule(UI* ui)
 	if (ui)
 		_ui = ui;
 	else
-		_ui = new UI();
+		_ui = UniquePtr<UI>(new UI());
 }
 
 void ModuleManager::RecreateAudioModule(Audio* audio)
@@ -214,7 +213,7 @@ void ModuleManager::RecreateAudioModule(Audio* audio)
 	if (audio)
 		_audio = audio;
 	else
-		_audio = new Audio();
+		_audio = UniquePtr<Audio>(new Audio());
 }
 
 
