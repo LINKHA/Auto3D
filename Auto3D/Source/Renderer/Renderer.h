@@ -81,8 +81,6 @@ public:
 	void BuildWaterPass();
 	/// Render shadow maps. Should be called after all CollectBatches() calls but before RenderBatches(). Note that you must reassign your rendertarget and viewport after calling this.
     void RenderShadowMaps();
-	/// Render water texutre.
-	void RenderWaterTextures();
     /// Render several passes to the currently set rendertarget and viewport. Avoids setting the per-frame constants multiple times.
     void RenderBatches(const Vector<RenderPassDesc>& passes);
     /// Render a pass to the currently set rendertarget and viewport. Convenience function for one pass only.

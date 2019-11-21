@@ -359,8 +359,15 @@ void Graphics::Present()
 	//Clear(CLEAR_COLOR | CLEAR_DEPTH | CLEAR_STENCIL, Color::BLACK);
 
 	//// In case of third party hooks which modify the GL state and don't restore it properly, re-enable depth test now
-	//glEnable(GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_TEST);
+	glBindVertexArray(0);
+}
 
+void Graphics::Prepare()
+{
+	PROFILE(Prepare);
+
+	glBindVertexArray(_vertexArrayObject);
 }
 
 void Graphics::SetRenderTarget(Texture* renderTarget, Texture* depthStencil)

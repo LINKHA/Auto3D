@@ -131,6 +131,7 @@ void Engine::Render()
 		ErrorString("Fail to render,graphics or renderer missing!");
 		return;
 	}
+	_graphics->Prepare();
 	// Render scene
 	{
 		PROFILE(RenderScene);

@@ -76,6 +76,8 @@ public:
     void Close();
     /// Present the contents of the backbuffer.
     void Present();
+	/// Prepare render.
+	void Prepare();
     /// Set the color rendertarget and depth stencil buffer.
     void SetRenderTarget(Texture* renderTarget, Texture* stencilBuffer);
     /// Set multiple color rendertargets and the depth stencil buffer.

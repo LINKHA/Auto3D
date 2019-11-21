@@ -90,7 +90,6 @@ void Renderer::Render(Scene* scene, Camera* camera)
 	PrepareView(scene, camera, passes);
 
 	RenderShadowMaps();
-	RenderWaterTextures();
 
 	_graphics->ResetRenderTargets();
 	_graphics->ResetViewport();
@@ -596,88 +595,6 @@ void Renderer::RenderShadowMaps()
             RenderBatches(view->_shadowQueue._batches, &view->_shadowCamera, true, true, light->GetDepthBias(), light->GetSlopeScaledDepthBias());
         }
     }
-}
-
-void Renderer::RenderWaterTextures()
-{
-	PROFILE(RenderWaterTextures);
-
-	_graphics->ResetTextures();
-
-	for (auto it = _waterTexture.Begin(); it != _waterTexture.End(); ++it)
-	{
-		if (!it->_used)
-			continue;
-
-		//static WaveParameters waveParameters[NUMBERWAVES];
-		//static WaveDirections waveDirections[NUMBERWAVES];
-
-		//static GLfloat overallSteepness = 0.2f;
-
-		//// Waves
-
-		//memset(waveParameters, 0, sizeof(waveParameters));
-		//memset(waveDirections, 0, sizeof(waveDirections));
-
-		//// Wave One
-		//waveParameters[0].speed = 0.05f;
-		//waveParameters[0].amplitude = 0.02f;
-		//waveParameters[0].wavelength = 0.3f;
-		//waveParameters[0].steepness = overallSteepness / (waveParameters[0].wavelength * waveParameters[0].amplitude * (GLfloat)NUMBERWAVES);
-		//waveDirections[0].x = +1.0f;
-		//waveDirections[0].z = +1.5f;
-
-		//// Wave Two
-		//waveParameters[1].speed = 0.1f;
-		//waveParameters[1].amplitude = 0.01f;
-		//waveParameters[1].wavelength = 0.4f;
-		//waveParameters[1].steepness = overallSteepness / (waveParameters[1].wavelength * waveParameters[1].amplitude * (GLfloat)NUMBERWAVES);
-		//waveDirections[1].x = +0.8f;
-		//waveDirections[1].z = +0.2f;
-
-		//// Wave Thre
-		//waveParameters[2].speed = 0.04f;
-		//waveParameters[2].amplitude = 0.035f;
-		//waveParameters[2].wavelength = 0.1f;
-		//waveParameters[2].steepness = overallSteepness / (waveParameters[1].wavelength * waveParameters[1].amplitude * (GLfloat)NUMBERWAVES);
-		//waveDirections[2].x = -0.2f;
-		//waveDirections[2].z = -0.1f;
-
-		//// Wave Four
-		//waveParameters[3].speed = 0.05f;
-		//waveParameters[3].amplitude = 0.007f;
-		//waveParameters[3].wavelength = 0.2f;
-		//waveParameters[3].steepness = overallSteepness / (waveParameters[1].wavelength * waveParameters[1].amplitude * (GLfloat)NUMBERWAVES);
-		//waveDirections[3].x = -0.4f;
-		//waveDirections[3].z = -0.3f;
-
-		//glViewport(0, 0, TEXTURE_SIZE, TEXTURE_SIZE);
-
-		//glBindFramebuffer(GL_FRAMEBUFFER, g_fboWaterTexture);
-
-		////
-
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		//glUseProgram(g_programWaterTexture.program);
-
-		//glUniform1f(g_passedTimeWaterTextureLocation, passedTime);
-		//glUniform4fv(g_waveParametersWaterTextureLocation, 4 * NUMBERWAVES, (GLfloat*)waveParameters);
-		//glUniform2fv(g_waveDirectionsWaterTextureLocation, 2 * NUMBERWAVES, (GLfloat*)waveDirections);
-
-		//glFrontFace(GL_CCW);
-
-		//glBindVertexArray(g_vaoWaterTexture);
-		//glDrawElements(GL_TRIANGLES, g_numberIndicesWaterTexture, GL_UNSIGNED_INT, 0);
-
-		////
-
-		//glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-		//glViewport(0, 0, g_parentWidth, g_parentHeight);
-
-
-	}
 }
 
 void Renderer::RenderBatches(const Vector<RenderPassDesc>& passes)
