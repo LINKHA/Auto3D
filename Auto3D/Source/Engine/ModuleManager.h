@@ -65,59 +65,59 @@ public:
 	void RecreateAudioModule(Audio* audio = nullptr);
 
 	/// Return resource loads.
-	ResourceCache* CacheModule() { return _cache; }
+	ResourceCache* CacheModule() { return _cache.Get(); }
 	/// Return graphics.
-	Graphics* GraphicsModule() { return _graphics; }
+	Graphics* GraphicsModule() { return _graphics.Get(); }
 	/// Return 3D render.
-	Renderer* RendererModule() { return _renderer; }
+	Renderer* RendererModule() { return _renderer.Get(); }
 	/// Return input management events
-	Input* InputModule() { return _input; }
+	Input* InputModule() { return _input.Get(); }
 	/// Engine Log
-	Log* LogModule() { return _log; }
+	Log* LogModule() { return _log.Get(); }
 	/// Return hierarchical performance profiler subsystem.
-	Profiler* ProfilerModule() { return _profiler; }
+	Profiler* ProfilerModule() { return _profiler.Get(); }
 	/// Return process all engine time, calculate FPS, etc
-	Time* TimeModule() { return _time; }
+	Time* TimeModule() { return _time.Get(); }
 	/// Return the message management mechanism for the underlying interaction between the game project and the engine
-	RegisteredBox* RegisteredBoxModule() { return _registeredBox; }
+	RegisteredBox* RegisteredBoxModule() { return _registeredBox.Get(); }
 	/// Return 2d-related operations and rendering capabilities
-	Renderer2D* Renderer2dModule() { return _renderer2d; }
+	Renderer2D* Renderer2dModule() { return _renderer2d.Get(); }
 	/// Return physical world and functional storage
-	Physics* PhysicsModule() { return _physics; }
+	Physics* PhysicsModule() { return _physics.Get(); }
 	/// Return an adapter system that operates on files based on the platform
-	FileSystem* FileSystemModule() { return _fileSystem; }
+	FileSystem* FileSystemModule() { return _fileSystem.Get(); }
 	/// Return UI-related operations and rendering capabilities
-	UI* UiModule() { return _ui; }
+	UI* UiModule() { return _ui.Get(); }
 	/// Return component management of all audio.(Assign values when the component is first created)
-	Audio* AudioModule() { return _audio; }
+	Audio* AudioModule() { return _audio.Get(); }
 
 private:
 	/// Manage the subsystem of all resource loads
-	SharedPtr<ResourceCache> _cache;
+	UniquePtr<ResourceCache> _cache;
 	/// ADAPTS the low-level rendering interface as well as the form's rendering function
-	SharedPtr<Graphics> _graphics;
+	UniquePtr<Graphics> _graphics;
 	/// 3D rendering of the scene
-	SharedPtr<Renderer> _renderer;
+	UniquePtr<Renderer> _renderer;
 	/// User input management events
-	SharedPtr<Input> _input;
+	UniquePtr<Input> _input;
 	/// Engine Log
-	SharedPtr<Log> _log;
+	UniquePtr<Log> _log;
 	/// Hierarchical performance profiler subsystem.
-	SharedPtr<Profiler> _profiler;
+	UniquePtr<Profiler> _profiler;
 	/// Process all engine time, calculate FPS, etc
-	SharedPtr<Time> _time;
+	UniquePtr<Time> _time;
 	/// The message management mechanism for the underlying interaction between the game project and the engine
-	SharedPtr<RegisteredBox> _registeredBox;
+	UniquePtr<RegisteredBox> _registeredBox;
 	/// 2d-related operations and rendering capabilities
-	SharedPtr<Renderer2D> _renderer2d;
+	UniquePtr<Renderer2D> _renderer2d;
 	/// Physical world and functional storage
-	SharedPtr<Physics> _physics;
+	UniquePtr<Physics> _physics;
 	/// An adapter system that operates on files based on the platform
-	SharedPtr<FileSystem> _fileSystem;
+	UniquePtr<FileSystem> _fileSystem;
 	/// UI-related operations and rendering capabilities
-	SharedPtr<UI> _ui;
+	UniquePtr<UI> _ui;
 	/// Component management of all audio.(Assign values when the component is first created)
-	SharedPtr<Audio> _audio;
+	UniquePtr<Audio> _audio;
 };
 
 }

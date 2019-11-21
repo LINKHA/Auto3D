@@ -14,7 +14,8 @@ AudioNode::AudioNode() :
 	// If you haven't created Audio, create it
 	if (!_audio)
 	{
-		ModuleManager::Get().RecreateAudioModule(_audio);
+		ModuleManager::Get().RecreateAudioModule();
+		_audio = ModuleManager::Get().AudioModule();
 	}
 }
 AudioNode::~AudioNode()
