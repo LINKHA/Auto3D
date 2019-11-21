@@ -249,6 +249,11 @@ void ShaderProgram::SetVec2(const String& name, float x, float y) const
 	glUniform2f(glGetUniformLocation(_program, name.CString()), x, y);
 }
 
+void ShaderProgram::SetVec2s(const String& name, int size, float* pVec2) const
+{
+	glUniform2fv(glGetUniformLocation(_program, name.CString()),size , pVec2);
+}
+
 void ShaderProgram::SetVec3(const String& name, const Vector3F& value) const
 {
 	glUniform3fv(glGetUniformLocation(_program, name.CString()), 1, value.Data());
@@ -259,6 +264,11 @@ void ShaderProgram::SetVec3(const String& name, float x, float y, float z) const
 	glUniform3f(glGetUniformLocation(_program, name.CString()), x, y, z);
 }
 
+void ShaderProgram::SetVec3s(const String& name, int size, float* pVec3) const
+{
+	glUniform3fv(glGetUniformLocation(_program, name.CString()), size, pVec3);
+}
+
 void ShaderProgram::SetVec4(const String& name, const Vector4F& value) const
 {
 	glUniform4fv(glGetUniformLocation(_program, name.CString()), 1, value.Data());
@@ -267,6 +277,11 @@ void ShaderProgram::SetVec4(const String& name, const Vector4F& value) const
 void ShaderProgram::SetVec4(const String& name, float x, float y, float z, float w)
 {
 	glUniform4f(glGetUniformLocation(_program, name.CString()), x, y, z, w);
+}
+
+void ShaderProgram::SetVec4s(const String& name, int size, float* pVec4)
+{
+	glUniform4fv(glGetUniformLocation(_program, name.CString()), size, pVec4);
 }
 
 void ShaderProgram::SetMat2(const String& name, const Matrix2x2F& mat) const

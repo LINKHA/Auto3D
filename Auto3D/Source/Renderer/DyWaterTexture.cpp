@@ -241,8 +241,8 @@ GLUSboolean renderWaterTexture(GLUSfloat passedTime)
 	ShaderProgram* waterTextureProgram = graphics->Shaderprogram();
 
 	waterTextureProgram->SetFloat("u_passedTime", passedTime);
-	glUniform4fv(glGetUniformLocation(waterTextureProgram->GLProgram(), "u_waveParameters"), 4 * NUMBERWAVES, (GLfloat*)waveParameters);
-	glUniform2fv(glGetUniformLocation(waterTextureProgram->GLProgram(), "u_waveDirections"), 2 * NUMBERWAVES, (GLfloat*)waveDirections);
+	waterTextureProgram->SetVec4s("u_waveParameters", 4 * NUMBERWAVES, (float*)waveParameters);
+	waterTextureProgram->SetVec2s("u_waveDirections", 2 * NUMBERWAVES, (float*)waveDirections);
 
 	glFrontFace(GL_CCW);
 

@@ -328,10 +328,8 @@ void DynamicModel::renderWater(float passedTime)
 	waterProgram->SetMat3("u_inverseViewNormalMatrix", g_inverseViewNormalMatrix);
 
 	waterProgram->SetFloat("u_passedTime", passedTime);
-
-	glUniform4fv(waterProgram->GetUniformLocation("u_waveParameters"), 4 * NUMBERWAVES, (GLfloat*)waveParameters);
-	glUniform2fv(waterProgram->GetUniformLocation("u_waveDirections"), 2 * NUMBERWAVES, (GLfloat*)waveDirections);
-
+	waterProgram->SetVec4s("u_waveParameters", 4 * NUMBERWAVES, (float*)waveParameters);
+	waterProgram->SetVec2s("u_waveDirections", 2 * NUMBERWAVES, (float*)waveDirections);
 	glBindVertexArray(g_vao);
 
 	glFrontFace(GL_CCW);
@@ -355,7 +353,7 @@ bool DynamicModel::update(float time)
 
 	glusMatrix4x4LookAtf(g_viewMatrix, 0.0f, 1.0f, 0.0f, (GLfloat)0.5f * sinf(angle), 1.0f, -(GLfloat)0.5f * cosf(angle), 0.0f, 1.0f, 0.0f);
 
-	glusMatrix4x4Copyf(inverseViewMatrix, g_viewMatrix, GLUS_TRUE);
+	glusMatrix4x4Copyf(inverseViewMatrix, g_viewMatrix, true);
 	glusMatrix4x4InverseRigidBodyf(inverseViewMatrix);
 	glusMatrix4x4ExtractMatrix3x3f(g_inverseViewNormalMatrix, inverseViewMatrix);
 
@@ -372,7 +370,7 @@ bool DynamicModel::update(float time)
 
 	angle += 2.0f * GLUS_PI / 120.0f * time;
 
-	return GLUS_TRUE;
+	return true;
 }
 
 
@@ -382,12 +380,6 @@ void DynamicModel::AAA()
 	auto graphics = ModuleManager::Get().GraphicsModule();
 	init();
 	reshape(window->GetWidth(), window->GetHeight());
-	/*while (1)
-	{
-		Sleep(10);
-		update(0);
-		graphics->RenderContext()->Present();
-	}*/
 }
 
 void DynamicModel::BBB()

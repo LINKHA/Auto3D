@@ -25,7 +25,7 @@ void WaterSample::Start()
 	camera->SetAmbientColor(Color(0.1f, 0.1f, 0.1f));*/
 
 	SkyBox* skybox = scene->CreateChild<SkyBox>();
-	skybox->SetMaterial(cache->LoadResource<Material>("WaterSkyBox.json"));
+	skybox->SetMaterial(cache->LoadResource<Material>("SkyBox.json"));
 	
 	//DynamicModel* water = scene->CreateChild<DynamicModel>();
 
