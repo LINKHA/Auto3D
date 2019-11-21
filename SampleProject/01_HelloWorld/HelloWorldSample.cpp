@@ -7,7 +7,7 @@ void HelloWorldSample::Init()
 void HelloWorldSample::Start()
 {
 	Super::Start();
-	auto* cache = Object::Module<ResourceCache>();
+	auto* cache = ModuleManager::Get().CacheModule();
 
 	Camera2D* camera = scene2d->CreateChild<Camera2D>();
 	camera->SetOrthographic(true);

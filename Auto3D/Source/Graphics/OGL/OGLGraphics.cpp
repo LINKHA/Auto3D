@@ -354,12 +354,12 @@ void Graphics::Present()
 
 	_context->Present();
 
-	//ResetRenderTargets();
-	//ResetViewport();
-	//Clear(CLEAR_COLOR | CLEAR_DEPTH | CLEAR_STENCIL, Color::BLACK);
+	ResetRenderTargets();
+	ResetViewport();
+	Clear(CLEAR_COLOR | CLEAR_DEPTH | CLEAR_STENCIL, Color::BLACK);
 
-	//// In case of third party hooks which modify the GL state and don't restore it properly, re-enable depth test now
-	//glEnable(GL_DEPTH_TEST);
+	// In case of third party hooks which modify the GL state and don't restore it properly, re-enable depth test now
+	glEnable(GL_DEPTH_TEST);
 
 }
 
@@ -959,9 +959,8 @@ bool Graphics::CreateContext(Window* window, int multisample)
 
 	// Create and bind a vertex array object that will stay in use throughout
 	// Investigate performance gain of using multiple VAO's
-	unsigned vertexArrayObject;
-	glGenVertexArrays(1, &vertexArrayObject);
-	glBindVertexArray(vertexArrayObject);
+	glGenVertexArrays(1, &_vertexArrayObject);
+	glBindVertexArray(_vertexArrayObject);
 
 	// These states are always enabled to match Direct3D
 	glEnable(GL_DEPTH_TEST);

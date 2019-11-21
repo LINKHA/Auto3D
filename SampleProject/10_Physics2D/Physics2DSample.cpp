@@ -2,7 +2,7 @@
 void Physics2DSample::Init()
 {
 	Super::Init();
-	auto* graphics = Object::Module<Graphics>();
+	auto* graphics = ModuleManager::Get().GraphicsModule();
 	graphics->RenderWindow()->SetTitle("Physics2D Sample");
 }
 
@@ -10,7 +10,7 @@ void Physics2DSample::Start()
 {
 	Super::Start();
 	
-	auto* cache = Object::Module<ResourceCache>();
+	auto* cache = ModuleManager::Get().CacheModule();
 	auto squareTexture = cache->LoadResource<Texture>("Texture/Box.png");
 	auto circleTexture = cache->LoadResource<Texture>("Texture/Ball.png");
 

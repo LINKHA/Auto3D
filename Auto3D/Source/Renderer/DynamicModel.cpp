@@ -170,8 +170,8 @@ void DynamicModel::OnPrepareRender(unsigned frameNumber, Camera* camera)
 bool DynamicModel::init()
 {
 
-	/*glEnable(GL_POLYGON_OFFSET_LINE);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);*/
+	//glEnable(GL_POLYGON_OFFSET_LINE);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	GLfloat* points = (GLfloat*)malloc(WATER_PLANE_LENGTH * WATER_PLANE_LENGTH * 4 * sizeof(GLfloat));
 	GLuint* indices = (GLuint*)malloc(WATER_PLANE_LENGTH * (WATER_PLANE_LENGTH - 1) * 2 * sizeof(GLuint));
@@ -263,34 +263,34 @@ bool DynamicModel::init()
 
 	//
 
-	/*glGenTextures(1, &g_cubemap);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, g_cubemap);
+	//glGenTextures(1, &g_cubemap);
+	//glBindTexture(GL_TEXTURE_CUBE_MAP, g_cubemap);
 
-	glusImageLoadTga("E:/Project/MyProject/opengl_tutorial_demo/Binaries/water_pos_x.tga", &image);
-	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
-	glusImageDestroyTga(&image);
+	//glusImageLoadTga("E:/Project/MyProject/opengl_tutorial_demo/Binaries/water_pos_x.tga", &image);
+	//glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
+	//glusImageDestroyTga(&image);
 
-	glusImageLoadTga("E:/Project/MyProject/opengl_tutorial_demo/Binaries/water_neg_x.tga", &image);
-	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
-	glusImageDestroyTga(&image);
+	//glusImageLoadTga("E:/Project/MyProject/opengl_tutorial_demo/Binaries/water_neg_x.tga", &image);
+	//glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
+	//glusImageDestroyTga(&image);
 
-	glusImageLoadTga("E:/Project/MyProject/opengl_tutorial_demo/Binaries/water_pos_y.tga", &image);
-	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
-	glusImageDestroyTga(&image);
+	//glusImageLoadTga("E:/Project/MyProject/opengl_tutorial_demo/Binaries/water_pos_y.tga", &image);
+	//glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
+	//glusImageDestroyTga(&image);
 
-	glusImageLoadTga("E:/Project/MyProject/opengl_tutorial_demo/Binaries/water_neg_y.tga", &image);
-	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
-	glusImageDestroyTga(&image);
+	//glusImageLoadTga("E:/Project/MyProject/opengl_tutorial_demo/Binaries/water_neg_y.tga", &image);
+	//glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
+	//glusImageDestroyTga(&image);
 
-	glusImageLoadTga("E:/Project/MyProject/opengl_tutorial_demo/Binaries/water_pos_z.tga", &image);
-	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
-	glusImageDestroyTga(&image);
+	//glusImageLoadTga("E:/Project/MyProject/opengl_tutorial_demo/Binaries/water_pos_z.tga", &image);
+	//glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
+	//glusImageDestroyTga(&image);
 
-	glusImageLoadTga("E:/Project/MyProject/opengl_tutorial_demo/Binaries/water_neg_z.tga", &image);
-	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
-	glusImageDestroyTga(&image);
+	//glusImageLoadTga("E:/Project/MyProject/opengl_tutorial_demo/Binaries/water_neg_z.tga", &image);
+	//glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
+	//glusImageDestroyTga(&image);
 
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	/*glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);

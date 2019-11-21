@@ -189,7 +189,9 @@ public:
 	GraphicsVersion::Type GetGraphicsApiVersion()const { return _graphicsVersion; }
 	/// Get graphics glsl version
 	GraphicsSLVersion::Type GetGraphicsSLVersion()const { return _graphicsSLVersion; }
-	
+	/// Get opengl array object.
+	unsigned GetGLArrayObject() { return _vertexArrayObject; }
+
 	/// Return the shader program
 	ShaderProgram* Shaderprogram() { return _shaderProgram; }
     /// Return number of supported constant buffer bindings for vertex shaders.
@@ -335,6 +337,8 @@ private:
 	bool _vsync;
 	/// OpenGL extensions.
 	Vector<String> _extensions;
+	/// OpenGL vertex array object;
+	unsigned _vertexArrayObject;
 };
 
 /// Register Graphics related object factories and attributes.

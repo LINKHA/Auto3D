@@ -5,7 +5,7 @@
 void GUISample::Init()
 {
 	Super::Init();
-	auto* graphics = Object::Module<Graphics>();
+	auto* graphics = ModuleManager::Get().GraphicsModule();
 	graphics->RenderWindow()->SetTitle("GUI Sample");
 }
 

@@ -3,18 +3,15 @@
 void FirstPersonSample::Init()
 {
 	Super::Init();
-	auto* graphics = Object::Module<Graphics>();
+	auto* graphics = ModuleManager::Get().GraphicsModule();
 	graphics->RenderWindow()->SetTitle("FirstPerson Sample");
 
 }
 void FirstPersonSample::Start()
 {
 	Super::Start();
-	auto* cache = Object::Module<ResourceCache>();
-	auto* graphics = Object::Module<Graphics>();
-	auto* renderer = Object::Module<Renderer>();
-	auto* input = Object::Module<Input>();
-	auto* profiler = Object::Module<Profiler>();
+	auto* cache = ModuleManager::Get().CacheModule();
+	auto* graphics = ModuleManager::Get().GraphicsModule();
 
 	graphics->RenderWindow()->SetMouseLock(true);
 	graphics->RenderWindow()->SetMouseHide(true);

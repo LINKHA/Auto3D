@@ -3,15 +3,15 @@
 void SkyboxSample::Init()
 {
 	Super::Init();
-	auto* graphics = Object::Module<Graphics>();
+	auto* graphics = ModuleManager::Get().GraphicsModule();
 	graphics->RenderWindow()->SetTitle("Skybox Sample");
 }
 
 void SkyboxSample::Start()
 {
 	Super::Start();
-	auto* cache = Object::Module<ResourceCache>();
-	auto* graphics = Object::Module<Graphics>();
+	auto* cache = ModuleManager::Get().CacheModule();
+	auto* graphics = ModuleManager::Get().GraphicsModule();
 
 	graphics->RenderWindow()->SetMouseLock(true);
 	graphics->RenderWindow()->SetMouseHide(true);

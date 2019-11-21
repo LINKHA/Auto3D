@@ -3,7 +3,7 @@
 void SpriteSample::Init()
 {
 	Super::Init();
-	auto* graphics = Object::Module<Graphics>();
+	auto* graphics = ModuleManager::Get().GraphicsModule();
 	graphics->RenderWindow()->SetTitle("Sprite Sample");
 }
 void SpriteSample::Start()
@@ -15,7 +15,7 @@ void SpriteSample::Start()
 	camera2d->SetPosition(Vector3F(0.0f, 0.0f, -100.0f));
 	camera2d->SetLayoutMaskName("UI");
 
-	auto* cache = Object::Module<ResourceCache>();
+	auto* cache = ModuleManager::Get().CacheModule();
 	auto flowerTexture = cache->LoadResource<Texture>("Texture/flower.png");
 
 	for (int i = 0; i < flowerNum; i++)

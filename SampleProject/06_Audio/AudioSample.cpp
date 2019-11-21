@@ -3,14 +3,14 @@
 void AudioSample::Init()
 {
 	Super::Init();
-	auto* graphics = Object::Module<Graphics>();
+	auto* graphics = ModuleManager::Get().GraphicsModule();
 	graphics->RenderWindow()->SetTitle("Audio Sample");
 
 }
 void AudioSample::Start()
 {
 	Super::Start();
-	auto* cache = Object::Module<ResourceCache>();
+	auto* cache = ModuleManager::Get().CacheModule();
 
 	scene = new Scene();
 	scene->CreateChild<Octree>();
