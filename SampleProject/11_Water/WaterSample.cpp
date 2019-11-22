@@ -8,7 +8,7 @@ void WaterSample::Init()
 }
 
 DynamicModel* water;
-
+bool sss = true;
 void WaterSample::Start()
 {
 	//Super::Start();
@@ -30,12 +30,15 @@ void WaterSample::Start()
 	//DynamicModel* water = scene->CreateChild<DynamicModel>();
 
 	water = new DynamicModel();
-	water->AAA();
 
+
+	water->AAA();
+	
 }
 
 void WaterSample::Update()
 {
+	
 	water->BBB();
 
 	//Super::Update();
@@ -59,6 +62,12 @@ void WaterSample::Update()
 	//	camera->Translate(Vector3F::LEFT * time->GetDeltaTime() * moveSpeed);
 	//if (input->IsKeyDown(KEY_D))
 	//	camera->Translate(Vector3F::RIGHT * time->GetDeltaTime() * moveSpeed);
+}
+
+void WaterSample::UIDraw()
+{
+	
+	//water->BBB();
 }
 
 void WaterSample::Stop()

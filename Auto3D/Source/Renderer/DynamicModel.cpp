@@ -61,7 +61,7 @@ void DynamicModel::RegisterObject()
 {
 	RegisterFactory<DynamicModel>();
 }
-
+/*
 void DynamicModel::OnPrepareRender(unsigned frameNumber, Camera* camera)
 {
 	_lastFrameNumber = frameNumber;
@@ -70,7 +70,7 @@ void DynamicModel::OnPrepareRender(unsigned frameNumber, Camera* camera)
 
 	//Draw water texture
 
-}
+}*/
 
 //void DynamicModel::SetWaterData()
 //{
@@ -156,11 +156,6 @@ bool DynamicModel::init()
 	GLfloat* points = (GLfloat*)malloc(WATER_PLANE_LENGTH * WATER_PLANE_LENGTH * 4 * sizeof(GLfloat));
 	GLuint* indices = (GLuint*)malloc(WATER_PLANE_LENGTH * (WATER_PLANE_LENGTH - 1) * 2 * sizeof(GLuint));
 
-	GLUStgaimage image;
-
-	GLUStextfile vertexSource;
-	GLUStextfile fragmentSource;
-
 	GLuint x, z, i, k;
 
 	GLuint waterTexture;
@@ -214,6 +209,7 @@ bool DynamicModel::init()
 	free(points);
 	free(indices);
 
+
 	Texture* cubeMap = ModuleManager::Get().RegisteredBoxModule()->GetActiveScene()->GetSkyBox()->GetMaterial(0)->GetTexture(0);
 	g_cubemap = cubeMap->GetGLTexture();
 	//
@@ -243,9 +239,10 @@ bool DynamicModel::init()
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesVBO);
 
-	glBindVertexArray(0);
-	initBackground();
 
+
+	glBindVertexArray(0);
+	//initBackground();
 
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -264,7 +261,7 @@ void DynamicModel::reshape(unsigned width,unsigned height)
 
 	glusMatrix4x4Perspectivef(g_projectionMatrix, 40.0f, (GLfloat)width / (GLfloat)height, 1.0f, 1000.0f);
 
-	reshapeBackground(g_projectionMatrix);
+	//reshapeBackground(g_projectionMatrix);
 
 	reshapeWaterTexture(width, height);
 
@@ -356,9 +353,10 @@ bool DynamicModel::update(float time)
 	glusMatrix4x4Copyf(inverseViewMatrix, g_viewMatrix, true);
 	glusMatrix4x4InverseRigidBodyf(inverseViewMatrix);
 	glusMatrix4x4ExtractMatrix3x3f(g_inverseViewNormalMatrix, inverseViewMatrix);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Render the background
-	renderBackground(g_viewMatrix);
+	//renderBackground(g_viewMatrix);
 
 	// Render the water texture
 	renderWaterTexture(passedTime);
@@ -370,6 +368,8 @@ bool DynamicModel::update(float time)
 
 	angle += 2.0f * GLUS_PI / 120.0f * time;
 
+
+
 	return true;
 }
 
@@ -377,7 +377,6 @@ bool DynamicModel::update(float time)
 void DynamicModel::AAA()
 {
 	auto window = ModuleManager::Get().GraphicsModule()->RenderWindow();
-	auto graphics = ModuleManager::Get().GraphicsModule();
 	init();
 	reshape(window->GetWidth(), window->GetHeight());
 }

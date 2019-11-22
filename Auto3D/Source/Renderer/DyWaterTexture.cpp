@@ -56,9 +56,6 @@ GLUSuint initWaterTexture(GLUSfloat waterPlaneLength)
 
 	GLUSshape plane;
 
-	GLUStextfile vertexSource;
-	GLUStextfile fragmentSource;
-
 	auto cache = ModuleManager::Get().CacheModule();
 
 	waterTextureVSV = cache->LoadResource<Shader>("Shader/Water/WaterTexture.vert")->CreateVariation();

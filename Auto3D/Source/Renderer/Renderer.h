@@ -77,8 +77,6 @@ public:
     void CollectBatches(const Vector<RenderPassDesc>& passes);
     /// Collect and sort batches from the visible objects. Convenience function for one pass only.
     void CollectBatches(const RenderPassDesc& pass);
-	/// Build water pass.
-	void BuildWaterPass();
 	/// Render shadow maps. Should be called after all CollectBatches() calls but before RenderBatches(). Note that you must reassign your rendertarget and viewport after calling this.
     void RenderShadowMaps();
     /// Render several passes to the currently set rendertarget and viewport. Avoids setting the per-frame constants multiple times.
@@ -146,10 +144,6 @@ private:
     unsigned _frameNumber;
     /// Instance vertex buffer dirty flag.
     bool _instanceTransformsDirty;
-	/// Water texture.
-	Vector<WaterTexture> _waterTexture;
-	/// Water texture views.
-	Vector<AutoPtr<WaterTextureView> > _waterTextureViews;
     /// Shadow maps.
     Vector<ShadowMap> _shadowMaps;
     /// Shadow views.

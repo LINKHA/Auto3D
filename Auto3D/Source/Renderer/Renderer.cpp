@@ -123,8 +123,6 @@ bool Renderer::PrepareView(Scene* scene, Camera* camera, const Vector<RenderPass
     if (!CollectObjects(scene, camera))
         return false;
 
-	BuildWaterPass();
-
     CollectLightInteractions();
     CollectBatches(passes);
     return true;
@@ -548,28 +546,6 @@ void Renderer::CollectBatches(const RenderPassDesc& pass)
     static Vector<RenderPassDesc> passDescs(1);
     passDescs[0] = pass;
     CollectBatches(passDescs);
-}
-
-void Renderer::BuildWaterPass()
-{
-	PROFILE(BuildWaterPass);
-	// Try to allocate shadow map rectangle. Retry with smaller _size two times if fails
-	size_t retries = 3;
-	size_t index = 0;
-
-	while (retries--)
-	{
-		for (index = 0; index < _waterTexture.Size(); ++index)
-		{
-			WaterTexture& waterTexture = _waterTexture[index];
-
-			AutoPtr<WaterTextureView> waterTextureView(new WaterTextureView());
-
-			waterTextureView->Clear();
-
-
-		}
-	}
 }
 
 void Renderer::RenderShadowMaps()

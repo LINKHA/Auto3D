@@ -207,8 +207,7 @@ const SharedPtr<Texture>& SkyBox::SetupIrradianceMap()
 
 	irradianceProgram->SetInt("environmentMap", 0);
 	irradianceProgram->SetMat4("projection", captureProjection);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, GetMaterial(0)->_textures[0]->GetGLTexture());
+	graphics->SetTexture(0, GetMaterial(0)->_textures[0]);
 
 	glViewport(0, 0, _irradianceSize, _irradianceSize);
 	for (unsigned int i = 0; i < 6; ++i)
@@ -242,8 +241,7 @@ const SharedPtr<Texture>& SkyBox::SetupPrefilterMap()
 
 	prefilterProgram->SetInt("environmentMap", 0);
 	prefilterProgram->SetMat4("projection", captureProjection);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, GetMaterial(0)->_textures[0]->GetGLTexture());
+	graphics->SetTexture(0, GetMaterial(0)->_textures[0]);
 
 	unsigned int maxMipLevels = 5;
 	for (unsigned int mip = 0; mip < maxMipLevels; ++mip)
