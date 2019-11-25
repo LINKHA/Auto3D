@@ -7,9 +7,9 @@ namespace Auto3D
 
 class Model;
 /// %Scene node that renders an animated model.
-class AUTO_API DynamicModel : public Object
+class AUTO_API DynamicModel : public GeometryNode
 {
-	REGISTER_OBJECT_CLASS(DynamicModel, Object)
+	REGISTER_OBJECT_CLASS(DynamicModel, GeometryNode)
 
 public:
 	/// Construct.

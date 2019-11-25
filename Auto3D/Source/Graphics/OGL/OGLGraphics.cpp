@@ -356,7 +356,7 @@ void Graphics::Present()
 
 	ResetRenderTargets();
 	ResetViewport();
-	//Clear(CLEAR_COLOR | CLEAR_DEPTH | CLEAR_STENCIL, Color::BLACK);
+	Clear(CLEAR_COLOR | CLEAR_DEPTH | CLEAR_STENCIL, Color::BLACK);
 
 	//// In case of third party hooks which modify the GL state and don't restore it properly, re-enable depth test now
 	glEnable(GL_DEPTH_TEST);

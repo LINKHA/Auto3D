@@ -20,9 +20,9 @@ void WaterSample::Start()
 
 	scene = new Scene();
 	scene->CreateChild<Octree>();
-	/*camera = scene->CreateChild<Camera>();
-	camera->SetPosition(Vector3F(0.0f, 0.0f, 0.0f));
-	camera->SetAmbientColor(Color(0.1f, 0.1f, 0.1f));*/
+	//camera = scene->CreateChild<Camera>();
+	//camera->SetPosition(Vector3F(0.0f, 0.0f, 0.0f));
+	//camera->SetAmbientColor(Color(0.1f, 0.1f, 0.1f));
 
 	SkyBox* skybox = scene->CreateChild<SkyBox>();
 	skybox->SetMaterial(cache->LoadResource<Material>("SkyBox.json"));

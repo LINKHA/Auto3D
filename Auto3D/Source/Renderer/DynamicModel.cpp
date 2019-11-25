@@ -149,9 +149,8 @@ static ShaderVariation* waterPSV = nullptr;
 
 bool DynamicModel::init()
 {
-
-	//glEnable(GL_POLYGON_OFFSET_LINE);
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	auto* graphics = ModuleManager::Get().GraphicsModule();
+	//graphics->SetGraphicsDebug(GraphicsDebugType::LINE);
 
 	GLfloat* points = (GLfloat*)malloc(WATER_PLANE_LENGTH * WATER_PLANE_LENGTH * 4 * sizeof(GLfloat));
 	GLuint* indices = (GLuint*)malloc(WATER_PLANE_LENGTH * (WATER_PLANE_LENGTH - 1) * 2 * sizeof(GLuint));
@@ -215,8 +214,6 @@ bool DynamicModel::init()
 	//
 
 	waterTexture = initWaterTexture((GLUSfloat)WATER_PLANE_LENGTH);
-
-	auto graphics = ModuleManager::Get().GraphicsModule();
 
 	graphics->SetShaders(waterVSV, waterPSV);
 	ShaderProgram* waterProgram = graphics->Shaderprogram();
