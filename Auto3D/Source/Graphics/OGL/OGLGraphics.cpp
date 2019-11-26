@@ -807,12 +807,12 @@ bool Graphics::IsResizable() const
 	return _window->IsResizable();
 }
 
-Window* Graphics::RenderWindow() const
+SharedPtr<Window> Graphics::RenderWindow() const
 {
 	return _window;
 }
 
-GraphicsContext* Graphics::RenderContext() const
+SharedPtr<GraphicsContext> Graphics::RenderContext() const
 {
 	return _context;
 }

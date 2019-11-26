@@ -152,9 +152,9 @@ public:
     /// Return whether is using vertical sync.
     bool GetVSync() const { return _vsync; }
     /// Return the rendering window.
-    Window* RenderWindow() const;
+    SharedPtr<Window> RenderWindow() const;
 	/// Return thr opengl context
-	GraphicsContext* RenderContext() const;
+	SharedPtr<GraphicsContext> RenderContext() const;
     /// Return the current color rendertarget by index, or null if rendering to the backbuffer.
     Texture* RenderTarget(size_t index) const;
     /// Return the current depth-stencil buffer, or null if rendering to the backbuffer.
