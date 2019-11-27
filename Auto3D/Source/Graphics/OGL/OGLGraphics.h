@@ -7,6 +7,7 @@
 #include "Platform/Window.h"
 #include "Graphics/GraphicsDefs.h"
 #include "Graphics/GraphicsVersionDef.h"
+#include "Core/Modules/ModuleInterface.h"
 
 #include "OGLShaderProgram.h"
 
@@ -51,15 +52,21 @@ public:
 };
 
 /// 3D graphics rendering context. Manages the rendering _window and GPU objects.
-class AUTO_API Graphics : public BaseModule
+class AUTO_API Graphics : public BaseModule, public IModuleInterface
 {
 	REGISTER_OBJECT_CLASS(Graphics, BaseModule)
-
 public:
     /// Construct and register subsystem. The graphics mode is not set & _window is not opened yet.
     Graphics();
     /// Destruct. Clean up the _window, rendering context and GPU objects.
     ~Graphics();
+
+	/// Called right after the module
+	virtual void StartupModule() override;
+	/// Called before the module is unloaded.
+	virtual void ShutdownModule() override;
+
+
 	/// Check supported rendering features.
 	void CheckFeatureSupport();
 	/// Set graphics mode. Create the _window and rendering context if not created yet. Return true on success. 

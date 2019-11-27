@@ -1,5 +1,6 @@
 #pragma once
 #include "AutoConfig.h"
+#include "Core/NameTypes.h"
 
 namespace Auto3D
 {
@@ -7,7 +8,6 @@ namespace Auto3D
 class AUTO_API IModuleInterface
 {
 public:
-
 	/// Even though this is an interface class we need a virtual destructor here because modules are deleted via a pointer to this interface
 	virtual ~IModuleInterface() = default;
 

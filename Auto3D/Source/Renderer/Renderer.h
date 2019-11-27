@@ -55,7 +55,7 @@ static const size_t INSTANCE_TEXCOORD = 4;
 
 
 /// High-level rendering subsystem. Performs rendering of 3D scenes.
-class AUTO_API Renderer : public BaseModule, public IRendererModule
+class AUTO_API Renderer : public BaseModule
 {
     REGISTER_OBJECT_CLASS(Renderer , BaseModule)
 
@@ -64,11 +64,6 @@ public:
     Renderer();
     /// Destruct.
     ~Renderer();
-
-	/// Called right after the module
-	virtual void StartupModule() override;
-	/// Called before the module is unloaded.
-	virtual void ShutdownModule() override;
 
 	/// Render scene
 	void Render(Scene* scene, Camera* camera);

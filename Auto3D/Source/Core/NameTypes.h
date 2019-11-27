@@ -9,6 +9,7 @@ namespace Auto3D
 ///Simple version of String, this object is lossy compressed content using hash storage, case insensitive.
 class AUTO_API Name
 {
+public:
 	/// Structure.
 	Name(const char* name)
 	{

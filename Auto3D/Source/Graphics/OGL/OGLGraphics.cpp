@@ -194,6 +194,16 @@ Graphics::~Graphics()
 	Close();
 }
 
+void Graphics::StartupModule()
+{
+
+}
+
+void Graphics::ShutdownModule()
+{
+
+}
+
 void Graphics::CheckFeatureSupport()
 {
 	// Check supported features: light pre-pass, deferred rendering and hardware depth texture
