@@ -1,7 +1,7 @@
 #include "Debug/Log.h"
 #include "Debug/Profiler.h"
 #include "Resource/ResourceCache.h"
-#include "Renderer/GeometryNode.h"
+#include "Scene/GeometryNode.h"
 #include "Core/Modules/ModuleManager.h"
 
 #include "OGLGraphics.h"

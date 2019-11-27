@@ -1,7 +1,7 @@
 #include "Math/Ray.h"
 #include "Scene/Scene.h"
 #include "Engine/Components/Camera.h"
-#include "Octree.h"
+#include "Scene/Octree.h"
 
 namespace Auto3D
 {

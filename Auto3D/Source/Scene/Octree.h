@@ -3,7 +3,7 @@
 #include "Container/Allocator.h"
 #include "Debug/Profiler.h"
 #include "Math/BoundingBox.h"
-#include "OctreeNode.h"
+#include "Scene/OctreeNode.h"
 
 namespace Auto3D
 {

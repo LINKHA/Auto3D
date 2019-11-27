@@ -3,7 +3,7 @@
 #include "Graphics/IndexBuffer.h"
 #include "Graphics/VertexBuffer.h"
 #include "Scene/Node.h"
-#include "Renderer/GeometryNode.h"
+#include "Scene/GeometryNode.h"
 #include "Material.h"
 #include "Model.h"
 

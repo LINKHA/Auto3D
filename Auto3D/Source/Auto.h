@@ -29,7 +29,7 @@
 #include "Engine/Components/Light.h"
 #include "Engine/Components/Material.h"
 #include "Engine/Components/Model.h"
-#include "Renderer/Octree.h"
+#include "Scene/Octree.h"
 #include "Renderer/Renderer.h"
 #include "Engine/Components/StaticModel.h"
 #include "Engine/Components/DynamicModel.h"

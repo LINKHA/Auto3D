@@ -1,7 +1,7 @@
 #include "Debug/Log.h"
 #include "Debug/Profiler.h"
 #include "Texture.h"
-#include "Renderer/GeometryNode.h"
+#include "Scene/GeometryNode.h"
 #include "Graphics/VertexBuffer.h"
 #include "Graphics/IndexBuffer.h"
 

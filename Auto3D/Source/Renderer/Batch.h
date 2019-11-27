@@ -1,7 +1,7 @@
 #pragma once
 #include "Math/AreaAllocator.h"
 #include "Engine/Components/Camera.h"
-#include "GeometryNode.h"
+#include "Scene/GeometryNode.h"
 #include "Engine/Components/Material.h"
 #include "RenderPath.h"
 

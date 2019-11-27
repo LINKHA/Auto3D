@@ -6,7 +6,7 @@
 #include "Resource/ResourceCache.h"
 #include "Graphics/Texture.h"
 #include "Engine/Components/Camera.h"
-#include "GeometryNode.h"
+#include "Scene/GeometryNode.h"
 #include "Engine/Components/Material.h"
 
 #include "Core/Modules/ModuleManager.h"

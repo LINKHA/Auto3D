@@ -1,7 +1,7 @@
 #include "Debug/Log.h"
 #include "Math/Ray.h"
 #include "Light.h"
-#include "Renderer/Octree.h"
+#include "Scene/Octree.h"
 #include "Renderer/Renderer.h"
 
 #include "Debug/DebugNew.h"

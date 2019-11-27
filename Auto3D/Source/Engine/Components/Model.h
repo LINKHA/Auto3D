@@ -3,7 +3,7 @@
 #include "Graphics/GraphicsDefs.h"
 #include "Math/BoundingBox.h"
 #include "Resource/Resource.h"
-#include "Renderer/GeometryNode.h"
+#include "Scene/GeometryNode.h"
 
 namespace Auto3D
 {

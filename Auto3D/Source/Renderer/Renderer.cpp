@@ -16,7 +16,7 @@
 #include "Engine/Components/Material.h"
 #include "Engine/Components/IBLMaterial.h"
 #include "Engine/Components/Model.h"
-#include "Octree.h"
+#include "Scene/Octree.h"
 #include "Renderer.h"
 #include "Engine/Components/StaticModel.h"
 #include "Engine/Components/SkyBox.h"

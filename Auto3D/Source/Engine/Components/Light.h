@@ -5,7 +5,7 @@
 #include "Math/Rect.h"
 #include "Math/Vector2.h"
 #include "Math/Sphere.h"
-#include "Renderer/OctreeNode.h"
+#include "Scene/OctreeNode.h"
 
 namespace Auto3D
 {
