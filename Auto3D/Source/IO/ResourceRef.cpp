@@ -1,4 +1,4 @@
-#include "../Object/Object.h"
+#include "../Core/Object.h"
 #include "ResourceRef.h"
 #include "Stream.h"
 

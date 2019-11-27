@@ -3,7 +3,7 @@
 #include "../../Math/Color.h"
 #include "../../Math/Rect.h"
 #include "../../Math/Vector2.h"
-#include "../../Base/GameManager.h"
+#include "../../Core/GameManager.h"
 #include "../../Platform/Window.h"
 #include "../GraphicsDefs.h"
 #include "../GraphicsVersionDef.h"
@@ -66,7 +66,7 @@ public:
 	bool SetMode(WindowModeDesc& windowModeDesc);
     /// Set graphics mode. Create the _window and rendering context if not created yet. Return true on success.
     bool SetMode(const RectI& _size, int multisample = 1, bool fullscreen = false, bool resizable = false, bool center = true, bool borderless = false, bool highDPI = false);
-    /// Set _fullscreen mode on/off while retaining previous resolution. The initial graphics mode must have been set first. Return true on success.
+    /// Set fullscreen mode on/off while retaining previous resolution. The initial graphics mode must have been set first. Return true on success.
     bool SetFullscreen(bool enable);
     /// Set new multisample level while retaining previous resolution. The initial graphics mode must have been set first. Return true on success.
     bool SetMultisample(int multisample);

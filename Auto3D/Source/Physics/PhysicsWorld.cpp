@@ -3,7 +3,7 @@
 #include "../RegisteredBox/RegisteredBox.h"
 #include "../Scene/Scene.h"
 #include "../Physics/Physics.h"
-#include "../Engine/ModuleManager.h"
+#include "../Core/Modules/ModuleManager.h"
 
 namespace Auto3D {
 

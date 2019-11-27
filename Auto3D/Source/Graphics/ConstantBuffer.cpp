@@ -1,7 +1,7 @@
 #include "../Debug/Log.h"
 #include "../Debug/Profiler.h"
 #include "../IO/JSONValue.h"
-#include "../Object/Attribute.h"
+#include "../Core/Attribute.h"
 #include "ConstantBuffer.h"
 #include "GraphicsDefs.h"
 

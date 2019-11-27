@@ -1,6 +1,6 @@
 #include "GPUObject.h"
 #include "Graphics.h"
-#include "../Engine/ModuleManager.h"
+#include "../Core/Modules/ModuleManager.h"
 
 #include "../Debug/DebugNew.h"
 

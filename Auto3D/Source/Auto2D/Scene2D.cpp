@@ -1,11 +1,11 @@
 #include "../Debug/Log.h"
 #include "../Debug/Profiler.h"
 #include "../IO/Stream.h"
-#include "../Object/ObjectResolver.h"
+#include "../Core/ObjectResolver.h"
 #include "../Scene/SpatialNode.h"
 #include "../Resource/JSONFile.h"
 #include "../RegisteredBox/RegisteredBox.h"
-#include "../Engine/ModuleManager.h"
+#include "../Core/Modules/ModuleManager.h"
 #include "../Auto2D/PhysicsWorld2D.h"
 
 #include "Scene2D.h"

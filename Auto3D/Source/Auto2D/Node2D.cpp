@@ -1,6 +1,6 @@
 #include "../Debug/Log.h"
 #include "../IO/Stream.h"
-#include "../Object/ObjectResolver.h"
+#include "../Core/ObjectResolver.h"
 #include "../Resource/JSONFile.h"
 #include "Scene2D.h"
 #include "Node2D.h"

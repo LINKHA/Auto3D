@@ -3,9 +3,9 @@
 #include "../Container/AutoPtr.h"
 #include "../Container/String.h"
 #include "../Math/MathDef.h"
-#include "../Base/GameManager.h"
+#include "../Core/GameManager.h"
 #include "../Time/Time.h"
-#include "../Engine/ModuleManager.h"
+#include "../Core/Modules/ModuleManager.h"
 
 namespace Auto3D
 {

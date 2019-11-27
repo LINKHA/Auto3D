@@ -1,5 +1,5 @@
 #pragma once
-#include "../Base/GameManager.h"
+#include "../Core/GameManager.h"
 #include "../Container/String.h"
 #include "../Container/Vector.h"
 #include "../Container/WString.h"

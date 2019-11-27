@@ -1,6 +1,6 @@
 #pragma once
-#include "Object/Object.h"
-#include "Base/ConslonDef.h"
+#include "Core/Object.h"
+#include "Core/ConslonDef.h"
 
 #if defined(_WIN32)
 #	include <windows.h>

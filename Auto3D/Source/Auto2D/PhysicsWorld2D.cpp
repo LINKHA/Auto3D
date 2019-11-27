@@ -4,7 +4,7 @@
 
 #include "../Physics/PhysicsUtils.h"
 #include "../Physics/Physics.h"
-#include "../Engine/ModuleManager.h"
+#include "../Core/Modules/ModuleManager.h"
 
 
 namespace Auto3D {

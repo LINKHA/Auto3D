@@ -19,10 +19,10 @@
 #include "../Auto2D/Renderer2D.h"
 #include "../Scene/Scene.h"
 #include "../Auto2D/Scene2D.h"
-#include "../Base/ProcessUtils.h"
+#include "../Core/ProcessUtils.h"
 #include "../Debug/DebugNew.h"
 
-#include "ModuleManager.h"
+#include "../Core/Modules/ModuleManager.h"
 
 
 namespace Auto3D

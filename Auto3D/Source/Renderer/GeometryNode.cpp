@@ -9,7 +9,7 @@
 #include "GeometryNode.h"
 #include "Material.h"
 
-#include "../Engine/ModuleManager.h"
+#include "../Core/Modules/ModuleManager.h"
 #include "../Debug/DebugNew.h"
 
 namespace Auto3D

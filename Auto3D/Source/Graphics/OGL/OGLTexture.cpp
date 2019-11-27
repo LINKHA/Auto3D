@@ -2,7 +2,7 @@
 #include "../../Debug/Profiler.h"
 #include "../../Resource/ResourceCache.h"
 #include "../../Renderer/GeometryNode.h"
-#include "../../Engine/ModuleManager.h"
+#include "../../Core/Modules/ModuleManager.h"
 
 #include "OGLGraphics.h"
 #include "OGLTexture.h"

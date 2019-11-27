@@ -3,7 +3,7 @@
 #include "../Container/AutoPtr.h"
 #include "../Container/List.h"
 #include "../Thread/Mutex.h"
-#include "../Base/GameManager.h"
+#include "../Core/GameManager.h"
 
 namespace Auto3D
 {

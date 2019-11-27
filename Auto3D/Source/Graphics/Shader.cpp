@@ -3,7 +3,7 @@
 #include "../Resource/ResourceCache.h"
 #include "../IO/File.h"
 #include "../IO/FileSystem.h"
-#include "../Engine/ModuleManager.h"
+#include "../Core/Modules/ModuleManager.h"
 
 #include "Shader.h"
 #include "ShaderVariation.h"

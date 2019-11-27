@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../Container/AutoPtr.h"
-#include "../Graphics/GraphicsDefs.h"
-#include "../Resource/Resource.h"
+#include "../../Container/AutoPtr.h"
+#include "../../Graphics/GraphicsDefs.h"
+#include "../../Resource/Resource.h"
 
 namespace Auto3D
 {

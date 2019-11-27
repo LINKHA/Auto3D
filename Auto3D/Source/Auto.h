@@ -6,7 +6,8 @@
 #include "Container/HashSet.h"
 #include "Container/List.h"
 #include "Container/Ptr.h"
-#include "Base/ProcessUtils.h"
+#include "Core/ProcessUtils.h"
+#include "Core/Serializable.h"
 #include "Debug/Log.h"
 #include "Debug/Profiler.h"
 #include "Graphics/ConstantBuffer.h"
@@ -24,7 +25,6 @@
 #include "Math/Polyhedron.h"
 #include "Math/Random.h"
 #include "Math/Ray.h"
-#include "Object/Serializable.h"
 #include "Renderer/Camera.h"
 #include "Renderer/Light.h"
 #include "Renderer/Material.h"
@@ -73,7 +73,7 @@
 #include "Physics/Collider.h"
 #include "Physics/ColliderBox.h"
 #include "Physics/ColliderSphere.h"
-#include "Engine/ModuleManager.h"
+#include "Core/Modules/ModuleManager.h"
 
 #include "Adapter/AutoFileDialog.h"
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "../Base/GameManager.h"
+#include "../Core/GameManager.h"
 #include "../Platform/Window.h"
 #include "../Platform/Context.h"
 #include "../Graphics/Texture.h"

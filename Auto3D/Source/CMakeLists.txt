@@ -21,13 +21,14 @@ configure_file (AutoConfig.h.in ${CMAKE_CURRENT_SOURCE_DIR}/AutoConfig.h)
 
 # Add source files from subdirectories
 add_engine_directory (Container)
-add_engine_directory (Base)
+add_engine_directory (Core)
+add_engine_directory_group (Core/Modules Core/Modules)
 add_engine_directory (Engine)
+add_engine_directory_group (Engine/Components Engine/Components)
 add_engine_directory (Debug)
 add_engine_directory (Graphics)
 add_engine_directory (IO)
 add_engine_directory (Math)
-add_engine_directory (Object)
 add_engine_directory (Renderer)
 add_engine_directory (Resource)
 add_engine_directory (Scene)
@@ -61,6 +62,8 @@ endif ()
 # Add root-level files
 file (GLOB AUTO_FILES *.h *.c *.cpp)
 list (APPEND SOURCE_FILES ${AUTO_FILES})
+
+include_directories (${AUTO_ROOT_PATH}/Auto3D/Source)
 
 # Define the Auto3D library target
 add_library (${TARGET_NAME} ${AUTO_LIB_TYPE} ${SOURCE_FILES})
