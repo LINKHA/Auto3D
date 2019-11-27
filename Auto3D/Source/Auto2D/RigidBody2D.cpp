@@ -3,9 +3,9 @@
 #include "SpatialNode2D.h"
 #include "Scene2D.h"
 
-#include "../Core/Modules/ModuleManager.h"
-#include "../Physics/PhysicsUtils.h"
-#include "../Physics/Physics.h"
+#include "Core/Modules/ModuleManager.h"
+#include "Physics/PhysicsUtils.h"
+#include "Physics/Physics.h"
 
 
 namespace Auto3D {

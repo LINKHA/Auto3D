@@ -2,9 +2,9 @@
 #include "PhysicsWorld2D.h"
 #include "RigidBody2D.h"
 
-#include "../Physics/PhysicsUtils.h"
-#include "../Physics/Physics.h"
-#include "../Core/Modules/ModuleManager.h"
+#include "Physics/PhysicsUtils.h"
+#include "Physics/Physics.h"
+#include "Core/Modules/ModuleManager.h"
 
 
 namespace Auto3D {

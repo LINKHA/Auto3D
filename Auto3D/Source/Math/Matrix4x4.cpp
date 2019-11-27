@@ -1,11 +1,11 @@
-#include "../Container/String.h"
+#include "Container/String.h"
 #include "Matrix4x4.h"
 #include "Matrix3x4.h"
 
 #include <cstdio>
 #include <cstdlib>
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

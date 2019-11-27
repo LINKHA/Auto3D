@@ -1,8 +1,8 @@
 #pragma once
-#include "../Math/AreaAllocator.h"
-#include "Camera.h"
+#include "Math/AreaAllocator.h"
+#include "Engine/Components/Camera.h"
 #include "GeometryNode.h"
-#include "Material.h"
+#include "Engine/Components/Material.h"
 #include "RenderPath.h"
 
 namespace Auto3D

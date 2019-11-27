@@ -1,9 +1,9 @@
 #pragma once
-#include "../AutoConfig.h"
-#include "../Math/Color.h"
-#include "../Math/Vector2.h"
-#include "../Math/Vector3.h"
-#include "../Math/Quaternion.h"
+#include "AutoConfig.h"
+#include "Math/Color.h"
+#include "Math/Vector2.h"
+#include "Math/Vector3.h"
+#include "Math/Quaternion.h"
 
 #include <LinearMath/btVector3.h>
 #include <LinearMath/btQuaternion.h>

@@ -1,5 +1,5 @@
 #include "Time.h"
-#include "../Debug/Log.h"
+#include "Debug/Log.h"
 
 #ifdef _WIN32
 #	include <Windows.h>
@@ -13,7 +13,7 @@
 #include <thread>
 #include <ctime>
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

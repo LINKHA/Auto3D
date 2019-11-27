@@ -2,7 +2,7 @@
 
 #include <cstring>
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

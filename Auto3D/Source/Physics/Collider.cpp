@@ -2,10 +2,10 @@
 #include "PhysicsWorld.h"
 #include "PhysicsUtils.h"
 
-#include "../Debug/Log.h"
-#include "../Scene/SpatialNode.h"
-#include "../RegisteredBox/RegisteredBox.h"
-#include "../Scene/Scene.h"
+#include "Debug/Log.h"
+#include "Scene/SpatialNode.h"
+#include "RegisteredBox/RegisteredBox.h"
+#include "Scene/Scene.h"
 
 namespace Auto3D {
 

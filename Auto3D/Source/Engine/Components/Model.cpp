@@ -1,13 +1,13 @@
-#include "../Debug/Log.h"
-#include "../Debug/Profiler.h"
-#include "../Graphics/IndexBuffer.h"
-#include "../Graphics/VertexBuffer.h"
-#include "../Scene/Node.h"
-#include "GeometryNode.h"
+#include "Debug/Log.h"
+#include "Debug/Profiler.h"
+#include "Graphics/IndexBuffer.h"
+#include "Graphics/VertexBuffer.h"
+#include "Scene/Node.h"
+#include "Renderer/GeometryNode.h"
 #include "Material.h"
 #include "Model.h"
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

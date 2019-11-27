@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../Math/Color.h"
-#include "../Math/Frustum.h"
-#include "../Math/Plane.h"
-#include "../Math/Ray.h"
-#include "../Scene/SpatialNode.h"
+#include "Math/Color.h"
+#include "Math/Frustum.h"
+#include "Math/Plane.h"
+#include "Math/Ray.h"
+#include "Scene/SpatialNode.h"
 
 
 namespace Auto3D

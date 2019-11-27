@@ -3,8 +3,8 @@
 #include "PhysicsWorld.h"
 #include "PhysicsUtils.h"
 
-#include "../Scene/SpatialNode.h"
-#include "../Scene/Scene.h"
+#include "Scene/SpatialNode.h"
+#include "Scene/Scene.h"
 
 
 namespace Auto3D 

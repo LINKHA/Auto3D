@@ -1,7 +1,7 @@
 #include "Frustum.h"
 #include "Polyhedron.h"
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

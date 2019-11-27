@@ -1,6 +1,6 @@
 #include "UI.h"
-#include "../IO/FileSystem.h"
-#include "../Core/Modules/ModuleManager.h"
+#include "IO/FileSystem.h"
+#include "Core/Modules/ModuleManager.h"
 
 #include <imgui.h>
 #include <imgui_user/imgui_user.h>
@@ -18,9 +18,9 @@
 #elif defined(AUTO_VULKAN)
 #	include "../Adapter/VK/imgui_impl_vulkan.h"
 #endif
-#include "../Graphics/Graphics.h"
+#include "Graphics/Graphics.h"
 
-#include "../Debug/Log.h"
+#include "Debug/Log.h"
 
 namespace Auto3D
 {

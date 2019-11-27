@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../../Math/Color.h"
-#include "../../Math/Rect.h"
-#include "../../Math/Vector2.h"
-#include "../../Core/GameManager.h"
-#include "../../Platform/Window.h"
-#include "../GraphicsDefs.h"
-#include "../GraphicsVersionDef.h"
+#include "Math/Color.h"
+#include "Math/Rect.h"
+#include "Math/Vector2.h"
+#include "Core/GameManager.h"
+#include "Platform/Window.h"
+#include "Graphics/GraphicsDefs.h"
+#include "Graphics/GraphicsVersionDef.h"
 
 #include "OGLShaderProgram.h"
 

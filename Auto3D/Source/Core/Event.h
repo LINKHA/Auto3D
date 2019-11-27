@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../Container/AutoPtr.h"
-#include "../Container/Ptr.h"
-#include "../IO/JSONValue.h"
+#include "Container/AutoPtr.h"
+#include "Container/Ptr.h"
+#include "IO/JSONValue.h"
 
 namespace Auto3D
 {

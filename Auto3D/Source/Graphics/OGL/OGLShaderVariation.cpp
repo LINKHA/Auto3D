@@ -1,12 +1,12 @@
-#include "../../Debug/Log.h"
-#include "../../Debug/Profiler.h"
-#include "../Shader.h"
+#include "Debug/Log.h"
+#include "Debug/Profiler.h"
+#include "Graphics/Shader.h"
 #include "OGLGraphics.h"
 #include "OGLShaderVariation.h"
 
 #include <glad.h>
 
-#include "../../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

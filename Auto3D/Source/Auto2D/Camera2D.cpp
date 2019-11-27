@@ -1,7 +1,7 @@
 #include "Camera2D.h"
 #include "Scene2D.h"
 
-#include "../Debug/Log.h"
+#include "Debug/Log.h"
 
 namespace Auto3D
 {

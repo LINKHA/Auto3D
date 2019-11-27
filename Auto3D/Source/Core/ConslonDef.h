@@ -1,5 +1,5 @@
 #pragma once
-#include "../AutoConfig.h"
+#include "AutoConfig.h"
 
 #ifdef  AUTO_MEMORY_DEBUG
 #	ifdef AUTO_WIN32_CONSOLE

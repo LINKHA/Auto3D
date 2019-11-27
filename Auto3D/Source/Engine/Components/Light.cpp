@@ -1,10 +1,10 @@
-#include "../Debug/Log.h"
-#include "../Math/Ray.h"
+#include "Debug/Log.h"
+#include "Math/Ray.h"
 #include "Light.h"
-#include "Octree.h"
-#include "Renderer.h"
+#include "Renderer/Octree.h"
+#include "Renderer/Renderer.h"
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

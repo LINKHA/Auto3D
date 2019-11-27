@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AutoConfig.h"
+#include "AutoConfig.h"
 
 #include <cstddef>
 

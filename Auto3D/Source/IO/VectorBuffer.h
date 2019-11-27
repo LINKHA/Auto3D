@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Container/Vector.h"
+#include "Container/Vector.h"
 #include "Stream.h"
 
 namespace Auto3D

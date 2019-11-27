@@ -1,5 +1,5 @@
 #pragma once
-#include "../Scene/SpatialNode.h"
+#include "Scene/SpatialNode.h"
 
 namespace Auto3D
 {

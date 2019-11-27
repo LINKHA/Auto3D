@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AutoConfig.h"
+#include "AutoConfig.h"
 
 #ifndef WIN32
 #include <pthread.h>

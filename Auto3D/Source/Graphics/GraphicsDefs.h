@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../AutoConfig.h"
-#include "../Container/String.h"
-#include "../Math/Rect.h"
+#include "AutoConfig.h"
+#include "Container/String.h"
+#include "Math/Rect.h"
 
 
 namespace Auto3D

@@ -1,6 +1,6 @@
 #pragma once
-#include "../GameManager.h"
-#include "../../Container/Singleton.h"
+#include "Core/GameManager.h"
+#include "Container/Singleton.h"
 
 namespace Auto3D {
 

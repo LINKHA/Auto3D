@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../IO/JSONValue.h"
+#include "IO/JSONValue.h"
 #include "Resource.h"
 
 namespace Auto3D

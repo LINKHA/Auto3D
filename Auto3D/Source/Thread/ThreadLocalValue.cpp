@@ -4,7 +4,7 @@
 #include <Windows.h>
 #endif
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

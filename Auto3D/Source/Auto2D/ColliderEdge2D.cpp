@@ -1,5 +1,5 @@
 #include "ColliderEdge2D.h"
-#include "../Physics/PhysicsUtils.h"
+#include "Physics/PhysicsUtils.h"
 
 namespace Auto3D {
 

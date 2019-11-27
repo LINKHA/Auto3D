@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../IO/ResourceRef.h"
-#include "../Core/Object.h"
+#include "IO/ResourceRef.h"
+#include "Core/Object.h"
 
 namespace Auto3D
 {

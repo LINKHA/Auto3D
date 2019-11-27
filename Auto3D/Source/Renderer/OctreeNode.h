@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Math/BoundingBox.h"
-#include "../Scene/SpatialNode.h"
+#include "Math/BoundingBox.h"
+#include "Scene/SpatialNode.h"
 
 namespace Auto3D
 {

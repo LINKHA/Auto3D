@@ -1,6 +1,6 @@
 #include "ProcessUtils.h"
 
-#include "../IO/FileSystem.h"
+#include "IO/FileSystem.h"
 
 #include <cstdio>
 #include <fcntl.h>
@@ -71,7 +71,7 @@ inline void SetFPUState(unsigned control)
 
 #include <SDL.h>
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

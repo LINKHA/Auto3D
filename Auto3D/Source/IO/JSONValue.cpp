@@ -1,6 +1,6 @@
-#include "../Container/Vector.h"
-#include "../Container/HashMap.h"
-#include "../Math/Vector4.h"
+#include "Container/Vector.h"
+#include "Container/HashMap.h"
+#include "Math/Vector4.h"
 
 #include "JSONValue.h"
 #include "Stream.h"

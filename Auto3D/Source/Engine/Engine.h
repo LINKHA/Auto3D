@@ -1,6 +1,6 @@
 #pragma once
-#include "../Core/Object.h"
-#include "../Time/Time.h"
+#include "Core/Object.h"
+#include "Time/Time.h"
 
 namespace Auto3D
 {

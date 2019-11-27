@@ -1,9 +1,9 @@
-#include "../../AutoConfig.h"
+#include "AutoConfig.h"
 
-#include "../../Container/WString.h"
-#include "../../Debug/Log.h"
+#include "Container/WString.h"
+#include "Debug/Log.h"
 #include "WinOGLContext.h"
-#include "../../Platform/Window.h"
+#include "Platform/Window.h"
 
 #include <cstring>
 #include <glad.h>
@@ -11,7 +11,7 @@
 #include <Windows.h>
 #include <wingdi.h>
 
-#include "../../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 
 

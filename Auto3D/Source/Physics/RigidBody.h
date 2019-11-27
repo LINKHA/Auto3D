@@ -1,5 +1,5 @@
 #pragma once
-#include "../Scene/Node.h"
+#include "Scene/Node.h"
 
 #include <LinearMath/btMotionState.h>
 

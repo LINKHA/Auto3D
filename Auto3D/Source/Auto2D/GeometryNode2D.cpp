@@ -1,6 +1,6 @@
 #include "GeometryNode2D.h"
-#include "../Debug/Log.h"
-#include "../Graphics/Texture.h"
+#include "Debug/Log.h"
+#include "Graphics/Texture.h"
 
 namespace Auto3D
 {

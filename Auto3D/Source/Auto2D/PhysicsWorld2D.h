@@ -1,6 +1,6 @@
 #pragma once
 #include "Node2D.h"
-#include "../Time/Time.h"
+#include "Time/Time.h"
 
 #include <Box2D.h>
 

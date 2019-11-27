@@ -1,16 +1,16 @@
-#include "../Debug/Log.h"
-#include "../Graphics/ConstantBuffer.h"
-#include "../Graphics/Graphics.h"
-#include "../Graphics/IndexBuffer.h"
-#include "../Graphics/VertexBuffer.h"
-#include "../Resource/ResourceCache.h"
-#include "../Graphics/Texture.h"
-#include "Camera.h"
+#include "Debug/Log.h"
+#include "Graphics/ConstantBuffer.h"
+#include "Graphics/Graphics.h"
+#include "Graphics/IndexBuffer.h"
+#include "Graphics/VertexBuffer.h"
+#include "Resource/ResourceCache.h"
+#include "Graphics/Texture.h"
+#include "Engine/Components/Camera.h"
 #include "GeometryNode.h"
-#include "Material.h"
+#include "Engine/Components/Material.h"
 
-#include "../Core/Modules/ModuleManager.h"
-#include "../Debug/DebugNew.h"
+#include "Core/Modules/ModuleManager.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

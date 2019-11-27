@@ -1,8 +1,8 @@
 #include "AudioNode.h"
 #include "Audio.h"
 
-#include "../Debug/DebugNew.h"
-#include "../Core/Modules/ModuleManager.h"
+#include "Debug/DebugNew.h"
+#include "Core/Modules/ModuleManager.h"
 
 namespace Auto3D
 {

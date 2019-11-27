@@ -1,13 +1,13 @@
-#include "../Debug/Log.h"
-#include "../Debug/Profiler.h"
-#include "../IO/File.h"
-#include "../IO/FileSystem.h"
+#include "Debug/Log.h"
+#include "Debug/Profiler.h"
+#include "IO/File.h"
+#include "IO/FileSystem.h"
 #include "Image.h"
 #include "JSONFile.h"
 #include "ResourceCache.h"
 #include "Font.h"
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

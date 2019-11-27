@@ -7,11 +7,11 @@
 #include "ColliderCapsule.h"
 #include "ColliderCone.h"
 
-#include "../Auto2D/PhysicsWorld2D.h"
-#include "../Auto2D/RigidBody2D.h"
-#include "../Auto2D/Collider2D.h"
-#include "../Auto2D/ColliderBox2D.h"
-#include "../Auto2D/ColliderCircle2D.h"
+#include "Auto2D/PhysicsWorld2D.h"
+#include "Auto2D/RigidBody2D.h"
+#include "Auto2D/Collider2D.h"
+#include "Auto2D/ColliderBox2D.h"
+#include "Auto2D/ColliderCircle2D.h"
 
 namespace Auto3D
 {

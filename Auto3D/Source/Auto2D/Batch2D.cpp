@@ -1,5 +1,5 @@
 #include "Batch2D.h"
-#include "../Graphics/Texture.h"
+#include "Graphics/Texture.h"
 
 namespace Auto3D
 {

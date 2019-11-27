@@ -1,8 +1,8 @@
-#include "../Debug/Log.h"
-#include "../Thread/Thread.h"
+#include "Debug/Log.h"
+#include "Thread/Thread.h"
 #include "Event.h"
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

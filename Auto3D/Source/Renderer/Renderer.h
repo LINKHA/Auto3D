@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../Container/AutoPtr.h"
-#include "../Graphics/Texture.h"
-#include "../Math/Color.h"
-#include "../Math/Frustum.h"
-#include "../Resource/Image.h"
+#include "Container/AutoPtr.h"
+#include "Graphics/Texture.h"
+#include "Math/Color.h"
+#include "Math/Frustum.h"
+#include "Resource/Image.h"
 
 #include "RenderPath.h"
 #include "Batch.h"

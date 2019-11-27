@@ -1,9 +1,9 @@
 #pragma once
 
 #include "MathDef.h"
-#include "../AutoConfig.h"
+#include "AutoConfig.h"
 
-#include "../Container/String.h"
+#include "Container/String.h"
 #include <cstdio>
 #include <cstdlib>
 

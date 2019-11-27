@@ -1,11 +1,11 @@
-#include "../Debug/Log.h"
-#include "../Debug/Profiler.h"
-#include "../IO/JSONValue.h"
-#include "../Core/Attribute.h"
+#include "Debug/Log.h"
+#include "Debug/Profiler.h"
+#include "IO/JSONValue.h"
+#include "Core/Attribute.h"
 #include "ConstantBuffer.h"
 #include "GraphicsDefs.h"
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

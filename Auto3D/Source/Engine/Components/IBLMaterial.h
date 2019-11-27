@@ -1,6 +1,6 @@
 #pragma once
 #include "Material.h"
-#include "../Renderer/Camera.h"
+#include "Camera.h"
 namespace Auto3D
 {
 class SkyBox;

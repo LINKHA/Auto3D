@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Container/String.h"
-#include "../Container/Ptr.h"
+#include "Container/String.h"
+#include "Container/Ptr.h"
 
 namespace Auto3D
 {

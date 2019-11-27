@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Core/Serializable.h"
+#include "Core/Serializable.h"
 
 namespace Auto3D
 {

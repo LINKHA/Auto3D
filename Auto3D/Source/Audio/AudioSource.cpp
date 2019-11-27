@@ -1,15 +1,15 @@
 #include "AudioSource.h"
 #include "Sound.h"
 #include "Audio.h"
-#include "../Debug/Log.h"
+#include "Debug/Log.h"
 #include "AudioBuffer.h"
 
 #include <AL/al.h>
 #include <AL/alc.h>
 #include <AL/alext.h>
 
-#include "../Core/Modules/ModuleManager.h"
-#include "../Debug/DebugNew.h"
+#include "Core/Modules/ModuleManager.h"
+#include "Debug/DebugNew.h"
 
 
 namespace Auto3D 

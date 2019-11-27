@@ -1,14 +1,14 @@
 #include "IBLMaterial.h"
 
-#include "../Core/Modules/ModuleManager.h"
-#include "../Graphics/Graphics.h"
-#include "../Graphics/Texture.h"
-#include "../Renderer/SkyBox.h"
-#include "../Scene/Scene.h"
-#include "../RegisteredBox/RegisteredBox.h"
-#include "../Debug/Log.h"
+#include "Core/Modules/ModuleManager.h"
+#include "Graphics/Graphics.h"
+#include "Graphics/Texture.h"
+#include "Engine/Components/SkyBox.h"
+#include "Scene/Scene.h"
+#include "RegisteredBox/RegisteredBox.h"
+#include "Debug/Log.h"
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 
 namespace Auto3D

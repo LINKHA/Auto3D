@@ -1,6 +1,6 @@
 #pragma once
-#include "../../Math/Vector2.h"
-#include "../../Core/GameManager.h"
+#include "Math/Vector2.h"
+#include "Core/GameManager.h"
 
 namespace Auto3D
 {

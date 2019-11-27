@@ -1,4 +1,4 @@
-#include "../Thread/Thread.h"
+#include "Thread/Thread.h"
 #include "Profiler.h"
 
 #include <cstdio>

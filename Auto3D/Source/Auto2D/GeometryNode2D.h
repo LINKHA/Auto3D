@@ -1,5 +1,5 @@
 #pragma once
-#include "../Renderer/GeometryNode.h"
+#include "Renderer/GeometryNode.h"
 
 namespace Auto3D
 {

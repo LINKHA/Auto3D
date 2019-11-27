@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../Graphics/GraphicsDefs.h"
-#include "../IO/ResourceRef.h"
+#include "Graphics/GraphicsDefs.h"
+#include "IO/ResourceRef.h"
 #include "OctreeNode.h"
-#include "../Auto2D/SpatialNode2D.h"
+#include "Auto2D/SpatialNode2D.h"
 
 namespace Auto3D
 {

@@ -1,8 +1,8 @@
-#include "../Core/Object.h"
+#include "Core/Object.h"
 #include "ResourceRef.h"
 #include "Stream.h"
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

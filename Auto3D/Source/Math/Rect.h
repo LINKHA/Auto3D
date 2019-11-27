@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Vector4.h"
-#include "../Container/Swap.h"
+#include "Container/Swap.h"
 
 namespace Auto3D
 {

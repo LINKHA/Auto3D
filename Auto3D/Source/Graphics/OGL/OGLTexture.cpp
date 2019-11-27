@@ -1,15 +1,15 @@
-#include "../../Debug/Log.h"
-#include "../../Debug/Profiler.h"
-#include "../../Resource/ResourceCache.h"
-#include "../../Renderer/GeometryNode.h"
-#include "../../Core/Modules/ModuleManager.h"
+#include "Debug/Log.h"
+#include "Debug/Profiler.h"
+#include "Resource/ResourceCache.h"
+#include "Renderer/GeometryNode.h"
+#include "Core/Modules/ModuleManager.h"
 
 #include "OGLGraphics.h"
 #include "OGLTexture.h"
 
 #include <glad.h>
 
-#include "../../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

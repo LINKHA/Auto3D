@@ -1,11 +1,11 @@
-#include "../Debug/Log.h"
-#include "../IO/Stream.h"
-#include "../Core/ObjectResolver.h"
-#include "../Resource/JSONFile.h"
-#include "../Renderer/Camera.h"
+#include "Debug/Log.h"
+#include "IO/Stream.h"
+#include "Core/ObjectResolver.h"
+#include "Resource/JSONFile.h"
+#include "Engine/Components/Camera.h"
 #include "Scene.h"
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

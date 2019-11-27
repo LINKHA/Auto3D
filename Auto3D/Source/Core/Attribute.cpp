@@ -1,15 +1,15 @@
-#include "../IO/JSONValue.h"
-#include "../IO/ObjectRef.h"
-#include "../IO/ResourceRef.h"
-#include "../Math/BoundingBox.h"
-#include "../Math/Color.h"
-#include "../Math/Rect.h"
-#include "../Math/Matrix3x4.h"
-#include "../Math/Matrix2x2.h"
+#include "IO/JSONValue.h"
+#include "IO/ObjectRef.h"
+#include "IO/ResourceRef.h"
+#include "Math/BoundingBox.h"
+#include "Math/Color.h"
+#include "Math/Rect.h"
+#include "Math/Matrix3x4.h"
+#include "Math/Matrix2x2.h"
 
 #include "Attribute.h"
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

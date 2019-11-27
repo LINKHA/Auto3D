@@ -1,9 +1,9 @@
-#include "../Debug/Log.h"
-#include "../IO/ObjectRef.h"
+#include "Debug/Log.h"
+#include "IO/ObjectRef.h"
 #include "ObjectResolver.h"
 #include "Serializable.h"
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

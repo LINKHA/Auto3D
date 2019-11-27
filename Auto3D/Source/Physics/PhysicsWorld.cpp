@@ -1,9 +1,9 @@
 #include "PhysicsWorld.h"
 #include "PhysicsUtils.h"
-#include "../RegisteredBox/RegisteredBox.h"
-#include "../Scene/Scene.h"
-#include "../Physics/Physics.h"
-#include "../Core/Modules/ModuleManager.h"
+#include "RegisteredBox/RegisteredBox.h"
+#include "Scene/Scene.h"
+#include "Physics/Physics.h"
+#include "Core/Modules/ModuleManager.h"
 
 namespace Auto3D {
 

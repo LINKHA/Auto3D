@@ -1,5 +1,5 @@
 #pragma once
-#include "../AutoConfig.h"
+#include "AutoConfig.h"
 
 
 #if defined (AUTO_OPENGL)

@@ -1,5 +1,5 @@
 #include "RegisteredBox.h"
-#include "../Debug/Log.h"
+#include "Debug/Log.h"
 
 namespace Auto3D
 {

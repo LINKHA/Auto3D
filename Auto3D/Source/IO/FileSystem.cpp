@@ -1,7 +1,7 @@
-#include "../Container/AutoPtr.h"
-#include "../Container/String.h"
-#include "../Container/Vector.h"
-#include "../Container/WString.h"
+#include "Container/AutoPtr.h"
+#include "Container/String.h"
+#include "Container/Vector.h"
+#include "Container/WString.h"
 #include "File.h"
 #include "FileSystem.h"
 #ifdef __ANDROID__
@@ -36,8 +36,8 @@
 #include <mach-o/dyld.h>
 #endif
 
-#include "../Debug/Log.h"
-#include "../Debug/DebugNew.h"
+#include "Debug/Log.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

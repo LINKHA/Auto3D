@@ -1,7 +1,7 @@
 #include "CoiiliderChain2D.h"
-#include "../IO/MemoryBuffer.h"
-#include "../IO/VectorBuffer.h"
-#include "../Physics/PhysicsUtils.h"
+#include "IO/MemoryBuffer.h"
+#include "IO/VectorBuffer.h"
+#include "Physics/PhysicsUtils.h"
 
 namespace Auto3D {
 

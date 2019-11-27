@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AutoConfig.h"
+#include "AutoConfig.h"
 
 #ifdef AUTO_OPENGL
 #	ifdef _WIN32 || _WIN64

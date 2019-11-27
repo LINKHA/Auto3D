@@ -1,9 +1,9 @@
-#include "../../Debug/Log.h"
-#include "../../Debug/Profiler.h"
-#include "../../Platform/Window.h"
-#include "../GPUObject.h"
-#include "../Shader.h"
-#include "../../Platform/Context.h"
+#include "Debug/Log.h"
+#include "Debug/Profiler.h"
+#include "Platform/Window.h"
+#include "Graphics/GPUObject.h"
+#include "Graphics/Shader.h"
+#include "Platform/Context.h"
 #include "OGLGraphics.h"
 #include "OGLConstantBuffer.h"
 #include "OGLIndexBuffer.h"
@@ -27,7 +27,7 @@ extern "C" { _declspec(dllexport) unsigned int NvOptimusEnablement = 0x00000001;
 extern "C" { _declspec(dllexport) unsigned int AmdPowerXpressRequestHighPerformance = 0x00000001; }
 #endif
 
-#include "../../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

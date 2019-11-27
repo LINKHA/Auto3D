@@ -1,10 +1,10 @@
-#include "../Math/MathDef.h"
+#include "Math/MathDef.h"
 #include "Stream.h"
 #include "JSONValue.h"
 #include "ObjectRef.h"
 #include "ResourceRef.h"
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

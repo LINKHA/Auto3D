@@ -1,19 +1,19 @@
 #pragma once
-#include "../Debug/Log.h"
-#include "../Resource/ResourceCache.h"
-#include "../Graphics/VertexBuffer.h"
-#include "../Graphics/IndexBuffer.h"
-#include "../Resource/Image.h"
-#include "../Renderer/Renderer.h"
-#include "../Graphics/Graphics.h"
-#include "../Core/Modules/ModuleManager.h"
-#include "../Scene/Scene.h"
-#include "../Platform/Context.h"
-#include "../Graphics/Texture.h"
-#include "../Renderer/Material.h"
-#include "../RegisteredBox/RegisteredBox.h"
-#include "../Renderer/SkyBox.h"
-#include "../Graphics/Shader.h"
+#include "Debug/Log.h"
+#include "Resource/ResourceCache.h"
+#include "Graphics/VertexBuffer.h"
+#include "Graphics/IndexBuffer.h"
+#include "Resource/Image.h"
+#include "Renderer/Renderer.h"
+#include "Graphics/Graphics.h"
+#include "Core/Modules/ModuleManager.h"
+#include "Scene/Scene.h"
+#include "Platform/Context.h"
+#include "Graphics/Texture.h"
+#include "Engine/Components/Material.h"
+#include "RegisteredBox/RegisteredBox.h"
+#include "Engine/Components/SkyBox.h"
+#include "Graphics/Shader.h"
 
 #include <Windows.h>
 
@@ -22,7 +22,7 @@
 
 #include <glad.h>
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 
 #include "DyDlobal.h"

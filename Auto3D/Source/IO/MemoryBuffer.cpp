@@ -1,9 +1,9 @@
-#include "../Container/Vector.h"
+#include "Container/Vector.h"
 #include "MemoryBuffer.h"
 
 #include <cstring>
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

@@ -1,6 +1,6 @@
-#include "../Math/Ray.h"
-#include "../Scene/Scene.h"
-#include "Camera.h"
+#include "Math/Ray.h"
+#include "Scene/Scene.h"
+#include "Engine/Components/Camera.h"
 #include "Octree.h"
 
 namespace Auto3D

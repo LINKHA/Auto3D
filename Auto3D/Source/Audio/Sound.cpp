@@ -1,11 +1,11 @@
 #include "Sound.h"
-#include "../IO/Stream.h"
-#include "../Debug/Log.h"
-#include "../IO/FileSystem.h"
+#include "IO/Stream.h"
+#include "Debug/Log.h"
+#include "IO/FileSystem.h"
 
 #include <stb_vorbis.h>
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D {
 

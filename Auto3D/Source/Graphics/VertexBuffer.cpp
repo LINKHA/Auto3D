@@ -1,8 +1,8 @@
-#include "../Debug/Log.h"
-#include "../Debug/Profiler.h"
+#include "Debug/Log.h"
+#include "Debug/Profiler.h"
 #include "VertexBuffer.h"
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

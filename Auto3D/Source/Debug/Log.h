@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../Container/AutoPtr.h"
-#include "../Container/List.h"
-#include "../Thread/Mutex.h"
-#include "../Core/GameManager.h"
+#include "Container/AutoPtr.h"
+#include "Container/List.h"
+#include "Thread/Mutex.h"
+#include "Core/GameManager.h"
 
 namespace Auto3D
 {

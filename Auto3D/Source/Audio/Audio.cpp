@@ -1,8 +1,8 @@
 #include "Audio.h"
-#include "../Time/Time.h"
-#include "../Time/Timer.h"
-#include "../Debug/Log.h"
-#include "../Core/Modules/ModuleManager.h"
+#include "Time/Time.h"
+#include "Time/Timer.h"
+#include "Debug/Log.h"
+#include "Core/Modules/ModuleManager.h"
 
 #include "Sound.h"
 #include "AudioListener.h"
@@ -17,7 +17,7 @@
 
 
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 namespace Auto3D {
 
 const ALCint contextAttr[] = { ALC_FREQUENCY,48000,0 };

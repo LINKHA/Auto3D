@@ -1,8 +1,8 @@
-#include "../Debug/Profiler.h"
-#include "../Graphics/Texture.h"
+#include "Debug/Profiler.h"
+#include "Graphics/Texture.h"
 #include "Batch.h"
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

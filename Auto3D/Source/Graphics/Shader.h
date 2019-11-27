@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Resource/Resource.h"
+#include "Resource/Resource.h"
 #include "GraphicsDefs.h"
 
 namespace Auto3D

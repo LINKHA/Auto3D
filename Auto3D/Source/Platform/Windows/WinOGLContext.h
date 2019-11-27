@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../AutoConfig.h"
+#include "AutoConfig.h"
 
-#include "../../Container/Ptr.h"
+#include "Container/Ptr.h"
 
 using SDL_GLContext = void*;
 

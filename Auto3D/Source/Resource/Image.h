@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Container/AutoPtr.h"
-#include "../Math/Vector2.h"
+#include "Container/AutoPtr.h"
+#include "Math/Vector2.h"
 #include "Resource.h"
 
 struct SDL_Surface;

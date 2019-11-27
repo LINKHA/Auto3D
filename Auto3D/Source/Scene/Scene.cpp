@@ -1,16 +1,16 @@
-#include "../Debug/Log.h"
-#include "../Debug/Profiler.h"
-#include "../IO/Stream.h"
-#include "../Core/ObjectResolver.h"
-#include "../Resource/JSONFile.h"
-#include "../Renderer/Renderer.h"
-#include "../RegisteredBox/RegisteredBox.h"
-#include "../Physics/PhysicsWorld.h"
+#include "Debug/Log.h"
+#include "Debug/Profiler.h"
+#include "IO/Stream.h"
+#include "Core/ObjectResolver.h"
+#include "Resource/JSONFile.h"
+#include "Renderer/Renderer.h"
+#include "RegisteredBox/RegisteredBox.h"
+#include "Physics/PhysicsWorld.h"
 
 #include "Scene.h"
 #include "SpatialNode.h"
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

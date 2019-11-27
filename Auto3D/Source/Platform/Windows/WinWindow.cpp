@@ -1,11 +1,11 @@
-#include "../../Container/WString.h"
-#include "../../Debug/Log.h"
-#include "../../Math/MathDef.h"
-#include "../../Resource/Image.h"
-#include "../../Graphics/Graphics.h"
-#include "../../UI/UI.h"
-#include "../../Core/Modules/ModuleManager.h"
-#include "../../IO/MarShalls.h"
+#include "Container/WString.h"
+#include "Debug/Log.h"
+#include "Math/MathDef.h"
+#include "Resource/Image.h"
+#include "Graphics/Graphics.h"
+#include "UI/UI.h"
+#include "Core/Modules/ModuleManager.h"
+#include "IO/MarShalls.h"
 
 #include "WinInput.h"
 #include "WinWindow.h"
@@ -13,8 +13,8 @@
 #include <Windows.h>
 #include <imgui.h>
 
-#include "../../Adapter/imgui_impl_windows.h"
-#include "../../Debug/DebugNew.h"
+#include "Adapter/imgui_impl_windows.h"
+#include "Debug/DebugNew.h"
 
 // Win32 message handler
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);

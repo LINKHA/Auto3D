@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../../Math/Color.h"
-#include "../../Math/Rect.h"
-#include "../../Resource/Image.h"
-#include "../GPUObject.h"
-#include "../GraphicsDefs.h"
+#include "Math/Color.h"
+#include "Math/Rect.h"
+#include "Resource/Image.h"
+#include "Graphics/GPUObject.h"
+#include "Graphics/GraphicsDefs.h"
 
 namespace Auto3D
 {

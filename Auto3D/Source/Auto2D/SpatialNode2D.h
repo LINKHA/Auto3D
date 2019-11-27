@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Math/Matrix3x4.h"
+#include "Math/Matrix3x4.h"
 #include "Node2D.h"
 
 namespace Auto3D

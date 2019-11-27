@@ -1,14 +1,14 @@
 #pragma once
 
-#include "../Debug/Log.h"
-#include "../Resource/ResourceCache.h"
+#include "Debug/Log.h"
+#include "Resource/ResourceCache.h"
 #include "Camera.h"
 #include "Material.h"
 #include "Model.h"
 #include "StaticModel.h"
 
-#include "../Core/Modules/ModuleManager.h"
-#include "../Debug/DebugNew.h"
+#include "Core/Modules/ModuleManager.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

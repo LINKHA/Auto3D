@@ -1,19 +1,19 @@
 #include "SkyBox.h"
-#include "../Resource/Image.h"
-#include "../Graphics/Texture.h"
-#include "../Resource/ResourceCache.h"
-#include "../Core/Modules/ModuleManager.h"
-#include "../RegisteredBox/RegisteredBox.h"
-#include "../Scene/Scene.h"
-#include "../Graphics/Graphics.h"
-#include "../Graphics/Shader.h"
-#include "../Renderer/Material.h"
+#include "Resource/Image.h"
+#include "Graphics/Texture.h"
+#include "Resource/ResourceCache.h"
+#include "Core/Modules/ModuleManager.h"
+#include "RegisteredBox/RegisteredBox.h"
+#include "Scene/Scene.h"
+#include "Graphics/Graphics.h"
+#include "Graphics/Shader.h"
+#include "Engine/Components/Material.h"
 
 #include "Model.h"
 
 #include <glad.h>
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

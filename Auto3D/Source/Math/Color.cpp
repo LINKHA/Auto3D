@@ -1,10 +1,10 @@
-#include "../Container/String.h"
+#include "Container/String.h"
 #include "Color.h"
 
 #include <cstdio>
 #include <cstdlib>
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

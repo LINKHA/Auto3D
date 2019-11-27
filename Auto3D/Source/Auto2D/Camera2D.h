@@ -1,5 +1,5 @@
 #pragma once
-#include "../AutoConfig.h"
+#include "AutoConfig.h"
 
 #include "SpatialNode2D.h"
 

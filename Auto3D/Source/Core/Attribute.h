@@ -1,7 +1,7 @@
 #pragma once
-#include "../Container/AutoPtr.h"
-#include "../Container/Ptr.h"
-#include "../IO/Stream.h"
+#include "Container/AutoPtr.h"
+#include "Container/Ptr.h"
+#include "IO/Stream.h"
 
 namespace Auto3D
 {

@@ -1,7 +1,7 @@
-#include "../Debug/Log.h"
-#include "../Debug/Profiler.h"
-#include "../IO/Stream.h"
-#include "../Math/MathDef.h"
+#include "Debug/Log.h"
+#include "Debug/Profiler.h"
+#include "IO/Stream.h"
+#include "Math/MathDef.h"
 #include "Decompress.h"
 
 #include <cstdlib>
@@ -14,7 +14,7 @@
 #include <stb_image.h>
 #include <stb_image_write.h>
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 #ifndef MAKEFOURCC
 #define MAKEFOURCC(ch0, ch1, ch2, ch3) ((unsigned)(ch0) | ((unsigned)(ch1) << 8) | ((unsigned)(ch2) << 16) | ((unsigned)(ch3) << 24))

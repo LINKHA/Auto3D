@@ -1,11 +1,11 @@
-#include "../../Debug/Log.h"
-#include "../../Debug/Profiler.h"
+#include "Debug/Log.h"
+#include "Debug/Profiler.h"
 #include "OGLGraphics.h"
 #include "OGLVertexBuffer.h"
 
 #include <glad.h>
 
-#include "../../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

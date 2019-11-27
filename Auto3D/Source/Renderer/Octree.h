@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../Container/Allocator.h"
-#include "../Debug/Profiler.h"
-#include "../Math/BoundingBox.h"
+#include "Container/Allocator.h"
+#include "Debug/Profiler.h"
+#include "Math/BoundingBox.h"
 #include "OctreeNode.h"
 
 namespace Auto3D

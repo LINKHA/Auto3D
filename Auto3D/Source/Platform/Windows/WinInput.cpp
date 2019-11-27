@@ -1,9 +1,9 @@
 #include "WinInput.h"
 #include "WinWindow.h"
-#include "../../Core/Modules/ModuleManager.h"
-#include "../../Graphics/Graphics.h"
+#include "Core/Modules/ModuleManager.h"
+#include "Graphics/Graphics.h"
 
-#include "../../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

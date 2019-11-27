@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../Container/HashMap.h"
-#include "../Container/String.h"
-#include "../Container/Vector.h"
-#include "../Container/Ptr.h"
-#include "../Math/Vector4.h"
+#include "Container/HashMap.h"
+#include "Container/String.h"
+#include "Container/Vector.h"
+#include "Container/Ptr.h"
+#include "Math/Vector4.h"
 
 
 namespace Auto3D

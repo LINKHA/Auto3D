@@ -1,8 +1,8 @@
 #pragma once
-#include "../Graphics/Shader.h"
-#include "../Core/Modules/ModuleManager.h"
-#include "../Resource/ResourceCache.h"
-#include "../Graphics/Graphics.h"
+#include "Graphics/Shader.h"
+#include "Core/Modules/ModuleManager.h"
+#include "Resource/ResourceCache.h"
+#include "Graphics/Graphics.h"
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -1,15 +1,15 @@
-#include "../Debug/Profiler.h"
-#include "../Graphics/ConstantBuffer.h"
-#include "../Graphics/ShaderVariation.h"
-#include "../Graphics/Shader.h"
-#include "../Graphics/Texture.h"
-#include "../Resource/JSONFile.h"
-#include "../Resource/ResourceCache.h"
+#include "Debug/Profiler.h"
+#include "Graphics/ConstantBuffer.h"
+#include "Graphics/ShaderVariation.h"
+#include "Graphics/Shader.h"
+#include "Graphics/Texture.h"
+#include "Resource/JSONFile.h"
+#include "Resource/ResourceCache.h"
 
 #include "Material.h"
 
-#include "../Core/Modules/ModuleManager.h"
-#include "../Debug/DebugNew.h"
+#include "Core/Modules/ModuleManager.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

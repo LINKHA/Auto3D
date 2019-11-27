@@ -3,16 +3,16 @@
 #include "Sprite2D.h"
 #include "Camera2D.h"
 
-#include "../Graphics/Graphics.h"
-#include "../Graphics/VertexBuffer.h"
-#include "../Graphics/ConstantBuffer.h"
-#include "../Graphics/IndexBuffer.h"
-#include "../Graphics/Shader.h"
-#include "../Resource/ResourceCache.h"
-#include "../Core/Modules/ModuleManager.h"
+#include "Graphics/Graphics.h"
+#include "Graphics/VertexBuffer.h"
+#include "Graphics/ConstantBuffer.h"
+#include "Graphics/IndexBuffer.h"
+#include "Graphics/Shader.h"
+#include "Resource/ResourceCache.h"
+#include "Core/Modules/ModuleManager.h"
 
-#include "../Debug/Profiler.h"
-#include "../Debug/DebugNew.h"
+#include "Debug/Profiler.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

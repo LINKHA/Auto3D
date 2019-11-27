@@ -1,7 +1,7 @@
-#include "../Thread/Thread.h"
+#include "Thread/Thread.h"
 #include "Object.h"
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

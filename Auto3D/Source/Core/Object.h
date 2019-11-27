@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../Container/StringHash.h"
+#include "Container/StringHash.h"
 #include "Event.h"
-#include "../Math/AutoMath.h"
+#include "Math/AutoMath.h"
 
 namespace Auto3D
 {

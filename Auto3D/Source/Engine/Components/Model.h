@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../Graphics/GraphicsDefs.h"
-#include "../Math/BoundingBox.h"
-#include "../Resource/Resource.h"
-#include "GeometryNode.h"
+#include "Graphics/GraphicsDefs.h"
+#include "Math/BoundingBox.h"
+#include "Resource/Resource.h"
+#include "Renderer/GeometryNode.h"
 
 namespace Auto3D
 {

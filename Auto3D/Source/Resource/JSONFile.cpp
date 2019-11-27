@@ -1,10 +1,10 @@
-#include "../Container/AutoPtr.h"
-#include "../Debug/Log.h"
-#include "../Debug/Profiler.h"
-#include "../IO/File.h"
+#include "Container/AutoPtr.h"
+#include "Debug/Log.h"
+#include "Debug/Profiler.h"
+#include "IO/File.h"
 #include "JSONFile.h"
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

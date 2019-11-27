@@ -1,10 +1,10 @@
-#include "../IO/JSONValue.h"
-#include "../IO/ObjectRef.h"
-#include "../IO/Stream.h"
+#include "IO/JSONValue.h"
+#include "IO/ObjectRef.h"
+#include "IO/Stream.h"
 #include "ObjectResolver.h"
 #include "Serializable.h"
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

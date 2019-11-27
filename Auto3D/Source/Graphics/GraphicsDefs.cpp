@@ -1,7 +1,7 @@
-#include "../Math/Matrix3x4.h"
+#include "Math/Matrix3x4.h"
 #include "GraphicsDefs.h"
 
-#include "../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {

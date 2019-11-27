@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../../Container/AutoPtr.h"
-#include "../../Container/Vector.h"
-#include "../GPUObject.h"
-#include "../GraphicsDefs.h"
+#include "Container/AutoPtr.h"
+#include "Container/Vector.h"
+#include "Graphics/GPUObject.h"
+#include "Graphics/GraphicsDefs.h"
 
 namespace Auto3D
 {

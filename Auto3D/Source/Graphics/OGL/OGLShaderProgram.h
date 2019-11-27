@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../Container/String.h"
-#include "../GPUObject.h"
-#include "../GraphicsDefs.h"
+#include "Container/String.h"
+#include "Graphics/GPUObject.h"
+#include "Graphics/GraphicsDefs.h"
 
 namespace Auto3D
 {
