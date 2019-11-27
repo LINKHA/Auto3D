@@ -184,7 +184,7 @@ Graphics::Graphics() :
 
 	_vsync(false)
 {
-	_window = new Window();
+	_window = SharedPtr<Window>(new Window());
 	SubscribeToEvent(_window->_resizeEvent, &Graphics::HandleResize);
 	ResetState();
 }
@@ -193,6 +193,7 @@ Graphics::~Graphics()
 {
 	Close();
 }
+
 void Graphics::CheckFeatureSupport()
 {
 	// Check supported features: light pre-pass, deferred rendering and hardware depth texture
@@ -923,10 +924,8 @@ void Graphics::BindUBO(unsigned ubo)
 
 bool Graphics::CreateContext(Window* window, int multisample)
 {
-
-
 	// Create or recreate
-	_context = new GraphicsContext(window);
+	_context = SharedPtr<GraphicsContext>(new GraphicsContext(window));
 
 	if (!_context->Create())
 	{

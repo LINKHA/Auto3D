@@ -2,8 +2,10 @@
 
 #include "AutoConfig.h"
 
+
 #include <cassert>
 #include <cstddef>
+#include <utility>
 
 namespace Auto3D
 {
@@ -817,5 +819,23 @@ private:
 	_Ty* _ptr;
 
 };
+
+/// Swap two UniquePtr-s.
+template <typename _Ty> void Swap(UniquePtr<_Ty>& first, UniquePtr<_Ty>& second)
+{
+	first.Swap(second);
+}
+
+/// Construct UniquePtr.
+template <typename _Ty, typename ... _Args> UniquePtr<_Ty> MakeUnique(_Args&& ... args)
+{
+	return UniquePtr<_Ty>(new _Ty(std::forward<_Args>(args)...));
+}
+
+/// Construct SharedPtr.
+template <typename _Ty, typename ... _Args> SharedPtr<_Ty> MakeShared(_Args&& ... args)
+{
+	return SharedPtr<_Ty>(new T(std::forward<_Args>(args)...));
+}
 
 }

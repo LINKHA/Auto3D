@@ -14,7 +14,6 @@ typedef HashMap<Pair<StringHash, StringHash>, SharedPtr<Resource> > ResourceMap;
 class AUTO_API ResourceCache : public BaseModule
 {
     REGISTER_OBJECT_CLASS(ResourceCache, BaseModule)
-
 public:
     /// Construct and register subsystem.
     ResourceCache();

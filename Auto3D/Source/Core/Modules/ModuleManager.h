@@ -1,6 +1,9 @@
 #pragma once
 #include "Core/GameManager.h"
 #include "Container/Singleton.h"
+#include "Container/HashMap.h"
+#include "Core/Modules/ModuleInterface.h"
+#include "Core/NameTypes.h"
 
 namespace Auto3D {
 
@@ -33,6 +36,10 @@ public:
 	void RegisterMoudleLibrary();
 	/// Create all modules.
 	void CreateModules();
+
+	IModuleInterface* LoadModule(const Name& name);
+
+	bool UnloadModule();
 
 	/// Gets the singleton instance of the module manager.
 	static ModuleManager& Get();
@@ -118,6 +125,9 @@ private:
 	UniquePtr<UI> _ui;
 	/// Component management of all audio.(Assign values when the component is first created)
 	UniquePtr<Audio> _audio;
+
+	/// Modules
+	HashMap<Name, IModuleInterface> _moudles;
 };
 
 }

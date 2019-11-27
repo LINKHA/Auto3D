@@ -68,6 +68,17 @@ void ModuleManager::CreateModules()
 	_ui = UniquePtr<UI>(new UI());
 }
 
+IModuleInterface* ModuleManager::LoadModule(const Name& name)
+{
+
+	return nullptr;
+}
+
+bool ModuleManager::UnloadModule()
+{
+	return true;
+}
+
 ModuleManager& ModuleManager::Get()
 {
 	return Singleton<ModuleManager>::Instance();

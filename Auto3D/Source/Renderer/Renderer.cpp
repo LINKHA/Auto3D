@@ -80,6 +80,17 @@ Renderer::Renderer() :
 Renderer::~Renderer()
 {
 }
+
+void Renderer::StartupModule()
+{
+
+}
+
+void Renderer::ShutdownModule()
+{
+
+}
+
 void Renderer::Render(Scene* scene, Camera* camera)
 {
 	PROFILE(RenderScene);

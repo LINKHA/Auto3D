@@ -5,6 +5,7 @@
 #include "Math/Color.h"
 #include "Math/Frustum.h"
 #include "Resource/Image.h"
+#include "Renderer/RendererInterface.h"
 
 #include "RenderPath.h"
 #include "Batch.h"
@@ -54,7 +55,7 @@ static const size_t INSTANCE_TEXCOORD = 4;
 
 
 /// High-level rendering subsystem. Performs rendering of 3D scenes.
-class AUTO_API Renderer : public BaseModule
+class AUTO_API Renderer : public BaseModule, public IRendererModule
 {
     REGISTER_OBJECT_CLASS(Renderer , BaseModule)
 
@@ -63,6 +64,12 @@ public:
     Renderer();
     /// Destruct.
     ~Renderer();
+
+	/// Called right after the module
+	virtual void StartupModule() override;
+	/// Called before the module is unloaded.
+	virtual void ShutdownModule() override;
+
 	/// Render scene
 	void Render(Scene* scene, Camera* camera);
     /// Set number, size and format of shadow maps. These will be divided among the lights that need to render shadow maps.
@@ -94,6 +101,9 @@ public:
     SharedPtr<ConstantBuffer> _vsLightConstantBuffer;
     /// Lights pixel shader constant buffer.
     SharedPtr<ConstantBuffer> _psLightConstantBuffer;
+
+	/// Start up event;
+	Event _startUpEvent;
 private:
     /// Initialize. Needs the Graphics subsystem and rendering context to exist.
     void Initialize();

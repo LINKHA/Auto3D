@@ -41,6 +41,59 @@ enum Intersection
     INSIDE
 };
 
+/// Update a hash with the given 8-bit value using the SDBM algorithm.
+inline unsigned SDBMHash(unsigned hash, unsigned char c) { return c + (hash << 6u) + (hash << 16u) - hash; }
+
+/// Return a representation of the specified floating-point value as a single format bit layout.
+inline unsigned FloatToRawIntBits(float value)
+{
+	unsigned u = *((unsigned*)&value);
+	return u;
+}
+
+/// Convert float to half float. From https://gist.github.com/martinkallman/5049614
+inline unsigned short FloatToHalf(float value)
+{
+	unsigned inu = FloatToRawIntBits(value);
+	unsigned t1 = inu & 0x7fffffffu;         // Non-sign bits
+	unsigned t2 = inu & 0x80000000u;         // Sign bit
+	unsigned t3 = inu & 0x7f800000u;         // Exponent
+
+	t1 >>= 13;                              // Align mantissa on MSB
+	t2 >>= 16;                              // Shift sign bit into position
+
+	t1 -= 0x1c000;                          // Adjust bias
+
+	t1 = (t3 < 0x38800000) ? 0 : t1;        // Flush-to-zero
+	t1 = (t3 > 0x47000000) ? 0x7bff : t1;   // Clamp-to-max
+	t1 = (t3 == 0 ? 0 : t1);                // Denormals-as-zero
+
+	t1 |= t2;                               // Re-insert sign bit
+
+	return (unsigned short)t1;
+}
+
+/// Convert half float to float. From https://gist.github.com/martinkallman/5049614
+inline float HalfToFloat(unsigned short value)
+{
+	unsigned t1 = value & 0x7fffu;           // Non-sign bits
+	unsigned t2 = value & 0x8000u;           // Sign bit
+	unsigned t3 = value & 0x7c00u;           // Exponent
+
+	t1 <<= 13;                              // Align mantissa on MSB
+	t2 <<= 16;                              // Shift sign bit into position
+
+	t1 += 0x38000000;                       // Adjust bias
+
+	t1 = (t3 == 0 ? 0 : t1);                // Denormals-as-zero
+
+	t1 |= t2;                               // Re-insert sign bit
+
+	float out;
+	*((unsigned*)&out) = t1;
+	return out;
+}
+
 /// Check whether two floating point values are equal within accuracy.
 template<typename _Ty> inline bool Equals(_Ty lhs, _Ty rhs) { return lhs + M_EPSILON >= rhs && lhs - M_EPSILON <= rhs; }
 /// Check whether a floating point value is NaN.
@@ -166,5 +219,9 @@ template<typename _Ty> inline _Ty Radians(_Ty degress)
 {
 	return degress * static_cast<_Ty>(0.01745329251994329576923690768489);
 }
+
+
+/// Calculate both sine and cosine, with angle in degrees.
+void SinCos(float angle, float& sin, float& cos);
 
 }

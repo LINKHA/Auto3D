@@ -45,6 +45,8 @@ private:
 
 #define REGISTER_OBJECT_CLASS(_This,_Base) \
 public: \
+	_This& operator=(_This&&) = delete;   \
+    _This& operator=(const _This&)= delete;  \
 	using This = _This;\
 	using Super = _Base;\
 	virtual Auto3D::StringHash GetType() const override { return GetTypeStatic(); } \
