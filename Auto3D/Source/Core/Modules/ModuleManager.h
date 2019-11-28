@@ -22,9 +22,9 @@ class FileSystem;
 class UI;
 class Audio;
 
-class AUTO_API ModuleManager : public GameManager
+class AUTO_API ModuleManager //: public GameManager
 {
-	REGISTER_OBJECT_CLASS(ModuleManager, GameManager)
+	//REGISTER_OBJECT_CLASS(ModuleManager, GameManager)
 	friend class Singleton<ModuleManager>;
 protected:
 	/// Structure
@@ -36,10 +36,6 @@ public:
 	void RegisterMoudleLibrary();
 	/// Create all modules.
 	void CreateModules();
-
-	IModuleInterface* LoadModule(const Name& name);
-
-	bool UnloadModule();
 
 	/// Gets the singleton instance of the module manager.
 	static ModuleManager& Get();
@@ -97,7 +93,6 @@ public:
 	UI* UiModule() { return _ui.Get(); }
 	/// Return component management of all audio.(Assign values when the component is first created)
 	Audio* AudioModule() { return _audio.Get(); }
-
 private:
 	/// Manage the subsystem of all resource loads
 	UniquePtr<ResourceCache> _cache;
@@ -125,9 +120,6 @@ private:
 	UniquePtr<UI> _ui;
 	/// Component management of all audio.(Assign values when the component is first created)
 	UniquePtr<Audio> _audio;
-
-	/// Modules
-	HashMap<Name, IModuleInterface> _moudles;
 };
 
 }
