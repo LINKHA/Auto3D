@@ -1,7 +1,7 @@
 #include "Container/WString.h"
 #include "Debug/Log.h"
 #include "Math/MathDef.h"
-#include "Resource/Image.h"
+#include "Engine/Components/Image.h"
 #include "Graphics/Graphics.h"
 #include "UI/UI.h"
 #include "Core/Modules/ModuleManager.h"

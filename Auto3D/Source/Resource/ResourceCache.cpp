@@ -2,10 +2,8 @@
 #include "Debug/Profiler.h"
 #include "IO/File.h"
 #include "IO/FileSystem.h"
-#include "Image.h"
 #include "JSONFile.h"
 #include "ResourceCache.h"
-#include "Font.h"
 
 #include "Debug/DebugNew.h"
 
@@ -360,9 +358,7 @@ void RegisterResourceLibrary()
         return;
     registered = true;
 
-    Image::RegisterObject();
     JSONFile::RegisterObject();
-	Font::RegisterObject();
 }
 
 }

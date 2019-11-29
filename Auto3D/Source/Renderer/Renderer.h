@@ -4,7 +4,7 @@
 #include "Graphics/Texture.h"
 #include "Math/Color.h"
 #include "Math/Frustum.h"
-#include "Resource/Image.h"
+#include "Engine/Components/Image.h"
 #include "Renderer/RendererInterface.h"
 
 #include "RenderPath.h"

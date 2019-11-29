@@ -1,6 +1,6 @@
 #include "AudioBuffer.h"
 #include "Audio.h"
-#include "Sound.h"
+#include "Engine/Components/Sound.h"
 #include "Debug/Log.h"
 #include "Core/Modules/ModuleManager.h"
 

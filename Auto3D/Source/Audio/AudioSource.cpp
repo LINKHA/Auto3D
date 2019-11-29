@@ -1,5 +1,5 @@
 #include "AudioSource.h"
-#include "Sound.h"
+#include "Engine/Components/Sound.h"
 #include "Audio.h"
 #include "Debug/Log.h"
 #include "AudioBuffer.h"

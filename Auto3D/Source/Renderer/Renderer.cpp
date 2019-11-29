@@ -20,6 +20,7 @@
 #include "Renderer.h"
 #include "Engine/Components/StaticModel.h"
 #include "Engine/Components/SkyBox.h"
+#include "Engine/Components/Font.h"
 
 #include "Core/Modules/ModuleManager.h"
 #include "Debug/DebugNew.h"
@@ -1081,6 +1082,8 @@ void RegisterRendererLibrary()
 	IBLMaterial::RegisterObject();
     Model::RegisterObject();
 	SkyBox::RegisterObject();
+	Image::RegisterObject();
+	Font::RegisterObject();
 }
 
 }

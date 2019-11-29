@@ -3,7 +3,7 @@
 #include "Resource/ResourceCache.h"
 #include "Graphics/VertexBuffer.h"
 #include "Graphics/IndexBuffer.h"
-#include "Resource/Image.h"
+#include "Engine/Components/Image.h"
 #include "Renderer/Renderer.h"
 #include "Graphics/Graphics.h"
 #include "Core/Modules/ModuleManager.h"

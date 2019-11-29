@@ -2,7 +2,7 @@
 
 #include "Math/Color.h"
 #include "Math/Rect.h"
-#include "Resource/Image.h"
+#include "Engine/Components/Image.h"
 #include "Graphics/GPUObject.h"
 #include "Graphics/GraphicsDefs.h"
 

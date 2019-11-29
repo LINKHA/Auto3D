@@ -3,7 +3,7 @@
 #include "Platform/Window.h"
 #include "Platform/Context.h"
 #include "Graphics/Texture.h"
-#include "Resource/Font.h"
+#include "Engine/Components/Font.h"
 #include "UIUtils.h"
 
 #include <imgui.h>

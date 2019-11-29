@@ -2,7 +2,7 @@
 #include "Debug/Profiler.h"
 #include "IO/Stream.h"
 #include "Math/MathDef.h"
-#include "Decompress.h"
+#include "Resource/Decompress.h"
 
 #include <cstdlib>
 #include <cstring>

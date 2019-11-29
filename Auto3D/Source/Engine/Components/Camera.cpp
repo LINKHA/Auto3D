@@ -1,6 +1,6 @@
 #include "Camera.h"
 #include "Math/Matrix3x4.h"
-#include "Resource/Image.h"
+#include "Engine/Components/Image.h"
 #include "Graphics/Texture.h"
 #include "Debug/Log.h"
 #include "Scene/Scene.h"

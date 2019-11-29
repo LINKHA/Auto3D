@@ -1,5 +1,5 @@
 #include "SkyBox.h"
-#include "Resource/Image.h"
+#include "Engine/Components/Image.h"
 #include "Graphics/Texture.h"
 #include "Resource/ResourceCache.h"
 #include "Core/Modules/ModuleManager.h"
