@@ -31,11 +31,11 @@ namespace GeometryType
 struct AUTO_API VertexBufferDesc
 {
 	/// Vertex declaration.
-	Vector<VertexElement> _vertexElements;
+	TVector<VertexElement> _vertexElements;
 	/// Number of vertices.
 	size_t _numVertices;
 	/// Vertex data.
-	SharedArrayPtr<unsigned char> _vertexData;
+	TSharedArrayPtr<unsigned char> _vertexData;
 };
 
 /// Load-time description of an index buffer, to be uploaded on the GPU later.
@@ -46,7 +46,7 @@ struct AUTO_API IndexBufferDesc
 	/// Number of indices.
 	size_t _numIndices;
 	/// Index data.
-	SharedArrayPtr<unsigned char> _indexData;
+	TSharedArrayPtr<unsigned char> _indexData;
 };
 
 /// Load-time description of a geometry.
@@ -81,11 +81,11 @@ public:
     void DrawInstanced(Graphics* graphics, size_t start, size_t count);
 
     /// %Geometry vertex buffer.
-    SharedPtr<VertexBuffer> _vertexBuffer;
+    TSharedPtr<VertexBuffer> _vertexBuffer;
     /// %Geometry index buffer.
-    SharedPtr<IndexBuffer> _indexBuffer;
+    TSharedPtr<IndexBuffer> _indexBuffer;
     /// Constant buffers.
-    SharedPtr<ConstantBuffer> _constantBuffers[ShaderStage::Count];
+    TSharedPtr<ConstantBuffer> _constantBuffers[ShaderStage::Count];
     /// %Geometry's primitive type.
     PrimitiveType::Type _primitiveType;
     /// Draw range start. Specifies index start if index buffer defined, vertex start otherwise.
@@ -105,9 +105,9 @@ struct AUTO_API SourceBatch
     ~SourceBatch();
 
     /// The geometry to render. Must be non-null.
-    SharedPtr<Geometry> _geometry;
+    TSharedPtr<Geometry> _geometry;
     /// The material to use for rendering. Must be non-null.
-    SharedPtr<Material> _material;
+    TSharedPtr<Material> _material;
 };
 
 /// Base class for scene nodes that contain geometry to be rendered.
@@ -149,7 +149,7 @@ public:
     /// Return material by geometry index.
     Material* GetMaterial(size_t index) const;
     /// Return source information for all draw calls.
-    const Vector<SourceBatch>& GetBatches() const { return _batches; }
+    const TVector<SourceBatch>& GetBatches() const { return _batches; }
     /// Return local space bounding box.
     const BoundingBoxF& GetLocalBoundingBox() const { return _boundingBox; }
 
@@ -171,7 +171,7 @@ protected:
     /// Geometry type.
     GeometryType::Type _geometryType;
     /// Draw call source datas.
-    Vector<SourceBatch> _batches;
+    TVector<SourceBatch> _batches;
     /// Local space bounding box.
     BoundingBoxF _boundingBox;
 };

@@ -44,7 +44,7 @@ public:
     /// Find node by _id.
     Node* FindNode(unsigned id) const;
 	/// Return all camera vector
-	Vector<Camera*>& GetAllCamera();
+	TVector<Camera*>& GetAllCamera();
     /// Add node to the scene. This assigns a scene-unique id to it. Called internally.
     void AddNode(Node* node);
     /// Remove node from the scene. This removes the id mapping but does not destroy the node. Called internally.
@@ -81,9 +81,9 @@ private:
     JSONValue TagNamesAttr() const;
 
     /// Map from id's to nodes.
-    HashMap<unsigned, Node*> _nodes;
+    THashMap<unsigned, Node*> _nodes;
 	/// Camera to nodes
-	Vector<Camera*> _cameras;
+	TVector<Camera*> _cameras;
     /// Next free node id.
     unsigned _nextNodeId;
 

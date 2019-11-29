@@ -63,7 +63,7 @@ public:
 	/// Delete game window and if OpenGL delete context
 	void DestoryWindow();
 	/// Set window title.
-	void SetTitle(const String& newTitle);
+	void SetTitle(const FString& newTitle);
 	/// Set window icon
 	void SetIcon(Image* icon);
 	/// Set _window _size. Open the _window if not opened yet. Return true on success.
@@ -94,7 +94,7 @@ public:
 	void PumpMessages();
 
 	/// Return window title.
-	const String& GetTitle() const { return _title; }
+	const FString& GetTitle() const { return _title; }
 	/// Return window rect
 	const RectI& GetRect() const { return _rect; }
 	/// Return _window client area _size.
@@ -145,7 +145,7 @@ public:
 	WindowResizeEvent _resizeEvent;
 
 	/// Window class name
-	static String className;
+	static FString className;
 private:
 	/// Change display mode. If width and height are zero, will restore desktop resolution.
 	void SetDisplayMode(int width, int height);
@@ -161,9 +161,9 @@ private:
 	/// Window handle.
 	void* _handle;
 	/// Window icon image.
-	WeakPtr<Image> _icon;
+	TWeakPtr<Image> _icon;
 	/// Window _title.
-	String _title;
+	FString _title;
 	/// Window rect
 	RectI _rect;
 	/// Last stored windowed mode position.

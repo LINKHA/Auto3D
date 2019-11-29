@@ -31,7 +31,7 @@ public:
     /// Construct.
     File();
     /// Construct and open a file.
-    File(const String& fileName, FileMode::Type fileMode = FileMode::READ);
+    File(const FString& fileName, FileMode::Type fileMode = FileMode::READ);
     /// Destruct. Close the file if open.
     ~File();
     
@@ -47,7 +47,7 @@ public:
     bool IsWritable() const override;
 
     /// Open a file. Return true on success.
-    bool Open(const String& fileName, FileMode::Type fileMode = FileMode::READ);
+    bool Open(const FString& fileName, FileMode::Type fileMode = FileMode::READ);
     /// Close the file.
     void Close();
     /// Flush any buffered output to the file.

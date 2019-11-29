@@ -31,9 +31,9 @@ protected:
 	/// Geometry type.
 	GeometryType::Type _geometryType;
 	/// Draw call source datas.
-	SharedPtr<Geometry> _geometry;
+	TSharedPtr<Geometry> _geometry;
 	/// Texture.
-	SharedPtr<Texture> _texture;
+	TSharedPtr<Texture> _texture;
 };
 
 }

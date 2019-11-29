@@ -39,7 +39,7 @@ private:
     ResourceRef ModelAttr() const;
 
     /// Current model resource.
-    SharedPtr<Model> _model;
+    TSharedPtr<Model> _model;
     /// LOD bias value.
     float _lodBias;
     /// Lod levels flag.

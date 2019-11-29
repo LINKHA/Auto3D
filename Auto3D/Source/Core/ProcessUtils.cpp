@@ -79,9 +79,9 @@ namespace Auto3D
 #ifdef _WIN32
 static bool consoleOpened = false;
 #endif
-static String currentLine;
-static Vector<String> arguments;
-static String miniDumpDir;
+static FString currentLine;
+static TVector<FString> arguments;
+static FString miniDumpDir;
 
 #if defined(IOS)
 static void GetCPUData(host_basic_info_data_t* data)
@@ -158,12 +158,12 @@ void InitFPU()
 #endif
 }
 
-void ErrorDialog(const String& title, const String& message)
+void ErrorDialog(const FString& title, const FString& message)
 {
 	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, title.CString(), message.CString(), nullptr);
 }
 
-void ErrorExit(const String& message, int exitCode)
+void ErrorExit(const FString& message, int exitCode)
 {
 	if (!message.IsEmpty())
 		PrintLine(message, true);
@@ -186,7 +186,7 @@ void OpenConsoleWindow()
 #endif
 }
 
-void PrintUnicode(const String& str, bool error)
+void PrintUnicode(const FString& str, bool error)
 {
 #if !defined(__ANDROID__) && !defined(IOS) && !defined(TVOS)
 #ifdef _WIN32
@@ -200,7 +200,7 @@ void PrintUnicode(const String& str, bool error)
 		HANDLE stream = GetStdHandle(error ? STD_ERROR_HANDLE : STD_OUTPUT_HANDLE);
 		if (stream == INVALID_HANDLE_VALUE)
 			return;
-		WString strW(str);
+		FWString strW(str);
 		DWORD charsWritten;
 		WriteConsoleW(stream, strW.CString(), strW.Length(), &charsWritten, nullptr);
 	}
@@ -210,12 +210,12 @@ void PrintUnicode(const String& str, bool error)
 #endif
 }
 
-void PrintUnicodeLine(const String& str, bool error)
+void PrintUnicodeLine(const FString& str, bool error)
 {
 	PrintUnicode(str + "\n", error);
 }
 
-void PrintLine(const String& str, bool error)
+void PrintLine(const FString& str, bool error)
 {
 	PrintLine(str.CString(), error);
 }
@@ -227,7 +227,7 @@ void PrintLine(const char* str, bool error)
 #endif
 }
 
-const Vector<String>& ParseArguments(const String& cmdLine, bool skipFirstArgument)
+const TVector<FString>& ParseArguments(const FString& cmdLine, bool skipFirstArgument)
 {
 	arguments.Clear();
 
@@ -274,24 +274,24 @@ const Vector<String>& ParseArguments(const String& cmdLine, bool skipFirstArgume
 	return arguments;
 }
 
-const Vector<String>& ParseArguments(const char* cmdLine)
+const TVector<FString>& ParseArguments(const char* cmdLine)
 {
-	return ParseArguments(String(cmdLine));
+	return ParseArguments(FString(cmdLine));
 }
 
-const Vector<String>& ParseArguments(const WString& cmdLine)
+const TVector<FString>& ParseArguments(const FWString& cmdLine)
 {
-	return ParseArguments(String(cmdLine));
+	return ParseArguments(FString(cmdLine));
 }
 
-const Vector<String>& ParseArguments(const wchar_t* cmdLine)
+const TVector<FString>& ParseArguments(const wchar_t* cmdLine)
 {
-	return ParseArguments(String(cmdLine));
+	return ParseArguments(FString(cmdLine));
 }
 
-const Vector<String>& ParseArguments(int argc, char** argv)
+const TVector<FString>& ParseArguments(int argc, char** argv)
 {
-	String cmdLine;
+	FString cmdLine;
 
 	for (int i = 0; i < argc; ++i)
 		cmdLine.AppendWithFormat("\"%s\" ", (const char*)argv[i]);
@@ -299,14 +299,14 @@ const Vector<String>& ParseArguments(int argc, char** argv)
 	return ParseArguments(cmdLine);
 }
 
-const Vector<String>& GetArguments()
+const TVector<FString>& GetArguments()
 {
 	return arguments;
 }
 
-String GetConsoleInput()
+FString GetConsoleInput()
 {
-	String ret;
+	FString ret;
 #ifdef _WIN32
 	HANDLE input = GetStdHandle(STD_INPUT_HANDLE);
 	HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -372,7 +372,7 @@ String GetConsoleInput()
 	return ret;
 }
 
-String GetPlatform()
+FString GetPlatform()
 {
 #if defined(__ANDROID__)
 	return "Android";
@@ -462,19 +462,19 @@ unsigned GetNumLogicalCPUs()
 #endif
 }
 
-void SetMiniDumpDir(const String& pathName)
+void SetMiniDumpDir(const FString& pathName)
 {
 	miniDumpDir = AddTrailingSlash(pathName);
 }
 
-String GetMiniDumpDir()
+FString GetMiniDumpDir()
 {
 	if (miniDumpDir.IsEmpty())
 	{
 		char* pathName = SDL_GetPrefPath("Auto3D", "crashdumps");
 		if (pathName)
 		{
-			String ret(pathName);
+			FString ret(pathName);
 			SDL_free(pathName);
 			return ret;
 		}
@@ -506,7 +506,7 @@ unsigned long long GetTotalMemory()
 	return 0ull;
 }
 
-String GetLoginName()
+FString GetLoginName()
 {
 #if defined(__linux__) && !defined(__ANDROID__)
 	struct passwd *p = getpwuid(getuid());
@@ -538,7 +538,7 @@ String GetLoginName()
 	return "(?)";
 }
 
-String GetHostName()
+FString GetHostName()
 {
 #if (defined(__linux__) || defined(__APPLE__)) && !defined(__ANDROID__)
 	char buffer[256];
@@ -569,12 +569,12 @@ static void GetOS(RTL_OSVERSIONINFOW *r)
 }
 #endif
 
-String GetOSVersion()
+FString GetOSVersion()
 {
 #if defined(__linux__) && !defined(__ANDROID__)
 	struct utsname u {};
 	if (uname(&u) == 0)
-		return String(u.sysname) + " " + u.release;
+		return FString(u.sysname) + " " + u.release;
 #elif defined(_WIN32)
 	RTL_OSVERSIONINFOW r;
 	GetOS(&r);
@@ -603,8 +603,8 @@ String GetOSVersion()
 
 	if (sysctlbyname("kern.osrelease", &kernel_r, &size, NULL, 0) != -1)
 	{
-		Vector<String> kernel_version = String(kernel_r).Split('.');
-		String version = "macOS/Mac OS X ";
+		TVector<FString> kernel_version = FString(kernel_r).Split('.');
+		FString version = "macOS/Mac OS X ";
 		int major = ToInt(kernel_version[0]);
 		int minor = ToInt(kernel_version[1]);
 

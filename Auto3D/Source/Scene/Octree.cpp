@@ -18,7 +18,7 @@ bool CompareRaycastResults(const RaycastResult& lhs, const RaycastResult& rhs)
     return lhs._distance < rhs._distance;
 }
 
-bool CompareNodeDistances(const Pair<OctreeNode*, float>& lhs, const Pair<OctreeNode*, float>& rhs)
+bool CompareNodeDistances(const TPair<OctreeNode*, float>& lhs, const TPair<OctreeNode*, float>& rhs)
 {
     return lhs._second < rhs._second;
 }
@@ -171,7 +171,7 @@ void Octree::CancelUpdate(OctreeNode* node)
     node->SetFlag(NF_OCTREE_UPDATE_QUEUED, false);
 }
 
-void Octree::Raycast(Vector<RaycastResult>& result, const Ray& ray, unsigned short nodeFlags, float maxDistance, unsigned layerMask)
+void Octree::Raycast(TVector<RaycastResult>& result, const Ray& ray, unsigned short nodeFlags, float maxDistance, unsigned layerMask)
 {
     PROFILE(OctreeRaycast);
 
@@ -334,7 +334,7 @@ void Octree::DeleteChildOctants(Octant* octant, bool deletingOctree)
         _allocator.Free(octant);
 }
 
-void Octree::CollectNodes(Vector<OctreeNode*>& result, const Octant* octant) const
+void Octree::CollectNodes(TVector<OctreeNode*>& result, const Octant* octant) const
 {
     result.Push(octant->_nodes);
 
@@ -345,9 +345,9 @@ void Octree::CollectNodes(Vector<OctreeNode*>& result, const Octant* octant) con
     }
 }
 
-void Octree::CollectNodes(Vector<OctreeNode*>& result, const Octant* octant, unsigned short nodeFlags, unsigned layerMask) const
+void Octree::CollectNodes(TVector<OctreeNode*>& result, const Octant* octant, unsigned short nodeFlags, unsigned layerMask) const
 {
-    const Vector<OctreeNode*>& octantNodes = octant->_nodes;
+    const TVector<OctreeNode*>& octantNodes = octant->_nodes;
     for (auto it = octantNodes.Begin(); it != octantNodes.End(); ++it)
     {
         OctreeNode* node = *it;
@@ -362,14 +362,14 @@ void Octree::CollectNodes(Vector<OctreeNode*>& result, const Octant* octant, uns
     }
 }
 
-void Octree::CollectNodes(Vector<RaycastResult>& result, const Octant* octant, const Ray& ray, unsigned short nodeFlags, 
+void Octree::CollectNodes(TVector<RaycastResult>& result, const Octant* octant, const Ray& ray, unsigned short nodeFlags, 
     float maxDistance, unsigned layerMask) const
 {
     float octantDist = ray.HitDistance(octant->_cullingBox);
     if (octantDist >= maxDistance)
         return;
 
-    const Vector<OctreeNode*>& octantNodes = octant->_nodes;
+    const TVector<OctreeNode*>& octantNodes = octant->_nodes;
     for (auto it = octantNodes.Begin(); it != octantNodes.End(); ++it)
     {
         OctreeNode* node = *it;
@@ -384,14 +384,14 @@ void Octree::CollectNodes(Vector<RaycastResult>& result, const Octant* octant, c
     }
 }
 
-void Octree::CollectNodes(Vector<Pair<OctreeNode*, float> >& result, const Octant* octant, const Ray& ray, unsigned short nodeFlags,
+void Octree::CollectNodes(TVector<TPair<OctreeNode*, float> >& result, const Octant* octant, const Ray& ray, unsigned short nodeFlags,
     float maxDistance, unsigned layerMask) const
 {
     float octantDist = ray.HitDistance(octant->_cullingBox);
     if (octantDist >= maxDistance)
         return;
 
-    const Vector<OctreeNode*>& octantNodes = octant->_nodes;
+    const TVector<OctreeNode*>& octantNodes = octant->_nodes;
     for (auto it = octantNodes.Begin(); it != octantNodes.End(); ++it)
     {
         OctreeNode* node = *it;

@@ -15,7 +15,7 @@ public:
 	void CreateLogo();
 protected:
 	Camera2D* logoCamera;
-	SharedPtr<Scene2D> scene2d;
+	TSharedPtr<Scene2D> scene2d;
 };
 
 #include "Sample.inl"

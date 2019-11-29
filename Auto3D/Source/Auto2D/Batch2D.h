@@ -50,13 +50,13 @@ struct AUTO_API Batch2DQueue
 	/// Clear structures.
 	void Clear();
 	/// Sort batches and build instances.
-	void Sort(Vector<Matrix3x4F>& instanceTransforms);
+	void Sort(TVector<Matrix3x4F>& instanceTransforms);
 
 	/// Build instances from adjacent batches with same state.
-	static void BuildInstances(Vector<Batch2D>& batches, Vector<Matrix3x4F>& instanceTransforms);
+	static void BuildInstances(TVector<Batch2D>& batches, TVector<Matrix3x4F>& instanceTransforms);
 
 	/// Batches, which may be instanced or non-instanced.
-	Vector<Batch2D> _batches;
+	TVector<Batch2D> _batches;
 	/// Base pass index.
 	unsigned char _baseIndex;
 	/// Additive pass index (if needed.)

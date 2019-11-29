@@ -133,7 +133,7 @@ public:
 		_m11 = scale;
 	}
 	/// Parse from a string. Return true on success.
-	bool FromString(const String& str)
+	bool FromString(const FString& str)
 	{
 		return FromString(str.CString());
 	}
@@ -141,7 +141,7 @@ public:
 	/// Parse from a C string. Return true on success.
 	bool FromString(const char* str)
 	{
-		size_t elements = String::CountElements(str, ' ');
+		size_t elements = FString::CountElements(str, ' ');
 		if (elements < 4)
 			return false;
 
@@ -219,11 +219,11 @@ public:
 	const _Ty* Data() const { return &_m00; }
 
 	/// Return as string.
-	String ToString() const
+	FString ToString() const
 	{
 		char tempBuffer[CONVERSION_BUFFER_LENGTH];
 		sprintf(tempBuffer, "%g %g %g %g", _m00, _m01, _m10, _m11);
-		return String(tempBuffer);
+		return FString(tempBuffer);
 	}
 
 	/// Bulk transpose matrices.

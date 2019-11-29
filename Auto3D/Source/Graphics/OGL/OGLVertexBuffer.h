@@ -23,7 +23,7 @@ public:
     void Recreate() override;
 
     /// Define buffer. Immutable buffers must specify initial data here. Return true on success.
-    bool Define(ResourceUsage::Type usage, size_t numVertices, const Vector<VertexElement>& elements, bool useShadowData, const void* _data = nullptr);
+    bool Define(ResourceUsage::Type usage, size_t numVertices, const TVector<VertexElement>& elements, bool useShadowData, const void* _data = nullptr);
     /// Define buffer. Immutable buffers must specify initial data here. Return true on success.
     bool Define(ResourceUsage::Type usage, size_t numVertices, size_t numElements, const VertexElement* elements, bool useShadowData, const void* _data = nullptr);
     /// Redefine buffer data either completely or partially. Not supported for immutable buffers. Return true on success.
@@ -36,7 +36,7 @@ public:
     /// Return number of vertex elements.
     size_t GetNumElements() const { return _elements.Size(); }
     /// Return vertex elements.
-    const Vector<VertexElement>& GetElements() const { return _elements; }
+    const TVector<VertexElement>& GetElements() const { return _elements; }
     /// Return _size of vertex in bytes.
     size_t GetVertexSize() const { return _vertexSize; }
     /// Return vertex declaration hash code.
@@ -66,13 +66,13 @@ private:
     /// OpenGL buffer object identifier.
     unsigned _buffer;
     /// CPU-side shadow data.
-    AutoArrayPtr<unsigned char> _shadowData;
+    TAutoArrayPtr<unsigned char> _shadowData;
     /// Number of vertices.
     size_t _numVertices;
     /// Size of vertex in bytes.
     size_t _vertexSize;
     /// Vertex elements.
-    Vector<VertexElement> _elements;
+    TVector<VertexElement> _elements;
     /// Vertex element hash code.
     unsigned _elementHash;
     /// AResource usage type.

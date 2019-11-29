@@ -153,14 +153,14 @@ bool Quaternion::FromLookRotation(const Vector3F& direction, const Vector3F& upD
 }
 
 
-bool Quaternion::FromString(const String& str)
+bool Quaternion::FromString(const FString& str)
 {
     return FromString(str.CString());
 }
 
 bool Quaternion::FromString(const char* str)
 {
-    size_t elements = String::CountElements(str, ' ');
+    size_t elements = FString::CountElements(str, ' ');
     if (elements < 3)
         return false;
     
@@ -289,11 +289,11 @@ Quaternion Quaternion::Nlerp(Quaternion rhs, float t, bool shortestPath) const
     return result;
 }
 
-String Quaternion::ToString() const
+FString Quaternion::ToString() const
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%g %g %g %g", _w, _x, _y, _z);
-    return String(tempBuffer);
+    return FString(tempBuffer);
 }
 
 }

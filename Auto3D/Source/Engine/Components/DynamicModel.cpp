@@ -119,18 +119,18 @@ void DynamicModel::OnPrepareRender(unsigned frameNumber, Camera* camera)
 //
 //	SetNumGeometries(1);
 //
-//	Vector<VertexElement> vertexDeclaration;
+//	TVector<VertexElement> vertexDeclaration;
 //	vertexDeclaration.Push(VertexElement(ElementType::VECTOR4, ElementSemantic::POSITION));//vertex
 //
-//	SharedPtr<VertexBuffer> vertexBuffer;
+//	TSharedPtr<VertexBuffer> vertexBuffer;
 //	vertexBuffer->Define(ResourceUsage::IMMUTABLE, 4, vertexDeclaration, true, waterPoints);
 //
 //
-//	SharedPtr<IndexBuffer> indexBuffer;
+//	TSharedPtr<IndexBuffer> indexBuffer;
 //	indexBuffer->Define(ResourceUsage::IMMUTABLE, WATER_PLANE_LENGTH * WATER_PLANE_LENGTH, sizeof(unsigned short), true, waterIndices);
 //
 //
-//	SharedPtr<Geometry> geometry(new Geometry());
+//	TSharedPtr<Geometry> geometry(new Geometry());
 //	// Temp use this setting
 //	geometry->_lodDistance = false;
 //	geometry->_primitiveType = PrimitiveType::TRIANGLE_LIST;

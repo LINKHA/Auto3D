@@ -240,7 +240,7 @@ bool Image::BeginLoad(Stream& source)
     PROFILE(LoadImage);
 
     // Check for DDS, KTX or PVR compressed format
-    String fileID = source.ReadFileID();
+    FString fileID = source.ReadFileID();
 
     if (fileID == "DDS ")
     {
@@ -470,7 +470,7 @@ bool Image::BeginLoad(Stream& source)
         unsigned char* pixelData = DecodePixelData(source, imageWidth, imageHeight, imageComponents);
         if (!pixelData)
         {
-            ErrorString("Could not load image " + source.Name() + ": " + String(stbi_failure_reason()));
+            ErrorString("Could not load image " + source.Name() + ": " + FString(stbi_failure_reason()));
             return false;
         }
         
@@ -481,7 +481,7 @@ bool Image::BeginLoad(Stream& source)
         else
         {
             // Convert RGB to RGBA as for example Direct3D 11 does not support 24-bit formats
-            AutoArrayPtr<unsigned char> rgbaData(new unsigned char[4 * imageWidth * imageHeight]);
+            TAutoArrayPtr<unsigned char> rgbaData(new unsigned char[4 * imageWidth * imageHeight]);
             unsigned char* src = pixelData;
             unsigned char* dest = rgbaData.Get();
             for (int i = 0; i < imageWidth * imageHeight; ++i)
@@ -565,7 +565,7 @@ unsigned char* Image::DecodePixelData(Stream& source, int& width, int& height, u
 {
     size_t dataSize = source.Size();
 
-    AutoArrayPtr<unsigned char> buffer(new unsigned char[dataSize]);
+    TAutoArrayPtr<unsigned char> buffer(new unsigned char[dataSize]);
     source.Read(buffer.Get(), dataSize);
     return stbi_load_from_memory(buffer.Get(), (int)dataSize, &width, &height, (int *)&components, 0);
 }

@@ -80,7 +80,7 @@ namespace GUI
 
 struct UIFont
 {
-	static HashMap<String, const char*> Data;
+	static THashMap<FString, const char*> Data;
 	static int DefaultSize;
 };
 namespace UIFontLanguage
@@ -119,7 +119,7 @@ public:
 	void Present();
 
 	/// Add font from font.
-	void AddFont(Font* font, int pixels = 24, String fontname = "Default", UIFontLanguage::Data languageType = UIFontLanguage::DEFAULT);
+	void AddFont(Font* font, int pixels = 24, FString fontname = "Default", UIFontLanguage::Data languageType = UIFontLanguage::DEFAULT);
 
 	/// Get gui IO.
 	ImGuiIO& IO() { return ImGui::GetIO(); }
@@ -127,7 +127,7 @@ public:
 	void ProcessEvent(const SDL_Event* event);
 private:
 	/// Window this member is assigned in SetMode, make sure that SetMode calls this member later
-	WeakPtr<Window> _window;
+	TWeakPtr<Window> _window;
 };
 
 /// Register UI related object factories and attributes.
@@ -224,7 +224,7 @@ AUTO_API void          SetScrollHereY(float center_y_ratio = 0.5f);             
 AUTO_API void          SetScrollFromPosY(float local_y, float center_y_ratio = 0.5f);  // adjust scrolling amount to make given position visible. Generally GetCursorStartPos() + offset to compute a valid position.
 
 // Parameters stacks (shared)
-AUTO_API void		   PushFont(const String& font);
+AUTO_API void		   PushFont(const FString& font);
 AUTO_API void          PushFont(Font* font);                                           // use NULL as a shortcut to push default font
 AUTO_API void          PopFont();
 AUTO_API void          PushStyleColor(Col idx, unsigned col);
@@ -426,7 +426,7 @@ AUTO_API void          SetNextItemOpen(bool is_open, Cond cond = 0);					   // s
 AUTO_API bool          Selectable(const char* label, bool selected = false, SelectableFlags flags = 0, const Vector2F& size = Vector2F(0, 0));  // "bool selected" carry the selection state (read-only). Selectable() is clicked is returns true so you can modify your selection state. size.x==0.0: use remaining width, size.x>0.0: specify width. size.y==0.0: use label height, size.y>0.0: specify height
 AUTO_API bool          Selectable(const char* label, bool* p_selected, SelectableFlags flags = 0, const Vector2F& size = Vector2F(0, 0));       // "bool* p_selected" point to the selection state (read-write), as a convenient helper.
 
-// Widgets: List Boxes
+// Widgets: TList Boxes
 // - FIXME: To be consistent with all the newer API, ListBoxHeader/ListBoxFooter should in reality be called BeginListBox/EndListBox. Will rename them.
 AUTO_API bool          ListBox(const char* label, int* current_item, const char* const items[], int items_count, int height_in_items = -1);
 AUTO_API bool          ListBox(const char* label, int* current_item, bool (*items_getter)(void* data, int idx, const char** out_text), void* data, int items_count, int height_in_items = -1);

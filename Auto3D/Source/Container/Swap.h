@@ -5,10 +5,10 @@
 namespace Auto3D
 {
 
-class HashBase;
-class ListBase;
-class VectorBase;
-class String;
+class FHashBase;
+class FListBase;
+class FVectorBase;
+class FString;
 
 /// Swap two values.
 template<class _Ty> inline void Swap(_Ty& first, _Ty& second)
@@ -19,15 +19,15 @@ template<class _Ty> inline void Swap(_Ty& first, _Ty& second)
 }
 
 /// Swap two hash sets/maps.
-template<> AUTO_API void Swap<HashBase>(HashBase& first, HashBase& second);
+template<> AUTO_API void Swap<FHashBase>(FHashBase& first, FHashBase& second);
 
 /// Swap two lists.
-template<> AUTO_API void Swap<ListBase>(ListBase& first, ListBase& second);
+template<> AUTO_API void Swap<FListBase>(FListBase& first, FListBase& second);
 
 /// Swap two vectors.
-template<> AUTO_API void Swap<VectorBase>(VectorBase& first, VectorBase& second);
+template<> AUTO_API void Swap<FVectorBase>(FVectorBase& first, FVectorBase& second);
 
 /// Swap two strings.
-template<> AUTO_API void Swap<String>(String& first, String& second);
+template<> AUTO_API void Swap<FString>(FString& first, FString& second);
 
 }

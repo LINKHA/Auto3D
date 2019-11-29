@@ -11,7 +11,7 @@ class Serializable;
 class Stream;
 
 /// Supported attribute types.
-namespace AttributeType
+namespace EAttributeType
 {
 	enum Type
 	{
@@ -44,11 +44,11 @@ namespace AttributeType
 
 
 /// Helper class for accessing serializable variables via getter and setter functions.
-class AUTO_API AttributeAccessor
+class AUTO_API IAttributeAccessor
 {
 public:
     /// Destruct.
-    virtual ~AttributeAccessor();
+    virtual ~IAttributeAccessor();
     
     /// Get the current value of the variable.
     virtual void Get(const Serializable* instance, void* dest) = 0;
@@ -57,15 +57,15 @@ public:
 };
 
 /// Description of an automatically serializable variable.
-class AUTO_API Attribute : public FRefCounted
+class AUTO_API FAttribute : public FRefCounted
 {
 public:
     /// Construct.
-    Attribute(const char* name, AttributeAccessor* accessor, const char** enumNames = 0);
+    FAttribute(const char* name, IAttributeAccessor* accessor, const char** enumNames = 0);
 	/// Prevent copy construction.
-	Attribute(const Attribute& rhs) = delete;
+	FAttribute(const FAttribute& rhs) = delete;
 	/// Prevent assignment.
-	Attribute& operator = (const Attribute& rhs) = delete;
+	FAttribute& operator = (const FAttribute& rhs) = delete;
 
     /// Deserialize from a binary stream.
     virtual void FromBinary(Serializable* instance, Stream& source) = 0;
@@ -76,7 +76,7 @@ public:
     /// Serialize to JSON.
     virtual void ToJSON(Serializable* instance, JSONValue& dest) = 0;
     /// Return type.
-    virtual AttributeType::Type Type() const = 0;
+    virtual EAttributeType::Type Type() const = 0;
     /// Return whether is default value.
     virtual bool IsDefault(Serializable* instance) = 0;
     
@@ -86,47 +86,47 @@ public:
     void ToValue(Serializable* instance, void* dest);
     
     /// Return variable name.
-    const String& Name() const { return _name; }
+    const FString& Name() const { return _name; }
     /// Return zero-based enum names, or null if none.
     const char** EnumNames() const { return _enumNames; }
     /// Return type name.
-    const String& TypeName() const;
+    const FString& TypeName() const;
     /// Return byte _size of the attribute data, or 0 if it can be variable.
     size_t ByteSize() const;
     
     /// Skip binary data of an attribute.
-    static void Skip(AttributeType::Type type, Stream& source);
+    static void Skip(EAttributeType::Type type, Stream& source);
     /// Serialize attribute value to JSON.
-    static void ToJSON(AttributeType::Type type, JSONValue& dest, const void* source);
+    static void ToJSON(EAttributeType::Type type, JSONValue& dest, const void* source);
     /// Deserialize attribute value from JSON.
-    static void FromJSON(AttributeType::Type type, void* dest, const JSONValue& source);
+    static void FromJSON(EAttributeType::Type type, void* dest, const JSONValue& source);
     /// Return attribute type from type name.
-    static AttributeType::Type TypeFromName(const String& name);
+    static EAttributeType::Type TypeFromName(const FString& name);
     /// Return attribute type from type name.
-    static AttributeType::Type TypeFromName(const char* name);
+    static EAttributeType::Type TypeFromName(const char* name);
     
     /// Type names.
-    static const String typeNames[];
-    /// Attribute byte sizes.
+    static const FString typeNames[];
+    /// FAttribute byte sizes.
     static const size_t byteSizes[];
 
 protected:
     /// Variable name.
-    String _name;
-    /// Attribute accessor.
-	UniquePtr<AttributeAccessor> _accessor;
+    FString _name;
+    /// FAttribute accessor.
+	TUniquePtr<IAttributeAccessor> _accessor;
     /// Enum names.
     const char** _enumNames;
 
 };
 
 /// Template implementation of an attribute description with specific type.
-template <typename _Ty> class AttributeImpl : public Attribute
+template <typename _Ty> class FAttributeImpl : public FAttribute
 {
 public:
     /// Construct.
-    AttributeImpl(const char* name, AttributeAccessor* accessor, const _Ty& defaultValue, const char** enumNames = 0) :
-        Attribute(name, accessor, enumNames),
+    FAttributeImpl(const char* name, IAttributeAccessor* accessor, const _Ty& defaultValue, const char** enumNames = 0) :
+        FAttribute(name, accessor, enumNames),
         _defaultValue(defaultValue)
     {
     }
@@ -153,7 +153,7 @@ public:
     void FromJSON(Serializable* instance, const JSONValue& source) override
     {
         _Ty value;
-        Attribute::FromJSON(Type(), &value, source);
+        FAttribute::FromJSON(Type(), &value, source);
         _accessor->Set(instance, &value);
     }
 
@@ -162,11 +162,11 @@ public:
     {
         _Ty value;
         _accessor->Get(instance, &value);
-        Attribute::ToJSON(Type(), dest, &value);
+        FAttribute::ToJSON(Type(), dest, &value);
     }
 
     /// Return type.
-    AttributeType::Type Type() const override;
+    EAttributeType::Type Type() const override;
     
     /// Set new attribute value.
     void SetValue(Serializable* instance, const _Ty& source) { _accessor->Set(instance, &source); }
@@ -190,14 +190,14 @@ private:
 };
 
 /// Template implementation for accessing serializable variables.
-template <typename _Ty, typename U> class AttributeAccessorImpl : public AttributeAccessor
+template <typename _Ty, typename U> class FAttributeAccessorImpl : public IAttributeAccessor
 {
 public:
     typedef U (_Ty::*GetFunctionPtr)() const;
     typedef void (_Ty::*SetFunctionPtr)(U);
 
     /// Construct with function pointers.
-    AttributeAccessorImpl(GetFunctionPtr getPtr, SetFunctionPtr setPtr) :
+    FAttributeAccessorImpl(GetFunctionPtr getPtr, SetFunctionPtr setPtr) :
         _get(getPtr),
         _set(setPtr)
     {
@@ -233,14 +233,14 @@ private:
 };
 
 /// Template implementation for accessing serializable variables via functions that use references.
-template <typename _Ty, typename U> class RefAttributeAccessorImpl : public AttributeAccessor
+template <typename _Ty, typename U> class FRefAttributeAccessorImpl : public IAttributeAccessor
 {
 public:
     typedef const U& (_Ty::*GetFunctionPtr)() const;
     typedef void (_Ty::*SetFunctionPtr)(const U&);
 
     /// Set new value for the variable.
-    RefAttributeAccessorImpl(GetFunctionPtr getPtr, SetFunctionPtr setPtr) :
+    FRefAttributeAccessorImpl(GetFunctionPtr getPtr, SetFunctionPtr setPtr) :
         _get(getPtr),
         _set(setPtr)
     {
@@ -276,14 +276,14 @@ private:
 };
 
 /// Template implementation for accessing serializable variables via functions where the setter uses reference, but the getter does not.
-template <typename _Ty, typename U> class MixedRefAttributeAccessorImpl : public AttributeAccessor
+template <typename _Ty, typename U> class FMixedRefAttributeAccessorImpl : public IAttributeAccessor
 {
 public:
     typedef U (_Ty::*GetFunctionPtr)() const;
     typedef void (_Ty::*SetFunctionPtr)(const U&);
 
     /// Set new value for the variable.
-    MixedRefAttributeAccessorImpl(GetFunctionPtr getPtr, SetFunctionPtr setPtr) :
+    FMixedRefAttributeAccessorImpl(GetFunctionPtr getPtr, SetFunctionPtr setPtr) :
         _get(getPtr),
         _set(setPtr)
     {

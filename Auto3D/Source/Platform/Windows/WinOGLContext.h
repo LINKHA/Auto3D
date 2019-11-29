@@ -36,7 +36,7 @@ namespace Auto3D
 		/// OpenGL context
 		SDL_GLContext _contextHandle;
 		/// Associated _window.
-		WeakPtr<Window> _window;
+		TWeakPtr<Window> _window;
 
 	};
 

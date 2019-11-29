@@ -90,7 +90,7 @@ ProfilerBlock* ProfilerBlock::FindOrCreateChild(const char* name)
 
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		if (!String::Compare((*it)->_name, name))
+		if (!FString::Compare((*it)->_name, name))
 			return *it;
 	}
 
@@ -160,16 +160,16 @@ void Profiler::BeginInterval()
 	_intervalFrames = 0;
 }
 
-String Profiler::OutputResults(bool showUnused, bool showTotal, size_t maxDepth) const
+FString Profiler::OutputResults(bool showUnused, bool showTotal, size_t maxDepth) const
 {
-	String output;
-	output += String("\n--------------------------------------------------------------------------\n");
+	FString output;
+	output += FString("\n--------------------------------------------------------------------------\n");
 	if (!showTotal)
-		output += String("Block                            Cnt     Avg      Max     Frame     Total\n\n");
+		output += FString("Block                            Cnt     Avg      Max     Frame     Total\n\n");
 	else
 	{
-		output += String("Block                                       Last frame                       Whole execution time\n\n");
-		output += String("                                 Cnt     Avg      Max      Total      Cnt      Avg       Max        Total\n\n");
+		output += FString("Block                                       Last frame                       Whole execution time\n\n");
+		output += FString("                                 Cnt     Avg      Max      Total      Cnt      Avg       Max        Total\n\n");
 	}
 
 	if (!maxDepth)
@@ -180,7 +180,7 @@ String Profiler::OutputResults(bool showUnused, bool showTotal, size_t maxDepth)
 	return output;
 }
 
-void Profiler::OutputResults(ProfilerBlock* block, String& output, size_t depth, size_t maxDepth, bool showUnused, bool showTotal) const
+void Profiler::OutputResults(ProfilerBlock* block, FString& output, size_t depth, size_t maxDepth, bool showUnused, bool showTotal) const
 {
 	char line[LINE_MAX_LENGTH];
 	char indentedName[LINE_MAX_LENGTH];
@@ -227,7 +227,7 @@ void Profiler::OutputResults(ProfilerBlock* block, String& output, size_t depth,
 					avg, max, all, Min(block->_totalCount, 99999), totalAvg, totalMax, totalAll);
 			}
 
-			output += String(line);
+			output += FString(line);
 		}
 
 		++depth;

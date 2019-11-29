@@ -14,12 +14,12 @@
 namespace Auto3D
 {
 
-SharedPtr<Material> Material::_defaultMaterial;
-HashMap<String, unsigned char> Material::_passIndices;
-Vector<String> Material::_passNames;
+TSharedPtr<Material> Material::_defaultMaterial;
+THashMap<FString, unsigned char> Material::_passIndices;
+TVector<FString> Material::_passNames;
 unsigned char Material::_nextPassIndex = 0;
 
-Pass::Pass(Material* parent, const String& name) :
+Pass::Pass(Material* parent, const FString& name) :
     _parent(parent),
     _name(name),
     _shaderHash(0),
@@ -44,7 +44,7 @@ bool Pass::LoadJSON(const JSONValue& source)
         _shaderDefines[ShaderStage::PS] = source["psDefines"].GetString();
 
     if (source.Contains("depthFunc"))
-        _depthFunc = (CompareFunc::Type)String::ListIndex(source["depthFunc"].GetString(), compareFuncNames, CompareFunc::LESS_EQUAL);
+        _depthFunc = (CompareFunc::Type)FString::ListIndex(source["depthFunc"].GetString(), compareFuncNames, CompareFunc::LESS_EQUAL);
     if (source.Contains("depthWrite"))
         _depthWrite = source["depthWrite"].GetBool();
     if (source.Contains("depthClip"))
@@ -54,29 +54,29 @@ bool Pass::LoadJSON(const JSONValue& source)
     if (source.Contains("colorWriteMask"))
         _colorWriteMask = (unsigned char)source["colorWriteMask"].GetNumber();
     if (source.Contains("blendMode"))
-        _blendMode = blendModes[String::ListIndex(source["blendMode"].GetString(), blendModeNames, BlendMode::REPLACE)];
+        _blendMode = blendModes[FString::ListIndex(source["blendMode"].GetString(), blendModeNames, BlendMode::REPLACE)];
     else
     {
         if (source.Contains("blendEnable"))
             _blendMode._blendEnable = source["blendEnable"].GetBool();
         if (source.Contains("srcBlend"))
-            _blendMode._srcBlend = (BlendFactor::Type)String::ListIndex(source["srcBlend"].GetString(), blendFactorNames, BlendFactor::ONE);
+            _blendMode._srcBlend = (BlendFactor::Type)FString::ListIndex(source["srcBlend"].GetString(), blendFactorNames, BlendFactor::ONE);
         if (source.Contains("destBlend"))
-            _blendMode._destBlend = (BlendFactor::Type)String::ListIndex(source["destBlend"].GetString(), blendFactorNames, BlendFactor::ONE);
+            _blendMode._destBlend = (BlendFactor::Type)FString::ListIndex(source["destBlend"].GetString(), blendFactorNames, BlendFactor::ONE);
         if (source.Contains("blendOp"))
-            _blendMode._blendOp = (BlendOp::Type)String::ListIndex(source["blendOp"].GetString(), blendOpNames, BlendOp::ADD);
+            _blendMode._blendOp = (BlendOp::Type)FString::ListIndex(source["blendOp"].GetString(), blendOpNames, BlendOp::ADD);
         if (source.Contains("srcBlendAlpha"))
-            _blendMode._srcBlendAlpha = (BlendFactor::Type)String::ListIndex(source["srcBlendAlpha"].GetString(), blendFactorNames, BlendFactor::ONE);
+            _blendMode._srcBlendAlpha = (BlendFactor::Type)FString::ListIndex(source["srcBlendAlpha"].GetString(), blendFactorNames, BlendFactor::ONE);
         if (source.Contains("destBlendAlpha"))
-            _blendMode._destBlendAlpha = (BlendFactor::Type)String::ListIndex(source["destBlendAlpha"].GetString(), blendFactorNames, BlendFactor::ONE);
+            _blendMode._destBlendAlpha = (BlendFactor::Type)FString::ListIndex(source["destBlendAlpha"].GetString(), blendFactorNames, BlendFactor::ONE);
         if (source.Contains("blendOpAlpha"))
-            _blendMode._blendOpAlpha = (BlendOp::Type)String::ListIndex(source["blendOpAlpha"].GetString(), blendOpNames, BlendOp::ADD);
+            _blendMode._blendOpAlpha = (BlendOp::Type)FString::ListIndex(source["blendOpAlpha"].GetString(), blendOpNames, BlendOp::ADD);
     }
 
     if (source.Contains("fillMode"))
-        _fillMode = (FillMode::Type)String::ListIndex(source["fillMode"].GetString(), fillModeNames, FillMode::SOLID);
+        _fillMode = (FillMode::Type)FString::ListIndex(source["fillMode"].GetString(), fillModeNames, FillMode::SOLID);
     if (source.Contains("cullMode"))
-        _cullMode = (CullMode::Type)String::ListIndex(source["cullMode"].GetString(), cullModeNames, CullMode::BACK);
+        _cullMode = (CullMode::Type)FString::ListIndex(source["cullMode"].GetString(), cullModeNames, CullMode::BACK);
 
     OnShadersChanged();
     return true;
@@ -135,7 +135,7 @@ void Pass::SetBlendMode(BlendMode::Type mode)
     _blendMode = blendModes[mode];
 }
 
-void Pass::SetShaders(const String& vsName, const String& psName, const String& vsDefines, const String& psDefines)
+void Pass::SetShaders(const FString& vsName, const FString& psName, const FString& vsDefines, const FString& psDefines)
 {
     _shaderNames[ShaderStage::VS] = vsName;
     _shaderNames[ShaderStage::PS] = psName;
@@ -175,14 +175,14 @@ void Pass::OnShadersChanged()
     // Combine and trim the shader defines
     for (size_t i = 0; i < ShaderStage::Count; ++i)
     {
-        const String& materialDefines = _parent->ShaderDefines((ShaderStage::Type)i);
+        const FString& materialDefines = _parent->ShaderDefines((ShaderStage::Type)i);
         if (materialDefines.Length())
             _combinedShaderDefines[i] = (materialDefines.Trimmed() + " " + _shaderDefines[i]).Trimmed();
         else
             _combinedShaderDefines[i] = _shaderDefines[i].Trimmed();
     }
 
-    _shaderHash = StringHash(_shaderNames[ShaderStage::VS] + _shaderNames[ShaderStage::PS] + _combinedShaderDefines[ShaderStage::VS] +
+    _shaderHash = FStringHash(_shaderNames[ShaderStage::VS] + _shaderNames[ShaderStage::PS] + _combinedShaderDefines[ShaderStage::VS] +
         _combinedShaderDefines[ShaderStage::PS]).Value();
 }
 
@@ -265,8 +265,8 @@ bool Material::EndLoad()
 	if (root.Contains("texturesMap"))
 	{
 		const JSONObject& jsonTextures = root["texturesMap"].GetObject();
-		Vector<Image*> imageData;
-		Vector<ImageLevel> faces;
+		TVector<Image*> imageData;
+		TVector<ImageLevel> faces;
 
 		for (auto it = jsonTextures.Begin(); it != jsonTextures.End(); ++it)
 			imageData.Push(cache->LoadResource<Image>(it->_second.GetString()));
@@ -277,7 +277,7 @@ bool Material::EndLoad()
 			faces.Push(imageData[i]->GetLevel(0));
 		}
 
-		SharedPtr<Texture>textureCube(new Texture());
+		TSharedPtr<Texture>textureCube(new Texture());
 		textureCube->Define(TextureType::TEX_CUBE, ResourceUsage::DEFAULT, imageData[0]->GetLevel(0)._size, imageData[0]->GetFormat(), 1, &faces[0]);
 		textureCube->DefineSampler(TextureFilterMode::COMPARE_TRILINEAR, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP);
 		textureCube->SetDataLost(false);
@@ -320,13 +320,13 @@ bool Material::Save(Stream& dest)
     for (size_t i = 0; i < MAX_MATERIAL_TEXTURE_UNITS; ++i)
     {
         if (_textures[i])
-            root["textures"][String((int)i)] = _textures[i]->Name();
+            root["textures"][FString((int)i)] = _textures[i]->Name();
     }
 
     return saveJSON.Save(dest);
 }
 
-Pass* Material::CreatePass(const String& name)
+Pass* Material::CreatePass(const FString& name)
 {
     size_t index = PassIndex(name);
     if (_passes.Size() <= index)
@@ -338,7 +338,7 @@ Pass* Material::CreatePass(const String& name)
     return _passes[index];
 }
 
-void Material::RemovePass(const String& name)
+void Material::RemovePass(const FString& name)
 {
     size_t index = PassIndex(name, false);
     if (index < _passes.Size())
@@ -363,7 +363,7 @@ void Material::SetConstantBuffer(ShaderStage::Type stage, ConstantBuffer* buffer
         _constantBuffers[stage] = buffer;
 }
 
-void Material::SetShaderDefines(const String& vsDefines, const String& psDefines)
+void Material::SetShaderDefines(const FString& vsDefines, const FString& psDefines)
 {
     _shaderDefines[ShaderStage::VS] = vsDefines;
     _shaderDefines[ShaderStage::PS] = psDefines;
@@ -376,7 +376,7 @@ void Material::SetShaderDefines(const String& vsDefines, const String& psDefines
     }
 }
 
-Pass* Material::FindPass(const String& name) const
+Pass* Material::FindPass(const FString& name) const
 {
     return GetPass(PassIndex(name, false));
 }
@@ -396,14 +396,14 @@ ConstantBuffer* Material::GetConstantBuffer(ShaderStage::Type stage) const
     return stage < ShaderStage::Count ? _constantBuffers[stage].Get() : nullptr;
 }
 
-const String& Material::ShaderDefines(ShaderStage::Type stage) const
+const FString& Material::ShaderDefines(ShaderStage::Type stage) const
 {
-    return stage < ShaderStage::Count ? _shaderDefines[stage] : String::EMPTY;
+    return stage < ShaderStage::Count ? _shaderDefines[stage] : FString::EMPTY;
 }
 
-unsigned char Material::PassIndex(const String& name, bool createNew)
+unsigned char Material::PassIndex(const FString& name, bool createNew)
 {
-    String nameLower = name.ToLower();
+    FString nameLower = name.ToLower();
     auto it = _passIndices.Find(nameLower);
     if (it != _passIndices.End())
         return it->_second;
@@ -420,9 +420,9 @@ unsigned char Material::PassIndex(const String& name, bool createNew)
     }
 }
 
-const String& Material::PassName(unsigned char index)
+const FString& Material::PassName(unsigned char index)
 {
-    return index < _passNames.Size() ? _passNames[index] : String::EMPTY;
+    return index < _passNames.Size() ? _passNames[index] : FString::EMPTY;
 }
 
 Material* Material::DefaultMaterial()

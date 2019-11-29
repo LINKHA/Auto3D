@@ -5,7 +5,7 @@
 namespace Auto3D
 {
 
-bool OpenFileDialog(const String& filterList, const String& defaultPath, String& outPath)
+bool OpenFileDialog(const FString& filterList, const FString& defaultPath, FString& outPath)
 {
 	nfdchar_t* out = nullptr;
 	nfdresult_t result = NFD_OpenDialog(filterList.CString(), defaultPath.CString(), &out);
@@ -19,8 +19,8 @@ bool OpenFileDialog(const String& filterList, const String& defaultPath, String&
 	return false;
 }
 
-bool OpenMultipleFilesDialog(const String& filterList, const String& defaultPath,
-								Vector<String>& outPaths)
+bool OpenMultipleFilesDialog(const FString& filterList, const FString& defaultPath,
+								TVector<FString>& outPaths)
 {
 	nfdpathset_t out;
 	nfdresult_t result = NFD_OpenDialogMultiple(filterList.CString(), defaultPath.CString(), &out);
@@ -39,7 +39,7 @@ bool OpenMultipleFilesDialog(const String& filterList, const String& defaultPath
 	return false;
 }
 
-bool PickFolderDialog(const String& defaultPath, String& outPath)
+bool PickFolderDialog(const FString& defaultPath, FString& outPath)
 {
 	nfdchar_t* out = nullptr;
 	nfdresult_t result = NFD_PickFolder(defaultPath.CString(), &out);
@@ -53,13 +53,13 @@ bool PickFolderDialog(const String& defaultPath, String& outPath)
 	return false;
 }
 
-bool SaveFileDialog(const String& filterList, const String& defaultPath, String& outPath)
+bool SaveFileDialog(const FString& filterList, const FString& defaultPath, FString& outPath)
 {
 	nfdchar_t* out = nullptr;
 	nfdresult_t result = NFD_SaveDialog(filterList.CString(), defaultPath.CString(), &out);
 	if(result == NFD_OKAY)
 	{
-		outPath = String(out);
+		outPath = FString(out);
 		NFDi_Free(out);
 		return true;
 	}

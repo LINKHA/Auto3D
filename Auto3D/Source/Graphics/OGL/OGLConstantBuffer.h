@@ -28,13 +28,13 @@ public:
     /// Save as JSON data.
     void SaveJSON(JSONValue& dest);
     /// Define the constants being used and create the GPU-side buffer. Return true on success.
-    bool Define(ResourceUsage::Type usage, const Vector<Constant>& srcConstants);
+    bool Define(ResourceUsage::Type usage, const TVector<Constant>& srcConstants);
     /// Define the constants being used and create the GPU-side buffer. Return true on success.
     bool Define(ResourceUsage::Type usage, size_t numConstants, const Constant* srcConstants);
     /// Set a constant by index. Optionally specify how many elements to update, default all. Return true on success.
     bool SetConstant(size_t index, const void* _data, size_t numElements = 0);
     /// Set a constant by name. Optionally specify how many elements to update, default all. Return true on success.
-    bool SetConstant(const String& name, const void* _data, size_t numElements = 0);
+    bool SetConstant(const FString& name, const void* _data, size_t numElements = 0);
     /// Set a constant by name. Optionally specify how many elements to update, default all. Return true on success.
     bool SetConstant(const char* name, const void* _data, size_t numElements = 0);
     /// Apply to the GPU-side buffer if has changes. Can only be used once on an immutable buffer. Return true on success.
@@ -44,22 +44,22 @@ public:
     /// Set a constant by index, template version.
     template <typename _Ty> bool SetConstant(size_t index, const _Ty& _data, size_t numElements = 0) { return SetConstant(index, (const void*)&_data, numElements); }
     /// Set a constant by name, template version.
-    template <typename _Ty> bool SetConstant(const String& name, const _Ty& _data, size_t numElements = 0) { return SetConstant(name, (const void*)&_data, numElements); }
+    template <typename _Ty> bool SetConstant(const FString& name, const _Ty& _data, size_t numElements = 0) { return SetConstant(name, (const void*)&_data, numElements); }
     /// Set a constant by name, template version.
     template <typename _Ty> bool SetConstant(const char* name, const _Ty& _data, size_t numElements = 0) { return SetConstant(name, (const void*)&_data, numElements); }
 
     /// Return number of constants.
     size_t GetNumConstants() const { return _constants.Size(); }
     /// Return the constant descriptions.
-    const Vector<Constant>& GetConstants() const { return _constants; }
+    const TVector<Constant>& GetConstants() const { return _constants; }
     /// Return the index of a constant, or NPOS if not found.
-    size_t FindConstantIndex(const String& name) const;
+    size_t FindConstantIndex(const FString& name) const;
     /// Return the index of a constant, or NPOS if not found.
     size_t FindConstantIndex(const char* name) const;
     /// Return pointer to the constant value, or null if not found.
     const void* ConstantValue(size_t index, size_t elementIndex = 0) const;
     /// Return pointer to the constant value, or null if not found.
-    const void* ConstantValue(const String& name, size_t elementIndex = 0) const;
+    const void* ConstantValue(const FString& name, size_t elementIndex = 0) const;
     /// Return pointer to the constant value, or null if not found.
     const void* ConstantValue(const char* name, size_t elementIndex = 0) const;
 
@@ -71,7 +71,7 @@ public:
     }
 
     /// Return constant value, template version.
-    template <typename _Ty> _Ty ConstantValue(const String& name, size_t elementIndex = 0) const
+    template <typename _Ty> _Ty ConstantValue(const FString& name, size_t elementIndex = 0) const
     {
         const void* value = ConstantValue(name, elementIndex);
         return value ? *(reinterpret_cast<const _Ty*>(value)) : _Ty();
@@ -108,9 +108,9 @@ private:
     /// OpenGL buffer object identifier.
     unsigned _buffer;
     /// Constant definitions.
-    Vector<Constant> _constants;
+    TVector<Constant> _constants;
     /// CPU-side data where updates are collected before applying.
-    AutoArrayPtr<unsigned char> _shadowData;
+    TAutoArrayPtr<unsigned char> _shadowData;
     /// Total byte _size.
     size_t _byteSize;
     /// AResource usage type.

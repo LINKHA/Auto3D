@@ -9,11 +9,11 @@ namespace Auto3D
 {
 
 /// Hash set template class.
-template <typename _Ty> class HashSet : public HashBase
+template <typename _Ty> class THashSet : public FHashBase
 {
 public:
     /// Hash set node.
-    struct Node : public HashNodeBase
+    struct Node : public FHashNodeBase
     {
         /// Construct undefined.
         Node()
@@ -38,7 +38,7 @@ public:
     };
     
     /// Hash set node iterator.
-    struct Iterator : public HashIteratorBase
+    struct Iterator : public FHashIteratorBase
     {
         /// Construct.
         Iterator()
@@ -47,7 +47,7 @@ public:
         
         /// Construct with a node pointer.
         Iterator(Node* rhs) :
-            HashIteratorBase(rhs)
+            FHashIteratorBase(rhs)
         {
         }
         
@@ -67,7 +67,7 @@ public:
     };
     
     /// Hash set node const iterator.
-    struct ConstIterator : public HashIteratorBase
+    struct ConstIterator : public FHashIteratorBase
     {
         /// Construct.
         ConstIterator()
@@ -76,13 +76,13 @@ public:
         
         /// Construct with a node pointer.
         ConstIterator(Node* rhs) :
-            HashIteratorBase(rhs)
+            FHashIteratorBase(rhs)
         {
         }
         
         /// Construct from a non-const iterator.
         ConstIterator(const Iterator& rhs) :
-            HashIteratorBase(rhs.ptr)
+            FHashIteratorBase(rhs.ptr)
         {
         }
         
@@ -104,19 +104,19 @@ public:
     };
     
     /// Construct empty.
-    HashSet()
+    THashSet()
     {
     }
     
     /// Construct from another hash set.
-    HashSet(const HashSet<_Ty>& set)
+    THashSet(const THashSet<_Ty>& set)
     {
         Initialize(set.NumBuckets(), set.Size() + 1);
         *this = set;
     }
     
     /// Destruct.
-    ~HashSet()
+    ~THashSet()
     {
         if (_ptrs && _allocator)
         {
@@ -127,7 +127,7 @@ public:
     }
     
     /// Assign a hash set.
-    HashSet& operator = (const HashSet<_Ty>& rhs)
+    THashSet& operator = (const THashSet<_Ty>& rhs)
     {
         if (&rhs != this)
         {
@@ -138,21 +138,21 @@ public:
     }
     
     /// Add-assign a value.
-    HashSet& operator += (const _Ty& rhs)
+    THashSet& operator += (const _Ty& rhs)
     {
         Insert(rhs);
         return *this;
     }
     
     /// Add-assign a hash set.
-    HashSet& operator += (const HashSet<_Ty>& rhs)
+    THashSet& operator += (const THashSet<_Ty>& rhs)
     {
         Insert(rhs);
         return *this;
     }
 
     /// Test for equality with another hash set.
-    bool operator == (const HashSet<_Ty>& rhs) const
+    bool operator == (const THashSet<_Ty>& rhs) const
     {
         if (rhs.Size() != Size())
             return false;
@@ -167,7 +167,7 @@ public:
     }
     
     /// Test for inequality with another hash set.
-    bool operator != (const HashSet<_Ty>& rhs) const { return !(*this == rhs); }
+    bool operator != (const THashSet<_Ty>& rhs) const { return !(*this == rhs); }
 
     /// Insert a _key. Return an iterator to it.
     Iterator Insert(const _Ty& key)
@@ -193,7 +193,7 @@ public:
     }
     
     /// Insert a set.
-    void Insert(const HashSet<_Ty>& set)
+    void Insert(const THashSet<_Ty>& set)
     {
         for (ConstIterator it = set.Begin(); it != set.End(); ++it)
             Insert(*it);
@@ -289,7 +289,7 @@ public:
             ptr = ptr->Next();
         }
         
-        Auto3D::Sort(RandomAccessIterator<Node*>(ptrs), RandomAccessIterator<Node*>(ptrs + numKeys), CompareNodes);
+        Auto3D::Sort(TRandomAccessIterator<Node*>(ptrs), TRandomAccessIterator<Node*>(ptrs + numKeys), CompareNodes);
         
         SetHead(ptrs[0]);
         ptrs[0]->prev = nullptr;
@@ -377,16 +377,16 @@ public:
     
 private:
     /// Return head node with correct type.
-    Node* Head() const { return static_cast<Node*>(HashBase::Head()); }
+    Node* Head() const { return static_cast<Node*>(FHashBase::Head()); }
     /// Return tail node with correct type.
-    Node* Tail() const { return static_cast<Node*>(HashBase::Tail()); }
+    Node* Tail() const { return static_cast<Node*>(FHashBase::Tail()); }
 
     /// Reserve the tail node and initial buckets.
     void Initialize(size_t numBuckets, size_t numNodes)
     {
         AllocateBuckets(0, numBuckets);
         _allocator = AllocatorInitialize(sizeof(Node), numNodes);
-        HashNodeBase* tail = AllocateNode();
+        FHashNodeBase* tail = AllocateNode();
         SetHead(tail);
         SetTail(tail);
     }

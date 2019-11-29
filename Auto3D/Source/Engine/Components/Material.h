@@ -20,7 +20,7 @@ class Pass : public FRefCounted
 {
 public:
     /// Construct.
-    Pass(Material* parent, const String& name);
+    Pass(Material* parent, const FString& name);
     /// Destruct.
     ~Pass();
 
@@ -31,20 +31,20 @@ public:
     /// Set a predefined blend mode.
     void SetBlendMode(BlendMode::Type mode);
     /// Set shader names and defines.
-    void SetShaders(const String& vsName, const String& psName, const String& vsDefines = String::EMPTY, const String& psDefines = String::EMPTY);
+    void SetShaders(const FString& vsName, const FString& psName, const FString& vsDefines = FString::EMPTY, const FString& psDefines = FString::EMPTY);
     /// Reset render state to defaults.
     void Reset();
 
     /// Return parent material resource.
     Material* Parent() const;
     /// Return pass name.
-    const String& GetName() const { return _name; }
+    const FString& GetName() const { return _name; }
     /// Return shader name by stage.
-    const String& GetShaderName(ShaderStage::Type stage) const { return _shaderNames[stage]; }
+    const FString& GetShaderName(ShaderStage::Type stage) const { return _shaderNames[stage]; }
     /// Return shader defines by stage.
-    const String& GetShaderDefines(ShaderStage::Type stage) const { return _shaderDefines[stage]; }
+    const FString& GetShaderDefines(ShaderStage::Type stage) const { return _shaderDefines[stage]; }
     /// Return combined shader defines from the material and pass by stage.
-    const String& GetCombinedShaderDefines(ShaderStage::Type stage) const { return _combinedShaderDefines[stage]; }
+    const FString& GetCombinedShaderDefines(ShaderStage::Type stage) const { return _combinedShaderDefines[stage]; }
     /// Return shader hash value for state sorting.
     unsigned GetShaderHash() const { return _shaderHash; }
 
@@ -68,23 +68,23 @@ public:
     /// Polygon fill mode.
     FillMode::Type _fillMode;
     /// Shader resources. Filled by Renderer.
-    SharedPtr<Shader> _shaders[ShaderStage::Count];
+    TSharedPtr<Shader> _shaders[ShaderStage::Count];
     /// Cached shader variations. Filled by Renderer.
-    HashMap<unsigned short, WeakPtr<ShaderVariation> > _shaderVariations[ShaderStage::Count];
+    THashMap<unsigned short, TWeakPtr<ShaderVariation> > _shaderVariations[ShaderStage::Count];
     /// Shader load attempted flag. Filled by Renderer.
     bool _shadersLoaded;
 
 private:
     /// Parent material resource.
-    WeakPtr<Material> _parent;
+    TWeakPtr<Material> _parent;
     /// Pass name.
-    String _name;
+    FString _name;
     /// Shader names.
-    String _shaderNames[ShaderStage::Count];
+    FString _shaderNames[ShaderStage::Count];
     /// Shader defines.
-    String _shaderDefines[ShaderStage::Count];
+    FString _shaderDefines[ShaderStage::Count];
     /// Combined shader defines from both the pass and material. Filled by Renderer.
-    String _combinedShaderDefines[ShaderStage::Count];
+    FString _combinedShaderDefines[ShaderStage::Count];
     /// Shader hash calculated from names and defines.
     unsigned _shaderHash;
 };
@@ -111,9 +111,9 @@ public:
 	virtual bool Save(Stream& dest);
 
     /// Create and return a new pass. If pass with same name exists, it will be returned.
-    Pass* CreatePass(const String& name);
+    Pass* CreatePass(const FString& name);
     /// Remove a pass.
-    void RemovePass(const String& name);
+    void RemovePass(const FString& name);
     /// Set a texture.
     void SetTexture(size_t index, Texture* texture);
     /// Reset all texture assignments.
@@ -121,10 +121,10 @@ public:
     /// Set a constant buffer.
     void SetConstantBuffer(ShaderStage::Type stage, ConstantBuffer* buffer);
     /// Set global shader defines. Clears existing shader cached variations from all passes.
-    void SetShaderDefines(const String& vsDefines = String::EMPTY, const String& psDefines = String::EMPTY);
+    void SetShaderDefines(const FString& vsDefines = FString::EMPTY, const FString& psDefines = FString::EMPTY);
 
     /// Return pass by name or null if not found. Should not be called in performance-sensitive rendering loops.
-    Pass* FindPass(const String& name) const;
+    Pass* FindPass(const FString& name) const;
     /// Return pass by index or null if not found.
     Pass* GetPass(unsigned char index) const;
     /// Return texture by texture unit.
@@ -132,34 +132,34 @@ public:
     /// Return constant buffer by stage.
     ConstantBuffer* GetConstantBuffer(ShaderStage::Type stage) const;
     /// Return shader defines by stage.
-    const String& ShaderDefines(ShaderStage::Type stage) const;
+    const FString& ShaderDefines(ShaderStage::Type stage) const;
 
     /// Return pass index from name. By default reserve a new index if the name was not known.
-    static unsigned char PassIndex(const String& name, bool createNew = true);
+    static unsigned char PassIndex(const FString& name, bool createNew = true);
     /// Return pass name by index.
-    static const String& PassName(unsigned char index);
+    static const FString& PassName(unsigned char index);
     /// Return a default opaque untextured material.
     static Material* DefaultMaterial();
 
     /// Material textures.
-    SharedPtr<Texture> _textures[MAX_MATERIAL_TEXTURE_UNITS];
+    TSharedPtr<Texture> _textures[MAX_MATERIAL_TEXTURE_UNITS];
     /// Constant buffers.
-    SharedPtr<ConstantBuffer> _constantBuffers[ShaderStage::Count];
+    TSharedPtr<ConstantBuffer> _constantBuffers[ShaderStage::Count];
 
 protected:
     /// Passes by index.
-    Vector<SharedPtr<Pass> > _passes;
+    TVector<TSharedPtr<Pass> > _passes;
     /// Global shader defines.
-    String _shaderDefines[ShaderStage::Count];
+    FString _shaderDefines[ShaderStage::Count];
     /// JSON data used for loading.
-    UniquePtr<JSONFile> _loadJSON;
+    TUniquePtr<JSONFile> _loadJSON;
 
     /// Default material.
-    static SharedPtr<Material> _defaultMaterial;
+    static TSharedPtr<Material> _defaultMaterial;
     /// Pass name to index mapping.
-    static HashMap<String, unsigned char> _passIndices;
+    static THashMap<FString, unsigned char> _passIndices;
     /// Pass names by index.
-    static Vector<String> _passNames;
+    static TVector<FString> _passNames;
     /// Next free pass index.
     static unsigned char _nextPassIndex;
 };

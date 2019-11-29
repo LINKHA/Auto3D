@@ -54,23 +54,23 @@ void ModuleManager::RegisterMoudleLibrary()
 
 void ModuleManager::CreateModules()
 {
-	_cache = UniquePtr<ResourceCache>(new ResourceCache());
-	_log = UniquePtr<Log>(new Log());
-	_input = UniquePtr<Input>(new Input());
-	_profiler = UniquePtr<Profiler>(new Profiler());
-	_graphics = UniquePtr<Graphics>(new Graphics());
-	_renderer = UniquePtr<Renderer>(new Renderer());
-	_time = UniquePtr<Time>(new Time());
-	_registeredBox = UniquePtr<RegisteredBox>(new RegisteredBox());
-	_renderer2d = UniquePtr<Renderer2D>(new Renderer2D());
-	_physics = UniquePtr<Physics>(new Physics());
-	_fileSystem = UniquePtr<FileSystem>(new FileSystem());
-	_ui = UniquePtr<UI>(new UI());
+	_cache = TUniquePtr<ResourceCache>(new ResourceCache());
+	_log = TUniquePtr<Log>(new Log());
+	_input = TUniquePtr<Input>(new Input());
+	_profiler = TUniquePtr<Profiler>(new Profiler());
+	_graphics = TUniquePtr<Graphics>(new Graphics());
+	_renderer = TUniquePtr<Renderer>(new Renderer());
+	_time = TUniquePtr<Time>(new Time());
+	_registeredBox = TUniquePtr<RegisteredBox>(new RegisteredBox());
+	_renderer2d = TUniquePtr<Renderer2D>(new Renderer2D());
+	_physics = TUniquePtr<Physics>(new Physics());
+	_fileSystem = TUniquePtr<FileSystem>(new FileSystem());
+	_ui = TUniquePtr<UI>(new UI());
 }
 
 ModuleManager& ModuleManager::Get()
 {
-	return Singleton<ModuleManager>::Instance();
+	return TSingleton<ModuleManager>::Instance();
 }
 
 void ModuleManager::RecreateCacheModule(ResourceCache* cache)
@@ -81,7 +81,7 @@ void ModuleManager::RecreateCacheModule(ResourceCache* cache)
 	if (cache)
 		_cache = cache;
 	else
-		_cache = UniquePtr<ResourceCache>(new ResourceCache());
+		_cache = TUniquePtr<ResourceCache>(new ResourceCache());
 }
 
 void ModuleManager::RecreateGraphicsModule(Graphics* graphics)
@@ -92,7 +92,7 @@ void ModuleManager::RecreateGraphicsModule(Graphics* graphics)
 	if (graphics)
 		_graphics = graphics;
 	else
-		_graphics = UniquePtr<Graphics>(new Graphics());
+		_graphics = TUniquePtr<Graphics>(new Graphics());
 }
 
 void ModuleManager::RecreateRendererModule(Renderer* renderer)
@@ -103,7 +103,7 @@ void ModuleManager::RecreateRendererModule(Renderer* renderer)
 	if (renderer)
 		_renderer = renderer;
 	else
-		_renderer = UniquePtr<Renderer>(new Renderer());
+		_renderer = TUniquePtr<Renderer>(new Renderer());
 }
 
 void ModuleManager::RecreateInputModule(Input* input)
@@ -114,7 +114,7 @@ void ModuleManager::RecreateInputModule(Input* input)
 	if (input)
 		_input = input;
 	else
-		_input = UniquePtr<Input>(new Input());
+		_input = TUniquePtr<Input>(new Input());
 }
 
 void ModuleManager::RecreateLogModule(Log* log)
@@ -125,7 +125,7 @@ void ModuleManager::RecreateLogModule(Log* log)
 	if (log)
 		_log = log;
 	else
-		_log = UniquePtr<Log>(new Log());
+		_log = TUniquePtr<Log>(new Log());
 }
 
 void ModuleManager::RecreateProfilerModule(Profiler* profiler)
@@ -136,7 +136,7 @@ void ModuleManager::RecreateProfilerModule(Profiler* profiler)
 	if (profiler)
 		_profiler = profiler;
 	else
-		_profiler = UniquePtr<Profiler>(new Profiler());
+		_profiler = TUniquePtr<Profiler>(new Profiler());
 }
 
 void ModuleManager::RecreateTimeModule(Time* time)
@@ -147,7 +147,7 @@ void ModuleManager::RecreateTimeModule(Time* time)
 	if (time)
 		_time = time;
 	else
-		_time = UniquePtr<Time>(new Time());
+		_time = TUniquePtr<Time>(new Time());
 }
 
 void ModuleManager::RecreateRegisteredBoxModule(RegisteredBox* registeredBox)
@@ -158,7 +158,7 @@ void ModuleManager::RecreateRegisteredBoxModule(RegisteredBox* registeredBox)
 	if (registeredBox)
 		_registeredBox = registeredBox;
 	else
-		_registeredBox = UniquePtr<RegisteredBox>(new RegisteredBox());
+		_registeredBox = TUniquePtr<RegisteredBox>(new RegisteredBox());
 }
 
 void ModuleManager::RecreateRenderer2dModule(Renderer2D* renderer2d)
@@ -169,7 +169,7 @@ void ModuleManager::RecreateRenderer2dModule(Renderer2D* renderer2d)
 	if (renderer2d)
 		_renderer2d = renderer2d;
 	else
-		_renderer2d = UniquePtr<Renderer2D>(new Renderer2D());
+		_renderer2d = TUniquePtr<Renderer2D>(new Renderer2D());
 }
 
 void ModuleManager::RecreatePhysicsModule(Physics* physics)
@@ -180,7 +180,7 @@ void ModuleManager::RecreatePhysicsModule(Physics* physics)
 	if (physics)
 		_physics = physics;
 	else
-		_physics = UniquePtr<Physics>(new Physics());
+		_physics = TUniquePtr<Physics>(new Physics());
 }
 
 void ModuleManager::RecreateFileSystemModule(FileSystem* fileSystem)
@@ -191,7 +191,7 @@ void ModuleManager::RecreateFileSystemModule(FileSystem* fileSystem)
 	if (fileSystem)
 		_fileSystem = fileSystem;
 	else
-		_fileSystem = UniquePtr<FileSystem>(new FileSystem());
+		_fileSystem = TUniquePtr<FileSystem>(new FileSystem());
 }
 
 void ModuleManager::RecreateUiModule(UI* ui)
@@ -202,7 +202,7 @@ void ModuleManager::RecreateUiModule(UI* ui)
 	if (ui)
 		_ui = ui;
 	else
-		_ui = UniquePtr<UI>(new UI());
+		_ui = TUniquePtr<UI>(new UI());
 }
 
 void ModuleManager::RecreateAudioModule(AAudio* audio)
@@ -213,7 +213,7 @@ void ModuleManager::RecreateAudioModule(AAudio* audio)
 	if (audio)
 		_audio = audio;
 	else
-		_audio = UniquePtr<AAudio>(new AAudio());
+		_audio = TUniquePtr<AAudio>(new AAudio());
 }
 
 }

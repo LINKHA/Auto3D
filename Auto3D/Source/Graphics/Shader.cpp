@@ -27,7 +27,7 @@ void Shader::RegisterObject()
 
 bool Shader::BeginLoad(Stream& source)
 {
-    String extension = Extension(source.Name());
+    FString extension = Extension(source.Name());
     _stage = (extension == ".vs" || extension == ".vert") ? ShaderStage::VS : ShaderStage::PS;
     _sourceCode.Clear();
     return ProcessIncludes(_sourceCode, source);
@@ -41,22 +41,22 @@ bool Shader::EndLoad()
     return true;
 }
 
-void Shader::Define(ShaderStage::Type stage, const String& code)
+void Shader::Define(ShaderStage::Type stage, const FString& code)
 {
     _stage = stage;
     _sourceCode = code;
     EndLoad();
 }
 
-ShaderVariation* Shader::CreateVariation(const String& definesIn)
+ShaderVariation* Shader::CreateVariation(const FString& definesIn)
 {
-    StringHash definesHash(definesIn);
+    FStringHash definesHash(definesIn);
     auto it = _variations.Find(definesHash);
     if (it != _variations.End())
         return it->_second.Get();
     
     // If initially not found, normalize the defines and try again
-    String defines = NormalizeDefines(definesIn);
+    FString defines = NormalizeDefines(definesIn);
     definesHash = defines;
     it = _variations.Find(definesHash);
     if (it != _variations.End())
@@ -67,18 +67,18 @@ ShaderVariation* Shader::CreateVariation(const String& definesIn)
     return newVariation;
 }
 
-bool Shader::ProcessIncludes(String& code, Stream& source)
+bool Shader::ProcessIncludes(FString& code, Stream& source)
 {
 	ResourceCache* cache = ModuleManager::Get().CacheModule();
 
     while (!source.IsEof())
     {
-        String line = source.ReadLine();
+        FString line = source.ReadLine();
 
         if (line.StartsWith("#include"))
         {
-            String includeFileName = Path(source.Name()) + line.Substring(9).Replaced("\"", "").Trimmed();
-            AutoPtr<Stream> includeStream = cache->OpenResource(includeFileName);
+            FString includeFileName = Path(source.Name()) + line.Substring(9).Replaced("\"", "").Trimmed();
+            TAutoPtr<Stream> includeStream = cache->OpenResource(includeFileName);
             if (!includeStream)
                 return false;
 
@@ -99,10 +99,10 @@ bool Shader::ProcessIncludes(String& code, Stream& source)
     return true;
 }
 
-String Shader::NormalizeDefines(const String& defines)
+FString Shader::NormalizeDefines(const FString& defines)
 {
-    String ret;
-    Vector<String> definesVec = defines.ToUpper().Split(' ');
+    FString ret;
+    TVector<FString> definesVec = defines.ToUpper().Split(' ');
     Sort(definesVec.Begin(), definesVec.End());
 
     for (auto it = definesVec.Begin(); it != definesVec.End(); ++it)

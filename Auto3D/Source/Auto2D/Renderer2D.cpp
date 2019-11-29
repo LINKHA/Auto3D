@@ -24,7 +24,7 @@ static const size_t VS_FRAME_VIEWPROJ_MATRIX = 2;
 static const size_t VS_FRAME_DEPTH_PARAMETERS = 3;
 static const size_t VS_OBJECT_WORLD_MATRIX = 0;
 
-const String geometryDefines[] =
+const FString geometryDefines[] =
 {
 	"",
 	"INSTANCED"
@@ -171,7 +171,7 @@ void Renderer2D::Initialize()
 	_initialized = true;
 
 
-	Vector<Constant> constants;
+	TVector<Constant> constants;
 	_vsFrameConstantBuffer = new ConstantBuffer();
 	constants.Push(Constant(ElementType::MATRIX3X4, "viewMatrix"));
 	constants.Push(Constant(ElementType::MATRIX4, "projectionMatrix"));
@@ -197,8 +197,8 @@ void Renderer2D::Initialize()
 	_instanceVertexElements.Push(VertexElement(ElementType::VECTOR4, ElementSemantic::TEXCOORD, U_INSTANCE_TEXCOORD + 2, true));
 
 	// Because Renderer2D images change less, their shaders are temporarily fixed
-	SharedPtr<Shader> vs(new Shader());
-	SharedPtr<Shader> ps(new Shader());
+	TSharedPtr<Shader> vs(new Shader());
+	TSharedPtr<Shader> ps(new Shader());
 	vs = cache->LoadResource<Shader>("Shader/Texture.vert");
 	ps = cache->LoadResource<Shader>("Shader/Texture.frag");
 	_vsv = vs->CreateVariation();
@@ -209,7 +209,7 @@ void Renderer2D::Initialize()
 
 }
 
-void Renderer2D::RenderBatches(const Vector<Batch2D>& batches, Camera2D* camera)
+void Renderer2D::RenderBatches(const TVector<Batch2D>& batches, Camera2D* camera)
 {
 
 	if (_instanceTransformsDirty && _instanceTransforms.Size())

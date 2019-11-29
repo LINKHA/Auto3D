@@ -71,7 +71,7 @@ public:
 	/// Get source of index
 	const AAudioSource* GetSource(unsigned index);
 	/// Return sources
-	HashMap<unsigned, AAudioSource*>& Sources(AAudioSource* source) { return _sources; }
+	THashMap<unsigned, AAudioSource*>& Sources(AAudioSource* source) { return _sources; }
 	/// Update all dynamic listener and source
 	void Update();
 	/// Return is initialized flag
@@ -90,9 +90,9 @@ private:
 	/// OpenAL context
 	ALCcontext* _context;
 	/// Listener
-	SharedPtr<AAudioListener> _listener;
+	TSharedPtr<AAudioListener> _listener;
 	/// Source array of hash
-	HashMap<unsigned, AAudioSource*> _sources;
+	THashMap<unsigned, AAudioSource*> _sources;
 };
 /// Register AAudio related object factories and attributes.
 AUTO_API void RegisterAudioLibrary();

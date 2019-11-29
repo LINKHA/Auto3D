@@ -32,7 +32,7 @@ public:
 	EAudioUsage::Type GetUsage() { return _fre; }
 protected:
 	/// AAudio weak ptr
-	WeakPtr<AAudio> _audio;
+	TWeakPtr<AAudio> _audio;
 	/// AAudio Usage 
 	EAudioUsage::Type _fre;
 };

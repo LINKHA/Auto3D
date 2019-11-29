@@ -31,7 +31,7 @@ public:
 	unsigned& Source() { return _source; }
 private:
 	/// Get audio moudle for weak.
-	WeakPtr<AAudio> _audio;
+	TWeakPtr<AAudio> _audio;
 	/// OpenGL buffer object identifier.
 	unsigned _buffer;
 	/// Audio source.

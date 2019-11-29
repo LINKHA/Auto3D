@@ -37,12 +37,12 @@ public:
 	/// This is Engine important funcation init awake runloop and finish run
 	int Run();
 	/// Show an error message (last log message if empty), terminate the main loop, and set failure exit code.
-	void ErrorExit(const String& message = String::EMPTY);
+	void ErrorExit(const FString& message = FString::EMPTY);
 protected:
 	/// Auto3D Engine
-	UniquePtr<Engine> _engine;
+	TUniquePtr<Engine> _engine;
 	/// Collected startup error log messages.
-	String _startupErrors;
+	FString _startupErrors;
 	/// Application exit code.
 	int _exitCode;
 };

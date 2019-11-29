@@ -8,13 +8,13 @@
 namespace Auto3D
 {
 
-WString::WString() :
+FWString::FWString() :
     _length(0),
     _buffer(nullptr)
 {
 }
 
-WString::WString(const String& str) :
+FWString::FWString(const FString& str) :
     _length(0),
     _buffer(nullptr)
 {
@@ -26,7 +26,7 @@ WString::WString(const String& str) :
     while (byteOffset < str.Length())
     {
         wchar_t* dest = temp;
-        String::EncodeUTF16(dest, str.NextUTF8Char(byteOffset));
+        FString::EncodeUTF16(dest, str.NextUTF8Char(byteOffset));
         neededSize += dest - temp;
     }
     
@@ -35,7 +35,7 @@ WString::WString(const String& str) :
     byteOffset = 0;
     wchar_t* dest = _buffer;
     while (byteOffset < str.Length())
-        String::EncodeUTF16(dest, str.NextUTF8Char(byteOffset));
+        FString::EncodeUTF16(dest, str.NextUTF8Char(byteOffset));
     #else
     Resize(str.LengthUTF8());
     
@@ -46,12 +46,12 @@ WString::WString(const String& str) :
     #endif
 }
 
-WString::~WString()
+FWString::~FWString()
 {
     delete[] _buffer;
 }
 
-void WString::Resize(size_t newLength)
+void FWString::Resize(size_t newLength)
 {
     if (!newLength)
     {

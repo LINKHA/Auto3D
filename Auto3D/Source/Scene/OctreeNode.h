@@ -31,7 +31,7 @@ public:
     /// Prepare object for rendering. Reset framenumber and calculate distance from camera. Called by Renderer.
     virtual void OnPrepareRender(unsigned frameNumber, Camera* camera);
     /// Perform ray test on self and add possible hit to the result vector.
-    virtual void OnRaycast(Vector<RaycastResult>& dest, const Ray& ray, float maxDistance);
+    virtual void OnRaycast(TVector<RaycastResult>& dest, const Ray& ray, float maxDistance);
 
     /// Set whether to cast shadows. Default false on both lights and geometries.
     void SetCastShadows(bool enable);

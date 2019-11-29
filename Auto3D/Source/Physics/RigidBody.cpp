@@ -136,7 +136,7 @@ void RigidBody::AddBodyToWorld()
 
 		// Check if CollisionShapes already exist in the node and add them to the compound shape.
 		// Do not update mass yet, but do it once all shapes have been added.
-		Vector<Collider*> shapes;
+		TVector<Collider*> shapes;
 		Parent()->FindChildren<Collider>(shapes, false);
 		for (auto it = shapes.Begin(); it != shapes.End(); ++it)
 		{

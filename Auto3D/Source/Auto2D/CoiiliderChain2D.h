@@ -21,9 +21,9 @@ public:
 	/// Set vertex.
 	void SetVertex(unsigned index, const Vector2F& vertex);
 	/// Set vertices.
-	void SetVertices(const Vector<Vector2F>& vertices);
+	void SetVertices(const TVector<Vector2F>& vertices);
 	/// Set vertices attribute.
-	void SetVerticesAttr(const Vector<unsigned char>& value);
+	void SetVerticesAttr(const TVector<unsigned char>& value);
 	/// Return loop.
 	bool GetLoop() const { return _loop; }
 	/// Return vertex count.
@@ -31,10 +31,10 @@ public:
 	/// Return vertex.
 	const Vector2F& GetVertex(unsigned index) const { return (index < _vertices.Size()) ? _vertices[index] : Vector2F::ZERO; }
 	/// Return vertices.
-	const Vector<Vector2F>& GetVertices() const { return _vertices; }
+	const TVector<Vector2F>& GetVertices() const { return _vertices; }
 
 	/// Return vertices attribute.
-	Vector<unsigned char> GetVerticesAttr() const;
+	TVector<unsigned char> GetVerticesAttr() const;
 
 private:
 	/// Recreate fixture.
@@ -45,7 +45,7 @@ private:
 	/// Loop.
 	bool _loop;
 	/// Vertices.
-	Vector<Vector2F> _vertices;
+	TVector<Vector2F> _vertices;
 };
 
 }

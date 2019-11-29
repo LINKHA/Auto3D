@@ -12,36 +12,36 @@
 namespace Auto3D
 {
 
-char String::endZero = 0;
+char FString::endZero = 0;
 
-const String String::EMPTY;
+const FString FString::EMPTY;
 
-String::String(const char* str, size_t numChars) :
+FString::FString(const char* str, size_t numChars) :
     _buffer(nullptr)
 {
     Resize(numChars);
     CopyChars(Buffer(), str, numChars);
 }
 
-String::String(const wchar_t* str) :
+FString::FString(const wchar_t* str) :
     _buffer(nullptr)
 {
     SetUTF8FromWChar(str);
 }
 
-String::String(wchar_t* str) :
+FString::FString(wchar_t* str) :
     _buffer(nullptr)
 {
     SetUTF8FromWChar(str);
 }
 
-String::String(const WString& str) :
+FString::FString(const FWString& str) :
     _buffer(nullptr)
 {
     SetUTF8FromWChar(str.CString());
 }
 
-String::String(int value) :
+FString::FString(int value) :
     _buffer(nullptr)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
@@ -49,7 +49,7 @@ String::String(int value) :
     *this = tempBuffer;
 }
 
-String::String(short value) :
+FString::FString(short value) :
     _buffer(nullptr)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
@@ -57,7 +57,7 @@ String::String(short value) :
     *this = tempBuffer;
 }
 
-String::String(long value) :
+FString::FString(long value) :
     _buffer(nullptr)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
@@ -65,7 +65,7 @@ String::String(long value) :
     *this = tempBuffer;
 }
     
-String::String(long long value) :
+FString::FString(long long value) :
     _buffer(nullptr)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
@@ -73,7 +73,7 @@ String::String(long long value) :
     *this = tempBuffer;
 }
 
-String::String(unsigned value) :
+FString::FString(unsigned value) :
     _buffer(nullptr)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
@@ -81,7 +81,7 @@ String::String(unsigned value) :
     *this = tempBuffer;
 }
 
-String::String(unsigned short value) :
+FString::FString(unsigned short value) :
     _buffer(nullptr)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
@@ -89,7 +89,7 @@ String::String(unsigned short value) :
     *this = tempBuffer;
 }
 
-String::String(unsigned long value) :
+FString::FString(unsigned long value) :
     _buffer(nullptr)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
@@ -97,7 +97,7 @@ String::String(unsigned long value) :
     *this = tempBuffer;
 }
     
-String::String(unsigned long long value) :
+FString::FString(unsigned long long value) :
     _buffer(nullptr)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
@@ -105,7 +105,7 @@ String::String(unsigned long long value) :
     *this = tempBuffer;
 }
 
-String::String(float value) :
+FString::FString(float value) :
     _buffer(nullptr)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
@@ -113,7 +113,7 @@ String::String(float value) :
     *this = tempBuffer;
 }
 
-String::String(double value) :
+FString::FString(double value) :
     _buffer(nullptr)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
@@ -121,7 +121,7 @@ String::String(double value) :
     *this = tempBuffer;
 }
 
-String::String(bool value) :
+FString::FString(bool value) :
     _buffer(nullptr)
 {
     if (value)
@@ -130,14 +130,14 @@ String::String(bool value) :
         *this = "false";
 }
 
-String::String(char value) :
+FString::FString(char value) :
     _buffer(nullptr)
 {
     Resize(1);
     Buffer()[0] = value;
 }
 
-String::String(char value, size_t numChars) :
+FString::FString(char value, size_t numChars) :
     _buffer(nullptr)
 {
     Resize(numChars);
@@ -145,12 +145,12 @@ String::String(char value, size_t numChars) :
         *it = value;
 }
 
-String::~String()
+FString::~FString()
 {
     delete[] _buffer;
 }
 
-String& String::operator = (const String& rhs)
+FString& FString::operator = (const FString& rhs)
 {
     Resize(rhs.Length());
     CopyChars(Buffer(), rhs.Buffer(), rhs.Length());
@@ -158,7 +158,7 @@ String& String::operator = (const String& rhs)
     return *this;
 }
 
-String& String::operator = (const char* rhs)
+FString& FString::operator = (const char* rhs)
 {
     size_t rhsLength = CStringLength(rhs);
     Resize(rhsLength);
@@ -167,7 +167,7 @@ String& String::operator = (const char* rhs)
     return *this;
 }
 
-String& String::operator = (char* rhs)
+FString& FString::operator = (char* rhs)
 {
     size_t rhsLength = CStringLength(rhs);
     Resize(rhsLength);
@@ -176,7 +176,7 @@ String& String::operator = (char* rhs)
     return *this;
 }
 
-String& String::operator += (const String& rhs)
+FString& FString::operator += (const FString& rhs)
 {
     size_t oldLength = Length();
     Resize(Length() + rhs.Length());
@@ -185,7 +185,7 @@ String& String::operator += (const String& rhs)
     return *this;
 }
 
-String& String::operator += (const char* rhs)
+FString& FString::operator += (const char* rhs)
 {
     size_t rhsLength = CStringLength(rhs);
     size_t oldLength = Length();
@@ -195,7 +195,7 @@ String& String::operator += (const char* rhs)
     return *this;
 }
 
-String& String::operator += (char* rhs)
+FString& FString::operator += (char* rhs)
 {
     size_t rhsLength = CStringLength(rhs);
     size_t oldLength = Length();
@@ -205,7 +205,7 @@ String& String::operator += (char* rhs)
     return *this;
 }
 
-String& String::operator += (char rhs)
+FString& FString::operator += (char rhs)
 {
     size_t oldLength = Length();
     Resize(Length() + 1);
@@ -214,7 +214,7 @@ String& String::operator += (char rhs)
     return *this;
 }
 
-String& String::operator += (int rhs)
+FString& FString::operator += (int rhs)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%d", rhs);
@@ -223,7 +223,7 @@ String& String::operator += (int rhs)
     return *this;
 }
 
-String& String::operator += (short rhs)
+FString& FString::operator += (short rhs)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%d", rhs);
@@ -232,7 +232,7 @@ String& String::operator += (short rhs)
     return *this;
 }
 
-String& String::operator += (long rhs)
+FString& FString::operator += (long rhs)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%ld", rhs);
@@ -241,7 +241,7 @@ String& String::operator += (long rhs)
     return *this;
 }
 
-String& String::operator += (long long rhs)
+FString& FString::operator += (long long rhs)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%lld", rhs);
@@ -250,7 +250,7 @@ String& String::operator += (long long rhs)
     return *this;
 }
 
-String& String::operator += (unsigned rhs)
+FString& FString::operator += (unsigned rhs)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%u", rhs);
@@ -259,7 +259,7 @@ String& String::operator += (unsigned rhs)
     return *this;
 }
 
-String& String::operator += (unsigned short rhs)
+FString& FString::operator += (unsigned short rhs)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%u", rhs);
@@ -268,7 +268,7 @@ String& String::operator += (unsigned short rhs)
     return *this;
 }
 
-String& String::operator += (unsigned long rhs)
+FString& FString::operator += (unsigned long rhs)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%lu", rhs);
@@ -277,7 +277,7 @@ String& String::operator += (unsigned long rhs)
     return *this;
 }
 
-String& String::operator += (unsigned long long rhs)
+FString& FString::operator += (unsigned long long rhs)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%llu", rhs);
@@ -286,7 +286,7 @@ String& String::operator += (unsigned long long rhs)
     return *this;
 }
 
-String& String::operator += (float rhs)
+FString& FString::operator += (float rhs)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%g", rhs);
@@ -295,7 +295,7 @@ String& String::operator += (float rhs)
     return *this;
 }
 
-String& String::operator += (double rhs)
+FString& FString::operator += (double rhs)
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%g", rhs);
@@ -304,7 +304,7 @@ String& String::operator += (double rhs)
     return *this;
 }
 
-String& String::operator += (bool rhs)
+FString& FString::operator += (bool rhs)
 {
     if (rhs)
         *this += "true";
@@ -314,9 +314,9 @@ String& String::operator += (bool rhs)
     return *this;
 }
 
-String String::operator + (const String& rhs) const
+FString FString::operator + (const FString& rhs) const
 {
-    String ret;
+    FString ret;
     ret.Resize(Length() + rhs.Length());
     CopyChars(ret.Buffer(), Buffer(), Length());
     CopyChars(ret.Buffer() + Length(), rhs.Buffer(), rhs.Length());
@@ -324,10 +324,10 @@ String String::operator + (const String& rhs) const
     return ret;
 }
 
-String String::operator + (const char* rhs) const
+FString FString::operator + (const char* rhs) const
 {
     size_t rhsLength = CStringLength(rhs);
-    String ret;
+    FString ret;
     ret.Resize(Length() + rhsLength);
     CopyChars(ret.Buffer(), Buffer(), Length());
     CopyChars(ret.Buffer() + Length(), rhs, rhsLength);
@@ -335,15 +335,15 @@ String String::operator + (const char* rhs) const
     return ret;
 }
 
-String String::operator + (char rhs) const
+FString FString::operator + (char rhs) const
 {
-    String ret(*this);
+    FString ret(*this);
     ret += rhs;
     
     return ret;
 }
 
-void String::Replace(char replaceThis, char replaceWith, bool caseSensitive)
+void FString::Replace(char replaceThis, char replaceWith, bool caseSensitive)
 {
     if (caseSensitive)
     {
@@ -364,7 +364,7 @@ void String::Replace(char replaceThis, char replaceWith, bool caseSensitive)
     }
 }
 
-void String::Replace(const String& replaceThis, const String& replaceWith, bool caseSensitive)
+void FString::Replace(const FString& replaceThis, const FString& replaceWith, bool caseSensitive)
 {
     size_t nextPos = 0;
     
@@ -378,7 +378,7 @@ void String::Replace(const String& replaceThis, const String& replaceWith, bool 
     }
 }
 
-void String::Replace(size_t pos, size_t numChars, const String& replaceWith)
+void FString::Replace(size_t pos, size_t numChars, const FString& replaceWith)
 {
     // If substring is illegal, do nothing
     if (pos + numChars > Length())
@@ -387,7 +387,7 @@ void String::Replace(size_t pos, size_t numChars, const String& replaceWith)
     Replace(pos, numChars, replaceWith.Buffer(), replaceWith.Length());
 }
 
-void String::Replace(size_t pos, size_t numChars, const char* replaceWith)
+void FString::Replace(size_t pos, size_t numChars, const char* replaceWith)
 {
     // If substring is illegal, do nothing
     if (pos + numChars > Length())
@@ -396,7 +396,7 @@ void String::Replace(size_t pos, size_t numChars, const char* replaceWith)
     Replace(pos, numChars, replaceWith, CStringLength(replaceWith));
 }
 
-String::Iterator String::Replace(const String::Iterator& start, const String::Iterator& end, const String& replaceWith)
+FString::Iterator FString::Replace(const FString::Iterator& start, const FString::Iterator& end, const FString& replaceWith)
 {
     size_t pos = start - Begin();
     if (pos >= Length())
@@ -407,36 +407,36 @@ String::Iterator String::Replace(const String::Iterator& start, const String::It
     return Begin() + pos;
 }
 
-String String::Replaced(char replaceThis, char replaceWith, bool caseSensitive) const
+FString FString::Replaced(char replaceThis, char replaceWith, bool caseSensitive) const
 {
-    String ret(*this);
+    FString ret(*this);
     ret.Replace(replaceThis, replaceWith, caseSensitive);
     return ret;
 }
 
-String String::Replaced(const String& replaceThis, const String& replaceWith,  bool caseSensitive) const
+FString FString::Replaced(const FString& replaceThis, const FString& replaceWith,  bool caseSensitive) const
 {
-    String ret(*this);
+    FString ret(*this);
     ret.Replace(replaceThis, replaceWith, caseSensitive);
     return ret;
 }
 
-String& String::Append(const String& str)
+FString& FString::Append(const FString& str)
 {
     return *this += str;
 }
 
-String& String::Append(const char* str)
+FString& FString::Append(const char* str)
 {
     return *this += str;
 }
 
-String& String::Append(char c)
+FString& FString::Append(char c)
 {
     return *this += c;
 }
 
-String& String::Append(const char* str, size_t numChars)
+FString& FString::Append(const char* str, size_t numChars)
 {
     if (str)
     {
@@ -447,7 +447,7 @@ String& String::Append(const char* str, size_t numChars)
     return *this;
 }
 
-void String::Insert(size_t pos, const String& str)
+void FString::Insert(size_t pos, const FString& str)
 {
     if (pos > Length())
         pos = Length();
@@ -458,7 +458,7 @@ void String::Insert(size_t pos, const String& str)
         Replace(pos, 0, str);
 }
 
-void String::Insert(size_t pos, char c)
+void FString::Insert(size_t pos, char c)
 {
     if (pos > Length())
         pos = Length();
@@ -474,7 +474,7 @@ void String::Insert(size_t pos, char c)
     }
 }
 
-String::Iterator String::Insert(const String::Iterator& dest, const String& str)
+FString::Iterator FString::Insert(const FString::Iterator& dest, const FString& str)
 {
     size_t pos = dest - Begin();
     if (pos > Length())
@@ -484,7 +484,7 @@ String::Iterator String::Insert(const String::Iterator& dest, const String& str)
     return Begin() + pos;
 }
 
-String::Iterator String::Insert(const String::Iterator& dest, const String::Iterator& start, const String::Iterator& end)
+FString::Iterator FString::Insert(const FString::Iterator& dest, const FString::Iterator& start, const FString::Iterator& end)
 {
     size_t pos = dest - Begin();
     if (pos > Length())
@@ -495,7 +495,7 @@ String::Iterator String::Insert(const String::Iterator& dest, const String::Iter
     return Begin() + pos;
 }
 
-String::Iterator String::Insert(const String::Iterator& dest, char c)
+FString::Iterator FString::Insert(const FString::Iterator& dest, char c)
 {
     size_t pos = dest - Begin();
     if (pos > Length())
@@ -505,12 +505,12 @@ String::Iterator String::Insert(const String::Iterator& dest, char c)
     return Begin() + pos;
 }
 
-void String::Erase(size_t pos, size_t numChars)
+void FString::Erase(size_t pos, size_t numChars)
 {
-    Replace(pos, numChars, String::EMPTY);
+    Replace(pos, numChars, FString::EMPTY);
 }
 
-String::Iterator String::Erase(const String::Iterator& it)
+FString::Iterator FString::Erase(const FString::Iterator& it)
 {
     size_t pos = it - Begin();
     if (pos >= Length())
@@ -520,7 +520,7 @@ String::Iterator String::Erase(const String::Iterator& it)
     return Begin() + pos;
 }
 
-String::Iterator String::Erase(const String::Iterator& start, const String::Iterator& end)
+FString::Iterator FString::Erase(const FString::Iterator& start, const FString::Iterator& end)
 {
     size_t pos = start - Begin();
     if (pos >= Length())
@@ -531,7 +531,7 @@ String::Iterator String::Erase(const String::Iterator& start, const String::Iter
     return Begin() + pos;
 }
 
-void String::Resize(size_t newLength)
+void FString::Resize(size_t newLength)
 {
     if (!_buffer)
     {
@@ -572,7 +572,7 @@ void String::Resize(size_t newLength)
     Buffer()[newLength] = 0;
 }
 
-void String::Reserve(size_t newCapacity)
+void FString::Reserve(size_t newCapacity)
 {
     size_t length = Length();
     if (newCapacity < length + 1)
@@ -591,23 +591,23 @@ void String::Reserve(size_t newCapacity)
     SetCapacity(newCapacity);
 }
 
-void String::Compact()
+void FString::Compact()
 {
     if (Capacity())
         Reserve(Length() + 1);
 }
 
-void String::Clear()
+void FString::Clear()
 {
     Resize(0);
 }
 
-void String::Swap(String& str)
+void FString::Swap(FString& str)
 {
     Auto3D::Swap(_buffer, str._buffer);
 }
 
-String& String::AppendWithFormat(const char* formatStr, ... )
+FString& FString::AppendWithFormat(const char* formatStr, ... )
 {
     va_list args;
     va_start(args, formatStr);
@@ -616,7 +616,7 @@ String& String::AppendWithFormat(const char* formatStr, ... )
     return *this;
 }
 
-String& String::AppendWithFormatArgs(const char* formatStr, va_list args)
+FString& FString::AppendWithFormatArgs(const char* formatStr, va_list args)
 {
     size_t pos = 0, lastPos = 0;
     size_t length = CStringLength(formatStr);
@@ -641,7 +641,7 @@ String& String::AppendWithFormatArgs(const char* formatStr, va_list args)
         case 'i':
             {
                 int arg = va_arg(args, int);
-                Append(String(arg));
+                Append(FString(arg));
                 break;
             }
             
@@ -649,7 +649,7 @@ String& String::AppendWithFormatArgs(const char* formatStr, va_list args)
         case 'u':
             {
                 unsigned arg = va_arg(args, unsigned);
-                Append(String(arg));
+                Append(FString(arg));
                 break;
             }
             
@@ -657,7 +657,7 @@ String& String::AppendWithFormatArgs(const char* formatStr, va_list args)
         case 'f':
             {
                 double arg = va_arg(args, double);
-                Append(String(arg));
+                Append(FString(arg));
                 break;
             }
             
@@ -708,25 +708,25 @@ String& String::AppendWithFormatArgs(const char* formatStr, va_list args)
     return *this;
 }
 
-String String::Substring(size_t pos) const
+FString FString::Substring(size_t pos) const
 {
     if (pos < Length())
     {
-        String ret;
+        FString ret;
         ret.Resize(Length() - pos);
         CopyChars(ret.Buffer(), Buffer() + pos, ret.Length());
         
         return ret;
     }
     else
-        return String();
+        return FString();
 }
 
-String String::Substring(size_t pos, size_t numChars) const
+FString FString::Substring(size_t pos, size_t numChars) const
 {
     if (pos < Length())
     {
-        String ret;
+        FString ret;
         if (pos + numChars > Length())
             numChars = Length() - pos;
         ret.Resize(numChars);
@@ -735,10 +735,10 @@ String String::Substring(size_t pos, size_t numChars) const
         return ret;
     }
     else
-        return String();
+        return FString();
 }
 
-String String::Trimmed() const
+FString FString::Trimmed() const
 {
     size_t trimStart = 0;
     size_t trimEnd = Length();
@@ -761,9 +761,9 @@ String String::Trimmed() const
     return Substring(trimStart, trimEnd - trimStart);
 }
 
-String String::ToLower() const
+FString FString::ToLower() const
 {
-    String ret(*this);
+    FString ret(*this);
 
     for (Iterator it = ret.Begin(); it != ret.End(); ++it)
         *it = Auto3D::ToLower(*it);
@@ -771,9 +771,9 @@ String String::ToLower() const
     return ret;
 }
 
-String String::ToUpper() const
+FString FString::ToUpper() const
 {
-    String ret(*this);
+    FString ret(*this);
 
     for (Iterator it = ret.Begin(); it != ret.End(); ++it)
         *it = Auto3D::ToUpper(*it);
@@ -781,12 +781,12 @@ String String::ToUpper() const
     return ret;
 }
 
-Vector<String> String::Split(char separator) const
+TVector<FString> FString::Split(char separator) const
 {
     return Split(CString(), separator);
 }
 
-size_t String::Find(char c, size_t startPos, bool caseSensitive) const
+size_t FString::Find(char c, size_t startPos, bool caseSensitive) const
 {
     if (caseSensitive)
     {
@@ -809,7 +809,7 @@ size_t String::Find(char c, size_t startPos, bool caseSensitive) const
     return NPOS;
 }
 
-size_t String::Find(const String& str, size_t startPos, bool caseSensitive) const
+size_t FString::Find(const FString& str, size_t startPos, bool caseSensitive) const
 {
     if (!str.Length() || str.Length() > Length())
         return NPOS;
@@ -857,7 +857,7 @@ size_t String::Find(const String& str, size_t startPos, bool caseSensitive) cons
     return NPOS;
 }
 
-size_t String::FindLast(char c, size_t startPos, bool caseSensitive) const
+size_t FString::FindLast(char c, size_t startPos, bool caseSensitive) const
 {
     if (startPos >= Length())
         startPos = Length() - 1;
@@ -883,7 +883,7 @@ size_t String::FindLast(char c, size_t startPos, bool caseSensitive) const
     return NPOS;
 }
 
-size_t String::FindLast(const String& str, size_t startPos, bool caseSensitive) const
+size_t FString::FindLast(const FString& str, size_t startPos, bool caseSensitive) const
 {
     if (!str.Length() || str.Length() > Length())
         return NPOS;
@@ -927,38 +927,38 @@ size_t String::FindLast(const String& str, size_t startPos, bool caseSensitive) 
     return NPOS;
 }
 
-bool String::StartsWith(const String& str, bool caseSensitive) const
+bool FString::StartsWith(const FString& str, bool caseSensitive) const
 {
     return Find(str, 0, caseSensitive) == 0;
 }
 
-bool String::EndsWith(const String& str, bool caseSensitive) const
+bool FString::EndsWith(const FString& str, bool caseSensitive) const
 {
     size_t pos = FindLast(str, Length() - 1, caseSensitive);
     return pos != NPOS && pos == Length() - str.Length();
 }
 
-bool String::ToBool() const
+bool FString::ToBool() const
 {
     return ToBool(CString());
 }
 
-int String::ToInt() const
+int FString::ToInt() const
 {
     return ToInt(CString());
 }
 
-unsigned String::ToUInt() const
+unsigned FString::ToUInt() const
 {
     return ToUInt(CString());
 }
 
-float String::ToFloat() const
+float FString::ToFloat() const
 {
     return ToFloat(CString());
 }
 
-void String::SetUTF8FromLatin1(const char* str)
+void FString::SetUTF8FromLatin1(const char* str)
 {
     char temp[7];
     
@@ -976,7 +976,7 @@ void String::SetUTF8FromLatin1(const char* str)
     }
 }
 
-void String::SetUTF8FromWChar(const wchar_t* str)
+void FString::SetUTF8FromWChar(const wchar_t* str)
 {
     char temp[7];
     
@@ -1005,7 +1005,7 @@ void String::SetUTF8FromWChar(const wchar_t* str)
     #endif
 }
 
-size_t String::LengthUTF8() const
+size_t FString::LengthUTF8() const
 {
     size_t ret = 0;
     
@@ -1023,7 +1023,7 @@ size_t String::LengthUTF8() const
     return ret;
 }
 
-size_t String::ByteOffsetUTF8(size_t index) const
+size_t FString::ByteOffsetUTF8(size_t index) const
 {
     size_t byteOffset = 0;
     size_t utfPos = 0;
@@ -1037,7 +1037,7 @@ size_t String::ByteOffsetUTF8(size_t index) const
     return byteOffset;
 }
 
-unsigned String::NextUTF8Char(size_t& byteOffset) const
+unsigned FString::NextUTF8Char(size_t& byteOffset) const
 {
     if (!_buffer)
         return 0;
@@ -1049,13 +1049,13 @@ unsigned String::NextUTF8Char(size_t& byteOffset) const
     return ret;
 }
 
-unsigned String::AtUTF8(size_t index) const
+unsigned FString::AtUTF8(size_t index) const
 {
     size_t byteOffset = ByteOffsetUTF8(index);
     return NextUTF8Char(byteOffset);
 }
 
-void String::ReplaceUTF8(size_t index, unsigned unicodeChar)
+void FString::ReplaceUTF8(size_t index, unsigned unicodeChar)
 {
     size_t utfPos = 0;
     size_t byteOffset = 0;
@@ -1080,7 +1080,7 @@ void String::ReplaceUTF8(size_t index, unsigned unicodeChar)
     Replace(beginCharPos, byteOffset - beginCharPos, temp, dest - temp);
 }
 
-String& String::AppendUTF8(unsigned unicodeChar)
+FString& FString::AppendUTF8(unsigned unicodeChar)
 {
     char temp[7];
     char* dest = temp;
@@ -1089,11 +1089,11 @@ String& String::AppendUTF8(unsigned unicodeChar)
     return Append(temp);
 }
 
-String String::SubstringUTF8(size_t pos) const
+FString FString::SubstringUTF8(size_t pos) const
 {
     size_t utf8Length = LengthUTF8();
     size_t byteOffset = ByteOffsetUTF8(pos);
-    String ret;
+    FString ret;
 
     while (pos < utf8Length)
     {
@@ -1104,12 +1104,12 @@ String String::SubstringUTF8(size_t pos) const
     return ret;
 }
 
-String String::SubstringUTF8(size_t pos, size_t numChars) const
+FString FString::SubstringUTF8(size_t pos, size_t numChars) const
 {
     size_t utf8Length = LengthUTF8();
     size_t byteOffset = ByteOffsetUTF8(pos);
     size_t endPos = pos + numChars;
-    String ret;
+    FString ret;
 
     while (pos < endPos && pos < utf8Length)
     {
@@ -1120,7 +1120,7 @@ String String::SubstringUTF8(size_t pos, size_t numChars) const
     return ret;
 }
 
-size_t String::CStringLength(const char* str)
+size_t FString::CStringLength(const char* str)
 {
     if (!str)
         return 0;
@@ -1134,7 +1134,7 @@ size_t String::CStringLength(const char* str)
     #endif
 }
 
-unsigned String::CaseSensitiveHash(const char* str)
+unsigned FString::CaseSensitiveHash(const char* str)
 {
     unsigned hash = 0;
     while (*str)
@@ -1146,7 +1146,7 @@ unsigned String::CaseSensitiveHash(const char* str)
     return hash;
 }
 
-unsigned String::CaseInsensitiveHash(const char* str)
+unsigned FString::CaseInsensitiveHash(const char* str)
 {
     unsigned hash = 0;
     while (*str)
@@ -1158,7 +1158,7 @@ unsigned String::CaseInsensitiveHash(const char* str)
     return hash;
 }
 
-bool String::ToBool(const char* str)
+bool FString::ToBool(const char* str)
 {
     size_t length = CStringLength(str);
     
@@ -1174,7 +1174,7 @@ bool String::ToBool(const char* str)
     return false;
 }
 
-int String::ToInt(const char* str)
+int FString::ToInt(const char* str)
 {
     if (!str)
         return 0;
@@ -1183,7 +1183,7 @@ int String::ToInt(const char* str)
     return strtol(str, 0, 10);
 }
 
-unsigned String::ToUInt(const char* str)
+unsigned FString::ToUInt(const char* str)
 {
     if (!str)
         return 0;
@@ -1191,7 +1191,7 @@ unsigned String::ToUInt(const char* str)
     return strtoul(str, 0, 10);
 }
 
-float String::ToFloat(const char* str)
+float FString::ToFloat(const char* str)
 {
     if (!str)
         return 0;
@@ -1199,12 +1199,12 @@ float String::ToFloat(const char* str)
     return (float)strtod(str, 0);
 }
 
-size_t String::CountElements(const char* buffer, char separator)
+size_t FString::CountElements(const char* buffer, char separator)
 {
     if (!buffer)
         return 0;
     
-    const char* endPos = buffer + String::CStringLength(buffer);
+    const char* endPos = buffer + FString::CStringLength(buffer);
     const char* pos = buffer;
     size_t ret = 0;
     
@@ -1250,9 +1250,9 @@ size_t String::CountElements(const char* buffer, char separator)
     return ret;
 }
 
-Vector<String> String::Split(const char* str, char separator)
+TVector<FString> FString::Split(const char* str, char separator)
 {
-    Vector<String> ret;
+    TVector<FString> ret;
     size_t pos = 0;
     size_t length = CStringLength(str);
     
@@ -1277,7 +1277,7 @@ Vector<String> String::Split(const char* str, char separator)
         
         if (start == length)
         {
-            ret.Push(String(&str[pos]));
+            ret.Push(FString(&str[pos]));
             break;
         }
         
@@ -1291,14 +1291,14 @@ Vector<String> String::Split(const char* str, char separator)
             ++end;
         }
         
-        ret.Push(String(&str[pos], start - pos));
+        ret.Push(FString(&str[pos], start - pos));
         pos = end;
     }
     
     return ret;
 }
 
-int String::Compare(const char* lhs, const char* rhs, bool caseSensitive)
+int FString::Compare(const char* lhs, const char* rhs, bool caseSensitive)
 {
     if (!lhs || !rhs)
         return lhs ? 1 : (rhs ? -1 : 0);
@@ -1324,7 +1324,7 @@ int String::Compare(const char* lhs, const char* rhs, bool caseSensitive)
     }
 }
 
-void String::EncodeUTF8(char*& dest, unsigned unicodeChar)
+void FString::EncodeUTF8(char*& dest, unsigned unicodeChar)
 {
     if (unicodeChar < 0x80)
         *dest++ = (char)unicodeChar;
@@ -1372,7 +1372,7 @@ void String::EncodeUTF8(char*& dest, unsigned unicodeChar)
 
 #define GET_NEXT_CONTINUATION_BYTE(ptr) *ptr; if ((unsigned char)*ptr < 0x80 || (unsigned char)*ptr >= 0xc0) return '?'; else ++ptr;
 
-unsigned String::DecodeUTF8(const char*& src)
+unsigned FString::DecodeUTF8(const char*& src)
 {
     if (src == 0)
         return 0;
@@ -1428,7 +1428,7 @@ unsigned String::DecodeUTF8(const char*& src)
 }
 
 #ifdef _WIN32
-void String::EncodeUTF16(wchar_t*& dest, unsigned unicodeChar)
+void FString::EncodeUTF16(wchar_t*& dest, unsigned unicodeChar)
 {
     if (unicodeChar < 0x10000)
         *dest++ = (wchar_t)unicodeChar;
@@ -1440,7 +1440,7 @@ void String::EncodeUTF16(wchar_t*& dest, unsigned unicodeChar)
     }
 }
 
-unsigned String::DecodeUTF16(const wchar_t*& src)
+unsigned FString::DecodeUTF16(const wchar_t*& src)
 {
     if (src == 0)
         return 0;
@@ -1472,7 +1472,7 @@ unsigned String::DecodeUTF16(const wchar_t*& src)
 }
 #endif
 
-void String::Replace(size_t pos, size_t numChars, const char* srcStart, size_t srcLength)
+void FString::Replace(size_t pos, size_t numChars, const char* srcStart, size_t srcLength)
 {
     int delta = (int)srcLength - (int)numChars;
 
@@ -1495,13 +1495,13 @@ void String::Replace(size_t pos, size_t numChars, const char* srcStart, size_t s
     CopyChars(Buffer() + pos, srcStart, srcLength);
 }
 
-void String::MoveRange(size_t dest, size_t src, size_t numChars)
+void FString::MoveRange(size_t dest, size_t src, size_t numChars)
 {
     if (numChars)
         memmove(Buffer() + dest, Buffer() + src, numChars);
 }
 
-void String::CopyChars(char* dest, const char* src, size_t numChars)
+void FString::CopyChars(char* dest, const char* src, size_t numChars)
 {
     #ifdef _MSC_VER
     if (numChars)
@@ -1517,12 +1517,12 @@ void String::CopyChars(char* dest, const char* src, size_t numChars)
     #endif
 }
 
-size_t String::ListIndex(const String& value, const String* strings, size_t defaultIndex, bool caseSensitive)
+size_t FString::ListIndex(const FString& value, const FString* strings, size_t defaultIndex, bool caseSensitive)
 {
     return ListIndex(value.CString(), strings, defaultIndex, caseSensitive);
 }
 
-size_t String::ListIndex(const char* value, const String* strings, size_t defaultIndex, bool caseSensitive)
+size_t FString::ListIndex(const char* value, const FString* strings, size_t defaultIndex, bool caseSensitive)
 {
     size_t i = 0;
 
@@ -1536,18 +1536,18 @@ size_t String::ListIndex(const char* value, const String* strings, size_t defaul
     return defaultIndex;
 }
 
-size_t String::ListIndex(const String& value, const char** strings, size_t defaultIndex, bool caseSensitive)
+size_t FString::ListIndex(const FString& value, const char** strings, size_t defaultIndex, bool caseSensitive)
 {
     return ListIndex(value.CString(), strings, defaultIndex, caseSensitive);
 }
 
-size_t String::ListIndex(const char* value, const char** strings, size_t defaultIndex, bool caseSensitive)
+size_t FString::ListIndex(const char* value, const char** strings, size_t defaultIndex, bool caseSensitive)
 {
     size_t i = 0;
 
     while (strings[i])
     {
-        if (!String::Compare(value, strings[i], caseSensitive))
+        if (!FString::Compare(value, strings[i], caseSensitive))
             return i;
         ++i;
     }
@@ -1555,9 +1555,9 @@ size_t String::ListIndex(const char* value, const char** strings, size_t default
     return defaultIndex;
 }
 
-String String::Format(const char* formatString, ...)
+FString FString::Format(const char* formatString, ...)
 {
-	String ret;
+	FString ret;
 	va_list args;
 	va_start(args, formatString);
 	ret.AppendWithFormatArgs(formatString, args);
@@ -1565,14 +1565,14 @@ String String::Format(const char* formatString, ...)
 	return ret;
 }
 
-String String::FormatV(const char* formatString, va_list args)
+FString FString::FormatV(const char* formatString, va_list args)
 {
-	String ret;
+	FString ret;
 	ret.AppendWithFormatArgs(formatString, args);
 	return ret;
 }
 
-template<> void Swap<String>(String& first, String& second)
+template<> void Swap<FString>(FString& first, FString& second)
 {
     first.Swap(second);
 }

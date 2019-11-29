@@ -63,7 +63,7 @@ bool Font::BeginLoad(Stream& source)
 		return false;
 	}
 
-	String ext = Extension(Name());
+	FString ext = Extension(Name());
 	if (ext == ".ttf" || ext == ".otf" || ext == ".woff")
 	{
 		_fontType = FONT_FREETYPE;

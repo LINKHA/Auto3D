@@ -422,7 +422,7 @@ public:
     /// Return an active touch by _id, or null if not found.
     const Touch* FindTouch(unsigned id) const;
     /// Return all _touches.
-    const Vector<Touch>& Touches() const { return _touches; }
+    const TVector<Touch>& Touches() const { return _touches; }
 
     /// React to a _key press or release. Called by _window message handling.
     void OnKey(unsigned keyCode, unsigned rawKeyCode, bool pressed);
@@ -458,15 +458,15 @@ public:
 
 private:
     /// Key code held down status.
-    HashMap<unsigned, bool> _keyDown;
+    THashMap<unsigned, bool> _keyDown;
     /// Key code _pressed status.
-    HashMap<unsigned, bool> _keyPressed;
+    THashMap<unsigned, bool> _keyPressed;
     /// Raw _key code held down status.
-    HashMap<unsigned, bool> _rawKeyDown;
+    THashMap<unsigned, bool> _rawKeyDown;
     /// Raw _key code _pressed status.
-    HashMap<unsigned, bool> _rawKeyPress;
+    THashMap<unsigned, bool> _rawKeyPress;
     /// Active _touches.
-    Vector<Touch> _touches;
+    TVector<Touch> _touches;
     /// Accumulated mouse move since last frame.
     Vector2I _mouseMove;
 

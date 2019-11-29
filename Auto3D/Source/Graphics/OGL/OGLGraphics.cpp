@@ -184,7 +184,7 @@ Graphics::Graphics() :
 
 	_vsync(false)
 {
-	_window = SharedPtr<Window>(new Window());
+	_window = TSharedPtr<Window>(new Window());
 	SubscribeToEvent(_window->_resizeEvent, &Graphics::HandleResize);
 	ResetState();
 }
@@ -388,7 +388,7 @@ void Graphics::SetRenderTarget(Texture* renderTarget, Texture* depthStencil)
 	SetRenderTargets(_renderTargetVector, depthStencil);
 }
 
-void Graphics::SetRenderTargets(const Vector<Texture*>& renderTargets, Texture* depthStencil)
+void Graphics::SetRenderTargets(const TVector<Texture*>& renderTargets, Texture* depthStencil)
 {
 	for (size_t i = 0; i < MAX_RENDERTARGETS && i < renderTargets.Size(); ++i)
 		_renderTargets[i] = (renderTargets[i] && renderTargets[i]->IsRenderTarget()) ? renderTargets[i] : nullptr;
@@ -818,12 +818,12 @@ bool Graphics::IsResizable() const
 	return _window->IsResizable();
 }
 
-SharedPtr<Window> Graphics::RenderWindow() const
+TSharedPtr<Window> Graphics::RenderWindow() const
 {
 	return _window;
 }
 
-SharedPtr<GraphicsContext> Graphics::RenderContext() const
+TSharedPtr<GraphicsContext> Graphics::RenderContext() const
 {
 	return _context;
 }
@@ -935,7 +935,7 @@ void Graphics::BindUBO(unsigned ubo)
 bool Graphics::CreateContext(Window* window, int multisample)
 {
 	// Create or recreate
-	_context = SharedPtr<GraphicsContext>(new GraphicsContext(window));
+	_context = TSharedPtr<GraphicsContext>(new GraphicsContext(window));
 
 	if (!_context->Create())
 	{
@@ -945,7 +945,7 @@ bool Graphics::CreateContext(Window* window, int multisample)
 
 	// Display hardware
 	const GLubyte* renderer = glGetString(GL_RENDERER);
-	LogString(String((const char*)renderer));
+	LogString(FString((const char*)renderer));
 
 	// Extensions config
 	{
@@ -1065,7 +1065,7 @@ void Graphics::PrepareFramebuffer()
 
 		auto it = _framebuffers.Find(key);
 		if (it == _framebuffers.End())
-			it = _framebuffers.Insert(MakePair(key, AutoPtr<Framebuffer>(new Framebuffer())));
+			it = _framebuffers.Insert(MakePair(key, TAutoPtr<Framebuffer>(new Framebuffer())));
 
 		if (it->_second != _framebuffer)
 		{
@@ -1165,11 +1165,11 @@ bool Graphics::PrepareDraw(bool instanced, size_t instanceStart)
 		for (auto it = _attributesBySemantic.Begin(); it != _attributesBySemantic.End(); ++it)
 			it->Clear();
 
-		const Vector<VertexAttribute>& attributes = _shaderProgram->Attributes();
+		const TVector<VertexAttribute>& attributes = _shaderProgram->Attributes();
 		for (auto it = attributes.Begin(); it != attributes.End(); ++it)
 		{
 			const VertexAttribute& attribute = *it;
-			Vector<unsigned>& attributeVector = _attributesBySemantic[attribute._semantic];
+			TVector<unsigned>& attributeVector = _attributesBySemantic[attribute._semantic];
 			unsigned char index = attribute._index;
 
 			// Mark semantic as required
@@ -1197,12 +1197,12 @@ bool Graphics::PrepareDraw(bool instanced, size_t instanceStart)
 			if (_vertexBuffers[i])
 			{
 				VertexBuffer* buffer = _vertexBuffers[i];
-				const Vector<VertexElement>& elements = buffer->GetElements();
+				const TVector<VertexElement>& elements = buffer->GetElements();
 
 				for (auto it = elements.Begin(); it != elements.End(); ++it)
 				{
 					const VertexElement& element = *it;
-					const Vector<unsigned>& attributeVector = _attributesBySemantic[element._semantic];
+					const TVector<unsigned>& attributeVector = _attributesBySemantic[element._semantic];
 
 					// If making several instanced draw calls with the same vertex buffers, only need to update the instancing
 					// data attribute pointers

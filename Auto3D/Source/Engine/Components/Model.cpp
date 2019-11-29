@@ -177,7 +177,7 @@ bool Model::BeginLoad(Stream& source)
     for (size_t i = 0; i < numBones; ++i)
     {
         Bone& bone = _bones[i];
-        bone._name = source.Read<String>();
+        bone._name = source.Read<FString>();
         bone._parentIndex = source.Read<unsigned>();
         bone._initialPosition = source.Read<Vector3F>();
         bone._initialRotation = source.Read<Quaternion>();
@@ -202,21 +202,21 @@ bool Model::BeginLoad(Stream& source)
 
 bool Model::EndLoad()
 {
-    Vector<SharedPtr<VertexBuffer> > vbs;
+    TVector<TSharedPtr<VertexBuffer> > vbs;
     for (size_t i = 0; i < _vbDescs.Size(); ++i)
     {
         const VertexBufferDesc& vbDesc = _vbDescs[i];
-        SharedPtr<VertexBuffer> vb(new VertexBuffer());
+        TSharedPtr<VertexBuffer> vb(new VertexBuffer());
 
         vb->Define(ResourceUsage::IMMUTABLE, vbDesc._numVertices, vbDesc._vertexElements, true, vbDesc._vertexData.Get());
         vbs.Push(vb);
     }
 
-    Vector<SharedPtr<IndexBuffer> > ibs;
+    TVector<TSharedPtr<IndexBuffer> > ibs;
     for (size_t i = 0; i < _ibDescs.Size(); ++i)
     {
         const IndexBufferDesc& ibDesc = _ibDescs[i];
-        SharedPtr<IndexBuffer> ib(new IndexBuffer());
+        TSharedPtr<IndexBuffer> ib(new IndexBuffer());
 
         ib->Define(ResourceUsage::IMMUTABLE, ibDesc._numIndices, ibDesc._indexSize, true, ibDesc._indexData.Get());
         ibs.Push(ib);
@@ -230,7 +230,7 @@ bool Model::EndLoad()
         for (size_t j = 0; j < _geomDescs[i].Size(); ++j)
         {
             const GeometryDesc& geomDesc = _geomDescs[i][j];
-            SharedPtr<Geometry> geom(new Geometry());
+            TSharedPtr<Geometry> geom(new Geometry());
 
             geom->_lodDistance = geomDesc._lodDistance;
             geom->_primitiveType = geomDesc._primitiveType;
@@ -291,13 +291,13 @@ void Model::SetLocalBoundingBox(const BoundingBoxF& box)
     _boundingBox = box;
 }
 
-void Model::SetBones(const Vector<Bone>& bones_, size_t rootBoneIndex)
+void Model::SetBones(const TVector<Bone>& bones_, size_t rootBoneIndex)
 {
     _bones = bones_;
     _rootBoneIndex = rootBoneIndex;
 }
 
-void Model::SetBoneMappings(const Vector<Vector<size_t> >& boneMappings)
+void Model::SetBoneMappings(const TVector<TVector<size_t> >& boneMappings)
 {
     _boneMappings = boneMappings;
 }

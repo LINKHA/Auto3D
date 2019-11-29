@@ -12,9 +12,9 @@ class Stream;
 struct AUTO_API ResourceRef
 {
     /// AResource type.
-    StringHash _type;
+    FStringHash _type;
     /// AResource name.
-    String _name;
+    FString _name;
 
     /// Construct.
     ResourceRef()
@@ -29,7 +29,7 @@ struct AUTO_API ResourceRef
     }
 
     /// Construct from a string.
-    ResourceRef(const String& str)
+    ResourceRef(const FString& str)
     {
         FromString(str);
     }
@@ -41,21 +41,21 @@ struct AUTO_API ResourceRef
     }
     
     /// Construct with type and resource name.
-    ResourceRef(StringHash type, const String& name_ = String::EMPTY) :
+    ResourceRef(FStringHash type, const FString& name_ = FString::EMPTY) :
         _type(type),
         _name(name_)
     {
     }
 
     /// Set from a string that contains the type and name separated by a semicolon. Return true on success.
-    bool FromString(const String& str);
+    bool FromString(const FString& str);
     /// Set from a C string that contains the type and name separated by a semicolon. Return true on success.
     bool FromString(const char* str);
     /// Deserialize from a binary stream.
     void FromBinary(Stream& source);
     
     /// Return as a string.
-    String ToString() const;
+    FString ToString() const;
     /// Serialize to a binary stream.
     void ToBinary(Stream& dest) const;
 
@@ -65,13 +65,13 @@ struct AUTO_API ResourceRef
     bool operator != (const ResourceRef& rhs) const { return !(*this == rhs); }
 };
 
-/// %List of typed resource references for serialization.
+/// %TList of typed resource references for serialization.
 struct AUTO_API ResourceRefList
 {
     /// AResource type.
-    StringHash _type;
-    /// List of resource names.
-    Vector<String> _names;
+    FStringHash _type;
+    /// TList of resource names.
+    TVector<FString> _names;
 
     /// Construct.
     ResourceRefList()
@@ -86,7 +86,7 @@ struct AUTO_API ResourceRefList
     }
 
     /// Construct from a string.
-    ResourceRefList(const String& str)
+    ResourceRefList(const FString& str)
     {
         FromString(str);
     }
@@ -98,21 +98,21 @@ struct AUTO_API ResourceRefList
     }
 
     /// Construct with type and name list.
-    ResourceRefList(StringHash type, const Vector<String>& names = Vector<String>()) :
+    ResourceRefList(FStringHash type, const TVector<FString>& names = TVector<FString>()) :
         _type(type),
         _names(names)
     {
     }
 
     /// Set from a string that contains the type and names separated by semicolons. Return true on success.
-    bool FromString(const String& str);
+    bool FromString(const FString& str);
     /// Set from a C string that contains the type and names separated by semicolons. Return true on success.
     bool FromString(const char* str);
     /// Deserialize from a binary stream.
     void FromBinary(Stream& source);
 
     /// Return as a string.
-    String ToString() const;
+    FString ToString() const;
     /// Deserialize from a binary stream.
     void ToBinary(Stream& dest) const;
 

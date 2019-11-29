@@ -63,14 +63,14 @@ bool Scene::Load(Stream& source)
     
     InfoString("Loading scene from " + source.Name());
     
-    String fileId = source.ReadFileID();
+    FString fileId = source.ReadFileID();
     if (fileId != "SCNE")
     {
         ErrorString("File is not a binary scene file");
         return false;
     }
 
-    StringHash ownType = source.Read<StringHash>();
+    FStringHash ownType = source.Read<FStringHash>();
     unsigned ownId = source.Read<unsigned>();
     if (ownType != GetTypeStatic())
     {
@@ -92,7 +92,7 @@ bool Scene::LoadJSON(const JSONValue& source)
 {
     PROFILE(LoadSceneJSON);
     
-    StringHash ownType(source["type"].GetString());
+    FStringHash ownType(source["type"].GetString());
     unsigned ownId = (unsigned)source["id"].GetNumber();
 
     if (ownType != GetTypeStatic())
@@ -137,7 +137,7 @@ Node* Scene::Instantiate(Stream& source)
     PROFILE(Instantiate);
     
     ObjectResolver resolver;
-    StringHash childType(source.Read<StringHash>());
+    FStringHash childType(source.Read<FStringHash>());
     unsigned childId = source.Read<unsigned>();
 
     Node* child = CreateChild(childType);
@@ -156,7 +156,7 @@ Node* Scene::InstantiateJSON(const JSONValue& source)
     PROFILE(InstantiateJSON);
     
     ObjectResolver resolver;
-    StringHash childType(source["type"].GetString());
+    FStringHash childType(source["type"].GetString());
     unsigned childId = (unsigned)source["id"].GetNumber();
 
     Node* child = CreateChild(childType);
@@ -189,7 +189,7 @@ Node* Scene::FindNode(unsigned id) const
     return it != _nodes.End() ? it->_second : nullptr;
 }
 
-Vector<Camera*>& Scene::GetAllCamera()
+TVector<Camera*>& Scene::GetAllCamera()
 {
 	return _cameras;
 }
@@ -221,7 +221,7 @@ void Scene::AddNode(Node* node)
     // If node has children, add them to the scene as well
     if (node->NumChildren())
     {
-        const Vector<SharedPtr<Node> >& children = node->Children();
+        const TVector<TSharedPtr<Node> >& children = node->Children();
         for (auto it = children.Begin(); it != children.End(); ++it)
             AddNode(*it);
     }
@@ -239,7 +239,7 @@ void Scene::RemoveNode(Node* node)
     // If node has children, remove them from the scene as well
     if (node->NumChildren())
     {
-        const Vector<SharedPtr<Node> >& children = node->Children();
+        const TVector<TSharedPtr<Node> >& children = node->Children();
         for (auto it = children.Begin(); it != children.End(); ++it)
             RemoveNode(*it);
     }
@@ -290,7 +290,7 @@ void Scene::SetLayerNamesAttr(JSONValue names)
     const JSONArray& array = names.GetArray();
     for (size_t i = 0; i < array.Size(); ++i)
     {
-        const String& name = array[i].GetString();
+        const FString& name = array[i].GetString();
         _layerNames.Push(name);
         _layers[name] = (unsigned char)i;
     }
@@ -315,7 +315,7 @@ void Scene::SetTagNamesAttr(JSONValue names)
     const JSONArray& array = names.GetArray();
     for (size_t i = 0; i < array.Size(); ++i)
     {
-        const String& name = array[i].GetString();
+        const FString& name = array[i].GetString();
         _tagNames.Push(name);
         _tags[name] = (unsigned char)i;
     }

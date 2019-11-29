@@ -26,7 +26,7 @@ public:
 
 protected:
     /// Receiver object.
-    WeakPtr<FRefCounted> _receiver;
+    TWeakPtr<FRefCounted> _receiver;
 };
 
 /// Template implementation of the event handler invoke helper, stores a function pointer of specific class.
@@ -86,9 +86,9 @@ public:
 
 private:
     /// Event handlers.
-    Vector<AutoPtr<EventHandler> > _handlers;
+    TVector<TAutoPtr<EventHandler> > _handlers;
     /// Current sender.
-    WeakPtr<FRefCounted> _currentSender;
+    TWeakPtr<FRefCounted> _currentSender;
 };
 
 }

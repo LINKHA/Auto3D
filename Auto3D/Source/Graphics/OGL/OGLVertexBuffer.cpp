@@ -50,7 +50,7 @@ void VertexBuffer::Recreate()
     if (_numVertices)
     {
         // Also make a copy of the current vertex elements, as they are passed by reference and manipulated by Define()
-        Vector<VertexElement> srcElements = _elements;
+        TVector<VertexElement> srcElements = _elements;
         Define(_usage, _numVertices, srcElements, !_shadowData.IsNull(), _shadowData.Get());
         SetDataLost(!_shadowData.IsNull());
     }

@@ -14,15 +14,15 @@
 namespace Auto3D
 {
 
-/// %Vector base class.
-class AUTO_API VectorBase
+/// %TVector base class.
+class AUTO_API FVectorBase
 {
 public:
     /// Construct.
-    VectorBase();
+    FVectorBase();
 
     /// Swap with another vector.
-    void Swap(VectorBase& vector);
+    void Swap(FVectorBase& vector);
 
     /// Return number of elements in the vector.
     size_t Size() const { return _buffer ? reinterpret_cast<size_t*>(_buffer)[0] : 0; }
@@ -44,45 +44,45 @@ protected:
     unsigned char* _buffer;
 };
 
-/// %Vector template class. Implements a dynamic-sized array where the elements are in continuous memory. The elements need to be safe to move with block copy.
-template <typename _Ty> class Vector : public VectorBase
+/// %TVector template class. Implements a dynamic-sized array where the elements are in continuous memory. The elements need to be safe to move with block copy.
+template <typename _Ty> class TVector : public FVectorBase
 {
 public:
-    typedef RandomAccessIterator<_Ty> Iterator;
-    typedef RandomAccessConstIterator<_Ty> ConstIterator;
+    typedef TRandomAccessIterator<_Ty> Iterator;
+    typedef TRandomAccessConstIterator<_Ty> ConstIterator;
 
     /// Construct empty.
-    Vector()
+    TVector()
     {
     }
 
     /// Construct with initial size.
-    explicit Vector(size_t startSize)
+    explicit TVector(size_t startSize)
     {
         Resize(startSize, 0);
     }
 
     /// Construct with initial data.
-    Vector(const _Ty* data, size_t dataSize)
+    TVector(const _Ty* data, size_t dataSize)
     {
         Resize(dataSize, data);
     }
 
     /// Copy-construct.
-    Vector(const Vector<_Ty>& vector)
+    TVector(const TVector<_Ty>& vector)
     {
         *this = vector;
     }
 
     /// Destruct.
-    ~Vector()
+    ~TVector()
     {
         DestructElements(Buffer(), Size());
         delete[] _buffer;
     }
 
     /// Assign from another vector.
-    Vector<_Ty>& operator = (const Vector<_Ty>& rhs)
+    TVector<_Ty>& operator = (const TVector<_Ty>& rhs)
     {
         if (&rhs != this)
         {
@@ -93,37 +93,37 @@ public:
     }
 
     /// Add-assign an element.
-    Vector<_Ty>& operator += (const _Ty& rhs)
+    TVector<_Ty>& operator += (const _Ty& rhs)
     {
         Push(rhs);
         return *this;
     }
 
     /// Add-assign another vector.
-    Vector<_Ty>& operator += (const Vector<_Ty>& rhs)
+    TVector<_Ty>& operator += (const TVector<_Ty>& rhs)
     {
         Push(rhs);
         return *this;
     }
 
     /// Add an element.
-    Vector<_Ty> operator + (const _Ty& rhs) const
+    TVector<_Ty> operator + (const _Ty& rhs) const
     {
-        Vector<_Ty> ret(*this);
+        TVector<_Ty> ret(*this);
         ret.Push(rhs);
         return ret;
     }
 
     /// Add another vector.
-    Vector<_Ty> operator + (const Vector<_Ty>& rhs) const
+    TVector<_Ty> operator + (const TVector<_Ty>& rhs) const
     {
-        Vector<_Ty> ret(*this);
+        TVector<_Ty> ret(*this);
         ret.Push(rhs);
         return ret;
     }
 
     /// Test for equality with another vector.
-    bool operator == (const Vector<_Ty>& rhs) const
+    bool operator == (const TVector<_Ty>& rhs) const
     {
         size_t _size = Size();
         if (rhs.Size() != _size)
@@ -142,7 +142,7 @@ public:
     }
 
     /// Test for inequality with another vector.
-    bool operator != (const Vector<_Ty>& rhs) const { return !(*this == rhs); }
+    bool operator != (const TVector<_Ty>& rhs) const { return !(*this == rhs); }
     /// Return element at index.
     _Ty& operator [] (size_t index) { assert(index < Size()); return Buffer()[index]; }
     /// Return const element at index.
@@ -151,7 +151,7 @@ public:
     /// Add an element at the end.
     void Push(const _Ty& value) { Resize(Size() + 1, &value); }
     /// Add another vector at the end.
-    void Push(const Vector<_Ty>& vector) { Resize(Size() + vector.Size(), vector.Buffer()); }
+    void Push(const TVector<_Ty>& vector) { Resize(Size() + vector.Size(), vector.Buffer()); }
 
     /// Remove the last element.
     void Pop()
@@ -173,7 +173,7 @@ public:
     }
 
     /// Insert another vector at _position.
-    void Insert(size_t pos, const Vector<_Ty>& vector)
+    void Insert(size_t pos, const TVector<_Ty>& vector)
     {
         if (pos > Size())
             pos = Size();
@@ -196,7 +196,7 @@ public:
     }
 
     /// Insert a vector by iterator.
-    Iterator Insert(const Iterator& dest, const Vector<_Ty>& vector)
+    Iterator Insert(const Iterator& dest, const TVector<_Ty>& vector)
     {
         size_t pos = dest - Begin();
         if (pos > Size())

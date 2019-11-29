@@ -70,7 +70,7 @@ int Application::Run()
 #endif
 }
 
-void Application::ErrorExit(const String& message)
+void Application::ErrorExit(const FString& message)
 {
 	// Close the rendering window
 	_engine->Exit(); 

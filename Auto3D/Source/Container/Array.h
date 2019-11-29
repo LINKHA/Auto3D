@@ -2,18 +2,18 @@
 #include <cassert>
 namespace Auto3D
 {
-template<class _Ty,unsigned _Size> class ArrayIterator
+template<class _Ty,unsigned _Size> class TArrayIterator
 {
 public:
 	using ValueType = _Ty;
 public:
 	/// Construct with null pointer
-	ArrayIterator()
+	TArrayIterator()
 		: _ptr(nullptr)
 		, _index(0)
 	{}
 	/// Construct with pointer and offset
-	explicit ArrayIterator(_Ty* ptr, unsigned offset = 0)
+	explicit TArrayIterator(_Ty* ptr, unsigned offset = 0)
 		: _ptr(ptr)
 		, _index(offset)
 	{}
@@ -28,56 +28,56 @@ public:
 		return _ptr + _index;
 	}
 	/// Rreincrement
-	ArrayIterator& operator ++()
+	TArrayIterator& operator ++()
 	{
 		++_index;
 		return *this;
 	}
 	/// Postincrement
-	ArrayIterator operator ++(int)
+	TArrayIterator operator ++(int)
 	{
-		ArrayIterator temp = *this;
+		TArrayIterator temp = *this;
 		++*this;
 		return temp;
 	}
 	/// Predecrement
-	ArrayIterator& operator --()
+	TArrayIterator& operator --()
 	{
 		--_index;
 		return *this;
 	}
 	/// Postdecrement
-	ArrayIterator operator --(int)
+	TArrayIterator operator --(int)
 	{
-		ArrayIterator temp = *this;
+		TArrayIterator temp = *this;
 		--*this;
 		return temp;
 	}
 	///
-	ArrayIterator& operator +=(const unsigned offset)
+	TArrayIterator& operator +=(const unsigned offset)
 	{
 		_index += offset;
 		return *this;
 	}
 	/// Return this + offset
-	ArrayIterator operator +(const unsigned offset) const
+	TArrayIterator operator +(const unsigned offset) const
 	{	// 
-		ArrayIterator temp = *this;
+		TArrayIterator temp = *this;
 		return (temp += offset);
 	}
 	/// Decrement by integer
-	ArrayIterator& operator -=(const unsigned offset)
+	TArrayIterator& operator -=(const unsigned offset)
 	{
 		return (*this += -offset);
 	}
 	/// Return this - integer
-	ArrayIterator operator -(const unsigned offset) const
+	TArrayIterator operator -(const unsigned offset) const
 	{
-		ArrayIterator temp = *this;
+		TArrayIterator temp = *this;
 		return (temp -= offset);
 	}
 	/// Return difference of iterators
-	unsigned operator -(const ArrayIterator& right) const
+	unsigned operator -(const TArrayIterator& right) const
 	{
 		assert(_ptr == right._ptr);
 		return (static_cast<unsigned>(_index - right._index));
@@ -88,37 +88,37 @@ public:
 		return (*(*this + offset));
 	}
 	/// Test for iterator equality
-	bool operator ==(const ArrayIterator& right) const
+	bool operator ==(const TArrayIterator& right) const
 	{
 		assert(_ptr == right._ptr);
 		return (_index == right._index);
 	}
 	/// Test for iterator inequality
-	bool operator !=(const ArrayIterator& right) const
+	bool operator !=(const TArrayIterator& right) const
 	{
 		assert(_ptr == right._ptr);
 		return (!(*this == right));
 	}
 	/// Test if this < right
-	bool operator <(const ArrayIterator& right) const
+	bool operator <(const TArrayIterator& right) const
 	{
 		assert(_ptr == right._ptr);
 		return _index < right._index;
 	}
 	/// Test if this > right
-	bool operator >(const ArrayIterator& right) const
+	bool operator >(const TArrayIterator& right) const
 	{
 		assert(_ptr == right._ptr);
 		return right < *this;
 	}
 	/// Test if this <= right
-	bool operator <=(const ArrayIterator& right) const
+	bool operator <=(const TArrayIterator& right) const
 	{
 		assert(_ptr == right._ptr);
 		return !(right < *this);
 	}
 	/// Test if this >= right
-	bool operator >=(const ArrayIterator& right) const
+	bool operator >=(const TArrayIterator& right) const
 	{
 		assert(_ptr == right._ptr);
 		return !(*this < right);
@@ -140,18 +140,18 @@ private:
 
 
 
-template<class _Ty,unsigned _Size> class ArrayConstIterator
+template<class _Ty,unsigned _Size> class TArrayConstIterator
 {
 public:
 	using ValueType = _Ty;
 public:
 	/// Construct with null pointer
-	ArrayConstIterator()
+	TArrayConstIterator()
 		: _ptr(nullptr)
 		, _index(0)
 	{}
 	/// Construct with pointer and offset
-	explicit ArrayConstIterator(_Ty* ptr, unsigned offset = 0)
+	explicit TArrayConstIterator(_Ty* ptr, unsigned offset = 0)
 		: _ptr(ptr)
 		, _index(offset)
 	{}
@@ -166,56 +166,56 @@ public:
 		return _ptr + _index;
 	}
 	/// Rreincrement
-	ArrayConstIterator& operator ++()
+	TArrayConstIterator& operator ++()
 	{
 		++_index;
 		return *this;
 	}
 	/// Postincrement
-	ArrayConstIterator operator ++(int)
+	TArrayConstIterator operator ++(int)
 	{
-		ArrayConstIterator temp = *this;
+		TArrayConstIterator temp = *this;
 		++*this;
 		return temp;
 	}
 	/// Predecrement
-	ArrayConstIterator& operator --()
+	TArrayConstIterator& operator --()
 	{
 		--_index;
 		return *this;
 	}
 	/// Postdecrement
-	ArrayConstIterator operator --(int)
+	TArrayConstIterator operator --(int)
 	{
-		ArrayConstIterator temp = *this;
+		TArrayConstIterator temp = *this;
 		--*this;
 		return temp;
 	}
 	///
-	ArrayConstIterator& operator +=(const unsigned offset)
+	TArrayConstIterator& operator +=(const unsigned offset)
 	{
 		_index += offset;
 		return *this;
 	}
 	/// Return this + offset
-	ArrayConstIterator operator +(const unsigned offset) const
+	TArrayConstIterator operator +(const unsigned offset) const
 	{	// 
-		ArrayConstIterator temp = *this;
+		TArrayConstIterator temp = *this;
 		return (temp += offset);
 	}
 	/// Decrement by integer
-	ArrayConstIterator& operator -=(const unsigned offset)
+	TArrayConstIterator& operator -=(const unsigned offset)
 	{
 		return (*this += -offset);
 	}
 	/// Return this - integer
-	ArrayConstIterator operator -(const unsigned offset) const
+	TArrayConstIterator operator -(const unsigned offset) const
 	{
-		ArrayConstIterator temp = *this;
+		TArrayConstIterator temp = *this;
 		return (temp -= offset);
 	}
 	/// Return difference of iterators
-	unsigned operator -(const ArrayConstIterator& right) const
+	unsigned operator -(const TArrayConstIterator& right) const
 	{
 		assert(_ptr == right._ptr);
 		return (static_cast<unsigned>(_index - right._index));
@@ -226,37 +226,37 @@ public:
 		return *(*this + offset);
 	}
 	/// Test for iterator equality
-	bool operator ==(const ArrayConstIterator& right) const
+	bool operator ==(const TArrayConstIterator& right) const
 	{
 		assert(_ptr == right._ptr);
 		return _index == right._index;
 	}
 	/// Test for iterator inequality
-	bool operator !=(const ArrayConstIterator& right) const
+	bool operator !=(const TArrayConstIterator& right) const
 	{
 		assert(_ptr == right._ptr);
 		return !(*this == right);
 	}
 	/// Test if this < right
-	bool operator <(const ArrayConstIterator& right) const
+	bool operator <(const TArrayConstIterator& right) const
 	{
 		assert(_ptr == right._ptr);
 		return _index < right._index;
 	}
 	/// Test if this > right
-	bool operator >(const ArrayConstIterator& right) const
+	bool operator >(const TArrayConstIterator& right) const
 	{
 		assert(_ptr == right._ptr);
 		return right < *this;
 	}
 	/// Test if this <= right
-	bool operator <=(const ArrayConstIterator& right) const
+	bool operator <=(const TArrayConstIterator& right) const
 	{
 		assert(_ptr == right._ptr);
 		return !(right < *this);
 	}
 	/// Test if this >= right
-	bool operator >=(const ArrayConstIterator& right) const
+	bool operator >=(const TArrayConstIterator& right) const
 	{
 		assert(_ptr == right._ptr);
 		return !(*this < right);
@@ -277,7 +277,7 @@ private:
 };
 
 
-template <typename _Ty, unsigned _Size> class Array
+template <typename _Ty, unsigned _Size> class TArray
 {
 public:
 	using Iterator = tArrayIterator<_Ty, _Size>;

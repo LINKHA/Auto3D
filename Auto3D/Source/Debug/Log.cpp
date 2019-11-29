@@ -40,7 +40,7 @@ Log::~Log()
     Close();
 }
 
-void Log::Open(const String& fileName)
+void Log::Open(const FString& fileName)
 {
     if (fileName.IsEmpty())
         return;
@@ -107,7 +107,7 @@ void Log::EndFrame()
     }
 }
 
-void Log::Write(int msgLevel, const String& message)
+void Log::Write(int msgLevel, const FString& message)
 {
     assert(msgLevel >= LOG_DEBUG && msgLevel < LOG_NONE);
     
@@ -127,7 +127,7 @@ void Log::Write(int msgLevel, const String& message)
     if (instance->_level > msgLevel || instance->_inWrite)
         return;
 
-    String formattedMessage = logLevelPrefixes[msgLevel];
+    FString formattedMessage = logLevelPrefixes[msgLevel];
     formattedMessage += ": " + message;
     instance->_lastMessage = message;
 
@@ -159,7 +159,7 @@ void Log::Write(int msgLevel, const String& message)
     instance->_inWrite = false;
 }
 
-void Log::WriteRaw(const String& message, bool error)
+void Log::WriteRaw(const FString& message, bool error)
 {
 	Log* instance = ModuleManager::Get().LogModule();
     if (!instance)

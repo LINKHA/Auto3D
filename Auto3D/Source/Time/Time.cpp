@@ -309,12 +309,12 @@ void HiresTimer::Initialize()
 #endif
 }
 
-String TimeStamp()
+FString TimeStamp()
 {
 	time_t sysTime;
 	time(&sysTime);
 	const char* dateTime = ctime(&sysTime);
-	return String(dateTime).Replaced("\n", "");
+	return FString(dateTime).Replaced("\n", "");
 }
 
 unsigned CurrentTime()

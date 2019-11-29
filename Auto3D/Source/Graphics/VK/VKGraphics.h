@@ -26,7 +26,7 @@ class VertexBuffer;
 class Window;
 class WindowResizeEvent;
 
-typedef HashMap<Pair<ShaderVariation*, ShaderVariation*>, AutoPtr<ShaderProgram> > ShaderProgramMap;
+typedef THashMap<TPair<ShaderVariation*, ShaderVariation*>, TAutoPtr<ShaderProgram> > ShaderProgramMap;
 
 /// Screen mode set _event.
 class ScreenModeEvent : public Event
@@ -69,7 +69,7 @@ public:
 	/// Set the color rendertarget and depth stencil buffer.
 	void SetRenderTarget(Texture* renderTarget, Texture* stencilBuffer);
 	/// Set multiple color rendertargets and the depth stencil buffer.
-	void SetRenderTargets(const Vector<Texture*>& renderTargets, Texture* stencilBuffer);
+	void SetRenderTargets(const TVector<Texture*>& renderTargets, Texture* stencilBuffer);
 	/// Set the viewport rectangle. On _window resize the viewport will automatically revert to full _window.
 	void SetViewport(const RectI& viewport);
 	/// Bind a vertex buffer.
@@ -238,9 +238,9 @@ private:
 	/// DXT format support flag.
 	bool _dxtTextureSupport{};
 	/// OpenGL context.
-	SharedPtr<GraphicsContext> _context;
+	TSharedPtr<GraphicsContext> _context;
 	/// OS-level rendering _window.
-	SharedPtr<Window> _window;
+	TSharedPtr<Window> _window;
 	/// Current _size of the backbuffer.
 	Vector2I _backbufferSize;
 	/// Current _size of the active rendertarget.
@@ -254,7 +254,7 @@ private:
 	/// Vertex attribute instancing bitmask for keeping track of divisors.
 	unsigned _instancingVertexAttributes;
 	/// Current mapping of vertex attributes by semantic.
-	Vector<Vector<unsigned> > _attributesBySemantic;
+	TVector<TVector<unsigned> > _attributesBySemantic;
 	/// Bound index buffer.
 	IndexBuffer* _indexBuffer;
 	/// Bound constant buffers by shader stage.
@@ -268,7 +268,7 @@ private:
 	/// Bound depth-stencil texture.
 	Texture* _depthStencil;
 	/// Helper vector for defining just one color rendertarget.
-	Vector<Texture*> _renderTargetVector;
+	TVector<Texture*> _renderTargetVector;
 	/// Bound vertex shader.
 	ShaderVariation* _vertexShader;
 	/// Bound pixel shader.
@@ -308,11 +308,11 @@ private:
 	/// Current viewport rectangle.
 	RectI _viewport;
 	/// GPU objects.
-	Vector<GPUObject*> _gpuObjects;
+	TVector<GPUObject*> _gpuObjects;
 	/// Shader programs.
 	ShaderProgramMap _shaderPrograms;
 	/// Framebuffer objects keyed by resolution and color format.
-	HashMap<unsigned long long, AutoPtr<Framebuffer> > _framebuffers;
+	THashMap<unsigned long long, TAutoPtr<Framebuffer> > _framebuffers;
 	/// Multisample level.
 	int _multisample;
 	/// Graphics api version

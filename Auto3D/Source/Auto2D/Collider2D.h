@@ -31,9 +31,9 @@ public:
 	virtual void ParentCallBack() override;
 protected:
 	/// Physics world form this collider
-	WeakPtr<PhysicsWorld2D> _physicsWorld;
+	TWeakPtr<PhysicsWorld2D> _physicsWorld;
 	/// Rigid body.
-	WeakPtr<RigidBody2D> _rigidBody;
+	TWeakPtr<RigidBody2D> _rigidBody;
 	/// Fixture def.
 	b2FixtureDef _fixtureDef;
 	///// Box2D fixture.

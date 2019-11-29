@@ -10,36 +10,36 @@
 namespace Auto3D
 {
 
-static const AttributeType::Type elementToAttribute[] =
+static const EAttributeType::Type elementToAttribute[] =
 {
-    AttributeType::INT,
-    AttributeType::FLOAT,
-    AttributeType::VECTOR2,
-    AttributeType::VECTOR3,
-    AttributeType::VECTOR4,
-    AttributeType::Count,
-    AttributeType::MATRIX3X4,
-    AttributeType::MATRIX4,
-    AttributeType::Count
+    EAttributeType::INT,
+    EAttributeType::FLOAT,
+    EAttributeType::VECTOR2,
+    EAttributeType::VECTOR3,
+    EAttributeType::VECTOR4,
+    EAttributeType::Count,
+    EAttributeType::MATRIX3X4,
+    EAttributeType::MATRIX4,
+    EAttributeType::Count
 };
 
 bool ConstantBuffer::LoadJSON(const JSONValue& source)
 {
     ResourceUsage::Type usage = ResourceUsage::DEFAULT;
     if (source.Contains("usage"))
-        usage = (ResourceUsage::Type)String::ListIndex(source["usage"].GetString(), resourceUsageNames, ResourceUsage::DEFAULT);
+        usage = (ResourceUsage::Type)FString::ListIndex(source["usage"].GetString(), resourceUsageNames, ResourceUsage::DEFAULT);
 
-    Vector<Constant> constants;
+    TVector<Constant> constants;
 
     const JSONValue& jsonConstants = source["constants"];
     for (size_t i = 0; i < jsonConstants.Size(); ++i)
     {
         const JSONValue& jsonConstant = jsonConstants[i];
-        const String& type = jsonConstant["type"].GetString();
+        const FString& type = jsonConstant["type"].GetString();
 
         Constant newConstant;
         newConstant._name = jsonConstant["name"].GetString();
-        newConstant._type = (ElementType::Type)String::ListIndex(type, elementTypeNames, ElementType::Count);
+        newConstant._type = (ElementType::Type)FString::ListIndex(type, elementTypeNames, ElementType::Count);
         if (newConstant._type == ElementType::Count)
         {
             ErrorStringF("Unknown element type %s in constant buffer JSON", type.CString());
@@ -57,15 +57,15 @@ bool ConstantBuffer::LoadJSON(const JSONValue& source)
     for (size_t i = 0; i < _constants.Size() && i < jsonConstants.Size(); ++i)
     {
         const JSONValue& value = jsonConstants[i]["value"];
-        AttributeType::Type attrType = elementToAttribute[_constants[i]._type];
+        EAttributeType::Type attrType = elementToAttribute[_constants[i]._type];
 
         if (value.IsArray())
         {
             for (size_t j = 0; j < value.Size(); ++j)
-                Attribute::FromJSON(attrType, const_cast<void*>(ConstantValue(i, j)), value[j]);
+                FAttribute::FromJSON(attrType, const_cast<void*>(ConstantValue(i, j)), value[j]);
         }
         else
-            Attribute::FromJSON(attrType, const_cast<void*>(ConstantValue(i)), value);
+            FAttribute::FromJSON(attrType, const_cast<void*>(ConstantValue(i)), value);
     }
 
     _dirty = true;
@@ -82,7 +82,7 @@ void ConstantBuffer::SaveJSON(JSONValue& dest)
     for (size_t i = 0; i < _constants.Size(); ++i)
     {
         const Constant& constant = _constants[i];
-        AttributeType::Type attrType = elementToAttribute[constant._type];
+        EAttributeType::Type attrType = elementToAttribute[constant._type];
 
         JSONValue jsonConstant;
         jsonConstant["name"] = constant._name;
@@ -91,19 +91,19 @@ void ConstantBuffer::SaveJSON(JSONValue& dest)
             jsonConstant["numElements"] = (int)constant._numElements;
 
         if (constant._numElements == 1)
-            Attribute::ToJSON(attrType, jsonConstant["value"], ConstantValue(i));
+            FAttribute::ToJSON(attrType, jsonConstant["value"], ConstantValue(i));
         else
         {
             jsonConstant["value"].Resize(constant._numElements);
             for (size_t j = 0; j < constant._numElements; ++j)
-                Attribute::ToJSON(attrType, jsonConstant["value"][j], ConstantValue(i, j));
+                FAttribute::ToJSON(attrType, jsonConstant["value"][j], ConstantValue(i, j));
         }
 
         dest["constants"].Push(jsonConstant);
     }
 }
 
-bool ConstantBuffer::Define(ResourceUsage::Type usage, const Vector<Constant>& srcConstants)
+bool ConstantBuffer::Define(ResourceUsage::Type usage, const TVector<Constant>& srcConstants)
 {
     return Define(usage, srcConstants.Size(), srcConstants.Size() ? &srcConstants[0] : nullptr);
 }
@@ -182,7 +182,7 @@ bool ConstantBuffer::SetConstant(size_t index, const void* data, size_t numEleme
     return true;
 }
 
-bool ConstantBuffer::SetConstant(const String& name, const void* data, size_t numElements)
+bool ConstantBuffer::SetConstant(const FString& name, const void* data, size_t numElements)
 {
     return SetConstant(name.CString(), data, numElements);
 }
@@ -203,7 +203,7 @@ bool ConstantBuffer::Apply()
     return _dirty ? SetData(_shadowData.Get()) : true;
 }
 
-size_t ConstantBuffer::FindConstantIndex(const String& name) const
+size_t ConstantBuffer::FindConstantIndex(const FString& name) const
 {
     return FindConstantIndex(name.CString());
 }
@@ -225,7 +225,7 @@ const void* ConstantBuffer::ConstantValue(size_t index, size_t elementIndex) con
         _constants[index]._offset + elementIndex * _constants[index]._elementSize : nullptr;
 }
 
-const void* ConstantBuffer::ConstantValue(const String& name, size_t elementIndex) const
+const void* ConstantBuffer::ConstantValue(const FString& name, size_t elementIndex) const
 {
     return ConstantValue(FindConstantIndex(name), elementIndex);
 }

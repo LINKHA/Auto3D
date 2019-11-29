@@ -68,7 +68,7 @@ bool GraphicsContext::Create()
 
 	// Create a dummy window & context for acquiring OpenGL 3.2 context creation functions
 	// Assume that the window class name has already been registered by opening a Window
-	HWND dummyWindowHandle = CreateWindowW(WString(Window::className).CString(), L"", WS_POPUP | WS_DISABLED, CW_USEDEFAULT, CW_USEDEFAULT,
+	HWND dummyWindowHandle = CreateWindowW(FWString(Window::className).CString(), L"", WS_POPUP | WS_DISABLED, CW_USEDEFAULT, CW_USEDEFAULT,
 		10, 10, 0, 0, GetModuleHandle(0), nullptr);
 	if (!dummyWindowHandle)
 	{

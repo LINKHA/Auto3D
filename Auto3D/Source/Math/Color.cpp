@@ -78,14 +78,14 @@ void Color::FromHSV(float h, float s, float v, float a_)
     _a = a_;
 }
 
-bool Color::FromString(const String& str)
+bool Color::FromString(const FString& str)
 {
     return FromString(str.CString());
 }
 
 bool Color::FromString(const char* str)
 {
-    size_t elements = String::CountElements(str, ' ');
+    size_t elements = FString::CountElements(str, ' ');
     if (elements < 3)
         return false;
     
@@ -231,11 +231,11 @@ Color Color::Lerp(const Color &rhs, float t) const
     );
 }
 
-String Color::ToString() const
+FString Color::ToString() const
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%g %g %g %g", _r, _g, _b, _a);
-    return String(tempBuffer);
+    return FString(tempBuffer);
 }
 
 float Color::Hue(float min, float max) const

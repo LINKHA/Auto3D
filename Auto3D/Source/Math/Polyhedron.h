@@ -17,14 +17,14 @@ class AUTO_API Polyhedron
 {
 public:
     /// Polygon faces.
-    Vector<Vector<Vector3F> > _faces;
+    TVector<TVector<Vector3F> > _faces;
     
     /// Construct empty.
     Polyhedron();
     /// Copy-construct.
     Polyhedron(const Polyhedron& polyhedron);
     /// Construct from a list of faces.
-    Polyhedron(const Vector<Vector<Vector3F> >& faces);
+    Polyhedron(const TVector<TVector<Vector3F> >& faces);
     /// Construct from a bounding box.
     Polyhedron(const BoundingBoxF& box);
     /// Construct from a frustum.
@@ -41,9 +41,9 @@ public:
     /// Add a quadrilateral face.
     void AddFace(const Vector3F& v0, const Vector3F& v1, const Vector3F& v2, const Vector3F& v3);
     /// Add an arbitrary face.
-    void AddFace(const Vector<Vector3F>& face);
+    void AddFace(const TVector<Vector3F>& face);
     /// Clip with a plane using supplied work vectors. When clipping with several planes in a succession these can be the same to avoid repeated dynamic memory allocation.
-    void Clip(const Plane& plane, Vector<Vector3F>& outFace, Vector<Vector3F>& clippedVertices);
+    void Clip(const Plane& plane, TVector<Vector3F>& outFace, TVector<Vector3F>& clippedVertices);
     /// Clip with a plane.
     void Clip(const Plane& plane);
     /// Clip with a bounding box.

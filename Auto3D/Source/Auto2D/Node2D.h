@@ -47,17 +47,17 @@ public:
 	/// Save as JSON text data to a binary stream. Return true on success.
 	bool SaveJSON(Stream& dest);
 	/// Set name. Is not required to be unique within the scene.
-	void SetName(const String& newName);
+	void SetName(const FString& newName);
 	/// Set name.
 	void SetName(const char* newName);
 	/// Set node's layer. Usage is subclass specific, for example rendering nodes selectively. Default is 0.
 	void SetLayer(unsigned char newLayer);
 	/// Set node's layer by name. The layer name must have been registered to the scene root beforehand.
-	void SetLayerName(const String& newLayerName);
+	void SetLayerName(const FString& newLayerName);
 	/// Set node's tag, which can be used to search for specific nodes.
 	void SetTag(unsigned char newTag);
 	/// Set node's tag by name. The tag name must have been registered to the scene root beforehand.
-	void SetTagName(const String& newTagName);
+	void SetTagName(const FString& newTagName);
 	/// Set enabled status. Meaning is subclass specific.
 	void SetEnabled(bool enable);
 	/// Set enabled status recursively in the child hierarchy.
@@ -67,15 +67,15 @@ public:
 	/// Reparent the node.
 	void SetParent(Node2D* newParent);
 	/// Define a layer name. There can be 32 different layers (indices 0-31.)
-	void DefineLayer(unsigned char index, const String& name);
+	void DefineLayer(unsigned char index, const FString& name);
 	/// Define a tag name.
-	void DefineTag(unsigned char index, const String& name);
+	void DefineTag(unsigned char index, const FString& name);
 	/// Create child node of specified type. A registered object factory for the type is required.
-	Node2D* CreateChild(StringHash childType);
+	Node2D* CreateChild(FStringHash childType);
 	/// Create named child node of specified type.
-	Node2D* CreateChild(StringHash childType, const String& childName);
+	Node2D* CreateChild(FStringHash childType, const FString& childName);
 	/// Create named child node of specified type.
-	Node2D* CreateChild(StringHash childType, const char* childName);
+	Node2D* CreateChild(FStringHash childType, const char* childName);
 	/// Add node as a child. Same as calling SetParent for the child node.
 	void AddChild(Node2D* child);
 	/// Remove child node. Will delete it if there are no other strong references to it.
@@ -89,22 +89,22 @@ public:
 	/// Create child node of the specified type, template version.
 	template <typename _Ty> _Ty* CreateChild() { return static_cast<_Ty*>(CreateChild(_Ty::GetTypeStatic())); }
 	/// Create named child node of the specified type, template version.
-	template <typename _Ty> _Ty* CreateChild(const String& childName) { return static_cast<_Ty*>(CreateChild(_Ty::GetTypeStatic(), childName)); }
+	template <typename _Ty> _Ty* CreateChild(const FString& childName) { return static_cast<_Ty*>(CreateChild(_Ty::GetTypeStatic(), childName)); }
 	/// Create named child node of the specified type, template version.
 	template <typename _Ty> _Ty* CreateChild(const char* childName) { return static_cast<_Ty*>(CreateChild(_Ty::GetTypeStatic(), childName)); }
 
 	/// Return name.
-	const String& GetName() const { return _name; }
+	const FString& GetName() const { return _name; }
 	/// Return layer.
 	unsigned char GetLayer() const { return _layer; }
 	/// Return layer name, or empty if not registered in the scene root.
-	const String& GetLayerName() const;
+	const FString& GetLayerName() const;
 	/// Return bitmask corresponding to layer.
 	unsigned GetLayerMask() const { return 1 << _layer; }
 	/// Return tag.
 	unsigned char GetTag() const { return _tag; }
 	/// Return tag name, or empty if not registered in the scene root.
-	const String& GetTagName() const;
+	const FString& GetTagName() const;
 	/// Return enabled status.
 	bool IsEnabled() const { return TestFlag(NF_2D_ENABLED); }
 	/// Return whether is temporary.
@@ -120,45 +120,45 @@ public:
 	/// Return immediate child node by index.
 	Node2D* Child(size_t index) const { return index < _children.Size() ? _children[index].Get() : nullptr; }
 	/// Return all immediate child nodes.
-	const Vector<SharedPtr<Node2D> >& Children() const { return _children; }
+	const TVector<TSharedPtr<Node2D> >& Children() const { return _children; }
 	/// Return child nodes recursively.
-	void AllChildren(Vector<Node2D*>& result) const;
+	void AllChildren(TVector<Node2D*>& result) const;
 	/// Return first child node that matches name.
-	Node2D* FindChild(const String& childName, bool recursive = false) const;
+	Node2D* FindChild(const FString& childName, bool recursive = false) const;
 	/// Return first child node that matches name.
 	Node2D* FindChild(const char* childName, bool recursive = false) const;
 	/// Return first child node of specified type.
-	Node2D* FindChild(StringHash childType, bool recursive = false) const;
+	Node2D* FindChild(FStringHash childType, bool recursive = false) const;
 	/// Return first child node that matches type and name.
-	Node2D* FindChild(StringHash childType, const String& childName, bool recursive = false) const;
+	Node2D* FindChild(FStringHash childType, const FString& childName, bool recursive = false) const;
 	/// Return first child node that matches type and name.
-	Node2D* FindChild(StringHash childType, const char* childName, bool recursive = false) const;
+	Node2D* FindChild(FStringHash childType, const char* childName, bool recursive = false) const;
 	/// Return first child node that matches layer mask.
 	Node2D* FindChildByLayer(unsigned layerMask, bool recursive = false) const;
 	/// Return first child node that matches tag.
 	Node2D* FindChildByTag(unsigned char tag, bool recursive = false) const;
 	/// Return first child node that matches tag name.
-	Node2D* FindChildByTag(const String& tagName, bool recursive = false) const;
+	Node2D* FindChildByTag(const FString& tagName, bool recursive = false) const;
 	/// Return first child node that matches tag name.
 	Node2D* FindChildByTag(const char* tagName, bool recursive = false) const;
 	/// Find child nodes of specified type.
-	void FindChildren(Vector<Node2D*>& result, StringHash childType, bool recursive = false) const;
+	void FindChildren(TVector<Node2D*>& result, FStringHash childType, bool recursive = false) const;
 	/// Find child nodes that match layer mask.
-	void FindChildrenByLayer(Vector<Node2D*>& result, unsigned layerMask, bool recursive = false) const;
+	void FindChildrenByLayer(TVector<Node2D*>& result, unsigned layerMask, bool recursive = false) const;
 	/// Find child nodes that match tag.
-	void FindChildrenByTag(Vector<Node2D*>& result, unsigned char tag, bool recursive = false) const;
+	void FindChildrenByTag(TVector<Node2D*>& result, unsigned char tag, bool recursive = false) const;
 	/// Find child nodes that match tag name.
-	void FindChildrenByTag(Vector<Node2D*>& result, const String& tagName, bool recursive = false) const;
+	void FindChildrenByTag(TVector<Node2D*>& result, const FString& tagName, bool recursive = false) const;
 	/// Find child nodes that match tag name.
-	void FindChildrenByTag(Vector<Node2D*>& result, const char* tagName, bool recursive = false) const;
+	void FindChildrenByTag(TVector<Node2D*>& result, const char* tagName, bool recursive = false) const;
 	/// Return first child node of specified type, template version.
 	template <typename _Ty> _Ty* FindChild(bool recursive = false) const { return static_cast<_Ty*>(FindChild(_Ty::GetTypeStatic(), recursive)); }
 	/// Return first child node that matches type and name, template version.
-	template <typename _Ty> _Ty* FindChild(const String& childName, bool recursive = false) const { return static_cast<_Ty*>(FindChild(_Ty::GetTypeStatic(), childName, recursive)); }
+	template <typename _Ty> _Ty* FindChild(const FString& childName, bool recursive = false) const { return static_cast<_Ty*>(FindChild(_Ty::GetTypeStatic(), childName, recursive)); }
 	/// Return first child node that matches type and name, template version.
 	template <typename _Ty> _Ty* FindChild(const char* childName, bool recursive = false) const { return static_cast<_Ty*>(FindChild(_Ty::GetTypeStatic(), childName, recursive)); }
 	/// Find child nodes of specified type, template version.
-	template <typename _Ty> void FindChildren(Vector<_Ty*>& result, bool recursive = false) const { return FindChildren(reinterpret_cast<Vector<_Ty*>&>(result), recursive); }
+	template <typename _Ty> void FindChildren(TVector<_Ty*>& result, bool recursive = false) const { return FindChildren(reinterpret_cast<TVector<_Ty*>&>(result), recursive); }
 
 	/// Set bit flag. Called internally.
 	void SetFlag(unsigned short bit, bool set) const { if (set) _flags |= bit; else _flags &= ~bit; }
@@ -171,13 +171,13 @@ public:
 	/// Assign new _id. Called internally.
 	void SetId(unsigned newId);
 	/// Return the layer names.
-	const Vector<String>& LayerNames() const { return _layerNames; }
+	const TVector<FString>& LayerNames() const { return _layerNames; }
 	/// Return the layer name-to-index map.
-	const HashMap<String, unsigned char>& Layers() const { return _layers; }
+	const THashMap<FString, unsigned char>& Layers() const { return _layers; }
 	/// Return the tag names.
-	const Vector<String>& TagNames() const { return _tagNames; }
+	const TVector<FString>& TagNames() const { return _tagNames; }
 	/// Return the tag name-to-index map.
-	const HashMap<String, unsigned char>& Tags() const { return _tags; }
+	const THashMap<FString, unsigned char>& Tags() const { return _tags; }
 
 	/// This function is called when the parent node of this class is assigned.
 	virtual void ParentCallBack() { }
@@ -192,14 +192,14 @@ protected:
 	/// Handle the enabled status changing.
 	virtual void OnSetEnabled(bool newEnabled);
 
-	/// List of layer names by index.
-	Vector<String> _layerNames;
+	/// TList of layer names by index.
+	TVector<FString> _layerNames;
 	/// Map from layer names to indices.
-	HashMap<String, unsigned char> _layers;
-	/// List of tag names by index.
-	Vector<String> _tagNames;
+	THashMap<FString, unsigned char> _layers;
+	/// TList of tag names by index.
+	TVector<FString> _tagNames;
 	/// Map from tag names to indices.
-	HashMap<String, unsigned char> _tags;
+	THashMap<FString, unsigned char> _tags;
 
 private:
 	/// Parent node.
@@ -207,11 +207,11 @@ private:
 	/// Parent canvas (If in the scene)
 	Scene2D* _scene2D;
 	/// Child nodes.
-	Vector<SharedPtr<Node2D> > _children;
+	TVector<TSharedPtr<Node2D> > _children;
 	/// Id within the scene.
 	unsigned _id;
 	/// %Node name.
-	String _name;
+	FString _name;
 	/// %Node flags. Used to hold several boolean values (some subclass-specific) to reduce memory use.
 	mutable unsigned short _flags;
 	/// Layer number.

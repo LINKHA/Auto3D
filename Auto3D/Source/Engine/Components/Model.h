@@ -22,7 +22,7 @@ struct AUTO_API Bone
     ~Bone();
 
     /// Name.
-    String _name;
+    FString _name;
     /// Reset _position.
     Vector3F _initialPosition;
     /// Reset rotation.
@@ -38,7 +38,7 @@ struct AUTO_API Bone
     /// Parent bone index.
     size_t _parentIndex;
     /// Associated scene node.
-    WeakPtr<Node> _node;
+    TWeakPtr<Node> _node;
     /// Animated flag.
     bool _animated;
 };
@@ -69,9 +69,9 @@ public:
     /// Set local space bounding box.
     void SetLocalBoundingBox(const BoundingBoxF& box);
     /// Set bones.
-    void SetBones(const Vector<Bone>& bones, size_t rootBoneIndex);
+    void SetBones(const TVector<Bone>& bones, size_t rootBoneIndex);
     /// Set per-geometry bone mappings.
-    void SetBoneMappings(const Vector<Vector<size_t> >& boneMappings);
+    void SetBoneMappings(const TVector<TVector<size_t> >& boneMappings);
     
     /// Return number of geometries.
     size_t GetNumGeometries() const { return _geometries.Size(); }
@@ -80,33 +80,33 @@ public:
     /// Return the geometry at batch index and LOD level.
     Geometry* GetGeometry(size_t index, size_t lodLevel) const;
     /// Return the LOD geometries at batch index.
-    const Vector<SharedPtr<Geometry> >& GetLodGeometries(size_t index) const { return _geometries[index]; }
+    const TVector<TSharedPtr<Geometry> >& GetLodGeometries(size_t index) const { return _geometries[index]; }
     /// Return the local space bounding box.
     const BoundingBoxF& GetLocalBoundingBox() const { return _boundingBox; }
     /// Return the model's bones.
-    const Vector<Bone>& GetBones() const { return _bones; }
+    const TVector<Bone>& GetBones() const { return _bones; }
     /// Return the root bone index.
     size_t GetRootBoneIndex() const { return _rootBoneIndex; }
     /// Return per-geometry bone mapping.
-    const Vector<Vector<size_t> > GetBoneMappings() const { return _boneMappings; }
+    const TVector<TVector<size_t> > GetBoneMappings() const { return _boneMappings; }
 
 private:
     /// Geometry LOD levels.
-    Vector<Vector<SharedPtr<Geometry> > > _geometries;
+    TVector<TVector<TSharedPtr<Geometry> > > _geometries;
     /// Local space bounding box.
     BoundingBoxF _boundingBox;
     /// %Model's bones.
-    Vector<Bone> _bones;
+    TVector<Bone> _bones;
     /// Root bone index.
     size_t _rootBoneIndex;
     /// Per-geometry bone mappings.
-    Vector<Vector<size_t> > _boneMappings;
+    TVector<TVector<size_t> > _boneMappings;
     /// Vertex buffer data for loading.
-    Vector<VertexBufferDesc> _vbDescs;
+    TVector<VertexBufferDesc> _vbDescs;
     /// Index buffer data for loading.
-    Vector<IndexBufferDesc> _ibDescs;
+    TVector<IndexBufferDesc> _ibDescs;
     /// Geometry descriptions for loading.
-    Vector<Vector<GeometryDesc> > _geomDescs;
+    TVector<TVector<GeometryDesc> > _geomDescs;
 };
 
 }

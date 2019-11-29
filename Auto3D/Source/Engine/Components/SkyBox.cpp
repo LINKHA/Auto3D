@@ -186,14 +186,14 @@ void SkyBox::SetupIBLMap()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-const SharedPtr<Texture>& SkyBox::SetupIrradianceMap()
+const TSharedPtr<Texture>& SkyBox::SetupIrradianceMap()
 {
 	if (_irradianceMap)
 		_irradianceMap.Reset();
 
 	auto graphics = ModuleManager::Get().GraphicsModule();
 
-	_irradianceMap = SharedPtr<Texture>(new Texture());
+	_irradianceMap = TSharedPtr<Texture>(new Texture());
 	_irradianceMap->Define(TextureType::TEX_CUBE, ResourceUsage::DEFAULT, Vector2I(_irradianceSize, _irradianceSize), ImageFormat::RGBA16F, 1);
 	_irradianceMap->DefineSampler(TextureFilterMode::COMPARE_TRILINEAR, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP);
 	_irradianceMap->SetDataLost(false);
@@ -222,12 +222,12 @@ const SharedPtr<Texture>& SkyBox::SetupIrradianceMap()
 	return _irradianceMap;
 }
 
-const SharedPtr<Texture>& SkyBox::SetupPrefilterMap()
+const TSharedPtr<Texture>& SkyBox::SetupPrefilterMap()
 {
 	if (_prefilterMap)
 		_prefilterMap.Reset();
 
-	_prefilterMap = SharedPtr<Texture>(new Texture());
+	_prefilterMap = TSharedPtr<Texture>(new Texture());
 	_prefilterMap->Define(TextureType::TEX_CUBE, ResourceUsage::DEFAULT, Vector2I(_prefilterSize, _prefilterSize), ImageFormat::RGBA16F, 1);
 	_prefilterMap->DefineSampler(TextureFilterMode::COMPARE_TRILINEAR, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP);
 	_prefilterMap->SetDataLost(false);
@@ -267,12 +267,12 @@ const SharedPtr<Texture>& SkyBox::SetupPrefilterMap()
 	return _prefilterMap;
 }
 
-const SharedPtr<Texture>& SkyBox::SetupBrdfLUT()
+const TSharedPtr<Texture>& SkyBox::SetupBrdfLUT()
 {
 	if (_brdfLUT)
 		_brdfLUT.Reset();
 
-	_brdfLUT = SharedPtr<Texture>(new Texture());
+	_brdfLUT = TSharedPtr<Texture>(new Texture());
 	_brdfLUT->Define(TextureType::TEX_2D, ResourceUsage::DEFAULT, Vector2I(_mapSize, _mapSize), ImageFormat::RG16F, 1);
 	_brdfLUT->DefineSampler(TextureFilterMode::COMPARE_TRILINEAR, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP);
 	_brdfLUT->SetDataLost(false);
@@ -291,17 +291,17 @@ const SharedPtr<Texture>& SkyBox::SetupBrdfLUT()
 	return _brdfLUT;
 }
 
-const SharedPtr<Texture>& SkyBox::GetIrradianceMap()
+const TSharedPtr<Texture>& SkyBox::GetIrradianceMap()
 {
 	return _irradianceMap;
 }
 
-const SharedPtr<Texture>& SkyBox::GetPrefilterMap()
+const TSharedPtr<Texture>& SkyBox::GetPrefilterMap()
 {
 	return _prefilterMap;
 }
 
-const SharedPtr<Texture>& SkyBox::GetBrdfLUT()
+const TSharedPtr<Texture>& SkyBox::GetBrdfLUT()
 {
 	return _brdfLUT;
 }

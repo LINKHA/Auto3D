@@ -18,11 +18,11 @@ public:
 	/// Create ibl map,irradiance prefilter and brdf lut.
 	void SetupIBLMap();
 	/// Create an irradiance cubemap, and re-scale capture FBO to irradiance scale.
-	const SharedPtr<Texture>& SetupIrradianceMap();
+	const TSharedPtr<Texture>& SetupIrradianceMap();
 	/// Create a pre-filter cubemap, and re-scale capture FBO to pre-filter scale.
-	const SharedPtr<Texture>& SetupPrefilterMap();
+	const TSharedPtr<Texture>& SetupPrefilterMap();
 	/// Generate a 2D LUT from the BRDF equations used.
-	const SharedPtr<Texture>& SetupBrdfLUT();
+	const TSharedPtr<Texture>& SetupBrdfLUT();
 	/// Set ibl map size.
 	void SetMapSize(int mapSize) { _mapSize = mapSize; }
 	/// Set irradiance size.
@@ -30,11 +30,11 @@ public:
 	/// Set prefilter size.
 	void SetPrefilterSize(int prefilterSize) { _prefilterSize = prefilterSize; }
 	/// Get irradiance map.
-	const SharedPtr<Texture>& GetIrradianceMap();
+	const TSharedPtr<Texture>& GetIrradianceMap();
 	/// Get prefilter map.
-	const SharedPtr<Texture>& GetPrefilterMap();
+	const TSharedPtr<Texture>& GetPrefilterMap();
 	/// Get Brdf lut.
-	const SharedPtr<Texture>& GetBrdfLUT();
+	const TSharedPtr<Texture>& GetBrdfLUT();
 private:
 	/// Recalculate the world-space bounding box.
 	void OnWorldBoundingBoxUpdate();
@@ -46,11 +46,11 @@ private:
 	int _prefilterSize;
 
 	/// Irradiance map(only IBL).
-	SharedPtr<Texture> _irradianceMap;
+	TSharedPtr<Texture> _irradianceMap;
 	/// Prefilter map(only IBL).
-	SharedPtr<Texture> _prefilterMap;
+	TSharedPtr<Texture> _prefilterMap;
 	/// BRDF lut(only IBL).
-	SharedPtr<Texture> _brdfLUT;
+	TSharedPtr<Texture> _brdfLUT;
 };
 
 }

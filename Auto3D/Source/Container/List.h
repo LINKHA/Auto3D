@@ -7,40 +7,40 @@ namespace Auto3D
 {
 
 /// Doubly-linked list node base class.
-struct AUTO_API ListNodeBase
+struct AUTO_API FListNodeBase
 {
     /// Construct.
-    ListNodeBase() :
+    FListNodeBase() :
         _prev(nullptr),
         _next(nullptr)
     {
     }
     
     /// Previous node.
-    ListNodeBase* _prev;
+    FListNodeBase* _prev;
     /// Next node.
-    ListNodeBase* _next;
+    FListNodeBase* _next;
 };
 
 /// Doubly-linked list iterator base class.
-struct AUTO_API ListIteratorBase
+struct AUTO_API FListIteratorBase
 {
     /// Construct.
-    ListIteratorBase() :
+    FListIteratorBase() :
         _ptr(nullptr)
     {
     }
     
     /// Construct with a node pointer.
-    explicit ListIteratorBase(ListNodeBase* ptr) :
+    explicit FListIteratorBase(FListNodeBase* ptr) :
         _ptr(ptr)
     {
     }
     
     /// Test for equality with another iterator.
-    bool operator == (const ListIteratorBase& rhs) const { return _ptr == rhs._ptr; }
+    bool operator == (const FListIteratorBase& rhs) const { return _ptr == rhs._ptr; }
     /// Test for inequality with another iterator.
-    bool operator != (const ListIteratorBase& rhs) const { return _ptr != rhs._ptr; }
+    bool operator != (const FListIteratorBase& rhs) const { return _ptr != rhs._ptr; }
     
     /// Go to the next node.
     void GotoNext()
@@ -57,28 +57,28 @@ struct AUTO_API ListIteratorBase
     }
     
     /// %Node pointer.
-    ListNodeBase* _ptr;
+    FListNodeBase* _ptr;
 };
 
 /// Doubly-linked list base class.
-class AUTO_API ListBase
+class AUTO_API FListBase
 {
 public:
     /// Construct.
-    ListBase() :
+    FListBase() :
         _ptrs(nullptr),
         _allocator(nullptr)
     {
     }
     
     /// Destruct.
-    ~ListBase()
+    ~FListBase()
     {
         delete[] _ptrs;
     }
 
     /// Swap with another linked list.
-    void Swap(ListBase& list)
+    void Swap(FListBase& list)
     {
         Auto3D::Swap(_ptrs, list._ptrs);
         Auto3D::Swap(_allocator, list._allocator);
@@ -95,27 +95,27 @@ protected:
     /// Set new _size.
     void SetSize(size_t _size) { reinterpret_cast<size_t*>(_ptrs)[0] = _size; }
     /// Set new head node.
-    void SetHead(ListNodeBase* head) { _ptrs[1] = head; }
+    void SetHead(FListNodeBase* head) { _ptrs[1] = head; }
     /// Set new tail node.
-    void SetTail(ListNodeBase* tail) { _ptrs[2] = tail; }
+    void SetTail(FListNodeBase* tail) { _ptrs[2] = tail; }
 
     /// Return list head node.
-    ListNodeBase* Head() const { return _ptrs ? _ptrs[1] : nullptr; }
+    FListNodeBase* Head() const { return _ptrs ? _ptrs[1] : nullptr; }
     /// Return list tail node.
-    ListNodeBase* Tail() const { return _ptrs ? _ptrs[2] : nullptr; }
+    FListNodeBase* Tail() const { return _ptrs ? _ptrs[2] : nullptr; }
 
     /// Head & tail pointers and list _size.
-    ListNodeBase** _ptrs;
+    FListNodeBase** _ptrs;
     /// %Node allocator.
-    AllocatorBlock* _allocator;
+    FAllocatorBlock* _allocator;
 };
 
 /// Doubly-linked list template class. Elements can generally be assumed to be in non-continuous memory.
-template <typename _Ty> class List : public ListBase
+template <typename _Ty> class TList : public FListBase
 {
 public:
-    /// %List node.
-    struct Node : public ListNodeBase
+    /// %TList node.
+    struct Node : public FListNodeBase
     {
         /// Construct undefined.
         Node()
@@ -137,8 +137,8 @@ public:
         Node* Prev() { return static_cast<Node*>(_prev); }
     };
     
-    /// %List iterator.
-    struct Iterator : public ListIteratorBase
+    /// %TList iterator.
+    struct Iterator : public FListIteratorBase
     {
         /// Construct.
         Iterator()
@@ -147,7 +147,7 @@ public:
         
         /// Construct with a node pointer.
         explicit Iterator(Node* ptr) :
-            ListIteratorBase(ptr)
+            FListIteratorBase(ptr)
         {
         }
         
@@ -166,8 +166,8 @@ public:
         _Ty& operator * () const { return (static_cast<Node*>(_ptr))->_value; }
     };
     
-    /// %List const iterator.
-    struct ConstIterator : public ListIteratorBase
+    /// %TList const iterator.
+    struct ConstIterator : public FListIteratorBase
     {
         /// Construct.
         ConstIterator()
@@ -176,13 +176,13 @@ public:
         
         /// Construct with a node pointer.
         explicit ConstIterator(Node* ptr) :
-            ListIteratorBase(ptr)
+            FListIteratorBase(ptr)
         {
         }
         
         /// Construct from a non-const iterator.
         ConstIterator(const Iterator& it) :
-            ListIteratorBase(it.ptr)
+            FListIteratorBase(it.ptr)
         {
         }
         
@@ -204,12 +204,12 @@ public:
     };
 
     /// Construct empty.
-    List()
+    TList()
     {
     }
     
     /// Copy-construct.
-    List(const List<_Ty>& list)
+    TList(const TList<_Ty>& list)
     {
         // Reserve the tail node + initial capacity according to the list's _size
         Initialize(list.Size() + 1);
@@ -217,7 +217,7 @@ public:
     }
 
     /// Destruct.
-    ~List()
+    ~TList()
     {
         if (_ptrs && _allocator)
         {
@@ -228,7 +228,7 @@ public:
     }
     
     /// Assign from another list.
-    List& operator = (const List<_Ty>& rhs)
+    TList& operator = (const TList<_Ty>& rhs)
     {
         if (&rhs != this)
         {
@@ -239,21 +239,21 @@ public:
     }
     
     /// Add-assign an element.
-    List& operator += (const _Ty& rhs)
+    TList& operator += (const _Ty& rhs)
     {
         Push(rhs);
         return *this;
     }
     
     /// Add-assign a list.
-    List& operator += (const List<_Ty>& rhs)
+    TList& operator += (const TList<_Ty>& rhs)
     {
         Insert(End(), rhs);
         return *this;
     }
     
     /// Test for equality with another list.
-    bool operator == (const List<_Ty>& rhs) const
+    bool operator == (const TList<_Ty>& rhs) const
     {
         if (rhs.Size() != Size())
             return false;
@@ -272,7 +272,7 @@ public:
     }
     
     /// Test for inequality with another list.
-    bool operator != (const List<_Ty>& rhs) const { return !(*this == rhs); }
+    bool operator != (const TList<_Ty>& rhs) const { return !(*this == rhs); }
     
     /// Insert an element to the end.
     void Push(const _Ty& value) { InsertNode(Tail(), value); }
@@ -282,7 +282,7 @@ public:
     void Insert(const Iterator& dest, const _Ty& value) { InsertNode(static_cast<Node*>(dest.ptr_), value); }
     
     /// Insert a list at _position.
-    void Insert(const Iterator& dest, const List<_Ty>& list)
+    void Insert(const Iterator& dest, const TList<_Ty>& list)
     {
         Node* destNode = static_cast<Node*>(dest.ptr);
         for (ConstIterator it = list.Begin(); it != list.End(); ++it)
@@ -401,9 +401,9 @@ public:
     
 private:
     /// Return the head node.
-    Node* Head() const { return static_cast<Node*>(ListBase::Head()); }
+    Node* Head() const { return static_cast<Node*>(FListBase::Head()); }
     /// Return the tail node.
-    Node* Tail() const { return static_cast<Node*>(ListBase::Tail()); }
+    Node* Tail() const { return static_cast<Node*>(FListBase::Tail()); }
     
     /// Reserve the tail node and initial node capacity.
     void Initialize(size_t numNodes)

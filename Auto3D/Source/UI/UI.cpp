@@ -25,7 +25,7 @@
 namespace Auto3D
 {
 
-HashMap<String, const char*> UIFont::Data = HashMap<String, const char*>();
+THashMap<FString, const char*> UIFont::Data = THashMap<FString, const char*>();
 int UIFont::DefaultSize = 0;
 
 UI::UI() :
@@ -108,7 +108,7 @@ bool UI::SetMode(Window* window)
 	init_info.Queue = g_Queue;
 	init_info.PipelineCache = g_PipelineCache;
 	init_info.DescriptorPool = g_DescriptorPool;
-	init_info.Allocator = g_Allocator;
+	init_info.TAllocator = g_Allocator;
 	init_info.MinImageCount = g_MinImageCount;
 	init_info.ImageCount = wd->ImageCount;
 	init_info.CheckVkResultFn = check_vk_result;
@@ -151,7 +151,7 @@ void UI::Present()
 #	endif
 }
 
-void UI::AddFont(Font* font, int pixels, String fontname, UIFontLanguage::Data languageType)
+void UI::AddFont(Font* font, int pixels, FString fontname, UIFontLanguage::Data languageType)
 {
 	if (fontname == "Default")
 		fontname = "Default" + UIFont::DefaultSize++;
@@ -485,7 +485,7 @@ void SetScrollFromPosY(float local_y, float center_y_ratio)
 }
 
 // Parameters stacks (shared)
-void PushFont(const String& font)
+void PushFont(const FString& font)
 {
 	ImGui::PushFont(font.CString());
 }
@@ -1182,7 +1182,7 @@ bool Selectable(const char* label, bool* p_selected, SelectableFlags flags, cons
 	return ImGui::Selectable(label, p_selected, flags, ToImVal(size));
 }
 
-// Widgets: List Boxes
+// Widgets: TList Boxes
 // - FIXME: To be consistent with all the newer API, ListBoxHeader/ListBoxFooter should in reality be called BeginListBox/EndListBox. Will rename them.
 bool ListBox(const char* label, int* current_item, const char* const items[], int items_count, int height_in_items)
 {

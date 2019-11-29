@@ -8,7 +8,7 @@ namespace Auto3D
 class AResource;
 class Stream;
 
-typedef HashMap<Pair<StringHash, StringHash>, SharedPtr<AResource> > ResourceMap;
+typedef THashMap<TPair<FStringHash, FStringHash>, TSharedPtr<AResource> > ResourceMap;
  
 /// %AResource cache subsystem. Loads resources on demand and stores them for later access.
 class AUTO_API ResourceCache : public ABaseModule
@@ -21,46 +21,46 @@ public:
     ~ResourceCache();
 
     /// Add a resource directory. Return true on success.
-    bool AddResourceDir(const String& pathName, bool addFirst = false);
+    bool AddResourceDir(const FString& pathName, bool addFirst = false);
     /// Add a manually created resource. If returns success, the resource cache takes ownership of it.
     bool AddManualResource(AResource* resource);
     /// Remove a resource directory.
-    void RemoveResourceDir(const String& pathName);
+    void RemoveResourceDir(const FString& pathName);
     /// Open a resource file stream from the resource directories. Return a pointer to the stream, or null if not found.
-    AutoPtr<Stream> OpenResource(const String& name);
+    TAutoPtr<Stream> OpenResource(const FString& name);
     /// Load and return a resource.
-    AResource* LoadResource(StringHash type, const String& name);
+    AResource* LoadResource(FStringHash type, const FString& name);
     /// Unload resource. Optionally force removal even if referenced.
-    void UnloadResource(StringHash type, const String& name, bool force = false);
+    void UnloadResource(FStringHash type, const FString& name, bool force = false);
     /// Unload all resources of type.
-    void UnloadResources(StringHash type, bool force = false);
+    void UnloadResources(FStringHash type, bool force = false);
     /// Unload resources by type and partial name.
-    void UnloadResources(StringHash type, const String& partialName, bool force = false);
+    void UnloadResources(FStringHash type, const FString& partialName, bool force = false);
     /// Unload resources by partial name.
-    void UnloadResources(const String& partialName, bool force = false);
+    void UnloadResources(const FString& partialName, bool force = false);
     /// Unload all resources.
     void UnloadAllResources(bool force = false);
     /// Reload an existing resource. Return true on success.
     bool ReloadResource(AResource* resource);
     /// Load and return a resource, template version.
-    template <typename _Ty> _Ty* LoadResource(const String& name) { return static_cast<_Ty*>(LoadResource(_Ty::GetTypeStatic(), name)); }
+    template <typename _Ty> _Ty* LoadResource(const FString& name) { return static_cast<_Ty*>(LoadResource(_Ty::GetTypeStatic(), name)); }
     /// Load and return a resource, template version.
     template <typename _Ty> _Ty* LoadResource(const char* name) { return static_cast<_Ty*>(LoadResource(_Ty::GetTypeStatic(), name)); }
 
     /// Return resources by type.
-    void ResourcesByType(Vector<AResource*>& result, StringHash type) const;
+    void ResourcesByType(TVector<AResource*>& result, FStringHash type) const;
     /// Return resource directories.
-    const Vector<String>& ResourceDirs() const { return _resourceDirs; }
+    const TVector<FString>& ResourceDirs() const { return _resourceDirs; }
     /// Return whether a file exists in the resource directories.
-    bool Exists(const String& name) const;
+    bool Exists(const FString& name) const;
     /// Return an absolute filename from a resource name.
-    String ResourceFileName(const String& name) const;
+    FString ResourceFileName(const FString& name) const;
 
     /// Return resources by type, template version.
-    template <typename _Ty> void ResourcesByType(Vector<_Ty*>& dest) const
+    template <typename _Ty> void ResourcesByType(TVector<_Ty*>& dest) const
     {
-        Vector<AResource*>& resources = reinterpret_cast<Vector<AResource*>&>(dest);
-        StringHash type = _Ty::TypeStatic();
+        TVector<AResource*>& resources = reinterpret_cast<TVector<AResource*>&>(dest);
+        FStringHash type = _Ty::TypeStatic();
         ResourcesByType(resources, type);
 
         // Perform conversion of the returned pointers
@@ -72,13 +72,13 @@ public:
     }
 
     /// Normalize and remove unsupported constructs from a resource name.
-    String SanitateResourceName(const String& name) const;
+    FString SanitateResourceName(const FString& name) const;
     /// Normalize and remove unsupported constructs from a resource directory name.
-    String SanitateResourceDirName(const String& name) const;
+    FString SanitateResourceDirName(const FString& name) const;
 
 private:
     ResourceMap _resources;
-    Vector<String> _resourceDirs;
+    TVector<FString> _resourceDirs;
 };
 
 /// Register AResource related object factories and attributes.

@@ -57,13 +57,13 @@ protected:
 	/// Find the parent rigid body component and return its compound collision shape.
 	btCompoundShape* GetParentCompoundShape();
 	/// Physics world form this collider
-	SharedPtr<PhysicsWorld> _physicsWorld;
+	TSharedPtr<PhysicsWorld> _physicsWorld;
 	/// Rigidbody form this collider
-	WeakPtr<RigidBody> _rigidBody;
+	TWeakPtr<RigidBody> _rigidBody;
 	/// Cached world scale.
 	Vector3F _cachedWorldScale;
 	/// Shape form this collider
-	UniquePtr<btCollisionShape> _shape;
+	TUniquePtr<btCollisionShape> _shape;
 	/// Shape type
 	ShapeType::Type _shapeType;
 };

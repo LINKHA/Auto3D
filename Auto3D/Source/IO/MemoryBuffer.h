@@ -14,9 +14,9 @@ public:
     /// Construct as read-only with a pointer and _size.
     MemoryBuffer(const void* data, size_t numBytes);
     /// Construct from a vector, which must not go out of scope before MemoryBuffer.
-    MemoryBuffer(Vector<unsigned char>& data);
+    MemoryBuffer(TVector<unsigned char>& data);
     /// Construct from a read-only vector, which must not go out of scope before MemoryBuffer.
-    MemoryBuffer(const Vector<unsigned char>& data);
+    MemoryBuffer(const TVector<unsigned char>& data);
     
     /// Read bytes from the memory area. Return number of bytes actually read.
     size_t Read(void* dest, size_t numBytes) override;

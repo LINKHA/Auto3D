@@ -43,7 +43,7 @@ void Node2D::Load(Stream& source, ObjectResolver& resolver)
 	size_t numChildren = source.ReadVLE();
 	for (size_t i = 0; i < numChildren; ++i)
 	{
-		StringHash childType(source.Read<StringHash>());
+		FStringHash childType(source.Read<FStringHash>());
 		unsigned childId = source.Read<unsigned>();
 		Node2D* child = CreateChild(childType);
 		if (child)
@@ -86,7 +86,7 @@ void Node2D::LoadJSON(const JSONValue& source, ObjectResolver& resolver)
 		for (auto it = children.Begin(); it != children.End(); ++it)
 		{
 			const JSONValue& childJSON = *it;
-			StringHash childType(childJSON["type"].GetString());
+			FStringHash childType(childJSON["type"].GetString());
 			unsigned childId = (unsigned)childJSON["id"].GetNumber();
 			Node2D* child = CreateChild(childType);
 			if (child)
@@ -127,7 +127,7 @@ bool Node2D::SaveJSON(Stream& dest)
 	return json.Save(dest);
 }
 
-void Node2D::SetName(const String& newName)
+void Node2D::SetName(const FString& newName)
 {
 	SetName(newName.CString());
 }
@@ -145,12 +145,12 @@ void Node2D::SetLayer(unsigned char newLayer)
 		ErrorString("Can not set layer 32 or higher");
 }
 
-void Node2D::SetLayerName(const String& newLayerName)
+void Node2D::SetLayerName(const FString& newLayerName)
 {
 	if (!_scene2D)
 		return;
 
-	const HashMap<String, unsigned char>& layers = _scene2D->Layers();
+	const THashMap<FString, unsigned char>& layers = _scene2D->Layers();
 	auto it = layers.Find(newLayerName);
 	if (it != layers.End())
 		_layer = it->_second;
@@ -163,12 +163,12 @@ void Node2D::SetTag(unsigned char newTag)
 	_tag = newTag;
 }
 
-void Node2D::SetTagName(const String& newTagName)
+void Node2D::SetTagName(const FString& newTagName)
 {
 	if (!_scene2D)
 		return;
 
-	const HashMap<String, unsigned char>& tags = _scene2D->Tags();
+	const THashMap<FString, unsigned char>& tags = _scene2D->Tags();
 	auto it = tags.Find(newTagName);
 	if (it != tags.End())
 		_tag = it->_second;
@@ -205,7 +205,7 @@ void Node2D::SetParent(Node2D* newParent)
 		ErrorString("Could not set null parent");
 }
 
-void Node2D::DefineLayer(unsigned char index, const String& name)
+void Node2D::DefineLayer(unsigned char index, const FString& name)
 {
 	if (index >= 32)
 	{
@@ -219,7 +219,7 @@ void Node2D::DefineLayer(unsigned char index, const String& name)
 	_layers[name] = index;
 }
 
-void Node2D::DefineTag(unsigned char index, const String& name)
+void Node2D::DefineTag(unsigned char index, const FString& name)
 {
 	if (_tagNames.Size() <= index)
 		_tagNames.Resize(index + 1);
@@ -227,9 +227,9 @@ void Node2D::DefineTag(unsigned char index, const String& name)
 	_tags[name] = index;
 }
 
-Node2D* Node2D::CreateChild(StringHash childType)
+Node2D* Node2D::CreateChild(FStringHash childType)
 {
-	SharedPtr<AObject> newObject = Create(childType);
+	TSharedPtr<AObject> newObject = Create(childType);
 	if (!newObject)
 	{
 		ErrorString("Could not create child node of unknown type " + childType.ToString());
@@ -248,12 +248,12 @@ Node2D* Node2D::CreateChild(StringHash childType)
 	return child;
 }
 
-Node2D* Node2D::CreateChild(StringHash childType, const String& childName)
+Node2D* Node2D::CreateChild(FStringHash childType, const FString& childName)
 {
 	return CreateChild(childType, childName.CString());
 }
 
-Node2D* Node2D::CreateChild(StringHash childType, const char* childName)
+Node2D* Node2D::CreateChild(FStringHash childType, const char* childName)
 {
 	Node2D* child = CreateChild(childType);
 	if (child)
@@ -354,22 +354,22 @@ void Node2D::RemoveSelf()
 		delete this;
 }
 
-const String& Node2D::GetLayerName() const
+const FString& Node2D::GetLayerName() const
 {
 	if (!_scene2D)
-		return String::EMPTY;
+		return FString::EMPTY;
 
-	const Vector<String>& layerNames = _scene2D->LayerNames();
-	return _layer < layerNames.Size() ? layerNames[_layer] : String::EMPTY;
+	const TVector<FString>& layerNames = _scene2D->LayerNames();
+	return _layer < layerNames.Size() ? layerNames[_layer] : FString::EMPTY;
 }
 
-const String& Node2D::GetTagName() const
+const FString& Node2D::GetTagName() const
 {
 	if (!_scene2D)
-		return String::EMPTY;
+		return FString::EMPTY;
 
-	const Vector<String>& tagNames = _scene2D->TagNames();
-	return _tag < tagNames.Size() ? tagNames[_layer] : String::EMPTY;
+	const TVector<FString>& tagNames = _scene2D->TagNames();
+	return _tag < tagNames.Size() ? tagNames[_layer] : FString::EMPTY;
 }
 
 size_t Node2D::NumPersistentChildren() const
@@ -386,7 +386,7 @@ size_t Node2D::NumPersistentChildren() const
 	return ret;
 }
 
-void Node2D::AllChildren(Vector<Node2D*>& result) const
+void Node2D::AllChildren(TVector<Node2D*>& result) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
@@ -396,7 +396,7 @@ void Node2D::AllChildren(Vector<Node2D*>& result) const
 	}
 }
 
-Node2D* Node2D::FindChild(const String& childName, bool recursive) const
+Node2D* Node2D::FindChild(const FString& childName, bool recursive) const
 {
 	return FindChild(childName.CString(), recursive);
 }
@@ -419,7 +419,7 @@ Node2D* Node2D::FindChild(const char* childName, bool recursive) const
 	return nullptr;
 }
 
-Node2D* Node2D::FindChild(StringHash childType, bool recursive) const
+Node2D* Node2D::FindChild(FStringHash childType, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
@@ -437,12 +437,12 @@ Node2D* Node2D::FindChild(StringHash childType, bool recursive) const
 	return nullptr;
 }
 
-Node2D* Node2D::FindChild(StringHash childType, const String& childName, bool recursive) const
+Node2D* Node2D::FindChild(FStringHash childType, const FString& childName, bool recursive) const
 {
 	return FindChild(childType, childName.CString(), recursive);
 }
 
-Node2D* Node2D::FindChild(StringHash childType, const char* childName, bool recursive) const
+Node2D* Node2D::FindChild(FStringHash childType, const char* childName, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
@@ -496,7 +496,7 @@ Node2D* Node2D::FindChildByTag(unsigned char tag, bool recursive) const
 	return nullptr;
 }
 
-Node2D* Node2D::FindChildByTag(const String& tagName, bool recursive) const
+Node2D* Node2D::FindChildByTag(const FString& tagName, bool recursive) const
 {
 	return FindChildByTag(tagName.CString(), recursive);
 }
@@ -506,7 +506,7 @@ Node2D* Node2D::FindChildByTag(const char* tagName, bool recursive) const
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
 		Node2D* child = *it;
-		if (!String::Compare(child->GetTagName().CString(), tagName))
+		if (!FString::Compare(child->GetTagName().CString(), tagName))
 			return child;
 		else if (recursive && child->_children.Size())
 		{
@@ -519,7 +519,7 @@ Node2D* Node2D::FindChildByTag(const char* tagName, bool recursive) const
 	return nullptr;
 }
 
-void Node2D::FindChildren(Vector<Node2D*>& result, StringHash childType, bool recursive) const
+void Node2D::FindChildren(TVector<Node2D*>& result, FStringHash childType, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
@@ -531,7 +531,7 @@ void Node2D::FindChildren(Vector<Node2D*>& result, StringHash childType, bool re
 	}
 }
 
-void Node2D::FindChildrenByLayer(Vector<Node2D*>& result, unsigned layerMask, bool recursive) const
+void Node2D::FindChildrenByLayer(TVector<Node2D*>& result, unsigned layerMask, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
@@ -543,7 +543,7 @@ void Node2D::FindChildrenByLayer(Vector<Node2D*>& result, unsigned layerMask, bo
 	}
 }
 
-void Node2D::FindChildrenByTag(Vector<Node2D*>& result, unsigned char tag, bool recursive) const
+void Node2D::FindChildrenByTag(TVector<Node2D*>& result, unsigned char tag, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
@@ -555,17 +555,17 @@ void Node2D::FindChildrenByTag(Vector<Node2D*>& result, unsigned char tag, bool 
 	}
 }
 
-void Node2D::FindChildrenByTag(Vector<Node2D*>& result, const String& tagName, bool recursive) const
+void Node2D::FindChildrenByTag(TVector<Node2D*>& result, const FString& tagName, bool recursive) const
 {
 	FindChildrenByTag(result, tagName.CString(), recursive);
 }
 
-void Node2D::FindChildrenByTag(Vector<Node2D*>& result, const char* tagName, bool recursive) const
+void Node2D::FindChildrenByTag(TVector<Node2D*>& result, const char* tagName, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
 		Node2D* child = *it;
-		if (!String::Compare(child->GetTagName().CString(), tagName))
+		if (!FString::Compare(child->GetTagName().CString(), tagName))
 			result.Push(child);
 		if (recursive && child->_children.Size())
 			child->FindChildrenByTag(result, tagName, recursive);
@@ -591,7 +591,7 @@ void Node2D::SkipHierarchy(Stream& source)
 	size_t numChildren = source.ReadVLE();
 	for (size_t i = 0; i < numChildren; ++i)
 	{
-		source.Read<StringHash>(); // StringHash childType
+		source.Read<FStringHash>(); // FStringHash childType
 		source.Read<unsigned>(); // unsigned childId
 		SkipHierarchy(source);
 	}

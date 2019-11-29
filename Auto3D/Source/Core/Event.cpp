@@ -34,7 +34,7 @@ void Event::Send(FRefCounted* sender)
 
     // Retain a weak pointer to the sender on the stack for safety, in case it is destroyed
     // as a result of _event handling, in which case the current _event may also be destroyed
-    WeakPtr<FRefCounted> safeCurrentSender = sender;
+    TWeakPtr<FRefCounted> safeCurrentSender = sender;
     _currentSender = sender;
     
     for (auto it = _handlers.Begin(); it != _handlers.End();)

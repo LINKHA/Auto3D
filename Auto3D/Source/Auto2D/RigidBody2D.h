@@ -54,7 +54,7 @@ private:
 	void RemoveBodyFromWorld();
 
 	/// Physics world 2d.
-	WeakPtr<PhysicsWorld2D> _physicsWorld2d;
+	TWeakPtr<PhysicsWorld2D> _physicsWorld2d;
 	/// Box2D body define.
 	b2BodyDef _bodyDef;
 	/// Box2D body.

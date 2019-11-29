@@ -55,7 +55,7 @@ void ConstantBuffer::Recreate()
     if (_constants.Size())
     {
         // Make a copy of the current constants, as they are passed by reference and manipulated by Define()
-        Vector<Constant> srcConstants = _constants;
+        TVector<Constant> srcConstants = _constants;
         Define(_usage, srcConstants);
         Apply();
     }

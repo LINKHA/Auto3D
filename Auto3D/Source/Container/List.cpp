@@ -5,14 +5,14 @@
 namespace Auto3D
 {
 
-template<> void Swap<ListBase>(ListBase& first, ListBase& second)
+template<> void Swap<FListBase>(FListBase& first, FListBase& second)
 {
     first.Swap(second);
 }
 
-void ListBase::AllocatePtrs()
+void FListBase::AllocatePtrs()
 {
-    _ptrs = new ListNodeBase*[3];
+    _ptrs = new FListNodeBase*[3];
 
     SetSize(0);
     _ptrs[1] = nullptr;

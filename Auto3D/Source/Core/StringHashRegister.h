@@ -11,14 +11,14 @@ namespace Auto3D
 
 class Mutex;
 
-template <typename _Ty1, typename _Ty2> class HashMap;
+template <typename _Ty1, typename _Ty2> class THashMap;
 /// Map of strings.
-using StringMap = HashMap<StringHash, String>;
+using StringMap = THashMap<FStringHash, FString>;
 
-/// Helper class used for StringHash reversing.
+/// Helper class used for FStringHash reversing.
 class AUTO_API StringHashRegister
 {
-	friend class Singleton<StringHashRegister>;
+	friend class TSingleton<StringHashRegister>;
 private:
 	/// Construct. threadSafe controls whether the RegisterString and GetStringCopy are thread-safe.
 	explicit StringHashRegister(bool threadSafe = true);
@@ -28,22 +28,22 @@ public:
 	/// Gets the singleton instance of the module manager.
 	static StringHashRegister& Get();
 
-	/// Register string for hash reverse mapping. Could be used from StringHash ctor.
-	StringHash RegisterString(const StringHash& hash, const char* string);
+	/// Register string for hash reverse mapping. Could be used from FStringHash ctor.
+	FStringHash RegisterString(const FStringHash& hash, const char* string);
 	/// Register string for hash reverse mapping.
-	StringHash RegisterString(const char* string);
+	FStringHash RegisterString(const char* string);
 	/// Register string for hash reverse mapping. 
-	bool RemoveString(const StringHash& hash);
+	bool RemoveString(const FStringHash& hash);
 	/// Register string for hash reverse mapping. 
 	bool RemoveString(const char* string);
 
-	/// Return string for given StringHash. Return empty string if not found.
-	String GetStringCopy(const StringHash& hash) const;
+	/// Return string for given FStringHash. Return empty string if not found.
+	FString GetStringCopy(const FStringHash& hash) const;
 	/// Return whether the string in contained in the register.
-	bool Contains(const StringHash& hash) const;
+	bool Contains(const FStringHash& hash) const;
 
-	/// Return String for given StringHash. Return value is unsafe to use if RegisterString is called from other threads.
-	const String& GetString(const StringHash& hash) const;
+	/// Return FString for given FStringHash. Return value is unsafe to use if RegisterString is called from other threads.
+	const FString& GetString(const FStringHash& hash) const;
 	/// Return map of hashes. Return value is unsafe to use if RegisterString is called from other threads.
 	const StringMap& GetInternalMap() const { return _map; }
 
@@ -51,7 +51,7 @@ private:
 	/// Hash to string map.
 	StringMap _map;
 	/// Mutex.
-	UniquePtr<Mutex> _mutex;
+	TUniquePtr<Mutex> _mutex;
 };
 
 }

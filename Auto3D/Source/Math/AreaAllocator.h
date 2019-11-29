@@ -45,7 +45,7 @@ private:
     void Cleanup();
 
     /// Free rectangles.
-    Vector<RectI> _freeAreas;
+    TVector<RectI> _freeAreas;
     /// Current _size.
     Vector2I _size;
     /// Maximum _size allowed to grow to. It is zero when it is not allowed to grow.

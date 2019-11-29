@@ -121,13 +121,13 @@ void Camera2D::SetLayoutMaskIndex(unsigned maskIndex)
 	_viewLayoutMask &= ~(1 << maskIndex);
 }
 
-void Camera2D::SetLayoutMaskName(const String& name)
+void Camera2D::SetLayoutMaskName(const FString& name)
 {
 	Scene2D* scene = ParentScene2D();
 	if (!scene)
 		return;
 
-	const HashMap<String, unsigned char>& layous = scene->Layers();
+	const THashMap<FString, unsigned char>& layous = scene->Layers();
 
 	auto it = layous.Find(name);
 	if (it != layous.End())
@@ -141,13 +141,13 @@ void Camera2D::SetLayoutMaskOutIndex(unsigned maskIndex)
 	_viewLayoutMask |= 1 << maskIndex;
 }
 
-void Camera2D::SetLayoutMaskOutName(const String& name)
+void Camera2D::SetLayoutMaskOutName(const FString& name)
 {
 	Scene2D* scene = ParentScene2D();
 	if (!scene)
 		return;
 
-	const HashMap<String, unsigned char>& layous = scene->Layers();
+	const THashMap<FString, unsigned char>& layous = scene->Layers();
 
 	auto it = layous.Find(name);
 	if (it != layous.End())

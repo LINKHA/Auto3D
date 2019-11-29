@@ -25,7 +25,7 @@ class AAudio;
 class AUTO_API ModuleManager //: public GameManager
 {
 	//REGISTER_OBJECT_CLASS(ModuleManager, GameManager)
-	friend class Singleton<ModuleManager>;
+	friend class TSingleton<ModuleManager>;
 protected:
 	/// Structure
 	ModuleManager();
@@ -95,31 +95,31 @@ public:
 	AAudio* AudioModule() { return _audio.Get(); }
 private:
 	/// Manage the subsystem of all resource loads
-	UniquePtr<ResourceCache> _cache;
+	TUniquePtr<ResourceCache> _cache;
 	/// ADAPTS the low-level rendering interface as well as the form's rendering function
-	UniquePtr<Graphics> _graphics;
+	TUniquePtr<Graphics> _graphics;
 	/// 3D rendering of the scene
-	UniquePtr<Renderer> _renderer;
+	TUniquePtr<Renderer> _renderer;
 	/// User input management events
-	UniquePtr<Input> _input;
+	TUniquePtr<Input> _input;
 	/// Engine Log
-	UniquePtr<Log> _log;
+	TUniquePtr<Log> _log;
 	/// Hierarchical performance profiler subsystem.
-	UniquePtr<Profiler> _profiler;
+	TUniquePtr<Profiler> _profiler;
 	/// Process all engine time, calculate FPS, etc
-	UniquePtr<Time> _time;
+	TUniquePtr<Time> _time;
 	/// The message management mechanism for the underlying interaction between the game project and the engine
-	UniquePtr<RegisteredBox> _registeredBox;
+	TUniquePtr<RegisteredBox> _registeredBox;
 	/// 2d-related operations and rendering capabilities
-	UniquePtr<Renderer2D> _renderer2d;
+	TUniquePtr<Renderer2D> _renderer2d;
 	/// Physical world and functional storage
-	UniquePtr<Physics> _physics;
+	TUniquePtr<Physics> _physics;
 	/// An adapter system that operates on files based on the platform
-	UniquePtr<FileSystem> _fileSystem;
+	TUniquePtr<FileSystem> _fileSystem;
 	/// UI-related operations and rendering capabilities
-	UniquePtr<UI> _ui;
+	TUniquePtr<UI> _ui;
 	/// Component management of all audio.(Assign values when the component is first created)
-	UniquePtr<AAudio> _audio;
+	TUniquePtr<AAudio> _audio;
 };
 
 }

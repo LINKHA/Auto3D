@@ -300,7 +300,7 @@ void SpatialNode2D::OnTransformChanged()
 {
 	SetFlag(NF_2D_WORLD_TRANSFORM_DIRTY, true);
 
-	const Vector<SharedPtr<Node2D> >& children = Children();
+	const TVector<TSharedPtr<Node2D> >& children = Children();
 	for (auto it = children.Begin(); it != children.End(); ++it)
 	{
 		Node2D* child = *it;

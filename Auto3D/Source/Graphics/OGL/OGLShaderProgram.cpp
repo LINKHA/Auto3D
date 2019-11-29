@@ -15,12 +15,12 @@ namespace Auto3D
 
 const size_t MAX_NAME_LENGTH = 256;
 
-int NumberPostfix(const String& str)
+int NumberPostfix(const FString& str)
 {
     for (size_t i = 0; i < str.Length(); ++i)
     {
         if (IsDigit(str[i]))
-            return String::ToInt(str.CString() + i);
+            return FString::ToInt(str.CString() + i);
     }
 
     return -1;
@@ -69,8 +69,8 @@ bool ShaderProgram::Link()
         return false;
     }
     
-    const String& vsSourceCode = _vs->Parent() ? _vs->Parent()->GetSourceCode() : String::EMPTY;
-    const String& psSourceCode = _ps->Parent() ? _ps->Parent()->GetSourceCode() : String::EMPTY;
+    const FString& vsSourceCode = _vs->Parent() ? _vs->Parent()->GetSourceCode() : FString::EMPTY;
+    const FString& psSourceCode = _ps->Parent() ? _ps->Parent()->GetSourceCode() : FString::EMPTY;
 
     _program = glCreateProgram();
     if (!_program)
@@ -88,7 +88,7 @@ bool ShaderProgram::Link()
     if (!linked)
     {
         int length, outLength;
-        String errorString;
+        FString errorString;
 
         glGetProgramiv(_program, GL_INFO_LOG_LENGTH, &length);
         errorString.Resize(length);
@@ -116,7 +116,7 @@ bool ShaderProgram::Link()
         glGetActiveAttrib(_program, i, (GLsizei)MAX_NAME_LENGTH, &nameLength, &numElements, &type, nameBuffer);
         
         VertexAttribute newAttribute;
-        newAttribute._name = String(nameBuffer, nameLength);
+        newAttribute._name = FString(nameBuffer, nameLength);
         newAttribute._semantic = ElementSemantic::POSITION;
         newAttribute._index = 0;
 
@@ -148,7 +148,7 @@ bool ShaderProgram::Link()
     {
         glGetActiveUniform(_program, i, MAX_NAME_LENGTH, &nameLength, &numElements, &type, nameBuffer);
 
-        String name(nameBuffer, nameLength);
+        FString name(nameBuffer, nameLength);
 #ifndef AUTO_OPENGL_ES
         if (type >= GL_SAMPLER_1D && type <= GL_SAMPLER_2D_SHADOW)
 #else
@@ -162,10 +162,10 @@ bool ShaderProgram::Link()
             if (unit < 0)
                 unit = numTextures;
             
-            // Array samplers may have multiple elements, assign each sequentially
+            // TArray samplers may have multiple elements, assign each sequentially
             if (numElements > 1)
             {
-                Vector<int> units;
+                TVector<int> units;
                 for (int j = 0; j < numElements; ++j)
                     units.Push(unit++);
                 glUniform1iv(location, numElements, &units[0]);
@@ -183,7 +183,7 @@ bool ShaderProgram::Link()
         glGetActiveUniformBlockName(_program, i, (GLsizei)MAX_NAME_LENGTH, &nameLength, nameBuffer);
         
         // Determine whether uniform block belongs to vertex or pixel shader
-        String name(nameBuffer, nameLength);
+        FString name(nameBuffer, nameLength);
         bool foundVs = vsSourceCode.Contains(name);
         bool foundPs = psSourceCode.Contains(name);
         if (foundVs && foundPs)
@@ -219,92 +219,92 @@ ShaderVariation* ShaderProgram::PixelShader() const
     return _ps;
 }
 
-String ShaderProgram::FullName() const
+FString ShaderProgram::FullName() const
 {
-    return (_vs && _ps) ? _vs->FullName() + " " + _ps->FullName() : String::EMPTY;
+    return (_vs && _ps) ? _vs->FullName() + " " + _ps->FullName() : FString::EMPTY;
 }
 
-void ShaderProgram::SetBool(const String& name, bool value) const
+void ShaderProgram::SetBool(const FString& name, bool value) const
 {
 	glUniform1i(glGetUniformLocation(_program, name.CString()), (int)value);
 }
 
-void ShaderProgram::SetInt(const String& name, int value) const
+void ShaderProgram::SetInt(const FString& name, int value) const
 {
 	glUniform1i(glGetUniformLocation(_program, name.CString()), value);
 }
 
-void ShaderProgram::SetFloat(const String& name, float value) const
+void ShaderProgram::SetFloat(const FString& name, float value) const
 {
 	glUniform1f(glGetUniformLocation(_program, name.CString()), value);
 }
 
-void ShaderProgram::SetVec2(const String& name, const Vector2F& value) const
+void ShaderProgram::SetVec2(const FString& name, const Vector2F& value) const
 {
 	glUniform2fv(glGetUniformLocation(_program, name.CString()), 1, value.Data());
 }
 
-void ShaderProgram::SetVec2(const String& name, float x, float y) const
+void ShaderProgram::SetVec2(const FString& name, float x, float y) const
 {
 	glUniform2f(glGetUniformLocation(_program, name.CString()), x, y);
 }
 
-void ShaderProgram::SetVec2s(const String& name, int size, float* pVec2) const
+void ShaderProgram::SetVec2s(const FString& name, int size, float* pVec2) const
 {
 	glUniform2fv(glGetUniformLocation(_program, name.CString()),size , pVec2);
 }
 
-void ShaderProgram::SetVec3(const String& name, const Vector3F& value) const
+void ShaderProgram::SetVec3(const FString& name, const Vector3F& value) const
 {
 	glUniform3fv(glGetUniformLocation(_program, name.CString()), 1, value.Data());
 }
 
-void ShaderProgram::SetVec3(const String& name, float x, float y, float z) const
+void ShaderProgram::SetVec3(const FString& name, float x, float y, float z) const
 {
 	glUniform3f(glGetUniformLocation(_program, name.CString()), x, y, z);
 }
 
-void ShaderProgram::SetVec3s(const String& name, int size, float* pVec3) const
+void ShaderProgram::SetVec3s(const FString& name, int size, float* pVec3) const
 {
 	glUniform3fv(glGetUniformLocation(_program, name.CString()), size, pVec3);
 }
 
-void ShaderProgram::SetVec4(const String& name, const Vector4F& value) const
+void ShaderProgram::SetVec4(const FString& name, const Vector4F& value) const
 {
 	glUniform4fv(glGetUniformLocation(_program, name.CString()), 1, value.Data());
 }
 
-void ShaderProgram::SetVec4(const String& name, float x, float y, float z, float w)
+void ShaderProgram::SetVec4(const FString& name, float x, float y, float z, float w)
 {
 	glUniform4f(glGetUniformLocation(_program, name.CString()), x, y, z, w);
 }
 
-void ShaderProgram::SetVec4s(const String& name, int size, float* pVec4)
+void ShaderProgram::SetVec4s(const FString& name, int size, float* pVec4)
 {
 	glUniform4fv(glGetUniformLocation(_program, name.CString()), size, pVec4);
 }
 
-void ShaderProgram::SetMat2(const String& name, const Matrix2x2F& mat) const
+void ShaderProgram::SetMat2(const FString& name, const Matrix2x2F& mat) const
 {
 	glUniformMatrix2fv(glGetUniformLocation(_program, name.CString()), 1, GL_FALSE, mat.Data());
 }
 
-void ShaderProgram::SetMat3(const String& name, const Matrix3x3F& mat) const
+void ShaderProgram::SetMat3(const FString& name, const Matrix3x3F& mat) const
 {
 	glUniformMatrix3fv(glGetUniformLocation(_program, name.CString()), 1, GL_FALSE, mat.Data());
 }
 
-void ShaderProgram::SetMat4(const String& name, const Matrix4x4F& mat) const
+void ShaderProgram::SetMat4(const FString& name, const Matrix4x4F& mat) const
 {
 	glUniformMatrix4fv(glGetUniformLocation(_program, name.CString()), 1, GL_FALSE, mat.Data());
 }
 
-unsigned ShaderProgram::GetUniformLocation(const String& uniformName) const
+unsigned ShaderProgram::GetUniformLocation(const FString& uniformName) const
 {
 	return glGetUniformLocation(_program, uniformName.CString());
 }
 
-unsigned ShaderProgram::GetAttribLocation(const String& AttribName) const
+unsigned ShaderProgram::GetAttribLocation(const FString& AttribName) const
 {
 	return glGetAttribLocation(_program, AttribName.CString());
 }

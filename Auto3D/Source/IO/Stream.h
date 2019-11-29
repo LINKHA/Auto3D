@@ -7,8 +7,8 @@ namespace Auto3D
 {
 
 class JSONValue;
-class StringHash;
-template <typename _Ty> class Vector;
+class FStringHash;
+template <typename _Ty> class TVector;
 struct ObjectRef;
 struct ResourceRef;
 struct ResourceRefList;
@@ -36,25 +36,25 @@ public:
     virtual bool IsWritable() const = 0;
 
     /// Change the stream name.
-    void SetName(const String& newName);
+    void SetName(const FString& newName);
     /// Change the stream name.
     void SetName(const char* newName);
     /// Read a variable-length encoded unsigned integer, which can use 29 bits maximum.
     unsigned ReadVLE();
     /// Read a text line.
-    String ReadLine();
+    FString ReadLine();
     /// Read a 4-character file ID.
-    String ReadFileID();
+    FString ReadFileID();
     /// Read a byte buffer, with _size prepended as a VLE value.
-    Vector<unsigned char> ReadBuffer();
+    TVector<unsigned char> ReadBuffer();
     /// Write a four-letter file ID. If the string is not long enough, spaces will be appended.
-    void WriteFileID(const String& value);
+    void WriteFileID(const FString& value);
     /// Write a byte buffer, with _size encoded as VLE.
-    void WriteBuffer(const Vector<unsigned char>& buffer);
+    void WriteBuffer(const TVector<unsigned char>& buffer);
     /// Write a variable-length encoded unsigned integer, which can use 29 bits maximum.
     void WriteVLE(size_t value);
     /// Write a text line. Char codes 13 & 10 will be automatically appended.
-    void WriteLine(const String& value);
+    void WriteLine(const FString& value);
 
     /// Write a value, template version.
     template <typename _Ty> void Write(const _Ty& value) { Write(&value, sizeof value); }
@@ -68,7 +68,7 @@ public:
     }
     
     /// Return the stream name.
-    const String& Name() const { return _name; }
+    const FString& Name() const { return _name; }
     /// Return current _position in bytes.
     size_t Position() const { return _position; }
     /// Return _size in bytes.
@@ -82,19 +82,19 @@ protected:
     /// Stream _size.
     size_t _size;
     /// Stream name.
-    String _name;
+    FString _name;
 };
 
 template<> AUTO_API bool Stream::Read();
-template<> AUTO_API String Stream::Read();
-template<> AUTO_API StringHash Stream::Read();
+template<> AUTO_API FString Stream::Read();
+template<> AUTO_API FStringHash Stream::Read();
 template<> AUTO_API ResourceRef Stream::Read();
 template<> AUTO_API ResourceRefList Stream::Read();
 template<> AUTO_API ObjectRef Stream::Read();
 template<> AUTO_API JSONValue Stream::Read();
 template<> AUTO_API void Stream::Write(const bool& value);
-template<> AUTO_API void Stream::Write(const String& value);
-template<> AUTO_API void Stream::Write(const StringHash& value);
+template<> AUTO_API void Stream::Write(const FString& value);
+template<> AUTO_API void Stream::Write(const FStringHash& value);
 template<> AUTO_API void Stream::Write(const ResourceRef& value);
 template<> AUTO_API void Stream::Write(const ResourceRefList& value);
 template<> AUTO_API void Stream::Write(const ObjectRef& value);

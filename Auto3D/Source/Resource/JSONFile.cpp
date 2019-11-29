@@ -19,7 +19,7 @@ bool JSONFile::BeginLoad(Stream& source)
     PROFILE(LoadJSONFile);
     
     size_t dataSize = source.Size() - source.Position();
-    AutoArrayPtr<char> buffer(new char[dataSize]);
+    TAutoArrayPtr<char> buffer(new char[dataSize]);
     if (source.Read(buffer.Get(), dataSize) != dataSize)
         return false;
     
@@ -42,7 +42,7 @@ bool JSONFile::Save(Stream& dest)
 {
     PROFILE(SaveJSONFile);
     
-    String buffer;
+    FString buffer;
     _root.ToString(buffer);
     return dest.Write(buffer.Begin()._ptr, buffer.Length()) == buffer.Length();
 }

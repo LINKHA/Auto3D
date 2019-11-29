@@ -8,22 +8,22 @@
 namespace Auto3D
 {
 
-void HashBase::Swap(HashBase& hash)
+void FHashBase::Swap(FHashBase& hash)
 {
     Auto3D::Swap(_ptrs, hash._ptrs);
     Auto3D::Swap(_allocator, hash._allocator);
 }
 
-void HashBase::AllocateBuckets(size_t _size, size_t numBuckets)
+void FHashBase::AllocateBuckets(size_t _size, size_t numBuckets)
 {
     assert(numBuckets >= MIN_BUCKETS);
 
     // Remember old head & tail pointers
-    HashNodeBase* head = Head();
-    HashNodeBase* tail = Tail();
+    FHashNodeBase* head = Head();
+    FHashNodeBase* tail = Tail();
     delete[] _ptrs;
 
-    HashNodeBase** newPtrs = new HashNodeBase*[numBuckets + 4];
+    FHashNodeBase** newPtrs = new FHashNodeBase*[numBuckets + 4];
     size_t* _data = reinterpret_cast<size_t*>(newPtrs);
     _data[0] = _size;
     _data[1] = numBuckets;
@@ -34,18 +34,18 @@ void HashBase::AllocateBuckets(size_t _size, size_t numBuckets)
     ResetPtrs();
 }
 
-void HashBase::ResetPtrs()
+void FHashBase::ResetPtrs()
 {
     if (_ptrs)
     {
         size_t numBuckets = NumBuckets();
-        HashNodeBase** _data = Ptrs();
+        FHashNodeBase** _data = Ptrs();
         for (size_t i = 0; i < numBuckets; ++i)
             _data[i] = nullptr;
     }
 }
 
-template<> void Swap<HashBase>(HashBase& first, HashBase& second)
+template<> void Swap<FHashBase>(FHashBase& first, FHashBase& second)
 {
     first.Swap(second);
 }

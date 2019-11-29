@@ -150,7 +150,7 @@ bool ASound::LoadWav(Stream& source)
 bool ASound::LoadOggVorbis(Stream& source)
 {
 	unsigned dataSize = source.Size();
-	SharedArrayPtr<signed char> data(new signed char[dataSize]);
+	TSharedArrayPtr<signed char> data(new signed char[dataSize]);
 	source.Read(data.Get(), dataSize);
 
 	// Check for validity of data

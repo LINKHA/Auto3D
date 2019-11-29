@@ -5,7 +5,7 @@
 namespace Auto3D
 {
 
-class Attribute;
+class FAttribute;
 class Serializable;
 struct ObjectRef;
 
@@ -21,7 +21,7 @@ struct AUTO_API StoredObjectRef
     }
 
     /// Construct with values.
-    StoredObjectRef(Serializable* object, Attribute* attr, unsigned oldId) :
+    StoredObjectRef(Serializable* object, FAttribute* attr, unsigned oldId) :
         _object(object),
         _attr(attr),
         _oldId(oldId)
@@ -31,7 +31,7 @@ struct AUTO_API StoredObjectRef
     /// %AObject that contains the attribute.
     Serializable* _object;
     /// Description of the object ref attribute.
-    Attribute* _attr;
+    FAttribute* _attr;
     /// Old _id from the serialized data.
     unsigned _oldId;
 };
@@ -43,15 +43,15 @@ public:
     /// Store an object along with its old _id from the serialized data.
     void StoreObject(unsigned oldId, Serializable* object);
     /// Store an object ref attribute that needs to be resolved later.
-    void StoreObjectRef(Serializable* object, Attribute* attr, const ObjectRef& value);
+    void StoreObjectRef(Serializable* object, FAttribute* attr, const ObjectRef& value);
     /// Resolve the object ref attributes.
     void Resolve();
 
 private:
     /// Mapping of old _id's to objects.
-    HashMap<unsigned, Serializable*> _objects;
+    THashMap<unsigned, Serializable*> _objects;
     /// Stored object ref attributes.
-    Vector<StoredObjectRef> _objectRefs;
+    TVector<StoredObjectRef> _objectRefs;
 };
 
 }

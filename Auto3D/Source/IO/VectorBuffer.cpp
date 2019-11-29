@@ -12,7 +12,7 @@ VectorBuffer::VectorBuffer()
     SetName("Vector");
 }
 
-VectorBuffer::VectorBuffer(const Vector<unsigned char>& _data)
+VectorBuffer::VectorBuffer(const TVector<unsigned char>& _data)
 {
     SetData(_data);
     SetName("Vector");
@@ -116,7 +116,7 @@ bool VectorBuffer::IsWritable() const
     return true;
 }
 
-void VectorBuffer::SetData(const Vector<unsigned char>& _data)
+void VectorBuffer::SetData(const TVector<unsigned char>& _data)
 {
     _buffer = _data;
     _position = 0;

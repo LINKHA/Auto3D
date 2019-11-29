@@ -7,14 +7,14 @@
 namespace Auto3D
 {
 
-bool ResourceRef::FromString(const String& str)
+bool ResourceRef::FromString(const FString& str)
 {
     return FromString(str.CString());
 }
 
 bool ResourceRef::FromString(const char* str)
 {
-    Vector<String> values = String::Split(str, ';');
+    TVector<FString> values = FString::Split(str, ';');
     if (values.Size() == 2)
     {
         _type = values[0];
@@ -27,11 +27,11 @@ bool ResourceRef::FromString(const char* str)
 
 void ResourceRef::FromBinary(Stream& source)
 {
-    _type = source.Read<StringHash>();
-    _name = source.Read<String>();
+    _type = source.Read<FStringHash>();
+    _name = source.Read<FString>();
 }
 
-String ResourceRef::ToString() const
+FString ResourceRef::ToString() const
 {
     return AObject::TypeNameFromType(_type) + ";" + _name;
 }
@@ -42,14 +42,14 @@ void ResourceRef::ToBinary(Stream& dest) const
     dest.Write(_name);
 }
 
-bool ResourceRefList::FromString(const String& str)
+bool ResourceRefList::FromString(const FString& str)
 {
     return FromString(str.CString());
 }
 
 bool ResourceRefList::FromString(const char* str)
 {
-    Vector<String> values = String::Split(str, ';');
+    TVector<FString> values = FString::Split(str, ';');
     if (values.Size() >= 1)
     {
         _type = values[0];
@@ -64,16 +64,16 @@ bool ResourceRefList::FromString(const char* str)
 
 void ResourceRefList::FromBinary(Stream& source)
 {
-    _type = source.Read<StringHash>();
+    _type = source.Read<FStringHash>();
     size_t num = source.ReadVLE();
     _names.Clear();
     for (size_t i = 0; i < num && !source.IsEof(); ++i)
-        _names.Push(source.Read<String>());
+        _names.Push(source.Read<FString>());
 }
 
-String ResourceRefList::ToString() const
+FString ResourceRefList::ToString() const
 {
-    String ret(AObject::TypeNameFromType(_type));
+    FString ret(AObject::TypeNameFromType(_type));
     for (auto it = _names.Begin(); it != _names.End(); ++it)
     {
         ret += ";";

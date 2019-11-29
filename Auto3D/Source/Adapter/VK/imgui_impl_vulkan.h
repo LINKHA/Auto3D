@@ -35,7 +35,7 @@ struct ImGui_ImplVulkan_InitInfo
     VkDescriptorPool    DescriptorPool;
     uint32_t            MinImageCount;          // >= 2
     uint32_t            ImageCount;             // >= MinImageCount
-    const VkAllocationCallbacks* Allocator;
+    const VkAllocationCallbacks* TAllocator;
     void                (*CheckVkResultFn)(VkResult err);
 };
 

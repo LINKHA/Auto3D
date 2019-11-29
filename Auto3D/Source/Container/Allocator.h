@@ -8,38 +8,38 @@
 namespace Auto3D
 {
 
-struct AllocatorBlock;
-struct AllocatorNode;
+struct FAllocatorBlock;
+struct FAllocatorNode;
 
-/// %Allocator memory block.
-struct AUTO_API AllocatorBlock
+/// %TAllocator memory block.
+struct AUTO_API FAllocatorBlock
 {
     /// Size of a node.
     size_t _nodeSize;
     /// Number of nodes in this block.
     size_t _capacity;
     /// First free node.
-    AllocatorNode* _free;
+    FAllocatorNode* _free;
     /// Next allocator block.
-    AllocatorBlock* _next;
+    FAllocatorBlock* _next;
     /// Nodes follow.
 };
 
-/// %Allocator node.
-struct AUTO_API AllocatorNode
+/// %TAllocator node.
+struct AUTO_API FAllocatorNode
 {
     /// Next free node.
-    AllocatorNode* _next;
+    FAllocatorNode* _next;
     /// Data follows.
 };
 
-static AllocatorBlock* AllocatorReserveBlock(AllocatorBlock* allocator, unsigned nodeSize, unsigned capacity)
+static FAllocatorBlock* AllocatorReserveBlock(FAllocatorBlock* allocator, unsigned nodeSize, unsigned capacity)
 {
 	if (!capacity)
 		capacity = 1;
 
-	auto* blockPtr = new unsigned char[sizeof(AllocatorBlock) + capacity * (sizeof(AllocatorNode) + nodeSize)];
-	auto* newBlock = reinterpret_cast<AllocatorBlock*>(blockPtr);
+	auto* blockPtr = new unsigned char[sizeof(FAllocatorBlock) + capacity * (sizeof(FAllocatorNode) + nodeSize)];
+	auto* newBlock = reinterpret_cast<FAllocatorBlock*>(blockPtr);
 	newBlock->_nodeSize = nodeSize;
 	newBlock->_capacity = capacity;
 	newBlock->_free = nullptr;
@@ -54,18 +54,18 @@ static AllocatorBlock* AllocatorReserveBlock(AllocatorBlock* allocator, unsigned
 	}
 
 	// Initialize the nodes. Free nodes are always chained to the first (parent) allocator
-	unsigned char* nodePtr = blockPtr + sizeof(AllocatorBlock);
-	auto* firstNewNode = reinterpret_cast<AllocatorNode*>(nodePtr);
+	unsigned char* nodePtr = blockPtr + sizeof(FAllocatorBlock);
+	auto* firstNewNode = reinterpret_cast<FAllocatorNode*>(nodePtr);
 
 	for (unsigned i = 0; i < capacity - 1; ++i)
 	{
-		auto* newNode = reinterpret_cast<AllocatorNode*>(nodePtr);
-		newNode->_next = reinterpret_cast<AllocatorNode*>(nodePtr + sizeof(AllocatorNode) + nodeSize);
-		nodePtr += sizeof(AllocatorNode) + nodeSize;
+		auto* newNode = reinterpret_cast<FAllocatorNode*>(nodePtr);
+		newNode->_next = reinterpret_cast<FAllocatorNode*>(nodePtr + sizeof(FAllocatorNode) + nodeSize);
+		nodePtr += sizeof(FAllocatorNode) + nodeSize;
 	}
 	// i == capacity - 1
 	{
-		auto* newNode = reinterpret_cast<AllocatorNode*>(nodePtr);
+		auto* newNode = reinterpret_cast<FAllocatorNode*>(nodePtr);
 		newNode->_next = nullptr;
 	}
 
@@ -75,42 +75,42 @@ static AllocatorBlock* AllocatorReserveBlock(AllocatorBlock* allocator, unsigned
 }
 
 /// Initialize a fixed-_size allocator with the node _size and initial capacity.
-AUTO_API AllocatorBlock* AllocatorInitialize(size_t nodeSize, size_t initialCapacity = 1);
+AUTO_API FAllocatorBlock* AllocatorInitialize(size_t nodeSize, size_t initialCapacity = 1);
 /// Uninitialize a fixed-_size allocator. Frees all blocks in the chain.
-AUTO_API void AllocatorUninitialize(AllocatorBlock* allocator);
+AUTO_API void AllocatorUninitialize(FAllocatorBlock* allocator);
 /// Allocate a node. Creates a new block if necessary.
-AUTO_API void* AllocatorGet(AllocatorBlock* allocator);
+AUTO_API void* AllocatorGet(FAllocatorBlock* allocator);
 /// Free a node. Does not free any blocks.
-AUTO_API void AllocatorFree(AllocatorBlock* allocator, void* node);
+AUTO_API void AllocatorFree(FAllocatorBlock* allocator, void* node);
 
 template <typename _Ty>
-class Allocator
+class TAllocator
 {
 public:
 	using ValueType = _Ty;
 public:
 	/// Construct default allocator (do nothing)
-	constexpr Allocator() noexcept
+	constexpr TAllocator() noexcept
 		: _allocator(nullptr)
 	{
 		_allocator = AllocatorInitialize((unsigned)sizeof(_Ty));
 	}
 	/// Construct
-	explicit Allocator(unsigned initialCapacity)
+	explicit TAllocator(unsigned initialCapacity)
 		: _allocator(nullptr)
 	{
 		if (initialCapacity)
 			_allocator = AllocatorInitialize((unsigned)sizeof(_Ty), initialCapacity);
 	}
 	/// Destruct
-	virtual ~Allocator()
+	virtual ~TAllocator()
 	{
 		AllocatorUninitialize(_allocator);
 	}
 	/// Prevent copy construction
-	Allocator(const Allocator<_Ty>& rhs) = delete;
+	TAllocator(const TAllocator<_Ty>& rhs) = delete;
 	/// Prevent assignment
-	Allocator<_Ty>& operator =(const Allocator<_Ty>& rhs) = delete;
+	TAllocator<_Ty>& operator =(const TAllocator<_Ty>& rhs) = delete;
 
 	/// Reserve and default-construct an object
 	_Ty* Reserve()
@@ -196,8 +196,8 @@ public:
 		::operator delete(buffer);
 	}
 private:
-	/// Allocator block
-	AllocatorBlock* _allocator;
+	/// TAllocator block
+	FAllocatorBlock* _allocator;
 };
 
 ///Safe delete for cpp

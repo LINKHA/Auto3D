@@ -40,7 +40,7 @@ struct AUTO_API RenderPassDesc
 	}
 
 	/// Construct with parameters.
-	RenderPassDesc(const String& name, RenderCommandSortMode::Type sort = RenderCommandSortMode::STATE, bool lit = true) :
+	RenderPassDesc(const FString& name, RenderCommandSortMode::Type sort = RenderCommandSortMode::STATE, bool lit = true) :
 		_name(name),
 		_sort(sort),
 		_lit(lit)
@@ -48,7 +48,7 @@ struct AUTO_API RenderPassDesc
 	}
 
 	/// %Pass name.
-	String _name;
+	FString _name;
 	/// Sorting mode.
 	RenderCommandSortMode::Type _sort;
 	/// Lighting flag.

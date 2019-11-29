@@ -23,10 +23,10 @@ StringHashRegister::~StringHashRegister()       // NOLINT(hicpp-use-equals-defau
 
 StringHashRegister& StringHashRegister::Get()
 {
-	return Singleton<StringHashRegister>::Instance();
+	return TSingleton<StringHashRegister>::Instance();
 }
 
-StringHash StringHashRegister::RegisterString(const StringHash& hash, const char* string)
+FStringHash StringHashRegister::RegisterString(const FStringHash& hash, const char* string)
 {
 	if (_mutex)
 		_mutex->Acquire();
@@ -48,13 +48,13 @@ StringHash StringHashRegister::RegisterString(const StringHash& hash, const char
 	return hash;
 }
 
-StringHash StringHashRegister::RegisterString(const char* string)
+FStringHash StringHashRegister::RegisterString(const char* string)
 {
-	StringHash hash(string);
+	FStringHash hash(string);
 	return RegisterString(hash, string);
 }
 
-bool StringHashRegister::RemoveString(const StringHash& hash)
+bool StringHashRegister::RemoveString(const FStringHash& hash)
 {
 	if (_mutex)
 		_mutex->Acquire();
@@ -80,16 +80,16 @@ bool StringHashRegister::RemoveString(const StringHash& hash)
 
 bool StringHashRegister::RemoveString(const char* string)
 {
-	StringHash hash(string);
+	FStringHash hash(string);
 	return RemoveString(hash);
 }
 
-String StringHashRegister::GetStringCopy(const StringHash& hash) const
+FString StringHashRegister::GetStringCopy(const FStringHash& hash) const
 {
 	if (_mutex)
 		_mutex->Acquire();
 
-	const String copy = GetString(hash);
+	const FString copy = GetString(hash);
 
 	if (_mutex)
 		_mutex->Release();
@@ -97,7 +97,7 @@ String StringHashRegister::GetStringCopy(const StringHash& hash) const
 	return copy;
 }
 
-bool StringHashRegister::Contains(const StringHash& hash) const
+bool StringHashRegister::Contains(const FStringHash& hash) const
 {
 	if (_mutex)
 		_mutex->Acquire();
@@ -110,10 +110,10 @@ bool StringHashRegister::Contains(const StringHash& hash) const
 	return contains;
 }
 
-const String& StringHashRegister::GetString(const StringHash& hash) const
+const FString& StringHashRegister::GetString(const FStringHash& hash) const
 {
 	auto iter = _map.Find(hash);
-	return iter == _map.End() ? String::EMPTY : iter->_second;
+	return iter == _map.End() ? FString::EMPTY : iter->_second;
 }
 
 }

@@ -26,14 +26,14 @@ public:
     virtual unsigned Id() const { return 0; }
 
     /// Set attribute value from memory.
-    void SetAttributeValue(Attribute* attr, const void* source);
+    void SetAttributeValue(FAttribute* attr, const void* source);
     /// Copy attribute value to memory.
-    void AttributeValue(Attribute* attr, void* dest);
+    void AttributeValue(FAttribute* attr, void* dest);
     
     /// Set attribute value, template version. Return true if value was right type.
-    template <typename _Ty> bool SetAttributeValue(Attribute* attr, const _Ty& source)
+    template <typename _Ty> bool SetAttributeValue(FAttribute* attr, const _Ty& source)
     {
-        AttributeImpl<_Ty>* typedAttr = dynamic_cast<AttributeImpl<_Ty>*>(attr);
+        FAttributeImpl<_Ty>* typedAttr = dynamic_cast<FAttributeImpl<_Ty>*>(attr);
         if (typedAttr)
         {
             typedAttr->SetValue(this, source);
@@ -44,9 +44,9 @@ public:
     }
     
     /// Copy attribute value, template version. Return true if value was right type.
-    template <typename _Ty> bool AttributeValue(Attribute* attr, _Ty& dest)
+    template <typename _Ty> bool AttributeValue(FAttribute* attr, _Ty& dest)
     {
-        AttributeImpl<_Ty>* typedAttr = dynamic_cast<AttributeImpl<_Ty>*>(attr);
+        FAttributeImpl<_Ty>* typedAttr = dynamic_cast<FAttributeImpl<_Ty>*>(attr);
         if (typedAttr)
         {
             typedAttr->Value(this, dest);
@@ -57,44 +57,44 @@ public:
     }
     
     /// Return attribute value, template version.
-    template <typename _Ty> _Ty AttributeValue(Attribute* attr)
+    template <typename _Ty> _Ty AttributeValue(FAttribute* attr)
     {
-        AttributeImpl<_Ty>* typedAttr = dynamic_cast<AttributeImpl<_Ty>*>(attr);
+        FAttributeImpl<_Ty>* typedAttr = dynamic_cast<FAttributeImpl<_Ty>*>(attr);
         return typedAttr ? typedAttr->Value(this) : _Ty();
     }
     
     /// Return the attribute descriptions. Default implementation uses per-class registration.
-    virtual const Vector<SharedPtr<Attribute> >* Attributes() const;
+    virtual const TVector<TSharedPtr<FAttribute> >* Attributes() const;
     /// Return an attribute description by name, or null if does not exist.
-    Attribute* FindAttribute(const String& name) const;
+    FAttribute* FindAttribute(const FString& name) const;
     /// Return an attribute description by name, or null if does not exist.
-    Attribute* FindAttribute(const char* name) const;
+    FAttribute* FindAttribute(const char* name) const;
     
     /// Register a per-class attribute. If an attribute with the same name already exists, it will be replaced.
-    static void RegisterAttribute(StringHash type, Attribute* attr);
+    static void RegisterAttribute(FStringHash type, FAttribute* attr);
     /// Copy all base class attributes.
-    static void CopyBaseAttributes(StringHash type, StringHash baseType);
+    static void CopyBaseAttributes(FStringHash type, FStringHash baseType);
     /// Copy one base class attribute.
-    static void CopyBaseAttribute(StringHash type, StringHash baseType, const String& name);
+    static void CopyBaseAttribute(FStringHash type, FStringHash baseType, const FString& name);
     /// Skip binary data of an object's all attributes.
     static void Skip(Stream& source);
     
     /// Register a per-class attribute, template version. Should not be used for base class attributes unless the type is explicitly specified, as by default the attribute will be re-registered to the base class redundantly.
     template <typename _Ty, typename U> static void RegisterAttribute(const char* name, U (_Ty::*getFunction)() const, void (_Ty::*setFunction)(U), const U& defaultValue = U(), const char** enumNames = 0)
     {
-        RegisterAttribute(_Ty::GetTypeStatic(), new AttributeImpl<U>(name, new AttributeAccessorImpl<_Ty, U>(getFunction, setFunction), defaultValue, enumNames));
+        RegisterAttribute(_Ty::GetTypeStatic(), new FAttributeImpl<U>(name, new FAttributeAccessorImpl<_Ty, U>(getFunction, setFunction), defaultValue, enumNames));
     }
     
     /// Register a per-class attribute with reference access, template version. Should not be used for base class attributes unless the type is explicitly specified, as by default the attribute will be re-registered to the base class redundantly.
     template <typename _Ty, typename U> static void RegisterRefAttribute(const char* name, const U& (_Ty::*getFunction)() const, void (_Ty::*setFunction)(const U&), const U& defaultValue = U(), const char** enumNames = 0)
     {
-        RegisterAttribute(_Ty::GetTypeStatic(), new AttributeImpl<U>(name, new RefAttributeAccessorImpl<_Ty, U>(getFunction, setFunction), defaultValue, enumNames));
+        RegisterAttribute(_Ty::GetTypeStatic(), new FAttributeImpl<U>(name, new FRefAttributeAccessorImpl<_Ty, U>(getFunction, setFunction), defaultValue, enumNames));
     }
 
     /// Register a per-class attribute with mixed reference access, template version. Should not be used for base class attributes unless the type is explicitly specified, as by default the attribute will be re-registered to the base class redundantly.
     template <typename _Ty, typename U> static void RegisterMixedRefAttribute(const char* name, U (_Ty::*getFunction)() const, void (_Ty::*setFunction)(const U&), const U& defaultValue = U(), const char** enumNames = 0)
     {
-        RegisterAttribute(_Ty::GetTypeStatic(), new AttributeImpl<U>(name, new MixedRefAttributeAccessorImpl<_Ty, U>(getFunction, setFunction), defaultValue, enumNames));
+        RegisterAttribute(_Ty::GetTypeStatic(), new FAttributeImpl<U>(name, new FMixedRefAttributeAccessorImpl<_Ty, U>(getFunction, setFunction), defaultValue, enumNames));
     }
 
     /// Copy all base class attributes, template version.
@@ -104,14 +104,14 @@ public:
     }
 
     /// Copy one base class attribute, template version.
-    template <typename _Ty, typename U> static void CopyBaseAttribute(const String& name)
+    template <typename _Ty, typename U> static void CopyBaseAttribute(const FString& name)
     {
         CopyBaseAttribute(_Ty::GetTypeStatic(), U::GetTypeStatic(), name);
     }
     
 private:
     /// Per-class attributes.
-    static HashMap<StringHash, Vector<SharedPtr<Attribute> > > _classAttributes;
+    static THashMap<FStringHash, TVector<TSharedPtr<FAttribute> > > _classAttributes;
 };
 
 }

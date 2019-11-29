@@ -32,7 +32,7 @@ public:
 	/// Define loop.
 	void SetLoop(unsigned repeatOffset, unsigned endOffset);
 	/// Get buffer data with void*
-	SharedArrayPtr<signed char> GetData() { return _data; }
+	TSharedArrayPtr<signed char> GetData() { return _data; }
 	/// Return sound data start.
 	signed char* GetStart() const { return _data.Get(); }
 	/// Return loop start.
@@ -62,7 +62,7 @@ public:
 private:
 
 	/// buffer data
-	SharedArrayPtr<signed char> _data;
+	TSharedArrayPtr<signed char> _data;
 	/// Loop start.
 	signed char* _repeat;
 	/// ASound data end.

@@ -5,9 +5,9 @@
 namespace Auto3D
 {
 
-bool OpenFileDialog(const String& filterList, const String& defaultPath, String& outPath);
-bool OpenMultipleFilesDialog(const String& filterList, const String& defaultPath,
-								Vector<String>& outPaths);
-bool PickFolderDialog(const String& defaultPath, String& outPath);
-bool SaveFileDialog(const String& filterList, const String& defaultPath, String& outPath);
+bool OpenFileDialog(const FString& filterList, const FString& defaultPath, FString& outPath);
+bool OpenMultipleFilesDialog(const FString& filterList, const FString& defaultPath,
+								TVector<FString>& outPaths);
+bool PickFolderDialog(const FString& defaultPath, FString& outPath);
+bool SaveFileDialog(const FString& filterList, const FString& defaultPath, FString& outPath);
 }

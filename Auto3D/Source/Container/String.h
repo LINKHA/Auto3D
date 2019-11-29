@@ -10,141 +10,141 @@ namespace Auto3D
 
 static const size_t CONVERSION_BUFFER_LENGTH = 256;
 
-template <typename _Ty> class Vector;
-class WString;
+template <typename _Ty> class TVector;
+class FWString;
 
-/// %String class.
-class AUTO_API String
+/// %FString class.
+class AUTO_API FString
 {
 public:
-    typedef RandomAccessIterator<char> Iterator;
-    typedef RandomAccessConstIterator<char> ConstIterator;
+    typedef TRandomAccessIterator<char> Iterator;
+    typedef TRandomAccessConstIterator<char> ConstIterator;
     
     /// Construct empty.
-    String() :
+    FString() :
         _buffer(nullptr)
     {
     }
     
     /// Copy-construct.
-    String(const String& str) :
+    FString(const FString& str) :
         _buffer(nullptr)
     {
         *this = str;
     }
     
     /// Construct from a C string.
-    String(const char* str) :
+    FString(const char* str) :
         _buffer(nullptr)
     {
         *this = str;
     }
     
     /// Construct from a C string.
-    String(char* str) :
+    FString(char* str) :
         _buffer(nullptr)
     {
         *this = (const char*)str;
     }
 
     /// Construct from a char array and length.
-    String(const char* str, size_t numChars);
+    FString(const char* str, size_t numChars);
     /// Construct from a wide character C string.
-    String(const wchar_t* str);
+    FString(const wchar_t* str);
     /// Construct from a wide character C string.
-    String(wchar_t* str);
+    FString(wchar_t* str);
     /// Construct from a wide character string.
-    String(const WString& str);
+    FString(const FWString& str);
     /// Construct from an integer.
-    explicit String(int value);
+    explicit FString(int value);
     /// Construct from a short integer.
-    explicit String(short value);
+    explicit FString(short value);
     /// Construct from a long integer.
-    explicit String(long value);
+    explicit FString(long value);
     /// Construct from a long long integer.
-    explicit String(long long value);
+    explicit FString(long long value);
     /// Construct from an unsigned integer.
-    explicit String(unsigned value);
+    explicit FString(unsigned value);
     /// Construct from an unsigned short integer.
-    explicit String(unsigned short value);
+    explicit FString(unsigned short value);
     /// Construct from an unsigned long integer.
-    explicit String(unsigned long value);
+    explicit FString(unsigned long value);
     /// Construct from an unsigned long long integer.
-    explicit String(unsigned long long value);
+    explicit FString(unsigned long long value);
     /// Construct from a float.
-    explicit String(float value);
+    explicit FString(float value);
     /// Construct from a double.
-    explicit String(double value);
+    explicit FString(double value);
     /// Construct from a bool.
-    explicit String(bool value);
+    explicit FString(bool value);
     /// Construct from a character.
-    explicit String(char value);
+    explicit FString(char value);
     /// Construct from a character and fill length.
-    explicit String(char value, size_t numChars);
+    explicit FString(char value, size_t numChars);
     
     /// Construct from a convertible value.
-    template <typename _Ty> explicit String(const _Ty& value) :
+    template <typename _Ty> explicit FString(const _Ty& value) :
         _buffer(nullptr)
     {
         *this = value.ToString();
     }
     
     /// Destruct.
-    ~String();
+    ~FString();
 
     /// Assign a string.
-    String& operator = (const String& rhs);
+    FString& operator = (const FString& rhs);
     /// Assign a C string.
-    String& operator = (const char* rhs);
+    FString& operator = (const char* rhs);
     /// Assign a C string.
-    String& operator = (char* rhs);
+    FString& operator = (char* rhs);
     /// Add-assign a string.
-    String& operator += (const String& rhs);
+    FString& operator += (const FString& rhs);
     /// Add-assign a C string.
-    String& operator += (const char* rhs);
+    FString& operator += (const char* rhs);
     /// Add-assign a C string.
-    String& operator += (char* rhs);
+    FString& operator += (char* rhs);
     /// Add-assign a character.
-    String& operator += (char rhs);
+    FString& operator += (char rhs);
     /// Add-assign an integer.
-    String& operator += (int rhs);
+    FString& operator += (int rhs);
     /// Add-assign a short integer.
-    String& operator += (short rhs);
+    FString& operator += (short rhs);
     /// Add-assign a long integer.
-    String& operator += (long rhs);
+    FString& operator += (long rhs);
     /// Add-assign a long long integer.
-    String& operator += (long long rhs);
+    FString& operator += (long long rhs);
     /// Add-assign an unsigned integer.
-    String& operator += (unsigned rhs);
+    FString& operator += (unsigned rhs);
     /// Add-assign a short unsigned integer.
-    String& operator += (unsigned short rhs);
+    FString& operator += (unsigned short rhs);
     /// Add-assign an unsigned long integer.
-    String& operator += (unsigned long rhs);
+    FString& operator += (unsigned long rhs);
     /// Add-assign an unsigned long long integer.
-    String& operator += (unsigned long long rhs);
+    FString& operator += (unsigned long long rhs);
     /// Add-assign a float.
-    String& operator += (float rhs);
+    FString& operator += (float rhs);
     /// Add-assign a float.
-    String& operator += (double rhs);
+    FString& operator += (double rhs);
     /// Add-assign a bool.
-    String& operator += (bool rhs);
+    FString& operator += (bool rhs);
     /// Add-assign an arbitrary type.
-    template <typename _Ty> String operator += (const _Ty& rhs) { return *this += rhs.ToString(); }
+    template <typename _Ty> FString operator += (const _Ty& rhs) { return *this += rhs.ToString(); }
     
     /// Add a string.
-    String operator + (const String& rhs) const;
+    FString operator + (const FString& rhs) const;
     /// Add a C string.
-    String operator + (const char* rhs) const;
+    FString operator + (const char* rhs) const;
     /// Add a character.
-    String operator + (char rhs) const;
+    FString operator + (char rhs) const;
     /// Test for equality with another string.
-    bool operator == (const String& rhs) const { return Compare(rhs) == 0; }
+    bool operator == (const FString& rhs) const { return Compare(rhs) == 0; }
     /// Test for inequality with another string.
-    bool operator != (const String& rhs) const { return Compare(rhs) != 0; }
+    bool operator != (const FString& rhs) const { return Compare(rhs) != 0; }
     /// Test if string is less than another string.
-    bool operator < (const String& rhs) const { return Compare(rhs) < 0; }
+    bool operator < (const FString& rhs) const { return Compare(rhs) < 0; }
     /// Test if string is greater than another string.
-    bool operator > (const String& rhs) const { return Compare(rhs) > 0; }
+    bool operator > (const FString& rhs) const { return Compare(rhs) > 0; }
     /// Test for equality with a C string.
     bool operator == (const char* rhs) const { return Compare(rhs) == 0; }
     /// Test for inequality with a C string.
@@ -161,31 +161,31 @@ public:
     /// Replace all occurrences of a character.
     void Replace(char replaceThis, char replaceWith, bool caseSensitive = true);
     /// Replace all occurrences of a string.
-    void Replace(const String& replaceThis, const String& replaceWith, bool caseSensitive = true);
+    void Replace(const FString& replaceThis, const FString& replaceWith, bool caseSensitive = true);
     /// Replace a substring.
-    void Replace(size_t pos, size_t numChars, const String& replaceWith);
+    void Replace(size_t pos, size_t numChars, const FString& replaceWith);
     /// Replace a substring with a C string.
     void Replace(size_t pos, size_t numChars, const char* replaceWith);
     /// Replace a substring by iterators.
-    Iterator Replace(const Iterator& start, const Iterator& end, const String& replaceWith);
+    Iterator Replace(const Iterator& start, const Iterator& end, const FString& replaceWith);
     /// Return a string with all occurrences of a character replaced.
-    String Replaced(char replaceThis, char replaceWith, bool caseSensitive = true) const;
+    FString Replaced(char replaceThis, char replaceWith, bool caseSensitive = true) const;
     /// Return a string with all occurrences of a string replaced.
-    String Replaced(const String& replaceThis, const String& replaceWith, bool caseSensitive = true) const;
+    FString Replaced(const FString& replaceThis, const FString& replaceWith, bool caseSensitive = true) const;
     /// Append a string.
-    String& Append(const String& str);
+    FString& Append(const FString& str);
     /// Append a C string.
-    String& Append(const char* str);
+    FString& Append(const char* str);
     /// Append a character.
-    String& Append(char c);
+    FString& Append(char c);
     /// Append characters.
-    String& Append(const char* str, size_t numChars);
+    FString& Append(const char* str, size_t numChars);
     /// Insert a string.
-    void Insert(size_t pos, const String& str);
+    void Insert(size_t pos, const FString& str);
     /// Insert a character.
     void Insert(size_t pos, char c);
     /// Insert a string by iterator.
-    Iterator Insert(const Iterator& dest, const String& str);
+    Iterator Insert(const Iterator& dest, const FString& str);
     /// Insert a string partially by iterators.
     Iterator Insert(const Iterator& dest, const Iterator& start, const Iterator& end);
     /// Insert a character by iterator.
@@ -205,11 +205,11 @@ public:
     /// Clear the string.
     void Clear();
     /// Swap with another string.
-    void Swap(String& str);
+    void Swap(FString& str);
     /// Append to string using formatting.
-    String& AppendWithFormat(const char* formatStr, ... );
+    FString& AppendWithFormat(const char* formatStr, ... );
     /// Append to string using variable arguments.
-    String& AppendWithFormatArgs(const char* formatStr, va_list args);
+    FString& AppendWithFormatArgs(const char* formatStr, va_list args);
     
     /// Return char at index.
     char& At(size_t index) { assert(index < Length()); return Buffer()[index]; }
@@ -228,29 +228,29 @@ public:
     /// Return last char, or 0 if empty.
     char Back() const { return Length() ? CString()[Length()- 1] : CString()[0]; }
     /// Return a substring from _position to end.
-    String Substring(size_t pos) const;
+    FString Substring(size_t pos) const;
     /// Return a substring with length from _position.
-    String Substring(size_t pos, size_t numChars) const;
+    FString Substring(size_t pos, size_t numChars) const;
     /// Return string with whitespace trimmed from the beginning and the end.
-    String Trimmed() const;
+    FString Trimmed() const;
     /// Return string in uppercase.
-    String ToUpper() const;
+    FString ToUpper() const;
     /// Return string in lowercase.
-    String ToLower() const;
+    FString ToLower() const;
     /// Return substrings split by a separator char.
-    Vector<String> Split(char separator) const;
+    TVector<FString> Split(char separator) const;
     /// Return index to the first occurrence of a string, or NPOS if not found.
-    size_t Find(const String& str, size_t startPos = 0, bool caseSensitive = true) const;
+    size_t Find(const FString& str, size_t startPos = 0, bool caseSensitive = true) const;
     /// Return index to the first occurrence of a character, or NPOS if not found.
     size_t Find(char c, size_t startPos = 0, bool caseSensitive = true) const;
     /// Return index to the last occurrence of a string, or NPOS if not found.
-    size_t FindLast(const String& str, size_t startPos = NPOS, bool caseSensitive = true) const;
+    size_t FindLast(const FString& str, size_t startPos = NPOS, bool caseSensitive = true) const;
     /// Return index to the last occurrence of a character, or NPOS if not found.
     size_t FindLast(char c, size_t startPos = NPOS, bool caseSensitive = true) const;
     /// Return whether starts with a string.
-    bool StartsWith(const String& str, bool caseSensitive = true) const;
+    bool StartsWith(const FString& str, bool caseSensitive = true) const;
     /// Return whether ends with a string.
-    bool EndsWith(const String& str, bool caseSensitive = true) const;
+    bool EndsWith(const FString& str, bool caseSensitive = true) const;
     /// Return the C string.
     const char* CString() const { return _buffer ? _buffer + 2 * sizeof(size_t) : &endZero; }
     /// Return the char buffer.
@@ -262,11 +262,11 @@ public:
     /// Return whether the string is zero characters long.
     bool IsEmpty() const { return Length() == 0; }
     /// Return comparision result with a string.
-    int Compare(const String& str, bool caseSensitive = true) const { return Compare(CString(), str.CString(), caseSensitive); }
+    int Compare(const FString& str, bool caseSensitive = true) const { return Compare(CString(), str.CString(), caseSensitive); }
     /// Return comparision result with a C string.
     int Compare(const char* str, bool caseSensitive = true) const { return Compare(CString(), str, caseSensitive); }
     /// Return whether contains a specific occurence of a string.
-    bool Contains(const String& str, bool caseSensitive = true) const { return Find(str, 0, caseSensitive) != NPOS; }
+    bool Contains(const FString& str, bool caseSensitive = true) const { return Find(str, 0, caseSensitive) != NPOS; }
     /// Return whether contains a specific character.
     bool Contains(char c, bool caseSensitive = true) const { return Find(c, 0, caseSensitive) != NPOS; }
     /// Parse a bool.
@@ -277,7 +277,7 @@ public:
     unsigned ToUInt() const;
     /// Parse a float.
     float ToFloat() const;
-    /// Return hash value for HashSet & HashMap.
+    /// Return hash value for THashSet & THashMap.
     unsigned ToHash() const { return CaseSensitiveHash(_buffer); }
 
     /// Construct UTF8 content from Latin1.
@@ -295,11 +295,11 @@ public:
     /// Replace Unicode character at index from UTF8 content.
     void ReplaceUTF8(size_t index, unsigned unicodeChar);
     /// Append Unicode character at the end as UTF8.
-    String& AppendUTF8(unsigned unicodeChar);
+    FString& AppendUTF8(unsigned unicodeChar);
     /// Return a UTF8 substring from _position to end.
-    String SubstringUTF8(size_t pos) const;
+    FString SubstringUTF8(size_t pos) const;
     /// Return a UTF8 substring with length from _position.
-    String SubstringUTF8(size_t pos, size_t numChars) const;
+    FString SubstringUTF8(size_t pos, size_t numChars) const;
 
     /// Parse a bool from the string. Is considered true if t/y/1 are found case-insensitively.
     static bool ToBool(const char* str);
@@ -312,7 +312,7 @@ public:
     /// Return the amount of substrings split by a separator char.
     static size_t CountElements(const char* str, char separator);
     /// Return substrings split by a separator char.
-    static Vector<String> Split(const char* str, char separator);
+    static TVector<FString> Split(const char* str, char separator);
     /// Return length of a C string.
     static size_t CStringLength(const char* str);
     /// Calculate a case-sensitive hash for a string.
@@ -322,17 +322,17 @@ public:
     /// Compare two C strings.
     static int Compare(const char* str1, const char* str2, bool caseSensitive = true);
     /// Return an index to a string list corresponding to the given string, or a default value if not found. The string list must be empty-terminated.
-    static size_t ListIndex(const String& value, const String* strings, size_t defaultIndex, bool caseSensitive = false);
+    static size_t ListIndex(const FString& value, const FString* strings, size_t defaultIndex, bool caseSensitive = false);
     /// Return an index to a string list corresponding to the given C string, or a default value if not found. The string list must be empty-terminated.
-    static size_t ListIndex(const char* value, const String* strings, size_t defaultIndex, bool caseSensitive = false);
+    static size_t ListIndex(const char* value, const FString* strings, size_t defaultIndex, bool caseSensitive = false);
     /// Return an index to a C string list corresponding to the given string, or a default value if not found. The string list must be null-terminated.
-    static size_t ListIndex(const String& value, const char** strings, size_t defaultIndex, bool caseSensitive = false);
+    static size_t ListIndex(const FString& value, const char** strings, size_t defaultIndex, bool caseSensitive = false);
     /// Return an index to a C string list corresponding to the given C string, or a default value if not found. The string list must be null-terminated.
     static size_t ListIndex(const char* value, const char** strings, size_t defaultIndex, bool caseSensitive = false);
     /// Return a formatted string.
-    static String Format(const char* formatString, ...);
+    static FString Format(const char* formatString, ...);
 	/// Return a formatted string var.
-	static String FormatV(const char* formatString, va_list args);
+	static FString FormatV(const char* formatString, va_list args);
 
     /// Encode Unicode character to UTF8. Pointer will be incremented.
     static void EncodeUTF8(char*& dest, unsigned unicodeChar);
@@ -350,7 +350,7 @@ public:
     /// Initial dynamic allocation _size.
     static const size_t MIN_CAPACITY = 8;
     /// Empty string.
-    static const String EMPTY;
+    static const FString EMPTY;
 
 private:
     /// Set new length.
@@ -365,7 +365,7 @@ private:
     /// Copy chars from one buffer to another.
     static void CopyChars(char* dest, const char* src, size_t numChars);
 
-    /// String buffer, null if not allocated. Contains length and capacity in the beginning.
+    /// FString buffer, null if not allocated. Contains length and capacity in the beginning.
     char* _buffer;
     
     /// End zero for empty strings.
@@ -373,17 +373,17 @@ private:
 };
 
 /// Add a string to a C string.
-inline String operator + (const char* lhs, const String& rhs)
+inline FString operator + (const char* lhs, const FString& rhs)
 {
-    String ret(lhs);
+    FString ret(lhs);
     ret += rhs;
     return ret;
 }
 
 /// Add a string to a wide character C string.
-inline String operator + (const wchar_t* lhs, const String& rhs)
+inline FString operator + (const wchar_t* lhs, const FString& rhs)
 {
-    String ret(lhs);
+    FString ret(lhs);
     ret += rhs;
     return ret;
 }

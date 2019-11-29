@@ -9,7 +9,7 @@ namespace Auto3D
 {
 
 /// Hash map template class.
-template <typename _Ty1, typename _Ty2> class HashMap : public HashBase
+template <typename _Ty1, typename _Ty2> class THashMap : public FHashBase
 {
 public:
     /// Hash map _key-value pair with const _key.
@@ -44,7 +44,7 @@ public:
     };
     
     /// Hash map node.
-    struct Node : public HashNodeBase
+    struct Node : public FHashNodeBase
     {
         /// Construct undefined.
         Node()
@@ -69,7 +69,7 @@ public:
     };
     
     /// Hash map node iterator.
-    struct Iterator : public HashIteratorBase
+    struct Iterator : public FHashIteratorBase
     {
         /// Construct.
         Iterator()
@@ -78,7 +78,7 @@ public:
         
         /// Construct with a node pointer.
         Iterator(Node* ptr) :
-            HashIteratorBase(ptr)
+            FHashIteratorBase(ptr)
         {
         }
         
@@ -98,7 +98,7 @@ public:
     };
     
     /// Hash map node const iterator.
-    struct ConstIterator : public HashIteratorBase
+    struct ConstIterator : public FHashIteratorBase
     {
         /// Construct.
         ConstIterator()
@@ -107,13 +107,13 @@ public:
         
         /// Construct with a node pointer.
         ConstIterator(Node* ptr) :
-            HashIteratorBase(ptr)
+            FHashIteratorBase(ptr)
         {
         }
         
         /// Construct from a non-const iterator.
         ConstIterator(const Iterator& rhs) :
-            HashIteratorBase(rhs.ptr)
+            FHashIteratorBase(rhs.ptr)
         {
         }
         
@@ -135,19 +135,19 @@ public:
     };
     
     /// Construct empty.
-    HashMap()
+    THashMap()
     {
     }
     
     /// Construct from another hash map.
-    HashMap(const HashMap<_Ty1, _Ty2>& map)
+    THashMap(const THashMap<_Ty1, _Ty2>& map)
     {
         Initialize(map.NumBuckets(), map.Size() + 1);
         *this = map;
     }
     
     /// Destruct.
-    ~HashMap()
+    ~THashMap()
     {
         if (_ptrs && _allocator)
         {
@@ -158,7 +158,7 @@ public:
     }
     
     /// Assign a hash map.
-    HashMap& operator = (const HashMap<_Ty1, _Ty2>& rhs)
+    THashMap& operator = (const THashMap<_Ty1, _Ty2>& rhs)
     {
         if (&rhs != this)
         {
@@ -169,21 +169,21 @@ public:
     }
     
     /// Add-assign a pair.
-    HashMap& operator += (const Pair<_Ty1, _Ty2>& rhs)
+    THashMap& operator += (const TPair<_Ty1, _Ty2>& rhs)
     {
         Insert(rhs);
         return *this;
     }
     
     /// Add-assign a hash map.
-    HashMap& operator += (const HashMap<_Ty1, _Ty2>& rhs)
+    THashMap& operator += (const THashMap<_Ty1, _Ty2>& rhs)
     {
         Insert(rhs);
         return *this;
     }
     
     /// Test for equality with another hash map.
-    bool operator == (const HashMap<_Ty1, _Ty2>& rhs) const
+    bool operator == (const THashMap<_Ty1, _Ty2>& rhs) const
     {
         if (rhs.Size() != Size())
             return false;
@@ -199,7 +199,7 @@ public:
     }
     
     /// Test for inequality with another hash map.
-	bool operator != (const HashMap<_Ty1, _Ty2>& rhs) const { return !(*this == rhs); }
+	bool operator != (const THashMap<_Ty1, _Ty2>& rhs) const { return !(*this == rhs); }
 
     /// Index the map. Create a new pair if _key not found.
     _Ty2& operator [] (const _Ty1& key)
@@ -208,13 +208,13 @@ public:
     }
     
     /// Insert a pair. Return an iterator to it.
-    Iterator Insert(const Pair<_Ty1, _Ty2>& pair)
+    Iterator Insert(const TPair<_Ty1, _Ty2>& pair)
     {
         return Iterator(InsertNode(pair._first, pair._second));
     }
     
     /// Insert a map.
-    void Insert(const HashMap<_Ty1, _Ty2>& map)
+    void Insert(const THashMap<_Ty1, _Ty2>& map)
     {
         for (ConstIterator it = map.Begin(); it != map.End(); ++it)
             InsertNode(it->_first, it->_second);
@@ -315,7 +315,7 @@ public:
             ptr = ptr->Next();
         }
         
-        Auto3D::Sort(RandomAccessIterator<Node*>(ptrs), RandomAccessIterator<Node*>(ptrs + numKeys), CompareNodes);
+        Auto3D::Sort(TRandomAccessIterator<Node*>(ptrs), TRandomAccessIterator<Node*>(ptrs + numKeys), CompareNodes);
         
         SetHead(ptrs[0]);
         ptrs[0]->prev = nullptr;
@@ -389,9 +389,9 @@ public:
     }
     
     /// Return all the keys.
-    Vector<_Ty1> Keys() const
+    TVector<_Ty1> Keys() const
     {
-        Vector<_Ty1> result;
+        TVector<_Ty1> result;
         result.Reserve(Size());
         for (ConstIterator it = Begin(); it != End(); ++it)
             result.Push(it->first);
@@ -399,9 +399,9 @@ public:
     }
 
     /// Return all the values.
-    Vector<_Ty2> Values() const
+    TVector<_Ty2> Values() const
     {
-        Vector<_Ty2> result;
+        TVector<_Ty2> result;
         result.Reserve(Size());
         for (ConstIterator it = Begin(); it != End(); ++it)
             result.Push(it->second);
@@ -423,16 +423,16 @@ public:
     
 private:
     /// Return head node with correct type.
-    Node* Head() const { return static_cast<Node*>(HashBase::Head()); }
+    Node* Head() const { return static_cast<Node*>(FHashBase::Head()); }
     /// Return tail node with correct type.
-    Node* Tail() const { return static_cast<Node*>(HashBase::Tail()); }
+    Node* Tail() const { return static_cast<Node*>(FHashBase::Tail()); }
 
     /// Reserve the tail node and initial buckets.
     void Initialize(size_t numBuckets, size_t numNodes)
     {
         AllocateBuckets(0, numBuckets);
         _allocator = AllocatorInitialize(sizeof(Node), numNodes);
-        HashNodeBase* tail = AllocateNode();
+        FHashNodeBase* tail = AllocateNode();
         SetHead(tail);
         SetTail(tail);
     }

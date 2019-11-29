@@ -33,7 +33,7 @@ public:
 
 protected:
     /// %Graphics subsystem pointer.
-    WeakPtr<Graphics> _graphics;
+    TWeakPtr<Graphics> _graphics;
 
 private:
     /// Data lost flag.

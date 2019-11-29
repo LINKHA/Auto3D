@@ -149,7 +149,7 @@ private:
     /// Number of mip levels. 1 for uncompressed images.
     size_t _numLevels;
     /// Image pixel data.
-    SharedArrayPtr<unsigned char> _data;
+    TSharedArrayPtr<unsigned char> _data;
 };
 
 }

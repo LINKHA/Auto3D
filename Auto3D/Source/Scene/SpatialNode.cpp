@@ -300,7 +300,7 @@ void ASpatialNode::OnTransformChanged()
 {
     SetFlag(NF_WORLD_TRANSFORM_DIRTY, true);
 
-    const Vector<SharedPtr<Node> >& children = Children();
+    const TVector<TSharedPtr<Node> >& children = Children();
     for (auto it = children.Begin(); it != children.End(); ++it)
     {
         Node* child = *it;

@@ -32,10 +32,10 @@ bool AResource::Load(Stream& source)
     return success;
 }
 
-void AResource::SetName(const String& newName)
+void AResource::SetName(const FString& newName)
 {
     _name = newName;
-    _nameHash = StringHash(newName);
+    _nameHash = FStringHash(newName);
 }
 void AResource::SetMemoryUse(unsigned _size)
 {

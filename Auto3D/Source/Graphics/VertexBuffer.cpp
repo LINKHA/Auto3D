@@ -7,7 +7,7 @@
 namespace Auto3D
 {
 
-bool VertexBuffer::Define(ResourceUsage::Type usage, size_t numVertices, const Vector<VertexElement>& elements, bool useShadowData, const void* _data)
+bool VertexBuffer::Define(ResourceUsage::Type usage, size_t numVertices, const TVector<VertexElement>& elements, bool useShadowData, const void* _data)
 {
     if (!numVertices || !elements.Size())
     {

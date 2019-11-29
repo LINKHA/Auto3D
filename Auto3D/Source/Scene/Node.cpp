@@ -10,7 +10,7 @@
 namespace Auto3D
 {
 
-static Vector<SharedPtr<Node> > noChildren;
+static TVector<TSharedPtr<Node> > noChildren;
 
 Node::Node() :
     _flags(NF_ENABLED),
@@ -48,7 +48,7 @@ void Node::Load(Stream& source, ObjectResolver& resolver)
     size_t numChildren = source.ReadVLE();
     for (size_t i = 0; i < numChildren; ++i)
     {
-        StringHash childType(source.Read<StringHash>());
+        FStringHash childType(source.Read<FStringHash>());
         unsigned childId = source.Read<unsigned>();
         Node* child = CreateChild(childType);
         if (child)
@@ -91,7 +91,7 @@ void Node::LoadJSON(const JSONValue& source, ObjectResolver& resolver)
         for (auto it = children.Begin(); it != children.End(); ++it)
         {
             const JSONValue& childJSON = *it;
-            StringHash childType(childJSON["type"].GetString());
+            FStringHash childType(childJSON["type"].GetString());
             unsigned childId = (unsigned)childJSON["id"].GetNumber();
             Node* child = CreateChild(childType);
             if (child)
@@ -132,7 +132,7 @@ bool Node::SaveJSON(Stream& dest)
     return json.Save(dest);
 }
 
-void Node::SetName(const String& newName)
+void Node::SetName(const FString& newName)
 {
     SetName(newName.CString());
 }
@@ -150,12 +150,12 @@ void Node::SetLayer(unsigned char newLayer)
         ErrorString("Can not set layer 32 or higher");
 }
 
-void Node::SetLayerName(const String& newLayerName)
+void Node::SetLayerName(const FString& newLayerName)
 {
     if (!_scenes)
         return;
     
-    const HashMap<String, unsigned char>& layers = _scenes->Layers();
+    const THashMap<FString, unsigned char>& layers = _scenes->Layers();
     auto it = layers.Find(newLayerName);
     if (it != layers.End())
 		SetLayer(it->_second);
@@ -168,12 +168,12 @@ void Node::SetTag(unsigned char newTag)
     _tag = newTag;
 }
 
-void Node::SetTagName(const String& newTagName)
+void Node::SetTagName(const FString& newTagName)
 {
     if (!_scenes)
         return;
 
-    const HashMap<String, unsigned char>& tags = _scenes->Tags();
+    const THashMap<FString, unsigned char>& tags = _scenes->Tags();
     auto it = tags.Find(newTagName);
     if (it != tags.End())
         SetTag(it->_second);
@@ -210,7 +210,7 @@ void Node::SetParent(Node* newParent)
         ErrorString("Could not set null parent");
 }
 
-void Node::DefineLayer(unsigned char index, const String& name)
+void Node::DefineLayer(unsigned char index, const FString& name)
 {
 	if (index >= 32)
 	{
@@ -224,7 +224,7 @@ void Node::DefineLayer(unsigned char index, const String& name)
 	_layers[name] = index;
 }
 
-void Node::DefineTag(unsigned char index, const String& name)
+void Node::DefineTag(unsigned char index, const FString& name)
 {
 	if (_tagNames.Size() <= index)
 		_tagNames.Resize(index + 1);
@@ -232,9 +232,9 @@ void Node::DefineTag(unsigned char index, const String& name)
 	_tags[name] = index;
 }
 
-Node* Node::CreateChild(StringHash childType)
+Node* Node::CreateChild(FStringHash childType)
 {
-    SharedPtr<AObject> newObject = Create(childType);
+    TSharedPtr<AObject> newObject = Create(childType);
     if (!newObject)
     {
         ErrorString("Could not create child node of unknown type " + childType.ToString());
@@ -253,12 +253,12 @@ Node* Node::CreateChild(StringHash childType)
     return child;
 }
 
-Node* Node::CreateChild(StringHash childType, const String& childName)
+Node* Node::CreateChild(FStringHash childType, const FString& childName)
 {
     return CreateChild(childType, childName.CString());
 }
 
-Node* Node::CreateChild(StringHash childType, const char* childName)
+Node* Node::CreateChild(FStringHash childType, const char* childName)
 {
     Node* child = CreateChild(childType);
     if (child)
@@ -359,22 +359,22 @@ void Node::RemoveSelf()
         delete this;
 }
 
-const String& Node::GetLayerName() const
+const FString& Node::GetLayerName() const
 {
     if (!_scenes)
-        return String::EMPTY;
+        return FString::EMPTY;
 
-    const Vector<String>& layerNames = _scenes->LayerNames();
-    return _layer < layerNames.Size() ? layerNames[_layer] : String::EMPTY;
+    const TVector<FString>& layerNames = _scenes->LayerNames();
+    return _layer < layerNames.Size() ? layerNames[_layer] : FString::EMPTY;
 }
 
-const String& Node::GetTagName() const
+const FString& Node::GetTagName() const
 {
     if (!_scenes)
-        return String::EMPTY;
+        return FString::EMPTY;
 
-    const Vector<String>& tagNames = _scenes->TagNames();
-    return _tag < tagNames.Size() ? tagNames[_layer] : String::EMPTY;
+    const TVector<FString>& tagNames = _scenes->TagNames();
+    return _tag < tagNames.Size() ? tagNames[_layer] : FString::EMPTY;
 }
 
 size_t Node::NumPersistentChildren() const
@@ -391,7 +391,7 @@ size_t Node::NumPersistentChildren() const
     return ret;
 }
 
-void Node::AllChildren(Vector<Node*>& result) const
+void Node::AllChildren(TVector<Node*>& result) const
 {
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
@@ -401,7 +401,7 @@ void Node::AllChildren(Vector<Node*>& result) const
     }
 }
 
-Node* Node::FindChild(const String& childName, bool recursive) const
+Node* Node::FindChild(const FString& childName, bool recursive) const
 {
     return FindChild(childName.CString(), recursive);
 }
@@ -424,7 +424,7 @@ Node* Node::FindChild(const char* childName, bool recursive) const
     return nullptr;
 }
 
-Node* Node::FindChild(StringHash childType, bool recursive) const
+Node* Node::FindChild(FStringHash childType, bool recursive) const
 {
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
@@ -442,12 +442,12 @@ Node* Node::FindChild(StringHash childType, bool recursive) const
     return nullptr;
 }
 
-Node* Node::FindChild(StringHash childType, const String& childName, bool recursive) const
+Node* Node::FindChild(FStringHash childType, const FString& childName, bool recursive) const
 {
     return FindChild(childType, childName.CString(), recursive);
 }
 
-Node* Node::FindChild(StringHash childType, const char* childName, bool recursive) const
+Node* Node::FindChild(FStringHash childType, const char* childName, bool recursive) const
 {
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
@@ -501,7 +501,7 @@ Node* Node::FindChildByTag(unsigned char tag, bool recursive) const
     return nullptr;
 }
 
-Node* Node::FindChildByTag(const String& tagName, bool recursive) const
+Node* Node::FindChildByTag(const FString& tagName, bool recursive) const
 {
     return FindChildByTag(tagName.CString(), recursive);
 }
@@ -511,7 +511,7 @@ Node* Node::FindChildByTag(const char* tagName, bool recursive) const
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         Node* child = *it;
-        if (!String::Compare(child->GetTagName().CString(), tagName))
+        if (!FString::Compare(child->GetTagName().CString(), tagName))
             return child;
         else if (recursive && child->_children.Size())
         {
@@ -524,7 +524,7 @@ Node* Node::FindChildByTag(const char* tagName, bool recursive) const
     return nullptr;
 }
 
-void Node::FindChildren(Vector<Node*>& result, StringHash childType, bool recursive) const
+void Node::FindChildren(TVector<Node*>& result, FStringHash childType, bool recursive) const
 {
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
@@ -536,7 +536,7 @@ void Node::FindChildren(Vector<Node*>& result, StringHash childType, bool recurs
     }
 }
 
-void Node::FindChildrenByLayer(Vector<Node*>& result, unsigned layerMask, bool recursive) const
+void Node::FindChildrenByLayer(TVector<Node*>& result, unsigned layerMask, bool recursive) const
 {
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
@@ -548,7 +548,7 @@ void Node::FindChildrenByLayer(Vector<Node*>& result, unsigned layerMask, bool r
     }
 }
 
-void Node::FindChildrenByTag(Vector<Node*>& result, unsigned char tag, bool recursive) const
+void Node::FindChildrenByTag(TVector<Node*>& result, unsigned char tag, bool recursive) const
 {
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
@@ -560,17 +560,17 @@ void Node::FindChildrenByTag(Vector<Node*>& result, unsigned char tag, bool recu
     }
 }
 
-void Node::FindChildrenByTag(Vector<Node*>& result, const String& tagName, bool recursive) const
+void Node::FindChildrenByTag(TVector<Node*>& result, const FString& tagName, bool recursive) const
 {
     FindChildrenByTag(result, tagName.CString(), recursive);
 }
 
-void Node::FindChildrenByTag(Vector<Node*>& result, const char* tagName, bool recursive) const
+void Node::FindChildrenByTag(TVector<Node*>& result, const char* tagName, bool recursive) const
 {
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         Node* child = *it;
-        if (!String::Compare(child->GetTagName().CString(), tagName))
+        if (!FString::Compare(child->GetTagName().CString(), tagName))
             result.Push(child);
         if (recursive && child->_children.Size())
             child->FindChildrenByTag(result, tagName, recursive);
@@ -596,7 +596,7 @@ void Node::SkipHierarchy(Stream& source)
     size_t numChildren = source.ReadVLE();
     for (size_t i = 0; i < numChildren; ++i)
     {
-        source.Read<StringHash>(); // StringHash childType
+        source.Read<FStringHash>(); // FStringHash childType
         source.Read<unsigned>(); // unsigned childId
         SkipHierarchy(source);
     }

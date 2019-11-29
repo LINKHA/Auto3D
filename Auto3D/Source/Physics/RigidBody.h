@@ -47,11 +47,11 @@ private:
 	void RemoveBodyFromWorld();
 
 	/// Physics world form this rigidBody.
-	WeakPtr<PhysicsWorld> _physicsWorld;
+	TWeakPtr<PhysicsWorld> _physicsWorld;
 	/// bullet rigid body (Automatically destructs when the physical world is eliminated).
 	btRigidBody* _body;
 	/// Bullet compound collision shape.
-	UniquePtr<btCompoundShape> _compoundShape;
+	TUniquePtr<btCompoundShape> _compoundShape;
 	/// Rigidbody mass
 	float _mass;
 	/// Is dynamic ot staitc

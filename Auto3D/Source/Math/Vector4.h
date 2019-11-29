@@ -74,7 +74,7 @@ public:
 	}
 
 	/// Construct by parsing a string.
-	Vector4(const String& str)
+	Vector4(const FString& str)
 	{
 		FromString(str);
 	}
@@ -166,14 +166,14 @@ public:
 	}
 
 	/// Parse from a string. Return true on success.
-	bool FromString(const String& str)
+	bool FromString(const FString& str)
 	{
 		return FromString(str.CString());
 	}
 	/// Parse from a C string. Return true on success.
 	bool FromString(const char* str)
 	{
-		size_t elements = String::CountElements(str, ' ');
+		size_t elements = FString::CountElements(str, ' ');
 		if (elements < 4)
 			return false;
 
@@ -202,11 +202,11 @@ public:
 	/// Return float data.
 	const float* Data() const { return &_x; }
 	/// Return as string.
-	String ToString() const
+	FString ToString() const
 	{
 		char tempBuffer[CONVERSION_BUFFER_LENGTH];
 		sprintf(tempBuffer, "%g %g %g %g", _x, _y, _z, _w);
-		return String(tempBuffer);
+		return FString(tempBuffer);
 	}
 
 	/// Zero vector.

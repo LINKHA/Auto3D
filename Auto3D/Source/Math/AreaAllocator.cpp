@@ -39,7 +39,7 @@ bool AreaAllocator::Allocate(int width, int height, int& x, int& y)
     if (height < 0)
         height = 0;
 
-    Vector<RectI>::Iterator best;
+    TVector<RectI>::Iterator best;
     int bestFreeArea;
 
     for (;;)

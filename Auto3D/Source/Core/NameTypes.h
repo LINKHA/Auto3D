@@ -6,7 +6,7 @@
 
 namespace Auto3D
 {
-///Simple version of String, this object is lossy compressed content using hash storage, case insensitive.
+///Simple version of FString, this object is lossy compressed content using hash storage, case insensitive.
 class AUTO_API Name
 {
 public:
@@ -16,7 +16,7 @@ public:
 		SetName(name);
 	}
 	/// Structure.
-	Name(const String& name)
+	Name(const FString& name)
 	{
 		SetName(name.CString());
 	}
@@ -24,13 +24,13 @@ public:
 	/// Set name to value and add to string hash map.
 	void SetName(const char* name)
 	{
-		_value = StringHash(name);
+		_value = FStringHash(name);
 		StringHashRegister::Get().RegisterString(_value, name);
 	}
 	/// Equality operator.
 	inline bool operator==(const char* other) const
 	{
-		return _value == StringHash(other);
+		return _value == FStringHash(other);
 	}
 	/// Equality operator.
 	inline bool operator==(const Name& other) const
@@ -49,12 +49,12 @@ public:
 	}
 	/// Get string from stringhash map.
 	/// Note that since the hash is lossy and case insensitive, it is all lowercase.
-	const String ToString() { return StringHashRegister::Get().GetStringCopy(_value); }
+	const FString ToString() { return StringHashRegister::Get().GetStringCopy(_value); }
 	/// Return value.
-	const StringHash& Value()const { return _value; }
+	const FStringHash& Value()const { return _value; }
 private:
-	/// String hash value.
-	StringHash _value;
+	/// FString hash value.
+	FStringHash _value;
 };
 
 }

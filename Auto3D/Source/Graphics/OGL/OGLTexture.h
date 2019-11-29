@@ -108,9 +108,9 @@ private:
     /// Number of mipmap levels.
     size_t _numLevels;
     /// Images used for loading.
-    Vector<AutoPtr<Image> > _loadImages;
+    TVector<TAutoPtr<Image> > _loadImages;
 	/// Draw call source datas.
-	SharedPtr<Geometry> _geometry;
+	TSharedPtr<Geometry> _geometry;
 };
 
 }

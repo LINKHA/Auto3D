@@ -61,15 +61,15 @@ struct AUTO_API RenderQueue
     /// Clear structures.
     void Clear();
     /// Sort batches and build instances.
-    void Sort(Vector<Matrix3x4F>& instanceTransforms);
+    void Sort(TVector<Matrix3x4F>& instanceTransforms);
 
     /// Build instances from adjacent batches with same state.
-    static void BuildInstances(Vector<Batch>& batches, Vector<Matrix3x4F>& instanceTransforms);
+    static void BuildInstances(TVector<Batch>& batches, TVector<Matrix3x4F>& instanceTransforms);
 
     /// Batches, which may be instanced or non-instanced.
-    Vector<Batch> _batches;
+    TVector<Batch> _batches;
     /// Additive lighting batches.
-    Vector<Batch> _additiveBatches;
+    TVector<Batch> _additiveBatches;
     /// Sorting mode.
 	RenderCommandSortMode::Type _sort;
     /// Lighting flag.
@@ -80,15 +80,15 @@ struct AUTO_API RenderQueue
     unsigned char _additiveIndex;
 };
 
-/// %List of lights for a geometry node.
+/// %TList of lights for a geometry node.
 struct AUTO_API LightList
 {
-    /// %List _key.
+    /// %TList _key.
     unsigned long long _key;
     /// Lights.
-    Vector<Light*> _lights;
+    TVector<Light*> _lights;
     /// Associated light passes.
-    Vector<LightPass*> _lightPasses;
+    TVector<LightPass*> _lightPasses;
     /// Use count
     size_t _useCount;
 };
@@ -152,9 +152,9 @@ struct AUTO_API ShadowMap
     /// Rectangle allocator.
     AreaAllocator _allocator;
     /// Shadow map texture.
-    SharedPtr<Texture> _texture;
+    TSharedPtr<Texture> _texture;
     /// Shadow views that use this shadow map.
-    Vector<ShadowView*> _shadowViews;
+    TVector<ShadowView*> _shadowViews;
     /// Use flag. When false, clearing the shadow map and rendering the views can be skipped.
     bool _used;
 };
@@ -187,9 +187,9 @@ struct AUTO_API WaterTexture
 	/// Rectangle allocator.
 	AreaAllocator _allocator;
 	/// Shadow map texture.
-	SharedPtr<Texture> _texture;
+	TSharedPtr<Texture> _texture;
 	/// Water texture view this use water texture.
-	Vector<WaterTextureView*> _waterTextureView;
+	TVector<WaterTextureView*> _waterTextureView;
 	/// Use flag. When false, clearing the shadow map and rendering the views can be skipped.
 	bool _used;
 };

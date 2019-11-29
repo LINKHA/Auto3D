@@ -82,7 +82,7 @@ public:
 	}
 
 	/// Construct by parsing a string.
-	BoundingBox(const String& str)
+	BoundingBox(const FString& str)
 	{
 		FromString(str);
 	}
@@ -251,7 +251,7 @@ public:
 	{
 		for (size_t i = 0; i < poly._faces.Size(); ++i)
 		{
-			const Vector<Vector3<_Ty>>& face = poly._faces[i];
+			const TVector<Vector3<_Ty>>& face = poly._faces[i];
 			if (!face.IsEmpty())
 				Merge(&face[0], face.Size());
 		}
@@ -304,7 +304,7 @@ public:
 	}
 
 	/// Parse from a string. Return true on success.
-	bool FromString(const String& str)
+	bool FromString(const FString& str)
 	{
 		return FromString(str.CString());
 	}
@@ -312,7 +312,7 @@ public:
 	/// Parse from a C string. Return true on success.
 	bool FromString(const char* str)
 	{
-		size_t elements = String::CountElements(str, ' ');
+		size_t elements = FString::CountElements(str, ' ');
 		if (elements < 6)
 			return false;
 
@@ -511,7 +511,7 @@ public:
 	}
 
 	/// Return as string.
-	String ToString() const
+	FString ToString() const
 	{
 		return _min.ToString() + " " + _max.ToString();
 	}

@@ -6,16 +6,16 @@
 namespace Auto3D
 {
 
-const StringHash StringHash::ZERO;
+const FStringHash FStringHash::ZERO;
 
-String StringHash::ToString() const
+FString FStringHash::ToString() const
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%08X", _value);
-    return String(tempBuffer);
+    return FString(tempBuffer);
 }
 
-unsigned StringHash::Calculate(const char* str, unsigned hash)
+unsigned FStringHash::Calculate(const char* str, unsigned hash)
 {
 	if (!str)
 		return hash;

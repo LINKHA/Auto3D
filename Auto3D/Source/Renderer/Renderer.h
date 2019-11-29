@@ -70,32 +70,32 @@ public:
     /// Set number, size and format of shadow maps. These will be divided among the lights that need to render shadow maps.
     void SetupShadowMaps(size_t num, int size, ImageFormat::Type format);
 	/// Prepare a view for rendering. Convenience function that calls CollectObjects(), CollectLightInteractions() and CollectBatches() in one go. Return true on success.
-    bool PrepareView(Scene* scene, Camera* camera, const Vector<RenderPassDesc>& passes);
+    bool PrepareView(Scene* scene, Camera* camera, const TVector<RenderPassDesc>& passes);
     /// Initialize rendering of a new view and collect visible objects from the camera's point of view. Return true on success (scene, camera and octree are non-null.)
     bool CollectObjects(Scene* scene, Camera* camera);
     /// Collect light interactions with geometries from the current view. If lights are shadowed, collects batches for shadow casters.
     void CollectLightInteractions();
     /// Collect and sort batches from the visible objects. To not go through the objects several times, all the passes should be specified at once instead of multiple calls to CollectBatches().
-    void CollectBatches(const Vector<RenderPassDesc>& passes);
+    void CollectBatches(const TVector<RenderPassDesc>& passes);
     /// Collect and sort batches from the visible objects. Convenience function for one pass only.
     void CollectBatches(const RenderPassDesc& pass);
 	/// Render shadow maps. Should be called after all CollectBatches() calls but before RenderBatches(). Note that you must reassign your rendertarget and viewport after calling this.
     void RenderShadowMaps();
     /// Render several passes to the currently set rendertarget and viewport. Avoids setting the per-frame constants multiple times.
-    void RenderBatches(const Vector<RenderPassDesc>& passes);
+    void RenderBatches(const TVector<RenderPassDesc>& passes);
     /// Render a pass to the currently set rendertarget and viewport. Convenience function for one pass only.
-    void RenderBatches(const String& pass);
+    void RenderBatches(const FString& pass);
 
     /// Per-frame vertex shader constant buffer.
-    SharedPtr<ConstantBuffer> _vsFrameConstantBuffer;
+    TSharedPtr<ConstantBuffer> _vsFrameConstantBuffer;
     /// Per-frame pixel shader constant buffer.
-    SharedPtr<ConstantBuffer> _psFrameConstantBuffer;
+    TSharedPtr<ConstantBuffer> _psFrameConstantBuffer;
     /// Per-object vertex shader constant buffer.
-    SharedPtr<ConstantBuffer> _vsObjectConstantBuffer;
+    TSharedPtr<ConstantBuffer> _vsObjectConstantBuffer;
     /// Lights vertex shader constant buffer.
-    SharedPtr<ConstantBuffer> _vsLightConstantBuffer;
+    TSharedPtr<ConstantBuffer> _vsLightConstantBuffer;
     /// Lights pixel shader constant buffer.
-    SharedPtr<ConstantBuffer> _psLightConstantBuffer;
+    TSharedPtr<ConstantBuffer> _psLightConstantBuffer;
 
 	/// Start up event;
 	Event _startUpEvent;
@@ -105,20 +105,20 @@ private:
     /// (Re)define face selection textures.
     void DefineFaceSelectionTextures();
     /// Octree callback for collecting lights and geometries.
-    void CollectGeometriesAndLights(Vector<OctreeNode*>::ConstIterator begin, Vector<OctreeNode*>::ConstIterator end, bool inside);
+    void CollectGeometriesAndLights(TVector<OctreeNode*>::ConstIterator begin, TVector<OctreeNode*>::ConstIterator end, bool inside);
     /// Assign a light list to a node. Creates new light lists as necessary to _handle multiple lights.
     void AddLightToNode(GeometryNode* node, Light* light, LightList* lightList);
     /// Collect shadow caster batches.
-    void CollectShadowBatches(const Vector<GeometryNode*>& nodes, RenderQueue& batchQueue, const Frustum& frustum, bool checkShadowCaster, bool checkFrustum);
+    void CollectShadowBatches(const TVector<GeometryNode*>& nodes, RenderQueue& batchQueue, const Frustum& frustum, bool checkShadowCaster, bool checkFrustum);
     /// Render batches from a specific queue and camera.
-    void RenderBatches(const Vector<Batch>& batches, Camera* camera, bool setPerFrameContants = true, bool overrideDepthBias = false, int depthBias = 0, float slopeScaledDepthBias = 0.0f);
+    void RenderBatches(const TVector<Batch>& batches, Camera* camera, bool setPerFrameContants = true, bool overrideDepthBias = false, int depthBias = 0, float slopeScaledDepthBias = 0.0f);
     /// Load shaders for a pass.
     void LoadPassShaders(Pass* pass);
     /// Return or create a shader variation for a pass. Vertex shader variations _handle different geometry types and pixel shader variations _handle different light combinations.
     ShaderVariation* FindShaderVariation(ShaderStage::Type stage, Pass* pass, unsigned short bits);
     
     /// Graphics subsystem pointer.
-    WeakPtr<Graphics> _graphics;
+    TWeakPtr<Graphics> _graphics;
     /// Current scene.
     Scene* _scenes;
     /// Current scene camera.
@@ -130,19 +130,19 @@ private:
     /// Camera's view mask.
     unsigned _viewLayoutMask;
     /// Geometries in frustum.
-    Vector<GeometryNode*> _geometries;
+    TVector<GeometryNode*> _geometries;
     /// Lights in frustum.
-    Vector<Light*> _lights;
+    TVector<Light*> _lights;
     /// Batch queues per pass.
-    HashMap<unsigned char, RenderQueue> _batchQueues;
+    THashMap<unsigned char, RenderQueue> _batchQueues;
     /// Instance transforms for uploading to the instance vertex buffer.
-    Vector<Matrix3x4F> _instanceTransforms;
+    TVector<Matrix3x4F> _instanceTransforms;
     /// Lit geometries query result.
-    Vector<GeometryNode*> _litGeometries;
+    TVector<GeometryNode*> _litGeometries;
     /// %Light lists.
-    HashMap<unsigned long long, LightList> _lightLists;
+    THashMap<unsigned long long, LightList> _lightLists;
     /// %Light passes.
-    HashMap<unsigned long long, LightPass> _lightPasses;
+    THashMap<unsigned long long, LightPass> _lightPasses;
     /// Ambient only light pass.
     LightPass _ambientLightPass;
     /// Current frame number.
@@ -150,19 +150,19 @@ private:
     /// Instance vertex buffer dirty flag.
     bool _instanceTransformsDirty;
     /// Shadow maps.
-    Vector<ShadowMap> _shadowMaps;
+    TVector<ShadowMap> _shadowMaps;
     /// Shadow views.
-    Vector<AutoPtr<ShadowView> > _shadowViews;
+    TVector<TAutoPtr<ShadowView> > _shadowViews;
     /// Used shadow views so far.
     size_t _usedShadowViews;
     /// Instance transform vertex buffer.
-    AutoPtr<VertexBuffer> _instanceVertexBuffer;
+    TAutoPtr<VertexBuffer> _instanceVertexBuffer;
     /// Vertex elements for the instance vertex buffer.
-    Vector<VertexElement> _instanceVertexElements;
+    TVector<VertexElement> _instanceVertexElements;
     /// First point light face selection cube map.
-    AutoPtr<Texture> _faceSelectionTexture1;
+    TAutoPtr<Texture> _faceSelectionTexture1;
     /// Second point light face selection cube map.
-    AutoPtr<Texture> _faceSelectionTexture2;
+    TAutoPtr<Texture> _faceSelectionTexture2;
 };
 
 /// Register Renderer related object factories and attributes.

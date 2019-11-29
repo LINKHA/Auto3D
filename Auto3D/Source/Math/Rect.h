@@ -58,7 +58,7 @@ public:
     }
     
     /// Construct by parsing a string.
-    Rect(const String& str)
+    Rect(const FString& str)
     {
         FromString(str);
     }
@@ -173,7 +173,7 @@ public:
 		
 	}
    /// Parse from a string. Return true on success.
-	bool FromString(const String& str)
+	bool FromString(const FString& str)
 	{
 		return FromString(str.CString());
 	}
@@ -181,7 +181,7 @@ public:
     /// Parse from a C string. Return true on success.
 	bool FromString(const char* str)
 	{
-		size_t elements = String::CountElements(str, ' ');
+		size_t elements = FString::CountElements(str, ' ');
 		if (elements < 4)
 			return false;
 
@@ -250,7 +250,7 @@ public:
     /// Return as a vector.
     Vector4<_Ty> ToVector4() const { return Vector4<_Ty>(_min._x, _min._y, _max._x, _max._y); }
     /// Return as string.
-	String ToString() const
+	FString ToString() const
 	{
 		return _min.ToString() + " " + _max.ToString();
 	}

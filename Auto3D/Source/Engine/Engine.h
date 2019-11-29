@@ -88,7 +88,7 @@ private:
 	/// Auto-exit flag.
 	bool _autoExit;
 	/// Previous timesteps for smoothing.
-	Vector<float> _lastTimeSteps;
+	TVector<float> _lastTimeSteps;
 	/// Next frame timestep in seconds.
 	float _timeStep;
 	/// How many frames to average for the smoothed timestep.

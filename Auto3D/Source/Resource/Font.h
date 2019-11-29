@@ -58,7 +58,7 @@ public:
 	unsigned unsigned GetDataSize() { return _fontDataSize; }
 private:
 	/// Font data.
-	SharedArrayPtr<unsigned char> _fontData;
+	TSharedArrayPtr<unsigned char> _fontData;
 	/// Size of font data.
 	unsigned _fontDataSize;
 	/// Absolute position adjustment for glyphs.

@@ -42,7 +42,7 @@ File::File() :
 {
 }
 
-File::File(const String& fileName, FileMode::Type mode) :
+File::File(const FString& fileName, FileMode::Type mode) :
     _mode(FileMode::READ),
     _handle(nullptr),
     _readSyncNeeded(false),
@@ -56,7 +56,7 @@ File::~File()
     Close();
 }
 
-bool File::Open(const String& fileName, FileMode::Type fileMode)
+bool File::Open(const FString& fileName, FileMode::Type fileMode)
 {
     Close();
 

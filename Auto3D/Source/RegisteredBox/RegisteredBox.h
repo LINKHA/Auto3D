@@ -35,11 +35,11 @@ public:
 	void SetActiveCanvas(Canvas* canvas);
 
 	/// Return scenes.
-	const Vector<Scene*>& GetScenes() { return _scenes; }
+	const TVector<Scene*>& GetScenes() { return _scenes; }
 	/// Return scene2d.
-	const Vector<Scene2D*>& GetScene2Ds() { return _scene2ds; }
+	const TVector<Scene2D*>& GetScene2Ds() { return _scene2ds; }
 	/// Return canvases.
-	const Vector<Canvas*>& GetCanvas() { return _canvases; }
+	const TVector<Canvas*>& GetCanvas() { return _canvases; }
 	/// Get active scenen.
 	Scene* GetActiveScene();
 	/// Get active scene2d.
@@ -48,11 +48,11 @@ public:
 	Canvas* GetActiveCanvas();
 private:
 	/// Scene array.
-	Vector<Scene*> _scenes;
+	TVector<Scene*> _scenes;
 	/// Scene2D array. 
-	Vector<Scene2D*> _scene2ds;
+	TVector<Scene2D*> _scene2ds;
 	/// UI scene.
-	Vector<Canvas*> _canvases;
+	TVector<Canvas*> _canvases;
 
 	/// Active scene.
 	Scene* _activeScene;

@@ -73,7 +73,7 @@ void Sphere::Merge(const Polyhedron& poly)
 {
     for (size_t i = 0; i < poly._faces.Size(); ++i)
     {
-        const Vector<Vector3F>& face = poly._faces[i];
+        const TVector<Vector3F>& face = poly._faces[i];
         if (!face.IsEmpty())
             Merge(&face[0], face.Size());
     }

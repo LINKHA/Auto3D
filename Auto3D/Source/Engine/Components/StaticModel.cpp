@@ -49,7 +49,7 @@ void StaticModel::OnPrepareRender(unsigned frameNumber, Camera* camera)
 
         for (size_t i = 0; i < _batches.Size(); ++i)
         {
-            const Vector<SharedPtr<Geometry> >& lodGeometries = _model->GetLodGeometries(i);
+            const TVector<TSharedPtr<Geometry> >& lodGeometries = _model->GetLodGeometries(i);
             if (lodGeometries.Size() > 1)
             {
                 size_t j;

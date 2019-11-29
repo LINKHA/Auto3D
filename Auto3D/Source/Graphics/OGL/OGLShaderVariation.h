@@ -14,7 +14,7 @@ class AUTO_API ShaderVariation : public FRefCounted, public GPUObject
 {
 public:
     /// Construct. Set parent shader and defines but do not compile yet.
-    ShaderVariation(Shader* parent, const String& defines);
+    ShaderVariation(Shader* parent, const FString& defines);
     /// Destruct.
     ~ShaderVariation();
 
@@ -27,7 +27,7 @@ public:
     /// Return the parent shader resource.
     Shader* Parent() const;
     /// Return full name combined from parent resource name and compilation defines.
-    String FullName() const;
+    FString FullName() const;
     /// Return shader stage.
     ShaderStage::Type GetStage() const { return _stage; }
     /// Return whether compile attempted.
@@ -40,11 +40,11 @@ private:
     /// OpenGL shader object identifier.
     unsigned _shader;
     /// Parent shader resource.
-    WeakPtr<Shader> _parent;
+    TWeakPtr<Shader> _parent;
     /// Shader stage.
     ShaderStage::Type _stage;
     /// Compilation defines.
-    String _defines;
+    FString _defines;
     /// Compile attempted flag.
     bool _compiled;
 };

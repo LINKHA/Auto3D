@@ -73,7 +73,7 @@ public:
 	}
 
 	/// Construct by parsing a string.
-	Vector3(const String& str)
+	Vector3(const FString& str)
 	{
 		FromString(str);
 	}
@@ -175,7 +175,7 @@ public:
 	}
 
 	/// Parse from a string. Return true on success.
-	bool FromString(const String& str)
+	bool FromString(const FString& str)
 	{
 		return FromString(str.CString());
 	}
@@ -183,7 +183,7 @@ public:
 	/// Parse from a C string. Return true on success.
 	bool FromString(const char* str)
 	{
-		size_t elements = String::CountElements(str, ' ');
+		size_t elements = FString::CountElements(str, ' ');
 		if (elements < 3)
 			return false;
 
@@ -241,11 +241,11 @@ public:
 	/// Return _Ty data.
 	const _Ty* Data() const { return &_x; }
 	/// Return as string.
-	String ToString() const
+	FString ToString() const
 	{
 		char tempBuffer[CONVERSION_BUFFER_LENGTH];
 		sprintf(tempBuffer, "%g %g %g", _x, _y, _z);
-		return String(tempBuffer);
+		return FString(tempBuffer);
 	}
 
 

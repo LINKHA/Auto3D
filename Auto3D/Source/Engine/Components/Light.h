@@ -42,7 +42,7 @@ public:
     /// Prepare object for rendering. Reset framenumber and calculate distance from camera. Called by Renderer.
     void OnPrepareRender(unsigned frameNumber, Camera* camera) override;
     /// Perform ray test on self and add possible hit to the result vector.
-    void OnRaycast(Vector<RaycastResult>& dest, const Ray& ray, float maxDistance) override;
+    void OnRaycast(TVector<RaycastResult>& dest, const Ray& ray, float maxDistance) override;
 
     /// Set light type.
     void SetLightType(LightType::Type type);
@@ -105,13 +105,13 @@ public:
     /// Set shadow map and viewport within it. Called by Renderer.
     void SetShadowMap(Texture* shadowMap, const RectI& shadowRect = RectI::ZERO);
     /// Setup shadow cameras and viewports. Called by Renderer.
-    void SetupShadowViews(Camera* mainCamera, Vector<AutoPtr<ShadowView> >& shadowViews, size_t& useIndex);
+    void SetupShadowViews(Camera* mainCamera, TVector<TAutoPtr<ShadowView> >& shadowViews, size_t& useIndex);
     /// Return shadow map.
     Texture* GetShadowMap() const { return _shadowMap; }
     /// Return actual shadow map rectangle. May be smaller than the requested total shadow map _size.
     const RectI& GetShadowRect() const { return _shadowRect; }
     /// Return shadow mapping matrices.
-    const Vector<Matrix4x4F>& GetShadowMatrices() const { return _shadowMatrices; }
+    const TVector<Matrix4x4F>& GetShadowMatrices() const { return _shadowMatrices; }
     /// Return shadow map offset and depth parameters.
     const Vector4F& GetShadowParameters() const { return _shadowParameters; }
     /// Return point light shadow extra parameters.
@@ -152,7 +152,7 @@ private:
     /// Rectangle within the shadow map.
     RectI _shadowRect;
     /// Shadow mapping matrices.
-    Vector<Matrix4x4F> _shadowMatrices;
+    TVector<Matrix4x4F> _shadowMatrices;
     /// Shadow mapping parameters.
     Vector4F _shadowParameters;
     /// Shadow mapping extra parameters for point lights.

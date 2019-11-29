@@ -40,9 +40,9 @@ public:
 	/// Find Node2D by id.
 	Node2D* FindNode(unsigned id) const;
 	/// Return all 2d node.
-	const HashMap<unsigned, Node2D*>& GetAllNode() const;
+	const THashMap<unsigned, Node2D*>& GetAllNode() const;
 	/// Return all camera vector
-	Vector<Camera2D*>& GetAllCamera();
+	TVector<Camera2D*>& GetAllCamera();
 	/// Add node to the canvas. This assigns a canvas-unique id to it. Called internally.
 	void AddNode(Node2D* node);
 	/// Remove node from the canvas. This removes the id mapping but does not destroy the node. Called internally.
@@ -70,9 +70,9 @@ private:
 	JSONValue TagNamesAttr() const;
 
 	/// Map from id to nodes.
-	HashMap<unsigned, Node2D*> _nodes;
+	THashMap<unsigned, Node2D*> _nodes;
 	/// Camera to nodes
-	Vector<Camera2D*> _cameras;
+	TVector<Camera2D*> _cameras;
 	/// Next free node _id.
 	unsigned _nextNodeId;
 

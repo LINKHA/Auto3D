@@ -35,11 +35,11 @@ public:
 
 private:
 	/// All scene physics world.
-	Vector<PhysicsWorld*> _physicsWorlds;
+	TVector<PhysicsWorld*> _physicsWorlds;
 	/// Active physics world.
 	PhysicsWorld* _activeWorld;
 	/// All scene2d physics world.
-	Vector<PhysicsWorld2D*> _physicsWorld2ds;
+	TVector<PhysicsWorld2D*> _physicsWorld2ds;
 	/// Active 2D physics world.
 	PhysicsWorld2D* _activeWorld2d;
 

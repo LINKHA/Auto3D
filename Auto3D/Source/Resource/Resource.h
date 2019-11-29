@@ -24,48 +24,48 @@ public:
     /// Load the resource synchronously from a binary stream. Return true on success.
     bool Load(Stream& source);
     /// Set name of the resource, usually the same as the file being loaded from.
-    void SetName(const String& newName);
+    void SetName(const FString& newName);
 
 	void SetMemoryUse(unsigned _size);
 
     /// Return name of the resource.
-    const String& Name() const { return _name; }
+    const FString& Name() const { return _name; }
     /// Return name hash of the resource.
-    const StringHash& NameHash() const { return _nameHash; }
+    const FStringHash& NameHash() const { return _nameHash; }
 	/// Return memory use in bytes, possibly approximate.
 	unsigned GetMemoryUse() const { return _memoryUse; }
 private:
     /// AResource name.
-    String _name;
+    FString _name;
     /// AResource name hash.
-    StringHash _nameHash;
+    FStringHash _nameHash;
 
 	/// Memory use in bytes.
 	unsigned _memoryUse;
 };
 
 /// Return name from a resource pointer.
-inline const String& ResourceName(AResource* resource)
+inline const FString& ResourceName(AResource* resource)
 {
-    return resource ? resource->Name() : String::EMPTY;
+    return resource ? resource->Name() : FString::EMPTY;
 }
 
 /// Return type from a resource pointer, or default type if null.
-inline StringHash ResourceType(AResource* resource, StringHash defaultType)
+inline FStringHash ResourceType(AResource* resource, FStringHash defaultType)
 {
     return resource ? resource->GetType() : defaultType;
 }
 
 /// Make a resource ref from a resource pointer.
-inline ResourceRef MakeResourceRef(AResource* resource, StringHash defaultType)
+inline ResourceRef MakeResourceRef(AResource* resource, FStringHash defaultType)
 {
     return ResourceRef(ResourceType(resource, defaultType), ResourceName(resource));
 }
 
 /// Return resource names from a vector of resource pointers.
-template <typename _Ty> Vector<String> ResourceNames(const Vector<_Ty*>& resources)
+template <typename _Ty> TVector<FString> ResourceNames(const TVector<_Ty*>& resources)
 {
-    Vector<String> ret(resources.Size());
+    TVector<FString> ret(resources.Size());
     for (size_t i = 0; i < resources.Size(); ++i)
         ret[i] = ResourceName(resources[i]);
 
@@ -73,7 +73,7 @@ template <typename _Ty> Vector<String> ResourceNames(const Vector<_Ty*>& resourc
 }
 
 /// Make a resource ref list from a vector of resource poitners.
-template <typename _Ty> ResourceRefList MakeResourceRefList(const Vector<_Ty*>& resources)
+template <typename _Ty> ResourceRefList MakeResourceRefList(const TVector<_Ty*>& resources)
 {
     return ResourceRefList(_Ty::TypeStatic(), GetResourceNames(resources));
 }

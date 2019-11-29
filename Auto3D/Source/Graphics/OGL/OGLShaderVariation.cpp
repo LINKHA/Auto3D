@@ -11,7 +11,7 @@
 namespace Auto3D
 {
 
-ShaderVariation::ShaderVariation(Shader* parent, const String& defines) :
+ShaderVariation::ShaderVariation(Shader* parent, const FString& defines) :
     _shader(0),
     _parent(parent),
     _stage(parent->GetStage()),
@@ -72,18 +72,18 @@ bool ShaderVariation::Compile()
     }
 
     // Collect defines into macros
-    Vector<String> defineNames = _defines.Split(' ');
+    TVector<FString> defineNames = _defines.Split(' ');
 
     for (auto it = defineNames.Begin(); it != defineNames.End(); ++it)
         it->Replace('=', ' ');
 
-    const String& originalShaderCode = _parent->GetSourceCode();
-    String shaderCode;
+    const FString& originalShaderCode = _parent->GetSourceCode();
+    FString shaderCode;
 
     // Check if the shader code contains a version define
     size_t verStart = originalShaderCode.Find('#');
     size_t verEnd = 0;
-    if (verStart != String::NPOS)
+    if (verStart != FString::NPOS)
     {
         if (originalShaderCode.Substring(verStart + 1, 7) == "version")
         {
@@ -96,7 +96,7 @@ bool ShaderVariation::Compile()
                     break;
             }
             // If version define found, insert it first
-            String versionDefine = originalShaderCode.Substring(verStart, verEnd - verStart);
+            FString versionDefine = originalShaderCode.Substring(verStart, verEnd - verStart);
             shaderCode += versionDefine + "\n";
         }
     }
@@ -120,7 +120,7 @@ bool ShaderVariation::Compile()
     if (!compiled)
     {
         int length, outLength;
-        String errorString;
+        FString errorString;
 
         glGetShaderiv(_shader, GL_INFO_LOG_LENGTH, &length);
         errorString.Resize(length);
@@ -141,12 +141,12 @@ Shader* ShaderVariation::Parent() const
     return _parent;
 }
 
-String ShaderVariation::FullName() const
+FString ShaderVariation::FullName() const
 {
     if (_parent)
         return _defines.IsEmpty() ? _parent->Name() : _parent->Name() + " (" + _defines + ")";
     else
-        return String::EMPTY;
+        return FString::EMPTY;
 }
 
 }

@@ -8,7 +8,7 @@
 namespace Auto3D
 {
 
-class String;
+class FString;
 
 /// RGBA color.
 class AUTO_API Color
@@ -74,7 +74,7 @@ public:
     }
     
     /// Construct by parsing a string.
-    Color(const String& str)
+    Color(const FString& str)
     {
         FromString(str);
     }
@@ -118,7 +118,7 @@ public:
     /// Set RGBA values from specified HSV values and alpha.
     void FromHSV(float h, float s, float v, float a = 1.0f);
     /// Parse from a string. Return true on success.
-    bool FromString(const String& str);
+    bool FromString(const FString& str);
     /// Parse from a C string. Return true on success.
     bool FromString(const char* str);
 
@@ -168,7 +168,7 @@ public:
     bool Equals(const Color& rhs) const { return Auto3D::Equals(_r, rhs._r) && Auto3D::Equals(_g, rhs._g) && Auto3D::Equals(_b, rhs._b) && Auto3D::Equals(_a, rhs._a); }
     
     /// Return as string.
-    String ToString() const;
+    FString ToString() const;
     
     /// Opaque white color.
     static const Color WHITE;

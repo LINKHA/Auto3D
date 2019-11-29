@@ -318,7 +318,7 @@ struct AUTO_API Constant
     }
 
     /// Construct with type, name and optional number of elements.
-    Constant(ElementType::Type type, const String& name, size_t numElements = 1) :
+    Constant(ElementType::Type type, const FString& name, size_t numElements = 1) :
         _type(type),
         _name(name),
         _numElements(numElements)
@@ -336,7 +336,7 @@ struct AUTO_API Constant
     /// Data type of constant.
     ElementType::Type _type;
     /// Name of constant.
-    String _name;
+    FString _name;
     /// Number of elements. Default 1.
     size_t _numElements;
     /// Element _size. Filled by ConstantBuffer.

@@ -8,16 +8,16 @@ namespace Auto3D
 {
 
 /// Random access iterator.
-template <typename _Ty> struct RandomAccessIterator
+template <typename _Ty> struct TRandomAccessIterator
 {
     /// Construct a null iterator.
-    RandomAccessIterator() :
+    TRandomAccessIterator() :
         _ptr(nullptr)
     {
     }
 
     /// Construct from a raw pointer.
-    explicit RandomAccessIterator(_Ty* ptr_) :
+    explicit TRandomAccessIterator(_Ty* ptr_) :
         _ptr(ptr_)
     {
     }
@@ -27,113 +27,113 @@ template <typename _Ty> struct RandomAccessIterator
     /// Dereference the object.
     _Ty& operator * () const { return *_ptr; }
     /// Preincrement the pointer.
-    RandomAccessIterator<_Ty>& operator ++ () { ++_ptr; return *this; }
+    TRandomAccessIterator<_Ty>& operator ++ () { ++_ptr; return *this; }
     /// Postincrement the pointer.
-    RandomAccessIterator<_Ty> operator ++ (int) { RandomAccessIterator<_Ty> i = *this; ++_ptr; return i; }
+    TRandomAccessIterator<_Ty> operator ++ (int) { TRandomAccessIterator<_Ty> i = *this; ++_ptr; return i; }
     /// Predecrement the pointer.
-    RandomAccessIterator<_Ty>& operator -- () { --_ptr; return *this; }
+    TRandomAccessIterator<_Ty>& operator -- () { --_ptr; return *this; }
     /// Postdecrement the pointer.
-    RandomAccessIterator<_Ty> operator -- (int) { RandomAccessIterator<_Ty> i = *this; --_ptr; return i; }
+    TRandomAccessIterator<_Ty> operator -- (int) { TRandomAccessIterator<_Ty> i = *this; --_ptr; return i; }
     /// Add an offset to the pointer.
-    RandomAccessIterator<_Ty>& operator += (int value) { _ptr += value; return *this; }
+    TRandomAccessIterator<_Ty>& operator += (int value) { _ptr += value; return *this; }
     /// Subtract an offset from the pointer.
-    RandomAccessIterator<_Ty>& operator -= (int value) { _ptr -= value; return *this; }
+    TRandomAccessIterator<_Ty>& operator -= (int value) { _ptr -= value; return *this; }
     /// Add an offset to the pointer.
-    RandomAccessIterator<_Ty>& operator += (size_t value) { _ptr += value; return *this; }
+    TRandomAccessIterator<_Ty>& operator += (size_t value) { _ptr += value; return *this; }
     /// Subtract an offset from the pointer.
-    RandomAccessIterator<_Ty>& operator -= (size_t value) { _ptr -= value; return *this; }
+    TRandomAccessIterator<_Ty>& operator -= (size_t value) { _ptr -= value; return *this; }
     /// Add an offset to the pointer.
-    RandomAccessIterator<_Ty> operator + (int value) const { return RandomAccessIterator<_Ty>(_ptr + value); }
+    TRandomAccessIterator<_Ty> operator + (int value) const { return TRandomAccessIterator<_Ty>(_ptr + value); }
     /// Subtract an offset from the pointer.
-    RandomAccessIterator<_Ty> operator - (int value) const { return RandomAccessIterator<_Ty>(_ptr - value); }
+    TRandomAccessIterator<_Ty> operator - (int value) const { return TRandomAccessIterator<_Ty>(_ptr - value); }
     /// Add an offset to the pointer.
-    RandomAccessIterator<_Ty> operator + (size_t value) const { return RandomAccessIterator<_Ty>(_ptr + value); }
+    TRandomAccessIterator<_Ty> operator + (size_t value) const { return TRandomAccessIterator<_Ty>(_ptr + value); }
     /// Subtract an offset from the pointer.
-    RandomAccessIterator<_Ty> operator - (size_t value) const { return RandomAccessIterator<_Ty>(_ptr - value); }
+    TRandomAccessIterator<_Ty> operator - (size_t value) const { return TRandomAccessIterator<_Ty>(_ptr - value); }
     /// Calculate offset to another iterator.
-    int operator - (const RandomAccessIterator& rhs) const { return (int)(_ptr - rhs._ptr); }
+    int operator - (const TRandomAccessIterator& rhs) const { return (int)(_ptr - rhs._ptr); }
     /// Test for equality with another iterator.
-    bool operator == (const RandomAccessIterator& rhs) const { return _ptr == rhs._ptr; }
+    bool operator == (const TRandomAccessIterator& rhs) const { return _ptr == rhs._ptr; }
     /// Test for inequality with another iterator.
-    bool operator != (const RandomAccessIterator& rhs) const { return _ptr != rhs._ptr; }
+    bool operator != (const TRandomAccessIterator& rhs) const { return _ptr != rhs._ptr; }
     /// Test for less than with another iterator.
-    bool operator < (const RandomAccessIterator& rhs) const { return _ptr < rhs._ptr; }
+    bool operator < (const TRandomAccessIterator& rhs) const { return _ptr < rhs._ptr; }
     /// Test for greater than with another iterator.
-    bool operator > (const RandomAccessIterator& rhs) const { return _ptr > rhs._ptr; }
+    bool operator > (const TRandomAccessIterator& rhs) const { return _ptr > rhs._ptr; }
     /// Test for less than or equal with another iterator.
-    bool operator <= (const RandomAccessIterator& rhs) const { return _ptr <= rhs._ptr; }
+    bool operator <= (const TRandomAccessIterator& rhs) const { return _ptr <= rhs._ptr; }
     /// Test for greater than or equal with another iterator.
-    bool operator >= (const RandomAccessIterator& rhs) const { return _ptr >= rhs._ptr; }
+    bool operator >= (const TRandomAccessIterator& rhs) const { return _ptr >= rhs._ptr; }
 
     /// Pointer to the random-accessed object(s).
     _Ty* _ptr;
 };
 
 /// Random access const iterator.
-template <typename _Ty> struct RandomAccessConstIterator
+template <typename _Ty> struct TRandomAccessConstIterator
 {
     /// Construct a null iterator.
-    RandomAccessConstIterator() :
+    TRandomAccessConstIterator() :
         _ptr(nullptr)
     {
     }
 
     /// Construct from a raw pointer.
-    explicit RandomAccessConstIterator(_Ty* ptr_) :
+    explicit TRandomAccessConstIterator(_Ty* ptr_) :
         _ptr(ptr_)
     {
     }
 
     /// Construct from a non-const iterator.
-    RandomAccessConstIterator(const RandomAccessIterator<_Ty>& it) :
+    TRandomAccessConstIterator(const TRandomAccessIterator<_Ty>& it) :
         _ptr(it._ptr)
     {
     }
 
     /// Assign from a non-const iterator.
-    RandomAccessConstIterator<_Ty>& operator = (const RandomAccessIterator<_Ty>& rhs) { _ptr = rhs._ptr; return *this; }
+    TRandomAccessConstIterator<_Ty>& operator = (const TRandomAccessIterator<_Ty>& rhs) { _ptr = rhs._ptr; return *this; }
     /// Point to the object.
     const _Ty* operator -> () const { return _ptr; }
     /// Dereference the object.
     const _Ty& operator * () const { return *_ptr; }
     /// Preincrement the pointer.
-    RandomAccessConstIterator<_Ty>& operator ++ () { ++_ptr; return *this; }
+    TRandomAccessConstIterator<_Ty>& operator ++ () { ++_ptr; return *this; }
     /// Postincrement the pointer.
-    RandomAccessConstIterator<_Ty> operator ++ (int) { RandomAccessConstIterator<_Ty> i = *this; ++_ptr; return i; }
+    TRandomAccessConstIterator<_Ty> operator ++ (int) { TRandomAccessConstIterator<_Ty> i = *this; ++_ptr; return i; }
     /// Predecrement the pointer.
-    RandomAccessConstIterator<_Ty>& operator -- () { --_ptr; return *this; }
+    TRandomAccessConstIterator<_Ty>& operator -- () { --_ptr; return *this; }
     /// Postdecrement the pointer.
-    RandomAccessConstIterator<_Ty> operator -- (int) { RandomAccessConstIterator<_Ty> i = *this; --_ptr; return i; }
+    TRandomAccessConstIterator<_Ty> operator -- (int) { TRandomAccessConstIterator<_Ty> i = *this; --_ptr; return i; }
     /// Add an offset to the pointer.
-    RandomAccessConstIterator<_Ty>& operator += (int value) { _ptr += value; return *this; }
+    TRandomAccessConstIterator<_Ty>& operator += (int value) { _ptr += value; return *this; }
     /// Subtract an offset from the pointer.
-    RandomAccessConstIterator<_Ty>& operator -= (int value) { _ptr -= value; return *this; }
+    TRandomAccessConstIterator<_Ty>& operator -= (int value) { _ptr -= value; return *this; }
     /// Add an offset to the pointer.
-    RandomAccessConstIterator<_Ty>& operator += (size_t value) { _ptr += value; return *this; }
+    TRandomAccessConstIterator<_Ty>& operator += (size_t value) { _ptr += value; return *this; }
     /// Subtract an offset from the pointer.
-    RandomAccessConstIterator<_Ty>& operator -= (size_t value) { _ptr -= value; return *this; }
+    TRandomAccessConstIterator<_Ty>& operator -= (size_t value) { _ptr -= value; return *this; }
     /// Add an offset to the pointer.
-    RandomAccessConstIterator<_Ty> operator + (int value) const { return RandomAccessConstIterator<_Ty>(_ptr + value); }
+    TRandomAccessConstIterator<_Ty> operator + (int value) const { return TRandomAccessConstIterator<_Ty>(_ptr + value); }
     /// Subtract an offset from the pointer.
-    RandomAccessConstIterator<_Ty> operator - (int value) const { return RandomAccessConstIterator<_Ty>(_ptr - value); }
+    TRandomAccessConstIterator<_Ty> operator - (int value) const { return TRandomAccessConstIterator<_Ty>(_ptr - value); }
     /// Add an offset to the pointer.
-    RandomAccessConstIterator<_Ty> operator + (size_t value) const { return RandomAccessConstIterator<_Ty>(_ptr + value); }
+    TRandomAccessConstIterator<_Ty> operator + (size_t value) const { return TRandomAccessConstIterator<_Ty>(_ptr + value); }
     /// Subtract an offset from the pointer.
-    RandomAccessConstIterator<_Ty> operator - (size_t value) const { return RandomAccessConstIterator<_Ty>(_ptr - value); }
+    TRandomAccessConstIterator<_Ty> operator - (size_t value) const { return TRandomAccessConstIterator<_Ty>(_ptr - value); }
     /// Calculate offset to another iterator.
-    int operator - (const RandomAccessConstIterator& rhs) const { return (int)(_ptr - rhs._ptr); }
+    int operator - (const TRandomAccessConstIterator& rhs) const { return (int)(_ptr - rhs._ptr); }
     /// Test for equality with another iterator.
-    bool operator == (const RandomAccessConstIterator& rhs) const { return _ptr == rhs._ptr; }
+    bool operator == (const TRandomAccessConstIterator& rhs) const { return _ptr == rhs._ptr; }
     /// Test for inequality with another iterator.
-    bool operator != (const RandomAccessConstIterator& rhs) const { return _ptr != rhs._ptr; }
+    bool operator != (const TRandomAccessConstIterator& rhs) const { return _ptr != rhs._ptr; }
     /// Test for less than with another iterator.
-    bool operator < (const RandomAccessConstIterator& rhs) const { return _ptr < rhs._ptr; }
+    bool operator < (const TRandomAccessConstIterator& rhs) const { return _ptr < rhs._ptr; }
     /// Test for greater than with another iterator.
-    bool operator > (const RandomAccessConstIterator& rhs) const { return _ptr > rhs._ptr; }
+    bool operator > (const TRandomAccessConstIterator& rhs) const { return _ptr > rhs._ptr; }
     /// Test for less than or equal with another iterator.
-    bool operator <= (const RandomAccessConstIterator& rhs) const { return _ptr <= rhs._ptr; }
+    bool operator <= (const TRandomAccessConstIterator& rhs) const { return _ptr <= rhs._ptr; }
     /// Test for greater than or equal with another iterator.
-    bool operator >= (const RandomAccessConstIterator& rhs) const { return _ptr >= rhs._ptr; }
+    bool operator >= (const TRandomAccessConstIterator& rhs) const { return _ptr >= rhs._ptr; }
 
     /// Pointer to the random-accessed object(s).
     _Ty* _ptr;

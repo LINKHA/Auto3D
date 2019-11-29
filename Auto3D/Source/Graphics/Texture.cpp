@@ -56,7 +56,7 @@ bool Texture::EndLoad()
     if (_loadImages.IsEmpty())
         return false;
 
-    Vector<ImageLevel> initialData;
+    TVector<ImageLevel> initialData;
 
     for (size_t i = 0; i < _loadImages.Size(); ++i)
     {
@@ -88,10 +88,10 @@ bool Texture::EndLoad()
 		-1.0f,  1.0f, 0.0f,     0.0f, 1 - 1.0f  // top left 
 	};
 
-	Vector<VertexElement> vertexDeclaration;
+	TVector<VertexElement> vertexDeclaration;
 	vertexDeclaration.Push(VertexElement(ElementType::VECTOR3, ElementSemantic::POSITION));
 	vertexDeclaration.Push(VertexElement(ElementType::VECTOR2, ElementSemantic::TEXCOORD));
-	SharedPtr<VertexBuffer> vb(new VertexBuffer());
+	TSharedPtr<VertexBuffer> vb(new VertexBuffer());
 	vb->Define(ResourceUsage::IMMUTABLE, 4, vertexDeclaration, true, vertexData);
 	_geometry->_vertexBuffer = vb;
 
@@ -99,7 +99,7 @@ bool Texture::EndLoad()
 	0, 1, 3, // first triangle
 	1, 2, 3  // second triangle
 	};
-	SharedPtr<IndexBuffer> ib(new IndexBuffer());
+	TSharedPtr<IndexBuffer> ib(new IndexBuffer());
 	ib->Define(ResourceUsage::IMMUTABLE, 6, sizeof(unsigned short), true, indexData);
 	_geometry->_indexBuffer = ib;
 

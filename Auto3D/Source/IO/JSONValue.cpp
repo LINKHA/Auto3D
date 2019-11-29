@@ -74,7 +74,7 @@ JSONValue::JSONValue(const Vector4F& value) :
 	*this = value;
 }
 
-JSONValue::JSONValue(const String& value) :
+JSONValue::JSONValue(const FString& value) :
     _type(JSONType::Null)
 {
     *this = value;
@@ -126,7 +126,7 @@ JSONValue& JSONValue::operator = (const JSONValue& rhs)
 		*(reinterpret_cast<Vector4F*>(&_data)) = *(reinterpret_cast<const Vector4F*>(&rhs._data));
 		break;
     case JSONType::STRING:
-        *(reinterpret_cast<String*>(&_data)) = *(reinterpret_cast<const String*>(&rhs._data));
+        *(reinterpret_cast<FString*>(&_data)) = *(reinterpret_cast<const FString*>(&rhs._data));
         break;
         
     case JSONType::ARRAY:
@@ -200,17 +200,17 @@ JSONValue& JSONValue::operator = (const Vector4F& value)
 	return *this;
 }
 
-JSONValue& JSONValue::operator = (const String& value)
+JSONValue& JSONValue::operator = (const FString& value)
 {
     SetType(JSONType::STRING);
-    *(reinterpret_cast<String*>(&_data)) = value;
+    *(reinterpret_cast<FString*>(&_data)) = value;
     return *this;
 }
 
 JSONValue& JSONValue::operator = (const char* value)
 {
     SetType(JSONType::STRING);
-    *(reinterpret_cast<String*>(&_data)) = value;
+    *(reinterpret_cast<FString*>(&_data)) = value;
     return *this;
 }
 
@@ -244,7 +244,7 @@ const JSONValue& JSONValue::operator [] (size_t index) const
         return EMPTY;
 }
 
-JSONValue& JSONValue::operator [] (const String& key)
+JSONValue& JSONValue::operator [] (const FString& key)
 {
     if (_type != JSONType::OBJECT)
         SetType(JSONType::OBJECT);
@@ -252,7 +252,7 @@ JSONValue& JSONValue::operator [] (const String& key)
     return (*(reinterpret_cast<JSONObject*>(&_data)))[key];
 }
 
-const JSONValue& JSONValue::operator [] (const String& key) const
+const JSONValue& JSONValue::operator [] (const FString& key) const
 {
     if (_type == JSONType::OBJECT)
     {
@@ -286,7 +286,7 @@ bool JSONValue::operator == (const JSONValue& rhs) const
 		return *(reinterpret_cast<const Vector4F*>(&_data)) == *(reinterpret_cast<const Vector4F*>(&rhs._data));
 
     case JSONType::STRING:
-        return *(reinterpret_cast<const String*>(&_data)) == *(reinterpret_cast<const String*>(&rhs._data));
+        return *(reinterpret_cast<const FString*>(&_data)) == *(reinterpret_cast<const FString*>(&rhs._data));
         
     case JSONType::ARRAY:
         return *(reinterpret_cast<const JSONArray*>(&_data)) == *(reinterpret_cast<const JSONArray*>(&rhs._data));
@@ -299,7 +299,7 @@ bool JSONValue::operator == (const JSONValue& rhs) const
     }
 }
 
-bool JSONValue::FromString(const String& str)
+bool JSONValue::FromString(const FString& str)
 {
     const char* pos = str.CString();
     const char* end = pos + str.Length();
@@ -309,7 +309,7 @@ bool JSONValue::FromString(const String& str)
 bool JSONValue::FromString(const char* str)
 {
     const char* pos = str;
-    const char* end = pos + String::CStringLength(str);
+    const char* end = pos + FString::CStringLength(str);
     return Parse(pos, end);
 }
 
@@ -332,7 +332,7 @@ void JSONValue::FromBinary(Stream& source)
         break;
 
     case JSONType::STRING:
-        *this = source.Read<String>();
+        *this = source.Read<FString>();
         break;
 
     case JSONType::ARRAY:
@@ -350,7 +350,7 @@ void JSONValue::FromBinary(Stream& source)
             size_t num = source.ReadVLE();
             for (size_t i = 0; i < num && !source.IsEof(); ++i)
             {
-                String key = source.Read<String>();
+                FString key = source.Read<FString>();
                 (*this)[key] = source.Read<JSONValue>();
             }
         }
@@ -361,7 +361,7 @@ void JSONValue::FromBinary(Stream& source)
     }
 }
 
-void JSONValue::ToString(String& dest, int spacing, int indent) const
+void JSONValue::ToString(FString& dest, int spacing, int indent) const
 {
     switch (_type)
     {
@@ -374,7 +374,7 @@ void JSONValue::ToString(String& dest, int spacing, int indent) const
         return;
         
     case JSONType::STRING:
-        WriteJSONString(dest, *(reinterpret_cast<const String*>(&_data)));
+        WriteJSONString(dest, *(reinterpret_cast<const FString*>(&_data)));
         return;
         
     case JSONType::ARRAY:
@@ -434,9 +434,9 @@ void JSONValue::ToString(String& dest, int spacing, int indent) const
     }
 }
 
-String JSONValue::ToString(int spacing) const
+FString JSONValue::ToString(int spacing) const
 {
-    String ret;
+    FString ret;
     ToString(ret, spacing);
     return ret;
 }
@@ -515,13 +515,13 @@ void JSONValue::Resize(size_t newSize)
     (*(reinterpret_cast<JSONArray*>(&_data))).Resize(newSize);
 }
 
-void JSONValue::Insert(const Pair<String, JSONValue>& pair)
+void JSONValue::Insert(const TPair<FString, JSONValue>& pair)
 {
     SetType(JSONType::OBJECT);
     (*(reinterpret_cast<JSONObject*>(&_data))).Insert(pair);
 }
 
-void JSONValue::Erase(const String& key)
+void JSONValue::Erase(const FString& key)
 {
     if (_type == JSONType::OBJECT)
         (*(reinterpret_cast<JSONObject*>(&_data))).Erase(key);
@@ -572,7 +572,7 @@ bool JSONValue::IsEmpty() const
         return false;
 }
 
-bool JSONValue::Contains(const String& key) const
+bool JSONValue::Contains(const FString& key) const
 {
     if (_type == JSONType::OBJECT)
         return (*(reinterpret_cast<const JSONObject*>(&_data))).Contains(key);
@@ -664,7 +664,7 @@ bool JSONValue::Parse(const char*& pos, const char*& end)
     else if (c == '\"')
     {
         SetType(JSONType::STRING);
-        return ReadJSONString(*(reinterpret_cast<String*>(&_data)), pos, end, true);
+        return ReadJSONString(*(reinterpret_cast<FString*>(&_data)), pos, end, true);
     }
     else if (c == '[')
     {
@@ -704,7 +704,7 @@ bool JSONValue::Parse(const char*& pos, const char*& end)
         
         for (;;)
         {
-            String key;
+            FString key;
             if (!ReadJSONString(key, pos, end, false))
                 return false;
             if (!NextChar(c, pos, end, true))
@@ -749,7 +749,7 @@ void JSONValue::SetType(JSONType::Type newType)
 		break;
 
     case JSONType::STRING:
-        (reinterpret_cast<String*>(&_data))->~String();
+        (reinterpret_cast<FString*>(&_data))->~FString();
         break;
         
     case JSONType::ARRAY:
@@ -781,7 +781,7 @@ void JSONValue::SetType(JSONType::Type newType)
 		break;
 
     case JSONType::STRING:
-        new(reinterpret_cast<String*>(&_data)) String();
+        new(reinterpret_cast<FString*>(&_data)) FString();
         break;
         
     case JSONType::ARRAY:
@@ -797,7 +797,7 @@ void JSONValue::SetType(JSONType::Type newType)
     }
 }
 
-void JSONValue::WriteJSONString(String& dest, const String& str)
+void JSONValue::WriteJSONString(FString& dest, const FString& str)
 {
     dest += '\"';
     
@@ -852,7 +852,7 @@ void JSONValue::WriteJSONString(String& dest, const String& str)
     dest += '\"';
 }
 
-void JSONValue::WriteIndent(String& dest, int indent)
+void JSONValue::WriteIndent(FString& dest, int indent)
 {
     size_t oldLength = dest.Length();
     dest.Resize(oldLength + indent);
@@ -1000,7 +1000,7 @@ bool JSONValue::ReadJSONVector4(Vector4F& dest, const char*& pos, const char*& e
 	return false;
 }
 
-bool JSONValue::ReadJSONString(String& dest, const char*& pos, const char*& end, bool inQuote)
+bool JSONValue::ReadJSONString(FString& dest, const char*& pos, const char*& end, bool inQuote)
 {
     char c;
     

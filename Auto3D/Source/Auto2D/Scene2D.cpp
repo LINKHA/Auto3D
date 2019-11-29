@@ -59,14 +59,14 @@ bool Scene2D::Load(Stream& source)
 
 	InfoString("Loading scene from " + source.Name());
 
-	String fileId = source.ReadFileID();
+	FString fileId = source.ReadFileID();
 	if (fileId != "SCNE")
 	{
 		ErrorString("File is not a binary scene file");
 		return false;
 	}
 
-	StringHash ownType = source.Read<StringHash>();
+	FStringHash ownType = source.Read<FStringHash>();
 	unsigned ownId = source.Read<unsigned>();
 	if (ownType != GetTypeStatic())
 	{
@@ -88,7 +88,7 @@ bool Scene2D::LoadJSON(const JSONValue& source)
 {
 	PROFILE(LoadSceneJSON);
 
-	StringHash ownType(source["type"].GetString());
+	FStringHash ownType(source["type"].GetString());
 	unsigned ownId = (unsigned)source["id"].GetNumber();
 
 	if (ownType != GetTypeStatic())
@@ -133,7 +133,7 @@ Node2D* Scene2D::Instantiate(Stream& source)
 	PROFILE(Instantiate);
 
 	ObjectResolver resolver;
-	StringHash childType(source.Read<StringHash>());
+	FStringHash childType(source.Read<FStringHash>());
 	unsigned childId = source.Read<unsigned>();
 
 	Node2D* child = CreateChild(childType);
@@ -152,7 +152,7 @@ Node2D* Scene2D::InstantiateJSON(const JSONValue& source)
 	PROFILE(InstantiateJSON);
 
 	ObjectResolver resolver;
-	StringHash childType(source["type"].GetString());
+	FStringHash childType(source["type"].GetString());
 	unsigned childId = (unsigned)source["id"].GetNumber();
 
 	Node2D* child = CreateChild(childType);
@@ -185,12 +185,12 @@ Node2D* Scene2D::FindNode(unsigned id) const
 	return it != _nodes.End() ? it->_second : nullptr;
 }
 
-const HashMap<unsigned, Node2D*>& Scene2D::GetAllNode() const
+const THashMap<unsigned, Node2D*>& Scene2D::GetAllNode() const
 {
 	return _nodes;
 }
 
-Vector<Camera2D*>& Scene2D::GetAllCamera()
+TVector<Camera2D*>& Scene2D::GetAllCamera()
 {
 	return _cameras;
 }
@@ -222,7 +222,7 @@ void Scene2D::AddNode(Node2D* node)
 	// If node has children, add them to the scene as well
 	if (node->NumChildren())
 	{
-		const Vector<SharedPtr<Node2D> >& children = node->Children();
+		const TVector<TSharedPtr<Node2D> >& children = node->Children();
 		for (auto it = children.Begin(); it != children.End(); ++it)
 			AddNode(*it);
 	}
@@ -240,7 +240,7 @@ void Scene2D::RemoveNode(Node2D* node)
 	// If node has children, remove them from the scene as well
 	if (node->NumChildren())
 	{
-		const Vector<SharedPtr<Node2D> >& children = node->Children();
+		const TVector<TSharedPtr<Node2D> >& children = node->Children();
 		for (auto it = children.Begin(); it != children.End(); ++it)
 			RemoveNode(*it);
 	}
@@ -269,7 +269,7 @@ void Scene2D::SetLayerNamesAttr(JSONValue names)
 	const JSONArray& array = names.GetArray();
 	for (size_t i = 0; i < array.Size(); ++i)
 	{
-		const String& name = array[i].GetString();
+		const FString& name = array[i].GetString();
 		_layerNames.Push(name);
 		_layers[name] = (unsigned char)i;
 	}
@@ -294,7 +294,7 @@ void Scene2D::SetTagNamesAttr(JSONValue names)
 	const JSONArray& array = names.GetArray();
 	for (size_t i = 0; i < array.Size(); ++i)
 	{
-		const String& name = array[i].GetString();
+		const FString& name = array[i].GetString();
 		_tagNames.Push(name);
 		_tags[name] = (unsigned char)i;
 	}

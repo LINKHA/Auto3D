@@ -133,7 +133,7 @@ private:
 };
 
 /// Return a date/time stamp as a string.
-AUTO_API String TimeStamp();
+AUTO_API FString TimeStamp();
 /// Return current time as seconds since epoch.
 AUTO_API unsigned CurrentTime();
 

@@ -37,7 +37,7 @@ public:
 	/// Parent block.
 	ProfilerBlock* _parent;
 	/// Child blocks.
-	Vector<AutoPtr<ProfilerBlock > > _children;
+	TVector<TAutoPtr<ProfilerBlock > > _children;
 	/// Current frame's accumulated time.
 	long long _time;
 	/// Current frame's longest call.
@@ -87,7 +87,7 @@ public:
 	void BeginInterval();
 
 	/// Output results into a string.
-	String OutputResults(bool showUnused = false, bool showTotal = false, size_t maxDepth = M_MAX_UNSIGNED) const;
+	FString OutputResults(bool showUnused = false, bool showTotal = false, size_t maxDepth = M_MAX_UNSIGNED) const;
 	/// Return the current profiling block.
 	const ProfilerBlock* CurrentBlock() const { return _current; }
 	/// Return the root profiling block.
@@ -95,12 +95,12 @@ public:
 
 private:
 	/// Output results recursively.
-	void OutputResults(ProfilerBlock* block, String& output, size_t depth, size_t maxDepth, bool showUnused, bool showTotal) const;
+	void OutputResults(ProfilerBlock* block, FString& output, size_t depth, size_t maxDepth, bool showUnused, bool showTotal) const;
 
 	/// Current profiling block.
 	ProfilerBlock* _current;
 	/// Root profiling block.
-	AutoPtr<ProfilerBlock> _root;
+	TAutoPtr<ProfilerBlock> _root;
 	/// Frames in the current interval.
 	size_t _intervalFrames;
 	/// Total frames since start.

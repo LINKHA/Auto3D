@@ -34,9 +34,9 @@ public:
 	EAudioSourceState::Type GetState();
 private:
 	/// AAudio sound resource
-	SharedPtr<ASound> _sound;
+	TSharedPtr<ASound> _sound;
 	/// AAudio buffer
-	SharedPtr<AAudioBuffer> _buffer;
+	TSharedPtr<AAudioBuffer> _buffer;
 	/// Pitch
 	float _pitch;
 	/// Gain

@@ -58,7 +58,7 @@ static bool functionsInitialized = false;
 static LRESULT CALLBACK WndProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 
-String Window::className("Auto3DWindow");
+FString Window::className("Auto3DWindow");
 
 Window::Window() :
 	_handle(nullptr),
@@ -109,11 +109,11 @@ bool Window::InitMsg()
 	return true;
 }
 
-void Window::SetTitle(const String& newTitle)
+void Window::SetTitle(const FString& newTitle)
 {
 	_title = newTitle;
 	if (_handle)
-		SetWindowTextW((HWND)_handle, WString(_title).CString());
+		SetWindowTextW((HWND)_handle, FWString(_title).CString());
 }
 
 void Window::DestoryWindow()
@@ -218,7 +218,7 @@ bool Window::SetSize(const RectI& rect, int multisample, bool fullscreen, bool r
 
 		RegisterClass(&wc);
 
-		_handle = CreateWindowW(WString(className).CString(), WString(_title).CString(), windowStyle, _rect.Left(), _rect.Top(),
+		_handle = CreateWindowW(FWString(className).CString(), FWString(_title).CString(), windowStyle, _rect.Left(), _rect.Top(),
 			_rect.Width(), _rect.Height(), 0, 0, ::GetModuleHandle(0), nullptr);
 		if (!_handle)
 		{
@@ -330,7 +330,7 @@ void Window::CreateWindowIcon()
 
 		/* Create temporary bitmap buffer */
 		int iconLen = 40 + h * w * 4;
-		Vector<BYTE> v;
+		TVector<BYTE> v;
 		v.Resize(iconLen);
 		BYTE* iconBmp = (BYTE*)v.Buffer();
 
@@ -347,7 +347,7 @@ void Window::CreateWindowIcon()
 		EncodeUInt32(0, &iconBmp[36]);
 
 		unsigned char* wr = &iconBmp[40];
-		Vector<unsigned char> r = Vector<unsigned char>(icon->Data(), h * w * 4);
+		TVector<unsigned char> r = TVector<unsigned char>(icon->Data(), h * w * 4);
 
 		for (int i = 0; i < h; i++) {
 
@@ -605,7 +605,7 @@ bool Window::OnWindowMessage(unsigned msg, unsigned wParam, unsigned lParam)
 	case WM_TOUCH:
 		if (input && LOWORD(wParam))
 		{
-			Vector<TOUCHINPUT> touches(LOWORD(wParam));
+			TVector<TOUCHINPUT> touches(LOWORD(wParam));
 			if (getTouchInputInfo((HTOUCHINPUT)lParam, (unsigned)touches.Size(), &touches[0], sizeof(TOUCHINPUT)))
 			{
 				for (auto it = touches.Begin(); it != touches.End(); ++it)

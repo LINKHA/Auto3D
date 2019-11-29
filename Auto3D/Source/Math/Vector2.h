@@ -10,7 +10,7 @@
 namespace Auto3D
 {
 
-class String;
+class FString;
 
 /// Two-dimensional vector.
 template<typename _Ty> class AUTO_API Vector2
@@ -50,7 +50,7 @@ public:
 	}
 
 	/// Construct by parsing a string.
-	Vector2(const String& str)
+	Vector2(const FString& str)
 	{
 		FromString(str);
 	}
@@ -125,14 +125,14 @@ public:
 	}
 
 	/// Parse from a string. Return true on success.
-	bool FromString(const String& str)
+	bool FromString(const FString& str)
 	{
 		return FromString(str.CString());
 	}
 	/// Parse from a C string. Return true on success.
 	bool FromString(const char* str)
 	{
-		size_t elements = String::CountElements(str, ' ');
+		size_t elements = FString::CountElements(str, ' ');
 		if (elements < 2)
 			return false;
 
@@ -195,11 +195,11 @@ public:
 	/// Return _Ty data.
 	const _Ty* Data() const { return &_x; }
 	/// Return as string.
-	String ToString() const
+	FString ToString() const
 	{
 		char tempBuffer[CONVERSION_BUFFER_LENGTH];
 		sprintf(tempBuffer, "%g %g", _x, _y);
-		return String(tempBuffer);
+		return FString(tempBuffer);
 	}
 
 	/// Zero vector.

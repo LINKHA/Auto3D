@@ -25,7 +25,7 @@ Stream::~Stream()
 {
 }
 
-void Stream::SetName(const String& newName)
+void Stream::SetName(const FString& newName)
 {
     _name = newName;
 }
@@ -60,9 +60,9 @@ unsigned Stream::ReadVLE()
     return ret;
 }
 
-String Stream::ReadLine()
+FString Stream::ReadLine()
 {
-    String ret;
+    FString ret;
     
     while (!IsEof())
     {
@@ -87,17 +87,17 @@ String Stream::ReadLine()
     return ret;
 }
 
-String Stream::ReadFileID()
+FString Stream::ReadFileID()
 {
-    String ret;
+    FString ret;
     ret.Resize(4);
     Read(&ret[0], 4);
     return ret;
 }
 
-Vector<unsigned char> Stream::ReadBuffer()
+TVector<unsigned char> Stream::ReadBuffer()
 {
-    Vector<unsigned char> ret(ReadVLE());
+    TVector<unsigned char> ret(ReadVLE());
     if (ret.Size())
         Read(&ret[0], ret.Size());
     return ret;
@@ -108,9 +108,9 @@ template<> bool Stream::Read<bool>()
     return Read<unsigned char>() != 0;
 }
 
-template<> String Stream::Read<String>()
+template<> FString Stream::Read<FString>()
 {
-    String ret;
+    FString ret;
     
     while (!IsEof())
     {
@@ -124,9 +124,9 @@ template<> String Stream::Read<String>()
     return ret;
 }
 
-template<> StringHash Stream::Read<StringHash>()
+template<> FStringHash Stream::Read<FStringHash>()
 {
-    return StringHash(Read<unsigned>());
+    return FStringHash(Read<unsigned>());
 }
 
 template<> ResourceRef Stream::Read<ResourceRef>()
@@ -157,14 +157,14 @@ template<> JSONValue Stream::Read<JSONValue>()
     return ret;
 }
 
-void Stream::WriteFileID(const String& value)
+void Stream::WriteFileID(const FString& value)
 {
     Write(value.CString(), Min((int)value.Length(), 4));
     for (size_t i = value.Length(); i < 4; ++i)
         Write(' ');
 }
 
-void Stream::WriteBuffer(const Vector<unsigned char>& value)
+void Stream::WriteBuffer(const TVector<unsigned char>& value)
 {
     size_t numBytes = value.Size();
     
@@ -202,7 +202,7 @@ void Stream::WriteVLE(size_t value)
     }
 }
 
-void Stream::WriteLine(const String& value)
+void Stream::WriteLine(const FString& value)
 {
     Write(value.CString(), value.Length());
     Write('\r');
@@ -214,13 +214,13 @@ template<> void Stream::Write<bool>(const bool& value)
     Write<unsigned char>(value ? 1 : 0);
 }
 
-template<> void Stream::Write<String>(const String& value)
+template<> void Stream::Write<FString>(const FString& value)
 {
     // Write content and null terminator
     Write(value.CString(), value.Length() + 1);
 }
 
-template<> void Stream::Write<StringHash>(const StringHash& value)
+template<> void Stream::Write<FStringHash>(const FStringHash& value)
 {
     Write(value.Value());
 }

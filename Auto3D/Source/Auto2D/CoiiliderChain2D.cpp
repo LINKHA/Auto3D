@@ -47,19 +47,19 @@ void CoiiliderChain2D::SetVertex(unsigned index, const Vector2F& vertex)
 	}
 }
 
-void CoiiliderChain2D::SetVertices(const Vector<Vector2F>& vertices)
+void CoiiliderChain2D::SetVertices(const TVector<Vector2F>& vertices)
 {
 	_vertices = vertices;
 
 	RecreateFixture();
 }
 
-void CoiiliderChain2D::SetVerticesAttr(const Vector<unsigned char>& value)
+void CoiiliderChain2D::SetVerticesAttr(const TVector<unsigned char>& value)
 {
 	if (value.IsEmpty())
 		return;
 
-	Vector<Vector2F> vertices;
+	TVector<Vector2F> vertices;
 
 	MemoryBuffer buffer(value);
 	while (!buffer.IsEof())
@@ -68,7 +68,7 @@ void CoiiliderChain2D::SetVerticesAttr(const Vector<unsigned char>& value)
 	SetVertices(vertices);
 }
 
-Vector<unsigned char> CoiiliderChain2D::GetVerticesAttr() const
+TVector<unsigned char> CoiiliderChain2D::GetVerticesAttr() const
 {
 	VectorBuffer ret;
 
@@ -82,7 +82,7 @@ void CoiiliderChain2D::RecreateFixture()
 {
 	ReleaseFixture();
 
-	Vector<b2Vec2> b2Vertices;
+	TVector<b2Vec2> b2Vertices;
 	unsigned count = _vertices.Size();
 	b2Vertices.Resize(count);
 

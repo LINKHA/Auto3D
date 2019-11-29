@@ -7,18 +7,18 @@
 namespace Auto3D
 {
 
-class String;
+class FString;
 
-/// Wide character string. Only meant for converting from String and passing to the operating system where necessary.
-class AUTO_API WString
+/// Wide character string. Only meant for converting from FString and passing to the operating system where necessary.
+class AUTO_API FWString
 {
 public:
     /// Construct empty.
-    WString();
+    FWString();
     /// Construct from a string.
-    WString(const String& str);
+    FWString(const FString& str);
     /// Destruct.
-    ~WString();
+    ~FWString();
     
     /// Return char at index.
     wchar_t& operator [] (size_t index) { assert(index < _length); return _buffer[index]; }
@@ -38,9 +38,9 @@ public:
     const wchar_t* CString() const { return _buffer; }
     
 private:
-    /// String length.
+    /// FString length.
     size_t _length;
-    /// String buffer, null if not allocated.
+    /// FString buffer, null if not allocated.
     wchar_t* _buffer;
 };
 

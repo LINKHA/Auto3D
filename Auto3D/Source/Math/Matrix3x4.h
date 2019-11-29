@@ -88,7 +88,7 @@ public:
 		SetTranslation(translation);
 	}
 	/// Construct by parsing a string.
-	Matrix3x4(const String& str)
+	Matrix3x4(const FString& str)
 	{
 		FromString(str);
 	}
@@ -263,7 +263,7 @@ public:
 	}
 
 	/// Parse from a string. Return true on success.
-	bool FromString(const String& str)
+	bool FromString(const FString& str)
 	{
 		return FromString(str.CString());
 	}
@@ -271,7 +271,7 @@ public:
 	/// Parse from a C string. Return true on success.
 	bool FromString(const char* str)
 	{
-		size_t elements = String::CountElements(str, ' ');
+		size_t elements = FString::CountElements(str, ' ');
 		if (elements < 12)
 			return false;
 
@@ -410,12 +410,12 @@ public:
 	/// Return _Ty data.
 	const _Ty* Data() const { return &_m00; }
 	/// Return as string.
-	String ToString() const
+	FString ToString() const
 	{
 		char tempBuffer[CONVERSION_BUFFER_LENGTH];
 		sprintf(tempBuffer, "%g %g %g %g %g %g %g %g %g %g %g %g", _m00, _m01, _m02, _m03, _m10, _m11, _m12, _m13, _m20, _m21, _m22,
 			_m23);
-		return String(tempBuffer);
+		return FString(tempBuffer);
 	}
 
 	/// Zero matrix.

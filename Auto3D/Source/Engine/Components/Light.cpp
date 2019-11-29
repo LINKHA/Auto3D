@@ -85,7 +85,7 @@ void Light::OnPrepareRender(unsigned frameNumber, Camera* camera)
     }
 }
 
-void Light::OnRaycast(Vector<RaycastResult>& dest, const Ray& ray, float maxDistance)
+void Light::OnRaycast(TVector<RaycastResult>& dest, const Ray& ray, float maxDistance)
 {
     if (_lightType == LightType::SPOT)
     {
@@ -289,7 +289,7 @@ void Light::SetShadowMap(Texture* shadowMap, const RectI& shadowRect)
     _shadowRect = shadowRect;
 }
 
-void Light::SetupShadowViews(Camera* mainCamera, Vector<AutoPtr<ShadowView> >& shadowViews, size_t& useIndex)
+void Light::SetupShadowViews(Camera* mainCamera, TVector<TAutoPtr<ShadowView> >& shadowViews, size_t& useIndex)
 {
     size_t numViews = GetNumShadowViews();
     if (!numViews)

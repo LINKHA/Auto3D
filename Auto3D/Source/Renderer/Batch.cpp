@@ -28,7 +28,7 @@ void RenderQueue::Clear()
     _additiveBatches.Clear();
 }
 
-void RenderQueue::Sort(Vector
+void RenderQueue::Sort(TVector
 	<Matrix3x4F>& instanceTransforms)
 {
     switch (_sort)
@@ -58,7 +58,7 @@ void RenderQueue::Sort(Vector
     BuildInstances(_additiveBatches, instanceTransforms);
 }
 
-void RenderQueue::BuildInstances(Vector<Batch>& batches, Vector<Matrix3x4F>& instanceTransforms)
+void RenderQueue::BuildInstances(TVector<Batch>& batches, TVector<Matrix3x4F>& instanceTransforms)
 {
     Batch* start = nullptr;
 

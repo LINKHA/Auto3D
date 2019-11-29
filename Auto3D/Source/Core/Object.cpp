@@ -15,7 +15,7 @@ FTypeInfo::FTypeInfo(const char* typeName, const FTypeInfo* baseTypeInfo) :
 
 FTypeInfo::~FTypeInfo() = default;
 
-bool FTypeInfo::IsTypeOf(StringHash type) const
+bool FTypeInfo::IsTypeOf(FStringHash type) const
 {
 	const FTypeInfo* current = this;
 	while (current)
@@ -44,14 +44,14 @@ bool FTypeInfo::IsTypeOf(const FTypeInfo* typeInfo) const
 }
 
 
-HashMap<StringHash, AObject*> AObject::_objectModules;
-HashMap<StringHash, AutoPtr<FObjectFactory> > AObject::_factories;
+THashMap<FStringHash, AObject*> AObject::_objectModules;
+THashMap<FStringHash, TAutoPtr<FObjectFactory> > AObject::_factories;
 
 FObjectFactory::~FObjectFactory()
 {
 }
 
-bool AObject::IsInstanceOf(StringHash type) const
+bool AObject::IsInstanceOf(FStringHash type) const
 {
 	return GetTypeInfo()->IsTypeOf(type);
 }
@@ -99,12 +99,12 @@ void AObject::RemoveObjectModule(AObject* subsystem)
 		_objectModules.Erase(it);
 }
 
-void AObject::RemoveObjectModule(StringHash type)
+void AObject::RemoveObjectModule(FStringHash type)
 {
 	_objectModules.Erase(type);
 }
 
-AObject* AObject::ObjectModule(StringHash type)
+AObject* AObject::ObjectModule(FStringHash type)
 {
     auto it = _objectModules.Find(type);
     return it != _objectModules.End() ? it->_second : nullptr;
@@ -118,16 +118,16 @@ void AObject::RegisterFactory(FObjectFactory* factory)
     _factories[factory->GetType()] = factory;
 }
 
-AObject* AObject::Create(StringHash type)
+AObject* AObject::Create(FStringHash type)
 {
     auto it = _factories.Find(type);
     return it != _factories.End() ? it->_second->Create() : nullptr;
 }
 
-const String& AObject::TypeNameFromType(StringHash type)
+const FString& AObject::TypeNameFromType(FStringHash type)
 {
     auto it = _factories.Find(type);
-    return it != _factories.End() ? it->_second->GetTypeName() : String::EMPTY;
+    return it != _factories.End() ? it->_second->GetTypeName() : FString::EMPTY;
 }
 
 }

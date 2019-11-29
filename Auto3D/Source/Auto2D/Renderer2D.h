@@ -57,17 +57,17 @@ private:
 	/// Initialize when screen mode initially set.
 	void Initialize();
 	/// Render batches from a specific queue and camera.
-	void RenderBatches(const Vector<Batch2D>& batches, Camera2D* camera);
+	void RenderBatches(const TVector<Batch2D>& batches, Camera2D* camera);
 	/// Graphics subsystem.
-	WeakPtr<Graphics> _graphics;
+	TWeakPtr<Graphics> _graphics;
 	/// Renderer2D rendering batches.
-	Vector<Batch2D> _batches;
+	TVector<Batch2D> _batches;
 	/// Current scene.
 	Scene2D* _scenes;
 	/// Current 2d camera.
 	Camera2D* _camera;
 	/// Geometry nodes
-	Vector<GeometryNode2D*> _geometryNode;
+	TVector<GeometryNode2D*> _geometryNode;
 	/// Renderer does not have multiple queues
 	Batch2DQueue _batchQueue;
 	/// Initialized flag.
@@ -77,17 +77,17 @@ private:
 	/// Instance vertex buffer dirty flag.
 	bool _instanceTransformsDirty;
 	/// Instance transforms for uploading to the instance vertex buffer.
-	Vector<Matrix3x4F> _instanceTransforms;
+	TVector<Matrix3x4F> _instanceTransforms;
 	/// Per-frame vertex shader constant buffer.
-	SharedPtr<ConstantBuffer> _vsFrameConstantBuffer;
+	TSharedPtr<ConstantBuffer> _vsFrameConstantBuffer;
 	/// Per-object vertex shader constant buffer.
-	SharedPtr<ConstantBuffer> _vsObjectConstantBuffer;
+	TSharedPtr<ConstantBuffer> _vsObjectConstantBuffer;
 	/// Per-frame pixel shader constant buffer.
-	SharedPtr<ConstantBuffer> _psFrameConstantBuffer;
+	TSharedPtr<ConstantBuffer> _psFrameConstantBuffer;
 	/// Instance transform vertex buffer.
-	AutoPtr<VertexBuffer> _instanceVertexBuffer;
+	TAutoPtr<VertexBuffer> _instanceVertexBuffer;
 	/// Vertex elements for the instance vertex buffer.
-	Vector<VertexElement> _instanceVertexElements;
+	TVector<VertexElement> _instanceVertexElements;
 	/// Render 2D shaderVariation vs.
 	ShaderVariation* _vsv;
 	/// Render 2D shaderVariation ps.

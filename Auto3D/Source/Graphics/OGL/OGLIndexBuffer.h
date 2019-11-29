@@ -49,7 +49,7 @@ private:
     /// OpenGL buffer object identifier.
     unsigned _buffer;
     /// CPU-side shadow data.
-    AutoArrayPtr<unsigned char> _shadowData;
+    TAutoArrayPtr<unsigned char> _shadowData;
     /// Number of indices.
     size_t _numIndices;
     /// Size of index in bytes.

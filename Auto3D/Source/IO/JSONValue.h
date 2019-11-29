@@ -13,8 +13,8 @@ namespace Auto3D
 class JSONValue;
 class Stream;
 
-typedef Vector<JSONValue> JSONArray;
-typedef HashMap<String, JSONValue> JSONObject;
+typedef TVector<JSONValue> JSONArray;
+typedef THashMap<FString, JSONValue> JSONObject;
 
 /// JSON value types.
 namespace JSONType
@@ -75,7 +75,7 @@ public:
 	/// Construct from a vector4
 	JSONValue(const Vector4F& value);
     /// Construct from a string.
-    JSONValue(const String& value);
+    JSONValue(const FString& value);
     /// Construct from a C string.
     JSONValue(const char* value);
     /// Construct from a JSON object.
@@ -104,7 +104,7 @@ public:
 	/// Assign a vetor4
 	JSONValue& operator = (const Vector4F& value);
     /// Assign a string.
-    JSONValue& operator = (const String& value);
+    JSONValue& operator = (const FString& value);
     /// Assign a C string.
     JSONValue& operator = (const char* value);
     /// Assign a JSON array.
@@ -116,24 +116,24 @@ public:
     /// Const index as an array. Return a null value if not an array.
     const JSONValue& operator [] (size_t index) const;
     /// Index as an object. Becomes an object if was not before.
-    JSONValue& operator [] (const String& key);
+    JSONValue& operator [] (const FString& key);
     /// Const index as an object. Return a null value if not an object.
-    const JSONValue& operator [] (const String& key) const;
+    const JSONValue& operator [] (const FString& key) const;
     /// Test for equality with another JSON value.
     bool operator == (const JSONValue& rhs) const;
     /// Test for inequality.
     bool operator != (const JSONValue& rhs) const { return !(*this == rhs); }
     
     /// Parse from a string. Return true on success.
-    bool FromString(const String& str);
+    bool FromString(const FString& str);
     /// Parse from a C string. Return true on success.
     bool FromString(const char* str);
     /// Parse from a binary stream.
     void FromBinary(Stream& source);
     /// Write to a string. Called recursively to write nested values.
-    void ToString(String& dest, int spacing = 2, int indent = 0) const;
+    void ToString(FString& dest, int spacing = 2, int indent = 0) const;
     /// Return as string.
-    String ToString(int spacing = 2) const;
+    FString ToString(int spacing = 2) const;
     /// Serialize to a binary stream.
     void ToBinary(Stream& dest) const;
     
@@ -148,9 +148,9 @@ public:
     /// Resize array. Becomes an array if was not before.
     void Resize(size_t newSize);
     /// Insert an associative value. Becomes an object if was not before.
-    void Insert(const Pair<String, JSONValue>& pair);
+    void Insert(const TPair<FString, JSONValue>& pair);
     /// Remove an associative value. No-op if not an object.
-    void Erase(const String& key);
+    void Erase(const FString& key);
     /// Clear array or object. No-op otherwise.
     void Clear();
     /// Set to an empty array.
@@ -196,13 +196,13 @@ public:
 	/// Return value as a vector4, or zero on type mismatch.
 	const Vector4F& GetVector4() const { return _type == JSONType::VECTOR4 ? *(reinterpret_cast<const Vector4F*>(&_data)) : Vector4F::ZERO; }
     /// Return value as a string, or empty string on type mismatch.
-    const String& GetString() const { return _type == JSONType::STRING ? *(reinterpret_cast<const String*>(&_data)) : String::EMPTY; }
+    const FString& GetString() const { return _type == JSONType::STRING ? *(reinterpret_cast<const FString*>(&_data)) : FString::EMPTY; }
     /// Return value as an array, or empty on type mismatch.
     const JSONArray& GetArray() const { return _type == JSONType::ARRAY ? *(reinterpret_cast<const JSONArray*>(&_data)) : emptyJSONArray; }
     /// Return value as an object, or empty on type mismatch.
     const JSONObject& GetObject() const { return _type == JSONType::OBJECT ? *(reinterpret_cast<const JSONObject*>(&_data)) : emptyJSONObject; }
     /// Return whether has an associative value.
-    bool Contains(const String& key) const;
+    bool Contains(const FString& key) const;
     
     /// Empty (null) value.
     static const JSONValue EMPTY;
@@ -218,9 +218,9 @@ private:
     void SetType(JSONType::Type newType);
     
     /// Append a string in JSON format into the destination.
-    static void WriteJSONString(String& dest, const String& str);
+    static void WriteJSONString(FString& dest, const FString& str);
     /// Append indent spaces to the destination.
-    static void WriteIndent(String& dest, int indent);
+    static void WriteIndent(FString& dest, int indent);
 	/// Read a vector2 in JSON format from a stream. Return true on success.
 	static bool ReadJSONVector2(Vector2F& dest, const char*& pos, const char*& end);
 	/// Read a vector3 in JSON format from a stream. Return true on success.
@@ -228,7 +228,7 @@ private:
 	/// Read a vector4 in JSON format from a stream. Return true on success.
 	static bool ReadJSONVector4(Vector4F& dest, const char*& pos, const char*& end);
     /// Read a string in JSON format from a stream. Return true on success.
-    static bool ReadJSONString(String& dest, const char*& pos, const char*& end, bool inQuote);
+    static bool ReadJSONString(FString& dest, const char*& pos, const char*& end, bool inQuote);
     /// Match until the end of a string. Return true if successfully matched.
     static bool MatchString(const char* str, const char*& pos, const char*& end);
     /// Scan until a character is found. Return true if successfully matched.

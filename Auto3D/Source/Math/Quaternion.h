@@ -82,7 +82,7 @@ public:
     }
     
     /// Construct by parsing a string.
-    Quaternion(const String& str)
+    Quaternion(const FString& str)
     {
         FromString(str);
     }
@@ -170,7 +170,7 @@ public:
     /// Define from a direction to look in and an up direction. Return true on success, or false if would result in a NaN, in which case the current value remains.
     bool FromLookRotation(const Vector3F& direction, const Vector3F& up = Vector3F::UP);
     /// Parse from a string. Return true on success.
-    bool FromString(const String& str);
+    bool FromString(const FString& str);
     /// Parse from a C string. Return true on success.
     bool FromString(const char* str);
 
@@ -241,7 +241,7 @@ public:
     /// Return float data.
     const float* Data() const { return &_w; }
     /// Return as string.
-    String ToString() const;
+    FString ToString() const;
     
     /// W coordinate.
     float _w;

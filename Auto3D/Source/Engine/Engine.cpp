@@ -139,7 +139,7 @@ void Engine::Render()
 		Scene* scene = _registeredBox->GetActiveScene();
 		if (scene && scene->IsEnabled())
 		{
-			Vector<Camera*>& cameras = scene->GetAllCamera();
+			TVector<Camera*>& cameras = scene->GetAllCamera();
 			for (auto cameraIt = cameras.Begin(); cameraIt != cameras.End(); ++cameraIt)
 			{
 				Camera* camera = *cameraIt;
@@ -156,7 +156,7 @@ void Engine::Render()
 		Scene2D* scene2d = _registeredBox->GetActiveScene2D();
 		if (scene2d && scene2d->IsEnabled())
 		{
-			Vector<Camera2D*>& cameras = scene2d->GetAllCamera();
+			TVector<Camera2D*>& cameras = scene2d->GetAllCamera();
 			for (auto cameraIt = cameras.Begin(); cameraIt != cameras.End(); ++cameraIt)
 			{
 				Camera2D* camera = *cameraIt;

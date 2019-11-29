@@ -24,14 +24,14 @@ MemoryBuffer::MemoryBuffer(const void* data, size_t numBytes) :
     SetName("Memory");
 }
 
-MemoryBuffer::MemoryBuffer(Vector<unsigned char>& data) :
+MemoryBuffer::MemoryBuffer(TVector<unsigned char>& data) :
     Stream(data.Size()),
     _buffer(data.Begin()._ptr),
     _readOnly(false)
 {
 }
 
-MemoryBuffer::MemoryBuffer(const Vector<unsigned char>& data) :
+MemoryBuffer::MemoryBuffer(const TVector<unsigned char>& data) :
     Stream(data.Size()),
     _buffer(data.Begin()._ptr),
     _readOnly(true)
