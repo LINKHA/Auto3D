@@ -6,18 +6,18 @@
 namespace Auto3D
 {
 
-TypeInfo::TypeInfo(const char* typeName, const TypeInfo* baseTypeInfo) :
+FTypeInfo::FTypeInfo(const char* typeName, const FTypeInfo* baseTypeInfo) :
 	_type(typeName),
 	_typeName(typeName),
 	_baseTypeInfo(baseTypeInfo)
 {
 }
 
-TypeInfo::~TypeInfo() = default;
+FTypeInfo::~FTypeInfo() = default;
 
-bool TypeInfo::IsTypeOf(StringHash type) const
+bool FTypeInfo::IsTypeOf(StringHash type) const
 {
-	const TypeInfo* current = this;
+	const FTypeInfo* current = this;
 	while (current)
 	{
 		if (current->GetType() == type)
@@ -29,9 +29,9 @@ bool TypeInfo::IsTypeOf(StringHash type) const
 	return false;
 }
 
-bool TypeInfo::IsTypeOf(const TypeInfo* typeInfo) const
+bool FTypeInfo::IsTypeOf(const FTypeInfo* typeInfo) const
 {
-	const TypeInfo* current = this;
+	const FTypeInfo* current = this;
 	while (current)
 	{
 		if (current == typeInfo)
@@ -44,44 +44,44 @@ bool TypeInfo::IsTypeOf(const TypeInfo* typeInfo) const
 }
 
 
-HashMap<StringHash, Object*> Object::_objectModules;
-HashMap<StringHash, AutoPtr<ObjectFactory> > Object::_factories;
+HashMap<StringHash, AObject*> AObject::_objectModules;
+HashMap<StringHash, AutoPtr<ObjectFactory> > AObject::_factories;
 
 ObjectFactory::~ObjectFactory()
 {
 }
 
-bool Object::IsInstanceOf(StringHash type) const
+bool AObject::IsInstanceOf(StringHash type) const
 {
 	return GetTypeInfo()->IsTypeOf(type);
 }
 
-bool Object::IsInstanceOf(const TypeInfo* typeInfo) const
+bool AObject::IsInstanceOf(const FTypeInfo* typeInfo) const
 {
 	return GetTypeInfo()->IsTypeOf(typeInfo);
 }
 
-void Object::SubscribeToEvent(Event& event, EventHandler* handler)
+void AObject::SubscribeToEvent(Event& event, EventHandler* handler)
 {
     event.Subscribe(handler);
 }
 
-void Object::UnsubscribeFromEvent(Event& event)
+void AObject::UnsubscribeFromEvent(Event& event)
 {
     event.Unsubscribe(this);
 }
 
-void Object::SendEvent(Event& event)
+void AObject::SendEvent(Event& event)
 {
     event.Send(this);
 }
 
-bool Object::IsSubscribedToEvent(const Event& event) const
+bool AObject::IsSubscribedToEvent(const Event& event) const
 {
     return event.HasReceiver(this);
 }
 
-void Object::RegisterObjectModule(Object* subsystem)
+void AObject::RegisterObjectModule(AObject* subsystem)
 {
     if (!subsystem)
         return;
@@ -89,7 +89,7 @@ void Object::RegisterObjectModule(Object* subsystem)
     _objectModules[subsystem->GetType()] = subsystem;
 }
 
-void Object::RemoveObjectModule(Object* subsystem)
+void AObject::RemoveObjectModule(AObject* subsystem)
 {
     if (!subsystem)
         return;
@@ -99,18 +99,18 @@ void Object::RemoveObjectModule(Object* subsystem)
 		_objectModules.Erase(it);
 }
 
-void Object::RemoveObjectModule(StringHash type)
+void AObject::RemoveObjectModule(StringHash type)
 {
 	_objectModules.Erase(type);
 }
 
-Object* Object::ObjectModule(StringHash type)
+AObject* AObject::ObjectModule(StringHash type)
 {
     auto it = _objectModules.Find(type);
     return it != _objectModules.End() ? it->_second : nullptr;
 }
 
-void Object::RegisterFactory(ObjectFactory* factory)
+void AObject::RegisterFactory(ObjectFactory* factory)
 {
     if (!factory)
         return;
@@ -118,13 +118,13 @@ void Object::RegisterFactory(ObjectFactory* factory)
     _factories[factory->GetType()] = factory;
 }
 
-Object* Object::Create(StringHash type)
+AObject* AObject::Create(StringHash type)
 {
     auto it = _factories.Find(type);
     return it != _factories.End() ? it->_second->Create() : nullptr;
 }
 
-const String& Object::TypeNameFromType(StringHash type)
+const String& AObject::TypeNameFromType(StringHash type)
 {
     auto it = _factories.Find(type);
     return it != _factories.End() ? it->_second->GetTypeName() : String::EMPTY;

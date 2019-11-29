@@ -28,7 +28,7 @@ struct AUTO_API StoredObjectRef
     {
     }
 
-    /// %Object that contains the attribute.
+    /// %AObject that contains the attribute.
     Serializable* _object;
     /// Description of the object ref attribute.
     Attribute* _attr;

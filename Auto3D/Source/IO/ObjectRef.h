@@ -8,7 +8,7 @@ namespace Auto3D
 /// Reference to an object with _id for serialization.
 struct AUTO_API ObjectRef
 {
-    /// %Object _id.
+    /// %AObject _id.
     unsigned _id;
 
     /// Construct with no reference.

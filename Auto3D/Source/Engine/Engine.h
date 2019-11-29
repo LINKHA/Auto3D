@@ -20,9 +20,9 @@ class Physics;
 class FileSystem;
 class UI;
 
-class AUTO_API Engine : public Object
+class AUTO_API Engine : public AObject
 {
-	REGISTER_OBJECT_CLASS(Engine, Object)
+	REGISTER_OBJECT_CLASS(Engine, AObject)
 public:
 	/// Construct
 	Engine();

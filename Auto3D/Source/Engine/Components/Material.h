@@ -16,7 +16,7 @@ class ShaderVariation;
 class Texture;
 
 /// Render pass, which defines render state and shaders. A material may define several of these.
-class Pass : public RefCounted
+class Pass : public ARefCounted
 {
 public:
     /// Construct.

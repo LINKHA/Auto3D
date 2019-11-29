@@ -10,7 +10,7 @@ namespace Auto3D
 class JSONValue;
 
 /// GPU buffer for shader constant data.
-class AUTO_API ConstantBuffer : public RefCounted, public GPUObject
+class AUTO_API ConstantBuffer : public ARefCounted, public GPUObject
 {
 public:
     /// Construct.

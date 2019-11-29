@@ -82,7 +82,7 @@ public:
     bool IsNull() const { return _ptr == nullptr; }
     
 private:
-    /// %Object pointer.
+    /// %AObject pointer.
     _Ty* _ptr;
 };
 

@@ -14,9 +14,9 @@ namespace Auto3D
 
 class Engine;
 /// The superclass implementation of the project space, where the engine is implemented
-class AUTO_API Application : public Object
+class AUTO_API Application : public AObject
 {
-	REGISTER_OBJECT_CLASS(Application, Object)
+	REGISTER_OBJECT_CLASS(Application, AObject)
 public:
 	/// Create engine
 	Application();

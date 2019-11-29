@@ -57,7 +57,7 @@ public:
 };
 
 /// Description of an automatically serializable variable.
-class AUTO_API Attribute : public RefCounted
+class AUTO_API Attribute : public ARefCounted
 {
 public:
     /// Construct.

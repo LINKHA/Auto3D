@@ -10,7 +10,7 @@
 namespace Auto3D
 {
 
-class RefCounted;
+class ARefCounted;
 template <typename _Ty> class WeakPtr;
 
 /// Reference count structure. Used in both intrusive and non-intrusive reference counting.
@@ -33,18 +33,18 @@ struct AUTO_API RefCount
 };
 
 /// Base class for intrusively reference counted objects that can be pointed to with SharedPtr and WeakPtr. These are not copy-constructible and not assignable.
-class AUTO_API RefCounted
+class AUTO_API ARefCounted
 {
 public:
     /// Construct. The reference count is not allocated yet; it will be allocated on demand.
-    RefCounted();
+    ARefCounted();
 
     /// Destruct. If no weak references, destroy also the reference count, else mark it expired.
-    virtual ~RefCounted();
+    virtual ~ARefCounted();
 	/// Prevent copy construction.
-	RefCounted(const RefCounted& rhs) = delete;
+	ARefCounted(const ARefCounted& rhs) = delete;
 	/// Prevent assignment.
-	RefCounted& operator = (const RefCounted& rhs) = delete;
+	ARefCounted& operator = (const ARefCounted& rhs) = delete;
 
     /// Add a strong reference. Allocate the reference count structure first if necessary.
     void AddRef();
@@ -64,7 +64,7 @@ private:
     RefCount* _refCount;
 };
 
-/// Pointer which holds a strong reference to a RefCounted subclass and allows shared ownership.
+/// Pointer which holds a strong reference to a ARefCounted subclass and allows shared ownership.
 template <typename _Ty> class SharedPtr
 {
 public:
@@ -170,7 +170,7 @@ public:
     bool IsNull() const { return _ptr == nullptr; }
     
 private:
-    /// %Object pointer.
+    /// %AObject pointer.
     _Ty* _ptr;
 };
 
@@ -190,7 +190,7 @@ template <typename _Ty1, typename _Ty2> SharedPtr<_Ty1> DynamicCast(const Shared
     return ret;
 }
 
-/// Pointer which holds a weak reference to a RefCounted subclass. Can track destruction but does not keep the object alive.
+/// Pointer which holds a weak reference to a ARefCounted subclass. Can track destruction but does not keep the object alive.
 template <typename _Ty> class WeakPtr
 {
 public:
@@ -340,7 +340,7 @@ public:
     bool IsExpired() const { return refCount && refCount->_expired; }
 
 private:
-    /// %Object pointer.
+    /// %AObject pointer.
     _Ty* ptr;
     /// The object's weak reference count structure.
     RefCount* refCount;

@@ -12,7 +12,7 @@ namespace Auto3D
 	class Window;
 
 	/// OpenGL context associated with a _window, Win32 implementation.
-	class AUTO_API GraphicsContext : public RefCounted
+	class AUTO_API GraphicsContext : public ARefCounted
 	{
 	public:
 		/// Construct. Associate with a _window, but do not create the context yet.

@@ -4,9 +4,9 @@
 namespace Auto3D
 {
 
-class AUTO_API GameManager : public Object
+class AUTO_API GameManager : public AObject
 {
-	REGISTER_OBJECT_CLASS(GameManager, Object)
+	REGISTER_OBJECT_CLASS(GameManager, AObject)
 
 public:
 	GameManager() = default;

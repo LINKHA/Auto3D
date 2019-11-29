@@ -9,7 +9,7 @@ namespace Auto3D
 {
 
 /// GPU buffer for vertex data.
-class AUTO_API VertexBuffer : public RefCounted, public GPUObject
+class AUTO_API VertexBuffer : public ARefCounted, public GPUObject
 {
 public:
     /// Construct.

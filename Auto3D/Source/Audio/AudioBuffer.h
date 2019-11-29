@@ -16,7 +16,7 @@ namespace AudioSourceUsage
 class Audio;
 class Sound;
 /// Audio buffer
-class AUTO_API AudioBuffer : public RefCounted
+class AUTO_API AudioBuffer : public ARefCounted
 {
 public:
 	AudioBuffer();

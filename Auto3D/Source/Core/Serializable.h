@@ -9,7 +9,7 @@ namespace Auto3D
 class ObjectResolver;
 
 /// Base class for objects with automatic serialization using attributes.
-class AUTO_API Serializable : public Object
+class AUTO_API Serializable : public AObject
 {
 public:
 	/// Destructor

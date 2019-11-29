@@ -33,7 +33,7 @@ void ResourceRef::FromBinary(Stream& source)
 
 String ResourceRef::ToString() const
 {
-    return Object::TypeNameFromType(_type) + ";" + _name;
+    return AObject::TypeNameFromType(_type) + ";" + _name;
 }
 
 void ResourceRef::ToBinary(Stream& dest) const
@@ -73,7 +73,7 @@ void ResourceRefList::FromBinary(Stream& source)
 
 String ResourceRefList::ToString() const
 {
-    String ret(Object::TypeNameFromType(_type));
+    String ret(AObject::TypeNameFromType(_type));
     for (auto it = _names.Begin(); it != _names.End(); ++it)
     {
         ret += ";";

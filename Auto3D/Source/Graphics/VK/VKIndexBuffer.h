@@ -8,7 +8,7 @@ namespace Auto3D
 {
 
 /// GPU buffer for index data.
-class AUTO_API IndexBuffer : public RefCounted, public GPUObject
+class AUTO_API IndexBuffer : public ARefCounted, public GPUObject
 {
 public:
 	/// Construct.

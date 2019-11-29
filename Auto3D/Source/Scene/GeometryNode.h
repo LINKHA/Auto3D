@@ -67,7 +67,7 @@ struct AUTO_API GeometryDesc
 };
 
 /// Description of geometry to be rendered. %Scene nodes that render the same object can share these to reduce memory load and allow instancing.
-class AUTO_API Geometry : public RefCounted
+class AUTO_API Geometry : public ARefCounted
 {
 public:
     /// Default-construct.

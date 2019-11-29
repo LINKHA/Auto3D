@@ -45,9 +45,9 @@ public:
 };
 
 /// Operating system _window, Win32 implementation.
-class AUTO_API Window : public Object
+class AUTO_API Window : public AObject
 {
-	REGISTER_OBJECT_CLASS(Window, Object)
+	REGISTER_OBJECT_CLASS(Window, AObject)
 
 #ifdef AUTO_OPENGL
 	friend class GLContext;

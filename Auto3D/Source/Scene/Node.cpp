@@ -234,7 +234,7 @@ void Node::DefineTag(unsigned char index, const String& name)
 
 Node* Node::CreateChild(StringHash childType)
 {
-    SharedPtr<Object> newObject = Create(childType);
+    SharedPtr<AObject> newObject = Create(childType);
     if (!newObject)
     {
         ErrorString("Could not create child node of unknown type " + childType.ToString());

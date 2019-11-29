@@ -9,9 +9,9 @@ namespace Auto3D
 class Stream;
 
 /// Base class for resources.
-class AUTO_API Resource : public Object
+class AUTO_API Resource : public AObject
 {
-    REGISTER_OBJECT_CLASS(Resource,Object)
+    REGISTER_OBJECT_CLASS(Resource,AObject)
 
 public:
     /// Load the resource data from a stream. May be executed outside the main thread, should not access GPU resources. Return true on success.

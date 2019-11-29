@@ -14,7 +14,7 @@ class AUTO_API EventHandler
 {
 public:
     /// Construct with receiver object pointer.
-    EventHandler(RefCounted* receiver);
+    EventHandler(ARefCounted* receiver);
     /// Destruct.
     virtual ~EventHandler();
 
@@ -22,11 +22,11 @@ public:
     virtual void Invoke(Event& event) = 0;
 
     /// Return the receiver object.
-    RefCounted* Receiver() const { return _receiver.Get(); }
+    ARefCounted* Receiver() const { return _receiver.Get(); }
 
 protected:
     /// Receiver object.
-    WeakPtr<RefCounted> _receiver;
+    WeakPtr<ARefCounted> _receiver;
 };
 
 /// Template implementation of the event handler invoke helper, stores a function pointer of specific class.
@@ -36,7 +36,7 @@ public:
     typedef void (_Ty::*HandlerFunctionPtr)(_Event&);
 
     /// Construct with receiver and function pointers.
-    EventHandlerImpl(RefCounted* receiver, HandlerFunctionPtr function) :
+    EventHandlerImpl(ARefCounted* receiver, HandlerFunctionPtr function) :
         EventHandler(receiver),
         _function(function)
     {
@@ -71,24 +71,24 @@ public:
 
 
     /// Send the _event.
-    void Send(RefCounted* sender);
+    void Send(ARefCounted* sender);
     /// Subscribe to the _event. The _event takes ownership of the handler data. If there is already handler data for the same receiver, it is overwritten.
     void Subscribe(EventHandler* handler);
     /// Unsubscribe from the _event.
-    void Unsubscribe(RefCounted* receiver);
+    void Unsubscribe(ARefCounted* receiver);
 
     /// Return whether has at least one _valid receiver.
     bool HasReceivers() const;
     /// Return whether has a specific receiver.
-    bool HasReceiver(const RefCounted* receiver) const;
+    bool HasReceiver(const ARefCounted* receiver) const;
     /// Return current sender.
-    RefCounted* Sender() const { return _currentSender; }
+    ARefCounted* Sender() const { return _currentSender; }
 
 private:
     /// Event handlers.
     Vector<AutoPtr<EventHandler> > _handlers;
     /// Current sender.
-    WeakPtr<RefCounted> _currentSender;
+    WeakPtr<ARefCounted> _currentSender;
 };
 
 }
