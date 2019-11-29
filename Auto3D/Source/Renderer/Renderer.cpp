@@ -603,7 +603,7 @@ void Renderer::RenderBatches(const FString& pass)
 
 void Renderer::Initialize()
 {
-	_graphics = ModuleManager::Get().GraphicsModule();
+	_graphics = GModuleManager::Get().GraphicsModule();
     assert(_graphics && _graphics->IsInitialized());
 
     TVector<Constant> constants;
@@ -1007,7 +1007,7 @@ void Renderer::LoadPassShaders(Pass* pass)
 {
     PROFILE(LoadPassShaders);
 
-	ResourceCache* cache = ModuleManager::Get().CacheModule();
+	ResourceCache* cache = GModuleManager::Get().CacheModule();
     // Use different extensions for GLSL & HLSL shaders
     #ifdef AUTO_OPENGL
     pass->_shaders[ShaderStage::VS] = cache->LoadResource<Shader>(pass->GetShaderName(ShaderStage::VS) + ".vert");

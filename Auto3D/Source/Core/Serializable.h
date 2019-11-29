@@ -6,20 +6,20 @@
 namespace Auto3D
 {
 
-class ObjectResolver;
+class FObjectResolver;
 
 /// Base class for objects with automatic serialization using attributes.
-class AUTO_API Serializable : public AObject
+class AUTO_API ASerializable : public AObject
 {
 public:
 	/// Destructor
-	virtual ~Serializable() {}
+	virtual ~ASerializable() {}
     /// Load from binary stream. Store object ref attributes to be resolved later.
-    virtual void Load(Stream& source, ObjectResolver& resolver);
+    virtual void Load(Stream& source, FObjectResolver& resolver);
     /// Save to binary stream.
     virtual void Save(Stream& dest);
     /// Load from JSON data. Optionally store object ref attributes to be resolved later.
-    virtual void LoadJSON(const JSONValue& source, ObjectResolver& resolver);
+    virtual void LoadJSON(const JSONValue& source, FObjectResolver& resolver);
     /// Save as JSON data.
     virtual void SaveJSON(JSONValue& dest);
     /// Return _id for referring to the object in serialization.

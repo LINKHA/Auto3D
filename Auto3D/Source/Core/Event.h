@@ -7,19 +7,19 @@
 namespace Auto3D
 {
 
-class Event;
+class FEvent;
 
 /// Internal helper class for invoking event handler functions.
-class AUTO_API EventHandler
+class AUTO_API FEventHandler
 {
 public:
     /// Construct with receiver object pointer.
-    EventHandler(FRefCounted* receiver);
+    FEventHandler(FRefCounted* receiver);
     /// Destruct.
-    virtual ~EventHandler();
+    virtual ~FEventHandler();
 
     /// Invoke the handler function. Implemented by subclasses.
-    virtual void Invoke(Event& event) = 0;
+    virtual void Invoke(FEvent& event) = 0;
 
     /// Return the receiver object.
     FRefCounted* Receiver() const { return _receiver.Get(); }
@@ -30,21 +30,21 @@ protected:
 };
 
 /// Template implementation of the event handler invoke helper, stores a function pointer of specific class.
-template <typename _Ty, typename _Event> class EventHandlerImpl : public EventHandler
+template <typename _Ty, typename _Event> class TEventHandlerImpl : public FEventHandler
 {
 public:
     typedef void (_Ty::*HandlerFunctionPtr)(_Event&);
 
     /// Construct with receiver and function pointers.
-    EventHandlerImpl(FRefCounted* receiver, HandlerFunctionPtr function) :
-        EventHandler(receiver),
+    TEventHandlerImpl(FRefCounted* receiver, HandlerFunctionPtr function) :
+        FEventHandler(receiver),
         _function(function)
     {
         assert(_function);
     }
 
     /// Invoke the handler function.
-    void Invoke(Event& event) override
+    void Invoke(FEvent& event) override
     {
         _Ty* typedReceiver = static_cast<_Ty*>(_receiver.Get());
 		_Event& typedEvent = static_cast<_Event&>(event);
@@ -57,23 +57,23 @@ private:
 };
 
 /// Notification and data passing mechanism, to which objects can subscribe by specifying a handler function. Subclass to include _event-specific data.
-class AUTO_API Event
+class AUTO_API FEvent
 {
 public:
     /// Construct.
-    Event();
+    FEvent();
     /// Destruct.
-    virtual ~Event();
+    virtual ~FEvent();
 	/// Prevent copy construction.
-	Event(const Event& rhs) = delete;
+	FEvent(const FEvent& rhs) = delete;
 	/// Prevent assignment.
-	Event& operator = (const Event& rhs) = delete;
+	FEvent& operator = (const FEvent& rhs) = delete;
 
 
     /// Send the _event.
     void Send(FRefCounted* sender);
     /// Subscribe to the _event. The _event takes ownership of the handler data. If there is already handler data for the same receiver, it is overwritten.
-    void Subscribe(EventHandler* handler);
+    void Subscribe(FEventHandler* handler);
     /// Unsubscribe from the _event.
     void Unsubscribe(FRefCounted* receiver);
 
@@ -85,8 +85,8 @@ public:
     FRefCounted* Sender() const { return _currentSender; }
 
 private:
-    /// Event handlers.
-    TVector<TAutoPtr<EventHandler> > _handlers;
+    /// FEvent handlers.
+    TVector<TAutoPtr<FEventHandler> > _handlers;
     /// Current sender.
     TWeakPtr<FRefCounted> _currentSender;
 };

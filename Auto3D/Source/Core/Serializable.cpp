@@ -9,9 +9,9 @@
 namespace Auto3D
 {
 
-THashMap<FStringHash, TVector<TSharedPtr<FAttribute> > > Serializable::_classAttributes;
+THashMap<FStringHash, TVector<TSharedPtr<FAttribute> > > ASerializable::_classAttributes;
 
-void Serializable::Load(Stream& source, ObjectResolver& resolver)
+void ASerializable::Load(Stream& source, FObjectResolver& resolver)
 {
     const TVector<TSharedPtr<FAttribute> >* attributes = Attributes();
     if (!attributes)
@@ -44,7 +44,7 @@ void Serializable::Load(Stream& source, ObjectResolver& resolver)
     }
 }
 
-void Serializable::Save(Stream& dest)
+void ASerializable::Save(Stream& dest)
 {
     const TVector<TSharedPtr<FAttribute> >* attributes = Attributes();
     if (!attributes)
@@ -59,7 +59,7 @@ void Serializable::Save(Stream& dest)
     }
 }
 
-void Serializable::LoadJSON(const JSONValue& source, ObjectResolver& resolver)
+void ASerializable::LoadJSON(const JSONValue& source, FObjectResolver& resolver)
 {
     const TVector<TSharedPtr<FAttribute> >* attributes = Attributes();
     if (!attributes || !source.IsObject() || !source.Size())
@@ -70,7 +70,7 @@ void Serializable::LoadJSON(const JSONValue& source, ObjectResolver& resolver)
     for (auto it = attributes->Begin(); it != attributes->End(); ++it)
     {
         FAttribute* attr = *it;
-        auto jsonIt = object.Find(attr->Name());
+        auto jsonIt = object.Find(attr->FName());
         if (jsonIt != object.End())
         {
             // Store object refs to the resolver instead of immediately setting
@@ -82,7 +82,7 @@ void Serializable::LoadJSON(const JSONValue& source, ObjectResolver& resolver)
     }
 }
 
-void Serializable::SaveJSON(JSONValue& dest)
+void ASerializable::SaveJSON(JSONValue& dest)
 {
     const TVector<TSharedPtr<FAttribute> >* attributes = Attributes();
     if (!attributes)
@@ -93,34 +93,34 @@ void Serializable::SaveJSON(JSONValue& dest)
         FAttribute* attr = attributes->At(i);
         // For better readability, do not save default-valued attributes to JSON
         if (!attr->IsDefault(this))
-            attr->ToJSON(this, dest[attr->Name()]);
+            attr->ToJSON(this, dest[attr->FName()]);
     }
 }
 
-void Serializable::SetAttributeValue(FAttribute* attr, const void* source)
+void ASerializable::SetAttributeValue(FAttribute* attr, const void* source)
 {
     if (attr)
         attr->FromValue(this, source);
 }
 
-void Serializable::AttributeValue(FAttribute* attr, void* dest)
+void ASerializable::AttributeValue(FAttribute* attr, void* dest)
 {
     if (attr)
         attr->ToValue(this, dest);
 }
 
-const TVector<TSharedPtr<FAttribute> >* Serializable::Attributes() const
+const TVector<TSharedPtr<FAttribute> >* ASerializable::Attributes() const
 {
     auto it = _classAttributes.Find(GetType());
     return it != _classAttributes.End() ? &it->_second : nullptr;
 }
 
-FAttribute* Serializable::FindAttribute(const FString& name) const
+FAttribute* ASerializable::FindAttribute(const FString& name) const
 {
     return FindAttribute(name.CString());
 }
 
-FAttribute* Serializable::FindAttribute(const char* name) const
+FAttribute* ASerializable::FindAttribute(const char* name) const
 {
     const TVector<TSharedPtr<FAttribute> >* attributes = Attributes();
     if (!attributes)
@@ -129,19 +129,19 @@ FAttribute* Serializable::FindAttribute(const char* name) const
     for (size_t i = 0; i < attributes->Size(); ++i)
     {
         FAttribute* attr = attributes->At(i);
-        if (attr->Name() == name)
+        if (attr->FName() == name)
             return attr;
     }
     
     return nullptr;
 }
 
-void Serializable::RegisterAttribute(FStringHash type, FAttribute* attr)
+void ASerializable::RegisterAttribute(FStringHash type, FAttribute* attr)
 {
     TVector<TSharedPtr<FAttribute> >& attributes = _classAttributes[type];
     for (size_t i = 0; i < attributes.Size(); ++i)
     {
-        if (attributes[i]->Name() == attr->Name())
+        if (attributes[i]->FName() == attr->FName())
         {
             attributes.Insert(i, attr);
             return;
@@ -151,7 +151,7 @@ void Serializable::RegisterAttribute(FStringHash type, FAttribute* attr)
     attributes.Push(attr);
 }
 
-void Serializable::CopyBaseAttributes(FStringHash type, FStringHash baseType)
+void ASerializable::CopyBaseAttributes(FStringHash type, FStringHash baseType)
 {
     // Make sure the types are different, which may not be true if the OBJECT macro has been omitted
     if (type != baseType)
@@ -162,7 +162,7 @@ void Serializable::CopyBaseAttributes(FStringHash type, FStringHash baseType)
     }
 }
 
-void Serializable::CopyBaseAttribute(FStringHash type, FStringHash baseType, const FString& name)
+void ASerializable::CopyBaseAttribute(FStringHash type, FStringHash baseType, const FString& name)
 {
     // Make sure the types are different, which may not be true if the OBJECT macro has been omitted
     if (type != baseType)
@@ -170,7 +170,7 @@ void Serializable::CopyBaseAttribute(FStringHash type, FStringHash baseType, con
         TVector<TSharedPtr<FAttribute> >& attributes = _classAttributes[baseType];
         for (size_t i = 0; i < attributes.Size(); ++i)
         {
-            if (attributes[i]->Name() == name)
+            if (attributes[i]->FName() == name)
             {
                 RegisterAttribute(type, attributes[i]);
                 break;
@@ -179,7 +179,7 @@ void Serializable::CopyBaseAttribute(FStringHash type, FStringHash baseType, con
     }
 }
 
-void Serializable::Skip(Stream& source)
+void ASerializable::Skip(Stream& source)
 {
     size_t numAttrs = source.ReadVLE();
     for (size_t i = 0; i < numAttrs; ++i)

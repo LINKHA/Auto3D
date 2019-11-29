@@ -6,14 +6,14 @@ namespace Auto3D
 {
 
 class FAttribute;
-class Serializable;
+class ASerializable;
 struct ObjectRef;
 
 /// Stored object ref attribute.
-struct AUTO_API StoredObjectRef
+struct AUTO_API FStoredObjectRef
 {
     /// Construct undefined.
-    StoredObjectRef() :
+    FStoredObjectRef() :
         _object(nullptr),
         _attr(nullptr),
         _oldId(0)
@@ -21,7 +21,7 @@ struct AUTO_API StoredObjectRef
     }
 
     /// Construct with values.
-    StoredObjectRef(Serializable* object, FAttribute* attr, unsigned oldId) :
+    FStoredObjectRef(ASerializable* object, FAttribute* attr, unsigned oldId) :
         _object(object),
         _attr(attr),
         _oldId(oldId)
@@ -29,7 +29,7 @@ struct AUTO_API StoredObjectRef
     }
 
     /// %AObject that contains the attribute.
-    Serializable* _object;
+    ASerializable* _object;
     /// Description of the object ref attribute.
     FAttribute* _attr;
     /// Old _id from the serialized data.
@@ -37,21 +37,21 @@ struct AUTO_API StoredObjectRef
 };
 
 /// Helper class for resolving object ref attributes when loading a scene.
-class AUTO_API ObjectResolver
+class AUTO_API FObjectResolver
 {
 public:
     /// Store an object along with its old _id from the serialized data.
-    void StoreObject(unsigned oldId, Serializable* object);
+    void StoreObject(unsigned oldId, ASerializable* object);
     /// Store an object ref attribute that needs to be resolved later.
-    void StoreObjectRef(Serializable* object, FAttribute* attr, const ObjectRef& value);
+    void StoreObjectRef(ASerializable* object, FAttribute* attr, const ObjectRef& value);
     /// Resolve the object ref attributes.
     void Resolve();
 
 private:
     /// Mapping of old _id's to objects.
-    THashMap<unsigned, Serializable*> _objects;
+    THashMap<unsigned, ASerializable*> _objects;
     /// Stored object ref attributes.
-    TVector<StoredObjectRef> _objectRefs;
+    TVector<FStoredObjectRef> _objectRefs;
 };
 
 }

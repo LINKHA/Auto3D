@@ -50,7 +50,7 @@ static GLuint g_cubemap;
 
 DynamicModel::DynamicModel()
 {
-	//ModuleManager::Get().RendererModule()->SetupWaterTextures(1, 1024, ImageFormat::RGB32F);
+	//GModuleManager::Get().RendererModule()->SetupWaterTextures(1, 1024, ImageFormat::RGB32F);
 }
 
 DynamicModel::~DynamicModel()
@@ -149,7 +149,7 @@ static ShaderVariation* waterPSV = nullptr;
 
 bool DynamicModel::init()
 {
-	auto* graphics = ModuleManager::Get().GraphicsModule();
+	auto* graphics = GModuleManager::Get().GraphicsModule();
 	//graphics->SetGraphicsDebug(GraphicsDebugType::LINE);
 
 	GLfloat* points = (GLfloat*)malloc(WATER_PLANE_LENGTH * WATER_PLANE_LENGTH * 4 * sizeof(GLfloat));
@@ -187,7 +187,7 @@ bool DynamicModel::init()
 		}
 	}
 
-	auto cache = ModuleManager::Get().CacheModule();
+	auto cache = GModuleManager::Get().CacheModule();
 	waterVSV = cache->LoadResource<Shader>("Shader/Water/Water.vert")->CreateVariation();
 	waterPSV = cache->LoadResource<Shader>("Shader/Water/Water.frag")->CreateVariation();
 
@@ -209,7 +209,7 @@ bool DynamicModel::init()
 	free(indices);
 
 
-	Texture* cubeMap = ModuleManager::Get().RegisteredBoxModule()->GetActiveScene()->GetSkyBox()->GetMaterial(0)->GetTexture(0);
+	Texture* cubeMap = GModuleManager::Get().RegisteredBoxModule()->GetActiveScene()->GetSkyBox()->GetMaterial(0)->GetTexture(0);
 	g_cubemap = cubeMap->GetGLTexture();
 	//
 
@@ -262,7 +262,7 @@ void DynamicModel::reshape(unsigned width,unsigned height)
 
 	reshapeWaterTexture(width, height);
 
-	auto graphics = ModuleManager::Get().GraphicsModule();
+	auto graphics = GModuleManager::Get().GraphicsModule();
 
 	graphics->SetShaders(waterVSV, waterPSV);
 	ShaderProgram* waterProgram = graphics->Shaderprogram();
@@ -313,7 +313,7 @@ void DynamicModel::renderWater(float passedTime)
 	waveDirections[3].x = -0.2f;
 	waveDirections[3].z = -0.1f;
 
-	auto graphics = ModuleManager::Get().GraphicsModule();
+	auto graphics = GModuleManager::Get().GraphicsModule();
 
 	graphics->SetShaders(waterVSV, waterPSV);
 	ShaderProgram* waterProgram = graphics->Shaderprogram();
@@ -373,7 +373,7 @@ bool DynamicModel::update(float time)
 
 void DynamicModel::AAA()
 {
-	auto window = ModuleManager::Get().GraphicsModule()->RenderWindow();
+	auto window = GModuleManager::Get().GraphicsModule()->RenderWindow();
 	init();
 	reshape(window->GetWidth(), window->GetHeight());
 }

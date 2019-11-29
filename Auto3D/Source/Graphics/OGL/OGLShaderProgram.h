@@ -13,7 +13,7 @@ class ShaderVariation;
 /// Description of a shader's vertex attribute.
 struct AUTO_API VertexAttribute
 {
-    /// Name of attribute.
+    /// FName of attribute.
     FString _name;
     /// FAttribute binding point. 
     unsigned _location;

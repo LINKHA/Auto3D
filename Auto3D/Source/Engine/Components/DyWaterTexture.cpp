@@ -56,7 +56,7 @@ GLUSuint initWaterTexture(GLUSfloat waterPlaneLength)
 
 	GLUSshape plane;
 
-	auto cache = ModuleManager::Get().CacheModule();
+	auto cache = GModuleManager::Get().CacheModule();
 
 	waterTextureVSV = cache->LoadResource<Shader>("Shader/Water/WaterTexture.vert")->CreateVariation();
 	waterTexturePSV = cache->LoadResource<Shader>("Shader/Water/WaterTexture.frag")->CreateVariation();
@@ -136,7 +136,7 @@ GLUSuint initWaterTexture(GLUSfloat waterPlaneLength)
 	GLfloat modelViewMatrixWaterTexture[16];
 
 
-	auto graphics = ModuleManager::Get().GraphicsModule();
+	auto graphics = GModuleManager::Get().GraphicsModule();
 	graphics->SetShaders(waterTextureVSV, waterTexturePSV);
 	ShaderProgram* waterTextureProgram = graphics->Shaderprogram();
 
@@ -233,7 +233,7 @@ GLUSboolean renderWaterTexture(GLUSfloat passedTime)
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	auto graphics = ModuleManager::Get().GraphicsModule();
+	auto graphics = GModuleManager::Get().GraphicsModule();
 	graphics->SetShaders(waterTextureVSV, waterTexturePSV);
 	ShaderProgram* waterTextureProgram = graphics->Shaderprogram();
 

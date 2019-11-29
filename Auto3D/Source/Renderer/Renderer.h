@@ -98,7 +98,7 @@ public:
     TSharedPtr<ConstantBuffer> _psLightConstantBuffer;
 
 	/// Start up event;
-	Event _startUpEvent;
+	FEvent _startUpEvent;
 private:
     /// Initialize. Needs the Graphics subsystem and rendering context to exist.
     void Initialize();

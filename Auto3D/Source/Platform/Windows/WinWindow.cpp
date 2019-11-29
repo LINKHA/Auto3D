@@ -432,7 +432,7 @@ const Vector2I Window::GetPosition() const
 
 bool Window::OnWindowMessage(unsigned msg, unsigned wParam, unsigned lParam)
 {
-	Input* input = ModuleManager::Get().InputModule();
+	Input* input = GModuleManager::Get().InputModule();
 	bool handled = false;
 
 	// Skip emulated mouse events that are caused by touch

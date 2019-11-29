@@ -5,13 +5,13 @@
 namespace Auto3D
 {
 
-class ModuleManager;
+class GModuleManager;
 class ResourceCache;
 class Graphics;
 class Renderer;
 class Input;
-class Log;
-class Profiler;
+class ALog;
+class AProfiler;
 class Time;
 class RegisteredBox;
 class Script;
@@ -20,17 +20,17 @@ class Physics;
 class FileSystem;
 class UI;
 
-class AUTO_API Engine : public AObject
+class AUTO_API AEngine : public AObject
 {
-	REGISTER_OBJECT_CLASS(Engine, AObject)
+	REGISTER_OBJECT_CLASS(AEngine, AObject)
 public:
 	/// Construct
-	Engine();
+	AEngine();
 	/// Cestructor
-	~Engine();
+	~AEngine();
 	/// Init engine, Register some SubSystem
 	bool Init();
-	/// Engine normal exit
+	/// AEngine normal exit
 	void Exit();
 	/// Render geometry
 	void Render();
@@ -41,7 +41,7 @@ public:
 
 	/// Shut down engine
 	void ShutDownEngine() { _exiting = true; }
-	/// Engine exit flag
+	/// AEngine exit flag
 	bool IsExiting()const { return _exiting; }
 	/// Set minimum frames per second. If FPS goes lower than this, time will appear to slow down.
 	void SetMinFps(int fps);
@@ -109,10 +109,10 @@ private:
 	Renderer* _renderer;
 	/// User input management events
 	Input* _input;
-	/// Engine Log
-	Log* _log;
+	/// AEngine ALog
+	ALog* _log;
 	/// Hierarchical performance profiler subsystem.
-	Profiler* _profiler;
+	AProfiler* _profiler;
 	/// Process all engine time, calculate FPS, etc
 	Time* _time;
 	/// The message management mechanism for the underlying interaction between the game project and the engine

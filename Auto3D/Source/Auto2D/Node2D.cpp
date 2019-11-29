@@ -35,10 +35,10 @@ void Node2D::RegisterObject()
 }
 
 
-void Node2D::Load(Stream& source, ObjectResolver& resolver)
+void Node2D::Load(Stream& source, FObjectResolver& resolver)
 {
 	// Type and _id has been read by the parent
-	Serializable::Load(source, resolver);
+	ASerializable::Load(source, resolver);
 
 	size_t numChildren = source.ReadVLE();
 	for (size_t i = 0; i < numChildren; ++i)
@@ -64,7 +64,7 @@ void Node2D::Save(Stream& dest)
 	// Write type and ID first, followed by attributes and child nodes
 	dest.Write(GetType());
 	dest.Write(Id());
-	Serializable::Save(dest);
+	ASerializable::Save(dest);
 	dest.WriteVLE(NumPersistentChildren());
 
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
@@ -75,10 +75,10 @@ void Node2D::Save(Stream& dest)
 	}
 }
 
-void Node2D::LoadJSON(const JSONValue& source, ObjectResolver& resolver)
+void Node2D::LoadJSON(const JSONValue& source, FObjectResolver& resolver)
 {
 	// Type and _id has been read by the parent
-	Serializable::LoadJSON(source, resolver);
+	ASerializable::LoadJSON(source, resolver);
 
 	const JSONArray& children = source["children"].GetArray();
 	if (children.Size())
@@ -102,7 +102,7 @@ void Node2D::SaveJSON(JSONValue& dest)
 {
 	dest["type"] = GetTypeName();
 	dest["id"] = Id();
-	Serializable::SaveJSON(dest);
+	ASerializable::SaveJSON(dest);
 
 	if (NumPersistentChildren())
 	{
@@ -586,7 +586,7 @@ void Node2D::SetId(unsigned newId)
 
 void Node2D::SkipHierarchy(Stream& source)
 {
-	Serializable::Skip(source);
+	ASerializable::Skip(source);
 
 	size_t numChildren = source.ReadVLE();
 	for (size_t i = 0; i < numChildren; ++i)

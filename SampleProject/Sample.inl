@@ -1,6 +1,6 @@
 void Sample::Init()
 {
-	auto* graphics = ModuleManager::Get().GraphicsModule();
+	auto* graphics = GModuleManager::Get().GraphicsModule();
 	// Set window mode
 	WindowModeDesc& windowModeDesc = graphics->RenderWindow()->ModeDesc();
 	windowModeDesc._size = RectI(0, 0, 1024, 768);
@@ -13,7 +13,7 @@ void Sample::Init()
 }
 void Sample::Start()
 {
-	auto* cache = ModuleManager::Get().CacheModule();
+	auto* cache = GModuleManager::Get().CacheModule();
 	scene2d = new Scene2D();
 
 	//Do not set this Layer or tag, which is generated automatically inside the engine. 
@@ -36,10 +36,10 @@ void Sample::Start()
 }
 void Sample::Update()
 {
-	if (ModuleManager::Get().InputModule()->IsKeyPress(KEY_ESCAPE))
+	if (GModuleManager::Get().InputModule()->IsKeyPress(KEY_ESCAPE))
 	{
 		// Closing the render window responds to the engine closing
-		ModuleManager::Get().GraphicsModule()->RenderWindow()->Close();
+		GModuleManager::Get().GraphicsModule()->RenderWindow()->Close();
 	}
 }
 
@@ -48,7 +48,7 @@ void Sample::Stop()
 }
 void Sample::CreateLogo()
 {
-	auto* cache = ModuleManager::Get().CacheModule();
+	auto* cache = GModuleManager::Get().CacheModule();
 	Sprite2D* logoLong = scene2d->CreateChild<Sprite2D>();
 	logoLong->SetTexture(cache->LoadResource<Texture>("Texture/logoLong.png"));
 	logoLong->SetScale(Vector3F(3.0f, 0.8f, 1.0f));

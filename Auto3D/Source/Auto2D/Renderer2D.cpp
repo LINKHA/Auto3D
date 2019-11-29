@@ -161,8 +161,8 @@ void Renderer2D::RenderBatches()
 
 void Renderer2D::Initialize()
 {
-	auto* graphics = ModuleManager::Get().GraphicsModule();
-	auto* cache = ModuleManager::Get().CacheModule();
+	auto* graphics = GModuleManager::Get().GraphicsModule();
+	auto* cache = GModuleManager::Get().CacheModule();
 	assert(!_graphics && !IsInitialized());
 
 	PROFILE(InitRenderer2D);

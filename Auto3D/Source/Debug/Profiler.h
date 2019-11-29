@@ -11,13 +11,13 @@ namespace Auto3D
 {
 
 /// Profiling data for one block in the profiling tree.
-class AUTO_API ProfilerBlock
+class AUTO_API FProfilerBlock
 {
 public:
 	/// Construct.
-	ProfilerBlock(ProfilerBlock* parent, const char* name);
+	FProfilerBlock(FProfilerBlock* parent, const char* name);
 	/// Destruct.
-	~ProfilerBlock();
+	~FProfilerBlock();
 
 	/// Start time measurement and increment call count.
 	void Begin();
@@ -28,16 +28,16 @@ public:
 	/// Begin an interval lasting several frames.
 	void BeginInterval();
 	/// Return a child block; create if necessary.
-	ProfilerBlock* FindOrCreateChild(const char* name);
+	FProfilerBlock* FindOrCreateChild(const char* name);
 
 	/// Block name.
 	const char* _name;
 	/// Hires timer for time measurement.
 	HiresTimer _timer;
 	/// Parent block.
-	ProfilerBlock* _parent;
+	FProfilerBlock* _parent;
 	/// Child blocks.
-	TVector<TAutoPtr<ProfilerBlock > > _children;
+	TVector<TAutoPtr<FProfilerBlock > > _children;
 	/// Current frame's accumulated time.
 	long long _time;
 	/// Current frame's longest call.
@@ -65,15 +65,15 @@ public:
 };
 
 /// Hierarchical performance profiler subsystem.
-class AUTO_API Profiler : public ABaseModule
+class AUTO_API AProfiler : public ABaseModule
 {
-	REGISTER_OBJECT_CLASS(Profiler, ABaseModule)
+	REGISTER_OBJECT_CLASS(AProfiler, ABaseModule)
 
 public:
 	/// Construct.
-	Profiler();
+	AProfiler();
 	/// Destruct.
-	~Profiler();
+	~AProfiler();
 
 	/// Begin a profiling block. The name must be persistent; string literals are recommended.
 	void BeginBlock(const char* name);
@@ -89,18 +89,18 @@ public:
 	/// Output results into a string.
 	FString OutputResults(bool showUnused = false, bool showTotal = false, size_t maxDepth = M_MAX_UNSIGNED) const;
 	/// Return the current profiling block.
-	const ProfilerBlock* CurrentBlock() const { return _current; }
+	const FProfilerBlock* CurrentBlock() const { return _current; }
 	/// Return the root profiling block.
-	const ProfilerBlock* RootBlock() const { return _root; }
+	const FProfilerBlock* RootBlock() const { return _root; }
 
 private:
 	/// Output results recursively.
-	void OutputResults(ProfilerBlock* block, FString& output, size_t depth, size_t maxDepth, bool showUnused, bool showTotal) const;
+	void OutputResults(FProfilerBlock* block, FString& output, size_t depth, size_t maxDepth, bool showUnused, bool showTotal) const;
 
 	/// Current profiling block.
-	ProfilerBlock* _current;
+	FProfilerBlock* _current;
 	/// Root profiling block.
-	TAutoPtr<ProfilerBlock> _root;
+	TAutoPtr<FProfilerBlock> _root;
 	/// Frames in the current interval.
 	size_t _intervalFrames;
 	/// Total frames since start.
@@ -114,7 +114,7 @@ public:
 	/// Construct and begin a profiling block. The name must be persistent; string literals are recommended.
 	AutoProfileBlock(const char* name)
 	{
-		_profiler = ModuleManager::Get().ProfilerModule();
+		_profiler = GModuleManager::Get().ProfilerModule();
 		if (_profiler)
 			_profiler->BeginBlock(name);
 	}
@@ -127,8 +127,8 @@ public:
 	}
 
 private:
-	/// Profiler subsystem.
-	Profiler* _profiler;
+	/// AProfiler subsystem.
+	AProfiler* _profiler;
 };
 
 #ifdef AUTO_PROFILING

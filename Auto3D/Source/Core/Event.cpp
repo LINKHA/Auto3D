@@ -7,24 +7,24 @@
 namespace Auto3D
 {
 
-EventHandler::EventHandler(FRefCounted* receiver_) :
+FEventHandler::FEventHandler(FRefCounted* receiver_) :
     _receiver(receiver_)
 {
 }
 
-EventHandler::~EventHandler()
+FEventHandler::~FEventHandler()
 {
 }
 
-Event::Event()
+FEvent::FEvent()
 {
 }
 
-Event::~Event()
+FEvent::~FEvent()
 {
 }
 
-void Event::Send(FRefCounted* sender)
+void FEvent::Send(FRefCounted* sender)
 {
     if (!Thread::IsMainThread())
     {
@@ -39,7 +39,7 @@ void Event::Send(FRefCounted* sender)
     
     for (auto it = _handlers.Begin(); it != _handlers.End();)
     {
-        EventHandler* handler = *it;
+        FEventHandler* handler = *it;
         bool remove = true;
         
         if (handler)
@@ -64,7 +64,7 @@ void Event::Send(FRefCounted* sender)
     _currentSender.Reset();
 }
 
-void Event::Subscribe(EventHandler* handler)
+void FEvent::Subscribe(FEventHandler* handler)
 {
     if (!handler)
         return;
@@ -72,7 +72,7 @@ void Event::Subscribe(EventHandler* handler)
     // Check if the same receiver already exists; in that case replace the handler data
     for (auto it = _handlers.Begin(); it != _handlers.End(); ++it)
     {
-        EventHandler* existing = *it;
+        FEventHandler* existing = *it;
         if (existing && existing->Receiver() == handler->Receiver())
         {
             *it = handler;
@@ -83,11 +83,11 @@ void Event::Subscribe(EventHandler* handler)
     _handlers.Push(handler);
 }
 
-void Event::Unsubscribe(FRefCounted* receiver)
+void FEvent::Unsubscribe(FRefCounted* receiver)
 {
     for (auto it = _handlers.Begin(); it != _handlers.End(); ++it)
     {
-        EventHandler* handler = *it;
+        FEventHandler* handler = *it;
         if (handler && handler->Receiver() == receiver)
         {
             // If _event sending is going on, only clear the pointer but do not remove the element from the handler vector
@@ -101,11 +101,11 @@ void Event::Unsubscribe(FRefCounted* receiver)
     }
 }
 
-bool Event::HasReceivers() const
+bool FEvent::HasReceivers() const
 {
     for (auto it = _handlers.Begin(); it != _handlers.End(); ++it)
     {
-        EventHandler* handler = *it;
+        FEventHandler* handler = *it;
         if (handler && handler->Receiver())
             return true;
     }
@@ -113,11 +113,11 @@ bool Event::HasReceivers() const
     return false;
 }
 
-bool Event::HasReceiver(const FRefCounted* receiver) const
+bool FEvent::HasReceiver(const FRefCounted* receiver) const
 {
     for (auto it = _handlers.Begin(); it != _handlers.End(); ++it)
     {
-        EventHandler* handler = *it;
+        FEventHandler* handler = *it;
         if (handler && handler->Receiver() == receiver)
             return true;
     }

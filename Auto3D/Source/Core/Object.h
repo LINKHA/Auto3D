@@ -7,7 +7,7 @@
 namespace Auto3D
 {
 
-class FObjectFactory;
+class IObjectFactory;
 template <typename _Ty> class TObjectFactoryImpl;
 
 
@@ -91,20 +91,20 @@ public:
 	template<typename _Ty> const _Ty* Cast() const { return IsInstanceOf<_Ty>() ? static_cast<const _Ty*>(this) : nullptr; }
 
 	/// Subscribe to an _event.
-    void SubscribeToEvent(Event& event, EventHandler* handler);
+    void SubscribeToEvent(FEvent& event, FEventHandler* handler);
     /// Unsubscribe from an _event.
-    void UnsubscribeFromEvent(Event& event);
+    void UnsubscribeFromEvent(FEvent& event);
     /// Send an _event.
-    void SendEvent(Event& event);
+    void SendEvent(FEvent& event);
     
     /// Subscribe to an _event, template version.
     template <typename _Ty, typename _Event> void SubscribeToEvent(_Event& event, void (_Ty::*handlerFunction)(_Event&))
     {
-        SubscribeToEvent(event, new EventHandlerImpl<_Ty, _Event>(this, handlerFunction));
+        SubscribeToEvent(event, new TEventHandlerImpl<_Ty, _Event>(this, handlerFunction));
     }
 
     /// Return whether is subscribed to an event.
-    bool IsSubscribedToEvent(const Event& event) const;
+    bool IsSubscribedToEvent(const FEvent& event) const;
     
     /// Register an object as a module that can be accessed globally. Note that the modules container does not own the objects.
     static void RegisterObjectModule(AObject* module);
@@ -115,7 +115,7 @@ public:
     /// Return a subsystem by type, or null if not registered.
     static AObject* ObjectModule(FStringHash type);
     /// Register an object factory.
-    static void RegisterFactory(FObjectFactory* factory);
+    static void RegisterFactory(IObjectFactory* factory);
     /// Create and return an object through a factory. The caller is assumed to take ownership of the object. Return null if no factory registered. 
     static AObject* Create(FStringHash type);
     /// Return a type name from hash, or empty if not known. Requires a registered object factory.
@@ -131,15 +131,15 @@ private:
     /// Registered modules.
     static THashMap<FStringHash, AObject*> _objectModules;
     /// Registered object factories.
-    static THashMap<FStringHash, TAutoPtr<FObjectFactory> > _factories;
+    static THashMap<FStringHash, TAutoPtr<IObjectFactory> > _factories;
 };
 
 /// Base class for object factories.
-class AUTO_API FObjectFactory
+class AUTO_API IObjectFactory
 {
 public:
     /// Destruct.
-    virtual ~FObjectFactory();
+    virtual ~IObjectFactory();
     
     /// Create and return an object.
     virtual AObject* Create() = 0;
@@ -157,7 +157,7 @@ protected:
 };
 
 /// Template implementation of the object factory.
-template <typename _Ty> class TObjectFactoryImpl : public FObjectFactory
+template <typename _Ty> class TObjectFactoryImpl : public IObjectFactory
 {
 public:
     /// Construct.

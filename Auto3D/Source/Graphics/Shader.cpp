@@ -27,7 +27,7 @@ void Shader::RegisterObject()
 
 bool Shader::BeginLoad(Stream& source)
 {
-    FString extension = Extension(source.Name());
+    FString extension = Extension(source.FName());
     _stage = (extension == ".vs" || extension == ".vert") ? ShaderStage::VS : ShaderStage::PS;
     _sourceCode.Clear();
     return ProcessIncludes(_sourceCode, source);
@@ -69,7 +69,7 @@ ShaderVariation* Shader::CreateVariation(const FString& definesIn)
 
 bool Shader::ProcessIncludes(FString& code, Stream& source)
 {
-	ResourceCache* cache = ModuleManager::Get().CacheModule();
+	ResourceCache* cache = GModuleManager::Get().CacheModule();
 
     while (!source.IsEof())
     {
@@ -77,7 +77,7 @@ bool Shader::ProcessIncludes(FString& code, Stream& source)
 
         if (line.StartsWith("#include"))
         {
-            FString includeFileName = Path(source.Name()) + line.Substring(9).Replaced("\"", "").Trimmed();
+            FString includeFileName = Path(source.FName()) + line.Substring(9).Replaced("\"", "").Trimmed();
             TAutoPtr<Stream> includeStream = cache->OpenResource(includeFileName);
             if (!includeStream)
                 return false;

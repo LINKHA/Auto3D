@@ -20,20 +20,20 @@ PhysicsWorld2D::PhysicsWorld2D() :
 	_velocityIterations(DEFAULT_VELOCITY_ITERATIONS),
 	_positionIterations(DEFAULT_POSITION_ITERATIONS)
 {
-	_time = ModuleManager::Get().TimeModule();
+	_time = GModuleManager::Get().TimeModule();
 
 	_world = new b2World(ToB2Vector2(_gravity));
 	_world->SetContactListener(this);
 
 	// Register to the physics subsystem
-	auto physics = ModuleManager::Get().PhysicsModule();
+	auto physics = GModuleManager::Get().PhysicsModule();
 	physics->AddPhysicsWorld2D(this);
 	physics->SetActivePhysicsWrold2D(this);
 }
 
 PhysicsWorld2D::~PhysicsWorld2D()
 {
-	auto physics = ModuleManager::Get().PhysicsModule();
+	auto physics = GModuleManager::Get().PhysicsModule();
 	physics->RemovePhysicsWorld2D(this);
 	physics->SetActivePhysicsWrold2D(nullptr);
 

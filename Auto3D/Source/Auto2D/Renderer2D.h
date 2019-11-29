@@ -41,7 +41,7 @@ public:
 	Renderer2D();
 	/// Destructor
 	~Renderer2D();
-	/// Render the Renderer2D. If render command is false (default), is assumed to be the default Renderer2D render to backbuffer called by Engine, and will be performed only once. Additional Renderer2D renders to a different rendertarget may be triggered from the renderpath.
+	/// Render the Renderer2D. If render command is false (default), is assumed to be the default Renderer2D render to backbuffer called by AEngine, and will be performed only once. Additional Renderer2D renders to a different rendertarget may be triggered from the renderpath.
 	void Render(Scene2D* scene, Camera2D* camera);
 	/// Prepare view of objects and batch
 	bool PrepareView(Scene2D* scend2d, Camera2D* camera);

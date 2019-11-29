@@ -23,7 +23,7 @@ Scene2D::Scene2D() :
 
 	DefineLayer(LAYER_DEFAULT, "Default");
 	DefineTag(TAG_NONE, "None");
-	ModuleManager::Get().RegisteredBoxModule()->RegisterScene2D(this);
+	GModuleManager::Get().RegisteredBoxModule()->RegisterScene2D(this);
 }
 Scene2D::~Scene2D()
 {
@@ -47,7 +47,7 @@ void Scene2D::Save(Stream& dest)
 {
 	PROFILE(SaveScene);
 
-	InfoString("Saving scene to " + dest.Name());
+	InfoString("Saving scene to " + dest.FName());
 
 	dest.WriteFileID("SCNE");
 	Node2D::Save(dest);
@@ -57,7 +57,7 @@ bool Scene2D::Load(Stream& source)
 {
 	PROFILE(LoadScene);
 
-	InfoString("Loading scene from " + source.Name());
+	InfoString("Loading scene from " + source.FName());
 
 	FString fileId = source.ReadFileID();
 	if (fileId != "SCNE")
@@ -76,7 +76,7 @@ bool Scene2D::Load(Stream& source)
 
 	Clear();
 
-	ObjectResolver resolver;
+	FObjectResolver resolver;
 	resolver.StoreObject(ownId, this);
 	Node2D::Load(source, resolver);
 	resolver.Resolve();
@@ -99,7 +99,7 @@ bool Scene2D::LoadJSON(const JSONValue& source)
 
 	Clear();
 
-	ObjectResolver resolver;
+	FObjectResolver resolver;
 	resolver.StoreObject(ownId, this);
 	Node2D::LoadJSON(source, resolver);
 	resolver.Resolve();
@@ -109,7 +109,7 @@ bool Scene2D::LoadJSON(const JSONValue& source)
 
 bool Scene2D::LoadJSON(Stream& source)
 {
-	InfoString("Loading scene from " + source.Name());
+	InfoString("Loading scene from " + source.FName());
 
 	JSONFile json;
 	bool success = json.Load(source);
@@ -121,7 +121,7 @@ bool Scene2D::SaveJSON(Stream& dest)
 {
 	PROFILE(SaveSceneJSON);
 
-	InfoString("Saving scene to " + dest.Name());
+	InfoString("Saving scene to " + dest.FName());
 
 	JSONFile json;
 	Node2D::SaveJSON(json.Root());
@@ -132,7 +132,7 @@ Node2D* Scene2D::Instantiate(Stream& source)
 {
 	PROFILE(Instantiate);
 
-	ObjectResolver resolver;
+	FObjectResolver resolver;
 	FStringHash childType(source.Read<FStringHash>());
 	unsigned childId = source.Read<unsigned>();
 
@@ -151,7 +151,7 @@ Node2D* Scene2D::InstantiateJSON(const JSONValue& source)
 {
 	PROFILE(InstantiateJSON);
 
-	ObjectResolver resolver;
+	FObjectResolver resolver;
 	FStringHash childType(source["type"].GetString());
 	unsigned childId = (unsigned)source["id"].GetNumber();
 

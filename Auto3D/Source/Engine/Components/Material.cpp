@@ -254,7 +254,7 @@ bool Material::EndLoad()
     /// \todo Queue texture loads during BeginLoad()
     ResetTextures();
 
-	ResourceCache* cache = ModuleManager::Get().CacheModule();
+	ResourceCache* cache = GModuleManager::Get().CacheModule();
 
     if (root.Contains("textures"))
     {
@@ -320,7 +320,7 @@ bool Material::Save(Stream& dest)
     for (size_t i = 0; i < MAX_MATERIAL_TEXTURE_UNITS; ++i)
     {
         if (_textures[i])
-            root["textures"][FString((int)i)] = _textures[i]->Name();
+            root["textures"][FString((int)i)] = _textures[i]->FName();
     }
 
     return saveJSON.Save(dest);

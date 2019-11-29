@@ -12,7 +12,7 @@ namespace Auto3D
 static const int LINE_MAX_LENGTH = 256;
 static const int NAME_MAX_LENGTH = 30;
 
-ProfilerBlock::ProfilerBlock(ProfilerBlock* parent, const char* name) :
+FProfilerBlock::FProfilerBlock(FProfilerBlock* parent, const char* name) :
 	_name(name),
 	_parent(parent),
 	_time(0),
@@ -30,17 +30,17 @@ ProfilerBlock::ProfilerBlock(ProfilerBlock* parent, const char* name) :
 {
 }
 
-ProfilerBlock::~ProfilerBlock()
+FProfilerBlock::~FProfilerBlock()
 {
 }
 
-void ProfilerBlock::Begin()
+void FProfilerBlock::Begin()
 {
 	_timer.Reset();
 	++_count;
 }
 
-void ProfilerBlock::End()
+void FProfilerBlock::End()
 {
 	long long currentTime = _timer.ElapsedUSec(false);
 	if (currentTime > _maxTime)
@@ -48,7 +48,7 @@ void ProfilerBlock::End()
 	_time += currentTime;
 }
 
-void ProfilerBlock::EndFrame()
+void FProfilerBlock::EndFrame()
 {
 	_frameTime = _time;
 	_frameMaxTime = _maxTime;
@@ -69,7 +69,7 @@ void ProfilerBlock::EndFrame()
 		(*it)->EndFrame();
 }
 
-void ProfilerBlock::BeginInterval()
+void FProfilerBlock::BeginInterval()
 {
 	_intervalTime = 0;
 	_intervalMaxTime = 0;
@@ -79,7 +79,7 @@ void ProfilerBlock::BeginInterval()
 		(*it)->BeginInterval();
 }
 
-ProfilerBlock* ProfilerBlock::FindOrCreateChild(const char* name)
+FProfilerBlock* FProfilerBlock::FindOrCreateChild(const char* name)
 {
 	// First check using string pointers only, then resort to actual strcmp
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
@@ -94,25 +94,25 @@ ProfilerBlock* ProfilerBlock::FindOrCreateChild(const char* name)
 			return *it;
 	}
 
-	ProfilerBlock* newBlock = new ProfilerBlock(this, name);
+	FProfilerBlock* newBlock = new FProfilerBlock(this, name);
 	_children.Push(newBlock);
 
 	return newBlock;
 }
 
-Profiler::Profiler() :
+AProfiler::AProfiler() :
 	_intervalFrames(0),
 	_totalFrames(0)
 {
-	_root = new ProfilerBlock(nullptr, "Root");
+	_root = new FProfilerBlock(nullptr, "Root");
 	_current = _root;
 }
 
-Profiler::~Profiler()
+AProfiler::~AProfiler()
 {
 }
 
-void Profiler::BeginBlock(const char* name)
+void AProfiler::BeginBlock(const char* name)
 {
 	// Currently profiling is a no-op if attempted from outside main thread
 	if (!Thread::IsMainThread())
@@ -122,7 +122,7 @@ void Profiler::BeginBlock(const char* name)
 	_current->Begin();
 }
 
-void Profiler::EndBlock()
+void AProfiler::EndBlock()
 {
 	if (!Thread::IsMainThread())
 		return;
@@ -134,7 +134,7 @@ void Profiler::EndBlock()
 	}
 }
 
-void Profiler::BeginFrame()
+void AProfiler::BeginFrame()
 {
 	// End the previous frame if any
 	EndFrame();
@@ -142,7 +142,7 @@ void Profiler::BeginFrame()
 	BeginBlock("RunFrame");
 }
 
-void Profiler::EndFrame()
+void AProfiler::EndFrame()
 {
 	if (_current != _root)
 	{
@@ -154,13 +154,13 @@ void Profiler::EndFrame()
 	}
 }
 
-void Profiler::BeginInterval()
+void AProfiler::BeginInterval()
 {
 	_root->BeginInterval();
 	_intervalFrames = 0;
 }
 
-FString Profiler::OutputResults(bool showUnused, bool showTotal, size_t maxDepth) const
+FString AProfiler::OutputResults(bool showUnused, bool showTotal, size_t maxDepth) const
 {
 	FString output;
 	output += FString("\n--------------------------------------------------------------------------\n");
@@ -180,7 +180,7 @@ FString Profiler::OutputResults(bool showUnused, bool showTotal, size_t maxDepth
 	return output;
 }
 
-void Profiler::OutputResults(ProfilerBlock* block, FString& output, size_t depth, size_t maxDepth, bool showUnused, bool showTotal) const
+void AProfiler::OutputResults(FProfilerBlock* block, FString& output, size_t depth, size_t maxDepth, bool showUnused, bool showTotal) const
 {
 	char line[LINE_MAX_LENGTH];
 	char indentedName[LINE_MAX_LENGTH];

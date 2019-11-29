@@ -45,9 +45,9 @@ bool FTypeInfo::IsTypeOf(const FTypeInfo* typeInfo) const
 
 
 THashMap<FStringHash, AObject*> AObject::_objectModules;
-THashMap<FStringHash, TAutoPtr<FObjectFactory> > AObject::_factories;
+THashMap<FStringHash, TAutoPtr<IObjectFactory> > AObject::_factories;
 
-FObjectFactory::~FObjectFactory()
+IObjectFactory::~IObjectFactory()
 {
 }
 
@@ -61,22 +61,22 @@ bool AObject::IsInstanceOf(const FTypeInfo* typeInfo) const
 	return GetTypeInfo()->IsTypeOf(typeInfo);
 }
 
-void AObject::SubscribeToEvent(Event& event, EventHandler* handler)
+void AObject::SubscribeToEvent(FEvent& event, FEventHandler* handler)
 {
     event.Subscribe(handler);
 }
 
-void AObject::UnsubscribeFromEvent(Event& event)
+void AObject::UnsubscribeFromEvent(FEvent& event)
 {
     event.Unsubscribe(this);
 }
 
-void AObject::SendEvent(Event& event)
+void AObject::SendEvent(FEvent& event)
 {
     event.Send(this);
 }
 
-bool AObject::IsSubscribedToEvent(const Event& event) const
+bool AObject::IsSubscribedToEvent(const FEvent& event) const
 {
     return event.HasReceiver(this);
 }
@@ -110,7 +110,7 @@ AObject* AObject::ObjectModule(FStringHash type)
     return it != _objectModules.End() ? it->_second : nullptr;
 }
 
-void AObject::RegisterFactory(FObjectFactory* factory)
+void AObject::RegisterFactory(IObjectFactory* factory)
 {
     if (!factory)
         return;

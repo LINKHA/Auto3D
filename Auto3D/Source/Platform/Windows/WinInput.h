@@ -293,7 +293,7 @@ struct AUTO_API Touch
 };
 
 /// Key press or release _event.
-class AUTO_API KeyEvent : public Event
+class AUTO_API KeyEvent : public FEvent
 {
 public:
     /// Key code.
@@ -307,7 +307,7 @@ public:
 };
 
 /// Unicode character input _event.
-class AUTO_API CharInputEvent : public Event
+class AUTO_API CharInputEvent : public FEvent
 {
 public:
     /// Unicode codepoint.
@@ -315,7 +315,7 @@ public:
 };
 
 /// Mouse _button press or release _event.
-class AUTO_API MouseButtonEvent : public Event
+class AUTO_API MouseButtonEvent : public FEvent
 {
 public:
     /// Button index.
@@ -329,7 +329,7 @@ public:
 };
 
 /// Mouse move _event.
-class AUTO_API MouseMoveEvent : public Event
+class AUTO_API MouseMoveEvent : public FEvent
 {
 public:
     /// Bitmask of currently held down _buttons.
@@ -341,7 +341,7 @@ public:
 };
 
 /// Touch begin _event.
-class AUTO_API TouchBeginEvent : public Event
+class AUTO_API TouchBeginEvent : public FEvent
 {
 public:
     /// Zero-based touch _id.
@@ -353,7 +353,7 @@ public:
 };
 
 /// Touch move _event.
-class AUTO_API TouchMoveEvent : public Event
+class AUTO_API TouchMoveEvent : public FEvent
 {
 public:
     /// Zero-based touch id.
@@ -367,7 +367,7 @@ public:
 };
 
 /// Touch end _event.
-class AUTO_API TouchEndEvent : public Event
+class AUTO_API TouchEndEvent : public FEvent
 {
 public:
     /// Zero-based touch id.

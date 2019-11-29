@@ -33,7 +33,7 @@ bool IBLMaterial::EndLoad()
 {
 	bool flag = false;
 	flag = Super::EndLoad();
-	auto scene = ModuleManager::Get().RegisteredBoxModule()->GetActiveScene();
+	auto scene = GModuleManager::Get().RegisteredBoxModule()->GetActiveScene();
 	if (scene)
 		flag &= SetupIBL(scene->GetSkyBox());
 	return flag;

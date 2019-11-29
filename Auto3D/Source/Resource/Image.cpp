@@ -470,7 +470,7 @@ bool Image::BeginLoad(Stream& source)
         unsigned char* pixelData = DecodePixelData(source, imageWidth, imageHeight, imageComponents);
         if (!pixelData)
         {
-            ErrorString("Could not load image " + source.Name() + ": " + FString(stbi_failure_reason()));
+            ErrorString("Could not load image " + source.FName() + ": " + FString(stbi_failure_reason()));
             return false;
         }
         
@@ -507,20 +507,20 @@ bool Image::Save(Stream& dest)
 
     if (IsCompressed())
     {
-        ErrorString("Can not save compressed image " + Name());
+        ErrorString("Can not save compressed image " + FName());
         return false;
     }
 
     if (!_data)
     {
-        ErrorString("Can not save zero-sized image " + Name());
+        ErrorString("Can not save zero-sized image " + FName());
         return false;
     }
 
     int components = (int)PixelByteSize();
     if (components < 1 || components > 4)
     {
-        ErrorString("Unsupported pixel format for PNG save on image " + Name());
+        ErrorString("Unsupported pixel format for PNG save on image " + FName());
         return false;
     }
 
@@ -677,13 +677,13 @@ SDL_Surface* Image::GetSDLSurface(const RectI& rect) const
 
 	if (IsCompressed())
 	{
-		ErrorString("Can not get SDL surface from compressed image " + Name());
+		ErrorString("Can not get SDL surface from compressed image " + FName());
 		return nullptr;
 	}
 
 	if (GetComponents() < 3)
 	{
-		ErrorString("Can not get SDL surface from image " + Name() + " with less than 3 components");
+		ErrorString("Can not get SDL surface from image " + FName() + " with less than 3 components");
 		return nullptr;
 	}
 
@@ -725,7 +725,7 @@ SDL_Surface* Image::GetSDLSurface(const RectI& rect) const
 		SDL_UnlockSurface(surface);
 	}
 	else
-		ErrorString("Failed to create SDL surface from image " + Name());
+		ErrorString("Failed to create SDL surface from image " + FName());
 
 	return surface;
 }

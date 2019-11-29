@@ -81,12 +81,12 @@ FAttribute::FAttribute(const char* name, IAttributeAccessor* accessor, const cha
 {
 }
 
-void FAttribute::FromValue(Serializable* instance, const void* source)
+void FAttribute::FromValue(ASerializable* instance, const void* source)
 {
     _accessor->Set(instance, source);
 }
 
-void FAttribute::ToValue(Serializable* instance, void* dest)
+void FAttribute::ToValue(ASerializable* instance, void* dest)
 {
     _accessor->Get(instance, dest);
 }

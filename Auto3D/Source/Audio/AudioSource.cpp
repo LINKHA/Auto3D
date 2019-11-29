@@ -20,7 +20,7 @@ AAudioSource::AAudioSource() :
 	_gain(1.0f),
 	_vel(0.0f, 0.0f, 0.1f)
 {
-	_audio = ModuleManager::Get().AudioModule();
+	_audio = GModuleManager::Get().AudioModule();
 }
 
 AAudioSource::~AAudioSource()

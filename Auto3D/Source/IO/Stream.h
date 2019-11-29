@@ -68,7 +68,7 @@ public:
     }
     
     /// Return the stream name.
-    const FString& Name() const { return _name; }
+    const FString& FName() const { return _name; }
     /// Return current _position in bytes.
     size_t Position() const { return _position; }
     /// Return _size in bytes.

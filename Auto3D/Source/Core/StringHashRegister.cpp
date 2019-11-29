@@ -9,24 +9,24 @@
 namespace Auto3D
 {
 
-StringHashRegister::StringHashRegister(bool threadSafe)
+FStringHashRegister::FStringHashRegister(bool threadSafe)
 {
 	if (threadSafe)
 		_mutex = MakeUnique<Mutex>();
 }
 
 
-StringHashRegister::~StringHashRegister()       // NOLINT(hicpp-use-equals-default, modernize-use-equals-default)
+FStringHashRegister::~FStringHashRegister()       // NOLINT(hicpp-use-equals-default, modernize-use-equals-default)
 {
 	// Keep destructor here to let mutex_ destruct
 }
 
-StringHashRegister& StringHashRegister::Get()
+FStringHashRegister& FStringHashRegister::Get()
 {
-	return TSingleton<StringHashRegister>::Instance();
+	return TSingleton<FStringHashRegister>::Instance();
 }
 
-FStringHash StringHashRegister::RegisterString(const FStringHash& hash, const char* string)
+FStringHash FStringHashRegister::RegisterString(const FStringHash& hash, const char* string)
 {
 	if (_mutex)
 		_mutex->Acquire();
@@ -48,13 +48,13 @@ FStringHash StringHashRegister::RegisterString(const FStringHash& hash, const ch
 	return hash;
 }
 
-FStringHash StringHashRegister::RegisterString(const char* string)
+FStringHash FStringHashRegister::RegisterString(const char* string)
 {
 	FStringHash hash(string);
 	return RegisterString(hash, string);
 }
 
-bool StringHashRegister::RemoveString(const FStringHash& hash)
+bool FStringHashRegister::RemoveString(const FStringHash& hash)
 {
 	if (_mutex)
 		_mutex->Acquire();
@@ -78,13 +78,13 @@ bool StringHashRegister::RemoveString(const FStringHash& hash)
 	return flag;
 }
 
-bool StringHashRegister::RemoveString(const char* string)
+bool FStringHashRegister::RemoveString(const char* string)
 {
 	FStringHash hash(string);
 	return RemoveString(hash);
 }
 
-FString StringHashRegister::GetStringCopy(const FStringHash& hash) const
+FString FStringHashRegister::GetStringCopy(const FStringHash& hash) const
 {
 	if (_mutex)
 		_mutex->Acquire();
@@ -97,7 +97,7 @@ FString StringHashRegister::GetStringCopy(const FStringHash& hash) const
 	return copy;
 }
 
-bool StringHashRegister::Contains(const FStringHash& hash) const
+bool FStringHashRegister::Contains(const FStringHash& hash) const
 {
 	if (_mutex)
 		_mutex->Acquire();
@@ -110,7 +110,7 @@ bool StringHashRegister::Contains(const FStringHash& hash) const
 	return contains;
 }
 
-const FString& StringHashRegister::GetString(const FStringHash& hash) const
+const FString& FStringHashRegister::GetString(const FStringHash& hash) const
 {
 	auto iter = _map.Find(hash);
 	return iter == _map.End() ? FString::EMPTY : iter->_second;

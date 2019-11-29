@@ -3,14 +3,14 @@
 void MeshSample::Init()
 {
 	Super::Init();
-	auto* graphics = ModuleManager::Get().GraphicsModule();
+	auto* graphics = GModuleManager::Get().GraphicsModule();
 	graphics->RenderWindow()->SetTitle("Mesh Sample");
 }
 void MeshSample::Start()
 {
 	Super::Start();
-	auto* cache = ModuleManager::Get().CacheModule();
-	auto* graphics = ModuleManager::Get().GraphicsModule();
+	auto* cache = GModuleManager::Get().CacheModule();
+	auto* graphics = GModuleManager::Get().GraphicsModule();
 
 	graphics->RenderWindow()->SetMouseLock(true);
 	graphics->RenderWindow()->SetMouseHide(true);
@@ -68,10 +68,10 @@ void MeshSample::Start()
 void MeshSample::Update()
 {
 	Super::Update();
-	auto input = ModuleManager::Get().InputModule();
-	auto graphics = ModuleManager::Get().GraphicsModule();
-	auto renderer = ModuleManager::Get().RendererModule();
-	auto time = ModuleManager::Get().TimeModule();
+	auto input = GModuleManager::Get().InputModule();
+	auto graphics = GModuleManager::Get().GraphicsModule();
+	auto renderer = GModuleManager::Get().RendererModule();
+	auto time = GModuleManager::Get().TimeModule();
 
 	pitch += input->GetMouseMove()._y * 0.25f;
 	yaw += input->GetMouseMove()._x * 0.25f;

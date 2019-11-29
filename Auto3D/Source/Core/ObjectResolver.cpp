@@ -8,19 +8,19 @@
 namespace Auto3D
 {
 
-void ObjectResolver::StoreObject(unsigned oldId, Serializable* object)
+void FObjectResolver::StoreObject(unsigned oldId, ASerializable* object)
 {
     if (object)
         _objects[oldId] = object;
 }
 
-void ObjectResolver::StoreObjectRef(Serializable* object, FAttribute* attr, const ObjectRef& value)
+void FObjectResolver::StoreObjectRef(ASerializable* object, FAttribute* attr, const ObjectRef& value)
 {
     if (object && attr && attr->Type() == EAttributeType::OBJECTREF)
-        _objectRefs.Push(StoredObjectRef(object, attr, value._id));
+        _objectRefs.Push(FStoredObjectRef(object, attr, value._id));
 }
 
-void ObjectResolver::Resolve()
+void FObjectResolver::Resolve()
 {
     for (auto it = _objectRefs.Begin(); it != _objectRefs.End(); ++it)
     {

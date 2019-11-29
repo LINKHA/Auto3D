@@ -14,7 +14,7 @@ RigidBody2D::RigidBody2D():
 	_body(nullptr),
 	_useFixtureMass(true)
 {
-	_physicsWorld2d = ModuleManager::Get().PhysicsModule()->GetActivePhysicsWorld2D();
+	_physicsWorld2d = GModuleManager::Get().PhysicsModule()->GetActivePhysicsWorld2D();
 	// Make sure the massData members are zero-initialized.
 	_massData.mass = 0.0f;
 	_massData.I = 0.0f;

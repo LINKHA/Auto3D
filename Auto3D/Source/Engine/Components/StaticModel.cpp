@@ -100,7 +100,7 @@ Model* StaticModel::GetModel() const
 
 void StaticModel::SetModelAttr(const ResourceRef& model)
 {
-	ResourceCache* cache = ModuleManager::Get().CacheModule();
+	ResourceCache* cache = GModuleManager::Get().CacheModule();
     SetModel(cache->LoadResource<Model>(model._name));
 }
 

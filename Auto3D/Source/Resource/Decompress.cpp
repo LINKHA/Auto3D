@@ -239,10 +239,10 @@ void DecompressImageDXT( unsigned char* rgba, const void* blocks, int width, int
     }
 }
 
-// ETC and PVRTC decompression based on the Oolong Engine, modified for Auto3D
+// ETC and PVRTC decompression based on the Oolong AEngine, modified for Auto3D
 
 /*
-Oolong Engine for the iPhone / iPod touch
+Oolong AEngine for the iPhone / iPod touch
 Copyright (c) 2007-2008 Wolfgang Engel  http://code.google.com/p/oolongengine/
 
 This software is provided 'as-is', without any express or implied warranty

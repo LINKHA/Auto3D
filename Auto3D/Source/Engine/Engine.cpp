@@ -28,7 +28,7 @@
 namespace Auto3D
 {
 
-Engine::Engine() :
+AEngine::AEngine() :
 	_exiting(false),
 	_initialized(false),
 	_timeStep(0.0f),
@@ -45,7 +45,7 @@ Engine::Engine() :
 #endif
 	_autoExit(true)
 {
-	ModuleManager& moduleManager = ModuleManager::Get();
+	GModuleManager& moduleManager = GModuleManager::Get();
 	moduleManager.RegisterMoudleLibrary();
 	moduleManager.CreateModules();
 
@@ -64,11 +64,11 @@ Engine::Engine() :
 	_ui = moduleManager.UiModule();
 }
 
-Engine::~Engine()
+AEngine::~AEngine()
 {
 }
 
-bool Engine::Init()
+bool AEngine::Init()
 {
 	if (_initialized)
 		return true;
@@ -114,7 +114,7 @@ bool Engine::Init()
 
 	return true;
 }
-void Engine::Exit()
+void AEngine::Exit()
 {
 	if (_autoExit)
 	{
@@ -122,7 +122,7 @@ void Engine::Exit()
 	}
 }
 
-void Engine::Render()
+void AEngine::Render()
 {
 	PROFILE(Render);
 	// Check renderer render Prepare
@@ -167,7 +167,7 @@ void Engine::Render()
 }
 
 
-bool Engine::Update()
+bool AEngine::Update()
 {
 	_profiler->BeginFrame();
 	_time->Update();
@@ -182,7 +182,7 @@ bool Engine::Update()
 		ShutDownEngine();
 		return false;
 	}
-	if (AAudio* audio = ModuleManager::Get().AudioModule())
+	if (AAudio* audio = GModuleManager::Get().AudioModule())
 		audio->Update();
 
 	_physics->Update();
@@ -190,7 +190,7 @@ bool Engine::Update()
 
 	return true;
 }
-void Engine::FrameFinish()
+void AEngine::FrameFinish()
 {
 	//Present ui and graphics
 	{
@@ -203,37 +203,37 @@ void Engine::FrameFinish()
 	_profiler->EndFrame();
 }
 
-void Engine::SetMinFps(int fps)
+void AEngine::SetMinFps(int fps)
 {
 	_minFps = (unsigned)Max(fps, 0);
 }
 
-void Engine::SetMaxFps(int fps)
+void AEngine::SetMaxFps(int fps)
 {
 	_maxFps = (unsigned)Max(fps, 0);
 }
 
-void Engine::SetMaxInactiveFps(int fps)
+void AEngine::SetMaxInactiveFps(int fps)
 {
 	_maxInactiveFps = (unsigned)Max(fps, 0);
 }
 
-void Engine::SetTimeStepSmoothing(int frames)
+void AEngine::SetTimeStepSmoothing(int frames)
 {
 	_timeStepSmoothing = (unsigned)Clamp(frames, 1, 20);
 }
 
-void Engine::SetPauseMinimized(bool enable)
+void AEngine::SetPauseMinimized(bool enable)
 {
 	_pauseMinimized = enable;
 }
 
-void Engine::SetNextTimeStep(float seconds)
+void AEngine::SetNextTimeStep(float seconds)
 {
 	_timeStep = Max(seconds, 0.0f);
 }
 
-void Engine::SetAutoExit(bool enable)
+void AEngine::SetAutoExit(bool enable)
 {
 	// On mobile platforms exit is mandatory if requested by the platform itself and should not be attempted to be disabled
 #if defined(__ANDROID__) || defined(IOS) || defined(TVOS)
@@ -242,7 +242,7 @@ void Engine::SetAutoExit(bool enable)
 	_autoExit = enable;
 }
 
-void Engine::ApplyFrameLimit()
+void AEngine::ApplyFrameLimit()
 {
 	if (!_initialized)
 		return;
@@ -309,12 +309,12 @@ void Engine::ApplyFrameLimit()
 		_timeStep = _lastTimeSteps.Back();
 }
 
-void Engine::DoExit()
+void AEngine::DoExit()
 {
 	if (_graphics)
 		_graphics->Close();
 	_exiting = true;
-	auto* profiler = ModuleManager::Get().ProfilerModule();
+	auto* profiler = GModuleManager::Get().ProfilerModule();
 	LogString(profiler->OutputResults());
 }
 

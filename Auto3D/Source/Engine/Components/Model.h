@@ -21,7 +21,7 @@ struct AUTO_API Bone
     /// Destruct.
     ~Bone();
 
-    /// Name.
+    /// FName.
     FString _name;
     /// Reset _position.
     Vector3F _initialPosition;

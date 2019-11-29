@@ -75,7 +75,7 @@ bool UI::SetMode(Window* window)
 
 
 	const char* glslVersion;
-	GraphicsSLVersion::Type slVersion = ModuleManager::Get().GraphicsModule()->GetGraphicsSLVersion();
+	GraphicsSLVersion::Type slVersion = GModuleManager::Get().GraphicsModule()->GetGraphicsSLVersion();
 	if (slVersion == GraphicsSLVersion::GLSL_430)
 		glslVersion = "#version 430";
 	else if (slVersion == GraphicsSLVersion::GLSL_330)

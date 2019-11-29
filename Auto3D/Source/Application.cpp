@@ -12,7 +12,7 @@ Application::Application():
 	_exitCode(EXIT_SUCCESS)
 {
 	if(!_engine)
-		_engine = new Engine();
+		_engine = new AEngine();
 }
 
 
@@ -24,7 +24,7 @@ int Application::Run()
 {
 	// Make sure the engine is created properly
 	if (_engine.Null())
-		_engine = new Engine();
+		_engine = new AEngine();
 	
 		
 #if !defined(__GNUC__) || __EXCEPTIONS

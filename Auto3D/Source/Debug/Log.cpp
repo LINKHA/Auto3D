@@ -23,7 +23,7 @@ const char* logLevelPrefixes[] =
     nullptr
 };
 
-Log::Log() :
+ALog::ALog() :
 #ifdef _DEBUG
     _level(LOG_DEBUG),
 #else
@@ -35,19 +35,19 @@ Log::Log() :
 {
 }
 
-Log::~Log()
+ALog::~ALog()
 {
     Close();
 }
 
-void Log::Open(const FString& fileName)
+void ALog::Open(const FString& fileName)
 {
     if (fileName.IsEmpty())
         return;
     
     if (_logFile && _logFile->IsOpen())
     {
-        if (_logFile->Name() == fileName)
+        if (_logFile->FName() == fileName)
             return;
         else
             Close();
@@ -63,7 +63,7 @@ void Log::Open(const FString& fileName)
     }
 }
 
-void Log::Close()
+void ALog::Close()
 {
     if (_logFile && _logFile->IsOpen())
     {
@@ -72,31 +72,31 @@ void Log::Close()
     }
 }
 
-void Log::SetLevel(int newLevel)
+void ALog::SetLevel(int newLevel)
 {
     assert(newLevel >= LOG_DEBUG && newLevel < LOG_NONE);
 
     _level = newLevel;
 }
 
-void Log::SetTimeStamp(bool enable)
+void ALog::SetTimeStamp(bool enable)
 {
     _timeStamp = enable;
 }
 
-void Log::SetQuiet(bool enable)
+void ALog::SetQuiet(bool enable)
 {
     _quiet = enable;
 }
 
-void Log::EndFrame()
+void ALog::EndFrame()
 {
     MutexLock lock(_logMutex);
 
     // Process messages accumulated from other threads (if any)
     while (!_threadMessages.IsEmpty())
     {
-        const StoredLogMessage& stored = _threadMessages.Front();
+        const FStoredLogMessage& stored = _threadMessages.Front();
 
         if (stored._level != LOG_RAW)
             Write(stored._level, stored._message);
@@ -107,11 +107,11 @@ void Log::EndFrame()
     }
 }
 
-void Log::Write(int msgLevel, const FString& message)
+void ALog::Write(int msgLevel, const FString& message)
 {
     assert(msgLevel >= LOG_DEBUG && msgLevel < LOG_NONE);
     
-    Log* instance = ModuleManager::Get().LogModule();
+    ALog* instance = GModuleManager::Get().LogModule();
     if (!instance)
         return;
 
@@ -119,7 +119,7 @@ void Log::Write(int msgLevel, const FString& message)
     if (!Thread::IsMainThread())
     {
         MutexLock lock(instance->_logMutex);
-        instance->_threadMessages.Push(StoredLogMessage(message, msgLevel, false));
+        instance->_threadMessages.Push(FStoredLogMessage(message, msgLevel, false));
         return;
     }
 
@@ -151,7 +151,7 @@ void Log::Write(int msgLevel, const FString& message)
 
     instance->_inWrite = true;
 
-    LogMessageEvent& event = instance->_logMessageEvent;
+    FLogMessageEvent& event = instance->_logMessageEvent;
     event._message = formattedMessage;
     event._level = msgLevel;
     instance->SendEvent(event);
@@ -159,9 +159,9 @@ void Log::Write(int msgLevel, const FString& message)
     instance->_inWrite = false;
 }
 
-void Log::WriteRaw(const FString& message, bool error)
+void ALog::WriteRaw(const FString& message, bool error)
 {
-	Log* instance = ModuleManager::Get().LogModule();
+	ALog* instance = GModuleManager::Get().LogModule();
     if (!instance)
         return;
 
@@ -169,7 +169,7 @@ void Log::WriteRaw(const FString& message, bool error)
     if (!Thread::IsMainThread())
     {
         MutexLock lock(instance->_logMutex);
-        instance->_threadMessages.Push(StoredLogMessage(message, LOG_RAW, error));
+        instance->_threadMessages.Push(FStoredLogMessage(message, LOG_RAW, error));
         return;
     }
     
@@ -196,7 +196,7 @@ void Log::WriteRaw(const FString& message, bool error)
 
     instance->_inWrite = true;
 
-    LogMessageEvent& event = instance->_logMessageEvent;
+    FLogMessageEvent& event = instance->_logMessageEvent;
     event._message = message;
     event._level = error ? LOG_ERROR : LOG_INFO;
     instance->SendEvent(event);

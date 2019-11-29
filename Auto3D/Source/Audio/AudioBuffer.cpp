@@ -13,7 +13,7 @@ namespace Auto3D
 
 AAudioBuffer::AAudioBuffer()
 {
-	_audio = ModuleManager::Get().AudioModule();
+	_audio = GModuleManager::Get().AudioModule();
 }
 
 AAudioBuffer::~AAudioBuffer()

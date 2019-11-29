@@ -196,9 +196,9 @@ void Texture::Release()
 void Texture::Recreate()
 {
     // If has a name, attempt to reload through the resource cache
-    if (Name().Length())
+    if (FName().Length())
     {
-		ResourceCache* cache = ModuleManager::Get().CacheModule();
+		ResourceCache* cache = GModuleManager::Get().CacheModule();
         if (cache && cache->ReloadResource(this))
             return;
     }

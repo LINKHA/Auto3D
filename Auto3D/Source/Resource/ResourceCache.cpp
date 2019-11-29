@@ -58,13 +58,13 @@ bool ResourceCache::AddManualResource(AResource* resource)
         return false;
     }
 
-    if (resource->Name().IsEmpty())
+    if (resource->FName().IsEmpty())
     {
         ErrorString("Manual resource with empty name, can not add");
         return false;
     }
 
-    _resources[MakePair(resource->GetType(), FStringHash(resource->Name()))] = resource;
+    _resources[MakePair(resource->GetType(), FStringHash(resource->FName()))] = resource;
     return true;
 }
 
@@ -135,7 +135,7 @@ void ResourceCache::UnloadResources(FStringHash type, const FString& partialName
             if (current->_first._first == type)
             {
                 AResource* resource = current->_second;
-                if (resource->Name().StartsWith(partialName) && (resource->Refs() == 1 || force))
+                if (resource->FName().StartsWith(partialName) && (resource->Refs() == 1 || force))
                 {
                     _resources.Erase(current);
                     ++unloaded;
@@ -159,7 +159,7 @@ void ResourceCache::UnloadResources(const FString& partialName, bool force)
         {
             auto current = it++;
             AResource* resource = current->_second;
-            if (resource->Name().StartsWith(partialName) && (!resource->Refs() == 1 || force))
+            if (resource->FName().StartsWith(partialName) && (!resource->Refs() == 1 || force))
             {
                 _resources.Erase(current);
                 ++unloaded;
@@ -199,7 +199,7 @@ bool ResourceCache::ReloadResource(AResource* resource)
     if (!resource)
         return false;
 
-    TAutoPtr<Stream> stream = OpenResource(resource->Name());
+    TAutoPtr<Stream> stream = OpenResource(resource->FName());
     return stream ? resource->Load(*stream) : false;
 }
 
@@ -345,7 +345,7 @@ FString ResourceCache::SanitateResourceDirName(const FString& nameIn) const
     // Convert path to absolute
     FString fixedPath = AddTrailingSlash(nameIn);
     if (!IsAbsolutePath(fixedPath))
-        fixedPath = ModuleManager::Get().FileSystemModule()->GetCurrentDir() + fixedPath;
+        fixedPath = GModuleManager::Get().FileSystemModule()->GetCurrentDir() + fixedPath;
 
     // Sanitate away /./ construct
     fixedPath.Replace("/./", "/");

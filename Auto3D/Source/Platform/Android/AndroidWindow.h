@@ -11,7 +11,7 @@ namespace Auto3D
 class Image;
 
 /// Window resized event.
-class AUTO_API WindowResizeEvent : public Event
+class AUTO_API WindowResizeEvent : public FEvent
 {
 public:
 	///New _window size.
@@ -101,17 +101,17 @@ public:
 	bool OnWindowMessage(void* sdlEvent);
 
 	/// Close requested event.
-	Event _closeRequestEvent;
+	FEvent _closeRequestEvent;
 	/// Gained focus event.
-	Event _gainFocusEvent;
+	FEvent _gainFocusEvent;
 	/// Lost _focus event.
-	Event _loseFocusEvent;
+	FEvent _loseFocusEvent;
 	/// Maximized event.
-	Event _maximizeEvent;
+	FEvent _maximizeEvent;
 	/// Minimized event.
-	Event _minimizeEvent;
+	FEvent _minimizeEvent;
 	/// Restored after minimization event.
-	Event _restoreEvent;
+	FEvent _restoreEvent;
 	/// Size changed event.
 	WindowResizeEvent _resizeEvent;
 

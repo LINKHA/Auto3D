@@ -5,7 +5,7 @@ namespace Auto3D
 {
 
 class Scene2D;
-class ObjectResolver;
+class FObjectResolver;
 
 static const unsigned short NF_2D_ENABLED = 0x1;
 static const unsigned short NF_2D_TEMPORARY = 0x2;
@@ -22,9 +22,9 @@ static const unsigned char TAG_2D_NONE = 0x0;
 static const unsigned LAYERMASK_2D_ALL = 0xffffffff;
 
 /// Renderer2D nodes provide tag and layout
-class AUTO_API Node2D : public Serializable
+class AUTO_API Node2D : public ASerializable
 {
-	REGISTER_OBJECT_CLASS(Node2D, Serializable)
+	REGISTER_OBJECT_CLASS(Node2D, ASerializable)
 public:
 	/// Construct.
 	Node2D();
@@ -35,11 +35,11 @@ public:
 	static void RegisterObject();
 
 	/// Load from binary stream. Store node references to be resolved later.
-	void Load(Stream& source, ObjectResolver& resolver) override;
+	void Load(Stream& source, FObjectResolver& resolver) override;
 	/// Save to binary stream.
 	void Save(Stream& dest) override;
 	/// Load from JSON data. Store node references to be resolved later.
-	void LoadJSON(const JSONValue& source, ObjectResolver& resolver) override;
+	void LoadJSON(const JSONValue& source, FObjectResolver& resolver) override;
 	/// Save as JSON data.
 	void SaveJSON(JSONValue& dest) override;
 	/// Return unique _id within the scene, or 0 if not in a scene.

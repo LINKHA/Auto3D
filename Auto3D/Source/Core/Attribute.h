@@ -7,7 +7,7 @@ namespace Auto3D
 {
 
 class JSONValue;
-class Serializable;
+class ASerializable;
 class Stream;
 
 /// Supported attribute types.
@@ -51,9 +51,9 @@ public:
     virtual ~IAttributeAccessor();
     
     /// Get the current value of the variable.
-    virtual void Get(const Serializable* instance, void* dest) = 0;
+    virtual void Get(const ASerializable* instance, void* dest) = 0;
     /// Set new value for the variable.
-    virtual void Set(Serializable* instance, const void* source) = 0;
+    virtual void Set(ASerializable* instance, const void* source) = 0;
 };
 
 /// Description of an automatically serializable variable.
@@ -68,25 +68,25 @@ public:
 	FAttribute& operator = (const FAttribute& rhs) = delete;
 
     /// Deserialize from a binary stream.
-    virtual void FromBinary(Serializable* instance, Stream& source) = 0;
+    virtual void FromBinary(ASerializable* instance, Stream& source) = 0;
     /// Serialize to a binary stream.
-    virtual void ToBinary(Serializable* instance, Stream& dest) = 0;
+    virtual void ToBinary(ASerializable* instance, Stream& dest) = 0;
     /// Deserialize from JSON.
-    virtual void FromJSON(Serializable* instance, const JSONValue& source) = 0;
+    virtual void FromJSON(ASerializable* instance, const JSONValue& source) = 0;
     /// Serialize to JSON.
-    virtual void ToJSON(Serializable* instance, JSONValue& dest) = 0;
+    virtual void ToJSON(ASerializable* instance, JSONValue& dest) = 0;
     /// Return type.
     virtual EAttributeType::Type Type() const = 0;
     /// Return whether is default value.
-    virtual bool IsDefault(Serializable* instance) = 0;
+    virtual bool IsDefault(ASerializable* instance) = 0;
     
     /// Set from a value in memory.
-    void FromValue(Serializable* instance, const void* source);
+    void FromValue(ASerializable* instance, const void* source);
     /// Copy to a value in memory.
-    void ToValue(Serializable* instance, void* dest);
+    void ToValue(ASerializable* instance, void* dest);
     
     /// Return variable name.
-    const FString& Name() const { return _name; }
+    const FString& FName() const { return _name; }
     /// Return zero-based enum names, or null if none.
     const char** EnumNames() const { return _enumNames; }
     /// Return type name.
@@ -132,14 +132,14 @@ public:
     }
     
     /// Deserialize from a binary stream.
-    void FromBinary(Serializable* instance, Stream& source) override
+    void FromBinary(ASerializable* instance, Stream& source) override
     {
         _Ty value = source.Read<_Ty>();
         _accessor->Set(instance, &value);
     }
     
     /// Serialize to a binary stream.
-    void ToBinary(Serializable* instance, Stream& dest) override
+    void ToBinary(ASerializable* instance, Stream& dest) override
     {
         _Ty value;
         _accessor->Get(instance, &value);
@@ -147,10 +147,10 @@ public:
     }
     
     /// Return whether is default value.
-    bool IsDefault(Serializable* instance) override { return Value(instance) == _defaultValue; }
+    bool IsDefault(ASerializable* instance) override { return Value(instance) == _defaultValue; }
     
     /// Deserialize from JSON.
-    void FromJSON(Serializable* instance, const JSONValue& source) override
+    void FromJSON(ASerializable* instance, const JSONValue& source) override
     {
         _Ty value;
         FAttribute::FromJSON(Type(), &value, source);
@@ -158,7 +158,7 @@ public:
     }
 
     /// Serialize to JSON.
-    void ToJSON(Serializable* instance, JSONValue& dest) override
+    void ToJSON(ASerializable* instance, JSONValue& dest) override
     {
         _Ty value;
         _accessor->Get(instance, &value);
@@ -169,12 +169,12 @@ public:
     EAttributeType::Type Type() const override;
     
     /// Set new attribute value.
-    void SetValue(Serializable* instance, const _Ty& source) { _accessor->Set(instance, &source); }
+    void SetValue(ASerializable* instance, const _Ty& source) { _accessor->Set(instance, &source); }
     /// Copy current attribute value.
-    void Value(Serializable* instance, _Ty& dest) { _accessor->Get(instance, &dest); }
+    void Value(ASerializable* instance, _Ty& dest) { _accessor->Get(instance, &dest); }
     
     /// Return current attribute value.
-    _Ty Value(Serializable* instance)
+    _Ty Value(ASerializable* instance)
     {
         _Ty ret;
         _accessor->Get(instance, &ret);
@@ -206,7 +206,7 @@ public:
     }
 
     /// Get current value of the variable.
-    void Get(const Serializable* instance, void* dest) override
+    void Get(const ASerializable* instance, void* dest) override
     {
         assert(instance);
 
@@ -216,7 +216,7 @@ public:
     }
 
     /// Set new value for the variable.
-    void Set(Serializable* instance, const void* source) override
+    void Set(ASerializable* instance, const void* source) override
     {
         assert(instance);
 
@@ -249,7 +249,7 @@ public:
     }
 
     /// Get current value of the variable.
-    void Get(const Serializable* instance, void* dest) override
+    void Get(const ASerializable* instance, void* dest) override
     {
         assert(instance);
 
@@ -259,7 +259,7 @@ public:
     }
 
     /// Set new value for the variable.
-    void Set(Serializable* instance, const void* source) override
+    void Set(ASerializable* instance, const void* source) override
     {
         assert(instance);
 
@@ -292,7 +292,7 @@ public:
     }
 
     /// Get current value of the variable.
-    void Get(const Serializable* instance, void* dest) override
+    void Get(const ASerializable* instance, void* dest) override
     {
         assert(instance);
 
@@ -302,7 +302,7 @@ public:
     }
 
     /// Set new value for the variable.
-    void Set(Serializable* instance, const void* source) override
+    void Set(ASerializable* instance, const void* source) override
     {
         assert(instance);
 

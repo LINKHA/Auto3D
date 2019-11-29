@@ -335,7 +335,7 @@ struct AUTO_API Constant
 
     /// Data type of constant.
     ElementType::Type _type;
-    /// Name of constant.
+    /// FName of constant.
     FString _name;
     /// Number of elements. Default 1.
     size_t _numElements;

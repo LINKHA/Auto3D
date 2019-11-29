@@ -32,7 +32,7 @@ bool JSONFile::BeginLoad(Stream& source)
     bool success = _root.Parse(pos, end);
     if (!success)
     {
-        ErrorString("Parsing JSON from " + source.Name() + " failed; data may be partial");
+        ErrorString("Parsing JSON from " + source.FName() + " failed; data may be partial");
     }
 
     return success;

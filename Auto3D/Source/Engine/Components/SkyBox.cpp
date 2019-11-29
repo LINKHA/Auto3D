@@ -133,10 +133,10 @@ SkyBox::SkyBox():
 	_prefilterMap(nullptr),
 	_brdfLUT(nullptr)
 {
-	auto cache = ModuleManager::Get().CacheModule();
+	auto cache = GModuleManager::Get().CacheModule();
 	SetModel(cache->LoadResource<Model>("Model/Box.mdl"));
 	OnWorldBoundingBoxUpdate();
-	ModuleManager::Get().RegisteredBoxModule()->GetActiveScene()->SetSkyBox(this);
+	GModuleManager::Get().RegisteredBoxModule()->GetActiveScene()->SetSkyBox(this);
 }
 
 SkyBox::~SkyBox() = default;
@@ -151,7 +151,7 @@ void SkyBox::SetupIBLMap()
 {
 	if (!isDirty)
 	{
-		auto cache = ModuleManager::Get().CacheModule();
+		auto cache = GModuleManager::Get().CacheModule();
 
 		isDirty = true;
 
@@ -191,7 +191,7 @@ const TSharedPtr<Texture>& SkyBox::SetupIrradianceMap()
 	if (_irradianceMap)
 		_irradianceMap.Reset();
 
-	auto graphics = ModuleManager::Get().GraphicsModule();
+	auto graphics = GModuleManager::Get().GraphicsModule();
 
 	_irradianceMap = TSharedPtr<Texture>(new Texture());
 	_irradianceMap->Define(TextureType::TEX_CUBE, ResourceUsage::DEFAULT, Vector2I(_irradianceSize, _irradianceSize), ImageFormat::RGBA16F, 1);
@@ -235,7 +235,7 @@ const TSharedPtr<Texture>& SkyBox::SetupPrefilterMap()
 	glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
 
 	// Run a quasi monte-carlo simulation on the environment lighting to create a prefilter (cube)map.
-	auto graphics = ModuleManager::Get().GraphicsModule();
+	auto graphics = GModuleManager::Get().GraphicsModule();
 	graphics->SetShaders(prefilterVSV, prefilterPSV);
 	ShaderProgram* prefilterProgram = graphics->Shaderprogram();
 
@@ -282,7 +282,7 @@ const TSharedPtr<Texture>& SkyBox::SetupBrdfLUT()
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _brdfLUT->GetGLTexture(), 0);
 
 	glViewport(0, 0, _mapSize, _mapSize);
-	auto graphics = ModuleManager::Get().GraphicsModule();
+	auto graphics = GModuleManager::Get().GraphicsModule();
 	graphics->SetShaders(brdfVSV, brdfPSV);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

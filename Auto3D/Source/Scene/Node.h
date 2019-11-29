@@ -6,7 +6,7 @@ namespace Auto3D
 {
 
 class Scene;
-class ObjectResolver;
+class FObjectResolver;
 
 static const unsigned short NF_ENABLED = 0x1;
 static const unsigned short NF_TEMPORARY = 0x2;
@@ -23,9 +23,9 @@ static const unsigned char TAG_NONE = 0x0;
 static const unsigned LAYERMASK_ALL = 0xffffffff;
 
 /// Base class for scene nodes.
-class AUTO_API Node : public Serializable
+class AUTO_API Node : public ASerializable
 {
-    REGISTER_OBJECT_CLASS(Node, Serializable)
+    REGISTER_OBJECT_CLASS(Node, ASerializable)
     
 public:
     /// Construct.
@@ -37,11 +37,11 @@ public:
     static void RegisterObject();
     
     /// Load from binary stream. Store node references to be resolved later.
-    void Load(Stream& source, ObjectResolver& resolver) override;
+    void Load(Stream& source, FObjectResolver& resolver) override;
     /// Save to binary stream.
     void Save(Stream& dest) override;
     /// Load from JSON data. Store node references to be resolved later.
-    void LoadJSON(const JSONValue& source, ObjectResolver& resolver) override;
+    void LoadJSON(const JSONValue& source, FObjectResolver& resolver) override;
     /// Save as JSON data.
     void SaveJSON(JSONValue& dest) override;
     /// Return unique _id within the scene, or 0 if not in a scene.

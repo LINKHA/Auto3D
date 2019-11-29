@@ -27,7 +27,7 @@ Scene::Scene() :
     DefineTag(TAG_NONE, "None");
 
 	// Register scene to scene system use to render
-	ModuleManager::Get().RegisteredBoxModule()->RegisterScene(this);
+	GModuleManager::Get().RegisteredBoxModule()->RegisterScene(this);
 }
 
 Scene::~Scene()
@@ -51,7 +51,7 @@ void Scene::Save(Stream& dest)
 {
     PROFILE(SaveScene);
     
-    InfoString("Saving scene to " + dest.Name());
+    InfoString("Saving scene to " + dest.FName());
     
     dest.WriteFileID("SCNE");
     Node::Save(dest);
@@ -61,7 +61,7 @@ bool Scene::Load(Stream& source)
 {
     PROFILE(LoadScene);
     
-    InfoString("Loading scene from " + source.Name());
+    InfoString("Loading scene from " + source.FName());
     
     FString fileId = source.ReadFileID();
     if (fileId != "SCNE")
@@ -80,7 +80,7 @@ bool Scene::Load(Stream& source)
 
     Clear();
 
-    ObjectResolver resolver;
+    FObjectResolver resolver;
     resolver.StoreObject(ownId, this);
     Node::Load(source, resolver);
     resolver.Resolve();
@@ -103,7 +103,7 @@ bool Scene::LoadJSON(const JSONValue& source)
 
     Clear();
 
-    ObjectResolver resolver;
+    FObjectResolver resolver;
     resolver.StoreObject(ownId, this);
     Node::LoadJSON(source, resolver);
     resolver.Resolve();
@@ -113,7 +113,7 @@ bool Scene::LoadJSON(const JSONValue& source)
 
 bool Scene::LoadJSON(Stream& source)
 {
-    InfoString("Loading scene from " + source.Name());
+    InfoString("Loading scene from " + source.FName());
     
     JSONFile json;
     bool success = json.Load(source);
@@ -125,7 +125,7 @@ bool Scene::SaveJSON(Stream& dest)
 {
     PROFILE(SaveSceneJSON);
     
-    InfoString("Saving scene to " + dest.Name());
+    InfoString("Saving scene to " + dest.FName());
     
     JSONFile json;
     Node::SaveJSON(json.Root());
@@ -136,7 +136,7 @@ Node* Scene::Instantiate(Stream& source)
 {
     PROFILE(Instantiate);
     
-    ObjectResolver resolver;
+    FObjectResolver resolver;
     FStringHash childType(source.Read<FStringHash>());
     unsigned childId = source.Read<unsigned>();
 
@@ -155,7 +155,7 @@ Node* Scene::InstantiateJSON(const JSONValue& source)
 {
     PROFILE(InstantiateJSON);
     
-    ObjectResolver resolver;
+    FObjectResolver resolver;
     FStringHash childType(source["type"].GetString());
     unsigned childId = (unsigned)source["id"].GetNumber();
 
@@ -278,7 +278,7 @@ SkyBox* Scene::GetSkyBox()
 void Scene::SetupShadowMap(size_t num, int size)
 {
 	// The scene creates a shadow map by default
-	ModuleManager::Get().RendererModule()->SetupShadowMaps(num, size, ImageFormat::D16);
+	GModuleManager::Get().RendererModule()->SetupShadowMaps(num, size, ImageFormat::D16);
 
 }
 

@@ -47,9 +47,9 @@ void ASound::RegisterObject()
 bool ASound::BeginLoad(Stream& source)
 {
 	bool success;
-	if (Extension(source.Name()) == ".ogg")
+	if (Extension(source.FName()) == ".ogg")
 		success = LoadOggVorbis(source);
-	else if (Extension(source.Name()) == ".wav")
+	else if (Extension(source.FName()) == ".wav")
 		success = LoadWav(source);
 	else
 		success = LoadRaw(source);
@@ -77,7 +77,7 @@ bool ASound::LoadWav(Stream& source)
 
 	if (memcmp("RIFF", header._riffText, 4) != 0 || memcmp("WAVE", header._waveText, 4) != 0)
 	{
-		ErrorString("Could not read WAV data from " + source.Name());
+		ErrorString("Could not read WAV data from " + source.FName());
 		return false;
 	}
 
@@ -92,7 +92,7 @@ bool ASound::LoadWav(Stream& source)
 		source.Seek(source.Position() + header._formatLength);
 		if (!header._formatLength || source.Position() >= source.Size())
 		{
-			ErrorString("Could not read WAV data from " + source.Name());
+			ErrorString("Could not read WAV data from " + source.FName());
 			return false;
 		}
 	}
@@ -111,7 +111,7 @@ bool ASound::LoadWav(Stream& source)
 	// Check for correct format
 	if (header._format != 1)
 	{
-		ErrorString("Could not read WAV data from " + source.Name());
+		ErrorString("Could not read WAV data from " + source.FName());
 		return false;
 	}
 
@@ -126,7 +126,7 @@ bool ASound::LoadWav(Stream& source)
 		source.Seek(source.Position() + header._dataLength);
 		if (!header._dataLength || source.Position() >= source.Size())
 		{
-			ErrorString("Could not read WAV data from " + source.Name());
+			ErrorString("Could not read WAV data from " + source.FName());
 			return false;
 		}
 	}
@@ -158,7 +158,7 @@ bool ASound::LoadOggVorbis(Stream& source)
 	stb_vorbis* vorbis = stb_vorbis_open_memory((unsigned char*)data.Get(), dataSize, &error, nullptr);
 	if (!vorbis)
 	{
-		ErrorString("Could not read Ogg Vorbis data from " + source.Name());
+		ErrorString("Could not read Ogg Vorbis data from " + source.FName());
 		return false;
 	}
 

@@ -29,7 +29,7 @@ class WindowResizeEvent;
 typedef THashMap<TPair<ShaderVariation*, ShaderVariation*>, TAutoPtr<ShaderProgram> > ShaderProgramMap;
 
 /// Screen mode set _event.
-class ScreenModeEvent : public Event
+class ScreenModeEvent : public FEvent
 {
 public:
 	/// New backbuffer _size.
@@ -207,9 +207,9 @@ public:
 	/// Screen mode changed _event.
 	ScreenModeEvent _screenModeEvent;
 	/// %Graphics context lost _event.
-	Event _contextLossEvent;
+	FEvent _contextLossEvent;
 	/// %Graphics context restored _event.
-	Event _contextRestoreEvent;
+	FEvent _contextRestoreEvent;
 
 private:
 	/// Create and initialize the OpenGL context. Return true on success.

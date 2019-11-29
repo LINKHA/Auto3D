@@ -10,12 +10,12 @@ namespace Auto3D
 AAudioNode::AAudioNode() :
 	_fre(EAudioUsage::STATIC)
 {
-	_audio = ModuleManager::Get().AudioModule();
+	_audio = GModuleManager::Get().AudioModule();
 	// If you haven't created AAudio, create it
 	if (!_audio)
 	{
-		ModuleManager::Get().RecreateAudioModule();
-		_audio = ModuleManager::Get().AudioModule();
+		GModuleManager::Get().RecreateAudioModule();
+		_audio = GModuleManager::Get().AudioModule();
 	}
 }
 AAudioNode::~AAudioNode()

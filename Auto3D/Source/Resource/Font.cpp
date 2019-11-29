@@ -44,7 +44,7 @@ void Font::RegisterObject()
 bool Font::BeginLoad(Stream& source)
 {
 	// In headless mode, do not actually load, just return success
-	Graphics* graphics = ModuleManager::Get().GraphicsModule();
+	Graphics* graphics = GModuleManager::Get().GraphicsModule();
 	if (!graphics)
 		return true;
 
@@ -63,7 +63,7 @@ bool Font::BeginLoad(Stream& source)
 		return false;
 	}
 
-	FString ext = Extension(Name());
+	FString ext = Extension(FName());
 	if (ext == ".ttf" || ext == ".otf" || ext == ".woff")
 	{
 		_fontType = FONT_FREETYPE;

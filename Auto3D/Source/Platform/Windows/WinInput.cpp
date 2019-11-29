@@ -30,7 +30,7 @@ void Input::Update()
         it->_delta = Vector2I::ZERO;
 
     // The OS-specific _window message handling will call back to Input and update the state
-    Window* window = ModuleManager::Get().GraphicsModule()->RenderWindow();
+    Window* window = GModuleManager::Get().GraphicsModule()->RenderWindow();
     if (window)
         window->PumpMessages();
 }
@@ -61,7 +61,7 @@ bool Input::IsKeyPressRaw(unsigned rawKeyCode) const
 
 const Vector2I& Input::GetMousePosition() const
 {
-	Window* window = ModuleManager::Get().GraphicsModule()->RenderWindow();
+	Window* window = GModuleManager::Get().GraphicsModule()->RenderWindow();
     return window ? window->GetMousePosition() : Vector2I::ZERO;
 }
 

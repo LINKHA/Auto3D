@@ -11,8 +11,8 @@ class ResourceCache;
 class Graphics;
 class Renderer;
 class Input;
-class Log;
-class Profiler;
+class ALog;
+class AProfiler;
 class Time;
 class RegisteredBox;
 class Script;
@@ -22,15 +22,15 @@ class FileSystem;
 class UI;
 class AAudio;
 
-class AUTO_API ModuleManager //: public GameManager
+class AUTO_API GModuleManager //: public AGameManager
 {
-	//REGISTER_OBJECT_CLASS(ModuleManager, GameManager)
-	friend class TSingleton<ModuleManager>;
+	//REGISTER_OBJECT_CLASS(GModuleManager, AGameManager)
+	friend class TSingleton<GModuleManager>;
 protected:
 	/// Structure
-	ModuleManager();
+	GModuleManager();
 	/// Destructor
-	~ModuleManager();
+	~GModuleManager();
 public:
 	/// Register all moudle library.
 	void RegisterMoudleLibrary();
@@ -38,7 +38,7 @@ public:
 	void CreateModules();
 
 	/// Gets the singleton instance of the module manager.
-	static ModuleManager& Get();
+	static GModuleManager& Get();
 
 	/// Recreate cache moudle if not null.
 	void RecreateCacheModule(ResourceCache* cache = nullptr);
@@ -48,10 +48,10 @@ public:
 	void RecreateRendererModule(Renderer* renderer = nullptr);
 	/// Recreate input management events module if not null.
 	void RecreateInputModule(Input* input = nullptr);
-	/// Recreate Engine Log
-	void RecreateLogModule(Log* log = nullptr);
+	/// Recreate AEngine ALog
+	void RecreateLogModule(ALog* log = nullptr);
 	/// Recreate hierarchical performance profiler subsystem.
-	void RecreateProfilerModule(Profiler* profiler = nullptr);
+	void RecreateProfilerModule(AProfiler* profiler = nullptr);
 	/// Recreate process all engine time, calculate FPS, etc
 	void RecreateTimeModule(Time* time = nullptr);
 	/// Recreate the message management mechanism for the underlying interaction between the game project and the engine
@@ -75,10 +75,10 @@ public:
 	Renderer* RendererModule() { return _renderer.Get(); }
 	/// Return input management events
 	Input* InputModule() { return _input.Get(); }
-	/// Engine Log
-	Log* LogModule() { return _log.Get(); }
+	/// AEngine ALog
+	ALog* LogModule() { return _log.Get(); }
 	/// Return hierarchical performance profiler subsystem.
-	Profiler* ProfilerModule() { return _profiler.Get(); }
+	AProfiler* ProfilerModule() { return _profiler.Get(); }
 	/// Return process all engine time, calculate FPS, etc
 	Time* TimeModule() { return _time.Get(); }
 	/// Return the message management mechanism for the underlying interaction between the game project and the engine
@@ -102,10 +102,10 @@ private:
 	TUniquePtr<Renderer> _renderer;
 	/// User input management events
 	TUniquePtr<Input> _input;
-	/// Engine Log
-	TUniquePtr<Log> _log;
+	/// AEngine ALog
+	TUniquePtr<ALog> _log;
 	/// Hierarchical performance profiler subsystem.
-	TUniquePtr<Profiler> _profiler;
+	TUniquePtr<AProfiler> _profiler;
 	/// Process all engine time, calculate FPS, etc
 	TUniquePtr<Time> _time;
 	/// The message management mechanism for the underlying interaction between the game project and the engine

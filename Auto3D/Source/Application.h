@@ -12,7 +12,7 @@
 namespace Auto3D
 {
 
-class Engine;
+class AEngine;
 /// The superclass implementation of the project space, where the engine is implemented
 class AUTO_API Application : public AObject
 {
@@ -34,13 +34,13 @@ public:
 	virtual void Stop() { }
 	/// This function is the UI rendered after the render function at the top
 	virtual void UIDraw() { }
-	/// This is Engine important funcation init awake runloop and finish run
+	/// This is AEngine important funcation init awake runloop and finish run
 	int Run();
 	/// Show an error message (last log message if empty), terminate the main loop, and set failure exit code.
 	void ErrorExit(const FString& message = FString::EMPTY);
 protected:
-	/// Auto3D Engine
-	TUniquePtr<Engine> _engine;
+	/// Auto3D AEngine
+	TUniquePtr<AEngine> _engine;
 	/// Collected startup error log messages.
 	FString _startupErrors;
 	/// Application exit code.

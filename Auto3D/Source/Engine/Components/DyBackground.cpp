@@ -23,7 +23,7 @@ GLUSboolean initBackground()
 
 	GLUSshape background;
 
-	auto cache = ModuleManager::Get().CacheModule();
+	auto cache = GModuleManager::Get().CacheModule();
 	backGroundVSV = cache->LoadResource<Shader>("Shader/Water/Background.vert")->CreateVariation();
 	backGroundPSV = cache->LoadResource<Shader>("Shader/Water/Background.frag")->CreateVariation();
 
@@ -53,7 +53,7 @@ GLUSboolean initBackground()
 	glusShapeDestroyf(&background);
 
 
-	auto graphics = ModuleManager::Get().GraphicsModule();
+	auto graphics = GModuleManager::Get().GraphicsModule();
 
 	graphics->SetShaders(backGroundVSV, backGroundPSV);
 	ShaderProgram* waterProgram = graphics->Shaderprogram();
@@ -82,7 +82,7 @@ GLUSboolean initBackground()
 GLUSvoid reshapeBackground(GLUSfloat projectionMatrix[16])
 {
 
-	auto graphics = ModuleManager::Get().GraphicsModule();
+	auto graphics = GModuleManager::Get().GraphicsModule();
 
 	graphics->SetShaders(backGroundVSV, backGroundPSV);
 	ShaderProgram* waterProgram = graphics->Shaderprogram();
@@ -94,7 +94,7 @@ GLUSboolean renderBackground(GLUSfloat viewMatrix[16])
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	auto graphics = ModuleManager::Get().GraphicsModule();
+	auto graphics = GModuleManager::Get().GraphicsModule();
 
 	graphics->SetShaders(backGroundVSV, backGroundPSV);
 	ShaderProgram* waterProgram = graphics->Shaderprogram();
