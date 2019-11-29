@@ -26,9 +26,9 @@ namespace FaceCameraMode
 class Texture;
 
 /// Camera scene node.
-class AUTO_API Camera : public SpatialNode
+class AUTO_API Camera : public ASpatialNode
 {
-	REGISTER_OBJECT_CLASS(Camera, SpatialNode)
+	REGISTER_OBJECT_CLASS(Camera, ASpatialNode)
 
 public:
     /// Construct.

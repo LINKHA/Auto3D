@@ -3,7 +3,7 @@
 
 namespace Auto3D
 {
-namespace AudioSourceUsage
+namespace EAudioSourceUsage
 {
 	enum Type
 	{
@@ -13,30 +13,31 @@ namespace AudioSourceUsage
 	};
 };
 
-class Audio;
-class Sound;
-/// Audio buffer
-class AUTO_API AudioBuffer : public ARefCounted
+class AAudio;
+class ASound;
+/// AAudio buffer
+class AUTO_API AAudioBuffer : public FRefCounted
 {
 public:
-	AudioBuffer();
-	
-	~AudioBuffer();
+	/// Constructor
+	AAudioBuffer();
+	/// Destructor
+	~AAudioBuffer();
 	/// Create the GPU-side vertex buffer. Return true on success.
-	bool Create(Sound* sound);
-
+	bool Create(ASound* sound);
+	/// Get buffer.
 	unsigned& Buffer() { return _buffer; }
-
+	/// Get source.
 	unsigned& Source() { return _source; }
 private:
-	WeakPtr<Audio> _audio;
-	
+	/// Get audio moudle for weak.
+	WeakPtr<AAudio> _audio;
 	/// OpenGL buffer object identifier.
 	unsigned _buffer;
-
+	/// Audio source.
 	unsigned _source;
-
-	AudioSourceUsage::Type _usage;
+	/// Audio source usage.
+	EAudioSourceUsage::Type _usage;
 };
 
 }

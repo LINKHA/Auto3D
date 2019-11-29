@@ -5,12 +5,12 @@
 namespace Auto3D
 {
 
-ARefCounted::ARefCounted() :
+FRefCounted::FRefCounted() :
     _refCount(nullptr)
 {
 }
 
-ARefCounted::~ARefCounted()
+FRefCounted::~FRefCounted()
 {
     if (_refCount)
     {
@@ -22,15 +22,15 @@ ARefCounted::~ARefCounted()
     }
 }
 
-void ARefCounted::AddRef()
+void FRefCounted::AddRef()
 {
     if (!_refCount)
-        _refCount = new RefCount();
+        _refCount = new FRefCount();
 
     ++(_refCount->_refs);
 }
 
-void ARefCounted::ReleaseRef()
+void FRefCounted::ReleaseRef()
 {
     assert(_refCount && _refCount->_refs > 0);
     --(_refCount->_refs);
@@ -38,10 +38,10 @@ void ARefCounted::ReleaseRef()
         delete this;
 }
 
-RefCount* ARefCounted::RefCountPtr()
+FRefCount* FRefCounted::RefCountPtr()
 {
     if (!_refCount)
-        _refCount = new RefCount();
+        _refCount = new FRefCount();
 
     return _refCount;
 }

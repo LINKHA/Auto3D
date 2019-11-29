@@ -16,7 +16,7 @@ class ShaderVariation;
 class Texture;
 
 /// Render pass, which defines render state and shaders. A material may define several of these.
-class Pass : public ARefCounted
+class Pass : public FRefCounted
 {
 public:
     /// Construct.
@@ -90,9 +90,9 @@ private:
 };
 
 /// %Material resource, which describes how to render 3D geometry and refers to textures. A material can contain several passes (for example normal rendering, and depth only.)
-class Material : public Resource
+class Material : public AResource
 {
-	REGISTER_OBJECT_CLASS(Material, Resource)
+	REGISTER_OBJECT_CLASS(Material, AResource)
 
 public:
     /// Construct.

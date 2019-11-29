@@ -9,7 +9,7 @@ namespace Auto3D
 {
 
 /// GPU buffer for vertex data.
-class AUTO_API VertexBuffer : public ARefCounted, public GPUObject
+class AUTO_API VertexBuffer : public FRefCounted, public GPUObject
 {
 public:
 	/// Construct.
@@ -75,7 +75,7 @@ private:
 	Vector<VertexElement> _elements;
 	/// Vertex element hash code.
 	unsigned _elementHash;
-	/// Resource usage type.
+	/// AResource usage type.
 	ResourceUsage::Type _usage;
 };
 

@@ -44,9 +44,9 @@ struct AUTO_API Bone
 };
 
 /// 3D model resource.
-class AUTO_API Model : public Resource
+class AUTO_API Model : public AResource
 {
-	REGISTER_OBJECT_CLASS(Model, Resource)
+	REGISTER_OBJECT_CLASS(Model, AResource)
 
 public:
     /// Construct.

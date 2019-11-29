@@ -50,7 +50,7 @@ bool ResourceCache::AddResourceDir(const String& pathName, bool addFirst)
     return true;
 }
 
-bool ResourceCache::AddManualResource(Resource* resource)
+bool ResourceCache::AddManualResource(AResource* resource)
 {
     if (!resource)
     {
@@ -91,7 +91,7 @@ void ResourceCache::UnloadResource(StringHash type, const String& name, bool for
     if (it == _resources.End())
         return;
 
-    Resource* resource = it->_second;
+    AResource* resource = it->_second;
     if (resource->Refs() == 1 || force)
         _resources.Erase(key);
 }
@@ -108,7 +108,7 @@ void ResourceCache::UnloadResources(StringHash type, bool force)
             auto current = it++;
             if (current->_first._first == type)
             {
-                Resource* resource = current->_second;
+                AResource* resource = current->_second;
                 if (resource->Refs() == 1 || force)
                 {
                     _resources.Erase(current);
@@ -134,7 +134,7 @@ void ResourceCache::UnloadResources(StringHash type, const String& partialName, 
             auto current  = it++;
             if (current->_first._first == type)
             {
-                Resource* resource = current->_second;
+                AResource* resource = current->_second;
                 if (resource->Name().StartsWith(partialName) && (resource->Refs() == 1 || force))
                 {
                     _resources.Erase(current);
@@ -158,7 +158,7 @@ void ResourceCache::UnloadResources(const String& partialName, bool force)
         for (auto it = _resources.Begin(); it != _resources.End();)
         {
             auto current = it++;
-            Resource* resource = current->_second;
+            AResource* resource = current->_second;
             if (resource->Name().StartsWith(partialName) && (!resource->Refs() == 1 || force))
             {
                 _resources.Erase(current);
@@ -181,7 +181,7 @@ void ResourceCache::UnloadAllResources(bool force)
         for (auto it = _resources.Begin(); it != _resources.End();)
         {
             auto current = it++;
-            Resource* resource = current->_second;
+            AResource* resource = current->_second;
             if (resource->Refs() == 1 || force)
             {
                 _resources.Erase(current);
@@ -194,7 +194,7 @@ void ResourceCache::UnloadAllResources(bool force)
     }
 }
 
-bool ResourceCache::ReloadResource(Resource* resource)
+bool ResourceCache::ReloadResource(AResource* resource)
 {
     if (!resource)
         return false;
@@ -232,7 +232,7 @@ AutoPtr<Stream> ResourceCache::OpenResource(const String& nameIn)
     return ret;
 }
 
-Resource* ResourceCache::LoadResource(StringHash type, const String& nameIn)
+AResource* ResourceCache::LoadResource(StringHash type, const String& nameIn)
 {
     String name = SanitateResourceName(nameIn);
 
@@ -252,7 +252,7 @@ Resource* ResourceCache::LoadResource(StringHash type, const String& nameIn)
         ErrorString("Could not load unknown resource type " + String(type));
         return nullptr;
     }
-    Resource* newResource = dynamic_cast<Resource*>(newObject.Get());
+    AResource* newResource = dynamic_cast<AResource*>(newObject.Get());
     if (!newResource)
     {
         ErrorString("Type " + String(type) + " is not a resource");
@@ -274,7 +274,7 @@ Resource* ResourceCache::LoadResource(StringHash type, const String& nameIn)
     return newResource;
 }
 
-void ResourceCache::ResourcesByType(Vector<Resource*>& result, StringHash type) const
+void ResourceCache::ResourcesByType(Vector<AResource*>& result, StringHash type) const
 {
     result.Clear();
 

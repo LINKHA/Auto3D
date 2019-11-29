@@ -8,7 +8,7 @@
 namespace Auto3D
 {
 
-AudioListener::AudioListener() :
+AAudioListener::AAudioListener() :
 	_listenerVel(0.0f, 0.0f, 0.0f),
 	_listenerOriAt(0.0f, 0.0f, -1.0f),
 	_listenerOriUp(0.0f, 1.0f, 0.0f)
@@ -16,14 +16,14 @@ AudioListener::AudioListener() :
 	_audio->SetListener(this);
 
 }
-AudioListener::~AudioListener()
+AAudioListener::~AAudioListener()
 {
 
 }
 
-void AudioListener::RegisterObject()
+void AAudioListener::RegisterObject()
 {
-	RegisterFactory<AudioListener>();
+	RegisterFactory<AAudioListener>();
 }
 
 

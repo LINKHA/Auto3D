@@ -8,7 +8,7 @@ namespace Auto3D
 {
 
 /// GPU buffer for index data.
-class AUTO_API IndexBuffer : public ARefCounted, public GPUObject
+class AUTO_API IndexBuffer : public FRefCounted, public GPUObject
 {
 public:
     /// Construct.
@@ -54,7 +54,7 @@ private:
     size_t _numIndices;
     /// Size of index in bytes.
     size_t _indexSize;
-    /// Resource usage type.
+    /// AResource usage type.
     ResourceUsage::Type _usage;
 };
 

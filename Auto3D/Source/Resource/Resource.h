@@ -9,9 +9,9 @@ namespace Auto3D
 class Stream;
 
 /// Base class for resources.
-class AUTO_API Resource : public AObject
+class AUTO_API AResource : public AObject
 {
-    REGISTER_OBJECT_CLASS(Resource,AObject)
+    REGISTER_OBJECT_CLASS(AResource,AObject)
 
 public:
     /// Load the resource data from a stream. May be executed outside the main thread, should not access GPU resources. Return true on success.
@@ -35,9 +35,9 @@ public:
 	/// Return memory use in bytes, possibly approximate.
 	unsigned GetMemoryUse() const { return _memoryUse; }
 private:
-    /// Resource name.
+    /// AResource name.
     String _name;
-    /// Resource name hash.
+    /// AResource name hash.
     StringHash _nameHash;
 
 	/// Memory use in bytes.
@@ -45,19 +45,19 @@ private:
 };
 
 /// Return name from a resource pointer.
-inline const String& ResourceName(Resource* resource)
+inline const String& ResourceName(AResource* resource)
 {
     return resource ? resource->Name() : String::EMPTY;
 }
 
 /// Return type from a resource pointer, or default type if null.
-inline StringHash ResourceType(Resource* resource, StringHash defaultType)
+inline StringHash ResourceType(AResource* resource, StringHash defaultType)
 {
     return resource ? resource->GetType() : defaultType;
 }
 
 /// Make a resource ref from a resource pointer.
-inline ResourceRef MakeResourceRef(Resource* resource, StringHash defaultType)
+inline ResourceRef MakeResourceRef(AResource* resource, StringHash defaultType)
 {
     return ResourceRef(ResourceType(resource, defaultType), ResourceName(resource));
 }

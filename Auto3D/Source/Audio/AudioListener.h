@@ -4,16 +4,15 @@
 namespace Auto3D
 {
 
-class Audio;
+class AAudio;
 
-class AUTO_API AudioListener : public AudioNode
+class AUTO_API AAudioListener : public AAudioNode
 {
-	REGISTER_OBJECT_CLASS(AudioListener, AudioNode)
+	REGISTER_OBJECT_CLASS(AAudioListener, AAudioNode)
 
 public:
-	AudioListener();
-	~AudioListener();
-
+	AAudioListener();
+	~AAudioListener();
 
 	/// Register factory and attributes.
 	static void RegisterObject();

@@ -58,9 +58,9 @@ public:
 };
 
 /// Logging subsystem.
-class AUTO_API Log : public BaseModule
+class AUTO_API Log : public ABaseModule
 {
-	REGISTER_OBJECT_CLASS(Log, BaseModule)
+	REGISTER_OBJECT_CLASS(Log, ABaseModule)
 public:
     /// Construct and register subsystem.
     Log();

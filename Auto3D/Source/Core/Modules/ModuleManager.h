@@ -20,7 +20,7 @@ class Renderer2D;
 class Physics;
 class FileSystem;
 class UI;
-class Audio;
+class AAudio;
 
 class AUTO_API ModuleManager //: public GameManager
 {
@@ -65,7 +65,7 @@ public:
 	/// Recreate UI-related operations and rendering capabilities
 	void RecreateUiModule(UI* ui = nullptr);
 	/// Recreate component management of all audio.(Assign values when the component is first created)
-	void RecreateAudioModule(Audio* audio = nullptr);
+	void RecreateAudioModule(AAudio* audio = nullptr);
 
 	/// Return resource loads.
 	ResourceCache* CacheModule() { return _cache.Get(); }
@@ -92,7 +92,7 @@ public:
 	/// Return UI-related operations and rendering capabilities
 	UI* UiModule() { return _ui.Get(); }
 	/// Return component management of all audio.(Assign values when the component is first created)
-	Audio* AudioModule() { return _audio.Get(); }
+	AAudio* AudioModule() { return _audio.Get(); }
 private:
 	/// Manage the subsystem of all resource loads
 	UniquePtr<ResourceCache> _cache;
@@ -119,7 +119,7 @@ private:
 	/// UI-related operations and rendering capabilities
 	UniquePtr<UI> _ui;
 	/// Component management of all audio.(Assign values when the component is first created)
-	UniquePtr<Audio> _audio;
+	UniquePtr<AAudio> _audio;
 };
 
 }

@@ -22,37 +22,37 @@ namespace Auto3D {
 
 const ALCint contextAttr[] = { ALC_FREQUENCY,48000,0 };
 
-Audio::Audio() :
+AAudio::AAudio() :
 	_device(nullptr),
 	_context(nullptr)
 {
 	_device = alcOpenDevice(NULL);
 	_context = alcCreateContext(_device, contextAttr);
 	alcMakeContextCurrent(_context);
-	// The application has been placed in the AudioListener
+	// The application has been placed in the AAudioListener
 	//RegisterModule(this);
 }
 
 
-Audio::~Audio()
+AAudio::~AAudio()
 {
 	alcDestroyContext(_context);
 	alcCloseDevice(_device);
 }
 
-void Audio::AddSource(unsigned sourceID, AudioSource* source)
+void AAudio::AddSource(unsigned sourceID, AAudioSource* source)
 {
 	if (_sources.Find(sourceID) != _sources.End())
 		return;
 	_sources[sourceID] = source;
 }
 
-void Audio::SetListener(AudioListener* listener)
+void AAudio::SetListener(AAudioListener* listener)
 {
 	_listener = listener;
 }
 
-void Audio::SetListenerValue(Vector3F position, Vector3F listenerVel, Vector3F listenerOriAt, Vector3F listenerOriUp)
+void AAudio::SetListenerValue(Vector3F position, Vector3F listenerVel, Vector3F listenerOriAt, Vector3F listenerOriUp)
 {
 	if (!_listener)
 		return;
@@ -69,7 +69,7 @@ void Audio::SetListenerValue(Vector3F position, Vector3F listenerVel, Vector3F l
 	alListenerfv(AL_ORIENTATION, ListenerOriArray);
 }
 
-void Audio::SourcePlay(unsigned source, int delay)
+void AAudio::SourcePlay(unsigned source, int delay)
 {
 	if (!source)
 	{
@@ -79,7 +79,7 @@ void Audio::SourcePlay(unsigned source, int delay)
 	CallSourcePlay(source, delay);
 }
 
-void Audio::SourcePlay(AudioSource* source, int delay)
+void AAudio::SourcePlay(AAudioSource* source, int delay)
 {
 	if (!source)
 	{
@@ -94,7 +94,7 @@ void Audio::SourcePlay(AudioSource* source, int delay)
 	CallSourcePlay(source->GetBuffer()->Source(), delay);
 }
 
-void Audio::SourcePause(unsigned source, int delay)
+void AAudio::SourcePause(unsigned source, int delay)
 {
 	if (!source)
 	{
@@ -104,7 +104,7 @@ void Audio::SourcePause(unsigned source, int delay)
 	CallSourcePause(source, delay);
 }
 
-void Audio::SourcePause(AudioSource* source, int delay)
+void AAudio::SourcePause(AAudioSource* source, int delay)
 {
 	if (!source)
 	{
@@ -119,7 +119,7 @@ void Audio::SourcePause(AudioSource* source, int delay)
 	CallSourcePause(source->GetBuffer()->Source(), delay);
 }
 
-void Audio::SourceStop(unsigned source, int delay)
+void AAudio::SourceStop(unsigned source, int delay)
 {
 	if (!source)
 	{
@@ -129,7 +129,7 @@ void Audio::SourceStop(unsigned source, int delay)
 	CallSourceStop(source, delay);
 }
 
-void Audio::SourceStop(AudioSource* source, int delay)
+void AAudio::SourceStop(AAudioSource* source, int delay)
 {
 	if (!source)
 	{
@@ -144,7 +144,7 @@ void Audio::SourceStop(AudioSource* source, int delay)
 	CallSourceStop(source->GetBuffer()->Source(), delay);
 }
 
-void Audio::SourceRewind(unsigned source, int delay)
+void AAudio::SourceRewind(unsigned source, int delay)
 {
 	if (!source)
 	{
@@ -154,7 +154,7 @@ void Audio::SourceRewind(unsigned source, int delay)
 	CallSourceRewind(source, delay);
 }
 
-void Audio::SourceRewind(AudioSource* source, int delay)
+void AAudio::SourceRewind(AAudioSource* source, int delay)
 {
 	if (!source)
 	{
@@ -169,70 +169,70 @@ void Audio::SourceRewind(AudioSource* source, int delay)
 	CallSourceRewind(source->GetBuffer()->Source(), delay);
 }
 
-void Audio::SetPitch(unsigned source, float val)
+void AAudio::SetPitch(unsigned source, float val)
 {
 	if(_sources.Find(source) != _sources.End())
 		alSourcef(source, AL_PITCH, val);
 }
 
-void Audio::SetGain(unsigned source, float val)
+void AAudio::SetGain(unsigned source, float val)
 {
 	if (_sources.Find(source) != _sources.End())
 		alSourcef(source, AL_GAIN, 1.0f);
 }
 
-void Audio::SetVel(unsigned source, Vector3F vel)
+void AAudio::SetVel(unsigned source, Vector3F vel)
 {
 	if (_sources.Find(source) != _sources.End())
 		alSource3f(source, AL_VELOCITY, vel._x, vel._y, vel._z);
 }
 
-AudioSourceState::Type Audio::GetState(unsigned source)
+EAudioSourceState::Type AAudio::GetState(unsigned source)
 {
 	ALint state;
 	alGetSourcei(source, AL_SOURCE_STATE, &state);
 	if (state == AL_INITIAL)
-		return AudioSourceState::INITIAL;
+		return EAudioSourceState::INITIAL;
 	else if (state == AL_PLAYING)
-		return AudioSourceState::PLAYING;
+		return EAudioSourceState::PLAYING;
 	else if (state == AL_PAUSED)
-		return AudioSourceState::PAUSED;
+		return EAudioSourceState::PAUSED;
 	else if (state == AL_STOPPED)
-		return AudioSourceState::STOPPED;
+		return EAudioSourceState::STOPPED;
 	else
-		return AudioSourceState::DEFAULT;
+		return EAudioSourceState::DEFAULT;
 }
-AudioSourceState::Type Audio::GetState(AudioSource* source)
+EAudioSourceState::Type AAudio::GetState(AAudioSource* source)
 {
 	if (!source)
 	{
 		ErrorString("AudioSource invalid get state failed");
-		return AudioSourceState::DEFAULT;
+		return EAudioSourceState::DEFAULT;
 	}
 	if (!source->GetBuffer()->Source())
 	{
 		ErrorString("Audio source invalid get state failed");
-		return AudioSourceState::DEFAULT;
+		return EAudioSourceState::DEFAULT;
 	}
 	ALint state;
 	alGetSourcei(source->GetBuffer()->Source(), AL_SOURCE_STATE, &state);
 	if (state == AL_INITIAL)
-		return AudioSourceState::INITIAL;
+		return EAudioSourceState::INITIAL;
 	else if (state == AL_PLAYING)
-		return AudioSourceState::PLAYING;
+		return EAudioSourceState::PLAYING;
 	else if (state == AL_PAUSED)
-		return AudioSourceState::PAUSED;
+		return EAudioSourceState::PAUSED;
 	else if (state == AL_STOPPED)
-		return AudioSourceState::STOPPED;
+		return EAudioSourceState::STOPPED;
 	else
-		return AudioSourceState::DEFAULT;
+		return EAudioSourceState::DEFAULT;
 }
-const AudioSource* Audio::GetSource(unsigned index)
+const AAudioSource* AAudio::GetSource(unsigned index)
 {
 	return _sources.Find(index) != _sources.End() ? _sources[index] : nullptr;
 }
 
-void Audio::Update()
+void AAudio::Update()
 {
 	if (!_listener)
 		return;
@@ -253,18 +253,18 @@ void Audio::Update()
 
 	for (auto it = _sources.Begin(); it != _sources.End(); it++)
 	{
-		AudioSource& source = *it->_second;
+		AAudioSource& source = *it->_second;
 		Vector3F vec = (*it)._second->GetPosition();
 		alSource3f((*it)._second->GetBuffer()->Source(), AL_POSITION, vec._x, vec._y, vec._z);
 	}
 
 }
-bool Audio::IsInitialized()
+bool AAudio::IsInitialized()
 {
 	return _device && _context;
 }
 
-void Audio::CallSourcePlay(unsigned source, int delay)
+void AAudio::CallSourcePlay(unsigned source, int delay)
 {
 	if (!source)
 	{
@@ -278,7 +278,7 @@ void Audio::CallSourcePlay(unsigned source, int delay)
 		ModuleManager::Get().TimeModule()->OneShotTimer(std::bind(&This::CallSourcePlay, this, source, 0), delay);
 }
 
-void Audio::CallSourcePause(unsigned source, int delay)
+void AAudio::CallSourcePause(unsigned source, int delay)
 {
 	if (!source)
 	{
@@ -291,7 +291,7 @@ void Audio::CallSourcePause(unsigned source, int delay)
 		ModuleManager::Get().TimeModule()->OneShotTimer(std::bind(&This::CallSourcePause, this, source, 0), delay);
 }
 
-void Audio::CallSourceStop(unsigned source, int delay)
+void AAudio::CallSourceStop(unsigned source, int delay)
 {
 	if (!source)
 	{
@@ -304,7 +304,7 @@ void Audio::CallSourceStop(unsigned source, int delay)
 		ModuleManager::Get().TimeModule()->OneShotTimer(std::bind(&This::CallSourceStop, this, source, 0), delay);
 }
 
-void Audio::CallSourceRewind(unsigned source, int delay)
+void AAudio::CallSourceRewind(unsigned source, int delay)
 {
 	if (!source)
 	{
@@ -324,10 +324,10 @@ void RegisterAudioLibrary()
 		return;
 	registered = true;
 
-	AudioListener::RegisterObject();
-	AudioSource::RegisterObject();
-	Sound::RegisterObject();
-	AudioNode::RegisterObject();
+	AAudioListener::RegisterObject();
+	AAudioSource::RegisterObject();
+	ASound::RegisterObject();
+	AAudioNode::RegisterObject();
 
 }
 

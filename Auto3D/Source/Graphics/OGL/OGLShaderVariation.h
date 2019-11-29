@@ -10,7 +10,7 @@ namespace Auto3D
 class Shader;
 
 /// Compiled shader with specific defines.
-class AUTO_API ShaderVariation : public ARefCounted, public GPUObject
+class AUTO_API ShaderVariation : public FRefCounted, public GPUObject
 {
 public:
     /// Construct. Set parent shader and defines but do not compile yet.

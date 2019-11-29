@@ -10,14 +10,14 @@
 namespace Auto3D
 {
 
-class ARefCounted;
+class FRefCounted;
 template <typename _Ty> class WeakPtr;
 
 /// Reference count structure. Used in both intrusive and non-intrusive reference counting.
-struct AUTO_API RefCount
+struct AUTO_API FRefCount
 {
     /// Construct with zero refcounts.
-    RefCount() :
+    FRefCount() :
         _refs(0),
         _weakRefs(0),
         _expired(false)
@@ -33,18 +33,18 @@ struct AUTO_API RefCount
 };
 
 /// Base class for intrusively reference counted objects that can be pointed to with SharedPtr and WeakPtr. These are not copy-constructible and not assignable.
-class AUTO_API ARefCounted
+class AUTO_API FRefCounted
 {
 public:
     /// Construct. The reference count is not allocated yet; it will be allocated on demand.
-    ARefCounted();
+    FRefCounted();
 
     /// Destruct. If no weak references, destroy also the reference count, else mark it expired.
-    virtual ~ARefCounted();
+    virtual ~FRefCounted();
 	/// Prevent copy construction.
-	ARefCounted(const ARefCounted& rhs) = delete;
+	FRefCounted(const FRefCounted& rhs) = delete;
 	/// Prevent assignment.
-	ARefCounted& operator = (const ARefCounted& rhs) = delete;
+	FRefCounted& operator = (const FRefCounted& rhs) = delete;
 
     /// Add a strong reference. Allocate the reference count structure first if necessary.
     void AddRef();
@@ -56,15 +56,15 @@ public:
     /// Return the number of weak references.
     unsigned WeakRefs() const { return _refCount ? _refCount->_weakRefs : 0; }
     /// Return pointer to the reference count structure. Allocate if not allocated yet.
-    RefCount* RefCountPtr();
+    FRefCount* RefCountPtr();
 
 private:
    
     /// Reference count structure, allocated on demand.
-    RefCount* _refCount;
+    FRefCount* _refCount;
 };
 
-/// Pointer which holds a strong reference to a ARefCounted subclass and allows shared ownership.
+/// Pointer which holds a strong reference to a FRefCounted subclass and allows shared ownership.
 template <typename _Ty> class SharedPtr
 {
 public:
@@ -190,7 +190,7 @@ template <typename _Ty1, typename _Ty2> SharedPtr<_Ty1> DynamicCast(const Shared
     return ret;
 }
 
-/// Pointer which holds a weak reference to a ARefCounted subclass. Can track destruction but does not keep the object alive.
+/// Pointer which holds a weak reference to a FRefCounted subclass. Can track destruction but does not keep the object alive.
 template <typename _Ty> class WeakPtr
 {
 public:
@@ -343,7 +343,7 @@ private:
     /// %AObject pointer.
     _Ty* ptr;
     /// The object's weak reference count structure.
-    RefCount* refCount;
+    FRefCount* refCount;
 };
 
 /// Perform a static cast between weak pointers of two types.
@@ -421,7 +421,7 @@ public:
         if (rhs)
         {
             _ptr = rhs;
-            _refCount = new RefCount();
+            _refCount = new FRefCount();
             if (_refCount)
                 ++(_refCount->_refs);
         }
@@ -491,7 +491,7 @@ public:
     /// Return the number of weak references.
     unsigned WeakRefs() const { return _refCount ? _refCount->_weakRefs : 0; }
     /// Return pointer to the reference count structure.
-    RefCount* RefCountPtr() const { return _refCount; }
+    FRefCount* RefCountPtr() const { return _refCount; }
     /// Check if the pointer is null.
     bool IsNull() const { return _ptr == nullptr; }
 
@@ -502,7 +502,7 @@ private:
     /// Pointer to the array.
     _Ty* _ptr;
     /// Pointer to the reference count structure.
-    RefCount* _refCount;
+    FRefCount* _refCount;
 };
 
 /// Perform a static cast from one shared array pointer type to another.
@@ -685,8 +685,8 @@ private:
 
     /// Pointer to the array.
     _Ty* _ptr;
-    /// Pointer to the RefCount structure.
-    RefCount* _refCount;
+    /// Pointer to the FRefCount structure.
+    FRefCount* _refCount;
 };
 
 /// Perform a static cast from one weak array pointer type to another.

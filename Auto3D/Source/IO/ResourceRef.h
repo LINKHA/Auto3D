@@ -11,9 +11,9 @@ class Stream;
 /// Typed resource reference for serialization.
 struct AUTO_API ResourceRef
 {
-    /// Resource type.
+    /// AResource type.
     StringHash _type;
-    /// Resource name.
+    /// AResource name.
     String _name;
 
     /// Construct.
@@ -68,7 +68,7 @@ struct AUTO_API ResourceRef
 /// %List of typed resource references for serialization.
 struct AUTO_API ResourceRefList
 {
-    /// Resource type.
+    /// AResource type.
     StringHash _type;
     /// List of resource names.
     Vector<String> _names;

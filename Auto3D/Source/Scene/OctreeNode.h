@@ -13,11 +13,11 @@ struct Octant;
 struct RaycastResult;
 
 /// Base class for scene nodes that insert themselves to the octree for rendering.
-class AUTO_API OctreeNode : public SpatialNode
+class AUTO_API OctreeNode : public ASpatialNode
 {
     friend class Octree;
 
-    REGISTER_OBJECT_CLASS(OctreeNode,SpatialNode)
+    REGISTER_OBJECT_CLASS(OctreeNode,ASpatialNode)
 
 public:
     /// Construct.

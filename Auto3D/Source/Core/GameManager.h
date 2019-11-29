@@ -13,12 +13,12 @@ public:
 	virtual ~GameManager() = default;
 };
 
-class AUTO_API BaseModule : public GameManager
+class AUTO_API ABaseModule : public GameManager
 {
-	REGISTER_OBJECT_CLASS(BaseModule, GameManager)
+	REGISTER_OBJECT_CLASS(ABaseModule, GameManager)
 public:
-	BaseModule() = default;
-	virtual ~BaseModule() = default;
+	ABaseModule() = default;
+	virtual ~ABaseModule() = default;
 };
 
 }

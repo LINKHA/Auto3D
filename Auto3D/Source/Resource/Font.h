@@ -18,9 +18,9 @@ enum FontType
 };
 
 /// %Font resource.
-class AUTO_API Font : public Resource
+class AUTO_API Font : public AResource
 {
-	REGISTER_OBJECT_CLASS(Font, Resource)
+	REGISTER_OBJECT_CLASS(Font, AResource)
 
 public:
 	/// Construct.

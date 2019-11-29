@@ -13,9 +13,9 @@ class Image;
 class Geometry;
 
 /// %Texture on the GPU.
-class AUTO_API Texture : public Resource, public GPUObject
+class AUTO_API Texture : public AResource, public GPUObject
 {
-	REGISTER_OBJECT_CLASS(Texture, Resource)
+	REGISTER_OBJECT_CLASS(Texture, AResource)
 
 public:
 	/// Construct.

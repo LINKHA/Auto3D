@@ -29,22 +29,22 @@ struct WavHeader
 
 static const unsigned IP_SAFETY = 4;
 
-Sound::Sound()
+ASound::ASound()
 {
 }
 
 
-Sound::~Sound()
+ASound::~ASound()
 {
 
 }
 
-void Sound::RegisterObject()
+void ASound::RegisterObject()
 {
-	RegisterFactory<Sound>();
+	RegisterFactory<ASound>();
 }
 
-bool Sound::BeginLoad(Stream& source)
+bool ASound::BeginLoad(Stream& source)
 {
 	bool success;
 	if (Extension(source.Name()) == ".ogg")
@@ -57,7 +57,7 @@ bool Sound::BeginLoad(Stream& source)
 }
 
 
-bool Sound::LoadRaw(Stream& source)
+bool ASound::LoadRaw(Stream& source)
 {
 	unsigned dataSize = source.Size();
 	SetSize(dataSize);
@@ -65,7 +65,7 @@ bool Sound::LoadRaw(Stream& source)
 	return false;
 }
 
-bool Sound::LoadWav(Stream& source)
+bool ASound::LoadWav(Stream& source)
 {
 	WavHeader header{};
 
@@ -147,7 +147,7 @@ bool Sound::LoadWav(Stream& source)
 	return true;
 }
 
-bool Sound::LoadOggVorbis(Stream& source)
+bool ASound::LoadOggVorbis(Stream& source)
 {
 	unsigned dataSize = source.Size();
 	SharedArrayPtr<signed char> data(new signed char[dataSize]);
@@ -178,7 +178,7 @@ bool Sound::LoadOggVorbis(Stream& source)
 	return true;
 }
 
-void Sound::SetData(void* data, unsigned dataSize)
+void ASound::SetData(void* data, unsigned dataSize)
 {
 	if (!dataSize)
 		return;
@@ -187,7 +187,7 @@ void Sound::SetData(void* data, unsigned dataSize)
 	memcpy(_data.Get(), data, dataSize);
 }
 
-void Sound::SetSize(unsigned dataSize)
+void ASound::SetSize(unsigned dataSize)
 {
 	if (!dataSize)
 		return;
@@ -200,7 +200,7 @@ void Sound::SetSize(unsigned dataSize)
 	SetMemoryUse(dataSize + IP_SAFETY);
 }
 
-void Sound::SetFormat(unsigned frequency, bool sixteenBit, bool stereo)
+void ASound::SetFormat(unsigned frequency, bool sixteenBit, bool stereo)
 {
 	_frequency = frequency;
 	_sixteenBit = sixteenBit;
@@ -208,7 +208,7 @@ void Sound::SetFormat(unsigned frequency, bool sixteenBit, bool stereo)
 	_compressed = false;
 }
 
-void Sound::SetLooped(bool enable)
+void ASound::SetLooped(bool enable)
 {
 	if (enable)
 		SetLoop(0, _dataSize);
@@ -226,7 +226,7 @@ void Sound::SetLooped(bool enable)
 	}
 }
 
-void Sound::SetLoop(unsigned repeatOffset, unsigned endOffset)
+void ASound::SetLoop(unsigned repeatOffset, unsigned endOffset)
 {
 	if (!_compressed)
 	{
@@ -250,7 +250,7 @@ void Sound::SetLoop(unsigned repeatOffset, unsigned endOffset)
 		_looped = true;
 }
 
-float Sound::GetLength() const
+float ASound::GetLength() const
 {
 	if (!_compressed)
 	{
@@ -263,7 +263,7 @@ float Sound::GetLength() const
 		return _compressedLength;
 }
 
-unsigned Sound::GetSampleSize() const
+unsigned ASound::GetSampleSize() const
 {
 	unsigned _size = 1;
 	if (_sixteenBit)
@@ -273,7 +273,7 @@ unsigned Sound::GetSampleSize() const
 	return _size;
 }
 
-void Sound::FixInterpolation()
+void ASound::FixInterpolation()
 {
 	if (!_data || _compressed)
 		return;

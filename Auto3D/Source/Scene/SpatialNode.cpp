@@ -5,7 +5,7 @@
 namespace Auto3D
 {
 
-SpatialNode::SpatialNode() :
+ASpatialNode::ASpatialNode() :
     _worldTransform(Matrix3x4F::IDENTITY),
     _position(Vector3F::ZERO),
     _rotation(Quaternion::IDENTITY),
@@ -14,34 +14,34 @@ SpatialNode::SpatialNode() :
     SetFlag(NF_SPATIAL, true);
 }
 
-void SpatialNode::RegisterObject()
+void ASpatialNode::RegisterObject()
 {
-    RegisterFactory<SpatialNode>();
-    CopyBaseAttributes<SpatialNode, Node>();
-    RegisterRefAttribute("position", &SpatialNode::GetPosition, &SpatialNode::SetPosition, Vector3F::ZERO);
-    RegisterRefAttribute("rotation", &SpatialNode::GetRotation, &SpatialNode::SetRotation, Quaternion::IDENTITY);
-    RegisterRefAttribute("scale", &SpatialNode::GetScale, &SpatialNode::SetScale, Vector3F::ONE);
+    RegisterFactory<ASpatialNode>();
+    CopyBaseAttributes<ASpatialNode, Node>();
+    RegisterRefAttribute("position", &ASpatialNode::GetPosition, &ASpatialNode::SetPosition, Vector3F::ZERO);
+    RegisterRefAttribute("rotation", &ASpatialNode::GetRotation, &ASpatialNode::SetRotation, Quaternion::IDENTITY);
+    RegisterRefAttribute("scale", &ASpatialNode::GetScale, &ASpatialNode::SetScale, Vector3F::ONE);
 }
 
-void SpatialNode::SetPosition(const Vector3F& newPosition)
+void ASpatialNode::SetPosition(const Vector3F& newPosition)
 {
     _position = newPosition;
     OnTransformChanged();
 }
 
-void SpatialNode::SetRotation(const Quaternion& newRotation)
+void ASpatialNode::SetRotation(const Quaternion& newRotation)
 {
     _rotation = newRotation;
     OnTransformChanged();
 }
 
-void SpatialNode::SetDirection(const Vector3F& newDirection)
+void ASpatialNode::SetDirection(const Vector3F& newDirection)
 {
     _rotation = Quaternion(Vector3F::FORWARD, newDirection);
     OnTransformChanged();
 }
 
-void SpatialNode::SetScale(const Vector3F& newScale)
+void ASpatialNode::SetScale(const Vector3F& newScale)
 {
     _scale = newScale;
     // Make sure scale components never go to exactly zero, to prevent problems with decomposing the world matrix
@@ -55,19 +55,19 @@ void SpatialNode::SetScale(const Vector3F& newScale)
     OnTransformChanged();
 }
 
-void SpatialNode::SetScale(float newScale)
+void ASpatialNode::SetScale(float newScale)
 {
     SetScale(Vector3F(newScale, newScale, newScale));
 }
 
-void SpatialNode::SetTransform(const Vector3F& newPosition, const Quaternion& newRotation)
+void ASpatialNode::SetTransform(const Vector3F& newPosition, const Quaternion& newRotation)
 {
     _position = newPosition;
     _rotation = newRotation;
     OnTransformChanged();
 }
 
-void SpatialNode::SetTransform(const Vector3F& newPosition, const Quaternion& newRotation, const Vector3F& newScale)
+void ASpatialNode::SetTransform(const Vector3F& newPosition, const Quaternion& newRotation, const Vector3F& newScale)
 {
     _position = newPosition;
     _rotation = newRotation;
@@ -75,43 +75,43 @@ void SpatialNode::SetTransform(const Vector3F& newPosition, const Quaternion& ne
     OnTransformChanged();
 }
 
-void SpatialNode::SetTransform(const Vector3F& newPosition, const Quaternion& newRotation, float newScale)
+void ASpatialNode::SetTransform(const Vector3F& newPosition, const Quaternion& newRotation, float newScale)
 {
     SetTransform(newPosition, newRotation, Vector3F(newScale, newScale, newScale));
 }
 
-void SpatialNode::SetWorldPosition(const Vector3F& newPosition)
+void ASpatialNode::SetWorldPosition(const Vector3F& newPosition)
 {
-    SpatialNode* parentNode = GetSpatialParent();
+    ASpatialNode* parentNode = GetSpatialParent();
     SetPosition(parentNode ? parentNode->GetWorldTransform().Inverse() * newPosition : newPosition);
 }
 
-void SpatialNode::SetWorldRotation(const Quaternion& newRotation)
+void ASpatialNode::SetWorldRotation(const Quaternion& newRotation)
 {
-    SpatialNode* parentNode = GetSpatialParent();
+    ASpatialNode* parentNode = GetSpatialParent();
     SetRotation(parentNode ? parentNode->GetWorldRotation().Inverse() * newRotation : newRotation);
 }
 
-void SpatialNode::SetWorldDirection(const Vector3F& newDirection)
+void ASpatialNode::SetWorldDirection(const Vector3F& newDirection)
 {
-    SpatialNode* parentNode = GetSpatialParent();
+    ASpatialNode* parentNode = GetSpatialParent();
     SetDirection(parentNode ? parentNode->GetWorldRotation().Inverse() * newDirection : newDirection);
 }
 
-void SpatialNode::SetWorldScale(const Vector3F& newScale)
+void ASpatialNode::SetWorldScale(const Vector3F& newScale)
 {
-    SpatialNode* parentNode = GetSpatialParent();
+    ASpatialNode* parentNode = GetSpatialParent();
     SetScale(parentNode ? newScale / parentNode->GetWorldScale() : newScale);
 }
 
-void SpatialNode::SetWorldScale(float newScale)
+void ASpatialNode::SetWorldScale(float newScale)
 {
     SetWorldScale(Vector3F(newScale, newScale, newScale));
 }
 
-void SpatialNode::SetWorldTransform(const Vector3F& newPosition, const Quaternion& newRotation)
+void ASpatialNode::SetWorldTransform(const Vector3F& newPosition, const Quaternion& newRotation)
 {
-    SpatialNode* parentNode = GetSpatialParent();
+    ASpatialNode* parentNode = GetSpatialParent();
     if (parentNode)
     {
         Vector3F localPosition = parentNode->GetWorldTransform().Inverse() * newPosition;
@@ -122,9 +122,9 @@ void SpatialNode::SetWorldTransform(const Vector3F& newPosition, const Quaternio
         SetTransform(newPosition, newRotation);
 }
 
-void SpatialNode::SetWorldTransform(const Vector3F& newPosition, const Quaternion& newRotation, const Vector3F& newScale)
+void ASpatialNode::SetWorldTransform(const Vector3F& newPosition, const Quaternion& newRotation, const Vector3F& newScale)
 {
-    SpatialNode* parentNode = GetSpatialParent();
+    ASpatialNode* parentNode = GetSpatialParent();
     if (parentNode)
     {
         Vector3F localPosition = parentNode->GetWorldTransform().Inverse() * newPosition;
@@ -136,14 +136,14 @@ void SpatialNode::SetWorldTransform(const Vector3F& newPosition, const Quaternio
         SetTransform(newPosition, newRotation);
 }
 
-void SpatialNode::SetWorldTransform(const Vector3F& newPosition, const Quaternion& newRotation, float newScale)
+void ASpatialNode::SetWorldTransform(const Vector3F& newPosition, const Quaternion& newRotation, float newScale)
 {
     SetWorldTransform(newPosition, newRotation, Vector3F(newScale, newScale, newScale));
 }
 
-void SpatialNode::Translate(const Vector3F& delta, TransformSpace::Type space)
+void ASpatialNode::Translate(const Vector3F& delta, TransformSpace::Type space)
 {
-    SpatialNode* parentNode = GetSpatialParent();
+    ASpatialNode* parentNode = GetSpatialParent();
 
     switch (space)
     {
@@ -164,9 +164,9 @@ void SpatialNode::Translate(const Vector3F& delta, TransformSpace::Type space)
     OnTransformChanged();
 }
 
-void SpatialNode::Rotate(const Quaternion& delta, TransformSpace::Type space)
+void ASpatialNode::Rotate(const Quaternion& delta, TransformSpace::Type space)
 {
-    SpatialNode* parentNode = GetSpatialParent();
+    ASpatialNode* parentNode = GetSpatialParent();
     
     switch (space)
     {
@@ -192,9 +192,9 @@ void SpatialNode::Rotate(const Quaternion& delta, TransformSpace::Type space)
     OnTransformChanged();
 }
 
-void SpatialNode::RotateAround(const Vector3F& point, const Quaternion& delta, TransformSpace::Type space)
+void ASpatialNode::RotateAround(const Vector3F& point, const Quaternion& delta, TransformSpace::Type space)
 {
-    SpatialNode* parentNode = GetSpatialParent();
+    ASpatialNode* parentNode = GetSpatialParent();
     Vector3F parentSpacePoint;
     Quaternion oldRotation = _rotation;
 
@@ -231,24 +231,24 @@ void SpatialNode::RotateAround(const Vector3F& point, const Quaternion& delta, T
     OnTransformChanged();
 }
 
-void SpatialNode::Yaw(float angle, TransformSpace::Type space)
+void ASpatialNode::Yaw(float angle, TransformSpace::Type space)
 {
     Rotate(Quaternion(angle, Vector3F::UP), space);
 }
 
-void SpatialNode::Pitch(float angle, TransformSpace::Type space)
+void ASpatialNode::Pitch(float angle, TransformSpace::Type space)
 {
     Rotate(Quaternion(angle, Vector3F::RIGHT), space);
 }
 
-void SpatialNode::Roll(float angle, TransformSpace::Type space)
+void ASpatialNode::Roll(float angle, TransformSpace::Type space)
 {
     Rotate(Quaternion(angle, Vector3F::FORWARD), space);
 }
 
-bool SpatialNode::LookAt(const Vector3F& target, const Vector3F& up, TransformSpace::Type space)
+bool ASpatialNode::LookAt(const Vector3F& target, const Vector3F& up, TransformSpace::Type space)
 {
-    SpatialNode* parentNode = GetSpatialParent();
+    ASpatialNode* parentNode = GetSpatialParent();
     Vector3F worldSpaceTarget;
 
     switch (space)
@@ -279,24 +279,24 @@ bool SpatialNode::LookAt(const Vector3F& target, const Vector3F& up, TransformSp
     return true;
 }
 
-void SpatialNode::ApplyScale(float delta)
+void ASpatialNode::ApplyScale(float delta)
 {
     ApplyScale(Vector3F(delta, delta, delta));
 }
 
-void SpatialNode::ApplyScale(const Vector3F& delta)
+void ASpatialNode::ApplyScale(const Vector3F& delta)
 {
     _scale *= delta;
     OnTransformChanged();
 }
 
-void SpatialNode::OnParentSet(Node* newParent, Node*)
+void ASpatialNode::OnParentSet(Node* newParent, Node*)
 {
-    SetFlag(NF_SPATIAL_PARENT, dynamic_cast<SpatialNode*>(newParent) != 0);
+    SetFlag(NF_SPATIAL_PARENT, dynamic_cast<ASpatialNode*>(newParent) != 0);
     OnTransformChanged();
 }
 
-void SpatialNode::OnTransformChanged()
+void ASpatialNode::OnTransformChanged()
 {
     SetFlag(NF_WORLD_TRANSFORM_DIRTY, true);
 
@@ -305,14 +305,14 @@ void SpatialNode::OnTransformChanged()
     {
         Node* child = *it;
         if (child->TestFlag(NF_SPATIAL))
-            static_cast<SpatialNode*>(child)->OnTransformChanged();
+            static_cast<ASpatialNode*>(child)->OnTransformChanged();
     }
 }
 
-void SpatialNode::UpdateWorldTransform() const
+void ASpatialNode::UpdateWorldTransform() const
 {
     if (TestFlag(NF_SPATIAL_PARENT))
-        _worldTransform = static_cast<SpatialNode*>(Parent())->GetWorldTransform() * Matrix3x4F(_position, _rotation, _scale);
+        _worldTransform = static_cast<ASpatialNode*>(Parent())->GetWorldTransform() * Matrix3x4F(_position, _rotation, _scale);
     else
         _worldTransform = Matrix3x4F(_position, _rotation, _scale);
     SetFlag(NF_WORLD_TRANSFORM_DIRTY, false);

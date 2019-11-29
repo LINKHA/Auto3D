@@ -15,7 +15,7 @@
 namespace Auto3D 
 {
 
-AudioSource::AudioSource() :
+AAudioSource::AAudioSource() :
 	_pitch(1.0f),
 	_gain(1.0f),
 	_vel(0.0f, 0.0f, 0.1f)
@@ -23,53 +23,53 @@ AudioSource::AudioSource() :
 	_audio = ModuleManager::Get().AudioModule();
 }
 
-AudioSource::~AudioSource()
+AAudioSource::~AAudioSource()
 {
 }
 
-void AudioSource::RegisterObject()
+void AAudioSource::RegisterObject()
 {
-	RegisterFactory<AudioSource>();
+	RegisterFactory<AAudioSource>();
 }
 
-void AudioSource::Play(int delayTime)
+void AAudioSource::Play(int delayTime)
 {
 	if (!_audio)
 		WarningString("Miss audio, can'y play this source.");
 	_audio->SourcePlay(_buffer->Source(), delayTime);
 }
 
-void AudioSource::Pause(int delayTime)
+void AAudioSource::Pause(int delayTime)
 {
 	if (!_audio)
 		WarningString("Miss audio, can'y pause this source.");
 	_audio->SourcePause(_buffer->Source(), delayTime);
 }
 
-void AudioSource::Stop(int delayTime)
+void AAudioSource::Stop(int delayTime)
 {
 	if (!_audio)
 		WarningString("Miss audio, can'y stop this source.");
 	_audio->SourceStop(_buffer->Source(), delayTime);
 }
 
-void AudioSource::Rewind(int delayTime)
+void AAudioSource::Rewind(int delayTime)
 {
 	if (!_audio)
 		WarningString("Miss audio, can'y rewind this source.");
 	_audio->SourceRewind(_buffer->Source(), delayTime);
 }
 
-AudioSourceState::Type AudioSource::GetState()
+EAudioSourceState::Type AAudioSource::GetState()
 {
 	return _audio->GetState(GetBuffer()->Source());
 }
 
 
-void AudioSource::SetSound(Sound* sound)
+void AAudioSource::SetSound(ASound* sound)
 {
 	_sound = sound;
-	_buffer = new AudioBuffer();
+	_buffer = new AAudioBuffer();
 	_buffer->Create(sound);
 	_audio->AddSource(GetBuffer()->Source(), this);
 

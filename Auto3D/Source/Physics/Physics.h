@@ -6,9 +6,9 @@ class PhysicsWorld;
 class PhysicsWorld2D;
 
 /// Physics sub system 
-class AUTO_API Physics : public BaseModule
+class AUTO_API Physics : public ABaseModule
 {
-	REGISTER_OBJECT_CLASS(Physics, BaseModule)
+	REGISTER_OBJECT_CLASS(Physics, ABaseModule)
 public:
 	/// Construct
 	Physics();

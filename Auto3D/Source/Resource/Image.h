@@ -73,9 +73,9 @@ struct AUTO_API ImageLevel
 };
 
 /// %Image resource.
-class AUTO_API Image : public Resource
+class AUTO_API Image : public AResource
 {
-	REGISTER_OBJECT_CLASS(Image, Resource)
+	REGISTER_OBJECT_CLASS(Image, AResource)
 
 public:
     /// Construct.

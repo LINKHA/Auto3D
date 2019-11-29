@@ -5,17 +5,17 @@
 namespace Auto3D 
 {
 
-class Sound;
-class AudioBuffer;
+class ASound;
+class AAudioBuffer;
 /// Responsible for the operation of 3d sound source
-class AUTO_API AudioSource : public AudioNode
+class AUTO_API AAudioSource : public AAudioNode
 {
-	REGISTER_OBJECT_CLASS(AudioSource, AudioNode)
+	REGISTER_OBJECT_CLASS(AAudioSource, AAudioNode)
 public:
 	/// The constructor
-	AudioSource();
+	AAudioSource();
 	/// The destructor
-	~AudioSource();
+	~AAudioSource();
 	/// Register object factory.
 	static void RegisterObject();
 	/// Plays the active audioclip at (future) scheduled time. If time < 0 it specifies a delay
@@ -27,16 +27,16 @@ public:
 	/// Rewind audio clip
 	void Rewind(int delayTime = 0);
 	/// Attach buffer for point
-	void SetSound(Sound* sound);
+	void SetSound(ASound* sound);
 	/// Get audio buffer
-	AudioBuffer* GetBuffer() { return  _buffer; }
+	AAudioBuffer* GetBuffer() { return  _buffer; }
 	/// Get source state
-	AudioSourceState::Type GetState();
+	EAudioSourceState::Type GetState();
 private:
-	/// Audio sound resource
-	SharedPtr<Sound> _sound;
-	/// Audio buffer
-	SharedPtr<AudioBuffer> _buffer;
+	/// AAudio sound resource
+	SharedPtr<ASound> _sound;
+	/// AAudio buffer
+	SharedPtr<AAudioBuffer> _buffer;
 	/// Pitch
 	float _pitch;
 	/// Gain

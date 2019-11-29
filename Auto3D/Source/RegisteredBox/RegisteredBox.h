@@ -13,9 +13,9 @@ class Camera2D;
 class Canvas;
 
 /// Manages messaging between the user and the engine
-class AUTO_API RegisteredBox : public BaseModule
+class AUTO_API RegisteredBox : public ABaseModule
 {
-	REGISTER_OBJECT_CLASS(RegisteredBox, BaseModule)
+	REGISTER_OBJECT_CLASS(RegisteredBox, ABaseModule)
 public:
 	/// Construct.
 	RegisteredBox();

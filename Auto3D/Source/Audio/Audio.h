@@ -10,7 +10,7 @@ using ALCcontext = struct ALCcontext_struct;
 namespace Auto3D 
 {
 
-namespace AudioSourceState
+namespace EAudioSourceState
 {
 	enum Type
 	{
@@ -23,41 +23,41 @@ namespace AudioSourceState
 };
 
 
-class AudioListener;
+class AAudioListener;
 
-class AudioSource;
+class AAudioSource;
 
-/// Audio sub system ,Process all sound sources and calculate sound
-class AUTO_API Audio : public BaseModule
+/// AAudio sub system ,Process all sound sources and calculate sound
+class AUTO_API AAudio : public ABaseModule
 {
-	REGISTER_OBJECT_CLASS(Audio, BaseModule)
+	REGISTER_OBJECT_CLASS(AAudio, ABaseModule)
 public:
 	/// Construct
-	Audio();
+	AAudio();
 	/// Destructor
-	~Audio();
+	~AAudio();
 	/// Add source with source address and source
-	void AddSource(unsigned sourceID, AudioSource* source);
+	void AddSource(unsigned sourceID, AAudioSource* source);
 	/// Set listener (if listener NULL this subsystem cant run)
-	void SetListener(AudioListener* listener);
+	void SetListener(AAudioListener* listener);
 	/// Set listener value
 	void SetListenerValue(Vector3F position, Vector3F listenerVel, Vector3F listenerOriAt, Vector3F listenerOriUp);
 	/// The first person delays ms according to the buffer play
 	void SourcePlay(unsigned source,int delay = 0);
 	/// The first person delays ms according to the buffer play
-	void SourcePlay(AudioSource* source, int delay = 0);
+	void SourcePlay(AAudioSource* source, int delay = 0);
 	/// The first person delays ms according to the buffer pause
 	void SourcePause(unsigned source, int delay = 0);
 	/// The first person delays ms according to the buffer pause
-	void SourcePause(AudioSource* source, int delay = 0);
+	void SourcePause(AAudioSource* source, int delay = 0);
 	/// The first person delays ms according to the buffer stop
 	void SourceStop(unsigned source, int delay = 0);
 	/// The first person delays ms according to the buffer stop
-	void SourceStop(AudioSource* source, int delay = 0);
+	void SourceStop(AAudioSource* source, int delay = 0);
 	/// The first person delays ms according to the buffer rewind
 	void SourceRewind(unsigned source, int delay = 0);
 	/// The first person delays ms according to the buffer rewind
-	void SourceRewind(AudioSource* source, int delay = 0);
+	void SourceRewind(AAudioSource* source, int delay = 0);
 	/// Set pitch of source address
 	void SetPitch(unsigned source, float val);
 	/// Set gain of source address
@@ -65,13 +65,13 @@ public:
 	/// Set vel of source address
 	void SetVel(unsigned source, Vector3F vel);
 	/// Set get state of source
-	AudioSourceState::Type GetState(unsigned source);
+	EAudioSourceState::Type GetState(unsigned source);
 	/// Set get state of source
-	AudioSourceState::Type GetState(AudioSource* source);
+	EAudioSourceState::Type GetState(AAudioSource* source);
 	/// Get source of index
-	const AudioSource* GetSource(unsigned index);
+	const AAudioSource* GetSource(unsigned index);
 	/// Return sources
-	HashMap<unsigned, AudioSource*>& Sources(AudioSource* source) { return _sources; }
+	HashMap<unsigned, AAudioSource*>& Sources(AAudioSource* source) { return _sources; }
 	/// Update all dynamic listener and source
 	void Update();
 	/// Return is initialized flag
@@ -90,11 +90,11 @@ private:
 	/// OpenAL context
 	ALCcontext* _context;
 	/// Listener
-	SharedPtr<AudioListener> _listener;
+	SharedPtr<AAudioListener> _listener;
 	/// Source array of hash
-	HashMap<unsigned, AudioSource*> _sources;
+	HashMap<unsigned, AAudioSource*> _sources;
 };
-/// Register Audio related object factories and attributes.
+/// Register AAudio related object factories and attributes.
 AUTO_API void RegisterAudioLibrary();
 
 }

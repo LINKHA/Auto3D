@@ -10,7 +10,7 @@ namespace Auto3D
 class JSONValue;
 
 /// GPU buffer for shader constant data.
-class AUTO_API ConstantBuffer : public ARefCounted, public GPUObject
+class AUTO_API ConstantBuffer : public FRefCounted, public GPUObject
 {
 public:
     /// Construct.
@@ -113,7 +113,7 @@ private:
     AutoArrayPtr<unsigned char> _shadowData;
     /// Total byte _size.
     size_t _byteSize;
-    /// Resource usage type.
+    /// AResource usage type.
     ResourceUsage::Type _usage;
     /// Dirty flag.
     bool _dirty;

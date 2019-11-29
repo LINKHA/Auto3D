@@ -48,7 +48,7 @@ Camera::Camera() :
 void Camera::RegisterObject()
 {
     RegisterFactory<Camera>();
-    CopyBaseAttributes<Camera, SpatialNode>();
+    CopyBaseAttributes<Camera, ASpatialNode>();
 
     RegisterAttribute("nearClip", &Camera::GetNearClip, &Camera::SetNearClip, DEFAULT_NEARCLIP);
     RegisterAttribute("farClip", &Camera::GetFarClip, &Camera::SetFarClip, DEFAULT_FARCLIP);
@@ -508,7 +508,7 @@ bool Camera::IsProjectionValid() const
 
 void Camera::OnTransformChanged()
 {
-    SpatialNode::OnTransformChanged();
+    ASpatialNode::OnTransformChanged();
 
     _viewMatrixDirty = true;
 }

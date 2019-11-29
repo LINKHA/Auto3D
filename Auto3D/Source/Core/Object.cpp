@@ -45,9 +45,9 @@ bool FTypeInfo::IsTypeOf(const FTypeInfo* typeInfo) const
 
 
 HashMap<StringHash, AObject*> AObject::_objectModules;
-HashMap<StringHash, AutoPtr<ObjectFactory> > AObject::_factories;
+HashMap<StringHash, AutoPtr<FObjectFactory> > AObject::_factories;
 
-ObjectFactory::~ObjectFactory()
+FObjectFactory::~FObjectFactory()
 {
 }
 
@@ -110,7 +110,7 @@ AObject* AObject::ObjectModule(StringHash type)
     return it != _objectModules.End() ? it->_second : nullptr;
 }
 
-void AObject::RegisterFactory(ObjectFactory* factory)
+void AObject::RegisterFactory(FObjectFactory* factory)
 {
     if (!factory)
         return;

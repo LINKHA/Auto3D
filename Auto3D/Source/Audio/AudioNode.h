@@ -3,8 +3,8 @@
 
 namespace Auto3D
 {
-/// Audio fUsage 
-namespace AudioUsage
+/// AAudio fUsage 
+namespace EAudioUsage
 {
 	enum Type
 	{
@@ -13,28 +13,28 @@ namespace AudioUsage
 	};
 };
 
-class Audio;
+class AAudio;
 
-class AUTO_API AudioNode : public SpatialNode
+class AUTO_API AAudioNode : public ASpatialNode
 {
-	REGISTER_OBJECT_CLASS(AudioNode, SpatialNode)
+	REGISTER_OBJECT_CLASS(AAudioNode, ASpatialNode)
 
 public:
 	/// Constructor
-	AudioNode();
+	AAudioNode();
 	/// Destructor
-	~AudioNode();
+	~AAudioNode();
 	/// Register factory and attributes.
 	static void RegisterObject();
 	/// Set audio Usage
-	void SetUsage(AudioUsage::Type fre) { _fre = fre; }
+	void SetUsage(EAudioUsage::Type fre) { _fre = fre; }
 	/// Get audio Usage
-	AudioUsage::Type GetUsage() { return _fre; }
+	EAudioUsage::Type GetUsage() { return _fre; }
 protected:
-	/// Audio weak ptr
-	WeakPtr<Audio> _audio;
-	/// Audio Usage 
-	AudioUsage::Type _fre;
+	/// AAudio weak ptr
+	WeakPtr<AAudio> _audio;
+	/// AAudio Usage 
+	EAudioUsage::Type _fre;
 };
 
 }

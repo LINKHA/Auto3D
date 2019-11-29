@@ -377,9 +377,9 @@ public:
 };
 
 /// Input subsystem for reading keyboard/mouse/etc. input. Updated from OS _window messages by the Window class.
-class AUTO_API Input : public BaseModule
+class AUTO_API Input : public ABaseModule
 {
-    REGISTER_OBJECT_CLASS(Input, BaseModule)
+    REGISTER_OBJECT_CLASS(Input, ABaseModule)
 
 public:
     /// Construct and register subsystem.

@@ -98,9 +98,9 @@ namespace UIFontLanguage
 	};
 }
 
-class AUTO_API UI : public BaseModule
+class AUTO_API UI : public ABaseModule
 {
-	REGISTER_OBJECT_CLASS(UI, BaseModule)
+	REGISTER_OBJECT_CLASS(UI, ABaseModule)
 public:
 	/// Construct.
 	UI();

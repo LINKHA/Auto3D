@@ -4,9 +4,9 @@
 namespace Auto3D {
 
 /// Script sub system 
-class AUTO_API Script : public BaseModule
+class AUTO_API Script : public ABaseModule
 {
-	REGISTER_OBJECT_CLASS(Script, BaseModule)
+	REGISTER_OBJECT_CLASS(Script, ABaseModule)
 public:
 	/// Construct
 	Script();

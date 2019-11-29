@@ -9,9 +9,9 @@ namespace Auto3D
 class ShaderVariation;
 
 /// %Shader resource. Defines either vertex or pixel shader source code, from which variations can be compiled by specifying defines.
-class AUTO_API Shader : public Resource
+class AUTO_API Shader : public AResource
 {
-    REGISTER_OBJECT_CLASS(Shader,Resource)
+    REGISTER_OBJECT_CLASS(Shader,AResource)
 
 public:
     /// Construct.

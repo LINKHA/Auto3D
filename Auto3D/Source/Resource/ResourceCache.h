@@ -5,15 +5,15 @@
 namespace Auto3D
 {
 
-class Resource;
+class AResource;
 class Stream;
 
-typedef HashMap<Pair<StringHash, StringHash>, SharedPtr<Resource> > ResourceMap;
+typedef HashMap<Pair<StringHash, StringHash>, SharedPtr<AResource> > ResourceMap;
  
-/// %Resource cache subsystem. Loads resources on demand and stores them for later access.
-class AUTO_API ResourceCache : public BaseModule
+/// %AResource cache subsystem. Loads resources on demand and stores them for later access.
+class AUTO_API ResourceCache : public ABaseModule
 {
-    REGISTER_OBJECT_CLASS(ResourceCache, BaseModule)
+    REGISTER_OBJECT_CLASS(ResourceCache, ABaseModule)
 public:
     /// Construct and register subsystem.
     ResourceCache();
@@ -23,13 +23,13 @@ public:
     /// Add a resource directory. Return true on success.
     bool AddResourceDir(const String& pathName, bool addFirst = false);
     /// Add a manually created resource. If returns success, the resource cache takes ownership of it.
-    bool AddManualResource(Resource* resource);
+    bool AddManualResource(AResource* resource);
     /// Remove a resource directory.
     void RemoveResourceDir(const String& pathName);
     /// Open a resource file stream from the resource directories. Return a pointer to the stream, or null if not found.
     AutoPtr<Stream> OpenResource(const String& name);
     /// Load and return a resource.
-    Resource* LoadResource(StringHash type, const String& name);
+    AResource* LoadResource(StringHash type, const String& name);
     /// Unload resource. Optionally force removal even if referenced.
     void UnloadResource(StringHash type, const String& name, bool force = false);
     /// Unload all resources of type.
@@ -41,14 +41,14 @@ public:
     /// Unload all resources.
     void UnloadAllResources(bool force = false);
     /// Reload an existing resource. Return true on success.
-    bool ReloadResource(Resource* resource);
+    bool ReloadResource(AResource* resource);
     /// Load and return a resource, template version.
     template <typename _Ty> _Ty* LoadResource(const String& name) { return static_cast<_Ty*>(LoadResource(_Ty::GetTypeStatic(), name)); }
     /// Load and return a resource, template version.
     template <typename _Ty> _Ty* LoadResource(const char* name) { return static_cast<_Ty*>(LoadResource(_Ty::GetTypeStatic(), name)); }
 
     /// Return resources by type.
-    void ResourcesByType(Vector<Resource*>& result, StringHash type) const;
+    void ResourcesByType(Vector<AResource*>& result, StringHash type) const;
     /// Return resource directories.
     const Vector<String>& ResourceDirs() const { return _resourceDirs; }
     /// Return whether a file exists in the resource directories.
@@ -59,14 +59,14 @@ public:
     /// Return resources by type, template version.
     template <typename _Ty> void ResourcesByType(Vector<_Ty*>& dest) const
     {
-        Vector<Resource*>& resources = reinterpret_cast<Vector<Resource*>&>(dest);
+        Vector<AResource*>& resources = reinterpret_cast<Vector<AResource*>&>(dest);
         StringHash type = _Ty::TypeStatic();
         ResourcesByType(resources, type);
 
         // Perform conversion of the returned pointers
         for (size_t i = 0; i < resources.Size(); ++i)
         {
-            Resource* resource = resources[i];
+            AResource* resource = resources[i];
             dest[i] = static_cast<_Ty*>(resource);
         }
     }
@@ -81,7 +81,7 @@ private:
     Vector<String> _resourceDirs;
 };
 
-/// Register Resource related object factories and attributes.
+/// Register AResource related object factories and attributes.
 AUTO_API void RegisterResourceLibrary();
 
 }

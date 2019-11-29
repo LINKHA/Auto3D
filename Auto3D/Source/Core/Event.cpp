@@ -7,7 +7,7 @@
 namespace Auto3D
 {
 
-EventHandler::EventHandler(ARefCounted* receiver_) :
+EventHandler::EventHandler(FRefCounted* receiver_) :
     _receiver(receiver_)
 {
 }
@@ -24,7 +24,7 @@ Event::~Event()
 {
 }
 
-void Event::Send(ARefCounted* sender)
+void Event::Send(FRefCounted* sender)
 {
     if (!Thread::IsMainThread())
     {
@@ -34,7 +34,7 @@ void Event::Send(ARefCounted* sender)
 
     // Retain a weak pointer to the sender on the stack for safety, in case it is destroyed
     // as a result of _event handling, in which case the current _event may also be destroyed
-    WeakPtr<ARefCounted> safeCurrentSender = sender;
+    WeakPtr<FRefCounted> safeCurrentSender = sender;
     _currentSender = sender;
     
     for (auto it = _handlers.Begin(); it != _handlers.End();)
@@ -44,7 +44,7 @@ void Event::Send(ARefCounted* sender)
         
         if (handler)
         {
-            ARefCounted* receiver = handler->Receiver();
+            FRefCounted* receiver = handler->Receiver();
             if (receiver)
             {
                 remove = false;
@@ -83,7 +83,7 @@ void Event::Subscribe(EventHandler* handler)
     _handlers.Push(handler);
 }
 
-void Event::Unsubscribe(ARefCounted* receiver)
+void Event::Unsubscribe(FRefCounted* receiver)
 {
     for (auto it = _handlers.Begin(); it != _handlers.End(); ++it)
     {
@@ -113,7 +113,7 @@ bool Event::HasReceivers() const
     return false;
 }
 
-bool Event::HasReceiver(const ARefCounted* receiver) const
+bool Event::HasReceiver(const FRefCounted* receiver) const
 {
     for (auto it = _handlers.Begin(); it != _handlers.End(); ++it)
     {

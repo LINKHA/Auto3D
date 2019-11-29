@@ -46,7 +46,7 @@ void Collider::NotifyRigidBody(bool updateMass)
 		// Remove the shape first to ensure it is not added twice
 		compound->removeChildShape(_shape.Get());
 
-		SpatialNode* parentNode = dynamic_cast<SpatialNode*>(Parent());
+		ASpatialNode* parentNode = dynamic_cast<ASpatialNode*>(Parent());
 		btTransform offset;
 		offset.setOrigin(ToBtVector3(parentNode->GetPosition()));
 		offset.setRotation(ToBtQuaternion(parentNode->GetRotation()));

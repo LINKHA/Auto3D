@@ -341,7 +341,7 @@ void RegisterSceneLibrary()
 
     Node::RegisterObject();
     Scene::RegisterObject();
-    SpatialNode::RegisterObject();
+    ASpatialNode::RegisterObject();
 }
 
 }

@@ -14,7 +14,7 @@ struct ResourceRef;
 struct ResourceRefList;
 
 /// Abstract stream for reading and writing.
-class AUTO_API Stream : public ARefCounted
+class AUTO_API Stream : public FRefCounted
 {
 public:
     /// Default-construct with zero _size.

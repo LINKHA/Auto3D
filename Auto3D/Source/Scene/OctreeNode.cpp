@@ -22,7 +22,7 @@ OctreeNode::~OctreeNode()
 
 void OctreeNode::RegisterObject()
 {
-    CopyBaseAttributes<OctreeNode, SpatialNode>();
+    CopyBaseAttributes<OctreeNode, ASpatialNode>();
     RegisterAttribute("castShadows", &OctreeNode::CastShadows, &OctreeNode::SetCastShadows, false);
 }
 
@@ -69,7 +69,7 @@ void OctreeNode::OnSceneSet(Scene* newScene, Scene*)
 
 void OctreeNode::OnTransformChanged()
 {
-    SpatialNode::OnTransformChanged();
+    ASpatialNode::OnTransformChanged();
     SetFlag(NF_BOUNDING_BOX_DIRTY, true);
 
     if (!TestFlag(NF_OCTREE_UPDATE_QUEUED) && _octree)

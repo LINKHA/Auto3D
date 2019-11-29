@@ -229,7 +229,7 @@ namespace TextureType
 	};
 };
 
-/// Resource usage modes. Rendertarget usage can only be used with textures.
+/// AResource usage modes. Rendertarget usage can only be used with textures.
 namespace ResourceUsage
 {
 	enum Type
@@ -508,7 +508,7 @@ struct RenderState
 
 /// Vertex element sizes by element type.
 extern AUTO_API const size_t elementSizes[];
-/// Resource usage names.
+/// AResource usage names.
 extern AUTO_API const char* resourceUsageNames[];
 /// Element type names.
 extern AUTO_API const char* elementTypeNames[];

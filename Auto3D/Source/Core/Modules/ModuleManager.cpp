@@ -205,7 +205,7 @@ void ModuleManager::RecreateUiModule(UI* ui)
 		_ui = UniquePtr<UI>(new UI());
 }
 
-void ModuleManager::RecreateAudioModule(Audio* audio)
+void ModuleManager::RecreateAudioModule(AAudio* audio)
 {
 	if (_audio)
 		_audio.Reset();
@@ -213,7 +213,7 @@ void ModuleManager::RecreateAudioModule(Audio* audio)
 	if (audio)
 		_audio = audio;
 	else
-		_audio = UniquePtr<Audio>(new Audio());
+		_audio = UniquePtr<AAudio>(new AAudio());
 }
 
 }

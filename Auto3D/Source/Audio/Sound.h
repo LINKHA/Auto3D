@@ -4,13 +4,13 @@
 namespace Auto3D 
 {
 
-class Sound : public Resource
+class ASound : public AResource
 {
-	REGISTER_OBJECT_CLASS(Sound, Resource)
+	REGISTER_OBJECT_CLASS(ASound, AResource)
 public:
-	Sound();
+	ASound();
 
-	~Sound();
+	~ASound();
 	/// Register object factory
 	static void RegisterObject();
 	/// Load resource from stream.May be called from a worker thread.Return true if successful
@@ -65,9 +65,9 @@ private:
 	SharedArrayPtr<signed char> _data;
 	/// Loop start.
 	signed char* _repeat;
-	/// Sound data end.
+	/// ASound data end.
 	signed char* _end;
-	/// Sound data size in bytes.
+	/// ASound data size in bytes.
 	unsigned _dataSize;
 	/// Default frequency.
 	unsigned _frequency;

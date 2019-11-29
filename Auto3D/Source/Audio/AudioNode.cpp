@@ -7,25 +7,25 @@
 namespace Auto3D
 {
 
-AudioNode::AudioNode() :
-	_fre(AudioUsage::STATIC)
+AAudioNode::AAudioNode() :
+	_fre(EAudioUsage::STATIC)
 {
 	_audio = ModuleManager::Get().AudioModule();
-	// If you haven't created Audio, create it
+	// If you haven't created AAudio, create it
 	if (!_audio)
 	{
 		ModuleManager::Get().RecreateAudioModule();
 		_audio = ModuleManager::Get().AudioModule();
 	}
 }
-AudioNode::~AudioNode()
+AAudioNode::~AAudioNode()
 {
 
 }
 
-void AudioNode::RegisterObject()
+void AAudioNode::RegisterObject()
 {
-	RegisterFactory<AudioNode>();
+	RegisterFactory<AAudioNode>();
 }
 
 	

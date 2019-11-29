@@ -7,8 +7,8 @@
 namespace Auto3D
 {
 
-class ObjectFactory;
-template <typename _Ty> class ObjectFactoryImpl;
+class FObjectFactory;
+template <typename _Ty> class TObjectFactoryImpl;
 
 
 /// Type info.
@@ -62,7 +62,7 @@ public: \
 
 
 /// Base class for objects with type identification and possibility to create through a factory.
-class AUTO_API AObject : public ARefCounted
+class AUTO_API AObject : public FRefCounted
 {
 public:
 	/// Structure
@@ -115,7 +115,7 @@ public:
     /// Return a subsystem by type, or null if not registered.
     static AObject* ObjectModule(StringHash type);
     /// Register an object factory.
-    static void RegisterFactory(ObjectFactory* factory);
+    static void RegisterFactory(FObjectFactory* factory);
     /// Create and return an object through a factory. The caller is assumed to take ownership of the object. Return null if no factory registered. 
     static AObject* Create(StringHash type);
     /// Return a type name from hash, or empty if not known. Requires a registered object factory.
@@ -123,7 +123,7 @@ public:
     /// Return a subsystem, template version.
     template <typename _Ty> static _Ty* ObjectModule() { return static_cast<_Ty*>(ObjectModule(_Ty::GetTypeStatic())); }
     /// Register an object factory, template version.
-    template <typename _Ty> static void RegisterFactory() { RegisterFactory(new ObjectFactoryImpl<_Ty>()); }
+    template <typename _Ty> static void RegisterFactory() { RegisterFactory(new TObjectFactoryImpl<_Ty>()); }
     /// Create and return an object through a factory, template version.
     template <typename _Ty> static _Ty* Create() { return static_cast<_Ty*>(Create(_Ty::GetTypeStatic())); }
     
@@ -131,15 +131,15 @@ private:
     /// Registered modules.
     static HashMap<StringHash, AObject*> _objectModules;
     /// Registered object factories.
-    static HashMap<StringHash, AutoPtr<ObjectFactory> > _factories;
+    static HashMap<StringHash, AutoPtr<FObjectFactory> > _factories;
 };
 
 /// Base class for object factories.
-class AUTO_API ObjectFactory
+class AUTO_API FObjectFactory
 {
 public:
     /// Destruct.
-    virtual ~ObjectFactory();
+    virtual ~FObjectFactory();
     
     /// Create and return an object.
     virtual AObject* Create() = 0;
@@ -157,11 +157,11 @@ protected:
 };
 
 /// Template implementation of the object factory.
-template <typename _Ty> class ObjectFactoryImpl : public ObjectFactory
+template <typename _Ty> class TObjectFactoryImpl : public FObjectFactory
 {
 public:
     /// Construct.
-    ObjectFactoryImpl()
+    TObjectFactoryImpl()
     {
         _type = _Ty::GetTypeStatic();
         _typeName = _Ty::GetTypeNameStatic();

@@ -182,7 +182,7 @@ bool Engine::Update()
 		ShutDownEngine();
 		return false;
 	}
-	if (Audio* audio = ModuleManager::Get().AudioModule())
+	if (AAudio* audio = ModuleManager::Get().AudioModule())
 		audio->Update();
 
 	_physics->Update();

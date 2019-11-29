@@ -18,13 +18,13 @@ namespace TransformSpace
 
 
 /// Base class for scene nodes with _position in three-dimensional space.
-class AUTO_API SpatialNode : public Node
+class AUTO_API ASpatialNode : public Node
 {
-    REGISTER_OBJECT_CLASS(SpatialNode, Node)
+    REGISTER_OBJECT_CLASS(ASpatialNode, Node)
 
 public:
     /// Construct.
-    SpatialNode();
+    ASpatialNode();
 
     /// Register factory and attributes.
     static void RegisterObject();
@@ -81,7 +81,7 @@ public:
     void ApplyScale(float delta);
 
     /// Return the parent spatial node, or null if it is not spatial.
-    SpatialNode* GetSpatialParent() const { return TestFlag(NF_SPATIAL_PARENT) ? static_cast<SpatialNode*>(Parent()) : nullptr; }
+    ASpatialNode* GetSpatialParent() const { return TestFlag(NF_SPATIAL_PARENT) ? static_cast<ASpatialNode*>(Parent()) : nullptr; }
     /// Return _position in parent space.
     const Vector3F& GetPosition() const { return _position; }
     /// Return rotation in parent space.
