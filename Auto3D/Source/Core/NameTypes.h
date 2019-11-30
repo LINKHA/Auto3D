@@ -25,7 +25,7 @@ public:
 	void SetName(const char* name)
 	{
 		_value = FStringHash(name);
-		FStringHashRegister::Get().RegisterString(_value, name);
+		GStringHashRegister::Get().RegisterString(_value, name);
 	}
 	/// Equality operator.
 	inline bool operator==(const char* other) const
@@ -49,7 +49,7 @@ public:
 	}
 	/// Get string from stringhash map.
 	/// Note that since the hash is lossy and case insensitive, it is all lowercase.
-	const FString ToString() { return FStringHashRegister::Get().GetStringCopy(_value); }
+	const FString ToString() { return GStringHashRegister::Get().GetStringCopy(_value); }
 	/// Return value.
 	const FStringHash& Value()const { return _value; }
 private:

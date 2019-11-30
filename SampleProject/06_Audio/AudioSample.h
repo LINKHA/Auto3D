@@ -12,8 +12,8 @@ public:
 	void Stop()override;
 	void UIDraw()override;
 
-	SharedPtr<Scene> scene;
-	AudioListener* listener;
-	AudioSource* source1;
-	AudioSource* source2;
+	TSharedPtr<AScene> scene;
+	AAudioListener* listener;
+	AAudioSource* source1;
+	AAudioSource* source2;
 };

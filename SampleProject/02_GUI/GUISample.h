@@ -17,5 +17,5 @@ public:
 	void ShowExampleAppLog(bool* open);
 	void ShowExampleAppLayout(bool* open);
 
-	Texture* imgTexture;
+	ATexture* imgTexture;
 };

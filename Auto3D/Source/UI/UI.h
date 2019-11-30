@@ -317,7 +317,7 @@ AUTO_API bool          Button(const char* label, const TVector2F& size = TVector
 AUTO_API bool          SmallButton(const char* label);                                 // button with FramePadding=(0,0) to easily embed within text
 AUTO_API bool          InvisibleButton(const char* str_id, const TVector2F& size);        // button behavior without the visuals, frequently useful to build custom behaviors using the public api (along with IsItemActive, IsItemHovered, etc.)
 AUTO_API bool          ArrowButton(const char* str_id, Dir dir);                  // square button with an arrow shape
-AUTO_API void          AImage(ATexture* user_texture, const TVector2F& size, const TVector2F& uv0 = TVector2F(0, 0), const TVector2F& uv1 = TVector2F(1, 1), const TVector4F& tint_col = TVector4F(1, 1, 1, 1), const TVector4F& border_col = TVector4F(0, 0, 0, 0));
+AUTO_API void          Image(ATexture* user_texture, const TVector2F& size, const TVector2F& uv0 = TVector2F(0, 0), const TVector2F& uv1 = TVector2F(1, 1), const TVector4F& tint_col = TVector4F(1, 1, 1, 1), const TVector4F& border_col = TVector4F(0, 0, 0, 0));
 AUTO_API bool          ImageButton(ATexture* user_texture, const TVector2F& size, const TVector2F& uv0 = TVector2F(0, 0), const TVector2F& uv1 = TVector2F(1, 1), int frame_padding = -1, const TVector4F& bg_col = TVector4F(0, 0, 0, 0), const TVector4F& tint_col = TVector4F(1, 1, 1, 1));    // <0 frame_padding uses default frame padding settings. 0 for no padding
 AUTO_API bool          Checkbox(const char* label, bool* v);
 AUTO_API bool          CheckboxFlags(const char* label, unsigned int* flags, unsigned int flags_value);

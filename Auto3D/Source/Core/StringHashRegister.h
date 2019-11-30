@@ -16,17 +16,17 @@ template <typename _Ty1, typename _Ty2> class THashMap;
 using StringMap = THashMap<FStringHash, FString>;
 
 /// Helper class used for FStringHash reversing.
-class AUTO_API FStringHashRegister
+class AUTO_API GStringHashRegister
 {
-	friend class TSingleton<FStringHashRegister>;
+	friend class TSingleton<GStringHashRegister>;
 private:
 	/// Construct. threadSafe controls whether the RegisterString and GetStringCopy are thread-safe.
-	explicit FStringHashRegister(bool threadSafe = true);
+	explicit GStringHashRegister(bool threadSafe = true);
 	/// Destruct.
-	~FStringHashRegister();
+	~GStringHashRegister();
 public:
 	/// Gets the singleton instance of the module manager.
-	static FStringHashRegister& Get();
+	static GStringHashRegister& Get();
 
 	/// Register string for hash reverse mapping. Could be used from FStringHash ctor.
 	FStringHash RegisterString(const FStringHash& hash, const char* string);

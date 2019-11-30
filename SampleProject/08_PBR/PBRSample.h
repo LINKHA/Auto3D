@@ -14,6 +14,6 @@ public:
 	void UIDraw()override;
 
 	float yaw = 0.0f, pitch = 20.0f;
-	Camera* camera;
-	SharedPtr<Scene> scene;
+	ACamera* camera;
+	TSharedPtr<AScene> scene;
 };

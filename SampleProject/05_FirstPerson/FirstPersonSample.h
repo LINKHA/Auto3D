@@ -14,18 +14,18 @@ public:
 	void Stop()override;
 
 	float yaw = 0.0f, pitch = 0.0f;
-	Camera* camera;
-	SharedPtr<Scene> scene;
+	ACamera* camera;
+	TSharedPtr<AScene> scene;
 
 	typedef struct RandMSG
 	{
-		Light* light;
-		Vector3F position;
-		Vector3F color;
+		ALight* light;
+		TVector3F position;
+		TVector3F color;
 		float xRand;
 		float yRand;
 		float zRand;
 	};
 
-	Vector<RandMSG> lights;
+	TVector<RandMSG> lights;
 };

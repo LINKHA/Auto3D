@@ -3,76 +3,76 @@
 void PBRSample::Init()
 {
 	Super::Init();
-	auto* graphics = ModuleManager::Get().GraphicsModule();
+	auto* graphics = GModuleManager::Get().GraphicsModule();
 	graphics->RenderWindow()->SetTitle("PBR Sample");
 }
 
 void PBRSample::Start()
 {
 	Super::Start();
-	auto* cache = ModuleManager::Get().CacheModule();
-	auto* graphics = ModuleManager::Get().GraphicsModule();
+	auto* cache = GModuleManager::Get().CacheModule();
+	auto* graphics = GModuleManager::Get().GraphicsModule();
 
 	graphics->RenderWindow()->SetMouseLock(true);
 	graphics->RenderWindow()->SetMouseHide(true);
 
-	scene = new Scene();
-	scene->CreateChild<Octree>();
-	camera = scene->CreateChild<Camera>();
-	camera->SetPosition(Vector3F(0.0f, 5.0f, -5.0f));
-	camera->SetAmbientColor(Color(0.5f, 0.5f, 0.5f));
+	scene = new AScene();
+	scene->CreateChild<AOctree>();
+	camera = scene->CreateChild<ACamera>();
+	camera->SetPosition(TVector3F(0.0f, 5.0f, -5.0f));
+	camera->SetAmbientColor(FColor(0.5f, 0.5f, 0.5f));
 
-	SkyBox* skybox = scene->CreateChild<SkyBox>();
-	skybox->SetMaterial(cache->LoadResource<Material>("HdrSkyBox.json"));
+	ASkyBox* skybox = scene->CreateChild<ASkyBox>();
+	skybox->SetMaterial(cache->LoadResource<AMaterial>("HdrSkyBox.json"));
 	skybox->SetupIBLMap();
 
-	StaticModel* teaPot = scene->CreateChild<StaticModel>();
-	teaPot->SetPosition(Vector3F(0.0f, 0.5f, 0.0f));
+	AStaticModel* teaPot = scene->CreateChild<AStaticModel>();
+	teaPot->SetPosition(TVector3F(0.0f, 0.5f, 0.0f));
 	teaPot->SetScale(10);
-	teaPot->SetModel(cache->LoadResource<Model>("Model/TeaPot.mdl"));
-	teaPot->SetMaterial(cache->LoadResource<IBLMaterial>("PBRTitanium.json"));
+	teaPot->SetModel(cache->LoadResource<AModel>("Model/TeaPot.mdl"));
+	teaPot->SetMaterial(cache->LoadResource<AIBLMaterial>("PBRTitanium.json"));
 
-	StaticModel* sphere = scene->CreateChild<StaticModel>();
-	sphere->SetPosition(Vector3F(6.0f, 1.5f, 0.0f));
+	AStaticModel* sphere = scene->CreateChild<AStaticModel>();
+	sphere->SetPosition(TVector3F(6.0f, 1.5f, 0.0f));
 	sphere->SetScale(2);
 	sphere->SetCastShadows(true);
-	sphere->SetModel(cache->LoadResource<Model>("Model/Sphere.mdl"));
-	sphere->SetMaterial(cache->LoadResource<IBLMaterial>("PBRGold.json"));
+	sphere->SetModel(cache->LoadResource<AModel>("Model/Sphere.mdl"));
+	sphere->SetMaterial(cache->LoadResource<AIBLMaterial>("PBRGold.json"));
 
-	StaticModel* plane = scene->CreateChild<StaticModel>();
-	plane->SetScale(Vector3F(100.0f, 1.0f, 100.0f));
+	AStaticModel* plane = scene->CreateChild<AStaticModel>();
+	plane->SetScale(TVector3F(100.0f, 1.0f, 100.0f));
 	plane->SetCastShadows(true);
-	plane->SetModel(cache->LoadResource<Model>("Model/Box.mdl"));
-	plane->SetMaterial(cache->LoadResource<IBLMaterial>("PBRWood.json"));
+	plane->SetModel(cache->LoadResource<AModel>("Model/Box.mdl"));
+	plane->SetMaterial(cache->LoadResource<AIBLMaterial>("PBRWood.json"));
 
 
-	Light* light = scene->CreateChild<Light>();
-	light->SetLightType(LightType::POINT);
+	ALight* light = scene->CreateChild<ALight>();
+	light->SetLightType(ELightType::POINT);
 	light->SetCastShadows(true);
-	light->SetColor(Color(500.0f, 500.0f, 500.0f));
+	light->SetColor(FColor(500.0f, 500.0f, 500.0f));
 	light->SetRange(100.0f);
-	light->SetPosition(Vector3F(-10.0f, 10.0f, 10.0f));
+	light->SetPosition(TVector3F(-10.0f, 10.0f, 10.0f));
 
-	Light* light2 = scene->CreateChild<Light>();
-	light2->SetLightType(LightType::POINT);
+	ALight* light2 = scene->CreateChild<ALight>();
+	light2->SetLightType(ELightType::POINT);
 	light2->SetCastShadows(true);
-	light2->SetColor(Color(500.0f, 500.0f, 500.0f));
+	light2->SetColor(FColor(500.0f, 500.0f, 500.0f));
 	light2->SetRange(100.0f);
-	light2->SetPosition(Vector3F(10.0f, 10.0f, 10.0f));
+	light2->SetPosition(TVector3F(10.0f, 10.0f, 10.0f));
 
-	Light* light3 = scene->CreateChild<Light>();
-	light3->SetLightType(LightType::POINT);
+	ALight* light3 = scene->CreateChild<ALight>();
+	light3->SetLightType(ELightType::POINT);
 	light3->SetCastShadows(true);
-	light3->SetColor(Color(500.0f, 500.0f, 500.0f));
+	light3->SetColor(FColor(500.0f, 500.0f, 500.0f));
 	light3->SetRange(100.0f);
-	light3->SetPosition(Vector3F(-10.0f, -10.0f, 10.0f));
+	light3->SetPosition(TVector3F(-10.0f, -10.0f, 10.0f));
 
-	Light* light4 = scene->CreateChild<Light>();
-	light4->SetLightType(LightType::POINT);
+	ALight* light4 = scene->CreateChild<ALight>();
+	light4->SetLightType(ELightType::POINT);
 	light4->SetCastShadows(true);
-	light4->SetColor(Color(500.0f, 500.0f, 500.0f));
+	light4->SetColor(FColor(500.0f, 500.0f, 500.0f));
 	light4->SetRange(100.0f);
-	light4->SetPosition(Vector3F(10.0f, -10.0f, 10.0f));
+	light4->SetPosition(TVector3F(10.0f, -10.0f, 10.0f));
 }
 
 void PBRSample::UIDraw()
@@ -84,10 +84,10 @@ void PBRSample::Update()
 {
 
 	Super::Update();
-	auto input = ModuleManager::Get().InputModule();
-	auto graphics = ModuleManager::Get().GraphicsModule();
-	auto renderer = ModuleManager::Get().RendererModule();
-	auto time = ModuleManager::Get().TimeModule();
+	auto input = GModuleManager::Get().InputModule();
+	auto graphics = GModuleManager::Get().GraphicsModule();
+	auto renderer = GModuleManager::Get().RendererModule();
+	auto time = GModuleManager::Get().TimeModule();
 
 	pitch += input->GetMouseMove()._y * 0.25f;
 	yaw += input->GetMouseMove()._x * 0.25f;
@@ -95,15 +95,15 @@ void PBRSample::Update()
 
 	float moveSpeed = input->IsKeyDown(KEY_LSHIFT) ? 50 : 10.0f;
 
-	camera->SetRotation(Quaternion(pitch, yaw, 0.0f));
+	camera->SetRotation(FQuaternion(pitch, yaw, 0.0f));
 	if (input->IsKeyDown(KEY_W))
-		camera->Translate(Vector3F::FORWARD * time->GetDeltaTime() * moveSpeed);
+		camera->Translate(TVector3F::FORWARD * time->GetDeltaTime() * moveSpeed);
 	if (input->IsKeyDown(KEY_S))
-		camera->Translate(Vector3F::BACK * time->GetDeltaTime()  * moveSpeed);
+		camera->Translate(TVector3F::BACK * time->GetDeltaTime()  * moveSpeed);
 	if (input->IsKeyDown(KEY_A))
-		camera->Translate(Vector3F::LEFT * time->GetDeltaTime()  * moveSpeed);
+		camera->Translate(TVector3F::LEFT * time->GetDeltaTime()  * moveSpeed);
 	if (input->IsKeyDown(KEY_D))
-		camera->Translate(Vector3F::RIGHT * time->GetDeltaTime()  * moveSpeed);
+		camera->Translate(TVector3F::RIGHT * time->GetDeltaTime()  * moveSpeed);
 }
 
 void PBRSample::Stop()

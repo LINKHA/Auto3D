@@ -3,33 +3,33 @@
 void WaterSample::Init()
 {
 	//Super::Init();
-	auto* graphics = ModuleManager::Get().GraphicsModule();
+	auto* graphics = GModuleManager::Get().GraphicsModule();
 	graphics->RenderWindow()->SetTitle("Water Sample");
 }
 
-DynamicModel* water;
+ADynamicModel* water;
 bool sss = true;
 void WaterSample::Start()
 {
 	//Super::Start();
-	auto* cache = ModuleManager::Get().CacheModule();
-	auto* graphics = ModuleManager::Get().GraphicsModule();
+	auto* cache = GModuleManager::Get().CacheModule();
+	auto* graphics = GModuleManager::Get().GraphicsModule();
 
 	graphics->RenderWindow()->SetMouseLock(true);
 	graphics->RenderWindow()->SetMouseHide(true);
 
-	scene = new Scene();
-	scene->CreateChild<Octree>();
+	scene = new AScene();
+	scene->CreateChild<AOctree>();
 	//camera = scene->CreateChild<Camera>();
 	//camera->SetPosition(Vector3F(0.0f, 0.0f, 0.0f));
 	//camera->SetAmbientColor(Color(0.1f, 0.1f, 0.1f));
 
-	SkyBox* skybox = scene->CreateChild<SkyBox>();
-	skybox->SetMaterial(cache->LoadResource<Material>("SkyBox.json"));
+	ASkyBox* skybox = scene->CreateChild<ASkyBox>();
+	skybox->SetMaterial(cache->LoadResource<AMaterial>("SkyBox.json"));
 	
 	//DynamicModel* water = scene->CreateChild<DynamicModel>();
 
-	water = new DynamicModel();
+	water = new ADynamicModel();
 
 
 	water->AAA();

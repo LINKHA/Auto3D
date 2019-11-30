@@ -53,7 +53,7 @@ protected:
 		{ \
 			DETECT_MEMORY_LEAKS();\
 			int flag = function;\
-			_CrtDumpMemoryLeaks();\
+			DUMP_MEMORY_LEAKS();\
 			return flag;\
 		}
 #elif defined(_MSC_VER) && defined(_DEBUG) && !defined(AUTO_WIN32_CONSOLE)
@@ -62,7 +62,7 @@ protected:
 		{ \
 			DETECT_MEMORY_LEAKS();\
 			int flag = _function;\
-			_CrtDumpMemoryLeaks();\
+			DUMP_MEMORY_LEAKS();\
 			return flag;\
 		}
 #elif defined(_MSC_VER) && NDEBUG &&!defined(AUTO_WIN32_CONSOLE)

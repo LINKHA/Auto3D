@@ -3,23 +3,23 @@
 void AudioSample::Init()
 {
 	Super::Init();
-	auto* graphics = ModuleManager::Get().GraphicsModule();
+	auto* graphics = GModuleManager::Get().GraphicsModule();
 	graphics->RenderWindow()->SetTitle("Audio Sample");
 
 }
 void AudioSample::Start()
 {
 	Super::Start();
-	auto* cache = ModuleManager::Get().CacheModule();
+	auto* cache = GModuleManager::Get().CacheModule();
 
-	scene = new Scene();
-	scene->CreateChild<Octree>();
-	auto sound = cache->LoadResource<Sound>("Sound/SoundTest.wav");
-	listener = scene->CreateChild<AudioListener>();
+	scene = new AScene();
+	scene->CreateChild<AOctree>();
+	auto sound = cache->LoadResource<ASound>("Sound/SoundTest.wav");
+	listener = scene->CreateChild<AAudioListener>();
 
-	source1 = scene->CreateChild<AudioSource>();
+	source1 = scene->CreateChild<AAudioSource>();
 	source1->SetSound(sound);
-	source2 = scene->CreateChild<AudioSource>();
+	source2 = scene->CreateChild<AAudioSource>();
 	source2->SetSound(sound);
 }
 void AudioSample::Update()

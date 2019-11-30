@@ -5,23 +5,23 @@
 void GUISample::Init()
 {
 	Super::Init();
-	auto* graphics = ModuleManager::Get().GraphicsModule();
+	auto* graphics = GModuleManager::Get().GraphicsModule();
 	graphics->RenderWindow()->SetTitle("GUI Sample");
 }
 
 void GUISample::Start()
 {
 	Super::Start();
-	ResourceCache* cache = ModuleManager::Get().CacheModule();
-	UI* ui = ModuleManager::Get().UiModule();
+	AResourceCache* cache = GModuleManager::Get().CacheModule();
+	AUIModule* ui = GModuleManager::Get().UiModule();
 
-	Font* msyh = cache->LoadResource<Font>("Font/msyh.ttc");
+	AFont* msyh = cache->LoadResource<AFont>("Font/msyh.ttc");
 	ui->AddFont(msyh, 26, "Msyh_26");
-	ui->AddFont(msyh, 48, "Msyh_48", UIFontLanguage::CN);
+	ui->AddFont(msyh, 48, "Msyh_48", EUIFontLanguage::CN);
 	ui->AddFont(msyh, 15, "Msyh_15");
 	ui->AddFont(msyh, 20, "Msyh_20");
 
-	imgTexture = cache->LoadResource<Texture>("Texture/flower.png");
+	imgTexture = cache->LoadResource<ATexture>("Texture/flower.png");
 }
 
 void GUISample::Update()
@@ -43,7 +43,7 @@ void GUISample::UIDraw()
 
 	GUI::PushFont("Msyh_48");
 	GUI::Text(u8"ÖÐÎÄ²âÊÔ");
-	GUI::Image(imgTexture, Vector2F(imgTexture->GetWidth(), imgTexture->GetHeight())); GUI::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+	GUI::Image(imgTexture, TVector2F(imgTexture->GetWidth(), imgTexture->GetHeight())); GUI::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
 
 	if (GUI::Button("Button")) 
 		counter++;
@@ -72,8 +72,8 @@ void GUISample::ShowExampleAppSimpleOverlay(bool* open)
 	GUI::IO& io = GUI::GetIO();
 	if (corner != -1)
 	{
-		Vector2F window_pos = Vector2F((corner & 1) ? io.DisplaySize.x - DISTANCE : DISTANCE, (corner & 2) ? io.DisplaySize.y - DISTANCE : DISTANCE);
-		Vector2F window_pos_pivot = Vector2F((corner & 1) ? 1.0f : 0.0f, (corner & 2) ? 1.0f : 0.0f);
+		TVector2F window_pos = TVector2F((corner & 1) ? io.DisplaySize.x - DISTANCE : DISTANCE, (corner & 2) ? io.DisplaySize.y - DISTANCE : DISTANCE);
+		TVector2F window_pos_pivot = TVector2F((corner & 1) ? 1.0f : 0.0f, (corner & 2) ? 1.0f : 0.0f);
 		GUI::SetNextWindowPos(window_pos, ImGuiCond_Always, window_pos_pivot);
 	}
 	GUI::SetNextWindowBgAlpha(0.35f); // Transparent background
@@ -103,7 +103,7 @@ void GUISample::ShowExampleAppSimpleOverlay(bool* open)
 		if (!count--)
 		{
 			count = 5;
-			currentFps = ModuleManager::Get().TimeModule()->GetFramesPerSecond();
+			currentFps = GModuleManager::Get().TimeModule()->GetFramesPerSecond();
 		}
 
 		if (Abs(fps - currentFps) > 0.2f)
@@ -120,15 +120,15 @@ void GUISample::ShowExampleAppSimpleOverlay(bool* open)
 
 void GUISample::ShowExampleAppLog(bool* open)
 {
-	static UILog log;
+	static FUILog log;
 
 	// For the demo: add a debug button _BEFORE_ the normal log window contents
 	// We take advantage of a rarely used feature: multiple calls to Begin()/End() are appending to the _same_ window.
 	// Most of the contents of the window will be added by the log.Draw() call.
-	auto window = ModuleManager::Get().GraphicsModule()->RenderWindow();
+	auto window = GModuleManager::Get().GraphicsModule()->RenderWindow();
 
-	GUI::SetNextWindowPos(Vector2F(0, window->GetHeight() * 0.7f), ImGuiCond_Always);
-	GUI::SetNextWindowSize(Vector2F(window->GetWidth(), window->GetHeight() * 0.3f), ImGuiCond_Always);
+	GUI::SetNextWindowPos(TVector2F(0, window->GetHeight() * 0.7f), ImGuiCond_Always);
+	GUI::SetNextWindowSize(TVector2F(window->GetWidth(), window->GetHeight() * 0.3f), ImGuiCond_Always);
 
 	GUI::WindowFlags windowFlags = 
 		ImGuiWindowFlags_NoMove |
@@ -158,7 +158,7 @@ void GUISample::ShowExampleAppLog(bool* open)
 
 void GUISample::ShowExampleAppLayout(bool* open)
 {
-	GUI::SetNextWindowSize(Vector2F(500, 440), ImGuiCond_FirstUseEver);
+	GUI::SetNextWindowSize(TVector2F(500, 440), ImGuiCond_FirstUseEver);
 	if (GUI::Begin("Example: Simple layout", open, ImGuiWindowFlags_MenuBar))
 	{
 		if (GUI::BeginMenuBar())
@@ -173,7 +173,7 @@ void GUISample::ShowExampleAppLayout(bool* open)
 
 		// left
 		static int selected = 0;
-		GUI::BeginChild("left pane", Vector2F(150, 0), true);
+		GUI::BeginChild("left pane", TVector2F(150, 0), true);
 		for (int i = 0; i < 100; i++)
 		{
 			char label[128];
@@ -186,7 +186,7 @@ void GUISample::ShowExampleAppLayout(bool* open)
 
 		// right
 		GUI::BeginGroup();
-		GUI::BeginChild("item view", Vector2F(0, -GUI::GetFrameHeightWithSpacing())); // Leave room for 1 line below us
+		GUI::BeginChild("item view", TVector2F(0, -GUI::GetFrameHeightWithSpacing())); // Leave room for 1 line below us
 		GUI::Text("MyObject: %d", selected);
 		GUI::Separator();
 		if (GUI::BeginTabBar("##Tabs", ImGuiTabBarFlags_None))

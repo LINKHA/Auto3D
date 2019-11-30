@@ -12,5 +12,5 @@ public:
 	void Update()override;
 	void Stop()override;
 	float yaw = 0.0f, pitch = 20.0f;
-	Camera2D* camera2d;
+	ACamera2D* camera2d;
 };

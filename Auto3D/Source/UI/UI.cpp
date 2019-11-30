@@ -820,7 +820,7 @@ bool ArrowButton(const char* str_id, Dir dir)
 {
 	return ImGui::ArrowButton( str_id,  dir);
 }
-void AImage(ATexture* user_texture, const TVector2F& size, const TVector2F& uv0, const TVector2F& uv1, const TVector4F& tint_col, const TVector4F& border_col)
+void Image(ATexture* user_texture, const TVector2F& size, const TVector2F& uv0, const TVector2F& uv1, const TVector4F& tint_col, const TVector4F& border_col)
 {
 	ImGui::Image((void*)user_texture->GetGLTexture(), ToImVal(size), ToImVal(uv0), ToImVal(uv1), ToImVal(tint_col), ToImVal(border_col));
 }

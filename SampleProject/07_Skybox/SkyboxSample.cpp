@@ -3,35 +3,35 @@
 void SkyboxSample::Init()
 {
 	Super::Init();
-	auto* graphics = ModuleManager::Get().GraphicsModule();
+	auto* graphics = GModuleManager::Get().GraphicsModule();
 	graphics->RenderWindow()->SetTitle("Skybox Sample");
 }
 
 void SkyboxSample::Start()
 {
 	Super::Start();
-	auto* cache = ModuleManager::Get().CacheModule();
-	auto* graphics = ModuleManager::Get().GraphicsModule();
+	auto* cache = GModuleManager::Get().CacheModule();
+	auto* graphics = GModuleManager::Get().GraphicsModule();
 
 	graphics->RenderWindow()->SetMouseLock(true);
 	graphics->RenderWindow()->SetMouseHide(true);
 
-	scene = new Scene();
-	scene->CreateChild<Octree>();
-	camera = scene->CreateChild<Camera>();
-	camera->SetPosition(Vector3F(0.0f, 0.0f, 0.0f));
-	camera->SetAmbientColor(Color(0.1f, 0.1f, 0.1f));
+	scene = new AScene();
+	scene->CreateChild<AOctree>();
+	camera = scene->CreateChild<ACamera>();
+	camera->SetPosition(TVector3F(0.0f, 0.0f, 0.0f));
+	camera->SetAmbientColor(FColor(0.1f, 0.1f, 0.1f));
 
-	SkyBox* skybox = scene->CreateChild<SkyBox>();
-	skybox->SetMaterial(cache->LoadResource<Material>("SkyBox.json"));
+	ASkyBox* skybox = scene->CreateChild<ASkyBox>();
+	skybox->SetMaterial(cache->LoadResource<AMaterial>("SkyBox.json"));
 }
 void SkyboxSample::Update()
 {
 	Super::Update();
-	auto input = ModuleManager::Get().InputModule();
-	auto graphics = ModuleManager::Get().GraphicsModule();
-	auto renderer = ModuleManager::Get().RendererModule();
-	auto time = ModuleManager::Get().TimeModule();
+	auto input = GModuleManager::Get().InputModule();
+	auto graphics = GModuleManager::Get().GraphicsModule();
+	auto renderer = GModuleManager::Get().RendererModule();
+	auto time = GModuleManager::Get().TimeModule();
 
 	pitch += input->GetMouseMove()._y * 0.25f;
 	yaw += input->GetMouseMove()._x * 0.25f;
@@ -39,15 +39,15 @@ void SkyboxSample::Update()
 
 	float moveSpeed = input->IsKeyDown(KEY_LSHIFT) ? 50 : 10.0f;
 
-	camera->SetRotation(Quaternion(pitch, yaw, 0.0f));
+	camera->SetRotation(FQuaternion(pitch, yaw, 0.0f));
 	if (input->IsKeyDown(KEY_W))
-		camera->Translate(Vector3F::FORWARD * time->GetDeltaTime() * moveSpeed);
+		camera->Translate(TVector3F::FORWARD * time->GetDeltaTime() * moveSpeed);
 	if (input->IsKeyDown(KEY_S))
-		camera->Translate(Vector3F::BACK * time->GetDeltaTime()  * moveSpeed);
+		camera->Translate(TVector3F::BACK * time->GetDeltaTime()  * moveSpeed);
 	if (input->IsKeyDown(KEY_A))
-		camera->Translate(Vector3F::LEFT * time->GetDeltaTime()  * moveSpeed);
+		camera->Translate(TVector3F::LEFT * time->GetDeltaTime()  * moveSpeed);
 	if (input->IsKeyDown(KEY_D))
-		camera->Translate(Vector3F::RIGHT * time->GetDeltaTime()  * moveSpeed);
+		camera->Translate(TVector3F::RIGHT * time->GetDeltaTime()  * moveSpeed);
 }
 
 void SkyboxSample::Stop()

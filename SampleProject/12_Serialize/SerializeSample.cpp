@@ -3,19 +3,16 @@
 void SerializeSample::Init()
 {
 	Super::Init();
-	auto* graphics = ModuleManager::Get().GraphicsModule();
+	auto* graphics = GModuleManager::Get().GraphicsModule();
 	graphics->RenderWindow()->SetTitle("Mesh Sample");
 }
 void SerializeSample::Start()
 {
 	Super::Start();
-	auto* cache = ModuleManager::Get().CacheModule();
-	auto* graphics = ModuleManager::Get().GraphicsModule();
+	auto* cache = GModuleManager::Get().CacheModule();
+	auto* graphics = GModuleManager::Get().GraphicsModule();
 
-	graphics->RenderWindow()->SetMouseLock(true);
-	graphics->RenderWindow()->SetMouseHide(true);
-
-	scene = Object::Create<Scene>();
+	scene = AObject::Create<AScene>();
 	/*scene->SetupShadowMap(3, 4096);
 	scene->CreateChild<Octree>();
 	camera = scene->CreateChild<Camera>();
@@ -42,9 +39,9 @@ void SerializeSample::Start()
 	//lightDir->SetShadowMapSize(2048);
 	//
 
-	String exePath = ExecutableDir();
-	String fileJsonName = "12_Serialize_SerializeFile.json";
-	String fileSavName = "12_Serialize_SerializeFile.sav";
+	FString exePath = ExecutableDir();
+	FString fileJsonName = "12_Serialize_SerializeFile.json";
+	FString fileSavName = "12_Serialize_SerializeFile.sav";
 	// Serialize
 	{
 		//// Serialize scene to json
@@ -61,14 +58,14 @@ void SerializeSample::Start()
 	// Deserialize
 	{
 		// Serialize scene to json
-		AutoPtr<Stream> streamJson(new File(exePath + fileJsonName, FileMode::READ));
+		TAutoPtr<FStream> streamJson(new FFile(exePath + fileJsonName, EFileMode::READ));
 		scene->LoadJSON(*streamJson);
 
 		// Save data to file
-		AutoPtr<Stream> streamSave(new File(exePath + fileSavName, FileMode::READ));
+		TAutoPtr<FStream> streamSave(new FFile(exePath + fileSavName, EFileMode::READ));
 		streamSave->Read<int>();
 		streamSave->Read<float>();
-		streamSave->Read<String>();
+		streamSave->Read<FString>();
 	}
 }
 void SerializeSample::Update()

@@ -27,6 +27,6 @@ public:
 		float rotateOffset;
 	};
 	//First speed ,Second sprite
-	Vector<Pair<FlowerMSG, Sprite2D*> > sprites;
-	Camera2D* camera2d;
+	TVector<TPair<FlowerMSG, ASprite2D*> > sprites;
+	ACamera2D* camera2d;
 };
