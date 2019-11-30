@@ -17,7 +17,7 @@ class RegisteredBox;
 class Script;
 class Renderer2D;
 class Physics;
-class FileSystem;
+class AFileSystem;
 class UI;
 
 class AUTO_API AEngine : public AObject
@@ -122,7 +122,7 @@ private:
 	/// Physical world and functional storage
 	Physics* _physics;
 	/// An adapter system that operates on files based on the platform
-	FileSystem* _fileSystem;
+	AFileSystem* _fileSystem;
 	/// UI-related operations and rendering capabilities
 	UI* _ui;
 };

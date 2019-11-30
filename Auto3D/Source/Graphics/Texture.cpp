@@ -15,7 +15,7 @@ void ATexture::RegisterObject()
     RegisterFactory<ATexture>();
 }
 
-bool ATexture::BeginLoad(Stream& source)
+bool ATexture::BeginLoad(FStream& source)
 {
     _loadImages.Clear();
     _loadImages.Push(new AImage());

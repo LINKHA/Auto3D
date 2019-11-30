@@ -8,37 +8,37 @@
 namespace Auto3D
 {
 
-MemoryBuffer::MemoryBuffer(void* data, size_t numBytes) :
-    Stream(data ? numBytes : 0),
+FMemoryBuffer::FMemoryBuffer(void* data, size_t numBytes) :
+    FStream(data ? numBytes : 0),
     _buffer((unsigned char*)data),
     _readOnly(false)
 {
     SetName("Memory");
 }
 
-MemoryBuffer::MemoryBuffer(const void* data, size_t numBytes) :
-    Stream(data ? numBytes : 0),
+FMemoryBuffer::FMemoryBuffer(const void* data, size_t numBytes) :
+    FStream(data ? numBytes : 0),
     _buffer((unsigned char*)data),
     _readOnly(true)
 {
     SetName("Memory");
 }
 
-MemoryBuffer::MemoryBuffer(TVector<unsigned char>& data) :
-    Stream(data.Size()),
+FMemoryBuffer::FMemoryBuffer(TVector<unsigned char>& data) :
+    FStream(data.Size()),
     _buffer(data.Begin()._ptr),
     _readOnly(false)
 {
 }
 
-MemoryBuffer::MemoryBuffer(const TVector<unsigned char>& data) :
-    Stream(data.Size()),
+FMemoryBuffer::FMemoryBuffer(const TVector<unsigned char>& data) :
+    FStream(data.Size()),
     _buffer(data.Begin()._ptr),
     _readOnly(true)
 {
 }
 
-size_t MemoryBuffer::Read(void* dest, size_t numBytes)
+size_t FMemoryBuffer::Read(void* dest, size_t numBytes)
 {
     if (numBytes + _position > _size)
         numBytes = _size - _position;
@@ -69,7 +69,7 @@ size_t MemoryBuffer::Read(void* dest, size_t numBytes)
     return numBytes;
 }
 
-size_t MemoryBuffer::Seek(size_t newPosition)
+size_t FMemoryBuffer::Seek(size_t newPosition)
 {
     if (newPosition > _size)
         newPosition = _size;
@@ -78,7 +78,7 @@ size_t MemoryBuffer::Seek(size_t newPosition)
     return _position;
 }
 
-size_t MemoryBuffer::Write(const void* _data, size_t numBytes)
+size_t FMemoryBuffer::Write(const void* _data, size_t numBytes)
 {
     if (numBytes + _position > _size)
         numBytes = _size - _position;
@@ -109,12 +109,12 @@ size_t MemoryBuffer::Write(const void* _data, size_t numBytes)
     return numBytes;
 }
 
-bool MemoryBuffer::IsReadable() const
+bool FMemoryBuffer::IsReadable() const
 {
     return _buffer != nullptr;
 }
 
-bool MemoryBuffer::IsWritable() const
+bool FMemoryBuffer::IsWritable() const
 {
     return _buffer && !_readOnly;
 }

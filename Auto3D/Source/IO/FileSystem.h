@@ -16,14 +16,14 @@ static const unsigned SCAN_DIRS = 0x2;
 static const unsigned SCAN_HIDDEN = 0x4;
 
 /// Module for file and directory operations and access control.
-class AUTO_API FileSystem : public ABaseModule
+class AUTO_API AFileSystem : public ABaseModule
 {
-	REGISTER_OBJECT_CLASS(FileSystem, ABaseModule)
+	REGISTER_OBJECT_CLASS(AFileSystem, ABaseModule)
 public:
 	/// Construct.
-	FileSystem();
+	AFileSystem();
 	/// Destruct.
-	~FileSystem();
+	~AFileSystem();
 	/// Register a path as allowed to access. If no paths are registered,
 	///	all are allowed. Registering allowed paths is considered securing the Auto3D
 	///	execution environment: running programs and opening files externally through the system will fail afterward

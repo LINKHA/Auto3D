@@ -6,10 +6,10 @@
 namespace Auto3D
 {
 
-class Stream;
+class FStream;
 
 /// Typed resource reference for serialization.
-struct AUTO_API ResourceRef
+struct AUTO_API FResourceRef
 {
     /// AResource type.
     FStringHash _type;
@@ -17,31 +17,31 @@ struct AUTO_API ResourceRef
     FString _name;
 
     /// Construct.
-    ResourceRef()
+    FResourceRef()
     {
     }
 
     // Copy-construct.
-    ResourceRef(const ResourceRef& ref) :
+    FResourceRef(const FResourceRef& ref) :
         _type(ref._type),
         _name(ref._name)
     {
     }
 
     /// Construct from a string.
-    ResourceRef(const FString& str)
+    FResourceRef(const FString& str)
     {
         FromString(str);
     }
     
     /// Construct from a C string.
-    ResourceRef(const char* str)
+    FResourceRef(const char* str)
     {
         FromString(str);
     }
     
     /// Construct with type and resource name.
-    ResourceRef(FStringHash type, const FString& name_ = FString::EMPTY) :
+    FResourceRef(FStringHash type, const FString& name_ = FString::EMPTY) :
         _type(type),
         _name(name_)
     {
@@ -52,21 +52,21 @@ struct AUTO_API ResourceRef
     /// Set from a C string that contains the type and name separated by a semicolon. Return true on success.
     bool FromString(const char* str);
     /// Deserialize from a binary stream.
-    void FromBinary(Stream& source);
+    void FromBinary(FStream& source);
     
     /// Return as a string.
     FString ToString() const;
     /// Serialize to a binary stream.
-    void ToBinary(Stream& dest) const;
+    void ToBinary(FStream& dest) const;
 
     /// Test for equality with another reference.
-    bool operator == (const ResourceRef& rhs) const { return _type == rhs._type && _name == rhs._name; }
+    bool operator == (const FResourceRef& rhs) const { return _type == rhs._type && _name == rhs._name; }
     /// Test for inequality with another reference.
-    bool operator != (const ResourceRef& rhs) const { return !(*this == rhs); }
+    bool operator != (const FResourceRef& rhs) const { return !(*this == rhs); }
 };
 
 /// %TList of typed resource references for serialization.
-struct AUTO_API ResourceRefList
+struct AUTO_API FResourceRefList
 {
     /// AResource type.
     FStringHash _type;
@@ -74,31 +74,31 @@ struct AUTO_API ResourceRefList
     TVector<FString> _names;
 
     /// Construct.
-    ResourceRefList()
+    FResourceRefList()
     {
     }
 
     // Copy-construct.
-    ResourceRefList(const ResourceRefList& refList) :
+    FResourceRefList(const FResourceRefList& refList) :
         _type(refList._type),
         _names(refList._names)
     {
     }
 
     /// Construct from a string.
-    ResourceRefList(const FString& str)
+    FResourceRefList(const FString& str)
     {
         FromString(str);
     }
     
     /// Construct from a C string.
-    ResourceRefList(const char* str)
+    FResourceRefList(const char* str)
     {
         FromString(str);
     }
 
     /// Construct with type and name list.
-    ResourceRefList(FStringHash type, const TVector<FString>& names = TVector<FString>()) :
+    FResourceRefList(FStringHash type, const TVector<FString>& names = TVector<FString>()) :
         _type(type),
         _names(names)
     {
@@ -109,17 +109,17 @@ struct AUTO_API ResourceRefList
     /// Set from a C string that contains the type and names separated by semicolons. Return true on success.
     bool FromString(const char* str);
     /// Deserialize from a binary stream.
-    void FromBinary(Stream& source);
+    void FromBinary(FStream& source);
 
     /// Return as a string.
     FString ToString() const;
     /// Deserialize from a binary stream.
-    void ToBinary(Stream& dest) const;
+    void ToBinary(FStream& dest) const;
 
     /// Test for equality with another reference list.
-    bool operator == (const ResourceRefList& rhs) const { return _type == rhs._type && _names == rhs._names; }
+    bool operator == (const FResourceRefList& rhs) const { return _type == rhs._type && _names == rhs._names; }
     /// Test for inequality with another reference list.
-    bool operator != (const ResourceRefList& rhs) const { return !(*this == rhs); }
+    bool operator != (const FResourceRefList& rhs) const { return !(*this == rhs); }
 };
 
 }

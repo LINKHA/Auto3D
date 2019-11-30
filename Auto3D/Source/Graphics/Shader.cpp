@@ -25,7 +25,7 @@ void AShader::RegisterObject()
     RegisterFactory<AShader>();
 }
 
-bool AShader::BeginLoad(Stream& source)
+bool AShader::BeginLoad(FStream& source)
 {
     FString extension = Extension(source.FName());
     _stage = (extension == ".vs" || extension == ".vert") ? EShaderStage::VS : EShaderStage::PS;
@@ -67,7 +67,7 @@ FShaderVariation* AShader::CreateVariation(const FString& definesIn)
     return newVariation;
 }
 
-bool AShader::ProcessIncludes(FString& code, Stream& source)
+bool AShader::ProcessIncludes(FString& code, FStream& source)
 {
 	ResourceCache* cache = GModuleManager::Get().CacheModule();
 
@@ -78,7 +78,7 @@ bool AShader::ProcessIncludes(FString& code, Stream& source)
         if (line.StartsWith("#include"))
         {
             FString includeFileName = Path(source.FName()) + line.Substring(9).Replaced("\"", "").Trimmed();
-            TAutoPtr<Stream> includeStream = cache->OpenResource(includeFileName);
+            TAutoPtr<FStream> includeStream = cache->OpenResource(includeFileName);
             if (!includeStream)
                 return false;
 

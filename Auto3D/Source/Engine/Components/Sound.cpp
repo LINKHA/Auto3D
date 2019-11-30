@@ -44,7 +44,7 @@ void ASound::RegisterObject()
 	RegisterFactory<ASound>();
 }
 
-bool ASound::BeginLoad(Stream& source)
+bool ASound::BeginLoad(FStream& source)
 {
 	bool success;
 	if (Extension(source.FName()) == ".ogg")
@@ -57,7 +57,7 @@ bool ASound::BeginLoad(Stream& source)
 }
 
 
-bool ASound::LoadRaw(Stream& source)
+bool ASound::LoadRaw(FStream& source)
 {
 	unsigned dataSize = source.Size();
 	SetSize(dataSize);
@@ -65,7 +65,7 @@ bool ASound::LoadRaw(Stream& source)
 	return false;
 }
 
-bool ASound::LoadWav(Stream& source)
+bool ASound::LoadWav(FStream& source)
 {
 	WavHeader header{};
 
@@ -147,7 +147,7 @@ bool ASound::LoadWav(Stream& source)
 	return true;
 }
 
-bool ASound::LoadOggVorbis(Stream& source)
+bool ASound::LoadOggVorbis(FStream& source)
 {
 	unsigned dataSize = source.Size();
 	TSharedArrayPtr<signed char> data(new signed char[dataSize]);

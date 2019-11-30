@@ -7,7 +7,7 @@ namespace Auto3D
 
 class FAttribute;
 class ASerializable;
-struct ObjectRef;
+struct FObjectRef;
 
 /// Stored object ref attribute.
 struct AUTO_API FStoredObjectRef
@@ -43,7 +43,7 @@ public:
     /// Store an object along with its old _id from the serialized data.
     void StoreObject(unsigned oldId, ASerializable* object);
     /// Store an object ref attribute that needs to be resolved later.
-    void StoreObjectRef(ASerializable* object, FAttribute* attr, const ObjectRef& value);
+    void StoreObjectRef(ASerializable* object, FAttribute* attr, const FObjectRef& value);
     /// Resolve the object ref attributes.
     void Resolve();
 

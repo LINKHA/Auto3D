@@ -15,13 +15,13 @@ public:
 	/// Destructor
 	virtual ~ASerializable() {}
     /// Load from binary stream. Store object ref attributes to be resolved later.
-    virtual void Load(Stream& source, FObjectResolver& resolver);
+    virtual void Load(FStream& source, FObjectResolver& resolver);
     /// Save to binary stream.
-    virtual void Save(Stream& dest);
+    virtual void Save(FStream& dest);
     /// Load from JSON data. Optionally store object ref attributes to be resolved later.
-    virtual void LoadJSON(const JSONValue& source, FObjectResolver& resolver);
+    virtual void LoadJSON(const FJSONValue& source, FObjectResolver& resolver);
     /// Save as JSON data.
-    virtual void SaveJSON(JSONValue& dest);
+    virtual void SaveJSON(FJSONValue& dest);
     /// Return _id for referring to the object in serialization.
     virtual unsigned Id() const { return 0; }
 
@@ -77,7 +77,7 @@ public:
     /// Copy one base class attribute.
     static void CopyBaseAttribute(FStringHash type, FStringHash baseType, const FString& name);
     /// Skip binary data of an object's all attributes.
-    static void Skip(Stream& source);
+    static void Skip(FStream& source);
     
     /// Register a per-class attribute, template version. Should not be used for base class attributes unless the type is explicitly specified, as by default the attribute will be re-registered to the base class redundantly.
     template <typename _Ty, typename U> static void RegisterAttribute(const char* name, U (_Ty::*getFunction)() const, void (_Ty::*setFunction)(U), const U& defaultValue = U(), const char** enumNames = 0)

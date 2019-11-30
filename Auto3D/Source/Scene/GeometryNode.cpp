@@ -75,7 +75,7 @@ void AGeometryNode::RegisterObject()
     RegisterFactory<AGeometryNode>();
     CopyBaseAttributes<AGeometryNode, AOctreeNode>();
     RegisterMixedRefAttribute("materials", &AGeometryNode::MaterialsAttr, &AGeometryNode::SetMaterialsAttr,
-        ResourceRefList(AMaterial::GetTypeStatic()));
+        FResourceRefList(AMaterial::GetTypeStatic()));
 }
 
 void AGeometryNode::OnPrepareRender(unsigned frameNumber, ACamera* camera)
@@ -160,16 +160,16 @@ void AGeometryNode::OnWorldBoundingBoxUpdate() const
     SetFlag(NF_BOUNDING_BOX_DIRTY, false);
 }
 
-void AGeometryNode::SetMaterialsAttr(const ResourceRefList& materials)
+void AGeometryNode::SetMaterialsAttr(const FResourceRefList& materials)
 {
 	ResourceCache* cache = GModuleManager::Get().CacheModule();
     for (size_t i = 0; i < materials._names.Size(); ++i)
         SetMaterial(i, cache->LoadResource<AMaterial>(materials._names[i]));
 }
 
-ResourceRefList AGeometryNode::MaterialsAttr() const
+FResourceRefList AGeometryNode::MaterialsAttr() const
 {
-    ResourceRefList ret(AMaterial::GetTypeStatic());
+    FResourceRefList ret(AMaterial::GetTypeStatic());
     
     ret._names.Resize(_batches.Size());
     for (size_t i = 0; i < _batches.Size(); ++i)

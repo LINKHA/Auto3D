@@ -6,7 +6,7 @@
 namespace Auto3D
 {
 
-class Stream;
+class FStream;
 
 /// JSON document. Contains a root JSON value and can be read/written to file as text.
 class AUTO_API JSONFile : public AResource
@@ -15,21 +15,21 @@ class AUTO_API JSONFile : public AResource
 
 public:
     /// Load from a stream as text. Return true on success. Will contain partial data on failure.
-    bool BeginLoad(Stream& source) override;
+    bool BeginLoad(FStream& source) override;
     /// Save to a stream as text. Return true on success.
-    bool Save(Stream& dest) override;
+    bool Save(FStream& dest) override;
     
     /// Register object factory.
     static void RegisterObject();
 
     /// Return the root value.
-    JSONValue& Root() { return _root; }
+    FJSONValue& Root() { return _root; }
     /// Return the const root value.
-    const JSONValue& Root() const { return _root; }
+    const FJSONValue& Root() const { return _root; }
 
 private:
     /// Root value.
-    JSONValue _root;
+    FJSONValue _root;
 };
 
 }

@@ -18,7 +18,7 @@ class RegisteredBox;
 class Script;
 class Renderer2D;
 class Physics;
-class FileSystem;
+class AFileSystem;
 class UI;
 class AAudio;
 
@@ -61,7 +61,7 @@ public:
 	/// Recreate physical world and functional storage
 	void RecreatePhysicsModule(Physics* physics = nullptr);
 	/// Recreate an adapter system that operates on files based on the platform
-	void RecreateFileSystemModule(FileSystem* fileSystem = nullptr);
+	void RecreateFileSystemModule(AFileSystem* fileSystem = nullptr);
 	/// Recreate UI-related operations and rendering capabilities
 	void RecreateUiModule(UI* ui = nullptr);
 	/// Recreate component management of all audio.(Assign values when the component is first created)
@@ -88,7 +88,7 @@ public:
 	/// Return physical world and functional storage
 	Physics* PhysicsModule() { return _physics.Get(); }
 	/// Return an adapter system that operates on files based on the platform
-	FileSystem* FileSystemModule() { return _fileSystem.Get(); }
+	AFileSystem* FileSystemModule() { return _fileSystem.Get(); }
 	/// Return UI-related operations and rendering capabilities
 	UI* UiModule() { return _ui.Get(); }
 	/// Return component management of all audio.(Assign values when the component is first created)
@@ -115,7 +115,7 @@ private:
 	/// Physical world and functional storage
 	TUniquePtr<Physics> _physics;
 	/// An adapter system that operates on files based on the platform
-	TUniquePtr<FileSystem> _fileSystem;
+	TUniquePtr<AFileSystem> _fileSystem;
 	/// UI-related operations and rendering capabilities
 	TUniquePtr<UI> _ui;
 	/// Component management of all audio.(Assign values when the component is first created)

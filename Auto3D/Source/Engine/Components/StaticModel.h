@@ -34,9 +34,9 @@ public:
 
 private:
     /// Set model attribute. Used in serialization.
-    void SetModelAttr(const ResourceRef& model);
+    void SetModelAttr(const FResourceRef& model);
     /// Return model attribute. Used in serialization.
-    ResourceRef ModelAttr() const;
+    FResourceRef ModelAttr() const;
 
     /// Current model resource.
     TSharedPtr<AModel> _model;

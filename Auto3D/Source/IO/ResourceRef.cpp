@@ -7,12 +7,12 @@
 namespace Auto3D
 {
 
-bool ResourceRef::FromString(const FString& str)
+bool FResourceRef::FromString(const FString& str)
 {
     return FromString(str.CString());
 }
 
-bool ResourceRef::FromString(const char* str)
+bool FResourceRef::FromString(const char* str)
 {
     TVector<FString> values = FString::Split(str, ';');
     if (values.Size() == 2)
@@ -25,29 +25,29 @@ bool ResourceRef::FromString(const char* str)
         return false;
 }
 
-void ResourceRef::FromBinary(Stream& source)
+void FResourceRef::FromBinary(FStream& source)
 {
     _type = source.Read<FStringHash>();
     _name = source.Read<FString>();
 }
 
-FString ResourceRef::ToString() const
+FString FResourceRef::ToString() const
 {
     return AObject::TypeNameFromType(_type) + ";" + _name;
 }
 
-void ResourceRef::ToBinary(Stream& dest) const
+void FResourceRef::ToBinary(FStream& dest) const
 {
     dest.Write(_type);
     dest.Write(_name);
 }
 
-bool ResourceRefList::FromString(const FString& str)
+bool FResourceRefList::FromString(const FString& str)
 {
     return FromString(str.CString());
 }
 
-bool ResourceRefList::FromString(const char* str)
+bool FResourceRefList::FromString(const char* str)
 {
     TVector<FString> values = FString::Split(str, ';');
     if (values.Size() >= 1)
@@ -62,7 +62,7 @@ bool ResourceRefList::FromString(const char* str)
         return false;
 }
 
-void ResourceRefList::FromBinary(Stream& source)
+void FResourceRefList::FromBinary(FStream& source)
 {
     _type = source.Read<FStringHash>();
     size_t num = source.ReadVLE();
@@ -71,7 +71,7 @@ void ResourceRefList::FromBinary(Stream& source)
         _names.Push(source.Read<FString>());
 }
 
-FString ResourceRefList::ToString() const
+FString FResourceRefList::ToString() const
 {
     FString ret(AObject::TypeNameFromType(_type));
     for (auto it = _names.Begin(); it != _names.End(); ++it)
@@ -82,7 +82,7 @@ FString ResourceRefList::ToString() const
     return ret;
 }
 
-void ResourceRefList::ToBinary(Stream& dest) const
+void FResourceRefList::ToBinary(FStream& dest) const
 {
     dest.Write(_type);
     dest.WriteVLE(_names.Size());

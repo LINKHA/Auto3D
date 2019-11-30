@@ -6,23 +6,23 @@
 namespace Auto3D
 {
 
-class JSONValue;
+class FJSONValue;
 class FStringHash;
 template <typename _Ty> class TVector;
-struct ObjectRef;
-struct ResourceRef;
-struct ResourceRefList;
+struct FObjectRef;
+struct FResourceRef;
+struct FResourceRefList;
 
 /// Abstract stream for reading and writing.
-class AUTO_API Stream : public FRefCounted
+class AUTO_API FStream : public FRefCounted
 {
 public:
     /// Default-construct with zero _size.
-    Stream();
+    FStream();
     /// Construct with defined byte _size.
-    Stream(size_t numBytes);
+    FStream(size_t numBytes);
     /// Destruct.
-    virtual ~Stream();
+    virtual ~FStream();
     
     /// Read bytes from the stream. Return number of bytes actually read.
     virtual size_t Read(void* dest, size_t numBytes) = 0;
@@ -77,27 +77,27 @@ public:
     bool IsEof() const { return _position >= _size; }
     
 protected:
-    /// Stream _position.
+    /// FStream _position.
     size_t _position;
-    /// Stream _size.
+    /// FStream _size.
     size_t _size;
-    /// Stream name.
+    /// FStream name.
     FString _name;
 };
 
-template<> AUTO_API bool Stream::Read();
-template<> AUTO_API FString Stream::Read();
-template<> AUTO_API FStringHash Stream::Read();
-template<> AUTO_API ResourceRef Stream::Read();
-template<> AUTO_API ResourceRefList Stream::Read();
-template<> AUTO_API ObjectRef Stream::Read();
-template<> AUTO_API JSONValue Stream::Read();
-template<> AUTO_API void Stream::Write(const bool& value);
-template<> AUTO_API void Stream::Write(const FString& value);
-template<> AUTO_API void Stream::Write(const FStringHash& value);
-template<> AUTO_API void Stream::Write(const ResourceRef& value);
-template<> AUTO_API void Stream::Write(const ResourceRefList& value);
-template<> AUTO_API void Stream::Write(const ObjectRef& value);
-template<> AUTO_API void Stream::Write(const JSONValue& value);
+template<> AUTO_API bool FStream::Read();
+template<> AUTO_API FString FStream::Read();
+template<> AUTO_API FStringHash FStream::Read();
+template<> AUTO_API FResourceRef FStream::Read();
+template<> AUTO_API FResourceRefList FStream::Read();
+template<> AUTO_API FObjectRef FStream::Read();
+template<> AUTO_API FJSONValue FStream::Read();
+template<> AUTO_API void FStream::Write(const bool& value);
+template<> AUTO_API void FStream::Write(const FString& value);
+template<> AUTO_API void FStream::Write(const FStringHash& value);
+template<> AUTO_API void FStream::Write(const FResourceRef& value);
+template<> AUTO_API void FStream::Write(const FResourceRefList& value);
+template<> AUTO_API void FStream::Write(const FObjectRef& value);
+template<> AUTO_API void FStream::Write(const FJSONValue& value);
 
 }

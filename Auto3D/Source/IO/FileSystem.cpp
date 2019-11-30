@@ -86,7 +86,7 @@ int DoSystemCommand(const FString& commandLine, bool redirectToLog)
 	// Capture the standard error stream
 	if (!stderrFilename.IsEmpty())
 	{
-		TSharedPtr<File> errFile(new File(stderrFilename, FileMode::READ));
+		TSharedPtr<FFile> errFile(new FFile(stderrFilename, EFileMode::READ));
 		while (!errFile->IsEof())
 		{
 			unsigned numRead = errFile->Read(buffer, sizeof(buffer));
@@ -159,15 +159,15 @@ int DoSystemRun(const FString& fileName, const TVector<FString>& arguments)
 #endif
 }
 
-FileSystem::FileSystem()
+AFileSystem::AFileSystem()
 {
 }
 
-FileSystem::~FileSystem()
+AFileSystem::~AFileSystem()
 {
 }
 
-void FileSystem::RegisterPath(const FString& pathName)
+void AFileSystem::RegisterPath(const FString& pathName)
 {
 	if (pathName.IsEmpty())
 		return;
@@ -175,7 +175,7 @@ void FileSystem::RegisterPath(const FString& pathName)
 	_allowedPaths.Insert(AddTrailingSlash(pathName));
 }
 
-bool FileSystem::SetCurrentDir(const FString& pathName)
+bool AFileSystem::SetCurrentDir(const FString& pathName)
 {
 #ifdef _WIN32
 	if (SetCurrentDirectoryW(WideNativePath(pathName).CString()) == FALSE)
@@ -188,7 +188,7 @@ bool FileSystem::SetCurrentDir(const FString& pathName)
 	return true;
 }
 
-bool FileSystem::CreateDir(const FString& pathName)
+bool AFileSystem::CreateDir(const FString& pathName)
 {
 #ifdef _WIN32
 	bool success = (CreateDirectoryW(WideNativePath(RemoveTrailingSlash(pathName)).CString(), 0) == TRUE) ||
@@ -200,7 +200,7 @@ bool FileSystem::CreateDir(const FString& pathName)
 	return success;
 }
 
-int FileSystem::SystemCommand(const FString& commandLine, bool redirectStdOutToLog)
+int AFileSystem::SystemCommand(const FString& commandLine, bool redirectStdOutToLog)
 {
 	if (_allowedPaths.IsEmpty())
 		return DoSystemCommand(commandLine, redirectStdOutToLog);
@@ -211,7 +211,7 @@ int FileSystem::SystemCommand(const FString& commandLine, bool redirectStdOutToL
 	}
 }
 
-int FileSystem::SystemRun(const FString& fileName, const TVector<FString>& arguments)
+int AFileSystem::SystemRun(const FString& fileName, const TVector<FString>& arguments)
 {
 	if (_allowedPaths.IsEmpty())
 		return DoSystemRun(fileName, arguments);
@@ -222,12 +222,12 @@ int FileSystem::SystemRun(const FString& fileName, const TVector<FString>& argum
 	}
 }
 
-bool FileSystem::Copy(const FString& srcFileName, const FString& destFileName)
+bool AFileSystem::Copy(const FString& srcFileName, const FString& destFileName)
 {
-	File srcFile(srcFileName, FileMode::READ);
+	FFile srcFile(srcFileName, EFileMode::READ);
 	if (!srcFile.IsOpen())
 		return false;
-	File destFile(destFileName, FileMode::WRITE);
+	FFile destFile(destFileName, EFileMode::WRITE);
 	if (!destFile.IsOpen())
 		return false;
 
@@ -240,7 +240,7 @@ bool FileSystem::Copy(const FString& srcFileName, const FString& destFileName)
 	return bytesRead == fileSize && bytesWritten == fileSize;
 }
 
-bool FileSystem::Rename(const FString& srcFileName, const FString& destFileName)
+bool AFileSystem::Rename(const FString& srcFileName, const FString& destFileName)
 {
 #ifdef _WIN32
 	return MoveFileW(WideNativePath(srcFileName).CString(), WideNativePath(destFileName).CString()) != 0;
@@ -249,7 +249,7 @@ bool FileSystem::Rename(const FString& srcFileName, const FString& destFileName)
 #endif
 }
 
-bool FileSystem::Delete(const FString& fileName)
+bool AFileSystem::Delete(const FString& fileName)
 {
 #ifdef _WIN32
 	return DeleteFileW(WideNativePath(fileName).CString()) != 0;
@@ -258,7 +258,7 @@ bool FileSystem::Delete(const FString& fileName)
 #endif
 }
 
-FString FileSystem::GetCurrentDir()
+FString AFileSystem::GetCurrentDir()
 {
 #ifdef _WIN32
 	wchar_t path[MAX_PATH];

@@ -5,8 +5,8 @@
 namespace Auto3D
 {
 
-/// %File open mode.
-namespace FileMode
+/// %FFile open mode.
+namespace EFileMode
 {
 	enum Type
 	{
@@ -25,15 +25,15 @@ namespace FileMode
 class PackageFile;
 
 /// Filesystem file.
-class AUTO_API File : public Stream
+class AUTO_API FFile : public FStream
 {
 public:
     /// Construct.
-    File();
+    FFile();
     /// Construct and open a file.
-    File(const FString& fileName, FileMode::Type fileMode = FileMode::READ);
+    FFile(const FString& fileName, EFileMode::Type fileMode = EFileMode::READ);
     /// Destruct. Close the file if open.
-    ~File();
+    ~FFile();
     
     /// Read bytes from the file. Return number of bytes actually read.
     size_t Read(void* dest, size_t numBytes) override;
@@ -47,26 +47,26 @@ public:
     bool IsWritable() const override;
 
     /// Open a file. Return true on success.
-    bool Open(const FString& fileName, FileMode::Type fileMode = FileMode::READ);
+    bool Open(const FString& fileName, EFileMode::Type fileMode = EFileMode::READ);
     /// Close the file.
     void Close();
     /// Flush any buffered output to the file.
     void Flush();
     
     /// Return the open mode.
-    FileMode::Type Mode() const { return _mode; }
+    EFileMode::Type Mode() const { return _mode; }
     /// Return whether is open.
     bool IsOpen() const;
     /// Return the file _handle.
     void* Handle() const { return _handle; }
     
-    using Stream::Read;
-    using Stream::Write;
+    using FStream::Read;
+    using FStream::Write;
     
 private:
     /// Open mode.
-    FileMode::Type _mode;
-    /// File _handle.
+    EFileMode::Type _mode;
+    /// FFile _handle.
     void* _handle;
     /// Synchronization needed before read -flag.
     bool _readSyncNeeded;

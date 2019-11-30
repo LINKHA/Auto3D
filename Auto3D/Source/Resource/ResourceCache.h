@@ -6,7 +6,7 @@ namespace Auto3D
 {
 
 class AResource;
-class Stream;
+class FStream;
 
 typedef THashMap<TPair<FStringHash, FStringHash>, TSharedPtr<AResource> > ResourceMap;
  
@@ -27,7 +27,7 @@ public:
     /// Remove a resource directory.
     void RemoveResourceDir(const FString& pathName);
     /// Open a resource file stream from the resource directories. Return a pointer to the stream, or null if not found.
-    TAutoPtr<Stream> OpenResource(const FString& name);
+    TAutoPtr<FStream> OpenResource(const FString& name);
     /// Load and return a resource.
     AResource* LoadResource(FStringHash type, const FString& name);
     /// Unload resource. Optionally force removal even if referenced.

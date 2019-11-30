@@ -9,7 +9,7 @@ namespace Auto3D
 
 class FConstantBuffer;
 class JSONFile;
-class JSONValue;
+class FJSONValue;
 class AMaterial;
 class AShader;
 class FShaderVariation;
@@ -25,9 +25,9 @@ public:
     ~FPass();
 
     /// Load from JSON data. Return true on success.
-    bool LoadJSON(const JSONValue& source);
+    bool LoadJSON(const FJSONValue& source);
     /// Save to JSON data. Return true on success.
-    bool SaveJSON(JSONValue& dest);
+    bool SaveJSON(FJSONValue& dest);
     /// Set a predefined blend mode.
     void SetBlendMode(EBlendMode::Type mode);
     /// Set shader names and defines.
@@ -104,11 +104,11 @@ public:
     static void RegisterObject();
 
     /// Load material from a stream. Return true on success.
-	virtual bool BeginLoad(Stream& source);
+	virtual bool BeginLoad(FStream& source);
     /// Finalize material loading in the main thread. Return true on success.
 	virtual bool EndLoad();
     /// Save the material to a stream. Return true on success.
-	virtual bool Save(Stream& dest);
+	virtual bool Save(FStream& dest);
 
     /// Create and return a new pass. If pass with same name exists, it will be returned.
     FPass* CreatePass(const FString& name);

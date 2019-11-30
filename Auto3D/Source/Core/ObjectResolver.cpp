@@ -14,7 +14,7 @@ void FObjectResolver::StoreObject(unsigned oldId, ASerializable* object)
         _objects[oldId] = object;
 }
 
-void FObjectResolver::StoreObjectRef(ASerializable* object, FAttribute* attr, const ObjectRef& value)
+void FObjectResolver::StoreObjectRef(ASerializable* object, FAttribute* attr, const FObjectRef& value)
 {
     if (object && attr && attr->Type() == EAttributeType::OBJECTREF)
         _objectRefs.Push(FStoredObjectRef(object, attr, value._id));
@@ -28,8 +28,8 @@ void FObjectResolver::Resolve()
         // See if we can find the referred to object
         if (refIt != _objects.End())
         {
-            FAttributeImpl<ObjectRef>* typedAttr = static_cast<FAttributeImpl<ObjectRef>*>(it->_attr);
-            typedAttr->SetValue(it->_object, ObjectRef(refIt->_second->Id()));
+            FAttributeImpl<FObjectRef>* typedAttr = static_cast<FAttributeImpl<FObjectRef>*>(it->_attr);
+            typedAttr->SetValue(it->_object, FObjectRef(refIt->_second->Id()));
         }
         else
             WarningString("Could not resolve object reference " + FString(it->_oldId));

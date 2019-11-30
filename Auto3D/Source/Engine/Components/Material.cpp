@@ -32,7 +32,7 @@ FPass::~FPass()
 {
 }
 
-bool FPass::LoadJSON(const JSONValue& source)
+bool FPass::LoadJSON(const FJSONValue& source)
 {
     if (source.Contains("vs"))
         _shaderNames[EShaderStage::VS] = source["vs"].GetString();
@@ -82,7 +82,7 @@ bool FPass::LoadJSON(const JSONValue& source)
     return true;
 }
 
-bool FPass::SaveJSON(JSONValue& dest)
+bool FPass::SaveJSON(FJSONValue& dest)
 {
     dest.SetEmptyObject();
 
@@ -199,7 +199,7 @@ void AMaterial::RegisterObject()
     RegisterFactory<AMaterial>();
 }
 
-bool AMaterial::BeginLoad(Stream& source)
+bool AMaterial::BeginLoad(FStream& source)
 {
     PROFILE(BeginLoadMaterial);
 
@@ -207,7 +207,7 @@ bool AMaterial::BeginLoad(Stream& source)
     if (!_loadJSON->Load(source))
         return false;
 
-    const JSONValue& root = _loadJSON->Root();
+    const FJSONValue& root = _loadJSON->Root();
 
     _shaderDefines[EShaderStage::VS].Clear();
     _shaderDefines[EShaderStage::PS].Clear();
@@ -223,7 +223,7 @@ bool AMaterial::EndLoad()
 {
     PROFILE(EndLoadMaterial);
 
-    const JSONValue& root = _loadJSON->Root();
+    const FJSONValue& root = _loadJSON->Root();
 
 
     _passes.Clear();
@@ -287,12 +287,12 @@ bool AMaterial::EndLoad()
     return true;
 }
 
-bool AMaterial::Save(Stream& dest)
+bool AMaterial::Save(FStream& dest)
 {
     PROFILE(SaveMaterial);
 
     JSONFile saveJSON;
-    JSONValue& root = saveJSON.Root();
+    FJSONValue& root = saveJSON.Root();
     root.SetEmptyObject();
 
     if (_shaderDefines[EShaderStage::VS].Length())

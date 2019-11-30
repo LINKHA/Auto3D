@@ -11,7 +11,7 @@ namespace Auto3D
 
 THashMap<FStringHash, TVector<TSharedPtr<FAttribute> > > ASerializable::_classAttributes;
 
-void ASerializable::Load(Stream& source, FObjectResolver& resolver)
+void ASerializable::Load(FStream& source, FObjectResolver& resolver)
 {
     const TVector<TSharedPtr<FAttribute> >* attributes = Attributes();
     if (!attributes)
@@ -33,7 +33,7 @@ void ASerializable::Load(Stream& source, FObjectResolver& resolver)
                 if (type != EAttributeType::OBJECTREF)
                     attr->FromBinary(this, source);
                 else
-                    resolver.StoreObjectRef(this, attr, source.Read<ObjectRef>());
+                    resolver.StoreObjectRef(this, attr, source.Read<FObjectRef>());
                 
                 skip = false;
             }
@@ -44,7 +44,7 @@ void ASerializable::Load(Stream& source, FObjectResolver& resolver)
     }
 }
 
-void ASerializable::Save(Stream& dest)
+void ASerializable::Save(FStream& dest)
 {
     const TVector<TSharedPtr<FAttribute> >* attributes = Attributes();
     if (!attributes)
@@ -59,7 +59,7 @@ void ASerializable::Save(Stream& dest)
     }
 }
 
-void ASerializable::LoadJSON(const JSONValue& source, FObjectResolver& resolver)
+void ASerializable::LoadJSON(const FJSONValue& source, FObjectResolver& resolver)
 {
     const TVector<TSharedPtr<FAttribute> >* attributes = Attributes();
     if (!attributes || !source.IsObject() || !source.Size())
@@ -77,12 +77,12 @@ void ASerializable::LoadJSON(const JSONValue& source, FObjectResolver& resolver)
             if (attr->Type() != EAttributeType::OBJECTREF)
                 attr->FromJSON(this, jsonIt->_second);
             else
-                resolver.StoreObjectRef(this, attr, ObjectRef((unsigned)jsonIt->_second.GetNumber()));
+                resolver.StoreObjectRef(this, attr, FObjectRef((unsigned)jsonIt->_second.GetNumber()));
         }
     }
 }
 
-void ASerializable::SaveJSON(JSONValue& dest)
+void ASerializable::SaveJSON(FJSONValue& dest)
 {
     const TVector<TSharedPtr<FAttribute> >* attributes = Attributes();
     if (!attributes)
@@ -179,7 +179,7 @@ void ASerializable::CopyBaseAttribute(FStringHash type, FStringHash baseType, co
     }
 }
 
-void ASerializable::Skip(Stream& source)
+void ASerializable::Skip(FStream& source)
 {
     size_t numAttrs = source.ReadVLE();
     for (size_t i = 0; i < numAttrs; ++i)

@@ -14,13 +14,13 @@ public:
 	/// Register object factory
 	static void RegisterObject();
 	/// Load resource from stream.May be called from a worker thread.Return true if successful
-	bool BeginLoad(Stream& source)override;
+	bool BeginLoad(FStream& source)override;
 	/// Load raw sound data.
-	bool LoadRaw(Stream& source);
+	bool LoadRaw(FStream& source);
 	/// Load WAV format sound data.
-	bool LoadWav(Stream& source);
+	bool LoadWav(FStream& source);
 	/// Load Ogg Vorbis format sound data. Does not decode at load, but will rather be decoded while playing.
-	bool LoadOggVorbis(Stream& source);
+	bool LoadOggVorbis(FStream& source);
 	/// Set data with void*
 	void SetData(void* _data, unsigned dataSize);
 	/// Set size with long

@@ -91,7 +91,7 @@ void FAttribute::ToValue(ASerializable* instance, void* dest)
     _accessor->Get(instance, dest);
 }
 
-void FAttribute::Skip(EAttributeType::Type type, Stream& source)
+void FAttribute::Skip(EAttributeType::Type type, FStream& source)
 {
     if (byteSizes[type])
     {
@@ -106,19 +106,19 @@ void FAttribute::Skip(EAttributeType::Type type, Stream& source)
         break;
 
     case EAttributeType::RESOURCEREF:
-        source.Read<ResourceRef>();
+        source.Read<FResourceRef>();
         break;
 
     case EAttributeType::RESOURCEREFLIST:
-        source.Read<ResourceRefList>();
+        source.Read<FResourceRefList>();
         break;
 
     case EAttributeType::OBJECTREF:
-        source.Read<ObjectRef>();
+        source.Read<FObjectRef>();
         break;
 
     case EAttributeType::JSONVALUE:
-        source.Read<JSONValue>();
+        source.Read<FJSONValue>();
         break;
 
     default:
@@ -136,7 +136,7 @@ size_t FAttribute::ByteSize() const
     return byteSizes[Type()];
 }
 
-void FAttribute::FromJSON(EAttributeType::Type type, void* dest, const JSONValue& source)
+void FAttribute::FromJSON(EAttributeType::Type type, void* dest, const FJSONValue& source)
 {
     switch (type)
     {
@@ -213,19 +213,19 @@ void FAttribute::FromJSON(EAttributeType::Type type, void* dest, const JSONValue
         break;
 
     case EAttributeType::RESOURCEREF:
-        reinterpret_cast<ResourceRef*>(dest)->FromString(source.GetString());
+        reinterpret_cast<FResourceRef*>(dest)->FromString(source.GetString());
         break;
 
     case EAttributeType::RESOURCEREFLIST:
-        reinterpret_cast<ResourceRefList*>(dest)->FromString(source.GetString());
+        reinterpret_cast<FResourceRefList*>(dest)->FromString(source.GetString());
         break;
 
     case EAttributeType::OBJECTREF:
-        reinterpret_cast<ObjectRef*>(dest)->_id = (unsigned)source.GetNumber();
+        reinterpret_cast<FObjectRef*>(dest)->_id = (unsigned)source.GetNumber();
         break;
 
     case EAttributeType::JSONVALUE:
-        *(reinterpret_cast<JSONValue*>(dest)) = source;
+        *(reinterpret_cast<FJSONValue*>(dest)) = source;
         break;
 
     default:
@@ -233,7 +233,7 @@ void FAttribute::FromJSON(EAttributeType::Type type, void* dest, const JSONValue
     }
 }
 
-void FAttribute::ToJSON(EAttributeType::Type type, JSONValue& dest, const void* source)
+void FAttribute::ToJSON(EAttributeType::Type type, FJSONValue& dest, const void* source)
 {
     switch (type)
     {
@@ -310,19 +310,19 @@ void FAttribute::ToJSON(EAttributeType::Type type, JSONValue& dest, const void* 
         break;
 
     case EAttributeType::RESOURCEREF:
-        dest = reinterpret_cast<const ResourceRef*>(source)->ToString();
+        dest = reinterpret_cast<const FResourceRef*>(source)->ToString();
         break;
 
     case EAttributeType::RESOURCEREFLIST:
-        dest = reinterpret_cast<const ResourceRefList*>(source)->ToString();
+        dest = reinterpret_cast<const FResourceRefList*>(source)->ToString();
         break;
 
     case EAttributeType::OBJECTREF:
-        dest = reinterpret_cast<const ObjectRef*>(source)->_id;
+        dest = reinterpret_cast<const FObjectRef*>(source)->_id;
         break;
 
     case EAttributeType::JSONVALUE:
-        dest = *(reinterpret_cast<const JSONValue*>(source));
+        dest = *(reinterpret_cast<const FJSONValue*>(source));
         break;
 
     default:
@@ -400,22 +400,22 @@ template<> AUTO_API EAttributeType::Type FAttributeImpl<BoundingBoxF>::Type() co
     return EAttributeType::BOUNDINGBOX;
 }
 
-template<> AUTO_API EAttributeType::Type FAttributeImpl<ResourceRef>::Type() const
+template<> AUTO_API EAttributeType::Type FAttributeImpl<FResourceRef>::Type() const
 {
     return EAttributeType::RESOURCEREF;
 }
 
-template<> AUTO_API EAttributeType::Type FAttributeImpl<ResourceRefList>::Type() const
+template<> AUTO_API EAttributeType::Type FAttributeImpl<FResourceRefList>::Type() const
 {
     return EAttributeType::RESOURCEREFLIST;
 }
 
-template<> AUTO_API EAttributeType::Type FAttributeImpl<ObjectRef>::Type() const
+template<> AUTO_API EAttributeType::Type FAttributeImpl<FObjectRef>::Type() const
 {
     return EAttributeType::OBJECTREF;
 }
 
-template<> AUTO_API EAttributeType::Type FAttributeImpl<JSONValue>::Type() const
+template<> AUTO_API EAttributeType::Type FAttributeImpl<FJSONValue>::Type() const
 {
     return EAttributeType::JSONVALUE;
 }

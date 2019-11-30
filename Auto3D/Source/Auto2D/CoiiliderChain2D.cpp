@@ -61,7 +61,7 @@ void CoiiliderChain2D::SetVerticesAttr(const TVector<unsigned char>& value)
 
 	TVector<Vector2F> vertices;
 
-	MemoryBuffer buffer(value);
+	FMemoryBuffer buffer(value);
 	while (!buffer.IsEof())
 		vertices.Push(buffer.Read<Vector2F>());
 
@@ -70,7 +70,7 @@ void CoiiliderChain2D::SetVerticesAttr(const TVector<unsigned char>& value)
 
 TVector<unsigned char> CoiiliderChain2D::GetVerticesAttr() const
 {
-	VectorBuffer ret;
+	FVectorBuffer ret;
 
 	for (unsigned i = 0; i < _vertices.Size(); ++i)
 		ret.Write<Vector2F>(_vertices[i]);

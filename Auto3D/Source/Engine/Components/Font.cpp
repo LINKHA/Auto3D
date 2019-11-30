@@ -41,7 +41,7 @@ void AFont::RegisterObject()
 	RegisterFactory<AFont>();
 }
 
-bool AFont::BeginLoad(Stream& source)
+bool AFont::BeginLoad(FStream& source)
 {
 	// In headless mode, do not actually load, just return success
 	AGraphics* graphics = GModuleManager::Get().GraphicsModule();

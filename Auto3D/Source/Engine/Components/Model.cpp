@@ -41,7 +41,7 @@ void AModel::RegisterObject()
     RegisterFactory<AModel>();
 }
 
-bool AModel::BeginLoad(Stream& source)
+bool AModel::BeginLoad(FStream& source)
 {
     /// \todo Develop own format for Auto3D
     if (source.ReadFileID() != "UMDL")

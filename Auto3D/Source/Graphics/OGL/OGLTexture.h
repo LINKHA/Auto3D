@@ -27,7 +27,7 @@ public:
     static void RegisterObject();
 
     /// Load the texture image data from a stream. Return true on success.
-    bool BeginLoad(Stream& source) override;
+    bool BeginLoad(FStream& source) override;
     /// Finish texture loading by uploading to the GPU. Return true on success.
     bool EndLoad() override;
     /// Release the texture and sampler objects.

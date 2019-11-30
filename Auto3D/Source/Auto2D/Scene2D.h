@@ -20,21 +20,21 @@ public:
 	static void RegisterObject();
 
 	/// Save canvas to binary stream.
-	void Save(Stream& dest) override;
+	void Save(FStream& dest) override;
 	/// Load canvas from a binary stream. Existing Nodes will be destroyed. Return true on success.
-	bool Load(Stream& source);
+	bool Load(FStream& source);
 	/// Load canvas from JSON data. Existing Nodes will be destroyed. Return true on success.
-	bool LoadJSON(const JSONValue& source);
+	bool LoadJSON(const FJSONValue& source);
 	/// Load canvas from JSON text data read from a binary stream. Existing Nodes will be destroyed. Return true if the JSON was correctly parsed; otherwise the data may be partial.
-	bool LoadJSON(Stream& source);
+	bool LoadJSON(FStream& source);
 	/// Save canvas as JSON text data to a binary stream. Return true on success.
-	bool SaveJSON(Stream& dest);
+	bool SaveJSON(FStream& dest);
 	/// Instantiate Node2D(s) from binary stream and return the root Node2D.
-	Node2D* Instantiate(Stream& source);
+	Node2D* Instantiate(FStream& source);
 	/// Instantiate Node2D(s) from JSON data and return the root Node2D.
-	Node2D* InstantiateJSON(const JSONValue& source);
+	Node2D* InstantiateJSON(const FJSONValue& source);
 	/// Load JSON data as text from a binary stream, then instantiate Node2D(s) from it and return the root Node2D.
-	Node2D* InstantiateJSON(Stream& source);
+	Node2D* InstantiateJSON(FStream& source);
 	/// Destroy child nodes recursively, leaving the canvas empty.
 	void Clear();
 	/// Find Node2D by id.
@@ -61,13 +61,13 @@ public:
 	using Node2D::SaveJSON;
 private:
 	/// Set layer names. Used in serialization.
-	void SetLayerNamesAttr(JSONValue names);
+	void SetLayerNamesAttr(FJSONValue names);
 	/// Return layer names. Used in serialization.
-	JSONValue LayerNamesAttr() const;
+	FJSONValue LayerNamesAttr() const;
 	/// Set tag names. Used in serialization.
-	void SetTagNamesAttr(JSONValue names);
+	void SetTagNamesAttr(FJSONValue names);
 	/// Return tag names. Used in serialization.
-	JSONValue TagNamesAttr() const;
+	FJSONValue TagNamesAttr() const;
 
 	/// Map from id to nodes.
 	THashMap<unsigned, Node2D*> _nodes;

@@ -87,9 +87,9 @@ public:
     static void RegisterObject();
 
     /// Load image from a stream. Return true on success.
-    bool BeginLoad(Stream& source) override;
+    bool BeginLoad(FStream& source) override;
     /// Save the image to a stream. Regardless of original format, the image is saved as png. Compressed image data is not supported. Return true on success.
-    bool Save(Stream& dest) override;
+    bool Save(FStream& dest) override;
 
     /// Set new image pixel dimensions and format. Setting a compressed format is not supported.
     void SetSize(const Vector2I& newSize, EImageFormat::Type newFormat);
@@ -138,7 +138,7 @@ public:
 
 private:
     /// Decode image pixel data using the stb_image library.
-    static unsigned char* DecodePixelData(Stream& source, int& width, int& height, unsigned& components);
+    static unsigned char* DecodePixelData(FStream& source, int& width, int& height, unsigned& components);
     /// Free the decoded pixel data.
     static void FreePixelData(unsigned char* pixelData);
 

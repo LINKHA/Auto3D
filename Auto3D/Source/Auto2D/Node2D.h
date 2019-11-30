@@ -35,17 +35,17 @@ public:
 	static void RegisterObject();
 
 	/// Load from binary stream. Store node references to be resolved later.
-	void Load(Stream& source, FObjectResolver& resolver) override;
+	void Load(FStream& source, FObjectResolver& resolver) override;
 	/// Save to binary stream.
-	void Save(Stream& dest) override;
+	void Save(FStream& dest) override;
 	/// Load from JSON data. Store node references to be resolved later.
-	void LoadJSON(const JSONValue& source, FObjectResolver& resolver) override;
+	void LoadJSON(const FJSONValue& source, FObjectResolver& resolver) override;
 	/// Save as JSON data.
-	void SaveJSON(JSONValue& dest) override;
+	void SaveJSON(FJSONValue& dest) override;
 	/// Return unique _id within the scene, or 0 if not in a scene.
 	unsigned Id() const override { return _id; }
 	/// Save as JSON text data to a binary stream. Return true on success.
-	bool SaveJSON(Stream& dest);
+	bool SaveJSON(FStream& dest);
 	/// Set name. Is not required to be unique within the scene.
 	void SetName(const FString& newName);
 	/// Set name.
@@ -182,7 +182,7 @@ public:
 	/// This function is called when the parent node of this class is assigned.
 	virtual void ParentCallBack() { }
 	/// Skip the binary data of a node hierarchy, in case the node could not be created.
-	static void SkipHierarchy(Stream& source);
+	static void SkipHierarchy(FStream& source);
 
 protected:
 	/// Handle being assigned to a new parent node.

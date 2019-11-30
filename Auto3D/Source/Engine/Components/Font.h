@@ -35,7 +35,7 @@ public:
 	static void RegisterObject();
 
 	/// Load resource from stream. May be called from a worker thread. Return true if successful.
-	bool BeginLoad(Stream& source) override;
+	bool BeginLoad(FStream& source) override;
 	/// Set absolute (in pixels) position adjustment for glyphs.
 	void SetAbsoluteGlyphOffset(const Vector2I& offset);
 	/// Set point size scaled position adjustment for glyphs.

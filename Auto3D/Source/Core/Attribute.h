@@ -6,9 +6,9 @@
 namespace Auto3D
 {
 
-class JSONValue;
+class FJSONValue;
 class ASerializable;
-class Stream;
+class FStream;
 
 /// Supported attribute types.
 namespace EAttributeType
@@ -68,13 +68,13 @@ public:
 	FAttribute& operator = (const FAttribute& rhs) = delete;
 
     /// Deserialize from a binary stream.
-    virtual void FromBinary(ASerializable* instance, Stream& source) = 0;
+    virtual void FromBinary(ASerializable* instance, FStream& source) = 0;
     /// Serialize to a binary stream.
-    virtual void ToBinary(ASerializable* instance, Stream& dest) = 0;
+    virtual void ToBinary(ASerializable* instance, FStream& dest) = 0;
     /// Deserialize from JSON.
-    virtual void FromJSON(ASerializable* instance, const JSONValue& source) = 0;
+    virtual void FromJSON(ASerializable* instance, const FJSONValue& source) = 0;
     /// Serialize to JSON.
-    virtual void ToJSON(ASerializable* instance, JSONValue& dest) = 0;
+    virtual void ToJSON(ASerializable* instance, FJSONValue& dest) = 0;
     /// Return type.
     virtual EAttributeType::Type Type() const = 0;
     /// Return whether is default value.
@@ -95,11 +95,11 @@ public:
     size_t ByteSize() const;
     
     /// Skip binary data of an attribute.
-    static void Skip(EAttributeType::Type type, Stream& source);
+    static void Skip(EAttributeType::Type type, FStream& source);
     /// Serialize attribute value to JSON.
-    static void ToJSON(EAttributeType::Type type, JSONValue& dest, const void* source);
+    static void ToJSON(EAttributeType::Type type, FJSONValue& dest, const void* source);
     /// Deserialize attribute value from JSON.
-    static void FromJSON(EAttributeType::Type type, void* dest, const JSONValue& source);
+    static void FromJSON(EAttributeType::Type type, void* dest, const FJSONValue& source);
     /// Return attribute type from type name.
     static EAttributeType::Type TypeFromName(const FString& name);
     /// Return attribute type from type name.
@@ -132,14 +132,14 @@ public:
     }
     
     /// Deserialize from a binary stream.
-    void FromBinary(ASerializable* instance, Stream& source) override
+    void FromBinary(ASerializable* instance, FStream& source) override
     {
         _Ty value = source.Read<_Ty>();
         _accessor->Set(instance, &value);
     }
     
     /// Serialize to a binary stream.
-    void ToBinary(ASerializable* instance, Stream& dest) override
+    void ToBinary(ASerializable* instance, FStream& dest) override
     {
         _Ty value;
         _accessor->Get(instance, &value);
@@ -150,7 +150,7 @@ public:
     bool IsDefault(ASerializable* instance) override { return Value(instance) == _defaultValue; }
     
     /// Deserialize from JSON.
-    void FromJSON(ASerializable* instance, const JSONValue& source) override
+    void FromJSON(ASerializable* instance, const FJSONValue& source) override
     {
         _Ty value;
         FAttribute::FromJSON(Type(), &value, source);
@@ -158,7 +158,7 @@ public:
     }
 
     /// Serialize to JSON.
-    void ToJSON(ASerializable* instance, JSONValue& dest) override
+    void ToJSON(ASerializable* instance, FJSONValue& dest) override
     {
         _Ty value;
         _accessor->Get(instance, &value);

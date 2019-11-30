@@ -7,7 +7,7 @@
 namespace Auto3D
 {
 
-class JSONValue;
+class FJSONValue;
 
 /// GPU buffer for shader constant data.
 class AUTO_API FConstantBuffer : public FRefCounted, public FGPUObject
@@ -24,9 +24,9 @@ public:
     void Recreate() override;
 
     /// Load from JSON data. Return true on success.
-    bool LoadJSON(const JSONValue& source);
+    bool LoadJSON(const FJSONValue& source);
     /// Save as JSON data.
-    void SaveJSON(JSONValue& dest);
+    void SaveJSON(FJSONValue& dest);
     /// Define the constants being used and create the GPU-side buffer. Return true on success.
     bool Define(EResourceUsage::Type usage, const TVector<FConstant>& srcConstants);
     /// Define the constants being used and create the GPU-side buffer. Return true on success.

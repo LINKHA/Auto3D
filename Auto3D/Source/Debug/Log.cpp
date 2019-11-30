@@ -53,8 +53,8 @@ void ALog::Open(const FString& fileName)
             Close();
     }
 
-    _logFile = new File();
-    if (_logFile->Open(fileName, FileMode::WRITE))
+    _logFile = new FFile();
+    if (_logFile->Open(fileName, EFileMode::WRITE))
         InfoString("Opened log file " + fileName);
     else
     {

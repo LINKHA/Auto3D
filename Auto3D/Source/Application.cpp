@@ -8,7 +8,7 @@
 namespace Auto3D
 {
 
-Application::Application():
+AApplication::AApplication():
 	_exitCode(EXIT_SUCCESS)
 {
 	if(!_engine)
@@ -16,11 +16,11 @@ Application::Application():
 }
 
 
-Application::~Application()
+AApplication::~AApplication()
 {
 }
 
-int Application::Run()
+int AApplication::Run()
 {
 	// Make sure the engine is created properly
 	if (_engine.Null())
@@ -70,7 +70,7 @@ int Application::Run()
 #endif
 }
 
-void Application::ErrorExit(const FString& message)
+void AApplication::ErrorExit(const FString& message)
 {
 	// Close the rendering window
 	_engine->Exit(); 

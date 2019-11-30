@@ -31,7 +31,7 @@ void AStaticModel::RegisterObject()
     // Copy base attributes from AOctreeNode instead of AGeometryNode, as the model attribute needs to be set first so that
     // there is the correct amount of materials to assign
     CopyBaseAttributes<AStaticModel, AOctreeNode>();
-    RegisterMixedRefAttribute("model", &AStaticModel::ModelAttr, &AStaticModel::SetModelAttr, ResourceRef(AModel::GetTypeStatic()));
+    RegisterMixedRefAttribute("model", &AStaticModel::ModelAttr, &AStaticModel::SetModelAttr, FResourceRef(AModel::GetTypeStatic()));
     CopyBaseAttribute<AStaticModel, AGeometryNode>("materials");
     RegisterAttribute("lodBias", &AStaticModel::LodBias, &AStaticModel::SetLodBias, 1.0f);
 }
@@ -98,15 +98,15 @@ AModel* AStaticModel::GetModel() const
     return _model.Get();
 }
 
-void AStaticModel::SetModelAttr(const ResourceRef& model)
+void AStaticModel::SetModelAttr(const FResourceRef& model)
 {
 	ResourceCache* cache = GModuleManager::Get().CacheModule();
     SetModel(cache->LoadResource<AModel>(model._name));
 }
 
-ResourceRef AStaticModel::ModelAttr() const
+FResourceRef AStaticModel::ModelAttr() const
 {
-    return ResourceRef(AModel::GetTypeStatic(), ResourceName(_model.Get()));
+    return FResourceRef(AModel::GetTypeStatic(), ResourceName(_model.Get()));
 }
 
 }

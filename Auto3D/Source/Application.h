@@ -14,23 +14,23 @@ namespace Auto3D
 
 class AEngine;
 /// The superclass implementation of the project space, where the engine is implemented
-class AUTO_API Application : public AObject
+class AUTO_API AApplication : public AObject
 {
-	REGISTER_OBJECT_CLASS(Application, AObject)
+	REGISTER_OBJECT_CLASS(AApplication, AObject)
 public:
 	/// Create engine
-	Application();
+	AApplication();
 	/// Destructor
-	~Application();
+	~AApplication();
 	/// Setup before engine initialization.This is a chance to eg. modify the engine parameters.
-	///	Call ErrorExit() to terminate without initializing the engine.Called by Application.
+	///	Call ErrorExit() to terminate without initializing the engine.Called by AApplication.
 	virtual void Init() { }
 	/// Setup after engine initialization and before running the main loop.Call ErrorExit() to terminate without running the main loop.
-	///	Called by Application.
+	///	Called by AApplication.
 	virtual void Start() { }
 	/// This function is mainly used to _handle non-rendering operations, running once per frame
 	virtual void Update() { }
-	/// Cleanup after the main loop. Called by Application
+	/// Cleanup after the main loop. Called by AApplication
 	virtual void Stop() { }
 	/// This function is the UI rendered after the render function at the top
 	virtual void UIDraw() { }
@@ -43,7 +43,7 @@ protected:
 	TUniquePtr<AEngine> _engine;
 	/// Collected startup error log messages.
 	FString _startupErrors;
-	/// Application exit code.
+	/// AApplication exit code.
 	int _exitCode;
 };
 

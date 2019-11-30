@@ -9,33 +9,33 @@
 namespace Auto3D
 {
 
-Stream::Stream() :
+FStream::FStream() :
     _position(0),
     _size(0)
 {
 }
 
-Stream::Stream(size_t numBytes) :
+FStream::FStream(size_t numBytes) :
     _position(0),
     _size(numBytes)
 {
 }
 
-Stream::~Stream()
+FStream::~FStream()
 {
 }
 
-void Stream::SetName(const FString& newName)
-{
-    _name = newName;
-}
-
-void Stream::SetName(const char* newName)
+void FStream::SetName(const FString& newName)
 {
     _name = newName;
 }
 
-unsigned Stream::ReadVLE()
+void FStream::SetName(const char* newName)
+{
+    _name = newName;
+}
+
+unsigned FStream::ReadVLE()
 {
     unsigned ret;
     unsigned char byte;
@@ -60,7 +60,7 @@ unsigned Stream::ReadVLE()
     return ret;
 }
 
-FString Stream::ReadLine()
+FString FStream::ReadLine()
 {
     FString ret;
     
@@ -87,7 +87,7 @@ FString Stream::ReadLine()
     return ret;
 }
 
-FString Stream::ReadFileID()
+FString FStream::ReadFileID()
 {
     FString ret;
     ret.Resize(4);
@@ -95,7 +95,7 @@ FString Stream::ReadFileID()
     return ret;
 }
 
-TVector<unsigned char> Stream::ReadBuffer()
+TVector<unsigned char> FStream::ReadBuffer()
 {
     TVector<unsigned char> ret(ReadVLE());
     if (ret.Size())
@@ -103,12 +103,12 @@ TVector<unsigned char> Stream::ReadBuffer()
     return ret;
 }
 
-template<> bool Stream::Read<bool>()
+template<> bool FStream::Read<bool>()
 {
     return Read<unsigned char>() != 0;
 }
 
-template<> FString Stream::Read<FString>()
+template<> FString FStream::Read<FString>()
 {
     FString ret;
     
@@ -124,47 +124,47 @@ template<> FString Stream::Read<FString>()
     return ret;
 }
 
-template<> FStringHash Stream::Read<FStringHash>()
+template<> FStringHash FStream::Read<FStringHash>()
 {
     return FStringHash(Read<unsigned>());
 }
 
-template<> ResourceRef Stream::Read<ResourceRef>()
+template<> FResourceRef FStream::Read<FResourceRef>()
 {
-    ResourceRef ret;
+    FResourceRef ret;
     ret.FromBinary(*this);
     return ret;
 }
 
-template<> ResourceRefList Stream::Read<ResourceRefList>()
+template<> FResourceRefList FStream::Read<FResourceRefList>()
 {
-    ResourceRefList ret;
+    FResourceRefList ret;
     ret.FromBinary(*this);
     return ret;
 }
 
-template<> ObjectRef Stream::Read<ObjectRef>()
+template<> FObjectRef FStream::Read<FObjectRef>()
 {
-    ObjectRef ret;
+    FObjectRef ret;
     ret._id = Read<unsigned>();
     return ret;
 }
 
-template<> JSONValue Stream::Read<JSONValue>()
+template<> FJSONValue FStream::Read<FJSONValue>()
 {
-    JSONValue ret;
+    FJSONValue ret;
     ret.FromBinary(*this);
     return ret;
 }
 
-void Stream::WriteFileID(const FString& value)
+void FStream::WriteFileID(const FString& value)
 {
     Write(value.CString(), Min((int)value.Length(), 4));
     for (size_t i = value.Length(); i < 4; ++i)
         Write(' ');
 }
 
-void Stream::WriteBuffer(const TVector<unsigned char>& value)
+void FStream::WriteBuffer(const TVector<unsigned char>& value)
 {
     size_t numBytes = value.Size();
     
@@ -173,7 +173,7 @@ void Stream::WriteBuffer(const TVector<unsigned char>& value)
         Write(&value[0], numBytes);
 }
 
-void Stream::WriteVLE(size_t value)
+void FStream::WriteVLE(size_t value)
 {
     unsigned char _data[4];
     
@@ -202,45 +202,45 @@ void Stream::WriteVLE(size_t value)
     }
 }
 
-void Stream::WriteLine(const FString& value)
+void FStream::WriteLine(const FString& value)
 {
     Write(value.CString(), value.Length());
     Write('\r');
     Write('\n');
 }
 
-template<> void Stream::Write<bool>(const bool& value)
+template<> void FStream::Write<bool>(const bool& value)
 {
     Write<unsigned char>(value ? 1 : 0);
 }
 
-template<> void Stream::Write<FString>(const FString& value)
+template<> void FStream::Write<FString>(const FString& value)
 {
     // Write content and null terminator
     Write(value.CString(), value.Length() + 1);
 }
 
-template<> void Stream::Write<FStringHash>(const FStringHash& value)
+template<> void FStream::Write<FStringHash>(const FStringHash& value)
 {
     Write(value.Value());
 }
 
-template<> void Stream::Write<ResourceRef>(const ResourceRef& value)
+template<> void FStream::Write<FResourceRef>(const FResourceRef& value)
 {
     value.ToBinary(*this);
 }
 
-template<> void Stream::Write<ResourceRefList>(const ResourceRefList& value)
+template<> void FStream::Write<FResourceRefList>(const FResourceRefList& value)
 {
     value.ToBinary(*this);
 }
 
-template<> void Stream::Write<ObjectRef>(const ObjectRef& value)
+template<> void FStream::Write<FObjectRef>(const FObjectRef& value)
 {
     Write(value._id);
 }
 
-template<> void Stream::Write<JSONValue>(const JSONValue& value)
+template<> void FStream::Write<FJSONValue>(const FJSONValue& value)
 {
     value.ToBinary(*this);
 }

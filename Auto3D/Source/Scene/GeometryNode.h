@@ -162,9 +162,9 @@ protected:
     /// Recalculate the world space bounding box.
     void OnWorldBoundingBoxUpdate() const override;
     /// Set materials list. Used in serialization.
-    void SetMaterialsAttr(const ResourceRefList& materials);
+    void SetMaterialsAttr(const FResourceRefList& materials);
     /// Return materials list. Used in serialization.
-    ResourceRefList MaterialsAttr() const;
+    FResourceRefList MaterialsAttr() const;
 
     /// %ALight list for rendering.
     LightList* _lightList;

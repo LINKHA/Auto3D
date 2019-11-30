@@ -35,7 +35,7 @@ void Node2D::RegisterObject()
 }
 
 
-void Node2D::Load(Stream& source, FObjectResolver& resolver)
+void Node2D::Load(FStream& source, FObjectResolver& resolver)
 {
 	// Type and _id has been read by the parent
 	ASerializable::Load(source, resolver);
@@ -59,7 +59,7 @@ void Node2D::Load(Stream& source, FObjectResolver& resolver)
 	}
 }
 
-void Node2D::Save(Stream& dest)
+void Node2D::Save(FStream& dest)
 {
 	// Write type and ID first, followed by attributes and child nodes
 	dest.Write(GetType());
@@ -75,7 +75,7 @@ void Node2D::Save(Stream& dest)
 	}
 }
 
-void Node2D::LoadJSON(const JSONValue& source, FObjectResolver& resolver)
+void Node2D::LoadJSON(const FJSONValue& source, FObjectResolver& resolver)
 {
 	// Type and _id has been read by the parent
 	ASerializable::LoadJSON(source, resolver);
@@ -85,7 +85,7 @@ void Node2D::LoadJSON(const JSONValue& source, FObjectResolver& resolver)
 	{
 		for (auto it = children.Begin(); it != children.End(); ++it)
 		{
-			const JSONValue& childJSON = *it;
+			const FJSONValue& childJSON = *it;
 			FStringHash childType(childJSON["type"].GetString());
 			unsigned childId = (unsigned)childJSON["id"].GetNumber();
 			Node2D* child = CreateChild(childType);
@@ -98,7 +98,7 @@ void Node2D::LoadJSON(const JSONValue& source, FObjectResolver& resolver)
 	}
 }
 
-void Node2D::SaveJSON(JSONValue& dest)
+void Node2D::SaveJSON(FJSONValue& dest)
 {
 	dest["type"] = GetTypeName();
 	dest["id"] = Id();
@@ -112,7 +112,7 @@ void Node2D::SaveJSON(JSONValue& dest)
 			Node2D* child = *it;
 			if (!child->IsTemporary())
 			{
-				JSONValue childJSON;
+				FJSONValue childJSON;
 				child->SaveJSON(childJSON);
 				dest["children"].Push(childJSON);
 			}
@@ -120,7 +120,7 @@ void Node2D::SaveJSON(JSONValue& dest)
 	}
 }
 
-bool Node2D::SaveJSON(Stream& dest)
+bool Node2D::SaveJSON(FStream& dest)
 {
 	JSONFile json;
 	SaveJSON(json.Root());
@@ -584,7 +584,7 @@ void Node2D::SetId(unsigned newId)
 	_id = newId;
 }
 
-void Node2D::SkipHierarchy(Stream& source)
+void Node2D::SkipHierarchy(FStream& source)
 {
 	ASerializable::Skip(source);
 

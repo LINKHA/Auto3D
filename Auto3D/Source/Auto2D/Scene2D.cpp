@@ -43,7 +43,7 @@ void Scene2D::RegisterObject()
 }
 
 
-void Scene2D::Save(Stream& dest)
+void Scene2D::Save(FStream& dest)
 {
 	PROFILE(SaveScene);
 
@@ -53,7 +53,7 @@ void Scene2D::Save(Stream& dest)
 	Node2D::Save(dest);
 }
 
-bool Scene2D::Load(Stream& source)
+bool Scene2D::Load(FStream& source)
 {
 	PROFILE(LoadScene);
 
@@ -84,7 +84,7 @@ bool Scene2D::Load(Stream& source)
 	return true;
 }
 
-bool Scene2D::LoadJSON(const JSONValue& source)
+bool Scene2D::LoadJSON(const FJSONValue& source)
 {
 	PROFILE(LoadSceneJSON);
 
@@ -107,7 +107,7 @@ bool Scene2D::LoadJSON(const JSONValue& source)
 	return true;
 }
 
-bool Scene2D::LoadJSON(Stream& source)
+bool Scene2D::LoadJSON(FStream& source)
 {
 	InfoString("Loading scene from " + source.FName());
 
@@ -117,7 +117,7 @@ bool Scene2D::LoadJSON(Stream& source)
 	return success;
 }
 
-bool Scene2D::SaveJSON(Stream& dest)
+bool Scene2D::SaveJSON(FStream& dest)
 {
 	PROFILE(SaveSceneJSON);
 
@@ -128,7 +128,7 @@ bool Scene2D::SaveJSON(Stream& dest)
 	return json.Save(dest);
 }
 
-Node2D* Scene2D::Instantiate(Stream& source)
+Node2D* Scene2D::Instantiate(FStream& source)
 {
 	PROFILE(Instantiate);
 
@@ -147,7 +147,7 @@ Node2D* Scene2D::Instantiate(Stream& source)
 	return child;
 }
 
-Node2D* Scene2D::InstantiateJSON(const JSONValue& source)
+Node2D* Scene2D::InstantiateJSON(const FJSONValue& source)
 {
 	PROFILE(InstantiateJSON);
 
@@ -166,7 +166,7 @@ Node2D* Scene2D::InstantiateJSON(const JSONValue& source)
 	return child;
 }
 
-Node2D* Scene2D::InstantiateJSON(Stream& source)
+Node2D* Scene2D::InstantiateJSON(FStream& source)
 {
 	JSONFile json;
 	json.Load(source);
@@ -261,7 +261,7 @@ PhysicsWorld2D* Scene2D::GetPhysicsWorld()
 	return nullptr;
 }
 
-void Scene2D::SetLayerNamesAttr(JSONValue names)
+void Scene2D::SetLayerNamesAttr(FJSONValue names)
 {
 	_layerNames.Clear();
 	_layers.Clear();
@@ -275,9 +275,9 @@ void Scene2D::SetLayerNamesAttr(JSONValue names)
 	}
 }
 
-JSONValue Scene2D::LayerNamesAttr() const
+FJSONValue Scene2D::LayerNamesAttr() const
 {
-	JSONValue ret;
+	FJSONValue ret;
 
 	ret.SetEmptyArray();
 	for (auto it = _layerNames.Begin(); it != _layerNames.End(); ++it)
@@ -286,7 +286,7 @@ JSONValue Scene2D::LayerNamesAttr() const
 	return ret;
 }
 
-void Scene2D::SetTagNamesAttr(JSONValue names)
+void Scene2D::SetTagNamesAttr(FJSONValue names)
 {
 	_tagNames.Clear();
 	_tags.Clear();
@@ -300,9 +300,9 @@ void Scene2D::SetTagNamesAttr(JSONValue names)
 	}
 }
 
-JSONValue Scene2D::TagNamesAttr() const
+FJSONValue Scene2D::TagNamesAttr() const
 {
-	JSONValue ret;
+	FJSONValue ret;
 
 	ret.SetEmptyArray();
 	for (auto it = _tagNames.Begin(); it != _tagNames.End(); ++it)

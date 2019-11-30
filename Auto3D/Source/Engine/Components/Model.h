@@ -58,7 +58,7 @@ public:
     static void RegisterObject();
 
     /// Load model from a stream. Return true on success.
-    bool BeginLoad(Stream& source) override;
+    bool BeginLoad(FStream& source) override;
     /// Finalize model loading in the main thread. Return true on success.
     bool EndLoad() override;
 

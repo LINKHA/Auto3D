@@ -6,7 +6,7 @@
 namespace Auto3D
 {
 
-bool AResource::BeginLoad(Stream&)
+bool AResource::BeginLoad(FStream&)
 {
     return false;
 }
@@ -17,13 +17,13 @@ bool AResource::EndLoad()
     return true;
 }
 
-bool AResource::Save(Stream&)
+bool AResource::Save(FStream&)
 {
     ErrorString("Save not supported for " + GetTypeName());
     return false;
 }
 
-bool AResource::Load(Stream& source)
+bool AResource::Load(FStream& source)
 {
     bool success = BeginLoad(source);
     if (success)

@@ -235,7 +235,7 @@ void AImage::RegisterObject()
     RegisterFactory<AImage>();
 }
 
-bool AImage::BeginLoad(Stream& source)
+bool AImage::BeginLoad(FStream& source)
 {
     PROFILE(LoadImage);
 
@@ -501,7 +501,7 @@ bool AImage::BeginLoad(Stream& source)
     return true;
 }
 
-bool AImage::Save(Stream& dest)
+bool AImage::Save(FStream& dest)
 {
     PROFILE(SaveImage);
 
@@ -561,7 +561,7 @@ void AImage::SetData(const unsigned char* pixelData)
         ErrorString("Can not set pixel data of a compressed image");
 }
 
-unsigned char* AImage::DecodePixelData(Stream& source, int& width, int& height, unsigned& components)
+unsigned char* AImage::DecodePixelData(FStream& source, int& width, int& height, unsigned& components)
 {
     size_t dataSize = source.Size();
 

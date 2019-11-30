@@ -14,7 +14,7 @@ void JSONFile::RegisterObject()
     RegisterFactory<JSONFile>();
 }
 
-bool JSONFile::BeginLoad(Stream& source)
+bool JSONFile::BeginLoad(FStream& source)
 {
     PROFILE(LoadJSONFile);
     
@@ -38,7 +38,7 @@ bool JSONFile::BeginLoad(Stream& source)
     return success;
 }
 
-bool JSONFile::Save(Stream& dest)
+bool JSONFile::Save(FStream& dest)
 {
     PROFILE(SaveJSONFile);
     

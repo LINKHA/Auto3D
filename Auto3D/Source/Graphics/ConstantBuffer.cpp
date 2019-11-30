@@ -23,7 +23,7 @@ static const EAttributeType::Type elementToAttribute[] =
     EAttributeType::Count
 };
 
-bool FConstantBuffer::LoadJSON(const JSONValue& source)
+bool FConstantBuffer::LoadJSON(const FJSONValue& source)
 {
     EResourceUsage::Type usage = EResourceUsage::DEFAULT;
     if (source.Contains("usage"))
@@ -31,10 +31,10 @@ bool FConstantBuffer::LoadJSON(const JSONValue& source)
 
     TVector<FConstant> constants;
 
-    const JSONValue& jsonConstants = source["constants"];
+    const FJSONValue& jsonConstants = source["constants"];
     for (size_t i = 0; i < jsonConstants.Size(); ++i)
     {
-        const JSONValue& jsonConstant = jsonConstants[i];
+        const FJSONValue& jsonConstant = jsonConstants[i];
         const FString& type = jsonConstant["type"].GetString();
 
         FConstant newConstant;
@@ -56,7 +56,7 @@ bool FConstantBuffer::LoadJSON(const JSONValue& source)
 
     for (size_t i = 0; i < _constants.Size() && i < jsonConstants.Size(); ++i)
     {
-        const JSONValue& value = jsonConstants[i]["value"];
+        const FJSONValue& value = jsonConstants[i]["value"];
         EAttributeType::Type attrType = elementToAttribute[_constants[i]._type];
 
         if (value.IsArray())
@@ -73,7 +73,7 @@ bool FConstantBuffer::LoadJSON(const JSONValue& source)
     return true;
 }
 
-void FConstantBuffer::SaveJSON(JSONValue& dest)
+void FConstantBuffer::SaveJSON(FJSONValue& dest)
 {
     dest.SetEmptyObject();
     dest["usage"] = resourceUsageNames[_usage];
@@ -84,7 +84,7 @@ void FConstantBuffer::SaveJSON(JSONValue& dest)
         const FConstant& constant = _constants[i];
         EAttributeType::Type attrType = elementToAttribute[constant._type];
 
-        JSONValue jsonConstant;
+        FJSONValue jsonConstant;
         jsonConstant["name"] = constant._name;
         jsonConstant["type"] = elementTypeNames[constant._type];
         if (constant._numElements != 1)

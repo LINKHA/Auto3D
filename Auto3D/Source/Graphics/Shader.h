@@ -23,7 +23,7 @@ public:
     static void RegisterObject();
 
     /// Load shader code from a stream. Return true on success.
-    bool BeginLoad(Stream& source) override;
+    bool BeginLoad(FStream& source) override;
     /// Finish shader loading in the main thread. Return true on success.
     bool EndLoad() override;
 
@@ -42,7 +42,7 @@ public:
 
 private:
     /// Process include statements in the shader source code recursively. Return true if successful.
-    bool ProcessIncludes(FString& code, Stream& source);
+    bool ProcessIncludes(FString& code, FStream& source);
 
     /// %AShader variations.
     THashMap<FStringHash, TSharedPtr<FShaderVariation> > _variations;

@@ -5,34 +5,34 @@
 namespace Auto3D
 {
 
-/// Reference to an object with _id for serialization.
-struct AUTO_API ObjectRef
+/// Reference to an object with id for serialization.
+struct AUTO_API FObjectRef
 {
     /// %AObject _id.
     unsigned _id;
 
     /// Construct with no reference.
-    ObjectRef() :
+    FObjectRef() :
         _id(0)
     {
     }
 
     // Copy-construct.
-    ObjectRef(const ObjectRef& ref) :
+    FObjectRef(const FObjectRef& ref) :
         _id(ref._id)
     {
     }
 
     /// Construct with object _id.
-    ObjectRef(unsigned id_) :
+    FObjectRef(unsigned id_) :
         _id(id_)
     {
     }
 
     /// Test for equality with another reference.
-    bool operator == (const ObjectRef& rhs) const { return _id == rhs._id; }
+    bool operator == (const FObjectRef& rhs) const { return _id == rhs._id; }
     /// Test for inequality with another reference.
-    bool operator != (const ObjectRef& rhs) const { return !(*this == rhs); }
+    bool operator != (const FObjectRef& rhs) const { return !(*this == rhs); }
 };
 
 }

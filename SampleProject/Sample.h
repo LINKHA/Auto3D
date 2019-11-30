@@ -4,9 +4,9 @@
 
 using namespace Auto3D;
 
-class Sample : public Application
+class Sample : public AApplication
 {
-	REGISTER_OBJECT_CLASS(Sample, Application)
+	REGISTER_OBJECT_CLASS(Sample, AApplication)
 public:
 	void Init()override;
 	void Start()override;

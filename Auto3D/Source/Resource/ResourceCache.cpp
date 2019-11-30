@@ -197,14 +197,14 @@ bool ResourceCache::ReloadResource(AResource* resource)
     if (!resource)
         return false;
 
-    TAutoPtr<Stream> stream = OpenResource(resource->FName());
+    TAutoPtr<FStream> stream = OpenResource(resource->FName());
     return stream ? resource->Load(*stream) : false;
 }
 
-TAutoPtr<Stream> ResourceCache::OpenResource(const FString& nameIn)
+TAutoPtr<FStream> ResourceCache::OpenResource(const FString& nameIn)
 {
     FString name = SanitateResourceName(nameIn);
-    TAutoPtr<Stream> ret;
+    TAutoPtr<FStream> ret;
 
     for (size_t i = 0; i < _resourceDirs.Size(); ++i)
     {
@@ -212,14 +212,14 @@ TAutoPtr<Stream> ResourceCache::OpenResource(const FString& nameIn)
         {
             // Construct the file first with full path, then rename it to not contain the resource path,
             // so that the file's name can be used in further OpenResource() calls (for example over the network)
-            ret = new File(_resourceDirs[i] + name);
+            ret = new FFile(_resourceDirs[i] + name);
             break;
         }
     }
 
     // Fallback using absolute path
     if (!ret)
-        ret = new File(name);
+        ret = new FFile(name);
 
     if (!ret->IsReadable())
     {
@@ -258,7 +258,7 @@ AResource* ResourceCache::LoadResource(FStringHash type, const FString& nameIn)
     }
 
     // Attempt to load the resource
-    TAutoPtr<Stream> stream = OpenResource(name);
+    TAutoPtr<FStream> stream = OpenResource(name);
     if (!stream)
         return nullptr;
 

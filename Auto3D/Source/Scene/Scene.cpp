@@ -47,7 +47,7 @@ void Scene::RegisterObject()
     RegisterAttribute("tagNames", &Scene::TagNamesAttr, &Scene::SetTagNamesAttr);
 }
 
-void Scene::Save(Stream& dest)
+void Scene::Save(FStream& dest)
 {
     PROFILE(SaveScene);
     
@@ -57,7 +57,7 @@ void Scene::Save(Stream& dest)
     Node::Save(dest);
 }
 
-bool Scene::Load(Stream& source)
+bool Scene::Load(FStream& source)
 {
     PROFILE(LoadScene);
     
@@ -88,7 +88,7 @@ bool Scene::Load(Stream& source)
     return true;
 }
 
-bool Scene::LoadJSON(const JSONValue& source)
+bool Scene::LoadJSON(const FJSONValue& source)
 {
     PROFILE(LoadSceneJSON);
     
@@ -111,7 +111,7 @@ bool Scene::LoadJSON(const JSONValue& source)
     return true;
 }
 
-bool Scene::LoadJSON(Stream& source)
+bool Scene::LoadJSON(FStream& source)
 {
     InfoString("Loading scene from " + source.FName());
     
@@ -121,7 +121,7 @@ bool Scene::LoadJSON(Stream& source)
     return success;
 }
 
-bool Scene::SaveJSON(Stream& dest)
+bool Scene::SaveJSON(FStream& dest)
 {
     PROFILE(SaveSceneJSON);
     
@@ -132,7 +132,7 @@ bool Scene::SaveJSON(Stream& dest)
     return json.Save(dest);
 }
 
-Node* Scene::Instantiate(Stream& source)
+Node* Scene::Instantiate(FStream& source)
 {
     PROFILE(Instantiate);
     
@@ -151,7 +151,7 @@ Node* Scene::Instantiate(Stream& source)
     return child;
 }
 
-Node* Scene::InstantiateJSON(const JSONValue& source)
+Node* Scene::InstantiateJSON(const FJSONValue& source)
 {
     PROFILE(InstantiateJSON);
     
@@ -170,7 +170,7 @@ Node* Scene::InstantiateJSON(const JSONValue& source)
     return child;
 }
 
-Node* Scene::InstantiateJSON(Stream& source)
+Node* Scene::InstantiateJSON(FStream& source)
 {
     JSONFile json;
     json.Load(source);
@@ -282,7 +282,7 @@ void Scene::SetupShadowMap(size_t num, int size)
 
 }
 
-void Scene::SetLayerNamesAttr(JSONValue names)
+void Scene::SetLayerNamesAttr(FJSONValue names)
 {
     _layerNames.Clear();
     _layers.Clear();
@@ -296,9 +296,9 @@ void Scene::SetLayerNamesAttr(JSONValue names)
     }
 }
 
-JSONValue Scene::LayerNamesAttr() const
+FJSONValue Scene::LayerNamesAttr() const
 {
-    JSONValue ret;
+    FJSONValue ret;
 
     ret.SetEmptyArray();
     for (auto it = _layerNames.Begin(); it != _layerNames.End(); ++it)
@@ -307,7 +307,7 @@ JSONValue Scene::LayerNamesAttr() const
     return ret;
 }
 
-void Scene::SetTagNamesAttr(JSONValue names)
+void Scene::SetTagNamesAttr(FJSONValue names)
 {
     _tagNames.Clear();
     _tags.Clear();
@@ -321,9 +321,9 @@ void Scene::SetTagNamesAttr(JSONValue names)
     }
 }
 
-JSONValue Scene::TagNamesAttr() const
+FJSONValue Scene::TagNamesAttr() const
 {
-    JSONValue ret;
+    FJSONValue ret;
 
     ret.SetEmptyArray();
     for (auto it = _tagNames.Begin(); it != _tagNames.End(); ++it)

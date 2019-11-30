@@ -40,7 +40,7 @@ void Node::RegisterObject()
     RegisterAttribute("tag", &Node::GetTag, &Node::SetTag, TAG_NONE);
 }
 
-void Node::Load(Stream& source, FObjectResolver& resolver)
+void Node::Load(FStream& source, FObjectResolver& resolver)
 {
     // Type and _id has been read by the parent
     ASerializable::Load(source, resolver);
@@ -64,7 +64,7 @@ void Node::Load(Stream& source, FObjectResolver& resolver)
     }
 }
 
-void Node::Save(Stream& dest)
+void Node::Save(FStream& dest)
 {
     // Write type and ID first, followed by attributes and child nodes
     dest.Write(GetType());
@@ -80,7 +80,7 @@ void Node::Save(Stream& dest)
     }
 }
 
-void Node::LoadJSON(const JSONValue& source, FObjectResolver& resolver)
+void Node::LoadJSON(const FJSONValue& source, FObjectResolver& resolver)
 {
     // Type and _id has been read by the parent
     ASerializable::LoadJSON(source, resolver);
@@ -90,7 +90,7 @@ void Node::LoadJSON(const JSONValue& source, FObjectResolver& resolver)
     {
         for (auto it = children.Begin(); it != children.End(); ++it)
         {
-            const JSONValue& childJSON = *it;
+            const FJSONValue& childJSON = *it;
             FStringHash childType(childJSON["type"].GetString());
             unsigned childId = (unsigned)childJSON["id"].GetNumber();
             Node* child = CreateChild(childType);
@@ -103,7 +103,7 @@ void Node::LoadJSON(const JSONValue& source, FObjectResolver& resolver)
     }
 }
 
-void Node::SaveJSON(JSONValue& dest)
+void Node::SaveJSON(FJSONValue& dest)
 {
     dest["type"] = GetTypeName();
     dest["id"] = Id();
@@ -117,7 +117,7 @@ void Node::SaveJSON(JSONValue& dest)
             Node* child = *it;
             if (!child->IsTemporary())
             {
-                JSONValue childJSON;
+                FJSONValue childJSON;
                 child->SaveJSON(childJSON);
                 dest["children"].Push(childJSON);
             }
@@ -125,7 +125,7 @@ void Node::SaveJSON(JSONValue& dest)
     }
 }
 
-bool Node::SaveJSON(Stream& dest)
+bool Node::SaveJSON(FStream& dest)
 {
     JSONFile json;
     SaveJSON(json.Root());
@@ -589,7 +589,7 @@ void Node::SetId(unsigned newId)
     _id = newId;
 }
 
-void Node::SkipHierarchy(Stream& source)
+void Node::SkipHierarchy(FStream& source)
 {
     ASerializable::Skip(source);
 

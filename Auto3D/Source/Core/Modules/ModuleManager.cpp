@@ -64,7 +64,7 @@ void GModuleManager::CreateModules()
 	_registeredBox = TUniquePtr<RegisteredBox>(new RegisteredBox());
 	_renderer2d = TUniquePtr<Renderer2D>(new Renderer2D());
 	_physics = TUniquePtr<Physics>(new Physics());
-	_fileSystem = TUniquePtr<FileSystem>(new FileSystem());
+	_fileSystem = TUniquePtr<AFileSystem>(new AFileSystem());
 	_ui = TUniquePtr<UI>(new UI());
 }
 
@@ -183,7 +183,7 @@ void GModuleManager::RecreatePhysicsModule(Physics* physics)
 		_physics = TUniquePtr<Physics>(new Physics());
 }
 
-void GModuleManager::RecreateFileSystemModule(FileSystem* fileSystem)
+void GModuleManager::RecreateFileSystemModule(AFileSystem* fileSystem)
 {
 	if (_fileSystem)
 		_fileSystem.Reset();
@@ -191,7 +191,7 @@ void GModuleManager::RecreateFileSystemModule(FileSystem* fileSystem)
 	if (fileSystem)
 		_fileSystem = fileSystem;
 	else
-		_fileSystem = TUniquePtr<FileSystem>(new FileSystem());
+		_fileSystem = TUniquePtr<AFileSystem>(new AFileSystem());
 }
 
 void GModuleManager::RecreateUiModule(UI* ui)

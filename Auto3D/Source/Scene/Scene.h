@@ -24,21 +24,21 @@ public:
     static void RegisterObject();
 
     /// Save scene to binary stream.
-    void Save(Stream& dest) override;
+    void Save(FStream& dest) override;
     /// Load scene from a binary stream. Existing nodes will be destroyed. Return true on success.
-    bool Load(Stream& source);
+    bool Load(FStream& source);
     /// Load scene from JSON data. Existing nodes will be destroyed. Return true on success.
-    bool LoadJSON(const JSONValue& source);
+    bool LoadJSON(const FJSONValue& source);
     /// Load scene from JSON text data read from a binary stream. Existing nodes will be destroyed. Return true if the JSON was correctly parsed; otherwise the data may be partial.
-    bool LoadJSON(Stream& source);
+    bool LoadJSON(FStream& source);
     /// Save scene as JSON text data to a binary stream. Return true on success.
-    bool SaveJSON(Stream& dest);
+    bool SaveJSON(FStream& dest);
     /// Instantiate node(s) from binary stream and return the root node.
-    Node* Instantiate(Stream& source);
+    Node* Instantiate(FStream& source);
     /// Instantiate node(s) from JSON data and return the root node.
-    Node* InstantiateJSON(const JSONValue& source);
+    Node* InstantiateJSON(const FJSONValue& source);
     /// Load JSON data as text from a binary stream, then instantiate node(s) from it and return the root node.
-    Node* InstantiateJSON(Stream& source);
+    Node* InstantiateJSON(FStream& source);
     /// Destroy child nodes recursively, leaving the scene empty.
     void Clear();
     /// Find node by _id.
@@ -72,13 +72,13 @@ public:
 
 private:
     /// Set layer names. Used in serialization.
-    void SetLayerNamesAttr(JSONValue names);
+    void SetLayerNamesAttr(FJSONValue names);
     /// Return layer names. Used in serialization.
-    JSONValue LayerNamesAttr() const;
+    FJSONValue LayerNamesAttr() const;
     /// Set tag names. Used in serialization.
-    void SetTagNamesAttr(JSONValue names);
+    void SetTagNamesAttr(FJSONValue names);
     /// Return tag names. Used in serialization.
-    JSONValue TagNamesAttr() const;
+    FJSONValue TagNamesAttr() const;
 
     /// Map from id's to nodes.
     THashMap<unsigned, Node*> _nodes;

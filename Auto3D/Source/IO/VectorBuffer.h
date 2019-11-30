@@ -7,17 +7,17 @@ namespace Auto3D
 {
 
 /// Dynamically sized buffer that can be read and written to as a stream.
-class AUTO_API VectorBuffer : public Stream
+class AUTO_API FVectorBuffer : public FStream
 {
 public:
     /// Construct an empty buffer.
-    VectorBuffer();
+    FVectorBuffer();
     /// Construct from another buffer.
-    VectorBuffer(const TVector<unsigned char>& _data);
+    FVectorBuffer(const TVector<unsigned char>& _data);
     /// Construct from a memory area.
-    VectorBuffer(const void* _data, size_t numBytes);
+    FVectorBuffer(const void* _data, size_t numBytes);
     /// Construct from a stream.
-    VectorBuffer(Stream& source, size_t numBytes);
+    FVectorBuffer(FStream& source, size_t numBytes);
     
     /// Read bytes from the buffer. Return number of bytes actually read.
     size_t Read(void* dest, size_t _size) override;
@@ -35,7 +35,7 @@ public:
     /// Set data from a memory area.
     void SetData(const void* _data, size_t numBytes);
     /// Set data from a stream.
-    void SetData(Stream& source, size_t numBytes);
+    void SetData(FStream& source, size_t numBytes);
     /// Reset to zero _size.
     void Clear();
     /// Set _size.
@@ -48,8 +48,8 @@ public:
     /// Return the buffer.
     const TVector<unsigned char>& Buffer() const { return _buffer; }
     
-    using Stream::Read;
-    using Stream::Write;
+    using FStream::Read;
+    using FStream::Write;
     
 private:
     /// Dynamic data buffer.

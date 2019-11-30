@@ -21,7 +21,7 @@ static const int LOG_ERROR = 3;
 /// Disable all log messages.
 static const int LOG_NONE = 4;
 
-class File;
+class FFile;
 
 /// Stored log message from another thread.
 struct AUTO_API FStoredLogMessage
@@ -102,7 +102,7 @@ private:
     /// %ALog messages from other threads.
     TList<FStoredLogMessage> _threadMessages;
     /// %ALog file.
-	TUniquePtr<File> _logFile;
+	TUniquePtr<FFile> _logFile;
     /// Last log message.
     FString _lastMessage;
     /// Logging level.

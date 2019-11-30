@@ -7,30 +7,30 @@
 namespace Auto3D
 {
 
-VectorBuffer::VectorBuffer()
+FVectorBuffer::FVectorBuffer()
 {
     SetName("Vector");
 }
 
-VectorBuffer::VectorBuffer(const TVector<unsigned char>& _data)
+FVectorBuffer::FVectorBuffer(const TVector<unsigned char>& _data)
 {
     SetData(_data);
     SetName("Vector");
 }
 
-VectorBuffer::VectorBuffer(const void* _data, size_t numBytes)
+FVectorBuffer::FVectorBuffer(const void* _data, size_t numBytes)
 {
     SetData(_data, numBytes);
     SetName("Vector");
 }
 
-VectorBuffer::VectorBuffer(Stream& source, size_t numBytes)
+FVectorBuffer::FVectorBuffer(FStream& source, size_t numBytes)
 {
     SetData(source, numBytes);
     SetName("Vector");
 }
 
-size_t VectorBuffer::Read(void* dest, size_t numBytes)
+size_t FVectorBuffer::Read(void* dest, size_t numBytes)
 {
     if (numBytes + _position > _size)
         numBytes = _size - _position;
@@ -61,7 +61,7 @@ size_t VectorBuffer::Read(void* dest, size_t numBytes)
     return _size;
 }
 
-size_t VectorBuffer::Seek(size_t newPosition)
+size_t FVectorBuffer::Seek(size_t newPosition)
 {
     if (newPosition > _size)
         newPosition = _size;
@@ -70,7 +70,7 @@ size_t VectorBuffer::Seek(size_t newPosition)
     return _position;
 }
 
-size_t VectorBuffer::Write(const void* _data, size_t numBytes)
+size_t FVectorBuffer::Write(const void* _data, size_t numBytes)
 {
     if (!numBytes)
         return 0;
@@ -106,24 +106,24 @@ size_t VectorBuffer::Write(const void* _data, size_t numBytes)
     return numBytes;
 }
 
-bool VectorBuffer::IsReadable() const
+bool FVectorBuffer::IsReadable() const
 {
     return true;
 }
 
-bool VectorBuffer::IsWritable() const
+bool FVectorBuffer::IsWritable() const
 {
     return true;
 }
 
-void VectorBuffer::SetData(const TVector<unsigned char>& _data)
+void FVectorBuffer::SetData(const TVector<unsigned char>& _data)
 {
     _buffer = _data;
     _position = 0;
     _size = _data.Size();
 }
 
-void VectorBuffer::SetData(const void* _data, size_t numBytes)
+void FVectorBuffer::SetData(const void* _data, size_t numBytes)
 {
     if (!_data)
         numBytes = 0;
@@ -136,7 +136,7 @@ void VectorBuffer::SetData(const void* _data, size_t numBytes)
     _size = numBytes;
 }
 
-void VectorBuffer::SetData(Stream& source, size_t numBytes)
+void FVectorBuffer::SetData(FStream& source, size_t numBytes)
 {
     _buffer.Resize(numBytes);
     size_t actualSize = source.Read(&_buffer[0], numBytes);
@@ -147,14 +147,14 @@ void VectorBuffer::SetData(Stream& source, size_t numBytes)
     _size = actualSize;
 }
 
-void VectorBuffer::Clear()
+void FVectorBuffer::Clear()
 {
     _buffer.Clear();
     _position = 0;
     _size = 0;
 }
 
-void VectorBuffer::Resize(size_t newSize)
+void FVectorBuffer::Resize(size_t newSize)
 {
     _buffer.Resize(newSize);
     _size = newSize;
