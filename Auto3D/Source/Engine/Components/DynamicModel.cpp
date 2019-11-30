@@ -48,21 +48,21 @@ static GLuint g_indicesVBO;
 //
 static GLuint g_cubemap;
 
-DynamicModel::DynamicModel()
+ADynamicModel::ADynamicModel()
 {
-	//GModuleManager::Get().RendererModule()->SetupWaterTextures(1, 1024, ImageFormat::RGB32F);
+	//GModuleManager::Get().RendererModule()->SetupWaterTextures(1, 1024, EImageFormat::RGB32F);
 }
 
-DynamicModel::~DynamicModel()
+ADynamicModel::~ADynamicModel()
 {
 }
 
-void DynamicModel::RegisterObject()
+void ADynamicModel::RegisterObject()
 {
-	RegisterFactory<DynamicModel>();
+	RegisterFactory<ADynamicModel>();
 }
 /*
-void DynamicModel::OnPrepareRender(unsigned frameNumber, Camera* camera)
+void ADynamicModel::OnPrepareRender(unsigned frameNumber, ACamera* camera)
 {
 	_lastFrameNumber = frameNumber;
 	_lightList = nullptr;
@@ -72,7 +72,7 @@ void DynamicModel::OnPrepareRender(unsigned frameNumber, Camera* camera)
 
 }*/
 
-//void DynamicModel::SetWaterData()
+//void ADynamicModel::SetWaterData()
 //{
 //	static float* waterPoints = (float*)malloc(WATER_PLANE_LENGTH * WATER_PLANE_LENGTH * 4 * sizeof(float));
 //	static unsigned int* waterIndices = (unsigned int*)malloc(WATER_PLANE_LENGTH * (WATER_PLANE_LENGTH - 1) * 2 * sizeof(unsigned int));
@@ -119,21 +119,21 @@ void DynamicModel::OnPrepareRender(unsigned frameNumber, Camera* camera)
 //
 //	SetNumGeometries(1);
 //
-//	TVector<VertexElement> vertexDeclaration;
-//	vertexDeclaration.Push(VertexElement(ElementType::VECTOR4, ElementSemantic::POSITION));//vertex
+//	TVector<FVertexElement> vertexDeclaration;
+//	vertexDeclaration.Push(FVertexElement(EElementType::VECTOR4, EElementSemantic::POSITION));//vertex
 //
-//	TSharedPtr<VertexBuffer> vertexBuffer;
-//	vertexBuffer->Define(ResourceUsage::IMMUTABLE, 4, vertexDeclaration, true, waterPoints);
+//	TSharedPtr<FVertexBuffer> vertexBuffer;
+//	vertexBuffer->Define(EResourceUsage::IMMUTABLE, 4, vertexDeclaration, true, waterPoints);
 //
 //
-//	TSharedPtr<IndexBuffer> indexBuffer;
-//	indexBuffer->Define(ResourceUsage::IMMUTABLE, WATER_PLANE_LENGTH * WATER_PLANE_LENGTH, sizeof(unsigned short), true, waterIndices);
+//	TSharedPtr<FIndexBuffer> indexBuffer;
+//	indexBuffer->Define(EResourceUsage::IMMUTABLE, WATER_PLANE_LENGTH * WATER_PLANE_LENGTH, sizeof(unsigned short), true, waterIndices);
 //
 //
 //	TSharedPtr<Geometry> geometry(new Geometry());
 //	// Temp use this setting
 //	geometry->_lodDistance = false;
-//	geometry->_primitiveType = PrimitiveType::TRIANGLE_LIST;
+//	geometry->_primitiveType = EPrimitiveType::TRIANGLE_LIST;
 //	geometry->_drawStart = 0;
 //	geometry->_drawCount = WATER_PLANE_LENGTH * WATER_PLANE_LENGTH;
 //
@@ -144,13 +144,13 @@ void DynamicModel::OnPrepareRender(unsigned frameNumber, Camera* camera)
 //
 //}
 
-static ShaderVariation* waterVSV = nullptr;
-static ShaderVariation* waterPSV = nullptr;
+static FShaderVariation* waterVSV = nullptr;
+static FShaderVariation* waterPSV = nullptr;
 
-bool DynamicModel::init()
+bool ADynamicModel::init()
 {
 	auto* graphics = GModuleManager::Get().GraphicsModule();
-	//graphics->SetGraphicsDebug(GraphicsDebugType::LINE);
+	//graphics->SetGraphicsDebug(EGraphicsDebugType::LINE);
 
 	GLfloat* points = (GLfloat*)malloc(WATER_PLANE_LENGTH * WATER_PLANE_LENGTH * 4 * sizeof(GLfloat));
 	GLuint* indices = (GLuint*)malloc(WATER_PLANE_LENGTH * (WATER_PLANE_LENGTH - 1) * 2 * sizeof(GLuint));
@@ -188,8 +188,8 @@ bool DynamicModel::init()
 	}
 
 	auto cache = GModuleManager::Get().CacheModule();
-	waterVSV = cache->LoadResource<Shader>("Shader/Water/Water.vert")->CreateVariation();
-	waterPSV = cache->LoadResource<Shader>("Shader/Water/Water.frag")->CreateVariation();
+	waterVSV = cache->LoadResource<AShader>("Shader/Water/Water.vert")->CreateVariation();
+	waterPSV = cache->LoadResource<AShader>("Shader/Water/Water.frag")->CreateVariation();
 
 
 	glGenBuffers(1, &g_verticesVBO);
@@ -209,14 +209,14 @@ bool DynamicModel::init()
 	free(indices);
 
 
-	Texture* cubeMap = GModuleManager::Get().RegisteredBoxModule()->GetActiveScene()->GetSkyBox()->GetMaterial(0)->GetTexture(0);
+	ATexture* cubeMap = GModuleManager::Get().RegisteredBoxModule()->GetActiveScene()->GetSkyBox()->GetMaterial(0)->GetTexture(0);
 	g_cubemap = cubeMap->GetGLTexture();
 	//
 
 	waterTexture = initWaterTexture((GLUSfloat)WATER_PLANE_LENGTH);
 
 	graphics->SetShaders(waterVSV, waterPSV);
-	ShaderProgram* waterProgram = graphics->Shaderprogram();
+	FShaderProgram* waterProgram = graphics->Shaderprogram();
 
 	waterProgram->SetFloat("u_waterPlaneLength",(float)WATER_PLANE_LENGTH);
 	glActiveTexture(GL_TEXTURE0);
@@ -252,7 +252,7 @@ bool DynamicModel::init()
 	return GLUS_TRUE;
 }
 
-void DynamicModel::reshape(unsigned width,unsigned height)
+void ADynamicModel::reshape(unsigned width,unsigned height)
 {
 	glViewport(0, 0, width, height);
 
@@ -265,11 +265,11 @@ void DynamicModel::reshape(unsigned width,unsigned height)
 	auto graphics = GModuleManager::Get().GraphicsModule();
 
 	graphics->SetShaders(waterVSV, waterPSV);
-	ShaderProgram* waterProgram = graphics->Shaderprogram();
+	FShaderProgram* waterProgram = graphics->Shaderprogram();
 	waterProgram->SetMat4("u_projectionMatrix", g_projectionMatrix);
 }
 
-void DynamicModel::renderWater(float passedTime)
+void ADynamicModel::renderWater(float passedTime)
 {
 	static WaveParameters waveParameters[NUMBERWAVES];
 	static WaveDirections waveDirections[NUMBERWAVES];
@@ -316,7 +316,7 @@ void DynamicModel::renderWater(float passedTime)
 	auto graphics = GModuleManager::Get().GraphicsModule();
 
 	graphics->SetShaders(waterVSV, waterPSV);
-	ShaderProgram* waterProgram = graphics->Shaderprogram();
+	FShaderProgram* waterProgram = graphics->Shaderprogram();
 
 	waterProgram->SetMat4("u_viewMatrix", g_viewMatrix);
 	waterProgram->SetMat3("u_inverseViewNormalMatrix", g_inverseViewNormalMatrix);
@@ -334,7 +334,7 @@ void DynamicModel::renderWater(float passedTime)
 
 
 
-bool DynamicModel::update(float time)
+bool ADynamicModel::update(float time)
 {
 	time = 0.01f;
 
@@ -371,14 +371,14 @@ bool DynamicModel::update(float time)
 }
 
 
-void DynamicModel::AAA()
+void ADynamicModel::AAA()
 {
 	auto window = GModuleManager::Get().GraphicsModule()->RenderWindow();
 	init();
 	reshape(window->GetWidth(), window->GetHeight());
 }
 
-void DynamicModel::BBB()
+void ADynamicModel::BBB()
 {
 	Sleep(10);
 	update(0);

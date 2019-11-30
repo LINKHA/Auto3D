@@ -25,7 +25,7 @@ namespace GUI
 	using DrawList = ImDrawList;							// A single draw command list (generally one per window, conceptually you may see this as a dynamic "mesh" builder)
 	using DrawListSharedData = ImDrawListSharedData;        // Data shared among multiple draw lists (typically owned by parent ImGui context, but you may create one yourself)
 	using DrawVert = ImDrawVert;							// A single vertex (pos + uv + col = 20 bytes by default. Override layout with IMGUI_OVERRIDE_DRAWVERT_STRUCT_LAYOUT)
-	using Font = ImFont;									// Runtime data for a single font within a parent ImFontAtlas
+	using AFont = ImFont;									// Runtime data for a single font within a parent ImFontAtlas
 	using FontAtlas = ImFontAtlas;							// Runtime data for multiple fonts, bake multiple fonts into a single texture, TTF/OTF font loader
 	using FontConfig = ImFontConfig;						// Configuration data when adding a font or merging fonts
 	using FontGlyph = ImFontGlyph;							// A single font glyph (code point + coordinates within in ImFontAtlas + offset)
@@ -119,7 +119,7 @@ public:
 	void Present();
 
 	/// Add font from font.
-	void AddFont(Font* font, int pixels = 24, FString fontname = "Default", UIFontLanguage::Data languageType = UIFontLanguage::DEFAULT);
+	void AddFont(AFont* font, int pixels = 24, FString fontname = "Default", UIFontLanguage::Data languageType = UIFontLanguage::DEFAULT);
 
 	/// Get gui IO.
 	ImGuiIO& IO() { return ImGui::GetIO(); }
@@ -225,7 +225,7 @@ AUTO_API void          SetScrollFromPosY(float local_y, float center_y_ratio = 0
 
 // Parameters stacks (shared)
 AUTO_API void		   PushFont(const FString& font);
-AUTO_API void          PushFont(Font* font);                                           // use NULL as a shortcut to push default font
+AUTO_API void          PushFont(AFont* font);                                           // use NULL as a shortcut to push default font
 AUTO_API void          PopFont();
 AUTO_API void          PushStyleColor(Col idx, unsigned col);
 AUTO_API void          PushStyleColor(Col idx, const Vector4F& col);
@@ -234,7 +234,7 @@ AUTO_API void          PushStyleVar(StyleVar idx, float val);
 AUTO_API void          PushStyleVar(StyleVar idx, const Vector2F& val);
 AUTO_API void          PopStyleVar(int count = 1);
 AUTO_API const		   Vector4F& GetStyleColorVec4(Col idx);                           // retrieve style color as stored in ImGuiStyle structure. use to feed back into PushStyleColor(), otherwise use GetColorU32() to get style color with style alpha baked in.
-AUTO_API Font*		   GetFont();													   // get current font
+AUTO_API AFont*		   GetFont();													   // get current font
 AUTO_API float         GetFontSize();                                                  // get current font size (= height in pixels) of current font with current scale applied
 AUTO_API Vector2F      GetFontTexUvWhitePixel();                                       // get UV coordinate for a while pixel, useful to draw custom shapes via the DrawList API
 AUTO_API unsigned      GetColorU32(Col idx, float alpha_mul = 1.0f);				   // retrieve given style color with style alpha applied and optional extra alpha multiplier
@@ -317,8 +317,8 @@ AUTO_API bool          Button(const char* label, const Vector2F& size = Vector2F
 AUTO_API bool          SmallButton(const char* label);                                 // button with FramePadding=(0,0) to easily embed within text
 AUTO_API bool          InvisibleButton(const char* str_id, const Vector2F& size);        // button behavior without the visuals, frequently useful to build custom behaviors using the public api (along with IsItemActive, IsItemHovered, etc.)
 AUTO_API bool          ArrowButton(const char* str_id, Dir dir);                  // square button with an arrow shape
-AUTO_API void          Image(Texture* user_texture, const Vector2F& size, const Vector2F& uv0 = Vector2F(0, 0), const Vector2F& uv1 = Vector2F(1, 1), const Vector4F& tint_col = Vector4F(1, 1, 1, 1), const Vector4F& border_col = Vector4F(0, 0, 0, 0));
-AUTO_API bool          ImageButton(Texture* user_texture, const Vector2F& size, const Vector2F& uv0 = Vector2F(0, 0), const Vector2F& uv1 = Vector2F(1, 1), int frame_padding = -1, const Vector4F& bg_col = Vector4F(0, 0, 0, 0), const Vector4F& tint_col = Vector4F(1, 1, 1, 1));    // <0 frame_padding uses default frame padding settings. 0 for no padding
+AUTO_API void          AImage(ATexture* user_texture, const Vector2F& size, const Vector2F& uv0 = Vector2F(0, 0), const Vector2F& uv1 = Vector2F(1, 1), const Vector4F& tint_col = Vector4F(1, 1, 1, 1), const Vector4F& border_col = Vector4F(0, 0, 0, 0));
+AUTO_API bool          ImageButton(ATexture* user_texture, const Vector2F& size, const Vector2F& uv0 = Vector2F(0, 0), const Vector2F& uv1 = Vector2F(1, 1), int frame_padding = -1, const Vector4F& bg_col = Vector4F(0, 0, 0, 0), const Vector4F& tint_col = Vector4F(1, 1, 1, 1));    // <0 frame_padding uses default frame padding settings. 0 for no padding
 AUTO_API bool          Checkbox(const char* label, bool* v);
 AUTO_API bool          CheckboxFlags(const char* label, unsigned int* flags, unsigned int flags_value);
 AUTO_API bool          RadioButton(const char* label, bool active);                    // use with e.g. if (RadioButton("one", my_value==1)) { my_value = 1; }

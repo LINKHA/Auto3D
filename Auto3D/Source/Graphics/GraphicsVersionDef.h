@@ -2,7 +2,7 @@
 namespace Auto3D
 {
 
-namespace GraphicsVersion
+namespace EGraphicsVersion
 {
 	enum Type
 	{
@@ -15,7 +15,7 @@ namespace GraphicsVersion
 	};
 }
 
-namespace GraphicsSLVersion
+namespace EGraphicsSLVersion
 {
 	enum Type
 	{

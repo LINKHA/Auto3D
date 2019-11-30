@@ -6,30 +6,30 @@
 namespace Auto3D
 {
 
-class Camera;
+class ACamera;
 class Octree;
 class Ray;
 struct Octant;
 struct RaycastResult;
 
 /// Base class for scene nodes that insert themselves to the octree for rendering.
-class AUTO_API OctreeNode : public ASpatialNode
+class AUTO_API AOctreeNode : public ASpatialNode
 {
     friend class Octree;
 
-    REGISTER_OBJECT_CLASS(OctreeNode,ASpatialNode)
+    REGISTER_OBJECT_CLASS(AOctreeNode,ASpatialNode)
 
 public:
     /// Construct.
-    OctreeNode();
+    AOctreeNode();
     /// Destruct. Remove self from the octree.
-    ~OctreeNode();
+    ~AOctreeNode();
 
     /// Register attributes.
     static void RegisterObject();
 
     /// Prepare object for rendering. Reset framenumber and calculate distance from camera. Called by Renderer.
-    virtual void OnPrepareRender(unsigned frameNumber, Camera* camera);
+    virtual void OnPrepareRender(unsigned frameNumber, ACamera* camera);
     /// Perform ray test on self and add possible hit to the result vector.
     virtual void OnRaycast(TVector<RaycastResult>& dest, const Ray& ray, float maxDistance);
 

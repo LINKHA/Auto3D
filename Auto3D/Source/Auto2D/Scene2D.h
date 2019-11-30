@@ -71,7 +71,7 @@ private:
 
 	/// Map from id to nodes.
 	THashMap<unsigned, Node2D*> _nodes;
-	/// Camera to nodes
+	/// ACamera to nodes
 	TVector<Camera2D*> _cameras;
 	/// Next free node _id.
 	unsigned _nextNodeId;

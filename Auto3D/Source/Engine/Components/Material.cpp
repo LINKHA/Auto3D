@@ -14,12 +14,12 @@
 namespace Auto3D
 {
 
-TSharedPtr<Material> Material::_defaultMaterial;
-THashMap<FString, unsigned char> Material::_passIndices;
-TVector<FString> Material::_passNames;
-unsigned char Material::_nextPassIndex = 0;
+TSharedPtr<AMaterial> AMaterial::_defaultMaterial;
+THashMap<FString, unsigned char> AMaterial::_passIndices;
+TVector<FString> AMaterial::_passNames;
+unsigned char AMaterial::_nextPassIndex = 0;
 
-Pass::Pass(Material* parent, const FString& name) :
+FPass::FPass(AMaterial* parent, const FString& name) :
     _parent(parent),
     _name(name),
     _shaderHash(0),
@@ -28,23 +28,23 @@ Pass::Pass(Material* parent, const FString& name) :
     Reset();
 }
 
-Pass::~Pass()
+FPass::~FPass()
 {
 }
 
-bool Pass::LoadJSON(const JSONValue& source)
+bool FPass::LoadJSON(const JSONValue& source)
 {
     if (source.Contains("vs"))
-        _shaderNames[ShaderStage::VS] = source["vs"].GetString();
+        _shaderNames[EShaderStage::VS] = source["vs"].GetString();
     if (source.Contains("ps"))
-        _shaderNames[ShaderStage::PS] = source["ps"].GetString();
+        _shaderNames[EShaderStage::PS] = source["ps"].GetString();
     if (source.Contains("vsDefines"))
-        _shaderDefines[ShaderStage::VS] = source["vsDefines"].GetString();
+        _shaderDefines[EShaderStage::VS] = source["vsDefines"].GetString();
     if (source.Contains("psDefines"))
-        _shaderDefines[ShaderStage::PS] = source["psDefines"].GetString();
+        _shaderDefines[EShaderStage::PS] = source["psDefines"].GetString();
 
     if (source.Contains("depthFunc"))
-        _depthFunc = (CompareFunc::Type)FString::ListIndex(source["depthFunc"].GetString(), compareFuncNames, CompareFunc::LESS_EQUAL);
+        _depthFunc = (ECompareFunc::Type)FString::ListIndex(source["depthFunc"].GetString(), compareFuncNames, ECompareFunc::LESS_EQUAL);
     if (source.Contains("depthWrite"))
         _depthWrite = source["depthWrite"].GetBool();
     if (source.Contains("depthClip"))
@@ -54,46 +54,46 @@ bool Pass::LoadJSON(const JSONValue& source)
     if (source.Contains("colorWriteMask"))
         _colorWriteMask = (unsigned char)source["colorWriteMask"].GetNumber();
     if (source.Contains("blendMode"))
-        _blendMode = blendModes[FString::ListIndex(source["blendMode"].GetString(), blendModeNames, BlendMode::REPLACE)];
+        _blendMode = blendModes[FString::ListIndex(source["blendMode"].GetString(), blendModeNames, EBlendMode::REPLACE)];
     else
     {
         if (source.Contains("blendEnable"))
             _blendMode._blendEnable = source["blendEnable"].GetBool();
         if (source.Contains("srcBlend"))
-            _blendMode._srcBlend = (BlendFactor::Type)FString::ListIndex(source["srcBlend"].GetString(), blendFactorNames, BlendFactor::ONE);
+            _blendMode._srcBlend = (EBlendFactor::Type)FString::ListIndex(source["srcBlend"].GetString(), blendFactorNames, EBlendFactor::ONE);
         if (source.Contains("destBlend"))
-            _blendMode._destBlend = (BlendFactor::Type)FString::ListIndex(source["destBlend"].GetString(), blendFactorNames, BlendFactor::ONE);
+            _blendMode._destBlend = (EBlendFactor::Type)FString::ListIndex(source["destBlend"].GetString(), blendFactorNames, EBlendFactor::ONE);
         if (source.Contains("blendOp"))
-            _blendMode._blendOp = (BlendOp::Type)FString::ListIndex(source["blendOp"].GetString(), blendOpNames, BlendOp::ADD);
+            _blendMode._blendOp = (EBlendOp::Type)FString::ListIndex(source["blendOp"].GetString(), blendOpNames, EBlendOp::ADD);
         if (source.Contains("srcBlendAlpha"))
-            _blendMode._srcBlendAlpha = (BlendFactor::Type)FString::ListIndex(source["srcBlendAlpha"].GetString(), blendFactorNames, BlendFactor::ONE);
+            _blendMode._srcBlendAlpha = (EBlendFactor::Type)FString::ListIndex(source["srcBlendAlpha"].GetString(), blendFactorNames, EBlendFactor::ONE);
         if (source.Contains("destBlendAlpha"))
-            _blendMode._destBlendAlpha = (BlendFactor::Type)FString::ListIndex(source["destBlendAlpha"].GetString(), blendFactorNames, BlendFactor::ONE);
+            _blendMode._destBlendAlpha = (EBlendFactor::Type)FString::ListIndex(source["destBlendAlpha"].GetString(), blendFactorNames, EBlendFactor::ONE);
         if (source.Contains("blendOpAlpha"))
-            _blendMode._blendOpAlpha = (BlendOp::Type)FString::ListIndex(source["blendOpAlpha"].GetString(), blendOpNames, BlendOp::ADD);
+            _blendMode._blendOpAlpha = (EBlendOp::Type)FString::ListIndex(source["blendOpAlpha"].GetString(), blendOpNames, EBlendOp::ADD);
     }
 
     if (source.Contains("fillMode"))
-        _fillMode = (FillMode::Type)FString::ListIndex(source["fillMode"].GetString(), fillModeNames, FillMode::SOLID);
+        _fillMode = (EFillMode::Type)FString::ListIndex(source["fillMode"].GetString(), fillModeNames, EFillMode::SOLID);
     if (source.Contains("cullMode"))
-        _cullMode = (CullMode::Type)FString::ListIndex(source["cullMode"].GetString(), cullModeNames, CullMode::BACK);
+        _cullMode = (ECullMode::Type)FString::ListIndex(source["cullMode"].GetString(), cullModeNames, ECullMode::BACK);
 
     OnShadersChanged();
     return true;
 }
 
-bool Pass::SaveJSON(JSONValue& dest)
+bool FPass::SaveJSON(JSONValue& dest)
 {
     dest.SetEmptyObject();
 
-    if (_shaderNames[ShaderStage::VS].Length())
-        dest["vs"] = _shaderNames[ShaderStage::VS];
-    if (_shaderNames[ShaderStage::PS].Length())
-        dest["ps"] = _shaderNames[ShaderStage::PS];
-    if (_shaderDefines[ShaderStage::VS].Length())
-        dest["vsDefines"] = _shaderDefines[ShaderStage::VS];
-    if (_shaderDefines[ShaderStage::PS].Length())
-        dest["psDefines"] = _shaderDefines[ShaderStage::PS];
+    if (_shaderNames[EShaderStage::VS].Length())
+        dest["vs"] = _shaderNames[EShaderStage::VS];
+    if (_shaderNames[EShaderStage::PS].Length())
+        dest["ps"] = _shaderNames[EShaderStage::PS];
+    if (_shaderDefines[EShaderStage::VS].Length())
+        dest["vsDefines"] = _shaderDefines[EShaderStage::VS];
+    if (_shaderDefines[EShaderStage::PS].Length())
+        dest["psDefines"] = _shaderDefines[EShaderStage::PS];
 
     dest["depthFunc"] = compareFuncNames[_depthFunc];
     dest["depthWrite"] = _depthWrite;
@@ -103,7 +103,7 @@ bool Pass::SaveJSON(JSONValue& dest)
 
     // Prefer saving a predefined blend mode if possible for better readability
     bool blendModeFound = false;
-    for (size_t i = 0; i < BlendMode::Count; ++i)
+    for (size_t i = 0; i < EBlendMode::Count; ++i)
     {
         if (_blendMode == blendModes[i])
         {
@@ -130,41 +130,41 @@ bool Pass::SaveJSON(JSONValue& dest)
     return true;
 }
 
-void Pass::SetBlendMode(BlendMode::Type mode)
+void FPass::SetBlendMode(EBlendMode::Type mode)
 {
     _blendMode = blendModes[mode];
 }
 
-void Pass::SetShaders(const FString& vsName, const FString& psName, const FString& vsDefines, const FString& psDefines)
+void FPass::SetShaders(const FString& vsName, const FString& psName, const FString& vsDefines, const FString& psDefines)
 {
-    _shaderNames[ShaderStage::VS] = vsName;
-    _shaderNames[ShaderStage::PS] = psName;
-    _shaderDefines[ShaderStage::VS] = vsDefines;
-    _shaderDefines[ShaderStage::PS] = psDefines;
+    _shaderNames[EShaderStage::VS] = vsName;
+    _shaderNames[EShaderStage::PS] = psName;
+    _shaderDefines[EShaderStage::VS] = vsDefines;
+    _shaderDefines[EShaderStage::PS] = psDefines;
     OnShadersChanged();
 }
 
-void Pass::Reset()
+void FPass::Reset()
 {
-    _depthFunc = CompareFunc::LESS_EQUAL;
+    _depthFunc = ECompareFunc::LESS_EQUAL;
     _depthWrite = true;
     _depthClip = true;
     _alphaToCoverage = false;
     _colorWriteMask = COLORMASK_ALL;
     _blendMode.Reset();
-    _cullMode = CullMode::BACK;
-    _fillMode = FillMode::SOLID;
+    _cullMode = ECullMode::BACK;
+    _fillMode = EFillMode::SOLID;
 }
 
-Material* Pass::Parent() const
+AMaterial* FPass::Parent() const
 {
     return _parent;
 }
 
-void Pass::OnShadersChanged()
+void FPass::OnShadersChanged()
 {
     // Reset existing variations
-    for (size_t i = 0; i < ShaderStage::Count; ++i)
+    for (size_t i = 0; i < EShaderStage::Count; ++i)
     {
         _shaders[i].Reset();
         _shaderVariations[i].Clear();
@@ -173,33 +173,33 @@ void Pass::OnShadersChanged()
     _shadersLoaded = false;
 
     // Combine and trim the shader defines
-    for (size_t i = 0; i < ShaderStage::Count; ++i)
+    for (size_t i = 0; i < EShaderStage::Count; ++i)
     {
-        const FString& materialDefines = _parent->ShaderDefines((ShaderStage::Type)i);
+        const FString& materialDefines = _parent->ShaderDefines((EShaderStage::Type)i);
         if (materialDefines.Length())
             _combinedShaderDefines[i] = (materialDefines.Trimmed() + " " + _shaderDefines[i]).Trimmed();
         else
             _combinedShaderDefines[i] = _shaderDefines[i].Trimmed();
     }
 
-    _shaderHash = FStringHash(_shaderNames[ShaderStage::VS] + _shaderNames[ShaderStage::PS] + _combinedShaderDefines[ShaderStage::VS] +
-        _combinedShaderDefines[ShaderStage::PS]).Value();
+    _shaderHash = FStringHash(_shaderNames[EShaderStage::VS] + _shaderNames[EShaderStage::PS] + _combinedShaderDefines[EShaderStage::VS] +
+        _combinedShaderDefines[EShaderStage::PS]).Value();
 }
 
-Material::Material()
+AMaterial::AMaterial()
 {
 }
 
-Material::~Material()
+AMaterial::~AMaterial()
 {
 }
 
-void Material::RegisterObject()
+void AMaterial::RegisterObject()
 {
-    RegisterFactory<Material>();
+    RegisterFactory<AMaterial>();
 }
 
-bool Material::BeginLoad(Stream& source)
+bool AMaterial::BeginLoad(Stream& source)
 {
     PROFILE(BeginLoadMaterial);
 
@@ -209,17 +209,17 @@ bool Material::BeginLoad(Stream& source)
 
     const JSONValue& root = _loadJSON->Root();
 
-    _shaderDefines[ShaderStage::VS].Clear();
-    _shaderDefines[ShaderStage::PS].Clear();
+    _shaderDefines[EShaderStage::VS].Clear();
+    _shaderDefines[EShaderStage::PS].Clear();
     if (root.Contains("vsDefines"))
-        _shaderDefines[ShaderStage::VS] = root["vsDefines"].GetString();
+        _shaderDefines[EShaderStage::VS] = root["vsDefines"].GetString();
     if (root.Contains("psDefines"))
-        _shaderDefines[ShaderStage::PS] = root["psDefines"].GetString();
+        _shaderDefines[EShaderStage::PS] = root["psDefines"].GetString();
 
     return true;
 }
 
-bool Material::EndLoad()
+bool AMaterial::EndLoad()
 {
     PROFILE(EndLoadMaterial);
 
@@ -232,23 +232,23 @@ bool Material::EndLoad()
         const JSONObject& jsonPasses = root["passes"].GetObject();
         for (auto it = jsonPasses.Begin(); it != jsonPasses.End(); ++it)
         {
-            Pass* newPass = CreatePass(it->_first);
+            FPass* newPass = CreatePass(it->_first);
             newPass->LoadJSON(it->_second);
         }
     }
 
-    _constantBuffers[ShaderStage::VS].Reset();
+    _constantBuffers[EShaderStage::VS].Reset();
     if (root.Contains("vsConstantBuffer"))
     {
-        _constantBuffers[ShaderStage::VS] = new ConstantBuffer();
-        _constantBuffers[ShaderStage::VS]->LoadJSON(root["vsConstantBuffer"].GetObject());
+        _constantBuffers[EShaderStage::VS] = new FConstantBuffer();
+        _constantBuffers[EShaderStage::VS]->LoadJSON(root["vsConstantBuffer"].GetObject());
     }
 
-    _constantBuffers[ShaderStage::PS].Reset();
+    _constantBuffers[EShaderStage::PS].Reset();
     if (root.Contains("psConstantBuffer"))
     {
-        _constantBuffers[ShaderStage::PS] = new ConstantBuffer();
-        _constantBuffers[ShaderStage::PS]->LoadJSON(root["psConstantBuffer"].GetObject());
+        _constantBuffers[EShaderStage::PS] = new FConstantBuffer();
+        _constantBuffers[EShaderStage::PS]->LoadJSON(root["psConstantBuffer"].GetObject());
     }
     
     /// \todo Queue texture loads during BeginLoad()
@@ -260,16 +260,16 @@ bool Material::EndLoad()
     {
         const JSONObject& jsonTextures = root["textures"].GetObject();
         for (auto it = jsonTextures.Begin(); it != jsonTextures.End(); ++it)
-            SetTexture(it->_first.ToInt(), cache->LoadResource<Texture>(it->_second.GetString()));
+            SetTexture(it->_first.ToInt(), cache->LoadResource<ATexture>(it->_second.GetString()));
     }
 	if (root.Contains("texturesMap"))
 	{
 		const JSONObject& jsonTextures = root["texturesMap"].GetObject();
-		TVector<Image*> imageData;
-		TVector<ImageLevel> faces;
+		TVector<AImage*> imageData;
+		TVector<FImageLevel> faces;
 
 		for (auto it = jsonTextures.Begin(); it != jsonTextures.End(); ++it)
-			imageData.Push(cache->LoadResource<Image>(it->_second.GetString()));
+			imageData.Push(cache->LoadResource<AImage>(it->_second.GetString()));
 
 		
 		for (int i = 0; i < MAX_CUBE_FACES; ++i)
@@ -277,9 +277,9 @@ bool Material::EndLoad()
 			faces.Push(imageData[i]->GetLevel(0));
 		}
 
-		TSharedPtr<Texture>textureCube(new Texture());
-		textureCube->Define(TextureType::TEX_CUBE, ResourceUsage::DEFAULT, imageData[0]->GetLevel(0)._size, imageData[0]->GetFormat(), 1, &faces[0]);
-		textureCube->DefineSampler(TextureFilterMode::COMPARE_TRILINEAR, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP);
+		TSharedPtr<ATexture>textureCube(new ATexture());
+		textureCube->Define(ETextureType::TEX_CUBE, EResourceUsage::DEFAULT, imageData[0]->GetLevel(0)._size, imageData[0]->GetFormat(), 1, &faces[0]);
+		textureCube->DefineSampler(ETextureFilterMode::COMPARE_TRILINEAR, ETextureAddressMode::CLAMP, ETextureAddressMode::CLAMP, ETextureAddressMode::CLAMP);
 		textureCube->SetDataLost(false);
 		SetTexture(jsonTextures.Begin()->_first.ToInt(), textureCube);
 	}
@@ -287,7 +287,7 @@ bool Material::EndLoad()
     return true;
 }
 
-bool Material::Save(Stream& dest)
+bool AMaterial::Save(Stream& dest)
 {
     PROFILE(SaveMaterial);
 
@@ -295,26 +295,26 @@ bool Material::Save(Stream& dest)
     JSONValue& root = saveJSON.Root();
     root.SetEmptyObject();
 
-    if (_shaderDefines[ShaderStage::VS].Length())
-        root["vsDefines"] = _shaderDefines[ShaderStage::VS];
-    if (_shaderDefines[ShaderStage::PS].Length())
-        root["psDefines"] = _shaderDefines[ShaderStage::PS];
+    if (_shaderDefines[EShaderStage::VS].Length())
+        root["vsDefines"] = _shaderDefines[EShaderStage::VS];
+    if (_shaderDefines[EShaderStage::PS].Length())
+        root["psDefines"] = _shaderDefines[EShaderStage::PS];
     
     if (_passes.Size())
     {
         root["passes"].SetEmptyObject();
         for (auto it = _passes.Begin(); it != _passes.End(); ++it)
         {
-            Pass* pass = *it;
+            FPass* pass = *it;
             if (pass)
                 pass->SaveJSON(root["passes"][pass->GetName()]);
         }
     }
 
-    if (_constantBuffers[ShaderStage::VS])
-        _constantBuffers[ShaderStage::VS]->SaveJSON(root["vsConstantBuffer"]);
-    if (_constantBuffers[ShaderStage::PS])
-        _constantBuffers[ShaderStage::PS]->SaveJSON(root["psConstantBuffer"]);
+    if (_constantBuffers[EShaderStage::VS])
+        _constantBuffers[EShaderStage::VS]->SaveJSON(root["vsConstantBuffer"]);
+    if (_constantBuffers[EShaderStage::PS])
+        _constantBuffers[EShaderStage::PS]->SaveJSON(root["psConstantBuffer"]);
 
     root["textures"].SetEmptyObject();
     for (size_t i = 0; i < MAX_MATERIAL_TEXTURE_UNITS; ++i)
@@ -326,82 +326,82 @@ bool Material::Save(Stream& dest)
     return saveJSON.Save(dest);
 }
 
-Pass* Material::CreatePass(const FString& name)
+FPass* AMaterial::CreatePass(const FString& name)
 {
     size_t index = PassIndex(name);
     if (_passes.Size() <= index)
         _passes.Resize(index + 1);
 
     if (!_passes[index])
-        _passes[index] = new Pass(this, name);
+        _passes[index] = new FPass(this, name);
     
     return _passes[index];
 }
 
-void Material::RemovePass(const FString& name)
+void AMaterial::RemovePass(const FString& name)
 {
     size_t index = PassIndex(name, false);
     if (index < _passes.Size())
         _passes[index].Reset();
 }
 
-void Material::SetTexture(size_t index, Texture* texture)
+void AMaterial::SetTexture(size_t index, ATexture* texture)
 {
     if (index < MAX_MATERIAL_TEXTURE_UNITS)
         _textures[index] = texture;
 }
 
-void Material::ResetTextures()
+void AMaterial::ResetTextures()
 {
     for (size_t i = 0; i < MAX_MATERIAL_TEXTURE_UNITS; ++i)
         _textures[i].Reset();
 }
 
-void Material::SetConstantBuffer(ShaderStage::Type stage, ConstantBuffer* buffer)
+void AMaterial::SetConstantBuffer(EShaderStage::Type stage, FConstantBuffer* buffer)
 {
-    if (stage < ShaderStage::Count)
+    if (stage < EShaderStage::Count)
         _constantBuffers[stage] = buffer;
 }
 
-void Material::SetShaderDefines(const FString& vsDefines, const FString& psDefines)
+void AMaterial::SetShaderDefines(const FString& vsDefines, const FString& psDefines)
 {
-    _shaderDefines[ShaderStage::VS] = vsDefines;
-    _shaderDefines[ShaderStage::PS] = psDefines;
+    _shaderDefines[EShaderStage::VS] = vsDefines;
+    _shaderDefines[EShaderStage::PS] = psDefines;
     
     for (auto it = _passes.Begin(); it != _passes.End(); ++it)
     {
-        Pass* pass = *it;
+        FPass* pass = *it;
         if (pass)
             pass->OnShadersChanged();
     }
 }
 
-Pass* Material::FindPass(const FString& name) const
+FPass* AMaterial::FindPass(const FString& name) const
 {
     return GetPass(PassIndex(name, false));
 }
 
-Pass* Material::GetPass(unsigned char index) const
+FPass* AMaterial::GetPass(unsigned char index) const
 {
     return index < _passes.Size() ? _passes[index].Get() : nullptr;
 }
 
-Texture* Material::GetTexture(size_t index) const
+ATexture* AMaterial::GetTexture(size_t index) const
 {
     return index < MAX_MATERIAL_TEXTURE_UNITS ? _textures[index].Get() : nullptr;
 }
 
-ConstantBuffer* Material::GetConstantBuffer(ShaderStage::Type stage) const
+FConstantBuffer* AMaterial::GetConstantBuffer(EShaderStage::Type stage) const
 {
-    return stage < ShaderStage::Count ? _constantBuffers[stage].Get() : nullptr;
+    return stage < EShaderStage::Count ? _constantBuffers[stage].Get() : nullptr;
 }
 
-const FString& Material::ShaderDefines(ShaderStage::Type stage) const
+const FString& AMaterial::ShaderDefines(EShaderStage::Type stage) const
 {
-    return stage < ShaderStage::Count ? _shaderDefines[stage] : FString::EMPTY;
+    return stage < EShaderStage::Count ? _shaderDefines[stage] : FString::EMPTY;
 }
 
-unsigned char Material::PassIndex(const FString& name, bool createNew)
+unsigned char AMaterial::PassIndex(const FString& name, bool createNew)
 {
     FString nameLower = name.ToLower();
     auto it = _passIndices.Find(nameLower);
@@ -420,23 +420,23 @@ unsigned char Material::PassIndex(const FString& name, bool createNew)
     }
 }
 
-const FString& Material::PassName(unsigned char index)
+const FString& AMaterial::PassName(unsigned char index)
 {
     return index < _passNames.Size() ? _passNames[index] : FString::EMPTY;
 }
 
-Material* Material::DefaultMaterial()
+AMaterial* AMaterial::DefaultMaterial()
 {
     // Create on demand
     if (!_defaultMaterial)
     {
-        _defaultMaterial = new Material();
-        Pass* pass = _defaultMaterial->CreatePass("opaque");
+        _defaultMaterial = new AMaterial();
+        FPass* pass = _defaultMaterial->CreatePass("opaque");
         pass->SetShaders("Shader/NoTexture", "Shader/NoTexture");
 
         pass = _defaultMaterial->CreatePass("opaqueadd");
         pass->SetShaders("Shader/NoTexture", "Shader/NoTexture");
-        pass->SetBlendMode(BlendMode::ADD);
+        pass->SetBlendMode(EBlendMode::ADD);
         pass->_depthWrite = false;
 
         pass = _defaultMaterial->CreatePass("shadow");

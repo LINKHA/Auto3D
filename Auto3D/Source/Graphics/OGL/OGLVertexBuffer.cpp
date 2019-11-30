@@ -10,21 +10,21 @@
 namespace Auto3D
 {
 
-VertexBuffer::VertexBuffer() :
+FVertexBuffer::FVertexBuffer() :
     _buffer(0),
     _numVertices(0),
     _vertexSize(0),
     _elementHash(0),
-    _usage(ResourceUsage::DEFAULT)
+    _usage(EResourceUsage::DEFAULT)
 {
 }
 
-VertexBuffer::~VertexBuffer()
+FVertexBuffer::~FVertexBuffer()
 {
     Release();
 }
 
-void VertexBuffer::Release()
+void FVertexBuffer::Release()
 {
     if (_graphics)
     {
@@ -45,18 +45,18 @@ void VertexBuffer::Release()
     }
 }
 
-void VertexBuffer::Recreate()
+void FVertexBuffer::Recreate()
 {
     if (_numVertices)
     {
         // Also make a copy of the current vertex elements, as they are passed by reference and manipulated by Define()
-        TVector<VertexElement> srcElements = _elements;
+        TVector<FVertexElement> srcElements = _elements;
         Define(_usage, _numVertices, srcElements, !_shadowData.IsNull(), _shadowData.Get());
         SetDataLost(!_shadowData.IsNull());
     }
 }
 
-bool VertexBuffer::SetData(size_t firstVertex, size_t numVertices, const void* data)
+bool FVertexBuffer::SetData(size_t firstVertex, size_t numVertices, const void* data)
 {
     PROFILE(UpdateVertexBuffer);
 
@@ -70,7 +70,7 @@ bool VertexBuffer::SetData(size_t firstVertex, size_t numVertices, const void* d
         ErrorString("Out of bounds range for updating vertex buffer");
         return false;
     }
-    if (_buffer && _usage == ResourceUsage::IMMUTABLE)
+    if (_buffer && _usage == EResourceUsage::IMMUTABLE)
     {
         ErrorString("Can not update immutable vertex buffer");
         return false;
@@ -83,7 +83,7 @@ bool VertexBuffer::SetData(size_t firstVertex, size_t numVertices, const void* d
     {
         _graphics->BindVBO(_buffer);
         if (numVertices == _numVertices)
-            glBufferData(GL_ARRAY_BUFFER, numVertices * _vertexSize, data, _usage == ResourceUsage::DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, numVertices * _vertexSize, data, _usage == EResourceUsage::DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
         else
             glBufferSubData(GL_ARRAY_BUFFER, firstVertex * _vertexSize, numVertices * _vertexSize, data);
     }
@@ -91,7 +91,7 @@ bool VertexBuffer::SetData(size_t firstVertex, size_t numVertices, const void* d
     return true;
 }
 
-bool VertexBuffer::Create(const void* data)
+bool FVertexBuffer::Create(const void* data)
 {
     if (_graphics && _graphics->IsInitialized())
     {
@@ -103,7 +103,7 @@ bool VertexBuffer::Create(const void* data)
         }
 
         _graphics->BindVBO(_buffer);
-        glBufferData(GL_ARRAY_BUFFER, _numVertices * _vertexSize, data, _usage == ResourceUsage::DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, _numVertices * _vertexSize, data, _usage == EResourceUsage::DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
         LogStringF("Created vertex buffer numVertices %u vertexSize %u", (unsigned)_numVertices, (unsigned)_vertexSize);
     }
 

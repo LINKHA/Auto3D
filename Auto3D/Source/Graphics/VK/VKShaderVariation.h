@@ -7,16 +7,16 @@
 namespace Auto3D
 {
 
-class Shader;
+class AShader;
 
 /// Compiled shader with specific defines.
-class AUTO_API ShaderVariation : public FRefCounted, public GPUObject
+class AUTO_API FShaderVariation : public FRefCounted, public FGPUObject
 {
 public:
 	/// Construct. Set parent shader and defines but do not compile yet.
-	ShaderVariation(Shader* parent, const FString& defines);
+	FShaderVariation(AShader* parent, const FString& defines);
 	/// Destruct.
-	~ShaderVariation();
+	~FShaderVariation();
 
 	/// Release the compiled shader.
 	void Release() override;
@@ -25,11 +25,11 @@ public:
 	bool Compile();
 
 	/// Return the parent shader resource.
-	Shader* Parent() const;
+	AShader* Parent() const;
 	/// Return full name combined from parent resource name and compilation defines.
 	FString FullName() const;
 	/// Return shader stage.
-	ShaderStage::Type GetStage() const { return _stage; }
+	EShaderStage::Type GetStage() const { return _stage; }
 	/// Return whether compile attempted.
 	bool IsCompiled() const { return _compiled; }
 
@@ -40,9 +40,9 @@ private:
 	/// OpenGL shader object identifier.
 	unsigned _shader;
 	/// Parent shader resource.
-	TWeakPtr<Shader> _parent;
-	/// Shader stage.
-	ShaderStage::Type _stage;
+	TWeakPtr<AShader> _parent;
+	/// AShader stage.
+	EShaderStage::Type _stage;
 	/// Compilation defines.
 	FString _defines;
 	/// Compile attempted flag.

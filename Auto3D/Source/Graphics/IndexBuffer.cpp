@@ -7,7 +7,7 @@
 namespace Auto3D
 {
 
-bool IndexBuffer::Define(ResourceUsage::Type usage, size_t numIndices, size_t indexSize, bool useShadowData, const void* data)
+bool FIndexBuffer::Define(EResourceUsage::Type usage, size_t numIndices, size_t indexSize, bool useShadowData, const void* data)
 {
     PROFILE(DefineIndexBuffer);
 
@@ -18,12 +18,12 @@ bool IndexBuffer::Define(ResourceUsage::Type usage, size_t numIndices, size_t in
         ErrorString("Can not define index buffer with no indices");
         return false;
     }
-    if (usage == ResourceUsage::RENDERTARGET)
+    if (usage == EResourceUsage::RENDERTARGET)
     {
         ErrorString("Rendertarget usage is illegal for index buffers");
         return false;
     }
-    if (usage == ResourceUsage::IMMUTABLE && !data)
+    if (usage == EResourceUsage::IMMUTABLE && !data)
     {
         ErrorString("Immutable index buffer must define initial data");
         return false;

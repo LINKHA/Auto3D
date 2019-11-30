@@ -8,25 +8,29 @@ namespace Auto3D
 static const int FONT_TEXTURE_MIN_SIZE = 128;
 static const int FONT_DPI = 96;
 
-/// %Font file type.
-enum FontType
+/// %AFont file type.
+namespace EFontType
 {
-	FONT_NONE = 0,
-	FONT_FREETYPE,
-	FONT_BITMAP,
-	MAX_FONT_TYPES
-};
+	enum Type
+	{
+		NONE = 0,
+		FREE_TYPE,
+		BIT_MAP,
+		COUNT
+	};
+}
 
-/// %Font resource.
-class AUTO_API Font : public AResource
+
+/// %AFont resource.
+class AUTO_API AFont : public AResource
 {
-	REGISTER_OBJECT_CLASS(Font, AResource)
+	REGISTER_OBJECT_CLASS(AFont, AResource)
 
 public:
 	/// Construct.
-	Font();
+	AFont();
 	/// Destruct.
-	~Font() override;
+	~AFont() override;
 	/// Register object factory.
 	static void RegisterObject();
 
@@ -38,7 +42,7 @@ public:
 	void SetScaledGlyphOffset(const Vector2F& offset);
 
 	/// Return font type.
-	FontType GetFontType() const { return _fontType; }
+	EFontType::Type GetFontType() const { return _fontType; }
 
 	/// Is signed distance field font.
 	bool IsSDFFont() const { return _sdfFont; }
@@ -57,7 +61,7 @@ public:
 	/// Return font data size.
 	unsigned unsigned GetDataSize() { return _fontDataSize; }
 private:
-	/// Font data.
+	/// AFont data.
 	TSharedArrayPtr<unsigned char> _fontData;
 	/// Size of font data.
 	unsigned _fontDataSize;
@@ -65,8 +69,8 @@ private:
 	Vector2I _absoluteOffset;
 	/// Point size scaled position adjustment for glyphs.
 	Vector2F _scaledOffset;
-	/// Font type.
-	FontType _fontType;
+	/// AFont type.
+	EFontType::Type _fontType;
 	/// Signed distance field font flag.
 	bool _sdfFont;
 };

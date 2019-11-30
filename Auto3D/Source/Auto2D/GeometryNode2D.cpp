@@ -42,7 +42,7 @@ Geometry* GeometryNode2D::GetGeometry() const
 	return _geometry;
 }
 
-void GeometryNode2D::SetTexture(Texture* texture)
+void GeometryNode2D::SetTexture(ATexture* texture)
 {
 	_texture = texture;
 

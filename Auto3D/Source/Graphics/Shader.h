@@ -6,18 +6,18 @@
 namespace Auto3D
 {
 
-class ShaderVariation;
+class FShaderVariation;
 
-/// %Shader resource. Defines either vertex or pixel shader source code, from which variations can be compiled by specifying defines.
-class AUTO_API Shader : public AResource
+/// %AShader resource. Defines either vertex or pixel shader source code, from which variations can be compiled by specifying defines.
+class AUTO_API AShader : public AResource
 {
-    REGISTER_OBJECT_CLASS(Shader,AResource)
+    REGISTER_OBJECT_CLASS(AShader,AResource)
 
 public:
     /// Construct.
-    Shader();
+    AShader();
     /// Destruct.
-    ~Shader();
+    ~AShader();
 
     /// Register object factory.
     static void RegisterObject();
@@ -28,12 +28,12 @@ public:
     bool EndLoad() override;
 
     /// Define shader stage and source code. All existing variations are destroyed.
-    void Define(ShaderStage::Type stage, const FString& code);
+    void Define(EShaderStage::Type stage, const FString& code);
     /// Create and return a variation with defines, eg. "PERPIXEL NORMALMAP NUMLIGHTS=4". Existing variation is returned if possible. Variations should be cached to avoid repeated query.
-    ShaderVariation* CreateVariation(const FString& defines = FString::EMPTY);
+    FShaderVariation* CreateVariation(const FString& defines = FString::EMPTY);
     
     /// Return shader stage.
-    ShaderStage::Type GetStage() const { return _stage; }
+    EShaderStage::Type GetStage() const { return _stage; }
     /// Return shader source code.
     const FString& GetSourceCode() const { return _sourceCode; }
 
@@ -44,11 +44,11 @@ private:
     /// Process include statements in the shader source code recursively. Return true if successful.
     bool ProcessIncludes(FString& code, Stream& source);
 
-    /// %Shader variations.
-    THashMap<FStringHash, TSharedPtr<ShaderVariation> > _variations;
-    /// %Shader stage.
-    ShaderStage::Type _stage;
-    /// %Shader source code.
+    /// %AShader variations.
+    THashMap<FStringHash, TSharedPtr<FShaderVariation> > _variations;
+    /// %AShader stage.
+    EShaderStage::Type _stage;
+    /// %AShader source code.
     FString _sourceCode;
 };
 

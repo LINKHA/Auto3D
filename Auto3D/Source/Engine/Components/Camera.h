@@ -11,7 +11,7 @@ namespace Auto3D
 {
 
 /// Billboard camera facing modes.
-namespace FaceCameraMode
+namespace EFaceCameraMode
 {
 	enum Type
 	{
@@ -23,18 +23,18 @@ namespace FaceCameraMode
 	};
 };
 
-class Texture;
+class ATexture;
 
-/// Camera scene node.
-class AUTO_API Camera : public ASpatialNode
+/// ACamera scene node.
+class AUTO_API ACamera : public ASpatialNode
 {
-	REGISTER_OBJECT_CLASS(Camera, ASpatialNode)
+	REGISTER_OBJECT_CLASS(ACamera, ASpatialNode)
 
 public:
     /// Construct.
-    Camera();
+    ACamera();
 	/// Destructor
-	~Camera() = default;
+	~ACamera() = default;
     /// Register factory and attributes.
     static void RegisterObject();
     /// Set near clip distance.
@@ -142,7 +142,7 @@ public:
     /// Return a scene node's LOD scaled distance.
     float LodDistance(float distance, float scale, float bias) const;
     /// Return a world rotation for facing a camera on certain axes based on the existing world rotation.
-    Quaternion FaceCameraRotation(const Vector3F& position, const Quaternion& rotation, FaceCameraMode::Type mode);
+    Quaternion FaceCameraRotation(const Vector3F& position, const Quaternion& rotation, EFaceCameraMode::Type mode);
     /// Get effective world transform for matrix and frustum calculations including reflection but excluding node scaling.
     Matrix3x4F EffectiveWorldTransform() const;
     /// Return if projection parameters are _valid for rendering and raycasting.

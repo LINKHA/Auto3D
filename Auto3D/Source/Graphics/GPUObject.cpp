@@ -7,7 +7,7 @@
 namespace Auto3D
 {
 
-GPUObject::GPUObject() :
+FGPUObject::FGPUObject() :
     _dataLost(false)
 {
 	_graphics = GModuleManager::Get().GraphicsModule();
@@ -15,26 +15,26 @@ GPUObject::GPUObject() :
         _graphics->AddGPUObject(this);
 }
 
-GPUObject::~GPUObject()
+FGPUObject::~FGPUObject()
 {
     if (_graphics)
         _graphics->RemoveGPUObject(this);
 }
 
-void GPUObject::Release()
+void FGPUObject::Release()
 {
 }
 
-void GPUObject::Recreate()
+void FGPUObject::Recreate()
 {
 }
 
-void GPUObject::ClearDataLost()
+void FGPUObject::ClearDataLost()
 {
 	_dataLost = false;
 }
 
-Graphics* GPUObject::GetGraphics() const
+AGraphics* FGPUObject::GetGraphics() const
 {
 	return _graphics;
 }

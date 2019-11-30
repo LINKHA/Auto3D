@@ -58,7 +58,7 @@ void GModuleManager::CreateModules()
 	_log = TUniquePtr<ALog>(new ALog());
 	_input = TUniquePtr<Input>(new Input());
 	_profiler = TUniquePtr<AProfiler>(new AProfiler());
-	_graphics = TUniquePtr<Graphics>(new Graphics());
+	_graphics = TUniquePtr<AGraphics>(new AGraphics());
 	_renderer = TUniquePtr<Renderer>(new Renderer());
 	_time = TUniquePtr<Time>(new Time());
 	_registeredBox = TUniquePtr<RegisteredBox>(new RegisteredBox());
@@ -84,7 +84,7 @@ void GModuleManager::RecreateCacheModule(ResourceCache* cache)
 		_cache = TUniquePtr<ResourceCache>(new ResourceCache());
 }
 
-void GModuleManager::RecreateGraphicsModule(Graphics* graphics)
+void GModuleManager::RecreateGraphicsModule(AGraphics* graphics)
 {
 	if (_graphics)
 		_graphics.Reset();
@@ -92,7 +92,7 @@ void GModuleManager::RecreateGraphicsModule(Graphics* graphics)
 	if (graphics)
 		_graphics = graphics;
 	else
-		_graphics = TUniquePtr<Graphics>(new Graphics());
+		_graphics = TUniquePtr<AGraphics>(new AGraphics());
 }
 
 void GModuleManager::RecreateRendererModule(Renderer* renderer)

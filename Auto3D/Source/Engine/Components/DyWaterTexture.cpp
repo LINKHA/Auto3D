@@ -35,8 +35,8 @@ static GLuint g_parentWidth;
 static GLuint g_parentHeight;
 
 
-static ShaderVariation* waterTextureVSV = nullptr;
-static ShaderVariation* waterTexturePSV = nullptr;
+static FShaderVariation* waterTextureVSV = nullptr;
+static FShaderVariation* waterTexturePSV = nullptr;
 
 
 static bool isDirty = false;
@@ -58,8 +58,8 @@ GLUSuint initWaterTexture(GLUSfloat waterPlaneLength)
 
 	auto cache = GModuleManager::Get().CacheModule();
 
-	waterTextureVSV = cache->LoadResource<Shader>("Shader/Water/WaterTexture.vert")->CreateVariation();
-	waterTexturePSV = cache->LoadResource<Shader>("Shader/Water/WaterTexture.frag")->CreateVariation();
+	waterTextureVSV = cache->LoadResource<AShader>("Shader/Water/WaterTexture.vert")->CreateVariation();
+	waterTexturePSV = cache->LoadResource<AShader>("Shader/Water/WaterTexture.frag")->CreateVariation();
 
 	glGenTextures(1, &g_mirrorTexture);
 	glActiveTexture(GL_TEXTURE0);
@@ -138,7 +138,7 @@ GLUSuint initWaterTexture(GLUSfloat waterPlaneLength)
 
 	auto graphics = GModuleManager::Get().GraphicsModule();
 	graphics->SetShaders(waterTextureVSV, waterTexturePSV);
-	ShaderProgram* waterTextureProgram = graphics->Shaderprogram();
+	FShaderProgram* waterTextureProgram = graphics->Shaderprogram();
 
 	glusMatrix4x4LookAtf(modelViewMatrixWaterTexture, 0.0f, 0.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
@@ -235,7 +235,7 @@ GLUSboolean renderWaterTexture(GLUSfloat passedTime)
 
 	auto graphics = GModuleManager::Get().GraphicsModule();
 	graphics->SetShaders(waterTextureVSV, waterTexturePSV);
-	ShaderProgram* waterTextureProgram = graphics->Shaderprogram();
+	FShaderProgram* waterTextureProgram = graphics->Shaderprogram();
 
 	waterTextureProgram->SetFloat("u_passedTime", passedTime);
 	waterTextureProgram->SetVec4s("u_waveParameters", 4 * NUMBERWAVES, (float*)waveParameters);

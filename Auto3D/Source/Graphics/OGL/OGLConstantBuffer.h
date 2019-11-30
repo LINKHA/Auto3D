@@ -10,13 +10,13 @@ namespace Auto3D
 class JSONValue;
 
 /// GPU buffer for shader constant data.
-class AUTO_API ConstantBuffer : public FRefCounted, public GPUObject
+class AUTO_API FConstantBuffer : public FRefCounted, public FGPUObject
 {
 public:
     /// Construct.
-    ConstantBuffer();
+    FConstantBuffer();
     /// Destruct.
-    ~ConstantBuffer();
+    ~FConstantBuffer();
 
     /// Release the buffer.
     void Release() override;
@@ -28,9 +28,9 @@ public:
     /// Save as JSON data.
     void SaveJSON(JSONValue& dest);
     /// Define the constants being used and create the GPU-side buffer. Return true on success.
-    bool Define(ResourceUsage::Type usage, const TVector<Constant>& srcConstants);
+    bool Define(EResourceUsage::Type usage, const TVector<FConstant>& srcConstants);
     /// Define the constants being used and create the GPU-side buffer. Return true on success.
-    bool Define(ResourceUsage::Type usage, size_t numConstants, const Constant* srcConstants);
+    bool Define(EResourceUsage::Type usage, size_t numConstants, const FConstant* srcConstants);
     /// Set a constant by index. Optionally specify how many elements to update, default all. Return true on success.
     bool SetConstant(size_t index, const void* _data, size_t numElements = 0);
     /// Set a constant by name. Optionally specify how many elements to update, default all. Return true on success.
@@ -51,7 +51,7 @@ public:
     /// Return number of constants.
     size_t GetNumConstants() const { return _constants.Size(); }
     /// Return the constant descriptions.
-    const TVector<Constant>& GetConstants() const { return _constants; }
+    const TVector<FConstant>& GetConstants() const { return _constants; }
     /// Return the index of a constant, or NPOS if not found.
     size_t FindConstantIndex(const FString& name) const;
     /// Return the index of a constant, or NPOS if not found.
@@ -89,11 +89,11 @@ public:
     /// Return whether buffer has unapplied changes.
     bool IsDirty() const { return _dirty; }
     /// Return resource usage type.
-    ResourceUsage::Type GetUsage() const { return _usage; }
+    EResourceUsage::Type GetUsage() const { return _usage; }
     /// Return whether is dynamic.
-    bool IsDynamic() const { return _usage == ResourceUsage::DYNAMIC; }
+    bool IsDynamic() const { return _usage == EResourceUsage::DYNAMIC; }
     /// Return whether is immutable.
-    bool IsImmutable() const { return _usage == ResourceUsage::IMMUTABLE; }
+    bool IsImmutable() const { return _usage == EResourceUsage::IMMUTABLE; }
 
     /// Return the OpenGL buffer identifier. Used internally and should not be called by portable application code.
     unsigned GetGLBuffer() const { return _buffer; }
@@ -107,14 +107,14 @@ private:
 
     /// OpenGL buffer object identifier.
     unsigned _buffer;
-    /// Constant definitions.
-    TVector<Constant> _constants;
+    /// FConstant definitions.
+    TVector<FConstant> _constants;
     /// CPU-side data where updates are collected before applying.
     TAutoArrayPtr<unsigned char> _shadowData;
     /// Total byte _size.
     size_t _byteSize;
     /// AResource usage type.
-    ResourceUsage::Type _usage;
+    EResourceUsage::Type _usage;
     /// Dirty flag.
     bool _dirty;
 };

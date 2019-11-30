@@ -5,24 +5,24 @@ namespace Auto3D
 {
 
 // Relative to the three - dimensional space independent skybox
-class AUTO_API SkyBox : public StaticModel
+class AUTO_API ASkyBox : public AStaticModel
 {
-	REGISTER_OBJECT_CLASS(SkyBox, StaticModel)
+	REGISTER_OBJECT_CLASS(ASkyBox, AStaticModel)
 public:
 	/// Construct
-	SkyBox();
+	ASkyBox();
 	/// Destruct
-	~SkyBox();
+	~ASkyBox();
 	/// Register factory and attributes.
 	static void RegisterObject();
 	/// Create ibl map,irradiance prefilter and brdf lut.
 	void SetupIBLMap();
 	/// Create an irradiance cubemap, and re-scale capture FBO to irradiance scale.
-	const TSharedPtr<Texture>& SetupIrradianceMap();
+	const TSharedPtr<ATexture>& SetupIrradianceMap();
 	/// Create a pre-filter cubemap, and re-scale capture FBO to pre-filter scale.
-	const TSharedPtr<Texture>& SetupPrefilterMap();
+	const TSharedPtr<ATexture>& SetupPrefilterMap();
 	/// Generate a 2D LUT from the BRDF equations used.
-	const TSharedPtr<Texture>& SetupBrdfLUT();
+	const TSharedPtr<ATexture>& SetupBrdfLUT();
 	/// Set ibl map size.
 	void SetMapSize(int mapSize) { _mapSize = mapSize; }
 	/// Set irradiance size.
@@ -30,11 +30,11 @@ public:
 	/// Set prefilter size.
 	void SetPrefilterSize(int prefilterSize) { _prefilterSize = prefilterSize; }
 	/// Get irradiance map.
-	const TSharedPtr<Texture>& GetIrradianceMap();
+	const TSharedPtr<ATexture>& GetIrradianceMap();
 	/// Get prefilter map.
-	const TSharedPtr<Texture>& GetPrefilterMap();
+	const TSharedPtr<ATexture>& GetPrefilterMap();
 	/// Get Brdf lut.
-	const TSharedPtr<Texture>& GetBrdfLUT();
+	const TSharedPtr<ATexture>& GetBrdfLUT();
 private:
 	/// Recalculate the world-space bounding box.
 	void OnWorldBoundingBoxUpdate();
@@ -46,11 +46,11 @@ private:
 	int _prefilterSize;
 
 	/// Irradiance map(only IBL).
-	TSharedPtr<Texture> _irradianceMap;
+	TSharedPtr<ATexture> _irradianceMap;
 	/// Prefilter map(only IBL).
-	TSharedPtr<Texture> _prefilterMap;
+	TSharedPtr<ATexture> _prefilterMap;
 	/// BRDF lut(only IBL).
-	TSharedPtr<Texture> _brdfLUT;
+	TSharedPtr<ATexture> _brdfLUT;
 };
 
 }

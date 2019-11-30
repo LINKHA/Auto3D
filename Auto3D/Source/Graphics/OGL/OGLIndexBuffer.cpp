@@ -10,20 +10,20 @@
 namespace Auto3D
 {
 
-IndexBuffer::IndexBuffer() :
+FIndexBuffer::FIndexBuffer() :
     _buffer(0),
     _numIndices(0),
     _indexSize(0),
-    _usage(ResourceUsage::DEFAULT)
+    _usage(EResourceUsage::DEFAULT)
 {
 }
 
-IndexBuffer::~IndexBuffer()
+FIndexBuffer::~FIndexBuffer()
 {
     Release();
 }
 
-void IndexBuffer::Release()
+void FIndexBuffer::Release()
 {
     if (_graphics && _graphics->GetIndexBuffer() == this)
         _graphics->SetIndexBuffer(nullptr);
@@ -35,7 +35,7 @@ void IndexBuffer::Release()
     }
 }
 
-void IndexBuffer::Recreate()
+void FIndexBuffer::Recreate()
 {
     if (_numIndices)
     {
@@ -44,7 +44,7 @@ void IndexBuffer::Recreate()
     }
 }
 
-bool IndexBuffer::SetData(size_t firstIndex, size_t numIndices, const void* data)
+bool FIndexBuffer::SetData(size_t firstIndex, size_t numIndices, const void* data)
 {
     PROFILE(UpdateIndexBuffer);
 
@@ -58,7 +58,7 @@ bool IndexBuffer::SetData(size_t firstIndex, size_t numIndices, const void* data
         ErrorString("Out of bounds range for updating index buffer");
         return false;
     }
-    if (_buffer && _usage == ResourceUsage::IMMUTABLE)
+    if (_buffer && _usage == EResourceUsage::IMMUTABLE)
     {
         ErrorString("Can not update immutable index buffer");
         return false;
@@ -71,7 +71,7 @@ bool IndexBuffer::SetData(size_t firstIndex, size_t numIndices, const void* data
     {
         _graphics->SetIndexBuffer(this);
         if (numIndices == _numIndices)
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * _indexSize, data, _usage == ResourceUsage::DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * _indexSize, data, _usage == EResourceUsage::DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
         else
             glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, firstIndex * _indexSize, numIndices * _indexSize, data);
     }
@@ -79,7 +79,7 @@ bool IndexBuffer::SetData(size_t firstIndex, size_t numIndices, const void* data
     return true;
 }
 
-bool IndexBuffer::Create(const void* data)
+bool FIndexBuffer::Create(const void* data)
 {
     if (_graphics && _graphics->IsInitialized())
     {
@@ -91,7 +91,7 @@ bool IndexBuffer::Create(const void* data)
         }
 
         _graphics->SetIndexBuffer(this);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, _numIndices * _indexSize, data, _usage == ResourceUsage::DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, _numIndices * _indexSize, data, _usage == EResourceUsage::DYNAMIC ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
         LogStringF("Created index buffer numIndices %u indexSize %u", (unsigned)_numIndices, (unsigned)_indexSize);
     }
 

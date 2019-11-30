@@ -50,7 +50,7 @@ void Sample::CreateLogo()
 {
 	auto* cache = GModuleManager::Get().CacheModule();
 	Sprite2D* logoLong = scene2d->CreateChild<Sprite2D>();
-	logoLong->SetTexture(cache->LoadResource<Texture>("Texture/logoLong.png"));
+	logoLong->SetTexture(cache->LoadResource<ATexture>("Texture/logoLong.png"));
 	logoLong->SetScale(Vector3F(3.0f, 0.8f, 1.0f));
 	logoLong->SetPosition(Vector3F(7.0f, -9.2f, -10.0f));
 	logoLong->SetLayerName("UI");

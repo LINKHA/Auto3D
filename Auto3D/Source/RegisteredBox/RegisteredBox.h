@@ -7,7 +7,7 @@ namespace Auto3D
 {
 
 class Scene;
-class Camera;
+class ACamera;
 class Scene2D;
 class Camera2D;
 class Canvas;

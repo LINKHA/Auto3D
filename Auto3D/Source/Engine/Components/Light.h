@@ -10,11 +10,11 @@
 namespace Auto3D
 {
 
-class Texture;
+class ATexture;
 struct ShadowView;
 
-/// %Light types.
-namespace LightType
+/// %ALight types.
+namespace ELightType
 {
 	enum Type
 	{
@@ -26,26 +26,26 @@ namespace LightType
 
 
 /// Dynamic light scene node.
-class AUTO_API Light : public OctreeNode
+class AUTO_API ALight : public AOctreeNode
 {
-	REGISTER_OBJECT_CLASS(Light, OctreeNode)
+	REGISTER_OBJECT_CLASS(ALight, AOctreeNode)
     
 public:
     /// Construct.
-    Light();
+    ALight();
     /// Destruct.
-    virtual ~Light();
+    virtual ~ALight();
 
     /// Register factory and attributes.
     static void RegisterObject();
 
     /// Prepare object for rendering. Reset framenumber and calculate distance from camera. Called by Renderer.
-    void OnPrepareRender(unsigned frameNumber, Camera* camera) override;
+    void OnPrepareRender(unsigned frameNumber, ACamera* camera) override;
     /// Perform ray test on self and add possible hit to the result vector.
     void OnRaycast(TVector<RaycastResult>& dest, const Ray& ray, float maxDistance) override;
 
     /// Set light type.
-    void SetLightType(LightType::Type type);
+    void SetLightType(ELightType::Type type);
     /// Set color. Alpha component contains specular intensity.
     void SetColor(const Color& color);
     /// Set range.
@@ -66,7 +66,7 @@ public:
     void SetSlopeScaledDepthBias(float bias);
 
     /// Return light type.
-    LightType::Type GetLightType() const { return _lightType; }
+    ELightType::Type GetLightType() const { return _lightType; }
     /// Return color.
     const Color& GetColor() const { return _color; }
     /// Return range.
@@ -103,11 +103,11 @@ public:
     Sphere GetWorldSphere() const;
 
     /// Set shadow map and viewport within it. Called by Renderer.
-    void SetShadowMap(Texture* shadowMap, const RectI& shadowRect = RectI::ZERO);
+    void SetShadowMap(ATexture* shadowMap, const RectI& shadowRect = RectI::ZERO);
     /// Setup shadow cameras and viewports. Called by Renderer.
-    void SetupShadowViews(Camera* mainCamera, TVector<TAutoPtr<ShadowView> >& shadowViews, size_t& useIndex);
+    void SetupShadowViews(ACamera* mainCamera, TVector<TAutoPtr<ShadowView> >& shadowViews, size_t& useIndex);
     /// Return shadow map.
-    Texture* GetShadowMap() const { return _shadowMap; }
+    ATexture* GetShadowMap() const { return _shadowMap; }
     /// Return actual shadow map rectangle. May be smaller than the requested total shadow map _size.
     const RectI& GetShadowRect() const { return _shadowRect; }
     /// Return shadow mapping matrices.
@@ -127,15 +127,15 @@ private:
     /// Return light type as int. Used in serialization.
     int LightTypeAttr() const;
     
-    /// Light type.
-    LightType::Type _lightType;
-    /// Light color.
+    /// ALight type.
+    ELightType::Type _lightType;
+    /// ALight color.
     Color _color;
     /// Range.
     float _range;
     /// Spotlight field of view.
     float _fov;
-    /// Light layer mask.
+    /// ALight layer mask.
     unsigned _lightMask;
     /// Shadow map resolution in pixels.
     int _shadowMapSize;
@@ -143,12 +143,12 @@ private:
     Vector4F _shadowSplits;
     /// Directional shadow fade start.
     float _shadowFadeStart;
-    /// Constant depth bias.
+    /// FConstant depth bias.
     int _depthBias;
     /// Slope-scaled depth bias.
     float _slopeScaledDepthBias;
     /// Current shadow map texture.
-    Texture* _shadowMap;
+    ATexture* _shadowMap;
     /// Rectangle within the shadow map.
     RectI _shadowRect;
     /// Shadow mapping matrices.

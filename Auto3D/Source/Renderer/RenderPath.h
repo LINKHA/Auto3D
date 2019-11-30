@@ -47,7 +47,7 @@ struct AUTO_API RenderPassDesc
 	{
 	}
 
-	/// %Pass name.
+	/// %FPass name.
 	FString _name;
 	/// Sorting mode.
 	RenderCommandSortMode::Type _sort;

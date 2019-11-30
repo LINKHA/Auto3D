@@ -6,7 +6,7 @@
 namespace Auto3D
 {
 
-OctreeNode::OctreeNode() :
+AOctreeNode::AOctreeNode() :
     _octree(nullptr),
     _octant(nullptr),
     _lastFrameNumber(0),
@@ -15,29 +15,29 @@ OctreeNode::OctreeNode() :
     SetFlag(NF_BOUNDING_BOX_DIRTY, true);
 }
 
-OctreeNode::~OctreeNode()
+AOctreeNode::~AOctreeNode()
 {
     RemoveFromOctree();
 }
 
-void OctreeNode::RegisterObject()
+void AOctreeNode::RegisterObject()
 {
-    CopyBaseAttributes<OctreeNode, ASpatialNode>();
-    RegisterAttribute("castShadows", &OctreeNode::CastShadows, &OctreeNode::SetCastShadows, false);
+    CopyBaseAttributes<AOctreeNode, ASpatialNode>();
+    RegisterAttribute("castShadows", &AOctreeNode::CastShadows, &AOctreeNode::SetCastShadows, false);
 }
 
-void OctreeNode::SetCastShadows(bool enable)
+void AOctreeNode::SetCastShadows(bool enable)
 {
     SetFlag(NF_CASTSHADOWS, enable);
 }
 
-void OctreeNode::OnPrepareRender(unsigned frameNumber, Camera* camera)
+void AOctreeNode::OnPrepareRender(unsigned frameNumber, ACamera* camera)
 {
     _lastFrameNumber = frameNumber;
     _distance = camera->Distance(GetWorldPosition());
 }
 
-void OctreeNode::OnRaycast(TVector<RaycastResult>& dest, const Ray& ray, float maxDistance)
+void AOctreeNode::OnRaycast(TVector<RaycastResult>& dest, const Ray& ray, float maxDistance)
 {
     float distance = ray.HitDistance(WorldBoundingBox());
     if (distance < maxDistance)
@@ -52,7 +52,7 @@ void OctreeNode::OnRaycast(TVector<RaycastResult>& dest, const Ray& ray, float m
     }
 }
 
-void OctreeNode::OnSceneSet(Scene* newScene, Scene*)
+void AOctreeNode::OnSceneSet(Scene* newScene, Scene*)
 {
     /// Remove from current octree if any
     RemoveFromOctree();
@@ -67,7 +67,7 @@ void OctreeNode::OnSceneSet(Scene* newScene, Scene*)
     }
 }
 
-void OctreeNode::OnTransformChanged()
+void AOctreeNode::OnTransformChanged()
 {
     ASpatialNode::OnTransformChanged();
     SetFlag(NF_BOUNDING_BOX_DIRTY, true);
@@ -76,14 +76,14 @@ void OctreeNode::OnTransformChanged()
         _octree->QueueUpdate(this);
 }
 
-void OctreeNode::OnWorldBoundingBoxUpdate() const
+void AOctreeNode::OnWorldBoundingBoxUpdate() const
 {
-    // The OctreeNode base class does not have a defined _size, so represent as a point
+    // The AOctreeNode base class does not have a defined _size, so represent as a point
     _worldBoundingBox.Define(GetWorldPosition());
     SetFlag(NF_BOUNDING_BOX_DIRTY, false);
 }
 
-void OctreeNode::RemoveFromOctree()
+void AOctreeNode::RemoveFromOctree()
 {
     if (_octree)
     {

@@ -23,13 +23,13 @@ static const EAttributeType::Type elementToAttribute[] =
     EAttributeType::Count
 };
 
-bool ConstantBuffer::LoadJSON(const JSONValue& source)
+bool FConstantBuffer::LoadJSON(const JSONValue& source)
 {
-    ResourceUsage::Type usage = ResourceUsage::DEFAULT;
+    EResourceUsage::Type usage = EResourceUsage::DEFAULT;
     if (source.Contains("usage"))
-        usage = (ResourceUsage::Type)FString::ListIndex(source["usage"].GetString(), resourceUsageNames, ResourceUsage::DEFAULT);
+        usage = (EResourceUsage::Type)FString::ListIndex(source["usage"].GetString(), resourceUsageNames, EResourceUsage::DEFAULT);
 
-    TVector<Constant> constants;
+    TVector<FConstant> constants;
 
     const JSONValue& jsonConstants = source["constants"];
     for (size_t i = 0; i < jsonConstants.Size(); ++i)
@@ -37,10 +37,10 @@ bool ConstantBuffer::LoadJSON(const JSONValue& source)
         const JSONValue& jsonConstant = jsonConstants[i];
         const FString& type = jsonConstant["type"].GetString();
 
-        Constant newConstant;
+        FConstant newConstant;
         newConstant._name = jsonConstant["name"].GetString();
-        newConstant._type = (ElementType::Type)FString::ListIndex(type, elementTypeNames, ElementType::Count);
-        if (newConstant._type == ElementType::Count)
+        newConstant._type = (EElementType::Type)FString::ListIndex(type, elementTypeNames, EElementType::Count);
+        if (newConstant._type == EElementType::Count)
         {
             ErrorStringF("Unknown element type %s in constant buffer JSON", type.CString());
             break;
@@ -73,7 +73,7 @@ bool ConstantBuffer::LoadJSON(const JSONValue& source)
     return true;
 }
 
-void ConstantBuffer::SaveJSON(JSONValue& dest)
+void FConstantBuffer::SaveJSON(JSONValue& dest)
 {
     dest.SetEmptyObject();
     dest["usage"] = resourceUsageNames[_usage];
@@ -81,7 +81,7 @@ void ConstantBuffer::SaveJSON(JSONValue& dest)
 
     for (size_t i = 0; i < _constants.Size(); ++i)
     {
-        const Constant& constant = _constants[i];
+        const FConstant& constant = _constants[i];
         EAttributeType::Type attrType = elementToAttribute[constant._type];
 
         JSONValue jsonConstant;
@@ -103,12 +103,12 @@ void ConstantBuffer::SaveJSON(JSONValue& dest)
     }
 }
 
-bool ConstantBuffer::Define(ResourceUsage::Type usage, const TVector<Constant>& srcConstants)
+bool FConstantBuffer::Define(EResourceUsage::Type usage, const TVector<FConstant>& srcConstants)
 {
     return Define(usage, srcConstants.Size(), srcConstants.Size() ? &srcConstants[0] : nullptr);
 }
 
-bool ConstantBuffer::Define(ResourceUsage::Type usage, size_t numConstants, const Constant* srcConstants)
+bool FConstantBuffer::Define(EResourceUsage::Type usage, size_t numConstants, const FConstant* srcConstants)
 {
     PROFILE(DefineConstantBuffer);
     
@@ -119,7 +119,7 @@ bool ConstantBuffer::Define(ResourceUsage::Type usage, size_t numConstants, cons
         ErrorString("Can not define constant buffer with no constants");
         return false;
     }
-    if (usage == ResourceUsage::RENDERTARGET)
+    if (usage == EResourceUsage::RENDERTARGET)
     {
         ErrorString("Rendertarget usage is illegal for constant buffers");
         return false;
@@ -131,7 +131,7 @@ bool ConstantBuffer::Define(ResourceUsage::Type usage, size_t numConstants, cons
     
     while (numConstants--)
     {
-        if (srcConstants->_type == ElementType::UBYTE4)
+        if (srcConstants->_type == EElementType::UBYTE4)
         {
             ErrorString("UBYTE4 type is not supported in constant buffers");
             _constants.Clear();
@@ -139,7 +139,7 @@ bool ConstantBuffer::Define(ResourceUsage::Type usage, size_t numConstants, cons
             return false;
         }
 
-        Constant newConstant;
+        FConstant newConstant;
         newConstant._type = srcConstants->_type;
         newConstant._name = srcConstants->_name;
         newConstant._numElements = srcConstants->_numElements;
@@ -161,18 +161,18 @@ bool ConstantBuffer::Define(ResourceUsage::Type usage, size_t numConstants, cons
     
     _shadowData = new unsigned char[_byteSize];
 
-    if (_usage != ResourceUsage::IMMUTABLE)
+    if (_usage != EResourceUsage::IMMUTABLE)
         return Create();
     else
         return true;
 }
 
-bool ConstantBuffer::SetConstant(size_t index, const void* data, size_t numElements)
+bool FConstantBuffer::SetConstant(size_t index, const void* data, size_t numElements)
 {
     if (index >= _constants.Size())
         return false;
     
-    const Constant& constant = _constants[index];
+    const FConstant& constant = _constants[index];
     
     if (!numElements || numElements > constant._numElements)
         numElements = constant._numElements;
@@ -182,12 +182,12 @@ bool ConstantBuffer::SetConstant(size_t index, const void* data, size_t numEleme
     return true;
 }
 
-bool ConstantBuffer::SetConstant(const FString& name, const void* data, size_t numElements)
+bool FConstantBuffer::SetConstant(const FString& name, const void* data, size_t numElements)
 {
     return SetConstant(name.CString(), data, numElements);
 }
 
-bool ConstantBuffer::SetConstant(const char* name, const void* data, size_t numElements)
+bool FConstantBuffer::SetConstant(const char* name, const void* data, size_t numElements)
 {
     for (size_t i = 0; i < _constants.Size(); ++i)
     {
@@ -198,17 +198,17 @@ bool ConstantBuffer::SetConstant(const char* name, const void* data, size_t numE
     return false;
 }
 
-bool ConstantBuffer::Apply()
+bool FConstantBuffer::Apply()
 {
     return _dirty ? SetData(_shadowData.Get()) : true;
 }
 
-size_t ConstantBuffer::FindConstantIndex(const FString& name) const
+size_t FConstantBuffer::FindConstantIndex(const FString& name) const
 {
     return FindConstantIndex(name.CString());
 }
 
-size_t ConstantBuffer::FindConstantIndex(const char* name) const
+size_t FConstantBuffer::FindConstantIndex(const char* name) const
 {
     for (size_t i = 0; i < _constants.Size(); ++i)
     {
@@ -219,18 +219,18 @@ size_t ConstantBuffer::FindConstantIndex(const char* name) const
     return NPOS;
 }
 
-const void* ConstantBuffer::ConstantValue(size_t index, size_t elementIndex) const
+const void* FConstantBuffer::ConstantValue(size_t index, size_t elementIndex) const
 {
     return (index < _constants.Size() && elementIndex < _constants[index]._numElements) ? _shadowData.Get() + 
         _constants[index]._offset + elementIndex * _constants[index]._elementSize : nullptr;
 }
 
-const void* ConstantBuffer::ConstantValue(const FString& name, size_t elementIndex) const
+const void* FConstantBuffer::ConstantValue(const FString& name, size_t elementIndex) const
 {
     return ConstantValue(FindConstantIndex(name), elementIndex);
 }
 
-const void* ConstantBuffer::ConstantValue(const char* name, size_t elementIndex) const
+const void* FConstantBuffer::ConstantValue(const char* name, size_t elementIndex) const
 {
     return ConstantValue(FindConstantIndex(name), elementIndex);
 }

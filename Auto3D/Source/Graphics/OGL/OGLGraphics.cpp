@@ -154,9 +154,9 @@ public:
 	/// OpenGL FBO handle.
 	unsigned buffer;
 	/// Color rendertargets bound to this FBO.
-	Texture* renderTargets[MAX_RENDERTARGETS];
+	ATexture* renderTargets[MAX_RENDERTARGETS];
 	/// Depth-stencil texture bound to this FBO.
-	Texture* depthStencil;
+	ATexture* depthStencil;
 	/// Enabled draw buffers.
 	unsigned drawBuffers;
 	/// First use flag; used for setting up readbuffers.
@@ -164,47 +164,47 @@ public:
 };
 
 
-Graphics::Graphics() :
+AGraphics::AGraphics() :
 	_backbufferSize(Vector2I::ZERO),
 	_renderTargetSize(Vector2I::ZERO),
-	_attributesBySemantic(ElementSemantic::Count),
+	_attributesBySemantic(EElementSemantic::Count),
 	_multisample(1),
 #ifndef AUTO_OPENGL_ES
 #	if _WIN32 || _WIN64
-	_graphicsVersion(GraphicsVersion::OPENGL_4_3),
-	_graphicsSLVersion(GraphicsSLVersion::GLSL_430),
+	_graphicsVersion(EGraphicsVersion::OPENGL_4_3),
+	_graphicsSLVersion(EGraphicsSLVersion::GLSL_430),
 #	else
-	_graphicsVersion(GraphicsVersion::OPENGL_3_3),
-	_graphicsSLVersion(GraphicsSLVersion::GLSL_330),
+	_graphicsVersion(EGraphicsVersion::OPENGL_3_3),
+	_graphicsSLVersion(EGraphicsSLVersion::GLSL_330),
 #	endif
 #else
-	_graphicsVersion(GraphicsVersion::OPENGL_ES_3_0),
-	_graphicsSLVersion(GraphicsSLVersion::GLSL_ES_300),
+	_graphicsVersion(EGraphicsVersion::OPENGL_ES_3_0),
+	_graphicsSLVersion(EGraphicsSLVersion::GLSL_ES_300),
 #endif
 
 	_vsync(false)
 {
 	_window = TSharedPtr<Window>(new Window());
-	SubscribeToEvent(_window->_resizeEvent, &Graphics::HandleResize);
+	SubscribeToEvent(_window->_resizeEvent, &AGraphics::HandleResize);
 	ResetState();
 }
 
-Graphics::~Graphics()
+AGraphics::~AGraphics()
 {
 	Close();
 }
 
-void Graphics::StartupModule()
+void AGraphics::StartupModule()
 {
 
 }
 
-void Graphics::ShutdownModule()
+void AGraphics::ShutdownModule()
 {
 
 }
 
-void Graphics::CheckFeatureSupport()
+void AGraphics::CheckFeatureSupport()
 {
 	// Check supported features: light pre-pass, deferred rendering and hardware depth texture
 	_lightPrepassSupport = false;
@@ -228,12 +228,12 @@ void Graphics::CheckFeatureSupport()
 		_deferredSupport = true;
 }
 
-bool Graphics::SetMode(WindowModeDesc& windowModeDesc)
+bool AGraphics::SetMode(WindowModeDesc& windowModeDesc)
 {
 	return SetMode(windowModeDesc._size, windowModeDesc._multisample, windowModeDesc._fullscreen, windowModeDesc._resizable, windowModeDesc._center, windowModeDesc._borderless, windowModeDesc._highDPI);
 }
 
-bool Graphics::SetMode(const RectI& size, int multisample, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
+bool AGraphics::SetMode(const RectI& size, int multisample, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
 {
 	WindowModeDesc& windowModeDesc = _window->ModeDesc();
 	windowModeDesc._size = size;
@@ -283,7 +283,7 @@ bool Graphics::SetMode(const RectI& size, int multisample, bool fullscreen, bool
 			// Recreate GPU objects that can be recreated
 			for (auto it = _gpuObjects.Begin(); it != _gpuObjects.End(); ++it)
 			{
-				GPUObject* object = *it;
+				FGPUObject* object = *it;
 				object->Recreate();
 			}
 			SendEvent(_contextRestoreEvent);
@@ -319,7 +319,7 @@ bool Graphics::SetMode(const RectI& size, int multisample, bool fullscreen, bool
 	return true;
 }
 
-bool Graphics::SetFullscreen(bool enable)
+bool AGraphics::SetFullscreen(bool enable)
 {
 	if (!IsInitialized())
 		return false;
@@ -327,7 +327,7 @@ bool Graphics::SetFullscreen(bool enable)
 		return SetMode(RectI(0, 0, _backbufferSize._x, _backbufferSize._y), enable, _window->IsResizable(), _multisample);
 }
 
-bool Graphics::SetMultisample(int multisample)
+bool AGraphics::SetMultisample(int multisample)
 {
 	if (!IsInitialized())
 		return false;
@@ -335,14 +335,14 @@ bool Graphics::SetMultisample(int multisample)
 		return SetMode(RectI(0, 0, _backbufferSize._x, _backbufferSize._y), _window->IsFullscreen(), _window->IsResizable(), multisample);
 }
 
-void Graphics::SetVSync(bool enable)
+void AGraphics::SetVSync(bool enable)
 {
 	_vsync = enable;
 	if (_context)
 		_context->SetVSync(enable);
 }
 
-void Graphics::Close()
+void AGraphics::Close()
 {
 	_shaderPrograms.Clear();
 	_framebuffers.Clear();
@@ -350,7 +350,7 @@ void Graphics::Close()
 	// Release all GPU objects
 	for (auto it = _gpuObjects.Begin(); it != _gpuObjects.End(); ++it)
 	{
-		GPUObject* object = *it;
+		FGPUObject* object = *it;
 		object->Release();
 	}
 
@@ -359,7 +359,7 @@ void Graphics::Close()
 	ResetState();
 }
 
-void Graphics::Present()
+void AGraphics::Present()
 {
 	PROFILE(Present);
 
@@ -374,21 +374,21 @@ void Graphics::Present()
 	glBindVertexArray(0);
 }
 
-void Graphics::Prepare()
+void AGraphics::Prepare()
 {
 	PROFILE(Prepare);
 
 	glBindVertexArray(_vertexArrayObject);
 }
 
-void Graphics::SetRenderTarget(Texture* renderTarget, Texture* depthStencil)
+void AGraphics::SetRenderTarget(ATexture* renderTarget, ATexture* depthStencil)
 {
 	_renderTargetVector.Resize(1);
 	_renderTargetVector[0] = renderTarget;
 	SetRenderTargets(_renderTargetVector, depthStencil);
 }
 
-void Graphics::SetRenderTargets(const TVector<Texture*>& renderTargets, Texture* depthStencil)
+void AGraphics::SetRenderTargets(const TVector<ATexture*>& renderTargets, ATexture* depthStencil)
 {
 	for (size_t i = 0; i < MAX_RENDERTARGETS && i < renderTargets.Size(); ++i)
 		_renderTargets[i] = (renderTargets[i] && renderTargets[i]->IsRenderTarget()) ? renderTargets[i] : nullptr;
@@ -408,7 +408,7 @@ void Graphics::SetRenderTargets(const TVector<Texture*>& renderTargets, Texture*
 	_framebufferDirty = true;
 }
 
-void Graphics::SetViewport(const RectI& viewport)
+void AGraphics::SetViewport(const RectI& viewport)
 {
 	PrepareFramebuffer();
 
@@ -425,7 +425,7 @@ void Graphics::SetViewport(const RectI& viewport)
 		glViewport(_viewport.Left(), _viewport.Top(), _viewport.Width(), _viewport.Height());
 }
 
-void Graphics::SetVertexBuffer(size_t index, VertexBuffer* buffer)
+void AGraphics::SetVertexBuffer(size_t index, FVertexBuffer* buffer)
 {
 	if (index < MAX_VERTEX_STREAMS && buffer != _vertexBuffers[index])
 	{
@@ -434,7 +434,7 @@ void Graphics::SetVertexBuffer(size_t index, VertexBuffer* buffer)
 	}
 }
 
-void Graphics::SetIndexBuffer(IndexBuffer* buffer)
+void AGraphics::SetIndexBuffer(FIndexBuffer* buffer)
 {
 	if (_indexBuffer != buffer)
 	{
@@ -443,16 +443,16 @@ void Graphics::SetIndexBuffer(IndexBuffer* buffer)
 	}
 }
 
-void Graphics::SetConstantBuffer(ShaderStage::Type stage, size_t index, ConstantBuffer* buffer)
+void AGraphics::SetConstantBuffer(EShaderStage::Type stage, size_t index, FConstantBuffer* buffer)
 {
-	if (stage < ShaderStage::Count && index < MAX_CONSTANT_BUFFERS && buffer != _constantBuffers[stage][index])
+	if (stage < EShaderStage::Count && index < MAX_CONSTANT_BUFFERS && buffer != _constantBuffers[stage][index])
 	{
 		_constantBuffers[stage][index] = buffer;
 		unsigned bufferObject = buffer ? buffer->GetGLBuffer() : 0;
 
 		switch (stage)
 		{
-		case ShaderStage::VS:
+		case EShaderStage::VS:
 			if (index < _vsConstantBuffers)
 			{
 				glBindBufferBase(GL_UNIFORM_BUFFER, (unsigned)index, bufferObject);
@@ -460,7 +460,7 @@ void Graphics::SetConstantBuffer(ShaderStage::Type stage, size_t index, Constant
 			}
 			break;
 
-		case ShaderStage::PS:
+		case EShaderStage::PS:
 			if (index < _psConstantBuffers)
 			{
 				glBindBufferBase(GL_UNIFORM_BUFFER, (unsigned)(index + _vsConstantBuffers), bufferObject);
@@ -474,7 +474,7 @@ void Graphics::SetConstantBuffer(ShaderStage::Type stage, size_t index, Constant
 	}
 }
 
-void Graphics::SetTexture(size_t index, Texture* texture)
+void AGraphics::SetTexture(size_t index, ATexture* texture)
 {
 	if (index < MAX_TEXTURE_UNITS && texture != _textures[index])
 	{
@@ -503,14 +503,14 @@ void Graphics::SetTexture(size_t index, Texture* texture)
 	}
 }
 
-void Graphics::SetShaders(ShaderVariation* vs, ShaderVariation* ps)
+void AGraphics::SetShaders(FShaderVariation* vs, FShaderVariation* ps)
 {
 	if (vs == _vertexShader && ps == _pixelShader)
 		return;
 
 	if (vs != _vertexShader)
 	{
-		if (vs && vs->GetStage() == ShaderStage::VS)
+		if (vs && vs->GetStage() == EShaderStage::VS)
 		{
 			if (!vs->IsCompiled())
 				vs->Compile();
@@ -521,7 +521,7 @@ void Graphics::SetShaders(ShaderVariation* vs, ShaderVariation* ps)
 
 	if (ps != _pixelShader)
 	{
-		if (ps && ps->GetStage() == ShaderStage::PS)
+		if (ps && ps->GetStage() == EShaderStage::PS)
 		{
 			if (!ps->IsCompiled())
 				ps->Compile();
@@ -542,7 +542,7 @@ void Graphics::SetShaders(ShaderVariation* vs, ShaderVariation* ps)
 		}
 		else
 		{
-			ShaderProgram* newProgram = new ShaderProgram(_vertexShader, _pixelShader);
+			FShaderProgram* newProgram = new FShaderProgram(_vertexShader, _pixelShader);
 			_shaderPrograms[key] = newProgram;
 			// Note: if the linking is successful, glUseProgram() will have been called
 			if (newProgram->Link())
@@ -563,7 +563,7 @@ void Graphics::SetShaders(ShaderVariation* vs, ShaderVariation* ps)
 	_vertexAttributesDirty = true;
 }
 
-void Graphics::SetColorState(const BlendModeDesc& blendMode, bool alphaToCoverage, unsigned char colorWriteMask)
+void AGraphics::SetColorState(const FBlendModeDesc& blendMode, bool alphaToCoverage, unsigned char colorWriteMask)
 {
 	_renderState._blendMode = blendMode;
 	_renderState._colorWriteMask = colorWriteMask;
@@ -572,7 +572,7 @@ void Graphics::SetColorState(const BlendModeDesc& blendMode, bool alphaToCoverag
 	_blendStateDirty = true;
 }
 
-void Graphics::SetColorState(BlendMode::Type blendMode, bool alphaToCoverage, unsigned char colorWriteMask)
+void AGraphics::SetColorState(EBlendMode::Type blendMode, bool alphaToCoverage, unsigned char colorWriteMask)
 {
 	_renderState._blendMode = blendModes[blendMode];
 	_renderState._colorWriteMask = colorWriteMask;
@@ -581,7 +581,7 @@ void Graphics::SetColorState(BlendMode::Type blendMode, bool alphaToCoverage, un
 	_blendStateDirty = true;
 }
 
-void Graphics::SetDepthState(CompareFunc::Type depthFunc, bool depthWrite, bool depthClip, int depthBias, float slopeScaledDepthBias)
+void AGraphics::SetDepthState(ECompareFunc::Type depthFunc, bool depthWrite, bool depthClip, int depthBias, float slopeScaledDepthBias)
 {
 	_renderState._depthFunc = depthFunc;
 	_renderState._depthWrite = depthWrite;
@@ -593,7 +593,7 @@ void Graphics::SetDepthState(CompareFunc::Type depthFunc, bool depthWrite, bool 
 	_rasterizerStateDirty = true;
 }
 
-void Graphics::SetRasterizerState(CullMode::Type cullMode, FillMode::Type fillMode)
+void AGraphics::SetRasterizerState(ECullMode::Type cullMode, EFillMode::Type fillMode)
 {
 	_renderState._cullMode = cullMode;
 	_renderState._fillMode = fillMode;
@@ -601,7 +601,7 @@ void Graphics::SetRasterizerState(CullMode::Type cullMode, FillMode::Type fillMo
 	_rasterizerStateDirty = true;
 }
 
-void Graphics::SetScissorTest(bool scissorEnable, const RectI& scissorRect)
+void AGraphics::SetScissorTest(bool scissorEnable, const RectI& scissorRect)
 {
 	_renderState._scissorEnable = scissorEnable;
 	/// \todo Implement a member function in IntRect for clipping
@@ -613,7 +613,7 @@ void Graphics::SetScissorTest(bool scissorEnable, const RectI& scissorRect)
 	_rasterizerStateDirty = true;
 }
 
-void Graphics::SetStencilTest(bool stencilEnable, const StencilTestDesc& stencilTest, unsigned char stencilRef)
+void AGraphics::SetStencilTest(bool stencilEnable, const FStencilTestDesc& stencilTest, unsigned char stencilRef)
 {
 	_renderState._stencilEnable = stencilEnable;
 	_renderState._stencilTest = stencilTest;
@@ -622,19 +622,19 @@ void Graphics::SetStencilTest(bool stencilEnable, const StencilTestDesc& stencil
 	_depthStateDirty = true;
 }
 
-void Graphics::SetGraphicsDebug(GraphicsDebugType::Type debugTpye)
+void AGraphics::SetGraphicsDebug(EGraphicsDebugType::Type debugTpye)
 {
 	switch (debugTpye)
 	{
-	case GraphicsDebugType::FILL:
+	case EGraphicsDebugType::FILL:
 		glEnable(GL_POLYGON_OFFSET_FILL);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		break;
-	case GraphicsDebugType::LINE :
+	case EGraphicsDebugType::LINE :
 		glEnable(GL_POLYGON_OFFSET_LINE);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		break;
-	case GraphicsDebugType::POINT:
+	case EGraphicsDebugType::POINT:
 		glEnable(GL_POLYGON_OFFSET_POINT);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
 		break;
@@ -645,38 +645,38 @@ void Graphics::SetGraphicsDebug(GraphicsDebugType::Type debugTpye)
 	}
 }
 
-void Graphics::ResetRenderTargets()
+void AGraphics::ResetRenderTargets()
 {
 	SetRenderTarget(nullptr, nullptr);
 }
 
-void Graphics::ResetViewport()
+void AGraphics::ResetViewport()
 {
 	SetViewport(RectI(0, 0, _renderTargetSize._x, _renderTargetSize._y));
 }
 
-void Graphics::ResetVertexBuffers()
+void AGraphics::ResetVertexBuffers()
 {
 	for (size_t i = 0; i < MAX_VERTEX_STREAMS; ++i)
 		SetVertexBuffer(i, nullptr);
 }
 
-void Graphics::ResetConstantBuffers()
+void AGraphics::ResetConstantBuffers()
 {
-	for (size_t i = 0; i < ShaderStage::Count; ++i)
+	for (size_t i = 0; i < EShaderStage::Count; ++i)
 	{
 		for (size_t j = 0; i < MAX_CONSTANT_BUFFERS; ++j)
-			SetConstantBuffer((ShaderStage::Type)i, j, nullptr);
+			SetConstantBuffer((EShaderStage::Type)i, j, nullptr);
 	}
 }
 
-void Graphics::ResetTextures()
+void AGraphics::ResetTextures()
 {
 	for (size_t i = 0; i < MAX_TEXTURE_UNITS; ++i)
 		SetTexture(i, nullptr);
 }
 
-void Graphics::ResetGraphics()
+void AGraphics::ResetGraphics()
 {
 	ResetViewport();
 	ResetVertexBuffers();
@@ -686,7 +686,7 @@ void Graphics::ResetGraphics()
 	ResetViewport();
 }
 
-void Graphics::Clear(unsigned clearFlags, const Color& clearColor, float clearDepth, unsigned char clearStencil)
+void AGraphics::Clear(unsigned clearFlags, const Color& clearColor, float clearDepth, unsigned char clearStencil)
 {
 	PrepareFramebuffer();
 
@@ -735,7 +735,7 @@ void Graphics::Clear(unsigned clearFlags, const Color& clearColor, float clearDe
 		glEnable(GL_SCISSOR_TEST);
 }
 
-void Graphics::Draw(PrimitiveType::Type type, size_t vertexStart, size_t vertexCount)
+void AGraphics::Draw(EPrimitiveType::Type type, size_t vertexStart, size_t vertexCount)
 {
 	if (!PrepareDraw())
 		return;
@@ -743,7 +743,7 @@ void Graphics::Draw(PrimitiveType::Type type, size_t vertexStart, size_t vertexC
 	glDrawArrays(glPrimitiveTypes[type], (unsigned)vertexStart, (unsigned)vertexCount);
 }
 
-void Graphics::DrawIndexed(PrimitiveType::Type type, size_t indexStart, size_t indexCount, size_t vertexStart)
+void AGraphics::DrawIndexed(EPrimitiveType::Type type, size_t indexStart, size_t indexCount, size_t vertexStart)
 {
 	// Drawing with trashed index data can lead to a crash within the OpenGL driver
 	if (!_indexBuffer || _indexBuffer->IsDataLost() || !PrepareDraw())
@@ -769,7 +769,7 @@ void Graphics::DrawIndexed(PrimitiveType::Type type, size_t indexStart, size_t i
 
 }
 
-void Graphics::DrawInstanced(PrimitiveType::Type type, size_t vertexStart, size_t vertexCount, size_t instanceStart, size_t instanceCount)
+void AGraphics::DrawInstanced(EPrimitiveType::Type type, size_t vertexStart, size_t vertexCount, size_t instanceStart, size_t instanceCount)
 {
 	if (!PrepareDraw(true, instanceStart))
 		return;
@@ -777,7 +777,7 @@ void Graphics::DrawInstanced(PrimitiveType::Type type, size_t vertexStart, size_
 	glDrawArraysInstanced(glPrimitiveTypes[type], (unsigned)vertexStart, (unsigned)vertexCount, (unsigned)instanceCount);
 }
 
-void Graphics::DrawIndexedInstanced(PrimitiveType::Type type, size_t indexStart, size_t indexCount, size_t vertexStart, size_t instanceStart,
+void AGraphics::DrawIndexedInstanced(EPrimitiveType::Type type, size_t indexStart, size_t indexCount, size_t vertexStart, size_t instanceStart,
 	size_t instanceCount)
 {
 	if (!_indexBuffer || _indexBuffer->IsDataLost() || !PrepareDraw(true, instanceStart))
@@ -803,69 +803,69 @@ void Graphics::DrawIndexedInstanced(PrimitiveType::Type type, size_t indexStart,
 #endif
 }
 
-bool Graphics::IsInitialized() const
+bool AGraphics::IsInitialized() const
 {
 	return _window->IsOpen() && _context;
 }
 
-bool Graphics::IsFullscreen() const
+bool AGraphics::IsFullscreen() const
 {
 	return _window->IsFullscreen();
 }
 
-bool Graphics::IsResizable() const
+bool AGraphics::IsResizable() const
 {
 	return _window->IsResizable();
 }
 
-TSharedPtr<Window> Graphics::RenderWindow() const
+TSharedPtr<Window> AGraphics::RenderWindow() const
 {
 	return _window;
 }
 
-TSharedPtr<GraphicsContext> Graphics::RenderContext() const
+TSharedPtr<GraphicsContext> AGraphics::RenderContext() const
 {
 	return _context;
 }
 
-Texture* Graphics::RenderTarget(size_t index) const
+ATexture* AGraphics::RenderTarget(size_t index) const
 {
 	return index < MAX_RENDERTARGETS ? _renderTargets[index] : nullptr;
 }
 
-VertexBuffer* Graphics::GetVertexBuffer(size_t index) const
+FVertexBuffer* AGraphics::GetVertexBuffer(size_t index) const
 {
 	return index < MAX_VERTEX_STREAMS ? _vertexBuffers[index] : nullptr;
 }
 
-ConstantBuffer* Graphics::GetConstantBuffer(ShaderStage::Type stage, size_t index) const
+FConstantBuffer* AGraphics::GetConstantBuffer(EShaderStage::Type stage, size_t index) const
 {
-	return (stage < ShaderStage::Count && index < MAX_CONSTANT_BUFFERS) ? _constantBuffers[stage][index] : nullptr;
+	return (stage < EShaderStage::Count && index < MAX_CONSTANT_BUFFERS) ? _constantBuffers[stage][index] : nullptr;
 }
 
-Texture* Graphics::GetTexture(size_t index) const
+ATexture* AGraphics::GetTexture(size_t index) const
 {
 	return (index < MAX_TEXTURE_UNITS) ? _textures[index] : nullptr;
 }
 
-void Graphics::AddGPUObject(GPUObject* object)
+void AGraphics::AddGPUObject(FGPUObject* object)
 {
 	if (object)
 		_gpuObjects.Push(object);
 }
 
-void Graphics::RemoveGPUObject(GPUObject* object)
+void AGraphics::RemoveGPUObject(FGPUObject* object)
 {
 	/// \todo Requires a linear search, needs to be profiled whether becomes a problem with a large number of objects
 	_gpuObjects.Remove(object);
 }
 
-void Graphics::CleanupShaderPrograms(ShaderVariation* shader)
+void AGraphics::CleanupShaderPrograms(FShaderVariation* shader)
 {
 	if (!shader)
 		return;
 
-	if (shader->GetStage() == ShaderStage::VS)
+	if (shader->GetStage() == EShaderStage::VS)
 	{
 		for (auto it = _shaderPrograms.Begin(); it != _shaderPrograms.End();)
 		{
@@ -895,7 +895,7 @@ void Graphics::CleanupShaderPrograms(ShaderVariation* shader)
 	}
 }
 
-void Graphics::CleanupFramebuffers(Texture* texture)
+void AGraphics::CleanupFramebuffers(ATexture* texture)
 {
 	if (!texture)
 		return;
@@ -914,7 +914,7 @@ void Graphics::CleanupFramebuffers(Texture* texture)
 	}
 }
 
-void Graphics::BindVBO(unsigned vbo)
+void AGraphics::BindVBO(unsigned vbo)
 {
 	if (vbo != _boundVBO)
 	{
@@ -923,7 +923,7 @@ void Graphics::BindVBO(unsigned vbo)
 	}
 }
 
-void Graphics::BindUBO(unsigned ubo)
+void AGraphics::BindUBO(unsigned ubo)
 {
 	if (ubo != _boundUBO)
 	{
@@ -932,7 +932,7 @@ void Graphics::BindUBO(unsigned ubo)
 	}
 }
 
-bool Graphics::CreateContext(Window* window, int multisample)
+bool AGraphics::CreateContext(Window* window, int multisample)
 {
 	// Create or recreate
 	_context = TSharedPtr<GraphicsContext>(new GraphicsContext(window));
@@ -992,7 +992,7 @@ bool Graphics::CreateContext(Window* window, int multisample)
 	return true;
 }
 
-void Graphics::HandleResize(WindowResizeEvent& event)
+void AGraphics::HandleResize(WindowResizeEvent& event)
 {
 	// Reset viewport in case the application does not set it
 	if (_context)
@@ -1003,7 +1003,7 @@ void Graphics::HandleResize(WindowResizeEvent& event)
 	}
 }
 
-void Graphics::CleanupFramebuffers()
+void AGraphics::CleanupFramebuffers()
 {
 	// Make sure the framebuffer is switched first if there are pending rendertarget changes
 	PrepareFramebuffer();
@@ -1018,7 +1018,7 @@ void Graphics::CleanupFramebuffers()
 	}
 }
 
-void Graphics::PrepareFramebuffer()
+void AGraphics::PrepareFramebuffer()
 {
 	if (_framebufferDirty)
 	{
@@ -1056,7 +1056,7 @@ void Graphics::PrepareFramebuffer()
 		}
 
 		// Search for a new framebuffer based on format & size, or create new
-		ImageFormat::Type _format = ImageFormat::NONE;
+		EImageFormat::Type _format = EImageFormat::NONE;
 		if (_renderTargets[0])
 			_format = _renderTargets[0]->GetFormat();
 		else if (_depthStencil)
@@ -1128,7 +1128,7 @@ void Graphics::PrepareFramebuffer()
 		{
 			if (_depthStencil)
 			{
-				bool hasStencil = _depthStencil->GetFormat() == ImageFormat::D24S8;
+				bool hasStencil = _depthStencil->GetFormat() == EImageFormat::D24S8;
 				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, _depthStencil->GetGLTarget(),
 					_depthStencil->GetGLTexture(), 0);
 				if (hasStencil)
@@ -1150,7 +1150,7 @@ void Graphics::PrepareFramebuffer()
 	}
 }
 
-bool Graphics::PrepareDraw(bool instanced, size_t instanceStart)
+bool AGraphics::PrepareDraw(bool instanced, size_t instanceStart)
 {
 	if (_framebufferDirty)
 		PrepareFramebuffer();
@@ -1165,10 +1165,10 @@ bool Graphics::PrepareDraw(bool instanced, size_t instanceStart)
 		for (auto it = _attributesBySemantic.Begin(); it != _attributesBySemantic.End(); ++it)
 			it->Clear();
 
-		const TVector<VertexAttribute>& attributes = _shaderProgram->Attributes();
+		const TVector<FVertexAttribute>& attributes = _shaderProgram->Attributes();
 		for (auto it = attributes.Begin(); it != attributes.End(); ++it)
 		{
-			const VertexAttribute& attribute = *it;
+			const FVertexAttribute& attribute = *it;
 			TVector<unsigned>& attributeVector = _attributesBySemantic[attribute._semantic];
 			unsigned char index = attribute._index;
 
@@ -1196,12 +1196,12 @@ bool Graphics::PrepareDraw(bool instanced, size_t instanceStart)
 		{
 			if (_vertexBuffers[i])
 			{
-				VertexBuffer* buffer = _vertexBuffers[i];
-				const TVector<VertexElement>& elements = buffer->GetElements();
+				FVertexBuffer* buffer = _vertexBuffers[i];
+				const TVector<FVertexElement>& elements = buffer->GetElements();
 
 				for (auto it = elements.Begin(); it != elements.End(); ++it)
 				{
-					const VertexElement& element = *it;
+					const FVertexElement& element = *it;
 					const TVector<unsigned>& attributeVector = _attributesBySemantic[element._semantic];
 
 					// If making several instanced draw calls with the same vertex buffers, only need to update the instancing
@@ -1241,7 +1241,7 @@ bool Graphics::PrepareDraw(bool instanced, size_t instanceStart)
 
 						BindVBO(buffer->GetGLBuffer());
 						glVertexAttribPointer(location, elementGLComponents[element._type], elementGLTypes[element._type],
-							element._semantic == ElementSemantic::COLOR ? GL_TRUE : GL_FALSE, (unsigned)buffer->GetVertexSize(),
+							element._semantic == EElementSemantic::COLOR ? GL_TRUE : GL_FALSE, (unsigned)buffer->GetVertexSize(),
 							(const void *)dataStart);
 					}
 				}
@@ -1409,14 +1409,14 @@ bool Graphics::PrepareDraw(bool instanced, size_t instanceStart)
 #endif
 		if (_renderState._cullMode != _glRenderState._cullMode)
 		{
-			if (_renderState._cullMode == CullMode::NONE)
+			if (_renderState._cullMode == ECullMode::NONE)
 				glDisable(GL_CULL_FACE);
 			else
 			{
-				if (_glRenderState._cullMode == CullMode::NONE)
+				if (_glRenderState._cullMode == ECullMode::NONE)
 					glEnable(GL_CULL_FACE);
 				// Note: as polygons use Direct3D convention (clockwise = front) reversed front/back faces are used here
-				glCullFace(_renderState._cullMode == CullMode::BACK ? GL_FRONT : GL_BACK);
+				glCullFace(_renderState._cullMode == ECullMode::BACK ? GL_FRONT : GL_BACK);
 			}
 			_glRenderState._cullMode = _renderState._cullMode;
 		}
@@ -1461,7 +1461,7 @@ bool Graphics::PrepareDraw(bool instanced, size_t instanceStart)
 	return true;
 }
 
-void Graphics::ResetState()
+void AGraphics::ResetState()
 {
 	for (size_t i = 0; i < MAX_VERTEX_STREAMS; ++i)
 		_vertexBuffers[i] = nullptr;
@@ -1470,7 +1470,7 @@ void Graphics::ResetState()
 	_usedVertexAttributes = 0;
 	_instancingVertexAttributes = 0;
 
-	for (size_t i = 0; i < ShaderStage::Count; ++i)
+	for (size_t i = 0; i < EShaderStage::Count; ++i)
 	{
 		for (size_t j = 0; j < MAX_CONSTANT_BUFFERS; ++j)
 			_constantBuffers[i][j] = nullptr;
@@ -1498,35 +1498,35 @@ void Graphics::ResetState()
 	_boundUBO = 0;
 
 	_glRenderState._depthWrite = false;
-	_glRenderState._depthFunc = CompareFunc::ALWAYS;
+	_glRenderState._depthFunc = ECompareFunc::ALWAYS;
 	_glRenderState._depthBias = 0;
 	_glRenderState._slopeScaledDepthBias = 0;
 	_glRenderState._depthClip = true;
 	_glRenderState._colorWriteMask = COLORMASK_ALL;
 	_glRenderState._alphaToCoverage = false;
 	_glRenderState._blendMode._blendEnable = false;
-	_glRenderState._blendMode._srcBlend = BlendFactor::Count;
-	_glRenderState._blendMode._destBlend = BlendFactor::Count;
-	_glRenderState._blendMode._blendOp = BlendOp::Count;
-	_glRenderState._blendMode._srcBlendAlpha = BlendFactor::Count;
-	_glRenderState._blendMode._destBlendAlpha = BlendFactor::Count;
-	_glRenderState._blendMode._blendOpAlpha = BlendOp::Count;
-	_glRenderState._fillMode = FillMode::SOLID;
-	_glRenderState._cullMode = CullMode::NONE;
+	_glRenderState._blendMode._srcBlend = EBlendFactor::Count;
+	_glRenderState._blendMode._destBlend = EBlendFactor::Count;
+	_glRenderState._blendMode._blendOp = EBlendOp::Count;
+	_glRenderState._blendMode._srcBlendAlpha = EBlendFactor::Count;
+	_glRenderState._blendMode._destBlendAlpha = EBlendFactor::Count;
+	_glRenderState._blendMode._blendOpAlpha = EBlendOp::Count;
+	_glRenderState._fillMode = EFillMode::SOLID;
+	_glRenderState._cullMode = ECullMode::NONE;
 	_glRenderState._scissorEnable = false;
 	_glRenderState._scissorRect = RectI::ZERO;
 	_glRenderState._stencilEnable = false;
 	_glRenderState._stencilRef = 0;
 	_glRenderState._stencilTest._stencilReadMask = 0xff;
 	_glRenderState._stencilTest._stencilWriteMask = 0xff;
-	_glRenderState._stencilTest._frontFail = StencilOp::KEEP;
-	_glRenderState._stencilTest._frontDepthFail = StencilOp::KEEP;
-	_glRenderState._stencilTest._frontPass = StencilOp::KEEP;
-	_glRenderState._stencilTest._frontFunc = CompareFunc::ALWAYS;
-	_glRenderState._stencilTest._backFail = StencilOp::KEEP;
-	_glRenderState._stencilTest._backDepthFail = StencilOp::KEEP;
-	_glRenderState._stencilTest._backPass = StencilOp::KEEP;
-	_glRenderState._stencilTest._backFunc = CompareFunc::ALWAYS;
+	_glRenderState._stencilTest._frontFail = EStencilOp::KEEP;
+	_glRenderState._stencilTest._frontDepthFail = EStencilOp::KEEP;
+	_glRenderState._stencilTest._frontPass = EStencilOp::KEEP;
+	_glRenderState._stencilTest._frontFunc = ECompareFunc::ALWAYS;
+	_glRenderState._stencilTest._backFail = EStencilOp::KEEP;
+	_glRenderState._stencilTest._backDepthFail = EStencilOp::KEEP;
+	_glRenderState._stencilTest._backPass = EStencilOp::KEEP;
+	_glRenderState._stencilTest._backFunc = ECompareFunc::ALWAYS;
 	_renderState = _glRenderState;
 }
 
@@ -1537,8 +1537,8 @@ void RegisterGraphicsLibrary()
 		return;
 	registered = true;
 
-	Shader::RegisterObject();
-	Texture::RegisterObject();
+	AShader::RegisterObject();
+	ATexture::RegisterObject();
 }
 
 }

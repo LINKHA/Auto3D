@@ -18,7 +18,7 @@ bool CompareRaycastResults(const RaycastResult& lhs, const RaycastResult& rhs)
     return lhs._distance < rhs._distance;
 }
 
-bool CompareNodeDistances(const TPair<OctreeNode*, float>& lhs, const TPair<OctreeNode*, float>& rhs)
+bool CompareNodeDistances(const TPair<AOctreeNode*, float>& lhs, const TPair<AOctreeNode*, float>& rhs)
 {
     return lhs._second < rhs._second;
 }
@@ -83,7 +83,7 @@ void Octree::Update()
 
     for (auto it = _updateQueue.Begin(); it != _updateQueue.End(); ++it)
     {
-        OctreeNode* node = *it;
+        AOctreeNode* node = *it;
         // If node was removed before update could happen, a null pointer will be in its place
         if (node)
         {
@@ -146,7 +146,7 @@ void Octree::Resize(const BoundingBoxF& boundingBox, int numLevels)
     Update();
 }
 
-void Octree::RemoveNode(OctreeNode* node)
+void Octree::RemoveNode(AOctreeNode* node)
 {
     assert(node);
     RemoveNode(node, node->_octant);
@@ -155,14 +155,14 @@ void Octree::RemoveNode(OctreeNode* node)
     node->_octant = nullptr;
 }
 
-void Octree::QueueUpdate(OctreeNode* node)
+void Octree::QueueUpdate(AOctreeNode* node)
 {
     assert(node);
     _updateQueue.Push(node);
     node->SetFlag(NF_OCTREE_UPDATE_QUEUED, true);
 }
 
-void Octree::CancelUpdate(OctreeNode* node)
+void Octree::CancelUpdate(AOctreeNode* node)
 {
     assert(node);
     auto it = _updateQueue.Find(node);
@@ -242,7 +242,7 @@ int Octree::NumLevelsAttr() const
     return _root._level;
 }
 
-void Octree::AddNode(OctreeNode* node, Octant* octant)
+void Octree::AddNode(AOctreeNode* node, Octant* octant)
 {
     octant->_nodes.Push(node);
     node->_octant = octant;
@@ -255,7 +255,7 @@ void Octree::AddNode(OctreeNode* node, Octant* octant)
     }
 }
 
-void Octree::RemoveNode(OctreeNode* node, Octant* octant)
+void Octree::RemoveNode(AOctreeNode* node, Octant* octant)
 {
     // Do not set the node's octant pointer to zero, as the node may already be added into another octant
     octant->_nodes.Remove(node);
@@ -312,7 +312,7 @@ void Octree::DeleteChildOctants(Octant* octant, bool deletingOctree)
 {
     for (auto it = octant->_nodes.Begin(); it != octant->_nodes.End(); ++it)
     {
-        OctreeNode* node = *it;
+        AOctreeNode* node = *it;
         node->_octant = nullptr;
         node->SetFlag(NF_OCTREE_UPDATE_QUEUED, false);
         if (deletingOctree)
@@ -334,7 +334,7 @@ void Octree::DeleteChildOctants(Octant* octant, bool deletingOctree)
         _allocator.Free(octant);
 }
 
-void Octree::CollectNodes(TVector<OctreeNode*>& result, const Octant* octant) const
+void Octree::CollectNodes(TVector<AOctreeNode*>& result, const Octant* octant) const
 {
     result.Push(octant->_nodes);
 
@@ -345,12 +345,12 @@ void Octree::CollectNodes(TVector<OctreeNode*>& result, const Octant* octant) co
     }
 }
 
-void Octree::CollectNodes(TVector<OctreeNode*>& result, const Octant* octant, unsigned short nodeFlags, unsigned layerMask) const
+void Octree::CollectNodes(TVector<AOctreeNode*>& result, const Octant* octant, unsigned short nodeFlags, unsigned layerMask) const
 {
-    const TVector<OctreeNode*>& octantNodes = octant->_nodes;
+    const TVector<AOctreeNode*>& octantNodes = octant->_nodes;
     for (auto it = octantNodes.Begin(); it != octantNodes.End(); ++it)
     {
-        OctreeNode* node = *it;
+        AOctreeNode* node = *it;
         if ((node->Flags() & nodeFlags) == nodeFlags && (node->GetLayerMask() & layerMask))
             result.Push(node);
     }
@@ -369,10 +369,10 @@ void Octree::CollectNodes(TVector<RaycastResult>& result, const Octant* octant, 
     if (octantDist >= maxDistance)
         return;
 
-    const TVector<OctreeNode*>& octantNodes = octant->_nodes;
+    const TVector<AOctreeNode*>& octantNodes = octant->_nodes;
     for (auto it = octantNodes.Begin(); it != octantNodes.End(); ++it)
     {
-        OctreeNode* node = *it;
+        AOctreeNode* node = *it;
         if ((node->Flags() & nodeFlags) == nodeFlags && (node->GetLayerMask() & layerMask))
             node->OnRaycast(result, ray, maxDistance);
     }
@@ -384,17 +384,17 @@ void Octree::CollectNodes(TVector<RaycastResult>& result, const Octant* octant, 
     }
 }
 
-void Octree::CollectNodes(TVector<TPair<OctreeNode*, float> >& result, const Octant* octant, const Ray& ray, unsigned short nodeFlags,
+void Octree::CollectNodes(TVector<TPair<AOctreeNode*, float> >& result, const Octant* octant, const Ray& ray, unsigned short nodeFlags,
     float maxDistance, unsigned layerMask) const
 {
     float octantDist = ray.HitDistance(octant->_cullingBox);
     if (octantDist >= maxDistance)
         return;
 
-    const TVector<OctreeNode*>& octantNodes = octant->_nodes;
+    const TVector<AOctreeNode*>& octantNodes = octant->_nodes;
     for (auto it = octantNodes.Begin(); it != octantNodes.End(); ++it)
     {
-        OctreeNode* node = *it;
+        AOctreeNode* node = *it;
         if ((node->Flags() & nodeFlags) == nodeFlags && (node->GetLayerMask() & layerMask))
         {
             float distance = ray.HitDistance(node->WorldBoundingBox());

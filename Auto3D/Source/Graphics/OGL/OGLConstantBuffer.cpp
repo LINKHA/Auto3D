@@ -13,29 +13,29 @@
 namespace Auto3D
 {
 
-ConstantBuffer::ConstantBuffer() :
+FConstantBuffer::FConstantBuffer() :
     _buffer(0),
     _byteSize(0),
-    _usage(ResourceUsage::DEFAULT),
+    _usage(EResourceUsage::DEFAULT),
     _dirty(false)
 {
 }
 
-ConstantBuffer::~ConstantBuffer()
+FConstantBuffer::~FConstantBuffer()
 {
     Release();
 }
 
-void ConstantBuffer::Release()
+void FConstantBuffer::Release()
 {
     if (_graphics)
     {
-        for (size_t i = 0; i < ShaderStage::Count; ++i)
+        for (size_t i = 0; i < EShaderStage::Count; ++i)
         {
             for (size_t j = 0; j < MAX_CONSTANT_BUFFERS; ++j)
             {
-                if (_graphics->GetConstantBuffer((ShaderStage::Type)i, j) == this)
-                    _graphics->SetConstantBuffer((ShaderStage::Type)i, j, 0);
+                if (_graphics->GetConstantBuffer((EShaderStage::Type)i, j) == this)
+                    _graphics->SetConstantBuffer((EShaderStage::Type)i, j, 0);
             }
         }
     }
@@ -50,23 +50,23 @@ void ConstantBuffer::Release()
     }
 }
 
-void ConstantBuffer::Recreate()
+void FConstantBuffer::Recreate()
 {
     if (_constants.Size())
     {
         // Make a copy of the current constants, as they are passed by reference and manipulated by Define()
-        TVector<Constant> srcConstants = _constants;
+        TVector<FConstant> srcConstants = _constants;
         Define(_usage, srcConstants);
         Apply();
     }
 }
 
-bool ConstantBuffer::SetData(const void* data, bool copyToShadow)
+bool FConstantBuffer::SetData(const void* data, bool copyToShadow)
 {
     if (copyToShadow)
         memcpy(_shadowData.Get(), data, _byteSize);
 
-    if (_usage == ResourceUsage::IMMUTABLE)
+    if (_usage == EResourceUsage::IMMUTABLE)
     {
         if (!_buffer)
             return Create(data);
@@ -80,14 +80,14 @@ bool ConstantBuffer::SetData(const void* data, bool copyToShadow)
     if (_buffer)
     {
         _graphics->BindUBO(_buffer);
-        glBufferData(GL_UNIFORM_BUFFER, _byteSize, data, _usage != ResourceUsage::IMMUTABLE ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+        glBufferData(GL_UNIFORM_BUFFER, _byteSize, data, _usage != EResourceUsage::IMMUTABLE ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
     }
 
     _dirty = false;
     return true;
 }
 
-bool ConstantBuffer::Create(const void* data)
+bool FConstantBuffer::Create(const void* data)
 {
     _dirty = false;
 
@@ -101,7 +101,7 @@ bool ConstantBuffer::Create(const void* data)
         }
 
         _graphics->BindUBO(_buffer);
-        glBufferData(GL_UNIFORM_BUFFER, _byteSize, data, _usage != ResourceUsage::IMMUTABLE ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+        glBufferData(GL_UNIFORM_BUFFER, _byteSize, data, _usage != EResourceUsage::IMMUTABLE ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
     }
 
     return true;

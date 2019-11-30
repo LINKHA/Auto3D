@@ -9,8 +9,8 @@ struct SDL_Surface;
 namespace Auto3D
 {
 
-/// Image formats.
-namespace ImageFormat
+/// AImage formats.
+namespace EImageFormat
 {
 	enum Type
 	{
@@ -51,10 +51,10 @@ namespace ImageFormat
 
 
 /// Description of image mip level data.
-struct AUTO_API ImageLevel
+struct AUTO_API FImageLevel
 {
     /// Default construct.
-    ImageLevel() :
+    FImageLevel() :
         _data(nullptr),
         _size(Vector2I::ZERO),
         _rowSize(0),
@@ -72,16 +72,16 @@ struct AUTO_API ImageLevel
     size_t _rows;
 };
 
-/// %Image resource.
-class AUTO_API Image : public AResource
+/// %AImage resource.
+class AUTO_API AImage : public AResource
 {
-	REGISTER_OBJECT_CLASS(Image, AResource)
+	REGISTER_OBJECT_CLASS(AImage, AResource)
 
 public:
     /// Construct.
-    Image();
+    AImage();
     /// Destruct.
-    ~Image();
+    ~AImage();
 
     /// Register object factory.
     static void RegisterObject();
@@ -92,7 +92,7 @@ public:
     bool Save(Stream& dest) override;
 
     /// Set new image pixel dimensions and format. Setting a compressed format is not supported.
-    void SetSize(const Vector2I& newSize, ImageFormat::Type newFormat);
+    void SetSize(const Vector2I& newSize, EImageFormat::Type newFormat);
     /// Set new pixel data.
     void SetData(const unsigned char* pixelData);
 
@@ -109,19 +109,19 @@ public:
     /// Return pixel data.
     unsigned char* Data() const { return _data.Get(); }
     /// Return the image format.
-    ImageFormat::Type GetFormat() const { return _format; }
+    EImageFormat::Type GetFormat() const { return _format; }
 #ifndef AUTO_OPENGL_ES 
     /// Return whether is a compressed image.
-    bool IsCompressed() const { return _format >= ImageFormat::DXT1; }
+    bool IsCompressed() const { return _format >= EImageFormat::DXT1; }
 #else
 	bool IsCompressed() const { return false; }
 #endif
     /// Return number of mip levels contained in the image data.
     size_t GetNumLevels() const { return _numLevels; }
     /// Calculate the next mip image with halved width and height. Supports uncompressed 8 bits per pixel images only. Return true on success.
-    bool GenerateMipImage(Image& dest) const;
+    bool GenerateMipImage(AImage& dest) const;
     /// Return the data for a mip level. Images loaded from eg. PNG or JPG formats will only have one (index 0) level.
-    ImageLevel GetLevel(size_t index) const;
+    FImageLevel GetLevel(size_t index) const;
 	/// Return an SDL surface from the image, or null if failed. Only RGB images are supported. Specify rect to only return partial image. You must free the surface yourself.
 	SDL_Surface* GetSDLSurface(const RectI& rect = RectI::ZERO) const;
 #ifndef AUTO_OPENGL_ES
@@ -129,7 +129,7 @@ public:
     bool DecompressLevel(unsigned char* dest, size_t levelIndex) const;
 #endif
     /// Calculate the data size of an image level.
-    static size_t CalculateDataSize(const Vector2I& _size, ImageFormat::Type _format, size_t* numRows = 0, size_t* rowSize = 0);
+    static size_t CalculateDataSize(const Vector2I& _size, EImageFormat::Type _format, size_t* numRows = 0, size_t* rowSize = 0);
 
     /// Pixel components per format.
     static const int components[];
@@ -142,13 +142,13 @@ private:
     /// Free the decoded pixel data.
     static void FreePixelData(unsigned char* pixelData);
 
-    /// Image dimensions.
+    /// AImage dimensions.
     Vector2I _size;
-    /// Image format.
-    ImageFormat::Type _format;
+    /// AImage format.
+    EImageFormat::Type _format;
     /// Number of mip levels. 1 for uncompressed images.
     size_t _numLevels;
-    /// Image pixel data.
+    /// AImage pixel data.
     TSharedArrayPtr<unsigned char> _data;
 };
 

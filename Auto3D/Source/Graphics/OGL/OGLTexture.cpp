@@ -138,21 +138,21 @@ static const unsigned glWrapModes[] =
 #endif
 };
 
-Texture::Texture() :
+ATexture::ATexture() :
     _texture(0),
-    _type(TextureType::TEX_2D),
-    _usage(ResourceUsage::DEFAULT),
+    _type(ETextureType::TEX_2D),
+    _usage(EResourceUsage::DEFAULT),
     _size(Vector2I::ZERO),
-    _format(ImageFormat::NONE)
+    _format(EImageFormat::NONE)
 {
 }
 
-Texture::~Texture()
+ATexture::~ATexture()
 {
     Release();
 }
 
-void Texture::Release()
+void ATexture::Release()
 {
     if (_graphics)
     {
@@ -162,7 +162,7 @@ void Texture::Release()
                 _graphics->SetTexture(i, 0);
         }
 
-        if (_usage == ResourceUsage::RENDERTARGET)
+        if (_usage == EResourceUsage::RENDERTARGET)
         {
             bool clear = false;
 
@@ -193,7 +193,7 @@ void Texture::Release()
     }
 }
 
-void Texture::Recreate()
+void ATexture::Recreate()
 {
     // If has a name, attempt to reload through the resource cache
     if (FName().Length())
@@ -208,25 +208,25 @@ void Texture::Recreate()
     SetDataLost(true);
 }
 
-bool Texture::Define(TextureType::Type type, ResourceUsage::Type usage, const Vector2I& size, ImageFormat::Type format, size_t numLevels, const ImageLevel* initialData)
+bool ATexture::Define(ETextureType::Type type, EResourceUsage::Type usage, const Vector2I& size, EImageFormat::Type format, size_t numLevels, const FImageLevel* initialData)
 {
 	PROFILE(DefineTexture);
 
 	Release();
 
-	if (type != TextureType::TEX_2D && type != TextureType::TEX_CUBE)
+	if (type != ETextureType::TEX_2D && type != ETextureType::TEX_CUBE)
 	{
 		ErrorString("Only 2D textures and cube maps supported for now");
 		return false;
 	}
 #ifndef AUTO_OPENGL_ES 
-	if (format > ImageFormat::DXT5)
+	if (format > EImageFormat::DXT5)
 	{
 		ErrorString("ETC1 and PVRTC formats are unsupported");
 		return false;
 	}
 #endif
-	if (type == TextureType::TEX_CUBE && size._x != size._y)
+	if (type == ETextureType::TEX_CUBE && size._x != size._y)
 	{
 		ErrorString("Cube map must have square dimensions");
 		return false;
@@ -244,7 +244,7 @@ bool Texture::Define(TextureType::Type type, ResourceUsage::Type usage, const Ve
 		if (!_texture)
 		{
 			_size = Vector2I::ZERO;
-			_format = ImageFormat::NONE;
+			_format = EImageFormat::NONE;
 			_numLevels = 0;
 
 			ErrorString("Failed to create texture");
@@ -263,9 +263,9 @@ bool Texture::Define(TextureType::Type type, ResourceUsage::Type usage, const Ve
 		glGetError();
 		if (!IsCompressed() && !initialData)
 		{
-			if (_type == TextureType::TEX_2D)
+			if (_type == ETextureType::TEX_2D)
 				glTexImage2D(glTargets[_type], 0, glInternalFormats[_format], _size._x, _size._y, 0, glFormats[_format], glDataTypes[_format], 0);
-			else if (_type == TextureType::TEX_CUBE)
+			else if (_type == ETextureType::TEX_CUBE)
 			{
 				for (size_t i = 0; i < MAX_CUBE_FACES; ++i)
 					glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, glInternalFormats[_format], _size._x, _size._y, 0, glFormats[_format], glDataTypes[_format], 0);
@@ -275,7 +275,7 @@ bool Texture::Define(TextureType::Type type, ResourceUsage::Type usage, const Ve
 		if (initialData)
 		{
 			// Hack for allowing immutable texture to set initial data
- 			_usage = ResourceUsage::DEFAULT;
+ 			_usage = EResourceUsage::DEFAULT;
 			size_t idx = 0;
 			for (size_t i = 0; i < GetNumFaces(); ++i)
 			{
@@ -290,7 +290,7 @@ bool Texture::Define(TextureType::Type type, ResourceUsage::Type usage, const Ve
 		{
 			Release();
 			_size = Vector2I::ZERO;
-			_format = ImageFormat::NONE;
+			_format = EImageFormat::NONE;
 			_numLevels = 0;
 
 			ErrorString("Failed to create texture");
@@ -304,7 +304,7 @@ bool Texture::Define(TextureType::Type type, ResourceUsage::Type usage, const Ve
 
 	return true;
 }
-bool Texture::DefineSampler(TextureFilterMode::Type filter, TextureAddressMode::Type u, TextureAddressMode::Type v, TextureAddressMode::Type w, unsigned maxAnisotropy, float minLod, float maxLod, const Color& borderColor)
+bool ATexture::DefineSampler(ETextureFilterMode::Type filter, ETextureAddressMode::Type u, ETextureAddressMode::Type v, ETextureAddressMode::Type w, unsigned maxAnisotropy, float minLod, float maxLod, const Color& borderColor)
 {
     PROFILE(DefineTextureSampler);
 
@@ -330,14 +330,14 @@ bool Texture::DefineSampler(TextureFilterMode::Type filter, TextureAddressMode::
 
         switch (_filter)
         {
-        case TextureFilterMode::FILTER_POINT:
-        case TextureFilterMode::COMPARE_POINT:
+        case ETextureFilterMode::FILTER_POINT:
+        case ETextureFilterMode::COMPARE_POINT:
             glTexParameteri(glTargets[_type], GL_TEXTURE_MIN_FILTER, GL_NEAREST);
             glTexParameteri(glTargets[_type], GL_TEXTURE_MAG_FILTER, GL_NEAREST);
             break;
 
-        case TextureFilterMode::FILTER_BILINEAR:
-        case TextureFilterMode::COMPARE_BILINEAR:
+        case ETextureFilterMode::FILTER_BILINEAR:
+        case ETextureFilterMode::COMPARE_BILINEAR:
             if (_numLevels < 2)
                 glTexParameteri(glTargets[_type], GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             else
@@ -345,10 +345,10 @@ bool Texture::DefineSampler(TextureFilterMode::Type filter, TextureAddressMode::
             glTexParameteri(glTargets[_type], GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             break;
 
-        case TextureFilterMode::FILTER_ANISOTROPIC:
-        case TextureFilterMode::FILTER_TRILINEAR:
-        case TextureFilterMode::COMPARE_ANISOTROPIC:
-        case TextureFilterMode::COMPARE_TRILINEAR:
+        case ETextureFilterMode::FILTER_ANISOTROPIC:
+        case ETextureFilterMode::FILTER_TRILINEAR:
+        case ETextureFilterMode::COMPARE_ANISOTROPIC:
+        case ETextureFilterMode::COMPARE_TRILINEAR:
             if (_numLevels < 2)
                 glTexParameteri(glTargets[_type], GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             else
@@ -365,7 +365,7 @@ bool Texture::DefineSampler(TextureFilterMode::Type filter, TextureAddressMode::
         glTexParameteri(glTargets[_type], GL_TEXTURE_WRAP_R, glWrapModes[_addressModes[2]]);
 
 #ifndef AUTO_OPENGL_ES
-		glTexParameterf(glTargets[_type], GL_TEXTURE_MAX_ANISOTROPY_EXT, _filter == TextureFilterMode::FILTER_ANISOTROPIC ?
+		glTexParameterf(glTargets[_type], GL_TEXTURE_MAX_ANISOTROPY_EXT, _filter == ETextureFilterMode::FILTER_ANISOTROPIC ?
 			_maxAnisotropy : 1.0f);
 		glTexParameterfv(glTargets[_type], GL_TEXTURE_BORDER_COLOR, _borderColor.Data());
 #endif 
@@ -375,7 +375,7 @@ bool Texture::DefineSampler(TextureFilterMode::Type filter, TextureAddressMode::
 
       
         
-        if (_filter >= TextureFilterMode::COMPARE_POINT)
+        if (_filter >= ETextureFilterMode::COMPARE_POINT)
         {
             glTexParameteri(glTargets[_type], GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
             glTexParameteri(glTargets[_type], GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
@@ -387,13 +387,13 @@ bool Texture::DefineSampler(TextureFilterMode::Type filter, TextureAddressMode::
     return true;
 }
 
-bool Texture::SetData(size_t face, size_t level, RectI rect, const ImageLevel& data)
+bool ATexture::SetData(size_t face, size_t level, RectI rect, const FImageLevel& data)
 {
     PROFILE(UpdateTextureLevel);
 
     if (_texture)
     {
-        if (_usage == ResourceUsage::IMMUTABLE)
+        if (_usage == EResourceUsage::IMMUTABLE)
         {
             ErrorString("Can not update immutable texture");
             return false;
@@ -420,7 +420,7 @@ bool Texture::SetData(size_t face, size_t level, RectI rect, const ImageLevel& d
         _graphics->SetTexture(0, this);
 
         bool wholeLevel = rect == levelRect;
-        unsigned target = (_type == TextureType::TEX_CUBE) ? GL_TEXTURE_CUBE_MAP_POSITIVE_X + face: glTargets[_type];
+        unsigned target = (_type == ETextureType::TEX_CUBE) ? GL_TEXTURE_CUBE_MAP_POSITIVE_X + face: glTargets[_type];
         
         if (!IsCompressed())
         {
@@ -440,12 +440,12 @@ bool Texture::SetData(size_t face, size_t level, RectI rect, const ImageLevel& d
             if (wholeLevel)
             {
                 glCompressedTexImage2D(target, (unsigned)level, glInternalFormats[_format], rect.Width(), rect.Height(),
-                    0, (unsigned)Image::CalculateDataSize(Vector2I(rect.Width(), rect.Height()), _format), data._data);
+                    0, (unsigned)AImage::CalculateDataSize(Vector2I(rect.Width(), rect.Height()), _format), data._data);
             }
             else
             {
                 glCompressedTexSubImage2D(target, (unsigned)level, rect.Left(), rect.Top(), rect.Width(), rect.Height(),
-                    glFormats[_format], (unsigned)Image::CalculateDataSize(Vector2I(rect.Width(), rect.Height()), _format),
+                    glFormats[_format], (unsigned)AImage::CalculateDataSize(Vector2I(rect.Width(), rect.Height()), _format),
                     data._data);
             }
         }
@@ -454,11 +454,11 @@ bool Texture::SetData(size_t face, size_t level, RectI rect, const ImageLevel& d
     return true;
 }
 
-unsigned Texture::GetGLTarget() const
+unsigned ATexture::GetGLTarget() const
 {
     return glTargets[_type];
 }
-Geometry* Texture::GetGeometry() const
+Geometry* ATexture::GetGeometry() const
 { 
 	return _geometry; 
 }

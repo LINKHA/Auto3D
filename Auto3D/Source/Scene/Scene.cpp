@@ -189,7 +189,7 @@ Node* Scene::FindNode(unsigned id) const
     return it != _nodes.End() ? it->_second : nullptr;
 }
 
-TVector<Camera*>& Scene::GetAllCamera()
+TVector<ACamera*>& Scene::GetAllCamera()
 {
 	return _cameras;
 }
@@ -250,7 +250,7 @@ void Scene::SetPhysicsWorld(PhysicsWorld* physicsWorld)
 	_physicsWorld = physicsWorld;
 }
 
-void Scene::SetSkyBox(SkyBox* skybox)
+void Scene::SetSkyBox(ASkyBox* skybox)
 {
 	_skybox = skybox;
 }
@@ -265,7 +265,7 @@ PhysicsWorld* Scene::GetPhysicsWorld()
 	return nullptr;
 }
 
-SkyBox* Scene::GetSkyBox()
+ASkyBox* Scene::GetSkyBox()
 {
 	if (_skybox)
 	{
@@ -278,7 +278,7 @@ SkyBox* Scene::GetSkyBox()
 void Scene::SetupShadowMap(size_t num, int size)
 {
 	// The scene creates a shadow map by default
-	GModuleManager::Get().RendererModule()->SetupShadowMaps(num, size, ImageFormat::D16);
+	GModuleManager::Get().RendererModule()->SetupShadowMaps(num, size, EImageFormat::D16);
 
 }
 

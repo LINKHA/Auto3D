@@ -141,17 +141,17 @@ extern AUTO_API const char* stencilOpNames[] =
     nullptr
 };
 
-extern AUTO_API const BlendModeDesc blendModes[] =
+extern AUTO_API const FBlendModeDesc blendModes[] =
 {
-    BlendModeDesc(false, BlendFactor::ONE, BlendFactor::ONE, BlendOp::ADD, BlendFactor::ONE, BlendFactor::ONE, BlendOp::ADD),
-    BlendModeDesc(true, BlendFactor::ONE, BlendFactor::ONE, BlendOp::ADD, BlendFactor::ONE, BlendFactor::ONE, BlendOp::ADD),
-    BlendModeDesc(true, BlendFactor::DEST_COLOR, BlendFactor::ZERO, BlendOp::ADD, BlendFactor::DEST_COLOR, BlendFactor::ZERO, BlendOp::ADD),
-    BlendModeDesc(true, BlendFactor::SRC_ALPHA, BlendFactor::INV_SRC_ALPHA, BlendOp::ADD, BlendFactor::SRC_ALPHA, BlendFactor::INV_SRC_ALPHA, BlendOp::ADD),
-    BlendModeDesc(true, BlendFactor::SRC_ALPHA, BlendFactor::ONE, BlendOp::ADD, BlendFactor::SRC_ALPHA, BlendFactor::ONE, BlendOp::ADD),
-    BlendModeDesc(true, BlendFactor::ONE, BlendFactor::INV_SRC_ALPHA, BlendOp::ADD, BlendFactor::ONE, BlendFactor::INV_SRC_ALPHA, BlendOp::ADD),
-    BlendModeDesc(true, BlendFactor::INV_DEST_ALPHA, BlendFactor::DEST_ALPHA, BlendOp::ADD, BlendFactor::INV_DEST_ALPHA, BlendFactor::DEST_ALPHA, BlendOp::ADD),
-    BlendModeDesc(true, BlendFactor::ONE, BlendFactor::ONE, BlendOp::REV_SUBTRACT, BlendFactor::ONE, BlendFactor::ONE, BlendOp::REV_SUBTRACT),
-    BlendModeDesc(true, BlendFactor::SRC_ALPHA, BlendFactor::ONE, BlendOp::REV_SUBTRACT, BlendFactor::SRC_ALPHA, BlendFactor::ONE, BlendOp::REV_SUBTRACT)
+    FBlendModeDesc(false, EBlendFactor::ONE, EBlendFactor::ONE, EBlendOp::ADD, EBlendFactor::ONE, EBlendFactor::ONE, EBlendOp::ADD),
+    FBlendModeDesc(true, EBlendFactor::ONE, EBlendFactor::ONE, EBlendOp::ADD, EBlendFactor::ONE, EBlendFactor::ONE, EBlendOp::ADD),
+    FBlendModeDesc(true, EBlendFactor::DEST_COLOR, EBlendFactor::ZERO, EBlendOp::ADD, EBlendFactor::DEST_COLOR, EBlendFactor::ZERO, EBlendOp::ADD),
+    FBlendModeDesc(true, EBlendFactor::SRC_ALPHA, EBlendFactor::INV_SRC_ALPHA, EBlendOp::ADD, EBlendFactor::SRC_ALPHA, EBlendFactor::INV_SRC_ALPHA, EBlendOp::ADD),
+    FBlendModeDesc(true, EBlendFactor::SRC_ALPHA, EBlendFactor::ONE, EBlendOp::ADD, EBlendFactor::SRC_ALPHA, EBlendFactor::ONE, EBlendOp::ADD),
+    FBlendModeDesc(true, EBlendFactor::ONE, EBlendFactor::INV_SRC_ALPHA, EBlendOp::ADD, EBlendFactor::ONE, EBlendFactor::INV_SRC_ALPHA, EBlendOp::ADD),
+    FBlendModeDesc(true, EBlendFactor::INV_DEST_ALPHA, EBlendFactor::DEST_ALPHA, EBlendOp::ADD, EBlendFactor::INV_DEST_ALPHA, EBlendFactor::DEST_ALPHA, EBlendOp::ADD),
+    FBlendModeDesc(true, EBlendFactor::ONE, EBlendFactor::ONE, EBlendOp::REV_SUBTRACT, EBlendFactor::ONE, EBlendFactor::ONE, EBlendOp::REV_SUBTRACT),
+    FBlendModeDesc(true, EBlendFactor::SRC_ALPHA, EBlendFactor::ONE, EBlendOp::REV_SUBTRACT, EBlendFactor::SRC_ALPHA, EBlendFactor::ONE, EBlendOp::REV_SUBTRACT)
 };
 
 }

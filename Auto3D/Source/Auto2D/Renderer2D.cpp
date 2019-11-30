@@ -79,12 +79,12 @@ void Renderer2D::Render(Scene2D* scene, Camera2D* camera)
 	_psFrameConstantBuffer->Apply();
 
 
-	_graphics->SetConstantBuffer(ShaderStage::VS, ConstantBuffer2D::FRAME, _vsFrameConstantBuffer);
-	_graphics->SetConstantBuffer(ShaderStage::PS, ConstantBuffer2D::FRAME, _psFrameConstantBuffer);
+	_graphics->SetConstantBuffer(EShaderStage::VS, ConstantBuffer2D::FRAME, _vsFrameConstantBuffer);
+	_graphics->SetConstantBuffer(EShaderStage::PS, ConstantBuffer2D::FRAME, _psFrameConstantBuffer);
 
-	_graphics->SetDepthState(CompareFunc::LESS_EQUAL, true);
-	_graphics->SetColorState(BlendMode::ALPHA);
-	_graphics->SetRasterizerState(CullMode::BACK, FillMode::SOLID);
+	_graphics->SetDepthState(ECompareFunc::LESS_EQUAL, true);
+	_graphics->SetColorState(EBlendMode::ALPHA);
+	_graphics->SetRasterizerState(ECullMode::BACK, EFillMode::SOLID);
 
 	RenderBatches();
 }
@@ -171,36 +171,36 @@ void Renderer2D::Initialize()
 	_initialized = true;
 
 
-	TVector<Constant> constants;
-	_vsFrameConstantBuffer = new ConstantBuffer();
-	constants.Push(Constant(ElementType::MATRIX3X4, "viewMatrix"));
-	constants.Push(Constant(ElementType::MATRIX4, "projectionMatrix"));
-	constants.Push(Constant(ElementType::MATRIX4, "viewProjMatrix"));
-	constants.Push(Constant(ElementType::VECTOR4, "depthParameters"));
-	_vsFrameConstantBuffer->Define(ResourceUsage::DEFAULT, constants);
+	TVector<FConstant> constants;
+	_vsFrameConstantBuffer = new FConstantBuffer();
+	constants.Push(FConstant(EElementType::MATRIX3X4, "viewMatrix"));
+	constants.Push(FConstant(EElementType::MATRIX4, "projectionMatrix"));
+	constants.Push(FConstant(EElementType::MATRIX4, "viewProjMatrix"));
+	constants.Push(FConstant(EElementType::VECTOR4, "depthParameters"));
+	_vsFrameConstantBuffer->Define(EResourceUsage::DEFAULT, constants);
 
 
-	_vsObjectConstantBuffer = new ConstantBuffer();
+	_vsObjectConstantBuffer = new FConstantBuffer();
 	constants.Clear();
-	constants.Push(Constant(ElementType::MATRIX3X4, "worldMatrix"));
-	_vsObjectConstantBuffer->Define(ResourceUsage::DEFAULT, constants);
+	constants.Push(FConstant(EElementType::MATRIX3X4, "worldMatrix"));
+	_vsObjectConstantBuffer->Define(EResourceUsage::DEFAULT, constants);
 
-	_psFrameConstantBuffer = new ConstantBuffer();
+	_psFrameConstantBuffer = new FConstantBuffer();
 	constants.Clear();
-	constants.Push(Constant(ElementType::VECTOR4, "color"));
-	_psFrameConstantBuffer->Define(ResourceUsage::DEFAULT, constants);
+	constants.Push(FConstant(EElementType::VECTOR4, "color"));
+	_psFrameConstantBuffer->Define(EResourceUsage::DEFAULT, constants);
 
 	// Instance vertex buffer contains texcoords 4-6 which define the instances' world matrices
-	_instanceVertexBuffer = new VertexBuffer();
-	_instanceVertexElements.Push(VertexElement(ElementType::VECTOR4, ElementSemantic::TEXCOORD, U_INSTANCE_TEXCOORD, true));
-	_instanceVertexElements.Push(VertexElement(ElementType::VECTOR4, ElementSemantic::TEXCOORD, U_INSTANCE_TEXCOORD + 1, true));
-	_instanceVertexElements.Push(VertexElement(ElementType::VECTOR4, ElementSemantic::TEXCOORD, U_INSTANCE_TEXCOORD + 2, true));
+	_instanceVertexBuffer = new FVertexBuffer();
+	_instanceVertexElements.Push(FVertexElement(EElementType::VECTOR4, EElementSemantic::TEXCOORD, U_INSTANCE_TEXCOORD, true));
+	_instanceVertexElements.Push(FVertexElement(EElementType::VECTOR4, EElementSemantic::TEXCOORD, U_INSTANCE_TEXCOORD + 1, true));
+	_instanceVertexElements.Push(FVertexElement(EElementType::VECTOR4, EElementSemantic::TEXCOORD, U_INSTANCE_TEXCOORD + 2, true));
 
 	// Because Renderer2D images change less, their shaders are temporarily fixed
-	TSharedPtr<Shader> vs(new Shader());
-	TSharedPtr<Shader> ps(new Shader());
-	vs = cache->LoadResource<Shader>("Shader/Texture.vert");
-	ps = cache->LoadResource<Shader>("Shader/Texture.frag");
+	TSharedPtr<AShader> vs(new AShader());
+	TSharedPtr<AShader> ps(new AShader());
+	vs = cache->LoadResource<AShader>("Shader/Texture.vert");
+	ps = cache->LoadResource<AShader>("Shader/Texture.frag");
 	_vsv = vs->CreateVariation();
 	_psv = ps->CreateVariation();
 	_ivsv = vs->CreateVariation(geometryDefines[1]);
@@ -215,7 +215,7 @@ void Renderer2D::RenderBatches(const TVector<Batch2D>& batches, Camera2D* camera
 	if (_instanceTransformsDirty && _instanceTransforms.Size())
 	{
 		if (_instanceVertexBuffer->GetNumVertices() < _instanceTransforms.Size())
-			_instanceVertexBuffer->Define(ResourceUsage::DYNAMIC, NextPowerOfTwo(_instanceTransforms.Size()), _instanceVertexElements, false);
+			_instanceVertexBuffer->Define(EResourceUsage::DYNAMIC, NextPowerOfTwo(_instanceTransforms.Size()), _instanceVertexElements, false);
 		_instanceVertexBuffer->SetData(0, _instanceTransforms.Size(), &_instanceTransforms[0]);
 		_graphics->SetVertexBuffer(1, _instanceVertexBuffer);
 		_instanceTransformsDirty = false;
@@ -230,7 +230,7 @@ void Renderer2D::RenderBatches(const TVector<Batch2D>& batches, Camera2D* camera
 		{
 			_vsObjectConstantBuffer->SetConstant(VS_OBJECT_WORLD_MATRIX, *batch._worldMatrix);
 			_vsObjectConstantBuffer->Apply();
-			_graphics->SetConstantBuffer(ShaderStage::VS, ConstantBuffer2D::OBJECT, _vsObjectConstantBuffer);
+			_graphics->SetConstantBuffer(EShaderStage::VS, ConstantBuffer2D::OBJECT, _vsObjectConstantBuffer);
 		}
 
 		_graphics->SetTexture(0, batch._texture);

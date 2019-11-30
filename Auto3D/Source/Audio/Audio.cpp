@@ -4,7 +4,7 @@
 #include "Debug/Log.h"
 #include "Core/Modules/ModuleManager.h"
 
-#include "Sound.h"
+#include "Engine/Components/Sound.h"
 #include "AudioListener.h"
 #include "AudioSource.h"
 #include "AudioBuffer.h"

@@ -115,17 +115,17 @@ static Matrix4x4F captureViews[] = {
 	LookAt(Vector3F(0.0f, 0.0f, 0.0f), Vector3F(0.0f, 0.0f, -1.0f), Vector3F(0.0f, -1.0f, 0.0f))
 };
 
-static ShaderVariation* irradianceVSV = nullptr;
-static ShaderVariation* irradiancePSV = nullptr;
+static FShaderVariation* irradianceVSV = nullptr;
+static FShaderVariation* irradiancePSV = nullptr;
 
-static ShaderVariation* prefilterVSV = nullptr;
-static ShaderVariation* prefilterPSV = nullptr;
+static FShaderVariation* prefilterVSV = nullptr;
+static FShaderVariation* prefilterPSV = nullptr;
 
-static ShaderVariation* brdfVSV = nullptr;
-static ShaderVariation* brdfPSV = nullptr;
+static FShaderVariation* brdfVSV = nullptr;
+static FShaderVariation* brdfPSV = nullptr;
 
 static bool isDirty = false;
-SkyBox::SkyBox():
+ASkyBox::ASkyBox():
 	_mapSize(512),
 	_irradianceSize(32),
 	_prefilterSize(128),
@@ -134,20 +134,20 @@ SkyBox::SkyBox():
 	_brdfLUT(nullptr)
 {
 	auto cache = GModuleManager::Get().CacheModule();
-	SetModel(cache->LoadResource<Model>("Model/Box.mdl"));
+	SetModel(cache->LoadResource<AModel>("Model/Box.mdl"));
 	OnWorldBoundingBoxUpdate();
 	GModuleManager::Get().RegisteredBoxModule()->GetActiveScene()->SetSkyBox(this);
 }
 
-SkyBox::~SkyBox() = default;
+ASkyBox::~ASkyBox() = default;
 
 
-void SkyBox::RegisterObject()
+void ASkyBox::RegisterObject()
 {
-	RegisterFactory<SkyBox>();
+	RegisterFactory<ASkyBox>();
 }
 
-void SkyBox::SetupIBLMap()
+void ASkyBox::SetupIBLMap()
 {
 	if (!isDirty)
 	{
@@ -155,14 +155,14 @@ void SkyBox::SetupIBLMap()
 
 		isDirty = true;
 
-		irradianceVSV = cache->LoadResource<Shader>("Shader/IBL/Cubemap.vert")->CreateVariation();
-		irradiancePSV = cache->LoadResource<Shader>("Shader/IBL/IrradianceConvolution.frag")->CreateVariation();
+		irradianceVSV = cache->LoadResource<AShader>("Shader/IBL/Cubemap.vert")->CreateVariation();
+		irradiancePSV = cache->LoadResource<AShader>("Shader/IBL/IrradianceConvolution.frag")->CreateVariation();
 
-		prefilterVSV = cache->LoadResource<Shader>("Shader/IBL/Cubemap.vert")->CreateVariation();
-		prefilterPSV = cache->LoadResource<Shader>("Shader/IBL/Prefilter.frag")->CreateVariation();
+		prefilterVSV = cache->LoadResource<AShader>("Shader/IBL/Cubemap.vert")->CreateVariation();
+		prefilterPSV = cache->LoadResource<AShader>("Shader/IBL/Prefilter.frag")->CreateVariation();
 
-		brdfVSV = cache->LoadResource<Shader>("Shader/IBL/Brdf.vert")->CreateVariation();
-		brdfPSV = cache->LoadResource<Shader>("Shader/IBL/Brdf.frag")->CreateVariation();
+		brdfVSV = cache->LoadResource<AShader>("Shader/IBL/Brdf.vert")->CreateVariation();
+		brdfPSV = cache->LoadResource<AShader>("Shader/IBL/Brdf.frag")->CreateVariation();
 	}
 
 
@@ -186,16 +186,16 @@ void SkyBox::SetupIBLMap()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-const TSharedPtr<Texture>& SkyBox::SetupIrradianceMap()
+const TSharedPtr<ATexture>& ASkyBox::SetupIrradianceMap()
 {
 	if (_irradianceMap)
 		_irradianceMap.Reset();
 
 	auto graphics = GModuleManager::Get().GraphicsModule();
 
-	_irradianceMap = TSharedPtr<Texture>(new Texture());
-	_irradianceMap->Define(TextureType::TEX_CUBE, ResourceUsage::DEFAULT, Vector2I(_irradianceSize, _irradianceSize), ImageFormat::RGBA16F, 1);
-	_irradianceMap->DefineSampler(TextureFilterMode::COMPARE_TRILINEAR, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP);
+	_irradianceMap = TSharedPtr<ATexture>(new ATexture());
+	_irradianceMap->Define(ETextureType::TEX_CUBE, EResourceUsage::DEFAULT, Vector2I(_irradianceSize, _irradianceSize), EImageFormat::RGBA16F, 1);
+	_irradianceMap->DefineSampler(ETextureFilterMode::COMPARE_TRILINEAR, ETextureAddressMode::CLAMP, ETextureAddressMode::CLAMP, ETextureAddressMode::CLAMP);
 	_irradianceMap->SetDataLost(false);
 
 	glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
@@ -203,7 +203,7 @@ const TSharedPtr<Texture>& SkyBox::SetupIrradianceMap()
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, _irradianceSize, _irradianceSize);
 
 	graphics->SetShaders(irradianceVSV, irradiancePSV);
-	ShaderProgram* irradianceProgram = graphics->Shaderprogram();
+	FShaderProgram* irradianceProgram = graphics->Shaderprogram();
 
 	irradianceProgram->SetInt("environmentMap", 0);
 	irradianceProgram->SetMat4("projection", captureProjection);
@@ -222,14 +222,14 @@ const TSharedPtr<Texture>& SkyBox::SetupIrradianceMap()
 	return _irradianceMap;
 }
 
-const TSharedPtr<Texture>& SkyBox::SetupPrefilterMap()
+const TSharedPtr<ATexture>& ASkyBox::SetupPrefilterMap()
 {
 	if (_prefilterMap)
 		_prefilterMap.Reset();
 
-	_prefilterMap = TSharedPtr<Texture>(new Texture());
-	_prefilterMap->Define(TextureType::TEX_CUBE, ResourceUsage::DEFAULT, Vector2I(_prefilterSize, _prefilterSize), ImageFormat::RGBA16F, 1);
-	_prefilterMap->DefineSampler(TextureFilterMode::COMPARE_TRILINEAR, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP);
+	_prefilterMap = TSharedPtr<ATexture>(new ATexture());
+	_prefilterMap->Define(ETextureType::TEX_CUBE, EResourceUsage::DEFAULT, Vector2I(_prefilterSize, _prefilterSize), EImageFormat::RGBA16F, 1);
+	_prefilterMap->DefineSampler(ETextureFilterMode::COMPARE_TRILINEAR, ETextureAddressMode::CLAMP, ETextureAddressMode::CLAMP, ETextureAddressMode::CLAMP);
 	_prefilterMap->SetDataLost(false);
 
 	glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
@@ -237,7 +237,7 @@ const TSharedPtr<Texture>& SkyBox::SetupPrefilterMap()
 	// Run a quasi monte-carlo simulation on the environment lighting to create a prefilter (cube)map.
 	auto graphics = GModuleManager::Get().GraphicsModule();
 	graphics->SetShaders(prefilterVSV, prefilterPSV);
-	ShaderProgram* prefilterProgram = graphics->Shaderprogram();
+	FShaderProgram* prefilterProgram = graphics->Shaderprogram();
 
 	prefilterProgram->SetInt("environmentMap", 0);
 	prefilterProgram->SetMat4("projection", captureProjection);
@@ -267,14 +267,14 @@ const TSharedPtr<Texture>& SkyBox::SetupPrefilterMap()
 	return _prefilterMap;
 }
 
-const TSharedPtr<Texture>& SkyBox::SetupBrdfLUT()
+const TSharedPtr<ATexture>& ASkyBox::SetupBrdfLUT()
 {
 	if (_brdfLUT)
 		_brdfLUT.Reset();
 
-	_brdfLUT = TSharedPtr<Texture>(new Texture());
-	_brdfLUT->Define(TextureType::TEX_2D, ResourceUsage::DEFAULT, Vector2I(_mapSize, _mapSize), ImageFormat::RG16F, 1);
-	_brdfLUT->DefineSampler(TextureFilterMode::COMPARE_TRILINEAR, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP, TextureAddressMode::CLAMP);
+	_brdfLUT = TSharedPtr<ATexture>(new ATexture());
+	_brdfLUT->Define(ETextureType::TEX_2D, EResourceUsage::DEFAULT, Vector2I(_mapSize, _mapSize), EImageFormat::RG16F, 1);
+	_brdfLUT->DefineSampler(ETextureFilterMode::COMPARE_TRILINEAR, ETextureAddressMode::CLAMP, ETextureAddressMode::CLAMP, ETextureAddressMode::CLAMP);
 	_brdfLUT->SetDataLost(false);
 
 	// Re-configure capture framebuffer object and render screen-space quad with BRDF shader.
@@ -291,22 +291,22 @@ const TSharedPtr<Texture>& SkyBox::SetupBrdfLUT()
 	return _brdfLUT;
 }
 
-const TSharedPtr<Texture>& SkyBox::GetIrradianceMap()
+const TSharedPtr<ATexture>& ASkyBox::GetIrradianceMap()
 {
 	return _irradianceMap;
 }
 
-const TSharedPtr<Texture>& SkyBox::GetPrefilterMap()
+const TSharedPtr<ATexture>& ASkyBox::GetPrefilterMap()
 {
 	return _prefilterMap;
 }
 
-const TSharedPtr<Texture>& SkyBox::GetBrdfLUT()
+const TSharedPtr<ATexture>& ASkyBox::GetBrdfLUT()
 {
 	return _brdfLUT;
 }
 
-void SkyBox::OnWorldBoundingBoxUpdate()
+void ASkyBox::OnWorldBoundingBoxUpdate()
 {
 	// The skybox is supposed to be visible everywhere, so set a humongous bounding box
 	_boundingBox.Define(-M_FLOAT_BIG, M_FLOAT_BIG);

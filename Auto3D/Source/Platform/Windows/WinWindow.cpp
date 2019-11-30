@@ -133,7 +133,7 @@ void Window::DestoryWindow()
 		ErrorString("Destroy window operation failed and exiting program");
 }
 
-void Window::SetIcon(Image* icon)
+void Window::SetIcon(AImage* icon)
 {
 	if(icon)
 		_icon = icon;
@@ -322,9 +322,9 @@ void Window::CreateWindowIcon()
 {
 	if (_icon)
 	{
-		Image* icon = _icon;
-		//if (icon->GetFormat() != ImageFormat::RGBA8)
-		//	icon->convert(ImageFormat::RGBA8);
+		AImage* icon = _icon;
+		//if (icon->GetFormat() != EImageFormat::RGBA8)
+		//	icon->convert(EImageFormat::RGBA8);
 		int w = icon->GetWidth();
 		int h = icon->GetHeight();
 
@@ -361,7 +361,7 @@ void Window::CreateWindowIcon()
 				wpx[3] = rpx[3];
 			}
 		}
-		ImageFormat::Type imageFormat = _icon->GetFormat();
+		EImageFormat::Type imageFormat = _icon->GetFormat();
 
 		HICON hicon = CreateIconFromResource((PBYTE)_icon->Data(),40+ w * h * 4, TRUE, 0x00030000);
 		int error = GetLastError();

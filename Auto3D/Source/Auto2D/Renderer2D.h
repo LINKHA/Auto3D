@@ -8,18 +8,18 @@ class Scene2D;
 class Camera2D;
 class Node2D;
 
-class Graphics;
-class VertexBuffer;
-class IndexBuffer;
-class ConstantBuffer;
-class ShaderVariation;
-struct VertexElement;
-class Shader;
+class AGraphics;
+class FVertexBuffer;
+class FIndexBuffer;
+class FConstantBuffer;
+class FShaderVariation;
+struct FVertexElement;
+class AShader;
 
-/// Texture coordinate index for the instance world matrix.
+/// ATexture coordinate index for the instance world matrix.
 static const size_t U_INSTANCE_TEXCOORD = 4;
 
-/// Shader constant buffers used by high-level rendering.
+/// AShader constant buffers used by high-level rendering.
 namespace ConstantBuffer2D
 {
 	enum Type
@@ -58,8 +58,8 @@ private:
 	void Initialize();
 	/// Render batches from a specific queue and camera.
 	void RenderBatches(const TVector<Batch2D>& batches, Camera2D* camera);
-	/// Graphics subsystem.
-	TWeakPtr<Graphics> _graphics;
+	/// AGraphics subsystem.
+	TWeakPtr<AGraphics> _graphics;
 	/// Renderer2D rendering batches.
 	TVector<Batch2D> _batches;
 	/// Current scene.
@@ -79,23 +79,23 @@ private:
 	/// Instance transforms for uploading to the instance vertex buffer.
 	TVector<Matrix3x4F> _instanceTransforms;
 	/// Per-frame vertex shader constant buffer.
-	TSharedPtr<ConstantBuffer> _vsFrameConstantBuffer;
+	TSharedPtr<FConstantBuffer> _vsFrameConstantBuffer;
 	/// Per-object vertex shader constant buffer.
-	TSharedPtr<ConstantBuffer> _vsObjectConstantBuffer;
+	TSharedPtr<FConstantBuffer> _vsObjectConstantBuffer;
 	/// Per-frame pixel shader constant buffer.
-	TSharedPtr<ConstantBuffer> _psFrameConstantBuffer;
+	TSharedPtr<FConstantBuffer> _psFrameConstantBuffer;
 	/// Instance transform vertex buffer.
-	TAutoPtr<VertexBuffer> _instanceVertexBuffer;
+	TAutoPtr<FVertexBuffer> _instanceVertexBuffer;
 	/// Vertex elements for the instance vertex buffer.
-	TVector<VertexElement> _instanceVertexElements;
+	TVector<FVertexElement> _instanceVertexElements;
 	/// Render 2D shaderVariation vs.
-	ShaderVariation* _vsv;
+	FShaderVariation* _vsv;
 	/// Render 2D shaderVariation ps.
-	ShaderVariation* _psv;
+	FShaderVariation* _psv;
 	/// Instance shaderVariation vs 
-	ShaderVariation* _ivsv;
-	/// Instance ShaderVariation ps
-	ShaderVariation* _ipsv;
+	FShaderVariation* _ivsv;
+	/// Instance FShaderVariation ps
+	FShaderVariation* _ipsv;
 };
 
 /// Register Renderer2D related object factories and attributes.

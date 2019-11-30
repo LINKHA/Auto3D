@@ -7,30 +7,30 @@
 namespace Auto3D
 {
 
-class Graphics;
-class ShaderVariation;
+class AGraphics;
+class FShaderVariation;
 
 /// Description of a shader's vertex attribute.
-struct AUTO_API VertexAttribute
+struct AUTO_API FVertexAttribute
 {
     /// FName of attribute.
     FString _name;
     /// FAttribute binding point. 
     unsigned _location;
     /// FAttribute semantic.
-    ElementSemantic::Type _semantic;
+    EElementSemantic::Type _semantic;
     /// FAttribute's semantic index.
     unsigned char _index;
 };
 
 /// Linked shader program consisting of vertex and pixel shaders.
-class AUTO_API ShaderProgram : public GPUObject
+class AUTO_API FShaderProgram : public FGPUObject
 {
 public:
     /// Construct with shader pointers.
-    ShaderProgram(ShaderVariation* vs, ShaderVariation* ps);
+    FShaderProgram(FShaderVariation* vs, FShaderVariation* ps);
     /// Destruct.
-    ~ShaderProgram();
+    ~FShaderProgram();
 
     /// Release the linked shader program.
     void Release() override;
@@ -39,11 +39,11 @@ public:
     bool Link();
 
     /// Return the vertex shader.
-    ShaderVariation* VertexShader() const;
+    FShaderVariation* VertexShader() const;
     /// Return the pixel shader.
-    ShaderVariation* PixelShader() const;
+    FShaderVariation* PixelShader() const;
     /// Return vertex attribute descriptions.
-    const TVector<VertexAttribute>& Attributes() const { return _attributes; }
+    const TVector<FVertexAttribute>& Attributes() const { return _attributes; }
     /// Return combined name of the shader program.
     FString FullName() const;
 
@@ -76,11 +76,11 @@ private:
     /// OpenGL shader program identifier.
     unsigned _program;
     /// Vertex shader.
-    TWeakPtr<ShaderVariation> _vs;
+    TWeakPtr<FShaderVariation> _vs;
     /// Pixel shader.
-    TWeakPtr<ShaderVariation> _ps;
+    TWeakPtr<FShaderVariation> _ps;
     /// Vertex attribute semantics and indices.
-    TVector<VertexAttribute> _attributes;
+    TVector<FVertexAttribute> _attributes;
 };
 
 }

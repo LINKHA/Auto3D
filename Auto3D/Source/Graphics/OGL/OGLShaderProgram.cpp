@@ -26,19 +26,19 @@ int NumberPostfix(const FString& str)
     return -1;
 }
 
-ShaderProgram::ShaderProgram(ShaderVariation* vs, ShaderVariation* ps) :
+FShaderProgram::FShaderProgram(FShaderVariation* vs, FShaderVariation* ps) :
     _program(0),
     _vs(vs),
     _ps(ps)
 {
 }
 
-ShaderProgram::~ShaderProgram()
+FShaderProgram::~FShaderProgram()
 {
     Release();
 }
 
-void ShaderProgram::Release()
+void FShaderProgram::Release()
 {
     if (_program)
     {
@@ -47,7 +47,7 @@ void ShaderProgram::Release()
     }
 }
 
-bool ShaderProgram::Link()
+bool FShaderProgram::Link()
 {
     PROFILE(LinkShaderProgram);
 
@@ -115,9 +115,9 @@ bool ShaderProgram::Link()
     {
         glGetActiveAttrib(_program, i, (GLsizei)MAX_NAME_LENGTH, &nameLength, &numElements, &type, nameBuffer);
         
-        VertexAttribute newAttribute;
+        FVertexAttribute newAttribute;
         newAttribute._name = FString(nameBuffer, nameLength);
-        newAttribute._semantic = ElementSemantic::POSITION;
+        newAttribute._semantic = EElementSemantic::POSITION;
         newAttribute._index = 0;
 
         for (size_t j = 0; elementSemanticNames[j]; ++j)
@@ -129,10 +129,10 @@ bool ShaderProgram::Link()
                     newAttribute._index = (unsigned char)index;
                 break;
             }
-            newAttribute._semantic = (ElementSemantic::Type)(newAttribute._semantic + 1);
+            newAttribute._semantic = (EElementSemantic::Type)(newAttribute._semantic + 1);
         }
 
-        if (newAttribute._semantic == ElementSemantic::Count)
+        if (newAttribute._semantic == EElementSemantic::Count)
         {
             WarningStringF("Found vertex attribute %s with no known semantic in shader program %s", newAttribute._name.CString(), FullName().CString());
             continue;
@@ -209,102 +209,102 @@ bool ShaderProgram::Link()
     return true;
 }
 
-ShaderVariation* ShaderProgram::VertexShader() const
+FShaderVariation* FShaderProgram::VertexShader() const
 {
     return _vs;
 }
 
-ShaderVariation* ShaderProgram::PixelShader() const
+FShaderVariation* FShaderProgram::PixelShader() const
 {
     return _ps;
 }
 
-FString ShaderProgram::FullName() const
+FString FShaderProgram::FullName() const
 {
     return (_vs && _ps) ? _vs->FullName() + " " + _ps->FullName() : FString::EMPTY;
 }
 
-void ShaderProgram::SetBool(const FString& name, bool value) const
+void FShaderProgram::SetBool(const FString& name, bool value) const
 {
 	glUniform1i(glGetUniformLocation(_program, name.CString()), (int)value);
 }
 
-void ShaderProgram::SetInt(const FString& name, int value) const
+void FShaderProgram::SetInt(const FString& name, int value) const
 {
 	glUniform1i(glGetUniformLocation(_program, name.CString()), value);
 }
 
-void ShaderProgram::SetFloat(const FString& name, float value) const
+void FShaderProgram::SetFloat(const FString& name, float value) const
 {
 	glUniform1f(glGetUniformLocation(_program, name.CString()), value);
 }
 
-void ShaderProgram::SetVec2(const FString& name, const Vector2F& value) const
+void FShaderProgram::SetVec2(const FString& name, const Vector2F& value) const
 {
 	glUniform2fv(glGetUniformLocation(_program, name.CString()), 1, value.Data());
 }
 
-void ShaderProgram::SetVec2(const FString& name, float x, float y) const
+void FShaderProgram::SetVec2(const FString& name, float x, float y) const
 {
 	glUniform2f(glGetUniformLocation(_program, name.CString()), x, y);
 }
 
-void ShaderProgram::SetVec2s(const FString& name, int size, float* pVec2) const
+void FShaderProgram::SetVec2s(const FString& name, int size, float* pVec2) const
 {
 	glUniform2fv(glGetUniformLocation(_program, name.CString()),size , pVec2);
 }
 
-void ShaderProgram::SetVec3(const FString& name, const Vector3F& value) const
+void FShaderProgram::SetVec3(const FString& name, const Vector3F& value) const
 {
 	glUniform3fv(glGetUniformLocation(_program, name.CString()), 1, value.Data());
 }
 
-void ShaderProgram::SetVec3(const FString& name, float x, float y, float z) const
+void FShaderProgram::SetVec3(const FString& name, float x, float y, float z) const
 {
 	glUniform3f(glGetUniformLocation(_program, name.CString()), x, y, z);
 }
 
-void ShaderProgram::SetVec3s(const FString& name, int size, float* pVec3) const
+void FShaderProgram::SetVec3s(const FString& name, int size, float* pVec3) const
 {
 	glUniform3fv(glGetUniformLocation(_program, name.CString()), size, pVec3);
 }
 
-void ShaderProgram::SetVec4(const FString& name, const Vector4F& value) const
+void FShaderProgram::SetVec4(const FString& name, const Vector4F& value) const
 {
 	glUniform4fv(glGetUniformLocation(_program, name.CString()), 1, value.Data());
 }
 
-void ShaderProgram::SetVec4(const FString& name, float x, float y, float z, float w)
+void FShaderProgram::SetVec4(const FString& name, float x, float y, float z, float w)
 {
 	glUniform4f(glGetUniformLocation(_program, name.CString()), x, y, z, w);
 }
 
-void ShaderProgram::SetVec4s(const FString& name, int size, float* pVec4)
+void FShaderProgram::SetVec4s(const FString& name, int size, float* pVec4)
 {
 	glUniform4fv(glGetUniformLocation(_program, name.CString()), size, pVec4);
 }
 
-void ShaderProgram::SetMat2(const FString& name, const Matrix2x2F& mat) const
+void FShaderProgram::SetMat2(const FString& name, const Matrix2x2F& mat) const
 {
 	glUniformMatrix2fv(glGetUniformLocation(_program, name.CString()), 1, GL_FALSE, mat.Data());
 }
 
-void ShaderProgram::SetMat3(const FString& name, const Matrix3x3F& mat) const
+void FShaderProgram::SetMat3(const FString& name, const Matrix3x3F& mat) const
 {
 	glUniformMatrix3fv(glGetUniformLocation(_program, name.CString()), 1, GL_FALSE, mat.Data());
 }
 
-void ShaderProgram::SetMat4(const FString& name, const Matrix4x4F& mat) const
+void FShaderProgram::SetMat4(const FString& name, const Matrix4x4F& mat) const
 {
 	glUniformMatrix4fv(glGetUniformLocation(_program, name.CString()), 1, GL_FALSE, mat.Data());
 }
 
-unsigned ShaderProgram::GetUniformLocation(const FString& uniformName) const
+unsigned FShaderProgram::GetUniformLocation(const FString& uniformName) const
 {
 	return glGetUniformLocation(_program, uniformName.CString());
 }
 
-unsigned ShaderProgram::GetAttribLocation(const FString& AttribName) const
+unsigned FShaderProgram::GetAttribLocation(const FString& AttribName) const
 {
 	return glGetAttribLocation(_program, AttribName.CString());
 }

@@ -15,28 +15,28 @@ namespace Auto3D
 
 static Vector3F DOT_SCALE(1 / 3.0f, 1 / 3.0f, 1 / 3.0f);
 
-StaticModel::StaticModel() :
+AStaticModel::AStaticModel() :
     _lodBias(1.0f),
     _hasLodLevels(false)
 {
 }
 
-StaticModel::~StaticModel()
+AStaticModel::~AStaticModel()
 {
 }
 
-void StaticModel::RegisterObject()
+void AStaticModel::RegisterObject()
 {
-    RegisterFactory<StaticModel>();
-    // Copy base attributes from OctreeNode instead of GeometryNode, as the model attribute needs to be set first so that
+    RegisterFactory<AStaticModel>();
+    // Copy base attributes from AOctreeNode instead of AGeometryNode, as the model attribute needs to be set first so that
     // there is the correct amount of materials to assign
-    CopyBaseAttributes<StaticModel, OctreeNode>();
-    RegisterMixedRefAttribute("model", &StaticModel::ModelAttr, &StaticModel::SetModelAttr, ResourceRef(Model::GetTypeStatic()));
-    CopyBaseAttribute<StaticModel, GeometryNode>("materials");
-    RegisterAttribute("lodBias", &StaticModel::LodBias, &StaticModel::SetLodBias, 1.0f);
+    CopyBaseAttributes<AStaticModel, AOctreeNode>();
+    RegisterMixedRefAttribute("model", &AStaticModel::ModelAttr, &AStaticModel::SetModelAttr, ResourceRef(AModel::GetTypeStatic()));
+    CopyBaseAttribute<AStaticModel, AGeometryNode>("materials");
+    RegisterAttribute("lodBias", &AStaticModel::LodBias, &AStaticModel::SetLodBias, 1.0f);
 }
 
-void StaticModel::OnPrepareRender(unsigned frameNumber, Camera* camera)
+void AStaticModel::OnPrepareRender(unsigned frameNumber, ACamera* camera)
 {
     _lastFrameNumber = frameNumber;
     _lightList = nullptr;
@@ -64,7 +64,7 @@ void StaticModel::OnPrepareRender(unsigned frameNumber, Camera* camera)
     }
 }
 
-void StaticModel::SetModel(Model* model)
+void AStaticModel::SetModel(AModel* model)
 {
     _model = model;
     _hasLodLevels = false;
@@ -88,25 +88,25 @@ void StaticModel::SetModel(Model* model)
     SetLocalBoundingBox(_model->GetLocalBoundingBox());
 }
 
-void StaticModel::SetLodBias(float bias)
+void AStaticModel::SetLodBias(float bias)
 {
     _lodBias = Max(bias, M_EPSILON);
 }
 
-Model* StaticModel::GetModel() const
+AModel* AStaticModel::GetModel() const
 {
     return _model.Get();
 }
 
-void StaticModel::SetModelAttr(const ResourceRef& model)
+void AStaticModel::SetModelAttr(const ResourceRef& model)
 {
 	ResourceCache* cache = GModuleManager::Get().CacheModule();
-    SetModel(cache->LoadResource<Model>(model._name));
+    SetModel(cache->LoadResource<AModel>(model._name));
 }
 
-ResourceRef StaticModel::ModelAttr() const
+ResourceRef AStaticModel::ModelAttr() const
 {
-    return ResourceRef(Model::GetTypeStatic(), ResourceName(_model.Get()));
+    return ResourceRef(AModel::GetTypeStatic(), ResourceName(_model.Get()));
 }
 
 }

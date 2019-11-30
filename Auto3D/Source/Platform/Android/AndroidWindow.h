@@ -8,7 +8,7 @@ struct SDL_Window;
 namespace Auto3D
 {
 
-class Image;
+class AImage;
 
 /// Window resized event.
 class AUTO_API WindowResizeEvent : public FEvent
@@ -39,7 +39,7 @@ public:
 	/// Set window title.
 	void SetTitle(const FString& newTitle);
 	/// Set window icon
-	void SetIcon(Image* icon);
+	void SetIcon(AImage* icon);
 	/// Set _window _size. Open the _window if not opened yet. Return true on success.
 	bool SetSize(const RectI& rect, int multisample = 1, bool fullscreen = false, bool resizable = false,bool center = true, bool borderless = false, bool highDPI = false);
 	/// Set _window _position.
@@ -121,7 +121,7 @@ private:
 	/// Window handle.
 	SDL_Window* _handle;
 	/// Window icon image.
-	TWeakPtr<Image> _icon;
+	TWeakPtr<AImage> _icon;
 	/// Window _title.
 	FString _title;
 	/// Window rect

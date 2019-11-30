@@ -75,18 +75,18 @@ bool UI::SetMode(Window* window)
 
 
 	const char* glslVersion;
-	GraphicsSLVersion::Type slVersion = GModuleManager::Get().GraphicsModule()->GetGraphicsSLVersion();
-	if (slVersion == GraphicsSLVersion::GLSL_430)
+	EGraphicsSLVersion::Type slVersion = GModuleManager::Get().GraphicsModule()->GetGraphicsSLVersion();
+	if (slVersion == EGraphicsSLVersion::GLSL_430)
 		glslVersion = "#version 430";
-	else if (slVersion == GraphicsSLVersion::GLSL_330)
+	else if (slVersion == EGraphicsSLVersion::GLSL_330)
 		glslVersion = "#version 330";
-	else if (slVersion == GraphicsSLVersion::GLSL_150)
+	else if (slVersion == EGraphicsSLVersion::GLSL_150)
 		glslVersion = "#version 150";
-	else if (slVersion == GraphicsSLVersion::GLSL_450)
+	else if (slVersion == EGraphicsSLVersion::GLSL_450)
 		glslVersion = "#version 450";
-	else if (slVersion == GraphicsSLVersion::GLSL_ES_300)
+	else if (slVersion == EGraphicsSLVersion::GLSL_ES_300)
 		glslVersion = "#version 300 es";
-	else if (slVersion == GraphicsSLVersion::GLSL_ES_100)
+	else if (slVersion == EGraphicsSLVersion::GLSL_ES_100)
 		glslVersion = "#version 100";
 	else
 		glslVersion = NULL;
@@ -151,12 +151,12 @@ void UI::Present()
 #	endif
 }
 
-void UI::AddFont(Font* font, int pixels, FString fontname, UIFontLanguage::Data languageType)
+void UI::AddFont(AFont* font, int pixels, FString fontname, UIFontLanguage::Data languageType)
 {
 	if (fontname == "Default")
 		fontname = "Default" + UIFont::DefaultSize++;
 
-	// Ignore if you have the same Font
+	// Ignore if you have the same AFont
 	if (ImGui::GetFont(fontname.CString()))
 		return;
 
@@ -489,7 +489,7 @@ void PushFont(const FString& font)
 {
 	ImGui::PushFont(font.CString());
 }
-void PushFont(Font* font)
+void PushFont(AFont* font)
 {
 	ImGui::PushFont(font);
 }
@@ -525,7 +525,7 @@ const Vector4F& GetStyleColorVec4(Col idx)
 {
 	return ImToVal(ImGui::GetStyleColorVec4(idx));
 }
-Font* GetFont()
+AFont* GetFont()
 {
 	return ImGui::GetFont();
 }
@@ -820,11 +820,11 @@ bool ArrowButton(const char* str_id, Dir dir)
 {
 	return ImGui::ArrowButton( str_id,  dir);
 }
-void Image(Texture* user_texture, const Vector2F& size, const Vector2F& uv0, const Vector2F& uv1, const Vector4F& tint_col, const Vector4F& border_col)
+void AImage(ATexture* user_texture, const Vector2F& size, const Vector2F& uv0, const Vector2F& uv1, const Vector4F& tint_col, const Vector4F& border_col)
 {
 	ImGui::Image((void*)user_texture->GetGLTexture(), ToImVal(size), ToImVal(uv0), ToImVal(uv1), ToImVal(tint_col), ToImVal(border_col));
 }
-bool ImageButton(Texture* user_texture, const Vector2F& size, const Vector2F& uv0, const Vector2F& uv1, int frame_padding, const Vector4F& bg_col, const Vector4F& tint_col )
+bool ImageButton(ATexture* user_texture, const Vector2F& size, const Vector2F& uv0, const Vector2F& uv1, int frame_padding, const Vector4F& bg_col, const Vector4F& tint_col )
 {
 	return ImGui::ImageButton((void*)user_texture->GetGLTexture(), ToImVal(size), ToImVal(uv0), ToImVal(uv1),  frame_padding, ToImVal(bg_col), ToImVal(tint_col));
 }

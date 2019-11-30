@@ -7,7 +7,7 @@ namespace Auto3D
 
 class GModuleManager;
 class ResourceCache;
-class Graphics;
+class AGraphics;
 class Renderer;
 class Input;
 class ALog;
@@ -104,7 +104,7 @@ private:
 	/// Manage the subsystem of all resource loads
 	ResourceCache* _cache;
 	/// ADAPTS the low-level rendering interface as well as the form's rendering function
-	Graphics* _graphics;
+	AGraphics* _graphics;
 	/// 3D rendering of the scene
 	Renderer* _renderer;
 	/// User input management events

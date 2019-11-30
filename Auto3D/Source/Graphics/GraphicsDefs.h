@@ -43,8 +43,8 @@ static const unsigned char COLORMASK_A = 0x8;
 /// Write to all color channels (default.)
 static const unsigned char COLORMASK_ALL = 0xf;
 
-/// Shader stages.
-namespace ShaderStage
+/// AShader stages.
+namespace EShaderStage
 {
 	enum Type
 	{
@@ -56,7 +56,7 @@ namespace ShaderStage
 
 
 /// Element types for constant buffers and vertex elements.
-namespace ElementType
+namespace EElementType
 {
 	enum Type
 	{
@@ -73,7 +73,7 @@ namespace ElementType
 };
 
 /// Element semantics for vertex elements.
-namespace ElementSemantic
+namespace EElementSemantic
 {
 	enum Type
 	{
@@ -91,7 +91,7 @@ namespace ElementSemantic
 
 
 /// Primitive types.
-namespace PrimitiveType
+namespace EPrimitiveType
 {
 	enum Type
 	{
@@ -105,7 +105,7 @@ namespace PrimitiveType
 };
 
 /// Blend factors.
-namespace BlendFactor
+namespace EBlendFactor
 {
 	enum Type
 	{
@@ -126,7 +126,7 @@ namespace BlendFactor
 
 
 /// Blend operations.
-namespace BlendOp
+namespace EBlendOp
 {
 	enum Type
 	{
@@ -140,7 +140,7 @@ namespace BlendOp
 };
 
 /// Predefined blend modes.
-namespace BlendMode
+namespace EBlendMode
 {
 	enum Type
 	{
@@ -158,7 +158,7 @@ namespace BlendMode
 };
 
 /// Fill modes.
-namespace FillMode
+namespace EFillMode
 {
 	enum Type
 	{
@@ -169,7 +169,7 @@ namespace FillMode
 };
 
 /// Triangle culling modes.
-namespace CullMode
+namespace ECullMode
 {
 	enum Type
 	{
@@ -182,7 +182,7 @@ namespace CullMode
 
 
 /// Depth or stencil compare modes.
-namespace CompareFunc
+namespace ECompareFunc
 {
 	enum Type
 	{
@@ -199,7 +199,7 @@ namespace CompareFunc
 };
 
 /// Stencil operations.
-namespace StencilOp
+namespace EStencilOp
 {
 	enum Type
 	{
@@ -215,8 +215,8 @@ namespace StencilOp
 	};
 };
 
-/// Texture types.
-namespace TextureType
+/// ATexture types.
+namespace ETextureType
 {
 	enum Type
 	{
@@ -230,7 +230,7 @@ namespace TextureType
 };
 
 /// AResource usage modes. Rendertarget usage can only be used with textures.
-namespace ResourceUsage
+namespace EResourceUsage
 {
 	enum Type
 	{
@@ -241,8 +241,8 @@ namespace ResourceUsage
 	};
 };
 
-/// Texture filtering modes.
-namespace TextureFilterMode
+/// ATexture filtering modes.
+namespace ETextureFilterMode
 {
 	enum Type
 	{
@@ -257,8 +257,8 @@ namespace TextureFilterMode
 	};
 };
 
-/// Texture addressing modes.
-namespace TextureAddressMode
+/// ATexture addressing modes.
+namespace ETextureAddressMode
 {
 	enum Type
 	{
@@ -274,12 +274,12 @@ namespace TextureAddressMode
 
 
 /// Description of an element in a vertex declaration.
-struct AUTO_API VertexElement
+struct AUTO_API FVertexElement
 {
     /// Default-construct.
-    VertexElement() :
-        _type(ElementType::VECTOR3),
-        _semantic(ElementSemantic::POSITION),
+    FVertexElement() :
+        _type(EElementType::VECTOR3),
+        _semantic(EElementSemantic::POSITION),
         _index(0),
         _perInstance(false),
         _offset(0)
@@ -287,7 +287,7 @@ struct AUTO_API VertexElement
     }
 
     /// Construct with type, semantic, index and whether is per-instance data.
-    VertexElement(ElementType::Type type, ElementSemantic::Type semantic, unsigned char index = 0, bool perInstance = false) :
+    FVertexElement(EElementType::Type type, EElementSemantic::Type semantic, unsigned char index = 0, bool perInstance = false) :
         _type(type),
         _semantic(semantic),
         _index(index),
@@ -297,28 +297,28 @@ struct AUTO_API VertexElement
     }
 
     /// Data type of element.
-    ElementType::Type _type;
+    EElementType::Type _type;
     /// Semantic of element.
-    ElementSemantic::Type _semantic;
+    EElementSemantic::Type _semantic;
     /// Semantic index of element, for example multi-texcoords.
     unsigned char _index;
     /// Per-instance flag.
     bool _perInstance;
-    /// Offset of element from vertex start. Filled by VertexBuffer.
+    /// Offset of element from vertex start. Filled by FVertexBuffer.
     size_t _offset;
 };
 
 /// Description of a shader constant.
-struct AUTO_API Constant
+struct AUTO_API FConstant
 {
     /// Construct empty.
-    Constant() :
+    FConstant() :
         _numElements(1)
     {
     }
 
     /// Construct with type, name and optional number of elements.
-    Constant(ElementType::Type type, const FString& name, size_t numElements = 1) :
+    FConstant(EElementType::Type type, const FString& name, size_t numElements = 1) :
         _type(type),
         _name(name),
         _numElements(numElements)
@@ -326,7 +326,7 @@ struct AUTO_API Constant
     }
 
     /// Construct with type, name and optional number of elements.
-    Constant(ElementType::Type type, const char* name, size_t numElements = 1) :
+    FConstant(EElementType::Type type, const char* name, size_t numElements = 1) :
         _type(type),
         _name(name),
         _numElements(numElements)
@@ -334,28 +334,28 @@ struct AUTO_API Constant
     }
 
     /// Data type of constant.
-    ElementType::Type _type;
+    EElementType::Type _type;
     /// FName of constant.
     FString _name;
     /// Number of elements. Default 1.
     size_t _numElements;
-    /// Element _size. Filled by ConstantBuffer.
+    /// Element _size. Filled by FConstantBuffer.
     size_t _elementSize;
-    /// Offset from the beginning of the buffer. Filled by ConstantBuffer.
+    /// Offset from the beginning of the buffer. Filled by FConstantBuffer.
     size_t _offset;
 };
 
 /// Description of a blend mode.
-struct AUTO_API BlendModeDesc
+struct AUTO_API FBlendModeDesc
 {
     /// Default-construct.
-    BlendModeDesc()
+    FBlendModeDesc()
     {
         Reset();
     }
 
     /// Construct with parameters.
-    BlendModeDesc(bool blendEnable, BlendFactor::Type srcBlend, BlendFactor::Type destBlend, BlendOp::Type blendOp, BlendFactor::Type srcBlendAlpha, BlendFactor::Type destBlendAlpha, BlendOp::Type blendOpAlpha) :
+    FBlendModeDesc(bool blendEnable, EBlendFactor::Type srcBlend, EBlendFactor::Type destBlend, EBlendOp::Type blendOp, EBlendFactor::Type srcBlendAlpha, EBlendFactor::Type destBlendAlpha, EBlendOp::Type blendOpAlpha) :
         _blendEnable(blendEnable),
         _srcBlend(srcBlend),
         _destBlend(destBlend),
@@ -370,40 +370,40 @@ struct AUTO_API BlendModeDesc
     void Reset()
     {
         _blendEnable = false;
-        _srcBlend = BlendFactor::ONE;
-        _destBlend = BlendFactor::ONE;
-        _blendOp = BlendOp::ADD;
-        _srcBlendAlpha = BlendFactor::ONE;
-        _destBlendAlpha = BlendFactor::ONE;
-        _blendOpAlpha = BlendOp::ADD;
+        _srcBlend = EBlendFactor::ONE;
+        _destBlend = EBlendFactor::ONE;
+        _blendOp = EBlendOp::ADD;
+        _srcBlendAlpha = EBlendFactor::ONE;
+        _destBlendAlpha = EBlendFactor::ONE;
+        _blendOpAlpha = EBlendOp::ADD;
     }
 
     /// Test for equality with another blend mode description.
-    bool operator == (const BlendModeDesc& rhs) const { return _blendEnable == rhs._blendEnable && _srcBlend == rhs._srcBlend && _destBlend == rhs._destBlend && _blendOp == rhs._blendOp && _srcBlendAlpha == rhs._srcBlendAlpha && _destBlendAlpha == rhs._destBlendAlpha && _blendOpAlpha == rhs._blendOpAlpha; }
+    bool operator == (const FBlendModeDesc& rhs) const { return _blendEnable == rhs._blendEnable && _srcBlend == rhs._srcBlend && _destBlend == rhs._destBlend && _blendOp == rhs._blendOp && _srcBlendAlpha == rhs._srcBlendAlpha && _destBlendAlpha == rhs._destBlendAlpha && _blendOpAlpha == rhs._blendOpAlpha; }
     /// Test for inequality with another blend mode description.
-    bool operator != (const BlendModeDesc& rhs) const { return !(*this == rhs); }
+    bool operator != (const FBlendModeDesc& rhs) const { return !(*this == rhs); }
 
     /// Blend enable flag.
     bool _blendEnable;
     /// Source color blend factor.
-    BlendFactor::Type _srcBlend;
+    EBlendFactor::Type _srcBlend;
     /// Destination color blend factor.
-    BlendFactor::Type _destBlend;
+    EBlendFactor::Type _destBlend;
     /// Color blend operation.
-    BlendOp::Type _blendOp;
+    EBlendOp::Type _blendOp;
     /// Source alpha blend factor.
-    BlendFactor::Type _srcBlendAlpha;
+    EBlendFactor::Type _srcBlendAlpha;
     /// Destination alpha blend factor.
-    BlendFactor::Type _destBlendAlpha;
+    EBlendFactor::Type _destBlendAlpha;
     /// Alpha blend operation.
-    BlendOp::Type _blendOpAlpha;
+    EBlendOp::Type _blendOpAlpha;
 };
 
 /// Description of a stencil test.
-struct AUTO_API StencilTestDesc
+struct AUTO_API FStencilTestDesc
 {
     /// Default-construct.
-    StencilTestDesc()
+    FStencilTestDesc()
     {
         Reset();
     }
@@ -413,14 +413,14 @@ struct AUTO_API StencilTestDesc
     {
         _stencilReadMask = 0xff;
         _stencilWriteMask = 0xff;
-        _frontFunc = CompareFunc::ALWAYS;
-        _frontFail = StencilOp::KEEP;
-        _frontDepthFail = StencilOp::KEEP;
-        _frontPass = StencilOp::KEEP;
-        _backFunc = CompareFunc::ALWAYS;
-        _backFail = StencilOp::KEEP;
-        _backDepthFail = StencilOp::KEEP;
-        _backPass = StencilOp::KEEP;
+        _frontFunc = ECompareFunc::ALWAYS;
+        _frontFail = EStencilOp::KEEP;
+        _frontDepthFail = EStencilOp::KEEP;
+        _frontPass = EStencilOp::KEEP;
+        _backFunc = ECompareFunc::ALWAYS;
+        _backFail = EStencilOp::KEEP;
+        _backDepthFail = EStencilOp::KEEP;
+        _backPass = EStencilOp::KEEP;
     }
 
     /// Stencil read bit mask.
@@ -428,28 +428,28 @@ struct AUTO_API StencilTestDesc
     /// Stencil write bit mask.
     unsigned char _stencilWriteMask;
     /// Stencil front face compare function.
-    CompareFunc::Type _frontFunc;
+    ECompareFunc::Type _frontFunc;
     /// Operation for front face stencil test fail.
-    StencilOp::Type _frontFail;
+    EStencilOp::Type _frontFail;
     /// Operation for front face depth test fail.
-    StencilOp::Type _frontDepthFail;
+    EStencilOp::Type _frontDepthFail;
     /// Operation for front face pass.
-    StencilOp::Type _frontPass;
+    EStencilOp::Type _frontPass;
     /// Stencil back face compare function.
-    CompareFunc::Type _backFunc;
+    ECompareFunc::Type _backFunc;
     /// Operation for back face stencil test fail.
-    StencilOp::Type _backFail;
+    EStencilOp::Type _backFail;
     /// Operation for back face depth test fail.
-    StencilOp::Type _backDepthFail;
+    EStencilOp::Type _backDepthFail;
     /// Operation for back face pass.
-    StencilOp::Type _backPass;
+    EStencilOp::Type _backPass;
 };
 
 /// Collection of render state.
-struct RenderState
+struct FRenderState
 {
     /// Default-construct.
-    RenderState()
+    FRenderState()
     {
         Reset();
     }
@@ -457,7 +457,7 @@ struct RenderState
     /// Reset to defaults.
     void Reset()
     {
-        _depthFunc = CompareFunc::LESS_EQUAL;
+        _depthFunc = ECompareFunc::LESS_EQUAL;
         _depthWrite = true;
         _depthClip = true;
         _depthBias = 0;
@@ -465,8 +465,8 @@ struct RenderState
         _colorWriteMask = COLORMASK_ALL;
         _alphaToCoverage = false;
         _blendMode.Reset();
-        _cullMode = CullMode::BACK;
-        _fillMode = FillMode::SOLID;
+        _cullMode = ECullMode::BACK;
+        _fillMode = EFillMode::SOLID;
         _scissorEnable = false;
         _scissorRect = RectI::ZERO;
         _stencilEnable = false;
@@ -475,12 +475,12 @@ struct RenderState
     }
 
     /// Depth test function.
-    CompareFunc::Type _depthFunc;
+    ECompareFunc::Type _depthFunc;
     /// Depth write enable.
     bool _depthWrite;
     /// Depth clipping enable.
     bool _depthClip;
-    /// Constant depth bias.
+    /// FConstant depth bias.
     int _depthBias;
     /// Slope-scaled depth bias.
     float _slopeScaledDepthBias;
@@ -489,11 +489,11 @@ struct RenderState
     /// Alpha-to-coverage enable.
     bool _alphaToCoverage;
     /// Blend mode parameters.
-    BlendModeDesc _blendMode;
+    FBlendModeDesc _blendMode;
     /// Polygon culling mode.
-    CullMode::Type _cullMode;
+    ECullMode::Type _cullMode;
     /// Polygon fill mode.
-    FillMode::Type _fillMode;
+    EFillMode::Type _fillMode;
     /// Scissor test enable.
     bool _scissorEnable;
     /// Scissor rectangle as pixels from rendertarget top left corner.
@@ -503,7 +503,7 @@ struct RenderState
     /// Stencil reference value.
     unsigned char _stencilRef;
     /// Stencil test parameters.
-    StencilTestDesc _stencilTest;
+    FStencilTestDesc _stencilTest;
 };
 
 /// Vertex element sizes by element type.
@@ -529,6 +529,6 @@ extern AUTO_API const char* compareFuncNames[];
 /// Stencil operation names.
 extern AUTO_API const char* stencilOpNames[];
 /// Predefined blend modes.
-extern AUTO_API const BlendModeDesc blendModes[];
+extern AUTO_API const FBlendModeDesc blendModes[];
 
 }

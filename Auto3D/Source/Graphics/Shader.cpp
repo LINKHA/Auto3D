@@ -11,29 +11,29 @@
 namespace Auto3D
 {
 
-Shader::Shader() :
-    _stage(ShaderStage::VS)
+AShader::AShader() :
+    _stage(EShaderStage::VS)
 {
 }
 
-Shader::~Shader()
+AShader::~AShader()
 {
 }
 
-void Shader::RegisterObject()
+void AShader::RegisterObject()
 {
-    RegisterFactory<Shader>();
+    RegisterFactory<AShader>();
 }
 
-bool Shader::BeginLoad(Stream& source)
+bool AShader::BeginLoad(Stream& source)
 {
     FString extension = Extension(source.FName());
-    _stage = (extension == ".vs" || extension == ".vert") ? ShaderStage::VS : ShaderStage::PS;
+    _stage = (extension == ".vs" || extension == ".vert") ? EShaderStage::VS : EShaderStage::PS;
     _sourceCode.Clear();
     return ProcessIncludes(_sourceCode, source);
 }
 
-bool Shader::EndLoad()
+bool AShader::EndLoad()
 {
     // Release existing variations (if any) to allow them to be recompiled with changed code
     for (auto it = _variations.Begin(); it != _variations.End(); ++it)
@@ -41,14 +41,14 @@ bool Shader::EndLoad()
     return true;
 }
 
-void Shader::Define(ShaderStage::Type stage, const FString& code)
+void AShader::Define(EShaderStage::Type stage, const FString& code)
 {
     _stage = stage;
     _sourceCode = code;
     EndLoad();
 }
 
-ShaderVariation* Shader::CreateVariation(const FString& definesIn)
+FShaderVariation* AShader::CreateVariation(const FString& definesIn)
 {
     FStringHash definesHash(definesIn);
     auto it = _variations.Find(definesHash);
@@ -62,12 +62,12 @@ ShaderVariation* Shader::CreateVariation(const FString& definesIn)
     if (it != _variations.End())
         return it->_second.Get();
 
-    ShaderVariation* newVariation = new ShaderVariation(this, defines);
+    FShaderVariation* newVariation = new FShaderVariation(this, defines);
     _variations[definesHash] = newVariation;
     return newVariation;
 }
 
-bool Shader::ProcessIncludes(FString& code, Stream& source)
+bool AShader::ProcessIncludes(FString& code, Stream& source)
 {
 	ResourceCache* cache = GModuleManager::Get().CacheModule();
 
@@ -99,7 +99,7 @@ bool Shader::ProcessIncludes(FString& code, Stream& source)
     return true;
 }
 
-FString Shader::NormalizeDefines(const FString& defines)
+FString AShader::NormalizeDefines(const FString& defines)
 {
     FString ret;
     TVector<FString> definesVec = defines.ToUpper().Split(' ');

@@ -5,9 +5,9 @@
 namespace Auto3D
 {
 
-class Camera;
+class ACamera;
 class PhysicsWorld;
-class SkyBox;
+class ASkyBox;
 
 /// %Scene root node, which also represents the whole scene.
 class AUTO_API Scene : public Node
@@ -44,23 +44,23 @@ public:
     /// Find node by _id.
     Node* FindNode(unsigned id) const;
 	/// Return all camera vector
-	TVector<Camera*>& GetAllCamera();
+	TVector<ACamera*>& GetAllCamera();
     /// Add node to the scene. This assigns a scene-unique id to it. Called internally.
     void AddNode(Node* node);
     /// Remove node from the scene. This removes the id mapping but does not destroy the node. Called internally.
     void RemoveNode(Node* node);
 	/// Add camera to the scene. 
-	void AddCamera(Camera* camera) { _cameras.Push(camera); }
+	void AddCamera(ACamera* camera) { _cameras.Push(camera); }
 	/// Remove camera from the scene.
-	void RemoveCamera(Camera* camera) { _cameras.Remove(camera); }
+	void RemoveCamera(ACamera* camera) { _cameras.Remove(camera); }
 	/// Set 3D physics world.
 	void SetPhysicsWorld(PhysicsWorld* physicsWorld);
 	/// Set skybox.
-	void SetSkyBox(SkyBox* skybox);
+	void SetSkyBox(ASkyBox* skybox);
 	/// Get 3D physics world.
 	PhysicsWorld* GetPhysicsWorld();
 	/// Get skybox.
-	SkyBox* GetSkyBox();
+	ASkyBox* GetSkyBox();
 	/// Setup shadow maps.
 	void SetupShadowMap(size_t num, int size);
 
@@ -82,15 +82,15 @@ private:
 
     /// Map from id's to nodes.
     THashMap<unsigned, Node*> _nodes;
-	/// Camera to nodes
-	TVector<Camera*> _cameras;
+	/// ACamera to nodes
+	TVector<ACamera*> _cameras;
     /// Next free node id.
     unsigned _nextNodeId;
 
 	/// Physics world custom assign this variable
 	PhysicsWorld* _physicsWorld;
 	/// Skybox in this scene.
-	SkyBox* _skybox;
+	ASkyBox* _skybox;
 };
 
 /// Register Scene related object factories and attributes.

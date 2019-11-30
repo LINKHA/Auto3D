@@ -6,7 +6,7 @@
 namespace Auto3D
 {
 
-class Texture;
+class ATexture;
 
 struct AUTO_API Batch2D
 {
@@ -23,7 +23,7 @@ struct AUTO_API Batch2D
 	/// Geometry type.
 	GeometryType::Type _type;
 
-	Texture* _texture;
+	ATexture* _texture;
 
 	union
 	{

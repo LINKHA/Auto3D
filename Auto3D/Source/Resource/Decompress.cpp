@@ -175,29 +175,29 @@ static void DecompressAlphaDXT5( unsigned char* rgba, void const* block )
         rgba[4*i + 3] = codes[indices[i]];
 }
 
-static void DecompressDXT( unsigned char* rgba, const void* block, ImageFormat::Type _format)
+static void DecompressDXT( unsigned char* rgba, const void* block, EImageFormat::Type _format)
 {
     // get the block locations
     void const* colourBlock = block;
     void const* alphaBock = block;
-    if( _format == ImageFormat::DXT3 || _format == ImageFormat::DXT5)
+    if( _format == EImageFormat::DXT3 || _format == EImageFormat::DXT5)
         colourBlock = reinterpret_cast< unsigned char const* >( block ) + 8;
 
     // decompress colour
-    DecompressColourDXT( rgba, colourBlock, _format == ImageFormat::DXT1 );
+    DecompressColourDXT( rgba, colourBlock, _format == EImageFormat::DXT1 );
 
     // decompress alpha separately if necessary
-    if( _format == ImageFormat::DXT3 )
+    if( _format == EImageFormat::DXT3 )
         DecompressAlphaDXT3( rgba, alphaBock );
-    else if ( _format == ImageFormat::DXT5 )
+    else if ( _format == EImageFormat::DXT5 )
         DecompressAlphaDXT5( rgba, alphaBock );
 }
 
-void DecompressImageDXT( unsigned char* rgba, const void* blocks, int width, int height, ImageFormat::Type _format )
+void DecompressImageDXT( unsigned char* rgba, const void* blocks, int width, int height, EImageFormat::Type _format )
 {
     // initialise the block input
     unsigned char const* sourceBlock = reinterpret_cast< unsigned char const* >( blocks );
-    int bytesPerBlock = _format == ImageFormat::DXT1 ? 8 : 16;
+    int bytesPerBlock = _format == EImageFormat::DXT1 ? 8 : 16;
 
     // loop over blocks
     for( int y = 0; y < height; y += 4 )
@@ -771,11 +771,11 @@ static unsigned TwiddleUV(unsigned YSize, unsigned XSize, unsigned YPos, unsigne
     return Twiddled;
 }
 
-void DecompressImagePVRTC(unsigned char* dest, const void *blocks, int width, int height, ImageFormat::Type _format)
+void DecompressImagePVRTC(unsigned char* dest, const void *blocks, int width, int height, EImageFormat::Type _format)
 {
     AMTC_BLOCK_STRUCT* pCompressedData = (AMTC_BLOCK_STRUCT*)blocks;
     int AssumeImageTiles = 1;
-    int Do2bitMode = _format == ImageFormat::PVRTC_RGB_2BPP || _format == ImageFormat::PVRTC_RGBA_2BPP;
+    int Do2bitMode = _format == EImageFormat::PVRTC_RGB_2BPP || _format == EImageFormat::PVRTC_RGBA_2BPP;
 
     int x, y;
     int i, j;

@@ -3,16 +3,16 @@
 namespace Auto3D
 {
 
-Water::Water()
+AWater::AWater()
 {
 }
 
-Water::~Water()
+AWater::~AWater()
 {
 }
-void Water::RegisterObject()
+void AWater::RegisterObject()
 {
-	RegisterFactory<Water>();
+	RegisterFactory<AWater>();
 }
 
 

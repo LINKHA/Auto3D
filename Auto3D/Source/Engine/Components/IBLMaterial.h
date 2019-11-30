@@ -3,27 +3,27 @@
 #include "Camera.h"
 namespace Auto3D
 {
-class SkyBox;
+class ASkyBox;
 
-class IBLMaterial : public Material 
+class AIBLMaterial : public AMaterial 
 {
-	REGISTER_OBJECT_CLASS(IBLMaterial, Material)
+	REGISTER_OBJECT_CLASS(AIBLMaterial, AMaterial)
 
 public:
 	/// Construct.
-	IBLMaterial();
+	AIBLMaterial();
 	/// Destruct.
-	virtual ~IBLMaterial();
+	virtual ~AIBLMaterial();
 
 	/// Register object factory.
 	static void RegisterObject();
 	/// End load reousrce.
 	virtual bool EndLoad();
 	/// Set up ibl map.
-	bool SetupIBL(SkyBox* skybox);
+	bool SetupIBL(ASkyBox* skybox);
 private:
 	/// IBL cube map.
-	Texture* _iblCubeMap;
+	ATexture* _iblCubeMap;
 };
 
 }

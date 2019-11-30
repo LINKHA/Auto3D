@@ -4,14 +4,14 @@
 namespace Auto3D
 {
 
-class AUTO_API Water : public DynamicModel
+class AUTO_API AWater : public ADynamicModel
 {
-	REGISTER_OBJECT_CLASS(Water, DynamicModel)
+	REGISTER_OBJECT_CLASS(AWater, ADynamicModel)
 public:
 	/// Construct.
-	Water();
+	AWater();
 	/// Destruct.
-	virtual ~Water();
+	virtual ~AWater();
 
 	/// Register factory and attributes.
 	static void RegisterObject();

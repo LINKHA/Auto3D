@@ -7,7 +7,7 @@
 namespace Auto3D
 {
 
-bool VertexBuffer::Define(ResourceUsage::Type usage, size_t numVertices, const TVector<VertexElement>& elements, bool useShadowData, const void* _data)
+bool FVertexBuffer::Define(EResourceUsage::Type usage, size_t numVertices, const TVector<FVertexElement>& elements, bool useShadowData, const void* _data)
 {
     if (!numVertices || !elements.Size())
     {
@@ -18,7 +18,7 @@ bool VertexBuffer::Define(ResourceUsage::Type usage, size_t numVertices, const T
     return Define(usage, numVertices, elements.Size(), &elements[0], useShadowData, _data);
 }
 
-bool VertexBuffer::Define(ResourceUsage::Type usage, size_t numVertices, size_t numElements, const VertexElement* elements, bool useShadowData, const void* _data)
+bool FVertexBuffer::Define(EResourceUsage::Type usage, size_t numVertices, size_t numElements, const FVertexElement* elements, bool useShadowData, const void* _data)
 {
     PROFILE(DefineVertexBuffer);
 
@@ -27,12 +27,12 @@ bool VertexBuffer::Define(ResourceUsage::Type usage, size_t numVertices, size_t 
         ErrorString("Can not define vertex buffer with no vertices or no elements");
         return false;
     }
-    if (usage == ResourceUsage::RENDERTARGET)
+    if (usage == EResourceUsage::RENDERTARGET)
     {
         ErrorString("Rendertarget usage is illegal for vertex buffers");
         return false;
     }
-    if (usage == ResourceUsage::IMMUTABLE && !_data)
+    if (usage == EResourceUsage::IMMUTABLE && !_data)
     {
         ErrorString("Immutable vertex buffer must define initial data");
         return false;
@@ -40,7 +40,7 @@ bool VertexBuffer::Define(ResourceUsage::Type usage, size_t numVertices, size_t 
 
     for (size_t i = 0; i < numElements; ++i)
     {
-        if (elements[i]._type >= ElementType::MATRIX3X4)
+        if (elements[i]._type >= EElementType::MATRIX3X4)
         {
             ErrorString("Matrix elements are not supported in vertex buffers");
             return false;

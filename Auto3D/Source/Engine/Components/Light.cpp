@@ -9,7 +9,7 @@
 namespace Auto3D
 {
 
-static const LightType::Type DEFAULT_LIGHTTYPE = LightType::POINT;
+static const ELightType::Type DEFAULT_LIGHTTYPE = ELightType::POINT;
 static const Color DEFAULT_COLOR = Color(1.0f, 1.0f, 1.0f, 0.5f);
 static const float DEFAULT_RANGE = 10.0f;
 static const float DEFAULT_SPOT_FOV = 30.0f;
@@ -27,7 +27,7 @@ static const char* lightTypeNames[] =
     0
 };
 
-Light::Light() :
+ALight::ALight() :
     _lightType(DEFAULT_LIGHTTYPE),
     _color(DEFAULT_COLOR),
     _range(DEFAULT_RANGE),
@@ -43,51 +43,51 @@ Light::Light() :
     SetFlag(NF_LIGHT, true);
 }
 
-Light::~Light()
+ALight::~ALight()
 {
 }
 
-void Light::RegisterObject()
+void ALight::RegisterObject()
 {
-    RegisterFactory<Light>();
+    RegisterFactory<ALight>();
 
-    CopyBaseAttributes<Light, OctreeNode>();
-    RegisterAttribute("lightType", &Light::LightTypeAttr, &Light::SetLightTypeAttr, (int)DEFAULT_LIGHTTYPE, lightTypeNames);
-    RegisterRefAttribute("color", &Light::GetColor, &Light::SetColor, DEFAULT_COLOR);
-    RegisterAttribute("range", &Light::GetRange, &Light::SetRange, DEFAULT_RANGE);
-    RegisterAttribute("fov", &Light::GetFov, &Light::SetFov, DEFAULT_SPOT_FOV);
-    RegisterAttribute("lightMask", &Light::GetLightMask, &Light::SetLightMask, M_MAX_UNSIGNED);
-    RegisterAttribute("shadowMapSize", &Light::GetShadowMapSize, &Light::SetShadowMapSize, DEFAULT_SHADOWMAP_SIZE);
-    RegisterRefAttribute("shadowSplits", &Light::GetShadowSplits, &Light::SetShadowSplits, DEFAULT_SHADOW_SPLITS);
-    RegisterAttribute("shadowFadeStart", &Light::GetShadowFadeStart, &Light::SetShadowFadeStart, DEFAULT_FADE_START);
-    RegisterAttribute("depthBias", &Light::GetDepthBias, &Light::SetDepthBias, DEFAULT_DEPTH_BIAS);
-    RegisterAttribute("slopeScaledDepthBias", &Light::GetSlopeScaledDepthBias, &Light::SetSlopeScaledDepthBias, DEFAULT_SLOPE_SCALED_DEPTH_BIAS);
+    CopyBaseAttributes<ALight, AOctreeNode>();
+    RegisterAttribute("lightType", &ALight::LightTypeAttr, &ALight::SetLightTypeAttr, (int)DEFAULT_LIGHTTYPE, lightTypeNames);
+    RegisterRefAttribute("color", &ALight::GetColor, &ALight::SetColor, DEFAULT_COLOR);
+    RegisterAttribute("range", &ALight::GetRange, &ALight::SetRange, DEFAULT_RANGE);
+    RegisterAttribute("fov", &ALight::GetFov, &ALight::SetFov, DEFAULT_SPOT_FOV);
+    RegisterAttribute("lightMask", &ALight::GetLightMask, &ALight::SetLightMask, M_MAX_UNSIGNED);
+    RegisterAttribute("shadowMapSize", &ALight::GetShadowMapSize, &ALight::SetShadowMapSize, DEFAULT_SHADOWMAP_SIZE);
+    RegisterRefAttribute("shadowSplits", &ALight::GetShadowSplits, &ALight::SetShadowSplits, DEFAULT_SHADOW_SPLITS);
+    RegisterAttribute("shadowFadeStart", &ALight::GetShadowFadeStart, &ALight::SetShadowFadeStart, DEFAULT_FADE_START);
+    RegisterAttribute("depthBias", &ALight::GetDepthBias, &ALight::SetDepthBias, DEFAULT_DEPTH_BIAS);
+    RegisterAttribute("slopeScaledDepthBias", &ALight::GetSlopeScaledDepthBias, &ALight::SetSlopeScaledDepthBias, DEFAULT_SLOPE_SCALED_DEPTH_BIAS);
 }
 
 
-void Light::OnPrepareRender(unsigned frameNumber, Camera* camera)
+void ALight::OnPrepareRender(unsigned frameNumber, ACamera* camera)
 {
     _lastFrameNumber = frameNumber;
     
     switch (_lightType)
     {
-    case LightType::DIRECTIONAL:
+    case ELightType::DIRECTIONAL:
         _distance = 0.0f;
         break;
 
-    case LightType::POINT:
+    case ELightType::POINT:
         _distance = GetWorldFrustum().Distance(camera->GetWorldPosition());
         break;
 
-    case LightType::SPOT:
+    case ELightType::SPOT:
         _distance = GetWorldSphere().Distance(camera->GetWorldPosition());
         break;
     }
 }
 
-void Light::OnRaycast(TVector<RaycastResult>& dest, const Ray& ray, float maxDistance)
+void ALight::OnRaycast(TVector<RaycastResult>& dest, const Ray& ray, float maxDistance)
 {
-    if (_lightType == LightType::SPOT)
+    if (_lightType == ELightType::SPOT)
     {
         float distance = ray.HitDistance(GetWorldFrustum());
         if (distance <= maxDistance)
@@ -101,7 +101,7 @@ void Light::OnRaycast(TVector<RaycastResult>& dest, const Ray& ray, float maxDis
             dest.Push(res);
         }
     }
-    else if (_lightType == LightType::POINT)
+    else if (_lightType == ELightType::POINT)
     {
         float distance = ray.HitDistance(GetWorldSphere());
         if (distance <= maxDistance)
@@ -117,49 +117,49 @@ void Light::OnRaycast(TVector<RaycastResult>& dest, const Ray& ray, float maxDis
     }
 }
 
-void Light::SetLightType(LightType::Type type)
+void ALight::SetLightType(ELightType::Type type)
 {
     if (type != _lightType)
     {
         _lightType = type;
         // Bounding box will change
-        OctreeNode::OnTransformChanged();
+        AOctreeNode::OnTransformChanged();
     }
 }
 
-void Light::SetColor(const Color& color)
+void ALight::SetColor(const Color& color)
 {
     _color = color;
 }
 
-void Light::SetRange(float range)
+void ALight::SetRange(float range)
 {
     range = Max(range, 0.0f);
     if (range != _range)
     {
         _range = range;
         // Bounding box will change
-        OctreeNode::OnTransformChanged();
+        AOctreeNode::OnTransformChanged();
     }
 }
 
-void Light::SetFov(float fov)
+void ALight::SetFov(float fov)
 {
     fov = Clamp(fov, 0.0f, 180.0f);
     if (fov != _fov)
     {
         _fov = fov;
         // Bounding box will change
-        OctreeNode::OnTransformChanged();
+        AOctreeNode::OnTransformChanged();
     }
 }
 
-void Light::SetLightMask(unsigned lightMask)
+void ALight::SetLightMask(unsigned lightMask)
 {
     _lightMask = lightMask;
 }
 
-void Light::SetShadowMapSize(int _size)
+void ALight::SetShadowMapSize(int _size)
 {
     if (_size < 1)
         _size = 1;
@@ -167,29 +167,29 @@ void Light::SetShadowMapSize(int _size)
     _shadowMapSize = NextPowerOfTwo(_size);
 }
 
-void Light::SetShadowSplits(const Vector4F& splits)
+void ALight::SetShadowSplits(const Vector4F& splits)
 {
     _shadowSplits = splits;
 }
 
-void Light::SetShadowFadeStart(float start)
+void ALight::SetShadowFadeStart(float start)
 {
     _shadowFadeStart = Clamp(start, 0.0f, 1.0f);
 }
 
-void Light::SetDepthBias(int bias)
+void ALight::SetDepthBias(int bias)
 {
     _depthBias = Max(bias, 0);
 }
 
-void Light::SetSlopeScaledDepthBias(float bias)
+void ALight::SetSlopeScaledDepthBias(float bias)
 {
     _slopeScaledDepthBias = Max(bias, 0.0f);
 }
 
-Vector2I Light::GetTotalShadowMapSize() const
+Vector2I ALight::GetTotalShadowMapSize() const
 {
-    if (_lightType == LightType::DIRECTIONAL)
+    if (_lightType == ELightType::DIRECTIONAL)
     {
         int splits = GetNumShadowSplits();
         if (splits == 1)
@@ -199,13 +199,13 @@ Vector2I Light::GetTotalShadowMapSize() const
         else
             return Vector2I(_shadowMapSize * 2, _shadowMapSize * 2);
     }
-    else if (_lightType == LightType::POINT)
+    else if (_lightType == ELightType::POINT)
         return Vector2I(_shadowMapSize * 3, _shadowMapSize * 2);
     else
         return Vector2I(_shadowMapSize, _shadowMapSize);
 }
 
-int Light::GetNumShadowSplits() const
+int ALight::GetNumShadowSplits() const
 {
     if (_shadowSplits._y <= 0.0f)
         return 1;
@@ -217,7 +217,7 @@ int Light::GetNumShadowSplits() const
         return 4;
 }
 
-float Light::GetShadowSplit(size_t index) const
+float ALight::GetShadowSplit(size_t index) const
 {
     if (index == 0)
         return _shadowSplits._x;
@@ -229,9 +229,9 @@ float Light::GetShadowSplit(size_t index) const
         return _shadowSplits._w;
 }
 
-float Light::GetMaxShadowDistance() const
+float ALight::GetMaxShadowDistance() const
 {
-    if (_lightType != LightType::DIRECTIONAL)
+    if (_lightType != ELightType::DIRECTIONAL)
         return _range;
     else
     {
@@ -246,30 +246,30 @@ float Light::GetMaxShadowDistance() const
     }
 }
 
-size_t Light::GetNumShadowViews() const
+size_t ALight::GetNumShadowViews() const
 {
     if (!CastShadows())
         return 0;
-    else if (_lightType == LightType::DIRECTIONAL)
+    else if (_lightType == ELightType::DIRECTIONAL)
         return GetNumShadowSplits();
-    else if (_lightType == LightType::POINT)
+    else if (_lightType == ELightType::POINT)
         return 6;
     else
         return 1;
 }
 
-size_t Light::GetNumShadowCoords() const
+size_t ALight::GetNumShadowCoords() const
 {
-    if (!CastShadows() || _lightType == LightType::POINT)
+    if (!CastShadows() || _lightType == ELightType::POINT)
         return 0;
     // Directional light always uses up all the light coordinates and can not share the pass with shadowed spot lights
-    else if (_lightType == LightType::DIRECTIONAL)
+    else if (_lightType == ELightType::DIRECTIONAL)
         return MAX_LIGHTS_PER_PASS;
     else
         return 1;
 }
 
-Frustum Light::GetWorldFrustum() const
+Frustum ALight::GetWorldFrustum() const
 {
     const Matrix3x4F& transform = GetWorldTransform();
     Matrix3x4F frustumTransform(transform.Translation(), transform.Rotation(), 1.0f);
@@ -278,18 +278,18 @@ Frustum Light::GetWorldFrustum() const
     return ret;
 }
 
-Sphere Light::GetWorldSphere() const
+Sphere ALight::GetWorldSphere() const
 {
     return Sphere(GetWorldPosition(), _range);
 }
 
-void Light::SetShadowMap(Texture* shadowMap, const RectI& shadowRect)
+void ALight::SetShadowMap(ATexture* shadowMap, const RectI& shadowRect)
 {
     _shadowMap = shadowMap;
     _shadowRect = shadowRect;
 }
 
-void Light::SetupShadowViews(Camera* mainCamera, TVector<TAutoPtr<ShadowView> >& shadowViews, size_t& useIndex)
+void ALight::SetupShadowViews(ACamera* mainCamera, TVector<TAutoPtr<ShadowView> >& shadowViews, size_t& useIndex)
 {
     size_t numViews = GetNumShadowViews();
     if (!numViews)
@@ -298,7 +298,7 @@ void Light::SetupShadowViews(Camera* mainCamera, TVector<TAutoPtr<ShadowView> >&
     if (shadowViews.Size() < useIndex + numViews)
         shadowViews.Resize(useIndex + numViews);
 
-    int numVerticalSplits = (_lightType == LightType::POINT || (_lightType == LightType::DIRECTIONAL && GetNumShadowSplits() > 2)) ? 2 : 1;
+    int numVerticalSplits = (_lightType == ELightType::POINT || (_lightType == ELightType::DIRECTIONAL && GetNumShadowSplits() > 2)) ? 2 : 1;
     int actualShadowMapSize = _shadowRect.Height() / numVerticalSplits;
 
     for (size_t i = 0; i < numViews; ++i)
@@ -309,11 +309,11 @@ void Light::SetupShadowViews(Camera* mainCamera, TVector<TAutoPtr<ShadowView> >&
         ShadowView* view = shadowViews[useIndex + i].Get();
         view->Clear();
         view->_light = this;
-        Camera& shadowCamera = view->_shadowCamera;
+        ACamera& shadowCamera = view->_shadowCamera;
 
         switch (_lightType)
         {
-        case LightType::DIRECTIONAL:
+        case ELightType::DIRECTIONAL:
             {
                 Vector2I topLeft(_shadowRect.Left(), _shadowRect.Top());
                 if (i & 1)
@@ -374,7 +374,7 @@ void Light::SetupShadowViews(Camera* mainCamera, TVector<TAutoPtr<ShadowView> >&
             }
             break;
 
-        case LightType::POINT:
+        case ELightType::POINT:
             {
                 static const Quaternion pointLightFaceRotations[] = {
                     Quaternion(0.0f, 90.0f, 0.0f),
@@ -402,7 +402,7 @@ void Light::SetupShadowViews(Camera* mainCamera, TVector<TAutoPtr<ShadowView> >&
             }
             break;
 
-        case LightType::SPOT:
+        case ELightType::SPOT:
             view->_viewport = _shadowRect;
             shadowCamera.SetTransform(GetWorldPosition(), GetWorldRotation());
             shadowCamera.SetFov(_fov);
@@ -416,7 +416,7 @@ void Light::SetupShadowViews(Camera* mainCamera, TVector<TAutoPtr<ShadowView> >&
     }
 
     // Setup shadow matrices now as camera positions have been finalized
-    if (_lightType != LightType::POINT)
+    if (_lightType != ELightType::POINT)
     {
         _shadowMatrices.Resize(numViews);
         
@@ -424,7 +424,7 @@ void Light::SetupShadowViews(Camera* mainCamera, TVector<TAutoPtr<ShadowView> >&
         {
             ShadowView* view = shadowViews[useIndex + i].Get();
 
-            Camera& shadowCamera = view->_shadowCamera;
+            ACamera& shadowCamera = view->_shadowCamera;
             float width = (float)_shadowMap->GetWidth();
             float height = (float)_shadowMap->GetHeight();
             Vector3F offset((float)view->_viewport.Left() / width, (float)view->_viewport.Top() / height, 0.0f);
@@ -458,7 +458,7 @@ void Light::SetupShadowViews(Camera* mainCamera, TVector<TAutoPtr<ShadowView> >&
     }
 
     // Calculate shadow mapping constants
-    Camera& shadowCamera = shadowViews[useIndex]->_shadowCamera;
+    ACamera& shadowCamera = shadowViews[useIndex]->_shadowCamera;
     float nearClip = shadowCamera.GetNearClip();
     float farClip = shadowCamera.GetFarClip();
     float q = farClip / (farClip - nearClip);
@@ -468,16 +468,16 @@ void Light::SetupShadowViews(Camera* mainCamera, TVector<TAutoPtr<ShadowView> >&
     useIndex += numViews;
 }
 
-void Light::OnWorldBoundingBoxUpdate() const
+void ALight::OnWorldBoundingBoxUpdate() const
 {
     switch (_lightType)
     {
-    case LightType::DIRECTIONAL:
+    case ELightType::DIRECTIONAL:
         // Directional light always sets humongous bounding box not affected by transform
         _worldBoundingBox.Define(-M_MAX_FLOAT, M_MAX_FLOAT);
         break;
         
-    case LightType::POINT:
+    case ELightType::POINT:
         {
             const Vector3F& center = GetWorldPosition();
             Vector3F edge(_range, _range, _range);
@@ -485,7 +485,7 @@ void Light::OnWorldBoundingBoxUpdate() const
         }
         break;
         
-    case LightType::SPOT:
+    case ELightType::SPOT:
         _worldBoundingBox.Define(GetWorldFrustum());
         break;
     }
@@ -493,13 +493,13 @@ void Light::OnWorldBoundingBoxUpdate() const
     SetFlag(NF_BOUNDING_BOX_DIRTY, false);
 }
 
-void Light::SetLightTypeAttr(int type)
+void ALight::SetLightTypeAttr(int type)
 {
-    if (type <= LightType::SPOT)
-        SetLightType((LightType::Type)type);
+    if (type <= ELightType::SPOT)
+        SetLightType((ELightType::Type)type);
 }
 
-int Light::LightTypeAttr() const
+int ALight::LightTypeAttr() const
 {
     return (int)_lightType;
 }

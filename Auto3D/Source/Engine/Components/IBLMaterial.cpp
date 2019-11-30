@@ -14,22 +14,22 @@
 namespace Auto3D
 {
 
-IBLMaterial::IBLMaterial():
+AIBLMaterial::AIBLMaterial():
 	_iblCubeMap(nullptr)
 {
 
 }
 
-IBLMaterial::~IBLMaterial()
+AIBLMaterial::~AIBLMaterial()
 {
 
 }
 
-void IBLMaterial::RegisterObject()
+void AIBLMaterial::RegisterObject()
 {
-	RegisterFactory<IBLMaterial>();
+	RegisterFactory<AIBLMaterial>();
 }
-bool IBLMaterial::EndLoad()
+bool AIBLMaterial::EndLoad()
 {
 	bool flag = false;
 	flag = Super::EndLoad();
@@ -40,7 +40,7 @@ bool IBLMaterial::EndLoad()
 }
 
 
-bool IBLMaterial::SetupIBL(SkyBox* skybox)
+bool AIBLMaterial::SetupIBL(ASkyBox* skybox)
 {
 	if (skybox == NULL || skybox->GetMaterial(0)->_textures[0] == nullptr)
 	{

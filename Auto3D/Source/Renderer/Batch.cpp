@@ -98,7 +98,7 @@ void ShadowView::Clear()
 ShadowMap::ShadowMap()
 {
     // Construct texture but do not define its _size yet
-    _texture = new Texture();
+    _texture = new ATexture();
 }
 
 ShadowMap::~ShadowMap()
@@ -115,7 +115,7 @@ void ShadowMap::Clear()
 WaterTexture::WaterTexture()
 {
 	// Construct texture but do not define its size yet
-	_texture = new Texture();
+	_texture = new ATexture();
 }
 
 WaterTexture::~WaterTexture()

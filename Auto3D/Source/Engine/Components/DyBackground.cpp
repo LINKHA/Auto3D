@@ -13,8 +13,8 @@ static GLuint g_indicesBackgroundVBO;
 
 static GLuint g_numberIndicesBackground;
 
-static ShaderVariation* backGroundVSV = nullptr;
-static ShaderVariation* backGroundPSV = nullptr;
+static FShaderVariation* backGroundVSV = nullptr;
+static FShaderVariation* backGroundPSV = nullptr;
 
 GLUSboolean initBackground()
 {
@@ -24,8 +24,8 @@ GLUSboolean initBackground()
 	GLUSshape background;
 
 	auto cache = GModuleManager::Get().CacheModule();
-	backGroundVSV = cache->LoadResource<Shader>("Shader/Water/Background.vert")->CreateVariation();
-	backGroundPSV = cache->LoadResource<Shader>("Shader/Water/Background.frag")->CreateVariation();
+	backGroundVSV = cache->LoadResource<AShader>("Shader/Water/Background.vert")->CreateVariation();
+	backGroundPSV = cache->LoadResource<AShader>("Shader/Water/Background.frag")->CreateVariation();
 
 	glBindVertexArray(0);
 
@@ -56,7 +56,7 @@ GLUSboolean initBackground()
 	auto graphics = GModuleManager::Get().GraphicsModule();
 
 	graphics->SetShaders(backGroundVSV, backGroundPSV);
-	ShaderProgram* waterProgram = graphics->Shaderprogram();
+	FShaderProgram* waterProgram = graphics->Shaderprogram();
 
 	waterProgram->SetInt("u_cubemap", 0);
 
@@ -85,7 +85,7 @@ GLUSvoid reshapeBackground(GLUSfloat projectionMatrix[16])
 	auto graphics = GModuleManager::Get().GraphicsModule();
 
 	graphics->SetShaders(backGroundVSV, backGroundPSV);
-	ShaderProgram* waterProgram = graphics->Shaderprogram();
+	FShaderProgram* waterProgram = graphics->Shaderprogram();
 
 	waterProgram->SetMat4("u_projectionMatrix", projectionMatrix);
 }
@@ -97,7 +97,7 @@ GLUSboolean renderBackground(GLUSfloat viewMatrix[16])
 	auto graphics = GModuleManager::Get().GraphicsModule();
 
 	graphics->SetShaders(backGroundVSV, backGroundPSV);
-	ShaderProgram* waterProgram = graphics->Shaderprogram();
+	FShaderProgram* waterProgram = graphics->Shaderprogram();
 
 	waterProgram->SetMat4("u_modelViewMatrix", viewMatrix);
 

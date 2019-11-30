@@ -297,7 +297,7 @@ typedef struct _GLUSshape
 	GLUSfloat* bitangents;
 
 	/**
-		* Texture coordinates.
+		* ATexture coordinates.
 		*/
 	GLUSfloat* texCoords;
 

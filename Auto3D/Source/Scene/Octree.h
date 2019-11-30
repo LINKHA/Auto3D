@@ -11,7 +11,7 @@ namespace Auto3D
 static const size_t NUM_OCTANTS = 8;
 
 class Octree;
-class OctreeNode;
+class AOctreeNode;
 class Ray;
 
 /// Structure for raycast query results.
@@ -24,8 +24,8 @@ struct AUTO_API RaycastResult
     /// Hit distance along the ray.
     float _distance;
     /// Hit node.
-    OctreeNode* _node;
-    /// Hit geometry index or other, GeometryNode subclass-specific subobject index.
+    AOctreeNode* _node;
+    /// Hit geometry index or other, AGeometryNode subclass-specific subobject index.
     size_t _subObject;
 };
 
@@ -53,7 +53,7 @@ struct AUTO_API Octant
     /// Subdivision level.
     int _level;
     /// Nodes contained in the octant.
-    TVector<OctreeNode*> _nodes;
+    TVector<AOctreeNode*> _nodes;
     /// Child octants.
     Octant* _children[NUM_OCTANTS];
     /// Parent octant.
@@ -81,32 +81,32 @@ public:
     /// Resize octree.
     void Resize(const BoundingBoxF& boundingBox, int numLevels);
     /// Remove a node from the octree.
-    void RemoveNode(OctreeNode* node);
+    void RemoveNode(AOctreeNode* node);
     /// Queue a reinsertion for a node.
-    void QueueUpdate(OctreeNode* node);
+    void QueueUpdate(AOctreeNode* node);
     /// Cancel a pending reinsertion.
-    void CancelUpdate(OctreeNode* node);
+    void CancelUpdate(AOctreeNode* node);
     /// Query for nodes with a raycast and return all results.
     void Raycast(TVector<RaycastResult>& result, const Ray& ray, unsigned short nodeFlags, float maxDistance = M_INFINITY, unsigned layerMask = LAYERMASK_ALL);
     /// Query for nodes with a raycast and return the closest result.
     RaycastResult RaycastSingle(const Ray& ray, unsigned short nodeFlags, float maxDistance = M_INFINITY, unsigned layerMask = LAYERMASK_ALL);
 
     /// Query for nodes using a volume such as frustum or sphere.
-    template <typename _Ty> void FindNodes(TVector<OctreeNode*>& result, const _Ty& volume, unsigned short nodeFlags, unsigned layerMask = LAYERMASK_ALL) const
+    template <typename _Ty> void FindNodes(TVector<AOctreeNode*>& result, const _Ty& volume, unsigned short nodeFlags, unsigned layerMask = LAYERMASK_ALL) const
     {
         PROFILE(QueryOctree);
         CollectNodes(result, &_root, volume, nodeFlags, layerMask);
     }
 
     /// Query for nodes using a volume such as frustum or sphere. Invoke a function for each octant.
-    template <typename _Ty> void FindNodes(const _Ty& volume, void(*callback)(TVector<OctreeNode*>::ConstIterator, TVector<OctreeNode*>::ConstIterator, bool)) const
+    template <typename _Ty> void FindNodes(const _Ty& volume, void(*callback)(TVector<AOctreeNode*>::ConstIterator, TVector<AOctreeNode*>::ConstIterator, bool)) const
     {
         PROFILE(QueryOctree);
         CollectNodesCallback(&_root, volume, callback);
     }
 
     /// Query for nodes using a volume such as frustum or sphere. Invoke a member function for each octant.
-    template <typename _Ty, typename U> void FindNodes(const _Ty& volume, U* object, void (U::*callback)(TVector<OctreeNode*>::ConstIterator, TVector<OctreeNode*>::ConstIterator, bool)) const
+    template <typename _Ty, typename U> void FindNodes(const _Ty& volume, U* object, void (U::*callback)(TVector<AOctreeNode*>::ConstIterator, TVector<AOctreeNode*>::ConstIterator, bool)) const
     {
         PROFILE(QueryOctree);
         CollectNodesMemberCallback(&_root, volume, object, callback);
@@ -122,9 +122,9 @@ private:
     /// Return number of levels. Used in serialization.
     int NumLevelsAttr() const;
     /// Add node to a specific octant.
-    void AddNode(OctreeNode* node, Octant* octant);
+    void AddNode(AOctreeNode* node, Octant* octant);
     /// Remove node from an octant.
-    void RemoveNode(OctreeNode* node, Octant* octant);
+    void RemoveNode(AOctreeNode* node, Octant* octant);
     /// Create a new child octant.
     Octant* CreateChildOctant(Octant* octant, size_t index);
     /// Delete one child octant.
@@ -132,16 +132,16 @@ private:
     /// Delete a child octant hierarchy. If not deleting the octree for good, moves any nodes back to the root octant.
     void DeleteChildOctants(Octant* octant, bool deletingOctree);
     /// Get all nodes from an octant recursively.
-    void CollectNodes(TVector<OctreeNode*>& result, const Octant* octant) const;
+    void CollectNodes(TVector<AOctreeNode*>& result, const Octant* octant) const;
     /// Get all visible nodes matching flags from an octant recursively.
-    void CollectNodes(TVector<OctreeNode*>& result, const Octant* octant, unsigned short nodeFlags, unsigned layerMask) const;
+    void CollectNodes(TVector<AOctreeNode*>& result, const Octant* octant, unsigned short nodeFlags, unsigned layerMask) const;
     /// Get all visible nodes matching flags along a ray.
     void CollectNodes(TVector<RaycastResult>& result, const Octant* octant, const Ray& ray, unsigned short nodeFlags, float maxDistance, unsigned layerMask) const;
     /// Get all visible nodes matching flags that could be potential raycast hits.
-    void CollectNodes(TVector<TPair<OctreeNode*, float> >& result, const Octant* octant, const Ray& ray, unsigned short nodeFlags, float maxDistance, unsigned layerMask) const;
+    void CollectNodes(TVector<TPair<AOctreeNode*, float> >& result, const Octant* octant, const Ray& ray, unsigned short nodeFlags, float maxDistance, unsigned layerMask) const;
 
     /// Collect nodes matching flags using a volume such as frustum or sphere.
-    template <typename _Ty> void CollectNodes(TVector<OctreeNode*>& result, const Octant* octant, const _Ty& volume, unsigned short nodeFlags, unsigned layerMask) const
+    template <typename _Ty> void CollectNodes(TVector<AOctreeNode*>& result, const Octant* octant, const _Ty& volume, unsigned short nodeFlags, unsigned layerMask) const
     {
         Intersection res = volume.IsInside(octant->_cullingBox);
         if (res == OUTSIDE)
@@ -152,10 +152,10 @@ private:
             CollectNodes(result, octant, nodeFlags, layerMask);
         else
         {
-            const TVector<OctreeNode*>& octantNodes = octant->_nodes;
+            const TVector<AOctreeNode*>& octantNodes = octant->_nodes;
             for (auto it = octantNodes.Begin(); it != octantNodes.End(); ++it)
             {
-                OctreeNode* node = *it;
+                AOctreeNode* node = *it;
                 if ((node->Flags() & nodeFlags) == nodeFlags && (node->GetLayerMask() & layerMask) &&
                     volume.IsInsideFast(node->WorldBoundingBox()) != OUTSIDE)
                     result.Push(node);
@@ -170,9 +170,9 @@ private:
     }
     
     /// Collect nodes from octant and child octants. Invoke a function for each octant.
-    void CollectNodesCallback(const Octant* octant, void(*callback)(TVector<OctreeNode*>::ConstIterator, TVector<OctreeNode*>::ConstIterator, bool)) const
+    void CollectNodesCallback(const Octant* octant, void(*callback)(TVector<AOctreeNode*>::ConstIterator, TVector<AOctreeNode*>::ConstIterator, bool)) const
     {
-        const TVector<OctreeNode*>& octantNodes = octant->_nodes;
+        const TVector<AOctreeNode*>& octantNodes = octant->_nodes;
         callback(octantNodes.Begin(), octantNodes.End(), true);
 
         for (size_t i = 0; i < NUM_OCTANTS; ++i)
@@ -183,7 +183,7 @@ private:
     }
 
     /// Collect nodes using a volume such as frustum or sphere. Invoke a function for each octant.
-    template <typename _Ty> void CollectNodesCallback(const Octant* octant, const _Ty& volume, void(*callback)(TVector<OctreeNode*>::ConstIterator, TVector<OctreeNode*>::ConstIterator, bool)) const
+    template <typename _Ty> void CollectNodesCallback(const Octant* octant, const _Ty& volume, void(*callback)(TVector<AOctreeNode*>::ConstIterator, TVector<AOctreeNode*>::ConstIterator, bool)) const
     {
         Intersection res = volume.IsInside(octant->_cullingBox);
         if (res == OUTSIDE)
@@ -194,7 +194,7 @@ private:
             CollectNodesCallback(octant, callback);
         else
         {
-            const TVector<OctreeNode*>& octantNodes = octant->_nodes;
+            const TVector<AOctreeNode*>& octantNodes = octant->_nodes;
             callback(octantNodes.Begin(), octantNodes.End(), false);
 
             for (size_t i = 0; i < NUM_OCTANTS; ++i)
@@ -206,9 +206,9 @@ private:
     }
 
     /// Collect nodes from octant and child octants. Invoke a member function for each octant.
-    template <typename _Ty> void CollectNodesMemberCallback(const Octant* octant, _Ty* object, void (_Ty::*callback)(TVector<OctreeNode*>::ConstIterator, TVector<OctreeNode*>::ConstIterator, bool)) const
+    template <typename _Ty> void CollectNodesMemberCallback(const Octant* octant, _Ty* object, void (_Ty::*callback)(TVector<AOctreeNode*>::ConstIterator, TVector<AOctreeNode*>::ConstIterator, bool)) const
     {
-        const TVector<OctreeNode*>& octantNodes = octant->_nodes;
+        const TVector<AOctreeNode*>& octantNodes = octant->_nodes;
         (object->*callback)(octantNodes.Begin(), octantNodes.End(), true);
 
         for (size_t i = 0; i < NUM_OCTANTS; ++i)
@@ -219,7 +219,7 @@ private:
     }
 
     /// Collect nodes using a volume such as frustum or sphere. Invoke a member function for each octant.
-    template <typename _Ty, typename _Event> void CollectNodesMemberCallback(const Octant* octant, const _Ty& volume, _Event* object, void (_Event::*callback)(TVector<OctreeNode*>::ConstIterator, TVector<OctreeNode*>::ConstIterator, bool)) const
+    template <typename _Ty, typename _Event> void CollectNodesMemberCallback(const Octant* octant, const _Ty& volume, _Event* object, void (_Event::*callback)(TVector<AOctreeNode*>::ConstIterator, TVector<AOctreeNode*>::ConstIterator, bool)) const
     {
         Intersection res = volume.IsInside(octant->_cullingBox);
         if (res == OUTSIDE)
@@ -230,7 +230,7 @@ private:
             CollectNodesMemberCallback(octant, object, callback);
         else
         {
-            const TVector<OctreeNode*>& octantNodes = octant->_nodes;
+            const TVector<AOctreeNode*>& octantNodes = octant->_nodes;
             (object->*callback)(octantNodes.Begin(), octantNodes.End(), false);
 
             for (size_t i = 0; i < NUM_OCTANTS; ++i)
@@ -242,9 +242,9 @@ private:
     }
 
     /// Queue of nodes to be reinserted.
-    TVector<OctreeNode*> _updateQueue;
+    TVector<AOctreeNode*> _updateQueue;
     /// RaycastSingle initial coarse result.
-    TVector<TPair<OctreeNode*, float> > _initialRes;
+    TVector<TPair<AOctreeNode*, float> > _initialRes;
     /// RaycastSingle final result.
     TVector<RaycastResult> _finalRes;
     /// TAllocator for child octants.

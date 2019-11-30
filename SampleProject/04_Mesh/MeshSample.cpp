@@ -18,42 +18,42 @@ void MeshSample::Start()
 	scene = new Scene();
 	scene->SetupShadowMap(3, 4096);
 	scene->CreateChild<Octree>();
-	camera = scene->CreateChild<Camera>();
+	camera = scene->CreateChild<ACamera>();
 	camera->SetPosition(Vector3F(0.0f, 5.0f, -15.0f));
 	camera->SetAmbientColor(Color(0.1f, 0.1f, 0.1f));
 
 
-	StaticModel* plane = scene->CreateChild<StaticModel>();
+	AStaticModel* plane = scene->CreateChild<AStaticModel>();
 	plane->SetScale(Vector3F(50.0f, 0.1f, 50.0f));
 	plane->SetCastShadows(true);
-	plane->SetModel(cache->LoadResource<Model>("Model/Box.mdl"));
-	plane->SetMaterial(cache->LoadResource<Material>("Stone.json"));
+	plane->SetModel(cache->LoadResource<AModel>("Model/Box.mdl"));
+	plane->SetMaterial(cache->LoadResource<AMaterial>("Stone.json"));
 
-	StaticModel* teaPot = scene->CreateChild<StaticModel>();
+	AStaticModel* teaPot = scene->CreateChild<AStaticModel>();
 	teaPot->SetPosition(Vector3F(0.0f, 0.0f, 0.0f));
 	teaPot->SetScale(10.0f);
-	teaPot->SetModel(cache->LoadResource<Model>("Model/TeaPot.mdl"));
+	teaPot->SetModel(cache->LoadResource<AModel>("Model/TeaPot.mdl"));
 	teaPot->SetCastShadows(true);
 
 	//Light directional point and spot
 	{
-		Light* lightDir = scene->CreateChild<Light>();
-		lightDir->SetLightType(LightType::DIRECTIONAL);
+		ALight* lightDir = scene->CreateChild<ALight>();
+		lightDir->SetLightType(ELightType::DIRECTIONAL);
 		lightDir->SetCastShadows(true);
 		lightDir->SetColor(Color(1.0f, 0.0f, 0.0f));
 		lightDir->SetDirection(Vector3F(0.0f, -1.0f, 0.5f));
 		lightDir->SetShadowMapSize(2048);
 
-		Light* lightPoint = scene->CreateChild<Light>();
-		lightPoint->SetLightType(LightType::POINT);
+		ALight* lightPoint = scene->CreateChild<ALight>();
+		lightPoint->SetLightType(ELightType::POINT);
 		lightPoint->SetCastShadows(true);
 		lightPoint->SetColor(Color(0.0f, 1.0f, 0.0f));
 		lightPoint->SetRange(20.0f);
 		lightPoint->SetPosition(Vector3F(-10.0f, 10.0f, 0.0f));
 		lightPoint->SetShadowMapSize(2048);
 
-		Light* lightSpot = scene->CreateChild<Light>();
-		lightSpot->SetLightType(LightType::SPOT);
+		ALight* lightSpot = scene->CreateChild<ALight>();
+		lightSpot->SetLightType(ELightType::SPOT);
 		lightSpot->SetCastShadows(true);
 		lightSpot->SetColor(Color(1.0f, 1.0f, 1.0f));
 		lightSpot->SetPosition(Vector3F(10.0f, 10.0f, 0.0f));

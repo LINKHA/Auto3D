@@ -8,13 +8,13 @@
 namespace Auto3D
 {
 
-class ConstantBuffer;
-class Graphics;
-class IndexBuffer;
-class Material;
-class VertexBuffer;
+class FConstantBuffer;
+class AGraphics;
+class FIndexBuffer;
+class AMaterial;
+class FVertexBuffer;
 struct LightList;
-class Texture;
+class ATexture;
 
 /// Geometry types.
 namespace GeometryType
@@ -31,7 +31,7 @@ namespace GeometryType
 struct AUTO_API VertexBufferDesc
 {
 	/// Vertex declaration.
-	TVector<VertexElement> _vertexElements;
+	TVector<FVertexElement> _vertexElements;
 	/// Number of vertices.
 	size_t _numVertices;
 	/// Vertex data.
@@ -55,7 +55,7 @@ struct AUTO_API GeometryDesc
 	/// LOD distance.
 	float _lodDistance;
 	/// Primitive type.
-	PrimitiveType::Type _primitiveType;
+	EPrimitiveType::Type _primitiveType;
 	/// Vertex buffer ref.
 	unsigned _vbRef;
 	/// Index buffer ref.
@@ -75,19 +75,19 @@ public:
     /// Destruct.
     ~Geometry();
 
-    /// Draw using the Graphics subsystem. The constant buffers are not applied automatically, rather they must have been applied beforehand.
-    void Draw(Graphics* graphics);
+    /// Draw using the AGraphics subsystem. The constant buffers are not applied automatically, rather they must have been applied beforehand.
+    void Draw(AGraphics* graphics);
     /// Draw an instance range. A separate instance data vertex buffer must be bound.
-    void DrawInstanced(Graphics* graphics, size_t start, size_t count);
+    void DrawInstanced(AGraphics* graphics, size_t start, size_t count);
 
     /// %Geometry vertex buffer.
-    TSharedPtr<VertexBuffer> _vertexBuffer;
+    TSharedPtr<FVertexBuffer> _vertexBuffer;
     /// %Geometry index buffer.
-    TSharedPtr<IndexBuffer> _indexBuffer;
-    /// Constant buffers.
-    TSharedPtr<ConstantBuffer> _constantBuffers[ShaderStage::Count];
+    TSharedPtr<FIndexBuffer> _indexBuffer;
+    /// FConstant buffers.
+    TSharedPtr<FConstantBuffer> _constantBuffers[EShaderStage::Count];
     /// %Geometry's primitive type.
-    PrimitiveType::Type _primitiveType;
+    EPrimitiveType::Type _primitiveType;
     /// Draw range start. Specifies index start if index buffer defined, vertex start otherwise.
     size_t _drawStart;
     /// Draw range count. Specifies number of indices if index buffer defined, number of vertices otherwise.
@@ -107,25 +107,25 @@ struct AUTO_API SourceBatch
     /// The geometry to render. Must be non-null.
     TSharedPtr<Geometry> _geometry;
     /// The material to use for rendering. Must be non-null.
-    TSharedPtr<Material> _material;
+    TSharedPtr<AMaterial> _material;
 };
 
 /// Base class for scene nodes that contain geometry to be rendered.
-class AUTO_API GeometryNode : public OctreeNode
+class AUTO_API AGeometryNode : public AOctreeNode
 {
-    REGISTER_OBJECT_CLASS(GeometryNode, OctreeNode)
+    REGISTER_OBJECT_CLASS(AGeometryNode, AOctreeNode)
 
 public:
     /// Construct.
-    GeometryNode();
+    AGeometryNode();
     /// Destruct.
-    ~GeometryNode();
+    ~AGeometryNode();
 
     /// Register factory and attributes.
     static void RegisterObject();
 
     /// Prepare object for rendering. Reset framenumber and light list and calculate distance from camera. Called by Renderer.
-    void OnPrepareRender(unsigned frameNumber, Camera* camera) override;
+    void OnPrepareRender(unsigned frameNumber, ACamera* camera) override;
 
     /// Set geometry type, which is shared by all geometries.
     void SetGeometryType(GeometryType::Type type);
@@ -134,9 +134,9 @@ public:
     /// Set geometry at index.
     void SetGeometry(size_t index, Geometry* geometry);
     /// Set material at every geometry index. Specifying null will use the default material (opaque white.)
-    void SetMaterial(Material* material);
+    void SetMaterial(AMaterial* material);
     /// Set material at geometry index.
-    void SetMaterial(size_t index, Material* material);
+    void SetMaterial(size_t index, AMaterial* material);
     /// Set local space bounding box.
     void SetLocalBoundingBox(const BoundingBoxF& box);
 
@@ -147,7 +147,7 @@ public:
     /// Return geometry by index.
     Geometry* GetGeometry(size_t index) const;
     /// Return material by geometry index.
-    Material* GetMaterial(size_t index) const;
+    AMaterial* GetMaterial(size_t index) const;
     /// Return source information for all draw calls.
     const TVector<SourceBatch>& GetBatches() const { return _batches; }
     /// Return local space bounding box.
@@ -166,7 +166,7 @@ protected:
     /// Return materials list. Used in serialization.
     ResourceRefList MaterialsAttr() const;
 
-    /// %Light list for rendering.
+    /// %ALight list for rendering.
     LightList* _lightList;
     /// Geometry type.
     GeometryType::Type _geometryType;

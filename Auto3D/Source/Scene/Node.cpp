@@ -299,9 +299,9 @@ void Node::AddChild(Node* child)
 	if (_scenes)
 	{
 		_scenes->AddNode(child);
-		if (child->GetType() == Camera::GetTypeStatic())
+		if (child->GetType() == ACamera::GetTypeStatic())
 		{
-			_scenes->AddCamera(dynamic_cast<Camera*>(child));
+			_scenes->AddCamera(dynamic_cast<ACamera*>(child));
 		}
 	}
         

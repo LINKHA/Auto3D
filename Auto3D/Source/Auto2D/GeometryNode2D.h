@@ -6,7 +6,7 @@ namespace Auto3D
 
 class AUTO_API GeometryNode2D : public SpatialNode2D
 {
-	REGISTER_OBJECT_CLASS(GeometryNode, OctreeNode)
+	REGISTER_OBJECT_CLASS(AGeometryNode, AOctreeNode)
 
 public:
 	/// Construct.
@@ -24,16 +24,16 @@ public:
 	/// Return geometry by index.
 	Geometry* GetGeometry() const;
 	/// Set texture.
-	void SetTexture(Texture* texture);
+	void SetTexture(ATexture* texture);
 	/// Return texture.
-	Texture* GetTexture() const { return _texture; }
+	ATexture* GetTexture() const { return _texture; }
 protected:
 	/// Geometry type.
 	GeometryType::Type _geometryType;
 	/// Draw call source datas.
 	TSharedPtr<Geometry> _geometry;
-	/// Texture.
-	TSharedPtr<Texture> _texture;
+	/// ATexture.
+	TSharedPtr<ATexture> _texture;
 };
 
 }

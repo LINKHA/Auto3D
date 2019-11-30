@@ -8,18 +8,18 @@
 namespace Auto3D
 {
 
-class VertexBuffer;
-class IndexBuffer;
+class FVertexBuffer;
+class FIndexBuffer;
 class Geometry;
 
 
-/// Model's bone description.
-struct AUTO_API Bone
+/// AModel's bone description.
+struct AUTO_API FBone
 {
     /// Default-construct.
-    Bone();
+    FBone();
     /// Destruct.
-    ~Bone();
+    ~FBone();
 
     /// FName.
     FString _name;
@@ -44,15 +44,15 @@ struct AUTO_API Bone
 };
 
 /// 3D model resource.
-class AUTO_API Model : public AResource
+class AUTO_API AModel : public AResource
 {
-	REGISTER_OBJECT_CLASS(Model, AResource)
+	REGISTER_OBJECT_CLASS(AModel, AResource)
 
 public:
     /// Construct.
-    Model();
+    AModel();
     /// Destruct.
-    ~Model();
+    ~AModel();
 
     /// Register object factory.
     static void RegisterObject();
@@ -69,7 +69,7 @@ public:
     /// Set local space bounding box.
     void SetLocalBoundingBox(const BoundingBoxF& box);
     /// Set bones.
-    void SetBones(const TVector<Bone>& bones, size_t rootBoneIndex);
+    void SetBones(const TVector<FBone>& bones, size_t rootBoneIndex);
     /// Set per-geometry bone mappings.
     void SetBoneMappings(const TVector<TVector<size_t> >& boneMappings);
     
@@ -84,7 +84,7 @@ public:
     /// Return the local space bounding box.
     const BoundingBoxF& GetLocalBoundingBox() const { return _boundingBox; }
     /// Return the model's bones.
-    const TVector<Bone>& GetBones() const { return _bones; }
+    const TVector<FBone>& GetBones() const { return _bones; }
     /// Return the root bone index.
     size_t GetRootBoneIndex() const { return _rootBoneIndex; }
     /// Return per-geometry bone mapping.
@@ -95,8 +95,8 @@ private:
     TVector<TVector<TSharedPtr<Geometry> > > _geometries;
     /// Local space bounding box.
     BoundingBoxF _boundingBox;
-    /// %Model's bones.
-    TVector<Bone> _bones;
+    /// %AModel's bones.
+    TVector<FBone> _bones;
     /// Root bone index.
     size_t _rootBoneIndex;
     /// Per-geometry bone mappings.

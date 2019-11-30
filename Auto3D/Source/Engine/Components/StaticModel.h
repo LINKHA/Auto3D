@@ -4,31 +4,31 @@
 
 namespace Auto3D
 {
-class Model;
+class AModel;
 /// %Scene node that renders an unanimated model.
-class AUTO_API StaticModel : public GeometryNode
+class AUTO_API AStaticModel : public AGeometryNode
 {
-    REGISTER_OBJECT_CLASS(StaticModel, GeometryNode)
+    REGISTER_OBJECT_CLASS(AStaticModel, AGeometryNode)
 
 public:
     /// Construct.
-    StaticModel();
+    AStaticModel();
     /// Destruct.
-    ~StaticModel();
+    ~AStaticModel();
 
     /// Register factory and attributes.
     static void RegisterObject();
 
     /// Prepare object for rendering. Reset framenumber and light list and calculate distance from camera, and check for LOD level changes. Called by Renderer.
-    void OnPrepareRender(unsigned frameNumber, Camera* camera) override;
+    void OnPrepareRender(unsigned frameNumber, ACamera* camera) override;
 
     /// Set the model resource.
-    void SetModel(Model* model);
+    void SetModel(AModel* model);
     /// Set LOD bias. Values higher than 1 use higher quality LOD (acts if distance is smaller.)
     void SetLodBias(float bias);
 
     /// Return the model resource.
-    Model* GetModel() const;
+    AModel* GetModel() const;
     /// Return LOD bias.
     float LodBias() const { return _lodBias; }
 
@@ -39,7 +39,7 @@ private:
     ResourceRef ModelAttr() const;
 
     /// Current model resource.
-    TSharedPtr<Model> _model;
+    TSharedPtr<AModel> _model;
     /// LOD bias value.
     float _lodBias;
     /// Lod levels flag.

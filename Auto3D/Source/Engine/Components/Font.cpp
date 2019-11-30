@@ -22,33 +22,33 @@ namespace
 static const float MIN_POINT_SIZE = 1;
 static const float MAX_POINT_SIZE = 96;
 
-Font::Font() :
+AFont::AFont() :
 	_fontDataSize(0),
 	_absoluteOffset(Vector2I::ZERO),
 	_scaledOffset(Vector2F::ZERO),
-	_fontType(FONT_NONE),
+	_fontType(EFontType::NONE),
 	_sdfFont(false)
 {
 }
 
-Font::~Font()
+AFont::~AFont()
 {
 	_fontData.Reset();
 }
 
-void Font::RegisterObject()
+void AFont::RegisterObject()
 {
-	RegisterFactory<Font>();
+	RegisterFactory<AFont>();
 }
 
-bool Font::BeginLoad(Stream& source)
+bool AFont::BeginLoad(Stream& source)
 {
 	// In headless mode, do not actually load, just return success
-	Graphics* graphics = GModuleManager::Get().GraphicsModule();
+	AGraphics* graphics = GModuleManager::Get().GraphicsModule();
 	if (!graphics)
 		return true;
 
-	_fontType = FONT_NONE;
+	_fontType = EFontType::NONE;
 
 	_fontDataSize = source.Size();
 	if (_fontDataSize)
@@ -66,28 +66,28 @@ bool Font::BeginLoad(Stream& source)
 	FString ext = Extension(FName());
 	if (ext == ".ttf" || ext == ".otf" || ext == ".woff")
 	{
-		_fontType = FONT_FREETYPE;
+		_fontType = EFontType::FREE_TYPE;
 	}
 	else if (ext == ".xml" || ext == ".fnt" || ext == ".sdf")
-		_fontType = FONT_BITMAP;
+		_fontType = EFontType::BIT_MAP;
 
 	_sdfFont = ext == ".sdf";
 
 	SetMemoryUse(_fontDataSize);
 	return true;
 }
-void Font::SetAbsoluteGlyphOffset(const Vector2I& offset)
+void AFont::SetAbsoluteGlyphOffset(const Vector2I& offset)
 {
 	_absoluteOffset = offset;
 }
 
-void Font::SetScaledGlyphOffset(const Vector2F& offset)
+void AFont::SetScaledGlyphOffset(const Vector2F& offset)
 {
 	_scaledOffset = offset;
 }
 
 
-Vector2I Font::GetTotalGlyphOffset(float pointSize) const
+Vector2I AFont::GetTotalGlyphOffset(float pointSize) const
 {
 	Vector2F multipliedOffset = pointSize * _scaledOffset;
 	return _absoluteOffset + Vector2I(RoundToInt(multipliedOffset._x), RoundToInt(multipliedOffset._y));

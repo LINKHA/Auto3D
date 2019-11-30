@@ -12,7 +12,7 @@
 namespace Auto3D
 {
 
-Bone::Bone() :
+FBone::FBone() :
     _initialPosition(Vector3F::ZERO),
     _initialRotation(Quaternion::IDENTITY),
     _initialScale(Vector3F::ONE),
@@ -24,24 +24,24 @@ Bone::Bone() :
 {
 }
 
-Bone::~Bone()
+FBone::~FBone()
 {
 }
 
-Model::Model()
+AModel::AModel()
 {
 }
 
-Model::~Model()
+AModel::~AModel()
 {
 }
 
-void Model::RegisterObject()
+void AModel::RegisterObject()
 {
-    RegisterFactory<Model>();
+    RegisterFactory<AModel>();
 }
 
-bool Model::BeginLoad(Stream& source)
+bool AModel::BeginLoad(Stream& source)
 {
     /// \todo Develop own format for Auto3D
     if (source.ReadFileID() != "UMDL")
@@ -68,52 +68,52 @@ bool Model::BeginLoad(Stream& source)
         size_t vertexSize = 0;
         if (elementMask & 1)
         {
-            vbDesc._vertexElements.Push(VertexElement(ElementType::VECTOR3, ElementSemantic::POSITION));
+            vbDesc._vertexElements.Push(FVertexElement(EElementType::VECTOR3, EElementSemantic::POSITION));
             vertexSize += sizeof(Vector3F);
         }
         if (elementMask & 2)
         {
-            vbDesc._vertexElements.Push(VertexElement(ElementType::VECTOR3, ElementSemantic::NORMAL));
+            vbDesc._vertexElements.Push(FVertexElement(EElementType::VECTOR3, EElementSemantic::NORMAL));
             vertexSize += sizeof(Vector3F);
         }
         if (elementMask & 4)
         {
-            vbDesc._vertexElements.Push(VertexElement(ElementType::UBYTE4, ElementSemantic::COLOR));
+            vbDesc._vertexElements.Push(FVertexElement(EElementType::UBYTE4, EElementSemantic::COLOR));
             vertexSize += 4;
         }
         if (elementMask & 8)
         {
-            vbDesc._vertexElements.Push(VertexElement(ElementType::VECTOR2, ElementSemantic::TEXCOORD));
+            vbDesc._vertexElements.Push(FVertexElement(EElementType::VECTOR2, EElementSemantic::TEXCOORD));
             vertexSize += sizeof(Vector2F);
         }
         if (elementMask & 16)
         {
-            vbDesc._vertexElements.Push(VertexElement(ElementType::VECTOR2, ElementSemantic::TEXCOORD, 1));
+            vbDesc._vertexElements.Push(FVertexElement(EElementType::VECTOR2, EElementSemantic::TEXCOORD, 1));
             vertexSize += sizeof(Vector2F);
         }
         if (elementMask & 32)
         {
-            vbDesc._vertexElements.Push(VertexElement(ElementType::VECTOR3, ElementSemantic::TEXCOORD));
+            vbDesc._vertexElements.Push(FVertexElement(EElementType::VECTOR3, EElementSemantic::TEXCOORD));
             vertexSize += sizeof(Vector3F);
         }
         if (elementMask & 64)
         {
-            vbDesc._vertexElements.Push(VertexElement(ElementType::VECTOR3, ElementSemantic::TEXCOORD, 1));
+            vbDesc._vertexElements.Push(FVertexElement(EElementType::VECTOR3, EElementSemantic::TEXCOORD, 1));
             vertexSize += sizeof(Vector3F);
         }
         if (elementMask & 128)
         {
-            vbDesc._vertexElements.Push(VertexElement(ElementType::VECTOR4, ElementSemantic::TANGENT));
+            vbDesc._vertexElements.Push(FVertexElement(EElementType::VECTOR4, EElementSemantic::TANGENT));
             vertexSize += sizeof(Vector4F);
         }
         if (elementMask & 256)
         {
-            vbDesc._vertexElements.Push(VertexElement(ElementType::VECTOR4, ElementSemantic::BLENDWEIGHT));
+            vbDesc._vertexElements.Push(FVertexElement(EElementType::VECTOR4, EElementSemantic::BLENDWEIGHT));
             vertexSize += sizeof(Vector4F);
         }
         if (elementMask & 512)
         {
-            vbDesc._vertexElements.Push(VertexElement(ElementType::UBYTE4, ElementSemantic::BLENDINDICES));
+            vbDesc._vertexElements.Push(FVertexElement(EElementType::UBYTE4, EElementSemantic::BLENDINDICES));
             vertexSize += 4;
         }
 
@@ -155,7 +155,7 @@ bool Model::BeginLoad(Stream& source)
 
             geomDesc._lodDistance = source.Read<float>();
             source.Read<unsigned>(); // Primitive type
-            geomDesc._primitiveType = PrimitiveType::TRIANGLE_LIST; // Always assume triangle list for now
+            geomDesc._primitiveType = EPrimitiveType::TRIANGLE_LIST; // Always assume triangle list for now
             geomDesc._vbRef = source.Read<unsigned>();
             geomDesc._ibRef = source.Read<unsigned>();
             geomDesc._drawStart = source.Read<unsigned>();
@@ -176,7 +176,7 @@ bool Model::BeginLoad(Stream& source)
     _bones.Resize(numBones);
     for (size_t i = 0; i < numBones; ++i)
     {
-        Bone& bone = _bones[i];
+        FBone& bone = _bones[i];
         bone._name = source.Read<FString>();
         bone._parentIndex = source.Read<unsigned>();
         bone._initialPosition = source.Read<Vector3F>();
@@ -200,25 +200,25 @@ bool Model::BeginLoad(Stream& source)
     return true;
 }
 
-bool Model::EndLoad()
+bool AModel::EndLoad()
 {
-    TVector<TSharedPtr<VertexBuffer> > vbs;
+    TVector<TSharedPtr<FVertexBuffer> > vbs;
     for (size_t i = 0; i < _vbDescs.Size(); ++i)
     {
         const VertexBufferDesc& vbDesc = _vbDescs[i];
-        TSharedPtr<VertexBuffer> vb(new VertexBuffer());
+        TSharedPtr<FVertexBuffer> vb(new FVertexBuffer());
 
-        vb->Define(ResourceUsage::IMMUTABLE, vbDesc._numVertices, vbDesc._vertexElements, true, vbDesc._vertexData.Get());
+        vb->Define(EResourceUsage::IMMUTABLE, vbDesc._numVertices, vbDesc._vertexElements, true, vbDesc._vertexData.Get());
         vbs.Push(vb);
     }
 
-    TVector<TSharedPtr<IndexBuffer> > ibs;
+    TVector<TSharedPtr<FIndexBuffer> > ibs;
     for (size_t i = 0; i < _ibDescs.Size(); ++i)
     {
         const IndexBufferDesc& ibDesc = _ibDescs[i];
-        TSharedPtr<IndexBuffer> ib(new IndexBuffer());
+        TSharedPtr<FIndexBuffer> ib(new FIndexBuffer());
 
-        ib->Define(ResourceUsage::IMMUTABLE, ibDesc._numIndices, ibDesc._indexSize, true, ibDesc._indexData.Get());
+        ib->Define(EResourceUsage::IMMUTABLE, ibDesc._numIndices, ibDesc._indexSize, true, ibDesc._indexData.Get());
         ibs.Push(ib);
     }
 
@@ -258,7 +258,7 @@ bool Model::EndLoad()
     return true;
 }
 
-void Model::SetNumGeometries(size_t num)
+void AModel::SetNumGeometries(size_t num)
 {
     _geometries.Resize(num);
     // Ensure that each geometry has at least 1 LOD level
@@ -269,7 +269,7 @@ void Model::SetNumGeometries(size_t num)
     }
 }
 
-void Model::SetNumLodLevels(size_t index, size_t num)
+void AModel::SetNumLodLevels(size_t index, size_t num)
 {
     if (index >= _geometries.Size())
     {
@@ -286,28 +286,28 @@ void Model::SetNumLodLevels(size_t index, size_t num)
     }
 }
 
-void Model::SetLocalBoundingBox(const BoundingBoxF& box)
+void AModel::SetLocalBoundingBox(const BoundingBoxF& box)
 {
     _boundingBox = box;
 }
 
-void Model::SetBones(const TVector<Bone>& bones_, size_t rootBoneIndex)
+void AModel::SetBones(const TVector<FBone>& bones_, size_t rootBoneIndex)
 {
     _bones = bones_;
     _rootBoneIndex = rootBoneIndex;
 }
 
-void Model::SetBoneMappings(const TVector<TVector<size_t> >& boneMappings)
+void AModel::SetBoneMappings(const TVector<TVector<size_t> >& boneMappings)
 {
     _boneMappings = boneMappings;
 }
 
-size_t Model::GetNumLodLevels(size_t index) const
+size_t AModel::GetNumLodLevels(size_t index) const
 {
     return index < _geometries.Size() ? _geometries[index].Size() : 0;
 }
 
-Geometry* Model::GetGeometry(size_t index, size_t lodLevel) const
+Geometry* AModel::GetGeometry(size_t index, size_t lodLevel) const
 {
     return (index < _geometries.Size() && lodLevel < _geometries[index].Size()) ? _geometries[index][lodLevel].Get() : nullptr;
 }

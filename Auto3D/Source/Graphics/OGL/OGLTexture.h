@@ -9,19 +9,19 @@
 namespace Auto3D
 {
 
-class Image;
+class AImage;
 class Geometry;
 
-/// %Texture on the GPU.
-class AUTO_API Texture : public AResource, public GPUObject
+/// %ATexture on the GPU.
+class AUTO_API ATexture : public AResource, public FGPUObject
 {
-	REGISTER_OBJECT_CLASS(Texture, AResource)
+	REGISTER_OBJECT_CLASS(ATexture, AResource)
 
 public:
     /// Construct.
-    Texture();
+    ATexture();
     /// Destruct.
-    ~Texture();
+    ~ATexture();
 
     /// Register object factory.
     static void RegisterObject();
@@ -35,15 +35,15 @@ public:
     /// Recreate the GPU resource after data loss.
     void Recreate() override;
 
-    /// Define texture type and dimensions and set initial data. %ImageLevel structures only need the data pointer and row byte _size filled. Return true on success.
-    bool Define(TextureType::Type type, ResourceUsage::Type usage, const Vector2I& _size, ImageFormat::Type _format, size_t _numLevels, const ImageLevel* initialData = 0);
+    /// Define texture type and dimensions and set initial data. %FImageLevel structures only need the data pointer and row byte _size filled. Return true on success.
+    bool Define(ETextureType::Type type, EResourceUsage::Type usage, const Vector2I& _size, EImageFormat::Type _format, size_t _numLevels, const FImageLevel* initialData = 0);
     /// Define sampling parameters. Return true on success.
-    bool DefineSampler(TextureFilterMode::Type filter = TextureFilterMode::FILTER_TRILINEAR, TextureAddressMode::Type u = TextureAddressMode::WRAP, TextureAddressMode::Type v = TextureAddressMode::WRAP, TextureAddressMode::Type w = TextureAddressMode::WRAP, unsigned maxAnisotropy = 16, float minLod = -M_MAX_FLOAT, float maxLod = M_MAX_FLOAT, const Color& borderColor = Color::BLACK);
+    bool DefineSampler(ETextureFilterMode::Type filter = ETextureFilterMode::FILTER_TRILINEAR, ETextureAddressMode::Type u = ETextureAddressMode::WRAP, ETextureAddressMode::Type v = ETextureAddressMode::WRAP, ETextureAddressMode::Type w = ETextureAddressMode::WRAP, unsigned maxAnisotropy = 16, float minLod = -M_MAX_FLOAT, float maxLod = M_MAX_FLOAT, const Color& borderColor = Color::BLACK);
     /// Set data for a mipmap level. Not supported for immutable textures. Return true on success.
-    bool SetData(size_t face, size_t level, RectI rect, const ImageLevel& data);
+    bool SetData(size_t face, size_t level, RectI rect, const FImageLevel& data);
 
     /// Return texture type.
-    TextureType::Type GetTexType() const { return _type; }
+    ETextureType::Type GetTexType() const { return _type; }
     /// Return dimensions.
     const Vector2I& GetSize() const { return _size; }
     /// Return width.
@@ -51,10 +51,10 @@ public:
     /// Return height.
     int GetHeight() const { return _size._y; }
     /// Return image format.
-    ImageFormat::Type GetFormat() const { return _format; }
+    EImageFormat::Type GetFormat() const { return _format; }
 #ifndef AUTO_OPENGL_ES 
     /// Return whether uses a compressed format.
-    bool IsCompressed() const { return _format >= ImageFormat::DXT1; }
+    bool IsCompressed() const { return _format >= EImageFormat::DXT1; }
 #else
 	bool IsCompressed() const { return false; }
 #endif
@@ -63,15 +63,15 @@ public:
     /// Return number of faces or Z-slices.
     size_t GetNumFaces() const;
     /// Return resource usage type.
-    ResourceUsage::Type GetUsage() const { return _usage; }
+    EResourceUsage::Type GetUsage() const { return _usage; }
     /// Return whether is dynamic.
-    bool IsDynamic() const { return _usage == ResourceUsage::DYNAMIC; }
+    bool IsDynamic() const { return _usage == EResourceUsage::DYNAMIC; }
     /// Return whether is immutable.
-    bool IsImmutable() const { return _usage == ResourceUsage::IMMUTABLE; }
+    bool IsImmutable() const { return _usage == EResourceUsage::IMMUTABLE; }
     /// Return whether is a color rendertarget texture.
-    bool IsRenderTarget() const { return _usage == ResourceUsage::RENDERTARGET && (_format < ImageFormat::D16 || _format > ImageFormat::D24S8); }
+    bool IsRenderTarget() const { return _usage == EResourceUsage::RENDERTARGET && (_format < EImageFormat::D16 || _format > EImageFormat::D24S8); }
     /// Return whether is a depth-stencil texture.
-    bool IsDepthStencil() const { return _usage == ResourceUsage::RENDERTARGET && _format >= ImageFormat::D16 && _format <= ImageFormat::D24S8; }
+    bool IsDepthStencil() const { return _usage == EResourceUsage::RENDERTARGET && _format >= EImageFormat::D16 && _format <= EImageFormat::D24S8; }
 	
 
     /// Return the OpenGL texture identifier. Used internally and should not be called by portable application code.
@@ -81,10 +81,10 @@ public:
 
 	Geometry* GetGeometry() const;
 
-    /// Texture filtering mode.
-    TextureFilterMode::Type _filter;
-    /// Texture addressing modes for each coordinate axis.
-    TextureAddressMode::Type _addressModes[3];
+    /// ATexture filtering mode.
+    ETextureFilterMode::Type _filter;
+    /// ATexture addressing modes for each coordinate axis.
+    ETextureAddressMode::Type _addressModes[3];
     /// Maximum anisotropy.
     unsigned _maxAnisotropy;
     /// Minimum LOD.
@@ -97,18 +97,18 @@ public:
 	unsigned _texture;
 private:
 
-    /// Texture type.
-    TextureType::Type _type;
-    /// Texture usage mode.
-    ResourceUsage::Type _usage;
-    /// Texture dimensions in pixels.
+    /// ATexture type.
+    ETextureType::Type _type;
+    /// ATexture usage mode.
+    EResourceUsage::Type _usage;
+    /// ATexture dimensions in pixels.
     Vector2I _size;
-    /// Image format.
-    ImageFormat::Type _format;
+    /// AImage format.
+    EImageFormat::Type _format;
     /// Number of mipmap levels.
     size_t _numLevels;
     /// Images used for loading.
-    TVector<TAutoPtr<Image> > _loadImages;
+    TVector<TAutoPtr<AImage> > _loadImages;
 	/// Draw call source datas.
 	TSharedPtr<Geometry> _geometry;
 };

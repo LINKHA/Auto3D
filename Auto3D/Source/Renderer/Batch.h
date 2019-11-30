@@ -8,7 +8,7 @@
 namespace Auto3D
 {
 
-class Light;
+class ALight;
 struct LightPass;
 
 /// Maximum number of lights per pass.
@@ -29,9 +29,9 @@ struct AUTO_API Batch
 
     /// Geometry.
     Geometry* _geometry;
-    /// Material pass.
-    Pass* _pass;
-    /// Light pass.
+    /// AMaterial pass.
+    FPass* _pass;
+    /// ALight pass.
     LightPass* _lights;
     /// Geometry type.
     GeometryType::Type _type;
@@ -86,23 +86,23 @@ struct AUTO_API LightList
     /// %TList _key.
     unsigned long long _key;
     /// Lights.
-    TVector<Light*> _lights;
+    TVector<ALight*> _lights;
     /// Associated light passes.
     TVector<LightPass*> _lightPasses;
     /// Use count
     size_t _useCount;
 };
 
-/// Light information for a rendering pass, including properly formatted constant data.
+/// ALight information for a rendering pass, including properly formatted constant data.
 struct AUTO_API LightPass
 {
-    /// Light positions.
+    /// ALight positions.
     Vector4F _lightPositions[MAX_LIGHTS_PER_PASS];
-    /// Light directions.
+    /// ALight directions.
     Vector4F _lightDirections[MAX_LIGHTS_PER_PASS];
-    /// Light attenuation parameters.
+    /// ALight attenuation parameters.
     Vector4F _lightAttenuations[MAX_LIGHTS_PER_PASS];
-    /// Light colors.
+    /// ALight colors.
     Color _lightColors[MAX_LIGHTS_PER_PASS];
     /// Shadow map sampling parameters.
     Vector4F _shadowParameters[MAX_LIGHTS_PER_PASS];
@@ -115,7 +115,7 @@ struct AUTO_API LightPass
     /// Shadow mapping matrices.
     Matrix4x4F _shadowMatrices[MAX_LIGHTS_PER_PASS];
     /// Shadow maps.
-    Texture* _shadowMaps[MAX_LIGHTS_PER_PASS];
+    ATexture* _shadowMaps[MAX_LIGHTS_PER_PASS];
     /// Vertex shader variation bits.
     unsigned short _vsBits;
     /// Pixel shader variation bits.
@@ -128,14 +128,14 @@ struct AUTO_API ShadowView
     /// Clear existing shadow casters and batch queue.
     void Clear();
 
-    /// %Light that is using this view.
-    Light* _light;
+    /// %ALight that is using this view.
+    ALight* _light;
     /// Viewport within the shadow map.
     RectI _viewport;
     /// Shadow batch queue.
     RenderQueue _shadowQueue;
     /// Shadow camera.
-    Camera _shadowCamera;
+    ACamera _shadowCamera;
 };
 
 /// Shadow map data structure. May be shared by several lights.
@@ -152,14 +152,14 @@ struct AUTO_API ShadowMap
     /// Rectangle allocator.
     AreaAllocator _allocator;
     /// Shadow map texture.
-    TSharedPtr<Texture> _texture;
+    TSharedPtr<ATexture> _texture;
     /// Shadow views that use this shadow map.
     TVector<ShadowView*> _shadowViews;
     /// Use flag. When false, clearing the shadow map and rendering the views can be skipped.
     bool _used;
 };
 
-/// Water texture rendering view data structure.
+/// AWater texture rendering view data structure.
 struct AUTO_API WaterTextureView
 {
 	/// Clear existing shadow casters and batch queue.
@@ -167,13 +167,13 @@ struct AUTO_API WaterTextureView
 
 	/// Viewport within the shadow map.
 	RectI _viewport;
-	/// Water texture batch queue.
+	/// AWater texture batch queue.
 	RenderQueue _waterTextureQueue;
-	/// Water camera.
-	Camera _waterCamera;
+	/// AWater camera.
+	ACamera _waterCamera;
 };
 
-/// Water texture data structure.
+/// AWater texture data structure.
 struct AUTO_API WaterTexture
 {
 	/// Default-construct.
@@ -187,8 +187,8 @@ struct AUTO_API WaterTexture
 	/// Rectangle allocator.
 	AreaAllocator _allocator;
 	/// Shadow map texture.
-	TSharedPtr<Texture> _texture;
-	/// Water texture view this use water texture.
+	TSharedPtr<ATexture> _texture;
+	/// AWater texture view this use water texture.
 	TVector<WaterTextureView*> _waterTextureView;
 	/// Use flag. When false, clearing the shadow map and rendering the views can be skipped.
 	bool _used;

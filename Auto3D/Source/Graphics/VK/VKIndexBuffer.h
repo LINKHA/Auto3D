@@ -8,13 +8,13 @@ namespace Auto3D
 {
 
 /// GPU buffer for index data.
-class AUTO_API IndexBuffer : public FRefCounted, public GPUObject
+class AUTO_API FIndexBuffer : public FRefCounted, public FGPUObject
 {
 public:
 	/// Construct.
-	IndexBuffer();
+	FIndexBuffer();
 	/// Destruct.
-	~IndexBuffer();
+	~FIndexBuffer();
 
 	/// Release the index buffer and CPU shadow data.
 	void Release() override;
@@ -22,7 +22,7 @@ public:
 	void Recreate() override;
 
 	/// Define buffer. Immutable buffers must specify initial data here.  Return true on success.
-	bool Define(ResourceUsage::Type usage, size_t numIndices, size_t indexSize, bool useShadowData, const void* _data = nullptr);
+	bool Define(EResourceUsage::Type usage, size_t numIndices, size_t indexSize, bool useShadowData, const void* _data = nullptr);
 	/// Redefine buffer data either completely or partially. Not supported for immutable buffers. Return true on success.
 	bool SetData(size_t firstIndex, size_t numIndices, const void* _data);
 
@@ -33,11 +33,11 @@ public:
 	/// Return _size of index in bytes.
 	size_t IndexSize() const { return _indexSize; }
 	/// Return resource usage type.
-	ResourceUsage::Type Usage() const { return _usage; }
+	EResourceUsage::Type Usage() const { return _usage; }
 	/// Return whether is dynamic.
-	bool IsDynamic() const { return _usage == ResourceUsage::DYNAMIC; }
+	bool IsDynamic() const { return _usage == EResourceUsage::DYNAMIC; }
 	/// Return whether is immutable.
-	bool IsImmutable() const { return _usage == ResourceUsage::IMMUTABLE; }
+	bool IsImmutable() const { return _usage == EResourceUsage::IMMUTABLE; }
 
 	/// Return the OpenGL buffer identifier. Used internally and should not be called by portable application code.
 	unsigned GetGLBuffer() const { return _buffer; }
@@ -55,7 +55,7 @@ private:
 	/// Size of index in bytes.
 	size_t _indexSize;
 	/// AResource usage type.
-	ResourceUsage::Type _usage;
+	EResourceUsage::Type _usage;
 };
 
 }

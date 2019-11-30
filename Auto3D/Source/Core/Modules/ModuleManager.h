@@ -8,7 +8,7 @@
 namespace Auto3D {
 
 class ResourceCache;
-class Graphics;
+class AGraphics;
 class Renderer;
 class Input;
 class ALog;
@@ -43,7 +43,7 @@ public:
 	/// Recreate cache moudle if not null.
 	void RecreateCacheModule(ResourceCache* cache = nullptr);
 	/// Recreate graphics moudle if not null.
-	void RecreateGraphicsModule(Graphics* graphics = nullptr);
+	void RecreateGraphicsModule(AGraphics* graphics = nullptr);
 	/// Recreate 3d render module if not null.
 	void RecreateRendererModule(Renderer* renderer = nullptr);
 	/// Recreate input management events module if not null.
@@ -70,7 +70,7 @@ public:
 	/// Return resource loads.
 	ResourceCache* CacheModule() { return _cache.Get(); }
 	/// Return graphics.
-	Graphics* GraphicsModule() { return _graphics.Get(); }
+	AGraphics* GraphicsModule() { return _graphics.Get(); }
 	/// Return 3D render.
 	Renderer* RendererModule() { return _renderer.Get(); }
 	/// Return input management events
@@ -97,7 +97,7 @@ private:
 	/// Manage the subsystem of all resource loads
 	TUniquePtr<ResourceCache> _cache;
 	/// ADAPTS the low-level rendering interface as well as the form's rendering function
-	TUniquePtr<Graphics> _graphics;
+	TUniquePtr<AGraphics> _graphics;
 	/// 3D rendering of the scene
 	TUniquePtr<Renderer> _renderer;
 	/// User input management events

@@ -11,7 +11,7 @@
 namespace Auto3D
 {
 
-ShaderVariation::ShaderVariation(Shader* parent, const FString& defines) :
+FShaderVariation::FShaderVariation(AShader* parent, const FString& defines) :
     _shader(0),
     _parent(parent),
     _stage(parent->GetStage()),
@@ -20,12 +20,12 @@ ShaderVariation::ShaderVariation(Shader* parent, const FString& defines) :
 {
 }
 
-ShaderVariation::~ShaderVariation()
+FShaderVariation::~FShaderVariation()
 {
     Release();
 }
 
-void ShaderVariation::Release()
+void FShaderVariation::Release()
 {
     if (_graphics)
     {
@@ -43,7 +43,7 @@ void ShaderVariation::Release()
     _compiled = false;
 }
 
-bool ShaderVariation::Compile()
+bool FShaderVariation::Compile()
 {
     if (_compiled)
         return _shader != 0;
@@ -64,7 +64,7 @@ bool ShaderVariation::Compile()
         return false;
     }
 
-    _shader = glCreateShader(_stage == ShaderStage::VS ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER);
+    _shader = glCreateShader(_stage == EShaderStage::VS ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER);
     if (!_shader)
     {
         ErrorString("Could not create shader object");
@@ -136,12 +136,12 @@ bool ShaderVariation::Compile()
     return true;
 }
 
-Shader* ShaderVariation::Parent() const
+AShader* FShaderVariation::Parent() const
 {
     return _parent;
 }
 
-FString ShaderVariation::FullName() const
+FString FShaderVariation::FullName() const
 {
     if (_parent)
         return _defines.IsEmpty() ? _parent->FName() : _parent->FName() + " (" + _defines + ")";

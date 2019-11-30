@@ -29,73 +29,73 @@
 namespace Auto3D
 {
 
-const int Image::components[] =
+const int AImage::components[] =
 {
-    0,      // ImageFormat::NONE
-    1,      // ImageFormat::R8
-    2,      // ImageFormat::RG8
-    4,      // ImageFormat::RGBA8
-    1,      // ImageFormat::A8
-    0,      // ImageFormat::R16
-    0,      // ImageFormat::RG16
-    0,      // ImageFormat::RGBA16
-    0,      // ImageFormat::R16F
-    0,      // ImageFormat::RG16F
-    0,      // ImageFormat::RGBA16F
-    0,      // ImageFormat::R32F
-    0,      // ImageFormat::RG32F
-    0,      // ImageFormat::RGB32F
-    0,      // ImageFormat::RGBA32F
-    0,      // ImageFormat::D16
-    0,      // ImageFormat::D32
-    0,      // ImageFormat::D24S8
-    0,      // ImageFormat::DXT1
-    0,      // ImageFormat::DXT3
-    0,      // ImageFormat::DXT5
-    0,      // ImageFormat::ETC1
-    0,      // ImageFormat::PVRTC_RGB_2BPP
-    0,      // ImageFormat::PVRTC_RGBA_2BPP
-    0,      // ImageFormat::PVRTC_RGB_4BPP
-    0       // ImageFormat::PVRTC_RGBA_4BPP
+    0,      // EImageFormat::NONE
+    1,      // EImageFormat::R8
+    2,      // EImageFormat::RG8
+    4,      // EImageFormat::RGBA8
+    1,      // EImageFormat::A8
+    0,      // EImageFormat::R16
+    0,      // EImageFormat::RG16
+    0,      // EImageFormat::RGBA16
+    0,      // EImageFormat::R16F
+    0,      // EImageFormat::RG16F
+    0,      // EImageFormat::RGBA16F
+    0,      // EImageFormat::R32F
+    0,      // EImageFormat::RG32F
+    0,      // EImageFormat::RGB32F
+    0,      // EImageFormat::RGBA32F
+    0,      // EImageFormat::D16
+    0,      // EImageFormat::D32
+    0,      // EImageFormat::D24S8
+    0,      // EImageFormat::DXT1
+    0,      // EImageFormat::DXT3
+    0,      // EImageFormat::DXT5
+    0,      // EImageFormat::ETC1
+    0,      // EImageFormat::PVRTC_RGB_2BPP
+    0,      // EImageFormat::PVRTC_RGBA_2BPP
+    0,      // EImageFormat::PVRTC_RGB_4BPP
+    0       // EImageFormat::PVRTC_RGBA_4BPP
 };
 
-const size_t Image::pixelByteSizes[] =
+const size_t AImage::pixelByteSizes[] =
 {
-    0,      // ImageFormat::NONE
-    1,      // ImageFormat::R8
-    2,      // ImageFormat::RG8
-    4,      // ImageFormat::RGBA8
-    1,      // ImageFormat::A8
-    2,      // ImageFormat::R16
-    4,      // ImageFormat::RG16
-    8,      // ImageFormat::RGBA16
-    2,      // ImageFormat::R16F
-    4,      // ImageFormat::RG16F
-    8,      // ImageFormat::RGBA16F
-    4,      // ImageFormat::R32F
-    8,      // ImageFormat::RG32F
-    12,     // ImageFormat::RGB32F
-    16,     // ImageFormat::RGBA32F
-    2,      // ImageFormat::D16
-    4,      // ImageFormat::D32
-    4,      // ImageFormat::D24S8
-    0,      // ImageFormat::DXT1
-    0,      // ImageFormat::DXT3
-    0,      // ImageFormat::DXT5
-    0,      // ImageFormat::ETC1
-    0,      // ImageFormat::PVRTC_RGB_2BPP
-    0,      // ImageFormat::PVRTC_RGBA_2BPP
-    0,      // ImageFormat::PVRTC_RGB_4BPP
-    0       // ImageFormat::PVRTC_RGBA_4BPP
+    0,      // EImageFormat::NONE
+    1,      // EImageFormat::R8
+    2,      // EImageFormat::RG8
+    4,      // EImageFormat::RGBA8
+    1,      // EImageFormat::A8
+    2,      // EImageFormat::R16
+    4,      // EImageFormat::RG16
+    8,      // EImageFormat::RGBA16
+    2,      // EImageFormat::R16F
+    4,      // EImageFormat::RG16F
+    8,      // EImageFormat::RGBA16F
+    4,      // EImageFormat::R32F
+    8,      // EImageFormat::RG32F
+    12,     // EImageFormat::RGB32F
+    16,     // EImageFormat::RGBA32F
+    2,      // EImageFormat::D16
+    4,      // EImageFormat::D32
+    4,      // EImageFormat::D24S8
+    0,      // EImageFormat::DXT1
+    0,      // EImageFormat::DXT3
+    0,      // EImageFormat::DXT5
+    0,      // EImageFormat::ETC1
+    0,      // EImageFormat::PVRTC_RGB_2BPP
+    0,      // EImageFormat::PVRTC_RGBA_2BPP
+    0,      // EImageFormat::PVRTC_RGB_4BPP
+    0       // EImageFormat::PVRTC_RGBA_4BPP
 };
 
-static const ImageFormat::Type componentsToFormat[] =
+static const EImageFormat::Type componentsToFormat[] =
 {
-    ImageFormat::NONE,
-    ImageFormat::R8,
-    ImageFormat::RG8,
-    ImageFormat::RGBA8,
-    ImageFormat::RGBA8
+    EImageFormat::NONE,
+    EImageFormat::R8,
+    EImageFormat::RG8,
+    EImageFormat::RGBA8,
+    EImageFormat::RGBA8
 };
 
 /// \cond PRIVATE
@@ -219,23 +219,23 @@ struct DDSurfaceDesc2
 };
 /// \endcond
 
-Image::Image() :
+AImage::AImage() :
     _size(Vector2I::ZERO),
-    _format(ImageFormat::NONE),
+    _format(EImageFormat::NONE),
     _numLevels(1)
 {
 }
 
-Image::~Image()
+AImage::~AImage()
 {
 }
 
-void Image::RegisterObject()
+void AImage::RegisterObject()
 {
-    RegisterFactory<Image>();
+    RegisterFactory<AImage>();
 }
 
-bool Image::BeginLoad(Stream& source)
+bool AImage::BeginLoad(Stream& source)
 {
     PROFILE(LoadImage);
 
@@ -252,15 +252,15 @@ bool Image::BeginLoad(Stream& source)
         switch (ddsd.ddpfPixelFormat.dwFourCC)
         {
         case FOURCC_DXT1:
-            _format = ImageFormat::DXT1;
+            _format = EImageFormat::DXT1;
             break;
 
         case FOURCC_DXT3:
-            _format = ImageFormat::DXT3;
+            _format = EImageFormat::DXT3;
             break;
 
         case FOURCC_DXT5:
-            _format = ImageFormat::DXT5;
+            _format = EImageFormat::DXT5;
             break;
 
         default:
@@ -316,44 +316,44 @@ bool Image::BeginLoad(Stream& source)
             return false;
         }
 
-        _format = ImageFormat::NONE;
+        _format = EImageFormat::NONE;
         switch (internalFormat)
         {
 #ifndef AUTO_OPENGL_ES
         case 0x83f1:
-            _format = ImageFormat::DXT1;
+            _format = EImageFormat::DXT1;
             break;
 
         case 0x83f2:
-            _format = ImageFormat::DXT3;
+            _format = EImageFormat::DXT3;
             break;
 
         case 0x83f3:
-            _format = ImageFormat::DXT5;
+            _format = EImageFormat::DXT5;
             break;
 #endif
         case 0x8d64:
-            _format = ImageFormat::ETC1;
+            _format = EImageFormat::ETC1;
             break;
 
         case 0x8c00:
-            _format = ImageFormat::PVRTC_RGB_4BPP;
+            _format = EImageFormat::PVRTC_RGB_4BPP;
             break;
 
         case 0x8c01:
-            _format = ImageFormat::PVRTC_RGB_2BPP;
+            _format = EImageFormat::PVRTC_RGB_2BPP;
             break;
 
         case 0x8c02:
-            _format = ImageFormat::PVRTC_RGBA_4BPP;
+            _format = EImageFormat::PVRTC_RGBA_4BPP;
             break;
 
         case 0x8c03:
-            _format = ImageFormat::PVRTC_RGBA_2BPP;
+            _format = EImageFormat::PVRTC_RGBA_2BPP;
             break;
         }
 
-        if (_format == ImageFormat::NONE)
+        if (_format == EImageFormat::NONE)
         {
             ErrorString("Unsupported texture format in KTX file");
             return false;
@@ -409,44 +409,44 @@ bool Image::BeginLoad(Stream& source)
             return false;
         }
 
-        _format = ImageFormat::NONE;
+        _format = EImageFormat::NONE;
         switch (pixelFormatLo)
         {
         case 0:
-            _format = ImageFormat::PVRTC_RGB_2BPP;
+            _format = EImageFormat::PVRTC_RGB_2BPP;
             break;
 
         case 1:
-            _format = ImageFormat::PVRTC_RGBA_2BPP;
+            _format = EImageFormat::PVRTC_RGBA_2BPP;
             break;
 
         case 2:
-            _format = ImageFormat::PVRTC_RGB_4BPP;
+            _format = EImageFormat::PVRTC_RGB_4BPP;
             break;
 
         case 3:
-            _format = ImageFormat::PVRTC_RGBA_4BPP;
+            _format = EImageFormat::PVRTC_RGBA_4BPP;
             break;
 
         case 6:
-            _format = ImageFormat::ETC1;
+            _format = EImageFormat::ETC1;
             break;
 #ifndef AUTO_OPENGL_ES
         case 7:
-            _format = ImageFormat::DXT1;
+            _format = EImageFormat::DXT1;
             break;
 
         case 9:
-            _format = ImageFormat::DXT3;
+            _format = EImageFormat::DXT3;
             break;
 
         case 11:
-            _format = ImageFormat::DXT5;
+            _format = EImageFormat::DXT5;
             break;
 #endif
         }
 
-        if (_format == ImageFormat::NONE)
+        if (_format == EImageFormat::NONE)
         {
             ErrorString("Unsupported texture format in PVR file");
             return false;
@@ -501,7 +501,7 @@ bool Image::BeginLoad(Stream& source)
     return true;
 }
 
-bool Image::Save(Stream& dest)
+bool AImage::Save(Stream& dest)
 {
     PROFILE(SaveImage);
 
@@ -531,7 +531,7 @@ bool Image::Save(Stream& dest)
     return success;
 }
 
-void Image::SetSize(const Vector2I& newSize, ImageFormat::Type newFormat)
+void AImage::SetSize(const Vector2I& newSize, EImageFormat::Type newFormat)
 {
     if (newSize == _size && newFormat == _format)
         return;
@@ -553,7 +553,7 @@ void Image::SetSize(const Vector2I& newSize, ImageFormat::Type newFormat)
     _numLevels = 1;
 }
 
-void Image::SetData(const unsigned char* pixelData)
+void AImage::SetData(const unsigned char* pixelData)
 {
     if (!IsCompressed())
         memcpy(_data.Get(), pixelData, _size._x * _size._y * PixelByteSize());
@@ -561,7 +561,7 @@ void Image::SetData(const unsigned char* pixelData)
         ErrorString("Can not set pixel data of a compressed image");
 }
 
-unsigned char* Image::DecodePixelData(Stream& source, int& width, int& height, unsigned& components)
+unsigned char* AImage::DecodePixelData(Stream& source, int& width, int& height, unsigned& components)
 {
     size_t dataSize = source.Size();
 
@@ -570,7 +570,7 @@ unsigned char* Image::DecodePixelData(Stream& source, int& width, int& height, u
     return stbi_load_from_memory(buffer.Get(), (int)dataSize, &width, &height, (int *)&components, 0);
 }
 
-void Image::FreePixelData(unsigned char* pixelData)
+void AImage::FreePixelData(unsigned char* pixelData)
 {
     if (!pixelData)
         return;
@@ -578,7 +578,7 @@ void Image::FreePixelData(unsigned char* pixelData)
     stbi_image_free(pixelData);
 }
 
-bool Image::GenerateMipImage(Image& dest) const
+bool AImage::GenerateMipImage(AImage& dest) const
 {
     PROFILE(GenerateMipImage);
 
@@ -645,9 +645,9 @@ bool Image::GenerateMipImage(Image& dest) const
     return true;
 }
 
-ImageLevel Image::GetLevel(size_t index) const
+FImageLevel AImage::GetLevel(size_t index) const
 {
-    ImageLevel level;
+    FImageLevel level;
 
     if (index >= _numLevels)
         return level;
@@ -670,7 +670,7 @@ ImageLevel Image::GetLevel(size_t index) const
 }
 
 
-SDL_Surface* Image::GetSDLSurface(const RectI& rect) const
+SDL_Surface* AImage::GetSDLSurface(const RectI& rect) const
 {
 	if (!_data)
 		return nullptr;
@@ -731,7 +731,7 @@ SDL_Surface* Image::GetSDLSurface(const RectI& rect) const
 }
 
 #ifndef AUTO_OPENGL_ES
-bool Image::DecompressLevel(unsigned char* dest, size_t index) const
+bool AImage::DecompressLevel(unsigned char* dest, size_t index) const
 {
     PROFILE(DecompressImageLevel);
 
@@ -747,24 +747,24 @@ bool Image::DecompressLevel(unsigned char* dest, size_t index) const
         return false;
     }
 
-    ImageLevel level = GetLevel(index);
+    FImageLevel level = GetLevel(index);
 
     switch (_format)
     {
-    case ImageFormat::DXT1:
-    case ImageFormat::DXT3:
-    case ImageFormat::DXT5:
+    case EImageFormat::DXT1:
+    case EImageFormat::DXT3:
+    case EImageFormat::DXT5:
         DecompressImageDXT(dest, level._data, level._size._x, level._size._y, _format);
         break;
 
-    case ImageFormat::ETC1:
+    case EImageFormat::ETC1:
         DecompressImageETC(dest, level._data, level._size._x, level._size._y);
         break;
 
-    case ImageFormat::PVRTC_RGB_2BPP:
-    case ImageFormat::PVRTC_RGBA_2BPP:
-    case ImageFormat::PVRTC_RGB_4BPP:
-    case ImageFormat::PVRTC_RGBA_4BPP:
+    case EImageFormat::PVRTC_RGB_2BPP:
+    case EImageFormat::PVRTC_RGBA_2BPP:
+    case EImageFormat::PVRTC_RGB_4BPP:
+    case EImageFormat::PVRTC_RGBA_4BPP:
         DecompressImagePVRTC(dest, level._data, level._size._x, level._size._y, _format);
         break;
 
@@ -777,13 +777,13 @@ bool Image::DecompressLevel(unsigned char* dest, size_t index) const
 }
 #endif
 
-size_t Image::CalculateDataSize(const Vector2I& _size, ImageFormat::Type _format, size_t* dstRows, size_t* dstRowSize)
+size_t AImage::CalculateDataSize(const Vector2I& _size, EImageFormat::Type _format, size_t* dstRows, size_t* dstRowSize)
 {
     size_t rows, rowSize, dataSize;
 #ifndef AUTO_OPENGL_ES
-    if (_format < ImageFormat::DXT1)
+    if (_format < EImageFormat::DXT1)
 #else
-	if (_format < ImageFormat::ETC1)
+	if (_format < EImageFormat::ETC1)
 #endif
     {
         rows = _size._y;
@@ -791,9 +791,9 @@ size_t Image::CalculateDataSize(const Vector2I& _size, ImageFormat::Type _format
         dataSize = rows * rowSize;
     }
 #ifndef AUTO_OPENGL_ES
-    else if (_format < ImageFormat::PVRTC_RGB_2BPP)
+    else if (_format < EImageFormat::PVRTC_RGB_2BPP)
     {
-        size_t blockSize = (_format == ImageFormat::DXT1 || _format == ImageFormat::ETC1) ? 8 : 16;
+        size_t blockSize = (_format == EImageFormat::DXT1 || _format == EImageFormat::ETC1) ? 8 : 16;
         rows = (_size._y + 3) / 4;
         rowSize = ((_size._x + 3) / 4) * blockSize;
         dataSize = rows * rowSize;
@@ -801,7 +801,7 @@ size_t Image::CalculateDataSize(const Vector2I& _size, ImageFormat::Type _format
 #endif
     else
     {
-        size_t blockSize = _format < ImageFormat::PVRTC_RGB_4BPP ? 2 : 4;
+        size_t blockSize = _format < EImageFormat::PVRTC_RGB_4BPP ? 2 : 4;
         size_t dataWidth = Max(_size._x, blockSize == 2 ? 16 : 8);
         rows = Max(_size._y, 8);
         dataSize = (dataWidth * rows * blockSize + 7) >> 3;

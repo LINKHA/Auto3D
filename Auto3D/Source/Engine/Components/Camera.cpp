@@ -22,7 +22,7 @@ static const Matrix4x4F flipMatrix(
     0.0f, 0.0f, 0.0f, 1.0f
     );
 
-Camera::Camera() :
+ACamera::ACamera() :
     _viewMatrix(Matrix3x4F::IDENTITY),
     _viewMatrixDirty(false),
     _orthographic(false),
@@ -45,80 +45,80 @@ Camera::Camera() :
     _reflectionMatrix = _reflectionPlane.ReflectionMatrix();
 }
 
-void Camera::RegisterObject()
+void ACamera::RegisterObject()
 {
-    RegisterFactory<Camera>();
-    CopyBaseAttributes<Camera, ASpatialNode>();
+    RegisterFactory<ACamera>();
+    CopyBaseAttributes<ACamera, ASpatialNode>();
 
-    RegisterAttribute("nearClip", &Camera::GetNearClip, &Camera::SetNearClip, DEFAULT_NEARCLIP);
-    RegisterAttribute("farClip", &Camera::GetFarClip, &Camera::SetFarClip, DEFAULT_FARCLIP);
-    RegisterAttribute("fov", &Camera::GetFov, &Camera::SetFov, DEFAULT_FOV);
-    RegisterAttribute("aspectRatio", &Camera::GetAspectRatio, &Camera::SetAspectRatio, 1.0f);
-    RegisterAttribute("orthographic", &Camera::IsOrthographic, &Camera::SetOrthographic, false);
-    RegisterAttribute("orthoSize", &Camera::GetOrthoSize, &Camera::SetOrthoSize, DEFAULT_ORTHOSIZE);
-    RegisterAttribute("zoom", &Camera::GetZoom, &Camera::SetZoom, 1.0f);
-    RegisterAttribute("lodBias", &Camera::GetLodBias, &Camera::SetLodBias, 1.0f);
-    RegisterAttribute("viewMask", &Camera::GetViewMask, &Camera::SetLayoutMask, M_MAX_UNSIGNED);
-    RegisterRefAttribute("ambientColor", &Camera::GetAmbientColor, &Camera::SetAmbientColor, DEFAULT_AMBIENT_COLOR);
-    RegisterRefAttribute("projectionOffset", &Camera::GetProjectionOffset, &Camera::SetProjectionOffset, Vector2F::ZERO);
-    RegisterMixedRefAttribute("reflectionPlane", &Camera::ReflectionPlaneAttr, &Camera::SetReflectionPlaneAttr, Vector4F(0.0f, 1.0f, 0.0f, 0.0f));
-    RegisterMixedRefAttribute("clipPlane", &Camera::ClipPlaneAttr, &Camera::SetClipPlaneAttr, Vector4F(0.0f, 1.0f, 0.0f, 0.0f));
-    RegisterAttribute("useReflection", &Camera::GetUseReflection, &Camera::SetUseReflection, false);
-    RegisterAttribute("useClipping", &Camera::GetUseClipping, &Camera::SetUseClipping, false);
+    RegisterAttribute("nearClip", &ACamera::GetNearClip, &ACamera::SetNearClip, DEFAULT_NEARCLIP);
+    RegisterAttribute("farClip", &ACamera::GetFarClip, &ACamera::SetFarClip, DEFAULT_FARCLIP);
+    RegisterAttribute("fov", &ACamera::GetFov, &ACamera::SetFov, DEFAULT_FOV);
+    RegisterAttribute("aspectRatio", &ACamera::GetAspectRatio, &ACamera::SetAspectRatio, 1.0f);
+    RegisterAttribute("orthographic", &ACamera::IsOrthographic, &ACamera::SetOrthographic, false);
+    RegisterAttribute("orthoSize", &ACamera::GetOrthoSize, &ACamera::SetOrthoSize, DEFAULT_ORTHOSIZE);
+    RegisterAttribute("zoom", &ACamera::GetZoom, &ACamera::SetZoom, 1.0f);
+    RegisterAttribute("lodBias", &ACamera::GetLodBias, &ACamera::SetLodBias, 1.0f);
+    RegisterAttribute("viewMask", &ACamera::GetViewMask, &ACamera::SetLayoutMask, M_MAX_UNSIGNED);
+    RegisterRefAttribute("ambientColor", &ACamera::GetAmbientColor, &ACamera::SetAmbientColor, DEFAULT_AMBIENT_COLOR);
+    RegisterRefAttribute("projectionOffset", &ACamera::GetProjectionOffset, &ACamera::SetProjectionOffset, Vector2F::ZERO);
+    RegisterMixedRefAttribute("reflectionPlane", &ACamera::ReflectionPlaneAttr, &ACamera::SetReflectionPlaneAttr, Vector4F(0.0f, 1.0f, 0.0f, 0.0f));
+    RegisterMixedRefAttribute("clipPlane", &ACamera::ClipPlaneAttr, &ACamera::SetClipPlaneAttr, Vector4F(0.0f, 1.0f, 0.0f, 0.0f));
+    RegisterAttribute("useReflection", &ACamera::GetUseReflection, &ACamera::SetUseReflection, false);
+    RegisterAttribute("useClipping", &ACamera::GetUseClipping, &ACamera::SetUseClipping, false);
 }
-void Camera::SetNearClip(float nearClip)
+void ACamera::SetNearClip(float nearClip)
 {
     _nearClip = Max(nearClip, M_EPSILON);
 }
 
-void Camera::SetFarClip(float farClip)
+void ACamera::SetFarClip(float farClip)
 {
     _farClip = Max(farClip, M_EPSILON);
 }
 
-void Camera::SetFov(float fov)
+void ACamera::SetFov(float fov)
 {
     _fov = Clamp(fov, 0.0f, 180.0f);
 }
 
-void Camera::SetOrthoSize(float orthoSize)
+void ACamera::SetOrthoSize(float orthoSize)
 {
     _orthoSize = orthoSize;
     _aspectRatio = 1.0f;
 }
 
-void Camera::SetOrthoSize(const Vector2F& orthoSize)
+void ACamera::SetOrthoSize(const Vector2F& orthoSize)
 {
     _orthoSize = orthoSize._y;
     _aspectRatio = orthoSize._x / orthoSize._y;
 }
 
-void Camera::SetAspectRatio(float aspectRatio)
+void ACamera::SetAspectRatio(float aspectRatio)
 {
     _aspectRatio = Max(aspectRatio, M_EPSILON);
 }
 
-void Camera::SetZoom(float zoom)
+void ACamera::SetZoom(float zoom)
 {
     _zoom = Max(zoom, M_EPSILON);
 }
 
-void Camera::SetLodBias(float bias)
+void ACamera::SetLodBias(float bias)
 {
     _lodBias = Max(bias, M_EPSILON);
 }
 
-void Camera::SetLayoutMask(unsigned mask)
+void ACamera::SetLayoutMask(unsigned mask)
 {
 	_viewLayoutMask = mask;
 }
 
-void Camera::SetLayoutMaskIndex(unsigned maskIndex)
+void ACamera::SetLayoutMaskIndex(unsigned maskIndex)
 {
 	_viewLayoutMask &= ~(1 << maskIndex);
 }
 
-void Camera::SetLayoutMaskName(const FString& name)
+void ACamera::SetLayoutMaskName(const FString& name)
 {
 	Scene* scene = ParentScene();
 	if (!scene)
@@ -133,12 +133,12 @@ void Camera::SetLayoutMaskName(const FString& name)
 		ErrorString("Layer" + name + " not defined in the scene");
 }
 
-void Camera::SetLayoutMaskOutIndex(unsigned maskIndex)
+void ACamera::SetLayoutMaskOutIndex(unsigned maskIndex)
 {
 	_viewLayoutMask |= 1 << maskIndex;
 }
 
-void Camera::SetLayoutMaskOutName(const FString& name)
+void ACamera::SetLayoutMaskOutName(const FString& name)
 {
 	Scene* scene = ParentScene();
 	if (!scene)
@@ -153,63 +153,63 @@ void Camera::SetLayoutMaskOutName(const FString& name)
 		ErrorString("Layer" + name + " not defined in the scene");
 }
 
-void Camera::SetLayoutMaskAll()
+void ACamera::SetLayoutMaskAll()
 {
 	_viewLayoutMask = 0;
 }
 
-void Camera::SetOrthographic(bool enable)
+void ACamera::SetOrthographic(bool enable)
 {
     _orthographic = enable;
 }
 
-void Camera::SetAmbientColor(const Color& color)
+void ACamera::SetAmbientColor(const Color& color)
 {
     _ambientColor = color;
 }
 
-void Camera::SetProjectionOffset(const Vector2F& offset)
+void ACamera::SetProjectionOffset(const Vector2F& offset)
 {
     _projectionOffset = offset;
 }
 
-void Camera::SetUseReflection(bool enable)
+void ACamera::SetUseReflection(bool enable)
 {
     _useReflection = enable;
     _viewMatrixDirty = true;
 }
 
-void Camera::SetReflectionPlane(const Plane& plane)
+void ACamera::SetReflectionPlane(const Plane& plane)
 {
     _reflectionPlane = plane;
     _reflectionMatrix = plane.ReflectionMatrix();
     _viewMatrixDirty = true;
 }
 
-void Camera::SetUseClipping(bool enable)
+void ACamera::SetUseClipping(bool enable)
 {
     _useClipping = enable;
 }
 
-void Camera::SetClipPlane(const Plane& plane)
+void ACamera::SetClipPlane(const Plane& plane)
 {
     _clipPlane = plane;
 }
 
 
-void Camera::SetFlipVertical(bool enable)
+void ACamera::SetFlipVertical(bool enable)
 {
     _flipVertical = enable;
 }
 
-float Camera::GetNearClip() const
+float ACamera::GetNearClip() const
 {
     // Orthographic camera has always near clip at 0 to avoid trouble with shader depth parameters,
     // and unlike in perspective mode there should be no depth buffer precision issue
     return _orthographic ? 0.0f : _nearClip;
 }
 
-Frustum Camera::GetWorldFrustum() const
+Frustum ACamera::GetWorldFrustum() const
 {
     Frustum ret;
     Matrix3x4F worldTransform = EffectiveWorldTransform();
@@ -222,7 +222,7 @@ Frustum Camera::GetWorldFrustum() const
     return ret;
 }
 
-Frustum Camera::WorldSplitFrustum(float nearClip, float farClip) const
+Frustum ACamera::WorldSplitFrustum(float nearClip, float farClip) const
 {
     Frustum ret;
     Matrix3x4F worldTransform = EffectiveWorldTransform();
@@ -240,7 +240,7 @@ Frustum Camera::WorldSplitFrustum(float nearClip, float farClip) const
     return ret;
 }
 
-Frustum Camera::GetViewSpaceFrustum() const
+Frustum ACamera::GetViewSpaceFrustum() const
 {
     Frustum ret;
 
@@ -252,7 +252,7 @@ Frustum Camera::GetViewSpaceFrustum() const
     return ret;
 }
 
-Frustum Camera::ViewSpaceSplitFrustum(float nearClip, float farClip) const
+Frustum ACamera::ViewSpaceSplitFrustum(float nearClip, float farClip) const
 {
     Frustum ret;
 
@@ -269,7 +269,7 @@ Frustum Camera::ViewSpaceSplitFrustum(float nearClip, float farClip) const
     return ret;
 }
 
-const Matrix3x4F& Camera::GetViewMatrix() const
+const Matrix3x4F& ACamera::GetViewMatrix() const
 {
     if (_viewMatrixDirty)
     {
@@ -280,7 +280,7 @@ const Matrix3x4F& Camera::GetViewMatrix() const
     return _viewMatrix;
 }
 
-Matrix4x4F Camera::GetProjectionMatrix(bool apiSpecific) const
+Matrix4x4F ACamera::GetProjectionMatrix(bool apiSpecific) const
 {
     Matrix4x4F ret(Matrix4x4F::ZERO);
 
@@ -349,7 +349,7 @@ Matrix4x4F Camera::GetProjectionMatrix(bool apiSpecific) const
     return ret;
 }
 
-void Camera::FrustumSize(Vector3F& near, Vector3F& far) const
+void ACamera::FrustumSize(Vector3F& near, Vector3F& far) const
 {
     near._z = GetNearClip();
     far._z = _farClip;
@@ -376,7 +376,7 @@ void Camera::FrustumSize(Vector3F& near, Vector3F& far) const
     }
 }
 
-float Camera::GetHalfViewSize() const
+float ACamera::GetHalfViewSize() const
 {
     if (!_orthographic)
         return tanf(_fov * M_DEGTORAD * 0.5f) / _zoom;
@@ -384,7 +384,7 @@ float Camera::GetHalfViewSize() const
         return _orthoSize * 0.5f / _zoom;
 }
 
-Ray Camera::ScreenRay(float x, float y) const
+Ray ACamera::ScreenRay(float x, float y) const
 {
     Ray ret;
 
@@ -409,7 +409,7 @@ Ray Camera::ScreenRay(float x, float y) const
     return ret;
 }
 
-Vector2F Camera::WorldToScreenPoint(const Vector3F& worldPos) const
+Vector2F ACamera::WorldToScreenPoint(const Vector3F& worldPos) const
 {
     Vector3F eyeSpacePos = GetViewMatrix() * worldPos;
     Vector2F ret;
@@ -431,13 +431,13 @@ Vector2F Camera::WorldToScreenPoint(const Vector3F& worldPos) const
     return ret;
 }
 
-Vector3F Camera::ScreenToWorldPoint(const Vector3F& screenPos) const
+Vector3F ACamera::ScreenToWorldPoint(const Vector3F& screenPos) const
 {
     Ray ray = ScreenRay(screenPos._x, screenPos._y);
     return ray._origin + ray._direction * screenPos._z;
 }
 
-float Camera::Distance(const Vector3F& worldPos) const
+float ACamera::Distance(const Vector3F& worldPos) const
 {
     if (!_orthographic)
         return (worldPos - GetWorldPosition()).Length();
@@ -445,7 +445,7 @@ float Camera::Distance(const Vector3F& worldPos) const
         return Abs((GetViewMatrix() * worldPos)._z);
 }
 
-float Camera::LodDistance(float distance, float scale, float bias) const
+float ACamera::LodDistance(float distance, float scale, float bias) const
 {
     float d = Max(_lodBias * bias * scale * _zoom, M_EPSILON);
     if (!_orthographic)
@@ -454,31 +454,31 @@ float Camera::LodDistance(float distance, float scale, float bias) const
         return _orthoSize / d;
 }
 
-Quaternion Camera::FaceCameraRotation(const Vector3F& position, const Quaternion& rotation, FaceCameraMode::Type mode)
+Quaternion ACamera::FaceCameraRotation(const Vector3F& position, const Quaternion& rotation, EFaceCameraMode::Type mode)
 {
     switch (mode)
     {
     default:
         return rotation;
 
-    case FaceCameraMode::ROTATE_XYZ:
+    case EFaceCameraMode::ROTATE_XYZ:
         return GetWorldRotation();
 
-    case FaceCameraMode::ROTATE_Y:
+    case EFaceCameraMode::ROTATE_Y:
         {
             Vector3F euler = rotation.EulerAngles();
             euler._y = GetWorldRotation().EulerAngles()._y;
             return Quaternion(euler._x, euler._y, euler._z);
         }
 
-    case FaceCameraMode::LOOKAT_XYZ:
+    case EFaceCameraMode::LOOKAT_XYZ:
         {
             Quaternion lookAt;
             lookAt.FromLookRotation(position - GetWorldPosition());
             return lookAt;
         }
 
-    case FaceCameraMode::LOOKAT_Y:
+    case EFaceCameraMode::LOOKAT_Y:
         {
             // Make the Y-only lookat happen on an XZ plane to make sure there are no unwanted transitions
             // or singularities
@@ -495,40 +495,40 @@ Quaternion Camera::FaceCameraRotation(const Vector3F& position, const Quaternion
     }
 }
 
-Matrix3x4F Camera::EffectiveWorldTransform() const
+Matrix3x4F ACamera::EffectiveWorldTransform() const
 {
     Matrix3x4F worldTransform(GetWorldPosition(), GetWorldRotation(), 1.0f);
     return _useReflection ? _reflectionMatrix * worldTransform : worldTransform;
 }
 
-bool Camera::IsProjectionValid() const
+bool ACamera::IsProjectionValid() const
 {
     return _farClip > GetNearClip();
 }
 
-void Camera::OnTransformChanged()
+void ACamera::OnTransformChanged()
 {
     ASpatialNode::OnTransformChanged();
 
     _viewMatrixDirty = true;
 }
 
-void Camera::SetReflectionPlaneAttr(const Vector4F& value)
+void ACamera::SetReflectionPlaneAttr(const Vector4F& value)
 {
     SetReflectionPlane(Plane(value));
 }
 
-void Camera::SetClipPlaneAttr(const Vector4F& value)
+void ACamera::SetClipPlaneAttr(const Vector4F& value)
 {
     SetClipPlane(Plane(value));
 }
 
-Vector4F Camera::ReflectionPlaneAttr() const
+Vector4F ACamera::ReflectionPlaneAttr() const
 {
     return _reflectionPlane.ToVector4();
 }
 
-Vector4F Camera::ClipPlaneAttr() const
+Vector4F ACamera::ClipPlaneAttr() const
 {
     return _clipPlane.ToVector4();
 }

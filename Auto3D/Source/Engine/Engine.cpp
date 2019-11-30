@@ -90,7 +90,7 @@ bool AEngine::Init()
 	}
 
 	// Set default Logo
-	_graphics->RenderWindow()->SetIcon(_cache->LoadResource<Image>("Texture/NewLogo.png"));
+	_graphics->RenderWindow()->SetIcon(_cache->LoadResource<AImage>("Texture/NewLogo.png"));
 
 	if (!_graphics->RenderWindow())
 		return false;
@@ -139,10 +139,10 @@ void AEngine::Render()
 		Scene* scene = _registeredBox->GetActiveScene();
 		if (scene && scene->IsEnabled())
 		{
-			TVector<Camera*>& cameras = scene->GetAllCamera();
+			TVector<ACamera*>& cameras = scene->GetAllCamera();
 			for (auto cameraIt = cameras.Begin(); cameraIt != cameras.End(); ++cameraIt)
 			{
-				Camera* camera = *cameraIt;
+				ACamera* camera = *cameraIt;
 				_renderer->Render(scene, camera);
 				// Update camera aspect ratio based on window size
 				camera->SetAspectRatio((float)_graphics->GetWidth() / (float)_graphics->GetHeight());

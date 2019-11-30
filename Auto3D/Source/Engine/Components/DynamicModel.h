@@ -5,23 +5,23 @@
 namespace Auto3D
 {
 
-class Model;
+class AModel;
 /// %Scene node that renders an animated model.
-class AUTO_API DynamicModel : public GeometryNode
+class AUTO_API ADynamicModel : public AGeometryNode
 {
-	REGISTER_OBJECT_CLASS(DynamicModel, GeometryNode)
+	REGISTER_OBJECT_CLASS(ADynamicModel, AGeometryNode)
 
 public:
 	/// Construct.
-	DynamicModel();
+	ADynamicModel();
 	/// Destruct.
-	~DynamicModel();
+	~ADynamicModel();
 
 	/// Register factory and attributes.
 	static void RegisterObject();
 
 	/// Prepare object for rendering. Reset framenumber and light list and calculate distance from camera.
-	//void OnPrepareRender(unsigned frameNumber, Camera* camera) override;
+	//void OnPrepareRender(unsigned frameNumber, ACamera* camera) override;
 
 	//void SetWaterData();
 
