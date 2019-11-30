@@ -18,7 +18,7 @@ void WaterSample::Start()
 	graphics->RenderWindow()->SetMouseLock(true);
 	graphics->RenderWindow()->SetMouseHide(true);
 
-	scene = new AScene();
+	scene = AObject::Create<AScene>();
 	scene->CreateChild<AOctree>();
 	//camera = scene->CreateChild<Camera>();
 	//camera->SetPosition(Vector3F(0.0f, 0.0f, 0.0f));

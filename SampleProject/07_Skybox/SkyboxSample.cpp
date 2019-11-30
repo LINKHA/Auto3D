@@ -16,7 +16,7 @@ void SkyboxSample::Start()
 	graphics->RenderWindow()->SetMouseLock(true);
 	graphics->RenderWindow()->SetMouseHide(true);
 
-	scene = new AScene();
+	scene = AObject::Create<AScene>();
 	scene->CreateChild<AOctree>();
 	camera = scene->CreateChild<ACamera>();
 	camera->SetPosition(TVector3F(0.0f, 0.0f, 0.0f));

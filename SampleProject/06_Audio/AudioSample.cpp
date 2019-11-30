@@ -12,7 +12,7 @@ void AudioSample::Start()
 	Super::Start();
 	auto* cache = GModuleManager::Get().CacheModule();
 
-	scene = new AScene();
+	scene = AObject::Create<AScene>();
 	scene->CreateChild<AOctree>();
 	auto sound = cache->LoadResource<ASound>("Sound/SoundTest.wav");
 	listener = scene->CreateChild<AAudioListener>();

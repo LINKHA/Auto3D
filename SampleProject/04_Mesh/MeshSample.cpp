@@ -15,7 +15,7 @@ void MeshSample::Start()
 	graphics->RenderWindow()->SetMouseLock(true);
 	graphics->RenderWindow()->SetMouseHide(true);
 
-	scene = new AScene();
+	scene = AObject::Create<AScene>();
 	scene->SetupShadowMap(3, 4096);
 	scene->CreateChild<AOctree>();
 	camera = scene->CreateChild<ACamera>();
