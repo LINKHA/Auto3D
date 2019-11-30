@@ -6,8 +6,7 @@ namespace Auto3D
 
 ARegisteredBox::ARegisteredBox() :
 	_activeScene(nullptr),
-	_activeScene2d(nullptr),
-	_activeCanvas(nullptr)
+	_activeScene2d(nullptr)
 {
 }
 ARegisteredBox::~ARegisteredBox()
@@ -38,18 +37,6 @@ void ARegisteredBox::SetActiveScene2D(AScene2D* scene2d)
 	}
 }
 
-void ARegisteredBox::SetActiveCanvas(Canvas* canva)
-{
-	if (canva)
-	{
-		_activeCanvas = canva;
-	}
-	else
-	{
-		WarningString("File set active canvas.");
-	}
-}
-
 AScene* ARegisteredBox::GetActiveScene()
 {
 	return _activeScene;
@@ -59,8 +46,5 @@ AScene2D* ARegisteredBox::GetActiveScene2D()
 {
 	return _activeScene2d;
 }
-Canvas* ARegisteredBox::GetActiveCanvas()
-{
-	return _activeCanvas;
-}
+
 }

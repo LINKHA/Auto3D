@@ -34,12 +34,16 @@ static const float M_INFINITY = (float)HUGE_VAL;
 
 
 /// Intersection test result.
-enum Intersection
+namespace EIntersection
 {
-    OUTSIDE = 0,
-    INTERSECTS,
-    INSIDE
-};
+	enum Type
+	{
+		OUTSIDE = 0,
+		INTERSECTS,
+		INSIDE
+	};
+}
+
 
 /// Update a hash with the given 8-bit value using the SDBM algorithm.
 inline unsigned SDBMHash(unsigned hash, unsigned char c) { return c + (hash << 6u) + (hash << 16u) - hash; }

@@ -143,12 +143,12 @@ private:
     /// Collect nodes matching flags using a volume such as frustum or sphere.
     template <typename _Ty> void CollectNodes(TVector<AOctreeNode*>& result, const FOctant* octant, const _Ty& volume, unsigned short nodeFlags, unsigned layerMask) const
     {
-        Intersection res = volume.IsInside(octant->_cullingBox);
-        if (res == OUTSIDE)
+		EIntersection::Type res = volume.IsInside(octant->_cullingBox);
+        if (res == EIntersection::OUTSIDE)
             return;
         
         // If this octant is completely inside the volume, can include all contained octants and their nodes without further tests
-        if (res == INSIDE)
+        if (res == EIntersection::INSIDE)
             CollectNodes(result, octant, nodeFlags, layerMask);
         else
         {
@@ -157,7 +157,7 @@ private:
             {
                 AOctreeNode* node = *it;
                 if ((node->Flags() & nodeFlags) == nodeFlags && (node->GetLayerMask() & layerMask) &&
-                    volume.IsInsideFast(node->WorldBoundingBox()) != OUTSIDE)
+                    volume.IsInsideFast(node->WorldBoundingBox()) != EIntersection::OUTSIDE)
                     result.Push(node);
             }
             
@@ -221,12 +221,12 @@ private:
     /// Collect nodes using a volume such as frustum or sphere. Invoke a member function for each octant.
     template <typename _Ty, typename _Event> void CollectNodesMemberCallback(const FOctant* octant, const _Ty& volume, _Event* object, void (_Event::*callback)(TVector<AOctreeNode*>::ConstIterator, TVector<AOctreeNode*>::ConstIterator, bool)) const
     {
-        Intersection res = volume.IsInside(octant->_cullingBox);
-        if (res == OUTSIDE)
+		EIntersection::Type res = volume.IsInside(octant->_cullingBox);
+        if (res == EIntersection::OUTSIDE)
             return;
 
         // If this octant is completely inside the volume, can include all contained octants and their nodes without further tests
-        if (res == INSIDE)
+        if (res == EIntersection::INSIDE)
             CollectNodesMemberCallback(octant, object, callback);
         else
         {

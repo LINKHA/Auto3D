@@ -95,7 +95,7 @@ void AOctree::Update()
             FOctant* oldOctant = node->_octant;
 
 		
-            if (oldOctant && oldOctant->_cullingBox.IsInside(box) == INSIDE && oldOctant->FitBoundingBox(box, boxSize))
+            if (oldOctant && oldOctant->_cullingBox.IsInside(box) == EIntersection::INSIDE && oldOctant->FitBoundingBox(box, boxSize))
                 continue;
 
             // Begin reinsert process. Start from root and check what level child needs to be used
@@ -107,7 +107,7 @@ void AOctree::Update()
                 bool insertHere;
                 // If node does not fit fully inside root octant, must remain in it
                 if (newOctant == &_root)
-                    insertHere = newOctant->_cullingBox.IsInside(box) != INSIDE || newOctant->FitBoundingBox(box, boxSize);
+                    insertHere = newOctant->_cullingBox.IsInside(box) != EIntersection::INSIDE || newOctant->FitBoundingBox(box, boxSize);
                 else
                     insertHere = newOctant->FitBoundingBox(box, boxSize);
 

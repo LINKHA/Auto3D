@@ -62,7 +62,7 @@ void GModuleManager::CreateModules()
 	_renderer = TUniquePtr<ARenderer>(new ARenderer());
 	_time = TUniquePtr<ATime>(new ATime());
 	_registeredBox = TUniquePtr<ARegisteredBox>(new ARegisteredBox());
-	_renderer2d = TUniquePtr<Renderer2D>(new Renderer2D());
+	_renderer2d = TUniquePtr<ARenderer2D>(new ARenderer2D());
 	_physics = TUniquePtr<APhysics>(new APhysics());
 	_fileSystem = TUniquePtr<AFileSystem>(new AFileSystem());
 	_ui = TUniquePtr<AUIModule>(new AUIModule());
@@ -161,7 +161,7 @@ void GModuleManager::RecreateRegisteredBoxModule(ARegisteredBox* registeredBox)
 		_registeredBox = TUniquePtr<ARegisteredBox>(new ARegisteredBox());
 }
 
-void GModuleManager::RecreateRenderer2dModule(Renderer2D* renderer2d)
+void GModuleManager::RecreateRenderer2dModule(ARenderer2D* renderer2d)
 {
 	if (_renderer2d)
 		_renderer2d.Reset();
@@ -169,7 +169,7 @@ void GModuleManager::RecreateRenderer2dModule(Renderer2D* renderer2d)
 	if (renderer2d)
 		_renderer2d = renderer2d;
 	else
-		_renderer2d = TUniquePtr<Renderer2D>(new Renderer2D());
+		_renderer2d = TUniquePtr<ARenderer2D>(new ARenderer2D());
 }
 
 void GModuleManager::RecreatePhysicsModule(APhysics* physics)

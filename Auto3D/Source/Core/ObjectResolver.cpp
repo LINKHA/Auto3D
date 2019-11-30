@@ -28,7 +28,7 @@ void FObjectResolver::Resolve()
         // See if we can find the referred to object
         if (refIt != _objects.End())
         {
-            FAttributeImpl<FObjectRef>* typedAttr = static_cast<FAttributeImpl<FObjectRef>*>(it->_attr);
+            TAttributeImpl<FObjectRef>* typedAttr = static_cast<TAttributeImpl<FObjectRef>*>(it->_attr);
             typedAttr->SetValue(it->_object, FObjectRef(refIt->_second->Id()));
         }
         else

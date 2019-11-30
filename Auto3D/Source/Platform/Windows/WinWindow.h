@@ -48,11 +48,6 @@ public:
 class AUTO_API AWindow : public AObject
 {
 	REGISTER_OBJECT_CLASS(AWindow, AObject)
-
-#ifdef AUTO_OPENGL
-	friend class GLContext;
-#endif
-
 public:
 	/// Construct and register subsystem. The _window is not yet opened.
 	AWindow();

@@ -33,7 +33,7 @@ public:
 	/// Block name.
 	const char* _name;
 	/// Hires timer for time measurement.
-	HiresTimer _timer;
+	FHiresTimer _timer;
 	/// Parent block.
 	FProfilerBlock* _parent;
 	/// Child blocks.
@@ -108,11 +108,11 @@ private:
 };
 
 /// Helper class for automatically beginning and ending a profiling block
-class AUTO_API AutoProfileBlock
+class AUTO_API FAutoProfileBlock
 {
 public:
 	/// Construct and begin a profiling block. The name must be persistent; string literals are recommended.
-	AutoProfileBlock(const char* name)
+	FAutoProfileBlock(const char* name)
 	{
 		_profiler = GModuleManager::Get().ProfilerModule();
 		if (_profiler)
@@ -120,7 +120,7 @@ public:
 	}
 
 	/// Destruct. End the profiling block.
-	~AutoProfileBlock()
+	~FAutoProfileBlock()
 	{
 		if (_profiler)
 			_profiler->EndBlock();

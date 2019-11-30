@@ -33,7 +33,7 @@ public:
     /// Set attribute value, template version. Return true if value was right type.
     template <typename _Ty> bool SetAttributeValue(FAttribute* attr, const _Ty& source)
     {
-        FAttributeImpl<_Ty>* typedAttr = dynamic_cast<FAttributeImpl<_Ty>*>(attr);
+        TAttributeImpl<_Ty>* typedAttr = dynamic_cast<TAttributeImpl<_Ty>*>(attr);
         if (typedAttr)
         {
             typedAttr->SetValue(this, source);
@@ -46,7 +46,7 @@ public:
     /// Copy attribute value, template version. Return true if value was right type.
     template <typename _Ty> bool AttributeValue(FAttribute* attr, _Ty& dest)
     {
-        FAttributeImpl<_Ty>* typedAttr = dynamic_cast<FAttributeImpl<_Ty>*>(attr);
+        TAttributeImpl<_Ty>* typedAttr = dynamic_cast<TAttributeImpl<_Ty>*>(attr);
         if (typedAttr)
         {
             typedAttr->Value(this, dest);
@@ -59,7 +59,7 @@ public:
     /// Return attribute value, template version.
     template <typename _Ty> _Ty AttributeValue(FAttribute* attr)
     {
-        FAttributeImpl<_Ty>* typedAttr = dynamic_cast<FAttributeImpl<_Ty>*>(attr);
+        TAttributeImpl<_Ty>* typedAttr = dynamic_cast<TAttributeImpl<_Ty>*>(attr);
         return typedAttr ? typedAttr->Value(this) : _Ty();
     }
     
@@ -82,19 +82,19 @@ public:
     /// Register a per-class attribute, template version. Should not be used for base class attributes unless the type is explicitly specified, as by default the attribute will be re-registered to the base class redundantly.
     template <typename _Ty, typename U> static void RegisterAttribute(const char* name, U (_Ty::*getFunction)() const, void (_Ty::*setFunction)(U), const U& defaultValue = U(), const char** enumNames = 0)
     {
-        RegisterAttribute(_Ty::GetTypeStatic(), new FAttributeImpl<U>(name, new FAttributeAccessorImpl<_Ty, U>(getFunction, setFunction), defaultValue, enumNames));
+        RegisterAttribute(_Ty::GetTypeStatic(), new TAttributeImpl<U>(name, new TAttributeAccessorImpl<_Ty, U>(getFunction, setFunction), defaultValue, enumNames));
     }
     
     /// Register a per-class attribute with reference access, template version. Should not be used for base class attributes unless the type is explicitly specified, as by default the attribute will be re-registered to the base class redundantly.
     template <typename _Ty, typename U> static void RegisterRefAttribute(const char* name, const U& (_Ty::*getFunction)() const, void (_Ty::*setFunction)(const U&), const U& defaultValue = U(), const char** enumNames = 0)
     {
-        RegisterAttribute(_Ty::GetTypeStatic(), new FAttributeImpl<U>(name, new FRefAttributeAccessorImpl<_Ty, U>(getFunction, setFunction), defaultValue, enumNames));
+        RegisterAttribute(_Ty::GetTypeStatic(), new TAttributeImpl<U>(name, new TRefAttributeAccessorImpl<_Ty, U>(getFunction, setFunction), defaultValue, enumNames));
     }
 
     /// Register a per-class attribute with mixed reference access, template version. Should not be used for base class attributes unless the type is explicitly specified, as by default the attribute will be re-registered to the base class redundantly.
     template <typename _Ty, typename U> static void RegisterMixedRefAttribute(const char* name, U (_Ty::*getFunction)() const, void (_Ty::*setFunction)(const U&), const U& defaultValue = U(), const char** enumNames = 0)
     {
-        RegisterAttribute(_Ty::GetTypeStatic(), new FAttributeImpl<U>(name, new FMixedRefAttributeAccessorImpl<_Ty, U>(getFunction, setFunction), defaultValue, enumNames));
+        RegisterAttribute(_Ty::GetTypeStatic(), new TAttributeImpl<U>(name, new TMixedRefAttributeAccessorImpl<_Ty, U>(getFunction, setFunction), defaultValue, enumNames));
     }
 
     /// Copy all base class attributes, template version.

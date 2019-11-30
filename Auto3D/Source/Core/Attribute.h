@@ -121,11 +121,11 @@ protected:
 };
 
 /// Template implementation of an attribute description with specific type.
-template <typename _Ty> class FAttributeImpl : public FAttribute
+template <typename _Ty> class TAttributeImpl : public FAttribute
 {
 public:
     /// Construct.
-    FAttributeImpl(const char* name, IAttributeAccessor* accessor, const _Ty& defaultValue, const char** enumNames = 0) :
+    TAttributeImpl(const char* name, IAttributeAccessor* accessor, const _Ty& defaultValue, const char** enumNames = 0) :
         FAttribute(name, accessor, enumNames),
         _defaultValue(defaultValue)
     {
@@ -190,14 +190,14 @@ private:
 };
 
 /// Template implementation for accessing serializable variables.
-template <typename _Ty, typename U> class FAttributeAccessorImpl : public IAttributeAccessor
+template <typename _Ty, typename U> class TAttributeAccessorImpl : public IAttributeAccessor
 {
 public:
     typedef U (_Ty::*GetFunctionPtr)() const;
     typedef void (_Ty::*SetFunctionPtr)(U);
 
     /// Construct with function pointers.
-    FAttributeAccessorImpl(GetFunctionPtr getPtr, SetFunctionPtr setPtr) :
+    TAttributeAccessorImpl(GetFunctionPtr getPtr, SetFunctionPtr setPtr) :
         _get(getPtr),
         _set(setPtr)
     {
@@ -233,14 +233,14 @@ private:
 };
 
 /// Template implementation for accessing serializable variables via functions that use references.
-template <typename _Ty, typename U> class FRefAttributeAccessorImpl : public IAttributeAccessor
+template <typename _Ty, typename U> class TRefAttributeAccessorImpl : public IAttributeAccessor
 {
 public:
     typedef const U& (_Ty::*GetFunctionPtr)() const;
     typedef void (_Ty::*SetFunctionPtr)(const U&);
 
     /// Set new value for the variable.
-    FRefAttributeAccessorImpl(GetFunctionPtr getPtr, SetFunctionPtr setPtr) :
+    TRefAttributeAccessorImpl(GetFunctionPtr getPtr, SetFunctionPtr setPtr) :
         _get(getPtr),
         _set(setPtr)
     {
@@ -276,14 +276,14 @@ private:
 };
 
 /// Template implementation for accessing serializable variables via functions where the setter uses reference, but the getter does not.
-template <typename _Ty, typename U> class FMixedRefAttributeAccessorImpl : public IAttributeAccessor
+template <typename _Ty, typename U> class TMixedRefAttributeAccessorImpl : public IAttributeAccessor
 {
 public:
     typedef U (_Ty::*GetFunctionPtr)() const;
     typedef void (_Ty::*SetFunctionPtr)(const U&);
 
     /// Set new value for the variable.
-    FMixedRefAttributeAccessorImpl(GetFunctionPtr getPtr, SetFunctionPtr setPtr) :
+    TMixedRefAttributeAccessorImpl(GetFunctionPtr getPtr, SetFunctionPtr setPtr) :
         _get(getPtr),
         _set(setPtr)
     {

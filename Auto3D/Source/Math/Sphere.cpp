@@ -113,7 +113,7 @@ void FSphere::Merge(const FSphere& sphere)
     }
 }
 
-Intersection FSphere::IsInside(const TBoundingBoxF& box) const
+EIntersection::Type FSphere::IsInside(const TBoundingBoxF& box) const
 {
     float radiusSquared = _radius * _radius;
     float distSquared = 0;
@@ -153,40 +153,40 @@ Intersection FSphere::IsInside(const TBoundingBoxF& box) const
     }
     
     if (distSquared >= radiusSquared)
-        return OUTSIDE;
+        return EIntersection::OUTSIDE;
     
     min -= _center;
     max -= _center;
     
     TVector3F tempVec = min; // - - -
     if (tempVec.LengthSquared() >= radiusSquared)
-        return INTERSECTS;
+        return EIntersection::INTERSECTS;
     tempVec._x = max._x; // + - -
     if (tempVec.LengthSquared() >= radiusSquared)
-        return INTERSECTS;
+        return EIntersection::INTERSECTS;
     tempVec._y = max._y; // + + -
     if (tempVec.LengthSquared() >= radiusSquared)
-        return INTERSECTS;
+        return EIntersection::INTERSECTS;
     tempVec._x = min._x; // - + -
     if (tempVec.LengthSquared() >= radiusSquared)
-        return INTERSECTS;
+        return EIntersection::INTERSECTS;
     tempVec._z = max._z; // - + +
     if (tempVec.LengthSquared() >= radiusSquared)
-        return INTERSECTS;
+        return EIntersection::INTERSECTS;
     tempVec._y = min._y; // - - +
     if (tempVec.LengthSquared() >= radiusSquared)
-        return INTERSECTS;
+        return EIntersection::INTERSECTS;
     tempVec._x = max._x; // + - +
     if (tempVec.LengthSquared() >= radiusSquared)
-        return INTERSECTS;
+        return EIntersection::INTERSECTS;
     tempVec._y = max._y; // + + +
     if (tempVec.LengthSquared() >= radiusSquared)
-        return INTERSECTS;
+        return EIntersection::INTERSECTS;
     
-    return INSIDE;
+    return EIntersection::INSIDE;
 }
 
-Intersection FSphere::IsInsideFast(const TBoundingBoxF& box) const
+EIntersection::Type FSphere::IsInsideFast(const TBoundingBoxF& box) const
 {
     float radiusSquared = _radius * _radius;
     float distSquared = 0;
@@ -226,9 +226,9 @@ Intersection FSphere::IsInsideFast(const TBoundingBoxF& box) const
     }
     
     if (distSquared >= radiusSquared)
-        return OUTSIDE;
+        return EIntersection::OUTSIDE;
     else
-        return INSIDE;
+        return EIntersection::INSIDE;
 }
 
 }

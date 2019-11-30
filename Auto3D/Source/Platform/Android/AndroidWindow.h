@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../Math/Vector2.h"
-#include "../../Object/Object.h"
+#include "Math/Vector2.h"
+#include "Core/Object.h"
 
 struct SDL_Window;
 
@@ -19,14 +19,9 @@ public:
 };
 
 /// Operating system _window, Win32 implementation.
-class AUTO_API AWindow : public Object
+class AUTO_API AWindow : public AObject
 {
-	REGISTER_OBJECT_CLASS(AWindow, Object)
-
-#ifdef AUTO_OPENGL
-	friend class GLContext;
-#endif
-
+	REGISTER_OBJECT_CLASS(AWindow, AObject)
 public:
 	/// Construct and register subsystem. The _window is not yet opened.
 	AWindow();

@@ -131,11 +131,11 @@ static const unsigned glFillModes[] =
 static unsigned MAX_FRAMEBUFFER_AGE = 16;
 
 /// OpenGL framebuffer.
-class Framebuffer
+class FFramebuffer
 {
 public:
 	/// Construct.
-	Framebuffer() :
+	FFramebuffer() :
 		depthStencil(nullptr),
 		drawBuffers(0),
 		firstUse(true)
@@ -146,7 +146,7 @@ public:
 	}
 
 	/// Destruct.
-	~Framebuffer()
+	~FFramebuffer()
 	{
 		glDeleteFramebuffers(1, &buffer);
 	}
@@ -902,7 +902,7 @@ void AGraphics::CleanupFramebuffers(ATexture* texture)
 
 	for (auto it = _framebuffers.Begin(); it != _framebuffers.End(); ++it)
 	{
-		Framebuffer* framebuffer = it->_second;
+		FFramebuffer* framebuffer = it->_second;
 
 		for (size_t i = 0; i < MAX_RENDERTARGETS; ++i)
 		{
@@ -1065,7 +1065,7 @@ void AGraphics::PrepareFramebuffer()
 
 		auto it = _framebuffers.Find(key);
 		if (it == _framebuffers.End())
-			it = _framebuffers.Insert(MakePair(key, TAutoPtr<Framebuffer>(new Framebuffer())));
+			it = _framebuffers.Insert(MakePair(key, TAutoPtr<FFramebuffer>(new FFramebuffer())));
 
 		if (it->_second != _framebuffer)
 		{

@@ -15,8 +15,7 @@ namespace Auto3D
 {
 
 class FConstantBuffer;
-class DepthState;
-class Framebuffer;
+class FFramebuffer;
 class FGraphicsContext;
 class FGPUObject;
 class FIndexBuffer;
@@ -319,7 +318,7 @@ private:
     /// Bound shader program.
     FShaderProgram* _shaderProgram;
     /// Bound framebuffer object.
-    Framebuffer* _framebuffer;
+    FFramebuffer* _framebuffer;
     /// Last used OpenGL texture unit.
     size_t _activeTexture;
     /// Last bound vertex buffer object.
@@ -335,7 +334,7 @@ private:
     /// AShader programs.
     ShaderProgramMap _shaderPrograms;
     /// Framebuffer objects keyed by resolution and color format.
-    THashMap<unsigned long long, TAutoPtr<Framebuffer> > _framebuffers;
+    THashMap<unsigned long long, TAutoPtr<FFramebuffer> > _framebuffers;
     /// Multisample level.
     int _multisample;
 	/// AGraphics api version

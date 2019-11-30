@@ -457,31 +457,31 @@ float ACamera2D::LodDistance(float distance, float scale, float bias) const
 		return _orthoSize / d;
 }
 
-FQuaternion ACamera2D::FaceCameraRotation(const TVector3F& position, const FQuaternion& rotation, Face2DCameraMode::Type mode)
+FQuaternion ACamera2D::FaceCameraRotation(const TVector3F& position, const FQuaternion& rotation, EFace2DCameraMode::Type mode)
 {
 	switch (mode)
 	{
 	default:
 		return rotation;
 
-	case Face2DCameraMode::ROTATE_XYZ:
+	case EFace2DCameraMode::ROTATE_XYZ:
 		return GetWorldRotation();
 
-	case Face2DCameraMode::ROTATE_Y:
+	case EFace2DCameraMode::ROTATE_Y:
 	{
 		TVector3F euler = rotation.EulerAngles();
 		euler._y = GetWorldRotation().EulerAngles()._y;
 		return FQuaternion(euler._x, euler._y, euler._z);
 	}
 
-	case Face2DCameraMode::LOOKAT_XYZ:
+	case EFace2DCameraMode::LOOKAT_XYZ:
 	{
 		FQuaternion lookAt;
 		lookAt.FromLookRotation(position - GetWorldPosition());
 		return lookAt;
 	}
 
-	case Face2DCameraMode::LOOKAT_Y:
+	case EFace2DCameraMode::LOOKAT_Y:
 	{
 		// Make the Y-only lookat happen on an XZ plane to make sure there are no unwanted transitions
 		// or singularities

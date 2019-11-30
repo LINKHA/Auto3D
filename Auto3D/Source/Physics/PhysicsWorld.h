@@ -9,10 +9,10 @@ namespace Auto3D {
 
 class ARigidBody;
 
-struct PhysicsWorldConfig
+struct FPhysicsWorldConfig
 {
 
-	PhysicsWorldConfig() :
+	FPhysicsWorldConfig() :
 		collisionConfig(nullptr)
 	{}
 	/// Override for the collision configuration (default btDefaultCollisionConfiguration).
@@ -46,7 +46,7 @@ public:
 	/// This function is called when the parent node of this class is assigned.
 	virtual void ParentCallBack()override;
 	/// Overrides of the internal configuration
-	static struct PhysicsWorldConfig config;
+	static struct FPhysicsWorldConfig config;
 private:
 	/// Delete collision shapes
 	void ClearColliders();

@@ -57,47 +57,47 @@ public:
     void Transform(const TMatrix3x4F& transform);
     
     /// Test if a point is inside or outside.
-    Intersection IsInside(const TVector3F& point) const
+	EIntersection::Type IsInside(const TVector3F& point) const
     {
         for (size_t i = 0; i < NUM_FRUSTUM_PLANES; ++i)
         {
             if (_planes[i].Distance(point) < 0.0f)
-                return OUTSIDE;
+                return EIntersection::OUTSIDE;
         }
         
-        return INSIDE;
+        return EIntersection::INSIDE;
     }
     
     /// Test if a sphere is inside, outside or intersects.
-    Intersection IsInside(const FSphere& sphere) const
+	EIntersection::Type IsInside(const FSphere& sphere) const
     {
         bool allInside = true;
         for (size_t i = 0; i < NUM_FRUSTUM_PLANES; ++i)
         {
             float dist = _planes[i].Distance(sphere._center);
             if (dist < -sphere._radius)
-                return OUTSIDE;
+                return EIntersection::OUTSIDE;
             else if (dist < sphere._radius)
                 allInside = false;
         }
         
-        return allInside ? INSIDE : INTERSECTS;
+        return allInside ? EIntersection::INSIDE : EIntersection::INTERSECTS;
     }
     
     /// Test if a sphere if (partially) inside or outside.
-    Intersection IsInsideFast(const FSphere& sphere) const
+	EIntersection::Type IsInsideFast(const FSphere& sphere) const
     {
         for (size_t i = 0; i < NUM_FRUSTUM_PLANES; ++i)
         {
             if (_planes[i].Distance(sphere._center) < -sphere._radius)
-                return OUTSIDE;
+                return EIntersection::OUTSIDE;
         }
         
-        return INSIDE;
+        return EIntersection::INSIDE;
     }
     
     /// Test if a bounding box is inside, outside or intersects.
-    Intersection IsInside(const TBoundingBoxF& box) const
+	EIntersection::Type IsInside(const TBoundingBoxF& box) const
     {
         TVector3F center = box.Center();
         TVector3F edge = center - box._min;
@@ -110,16 +110,16 @@ public:
             float absDist = plane._absNormal.DotProduct(edge);
             
             if (dist < -absDist)
-                return OUTSIDE;
+                return EIntersection::OUTSIDE;
             else if (dist < absDist)
                 allInside = false;
         }
         
-        return allInside ? INSIDE : INTERSECTS;
+        return allInside ? EIntersection::INSIDE : EIntersection::INTERSECTS;
     }
     
     /// Test if a bounding box is (partially) inside or outside.
-    Intersection IsInsideFast(const TBoundingBoxF& box) const
+	EIntersection::Type IsInsideFast(const TBoundingBoxF& box) const
     {
         TVector3F center = box.Center();
         TVector3F edge = center - box._min;
@@ -131,10 +131,10 @@ public:
             float absDist = plane._absNormal.DotProduct(edge);
             
             if (dist < -absDist)
-                return OUTSIDE;
+                return EIntersection::OUTSIDE;
         }
         
-        return INSIDE;
+        return EIntersection::INSIDE;
     }
     
     /// Return distance of a point to the frustum, or 0 if inside.

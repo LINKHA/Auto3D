@@ -33,14 +33,14 @@ namespace EConstantBuffer2D
 
 
 /// APhysics sub system 
-class AUTO_API Renderer2D : public ABaseModule
+class AUTO_API ARenderer2D : public ABaseModule
 {
-	REGISTER_OBJECT_CLASS(Renderer2D, ABaseModule)
+	REGISTER_OBJECT_CLASS(ARenderer2D, ABaseModule)
 public:
 	/// Construct
-	Renderer2D();
+	ARenderer2D();
 	/// Destructor
-	~Renderer2D();
+	~ARenderer2D();
 	/// Render the Renderer2D. If render command is false (default), is assumed to be the default Renderer2D render to backbuffer called by AEngine, and will be performed only once. Additional Renderer2D renders to a different rendertarget may be triggered from the renderpath.
 	void Render(AScene2D* scene, ACamera2D* camera);
 	/// Prepare view of objects and batch

@@ -99,7 +99,7 @@ static const EImageFormat::Type componentsToFormat[] =
 };
 
 /// \cond PRIVATE
-struct DDColorKey
+struct FDDColorKey
 {
     unsigned dwColorSpaceLowValue;
     unsigned dwColorSpaceHighValue;
@@ -107,7 +107,7 @@ struct DDColorKey
 /// \endcond
 
 /// \cond PRIVATE
-struct DDPixelFormat
+struct FDDPixelFormat
 {
     unsigned dwSize;
     unsigned dwFlags;
@@ -162,7 +162,7 @@ struct DDPixelFormat
 /// \endcond
 
 /// \cond PRIVATE
-struct DDSCaps2
+struct FDDSCaps2
 {
     unsigned dwCaps;
     unsigned dwCaps2;
@@ -176,7 +176,7 @@ struct DDSCaps2
 /// \endcond
 
 /// \cond PRIVATE
-struct DDSurfaceDesc2
+struct FDDSurfaceDesc2
 {
     unsigned dwSize;
     unsigned dwFlags;
@@ -203,18 +203,18 @@ struct DDSurfaceDesc2
     unsigned lpSurface; // Do not define as a void pointer, as it is 8 bytes in a 64bit build
     union
     {
-        DDColorKey ddckCKDestOverlay;
+        FDDColorKey ddckCKDestOverlay;
         unsigned dwEmptyFaceColor;
     };
-    DDColorKey ddckCKDestBlt;
-    DDColorKey ddckCKSrcOverlay;
-    DDColorKey ddckCKSrcBlt;
+    FDDColorKey ddckCKDestBlt;
+    FDDColorKey ddckCKSrcOverlay;
+    FDDColorKey ddckCKSrcBlt;
     union
     {
-        DDPixelFormat ddpfPixelFormat;
+        FDDPixelFormat ddpfPixelFormat;
         unsigned dwFVF;
     };
-    DDSCaps2 ddsCaps;
+    FDDSCaps2 ddsCaps;
     unsigned dwTextureStage;
 };
 /// \endcond
@@ -245,7 +245,7 @@ bool AImage::BeginLoad(FStream& source)
     if (fileID == "DDS ")
     {
         // DDS compressed format
-        DDSurfaceDesc2 ddsd;
+        FDDSurfaceDesc2 ddsd;
         source.Read(&ddsd, sizeof(ddsd));
 
 #ifndef AUTO_OPENGL_ES

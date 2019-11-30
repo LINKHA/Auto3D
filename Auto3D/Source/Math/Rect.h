@@ -228,7 +228,7 @@ public:
     bool Equals(const TRect& rhs) const { return _min.Equals(rhs._min) && _max.Equals(rhs._max); }
     
     /// Test whether a point is inside with TVector2
-    Intersection IsInside(const TVector2<_Ty>& point) const
+	EIntersection::Type IsInside(const TVector2<_Ty>& point) const
     {
         if (point._x < _min._x || point._y < _min._y || point._x > _max._x || point._y > _max._y)
             return OUTSIDE;
@@ -236,14 +236,14 @@ public:
             return INSIDE;
     }
 	/// Test whether another rect is inside with TRect
-	Intersection IsInside(const TRect& rect) const
+	EIntersection::Type IsInside(const TRect& rect) const
 	{
 		if (rect._max._x <= _min._x || rect._min._x >= _max._x || rect._max._y <= _min._y || rect._min._y >= _max._y)
-			return OUTSIDE;
+			return EIntersection::OUTSIDE;
 		else if (rect._min._x >= _min._x && rect._max._x <= _max._x && rect._min._y >= _min._y && rect._max._y <= _max._y)
-			return INSIDE;
+			return EIntersection::INSIDE;
 		else
-			return INTERSECTS;
+			return EIntersection::INTERSECTS;
 	}
     /// Return float data.
     const void* Data() const { return &_min._x; }

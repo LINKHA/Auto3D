@@ -385,40 +385,40 @@ public:
 	}
 
 	/// Test if a point is inside.
-	Intersection IsInside(const TVector3<_Ty>& point) const
+	EIntersection::Type IsInside(const TVector3<_Ty>& point) const
 	{
 		if (point._x < _min._x || point._x > _max._x || point._y < _min._y || point._y > _max._y ||
 			point._z < _min._z || point._z > _max._z)
-			return OUTSIDE;
+			return EIntersection::OUTSIDE;
 		else
-			return INSIDE;
+			return EIntersection::INSIDE;
 	}
 
 	/// Test if another bounding box is inside, outside or intersects.
-	Intersection IsInside(const TBoundingBox& box) const
+	EIntersection::Type IsInside(const TBoundingBox& box) const
 	{
 		if (box._max._x < _min._x || box._min._x > _max._x || box._max._y < _min._y || box._min._y > _max._y ||
 			box._max._z < _min._z || box._min._z > _max._z)
-			return OUTSIDE;
+			return EIntersection::OUTSIDE;
 		else if (box._min._x < _min._x || box._max._x > _max._x || box._min._y < _min._y || box._max._y > _max._y ||
 			box._min._z < _min._z || box._max._z > _max._z)
-			return INTERSECTS;
+			return EIntersection::INTERSECTS;
 		else
-			return INSIDE;
+			return EIntersection::INSIDE;
 	}
 
 	/// Test if another bounding box is (partially) inside or outside.
-	Intersection IsInsideFast(const TBoundingBox& box) const
+	EIntersection::Type IsInsideFast(const TBoundingBox& box) const
 	{
 		if (box._max._x < _min._x || box._min._x > _max._x || box._max._y < _min._y || box._min._y > _max._y ||
 			box._max._z < _min._z || box._min._z > _max._z)
-			return OUTSIDE;
+			return EIntersection::OUTSIDE;
 		else
-			return INSIDE;
+			return EIntersection::INSIDE;
 	}
 
 	/// Test if a sphere is inside, outside or intersects.
-	Intersection IsInside(const FSphere& sphere) const
+	EIntersection::Type IsInside(const FSphere& sphere) const
 	{
 		_Ty distSquared = 0;
 		_Ty temp;
@@ -457,16 +457,16 @@ public:
 
 		_Ty radius = sphere._radius;
 		if (distSquared >= radius * radius)
-			return OUTSIDE;
+			return EIntersection::OUTSIDE;
 		else if (center._x - radius < _min._x || center._x + radius > _max._x || center._y - radius < _min._y ||
 			center._y + radius > _max._y || center._z - radius < _min._z || center._z + radius > _max._z)
-			return INTERSECTS;
+			return EIntersection::INTERSECTS;
 		else
-			return INSIDE;
+			return EIntersection::INSIDE;
 	}
 
 	/// Test if a sphere is (partially) inside or outside.
-	Intersection IsInsideFast(const FSphere& sphere) const
+	EIntersection::Type IsInsideFast(const FSphere& sphere) const
 	{
 		_Ty distSquared = 0;
 		_Ty temp;
@@ -505,9 +505,9 @@ public:
 
 		_Ty radius = sphere._radius;
 		if (distSquared >= radius * radius)
-			return OUTSIDE;
+			return EIntersection::OUTSIDE;
 		else
-			return INSIDE;
+			return EIntersection::INSIDE;
 	}
 
 	/// Return as string.

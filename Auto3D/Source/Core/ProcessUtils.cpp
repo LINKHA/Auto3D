@@ -91,14 +91,14 @@ static void GetCPUData(host_basic_info_data_t* data)
 	host_info(mach_host_self(), HOST_BASIC_INFO, (host_info_t)data, &infoCount);
 }
 #elif defined(__linux__)
-struct CpuCoreCount
+struct FCpuCoreCount
 {
 	unsigned numPhysicalCores_;
 	unsigned numLogicalCores_;
 };
 
 // This function is used by all the target triplets with Linux as the OS, such as Android, RPI, desktop Linux, etc
-static void GetCPUData(struct CpuCoreCount* data)
+static void GetCPUData(struct FCpuCoreCount* data)
 {
 	// Sanity check
 	assert(data);
@@ -413,7 +413,7 @@ unsigned GetNumPhysicalCPUs()
 	return SDL_TVOS_GetActiveProcessorCount();
 #endif
 #elif defined(__linux__)
-	struct CpuCoreCount data {};
+	struct FCpuCoreCount data {};
 	GetCPUData(&data);
 	return data.numPhysicalCores_;
 #elif defined(__EMSCRIPTEN__)
@@ -446,7 +446,7 @@ unsigned GetNumLogicalCPUs()
 	return SDL_TVOS_GetActiveProcessorCount();
 #endif
 #elif defined(__linux__)
-	struct CpuCoreCount data {};
+	struct FCpuCoreCount data {};
 	GetCPUData(&data);
 	return data.numLogicalCores_;
 #elif defined(__EMSCRIPTEN__)

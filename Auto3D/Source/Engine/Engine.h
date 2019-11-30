@@ -15,7 +15,7 @@ class AProfiler;
 class ATime;
 class ARegisteredBox;
 class AScript;
-class Renderer2D;
+class ARenderer2D;
 class APhysics;
 class AFileSystem;
 class AUIModule;
@@ -78,7 +78,7 @@ private:
 	void DoExit();
 
 	/// Frame update timer.
-	HiresTimer _frameTimer;
+	FHiresTimer _frameTimer;
 	/// Is exiting
 	bool _exiting;
 	/// Is initialized
@@ -118,7 +118,7 @@ private:
 	/// The message management mechanism for the underlying interaction between the game project and the engine
 	ARegisteredBox* _registeredBox;
 	/// 2d-related operations and rendering capabilities
-	Renderer2D* _renderer2d;
+	ARenderer2D* _renderer2d;
 	/// Physical world and functional storage
 	APhysics* _physics;
 	/// An adapter system that operates on files based on the platform

@@ -238,14 +238,14 @@ void ATime::TimerCountClass(std::function<void()> callback, int msTime, int coun
 	}
 }
 
-bool HiresTimer::supported = false;
-long long HiresTimer::frequency = 1000;
-HiresTimer::HiresTimer()
+bool FHiresTimer::supported = false;
+long long FHiresTimer::frequency = 1000;
+FHiresTimer::FHiresTimer()
 {
 	Reset();
 }
 
-long long HiresTimer::ElapsedUSec(bool reset)
+long long FHiresTimer::ElapsedUSec(bool reset)
 {
 	long long currentTime;
 
@@ -276,7 +276,7 @@ long long HiresTimer::ElapsedUSec(bool reset)
 	return (elapsedTime * 1000000LL) / frequency;
 }
 
-void HiresTimer::Reset()
+void FHiresTimer::Reset()
 {
 #ifdef _WIN32
 	if (supported)
@@ -294,7 +294,7 @@ void HiresTimer::Reset()
 #endif
 }
 
-void HiresTimer::Initialize()
+void FHiresTimer::Initialize()
 {
 #ifdef _WIN32
 	LARGE_INTEGER frequency_;

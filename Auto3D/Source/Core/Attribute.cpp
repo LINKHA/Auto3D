@@ -340,82 +340,82 @@ EAttributeType::Type FAttribute::TypeFromName(const char* name)
     return (EAttributeType::Type)FString::ListIndex(name, &typeNames[0], EAttributeType::Count);
 }
 
-template<> AUTO_API EAttributeType::Type FAttributeImpl<bool>::Type() const
+template<> AUTO_API EAttributeType::Type TAttributeImpl<bool>::Type() const
 {
     return EAttributeType::BOOL;
 }
 
-template<> AUTO_API EAttributeType::Type FAttributeImpl<int>::Type() const
+template<> AUTO_API EAttributeType::Type TAttributeImpl<int>::Type() const
 {
     return EAttributeType::INT;
 }
 
-template<> AUTO_API EAttributeType::Type FAttributeImpl<unsigned>::Type() const
+template<> AUTO_API EAttributeType::Type TAttributeImpl<unsigned>::Type() const
 {
     return EAttributeType::UNSIGNED;
 }
 
-template<> AUTO_API EAttributeType::Type FAttributeImpl<unsigned char>::Type() const
+template<> AUTO_API EAttributeType::Type TAttributeImpl<unsigned char>::Type() const
 {
     return EAttributeType::BYTE;
 }
 
-template<> AUTO_API EAttributeType::Type FAttributeImpl<float>::Type() const
+template<> AUTO_API EAttributeType::Type TAttributeImpl<float>::Type() const
 {
     return EAttributeType::FLOAT;
 }
 
-template<> AUTO_API EAttributeType::Type FAttributeImpl<FString>::Type() const
+template<> AUTO_API EAttributeType::Type TAttributeImpl<FString>::Type() const
 {
     return EAttributeType::STRING;
 }
 
-template<> AUTO_API EAttributeType::Type FAttributeImpl<TVector2F>::Type() const
+template<> AUTO_API EAttributeType::Type TAttributeImpl<TVector2F>::Type() const
 {
     return EAttributeType::VECTOR2;
 }
 
-template<> AUTO_API EAttributeType::Type FAttributeImpl<TVector3F>::Type() const
+template<> AUTO_API EAttributeType::Type TAttributeImpl<TVector3F>::Type() const
 {
     return EAttributeType::VECTOR3;
 }
 
-template<> AUTO_API EAttributeType::Type FAttributeImpl<TVector4F>::Type() const
+template<> AUTO_API EAttributeType::Type TAttributeImpl<TVector4F>::Type() const
 {
     return EAttributeType::VECTOR4;
 }
 
-template<> AUTO_API EAttributeType::Type FAttributeImpl<FQuaternion>::Type() const
+template<> AUTO_API EAttributeType::Type TAttributeImpl<FQuaternion>::Type() const
 {
     return EAttributeType::QUATERNION;
 }
 
-template<> AUTO_API EAttributeType::Type FAttributeImpl<FColor>::Type() const
+template<> AUTO_API EAttributeType::Type TAttributeImpl<FColor>::Type() const
 {
     return EAttributeType::COLOR;
 }
 
-template<> AUTO_API EAttributeType::Type FAttributeImpl<TBoundingBoxF>::Type() const
+template<> AUTO_API EAttributeType::Type TAttributeImpl<TBoundingBoxF>::Type() const
 {
     return EAttributeType::BOUNDINGBOX;
 }
 
-template<> AUTO_API EAttributeType::Type FAttributeImpl<FResourceRef>::Type() const
+template<> AUTO_API EAttributeType::Type TAttributeImpl<FResourceRef>::Type() const
 {
     return EAttributeType::RESOURCEREF;
 }
 
-template<> AUTO_API EAttributeType::Type FAttributeImpl<FResourceRefList>::Type() const
+template<> AUTO_API EAttributeType::Type TAttributeImpl<FResourceRefList>::Type() const
 {
     return EAttributeType::RESOURCEREFLIST;
 }
 
-template<> AUTO_API EAttributeType::Type FAttributeImpl<FObjectRef>::Type() const
+template<> AUTO_API EAttributeType::Type TAttributeImpl<FObjectRef>::Type() const
 {
     return EAttributeType::OBJECTREF;
 }
 
-template<> AUTO_API EAttributeType::Type FAttributeImpl<FJSONValue>::Type() const
+template<> AUTO_API EAttributeType::Type TAttributeImpl<FJSONValue>::Type() const
 {
     return EAttributeType::JSONVALUE;
 }

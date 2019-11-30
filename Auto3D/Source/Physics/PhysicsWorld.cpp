@@ -15,7 +15,7 @@ static const TVector3F DEFAULT_GRAVITY = TVector3F(0.0f, -9.81f, 0.0f);
 static const int DEFAULT_FPS = 60;
 static const float DEFAULT_MAX_NETWORK_ANGULAR_VELOCITY = 100.0f;
 
-PhysicsWorldConfig APhysicsWorld::config;
+FPhysicsWorldConfig APhysicsWorld::config;
 
 APhysicsWorld::APhysicsWorld():
 	_fps(DEFAULT_FPS),

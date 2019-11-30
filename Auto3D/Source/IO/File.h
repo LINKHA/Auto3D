@@ -21,9 +21,6 @@ namespace EFileMode
 	};
 };
 
-
-class PackageFile;
-
 /// Filesystem file.
 class AUTO_API FFile : public FStream
 {

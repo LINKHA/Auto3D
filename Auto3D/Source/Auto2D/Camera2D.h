@@ -7,7 +7,7 @@ namespace Auto3D
 {
 
 /// Billboard camera facing modes.
-namespace Face2DCameraMode
+namespace EFace2DCameraMode
 {
 	enum Type
 	{
@@ -135,7 +135,7 @@ public:
 	/// Return a scene node's LOD scaled distance.
 	float LodDistance(float distance, float scale, float bias) const;
 	/// Return a world rotation for facing a camera on certain axes based on the existing world rotation.
-	FQuaternion FaceCameraRotation(const TVector3F& position, const FQuaternion& rotation, Face2DCameraMode::Type mode);
+	FQuaternion FaceCameraRotation(const TVector3F& position, const FQuaternion& rotation, EFace2DCameraMode::Type mode);
 	/// Get effective world transform for matrix and frustum calculations including reflection but excluding node scaling.
 	TMatrix3x4F EffectiveWorldTransform() const;
 	/// Return if projection parameters are _valid for rendering and raycasting.

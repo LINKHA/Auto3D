@@ -30,7 +30,7 @@ const FString geometryDefines[] =
 	"INSTANCED"
 };
 
-Renderer2D::Renderer2D() :
+ARenderer2D::ARenderer2D() :
 	_graphics(nullptr),
 	_initialized(false),
 	_rendered(false),
@@ -38,11 +38,11 @@ Renderer2D::Renderer2D() :
 {
 }
 
-Renderer2D::~Renderer2D()
+ARenderer2D::~ARenderer2D()
 {
 }
 
-void Renderer2D::Render(AScene2D* scene, ACamera2D* camera)
+void ARenderer2D::Render(AScene2D* scene, ACamera2D* camera)
 {
 	PrepareView(scene, camera);
 
@@ -89,7 +89,7 @@ void Renderer2D::Render(AScene2D* scene, ACamera2D* camera)
 	RenderBatches();
 }
 
-bool Renderer2D::PrepareView(AScene2D* scend2d,ACamera2D* camera)
+bool ARenderer2D::PrepareView(AScene2D* scend2d,ACamera2D* camera)
 {
 	if (!IsInitialized())
 		Initialize();
@@ -101,7 +101,7 @@ bool Renderer2D::PrepareView(AScene2D* scend2d,ACamera2D* camera)
 	return true;
 }
 
-bool Renderer2D::Collect2dObjects(AScene2D* scend2d, ACamera2D* camera)
+bool ARenderer2D::Collect2dObjects(AScene2D* scend2d, ACamera2D* camera)
 {
 	PROFILE(Collect2dObjects);
 
@@ -124,7 +124,7 @@ bool Renderer2D::Collect2dObjects(AScene2D* scend2d, ACamera2D* camera)
 	return true;
 }
 
-void Renderer2D::Collect2dBatches()
+void ARenderer2D::Collect2dBatches()
 {
 	PROFILE(Collect2dBatches);
 
@@ -153,13 +153,13 @@ void Renderer2D::Collect2dBatches()
 		_instanceTransformsDirty = true;
 }
 
-void Renderer2D::RenderBatches()
+void ARenderer2D::RenderBatches()
 {
 	PROFILE(Rende2dBatches);
 	RenderBatches(_batchQueue._batches, _camera);
 }
 
-void Renderer2D::Initialize()
+void ARenderer2D::Initialize()
 {
 	auto* graphics = GModuleManager::Get().GraphicsModule();
 	auto* cache = GModuleManager::Get().CacheModule();
@@ -209,7 +209,7 @@ void Renderer2D::Initialize()
 
 }
 
-void Renderer2D::RenderBatches(const TVector<FBatch2D>& batches, ACamera2D* camera)
+void ARenderer2D::RenderBatches(const TVector<FBatch2D>& batches, ACamera2D* camera)
 {
 
 	if (_instanceTransformsDirty && _instanceTransforms.Size())

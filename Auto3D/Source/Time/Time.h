@@ -108,11 +108,11 @@ private:
 };
 
 /// High-resolution operating system timer used in profiling.
-class AUTO_API HiresTimer
+class AUTO_API FHiresTimer
 {
 public:
 	/// Construct. Get the starting high-resolution clock value.
-	HiresTimer();
+	FHiresTimer();
 	/// Return elapsed microseconds.
 	long long ElapsedUSec(bool reset);
 	/// Reset the timer.

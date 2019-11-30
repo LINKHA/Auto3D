@@ -16,15 +16,14 @@ class AProfiler;
 class ATime;
 class ARegisteredBox;
 class AScript;
-class Renderer2D;
+class ARenderer2D;
 class APhysics;
 class AFileSystem;
 class AUIModule;
 class AAudio;
 
-class AUTO_API GModuleManager //: public AGameManager
+class AUTO_API GModuleManager 
 {
-	//REGISTER_OBJECT_CLASS(GModuleManager, AGameManager)
 	friend class TSingleton<GModuleManager>;
 protected:
 	/// Structure
@@ -57,7 +56,7 @@ public:
 	/// Recreate the message management mechanism for the underlying interaction between the game project and the engine
 	void RecreateRegisteredBoxModule(ARegisteredBox* registeredBox = nullptr);
 	/// Recreate 2d-related operations and rendering capabilities
-	void RecreateRenderer2dModule(Renderer2D* renderer2d = nullptr);
+	void RecreateRenderer2dModule(ARenderer2D* renderer2d = nullptr);
 	/// Recreate physical world and functional storage
 	void RecreatePhysicsModule(APhysics* physics = nullptr);
 	/// Recreate an adapter system that operates on files based on the platform
@@ -84,7 +83,7 @@ public:
 	/// Return the message management mechanism for the underlying interaction between the game project and the engine
 	ARegisteredBox* RegisteredBoxModule() { return _registeredBox.Get(); }
 	/// Return 2d-related operations and rendering capabilities
-	Renderer2D* Renderer2dModule() { return _renderer2d.Get(); }
+	ARenderer2D* Renderer2dModule() { return _renderer2d.Get(); }
 	/// Return physical world and functional storage
 	APhysics* PhysicsModule() { return _physics.Get(); }
 	/// Return an adapter system that operates on files based on the platform
@@ -111,7 +110,7 @@ private:
 	/// The message management mechanism for the underlying interaction between the game project and the engine
 	TUniquePtr<ARegisteredBox> _registeredBox;
 	/// 2d-related operations and rendering capabilities
-	TUniquePtr<Renderer2D> _renderer2d;
+	TUniquePtr<ARenderer2D> _renderer2d;
 	/// Physical world and functional storage
 	TUniquePtr<APhysics> _physics;
 	/// An adapter system that operates on files based on the platform

@@ -410,7 +410,7 @@ bool ATexture::SetData(size_t face, size_t level, TRectI rect, const FImageLevel
         }
 
 		TRectI levelRect(0, 0, Max(_size._x >> level, 1), Max(_size._y >> level, 1));
-        if (levelRect.IsInside(rect) != INSIDE)
+        if (levelRect.IsInside(rect) != EIntersection::INSIDE)
         {
             ErrorStringF("Texture update region %s is outside level %s", rect.ToString().CString(), levelRect.ToString().CString());
             return false;

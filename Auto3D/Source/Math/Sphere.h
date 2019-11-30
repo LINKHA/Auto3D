@@ -142,43 +142,43 @@ public:
     bool IsDefined() const { return _radius >= 0.0f; }
 
     /// Test if a point is inside.
-    Intersection IsInside(const TVector3F& point) const
+	EIntersection::Type IsInside(const TVector3F& point) const
     {
         float distSquared = (point - _center).LengthSquared();
         if (distSquared < _radius * _radius)
-            return INSIDE;
+            return EIntersection::INSIDE;
         else
-            return OUTSIDE;
+            return EIntersection::OUTSIDE;
     }
     
     /// Test if another sphere is inside, outside or intersects.
-    Intersection IsInside(const FSphere& sphere) const
+	EIntersection::Type IsInside(const FSphere& sphere) const
     {
         float dist = (sphere._center - _center).Length();
         if (dist >= sphere._radius + _radius)
-            return OUTSIDE;
+            return EIntersection::OUTSIDE;
         else if (dist + sphere._radius < _radius)
-            return INSIDE;
+            return EIntersection::INSIDE;
         else
-            return INTERSECTS;
+            return EIntersection::INTERSECTS;
     }
     
     /// Test if another sphere is (partially) inside or outside.
-    Intersection IsInsideFast(const FSphere& sphere) const
+	EIntersection::Type IsInsideFast(const FSphere& sphere) const
     {
         float distSquared = (sphere._center - _center).LengthSquared();
         float combined = sphere._radius + _radius;
         
         if (distSquared >= combined * combined)
-            return OUTSIDE;
+            return EIntersection::OUTSIDE;
         else
-            return INSIDE;
+            return EIntersection::INSIDE;
     }
     
     /// Test if a bounding box is inside, outside or intersects.
-    Intersection IsInside(const TBoundingBoxF& box) const;
+	EIntersection::Type IsInside(const TBoundingBoxF& box) const;
     /// Test if a bounding box is (partially) inside or outside.
-    Intersection IsInsideFast(const TBoundingBoxF& box) const;
+	EIntersection::Type IsInsideFast(const TBoundingBoxF& box) const;
     
     /// Return distance of a point to the surface, or 0 if inside.
     float Distance(const TVector3F& point) const { return Max((point - _center).Length() - _radius, 0.0f); }
