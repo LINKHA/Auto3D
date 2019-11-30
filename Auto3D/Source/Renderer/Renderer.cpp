@@ -95,7 +95,7 @@ void Renderer::Render(Scene* scene, ACamera* camera)
 
 	_graphics->ResetRenderTargets();
 	_graphics->ResetViewport();
-	_graphics->Clear(CLEAR_COLOR | CLEAR_DEPTH | CLEAR_STENCIL, Color::BLACK);
+	_graphics->Clear(CLEAR_COLOR | CLEAR_DEPTH | CLEAR_STENCIL, FColor::BLACK);
 
 	RenderBatches(passes);
 
@@ -109,7 +109,7 @@ void Renderer::SetupShadowMaps(size_t num, int size, EImageFormat::Type format)
     _shadowMaps.Resize(num);
     for (auto it = _shadowMaps.Begin(); it != _shadowMaps.End(); ++it)
     {
-        if (it->_texture->Define(ETextureType::TEX_2D, EResourceUsage::RENDERTARGET, Vector2I(size, size), format, 1))
+        if (it->_texture->Define(ETextureType::TEX_2D, EResourceUsage::RENDERTARGET, TVector2I(size, size), format, 1))
         {
             // Setup shadow map sampling with hardware depth compare
             it->_texture->DefineSampler(ETextureFilterMode::COMPARE_BILINEAR, ETextureAddressMode::CLAMP, ETextureAddressMode::CLAMP, ETextureAddressMode::CLAMP, 1);
@@ -244,8 +244,8 @@ void Renderer::CollectLightInteractions()
         }
 
         // Try to allocate shadow map rectangle. Retry with smaller _size two times if fails
-        RectI shadowRect;
-        Vector2I request = light->GetTotalShadowMapSize();
+        TRectI shadowRect;
+        TVector2I request = light->GetTotalShadowMapSize();
         size_t retries = 3;
         size_t index = 0;
 
@@ -257,7 +257,7 @@ void Renderer::CollectLightInteractions()
                 int x, y;
                 if (shadowMap._allocator.Allocate(request._x, request._y, x, y))
                 {
-                    light->SetShadowMap(_shadowMaps[index]._texture, RectI(x, y, x + request._x, y + request._y));
+                    light->SetShadowMap(_shadowMaps[index]._texture, TRectI(x, y, x + request._x, y + request._y));
                     break;
                 }
             }
@@ -286,7 +286,7 @@ void Renderer::CollectLightInteractions()
         for (size_t i = startIndex; i < _usedShadowViews; ++i)
         {
             ShadowView* view = _shadowViews[i].Get();
-            Frustum shadowFrustum = view->_shadowCamera.GetWorldFrustum();
+            FFrustum shadowFrustum = view->_shadowCamera.GetWorldFrustum();
             RenderQueue& shadowQueue = view->_shadowQueue;
             shadowQueue._sort = RenderCommandSortMode::STATE;
             shadowQueue._lit = false;
@@ -308,7 +308,7 @@ void Renderer::CollectLightInteractions()
                 // Check which lit geometries are shadow casters and inside each shadow frustum. First check whether the
                 // shadow frustum is inside the view at all
                 /// \todo Could use a frustum-frustum test for more accuracy
-                if (_frustum.IsInsideFast(BoundingBoxF(shadowFrustum)))
+                if (_frustum.IsInsideFast(TBoundingBoxF(shadowFrustum)))
                     CollectShadowBatches(_litGeometries, shadowQueue, shadowFrustum, true, true);
                 break;
 
@@ -409,9 +409,9 @@ void Renderer::CollectLightInteractions()
                         newLightPass->_psBits |= (light->GetLightType() + 1) << (i * 3 + 4);
 
                         float cutoff = cosf(light->GetFov() * 0.5f * M_DEGTORAD);
-                        newLightPass->_lightPositions[i] = Vector4F(light->GetWorldPosition(), 1.0f);
-                        newLightPass->_lightDirections[i] = Vector4F(-light->GetWorldDirection(), 0.0f);
-                        newLightPass->_lightAttenuations[i] = Vector4F(1.0f / Max(light->GetRange(), M_EPSILON), cutoff, 1.0f /
+                        newLightPass->_lightPositions[i] = TVector4F(light->GetWorldPosition(), 1.0f);
+                        newLightPass->_lightDirections[i] = TVector4F(-light->GetWorldDirection(), 0.0f);
+                        newLightPass->_lightAttenuations[i] = TVector4F(1.0f / Max(light->GetRange(), M_EPSILON), cutoff, 1.0f /
                             (1.0f - cutoff), 0.0f);
                         newLightPass->_lightColors[i] = light->GetColor();
 
@@ -421,7 +421,7 @@ void Renderer::CollectLightInteractions()
                             newLightPass->_psBits |= 4 << (i * 3 + 4);
                             newLightPass->_shadowMaps[i] = light->GetShadowMap();
 
-                            const TVector<Matrix4x4F>& shadowMatrices = light->GetShadowMatrices();
+                            const TVector<TMatrix4x4F>& shadowMatrices = light->GetShadowMatrices();
                             for (size_t j = 0; j < shadowMatrices.Size() && numShadowCoords < MAX_LIGHTS_PER_PASS; ++j)
                                 newLightPass->_shadowMatrices[numShadowCoords++] = shadowMatrices[j];
 
@@ -432,7 +432,7 @@ void Renderer::CollectLightInteractions()
                                 float fadeStart = light->GetShadowFadeStart() * light->GetMaxShadowDistance() / _camera->GetFarClip();
                                 float fadeRange = light->GetMaxShadowDistance() / _camera->GetFarClip() - fadeStart;
                                 newLightPass->_dirShadowSplits = light->GetShadowSplits() / _camera->GetFarClip();
-                                newLightPass->_dirShadowFade = Vector4F(fadeStart / fadeRange, 1.0f / fadeRange, 0.0f, 0.0f);
+                                newLightPass->_dirShadowFade = TVector4F(fadeStart / fadeRange, 1.0f / fadeRange, 0.0f, 0.0f);
                             }
                             else if (light->GetLightType() == ELightType::POINT)
                                 newLightPass->_pointShadowParameters[i] = light->GetPointShadowParameters();
@@ -563,7 +563,7 @@ void Renderer::RenderShadowMaps()
             continue;
 
         _graphics->SetRenderTarget(nullptr, it->_texture);
-        _graphics->Clear(CLEAR_DEPTH, Color::BLACK, 1.0f);
+        _graphics->Clear(CLEAR_DEPTH, FColor::BLACK, 1.0f);
 
         for (auto vIt = it->_shadowViews.Begin(); vIt < it->_shadowViews.End(); ++vIt)
         {
@@ -694,11 +694,11 @@ void Renderer::DefineFaceSelectionTextures()
         faces2.Push(level);
     }
 
-    _faceSelectionTexture1->Define(ETextureType::TEX_CUBE, EResourceUsage::DEFAULT, Vector2I(1, 1), EImageFormat::RGBA32F, 1, &faces1[0]);
+    _faceSelectionTexture1->Define(ETextureType::TEX_CUBE, EResourceUsage::DEFAULT, TVector2I(1, 1), EImageFormat::RGBA32F, 1, &faces1[0]);
     _faceSelectionTexture1->DefineSampler(ETextureFilterMode::FILTER_POINT, ETextureAddressMode::CLAMP, ETextureAddressMode::CLAMP, ETextureAddressMode::CLAMP);
     _faceSelectionTexture1->SetDataLost(false);
 
-    _faceSelectionTexture2->Define(ETextureType::TEX_CUBE, EResourceUsage::DEFAULT, Vector2I(1, 1), EImageFormat::RGBA32F, 1, &faces2[0]);
+    _faceSelectionTexture2->Define(ETextureType::TEX_CUBE, EResourceUsage::DEFAULT, TVector2I(1, 1), EImageFormat::RGBA32F, 1, &faces2[0]);
     _faceSelectionTexture2->DefineSampler(ETextureFilterMode::FILTER_POINT, ETextureAddressMode::CLAMP, ETextureAddressMode::CLAMP, ETextureAddressMode::CLAMP);
     _faceSelectionTexture2->SetDataLost(false);
 }
@@ -790,7 +790,7 @@ void Renderer::AddLightToNode(AGeometryNode* node, ALight* light, LightList* lig
     }
 }
 
-void Renderer::CollectShadowBatches(const TVector<AGeometryNode*>& nodes, RenderQueue& batchQueue, const Frustum& frustum,
+void Renderer::CollectShadowBatches(const TVector<AGeometryNode*>& nodes, RenderQueue& batchQueue, const FFrustum& frustum,
     bool checkShadowCaster, bool checkFrustum)
 {
     Batch newBatch;
@@ -849,10 +849,10 @@ void Renderer::RenderBatches(const TVector<Batch>& batches, ACamera* camera, boo
     if (setPerFrameConstants)
     {
         // Set per-frame values to the frame constant buffers
-        Matrix3x4F viewMatrix = camera->GetViewMatrix();
-        Matrix4x4F projectionMatrix = camera->GetProjectionMatrix();
-        Matrix4x4F viewProjMatrix = projectionMatrix * viewMatrix;
-        Vector4F depthParameters(Vector4F::ZERO);
+        TMatrix3x4F viewMatrix = camera->GetViewMatrix();
+        TMatrix4x4F projectionMatrix = camera->GetProjectionMatrix();
+        TMatrix4x4F viewProjMatrix = projectionMatrix * viewMatrix;
+        TVector4F depthParameters(TVector4F::ZERO);
         depthParameters._x = camera->GetNearClip();
         depthParameters._y = camera->GetFarClip();
         if (camera->IsOrthographic())

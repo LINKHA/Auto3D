@@ -14,18 +14,18 @@ public:
 	~ColliderBox();
 	/// Register object factory.
 	static void RegisterObject();
-	/// Set size form Vector3
-	void SetSize(const Vector3F& vec);
+	/// Set size form TVector3
+	void SetSize(const TVector3F& vec);
 	/// Set size form float x y z
 	void SetSize(float x, float y, float z);
 	/// Set size form float
 	void SetSize(float scale);
 private:
-	/// Resize form Vector3
-	void Resize(const Vector3F& vec);
+	/// Resize form TVector3
+	void Resize(const TVector3F& vec);
 
 	/// Box shape size (radius)
-	Vector3F _size;
+	TVector3F _size;
 };
 
 }

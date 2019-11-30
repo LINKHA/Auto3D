@@ -389,7 +389,7 @@ struct AUTO_API FBlendModeDesc
     EBlendFactor::Type _srcBlend;
     /// Destination color blend factor.
     EBlendFactor::Type _destBlend;
-    /// Color blend operation.
+    /// FColor blend operation.
     EBlendOp::Type _blendOp;
     /// Source alpha blend factor.
     EBlendFactor::Type _srcBlendAlpha;
@@ -468,7 +468,7 @@ struct FRenderState
         _cullMode = ECullMode::BACK;
         _fillMode = EFillMode::SOLID;
         _scissorEnable = false;
-        _scissorRect = RectI::ZERO;
+        _scissorRect = TRectI::ZERO;
         _stencilEnable = false;
         _stencilRef = 0;
         _stencilTest.Reset();
@@ -497,7 +497,7 @@ struct FRenderState
     /// Scissor test enable.
     bool _scissorEnable;
     /// Scissor rectangle as pixels from rendertarget top left corner.
-    RectI _scissorRect;
+    TRectI _scissorRect;
     /// Stencil test enable.
     bool _stencilEnable;
     /// Stencil reference value.

@@ -10,33 +10,33 @@
 namespace Auto3D
 {
 
-const Matrix4x4F Matrix4x4F::ZERO(
+const TMatrix4x4F TMatrix4x4F::ZERO(
 	0.0f, 0.0f, 0.0f, 0.0f,
 	0.0f, 0.0f, 0.0f, 0.0f,
 	0.0f, 0.0f, 0.0f, 0.0f,
 	0.0f, 0.0f, 0.0f, 0.0f);
-const Matrix4x4F Matrix4x4F::IDENTITY;
+const TMatrix4x4F TMatrix4x4F::IDENTITY;
 
-const Matrix4x4I Matrix4x4I::ZERO(
+const TMatrix4x4I TMatrix4x4I::ZERO(
 	0, 0, 0, 0,
 	0, 0, 0, 0,
 	0, 0, 0, 0,
 	0, 0, 0, 0);
-const Matrix4x4I Matrix4x4I::IDENTITY;
+const TMatrix4x4I TMatrix4x4I::IDENTITY;
 
-const Matrix4x4C Matrix4x4C::ZERO(
+const TMatrix4x4C TMatrix4x4C::ZERO(
 	0, 0, 0, 0,
 	0, 0, 0, 0,
 	0, 0, 0, 0,
 	0, 0, 0, 0);
-const Matrix4x4C Matrix4x4C::IDENTITY;
+const TMatrix4x4C TMatrix4x4C::IDENTITY;
 
-const Matrix4x4D Matrix4x4D::ZERO(
+const TMatrix4x4D TMatrix4x4D::ZERO(
 	0.0, 0.0, 0.0, 0.0,
 	0.0, 0.0, 0.0, 0.0,
 	0.0, 0.0, 0.0, 0.0,
 	0.0, 0.0, 0.0, 0.0);
-const Matrix4x4D Matrix4x4D::IDENTITY;
+const TMatrix4x4D TMatrix4x4D::IDENTITY;
 
 
 

@@ -38,7 +38,7 @@ struct AUTO_API Batch2D
 	union
 	{
 		/// Non-instanced use world matrix.
-		const Matrix3x4F* _worldMatrix;
+		const TMatrix3x4F* _worldMatrix;
 		/// Instanced mode start index.
 		size_t _instanceStart;
 	};
@@ -50,10 +50,10 @@ struct AUTO_API Batch2DQueue
 	/// Clear structures.
 	void Clear();
 	/// Sort batches and build instances.
-	void Sort(TVector<Matrix3x4F>& instanceTransforms);
+	void Sort(TVector<TMatrix3x4F>& instanceTransforms);
 
 	/// Build instances from adjacent batches with same state.
-	static void BuildInstances(TVector<Batch2D>& batches, TVector<Matrix3x4F>& instanceTransforms);
+	static void BuildInstances(TVector<Batch2D>& batches, TVector<TMatrix3x4F>& instanceTransforms);
 
 	/// Batches, which may be instanced or non-instanced.
 	TVector<Batch2D> _batches;

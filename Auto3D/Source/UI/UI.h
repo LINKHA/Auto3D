@@ -15,7 +15,7 @@ namespace Auto3D
 
 namespace UIStyleColors
 {
-	const static Color Text = Color(1.00f, 1.00f, 1.00f, 1.00f);
+	const static FColor Text = FColor(1.00f, 1.00f, 1.00f, 1.00f);
 }
 namespace GUI
 {
@@ -30,7 +30,7 @@ namespace GUI
 	using FontConfig = ImFontConfig;						// Configuration data when adding a font or merging fonts
 	using FontGlyph = ImFontGlyph;							// A single font glyph (code point + coordinates within in ImFontAtlas + offset)
 	using FontGlyphRangesBuilder = ImFontGlyphRangesBuilder;// Helper to build glyph ranges from text/string data
-	using Color = ImColor;									// Helper functions to create a color that can be converted to either u32 or float4 (*OBSOLETE* please avoid using)
+	using FColor = ImColor;									// Helper functions to create a color that can be converted to either u32 or float4 (*OBSOLETE* please avoid using)
 	using Context = ImGuiContext;						// Dear ImGui context (opaque structure, unless including imgui_internal.h)
 	using IO = ImGuiIO;									// Main configuration and I/O between your application and ImGui
 	using InputTextCallbackData = ImGuiInputTextCallbackData;  // Shared state of InputText() when using custom ImGuiInputTextCallback (rare/advanced use)
@@ -168,11 +168,11 @@ AUTO_API void          End();
 
 // Child Windows
 // - Use child windows to begin into a self-contained independent scrolling/clipping regions within a host window. Child windows can embed their own child.
-// - For each independent axis of 'size': ==0.0f: use remaining host window size / >0.0f: fixed size / <0.0f: use remaining window size minus abs(size) / Each axis can use a different mode, e.g. Vector2F(0,400).
+// - For each independent axis of 'size': ==0.0f: use remaining host window size / >0.0f: fixed size / <0.0f: use remaining window size minus abs(size) / Each axis can use a different mode, e.g. TVector2F(0,400).
 // - BeginChild() returns false to indicate the window is collapsed or fully clipped, so you may early out and omit submitting anything to the window.
 //   Always call a matching EndChild() for each BeginChild() call, regardless of its return value [this is due to legacy reason and is inconsistent with most other functions such as BeginMenu/EndMenu, BeginPopup/EndPopup, etc. where the EndXXX call should only be called if the corresponding BeginXXX function returned true.]
-AUTO_API bool          BeginChild(const char* str_id, const Vector2F& size = Vector2F(0, 0), bool border = false, WindowFlags flags = 0);
-AUTO_API bool          BeginChild(ID id, const Vector2F& size = Vector2F(0, 0), bool border = false, WindowFlags flags = 0);
+AUTO_API bool          BeginChild(const char* str_id, const TVector2F& size = TVector2F(0, 0), bool border = false, WindowFlags flags = 0);
+AUTO_API bool          BeginChild(ID id, const TVector2F& size = TVector2F(0, 0), bool border = false, WindowFlags flags = 0);
 AUTO_API void          EndChild();
 
 // Windows Utilities
@@ -182,35 +182,35 @@ AUTO_API bool          IsWindowCollapsed();
 AUTO_API bool          IsWindowFocused(FocusedFlags flags = 0);    // is current window focused? or its root/child, depending on flags. see flags for options.
 AUTO_API bool          IsWindowHovered(HoveredFlags flags = 0);	   // is current window hovered (and typically: not blocked by a popup/modal)? see flags for options. NB: If you are trying to check whether your mouse should be dispatched to imgui or to your app, you should use the 'io.WantCaptureMouse' boolean for that! Please read the FAQ!
 AUTO_API DrawList*	   GetWindowDrawList();                        // get draw list associated to the current window, to append your own drawing primitives
-AUTO_API Vector2F      GetWindowPos();                             // get current window position in screen space (useful if you want to do your own drawing via the DrawList API)
-AUTO_API Vector2F      GetWindowSize();                            // get current window size
+AUTO_API TVector2F      GetWindowPos();                             // get current window position in screen space (useful if you want to do your own drawing via the DrawList API)
+AUTO_API TVector2F      GetWindowSize();                            // get current window size
 AUTO_API float         GetWindowWidth();                           // get current window width (shortcut for GetWindowSize().x)
 AUTO_API float         GetWindowHeight();                          // get current window height (shortcut for GetWindowSize().y)
 
 // Prefer using SetNextXXX functions (before Begin) rather that SetXXX functions (after Begin).
-AUTO_API void          SetNextWindowPos(const Vector2F& pos, Cond cond = 0, const Vector2F& pivot = Vector2F(0, 0)); // set next window position. call before Begin(). use pivot=(0.5f,0.5f) to center on given point, etc.
-AUTO_API void          SetNextWindowSize(const Vector2F& size, Cond cond = 0);                  // set next window size. set axis to 0.0f to force an auto-fit on this axis. call before Begin()
-AUTO_API void          SetNextWindowSizeConstraints(const Vector2F& size_min, const Vector2F& size_max, ImGuiSizeCallback custom_callback = NULL, void* custom_callback_data = NULL); // set next window size limits. use -1,-1 on either X/Y axis to preserve the current size. Sizes will be rounded down. Use callback to apply non-trivial programmatic constraints.
-AUTO_API void          SetNextWindowContentSize(const Vector2F& size);                          // set next window content size (~ enforce the range of scrollbars). not including window decorations (title bar, menu bar, etc.). set an axis to 0.0f to leave it automatic. call before Begin()
+AUTO_API void          SetNextWindowPos(const TVector2F& pos, Cond cond = 0, const TVector2F& pivot = TVector2F(0, 0)); // set next window position. call before Begin(). use pivot=(0.5f,0.5f) to center on given point, etc.
+AUTO_API void          SetNextWindowSize(const TVector2F& size, Cond cond = 0);                  // set next window size. set axis to 0.0f to force an auto-fit on this axis. call before Begin()
+AUTO_API void          SetNextWindowSizeConstraints(const TVector2F& size_min, const TVector2F& size_max, ImGuiSizeCallback custom_callback = NULL, void* custom_callback_data = NULL); // set next window size limits. use -1,-1 on either X/Y axis to preserve the current size. Sizes will be rounded down. Use callback to apply non-trivial programmatic constraints.
+AUTO_API void          SetNextWindowContentSize(const TVector2F& size);                          // set next window content size (~ enforce the range of scrollbars). not including window decorations (title bar, menu bar, etc.). set an axis to 0.0f to leave it automatic. call before Begin()
 AUTO_API void          SetNextWindowCollapsed(bool collapsed, Cond cond = 0);					// set next window collapsed state. call before Begin()
 AUTO_API void          SetNextWindowFocus();                                                    // set next window to be focused / front-most. call before Begin()
 AUTO_API void          SetNextWindowBgAlpha(float alpha);                                       // set next window background color alpha. helper to easily modify Col_WindowBg/ChildBg/PopupBg. you may also use WindowFlags_NoBackground.
-AUTO_API void          SetWindowPos(const Vector2F& pos, Cond cond = 0);                        // (not recommended) set current window position - call within Begin()/End(). prefer using SetNextWindowPos(), as this may incur tearing and side-effects.
-AUTO_API void          SetWindowSize(const Vector2F& size, Cond cond = 0);                      // (not recommended) set current window size - call within Begin()/End(). set to Vector2F(0,0) to force an auto-fit. prefer using SetNextWindowSize(), as this may incur tearing and minor side-effects.
+AUTO_API void          SetWindowPos(const TVector2F& pos, Cond cond = 0);                        // (not recommended) set current window position - call within Begin()/End(). prefer using SetNextWindowPos(), as this may incur tearing and side-effects.
+AUTO_API void          SetWindowSize(const TVector2F& size, Cond cond = 0);                      // (not recommended) set current window size - call within Begin()/End(). set to TVector2F(0,0) to force an auto-fit. prefer using SetNextWindowSize(), as this may incur tearing and minor side-effects.
 AUTO_API void          SetWindowCollapsed(bool collapsed, Cond cond = 0);						// (not recommended) set current window collapsed state. prefer using SetNextWindowCollapsed().
 AUTO_API void          SetWindowFocus();                                                        // (not recommended) set current window to be focused / front-most. prefer using SetNextWindowFocus().
 AUTO_API void          SetWindowFontScale(float scale);                                         // set font scale. Adjust IO.FontGlobalScale if you want to scale all windows
-AUTO_API void          SetWindowPos(const char* name, const Vector2F& pos, Cond cond = 0);      // set named window position.
-AUTO_API void          SetWindowSize(const char* name, const Vector2F& size, Cond cond = 0);    // set named window size. set axis to 0.0f to force an auto-fit on this axis.
+AUTO_API void          SetWindowPos(const char* name, const TVector2F& pos, Cond cond = 0);      // set named window position.
+AUTO_API void          SetWindowSize(const char* name, const TVector2F& size, Cond cond = 0);    // set named window size. set axis to 0.0f to force an auto-fit on this axis.
 AUTO_API void          SetWindowCollapsed(const char* name, bool collapsed, Cond cond = 0);		// set named window collapsed state
 AUTO_API void          SetWindowFocus(const char* name);                                        // set named window to be focused / front-most. use NULL to remove focus.
 
 // Content region
 // - Those functions are bound to be redesigned soon (they are confusing, incomplete and return values in local window coordinates which increases confusion)
-AUTO_API Vector2F      GetContentRegionMax();                                          // current content boundaries (typically window boundaries including scrolling, or current column boundaries), in windows coordinates
-AUTO_API Vector2F      GetContentRegionAvail();                                        // == GetContentRegionMax() - GetCursorPos()
-AUTO_API Vector2F      GetWindowContentRegionMin();                                    // content boundaries min (roughly (0,0)-Scroll), in window coordinates
-AUTO_API Vector2F      GetWindowContentRegionMax();                                    // content boundaries max (roughly (0,0)+Size-Scroll) where Size can be override with SetNextWindowContentSize(), in window coordinates
+AUTO_API TVector2F      GetContentRegionMax();                                          // current content boundaries (typically window boundaries including scrolling, or current column boundaries), in windows coordinates
+AUTO_API TVector2F      GetContentRegionAvail();                                        // == GetContentRegionMax() - GetCursorPos()
+AUTO_API TVector2F      GetWindowContentRegionMin();                                    // content boundaries min (roughly (0,0)-Scroll), in window coordinates
+AUTO_API TVector2F      GetWindowContentRegionMax();                                    // content boundaries max (roughly (0,0)+Size-Scroll) where Size can be override with SetNextWindowContentSize(), in window coordinates
 AUTO_API float         GetWindowContentRegionWidth();                                  //
 
 // Windows Scrolling
@@ -228,17 +228,17 @@ AUTO_API void		   PushFont(const FString& font);
 AUTO_API void          PushFont(AFont* font);                                           // use NULL as a shortcut to push default font
 AUTO_API void          PopFont();
 AUTO_API void          PushStyleColor(Col idx, unsigned col);
-AUTO_API void          PushStyleColor(Col idx, const Vector4F& col);
+AUTO_API void          PushStyleColor(Col idx, const TVector4F& col);
 AUTO_API void          PopStyleColor(int count = 1);
 AUTO_API void          PushStyleVar(StyleVar idx, float val);
-AUTO_API void          PushStyleVar(StyleVar idx, const Vector2F& val);
+AUTO_API void          PushStyleVar(StyleVar idx, const TVector2F& val);
 AUTO_API void          PopStyleVar(int count = 1);
-AUTO_API const		   Vector4F& GetStyleColorVec4(Col idx);                           // retrieve style color as stored in ImGuiStyle structure. use to feed back into PushStyleColor(), otherwise use GetColorU32() to get style color with style alpha baked in.
+AUTO_API const		   TVector4F& GetStyleColorVec4(Col idx);                           // retrieve style color as stored in ImGuiStyle structure. use to feed back into PushStyleColor(), otherwise use GetColorU32() to get style color with style alpha baked in.
 AUTO_API AFont*		   GetFont();													   // get current font
 AUTO_API float         GetFontSize();                                                  // get current font size (= height in pixels) of current font with current scale applied
-AUTO_API Vector2F      GetFontTexUvWhitePixel();                                       // get UV coordinate for a while pixel, useful to draw custom shapes via the DrawList API
+AUTO_API TVector2F      GetFontTexUvWhitePixel();                                       // get UV coordinate for a while pixel, useful to draw custom shapes via the DrawList API
 AUTO_API unsigned      GetColorU32(Col idx, float alpha_mul = 1.0f);				   // retrieve given style color with style alpha applied and optional extra alpha multiplier
-AUTO_API unsigned      GetColorU32(const Vector4F& col);                               // retrieve given color with style alpha applied
+AUTO_API unsigned      GetColorU32(const TVector4F& col);                               // retrieve given color with style alpha applied
 AUTO_API unsigned      GetColorU32(unsigned col);                                      // retrieve given color with style alpha applied
 
 // Parameters stacks (current window)
@@ -260,20 +260,20 @@ AUTO_API void          Separator();                                             
 AUTO_API void          SameLine(float offset_from_start_x = 0.0f, float spacing = -1.0f);  // call between widgets or groups to layout them horizontally. X position given in window coordinates.
 AUTO_API void          NewLine();                                                      // undo a SameLine() or force a new line when in an horizontal-layout context.
 AUTO_API void          Spacing();                                                      // add vertical spacing.
-AUTO_API void          Dummy(const Vector2F& size);                                    // add a dummy item of given size. unlike InvisibleButton(), Dummy() won't take the mouse click or be navigable into.
+AUTO_API void          Dummy(const TVector2F& size);                                    // add a dummy item of given size. unlike InvisibleButton(), Dummy() won't take the mouse click or be navigable into.
 AUTO_API void          Indent(float indent_w = 0.0f);                                  // move content position toward the right, by style.IndentSpacing or indent_w if != 0
 AUTO_API void          Unindent(float indent_w = 0.0f);                                // move content position back to the left, by style.IndentSpacing or indent_w if != 0
 AUTO_API void          BeginGroup();                                                   // lock horizontal starting position
 AUTO_API void          EndGroup();                                                     // unlock horizontal starting position + capture the whole group bounding box into one "item" (so you can use IsItemHovered() or layout primitives such as SameLine() on whole group, etc.)
-AUTO_API Vector2F      GetCursorPos();                                                 // cursor position in window coordinates (relative to window position)
+AUTO_API TVector2F      GetCursorPos();                                                 // cursor position in window coordinates (relative to window position)
 AUTO_API float         GetCursorPosX();                                                //   (some functions are using window-relative coordinates, such as: GetCursorPos, GetCursorStartPos, GetContentRegionMax, GetWindowContentRegion* etc.
 AUTO_API float         GetCursorPosY();                                                //    other functions such as GetCursorScreenPos or everything in DrawList::
-AUTO_API void          SetCursorPos(const Vector2F& local_pos);                        //    are using the main, absolute coordinate system.
+AUTO_API void          SetCursorPos(const TVector2F& local_pos);                        //    are using the main, absolute coordinate system.
 AUTO_API void          SetCursorPosX(float local_x);                                   //    GetWindowPos() + GetCursorPos() == GetCursorScreenPos() etc.)
 AUTO_API void          SetCursorPosY(float local_y);                                   //
-AUTO_API Vector2F      GetCursorStartPos();                                            // initial cursor position in window coordinates
-AUTO_API Vector2F      GetCursorScreenPos();                                           // cursor position in absolute screen coordinates [0..io.DisplaySize] (useful to work with DrawList API)
-AUTO_API void          SetCursorScreenPos(const Vector2F& pos);                        // cursor position in absolute screen coordinates [0..io.DisplaySize]
+AUTO_API TVector2F      GetCursorStartPos();                                            // initial cursor position in window coordinates
+AUTO_API TVector2F      GetCursorScreenPos();                                           // cursor position in absolute screen coordinates [0..io.DisplaySize] (useful to work with DrawList API)
+AUTO_API void          SetCursorScreenPos(const TVector2F& pos);                        // cursor position in absolute screen coordinates [0..io.DisplaySize]
 AUTO_API void          AlignTextToFramePadding();                                      // vertically align upcoming text baseline to FramePadding.y so that it will align properly to regularly framed items (call if you have text on a line before a framed item)
 AUTO_API float         GetTextLineHeight();                                            // ~ FontSize
 AUTO_API float         GetTextLineHeightWithSpacing();                                 // ~ FontSize + style.ItemSpacing.y (distance in pixels between 2 consecutive lines of text)
@@ -300,8 +300,8 @@ AUTO_API ID			   GetID(const void* ptr_id);
 AUTO_API void          TextUnformatted(const char* text, const char* text_end = NULL);                // raw text without formatting. Roughly equivalent to Text("%s", text) but: A) doesn't require null terminated string if 'text_end' is specified, B) it's faster, no memory copy is done, no buffer size limits, recommended for long chunks of text.
 AUTO_API void          Text(const char* fmt, ...)                                      IM_FMTARGS(1); // simple formatted text
 AUTO_API void          TextV(const char* fmt, va_list args)                            IM_FMTLIST(1);
-AUTO_API void          TextColored(const Vector4F& col, const char* fmt, ...)            IM_FMTARGS(2); // shortcut for PushStyleColor(Col_Text, col); Text(fmt, ...); PopStyleColor();
-AUTO_API void          TextColoredV(const Vector4F& col, const char* fmt, va_list args)  IM_FMTLIST(2);
+AUTO_API void          TextColored(const TVector4F& col, const char* fmt, ...)            IM_FMTARGS(2); // shortcut for PushStyleColor(Col_Text, col); Text(fmt, ...); PopStyleColor();
+AUTO_API void          TextColoredV(const TVector4F& col, const char* fmt, va_list args)  IM_FMTLIST(2);
 AUTO_API void          TextDisabled(const char* fmt, ...)                              IM_FMTARGS(1); // shortcut for PushStyleColor(Col_Text, style.Colors[Col_TextDisabled]); Text(fmt, ...); PopStyleColor();
 AUTO_API void          TextDisabledV(const char* fmt, va_list args)                    IM_FMTLIST(1);
 AUTO_API void          TextWrapped(const char* fmt, ...)                               IM_FMTARGS(1); // shortcut for PushTextWrapPos(0.0f); Text(fmt, ...); PopTextWrapPos();. Note that this won't work on an auto-resizing window if there's no other widgets to extend the window width, yoy may need to set a size using SetNextWindowSize().
@@ -313,17 +313,17 @@ AUTO_API void          BulletTextV(const char* fmt, va_list args)               
 
 // Widgets: Main
 // - Most widgets return true when the value has been changed or when pressed/selected
-AUTO_API bool          Button(const char* label, const Vector2F& size = Vector2F(0, 0));    // button
+AUTO_API bool          Button(const char* label, const TVector2F& size = TVector2F(0, 0));    // button
 AUTO_API bool          SmallButton(const char* label);                                 // button with FramePadding=(0,0) to easily embed within text
-AUTO_API bool          InvisibleButton(const char* str_id, const Vector2F& size);        // button behavior without the visuals, frequently useful to build custom behaviors using the public api (along with IsItemActive, IsItemHovered, etc.)
+AUTO_API bool          InvisibleButton(const char* str_id, const TVector2F& size);        // button behavior without the visuals, frequently useful to build custom behaviors using the public api (along with IsItemActive, IsItemHovered, etc.)
 AUTO_API bool          ArrowButton(const char* str_id, Dir dir);                  // square button with an arrow shape
-AUTO_API void          AImage(ATexture* user_texture, const Vector2F& size, const Vector2F& uv0 = Vector2F(0, 0), const Vector2F& uv1 = Vector2F(1, 1), const Vector4F& tint_col = Vector4F(1, 1, 1, 1), const Vector4F& border_col = Vector4F(0, 0, 0, 0));
-AUTO_API bool          ImageButton(ATexture* user_texture, const Vector2F& size, const Vector2F& uv0 = Vector2F(0, 0), const Vector2F& uv1 = Vector2F(1, 1), int frame_padding = -1, const Vector4F& bg_col = Vector4F(0, 0, 0, 0), const Vector4F& tint_col = Vector4F(1, 1, 1, 1));    // <0 frame_padding uses default frame padding settings. 0 for no padding
+AUTO_API void          AImage(ATexture* user_texture, const TVector2F& size, const TVector2F& uv0 = TVector2F(0, 0), const TVector2F& uv1 = TVector2F(1, 1), const TVector4F& tint_col = TVector4F(1, 1, 1, 1), const TVector4F& border_col = TVector4F(0, 0, 0, 0));
+AUTO_API bool          ImageButton(ATexture* user_texture, const TVector2F& size, const TVector2F& uv0 = TVector2F(0, 0), const TVector2F& uv1 = TVector2F(1, 1), int frame_padding = -1, const TVector4F& bg_col = TVector4F(0, 0, 0, 0), const TVector4F& tint_col = TVector4F(1, 1, 1, 1));    // <0 frame_padding uses default frame padding settings. 0 for no padding
 AUTO_API bool          Checkbox(const char* label, bool* v);
 AUTO_API bool          CheckboxFlags(const char* label, unsigned int* flags, unsigned int flags_value);
 AUTO_API bool          RadioButton(const char* label, bool active);                    // use with e.g. if (RadioButton("one", my_value==1)) { my_value = 1; }
 AUTO_API bool          RadioButton(const char* label, int* v, int v_button);           // shortcut to handle the above pattern when value is an integer
-AUTO_API void          ProgressBar(float fraction, const Vector2F& size_arg = Vector2F(-1, 0), const char* overlay = NULL);
+AUTO_API void          ProgressBar(float fraction, const TVector2F& size_arg = TVector2F(-1, 0), const char* overlay = NULL);
 AUTO_API void          Bullet();                                                       // draw a small circle and keep the cursor on the same line. advance cursor x position by GetTreeNodeToLabelSpacing(), same distance that TreeNode() uses
 
 // Widgets: Combo Box
@@ -367,15 +367,15 @@ AUTO_API bool          SliderInt3(const char* label, int v[3], int v_min, int v_
 AUTO_API bool          SliderInt4(const char* label, int v[4], int v_min, int v_max, const char* format = "%d");
 AUTO_API bool          SliderScalar(const char* label, DataType data_type, void* v, const void* v_min, const void* v_max, const char* format = NULL, float power = 1.0f);
 AUTO_API bool          SliderScalarN(const char* label, DataType data_type, void* v, int components, const void* v_min, const void* v_max, const char* format = NULL, float power = 1.0f);
-AUTO_API bool          VSliderFloat(const char* label, const Vector2F& size, float* v, float v_min, float v_max, const char* format = "%.3f", float power = 1.0f);
-AUTO_API bool          VSliderInt(const char* label, const Vector2F& size, int* v, int v_min, int v_max, const char* format = "%d");
-AUTO_API bool          VSliderScalar(const char* label, const Vector2F& size, DataType data_type, void* v, const void* v_min, const void* v_max, const char* format = NULL, float power = 1.0f);
+AUTO_API bool          VSliderFloat(const char* label, const TVector2F& size, float* v, float v_min, float v_max, const char* format = "%.3f", float power = 1.0f);
+AUTO_API bool          VSliderInt(const char* label, const TVector2F& size, int* v, int v_min, int v_max, const char* format = "%d");
+AUTO_API bool          VSliderScalar(const char* label, const TVector2F& size, DataType data_type, void* v, const void* v_min, const void* v_max, const char* format = NULL, float power = 1.0f);
 
 // Widgets: Input with Keyboard
 // - If you want to use InputText() with a dynamic string type such as std::string or your own, see misc/cpp/imgui_stdlib.h
 // - Most of the InputTextFlags flags are only useful for InputText() and not for InputFloatX, InputIntX, InputDouble etc.
 AUTO_API bool          InputText(const char* label, char* buf, size_t buf_size, InputTextFlags flags = 0, ImGuiInputTextCallback callback = NULL, void* user_data = NULL);
-AUTO_API bool          InputTextMultiline(const char* label, char* buf, size_t buf_size, const Vector2F& size = Vector2F(0, 0), InputTextFlags flags = 0, ImGuiInputTextCallback callback = NULL, void* user_data = NULL);
+AUTO_API bool          InputTextMultiline(const char* label, char* buf, size_t buf_size, const TVector2F& size = TVector2F(0, 0), InputTextFlags flags = 0, ImGuiInputTextCallback callback = NULL, void* user_data = NULL);
 AUTO_API bool          InputTextWithHint(const char* label, const char* hint, char* buf, size_t buf_size, InputTextFlags flags = 0, ImGuiInputTextCallback callback = NULL, void* user_data = NULL);
 AUTO_API bool          InputFloat(const char* label, float* v, float step = 0.0f, float step_fast = 0.0f, const char* format = "%.3f", InputTextFlags flags = 0);
 AUTO_API bool          InputFloat2(const char* label, float v[2], const char* format = "%.3f", InputTextFlags flags = 0);
@@ -389,14 +389,14 @@ AUTO_API bool          InputDouble(const char* label, double* v, double step = 0
 AUTO_API bool          InputScalar(const char* label, DataType data_type, void* v, const void* step = NULL, const void* step_fast = NULL, const char* format = NULL, InputTextFlags flags = 0);
 AUTO_API bool          InputScalarN(const char* label, DataType data_type, void* v, int components, const void* step = NULL, const void* step_fast = NULL, const char* format = NULL, InputTextFlags flags = 0);
 
-// Widgets: Color Editor/Picker (tip: the ColorEdit* functions have a little colored preview square that can be left-clicked to open a picker, and right-clicked to open an option menu.)
+// Widgets: FColor Editor/Picker (tip: the ColorEdit* functions have a little colored preview square that can be left-clicked to open a picker, and right-clicked to open an option menu.)
 // - Note that in C++ a 'float v[X]' function argument is the _same_ as 'float* v', the array syntax is just a way to document the number of elements that are expected to be accessible.
 // - You can pass the address of a first float element out of a contiguous structure, e.g. &myvector.x
 AUTO_API bool          ColorEdit3(const char* label, float col[3], ColorEditFlags flags = 0);
 AUTO_API bool          ColorEdit4(const char* label, float col[4], ColorEditFlags flags = 0);
 AUTO_API bool          ColorPicker3(const char* label, float col[3], ColorEditFlags flags = 0);
 AUTO_API bool          ColorPicker4(const char* label, float col[4], ColorEditFlags flags = 0, const float* ref_col = NULL);
-AUTO_API bool          ColorButton(const char* desc_id, const Vector4F& col, ColorEditFlags flags = 0, Vector2F size = Vector2F(0, 0));  // display a colored square/button, hover for details, return true when pressed.
+AUTO_API bool          ColorButton(const char* desc_id, const TVector4F& col, ColorEditFlags flags = 0, TVector2F size = TVector2F(0, 0));  // display a colored square/button, hover for details, return true when pressed.
 AUTO_API void          SetColorEditOptions(ColorEditFlags flags);                     // initialize current options (generally on application startup) if you want to select a default format, picker type, etc. User will be able to change many settings, unless you pass the _NoOptions flag to your calls.
 
 // Widgets: Trees
@@ -423,22 +423,22 @@ AUTO_API void          SetNextItemOpen(bool is_open, Cond cond = 0);					   // s
 // Widgets: Selectables
 // - A selectable highlights when hovered, and can display another color when selected.
 // - Neighbors selectable extend their highlight bounds in order to leave no gap between them.
-AUTO_API bool          Selectable(const char* label, bool selected = false, SelectableFlags flags = 0, const Vector2F& size = Vector2F(0, 0));  // "bool selected" carry the selection state (read-only). Selectable() is clicked is returns true so you can modify your selection state. size.x==0.0: use remaining width, size.x>0.0: specify width. size.y==0.0: use label height, size.y>0.0: specify height
-AUTO_API bool          Selectable(const char* label, bool* p_selected, SelectableFlags flags = 0, const Vector2F& size = Vector2F(0, 0));       // "bool* p_selected" point to the selection state (read-write), as a convenient helper.
+AUTO_API bool          Selectable(const char* label, bool selected = false, SelectableFlags flags = 0, const TVector2F& size = TVector2F(0, 0));  // "bool selected" carry the selection state (read-only). Selectable() is clicked is returns true so you can modify your selection state. size.x==0.0: use remaining width, size.x>0.0: specify width. size.y==0.0: use label height, size.y>0.0: specify height
+AUTO_API bool          Selectable(const char* label, bool* p_selected, SelectableFlags flags = 0, const TVector2F& size = TVector2F(0, 0));       // "bool* p_selected" point to the selection state (read-write), as a convenient helper.
 
 // Widgets: TList Boxes
 // - FIXME: To be consistent with all the newer API, ListBoxHeader/ListBoxFooter should in reality be called BeginListBox/EndListBox. Will rename them.
 AUTO_API bool          ListBox(const char* label, int* current_item, const char* const items[], int items_count, int height_in_items = -1);
 AUTO_API bool          ListBox(const char* label, int* current_item, bool (*items_getter)(void* data, int idx, const char** out_text), void* data, int items_count, int height_in_items = -1);
-AUTO_API bool          ListBoxHeader(const char* label, const Vector2F& size = Vector2F(0, 0)); // use if you want to reimplement ListBox() will custom data or interactions. if the function return true, you can output elements then call ListBoxFooter() afterwards.
+AUTO_API bool          ListBoxHeader(const char* label, const TVector2F& size = TVector2F(0, 0)); // use if you want to reimplement ListBox() will custom data or interactions. if the function return true, you can output elements then call ListBoxFooter() afterwards.
 AUTO_API bool          ListBoxHeader(const char* label, int items_count, int height_in_items = -1); // "
 AUTO_API void          ListBoxFooter();                                                    // terminate the scrolling region. only call ListBoxFooter() if ListBoxHeader() returned true!
 
 // Widgets: Data Plotting
-AUTO_API void          PlotLines(const char* label, const float* values, int values_count, int values_offset = 0, const char* overlay_text = NULL, float scale_min = FLT_MAX, float scale_max = FLT_MAX, Vector2F graph_size = Vector2F(0, 0), int stride = sizeof(float));
-AUTO_API void          PlotLines(const char* label, float(*values_getter)(void* data, int idx), void* data, int values_count, int values_offset = 0, const char* overlay_text = NULL, float scale_min = FLT_MAX, float scale_max = FLT_MAX, Vector2F graph_size = Vector2F(0, 0));
-AUTO_API void          PlotHistogram(const char* label, const float* values, int values_count, int values_offset = 0, const char* overlay_text = NULL, float scale_min = FLT_MAX, float scale_max = FLT_MAX, Vector2F graph_size = Vector2F(0, 0), int stride = sizeof(float));
-AUTO_API void          PlotHistogram(const char* label, float(*values_getter)(void* data, int idx), void* data, int values_count, int values_offset = 0, const char* overlay_text = NULL, float scale_min = FLT_MAX, float scale_max = FLT_MAX, Vector2F graph_size = Vector2F(0, 0));
+AUTO_API void          PlotLines(const char* label, const float* values, int values_count, int values_offset = 0, const char* overlay_text = NULL, float scale_min = FLT_MAX, float scale_max = FLT_MAX, TVector2F graph_size = TVector2F(0, 0), int stride = sizeof(float));
+AUTO_API void          PlotLines(const char* label, float(*values_getter)(void* data, int idx), void* data, int values_count, int values_offset = 0, const char* overlay_text = NULL, float scale_min = FLT_MAX, float scale_max = FLT_MAX, TVector2F graph_size = TVector2F(0, 0));
+AUTO_API void          PlotHistogram(const char* label, const float* values, int values_count, int values_offset = 0, const char* overlay_text = NULL, float scale_min = FLT_MAX, float scale_max = FLT_MAX, TVector2F graph_size = TVector2F(0, 0), int stride = sizeof(float));
+AUTO_API void          PlotHistogram(const char* label, float(*values_getter)(void* data, int idx), void* data, int values_count, int values_offset = 0, const char* overlay_text = NULL, float scale_min = FLT_MAX, float scale_max = FLT_MAX, TVector2F graph_size = TVector2F(0, 0));
 
 // Widgets: Value() Helpers.
 // - Those are merely shortcut to calling Text() with a format string. Output single value in "name: value" format (tip: freely declare more in your code to handle your types. you can add functions to the ImGui namespace)
@@ -522,7 +522,7 @@ AUTO_API void          EndDragDropTarget();                                     
 AUTO_API const Payload* GetDragDropPayload();                                               // peek directly into the current payload from anywhere. may return NULL. use Payload::IsDataType() to test for the payload type.
 
 // Clipping
-AUTO_API void          PushClipRect(const Vector2F& clip_rect_min, const Vector2F& clip_rect_max, bool intersect_with_current_clip_rect);
+AUTO_API void          PushClipRect(const TVector2F& clip_rect_min, const TVector2F& clip_rect_max, bool intersect_with_current_clip_rect);
 AUTO_API void          PopClipRect();
 
 // Focus, Activation
@@ -545,14 +545,14 @@ AUTO_API bool          IsItemDeactivatedAfterEdit();                            
 AUTO_API bool          IsAnyItemHovered();                                                 // is any item hovered?
 AUTO_API bool          IsAnyItemActive();                                                  // is any item active?
 AUTO_API bool          IsAnyItemFocused();                                                 // is any item focused?
-AUTO_API Vector2F      GetItemRectMin();                                                   // get upper-left bounding rectangle of the last item (screen space)
-AUTO_API Vector2F      GetItemRectMax();                                                   // get lower-right bounding rectangle of the last item (screen space)
-AUTO_API Vector2F      GetItemRectSize();                                                  // get size of last item
+AUTO_API TVector2F      GetItemRectMin();                                                   // get upper-left bounding rectangle of the last item (screen space)
+AUTO_API TVector2F      GetItemRectMax();                                                   // get lower-right bounding rectangle of the last item (screen space)
+AUTO_API TVector2F      GetItemRectSize();                                                  // get size of last item
 AUTO_API void          SetItemAllowOverlap();                                              // allow last item to be overlapped by a subsequent item. sometimes useful with invisible buttons, selectables, etc. to catch unused area.
 
 // Miscellaneous Utilities
-AUTO_API bool          IsRectVisible(const Vector2F& size);                                // test if rectangle (of given size, starting from cursor position) is visible / not clipped.
-AUTO_API bool          IsRectVisible(const Vector2F& rect_min, const Vector2F& rect_max);  // test if rectangle (in screen space) is visible / not clipped. to perform coarse clipping on user's side.
+AUTO_API bool          IsRectVisible(const TVector2F& size);                                // test if rectangle (of given size, starting from cursor position) is visible / not clipped.
+AUTO_API bool          IsRectVisible(const TVector2F& rect_min, const TVector2F& rect_max);  // test if rectangle (in screen space) is visible / not clipped. to perform coarse clipping on user's side.
 AUTO_API double        GetTime();                                                          // get global imgui time. incremented by io.DeltaTime every frame.
 AUTO_API int           GetFrameCount();                                                    // get global imgui frame count. incremented by 1 every frame.
 AUTO_API DrawList*	   GetBackgroundDrawList();                                            // this draw list will be the first rendering one. Useful to quickly draw shapes/text behind dear imgui contents.
@@ -561,14 +561,14 @@ AUTO_API DrawListSharedData* GetDrawListSharedData();									   // you may use 
 AUTO_API const char*   GetStyleColorName(Col idx);										   // get a string corresponding to the enum value (for display, saving, etc.).
 AUTO_API void          SetStateStorage(Storage* storage);								   // replace current window storage with our own (if you want to manipulate it yourself, typically clear subsection of it)
 AUTO_API Storage*	   GetStateStorage();
-AUTO_API Vector2F      CalcTextSize(const char* text, const char* text_end = NULL, bool hide_text_after_double_hash = false, float wrap_width = -1.0f);
+AUTO_API TVector2F      CalcTextSize(const char* text, const char* text_end = NULL, bool hide_text_after_double_hash = false, float wrap_width = -1.0f);
 AUTO_API void          CalcListClipping(int items_count, float items_height, int* out_items_display_start, int* out_items_display_end);    // calculate coarse clipping for large list of evenly sized items. Prefer using the ImGuiListClipper higher-level helper if you can.
-AUTO_API bool          BeginChildFrame(ID id, const Vector2F& size, WindowFlags flags = 0); // helper to create a child window / scrolling region that looks like a normal widget frame
+AUTO_API bool          BeginChildFrame(ID id, const TVector2F& size, WindowFlags flags = 0); // helper to create a child window / scrolling region that looks like a normal widget frame
 AUTO_API void          EndChildFrame();                                                    // always call EndChildFrame() regardless of BeginChildFrame() return values (which indicates a collapsed/clipped window)
 
-// Color Utilities
-AUTO_API Vector4F      ColorConvertU32ToFloat4(unsigned in);
-AUTO_API unsigned      ColorConvertFloat4ToU32(const Vector4F& in);
+// FColor Utilities
+AUTO_API TVector4F      ColorConvertU32ToFloat4(unsigned in);
+AUTO_API unsigned      ColorConvertFloat4ToU32(const TVector4F& in);
 AUTO_API void          ColorConvertRGBtoHSV(float r, float g, float b, float& out_h, float& out_s, float& out_v);
 AUTO_API void          ColorConvertHSVtoRGB(float h, float s, float v, float& out_r, float& out_g, float& out_b);
 
@@ -584,11 +584,11 @@ AUTO_API bool          IsMouseClicked(int button, bool repeat = false);         
 AUTO_API bool          IsMouseDoubleClicked(int button);                                   // did mouse button double-clicked. a double-click returns false in IsMouseClicked(). uses io.MouseDoubleClickTime.
 AUTO_API bool          IsMouseReleased(int button);                                        // did mouse button released (went from Down to !Down)
 AUTO_API bool          IsMouseDragging(int button = 0, float lock_threshold = -1.0f);      // is mouse dragging. if lock_threshold < -1.0f uses io.MouseDraggingThreshold
-AUTO_API bool          IsMouseHoveringRect(const Vector2F& r_min, const Vector2F& r_max, bool clip = true);  // is mouse hovering given bounding rect (in screen space). clipped by current clipping settings, but disregarding of other consideration of focus/window ordering/popup-block.
-AUTO_API bool          IsMousePosValid(const Vector2F* mouse_pos = NULL);                  // by convention we use (-FLT_MAX,-FLT_MAX) to denote that there is no mouse
-AUTO_API Vector2F      GetMousePos();                                                      // shortcut to ImGui::GetIO().MousePos provided by user, to be consistent with other calls
-AUTO_API Vector2F      GetMousePosOnOpeningCurrentPopup();                                 // retrieve backup of mouse position at the time of opening popup we have BeginPopup() into
-AUTO_API Vector2F      GetMouseDragDelta(int button = 0, float lock_threshold = -1.0f);    // return the delta from the initial clicking position while the mouse button is pressed or was just released. This is locked and return 0.0f until the mouse moves past a distance threshold at least once. If lock_threshold < -1.0f uses io.MouseDraggingThreshold.
+AUTO_API bool          IsMouseHoveringRect(const TVector2F& r_min, const TVector2F& r_max, bool clip = true);  // is mouse hovering given bounding rect (in screen space). clipped by current clipping settings, but disregarding of other consideration of focus/window ordering/popup-block.
+AUTO_API bool          IsMousePosValid(const TVector2F* mouse_pos = NULL);                  // by convention we use (-FLT_MAX,-FLT_MAX) to denote that there is no mouse
+AUTO_API TVector2F      GetMousePos();                                                      // shortcut to ImGui::GetIO().MousePos provided by user, to be consistent with other calls
+AUTO_API TVector2F      GetMousePosOnOpeningCurrentPopup();                                 // retrieve backup of mouse position at the time of opening popup we have BeginPopup() into
+AUTO_API TVector2F      GetMouseDragDelta(int button = 0, float lock_threshold = -1.0f);    // return the delta from the initial clicking position while the mouse button is pressed or was just released. This is locked and return 0.0f until the mouse moves past a distance threshold at least once. If lock_threshold < -1.0f uses io.MouseDraggingThreshold.
 AUTO_API void          ResetMouseDragDelta(int button = 0);                                //
 AUTO_API MouseCursor   GetMouseCursor();                                                   // get desired cursor type, reset in ImGui::NewFrame(), this is updated during the frame. valid before Render(). If you use software rendering by setting io.MouseDrawCursor ImGui will render those for you
 AUTO_API void          SetMouseCursor(MouseCursor type);								   // set desired cursor type

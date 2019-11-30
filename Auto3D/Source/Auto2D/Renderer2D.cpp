@@ -49,10 +49,10 @@ void Renderer2D::Render(Scene2D* scene, Camera2D* camera)
 	PROFILE(Render2d);
 
 	// Set per-frame values to the frame constant buffers
-	Matrix3x4F viewMatrix = camera->GetViewMatrix();
-	Matrix4x4F projectionMatrix = camera->GetProjectionMatrix();
-	Matrix4x4F viewProjMatrix = projectionMatrix * viewMatrix;
-	Vector4F depthParameters(Vector4F::ZERO);
+	TMatrix3x4F viewMatrix = camera->GetViewMatrix();
+	TMatrix4x4F projectionMatrix = camera->GetProjectionMatrix();
+	TMatrix4x4F viewProjMatrix = projectionMatrix * viewMatrix;
+	TVector4F depthParameters(TVector4F::ZERO);
 	depthParameters._x = camera->GetNearClip();
 	depthParameters._y = camera->GetFarClip();
 	if (camera->IsOrthographic())
@@ -75,7 +75,7 @@ void Renderer2D::Render(Scene2D* scene, Camera2D* camera)
 
 	_vsFrameConstantBuffer->Apply();
 
-	_psFrameConstantBuffer->SetConstant((size_t)0, Color::WHITE);
+	_psFrameConstantBuffer->SetConstant((size_t)0, FColor::WHITE);
 	_psFrameConstantBuffer->Apply();
 
 

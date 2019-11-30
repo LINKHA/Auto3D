@@ -77,7 +77,7 @@ private:
 	/// Instance vertex buffer dirty flag.
 	bool _instanceTransformsDirty;
 	/// Instance transforms for uploading to the instance vertex buffer.
-	TVector<Matrix3x4F> _instanceTransforms;
+	TVector<TMatrix3x4F> _instanceTransforms;
 	/// Per-frame vertex shader constant buffer.
 	TSharedPtr<FConstantBuffer> _vsFrameConstantBuffer;
 	/// Per-object vertex shader constant buffer.

@@ -17,15 +17,15 @@ public:
 	/// Set radius.
 	void SetRadius(float radius);
 	/// Set center.
-	void SetCenter(const Vector2F& center);
+	void SetCenter(const TVector2F& center);
 	/// Set center.
 	void SetCenter(float x, float y);
 	/// Return radius.
 	float GetRadius() const { return _radius; }
 	/// Return center.
-	const Vector2F& GetCenter() const { return _center; }
+	const TVector2F& GetCenter() const { return _center; }
 private:
-	/// Resize form Vector2
+	/// Resize form TVector2
 	void RecreateFixture();
 
 	/// Circle shape.
@@ -33,7 +33,7 @@ private:
 	/// Radius.
 	float _radius;
 	/// Center.
-	Vector2F _center;
+	TVector2F _center;
 };
 
 }

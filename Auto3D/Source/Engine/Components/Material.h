@@ -59,7 +59,7 @@ public:
     bool _depthClip;
     /// Alpha to coverage enable.
     bool _alphaToCoverage;
-    /// Color write mask.
+    /// FColor write mask.
     unsigned char _colorWriteMask;
     /// Blend mode parameters.
     FBlendModeDesc _blendMode;

@@ -6,7 +6,7 @@ namespace Auto3D
 {
 
 /// Three-dimensional vector.
-template<typename _Ty> class AUTO_API Vector3
+template<typename _Ty> class AUTO_API TVector3
 {
 public:
 	/// X coordinate.
@@ -17,7 +17,7 @@ public:
 	_Ty _z;
 
 	/// Construct a zero vector.
-	Vector3() noexcept :
+	TVector3() noexcept :
 		_x(0),
 		_y(0),
 		_z(0)
@@ -25,7 +25,7 @@ public:
 	}
 
 	/// Copy-construct.
-	Vector3(const Vector3& vector) :
+	TVector3(const TVector3& vector) :
 		_x(vector._x),
 		_y(vector._y),
 		_z(vector._z)
@@ -33,7 +33,7 @@ public:
 	}
 
 	/// Construct from a two-dimensional vector and the Z coordinate.
-	Vector3(const Vector2<_Ty>& vector, _Ty z) :
+	TVector3(const TVector2<_Ty>& vector, _Ty z) :
 		_x(vector._x),
 		_y(vector._y),
 		_z(z)
@@ -41,7 +41,7 @@ public:
 	}
 
 	/// Construct from a two-dimensional vector, with Z coordinate left zero.
-	Vector3(const Vector2<_Ty>& vector) :
+	TVector3(const TVector2<_Ty>& vector) :
 		_x(vector._x),
 		_y(vector._y),
 		_z(0.0f)
@@ -49,7 +49,7 @@ public:
 	}
 
 	/// Construct from coordinates.
-	Vector3(_Ty x, _Ty y, _Ty z) :
+	TVector3(_Ty x, _Ty y, _Ty z) :
 		_x(x),
 		_y(y),
 		_z(z)
@@ -57,7 +57,7 @@ public:
 	}
 
 	/// Construct from two-dimensional coordinates, with Z coordinate left zero.
-	Vector3(_Ty x, _Ty y) :
+	TVector3(_Ty x, _Ty y) :
 		_x(x),
 		_y(y),
 		_z(0.0f)
@@ -65,7 +65,7 @@ public:
 	}
 
 	/// Construct from a _Ty array.
-	Vector3(const _Ty* _data) :
+	TVector3(const _Ty* _data) :
 		_x(_data[0]),
 		_y(_data[1]),
 		_z(_data[2])
@@ -73,13 +73,13 @@ public:
 	}
 
 	/// Construct by parsing a string.
-	Vector3(const FString& str)
+	TVector3(const FString& str)
 	{
 		FromString(str);
 	}
 
 	/// Assign from another vector.
-	Vector3& operator = (const Vector3& rhs)
+	TVector3& operator = (const TVector3& rhs)
 	{
 		_x = rhs._x;
 		_y = rhs._y;
@@ -88,26 +88,26 @@ public:
 	}
 
 	/// Test for equality with another vector without epsilon.
-	bool operator == (const Vector3& rhs) const { return _x == rhs._x && _y == rhs._y && _z == rhs._z; }
+	bool operator == (const TVector3& rhs) const { return _x == rhs._x && _y == rhs._y && _z == rhs._z; }
 	/// Test for inequality with another vector without epsilon.
-	bool operator != (const Vector3& rhs) const { return !(*this == rhs); }
+	bool operator != (const TVector3& rhs) const { return !(*this == rhs); }
 	/// Add a vector.
-	Vector3 operator + (const Vector3& rhs) const { return Vector3(_x + rhs._x, _y + rhs._y, _z + rhs._z); }
+	TVector3 operator + (const TVector3& rhs) const { return TVector3(_x + rhs._x, _y + rhs._y, _z + rhs._z); }
 	/// Return negation.
-	Vector3 operator - () const { return Vector3(-_x, -_y, -_z); }
+	TVector3 operator - () const { return TVector3(-_x, -_y, -_z); }
 	/// Subtract a vector.
-	Vector3 operator - (const Vector3& rhs) const { return Vector3(_x - rhs._x, _y - rhs._y, _z - rhs._z); }
+	TVector3 operator - (const TVector3& rhs) const { return TVector3(_x - rhs._x, _y - rhs._y, _z - rhs._z); }
 	/// Multiply with a scalar.
-	Vector3 operator * (_Ty rhs) const { return Vector3(_x * rhs, _y * rhs, _z * rhs); }
+	TVector3 operator * (_Ty rhs) const { return TVector3(_x * rhs, _y * rhs, _z * rhs); }
 	/// Multiply with a vector.
-	Vector3 operator * (const Vector3& rhs) const { return Vector3(_x * rhs._x, _y * rhs._y, _z * rhs._z); }
+	TVector3 operator * (const TVector3& rhs) const { return TVector3(_x * rhs._x, _y * rhs._y, _z * rhs._z); }
 	/// Divide by a scalar.
-	Vector3 operator / (_Ty rhs) const { return Vector3(_x / rhs, _y / rhs, _z / rhs); }
+	TVector3 operator / (_Ty rhs) const { return TVector3(_x / rhs, _y / rhs, _z / rhs); }
 	/// Divide by a vector.
-	Vector3 operator / (const Vector3& rhs) const { return Vector3(_x / rhs._x, _y / rhs._y, _z / rhs._z); }
+	TVector3 operator / (const TVector3& rhs) const { return TVector3(_x / rhs._x, _y / rhs._y, _z / rhs._z); }
 
 	/// Add-assign a vector.
-	Vector3& operator += (const Vector3& rhs)
+	TVector3& operator += (const TVector3& rhs)
 	{
 		_x += rhs._x;
 		_y += rhs._y;
@@ -116,7 +116,7 @@ public:
 	}
 
 	/// Subtract-assign a vector.
-	Vector3& operator -= (const Vector3& rhs)
+	TVector3& operator -= (const TVector3& rhs)
 	{
 		_x -= rhs._x;
 		_y -= rhs._y;
@@ -125,7 +125,7 @@ public:
 	}
 
 	/// Multiply-assign a scalar.
-	Vector3& operator *= (_Ty rhs)
+	TVector3& operator *= (_Ty rhs)
 	{
 		_x *= rhs;
 		_y *= rhs;
@@ -134,7 +134,7 @@ public:
 	}
 
 	/// Multiply-assign a vector.
-	Vector3& operator *= (const Vector3& rhs)
+	TVector3& operator *= (const TVector3& rhs)
 	{
 		_x *= rhs._x;
 		_y *= rhs._y;
@@ -143,7 +143,7 @@ public:
 	}
 
 	/// Divide-assign a scalar.
-	Vector3& operator /= (_Ty rhs)
+	TVector3& operator /= (_Ty rhs)
 	{
 		_Ty invRhs = 1.0f / rhs;
 		_x *= invRhs;
@@ -153,7 +153,7 @@ public:
 	}
 
 	/// Divide-assign a vector.
-	Vector3& operator /= (const Vector3& rhs)
+	TVector3& operator /= (const TVector3& rhs)
 	{
 		_x /= rhs._x;
 		_y /= rhs._y;
@@ -200,14 +200,14 @@ public:
 	/// Return squared length.
 	_Ty LengthSquared() const { return _x * _x + _y * _y + _z * _z; }
 	/// Calculate dot product.
-	_Ty DotProduct(const Vector3& rhs) const { return _x * rhs._x + _y * rhs._y + _z * rhs._z; }
+	_Ty DotProduct(const TVector3& rhs) const { return _x * rhs._x + _y * rhs._y + _z * rhs._z; }
 	/// Calculate absolute dot product.
-	_Ty AbsDotProduct(const Vector3& rhs) const { return Auto3D::Abs(_x * rhs._x) + Auto3D::Abs(_y * rhs._y) + Auto3D::Abs(_z * rhs._z); }
+	_Ty AbsDotProduct(const TVector3& rhs) const { return Auto3D::Abs(_x * rhs._x) + Auto3D::Abs(_y * rhs._y) + Auto3D::Abs(_z * rhs._z); }
 
 	/// Calculate cross product.
-	Vector3 CrossProduct(const Vector3& rhs) const
+	TVector3 CrossProduct(const TVector3& rhs) const
 	{
-		return Vector3(
+		return TVector3(
 			_y * rhs._z - _z * rhs._y,
 			_z * rhs._x - _x * rhs._z,
 			_x * rhs._y - _y * rhs._x
@@ -215,18 +215,18 @@ public:
 	}
 
 	/// Return absolute vector.
-	Vector3 Abs() const { return Vector3(Auto3D::Abs(_x), Auto3D::Abs(_y), Auto3D::Abs(_z)); }
+	TVector3 Abs() const { return TVector3(Auto3D::Abs(_x), Auto3D::Abs(_y), Auto3D::Abs(_z)); }
 	/// Linear interpolation with another vector.
-	Vector3 Lerp(const Vector3& rhs, _Ty t) const { return *this * (1.0f - t) + rhs * t; }
+	TVector3 Lerp(const TVector3& rhs, _Ty t) const { return *this * (1.0f - t) + rhs * t; }
 	/// Test for equality with another vector with epsilon.
-	bool Equals(const Vector3& rhs) const { return Auto3D::Equals(_x, rhs._x) && Auto3D::Equals(_y, rhs._y) && Auto3D::Equals(_z, rhs._z); }
+	bool Equals(const TVector3& rhs) const { return Auto3D::Equals(_x, rhs._x) && Auto3D::Equals(_y, rhs._y) && Auto3D::Equals(_z, rhs._z); }
 	/// Return the angle between this vector and another vector in degrees.
-	_Ty Angle(const Vector3& rhs) const { return Auto3D::Acos(DotProduct(rhs) / (Length() * rhs.Length())); }
+	_Ty Angle(const TVector3& rhs) const { return Auto3D::Acos(DotProduct(rhs) / (Length() * rhs.Length())); }
 	/// Return whether is NaN.
 	bool IsNaN() const { return Auto3D::IsNaN(_x) || Auto3D::IsNaN(_y) || Auto3D::IsNaN(_z); }
 
 	/// Return normalized to unit length.
-	Vector3 Normalized() const
+	TVector3 Normalized() const
 	{
 		_Ty lenSquared = LengthSquared();
 		if (!Auto3D::Equals(lenSquared, 1.0f) && lenSquared > 0.0f)
@@ -250,50 +250,50 @@ public:
 
 
 	/// Zero vector.
-	static const Vector3 ZERO;
+	static const TVector3 ZERO;
 	/// (-1,0,0) vector.
-	static const Vector3 LEFT;
+	static const TVector3 LEFT;
 	/// (1,0,0) vector.
-	static const Vector3 RIGHT;
+	static const TVector3 RIGHT;
 	/// (0,1,0) vector.
-	static const Vector3 UP;
+	static const TVector3 UP;
 	/// (0,-1,0) vector.
-	static const Vector3 DOWN;
+	static const TVector3 DOWN;
 	/// (0,0,1) vector.
-	static const Vector3 FORWARD;
+	static const TVector3 FORWARD;
 	/// (0,0,-1) vector.
-	static const Vector3 BACK;
+	static const TVector3 BACK;
 	/// (1,1,1) vector.
-	static const Vector3 ONE;
+	static const TVector3 ONE;
 };
 
 /// Construct by parsing a C string.
-Vector3<char>::Vector3(const char* str)
+TVector3<char>::TVector3(const char* str)
 {
 	FromString(str);
 }
 	
-/// Multiply Vector3 with a scalar.
-template <typename _Ty> Vector3<_Ty> operator * (_Ty lhs, const Vector3<_Ty>& rhs) { return rhs * lhs; }
+/// Multiply TVector3 with a scalar.
+template <typename _Ty> TVector3<_Ty> operator * (_Ty lhs, const TVector3<_Ty>& rhs) { return rhs * lhs; }
 
-using Vector3F = Vector3<float>;
+using TVector3F = TVector3<float>;
 
-using Vector3I = Vector3<int>;
+using TVector3I = TVector3<int>;
 
-using Vector3C = Vector3<char>;
+using TVector3C = TVector3<char>;
 
-using Vector3D = Vector3<double>;
+using TVector3D = TVector3<double>;
 
-using Vector3U = Vector3<unsigned>;
+using TVector3U = TVector3<unsigned>;
 
-template<typename _Ty> Vector3<_Ty> Cross(const Vector3<_Ty>& x, const Vector3<_Ty>& y)
+template<typename _Ty> TVector3<_Ty> Cross(const TVector3<_Ty>& x, const TVector3<_Ty>& y)
 {
-	return Vector3<_Ty>(
+	return TVector3<_Ty>(
 		x._y * y._z - y._y * x._z,
 		x._z * y._x - y._z * x._x,
 		x._x * y._y - y._x * x._y);
 }
 /// Peform the dot product on two vectors.
-template<typename _Ty> inline _Ty Dot(const Vector3<_Ty>& a, const Vector3<_Ty>& b) { Vector3<_Ty>tmp(a*b); return tmp._x + tmp._y+ tmp._z; }
+template<typename _Ty> inline _Ty Dot(const TVector3<_Ty>& a, const TVector3<_Ty>& b) { TVector3<_Ty>tmp(a*b); return tmp._x + tmp._y+ tmp._z; }
 
 }

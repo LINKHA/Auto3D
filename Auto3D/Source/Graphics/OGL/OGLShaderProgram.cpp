@@ -239,7 +239,7 @@ void FShaderProgram::SetFloat(const FString& name, float value) const
 	glUniform1f(glGetUniformLocation(_program, name.CString()), value);
 }
 
-void FShaderProgram::SetVec2(const FString& name, const Vector2F& value) const
+void FShaderProgram::SetVec2(const FString& name, const TVector2F& value) const
 {
 	glUniform2fv(glGetUniformLocation(_program, name.CString()), 1, value.Data());
 }
@@ -254,7 +254,7 @@ void FShaderProgram::SetVec2s(const FString& name, int size, float* pVec2) const
 	glUniform2fv(glGetUniformLocation(_program, name.CString()),size , pVec2);
 }
 
-void FShaderProgram::SetVec3(const FString& name, const Vector3F& value) const
+void FShaderProgram::SetVec3(const FString& name, const TVector3F& value) const
 {
 	glUniform3fv(glGetUniformLocation(_program, name.CString()), 1, value.Data());
 }
@@ -269,7 +269,7 @@ void FShaderProgram::SetVec3s(const FString& name, int size, float* pVec3) const
 	glUniform3fv(glGetUniformLocation(_program, name.CString()), size, pVec3);
 }
 
-void FShaderProgram::SetVec4(const FString& name, const Vector4F& value) const
+void FShaderProgram::SetVec4(const FString& name, const TVector4F& value) const
 {
 	glUniform4fv(glGetUniformLocation(_program, name.CString()), 1, value.Data());
 }
@@ -284,17 +284,17 @@ void FShaderProgram::SetVec4s(const FString& name, int size, float* pVec4)
 	glUniform4fv(glGetUniformLocation(_program, name.CString()), size, pVec4);
 }
 
-void FShaderProgram::SetMat2(const FString& name, const Matrix2x2F& mat) const
+void FShaderProgram::SetMat2(const FString& name, const TMatrix2x2F& mat) const
 {
 	glUniformMatrix2fv(glGetUniformLocation(_program, name.CString()), 1, GL_FALSE, mat.Data());
 }
 
-void FShaderProgram::SetMat3(const FString& name, const Matrix3x3F& mat) const
+void FShaderProgram::SetMat3(const FString& name, const TMatrix3x3F& mat) const
 {
 	glUniformMatrix3fv(glGetUniformLocation(_program, name.CString()), 1, GL_FALSE, mat.Data());
 }
 
-void FShaderProgram::SetMat4(const FString& name, const Matrix4x4F& mat) const
+void FShaderProgram::SetMat4(const FString& name, const TMatrix4x4F& mat) const
 {
 	glUniformMatrix4fv(glGetUniformLocation(_program, name.CString()), 1, GL_FALSE, mat.Data());
 }

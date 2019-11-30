@@ -61,7 +61,7 @@ protected:
 	/// Rigidbody form this collider
 	TWeakPtr<RigidBody> _rigidBody;
 	/// Cached world scale.
-	Vector3F _cachedWorldScale;
+	TVector3F _cachedWorldScale;
 	/// Shape form this collider
 	TUniquePtr<btCollisionShape> _shape;
 	/// Shape type

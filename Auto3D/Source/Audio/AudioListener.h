@@ -17,16 +17,16 @@ public:
 	/// Register factory and attributes.
 	static void RegisterObject();
 
-	const Vector3F GetVel()const { return _listenerVel; }
-	const Vector3F GetOriAt()const { return _listenerOriAt; }
-	const Vector3F GetOriUp()const { return _listenerOriUp; }
+	const TVector3F GetVel()const { return _listenerVel; }
+	const TVector3F GetOriAt()const { return _listenerOriAt; }
+	const TVector3F GetOriUp()const { return _listenerOriUp; }
 private:
 	//Listener speed
-	Vector3F _listenerVel;
+	TVector3F _listenerVel;
 	// Listener direction elements are at
-	Vector3F _listenerOriAt;
+	TVector3F _listenerOriAt;
 	// Listener direction elements are up
-	Vector3F _listenerOriUp;
+	TVector3F _listenerOriUp;
 };
 
 }

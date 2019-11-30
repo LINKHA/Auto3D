@@ -8,7 +8,7 @@ namespace Auto3D
 
 
 ColliderBox::ColliderBox(): 
-	_size(Vector3F::ONE)
+	_size(TVector3F::ONE)
 {
 	_shapeType = ShapeType::BOX;
 }
@@ -22,7 +22,7 @@ void ColliderBox::RegisterObject()
 	RegisterFactory<ColliderBox>();
 }
 
-void ColliderBox::SetSize(const Vector3F& vec)
+void ColliderBox::SetSize(const TVector3F& vec)
 {
 	_size = vec;
 	Resize(_size);
@@ -30,18 +30,18 @@ void ColliderBox::SetSize(const Vector3F& vec)
 
 void ColliderBox::SetSize(float x, float y, float z)
 {
-	_size = Vector3F(x, y, z);
+	_size = TVector3F(x, y, z);
 	Resize(_size);
 }
 
 void ColliderBox::SetSize(float scale)
 {
-	_size = Vector3F(scale, scale, scale);
+	_size = TVector3F(scale, scale, scale);
 	Resize(_size);
 }
 
 
-void ColliderBox::Resize(const Vector3F& vec)
+void ColliderBox::Resize(const TVector3F& vec)
 {
 	ReleaseShape();
 	_shape.Reset();

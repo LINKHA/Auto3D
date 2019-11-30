@@ -220,7 +220,7 @@ struct DDSurfaceDesc2
 /// \endcond
 
 AImage::AImage() :
-    _size(Vector2I::ZERO),
+    _size(TVector2I::ZERO),
     _format(EImageFormat::NONE),
     _numLevels(1)
 {
@@ -270,7 +270,7 @@ bool AImage::BeginLoad(FStream& source)
 #endif
         size_t dataSize = source.Size() - source.Position();
         _data = new unsigned char[dataSize];
-        _size = Vector2I(ddsd.dwWidth, ddsd.dwHeight);
+        _size = TVector2I(ddsd.dwWidth, ddsd.dwHeight);
         _numLevels = ddsd.dwMipMapCount ? ddsd.dwMipMapCount : 1;
         source.Read(_data.Get(), dataSize);
     }
@@ -363,7 +363,7 @@ bool AImage::BeginLoad(FStream& source)
         size_t dataSize = source.Size() - source.Position() - mipmaps * sizeof(unsigned);
 
         _data = new unsigned char[dataSize];
-        _size = Vector2I(imageWidth, imageHeight);
+        _size = TVector2I(imageWidth, imageHeight);
         _numLevels = mipmaps;
 
         size_t dataOffset = 0;
@@ -456,7 +456,7 @@ bool AImage::BeginLoad(FStream& source)
         size_t dataSize = source.Size() - source.Position();
 
         _data = new unsigned char[dataSize];
-        _size = Vector2I(imageWidth, imageHeight);
+        _size = TVector2I(imageWidth, imageHeight);
         _numLevels = mipmapCount;
 
         source.Read(_data.Get(), dataSize);
@@ -474,7 +474,7 @@ bool AImage::BeginLoad(FStream& source)
             return false;
         }
         
-        SetSize(Vector2I(imageWidth, imageHeight), componentsToFormat[imageComponents]);
+        SetSize(TVector2I(imageWidth, imageHeight), componentsToFormat[imageComponents]);
 
         if (imageComponents != 3)
             SetData(pixelData);
@@ -531,7 +531,7 @@ bool AImage::Save(FStream& dest)
     return success;
 }
 
-void AImage::SetSize(const Vector2I& newSize, EImageFormat::Type newFormat)
+void AImage::SetSize(const TVector2I& newSize, EImageFormat::Type newFormat)
 {
     if (newSize == _size && newFormat == _format)
         return;
@@ -589,7 +589,7 @@ bool AImage::GenerateMipImage(AImage& dest) const
         return false;
     }
 
-    Vector2I sizeOut(Max(_size._x / 2, 1), Max(_size._y / 2, 1));
+    TVector2I sizeOut(Max(_size._x / 2, 1), Max(_size._y / 2, 1));
     dest.SetSize(sizeOut, _format);
 
     const unsigned char* pixelDataIn = _data.Get();
@@ -657,7 +657,7 @@ FImageLevel AImage::GetLevel(size_t index) const
 
     for (;;)
     {
-        level._size = Vector2I(Max(_size._x >> i, 1), Max(_size._y >> i, 1));
+        level._size = TVector2I(Max(_size._x >> i, 1), Max(_size._y >> i, 1));
         level._data = _data.Get() + offset;
 
         size_t dataSize = CalculateDataSize(level._size, _format, &level._rows, &level._rowSize);
@@ -670,7 +670,7 @@ FImageLevel AImage::GetLevel(size_t index) const
 }
 
 
-SDL_Surface* AImage::GetSDLSurface(const RectI& rect) const
+SDL_Surface* AImage::GetSDLSurface(const TRectI& rect) const
 {
 	if (!_data)
 		return nullptr;
@@ -687,7 +687,7 @@ SDL_Surface* AImage::GetSDLSurface(const RectI& rect) const
 		return nullptr;
 	}
 
-	RectI imageRect = rect;
+	TRectI imageRect = rect;
 	// Use full image if illegal rect
 	if (imageRect.Left() < 0 || imageRect.Top() < 0 || imageRect.Right() > _size._x || imageRect.Bottom() > _size._y ||
 		imageRect.Left() >= imageRect.Right() || imageRect.Top() >= imageRect.Bottom())
@@ -777,7 +777,7 @@ bool AImage::DecompressLevel(unsigned char* dest, size_t index) const
 }
 #endif
 
-size_t AImage::CalculateDataSize(const Vector2I& _size, EImageFormat::Type _format, size_t* dstRows, size_t* dstRowSize)
+size_t AImage::CalculateDataSize(const TVector2I& _size, EImageFormat::Type _format, size_t* dstRows, size_t* dstRowSize)
 {
     size_t rows, rowSize, dataSize;
 #ifndef AUTO_OPENGL_ES

@@ -41,7 +41,7 @@ public:
 	/// Set listener (if listener NULL this subsystem cant run)
 	void SetListener(AAudioListener* listener);
 	/// Set listener value
-	void SetListenerValue(Vector3F position, Vector3F listenerVel, Vector3F listenerOriAt, Vector3F listenerOriUp);
+	void SetListenerValue(TVector3F position, TVector3F listenerVel, TVector3F listenerOriAt, TVector3F listenerOriUp);
 	/// The first person delays ms according to the buffer play
 	void SourcePlay(unsigned source,int delay = 0);
 	/// The first person delays ms according to the buffer play
@@ -63,7 +63,7 @@ public:
 	/// Set gain of source address
 	void SetGain(unsigned source, float val);
 	/// Set vel of source address
-	void SetVel(unsigned source, Vector3F vel);
+	void SetVel(unsigned source, TVector3F vel);
 	/// Set get state of source
 	EAudioSourceState::Type GetState(unsigned source);
 	/// Set get state of source

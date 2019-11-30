@@ -8,8 +8,8 @@
 namespace Auto3D
 {
 
-/// Frustum planes.
-namespace FrustumPlane
+/// FFrustum planes.
+namespace EFrustumPlane
 {
 	enum Type
 	{
@@ -27,37 +27,37 @@ static const size_t NUM_FRUSTUM_PLANES = 6;
 static const size_t NUM_FRUSTUM_VERTICES = 8;
 
 /// Convex constructed of 6 planes.
-class AUTO_API Frustum
+class AUTO_API FFrustum
 {
 public:
-    /// Frustum planes.
-    Plane _planes[NUM_FRUSTUM_PLANES];
-    /// Frustum vertices.
-    Vector3F _vertices[NUM_FRUSTUM_VERTICES];
+    /// FFrustum planes.
+    FPlane _planes[NUM_FRUSTUM_PLANES];
+    /// FFrustum vertices.
+    TVector3F _vertices[NUM_FRUSTUM_VERTICES];
     
     /// Construct a degenerate frustum with all points at origin.
-    Frustum();
+    FFrustum();
     /// Copy-construct.
-    Frustum(const Frustum& frustum);
+    FFrustum(const FFrustum& frustum);
     
     /// Assign from another frustum.
-    Frustum& operator = (const Frustum& rhs);
+    FFrustum& operator = (const FFrustum& rhs);
     
     /// Define with projection parameters and a transform matrix.
-    void Define(float fov, float aspectRatio, float zoom, float nearZ, float farZ, const Matrix3x4F& transform = Matrix3x4F::IDENTITY);
+    void Define(float fov, float aspectRatio, float zoom, float nearZ, float farZ, const TMatrix3x4F& transform = TMatrix3x4F::IDENTITY);
     /// Define with near and far dimension vectors and a transform matrix.
-    void Define(const Vector3F& near, const Vector3F& far, const Matrix3x4F& transform = Matrix3x4F::IDENTITY);
+    void Define(const TVector3F& near, const TVector3F& far, const TMatrix3x4F& transform = TMatrix3x4F::IDENTITY);
     /// Define with a bounding box and a transform matrix.
-    void Define(const BoundingBoxF& box, const Matrix3x4F& transform = Matrix3x4F::IDENTITY);
+    void Define(const TBoundingBoxF& box, const TMatrix3x4F& transform = TMatrix3x4F::IDENTITY);
     /// Define with orthographic projection parameters and a transform matrix.
-    void DefineOrtho(float orthoSize, float aspectRatio, float zoom, float nearZ, float farZ, const Matrix3x4F& transform = Matrix3x4F::IDENTITY);
+    void DefineOrtho(float orthoSize, float aspectRatio, float zoom, float nearZ, float farZ, const TMatrix3x4F& transform = TMatrix3x4F::IDENTITY);
     /// Transform by a 3x3 matrix.
-    void Transform(const Matrix3x3F& transform);
+    void Transform(const TMatrix3x3F& transform);
     /// Transform by a 3x4 matrix.
-    void Transform(const Matrix3x4F& transform);
+    void Transform(const TMatrix3x4F& transform);
     
     /// Test if a point is inside or outside.
-    Intersection IsInside(const Vector3F& point) const
+    Intersection IsInside(const TVector3F& point) const
     {
         for (size_t i = 0; i < NUM_FRUSTUM_PLANES; ++i)
         {
@@ -69,7 +69,7 @@ public:
     }
     
     /// Test if a sphere is inside, outside or intersects.
-    Intersection IsInside(const Sphere& sphere) const
+    Intersection IsInside(const FSphere& sphere) const
     {
         bool allInside = true;
         for (size_t i = 0; i < NUM_FRUSTUM_PLANES; ++i)
@@ -85,7 +85,7 @@ public:
     }
     
     /// Test if a sphere if (partially) inside or outside.
-    Intersection IsInsideFast(const Sphere& sphere) const
+    Intersection IsInsideFast(const FSphere& sphere) const
     {
         for (size_t i = 0; i < NUM_FRUSTUM_PLANES; ++i)
         {
@@ -97,15 +97,15 @@ public:
     }
     
     /// Test if a bounding box is inside, outside or intersects.
-    Intersection IsInside(const BoundingBoxF& box) const
+    Intersection IsInside(const TBoundingBoxF& box) const
     {
-        Vector3F center = box.Center();
-        Vector3F edge = center - box._min;
+        TVector3F center = box.Center();
+        TVector3F edge = center - box._min;
         bool allInside = true;
         
         for (size_t i = 0; i < NUM_FRUSTUM_PLANES; ++i)
         {
-            const Plane& plane = _planes[i];
+            const FPlane& plane = _planes[i];
             float dist = plane._normal.DotProduct(center) + plane._d;
             float absDist = plane._absNormal.DotProduct(edge);
             
@@ -119,14 +119,14 @@ public:
     }
     
     /// Test if a bounding box is (partially) inside or outside.
-    Intersection IsInsideFast(const BoundingBoxF& box) const
+    Intersection IsInsideFast(const TBoundingBoxF& box) const
     {
-        Vector3F center = box.Center();
-        Vector3F edge = center - box._min;
+        TVector3F center = box.Center();
+        TVector3F edge = center - box._min;
         
         for (size_t i = 0; i < NUM_FRUSTUM_PLANES; ++i)
         {
-            const Plane& plane = _planes[i];
+            const FPlane& plane = _planes[i];
             float dist = plane._normal.DotProduct(center) + plane._d;
             float absDist = plane._absNormal.DotProduct(edge);
             
@@ -138,7 +138,7 @@ public:
     }
     
     /// Return distance of a point to the frustum, or 0 if inside.
-    float Distance(const Vector3F& point) const
+    float Distance(const TVector3F& point) const
     {
         float distance = 0.0f;
         for (size_t i = 0; i < NUM_FRUSTUM_PLANES; ++i)
@@ -148,11 +148,11 @@ public:
     }
     
     /// Return transformed by a 3x3 matrix.
-    Frustum Transformed(const Matrix3x3F& transform) const;
+    FFrustum Transformed(const TMatrix3x3F& transform) const;
     /// Return transformed by a 3x4 matrix.
-    Frustum Transformed(const Matrix3x4F& transform) const;
+    FFrustum Transformed(const TMatrix3x4F& transform) const;
     /// Return projected by a 4x4 projection matrix.
-    RectF Projected(const Matrix4x4F& transform) const;
+    TRectF Projected(const TMatrix4x4F& transform) const;
     
     /// Update the planes. Called internally.
     void UpdatePlanes();

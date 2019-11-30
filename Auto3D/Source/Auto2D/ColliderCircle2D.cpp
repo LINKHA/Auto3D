@@ -7,7 +7,7 @@ static const float DEFAULT_CLRCLE_RADIUS(0.01f);
 
 ColliderCircle2D::ColliderCircle2D() :
 	_radius(DEFAULT_CLRCLE_RADIUS),
-	_center(Vector2F::ZERO)
+	_center(TVector2F::ZERO)
 {
 	_circleShape.m_radius = DEFAULT_CLRCLE_RADIUS;
 	_fixtureDef.shape = &_circleShape;
@@ -31,7 +31,7 @@ void ColliderCircle2D::SetRadius(float radius)
 }
 
 
-void ColliderCircle2D::SetCenter(const Vector2F& center)
+void ColliderCircle2D::SetCenter(const TVector2F& center)
 {
 	if (center == _center)
 		return;
@@ -44,7 +44,7 @@ void ColliderCircle2D::SetCenter(const Vector2F& center)
 
 void ColliderCircle2D::SetCenter(float x, float y)
 {
-	SetCenter(Vector2F(x, y));
+	SetCenter(TVector2F(x, y));
 }
 
 void ColliderCircle2D::RecreateFixture()

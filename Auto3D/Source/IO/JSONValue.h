@@ -69,11 +69,11 @@ public:
     /// Construct from a floating point number.
     FJSONValue(double value);
 	/// Construct from a vector2
-	FJSONValue(const Vector2F& value);
+	FJSONValue(const TVector2F& value);
 	/// Construct from a vector3
-	FJSONValue(const Vector3F& value);
+	FJSONValue(const TVector3F& value);
 	/// Construct from a vector4
-	FJSONValue(const Vector4F& value);
+	FJSONValue(const TVector4F& value);
     /// Construct from a string.
     FJSONValue(const FString& value);
     /// Construct from a C string.
@@ -98,11 +98,11 @@ public:
     /// Assign a floating point number.
     FJSONValue& operator = (double rhs);
 	/// Assign a vetor2
-	FJSONValue& operator = (const Vector2F& value);
+	FJSONValue& operator = (const TVector2F& value);
 	/// Assign a vetor3
-	FJSONValue& operator = (const Vector3F& value);
+	FJSONValue& operator = (const TVector3F& value);
 	/// Assign a vetor4
-	FJSONValue& operator = (const Vector4F& value);
+	FJSONValue& operator = (const TVector4F& value);
     /// Assign a string.
     FJSONValue& operator = (const FString& value);
     /// Assign a C string.
@@ -190,11 +190,11 @@ public:
     /// Return value as a number, or zero on type mismatch.
     double GetNumber() const { return _type == EJSONType::NUMBER ? _data.numberValue : 0.0; }
 	/// Return value as a vector2, or zero on type mismatch.
-	const Vector2F& GetVector2() const { return _type == EJSONType::VECTOR2 ? *(reinterpret_cast<const Vector2F*>(&_data)) : Vector2F::ZERO; }
+	const TVector2F& GetVector2() const { return _type == EJSONType::VECTOR2 ? *(reinterpret_cast<const TVector2F*>(&_data)) : TVector2F::ZERO; }
 	/// Return value as a vector3, or zero on type mismatch.
-	const Vector3F& GetVector3() const { return _type == EJSONType::VECTOR3 ? *(reinterpret_cast<const Vector3F*>(&_data)) : Vector3F::ZERO; }
+	const TVector3F& GetVector3() const { return _type == EJSONType::VECTOR3 ? *(reinterpret_cast<const TVector3F*>(&_data)) : TVector3F::ZERO; }
 	/// Return value as a vector4, or zero on type mismatch.
-	const Vector4F& GetVector4() const { return _type == EJSONType::VECTOR4 ? *(reinterpret_cast<const Vector4F*>(&_data)) : Vector4F::ZERO; }
+	const TVector4F& GetVector4() const { return _type == EJSONType::VECTOR4 ? *(reinterpret_cast<const TVector4F*>(&_data)) : TVector4F::ZERO; }
     /// Return value as a string, or empty string on type mismatch.
     const FString& GetString() const { return _type == EJSONType::STRING ? *(reinterpret_cast<const FString*>(&_data)) : FString::EMPTY; }
     /// Return value as an array, or empty on type mismatch.
@@ -222,11 +222,11 @@ private:
     /// Append indent spaces to the destination.
     static void WriteIndent(FString& dest, int indent);
 	/// Read a vector2 in JSON format from a stream. Return true on success.
-	static bool ReadJSONVector2(Vector2F& dest, const char*& pos, const char*& end);
+	static bool ReadJSONVector2(TVector2F& dest, const char*& pos, const char*& end);
 	/// Read a vector3 in JSON format from a stream. Return true on success.
-	static bool ReadJSONVector3(Vector3F& dest, const char*& pos, const char*& end);
+	static bool ReadJSONVector3(TVector3F& dest, const char*& pos, const char*& end);
 	/// Read a vector4 in JSON format from a stream. Return true on success.
-	static bool ReadJSONVector4(Vector4F& dest, const char*& pos, const char*& end);
+	static bool ReadJSONVector4(TVector4F& dest, const char*& pos, const char*& end);
     /// Read a string in JSON format from a stream. Return true on success.
     static bool ReadJSONString(FString& dest, const char*& pos, const char*& end, bool inQuote);
     /// Match until the end of a string. Return true if successfully matched.

@@ -15,7 +15,7 @@ class AUTO_API WindowResizeEvent : public FEvent
 {
 public:
 	///New _window size.
-	Vector2I _size;
+	TVector2I _size;
 };
 
 /// Operating system _window, Win32 implementation.
@@ -41,15 +41,15 @@ public:
 	/// Set window icon
 	void SetIcon(AImage* icon);
 	/// Set _window _size. Open the _window if not opened yet. Return true on success.
-	bool SetSize(const RectI& rect, int multisample = 1, bool fullscreen = false, bool resizable = false,bool center = true, bool borderless = false, bool highDPI = false);
+	bool SetSize(const TRectI& rect, int multisample = 1, bool fullscreen = false, bool resizable = false,bool center = true, bool borderless = false, bool highDPI = false);
 	/// Set _window _position.
-	void SetPosition(const Vector2I& position);
+	void SetPosition(const TVector2I& position);
 	/// Set mouse cursor visible. Default is true. When hidden, the mouse cursor is confined to the _window and kept centered; relative mouse motion can be read "endlessly" but absolute mouse _position should not be used.
 	void SetMouseHide(bool enable);
 	/// Set mouse cusor lock in window
 	void SetMouseLock(bool enable);
 	/// Move the mouse cursor to a _window top-left relative _position.
-	void SetMousePosition(const Vector2I& position);
+	void SetMousePosition(const TVector2I& position);
 	/// Set multi sample point num
 	void SetMultisample(unsigned multi) { _multisample = multi; }
 	/// Create window icon
@@ -70,17 +70,17 @@ public:
 	/// Return window title.
 	const FString& GetTitle() const { return _title; }
 	/// Return window rect
-	const RectI& GetRect() const { return _rect; }
+	const TRectI& GetRect() const { return _rect; }
 	/// Return _window client area _size.
-	const Vector2I GetSize() const { return Vector2I(_rect.Width(), _rect.Height()); }
+	const TVector2I GetSize() const { return TVector2I(_rect.Width(), _rect.Height()); }
 	/// Return _window client area width.
 	int GetWidth() const { return _rect.Width(); }
 	/// Return _window client area height.
 	int GetHeight() const { return _rect.Height(); }
 	/// Return _window _position.
-	const Vector2I GetPosition() const;
+	const TVector2I GetPosition() const;
 	/// Return last known mouse cursor _position relative to _window top-left.
-	const Vector2I& GetMousePosition() const { return _mousePosition; }
+	const TVector2I& GetMousePosition() const { return _mousePosition; }
 	/// Return close flags
 	bool IsCloseing() const { return _close; }
 	/// Return whether _window is open.
@@ -125,15 +125,15 @@ private:
 	/// Window _title.
 	FString _title;
 	/// Window rect
-	RectI _rect;
+	TRectI _rect;
 	/// Last stored windowed mode position.
-	Vector2I _savedPosition;
+	TVector2I _savedPosition;
 	/// Current mouse cursor position.
-	Vector2I _mousePosition;
+	TVector2I _mousePosition;
 	/// Mouse wheel offset
-	Vector2I _mouseWheelOffset;
+	TVector2I _mouseWheelOffset;
 	/// Mouse wheel move
-	Vector2I _mouseMoveWheel;
+	TVector2I _mouseMoveWheel;
 
 	/// Window close flag
 	bool _close;

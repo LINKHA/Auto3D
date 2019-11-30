@@ -11,7 +11,7 @@ namespace Auto3D
 class FString;
 
 /// RGBA color.
-class AUTO_API Color
+class AUTO_API FColor
 {
 public:
     /// Red value.
@@ -24,12 +24,12 @@ public:
 	union { float _a, _alpha; };
 
     /// Construct undefined.
-    Color()
+    FColor()
     {
     }
     
     /// Copy-construct.
-    Color(const Color& color) :
+    FColor(const FColor& color) :
         _r(color._r),
         _g(color._g),
         _b(color._b),
@@ -38,7 +38,7 @@ public:
     }
     
     /// Construct from another color and modify the alpha.
-    Color(const Color& color, float a) :
+    FColor(const FColor& color, float a) :
         _r(color._r),
         _g(color._g),
         _b(color._b),
@@ -47,7 +47,7 @@ public:
     }
     
     /// Construct from RGB values and set alpha fully opaque.
-    Color(float r, float g, float b) :
+    FColor(float r, float g, float b) :
         _r(r),
         _g(g),
         _b(b),
@@ -56,7 +56,7 @@ public:
     }
     
     /// Construct from RGBA values.
-    Color(float r, float g, float b, float a) :
+    FColor(float r, float g, float b, float a) :
         _r(r),
         _g(g),
         _b(b),
@@ -65,7 +65,7 @@ public:
     }
 
     /// Construct from a float array.
-    Color(const float* _data) :
+    FColor(const float* _data) :
         _r(_data[0]),
         _g(_data[1]),
         _b(_data[2]),
@@ -74,19 +74,19 @@ public:
     }
     
     /// Construct by parsing a string.
-    Color(const FString& str)
+    FColor(const FString& str)
     {
         FromString(str);
     }
     
     /// Construct by parsing a C string.
-    Color(const char* str)
+    FColor(const char* str)
     {
         FromString(str);
     }
     
     /// Add-assign a color.
-    Color& operator += (const Color& rhs)
+    FColor& operator += (const FColor& rhs)
     {
         _r += rhs._r;
         _g += rhs._g;
@@ -96,23 +96,23 @@ public:
     }
     
     /// Test for equality with another color without epsilon.
-    bool operator == (const Color& rhs) const { return _r == rhs._r && _g == rhs._g && _b == rhs._b && _a == rhs._a; }
+    bool operator == (const FColor& rhs) const { return _r == rhs._r && _g == rhs._g && _b == rhs._b && _a == rhs._a; }
     /// Test for inequality with another color without epsilon.
-    bool operator != (const Color& rhs) const { return !(*this == rhs); }
+    bool operator != (const FColor& rhs) const { return !(*this == rhs); }
     /// Multiply with a scalar.
-    Color operator * (float rhs) const { return Color(_r * rhs, _g * rhs, _b * rhs, _a * rhs); }
+    FColor operator * (float rhs) const { return FColor(_r * rhs, _g * rhs, _b * rhs, _a * rhs); }
     /// Add a color.
-    Color operator + (const Color& rhs) const { return Color(_r + rhs._r, _g + rhs._g, _b + rhs._b, _a + rhs._a); }
+    FColor operator + (const FColor& rhs) const { return FColor(_r + rhs._r, _g + rhs._g, _b + rhs._b, _a + rhs._a); }
     /// Substract a color.
-    Color operator - (const Color& rhs) const { return Color(_r - rhs._r, _g - rhs._g, _b - rhs._b, _a - rhs._a); }
+    FColor operator - (const FColor& rhs) const { return FColor(_r - rhs._r, _g - rhs._g, _b - rhs._b, _a - rhs._a); }
     /// Return float data.
     const float* Data() const { return &_r; }
     /// Return color packed to a 32-bit integer, with R component in the lowest 8 bits. Components are clamped to [0, 1] range.
     unsigned ToUInt() const;
-    /// Return HSL color-space representation as a Vector3; the RGB values are clipped before conversion but not changed in the process.
-    Vector3F ToHSL() const;
-    /// Return HSV color-space representation as a Vector3; the RGB values are clipped before conversion but not changed in the process.
-    Vector3F ToHSV() const;
+    /// Return HSL color-space representation as a TVector3; the RGB values are clipped before conversion but not changed in the process.
+    TVector3F ToHSL() const;
+    /// Return HSV color-space representation as a TVector3; the RGB values are clipped before conversion but not changed in the process.
+    TVector3F ToHSV() const;
     /// Set RGBA values from specified HSL values and alpha.
     void FromHSL(float h, float s, float l, float a = 1.0f);
     /// Set RGBA values from specified HSV values and alpha.
@@ -123,9 +123,9 @@ public:
     bool FromString(const char* str);
 
     /// Return RGB as a three-dimensional vector.
-    Vector3F ToVector3() const { return Vector3F(_r, _g, _b); }
+    TVector3F ToVector3() const { return TVector3F(_r, _g, _b); }
     /// Return RGBA as a four-dimensional vector.
-    Vector4F ToVector4() const { return Vector4F(_r, _g, _b, _a); }
+    TVector4F ToVector4() const { return TVector4F(_r, _g, _b, _a); }
 
     /// Return sum of RGB components.
     float SumRGB() const { return _r + _g + _b; }
@@ -161,35 +161,35 @@ public:
     /// Inverts the RGB channels and optionally the alpha channel as well.
     void Invert(bool invertAlpha = false);
     /// Return linear interpolation of this color with another color.
-    Color Lerp(const Color& rhs, float t) const;
+    FColor Lerp(const FColor& rhs, float t) const;
     /// Return color with absolute components.
-    Color Abs() const { return Color(Auto3D::Abs(_r), Auto3D::Abs(_g), Auto3D::Abs(_b), Auto3D::Abs(_a)); }
+    FColor Abs() const { return FColor(Auto3D::Abs(_r), Auto3D::Abs(_g), Auto3D::Abs(_b), Auto3D::Abs(_a)); }
     /// Test for equality with another color with epsilon.
-    bool Equals(const Color& rhs) const { return Auto3D::Equals(_r, rhs._r) && Auto3D::Equals(_g, rhs._g) && Auto3D::Equals(_b, rhs._b) && Auto3D::Equals(_a, rhs._a); }
+    bool Equals(const FColor& rhs) const { return Auto3D::Equals(_r, rhs._r) && Auto3D::Equals(_g, rhs._g) && Auto3D::Equals(_b, rhs._b) && Auto3D::Equals(_a, rhs._a); }
     
     /// Return as string.
     FString ToString() const;
     
     /// Opaque white color.
-    static const Color WHITE;
+    static const FColor WHITE;
     /// Opaque gray color.
-    static const Color GRAY;
+    static const FColor GRAY;
     /// Opaque black color.
-    static const Color BLACK;
+    static const FColor BLACK;
     /// Opaque red color.
-    static const Color RED;
+    static const FColor RED;
     /// Opaque green color.
-    static const Color GREEN;
+    static const FColor GREEN;
     /// Opaque blue color.
-    static const Color BLUE;
+    static const FColor BLUE;
     /// Opaque cyan color.
-    static const Color CYAN;
+    static const FColor CYAN;
     /// Opaque magenta color.
-    static const Color MAGENTA;
+    static const FColor MAGENTA;
     /// Opaque yellow color.
-    static const Color YELLOW;
+    static const FColor YELLOW;
     /// Transparent color (black with no alpha).
-    static const Color TRANSPARENT;
+    static const FColor TRANSPARENT;
 
 protected:
     /// Return hue value given greatest and least RGB component, value-wise.
@@ -202,7 +202,7 @@ protected:
     void FromHCM(float h, float c, float m);
 };
 
-/// Multiply Color with a scalar.
-inline Color operator * (float lhs, const Color& rhs) { return rhs * lhs; }
+/// Multiply FColor with a scalar.
+inline FColor operator * (float lhs, const FColor& rhs) { return rhs * lhs; }
 
 }

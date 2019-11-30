@@ -52,7 +52,7 @@ void AAudio::SetListener(AAudioListener* listener)
 	_listener = listener;
 }
 
-void AAudio::SetListenerValue(Vector3F position, Vector3F listenerVel, Vector3F listenerOriAt, Vector3F listenerOriUp)
+void AAudio::SetListenerValue(TVector3F position, TVector3F listenerVel, TVector3F listenerOriAt, TVector3F listenerOriUp)
 {
 	if (!_listener)
 		return;
@@ -181,7 +181,7 @@ void AAudio::SetGain(unsigned source, float val)
 		alSourcef(source, AL_GAIN, 1.0f);
 }
 
-void AAudio::SetVel(unsigned source, Vector3F vel)
+void AAudio::SetVel(unsigned source, TVector3F vel)
 {
 	if (_sources.Find(source) != _sources.End())
 		alSource3f(source, AL_VELOCITY, vel._x, vel._y, vel._z);
@@ -237,10 +237,10 @@ void AAudio::Update()
 	if (!_listener)
 		return;
 
-	Vector3F vec = _listener->GetPosition();
-	Vector3F ListenerVel = _listener->GetVel();
-	Vector3F listenerOriAt = _listener->GetOriAt();
-	Vector3F listenerOriUp = _listener->GetOriUp();
+	TVector3F vec = _listener->GetPosition();
+	TVector3F ListenerVel = _listener->GetVel();
+	TVector3F listenerOriAt = _listener->GetOriAt();
+	TVector3F listenerOriUp = _listener->GetOriUp();
 
 	// Listener speed
 	ALfloat ListenerOriArray[] = {
@@ -254,7 +254,7 @@ void AAudio::Update()
 	for (auto it = _sources.Begin(); it != _sources.End(); it++)
 	{
 		AAudioSource& source = *it->_second;
-		Vector3F vec = (*it)._second->GetPosition();
+		TVector3F vec = (*it)._second->GetPosition();
 		alSource3f((*it)._second->GetBuffer()->Source(), AL_POSITION, vec._x, vec._y, vec._z);
 	}
 

@@ -23,7 +23,7 @@ public:
 	void SetHeight(float height);
 
 private:
-	/// Resize form Vector3
+	/// Resize form TVector3
 	void Resize(float radius, float height);
 
 	/// Capsule radius.

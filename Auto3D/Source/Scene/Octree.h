@@ -12,15 +12,15 @@ static const size_t NUM_OCTANTS = 8;
 
 class Octree;
 class AOctreeNode;
-class Ray;
+class FRay;
 
 /// Structure for raycast query results.
 struct AUTO_API RaycastResult
 {
     /// Hit world _position.
-    Vector3F _position;
+    TVector3F _position;
     /// Hit world normal.
-    Vector3F _normal;
+    TVector3F _normal;
     /// Hit distance along the ray.
     float _distance;
     /// Hit node.
@@ -36,20 +36,20 @@ struct AUTO_API Octant
     Octant();
    
     /// Initialize parent and bounds.
-    void Initialize(Octant* parent, const BoundingBoxF& boundingBox, int level);
+    void Initialize(Octant* parent, const TBoundingBoxF& boundingBox, int level);
     /// Test if a node should be inserted in this octant or if a smaller child octant should be created.
-    bool FitBoundingBox(const BoundingBoxF& box, const Vector3F& boxSize) const;
+    bool FitBoundingBox(const TBoundingBoxF& box, const TVector3F& boxSize) const;
     /// Return child octant index based on _position.
-    size_t ChildIndex(const Vector3F& position) const { size_t ret = position._x < _center._x ? 0 : 1; ret += position._y < _center._y ? 0 : 2; ret += position._z < _center._z ? 0 : 4; return ret; }
+    size_t ChildIndex(const TVector3F& position) const { size_t ret = position._x < _center._x ? 0 : 1; ret += position._y < _center._y ? 0 : 2; ret += position._z < _center._z ? 0 : 4; return ret; }
     
     /// Expanded (loose) bounding box used for culling the octant and the nodes within it.
-    BoundingBoxF _cullingBox;
+    TBoundingBoxF _cullingBox;
     /// Actual bounding box of the octant.
-    BoundingBoxF _worldBoundingBox;
+    TBoundingBoxF _worldBoundingBox;
     /// Bounding box center.
-    Vector3F _center;
+    TVector3F _center;
     /// Bounding box half _size.
-    Vector3F _halfSize;
+    TVector3F _halfSize;
     /// Subdivision level.
     int _level;
     /// Nodes contained in the octant.
@@ -79,7 +79,7 @@ public:
     /// Process the queue of nodes to be reinserted.
     void Update();
     /// Resize octree.
-    void Resize(const BoundingBoxF& boundingBox, int numLevels);
+    void Resize(const TBoundingBoxF& boundingBox, int numLevels);
     /// Remove a node from the octree.
     void RemoveNode(AOctreeNode* node);
     /// Queue a reinsertion for a node.
@@ -87,9 +87,9 @@ public:
     /// Cancel a pending reinsertion.
     void CancelUpdate(AOctreeNode* node);
     /// Query for nodes with a raycast and return all results.
-    void Raycast(TVector<RaycastResult>& result, const Ray& ray, unsigned short nodeFlags, float maxDistance = M_INFINITY, unsigned layerMask = LAYERMASK_ALL);
+    void Raycast(TVector<RaycastResult>& result, const FRay& ray, unsigned short nodeFlags, float maxDistance = M_INFINITY, unsigned layerMask = LAYERMASK_ALL);
     /// Query for nodes with a raycast and return the closest result.
-    RaycastResult RaycastSingle(const Ray& ray, unsigned short nodeFlags, float maxDistance = M_INFINITY, unsigned layerMask = LAYERMASK_ALL);
+    RaycastResult RaycastSingle(const FRay& ray, unsigned short nodeFlags, float maxDistance = M_INFINITY, unsigned layerMask = LAYERMASK_ALL);
 
     /// Query for nodes using a volume such as frustum or sphere.
     template <typename _Ty> void FindNodes(TVector<AOctreeNode*>& result, const _Ty& volume, unsigned short nodeFlags, unsigned layerMask = LAYERMASK_ALL) const
@@ -114,9 +114,9 @@ public:
 
 private:
     /// Set bounding box. Used in serialization.
-    void SetBoundingBoxAttr(const BoundingBoxF& boundingBox);
+    void SetBoundingBoxAttr(const TBoundingBoxF& boundingBox);
     /// Return bounding box. Used in serialization.
-    const BoundingBoxF& BoundingBoxAttr() const;
+    const TBoundingBoxF& BoundingBoxAttr() const;
     /// Set number of levels. Used in serialization.
     void SetNumLevelsAttr(int numLevels);
     /// Return number of levels. Used in serialization.
@@ -136,9 +136,9 @@ private:
     /// Get all visible nodes matching flags from an octant recursively.
     void CollectNodes(TVector<AOctreeNode*>& result, const Octant* octant, unsigned short nodeFlags, unsigned layerMask) const;
     /// Get all visible nodes matching flags along a ray.
-    void CollectNodes(TVector<RaycastResult>& result, const Octant* octant, const Ray& ray, unsigned short nodeFlags, float maxDistance, unsigned layerMask) const;
+    void CollectNodes(TVector<RaycastResult>& result, const Octant* octant, const FRay& ray, unsigned short nodeFlags, float maxDistance, unsigned layerMask) const;
     /// Get all visible nodes matching flags that could be potential raycast hits.
-    void CollectNodes(TVector<TPair<AOctreeNode*, float> >& result, const Octant* octant, const Ray& ray, unsigned short nodeFlags, float maxDistance, unsigned layerMask) const;
+    void CollectNodes(TVector<TPair<AOctreeNode*, float> >& result, const Octant* octant, const FRay& ray, unsigned short nodeFlags, float maxDistance, unsigned layerMask) const;
 
     /// Collect nodes matching flags using a volume such as frustum or sphere.
     template <typename _Ty> void CollectNodes(TVector<AOctreeNode*>& result, const Octant* octant, const _Ty& volume, unsigned short nodeFlags, unsigned layerMask) const

@@ -10,7 +10,7 @@
 namespace Auto3D {
 
 Collider::Collider() :
-	_cachedWorldScale(Vector3F::ONE),
+	_cachedWorldScale(TVector3F::ONE),
 	_shapeType(ShapeType::DEFAULT)
 {
 }

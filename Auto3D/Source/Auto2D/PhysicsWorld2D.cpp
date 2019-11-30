@@ -10,7 +10,7 @@
 namespace Auto3D {
 
 static const int DEFAULT_FPS = 60;
-static const Vector2F DEFAULT_GRAVITY = Vector2F(0.0f, -9.81f);
+static const TVector2F DEFAULT_GRAVITY = TVector2F(0.0f, -9.81f);
 static const int DEFAULT_VELOCITY_ITERATIONS = 8;
 static const int DEFAULT_POSITION_ITERATIONS = 3;
 

@@ -34,7 +34,7 @@ void CoiiliderChain2D::SetVertexCount(unsigned count)
 	_vertices.Resize(count);
 }
 
-void CoiiliderChain2D::SetVertex(unsigned index, const Vector2F& vertex)
+void CoiiliderChain2D::SetVertex(unsigned index, const TVector2F& vertex)
 {
 	if (index >= _vertices.Size())
 		return;
@@ -47,7 +47,7 @@ void CoiiliderChain2D::SetVertex(unsigned index, const Vector2F& vertex)
 	}
 }
 
-void CoiiliderChain2D::SetVertices(const TVector<Vector2F>& vertices)
+void CoiiliderChain2D::SetVertices(const TVector<TVector2F>& vertices)
 {
 	_vertices = vertices;
 
@@ -59,11 +59,11 @@ void CoiiliderChain2D::SetVerticesAttr(const TVector<unsigned char>& value)
 	if (value.IsEmpty())
 		return;
 
-	TVector<Vector2F> vertices;
+	TVector<TVector2F> vertices;
 
 	FMemoryBuffer buffer(value);
 	while (!buffer.IsEof())
-		vertices.Push(buffer.Read<Vector2F>());
+		vertices.Push(buffer.Read<TVector2F>());
 
 	SetVertices(vertices);
 }
@@ -73,7 +73,7 @@ TVector<unsigned char> CoiiliderChain2D::GetVerticesAttr() const
 	FVectorBuffer ret;
 
 	for (unsigned i = 0; i < _vertices.Size(); ++i)
-		ret.Write<Vector2F>(_vertices[i]);
+		ret.Write<TVector2F>(_vertices[i]);
 
 	return ret.Buffer();
 }

@@ -137,7 +137,7 @@ void AGeometryNode::SetMaterial(size_t index, AMaterial* material)
         ErrorStringF("Out of bounds batch index %d for setting material", (int)index);
 }
 
-void AGeometryNode::SetLocalBoundingBox(const BoundingBoxF& box)
+void AGeometryNode::SetLocalBoundingBox(const TBoundingBoxF& box)
 {
     _boundingBox = box;
     // Changing the bounding box may require octree reinsertion

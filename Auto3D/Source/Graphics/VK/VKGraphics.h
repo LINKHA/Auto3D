@@ -33,7 +33,7 @@ class FScreenModeEvent : public FEvent
 {
 public:
 	/// New backbuffer _size.
-	Vector2I _size;
+	TVector2I _size;
 	/// Fullscreen flag.
 	bool _fullscreen;
 	/// Window _resizable flag.
@@ -55,7 +55,7 @@ public:
 	/// Check supported rendering features.
 	void CheckFeatureSupport();
 	/// Set graphics mode. Create the _window and rendering context if not created yet. Return true on success.
-	bool SetMode(const RectI& _size, int multisample = 1, bool fullscreen = false, bool resizable = false, bool center = true, bool borderless = false, bool highDPI = false);
+	bool SetMode(const TRectI& _size, int multisample = 1, bool fullscreen = false, bool resizable = false, bool center = true, bool borderless = false, bool highDPI = false);
 	/// Set _fullscreen mode on/off while retaining previous resolution. The initial graphics mode must have been set first. Return true on success.
 	bool SetFullscreen(bool enable);
 	/// Set new multisample level while retaining previous resolution. The initial graphics mode must have been set first. Return true on success.
@@ -71,7 +71,7 @@ public:
 	/// Set multiple color rendertargets and the depth stencil buffer.
 	void SetRenderTargets(const TVector<ATexture*>& renderTargets, ATexture* stencilBuffer);
 	/// Set the viewport rectangle. On _window resize the viewport will automatically revert to full _window.
-	void SetViewport(const RectI& viewport);
+	void SetViewport(const TRectI& viewport);
 	/// Bind a vertex buffer.
 	void SetVertexBuffer(size_t index, FVertexBuffer* buffer);
 	/// Bind an index buffer.
@@ -91,7 +91,7 @@ public:
 	/// Set rasterizer related state.
 	void SetRasterizerState(ECullMode::Type cullMode, EFillMode::Type fillMode);
 	/// Set scissor test.
-	void SetScissorTest(bool scissorEnable = false, const RectI& scissorRect = RectI::ZERO);
+	void SetScissorTest(bool scissorEnable = false, const TRectI& scissorRect = TRectI::ZERO);
 	/// Set stencil test.
 	void SetStencilTest(bool stencilEnable, const FStencilTestDesc& stencilTest = FStencilTestDesc(), unsigned char stencilRef = 0);
 	/// Reset rendertarget and depth stencil buffer to the backbuffer.
@@ -107,7 +107,7 @@ public:
 	/// Reset graphics
 	void ResetGraphics();
 	/// Clear the current rendertarget. This is not affected by the defined viewport, but will always clear the whole target.
-	void Clear(unsigned clearFlags, const Color& clearColor = Color::BLACK, float clearDepth = 1.0f, unsigned char clearStencil = 0);
+	void Clear(unsigned clearFlags, const FColor& clearColor = FColor::BLACK, float clearDepth = 1.0f, unsigned char clearStencil = 0);
 	/// Draw non-indexed geometry.
 	void Draw(EPrimitiveType::Type type, size_t vertexStart, size_t vertexCount);
 	/// Draw indexed geometry.
@@ -120,7 +120,7 @@ public:
 	/// Return whether has the rendering _window and context.
 	bool IsInitialized() const;
 	/// Return backbuffer _size, or 0,0 if not initialized.
-	const Vector2I& GetSize() const { return _backbufferSize; }
+	const TVector2I& GetSize() const { return _backbufferSize; }
 	/// Return backbuffer width, or 0 if not initialized.
 	int GetWidth() const { return _backbufferSize._x; }
 	/// Return backbuffer height, or 0 if not initialized.
@@ -146,7 +146,7 @@ public:
 	/// Return the current depth-stencil buffer, or null if rendering to the backbuffer.
 	ATexture* DepthStencil() const { return _depthStencil; }
 	/// Return the current viewport rectangle.
-	const RectI& GetViewport() const { return _viewport; }
+	const TRectI& GetViewport() const { return _viewport; }
 	/// Return currently bound vertex buffer by index.
 	FVertexBuffer* GetVertexBuffer(size_t index) const;
 	/// Return currently bound index buffer.
@@ -242,9 +242,9 @@ private:
 	/// OS-level rendering _window.
 	TSharedPtr<Window> _window;
 	/// Current _size of the backbuffer.
-	Vector2I _backbufferSize;
+	TVector2I _backbufferSize;
 	/// Current _size of the active rendertarget.
-	Vector2I _renderTargetSize;
+	TVector2I _renderTargetSize;
 	/// Bound vertex buffers.
 	FVertexBuffer* _vertexBuffers[MAX_VERTEX_STREAMS];
 	/// Enabled vertex attributes bitmask.
@@ -304,9 +304,9 @@ private:
 	/// Last bound uniform buffer object.
 	unsigned _boundUBO;
 	/// Current scissor rectangle.
-	RectI _scissorRect;
+	TRectI _scissorRect;
 	/// Current viewport rectangle.
-	RectI _viewport;
+	TRectI _viewport;
 	/// GPU objects.
 	TVector<FGPUObject*> _gpuObjects;
 	/// AShader programs.

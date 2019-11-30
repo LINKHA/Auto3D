@@ -36,16 +36,16 @@ public:
 	void Recreate() override;
 
 	/// Define texture type and dimensions and set initial data. %FImageLevel structures only need the data pointer and row byte _size filled. Return true on success.
-	bool Define(ETextureType::Type type, EResourceUsage::Type usage, const Vector2I& _size, EImageFormat::Type _format, size_t _numLevels, const FImageLevel* initialData = 0);
+	bool Define(ETextureType::Type type, EResourceUsage::Type usage, const TVector2I& _size, EImageFormat::Type _format, size_t _numLevels, const FImageLevel* initialData = 0);
 	/// Define sampling parameters. Return true on success.
-	bool DefineSampler(ETextureFilterMode::Type filter = ETextureFilterMode::FILTER_TRILINEAR, ETextureAddressMode::Type u = ETextureAddressMode::WRAP, ETextureAddressMode::Type v = ETextureAddressMode::WRAP, ETextureAddressMode::Type w = ETextureAddressMode::WRAP, unsigned maxAnisotropy = 16, float minLod = -M_MAX_FLOAT, float maxLod = M_MAX_FLOAT, const Color& borderColor = Color::BLACK);
+	bool DefineSampler(ETextureFilterMode::Type filter = ETextureFilterMode::FILTER_TRILINEAR, ETextureAddressMode::Type u = ETextureAddressMode::WRAP, ETextureAddressMode::Type v = ETextureAddressMode::WRAP, ETextureAddressMode::Type w = ETextureAddressMode::WRAP, unsigned maxAnisotropy = 16, float minLod = -M_MAX_FLOAT, float maxLod = M_MAX_FLOAT, const FColor& borderColor = FColor::BLACK);
 	/// Set data for a mipmap level. Not supported for immutable textures. Return true on success.
-	bool SetData(size_t face, size_t level, RectI rect, const FImageLevel& data);
+	bool SetData(size_t face, size_t level, TRectI rect, const FImageLevel& data);
 
 	/// Return texture type.
 	ETextureType::Type GetTexType() const { return _type; }
 	/// Return dimensions.
-	const Vector2I& GetSize() const { return _size; }
+	const TVector2I& GetSize() const { return _size; }
 	/// Return width.
 	int GetWidth() const { return _size._x; }
 	/// Return height.
@@ -88,7 +88,7 @@ public:
 	/// Maximum LOD.
 	float _maxLod;
 	/// Border color. Only effective in border addressing mode.
-	Color _borderColor;
+	FColor _borderColor;
 
 
 private:
@@ -99,7 +99,7 @@ private:
 	/// ATexture usage mode.
 	EResourceUsage::Type _usage;
 	/// ATexture dimensions in pixels.
-	Vector2I _size;
+	TVector2I _size;
 	/// AImage format.
 	EImageFormat::Type _format;
 	/// Number of mipmap levels.

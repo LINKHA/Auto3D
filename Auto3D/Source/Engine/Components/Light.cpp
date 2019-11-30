@@ -10,11 +10,11 @@ namespace Auto3D
 {
 
 static const ELightType::Type DEFAULT_LIGHTTYPE = ELightType::POINT;
-static const Color DEFAULT_COLOR = Color(1.0f, 1.0f, 1.0f, 0.5f);
+static const FColor DEFAULT_COLOR = FColor(1.0f, 1.0f, 1.0f, 0.5f);
 static const float DEFAULT_RANGE = 10.0f;
 static const float DEFAULT_SPOT_FOV = 30.0f;
 static const int DEFAULT_SHADOWMAP_SIZE = 512;
-static const Vector4F DEFAULT_SHADOW_SPLITS = Vector4F(10.0f, 50.0f, 150.0f, 0.0f);
+static const TVector4F DEFAULT_SHADOW_SPLITS = TVector4F(10.0f, 50.0f, 150.0f, 0.0f);
 static const float DEFAULT_FADE_START = 0.9f;
 static const int DEFAULT_DEPTH_BIAS = 5;
 static const float DEFAULT_SLOPE_SCALED_DEPTH_BIAS = 0.5f;
@@ -85,7 +85,7 @@ void ALight::OnPrepareRender(unsigned frameNumber, ACamera* camera)
     }
 }
 
-void ALight::OnRaycast(TVector<RaycastResult>& dest, const Ray& ray, float maxDistance)
+void ALight::OnRaycast(TVector<RaycastResult>& dest, const FRay& ray, float maxDistance)
 {
     if (_lightType == ELightType::SPOT)
     {
@@ -127,7 +127,7 @@ void ALight::SetLightType(ELightType::Type type)
     }
 }
 
-void ALight::SetColor(const Color& color)
+void ALight::SetColor(const FColor& color)
 {
     _color = color;
 }
@@ -167,7 +167,7 @@ void ALight::SetShadowMapSize(int _size)
     _shadowMapSize = NextPowerOfTwo(_size);
 }
 
-void ALight::SetShadowSplits(const Vector4F& splits)
+void ALight::SetShadowSplits(const TVector4F& splits)
 {
     _shadowSplits = splits;
 }
@@ -187,22 +187,22 @@ void ALight::SetSlopeScaledDepthBias(float bias)
     _slopeScaledDepthBias = Max(bias, 0.0f);
 }
 
-Vector2I ALight::GetTotalShadowMapSize() const
+TVector2I ALight::GetTotalShadowMapSize() const
 {
     if (_lightType == ELightType::DIRECTIONAL)
     {
         int splits = GetNumShadowSplits();
         if (splits == 1)
-            return Vector2I(_shadowMapSize, _shadowMapSize);
+            return TVector2I(_shadowMapSize, _shadowMapSize);
         else if (splits == 2)
-            return Vector2I(_shadowMapSize * 2, _shadowMapSize);
+            return TVector2I(_shadowMapSize * 2, _shadowMapSize);
         else
-            return Vector2I(_shadowMapSize * 2, _shadowMapSize * 2);
+            return TVector2I(_shadowMapSize * 2, _shadowMapSize * 2);
     }
     else if (_lightType == ELightType::POINT)
-        return Vector2I(_shadowMapSize * 3, _shadowMapSize * 2);
+        return TVector2I(_shadowMapSize * 3, _shadowMapSize * 2);
     else
-        return Vector2I(_shadowMapSize, _shadowMapSize);
+        return TVector2I(_shadowMapSize, _shadowMapSize);
 }
 
 int ALight::GetNumShadowSplits() const
@@ -269,21 +269,21 @@ size_t ALight::GetNumShadowCoords() const
         return 1;
 }
 
-Frustum ALight::GetWorldFrustum() const
+FFrustum ALight::GetWorldFrustum() const
 {
-    const Matrix3x4F& transform = GetWorldTransform();
-    Matrix3x4F frustumTransform(transform.Translation(), transform.Rotation(), 1.0f);
-    Frustum ret;
+    const TMatrix3x4F& transform = GetWorldTransform();
+    TMatrix3x4F frustumTransform(transform.Translation(), transform.Rotation(), 1.0f);
+    FFrustum ret;
     ret.Define(_fov, 1.0f, 1.0f, 0.0f, _range, frustumTransform);
     return ret;
 }
 
-Sphere ALight::GetWorldSphere() const
+FSphere ALight::GetWorldSphere() const
 {
-    return Sphere(GetWorldPosition(), _range);
+    return FSphere(GetWorldPosition(), _range);
 }
 
-void ALight::SetShadowMap(ATexture* shadowMap, const RectI& shadowRect)
+void ALight::SetShadowMap(ATexture* shadowMap, const TRectI& shadowRect)
 {
     _shadowMap = shadowMap;
     _shadowRect = shadowRect;
@@ -315,12 +315,12 @@ void ALight::SetupShadowViews(ACamera* mainCamera, TVector<TAutoPtr<ShadowView> 
         {
         case ELightType::DIRECTIONAL:
             {
-                Vector2I topLeft(_shadowRect.Left(), _shadowRect.Top());
+                TVector2I topLeft(_shadowRect.Left(), _shadowRect.Top());
                 if (i & 1)
                     topLeft._x += actualShadowMapSize;
                 if (i & 2)
                     topLeft._y += actualShadowMapSize;
-                view->_viewport = RectI(topLeft._x, topLeft._y, topLeft._x + actualShadowMapSize, topLeft._y + actualShadowMapSize);
+                view->_viewport = TRectI(topLeft._x, topLeft._y, topLeft._x + actualShadowMapSize, topLeft._y + actualShadowMapSize);
 
                 float splitStart = Max(mainCamera->GetNearClip(), (i == 0) ? 0.0f : GetShadowSplit(i - 1));
                 float splitEnd = Min(mainCamera->GetFarClip(), GetShadowSplit(i));
@@ -330,12 +330,12 @@ void ALight::SetupShadowViews(ACamera* mainCamera, TVector<TAutoPtr<ShadowView> 
                 shadowCamera.SetTransform(mainCamera->GetWorldPosition() - extrusionDistance * GetWorldDirection(), GetWorldRotation());
 
                 // Calculate main camera shadowed frustum in light's view space
-                Frustum splitFrustum = mainCamera->WorldSplitFrustum(splitStart, splitEnd);
-                const Matrix3x4F& lightView = shadowCamera.GetViewMatrix();
-                Frustum lightViewFrustum = splitFrustum.Transformed(lightView);
+                FFrustum splitFrustum = mainCamera->WorldSplitFrustum(splitStart, splitEnd);
+                const TMatrix3x4F& lightView = shadowCamera.GetViewMatrix();
+                FFrustum lightViewFrustum = splitFrustum.Transformed(lightView);
 
                 // Fit the frustum inside a bounding box
-                BoundingBoxF shadowBox;
+                TBoundingBoxF shadowBox;
                 shadowBox.Define(lightViewFrustum);
 
                 // If shadow camera is far away from the frustum, can bring it closer for better depth precision
@@ -344,7 +344,7 @@ void ALight::SetupShadowViews(ACamera* mainCamera, TVector<TAutoPtr<ShadowView> 
                 if (shadowBox._min._z > minDistance)
                 {
                     float move = shadowBox._min._z - minDistance;
-                    shadowCamera.Translate(Vector3F(0.0f, 0.f, move));
+                    shadowCamera.Translate(TVector3F(0.0f, 0.f, move));
                     shadowBox._min._z -= move,
                     shadowBox._max._z -= move;
                 }
@@ -352,23 +352,23 @@ void ALight::SetupShadowViews(ACamera* mainCamera, TVector<TAutoPtr<ShadowView> 
                 shadowCamera.SetOrthographic(true);
                 shadowCamera.SetFarClip(shadowBox._max._z);
 
-                Vector3F center = shadowBox.Center();
-                Vector3F _size = shadowBox.Size();
-                shadowCamera.SetOrthoSize(Vector2F(_size._x, _size._y));
+                TVector3F center = shadowBox.Center();
+                TVector3F _size = shadowBox.Size();
+                shadowCamera.SetOrthoSize(TVector2F(_size._x, _size._y));
                 shadowCamera.SetZoom(1.0f);
 
                 // Center shadow camera to the view space bounding box
-                Vector3F pos(shadowCamera.GetWorldPosition());
-                Quaternion rot(shadowCamera.GetWorldRotation());
-                Vector3F adjust(center._x, center._y, 0.0f);
+                TVector3F pos(shadowCamera.GetWorldPosition());
+                FQuaternion rot(shadowCamera.GetWorldRotation());
+                TVector3F adjust(center._x, center._y, 0.0f);
                 shadowCamera.Translate(rot * adjust, TransformSpace::WORLD);
 
                 // Snap to whole texels
                 {
-                    Vector3F viewPos(rot.Inverse() * shadowCamera.GetWorldPosition());
+                    TVector3F viewPos(rot.Inverse() * shadowCamera.GetWorldPosition());
                     float invSize = 1.0f / actualShadowMapSize;
-                    Vector2F texelSize(_size._x * invSize, _size._y * invSize);
-                    Vector3F snap(-fmodf(viewPos._x, texelSize._x), -fmodf(viewPos._y, texelSize._y), 0.0f);
+                    TVector2F texelSize(_size._x * invSize, _size._y * invSize);
+                    TVector3F snap(-fmodf(viewPos._x, texelSize._x), -fmodf(viewPos._y, texelSize._y), 0.0f);
                     shadowCamera.Translate(rot * snap, TransformSpace::WORLD);
                 }
             }
@@ -376,20 +376,20 @@ void ALight::SetupShadowViews(ACamera* mainCamera, TVector<TAutoPtr<ShadowView> 
 
         case ELightType::POINT:
             {
-                static const Quaternion pointLightFaceRotations[] = {
-                    Quaternion(0.0f, 90.0f, 0.0f),
-                    Quaternion(0.0f, -90.0f, 0.0f),
-                    Quaternion(-90.0f, 0.0f, 0.0f),
-                    Quaternion(90.0f, 0.0f, 0.0f),
-                    Quaternion(0.0f, 0.0f, 0.0f),
-                    Quaternion(0.0f, 180.0f, 0.0f)
+                static const FQuaternion pointLightFaceRotations[] = {
+                    FQuaternion(0.0f, 90.0f, 0.0f),
+                    FQuaternion(0.0f, -90.0f, 0.0f),
+                    FQuaternion(-90.0f, 0.0f, 0.0f),
+                    FQuaternion(90.0f, 0.0f, 0.0f),
+                    FQuaternion(0.0f, 0.0f, 0.0f),
+                    FQuaternion(0.0f, 180.0f, 0.0f)
                 };
 
-                Vector2I topLeft(_shadowRect.Left(), _shadowRect.Top());
+                TVector2I topLeft(_shadowRect.Left(), _shadowRect.Top());
                 if (i & 1)
                     topLeft._y += actualShadowMapSize;
                 topLeft._x += ((unsigned)i >> 1) * actualShadowMapSize;
-                view->_viewport = RectI(topLeft._x, topLeft._y, topLeft._x + actualShadowMapSize, topLeft._y + actualShadowMapSize);
+                view->_viewport = TRectI(topLeft._x, topLeft._y, topLeft._x + actualShadowMapSize, topLeft._y + actualShadowMapSize);
 
                 shadowCamera.SetTransform(GetWorldPosition(), pointLightFaceRotations[i]);
                 shadowCamera.SetFov(90.0f);
@@ -427,8 +427,8 @@ void ALight::SetupShadowViews(ACamera* mainCamera, TVector<TAutoPtr<ShadowView> 
             ACamera& shadowCamera = view->_shadowCamera;
             float width = (float)_shadowMap->GetWidth();
             float height = (float)_shadowMap->GetHeight();
-            Vector3F offset((float)view->_viewport.Left() / width, (float)view->_viewport.Top() / height, 0.0f);
-            Vector3F scale(0.5f * (float)view->_viewport.Width() / width, 0.5f * (float)view->_viewport.Height() / height, 1.0f);
+            TVector3F offset((float)view->_viewport.Left() / width, (float)view->_viewport.Top() / height, 0.0f);
+            TVector3F scale(0.5f * (float)view->_viewport.Width() / width, 0.5f * (float)view->_viewport.Height() / height, 1.0f);
 
             offset._x += scale._x;
             offset._y += scale._y;
@@ -440,7 +440,7 @@ void ALight::SetupShadowViews(ACamera* mainCamera, TVector<TAutoPtr<ShadowView> 
             scale._z = 0.5f;
             #endif
             
-            Matrix4x4F texAdjust(Matrix4x4F::IDENTITY);
+            TMatrix4x4F texAdjust(TMatrix4x4F::IDENTITY);
             texAdjust.SetTranslation(offset);
             texAdjust.SetScale(scale);
 
@@ -452,8 +452,8 @@ void ALight::SetupShadowViews(ACamera* mainCamera, TVector<TAutoPtr<ShadowView> 
         // Point lights use an extra constant instead
         _shadowMatrices.Clear();
 
-        Vector2F textureSize((float)_shadowMap->GetWidth(), (float)_shadowMap->GetHeight());
-        _pointShadowParameters = Vector4F(actualShadowMapSize / textureSize._x, actualShadowMapSize / textureSize._y,
+        TVector2F textureSize((float)_shadowMap->GetWidth(), (float)_shadowMap->GetHeight());
+        _pointShadowParameters = TVector4F(actualShadowMapSize / textureSize._x, actualShadowMapSize / textureSize._y,
             (float)_shadowRect.Left() / textureSize._x, (float)_shadowRect.Top() / textureSize._y);
     }
 
@@ -463,7 +463,7 @@ void ALight::SetupShadowViews(ACamera* mainCamera, TVector<TAutoPtr<ShadowView> 
     float farClip = shadowCamera.GetFarClip();
     float q = farClip / (farClip - nearClip);
     float r = -q * nearClip;
-    _shadowParameters = Vector4F(0.5f / (float)_shadowMap->GetWidth(), 0.5f / (float)_shadowMap->GetHeight(), q, r);
+    _shadowParameters = TVector4F(0.5f / (float)_shadowMap->GetWidth(), 0.5f / (float)_shadowMap->GetHeight(), q, r);
     
     useIndex += numViews;
 }
@@ -479,8 +479,8 @@ void ALight::OnWorldBoundingBoxUpdate() const
         
     case ELightType::POINT:
         {
-            const Vector3F& center = GetWorldPosition();
-            Vector3F edge(_range, _range, _range);
+            const TVector3F& center = GetWorldPosition();
+            TVector3F edge(_range, _range, _range);
             _worldBoundingBox.Define(center - edge, center + edge);
         }
         break;

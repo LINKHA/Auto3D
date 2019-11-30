@@ -13,7 +13,7 @@
 namespace Auto3D
 {
 
-static Vector3F DOT_SCALE(1 / 3.0f, 1 / 3.0f, 1 / 3.0f);
+static TVector3F DOT_SCALE(1 / 3.0f, 1 / 3.0f, 1 / 3.0f);
 
 AStaticModel::AStaticModel() :
     _lodBias(1.0f),
@@ -72,7 +72,7 @@ void AStaticModel::SetModel(AModel* model)
     if (!_model)
     {
         SetNumGeometries(0);
-        SetLocalBoundingBox(BoundingBoxF(0.0f, 0.0f));
+        SetLocalBoundingBox(TBoundingBoxF(0.0f, 0.0f));
         return;
     }
 

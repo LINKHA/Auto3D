@@ -42,12 +42,12 @@ public:
     /// Prepare object for rendering. Reset framenumber and calculate distance from camera. Called by Renderer.
     void OnPrepareRender(unsigned frameNumber, ACamera* camera) override;
     /// Perform ray test on self and add possible hit to the result vector.
-    void OnRaycast(TVector<RaycastResult>& dest, const Ray& ray, float maxDistance) override;
+    void OnRaycast(TVector<RaycastResult>& dest, const FRay& ray, float maxDistance) override;
 
     /// Set light type.
     void SetLightType(ELightType::Type type);
     /// Set color. Alpha component contains specular intensity.
-    void SetColor(const Color& color);
+    void SetColor(const FColor& color);
     /// Set range.
     void SetRange(float range);
     /// Set spotlight field of view.
@@ -57,7 +57,7 @@ public:
     /// Set shadow map face resolution in pixels.
     void SetShadowMapSize(int _size);
     /// Set directional light shadow split distances. Fill unused splits with zero.
-    void SetShadowSplits(const Vector4F& splits);
+    void SetShadowSplits(const TVector4F& splits);
     /// Set directional light shadow fade start depth, where 1 represents shadow max distance.
     void SetShadowFadeStart(float start);
     /// Set constant depth bias for shadows.
@@ -68,7 +68,7 @@ public:
     /// Return light type.
     ELightType::Type GetLightType() const { return _lightType; }
     /// Return color.
-    const Color& GetColor() const { return _color; }
+    const FColor& GetColor() const { return _color; }
     /// Return range.
     float GetRange() const { return _range; }
     /// Return spotlight field of view.
@@ -78,7 +78,7 @@ public:
     /// Return shadow map face resolution in pixels.
     int GetShadowMapSize() const { return _shadowMapSize; }
     /// Return directional light shadow split distances.
-    const Vector4F& GetShadowSplits() const { return _shadowSplits; }
+    const TVector4F& GetShadowSplits() const { return _shadowSplits; }
     /// Return directional light shadow fade start depth.
     float GetShadowFadeStart() const { return _shadowFadeStart; }
     /// Return number of directional light shadow splits.
@@ -92,30 +92,30 @@ public:
     /// Return slope-scaled depth bias.
     float GetSlopeScaledDepthBias() const { return _slopeScaledDepthBias; }
     /// Return total requested shadow map _size, accounting for multiple faces / splits for directional and point lights.
-    Vector2I GetTotalShadowMapSize() const;
+    TVector2I GetTotalShadowMapSize() const;
     /// Return number of required shadow views / cameras.
     size_t GetNumShadowViews() const;
     /// Return number of required shadow coordinates in the vertex shader.
     size_t GetNumShadowCoords() const;
     /// Return spotlight world space frustum.
-    Frustum GetWorldFrustum() const;
+    FFrustum GetWorldFrustum() const;
     /// Return point light world space sphere.
-    Sphere GetWorldSphere() const;
+    FSphere GetWorldSphere() const;
 
     /// Set shadow map and viewport within it. Called by Renderer.
-    void SetShadowMap(ATexture* shadowMap, const RectI& shadowRect = RectI::ZERO);
+    void SetShadowMap(ATexture* shadowMap, const TRectI& shadowRect = TRectI::ZERO);
     /// Setup shadow cameras and viewports. Called by Renderer.
     void SetupShadowViews(ACamera* mainCamera, TVector<TAutoPtr<ShadowView> >& shadowViews, size_t& useIndex);
     /// Return shadow map.
     ATexture* GetShadowMap() const { return _shadowMap; }
     /// Return actual shadow map rectangle. May be smaller than the requested total shadow map _size.
-    const RectI& GetShadowRect() const { return _shadowRect; }
+    const TRectI& GetShadowRect() const { return _shadowRect; }
     /// Return shadow mapping matrices.
-    const TVector<Matrix4x4F>& GetShadowMatrices() const { return _shadowMatrices; }
+    const TVector<TMatrix4x4F>& GetShadowMatrices() const { return _shadowMatrices; }
     /// Return shadow map offset and depth parameters.
-    const Vector4F& GetShadowParameters() const { return _shadowParameters; }
+    const TVector4F& GetShadowParameters() const { return _shadowParameters; }
     /// Return point light shadow extra parameters.
-    const Vector4F& GetPointShadowParameters() const { return _pointShadowParameters; }
+    const TVector4F& GetPointShadowParameters() const { return _pointShadowParameters; }
 
 protected:
     /// Recalculate the world space bounding box.
@@ -130,7 +130,7 @@ private:
     /// ALight type.
     ELightType::Type _lightType;
     /// ALight color.
-    Color _color;
+    FColor _color;
     /// Range.
     float _range;
     /// Spotlight field of view.
@@ -140,7 +140,7 @@ private:
     /// Shadow map resolution in pixels.
     int _shadowMapSize;
     /// Directional shadow splits.
-    Vector4F _shadowSplits;
+    TVector4F _shadowSplits;
     /// Directional shadow fade start.
     float _shadowFadeStart;
     /// FConstant depth bias.
@@ -150,13 +150,13 @@ private:
     /// Current shadow map texture.
     ATexture* _shadowMap;
     /// Rectangle within the shadow map.
-    RectI _shadowRect;
+    TRectI _shadowRect;
     /// Shadow mapping matrices.
-    TVector<Matrix4x4F> _shadowMatrices;
+    TVector<TMatrix4x4F> _shadowMatrices;
     /// Shadow mapping parameters.
-    Vector4F _shadowParameters;
+    TVector4F _shadowParameters;
     /// Shadow mapping extra parameters for point lights.
-    Vector4F _pointShadowParameters;
+    TVector4F _pointShadowParameters;
 };
 
 }

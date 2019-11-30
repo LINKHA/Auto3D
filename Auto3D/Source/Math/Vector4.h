@@ -6,7 +6,7 @@ namespace Auto3D
 {
 
 /// Four-dimensional vector.
-template<typename _Ty> class AUTO_API Vector4
+template<typename _Ty> class AUTO_API TVector4
 {
 public:
 	/// X coordinate.
@@ -19,7 +19,7 @@ public:
 	float _w;
 
 	/// Construct a zero vector.
-	Vector4() noexcept :
+	TVector4() noexcept :
 		_x(0),
 		_y(0),
 		_z(0),
@@ -28,7 +28,7 @@ public:
 	}
 
 	/// Copy-construct.
-	Vector4(const Vector4& vector) :
+	TVector4(const TVector4& vector) :
 		_x(vector._x),
 		_y(vector._y),
 		_z(vector._z),
@@ -37,7 +37,7 @@ public:
 	}
 
 	/// Construct from a 3-dimensional vector and the W coordinate.
-	Vector4(const Vector3<_Ty>& vector, float w) :
+	TVector4(const TVector3<_Ty>& vector, float w) :
 		_x(vector._x),
 		_y(vector._y),
 		_z(vector._z),
@@ -46,7 +46,7 @@ public:
 	}
 
 	/// Construct from coordinates.
-	Vector4(float x, float y, float z, float w) :
+	TVector4(float x, float y, float z, float w) :
 		_x(x),
 		_y(y),
 		_z(z),
@@ -55,7 +55,7 @@ public:
 	}
 
 	/// Construct from a float array.
-	Vector4(const float* _data) :
+	TVector4(const float* _data) :
 		_x(_data[0]),
 		_y(_data[1]),
 		_z(_data[2]),
@@ -64,7 +64,7 @@ public:
 	}
 
 	/// Assign from another vector.
-	Vector4& operator = (const Vector4& rhs)
+	TVector4& operator = (const TVector4& rhs)
 	{
 		_x = rhs._x;
 		_y = rhs._y;
@@ -74,38 +74,38 @@ public:
 	}
 
 	/// Construct by parsing a string.
-	Vector4(const FString& str)
+	TVector4(const FString& str)
 	{
 		FromString(str);
 	}
 
 	/// Construct by parsing a C string.
-	Vector4(const char* str)
+	TVector4(const char* str)
 	{
 		FromString(str);
 	}
 
 	/// Test for equality with another vector without epsilon.
-	bool operator == (const Vector4& rhs) const { return _x == rhs._x && _y == rhs._y && _z == rhs._z && _w == rhs._w; }
+	bool operator == (const TVector4& rhs) const { return _x == rhs._x && _y == rhs._y && _z == rhs._z && _w == rhs._w; }
 	/// Test for inequality with another vector without epsilon.
-	bool operator != (const Vector4& rhs) const { return !(*this == rhs); }
+	bool operator != (const TVector4& rhs) const { return !(*this == rhs); }
 	/// Add a vector.
-	Vector4 operator + (const Vector4& rhs) const { return Vector4(_x + rhs._x, _y + rhs._y, _z + rhs._z, _w + rhs._w); }
+	TVector4 operator + (const TVector4& rhs) const { return TVector4(_x + rhs._x, _y + rhs._y, _z + rhs._z, _w + rhs._w); }
 	/// Return negation.
-	Vector4 operator - () const { return Vector4(-_x, -_y, -_z, -_w); }
+	TVector4 operator - () const { return TVector4(-_x, -_y, -_z, -_w); }
 	/// Subtract a vector.
-	Vector4 operator - (const Vector4& rhs) const { return Vector4(_x - rhs._x, _y - rhs._y, _z - rhs._z, _w - rhs._w); }
+	TVector4 operator - (const TVector4& rhs) const { return TVector4(_x - rhs._x, _y - rhs._y, _z - rhs._z, _w - rhs._w); }
 	/// Multiply with a scalar.
-	Vector4 operator * (float rhs) const { return Vector4(_x * rhs, _y * rhs, _z * rhs, _w * rhs); }
+	TVector4 operator * (float rhs) const { return TVector4(_x * rhs, _y * rhs, _z * rhs, _w * rhs); }
 	/// Multiply with a vector.
-	Vector4 operator * (const Vector4& rhs) const { return Vector4(_x * rhs._x, _y * rhs._y, _z * rhs._z, _w * rhs._w); }
+	TVector4 operator * (const TVector4& rhs) const { return TVector4(_x * rhs._x, _y * rhs._y, _z * rhs._z, _w * rhs._w); }
 	/// Divide by a scalar.
-	Vector4 operator / (float rhs) const { return Vector4(_x / rhs, _y / rhs, _z / rhs, _w / rhs); }
+	TVector4 operator / (float rhs) const { return TVector4(_x / rhs, _y / rhs, _z / rhs, _w / rhs); }
 	/// Divide by a vector.
-	Vector4 operator / (const Vector4& rhs) const { return Vector4(_x / rhs._x, _y / rhs._y, _z / rhs._z, _w / rhs._w); }
+	TVector4 operator / (const TVector4& rhs) const { return TVector4(_x / rhs._x, _y / rhs._y, _z / rhs._z, _w / rhs._w); }
 
 	/// Add-assign a vector.
-	Vector4& operator += (const Vector4& rhs)
+	TVector4& operator += (const TVector4& rhs)
 	{
 		_x += rhs._x;
 		_y += rhs._y;
@@ -115,7 +115,7 @@ public:
 	}
 
 	/// Subtract-assign a vector.
-	Vector4& operator -= (const Vector4& rhs)
+	TVector4& operator -= (const TVector4& rhs)
 	{
 		_x -= rhs._x;
 		_y -= rhs._y;
@@ -125,7 +125,7 @@ public:
 	}
 
 	/// Multiply-assign a scalar.
-	Vector4& operator *= (float rhs)
+	TVector4& operator *= (float rhs)
 	{
 		_x *= rhs;
 		_y *= rhs;
@@ -135,7 +135,7 @@ public:
 	}
 
 	/// Multiply-assign a vector.
-	Vector4& operator *= (const Vector4& rhs)
+	TVector4& operator *= (const TVector4& rhs)
 	{
 		_x *= rhs._x;
 		_y *= rhs._y;
@@ -145,7 +145,7 @@ public:
 	}
 
 	/// Divide-assign a scalar.
-	Vector4& operator /= (float rhs)
+	TVector4& operator /= (float rhs)
 	{
 		float invRhs = 1.0f / rhs;
 		_x *= invRhs;
@@ -156,7 +156,7 @@ public:
 	}
 
 	/// Divide-assign a vector.
-	Vector4& operator /= (const Vector4& rhs)
+	TVector4& operator /= (const TVector4& rhs)
 	{
 		_x /= rhs._x;
 		_y /= rhs._y;
@@ -187,15 +187,15 @@ public:
 	}
 
 	/// Calculate dot product.
-	float DotProduct(const Vector4& rhs) const { return _x * rhs._x + _y * rhs._y + _z * rhs._z + _w * rhs._w; }
+	float DotProduct(const TVector4& rhs) const { return _x * rhs._x + _y * rhs._y + _z * rhs._z + _w * rhs._w; }
 	/// Calculate absolute dot product.
-	float AbsDotProduct(const Vector4& rhs) const { return Auto3D::Abs(_x * rhs._x) + Auto3D::Abs(_y * rhs._y) + Auto3D::Abs(_z * rhs._z) + Auto3D::Abs(_w * rhs._w); }
+	float AbsDotProduct(const TVector4& rhs) const { return Auto3D::Abs(_x * rhs._x) + Auto3D::Abs(_y * rhs._y) + Auto3D::Abs(_z * rhs._z) + Auto3D::Abs(_w * rhs._w); }
 	/// Return absolute vector.
-	Vector4 Abs() const { return Vector4(Auto3D::Abs(_x), Auto3D::Abs(_y), Auto3D::Abs(_z), Auto3D::Abs(_w)); }
+	TVector4 Abs() const { return TVector4(Auto3D::Abs(_x), Auto3D::Abs(_y), Auto3D::Abs(_z), Auto3D::Abs(_w)); }
 	/// Linear interpolation with another vector.
-	Vector4 Lerp(const Vector4& rhs, float t) const { return *this * (1.0f - t) + rhs * t; }
+	TVector4 Lerp(const TVector4& rhs, float t) const { return *this * (1.0f - t) + rhs * t; }
 	/// Test for equality with another vector with epsilon.
-	bool Equals(const Vector4& rhs) const { return Auto3D::Equals(_x, rhs._x) && Auto3D::Equals(_y, rhs._y) && Auto3D::Equals(_z, rhs._z) && Auto3D::Equals(_w, rhs._w); }
+	bool Equals(const TVector4& rhs) const { return Auto3D::Equals(_x, rhs._x) && Auto3D::Equals(_y, rhs._y) && Auto3D::Equals(_z, rhs._z) && Auto3D::Equals(_w, rhs._w); }
 	/// Return whether is NaN.
 	bool IsNaN() const { return Auto3D::IsNaN(_x) || Auto3D::IsNaN(_y) || Auto3D::IsNaN(_z) || Auto3D::IsNaN(_w); }
 
@@ -210,22 +210,22 @@ public:
 	}
 
 	/// Zero vector.
-	static const Vector4 ZERO;
+	static const TVector4 ZERO;
 	/// (1,1,1) vector.
-	static const Vector4 ONE;
+	static const TVector4 ONE;
 };
 
-/// Multiply Vector4 with a scalar.
-template <typename _Ty> Vector4<_Ty> operator * (float lhs, const Vector4<_Ty>& rhs) { return rhs * lhs; }
+/// Multiply TVector4 with a scalar.
+template <typename _Ty> TVector4<_Ty> operator * (float lhs, const TVector4<_Ty>& rhs) { return rhs * lhs; }
 
-using Vector4F = Vector4<float>;
+using TVector4F = TVector4<float>;
 
-using Vector4I = Vector4<int>;
+using TVector4I = TVector4<int>;
 
-using Vector4C = Vector4<char>;
+using TVector4C = TVector4<char>;
 
-using Vector4D = Vector4<double>;
+using TVector4D = TVector4<double>;
 
-using Vector4U = Vector4<unsigned>;
+using TVector4U = TVector4<unsigned>;
 
 }

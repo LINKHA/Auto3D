@@ -63,11 +63,11 @@ FString Window::className("Auto3DWindow");
 Window::Window() :
 	_handle(nullptr),
 	_title("Auto3D Window"),
-	_savedPosition(Vector2I(M_MIN_INT, M_MIN_INT)),
-	_mousePosition(Vector2I::ZERO),
-	_mouseWheelOffset(Vector2I::ZERO),
-	_mouseMoveWheel(Vector2I::ZERO),
-	_rect(RectI::ZERO),
+	_savedPosition(TVector2I(M_MIN_INT, M_MIN_INT)),
+	_mousePosition(TVector2I::ZERO),
+	_mouseWheelOffset(TVector2I::ZERO),
+	_mouseMoveWheel(TVector2I::ZERO),
+	_rect(TRectI::ZERO),
 	_close(false),
 	_windowStyle(0),
 	_multisample(1),
@@ -141,7 +141,7 @@ void Window::SetIcon(AImage* icon)
 		CreateWindowIcon();
 }
 
-bool Window::SetSize(const RectI& rect, int multisample, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
+bool Window::SetSize(const TRectI& rect, int multisample, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
 {
 	_inResize = true;
 	_fullscreen = fullscreen;
@@ -153,8 +153,8 @@ bool Window::SetSize(const RectI& rect, int multisample, bool fullscreen, bool r
 
 	Clamp(multisample, 1, 16);
 	_multisample = multisample;
-	Vector2I size = Vector2I(rect.Width(), rect.Height());
-	Vector2I position = Vector2I(rect.Left(), rect.Top());
+	TVector2I size = TVector2I(rect.Width(), rect.Height());
+	TVector2I position = TVector2I(rect.Left(), rect.Top());
 
 	unsigned windowStyle;
 
@@ -173,7 +173,7 @@ bool Window::SetSize(const RectI& rect, int multisample, bool fullscreen, bool r
 			_savedPosition = GetPosition();
 
 		windowStyle = WS_POPUP | WS_VISIBLE;
-		position = Vector2I::ZERO;
+		position = TVector2I::ZERO;
 		/// Handle failure to set mode
 		SetDisplayMode(size._x, size._y);
 
@@ -249,7 +249,7 @@ bool Window::SetSize(const RectI& rect, int multisample, bool fullscreen, bool r
 			WINDOWPLACEMENT placement;
 			placement.length = sizeof(placement);
 			::GetWindowPlacement((HWND)_handle, &placement);
-			position = Vector2I(placement.rcNormalPosition.left, placement.rcNormalPosition.top);
+			position = TVector2I(placement.rcNormalPosition.left, placement.rcNormalPosition.top);
 		}
 
 		::SetWindowPos((HWND)_handle, NULL, position._x, position._y, winRect.right - winRect.left, winRect.bottom - winRect.top, SWP_NOZORDER);
@@ -263,8 +263,8 @@ bool Window::SetSize(const RectI& rect, int multisample, bool fullscreen, bool r
 	resizable = _resizable;
 	_inResize = false;
 
-	Vector2I newSize = ClientRectSize();
-	if (newSize != Vector2I(_rect.Width(), _rect.Height()))
+	TVector2I newSize = ClientRectSize();
+	if (newSize != TVector2I(_rect.Width(), _rect.Height()))
 	{
 		_rect.Right() = _rect.Left() + size._x;
 		_rect.Bottom() = _rect.Top() + size._y;
@@ -279,7 +279,7 @@ bool Window::SetSize(const RectI& rect, int multisample, bool fullscreen, bool r
 	return true;
 }
 
-void Window::SetPosition(const Vector2I& position)
+void Window::SetPosition(const TVector2I& position)
 {
 	if (_handle)
 	{
@@ -305,7 +305,7 @@ void Window::SetMouseLock(bool enable)
 	}
 }
 
-void Window::SetMousePosition(const Vector2I& position)
+void Window::SetMousePosition(const TVector2I& position)
 {
 	if (_handle)
 	{
@@ -425,9 +425,9 @@ void Window::PumpMessages()
 	}
 }
 
-const Vector2I Window::GetPosition() const
+const TVector2I Window::GetPosition() const
 {
-	return Vector2I(_rect.Left(),_rect.Top());
+	return TVector2I(_rect.Left(),_rect.Top());
 }
 
 bool Window::OnWindowMessage(unsigned msg, unsigned wParam, unsigned lParam)
@@ -511,8 +511,8 @@ bool Window::OnWindowMessage(unsigned msg, unsigned wParam, unsigned lParam)
 
 		if (!_minimized && !_inResize)
 		{
-			Vector2I newSize = ClientRectSize();
-			if (newSize != Vector2I(_rect.Width(),_rect.Height()))
+			TVector2I newSize = ClientRectSize();
+			if (newSize != TVector2I(_rect.Width(),_rect.Height()))
 			{
 				_rect.Right() = _rect.Left() + newSize._x;
 				_rect.Bottom() = _rect.Top() + newSize._y;
@@ -551,18 +551,18 @@ bool Window::OnWindowMessage(unsigned msg, unsigned wParam, unsigned lParam)
 	case WM_MOUSEMOVE:
 		if (input && !emulatedMouse)
 		{
-			Vector2I newPosition;
+			TVector2I newPosition;
 			newPosition._x = (int)(short)LOWORD(lParam);
 			newPosition._y = (int)(short)HIWORD(lParam);
 
 			// Do not transmit mouse move when mouse should be hidden, but is not due to no input focus
 			if (_mouseVisibleInternal == _mouseVisible)
 			{
-				Vector2I delta = newPosition - _mousePosition;
+				TVector2I delta = newPosition - _mousePosition;
 				input->OnMouseMove(newPosition, delta);
 				// Recenter in hidden mouse cursor mode to allow endless relative motion
-				if (!_mouseVisibleInternal && delta != Vector2I::ZERO)
-					SetMousePosition(Vector2I(_rect.Width(), _rect.Height()) / 2);
+				if (!_mouseVisibleInternal && delta != TVector2I::ZERO)
+					SetMousePosition(TVector2I(_rect.Width(), _rect.Height()) / 2);
 				else
 					_mousePosition = newPosition;
 			}
@@ -615,7 +615,7 @@ bool Window::OnWindowMessage(unsigned msg, unsigned wParam, unsigned lParam)
 					point.x = it->x / 100;
 					point.y = it->y / 100;
 					ScreenToClient((HWND)_handle, &point);
-					Vector2I position(point.x, point.y);
+					TVector2I position(point.x, point.y);
 
 					if (it->dwFlags & (TOUCHEVENTF_DOWN || TOUCHEVENTF_UP))
 						input->OnTouch(it->dwID, true, position, 1.0f);
@@ -684,7 +684,7 @@ void Window::UpdateMouseClipping()
 	{
 		RECT mouseRect;
 		POINT point;
-		Vector2I windowSize = Vector2I(_rect.Width(), _rect.Height());
+		TVector2I windowSize = TVector2I(_rect.Width(), _rect.Height());
 
 		point.x = point.y = 0;
 		ClientToScreen((HWND)_handle, &point);
@@ -696,16 +696,16 @@ void Window::UpdateMouseClipping()
 	}
 }
 
-Vector2I Window::ClientRectSize() const
+TVector2I Window::ClientRectSize() const
 {
 	if (_handle)
 	{
 		RECT rect;
 		GetClientRect((HWND)_handle, &rect);
-		return Vector2I(rect.right, rect.bottom);
+		return TVector2I(rect.right, rect.bottom);
 	}
 	else
-		return Vector2I::ZERO;
+		return TVector2I::ZERO;
 }
 
 void Window::UpdateMousePosition()

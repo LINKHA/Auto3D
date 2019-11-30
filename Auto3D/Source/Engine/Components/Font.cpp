@@ -24,8 +24,8 @@ static const float MAX_POINT_SIZE = 96;
 
 AFont::AFont() :
 	_fontDataSize(0),
-	_absoluteOffset(Vector2I::ZERO),
-	_scaledOffset(Vector2F::ZERO),
+	_absoluteOffset(TVector2I::ZERO),
+	_scaledOffset(TVector2F::ZERO),
 	_fontType(EFontType::NONE),
 	_sdfFont(false)
 {
@@ -76,21 +76,21 @@ bool AFont::BeginLoad(FStream& source)
 	SetMemoryUse(_fontDataSize);
 	return true;
 }
-void AFont::SetAbsoluteGlyphOffset(const Vector2I& offset)
+void AFont::SetAbsoluteGlyphOffset(const TVector2I& offset)
 {
 	_absoluteOffset = offset;
 }
 
-void AFont::SetScaledGlyphOffset(const Vector2F& offset)
+void AFont::SetScaledGlyphOffset(const TVector2F& offset)
 {
 	_scaledOffset = offset;
 }
 
 
-Vector2I AFont::GetTotalGlyphOffset(float pointSize) const
+TVector2I AFont::GetTotalGlyphOffset(float pointSize) const
 {
-	Vector2F multipliedOffset = pointSize * _scaledOffset;
-	return _absoluteOffset + Vector2I(RoundToInt(multipliedOffset._x), RoundToInt(multipliedOffset._y));
+	TVector2F multipliedOffset = pointSize * _scaledOffset;
+	return _absoluteOffset + TVector2I(RoundToInt(multipliedOffset._x), RoundToInt(multipliedOffset._y));
 }
 
 

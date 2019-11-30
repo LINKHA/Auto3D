@@ -3,25 +3,25 @@
 namespace Auto3D
 {
 
-const RectF RectF::FULL(-1.0f, -1.0f, 1.0f, 1.0f);
-const RectF RectF::POSITIVE(0.0f, 0.0f, 1.0f, 1.0f);
-const RectF RectF::ZERO(0.0f, 0.0f, 0.0f, 0.0f);
+const TRectF TRectF::FULL(-1.0f, -1.0f, 1.0f, 1.0f);
+const TRectF TRectF::POSITIVE(0.0f, 0.0f, 1.0f, 1.0f);
+const TRectF TRectF::ZERO(0.0f, 0.0f, 0.0f, 0.0f);
 
-const RectI RectI::FULL(-1, -1, 1, 1);
-const RectI RectI::POSITIVE(0, 0, 1, 1);
-const RectI RectI::ZERO(0, 0, 0, 0);
+const TRectI TRectI::FULL(-1, -1, 1, 1);
+const TRectI TRectI::POSITIVE(0, 0, 1, 1);
+const TRectI TRectI::ZERO(0, 0, 0, 0);
 
-const RectC RectC::FULL(-1, -1, 1, 1);
-const RectC RectC::POSITIVE(0, 0, 1, 1);
-const RectC RectC::ZERO(0, 0, 0, 0);
+const TRectC TRectC::FULL(-1, -1, 1, 1);
+const TRectC TRectC::POSITIVE(0, 0, 1, 1);
+const TRectC TRectC::ZERO(0, 0, 0, 0);
 
-const RectD RectD::FULL(-1, -1, 1, 1);
-const RectD RectD::POSITIVE(0, 0, 1, 1);
-const RectD RectD::ZERO(0, 0, 0, 0);
+const TRectD TRectD::FULL(-1, -1, 1, 1);
+const TRectD TRectD::POSITIVE(0, 0, 1, 1);
+const TRectD TRectD::ZERO(0, 0, 0, 0);
 
-const RectU RectU::FULL(-1, -1, 1, 1);
-const RectU RectU::POSITIVE(0, 0, 1, 1);
-const RectU RectU::ZERO(0, 0, 0, 0);
+const TRectU TRectU::FULL(-1, -1, 1, 1);
+const TRectU TRectU::POSITIVE(0, 0, 1, 1);
+const TRectU TRectU::ZERO(0, 0, 0, 0);
 
 
 }

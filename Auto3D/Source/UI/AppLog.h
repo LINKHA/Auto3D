@@ -71,14 +71,14 @@ struct UILog
 		Filter.Draw("Filter", -100.0f);
 
 		GUI::Separator();
-		GUI::BeginChild("scrolling", Vector2F(0, 0), false, ImGuiWindowFlags_HorizontalScrollbar);
+		GUI::BeginChild("scrolling", TVector2F(0, 0), false, ImGuiWindowFlags_HorizontalScrollbar);
 
 		if (clear)
 			Clear();
 		if (copy)
 			GUI::LogToClipboard();
 
-		GUI::PushStyleVar(ImGuiStyleVar_ItemSpacing, Vector2F(0, 0));
+		GUI::PushStyleVar(ImGuiStyleVar_ItemSpacing, TVector2F(0, 0));
 		const char* buf = Buf.begin();
 		const char* buf_end = Buf.end();
 		if (Filter.IsActive())

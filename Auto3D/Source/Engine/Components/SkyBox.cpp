@@ -105,14 +105,14 @@ void RenderQuad()
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
-static Matrix4x4F captureProjection = Perspective(90.0f, 1.0f, 0.1f, 10.0f);
-static Matrix4x4F captureViews[] = {
-	LookAt(Vector3F(0.0f, 0.0f, 0.0f), Vector3F(1.0f, 0.0f, 0.0f), Vector3F(0.0f, -1.0f, 0.0f)),
-	LookAt(Vector3F(0.0f, 0.0f, 0.0f), Vector3F(-1.0f, 0.0f, 0.0f), Vector3F(0.0f, -1.0f, 0.0f)),
-	LookAt(Vector3F(0.0f, 0.0f, 0.0f), Vector3F(0.0f, 1.0f, 0.0f), Vector3F(0.0f, 0.0f, 1.0f)),
-	LookAt(Vector3F(0.0f, 0.0f, 0.0f), Vector3F(0.0f, -1.0f, 0.0f), Vector3F(0.0f, 0.0f, -1.0f)),
-	LookAt(Vector3F(0.0f, 0.0f, 0.0f), Vector3F(0.0f, 0.0f, 1.0f), Vector3F(0.0f, -1.0f, 0.0f)),
-	LookAt(Vector3F(0.0f, 0.0f, 0.0f), Vector3F(0.0f, 0.0f, -1.0f), Vector3F(0.0f, -1.0f, 0.0f))
+static TMatrix4x4F captureProjection = Perspective(90.0f, 1.0f, 0.1f, 10.0f);
+static TMatrix4x4F captureViews[] = {
+	LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(1.0f, 0.0f, 0.0f), TVector3F(0.0f, -1.0f, 0.0f)),
+	LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(-1.0f, 0.0f, 0.0f), TVector3F(0.0f, -1.0f, 0.0f)),
+	LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(0.0f, 1.0f, 0.0f), TVector3F(0.0f, 0.0f, 1.0f)),
+	LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(0.0f, -1.0f, 0.0f), TVector3F(0.0f, 0.0f, -1.0f)),
+	LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(0.0f, 0.0f, 1.0f), TVector3F(0.0f, -1.0f, 0.0f)),
+	LookAt(TVector3F(0.0f, 0.0f, 0.0f), TVector3F(0.0f, 0.0f, -1.0f), TVector3F(0.0f, -1.0f, 0.0f))
 };
 
 static FShaderVariation* irradianceVSV = nullptr;
@@ -194,7 +194,7 @@ const TSharedPtr<ATexture>& ASkyBox::SetupIrradianceMap()
 	auto graphics = GModuleManager::Get().GraphicsModule();
 
 	_irradianceMap = TSharedPtr<ATexture>(new ATexture());
-	_irradianceMap->Define(ETextureType::TEX_CUBE, EResourceUsage::DEFAULT, Vector2I(_irradianceSize, _irradianceSize), EImageFormat::RGBA16F, 1);
+	_irradianceMap->Define(ETextureType::TEX_CUBE, EResourceUsage::DEFAULT, TVector2I(_irradianceSize, _irradianceSize), EImageFormat::RGBA16F, 1);
 	_irradianceMap->DefineSampler(ETextureFilterMode::COMPARE_TRILINEAR, ETextureAddressMode::CLAMP, ETextureAddressMode::CLAMP, ETextureAddressMode::CLAMP);
 	_irradianceMap->SetDataLost(false);
 
@@ -228,7 +228,7 @@ const TSharedPtr<ATexture>& ASkyBox::SetupPrefilterMap()
 		_prefilterMap.Reset();
 
 	_prefilterMap = TSharedPtr<ATexture>(new ATexture());
-	_prefilterMap->Define(ETextureType::TEX_CUBE, EResourceUsage::DEFAULT, Vector2I(_prefilterSize, _prefilterSize), EImageFormat::RGBA16F, 1);
+	_prefilterMap->Define(ETextureType::TEX_CUBE, EResourceUsage::DEFAULT, TVector2I(_prefilterSize, _prefilterSize), EImageFormat::RGBA16F, 1);
 	_prefilterMap->DefineSampler(ETextureFilterMode::COMPARE_TRILINEAR, ETextureAddressMode::CLAMP, ETextureAddressMode::CLAMP, ETextureAddressMode::CLAMP);
 	_prefilterMap->SetDataLost(false);
 
@@ -273,7 +273,7 @@ const TSharedPtr<ATexture>& ASkyBox::SetupBrdfLUT()
 		_brdfLUT.Reset();
 
 	_brdfLUT = TSharedPtr<ATexture>(new ATexture());
-	_brdfLUT->Define(ETextureType::TEX_2D, EResourceUsage::DEFAULT, Vector2I(_mapSize, _mapSize), EImageFormat::RG16F, 1);
+	_brdfLUT->Define(ETextureType::TEX_2D, EResourceUsage::DEFAULT, TVector2I(_mapSize, _mapSize), EImageFormat::RG16F, 1);
 	_brdfLUT->DefineSampler(ETextureFilterMode::COMPARE_TRILINEAR, ETextureAddressMode::CLAMP, ETextureAddressMode::CLAMP, ETextureAddressMode::CLAMP);
 	_brdfLUT->SetDataLost(false);
 

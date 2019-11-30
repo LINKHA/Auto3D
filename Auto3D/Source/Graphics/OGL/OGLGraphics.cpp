@@ -153,7 +153,7 @@ public:
 
 	/// OpenGL FBO handle.
 	unsigned buffer;
-	/// Color rendertargets bound to this FBO.
+	/// FColor rendertargets bound to this FBO.
 	ATexture* renderTargets[MAX_RENDERTARGETS];
 	/// Depth-stencil texture bound to this FBO.
 	ATexture* depthStencil;
@@ -165,8 +165,8 @@ public:
 
 
 AGraphics::AGraphics() :
-	_backbufferSize(Vector2I::ZERO),
-	_renderTargetSize(Vector2I::ZERO),
+	_backbufferSize(TVector2I::ZERO),
+	_renderTargetSize(TVector2I::ZERO),
 	_attributesBySemantic(EElementSemantic::Count),
 	_multisample(1),
 #ifndef AUTO_OPENGL_ES
@@ -233,7 +233,7 @@ bool AGraphics::SetMode(WindowModeDesc& windowModeDesc)
 	return SetMode(windowModeDesc._size, windowModeDesc._multisample, windowModeDesc._fullscreen, windowModeDesc._resizable, windowModeDesc._center, windowModeDesc._borderless, windowModeDesc._highDPI);
 }
 
-bool AGraphics::SetMode(const RectI& size, int multisample, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
+bool AGraphics::SetMode(const TRectI& size, int multisample, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
 {
 	WindowModeDesc& windowModeDesc = _window->ModeDesc();
 	windowModeDesc._size = size;
@@ -324,7 +324,7 @@ bool AGraphics::SetFullscreen(bool enable)
 	if (!IsInitialized())
 		return false;
 	else
-		return SetMode(RectI(0, 0, _backbufferSize._x, _backbufferSize._y), enable, _window->IsResizable(), _multisample);
+		return SetMode(TRectI(0, 0, _backbufferSize._x, _backbufferSize._y), enable, _window->IsResizable(), _multisample);
 }
 
 bool AGraphics::SetMultisample(int multisample)
@@ -332,7 +332,7 @@ bool AGraphics::SetMultisample(int multisample)
 	if (!IsInitialized())
 		return false;
 	else
-		return SetMode(RectI(0, 0, _backbufferSize._x, _backbufferSize._y), _window->IsFullscreen(), _window->IsResizable(), multisample);
+		return SetMode(TRectI(0, 0, _backbufferSize._x, _backbufferSize._y), _window->IsFullscreen(), _window->IsResizable(), multisample);
 }
 
 void AGraphics::SetVSync(bool enable)
@@ -367,7 +367,7 @@ void AGraphics::Present()
 
 	ResetRenderTargets();
 	ResetViewport();
-	Clear(CLEAR_COLOR | CLEAR_DEPTH | CLEAR_STENCIL, Color::BLACK);
+	Clear(CLEAR_COLOR | CLEAR_DEPTH | CLEAR_STENCIL, FColor::BLACK);
 
 	//// In case of third party hooks which modify the GL state and don't restore it properly, re-enable depth test now
 	glEnable(GL_DEPTH_TEST);
@@ -399,16 +399,16 @@ void AGraphics::SetRenderTargets(const TVector<ATexture*>& renderTargets, ATextu
 	_depthStencil = (depthStencil && depthStencil->IsDepthStencil()) ? depthStencil : nullptr;
 
 	if (_renderTargets[0])
-		_renderTargetSize = Vector2I(_renderTargets[0]->GetWidth(), _renderTargets[0]->GetHeight());
+		_renderTargetSize = TVector2I(_renderTargets[0]->GetWidth(), _renderTargets[0]->GetHeight());
 	else if (_depthStencil)
-		_renderTargetSize = Vector2I(_depthStencil->GetWidth(), _depthStencil->GetHeight());
+		_renderTargetSize = TVector2I(_depthStencil->GetWidth(), _depthStencil->GetHeight());
 	else
 		_renderTargetSize = _backbufferSize;
 
 	_framebufferDirty = true;
 }
 
-void AGraphics::SetViewport(const RectI& viewport)
+void AGraphics::SetViewport(const TRectI& viewport)
 {
 	PrepareFramebuffer();
 
@@ -601,7 +601,7 @@ void AGraphics::SetRasterizerState(ECullMode::Type cullMode, EFillMode::Type fil
 	_rasterizerStateDirty = true;
 }
 
-void AGraphics::SetScissorTest(bool scissorEnable, const RectI& scissorRect)
+void AGraphics::SetScissorTest(bool scissorEnable, const TRectI& scissorRect)
 {
 	_renderState._scissorEnable = scissorEnable;
 	/// \todo Implement a member function in IntRect for clipping
@@ -652,7 +652,7 @@ void AGraphics::ResetRenderTargets()
 
 void AGraphics::ResetViewport()
 {
-	SetViewport(RectI(0, 0, _renderTargetSize._x, _renderTargetSize._y));
+	SetViewport(TRectI(0, 0, _renderTargetSize._x, _renderTargetSize._y));
 }
 
 void AGraphics::ResetVertexBuffers()
@@ -686,7 +686,7 @@ void AGraphics::ResetGraphics()
 	ResetViewport();
 }
 
-void AGraphics::Clear(unsigned clearFlags, const Color& clearColor, float clearDepth, unsigned char clearStencil)
+void AGraphics::Clear(unsigned clearFlags, const FColor& clearColor, float clearDepth, unsigned char clearStencil)
 {
 	PrepareFramebuffer();
 
@@ -1030,7 +1030,7 @@ void AGraphics::PrepareFramebuffer()
 		// If rendertarget changes, scissor rect may need to be re-evaluated
 		if (_renderState._scissorEnable)
 		{
-			_glRenderState._scissorRect = RectI::ZERO;
+			_glRenderState._scissorRect = TRectI::ZERO;
 			_rasterizerStateDirty = true;
 		}
 
@@ -1514,7 +1514,7 @@ void AGraphics::ResetState()
 	_glRenderState._fillMode = EFillMode::SOLID;
 	_glRenderState._cullMode = ECullMode::NONE;
 	_glRenderState._scissorEnable = false;
-	_glRenderState._scissorRect = RectI::ZERO;
+	_glRenderState._scissorRect = TRectI::ZERO;
 	_glRenderState._stencilEnable = false;
 	_glRenderState._stencilRef = 0;
 	_glRenderState._stencilTest._stencilReadMask = 0xff;

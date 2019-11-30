@@ -5,66 +5,66 @@
 namespace Auto3D
 {
 
-template<typename _Ty> class BoundingBox;
-class Polyhedron;
-class Frustum;
+template<typename _Ty> class TBoundingBox;
+class FPolyhedron;
+class FFrustum;
 
-/// %Sphere in three-dimensional space.
-class AUTO_API Sphere
+/// %FSphere in three-dimensional space.
+class AUTO_API FSphere
 {
 public:
-    /// Sphere center.
-    Vector3F _center;
-    /// Sphere radius.
+    /// FSphere center.
+    TVector3F _center;
+    /// FSphere radius.
     float _radius;
     
     /// Construct as undefined (negative radius.)
-    Sphere() :
-        _center(Vector3F::ZERO),
+    FSphere() :
+        _center(TVector3F::ZERO),
         _radius(-M_INFINITY)
     {
     }
     
     /// Copy-construct.
-    Sphere(const Sphere& sphere) :
+    FSphere(const FSphere& sphere) :
         _center(sphere._center),
         _radius(sphere._radius)
     {
     }
     
     /// Construct from center and radius.
-    Sphere(const Vector3F& center, float radius) :
+    FSphere(const TVector3F& center, float radius) :
         _center(center),
         _radius(radius)
     {
     }
     
     /// Construct from an array of vertices.
-    Sphere(const Vector3F* vertices, size_t count)
+    FSphere(const TVector3F* vertices, size_t count)
     {
         Define(vertices, count);
     }
     
     /// Construct from a bounding box.
-    Sphere(const BoundingBoxF& box)
+    FSphere(const TBoundingBoxF& box)
     {
         Define(box);
     }
     
     /// Construct from a frustum.
-    Sphere(const Frustum& frustum)
+    FSphere(const FFrustum& frustum)
     {
         Define(frustum);
     }
     
     /// Construct from a polyhedron.
-    Sphere(const Polyhedron& poly)
+    FSphere(const FPolyhedron& poly)
     {
         Define(poly);
     }
     
     /// Assign from another sphere.
-    Sphere& operator = (const Sphere& rhs)
+    FSphere& operator = (const FSphere& rhs)
     {
         _center = rhs._center;
         _radius = rhs._radius;
@@ -72,35 +72,35 @@ public:
     }
     
     /// Test for equality with another sphere without epsilon.
-    bool operator == (const Sphere& rhs) const { return _center == rhs._center && _radius == rhs._radius; }
+    bool operator == (const FSphere& rhs) const { return _center == rhs._center && _radius == rhs._radius; }
     /// Test for inequality with another sphere without epsilon.
-    bool operator != (const Sphere& rhs) const { return !(*this == rhs); }
+    bool operator != (const FSphere& rhs) const { return !(*this == rhs); }
     
     /// Define from another sphere.
-    void Define(const Sphere& sphere)
+    void Define(const FSphere& sphere)
     {
         _center = sphere._center;
         _radius = sphere._radius;
     }
     
     /// Define from center and radius.
-    void Define(const Vector3F& center_, float radius_)
+    void Define(const TVector3F& center_, float radius_)
     {
         _center = center_;
         _radius = radius_;
     }
     
     /// Define from an array of vertices.
-    void Define(const Vector3F* vertices, size_t count);
+    void Define(const TVector3F* vertices, size_t count);
     /// Define from a bounding box.
-    void Define(const BoundingBoxF& box);
+    void Define(const TBoundingBoxF& box);
     /// Define from a frustum.
-    void Define(const Frustum& frustum);
+    void Define(const FFrustum& frustum);
     /// Define from a polyhedron.
-    void Define(const Polyhedron& poly);
+    void Define(const FPolyhedron& poly);
     
     /// Merge a point.
-    void Merge(const Vector3F& point)
+    void Merge(const TVector3F& point)
     {
         // If undefined, set initial dimensions
         if (!IsDefined())
@@ -110,7 +110,7 @@ public:
             return;
         }
         
-        Vector3F offset = point - _center;
+        TVector3F offset = point - _center;
         float dist = offset.Length();
         
         if (dist > _radius)
@@ -128,21 +128,21 @@ public:
     }
     
     /// Merge an array of vertices.
-    void Merge(const Vector3F* vertices, size_t count);
+    void Merge(const TVector3F* vertices, size_t count);
     /// Merge a bounding box.
-    void Merge(const BoundingBoxF& box);
+    void Merge(const TBoundingBoxF& box);
     /// Merge a frustum.
-    void Merge(const Frustum& frustum);
+    void Merge(const FFrustum& frustum);
     /// Merge a polyhedron.
-    void Merge(const Polyhedron& poly);
+    void Merge(const FPolyhedron& poly);
     /// Merge a sphere.
-    void Merge(const Sphere& sphere);
+    void Merge(const FSphere& sphere);
     
     /// Return whether has non-negative radius.
     bool IsDefined() const { return _radius >= 0.0f; }
 
     /// Test if a point is inside.
-    Intersection IsInside(const Vector3F& point) const
+    Intersection IsInside(const TVector3F& point) const
     {
         float distSquared = (point - _center).LengthSquared();
         if (distSquared < _radius * _radius)
@@ -152,7 +152,7 @@ public:
     }
     
     /// Test if another sphere is inside, outside or intersects.
-    Intersection IsInside(const Sphere& sphere) const
+    Intersection IsInside(const FSphere& sphere) const
     {
         float dist = (sphere._center - _center).Length();
         if (dist >= sphere._radius + _radius)
@@ -164,7 +164,7 @@ public:
     }
     
     /// Test if another sphere is (partially) inside or outside.
-    Intersection IsInsideFast(const Sphere& sphere) const
+    Intersection IsInsideFast(const FSphere& sphere) const
     {
         float distSquared = (sphere._center - _center).LengthSquared();
         float combined = sphere._radius + _radius;
@@ -176,12 +176,12 @@ public:
     }
     
     /// Test if a bounding box is inside, outside or intersects.
-    Intersection IsInside(const BoundingBoxF& box) const;
+    Intersection IsInside(const TBoundingBoxF& box) const;
     /// Test if a bounding box is (partially) inside or outside.
-    Intersection IsInsideFast(const BoundingBoxF& box) const;
+    Intersection IsInsideFast(const TBoundingBoxF& box) const;
     
     /// Return distance of a point to the surface, or 0 if inside.
-    float Distance(const Vector3F& point) const { return Max((point - _center).Length() - _radius, 0.0f); }
+    float Distance(const TVector3F& point) const { return Max((point - _center).Length() - _radius, 0.0f); }
 };
 
 }

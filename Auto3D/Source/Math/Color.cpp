@@ -9,18 +9,18 @@
 namespace Auto3D
 {
 
-const Color Color::WHITE(1.0f, 1.0f, 1.0f);
-const Color Color::GRAY(0.5f, 0.5f, 0.5f);
-const Color Color::BLACK(0.0f, 0.0f, 0.0f);
-const Color Color::RED(1.0f, 0.0f, 0.0f);
-const Color Color::GREEN(0.0f, 1.0f, 0.0f);
-const Color Color::BLUE(0.0f, 0.0f, 1.0f);
-const Color Color::CYAN(0.0f, 1.0f, 1.0f);
-const Color Color::MAGENTA(1.0f, 0.0f, 1.0f);
-const Color Color::YELLOW(1.0f, 1.0f, 0.0f);
-const Color Color::TRANSPARENT(0.0f, 0.0f, 0.0f, 0.0f);
+const FColor FColor::WHITE(1.0f, 1.0f, 1.0f);
+const FColor FColor::GRAY(0.5f, 0.5f, 0.5f);
+const FColor FColor::BLACK(0.0f, 0.0f, 0.0f);
+const FColor FColor::RED(1.0f, 0.0f, 0.0f);
+const FColor FColor::GREEN(0.0f, 1.0f, 0.0f);
+const FColor FColor::BLUE(0.0f, 0.0f, 1.0f);
+const FColor FColor::CYAN(0.0f, 1.0f, 1.0f);
+const FColor FColor::MAGENTA(1.0f, 0.0f, 1.0f);
+const FColor FColor::YELLOW(1.0f, 1.0f, 0.0f);
+const FColor FColor::TRANSPARENT(0.0f, 0.0f, 0.0f, 0.0f);
 
-unsigned Color::ToUInt() const
+unsigned FColor::ToUInt() const
 {
     unsigned r_ = Clamp(((int)(_r * 255.0f)), 0, 255);
     unsigned g_ = Clamp(((int)(_g * 255.0f)), 0, 255);
@@ -29,7 +29,7 @@ unsigned Color::ToUInt() const
     return (a_ << 24) | (b_ << 16) | (g_ << 8) | r_;
 }
 
-Vector3F Color::ToHSL() const
+TVector3F FColor::ToHSL() const
 {
     float min, max;
     Bounds(&min, &max, true);
@@ -38,10 +38,10 @@ Vector3F Color::ToHSL() const
     float s = SaturationHSL(min, max);
     float l = (max + min) * 0.5f;
 
-    return Vector3F(h, s, l);
+    return TVector3F(h, s, l);
 }
 
-Vector3F Color::ToHSV() const
+TVector3F FColor::ToHSV() const
 {
     float min, max;
     Bounds(&min, &max, true);
@@ -50,10 +50,10 @@ Vector3F Color::ToHSV() const
     float s = SaturationHSV(min, max);
     float v = max;
 
-    return Vector3F(h, s, v);
+    return TVector3F(h, s, v);
 }
 
-void Color::FromHSL(float h, float s, float l, float a_)
+void FColor::FromHSL(float h, float s, float l, float a_)
 {
     float c;
     if (l < 0.5f)
@@ -68,7 +68,7 @@ void Color::FromHSL(float h, float s, float l, float a_)
     _a = a_;
 }
 
-void Color::FromHSV(float h, float s, float v, float a_)
+void FColor::FromHSV(float h, float s, float v, float a_)
 {
     float c = v * s;
     float m = v - c;
@@ -78,12 +78,12 @@ void Color::FromHSV(float h, float s, float v, float a_)
     _a = a_;
 }
 
-bool Color::FromString(const FString& str)
+bool FColor::FromString(const FString& str)
 {
     return FromString(str.CString());
 }
 
-bool Color::FromString(const char* str)
+bool FColor::FromString(const char* str)
 {
     size_t elements = FString::CountElements(str, ' ');
     if (elements < 3)
@@ -99,7 +99,7 @@ bool Color::FromString(const char* str)
     return true;
 }
 
-float Color::Chroma() const
+float FColor::Chroma() const
 {
     float min, max;
     Bounds(&min, &max, true);
@@ -107,7 +107,7 @@ float Color::Chroma() const
     return max - min;
 }
 
-float Color::Hue() const
+float FColor::Hue() const
 {
     float min, max;
     Bounds(&min, &max, true);
@@ -115,7 +115,7 @@ float Color::Hue() const
     return Hue(min, max);
 }
 
-float Color::SaturationHSL() const
+float FColor::SaturationHSL() const
 {
     float min, max;
     Bounds(&min, &max, true);
@@ -123,7 +123,7 @@ float Color::SaturationHSL() const
     return SaturationHSL(min, max);
 }
 
-float Color::SaturationHSV() const
+float FColor::SaturationHSV() const
 {
     float min, max;
     Bounds(&min, &max, true);
@@ -131,7 +131,7 @@ float Color::SaturationHSV() const
     return SaturationHSV(min, max);
 }
 
-float Color::Lightness() const
+float FColor::Lightness() const
 {
     float min, max;
     Bounds(&min, &max, true);
@@ -139,7 +139,7 @@ float Color::Lightness() const
     return (max + min) * 0.5f;
 }
 
-void Color::Bounds(float* min, float* max, bool clipped) const
+void FColor::Bounds(float* min, float* max, bool clipped) const
 {
     assert(min && max);
 
@@ -177,7 +177,7 @@ void Color::Bounds(float* min, float* max, bool clipped) const
     }
 }
 
-float Color::MaxRGB() const
+float FColor::MaxRGB() const
 {
     if (_r > _g)
         return (_r > _b) ? _r : _b;
@@ -185,7 +185,7 @@ float Color::MaxRGB() const
         return (_g > _b) ? _g : _b;
 }
 
-float Color::MinRGB() const
+float FColor::MinRGB() const
 {
     if (_r < _g)
         return (_r < _b) ? _r : _b;
@@ -193,14 +193,14 @@ float Color::MinRGB() const
         return (_g < _b) ? _g : _b;
 }
 
-float Color::Range() const
+float FColor::Range() const
 {
     float min, max;
     Bounds(&min, &max);
     return max - min;
 }
 
-void Color::Clip(bool clipAlpha)
+void FColor::Clip(bool clipAlpha)
 {
     _r = (_r > 1.0f) ? 1.0f : ((_r < 0.0f) ? 0.0f : _r);
     _g = (_g > 1.0f) ? 1.0f : ((_g < 0.0f) ? 0.0f : _g);
@@ -210,7 +210,7 @@ void Color::Clip(bool clipAlpha)
         _a = (_a > 1.0f) ? 1.0f : ((_a < 0.0f) ? 0.0f : _a);
 }
 
-void Color::Invert(bool invertAlpha)
+void FColor::Invert(bool invertAlpha)
 {
     _r = 1.0f - _r;
     _g = 1.0f - _g;
@@ -220,10 +220,10 @@ void Color::Invert(bool invertAlpha)
         _a = 1.0f - _a;
 }
 
-Color Color::Lerp(const Color &rhs, float t) const
+FColor FColor::Lerp(const FColor &rhs, float t) const
 {
     float invT = 1.0f - t;
-    return Color(
+    return FColor(
         _r * invT + rhs._r * t,
         _g * invT + rhs._g * t,
         _b * invT + rhs._b * t,
@@ -231,14 +231,14 @@ Color Color::Lerp(const Color &rhs, float t) const
     );
 }
 
-FString Color::ToString() const
+FString FColor::ToString() const
 {
     char tempBuffer[CONVERSION_BUFFER_LENGTH];
     sprintf(tempBuffer, "%g %g %g %g", _r, _g, _b, _a);
     return FString(tempBuffer);
 }
 
-float Color::Hue(float min, float max) const
+float FColor::Hue(float min, float max) const
 {
     float chroma = max - min;
 
@@ -259,7 +259,7 @@ float Color::Hue(float min, float max) const
 
 }
 
-float Color::SaturationHSV(float min, float max) const
+float FColor::SaturationHSV(float min, float max) const
 {
     // Avoid div-by-zero: result undefined
     if (max <= M_EPSILON)
@@ -269,7 +269,7 @@ float Color::SaturationHSV(float min, float max) const
     return 1.0f - (min / max);
 }
 
-float Color::SaturationHSL(float min, float max) const
+float FColor::SaturationHSL(float min, float max) const
 {
     // Avoid div-by-zero: result undefined
     if (max <= M_EPSILON || min >= 1.0f - M_EPSILON)
@@ -284,7 +284,7 @@ float Color::SaturationHSL(float min, float max) const
 
 }
 
-void Color::FromHCM(float h, float c, float m)
+void FColor::FromHCM(float h, float c, float m)
 {
     if (h < 0.0f || h >= 1.0f)
         h -= floorf(h);

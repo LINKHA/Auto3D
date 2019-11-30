@@ -14,14 +14,14 @@ void Batch2DQueue::Clear()
 	_batches.Clear();
 }
 
-void Batch2DQueue::Sort(TVector<Matrix3x4F>& instanceTransforms)
+void Batch2DQueue::Sort(TVector<TMatrix3x4F>& instanceTransforms)
 {
 	Auto3D::Sort(_batches.Begin(), _batches.End(), CompareBatchState);
 	// Build instances where adjacent batches have same state
 	BuildInstances(_batches, instanceTransforms);
 }
 
-void Batch2DQueue::BuildInstances(TVector<Batch2D>& batches, TVector<Matrix3x4F>& instanceTransforms)
+void Batch2DQueue::BuildInstances(TVector<Batch2D>& batches, TVector<TMatrix3x4F>& instanceTransforms)
 {
 	Batch2D* start = nullptr;
 

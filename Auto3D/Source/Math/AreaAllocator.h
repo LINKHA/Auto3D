@@ -8,15 +8,15 @@ namespace Auto3D
 {
 
 /// Rectangular area allocator.
-class AUTO_API AreaAllocator
+class AUTO_API FAreaAllocator
 {
 public:
     /// Default construct with empty _size.
-    AreaAllocator();
+    FAreaAllocator();
     /// Construct with given width and height.
-    AreaAllocator(int width, int height, bool fastMode = true);
+    FAreaAllocator(int width, int height, bool fastMode = true);
     /// Construct with given width and height, and set the maximum it is allowed to grow to.
-    AreaAllocator(int width, int height, int maxWidth, int maxHeight, bool fastMode = true);
+    FAreaAllocator(int width, int height, int maxWidth, int maxHeight, bool fastMode = true);
 
     /// Reset to given width and height and remove all previous allocations.
     void Reset(int width, int height, int maxWidth = 0, int maxHeight = 0, bool fastMode = true);
@@ -24,13 +24,13 @@ public:
     bool Allocate(int width, int height, int& x, int& y);
 
     /// Return the current _size.
-    const Vector2I& Size() const { return _size; }
+    const TVector2I& Size() const { return _size; }
     /// Return the current width.
     int Width() const { return _size._x; }
     /// Return the current height.
     int Height() const { return _size._y; }
     /// Return the maximum _size.
-    const Vector2I& MaxSize() const { return _maxSize; }
+    const TVector2I& MaxSize() const { return _maxSize; }
     /// Return the maximum width.
     int MaxWidth() const { return _maxSize._x; }
     /// Return the maximum height.
@@ -40,16 +40,16 @@ public:
 
 private:
     /// Remove space from a free rectangle. Return true if the original rectangle should be erased from the free list. Not called in fast mode.
-    bool SplitRect(RectI original, const RectI& reserve);
+    bool SplitRect(TRectI original, const TRectI& reserve);
     /// Clean up redundant free space. Not called in fast mode.
     void Cleanup();
 
     /// Free rectangles.
-    TVector<RectI> _freeAreas;
+    TVector<TRectI> _freeAreas;
     /// Current _size.
-    Vector2I _size;
+    TVector2I _size;
     /// Maximum _size allowed to grow to. It is zero when it is not allowed to grow.
-    Vector2I _maxSize;
+    TVector2I _maxSize;
     /// The dimension used for next growth. Used internally.
     bool _doubleWidth;
     /// Fast mode flag.

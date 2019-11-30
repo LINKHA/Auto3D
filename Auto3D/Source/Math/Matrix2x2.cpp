@@ -4,24 +4,24 @@
 namespace Auto3D {
 
 
-const Matrix2x2F Matrix2x2F::ZERO(
+const TMatrix2x2F TMatrix2x2F::ZERO(
 	0.0f, 0.0f,
 	0.0f, 0.0f);
-const Matrix2x2F Matrix2x2F::IDENTITY;
+const TMatrix2x2F TMatrix2x2F::IDENTITY;
 
-const Matrix2x2I Matrix2x2I::ZERO(
+const TMatrix2x2I TMatrix2x2I::ZERO(
 	0, 0,
 	0, 0);
-const Matrix2x2I Matrix2x2I::IDENTITY;
+const TMatrix2x2I TMatrix2x2I::IDENTITY;
 
-const Matrix2x2C Matrix2x2C::ZERO(
+const TMatrix2x2C TMatrix2x2C::ZERO(
 	0, 0,
 	0, 0);
-const Matrix2x2C Matrix2x2C::IDENTITY;
+const TMatrix2x2C TMatrix2x2C::IDENTITY;
 
-const Matrix2x2D Matrix2x2D::ZERO(
+const TMatrix2x2D TMatrix2x2D::ZERO(
 	0.0, 0.0,
 	0.0, 0.0);
-const Matrix2x2D Matrix2x2D::IDENTITY;
+const TMatrix2x2D TMatrix2x2D::IDENTITY;
 
 }

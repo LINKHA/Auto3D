@@ -142,7 +142,7 @@ ATexture::ATexture() :
     _texture(0),
     _type(ETextureType::TEX_2D),
     _usage(EResourceUsage::DEFAULT),
-    _size(Vector2I::ZERO),
+    _size(TVector2I::ZERO),
     _format(EImageFormat::NONE)
 {
 }
@@ -208,7 +208,7 @@ void ATexture::Recreate()
     SetDataLost(true);
 }
 
-bool ATexture::Define(ETextureType::Type type, EResourceUsage::Type usage, const Vector2I& size, EImageFormat::Type format, size_t numLevels, const FImageLevel* initialData)
+bool ATexture::Define(ETextureType::Type type, EResourceUsage::Type usage, const TVector2I& size, EImageFormat::Type format, size_t numLevels, const FImageLevel* initialData)
 {
 	PROFILE(DefineTexture);
 
@@ -243,7 +243,7 @@ bool ATexture::Define(ETextureType::Type type, EResourceUsage::Type usage, const
 		glGenTextures(1, &_texture);
 		if (!_texture)
 		{
-			_size = Vector2I::ZERO;
+			_size = TVector2I::ZERO;
 			_format = EImageFormat::NONE;
 			_numLevels = 0;
 
@@ -280,7 +280,7 @@ bool ATexture::Define(ETextureType::Type type, EResourceUsage::Type usage, const
 			for (size_t i = 0; i < GetNumFaces(); ++i)
 			{
 				for (size_t j = 0; j < _numLevels; ++j)
-					SetData(i, j, RectI(0, 0, Max(_size._x >> j, 1), Max(_size._y >> j, 1)), initialData[idx++]);
+					SetData(i, j, TRectI(0, 0, Max(_size._x >> j, 1), Max(_size._y >> j, 1)), initialData[idx++]);
 			}
 			_usage = usage;
 		}
@@ -289,7 +289,7 @@ bool ATexture::Define(ETextureType::Type type, EResourceUsage::Type usage, const
 		if (glGetError() != GL_NO_ERROR)
 		{
 			Release();
-			_size = Vector2I::ZERO;
+			_size = TVector2I::ZERO;
 			_format = EImageFormat::NONE;
 			_numLevels = 0;
 
@@ -304,7 +304,7 @@ bool ATexture::Define(ETextureType::Type type, EResourceUsage::Type usage, const
 
 	return true;
 }
-bool ATexture::DefineSampler(ETextureFilterMode::Type filter, ETextureAddressMode::Type u, ETextureAddressMode::Type v, ETextureAddressMode::Type w, unsigned maxAnisotropy, float minLod, float maxLod, const Color& borderColor)
+bool ATexture::DefineSampler(ETextureFilterMode::Type filter, ETextureAddressMode::Type u, ETextureAddressMode::Type v, ETextureAddressMode::Type w, unsigned maxAnisotropy, float minLod, float maxLod, const FColor& borderColor)
 {
     PROFILE(DefineTextureSampler);
 
@@ -387,7 +387,7 @@ bool ATexture::DefineSampler(ETextureFilterMode::Type filter, ETextureAddressMod
     return true;
 }
 
-bool ATexture::SetData(size_t face, size_t level, RectI rect, const FImageLevel& data)
+bool ATexture::SetData(size_t face, size_t level, TRectI rect, const FImageLevel& data)
 {
     PROFILE(UpdateTextureLevel);
 
@@ -409,7 +409,7 @@ bool ATexture::SetData(size_t face, size_t level, RectI rect, const FImageLevel&
             return false;
         }
 
-		RectI levelRect(0, 0, Max(_size._x >> level, 1), Max(_size._y >> level, 1));
+		TRectI levelRect(0, 0, Max(_size._x >> level, 1), Max(_size._y >> level, 1));
         if (levelRect.IsInside(rect) != INSIDE)
         {
             ErrorStringF("Texture update region %s is outside level %s", rect.ToString().CString(), levelRect.ToString().CString());
@@ -440,12 +440,12 @@ bool ATexture::SetData(size_t face, size_t level, RectI rect, const FImageLevel&
             if (wholeLevel)
             {
                 glCompressedTexImage2D(target, (unsigned)level, glInternalFormats[_format], rect.Width(), rect.Height(),
-                    0, (unsigned)AImage::CalculateDataSize(Vector2I(rect.Width(), rect.Height()), _format), data._data);
+                    0, (unsigned)AImage::CalculateDataSize(TVector2I(rect.Width(), rect.Height()), _format), data._data);
             }
             else
             {
                 glCompressedTexSubImage2D(target, (unsigned)level, rect.Left(), rect.Top(), rect.Width(), rect.Height(),
-                    glFormats[_format], (unsigned)AImage::CalculateDataSize(Vector2I(rect.Width(), rect.Height()), _format),
+                    glFormats[_format], (unsigned)AImage::CalculateDataSize(TVector2I(rect.Width(), rect.Height()), _format),
                     data._data);
             }
         }

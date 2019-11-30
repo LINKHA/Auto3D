@@ -5,41 +5,41 @@
 namespace Auto3D
 {
 
-AreaAllocator::AreaAllocator()
+FAreaAllocator::FAreaAllocator()
 {
     Reset(0, 0);
 }
 
-AreaAllocator::AreaAllocator(int width, int height, bool fastMode_)
+FAreaAllocator::FAreaAllocator(int width, int height, bool fastMode_)
 {
     Reset(width, height, fastMode_);
 }
 
-AreaAllocator::AreaAllocator(int width, int height, int maxWidth, int maxHeight, bool fastMode_)
+FAreaAllocator::FAreaAllocator(int width, int height, int maxWidth, int maxHeight, bool fastMode_)
 {
     Reset(width, height, maxWidth, maxHeight, fastMode_);
 }
 
-void AreaAllocator::Reset(int width, int height, int maxWidth, int maxHeight, bool fastMode_)
+void FAreaAllocator::Reset(int width, int height, int maxWidth, int maxHeight, bool fastMode_)
 {
     _doubleWidth = true;
-    _size = Vector2I(width, height);
-    _maxSize = Vector2I(maxWidth, maxHeight);
+    _size = TVector2I(width, height);
+    _maxSize = TVector2I(maxWidth, maxHeight);
     _fastMode = fastMode_;
 
     _freeAreas.Clear();
-    RectI initialArea(0, 0, width, height);
+    TRectI initialArea(0, 0, width, height);
     _freeAreas.Push(initialArea);
 }
 
-bool AreaAllocator::Allocate(int width, int height, int& x, int& y)
+bool FAreaAllocator::Allocate(int width, int height, int& x, int& y)
 {
     if (width < 0)
         width = 0;
     if (height < 0)
         height = 0;
 
-    TVector<RectI>::Iterator best;
+    TVector<TRectI>::Iterator best;
     int bestFreeArea;
 
     for (;;)
@@ -71,12 +71,12 @@ bool AreaAllocator::Allocate(int width, int height, int& x, int& y)
                 int oldWidth = _size._x;
                 _size._x <<= 1;
                 // If no allocations yet, simply expand the single free area
-                RectI& first = _freeAreas.Front();
+                TRectI& first = _freeAreas.Front();
                 if (_freeAreas.Size() == 1 && first.Left() == 0 && first.Top() == 0 && first.Right() == oldWidth && first.Bottom() == _size._y)
                     first.Right() = _size._x;
                 else
                 {
-                    RectI newArea(oldWidth, 0, _size._x, _size._y);
+                    TRectI newArea(oldWidth, 0, _size._x, _size._y);
                     _freeAreas.Push(newArea);
                 }
             }
@@ -84,12 +84,12 @@ bool AreaAllocator::Allocate(int width, int height, int& x, int& y)
             {
                 int oldHeight = _size._y;
                 _size._y <<= 1;
-                RectI& first = _freeAreas.Front();
+                TRectI& first = _freeAreas.Front();
                 if (_freeAreas.Size() == 1 && first.Left() == 0 && first.Top() == 0 && first.Right() == _size._x && first.Bottom() == oldHeight)
                     first.Bottom() = _size._y;
                 else
                 {
-                    RectI newArea(0, oldHeight, _size._x, _size._y);
+                    TRectI newArea(0, oldHeight, _size._x, _size._y);
                     _freeAreas.Push(newArea);
                 }
             }
@@ -102,7 +102,7 @@ bool AreaAllocator::Allocate(int width, int height, int& x, int& y)
             break;
     }
 
-    RectI reserved(best->Left(), best->Top(), best->Left() + width, best->Top() + height);
+    TRectI reserved(best->Left(), best->Top(), best->Left() + width, best->Top() + height);
     x = best->Left();
     y = best->Top();
 
@@ -112,7 +112,7 @@ bool AreaAllocator::Allocate(int width, int height, int& x, int& y)
         best->Left() = reserved.Right();
         if (best->Height() > 2 * height || height >= _size._y / 2)
         {
-            RectI splitArea(reserved.Left(), reserved.Bottom(), best->Right(), best->Bottom());
+            TRectI splitArea(reserved.Left(), reserved.Bottom(), best->Right(), best->Bottom());
             best->Bottom() = reserved.Bottom();
             _freeAreas.Push(splitArea);
         }
@@ -134,7 +134,7 @@ bool AreaAllocator::Allocate(int width, int height, int& x, int& y)
     return true;
 }
 
-bool AreaAllocator::SplitRect(RectI original, const RectI& reserve)
+bool FAreaAllocator::SplitRect(TRectI original, const TRectI& reserve)
 {
     if (reserve.Right() > original.Left() && reserve.Left() < original.Right() && reserve.Bottom() > original.Top() &&
         reserve.Top() < original.Bottom())
@@ -142,28 +142,28 @@ bool AreaAllocator::SplitRect(RectI original, const RectI& reserve)
         // Check for splitting from the right
         if (reserve.Right() < original.Right())
         {
-            RectI newRect = original;
+            TRectI newRect = original;
             newRect.Left() = reserve.Right();
             _freeAreas.Push(newRect);
         }
         // Check for splitting from the left
         if (reserve.Left() > original.Left())
         {
-            RectI newRect = original;
+            TRectI newRect = original;
             newRect.Right() = reserve.Left();
             _freeAreas.Push(newRect);
         }
         // Check for splitting from the bottom
         if (reserve.Bottom() < original.Bottom())
         {
-            RectI newRect = original;
+            TRectI newRect = original;
             newRect.Top() = reserve.Bottom();
             _freeAreas.Push(newRect);
         }
         // Check for splitting from the top
         if (reserve.Top() > original.Top())
         {
-            RectI newRect = original;
+            TRectI newRect = original;
             newRect.Bottom() = reserve.Top();
             _freeAreas.Push(newRect);
         }
@@ -174,7 +174,7 @@ bool AreaAllocator::SplitRect(RectI original, const RectI& reserve)
     return false;
 }
 
-void AreaAllocator::Cleanup()
+void FAreaAllocator::Cleanup()
 {
     // Remove rects which are contained within another rect
     for (size_t i = 0; i < _freeAreas.Size();)

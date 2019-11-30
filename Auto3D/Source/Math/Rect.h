@@ -7,70 +7,70 @@ namespace Auto3D
 {
 
 /// Two-dimensional bounding rectangle.
-template <typename _Ty> class AUTO_API Rect
+template <typename _Ty> class AUTO_API TRect
 {
 public:
     /// Minimum vector.
-    Vector2<_Ty> _min;
+    TVector2<_Ty> _min;
     /// Maximum vector.
-    Vector2<_Ty> _max;
+    TVector2<_Ty> _max;
 
     /// Construct as undefined (negative _size.)
-    Rect() :
-        _min(Vector2<_Ty>(M_INFINITY, M_INFINITY)),
-        _max(Vector2<_Ty>(-M_INFINITY, -M_INFINITY))
+    TRect() :
+        _min(TVector2<_Ty>(M_INFINITY, M_INFINITY)),
+        _max(TVector2<_Ty>(-M_INFINITY, -M_INFINITY))
     {
     }
     
     /// Copy-construct.
-    Rect(const Rect& rect) :
+    TRect(const TRect& rect) :
         _min(rect._min),
         _max(rect._max)
     {
     }
     
     /// Construct from minimum and maximum vectors.
-    Rect(const Vector2<_Ty>& min, const Vector2<_Ty>& max) :
+    TRect(const TVector2<_Ty>& min, const TVector2<_Ty>& max) :
         _min(min),
         _max(max)
     {
     }
     
     /// Construct from coordinates.
-    Rect(float left, float top, float right, float bottom) :
+    TRect(float left, float top, float right, float bottom) :
         _min(left, top),
         _max(right, bottom)
     {
     }
     
-    /// Construct from a Vector4.
-    Rect(const Vector4<_Ty>& vector) :
+    /// Construct from a TVector4.
+    TRect(const TVector4<_Ty>& vector) :
         _min(vector._x, vector._y),
         _max(vector._z, vector._w)
     {
     }
 
     /// Construct from a float array.
-    Rect(const float* _data) :
+    TRect(const float* _data) :
         _min(_data[0], _data[1]),
         _max(_data[2], _data[3])
     {
     }
     
     /// Construct by parsing a string.
-    Rect(const FString& str)
+    TRect(const FString& str)
     {
         FromString(str);
     }
     
     /// Construct by parsing a C string.
-    Rect(const char* str)
+    TRect(const char* str)
     {
         FromString(str);
     }
     
     /// Assign from another rect.
-    Rect& operator = (const Rect& rhs)
+    TRect& operator = (const TRect& rhs)
     {
         _min = rhs._min;
         _max = rhs._max;
@@ -79,12 +79,12 @@ public:
     }
     
     /// Test for equality with another rect without epsilon.
-    bool operator == (const Rect& rhs) const { return _min == rhs._min && _max == rhs._max; }
+    bool operator == (const TRect& rhs) const { return _min == rhs._min && _max == rhs._max; }
     /// Test for inequality with another rect without epsilon.
-    bool operator != (const Rect& rhs) const { return !(*this == rhs); }
+    bool operator != (const TRect& rhs) const { return !(*this == rhs); }
     
     /// Define from another rect.
-    void Define(const Rect& rect)
+    void Define(const TRect& rect)
     {
         _min = rect._min;
         _max = rect._max;
@@ -92,20 +92,20 @@ public:
     }
     
     /// Define from minimum and maximum vectors.
-    void Define(const Vector2<_Ty>& min_, const Vector2<_Ty>& max_)
+    void Define(const TVector2<_Ty>& min_, const TVector2<_Ty>& max_)
     {
         _min = min_;
         _max = max_;
     }
     
     /// Define from a point.
-    void Define(const Vector2<_Ty>& point)
+    void Define(const TVector2<_Ty>& point)
     {
         _min = _max = point;
     }
     
     /// Merge a point.
-    void Merge(const Vector2<_Ty>& point)
+    void Merge(const TVector2<_Ty>& point)
     {
         // If undefined, set initial dimensions
         if (!IsDefined())
@@ -126,7 +126,7 @@ public:
     }
     
     /// Merge a rect.
-    void Merge(const Rect& rect)
+    void Merge(const TRect& rect)
     {
        if (_min._x > _max._x)
         {
@@ -149,13 +149,13 @@ public:
     /// Set as undefined to allow the next merge to set initial _size.
     void Undefine()
     {
-        _min = Vector2<_Ty>(M_INFINITY, M_INFINITY);
+        _min = TVector2<_Ty>(M_INFINITY, M_INFINITY);
         _max = -_min;
 		
     }
     
     /// Clip with another rect.
-	void Clip(const Rect& rect)
+	void Clip(const TRect& rect)
 	{
 		if (rect._min._x > _min._x)
 			_min._x = rect._min._x;
@@ -198,9 +198,9 @@ public:
     /// Return whether has non-negative _size.
     bool IsDefined() const { return (_min._x <= _max._x); }
     /// Return center.
-    Vector2<_Ty> Center() const { return (_max + _min) * 0.5f; }
+    TVector2<_Ty> Center() const { return (_max + _min) * 0.5f; }
     /// Return _size.
-    Vector2<_Ty> Size() const { return _max - _min; }
+    TVector2<_Ty> Size() const { return _max - _min; }
     /// Return width.
 	_Ty Width() const { return _max._x - _min._x; }
     /// Return height.
@@ -223,20 +223,20 @@ public:
 	const _Ty& Bottom() const { return _max._y; }
 
     /// Return half-_size.
-    Vector2<_Ty> HalfSize() const { return (_max - _min) * 0.5f; }
+    TVector2<_Ty> HalfSize() const { return (_max - _min) * 0.5f; }
     /// Test for equality with another rect with epsilon.
-    bool Equals(const Rect& rhs) const { return _min.Equals(rhs._min) && _max.Equals(rhs._max); }
+    bool Equals(const TRect& rhs) const { return _min.Equals(rhs._min) && _max.Equals(rhs._max); }
     
-    /// Test whether a point is inside with Vector2
-    Intersection IsInside(const Vector2<_Ty>& point) const
+    /// Test whether a point is inside with TVector2
+    Intersection IsInside(const TVector2<_Ty>& point) const
     {
         if (point._x < _min._x || point._y < _min._y || point._x > _max._x || point._y > _max._y)
             return OUTSIDE;
         else
             return INSIDE;
     }
-	/// Test whether another rect is inside with Rect
-	Intersection IsInside(const Rect& rect) const
+	/// Test whether another rect is inside with TRect
+	Intersection IsInside(const TRect& rect) const
 	{
 		if (rect._max._x <= _min._x || rect._min._x >= _max._x || rect._max._y <= _min._y || rect._min._y >= _max._y)
 			return OUTSIDE;
@@ -248,7 +248,7 @@ public:
     /// Return float data.
     const void* Data() const { return &_min._x; }
     /// Return as a vector.
-    Vector4<_Ty> ToVector4() const { return Vector4<_Ty>(_min._x, _min._y, _max._x, _max._y); }
+    TVector4<_Ty> ToVector4() const { return TVector4<_Ty>(_min._x, _min._y, _max._x, _max._y); }
     /// Return as string.
 	FString ToString() const
 	{
@@ -256,23 +256,23 @@ public:
 	}
 
     
-    /// Rect in the range (-1, -1) - (1, 1)
-    static const Rect FULL;
-    /// Rect in the range (0, 0) - (1, 1)
-    static const Rect POSITIVE;
+    /// TRect in the range (-1, -1) - (1, 1)
+    static const TRect FULL;
+    /// TRect in the range (0, 0) - (1, 1)
+    static const TRect POSITIVE;
     /// Zero-sized rect.
-    static const Rect ZERO;
+    static const TRect ZERO;
 };
 
-using RectF = Rect<float>;
+using TRectF = TRect<float>;
 
-using RectI = Rect<int>;
+using TRectI = TRect<int>;
 
-using RectC = Rect<char>;
+using TRectC = TRect<char>;
 
-using RectD = Rect<double>;
+using TRectD = TRect<double>;
 
-using RectU = Rect<unsigned>;
+using TRectU = TRect<unsigned>;
 
 
 }

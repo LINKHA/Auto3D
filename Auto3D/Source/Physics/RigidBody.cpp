@@ -47,8 +47,8 @@ void RigidBody::getWorldTransform(btTransform& worldTrans) const
 void RigidBody::setWorldTransform(const btTransform& worldTrans)
 {
 
-	Quaternion newWorldRotation = BtToQuaternion(worldTrans.getRotation());
-	Vector3F newWorldPosition = BtToVector3(worldTrans.getOrigin());
+	FQuaternion newWorldRotation = BtToQuaternion(worldTrans.getRotation());
+	TVector3F newWorldPosition = BtToVector3(worldTrans.getOrigin());
 	RigidBody* parentRigidBody = nullptr;
 	
 	if (Parent())

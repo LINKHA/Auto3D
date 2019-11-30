@@ -48,20 +48,20 @@ const size_t FAttribute::byteSizes[] =
     sizeof(unsigned char),
     sizeof(unsigned),
     sizeof(int),
-    sizeof(Vector2I),
-    sizeof(RectI),
+    sizeof(TVector2I),
+    sizeof(TRectI),
     sizeof(float),
-    sizeof(Vector2F),
-    sizeof(Vector3F),
-    sizeof(Vector4F),
-    sizeof(Quaternion),
-    sizeof(Color),
-    sizeof(RectF),
-    sizeof(BoundingBoxF),
-	sizeof(Matrix2x2F),
-    sizeof(Matrix3x3F),
-    sizeof(Matrix3x4F),
-    sizeof(Matrix4x4F),
+    sizeof(TVector2F),
+    sizeof(TVector3F),
+    sizeof(TVector4F),
+    sizeof(FQuaternion),
+    sizeof(FColor),
+    sizeof(TRectF),
+    sizeof(TBoundingBoxF),
+	sizeof(TMatrix2x2F),
+    sizeof(TMatrix3x3F),
+    sizeof(TMatrix3x4F),
+    sizeof(TMatrix4x4F),
     0,
     0,
     0,
@@ -157,7 +157,7 @@ void FAttribute::FromJSON(EAttributeType::Type type, void* dest, const FJSONValu
         break;
 
     case EAttributeType::INTRECT:
-        reinterpret_cast<RectI*>(dest)->FromString(source.GetString());
+        reinterpret_cast<TRectI*>(dest)->FromString(source.GetString());
         break;
 
     case EAttributeType::FLOAT:
@@ -165,47 +165,47 @@ void FAttribute::FromJSON(EAttributeType::Type type, void* dest, const FJSONValu
         break;
 
     case EAttributeType::VECTOR2:
-        *reinterpret_cast<Vector2F*>(dest) = source.GetVector2();
+        *reinterpret_cast<TVector2F*>(dest) = source.GetVector2();
         break;
 
     case EAttributeType::VECTOR3:
-		*reinterpret_cast<Vector3F*>(dest) = source.GetVector3();
+		*reinterpret_cast<TVector3F*>(dest) = source.GetVector3();
         break;
 
     case EAttributeType::VECTOR4:
-        *reinterpret_cast<Vector4F*>(dest) = source.GetVector4();
+        *reinterpret_cast<TVector4F*>(dest) = source.GetVector4();
         break;
 
     case EAttributeType::QUATERNION:
-        reinterpret_cast<Vector4F*>(dest)->FromString(source.GetString());
+        reinterpret_cast<TVector4F*>(dest)->FromString(source.GetString());
         break;
 
     case EAttributeType::COLOR:
-        reinterpret_cast<Color*>(dest)->FromString(source.GetString());
+        reinterpret_cast<FColor*>(dest)->FromString(source.GetString());
         break;
 
     case EAttributeType::RECT:
-        reinterpret_cast<RectF*>(dest)->FromString(source.GetString());
+        reinterpret_cast<TRectF*>(dest)->FromString(source.GetString());
         break;
 
     case EAttributeType::BOUNDINGBOX:
-        reinterpret_cast<RectF*>(dest)->FromString(source.GetString());
+        reinterpret_cast<TRectF*>(dest)->FromString(source.GetString());
         break;
 
 	case EAttributeType::MATRIX2:
-		reinterpret_cast<Matrix2x2F*>(dest)->FromString(source.GetString());
+		reinterpret_cast<TMatrix2x2F*>(dest)->FromString(source.GetString());
 		break;
 
     case EAttributeType::MATRIX3:
-        reinterpret_cast<Matrix3x3F*>(dest)->FromString(source.GetString());
+        reinterpret_cast<TMatrix3x3F*>(dest)->FromString(source.GetString());
         break;
 
 	case EAttributeType::MATRIX4:
-		reinterpret_cast<Matrix4x4F*>(dest)->FromString(source.GetString());
+		reinterpret_cast<TMatrix4x4F*>(dest)->FromString(source.GetString());
 		break;
 
     case EAttributeType::MATRIX3X4:
-        reinterpret_cast<Matrix3x4F*>(dest)->FromString(source.GetString());
+        reinterpret_cast<TMatrix3x4F*>(dest)->FromString(source.GetString());
         break;
 
     case EAttributeType::STRING:
@@ -254,11 +254,11 @@ void FAttribute::ToJSON(EAttributeType::Type type, FJSONValue& dest, const void*
         break;
 
     case EAttributeType::INTVECTOR2:
-        dest = reinterpret_cast<const Vector2I*>(source)->ToString();
+        dest = reinterpret_cast<const TVector2I*>(source)->ToString();
         break;
 
     case EAttributeType::INTRECT:
-        dest = reinterpret_cast<const RectI*>(source)->ToString();
+        dest = reinterpret_cast<const TRectI*>(source)->ToString();
         break;
 
     case EAttributeType::FLOAT:
@@ -266,43 +266,43 @@ void FAttribute::ToJSON(EAttributeType::Type type, FJSONValue& dest, const void*
         break;
 
     case EAttributeType::VECTOR2:
-        dest = reinterpret_cast<const Vector2<float>*>(source)->ToString();
+        dest = reinterpret_cast<const TVector2<float>*>(source)->ToString();
         break;
 
     case EAttributeType::VECTOR3:
-        dest = reinterpret_cast<const Vector3F*>(source)->ToString();
+        dest = reinterpret_cast<const TVector3F*>(source)->ToString();
         break;
 
     case EAttributeType::VECTOR4:
-        dest = reinterpret_cast<const Vector4F*>(source)->ToString();
+        dest = reinterpret_cast<const TVector4F*>(source)->ToString();
         break;
 
     case EAttributeType::QUATERNION:
-        dest = reinterpret_cast<const Quaternion*>(source)->ToString();
+        dest = reinterpret_cast<const FQuaternion*>(source)->ToString();
         break;
 
     case EAttributeType::COLOR:
-        dest = reinterpret_cast<const Color*>(source)->ToString();
+        dest = reinterpret_cast<const FColor*>(source)->ToString();
         break;
 
     case EAttributeType::RECT:
-        dest = reinterpret_cast<const RectF*>(source)->ToString();
+        dest = reinterpret_cast<const TRectF*>(source)->ToString();
         break;
 
     case EAttributeType::BOUNDINGBOX:
-        dest = reinterpret_cast<const BoundingBoxF*>(source)->ToString();
+        dest = reinterpret_cast<const TBoundingBoxF*>(source)->ToString();
         break;
 
     case EAttributeType::MATRIX3:
-        dest = reinterpret_cast<const Matrix3x3F*>(source)->ToString();
+        dest = reinterpret_cast<const TMatrix3x3F*>(source)->ToString();
         break;
 
     case EAttributeType::MATRIX3X4:
-        dest = reinterpret_cast<const Matrix3x4F*>(source)->ToString();
+        dest = reinterpret_cast<const TMatrix3x4F*>(source)->ToString();
         break;
 
     case EAttributeType::MATRIX4:
-        dest = reinterpret_cast<const Matrix4x4F*>(source)->ToString();
+        dest = reinterpret_cast<const TMatrix4x4F*>(source)->ToString();
         break;
 
     case EAttributeType::STRING:
@@ -370,32 +370,32 @@ template<> AUTO_API EAttributeType::Type FAttributeImpl<FString>::Type() const
     return EAttributeType::STRING;
 }
 
-template<> AUTO_API EAttributeType::Type FAttributeImpl<Vector2F>::Type() const
+template<> AUTO_API EAttributeType::Type FAttributeImpl<TVector2F>::Type() const
 {
     return EAttributeType::VECTOR2;
 }
 
-template<> AUTO_API EAttributeType::Type FAttributeImpl<Vector3F>::Type() const
+template<> AUTO_API EAttributeType::Type FAttributeImpl<TVector3F>::Type() const
 {
     return EAttributeType::VECTOR3;
 }
 
-template<> AUTO_API EAttributeType::Type FAttributeImpl<Vector4F>::Type() const
+template<> AUTO_API EAttributeType::Type FAttributeImpl<TVector4F>::Type() const
 {
     return EAttributeType::VECTOR4;
 }
 
-template<> AUTO_API EAttributeType::Type FAttributeImpl<Quaternion>::Type() const
+template<> AUTO_API EAttributeType::Type FAttributeImpl<FQuaternion>::Type() const
 {
     return EAttributeType::QUATERNION;
 }
 
-template<> AUTO_API EAttributeType::Type FAttributeImpl<Color>::Type() const
+template<> AUTO_API EAttributeType::Type FAttributeImpl<FColor>::Type() const
 {
     return EAttributeType::COLOR;
 }
 
-template<> AUTO_API EAttributeType::Type FAttributeImpl<BoundingBoxF>::Type() const
+template<> AUTO_API EAttributeType::Type FAttributeImpl<TBoundingBoxF>::Type() const
 {
     return EAttributeType::BOUNDINGBOX;
 }

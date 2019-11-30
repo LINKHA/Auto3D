@@ -13,10 +13,10 @@ namespace Auto3D
 {
 
 FBone::FBone() :
-    _initialPosition(Vector3F::ZERO),
-    _initialRotation(Quaternion::IDENTITY),
-    _initialScale(Vector3F::ONE),
-    _offsetMatrix(Matrix3x4F::IDENTITY),
+    _initialPosition(TVector3F::ZERO),
+    _initialRotation(FQuaternion::IDENTITY),
+    _initialScale(TVector3F::ONE),
+    _offsetMatrix(TMatrix3x4F::IDENTITY),
     _radius(0.0f),
     _boundingBox(0.0f, 0.0f),
     _parentIndex(0),
@@ -69,12 +69,12 @@ bool AModel::BeginLoad(FStream& source)
         if (elementMask & 1)
         {
             vbDesc._vertexElements.Push(FVertexElement(EElementType::VECTOR3, EElementSemantic::POSITION));
-            vertexSize += sizeof(Vector3F);
+            vertexSize += sizeof(TVector3F);
         }
         if (elementMask & 2)
         {
             vbDesc._vertexElements.Push(FVertexElement(EElementType::VECTOR3, EElementSemantic::NORMAL));
-            vertexSize += sizeof(Vector3F);
+            vertexSize += sizeof(TVector3F);
         }
         if (elementMask & 4)
         {
@@ -84,32 +84,32 @@ bool AModel::BeginLoad(FStream& source)
         if (elementMask & 8)
         {
             vbDesc._vertexElements.Push(FVertexElement(EElementType::VECTOR2, EElementSemantic::TEXCOORD));
-            vertexSize += sizeof(Vector2F);
+            vertexSize += sizeof(TVector2F);
         }
         if (elementMask & 16)
         {
             vbDesc._vertexElements.Push(FVertexElement(EElementType::VECTOR2, EElementSemantic::TEXCOORD, 1));
-            vertexSize += sizeof(Vector2F);
+            vertexSize += sizeof(TVector2F);
         }
         if (elementMask & 32)
         {
             vbDesc._vertexElements.Push(FVertexElement(EElementType::VECTOR3, EElementSemantic::TEXCOORD));
-            vertexSize += sizeof(Vector3F);
+            vertexSize += sizeof(TVector3F);
         }
         if (elementMask & 64)
         {
             vbDesc._vertexElements.Push(FVertexElement(EElementType::VECTOR3, EElementSemantic::TEXCOORD, 1));
-            vertexSize += sizeof(Vector3F);
+            vertexSize += sizeof(TVector3F);
         }
         if (elementMask & 128)
         {
             vbDesc._vertexElements.Push(FVertexElement(EElementType::VECTOR4, EElementSemantic::TANGENT));
-            vertexSize += sizeof(Vector4F);
+            vertexSize += sizeof(TVector4F);
         }
         if (elementMask & 256)
         {
             vbDesc._vertexElements.Push(FVertexElement(EElementType::VECTOR4, EElementSemantic::BLENDWEIGHT));
-            vertexSize += sizeof(Vector4F);
+            vertexSize += sizeof(TVector4F);
         }
         if (elementMask & 512)
         {
@@ -179,23 +179,23 @@ bool AModel::BeginLoad(FStream& source)
         FBone& bone = _bones[i];
         bone._name = source.Read<FString>();
         bone._parentIndex = source.Read<unsigned>();
-        bone._initialPosition = source.Read<Vector3F>();
-        bone._initialRotation = source.Read<Quaternion>();
-        bone._initialScale = source.Read<Vector3F>();
-        bone._offsetMatrix = source.Read<Matrix3x4F>();
+        bone._initialPosition = source.Read<TVector3F>();
+        bone._initialRotation = source.Read<FQuaternion>();
+        bone._initialScale = source.Read<TVector3F>();
+        bone._offsetMatrix = source.Read<TMatrix3x4F>();
 
         unsigned char boneCollisionType = source.Read<unsigned char>();
         if (boneCollisionType & 1)
             bone._radius = source.Read<float>();
         if (boneCollisionType & 2)
-            bone._boundingBox = source.Read<BoundingBoxF>();
+            bone._boundingBox = source.Read<TBoundingBoxF>();
 
         if (bone._parentIndex == i)
             _rootBoneIndex = i;
     }
 
     // Read bounding box
-    _boundingBox = source.Read<BoundingBoxF>();
+    _boundingBox = source.Read<TBoundingBoxF>();
 
     return true;
 }
@@ -286,7 +286,7 @@ void AModel::SetNumLodLevels(size_t index, size_t num)
     }
 }
 
-void AModel::SetLocalBoundingBox(const BoundingBoxF& box)
+void AModel::SetLocalBoundingBox(const TBoundingBoxF& box)
 {
     _boundingBox = box;
 }

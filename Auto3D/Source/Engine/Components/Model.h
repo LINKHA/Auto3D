@@ -24,17 +24,17 @@ struct AUTO_API FBone
     /// FName.
     FString _name;
     /// Reset _position.
-    Vector3F _initialPosition;
+    TVector3F _initialPosition;
     /// Reset rotation.
-    Quaternion _initialRotation;
+    FQuaternion _initialRotation;
     /// Reset scale.
-    Vector3F _initialScale;
+    TVector3F _initialScale;
     /// Offset matrix for skinning.
-    Matrix3x4F _offsetMatrix;
+    TMatrix3x4F _offsetMatrix;
     /// Collision radius.
     float _radius;
     /// Collision bounding box.
-    BoundingBoxF _boundingBox;
+    TBoundingBoxF _boundingBox;
     /// Parent bone index.
     size_t _parentIndex;
     /// Associated scene node.
@@ -67,7 +67,7 @@ public:
     /// Set number of LOD levels in a geometry.
     void SetNumLodLevels(size_t index, size_t num);
     /// Set local space bounding box.
-    void SetLocalBoundingBox(const BoundingBoxF& box);
+    void SetLocalBoundingBox(const TBoundingBoxF& box);
     /// Set bones.
     void SetBones(const TVector<FBone>& bones, size_t rootBoneIndex);
     /// Set per-geometry bone mappings.
@@ -82,7 +82,7 @@ public:
     /// Return the LOD geometries at batch index.
     const TVector<TSharedPtr<Geometry> >& GetLodGeometries(size_t index) const { return _geometries[index]; }
     /// Return the local space bounding box.
-    const BoundingBoxF& GetLocalBoundingBox() const { return _boundingBox; }
+    const TBoundingBoxF& GetLocalBoundingBox() const { return _boundingBox; }
     /// Return the model's bones.
     const TVector<FBone>& GetBones() const { return _bones; }
     /// Return the root bone index.
@@ -94,7 +94,7 @@ private:
     /// Geometry LOD levels.
     TVector<TVector<TSharedPtr<Geometry> > > _geometries;
     /// Local space bounding box.
-    BoundingBoxF _boundingBox;
+    TBoundingBoxF _boundingBox;
     /// %AModel's bones.
     TVector<FBone> _bones;
     /// Root bone index.

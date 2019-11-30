@@ -11,12 +11,12 @@
 namespace Auto3D
 {
 
-inline AUTO_API ImVec2 ToImVal(const Vector2F& vec)
+inline AUTO_API ImVec2 ToImVal(const TVector2F& vec)
 {
 	return ImVec2(vec._x, vec._y);
 }
 
-inline AUTO_API ImVec2* ToImVal(const Vector2F* vec)
+inline AUTO_API ImVec2* ToImVal(const TVector2F* vec)
 {
 	if (vec == NULL)
 		return NULL;
@@ -27,12 +27,12 @@ inline AUTO_API ImVec2* ToImVal(const Vector2F* vec)
 	return imVec;
 }
 
-inline AUTO_API ImVec4 ToImVal(const Vector4F& vec)
+inline AUTO_API ImVec4 ToImVal(const TVector4F& vec)
 {
 	return ImVec4(vec._x, vec._y, vec._z, vec._w);
 }
 
-inline AUTO_API ImVec4* ToImVal(const Vector4F* vec)
+inline AUTO_API ImVec4* ToImVal(const TVector4F* vec)
 {
 	if (vec == NULL)
 		return NULL;
@@ -45,14 +45,14 @@ inline AUTO_API ImVec4* ToImVal(const Vector4F* vec)
 }
 
 
-inline AUTO_API Vector2F ImToVal(const ImVec2& vec)
+inline AUTO_API TVector2F ImToVal(const ImVec2& vec)
 {
-	return Vector2F(vec.x, vec.y);
+	return TVector2F(vec.x, vec.y);
 }
 
-inline AUTO_API Vector4F ImToVal(const ImVec4& vec)
+inline AUTO_API TVector4F ImToVal(const ImVec4& vec)
 {
-	return Vector4F(vec.x, vec.y, vec.z, vec.w);
+	return TVector4F(vec.x, vec.y, vec.z, vec.w);
 }
 
 

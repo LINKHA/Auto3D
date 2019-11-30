@@ -2,7 +2,7 @@
 
 namespace Auto3D {
 
-static const Vector2F DEFAULT_BOX_SIZE(0.01f, 0.01f);
+static const TVector2F DEFAULT_BOX_SIZE(0.01f, 0.01f);
 
 ColliderBox2D::ColliderBox2D() :
 	_size(DEFAULT_BOX_SIZE)
@@ -20,7 +20,7 @@ void ColliderBox2D::RegisterObject()
 	RegisterFactory<ColliderBox2D>();
 }
 
-void ColliderBox2D::SetSize(const Vector2F& size)
+void ColliderBox2D::SetSize(const TVector2F& size)
 {
 	_size = size;
 	RecreateFixture();
@@ -28,13 +28,13 @@ void ColliderBox2D::SetSize(const Vector2F& size)
 
 void ColliderBox2D::SetSize(float x, float y)
 {
-	_size = Vector2F(x, y);
+	_size = TVector2F(x, y);
 	RecreateFixture();
 }
 
 void ColliderBox2D::SetSize(float scale)
 {
-	_size = Vector2F(scale, scale);
+	_size = TVector2F(scale, scale);
 	RecreateFixture();
 }
 

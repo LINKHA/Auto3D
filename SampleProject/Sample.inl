@@ -3,7 +3,7 @@ void Sample::Init()
 	auto* graphics = GModuleManager::Get().GraphicsModule();
 	// Set window mode
 	WindowModeDesc& windowModeDesc = graphics->RenderWindow()->ModeDesc();
-	windowModeDesc._size = RectI(0, 0, 1024, 768);
+	windowModeDesc._size = TRectI(0, 0, 1024, 768);
 	windowModeDesc._multisample = 4;
 	windowModeDesc._fullscreen = false;
 	windowModeDesc._resizable = true;
@@ -28,7 +28,7 @@ void Sample::Start()
 
 	logoCamera = scene2d->CreateChild<Camera2D>();
 	logoCamera->SetOrthographic(true);
-	logoCamera->SetPosition(Vector3F(0.0f, 0.0f, -100.0f));
+	logoCamera->SetPosition(TVector3F(0.0f, 0.0f, -100.0f));
 	logoCamera->SetLayoutMaskAll();
 	logoCamera->SetLayoutMaskOutName("UI");
 
@@ -51,8 +51,8 @@ void Sample::CreateLogo()
 	auto* cache = GModuleManager::Get().CacheModule();
 	Sprite2D* logoLong = scene2d->CreateChild<Sprite2D>();
 	logoLong->SetTexture(cache->LoadResource<ATexture>("Texture/logoLong.png"));
-	logoLong->SetScale(Vector3F(3.0f, 0.8f, 1.0f));
-	logoLong->SetPosition(Vector3F(7.0f, -9.2f, -10.0f));
+	logoLong->SetScale(TVector3F(3.0f, 0.8f, 1.0f));
+	logoLong->SetPosition(TVector3F(7.0f, -9.2f, -10.0f));
 	logoLong->SetLayerName("UI");
 
 }

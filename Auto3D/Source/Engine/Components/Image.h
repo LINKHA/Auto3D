@@ -56,7 +56,7 @@ struct AUTO_API FImageLevel
     /// Default construct.
     FImageLevel() :
         _data(nullptr),
-        _size(Vector2I::ZERO),
+        _size(TVector2I::ZERO),
         _rowSize(0),
         _rows(0)
     {
@@ -65,7 +65,7 @@ struct AUTO_API FImageLevel
     /// Pointer to pixel data.
     unsigned char* _data;
     /// Level size in pixels.
-    Vector2I _size;
+    TVector2I _size;
     /// Row size in bytes.
     size_t _rowSize;
     /// Number of rows.
@@ -92,12 +92,12 @@ public:
     bool Save(FStream& dest) override;
 
     /// Set new image pixel dimensions and format. Setting a compressed format is not supported.
-    void SetSize(const Vector2I& newSize, EImageFormat::Type newFormat);
+    void SetSize(const TVector2I& newSize, EImageFormat::Type newFormat);
     /// Set new pixel data.
     void SetData(const unsigned char* pixelData);
 
     /// Return image dimensions in pixels.
-    const Vector2I& GetSize() const { return _size; }
+    const TVector2I& GetSize() const { return _size; }
     /// Return image width in pixels.
     int GetWidth() const { return _size._x; }
     /// Return image height in pixels.
@@ -123,13 +123,13 @@ public:
     /// Return the data for a mip level. Images loaded from eg. PNG or JPG formats will only have one (index 0) level.
     FImageLevel GetLevel(size_t index) const;
 	/// Return an SDL surface from the image, or null if failed. Only RGB images are supported. Specify rect to only return partial image. You must free the surface yourself.
-	SDL_Surface* GetSDLSurface(const RectI& rect = RectI::ZERO) const;
+	SDL_Surface* GetSDLSurface(const TRectI& rect = TRectI::ZERO) const;
 #ifndef AUTO_OPENGL_ES
 	/// Decompress a mip level as 8-bit RGBA. Supports compressed images only. Return true on success.
     bool DecompressLevel(unsigned char* dest, size_t levelIndex) const;
 #endif
     /// Calculate the data size of an image level.
-    static size_t CalculateDataSize(const Vector2I& _size, EImageFormat::Type _format, size_t* numRows = 0, size_t* rowSize = 0);
+    static size_t CalculateDataSize(const TVector2I& _size, EImageFormat::Type _format, size_t* numRows = 0, size_t* rowSize = 0);
 
     /// Pixel components per format.
     static const int components[];
@@ -143,7 +143,7 @@ private:
     static void FreePixelData(unsigned char* pixelData);
 
     /// AImage dimensions.
-    Vector2I _size;
+    TVector2I _size;
     /// AImage format.
     EImageFormat::Type _format;
     /// Number of mip levels. 1 for uncompressed images.

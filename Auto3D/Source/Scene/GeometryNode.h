@@ -138,7 +138,7 @@ public:
     /// Set material at geometry index.
     void SetMaterial(size_t index, AMaterial* material);
     /// Set local space bounding box.
-    void SetLocalBoundingBox(const BoundingBoxF& box);
+    void SetLocalBoundingBox(const TBoundingBoxF& box);
 
     /// Return geometry type.
     GeometryType::Type GetGeometryType() const { return _geometryType; }
@@ -151,7 +151,7 @@ public:
     /// Return source information for all draw calls.
     const TVector<SourceBatch>& GetBatches() const { return _batches; }
     /// Return local space bounding box.
-    const BoundingBoxF& GetLocalBoundingBox() const { return _boundingBox; }
+    const TBoundingBoxF& GetLocalBoundingBox() const { return _boundingBox; }
 
     /// Set new light list. Called by Renderer.
     void SetLightList(LightList* list) { _lightList = list; }
@@ -173,7 +173,7 @@ protected:
     /// Draw call source datas.
     TVector<SourceBatch> _batches;
     /// Local space bounding box.
-    BoundingBoxF _boundingBox;
+    TBoundingBoxF _boundingBox;
 };
 
 }

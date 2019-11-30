@@ -54,21 +54,21 @@ public:
 	void SetInt(const FString& name, int value) const;
 	void SetFloat(const FString& name, float value) const;
 
-	void SetVec2(const FString& name, const Vector2F& value) const;
+	void SetVec2(const FString& name, const TVector2F& value) const;
 	void SetVec2(const FString& name, float x, float y) const;
 	void SetVec2s(const FString& name, int size, float* pVec2) const;
 
-	void SetVec3(const FString& name, const Vector3F& value) const;
+	void SetVec3(const FString& name, const TVector3F& value) const;
 	void SetVec3(const FString& name, float x, float y, float z) const;
 	void SetVec3s(const FString& name, int size, float* pVec3) const;
 
-	void SetVec4(const FString& name, const Vector4F& value) const;
+	void SetVec4(const FString& name, const TVector4F& value) const;
 	void SetVec4(const FString& name, float x, float y, float z, float w);
 	void SetVec4s(const FString& name, int size, float* pVec4);
 
-	void SetMat2(const FString& name, const Matrix2x2F& mat) const;
-	void SetMat3(const FString& name, const Matrix3x3F& mat) const;
-	void SetMat4(const FString& name, const Matrix4x4F& mat) const;
+	void SetMat2(const FString& name, const TMatrix2x2F& mat) const;
+	void SetMat3(const FString& name, const TMatrix3x3F& mat) const;
+	void SetMat4(const FString& name, const TMatrix4x4F& mat) const;
 
 	unsigned GetUniformLocation(const FString& uniformName) const;
 	unsigned GetAttribLocation(const FString& AttribName) const;

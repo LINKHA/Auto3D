@@ -45,7 +45,7 @@ private:
 	TVector<RigidBody2D*> _rigidBodies;
 
 	/// Gravity.
-	Vector2F _gravity;
+	TVector2F _gravity;
 	/// Velocity iterations.
 	int _velocityIterations{};
 	/// Position iterations.

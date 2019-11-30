@@ -46,7 +46,7 @@ public:
     /// Set orthographic mode view uniform _size.
     void SetOrthoSize(float orthoSize);
     /// Set orthographic mode view non-uniform _size.
-    void SetOrthoSize(const Vector2F& orthoSize);
+    void SetOrthoSize(const TVector2F& orthoSize);
     /// Set aspect ratio.
     void SetAspectRatio(float aspectRatio);
     /// Set zoom.
@@ -68,17 +68,17 @@ public:
     /// Set orthographic projection mode.
     void SetOrthographic(bool enable);
     /// Set ambient light color to use when rendering with this camera.
-    void SetAmbientColor(const Color& color);
+    void SetAmbientColor(const FColor& color);
     /// Set projection offset. It needs to be calculated as (offset in pixels) / (viewport dimensions.)
-    void SetProjectionOffset(const Vector2F& offset);
+    void SetProjectionOffset(const TVector2F& offset);
     /// Set reflection mode.
     void SetUseReflection(bool enable);
     /// Set reflection plane in world space for reflection mode.
-    void SetReflectionPlane(const Plane& plane);
+    void SetReflectionPlane(const FPlane& plane);
     /// Set whether to use a custom clip plane.
     void SetUseClipping(bool enable);
     /// Set custom clipping plane in world space.
-    void SetClipPlane(const Plane& plane);
+    void SetClipPlane(const FPlane& plane);
     /// Set vertical flipping mode.
     void SetFlipVertical(bool enable);
     /// Return far clip distance.
@@ -100,51 +100,51 @@ public:
     /// Return whether is orthographic.
     bool IsOrthographic() const { return _orthographic; }
     /// Return ambient light color.
-    const Color& GetAmbientColor() const { return _ambientColor; }
+    const FColor& GetAmbientColor() const { return _ambientColor; }
     /// Return projection offset.
-    const Vector2F& GetProjectionOffset() const { return _projectionOffset; }
+    const TVector2F& GetProjectionOffset() const { return _projectionOffset; }
     /// Return whether is using reflection.
     bool GetUseReflection() const { return _useReflection; }
     /// Return the reflection plane.
-    const Plane& GetReflectionPlane() const { return _reflectionPlane; }
+    const FPlane& GetReflectionPlane() const { return _reflectionPlane; }
     /// Return whether is using a custom clipping plane.
     bool GetUseClipping() const { return _useClipping; }
     /// Return the custom clipping plane.
-    const Plane& GetClipPlane() const { return _clipPlane; }
+    const FPlane& GetClipPlane() const { return _clipPlane; }
     /// Return vertical flipping mode.
     bool GetFlipVertical() const { return _flipVertical; }
     /// Return whether to reverse culling; affected by vertical flipping and reflection.
     bool GetUseReverseCulling() const { return _flipVertical ^ _useReflection; }
     /// Return frustum in world space.
-    Frustum GetWorldFrustum() const;
+    FFrustum GetWorldFrustum() const;
     /// Return world space frustum split by custom near and far clip distances.
-    Frustum WorldSplitFrustum(float nearClip, float farClip) const;
+    FFrustum WorldSplitFrustum(float nearClip, float farClip) const;
     /// Return frustum in view space.
-    Frustum GetViewSpaceFrustum() const;
+    FFrustum GetViewSpaceFrustum() const;
     /// Return split frustum in view space.
-    Frustum ViewSpaceSplitFrustum(float nearClip, float farClip) const;
+    FFrustum ViewSpaceSplitFrustum(float nearClip, float farClip) const;
     /// Return view matrix.
-    const Matrix3x4F& GetViewMatrix() const;
+    const TMatrix3x4F& GetViewMatrix() const;
     /// Return either API-specific or API-independent (D3D convention) projection matrix.
-    Matrix4x4F GetProjectionMatrix(bool apiSpecific = true) const;
+    TMatrix4x4F GetProjectionMatrix(bool apiSpecific = true) const;
     /// Return frustum near and far sizes.
-    void FrustumSize(Vector3F& near, Vector3F& far) const;
+    void FrustumSize(TVector3F& near, TVector3F& far) const;
     /// Return half view _size.
     float GetHalfViewSize() const;
     /// Return ray corresponding to normalized screen coordinates (0.0 - 1.0).
-    Ray ScreenRay(float x, float y) const;
+    FRay ScreenRay(float x, float y) const;
     // Convert a world space point to normalized screen coordinates (0.0 - 1.0).
-    Vector2F WorldToScreenPoint(const Vector3F& worldPos) const;
+    TVector2F WorldToScreenPoint(const TVector3F& worldPos) const;
     // Convert normalized screen coordinates (0.0 - 1.0) and depth to a world space point.
-    Vector3F ScreenToWorldPoint(const Vector3F& screenPos) const;
+    TVector3F ScreenToWorldPoint(const TVector3F& screenPos) const;
     /// Return distance to _position. In orthographic mode uses only Z coordinate.
-    float Distance(const Vector3F& worldPos) const;
+    float Distance(const TVector3F& worldPos) const;
     /// Return a scene node's LOD scaled distance.
     float LodDistance(float distance, float scale, float bias) const;
     /// Return a world rotation for facing a camera on certain axes based on the existing world rotation.
-    Quaternion FaceCameraRotation(const Vector3F& position, const Quaternion& rotation, EFaceCameraMode::Type mode);
+    FQuaternion FaceCameraRotation(const TVector3F& position, const FQuaternion& rotation, EFaceCameraMode::Type mode);
     /// Get effective world transform for matrix and frustum calculations including reflection but excluding node scaling.
-    Matrix3x4F EffectiveWorldTransform() const;
+    TMatrix3x4F EffectiveWorldTransform() const;
     /// Return if projection parameters are _valid for rendering and raycasting.
     bool IsProjectionValid() const;
 
@@ -154,16 +154,16 @@ protected:
 
 private:
     /// Set reflection plane as vector. Used in serialization.
-    void SetReflectionPlaneAttr(const Vector4F& value);
+    void SetReflectionPlaneAttr(const TVector4F& value);
     /// Return reflection plane as vector. Used in serialization.
-    Vector4F ReflectionPlaneAttr() const;
+    TVector4F ReflectionPlaneAttr() const;
     /// Set clipping plane attribute as vector. Used in serialization.
-    void SetClipPlaneAttr(const Vector4F& value);
+    void SetClipPlaneAttr(const TVector4F& value);
     /// Return clipping plane attribute as vector. Used in serialization.
-    Vector4F ClipPlaneAttr() const;
+    TVector4F ClipPlaneAttr() const;
 
     /// Cached view matrix.
-    mutable Matrix3x4F _viewMatrix;
+    mutable TMatrix3x4F _viewMatrix;
     /// View matrix dirty flag.
     mutable bool _viewMatrixDirty;
     /// Orthographic mode flag.
@@ -187,15 +187,15 @@ private:
     /// View layer mask.
     unsigned _viewLayoutMask;
     /// Ambient light color.
-    Color _ambientColor;
+    FColor _ambientColor;
     /// Projection offset.
-    Vector2F _projectionOffset;
+    TVector2F _projectionOffset;
     /// Reflection plane.
-    Plane _reflectionPlane;
+    FPlane _reflectionPlane;
     /// Clipping plane.
-    Plane _clipPlane;
+    FPlane _clipPlane;
     /// Reflection matrix calculated from the plane.
-    Matrix3x4F _reflectionMatrix;
+    TMatrix3x4F _reflectionMatrix;
     /// Reflection mode enabled flag.
     bool _useReflection;
     /// Use custom clip plane flag.

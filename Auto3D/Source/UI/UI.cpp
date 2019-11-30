@@ -287,15 +287,15 @@ void End()
 
 // Child Windows
 // - Use child windows to begin into a self-contained independent scrolling/clipping regions within a host window. Child windows can embed their own child.
-// - For each independent axis of 'size': ==0.0f: use remaining host window size / >0.0f: fixed size / <0.0f: use remaining window size minus abs(size) / Each axis can use a different mode, e.g. Vector2F(0,400).
+// - For each independent axis of 'size': ==0.0f: use remaining host window size / >0.0f: fixed size / <0.0f: use remaining window size minus abs(size) / Each axis can use a different mode, e.g. TVector2F(0,400).
 // - BeginChild() returns false to indicate the window is collapsed or fully clipped, so you may early out and omit submitting anything to the window.
 //   Always call a matching EndChild() for each BeginChild() call, regardless of its return value [this is due to legacy reason and is inconsistent with most other functions such as BeginMenu/EndMenu, BeginPopup/EndPopup, etc. where the EndXXX call should only be called if the corresponding BeginXXX function returned true.]
-bool BeginChild(const char* str_id, const Vector2F& size, bool border, WindowFlags flags)
+bool BeginChild(const char* str_id, const TVector2F& size, bool border, WindowFlags flags)
 {
 	return ImGui::BeginChild(str_id, ToImVal(size), border, flags);
 }
 
-bool BeginChild(ID id, const Vector2F& size, bool border, WindowFlags flags)
+bool BeginChild(ID id, const TVector2F& size, bool border, WindowFlags flags)
 {
 	return ImGui::BeginChild(id, ToImVal(size), border, flags);
 }
@@ -329,12 +329,12 @@ DrawList* GetWindowDrawList()
 	return ImGui::GetWindowDrawList();
 }
 
-Vector2F GetWindowPos()
+TVector2F GetWindowPos()
 {
 	return ImToVal(ImGui::GetWindowPos());
 }
 
-Vector2F GetWindowSize()
+TVector2F GetWindowSize()
 {
 	return ImToVal(ImGui::GetWindowSize());
 }
@@ -349,22 +349,22 @@ float GetWindowHeight()
 }
 
 // Prefer using SetNextXXX functions (before Begin) rather that SetXXX functions (after Begin).
-void SetNextWindowPos(const Vector2F& pos, Cond cond, const Vector2F& pivot)
+void SetNextWindowPos(const TVector2F& pos, Cond cond, const TVector2F& pivot)
 {
 	ImGui::SetNextWindowPos(ToImVal(pos), cond, ToImVal(pivot));
 }
 
-void SetNextWindowSize(const Vector2F& size, Cond cond)
+void SetNextWindowSize(const TVector2F& size, Cond cond)
 {
 	ImGui::SetNextWindowSize(ToImVal(size), cond);
 }
 
-void SetNextWindowSizeConstraints(const Vector2F& size_min, const Vector2F& size_max, ImGuiSizeCallback custom_callback, void* custom_callback_data)
+void SetNextWindowSizeConstraints(const TVector2F& size_min, const TVector2F& size_max, ImGuiSizeCallback custom_callback, void* custom_callback_data)
 {
 	ImGui::SetNextWindowSizeConstraints(ToImVal(size_min), ToImVal(size_max), custom_callback, custom_callback_data);
 }
 
-void SetNextWindowContentSize(const Vector2F& size)
+void SetNextWindowContentSize(const TVector2F& size)
 {
 	ImGui::SetNextWindowContentSize(ToImVal(size));
 }
@@ -384,12 +384,12 @@ void SetNextWindowBgAlpha(float alpha)
 	ImGui::SetNextWindowBgAlpha(alpha);
 }
 
-void SetWindowPos(const Vector2F& pos, Cond cond)
+void SetWindowPos(const TVector2F& pos, Cond cond)
 {
 	ImGui::SetWindowPos(ToImVal(pos), cond);
 }
 
-void SetWindowSize(const Vector2F& size, Cond cond)
+void SetWindowSize(const TVector2F& size, Cond cond)
 {
 	ImGui::SetWindowSize(ToImVal(size), cond);
 }
@@ -409,12 +409,12 @@ void SetWindowFontScale(float scale)
 	ImGui::SetWindowFontScale(scale);
 }
 
-void SetWindowPos(const char* name, const Vector2F& pos, Cond cond)
+void SetWindowPos(const char* name, const TVector2F& pos, Cond cond)
 {
 	ImGui::SetWindowPos(name, ToImVal(pos), cond);
 }
 
-void SetWindowSize(const char* name, const Vector2F& size, Cond cond)
+void SetWindowSize(const char* name, const TVector2F& size, Cond cond)
 {
 	ImGui::SetWindowSize(name, ToImVal(size), cond);
 }
@@ -429,19 +429,19 @@ void SetWindowFocus(const char* name)
 
 // Content region
 // - Those functions are bound to be redesigned soon (they are confusing, incomplete and return values in local window coordinates which increases confusion)
-Vector2F GetContentRegionMax()
+TVector2F GetContentRegionMax()
 {
 	return ImToVal(ImGui::GetContentRegionMax());
 }
-Vector2F GetContentRegionAvail()
+TVector2F GetContentRegionAvail()
 {
 	return ImToVal(ImGui::GetContentRegionAvail());
 }
-Vector2F GetWindowContentRegionMin()
+TVector2F GetWindowContentRegionMin()
 {
 	return ImToVal(ImGui::GetWindowContentRegionMin());
 }
-Vector2F GetWindowContentRegionMax()
+TVector2F GetWindowContentRegionMax()
 {
 	return ImToVal(ImGui::GetWindowContentRegionMax());
 }
@@ -501,7 +501,7 @@ void PushStyleColor(Col idx, unsigned col)
 {
 	ImGui::PushStyleColor(idx, col);
 }
-void PushStyleColor(Col idx, const Vector4F& col)
+void PushStyleColor(Col idx, const TVector4F& col)
 {
 	ImGui::PushStyleColor(idx, ToImVal(col));
 }
@@ -513,7 +513,7 @@ void PushStyleVar(StyleVar idx, float val)
 {
 	ImGui::PushStyleVar(idx, val);
 }
-void PushStyleVar(StyleVar idx, const Vector2F& val)
+void PushStyleVar(StyleVar idx, const TVector2F& val)
 {
 	ImGui::PushStyleVar(idx, ToImVal(val));
 }
@@ -521,7 +521,7 @@ void PopStyleVar(int count)
 {
 	ImGui::PopStyleVar(count);
 }
-const Vector4F& GetStyleColorVec4(Col idx)
+const TVector4F& GetStyleColorVec4(Col idx)
 {
 	return ImToVal(ImGui::GetStyleColorVec4(idx));
 }
@@ -533,7 +533,7 @@ float GetFontSize()
 {
 	return ImGui::GetFontSize();
 }
-Vector2F GetFontTexUvWhitePixel()
+TVector2F GetFontTexUvWhitePixel()
 {
 	return ImToVal(ImGui::GetFontTexUvWhitePixel());
 }
@@ -541,7 +541,7 @@ unsigned GetColorU32(Col idx, float alpha_mul)
 {
 	return ImGui::GetColorU32(idx, alpha_mul);
 }
-unsigned GetColorU32(const Vector4F& col)
+unsigned GetColorU32(const TVector4F& col)
 {
 	return ImGui::GetColorU32(ToImVal(col));
 }
@@ -611,7 +611,7 @@ void Spacing()
 {
 	ImGui::Spacing();
 }
-void Dummy(const Vector2F& size)
+void Dummy(const TVector2F& size)
 {
 	ImGui::Spacing();
 }
@@ -631,7 +631,7 @@ void EndGroup()
 {
 	ImGui::EndGroup();
 }
-Vector2F GetCursorPos()
+TVector2F GetCursorPos()
 {
 	return ImToVal(ImGui::GetCursorPos());
 }
@@ -643,7 +643,7 @@ float GetCursorPosY()
 {
 	return ImGui::GetCursorPosY();
 }
-void SetCursorPos(const Vector2F& local_pos)
+void SetCursorPos(const TVector2F& local_pos)
 {
 	ImGui::SetCursorPos(ToImVal(local_pos));
 }
@@ -655,16 +655,16 @@ void SetCursorPosY(float local_y)
 {
 	ImGui::SetCursorPosY(local_y);
 }
-Vector2F GetCursorStartPos()
+TVector2F GetCursorStartPos()
 {
 	return ImToVal(ImGui::GetCursorStartPos());
 }
-Vector2F GetCursorScreenPos()
+TVector2F GetCursorScreenPos()
 {
 	return ImToVal(ImGui::GetCursorScreenPos());
 }
 
-void SetCursorScreenPos(const Vector2F& pos)
+void SetCursorScreenPos(const TVector2F& pos)
 {
 	ImGui::SetCursorScreenPos(ToImVal(pos));
 }
@@ -745,7 +745,7 @@ void TextV(const char* fmt, va_list args)
 {
 	ImGui::TextV(fmt,  args);
 }
-void TextColored(const Vector4F& col, const char* fmt, ...)
+void TextColored(const TVector4F& col, const char* fmt, ...)
 {
 
 	va_list args;
@@ -753,7 +753,7 @@ void TextColored(const Vector4F& col, const char* fmt, ...)
 	TextColoredV(col, fmt, args);
 	va_end(args);
 }
-void TextColoredV(const Vector4F& col, const char* fmt, va_list args)
+void TextColoredV(const TVector4F& col, const char* fmt, va_list args)
 {
 	ImGui::TextColoredV(ToImVal(col), fmt,  args);
 }
@@ -804,7 +804,7 @@ void BulletTextV(const char* fmt, va_list args)
 
 	// Widgets: Main
 	// - Most widgets return true when the value has been changed or when pressed/selected
-bool Button(const char* label, const Vector2F& size)
+bool Button(const char* label, const TVector2F& size)
 {
 	return ImGui::Button(label, ToImVal(size));
 }
@@ -812,7 +812,7 @@ bool SmallButton(const char* label)
 {
 	return ImGui::SmallButton( label);
 }
-bool InvisibleButton(const char* str_id, const Vector2F& size)
+bool InvisibleButton(const char* str_id, const TVector2F& size)
 {
 	return ImGui::InvisibleButton(str_id, ToImVal(size));
 }
@@ -820,11 +820,11 @@ bool ArrowButton(const char* str_id, Dir dir)
 {
 	return ImGui::ArrowButton( str_id,  dir);
 }
-void AImage(ATexture* user_texture, const Vector2F& size, const Vector2F& uv0, const Vector2F& uv1, const Vector4F& tint_col, const Vector4F& border_col)
+void AImage(ATexture* user_texture, const TVector2F& size, const TVector2F& uv0, const TVector2F& uv1, const TVector4F& tint_col, const TVector4F& border_col)
 {
 	ImGui::Image((void*)user_texture->GetGLTexture(), ToImVal(size), ToImVal(uv0), ToImVal(uv1), ToImVal(tint_col), ToImVal(border_col));
 }
-bool ImageButton(ATexture* user_texture, const Vector2F& size, const Vector2F& uv0, const Vector2F& uv1, int frame_padding, const Vector4F& bg_col, const Vector4F& tint_col )
+bool ImageButton(ATexture* user_texture, const TVector2F& size, const TVector2F& uv0, const TVector2F& uv1, int frame_padding, const TVector4F& bg_col, const TVector4F& tint_col )
 {
 	return ImGui::ImageButton((void*)user_texture->GetGLTexture(), ToImVal(size), ToImVal(uv0), ToImVal(uv1),  frame_padding, ToImVal(bg_col), ToImVal(tint_col));
 }
@@ -844,7 +844,7 @@ bool RadioButton(const char* label, int* v, int v_button)
 {
 	return ImGui::RadioButton(label, v, v_button);
 }
-void ProgressBar(float fraction, const Vector2F& size_arg, const char* overlay)
+void ProgressBar(float fraction, const TVector2F& size_arg, const char* overlay)
 {
 	ImGui::ProgressBar(fraction, ToImVal(size_arg), overlay);
 }
@@ -978,15 +978,15 @@ bool SliderScalarN(const char* label, DataType data_type, void* v, int component
 {
 	return ImGui::SliderScalarN(label, data_type, v, components, v_min, v_max, format, power);
 }
-bool VSliderFloat(const char* label, const Vector2F& size, float* v, float v_min, float v_max, const char* format, float power)
+bool VSliderFloat(const char* label, const TVector2F& size, float* v, float v_min, float v_max, const char* format, float power)
 {
 	return ImGui::VSliderFloat(label, ToImVal(size), v, v_min, v_max, format, power);
 }
-bool VSliderInt(const char* label, const Vector2F& size, int* v, int v_min, int v_max, const char* format)
+bool VSliderInt(const char* label, const TVector2F& size, int* v, int v_min, int v_max, const char* format)
 {
 	return ImGui::VSliderInt(label, ToImVal(size), v, v_min, v_max, format);
 }
-bool VSliderScalar(const char* label, const Vector2F& size, DataType data_type, void* v, const void* v_min, const void* v_max, const char* format, float power)
+bool VSliderScalar(const char* label, const TVector2F& size, DataType data_type, void* v, const void* v_min, const void* v_max, const char* format, float power)
 {
 	return ImGui::VSliderScalar(label, ToImVal(size), data_type, v, v_min, v_max, format, power);
 }
@@ -998,7 +998,7 @@ bool InputText(const char* label, char* buf, size_t buf_size, InputTextFlags fla
 {
 	return ImGui::InputText(label, buf, buf_size, flags, callback, user_data);
 }
-bool InputTextMultiline(const char* label, char* buf, size_t buf_size, const Vector2F& size, InputTextFlags flags, ImGuiInputTextCallback callback, void* user_data)
+bool InputTextMultiline(const char* label, char* buf, size_t buf_size, const TVector2F& size, InputTextFlags flags, ImGuiInputTextCallback callback, void* user_data)
 {
 	return ImGui::InputTextMultiline(label, buf, buf_size, ToImVal(size), flags, callback, user_data);
 }
@@ -1051,7 +1051,7 @@ bool InputScalarN(const char* label, DataType data_type, void* v, int components
 	return ImGui::InputScalarN(label, data_type, v, components, step, step_fast, format, flags);
 }
 
-// Widgets: Color Editor/Picker (tip: the ColorEdit* functions have a little colored preview square that can be left-clicked to open a picker, and right-clicked to open an option menu.)
+// Widgets: FColor Editor/Picker (tip: the ColorEdit* functions have a little colored preview square that can be left-clicked to open a picker, and right-clicked to open an option menu.)
 // - Note that in C++ a 'float v[X]' function argument is the _same_ as 'float* v', the array syntax is just a way to document the number of elements that are expected to be accessible.
 // - You can pass the address of a first float element out of a contiguous structure, e.g. &myvector.x
 bool ColorEdit3(const char* label, float col[3], ColorEditFlags flags)
@@ -1070,7 +1070,7 @@ bool ColorPicker4(const char* label, float col[4], ColorEditFlags flags, const f
 {
 	return ImGui::ColorPicker4(label, col, flags, ref_col);
 }
-bool ColorButton(const char* desc_id, const Vector4F& col, ColorEditFlags flags, Vector2F size)
+bool ColorButton(const char* desc_id, const TVector4F& col, ColorEditFlags flags, TVector2F size)
 {
 	return ImGui::ColorButton(desc_id, ToImVal(col), flags, ToImVal(size));
 }
@@ -1173,11 +1173,11 @@ void SetNextItemOpen(bool is_open, Cond cond)
 // Widgets: Selectables
 // - A selectable highlights when hovered, and can display another color when selected.
 // - Neighbors selectable extend their highlight bounds in order to leave no gap between them.
-bool Selectable(const char* label, bool selected, SelectableFlags flags, const Vector2F& size)
+bool Selectable(const char* label, bool selected, SelectableFlags flags, const TVector2F& size)
 {
 	return ImGui::Selectable(label, selected, flags, ToImVal(size));
 }
-bool Selectable(const char* label, bool* p_selected, SelectableFlags flags, const Vector2F& size)
+bool Selectable(const char* label, bool* p_selected, SelectableFlags flags, const TVector2F& size)
 {
 	return ImGui::Selectable(label, p_selected, flags, ToImVal(size));
 }
@@ -1192,7 +1192,7 @@ bool ListBox(const char* label, int* current_item, bool (*items_getter)(void* da
 {
 	return ImGui::ListBox(label, current_item, items_getter, data, items_count, height_in_items);
 }
-bool ListBoxHeader(const char* label, const Vector2F& size)
+bool ListBoxHeader(const char* label, const TVector2F& size)
 {
 	return ImGui::ListBoxHeader(label, ToImVal(size));
 }
@@ -1206,19 +1206,19 @@ void ListBoxFooter()
 }
 
 // Widgets: Data Plotting
-void PlotLines(const char* label, const float* values, int values_count, int values_offset, const char* overlay_text, float scale_min, float scale_max, Vector2F graph_size, int stride)
+void PlotLines(const char* label, const float* values, int values_count, int values_offset, const char* overlay_text, float scale_min, float scale_max, TVector2F graph_size, int stride)
 {
 	ImGui::PlotLines(label, values, values_count, values_offset, overlay_text, scale_min, scale_max, ToImVal(graph_size), stride);
 } 
-void PlotLines(const char* label, float(*values_getter)(void* data, int idx), void* data, int values_count, int values_offset, const char* overlay_text, float scale_min, float scale_max, Vector2F graph_size)
+void PlotLines(const char* label, float(*values_getter)(void* data, int idx), void* data, int values_count, int values_offset, const char* overlay_text, float scale_min, float scale_max, TVector2F graph_size)
 {
 	ImGui::PlotLines(label, values_getter, data, values_count, values_offset, overlay_text, scale_min, scale_max, ToImVal(graph_size));
 }
-void PlotHistogram(const char* label, const float* values, int values_count, int values_offset, const char* overlay_text, float scale_min, float scale_max, Vector2F graph_size, int stride)
+void PlotHistogram(const char* label, const float* values, int values_count, int values_offset, const char* overlay_text, float scale_min, float scale_max, TVector2F graph_size, int stride)
 {
 	ImGui::PlotHistogram(label, values, values_count, values_offset, overlay_text, scale_min, scale_max, ToImVal(graph_size), stride);
 }
-void PlotHistogram(const char* label, float(*values_getter)(void* data, int idx), void* data, int values_count, int values_offset, const char* overlay_text, float scale_min, float scale_max, Vector2F graph_size)
+void PlotHistogram(const char* label, float(*values_getter)(void* data, int idx), void* data, int values_count, int values_offset, const char* overlay_text, float scale_min, float scale_max, TVector2F graph_size)
 {
 	ImGui::PlotHistogram(label, values_getter, data, values_count, values_offset, overlay_text, scale_min, scale_max, ToImVal(graph_size));
 }
@@ -1474,7 +1474,7 @@ const Payload* GetDragDropPayload()
 }
 
 // Clipping
-void PushClipRect(const Vector2F& clip_rect_min, const Vector2F& clip_rect_max, bool intersect_with_current_clip_rect)
+void PushClipRect(const TVector2F& clip_rect_min, const TVector2F& clip_rect_max, bool intersect_with_current_clip_rect)
 {
 	ImGui::PushClipRect(ToImVal(clip_rect_min), ToImVal(clip_rect_max), intersect_with_current_clip_rect);
 }
@@ -1545,15 +1545,15 @@ bool IsAnyItemFocused()
 {
 	return ImGui::IsAnyItemFocused();
 }
-Vector2F GetItemRectMin()
+TVector2F GetItemRectMin()
 {
 	return ImToVal(ImGui::GetItemRectMin());
 }
-Vector2F GetItemRectMax()
+TVector2F GetItemRectMax()
 {
 	return ImToVal(ImGui::GetItemRectMax());
 }
-Vector2F GetItemRectSize()
+TVector2F GetItemRectSize()
 {
 	return ImToVal(ImGui::GetItemRectSize());
 }
@@ -1563,11 +1563,11 @@ void SetItemAllowOverlap()
 }
 
 // Miscellaneous Utilities
-bool IsRectVisible(const Vector2F& size)
+bool IsRectVisible(const TVector2F& size)
 {
 	return ImGui::IsRectVisible(ToImVal(size));
 }
-bool IsRectVisible(const Vector2F& rect_min, const Vector2F& rect_max)
+bool IsRectVisible(const TVector2F& rect_min, const TVector2F& rect_max)
 {
 	return ImGui::IsRectVisible(ToImVal(rect_min), ToImVal(rect_max));
 }
@@ -1603,7 +1603,7 @@ Storage* GetStateStorage()
 {
 	return ImGui::GetStateStorage();
 }
-Vector2F CalcTextSize(const char* text, const char* text_end, bool hide_text_after_double_hash, float wrap_width)
+TVector2F CalcTextSize(const char* text, const char* text_end, bool hide_text_after_double_hash, float wrap_width)
 {
 	return ImToVal(ImGui::CalcTextSize(text, text_end, hide_text_after_double_hash, wrap_width));
 }
@@ -1611,7 +1611,7 @@ void CalcListClipping(int items_count, float items_height, int* out_items_displa
 {
 	ImGui::CalcListClipping(items_count, items_height, out_items_display_start, out_items_display_end);
 }
-bool BeginChildFrame(ID id, const Vector2F& size, WindowFlags flags)
+bool BeginChildFrame(ID id, const TVector2F& size, WindowFlags flags)
 {
 	return ImGui::BeginChildFrame(id, ToImVal(size), flags);
 }
@@ -1620,12 +1620,12 @@ void EndChildFrame()
 	ImGui::EndChildFrame();
 }
 
-// Color Utilities
-Vector4F ColorConvertU32ToFloat4(unsigned in)
+// FColor Utilities
+TVector4F ColorConvertU32ToFloat4(unsigned in)
 {
 	return ImToVal(ImGui::ColorConvertU32ToFloat4(in));
 }
-unsigned ColorConvertFloat4ToU32(const Vector4F& in)
+unsigned ColorConvertFloat4ToU32(const TVector4F& in)
 {
 	return ImGui::ColorConvertFloat4ToU32(ToImVal(in));
 }
@@ -1683,23 +1683,23 @@ bool IsMouseDragging(int button, float lock_threshold)
 {
 	return ImGui::IsMouseDragging(button, lock_threshold);
 }
-bool IsMouseHoveringRect(const Vector2F& r_min, const Vector2F& r_max, bool clip)
+bool IsMouseHoveringRect(const TVector2F& r_min, const TVector2F& r_max, bool clip)
 {
 	return ImGui::IsMouseHoveringRect(ToImVal(r_min), ToImVal(r_max), clip);
 }
-bool IsMousePosValid(const Vector2F* mouse_pos )
+bool IsMousePosValid(const TVector2F* mouse_pos )
 {
 	return ImGui::IsMousePosValid(ToImVal(mouse_pos));
 }
-Vector2F GetMousePos()
+TVector2F GetMousePos()
 {
 	return ImToVal(ImGui::GetMousePos());
 }
-Vector2F GetMousePosOnOpeningCurrentPopup()
+TVector2F GetMousePosOnOpeningCurrentPopup()
 {
 	return ImToVal(ImGui::GetMousePosOnOpeningCurrentPopup());
 }
-Vector2F GetMouseDragDelta(int button, float lock_threshold)
+TVector2F GetMouseDragDelta(int button, float lock_threshold)
 {
 	return ImToVal(ImGui::GetMouseDragDelta(button, lock_threshold));
 }

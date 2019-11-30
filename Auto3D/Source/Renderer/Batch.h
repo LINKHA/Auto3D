@@ -39,7 +39,7 @@ struct AUTO_API Batch
     union
     {
         /// Non-instanced use world matrix.
-        const Matrix3x4F* _worldMatrix;
+        const TMatrix3x4F* _worldMatrix;
         /// Instanced mode start index.
         size_t _instanceStart;
     };
@@ -61,10 +61,10 @@ struct AUTO_API RenderQueue
     /// Clear structures.
     void Clear();
     /// Sort batches and build instances.
-    void Sort(TVector<Matrix3x4F>& instanceTransforms);
+    void Sort(TVector<TMatrix3x4F>& instanceTransforms);
 
     /// Build instances from adjacent batches with same state.
-    static void BuildInstances(TVector<Batch>& batches, TVector<Matrix3x4F>& instanceTransforms);
+    static void BuildInstances(TVector<Batch>& batches, TVector<TMatrix3x4F>& instanceTransforms);
 
     /// Batches, which may be instanced or non-instanced.
     TVector<Batch> _batches;
@@ -97,23 +97,23 @@ struct AUTO_API LightList
 struct AUTO_API LightPass
 {
     /// ALight positions.
-    Vector4F _lightPositions[MAX_LIGHTS_PER_PASS];
+    TVector4F _lightPositions[MAX_LIGHTS_PER_PASS];
     /// ALight directions.
-    Vector4F _lightDirections[MAX_LIGHTS_PER_PASS];
+    TVector4F _lightDirections[MAX_LIGHTS_PER_PASS];
     /// ALight attenuation parameters.
-    Vector4F _lightAttenuations[MAX_LIGHTS_PER_PASS];
+    TVector4F _lightAttenuations[MAX_LIGHTS_PER_PASS];
     /// ALight colors.
-    Color _lightColors[MAX_LIGHTS_PER_PASS];
+    FColor _lightColors[MAX_LIGHTS_PER_PASS];
     /// Shadow map sampling parameters.
-    Vector4F _shadowParameters[MAX_LIGHTS_PER_PASS];
+    TVector4F _shadowParameters[MAX_LIGHTS_PER_PASS];
     /// Point light shadow viewport parameters.
-    Vector4F _pointShadowParameters[MAX_LIGHTS_PER_PASS];
+    TVector4F _pointShadowParameters[MAX_LIGHTS_PER_PASS];
     /// Directional light shadow split depths.
-    Vector4F _dirShadowSplits;
+    TVector4F _dirShadowSplits;
     /// Directional light shadow fade parameters.
-    Vector4F _dirShadowFade;
+    TVector4F _dirShadowFade;
     /// Shadow mapping matrices.
-    Matrix4x4F _shadowMatrices[MAX_LIGHTS_PER_PASS];
+    TMatrix4x4F _shadowMatrices[MAX_LIGHTS_PER_PASS];
     /// Shadow maps.
     ATexture* _shadowMaps[MAX_LIGHTS_PER_PASS];
     /// Vertex shader variation bits.
@@ -131,7 +131,7 @@ struct AUTO_API ShadowView
     /// %ALight that is using this view.
     ALight* _light;
     /// Viewport within the shadow map.
-    RectI _viewport;
+    TRectI _viewport;
     /// Shadow batch queue.
     RenderQueue _shadowQueue;
     /// Shadow camera.
@@ -150,7 +150,7 @@ struct AUTO_API ShadowMap
     void Clear();
 
     /// Rectangle allocator.
-    AreaAllocator _allocator;
+    FAreaAllocator _allocator;
     /// Shadow map texture.
     TSharedPtr<ATexture> _texture;
     /// Shadow views that use this shadow map.
@@ -166,7 +166,7 @@ struct AUTO_API WaterTextureView
 	void Clear();
 
 	/// Viewport within the shadow map.
-	RectI _viewport;
+	TRectI _viewport;
 	/// AWater texture batch queue.
 	RenderQueue _waterTextureQueue;
 	/// AWater camera.
@@ -185,7 +185,7 @@ struct AUTO_API WaterTexture
 	void Clear();
 
 	/// Rectangle allocator.
-	AreaAllocator _allocator;
+	FAreaAllocator _allocator;
 	/// Shadow map texture.
 	TSharedPtr<ATexture> _texture;
 	/// AWater texture view this use water texture.

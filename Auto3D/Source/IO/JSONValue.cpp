@@ -56,19 +56,19 @@ FJSONValue::FJSONValue(double value) :
     *this = value;
 }
 
-FJSONValue::FJSONValue(const Vector2F& value) :
+FJSONValue::FJSONValue(const TVector2F& value) :
 	_type(EJSONType::Null)
 {
 	*this = value;
 }
 
-FJSONValue::FJSONValue(const Vector3F& value) :
+FJSONValue::FJSONValue(const TVector3F& value) :
 	_type(EJSONType::Null)
 {
 	*this = value;
 }
 
-FJSONValue::FJSONValue(const Vector4F& value) :
+FJSONValue::FJSONValue(const TVector4F& value) :
 	_type(EJSONType::Null)
 {
 	*this = value;
@@ -117,13 +117,13 @@ FJSONValue& FJSONValue::operator = (const FJSONValue& rhs)
         _data.numberValue = rhs._data.numberValue;
         break;
 	case EJSONType::VECTOR2:
-		*(reinterpret_cast<Vector2F*>(&_data)) = *(reinterpret_cast<const Vector2F*>(&rhs._data));
+		*(reinterpret_cast<TVector2F*>(&_data)) = *(reinterpret_cast<const TVector2F*>(&rhs._data));
 		break;
 	case EJSONType::VECTOR3:
-		*(reinterpret_cast<Vector3F*>(&_data)) = *(reinterpret_cast<const Vector3F*>(&rhs._data));
+		*(reinterpret_cast<TVector3F*>(&_data)) = *(reinterpret_cast<const TVector3F*>(&rhs._data));
 		break;
 	case EJSONType::VECTOR4:
-		*(reinterpret_cast<Vector4F*>(&_data)) = *(reinterpret_cast<const Vector4F*>(&rhs._data));
+		*(reinterpret_cast<TVector4F*>(&_data)) = *(reinterpret_cast<const TVector4F*>(&rhs._data));
 		break;
     case EJSONType::STRING:
         *(reinterpret_cast<FString*>(&_data)) = *(reinterpret_cast<const FString*>(&rhs._data));
@@ -179,24 +179,24 @@ FJSONValue& FJSONValue::operator = (double rhs)
     return *this;
 }
 
-FJSONValue& FJSONValue::operator = (const Vector2F& value)
+FJSONValue& FJSONValue::operator = (const TVector2F& value)
 {
 	SetType(EJSONType::VECTOR2);
-	*(reinterpret_cast<Vector2F*>(&_data)) = value;
+	*(reinterpret_cast<TVector2F*>(&_data)) = value;
 	return *this;
 }
 
-FJSONValue& FJSONValue::operator = (const Vector3F& value)
+FJSONValue& FJSONValue::operator = (const TVector3F& value)
 {
 	SetType(EJSONType::VECTOR3);
-	*(reinterpret_cast<Vector3F*>(&_data)) = value;
+	*(reinterpret_cast<TVector3F*>(&_data)) = value;
 	return *this;
 }
 
-FJSONValue& FJSONValue::operator = (const Vector4F& value)
+FJSONValue& FJSONValue::operator = (const TVector4F& value)
 {
 	SetType(EJSONType::VECTOR4);
-	*(reinterpret_cast<Vector4F*>(&_data)) = value;
+	*(reinterpret_cast<TVector4F*>(&_data)) = value;
 	return *this;
 }
 
@@ -277,13 +277,13 @@ bool FJSONValue::operator == (const FJSONValue& rhs) const
     case EJSONType::NUMBER:
         return _data.numberValue == rhs._data.numberValue;
 	case EJSONType::VECTOR2:
-		return *(reinterpret_cast<const Vector2F*>(&_data)) == *(reinterpret_cast<const Vector2F*>(&rhs._data));
+		return *(reinterpret_cast<const TVector2F*>(&_data)) == *(reinterpret_cast<const TVector2F*>(&rhs._data));
 	
 	case EJSONType::VECTOR3:
-		return *(reinterpret_cast<const Vector3F*>(&_data)) == *(reinterpret_cast<const Vector3F*>(&rhs._data));
+		return *(reinterpret_cast<const TVector3F*>(&_data)) == *(reinterpret_cast<const TVector3F*>(&rhs._data));
 	
 	case EJSONType::VECTOR4:
-		return *(reinterpret_cast<const Vector4F*>(&_data)) == *(reinterpret_cast<const Vector4F*>(&rhs._data));
+		return *(reinterpret_cast<const TVector4F*>(&_data)) == *(reinterpret_cast<const TVector4F*>(&rhs._data));
 
     case EJSONType::STRING:
         return *(reinterpret_cast<const FString*>(&_data)) == *(reinterpret_cast<const FString*>(&rhs._data));
@@ -624,17 +624,17 @@ bool FJSONValue::Parse(const char*& pos, const char*& end)
 			if (MatchString("2", pos, end))
 			{
 				SetType(EJSONType::VECTOR2);
-				return ReadJSONVector2(*(reinterpret_cast<Vector2F*>(&_data)), pos, end);
+				return ReadJSONVector2(*(reinterpret_cast<TVector2F*>(&_data)), pos, end);
 			}
 			else if (MatchString("3", pos, end))
 			{
 				SetType(EJSONType::VECTOR3);
-				return ReadJSONVector3(*(reinterpret_cast<Vector3F*>(&_data)), pos, end);
+				return ReadJSONVector3(*(reinterpret_cast<TVector3F*>(&_data)), pos, end);
 			}	
 			else if (MatchString("4", pos, end))
 			{
 				SetType(EJSONType::VECTOR4);
-				return ReadJSONVector4(*(reinterpret_cast<Vector4F*>(&_data)), pos, end);
+				return ReadJSONVector4(*(reinterpret_cast<TVector4F*>(&_data)), pos, end);
 			}
 		}	
 		else
@@ -737,15 +737,15 @@ void FJSONValue::SetType(EJSONType::Type newType)
     switch (_type)
     {
 	case EJSONType::VECTOR2:
-		(reinterpret_cast<Vector2F*>(&_data))->~Vector2F();
+		(reinterpret_cast<TVector2F*>(&_data))->~TVector2F();
 		break;
 	
 	case EJSONType::VECTOR3:
-		(reinterpret_cast<Vector3F*>(&_data))->~Vector3F();
+		(reinterpret_cast<TVector3F*>(&_data))->~TVector3F();
 		break;
 
 	case EJSONType::VECTOR4:
-		(reinterpret_cast<Vector4F*>(&_data))->~Vector4F();
+		(reinterpret_cast<TVector4F*>(&_data))->~TVector4F();
 		break;
 
     case EJSONType::STRING:
@@ -769,15 +769,15 @@ void FJSONValue::SetType(EJSONType::Type newType)
     switch (_type)
     {
 	case EJSONType::VECTOR2:
-		new(reinterpret_cast<Vector2F*>(&_data)) Vector2F();
+		new(reinterpret_cast<TVector2F*>(&_data)) TVector2F();
 		break;
 
 	case EJSONType::VECTOR3:
-		new(reinterpret_cast<Vector3F*>(&_data)) Vector3F();
+		new(reinterpret_cast<TVector3F*>(&_data)) TVector3F();
 		break;
 
 	case EJSONType::VECTOR4:
-		new(reinterpret_cast<Vector3F*>(&_data)) Vector4F();
+		new(reinterpret_cast<TVector3F*>(&_data)) TVector4F();
 		break;
 
     case EJSONType::STRING:
@@ -860,7 +860,7 @@ void FJSONValue::WriteIndent(FString& dest, int indent)
         dest[oldLength + i] = ' ';
 }
 
-bool FJSONValue::ReadJSONVector2(Vector2F& dest, const char*& pos, const char*& end)
+bool FJSONValue::ReadJSONVector2(TVector2F& dest, const char*& pos, const char*& end)
 {
 	char c;
 	if (!NextChar(c, pos, end, true))
@@ -896,7 +896,7 @@ bool FJSONValue::ReadJSONVector2(Vector2F& dest, const char*& pos, const char*& 
 	return false;
 }
 
-bool FJSONValue::ReadJSONVector3(Vector3F& dest, const char*& pos, const char*& end)
+bool FJSONValue::ReadJSONVector3(TVector3F& dest, const char*& pos, const char*& end)
 {
 	char c;
 	if (!NextChar(c, pos, end, true))
@@ -942,7 +942,7 @@ bool FJSONValue::ReadJSONVector3(Vector3F& dest, const char*& pos, const char*& 
 	return false;
 }
 
-bool FJSONValue::ReadJSONVector4(Vector4F& dest, const char*& pos, const char*& end)
+bool FJSONValue::ReadJSONVector4(TVector4F& dest, const char*& pos, const char*& end)
 {
 	char c;
 	if (!NextChar(c, pos, end, true))

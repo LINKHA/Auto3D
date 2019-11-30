@@ -109,7 +109,7 @@ private:
     /// Assign a light list to a node. Creates new light lists as necessary to _handle multiple lights.
     void AddLightToNode(AGeometryNode* node, ALight* light, LightList* lightList);
     /// Collect shadow caster batches.
-    void CollectShadowBatches(const TVector<AGeometryNode*>& nodes, RenderQueue& batchQueue, const Frustum& frustum, bool checkShadowCaster, bool checkFrustum);
+    void CollectShadowBatches(const TVector<AGeometryNode*>& nodes, RenderQueue& batchQueue, const FFrustum& frustum, bool checkShadowCaster, bool checkFrustum);
     /// Render batches from a specific queue and camera.
     void RenderBatches(const TVector<Batch>& batches, ACamera* camera, bool setPerFrameContants = true, bool overrideDepthBias = false, int depthBias = 0, float slopeScaledDepthBias = 0.0f);
     /// Load shaders for a pass.
@@ -126,7 +126,7 @@ private:
     /// Current octree.
     Octree* _octree;
     /// ACamera's view frustum.
-    Frustum _frustum;
+    FFrustum _frustum;
     /// ACamera's view mask.
     unsigned _viewLayoutMask;
     /// Geometries in frustum.
@@ -136,7 +136,7 @@ private:
     /// Batch queues per pass.
     THashMap<unsigned char, RenderQueue> _batchQueues;
     /// Instance transforms for uploading to the instance vertex buffer.
-    TVector<Matrix3x4F> _instanceTransforms;
+    TVector<TMatrix3x4F> _instanceTransforms;
     /// Lit geometries query result.
     TVector<AGeometryNode*> _litGeometries;
     /// %ALight lists.

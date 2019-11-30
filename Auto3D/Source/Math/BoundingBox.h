@@ -5,131 +5,131 @@
 
 namespace Auto3D
 {
-template<typename _Ty> class Matrix3x3;
-template<typename _Ty> class Matrix4x4;
-template<typename _Ty> class Matrix3x4;
+template<typename _Ty> class TMatrix3x3;
+template<typename _Ty> class TMatrix4x4;
+template<typename _Ty> class TMatrix3x4;
 
-class Polyhedron;
-class Frustum;
-class Sphere;
+class FPolyhedron;
+class FFrustum;
+class FSphere;
 
 /// Three-dimensional axis-aligned bounding box.
-template<typename _Ty> class AUTO_API BoundingBox
+template<typename _Ty> class AUTO_API TBoundingBox
 {
 public:
 	/// Minimum vector.
-	Vector3<_Ty> _min;
+	TVector3<_Ty> _min;
 	/// Maximum vector.
-	Vector3<_Ty> _max;
+	TVector3<_Ty> _max;
 
 	/// Construct as undefined (negative size.)
-	BoundingBox() :
-		_min(Vector3<_Ty>(M_INFINITY, M_INFINITY, M_INFINITY)),
-		_max(Vector3<_Ty>(-M_INFINITY, -M_INFINITY, -M_INFINITY))
+	TBoundingBox() :
+		_min(TVector3<_Ty>(M_INFINITY, M_INFINITY, M_INFINITY)),
+		_max(TVector3<_Ty>(-M_INFINITY, -M_INFINITY, -M_INFINITY))
 	{
 	}
 
 	/// Copy-construct.
-	BoundingBox(const BoundingBox& box) :
+	TBoundingBox(const TBoundingBox& box) :
 		_min(box._min),
 		_max(box._max)
 	{
 	}
 
 	/// Construct from a rect, with the Z dimension left zero.
-	BoundingBox(const Rect<_Ty>& rect) :
-		_min(Vector3<_Ty>(rect._min)),
-		_max(Vector3<_Ty>(rect._max))
+	TBoundingBox(const TRect<_Ty>& rect) :
+		_min(TVector3<_Ty>(rect._min)),
+		_max(TVector3<_Ty>(rect._max))
 	{
 	}
 
 	/// Construct from minimum and maximum vectors.
-	BoundingBox(const Vector3<_Ty>& min, const Vector3<_Ty>& max) :
+	TBoundingBox(const TVector3<_Ty>& min, const TVector3<_Ty>& max) :
 		_min(min),
 		_max(max)
 	{
 	}
 
 	/// Construct from minimum and maximum datas (all dimensions same.)
-	BoundingBox(_Ty min, _Ty max) :
-		_min(Vector3<_Ty>(min, min, min)),
-		_max(Vector3<_Ty>(max, max, max))
+	TBoundingBox(_Ty min, _Ty max) :
+		_min(TVector3<_Ty>(min, min, min)),
+		_max(TVector3<_Ty>(max, max, max))
 	{
 	}
 
 	/// Construct from an array of vertices.
-	BoundingBox(const Vector3<_Ty>* vertices, size_t count)
+	TBoundingBox(const TVector3<_Ty>* vertices, size_t count)
 	{
 		Define(vertices, count);
 	}
 
 	/// Construct from a frustum.
-	BoundingBox(const Frustum& frustum)
+	TBoundingBox(const FFrustum& frustum)
 	{
 		Define(frustum);
 	}
 
 	/// Construct from a polyhedron.
-	BoundingBox(const Polyhedron& poly)
+	TBoundingBox(const FPolyhedron& poly)
 	{
 		Define(poly);
 	}
 
 	/// Construct from a sphere.
-	BoundingBox(const Sphere& sphere)
+	TBoundingBox(const FSphere& sphere)
 	{
 		Define(sphere);
 	}
 
 	/// Construct by parsing a string.
-	BoundingBox(const FString& str)
+	TBoundingBox(const FString& str)
 	{
 		FromString(str);
 	}
 
 	/// Construct by parsing a C string.
-	BoundingBox(const char* str)
+	TBoundingBox(const char* str)
 	{
 		FromString(str);
 	}
 
 	/// Assign from another bounding box.
-	BoundingBox& operator = (const BoundingBox& rhs)
+	TBoundingBox& operator = (const TBoundingBox& rhs)
 	{
 		_min = rhs._min;
 		_max = rhs._max;
 		return *this;
 	}
 
-	/// Assign from a Rect, with the Z dimension left zero.
-	BoundingBox& operator = (const Rect<_Ty>& rhs)
+	/// Assign from a TRect, with the Z dimension left zero.
+	TBoundingBox& operator = (const TRect<_Ty>& rhs)
 	{
-		_min = Vector3<_Ty>(rhs._min);
-		_max = Vector3<_Ty>(rhs._max);
+		_min = TVector3<_Ty>(rhs._min);
+		_max = TVector3<_Ty>(rhs._max);
 		return *this;
 	}
 
 	/// Test for equality with another bounding box without epsilon.
-	bool operator == (const BoundingBox& rhs) const { return _min == rhs._min && _max == rhs._max; }
+	bool operator == (const TBoundingBox& rhs) const { return _min == rhs._min && _max == rhs._max; }
 	/// Test for inequality with another bounding box without epsilon.
-	bool operator != (const BoundingBox& rhs) const { return !(*this == rhs); }
+	bool operator != (const TBoundingBox& rhs) const { return !(*this == rhs); }
 
 	/// Define from another bounding box.
-	void Define(const BoundingBox& box)
+	void Define(const TBoundingBox& box)
 	{
 		_min = box._min;
 		_max = box._max;
 	}
 
-	/// Define from a Rect.
-	void Define(const Rect<_Ty>& rect)
+	/// Define from a TRect.
+	void Define(const TRect<_Ty>& rect)
 	{
-		_min = Vector3<_Ty>(rect._min);
-		_max = Vector3<_Ty>(rect._max);
+		_min = TVector3<_Ty>(rect._min);
+		_max = TVector3<_Ty>(rect._max);
 	}
 
 	/// Define from minimum and maximum vectors.
-	void Define(const Vector3<_Ty>& min, const Vector3<_Ty>& max)
+	void Define(const TVector3<_Ty>& min, const TVector3<_Ty>& max)
 	{
 		_min = min;
 		_max = max;
@@ -138,18 +138,18 @@ public:
 	/// Define from minimum and maximum datas (all dimensions same.)
 	void Define(_Ty min, _Ty max)
 	{
-		_min = Vector3<_Ty>(min, min, min);
-		_max = Vector3<_Ty>(max, max, max);
+		_min = TVector3<_Ty>(min, min, min);
+		_max = TVector3<_Ty>(max, max, max);
 	}
 
 	/// Define from a point.
-	void Define(const Vector3<_Ty>& point)
+	void Define(const TVector3<_Ty>& point)
 	{
 		_min = _max = point;
 	}
 
 	/// Merge a point.
-	void Merge(const Vector3<_Ty>& point)
+	void Merge(const TVector3<_Ty>& point)
 	{
 		// If undefined, set initial dimensions
 		if (!IsDefined())
@@ -173,7 +173,7 @@ public:
 	}
 
 	/// Merge another bounding box.
-	void Merge(const BoundingBox& box)
+	void Merge(const TBoundingBox& box)
 	{
 		if (_min._x > _max._x)
 		{
@@ -199,76 +199,76 @@ public:
 	/// Set as undefined (negative _size) to allow the next merge to set initial _size.
 	void Undefine()
 	{
-		_min = Vector3<_Ty>(M_INFINITY, M_INFINITY, M_INFINITY);
+		_min = TVector3<_Ty>(M_INFINITY, M_INFINITY, M_INFINITY);
 		_max = -_min;
 	}
 
 	/// Define from an array of vertices.
-	void Define(const Vector3<_Ty>* vertices, size_t count)
+	void Define(const TVector3<_Ty>* vertices, size_t count)
 	{
 		Undefine();
 		Merge(vertices, count);
 	}
 
 	/// Define from a frustum.
-	void Define(const Frustum& frustum)
+	void Define(const FFrustum& frustum)
 	{
 		Define(frustum._vertices, NUM_FRUSTUM_VERTICES);
 	}
 
 	/// Define from a polyhedron.
-	void Define(const Polyhedron& poly)
+	void Define(const FPolyhedron& poly)
 	{
 		Undefine();
 		Merge(poly);
 	}
 
 	/// Define from a sphere.
-	void Define(const Sphere& sphere)
+	void Define(const FSphere& sphere)
 	{
-		const Vector3<_Ty>& center = sphere._center;
+		const TVector3<_Ty>& center = sphere._center;
 		_Ty radius = sphere._radius;
 
-		_min = center + Vector3<_Ty>(-radius, -radius, -radius);
-		_max = center + Vector3<_Ty>(radius, radius, radius);
+		_min = center + TVector3<_Ty>(-radius, -radius, -radius);
+		_max = center + TVector3<_Ty>(radius, radius, radius);
 	}
 
 	/// Merge an array of vertices.
-	void Merge(const Vector3<_Ty>* vertices, size_t count)
+	void Merge(const TVector3<_Ty>* vertices, size_t count)
 	{
 		while (count--)
 			Merge(*vertices++);
 	}
 
 	/// Merge a frustum.
-	void Merge(const Frustum& frustum)
+	void Merge(const FFrustum& frustum)
 	{
 		Merge(frustum._vertices, NUM_FRUSTUM_VERTICES);
 	}
 
 	/// Merge a polyhedron.
-	void Merge(const Polyhedron& poly)
+	void Merge(const FPolyhedron& poly)
 	{
 		for (size_t i = 0; i < poly._faces.Size(); ++i)
 		{
-			const TVector<Vector3<_Ty>>& face = poly._faces[i];
+			const TVector<TVector3<_Ty>>& face = poly._faces[i];
 			if (!face.IsEmpty())
 				Merge(&face[0], face.Size());
 		}
 	}
 
 	/// Merge a sphere.
-	void Merge(const Sphere& sphere)
+	void Merge(const FSphere& sphere)
 	{
-		const Vector3<_Ty>& center = sphere._center;
+		const TVector3<_Ty>& center = sphere._center;
 		_Ty radius = sphere._radius;
 
-		Merge(center + Vector3<_Ty>(radius, radius, radius));
-		Merge(center + Vector3<_Ty>(-radius, -radius, -radius));
+		Merge(center + TVector3<_Ty>(radius, radius, radius));
+		Merge(center + TVector3<_Ty>(-radius, -radius, -radius));
 	}
 
 	/// Clip with another bounding box.
-	void Clip(const BoundingBox& box)
+	void Clip(const TBoundingBox& box)
 	{
 		if (box._min._x > _min._x)
 			_min._x = box._min._x;
@@ -292,13 +292,13 @@ public:
 	}
 
 	/// Transform with a 3x3 matrix.
-	void Transform(const Matrix3x3<_Ty>& transform)
+	void Transform(const TMatrix3x3<_Ty>& transform)
 	{
-		*this = Transformed(Matrix3x4<_Ty>(transform));
+		*this = Transformed(TMatrix3x4<_Ty>(transform));
 	}
 
 	/// Transform with a 3x4 matrix.
-	void Transform(const Matrix3x4<_Ty>& transform)
+	void Transform(const TMatrix3x4<_Ty>& transform)
 	{
 		*this = Transformed(transform);
 	}
@@ -330,62 +330,62 @@ public:
 	/// Return whether has non-negative _size.
 	bool IsDefined() const { return (_min._x <= _max._x); }
 	/// Return center.
-	Vector3<_Ty> Center() const { return (_max + _min) * 0.5f; }
+	TVector3<_Ty> Center() const { return (_max + _min) * 0.5f; }
 	/// Return _size.
-	Vector3<_Ty> Size() const { return _max - _min; }
+	TVector3<_Ty> Size() const { return _max - _min; }
 	/// Return half-_size.
-	Vector3<_Ty> HalfSize() const { return (_max - _min) * 0.5f; }
+	TVector3<_Ty> HalfSize() const { return (_max - _min) * 0.5f; }
 	/// Test for equality with another bounding box with epsilon.
-	bool Equals(const BoundingBox& box) const { return _min.Equals(box._min) && _max.Equals(box._max); }
+	bool Equals(const TBoundingBox& box) const { return _min.Equals(box._min) && _max.Equals(box._max); }
 	/// Return transformed by a 3x3 matrix.
-	BoundingBox Transformed(const Matrix3x3<_Ty>& transform) const { return Transformed(Matrix3x4<_Ty>(transform)); }
+	TBoundingBox Transformed(const TMatrix3x3<_Ty>& transform) const { return Transformed(TMatrix3x4<_Ty>(transform)); }
 	/// Return transformed by a 3x4 matrix.
-	BoundingBox Transformed(const Matrix3x4<_Ty>& transform) const
+	TBoundingBox Transformed(const TMatrix3x4<_Ty>& transform) const
 	{
-		Vector3<_Ty> oldCenter = Center();
-		Vector3<_Ty> oldEdge = _max - oldCenter;
-		Vector3<_Ty> newCenter = transform * oldCenter;
-		Vector3<_Ty> newEdge(
+		TVector3<_Ty> oldCenter = Center();
+		TVector3<_Ty> oldEdge = _max - oldCenter;
+		TVector3<_Ty> newCenter = transform * oldCenter;
+		TVector3<_Ty> newEdge(
 			Abs(transform._m00) * oldEdge._x + Abs(transform._m01) * oldEdge._y + Abs(transform._m02) * oldEdge._z,
 			Abs(transform._m10) * oldEdge._x + Abs(transform._m11) * oldEdge._y + Abs(transform._m12) * oldEdge._z,
 			Abs(transform._m20) * oldEdge._x + Abs(transform._m21) * oldEdge._y + Abs(transform._m22) * oldEdge._z
 		);
 
-		return BoundingBox<_Ty>(newCenter - newEdge, newCenter + newEdge);
+		return TBoundingBox<_Ty>(newCenter - newEdge, newCenter + newEdge);
 	}
 
 	/// Return projected by a 4x4 projection matrix.
-	Rect<_Ty> Projected(const Matrix4x4<_Ty>& projection) const
+	TRect<_Ty> Projected(const TMatrix4x4<_Ty>& projection) const
 	{
-		Vector3<_Ty> projMin = _min;
-		Vector3<_Ty> projMax = _max;
+		TVector3<_Ty> projMin = _min;
+		TVector3<_Ty> projMax = _max;
 		if (projMin._z < M_EPSILON)
 			projMin._z = M_EPSILON;
 		if (projMax._z < M_EPSILON)
 			projMax._z = M_EPSILON;
 
-		Vector3<_Ty> vertices[8];
+		TVector3<_Ty> vertices[8];
 		vertices[0] = projMin;
-		vertices[1] = Vector3<_Ty>(projMax._x, projMin._y, projMin._z);
-		vertices[2] = Vector3<_Ty>(projMin._x, projMax._y, projMin._z);
-		vertices[3] = Vector3<_Ty>(projMax._x, projMax._y, projMin._z);
-		vertices[4] = Vector3<_Ty>(projMin._x, projMin._y, projMax._z);
-		vertices[5] = Vector3<_Ty>(projMax._x, projMin._y, projMax._z);
-		vertices[6] = Vector3<_Ty>(projMin._x, projMax._y, projMax._z);
+		vertices[1] = TVector3<_Ty>(projMax._x, projMin._y, projMin._z);
+		vertices[2] = TVector3<_Ty>(projMin._x, projMax._y, projMin._z);
+		vertices[3] = TVector3<_Ty>(projMax._x, projMax._y, projMin._z);
+		vertices[4] = TVector3<_Ty>(projMin._x, projMin._y, projMax._z);
+		vertices[5] = TVector3<_Ty>(projMax._x, projMin._y, projMax._z);
+		vertices[6] = TVector3<_Ty>(projMin._x, projMax._y, projMax._z);
 		vertices[7] = projMax;
 
-		Rect<_Ty> rect;
+		TRect<_Ty> rect;
 		for (size_t i = 0; i < 8; ++i)
 		{
-			Vector3<_Ty> projected = projection * vertices[i];
-			rect.Merge(Vector2<_Ty>(projected._x, projected._y));
+			TVector3<_Ty> projected = projection * vertices[i];
+			rect.Merge(TVector2<_Ty>(projected._x, projected._y));
 		}
 
 		return rect;
 	}
 
 	/// Test if a point is inside.
-	Intersection IsInside(const Vector3<_Ty>& point) const
+	Intersection IsInside(const TVector3<_Ty>& point) const
 	{
 		if (point._x < _min._x || point._x > _max._x || point._y < _min._y || point._y > _max._y ||
 			point._z < _min._z || point._z > _max._z)
@@ -395,7 +395,7 @@ public:
 	}
 
 	/// Test if another bounding box is inside, outside or intersects.
-	Intersection IsInside(const BoundingBox& box) const
+	Intersection IsInside(const TBoundingBox& box) const
 	{
 		if (box._max._x < _min._x || box._min._x > _max._x || box._max._y < _min._y || box._min._y > _max._y ||
 			box._max._z < _min._z || box._min._z > _max._z)
@@ -408,7 +408,7 @@ public:
 	}
 
 	/// Test if another bounding box is (partially) inside or outside.
-	Intersection IsInsideFast(const BoundingBox& box) const
+	Intersection IsInsideFast(const TBoundingBox& box) const
 	{
 		if (box._max._x < _min._x || box._min._x > _max._x || box._max._y < _min._y || box._min._y > _max._y ||
 			box._max._z < _min._z || box._min._z > _max._z)
@@ -418,11 +418,11 @@ public:
 	}
 
 	/// Test if a sphere is inside, outside or intersects.
-	Intersection IsInside(const Sphere& sphere) const
+	Intersection IsInside(const FSphere& sphere) const
 	{
 		_Ty distSquared = 0;
 		_Ty temp;
-		const Vector3<_Ty>& center = sphere._center;
+		const TVector3<_Ty>& center = sphere._center;
 
 		if (center._x < _min._x)
 		{
@@ -466,11 +466,11 @@ public:
 	}
 
 	/// Test if a sphere is (partially) inside or outside.
-	Intersection IsInsideFast(const Sphere& sphere) const
+	Intersection IsInsideFast(const FSphere& sphere) const
 	{
 		_Ty distSquared = 0;
 		_Ty temp;
-		const Vector3<_Ty>& center = sphere._center;
+		const TVector3<_Ty>& center = sphere._center;
 
 		if (center._x < _min._x)
 		{
@@ -517,14 +517,14 @@ public:
 	}
 };
 
-using BoundingBoxF = BoundingBox<float>;
+using TBoundingBoxF = TBoundingBox<float>;
 
-using BoundingBoxI = BoundingBox<int>;
+using TBoundingBoxI = TBoundingBox<int>;
 
-using BoundingBoxC = BoundingBox<char>;
+using TBoundingBoxC = TBoundingBox<char>;
 
-using BoundingBoxD = BoundingBox<double>;
+using TBoundingBoxD = TBoundingBox<double>;
 
-using BoundingBoxU = BoundingBox<unsigned>;
+using TBoundingBoxU = TBoundingBox<unsigned>;
 
 }

@@ -16,17 +16,17 @@ public:
 	
 
 	/// Set vertex 1.
-	void SetVertex1(const Vector2F& vertex);
+	void SetVertex1(const TVector2F& vertex);
 	/// Set vertex 2.
-	void SetVertex2(const Vector2F& vertex);
+	void SetVertex2(const TVector2F& vertex);
 	/// Set vertices.
-	void SetVertices(const Vector2F& vertex1, const Vector2F& vertex2);
+	void SetVertices(const TVector2F& vertex1, const TVector2F& vertex2);
 
 	/// Return vertex 1.
-	const Vector2F& GetVertex1() const { return _vertex1; }
+	const TVector2F& GetVertex1() const { return _vertex1; }
 
 	/// Return vertex 2.
-	const Vector2F& GetVertex2() const { return _vertex2; }
+	const TVector2F& GetVertex2() const { return _vertex2; }
 
 private:
 	/// Recreate fixture.
@@ -35,9 +35,9 @@ private:
 	/// Edge shape.
 	b2EdgeShape _edgeShape;
 	/// Vertex 1.
-	Vector2F _vertex1;
+	TVector2F _vertex1;
 	/// Vertex 2.
-	Vector2F _vertex2;
+	TVector2F _vertex2;
 };
 
 }

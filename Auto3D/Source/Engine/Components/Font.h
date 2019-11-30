@@ -37,9 +37,9 @@ public:
 	/// Load resource from stream. May be called from a worker thread. Return true if successful.
 	bool BeginLoad(FStream& source) override;
 	/// Set absolute (in pixels) position adjustment for glyphs.
-	void SetAbsoluteGlyphOffset(const Vector2I& offset);
+	void SetAbsoluteGlyphOffset(const TVector2I& offset);
 	/// Set point size scaled position adjustment for glyphs.
-	void SetScaledGlyphOffset(const Vector2F& offset);
+	void SetScaledGlyphOffset(const TVector2F& offset);
 
 	/// Return font type.
 	EFontType::Type GetFontType() const { return _fontType; }
@@ -48,13 +48,13 @@ public:
 	bool IsSDFFont() const { return _sdfFont; }
 
 	/// Return absolute position adjustment for glyphs.
-	const Vector2I& GetAbsoluteGlyphOffset() const { return _absoluteOffset; }
+	const TVector2I& GetAbsoluteGlyphOffset() const { return _absoluteOffset; }
 
 	/// Return point size scaled position adjustment for glyphs.
-	const Vector2F& GetScaledGlyphOffset() const { return _scaledOffset; }
+	const TVector2F& GetScaledGlyphOffset() const { return _scaledOffset; }
 
 	/// Return the total effective offset for a point size.
-	Vector2I GetTotalGlyphOffset(float pointSize) const;
+	TVector2I GetTotalGlyphOffset(float pointSize) const;
 
 	/// Return font data.
 	unsigned char* Data() { return _fontData.Get(); }
@@ -66,9 +66,9 @@ private:
 	/// Size of font data.
 	unsigned _fontDataSize;
 	/// Absolute position adjustment for glyphs.
-	Vector2I _absoluteOffset;
+	TVector2I _absoluteOffset;
 	/// Point size scaled position adjustment for glyphs.
-	Vector2F _scaledOffset;
+	TVector2F _scaledOffset;
 	/// AFont type.
 	EFontType::Type _fontType;
 	/// Signed distance field font flag.

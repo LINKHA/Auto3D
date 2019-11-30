@@ -17,10 +17,10 @@ public:
 	/// Set size form float
 	void SetSize(float scale);
 private:
-	/// Resize form Vector3
+	/// Resize form TVector3
 	void Resize(float scale);
 
-	/// Sphere shape size (radius)
+	/// FSphere shape size (radius)
 	float _size;
 };
 

@@ -37,13 +37,13 @@ public:
 	/// Set inertia.
 	void SetInertia(float inertia);
 	/// Set mass center.
-	void SetMassCenter(const Vector2F& center);
+	void SetMassCenter(const TVector2F& center);
 	/// Return whether to calculate mass and inertia from collision shapes automatically.
 	bool GetUseFixtureMass() const { return _useFixtureMass; }
 	/// Apply world transform from the Box2D body. Called by PhysicsWorld2D.
 	void ApplyWorldTransform();
 	/// Apply specified world position & rotation. Called by PhysicsWorld2D.
-	void ApplyWorldTransform(const Vector3F& newWorldPosition,const Quaternion& newWorldRotation);
+	void ApplyWorldTransform(const TVector3F& newWorldPosition,const FQuaternion& newWorldRotation);
 
 	/// This function is called when the parent node of this class is assigned.
 	virtual void ParentCallBack()override;

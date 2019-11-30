@@ -42,7 +42,7 @@ private:
 	/// Gain
 	float _gain;
 	/// Vel
-	Vector3F _vel;
+	TVector3F _vel;
 };
 
 }

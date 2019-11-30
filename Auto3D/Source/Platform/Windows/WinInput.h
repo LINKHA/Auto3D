@@ -273,8 +273,8 @@ struct AUTO_API Touch
 {
     /// Construct.
     Touch() :
-        _delta(Vector2I::ZERO),
-        _lastDelta(Vector2I::ZERO)
+        _delta(TVector2I::ZERO),
+        _lastDelta(TVector2I::ZERO)
     {
     }
 
@@ -283,11 +283,11 @@ struct AUTO_API Touch
     /// Operating system _id, which may be an arbitrary number.
     unsigned _internalId;
     /// Position within _window.
-    Vector2I _position;
+    TVector2I _position;
     /// Accumulated _delta on this frame.
-    Vector2I _delta;
+    TVector2I _delta;
     /// Delta from last move _event.
-    Vector2I _lastDelta;
+    TVector2I _lastDelta;
     /// Current finger _pressure.
     float _pressure;
 };
@@ -325,7 +325,7 @@ public:
     /// Pressed flag.
     bool _pressed;
     /// Mouse _position within _window.
-    Vector2I _position;
+    TVector2I _position;
 };
 
 /// Mouse move _event.
@@ -335,9 +335,9 @@ public:
     /// Bitmask of currently held down _buttons.
     unsigned _buttons;
     /// Mouse _position within _window.
-    Vector2I _position;
+    TVector2I _position;
     /// Delta from last _position.
-    Vector2I _delta;
+    TVector2I _delta;
 };
 
 /// Touch begin _event.
@@ -347,7 +347,7 @@ public:
     /// Zero-based touch _id.
     unsigned _id;
     /// Touch _position within _window.
-    Vector2I _position;
+    TVector2I _position;
     /// Finger _pressure between 0-1.
     float _pressure;
 };
@@ -359,9 +359,9 @@ public:
     /// Zero-based touch id.
     unsigned _id;
     /// Touch position within _window.
-    Vector2I _position;
+    TVector2I _position;
     /// Delta from last position.
-    Vector2I _delta;
+    TVector2I _delta;
     /// Finger pressure between 0-1.
     float _pressure;
 };
@@ -373,7 +373,7 @@ public:
     /// Zero-based touch id.
     unsigned _id;
     /// Touch _position within _window.
-    Vector2I _position;
+    TVector2I _position;
 };
 
 /// Input subsystem for reading keyboard/mouse/etc. input. Updated from OS _window messages by the Window class.
@@ -399,9 +399,9 @@ public:
     /// Return whether _key was _pressed on this frame by raw _key code.
     bool IsKeyPressRaw(unsigned rawKeyCode) const;
     /// Return current mouse _position.
-    const Vector2I& GetMousePosition() const;
+    const TVector2I& GetMousePosition() const;
     /// Return accumulated mouse movement since last frame.
-    Vector2I GetMouseMove() const { return _mouseMove; }
+    TVector2I GetMouseMove() const { return _mouseMove; }
     /// Return pressed down mouse buttons bitmask.
     unsigned GetMouseButtons() const { return _mouseButtons; }
     /// Return whether a mouse _button is down.
@@ -420,13 +420,13 @@ public:
     /// React to char input. Called by _window message handling.
     void OnChar(unsigned unicodeChar);
     /// React to a mouse move. Called by _window message handling.
-    void OnMouseMove(const Vector2I& position, const Vector2I& delta);
+    void OnMouseMove(const TVector2I& position, const TVector2I& delta);
 
-	void OnMouseWheel(const Vector2I& delta);
+	void OnMouseWheel(const TVector2I& delta);
     /// React to a mouse _button. Called by _window message handling.
     void OnMouseButton(unsigned button, bool pressed);
     /// React to a touch. Called by _window message handling.
-    void OnTouch(unsigned internalId, bool pressed, const Vector2I& position, float pressure);
+    void OnTouch(unsigned internalId, bool pressed, const TVector2I& position, float pressure);
     /// React to gaining _focus. Called by _window message handling.
     void OnGainFocus();
     /// React to losing _focus. Called by _window message handling.
@@ -459,9 +459,9 @@ private:
     /// Active _touches.
     TVector<Touch> _touches;
     /// Accumulated mouse move since last frame.
-    Vector2I _mouseMove;
+    TVector2I _mouseMove;
 
-	Vector2I _mouseWhellOffset;
+	TVector2I _mouseWhellOffset;
     /// Mouse _buttons bitmask.
     unsigned _mouseButtons;
     /// Mouse _buttons _pressed bitmask.

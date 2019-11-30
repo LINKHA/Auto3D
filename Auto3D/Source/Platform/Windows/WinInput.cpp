@@ -22,12 +22,12 @@ void Input::Update()
 {
     // Clear accumulated input from last frame
     _mouseButtonsPressed = 0;
-    _mouseMove = Vector2I::ZERO;
-	_mouseWhellOffset = Vector2I::ZERO;
+    _mouseMove = TVector2I::ZERO;
+	_mouseWhellOffset = TVector2I::ZERO;
     _keyPressed.Clear();
     _rawKeyPress.Clear();
     for (auto it = _touches.Begin(); it != _touches.End(); ++it)
-        it->_delta = Vector2I::ZERO;
+        it->_delta = TVector2I::ZERO;
 
     // The OS-specific _window message handling will call back to Input and update the state
     Window* window = GModuleManager::Get().GraphicsModule()->RenderWindow();
@@ -59,10 +59,10 @@ bool Input::IsKeyPressRaw(unsigned rawKeyCode) const
     return it != _rawKeyPress.End() ? it->_second : false;
 }
 
-const Vector2I& Input::GetMousePosition() const
+const TVector2I& Input::GetMousePosition() const
 {
 	Window* window = GModuleManager::Get().GraphicsModule()->RenderWindow();
-    return window ? window->GetMousePosition() : Vector2I::ZERO;
+    return window ? window->GetMousePosition() : TVector2I::ZERO;
 }
 
 bool Input::IsMouseButtonDown(unsigned button) const
@@ -111,7 +111,7 @@ void Input::OnChar(unsigned unicodeChar)
     SendEvent(_charInputEvent);
 }
 
-void Input::OnMouseMove(const Vector2I& position, const Vector2I& delta)
+void Input::OnMouseMove(const TVector2I& position, const TVector2I& delta)
 {
     _mouseMove += delta;
 
@@ -120,7 +120,7 @@ void Input::OnMouseMove(const Vector2I& position, const Vector2I& delta)
     SendEvent(_mouseMoveEvent);
 }
 
-void Input::OnMouseWheel(const Vector2I& delta)
+void Input::OnMouseWheel(const TVector2I& delta)
 {
 	_mouseWhellOffset = delta;
 }
@@ -144,7 +144,7 @@ void Input::OnMouseButton(unsigned button, bool pressed)
     SendEvent(_mouseButtonEvent);
 }
 
-void Input::OnTouch(unsigned internalId, bool pressed, const Vector2I& position, float pressure)
+void Input::OnTouch(unsigned internalId, bool pressed, const TVector2I& position, float pressure)
 {
     if (pressed)
     {
@@ -158,7 +158,7 @@ void Input::OnTouch(unsigned internalId, bool pressed, const Vector2I& position,
                 found = true;
                 it->_lastDelta = position - it->_position;
                 
-                if (it->_lastDelta != Vector2I::ZERO || pressure != it->_pressure)
+                if (it->_lastDelta != TVector2I::ZERO || pressure != it->_pressure)
                 {
                     it->_delta += it->_lastDelta;
                     it->_position = position;
@@ -233,7 +233,7 @@ void Input::OnLoseFocus()
 {
     _mouseButtons = 0;
     _mouseButtonsPressed = 0;
-    _mouseMove = Vector2I::ZERO;
+    _mouseMove = TVector2I::ZERO;
     _keyDown.Clear();
     _keyPressed.Clear();
     _rawKeyDown.Clear();
