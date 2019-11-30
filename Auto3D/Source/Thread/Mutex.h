@@ -6,13 +6,13 @@ namespace Auto3D
 {
 
 /// Operating system mutual exclusion primitive.
-class AUTO_API Mutex
+class AUTO_API FMutex
 {
 public:
     /// Construct.
-    Mutex();
+    FMutex();
     /// Destruct.
-    ~Mutex();
+    ~FMutex();
 
     /// Acquire the _mutex. Block if already acquired.
     void Acquire();
@@ -20,26 +20,26 @@ public:
     void Release();
     
 private:
-    /// Mutex _handle.
+    /// FMutex _handle.
     void* _handle;
 };
 
 /// Lock that automatically acquires and releases a _mutex.
-class AUTO_API MutexLock
+class AUTO_API FMutexLock
 {
 public:
     /// Construct and acquire the _mutex.
-    MutexLock(Mutex& mutex);
+    FMutexLock(FMutex& mutex);
     /// Destruct. Release the _mutex.
-    ~MutexLock();
+    ~FMutexLock();
 
     /// Prevent copy construction.
-	MutexLock(const MutexLock& rhs) = delete;
+	FMutexLock(const FMutexLock& rhs) = delete;
     /// Prevent assignment.
-    MutexLock& operator = (const MutexLock& rhs) = delete;
+    FMutexLock& operator = (const FMutexLock& rhs) = delete;
     
-    /// Mutex reference.
-    Mutex& _mutex;
+    /// FMutex reference.
+    FMutex& _mutex;
 };
 
 }

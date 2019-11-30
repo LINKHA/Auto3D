@@ -5,15 +5,15 @@
 namespace Auto3D
 {
 
-/// %Condition on which a thread can wait.
-class AUTO_API Condition
+/// %FCondition on which a thread can wait.
+class AUTO_API FCondition
 {
 public:
     /// Construct.
-    Condition();
+    FCondition();
     
     /// Destruct.
-    ~Condition();
+    ~FCondition();
     
     /// Set the condition. Will be automatically reset once a waiting thread wakes up.
     void Set();
@@ -23,7 +23,7 @@ public:
     
 private:
     #ifndef WIN32
-    /// Mutex for the _event, necessary for pthreads-based implementation.
+    /// FMutex for the _event, necessary for pthreads-based implementation.
     void* _mutex;
     #endif
     /// Operating system specific _event.

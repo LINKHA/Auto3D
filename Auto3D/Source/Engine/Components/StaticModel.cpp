@@ -49,7 +49,7 @@ void AStaticModel::OnPrepareRender(unsigned frameNumber, ACamera* camera)
 
         for (size_t i = 0; i < _batches.Size(); ++i)
         {
-            const TVector<TSharedPtr<Geometry> >& lodGeometries = _model->GetLodGeometries(i);
+            const TVector<TSharedPtr<FGeometry> >& lodGeometries = _model->GetLodGeometries(i);
             if (lodGeometries.Size() > 1)
             {
                 size_t j;
@@ -100,7 +100,7 @@ AModel* AStaticModel::GetModel() const
 
 void AStaticModel::SetModelAttr(const FResourceRef& model)
 {
-	ResourceCache* cache = GModuleManager::Get().CacheModule();
+	AResourceCache* cache = GModuleManager::Get().CacheModule();
     SetModel(cache->LoadResource<AModel>(model._name));
 }
 

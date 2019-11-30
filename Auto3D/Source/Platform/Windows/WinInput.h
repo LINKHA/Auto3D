@@ -269,10 +269,10 @@ static const unsigned MOUSEB_MIDDLE = 1;
 static const unsigned MOUSEB_RIGHT = 2;
 
 /// Finger touch.
-struct AUTO_API Touch
+struct AUTO_API FTouch
 {
     /// Construct.
-    Touch() :
+    FTouch() :
         _delta(TVector2I::ZERO),
         _lastDelta(TVector2I::ZERO)
     {
@@ -293,7 +293,7 @@ struct AUTO_API Touch
 };
 
 /// Key press or release _event.
-class AUTO_API KeyEvent : public FEvent
+class AUTO_API FKeyEvent : public FEvent
 {
 public:
     /// Key code.
@@ -307,7 +307,7 @@ public:
 };
 
 /// Unicode character input _event.
-class AUTO_API CharInputEvent : public FEvent
+class AUTO_API FCharInputEvent : public FEvent
 {
 public:
     /// Unicode codepoint.
@@ -315,7 +315,7 @@ public:
 };
 
 /// Mouse _button press or release _event.
-class AUTO_API MouseButtonEvent : public FEvent
+class AUTO_API FMouseButtonEvent : public FEvent
 {
 public:
     /// Button index.
@@ -329,7 +329,7 @@ public:
 };
 
 /// Mouse move _event.
-class AUTO_API MouseMoveEvent : public FEvent
+class AUTO_API FMouseMoveEvent : public FEvent
 {
 public:
     /// Bitmask of currently held down _buttons.
@@ -340,25 +340,25 @@ public:
     TVector2I _delta;
 };
 
-/// Touch begin _event.
-class AUTO_API TouchBeginEvent : public FEvent
+/// FTouch begin _event.
+class AUTO_API FTouchBeginEvent : public FEvent
 {
 public:
     /// Zero-based touch _id.
     unsigned _id;
-    /// Touch _position within _window.
+    /// FTouch _position within _window.
     TVector2I _position;
     /// Finger _pressure between 0-1.
     float _pressure;
 };
 
-/// Touch move _event.
-class AUTO_API TouchMoveEvent : public FEvent
+/// FTouch move _event.
+class AUTO_API FTouchMoveEvent : public FEvent
 {
 public:
     /// Zero-based touch id.
     unsigned _id;
-    /// Touch position within _window.
+    /// FTouch position within _window.
     TVector2I _position;
     /// Delta from last position.
     TVector2I _delta;
@@ -366,26 +366,26 @@ public:
     float _pressure;
 };
 
-/// Touch end _event.
-class AUTO_API TouchEndEvent : public FEvent
+/// FTouch end _event.
+class AUTO_API FTouchEndEvent : public FEvent
 {
 public:
     /// Zero-based touch id.
     unsigned _id;
-    /// Touch _position within _window.
+    /// FTouch _position within _window.
     TVector2I _position;
 };
 
-/// Input subsystem for reading keyboard/mouse/etc. input. Updated from OS _window messages by the Window class.
-class AUTO_API Input : public ABaseModule
+/// AInput subsystem for reading keyboard/mouse/etc. input. Updated from OS _window messages by the AWindow class.
+class AUTO_API AInput : public ABaseModule
 {
-    REGISTER_OBJECT_CLASS(Input, ABaseModule)
+    REGISTER_OBJECT_CLASS(AInput, ABaseModule)
 
 public:
     /// Construct and register subsystem.
-    Input();
+    AInput();
     /// Destruct.
-    ~Input();
+    ~AInput();
 
     /// Poll the _window (if any) for OS _window messages and update input state.
     void Update();
@@ -411,9 +411,9 @@ public:
     /// Return number of active _touches.
     size_t GetNumTouches() const { return _touches.Size(); }
     /// Return an active touch by _id, or null if not found.
-    const Touch* FindTouch(unsigned id) const;
+    const FTouch* FindTouch(unsigned id) const;
     /// Return all _touches.
-    const TVector<Touch>& Touches() const { return _touches; }
+    const TVector<FTouch>& Touches() const { return _touches; }
 
     /// React to a _key press or release. Called by _window message handling.
     void OnKey(unsigned keyCode, unsigned rawKeyCode, bool pressed);
@@ -433,19 +433,19 @@ public:
     void OnLoseFocus();
 
     /// Key press/release _event.
-    KeyEvent _keyEvent;
+    FKeyEvent _keyEvent;
     /// Unicode char input _event.
-    CharInputEvent _charInputEvent;
+    FCharInputEvent _charInputEvent;
     /// Mouse _button press/release _event.
-    MouseButtonEvent _mouseButtonEvent;
+    FMouseButtonEvent _mouseButtonEvent;
     /// Mouse move _event.
-    MouseMoveEvent _mouseMoveEvent;
-    /// Touch begin _event.
-    TouchBeginEvent _touchBeginEvent;
-    /// Touch move _event.
-    TouchMoveEvent _touchMoveEvent;
-    /// Touch end _event.
-    TouchEndEvent _touchEndEvent;
+    FMouseMoveEvent _mouseMoveEvent;
+    /// FTouch begin _event.
+    FTouchBeginEvent _touchBeginEvent;
+    /// FTouch move _event.
+    FTouchMoveEvent _touchMoveEvent;
+    /// FTouch end _event.
+    FTouchEndEvent _touchEndEvent;
 
 private:
     /// Key code held down status.
@@ -457,10 +457,10 @@ private:
     /// Raw _key code _pressed status.
     THashMap<unsigned, bool> _rawKeyPress;
     /// Active _touches.
-    TVector<Touch> _touches;
+    TVector<FTouch> _touches;
     /// Accumulated mouse move since last frame.
     TVector2I _mouseMove;
-
+	/// Mouse whell offset.
 	TVector2I _mouseWhellOffset;
     /// Mouse _buttons bitmask.
     unsigned _mouseButtons;

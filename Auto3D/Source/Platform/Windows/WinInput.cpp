@@ -8,17 +8,17 @@
 namespace Auto3D
 {
 
-Input::Input() :
+AInput::AInput() :
     _mouseButtons(0),
     _mouseButtonsPressed(0)
 {
 }
 
-Input::~Input()
+AInput::~AInput()
 {
 }
 
-void Input::Update()
+void AInput::Update()
 {
     // Clear accumulated input from last frame
     _mouseButtonsPressed = 0;
@@ -29,53 +29,53 @@ void Input::Update()
     for (auto it = _touches.Begin(); it != _touches.End(); ++it)
         it->_delta = TVector2I::ZERO;
 
-    // The OS-specific _window message handling will call back to Input and update the state
-    Window* window = GModuleManager::Get().GraphicsModule()->RenderWindow();
+    // The OS-specific _window message handling will call back to AInput and update the state
+    AWindow* window = GModuleManager::Get().GraphicsModule()->RenderWindow();
     if (window)
         window->PumpMessages();
 }
 
-bool Input::IsKeyDown(unsigned keyCode) const
+bool AInput::IsKeyDown(unsigned keyCode) const
 {
     auto it = _keyDown.Find(keyCode);
     return it != _keyDown.End() ? it->_second : false;
 }
 
-bool Input::IsKeyDownRaw(unsigned rawKeyCode) const
+bool AInput::IsKeyDownRaw(unsigned rawKeyCode) const
 {
     auto it = _rawKeyDown.Find(rawKeyCode);
     return it != _rawKeyDown.End() ? it->_second : false;
 }
 
-bool Input::IsKeyPress(unsigned keyCode) const
+bool AInput::IsKeyPress(unsigned keyCode) const
 {
     auto it = _keyPressed.Find(keyCode);
     return it != _keyPressed.End() ? it->_second : false;
 }
 
-bool Input::IsKeyPressRaw(unsigned rawKeyCode) const
+bool AInput::IsKeyPressRaw(unsigned rawKeyCode) const
 {
     auto it = _rawKeyPress.Find(rawKeyCode);
     return it != _rawKeyPress.End() ? it->_second : false;
 }
 
-const TVector2I& Input::GetMousePosition() const
+const TVector2I& AInput::GetMousePosition() const
 {
-	Window* window = GModuleManager::Get().GraphicsModule()->RenderWindow();
+	AWindow* window = GModuleManager::Get().GraphicsModule()->RenderWindow();
     return window ? window->GetMousePosition() : TVector2I::ZERO;
 }
 
-bool Input::IsMouseButtonDown(unsigned button) const
+bool AInput::IsMouseButtonDown(unsigned button) const
 {
     return (_mouseButtons & (1 << button)) != 0;
 }
 
-bool Input::IsMouseButtonPress(unsigned button) const
+bool AInput::IsMouseButtonPress(unsigned button) const
 {
     return (_mouseButtonsPressed & (1 << button)) != 0;
 }
 
-const Touch* Input::FindTouch(unsigned id) const
+const FTouch* AInput::FindTouch(unsigned id) const
 {
     for (auto it = _touches.Begin(); it != _touches.End(); ++it)
     {
@@ -86,7 +86,7 @@ const Touch* Input::FindTouch(unsigned id) const
     return nullptr;
 }
 
-void Input::OnKey(unsigned keyCode, unsigned rawKeyCode, bool pressed)
+void AInput::OnKey(unsigned keyCode, unsigned rawKeyCode, bool pressed)
 {
     bool wasDown = IsKeyDown(keyCode);
 
@@ -105,13 +105,13 @@ void Input::OnKey(unsigned keyCode, unsigned rawKeyCode, bool pressed)
     SendEvent(_keyEvent);
 }
 
-void Input::OnChar(unsigned unicodeChar)
+void AInput::OnChar(unsigned unicodeChar)
 {
     _charInputEvent._unicodeChar = unicodeChar;
     SendEvent(_charInputEvent);
 }
 
-void Input::OnMouseMove(const TVector2I& position, const TVector2I& delta)
+void AInput::OnMouseMove(const TVector2I& position, const TVector2I& delta)
 {
     _mouseMove += delta;
 
@@ -120,12 +120,12 @@ void Input::OnMouseMove(const TVector2I& position, const TVector2I& delta)
     SendEvent(_mouseMoveEvent);
 }
 
-void Input::OnMouseWheel(const TVector2I& delta)
+void AInput::OnMouseWheel(const TVector2I& delta)
 {
 	_mouseWhellOffset = delta;
 }
 
-void Input::OnMouseButton(unsigned button, bool pressed)
+void AInput::OnMouseButton(unsigned button, bool pressed)
 {
     unsigned bit = 1 << button;
 
@@ -144,7 +144,7 @@ void Input::OnMouseButton(unsigned button, bool pressed)
     SendEvent(_mouseButtonEvent);
 }
 
-void Input::OnTouch(unsigned internalId, bool pressed, const TVector2I& position, float pressure)
+void AInput::OnTouch(unsigned internalId, bool pressed, const TVector2I& position, float pressure)
 {
     if (pressed)
     {
@@ -192,7 +192,7 @@ void Input::OnTouch(unsigned internalId, bool pressed, const TVector2I& position
                 }
             }
 
-            Touch newTouch;
+            FTouch newTouch;
             newTouch._id = newId;
             newTouch._internalId = internalId;
             newTouch._position = position;
@@ -225,11 +225,11 @@ void Input::OnTouch(unsigned internalId, bool pressed, const TVector2I& position
     }
 }
 
-void Input::OnGainFocus()
+void AInput::OnGainFocus()
 {
 }
 
-void Input::OnLoseFocus()
+void AInput::OnLoseFocus()
 {
     _mouseButtons = 0;
     _mouseButtonsPressed = 0;

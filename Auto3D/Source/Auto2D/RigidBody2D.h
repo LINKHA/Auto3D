@@ -53,7 +53,7 @@ private:
 	/// Remove the rigid body from the physics world.
 	void RemoveBodyFromWorld();
 
-	/// Physics world 2d.
+	/// APhysics world 2d.
 	TWeakPtr<PhysicsWorld2D> _physicsWorld2d;
 	/// Box2D body define.
 	b2BodyDef _bodyDef;

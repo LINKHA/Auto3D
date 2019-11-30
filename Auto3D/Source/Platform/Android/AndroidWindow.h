@@ -10,8 +10,8 @@ namespace Auto3D
 
 class AImage;
 
-/// Window resized event.
-class AUTO_API WindowResizeEvent : public FEvent
+/// AWindow resized event.
+class AUTO_API FWindowResizeEvent : public FEvent
 {
 public:
 	///New _window size.
@@ -19,9 +19,9 @@ public:
 };
 
 /// Operating system _window, Win32 implementation.
-class AUTO_API Window : public Object
+class AUTO_API AWindow : public Object
 {
-	REGISTER_OBJECT_CLASS(Window, Object)
+	REGISTER_OBJECT_CLASS(AWindow, Object)
 
 #ifdef AUTO_OPENGL
 	friend class GLContext;
@@ -29,9 +29,9 @@ class AUTO_API Window : public Object
 
 public:
 	/// Construct and register subsystem. The _window is not yet opened.
-	Window();
+	AWindow();
 	/// Destruct. Close _window if open.
-	~Window();
+	~AWindow();
 	/// Initializes the opengl context version and its support
 	bool InitMsg();
 	/// Delete game window and if OpenGL delete context
@@ -113,18 +113,18 @@ public:
 	/// Restored after minimization event.
 	FEvent _restoreEvent;
 	/// Size changed event.
-	WindowResizeEvent _resizeEvent;
+	FWindowResizeEvent _resizeEvent;
 
-	/// Window class name
+	/// AWindow class name
 	static FString className;
 private:
-	/// Window handle.
+	/// AWindow handle.
 	SDL_Window* _handle;
-	/// Window icon image.
+	/// AWindow icon image.
 	TWeakPtr<AImage> _icon;
-	/// Window _title.
+	/// AWindow _title.
 	FString _title;
-	/// Window rect
+	/// AWindow rect
 	TRectI _rect;
 	/// Last stored windowed mode position.
 	TVector2I _savedPosition;
@@ -135,9 +135,9 @@ private:
 	/// Mouse wheel move
 	TVector2I _mouseMoveWheel;
 
-	/// Window close flag
+	/// AWindow close flag
 	bool _close;
-	/// Window style flags.
+	/// AWindow style flags.
 	unsigned _windowStyle;
 	/// window multi sample num
 	unsigned _multisample;
@@ -149,7 +149,7 @@ private:
 	bool _resizable;
 	/// Fullscreen flag.
 	bool _fullscreen;
-		/// Window borderless.
+		/// AWindow borderless.
 	bool _borderless;
 	/// Support high DPI.
 	bool _highDPI;

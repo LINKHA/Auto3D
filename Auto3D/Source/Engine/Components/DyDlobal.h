@@ -263,7 +263,7 @@ typedef struct _GLUSprogram
 	GLUSuint evaluation;
 
 	/**
-		* Geometry shader.
+		* FGeometry shader.
 		*/
 	GLUSuint geometry;
 

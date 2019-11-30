@@ -15,7 +15,7 @@
 namespace Auto3D
 {
 
-Scene::Scene() :
+AScene::AScene() :
     _nextNodeId(1),
 	_physicsWorld(nullptr),
 	_skybox(nullptr)
@@ -30,34 +30,34 @@ Scene::Scene() :
 	GModuleManager::Get().RegisteredBoxModule()->RegisterScene(this);
 }
 
-Scene::~Scene()
+AScene::~AScene()
 {
-    // Node destructor will also remove children. But at that point the node<>_id maps have been destroyed 
+    // ANode destructor will also remove children. But at that point the node<>_id maps have been destroyed 
     // so must tear down the scene tree already here
     RemoveAllChildren();
     RemoveNode(this);
     assert(_nodes.IsEmpty());
 }
 
-void Scene::RegisterObject()
+void AScene::RegisterObject()
 {
-    RegisterFactory<Scene>();
-    CopyBaseAttributes<Scene, Node>();
-    RegisterAttribute("layerNames", &Scene::LayerNamesAttr, &Scene::SetLayerNamesAttr);
-    RegisterAttribute("tagNames", &Scene::TagNamesAttr, &Scene::SetTagNamesAttr);
+    RegisterFactory<AScene>();
+    CopyBaseAttributes<AScene, ANode>();
+    RegisterAttribute("layerNames", &AScene::LayerNamesAttr, &AScene::SetLayerNamesAttr);
+    RegisterAttribute("tagNames", &AScene::TagNamesAttr, &AScene::SetTagNamesAttr);
 }
 
-void Scene::Save(FStream& dest)
+void AScene::Save(FStream& dest)
 {
     PROFILE(SaveScene);
     
     InfoString("Saving scene to " + dest.FName());
     
     dest.WriteFileID("SCNE");
-    Node::Save(dest);
+    ANode::Save(dest);
 }
 
-bool Scene::Load(FStream& source)
+bool AScene::Load(FStream& source)
 {
     PROFILE(LoadScene);
     
@@ -82,13 +82,13 @@ bool Scene::Load(FStream& source)
 
     FObjectResolver resolver;
     resolver.StoreObject(ownId, this);
-    Node::Load(source, resolver);
+    ANode::Load(source, resolver);
     resolver.Resolve();
 
     return true;
 }
 
-bool Scene::LoadJSON(const FJSONValue& source)
+bool AScene::LoadJSON(const FJSONValue& source)
 {
     PROFILE(LoadSceneJSON);
     
@@ -105,34 +105,34 @@ bool Scene::LoadJSON(const FJSONValue& source)
 
     FObjectResolver resolver;
     resolver.StoreObject(ownId, this);
-    Node::LoadJSON(source, resolver);
+    ANode::LoadJSON(source, resolver);
     resolver.Resolve();
 
     return true;
 }
 
-bool Scene::LoadJSON(FStream& source)
+bool AScene::LoadJSON(FStream& source)
 {
     InfoString("Loading scene from " + source.FName());
     
-    JSONFile json;
+    AJSONFile json;
     bool success = json.Load(source);
     LoadJSON(json.Root());
     return success;
 }
 
-bool Scene::SaveJSON(FStream& dest)
+bool AScene::SaveJSON(FStream& dest)
 {
     PROFILE(SaveSceneJSON);
     
     InfoString("Saving scene to " + dest.FName());
     
-    JSONFile json;
-    Node::SaveJSON(json.Root());
+    AJSONFile json;
+    ANode::SaveJSON(json.Root());
     return json.Save(dest);
 }
 
-Node* Scene::Instantiate(FStream& source)
+ANode* AScene::Instantiate(FStream& source)
 {
     PROFILE(Instantiate);
     
@@ -140,7 +140,7 @@ Node* Scene::Instantiate(FStream& source)
     FStringHash childType(source.Read<FStringHash>());
     unsigned childId = source.Read<unsigned>();
 
-    Node* child = CreateChild(childType);
+    ANode* child = CreateChild(childType);
     if (child)
     {
         resolver.StoreObject(childId, child);
@@ -151,7 +151,7 @@ Node* Scene::Instantiate(FStream& source)
     return child;
 }
 
-Node* Scene::InstantiateJSON(const FJSONValue& source)
+ANode* AScene::InstantiateJSON(const FJSONValue& source)
 {
     PROFILE(InstantiateJSON);
     
@@ -159,7 +159,7 @@ Node* Scene::InstantiateJSON(const FJSONValue& source)
     FStringHash childType(source["type"].GetString());
     unsigned childId = (unsigned)source["id"].GetNumber();
 
-    Node* child = CreateChild(childType);
+    ANode* child = CreateChild(childType);
     if (child)
     {
         resolver.StoreObject(childId, child);
@@ -170,31 +170,31 @@ Node* Scene::InstantiateJSON(const FJSONValue& source)
     return child;
 }
 
-Node* Scene::InstantiateJSON(FStream& source)
+ANode* AScene::InstantiateJSON(FStream& source)
 {
-    JSONFile json;
+    AJSONFile json;
     json.Load(source);
     return InstantiateJSON(json.Root());
 }
 
-void Scene::Clear()
+void AScene::Clear()
 {
     RemoveAllChildren();
     _nextNodeId = 1;
 }
 
-Node* Scene::FindNode(unsigned id) const
+ANode* AScene::FindNode(unsigned id) const
 {
     auto it = _nodes.Find(id);
     return it != _nodes.End() ? it->_second : nullptr;
 }
 
-TVector<ACamera*>& Scene::GetAllCamera()
+TVector<ACamera*>& AScene::GetAllCamera()
 {
 	return _cameras;
 }
 
-void Scene::AddNode(Node* node)
+void AScene::AddNode(ANode* node)
 {
     if (!node || node->ParentScene() == this)
         return;
@@ -206,7 +206,7 @@ void Scene::AddNode(Node* node)
             ++_nextNodeId;
     }
 
-    Scene* oldScene = node->ParentScene();
+    AScene* oldScene = node->ParentScene();
     if (oldScene)
     {
         unsigned oldId = node->Id();
@@ -221,13 +221,13 @@ void Scene::AddNode(Node* node)
     // If node has children, add them to the scene as well
     if (node->NumChildren())
     {
-        const TVector<TSharedPtr<Node> >& children = node->Children();
+        const TVector<TSharedPtr<ANode> >& children = node->Children();
         for (auto it = children.Begin(); it != children.End(); ++it)
             AddNode(*it);
     }
 }
 
-void Scene::RemoveNode(Node* node)
+void AScene::RemoveNode(ANode* node)
 {
     if (!node || node->ParentScene() != this)
         return;
@@ -239,23 +239,23 @@ void Scene::RemoveNode(Node* node)
     // If node has children, remove them from the scene as well
     if (node->NumChildren())
     {
-        const TVector<TSharedPtr<Node> >& children = node->Children();
+        const TVector<TSharedPtr<ANode> >& children = node->Children();
         for (auto it = children.Begin(); it != children.End(); ++it)
             RemoveNode(*it);
     }
 }
 
-void Scene::SetPhysicsWorld(PhysicsWorld* physicsWorld)
+void AScene::SetPhysicsWorld(APhysicsWorld* physicsWorld)
 {
 	_physicsWorld = physicsWorld;
 }
 
-void Scene::SetSkyBox(ASkyBox* skybox)
+void AScene::SetSkyBox(ASkyBox* skybox)
 {
 	_skybox = skybox;
 }
 
-PhysicsWorld* Scene::GetPhysicsWorld()
+APhysicsWorld* AScene::GetPhysicsWorld()
 {
 	if (_physicsWorld)
 	{
@@ -265,7 +265,7 @@ PhysicsWorld* Scene::GetPhysicsWorld()
 	return nullptr;
 }
 
-ASkyBox* Scene::GetSkyBox()
+ASkyBox* AScene::GetSkyBox()
 {
 	if (_skybox)
 	{
@@ -275,14 +275,14 @@ ASkyBox* Scene::GetSkyBox()
 	return nullptr;
 }
 
-void Scene::SetupShadowMap(size_t num, int size)
+void AScene::SetupShadowMap(size_t num, int size)
 {
 	// The scene creates a shadow map by default
 	GModuleManager::Get().RendererModule()->SetupShadowMaps(num, size, EImageFormat::D16);
 
 }
 
-void Scene::SetLayerNamesAttr(FJSONValue names)
+void AScene::SetLayerNamesAttr(FJSONValue names)
 {
     _layerNames.Clear();
     _layers.Clear();
@@ -296,7 +296,7 @@ void Scene::SetLayerNamesAttr(FJSONValue names)
     }
 }
 
-FJSONValue Scene::LayerNamesAttr() const
+FJSONValue AScene::LayerNamesAttr() const
 {
     FJSONValue ret;
 
@@ -307,7 +307,7 @@ FJSONValue Scene::LayerNamesAttr() const
     return ret;
 }
 
-void Scene::SetTagNamesAttr(FJSONValue names)
+void AScene::SetTagNamesAttr(FJSONValue names)
 {
     _tagNames.Clear();
     _tags.Clear();
@@ -321,7 +321,7 @@ void Scene::SetTagNamesAttr(FJSONValue names)
     }
 }
 
-FJSONValue Scene::TagNamesAttr() const
+FJSONValue AScene::TagNamesAttr() const
 {
     FJSONValue ret;
 
@@ -339,8 +339,8 @@ void RegisterSceneLibrary()
         return;
     registered = true;
 
-    Node::RegisterObject();
-    Scene::RegisterObject();
+    ANode::RegisterObject();
+    AScene::RegisterObject();
     ASpatialNode::RegisterObject();
 }
 

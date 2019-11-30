@@ -18,10 +18,10 @@ struct AUTO_API Batch2D
 			((((unsigned long long)_texture) & 0xffff) << 16);
 	}
 
-	/// Geometry.
-	Geometry* _geometry;
-	/// Geometry type.
-	GeometryType::Type _type;
+	/// FGeometry.
+	FGeometry* _geometry;
+	/// FGeometry type.
+	EGeometryType::Type _type;
 
 	ATexture* _texture;
 

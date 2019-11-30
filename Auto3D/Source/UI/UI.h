@@ -78,12 +78,12 @@ namespace GUI
 
 }
 
-struct UIFont
+struct FUIFont
 {
 	static THashMap<FString, const char*> Data;
 	static int DefaultSize;
 };
-namespace UIFontLanguage
+namespace EUIFontLanguage
 {
 	enum Data
 	{
@@ -98,20 +98,20 @@ namespace UIFontLanguage
 	};
 }
 
-class AUTO_API UI : public ABaseModule
+class AUTO_API AUI : public ABaseModule
 {
-	REGISTER_OBJECT_CLASS(UI, ABaseModule)
+	REGISTER_OBJECT_CLASS(AUI, ABaseModule)
 public:
 	/// Construct.
-	UI();
+	AUI();
 	/// Destruct.
-	~UI();
+	~AUI();
 
-	/// Init UI state
+	/// Init AUI state
 #ifdef AUTO_OPENGL
-	bool SetMode(Window* window, GraphicsContext* context);
+	bool SetMode(AWindow* window, FGraphicsContext* context);
 #else
-	bool SetMode(Window* window);
+	bool SetMode(AWindow* window);
 #endif
 	/// New frame to draw ui
 	bool BeginUI();
@@ -119,18 +119,18 @@ public:
 	void Present();
 
 	/// Add font from font.
-	void AddFont(AFont* font, int pixels = 24, FString fontname = "Default", UIFontLanguage::Data languageType = UIFontLanguage::DEFAULT);
+	void AddFont(AFont* font, int pixels = 24, FString fontname = "Default", EUIFontLanguage::Data languageType = EUIFontLanguage::DEFAULT);
 
 	/// Get gui IO.
 	ImGuiIO& IO() { return ImGui::GetIO(); }
 	/// Process event to windows
 	void ProcessEvent(const SDL_Event* event);
 private:
-	/// Window this member is assigned in SetMode, make sure that SetMode calls this member later
-	TWeakPtr<Window> _window;
+	/// AWindow this member is assigned in SetMode, make sure that SetMode calls this member later
+	TWeakPtr<AWindow> _window;
 };
 
-/// Register UI related object factories and attributes.
+/// Register AUI related object factories and attributes.
 AUTO_API void RegisterUILibrary();
 
 namespace GUI
@@ -371,7 +371,7 @@ AUTO_API bool          VSliderFloat(const char* label, const TVector2F& size, fl
 AUTO_API bool          VSliderInt(const char* label, const TVector2F& size, int* v, int v_min, int v_max, const char* format = "%d");
 AUTO_API bool          VSliderScalar(const char* label, const TVector2F& size, DataType data_type, void* v, const void* v_min, const void* v_max, const char* format = NULL, float power = 1.0f);
 
-// Widgets: Input with Keyboard
+// Widgets: AInput with Keyboard
 // - If you want to use InputText() with a dynamic string type such as std::string or your own, see misc/cpp/imgui_stdlib.h
 // - Most of the InputTextFlags flags are only useful for InputText() and not for InputFloatX, InputIntX, InputDouble etc.
 AUTO_API bool          InputText(const char* label, char* buf, size_t buf_size, InputTextFlags flags = 0, ImGuiInputTextCallback callback = NULL, void* user_data = NULL);
@@ -532,7 +532,7 @@ AUTO_API void          SetKeyboardFocusHere(int offset = 0);                    
 
 // Item/Widgets Utilities
 // - Most of the functions are referring to the last/previous item we submitted.
-// - See Demo Window under "Widgets->Querying Status" for an interactive visualization of most of those functions.
+// - See Demo AWindow under "Widgets->Querying Status" for an interactive visualization of most of those functions.
 AUTO_API bool          IsItemHovered(HoveredFlags flags = 0);							   // is the last item hovered? (and usable, aka not blocked by a popup, etc.). See HoveredFlags for more options.
 AUTO_API bool          IsItemActive();                                                     // is the last item active? (e.g. button being held, text field being edited. This will continuously return true while holding mouse button on an item. Items that don't interact will always return false)
 AUTO_API bool          IsItemFocused();                                                    // is the last item focused for keyboard/gamepad navigation?

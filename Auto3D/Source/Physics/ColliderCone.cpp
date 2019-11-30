@@ -6,43 +6,43 @@
 namespace Auto3D
 {
 
-ColliderCone::ColliderCone() :
+AColliderCone::AColliderCone() :
 	_radius(1.0f),
 	_height(1.0f)
 {
-	_shapeType = ShapeType::CONE;
+	_shapeType = EShapeType::CONE;
 
 }
 
-ColliderCone::~ColliderCone()
+AColliderCone::~AColliderCone()
 {
 }
 
-void ColliderCone::RegisterObject()
+void AColliderCone::RegisterObject()
 {
-	RegisterFactory<ColliderCone>();
+	RegisterFactory<AColliderCone>();
 }
 
-void ColliderCone::SetSize(float radius, float height)
+void AColliderCone::SetSize(float radius, float height)
 {
 	_radius = radius;
 	_height = height;
 	Resize(_radius, _height);
 }
 
-void ColliderCone::SetRadius(float radius)
+void AColliderCone::SetRadius(float radius)
 {
 	_radius = radius;
 	Resize(_radius, _height);
 }
 
-void ColliderCone::SetHeight(float height)
+void AColliderCone::SetHeight(float height)
 {
 	_height = height;
 	Resize(_radius, _height);
 }
 
-void ColliderCone::Resize(float radius, float height)
+void AColliderCone::Resize(float radius, float height)
 {
 	ReleaseShape();
 

@@ -11,14 +11,14 @@ class FStream;
 typedef THashMap<TPair<FStringHash, FStringHash>, TSharedPtr<AResource> > ResourceMap;
  
 /// %AResource cache subsystem. Loads resources on demand and stores them for later access.
-class AUTO_API ResourceCache : public ABaseModule
+class AUTO_API AResourceCache : public ABaseModule
 {
-    REGISTER_OBJECT_CLASS(ResourceCache, ABaseModule)
+    REGISTER_OBJECT_CLASS(AResourceCache, ABaseModule)
 public:
     /// Construct and register subsystem.
-    ResourceCache();
+    AResourceCache();
     /// Destruct. Destroy all owned resources and unregister subsystem.
-    ~ResourceCache();
+    ~AResourceCache();
 
     /// Add a resource directory. Return true on success.
     bool AddResourceDir(const FString& pathName, bool addFirst = false);

@@ -6,43 +6,43 @@
 namespace Auto3D
 {
 
-ColliderCapsule::ColliderCapsule() :
+AColliderCapsule::AColliderCapsule() :
 	_radius(1.0f),
 	_height(1.0f)
 {
-	_shapeType = ShapeType::CAPSULE;
+	_shapeType = EShapeType::CAPSULE;
 	
 }
 
-ColliderCapsule::~ColliderCapsule()
+AColliderCapsule::~AColliderCapsule()
 {
 }
 
-void ColliderCapsule::RegisterObject()
+void AColliderCapsule::RegisterObject()
 {
-	RegisterFactory<ColliderCapsule>();
+	RegisterFactory<AColliderCapsule>();
 }
 
-void ColliderCapsule::SetSize(float radius, float height)
+void AColliderCapsule::SetSize(float radius, float height)
 {
 	_radius = radius;
 	_height = height;
 	Resize(_radius, _height);
 }
 
-void ColliderCapsule::SetRadius(float radius)
+void AColliderCapsule::SetRadius(float radius)
 {
 	_radius = radius;
 	Resize(_radius, _height);
 }
 
-void ColliderCapsule::SetHeight(float height)
+void AColliderCapsule::SetHeight(float height)
 {
 	_height = height;
 	Resize(_radius, _height);
 }
 
-void ColliderCapsule::Resize(float radius, float height)
+void AColliderCapsule::Resize(float radius, float height)
 {
 	ReleaseShape();
 

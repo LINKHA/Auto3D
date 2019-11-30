@@ -5,71 +5,71 @@
 namespace Auto3D
 {
 
-Timer::Timer(TimerCallback callback, int interval)
+FTimer::FTimer(TimerCallback callback, int interval)
 {
-	Timer(callback, interval, 0, 0);
+	FTimer(callback, interval, 0, 0);
 }
 
-Timer::Timer(std::function<void()> callback, int interval)
+FTimer::FTimer(std::function<void()> callback, int interval)
 {
-	Timer(callback, interval, 0, 0);
+	FTimer(callback, interval, 0, 0);
 }
 
-Timer::Timer(TimerCallback callback, int interval, int delayTime)
+FTimer::FTimer(TimerCallback callback, int interval, int delayTime)
 {
-	Timer(callback, interval, delayTime, 0);
+	FTimer(callback, interval, delayTime, 0);
 }
 
-Timer::Timer(std::function<void()> callback, int interval, int delayTime)
+FTimer::FTimer(std::function<void()> callback, int interval, int delayTime)
 {
-	Timer(callback, interval, delayTime, 0);
+	FTimer(callback, interval, delayTime, 0);
 }
 
-Timer::Timer(TimerCallback callback, int interval, int delayTime, int count)
+FTimer::FTimer(TimerCallback callback, int interval, int delayTime, int count)
 	: _interval(interval)
 	, _delayTime(delayTime)
 	, _count(count)
 {
-	std::thread timerThread(&Timer::TimerCount, this, callback, interval, delayTime, count);
+	std::thread timerThread(&FTimer::TimerCount, this, callback, interval, delayTime, count);
 	timerThread.detach();
 	_state = TimerState::RUNNING;
 }
 
-Timer::Timer(std::function<void()> callback, int interval, int delayTime, int count)
+FTimer::FTimer(std::function<void()> callback, int interval, int delayTime, int count)
 	: _interval(interval)
 	, _delayTime(delayTime)
 	, _count(count)
 {
-	std::thread timerThread(&Timer::TimerCountClass, this, callback, interval, delayTime, count);
+	std::thread timerThread(&FTimer::TimerCountClass, this, callback, interval, delayTime, count);
 	timerThread.detach();
 	_state = TimerState::RUNNING;
 }
 
-void Timer::Stop()
+void FTimer::Stop()
 {
 	_stop = true;
 	_state = TimerState::STOPPING;
 }
 
-void Timer::Begin()
+void FTimer::Begin()
 {
 	_stop = false;
 	_pause = false;
 	_state = TimerState::RUNNING;
 }
 
-void Timer::Pause()
+void FTimer::Pause()
 {
 	_pause = true;
 	_state = TimerState::PAUSEING;
 }
 
-void Timer::Destory()
+void FTimer::Destory()
 {
 	_destory = true;
 }
 
-void Timer::TimerCount(TimerCallback callback, int interval, int delayTime, int count)
+void FTimer::TimerCount(TimerCallback callback, int interval, int delayTime, int count)
 {
 	std::chrono::milliseconds dura(delayTime);
 	std::this_thread::sleep_for(dura);
@@ -92,7 +92,7 @@ void Timer::TimerCount(TimerCallback callback, int interval, int delayTime, int 
 	}
 }
 
-void Timer::TimerCountClass(std::function<void()> callback, int interval, int delayTime, int count)
+void FTimer::TimerCountClass(std::function<void()> callback, int interval, int delayTime, int count)
 {
 	std::chrono::milliseconds dura(delayTime);
 	std::this_thread::sleep_for(dura);

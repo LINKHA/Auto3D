@@ -7,44 +7,44 @@
 namespace Auto3D
 {
 
-inline bool CompareBatchState(Batch& lhs, Batch& rhs)
+inline bool CompareBatchState(FBatch& lhs, FBatch& rhs)
 {
     return lhs._sortKey < rhs._sortKey;
 }
 
-inline bool CompareBatchDistanceFrontToBack(Batch& lhs, Batch& rhs)
+inline bool CompareBatchDistanceFrontToBack(FBatch& lhs, FBatch& rhs)
 {
     return lhs._distance < rhs._distance;
 }
 
-inline bool CompareBatchDistanceBackToFront(Batch& lhs, Batch& rhs)
+inline bool CompareBatchDistanceBackToFront(FBatch& lhs, FBatch& rhs)
 {
     return lhs._distance > rhs._distance;
 }
 
-void RenderQueue::Clear()
+void FRenderQueue::Clear()
 {
     _batches.Clear();
     _additiveBatches.Clear();
 }
 
-void RenderQueue::Sort(TVector
+void FRenderQueue::Sort(TVector
 	<TMatrix3x4F>& instanceTransforms)
 {
     switch (_sort)
     {
-    case RenderCommandSortMode::STATE:
+    case ERenderCommandSortMode::STATE:
         Auto3D::Sort(_batches.Begin(), _batches.End(), CompareBatchState);
         Auto3D::Sort(_additiveBatches.Begin(), _additiveBatches.End(), CompareBatchState);
         break;
 
-    case RenderCommandSortMode::FRONT_TO_BACK:
+    case ERenderCommandSortMode::FRONT_TO_BACK:
         Auto3D::Sort(_batches.Begin(), _batches.End(), CompareBatchDistanceFrontToBack);
         // After drawing the base batches, the Z buffer has been prepared. Additive batches can be sorted per state now
         Auto3D::Sort(_additiveBatches.Begin(), _additiveBatches.End(), CompareBatchState);
         break;
 
-    case RenderCommandSortMode::BACK_TO_FRONT:
+    case ERenderCommandSortMode::BACK_TO_FRONT:
         Auto3D::Sort(_batches.Begin(), _batches.End(), CompareBatchDistanceBackToFront);
         Auto3D::Sort(_additiveBatches.Begin(), _additiveBatches.End(), CompareBatchDistanceBackToFront);
         break;
@@ -58,18 +58,18 @@ void RenderQueue::Sort(TVector
     BuildInstances(_additiveBatches, instanceTransforms);
 }
 
-void RenderQueue::BuildInstances(TVector<Batch>& batches, TVector<TMatrix3x4F>& instanceTransforms)
+void FRenderQueue::BuildInstances(TVector<FBatch>& batches, TVector<TMatrix3x4F>& instanceTransforms)
 {
-    Batch* start = nullptr;
+    FBatch* start = nullptr;
 
     for (auto it = batches.Begin(), end = batches.End(); it != end; ++it)
     {
-        Batch* current = &*it;
+        FBatch* current = &*it;
 
-        if (start && current->_type == GeometryType::STATIC && current->_pass == start->_pass && current->_geometry == start->_geometry &&
+        if (start && current->_type == EGeometryType::STATIC && current->_pass == start->_pass && current->_geometry == start->_geometry &&
             current->_lights == start->_lights)
         {
-            if (start->_type == GeometryType::INSTANCED)
+            if (start->_type == EGeometryType::INSTANCED)
             {
                 instanceTransforms.Push(*current->_worldMatrix);
                 ++start->_instanceCount;
@@ -77,7 +77,7 @@ void RenderQueue::BuildInstances(TVector<Batch>& batches, TVector<TMatrix3x4F>& 
             else
             {
                 // Begin new instanced batch
-                start->_type = GeometryType::INSTANCED;
+                start->_type = EGeometryType::INSTANCED;
                 size_t instanceStart = instanceTransforms.Size();
                 instanceTransforms.Push(*start->_worldMatrix);
                 instanceTransforms.Push(*current->_worldMatrix);
@@ -86,53 +86,30 @@ void RenderQueue::BuildInstances(TVector<Batch>& batches, TVector<TMatrix3x4F>& 
             }
         }
         else
-            start = (current->_type == GeometryType::STATIC) ? current : nullptr;
+            start = (current->_type == EGeometryType::STATIC) ? current : nullptr;
     }
 }
 
-void ShadowView::Clear()
+void FShadowView::Clear()
 {
 	_shadowQueue.Clear();
 }
 
-ShadowMap::ShadowMap()
+FShadowMap::FShadowMap()
 {
     // Construct texture but do not define its _size yet
     _texture = new ATexture();
 }
 
-ShadowMap::~ShadowMap()
+FShadowMap::~FShadowMap()
 {
 }
 
-void ShadowMap::Clear()
+void FShadowMap::Clear()
 {
     _allocator.Reset(_texture->GetWidth(), _texture->GetHeight(), 0, 0, false);
     _shadowViews.Clear();
     _used = false;
 }
-
-WaterTexture::WaterTexture()
-{
-	// Construct texture but do not define its size yet
-	_texture = new ATexture();
-}
-
-WaterTexture::~WaterTexture()
-{
-}
-
-void WaterTextureView::Clear()
-{
-	_waterTextureQueue.Clear();
-}
-
-void WaterTexture::Clear()
-{
-	_allocator.Reset(_texture->GetWidth(), _texture->GetHeight(), 0, 0, false);
-	_waterTextureView.Clear();
-	_used = false;
-}
-
 
 }

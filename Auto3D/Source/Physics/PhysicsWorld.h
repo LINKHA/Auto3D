@@ -7,7 +7,7 @@
 
 namespace Auto3D {
 
-class RigidBody;
+class ARigidBody;
 
 struct PhysicsWorldConfig
 {
@@ -19,30 +19,30 @@ struct PhysicsWorldConfig
 	btCollisionConfiguration* collisionConfig;
 };
 
-class PhysicsWorld : public Node//, public btIDebugDraw
+class APhysicsWorld : public ANode//, public btIDebugDraw
 {
-	REGISTER_OBJECT_CLASS(PhysicsWorld, Node)
+	REGISTER_OBJECT_CLASS(APhysicsWorld, ANode)
 public:
 	/// Construct
-	PhysicsWorld();
+	APhysicsWorld();
 	/// Destructor
-	~PhysicsWorld();
+	~APhysicsWorld();
 	/// Register factory and attributes.
 	static void RegisterObject();
 
-	/// Physics world update step simulation.
+	/// APhysics world update step simulation.
 	void Update();
 	/// Set fps
 	void SetFPS(int fps);
 	/// Return 3d dynamics world
 	btDiscreteDynamicsWorld* GetWorld() { return _world.Get(); }
-	/// Add RigidBody
-	void AddRigidBody(RigidBody* rigidbody);
+	/// Add ARigidBody
+	void AddRigidBody(ARigidBody* rigidbody);
 	/// Remove collider
-	void RemoveRigidBody(RigidBody* rigidbody);
+	void RemoveRigidBody(ARigidBody* rigidbody);
 
 	/// Get colliders with current physics world.
-	TVector<RigidBody*> GetColliders() { return _rigidBody; }
+	TVector<ARigidBody*> GetColliders() { return _rigidBody; }
 	/// This function is called when the parent node of this class is assigned.
 	virtual void ParentCallBack()override;
 	/// Overrides of the internal configuration
@@ -54,8 +54,8 @@ private:
 	unsigned _fps;
 	/// Maximum number of simulation substeps per frame. 0 (default) unlimited, or negative values for adaptive timestep.
 	int _maxSubSteps;
-	/// Time system.
-	TWeakPtr<Time> _time;
+	/// ATime system.
+	TWeakPtr<ATime> _time;
 	/// Bullet collision configuration
 	TUniquePtr<btCollisionConfiguration> _collisionConfiguration;
 	/// Bullet collision dispatcher
@@ -67,7 +67,7 @@ private:
 	/// Bullet physics world
 	TUniquePtr<btDiscreteDynamicsWorld> _world;
 	/// Collision shapes in the world
-	TVector<RigidBody*> _rigidBody;
+	TVector<ARigidBody*> _rigidBody;
 };
 
 }

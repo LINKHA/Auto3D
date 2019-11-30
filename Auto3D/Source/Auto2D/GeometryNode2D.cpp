@@ -6,7 +6,7 @@ namespace Auto3D
 {
 
 GeometryNode2D::GeometryNode2D() :
-	_geometryType(GeometryType::STATIC)
+	_geometryType(EGeometryType::STATIC)
 {
 	SetFlag(NF_2D_GEOMETRY, true);
 }
@@ -21,12 +21,12 @@ void GeometryNode2D::RegisterObject()
 	CopyBaseAttributes<GeometryNode2D, SpatialNode2D>();
 }
 
-void GeometryNode2D::SetGeometryType(GeometryType::Type type)
+void GeometryNode2D::SetGeometryType(EGeometryType::Type type)
 {
 	_geometryType = type;
 }
 
-void GeometryNode2D::SetGeometry(Geometry* geometry)
+void GeometryNode2D::SetGeometry(FGeometry* geometry)
 {
 	if (!geometry)
 	{
@@ -37,7 +37,7 @@ void GeometryNode2D::SetGeometry(Geometry* geometry)
 
 }
 
-Geometry* GeometryNode2D::GetGeometry() const
+FGeometry* GeometryNode2D::GetGeometry() const
 {
 	return _geometry;
 }

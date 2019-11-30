@@ -5,7 +5,7 @@
 namespace Auto3D
 {
 class AModel;
-/// %Scene node that renders an unanimated model.
+/// %AScene node that renders an unanimated model.
 class AUTO_API AStaticModel : public AGeometryNode
 {
     REGISTER_OBJECT_CLASS(AStaticModel, AGeometryNode)
@@ -19,7 +19,7 @@ public:
     /// Register factory and attributes.
     static void RegisterObject();
 
-    /// Prepare object for rendering. Reset framenumber and light list and calculate distance from camera, and check for LOD level changes. Called by Renderer.
+    /// Prepare object for rendering. Reset framenumber and light list and calculate distance from camera, and check for LOD level changes. Called by ARenderer.
     void OnPrepareRender(unsigned frameNumber, ACamera* camera) override;
 
     /// Set the model resource.

@@ -44,18 +44,18 @@ static PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT = nullptr;
 #define WGL_CONTEXT_PROFILE_MASK_ARB   0x9126
 #define WGL_CONTEXT_CORE_PROFILE_BIT_ARB 0x00000001
 
-GraphicsContext::GraphicsContext(Window* window) :
+FGraphicsContext::FGraphicsContext(AWindow* window) :
 	_window(window),
 	_contextHandle(nullptr)
 {
 }
 
-GraphicsContext::~GraphicsContext()
+FGraphicsContext::~FGraphicsContext()
 {
 	Release();
 }
 
-bool GraphicsContext::Create()
+bool FGraphicsContext::Create()
 {
 	if (_contextHandle)
 		return true;
@@ -67,8 +67,8 @@ bool GraphicsContext::Create()
 	}
 
 	// Create a dummy window & context for acquiring OpenGL 3.2 context creation functions
-	// Assume that the window class name has already been registered by opening a Window
-	HWND dummyWindowHandle = CreateWindowW(FWString(Window::className).CString(), L"", WS_POPUP | WS_DISABLED, CW_USEDEFAULT, CW_USEDEFAULT,
+	// Assume that the window class name has already been registered by opening a AWindow
+	HWND dummyWindowHandle = CreateWindowW(FWString(AWindow::className).CString(), L"", WS_POPUP | WS_DISABLED, CW_USEDEFAULT, CW_USEDEFAULT,
 		10, 10, 0, 0, GetModuleHandle(0), nullptr);
 	if (!dummyWindowHandle)
 	{
@@ -210,20 +210,20 @@ bool GraphicsContext::Create()
 	return true;
 }
 
-void GraphicsContext::SetVSync(bool enable)
+void FGraphicsContext::SetVSync(bool enable)
 {
 	if (_contextHandle && wglSwapIntervalEXT)
 		wglSwapIntervalEXT(enable ? 1 : 0);
 }
 
-void GraphicsContext::Present()
+void FGraphicsContext::Present()
 {
 	if (_contextHandle)
 		SwapBuffers((HDC)GetDC((HWND)_window->Handle()));
 
 }
 
-void GraphicsContext::Release()
+void FGraphicsContext::Release()
 {
 	if (_contextHandle)
 	{

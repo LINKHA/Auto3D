@@ -15,16 +15,16 @@ static const TVector3F DEFAULT_GRAVITY = TVector3F(0.0f, -9.81f, 0.0f);
 static const int DEFAULT_FPS = 60;
 static const float DEFAULT_MAX_NETWORK_ANGULAR_VELOCITY = 100.0f;
 
-PhysicsWorldConfig PhysicsWorld::config;
+PhysicsWorldConfig APhysicsWorld::config;
 
-PhysicsWorld::PhysicsWorld():
+APhysicsWorld::APhysicsWorld():
 	_fps(DEFAULT_FPS),
 	_maxSubSteps(0)
 {
 	_time = GModuleManager::Get().TimeModule();
 
-	if (PhysicsWorld::config.collisionConfig)
-		_collisionConfiguration = PhysicsWorld::config.collisionConfig;
+	if (APhysicsWorld::config.collisionConfig)
+		_collisionConfiguration = APhysicsWorld::config.collisionConfig;
 	else
 		_collisionConfiguration = new btDefaultCollisionConfiguration();
 
@@ -43,7 +43,7 @@ PhysicsWorld::PhysicsWorld():
 	physics->SetActivePhysicsWorld(this);
 }
 
-PhysicsWorld::~PhysicsWorld()
+APhysicsWorld::~APhysicsWorld()
 {
 	auto physics = GModuleManager::Get().PhysicsModule();
 	physics->RemovePhysicsWorld(this);
@@ -53,16 +53,16 @@ PhysicsWorld::~PhysicsWorld()
 	_solver.Reset();
 	_broadphase.Reset();
 	_collisionDispatcher.Reset();
-	if (!PhysicsWorld::config.collisionConfig)
+	if (!APhysicsWorld::config.collisionConfig)
 		_collisionConfiguration.Reset();
 }
 
-void PhysicsWorld::RegisterObject()
+void APhysicsWorld::RegisterObject()
 {
-	RegisterFactory<PhysicsWorld>();
+	RegisterFactory<APhysicsWorld>();
 }
 
-void PhysicsWorld::Update()
+void APhysicsWorld::Update()
 {
 	/*float timeStep = 0.1f;
 	float internalTimeStep = 1.0f / _fps;
@@ -82,28 +82,28 @@ void PhysicsWorld::Update()
 
 }
 
-void PhysicsWorld::SetFPS(int fps)
+void APhysicsWorld::SetFPS(int fps)
 {
 	_fps = (unsigned)Clamp(fps, 1, 1000);
 }
 
-void PhysicsWorld::AddRigidBody(RigidBody* rigidbody)
+void APhysicsWorld::AddRigidBody(ARigidBody* rigidbody)
 {
 	_rigidBody.Push(rigidbody);
 }
 
-void PhysicsWorld::RemoveRigidBody(RigidBody* rigidbody)
+void APhysicsWorld::RemoveRigidBody(ARigidBody* rigidbody)
 {
 	_rigidBody.Remove(rigidbody);
 }
 
 
-void PhysicsWorld::ClearColliders()
+void APhysicsWorld::ClearColliders()
 {
 	_rigidBody.Clear();
 }
 
-void PhysicsWorld::ParentCallBack()
+void APhysicsWorld::ParentCallBack()
 {
 	// Get active scene to set physics world
 	ParentScene()->SetPhysicsWorld(this);

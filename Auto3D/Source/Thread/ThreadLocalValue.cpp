@@ -9,7 +9,7 @@
 namespace Auto3D
 {
 
-ThreadLocalValue::ThreadLocalValue()
+FThreadLocalValue::FThreadLocalValue()
 {
     #ifdef _WIN32
     _key = TlsAlloc();
@@ -19,7 +19,7 @@ ThreadLocalValue::ThreadLocalValue()
     #endif
 }
 
-ThreadLocalValue::~ThreadLocalValue()
+FThreadLocalValue::~FThreadLocalValue()
 {
     if (_valid)
     {
@@ -31,7 +31,7 @@ ThreadLocalValue::~ThreadLocalValue()
     }
 }
 
-void ThreadLocalValue::SetValue(void* value)
+void FThreadLocalValue::SetValue(void* value)
 {
     if (_valid)
     {
@@ -43,7 +43,7 @@ void ThreadLocalValue::SetValue(void* value)
     }
 }
 
-void* ThreadLocalValue::Value() const
+void* FThreadLocalValue::Value() const
 {
     if (_valid)
     {

@@ -115,7 +115,7 @@ AProfiler::~AProfiler()
 void AProfiler::BeginBlock(const char* name)
 {
 	// Currently profiling is a no-op if attempted from outside main thread
-	if (!Thread::IsMainThread())
+	if (!FThread::IsMainThread())
 		return;
 
 	_current = _current->FindOrCreateChild(name);
@@ -124,7 +124,7 @@ void AProfiler::BeginBlock(const char* name)
 
 void AProfiler::EndBlock()
 {
-	if (!Thread::IsMainThread())
+	if (!FThread::IsMainThread())
 		return;
 
 	if (_current != _root)

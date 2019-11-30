@@ -15,7 +15,7 @@
 namespace Auto3D
 {
 
-Geometry::Geometry() : 
+FGeometry::FGeometry() : 
     _primitiveType(EPrimitiveType::TRIANGLE_LIST),
     _drawStart(0),
     _drawCount(0),
@@ -23,11 +23,11 @@ Geometry::Geometry() :
 {
 }
 
-Geometry::~Geometry()
+FGeometry::~FGeometry()
 {
 }
 
-void Geometry::Draw(AGraphics* graphics)
+void FGeometry::Draw(AGraphics* graphics)
 {
     graphics->SetVertexBuffer(0, _vertexBuffer.Get());
     if (_indexBuffer.Get())
@@ -39,7 +39,7 @@ void Geometry::Draw(AGraphics* graphics)
         graphics->Draw(_primitiveType, _drawStart, _drawCount);
 }
 
-void Geometry::DrawInstanced(AGraphics* graphics, size_t start, size_t count)
+void FGeometry::DrawInstanced(AGraphics* graphics, size_t start, size_t count)
 {
 	graphics->SetVertexBuffer(0, _vertexBuffer.Get());
     if (_indexBuffer.Get())
@@ -51,17 +51,17 @@ void Geometry::DrawInstanced(AGraphics* graphics, size_t start, size_t count)
         graphics->DrawInstanced(_primitiveType, _drawStart, _drawCount, start, count);
 }
 
-SourceBatch::SourceBatch()
+FSourceBatch::FSourceBatch()
 {
 }
 
-SourceBatch::~SourceBatch()
+FSourceBatch::~FSourceBatch()
 {
 }
 
 AGeometryNode::AGeometryNode() :
     _lightList(nullptr),
-    _geometryType(GeometryType::STATIC)
+    _geometryType(EGeometryType::STATIC)
 {
     SetFlag(NF_GEOMETRY, true);
 }
@@ -85,7 +85,7 @@ void AGeometryNode::OnPrepareRender(unsigned frameNumber, ACamera* camera)
     _distance = camera->Distance(GetWorldPosition());
 }
 
-void AGeometryNode::SetGeometryType(GeometryType::Type type)
+void AGeometryNode::SetGeometryType(EGeometryType::Type type)
 {
     _geometryType = type;
 }
@@ -102,7 +102,7 @@ void AGeometryNode::SetNumGeometries(size_t num)
     }
 }
 
-void AGeometryNode::SetGeometry(size_t index, Geometry* geometry)
+void AGeometryNode::SetGeometry(size_t index, FGeometry* geometry)
 {
     if (!geometry)
     {
@@ -144,7 +144,7 @@ void AGeometryNode::SetLocalBoundingBox(const TBoundingBoxF& box)
     AOctreeNode::OnTransformChanged();
 }
 
-Geometry* AGeometryNode::GetGeometry(size_t index) const
+FGeometry* AGeometryNode::GetGeometry(size_t index) const
 {
     return index < _batches.Size() ? _batches[index]._geometry.Get() : nullptr;
 }
@@ -162,7 +162,7 @@ void AGeometryNode::OnWorldBoundingBoxUpdate() const
 
 void AGeometryNode::SetMaterialsAttr(const FResourceRefList& materials)
 {
-	ResourceCache* cache = GModuleManager::Get().CacheModule();
+	AResourceCache* cache = GModuleManager::Get().CacheModule();
     for (size_t i = 0; i < materials._names.Size(); ++i)
         SetMaterial(i, cache->LoadResource<AMaterial>(materials._names[i]));
 }

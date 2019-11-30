@@ -10,7 +10,7 @@
 namespace Auto3D 
 {
 
-RigidBody::RigidBody() :
+ARigidBody::ARigidBody() :
 	_mass(0.0f),
 	_isDynamic(false),
 	_isDirty(false),
@@ -21,7 +21,7 @@ RigidBody::RigidBody() :
 }
 
 
-RigidBody::~RigidBody()
+ARigidBody::~ARigidBody()
 {
 	ReleaseBody();
 
@@ -29,12 +29,12 @@ RigidBody::~RigidBody()
 		_physicsWorld->RemoveRigidBody(this);
 }
 
-void RigidBody::RegisterObject()
+void ARigidBody::RegisterObject()
 {
-	RegisterFactory<RigidBody>();
+	RegisterFactory<ARigidBody>();
 }
 
-void RigidBody::getWorldTransform(btTransform& worldTrans) const
+void ARigidBody::getWorldTransform(btTransform& worldTrans) const
 {
 	if (Parent())
 	{
@@ -44,12 +44,12 @@ void RigidBody::getWorldTransform(btTransform& worldTrans) const
 	}
 }
 
-void RigidBody::setWorldTransform(const btTransform& worldTrans)
+void ARigidBody::setWorldTransform(const btTransform& worldTrans)
 {
 
 	FQuaternion newWorldRotation = BtToQuaternion(worldTrans.getRotation());
 	TVector3F newWorldPosition = BtToVector3(worldTrans.getOrigin());
-	RigidBody* parentRigidBody = nullptr;
+	ARigidBody* parentRigidBody = nullptr;
 	
 	if (Parent())
 	{
@@ -59,7 +59,7 @@ void RigidBody::setWorldTransform(const btTransform& worldTrans)
 	}
 }
 
-void RigidBody::UpdateMass()
+void ARigidBody::UpdateMass()
 {
 	if (!_body)
 		return;
@@ -85,7 +85,7 @@ void RigidBody::UpdateMass()
 	
 }
 
-void RigidBody::SetMass(float mass)
+void ARigidBody::SetMass(float mass)
 {
 	mass = Max(mass, 0.0f);
 
@@ -96,7 +96,7 @@ void RigidBody::SetMass(float mass)
 	}
 }
 
-void RigidBody::ReleaseBody()
+void ARigidBody::ReleaseBody()
 {
 	if (_body)
 	{
@@ -104,7 +104,7 @@ void RigidBody::ReleaseBody()
 	}
 }
 
-void RigidBody::ParentCallBack()
+void ARigidBody::ParentCallBack()
 {
 	_physicsWorld = ParentScene()->GetPhysicsWorld();
 
@@ -113,7 +113,7 @@ void RigidBody::ParentCallBack()
 	AddBodyToWorld();
 }
 
-void RigidBody::AddBodyToWorld()
+void ARigidBody::AddBodyToWorld()
 {
 	if (!_physicsWorld)
 		return;
@@ -136,8 +136,8 @@ void RigidBody::AddBodyToWorld()
 
 		// Check if CollisionShapes already exist in the node and add them to the compound shape.
 		// Do not update mass yet, but do it once all shapes have been added.
-		TVector<Collider*> shapes;
-		Parent()->FindChildren<Collider>(shapes, false);
+		TVector<ACollider*> shapes;
+		Parent()->FindChildren<ACollider>(shapes, false);
 		for (auto it = shapes.Begin(); it != shapes.End(); ++it)
 		{
 			(*it)->NotifyRigidBody(false);
@@ -149,7 +149,7 @@ void RigidBody::AddBodyToWorld()
 	_inWorld = true;
 }
 
-void RigidBody::RemoveBodyFromWorld()
+void ARigidBody::RemoveBodyFromWorld()
 {
 	if (_physicsWorld && _body && _inWorld)
 	{

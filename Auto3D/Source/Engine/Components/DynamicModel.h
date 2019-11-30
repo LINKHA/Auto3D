@@ -6,7 +6,7 @@ namespace Auto3D
 {
 
 class AModel;
-/// %Scene node that renders an animated model.
+/// %AScene node that renders an animated model.
 class AUTO_API ADynamicModel : public AGeometryNode
 {
 	REGISTER_OBJECT_CLASS(ADynamicModel, AGeometryNode)

@@ -7,41 +7,41 @@ namespace Auto3D
 {
 
 
-ColliderBox::ColliderBox(): 
+AColliderBox::AColliderBox(): 
 	_size(TVector3F::ONE)
 {
-	_shapeType = ShapeType::BOX;
+	_shapeType = EShapeType::BOX;
 }
 
-ColliderBox::~ColliderBox()
+AColliderBox::~AColliderBox()
 {
 }
 
-void ColliderBox::RegisterObject()
+void AColliderBox::RegisterObject()
 {
-	RegisterFactory<ColliderBox>();
+	RegisterFactory<AColliderBox>();
 }
 
-void ColliderBox::SetSize(const TVector3F& vec)
+void AColliderBox::SetSize(const TVector3F& vec)
 {
 	_size = vec;
 	Resize(_size);
 }
 
-void ColliderBox::SetSize(float x, float y, float z)
+void AColliderBox::SetSize(float x, float y, float z)
 {
 	_size = TVector3F(x, y, z);
 	Resize(_size);
 }
 
-void ColliderBox::SetSize(float scale)
+void AColliderBox::SetSize(float scale)
 {
 	_size = TVector3F(scale, scale, scale);
 	Resize(_size);
 }
 
 
-void ColliderBox::Resize(const TVector3F& vec)
+void AColliderBox::Resize(const TVector3F& vec)
 {
 	ReleaseShape();
 	_shape.Reset();

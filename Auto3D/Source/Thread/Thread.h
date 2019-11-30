@@ -16,13 +16,13 @@ typedef unsigned ThreadID;
 #endif
 
 /// Operating system thread.
-class AUTO_API Thread
+class AUTO_API FThread
 {
 public:
     /// Construct. Does not start the thread yet.
-    Thread();
+    FThread();
     /// Destruct. If running, stop and wait for thread to finish.
-    virtual ~Thread();
+    virtual ~FThread();
     /// The function to run in the thread.
     virtual void ThreadFunction() = 0;
     /// Start running the thread. Return true on success, or false if already running or if can not create the thread.
@@ -46,7 +46,7 @@ public:
 protected:
 	/// Running flag.
 	volatile bool _shouldRun;
-    /// Thread _handle.
+    /// FThread _handle.
     void* _handle;
     /// Main thread's thread ID.
     static ThreadID mainThreadID;

@@ -9,9 +9,9 @@ namespace Auto3D
 class FStream;
 
 /// JSON document. Contains a root JSON value and can be read/written to file as text.
-class AUTO_API JSONFile : public AResource
+class AUTO_API AJSONFile : public AResource
 {
-    REGISTER_OBJECT_CLASS(JSONFile, AResource)
+    REGISTER_OBJECT_CLASS(AJSONFile, AResource)
 
 public:
     /// Load from a stream as text. Return true on success. Will contain partial data on failure.

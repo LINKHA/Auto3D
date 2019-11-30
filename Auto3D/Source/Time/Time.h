@@ -8,9 +8,9 @@ namespace Auto3D
 const int MIN_FRAMES_PER_SECOND = 10;
 const int MAX_FRAMES_PER_SECOND = 200;
 /// SubSystem class for time
-class AUTO_API Time : public ABaseModule
+class AUTO_API ATime : public ABaseModule
 {
-	REGISTER_OBJECT_CLASS(Time, ABaseModule)
+	REGISTER_OBJECT_CLASS(ATime, ABaseModule)
 	typedef void(__cdecl* TimerCallback) ();
 	/// Save world time information
 	using RealTime = struct {
@@ -38,9 +38,9 @@ class AUTO_API Time : public ABaseModule
 	};
 public:
 	/// The constructor
-	Time();
+	ATime();
 	/// The destructor
-	~Time();
+	~ATime();
 	/// Reset time
 	void ResetTime();
 	/// SubSystem to engine update
@@ -75,14 +75,14 @@ public:
 	void OneShotTimer(TimerCallback callback, int msTime);
 	/// One shot timer with class member function
 	void OneShotTimer(std::function<void()> callBack, int msTime);
-	/// Run every msTime for a total of count  (no infinite loop, use Timer if necessary)
+	/// Run every msTime for a total of count  (no infinite loop, use FTimer if necessary)
 	void ShotTimer(TimerCallback callback, int msTime, int count = 1);
-	/// Run every msTime for a total of count with class member function (no infinite loop, use Timer if necessary)
+	/// Run every msTime for a total of count with class member function (no infinite loop, use FTimer if necessary)
 	void ShotTimer(std::function<void()> callBack, int msTime, int count = 1);
 private:
-	/// Run every msTime for a total of count (no infinite loop, use Timer if necessary)
+	/// Run every msTime for a total of count (no infinite loop, use FTimer if necessary)
 	void TimerCount(TimerCallback callback, int msTime, int count);
-	/// Run every msTime for a total of count with class member function (no infinite loop, use Timer if necessary)
+	/// Run every msTime for a total of count with class member function (no infinite loop, use FTimer if necessary)
 	void TimerCountClass(std::function<void()> callback, int msTime, int count);
 private:
 	/// dynamic time holder

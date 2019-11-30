@@ -44,15 +44,15 @@ public:
     };
     
     /// Hash map node.
-    struct Node : public FHashNodeBase
+    struct ANode : public FHashNodeBase
     {
         /// Construct undefined.
-        Node()
+        ANode()
         {
         }
         
         /// Construct with _key and value.
-        Node(const _Ty1& key, const _Ty2& value) :
+        ANode(const _Ty1& key, const _Ty2& value) :
             pair(key, value)
         {
         }
@@ -61,11 +61,11 @@ public:
         KeyValue pair;
         
         /// Return next node.
-        Node* Next() const { return static_cast<Node*>(_next); }
+        ANode* Next() const { return static_cast<ANode*>(_next); }
         /// Return previous node.
-        Node* Prev() const { return static_cast<Node*>(_prev); }
+        ANode* Prev() const { return static_cast<ANode*>(_prev); }
         /// Return next node in the bucket.
-        Node* Down() const { return static_cast<Node*>(_down); }
+        ANode* Down() const { return static_cast<ANode*>(_down); }
     };
     
     /// Hash map node iterator.
@@ -77,7 +77,7 @@ public:
         }
         
         /// Construct with a node pointer.
-        Iterator(Node* ptr) :
+        Iterator(ANode* ptr) :
             FHashIteratorBase(ptr)
         {
         }
@@ -92,9 +92,9 @@ public:
         Iterator operator -- (int) { Iterator it = *this; GotoPrev(); return it; }
         
         /// Point to the pair.
-        KeyValue* operator -> () const { return &(static_cast<Node*>(_ptr))->pair; }
+        KeyValue* operator -> () const { return &(static_cast<ANode*>(_ptr))->pair; }
         /// Dereference the pair.
-        KeyValue& operator * () const { return (static_cast<Node*>(_ptr))->pair; }
+        KeyValue& operator * () const { return (static_cast<ANode*>(_ptr))->pair; }
     };
     
     /// Hash map node const iterator.
@@ -106,7 +106,7 @@ public:
         }
         
         /// Construct with a node pointer.
-        ConstIterator(Node* ptr) :
+        ConstIterator(ANode* ptr) :
             FHashIteratorBase(ptr)
         {
         }
@@ -129,9 +129,9 @@ public:
         ConstIterator operator -- (int) { ConstIterator it = *this; GotoPrev(); return it; }
         
         /// Point to the pair.
-        const KeyValue* operator -> () const { return &(static_cast<Node*>(_ptr))->pair; }
+        const KeyValue* operator -> () const { return &(static_cast<ANode*>(_ptr))->pair; }
         /// Dereference the pair.
-        const KeyValue& operator * () const { return (static_cast<Node*>(_ptr))->pair; }
+        const KeyValue& operator * () const { return (static_cast<ANode*>(_ptr))->pair; }
     };
     
     /// Construct empty.
@@ -239,8 +239,8 @@ public:
         
         unsigned hashKey = Hash(key);
         
-        Node* previous;
-        Node* node = FindNode(key, hashKey, previous);
+        ANode* previous;
+        ANode* node = FindNode(key, hashKey, previous);
         if (!node)
             return false;
         
@@ -259,13 +259,13 @@ public:
         if (!_ptrs || !it._ptr)
             return End();
         
-        Node* node = static_cast<Node*>(it._ptr);
-        Node* next = node->Next();
+        ANode* node = static_cast<ANode*>(it._ptr);
+        ANode* next = node->Next();
         
         unsigned hashKey = Hash(node->pair._first);
         
-        Node* previous = nullptr;
-        Node* current = static_cast<Node*>(Ptrs()[hashKey]);
+        ANode* previous = nullptr;
+        ANode* current = static_cast<ANode*>(Ptrs()[hashKey]);
         while (current && current != node)
         {
             previous = current;
@@ -289,9 +289,9 @@ public:
         if (Size())
         {
             for (Iterator it = Begin(); it != End();)
-                FreeNode(static_cast<Node*>(it++._ptr));
+                FreeNode(static_cast<ANode*>(it++._ptr));
 
-            Node* tail = Tail();
+            ANode* tail = Tail();
             tail->_prev = nullptr;
             SetHead(tail);
             SetSize(0);
@@ -306,8 +306,8 @@ public:
         if (!numKeys)
             return;
         
-        Node** ptrs = new Node*[numKeys];
-        Node* ptr = Head();
+        ANode** ptrs = new ANode*[numKeys];
+        ANode* ptr = Head();
         
         for (size_t i = 0; i < numKeys; ++i)
         {
@@ -315,7 +315,7 @@ public:
             ptr = ptr->Next();
         }
         
-        Auto3D::Sort(TRandomAccessIterator<Node*>(ptrs), TRandomAccessIterator<Node*>(ptrs + numKeys), CompareNodes);
+        Auto3D::Sort(TRandomAccessIterator<ANode*>(ptrs), TRandomAccessIterator<ANode*>(ptrs + numKeys), CompareNodes);
         
         SetHead(ptrs[0]);
         ptrs[0]->prev = nullptr;
@@ -357,7 +357,7 @@ public:
             return End();
         
         unsigned hashKey = Hash(key);
-        Node* node = FindNode(key, hashKey);
+        ANode* node = FindNode(key, hashKey);
         if (node)
             return Iterator(node);
         else
@@ -371,7 +371,7 @@ public:
             return End();
         
         unsigned hashKey = Hash(key);
-        Node* node = FindNode(key, hashKey);
+        ANode* node = FindNode(key, hashKey);
         if (node)
             return ConstIterator(node);
         else
@@ -423,27 +423,27 @@ public:
     
 private:
     /// Return head node with correct type.
-    Node* Head() const { return static_cast<Node*>(FHashBase::Head()); }
+    ANode* Head() const { return static_cast<ANode*>(FHashBase::Head()); }
     /// Return tail node with correct type.
-    Node* Tail() const { return static_cast<Node*>(FHashBase::Tail()); }
+    ANode* Tail() const { return static_cast<ANode*>(FHashBase::Tail()); }
 
     /// Reserve the tail node and initial buckets.
     void Initialize(size_t numBuckets, size_t numNodes)
     {
         AllocateBuckets(0, numBuckets);
-        _allocator = AllocatorInitialize(sizeof(Node), numNodes);
+        _allocator = AllocatorInitialize(sizeof(ANode), numNodes);
         FHashNodeBase* tail = AllocateNode();
         SetHead(tail);
         SetTail(tail);
     }
     
     /// Find a node from the buckets.
-    Node* FindNode(const _Ty1& key, unsigned hashKey) const
+    ANode* FindNode(const _Ty1& key, unsigned hashKey) const
     {
         if (!_ptrs)
             return nullptr;
 
-        Node* node = static_cast<Node*>(Ptrs()[hashKey]);
+        ANode* node = static_cast<ANode*>(Ptrs()[hashKey]);
         while (node)
         {
             if (node->pair._first == key)
@@ -455,13 +455,13 @@ private:
     }
     
     /// Find a node and the previous node from the buckets.
-    Node* FindNode(const _Ty1& key, unsigned hashKey, Node*& previous) const
+    ANode* FindNode(const _Ty1& key, unsigned hashKey, ANode*& previous) const
     {
         previous = nullptr;
         if (!_ptrs)
             return nullptr;
 
-        Node* node = static_cast<Node*>(Ptrs()[hashKey]);
+        ANode* node = static_cast<ANode*>(Ptrs()[hashKey]);
         while (node)
         {
             if (node->pair._first == key)
@@ -474,16 +474,16 @@ private:
     }
     
     /// Insert a _key and default value and return either the new or existing node.
-    Node* InsertNode(const _Ty1& key)
+    ANode* InsertNode(const _Ty1& key)
     {
         unsigned hashKey = Hash(key);
 
         // If exists, just return the node
-        Node* existing = FindNode(key, hashKey);
+        ANode* existing = FindNode(key, hashKey);
         if (existing)
             return existing;
 
-        Node* newNode = InsertNode(Tail(), key, _Ty2());
+        ANode* newNode = InsertNode(Tail(), key, _Ty2());
         newNode->_down = Ptrs()[hashKey];
         Ptrs()[hashKey] = newNode;
 
@@ -498,19 +498,19 @@ private:
     }
 
     /// Insert a _key and value and return either the new or existing node.
-    Node* InsertNode(const _Ty1& key, const _Ty2& value)
+    ANode* InsertNode(const _Ty1& key, const _Ty2& value)
     {
         unsigned hashKey = Hash(key);
         
         // If exists, just change the value
-        Node* existing = FindNode(key, hashKey);
+        ANode* existing = FindNode(key, hashKey);
         if (existing)
         {
             existing->pair._second = value;
             return existing;
         }
         
-        Node* newNode = InsertNode(Tail(), key, value);
+        ANode* newNode = InsertNode(Tail(), key, value);
         newNode->_down = Ptrs()[hashKey];
         Ptrs()[hashKey] = newNode;
         
@@ -525,7 +525,7 @@ private:
     }
     
     /// Allocate and insert a node into the list. Return the new node.
-    Node* InsertNode(Node* dest, const _Ty1& key, const _Ty2& value)
+    ANode* InsertNode(ANode* dest, const _Ty1& key, const _Ty2& value)
     {
         // If no pointers yet, allocate with minimum bucket count
         if (!_ptrs)
@@ -534,8 +534,8 @@ private:
             dest = Head();
         }
         
-        Node* newNode = AllocateNode(key, value);
-        Node* prev = dest->Prev();
+        ANode* newNode = AllocateNode(key, value);
+        ANode* prev = dest->Prev();
         newNode->_next = dest;
         newNode->_prev = prev;
         if (prev)
@@ -552,14 +552,14 @@ private:
     }
     
     /// Erase a node from the list. Return pointer to the next element, or to the end if could not erase.
-    Node* EraseNode(Node* node)
+    ANode* EraseNode(ANode* node)
     {
         // The tail node can not be removed
         if (!node || node == Tail())
             return Tail();
         
-        Node* prev = node->Prev();
-        Node* next = node->Next();
+        ANode* prev = node->Prev();
+        ANode* next = node->Next();
         if (prev)
             prev->_next = next;
         next->_prev = prev;
@@ -575,17 +575,17 @@ private:
     }
     
     /// Allocate a node with optionally specified _key and value.
-    Node* AllocateNode(const _Ty1& key = _Ty1(), const _Ty2& value = _Ty2())
+    ANode* AllocateNode(const _Ty1& key = _Ty1(), const _Ty2& value = _Ty2())
     {
-        Node* newNode = static_cast<Node*>(AllocatorGet(_allocator));
-        new(newNode) Node(key, value);
+        ANode* newNode = static_cast<ANode*>(AllocatorGet(_allocator));
+        new(newNode) ANode(key, value);
         return newNode;
     }
     
     /// Free a node.
-    void FreeNode(Node* node)
+    void FreeNode(ANode* node)
     {
-        (node)->~Node();
+        (node)->~ANode();
         AllocatorFree(_allocator, node);
     }
     
@@ -594,7 +594,7 @@ private:
     {
         for (Iterator it = Begin(); it != End(); ++it)
         {
-            Node* node = static_cast<Node*>(it._ptr);
+            ANode* node = static_cast<ANode*>(it._ptr);
             unsigned hashKey = Hash(it->_first);
             node->_down = Ptrs()[hashKey];
             Ptrs()[hashKey] = node;
@@ -602,7 +602,7 @@ private:
     }
     
     /// Compare two nodes.
-    static bool CompareNodes(Node*& lhs, Node*& rhs) { return lhs->pair.first < rhs->pair.first; }
+    static bool CompareNodes(ANode*& lhs, ANode*& rhs) { return lhs->pair.first < rhs->pair.first; }
     
     /// Compute a hash based on the _key and the bucket _size
     unsigned Hash(const _Ty1& key) const { return MakeHash(key) & (NumBuckets() - 1); }

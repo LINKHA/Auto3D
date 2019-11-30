@@ -58,7 +58,7 @@ bool AModel::BeginLoad(FStream& source)
     _vbDescs.Resize(numVertexBuffers);
     for (size_t i = 0; i < numVertexBuffers; ++i)
     {
-        VertexBufferDesc& vbDesc = _vbDescs[i];
+        FVertexBufferDesc& vbDesc = _vbDescs[i];
 
         vbDesc._numVertices = source.Read<unsigned>();
         unsigned elementMask = source.Read<unsigned>();
@@ -125,7 +125,7 @@ bool AModel::BeginLoad(FStream& source)
     _ibDescs.Resize(numIndexBuffers);
     for (size_t i = 0; i < numIndexBuffers; ++i)
     {
-        IndexBufferDesc& ibDesc = _ibDescs[i];
+        FIndexBufferDesc& ibDesc = _ibDescs[i];
     
         ibDesc._numIndices = source.Read<unsigned>();
         ibDesc._indexSize = source.Read<unsigned>();
@@ -151,7 +151,7 @@ bool AModel::BeginLoad(FStream& source)
 
         for (size_t j = 0; j < numLodLevels; ++j)
         {
-            GeometryDesc& geomDesc = _geomDescs[i][j];
+            FGeometryDesc& geomDesc = _geomDescs[i][j];
 
             geomDesc._lodDistance = source.Read<float>();
             source.Read<unsigned>(); // Primitive type
@@ -205,7 +205,7 @@ bool AModel::EndLoad()
     TVector<TSharedPtr<FVertexBuffer> > vbs;
     for (size_t i = 0; i < _vbDescs.Size(); ++i)
     {
-        const VertexBufferDesc& vbDesc = _vbDescs[i];
+        const FVertexBufferDesc& vbDesc = _vbDescs[i];
         TSharedPtr<FVertexBuffer> vb(new FVertexBuffer());
 
         vb->Define(EResourceUsage::IMMUTABLE, vbDesc._numVertices, vbDesc._vertexElements, true, vbDesc._vertexData.Get());
@@ -215,7 +215,7 @@ bool AModel::EndLoad()
     TVector<TSharedPtr<FIndexBuffer> > ibs;
     for (size_t i = 0; i < _ibDescs.Size(); ++i)
     {
-        const IndexBufferDesc& ibDesc = _ibDescs[i];
+        const FIndexBufferDesc& ibDesc = _ibDescs[i];
         TSharedPtr<FIndexBuffer> ib(new FIndexBuffer());
 
         ib->Define(EResourceUsage::IMMUTABLE, ibDesc._numIndices, ibDesc._indexSize, true, ibDesc._indexData.Get());
@@ -229,8 +229,8 @@ bool AModel::EndLoad()
         _geometries[i].Resize(_geomDescs[i].Size());
         for (size_t j = 0; j < _geomDescs[i].Size(); ++j)
         {
-            const GeometryDesc& geomDesc = _geomDescs[i][j];
-            TSharedPtr<Geometry> geom(new Geometry());
+            const FGeometryDesc& geomDesc = _geomDescs[i][j];
+            TSharedPtr<FGeometry> geom(new FGeometry());
 
             geom->_lodDistance = geomDesc._lodDistance;
             geom->_primitiveType = geomDesc._primitiveType;
@@ -282,7 +282,7 @@ void AModel::SetNumLodLevels(size_t index, size_t num)
     for (auto it = _geometries[index].Begin(); it != _geometries[index].End(); ++it)
     {
         if (it->IsNull())
-            *it = new Geometry();
+            *it = new FGeometry();
     }
 }
 
@@ -307,7 +307,7 @@ size_t AModel::GetNumLodLevels(size_t index) const
     return index < _geometries.Size() ? _geometries[index].Size() : 0;
 }
 
-Geometry* AModel::GetGeometry(size_t index, size_t lodLevel) const
+FGeometry* AModel::GetGeometry(size_t index, size_t lodLevel) const
 {
     return (index < _geometries.Size() && lodLevel < _geometries[index].Size()) ? _geometries[index][lodLevel].Get() : nullptr;
 }

@@ -224,7 +224,7 @@ void Renderer2D::RenderBatches(const TVector<Batch2D>& batches, Camera2D* camera
 	for (auto it = batches.Begin(); it != batches.End();)
 	{
 		const Batch2D& batch = *it;
-		bool instanced = batch._type == GeometryType::INSTANCED;
+		bool instanced = batch._type == EGeometryType::INSTANCED;
 
 		if (!instanced)
 		{
@@ -241,7 +241,7 @@ void Renderer2D::RenderBatches(const TVector<Batch2D>& batches, Camera2D* camera
 
 
 
-		Geometry* geometry = batch._geometry;
+		FGeometry* geometry = batch._geometry;
 		// Set vertex / index buffers and draw
 		if (instanced)
 			geometry->DrawInstanced(_graphics, batch._instanceStart, batch._instanceCount);

@@ -3,12 +3,12 @@
 namespace Auto3D
 {
 
-Script::Script()
+AScript::AScript()
 {
 
 }
 
-Script::~Script()
+AScript::~AScript()
 {
 
 }

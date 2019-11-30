@@ -72,7 +72,7 @@ bool ATexture::EndLoad()
     _loadImages.Clear();
 
 
-	_geometry = new Geometry();
+	_geometry = new FGeometry();
 	_geometry->_primitiveType = EPrimitiveType::TRIANGLE_LIST;
 	_geometry->_drawStart = 0;
 	// Six vertices determine a rectangle, if instantiated this parameter becomes the number of instances

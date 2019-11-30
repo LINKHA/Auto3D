@@ -8,16 +8,16 @@ class btCompoundShape;
 
 namespace Auto3D 
 {
-class PhysicsWorld;
+class APhysicsWorld;
 
-class AUTO_API RigidBody : public Node, public btMotionState
+class AUTO_API ARigidBody : public ANode, public btMotionState
 {
-	REGISTER_OBJECT_CLASS(RigidBody, Node)
+	REGISTER_OBJECT_CLASS(ARigidBody, ANode)
 public:
 	/// Construct
-	RigidBody();
+	ARigidBody();
 	/// Destructor
-	~RigidBody();
+	~ARigidBody();
 	/// Register object factory.
 	static void RegisterObject();
 	/// Return initial world transform to Bullet.
@@ -46,8 +46,8 @@ private:
 	/// Remove the rigid body from the physics world.
 	void RemoveBodyFromWorld();
 
-	/// Physics world form this rigidBody.
-	TWeakPtr<PhysicsWorld> _physicsWorld;
+	/// APhysics world form this rigidBody.
+	TWeakPtr<APhysicsWorld> _physicsWorld;
 	/// bullet rigid body (Automatically destructs when the physical world is eliminated).
 	btRigidBody* _body;
 	/// Bullet compound collision shape.

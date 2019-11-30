@@ -120,7 +120,7 @@ void ACamera::SetLayoutMaskIndex(unsigned maskIndex)
 
 void ACamera::SetLayoutMaskName(const FString& name)
 {
-	Scene* scene = ParentScene();
+	AScene* scene = ParentScene();
 	if (!scene)
 		return;
 
@@ -140,7 +140,7 @@ void ACamera::SetLayoutMaskOutIndex(unsigned maskIndex)
 
 void ACamera::SetLayoutMaskOutName(const FString& name)
 {
-	Scene* scene = ParentScene();
+	AScene* scene = ParentScene();
 	if (!scene)
 		return;
 

@@ -91,7 +91,7 @@ void ALog::SetQuiet(bool enable)
 
 void ALog::EndFrame()
 {
-    MutexLock lock(_logMutex);
+    FMutexLock lock(_logMutex);
 
     // Process messages accumulated from other threads (if any)
     while (!_threadMessages.IsEmpty())
@@ -116,9 +116,9 @@ void ALog::Write(int msgLevel, const FString& message)
         return;
 
     // If not in the main thread, store message for later processing
-    if (!Thread::IsMainThread())
+    if (!FThread::IsMainThread())
     {
-        MutexLock lock(instance->_logMutex);
+        FMutexLock lock(instance->_logMutex);
         instance->_threadMessages.Push(FStoredLogMessage(message, msgLevel, false));
         return;
     }
@@ -166,9 +166,9 @@ void ALog::WriteRaw(const FString& message, bool error)
         return;
 
     // If not in the main thread, store message for later processing
-    if (!Thread::IsMainThread())
+    if (!FThread::IsMainThread())
     {
-        MutexLock lock(instance->_logMutex);
+        FMutexLock lock(instance->_logMutex);
         instance->_threadMessages.Push(FStoredLogMessage(message, LOG_RAW, error));
         return;
     }

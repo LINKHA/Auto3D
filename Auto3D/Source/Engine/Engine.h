@@ -6,19 +6,19 @@ namespace Auto3D
 {
 
 class GModuleManager;
-class ResourceCache;
+class AResourceCache;
 class AGraphics;
-class Renderer;
-class Input;
+class ARenderer;
+class AInput;
 class ALog;
 class AProfiler;
-class Time;
-class RegisteredBox;
-class Script;
+class ATime;
+class ARegisteredBox;
+class AScript;
 class Renderer2D;
-class Physics;
+class APhysics;
 class AFileSystem;
-class UI;
+class AUI;
 
 class AUTO_API AEngine : public AObject
 {
@@ -102,29 +102,29 @@ private:
 
 
 	/// Manage the subsystem of all resource loads
-	ResourceCache* _cache;
+	AResourceCache* _cache;
 	/// ADAPTS the low-level rendering interface as well as the form's rendering function
 	AGraphics* _graphics;
 	/// 3D rendering of the scene
-	Renderer* _renderer;
+	ARenderer* _renderer;
 	/// User input management events
-	Input* _input;
+	AInput* _input;
 	/// AEngine ALog
 	ALog* _log;
 	/// Hierarchical performance profiler subsystem.
 	AProfiler* _profiler;
 	/// Process all engine time, calculate FPS, etc
-	Time* _time;
+	ATime* _time;
 	/// The message management mechanism for the underlying interaction between the game project and the engine
-	RegisteredBox* _registeredBox;
+	ARegisteredBox* _registeredBox;
 	/// 2d-related operations and rendering capabilities
 	Renderer2D* _renderer2d;
 	/// Physical world and functional storage
-	Physics* _physics;
+	APhysics* _physics;
 	/// An adapter system that operates on files based on the platform
 	AFileSystem* _fileSystem;
-	/// UI-related operations and rendering capabilities
-	UI* _ui;
+	/// AUI-related operations and rendering capabilities
+	AUI* _ui;
 };
 
 

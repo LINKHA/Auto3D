@@ -1,5 +1,5 @@
 // dear imgui: Platform Binding for SDL2
-// This needs to be used along with a Renderer (e.g. DirectX11, OpenGL3, Vulkan..)
+// This needs to be used along with a ARenderer (e.g. DirectX11, OpenGL3, Vulkan..)
 // (Info: SDL2 is a cross-platform general purpose library for handling windows, inputs, graphics context creation, etc.)
 // (Requires: SDL 2.0. Prefer SDL 2.0.4+ for full feature support.)
 
@@ -20,7 +20,7 @@
 //  2019-04-23: Inputs: Added support for SDL_GameController (if ImGuiConfigFlags_NavEnableGamepad is set by user application).
 //  2019-03-12: Misc: Preserve DisplayFramebufferScale when main window is minimized.
 //  2018-12-21: Inputs: Workaround for Android/iOS which don't seem to handle focus related calls.
-//  2018-11-30: Misc: Setting up io.BackendPlatformName so it can be displayed in the About Window.
+//  2018-11-30: Misc: Setting up io.BackendPlatformName so it can be displayed in the About AWindow.
 //  2018-11-14: Changed the signature of ImGui_ImplSDL2_ProcessEvent() to take a 'const SDL_Event*'.
 //  2018-08-01: Inputs: Workaround for Emscripten which doesn't seem to handle focus related calls.
 //  2018-06-29: Inputs: Added support for the ImGuiMouseCursor_Hand cursor.

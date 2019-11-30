@@ -4,17 +4,17 @@
 namespace Auto3D
 {
 
-RegisteredBox::RegisteredBox() :
+ARegisteredBox::ARegisteredBox() :
 	_activeScene(nullptr),
 	_activeScene2d(nullptr),
 	_activeCanvas(nullptr)
 {
 }
-RegisteredBox::~RegisteredBox()
+ARegisteredBox::~ARegisteredBox()
 {
 }
 
-void RegisteredBox::SetActiveScene(Scene* scene)
+void ARegisteredBox::SetActiveScene(AScene* scene)
 { 
 	if (scene)
 	{
@@ -26,7 +26,7 @@ void RegisteredBox::SetActiveScene(Scene* scene)
 	}
 }
 
-void RegisteredBox::SetActiveScene2D(Scene2D* scene2d)
+void ARegisteredBox::SetActiveScene2D(Scene2D* scene2d)
 {
 	if (scene2d)
 	{
@@ -38,7 +38,7 @@ void RegisteredBox::SetActiveScene2D(Scene2D* scene2d)
 	}
 }
 
-void RegisteredBox::SetActiveCanvas(Canvas* canva)
+void ARegisteredBox::SetActiveCanvas(Canvas* canva)
 {
 	if (canva)
 	{
@@ -50,16 +50,16 @@ void RegisteredBox::SetActiveCanvas(Canvas* canva)
 	}
 }
 
-Scene* RegisteredBox::GetActiveScene()
+AScene* ARegisteredBox::GetActiveScene()
 {
 	return _activeScene;
 }
 
-Scene2D* RegisteredBox::GetActiveScene2D()
+Scene2D* ARegisteredBox::GetActiveScene2D()
 {
 	return _activeScene2d;
 }
-Canvas* RegisteredBox::GetActiveCanvas()
+Canvas* ARegisteredBox::GetActiveCanvas()
 {
 	return _activeCanvas;
 }

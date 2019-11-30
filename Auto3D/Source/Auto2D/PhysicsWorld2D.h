@@ -19,13 +19,13 @@ public:
 	/// Register factory and attributes.
 	static void RegisterObject();
 
-	/// Physics world update step simulation.
+	/// APhysics world update step simulation.
 	void Update();
 	/// Set fps
 	void SetFPS(int fps);
 	/// Return 2d dynamics world
 	b2World* GetWorld() { return _world.Get(); }
-	/// Add RigidBody
+	/// Add ARigidBody
 	void AddRigidBody(RigidBody2D* rigidbody);
 	/// Remove collider
 	void RemoveRigidBody(RigidBody2D* rigidbody);
@@ -37,8 +37,8 @@ public:
 private:
 
 	unsigned int _fps;
-	/// Time system.
-	TWeakPtr<Time> _time;
+	/// ATime system.
+	TWeakPtr<ATime> _time;
 	/// Box2D world.
 	TUniquePtr<b2World> _world;
 	/// Collision shapes in the world

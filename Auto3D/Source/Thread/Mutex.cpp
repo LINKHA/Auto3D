@@ -12,13 +12,13 @@ namespace Auto3D
 {
 
 #ifdef _WIN32
-Mutex::Mutex() :
+FMutex::FMutex() :
     _handle(new CRITICAL_SECTION)
 {
     InitializeCriticalSection((CRITICAL_SECTION*)_handle);
 }
 
-Mutex::~Mutex()
+FMutex::~FMutex()
 {
     CRITICAL_SECTION* cs = (CRITICAL_SECTION*)_handle;
     DeleteCriticalSection(cs);
@@ -26,17 +26,17 @@ Mutex::~Mutex()
     _handle = nullptr;
 }
 
-void Mutex::Acquire()
+void FMutex::Acquire()
 {
     EnterCriticalSection((CRITICAL_SECTION*)_handle);
 }
 
-void Mutex::Release()
+void FMutex::Release()
 {
     LeaveCriticalSection((CRITICAL_SECTION*)_handle);
 }
 #else
-Mutex::Mutex() :
+FMutex::FMutex() :
     _handle(new pthread_mutex_t)
 {
     pthread_mutex_t* m = (pthread_mutex_t*)_handle;
@@ -46,7 +46,7 @@ Mutex::Mutex() :
     pthread_mutex_init(m, &_attr);
 }
 
-Mutex::~Mutex()
+FMutex::~FMutex()
 {
     pthread_mutex_t* m = (pthread_mutex_t*)_handle;
     pthread_mutex_destroy(m);
@@ -54,24 +54,24 @@ Mutex::~Mutex()
     _handle = nullptr;
 }
 
-void Mutex::Acquire()
+void FMutex::Acquire()
 {
     pthread_mutex_lock((pthread_mutex_t*)_handle);
 }
 
-void Mutex::Release()
+void FMutex::Release()
 {
     pthread_mutex_unlock((pthread_mutex_t*)_handle);
 }
 #endif
 
-MutexLock::MutexLock(Mutex& mutex) :
+FMutexLock::FMutexLock(FMutex& mutex) :
     _mutex(mutex)
 {
     _mutex.Acquire();
 }
 
-MutexLock::~MutexLock()
+FMutexLock::~FMutexLock()
 {
     _mutex.Release();
 }

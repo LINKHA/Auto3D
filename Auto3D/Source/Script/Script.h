@@ -3,15 +3,15 @@
 
 namespace Auto3D {
 
-/// Script sub system 
-class AUTO_API Script : public ABaseModule
+/// AScript sub system 
+class AUTO_API AScript : public ABaseModule
 {
-	REGISTER_OBJECT_CLASS(Script, ABaseModule)
+	REGISTER_OBJECT_CLASS(AScript, ABaseModule)
 public:
 	/// Construct
-	Script();
+	AScript();
 
-	~Script();
+	~AScript();
 
 };
 

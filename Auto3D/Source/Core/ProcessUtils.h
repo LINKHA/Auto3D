@@ -7,7 +7,7 @@
 namespace Auto3D
 {
 
-class Mutex;
+class FMutex;
 
 /// Initialize the FPU to round-to-nearest, single precision mode.
 AUTO_API void InitFPU();

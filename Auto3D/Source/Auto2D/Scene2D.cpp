@@ -27,7 +27,7 @@ Scene2D::Scene2D() :
 }
 Scene2D::~Scene2D()
 {
-	// Node destructor will also remove children. But at that point the node<>_id maps have been destroyed 
+	// ANode destructor will also remove children. But at that point the node<>_id maps have been destroyed 
    // so must tear down the scene tree already here
 	RemoveAllChildren();
 	RemoveNode(this);
@@ -111,7 +111,7 @@ bool Scene2D::LoadJSON(FStream& source)
 {
 	InfoString("Loading scene from " + source.FName());
 
-	JSONFile json;
+	AJSONFile json;
 	bool success = json.Load(source);
 	LoadJSON(json.Root());
 	return success;
@@ -123,7 +123,7 @@ bool Scene2D::SaveJSON(FStream& dest)
 
 	InfoString("Saving scene to " + dest.FName());
 
-	JSONFile json;
+	AJSONFile json;
 	Node2D::SaveJSON(json.Root());
 	return json.Save(dest);
 }
@@ -168,7 +168,7 @@ Node2D* Scene2D::InstantiateJSON(const FJSONValue& source)
 
 Node2D* Scene2D::InstantiateJSON(FStream& source)
 {
-	JSONFile json;
+	AJSONFile json;
 	json.Load(source);
 	return InstantiateJSON(json.Root());
 }

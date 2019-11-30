@@ -32,7 +32,7 @@ namespace ConstantBuffer2D
 };
 
 
-/// Physics sub system 
+/// APhysics sub system 
 class AUTO_API Renderer2D : public ABaseModule
 {
 	REGISTER_OBJECT_CLASS(Renderer2D, ABaseModule)
@@ -66,9 +66,9 @@ private:
 	Scene2D* _scenes;
 	/// Current 2d camera.
 	Camera2D* _camera;
-	/// Geometry nodes
+	/// FGeometry nodes
 	TVector<GeometryNode2D*> _geometryNode;
-	/// Renderer does not have multiple queues
+	/// ARenderer does not have multiple queues
 	Batch2DQueue _batchQueue;
 	/// Initialized flag.
 	bool _initialized;

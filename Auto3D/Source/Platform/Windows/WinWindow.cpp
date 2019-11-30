@@ -58,9 +58,9 @@ static bool functionsInitialized = false;
 static LRESULT CALLBACK WndProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 
-FString Window::className("Auto3DWindow");
+FString AWindow::className("Auto3DWindow");
 
-Window::Window() :
+AWindow::AWindow() :
 	_handle(nullptr),
 	_title("Auto3D Window"),
 	_savedPosition(TVector2I(M_MIN_INT, M_MIN_INT)),
@@ -84,13 +84,13 @@ Window::Window() :
 {
 }
 
-Window::~Window()
+AWindow::~AWindow()
 {
 	// Really destroy the game form
 	DestoryWindow();
 }
 
-bool Window::InitMsg()
+bool AWindow::InitMsg()
 {
 	if (!functionsInitialized)
 	{
@@ -109,14 +109,14 @@ bool Window::InitMsg()
 	return true;
 }
 
-void Window::SetTitle(const FString& newTitle)
+void AWindow::SetTitle(const FString& newTitle)
 {
 	_title = newTitle;
 	if (_handle)
 		SetWindowTextW((HWND)_handle, FWString(_title).CString());
 }
 
-void Window::DestoryWindow()
+void AWindow::DestoryWindow()
 {
 	if (_handle)
 	{
@@ -133,7 +133,7 @@ void Window::DestoryWindow()
 		ErrorString("Destroy window operation failed and exiting program");
 }
 
-void Window::SetIcon(AImage* icon)
+void AWindow::SetIcon(AImage* icon)
 {
 	if(icon)
 		_icon = icon;
@@ -141,7 +141,7 @@ void Window::SetIcon(AImage* icon)
 		CreateWindowIcon();
 }
 
-bool Window::SetSize(const TRectI& rect, int multisample, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
+bool AWindow::SetSize(const TRectI& rect, int multisample, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
 {
 	_inResize = true;
 	_fullscreen = fullscreen;
@@ -279,7 +279,7 @@ bool Window::SetSize(const TRectI& rect, int multisample, bool fullscreen, bool 
 	return true;
 }
 
-void Window::SetPosition(const TVector2I& position)
+void AWindow::SetPosition(const TVector2I& position)
 {
 	if (_handle)
 	{
@@ -287,7 +287,7 @@ void Window::SetPosition(const TVector2I& position)
 	}
 }
 
-void Window::SetMouseHide(bool enable)
+void AWindow::SetMouseHide(bool enable)
 {
 	if (enable != _mouseHide)
 	{
@@ -295,7 +295,7 @@ void Window::SetMouseHide(bool enable)
 	}
 }
 
-void Window::SetMouseLock(bool enable)
+void AWindow::SetMouseLock(bool enable)
 {
 	enable = !enable;
 	if (enable != _mouseVisible)
@@ -305,7 +305,7 @@ void Window::SetMouseLock(bool enable)
 	}
 }
 
-void Window::SetMousePosition(const TVector2I& position)
+void AWindow::SetMousePosition(const TVector2I& position)
 {
 	if (_handle)
 	{
@@ -318,7 +318,7 @@ void Window::SetMousePosition(const TVector2I& position)
 	}
 }
 
-void Window::CreateWindowIcon()
+void AWindow::CreateWindowIcon()
 {
 	if (_icon)
 	{
@@ -374,12 +374,12 @@ void Window::CreateWindowIcon()
 	}
 }
 
-void Window::Close()
+void AWindow::Close()
 {
 	_close = true;
 }
 
-void Window::Raise()
+void AWindow::Raise()
 {
 	if (!_handle)
 		return;
@@ -387,7 +387,7 @@ void Window::Raise()
 	//SDL_RaiseWindow(_handle);
 }
 
-void Window::Minimize()
+void AWindow::Minimize()
 {
 	if (!_handle)
 		return;
@@ -395,7 +395,7 @@ void Window::Minimize()
 	::ShowWindow((HWND)_handle, SW_MINIMIZE);
 }
 
-void Window::Maximize()
+void AWindow::Maximize()
 {
 	if (!_handle)
 		return;
@@ -403,7 +403,7 @@ void Window::Maximize()
 	::ShowWindow((HWND)_handle, SW_MAXIMIZE);
 }
 
-void Window::Restore()
+void AWindow::Restore()
 {
 	if (!_handle)
 		return;
@@ -411,7 +411,7 @@ void Window::Restore()
 	::ShowWindow((HWND)_handle, SW_RESTORE);
 }
 
-void Window::PumpMessages()
+void AWindow::PumpMessages()
 {
 	if (!_handle)
 		return;
@@ -425,14 +425,14 @@ void Window::PumpMessages()
 	}
 }
 
-const TVector2I Window::GetPosition() const
+const TVector2I AWindow::GetPosition() const
 {
 	return TVector2I(_rect.Left(),_rect.Top());
 }
 
-bool Window::OnWindowMessage(unsigned msg, unsigned wParam, unsigned lParam)
+bool AWindow::OnWindowMessage(unsigned msg, unsigned wParam, unsigned lParam)
 {
-	Input* input = GModuleManager::Get().InputModule();
+	AInput* input = GModuleManager::Get().InputModule();
 	bool handled = false;
 
 	// Skip emulated mouse events that are caused by touch
@@ -644,7 +644,7 @@ bool Window::OnWindowMessage(unsigned msg, unsigned wParam, unsigned lParam)
 	return handled;
 }
 
-void Window::SetDisplayMode(int width, int height)
+void AWindow::SetDisplayMode(int width, int height)
 {
 	if (width && height)
 	{
@@ -660,7 +660,7 @@ void Window::SetDisplayMode(int width, int height)
 		ChangeDisplaySettings(nullptr, CDS_FULLSCREEN);
 }
 
-void Window::UpdateMouseVisible()
+void AWindow::UpdateMouseVisible()
 {
 	if (!_handle)
 		return;
@@ -676,7 +676,7 @@ void Window::UpdateMouseVisible()
 	UpdateMouseClipping();
 }
 
-void Window::UpdateMouseClipping()
+void AWindow::UpdateMouseClipping()
 {
 	if (_mouseVisibleInternal)
 		ClipCursor(nullptr);
@@ -696,7 +696,7 @@ void Window::UpdateMouseClipping()
 	}
 }
 
-TVector2I Window::ClientRectSize() const
+TVector2I AWindow::ClientRectSize() const
 {
 	if (_handle)
 	{
@@ -708,7 +708,7 @@ TVector2I Window::ClientRectSize() const
 		return TVector2I::ZERO;
 }
 
-void Window::UpdateMousePosition()
+void AWindow::UpdateMousePosition()
 {
 	POINT screenPosition;
 	GetCursorPos(&screenPosition);
@@ -723,7 +723,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wParam, lParam))
 		return true;
 
-	Window* window = reinterpret_cast<Window*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+	AWindow* window = reinterpret_cast<AWindow*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 	bool handled = false;
 	// When the window is just opening and has not assigned the userdata yet, let the default procedure handle the messages
 	if (window)

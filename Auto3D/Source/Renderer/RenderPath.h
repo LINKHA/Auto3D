@@ -5,7 +5,7 @@ namespace Auto3D
 {
 
 /// Rendering path command types.
-namespace RenderCommandType
+namespace ERenderCommandType
 {
 	enum Type
 	{
@@ -19,7 +19,7 @@ namespace RenderCommandType
 }
 
 /// Rendering path sorting modes.
-namespace RenderCommandSortMode
+namespace ERenderCommandSortMode
 {
 	enum Type
 	{
@@ -32,15 +32,15 @@ namespace RenderCommandSortMode
 
 
 /// Description of a pass from the client to the renderer.
-struct AUTO_API RenderPassDesc
+struct AUTO_API FRenderPassDesc
 {
 	/// Construct undefined.
-	RenderPassDesc()
+	FRenderPassDesc()
 	{
 	}
 
 	/// Construct with parameters.
-	RenderPassDesc(const FString& name, RenderCommandSortMode::Type sort = RenderCommandSortMode::STATE, bool lit = true) :
+	FRenderPassDesc(const FString& name, ERenderCommandSortMode::Type sort = ERenderCommandSortMode::STATE, bool lit = true) :
 		_name(name),
 		_sort(sort),
 		_lit(lit)
@@ -50,7 +50,7 @@ struct AUTO_API RenderPassDesc
 	/// %FPass name.
 	FString _name;
 	/// Sorting mode.
-	RenderCommandSortMode::Type _sort;
+	ERenderCommandSortMode::Type _sort;
 	/// Lighting flag.
 	bool _lit;
 };

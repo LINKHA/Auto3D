@@ -7,18 +7,17 @@ namespace Auto3D
 {
 
 class ACamera;
-class Octree;
+class AOctree;
 class FRay;
-struct Octant;
-struct RaycastResult;
+struct FOctant;
+struct FRaycastResult;
 
 /// Base class for scene nodes that insert themselves to the octree for rendering.
 class AUTO_API AOctreeNode : public ASpatialNode
 {
-    friend class Octree;
+	REGISTER_OBJECT_CLASS(AOctreeNode, ASpatialNode)
 
-    REGISTER_OBJECT_CLASS(AOctreeNode,ASpatialNode)
-
+    friend class AOctree;
 public:
     /// Construct.
     AOctreeNode();
@@ -28,10 +27,10 @@ public:
     /// Register attributes.
     static void RegisterObject();
 
-    /// Prepare object for rendering. Reset framenumber and calculate distance from camera. Called by Renderer.
+    /// Prepare object for rendering. Reset framenumber and calculate distance from camera. Called by ARenderer.
     virtual void OnPrepareRender(unsigned frameNumber, ACamera* camera);
     /// Perform ray test on self and add possible hit to the result vector.
-    virtual void OnRaycast(TVector<RaycastResult>& dest, const FRay& ray, float maxDistance);
+    virtual void OnRaycast(TVector<FRaycastResult>& dest, const FRay& ray, float maxDistance);
 
     /// Set whether to cast shadows. Default false on both lights and geometries.
     void SetCastShadows(bool enable);
@@ -41,17 +40,17 @@ public:
     /// Return whether casts shadows.
     bool CastShadows() const { return TestFlag(NF_CASTSHADOWS); }
     /// Return current octree this node resides in.
-    Octree* GetOctree() const { return _octree; }
+    AOctree* GetOctree() const { return _octree; }
     /// Return current octree octant this node resides in.
-    Octant* GetOctant() const { return _octant; }
+    FOctant* GetOctant() const { return _octant; }
     /// Return distance from camera in the current view.
     float Distance() const { return _distance; }
-    /// Return last frame number when was visible. The frames are counted by Renderer internally and have no significance outside it.
+    /// Return last frame number when was visible. The frames are counted by ARenderer internally and have no significance outside it.
     unsigned LastFrameNumber() const { return _lastFrameNumber; }
 
 protected:
     /// Search for an octree from the scene root and add self to it.
-    void OnSceneSet(Scene* newScene, Scene* oldScene) override;
+    void OnSceneSet(AScene* newScene, AScene* oldScene) override;
     /// Handle the transform matrix changing.
     void OnTransformChanged() override;
     /// Recalculate the world space bounding box.
@@ -69,9 +68,9 @@ private:
     void RemoveFromOctree();
 
     /// Current octree.
-    Octree* _octree;
+    AOctree* _octree;
     /// Current octree octant.
-    Octant* _octant;
+    FOctant* _octant;
 };
 
 }

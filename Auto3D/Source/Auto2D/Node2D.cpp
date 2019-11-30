@@ -122,7 +122,7 @@ void Node2D::SaveJSON(FJSONValue& dest)
 
 bool Node2D::SaveJSON(FStream& dest)
 {
-	JSONFile json;
+	AJSONFile json;
 	SaveJSON(json.Root());
 	return json.Save(dest);
 }

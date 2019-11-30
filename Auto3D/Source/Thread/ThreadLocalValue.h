@@ -15,15 +15,15 @@ typedef unsigned TLSKeyID;
 typedef pthread_key_t TLSKeyID;
 #endif
 
-/// %Thread local storage value.
-class AUTO_API ThreadLocalValue
+/// %FThread local storage value.
+class AUTO_API FThreadLocalValue
 {
 public:
     /// Construct.
-    ThreadLocalValue();
+    FThreadLocalValue();
     
     /// Destruct.
-    ~ThreadLocalValue();
+    ~FThreadLocalValue();
 
     /// Set the value.
     void SetValue(void* value);

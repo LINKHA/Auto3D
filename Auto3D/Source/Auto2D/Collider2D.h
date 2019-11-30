@@ -23,14 +23,14 @@ public:
 	void SetFriction(float friction);
 	/// Set restitution .
 	void SetRestitution(float restitution);
-	/// Update the new collision shape to the RigidBody.
+	/// Update the new collision shape to the ARigidBody.
 	void CreateFixture();
 	/// Release fixture.
 	void ReleaseFixture();
 	/// This function is called when the parent node of this class is assigned.
 	virtual void ParentCallBack() override;
 protected:
-	/// Physics world form this collider
+	/// APhysics world form this collider
 	TWeakPtr<PhysicsWorld2D> _physicsWorld;
 	/// Rigid body.
 	TWeakPtr<RigidBody2D> _rigidBody;

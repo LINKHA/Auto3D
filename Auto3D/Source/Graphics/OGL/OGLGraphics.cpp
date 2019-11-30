@@ -184,7 +184,7 @@ AGraphics::AGraphics() :
 
 	_vsync(false)
 {
-	_window = TSharedPtr<Window>(new Window());
+	_window = TSharedPtr<AWindow>(new AWindow());
 	SubscribeToEvent(_window->_resizeEvent, &AGraphics::HandleResize);
 	ResetState();
 }
@@ -228,14 +228,14 @@ void AGraphics::CheckFeatureSupport()
 		_deferredSupport = true;
 }
 
-bool AGraphics::SetMode(WindowModeDesc& windowModeDesc)
+bool AGraphics::SetMode(FWindowModeDesc& windowModeDesc)
 {
 	return SetMode(windowModeDesc._size, windowModeDesc._multisample, windowModeDesc._fullscreen, windowModeDesc._resizable, windowModeDesc._center, windowModeDesc._borderless, windowModeDesc._highDPI);
 }
 
 bool AGraphics::SetMode(const TRectI& size, int multisample, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
 {
-	WindowModeDesc& windowModeDesc = _window->ModeDesc();
+	FWindowModeDesc& windowModeDesc = _window->ModeDesc();
 	windowModeDesc._size = size;
 	windowModeDesc._multisample = multisample;
 	windowModeDesc._fullscreen = fullscreen;
@@ -818,12 +818,12 @@ bool AGraphics::IsResizable() const
 	return _window->IsResizable();
 }
 
-TSharedPtr<Window> AGraphics::RenderWindow() const
+TSharedPtr<AWindow> AGraphics::RenderWindow() const
 {
 	return _window;
 }
 
-TSharedPtr<GraphicsContext> AGraphics::RenderContext() const
+TSharedPtr<FGraphicsContext> AGraphics::RenderContext() const
 {
 	return _context;
 }
@@ -932,10 +932,10 @@ void AGraphics::BindUBO(unsigned ubo)
 	}
 }
 
-bool AGraphics::CreateContext(Window* window, int multisample)
+bool AGraphics::CreateContext(AWindow* window, int multisample)
 {
 	// Create or recreate
-	_context = TSharedPtr<GraphicsContext>(new GraphicsContext(window));
+	_context = TSharedPtr<FGraphicsContext>(new FGraphicsContext(window));
 
 	if (!_context->Create())
 	{
@@ -992,7 +992,7 @@ bool AGraphics::CreateContext(Window* window, int multisample)
 	return true;
 }
 
-void AGraphics::HandleResize(WindowResizeEvent& event)
+void AGraphics::HandleResize(FWindowResizeEvent& event)
 {
 	// Reset viewport in case the application does not set it
 	if (_context)

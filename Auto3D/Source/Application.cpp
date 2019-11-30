@@ -53,7 +53,7 @@ int AApplication::Run()
 			}
 			else
 				// If winodw is minimized reduce CPU load keep FPS to a minimum
-				Thread::Sleep(1000 / MIN_FRAMES_PER_SECOND);
+				FThread::Sleep(1000 / MIN_FRAMES_PER_SECOND);
 		}
 		Stop();
 		_engine->Exit();

@@ -17,25 +17,25 @@ namespace TimerState
 };
 
 
-/// Timer independent system
-class AUTO_API Timer
+/// FTimer independent system
+class AUTO_API FTimer
 {
 	typedef void(__cdecl* TimerCallback) ();
 public:
 	/// The constructor
-	Timer(TimerCallback callback, int interval);
+	FTimer(TimerCallback callback, int interval);
 	/// The constructor with class member function
-	Timer(std::function<void()> callback, int interval);
+	FTimer(std::function<void()> callback, int interval);
 	/// The constructor
-	Timer(TimerCallback callback, int interval, int delayTime);
+	FTimer(TimerCallback callback, int interval, int delayTime);
 	/// The constructor with class member function
-	Timer(std::function<void()> callback, int interval, int delayTime);
+	FTimer(std::function<void()> callback, int interval, int delayTime);
 	/// There is no msTime running once after delayTime (if count is 0, there is no limit)
-	Timer(TimerCallback callback, int interval, int delayTime, int count);
+	FTimer(TimerCallback callback, int interval, int delayTime, int count);
 	/// There is no msTime running once after delayTime with class member funcation (if count is 0, there is no limit)
-	Timer(std::function<void()> callback, int interval, int delayTime, int count);
+	FTimer(std::function<void()> callback, int interval, int delayTime, int count);
 	/// The destructor
-	~Timer() = default;
+	~FTimer() = default;
 	/// Stop timer begin from start
 	void Stop();
 	/// Begin timer
@@ -45,9 +45,9 @@ public:
 	/// Destory timer but not destructor class
 	void Destory();
 private:
-	/// Timer count with function
+	/// FTimer count with function
 	void TimerCount(TimerCallback callback, int interval, int delayTime, int count);
-	/// Timer count with class member function
+	/// FTimer count with class member function
 	void TimerCountClass(std::function<void()> callback, int interval, int delayTime, int count);
 	/// The time interval milliseconds
 	int _interval;

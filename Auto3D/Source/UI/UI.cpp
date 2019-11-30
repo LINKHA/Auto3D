@@ -25,10 +25,10 @@
 namespace Auto3D
 {
 
-THashMap<FString, const char*> UIFont::Data = THashMap<FString, const char*>();
-int UIFont::DefaultSize = 0;
+THashMap<FString, const char*> FUIFont::Data = THashMap<FString, const char*>();
+int FUIFont::DefaultSize = 0;
 
-UI::UI() :
+AUI::AUI() :
 	_window(nullptr)
 {
 	// Setup Dear ImGui context
@@ -45,7 +45,7 @@ UI::UI() :
 	config.MergeMode = false;
 }
 
-UI::~UI()
+AUI::~AUI()
 {
 #if defined(_WIN32) || defined(_WIN64)
 	// Cleanup
@@ -62,9 +62,9 @@ UI::~UI()
 }
 
 #ifdef AUTO_OPENGL
-bool UI::SetMode(Window* window, GraphicsContext* context)
+bool AUI::SetMode(AWindow* window, FGraphicsContext* context)
 #else
-bool UI::SetMode(Window* window)
+bool AUI::SetMode(AWindow* window)
 #endif
 {
 #if defined(_WIN32) || defined(_WIN64)
@@ -90,7 +90,7 @@ bool UI::SetMode(Window* window)
 		glslVersion = "#version 100";
 	else
 		glslVersion = NULL;
-	// Setup Platform/Renderer bindings
+	// Setup Platform/ARenderer bindings
 #	if defined(AUTO_OPENGL)
 #		if defined(_WIN32) || defined(_WIN64)
 	ImGui_ImplWin32_Init(window->Handle());
@@ -118,7 +118,7 @@ bool UI::SetMode(Window* window)
 	return true;
 }
 
-bool UI::BeginUI()
+bool AUI::BeginUI()
 {
 #if defined(_WIN32) || defined(_WIN64)
 	if (!_window)
@@ -143,7 +143,7 @@ bool UI::BeginUI()
 	return true;
 }
 
-void UI::Present()
+void AUI::Present()
 {
 	ImGui::Render();
 #	if defined(AUTO_OPENGL)
@@ -151,10 +151,10 @@ void UI::Present()
 #	endif
 }
 
-void UI::AddFont(AFont* font, int pixels, FString fontname, UIFontLanguage::Data languageType)
+void AUI::AddFont(AFont* font, int pixels, FString fontname, EUIFontLanguage::Data languageType)
 {
 	if (fontname == "Default")
-		fontname = "Default" + UIFont::DefaultSize++;
+		fontname = "Default" + FUIFont::DefaultSize++;
 
 	// Ignore if you have the same AFont
 	if (ImGui::GetFont(fontname.CString()))
@@ -163,28 +163,28 @@ void UI::AddFont(AFont* font, int pixels, FString fontname, UIFontLanguage::Data
 	const ImWchar* laType;
 	switch (languageType)
 	{
-	case Auto3D::UIFontLanguage::DEFAULT:
+	case Auto3D::EUIFontLanguage::DEFAULT:
 		laType = IO().Fonts->GetGlyphRangesDefault();
 		break;
-	case Auto3D::UIFontLanguage::CN:
+	case Auto3D::EUIFontLanguage::CN:
 		laType = IO().Fonts->GetGlyphRangesChineseSimplifiedCommon();
 		break;
-	case Auto3D::UIFontLanguage::CNF:
+	case Auto3D::EUIFontLanguage::CNF:
 		laType = IO().Fonts->GetGlyphRangesChineseFull();
 		break;
-	case Auto3D::UIFontLanguage::JP:
+	case Auto3D::EUIFontLanguage::JP:
 		laType = IO().Fonts->GetGlyphRangesJapanese();
 		break;
-	case Auto3D::UIFontLanguage::KR:
+	case Auto3D::EUIFontLanguage::KR:
 		laType = IO().Fonts->GetGlyphRangesKorean();
 		break;
-	case Auto3D::UIFontLanguage::THA:
+	case Auto3D::EUIFontLanguage::THA:
 		laType = IO().Fonts->GetGlyphRangesThai();
 		break;
-	case Auto3D::UIFontLanguage::RUS:
+	case Auto3D::EUIFontLanguage::RUS:
 		laType = IO().Fonts->GetGlyphRangesCyrillic();
 		break;
-	case Auto3D::UIFontLanguage::VIE:
+	case Auto3D::EUIFontLanguage::VIE:
 		laType = IO().Fonts->GetGlyphRangesVietnamese();
 		break;
 	default:
@@ -194,10 +194,10 @@ void UI::AddFont(AFont* font, int pixels, FString fontname, UIFontLanguage::Data
 	}
 
 	ImFont* tFont = IO().Fonts->AddFontFromMemoryTTF(font->Data(), font->GetDataSize(), pixels, &ImFontConfig(), laType);
-	ImGui::AddFont(UIFont::Data[fontname] = fontname.CString(), tFont);
+	ImGui::AddFont(FUIFont::Data[fontname] = fontname.CString(), tFont);
 }
 
-void UI::ProcessEvent(const SDL_Event* event)
+void AUI::ProcessEvent(const SDL_Event* event)
 {
 #if defined(_WIN32) || defined(_WIN64)
 	//ImguiWin
@@ -991,7 +991,7 @@ bool VSliderScalar(const char* label, const TVector2F& size, DataType data_type,
 	return ImGui::VSliderScalar(label, ToImVal(size), data_type, v, v_min, v_max, format, power);
 }
 
-// Widgets: Input with Keyboard
+// Widgets: AInput with Keyboard
 // - If you want to use InputText() with a dynamic string type such as std::string or your own, see misc/cpp/imgui_stdlib.h
 // - Most of the InputTextFlags flags are only useful for InputText() and not for InputFloatX, InputIntX, InputDouble etc.
 bool InputText(const char* label, char* buf, size_t buf_size, InputTextFlags flags, ImGuiInputTextCallback callback, void* user_data)
@@ -1496,7 +1496,7 @@ void SetKeyboardFocusHere(int offset)
 
 // Item/Widgets Utilities
 // - Most of the functions are referring to the last/previous item we submitted.
-// - See Demo Window under "Widgets->Querying Status" for an interactive visualization of most of those functions.
+// - See Demo AWindow under "Widgets->Querying Status" for an interactive visualization of most of those functions.
 bool IsItemHovered(HoveredFlags flags)
 {
 	return ImGui::IsItemHovered(flags);

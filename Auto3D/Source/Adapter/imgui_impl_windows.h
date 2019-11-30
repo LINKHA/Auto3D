@@ -1,5 +1,5 @@
 // dear imgui: Platform Binding for Windows (standard windows API for 32 and 64 bits applications)
-// This needs to be used along with a Renderer (e.g. DirectX11, OpenGL3, Vulkan..)
+// This needs to be used along with a ARenderer (e.g. DirectX11, OpenGL3, Vulkan..)
 
 // Implemented features:
 //  [X] Platform: Clipboard support (for Win32 this is actually part of core imgui)

@@ -75,14 +75,14 @@ bool AEngine::Init()
 	PROFILE(EngineInit);
 
 	// Set random seeds based on time
-	Time::RealTime& realTime = _time->GetRealTime();
+	ATime::RealTime& realTime = _time->GetRealTime();
 
 	SetRandomSeed(((unsigned)(realTime._day & 0xff) << 24) |
 		((unsigned)(realTime._hour & 0xff) << 16) |
 		((unsigned)(realTime._minute & 0xff) << 8) |
 		((unsigned)(realTime._second & 0xff)));
 
-	WindowModeDesc& windowModeDesc = _graphics->RenderWindow()->ModeDesc();
+	FWindowModeDesc& windowModeDesc = _graphics->RenderWindow()->ModeDesc();
 	if (!_graphics->SetMode(windowModeDesc))
 	{
 		ErrorString("Failed to create a gutter.");
@@ -136,7 +136,7 @@ void AEngine::Render()
 	{
 		PROFILE(RenderScene);
 
-		Scene* scene = _registeredBox->GetActiveScene();
+		AScene* scene = _registeredBox->GetActiveScene();
 		if (scene && scene->IsEnabled())
 		{
 			TVector<ACamera*>& cameras = scene->GetAllCamera();
@@ -278,7 +278,7 @@ void AEngine::ApplyFrameLimit()
 			if (targetMax - elapsed >= 1000LL)
 			{
 				auto sleepTime = (unsigned)((targetMax - elapsed) / 1000LL);
-				Thread::Sleep(sleepTime);
+				FThread::Sleep(sleepTime);
 			}
 		}
 	}

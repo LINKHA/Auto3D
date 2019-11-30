@@ -6,30 +6,30 @@
 namespace Auto3D
 {
 
-ColliderSphere::ColliderSphere() :
+AColliderSphere::AColliderSphere() :
 	_size(1.0f)
 {
-	_shapeType = ShapeType::SPHERE;
+	_shapeType = EShapeType::SPHERE;
 }
 
-ColliderSphere::~ColliderSphere()
+AColliderSphere::~AColliderSphere()
 {
 }
 
-void ColliderSphere::RegisterObject()
+void AColliderSphere::RegisterObject()
 {
-	RegisterFactory<ColliderSphere>();
+	RegisterFactory<AColliderSphere>();
 }
 
 
-void ColliderSphere::SetSize(float scale)
+void AColliderSphere::SetSize(float scale)
 {
 	_size = scale;
 	Resize(_size);
 }
 
 
-void ColliderSphere::Resize(float radius)
+void AColliderSphere::Resize(float radius)
 {
 	ReleaseShape();
 	_shape.Reset();

@@ -16,15 +16,15 @@ namespace Auto3D
 class FConstantBuffer;
 class DepthState;
 class Framebuffer;
-class GraphicsContext;
+class FGraphicsContext;
 class FGPUObject;
 class FIndexBuffer;
 class FShaderProgram;
 class FShaderVariation;
 class ATexture;
 class FVertexBuffer;
-class Window;
-class WindowResizeEvent;
+class AWindow;
+class FWindowResizeEvent;
 
 typedef THashMap<TPair<FShaderVariation*, FShaderVariation*>, TAutoPtr<FShaderProgram> > ShaderProgramMap;
 
@@ -36,7 +36,7 @@ public:
 	TVector2I _size;
 	/// Fullscreen flag.
 	bool _fullscreen;
-	/// Window _resizable flag.
+	/// AWindow _resizable flag.
 	bool _resizable;
 	/// Multisample level.
 	int _multisample;
@@ -138,9 +138,9 @@ public:
 	/// Return whether is using vertical sync.
 	bool GetVSync() const { return _vsync; }
 	/// Return the rendering window.
-	Window* RenderWindow() const;
+	AWindow* RenderWindow() const;
 	/// Return thr opengl context
-	GraphicsContext* RenderContext() const;
+	FGraphicsContext* RenderContext() const;
 	/// Return the current color rendertarget by index, or null if rendering to the backbuffer.
 	ATexture* RenderTarget(size_t index) const;
 	/// Return the current depth-stencil buffer, or null if rendering to the backbuffer.
@@ -213,9 +213,9 @@ public:
 
 private:
 	/// Create and initialize the OpenGL context. Return true on success.
-	bool CreateContext(Window* window, int multisample);
+	bool CreateContext(AWindow* window, int multisample);
 	/// Handle _window resize _event.
-	void HandleResize(WindowResizeEvent& event);
+	void HandleResize(FWindowResizeEvent& event);
 	/// Prepare framebuffer changes.
 	void PrepareFramebuffer();
 	/// Set state for the next draw call. Return false if the draw call should not be attempted.
@@ -238,9 +238,9 @@ private:
 	/// DXT format support flag.
 	bool _dxtTextureSupport{};
 	/// OpenGL context.
-	TSharedPtr<GraphicsContext> _context;
+	TSharedPtr<FGraphicsContext> _context;
 	/// OS-level rendering _window.
-	TSharedPtr<Window> _window;
+	TSharedPtr<AWindow> _window;
 	/// Current _size of the backbuffer.
 	TVector2I _backbufferSize;
 	/// Current _size of the active rendertarget.

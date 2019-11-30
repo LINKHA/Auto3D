@@ -210,9 +210,9 @@ private:
 	TVector<TSharedPtr<Node2D> > _children;
 	/// Id within the scene.
 	unsigned _id;
-	/// %Node name.
+	/// %ANode name.
 	FString _name;
-	/// %Node flags. Used to hold several boolean values (some subclass-specific) to reduce memory use.
+	/// %ANode flags. Used to hold several boolean values (some subclass-specific) to reduce memory use.
 	mutable unsigned short _flags;
 	/// Layer number.
 	unsigned char _layer;

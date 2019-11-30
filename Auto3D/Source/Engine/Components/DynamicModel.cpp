@@ -130,7 +130,7 @@ void ADynamicModel::OnPrepareRender(unsigned frameNumber, ACamera* camera)
 //	indexBuffer->Define(EResourceUsage::IMMUTABLE, WATER_PLANE_LENGTH * WATER_PLANE_LENGTH, sizeof(unsigned short), true, waterIndices);
 //
 //
-//	TSharedPtr<Geometry> geometry(new Geometry());
+//	TSharedPtr<FGeometry> geometry(new FGeometry());
 //	// Temp use this setting
 //	geometry->_lodDistance = false;
 //	geometry->_primitiveType = EPrimitiveType::TRIANGLE_LIST;

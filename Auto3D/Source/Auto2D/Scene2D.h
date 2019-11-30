@@ -76,7 +76,7 @@ private:
 	/// Next free node _id.
 	unsigned _nextNodeId;
 
-	/// Physics world 2D custom assign this variable
+	/// APhysics world 2D custom assign this variable
 	PhysicsWorld2D* _physicsWorld;
 };
 

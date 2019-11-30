@@ -29,9 +29,9 @@ void Batch2DQueue::BuildInstances(TVector<Batch2D>& batches, TVector<TMatrix3x4F
 	{
 		Batch2D* current = &*it;
 
-		if (start && current->_type == GeometryType::STATIC && current->_geometry == start->_geometry)
+		if (start && current->_type == EGeometryType::STATIC && current->_geometry == start->_geometry)
 		{
-			if (start->_type == GeometryType::INSTANCED)
+			if (start->_type == EGeometryType::INSTANCED)
 			{
 				instanceTransforms.Push(*current->_worldMatrix);
 				++start->_instanceCount;
@@ -39,7 +39,7 @@ void Batch2DQueue::BuildInstances(TVector<Batch2D>& batches, TVector<TMatrix3x4F
 			else
 			{
 				// Begin new instanced batch
-				start->_type = GeometryType::INSTANCED;
+				start->_type = EGeometryType::INSTANCED;
 				size_t instanceStart = instanceTransforms.Size();
 				instanceTransforms.Push(*start->_worldMatrix);
 				instanceTransforms.Push(*current->_worldMatrix);
@@ -48,7 +48,7 @@ void Batch2DQueue::BuildInstances(TVector<Batch2D>& batches, TVector<TMatrix3x4F
 			}
 		}
 		else
-			start = (current->_type == GeometryType::STATIC) ? current : nullptr;
+			start = (current->_type == EGeometryType::STATIC) ? current : nullptr;
 	}
 }
 

@@ -8,7 +8,7 @@ namespace Auto3D
 {
 
 class FConstantBuffer;
-class JSONFile;
+class AJSONFile;
 class FJSONValue;
 class AMaterial;
 class AShader;
@@ -67,11 +67,11 @@ public:
     ECullMode::Type _cullMode;
     /// Polygon fill mode.
     EFillMode::Type _fillMode;
-    /// AShader resources. Filled by Renderer.
+    /// AShader resources. Filled by ARenderer.
     TSharedPtr<AShader> _shaders[EShaderStage::Count];
-    /// Cached shader variations. Filled by Renderer.
+    /// Cached shader variations. Filled by ARenderer.
     THashMap<unsigned short, TWeakPtr<FShaderVariation> > _shaderVariations[EShaderStage::Count];
-    /// AShader load attempted flag. Filled by Renderer.
+    /// AShader load attempted flag. Filled by ARenderer.
     bool _shadersLoaded;
 
 private:
@@ -83,7 +83,7 @@ private:
     FString _shaderNames[EShaderStage::Count];
     /// AShader defines.
     FString _shaderDefines[EShaderStage::Count];
-    /// Combined shader defines from both the pass and material. Filled by Renderer.
+    /// Combined shader defines from both the pass and material. Filled by ARenderer.
     FString _combinedShaderDefines[EShaderStage::Count];
     /// AShader hash calculated from names and defines.
     unsigned _shaderHash;
@@ -152,7 +152,7 @@ protected:
     /// Global shader defines.
     FString _shaderDefines[EShaderStage::Count];
     /// JSON data used for loading.
-    TUniquePtr<JSONFile> _loadJSON;
+    TUniquePtr<AJSONFile> _loadJSON;
 
     /// Default material.
     static TSharedPtr<AMaterial> _defaultMaterial;

@@ -17,7 +17,7 @@ ASpatialNode::ASpatialNode() :
 void ASpatialNode::RegisterObject()
 {
     RegisterFactory<ASpatialNode>();
-    CopyBaseAttributes<ASpatialNode, Node>();
+    CopyBaseAttributes<ASpatialNode, ANode>();
     RegisterRefAttribute("position", &ASpatialNode::GetPosition, &ASpatialNode::SetPosition, TVector3F::ZERO);
     RegisterRefAttribute("rotation", &ASpatialNode::GetRotation, &ASpatialNode::SetRotation, FQuaternion::IDENTITY);
     RegisterRefAttribute("scale", &ASpatialNode::GetScale, &ASpatialNode::SetScale, TVector3F::ONE);
@@ -141,22 +141,22 @@ void ASpatialNode::SetWorldTransform(const TVector3F& newPosition, const FQuater
     SetWorldTransform(newPosition, newRotation, TVector3F(newScale, newScale, newScale));
 }
 
-void ASpatialNode::Translate(const TVector3F& delta, TransformSpace::Type space)
+void ASpatialNode::Translate(const TVector3F& delta, ETransformSpace::Type space)
 {
     ASpatialNode* parentNode = GetSpatialParent();
 
     switch (space)
     {
-    case TransformSpace::LOCAL:
+    case ETransformSpace::LOCAL:
         // Note: local space translation disregards local scale for scale-independent movement speed
         _position += _rotation * delta;
         break;
 
-    case TransformSpace::PARENT:
+    case ETransformSpace::PARENT:
         _position += delta;
         break;
 
-    case TransformSpace::WORLD:
+    case ETransformSpace::WORLD:
         _position += !parentNode ? delta : parentNode->GetWorldTransform().Inverse() * TVector4F(delta, 0.0f);
         break;
     }
@@ -164,21 +164,21 @@ void ASpatialNode::Translate(const TVector3F& delta, TransformSpace::Type space)
     OnTransformChanged();
 }
 
-void ASpatialNode::Rotate(const FQuaternion& delta, TransformSpace::Type space)
+void ASpatialNode::Rotate(const FQuaternion& delta, ETransformSpace::Type space)
 {
     ASpatialNode* parentNode = GetSpatialParent();
     
     switch (space)
     {
-    case TransformSpace::LOCAL:
+    case ETransformSpace::LOCAL:
         _rotation = (_rotation * delta).Normalized();
         break;
 
-    case TransformSpace::PARENT:
+    case ETransformSpace::PARENT:
         _rotation = (delta * _rotation).Normalized();
         break;
 
-    case TransformSpace::WORLD:
+    case ETransformSpace::WORLD:
         if (!parentNode)
             _rotation = (delta * _rotation).Normalized();
         else
@@ -192,7 +192,7 @@ void ASpatialNode::Rotate(const FQuaternion& delta, TransformSpace::Type space)
     OnTransformChanged();
 }
 
-void ASpatialNode::RotateAround(const TVector3F& point, const FQuaternion& delta, TransformSpace::Type space)
+void ASpatialNode::RotateAround(const TVector3F& point, const FQuaternion& delta, ETransformSpace::Type space)
 {
     ASpatialNode* parentNode = GetSpatialParent();
     TVector3F parentSpacePoint;
@@ -200,17 +200,17 @@ void ASpatialNode::RotateAround(const TVector3F& point, const FQuaternion& delta
 
     switch (space)
     {
-    case TransformSpace::LOCAL:
+    case ETransformSpace::LOCAL:
         parentSpacePoint = GetTransform() * point;
         _rotation = (_rotation * delta).Normalized();
         break;
 
-    case TransformSpace::PARENT:
+    case ETransformSpace::PARENT:
         parentSpacePoint = point;
         _rotation = (delta * _rotation).Normalized();
         break;
 
-    case TransformSpace::WORLD:
+    case ETransformSpace::WORLD:
         if (!parentNode)
         {
             parentSpacePoint = point;
@@ -231,37 +231,37 @@ void ASpatialNode::RotateAround(const TVector3F& point, const FQuaternion& delta
     OnTransformChanged();
 }
 
-void ASpatialNode::Yaw(float angle, TransformSpace::Type space)
+void ASpatialNode::Yaw(float angle, ETransformSpace::Type space)
 {
     Rotate(FQuaternion(angle, TVector3F::UP), space);
 }
 
-void ASpatialNode::Pitch(float angle, TransformSpace::Type space)
+void ASpatialNode::Pitch(float angle, ETransformSpace::Type space)
 {
     Rotate(FQuaternion(angle, TVector3F::RIGHT), space);
 }
 
-void ASpatialNode::Roll(float angle, TransformSpace::Type space)
+void ASpatialNode::Roll(float angle, ETransformSpace::Type space)
 {
     Rotate(FQuaternion(angle, TVector3F::FORWARD), space);
 }
 
-bool ASpatialNode::LookAt(const TVector3F& target, const TVector3F& up, TransformSpace::Type space)
+bool ASpatialNode::LookAt(const TVector3F& target, const TVector3F& up, ETransformSpace::Type space)
 {
     ASpatialNode* parentNode = GetSpatialParent();
     TVector3F worldSpaceTarget;
 
     switch (space)
     {
-    case TransformSpace::LOCAL:
+    case ETransformSpace::LOCAL:
         worldSpaceTarget = GetWorldTransform() * target;
         break;
 
-    case TransformSpace::PARENT:
+    case ETransformSpace::PARENT:
         worldSpaceTarget = !parentNode ? target : parentNode->GetWorldTransform() * target;
         break;
 
-    case TransformSpace::WORLD:
+    case ETransformSpace::WORLD:
         worldSpaceTarget = target;
         break;
     }
@@ -290,7 +290,7 @@ void ASpatialNode::ApplyScale(const TVector3F& delta)
     OnTransformChanged();
 }
 
-void ASpatialNode::OnParentSet(Node* newParent, Node*)
+void ASpatialNode::OnParentSet(ANode* newParent, ANode*)
 {
     SetFlag(NF_SPATIAL_PARENT, dynamic_cast<ASpatialNode*>(newParent) != 0);
     OnTransformChanged();
@@ -300,10 +300,10 @@ void ASpatialNode::OnTransformChanged()
 {
     SetFlag(NF_WORLD_TRANSFORM_DIRTY, true);
 
-    const TVector<TSharedPtr<Node> >& children = Children();
+    const TVector<TSharedPtr<ANode> >& children = Children();
     for (auto it = children.Begin(); it != children.End(); ++it)
     {
-        Node* child = *it;
+        ANode* child = *it;
         if (child->TestFlag(NF_SPATIAL))
             static_cast<ASpatialNode*>(child)->OnTransformChanged();
     }

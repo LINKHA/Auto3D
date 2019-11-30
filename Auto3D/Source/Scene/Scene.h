@@ -6,19 +6,19 @@ namespace Auto3D
 {
 
 class ACamera;
-class PhysicsWorld;
+class APhysicsWorld;
 class ASkyBox;
 
-/// %Scene root node, which also represents the whole scene.
-class AUTO_API Scene : public Node
+/// %AScene root node, which also represents the whole scene.
+class AUTO_API AScene : public ANode
 {
-    REGISTER_OBJECT_CLASS(Scene, Node)
+    REGISTER_OBJECT_CLASS(AScene, ANode)
 
 public:
     /// Construct.
-    Scene();
+    AScene();
     /// Destruct. The whole node tree is destroyed.
-    ~Scene();
+    ~AScene();
 
     /// Register factory and attributes.
     static void RegisterObject();
@@ -34,31 +34,31 @@ public:
     /// Save scene as JSON text data to a binary stream. Return true on success.
     bool SaveJSON(FStream& dest);
     /// Instantiate node(s) from binary stream and return the root node.
-    Node* Instantiate(FStream& source);
+    ANode* Instantiate(FStream& source);
     /// Instantiate node(s) from JSON data and return the root node.
-    Node* InstantiateJSON(const FJSONValue& source);
+    ANode* InstantiateJSON(const FJSONValue& source);
     /// Load JSON data as text from a binary stream, then instantiate node(s) from it and return the root node.
-    Node* InstantiateJSON(FStream& source);
+    ANode* InstantiateJSON(FStream& source);
     /// Destroy child nodes recursively, leaving the scene empty.
     void Clear();
     /// Find node by _id.
-    Node* FindNode(unsigned id) const;
+    ANode* FindNode(unsigned id) const;
 	/// Return all camera vector
 	TVector<ACamera*>& GetAllCamera();
     /// Add node to the scene. This assigns a scene-unique id to it. Called internally.
-    void AddNode(Node* node);
+    void AddNode(ANode* node);
     /// Remove node from the scene. This removes the id mapping but does not destroy the node. Called internally.
-    void RemoveNode(Node* node);
+    void RemoveNode(ANode* node);
 	/// Add camera to the scene. 
 	void AddCamera(ACamera* camera) { _cameras.Push(camera); }
 	/// Remove camera from the scene.
 	void RemoveCamera(ACamera* camera) { _cameras.Remove(camera); }
 	/// Set 3D physics world.
-	void SetPhysicsWorld(PhysicsWorld* physicsWorld);
+	void SetPhysicsWorld(APhysicsWorld* physicsWorld);
 	/// Set skybox.
 	void SetSkyBox(ASkyBox* skybox);
 	/// Get 3D physics world.
-	PhysicsWorld* GetPhysicsWorld();
+	APhysicsWorld* GetPhysicsWorld();
 	/// Get skybox.
 	ASkyBox* GetSkyBox();
 	/// Setup shadow maps.
@@ -66,9 +66,9 @@ public:
 
 
 
-    using Node::Load;
-    using Node::LoadJSON;
-    using Node::SaveJSON;
+    using ANode::Load;
+    using ANode::LoadJSON;
+    using ANode::SaveJSON;
 
 private:
     /// Set layer names. Used in serialization.
@@ -81,19 +81,19 @@ private:
     FJSONValue TagNamesAttr() const;
 
     /// Map from id's to nodes.
-    THashMap<unsigned, Node*> _nodes;
+    THashMap<unsigned, ANode*> _nodes;
 	/// ACamera to nodes
 	TVector<ACamera*> _cameras;
     /// Next free node id.
     unsigned _nextNodeId;
 
-	/// Physics world custom assign this variable
-	PhysicsWorld* _physicsWorld;
+	/// APhysics world custom assign this variable
+	APhysicsWorld* _physicsWorld;
 	/// Skybox in this scene.
 	ASkyBox* _skybox;
 };
 
-/// Register Scene related object factories and attributes.
+/// Register AScene related object factories and attributes.
 AUTO_API void RegisterSceneLibrary();
 
 }

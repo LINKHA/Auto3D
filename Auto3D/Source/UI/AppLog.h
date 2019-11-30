@@ -4,10 +4,10 @@
 namespace Auto3D
 {
 // Usage:
-//  static UILog my_log;
+//  static FUILog my_log;
 //  my_log.AddLog("Hello %d world\n", 123);
 //  my_log.Draw("title");
-struct UILog
+struct FUILog
 {
 	ImGuiTextBuffer     Buf;
 	ImGuiTextFilter     Filter;
@@ -15,7 +15,7 @@ struct UILog
 	bool                AutoScroll;
 	bool                ScrollToBottom;
 
-	UILog()
+	FUILog()
 	{
 		AutoScroll = true;
 		ScrollToBottom = false;

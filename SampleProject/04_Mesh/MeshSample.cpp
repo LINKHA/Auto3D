@@ -15,9 +15,9 @@ void MeshSample::Start()
 	graphics->RenderWindow()->SetMouseLock(true);
 	graphics->RenderWindow()->SetMouseHide(true);
 
-	scene = new Scene();
+	scene = new AScene();
 	scene->SetupShadowMap(3, 4096);
-	scene->CreateChild<Octree>();
+	scene->CreateChild<AOctree>();
 	camera = scene->CreateChild<ACamera>();
 	camera->SetPosition(TVector3F(0.0f, 5.0f, -15.0f));
 	camera->SetAmbientColor(FColor(0.1f, 0.1f, 0.1f));

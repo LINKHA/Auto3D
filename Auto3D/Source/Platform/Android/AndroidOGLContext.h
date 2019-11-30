@@ -9,16 +9,16 @@ using SDL_GLContext = void *;
 namespace Auto3D
 {
 
-class Window;
+class AWindow;
 
 /// OpenGL context associated with a _window, Win32 implementation.
-class AUTO_API GraphicsContext : public FRefCounted
+class AUTO_API FGraphicsContext : public FRefCounted
 {
 public:
 	/// Construct. Associate with a _window, but do not create the context yet.
-	GraphicsContext(Window* window);
+	FGraphicsContext(AWindow* window);
 	/// Destruct. Destroy the context if created.
-	~GraphicsContext();
+	~FGraphicsContext();
 
 	/// Create context and initialize extensions. Return true on success. The pixel format can only be chosen once, so a context can not be created more than once to the same _window.
 	bool Create();
@@ -36,7 +36,7 @@ private:
 	/// OpenGL context
 	SDL_GLContext _contextHandle;
 	/// Associated _window.
-	TWeakPtr<Window> _window;
+	TWeakPtr<AWindow> _window;
 
 };
 

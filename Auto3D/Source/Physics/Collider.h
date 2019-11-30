@@ -13,7 +13,7 @@ namespace Auto3D
 {
 
 /// Collision shape type.
-namespace ShapeType
+namespace EShapeType
 {
 	enum Type
 	{
@@ -31,16 +31,16 @@ namespace ShapeType
 	};
 };
 
-class PhysicsWorld;
+class APhysicsWorld;
 
-class Collider : public Node
+class ACollider : public ANode
 {
-	REGISTER_OBJECT_CLASS(Collider, Node)
+	REGISTER_OBJECT_CLASS(ACollider, ANode)
 public:
 	/// Construct
-	Collider();
+	ACollider();
 	/// Destructor
-	virtual ~Collider();
+	virtual ~ACollider();
 	/// Register object factory.
 	static void RegisterObject();
 
@@ -48,7 +48,7 @@ public:
 	btCollisionShape* GetShape() { return _shape.Get(); }
 	/// Release the collision shape.
 	void ReleaseShape();
-	/// Update the new collision shape to the RigidBody.
+	/// Update the new collision shape to the ARigidBody.
 	void NotifyRigidBody(bool updateMass = true);
 	/// This function is called when the parent node of this class is assigned.
 	virtual void ParentCallBack() override;
@@ -56,16 +56,16 @@ public:
 protected:
 	/// Find the parent rigid body component and return its compound collision shape.
 	btCompoundShape* GetParentCompoundShape();
-	/// Physics world form this collider
-	TSharedPtr<PhysicsWorld> _physicsWorld;
+	/// APhysics world form this collider
+	TSharedPtr<APhysicsWorld> _physicsWorld;
 	/// Rigidbody form this collider
-	TWeakPtr<RigidBody> _rigidBody;
+	TWeakPtr<ARigidBody> _rigidBody;
 	/// Cached world scale.
 	TVector3F _cachedWorldScale;
 	/// Shape form this collider
 	TUniquePtr<btCollisionShape> _shape;
 	/// Shape type
-	ShapeType::Type _shapeType;
+	EShapeType::Type _shapeType;
 };
 
 }

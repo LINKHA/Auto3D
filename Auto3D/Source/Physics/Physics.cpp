@@ -16,17 +16,17 @@
 namespace Auto3D
 {
 
-Physics::Physics():
+APhysics::APhysics():
 	_activeWorld(nullptr),
 	_activeWorld2d(nullptr)
 {
 }
 
-Physics::~Physics()
+APhysics::~APhysics()
 {
 }
 
-void Physics::Update()
+void APhysics::Update()
 {
 	if (_activeWorld)
 		_activeWorld->Update();
@@ -35,7 +35,7 @@ void Physics::Update()
 		_activeWorld2d->Update();
 }
 
-void Physics::AddPhysicsWorld(PhysicsWorld* physicsWorld)
+void APhysics::AddPhysicsWorld(APhysicsWorld* physicsWorld)
 {
 	if (!physicsWorld)
 		return;
@@ -44,7 +44,7 @@ void Physics::AddPhysicsWorld(PhysicsWorld* physicsWorld)
 	SetActivePhysicsWorld(physicsWorld);
 }
 
-void Physics::RemovePhysicsWorld(PhysicsWorld* physicsWorld)
+void APhysics::RemovePhysicsWorld(APhysicsWorld* physicsWorld)
 {
 	if (!physicsWorld)
 		return;
@@ -60,13 +60,13 @@ void Physics::RemovePhysicsWorld(PhysicsWorld* physicsWorld)
 	_physicsWorlds.Remove(physicsWorld);
 }
 
-void Physics::SetActivePhysicsWorld(PhysicsWorld* physicsWorld)
+void APhysics::SetActivePhysicsWorld(APhysicsWorld* physicsWorld)
 {
 	if (_activeWorld != physicsWorld)
 		_activeWorld = physicsWorld;
 }
 
-void Physics::AddPhysicsWorld2D(PhysicsWorld2D* physicsWorld2d)
+void APhysics::AddPhysicsWorld2D(PhysicsWorld2D* physicsWorld2d)
 {
 	if (!physicsWorld2d)
 		return;
@@ -75,7 +75,7 @@ void Physics::AddPhysicsWorld2D(PhysicsWorld2D* physicsWorld2d)
 	SetActivePhysicsWrold2D(physicsWorld2d);
 }
 
-void Physics::RemovePhysicsWorld2D(PhysicsWorld2D* physicsWorld2d)
+void APhysics::RemovePhysicsWorld2D(PhysicsWorld2D* physicsWorld2d)
 {
 	if (!physicsWorld2d)
 		return;
@@ -92,7 +92,7 @@ void Physics::RemovePhysicsWorld2D(PhysicsWorld2D* physicsWorld2d)
 	_physicsWorld2ds.Remove(physicsWorld2d);
 }
 
-void Physics::SetActivePhysicsWrold2D(PhysicsWorld2D* physicsWorld2d)
+void APhysics::SetActivePhysicsWrold2D(PhysicsWorld2D* physicsWorld2d)
 {
 	if (_activeWorld2d != physicsWorld2d)
 		_activeWorld2d = physicsWorld2d;
@@ -105,13 +105,13 @@ AUTO_API void RegisterPhysicsLibrary()
 		return;
 	registered = true;
 
-	PhysicsWorld::RegisterObject();
-	RigidBody::RegisterObject();
-	Collider::RegisterObject();
-	ColliderBox::RegisterObject();
-	ColliderSphere::RegisterObject();
-	ColliderCapsule::RegisterObject;
-	ColliderCone::RegisterObject;
+	APhysicsWorld::RegisterObject();
+	ARigidBody::RegisterObject();
+	ACollider::RegisterObject();
+	AColliderBox::RegisterObject();
+	AColliderSphere::RegisterObject();
+	AColliderCapsule::RegisterObject;
+	AColliderCone::RegisterObject;
 	PhysicsWorld2D::RegisterObject();
 	RigidBody2D::RegisterObject();
 	Collider2D::RegisterObject();

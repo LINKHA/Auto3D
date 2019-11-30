@@ -4,14 +4,14 @@
 namespace Auto3D
 {
 
-class ColliderCone : public Collider
+class AUTO_API AColliderCone : public ACollider
 {
-	REGISTER_OBJECT_CLASS(ColliderCone, Collider)
+	REGISTER_OBJECT_CLASS(AColliderCone, ACollider)
 public:
 	/// Construct
-	ColliderCone();
+	AColliderCone();
 	/// Destructer
-	~ColliderCone();
+	~AColliderCone();
 	/// Register object factory.
 	static void RegisterObject();
 

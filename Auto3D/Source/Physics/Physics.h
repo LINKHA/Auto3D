@@ -2,28 +2,28 @@
 #include "Core/GameManager.h"
 namespace Auto3D {
 
-class PhysicsWorld;
+class APhysicsWorld;
 class PhysicsWorld2D;
 
-/// Physics sub system 
-class AUTO_API Physics : public ABaseModule
+/// APhysics sub system 
+class AUTO_API APhysics : public ABaseModule
 {
-	REGISTER_OBJECT_CLASS(Physics, ABaseModule)
+	REGISTER_OBJECT_CLASS(APhysics, ABaseModule)
 public:
 	/// Construct
-	Physics();
+	APhysics();
 	/// Destructor
-	~Physics();
+	~APhysics();
 	/// Update active physics world.
 	void Update();
 	/// Add physics world.
-	void AddPhysicsWorld(PhysicsWorld* physicsWorld);
+	void AddPhysicsWorld(APhysicsWorld* physicsWorld);
 	/// Remove physics world.
-	void RemovePhysicsWorld(PhysicsWorld* physicsWorld);
+	void RemovePhysicsWorld(APhysicsWorld* physicsWorld);
 	/// Set active physics world. 
-	void SetActivePhysicsWorld(PhysicsWorld* physicsWorld);
+	void SetActivePhysicsWorld(APhysicsWorld* physicsWorld);
 	/// Get active physics world.
-	PhysicsWorld* GetActivePhysicsWorld()const { return _activeWorld; }
+	APhysicsWorld* GetActivePhysicsWorld()const { return _activeWorld; }
 	/// Add physics world.
 	void AddPhysicsWorld2D(PhysicsWorld2D* physicsWorld2d);
 	/// Remove physics world.
@@ -35,9 +35,9 @@ public:
 
 private:
 	/// All scene physics world.
-	TVector<PhysicsWorld*> _physicsWorlds;
+	TVector<APhysicsWorld*> _physicsWorlds;
 	/// Active physics world.
-	PhysicsWorld* _activeWorld;
+	APhysicsWorld* _activeWorld;
 	/// All scene2d physics world.
 	TVector<PhysicsWorld2D*> _physicsWorld2ds;
 	/// Active 2D physics world.

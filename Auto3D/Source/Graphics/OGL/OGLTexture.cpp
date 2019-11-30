@@ -198,7 +198,7 @@ void ATexture::Recreate()
     // If has a name, attempt to reload through the resource cache
     if (FName().Length())
     {
-		ResourceCache* cache = GModuleManager::Get().CacheModule();
+		AResourceCache* cache = GModuleManager::Get().CacheModule();
         if (cache && cache->ReloadResource(this))
             return;
     }
@@ -458,7 +458,7 @@ unsigned ATexture::GetGLTarget() const
 {
     return glTargets[_type];
 }
-Geometry* ATexture::GetGeometry() const
+FGeometry* ATexture::GetGeometry() const
 { 
 	return _geometry; 
 }

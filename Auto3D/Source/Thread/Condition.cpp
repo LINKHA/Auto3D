@@ -12,29 +12,29 @@ namespace Auto3D
 {
 
 #ifdef _WIN32
-Condition::Condition() :
+FCondition::FCondition() :
     _event(nullptr)
 {
     _event = CreateEvent(0, FALSE, FALSE, 0);
 }
 
-Condition::~Condition()
+FCondition::~FCondition()
 {
     CloseHandle((HANDLE)_event);
     _event = nullptr;
 }
 
-void Condition::Set()
+void FCondition::Set()
 {
     SetEvent((HANDLE)_event);
 }
 
-void Condition::Wait()
+void FCondition::Wait()
 {
     WaitForSingleObject((HANDLE)_event, INFINITE);
 }
 #else
-Condition::Condition() :
+FCondition::FCondition() :
 	_mutex(new pthread_mutex_t),
     _event(new pthread_cond_t)
 {
@@ -42,7 +42,7 @@ Condition::Condition() :
     pthread_cond_init((pthread_cond_t*)_event, 0);
 }
 
-Condition::~Condition()
+FCondition::~FCondition()
 {
     pthread_cond_t* c = (pthread_cond_t*)_event;
     pthread_mutex_t* m = (pthread_mutex_t*)_mutex;
@@ -55,12 +55,12 @@ Condition::~Condition()
 	_mutex = nullptr;
 }
 
-void Condition::Set()
+void FCondition::Set()
 {
     pthread_cond_signal((pthread_cond_t*)_event);
 }
 
-void Condition::Wait()
+void FCondition::Wait()
 {
     pthread_cond_t* c = (pthread_cond_t*)_event;
     pthread_mutex_t* m = (pthread_mutex_t*)_mutex;

@@ -9,12 +9,12 @@
 namespace Auto3D
 {
 
-void JSONFile::RegisterObject()
+void AJSONFile::RegisterObject()
 {
-    RegisterFactory<JSONFile>();
+    RegisterFactory<AJSONFile>();
 }
 
-bool JSONFile::BeginLoad(FStream& source)
+bool AJSONFile::BeginLoad(FStream& source)
 {
     PROFILE(LoadJSONFile);
     
@@ -38,7 +38,7 @@ bool JSONFile::BeginLoad(FStream& source)
     return success;
 }
 
-bool JSONFile::Save(FStream& dest)
+bool AJSONFile::Save(FStream& dest)
 {
     PROFILE(SaveJSONFile);
     

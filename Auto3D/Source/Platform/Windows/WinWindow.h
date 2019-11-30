@@ -8,9 +8,9 @@ namespace Auto3D
 
 class AImage;
 
-struct AUTO_API WindowModeDesc
+struct AUTO_API FWindowModeDesc
 {
-	WindowModeDesc():
+	FWindowModeDesc():
 		_size(TRectI(0,0,1024, 768)),
 		_multisample(1),
 		_fullscreen(false),
@@ -20,24 +20,24 @@ struct AUTO_API WindowModeDesc
 		_highDPI(false)
 	{
 	}
-	/// Window position and size.
+	/// AWindow position and size.
 	TRectI _size;
 	/// Multis sample num point;
 	int _multisample;
-	/// Window is full screen.
+	/// AWindow is full screen.
 	bool _fullscreen;
-	/// Window is resizable.
+	/// AWindow is resizable.
 	bool _resizable;
-	/// Window is center in screen.
+	/// AWindow is center in screen.
 	bool _center;
-	/// Window is borderless.
+	/// AWindow is borderless.
 	bool _borderless;
-	/// Window is highDPI.
+	/// AWindow is highDPI.
 	bool _highDPI;
 
 };
-/// Window resized event.
-class AUTO_API WindowResizeEvent : public FEvent
+/// AWindow resized event.
+class AUTO_API FWindowResizeEvent : public FEvent
 {
 public:
 	///New _window size.
@@ -45,9 +45,9 @@ public:
 };
 
 /// Operating system _window, Win32 implementation.
-class AUTO_API Window : public AObject
+class AUTO_API AWindow : public AObject
 {
-	REGISTER_OBJECT_CLASS(Window, AObject)
+	REGISTER_OBJECT_CLASS(AWindow, AObject)
 
 #ifdef AUTO_OPENGL
 	friend class GLContext;
@@ -55,9 +55,9 @@ class AUTO_API Window : public AObject
 
 public:
 	/// Construct and register subsystem. The _window is not yet opened.
-	Window();
+	AWindow();
 	/// Destruct. Close _window if open.
-	~Window();
+	~AWindow();
 	/// Initializes the opengl context version and its support
 	bool InitMsg();
 	/// Delete game window and if OpenGL delete context
@@ -128,7 +128,7 @@ public:
 	/// Handle a window message. Return true if handled and should not be passed to the default _window procedure.
 	bool OnWindowMessage(unsigned msg, unsigned wParam, unsigned lParam);
 	/// Return window mode desc.
-	WindowModeDesc& ModeDesc() { return _windowModeDesc; }
+	FWindowModeDesc& ModeDesc() { return _windowModeDesc; }
 	/// Close requested event.
 	FEvent _closeRequestEvent;
 	/// Gained focus event.
@@ -142,9 +142,9 @@ public:
 	/// Restored after minimization event.
 	FEvent _restoreEvent;
 	/// Size changed event.
-	WindowResizeEvent _resizeEvent;
+	FWindowResizeEvent _resizeEvent;
 
-	/// Window class name
+	/// AWindow class name
 	static FString className;
 private:
 	/// Change display mode. If width and height are zero, will restore desktop resolution.
@@ -158,13 +158,13 @@ private:
 	/// Verify window size from the window client rect.
 	TVector2I ClientRectSize() const;
 
-	/// Window handle.
+	/// AWindow handle.
 	void* _handle;
-	/// Window icon image.
+	/// AWindow icon image.
 	TWeakPtr<AImage> _icon;
-	/// Window _title.
+	/// AWindow _title.
 	FString _title;
-	/// Window rect
+	/// AWindow rect
 	TRectI _rect;
 	/// Last stored windowed mode position.
 	TVector2I _savedPosition;
@@ -175,9 +175,9 @@ private:
 	/// Mouse wheel move
 	TVector2I _mouseMoveWheel;
 
-	/// Window close flag
+	/// AWindow close flag
 	bool _close;
-	/// Window style flags.
+	/// AWindow style flags.
 	unsigned _windowStyle;
 	/// window multi sample num
 	unsigned _multisample;
@@ -189,7 +189,7 @@ private:
 	bool _resizable;
 	/// Fullscreen flag.
 	bool _fullscreen;
-	/// Window borderless.
+	/// AWindow borderless.
 	bool _borderless;
 	/// Support high DPI.
 	bool _highDPI;
@@ -202,7 +202,7 @@ private:
 	/// Internal mouse visible flag. The mouse is automatically shown when the _window is unfocused, while mouseVisible represents the application's desired state. Used to prevent multiple calls to OS mouse visibility functions, which utilize a counter.
 	bool _mouseVisibleInternal;
 	/// Store the window mode information, and then create the mode.
-	WindowModeDesc _windowModeDesc;
+	FWindowModeDesc _windowModeDesc;
 };
 
 }

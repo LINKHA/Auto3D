@@ -2,7 +2,7 @@ void Sample::Init()
 {
 	auto* graphics = GModuleManager::Get().GraphicsModule();
 	// Set window mode
-	WindowModeDesc& windowModeDesc = graphics->RenderWindow()->ModeDesc();
+	FWindowModeDesc& windowModeDesc = graphics->RenderWindow()->ModeDesc();
 	windowModeDesc._size = TRectI(0, 0, 1024, 768);
 	windowModeDesc._multisample = 4;
 	windowModeDesc._fullscreen = false;

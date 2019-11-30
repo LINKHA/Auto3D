@@ -9,14 +9,14 @@ namespace Auto3D
 {
 
 class ALight;
-struct LightPass;
+struct FLightPass;
 
 /// Maximum number of lights per pass.
 static const size_t MAX_LIGHTS_PER_PASS = 4;
 
 
 /// Description of a draw call.
-struct AUTO_API Batch
+struct AUTO_API FBatch
 {
     /// Calculate sort _key for state sorting.
     void CalculateSortKey()
@@ -27,14 +27,14 @@ struct AUTO_API Batch
             (((unsigned long long)_geometry) & 0xffff);
     }
 
-    /// Geometry.
-    Geometry* _geometry;
+    /// FGeometry.
+    FGeometry* _geometry;
     /// AMaterial pass.
     FPass* _pass;
     /// ALight pass.
-    LightPass* _lights;
-    /// Geometry type.
-    GeometryType::Type _type;
+    FLightPass* _lights;
+    /// FGeometry type.
+    EGeometryType::Type _type;
 
     union
     {
@@ -56,7 +56,7 @@ struct AUTO_API Batch
 };
 
 /// Per-pass batch queue structure.
-struct AUTO_API RenderQueue
+struct AUTO_API FRenderQueue
 {
     /// Clear structures.
     void Clear();
@@ -64,14 +64,14 @@ struct AUTO_API RenderQueue
     void Sort(TVector<TMatrix3x4F>& instanceTransforms);
 
     /// Build instances from adjacent batches with same state.
-    static void BuildInstances(TVector<Batch>& batches, TVector<TMatrix3x4F>& instanceTransforms);
+    static void BuildInstances(TVector<FBatch>& batches, TVector<TMatrix3x4F>& instanceTransforms);
 
     /// Batches, which may be instanced or non-instanced.
-    TVector<Batch> _batches;
+    TVector<FBatch> _batches;
     /// Additive lighting batches.
-    TVector<Batch> _additiveBatches;
+    TVector<FBatch> _additiveBatches;
     /// Sorting mode.
-	RenderCommandSortMode::Type _sort;
+	ERenderCommandSortMode::Type _sort;
     /// Lighting flag.
     bool _lit;
     /// Base pass index.
@@ -81,20 +81,20 @@ struct AUTO_API RenderQueue
 };
 
 /// %TList of lights for a geometry node.
-struct AUTO_API LightList
+struct AUTO_API FLightList
 {
     /// %TList _key.
     unsigned long long _key;
     /// Lights.
     TVector<ALight*> _lights;
     /// Associated light passes.
-    TVector<LightPass*> _lightPasses;
+    TVector<FLightPass*> _lightPasses;
     /// Use count
     size_t _useCount;
 };
 
 /// ALight information for a rendering pass, including properly formatted constant data.
-struct AUTO_API LightPass
+struct AUTO_API FLightPass
 {
     /// ALight positions.
     TVector4F _lightPositions[MAX_LIGHTS_PER_PASS];
@@ -123,7 +123,7 @@ struct AUTO_API LightPass
 };
 
 /// Shadow rendering view data structure.
-struct AUTO_API ShadowView
+struct AUTO_API FShadowView
 {
     /// Clear existing shadow casters and batch queue.
     void Clear();
@@ -133,18 +133,18 @@ struct AUTO_API ShadowView
     /// Viewport within the shadow map.
     TRectI _viewport;
     /// Shadow batch queue.
-    RenderQueue _shadowQueue;
+    FRenderQueue _shadowQueue;
     /// Shadow camera.
     ACamera _shadowCamera;
 };
 
 /// Shadow map data structure. May be shared by several lights.
-struct AUTO_API ShadowMap
+struct AUTO_API FShadowMap
 {
     /// Default-construct.
-    ShadowMap();
+    FShadowMap();
     /// Destruct.
-    ~ShadowMap();
+    ~FShadowMap();
 
     /// Clear allocator and use flag.
     void Clear();
@@ -154,44 +154,9 @@ struct AUTO_API ShadowMap
     /// Shadow map texture.
     TSharedPtr<ATexture> _texture;
     /// Shadow views that use this shadow map.
-    TVector<ShadowView*> _shadowViews;
+    TVector<FShadowView*> _shadowViews;
     /// Use flag. When false, clearing the shadow map and rendering the views can be skipped.
     bool _used;
-};
-
-/// AWater texture rendering view data structure.
-struct AUTO_API WaterTextureView
-{
-	/// Clear existing shadow casters and batch queue.
-	void Clear();
-
-	/// Viewport within the shadow map.
-	TRectI _viewport;
-	/// AWater texture batch queue.
-	RenderQueue _waterTextureQueue;
-	/// AWater camera.
-	ACamera _waterCamera;
-};
-
-/// AWater texture data structure.
-struct AUTO_API WaterTexture
-{
-	/// Default-construct.
-	WaterTexture();
-	/// Destruct.
-	~WaterTexture();
-
-	/// Clear allocator and use flag.
-	void Clear();
-
-	/// Rectangle allocator.
-	FAreaAllocator _allocator;
-	/// Shadow map texture.
-	TSharedPtr<ATexture> _texture;
-	/// AWater texture view this use water texture.
-	TVector<WaterTextureView*> _waterTextureView;
-	/// Use flag. When false, clearing the shadow map and rendering the views can be skipped.
-	bool _used;
 };
 
 }

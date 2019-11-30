@@ -85,14 +85,14 @@ void ALight::OnPrepareRender(unsigned frameNumber, ACamera* camera)
     }
 }
 
-void ALight::OnRaycast(TVector<RaycastResult>& dest, const FRay& ray, float maxDistance)
+void ALight::OnRaycast(TVector<FRaycastResult>& dest, const FRay& ray, float maxDistance)
 {
     if (_lightType == ELightType::SPOT)
     {
         float distance = ray.HitDistance(GetWorldFrustum());
         if (distance <= maxDistance)
         {
-            RaycastResult res;
+            FRaycastResult res;
             res._position = ray._origin + distance * ray._direction;
             res._normal = -ray._direction;
             res._distance = distance;
@@ -106,7 +106,7 @@ void ALight::OnRaycast(TVector<RaycastResult>& dest, const FRay& ray, float maxD
         float distance = ray.HitDistance(GetWorldSphere());
         if (distance <= maxDistance)
         {
-            RaycastResult res;
+            FRaycastResult res;
             res._position = ray._origin + distance * ray._direction;
             res._normal = -ray._direction;
             res._distance = distance;
@@ -289,7 +289,7 @@ void ALight::SetShadowMap(ATexture* shadowMap, const TRectI& shadowRect)
     _shadowRect = shadowRect;
 }
 
-void ALight::SetupShadowViews(ACamera* mainCamera, TVector<TAutoPtr<ShadowView> >& shadowViews, size_t& useIndex)
+void ALight::SetupShadowViews(ACamera* mainCamera, TVector<TAutoPtr<FShadowView> >& shadowViews, size_t& useIndex)
 {
     size_t numViews = GetNumShadowViews();
     if (!numViews)
@@ -304,9 +304,9 @@ void ALight::SetupShadowViews(ACamera* mainCamera, TVector<TAutoPtr<ShadowView> 
     for (size_t i = 0; i < numViews; ++i)
     {
         if (!shadowViews[useIndex + i])
-            shadowViews[useIndex + i] = new ShadowView();
+            shadowViews[useIndex + i] = new FShadowView();
 
-        ShadowView* view = shadowViews[useIndex + i].Get();
+        FShadowView* view = shadowViews[useIndex + i].Get();
         view->Clear();
         view->_light = this;
         ACamera& shadowCamera = view->_shadowCamera;
@@ -361,7 +361,7 @@ void ALight::SetupShadowViews(ACamera* mainCamera, TVector<TAutoPtr<ShadowView> 
                 TVector3F pos(shadowCamera.GetWorldPosition());
                 FQuaternion rot(shadowCamera.GetWorldRotation());
                 TVector3F adjust(center._x, center._y, 0.0f);
-                shadowCamera.Translate(rot * adjust, TransformSpace::WORLD);
+                shadowCamera.Translate(rot * adjust, ETransformSpace::WORLD);
 
                 // Snap to whole texels
                 {
@@ -369,7 +369,7 @@ void ALight::SetupShadowViews(ACamera* mainCamera, TVector<TAutoPtr<ShadowView> 
                     float invSize = 1.0f / actualShadowMapSize;
                     TVector2F texelSize(_size._x * invSize, _size._y * invSize);
                     TVector3F snap(-fmodf(viewPos._x, texelSize._x), -fmodf(viewPos._y, texelSize._y), 0.0f);
-                    shadowCamera.Translate(rot * snap, TransformSpace::WORLD);
+                    shadowCamera.Translate(rot * snap, ETransformSpace::WORLD);
                 }
             }
             break;
@@ -422,7 +422,7 @@ void ALight::SetupShadowViews(ACamera* mainCamera, TVector<TAutoPtr<ShadowView> 
         
         for (size_t i = 0; i < numViews; ++i)
         {
-            ShadowView* view = shadowViews[useIndex + i].Get();
+            FShadowView* view = shadowViews[useIndex + i].Get();
 
             ACamera& shadowCamera = view->_shadowCamera;
             float width = (float)_shadowMap->GetWidth();

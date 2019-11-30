@@ -97,8 +97,8 @@ public:
     FLogMessageEvent _logMessageEvent;
 
 private:
-    /// Mutex for threaded operation.
-    Mutex _logMutex;
+    /// FMutex for threaded operation.
+    FMutex _logMutex;
     /// %ALog messages from other threads.
     TList<FStoredLogMessage> _threadMessages;
     /// %ALog file.

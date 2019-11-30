@@ -9,7 +9,7 @@
 namespace Auto3D
 {
 
-class Mutex;
+class FMutex;
 
 template <typename _Ty1, typename _Ty2> class THashMap;
 /// Map of strings.
@@ -50,8 +50,8 @@ public:
 private:
 	/// Hash to string map.
 	StringMap _map;
-	/// Mutex.
-	TUniquePtr<Mutex> _mutex;
+	/// FMutex.
+	TUniquePtr<FMutex> _mutex;
 };
 
 }

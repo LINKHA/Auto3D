@@ -6,7 +6,7 @@ namespace Auto3D
 {
 
 /// Transform space for translations and rotations.
-namespace TransformSpace
+namespace ETransformSpace
 {
 	enum Type
 	{
@@ -18,9 +18,9 @@ namespace TransformSpace
 
 
 /// Base class for scene nodes with _position in three-dimensional space.
-class AUTO_API ASpatialNode : public Node
+class AUTO_API ASpatialNode : public ANode
 {
-    REGISTER_OBJECT_CLASS(ASpatialNode, Node)
+    REGISTER_OBJECT_CLASS(ASpatialNode, ANode)
 
 public:
     /// Construct.
@@ -62,19 +62,19 @@ public:
     /// Set transform in world space.
     void SetWorldTransform(const TVector3F& newPosition, const FQuaternion& newRotation, float newScale);
     /// Move the scene node in the chosen transform space.
-    void Translate(const TVector3F& delta, TransformSpace::Type space = TransformSpace::LOCAL);
+    void Translate(const TVector3F& delta, ETransformSpace::Type space = ETransformSpace::LOCAL);
     /// Rotate the scene node in the chosen transform space.
-    void Rotate(const FQuaternion& delta, TransformSpace::Type space = TransformSpace::LOCAL);
+    void Rotate(const FQuaternion& delta, ETransformSpace::Type space = ETransformSpace::LOCAL);
     /// Rotate around a point in the chosen transform space.
-    void RotateAround(const TVector3F& point, const FQuaternion& delta, TransformSpace::Type space = TransformSpace::LOCAL);
+    void RotateAround(const TVector3F& point, const FQuaternion& delta, ETransformSpace::Type space = ETransformSpace::LOCAL);
     /// Rotate around the X axis.
-    void Pitch(float angle, TransformSpace::Type space = TransformSpace::LOCAL);
+    void Pitch(float angle, ETransformSpace::Type space = ETransformSpace::LOCAL);
     /// Rotate around the Y axis.
-    void Yaw(float angle, TransformSpace::Type space = TransformSpace::LOCAL);
+    void Yaw(float angle, ETransformSpace::Type space = ETransformSpace::LOCAL);
     /// Rotate around the Z axis.
-    void Roll(float angle, TransformSpace::Type space = TransformSpace::LOCAL);
+    void Roll(float angle, ETransformSpace::Type space = ETransformSpace::LOCAL);
     /// Look at a target _position in the chosen transform space. Note that the up vector is always specified in world space. Return true if successful, or false if resulted in an illegal rotation, in which case the current rotation remains.
-    bool LookAt(const TVector3F& target, const TVector3F& up = TVector3F::UP, TransformSpace::Type space = TransformSpace::WORLD);
+    bool LookAt(const TVector3F& target, const TVector3F& up = TVector3F::UP, ETransformSpace::Type space = ETransformSpace::WORLD);
     /// Apply a scale change.
     void ApplyScale(const TVector3F& delta);
     /// Apply an uniform scale change.
@@ -113,7 +113,7 @@ public:
 
 protected:
     /// Handle being assigned to a new parent node.
-    virtual void OnParentSet(Node* newParent, Node* oldParent);
+    virtual void OnParentSet(ANode* newParent, ANode* oldParent);
     /// Handle the transform matrix changing.
     virtual void OnTransformChanged();
 

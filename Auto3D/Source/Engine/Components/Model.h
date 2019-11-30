@@ -10,7 +10,7 @@ namespace Auto3D
 
 class FVertexBuffer;
 class FIndexBuffer;
-class Geometry;
+class FGeometry;
 
 
 /// AModel's bone description.
@@ -38,7 +38,7 @@ struct AUTO_API FBone
     /// Parent bone index.
     size_t _parentIndex;
     /// Associated scene node.
-    TWeakPtr<Node> _node;
+    TWeakPtr<ANode> _node;
     /// Animated flag.
     bool _animated;
 };
@@ -78,9 +78,9 @@ public:
     /// Return number of LOD levels in a geometry.
     size_t GetNumLodLevels(size_t index) const;
     /// Return the geometry at batch index and LOD level.
-    Geometry* GetGeometry(size_t index, size_t lodLevel) const;
+    FGeometry* GetGeometry(size_t index, size_t lodLevel) const;
     /// Return the LOD geometries at batch index.
-    const TVector<TSharedPtr<Geometry> >& GetLodGeometries(size_t index) const { return _geometries[index]; }
+    const TVector<TSharedPtr<FGeometry> >& GetLodGeometries(size_t index) const { return _geometries[index]; }
     /// Return the local space bounding box.
     const TBoundingBoxF& GetLocalBoundingBox() const { return _boundingBox; }
     /// Return the model's bones.
@@ -91,8 +91,8 @@ public:
     const TVector<TVector<size_t> > GetBoneMappings() const { return _boneMappings; }
 
 private:
-    /// Geometry LOD levels.
-    TVector<TVector<TSharedPtr<Geometry> > > _geometries;
+    /// FGeometry LOD levels.
+    TVector<TVector<TSharedPtr<FGeometry> > > _geometries;
     /// Local space bounding box.
     TBoundingBoxF _boundingBox;
     /// %AModel's bones.
@@ -102,11 +102,11 @@ private:
     /// Per-geometry bone mappings.
     TVector<TVector<size_t> > _boneMappings;
     /// Vertex buffer data for loading.
-    TVector<VertexBufferDesc> _vbDescs;
+    TVector<FVertexBufferDesc> _vbDescs;
     /// Index buffer data for loading.
-    TVector<IndexBufferDesc> _ibDescs;
-    /// Geometry descriptions for loading.
-    TVector<TVector<GeometryDesc> > _geomDescs;
+    TVector<FIndexBufferDesc> _ibDescs;
+    /// FGeometry descriptions for loading.
+    TVector<TVector<FGeometryDesc> > _geomDescs;
 };
 
 }

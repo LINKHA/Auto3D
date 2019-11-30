@@ -203,7 +203,7 @@ bool AMaterial::BeginLoad(FStream& source)
 {
     PROFILE(BeginLoadMaterial);
 
-    _loadJSON = new JSONFile();
+    _loadJSON = new AJSONFile();
     if (!_loadJSON->Load(source))
         return false;
 
@@ -254,7 +254,7 @@ bool AMaterial::EndLoad()
     /// \todo Queue texture loads during BeginLoad()
     ResetTextures();
 
-	ResourceCache* cache = GModuleManager::Get().CacheModule();
+	AResourceCache* cache = GModuleManager::Get().CacheModule();
 
     if (root.Contains("textures"))
     {
@@ -291,7 +291,7 @@ bool AMaterial::Save(FStream& dest)
 {
     PROFILE(SaveMaterial);
 
-    JSONFile saveJSON;
+    AJSONFile saveJSON;
     FJSONValue& root = saveJSON.Root();
     root.SetEmptyObject();
 

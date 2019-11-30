@@ -12,7 +12,7 @@ namespace Auto3D
 FStringHashRegister::FStringHashRegister(bool threadSafe)
 {
 	if (threadSafe)
-		_mutex = MakeUnique<Mutex>();
+		_mutex = MakeUnique<FMutex>();
 }
 
 

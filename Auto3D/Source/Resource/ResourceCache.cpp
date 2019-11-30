@@ -10,17 +10,17 @@
 namespace Auto3D
 {
 
-ResourceCache::ResourceCache()
+AResourceCache::AResourceCache()
 {
 	AddResourceDir(ExecutableDir() + "Data");
 }
 
-ResourceCache::~ResourceCache()
+AResourceCache::~AResourceCache()
 {
     UnloadAllResources(true);
 }
 
-bool ResourceCache::AddResourceDir(const FString& pathName, bool addFirst)
+bool AResourceCache::AddResourceDir(const FString& pathName, bool addFirst)
 {
     PROFILE(AddResourceDir);
 
@@ -48,7 +48,7 @@ bool ResourceCache::AddResourceDir(const FString& pathName, bool addFirst)
     return true;
 }
 
-bool ResourceCache::AddManualResource(AResource* resource)
+bool AResourceCache::AddManualResource(AResource* resource)
 {
     if (!resource)
     {
@@ -66,7 +66,7 @@ bool ResourceCache::AddManualResource(AResource* resource)
     return true;
 }
 
-void ResourceCache::RemoveResourceDir(const FString& pathName)
+void AResourceCache::RemoveResourceDir(const FString& pathName)
 {
     // Convert path to absolute
     FString fixedPath = SanitateResourceDirName(pathName);
@@ -82,7 +82,7 @@ void ResourceCache::RemoveResourceDir(const FString& pathName)
     }
 }
 
-void ResourceCache::UnloadResource(FStringHash type, const FString& name, bool force)
+void AResourceCache::UnloadResource(FStringHash type, const FString& name, bool force)
 {
     auto key = MakePair(type, FStringHash(name));
     auto it = _resources.Find(key);
@@ -94,7 +94,7 @@ void ResourceCache::UnloadResource(FStringHash type, const FString& name, bool f
         _resources.Erase(key);
 }
 
-void ResourceCache::UnloadResources(FStringHash type, bool force)
+void AResourceCache::UnloadResources(FStringHash type, bool force)
 {
     // In case resources refer to other resources, _repeat until there are no further unloads
     for (;;)
@@ -120,7 +120,7 @@ void ResourceCache::UnloadResources(FStringHash type, bool force)
     }
 }
 
-void ResourceCache::UnloadResources(FStringHash type, const FString& partialName, bool force)
+void AResourceCache::UnloadResources(FStringHash type, const FString& partialName, bool force)
 {
     // In case resources refer to other resources, _repeat until there are no further unloads
     for (;;)
@@ -146,7 +146,7 @@ void ResourceCache::UnloadResources(FStringHash type, const FString& partialName
     }
 }
 
-void ResourceCache::UnloadResources(const FString& partialName, bool force)
+void AResourceCache::UnloadResources(const FString& partialName, bool force)
 {
     // In case resources refer to other resources, _repeat until there are no further unloads
     for (;;)
@@ -169,7 +169,7 @@ void ResourceCache::UnloadResources(const FString& partialName, bool force)
     }
 }
 
-void ResourceCache::UnloadAllResources(bool force)
+void AResourceCache::UnloadAllResources(bool force)
 {
     // In case resources refer to other resources, _repeat until there are no further unloads
     for (;;)
@@ -192,7 +192,7 @@ void ResourceCache::UnloadAllResources(bool force)
     }
 }
 
-bool ResourceCache::ReloadResource(AResource* resource)
+bool AResourceCache::ReloadResource(AResource* resource)
 {
     if (!resource)
         return false;
@@ -201,7 +201,7 @@ bool ResourceCache::ReloadResource(AResource* resource)
     return stream ? resource->Load(*stream) : false;
 }
 
-TAutoPtr<FStream> ResourceCache::OpenResource(const FString& nameIn)
+TAutoPtr<FStream> AResourceCache::OpenResource(const FString& nameIn)
 {
     FString name = SanitateResourceName(nameIn);
     TAutoPtr<FStream> ret;
@@ -230,7 +230,7 @@ TAutoPtr<FStream> ResourceCache::OpenResource(const FString& nameIn)
     return ret;
 }
 
-AResource* ResourceCache::LoadResource(FStringHash type, const FString& nameIn)
+AResource* AResourceCache::LoadResource(FStringHash type, const FString& nameIn)
 {
     FString name = SanitateResourceName(nameIn);
 
@@ -272,7 +272,7 @@ AResource* ResourceCache::LoadResource(FStringHash type, const FString& nameIn)
     return newResource;
 }
 
-void ResourceCache::ResourcesByType(TVector<AResource*>& result, FStringHash type) const
+void AResourceCache::ResourcesByType(TVector<AResource*>& result, FStringHash type) const
 {
     result.Clear();
 
@@ -283,7 +283,7 @@ void ResourceCache::ResourcesByType(TVector<AResource*>& result, FStringHash typ
     }
 }
 
-bool ResourceCache::Exists(const FString& nameIn) const
+bool AResourceCache::Exists(const FString& nameIn) const
 {
     FString name = SanitateResourceName(nameIn);
 
@@ -297,7 +297,7 @@ bool ResourceCache::Exists(const FString& nameIn) const
     return FileExists(name);
 }
 
-FString ResourceCache::ResourceFileName(const FString& name) const
+FString AResourceCache::ResourceFileName(const FString& name) const
 {
     for (unsigned i = 0; i < _resourceDirs.Size(); ++i)
     {
@@ -308,7 +308,7 @@ FString ResourceCache::ResourceFileName(const FString& name) const
     return FString();
 }
 
-FString ResourceCache::SanitateResourceName(const FString& nameIn) const
+FString AResourceCache::SanitateResourceName(const FString& nameIn) const
 {
     // Sanitate unsupported constructs from the resource name
     FString name = NormalizePath(nameIn);
@@ -338,7 +338,7 @@ FString ResourceCache::SanitateResourceName(const FString& nameIn) const
     return name.Trimmed();
 }
 
-FString ResourceCache::SanitateResourceDirName(const FString& nameIn) const
+FString AResourceCache::SanitateResourceDirName(const FString& nameIn) const
 {
     // Convert path to absolute
     FString fixedPath = AddTrailingSlash(nameIn);
@@ -358,7 +358,7 @@ void RegisterResourceLibrary()
         return;
     registered = true;
 
-    JSONFile::RegisterObject();
+    AJSONFile::RegisterObject();
 }
 
 }

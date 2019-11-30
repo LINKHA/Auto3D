@@ -14,34 +14,34 @@ namespace Auto3D
 #ifdef _WIN32
 DWORD WINAPI ThreadFunctionStatic(void* _data)
 {
-    Thread* thread = static_cast<Thread*>(_data);
+    FThread* thread = static_cast<FThread*>(_data);
     thread->ThreadFunction();
     return 0;
 }
 #else
 void* ThreadFunctionStatic(void* _data)
 {
-    Thread* thread = static_cast<Thread*>(_data);
+    FThread* thread = static_cast<FThread*>(_data);
     thread->ThreadFunction();
     pthread_exit(nullptr);
     return nullptr;
 }
 #endif
 
-ThreadID Thread::mainThreadID = Thread::CurrentThreadID();
+ThreadID FThread::mainThreadID = FThread::CurrentThreadID();
 
-Thread::Thread() :
+FThread::FThread() :
     _handle(nullptr),
     _shouldRun(false)
 {
 }
 
-Thread::~Thread()
+FThread::~FThread()
 {
     Stop();
 }
 
-bool Thread::Run()
+bool FThread::Run()
 {
     // Check if already running
     if (_handle)
@@ -60,7 +60,7 @@ bool Thread::Run()
     return _handle != nullptr;
 }
 
-void Thread::Stop()
+void FThread::Stop()
 {
     // Check if already stopped
     if (!_handle)
@@ -79,7 +79,7 @@ void Thread::Stop()
     _handle = nullptr;
 }
 
-void Thread::SetPriority(int priority)
+void FThread::SetPriority(int priority)
 {
     #ifdef _WIN32
     if (_handle)
@@ -92,7 +92,7 @@ void Thread::SetPriority(int priority)
     #endif
 }
 
-void Thread::Sleep(unsigned mSec)
+void FThread::Sleep(unsigned mSec)
 {
     #ifdef _WIN32
     ::Sleep(mSec);
@@ -101,12 +101,12 @@ void Thread::Sleep(unsigned mSec)
     #endif
 }
 
-void Thread::SetMainThread()
+void FThread::SetMainThread()
 {
     mainThreadID = CurrentThreadID();
 }
 
-ThreadID Thread::CurrentThreadID()
+ThreadID FThread::CurrentThreadID()
 {
     #ifdef _WIN32
     return GetCurrentThreadId();
@@ -115,7 +115,7 @@ ThreadID Thread::CurrentThreadID()
     #endif
 }
 
-bool Thread::IsMainThread()
+bool FThread::IsMainThread()
 {
     return CurrentThreadID() == mainThreadID;
 }

@@ -10,7 +10,7 @@ namespace Auto3D
 {
 
 class AImage;
-class Geometry;
+class FGeometry;
 
 /// %ATexture on the GPU.
 class AUTO_API ATexture : public AResource, public FGPUObject
@@ -79,7 +79,7 @@ public:
     /// Return the OpenGL binding target of the texture. Used internally and should not be called by portable application code.
     unsigned GetGLTarget() const;
 
-	Geometry* GetGeometry() const;
+	FGeometry* GetGeometry() const;
 
     /// ATexture filtering mode.
     ETextureFilterMode::Type _filter;
@@ -110,7 +110,7 @@ private:
     /// Images used for loading.
     TVector<TAutoPtr<AImage> > _loadImages;
 	/// Draw call source datas.
-	TSharedPtr<Geometry> _geometry;
+	TSharedPtr<FGeometry> _geometry;
 };
 
 }

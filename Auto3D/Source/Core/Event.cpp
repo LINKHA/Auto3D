@@ -26,7 +26,7 @@ FEvent::~FEvent()
 
 void FEvent::Send(FRefCounted* sender)
 {
-    if (!Thread::IsMainThread())
+    if (!FThread::IsMainThread())
     {
         ErrorString("Attempted to send an event from outside the main thread");
         return;

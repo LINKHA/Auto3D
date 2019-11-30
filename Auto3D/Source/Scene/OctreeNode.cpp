@@ -37,12 +37,12 @@ void AOctreeNode::OnPrepareRender(unsigned frameNumber, ACamera* camera)
     _distance = camera->Distance(GetWorldPosition());
 }
 
-void AOctreeNode::OnRaycast(TVector<RaycastResult>& dest, const FRay& ray, float maxDistance)
+void AOctreeNode::OnRaycast(TVector<FRaycastResult>& dest, const FRay& ray, float maxDistance)
 {
     float distance = ray.HitDistance(WorldBoundingBox());
     if (distance < maxDistance)
     {
-        RaycastResult res;
+        FRaycastResult res;
         res._position = ray._origin + distance * ray._direction;
         res._normal = -ray._direction;
         res._distance = distance;
@@ -52,15 +52,15 @@ void AOctreeNode::OnRaycast(TVector<RaycastResult>& dest, const FRay& ray, float
     }
 }
 
-void AOctreeNode::OnSceneSet(Scene* newScene, Scene*)
+void AOctreeNode::OnSceneSet(AScene* newScene, AScene*)
 {
     /// Remove from current octree if any
     RemoveFromOctree();
 
     if (newScene)
     {
-        // Octree must be attached to the scene root as a child
-        _octree = newScene->FindChild<Octree>();
+        // AOctree must be attached to the scene root as a child
+        _octree = newScene->FindChild<AOctree>();
         // Transform may not be final yet. Schedule update but do not insert into octree yet
         if (_octree)
             _octree->QueueUpdate(this);

@@ -11,7 +11,7 @@ namespace Auto3D
 {
 
 class ATexture;
-struct ShadowView;
+struct FShadowView;
 
 /// %ALight types.
 namespace ELightType
@@ -39,10 +39,10 @@ public:
     /// Register factory and attributes.
     static void RegisterObject();
 
-    /// Prepare object for rendering. Reset framenumber and calculate distance from camera. Called by Renderer.
+    /// Prepare object for rendering. Reset framenumber and calculate distance from camera. Called by ARenderer.
     void OnPrepareRender(unsigned frameNumber, ACamera* camera) override;
     /// Perform ray test on self and add possible hit to the result vector.
-    void OnRaycast(TVector<RaycastResult>& dest, const FRay& ray, float maxDistance) override;
+    void OnRaycast(TVector<FRaycastResult>& dest, const FRay& ray, float maxDistance) override;
 
     /// Set light type.
     void SetLightType(ELightType::Type type);
@@ -102,10 +102,10 @@ public:
     /// Return point light world space sphere.
     FSphere GetWorldSphere() const;
 
-    /// Set shadow map and viewport within it. Called by Renderer.
+    /// Set shadow map and viewport within it. Called by ARenderer.
     void SetShadowMap(ATexture* shadowMap, const TRectI& shadowRect = TRectI::ZERO);
-    /// Setup shadow cameras and viewports. Called by Renderer.
-    void SetupShadowViews(ACamera* mainCamera, TVector<TAutoPtr<ShadowView> >& shadowViews, size_t& useIndex);
+    /// Setup shadow cameras and viewports. Called by ARenderer.
+    void SetupShadowViews(ACamera* mainCamera, TVector<TAutoPtr<FShadowView> >& shadowViews, size_t& useIndex);
     /// Return shadow map.
     ATexture* GetShadowMap() const { return _shadowMap; }
     /// Return actual shadow map rectangle. May be smaller than the requested total shadow map _size.

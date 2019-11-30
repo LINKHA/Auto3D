@@ -9,23 +9,23 @@
 
 namespace Auto3D {
 
-Collider::Collider() :
+ACollider::ACollider() :
 	_cachedWorldScale(TVector3F::ONE),
-	_shapeType(ShapeType::DEFAULT)
+	_shapeType(EShapeType::DEFAULT)
 {
 }
 
 
-Collider::~Collider()
+ACollider::~ACollider()
 {
 }
 
-void Collider::RegisterObject()
+void ACollider::RegisterObject()
 {
-	RegisterFactory<Collider>();
+	RegisterFactory<ACollider>();
 }
 
-void Collider::ReleaseShape()
+void ACollider::ReleaseShape()
 {
 	btCompoundShape* compound = GetParentCompoundShape();
 	if (_shape && compound)
@@ -36,7 +36,7 @@ void Collider::ReleaseShape()
 	_shape.Reset();
 }
 
-void Collider::NotifyRigidBody(bool updateMass)
+void ACollider::NotifyRigidBody(bool updateMass)
 {
 	// Get this component rigidBody
 	btCompoundShape* compound = GetParentCompoundShape();
@@ -60,15 +60,15 @@ void Collider::NotifyRigidBody(bool updateMass)
 	}
 }
 
-void Collider::ParentCallBack()
+void ACollider::ParentCallBack()
 {
 	_physicsWorld = ParentScene()->GetPhysicsWorld();
 }
 
-btCompoundShape* Collider::GetParentCompoundShape()
+btCompoundShape* ACollider::GetParentCompoundShape()
 {
 	if (!_rigidBody)
-		_rigidBody = Parent()->FindChild<RigidBody>();
+		_rigidBody = Parent()->FindChild<ARigidBody>();
 
 	return _rigidBody ? _rigidBody->GetCompoundShape() : nullptr;
 }
