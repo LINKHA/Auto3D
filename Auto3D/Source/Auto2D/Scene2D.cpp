@@ -15,7 +15,7 @@
 namespace Auto3D
 {
 
-Scene2D::Scene2D() :
+AScene2D::AScene2D() :
 	_nextNodeId(1)
 {
 	// Register self to allow finding by ID
@@ -25,7 +25,7 @@ Scene2D::Scene2D() :
 	DefineTag(TAG_NONE, "None");
 	GModuleManager::Get().RegisteredBoxModule()->RegisterScene2D(this);
 }
-Scene2D::~Scene2D()
+AScene2D::~AScene2D()
 {
 	// ANode destructor will also remove children. But at that point the node<>_id maps have been destroyed 
    // so must tear down the scene tree already here
@@ -34,26 +34,26 @@ Scene2D::~Scene2D()
 	assert(_nodes.IsEmpty());
 }
 
-void Scene2D::RegisterObject()
+void AScene2D::RegisterObject()
 {
-	RegisterFactory<Scene2D>();
-	CopyBaseAttributes<Scene2D, Node2D>();
-	RegisterAttribute("layerNames", &Scene2D::LayerNamesAttr, &Scene2D::SetLayerNamesAttr);
-	RegisterAttribute("tagNames", &Scene2D::TagNamesAttr, &Scene2D::SetTagNamesAttr);
+	RegisterFactory<AScene2D>();
+	CopyBaseAttributes<AScene2D, ANode2D>();
+	RegisterAttribute("layerNames", &AScene2D::LayerNamesAttr, &AScene2D::SetLayerNamesAttr);
+	RegisterAttribute("tagNames", &AScene2D::TagNamesAttr, &AScene2D::SetTagNamesAttr);
 }
 
 
-void Scene2D::Save(FStream& dest)
+void AScene2D::Save(FStream& dest)
 {
 	PROFILE(SaveScene);
 
 	InfoString("Saving scene to " + dest.FName());
 
 	dest.WriteFileID("SCNE");
-	Node2D::Save(dest);
+	ANode2D::Save(dest);
 }
 
-bool Scene2D::Load(FStream& source)
+bool AScene2D::Load(FStream& source)
 {
 	PROFILE(LoadScene);
 
@@ -78,13 +78,13 @@ bool Scene2D::Load(FStream& source)
 
 	FObjectResolver resolver;
 	resolver.StoreObject(ownId, this);
-	Node2D::Load(source, resolver);
+	ANode2D::Load(source, resolver);
 	resolver.Resolve();
 
 	return true;
 }
 
-bool Scene2D::LoadJSON(const FJSONValue& source)
+bool AScene2D::LoadJSON(const FJSONValue& source)
 {
 	PROFILE(LoadSceneJSON);
 
@@ -101,13 +101,13 @@ bool Scene2D::LoadJSON(const FJSONValue& source)
 
 	FObjectResolver resolver;
 	resolver.StoreObject(ownId, this);
-	Node2D::LoadJSON(source, resolver);
+	ANode2D::LoadJSON(source, resolver);
 	resolver.Resolve();
 
 	return true;
 }
 
-bool Scene2D::LoadJSON(FStream& source)
+bool AScene2D::LoadJSON(FStream& source)
 {
 	InfoString("Loading scene from " + source.FName());
 
@@ -117,18 +117,18 @@ bool Scene2D::LoadJSON(FStream& source)
 	return success;
 }
 
-bool Scene2D::SaveJSON(FStream& dest)
+bool AScene2D::SaveJSON(FStream& dest)
 {
 	PROFILE(SaveSceneJSON);
 
 	InfoString("Saving scene to " + dest.FName());
 
 	AJSONFile json;
-	Node2D::SaveJSON(json.Root());
+	ANode2D::SaveJSON(json.Root());
 	return json.Save(dest);
 }
 
-Node2D* Scene2D::Instantiate(FStream& source)
+ANode2D* AScene2D::Instantiate(FStream& source)
 {
 	PROFILE(Instantiate);
 
@@ -136,7 +136,7 @@ Node2D* Scene2D::Instantiate(FStream& source)
 	FStringHash childType(source.Read<FStringHash>());
 	unsigned childId = source.Read<unsigned>();
 
-	Node2D* child = CreateChild(childType);
+	ANode2D* child = CreateChild(childType);
 	if (child)
 	{
 		resolver.StoreObject(childId, child);
@@ -147,7 +147,7 @@ Node2D* Scene2D::Instantiate(FStream& source)
 	return child;
 }
 
-Node2D* Scene2D::InstantiateJSON(const FJSONValue& source)
+ANode2D* AScene2D::InstantiateJSON(const FJSONValue& source)
 {
 	PROFILE(InstantiateJSON);
 
@@ -155,7 +155,7 @@ Node2D* Scene2D::InstantiateJSON(const FJSONValue& source)
 	FStringHash childType(source["type"].GetString());
 	unsigned childId = (unsigned)source["id"].GetNumber();
 
-	Node2D* child = CreateChild(childType);
+	ANode2D* child = CreateChild(childType);
 	if (child)
 	{
 		resolver.StoreObject(childId, child);
@@ -166,36 +166,36 @@ Node2D* Scene2D::InstantiateJSON(const FJSONValue& source)
 	return child;
 }
 
-Node2D* Scene2D::InstantiateJSON(FStream& source)
+ANode2D* AScene2D::InstantiateJSON(FStream& source)
 {
 	AJSONFile json;
 	json.Load(source);
 	return InstantiateJSON(json.Root());
 }
 
-void Scene2D::Clear()
+void AScene2D::Clear()
 {
 	RemoveAllChildren();
 	_nextNodeId = 1;
 }
 
-Node2D* Scene2D::FindNode(unsigned id) const
+ANode2D* AScene2D::FindNode(unsigned id) const
 {
 	auto it = _nodes.Find(id);
 	return it != _nodes.End() ? it->_second : nullptr;
 }
 
-const THashMap<unsigned, Node2D*>& Scene2D::GetAllNode() const
+const THashMap<unsigned, ANode2D*>& AScene2D::GetAllNode() const
 {
 	return _nodes;
 }
 
-TVector<Camera2D*>& Scene2D::GetAllCamera()
+TVector<ACamera2D*>& AScene2D::GetAllCamera()
 {
 	return _cameras;
 }
 
-void Scene2D::AddNode(Node2D* node)
+void AScene2D::AddNode(ANode2D* node)
 {
 	if (!node || node->ParentScene2D() == this)
 		return;
@@ -207,7 +207,7 @@ void Scene2D::AddNode(Node2D* node)
 			++_nextNodeId;
 	}
 
-	Scene2D* oldScene = node->ParentScene2D();
+	AScene2D* oldScene = node->ParentScene2D();
 	if (oldScene)
 	{
 		unsigned oldId = node->Id();
@@ -222,13 +222,13 @@ void Scene2D::AddNode(Node2D* node)
 	// If node has children, add them to the scene as well
 	if (node->NumChildren())
 	{
-		const TVector<TSharedPtr<Node2D> >& children = node->Children();
+		const TVector<TSharedPtr<ANode2D> >& children = node->Children();
 		for (auto it = children.Begin(); it != children.End(); ++it)
 			AddNode(*it);
 	}
 }
 
-void Scene2D::RemoveNode(Node2D* node)
+void AScene2D::RemoveNode(ANode2D* node)
 {
 	if (!node || node->ParentScene2D() != this)
 		return;
@@ -240,18 +240,18 @@ void Scene2D::RemoveNode(Node2D* node)
 	// If node has children, remove them from the scene as well
 	if (node->NumChildren())
 	{
-		const TVector<TSharedPtr<Node2D> >& children = node->Children();
+		const TVector<TSharedPtr<ANode2D> >& children = node->Children();
 		for (auto it = children.Begin(); it != children.End(); ++it)
 			RemoveNode(*it);
 	}
 }
 
-void Scene2D::SetPhysicsWorld(PhysicsWorld2D* physicsWorld)
+void AScene2D::SetPhysicsWorld(APhysicsWorld2D* physicsWorld)
 {
 	_physicsWorld = physicsWorld;
 }
 
-PhysicsWorld2D* Scene2D::GetPhysicsWorld()
+APhysicsWorld2D* AScene2D::GetPhysicsWorld()
 {
 	if (_physicsWorld)
 	{
@@ -261,7 +261,7 @@ PhysicsWorld2D* Scene2D::GetPhysicsWorld()
 	return nullptr;
 }
 
-void Scene2D::SetLayerNamesAttr(FJSONValue names)
+void AScene2D::SetLayerNamesAttr(FJSONValue names)
 {
 	_layerNames.Clear();
 	_layers.Clear();
@@ -275,7 +275,7 @@ void Scene2D::SetLayerNamesAttr(FJSONValue names)
 	}
 }
 
-FJSONValue Scene2D::LayerNamesAttr() const
+FJSONValue AScene2D::LayerNamesAttr() const
 {
 	FJSONValue ret;
 
@@ -286,7 +286,7 @@ FJSONValue Scene2D::LayerNamesAttr() const
 	return ret;
 }
 
-void Scene2D::SetTagNamesAttr(FJSONValue names)
+void AScene2D::SetTagNamesAttr(FJSONValue names)
 {
 	_tagNames.Clear();
 	_tags.Clear();
@@ -300,7 +300,7 @@ void Scene2D::SetTagNamesAttr(FJSONValue names)
 	}
 }
 
-FJSONValue Scene2D::TagNamesAttr() const
+FJSONValue AScene2D::TagNamesAttr() const
 {
 	FJSONValue ret;
 

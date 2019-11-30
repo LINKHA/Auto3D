@@ -10,7 +10,7 @@
 namespace Auto3D
 {
 
-Node2D::Node2D():
+ANode2D::ANode2D():
 	_flags(NF_2D_ENABLED),
 	_layer(LAYER_2D_DEFAULT),
 	_tag(TAG_2D_NONE),
@@ -21,7 +21,7 @@ Node2D::Node2D():
 
 }
 
-Node2D::~Node2D()
+ANode2D::~ANode2D()
 {
 	RemoveAllChildren();
 	// At the time of destruction the node should not have a parent, or be in a scene
@@ -29,13 +29,13 @@ Node2D::~Node2D()
 	assert(!_scene2D);
 }
 
-void Node2D::RegisterObject()
+void ANode2D::RegisterObject()
 {
-	RegisterFactory<Node2D>();
+	RegisterFactory<ANode2D>();
 }
 
 
-void Node2D::Load(FStream& source, FObjectResolver& resolver)
+void ANode2D::Load(FStream& source, FObjectResolver& resolver)
 {
 	// Type and _id has been read by the parent
 	ASerializable::Load(source, resolver);
@@ -45,7 +45,7 @@ void Node2D::Load(FStream& source, FObjectResolver& resolver)
 	{
 		FStringHash childType(source.Read<FStringHash>());
 		unsigned childId = source.Read<unsigned>();
-		Node2D* child = CreateChild(childType);
+		ANode2D* child = CreateChild(childType);
 		if (child)
 		{
 			resolver.StoreObject(childId, child);
@@ -59,7 +59,7 @@ void Node2D::Load(FStream& source, FObjectResolver& resolver)
 	}
 }
 
-void Node2D::Save(FStream& dest)
+void ANode2D::Save(FStream& dest)
 {
 	// Write type and ID first, followed by attributes and child nodes
 	dest.Write(GetType());
@@ -69,13 +69,13 @@ void Node2D::Save(FStream& dest)
 
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		Node2D* child = *it;
+		ANode2D* child = *it;
 		if (!child->IsTemporary())
 			child->Save(dest);
 	}
 }
 
-void Node2D::LoadJSON(const FJSONValue& source, FObjectResolver& resolver)
+void ANode2D::LoadJSON(const FJSONValue& source, FObjectResolver& resolver)
 {
 	// Type and _id has been read by the parent
 	ASerializable::LoadJSON(source, resolver);
@@ -88,7 +88,7 @@ void Node2D::LoadJSON(const FJSONValue& source, FObjectResolver& resolver)
 			const FJSONValue& childJSON = *it;
 			FStringHash childType(childJSON["type"].GetString());
 			unsigned childId = (unsigned)childJSON["id"].GetNumber();
-			Node2D* child = CreateChild(childType);
+			ANode2D* child = CreateChild(childType);
 			if (child)
 			{
 				resolver.StoreObject(childId, child);
@@ -98,7 +98,7 @@ void Node2D::LoadJSON(const FJSONValue& source, FObjectResolver& resolver)
 	}
 }
 
-void Node2D::SaveJSON(FJSONValue& dest)
+void ANode2D::SaveJSON(FJSONValue& dest)
 {
 	dest["type"] = GetTypeName();
 	dest["id"] = Id();
@@ -109,7 +109,7 @@ void Node2D::SaveJSON(FJSONValue& dest)
 		dest["children"].SetEmptyArray();
 		for (auto it = _children.Begin(); it != _children.End(); ++it)
 		{
-			Node2D* child = *it;
+			ANode2D* child = *it;
 			if (!child->IsTemporary())
 			{
 				FJSONValue childJSON;
@@ -120,24 +120,24 @@ void Node2D::SaveJSON(FJSONValue& dest)
 	}
 }
 
-bool Node2D::SaveJSON(FStream& dest)
+bool ANode2D::SaveJSON(FStream& dest)
 {
 	AJSONFile json;
 	SaveJSON(json.Root());
 	return json.Save(dest);
 }
 
-void Node2D::SetName(const FString& newName)
+void ANode2D::SetName(const FString& newName)
 {
 	SetName(newName.CString());
 }
 
-void Node2D::SetName(const char* newName)
+void ANode2D::SetName(const char* newName)
 {
 	_name = newName;
 }
 
-void Node2D::SetLayer(unsigned char newLayer)
+void ANode2D::SetLayer(unsigned char newLayer)
 {
 	if (_layer < 32)
 		_layer = newLayer;
@@ -145,7 +145,7 @@ void Node2D::SetLayer(unsigned char newLayer)
 		ErrorString("Can not set layer 32 or higher");
 }
 
-void Node2D::SetLayerName(const FString& newLayerName)
+void ANode2D::SetLayerName(const FString& newLayerName)
 {
 	if (!_scene2D)
 		return;
@@ -158,12 +158,12 @@ void Node2D::SetLayerName(const FString& newLayerName)
 		ErrorString("Layer " + newLayerName + " not defined in the scene");
 }
 
-void Node2D::SetTag(unsigned char newTag)
+void ANode2D::SetTag(unsigned char newTag)
 {
 	_tag = newTag;
 }
 
-void Node2D::SetTagName(const FString& newTagName)
+void ANode2D::SetTagName(const FString& newTagName)
 {
 	if (!_scene2D)
 		return;
@@ -176,28 +176,28 @@ void Node2D::SetTagName(const FString& newTagName)
 		ErrorString("Tag " + newTagName + " not defined in the scene");
 }
 
-void Node2D::SetEnabled(bool enable)
+void ANode2D::SetEnabled(bool enable)
 {
 	SetFlag(NF_2D_ENABLED, enable);
 	OnSetEnabled(TestFlag(NF_2D_ENABLED));
 }
 
-void Node2D::SetEnabledRecursive(bool enable)
+void ANode2D::SetEnabledRecursive(bool enable)
 {
 	SetEnabled(enable);
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		Node2D* child = *it;
+		ANode2D* child = *it;
 		child->SetEnabledRecursive(enable);
 	}
 }
 
-void Node2D::SetTemporary(bool enable)
+void ANode2D::SetTemporary(bool enable)
 {
 	SetFlag(NF_2D_TEMPORARY, enable);
 }
 
-void Node2D::SetParent(Node2D* newParent)
+void ANode2D::SetParent(ANode2D* newParent)
 {
 	if (newParent)
 		newParent->AddChild(this);
@@ -205,7 +205,7 @@ void Node2D::SetParent(Node2D* newParent)
 		ErrorString("Could not set null parent");
 }
 
-void Node2D::DefineLayer(unsigned char index, const FString& name)
+void ANode2D::DefineLayer(unsigned char index, const FString& name)
 {
 	if (index >= 32)
 	{
@@ -219,7 +219,7 @@ void Node2D::DefineLayer(unsigned char index, const FString& name)
 	_layers[name] = index;
 }
 
-void Node2D::DefineTag(unsigned char index, const FString& name)
+void ANode2D::DefineTag(unsigned char index, const FString& name)
 {
 	if (_tagNames.Size() <= index)
 		_tagNames.Resize(index + 1);
@@ -227,7 +227,7 @@ void Node2D::DefineTag(unsigned char index, const FString& name)
 	_tags[name] = index;
 }
 
-Node2D* Node2D::CreateChild(FStringHash childType)
+ANode2D* ANode2D::CreateChild(FStringHash childType)
 {
 	TSharedPtr<AObject> newObject = Create(childType);
 	if (!newObject)
@@ -235,7 +235,7 @@ Node2D* Node2D::CreateChild(FStringHash childType)
 		ErrorString("Could not create child node of unknown type " + childType.ToString());
 		return nullptr;
 	}
-	Node2D* child = dynamic_cast<Node2D*>(newObject.Get());
+	ANode2D* child = dynamic_cast<ANode2D*>(newObject.Get());
 	if (!child)
 	{
 		ErrorString(newObject->GetTypeName() + " is not a UINode subclass, could not add as a child");
@@ -248,20 +248,20 @@ Node2D* Node2D::CreateChild(FStringHash childType)
 	return child;
 }
 
-Node2D* Node2D::CreateChild(FStringHash childType, const FString& childName)
+ANode2D* ANode2D::CreateChild(FStringHash childType, const FString& childName)
 {
 	return CreateChild(childType, childName.CString());
 }
 
-Node2D* Node2D::CreateChild(FStringHash childType, const char* childName)
+ANode2D* ANode2D::CreateChild(FStringHash childType, const char* childName)
 {
-	Node2D* child = CreateChild(childType);
+	ANode2D* child = CreateChild(childType);
 	if (child)
 		child->SetName(childName);
 	return child;
 }
 
-void Node2D::AddChild(Node2D* child)
+void ANode2D::AddChild(ANode2D* child)
 {
 	// Check for illegal or redundant parent assignment
 	if (!child || child->_parent == this)
@@ -274,7 +274,7 @@ void Node2D::AddChild(Node2D* child)
 	}
 
 	// Check for possible cyclic parent assignment
-	Node2D* current = _parent;
+	ANode2D* current = _parent;
 	while (current)
 	{
 		if (current == child)
@@ -285,7 +285,7 @@ void Node2D::AddChild(Node2D* child)
 		current = current->_parent;
 	}
 
-	Node2D* oldParent = child->_parent;
+	ANode2D* oldParent = child->_parent;
 	if (oldParent)
 		oldParent->_children.Remove(child);
 	_children.Push(child);
@@ -295,14 +295,14 @@ void Node2D::AddChild(Node2D* child)
 	if (_scene2D)
 	{
 		_scene2D->AddNode(child);
-		if (child->GetType() == Camera2D::GetTypeStatic())
+		if (child->GetType() == ACamera2D::GetTypeStatic())
 		{
-			_scene2D->AddCamera(dynamic_cast<Camera2D*>(child));
+			_scene2D->AddCamera(dynamic_cast<ACamera2D*>(child));
 		}
 	}
 }
 
-void Node2D::RemoveChild(Node2D* child)
+void ANode2D::RemoveChild(ANode2D* child)
 {
 	if (!child || child->_parent != this)
 		return;
@@ -317,12 +317,12 @@ void Node2D::RemoveChild(Node2D* child)
 	}
 }
 
-void Node2D::RemoveChild(size_t index)
+void ANode2D::RemoveChild(size_t index)
 {
 	if (index >= _children.Size())
 		return;
 
-	Node2D* child = _children[index];
+	ANode2D* child = _children[index];
 	// Detach from both the parent and the scene (removes _id assignment)
 	child->_parent = nullptr;
 	child->OnParentSet(this, nullptr);
@@ -331,11 +331,11 @@ void Node2D::RemoveChild(size_t index)
 	_children.Erase(index);
 }
 
-void Node2D::RemoveAllChildren()
+void ANode2D::RemoveAllChildren()
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		Node2D* child = *it;
+		ANode2D* child = *it;
 		child->_parent = nullptr;
 		child->OnParentSet(this, nullptr);
 		if (_scene2D)
@@ -346,7 +346,7 @@ void Node2D::RemoveAllChildren()
 	_children.Clear();
 }
 
-void Node2D::RemoveSelf()
+void ANode2D::RemoveSelf()
 {
 	if (_parent)
 		_parent->RemoveChild(this);
@@ -354,7 +354,7 @@ void Node2D::RemoveSelf()
 		delete this;
 }
 
-const FString& Node2D::GetLayerName() const
+const FString& ANode2D::GetLayerName() const
 {
 	if (!_scene2D)
 		return FString::EMPTY;
@@ -363,7 +363,7 @@ const FString& Node2D::GetLayerName() const
 	return _layer < layerNames.Size() ? layerNames[_layer] : FString::EMPTY;
 }
 
-const FString& Node2D::GetTagName() const
+const FString& ANode2D::GetTagName() const
 {
 	if (!_scene2D)
 		return FString::EMPTY;
@@ -372,13 +372,13 @@ const FString& Node2D::GetTagName() const
 	return _tag < tagNames.Size() ? tagNames[_layer] : FString::EMPTY;
 }
 
-size_t Node2D::NumPersistentChildren() const
+size_t ANode2D::NumPersistentChildren() const
 {
 	size_t ret = 0;
 
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		Node2D* child = *it;
+		ANode2D* child = *it;
 		if (!child->IsTemporary())
 			++ret;
 	}
@@ -386,31 +386,31 @@ size_t Node2D::NumPersistentChildren() const
 	return ret;
 }
 
-void Node2D::AllChildren(TVector<Node2D*>& result) const
+void ANode2D::AllChildren(TVector<ANode2D*>& result) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		Node2D* child = *it;
+		ANode2D* child = *it;
 		result.Push(child);
 		child->AllChildren(result);
 	}
 }
 
-Node2D* Node2D::FindChild(const FString& childName, bool recursive) const
+ANode2D* ANode2D::FindChild(const FString& childName, bool recursive) const
 {
 	return FindChild(childName.CString(), recursive);
 }
 
-Node2D* Node2D::FindChild(const char* childName, bool recursive) const
+ANode2D* ANode2D::FindChild(const char* childName, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		Node2D* child = *it;
+		ANode2D* child = *it;
 		if (child->_name == childName)
 			return child;
 		else if (recursive && child->_children.Size())
 		{
-			Node2D* childResult = child->FindChild(childName, recursive);
+			ANode2D* childResult = child->FindChild(childName, recursive);
 			if (childResult)
 				return childResult;
 		}
@@ -419,16 +419,16 @@ Node2D* Node2D::FindChild(const char* childName, bool recursive) const
 	return nullptr;
 }
 
-Node2D* Node2D::FindChild(FStringHash childType, bool recursive) const
+ANode2D* ANode2D::FindChild(FStringHash childType, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		Node2D* child = *it;
+		ANode2D* child = *it;
 		if (child->GetType() == childType)
 			return child;
 		else if (recursive && child->_children.Size())
 		{
-			Node2D* childResult = child->FindChild(childType, recursive);
+			ANode2D* childResult = child->FindChild(childType, recursive);
 			if (childResult)
 				return childResult;
 		}
@@ -437,21 +437,21 @@ Node2D* Node2D::FindChild(FStringHash childType, bool recursive) const
 	return nullptr;
 }
 
-Node2D* Node2D::FindChild(FStringHash childType, const FString& childName, bool recursive) const
+ANode2D* ANode2D::FindChild(FStringHash childType, const FString& childName, bool recursive) const
 {
 	return FindChild(childType, childName.CString(), recursive);
 }
 
-Node2D* Node2D::FindChild(FStringHash childType, const char* childName, bool recursive) const
+ANode2D* ANode2D::FindChild(FStringHash childType, const char* childName, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		Node2D* child = *it;
+		ANode2D* child = *it;
 		if (child->GetType() == childType && child->_name == childName)
 			return child;
 		else if (recursive && child->_children.Size())
 		{
-			Node2D* childResult = child->FindChild(childType, childName, recursive);
+			ANode2D* childResult = child->FindChild(childType, childName, recursive);
 			if (childResult)
 				return childResult;
 		}
@@ -460,16 +460,16 @@ Node2D* Node2D::FindChild(FStringHash childType, const char* childName, bool rec
 	return nullptr;
 }
 
-Node2D* Node2D::FindChildByLayer(unsigned layerMask, bool recursive) const
+ANode2D* ANode2D::FindChildByLayer(unsigned layerMask, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		Node2D* child = *it;
+		ANode2D* child = *it;
 		if (child->GetLayerMask() && layerMask)
 			return child;
 		else if (recursive && child->_children.Size())
 		{
-			Node2D* childResult = child->FindChildByLayer(layerMask, recursive);
+			ANode2D* childResult = child->FindChildByLayer(layerMask, recursive);
 			if (childResult)
 				return childResult;
 		}
@@ -478,16 +478,16 @@ Node2D* Node2D::FindChildByLayer(unsigned layerMask, bool recursive) const
 	return nullptr;
 }
 
-Node2D* Node2D::FindChildByTag(unsigned char tag, bool recursive) const
+ANode2D* ANode2D::FindChildByTag(unsigned char tag, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		Node2D* child = *it;
+		ANode2D* child = *it;
 		if (child->_tag == tag)
 			return child;
 		else if (recursive && child->_children.Size())
 		{
-			Node2D* childResult = child->FindChildByTag(tag, recursive);
+			ANode2D* childResult = child->FindChildByTag(tag, recursive);
 			if (childResult)
 				return childResult;
 		}
@@ -496,21 +496,21 @@ Node2D* Node2D::FindChildByTag(unsigned char tag, bool recursive) const
 	return nullptr;
 }
 
-Node2D* Node2D::FindChildByTag(const FString& tagName, bool recursive) const
+ANode2D* ANode2D::FindChildByTag(const FString& tagName, bool recursive) const
 {
 	return FindChildByTag(tagName.CString(), recursive);
 }
 
-Node2D* Node2D::FindChildByTag(const char* tagName, bool recursive) const
+ANode2D* ANode2D::FindChildByTag(const char* tagName, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		Node2D* child = *it;
+		ANode2D* child = *it;
 		if (!FString::Compare(child->GetTagName().CString(), tagName))
 			return child;
 		else if (recursive && child->_children.Size())
 		{
-			Node2D* childResult = child->FindChildByTag(tagName, recursive);
+			ANode2D* childResult = child->FindChildByTag(tagName, recursive);
 			if (childResult)
 				return childResult;
 		}
@@ -519,11 +519,11 @@ Node2D* Node2D::FindChildByTag(const char* tagName, bool recursive) const
 	return nullptr;
 }
 
-void Node2D::FindChildren(TVector<Node2D*>& result, FStringHash childType, bool recursive) const
+void ANode2D::FindChildren(TVector<ANode2D*>& result, FStringHash childType, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		Node2D* child = *it;
+		ANode2D* child = *it;
 		if (child->GetType() == childType)
 			result.Push(child);
 		if (recursive && child->_children.Size())
@@ -531,11 +531,11 @@ void Node2D::FindChildren(TVector<Node2D*>& result, FStringHash childType, bool 
 	}
 }
 
-void Node2D::FindChildrenByLayer(TVector<Node2D*>& result, unsigned layerMask, bool recursive) const
+void ANode2D::FindChildrenByLayer(TVector<ANode2D*>& result, unsigned layerMask, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		Node2D* child = *it;
+		ANode2D* child = *it;
 		if (child->GetLayerMask() & layerMask)
 			result.Push(child);
 		if (recursive && child->_children.Size())
@@ -543,11 +543,11 @@ void Node2D::FindChildrenByLayer(TVector<Node2D*>& result, unsigned layerMask, b
 	}
 }
 
-void Node2D::FindChildrenByTag(TVector<Node2D*>& result, unsigned char tag, bool recursive) const
+void ANode2D::FindChildrenByTag(TVector<ANode2D*>& result, unsigned char tag, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		Node2D* child = *it;
+		ANode2D* child = *it;
 		if (child->_tag == tag)
 			result.Push(child);
 		if (recursive && child->_children.Size())
@@ -555,16 +555,16 @@ void Node2D::FindChildrenByTag(TVector<Node2D*>& result, unsigned char tag, bool
 	}
 }
 
-void Node2D::FindChildrenByTag(TVector<Node2D*>& result, const FString& tagName, bool recursive) const
+void ANode2D::FindChildrenByTag(TVector<ANode2D*>& result, const FString& tagName, bool recursive) const
 {
 	FindChildrenByTag(result, tagName.CString(), recursive);
 }
 
-void Node2D::FindChildrenByTag(TVector<Node2D*>& result, const char* tagName, bool recursive) const
+void ANode2D::FindChildrenByTag(TVector<ANode2D*>& result, const char* tagName, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
-		Node2D* child = *it;
+		ANode2D* child = *it;
 		if (!FString::Compare(child->GetTagName().CString(), tagName))
 			result.Push(child);
 		if (recursive && child->_children.Size())
@@ -572,19 +572,19 @@ void Node2D::FindChildrenByTag(TVector<Node2D*>& result, const char* tagName, bo
 	}
 }
 
-void Node2D::SetScene2D(Scene2D* newScene2D)
+void ANode2D::SetScene2D(AScene2D* newScene2D)
 {
-	Scene2D* oldCanvas = _scene2D;
+	AScene2D* oldCanvas = _scene2D;
 	_scene2D = newScene2D;
 	OnScene2DSet(_scene2D, oldCanvas);
 }
 
-void Node2D::SetId(unsigned newId)
+void ANode2D::SetId(unsigned newId)
 {
 	_id = newId;
 }
 
-void Node2D::SkipHierarchy(FStream& source)
+void ANode2D::SkipHierarchy(FStream& source)
 {
 	ASerializable::Skip(source);
 
@@ -597,15 +597,15 @@ void Node2D::SkipHierarchy(FStream& source)
 	}
 }
 
-void Node2D::OnParentSet(Node2D*, Node2D*)
+void ANode2D::OnParentSet(ANode2D*, ANode2D*)
 {
 }
 
-void Node2D::OnScene2DSet(Scene2D*, Scene2D*)
+void ANode2D::OnScene2DSet(AScene2D*, AScene2D*)
 {
 }
 
-void Node2D::OnSetEnabled(bool)
+void ANode2D::OnSetEnabled(bool)
 {
 }
 

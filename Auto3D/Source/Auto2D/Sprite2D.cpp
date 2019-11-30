@@ -5,13 +5,13 @@
 namespace Auto3D
 {
 
-Sprite2D::Sprite2D() = default;
+ASprite2D::ASprite2D() = default;
 
-Sprite2D::~Sprite2D() = default;
+ASprite2D::~ASprite2D() = default;
 
-void Sprite2D::RegisterObject()
+void ASprite2D::RegisterObject()
 {
-	RegisterFactory<Sprite2D>();
+	RegisterFactory<ASprite2D>();
 }
 
 }

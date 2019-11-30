@@ -3,7 +3,7 @@
 namespace Auto3D {
 
 class APhysicsWorld;
-class PhysicsWorld2D;
+class APhysicsWorld2D;
 
 /// APhysics sub system 
 class AUTO_API APhysics : public ABaseModule
@@ -25,13 +25,13 @@ public:
 	/// Get active physics world.
 	APhysicsWorld* GetActivePhysicsWorld()const { return _activeWorld; }
 	/// Add physics world.
-	void AddPhysicsWorld2D(PhysicsWorld2D* physicsWorld2d);
+	void AddPhysicsWorld2D(APhysicsWorld2D* physicsWorld2d);
 	/// Remove physics world.
-	void RemovePhysicsWorld2D(PhysicsWorld2D* physicsWorld2d);
+	void RemovePhysicsWorld2D(APhysicsWorld2D* physicsWorld2d);
 	/// Set active physics world. 
-	void SetActivePhysicsWrold2D(PhysicsWorld2D* physicsWorld2d);
+	void SetActivePhysicsWrold2D(APhysicsWorld2D* physicsWorld2d);
 	/// Get active 2d physics world.
-	PhysicsWorld2D* GetActivePhysicsWorld2D()const { return _activeWorld2d; }
+	APhysicsWorld2D* GetActivePhysicsWorld2D()const { return _activeWorld2d; }
 
 private:
 	/// All scene physics world.
@@ -39,9 +39,9 @@ private:
 	/// Active physics world.
 	APhysicsWorld* _activeWorld;
 	/// All scene2d physics world.
-	TVector<PhysicsWorld2D*> _physicsWorld2ds;
+	TVector<APhysicsWorld2D*> _physicsWorld2ds;
 	/// Active 2D physics world.
-	PhysicsWorld2D* _activeWorld2d;
+	APhysicsWorld2D* _activeWorld2d;
 
 };
 

@@ -5,23 +5,23 @@
 
 namespace Auto3D {
 
-Collider2D::Collider2D():
+ACollider2D::ACollider2D():
 	_fixture(nullptr)
 {
 	SetDensity(0.5f);
 }
 
-Collider2D::~Collider2D()
+ACollider2D::~ACollider2D()
 {
 	ReleaseFixture();
 }
 
-void Collider2D::RegisterObject()
+void ACollider2D::RegisterObject()
 {
-	RegisterFactory<Collider2D>();
+	RegisterFactory<ACollider2D>();
 }
 
-void Collider2D::SetDensity(float density)
+void ACollider2D::SetDensity(float density)
 {
 	if (_fixtureDef.density == density)
 		return;
@@ -32,7 +32,7 @@ void Collider2D::SetDensity(float density)
 	CreateFixture();
 }
 
-void Collider2D::SetFriction(float friction)
+void ACollider2D::SetFriction(float friction)
 {
 	if (_fixtureDef.friction == friction)
 		return;
@@ -43,7 +43,7 @@ void Collider2D::SetFriction(float friction)
 	CreateFixture();
 }
 
-void Collider2D::SetRestitution(float restitution)
+void ACollider2D::SetRestitution(float restitution)
 {
 	if (_fixtureDef.restitution == restitution)
 		return;
@@ -54,7 +54,7 @@ void Collider2D::SetRestitution(float restitution)
 	CreateFixture();
 }
 
-void Collider2D::CreateFixture()
+void ACollider2D::CreateFixture()
 {
 	if (_fixture)
 		return;
@@ -64,7 +64,7 @@ void Collider2D::CreateFixture()
 
 	if (!_rigidBody)
 	{
-		_rigidBody = Parent()->FindChild<RigidBody2D>();
+		_rigidBody = Parent()->FindChild<ARigidBody2D>();
 		if (!_rigidBody)
 			return;
 	}
@@ -89,7 +89,7 @@ void Collider2D::CreateFixture()
 	}
 }
 
-void Collider2D::ReleaseFixture()
+void ACollider2D::ReleaseFixture()
 {
 	if (!_fixture)
 		return;
@@ -109,7 +109,7 @@ void Collider2D::ReleaseFixture()
 	_fixture = nullptr;
 }
 
-void Collider2D::ParentCallBack()
+void ACollider2D::ParentCallBack()
 {
 	_physicsWorld = ParentScene2D()->GetPhysicsWorld();
 }

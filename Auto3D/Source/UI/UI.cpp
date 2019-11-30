@@ -28,7 +28,7 @@ namespace Auto3D
 THashMap<FString, const char*> FUIFont::Data = THashMap<FString, const char*>();
 int FUIFont::DefaultSize = 0;
 
-AUI::AUI() :
+AUIModule::AUIModule() :
 	_window(nullptr)
 {
 	// Setup Dear ImGui context
@@ -45,7 +45,7 @@ AUI::AUI() :
 	config.MergeMode = false;
 }
 
-AUI::~AUI()
+AUIModule::~AUIModule()
 {
 #if defined(_WIN32) || defined(_WIN64)
 	// Cleanup
@@ -62,9 +62,9 @@ AUI::~AUI()
 }
 
 #ifdef AUTO_OPENGL
-bool AUI::SetMode(AWindow* window, FGraphicsContext* context)
+bool AUIModule::SetMode(AWindow* window, FGraphicsContext* context)
 #else
-bool AUI::SetMode(AWindow* window)
+bool AUIModule::SetMode(AWindow* window)
 #endif
 {
 #if defined(_WIN32) || defined(_WIN64)
@@ -118,7 +118,7 @@ bool AUI::SetMode(AWindow* window)
 	return true;
 }
 
-bool AUI::BeginUI()
+bool AUIModule::BeginUI()
 {
 #if defined(_WIN32) || defined(_WIN64)
 	if (!_window)
@@ -143,7 +143,7 @@ bool AUI::BeginUI()
 	return true;
 }
 
-void AUI::Present()
+void AUIModule::Present()
 {
 	ImGui::Render();
 #	if defined(AUTO_OPENGL)
@@ -151,7 +151,7 @@ void AUI::Present()
 #	endif
 }
 
-void AUI::AddFont(AFont* font, int pixels, FString fontname, EUIFontLanguage::Data languageType)
+void AUIModule::AddFont(AFont* font, int pixels, FString fontname, EUIFontLanguage::Data languageType)
 {
 	if (fontname == "Default")
 		fontname = "Default" + FUIFont::DefaultSize++;
@@ -197,7 +197,7 @@ void AUI::AddFont(AFont* font, int pixels, FString fontname, EUIFontLanguage::Da
 	ImGui::AddFont(FUIFont::Data[fontname] = fontname.CString(), tFont);
 }
 
-void AUI::ProcessEvent(const SDL_Event* event)
+void AUIModule::ProcessEvent(const SDL_Event* event)
 {
 #if defined(_WIN32) || defined(_WIN64)
 	//ImguiWin

@@ -98,16 +98,16 @@ namespace EUIFontLanguage
 	};
 }
 
-class AUTO_API AUI : public ABaseModule
+class AUTO_API AUIModule : public ABaseModule
 {
-	REGISTER_OBJECT_CLASS(AUI, ABaseModule)
+	REGISTER_OBJECT_CLASS(AUIModule, ABaseModule)
 public:
 	/// Construct.
-	AUI();
+	AUIModule();
 	/// Destruct.
-	~AUI();
+	~AUIModule();
 
-	/// Init AUI state
+	/// Init AUIModule state
 #ifdef AUTO_OPENGL
 	bool SetMode(AWindow* window, FGraphicsContext* context);
 #else
@@ -130,7 +130,7 @@ private:
 	TWeakPtr<AWindow> _window;
 };
 
-/// Register AUI related object factories and attributes.
+/// Register AUIModule related object factories and attributes.
 AUTO_API void RegisterUILibrary();
 
 namespace GUI

@@ -20,12 +20,12 @@ namespace Face2DCameraMode
 };
 
 
-class AUTO_API Camera2D : public SpatialNode2D
+class AUTO_API ACamera2D : public ASpatialNode2D
 {
-	REGISTER_OBJECT_CLASS(Camera2D, SpatialNode2D)
+	REGISTER_OBJECT_CLASS(ACamera2D, ASpatialNode2D)
 public:
-	Camera2D();
-	~Camera2D();
+	ACamera2D();
+	~ACamera2D();
 	/// Register factory and attributes.
 	static void RegisterObject();
 

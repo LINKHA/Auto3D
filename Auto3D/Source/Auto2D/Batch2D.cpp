@@ -4,30 +4,30 @@
 namespace Auto3D
 {
 		
-inline bool CompareBatchState(Batch2D& lhs, Batch2D& rhs)
+inline bool CompareBatchState(FBatch2D& lhs, FBatch2D& rhs)
 {
 	return lhs._sortKey < rhs._sortKey;
 }
 
-void Batch2DQueue::Clear()
+void FBatch2DQueue::Clear()
 {
 	_batches.Clear();
 }
 
-void Batch2DQueue::Sort(TVector<TMatrix3x4F>& instanceTransforms)
+void FBatch2DQueue::Sort(TVector<TMatrix3x4F>& instanceTransforms)
 {
 	Auto3D::Sort(_batches.Begin(), _batches.End(), CompareBatchState);
 	// Build instances where adjacent batches have same state
 	BuildInstances(_batches, instanceTransforms);
 }
 
-void Batch2DQueue::BuildInstances(TVector<Batch2D>& batches, TVector<TMatrix3x4F>& instanceTransforms)
+void FBatch2DQueue::BuildInstances(TVector<FBatch2D>& batches, TVector<TMatrix3x4F>& instanceTransforms)
 {
-	Batch2D* start = nullptr;
+	FBatch2D* start = nullptr;
 
 	for (auto it = batches.Begin(), end = batches.End(); it != end; ++it)
 	{
-		Batch2D* current = &*it;
+		FBatch2D* current = &*it;
 
 		if (start && current->_type == EGeometryType::STATIC && current->_geometry == start->_geometry)
 		{

@@ -8,7 +8,7 @@ namespace Auto3D
 
 class ATexture;
 
-struct AUTO_API Batch2D
+struct AUTO_API FBatch2D
 {
 	/// Calculate sort _key for state sorting.
 	void CalculateSortKey()
@@ -45,7 +45,7 @@ struct AUTO_API Batch2D
 };
 
 /// Per-pass batch queue structure.
-struct AUTO_API Batch2DQueue
+struct AUTO_API FBatch2DQueue
 {
 	/// Clear structures.
 	void Clear();
@@ -53,10 +53,10 @@ struct AUTO_API Batch2DQueue
 	void Sort(TVector<TMatrix3x4F>& instanceTransforms);
 
 	/// Build instances from adjacent batches with same state.
-	static void BuildInstances(TVector<Batch2D>& batches, TVector<TMatrix3x4F>& instanceTransforms);
+	static void BuildInstances(TVector<FBatch2D>& batches, TVector<TMatrix3x4F>& instanceTransforms);
 
 	/// Batches, which may be instanced or non-instanced.
-	TVector<Batch2D> _batches;
+	TVector<FBatch2D> _batches;
 	/// Base pass index.
 	unsigned char _baseIndex;
 	/// Additive pass index (if needed.)

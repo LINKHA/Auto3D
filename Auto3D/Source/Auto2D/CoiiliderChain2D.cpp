@@ -5,21 +5,21 @@
 
 namespace Auto3D {
 
-CoiiliderChain2D::CoiiliderChain2D() :
+ACoiiliderChain2D::ACoiiliderChain2D() :
 	_loop(false)
 {
 	_fixtureDef.shape = &_chainShape;
 }
 
-CoiiliderChain2D::~CoiiliderChain2D() = default;
+ACoiiliderChain2D::~ACoiiliderChain2D() = default;
 
-void CoiiliderChain2D::RegisterObject()
+void ACoiiliderChain2D::RegisterObject()
 {
-	RegisterFactory<CoiiliderChain2D>();
+	RegisterFactory<ACoiiliderChain2D>();
 }
 
 
-void CoiiliderChain2D::SetLoop(bool loop)
+void ACoiiliderChain2D::SetLoop(bool loop)
 {
 	if (loop == _loop)
 		return;
@@ -29,12 +29,12 @@ void CoiiliderChain2D::SetLoop(bool loop)
 	RecreateFixture();
 }
 
-void CoiiliderChain2D::SetVertexCount(unsigned count)
+void ACoiiliderChain2D::SetVertexCount(unsigned count)
 {
 	_vertices.Resize(count);
 }
 
-void CoiiliderChain2D::SetVertex(unsigned index, const TVector2F& vertex)
+void ACoiiliderChain2D::SetVertex(unsigned index, const TVector2F& vertex)
 {
 	if (index >= _vertices.Size())
 		return;
@@ -47,14 +47,14 @@ void CoiiliderChain2D::SetVertex(unsigned index, const TVector2F& vertex)
 	}
 }
 
-void CoiiliderChain2D::SetVertices(const TVector<TVector2F>& vertices)
+void ACoiiliderChain2D::SetVertices(const TVector<TVector2F>& vertices)
 {
 	_vertices = vertices;
 
 	RecreateFixture();
 }
 
-void CoiiliderChain2D::SetVerticesAttr(const TVector<unsigned char>& value)
+void ACoiiliderChain2D::SetVerticesAttr(const TVector<unsigned char>& value)
 {
 	if (value.IsEmpty())
 		return;
@@ -68,7 +68,7 @@ void CoiiliderChain2D::SetVerticesAttr(const TVector<unsigned char>& value)
 	SetVertices(vertices);
 }
 
-TVector<unsigned char> CoiiliderChain2D::GetVerticesAttr() const
+TVector<unsigned char> ACoiiliderChain2D::GetVerticesAttr() const
 {
 	FVectorBuffer ret;
 
@@ -78,7 +78,7 @@ TVector<unsigned char> CoiiliderChain2D::GetVerticesAttr() const
 	return ret.Buffer();
 }
 
-void CoiiliderChain2D::RecreateFixture()
+void ACoiiliderChain2D::RecreateFixture()
 {
 	ReleaseFixture();
 

@@ -65,7 +65,7 @@ void GModuleManager::CreateModules()
 	_renderer2d = TUniquePtr<Renderer2D>(new Renderer2D());
 	_physics = TUniquePtr<APhysics>(new APhysics());
 	_fileSystem = TUniquePtr<AFileSystem>(new AFileSystem());
-	_ui = TUniquePtr<AUI>(new AUI());
+	_ui = TUniquePtr<AUIModule>(new AUIModule());
 }
 
 GModuleManager& GModuleManager::Get()
@@ -194,7 +194,7 @@ void GModuleManager::RecreateFileSystemModule(AFileSystem* fileSystem)
 		_fileSystem = TUniquePtr<AFileSystem>(new AFileSystem());
 }
 
-void GModuleManager::RecreateUiModule(AUI* ui)
+void GModuleManager::RecreateUiModule(AUIModule* ui)
 {
 	if (_ui)
 		_ui.Reset();
@@ -202,7 +202,7 @@ void GModuleManager::RecreateUiModule(AUI* ui)
 	if (ui)
 		_ui = ui;
 	else
-		_ui = TUniquePtr<AUI>(new AUI());
+		_ui = TUniquePtr<AUIModule>(new AUIModule());
 }
 
 void GModuleManager::RecreateAudioModule(AAudio* audio)

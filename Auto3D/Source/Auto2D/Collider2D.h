@@ -4,17 +4,17 @@
 
 namespace Auto3D{
 	
-class RigidBody2D;
-class PhysicsWorld2D;
+class ARigidBody2D;
+class APhysicsWorld2D;
 
-class AUTO_API Collider2D : public Node2D
+class AUTO_API ACollider2D : public ANode2D
 {
-	REGISTER_OBJECT_CLASS(Collider2D,Node2D)
+	REGISTER_OBJECT_CLASS(ACollider2D,ANode2D)
 public:
 	/// Construct
-	Collider2D();
+	ACollider2D();
 	/// Destructor
-	virtual ~Collider2D();
+	virtual ~ACollider2D();
 	/// Register object factory.
 	static void RegisterObject();
 	/// Set density.
@@ -31,9 +31,9 @@ public:
 	virtual void ParentCallBack() override;
 protected:
 	/// APhysics world form this collider
-	TWeakPtr<PhysicsWorld2D> _physicsWorld;
+	TWeakPtr<APhysicsWorld2D> _physicsWorld;
 	/// Rigid body.
-	TWeakPtr<RigidBody2D> _rigidBody;
+	TWeakPtr<ARigidBody2D> _rigidBody;
 	/// Fixture def.
 	b2FixtureDef _fixtureDef;
 	///// Box2D fixture.

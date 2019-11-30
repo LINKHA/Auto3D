@@ -26,7 +26,7 @@ void ARegisteredBox::SetActiveScene(AScene* scene)
 	}
 }
 
-void ARegisteredBox::SetActiveScene2D(Scene2D* scene2d)
+void ARegisteredBox::SetActiveScene2D(AScene2D* scene2d)
 {
 	if (scene2d)
 	{
@@ -55,7 +55,7 @@ AScene* ARegisteredBox::GetActiveScene()
 	return _activeScene;
 }
 
-Scene2D* ARegisteredBox::GetActiveScene2D()
+AScene2D* ARegisteredBox::GetActiveScene2D()
 {
 	return _activeScene2d;
 }

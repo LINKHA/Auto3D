@@ -4,7 +4,7 @@ namespace Auto3D {
 
 static const TVector2F DEFAULT_BOX_SIZE(0.01f, 0.01f);
 
-ColliderBox2D::ColliderBox2D() :
+AColliderBox2D::AColliderBox2D() :
 	_size(DEFAULT_BOX_SIZE)
 {
 	float halfWidth = _size._x * 0.5f;
@@ -13,32 +13,32 @@ ColliderBox2D::ColliderBox2D() :
 	_fixtureDef.shape = &_boxShape;
 }
 
-ColliderBox2D::~ColliderBox2D() = default;
+AColliderBox2D::~AColliderBox2D() = default;
 
-void ColliderBox2D::RegisterObject()
+void AColliderBox2D::RegisterObject()
 {
-	RegisterFactory<ColliderBox2D>();
+	RegisterFactory<AColliderBox2D>();
 }
 
-void ColliderBox2D::SetSize(const TVector2F& size)
+void AColliderBox2D::SetSize(const TVector2F& size)
 {
 	_size = size;
 	RecreateFixture();
 }
 
-void ColliderBox2D::SetSize(float x, float y)
+void AColliderBox2D::SetSize(float x, float y)
 {
 	_size = TVector2F(x, y);
 	RecreateFixture();
 }
 
-void ColliderBox2D::SetSize(float scale)
+void AColliderBox2D::SetSize(float scale)
 {
 	_size = TVector2F(scale, scale);
 	RecreateFixture();
 }
 
-void ColliderBox2D::RecreateFixture()
+void AColliderBox2D::RecreateFixture()
 {
 	ReleaseFixture();
 	_boxShape.SetAsBox(_size._x, _size._y);

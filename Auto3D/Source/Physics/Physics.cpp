@@ -66,7 +66,7 @@ void APhysics::SetActivePhysicsWorld(APhysicsWorld* physicsWorld)
 		_activeWorld = physicsWorld;
 }
 
-void APhysics::AddPhysicsWorld2D(PhysicsWorld2D* physicsWorld2d)
+void APhysics::AddPhysicsWorld2D(APhysicsWorld2D* physicsWorld2d)
 {
 	if (!physicsWorld2d)
 		return;
@@ -75,7 +75,7 @@ void APhysics::AddPhysicsWorld2D(PhysicsWorld2D* physicsWorld2d)
 	SetActivePhysicsWrold2D(physicsWorld2d);
 }
 
-void APhysics::RemovePhysicsWorld2D(PhysicsWorld2D* physicsWorld2d)
+void APhysics::RemovePhysicsWorld2D(APhysicsWorld2D* physicsWorld2d)
 {
 	if (!physicsWorld2d)
 		return;
@@ -92,7 +92,7 @@ void APhysics::RemovePhysicsWorld2D(PhysicsWorld2D* physicsWorld2d)
 	_physicsWorld2ds.Remove(physicsWorld2d);
 }
 
-void APhysics::SetActivePhysicsWrold2D(PhysicsWorld2D* physicsWorld2d)
+void APhysics::SetActivePhysicsWrold2D(APhysicsWorld2D* physicsWorld2d)
 {
 	if (_activeWorld2d != physicsWorld2d)
 		_activeWorld2d = physicsWorld2d;
@@ -112,11 +112,11 @@ AUTO_API void RegisterPhysicsLibrary()
 	AColliderSphere::RegisterObject();
 	AColliderCapsule::RegisterObject;
 	AColliderCone::RegisterObject;
-	PhysicsWorld2D::RegisterObject();
-	RigidBody2D::RegisterObject();
-	Collider2D::RegisterObject();
-	ColliderBox2D::RegisterObject();
-	ColliderCircle2D::RegisterObject();
+	APhysicsWorld2D::RegisterObject();
+	ARigidBody2D::RegisterObject();
+	ACollider2D::RegisterObject();
+	AColliderBox2D::RegisterObject();
+	AColliderCircle2D::RegisterObject();
 }
 
 }

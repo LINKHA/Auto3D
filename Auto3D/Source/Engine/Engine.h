@@ -18,7 +18,7 @@ class AScript;
 class Renderer2D;
 class APhysics;
 class AFileSystem;
-class AUI;
+class AUIModule;
 
 class AUTO_API AEngine : public AObject
 {
@@ -123,8 +123,8 @@ private:
 	APhysics* _physics;
 	/// An adapter system that operates on files based on the platform
 	AFileSystem* _fileSystem;
-	/// AUI-related operations and rendering capabilities
-	AUI* _ui;
+	/// AUIModule-related operations and rendering capabilities
+	AUIModule* _ui;
 };
 
 

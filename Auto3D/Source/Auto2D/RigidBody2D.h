@@ -4,10 +4,10 @@
 
 namespace Auto3D {
 
-	class PhysicsWorld2D;
+	class APhysicsWorld2D;
 
 /// Rigid body type.
-namespace BodyType2D
+namespace EBodyType2D
 {
 	enum Type
 	{
@@ -17,21 +17,21 @@ namespace BodyType2D
 	};
 }
 
-class AUTO_API RigidBody2D : public Node2D
+class AUTO_API ARigidBody2D : public ANode2D
 {
-	REGISTER_OBJECT_CLASS(RigidBody2D, Node2D)
+	REGISTER_OBJECT_CLASS(ARigidBody2D, ANode2D)
 public:
 	/// Construct
-	RigidBody2D();
+	ARigidBody2D();
 	/// Destructor
-	~RigidBody2D();
+	~ARigidBody2D();
 	/// Register object factory.
 	static void RegisterObject();
 	/// Get box2d body.
 	b2Body* GetBody() { return _body; }
 
 	/// Set body type.
-	void SetBodyType(BodyType2D::Type type);
+	void SetBodyType(EBodyType2D::Type type);
 	/// Set mass.
 	void SetMass(float mass);
 	/// Set inertia.
@@ -40,9 +40,9 @@ public:
 	void SetMassCenter(const TVector2F& center);
 	/// Return whether to calculate mass and inertia from collision shapes automatically.
 	bool GetUseFixtureMass() const { return _useFixtureMass; }
-	/// Apply world transform from the Box2D body. Called by PhysicsWorld2D.
+	/// Apply world transform from the Box2D body. Called by APhysicsWorld2D.
 	void ApplyWorldTransform();
-	/// Apply specified world position & rotation. Called by PhysicsWorld2D.
+	/// Apply specified world position & rotation. Called by APhysicsWorld2D.
 	void ApplyWorldTransform(const TVector3F& newWorldPosition,const FQuaternion& newWorldRotation);
 
 	/// This function is called when the parent node of this class is assigned.
@@ -54,7 +54,7 @@ private:
 	void RemoveBodyFromWorld();
 
 	/// APhysics world 2d.
-	TWeakPtr<PhysicsWorld2D> _physicsWorld2d;
+	TWeakPtr<APhysicsWorld2D> _physicsWorld2d;
 	/// Box2D body define.
 	b2BodyDef _bodyDef;
 	/// Box2D body.

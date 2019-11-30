@@ -4,15 +4,15 @@
 namespace Auto3D 
 {
 
-class AUTO_API Sprite2D : public GeometryNode2D
+class AUTO_API ASprite2D : public AGeometryNode2D
 {
-	REGISTER_OBJECT_CLASS(Sprite2D, GeometryNode2D)
+	REGISTER_OBJECT_CLASS(ASprite2D, AGeometryNode2D)
 
 public:
 	/// Constructor
-	Sprite2D();
+	ASprite2D();
 	/// Destructor
-	~Sprite2D();
+	~ASprite2D();
 	/// Register factory and attributes.
 	static void RegisterObject();
 };

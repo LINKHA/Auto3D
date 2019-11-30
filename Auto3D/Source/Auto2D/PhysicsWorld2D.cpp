@@ -14,7 +14,7 @@ static const TVector2F DEFAULT_GRAVITY = TVector2F(0.0f, -9.81f);
 static const int DEFAULT_VELOCITY_ITERATIONS = 8;
 static const int DEFAULT_POSITION_ITERATIONS = 3;
 
-PhysicsWorld2D::PhysicsWorld2D() :
+APhysicsWorld2D::APhysicsWorld2D() :
 	_fps(DEFAULT_FPS),
 	_gravity(DEFAULT_GRAVITY),
 	_velocityIterations(DEFAULT_VELOCITY_ITERATIONS),
@@ -31,7 +31,7 @@ PhysicsWorld2D::PhysicsWorld2D() :
 	physics->SetActivePhysicsWrold2D(this);
 }
 
-PhysicsWorld2D::~PhysicsWorld2D()
+APhysicsWorld2D::~APhysicsWorld2D()
 {
 	auto physics = GModuleManager::Get().PhysicsModule();
 	physics->RemovePhysicsWorld2D(this);
@@ -40,12 +40,12 @@ PhysicsWorld2D::~PhysicsWorld2D()
 	_world.Reset();
 }
 
-void PhysicsWorld2D::RegisterObject()
+void APhysicsWorld2D::RegisterObject()
 {
-	RegisterFactory<PhysicsWorld2D>();
+	RegisterFactory<APhysicsWorld2D>();
 }
 
-void PhysicsWorld2D::Update()
+void APhysicsWorld2D::Update()
 {
 
 	_world->Step(1.0f/ _fps, _velocityIterations, _positionIterations);
@@ -66,22 +66,22 @@ void PhysicsWorld2D::Update()
 
 }
 
-void PhysicsWorld2D::SetFPS(int fps)
+void APhysicsWorld2D::SetFPS(int fps)
 {
 	_fps = (unsigned)Clamp(fps, 1, 1000);
 }
 
-void PhysicsWorld2D::AddRigidBody(RigidBody2D* rigidbody)
+void APhysicsWorld2D::AddRigidBody(ARigidBody2D* rigidbody)
 {
 	_rigidBodies.Push(rigidbody);
 }
 
-void PhysicsWorld2D::RemoveRigidBody(RigidBody2D* rigidbody)
+void APhysicsWorld2D::RemoveRigidBody(ARigidBody2D* rigidbody)
 {
 	_rigidBodies.Remove(rigidbody);
 }
 
-void PhysicsWorld2D::ParentCallBack()
+void APhysicsWorld2D::ParentCallBack()
 {
 	// Get active scene to set physics world
 	ParentScene2D()->SetPhysicsWorld(this);

@@ -4,15 +4,15 @@
 namespace Auto3D
 {
 
-class AUTO_API GeometryNode2D : public SpatialNode2D
+class AUTO_API AGeometryNode2D : public ASpatialNode2D
 {
 	REGISTER_OBJECT_CLASS(AGeometryNode, AOctreeNode)
 
 public:
 	/// Construct.
-	GeometryNode2D();
+	AGeometryNode2D();
 	/// Destruct.
-	~GeometryNode2D();
+	~AGeometryNode2D();
 	/// Register factory and attributes.
 	static void RegisterObject();
 	/// Set geometry type, which is shared by all geometries.

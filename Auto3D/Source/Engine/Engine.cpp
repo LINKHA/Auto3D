@@ -153,13 +153,13 @@ void AEngine::Render()
 	{
 		PROFILE(RenderScene2D);
 
-		Scene2D* scene2d = _registeredBox->GetActiveScene2D();
+		AScene2D* scene2d = _registeredBox->GetActiveScene2D();
 		if (scene2d && scene2d->IsEnabled())
 		{
-			TVector<Camera2D*>& cameras = scene2d->GetAllCamera();
+			TVector<ACamera2D*>& cameras = scene2d->GetAllCamera();
 			for (auto cameraIt = cameras.Begin(); cameraIt != cameras.End(); ++cameraIt)
 			{
-				Camera2D* camera = *cameraIt;
+				ACamera2D* camera = *cameraIt;
 				_renderer2d->Render(scene2d, camera);
 			}
 		}

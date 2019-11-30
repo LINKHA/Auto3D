@@ -19,7 +19,7 @@ class AScript;
 class Renderer2D;
 class APhysics;
 class AFileSystem;
-class AUI;
+class AUIModule;
 class AAudio;
 
 class AUTO_API GModuleManager //: public AGameManager
@@ -62,8 +62,8 @@ public:
 	void RecreatePhysicsModule(APhysics* physics = nullptr);
 	/// Recreate an adapter system that operates on files based on the platform
 	void RecreateFileSystemModule(AFileSystem* fileSystem = nullptr);
-	/// Recreate AUI-related operations and rendering capabilities
-	void RecreateUiModule(AUI* ui = nullptr);
+	/// Recreate AUIModule-related operations and rendering capabilities
+	void RecreateUiModule(AUIModule* ui = nullptr);
 	/// Recreate component management of all audio.(Assign values when the component is first created)
 	void RecreateAudioModule(AAudio* audio = nullptr);
 
@@ -89,8 +89,8 @@ public:
 	APhysics* PhysicsModule() { return _physics.Get(); }
 	/// Return an adapter system that operates on files based on the platform
 	AFileSystem* FileSystemModule() { return _fileSystem.Get(); }
-	/// Return AUI-related operations and rendering capabilities
-	AUI* UiModule() { return _ui.Get(); }
+	/// Return AUIModule-related operations and rendering capabilities
+	AUIModule* UiModule() { return _ui.Get(); }
 	/// Return component management of all audio.(Assign values when the component is first created)
 	AAudio* AudioModule() { return _audio.Get(); }
 private:
@@ -116,8 +116,8 @@ private:
 	TUniquePtr<APhysics> _physics;
 	/// An adapter system that operates on files based on the platform
 	TUniquePtr<AFileSystem> _fileSystem;
-	/// AUI-related operations and rendering capabilities
-	TUniquePtr<AUI> _ui;
+	/// AUIModule-related operations and rendering capabilities
+	TUniquePtr<AUIModule> _ui;
 	/// Component management of all audio.(Assign values when the component is first created)
 	TUniquePtr<AAudio> _audio;
 };

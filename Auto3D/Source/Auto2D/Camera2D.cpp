@@ -18,7 +18,7 @@ static const TMatrix4x4F flipMatrix(
 	0.0f, 0.0f, 0.0f, 1.0f
 );
 
-Camera2D::Camera2D() :
+ACamera2D::ACamera2D() :
 	_viewMatrix(TMatrix3x4F::IDENTITY),
 	_viewMatrixDirty(false),
 	_orthographic(false),
@@ -41,89 +41,89 @@ Camera2D::Camera2D() :
 	_reflectionMatrix = _reflectionPlane.ReflectionMatrix();
 }
 
-Camera2D::~Camera2D()
+ACamera2D::~ACamera2D()
 {
 
 }
 
-void Camera2D::RegisterObject()
+void ACamera2D::RegisterObject()
 {
-	RegisterFactory<Camera2D>();
-	CopyBaseAttributes<Camera2D, SpatialNode2D>();
+	RegisterFactory<ACamera2D>();
+	CopyBaseAttributes<ACamera2D, ASpatialNode2D>();
 
-	RegisterAttribute("nearClip", &Camera2D::GetNearClip, &Camera2D::SetNearClip, DEFAULT_NEARCLIP);
-	RegisterAttribute("farClip", &Camera2D::GetFarClip, &Camera2D::SetFarClip, DEFAULT_FARCLIP);
-	RegisterAttribute("fov", &Camera2D::GetFov, &Camera2D::SetFov, DEFAULT_FOV);
-	RegisterAttribute("aspectRatio", &Camera2D::GetAspectRatio, &Camera2D::SetAspectRatio, 1.0f);
-	RegisterAttribute("orthographic", &Camera2D::IsOrthographic, &Camera2D::SetOrthographic, false);
-	RegisterAttribute("orthoSize", &Camera2D::GetOrthoSize, &Camera2D::SetOrthoSize, DEFAULT_ORTHOSIZE);
-	RegisterAttribute("zoom", &Camera2D::GetZoom, &Camera2D::SetZoom, 1.0f);
-	RegisterAttribute("lodBias", &Camera2D::GetLodBias, &Camera2D::SetLodBias, 1.0f);
-	RegisterAttribute("viewMask", &Camera2D::GetViewMask, &Camera2D::SetLayoutMask, M_MAX_UNSIGNED);
-	RegisterRefAttribute("ambientColor", &Camera2D::GetAmbientColor, &Camera2D::SetAmbientColor, DEFAULT_AMBIENT_COLOR);
-	RegisterRefAttribute("projectionOffset", &Camera2D::GetProjectionOffset, &Camera2D::SetProjectionOffset, TVector2F::ZERO);
-	RegisterMixedRefAttribute("reflectionPlane", &Camera2D::ReflectionPlaneAttr, &Camera2D::SetReflectionPlaneAttr, TVector4F(0.0f, 1.0f, 0.0f, 0.0f));
-	RegisterMixedRefAttribute("clipPlane", &Camera2D::ClipPlaneAttr, &Camera2D::SetClipPlaneAttr, TVector4F(0.0f, 1.0f, 0.0f, 0.0f));
-	RegisterAttribute("useReflection", &Camera2D::GetUseReflection, &Camera2D::SetUseReflection, false);
-	RegisterAttribute("useClipping", &Camera2D::GetUseClipping, &Camera2D::SetUseClipping, false);
+	RegisterAttribute("nearClip", &ACamera2D::GetNearClip, &ACamera2D::SetNearClip, DEFAULT_NEARCLIP);
+	RegisterAttribute("farClip", &ACamera2D::GetFarClip, &ACamera2D::SetFarClip, DEFAULT_FARCLIP);
+	RegisterAttribute("fov", &ACamera2D::GetFov, &ACamera2D::SetFov, DEFAULT_FOV);
+	RegisterAttribute("aspectRatio", &ACamera2D::GetAspectRatio, &ACamera2D::SetAspectRatio, 1.0f);
+	RegisterAttribute("orthographic", &ACamera2D::IsOrthographic, &ACamera2D::SetOrthographic, false);
+	RegisterAttribute("orthoSize", &ACamera2D::GetOrthoSize, &ACamera2D::SetOrthoSize, DEFAULT_ORTHOSIZE);
+	RegisterAttribute("zoom", &ACamera2D::GetZoom, &ACamera2D::SetZoom, 1.0f);
+	RegisterAttribute("lodBias", &ACamera2D::GetLodBias, &ACamera2D::SetLodBias, 1.0f);
+	RegisterAttribute("viewMask", &ACamera2D::GetViewMask, &ACamera2D::SetLayoutMask, M_MAX_UNSIGNED);
+	RegisterRefAttribute("ambientColor", &ACamera2D::GetAmbientColor, &ACamera2D::SetAmbientColor, DEFAULT_AMBIENT_COLOR);
+	RegisterRefAttribute("projectionOffset", &ACamera2D::GetProjectionOffset, &ACamera2D::SetProjectionOffset, TVector2F::ZERO);
+	RegisterMixedRefAttribute("reflectionPlane", &ACamera2D::ReflectionPlaneAttr, &ACamera2D::SetReflectionPlaneAttr, TVector4F(0.0f, 1.0f, 0.0f, 0.0f));
+	RegisterMixedRefAttribute("clipPlane", &ACamera2D::ClipPlaneAttr, &ACamera2D::SetClipPlaneAttr, TVector4F(0.0f, 1.0f, 0.0f, 0.0f));
+	RegisterAttribute("useReflection", &ACamera2D::GetUseReflection, &ACamera2D::SetUseReflection, false);
+	RegisterAttribute("useClipping", &ACamera2D::GetUseClipping, &ACamera2D::SetUseClipping, false);
 }
 
 
-void Camera2D::SetNearClip(float nearClip)
+void ACamera2D::SetNearClip(float nearClip)
 {
 	_nearClip = Max(nearClip, M_EPSILON);
 }
 
-void Camera2D::SetFarClip(float farClip)
+void ACamera2D::SetFarClip(float farClip)
 {
 	_farClip = Max(farClip, M_EPSILON);
 }
 
-void Camera2D::SetFov(float fov)
+void ACamera2D::SetFov(float fov)
 {
 	_fov = Clamp(fov, 0.0f, 180.0f);
 }
 
-void Camera2D::SetOrthoSize(float orthoSize)
+void ACamera2D::SetOrthoSize(float orthoSize)
 {
 	_orthoSize = orthoSize;
 	_aspectRatio = 1.0f;
 }
 
-void Camera2D::SetOrthoSize(const TVector2F& orthoSize)
+void ACamera2D::SetOrthoSize(const TVector2F& orthoSize)
 {
 	_orthoSize = orthoSize._y;
 	_aspectRatio = orthoSize._x / orthoSize._y;
 }
 
-void Camera2D::SetAspectRatio(float aspectRatio)
+void ACamera2D::SetAspectRatio(float aspectRatio)
 {
 	_aspectRatio = Max(aspectRatio, M_EPSILON);
 }
 
-void Camera2D::SetZoom(float zoom)
+void ACamera2D::SetZoom(float zoom)
 {
 	_zoom = Max(zoom, M_EPSILON);
 }
 
-void Camera2D::SetLodBias(float bias)
+void ACamera2D::SetLodBias(float bias)
 {
 	_lodBias = Max(bias, M_EPSILON);
 }
 
-void Camera2D::SetLayoutMask(unsigned mask)
+void ACamera2D::SetLayoutMask(unsigned mask)
 {
 	_viewLayoutMask = mask;
 }
 
-void Camera2D::SetLayoutMaskIndex(unsigned maskIndex)
+void ACamera2D::SetLayoutMaskIndex(unsigned maskIndex)
 {
 	_viewLayoutMask &= ~(1 << maskIndex);
 }
 
-void Camera2D::SetLayoutMaskName(const FString& name)
+void ACamera2D::SetLayoutMaskName(const FString& name)
 {
-	Scene2D* scene = ParentScene2D();
+	AScene2D* scene = ParentScene2D();
 	if (!scene)
 		return;
 
@@ -136,14 +136,14 @@ void Camera2D::SetLayoutMaskName(const FString& name)
 		ErrorString("Layer" + name + " not defined in the scene");
 }
 
-void Camera2D::SetLayoutMaskOutIndex(unsigned maskIndex)
+void ACamera2D::SetLayoutMaskOutIndex(unsigned maskIndex)
 {
 	_viewLayoutMask |= 1 << maskIndex;
 }
 
-void Camera2D::SetLayoutMaskOutName(const FString& name)
+void ACamera2D::SetLayoutMaskOutName(const FString& name)
 {
-	Scene2D* scene = ParentScene2D();
+	AScene2D* scene = ParentScene2D();
 	if (!scene)
 		return;
 
@@ -156,63 +156,63 @@ void Camera2D::SetLayoutMaskOutName(const FString& name)
 		ErrorString("Layer" + name + " not defined in the scene");
 }
 
-void Camera2D::SetLayoutMaskAll()
+void ACamera2D::SetLayoutMaskAll()
 {
 	_viewLayoutMask = 0;
 }
 
-void Camera2D::SetOrthographic(bool enable)
+void ACamera2D::SetOrthographic(bool enable)
 {
 	_orthographic = enable;
 }
 
-void Camera2D::SetAmbientColor(const FColor& color)
+void ACamera2D::SetAmbientColor(const FColor& color)
 {
 	_ambientColor = color;
 }
 
-void Camera2D::SetProjectionOffset(const TVector2F& offset)
+void ACamera2D::SetProjectionOffset(const TVector2F& offset)
 {
 	_projectionOffset = offset;
 }
 
-void Camera2D::SetUseReflection(bool enable)
+void ACamera2D::SetUseReflection(bool enable)
 {
 	_useReflection = enable;
 	_viewMatrixDirty = true;
 }
 
-void Camera2D::SetReflectionPlane(const FPlane& plane)
+void ACamera2D::SetReflectionPlane(const FPlane& plane)
 {
 	_reflectionPlane = plane;
 	_reflectionMatrix = plane.ReflectionMatrix();
 	_viewMatrixDirty = true;
 }
 
-void Camera2D::SetUseClipping(bool enable)
+void ACamera2D::SetUseClipping(bool enable)
 {
 	_useClipping = enable;
 }
 
-void Camera2D::SetClipPlane(const FPlane& plane)
+void ACamera2D::SetClipPlane(const FPlane& plane)
 {
 	_clipPlane = plane;
 }
 
 
-void Camera2D::SetFlipVertical(bool enable)
+void ACamera2D::SetFlipVertical(bool enable)
 {
 	_flipVertical = enable;
 }
 
-float Camera2D::GetNearClip() const
+float ACamera2D::GetNearClip() const
 {
 	// Orthographic camera has always near clip at 0 to avoid trouble with shader depth parameters,
 	// and unlike in perspective mode there should be no depth buffer precision issue
 	return _orthographic ? 0.0f : _nearClip;
 }
 
-FFrustum Camera2D::GetWorldFrustum() const
+FFrustum ACamera2D::GetWorldFrustum() const
 {
 	FFrustum ret;
 	TMatrix3x4F worldTransform = EffectiveWorldTransform();
@@ -225,7 +225,7 @@ FFrustum Camera2D::GetWorldFrustum() const
 	return ret;
 }
 
-FFrustum Camera2D::WorldSplitFrustum(float nearClip, float farClip) const
+FFrustum ACamera2D::WorldSplitFrustum(float nearClip, float farClip) const
 {
 	FFrustum ret;
 	TMatrix3x4F worldTransform = EffectiveWorldTransform();
@@ -243,7 +243,7 @@ FFrustum Camera2D::WorldSplitFrustum(float nearClip, float farClip) const
 	return ret;
 }
 
-FFrustum Camera2D::GetViewSpaceFrustum() const
+FFrustum ACamera2D::GetViewSpaceFrustum() const
 {
 	FFrustum ret;
 
@@ -255,7 +255,7 @@ FFrustum Camera2D::GetViewSpaceFrustum() const
 	return ret;
 }
 
-FFrustum Camera2D::ViewSpaceSplitFrustum(float nearClip, float farClip) const
+FFrustum ACamera2D::ViewSpaceSplitFrustum(float nearClip, float farClip) const
 {
 	FFrustum ret;
 
@@ -272,7 +272,7 @@ FFrustum Camera2D::ViewSpaceSplitFrustum(float nearClip, float farClip) const
 	return ret;
 }
 
-const TMatrix3x4F& Camera2D::GetViewMatrix() const
+const TMatrix3x4F& ACamera2D::GetViewMatrix() const
 {
 	if (_viewMatrixDirty)
 	{
@@ -283,7 +283,7 @@ const TMatrix3x4F& Camera2D::GetViewMatrix() const
 	return _viewMatrix;
 }
 
-TMatrix4x4F Camera2D::GetProjectionMatrix(bool apiSpecific) const
+TMatrix4x4F ACamera2D::GetProjectionMatrix(bool apiSpecific) const
 {
 	TMatrix4x4F ret(TMatrix4x4F::ZERO);
 
@@ -352,7 +352,7 @@ TMatrix4x4F Camera2D::GetProjectionMatrix(bool apiSpecific) const
 	return ret;
 }
 
-void Camera2D::FrustumSize(TVector3F& near, TVector3F& far) const
+void ACamera2D::FrustumSize(TVector3F& near, TVector3F& far) const
 {
 	near._z = GetNearClip();
 	far._z = _farClip;
@@ -379,7 +379,7 @@ void Camera2D::FrustumSize(TVector3F& near, TVector3F& far) const
 	}
 }
 
-float Camera2D::GetHalfViewSize() const
+float ACamera2D::GetHalfViewSize() const
 {
 	if (!_orthographic)
 		return tanf(_fov * M_DEGTORAD * 0.5f) / _zoom;
@@ -387,7 +387,7 @@ float Camera2D::GetHalfViewSize() const
 		return _orthoSize * 0.5f / _zoom;
 }
 
-FRay Camera2D::ScreenRay(float x, float y) const
+FRay ACamera2D::ScreenRay(float x, float y) const
 {
 	FRay ret;
 
@@ -412,7 +412,7 @@ FRay Camera2D::ScreenRay(float x, float y) const
 	return ret;
 }
 
-TVector2F Camera2D::WorldToScreenPoint(const TVector3F& worldPos) const
+TVector2F ACamera2D::WorldToScreenPoint(const TVector3F& worldPos) const
 {
 	TVector3F eyeSpacePos = GetViewMatrix() * worldPos;
 	TVector2F ret;
@@ -434,13 +434,13 @@ TVector2F Camera2D::WorldToScreenPoint(const TVector3F& worldPos) const
 	return ret;
 }
 
-TVector3F Camera2D::ScreenToWorldPoint(const TVector3F& screenPos) const
+TVector3F ACamera2D::ScreenToWorldPoint(const TVector3F& screenPos) const
 {
 	FRay ray = ScreenRay(screenPos._x, screenPos._y);
 	return ray._origin + ray._direction * screenPos._z;
 }
 
-float Camera2D::Distance(const TVector3F& worldPos) const
+float ACamera2D::Distance(const TVector3F& worldPos) const
 {
 	if (!_orthographic)
 		return (worldPos - GetWorldPosition()).Length();
@@ -448,7 +448,7 @@ float Camera2D::Distance(const TVector3F& worldPos) const
 		return Abs((GetViewMatrix() * worldPos)._z);
 }
 
-float Camera2D::LodDistance(float distance, float scale, float bias) const
+float ACamera2D::LodDistance(float distance, float scale, float bias) const
 {
 	float d = Max(_lodBias * bias * scale * _zoom, M_EPSILON);
 	if (!_orthographic)
@@ -457,7 +457,7 @@ float Camera2D::LodDistance(float distance, float scale, float bias) const
 		return _orthoSize / d;
 }
 
-FQuaternion Camera2D::FaceCameraRotation(const TVector3F& position, const FQuaternion& rotation, Face2DCameraMode::Type mode)
+FQuaternion ACamera2D::FaceCameraRotation(const TVector3F& position, const FQuaternion& rotation, Face2DCameraMode::Type mode)
 {
 	switch (mode)
 	{
@@ -498,40 +498,40 @@ FQuaternion Camera2D::FaceCameraRotation(const TVector3F& position, const FQuate
 	}
 }
 
-TMatrix3x4F Camera2D::EffectiveWorldTransform() const
+TMatrix3x4F ACamera2D::EffectiveWorldTransform() const
 {
 	TMatrix3x4F worldTransform(GetWorldPosition(), GetWorldRotation(), 1.0f);
 	return _useReflection ? _reflectionMatrix * worldTransform : worldTransform;
 }
 
-bool Camera2D::IsProjectionValid() const
+bool ACamera2D::IsProjectionValid() const
 {
 	return _farClip > GetNearClip();
 }
 
-void Camera2D::OnTransformChanged()
+void ACamera2D::OnTransformChanged()
 {
-	SpatialNode2D::OnTransformChanged();
+	ASpatialNode2D::OnTransformChanged();
 
 	_viewMatrixDirty = true;
 }
 
-void Camera2D::SetReflectionPlaneAttr(const TVector4F& value)
+void ACamera2D::SetReflectionPlaneAttr(const TVector4F& value)
 {
 	SetReflectionPlane(FPlane(value));
 }
 
-void Camera2D::SetClipPlaneAttr(const TVector4F& value)
+void ACamera2D::SetClipPlaneAttr(const TVector4F& value)
 {
 	SetClipPlane(FPlane(value));
 }
 
-TVector4F Camera2D::ReflectionPlaneAttr() const
+TVector4F ACamera2D::ReflectionPlaneAttr() const
 {
 	return _reflectionPlane.ToVector4();
 }
 
-TVector4F Camera2D::ClipPlaneAttr() const
+TVector4F ACamera2D::ClipPlaneAttr() const
 {
 	return _clipPlane.ToVector4();
 }

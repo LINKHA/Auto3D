@@ -6,16 +6,16 @@
 
 namespace Auto3D {
 
-class RigidBody2D;
+class ARigidBody2D;
 
-class PhysicsWorld2D : public Node2D, public b2ContactListener
+class APhysicsWorld2D : public ANode2D, public b2ContactListener
 {
-	REGISTER_OBJECT_CLASS(PhysicsWorld2D, Node2D)
+	REGISTER_OBJECT_CLASS(APhysicsWorld2D, ANode2D)
 public:
 	/// Construct
-	PhysicsWorld2D();
+	APhysicsWorld2D();
 	/// Destructor
-	~PhysicsWorld2D();
+	~APhysicsWorld2D();
 	/// Register factory and attributes.
 	static void RegisterObject();
 
@@ -26,11 +26,11 @@ public:
 	/// Return 2d dynamics world
 	b2World* GetWorld() { return _world.Get(); }
 	/// Add ARigidBody
-	void AddRigidBody(RigidBody2D* rigidbody);
+	void AddRigidBody(ARigidBody2D* rigidbody);
 	/// Remove collider
-	void RemoveRigidBody(RigidBody2D* rigidbody);
+	void RemoveRigidBody(ARigidBody2D* rigidbody);
 	/// Get colliders with current physics world.
-	TVector<RigidBody2D*> GetColliders() { return _rigidBodies; }
+	TVector<ARigidBody2D*> GetColliders() { return _rigidBodies; }
 
 	/// This function is called when the parent node of this class is assigned.
 	virtual void ParentCallBack()override;
@@ -42,7 +42,7 @@ private:
 	/// Box2D world.
 	TUniquePtr<b2World> _world;
 	/// Collision shapes in the world
-	TVector<RigidBody2D*> _rigidBodies;
+	TVector<ARigidBody2D*> _rigidBodies;
 
 	/// Gravity.
 	TVector2F _gravity;

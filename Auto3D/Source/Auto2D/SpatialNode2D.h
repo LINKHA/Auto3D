@@ -7,7 +7,7 @@ namespace Auto3D
 {
 
 /// Transform space for translations and rotations.
-namespace Transform2DSpace
+namespace ETransform2DSpace
 {
 	enum Type
 	{
@@ -19,15 +19,15 @@ namespace Transform2DSpace
 
 
 /// Base class for scene nodes with _position in three-dimensional space.
-class AUTO_API SpatialNode2D : public Node2D
+class AUTO_API ASpatialNode2D : public ANode2D
 {
-	REGISTER_OBJECT_CLASS(SpatialNode2D, Node2D)
+	REGISTER_OBJECT_CLASS(ASpatialNode2D, ANode2D)
 
 public:
 	/// Construct.
-	SpatialNode2D();
+	ASpatialNode2D();
 	/// The destructor
-	~SpatialNode2D() = default;
+	~ASpatialNode2D() = default;
 	/// Register factory and attributes.
 	static void RegisterObject();
 
@@ -73,26 +73,26 @@ public:
 	/// Set transform in world space.
 	void SetWorldTransform(const TVector3F& newPosition, const FQuaternion& newRotation, float newScale);
 	/// Move the scene node in the chosen transform space.
-	void Translate(const TVector3F& delta, Transform2DSpace::Type space = Transform2DSpace::LOCAL);
+	void Translate(const TVector3F& delta, ETransform2DSpace::Type space = ETransform2DSpace::LOCAL);
 	/// Rotate the scene node in the chosen transform space.
-	void Rotate(const FQuaternion& delta, Transform2DSpace::Type space = Transform2DSpace::LOCAL);
+	void Rotate(const FQuaternion& delta, ETransform2DSpace::Type space = ETransform2DSpace::LOCAL);
 	/// Rotate around a point in the chosen transform space.
-	void RotateAround(const TVector3F& point, const FQuaternion& delta, Transform2DSpace::Type space = Transform2DSpace::LOCAL);
+	void RotateAround(const TVector3F& point, const FQuaternion& delta, ETransform2DSpace::Type space = ETransform2DSpace::LOCAL);
 	/// Rotate around the X axis.
-	void Pitch(float angle, Transform2DSpace::Type space = Transform2DSpace::LOCAL);
+	void Pitch(float angle, ETransform2DSpace::Type space = ETransform2DSpace::LOCAL);
 	/// Rotate around the Y axis.
-	void Yaw(float angle, Transform2DSpace::Type space = Transform2DSpace::LOCAL);
+	void Yaw(float angle, ETransform2DSpace::Type space = ETransform2DSpace::LOCAL);
 	/// Rotate around the Z axis.
-	void Roll(float angle, Transform2DSpace::Type space = Transform2DSpace::LOCAL);
+	void Roll(float angle, ETransform2DSpace::Type space = ETransform2DSpace::LOCAL);
 	/// Look at a target _position in the chosen transform space. Note that the up vector is always specified in world space. Return true if successful, or false if resulted in an illegal rotation, in which case the current rotation remains.
-	bool LookAt(const TVector3F& target, const TVector3F& up = TVector3F::UP, Transform2DSpace::Type space = Transform2DSpace::WORLD);
+	bool LookAt(const TVector3F& target, const TVector3F& up = TVector3F::UP, ETransform2DSpace::Type space = ETransform2DSpace::WORLD);
 	/// Apply a scale change.
 	void ApplyScale(const TVector3F& delta);
 	/// Apply an uniform scale change.
 	void ApplyScale(float delta);
 
 	/// Return the parent spatial node, or null if it is not spatial.
-	SpatialNode2D* GetSpatialParent() const { return TestFlag(NF_2D_SPATIAL_PARENT) ? static_cast<SpatialNode2D*>(Parent()) : nullptr; }
+	ASpatialNode2D* GetSpatialParent() const { return TestFlag(NF_2D_SPATIAL_PARENT) ? static_cast<ASpatialNode2D*>(Parent()) : nullptr; }
 	/// Return _position in parent space.
 	const TVector3F& GetPosition() const { return _position; }
 	/// Return rotation in parent space.
@@ -124,7 +124,7 @@ public:
 
 protected:
 	/// Handle being assigned to a new parent node.
-	virtual void OnParentSet(Node2D* newParent, Node2D* oldParent);
+	virtual void OnParentSet(ANode2D* newParent, ANode2D* oldParent);
 	/// Handle the transform matrix changing.
 	virtual void OnTransformChanged();
 

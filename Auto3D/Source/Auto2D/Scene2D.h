@@ -4,18 +4,18 @@
 namespace Auto3D
 {
 
-class Camera2D;
-class PhysicsWorld2D;
+class ACamera2D;
+class APhysicsWorld2D;
 
 /// Location of all components of the Renderer2D
-class AUTO_API Scene2D : public Node2D
+class AUTO_API AScene2D : public ANode2D
 {
-	REGISTER_OBJECT_CLASS(Scene2D, Node2D)
+	REGISTER_OBJECT_CLASS(AScene2D, ANode2D)
 public:
 	/// The constructor
-	Scene2D();
+	AScene2D();
 	/// The destructor
-	~Scene2D();
+	~AScene2D();
 	/// Register factory and attributes.
 	static void RegisterObject();
 
@@ -29,36 +29,36 @@ public:
 	bool LoadJSON(FStream& source);
 	/// Save canvas as JSON text data to a binary stream. Return true on success.
 	bool SaveJSON(FStream& dest);
-	/// Instantiate Node2D(s) from binary stream and return the root Node2D.
-	Node2D* Instantiate(FStream& source);
-	/// Instantiate Node2D(s) from JSON data and return the root Node2D.
-	Node2D* InstantiateJSON(const FJSONValue& source);
-	/// Load JSON data as text from a binary stream, then instantiate Node2D(s) from it and return the root Node2D.
-	Node2D* InstantiateJSON(FStream& source);
+	/// Instantiate ANode2D(s) from binary stream and return the root ANode2D.
+	ANode2D* Instantiate(FStream& source);
+	/// Instantiate ANode2D(s) from JSON data and return the root ANode2D.
+	ANode2D* InstantiateJSON(const FJSONValue& source);
+	/// Load JSON data as text from a binary stream, then instantiate ANode2D(s) from it and return the root ANode2D.
+	ANode2D* InstantiateJSON(FStream& source);
 	/// Destroy child nodes recursively, leaving the canvas empty.
 	void Clear();
-	/// Find Node2D by id.
-	Node2D* FindNode(unsigned id) const;
+	/// Find ANode2D by id.
+	ANode2D* FindNode(unsigned id) const;
 	/// Return all 2d node.
-	const THashMap<unsigned, Node2D*>& GetAllNode() const;
+	const THashMap<unsigned, ANode2D*>& GetAllNode() const;
 	/// Return all camera vector
-	TVector<Camera2D*>& GetAllCamera();
+	TVector<ACamera2D*>& GetAllCamera();
 	/// Add node to the canvas. This assigns a canvas-unique id to it. Called internally.
-	void AddNode(Node2D* node);
+	void AddNode(ANode2D* node);
 	/// Remove node from the canvas. This removes the id mapping but does not destroy the node. Called internally.
-	void RemoveNode(Node2D* node);
+	void RemoveNode(ANode2D* node);
 	/// Add camera to the scene. 
-	void AddCamera(Camera2D* camera) { _cameras.Push(camera); }
+	void AddCamera(ACamera2D* camera) { _cameras.Push(camera); }
 	/// Remove camera from the scene.
-	void RemoveCamera(Camera2D* camera) { _cameras.Remove(camera); }
+	void RemoveCamera(ACamera2D* camera) { _cameras.Remove(camera); }
 	/// Set 2D physics world.
-	void SetPhysicsWorld(PhysicsWorld2D* physicsWorld);
+	void SetPhysicsWorld(APhysicsWorld2D* physicsWorld);
 	/// Get 2D physics world.
-	PhysicsWorld2D* GetPhysicsWorld();
+	APhysicsWorld2D* GetPhysicsWorld();
 
-	using Node2D::Load;
-	using Node2D::LoadJSON;
-	using Node2D::SaveJSON;
+	using ANode2D::Load;
+	using ANode2D::LoadJSON;
+	using ANode2D::SaveJSON;
 private:
 	/// Set layer names. Used in serialization.
 	void SetLayerNamesAttr(FJSONValue names);
@@ -70,14 +70,14 @@ private:
 	FJSONValue TagNamesAttr() const;
 
 	/// Map from id to nodes.
-	THashMap<unsigned, Node2D*> _nodes;
+	THashMap<unsigned, ANode2D*> _nodes;
 	/// ACamera to nodes
-	TVector<Camera2D*> _cameras;
+	TVector<ACamera2D*> _cameras;
 	/// Next free node _id.
 	unsigned _nextNodeId;
 
 	/// APhysics world 2D custom assign this variable
-	PhysicsWorld2D* _physicsWorld;
+	APhysicsWorld2D* _physicsWorld;
 };
 
 

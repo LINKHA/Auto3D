@@ -42,7 +42,7 @@ Renderer2D::~Renderer2D()
 {
 }
 
-void Renderer2D::Render(Scene2D* scene, Camera2D* camera)
+void Renderer2D::Render(AScene2D* scene, ACamera2D* camera)
 {
 	PrepareView(scene, camera);
 
@@ -79,8 +79,8 @@ void Renderer2D::Render(Scene2D* scene, Camera2D* camera)
 	_psFrameConstantBuffer->Apply();
 
 
-	_graphics->SetConstantBuffer(EShaderStage::VS, ConstantBuffer2D::FRAME, _vsFrameConstantBuffer);
-	_graphics->SetConstantBuffer(EShaderStage::PS, ConstantBuffer2D::FRAME, _psFrameConstantBuffer);
+	_graphics->SetConstantBuffer(EShaderStage::VS, EConstantBuffer2D::FRAME, _vsFrameConstantBuffer);
+	_graphics->SetConstantBuffer(EShaderStage::PS, EConstantBuffer2D::FRAME, _psFrameConstantBuffer);
 
 	_graphics->SetDepthState(ECompareFunc::LESS_EQUAL, true);
 	_graphics->SetColorState(EBlendMode::ALPHA);
@@ -89,7 +89,7 @@ void Renderer2D::Render(Scene2D* scene, Camera2D* camera)
 	RenderBatches();
 }
 
-bool Renderer2D::PrepareView(Scene2D* scend2d,Camera2D* camera)
+bool Renderer2D::PrepareView(AScene2D* scend2d,ACamera2D* camera)
 {
 	if (!IsInitialized())
 		Initialize();
@@ -101,7 +101,7 @@ bool Renderer2D::PrepareView(Scene2D* scend2d,Camera2D* camera)
 	return true;
 }
 
-bool Renderer2D::Collect2dObjects(Scene2D* scend2d, Camera2D* camera)
+bool Renderer2D::Collect2dObjects(AScene2D* scend2d, ACamera2D* camera)
 {
 	PROFILE(Collect2dObjects);
 
@@ -114,10 +114,10 @@ bool Renderer2D::Collect2dObjects(Scene2D* scend2d, Camera2D* camera)
 	//\note TEMP Temporarily all join
 	for (auto it = scend2d->GetAllNode().Begin(); it != scend2d->GetAllNode().End(); it++)
 	{
-		Node2D* node = it->_second;
+		ANode2D* node = it->_second;
 		if (node->IsEnabled() && node->TestFlag(NF_2D_GEOMETRY) && (node->GetLayerMask() & _camera->GetViewMask()))
 		{
-			_geometryNode.Push(static_cast<GeometryNode2D*>(it->_second));
+			_geometryNode.Push(static_cast<AGeometryNode2D*>(it->_second));
 		}
 	}
 
@@ -131,9 +131,9 @@ void Renderer2D::Collect2dBatches()
 	for (auto it = _geometryNode.Begin(); it != _geometryNode.End(); it++)
 	{
 		
-		GeometryNode2D* node = *it;
+		AGeometryNode2D* node = *it;
 
-		Batch2D newBatch;
+		FBatch2D newBatch;
 
 		newBatch._type = node->GetGeometryType();
 		newBatch._geometry = node->GetGeometry();
@@ -209,7 +209,7 @@ void Renderer2D::Initialize()
 
 }
 
-void Renderer2D::RenderBatches(const TVector<Batch2D>& batches, Camera2D* camera)
+void Renderer2D::RenderBatches(const TVector<FBatch2D>& batches, ACamera2D* camera)
 {
 
 	if (_instanceTransformsDirty && _instanceTransforms.Size())
@@ -223,14 +223,14 @@ void Renderer2D::RenderBatches(const TVector<Batch2D>& batches, Camera2D* camera
 
 	for (auto it = batches.Begin(); it != batches.End();)
 	{
-		const Batch2D& batch = *it;
+		const FBatch2D& batch = *it;
 		bool instanced = batch._type == EGeometryType::INSTANCED;
 
 		if (!instanced)
 		{
 			_vsObjectConstantBuffer->SetConstant(VS_OBJECT_WORLD_MATRIX, *batch._worldMatrix);
 			_vsObjectConstantBuffer->Apply();
-			_graphics->SetConstantBuffer(EShaderStage::VS, ConstantBuffer2D::OBJECT, _vsObjectConstantBuffer);
+			_graphics->SetConstantBuffer(EShaderStage::VS, EConstantBuffer2D::OBJECT, _vsObjectConstantBuffer);
 		}
 
 		_graphics->SetTexture(0, batch._texture);
@@ -260,12 +260,12 @@ void RegisterRenderer2DLibrary()
 		return;
 	registered = true;
 
-	Scene2D::RegisterObject();
-	Sprite2D::RegisterObject();
-	SpatialNode2D::RegisterObject();
-	Camera2D::RegisterObject();
-	Node2D::RegisterObject();
-	GeometryNode2D::RegisterObject();
+	AScene2D::RegisterObject();
+	ASprite2D::RegisterObject();
+	ASpatialNode2D::RegisterObject();
+	ACamera2D::RegisterObject();
+	ANode2D::RegisterObject();
+	AGeometryNode2D::RegisterObject();
 }
 
 }

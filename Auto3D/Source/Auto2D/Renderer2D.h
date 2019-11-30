@@ -4,9 +4,9 @@
 
 namespace Auto3D {
 
-class Scene2D;
-class Camera2D;
-class Node2D;
+class AScene2D;
+class ACamera2D;
+class ANode2D;
 
 class AGraphics;
 class FVertexBuffer;
@@ -20,7 +20,7 @@ class AShader;
 static const size_t U_INSTANCE_TEXCOORD = 4;
 
 /// AShader constant buffers used by high-level rendering.
-namespace ConstantBuffer2D
+namespace EConstantBuffer2D
 {
 	enum Type
 	{
@@ -42,13 +42,13 @@ public:
 	/// Destructor
 	~Renderer2D();
 	/// Render the Renderer2D. If render command is false (default), is assumed to be the default Renderer2D render to backbuffer called by AEngine, and will be performed only once. Additional Renderer2D renders to a different rendertarget may be triggered from the renderpath.
-	void Render(Scene2D* scene, Camera2D* camera);
+	void Render(AScene2D* scene, ACamera2D* camera);
 	/// Prepare view of objects and batch
-	bool PrepareView(Scene2D* scend2d, Camera2D* camera);
+	bool PrepareView(AScene2D* scend2d, ACamera2D* camera);
 	/// Return initialized flag
 	bool IsInitialized() { return _initialized; }
 	/// Initialize rendering of a new view and collect visible objects from the camera's point of view. Return true on success (scene, camera and octree are non-null.)
-	bool Collect2dObjects(Scene2D* scene, Camera2D* camera);
+	bool Collect2dObjects(AScene2D* scene, ACamera2D* camera);
 	/// Collect and sort batches from the visible objects. To not go through the objects several times, all the passes should be specified at once instead of multiple calls to CollectBatches().
 	void Collect2dBatches();
 	/// Render of batchs
@@ -57,19 +57,19 @@ private:
 	/// Initialize when screen mode initially set.
 	void Initialize();
 	/// Render batches from a specific queue and camera.
-	void RenderBatches(const TVector<Batch2D>& batches, Camera2D* camera);
+	void RenderBatches(const TVector<FBatch2D>& batches, ACamera2D* camera);
 	/// AGraphics subsystem.
 	TWeakPtr<AGraphics> _graphics;
 	/// Renderer2D rendering batches.
-	TVector<Batch2D> _batches;
+	TVector<FBatch2D> _batches;
 	/// Current scene.
-	Scene2D* _scenes;
+	AScene2D* _scenes;
 	/// Current 2d camera.
-	Camera2D* _camera;
+	ACamera2D* _camera;
 	/// FGeometry nodes
-	TVector<GeometryNode2D*> _geometryNode;
+	TVector<AGeometryNode2D*> _geometryNode;
 	/// ARenderer does not have multiple queues
-	Batch2DQueue _batchQueue;
+	FBatch2DQueue _batchQueue;
 	/// Initialized flag.
 	bool _initialized;
 	/// Flag for Renderer2D already being rendered this frame.

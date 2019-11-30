@@ -5,28 +5,28 @@
 namespace Auto3D
 {
 
-GeometryNode2D::GeometryNode2D() :
+AGeometryNode2D::AGeometryNode2D() :
 	_geometryType(EGeometryType::STATIC)
 {
 	SetFlag(NF_2D_GEOMETRY, true);
 }
 
-GeometryNode2D::~GeometryNode2D()
+AGeometryNode2D::~AGeometryNode2D()
 {
 }
 
-void GeometryNode2D::RegisterObject()
+void AGeometryNode2D::RegisterObject()
 {
-	RegisterFactory<GeometryNode2D>();
-	CopyBaseAttributes<GeometryNode2D, SpatialNode2D>();
+	RegisterFactory<AGeometryNode2D>();
+	CopyBaseAttributes<AGeometryNode2D, ASpatialNode2D>();
 }
 
-void GeometryNode2D::SetGeometryType(EGeometryType::Type type)
+void AGeometryNode2D::SetGeometryType(EGeometryType::Type type)
 {
 	_geometryType = type;
 }
 
-void GeometryNode2D::SetGeometry(FGeometry* geometry)
+void AGeometryNode2D::SetGeometry(FGeometry* geometry)
 {
 	if (!geometry)
 	{
@@ -37,12 +37,12 @@ void GeometryNode2D::SetGeometry(FGeometry* geometry)
 
 }
 
-FGeometry* GeometryNode2D::GetGeometry() const
+FGeometry* AGeometryNode2D::GetGeometry() const
 {
 	return _geometry;
 }
 
-void GeometryNode2D::SetTexture(ATexture* texture)
+void AGeometryNode2D::SetTexture(ATexture* texture)
 {
 	_texture = texture;
 

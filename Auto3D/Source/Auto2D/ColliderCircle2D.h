@@ -3,14 +3,14 @@
 
 namespace Auto3D {
 
-class AUTO_API ColliderCircle2D : public Collider2D
+class AUTO_API AColliderCircle2D : public ACollider2D
 {
-	REGISTER_OBJECT_CLASS(ColliderCircle2D, Collider2D)
+	REGISTER_OBJECT_CLASS(AColliderCircle2D, ACollider2D)
 public:
 	/// Construct
-	ColliderCircle2D();
+	AColliderCircle2D();
 	/// Destructor
-	virtual ~ColliderCircle2D();
+	virtual ~AColliderCircle2D();
 	/// Register object factory.
 	static void RegisterObject();
 

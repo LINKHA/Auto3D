@@ -10,7 +10,7 @@
 
 namespace Auto3D {
 
-RigidBody2D::RigidBody2D():
+ARigidBody2D::ARigidBody2D():
 	_body(nullptr),
 	_useFixtureMass(true)
 {
@@ -21,17 +21,17 @@ RigidBody2D::RigidBody2D():
 	_massData.center.SetZero();
 
 }
-RigidBody2D::~RigidBody2D()
+ARigidBody2D::~ARigidBody2D()
 {
 	RemoveBodyFromWorld();
 }
 
-void RigidBody2D::RegisterObject()
+void ARigidBody2D::RegisterObject()
 {
-	RegisterFactory<RigidBody2D>();
+	RegisterFactory<ARigidBody2D>();
 }
 
-void RigidBody2D::SetBodyType(BodyType2D::Type type)
+void ARigidBody2D::SetBodyType(EBodyType2D::Type type)
 {
 	auto bodyType = (b2BodyType)type;
 	if (_body)
@@ -51,7 +51,7 @@ void RigidBody2D::SetBodyType(BodyType2D::Type type)
 	}
 }
 
-void RigidBody2D::SetMass(float mass)
+void ARigidBody2D::SetMass(float mass)
 {
 	mass = Max(mass, 0.0f);
 	if (_massData.mass == mass)
@@ -63,7 +63,7 @@ void RigidBody2D::SetMass(float mass)
 		_body->SetMassData(&_massData);
 }
 
-void RigidBody2D::SetInertia(float inertia)
+void ARigidBody2D::SetInertia(float inertia)
 {
 	inertia = Max(inertia, 0.0f);
 	if (_massData.I == inertia)
@@ -76,7 +76,7 @@ void RigidBody2D::SetInertia(float inertia)
 
 }
 
-void RigidBody2D::SetMassCenter(const TVector2F& center)
+void ARigidBody2D::SetMassCenter(const TVector2F& center)
 {
 	b2Vec2 b2Center = ToB2Vector2(center);
 	if (_massData.center == b2Center)
@@ -88,12 +88,12 @@ void RigidBody2D::SetMassCenter(const TVector2F& center)
 		_body->SetMassData(&_massData);
 }
 
-void RigidBody2D::ApplyWorldTransform()
+void ARigidBody2D::ApplyWorldTransform()
 {
 	if (!_body)
 		return;
 
-	SpatialNode2D* node = dynamic_cast<SpatialNode2D*>(Parent());
+	ASpatialNode2D* node = dynamic_cast<ASpatialNode2D*>(Parent());
 
 	const b2Transform& transform = _body->GetTransform();
 	TVector3F newWorldPosition = node->GetPosition();
@@ -104,9 +104,9 @@ void RigidBody2D::ApplyWorldTransform()
 	ApplyWorldTransform(newWorldPosition, newWorldRotation);
 }
 
-void RigidBody2D::ApplyWorldTransform(const TVector3F& newWorldPosition, const FQuaternion& newWorldRotation)
+void ARigidBody2D::ApplyWorldTransform(const TVector3F& newWorldPosition, const FQuaternion& newWorldRotation)
 {
-	SpatialNode2D* node = dynamic_cast<SpatialNode2D*>(Parent());
+	ASpatialNode2D* node = dynamic_cast<ASpatialNode2D*>(Parent());
 
 	if (newWorldPosition != node->GetPosition() || newWorldRotation!= node->GetRotation())
 	{
@@ -115,7 +115,7 @@ void RigidBody2D::ApplyWorldTransform(const TVector3F& newWorldPosition, const F
 	}
 }
 
-void RigidBody2D::ParentCallBack()
+void ARigidBody2D::ParentCallBack()
 {
 	_physicsWorld2d = ParentScene2D()->GetPhysicsWorld();
 
@@ -124,7 +124,7 @@ void RigidBody2D::ParentCallBack()
 	AddBodyToWorld();
 }
 
-void RigidBody2D::AddBodyToWorld()
+void ARigidBody2D::AddBodyToWorld()
 {
 	if (!_physicsWorld2d)
 		return;
@@ -137,7 +137,7 @@ void RigidBody2D::AddBodyToWorld()
 	}
 	else
 	{
-		SpatialNode2D* parentNode = dynamic_cast<SpatialNode2D*>(Parent());
+		ASpatialNode2D* parentNode = dynamic_cast<ASpatialNode2D*>(Parent());
 		TVector3F nodePosition = parentNode->GetPosition();
 		float nodeAngle = parentNode->GetRotation().RollAngle() * M_DEGTORAD;;
 
@@ -148,7 +148,7 @@ void RigidBody2D::AddBodyToWorld()
 	}
 }
 
-void RigidBody2D::RemoveBodyFromWorld()
+void ARigidBody2D::RemoveBodyFromWorld()
 {
 	if (!_physicsWorld2d)
 		return;
