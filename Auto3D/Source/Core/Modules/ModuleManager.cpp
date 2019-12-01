@@ -56,21 +56,21 @@ void GModuleManager::RegisterMoudleLibrary()
 
 void GModuleManager::CreateModules()
 {
-	_cache = TUniquePtr<AResourceCache>(new AResourceCache());
-	_log = TUniquePtr<ALog>(new ALog());
-	_input = TUniquePtr<AInput>(new AInput());
-	_profiler = TUniquePtr<AProfiler>(new AProfiler());
-	_graphics = TUniquePtr<AGraphics>(new AGraphics());
-	_renderer = TUniquePtr<ARenderer>(new ARenderer());
-	_time = TUniquePtr<ATime>(new ATime());
-	_registeredBox = TUniquePtr<ARegisteredBox>(new ARegisteredBox());
-	_renderer2d = TUniquePtr<ARenderer2D>(new ARenderer2D());
-	_physics = TUniquePtr<APhysics>(new APhysics());
-	_fileSystem = TUniquePtr<AFileSystem>(new AFileSystem());
-	_ui = TUniquePtr<AUIModule>(new AUIModule());
+	_cache = TUniquePtr<FResourceModule>(new FResourceModule());
+	_log = TUniquePtr<FLogModule>(new FLogModule());
+	_input = TUniquePtr<FInputModule>(new FInputModule());
+	_profiler = TUniquePtr<FProfilerModule>(new FProfilerModule());
+	_graphics = TUniquePtr<FGraphicsModule>(new FGraphicsModule());
+	_renderer = TUniquePtr<FRendererModule>(new FRendererModule());
+	_time = TUniquePtr<FTimeModule>(new FTimeModule());
+	_registeredBox = TUniquePtr<FRegisteredBoxModule>(new FRegisteredBoxModule());
+	_renderer2d = TUniquePtr<FRenderer2DModule>(new FRenderer2DModule());
+	_physics = TUniquePtr<FPhysicsModule>(new FPhysicsModule());
+	_fileSystem = TUniquePtr<FFileModule>(new FFileModule());
+	_ui = TUniquePtr<FUIModule>(new FUIModule());
 }
 
-void GModuleManager::RecreateCacheModule(AResourceCache* cache)
+void GModuleManager::RecreateCacheModule(FResourceModule* cache)
 {
 	if (_cache)
 		_cache.Reset();
@@ -78,10 +78,10 @@ void GModuleManager::RecreateCacheModule(AResourceCache* cache)
 	if (cache)
 		_cache = cache;
 	else
-		_cache = TUniquePtr<AResourceCache>(new AResourceCache());
+		_cache = TUniquePtr<FResourceModule>(new FResourceModule());
 }
 
-void GModuleManager::RecreateGraphicsModule(AGraphics* graphics)
+void GModuleManager::RecreateGraphicsModule(FGraphicsModule* graphics)
 {
 	if (_graphics)
 		_graphics.Reset();
@@ -89,10 +89,10 @@ void GModuleManager::RecreateGraphicsModule(AGraphics* graphics)
 	if (graphics)
 		_graphics = graphics;
 	else
-		_graphics = TUniquePtr<AGraphics>(new AGraphics());
+		_graphics = TUniquePtr<FGraphicsModule>(new FGraphicsModule());
 }
 
-void GModuleManager::RecreateRendererModule(ARenderer* renderer)
+void GModuleManager::RecreateRendererModule(FRendererModule* renderer)
 {
 	if (_renderer)
 		_renderer.Reset();
@@ -100,10 +100,10 @@ void GModuleManager::RecreateRendererModule(ARenderer* renderer)
 	if (renderer)
 		_renderer = renderer;
 	else
-		_renderer = TUniquePtr<ARenderer>(new ARenderer());
+		_renderer = TUniquePtr<FRendererModule>(new FRendererModule());
 }
 
-void GModuleManager::RecreateInputModule(AInput* input)
+void GModuleManager::RecreateInputModule(FInputModule* input)
 {
 	if (_input)
 		_input.Reset();
@@ -111,10 +111,10 @@ void GModuleManager::RecreateInputModule(AInput* input)
 	if (input)
 		_input = input;
 	else
-		_input = TUniquePtr<AInput>(new AInput());
+		_input = TUniquePtr<FInputModule>(new FInputModule());
 }
 
-void GModuleManager::RecreateLogModule(ALog* log)
+void GModuleManager::RecreateLogModule(FLogModule* log)
 {
 	if (_log)
 		_log.Reset();
@@ -122,10 +122,10 @@ void GModuleManager::RecreateLogModule(ALog* log)
 	if (log)
 		_log = log;
 	else
-		_log = TUniquePtr<ALog>(new ALog());
+		_log = TUniquePtr<FLogModule>(new FLogModule());
 }
 
-void GModuleManager::RecreateProfilerModule(AProfiler* profiler)
+void GModuleManager::RecreateProfilerModule(FProfilerModule* profiler)
 {
 	if (_profiler)
 		_profiler.Reset();
@@ -133,10 +133,10 @@ void GModuleManager::RecreateProfilerModule(AProfiler* profiler)
 	if (profiler)
 		_profiler = profiler;
 	else
-		_profiler = TUniquePtr<AProfiler>(new AProfiler());
+		_profiler = TUniquePtr<FProfilerModule>(new FProfilerModule());
 }
 
-void GModuleManager::RecreateTimeModule(ATime* time)
+void GModuleManager::RecreateTimeModule(FTimeModule* time)
 {
 	if (_time)
 		_time.Reset();
@@ -144,10 +144,10 @@ void GModuleManager::RecreateTimeModule(ATime* time)
 	if (time)
 		_time = time;
 	else
-		_time = TUniquePtr<ATime>(new ATime());
+		_time = TUniquePtr<FTimeModule>(new FTimeModule());
 }
 
-void GModuleManager::RecreateRegisteredBoxModule(ARegisteredBox* registeredBox)
+void GModuleManager::RecreateRegisteredBoxModule(FRegisteredBoxModule* registeredBox)
 {
 	if (_registeredBox)
 		_registeredBox.Reset();
@@ -155,10 +155,10 @@ void GModuleManager::RecreateRegisteredBoxModule(ARegisteredBox* registeredBox)
 	if (registeredBox)
 		_registeredBox = registeredBox;
 	else
-		_registeredBox = TUniquePtr<ARegisteredBox>(new ARegisteredBox());
+		_registeredBox = TUniquePtr<FRegisteredBoxModule>(new FRegisteredBoxModule());
 }
 
-void GModuleManager::RecreateRenderer2dModule(ARenderer2D* renderer2d)
+void GModuleManager::RecreateRenderer2dModule(FRenderer2DModule* renderer2d)
 {
 	if (_renderer2d)
 		_renderer2d.Reset();
@@ -166,10 +166,10 @@ void GModuleManager::RecreateRenderer2dModule(ARenderer2D* renderer2d)
 	if (renderer2d)
 		_renderer2d = renderer2d;
 	else
-		_renderer2d = TUniquePtr<ARenderer2D>(new ARenderer2D());
+		_renderer2d = TUniquePtr<FRenderer2DModule>(new FRenderer2DModule());
 }
 
-void GModuleManager::RecreatePhysicsModule(APhysics* physics)
+void GModuleManager::RecreatePhysicsModule(FPhysicsModule* physics)
 {
 	if (_physics)
 		_physics.Reset();
@@ -177,10 +177,10 @@ void GModuleManager::RecreatePhysicsModule(APhysics* physics)
 	if (physics)
 		_physics = physics;
 	else
-		_physics = TUniquePtr<APhysics>(new APhysics());
+		_physics = TUniquePtr<FPhysicsModule>(new FPhysicsModule());
 }
 
-void GModuleManager::RecreateFileSystemModule(AFileSystem* fileSystem)
+void GModuleManager::RecreateFileSystemModule(FFileModule* fileSystem)
 {
 	if (_fileSystem)
 		_fileSystem.Reset();
@@ -188,10 +188,10 @@ void GModuleManager::RecreateFileSystemModule(AFileSystem* fileSystem)
 	if (fileSystem)
 		_fileSystem = fileSystem;
 	else
-		_fileSystem = TUniquePtr<AFileSystem>(new AFileSystem());
+		_fileSystem = TUniquePtr<FFileModule>(new FFileModule());
 }
 
-void GModuleManager::RecreateUiModule(AUIModule* ui)
+void GModuleManager::RecreateUiModule(FUIModule* ui)
 {
 	if (_ui)
 		_ui.Reset();
@@ -199,10 +199,10 @@ void GModuleManager::RecreateUiModule(AUIModule* ui)
 	if (ui)
 		_ui = ui;
 	else
-		_ui = TUniquePtr<AUIModule>(new AUIModule());
+		_ui = TUniquePtr<FUIModule>(new FUIModule());
 }
 
-void GModuleManager::RecreateAudioModule(AAudio* audio)
+void GModuleManager::RecreateAudioModule(FAudioModule* audio)
 {
 	if (_audio)
 		_audio.Reset();
@@ -210,7 +210,7 @@ void GModuleManager::RecreateAudioModule(AAudio* audio)
 	if (audio)
 		_audio = audio;
 	else
-		_audio = TUniquePtr<AAudio>(new AAudio());
+		_audio = TUniquePtr<FAudioModule>(new FAudioModule());
 }
 
 }

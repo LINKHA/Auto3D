@@ -7,20 +7,20 @@
 
 namespace Auto3D {
 
-class AResourceCache;
-class AGraphics;
-class ARenderer;
-class AInput;
-class ALog;
-class AProfiler;
-class ATime;
-class ARegisteredBox;
+class FResourceModule;
+class FGraphicsModule;
+class FRendererModule;
+class FInputModule;
+class FLogModule;
+class FProfilerModule;
+class FTimeModule;
+class FRegisteredBoxModule;
 class AScript;
-class ARenderer2D;
-class APhysics;
-class AFileSystem;
-class AUIModule;
-class AAudio;
+class FRenderer2DModule;
+class FPhysicsModule;
+class FFileModule;
+class FUIModule;
+class FAudioModule;
 
 
 class AUTO_API GModuleManager 
@@ -38,85 +38,85 @@ public:
 	void CreateModules();
 
 	/// Recreate cache moudle if not null.
-	void RecreateCacheModule(AResourceCache* cache = nullptr);
+	void RecreateCacheModule(FResourceModule* cache = nullptr);
 	/// Recreate graphics moudle if not null.
-	void RecreateGraphicsModule(AGraphics* graphics = nullptr);
+	void RecreateGraphicsModule(FGraphicsModule* graphics = nullptr);
 	/// Recreate 3d render module if not null.
-	void RecreateRendererModule(ARenderer* renderer = nullptr);
+	void RecreateRendererModule(FRendererModule* renderer = nullptr);
 	/// Recreate input management events module if not null.
-	void RecreateInputModule(AInput* input = nullptr);
+	void RecreateInputModule(FInputModule* input = nullptr);
 	/// Recreate AEngine ALog
-	void RecreateLogModule(ALog* log = nullptr);
+	void RecreateLogModule(FLogModule* log = nullptr);
 	/// Recreate hierarchical performance profiler subsystem.
-	void RecreateProfilerModule(AProfiler* profiler = nullptr);
+	void RecreateProfilerModule(FProfilerModule* profiler = nullptr);
 	/// Recreate process all engine time, calculate FPS, etc
-	void RecreateTimeModule(ATime* time = nullptr);
+	void RecreateTimeModule(FTimeModule* time = nullptr);
 	/// Recreate the message management mechanism for the underlying interaction between the game project and the engine
-	void RecreateRegisteredBoxModule(ARegisteredBox* registeredBox = nullptr);
+	void RecreateRegisteredBoxModule(FRegisteredBoxModule* registeredBox = nullptr);
 	/// Recreate 2d-related operations and rendering capabilities
-	void RecreateRenderer2dModule(ARenderer2D* renderer2d = nullptr);
+	void RecreateRenderer2dModule(FRenderer2DModule* renderer2d = nullptr);
 	/// Recreate physical world and functional storage
-	void RecreatePhysicsModule(APhysics* physics = nullptr);
+	void RecreatePhysicsModule(FPhysicsModule* physics = nullptr);
 	/// Recreate an adapter system that operates on files based on the platform
-	void RecreateFileSystemModule(AFileSystem* fileSystem = nullptr);
+	void RecreateFileSystemModule(FFileModule* fileSystem = nullptr);
 	/// Recreate AUIModule-related operations and rendering capabilities
-	void RecreateUiModule(AUIModule* ui = nullptr);
+	void RecreateUiModule(FUIModule* ui = nullptr);
 	/// Recreate component management of all audio.(Assign values when the component is first created)
-	void RecreateAudioModule(AAudio* audio = nullptr);
+	void RecreateAudioModule(FAudioModule* audio = nullptr);
 
 	/// Return resource loads.
-	AResourceCache* CacheModule() { return _cache.Get(); }
+	FResourceModule* CacheModule() { return _cache.Get(); }
 	/// Return graphics.
-	AGraphics* GraphicsModule() { return _graphics.Get(); }
+	FGraphicsModule* GraphicsModule() { return _graphics.Get(); }
 	/// Return 3D render.
-	ARenderer* RendererModule() { return _renderer.Get(); }
+	FRendererModule* RendererModule() { return _renderer.Get(); }
 	/// Return input management events
-	AInput* InputModule() { return _input.Get(); }
+	FInputModule* InputModule() { return _input.Get(); }
 	/// AEngine ALog
-	ALog* LogModule() { return _log.Get(); }
+	FLogModule* LogModule() { return _log.Get(); }
 	/// Return hierarchical performance profiler subsystem.
-	AProfiler* ProfilerModule() { return _profiler.Get(); }
+	FProfilerModule* ProfilerModule() { return _profiler.Get(); }
 	/// Return process all engine time, calculate FPS, etc
-	ATime* TimeModule() { return _time.Get(); }
+	FTimeModule* TimeModule() { return _time.Get(); }
 	/// Return the message management mechanism for the underlying interaction between the game project and the engine
-	ARegisteredBox* RegisteredBoxModule() { return _registeredBox.Get(); }
+	FRegisteredBoxModule* RegisteredBoxModule() { return _registeredBox.Get(); }
 	/// Return 2d-related operations and rendering capabilities
-	ARenderer2D* Renderer2dModule() { return _renderer2d.Get(); }
+	FRenderer2DModule* Renderer2dModule() { return _renderer2d.Get(); }
 	/// Return physical world and functional storage
-	APhysics* PhysicsModule() { return _physics.Get(); }
+	FPhysicsModule* PhysicsModule() { return _physics.Get(); }
 	/// Return an adapter system that operates on files based on the platform
-	AFileSystem* FileSystemModule() { return _fileSystem.Get(); }
+	FFileModule* FileSystemModule() { return _fileSystem.Get(); }
 	/// Return AUIModule-related operations and rendering capabilities
-	AUIModule* UiModule() { return _ui.Get(); }
+	FUIModule* UiModule() { return _ui.Get(); }
 	/// Return component management of all audio.(Assign values when the component is first created)
-	AAudio* AudioModule() { return _audio.Get(); }
+	FAudioModule* AudioModule() { return _audio.Get(); }
 private:
 	/// Manage the subsystem of all resource loads
-	TUniquePtr<AResourceCache> _cache;
+	TUniquePtr<FResourceModule> _cache;
 	/// ADAPTS the low-level rendering interface as well as the form's rendering function
-	TUniquePtr<AGraphics> _graphics;
+	TUniquePtr<FGraphicsModule> _graphics;
 	/// 3D rendering of the scene
-	TUniquePtr<ARenderer> _renderer;
+	TUniquePtr<FRendererModule> _renderer;
 	/// User input management events
-	TUniquePtr<AInput> _input;
+	TUniquePtr<FInputModule> _input;
 	/// AEngine ALog
-	TUniquePtr<ALog> _log;
+	TUniquePtr<FLogModule> _log;
 	/// Hierarchical performance profiler subsystem.
-	TUniquePtr<AProfiler> _profiler;
+	TUniquePtr<FProfilerModule> _profiler;
 	/// Process all engine time, calculate FPS, etc
-	TUniquePtr<ATime> _time;
+	TUniquePtr<FTimeModule> _time;
 	/// The message management mechanism for the underlying interaction between the game project and the engine
-	TUniquePtr<ARegisteredBox> _registeredBox;
+	TUniquePtr<FRegisteredBoxModule> _registeredBox;
 	/// 2d-related operations and rendering capabilities
-	TUniquePtr<ARenderer2D> _renderer2d;
+	TUniquePtr<FRenderer2DModule> _renderer2d;
 	/// Physical world and functional storage
-	TUniquePtr<APhysics> _physics;
+	TUniquePtr<FPhysicsModule> _physics;
 	/// An adapter system that operates on files based on the platform
-	TUniquePtr<AFileSystem> _fileSystem;
+	TUniquePtr<FFileModule> _fileSystem;
 	/// AUIModule-related operations and rendering capabilities
-	TUniquePtr<AUIModule> _ui;
+	TUniquePtr<FUIModule> _ui;
 	/// Component management of all audio.(Assign values when the component is first created)
-	TUniquePtr<AAudio> _audio;
+	TUniquePtr<FAudioModule> _audio;
 };
 
 }

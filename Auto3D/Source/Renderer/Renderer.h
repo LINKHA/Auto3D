@@ -54,15 +54,13 @@ static const size_t INSTANCE_TEXCOORD = 4;
 
 
 /// High-level rendering subsystem. Performs rendering of 3D scenes.
-class AUTO_API ARenderer : public ABaseModule
+class AUTO_API FRendererModule : public FRefCounted
 {
-    REGISTER_OBJECT(ARenderer , ABaseModule)
-
 public:
     /// Construct and register subsystem.
-    ARenderer();
+    FRendererModule();
     /// Destruct.
-    ~ARenderer();
+    ~FRendererModule();
 
 	/// Render scene
 	void Render(AScene* scene, ACamera* camera);
@@ -117,7 +115,7 @@ private:
     FShaderVariation* FindShaderVariation(EShaderStage::Type stage, FPass* pass, unsigned short bits);
     
     /// AGraphics subsystem pointer.
-    TWeakPtr<AGraphics> _graphics;
+    TWeakPtr<FGraphicsModule> _graphics;
     /// Current scene.
     AScene* _scenes;
     /// Current scene camera.

@@ -3,7 +3,7 @@
 #include "Math/Color.h"
 #include "Math/Rect.h"
 #include "Math/Vector2.h"
-#include "Core/GameManager.h"
+#include "Container/Ptr.h"
 #include "Platform/Window.h"
 #include "Graphics/GraphicsDefs.h"
 #include "Graphics/GraphicsVersionDef.h"
@@ -51,14 +51,13 @@ public:
 };
 
 /// 3D graphics rendering context. Manages the rendering _window and GPU objects.
-class AUTO_API AGraphics : public ABaseModule, public IModuleInterface
+class AUTO_API FGraphicsModule : public FRefCounted, public IModuleInterface
 {
-	REGISTER_OBJECT(AGraphics, ABaseModule)
 public:
     /// Construct and register subsystem. The graphics mode is not set & _window is not opened yet.
-    AGraphics();
+    FGraphicsModule();
     /// Destruct. Clean up the _window, rendering context and GPU objects.
-    ~AGraphics();
+    ~FGraphicsModule();
 
 	/// Called right after the module
 	virtual void StartupModule() override;

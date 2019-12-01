@@ -1,5 +1,5 @@
 #pragma once
-#include "Core/GameManager.h"
+#include "Container/Ptr.h"
 #include "Batch2D.h"
 
 namespace Auto3D {
@@ -8,7 +8,7 @@ class AScene2D;
 class ACamera2D;
 class ANode2D;
 
-class AGraphics;
+class FGraphicsModule;
 class FVertexBuffer;
 class FIndexBuffer;
 class FConstantBuffer;
@@ -33,14 +33,13 @@ namespace EConstantBuffer2D
 
 
 /// APhysics sub system 
-class AUTO_API ARenderer2D : public ABaseModule
+class AUTO_API FRenderer2DModule : public FRefCounted
 {
-	REGISTER_OBJECT(ARenderer2D, ABaseModule)
 public:
 	/// Construct
-	ARenderer2D();
+	FRenderer2DModule();
 	/// Destructor
-	~ARenderer2D();
+	~FRenderer2DModule();
 	/// Render the Renderer2D. If render command is false (default), is assumed to be the default Renderer2D render to backbuffer called by AEngine, and will be performed only once. Additional Renderer2D renders to a different rendertarget may be triggered from the renderpath.
 	void Render(AScene2D* scene, ACamera2D* camera);
 	/// Prepare view of objects and batch
@@ -59,7 +58,7 @@ private:
 	/// Render batches from a specific queue and camera.
 	void RenderBatches(const TVector<FBatch2D>& batches, ACamera2D* camera);
 	/// AGraphics subsystem.
-	TWeakPtr<AGraphics> _graphics;
+	TWeakPtr<FGraphicsModule> _graphics;
 	/// Renderer2D rendering batches.
 	TVector<FBatch2D> _batches;
 	/// Current scene.

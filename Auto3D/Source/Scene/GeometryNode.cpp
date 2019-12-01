@@ -27,7 +27,7 @@ FGeometry::~FGeometry()
 {
 }
 
-void FGeometry::Draw(AGraphics* graphics)
+void FGeometry::Draw(FGraphicsModule* graphics)
 {
     graphics->SetVertexBuffer(0, _vertexBuffer.Get());
     if (_indexBuffer.Get())
@@ -39,7 +39,7 @@ void FGeometry::Draw(AGraphics* graphics)
         graphics->Draw(_primitiveType, _drawStart, _drawCount);
 }
 
-void FGeometry::DrawInstanced(AGraphics* graphics, size_t start, size_t count)
+void FGeometry::DrawInstanced(FGraphicsModule* graphics, size_t start, size_t count)
 {
 	graphics->SetVertexBuffer(0, _vertexBuffer.Get());
     if (_indexBuffer.Get())
@@ -162,7 +162,7 @@ void AGeometryNode::OnWorldBoundingBoxUpdate() const
 
 void AGeometryNode::SetMaterialsAttr(const FResourceRefList& materials)
 {
-	AResourceCache* cache = GModuleManager::Get().CacheModule();
+	FResourceModule* cache = GModuleManager::Get().CacheModule();
     for (size_t i = 0; i < materials._names.Size(); ++i)
         SetMaterial(i, cache->LoadResource<AMaterial>(materials._names[i]));
 }

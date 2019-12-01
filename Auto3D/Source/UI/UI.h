@@ -1,5 +1,5 @@
 #pragma once
-#include "Core/GameManager.h"
+#include "Container/Ptr.h"
 #include "Platform/Window.h"
 #include "Platform/Context.h"
 #include "Graphics/Texture.h"
@@ -98,14 +98,13 @@ namespace EUIFontLanguage
 	};
 }
 
-class AUTO_API AUIModule : public ABaseModule
+class AUTO_API FUIModule : public FRefCounted
 {
-	REGISTER_OBJECT(AUIModule, ABaseModule)
 public:
 	/// Construct.
-	AUIModule();
+	FUIModule();
 	/// Destruct.
-	~AUIModule();
+	~FUIModule();
 
 	/// Init AUIModule state
 #ifdef AUTO_OPENGL

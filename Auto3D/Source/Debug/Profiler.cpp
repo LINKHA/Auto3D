@@ -100,7 +100,7 @@ FProfilerBlock* FProfilerBlock::FindOrCreateChild(const char* name)
 	return newBlock;
 }
 
-AProfiler::AProfiler() :
+FProfilerModule::FProfilerModule() :
 	_intervalFrames(0),
 	_totalFrames(0)
 {
@@ -108,11 +108,11 @@ AProfiler::AProfiler() :
 	_current = _root;
 }
 
-AProfiler::~AProfiler()
+FProfilerModule::~FProfilerModule()
 {
 }
 
-void AProfiler::BeginBlock(const char* name)
+void FProfilerModule::BeginBlock(const char* name)
 {
 	// Currently profiling is a no-op if attempted from outside main thread
 	if (!FThread::IsMainThread())
@@ -122,7 +122,7 @@ void AProfiler::BeginBlock(const char* name)
 	_current->Begin();
 }
 
-void AProfiler::EndBlock()
+void FProfilerModule::EndBlock()
 {
 	if (!FThread::IsMainThread())
 		return;
@@ -134,7 +134,7 @@ void AProfiler::EndBlock()
 	}
 }
 
-void AProfiler::BeginFrame()
+void FProfilerModule::BeginFrame()
 {
 	// End the previous frame if any
 	EndFrame();
@@ -142,7 +142,7 @@ void AProfiler::BeginFrame()
 	BeginBlock("RunFrame");
 }
 
-void AProfiler::EndFrame()
+void FProfilerModule::EndFrame()
 {
 	if (_current != _root)
 	{
@@ -154,13 +154,13 @@ void AProfiler::EndFrame()
 	}
 }
 
-void AProfiler::BeginInterval()
+void FProfilerModule::BeginInterval()
 {
 	_root->BeginInterval();
 	_intervalFrames = 0;
 }
 
-FString AProfiler::OutputResults(bool showUnused, bool showTotal, size_t maxDepth) const
+FString FProfilerModule::OutputResults(bool showUnused, bool showTotal, size_t maxDepth) const
 {
 	FString output;
 	output += FString("\n--------------------------------------------------------------------------\n");
@@ -180,7 +180,7 @@ FString AProfiler::OutputResults(bool showUnused, bool showTotal, size_t maxDept
 	return output;
 }
 
-void AProfiler::OutputResults(FProfilerBlock* block, FString& output, size_t depth, size_t maxDepth, bool showUnused, bool showTotal) const
+void FProfilerModule::OutputResults(FProfilerBlock* block, FString& output, size_t depth, size_t maxDepth, bool showUnused, bool showTotal) const
 {
 	char line[LINE_MAX_LENGTH];
 	char indentedName[LINE_MAX_LENGTH];

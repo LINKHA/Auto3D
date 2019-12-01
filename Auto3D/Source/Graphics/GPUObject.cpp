@@ -34,7 +34,7 @@ void FGPUObject::ClearDataLost()
 	_dataLost = false;
 }
 
-AGraphics* FGPUObject::GetGraphics() const
+FGraphicsModule* FGPUObject::GetGraphics() const
 {
 	return _graphics;
 }

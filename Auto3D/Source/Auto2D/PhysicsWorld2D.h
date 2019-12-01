@@ -38,7 +38,7 @@ private:
 
 	unsigned int _fps;
 	/// ATime system.
-	TWeakPtr<ATime> _time;
+	TWeakPtr<FTimeModule> _time;
 	/// Box2D world.
 	TUniquePtr<b2World> _world;
 	/// Collision shapes in the world

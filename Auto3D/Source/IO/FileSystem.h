@@ -1,5 +1,5 @@
 #pragma once
-#include "Core/GameManager.h"
+#include "Container/Ptr.h"
 #include "Container/String.h"
 #include "Container/Vector.h"
 #include "Container/WString.h"
@@ -16,14 +16,13 @@ static const unsigned SCAN_DIRS = 0x2;
 static const unsigned SCAN_HIDDEN = 0x4;
 
 /// Module for file and directory operations and access control.
-class AUTO_API AFileSystem : public ABaseModule
+class AUTO_API FFileModule : public FRefCounted
 {
-	REGISTER_OBJECT(AFileSystem, ABaseModule)
 public:
 	/// Construct.
-	AFileSystem();
+	FFileModule();
 	/// Destruct.
-	~AFileSystem();
+	~FFileModule();
 	/// Register a path as allowed to access. If no paths are registered,
 	///	all are allowed. Registering allowed paths is considered securing the Auto3D
 	///	execution environment: running programs and opening files externally through the system will fail afterward

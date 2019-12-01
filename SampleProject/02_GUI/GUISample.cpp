@@ -12,8 +12,8 @@ void GUISample::Init()
 void GUISample::Start()
 {
 	Super::Start();
-	AResourceCache* cache = GModuleManager::Get().CacheModule();
-	AUIModule* ui = GModuleManager::Get().UiModule();
+	FResourceModule* cache = GModuleManager::Get().CacheModule();
+	FUIModule* ui = GModuleManager::Get().UiModule();
 
 	AFont* msyh = cache->LoadResource<AFont>("Font/msyh.ttc");
 	ui->AddFont(msyh, 26, "Msyh_26");

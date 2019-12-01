@@ -13,7 +13,7 @@ namespace EAudioSourceUsage
 	};
 };
 
-class AAudio;
+class FAudioModule;
 class ASound;
 /// AAudio buffer
 class AUTO_API AAudioBuffer : public FRefCounted
@@ -31,7 +31,7 @@ public:
 	unsigned& Source() { return _source; }
 private:
 	/// Get audio moudle for weak.
-	TWeakPtr<AAudio> _audio;
+	TWeakPtr<FAudioModule> _audio;
 	/// OpenGL buffer object identifier.
 	unsigned _buffer;
 	/// Audio source.

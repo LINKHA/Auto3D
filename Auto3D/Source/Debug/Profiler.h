@@ -3,7 +3,7 @@
 #include "Container/AutoPtr.h"
 #include "Container/String.h"
 #include "Math/MathDef.h"
-#include "Core/GameManager.h"
+#include "Container/Ptr.h"
 #include "Time/Time.h"
 #include "Core/Modules/ModuleManager.h"
 
@@ -65,15 +65,13 @@ public:
 };
 
 /// Hierarchical performance profiler subsystem.
-class AUTO_API AProfiler : public ABaseModule
+class AUTO_API FProfilerModule : public FRefCounted
 {
-	REGISTER_OBJECT(AProfiler, ABaseModule)
-
 public:
 	/// Construct.
-	AProfiler();
+	FProfilerModule();
 	/// Destruct.
-	~AProfiler();
+	~FProfilerModule();
 
 	/// Begin a profiling block. The name must be persistent; string literals are recommended.
 	void BeginBlock(const char* name);
@@ -128,7 +126,7 @@ public:
 
 private:
 	/// AProfiler subsystem.
-	AProfiler* _profiler;
+	FProfilerModule* _profiler;
 };
 
 #ifdef AUTO_PROFILING

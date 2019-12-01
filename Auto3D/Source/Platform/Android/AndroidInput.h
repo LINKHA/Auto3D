@@ -1,7 +1,10 @@
 #pragma once
 
-#include "../../Math/Vector2.h"
-#include "../../Base/GameManager.h"
+#include "Math/Vector2.h"
+#include "Container/Ptr.h"
+#include "Math/Vector2.h"
+#include "Event/Event.h"
+#include "Container/HashMap.h"
 
 #include <SDL_scancode.h>
 
@@ -386,15 +389,13 @@ public:
 };
 
 /// AInput subsystem for reading keyboard/mouse/etc. input. Updated from OS _window messages by the AWindow class.
-class AUTO_API AInput : public ABaseModule
+class AUTO_API FInputModule : public FRefCounted
 {
-    REGISTER_OBJECT(AInput, ABaseModule)
-
 public:
     /// Construct and register subsystem.
-    AInput();
+    FInputModule();
     /// Destruct.
-    ~AInput();
+    ~FInputModule();
 
     /// Poll the _window (if any) for OS _window messages and update input state.
     void Update();

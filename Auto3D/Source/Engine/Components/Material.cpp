@@ -254,7 +254,7 @@ bool AMaterial::EndLoad()
     /// \todo Queue texture loads during BeginLoad()
     ResetTextures();
 
-	AResourceCache* cache = GModuleManager::Get().CacheModule();
+	FResourceModule* cache = GModuleManager::Get().CacheModule();
 
     if (root.Contains("textures"))
     {

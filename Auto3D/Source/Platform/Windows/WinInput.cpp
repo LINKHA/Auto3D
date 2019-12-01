@@ -2,23 +2,24 @@
 #include "WinWindow.h"
 #include "Core/Modules/ModuleManager.h"
 #include "Graphics/Graphics.h"
+#include "Event/EventManager.h"
 
 #include "Debug/DebugNew.h"
 
 namespace Auto3D
 {
 
-AInput::AInput() :
+FInputModule::FInputModule() :
     _mouseButtons(0),
     _mouseButtonsPressed(0)
 {
 }
 
-AInput::~AInput()
+FInputModule::~FInputModule()
 {
 }
 
-void AInput::Update()
+void FInputModule::Update()
 {
     // Clear accumulated input from last frame
     _mouseButtonsPressed = 0;
@@ -35,47 +36,47 @@ void AInput::Update()
         window->PumpMessages();
 }
 
-bool AInput::IsKeyDown(unsigned keyCode) const
+bool FInputModule::IsKeyDown(unsigned keyCode) const
 {
     auto it = _keyDown.Find(keyCode);
     return it != _keyDown.End() ? it->_second : false;
 }
 
-bool AInput::IsKeyDownRaw(unsigned rawKeyCode) const
+bool FInputModule::IsKeyDownRaw(unsigned rawKeyCode) const
 {
     auto it = _rawKeyDown.Find(rawKeyCode);
     return it != _rawKeyDown.End() ? it->_second : false;
 }
 
-bool AInput::IsKeyPress(unsigned keyCode) const
+bool FInputModule::IsKeyPress(unsigned keyCode) const
 {
     auto it = _keyPressed.Find(keyCode);
     return it != _keyPressed.End() ? it->_second : false;
 }
 
-bool AInput::IsKeyPressRaw(unsigned rawKeyCode) const
+bool FInputModule::IsKeyPressRaw(unsigned rawKeyCode) const
 {
     auto it = _rawKeyPress.Find(rawKeyCode);
     return it != _rawKeyPress.End() ? it->_second : false;
 }
 
-const TVector2I& AInput::GetMousePosition() const
+const TVector2I& FInputModule::GetMousePosition() const
 {
 	AWindow* window = GModuleManager::Get().GraphicsModule()->RenderWindow();
     return window ? window->GetMousePosition() : TVector2I::ZERO;
 }
 
-bool AInput::IsMouseButtonDown(unsigned button) const
+bool FInputModule::IsMouseButtonDown(unsigned button) const
 {
     return (_mouseButtons & (1 << button)) != 0;
 }
 
-bool AInput::IsMouseButtonPress(unsigned button) const
+bool FInputModule::IsMouseButtonPress(unsigned button) const
 {
     return (_mouseButtonsPressed & (1 << button)) != 0;
 }
 
-const FTouch* AInput::FindTouch(unsigned id) const
+const FTouch* FInputModule::FindTouch(unsigned id) const
 {
     for (auto it = _touches.Begin(); it != _touches.End(); ++it)
     {
@@ -86,7 +87,7 @@ const FTouch* AInput::FindTouch(unsigned id) const
     return nullptr;
 }
 
-void AInput::OnKey(unsigned keyCode, unsigned rawKeyCode, bool pressed)
+void FInputModule::OnKey(unsigned keyCode, unsigned rawKeyCode, bool pressed)
 {
     bool wasDown = IsKeyDown(keyCode);
 
@@ -102,30 +103,30 @@ void AInput::OnKey(unsigned keyCode, unsigned rawKeyCode, bool pressed)
     _keyEvent._rawKeyCode = rawKeyCode;
     _keyEvent._pressed = pressed;
     _keyEvent._repeat = wasDown;
-    SendEvent(_keyEvent);
+	GEventManager::Get().SendEvent(this, _keyEvent);
 }
 
-void AInput::OnChar(unsigned unicodeChar)
+void FInputModule::OnChar(unsigned unicodeChar)
 {
     _charInputEvent._unicodeChar = unicodeChar;
-    SendEvent(_charInputEvent);
+	GEventManager::Get().SendEvent(this, _charInputEvent);
 }
 
-void AInput::OnMouseMove(const TVector2I& position, const TVector2I& delta)
+void FInputModule::OnMouseMove(const TVector2I& position, const TVector2I& delta)
 {
     _mouseMove += delta;
 
     _mouseMoveEvent._position = position;
     _mouseMoveEvent._delta = delta;
-    SendEvent(_mouseMoveEvent);
+	GEventManager::Get().SendEvent(this, _mouseMoveEvent);
 }
 
-void AInput::OnMouseWheel(const TVector2I& delta)
+void FInputModule::OnMouseWheel(const TVector2I& delta)
 {
 	_mouseWhellOffset = delta;
 }
 
-void AInput::OnMouseButton(unsigned button, bool pressed)
+void FInputModule::OnMouseButton(unsigned button, bool pressed)
 {
     unsigned bit = 1 << button;
 
@@ -141,10 +142,10 @@ void AInput::OnMouseButton(unsigned button, bool pressed)
     _mouseButtonEvent._buttons = _mouseButtons;
     _mouseButtonEvent._pressed = pressed;
     _mouseButtonEvent._position = GetMousePosition();
-    SendEvent(_mouseButtonEvent);
+	GEventManager::Get().SendEvent(this, _mouseButtonEvent);
 }
 
-void AInput::OnTouch(unsigned internalId, bool pressed, const TVector2I& position, float pressure)
+void FInputModule::OnTouch(unsigned internalId, bool pressed, const TVector2I& position, float pressure)
 {
     if (pressed)
     {
@@ -168,7 +169,7 @@ void AInput::OnTouch(unsigned internalId, bool pressed, const TVector2I& positio
                     _touchMoveEvent._position = it->_position;
                     _touchMoveEvent._delta = it->_lastDelta;
                     _touchMoveEvent._pressure = it->_pressure;
-                    SendEvent(_touchMoveEvent);
+					GEventManager::Get().SendEvent(this, _touchMoveEvent);
                 }
 
                 break;
@@ -202,7 +203,7 @@ void AInput::OnTouch(unsigned internalId, bool pressed, const TVector2I& positio
             _touchBeginEvent._id = newTouch._id;
             _touchBeginEvent._position = newTouch._position;
             _touchBeginEvent._pressure = newTouch._pressure;
-            SendEvent(_touchBeginEvent);
+			GEventManager::Get().SendEvent(this, _touchBeginEvent);
         }
     }
     else
@@ -217,7 +218,7 @@ void AInput::OnTouch(unsigned internalId, bool pressed, const TVector2I& positio
 
                 _touchEndEvent._id = it->_id;
                 _touchEndEvent._position = it->_position;
-                SendEvent(_touchEndEvent);
+				GEventManager::Get().SendEvent(this, _touchEndEvent);
                 _touches.Erase(it);
                 break;
             }
@@ -225,11 +226,11 @@ void AInput::OnTouch(unsigned internalId, bool pressed, const TVector2I& positio
     }
 }
 
-void AInput::OnGainFocus()
+void FInputModule::OnGainFocus()
 {
 }
 
-void AInput::OnLoseFocus()
+void FInputModule::OnLoseFocus()
 {
     _mouseButtons = 0;
     _mouseButtonsPressed = 0;

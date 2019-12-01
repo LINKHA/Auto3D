@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Core/GameManager.h"
-#include "AutoConfig.h"
+#include "Container/Ptr.h"
+#include "Container/Vector.h"
 
 namespace Auto3D
 {
@@ -12,14 +12,13 @@ class AScene2D;
 class ACamera2D;
 
 /// Manages messaging between the user and the engine
-class AUTO_API ARegisteredBox : public ABaseModule
+class AUTO_API FRegisteredBoxModule : public FRefCounted
 {
-	REGISTER_OBJECT(ARegisteredBox, ABaseModule)
 public:
 	/// Construct.
-	ARegisteredBox();
+	FRegisteredBoxModule();
 	/// Destructor
-	~ARegisteredBox();
+	~FRegisteredBoxModule();
 	/// Register scene
 	void RegisterScene(AScene* scene) { SetActiveScene(scene);  _scenes.Push(scene); }
 	/// Register scene2d

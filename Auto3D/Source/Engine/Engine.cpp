@@ -75,7 +75,7 @@ bool AEngine::Init()
 	PROFILE(EngineInit);
 
 	// Set random seeds based on time
-	ATime::RealTime& realTime = _time->GetRealTime();
+	FTimeModule::RealTime& realTime = _time->GetRealTime();
 
 	SetRandomSeed(((unsigned)(realTime._day & 0xff) << 24) |
 		((unsigned)(realTime._hour & 0xff) << 16) |
@@ -182,7 +182,7 @@ bool AEngine::Update()
 		ShutDownEngine();
 		return false;
 	}
-	if (AAudio* audio = GModuleManager::Get().AudioModule())
+	if (FAudioModule* audio = GModuleManager::Get().AudioModule())
 		audio->Update();
 
 	_physics->Update();

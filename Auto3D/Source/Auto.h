@@ -74,7 +74,7 @@
 #include "Physics/ColliderBox.h"
 #include "Physics/ColliderSphere.h"
 #include "Core/Modules/ModuleManager.h"
-
+#include "Event/EventManager.h"
 #include "Adapter/AutoFileDialog.h"
 
 #include "Application.h"

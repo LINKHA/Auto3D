@@ -30,7 +30,7 @@ const FString geometryDefines[] =
 	"INSTANCED"
 };
 
-ARenderer2D::ARenderer2D() :
+FRenderer2DModule::FRenderer2DModule() :
 	_graphics(nullptr),
 	_initialized(false),
 	_rendered(false),
@@ -38,11 +38,11 @@ ARenderer2D::ARenderer2D() :
 {
 }
 
-ARenderer2D::~ARenderer2D()
+FRenderer2DModule::~FRenderer2DModule()
 {
 }
 
-void ARenderer2D::Render(AScene2D* scene, ACamera2D* camera)
+void FRenderer2DModule::Render(AScene2D* scene, ACamera2D* camera)
 {
 	PrepareView(scene, camera);
 
@@ -89,7 +89,7 @@ void ARenderer2D::Render(AScene2D* scene, ACamera2D* camera)
 	RenderBatches();
 }
 
-bool ARenderer2D::PrepareView(AScene2D* scend2d,ACamera2D* camera)
+bool FRenderer2DModule::PrepareView(AScene2D* scend2d,ACamera2D* camera)
 {
 	if (!IsInitialized())
 		Initialize();
@@ -101,7 +101,7 @@ bool ARenderer2D::PrepareView(AScene2D* scend2d,ACamera2D* camera)
 	return true;
 }
 
-bool ARenderer2D::Collect2dObjects(AScene2D* scend2d, ACamera2D* camera)
+bool FRenderer2DModule::Collect2dObjects(AScene2D* scend2d, ACamera2D* camera)
 {
 	PROFILE(Collect2dObjects);
 
@@ -124,7 +124,7 @@ bool ARenderer2D::Collect2dObjects(AScene2D* scend2d, ACamera2D* camera)
 	return true;
 }
 
-void ARenderer2D::Collect2dBatches()
+void FRenderer2DModule::Collect2dBatches()
 {
 	PROFILE(Collect2dBatches);
 
@@ -153,13 +153,13 @@ void ARenderer2D::Collect2dBatches()
 		_instanceTransformsDirty = true;
 }
 
-void ARenderer2D::RenderBatches()
+void FRenderer2DModule::RenderBatches()
 {
 	PROFILE(Rende2dBatches);
 	RenderBatches(_batchQueue._batches, _camera);
 }
 
-void ARenderer2D::Initialize()
+void FRenderer2DModule::Initialize()
 {
 	auto* graphics = GModuleManager::Get().GraphicsModule();
 	auto* cache = GModuleManager::Get().CacheModule();
@@ -209,7 +209,7 @@ void ARenderer2D::Initialize()
 
 }
 
-void ARenderer2D::RenderBatches(const TVector<FBatch2D>& batches, ACamera2D* camera)
+void FRenderer2DModule::RenderBatches(const TVector<FBatch2D>& batches, ACamera2D* camera)
 {
 
 	if (_instanceTransformsDirty && _instanceTransforms.Size())

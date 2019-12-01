@@ -55,7 +55,7 @@ private:
 	/// Maximum number of simulation substeps per frame. 0 (default) unlimited, or negative values for adaptive timestep.
 	int _maxSubSteps;
 	/// ATime system.
-	TWeakPtr<ATime> _time;
+	TWeakPtr<FTimeModule> _time;
 	/// Bullet collision configuration
 	TUniquePtr<btCollisionConfiguration> _collisionConfiguration;
 	/// Bullet collision dispatcher

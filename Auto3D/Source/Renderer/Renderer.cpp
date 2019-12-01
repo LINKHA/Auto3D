@@ -67,7 +67,7 @@ inline bool CompareLights(ALight* lhs, ALight* rhs)
     return lhs->Distance() < rhs->Distance();
 }
 
-ARenderer::ARenderer() :
+FRendererModule::FRendererModule() :
 	_camera(nullptr),
 	_octree(nullptr),
 	_scenes(nullptr),
@@ -78,11 +78,11 @@ ARenderer::ARenderer() :
 {
 }
 
-ARenderer::~ARenderer()
+FRendererModule::~FRendererModule()
 {
 }
 
-void ARenderer::Render(AScene* scene, ACamera* camera)
+void FRendererModule::Render(AScene* scene, ACamera* camera)
 {
 	PROFILE(RenderScene);
 	TVector<FRenderPassDesc> passes;
@@ -100,7 +100,7 @@ void ARenderer::Render(AScene* scene, ACamera* camera)
 	RenderBatches(passes);
 
 }
-void ARenderer::SetupShadowMaps(size_t num, int size, EImageFormat::Type format)
+void FRendererModule::SetupShadowMaps(size_t num, int size, EImageFormat::Type format)
 {
     if (size < 1)
         size = 1;
@@ -117,7 +117,7 @@ void ARenderer::SetupShadowMaps(size_t num, int size, EImageFormat::Type format)
     }
 }
 
-bool ARenderer::PrepareView(AScene* scene, ACamera* camera, const TVector<FRenderPassDesc>& passes)
+bool FRendererModule::PrepareView(AScene* scene, ACamera* camera, const TVector<FRenderPassDesc>& passes)
 {
 	if (!_graphics)
 		Initialize();
@@ -130,7 +130,7 @@ bool ARenderer::PrepareView(AScene* scene, ACamera* camera, const TVector<FRende
     return true;
 }
 
-bool ARenderer::CollectObjects(AScene* scene, ACamera* camera)
+bool FRendererModule::CollectObjects(AScene* scene, ACamera* camera)
 {
     PROFILE(CollectObjects);
 
@@ -162,12 +162,12 @@ bool ARenderer::CollectObjects(AScene* scene, ACamera* camera)
 
     _frustum = _camera->GetWorldFrustum();
     _viewLayoutMask = _camera->GetViewMask();
-    _octree->FindNodes(_frustum, this, &ARenderer::CollectGeometriesAndLights);
+    _octree->FindNodes(_frustum, this, &FRendererModule::CollectGeometriesAndLights);
 
     return true;
 }
 
-void ARenderer::CollectLightInteractions()
+void FRendererModule::CollectLightInteractions()
 {
     PROFILE(CollectLightInteractions);
 
@@ -449,7 +449,7 @@ void ARenderer::CollectLightInteractions()
     }
 }
 
-void ARenderer::CollectBatches(const TVector<FRenderPassDesc>& passes)
+void FRendererModule::CollectBatches(const TVector<FRenderPassDesc>& passes)
 {
     PROFILE(CollectBatches);
 
@@ -543,14 +543,14 @@ void ARenderer::CollectBatches(const TVector<FRenderPassDesc>& passes)
         _instanceTransformsDirty = true;
 }
 
-void ARenderer::CollectBatches(const FRenderPassDesc& pass)
+void FRendererModule::CollectBatches(const FRenderPassDesc& pass)
 {
     static TVector<FRenderPassDesc> passDescs(1);
     passDescs[0] = pass;
     CollectBatches(passDescs);
 }
 
-void ARenderer::RenderShadowMaps()
+void FRendererModule::RenderShadowMaps()
 {
     PROFILE(RenderShadowMaps);
 
@@ -575,7 +575,7 @@ void ARenderer::RenderShadowMaps()
     }
 }
 
-void ARenderer::RenderBatches(const TVector<FRenderPassDesc>& passes)
+void FRendererModule::RenderBatches(const TVector<FRenderPassDesc>& passes)
 {
     PROFILE(RenderBatches);
 
@@ -590,7 +590,7 @@ void ARenderer::RenderBatches(const TVector<FRenderPassDesc>& passes)
     }
 }
 
-void ARenderer::RenderBatches(const FString& pass)
+void FRendererModule::RenderBatches(const FString& pass)
 {
     PROFILE(RenderBatches);
 
@@ -602,7 +602,7 @@ void ARenderer::RenderBatches(const FString& pass)
     /*RenderBatches(batchQueue._additiveBatches, _camera, false);*/
 }
 
-void ARenderer::Initialize()
+void FRendererModule::Initialize()
 {
 	_graphics = GModuleManager::Get().GraphicsModule();
     assert(_graphics && _graphics->IsInitialized());
@@ -660,7 +660,7 @@ void ARenderer::Initialize()
     DefineFaceSelectionTextures();
 }
 
-void ARenderer::DefineFaceSelectionTextures()
+void FRendererModule::DefineFaceSelectionTextures()
 {
     PROFILE(DefineFaceSelectionTextures);
 
@@ -703,7 +703,7 @@ void ARenderer::DefineFaceSelectionTextures()
     _faceSelectionTexture2->SetDataLost(false);
 }
 
-void ARenderer::CollectGeometriesAndLights(TVector<AOctreeNode*>::ConstIterator begin, TVector<AOctreeNode*>::ConstIterator end,
+void FRendererModule::CollectGeometriesAndLights(TVector<AOctreeNode*>::ConstIterator begin, TVector<AOctreeNode*>::ConstIterator end,
     bool inside)
 {
     if (inside)
@@ -755,7 +755,7 @@ void ARenderer::CollectGeometriesAndLights(TVector<AOctreeNode*>::ConstIterator 
     }
 }
 
-void ARenderer::AddLightToNode(AGeometryNode* node, ALight* light, FLightList* lightList)
+void FRendererModule::AddLightToNode(AGeometryNode* node, ALight* light, FLightList* lightList)
 {
     FLightList* oldList = node->GetLightList();
 
@@ -790,7 +790,7 @@ void ARenderer::AddLightToNode(AGeometryNode* node, ALight* light, FLightList* l
     }
 }
 
-void ARenderer::CollectShadowBatches(const TVector<AGeometryNode*>& nodes, FRenderQueue& batchQueue, const FFrustum& frustum,
+void FRendererModule::CollectShadowBatches(const TVector<AGeometryNode*>& nodes, FRenderQueue& batchQueue, const FFrustum& frustum,
     bool checkShadowCaster, bool checkFrustum)
 {
     FBatch newBatch;
@@ -829,7 +829,7 @@ void ARenderer::CollectShadowBatches(const TVector<AGeometryNode*>& nodes, FRend
     }
 }
 
-void ARenderer::RenderBatches(const TVector<FBatch>& batches, ACamera* camera, bool setPerFrameConstants, bool overrideDepthBias,
+void FRendererModule::RenderBatches(const TVector<FBatch>& batches, ACamera* camera, bool setPerFrameConstants, bool overrideDepthBias,
 	int depthBias, float slopeScaledDepthBias)
 {
     if (_faceSelectionTexture1->IsDataLost() || _faceSelectionTexture2->IsDataLost())
@@ -1004,11 +1004,11 @@ void ARenderer::RenderBatches(const TVector<FBatch>& batches, ACamera* camera, b
     #endif
 }
 
-void ARenderer::LoadPassShaders(FPass* pass)
+void FRendererModule::LoadPassShaders(FPass* pass)
 {
     PROFILE(LoadPassShaders);
 
-	AResourceCache* cache = GModuleManager::Get().CacheModule();
+	FResourceModule* cache = GModuleManager::Get().CacheModule();
     // Use different extensions for GLSL & HLSL shaders
     #ifdef AUTO_OPENGL
     pass->_shaders[EShaderStage::VS] = cache->LoadResource<AShader>(pass->GetShaderName(EShaderStage::VS) + ".vert");
@@ -1021,7 +1021,7 @@ void ARenderer::LoadPassShaders(FPass* pass)
     pass->_shadersLoaded = true;
 }
 
-FShaderVariation* ARenderer::FindShaderVariation(EShaderStage::Type stage, FPass* pass, unsigned short bits)
+FShaderVariation* FRendererModule::FindShaderVariation(EShaderStage::Type stage, FPass* pass, unsigned short bits)
 {
     /// \todo Evaluate whether the hash lookup is worth the memory save vs using just straightforward vectors
     THashMap<unsigned short, TWeakPtr<FShaderVariation> >& variations = pass->_shaderVariations[stage];

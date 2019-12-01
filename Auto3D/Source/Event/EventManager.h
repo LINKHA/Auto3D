@@ -22,9 +22,9 @@ public:
 	void SendEvent(FRefCounted* sender, FEvent& event);
 
 	/// Subscribe to an _event, template version.
-	template <typename _Ty, typename _Event> void SubscribeToEvent(_Event& event, void (_Ty::*handlerFunction)(_Event&))
+	template <typename _Ty, typename _Event> void SubscribeToEvent(FRefCounted* sender, _Event& event, void (_Ty::*handlerFunction)(_Event&))
 	{
-		SubscribeToEvent(event, new TEventHandlerImpl<_Ty, _Event>(this, handlerFunction));
+		SubscribeToEvent(event, new TEventHandlerImpl<_Ty, _Event>(sender, handlerFunction));
 	}
 
 	/// Return whether is subscribed to an event.

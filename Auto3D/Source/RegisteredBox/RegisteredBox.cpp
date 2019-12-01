@@ -4,16 +4,16 @@
 namespace Auto3D
 {
 
-ARegisteredBox::ARegisteredBox() :
+FRegisteredBoxModule::FRegisteredBoxModule() :
 	_activeScene(nullptr),
 	_activeScene2d(nullptr)
 {
 }
-ARegisteredBox::~ARegisteredBox()
+FRegisteredBoxModule::~FRegisteredBoxModule()
 {
 }
 
-void ARegisteredBox::SetActiveScene(AScene* scene)
+void FRegisteredBoxModule::SetActiveScene(AScene* scene)
 { 
 	if (scene)
 	{
@@ -25,7 +25,7 @@ void ARegisteredBox::SetActiveScene(AScene* scene)
 	}
 }
 
-void ARegisteredBox::SetActiveScene2D(AScene2D* scene2d)
+void FRegisteredBoxModule::SetActiveScene2D(AScene2D* scene2d)
 {
 	if (scene2d)
 	{
@@ -37,12 +37,12 @@ void ARegisteredBox::SetActiveScene2D(AScene2D* scene2d)
 	}
 }
 
-AScene* ARegisteredBox::GetActiveScene()
+AScene* FRegisteredBoxModule::GetActiveScene()
 {
 	return _activeScene;
 }
 
-AScene2D* ARegisteredBox::GetActiveScene2D()
+AScene2D* FRegisteredBoxModule::GetActiveScene2D()
 {
 	return _activeScene2d;
 }

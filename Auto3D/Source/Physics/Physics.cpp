@@ -16,17 +16,17 @@
 namespace Auto3D
 {
 
-APhysics::APhysics():
+FPhysicsModule::FPhysicsModule():
 	_activeWorld(nullptr),
 	_activeWorld2d(nullptr)
 {
 }
 
-APhysics::~APhysics()
+FPhysicsModule::~FPhysicsModule()
 {
 }
 
-void APhysics::Update()
+void FPhysicsModule::Update()
 {
 	if (_activeWorld)
 		_activeWorld->Update();
@@ -35,7 +35,7 @@ void APhysics::Update()
 		_activeWorld2d->Update();
 }
 
-void APhysics::AddPhysicsWorld(APhysicsWorld* physicsWorld)
+void FPhysicsModule::AddPhysicsWorld(APhysicsWorld* physicsWorld)
 {
 	if (!physicsWorld)
 		return;
@@ -44,7 +44,7 @@ void APhysics::AddPhysicsWorld(APhysicsWorld* physicsWorld)
 	SetActivePhysicsWorld(physicsWorld);
 }
 
-void APhysics::RemovePhysicsWorld(APhysicsWorld* physicsWorld)
+void FPhysicsModule::RemovePhysicsWorld(APhysicsWorld* physicsWorld)
 {
 	if (!physicsWorld)
 		return;
@@ -60,13 +60,13 @@ void APhysics::RemovePhysicsWorld(APhysicsWorld* physicsWorld)
 	_physicsWorlds.Remove(physicsWorld);
 }
 
-void APhysics::SetActivePhysicsWorld(APhysicsWorld* physicsWorld)
+void FPhysicsModule::SetActivePhysicsWorld(APhysicsWorld* physicsWorld)
 {
 	if (_activeWorld != physicsWorld)
 		_activeWorld = physicsWorld;
 }
 
-void APhysics::AddPhysicsWorld2D(APhysicsWorld2D* physicsWorld2d)
+void FPhysicsModule::AddPhysicsWorld2D(APhysicsWorld2D* physicsWorld2d)
 {
 	if (!physicsWorld2d)
 		return;
@@ -75,7 +75,7 @@ void APhysics::AddPhysicsWorld2D(APhysicsWorld2D* physicsWorld2d)
 	SetActivePhysicsWrold2D(physicsWorld2d);
 }
 
-void APhysics::RemovePhysicsWorld2D(APhysicsWorld2D* physicsWorld2d)
+void FPhysicsModule::RemovePhysicsWorld2D(APhysicsWorld2D* physicsWorld2d)
 {
 	if (!physicsWorld2d)
 		return;
@@ -92,7 +92,7 @@ void APhysics::RemovePhysicsWorld2D(APhysicsWorld2D* physicsWorld2d)
 	_physicsWorld2ds.Remove(physicsWorld2d);
 }
 
-void APhysics::SetActivePhysicsWrold2D(APhysicsWorld2D* physicsWorld2d)
+void FPhysicsModule::SetActivePhysicsWrold2D(APhysicsWorld2D* physicsWorld2d)
 {
 	if (_activeWorld2d != physicsWorld2d)
 		_activeWorld2d = physicsWorld2d;

@@ -69,7 +69,7 @@ FShaderVariation* AShader::CreateVariation(const FString& definesIn)
 
 bool AShader::ProcessIncludes(FString& code, FStream& source)
 {
-	AResourceCache* cache = GModuleManager::Get().CacheModule();
+	FResourceModule* cache = GModuleManager::Get().CacheModule();
 
     while (!source.IsEof())
     {

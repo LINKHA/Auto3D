@@ -4,7 +4,7 @@
 namespace Auto3D
 {
 
-class AAudio;
+class FAudioModule;
 
 class AUTO_API AAudioListener : public AAudioNode
 {

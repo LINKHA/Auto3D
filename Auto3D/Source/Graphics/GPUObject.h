@@ -6,7 +6,7 @@
 namespace Auto3D
 {
 
-class AGraphics;
+class FGraphicsModule;
 
 /// Base class for objects that allocate GPU resources.
 class AUTO_API FGPUObject
@@ -27,13 +27,13 @@ public:
 	/// Clear the data lost flag.
 	void ClearDataLost();
 	/// Return the graphics subsystem associated with this GPU object.
-	AGraphics* GetGraphics() const;
+	FGraphicsModule* GetGraphics() const;
     /// Set data lost state. Not needed on all rendering API's.
     void SetDataLost(bool enable) { _dataLost = enable; }
 
 protected:
     /// %AGraphics subsystem pointer.
-    TWeakPtr<AGraphics> _graphics;
+    TWeakPtr<FGraphicsModule> _graphics;
 
 private:
     /// Data lost flag.

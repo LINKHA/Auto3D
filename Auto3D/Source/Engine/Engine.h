@@ -6,19 +6,19 @@ namespace Auto3D
 {
 
 class GModuleManager;
-class AResourceCache;
-class AGraphics;
-class ARenderer;
-class AInput;
-class ALog;
-class AProfiler;
-class ATime;
-class ARegisteredBox;
+class FResourceModule;
+class FGraphicsModule;
+class FRendererModule;
+class FInputModule;
+class FLogModule;
+class FProfilerModule;
+class FTimeModule;
+class FRegisteredBoxModule;
 class AScript;
-class ARenderer2D;
-class APhysics;
-class AFileSystem;
-class AUIModule;
+class FRenderer2DModule;
+class FPhysicsModule;
+class FFileModule;
+class FUIModule;
 
 class AUTO_API AEngine : public AObject
 {
@@ -102,29 +102,29 @@ private:
 
 
 	/// Manage the subsystem of all resource loads
-	AResourceCache* _cache;
+	FResourceModule* _cache;
 	/// ADAPTS the low-level rendering interface as well as the form's rendering function
-	AGraphics* _graphics;
+	FGraphicsModule* _graphics;
 	/// 3D rendering of the scene
-	ARenderer* _renderer;
+	FRendererModule* _renderer;
 	/// User input management events
-	AInput* _input;
+	FInputModule* _input;
 	/// AEngine ALog
-	ALog* _log;
+	FLogModule* _log;
 	/// Hierarchical performance profiler subsystem.
-	AProfiler* _profiler;
+	FProfilerModule* _profiler;
 	/// Process all engine time, calculate FPS, etc
-	ATime* _time;
+	FTimeModule* _time;
 	/// The message management mechanism for the underlying interaction between the game project and the engine
-	ARegisteredBox* _registeredBox;
+	FRegisteredBoxModule* _registeredBox;
 	/// 2d-related operations and rendering capabilities
-	ARenderer2D* _renderer2d;
+	FRenderer2DModule* _renderer2d;
 	/// Physical world and functional storage
-	APhysics* _physics;
+	FPhysicsModule* _physics;
 	/// An adapter system that operates on files based on the platform
-	AFileSystem* _fileSystem;
+	FFileModule* _fileSystem;
 	/// AUIModule-related operations and rendering capabilities
-	AUIModule* _ui;
+	FUIModule* _ui;
 };
 
 

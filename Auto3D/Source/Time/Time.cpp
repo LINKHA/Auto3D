@@ -26,17 +26,17 @@ const float START_UP_DELTA_TIME = 0.02f;
 const float NEW_DELTA_TIME_WEIGHT = 0.2f; // for smoothing
 
 
-ATime::ATime()
+FTimeModule::FTimeModule()
 {
 	_timeSpeedScale = 1.0f;
 	_maximumTimestep = MAXIMUM_DELTA_TIME;
 	ResetTime();
 }
-ATime::~ATime()
+FTimeModule::~FTimeModule()
 {
 }
 
-void ATime::Update()
+void FTimeModule::Update()
 {
 	_frameCount++;
 	if (!_frameCount)
@@ -99,7 +99,7 @@ void ATime::Update()
 
 }
 
-void ATime::ResetTime()
+void FTimeModule::ResetTime()
 {
 	_dynamicTime._curFrameTime = 0.0f;
 	_dynamicTime._lastFrameTime = 0.0f;
@@ -113,7 +113,7 @@ void ATime::ResetTime()
 	_zeroTime = GetTimeSinceStartup();
 }
 
-void ATime::CalcSmoothDeltaTime(TimeHolder& time)
+void FTimeModule::CalcSmoothDeltaTime(TimeHolder& time)
 {
 	// If existing weight is zero, don't take existing value into account
 	time._smoothingWeight *= (1.0f - NEW_DELTA_TIME_WEIGHT);
@@ -123,7 +123,7 @@ void ATime::CalcSmoothDeltaTime(TimeHolder& time)
 	time._smoothDeltaTime = Lerp(time._smoothDeltaTime, time._deltaTime, normalized);
 }
 
-ATime::RealTime& ATime::GetRealTime()
+FTimeModule::RealTime& FTimeModule::GetRealTime()
 {
 	GetLocalTime(&sysTime);
 	_realTime._year = sysTime.wYear;
@@ -135,7 +135,7 @@ ATime::RealTime& ATime::GetRealTime()
 	return _realTime;
 }
 
-void ATime::SetTime(double time)
+void FTimeModule::SetTime(double time)
 {
 	_dynamicTime._lastFrameTime = _dynamicTime._curFrameTime;
 	_dynamicTime._curFrameTime = time;
@@ -147,25 +147,25 @@ void ATime::SetTime(double time)
 	_zeroTime = GetTimeSinceStartup() - _dynamicTime._curFrameTime;
 }
 
-double ATime::GetTimeSinceStartup() const
+double FTimeModule::GetTimeSinceStartup() const
 {
 	double time = SDL_GetTicks();
 	return time / 1000;
 }
 
-float ATime::GetFramesPerSecond() const
+float FTimeModule::GetFramesPerSecond() const
 {
 	if (_dynamicTime._deltaTime == 0)
 		return 60.0;
 	return 1.0f / _dynamicTime._deltaTime;
 }
 
-void ATime::SetPause(bool pause)
+void FTimeModule::SetPause(bool pause)
 {
 	_isTimerPause = pause;
 }
 
-void ATime::Sleep(unsigned millisecond)
+void FTimeModule::Sleep(unsigned millisecond)
 {
 #ifdef _WIN32
 	::Sleep(millisecond);
@@ -175,12 +175,12 @@ void ATime::Sleep(unsigned millisecond)
 #endif
 }
 
-void ATime::SetMaximumDeltaTime(float maxStep)
+void FTimeModule::SetMaximumDeltaTime(float maxStep)
 {
 	_maximumTimestep = Max(maxStep, _dynamicTime._deltaTime);
 }
 
-void ATime::SetTimeScale(float scale)
+void FTimeModule::SetTimeScale(float scale)
 {
 	bool isOutRange = scale <= 100 && scale >= 0.0f;
 	if (isOutRange)
@@ -190,29 +190,29 @@ void ATime::SetTimeScale(float scale)
 
 }
 
-void ATime::OneShotTimer(TimerCallback callback, int msTime)
+void FTimeModule::OneShotTimer(TimerCallback callback, int msTime)
 {
 	ShotTimer(callback, msTime, 1);
 }
 
-void ATime::OneShotTimer(std::function<void()> callback, int msTime)
+void FTimeModule::OneShotTimer(std::function<void()> callback, int msTime)
 {
 	ShotTimer(callback, msTime, 1);
 }
 
-void ATime::ShotTimer(TimerCallback callback, int msTime, int count)
+void FTimeModule::ShotTimer(TimerCallback callback, int msTime, int count)
 {
-	std::thread timerThread(&This::TimerCount, this, callback, msTime, count);
+	std::thread timerThread(&FTimeModule::TimerCount, this, callback, msTime, count);
 	timerThread.detach();
 }
 
-void ATime::ShotTimer(std::function<void()> callback, int msTime, int count)
+void FTimeModule::ShotTimer(std::function<void()> callback, int msTime, int count)
 {
-	std::thread timerThread(&This::TimerCountClass, this, callback, msTime, count);
+	std::thread timerThread(&FTimeModule::TimerCountClass, this, callback, msTime, count);
 	timerThread.detach();
 }
 
-void ATime::TimerCount(TimerCallback callback, int msTime, int count)
+void FTimeModule::TimerCount(TimerCallback callback, int msTime, int count)
 {
 	if (count <= 0)
 		return;
@@ -225,7 +225,7 @@ void ATime::TimerCount(TimerCallback callback, int msTime, int count)
 	}
 }
 
-void ATime::TimerCountClass(std::function<void()> callback, int msTime, int count)
+void FTimeModule::TimerCountClass(std::function<void()> callback, int msTime, int count)
 {
 	if (count <= 0)
 		return;

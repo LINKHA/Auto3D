@@ -1,5 +1,9 @@
 #pragma once
-#include "Core/GameManager.h"
+#include "Container/Pair.h"
+#include "Container/String.h"
+#include "Container/StringHash.h"
+#include "Event/Event.h"
+#include "Container/Pair.h"
 
 #include <functional>
 
@@ -8,10 +12,11 @@ namespace Auto3D
 const int MIN_FRAMES_PER_SECOND = 10;
 const int MAX_FRAMES_PER_SECOND = 200;
 /// SubSystem class for time
-class AUTO_API ATime : public ABaseModule
+class AUTO_API FTimeModule : public FRefCounted
 {
-	REGISTER_OBJECT(ATime, ABaseModule)
 	typedef void(__cdecl* TimerCallback) ();
+	
+public:
 	/// Save world time information
 	using RealTime = struct {
 		int _year{};
@@ -36,11 +41,11 @@ class AUTO_API ATime : public ABaseModule
 		/// average deltaTime
 		float _smoothDeltaTime{};
 	};
-public:
+
 	/// The constructor
-	ATime();
+	FTimeModule();
 	/// The destructor
-	~ATime();
+	~FTimeModule();
 	/// Reset time
 	void ResetTime();
 	/// SubSystem to engine update

@@ -3,7 +3,12 @@
 #include "Container/AutoPtr.h"
 #include "Container/List.h"
 #include "Thread/Mutex.h"
-#include "Core/GameManager.h"
+#include "Container/Ptr.h"
+#include "Container/HashMap.h"
+#include "Container/Vector.h"
+#include "Container/StringHash.h"
+#include "Container/String.h"
+#include "Event/Event.h"
 
 namespace Auto3D
 {
@@ -58,14 +63,13 @@ public:
 };
 
 /// Logging subsystem.
-class AUTO_API ALog : public ABaseModule
+class AUTO_API FLogModule : public FRefCounted
 {
-	REGISTER_OBJECT(ALog, ABaseModule)
 public:
     /// Construct and register subsystem.
-    ALog();
+    FLogModule();
     /// Destruct. Close the log file if open.
-    ~ALog();
+    ~FLogModule();
 
     /// Open the log file.
     void Open(const FString& fileName);
@@ -134,16 +138,16 @@ private:
 
 #elif defined(AUTO_LOGGING_L2)
 
-	#define LogString(message)	do { FString str(message); Auto3D::ALog::Write(Auto3D::LOG_DEBUG, Auto3D::FString::Format("%s(%d) : %s",__FILE__,__LINE__,str.CString())); } while(0)
-	#define InfoString(message)	do { FString str(message); Auto3D::ALog::Write(Auto3D::LOG_INFO, Auto3D::FString::Format("%s(%d) : %s",__FILE__,__LINE__,str.CString())); } while(0)
-	#define WarningString(message)	do { FString str(message); Auto3D::ALog::Write(Auto3D::LOG_WARNING, Auto3D::FString::Format("%s(%d) : %s",__FILE__,__LINE__,str.CString())); } while(0)
-	#define ErrorString(message)	do { FString str(message); Auto3D::ALog::Write(Auto3D::LOG_ERROR, Auto3D::FString::Format("%s(%d) : %s",__FILE__,__LINE__,str.CString())); } while(0)
-	#define LogRawString(message)	do { FString str(message); Auto3D::ALog::WriteRaw(Auto3D::FString::Format("%s(%d) : %s",__FILE__,__LINE__,str.CString())); } while(0)
-	#define LogStringF(_format, ...) do { FString str = "%s(%d) :" + FString(_format); Auto3D::ALog::Write(Auto3D::LOG_DEBUG, Auto3D::FString::Format(str.CString(),__FILE__,__LINE__,##__VA_ARGS__)); }while(0)
-	#define InfoStringF(_format, ...) do { FString str = "%s(%d) :" + FString(_format); Auto3D::ALog::Write(Auto3D::LOG_INFO, Auto3D::FString::Format(str.CString(),__FILE__,__LINE__,##__VA_ARGS__)); }while(0)
-	#define WarningStringF(_format, ...) do { FString str = "%s(%d) :" + FString(_format); Auto3D::ALog::Write(Auto3D::LOG_WARNING, Auto3D::FString::Format(str.CString(),__FILE__,__LINE__,##__VA_ARGS__)); }while(0)
-	#define ErrorStringF(_format, ...) do { FString str = "%s(%d) :" + FString(_format); Auto3D::ALog::Write(Auto3D::LOG_ERROR, Auto3D::FString::Format(str.CString(),__FILE__,__LINE__,##__VA_ARGS__)); }while(0)
-	#define LogRawStringF(_format, ...) do { FString str = "%s(%d) :" + FString(_format); Auto3D::ALog::WriteRaw(Auto3D::FString::Format(str.CString(),__FILE__,__LINE__,##__VA_ARGS__)); }while(0)
+	#define LogString(message)	do { FString str(message); Auto3D::FLogModule::Write(Auto3D::LOG_DEBUG, Auto3D::FString::Format("%s(%d) : %s",__FILE__,__LINE__,str.CString())); } while(0)
+	#define InfoString(message)	do { FString str(message); Auto3D::FLogModule::Write(Auto3D::LOG_INFO, Auto3D::FString::Format("%s(%d) : %s",__FILE__,__LINE__,str.CString())); } while(0)
+	#define WarningString(message)	do { FString str(message); Auto3D::FLogModule::Write(Auto3D::LOG_WARNING, Auto3D::FString::Format("%s(%d) : %s",__FILE__,__LINE__,str.CString())); } while(0)
+	#define ErrorString(message)	do { FString str(message); Auto3D::FLogModule::Write(Auto3D::LOG_ERROR, Auto3D::FString::Format("%s(%d) : %s",__FILE__,__LINE__,str.CString())); } while(0)
+	#define LogRawString(message)	do { FString str(message); Auto3D::FLogModule::WriteRaw(Auto3D::FString::Format("%s(%d) : %s",__FILE__,__LINE__,str.CString())); } while(0)
+	#define LogStringF(_format, ...) do { FString str = "%s(%d) :" + FString(_format); Auto3D::FLogModule::Write(Auto3D::LOG_DEBUG, Auto3D::FString::Format(str.CString(),__FILE__,__LINE__,##__VA_ARGS__)); }while(0)
+	#define InfoStringF(_format, ...) do { FString str = "%s(%d) :" + FString(_format); Auto3D::FLogModule::Write(Auto3D::LOG_INFO, Auto3D::FString::Format(str.CString(),__FILE__,__LINE__,##__VA_ARGS__)); }while(0)
+	#define WarningStringF(_format, ...) do { FString str = "%s(%d) :" + FString(_format); Auto3D::FLogModule::Write(Auto3D::LOG_WARNING, Auto3D::FString::Format(str.CString(),__FILE__,__LINE__,##__VA_ARGS__)); }while(0)
+	#define ErrorStringF(_format, ...) do { FString str = "%s(%d) :" + FString(_format); Auto3D::FLogModule::Write(Auto3D::LOG_ERROR, Auto3D::FString::Format(str.CString(),__FILE__,__LINE__,##__VA_ARGS__)); }while(0)
+	#define LogRawStringF(_format, ...) do { FString str = "%s(%d) :" + FString(_format); Auto3D::FLogModule::WriteRaw(Auto3D::FString::Format(str.CString(),__FILE__,__LINE__,##__VA_ARGS__)); }while(0)
 	#define Print(message) LogString(message)
 	#define print(message) LogString(message)
 

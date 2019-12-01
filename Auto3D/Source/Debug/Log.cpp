@@ -3,7 +3,7 @@
 #include "Thread/Thread.h"
 #include "Time/Time.h"
 #include "Core/Modules/ModuleManager.h"
-
+#include "Event/EventManager.h"
 #include "Log.h"
 
 #include <cstdio>
@@ -23,7 +23,7 @@ const char* logLevelPrefixes[] =
     nullptr
 };
 
-ALog::ALog() :
+FLogModule::FLogModule() :
 #ifdef _DEBUG
     _level(LOG_DEBUG),
 #else
@@ -35,12 +35,12 @@ ALog::ALog() :
 {
 }
 
-ALog::~ALog()
+FLogModule::~FLogModule()
 {
     Close();
 }
 
-void ALog::Open(const FString& fileName)
+void FLogModule::Open(const FString& fileName)
 {
     if (fileName.IsEmpty())
         return;
@@ -63,7 +63,7 @@ void ALog::Open(const FString& fileName)
     }
 }
 
-void ALog::Close()
+void FLogModule::Close()
 {
     if (_logFile && _logFile->IsOpen())
     {
@@ -72,24 +72,24 @@ void ALog::Close()
     }
 }
 
-void ALog::SetLevel(int newLevel)
+void FLogModule::SetLevel(int newLevel)
 {
     assert(newLevel >= LOG_DEBUG && newLevel < LOG_NONE);
 
     _level = newLevel;
 }
 
-void ALog::SetTimeStamp(bool enable)
+void FLogModule::SetTimeStamp(bool enable)
 {
     _timeStamp = enable;
 }
 
-void ALog::SetQuiet(bool enable)
+void FLogModule::SetQuiet(bool enable)
 {
     _quiet = enable;
 }
 
-void ALog::EndFrame()
+void FLogModule::EndFrame()
 {
     FMutexLock lock(_logMutex);
 
@@ -107,11 +107,11 @@ void ALog::EndFrame()
     }
 }
 
-void ALog::Write(int msgLevel, const FString& message)
+void FLogModule::Write(int msgLevel, const FString& message)
 {
     assert(msgLevel >= LOG_DEBUG && msgLevel < LOG_NONE);
     
-    ALog* instance = GModuleManager::Get().LogModule();
+    FLogModule* instance = GModuleManager::Get().LogModule();
     if (!instance)
         return;
 
@@ -154,14 +154,14 @@ void ALog::Write(int msgLevel, const FString& message)
     FLogMessageEvent& event = instance->_logMessageEvent;
     event._message = formattedMessage;
     event._level = msgLevel;
-    instance->SendEvent(event);
+	GEventManager::Get().SendEvent(instance, event);
 
     instance->_inWrite = false;
 }
 
-void ALog::WriteRaw(const FString& message, bool error)
+void FLogModule::WriteRaw(const FString& message, bool error)
 {
-	ALog* instance = GModuleManager::Get().LogModule();
+	FLogModule* instance = GModuleManager::Get().LogModule();
     if (!instance)
         return;
 
@@ -199,7 +199,7 @@ void ALog::WriteRaw(const FString& message, bool error)
     FLogMessageEvent& event = instance->_logMessageEvent;
     event._message = message;
     event._level = error ? LOG_ERROR : LOG_INFO;
-    instance->SendEvent(event);
+	GEventManager::Get().SendEvent(instance, event);
 
     instance->_inWrite = false;
 }

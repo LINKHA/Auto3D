@@ -7,7 +7,7 @@
 namespace Auto3D
 {
 
-class AGraphics;
+class FGraphicsModule;
 class FShaderVariation;
 
 /// Description of a shader's vertex attribute.

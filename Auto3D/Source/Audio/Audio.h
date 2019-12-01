@@ -1,5 +1,7 @@
 #pragma once
-#include "Core/GameManager.h"
+#include "Container/Ptr.h"
+#include "Container/HashMap.h"
+#include "Math/Vector3.h"
 
 /// Opaque device handle 
 using ALCdevice = struct ALCdevice_struct;
@@ -28,14 +30,13 @@ class AAudioListener;
 class AAudioSource;
 
 /// AAudio sub system ,Process all sound sources and calculate sound
-class AUTO_API AAudio : public ABaseModule
+class AUTO_API FAudioModule : public FRefCounted
 {
-	REGISTER_OBJECT(AAudio, ABaseModule)
 public:
 	/// Construct
-	AAudio();
+	FAudioModule();
 	/// Destructor
-	~AAudio();
+	~FAudioModule();
 	/// Add source with source address and source
 	void AddSource(unsigned sourceID, AAudioSource* source);
 	/// Set listener (if listener NULL this subsystem cant run)

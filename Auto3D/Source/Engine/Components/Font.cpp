@@ -44,7 +44,7 @@ void AFont::RegisterObject()
 bool AFont::BeginLoad(FStream& source)
 {
 	// In headless mode, do not actually load, just return success
-	AGraphics* graphics = GModuleManager::Get().GraphicsModule();
+	FGraphicsModule* graphics = GModuleManager::Get().GraphicsModule();
 	if (!graphics)
 		return true;
 

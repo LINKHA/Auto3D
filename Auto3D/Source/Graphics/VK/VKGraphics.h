@@ -42,15 +42,15 @@ public:
 };
 
 /// 3D graphics rendering context. Manages the rendering _window and GPU objects.
-class AUTO_API AGraphics : public ABaseModule
+class AUTO_API FGraphicsModule : public ABaseModule
 {
-	REGISTER_OBJECT(AGraphics, ABaseModule)
+	REGISTER_OBJECT(FGraphicsModule, ABaseModule)
 
 public:
 	/// Construct and register subsystem. The graphics mode is not set & _window is not opened yet.
-	AGraphics();
+	FGraphicsModule();
 	/// Destruct. Clean up the _window, rendering context and GPU objects.
-	~AGraphics();
+	~FGraphicsModule();
 	/// Check supported rendering features.
 	void CheckFeatureSupport();
 	/// Set graphics mode. Create the _window and rendering context if not created yet. Return true on success.

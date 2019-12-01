@@ -1,19 +1,20 @@
 #pragma once
-#include "Core/GameManager.h"
+#include "Container/Ptr.h"
+#include "Container/Vector.h"
+
 namespace Auto3D {
 
 class APhysicsWorld;
 class APhysicsWorld2D;
 
 /// APhysics sub system 
-class AUTO_API APhysics : public ABaseModule
+class AUTO_API FPhysicsModule : public FRefCounted
 {
-	REGISTER_OBJECT(APhysics, ABaseModule)
 public:
 	/// Construct
-	APhysics();
+	FPhysicsModule();
 	/// Destructor
-	~APhysics();
+	~FPhysicsModule();
 	/// Update active physics world.
 	void Update();
 	/// Add physics world.

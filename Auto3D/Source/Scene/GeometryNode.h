@@ -9,7 +9,7 @@ namespace Auto3D
 {
 
 class FConstantBuffer;
-class AGraphics;
+class FGraphicsModule;
 class FIndexBuffer;
 class AMaterial;
 class FVertexBuffer;
@@ -76,9 +76,9 @@ public:
     ~FGeometry();
 
     /// Draw using the AGraphics subsystem. The constant buffers are not applied automatically, rather they must have been applied beforehand.
-    void Draw(AGraphics* graphics);
+    void Draw(FGraphicsModule* graphics);
     /// Draw an instance range. A separate instance data vertex buffer must be bound.
-    void DrawInstanced(AGraphics* graphics, size_t start, size_t count);
+    void DrawInstanced(FGraphicsModule* graphics, size_t start, size_t count);
 
     /// %FGeometry vertex buffer.
     TSharedPtr<FVertexBuffer> _vertexBuffer;

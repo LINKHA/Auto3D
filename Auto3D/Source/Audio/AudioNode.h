@@ -13,7 +13,7 @@ namespace EAudioUsage
 	};
 };
 
-class AAudio;
+class FAudioModule;
 
 class AUTO_API AAudioNode : public ASpatialNode
 {
@@ -32,7 +32,7 @@ public:
 	EAudioUsage::Type GetUsage() { return _fre; }
 protected:
 	/// AAudio weak ptr
-	TWeakPtr<AAudio> _audio;
+	TWeakPtr<FAudioModule> _audio;
 	/// AAudio Usage 
 	EAudioUsage::Type _fre;
 };

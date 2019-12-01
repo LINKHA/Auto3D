@@ -100,7 +100,7 @@ AModel* AStaticModel::GetModel() const
 
 void AStaticModel::SetModelAttr(const FResourceRef& model)
 {
-	AResourceCache* cache = GModuleManager::Get().CacheModule();
+	FResourceModule* cache = GModuleManager::Get().CacheModule();
     SetModel(cache->LoadResource<AModel>(model._name));
 }
 

@@ -8,76 +8,74 @@
 namespace Auto3D
 {
 
-Input::Input() :
-    _mouseButtons(0),
-    _mouseButtonsPressed(0)
+FInputModule::FInputModule() :
+_mouseButtons(0),
+_mouseButtonsPressed(0)
 {
-    RegisterModule(this);
 }
 
-Input::~Input()
+FInputModule::~FInputModule()
 {
-    RemoveModule(this);
 }
 
-void Input::Update()
+void FInputModule::Update()
 {
     // Clear accumulated input from last frame
     _mouseButtonsPressed = 0;
-    _mouseMove = Vector2I::ZERO;
-	_mouseWhellOffset = Vector2I::ZERO;
+    _mouseMove = TVector2I::ZERO;
+	_mouseWhellOffset = TVector2I::ZERO;
     _keyPressed.Clear();
     _rawKeyPress.Clear();
     for (auto it = _touches.Begin(); it != _touches.End(); ++it)
-        it->_delta = Vector2I::ZERO;
+        it->_delta = TVector2I::ZERO;
 
     // The OS-specific _window message handling will call back to Input and update the state
-    Window* window = ModuleManager::Get()._graphics->RenderWindow();
+    Window* window = GModuleManager::Get()._graphics->RenderWindow();
     if (window)
         window->PumpMessages();
 }
 
-bool Input::IsKeyDown(unsigned keyCode) const
+bool FInputModule::IsKeyDown(unsigned keyCode) const
 {
     auto it = _keyDown.Find(keyCode);
     return it != _keyDown.End() ? it->_second : false;
 }
 
-bool Input::IsKeyDownRaw(unsigned rawKeyCode) const
+bool FInputModule::IsKeyDownRaw(unsigned rawKeyCode) const
 {
     auto it = _rawKeyDown.Find(rawKeyCode);
     return it != _rawKeyDown.End() ? it->_second : false;
 }
 
-bool Input::IsKeyPress(unsigned keyCode) const
+bool FInputModule::IsKeyPress(unsigned keyCode) const
 {
     auto it = _keyPressed.Find(keyCode);
     return it != _keyPressed.End() ? it->_second : false;
 }
 
-bool Input::IsKeyPressRaw(unsigned rawKeyCode) const
+bool FInputModule::IsKeyPressRaw(unsigned rawKeyCode) const
 {
     auto it = _rawKeyPress.Find(rawKeyCode);
     return it != _rawKeyPress.End() ? it->_second : false;
 }
 
-const Vector2I& Input::GetMousePosition() const
+const TVector2I& FInputModule::GetMousePosition() const
 {
     Window* window = Module<Window>();
     return window ? window->GetMousePosition() : Vector2I::ZERO;
 }
 
-bool Input::IsMouseButtonDown(unsigned button) const
+bool FInputModule::IsMouseButtonDown(unsigned button) const
 {
     return (_mouseButtons & (1 << button)) != 0;
 }
 
-bool Input::IsMouseButtonPress(unsigned button) const
+bool FInputModule::IsMouseButtonPress(unsigned button) const
 {
     return (_mouseButtonsPressed & (1 << button)) != 0;
 }
 
-const Touch* Input::FindTouch(unsigned id) const
+const FTouch* FInputModule::FindTouch(unsigned id) const
 {
     for (auto it = _touches.Begin(); it != _touches.End(); ++it)
     {
@@ -104,13 +102,13 @@ void Input::OnKey(unsigned keyCode, unsigned rawKeyCode, bool pressed)
     _keyEvent._rawKeyCode = rawKeyCode;
     _keyEvent._pressed = pressed;
     _keyEvent._repeat = wasDown;
-    SendEvent(_keyEvent);
+	GModuleManager::Get().SendEvent(this, _keyEvent);
 }
 
 void Input::OnChar(unsigned unicodeChar)
 {
     _charInputEvent._unicodeChar = unicodeChar;
-    SendEvent(_charInputEvent);
+	GModuleManager::Get().SendEvent(this, _charInputEvent);
 }
 
 void Input::OnMouseMove(const Vector2I& position, const Vector2I& delta)
@@ -119,7 +117,7 @@ void Input::OnMouseMove(const Vector2I& position, const Vector2I& delta)
 
     _mouseMoveEvent._position = position;
     _mouseMoveEvent._delta = delta;
-    SendEvent(_mouseMoveEvent);
+	GModuleManager::Get().SendEvent(this, _mouseMoveEvent);
 }
 
 void Input::OnMouseWheel(const Vector2I& delta)
@@ -143,7 +141,7 @@ void Input::OnMouseButton(unsigned button, bool pressed)
     _mouseButtonEvent._buttons = _mouseButtons;
     _mouseButtonEvent._pressed = pressed;
     _mouseButtonEvent._position = GetMousePosition();
-    SendEvent(_mouseButtonEvent);
+	GModuleManager::Get().SendEvent(this, _mouseButtonEvent);
 }
 
 void Input::OnTouch(unsigned internalId, bool pressed, const Vector2I& position, float pressure)
@@ -170,7 +168,7 @@ void Input::OnTouch(unsigned internalId, bool pressed, const Vector2I& position,
                     _touchMoveEvent._position = it->_position;
                     _touchMoveEvent._delta = it->_lastDelta;
                     _touchMoveEvent._pressure = it->_pressure;
-                    SendEvent(_touchMoveEvent);
+					GModuleManager::Get().SendEvent(this, _touchMoveEvent);
                 }
 
                 break;
@@ -204,7 +202,7 @@ void Input::OnTouch(unsigned internalId, bool pressed, const Vector2I& position,
             _touchBeginEvent._id = newTouch._id;
             _touchBeginEvent._position = newTouch._position;
             _touchBeginEvent._pressure = newTouch._pressure;
-            SendEvent(_touchBeginEvent);
+			GModuleManager::Get().SendEvent(this, _touchBeginEvent);
         }
     }
     else
@@ -219,7 +217,7 @@ void Input::OnTouch(unsigned internalId, bool pressed, const Vector2I& position,
 
                 _touchEndEvent._id = it->_id;
                 _touchEndEvent._position = it->_position;
-                SendEvent(_touchEndEvent);
+				GModuleManager::Get().SendEvent(this, _touchEndEvent);
                 _touches.Erase(it);
                 break;
             }

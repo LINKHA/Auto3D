@@ -5,7 +5,7 @@
 namespace Auto3D
 {
 
-class AGraphics;
+class FGraphicsModule;
 class FShaderVariation;
 /// Linked shader program consisting of vertex and pixel shaders.
 class AUTO_API FShaderProgram : public FGPUObject

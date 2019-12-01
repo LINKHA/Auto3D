@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/GameManager.h"
+#include "Container/Ptr.h"
 
 namespace Auto3D
 {
@@ -11,14 +11,13 @@ class FStream;
 typedef THashMap<TPair<FStringHash, FStringHash>, TSharedPtr<AResource> > ResourceMap;
  
 /// %AResource cache subsystem. Loads resources on demand and stores them for later access.
-class AUTO_API AResourceCache : public ABaseModule
+class AUTO_API FResourceModule : public FRefCounted
 {
-    REGISTER_OBJECT(AResourceCache, ABaseModule)
 public:
     /// Construct and register subsystem.
-    AResourceCache();
+    FResourceModule();
     /// Destruct. Destroy all owned resources and unregister subsystem.
-    ~AResourceCache();
+    ~FResourceModule();
 
     /// Add a resource directory. Return true on success.
     bool AddResourceDir(const FString& pathName, bool addFirst = false);

@@ -12,6 +12,8 @@
 #include "OGLTexture.h"
 #include "OGLVertexBuffer.h"
 
+#include "Event/EventManager.h"
+
 #include <cstdlib>
 #include <glad.h>
 
@@ -164,7 +166,7 @@ public:
 };
 
 
-AGraphics::AGraphics() :
+FGraphicsModule::FGraphicsModule() :
 	_backbufferSize(TVector2I::ZERO),
 	_renderTargetSize(TVector2I::ZERO),
 	_attributesBySemantic(EElementSemantic::Count),
@@ -185,26 +187,26 @@ AGraphics::AGraphics() :
 	_vsync(false)
 {
 	_window = TSharedPtr<AWindow>(new AWindow());
-	SubscribeToEvent(_window->_resizeEvent, &AGraphics::HandleResize);
+	GEventManager::Get().SubscribeToEvent(this, _window->_resizeEvent, &FGraphicsModule::HandleResize);
 	ResetState();
 }
 
-AGraphics::~AGraphics()
+FGraphicsModule::~FGraphicsModule()
 {
 	Close();
 }
 
-void AGraphics::StartupModule()
+void FGraphicsModule::StartupModule()
 {
 
 }
 
-void AGraphics::ShutdownModule()
+void FGraphicsModule::ShutdownModule()
 {
 
 }
 
-void AGraphics::CheckFeatureSupport()
+void FGraphicsModule::CheckFeatureSupport()
 {
 	// Check supported features: light pre-pass, deferred rendering and hardware depth texture
 	_lightPrepassSupport = false;
@@ -228,12 +230,12 @@ void AGraphics::CheckFeatureSupport()
 		_deferredSupport = true;
 }
 
-bool AGraphics::SetMode(FWindowModeDesc& windowModeDesc)
+bool FGraphicsModule::SetMode(FWindowModeDesc& windowModeDesc)
 {
 	return SetMode(windowModeDesc._size, windowModeDesc._multisample, windowModeDesc._fullscreen, windowModeDesc._resizable, windowModeDesc._center, windowModeDesc._borderless, windowModeDesc._highDPI);
 }
 
-bool AGraphics::SetMode(const TRectI& size, int multisample, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
+bool FGraphicsModule::SetMode(const TRectI& size, int multisample, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
 {
 	FWindowModeDesc& windowModeDesc = _window->ModeDesc();
 	windowModeDesc._size = size;
@@ -259,7 +261,7 @@ bool AGraphics::SetMode(const TRectI& size, int multisample, bool fullscreen, bo
 			if (_window)
 				_window->DestoryWindow();
 
-			SendEvent(_contextLossEvent);
+			GEventManager::Get().SendEvent(this, _contextLossEvent);
 		}
 
 		if (!_window->InitMsg())
@@ -286,7 +288,7 @@ bool AGraphics::SetMode(const TRectI& size, int multisample, bool fullscreen, bo
 				FGPUObject* object = *it;
 				object->Recreate();
 			}
-			SendEvent(_contextRestoreEvent);
+			GEventManager::Get().SendEvent(this, _contextRestoreEvent);
 		}
 	}
 	else
@@ -309,7 +311,7 @@ bool AGraphics::SetMode(const TRectI& size, int multisample, bool fullscreen, bo
 	_screenModeEvent._fullscreen = IsFullscreen();
 	_screenModeEvent._resizable = IsResizable();
 	_screenModeEvent._multisample = _multisample;
-	SendEvent(_screenModeEvent);
+	GEventManager::Get().SendEvent(this, _screenModeEvent);
 
 	LogStringF("Set screen mode %dx%d fullscreen %d resizable %d multisample %d", _backbufferSize._x, _backbufferSize._y,
 		IsFullscreen(), IsResizable(), _multisample);
@@ -319,7 +321,7 @@ bool AGraphics::SetMode(const TRectI& size, int multisample, bool fullscreen, bo
 	return true;
 }
 
-bool AGraphics::SetFullscreen(bool enable)
+bool FGraphicsModule::SetFullscreen(bool enable)
 {
 	if (!IsInitialized())
 		return false;
@@ -327,7 +329,7 @@ bool AGraphics::SetFullscreen(bool enable)
 		return SetMode(TRectI(0, 0, _backbufferSize._x, _backbufferSize._y), enable, _window->IsResizable(), _multisample);
 }
 
-bool AGraphics::SetMultisample(int multisample)
+bool FGraphicsModule::SetMultisample(int multisample)
 {
 	if (!IsInitialized())
 		return false;
@@ -335,14 +337,14 @@ bool AGraphics::SetMultisample(int multisample)
 		return SetMode(TRectI(0, 0, _backbufferSize._x, _backbufferSize._y), _window->IsFullscreen(), _window->IsResizable(), multisample);
 }
 
-void AGraphics::SetVSync(bool enable)
+void FGraphicsModule::SetVSync(bool enable)
 {
 	_vsync = enable;
 	if (_context)
 		_context->SetVSync(enable);
 }
 
-void AGraphics::Close()
+void FGraphicsModule::Close()
 {
 	_shaderPrograms.Clear();
 	_framebuffers.Clear();
@@ -359,7 +361,7 @@ void AGraphics::Close()
 	ResetState();
 }
 
-void AGraphics::Present()
+void FGraphicsModule::Present()
 {
 	PROFILE(Present);
 
@@ -374,21 +376,21 @@ void AGraphics::Present()
 	glBindVertexArray(0);
 }
 
-void AGraphics::Prepare()
+void FGraphicsModule::Prepare()
 {
 	PROFILE(Prepare);
 
 	glBindVertexArray(_vertexArrayObject);
 }
 
-void AGraphics::SetRenderTarget(ATexture* renderTarget, ATexture* depthStencil)
+void FGraphicsModule::SetRenderTarget(ATexture* renderTarget, ATexture* depthStencil)
 {
 	_renderTargetVector.Resize(1);
 	_renderTargetVector[0] = renderTarget;
 	SetRenderTargets(_renderTargetVector, depthStencil);
 }
 
-void AGraphics::SetRenderTargets(const TVector<ATexture*>& renderTargets, ATexture* depthStencil)
+void FGraphicsModule::SetRenderTargets(const TVector<ATexture*>& renderTargets, ATexture* depthStencil)
 {
 	for (size_t i = 0; i < MAX_RENDERTARGETS && i < renderTargets.Size(); ++i)
 		_renderTargets[i] = (renderTargets[i] && renderTargets[i]->IsRenderTarget()) ? renderTargets[i] : nullptr;
@@ -408,7 +410,7 @@ void AGraphics::SetRenderTargets(const TVector<ATexture*>& renderTargets, ATextu
 	_framebufferDirty = true;
 }
 
-void AGraphics::SetViewport(const TRectI& viewport)
+void FGraphicsModule::SetViewport(const TRectI& viewport)
 {
 	PrepareFramebuffer();
 
@@ -425,7 +427,7 @@ void AGraphics::SetViewport(const TRectI& viewport)
 		glViewport(_viewport.Left(), _viewport.Top(), _viewport.Width(), _viewport.Height());
 }
 
-void AGraphics::SetVertexBuffer(size_t index, FVertexBuffer* buffer)
+void FGraphicsModule::SetVertexBuffer(size_t index, FVertexBuffer* buffer)
 {
 	if (index < MAX_VERTEX_STREAMS && buffer != _vertexBuffers[index])
 	{
@@ -434,7 +436,7 @@ void AGraphics::SetVertexBuffer(size_t index, FVertexBuffer* buffer)
 	}
 }
 
-void AGraphics::SetIndexBuffer(FIndexBuffer* buffer)
+void FGraphicsModule::SetIndexBuffer(FIndexBuffer* buffer)
 {
 	if (_indexBuffer != buffer)
 	{
@@ -443,7 +445,7 @@ void AGraphics::SetIndexBuffer(FIndexBuffer* buffer)
 	}
 }
 
-void AGraphics::SetConstantBuffer(EShaderStage::Type stage, size_t index, FConstantBuffer* buffer)
+void FGraphicsModule::SetConstantBuffer(EShaderStage::Type stage, size_t index, FConstantBuffer* buffer)
 {
 	if (stage < EShaderStage::Count && index < MAX_CONSTANT_BUFFERS && buffer != _constantBuffers[stage][index])
 	{
@@ -474,7 +476,7 @@ void AGraphics::SetConstantBuffer(EShaderStage::Type stage, size_t index, FConst
 	}
 }
 
-void AGraphics::SetTexture(size_t index, ATexture* texture)
+void FGraphicsModule::SetTexture(size_t index, ATexture* texture)
 {
 	if (index < MAX_TEXTURE_UNITS && texture != _textures[index])
 	{
@@ -503,7 +505,7 @@ void AGraphics::SetTexture(size_t index, ATexture* texture)
 	}
 }
 
-void AGraphics::SetShaders(FShaderVariation* vs, FShaderVariation* ps)
+void FGraphicsModule::SetShaders(FShaderVariation* vs, FShaderVariation* ps)
 {
 	if (vs == _vertexShader && ps == _pixelShader)
 		return;
@@ -563,7 +565,7 @@ void AGraphics::SetShaders(FShaderVariation* vs, FShaderVariation* ps)
 	_vertexAttributesDirty = true;
 }
 
-void AGraphics::SetColorState(const FBlendModeDesc& blendMode, bool alphaToCoverage, unsigned char colorWriteMask)
+void FGraphicsModule::SetColorState(const FBlendModeDesc& blendMode, bool alphaToCoverage, unsigned char colorWriteMask)
 {
 	_renderState._blendMode = blendMode;
 	_renderState._colorWriteMask = colorWriteMask;
@@ -572,7 +574,7 @@ void AGraphics::SetColorState(const FBlendModeDesc& blendMode, bool alphaToCover
 	_blendStateDirty = true;
 }
 
-void AGraphics::SetColorState(EBlendMode::Type blendMode, bool alphaToCoverage, unsigned char colorWriteMask)
+void FGraphicsModule::SetColorState(EBlendMode::Type blendMode, bool alphaToCoverage, unsigned char colorWriteMask)
 {
 	_renderState._blendMode = blendModes[blendMode];
 	_renderState._colorWriteMask = colorWriteMask;
@@ -581,7 +583,7 @@ void AGraphics::SetColorState(EBlendMode::Type blendMode, bool alphaToCoverage, 
 	_blendStateDirty = true;
 }
 
-void AGraphics::SetDepthState(ECompareFunc::Type depthFunc, bool depthWrite, bool depthClip, int depthBias, float slopeScaledDepthBias)
+void FGraphicsModule::SetDepthState(ECompareFunc::Type depthFunc, bool depthWrite, bool depthClip, int depthBias, float slopeScaledDepthBias)
 {
 	_renderState._depthFunc = depthFunc;
 	_renderState._depthWrite = depthWrite;
@@ -593,7 +595,7 @@ void AGraphics::SetDepthState(ECompareFunc::Type depthFunc, bool depthWrite, boo
 	_rasterizerStateDirty = true;
 }
 
-void AGraphics::SetRasterizerState(ECullMode::Type cullMode, EFillMode::Type fillMode)
+void FGraphicsModule::SetRasterizerState(ECullMode::Type cullMode, EFillMode::Type fillMode)
 {
 	_renderState._cullMode = cullMode;
 	_renderState._fillMode = fillMode;
@@ -601,7 +603,7 @@ void AGraphics::SetRasterizerState(ECullMode::Type cullMode, EFillMode::Type fil
 	_rasterizerStateDirty = true;
 }
 
-void AGraphics::SetScissorTest(bool scissorEnable, const TRectI& scissorRect)
+void FGraphicsModule::SetScissorTest(bool scissorEnable, const TRectI& scissorRect)
 {
 	_renderState._scissorEnable = scissorEnable;
 	/// \todo Implement a member function in IntRect for clipping
@@ -613,7 +615,7 @@ void AGraphics::SetScissorTest(bool scissorEnable, const TRectI& scissorRect)
 	_rasterizerStateDirty = true;
 }
 
-void AGraphics::SetStencilTest(bool stencilEnable, const FStencilTestDesc& stencilTest, unsigned char stencilRef)
+void FGraphicsModule::SetStencilTest(bool stencilEnable, const FStencilTestDesc& stencilTest, unsigned char stencilRef)
 {
 	_renderState._stencilEnable = stencilEnable;
 	_renderState._stencilTest = stencilTest;
@@ -622,7 +624,7 @@ void AGraphics::SetStencilTest(bool stencilEnable, const FStencilTestDesc& stenc
 	_depthStateDirty = true;
 }
 
-void AGraphics::SetGraphicsDebug(EGraphicsDebugType::Type debugTpye)
+void FGraphicsModule::SetGraphicsDebug(EGraphicsDebugType::Type debugTpye)
 {
 	switch (debugTpye)
 	{
@@ -645,23 +647,23 @@ void AGraphics::SetGraphicsDebug(EGraphicsDebugType::Type debugTpye)
 	}
 }
 
-void AGraphics::ResetRenderTargets()
+void FGraphicsModule::ResetRenderTargets()
 {
 	SetRenderTarget(nullptr, nullptr);
 }
 
-void AGraphics::ResetViewport()
+void FGraphicsModule::ResetViewport()
 {
 	SetViewport(TRectI(0, 0, _renderTargetSize._x, _renderTargetSize._y));
 }
 
-void AGraphics::ResetVertexBuffers()
+void FGraphicsModule::ResetVertexBuffers()
 {
 	for (size_t i = 0; i < MAX_VERTEX_STREAMS; ++i)
 		SetVertexBuffer(i, nullptr);
 }
 
-void AGraphics::ResetConstantBuffers()
+void FGraphicsModule::ResetConstantBuffers()
 {
 	for (size_t i = 0; i < EShaderStage::Count; ++i)
 	{
@@ -670,13 +672,13 @@ void AGraphics::ResetConstantBuffers()
 	}
 }
 
-void AGraphics::ResetTextures()
+void FGraphicsModule::ResetTextures()
 {
 	for (size_t i = 0; i < MAX_TEXTURE_UNITS; ++i)
 		SetTexture(i, nullptr);
 }
 
-void AGraphics::ResetGraphics()
+void FGraphicsModule::ResetGraphics()
 {
 	ResetViewport();
 	ResetVertexBuffers();
@@ -686,7 +688,7 @@ void AGraphics::ResetGraphics()
 	ResetViewport();
 }
 
-void AGraphics::Clear(unsigned clearFlags, const FColor& clearColor, float clearDepth, unsigned char clearStencil)
+void FGraphicsModule::Clear(unsigned clearFlags, const FColor& clearColor, float clearDepth, unsigned char clearStencil)
 {
 	PrepareFramebuffer();
 
@@ -735,7 +737,7 @@ void AGraphics::Clear(unsigned clearFlags, const FColor& clearColor, float clear
 		glEnable(GL_SCISSOR_TEST);
 }
 
-void AGraphics::Draw(EPrimitiveType::Type type, size_t vertexStart, size_t vertexCount)
+void FGraphicsModule::Draw(EPrimitiveType::Type type, size_t vertexStart, size_t vertexCount)
 {
 	if (!PrepareDraw())
 		return;
@@ -743,7 +745,7 @@ void AGraphics::Draw(EPrimitiveType::Type type, size_t vertexStart, size_t verte
 	glDrawArrays(glPrimitiveTypes[type], (unsigned)vertexStart, (unsigned)vertexCount);
 }
 
-void AGraphics::DrawIndexed(EPrimitiveType::Type type, size_t indexStart, size_t indexCount, size_t vertexStart)
+void FGraphicsModule::DrawIndexed(EPrimitiveType::Type type, size_t indexStart, size_t indexCount, size_t vertexStart)
 {
 	// Drawing with trashed index data can lead to a crash within the OpenGL driver
 	if (!_indexBuffer || _indexBuffer->IsDataLost() || !PrepareDraw())
@@ -769,7 +771,7 @@ void AGraphics::DrawIndexed(EPrimitiveType::Type type, size_t indexStart, size_t
 
 }
 
-void AGraphics::DrawInstanced(EPrimitiveType::Type type, size_t vertexStart, size_t vertexCount, size_t instanceStart, size_t instanceCount)
+void FGraphicsModule::DrawInstanced(EPrimitiveType::Type type, size_t vertexStart, size_t vertexCount, size_t instanceStart, size_t instanceCount)
 {
 	if (!PrepareDraw(true, instanceStart))
 		return;
@@ -777,7 +779,7 @@ void AGraphics::DrawInstanced(EPrimitiveType::Type type, size_t vertexStart, siz
 	glDrawArraysInstanced(glPrimitiveTypes[type], (unsigned)vertexStart, (unsigned)vertexCount, (unsigned)instanceCount);
 }
 
-void AGraphics::DrawIndexedInstanced(EPrimitiveType::Type type, size_t indexStart, size_t indexCount, size_t vertexStart, size_t instanceStart,
+void FGraphicsModule::DrawIndexedInstanced(EPrimitiveType::Type type, size_t indexStart, size_t indexCount, size_t vertexStart, size_t instanceStart,
 	size_t instanceCount)
 {
 	if (!_indexBuffer || _indexBuffer->IsDataLost() || !PrepareDraw(true, instanceStart))
@@ -803,64 +805,64 @@ void AGraphics::DrawIndexedInstanced(EPrimitiveType::Type type, size_t indexStar
 #endif
 }
 
-bool AGraphics::IsInitialized() const
+bool FGraphicsModule::IsInitialized() const
 {
 	return _window->IsOpen() && _context;
 }
 
-bool AGraphics::IsFullscreen() const
+bool FGraphicsModule::IsFullscreen() const
 {
 	return _window->IsFullscreen();
 }
 
-bool AGraphics::IsResizable() const
+bool FGraphicsModule::IsResizable() const
 {
 	return _window->IsResizable();
 }
 
-TSharedPtr<AWindow> AGraphics::RenderWindow() const
+TSharedPtr<AWindow> FGraphicsModule::RenderWindow() const
 {
 	return _window;
 }
 
-TSharedPtr<FGraphicsContext> AGraphics::RenderContext() const
+TSharedPtr<FGraphicsContext> FGraphicsModule::RenderContext() const
 {
 	return _context;
 }
 
-ATexture* AGraphics::RenderTarget(size_t index) const
+ATexture* FGraphicsModule::RenderTarget(size_t index) const
 {
 	return index < MAX_RENDERTARGETS ? _renderTargets[index] : nullptr;
 }
 
-FVertexBuffer* AGraphics::GetVertexBuffer(size_t index) const
+FVertexBuffer* FGraphicsModule::GetVertexBuffer(size_t index) const
 {
 	return index < MAX_VERTEX_STREAMS ? _vertexBuffers[index] : nullptr;
 }
 
-FConstantBuffer* AGraphics::GetConstantBuffer(EShaderStage::Type stage, size_t index) const
+FConstantBuffer* FGraphicsModule::GetConstantBuffer(EShaderStage::Type stage, size_t index) const
 {
 	return (stage < EShaderStage::Count && index < MAX_CONSTANT_BUFFERS) ? _constantBuffers[stage][index] : nullptr;
 }
 
-ATexture* AGraphics::GetTexture(size_t index) const
+ATexture* FGraphicsModule::GetTexture(size_t index) const
 {
 	return (index < MAX_TEXTURE_UNITS) ? _textures[index] : nullptr;
 }
 
-void AGraphics::AddGPUObject(FGPUObject* object)
+void FGraphicsModule::AddGPUObject(FGPUObject* object)
 {
 	if (object)
 		_gpuObjects.Push(object);
 }
 
-void AGraphics::RemoveGPUObject(FGPUObject* object)
+void FGraphicsModule::RemoveGPUObject(FGPUObject* object)
 {
 	/// \todo Requires a linear search, needs to be profiled whether becomes a problem with a large number of objects
 	_gpuObjects.Remove(object);
 }
 
-void AGraphics::CleanupShaderPrograms(FShaderVariation* shader)
+void FGraphicsModule::CleanupShaderPrograms(FShaderVariation* shader)
 {
 	if (!shader)
 		return;
@@ -895,7 +897,7 @@ void AGraphics::CleanupShaderPrograms(FShaderVariation* shader)
 	}
 }
 
-void AGraphics::CleanupFramebuffers(ATexture* texture)
+void FGraphicsModule::CleanupFramebuffers(ATexture* texture)
 {
 	if (!texture)
 		return;
@@ -914,7 +916,7 @@ void AGraphics::CleanupFramebuffers(ATexture* texture)
 	}
 }
 
-void AGraphics::BindVBO(unsigned vbo)
+void FGraphicsModule::BindVBO(unsigned vbo)
 {
 	if (vbo != _boundVBO)
 	{
@@ -923,7 +925,7 @@ void AGraphics::BindVBO(unsigned vbo)
 	}
 }
 
-void AGraphics::BindUBO(unsigned ubo)
+void FGraphicsModule::BindUBO(unsigned ubo)
 {
 	if (ubo != _boundUBO)
 	{
@@ -932,7 +934,7 @@ void AGraphics::BindUBO(unsigned ubo)
 	}
 }
 
-bool AGraphics::CreateContext(AWindow* window, int multisample)
+bool FGraphicsModule::CreateContext(AWindow* window, int multisample)
 {
 	// Create or recreate
 	_context = TSharedPtr<FGraphicsContext>(new FGraphicsContext(window));
@@ -992,7 +994,7 @@ bool AGraphics::CreateContext(AWindow* window, int multisample)
 	return true;
 }
 
-void AGraphics::HandleResize(FWindowResizeEvent& event)
+void FGraphicsModule::HandleResize(FWindowResizeEvent& event)
 {
 	// Reset viewport in case the application does not set it
 	if (_context)
@@ -1003,7 +1005,7 @@ void AGraphics::HandleResize(FWindowResizeEvent& event)
 	}
 }
 
-void AGraphics::CleanupFramebuffers()
+void FGraphicsModule::CleanupFramebuffers()
 {
 	// Make sure the framebuffer is switched first if there are pending rendertarget changes
 	PrepareFramebuffer();
@@ -1018,7 +1020,7 @@ void AGraphics::CleanupFramebuffers()
 	}
 }
 
-void AGraphics::PrepareFramebuffer()
+void FGraphicsModule::PrepareFramebuffer()
 {
 	if (_framebufferDirty)
 	{
@@ -1150,7 +1152,7 @@ void AGraphics::PrepareFramebuffer()
 	}
 }
 
-bool AGraphics::PrepareDraw(bool instanced, size_t instanceStart)
+bool FGraphicsModule::PrepareDraw(bool instanced, size_t instanceStart)
 {
 	if (_framebufferDirty)
 		PrepareFramebuffer();
@@ -1461,7 +1463,7 @@ bool AGraphics::PrepareDraw(bool instanced, size_t instanceStart)
 	return true;
 }
 
-void AGraphics::ResetState()
+void FGraphicsModule::ResetState()
 {
 	for (size_t i = 0; i < MAX_VERTEX_STREAMS; ++i)
 		_vertexBuffers[i] = nullptr;
