@@ -7,7 +7,7 @@ namespace Auto3D
 // Relative to the three - dimensional space independent skybox
 class AUTO_API ASkyBox : public AStaticModel
 {
-	REGISTER_OBJECT_CLASS(ASkyBox, AStaticModel)
+	REGISTER_OBJECT(ASkyBox, AStaticModel)
 public:
 	/// Construct
 	ASkyBox();

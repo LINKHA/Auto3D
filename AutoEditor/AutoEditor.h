@@ -3,9 +3,9 @@
 
 using namespace Auto3D;
 
-class AutoEditor : public Application
+class AutoEditor : public AApplication
 {
-	REGISTER_OBJECT_CLASS(AutoEditor, Application)
+	REGISTER_OBJECT(AutoEditor, AApplication)
 public:
 	void Init()override;
 	void Start()override;

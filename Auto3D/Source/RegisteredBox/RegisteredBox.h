@@ -14,7 +14,7 @@ class ACamera2D;
 /// Manages messaging between the user and the engine
 class AUTO_API ARegisteredBox : public ABaseModule
 {
-	REGISTER_OBJECT_CLASS(ARegisteredBox, ABaseModule)
+	REGISTER_OBJECT(ARegisteredBox, ABaseModule)
 public:
 	/// Construct.
 	ARegisteredBox();

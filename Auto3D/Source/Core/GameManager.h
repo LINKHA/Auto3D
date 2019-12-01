@@ -6,7 +6,7 @@ namespace Auto3D
 
 class AUTO_API AGameManager : public AObject
 {
-	REGISTER_OBJECT_CLASS(AGameManager, AObject)
+	REGISTER_OBJECT(AGameManager, AObject)
 
 public:
 	AGameManager() = default;
@@ -15,7 +15,7 @@ public:
 
 class AUTO_API ABaseModule : public AGameManager
 {
-	REGISTER_OBJECT_CLASS(ABaseModule, AGameManager)
+	REGISTER_OBJECT(ABaseModule, AGameManager)
 public:
 	ABaseModule() = default;
 	virtual ~ABaseModule() = default;

@@ -5,7 +5,7 @@ using namespace Auto3D;
 
 class SerializeSample : public Sample
 {
-	REGISTER_OBJECT_CLASS(SerializeSample, Sample)
+	REGISTER_OBJECT(SerializeSample, Sample)
 public:
 	void Init()override;
 	void Start()override;

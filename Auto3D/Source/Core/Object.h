@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Container/StringHash.h"
-#include "Event.h"
+#include "Event/Event.h"
 #include "Math/AutoMath.h"
 
 namespace Auto3D
@@ -43,7 +43,7 @@ private:
 	const FTypeInfo* _baseTypeInfo;
 };
 
-#define REGISTER_OBJECT_CLASS(_This,_Base) \
+#define REGISTER_OBJECT(_This,_Base) \
 public: \
 	_This& operator=(_This&&) = delete;   \
     _This& operator=(const _This&)= delete;  \
@@ -91,7 +91,7 @@ public:
 	template<typename _Ty> const _Ty* Cast() const { return IsInstanceOf<_Ty>() ? static_cast<const _Ty*>(this) : nullptr; }
 
 	/// Subscribe to an _event.
-    void SubscribeToEvent(FEvent& event, FEventHandler* handler);
+    void SubscribeToEvent(FEvent& event, IEventHandler* handler);
     /// Unsubscribe from an _event.
     void UnsubscribeFromEvent(FEvent& event);
     /// Send an _event.

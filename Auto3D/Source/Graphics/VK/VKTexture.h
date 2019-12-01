@@ -15,7 +15,7 @@ class FGeometry;
 /// %ATexture on the GPU.
 class AUTO_API ATexture : public AResource, public FGPUObject
 {
-	REGISTER_OBJECT_CLASS(ATexture, AResource)
+	REGISTER_OBJECT(ATexture, AResource)
 
 public:
 	/// Construct.

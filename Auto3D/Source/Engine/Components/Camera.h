@@ -28,7 +28,7 @@ class ATexture;
 /// ACamera scene node.
 class AUTO_API ACamera : public ASpatialNode
 {
-	REGISTER_OBJECT_CLASS(ACamera, ASpatialNode)
+	REGISTER_OBJECT(ACamera, ASpatialNode)
 
 public:
     /// Construct.

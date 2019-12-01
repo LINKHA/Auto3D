@@ -2,22 +2,22 @@
 
 void StartPage::DrawStartPage()
 {
-	auto window = ModuleManager::Get().GraphicsModule()->RenderWindow();
-	Vector2I windowSize = window->GetSize();
-	auto onCreateProject = [&](const String& path)
+	auto window = GModuleManager::Get().GraphicsModule()->RenderWindow();
+	TVector2I windowSize = window->GetSize();
+	auto onCreateProject = [&](const FString& path)
 	{
-		auto fileSystem = ModuleManager::Get().FileSystemModule();
+		auto fileSystem = GModuleManager::Get().FileSystemModule();
 		fileSystem->CreateDir(path + "/Cache");
 		fileSystem->CreateDir(path + "/Data");
 		fileSystem->CreateDir(path + "/Meta");
 		fileSystem->CreateDir(path + "/Settings");
 	};
-	auto onOpenProject = [&](const String& path) {
-		auto fileSystem = ModuleManager::Get().FileSystemModule();
+	auto onOpenProject = [&](const FString& path) {
+		auto fileSystem = GModuleManager::Get().FileSystemModule();
 	};
 
-	GUI::SetNextWindowPos(Vector2F(0, 0), ImGuiCond_Always);
-	GUI::SetNextWindowSize(Vector2F(windowSize._x, windowSize._y), ImGuiCond_Always);
+	GUI::SetNextWindowPos(TVector2F(0, 0), ImGuiCond_Always);
+	GUI::SetNextWindowSize(TVector2F(windowSize._x, windowSize._y), ImGuiCond_Always);
 
 	bool state;
 	GUI::WindowFlags windowFlag = 0;
@@ -42,17 +42,17 @@ void StartPage::DrawStartPage()
 	GUI::BeginGroup();
 	{
 		if (GUI::BeginChild("projects_content",
-			Vector2F(GUI::GetContentRegionAvail()._x * 0.7f, GUI::GetContentRegionAvail()._y),
+			TVector2F(GUI::GetContentRegionAvail()._x * 0.7f, GUI::GetContentRegionAvail()._y),
 			false, flags))
 		{
 			///Temp
-			Vector<String> rencentProjects;
+			TVector<FString> rencentProjects;
 			rencentProjects.Push("C:/Users/Administrator/Desktop/Test");
 			rencentProjects.Push("C:/Users/Administrator/Desktop/Test2");
 
 			for (auto it = rencentProjects.Begin(); it != rencentProjects.End(); ++it)
 			{
-				String path = *it;
+				FString path = *it;
 				if (GUI::Selectable(path.CString()))
 				{
 					onOpenProject(path);
@@ -67,18 +67,18 @@ void StartPage::DrawStartPage()
 
 	GUI::BeginGroup();
 	{
-		if (GUI::Button("NEW PROJECT", Vector2F(ImGui::GetContentRegionAvailWidth(), 0.0f)))
+		if (GUI::Button("NEW PROJECT", TVector2F(ImGui::GetContentRegionAvailWidth(), 0.0f)))
 		{
-			String path;
+			FString path;
 			if (PickFolderDialog("", path))
 			{
 				onCreateProject(path);
 			}
 		}
 
-		if (GUI::Button("OPEN OTHER", Vector2F(ImGui::GetContentRegionAvailWidth(), 0.0f)))
+		if (GUI::Button("OPEN OTHER", TVector2F(ImGui::GetContentRegionAvailWidth(), 0.0f)))
 		{
-			String path;
+			FString path;
 			if (PickFolderDialog("", path))
 			{
 				onOpenProject(path);

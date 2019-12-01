@@ -11,7 +11,7 @@ class FShaderVariation;
 /// %AShader resource. Defines either vertex or pixel shader source code, from which variations can be compiled by specifying defines.
 class AUTO_API AShader : public AResource
 {
-    REGISTER_OBJECT_CLASS(AShader,AResource)
+    REGISTER_OBJECT(AShader,AResource)
 
 public:
     /// Construct.

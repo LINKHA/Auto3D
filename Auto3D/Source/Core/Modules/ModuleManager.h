@@ -22,9 +22,10 @@ class AFileSystem;
 class AUIModule;
 class AAudio;
 
+
 class AUTO_API GModuleManager 
 {
-	friend class TSingleton<GModuleManager>;
+	REGISTER_SINGLETON(GModuleManager)
 protected:
 	/// Structure
 	GModuleManager();
@@ -35,9 +36,6 @@ public:
 	void RegisterMoudleLibrary();
 	/// Create all modules.
 	void CreateModules();
-
-	/// Gets the singleton instance of the module manager.
-	static GModuleManager& Get();
 
 	/// Recreate cache moudle if not null.
 	void RecreateCacheModule(AResourceCache* cache = nullptr);

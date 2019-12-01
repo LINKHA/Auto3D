@@ -35,7 +35,7 @@ namespace EConstantBuffer2D
 /// APhysics sub system 
 class AUTO_API ARenderer2D : public ABaseModule
 {
-	REGISTER_OBJECT_CLASS(ARenderer2D, ABaseModule)
+	REGISTER_OBJECT(ARenderer2D, ABaseModule)
 public:
 	/// Construct
 	ARenderer2D();

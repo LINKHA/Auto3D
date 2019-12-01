@@ -16,7 +16,7 @@ class AEngine;
 /// The superclass implementation of the project space, where the engine is implemented
 class AUTO_API AApplication : public AObject
 {
-	REGISTER_OBJECT_CLASS(AApplication, AObject)
+	REGISTER_OBJECT(AApplication, AObject)
 public:
 	/// Create engine
 	AApplication();

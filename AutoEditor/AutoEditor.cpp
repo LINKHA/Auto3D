@@ -3,7 +3,7 @@
 
 void AutoEditor::Init()
 {
-	auto graphics = ModuleManager::Get().GraphicsModule();
+	auto graphics = GModuleManager::Get().GraphicsModule();
 	graphics->RenderWindow()->SetTitle("AutoEditor");
 
 
@@ -11,14 +11,14 @@ void AutoEditor::Init()
 
 void AutoEditor::Start()
 {
-	auto cache = ModuleManager::Get().CacheModule();
-	auto ui = ModuleManager::Get().UiModule();
+	auto cache = GModuleManager::Get().CacheModule();
+	auto ui = GModuleManager::Get().UiModule();
 
-	Font* msyh24 = cache->LoadResource<Font>("Font/msyh.ttc");
-	ui->AddFont(msyh24, 24, "Msyh_24", UIFontLanguage::CN);
+	AFont* msyh24 = cache->LoadResource<AFont>("Font/msyh.ttc");
+	ui->AddFont(msyh24, 24, "Msyh_24", EUIFontLanguage::CN);
 
-	Font* msyh48 = cache->LoadResource<Font>("Font/msyh.ttc");
-	ui->AddFont(msyh48, 36, "Msyh_36", UIFontLanguage::CN);
+	AFont* msyh48 = cache->LoadResource<AFont>("Font/msyh.ttc");
+	ui->AddFont(msyh48, 36, "Msyh_36", EUIFontLanguage::CN);
 }
 void AutoEditor::Update()
 {

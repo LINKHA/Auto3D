@@ -7,12 +7,12 @@
 namespace Auto3D
 {
 
-FEventHandler::FEventHandler(FRefCounted* receiver_) :
+IEventHandler::IEventHandler(FRefCounted* receiver_) :
     _receiver(receiver_)
 {
 }
 
-FEventHandler::~FEventHandler()
+IEventHandler::~IEventHandler()
 {
 }
 
@@ -39,7 +39,7 @@ void FEvent::Send(FRefCounted* sender)
     
     for (auto it = _handlers.Begin(); it != _handlers.End();)
     {
-        FEventHandler* handler = *it;
+        IEventHandler* handler = *it;
         bool remove = true;
         
         if (handler)
@@ -64,7 +64,7 @@ void FEvent::Send(FRefCounted* sender)
     _currentSender.Reset();
 }
 
-void FEvent::Subscribe(FEventHandler* handler)
+void FEvent::Subscribe(IEventHandler* handler)
 {
     if (!handler)
         return;
@@ -72,7 +72,7 @@ void FEvent::Subscribe(FEventHandler* handler)
     // Check if the same receiver already exists; in that case replace the handler data
     for (auto it = _handlers.Begin(); it != _handlers.End(); ++it)
     {
-        FEventHandler* existing = *it;
+        IEventHandler* existing = *it;
         if (existing && existing->Receiver() == handler->Receiver())
         {
             *it = handler;
@@ -87,7 +87,7 @@ void FEvent::Unsubscribe(FRefCounted* receiver)
 {
     for (auto it = _handlers.Begin(); it != _handlers.End(); ++it)
     {
-        FEventHandler* handler = *it;
+        IEventHandler* handler = *it;
         if (handler && handler->Receiver() == receiver)
         {
             // If _event sending is going on, only clear the pointer but do not remove the element from the handler vector
@@ -105,7 +105,7 @@ bool FEvent::HasReceivers() const
 {
     for (auto it = _handlers.Begin(); it != _handlers.End(); ++it)
     {
-        FEventHandler* handler = *it;
+        IEventHandler* handler = *it;
         if (handler && handler->Receiver())
             return true;
     }
@@ -117,7 +117,7 @@ bool FEvent::HasReceiver(const FRefCounted* receiver) const
 {
     for (auto it = _handlers.Begin(); it != _handlers.End(); ++it)
     {
-        FEventHandler* handler = *it;
+        IEventHandler* handler = *it;
         if (handler && handler->Receiver() == receiver)
             return true;
     }

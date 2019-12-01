@@ -18,7 +18,7 @@ static const unsigned SCAN_HIDDEN = 0x4;
 /// Module for file and directory operations and access control.
 class AUTO_API AFileSystem : public ABaseModule
 {
-	REGISTER_OBJECT_CLASS(AFileSystem, ABaseModule)
+	REGISTER_OBJECT(AFileSystem, ABaseModule)
 public:
 	/// Construct.
 	AFileSystem();

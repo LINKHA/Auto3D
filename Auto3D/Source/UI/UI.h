@@ -100,7 +100,7 @@ namespace EUIFontLanguage
 
 class AUTO_API AUIModule : public ABaseModule
 {
-	REGISTER_OBJECT_CLASS(AUIModule, ABaseModule)
+	REGISTER_OBJECT(AUIModule, ABaseModule)
 public:
 	/// Construct.
 	AUIModule();

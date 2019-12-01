@@ -6,7 +6,7 @@ namespace Auto3D
 
 class ASound : public AResource
 {
-	REGISTER_OBJECT_CLASS(ASound, AResource)
+	REGISTER_OBJECT(ASound, AResource)
 public:
 	ASound();
 

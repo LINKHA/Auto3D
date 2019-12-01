@@ -9,6 +9,8 @@
 namespace Auto3D
 {
 
+REALIZE_SINGLETON(GStringHashRegister)
+
 GStringHashRegister::GStringHashRegister(bool threadSafe)
 {
 	if (threadSafe)
@@ -19,11 +21,6 @@ GStringHashRegister::GStringHashRegister(bool threadSafe)
 GStringHashRegister::~GStringHashRegister()       // NOLINT(hicpp-use-equals-default, modernize-use-equals-default)
 {
 	// Keep destructor here to let mutex_ destruct
-}
-
-GStringHashRegister& GStringHashRegister::Get()
-{
-	return TSingleton<GStringHashRegister>::Instance();
 }
 
 FStringHash GStringHashRegister::RegisterString(const FStringHash& hash, const char* string)

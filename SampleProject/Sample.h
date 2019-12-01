@@ -6,7 +6,7 @@ using namespace Auto3D;
 
 class Sample : public AApplication
 {
-	REGISTER_OBJECT_CLASS(Sample, AApplication)
+	REGISTER_OBJECT(Sample, AApplication)
 public:
 	void Init()override;
 	void Start()override;

@@ -10,7 +10,7 @@ class AAudioBuffer;
 /// Responsible for the operation of 3d sound source
 class AUTO_API AAudioSource : public AAudioNode
 {
-	REGISTER_OBJECT_CLASS(AAudioSource, AAudioNode)
+	REGISTER_OBJECT(AAudioSource, AAudioNode)
 public:
 	/// The constructor
 	AAudioSource();

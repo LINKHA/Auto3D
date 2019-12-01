@@ -30,7 +30,7 @@ class AAudioSource;
 /// AAudio sub system ,Process all sound sources and calculate sound
 class AUTO_API AAudio : public ABaseModule
 {
-	REGISTER_OBJECT_CLASS(AAudio, ABaseModule)
+	REGISTER_OBJECT(AAudio, ABaseModule)
 public:
 	/// Construct
 	AAudio();

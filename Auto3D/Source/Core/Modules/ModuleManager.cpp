@@ -22,6 +22,8 @@
 
 namespace Auto3D {
 
+REALIZE_SINGLETON(GModuleManager)
+
 GModuleManager::GModuleManager() :
 	_cache(nullptr),
 	_graphics(nullptr),
@@ -66,11 +68,6 @@ void GModuleManager::CreateModules()
 	_physics = TUniquePtr<APhysics>(new APhysics());
 	_fileSystem = TUniquePtr<AFileSystem>(new AFileSystem());
 	_ui = TUniquePtr<AUIModule>(new AUIModule());
-}
-
-GModuleManager& GModuleManager::Get()
-{
-	return TSingleton<GModuleManager>::Instance();
 }
 
 void GModuleManager::RecreateCacheModule(AResourceCache* cache)

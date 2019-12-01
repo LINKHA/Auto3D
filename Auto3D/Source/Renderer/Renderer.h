@@ -56,7 +56,7 @@ static const size_t INSTANCE_TEXCOORD = 4;
 /// High-level rendering subsystem. Performs rendering of 3D scenes.
 class AUTO_API ARenderer : public ABaseModule
 {
-    REGISTER_OBJECT_CLASS(ARenderer , ABaseModule)
+    REGISTER_OBJECT(ARenderer , ABaseModule)
 
 public:
     /// Construct and register subsystem.

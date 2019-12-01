@@ -4,7 +4,7 @@ using namespace Auto3D;
 
 class AudioSample : public Sample
 {
-	REGISTER_OBJECT_CLASS(AudioSample, Sample)
+	REGISTER_OBJECT(AudioSample, Sample)
 public:
 	void Init()override;
 	void Start()override;

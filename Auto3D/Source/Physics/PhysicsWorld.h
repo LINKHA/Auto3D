@@ -21,7 +21,7 @@ struct FPhysicsWorldConfig
 
 class APhysicsWorld : public ANode//, public btIDebugDraw
 {
-	REGISTER_OBJECT_CLASS(APhysicsWorld, ANode)
+	REGISTER_OBJECT(APhysicsWorld, ANode)
 public:
 	/// Construct
 	APhysicsWorld();

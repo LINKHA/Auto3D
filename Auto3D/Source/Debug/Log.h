@@ -60,7 +60,7 @@ public:
 /// Logging subsystem.
 class AUTO_API ALog : public ABaseModule
 {
-	REGISTER_OBJECT_CLASS(ALog, ABaseModule)
+	REGISTER_OBJECT(ALog, ABaseModule)
 public:
     /// Construct and register subsystem.
     ALog();

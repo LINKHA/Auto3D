@@ -9,7 +9,7 @@ class AModel;
 /// %AScene node that renders an animated model.
 class AUTO_API ADynamicModel : public AGeometryNode
 {
-	REGISTER_OBJECT_CLASS(ADynamicModel, AGeometryNode)
+	REGISTER_OBJECT(ADynamicModel, AGeometryNode)
 
 public:
 	/// Construct.

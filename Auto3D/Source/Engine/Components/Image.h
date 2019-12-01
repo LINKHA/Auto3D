@@ -75,7 +75,7 @@ struct AUTO_API FImageLevel
 /// %AImage resource.
 class AUTO_API AImage : public AResource
 {
-	REGISTER_OBJECT_CLASS(AImage, AResource)
+	REGISTER_OBJECT(AImage, AResource)
 
 public:
     /// Construct.

@@ -5,7 +5,7 @@ using namespace Auto3D;
 
 class HelloWorldSample : public Sample
 {
-	REGISTER_OBJECT_CLASS(HelloWorldSample, Sample)
+	REGISTER_OBJECT(HelloWorldSample, Sample)
 public:
 	void Init()override;
 	void Start()override;

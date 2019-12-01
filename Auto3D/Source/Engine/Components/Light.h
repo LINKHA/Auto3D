@@ -28,7 +28,7 @@ namespace ELightType
 /// Dynamic light scene node.
 class AUTO_API ALight : public AOctreeNode
 {
-	REGISTER_OBJECT_CLASS(ALight, AOctreeNode)
+	REGISTER_OBJECT(ALight, AOctreeNode)
     
 public:
     /// Construct.

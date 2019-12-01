@@ -61,7 +61,7 @@ bool AObject::IsInstanceOf(const FTypeInfo* typeInfo) const
 	return GetTypeInfo()->IsTypeOf(typeInfo);
 }
 
-void AObject::SubscribeToEvent(FEvent& event, FEventHandler* handler)
+void AObject::SubscribeToEvent(FEvent& event, IEventHandler* handler)
 {
     event.Subscribe(handler);
 }

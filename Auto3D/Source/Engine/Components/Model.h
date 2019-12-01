@@ -46,7 +46,7 @@ struct AUTO_API FBone
 /// 3D model resource.
 class AUTO_API AModel : public AResource
 {
-	REGISTER_OBJECT_CLASS(AModel, AResource)
+	REGISTER_OBJECT(AModel, AResource)
 
 public:
     /// Construct.

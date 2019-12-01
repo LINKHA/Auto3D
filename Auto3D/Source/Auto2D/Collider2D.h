@@ -9,7 +9,7 @@ class APhysicsWorld2D;
 
 class AUTO_API ACollider2D : public ANode2D
 {
-	REGISTER_OBJECT_CLASS(ACollider2D,ANode2D)
+	REGISTER_OBJECT(ACollider2D,ANode2D)
 public:
 	/// Construct
 	ACollider2D();

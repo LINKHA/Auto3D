@@ -67,7 +67,7 @@ public:
 /// Hierarchical performance profiler subsystem.
 class AUTO_API AProfiler : public ABaseModule
 {
-	REGISTER_OBJECT_CLASS(AProfiler, ABaseModule)
+	REGISTER_OBJECT(AProfiler, ABaseModule)
 
 public:
 	/// Construct.

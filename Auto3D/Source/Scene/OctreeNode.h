@@ -15,7 +15,7 @@ struct FRaycastResult;
 /// Base class for scene nodes that insert themselves to the octree for rendering.
 class AUTO_API AOctreeNode : public ASpatialNode
 {
-	REGISTER_OBJECT_CLASS(AOctreeNode, ASpatialNode)
+	REGISTER_OBJECT(AOctreeNode, ASpatialNode)
 
     friend class AOctree;
 public:

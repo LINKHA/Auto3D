@@ -6,7 +6,7 @@ namespace Auto3D
 
 class AUTO_API AColliderCone : public ACollider
 {
-	REGISTER_OBJECT_CLASS(AColliderCone, ACollider)
+	REGISTER_OBJECT(AColliderCone, ACollider)
 public:
 	/// Construct
 	AColliderCone();

@@ -7,7 +7,7 @@ class ASkyBox;
 
 class AIBLMaterial : public AMaterial 
 {
-	REGISTER_OBJECT_CLASS(AIBLMaterial, AMaterial)
+	REGISTER_OBJECT(AIBLMaterial, AMaterial)
 
 public:
 	/// Construct.

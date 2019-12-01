@@ -10,7 +10,7 @@ class APhysicsWorld2D;
 /// Location of all components of the Renderer2D
 class AUTO_API AScene2D : public ANode2D
 {
-	REGISTER_OBJECT_CLASS(AScene2D, ANode2D)
+	REGISTER_OBJECT(AScene2D, ANode2D)
 public:
 	/// The constructor
 	AScene2D();

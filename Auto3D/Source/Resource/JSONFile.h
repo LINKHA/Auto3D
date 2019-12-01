@@ -11,7 +11,7 @@ class FStream;
 /// JSON document. Contains a root JSON value and can be read/written to file as text.
 class AUTO_API AJSONFile : public AResource
 {
-    REGISTER_OBJECT_CLASS(AJSONFile, AResource)
+    REGISTER_OBJECT(AJSONFile, AResource)
 
 public:
     /// Load from a stream as text. Return true on success. Will contain partial data on failure.

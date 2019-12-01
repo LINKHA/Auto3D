@@ -12,7 +12,7 @@ class ASkyBox;
 /// %AScene root node, which also represents the whole scene.
 class AUTO_API AScene : public ANode
 {
-    REGISTER_OBJECT_CLASS(AScene, ANode)
+    REGISTER_OBJECT(AScene, ANode)
 
 public:
     /// Construct.

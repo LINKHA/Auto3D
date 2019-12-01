@@ -379,7 +379,7 @@ public:
 /// AInput subsystem for reading keyboard/mouse/etc. input. Updated from OS _window messages by the AWindow class.
 class AUTO_API AInput : public ABaseModule
 {
-    REGISTER_OBJECT_CLASS(AInput, ABaseModule)
+    REGISTER_OBJECT(AInput, ABaseModule)
 
 public:
     /// Construct and register subsystem.

@@ -8,7 +8,7 @@ class APhysicsWorld2D;
 /// APhysics sub system 
 class AUTO_API APhysics : public ABaseModule
 {
-	REGISTER_OBJECT_CLASS(APhysics, ABaseModule)
+	REGISTER_OBJECT(APhysics, ABaseModule)
 public:
 	/// Construct
 	APhysics();

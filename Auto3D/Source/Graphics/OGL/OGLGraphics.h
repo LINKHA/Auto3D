@@ -53,7 +53,7 @@ public:
 /// 3D graphics rendering context. Manages the rendering _window and GPU objects.
 class AUTO_API AGraphics : public ABaseModule, public IModuleInterface
 {
-	REGISTER_OBJECT_CLASS(AGraphics, ABaseModule)
+	REGISTER_OBJECT(AGraphics, ABaseModule)
 public:
     /// Construct and register subsystem. The graphics mode is not set & _window is not opened yet.
     AGraphics();

@@ -113,7 +113,7 @@ struct AUTO_API FSourceBatch
 /// Base class for scene nodes that contain geometry to be rendered.
 class AUTO_API AGeometryNode : public AOctreeNode
 {
-    REGISTER_OBJECT_CLASS(AGeometryNode, AOctreeNode)
+    REGISTER_OBJECT(AGeometryNode, AOctreeNode)
 
 public:
     /// Construct.

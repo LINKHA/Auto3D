@@ -22,7 +22,7 @@ class AUIModule;
 
 class AUTO_API AEngine : public AObject
 {
-	REGISTER_OBJECT_CLASS(AEngine, AObject)
+	REGISTER_OBJECT(AEngine, AObject)
 public:
 	/// Construct
 	AEngine();

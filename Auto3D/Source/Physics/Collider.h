@@ -35,7 +35,7 @@ class APhysicsWorld;
 
 class ACollider : public ANode
 {
-	REGISTER_OBJECT_CLASS(ACollider, ANode)
+	REGISTER_OBJECT(ACollider, ANode)
 public:
 	/// Construct
 	ACollider();

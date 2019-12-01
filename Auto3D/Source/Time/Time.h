@@ -10,7 +10,7 @@ const int MAX_FRAMES_PER_SECOND = 200;
 /// SubSystem class for time
 class AUTO_API ATime : public ABaseModule
 {
-	REGISTER_OBJECT_CLASS(ATime, ABaseModule)
+	REGISTER_OBJECT(ATime, ABaseModule)
 	typedef void(__cdecl* TimerCallback) ();
 	/// Save world time information
 	using RealTime = struct {

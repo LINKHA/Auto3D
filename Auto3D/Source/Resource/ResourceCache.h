@@ -13,7 +13,7 @@ typedef THashMap<TPair<FStringHash, FStringHash>, TSharedPtr<AResource> > Resour
 /// %AResource cache subsystem. Loads resources on demand and stores them for later access.
 class AUTO_API AResourceCache : public ABaseModule
 {
-    REGISTER_OBJECT_CLASS(AResourceCache, ABaseModule)
+    REGISTER_OBJECT(AResourceCache, ABaseModule)
 public:
     /// Construct and register subsystem.
     AResourceCache();

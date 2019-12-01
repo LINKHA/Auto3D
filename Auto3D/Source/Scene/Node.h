@@ -25,7 +25,7 @@ static const unsigned LAYERMASK_ALL = 0xffffffff;
 /// Base class for scene nodes.
 class AUTO_API ANode : public ASerializable
 {
-    REGISTER_OBJECT_CLASS(ANode, ASerializable)
+    REGISTER_OBJECT(ANode, ASerializable)
     
 public:
     /// Construct.

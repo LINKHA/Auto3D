@@ -5,7 +5,7 @@ using namespace Auto3D;
 
 class SkyboxSample : public Sample
 {
-	REGISTER_OBJECT_CLASS(SkyboxSample, Sample)
+	REGISTER_OBJECT(SkyboxSample, Sample)
 public:
 	void Init()override;
 	void Start()override;

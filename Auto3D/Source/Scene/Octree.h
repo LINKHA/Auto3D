@@ -65,7 +65,7 @@ struct AUTO_API FOctant
 /// Acceleration structure for rendering. Should be created as a child of the scene root.
 class AUTO_API AOctree : public ANode
 {
-    REGISTER_OBJECT_CLASS(AOctree, ANode)
+    REGISTER_OBJECT(AOctree, ANode)
 
 public:
     /// Construct.
