@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Attribute.h"
-#include "Object.h"
+#include "Object/Object.h"
 
 namespace Auto3D
 {

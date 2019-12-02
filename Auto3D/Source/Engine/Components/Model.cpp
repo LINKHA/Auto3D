@@ -46,7 +46,7 @@ bool AModel::BeginLoad(FStream& source)
     /// \todo Develop own format for Auto3D
     if (source.ReadFileID() != "UMDL")
     {
-        ErrorString(source.FName() + " is not a valid model file");
+        ErrorString(source.GetName() + " is not a valid model file");
         return false;
     }
 
@@ -240,12 +240,12 @@ bool AModel::EndLoad()
             if (geomDesc._vbRef < vbs.Size())
                 geom->_vertexBuffer = vbs[geomDesc._vbRef];
             else
-                ErrorString("Out of range vertex buffer reference in " + FName());
+                ErrorString("Out of range vertex buffer reference in " + GetName());
 
             if (geomDesc._ibRef < ibs.Size())
                 geom->_indexBuffer = ibs[geomDesc._ibRef];
             else
-                ErrorString("Out of range index buffer reference in " + FName());
+                ErrorString("Out of range index buffer reference in " + GetName());
             
             _geometries[i][j] = geom;
         }

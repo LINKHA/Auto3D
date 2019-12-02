@@ -27,7 +27,7 @@ void AShader::RegisterObject()
 
 bool AShader::BeginLoad(FStream& source)
 {
-    FString extension = Extension(source.FName());
+    FString extension = Extension(source.GetName());
     _stage = (extension == ".vs" || extension == ".vert") ? EShaderStage::VS : EShaderStage::PS;
     _sourceCode.Clear();
     return ProcessIncludes(_sourceCode, source);
@@ -77,7 +77,7 @@ bool AShader::ProcessIncludes(FString& code, FStream& source)
 
         if (line.StartsWith("#include"))
         {
-            FString includeFileName = Path(source.FName()) + line.Substring(9).Replaced("\"", "").Trimmed();
+            FString includeFileName = Path(source.GetName()) + line.Substring(9).Replaced("\"", "").Trimmed();
             TAutoPtr<FStream> includeStream = cache->OpenResource(includeFileName);
             if (!includeStream)
                 return false;

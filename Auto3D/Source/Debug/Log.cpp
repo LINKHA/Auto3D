@@ -47,7 +47,7 @@ void FLogModule::Open(const FString& fileName)
     
     if (_logFile && _logFile->IsOpen())
     {
-        if (_logFile->FName() == fileName)
+        if (_logFile->GetName() == fileName)
             return;
         else
             Close();

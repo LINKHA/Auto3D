@@ -320,7 +320,7 @@ bool AMaterial::Save(FStream& dest)
     for (size_t i = 0; i < MAX_MATERIAL_TEXTURE_UNITS; ++i)
     {
         if (_textures[i])
-            root["textures"][FString((int)i)] = _textures[i]->FName();
+            root["textures"][FString((int)i)] = _textures[i]->GetName();
     }
 
     return saveJSON.Save(dest);

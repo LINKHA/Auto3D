@@ -8,7 +8,7 @@ public:\
 	friend class TSingleton<_This>;\
 	static _This& Get();\
 
-#define REALIZE_SINGLETON(_This) \
+#define IMPLEMENT_SINGLETON(_This) \
 	_This& _This::Get(){ return TSingleton<_This>::Instance(); }
 
 // T must be: no-throw default constructible and no-throw destructible

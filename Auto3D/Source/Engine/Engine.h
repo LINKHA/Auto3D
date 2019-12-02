@@ -1,5 +1,5 @@
 #pragma once
-#include "Core/Object.h"
+#include "Core/Object/Object.h"
 #include "Time/Time.h"
 
 namespace Auto3D

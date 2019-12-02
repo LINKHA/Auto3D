@@ -4,7 +4,7 @@
 
 namespace Auto3D {
 
-REALIZE_SINGLETON(GEventManager)
+IMPLEMENT_SINGLETON(GEventManager)
 
 GEventManager::GEventManager() 
 {}
@@ -12,7 +12,7 @@ GEventManager::GEventManager()
 GEventManager::~GEventManager()
 {}
 
-void GEventManager::SubscribeToEvent(FEvent& event, IEventHandler* handler)
+void GEventManager::SubscribeToEvent(FEvent& event, FEventHandler* handler)
 {
 	event.Subscribe(handler);
 }

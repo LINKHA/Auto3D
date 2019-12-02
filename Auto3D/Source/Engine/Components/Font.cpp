@@ -63,7 +63,7 @@ bool AFont::BeginLoad(FStream& source)
 		return false;
 	}
 
-	FString ext = Extension(FName());
+	FString ext = Extension(GetName());
 	if (ext == ".ttf" || ext == ".otf" || ext == ".woff")
 	{
 		_fontType = EFontType::FREE_TYPE;

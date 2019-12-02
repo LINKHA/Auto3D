@@ -196,7 +196,7 @@ void ATexture::Release()
 void ATexture::Recreate()
 {
     // If has a name, attempt to reload through the resource cache
-    if (FName().Length())
+    if (GetName().Length())
     {
 		FResourceModule* cache = GModuleManager::Get().CacheModule();
         if (cache && cache->ReloadResource(this))

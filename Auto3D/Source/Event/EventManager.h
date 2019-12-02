@@ -15,7 +15,7 @@ protected:
 	~GEventManager();
 public:
 	/// Subscribe to an _event.
-	void SubscribeToEvent(FEvent& event, IEventHandler* handler);
+	void SubscribeToEvent(FEvent& event, FEventHandler* handler);
 	/// Unsubscribe from an event.
 	void UnsubscribeFromEvent(FRefCounted* sender, FEvent& event);
 	/// Send an event from sender.

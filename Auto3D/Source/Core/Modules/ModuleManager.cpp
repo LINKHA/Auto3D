@@ -22,7 +22,7 @@
 
 namespace Auto3D {
 
-REALIZE_SINGLETON(GModuleManager)
+IMPLEMENT_SINGLETON(GModuleManager)
 
 GModuleManager::GModuleManager() :
 	_cache(nullptr),

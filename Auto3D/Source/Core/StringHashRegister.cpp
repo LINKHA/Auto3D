@@ -9,7 +9,7 @@
 namespace Auto3D
 {
 
-REALIZE_SINGLETON(GStringHashRegister)
+IMPLEMENT_SINGLETON(GStringHashRegister)
 
 GStringHashRegister::GStringHashRegister(bool threadSafe)
 {

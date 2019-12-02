@@ -86,7 +86,7 @@ public:
     void ToValue(ASerializable* instance, void* dest);
     
     /// Return variable name.
-    const FString& FName() const { return _name; }
+    const FString& GetName() const { return _name; }
     /// Return zero-based enum names, or null if none.
     const char** EnumNames() const { return _enumNames; }
     /// Return type name.

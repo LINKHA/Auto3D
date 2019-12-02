@@ -1,7 +1,7 @@
 #pragma once
 
 #include "IO/ResourceRef.h"
-#include "Core/Object.h"
+#include "Core/Object/Object.h"
 
 namespace Auto3D
 {
@@ -29,7 +29,7 @@ public:
 	void SetMemoryUse(unsigned _size);
 
     /// Return name of the resource.
-    const FString& FName() const { return _name; }
+    const FString& GetName() const { return _name; }
     /// Return name hash of the resource.
     const FStringHash& NameHash() const { return _nameHash; }
 	/// Return memory use in bytes, possibly approximate.
@@ -47,7 +47,7 @@ private:
 /// Return name from a resource pointer.
 inline const FString& ResourceName(AResource* resource)
 {
-    return resource ? resource->FName() : FString::EMPTY;
+    return resource ? resource->GetName() : FString::EMPTY;
 }
 
 /// Return type from a resource pointer, or default type if null.

@@ -56,13 +56,13 @@ bool FResourceModule::AddManualResource(AResource* resource)
         return false;
     }
 
-    if (resource->FName().IsEmpty())
+    if (resource->GetName().IsEmpty())
     {
         ErrorString("Manual resource with empty name, can not add");
         return false;
     }
 
-    _resources[MakePair(resource->GetType(), FStringHash(resource->FName()))] = resource;
+    _resources[MakePair(resource->GetType(), FStringHash(resource->GetName()))] = resource;
     return true;
 }
 
@@ -133,7 +133,7 @@ void FResourceModule::UnloadResources(FStringHash type, const FString& partialNa
             if (current->_first._first == type)
             {
                 AResource* resource = current->_second;
-                if (resource->FName().StartsWith(partialName) && (resource->Refs() == 1 || force))
+                if (resource->GetName().StartsWith(partialName) && (resource->Refs() == 1 || force))
                 {
                     _resources.Erase(current);
                     ++unloaded;
@@ -157,7 +157,7 @@ void FResourceModule::UnloadResources(const FString& partialName, bool force)
         {
             auto current = it++;
             AResource* resource = current->_second;
-            if (resource->FName().StartsWith(partialName) && (!resource->Refs() == 1 || force))
+            if (resource->GetName().StartsWith(partialName) && (!resource->Refs() == 1 || force))
             {
                 _resources.Erase(current);
                 ++unloaded;
@@ -197,7 +197,7 @@ bool FResourceModule::ReloadResource(AResource* resource)
     if (!resource)
         return false;
 
-    TAutoPtr<FStream> stream = OpenResource(resource->FName());
+    TAutoPtr<FStream> stream = OpenResource(resource->GetName());
     return stream ? resource->Load(*stream) : false;
 }
 

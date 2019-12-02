@@ -7,16 +7,16 @@
 namespace Auto3D
 {
 ///Simple version of FString, this object is lossy compressed content using hash storage, case insensitive.
-class AUTO_API FName
+class AUTO_API GetName
 {
 public:
 	/// Structure.
-	FName(const char* name)
+	GetName(const char* name)
 	{
 		SetName(name);
 	}
 	/// Structure.
-	FName(const FString& name)
+	GetName(const FString& name)
 	{
 		SetName(name.CString());
 	}
@@ -33,7 +33,7 @@ public:
 		return _value == FStringHash(other);
 	}
 	/// Equality operator.
-	inline bool operator==(const FName& other) const
+	inline bool operator==(const GetName& other) const
 	{
 		return _value == other.Value();
 	}
@@ -43,7 +43,7 @@ public:
 		return !operator==(other);
 	}
 	/// Inequality operator.
-	inline bool operator!=(const FName& other) const
+	inline bool operator!=(const GetName& other) const
 	{
 		return !operator==(other);
 	}

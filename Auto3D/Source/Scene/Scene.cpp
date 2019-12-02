@@ -51,7 +51,7 @@ void AScene::Save(FStream& dest)
 {
     PROFILE(SaveScene);
     
-    InfoString("Saving scene to " + dest.FName());
+    InfoString("Saving scene to " + dest.GetName());
     
     dest.WriteFileID("SCNE");
     ANode::Save(dest);
@@ -61,7 +61,7 @@ bool AScene::Load(FStream& source)
 {
     PROFILE(LoadScene);
     
-    InfoString("Loading scene from " + source.FName());
+    InfoString("Loading scene from " + source.GetName());
     
     FString fileId = source.ReadFileID();
     if (fileId != "SCNE")
@@ -113,7 +113,7 @@ bool AScene::LoadJSON(const FJSONValue& source)
 
 bool AScene::LoadJSON(FStream& source)
 {
-    InfoString("Loading scene from " + source.FName());
+    InfoString("Loading scene from " + source.GetName());
     
     AJSONFile json;
     bool success = json.Load(source);
@@ -125,7 +125,7 @@ bool AScene::SaveJSON(FStream& dest)
 {
     PROFILE(SaveSceneJSON);
     
-    InfoString("Saving scene to " + dest.FName());
+    InfoString("Saving scene to " + dest.GetName());
     
     AJSONFile json;
     ANode::SaveJSON(json.Root());

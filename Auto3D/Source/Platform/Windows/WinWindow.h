@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Math/Vector2.h"
-#include "Core/Object.h"
+#include "Core/Object/Object.h"
 
 namespace Auto3D
 {

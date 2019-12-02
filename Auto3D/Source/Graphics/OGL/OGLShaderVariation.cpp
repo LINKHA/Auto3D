@@ -144,7 +144,7 @@ AShader* FShaderVariation::Parent() const
 FString FShaderVariation::FullName() const
 {
     if (_parent)
-        return _defines.IsEmpty() ? _parent->FName() : _parent->FName() + " (" + _defines + ")";
+        return _defines.IsEmpty() ? _parent->GetName() : _parent->GetName() + " (" + _defines + ")";
     else
         return FString::EMPTY;
 }

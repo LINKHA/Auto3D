@@ -10,13 +10,13 @@ namespace Auto3D
 class FEvent;
 
 /// Internal helper class for invoking event handler functions.
-class AUTO_API IEventHandler
+class AUTO_API FEventHandler
 {
 public:
     /// Construct with receiver object pointer.
-    IEventHandler(FRefCounted* receiver);
+    FEventHandler(FRefCounted* receiver);
     /// Destruct.
-    virtual ~IEventHandler();
+    virtual ~FEventHandler();
 
     /// Invoke the handler function. Implemented by subclasses.
     virtual void Invoke(FEvent& event) = 0;
@@ -30,14 +30,14 @@ protected:
 };
 
 /// Template implementation of the event handler invoke helper, stores a function pointer of specific class.
-template <typename _Ty, typename _Event> class TEventHandlerImpl : public IEventHandler
+template <typename _Ty, typename _Event> class TEventHandlerImpl : public FEventHandler
 {
 public:
     typedef void (_Ty::*HandlerFunctionPtr)(_Event&);
 
     /// Construct with receiver and function pointers.
     TEventHandlerImpl(FRefCounted* receiver, HandlerFunctionPtr function) :
-        IEventHandler(receiver),
+        FEventHandler(receiver),
         _function(function)
     {
         assert(_function);
@@ -73,7 +73,7 @@ public:
     /// Send the _event.
     void Send(FRefCounted* sender);
     /// Subscribe to the _event. The _event takes ownership of the handler data. If there is already handler data for the same receiver, it is overwritten.
-    void Subscribe(IEventHandler* handler);
+    void Subscribe(FEventHandler* handler);
     /// Unsubscribe from the _event.
     void Unsubscribe(FRefCounted* receiver);
 
@@ -86,7 +86,7 @@ public:
 
 private:
     /// FEvent handlers.
-    TVector<TAutoPtr<IEventHandler> > _handlers;
+    TVector<TAutoPtr<FEventHandler> > _handlers;
     /// Current sender.
     TWeakPtr<FRefCounted> _currentSender;
 };

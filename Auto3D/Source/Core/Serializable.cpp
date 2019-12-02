@@ -70,7 +70,7 @@ void ASerializable::LoadJSON(const FJSONValue& source, FObjectResolver& resolver
     for (auto it = attributes->Begin(); it != attributes->End(); ++it)
     {
         FAttribute* attr = *it;
-        auto jsonIt = object.Find(attr->FName());
+        auto jsonIt = object.Find(attr->GetName());
         if (jsonIt != object.End())
         {
             // Store object refs to the resolver instead of immediately setting
@@ -93,7 +93,7 @@ void ASerializable::SaveJSON(FJSONValue& dest)
         FAttribute* attr = attributes->At(i);
         // For better readability, do not save default-valued attributes to JSON
         if (!attr->IsDefault(this))
-            attr->ToJSON(this, dest[attr->FName()]);
+            attr->ToJSON(this, dest[attr->GetName()]);
     }
 }
 
@@ -129,7 +129,7 @@ FAttribute* ASerializable::FindAttribute(const char* name) const
     for (size_t i = 0; i < attributes->Size(); ++i)
     {
         FAttribute* attr = attributes->At(i);
-        if (attr->FName() == name)
+        if (attr->GetName() == name)
             return attr;
     }
     
@@ -141,7 +141,7 @@ void ASerializable::RegisterAttribute(FStringHash type, FAttribute* attr)
     TVector<TSharedPtr<FAttribute> >& attributes = _classAttributes[type];
     for (size_t i = 0; i < attributes.Size(); ++i)
     {
-        if (attributes[i]->FName() == attr->FName())
+        if (attributes[i]->GetName() == attr->GetName())
         {
             attributes.Insert(i, attr);
             return;
@@ -170,7 +170,7 @@ void ASerializable::CopyBaseAttribute(FStringHash type, FStringHash baseType, co
         TVector<TSharedPtr<FAttribute> >& attributes = _classAttributes[baseType];
         for (size_t i = 0; i < attributes.Size(); ++i)
         {
-            if (attributes[i]->FName() == name)
+            if (attributes[i]->GetName() == name)
             {
                 RegisterAttribute(type, attributes[i]);
                 break;
