@@ -1,5 +1,4 @@
 // dear imgui: Platform Binding for 
-2
 // This needs to be used along with a ARenderer (e.g. DirectX11, OpenGL3, Vulkan..)
 // (Info: SDL2 is a cross-platform general purpose library for handling windows, inputs, graphics context creation, etc.)
 

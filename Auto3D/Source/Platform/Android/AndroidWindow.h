@@ -2,7 +2,7 @@
 #include "AutoConfig.h"
 #ifdef AUTO_SDL
 #include "Math/Vector2.h"
-#include "Core/Object.h"
+#include "Core/Object/Object.h"
 
 struct SDL_Window;
 
@@ -10,6 +10,35 @@ namespace Auto3D
 {
 
 class AImage;
+
+struct AUTO_API FWindowModeDesc
+{
+	FWindowModeDesc() :
+		_size(TRectI(0, 0, 1024, 768)),
+		_multisample(1),
+		_fullscreen(false),
+		_resizable(false),
+		_center(true),
+		_borderless(false),
+		_highDPI(false)
+	{
+	}
+	/// AWindow position and size.
+	TRectI _size;
+	/// Multis sample num point;
+	int _multisample;
+	/// AWindow is full screen.
+	bool _fullscreen;
+	/// AWindow is resizable.
+	bool _resizable;
+	/// AWindow is center in screen.
+	bool _center;
+	/// AWindow is borderless.
+	bool _borderless;
+	/// AWindow is highDPI.
+	bool _highDPI;
+
+};
 
 /// AWindow resized event.
 class AUTO_API FWindowResizeEvent : public FEvent
@@ -95,7 +124,8 @@ public:
 	SDL_Window* Handle() const { return _handle; }
 	/// Handle a _window message. Return true if handled and should not be passed to the default _window procedure.
 	bool OnWindowMessage(void* sdlEvent);
-
+	/// Return window mode desc.
+	FWindowModeDesc& ModeDesc() { return _windowModeDesc; }
 	/// Close requested event.
 	FEvent _closeRequestEvent;
 	/// Gained focus event.
@@ -157,6 +187,8 @@ private:
 	bool _mouseLock;
 	/// Internal mouse visible flag. The mouse is automatically shown when the _window is unfocused, while mouseVisible represents the application's desired state. Used to prevent multiple calls to OS mouse visibility functions, which utilize a counter.
 	bool _mouseVisibleInternal;
+	/// Store the window mode information, and then create the mode.
+	FWindowModeDesc _windowModeDesc;
 };
 
 }

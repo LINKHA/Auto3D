@@ -27,7 +27,7 @@ namespace Auto3D
 #if defined(WIN32) | defined(WIN64)
 #	define AUTO_WIN32
 #elif  defined(ANDROID) || defined(__ANDROID__)
-#	define AUTO_ANDROID
+#	define AUTO_SDL
 #endif
 
 // Auto3D build configuration

@@ -3,9 +3,9 @@
 #include "AutoConfig.h"
 
 #ifdef AUTO_OPENGL
-#	ifdef _WIN32 || _WIN64
+#if defined(AUTO_WIN32)
 #		include "Windows/WinOGLContext.h"
-#	else
+#elif defined(AUTO_SDL)
 #		include "Android/AndroidOGLContext.h"
 #	endif
 #else

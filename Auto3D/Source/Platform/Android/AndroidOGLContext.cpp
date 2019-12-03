@@ -1,11 +1,9 @@
 #include "AutoConfig.h"
 #ifdef AUTO_SDL
-#include "../../AutoConfig.h"
-
-#include "../../Container/WString.h"
-#include "../../Debug/Log.h"
-#include "OGLGraphicsContext.h"
-#include "../../Platform/Window.h"
+#include "Container/WString.h"
+#include "Debug/Log.h"
+#include "Platform/Context.h"
+#include "Platform/Window.h"
 
 #include <cstring>
 #include <glad.h>
@@ -17,27 +15,28 @@
 #	include <wingdi.h>
 #endif
 
-#include "../../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 
 
 namespace Auto3D
 {
+#if defined(_WIN32 )| defined(_WIN64)
 typedef BOOL(APIENTRY *PFNWGLSWAPINTERVALFARPROC)(int);
 static PFNWGLSWAPINTERVALFARPROC wglSwapIntervalEXT = (PFNWGLSWAPINTERVALFARPROC)wglGetProcAddress("wglSwapIntervalEXT");
-
-GraphicsContext::GraphicsContext(Window* window) :
+#endif
+FGraphicsContext::FGraphicsContext(AWindow* window) :
 	_window(window),
 	_contextHandle(nullptr)
 {
 }
 
-GraphicsContext::~GraphicsContext()
+FGraphicsContext::~FGraphicsContext()
 {
 	Release();
 }
 
-bool GraphicsContext::Create()
+bool FGraphicsContext::Create()
 {
 	if (_contextHandle)
 		return true;
@@ -66,19 +65,21 @@ bool GraphicsContext::Create()
 	return true;
 }
 
-void GraphicsContext::SetVSync(bool enable)
+void FGraphicsContext::SetVSync(bool enable)
 {
+#if defined(_WIN32 )| defined(_WIN64)
 	if (_contextHandle && wglSwapIntervalEXT)
 		wglSwapIntervalEXT(enable ? 1 : 0);
+#endif
 }
 
-void GraphicsContext::Present()
+void FGraphicsContext::Present()
 {
 	if (_contextHandle)
 		SDL_GL_SwapWindow(_window->Handle());
 }
 
-void GraphicsContext::Release()
+void FGraphicsContext::Release()
 {
 	if (_contextHandle)
 	{

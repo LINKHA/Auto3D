@@ -6,9 +6,9 @@
 #include <imgui_user/imgui_user.h>
 
 
-#if defined(_WIN32) || defined(_WIN64)
+#if defined(AUTO_WIN32)
 #	include "../Adapter/imgui_impl_windows.h"
-#else
+#elif defined(AUTO_SDL)
 #	include "../Adapter/imgui_impl_sdl.h"
 #endif
 
@@ -52,9 +52,9 @@ FUIModule::~FUIModule()
 #	if defined(AUTO_OPENGL)
 	ImGui_ImplOpenGL3_Shutdown();
 #	endif
-#if defined(_WIN32) || defined(_WIN64)
+#if defined(AUTO_WIN32)
 	ImGui_ImplWin32_Shutdown();
-#else
+#elif defined(AUTO_SDL)
 	ImGui_ImplSDL2_Shutdown();
 #endif
 	ImGui::DestroyContext();
@@ -92,9 +92,9 @@ bool AUIModule::SetMode(AWindow* window)
 		glslVersion = NULL;
 	// Setup Platform/ARenderer bindings
 #	if defined(AUTO_OPENGL)
-#		if defined(_WIN32) || defined(_WIN64)
+#		if defined(AUTO_WIN32)
 	ImGui_ImplWin32_Init(window->Handle());
-#else	
+#elif	defined(AUTO_SDL)
 	ImGui_ImplSDL2_InitForOpenGL(window->Handle(), context->Context());
 #endif
 	ImGui_ImplOpenGL3_Init(glslVersion);
@@ -120,7 +120,6 @@ bool AUIModule::SetMode(AWindow* window)
 
 bool FUIModule::BeginUI()
 {
-#if defined(_WIN32) || defined(_WIN64)
 	if (!_window)
 	{
 		ErrorString("Fail update new frame from ui,may bo window not create.");
@@ -131,15 +130,14 @@ bool FUIModule::BeginUI()
 	ImGui_ImplOpenGL3_NewFrame();
 #	endif
 
-#	if defined(_WIN32) || defined(_WIN64)
+#	if defined(AUTO_WIN32)
 	ImGui_ImplWin32_NewFrame();
-#	else
+#	elif defined(AUTO_SDL)
 	ImGui_ImplSDL2_NewFrame(_window->Handle());
 #	endif
 
 	ImGui::NewFrame();
-#endif
-	
+
 	return true;
 }
 

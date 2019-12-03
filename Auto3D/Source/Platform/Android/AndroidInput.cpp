@@ -2,10 +2,11 @@
 #ifdef AUTO_SDL
 #include "AndroidInput.h"
 #include "AndroidWindow.h"
-#include "../../Engine/ModuleManager.h"
-#include "../../Graphics/Graphics.h"
+#include "Core/Modules/ModuleManager.h"
+#include "Graphics/Graphics.h"
+#include "Event/EventManager.h"
 
-#include "../../Debug/DebugNew.h"
+#include "Debug/DebugNew.h"
 
 namespace Auto3D
 {
@@ -32,7 +33,7 @@ void FInputModule::Update()
         it->_delta = TVector2I::ZERO;
 
     // The OS-specific _window message handling will call back to Input and update the state
-    Window* window = GModuleManager::Get()._graphics->RenderWindow();
+    AWindow* window = GModuleManager::Get().GraphicsModule()->RenderWindow();
     if (window)
         window->PumpMessages();
 }
@@ -63,8 +64,8 @@ bool FInputModule::IsKeyPressRaw(unsigned rawKeyCode) const
 
 const TVector2I& FInputModule::GetMousePosition() const
 {
-    Window* window = Module<Window>();
-    return window ? window->GetMousePosition() : Vector2I::ZERO;
+	AWindow* window = GModuleManager::Get().GraphicsModule()->RenderWindow();
+    return window ? window->GetMousePosition() : TVector2I::ZERO;
 }
 
 bool FInputModule::IsMouseButtonDown(unsigned button) const
@@ -88,7 +89,7 @@ const FTouch* FInputModule::FindTouch(unsigned id) const
     return nullptr;
 }
 
-void Input::OnKey(unsigned keyCode, unsigned rawKeyCode, bool pressed)
+void FInputModule::OnKey(unsigned keyCode, unsigned rawKeyCode, bool pressed)
 {
     bool wasDown = IsKeyDown(keyCode);
 
@@ -104,30 +105,30 @@ void Input::OnKey(unsigned keyCode, unsigned rawKeyCode, bool pressed)
     _keyEvent._rawKeyCode = rawKeyCode;
     _keyEvent._pressed = pressed;
     _keyEvent._repeat = wasDown;
-	GModuleManager::Get().SendEvent(this, _keyEvent);
+	GEventManager::Get().SendEvent(this, _keyEvent);
 }
 
-void Input::OnChar(unsigned unicodeChar)
+void FInputModule::OnChar(unsigned unicodeChar)
 {
     _charInputEvent._unicodeChar = unicodeChar;
-	GModuleManager::Get().SendEvent(this, _charInputEvent);
+	GEventManager::Get().SendEvent(this, _charInputEvent);
 }
 
-void Input::OnMouseMove(const Vector2I& position, const Vector2I& delta)
+void FInputModule::OnMouseMove(const TVector2I& position, const TVector2I& delta)
 {
     _mouseMove += delta;
 
     _mouseMoveEvent._position = position;
     _mouseMoveEvent._delta = delta;
-	GModuleManager::Get().SendEvent(this, _mouseMoveEvent);
+	GEventManager::Get().SendEvent(this, _mouseMoveEvent);
 }
 
-void Input::OnMouseWheel(const Vector2I& delta)
+void FInputModule::OnMouseWheel(const TVector2I& delta)
 {
 	_mouseWhellOffset = delta;
 }
 
-void Input::OnMouseButton(unsigned button, bool pressed)
+void FInputModule::OnMouseButton(unsigned button, bool pressed)
 {
     unsigned bit = 1 << button;
 
@@ -143,10 +144,10 @@ void Input::OnMouseButton(unsigned button, bool pressed)
     _mouseButtonEvent._buttons = _mouseButtons;
     _mouseButtonEvent._pressed = pressed;
     _mouseButtonEvent._position = GetMousePosition();
-	GModuleManager::Get().SendEvent(this, _mouseButtonEvent);
+	GEventManager::Get().SendEvent(this, _mouseButtonEvent);
 }
 
-void Input::OnTouch(unsigned internalId, bool pressed, const Vector2I& position, float pressure)
+void FInputModule::OnTouch(unsigned internalId, bool pressed, const TVector2I& position, float pressure)
 {
     if (pressed)
     {
@@ -160,7 +161,7 @@ void Input::OnTouch(unsigned internalId, bool pressed, const Vector2I& position,
                 found = true;
                 it->_lastDelta = position - it->_position;
                 
-                if (it->_lastDelta != Vector2I::ZERO || pressure != it->_pressure)
+                if (it->_lastDelta != TVector2I::ZERO || pressure != it->_pressure)
                 {
                     it->_delta += it->_lastDelta;
                     it->_position = position;
@@ -170,7 +171,7 @@ void Input::OnTouch(unsigned internalId, bool pressed, const Vector2I& position,
                     _touchMoveEvent._position = it->_position;
                     _touchMoveEvent._delta = it->_lastDelta;
                     _touchMoveEvent._pressure = it->_pressure;
-					GModuleManager::Get().SendEvent(this, _touchMoveEvent);
+					GEventManager::Get().SendEvent(this, _touchMoveEvent);
                 }
 
                 break;
@@ -194,7 +195,7 @@ void Input::OnTouch(unsigned internalId, bool pressed, const Vector2I& position,
                 }
             }
 
-            Touch newTouch;
+            FTouch newTouch;
             newTouch._id = newId;
             newTouch._internalId = internalId;
             newTouch._position = position;
@@ -204,7 +205,7 @@ void Input::OnTouch(unsigned internalId, bool pressed, const Vector2I& position,
             _touchBeginEvent._id = newTouch._id;
             _touchBeginEvent._position = newTouch._position;
             _touchBeginEvent._pressure = newTouch._pressure;
-			GModuleManager::Get().SendEvent(this, _touchBeginEvent);
+			GEventManager::Get().SendEvent(this, _touchBeginEvent);
         }
     }
     else
@@ -219,7 +220,7 @@ void Input::OnTouch(unsigned internalId, bool pressed, const Vector2I& position,
 
                 _touchEndEvent._id = it->_id;
                 _touchEndEvent._position = it->_position;
-				GModuleManager::Get().SendEvent(this, _touchEndEvent);
+				GEventManager::Get().SendEvent(this, _touchEndEvent);
                 _touches.Erase(it);
                 break;
             }
@@ -227,15 +228,15 @@ void Input::OnTouch(unsigned internalId, bool pressed, const Vector2I& position,
     }
 }
 
-void Input::OnGainFocus()
+void FInputModule::OnGainFocus()
 {
 }
 
-void Input::OnLoseFocus()
+void FInputModule::OnLoseFocus()
 {
     _mouseButtons = 0;
     _mouseButtonsPressed = 0;
-    _mouseMove = Vector2I::ZERO;
+    _mouseMove = TVector2I::ZERO;
     _keyDown.Clear();
     _keyPressed.Clear();
     _rawKeyDown.Clear();

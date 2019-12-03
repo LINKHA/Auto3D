@@ -2,8 +2,8 @@
 
 #include "AutoConfig.h"
 
-#ifdef _WIN32 || _WIN64
+#if defined(AUTO_WIN32)
 #	include "Windows/WinWindow.h"
-#else
+#elif defined(AUTO_SDL)
 #	include "Android/AndroidWindow.h"
 #endif

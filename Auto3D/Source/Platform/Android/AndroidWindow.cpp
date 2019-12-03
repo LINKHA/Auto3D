@@ -1,12 +1,12 @@
 #include "AutoConfig.h"
 #ifdef AUTO_SDL
-#include "../../Container/WString.h"
-#include "../../Debug/Log.h"
-#include "../../Math/Math.h"
-#include "../../Resource/Image.h"
-#include "../../Graphics/Graphics.h"
-#include "../../UI/UI.h"
-#include "../../Engine/ModuleManager.h"
+#include "Container/WString.h"
+#include "Debug/Log.h"
+#include "Math/AutoMath.h"
+#include "Engine/Components/Image.h"
+#include "Graphics/Graphics.h"
+#include "UI/UI.h"
+#include "Core/Modules/ModuleManager.h"
 
 #include "AndroidInput.h"
 #include "AndroidWindow.h"
@@ -21,14 +21,14 @@
 namespace Auto3D
 {
 
-Window::Window() :
+AWindow::AWindow() :
 	_handle(nullptr),
 	_title("Auto3D Window"),
-	_savedPosition(Vector2I(M_MIN_INT, M_MIN_INT)),
-	_mousePosition(Vector2I::ZERO),
-	_mouseWheelOffset(Vector2I::ZERO),
-	_mouseMoveWheel(Vector2I::ZERO),
-	_rect(RectI::ZERO),
+	_savedPosition(TVector2I(M_MIN_INT, M_MIN_INT)),
+	_mousePosition(TVector2I::ZERO),
+	_mouseWheelOffset(TVector2I::ZERO),
+	_mouseMoveWheel(TVector2I::ZERO),
+	_rect(TRectI::ZERO),
 	_close(false),
 	_windowStyle(0),
 	_multisample(1),
@@ -43,18 +43,15 @@ Window::Window() :
 	_mouseLock(false),
 	_mouseVisibleInternal(true)
 {
-	RegisterModule(this);
 }
 
-Window::~Window()
+AWindow::~AWindow()
 {
 	// Really destroy the game form
 	DestoryWindow();
-
-	RemoveModule(this);
 }
 
-bool Window::InitMsg()
+bool AWindow::InitMsg()
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0)
 	{
@@ -76,15 +73,15 @@ bool Window::InitMsg()
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 
 #if defined(AUTO_OPENGL)
-	auto graphics = ModuleManager::Get()._graphics;
+	auto graphics = GModuleManager::Get().GraphicsModule();
 
 #	ifndef AUTO_OPENGL_ES
-	if (graphics->GetGraphicsApiVersion() == GraphicsVersion::OPENGL_4_3)
+	if (graphics->GetGraphicsApiVersion() == EGraphicsVersion::OPENGL_4_3)
 	{
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 	}
-	else if (graphics->GetGraphicsApiVersion() == GraphicsVersion::OPENGL_3_3)
+	else if (graphics->GetGraphicsApiVersion() == EGraphicsVersion::OPENGL_3_3)
 	{
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
@@ -95,7 +92,7 @@ bool Window::InitMsg()
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 	}
 #	else
-	if (graphics->GetGraphicsApiVersion() == GraphicsVersion::OPENGL_ES_3_0)
+	if (graphics->GetGraphicsApiVersion() == EGraphicsVersion::OPENGL_ES_3_0)
 	{
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
@@ -114,12 +111,12 @@ bool Window::InitMsg()
 	return true;
 }
 
-void Window::SetTitle(const String& newTitle)
+void AWindow::SetTitle(const FString& newTitle)
 {
 	_title = newTitle;
 }
 
-void Window::DestoryWindow()
+void AWindow::DestoryWindow()
 {
 	if (_handle)
 	{
@@ -131,7 +128,7 @@ void Window::DestoryWindow()
 		ErrorString("Destroy window operation failed and exiting program");
 }
 
-void Window::SetIcon(Image* icon)
+void AWindow::SetIcon(AImage* icon)
 {
 	if(icon)
 		_icon = icon;
@@ -139,7 +136,7 @@ void Window::SetIcon(Image* icon)
 		CreateWindowIcon();
 }
 
-bool Window::SetSize(const RectI& rect, int multisample, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
+bool AWindow::SetSize(const TRectI& rect, int multisample, bool fullscreen, bool resizable, bool center, bool borderless, bool highDPI)
 {
 	_inResize = true;
 	_fullscreen = fullscreen;
@@ -214,7 +211,7 @@ bool Window::SetSize(const RectI& rect, int multisample, bool fullscreen, bool r
 	return true;
 }
 
-void Window::SetPosition(const Vector2I& position)
+void AWindow::SetPosition(const TVector2I& position)
 {
 	if (_handle)
 	{
@@ -222,7 +219,7 @@ void Window::SetPosition(const Vector2I& position)
 	}
 }
 
-void Window::SetMouseHide(bool enable)
+void AWindow::SetMouseHide(bool enable)
 {
 	if (enable != _mouseHide)
 	{
@@ -230,7 +227,7 @@ void Window::SetMouseHide(bool enable)
 	}
 }
 
-void Window::SetMouseLock(bool enable)
+void AWindow::SetMouseLock(bool enable)
 {
 	if (enable != _mouseLock)
 	{
@@ -239,7 +236,7 @@ void Window::SetMouseLock(bool enable)
 	}
 }
 
-void Window::SetMousePosition(const Vector2I& position)
+void AWindow::SetMousePosition(const TVector2I& position)
 {
 	if (_handle)
 	{
@@ -247,7 +244,7 @@ void Window::SetMousePosition(const Vector2I& position)
 		SDL_WarpMouseInWindow(_handle, position._x, position._y);
 	}
 }
-void Window::CreateWindowIcon()
+void AWindow::CreateWindowIcon()
 {
 	if (_icon)
 	{
@@ -260,12 +257,12 @@ void Window::CreateWindowIcon()
 	}
 }
 
-void Window::Close()
+void AWindow::Close()
 {
 	_close = true;
 }
 
-void Window::Raise()
+void AWindow::Raise()
 {
 	if (!_handle)
 		return;
@@ -273,7 +270,7 @@ void Window::Raise()
 	SDL_RaiseWindow(_handle);
 }
 
-void Window::Minimize()
+void AWindow::Minimize()
 {
 	if (!_handle)
 		return;
@@ -281,7 +278,7 @@ void Window::Minimize()
 	SDL_MinimizeWindow(_handle);
 }
 
-void Window::Maximize()
+void AWindow::Maximize()
 {
 	if (!_handle)
 		return;
@@ -289,7 +286,7 @@ void Window::Maximize()
 	SDL_MaximizeWindow(_handle);
 }
 
-void Window::Restore()
+void AWindow::Restore()
 {
 	if (!_handle)
 		return;
@@ -297,7 +294,7 @@ void Window::Restore()
 	SDL_RestoreWindow(_handle);
 }
 
-void Window::PumpMessages()
+void AWindow::PumpMessages()
 {
 	if (!_handle)
 		return;
@@ -305,21 +302,21 @@ void Window::PumpMessages()
 	SDL_Event evt;
 	while (SDL_PollEvent(&evt))
 	{
-		auto ui = ModuleManager::Get()._ui;
+		auto ui = GModuleManager::Get().UiModule();
 
 		ui->ProcessEvent(&evt);
 		OnWindowMessage(&evt);
 	}
 }
 
-const Vector2I Window::GetPosition() const
+const TVector2I AWindow::GetPosition() const
 {
-	return Vector2I(_rect.Left(),_rect.Top());
+	return TVector2I(_rect.Left(),_rect.Top());
 }
 
-bool Window::OnWindowMessage(void* sdlEvent)
+bool AWindow::OnWindowMessage(void* sdlEvent)
 {
-	auto input = ModuleManager::Get()._input;
+	auto input = GModuleManager::Get().InputModule();
 
 	SDL_Event& evt = *static_cast<SDL_Event*>(sdlEvent);
 	switch (evt.type)
@@ -338,7 +335,7 @@ bool Window::OnWindowMessage(void* sdlEvent)
 		_mousePosition._x = x;
 		_mousePosition._y = y;
 		if (input)
-			input->OnMouseMove(_mousePosition, Vector2I(evt.motion.xrel, evt.motion.yrel));
+			input->OnMouseMove(_mousePosition,TVector2I(evt.motion.xrel, evt.motion.yrel));
 		break;
 	case SDL_MOUSEBUTTONDOWN:
 		break;
@@ -346,7 +343,7 @@ bool Window::OnWindowMessage(void* sdlEvent)
 		break;
 	case SDL_MOUSEWHEEL:
 		if (input)
-			input->OnMouseWheel(Vector2I(evt.wheel.x, evt.wheel.y));
+			input->OnMouseWheel(TVector2I(evt.wheel.x, evt.wheel.y));
 		break;
 	case SDL_WINDOWEVENT:
 	{
@@ -365,11 +362,11 @@ bool Window::OnWindowMessage(void* sdlEvent)
 		case SDL_WINDOWEVENT_RESIZED:
 			int newWidth, newHeight;
 			SDL_GetWindowSize(_handle, &newWidth, &newHeight);
-			if (Vector2I(newWidth, newHeight) != GetSize()) 
+			if (TVector2I(newWidth, newHeight) != GetSize()) 
 			{
 				_rect.Right() = _rect.Left() + newWidth;
 				_rect.Bottom() = _rect.Top() + newHeight;
-				_resizeEvent._size = Vector2I(newWidth, newHeight);
+				_resizeEvent._size = TVector2I(newWidth, newHeight);
 				SendEvent(_resizeEvent);
 			}
 			break;
