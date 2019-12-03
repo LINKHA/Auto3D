@@ -1,3 +1,5 @@
+#include "AutoConfig.h"
+#ifdef AUTO_SDL
 #include "AndroidInput.h"
 #include "AndroidWindow.h"
 #include "../../Engine/ModuleManager.h"
@@ -241,3 +243,4 @@ void Input::OnLoseFocus()
 }
 
 }
+#endif

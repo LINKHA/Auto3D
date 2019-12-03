@@ -1,3 +1,5 @@
+#include "AutoConfig.h"
+#if defined(AUTO_OPENGL) | defined(AUTO_OPENGL_ES)
 #pragma once
 
 #include "Container/String.h"
@@ -84,3 +86,4 @@ private:
 };
 
 }
+#endif

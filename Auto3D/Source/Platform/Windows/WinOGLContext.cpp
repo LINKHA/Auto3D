@@ -1,5 +1,5 @@
 #include "AutoConfig.h"
-
+#ifdef AUTO_WIN32
 #include "Container/WString.h"
 #include "Debug/Log.h"
 #include "WinOGLContext.h"
@@ -234,3 +234,4 @@ void FGraphicsContext::Release()
 
 }
 
+#endif

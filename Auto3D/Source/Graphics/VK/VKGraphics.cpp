@@ -1,3 +1,5 @@
+#include "AutoConfig.h"
+#if AUTO_VULKAN
 #include "../../Debug/Log.h"
 #include "../../Debug/Profiler.h"
 #include "VKGraphicsContext.h"
@@ -542,3 +544,4 @@ void RegisterGraphicsLibrary()
 }
 
 }
+#endif

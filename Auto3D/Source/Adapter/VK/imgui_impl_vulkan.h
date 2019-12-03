@@ -19,7 +19,8 @@
 // Read comments in imgui_impl_vulkan.h.
 
 #pragma once
-
+#include "AutoConfig.h"
+#if AUTO_VULKAN
 #include <vulkan/vulkan.h>
 
 // Initialization data, for ImGui_ImplVulkan_Init()
@@ -121,3 +122,4 @@ struct ImGui_ImplVulkanH_Window
     }
 };
 
+#endif

@@ -1,5 +1,6 @@
 #pragma once
-
+#include "AutoConfig.h"
+#if AUTO_VULKAN
 #include "../../AutoConfig.h"
 
 #include "../../Container/Ptr.h"
@@ -76,3 +77,4 @@ private:
 };
 
 }
+#endif

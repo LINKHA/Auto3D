@@ -1,5 +1,6 @@
 #pragma once
-
+#include "AutoConfig.h"
+#if defined(AUTO_OPENGL) | defined(AUTO_OPENGL_ES)
 #include "Container/String.h"
 #include "Graphics/GPUObject.h"
 #include "Graphics/GraphicsDefs.h"
@@ -50,3 +51,4 @@ private:
 };
 
 }
+#endif

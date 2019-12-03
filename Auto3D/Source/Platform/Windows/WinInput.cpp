@@ -1,3 +1,5 @@
+#include "AutoConfig.h"
+#ifdef AUTO_WIN32
 #include "WinInput.h"
 #include "WinWindow.h"
 #include "Core/Modules/ModuleManager.h"
@@ -242,3 +244,4 @@ void FInputModule::OnLoseFocus()
 }
 
 }
+#endif

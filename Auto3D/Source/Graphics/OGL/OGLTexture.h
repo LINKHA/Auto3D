@@ -1,5 +1,6 @@
 #pragma once
-
+#include "AutoConfig.h"
+#if defined(AUTO_OPENGL) | defined(AUTO_OPENGL_ES)
 #include "Math/Color.h"
 #include "Math/Rect.h"
 #include "Engine/Components/Image.h"
@@ -114,3 +115,4 @@ private:
 };
 
 }
+#endif

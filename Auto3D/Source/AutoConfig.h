@@ -24,6 +24,11 @@ namespace Auto3D
 #	define AUTO_API
 #endif
 
+#if defined(WIN32) | defined(WIN64)
+#	define AUTO_WIN32
+#elif  defined(ANDROID) || defined(__ANDROID__)
+#	define AUTO_ANDROID
+#endif
 
 // Auto3D build configuration
 /* #undef AUTO_LOGGING_L1 */

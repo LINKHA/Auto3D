@@ -1,5 +1,6 @@
 #pragma once
-
+#include "AutoConfig.h"
+#if AUTO_VULKAN
 #include "../../Math/Color.h"
 #include "../../Math/Rect.h"
 #include "../../Resource/Image.h"
@@ -111,3 +112,4 @@ private:
 };
 
 }
+#endif

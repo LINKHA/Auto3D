@@ -1,5 +1,6 @@
 #pragma once
-
+#include "AutoConfig.h"
+#ifdef AUTO_WIN32
 #include "Math/Vector2.h"
 #include "Core/Object/Object.h"
 
@@ -201,3 +202,4 @@ private:
 };
 
 }
+#endif

@@ -27,6 +27,9 @@
 //#define IMGUI_IMPL_OPENGL_ES3     // Auto-detected on iOS/Android
 
 // Set default OpenGL3 loader to be gl3w
+#include "AutoConfig.h"
+#if defined(AUTO_OPENGL) | defined(AUTO_OPENGL_ES)
+
 #if !defined(IMGUI_IMPL_OPENGL_LOADER_GL3W)     \
  && !defined(IMGUI_IMPL_OPENGL_LOADER_GLEW)     \
  && !defined(IMGUI_IMPL_OPENGL_LOADER_GLAD)     \
@@ -44,3 +47,5 @@ IMGUI_IMPL_API bool     ImGui_ImplOpenGL3_CreateFontsTexture();
 IMGUI_IMPL_API void     ImGui_ImplOpenGL3_DestroyFontsTexture();
 IMGUI_IMPL_API bool     ImGui_ImplOpenGL3_CreateDeviceObjects();
 IMGUI_IMPL_API void     ImGui_ImplOpenGL3_DestroyDeviceObjects();
+
+#endif

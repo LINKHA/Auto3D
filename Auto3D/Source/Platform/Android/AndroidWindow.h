@@ -1,5 +1,6 @@
 #pragma once
-
+#include "AutoConfig.h"
+#ifdef AUTO_SDL
 #include "Math/Vector2.h"
 #include "Core/Object.h"
 
@@ -159,3 +160,4 @@ private:
 };
 
 }
+#endif

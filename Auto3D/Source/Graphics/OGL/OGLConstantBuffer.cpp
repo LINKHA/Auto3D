@@ -1,3 +1,5 @@
+#include "AutoConfig.h"
+#if defined(AUTO_OPENGL) | defined(AUTO_OPENGL_ES)
 #include "Debug/Log.h"
 #include "Debug/Profiler.h"
 #include "Math/Color.h"
@@ -108,3 +110,4 @@ bool FConstantBuffer::Create(const void* data)
 }
 
 }
+#endif

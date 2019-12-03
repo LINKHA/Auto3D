@@ -1,3 +1,5 @@
+#include "AutoConfig.h"
+#ifdef AUTO_SDL
 #include "../../AutoConfig.h"
 
 #include "../../Container/WString.h"
@@ -86,4 +88,4 @@ void GraphicsContext::Release()
 }
 
 }
-
+#endif

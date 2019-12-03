@@ -1,4 +1,6 @@
 #pragma once
+#include "AutoConfig.h"
+#if AUTO_VULKAN
 #include "../../Container/String.h"
 #include "../GPUObject.h"
 #include "../GraphicsDefs.h"
@@ -13,3 +15,4 @@ class AUTO_API FShaderProgram : public FGPUObject
 };
 
 }
+#endif

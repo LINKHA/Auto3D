@@ -1,3 +1,5 @@
+#include "AutoConfig.h"
+#if defined(AUTO_OPENGL) | defined(AUTO_OPENGL_ES)
 #include "Debug/Log.h"
 #include "Debug/Profiler.h"
 #include "OGLGraphics.h"
@@ -111,3 +113,4 @@ bool FVertexBuffer::Create(const void* data)
 }
 
 }
+#endif

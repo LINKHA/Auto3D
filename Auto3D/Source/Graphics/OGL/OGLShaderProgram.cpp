@@ -1,4 +1,6 @@
-﻿#include "Debug/Log.h"
+﻿#include "AutoConfig.h"
+#if defined(AUTO_OPENGL) | defined(AUTO_OPENGL_ES)
+#include "Debug/Log.h"
 #include "Debug/Profiler.h"
 #include "Graphics/Shader.h"
 #include "OGLGraphics.h"
@@ -310,3 +312,4 @@ unsigned FShaderProgram::GetAttribLocation(const FString& AttribName) const
 }
 
 }
+#endif

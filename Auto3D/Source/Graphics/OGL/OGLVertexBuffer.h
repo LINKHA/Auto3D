@@ -1,5 +1,6 @@
 #pragma once
-
+#include "AutoConfig.h"
+#if defined(AUTO_OPENGL) | defined(AUTO_OPENGL_ES)
 #include "Container/AutoPtr.h"
 #include "Container/Vector.h"
 #include "Graphics/GPUObject.h"
@@ -80,3 +81,4 @@ private:
 };
 
 }
+#endif

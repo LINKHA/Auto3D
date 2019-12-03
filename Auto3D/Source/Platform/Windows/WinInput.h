@@ -1,4 +1,6 @@
 #pragma once
+#include "AutoConfig.h"
+#ifdef AUTO_WIN32
 #include "Container/Ptr.h"
 #include "Math/Vector2.h"
 #include "Event/Event.h"
@@ -468,3 +470,4 @@ private:
 };
 
 }
+#endif

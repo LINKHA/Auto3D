@@ -1,3 +1,5 @@
+#include "AutoConfig.h"
+#if defined(AUTO_OPENGL) | defined(AUTO_OPENGL_ES)
 #include "Debug/Log.h"
 #include "Debug/Profiler.h"
 #include "Platform/Window.h"
@@ -1544,3 +1546,4 @@ void RegisterGraphicsLibrary()
 }
 
 }
+#endif

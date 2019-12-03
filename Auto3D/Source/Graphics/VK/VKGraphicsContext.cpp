@@ -1,3 +1,5 @@
+#include "AutoConfig.h"
+#if AUTO_VULKAN
 #include "../../AutoConfig.h"
 
 #include "../../Container/WString.h"
@@ -197,3 +199,4 @@ void GraphicsContext::Release()
 
 }
 
+#endif

@@ -2,73 +2,19 @@ cmake_minimum_required(VERSION 3.1)
 
 set (TARGET_NAME Auto3D)
 
-# Macro to add files from a directory grouped to the solution file
-macro (add_engine_directory DIRECTORY)
-    file (GLOB DIR_FILES ${DIRECTORY}/*.h ${DIRECTORY}/*.c ${DIRECTORY}/*.cpp)
-    get_filename_component (GROUP ${DIRECTORY} NAME)
-    source_group ("${GROUP}" FILES ${DIR_FILES})
-    list (APPEND SOURCE_FILES ${DIR_FILES})
-endmacro ()
-
-macro (add_engine_directory_group DIRECTORY GROUP)
-    file (GLOB DIR_FILES ${DIRECTORY}/*.h ${DIRECTORY}/*.c ${DIRECTORY}/*.cpp)
-    source_group ("${GROUP}" FILES ${DIR_FILES})
-    list (APPEND SOURCE_FILES ${DIR_FILES})
-endmacro ()
-
 # Generate the AutoConfig.h file
 configure_file (AutoConfig.h.in ${CMAKE_CURRENT_SOURCE_DIR}/AutoConfig.h)
 
-# Add source files from subdirectories
-add_engine_directory (Container)
-add_engine_directory (Core)
-add_engine_directory_group (Core/Modules Core/Modules)
-add_engine_directory_group (Core/Object Core/Object)
-add_engine_directory (Engine)
-add_engine_directory (Event)
-add_engine_directory_group (Engine/Components Engine/Components)
-add_engine_directory (Debug)
-add_engine_directory (Graphics)
-add_engine_directory (IO)
-add_engine_directory (Math)
-add_engine_directory (Renderer)
-add_engine_directory (Resource)
-add_engine_directory (Scene)
-add_engine_directory (Thread)
-add_engine_directory (Platform)
-add_engine_directory (Audio)
-add_engine_directory (Auto2D)
-add_engine_directory (Physics)
-add_engine_directory (Script)
-add_engine_directory (Time)
-add_engine_directory (Adapter)
-add_engine_directory (RegisteredBox)
-add_engine_directory (UI)
 
-if (AUTO_OPENGL)
-	add_engine_directory_group (Graphics/OGL Graphics/OGL)
-	add_engine_directory_group (Adapter/OGL Adapter/OGL)
-elseif (AUTO_VULKAN)
-	add_engine_directory_group (Graphics/VK Graphics/VK)
-	add_engine_directory_group (Adapter/VK Adapter/VK)
-elseif (AUTO_DIRECT3D_12)
-#...
-endif ()
-
-if (WIN32)
-	add_engine_directory_group (Platform/Windows Platform/Windows)
-else ()
-	add_engine_directory_group (Platform/Android Platform/Android)
-endif ()
-
-# Add root-level files
-file (GLOB AUTO_FILES *.h *.c *.cpp)
-list (APPEND SOURCE_FILES ${AUTO_FILES})
+file(GLOB_RECURSE project_headers *.h)
+file(GLOB_RECURSE project_cpps *.cpp)
+set(ALL_FILES ${project_headers} ${project_cpps})
+source_group_by_dir(all_files)
 
 include_directories (${AUTO_ROOT_PATH}/Auto3D/Source)
 
 # Define the Auto3D library target
-add_library (${TARGET_NAME} ${AUTO_LIB_TYPE} ${SOURCE_FILES})
+add_library (${TARGET_NAME} ${AUTO_LIB_TYPE} ${ALL_FILES})
 
 find_package (OpenGL REQUIRED)
 

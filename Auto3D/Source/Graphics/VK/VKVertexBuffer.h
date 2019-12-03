@@ -1,5 +1,6 @@
 #pragma once
-
+#include "AutoConfig.h"
+#if AUTO_VULKAN
 #include "../../Container/AutoPtr.h"
 #include "../../Container/Vector.h"
 #include "../GPUObject.h"
@@ -80,3 +81,4 @@ private:
 };
 
 }
+#endif

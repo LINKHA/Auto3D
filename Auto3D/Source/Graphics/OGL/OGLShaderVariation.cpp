@@ -1,3 +1,5 @@
+#include "AutoConfig.h"
+#if defined(AUTO_OPENGL) | defined(AUTO_OPENGL_ES)
 #include "Debug/Log.h"
 #include "Debug/Profiler.h"
 #include "Graphics/Shader.h"
@@ -150,3 +152,4 @@ FString FShaderVariation::FullName() const
 }
 
 }
+#endif

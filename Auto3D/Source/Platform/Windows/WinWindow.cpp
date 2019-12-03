@@ -1,3 +1,5 @@
+#include "AutoConfig.h"
+#ifdef AUTO_WIN32
 #include "Container/WString.h"
 #include "Debug/Log.h"
 #include "Math/MathDef.h"
@@ -732,3 +734,4 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 }
 
 }
+#endif

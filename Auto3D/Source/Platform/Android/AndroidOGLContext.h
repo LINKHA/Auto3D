@@ -1,5 +1,6 @@
 #pragma once
-
+#include "AutoConfig.h"
+#ifdef AUTO_SDL
 #include "../../AutoConfig.h"
 
 #include "../../Container/Ptr.h"
@@ -41,3 +42,4 @@ private:
 };
 
 }
+#endif

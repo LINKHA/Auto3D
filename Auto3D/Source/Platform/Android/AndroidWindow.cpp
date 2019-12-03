@@ -1,3 +1,5 @@
+#include "AutoConfig.h"
+#ifdef AUTO_SDL
 #include "../../Container/WString.h"
 #include "../../Debug/Log.h"
 #include "../../Math/Math.h"
@@ -390,3 +392,4 @@ bool Window::OnWindowMessage(void* sdlEvent)
 }
 
 }
+#endif

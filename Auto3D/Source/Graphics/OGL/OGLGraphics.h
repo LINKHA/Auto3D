@@ -1,5 +1,6 @@
 #pragma once
-
+#include "AutoConfig.h"
+#if defined(AUTO_OPENGL) | defined(AUTO_OPENGL_ES)
 #include "Math/Color.h"
 #include "Math/Rect.h"
 #include "Math/Vector2.h"
@@ -352,3 +353,4 @@ private:
 AUTO_API void RegisterGraphicsLibrary();
 
 }
+#endif
