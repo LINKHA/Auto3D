@@ -34,7 +34,7 @@ struct internal_state {
 
   /* mode dependent information */
   union {
-    uInt method;        /* if FLAGS, method byte */
+    uInt Method;        /* if FLAGS, method byte */
     struct {
       uLong was;                /* computed check value */
       uLong need;               /* stream check value */
@@ -159,14 +159,14 @@ int f )
   {
     case METHOD:
       NEEDBYTE
-      if (((z->state->sub.method = NEXTBYTE) & 0xf) != Z_DEFLATED)
+      if (((z->state->sub.Method = NEXTBYTE) & 0xf) != Z_DEFLATED)
       {
         z->state->mode = BAD;
         z->msg = (char*)"unknown compression method";
         z->state->sub.marker = 5;       /* can't try inflateSync */
         break;
       }
-      if ((z->state->sub.method >> 4) + 8 > z->state->wbits)
+      if ((z->state->sub.Method >> 4) + 8 > z->state->wbits)
       {
         z->state->mode = BAD;
         z->msg = (char*)"invalid window size";
@@ -177,7 +177,7 @@ int f )
     case FLAG:
       NEEDBYTE
       b = NEXTBYTE;
-      if (((z->state->sub.method << 8) + b) % 31)
+      if (((z->state->sub.Method << 8) + b) % 31)
       {
         z->state->mode = BAD;
         z->msg = (char*)"incorrect header check";

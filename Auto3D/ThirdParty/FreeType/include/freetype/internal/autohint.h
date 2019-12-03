@@ -200,13 +200,13 @@ FT_BEGIN_HEADER
 #ifndef FT_CONFIG_OPTION_PIC
 
 #define FT_DEFINE_AUTOHINTER_INTERFACE(       \
-          class_,                             \
+          Class,                             \
           reset_face_,                        \
           get_global_hints_,                  \
           done_global_hints_,                 \
           load_glyph_ )                       \
   FT_CALLBACK_TABLE_DEF                       \
-  const FT_AutoHinter_InterfaceRec  class_ =  \
+  const FT_AutoHinter_InterfaceRec  Class =  \
   {                                           \
     reset_face_,                              \
     get_global_hints_,                        \

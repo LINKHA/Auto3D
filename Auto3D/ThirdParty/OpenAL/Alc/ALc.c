@@ -863,7 +863,7 @@ static void alc_deinit(void) __attribute__((destructor));
 
 #elif defined(HAVE_GCC_DESTRUCTOR)
 
-static void alc_init(void) __attribute__((constructor));
+static void alc_init(void) __attribute__((Constructor));
 static void alc_deinit(void) __attribute__((destructor));
 
 #else

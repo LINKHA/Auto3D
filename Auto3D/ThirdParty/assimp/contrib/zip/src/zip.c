@@ -106,7 +106,7 @@ struct zip_entry_t {
     mz_uint64 offset;
     mz_uint8 header[MZ_ZIP_LOCAL_DIR_HEADER_SIZE];
     mz_uint64 header_offset;
-    mz_uint16 method;
+    mz_uint16 Method;
     mz_zip_writer_add_state state;
     tdefl_compressor comp;
 };
@@ -237,7 +237,7 @@ int zip_entry_open(struct zip_t *zip, const char *entryname) {
     zip->entry.header_offset = zip->archive.m_archive_size;
     memset(zip->entry.header, 0,
            MZ_ZIP_LOCAL_DIR_HEADER_SIZE * sizeof(mz_uint8));
-    zip->entry.method = 0;
+    zip->entry.Method = 0;
 
     num_alignment_padding_bytes =
         mz_zip_writer_compute_padding_needed_for_file_alignment(pzip);
@@ -328,7 +328,7 @@ int zip_entry_close(struct zip_t *zip) {
         }
         zip->entry.comp_size = zip->entry.state.m_comp_size;
         zip->entry.offset = zip->entry.state.m_cur_archive_file_ofs;
-        zip->entry.method = MZ_DEFLATED;
+        zip->entry.Method = MZ_DEFLATED;
     }
 
     entrylen = (mz_uint16)strlen(zip->entry.name);
@@ -348,7 +348,7 @@ int zip_entry_close(struct zip_t *zip) {
 
     if (!mz_zip_writer_create_local_dir_header(
             pzip, zip->entry.header, entrylen, 0, zip->entry.uncomp_size,
-            zip->entry.comp_size, zip->entry.uncomp_crc32, zip->entry.method, 0,
+            zip->entry.comp_size, zip->entry.uncomp_crc32, zip->entry.Method, 0,
             dos_time, dos_date)) {
         // Cannot create zip entry header
         goto cleanup;
@@ -364,7 +364,7 @@ int zip_entry_close(struct zip_t *zip) {
     if (!mz_zip_writer_add_to_central_dir(
             pzip, zip->entry.name, entrylen, NULL, 0, "", 0,
             zip->entry.uncomp_size, zip->entry.comp_size,
-            zip->entry.uncomp_crc32, zip->entry.method, 0, dos_time, dos_date,
+            zip->entry.uncomp_crc32, zip->entry.Method, 0, dos_time, dos_date,
             zip->entry.header_offset, 0)) {
         // Cannot write to zip central dir
         goto cleanup;

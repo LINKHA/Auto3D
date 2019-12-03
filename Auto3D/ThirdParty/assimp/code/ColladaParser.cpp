@@ -668,8 +668,8 @@ void ColladaParser::ReadController( Collada::Controller& pController)
                 pController.mMeshId = mReader->getAttributeValue(baseIndex) + 1;
                 int methodIndex = GetAttribute("method");
                 if (methodIndex > 0) {
-                    const char *method = mReader->getAttributeValue(methodIndex);
-                    if (strcmp(method, "RELATIVE") == 0)
+                    const char *Method = mReader->getAttributeValue(methodIndex);
+                    if (strcmp(Method, "RELATIVE") == 0)
                         pController.mMethod = Relative;
                 }
             }

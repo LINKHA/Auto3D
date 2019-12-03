@@ -683,11 +683,11 @@ FT_BEGIN_HEADER
 #ifndef FT_CONFIG_OPTION_PIC
 
 #define FT_DEFINE_PSHINTER_INTERFACE(        \
-          class_,                            \
+          Class,                            \
           get_globals_funcs_,                \
           get_t1_funcs_,                     \
           get_t2_funcs_ )                    \
-  static const PSHinter_Interface  class_ =  \
+  static const PSHinter_Interface  Class =  \
   {                                          \
     get_globals_funcs_,                      \
     get_t1_funcs_,                           \

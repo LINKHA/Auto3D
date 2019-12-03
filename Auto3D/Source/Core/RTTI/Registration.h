@@ -16,7 +16,7 @@ public:
 	 * The \ref class_ is used to register classes to RTTR.
 	 */
 	template<typename Class_Type, typename Visitor_List = READ_TL(rttr_visitor_list)>
-	class class_
+	class Class
 	{
 	public:
 		/*!
@@ -25,8 +25,8 @@ public:
 		 * \param name The name of the class as string literal. Can be retrieved later via type::get_name().
 		 *
 		 */
-		class_(string_view name);
-		~class_();
+		Class(string_view name);
+		~Class();
 
 
 		/*!
@@ -34,7 +34,7 @@ public:
 		 *
 		 */
 		template<typename...Args>
-		class_<Class_Type, Visitor_List>& operator()(Args&&...args);
+		Class<Class_Type, Visitor_List>& operator()(Args&&...args);
 
 
 		/*!
@@ -50,7 +50,7 @@ public:
 		 * \return A \ref bind object, in order to chain more calls.
 		 */
 		template<typename... Args, typename acc_level = detail::public_access, typename Tp = typename std::enable_if<detail::contains<acc_level, detail::access_levels_list>::value>::type>
-		bind<detail::ctor, Class_Type, acc_level, Visitor_List, Args...> constructor(acc_level level = acc_level());
+		bind<detail::ctor, Class_Type, acc_level, Visitor_List, Args...> Constructor(acc_level level = acc_level());
 
 		/*!
 		 * \brief Register a constructor for this class type which uses a function \p F.
@@ -65,7 +65,7 @@ public:
 		 * \return A \ref bind object, in order to chain more calls.
 		 */
 		template<typename F, typename acc_level = detail::public_access, typename Tp = typename std::enable_if<!detail::contains<F, detail::access_levels_list>::value>::type>
-		bind<detail::ctor_func, Class_Type, F, acc_level, Visitor_List> constructor(F func, acc_level level = acc_level());
+		bind<detail::ctor_func, Class_Type, F, acc_level, Visitor_List> Constructor(F func, acc_level level = acc_level());
 
 
 		/*!
@@ -83,7 +83,7 @@ public:
 		 * \return A \ref bind object, in order to chain more calls.
 		 */
 		template<typename A, typename acc_level = detail::public_access, typename Tp = typename std::enable_if<detail::contains<acc_level, detail::access_levels_list>::value>::type>
-		bind<detail::prop, Class_Type, A, acc_level, Visitor_List> property(string_view name, A acc, acc_level level = acc_level());
+		bind<detail::prop, Class_Type, A, acc_level, Visitor_List> Property(string_view name, A acc, acc_level level = acc_level());
 
 		/*!
 		 * \brief Register a read only property to this class.
@@ -121,7 +121,7 @@ public:
 		 * \return A \ref bind object, in order to chain more calls.
 		 */
 		template<typename A1, typename A2, typename acc_level = detail::public_access, typename Tp = typename std::enable_if<!detail::contains<A2, detail::access_levels_list>::value>::type>
-		bind<detail::prop, Class_Type, A1, A2, acc_level, Visitor_List> property(string_view name, A1 getter, A2 setter, acc_level level = acc_level());
+		bind<detail::prop, Class_Type, A1, A2, acc_level, Visitor_List> Property(string_view name, A1 getter, A2 setter, acc_level level = acc_level());
 
 
 		/*!
@@ -139,7 +139,7 @@ public:
 		 * \return A \ref bind object, in order to chain more calls.
 		 */
 		template<typename F, typename acc_level = detail::public_access>
-		bind<detail::meth, Class_Type, F, acc_level, Visitor_List> method(string_view name, F f, acc_level level = acc_level());
+		bind<detail::meth, Class_Type, F, acc_level, Visitor_List> Method(string_view name, F f, acc_level level = acc_level());
 
 
 		/*!
@@ -154,9 +154,9 @@ public:
 		template<typename Enum_Type>
 		bind<detail::enum_, Class_Type, Enum_Type> enumeration(string_view name);
 	private:
-		class_(const std::shared_ptr<detail::registration_executer>& reg_exec);
-		class_(const class_& other);
-		class_& operator=(const class_& other);
+		Class(const std::shared_ptr<detail::registration_executer>& reg_exec);
+		Class(const Class& other);
+		Class& operator=(const Class& other);
 	private:
 		std::shared_ptr<detail::registration_executer> m_reg_exec;
 		template<typename...T>
@@ -176,7 +176,7 @@ namespace                                                                       
         }                                                                           \
     };                                                                              \
 }                                                                                   \
-static const AutoRegister RTTR_CAT(autoRegister_,__LINE__);									\
+static const AutoRegister RTTR_CAT(autoRegister_,__LINE__);							\
 static void RttrAutoRegisterReflectionFunction()
 
 }

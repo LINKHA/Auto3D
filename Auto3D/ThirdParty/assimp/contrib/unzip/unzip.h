@@ -264,7 +264,7 @@ extern int ZEXPORT unzOpenCurrentFilePassword OF((unzFile file,
 */
 
 extern int ZEXPORT unzOpenCurrentFile2 OF((unzFile file,
-                                           int* method,
+                                           int* Method,
                                            int* level,
                                            int raw));
 /*
@@ -277,7 +277,7 @@ extern int ZEXPORT unzOpenCurrentFile2 OF((unzFile file,
 */
 
 extern int ZEXPORT unzOpenCurrentFile3 OF((unzFile file,
-                                           int* method,
+                                           int* Method,
                                            int* level,
                                            int raw,
                                            const char* password));

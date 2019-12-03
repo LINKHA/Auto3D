@@ -173,8 +173,8 @@
   /* It behaves like `strncmp' but also tests the following character    */
   /* whether it is a whitespace or NULL.                                 */
   /* `property' is a constant string of length `n' to compare with.      */
-#define _bdf_strncmp( name, property, n )      \
-          ( ft_strncmp( name, property, n ) || \
+#define _bdf_strncmp( name, Property, n )      \
+          ( ft_strncmp( name, Property, n ) || \
             !( name[n] == ' '  ||              \
                name[n] == '\0' ||              \
                name[n] == '\n' ||              \

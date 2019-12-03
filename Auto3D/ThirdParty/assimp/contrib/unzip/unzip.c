@@ -1057,9 +1057,9 @@ local int unzlocal_CheckCurrentFileCoherencyHeader (s,piSizeVar,
   Open for reading data the current file in the zipfile.
   If there is no error and the file is opened, the return value is UNZ_OK.
 */
-extern int ZEXPORT unzOpenCurrentFile3 (file, method, level, raw, password)
+extern int ZEXPORT unzOpenCurrentFile3 (file, Method, level, raw, password)
     unzFile file;
-    int* method;
+    int* Method;
     int* level;
     int raw;
     const char* password;
@@ -1109,8 +1109,8 @@ extern int ZEXPORT unzOpenCurrentFile3 (file, method, level, raw, password)
 
     pfile_in_zip_read_info->stream_initialised=0;
 
-    if (method!=NULL)
-        *method = (int)s->cur_file_info.compression_method;
+    if (Method!=NULL)
+        *Method = (int)s->cur_file_info.compression_method;
 
     if (level!=NULL)
     {
@@ -1215,13 +1215,13 @@ extern int ZEXPORT unzOpenCurrentFilePassword (file, password)
     return unzOpenCurrentFile3(file, NULL, NULL, 0, password);
 }
 
-extern int ZEXPORT unzOpenCurrentFile2 (file,method,level,raw)
+extern int ZEXPORT unzOpenCurrentFile2 (file,Method,level,raw)
     unzFile file;
-    int* method;
+    int* Method;
     int* level;
     int raw;
 {
-    return unzOpenCurrentFile3(file, method, level, raw, NULL);
+    return unzOpenCurrentFile3(file, Method, level, raw, NULL);
 }
 
 /*

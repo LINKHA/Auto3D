@@ -630,7 +630,7 @@ FT_BEGIN_HEADER
 #ifndef FT_CONFIG_OPTION_PIC
 
 #define FT_DEFINE_SFNT_INTERFACE(        \
-          class_,                        \
+          Class,                        \
           goto_table_,                   \
           init_face_,                    \
           load_face_,                    \
@@ -662,7 +662,7 @@ FT_BEGIN_HEADER
           get_metrics_,                  \
           get_name_,                     \
           get_name_id_ )                 \
-  static const SFNT_Interface  class_ =  \
+  static const SFNT_Interface  Class =  \
   {                                      \
     goto_table_,                         \
     init_face_,                          \

@@ -240,11 +240,11 @@ int ZEXPORT deflateInit_(strm, level, version, stream_size)
 }
 
 /* ========================================================================= */
-int ZEXPORT deflateInit2_(strm, level, method, windowBits, memLevel, strategy,
+int ZEXPORT deflateInit2_(strm, level, Method, windowBits, memLevel, strategy,
                   version, stream_size)
     z_streamp strm;
     int  level;
-    int  method;
+    int  Method;
     int  windowBits;
     int  memLevel;
     int  strategy;
@@ -298,7 +298,7 @@ int ZEXPORT deflateInit2_(strm, level, method, windowBits, memLevel, strategy,
         windowBits -= 16;
     }
 #endif
-    if (memLevel < 1 || memLevel > MAX_MEM_LEVEL || method != Z_DEFLATED ||
+    if (memLevel < 1 || memLevel > MAX_MEM_LEVEL || Method != Z_DEFLATED ||
         windowBits < 8 || windowBits > 15 || level < 0 || level > 9 ||
         strategy < 0 || strategy > Z_FIXED || (windowBits == 8 && wrap != 1)) {
         return Z_STREAM_ERROR;
@@ -345,7 +345,7 @@ int ZEXPORT deflateInit2_(strm, level, method, windowBits, memLevel, strategy,
 
     s->level = level;
     s->strategy = strategy;
-    s->method = (Byte)method;
+    s->Method = (Byte)Method;
 
     return deflateReset(strm);
 }

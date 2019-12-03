@@ -58,7 +58,7 @@ FT_BEGIN_HEADER
 
 #ifndef FT_CONFIG_OPTION_PIC
 
-#define FT_DEFINE_TT_CMAP( class_,             \
+#define FT_DEFINE_TT_CMAP( Class,             \
                            size_,              \
                            init_,              \
                            done_,              \
@@ -73,7 +73,7 @@ FT_BEGIN_HEADER
                            validate_,          \
                            get_cmap_info_ )    \
   FT_CALLBACK_TABLE_DEF                        \
-  const TT_CMap_ClassRec  class_ =             \
+  const TT_CMap_ClassRec  Class =             \
   {                                            \
     { size_,                                   \
       init_,                                   \

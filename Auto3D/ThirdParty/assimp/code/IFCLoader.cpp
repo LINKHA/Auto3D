@@ -591,9 +591,9 @@ void ProcessMetadata(const ListOf< Lazy< IfcProperty >, 1, 0 >& set, ConversionD
     const std::string& prefix = "",
     unsigned int nest = 0)
 {
-    for(const IfcProperty& property : set) {
-        const std::string& key = prefix.length() > 0 ? (prefix + "." + property.Name) : property.Name;
-        if (const IfcPropertySingleValue* const singleValue = property.ToPtr<IfcPropertySingleValue>()) {
+    for(const IfcProperty& Property : set) {
+        const std::string& key = prefix.length() > 0 ? (prefix + "." + Property.Name) : Property.Name;
+        if (const IfcPropertySingleValue* const singleValue = Property.ToPtr<IfcPropertySingleValue>()) {
             if (singleValue->NominalValue) {
                 if (const EXPRESS::STRING* str = singleValue->NominalValue.Get()->ToPtr<EXPRESS::STRING>()) {
                     std::string value = static_cast<std::string>(*str);
@@ -613,7 +613,7 @@ void ProcessMetadata(const ListOf< Lazy< IfcProperty >, 1, 0 >& set, ConversionD
                 }
             }
         }
-        else if (const IfcPropertyListValue* const listValue = property.ToPtr<IfcPropertyListValue>()) {
+        else if (const IfcPropertyListValue* const listValue = Property.ToPtr<IfcPropertyListValue>()) {
             std::stringstream ss;
             ss << "[";
             unsigned index=0;
@@ -639,7 +639,7 @@ void ProcessMetadata(const ListOf< Lazy< IfcProperty >, 1, 0 >& set, ConversionD
             ss << "]";
             properties[key]=ss.str();
         }
-        else if (const IfcComplexProperty* const complexProp = property.ToPtr<IfcComplexProperty>()) {
+        else if (const IfcComplexProperty* const complexProp = Property.ToPtr<IfcComplexProperty>()) {
             if(nest > 2) { // mostly arbitrary limit to prevent stack overflow vulnerabilities
                 IFCImporter::LogError("maximum nesting level for IfcComplexProperty reached, skipping this property.");
             }

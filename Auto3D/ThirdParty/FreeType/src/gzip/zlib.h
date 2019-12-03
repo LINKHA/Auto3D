@@ -816,8 +816,8 @@ ZEXTERN(int)  inflateInit2_ OF((z_streamp strm, int  windowBits,
         deflateInit_((strm), (level),       ZLIB_VERSION, sizeof(z_stream))
 #define inflateInit(strm) \
         inflateInit_((strm),                ZLIB_VERSION, sizeof(z_stream))
-#define deflateInit2(strm, level, method, windowBits, memLevel, strategy) \
-        deflateInit2_((strm),(level),(method),(windowBits),(memLevel),\
+#define deflateInit2(strm, level, Method, windowBits, memLevel, strategy) \
+        deflateInit2_((strm),(level),(Method),(windowBits),(memLevel),\
                       (strategy),           ZLIB_VERSION, sizeof(z_stream))
 #define inflateInit2(strm, windowBits) \
         inflateInit2_((strm), (windowBits), ZLIB_VERSION, sizeof(z_stream))

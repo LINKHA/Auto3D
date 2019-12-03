@@ -674,7 +674,7 @@ aiMesh* ColladaLoader::CreateMesh( const ColladaParser& pParser, const Collada::
     // create morph target meshes if any
     std::vector<aiMesh*> targetMeshes;
     std::vector<float> targetWeights;
-    Collada::MorphMethod method = Collada::Normalized;
+    Collada::MorphMethod Method = Collada::Normalized;
 
     for(std::map<std::string, Collada::Controller>::const_iterator it = pParser.mControllerLibrary.begin();
         it != pParser.mControllerLibrary.end(); it++)
@@ -690,7 +690,7 @@ aiMesh* ColladaLoader::CreateMesh( const ColladaParser& pParser, const Collada::
             const Collada::Data& weightData = pParser.ResolveLibraryReference( pParser.mDataLibrary, weightAccessor.mSource);
 
             // take method
-            method = c.mMethod;
+            Method = c.mMethod;
 
             if (!targetData.mIsStringArray)
                 throw DeadlyImportError( "target data must contain id. ");
@@ -724,7 +724,7 @@ aiMesh* ColladaLoader::CreateMesh( const ColladaParser& pParser, const Collada::
             animMesh->mWeight = targetWeights[i];
             animMeshes.push_back(animMesh);
         }
-        dstMesh->mMethod = (method == Collada::Relative)
+        dstMesh->mMethod = (Method == Collada::Relative)
                                 ? aiMorphingMethod_MORPH_RELATIVE
                                 : aiMorphingMethod_MORPH_NORMALIZED;
         dstMesh->mAnimMeshes = new aiAnimMesh*[animMeshes.size()];

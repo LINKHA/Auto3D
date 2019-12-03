@@ -213,11 +213,11 @@ FT_BEGIN_HEADER
 
 #ifndef FT_CONFIG_OPTION_PIC
 
-#define FT_DECLARE_CMAP_CLASS( class_ )              \
-  FT_CALLBACK_TABLE const  FT_CMap_ClassRec class_;
+#define FT_DECLARE_CMAP_CLASS( Class )              \
+  FT_CALLBACK_TABLE const  FT_CMap_ClassRec Class;
 
 #define FT_DEFINE_CMAP_CLASS(       \
-          class_,                   \
+          Class,                   \
           size_,                    \
           init_,                    \
           done_,                    \
@@ -229,7 +229,7 @@ FT_BEGIN_HEADER
           charvariant_list_,        \
           variantchar_list_ )       \
   FT_CALLBACK_TABLE_DEF             \
-  const FT_CMap_ClassRec  class_ =  \
+  const FT_CMap_ClassRec  Class =  \
   {                                 \
     size_,                          \
     init_,                          \
@@ -1026,14 +1026,14 @@ FT_BEGIN_HEADER
 #ifndef FT_CONFIG_OPTION_PIC
 
 #define FT_DEFINE_OUTLINE_FUNCS(           \
-          class_,                          \
+          Class,                          \
           move_to_,                        \
           line_to_,                        \
           conic_to_,                       \
           cubic_to_,                       \
           shift_,                          \
           delta_ )                         \
-  static const  FT_Outline_Funcs class_ =  \
+  static const  FT_Outline_Funcs Class =  \
   {                                        \
     move_to_,                              \
     line_to_,                              \
@@ -1085,14 +1085,14 @@ FT_BEGIN_HEADER
 #ifndef FT_CONFIG_OPTION_PIC
 
 #define FT_DEFINE_RASTER_FUNCS(    \
-          class_,                  \
+          Class,                  \
           glyph_format_,           \
           raster_new_,             \
           raster_reset_,           \
           raster_set_mode_,        \
           raster_render_,          \
           raster_done_ )           \
-  const FT_Raster_Funcs  class_ =  \
+  const FT_Raster_Funcs  Class =  \
   {                                \
     glyph_format_,                 \
     raster_new_,                   \
@@ -1145,7 +1145,7 @@ FT_BEGIN_HEADER
 #ifndef FT_CONFIG_OPTION_PIC
 
 #define FT_DEFINE_GLYPH(          \
-          class_,                 \
+          Class,                 \
           size_,                  \
           format_,                \
           init_,                  \
@@ -1155,7 +1155,7 @@ FT_BEGIN_HEADER
           bbox_,                  \
           prepare_ )              \
   FT_CALLBACK_TABLE_DEF           \
-  const FT_Glyph_Class  class_ =  \
+  const FT_Glyph_Class  Class =  \
   {                               \
     size_,                        \
     format_,                      \
@@ -1234,11 +1234,11 @@ FT_BEGIN_HEADER
   /*                                                                       */
 #ifndef FT_CONFIG_OPTION_PIC
 
-#define FT_DECLARE_RENDERER( class_ )               \
-  FT_EXPORT_VAR( const FT_Renderer_Class ) class_;
+#define FT_DECLARE_RENDERER( Class )               \
+  FT_EXPORT_VAR( const FT_Renderer_Class ) Class;
 
 #define FT_DEFINE_RENDERER(                  \
-          class_,                            \
+          Class,                            \
           flags_,                            \
           size_,                             \
           name_,                             \
@@ -1255,7 +1255,7 @@ FT_BEGIN_HEADER
           set_mode_,                         \
           raster_class_ )                    \
   FT_CALLBACK_TABLE_DEF                      \
-  const FT_Renderer_Class  class_ =          \
+  const FT_Renderer_Class  Class =          \
   {                                          \
     FT_DEFINE_ROOT_MODULE( flags_,           \
                            size_,            \
@@ -1446,9 +1446,9 @@ FT_BEGIN_HEADER
   /*                                                                       */
 #ifndef FT_CONFIG_OPTION_PIC
 
-#define FT_DECLARE_MODULE( class_ )  \
+#define FT_DECLARE_MODULE( Class )  \
   FT_CALLBACK_TABLE                  \
-  const FT_Module_Class  class_;
+  const FT_Module_Class  Class;
 
 #define FT_DEFINE_ROOT_MODULE(  \
           flags_,               \
@@ -1476,7 +1476,7 @@ FT_BEGIN_HEADER
   },
 
 #define FT_DEFINE_MODULE(         \
-          class_,                 \
+          Class,                 \
           flags_,                 \
           size_,                  \
           name_,                  \
@@ -1487,7 +1487,7 @@ FT_BEGIN_HEADER
           done_,                  \
           get_interface_ )        \
   FT_CALLBACK_TABLE_DEF           \
-  const FT_Module_Class class_ =  \
+  const FT_Module_Class Class =  \
   {                               \
     flags_,                       \
     size_,                        \

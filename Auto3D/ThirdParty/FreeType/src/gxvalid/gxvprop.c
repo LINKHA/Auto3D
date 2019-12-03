@@ -108,20 +108,20 @@
 
   /* Pass 0 as GLYPH to check the default property */
   static void
-  gxv_prop_property_validate( FT_UShort      property,
+  gxv_prop_property_validate( FT_UShort      Property,
                               FT_UShort      glyph,
                               GXV_Validator  gxvalid )
   {
-    if ( glyph != 0 && ( property & GXV_PROP_FLOATER ) )
+    if ( glyph != 0 && ( Property & GXV_PROP_FLOATER ) )
       gxv_prop_zero_advance_validate( glyph, gxvalid );
 
-    if ( property & GXV_PROP_USE_COMPLEMENTARY_BRACKET )
+    if ( Property & GXV_PROP_USE_COMPLEMENTARY_BRACKET )
     {
       FT_UShort  offset;
       char       complement;
 
 
-      offset = (FT_UShort)( property & GXV_PROP_COMPLEMENTARY_BRACKET_OFFSET );
+      offset = (FT_UShort)( Property & GXV_PROP_COMPLEMENTARY_BRACKET_OFFSET );
       if ( offset == 0 )
       {
         GXV_TRACE(( "  found zero offset to property\n" ));
@@ -151,13 +151,13 @@
     }
     else
     {
-      if ( property & GXV_PROP_COMPLEMENTARY_BRACKET_OFFSET )
+      if ( Property & GXV_PROP_COMPLEMENTARY_BRACKET_OFFSET )
         GXV_TRACE(( "glyph %d cannot have complementary bracketing\n",
                     glyph ));
     }
 
     /* this is introduced in version 2.0 */
-    if ( property & GXV_PROP_ATTACHING_TO_RIGHT )
+    if ( Property & GXV_PROP_ATTACHING_TO_RIGHT )
     {
       if ( GXV_PROP_DATA( version ) == 0x00010000UL )
       {
@@ -166,13 +166,13 @@
       }
     }
 
-    if ( property & GXV_PROP_RESERVED )
+    if ( Property & GXV_PROP_RESERVED )
     {
       GXV_TRACE(( "  found non-zero bits in reserved bits\n" ));
       FT_INVALID_DATA;
     }
 
-    if ( ( property & GXV_PROP_DIRECTIONALITY_CLASS ) > 11 )
+    if ( ( Property & GXV_PROP_DIRECTIONALITY_CLASS ) > 11 )
     {
       /* TODO: Too restricted. Use the validation level. */
       if ( GXV_PROP_DATA( version ) == 0x00010000UL ||

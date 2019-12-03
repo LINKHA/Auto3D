@@ -223,12 +223,12 @@ FT_BEGIN_HEADER
   /*                                                                       */
 #ifndef FT_CONFIG_OPTION_PIC
 
-#define FT_DECLARE_DRIVER( class_ )  \
+#define FT_DECLARE_DRIVER( Class )  \
   FT_CALLBACK_TABLE                  \
-  const FT_Driver_ClassRec  class_;
+  const FT_Driver_ClassRec  Class;
 
 #define FT_DEFINE_DRIVER(                    \
-          class_,                            \
+          Class,                            \
           flags_,                            \
           size_,                             \
           name_,                             \
@@ -254,7 +254,7 @@ FT_BEGIN_HEADER
           request_size_,                     \
           select_size_ )                     \
   FT_CALLBACK_TABLE_DEF                      \
-  const FT_Driver_ClassRec  class_ =         \
+  const FT_Driver_ClassRec  Class =         \
   {                                          \
     FT_DEFINE_ROOT_MODULE( flags_,           \
                            size_,            \

@@ -186,29 +186,29 @@ FT_BEGIN_HEADER
   /*                                                                       */
 #ifndef FT_CONFIG_OPTION_PIC
 
-#define FT_DEFINE_SERVICEDESCREC1( class_,                                  \
+#define FT_DEFINE_SERVICEDESCREC1( Class,                                  \
                                    serv_id_1, serv_data_1 )                 \
-  static const FT_ServiceDescRec  class_[] =                                \
+  static const FT_ServiceDescRec  Class[] =                                \
   {                                                                         \
     { serv_id_1, serv_data_1 },                                             \
     { NULL, NULL }                                                          \
   };
 
-#define FT_DEFINE_SERVICEDESCREC2( class_,                                  \
+#define FT_DEFINE_SERVICEDESCREC2( Class,                                  \
                                    serv_id_1, serv_data_1,                  \
                                    serv_id_2, serv_data_2 )                 \
-  static const FT_ServiceDescRec  class_[] =                                \
+  static const FT_ServiceDescRec  Class[] =                                \
   {                                                                         \
     { serv_id_1, serv_data_1 },                                             \
     { serv_id_2, serv_data_2 },                                             \
     { NULL, NULL }                                                          \
   };
 
-#define FT_DEFINE_SERVICEDESCREC3( class_,                                  \
+#define FT_DEFINE_SERVICEDESCREC3( Class,                                  \
                                    serv_id_1, serv_data_1,                  \
                                    serv_id_2, serv_data_2,                  \
                                    serv_id_3, serv_data_3 )                 \
-  static const FT_ServiceDescRec  class_[] =                                \
+  static const FT_ServiceDescRec  Class[] =                                \
   {                                                                         \
     { serv_id_1, serv_data_1 },                                             \
     { serv_id_2, serv_data_2 },                                             \
@@ -216,12 +216,12 @@ FT_BEGIN_HEADER
     { NULL, NULL }                                                          \
   };
 
-#define FT_DEFINE_SERVICEDESCREC4( class_,                                  \
+#define FT_DEFINE_SERVICEDESCREC4( Class,                                  \
                                    serv_id_1, serv_data_1,                  \
                                    serv_id_2, serv_data_2,                  \
                                    serv_id_3, serv_data_3,                  \
                                    serv_id_4, serv_data_4 )                 \
-  static const FT_ServiceDescRec  class_[] =                                \
+  static const FT_ServiceDescRec  Class[] =                                \
   {                                                                         \
     { serv_id_1, serv_data_1 },                                             \
     { serv_id_2, serv_data_2 },                                             \
@@ -230,13 +230,13 @@ FT_BEGIN_HEADER
     { NULL, NULL }                                                          \
   };
 
-#define FT_DEFINE_SERVICEDESCREC5( class_,                                  \
+#define FT_DEFINE_SERVICEDESCREC5( Class,                                  \
                                    serv_id_1, serv_data_1,                  \
                                    serv_id_2, serv_data_2,                  \
                                    serv_id_3, serv_data_3,                  \
                                    serv_id_4, serv_data_4,                  \
                                    serv_id_5, serv_data_5 )                 \
-  static const FT_ServiceDescRec  class_[] =                                \
+  static const FT_ServiceDescRec  Class[] =                                \
   {                                                                         \
     { serv_id_1, serv_data_1 },                                             \
     { serv_id_2, serv_data_2 },                                             \
@@ -246,14 +246,14 @@ FT_BEGIN_HEADER
     { NULL, NULL }                                                          \
   };
 
-#define FT_DEFINE_SERVICEDESCREC6( class_,                                  \
+#define FT_DEFINE_SERVICEDESCREC6( Class,                                  \
                                    serv_id_1, serv_data_1,                  \
                                    serv_id_2, serv_data_2,                  \
                                    serv_id_3, serv_data_3,                  \
                                    serv_id_4, serv_data_4,                  \
                                    serv_id_5, serv_data_5,                  \
                                    serv_id_6, serv_data_6 )                 \
-  static const FT_ServiceDescRec  class_[] =                                \
+  static const FT_ServiceDescRec  Class[] =                                \
   {                                                                         \
     { serv_id_1, serv_data_1 },                                             \
     { serv_id_2, serv_data_2 },                                             \
@@ -264,7 +264,7 @@ FT_BEGIN_HEADER
     { NULL, NULL }                                                          \
   };
 
-#define FT_DEFINE_SERVICEDESCREC7( class_,                                  \
+#define FT_DEFINE_SERVICEDESCREC7( Class,                                  \
                                    serv_id_1, serv_data_1,                  \
                                    serv_id_2, serv_data_2,                  \
                                    serv_id_3, serv_data_3,                  \
@@ -272,7 +272,7 @@ FT_BEGIN_HEADER
                                    serv_id_5, serv_data_5,                  \
                                    serv_id_6, serv_data_6,                  \
                                    serv_id_7, serv_data_7 )                 \
-  static const FT_ServiceDescRec  class_[] =                                \
+  static const FT_ServiceDescRec  Class[] =                                \
   {                                                                         \
     { serv_id_1, serv_data_1 },                                             \
     { serv_id_2, serv_data_2 },                                             \
@@ -284,7 +284,7 @@ FT_BEGIN_HEADER
     { NULL, NULL }                                                          \
   };
 
-#define FT_DEFINE_SERVICEDESCREC8( class_,                                  \
+#define FT_DEFINE_SERVICEDESCREC8( Class,                                  \
                                    serv_id_1, serv_data_1,                  \
                                    serv_id_2, serv_data_2,                  \
                                    serv_id_3, serv_data_3,                  \
@@ -293,7 +293,7 @@ FT_BEGIN_HEADER
                                    serv_id_6, serv_data_6,                  \
                                    serv_id_7, serv_data_7,                  \
                                    serv_id_8, serv_data_8 )                 \
-  static const FT_ServiceDescRec  class_[] =                                \
+  static const FT_ServiceDescRec  Class[] =                                \
   {                                                                         \
     { serv_id_1, serv_data_1 },                                             \
     { serv_id_2, serv_data_2 },                                             \
@@ -306,7 +306,7 @@ FT_BEGIN_HEADER
     { NULL, NULL }                                                          \
   };
 
-#define FT_DEFINE_SERVICEDESCREC9( class_,                                  \
+#define FT_DEFINE_SERVICEDESCREC9( Class,                                  \
                                    serv_id_1, serv_data_1,                  \
                                    serv_id_2, serv_data_2,                  \
                                    serv_id_3, serv_data_3,                  \
@@ -316,7 +316,7 @@ FT_BEGIN_HEADER
                                    serv_id_7, serv_data_7,                  \
                                    serv_id_8, serv_data_8,                  \
                                    serv_id_9, serv_data_9 )                 \
-  static const FT_ServiceDescRec  class_[] =                                \
+  static const FT_ServiceDescRec  Class[] =                                \
   {                                                                         \
     { serv_id_1, serv_data_1 },                                             \
     { serv_id_2, serv_data_2 },                                             \
