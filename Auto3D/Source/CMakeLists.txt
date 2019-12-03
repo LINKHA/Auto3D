@@ -6,15 +6,15 @@ set (TARGET_NAME Auto3D)
 configure_file (AutoConfig.h.in ${CMAKE_CURRENT_SOURCE_DIR}/AutoConfig.h)
 
 
-file(GLOB_RECURSE project_headers *.h)
-file(GLOB_RECURSE project_cpps *.cpp)
-set(ALL_FILES ${project_headers} ${project_cpps})
-source_group_by_dir(all_files)
+file(GLOB_RECURSE SOURCE_HEADER *.h)
+file(GLOB_RECURSE SOURCE_SRC *.cpp)
+set(SOURCE_ALL_FILES ${SOURCE_HEADER} ${SOURCE_SRC})
+source_group_by_dir(SOURCE_ALL_FILES)
 
 include_directories (${AUTO_ROOT_PATH}/Auto3D/Source)
 
 # Define the Auto3D library target
-add_library (${TARGET_NAME} ${AUTO_LIB_TYPE} ${ALL_FILES})
+add_library (${TARGET_NAME} ${AUTO_LIB_TYPE} ${SOURCE_ALL_FILES})
 
 find_package (OpenGL REQUIRED)
 

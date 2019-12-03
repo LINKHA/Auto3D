@@ -130,7 +130,7 @@ private:
 };
 
 #ifdef AUTO_PROFILING
-#define PROFILE(name) AutoProfileBlock profile_ ## name (#name)
+#define PROFILE(name) FAutoProfileBlock auto_profile_ ## name (#name)
 #else
 #define PROFILE(_name)
 #endif
