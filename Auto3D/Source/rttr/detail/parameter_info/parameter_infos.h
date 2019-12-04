@@ -35,7 +35,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -294,7 +294,7 @@ static RTTR_INLINE void store_default_args_in_param_infos(parameter_infos<Param_
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_PARAMETER_INFOS_H_

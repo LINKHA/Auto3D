@@ -43,9 +43,9 @@ namespace Auto3D
 class type;
 class variant;
 class argument;
-class Constructor;
+class FConstructor;
 
-namespace detail
+namespace RTTI
 {
 
 /*!
@@ -82,7 +82,7 @@ class RTTR_API constructor_wrapper_base
 
         virtual variant invoke_variadic(std::vector<argument>& args) const;
 
-        virtual void visit(visitor& visitor, const Constructor& ctor) const RTTR_NOEXCEPT;
+        virtual void visit(visitor& visitor, const FConstructor& ctor) const RTTR_NOEXCEPT;
     protected:
         void init() RTTR_NOEXCEPT;
     private:
@@ -92,7 +92,7 @@ class RTTR_API constructor_wrapper_base
         std::string m_signature;
 };
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_CONSTRUCTOR_WRAPPER_BASE_H_

@@ -126,7 +126,7 @@ void visitor::visit_global_readonly_property(const property_info<T>& info)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-namespace detail
+namespace RTTI
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -140,7 +140,7 @@ static visitor::type_info<type_list<T, type_list<Base_Classes...>>> make_type_vi
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename T, typename Policy, typename Acc>
-static visitor::constructor_function_info<type_list<T, Policy, Acc>> make_ctor_info_func(const Constructor& ctor, const Acc& acc)
+static visitor::constructor_function_info<type_list<T, Policy, Acc>> make_ctor_info_func(const FConstructor& ctor, const Acc& acc)
 {
     return visitor::constructor_function_info<type_list<T, Policy, Acc>>{ctor, acc};
 }
@@ -148,7 +148,7 @@ static visitor::constructor_function_info<type_list<T, Policy, Acc>> make_ctor_i
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename T, typename Policy, typename...Args>
-static visitor::constructor_info<type_list<T, Policy, type_list<Args...>>> make_ctor_info(const Constructor& ctor)
+static visitor::constructor_info<type_list<T, Policy, type_list<Args...>>> make_ctor_info(const FConstructor& ctor)
 {
     return visitor::constructor_info<type_list<T, Policy, type_list<Args...>>>{ctor};
 }
@@ -190,7 +190,7 @@ struct visitor_list_wrapper
 
 struct visitor_defined {};
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_VISITOR_IMPL_H_

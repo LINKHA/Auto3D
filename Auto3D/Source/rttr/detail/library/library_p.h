@@ -44,7 +44,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 /*!
@@ -151,7 +151,7 @@ private:
     m_handle;
 };
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_LIBRARY_P_H_

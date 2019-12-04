@@ -31,7 +31,7 @@
 namespace Auto3D
 {
 
-namespace detail
+namespace RTTI
 {
 
  /*!
@@ -85,12 +85,12 @@ static derived_func get_most_derived_info_check(typename std::enable_if<!has_get
 template<typename T>
 static derived_func get_most_derived_info_func()
 {
-    return get_most_derived_info_check<typename detail::raw_type<T>::type>();
+    return get_most_derived_info_check<typename RTTI::raw_type<T>::type>();
 }
 
 
-} // end namespace detail
+} 
 
-} // end namespace rttr
+} 
 
 #endif // RTTR_DERIVED_INFO_FUNC_H_

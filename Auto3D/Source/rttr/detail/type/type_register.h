@@ -45,7 +45,7 @@ template<typename T>
 class Class;
 class visitor;
 
-namespace detail
+namespace RTTI
 {
 
 class constructor_wrapper_base;
@@ -133,10 +133,10 @@ private:
     friend class Class;
 
     template<typename T, typename Enable>
-    friend struct detail::type_getter;
+    friend struct RTTI::type_getter;
 };
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_TYPE_REGISTER_H_

@@ -38,7 +38,7 @@
 namespace Auto3D
 {
 
-namespace detail
+namespace RTTI
 {
 /*!
  * Abstract class for a method.
@@ -58,7 +58,7 @@ class RTTR_API destructor_wrapper_base
         virtual bool invoke(variant& obj) const RTTR_NOEXCEPT;
 };
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_DESTRUCTOR_WRAPPER_BASE_H_

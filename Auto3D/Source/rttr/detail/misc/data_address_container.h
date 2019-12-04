@@ -37,7 +37,7 @@ namespace Auto3D
 
 class type;
 
-namespace detail
+namespace RTTI
 {
 
 /*!
@@ -52,7 +52,7 @@ struct data_address_container
     void*   m_data_address_wrapped_type;
 };
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_DATA_ADDRESS_CONTAINER_H_

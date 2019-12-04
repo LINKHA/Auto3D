@@ -52,7 +52,7 @@ using namespace std;
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -152,7 +152,7 @@ void type_register::custom_name(type& t, string_view custom_name)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void type_register::metadata(const type& t, std::vector<::Auto3D::detail::metadata> data)
+void type_register::metadata(const type& t, std::vector<::Auto3D::RTTI::metadata> data)
 {
     auto& vec_to_insert = t.m_type_data->get_metadata();
 
@@ -458,7 +458,7 @@ static array_range<T> get_items_for_type(const type& t,
                                          const std::vector<T>& vec)
 {
     return array_range<T>(vec.data(), vec.size(),
-                          detail::default_predicate<T>([t](const T& item) { return (item.get_declaring_type() == t); }) );
+                          RTTI::default_predicate<T>([t](const T& item) { return (item.get_declaring_type() == t); }) );
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -485,7 +485,7 @@ static bool remove_container_item(T& container, const I& item)
 
 type_data* type_register_private::register_name_if_neccessary(type_data* info)
 {
-    using namespace detail;
+    using namespace RTTI;
 
     auto ret = m_orig_name_to_id.find(info->type_name);
     if (ret != m_orig_name_to_id.end())
@@ -548,7 +548,7 @@ type_data* type_register_private::register_type(type_data* info) RTTR_NOEXCEPT
     // this will register the base types
     info->get_base_types();
 
-    using namespace detail;
+    using namespace RTTI;
 
     if (auto t = register_name_if_neccessary(info))
         return t;
@@ -746,7 +746,7 @@ bool type_register_private::register_constructor(const constructor_wrapper_base*
 {
     const auto t = ctor->get_declaring_type();
     auto& class_data = t.m_type_data->m_class_data;
-    class_data.m_ctors.emplace_back(create_item<::Auto3D::Constructor>(ctor));
+    class_data.m_ctors.emplace_back(create_item<::Auto3D::FConstructor>(ctor));
     return true;
 }
 
@@ -782,7 +782,7 @@ bool type_register_private::register_property(const property_wrapper_base* prop)
     if (get_type_property(t, name))
         return false;
 
-    auto p = detail::create_item<::Auto3D::Property>(prop);
+    auto p = RTTI::create_item<::Auto3D::Property>(prop);
     property_list.emplace_back(p);
     update_class_list(t, &class_data::m_properties);
     return true;
@@ -798,7 +798,7 @@ bool type_register_private::register_global_property(const property_wrapper_base
      if (t.get_global_property(name))
          return false;
 
-     auto p = detail::create_item<::Auto3D::Property>(prop);
+     auto p = RTTI::create_item<::Auto3D::Property>(prop);
      get_global_properties().emplace_back(p);
      get_global_property_storage().insert(std::move(name), std::move(p));
      return true;
@@ -888,7 +888,7 @@ Method type_register_private::get_type_method(const type& t, string_view name,
         }
     }
 
-    return detail::create_invalid_item<::Auto3D::Method>();
+    return RTTI::create_invalid_item<::Auto3D::Method>();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -900,7 +900,7 @@ void type_register_private::update_class_list(const type& t, T item_ptr)
 
     // update type "t" with all items from the base classes
     auto item_range = get_items_for_type(t, all_class_items);
-    detail::remove_cv_ref_t<decltype(all_class_items)> item_vec(item_range.begin(), item_range.end());
+    RTTI::remove_cv_ref_t<decltype(all_class_items)> item_vec(item_range.begin(), item_range.end());
     all_class_items.reserve(all_class_items.size() + 1);
     all_class_items.clear(); // this will not reduce the capacity, i.e. new memory allocation may not necessary
     for (const auto& base_type : t.get_base_classes())
@@ -1122,5 +1122,5 @@ flat_map<std::string, type, hash>& type_register_private::get_custom_name_to_id(
 
 /////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
+} 
 } // end

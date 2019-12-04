@@ -192,7 +192,7 @@ bool is_absolute_path(const std::wstring& path)
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -269,7 +269,7 @@ bool library_private::unload_native()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_PLATFORM_WINDOWS

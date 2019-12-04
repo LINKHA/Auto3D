@@ -61,7 +61,7 @@ int AApplication::Run()
 		type t = type::GetByName("MyStruct");
 		variant var = t.create();    // will invoke the previously registered ctor
 
-		Constructor ctor = t.get_constructor();  // 2nd way with the constructor class
+		FConstructor ctor = t.GetConstructor();  // 2nd way with the constructor class
 		var = ctor.invoke();
 		std::cout << var.get_type().get_name(); // prints 'MyStruct'
 

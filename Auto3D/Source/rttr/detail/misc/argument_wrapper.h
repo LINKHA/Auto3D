@@ -35,7 +35,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 /*!
@@ -62,7 +62,7 @@ struct argument_wrapper
     void* m_data;
 };
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_ARGUMENT_WRAPPER_H_

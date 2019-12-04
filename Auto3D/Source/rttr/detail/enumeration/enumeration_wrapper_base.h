@@ -41,7 +41,7 @@ namespace Auto3D
 {
 class argument;
 
-namespace detail
+namespace RTTI
 {
 
 /*!
@@ -79,7 +79,7 @@ class RTTR_API enumeration_wrapper_base
         type m_declaring_type;
 };
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_ENUMERATION_WRAPPER_BASE_H_

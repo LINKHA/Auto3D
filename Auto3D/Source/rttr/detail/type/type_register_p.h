@@ -48,7 +48,7 @@ class type;
 class Property;
 class Method;
 
-namespace detail
+namespace RTTI
 {
 
 class constructor_wrapper_base;
@@ -230,7 +230,7 @@ private:
     std::mutex                                                  m_mutex;
 };
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_TYPE_REGISTER_P_H_

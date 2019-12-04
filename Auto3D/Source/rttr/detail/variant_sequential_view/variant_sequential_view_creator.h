@@ -37,7 +37,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 class variant_sequential_view_private;
@@ -57,8 +57,8 @@ create_variant_sequential_view(T&& value);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #include "rttr/detail/variant_sequential_view/variant_sequential_view_creator_impl.h"
 

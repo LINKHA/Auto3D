@@ -35,7 +35,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 /*!
@@ -98,7 +98,7 @@ class RTTR_LOCAL registration_state_saver
         std::vector<Method>         m_global_methods;
 };
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_REGISTRATION_STATE_SAVER_H_

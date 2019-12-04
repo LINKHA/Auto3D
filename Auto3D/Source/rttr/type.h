@@ -43,7 +43,7 @@ namespace Auto3D
 {
 
 class variant;
-class Constructor;
+class FConstructor;
 class destructor;
 class Method;
 class Property;
@@ -56,7 +56,7 @@ class visitor;
 template<typename Target_Type, typename Source_Type>
 Target_Type rttr_cast(Source_Type object) RTTR_NOEXCEPT;
 
-namespace detail
+namespace RTTI
 {
 struct derived_info;
 struct base_class_info;
@@ -87,7 +87,7 @@ RTTR_API bool compare_types_equal(const void*, const void*, const type&, bool&);
 
 template<typename T>
 RTTR_LOCAL RTTR_INLINE type get_type_from_instance(const T*) RTTR_NOEXCEPT;
-} // end namespace detail
+} 
 
 /*!
  * The \ref type class holds the type information for any arbitrary object.
@@ -607,7 +607,7 @@ class RTTR_API type
          * \return A valid constructor will be returned when the parameter matches the registered constructor;
          *         otherwise an invalid constructor.
          */
-        Constructor get_constructor(const std::vector<type>& params = std::vector<type>() ) const RTTR_NOEXCEPT;
+        FConstructor GetConstructor(const std::vector<type>& params = std::vector<type>() ) const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a range of all registered *public* constructors for this type.
@@ -618,7 +618,7 @@ class RTTR_API type
          *
          * \return A range of constructors.
          */
-        array_range<Constructor> GetConstructors() const RTTR_NOEXCEPT;
+        array_range<FConstructor> GetConstructors() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a range of all registered constructors for this type,
@@ -669,7 +669,7 @@ class RTTR_API type
          *
          * \return A range of properties.
          */
-        array_range<Constructor> GetConstructors(filter_items filter) const RTTR_NOEXCEPT;
+        array_range<FConstructor> GetConstructors(filter_items filter) const RTTR_NOEXCEPT;
 
         /*!
          * \brief Creates an instance of the current type, with the given arguments \p args for the constructor.
@@ -1116,7 +1116,7 @@ class RTTR_API type
          *
          * \param id The unique id of the data type.
          */
-        RTTR_INLINE explicit type(detail::type_data* data) RTTR_NOEXCEPT;
+        RTTR_INLINE explicit type(RTTI::type_data* data) RTTR_NOEXCEPT;
 
         /*!
          * \brief This function try to convert the given pointer \p ptr from the type \p source_type
@@ -1142,7 +1142,7 @@ class RTTR_API type
          *
          * \see register_converter_func()
          */
-        const detail::type_converter_base* get_type_converter(const type& target_type) const RTTR_NOEXCEPT;
+        const RTTI::type_converter_base* get_type_converter(const type& target_type) const RTTR_NOEXCEPT;
 
         /*!
          * \brief When for the current type instance a equal comparator function was registered,
@@ -1151,7 +1151,7 @@ class RTTR_API type
          *
          * \see register_equal_comparator()
          */
-        const detail::type_comparator_base* get_equal_comparator() const RTTR_NOEXCEPT;
+        const RTTI::type_comparator_base* get_equal_comparator() const RTTR_NOEXCEPT;
 
         /*!
          * \brief When for the current type instance a less-than comparator function was registered,
@@ -1160,7 +1160,7 @@ class RTTR_API type
          *
          * \see register_less_than_comparator()
          */
-        const detail::type_comparator_base* get_less_than_comparator() const RTTR_NOEXCEPT;
+        const RTTI::type_comparator_base* get_less_than_comparator() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns the level of indirection for this this type. A.k.a pointer count.
@@ -1195,7 +1195,7 @@ class RTTR_API type
         /*!
          * \brief Visits the current type, with the given visitor \p visitor.
          */
-        void visit(visitor& visitor, detail::type_of_visit visit_type) const RTTR_NOEXCEPT;
+        void visit(visitor& visitor, RTTI::type_of_visit visit_type) const RTTR_NOEXCEPT;
 
         /////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////
@@ -1209,27 +1209,27 @@ class RTTR_API type
         friend Target_Type rttr_cast(Source_Type object) RTTR_NOEXCEPT;
 
         friend class instance;
-        friend class detail::type_register;
-        friend class detail::type_register_private;
+        friend class RTTI::type_register;
+        friend class RTTI::type_register_private;
         friend class visitor;
-        friend struct detail::class_data;
+        friend struct RTTI::class_data;
 
-        friend type detail::create_type(detail::type_data*) RTTR_NOEXCEPT;
+        friend type RTTI::create_type(RTTI::type_data*) RTTR_NOEXCEPT;
 
         template<typename T>
-        friend std::unique_ptr<detail::type_data> detail::make_type_data();
+        friend std::unique_ptr<RTTI::type_data> RTTI::make_type_data();
 
         template<typename T, typename Tp, typename Converter>
-        friend struct detail::variant_data_base_policy;
+        friend struct RTTI::variant_data_base_policy;
 
-        friend RTTR_API bool detail::compare_types_less_than(const void*, const void*, const type&, int&);
-        friend RTTR_API bool detail::compare_types_equal(const void*, const void*, const type&, bool&);
+        friend RTTR_API bool RTTI::compare_types_less_than(const void*, const void*, const type&, int&);
+        friend RTTR_API bool RTTI::compare_types_equal(const void*, const void*, const type&, bool&);
 
     private:
-        detail::type_data* m_type_data;
+        RTTI::type_data* m_type_data;
 };
 
-} // end namespace rttr
+} 
 
 #include "rttr/detail/type/type_impl.h"
 

@@ -33,7 +33,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 struct return_as_ptr
@@ -118,8 +118,8 @@ struct get_setter_policy<as_reference_wrapper>
 
 using property_policy_list = type_list<bind_as_ptr, read_only, as_reference_wrapper>;
 
-} // end namespace detail;
+} ;
 
-} // end namespace rttr
+} 
 
 #endif // RTTR_PROP_POLICIES_H_

@@ -37,7 +37,7 @@
 namespace Auto3D
 {
 
-namespace detail
+namespace RTTI
 {
 class enum_flag;
 }
@@ -89,7 +89,7 @@ class enum_flags
                                                    "Please use an enum which fits into an 'int32_t'." );
     public:
         using type = Enum;
-        using enum_type = detail::conditional_t<std::is_signed<typename std::underlying_type<Enum>::type>::value,
+        using enum_type = RTTI::conditional_t<std::is_signed<typename std::underlying_type<Enum>::type>::value,
                                                 int32_t,
                                                 uint32_t>;
         using zero = enum_type*;
@@ -110,7 +110,7 @@ class enum_flags
          * \remark enum_flag is a wrapper class around an integer to avoid creation
          *          of enum_flags object from enum values.
          */
-        RTTR_CONSTEXPR RTTR_INLINE enum_flags(detail::enum_flag v) RTTR_NOEXCEPT;
+        RTTR_CONSTEXPR RTTR_INLINE enum_flags(RTTI::enum_flag v) RTTR_NOEXCEPT;
 
         /////////////////////////////////////////////////////////////////////////////////
 
@@ -264,7 +264,7 @@ class enum_flags
         enum_type m_value;
 };
 
-namespace detail
+namespace RTTI
 {
 
 /*!
@@ -277,7 +277,7 @@ class invalid_enum_flag
         RTTR_CONSTEXPR RTTR_INLINE explicit invalid_enum_flag(int v){}
 };
 
-} // end namespace detail
+} 
 
 #ifdef DOXYGEN
 
@@ -314,14 +314,14 @@ RTTR_CONSTEXPR RTTR_INLINE Auto3D::enum_flags<Flags::type> operator|(Flags::type
 {                                                                                                                                       \
     return (rhs | lhs);                                                                                                                 \
 }                                                                                                                                       \
-RTTR_CONSTEXPR RTTR_INLINE Auto3D::detail::invalid_enum_flag operator|(Flags::type lhs, int rhs)                                          \
+RTTR_CONSTEXPR RTTR_INLINE Auto3D::RTTI::invalid_enum_flag operator|(Flags::type lhs, int rhs)                                          \
 {                                                                                                                                       \
-    return Auto3D::detail::invalid_enum_flag(int(lhs) | rhs);                                                                             \
+    return Auto3D::RTTI::invalid_enum_flag(int(lhs) | rhs);                                                                             \
 }
 
 #endif
 
-} // end namespace rttr
+} 
 
 #include "rttr/detail/impl/enum_flags_impl.h"
 

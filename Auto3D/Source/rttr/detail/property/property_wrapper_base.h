@@ -42,7 +42,7 @@ class instance;
 class argument;
 class visitor;
 
-namespace detail
+namespace RTTI
 {
 /*!
  * Base class for an instance of a Property.
@@ -88,7 +88,7 @@ class RTTR_API property_wrapper_base
         type        m_declaring_type;
 };
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_PROPERTY_WRAPPER_BASE_H_

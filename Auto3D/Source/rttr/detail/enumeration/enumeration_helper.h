@@ -37,7 +37,7 @@ namespace Auto3D
 class argument;
 class variant;
 
-namespace detail
+namespace RTTI
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -80,7 +80,7 @@ RTTR_API bool is_variant_with_enum(const argument& arg);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_ENUMERATION_HELPER_H_

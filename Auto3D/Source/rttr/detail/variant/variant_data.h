@@ -33,7 +33,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -54,7 +54,7 @@ using variant_data = std::aligned_storage<max_sizeof_list<variant_basic_types>::
 
 struct RTTR_API void_variant_type {};
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_VARIANT_DATA_H_

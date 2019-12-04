@@ -37,7 +37,7 @@ namespace Auto3D
 {
 class type;
 
-namespace detail
+namespace RTTI
 {
 
 template<typename T>
@@ -53,7 +53,7 @@ using is_template_instance = template_type_trait<T>;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-}   // end namespace detail
-}   // end namespace rttr
+}   
+}   
 
 #endif // RTTR_TEMPLATE_TYPE_TRAIT_H_

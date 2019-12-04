@@ -34,7 +34,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 /*!
@@ -98,7 +98,7 @@ static type_visitor_invoker<T> make_type_visitor_invoker(const visitor::type_inf
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_TYPE_VISITOR_INVOKER_H_

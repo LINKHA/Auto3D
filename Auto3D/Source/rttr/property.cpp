@@ -38,7 +38,7 @@ using namespace std;
 namespace Auto3D
 {
 
-namespace detail
+namespace RTTI
 {
 
 template<>
@@ -50,15 +50,15 @@ Property create_item(const property_wrapper_base* wrapper)
 template<>
 Property create_invalid_item()
 {
-    static const detail::property_wrapper_base invalid_wrapper(string_view(), detail::get_invalid_type());
+    static const RTTI::property_wrapper_base invalid_wrapper(string_view(), RTTI::get_invalid_type());
     return Property(&invalid_wrapper);
 }
 
-} // end namespace detail;
+} ;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-Property::Property(const detail::property_wrapper_base* wrapper) RTTR_NOEXCEPT
+Property::Property(const RTTI::property_wrapper_base* wrapper) RTTR_NOEXCEPT
 :   m_wrapper(wrapper)
 {
 }
@@ -177,4 +177,4 @@ void Property::visit(visitor& visitor) const RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace rttr
+} 

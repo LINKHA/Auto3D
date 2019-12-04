@@ -34,7 +34,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 struct ctor_type { };
@@ -100,7 +100,7 @@ struct constructor_invoker<ctor_type, as_std_shared_ptr, type_list<Class_Type, C
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_CONSTRUCTOR_INVOKER_H_

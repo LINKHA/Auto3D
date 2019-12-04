@@ -37,7 +37,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 template<typename Ctor_Args, typename List1, typename List2>
@@ -176,7 +176,7 @@ struct invoke_variadic_helper<Invoker_Class, index_sequence<>>
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_DEFAULT_ARGUMENTS_H_

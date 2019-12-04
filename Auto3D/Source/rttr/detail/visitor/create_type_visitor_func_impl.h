@@ -35,7 +35,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 
@@ -71,7 +71,7 @@ visit_type(type_of_visit visit_type, visitor& vi, const type& t)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_CREATE_TYPE_VISITOR_FUNC_H_

@@ -36,7 +36,7 @@
 namespace Auto3D
 {
 
-namespace detail
+namespace RTTI
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -221,7 +221,7 @@ class RTTR_LOCAL variant_sequential_view_private
         using clear_func        = void(*)(void* container);
         using is_dynamic_func   = bool(*)();
         using erase_func        = void(*)(void* container, const iterator_data& itr_pos, iterator_data& itr);
-        using insert_func       = void(*)(void* container, argument& value, const detail::iterator_data& itr_pos, detail::iterator_data& itr);
+        using insert_func       = void(*)(void* container, argument& value, const RTTI::iterator_data& itr_pos, RTTI::iterator_data& itr);
         using set_value_func    = bool(*)(void* container, std::size_t index, argument& arg);
         using get_value_func    = variant(*)(void* container, std::size_t index);
 
@@ -248,7 +248,7 @@ class RTTR_LOCAL variant_sequential_view_private
         get_value_func          m_get_value_func;
 };
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_VARIANT_SEQUENTIAL_VIEW_PRIVATE_H_

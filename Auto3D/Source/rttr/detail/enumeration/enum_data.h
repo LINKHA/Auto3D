@@ -32,7 +32,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 /*!
@@ -40,11 +40,11 @@ namespace detail
  *
  */
 template<typename Enum_Type>
-class enum_data
+class FEnumData
 {
     public:
-        enum_data() {}
-        enum_data(string_view name, Enum_Type value) : m_name(name), m_value(value) { }
+        FEnumData() {}
+        FEnumData(string_view name, Enum_Type value) : m_name(name), m_value(value) { }
 
         string_view get_name() const    { return m_name;  }
         Enum_Type get_value() const     { return m_value; }
@@ -60,11 +60,11 @@ template<typename T>
 struct is_enum_data : std::false_type { };
 
 template<typename T>
-struct is_enum_data<enum_data<T>> : std::true_type { };
+struct is_enum_data<FEnumData<T>> : std::true_type { };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_ENUM_DATA_H_

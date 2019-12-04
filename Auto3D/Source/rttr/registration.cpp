@@ -30,10 +30,10 @@
 namespace Auto3D
 {
 
-const detail::public_access FRegistration::public_access = {};
+const RTTI::public_access FRegistration::public_access = {};
 
-const detail::protected_access FRegistration::protected_access = {};
+const RTTI::protected_access FRegistration::protected_access = {};
 
-const detail::private_access FRegistration::private_access = {};
+const RTTI::private_access FRegistration::private_access = {};
 
-} // end namespace rttr
+} 

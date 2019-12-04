@@ -46,7 +46,7 @@ class argument;
 class Property;
 class visitor;
 
-namespace detail
+namespace RTTI
 {
     class property_wrapper_base;
 }
@@ -257,20 +257,20 @@ class RTTR_API Property
 
     private:
         //! Constructs a property from a property_wrapper_base.
-        Property(const detail::property_wrapper_base* wrapper) RTTR_NOEXCEPT;
+        Property(const RTTI::property_wrapper_base* wrapper) RTTR_NOEXCEPT;
 
         void visit(visitor& visitor) const RTTR_NOEXCEPT;
 
         template<typename T>
-        friend T detail::create_item(const detail::class_item_to_wrapper_t<T>* wrapper);
+        friend T RTTI::create_item(const RTTI::class_item_to_wrapper_t<T>* wrapper);
         template<typename T>
-        friend T detail::create_invalid_item();
+        friend T RTTI::create_invalid_item();
         friend class visitor;
 
     private:
-        const detail::property_wrapper_base* m_wrapper;
+        const RTTI::property_wrapper_base* m_wrapper;
 };
 
-} // end namespace rttr
+} 
 
 #endif // RTTR_PROPERTY_H_

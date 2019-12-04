@@ -48,7 +48,7 @@ class argument;
 class Method;
 class visitor;
 
-namespace detail
+namespace RTTI
 {
     class method_wrapper_base;
 }
@@ -338,20 +338,20 @@ class RTTR_API Method
         bool operator!=(const Method& other) const RTTR_NOEXCEPT;
 
     private:
-        Method(const detail::method_wrapper_base* wrapper) RTTR_NOEXCEPT;
+        Method(const RTTI::method_wrapper_base* wrapper) RTTR_NOEXCEPT;
 
         void visit(visitor& visitor) const RTTR_NOEXCEPT;
 
         template<typename T>
-        friend T detail::create_item(const detail::class_item_to_wrapper_t<T>* wrapper);
+        friend T RTTI::create_item(const RTTI::class_item_to_wrapper_t<T>* wrapper);
         template<typename T>
-        friend T detail::create_invalid_item();
+        friend T RTTI::create_invalid_item();
         friend class visitor;
 
     private:
-        const detail::method_wrapper_base* m_wrapper;
+        const RTTI::method_wrapper_base* m_wrapper;
 };
 
-} // end namespace rttr
+} 
 
 #endif // RTTR_METHOD_H_

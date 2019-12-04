@@ -36,7 +36,7 @@ namespace Auto3D
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-RTTR_INLINE argument::argument() RTTR_NOEXCEPT : m_data(nullptr), m_variant(nullptr), m_type(detail::get_invalid_type()) {}
+RTTR_INLINE argument::argument() RTTR_NOEXCEPT : m_data(nullptr), m_variant(nullptr), m_type(RTTI::get_invalid_type()) {}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -150,6 +150,6 @@ RTTR_INLINE argument& argument::operator=(const argument& other) RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace rttr
+} 
 
 #endif // RTTR_ARGUMENT_IMPL_H_

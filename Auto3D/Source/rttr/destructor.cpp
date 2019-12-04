@@ -33,7 +33,7 @@ using namespace std;
 namespace Auto3D
 {
 
-namespace detail
+namespace RTTI
 {
 
 template<>
@@ -49,11 +49,11 @@ destructor create_invalid_item()
     return destructor(&invalid_wrapper);
 }
 
-} // end namespace detail
+} 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-destructor::destructor(const detail::destructor_wrapper_base* wrapper) RTTR_NOEXCEPT
+destructor::destructor(const RTTI::destructor_wrapper_base* wrapper) RTTR_NOEXCEPT
 :   m_wrapper(wrapper)
 {
 
@@ -110,4 +110,4 @@ bool destructor::operator!=(const destructor& other) const RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace rttr
+} 

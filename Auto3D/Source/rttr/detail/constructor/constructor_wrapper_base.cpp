@@ -34,7 +34,7 @@ static RTTR_CONSTEXPR const char* is_const_list[] = {"", " const"};
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -210,11 +210,11 @@ variant constructor_wrapper_base::invoke_variadic(std::vector<argument>& args) c
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void constructor_wrapper_base::visit(visitor& visitor, const Constructor& ctor) const RTTR_NOEXCEPT
+void constructor_wrapper_base::visit(visitor& visitor, const FConstructor& ctor) const RTTR_NOEXCEPT
 {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 

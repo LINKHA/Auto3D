@@ -33,7 +33,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 struct as_raw_pointer {};
@@ -44,8 +44,8 @@ struct as_std_shared_ptr {};
 
 using constructor_policy_list = type_list<as_raw_pointer, as_object, as_std_shared_ptr>;
 
-} // end namespace detail;
+} ;
 
-} // end namespace rttr
+} 
 
 #endif // RTTR_CTOR_POLICIES_H_

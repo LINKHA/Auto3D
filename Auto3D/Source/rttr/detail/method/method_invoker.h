@@ -33,7 +33,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -185,7 +185,7 @@ struct method_invoker<F, return_as_ptr, return_func, index_sequence<ArgCount...>
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_METHOD_INVOKER_H_

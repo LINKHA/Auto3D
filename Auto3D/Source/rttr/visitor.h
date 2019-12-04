@@ -42,7 +42,7 @@ namespace Auto3D
 
 class Property;
 class Method;
-class Constructor;
+class FConstructor;
 
 /*!
  * \brief The class \ref visitor, is used for visiting your registered accessors of a type at compile time.
@@ -127,7 +127,7 @@ public:
      * \brief Calling this function will indirectly call the function \ref visit_constructor()
      *        or \ref visit_constructor_function() for the underlying registered type.
      */
-    void visit(Constructor ctor);
+    void visit(FConstructor ctor);
 
     /*!
      * \brief Calling this function will indirectly call one of the functions:
@@ -239,7 +239,7 @@ public:
         using declaring_type    = T;
         using ctor_args         = type_list<Ctor_args...>;
         using policy            = Policy;
-        const Constructor&      ctor_item;
+        const FConstructor&      ctor_item;
     };
 
     template<typename T>
@@ -250,7 +250,7 @@ public:
     {
         using declaring_type = T;
         using policy         = Policy;
-        const Constructor    ctor_item;
+        const FConstructor    ctor_item;
         Acc                  function_ptr;
     };
 
@@ -498,7 +498,7 @@ private:
     RTTR_ENABLE();
 };
 
-} // end namespace rttr
+} 
 
 #include "rttr/detail/visitor/visitor_impl.h"
 

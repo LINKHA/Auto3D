@@ -210,7 +210,7 @@ variant_sequential_view::const_iterator variant_sequential_view::end() const
 /////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
 
-variant_sequential_view::const_iterator::const_iterator(const detail::variant_sequential_view_private* view) RTTR_NOEXCEPT
+variant_sequential_view::const_iterator::const_iterator(const RTTI::variant_sequential_view_private* view) RTTR_NOEXCEPT
 :   m_view(view)
 {
 }
@@ -357,5 +357,5 @@ bool variant_sequential_view::const_iterator::operator!=(const const_iterator& o
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace rttr
+} 
 

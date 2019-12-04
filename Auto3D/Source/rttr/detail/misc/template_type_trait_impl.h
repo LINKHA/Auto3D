@@ -32,7 +32,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 template<typename T>
@@ -44,14 +44,14 @@ struct template_type_trait<T<Args...>> : std::true_type
     static std::vector<::Auto3D::type> get_template_arguments() { return { ::Auto3D::type::get<Args>()..., }; }
 };
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 
 #define RTTR_ADD_TYPE_TRAIT_SPECIALIZATION_1(value_type)                                                                                    \
 namespace Auto3D                                                                                                                              \
 {                                                                                                                                           \
-namespace detail                                                                                                                            \
+namespace RTTI                                                                                                                            \
 {                                                                                                                                           \
     template<template <value_type...> class T, value_type...Args>                                                                           \
     struct template_type_trait<T<Args...>> : std::true_type                                                                                 \
@@ -64,7 +64,7 @@ namespace detail                                                                
 #define RTTR_ADD_TYPE_TRAIT_SPECIALIZATION_2(value_type)                                                                                    \
 namespace Auto3D                                                                                                                              \
 {                                                                                                                                           \
-namespace detail                                                                                                                            \
+namespace RTTI                                                                                                                            \
 {                                                                                                                                           \
     template<template <typename, value_type > class T, typename T1, value_type N1>                                                          \
     struct template_type_trait<T<T1, N1>> : std::true_type                                                                                  \
@@ -83,7 +83,7 @@ namespace detail                                                                
 #define RTTR_ADD_TYPE_TRAIT_SPECIALIZATION_3(value_type)                                                                                                        \
 namespace Auto3D                                                                                                                                                  \
 {                                                                                                                                                               \
-namespace detail                                                                                                                                                \
+namespace RTTI                                                                                                                                                \
 {                                                                                                                                                               \
     template<template <typename, typename, value_type > class T, typename T1, typename T2, value_type N1>                                                       \
     struct template_type_trait<T<T1, T2, N1>> : std::true_type                                                                                                  \

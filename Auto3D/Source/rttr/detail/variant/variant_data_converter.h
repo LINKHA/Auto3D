@@ -36,7 +36,7 @@ namespace Auto3D
 {
 class argument;
 
-namespace detail
+namespace RTTI
 {
 
 template<typename T>
@@ -1451,7 +1451,7 @@ struct convert_from_enum
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_VARIANT_DATA_CONVERTER_H_

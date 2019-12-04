@@ -32,7 +32,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
     struct ctor { };
 
@@ -45,7 +45,7 @@ namespace detail
     struct meth { };
 
     struct enum_{};
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_BIND_H_

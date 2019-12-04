@@ -37,7 +37,7 @@ namespace Auto3D
 class variant;
 class type;
 
-namespace detail
+namespace RTTI
 {
 class destructor_wrapper_base;
 template<>
@@ -127,17 +127,17 @@ class RTTR_API destructor
         bool operator!=(const destructor& other) const RTTR_NOEXCEPT;
 
     private:
-        destructor(const detail::destructor_wrapper_base* wrapper) RTTR_NOEXCEPT;
+        destructor(const RTTI::destructor_wrapper_base* wrapper) RTTR_NOEXCEPT;
 
         template<typename T>
-        friend T detail::create_item(const detail::class_item_to_wrapper_t<T>* wrapper);
+        friend T RTTI::create_item(const RTTI::class_item_to_wrapper_t<T>* wrapper);
         template<typename T>
-        friend T detail::create_invalid_item();
+        friend T RTTI::create_invalid_item();
 
     private:
-        const detail::destructor_wrapper_base* m_wrapper;
+        const RTTI::destructor_wrapper_base* m_wrapper;
 };
 
-} // end namespace rttr
+} 
 
 #endif // RTTR_DESTRUCTOR_H_

@@ -38,7 +38,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 class variant_associative_view_private;
@@ -58,8 +58,8 @@ create_variant_associative_view(T&& value);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #include "rttr/detail/variant_associative_view/variant_associative_view_creator_impl.h"
 

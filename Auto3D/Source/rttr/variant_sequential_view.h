@@ -411,21 +411,21 @@ class RTTR_API variant_sequential_view
                 bool operator!=(const const_iterator& other) const;
 
             private:
-                const_iterator(const detail::variant_sequential_view_private* view) RTTR_NOEXCEPT;
+                const_iterator(const RTTI::variant_sequential_view_private* view) RTTR_NOEXCEPT;
                 void swap(const_iterator& other);
 
                 friend class variant_sequential_view;
 
-                const detail::variant_sequential_view_private* m_view;
-                detail::iterator_data m_itr;
+                const RTTI::variant_sequential_view_private* m_view;
+                RTTI::iterator_data m_itr;
         };
     private:
         friend class variant;
         friend class argument;
 
-        detail::variant_sequential_view_private m_view;
+        RTTI::variant_sequential_view_private m_view;
 };
 
-} // end namespace rttr
+} 
 
 #endif // RTTR_VARIANT_SEQUENTIAL_VIEW_H_

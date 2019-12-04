@@ -35,7 +35,7 @@ namespace Auto3D
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-parameter_info::parameter_info(const detail::parameter_info_wrapper_base* wrapper) RTTR_NOEXCEPT
+parameter_info::parameter_info(const RTTI::parameter_info_wrapper_base* wrapper) RTTR_NOEXCEPT
 :   m_wrapper(wrapper)
 {
 
@@ -93,4 +93,4 @@ bool parameter_info::operator!=(const parameter_info& other) const RTTR_NOEXCEPT
 /////////////////////////////////////////////////////////////////////////////////////////
 
 
-} // end namespace rttr
+} 

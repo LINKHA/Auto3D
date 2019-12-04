@@ -35,7 +35,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
     /* This is a slightly modified version (>= VS2015 compatible) of the code from Raul Ramos. */
 
@@ -65,8 +65,8 @@ namespace detail
 
     template<typename T>
     using is_class_complete = std::integral_constant<bool, is_class_complete_impl<T>::value>;
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #define DECLARE_TL(_name) DECLARE_TL_IMPL(_name, __COUNTER__)
 #define DECLARE_TL_IMPL(_name, _start)\
@@ -80,7 +80,7 @@ namespace detail
     \
     /* Check if the entry at "IDX" exists */\
     template <size_t IDX>\
-    using _name##_is_defined = Auto3D::detail::is_class_complete<_name##_history<IDX>>;\
+    using _name##_is_defined = Auto3D::RTTI::is_class_complete<_name##_history<IDX>>;\
     \
     \
     /* Read from an index IDX */\
@@ -107,7 +107,7 @@ namespace detail
     template<>\
     struct _name##_history<_idx> {\
         using previous = typename _name##_read<_idx - 1>::type;\
-        using type = typename Auto3D::detail::push_back<_class, previous>::type;\
+        using type = typename Auto3D::RTTI::push_back<_class, previous>::type;\
     }
 #define ADD_TL(_name, _class) ADD_TL_IMPL(_name, _class, __COUNTER__)
 

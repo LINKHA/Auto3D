@@ -35,7 +35,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 struct has_param_name {};
 struct no_param_name {};
@@ -125,7 +125,7 @@ class parameter_info_wrapper<Param_Type, Param_Index, no_param_name, void> : pub
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_PARAMETER_INFO_WRAPPER_H_

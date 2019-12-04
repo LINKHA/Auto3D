@@ -34,7 +34,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -63,7 +63,7 @@ struct is_parameter_names<parameter_names<TArgs...> > : std::true_type { };
 template<typename...TArgs>
 using count_parameter_names = count_if<is_parameter_names, type_list< raw_type_t<TArgs>... > >;
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_PARAMETER_NAMES_H_

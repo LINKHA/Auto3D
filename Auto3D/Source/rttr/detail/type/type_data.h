@@ -50,7 +50,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 struct type_data;
 
@@ -81,7 +81,7 @@ struct RTTR_LOCAL class_data
     std::vector<rttr_cast_func> m_conversion_list;
     std::vector<Property>       m_properties;
     std::vector<Method>         m_methods;
-    std::vector<Constructor>    m_ctors;
+    std::vector<FConstructor>    m_ctors;
     std::vector<type>           m_nested_types;
     destructor                  m_dtor;
 };
@@ -244,7 +244,7 @@ RTTR_LOCAL RTTR_INLINE void create_wrapper(const argument& arg, variant& var)
 template<typename Wrapper, typename Tp = wrapper_mapper_t<Wrapper>>
 RTTR_LOCAL RTTR_INLINE
 enable_if_t<is_wrapper<Wrapper>::value &&
-            ::Auto3D::detail::is_copy_constructible<Wrapper>::value &&
+            ::Auto3D::RTTI::is_copy_constructible<Wrapper>::value &&
             std::is_default_constructible<Wrapper>::value &&
             has_create_wrapper_func<Wrapper>::value, impl::create_wrapper_func>
 get_create_wrapper_func()
@@ -256,7 +256,7 @@ get_create_wrapper_func()
 template<typename Wrapper, typename Tp = wrapper_mapper_t<Wrapper>>
 RTTR_LOCAL RTTR_INLINE
 enable_if_t<!is_wrapper<Wrapper>::value ||
-            !::Auto3D::detail::is_copy_constructible<Wrapper>::value ||
+            !::Auto3D::RTTI::is_copy_constructible<Wrapper>::value ||
             !std::is_default_constructible<Wrapper>::value ||
             !has_create_wrapper_func<Wrapper>::value, impl::create_wrapper_func>
 get_create_wrapper_func()
@@ -281,8 +281,8 @@ using type_trait_value = uint64_t;
 #define TYPE_TRAIT_TO_BITSET_VALUE(trait) (static_cast<std::uint64_t>(std::trait<T>::value) << static_cast<std::size_t>(type_trait_infos::trait))
 #define TYPE_TRAIT_TO_BITSET_VALUE_2(trait, enum_key) (static_cast<std::uint64_t>(trait<T>::value) << static_cast<std::size_t>(type_trait_infos::enum_key))
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -291,7 +291,7 @@ using type_trait_value = uint64_t;
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 template<typename T>
@@ -304,7 +304,7 @@ RTTR_LOCAL std::unique_ptr<type_data> make_type_data()
                             raw_type_info<T>::get_type().m_type_data, wrapper_type_info<T>::get_type().m_type_data,
                             array_raw_type<T>::get_type().m_type_data,
 
-                            ::Auto3D::detail::get_type_name<T>().to_string(), ::Auto3D::detail::get_type_name<T>(),
+                            ::Auto3D::RTTI::get_type_name<T>().to_string(), ::Auto3D::RTTI::get_type_name<T>(),
 
                             get_size_of<T>::value(),
                             pointer_count<T>::value,
@@ -325,9 +325,9 @@ RTTR_LOCAL std::unique_ptr<type_data> make_type_data()
                                               TYPE_TRAIT_TO_BITSET_VALUE_2(is_function_ptr, is_function_pointer) |
                                               TYPE_TRAIT_TO_BITSET_VALUE(is_member_object_pointer) |
                                               TYPE_TRAIT_TO_BITSET_VALUE(is_member_function_pointer) |
-                                              TYPE_TRAIT_TO_BITSET_VALUE_2(::Auto3D::detail::is_associative_container, is_associative_container) |
-                                              TYPE_TRAIT_TO_BITSET_VALUE_2(::Auto3D::detail::is_sequential_container, is_sequential_container) |
-                                              TYPE_TRAIT_TO_BITSET_VALUE_2(::Auto3D::detail::template_type_trait, is_template_instantiation)
+                                              TYPE_TRAIT_TO_BITSET_VALUE_2(::Auto3D::RTTI::is_associative_container, is_associative_container) |
+                                              TYPE_TRAIT_TO_BITSET_VALUE_2(::Auto3D::RTTI::is_sequential_container, is_sequential_container) |
+                                              TYPE_TRAIT_TO_BITSET_VALUE_2(::Auto3D::RTTI::template_type_trait, is_template_instantiation)
                                             },
                             class_data(get_most_derived_info_func<T>(), template_type_trait<T>::get_template_arguments())
                         }
@@ -337,7 +337,7 @@ RTTR_LOCAL std::unique_ptr<type_data> make_type_data()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_TYPE_DATA_H_

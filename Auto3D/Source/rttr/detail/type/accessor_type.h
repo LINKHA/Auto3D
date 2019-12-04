@@ -36,7 +36,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
     /////////////////////////////////////////////////////////////////////////////////////
 
@@ -123,7 +123,7 @@ namespace detail
     struct class_ctor
     {};
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_ACCESSOR_TYPE_H_

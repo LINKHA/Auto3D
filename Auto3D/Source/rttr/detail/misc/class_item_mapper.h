@@ -39,11 +39,11 @@ namespace Auto3D
 
 class Property;
 class Method;
-class Constructor;
+class FConstructor;
 class enumeration;
 class destructor;
 
-namespace detail
+namespace RTTI
 {
 
 class property_wrapper_base;
@@ -57,7 +57,7 @@ using class_item_to_wrapper_t = conditional_t< std::is_same<T, Property>::value,
                                                property_wrapper_base,
                                                conditional_t< std::is_same<T, Method>::value,
                                                               method_wrapper_base,
-                                                              conditional_t< std::is_same<T, Constructor>::value,
+                                                              conditional_t< std::is_same<T, FConstructor>::value,
                                                                              constructor_wrapper_base,
                                                                              conditional_t< std::is_same<T, destructor>::value,
                                                                                             destructor_wrapper_base,
@@ -76,7 +76,7 @@ T create_item(const class_item_to_wrapper_t<T>* wrapper);
 template<typename T>
 T create_invalid_item();
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_CLASS_ITEM_MAPPER_H_

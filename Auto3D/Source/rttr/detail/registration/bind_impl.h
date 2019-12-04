@@ -55,7 +55,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -69,17 +69,17 @@ static RTTR_INLINE auto get_metadata(Args&&... arg) -> decltype(forward_to_array
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename Enum_Type, typename... Args>
-static RTTR_INLINE auto get_enum_values(Args&&... arg) -> decltype(forward_to_array<enum_data<Enum_Type>>(std::forward<Args>(arg)...))
+static RTTR_INLINE auto get_enum_values(Args&&... arg) -> decltype(forward_to_array<FEnumData<Enum_Type>>(std::forward<Args>(arg)...))
 {
-    return forward_to_array<enum_data<Enum_Type>>(std::forward<Args>(arg)...);
+    return forward_to_array<FEnumData<Enum_Type>>(std::forward<Args>(arg)...);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename T>
-using map_access_level_to_enum = conditional_t< std::is_same<T, detail::public_access>::value,
+using map_access_level_to_enum = conditional_t< std::is_same<T, RTTI::public_access>::value,
                                                 std::integral_constant<access_levels, access_levels::public_access>,
-                                                conditional_t< std::is_same<T, detail::protected_access>::value,
+                                                conditional_t< std::is_same<T, RTTI::protected_access>::value,
                                                                std::integral_constant<access_levels, access_levels::protected_access>,
                                                                std::integral_constant<access_levels, access_levels::private_access>
                                                              >
@@ -88,31 +88,31 @@ using map_access_level_to_enum = conditional_t< std::is_same<T, detail::public_a
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename Class_Type, typename acc_level, typename Visitor_List, typename...Ctor_Args>
-class FRegistration::bind<detail::ctor, Class_Type, acc_level, Visitor_List, Ctor_Args...> : public FRegistration::Class<Class_Type>
+class FRegistration::bind<RTTI::ctor, Class_Type, acc_level, Visitor_List, Ctor_Args...> : public FRegistration::Class<Class_Type>
 {
     private:
         // this 'as_std_shared_ptr' policy has been selected, because:
         // * it has automatic memory management; should not leak anything
         // * we can copy the object inside the variant, without invoking the copy constructor (could be disabled by user)
         // REMARK: For the default constructor registration will always be code instantiated, when copying is disabled, we get a compile error
-        using default_create_policy = detail::as_std_shared_ptr;
+        using default_create_policy = RTTI::as_std_shared_ptr;
 
         // this additional wrapper function is needed, because of not triggered static_assert in func: 'operator()(Args&&... args)'
         // when we create the object directly inside the operator function, seems to be a bug in MSVC
         template<typename Policy, std::size_t Metadata_Count, typename...TArgs, typename...Param_Args>
-        static RTTR_INLINE std::unique_ptr<detail::constructor_wrapper_base>
-        create_constructor_wrapper(std::array<detail::metadata, Metadata_Count> metadata_list,
-                                   detail::default_args<TArgs...> def_args,
-                                   detail::parameter_infos<Param_Args...> param_infos)
+        static RTTR_INLINE std::unique_ptr<RTTI::constructor_wrapper_base>
+        create_constructor_wrapper(std::array<RTTI::metadata, Metadata_Count> metadata_list,
+                                   RTTI::default_args<TArgs...> def_args,
+                                   RTTI::parameter_infos<Param_Args...> param_infos)
         {
-            using namespace detail;
-            return detail::make_unique<constructor_wrapper<Class_Type, class_ctor,
-                                                           detail::map_access_level_to_enum<acc_level>::value,
+            using namespace RTTI;
+            return RTTI::make_unique<constructor_wrapper<Class_Type, class_ctor,
+                                                           RTTI::map_access_level_to_enum<acc_level>::value,
                                                            Policy,
                                                            Metadata_Count,
                                                            default_args<TArgs...>,
@@ -123,14 +123,14 @@ class FRegistration::bind<detail::ctor, Class_Type, acc_level, Visitor_List, Cto
         }
 
         template<typename Policy, std::size_t Metadata_Count, typename...Param_Args>
-        static RTTR_INLINE std::unique_ptr<detail::constructor_wrapper_base>
-        create_constructor_wrapper(std::array<detail::metadata, Metadata_Count> metadata_list,
-                                   detail::default_args<> def_args,
-                                   detail::parameter_infos<Param_Args...> param_infos)
+        static RTTR_INLINE std::unique_ptr<RTTI::constructor_wrapper_base>
+        create_constructor_wrapper(std::array<RTTI::metadata, Metadata_Count> metadata_list,
+                                   RTTI::default_args<> def_args,
+                                   RTTI::parameter_infos<Param_Args...> param_infos)
         {
-            using namespace detail;
-            return detail::make_unique<constructor_wrapper<Class_Type, class_ctor,
-                                                           detail::map_access_level_to_enum<acc_level>::value,
+            using namespace RTTI;
+            return RTTI::make_unique<constructor_wrapper<Class_Type, class_ctor,
+                                                           RTTI::map_access_level_to_enum<acc_level>::value,
                                                            Policy,
                                                            Metadata_Count,
                                                            default_args<>,
@@ -140,30 +140,30 @@ class FRegistration::bind<detail::ctor, Class_Type, acc_level, Visitor_List, Cto
         }
 
     public:
-        bind(const std::shared_ptr<detail::registration_executer>& reg_exec)
+        bind(const std::shared_ptr<RTTI::registration_executer>& reg_exec)
         :   FRegistration::Class<Class_Type>(reg_exec), m_reg_exec(reg_exec)
         {
             m_reg_exec->add_registration_func(this);
         }
         ~bind()
         {
-            using namespace detail;
+            using namespace RTTI;
             using param_info_t = decltype(create_param_infos<type_list<Ctor_Args...>, constructor_type>());
             if (!m_ctor.get())
-                m_ctor = detail::make_unique<detail::constructor_wrapper<Class_Type, class_ctor,
-                                                                         detail::map_access_level_to_enum<acc_level>::value, default_create_policy,
+                m_ctor = RTTI::make_unique<RTTI::constructor_wrapper<Class_Type, class_ctor,
+                                                                         RTTI::map_access_level_to_enum<acc_level>::value, default_create_policy,
                                                                          0,
-                                                                         detail::default_args<>,
+                                                                         RTTI::default_args<>,
                                                                          param_info_t,
                                                                          Visitor_List,
-                                                                         Ctor_Args...>>(std::array<detail::metadata, 0>(),
+                                                                         Ctor_Args...>>(std::array<RTTI::metadata, 0>(),
                                                                                         param_info_t());
 
-            auto wrapper = detail::make_rref(std::move(m_ctor));
+            auto wrapper = RTTI::make_rref(std::move(m_ctor));
             auto reg_func = [wrapper]()
             {
                 store_item<Class_Type>(std::move(wrapper.m_value));
-                store_item<Class_Type>(detail::make_unique<destructor_wrapper<Class_Type>>());
+                store_item<Class_Type>(RTTI::make_unique<destructor_wrapper<Class_Type>>());
             };
             m_reg_exec->add_registration_func(this, std::move(reg_func));
         }
@@ -171,7 +171,7 @@ class FRegistration::bind<detail::ctor, Class_Type, acc_level, Visitor_List, Cto
         template<typename... Args>
         FRegistration::Class<Class_Type> operator()(Args&&... args)
         {
-            using namespace detail;
+            using namespace RTTI;
 
             using policy_types_found = typename find_types<constructor_policy_list, as_type_list_t<raw_type_t<Args>...>>::type;
             static_assert(!has_double_types<policy_types_found>::value, "There are multiple policies of the same type forwarded, that is not allowed!");
@@ -205,26 +205,26 @@ class FRegistration::bind<detail::ctor, Class_Type, acc_level, Visitor_List, Cto
         }
 
     private:
-        std::shared_ptr<detail::registration_executer> m_reg_exec;
-        std::unique_ptr<detail::constructor_wrapper_base> m_ctor;
+        std::shared_ptr<RTTI::registration_executer> m_reg_exec;
+        std::unique_ptr<RTTI::constructor_wrapper_base> m_ctor;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename Class_Type, typename F, typename acc_level, typename Visitor_List>
-class FRegistration::bind<detail::ctor_func, Class_Type, F, acc_level, Visitor_List> : public FRegistration::Class<Class_Type>
+class FRegistration::bind<RTTI::ctor_func, Class_Type, F, acc_level, Visitor_List> : public FRegistration::Class<Class_Type>
 {
     private:
         template<std::size_t Metadata_Count, typename...TArgs, typename...Param_Args>
-        static RTTR_INLINE std::unique_ptr<detail::constructor_wrapper_base>
+        static RTTR_INLINE std::unique_ptr<RTTI::constructor_wrapper_base>
         create_constructor_wrapper(F func,
-                                   std::array<detail::metadata, Metadata_Count> metadata_list,
-                                   detail::default_args<TArgs...> def_args,
-                                   detail::parameter_infos<Param_Args...> param_infos)
+                                   std::array<RTTI::metadata, Metadata_Count> metadata_list,
+                                   RTTI::default_args<TArgs...> def_args,
+                                   RTTI::parameter_infos<Param_Args...> param_infos)
         {
-            using namespace detail;
-            return detail::make_unique<constructor_wrapper<Class_Type, return_func,
-                                                           detail::map_access_level_to_enum<acc_level>::value,
+            using namespace RTTI;
+            return RTTI::make_unique<constructor_wrapper<Class_Type, return_func,
+                                                           RTTI::map_access_level_to_enum<acc_level>::value,
                                                            default_invoke,
                                                            Metadata_Count,
                                                            default_args<TArgs...>,
@@ -237,15 +237,15 @@ class FRegistration::bind<detail::ctor_func, Class_Type, F, acc_level, Visitor_L
         }
 
         template<std::size_t Metadata_Count, typename...Param_Args>
-        static RTTR_INLINE std::unique_ptr<detail::constructor_wrapper_base>
+        static RTTR_INLINE std::unique_ptr<RTTI::constructor_wrapper_base>
         create_constructor_wrapper(F func,
-                                   std::array<detail::metadata, Metadata_Count> metadata_list,
-                                   detail::default_args<> def_args,
-                                   detail::parameter_infos<Param_Args...> param_infos)
+                                   std::array<RTTI::metadata, Metadata_Count> metadata_list,
+                                   RTTI::default_args<> def_args,
+                                   RTTI::parameter_infos<Param_Args...> param_infos)
         {
-            using namespace detail;
-            return detail::make_unique<constructor_wrapper<Class_Type, return_func,
-                                                           detail::map_access_level_to_enum<acc_level>::value,
+            using namespace RTTI;
+            return RTTI::make_unique<constructor_wrapper<Class_Type, return_func,
+                                                           RTTI::map_access_level_to_enum<acc_level>::value,
                                                            default_invoke,
                                                            Metadata_Count,
                                                            default_args<>,
@@ -260,22 +260,22 @@ class FRegistration::bind<detail::ctor_func, Class_Type, F, acc_level, Visitor_L
         // so we can make use of static_assert and check whether the given accessor is correct or not
         // REMARK: this seems to be a MSVC problem...
         template<typename Acc_Func>
-        static RTTR_INLINE std::unique_ptr<detail::constructor_wrapper_base> create_default_constructor(Acc_Func func)
+        static RTTR_INLINE std::unique_ptr<RTTI::constructor_wrapper_base> create_default_constructor(Acc_Func func)
         {
-            using namespace detail;
+            using namespace RTTI;
             using param_info_t = decltype(create_param_infos<type_list<Acc_Func>, function_type>());
-            return detail::make_unique<constructor_wrapper<Class_Type, return_func,
-                                       detail::map_access_level_to_enum<acc_level>::value,
+            return RTTI::make_unique<constructor_wrapper<Class_Type, return_func,
+                                       RTTI::map_access_level_to_enum<acc_level>::value,
                                        default_invoke,
                                        0,
-                                       detail::default_args<>,
-                                       param_info_t, Visitor_List, F>>(func, std::array<detail::metadata, 0>(), param_info_t());
+                                       RTTI::default_args<>,
+                                       param_info_t, Visitor_List, F>>(func, std::array<RTTI::metadata, 0>(), param_info_t());
         }
 
         template<typename Acc_Func, typename... Args>
-        static RTTR_INLINE std::unique_ptr<detail::constructor_wrapper_base> create_custom_constructor(Acc_Func func, Args&&...args)
+        static RTTR_INLINE std::unique_ptr<RTTI::constructor_wrapper_base> create_custom_constructor(Acc_Func func, Args&&...args)
         {
-            using namespace detail;
+            using namespace RTTI;
             using has_valid_default_types = has_default_types<type_list<Acc_Func>, type_list<Args...>, function_type>;
             static_assert( (has_default_args<Args...>::value && has_valid_default_types::value) || !has_default_args<Args...>::value,
                            "The provided default arguments, cannot be used with the given constructor. Please check the provided argument types."
@@ -298,7 +298,7 @@ class FRegistration::bind<detail::ctor_func, Class_Type, F, acc_level, Visitor_L
             return std::move(ctor);
         }
     public:
-        bind(const std::shared_ptr<detail::registration_executer>& reg_exec, F func)
+        bind(const std::shared_ptr<RTTI::registration_executer>& reg_exec, F func)
         :   FRegistration::Class<Class_Type>(reg_exec), m_reg_exec(reg_exec), m_func(func)
         {
             m_reg_exec->add_registration_func(this);
@@ -306,15 +306,15 @@ class FRegistration::bind<detail::ctor_func, Class_Type, F, acc_level, Visitor_L
 
         ~bind()
         {
-            using namespace detail;
+            using namespace RTTI;
             if (!m_ctor.get())
                 m_ctor = create_default_constructor(m_func);
 
-            auto wrapper = detail::make_rref(std::move(m_ctor));
+            auto wrapper = RTTI::make_rref(std::move(m_ctor));
             auto reg_func = [wrapper]()
             {
                 store_item<Class_Type>(std::move(wrapper.m_value));
-                store_item<Class_Type>(detail::make_unique<destructor_wrapper<Class_Type>>());
+                store_item<Class_Type>(RTTI::make_unique<destructor_wrapper<Class_Type>>());
             };
 
             m_reg_exec->add_registration_func(this, reg_func);
@@ -328,15 +328,15 @@ class FRegistration::bind<detail::ctor_func, Class_Type, F, acc_level, Visitor_L
         }
 
     private:
-        std::shared_ptr<detail::registration_executer> m_reg_exec;
+        std::shared_ptr<RTTI::registration_executer> m_reg_exec;
         F m_func;
-        std::unique_ptr<detail::constructor_wrapper_base> m_ctor;
+        std::unique_ptr<RTTI::constructor_wrapper_base> m_ctor;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename T>
-using registration_derived_t = detail::conditional_t< std::is_same<T, void>::value,
+using registration_derived_t = RTTI::conditional_t< std::is_same<T, void>::value,
                                                       FRegistration,
                                                       FRegistration::Class<T>
                                                      >;
@@ -344,37 +344,37 @@ using registration_derived_t = detail::conditional_t< std::is_same<T, void>::val
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename Class_Type, typename A, typename acc_level, typename Visitor_List>
-class FRegistration::bind<detail::prop, Class_Type, A, acc_level, Visitor_List> : public registration_derived_t<Class_Type>
+class FRegistration::bind<RTTI::prop, Class_Type, A, acc_level, Visitor_List> : public registration_derived_t<Class_Type>
 {
     private:
-        using default_getter_policy = detail::return_as_copy;
-        using default_setter_policy = detail::set_value;
+        using default_getter_policy = RTTI::return_as_copy;
+        using default_setter_policy = RTTI::set_value;
 
         template<typename Acc>
         static RTTR_INLINE
-        std::unique_ptr<detail::property_wrapper_base> create_default_property(string_view name, Acc acc)
+        std::unique_ptr<RTTI::property_wrapper_base> create_default_property(string_view name, Acc acc)
         {
-            using namespace detail;
+            using namespace RTTI;
             using acc_type = typename property_type<Acc>::type;
-            return detail::make_unique<property_wrapper<acc_type,
+            return RTTI::make_unique<property_wrapper<acc_type,
                                                         Class_Type,
                                                         A,
                                                         void,
-                                                        detail::map_access_level_to_enum<acc_level>::value,
+                                                        RTTI::map_access_level_to_enum<acc_level>::value,
                                                         default_getter_policy, default_setter_policy,
                                                         0,
                                                         Visitor_List>
-                                                        >(name, acc, std::array<detail::metadata, 0>());
+                                                        >(name, acc, std::array<RTTI::metadata, 0>());
         }
 
         template<typename Acc, std::size_t Metadata_Count, typename... Args>
         static RTTR_INLINE
-        std::unique_ptr<detail::property_wrapper_base> create_custom_property(string_view name,
+        std::unique_ptr<RTTI::property_wrapper_base> create_custom_property(string_view name,
                                                                               Acc acc,
-                                                                              std::array<detail::metadata, Metadata_Count> metadata_list,
+                                                                              std::array<RTTI::metadata, Metadata_Count> metadata_list,
                                                                               Args&&...args)
         {
-            using namespace detail;
+            using namespace RTTI;
             using policy_types_found = typename find_types<property_policy_list, as_type_list_t<raw_type_t<Args>...>>::type;
             static_assert(!has_double_types<policy_types_found>::value, "There are multiple policies of the same type forwarded, that is not allowed!");
             // when no policy was added, we need a default policy
@@ -389,11 +389,11 @@ class FRegistration::bind<detail::prop, Class_Type, A, acc_level, Visitor_List> 
             using setter_policy     = typename get_setter_policy<first_prop_policy>::type;
             using acc_type          = typename property_type<Acc>::type;
 
-            auto prop = detail::make_unique<property_wrapper<acc_type,
+            auto prop = RTTI::make_unique<property_wrapper<acc_type,
                                                              Class_Type,
                                                              Acc,
                                                              void,
-                                                             detail::map_access_level_to_enum<acc_level>::value,
+                                                             RTTI::map_access_level_to_enum<acc_level>::value,
                                                              getter_policy, setter_policy,
                                                              Metadata_Count,
                                                              Visitor_List>>(name, acc, std::move(metadata_list));
@@ -401,20 +401,20 @@ class FRegistration::bind<detail::prop, Class_Type, A, acc_level, Visitor_List> 
         }
 
     public:
-        bind(const std::shared_ptr<detail::registration_executer>& reg_exec, string_view name, A acc)
+        bind(const std::shared_ptr<RTTI::registration_executer>& reg_exec, string_view name, A acc)
         :   registration_derived_t<Class_Type>(reg_exec), m_reg_exec(reg_exec), m_name(name), m_acc(acc)
         {
-            detail::register_accessor_class_type_when_needed<Class_Type, A>();
+            RTTI::register_accessor_class_type_when_needed<Class_Type, A>();
             m_reg_exec->add_registration_func(this);
         }
 
         ~bind()
         {
-            using namespace detail;
+            using namespace RTTI;
             if (!m_prop.get())
                 m_prop = create_default_property(m_name, m_acc);
 
-            auto wrapper = detail::make_rref(std::move(m_prop));
+            auto wrapper = RTTI::make_rref(std::move(m_prop));
             auto reg_func = [wrapper]()
             {
                 store_item<Class_Type>(std::move(wrapper.m_value));
@@ -431,46 +431,46 @@ class FRegistration::bind<detail::prop, Class_Type, A, acc_level, Visitor_List> 
         }
 
     private:
-        std::shared_ptr<detail::registration_executer> m_reg_exec;
+        std::shared_ptr<RTTI::registration_executer> m_reg_exec;
         string_view m_name;
         A           m_acc;
-        std::unique_ptr<detail::property_wrapper_base> m_prop;
+        std::unique_ptr<RTTI::property_wrapper_base> m_prop;
 
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename Class_Type, typename A1, typename A2, typename acc_level, typename Visitor_List>
-class FRegistration::bind<detail::prop, Class_Type, A1, A2, acc_level, Visitor_List> : public registration_derived_t<Class_Type>
+class FRegistration::bind<RTTI::prop, Class_Type, A1, A2, acc_level, Visitor_List> : public registration_derived_t<Class_Type>
 {
     private:
-        using default_getter_policy = detail::return_as_copy;
-        using default_setter_policy = detail::set_value;
+        using default_getter_policy = RTTI::return_as_copy;
+        using default_setter_policy = RTTI::set_value;
 
         template<typename Acc1, typename Acc2>
         static RTTR_INLINE
-        std::unique_ptr<detail::property_wrapper_base> create_default_property(string_view name,
+        std::unique_ptr<RTTI::property_wrapper_base> create_default_property(string_view name,
                                                                                Acc1 getter, Acc2 setter)
         {
-            using namespace detail;
+            using namespace RTTI;
             using acc_type = typename property_type<A1>::type;
-            return detail::make_unique<property_wrapper<acc_type,
+            return RTTI::make_unique<property_wrapper<acc_type,
                                                         Class_Type,
                                                         Acc1, Acc2,
-                                                        detail::map_access_level_to_enum<acc_level>::value,
+                                                        RTTI::map_access_level_to_enum<acc_level>::value,
                                                         default_getter_policy, default_setter_policy, 0, Visitor_List
                                                        >
-                                       >(name, getter, setter, std::array<detail::metadata, 0>());
+                                       >(name, getter, setter, std::array<RTTI::metadata, 0>());
         }
 
         template<typename Acc1, typename Acc2, std::size_t Metadata_Count, typename... Args>
         static RTTR_INLINE
-        std::unique_ptr<detail::property_wrapper_base> create_custom_property(string_view name,
+        std::unique_ptr<RTTI::property_wrapper_base> create_custom_property(string_view name,
                                                                               Acc1 getter, Acc2 setter,
-                                                                              std::array<detail::metadata, Metadata_Count> metadata_list,
+                                                                              std::array<RTTI::metadata, Metadata_Count> metadata_list,
                                                                               Args&&...args)
         {
-            using namespace detail;
+            using namespace RTTI;
 
             using policy_types_found = typename find_types<property_policy_list, as_type_list_t<raw_type_t<Args>...>>::type;
             static_assert(!has_double_types<policy_types_found>::value, "There are multiple policies of the same type forwarded, that is not allowed!");
@@ -483,10 +483,10 @@ class FRegistration::bind<detail::prop, Class_Type, A1, A2, acc_level, Visitor_L
             using getter_policy     = typename get_getter_policy<first_prop_policy>::type;
             using setter_policy     = typename get_setter_policy<first_prop_policy>::type;
             using acc_type          = typename property_type<A1>::type;
-            auto prop = detail::make_unique<property_wrapper<acc_type,
+            auto prop = RTTI::make_unique<property_wrapper<acc_type,
                                                              Class_Type,
                                                              Acc1, Acc2,
-                                                             detail::map_access_level_to_enum<acc_level>::value,
+                                                             RTTI::map_access_level_to_enum<acc_level>::value,
                                                              getter_policy, setter_policy,
                                                              Metadata_Count, Visitor_List
                                                             >
@@ -495,21 +495,21 @@ class FRegistration::bind<detail::prop, Class_Type, A1, A2, acc_level, Visitor_L
         }
 
     public:
-        bind(const std::shared_ptr<detail::registration_executer>& reg_exec, string_view name, A1 getter, A2 setter)
+        bind(const std::shared_ptr<RTTI::registration_executer>& reg_exec, string_view name, A1 getter, A2 setter)
         :   registration_derived_t<Class_Type>(reg_exec), m_reg_exec(reg_exec), m_name(name), m_getter(getter), m_setter(setter)
         {
-            detail::register_accessor_class_type_when_needed<Class_Type, A1>();
-            detail::register_accessor_class_type_when_needed<Class_Type, A2>();
+            RTTI::register_accessor_class_type_when_needed<Class_Type, A1>();
+            RTTI::register_accessor_class_type_when_needed<Class_Type, A2>();
             m_reg_exec->add_registration_func(this);
         }
 
         ~bind()
         {
-            using namespace detail;
+            using namespace RTTI;
             if (!m_prop.get())
                 m_prop = create_default_property(m_name, m_getter, m_setter);
 
-            auto wrapper = detail::make_rref(std::move(m_prop));
+            auto wrapper = RTTI::make_rref(std::move(m_prop));
             auto reg_func = [wrapper]()
             {
                 store_item<Class_Type>(std::move(wrapper.m_value));
@@ -527,44 +527,44 @@ class FRegistration::bind<detail::prop, Class_Type, A1, A2, acc_level, Visitor_L
         }
 
     private:
-        std::shared_ptr<detail::registration_executer> m_reg_exec;
+        std::shared_ptr<RTTI::registration_executer> m_reg_exec;
         string_view m_name;
         A1          m_getter;
         A2          m_setter;
-        std::unique_ptr<detail::property_wrapper_base> m_prop;
+        std::unique_ptr<RTTI::property_wrapper_base> m_prop;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename Class_Type, typename A, typename acc_level, typename Visitor_List>
-class FRegistration::bind<detail::prop_readonly, Class_Type, A, acc_level, Visitor_List> : public registration_derived_t<Class_Type>
+class FRegistration::bind<RTTI::prop_readonly, Class_Type, A, acc_level, Visitor_List> : public registration_derived_t<Class_Type>
 {
     private:
-        using default_getter_policy = detail::return_as_copy;
-        using default_setter_policy = detail::read_only;
+        using default_getter_policy = RTTI::return_as_copy;
+        using default_setter_policy = RTTI::read_only;
 
         template<typename Acc>
         static RTTR_INLINE
-        std::unique_ptr<detail::property_wrapper_base> create_default_property(string_view name, Acc acc)
+        std::unique_ptr<RTTI::property_wrapper_base> create_default_property(string_view name, Acc acc)
         {
-            using namespace detail;
+            using namespace RTTI;
             using acc_type = typename property_type<Acc>::type;
-            return detail::make_unique<property_wrapper<acc_type, Class_Type, A, void,
-                                                        detail::map_access_level_to_enum<acc_level>::value,
+            return RTTI::make_unique<property_wrapper<acc_type, Class_Type, A, void,
+                                                        RTTI::map_access_level_to_enum<acc_level>::value,
                                                         default_getter_policy, default_setter_policy, 0, Visitor_List
                                                        >
-                                      >(name, acc, std::array<detail::metadata, 0>());
+                                      >(name, acc, std::array<RTTI::metadata, 0>());
         }
 
         template<typename Acc, std::size_t Metadata_Count, typename... Args>
         static RTTR_INLINE
-        std::unique_ptr<detail::property_wrapper_base>  create_custom_property(string_view name,
+        std::unique_ptr<RTTI::property_wrapper_base>  create_custom_property(string_view name,
                                                                                Acc acc,
-                                                                               std::array<detail::metadata,
+                                                                               std::array<RTTI::metadata,
                                                                                Metadata_Count> metadata_list,
                                                                                Args&&...args)
         {
-            using namespace detail;
+            using namespace RTTI;
             using policy_types_found = typename find_types<property_policy_list, as_type_list_t<raw_type_t<Args>...>>::type;
             static_assert(!has_double_types<policy_types_found>::value, "There are multiple policies of the same type forwarded, that is not allowed!");
             // when no policy was added, we need a default policy
@@ -577,8 +577,8 @@ class FRegistration::bind<detail::prop_readonly, Class_Type, A, acc_level, Visit
             using getter_policy     = typename get_getter_policy<first_prop_policy>::type;
             using acc_type          = typename property_type<Acc>::type;
 
-            auto prop = detail::make_unique<property_wrapper<acc_type, Class_Type, Acc, void,
-                                                             detail::map_access_level_to_enum<acc_level>::value,
+            auto prop = RTTI::make_unique<property_wrapper<acc_type, Class_Type, Acc, void,
+                                                             RTTI::map_access_level_to_enum<acc_level>::value,
                                                              getter_policy, default_setter_policy, Metadata_Count, Visitor_List
                                                             >
                                            >(name, acc, std::move(metadata_list));
@@ -587,20 +587,20 @@ class FRegistration::bind<detail::prop_readonly, Class_Type, A, acc_level, Visit
         }
 
     public:
-        bind(const std::shared_ptr<detail::registration_executer>& reg_exec, string_view name, A acc)
+        bind(const std::shared_ptr<RTTI::registration_executer>& reg_exec, string_view name, A acc)
         :   registration_derived_t<Class_Type>(reg_exec), m_reg_exec(reg_exec), m_name(name), m_acc(acc)
         {
-            detail::register_accessor_class_type_when_needed<Class_Type, A>();
+            RTTI::register_accessor_class_type_when_needed<Class_Type, A>();
             m_reg_exec->add_registration_func(this);
         }
 
         ~bind()
         {
-            using namespace detail;
+            using namespace RTTI;
             if (!m_prop.get())
                 m_prop = create_default_property(m_name, m_acc);
 
-            auto wrapper = detail::make_rref(std::move(m_prop));
+            auto wrapper = RTTI::make_rref(std::move(m_prop));
             auto reg_func = [wrapper]()
             {
                 store_item<Class_Type>(std::move(wrapper.m_value));
@@ -617,37 +617,37 @@ class FRegistration::bind<detail::prop_readonly, Class_Type, A, acc_level, Visit
             return registration_derived_t<Class_Type>(m_reg_exec);
         }
     private:
-        std::shared_ptr<detail::registration_executer> m_reg_exec;
+        std::shared_ptr<RTTI::registration_executer> m_reg_exec;
         string_view m_name;
         A           m_acc;
-        std::unique_ptr<detail::property_wrapper_base> m_prop;
+        std::unique_ptr<RTTI::property_wrapper_base> m_prop;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename Class_Type, typename F, typename acc_level, typename Visitor_List>
-class FRegistration::bind<detail::meth, Class_Type, F, acc_level, Visitor_List> : public registration_derived_t<Class_Type>
+class FRegistration::bind<RTTI::meth, Class_Type, F, acc_level, Visitor_List> : public registration_derived_t<Class_Type>
 {
     private:
         template<typename Acc_Func>
-        static RTTR_INLINE std::unique_ptr<detail::method_wrapper_base> create_default_method(string_view name, Acc_Func func)
+        static RTTR_INLINE std::unique_ptr<RTTI::method_wrapper_base> create_default_method(string_view name, Acc_Func func)
         {
-            using namespace detail;
+            using namespace RTTI;
             using param_info_t =  decltype(create_param_infos<type_list<F>, function_type>());
-            return detail::make_unique<method_wrapper<Acc_Func,
+            return RTTI::make_unique<method_wrapper<Acc_Func,
                                                       Class_Type,
                                                       map_access_level_to_enum<acc_level>::value,
                                                       default_invoke,
                                                       default_args<>,
                                                       param_info_t,
                                                       0,
-                                                      Visitor_List>>(name, func, std::array<detail::metadata, 0>(), param_info_t());
+                                                      Visitor_List>>(name, func, std::array<RTTI::metadata, 0>(), param_info_t());
         }
 
         template<typename Acc_Func, typename... Args>
-        static RTTR_INLINE std::unique_ptr<detail::method_wrapper_base> create_custom_method(string_view name, Acc_Func func, Args&&...args)
+        static RTTR_INLINE std::unique_ptr<RTTI::method_wrapper_base> create_custom_method(string_view name, Acc_Func func, Args&&...args)
         {
-            using namespace detail;
+            using namespace RTTI;
 
             using policy_types_found = typename find_types<method_policy_list, as_type_list_t<raw_type_t<Args>...>>::type;
             static_assert(!has_double_types<policy_types_found>::value, "There are multiple policies of the same type forwarded, that is not allowed!");
@@ -672,7 +672,7 @@ class FRegistration::bind<detail::meth, Class_Type, F, acc_level, Visitor_List> 
                                                default_invoke,
                                                policy_types_found>;
             using policy = typename std::tuple_element<0, as_std_tuple_t<policy_list>>::type;
-            using metadata_count = count_type<::Auto3D::detail::metadata, type_list<Args...>>;
+            using metadata_count = count_type<::Auto3D::RTTI::metadata, type_list<Args...>>;
             auto meth = create_method_wrapper<policy,
                                               metadata_count::value>(name, func,
                                                                      std::move(get_metadata(std::forward<Args>(args)...)),
@@ -682,18 +682,18 @@ class FRegistration::bind<detail::meth, Class_Type, F, acc_level, Visitor_List> 
         }
 
         template<typename Policy, std::size_t Metadata_Count, typename...TArgs, typename...Param_Args>
-        static RTTR_INLINE std::unique_ptr<detail::method_wrapper_base>
+        static RTTR_INLINE std::unique_ptr<RTTI::method_wrapper_base>
         create_method_wrapper(string_view name, F func,
-                              std::array<detail::metadata, Metadata_Count> metadata_list,
-                              detail::default_args<TArgs...> def_args,
-                              detail::parameter_infos<Param_Args...> param_infos)
+                              std::array<RTTI::metadata, Metadata_Count> metadata_list,
+                              RTTI::default_args<TArgs...> def_args,
+                              RTTI::parameter_infos<Param_Args...> param_infos)
         {
-            return detail::make_unique<detail::method_wrapper<F,
+            return RTTI::make_unique<RTTI::method_wrapper<F,
                                                               Class_Type,
-                                                              detail::map_access_level_to_enum<acc_level>::value,
+                                                              RTTI::map_access_level_to_enum<acc_level>::value,
                                                               Policy,
-                                                              detail::default_args<TArgs...>,
-                                                              detail::parameter_infos<Param_Args...>,
+                                                              RTTI::default_args<TArgs...>,
+                                                              RTTI::parameter_infos<Param_Args...>,
                                                               Metadata_Count,
                                                               Visitor_List>>(name,
                                                                                func,
@@ -703,18 +703,18 @@ class FRegistration::bind<detail::meth, Class_Type, F, acc_level, Visitor_List> 
         }
 
         template<typename Policy, std::size_t Metadata_Count, typename...Param_Args>
-        static RTTR_INLINE std::unique_ptr<detail::method_wrapper_base>
+        static RTTR_INLINE std::unique_ptr<RTTI::method_wrapper_base>
         create_method_wrapper(string_view name, F func,
-                              std::array<detail::metadata, Metadata_Count> metadata_list,
-                              detail::default_args<> def_args,
-                              detail::parameter_infos<Param_Args...> param_infos)
+                              std::array<RTTI::metadata, Metadata_Count> metadata_list,
+                              RTTI::default_args<> def_args,
+                              RTTI::parameter_infos<Param_Args...> param_infos)
         {
-            return detail::make_unique<detail::method_wrapper<F,
+            return RTTI::make_unique<RTTI::method_wrapper<F,
                                                               Class_Type,
-                                                              detail::map_access_level_to_enum<acc_level>::value,
+                                                              RTTI::map_access_level_to_enum<acc_level>::value,
                                                               Policy,
-                                                              detail::default_args<>,
-                                                              detail::parameter_infos<Param_Args...>,
+                                                              RTTI::default_args<>,
+                                                              RTTI::parameter_infos<Param_Args...>,
                                                               Metadata_Count,
                                                               Visitor_List>>(name,
                                                                                func,
@@ -723,21 +723,21 @@ class FRegistration::bind<detail::meth, Class_Type, F, acc_level, Visitor_List> 
         }
 
     public:
-        bind(const std::shared_ptr<detail::registration_executer>& reg_exec, string_view name, F f)
+        bind(const std::shared_ptr<RTTI::registration_executer>& reg_exec, string_view name, F f)
         :   registration_derived_t<Class_Type>(reg_exec), m_reg_exec(reg_exec), m_name(name), m_func(f)
         {
-            detail::register_accessor_class_type_when_needed<Class_Type, F>();
+            RTTI::register_accessor_class_type_when_needed<Class_Type, F>();
             m_reg_exec->add_registration_func(this);
         }
 
         ~bind()
         {
-            using namespace detail;
+            using namespace RTTI;
             if (!m_meth.get())
                 m_meth = create_default_method(m_name, m_func);
 
 
-            auto wrapper = detail::make_rref(std::move(m_meth));
+            auto wrapper = RTTI::make_rref(std::move(m_meth));
             auto reg_func = [wrapper]()
             {
                 store_item<Class_Type>(std::move(wrapper.m_value));
@@ -754,38 +754,38 @@ class FRegistration::bind<detail::meth, Class_Type, F, acc_level, Visitor_List> 
         }
 
     private:
-        std::shared_ptr<detail::registration_executer> m_reg_exec;
+        std::shared_ptr<RTTI::registration_executer> m_reg_exec;
         string_view m_name;
         F           m_func;
-        std::unique_ptr<detail::method_wrapper_base> m_meth;
+        std::unique_ptr<RTTI::method_wrapper_base> m_meth;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename Class_Type, typename Enum_Type>
-class FRegistration::bind<detail::enum_, Class_Type, Enum_Type> : public registration_derived_t<Class_Type>
+class FRegistration::bind<RTTI::enum_, Class_Type, Enum_Type> : public registration_derived_t<Class_Type>
 {
     private:
         template<typename E_Type>
-        static RTTR_INLINE std::unique_ptr<detail::enumeration_wrapper_base> create_default_enum()
+        static RTTR_INLINE std::unique_ptr<RTTI::enumeration_wrapper_base> create_default_enum()
         {
-            using namespace detail;
-            return detail::make_unique<enumeration_wrapper<E_Type, 0, 0>>(get_enum_values<E_Type>(), std::array<detail::metadata, 0>());
+            using namespace RTTI;
+            return RTTI::make_unique<enumeration_wrapper<E_Type, 0, 0>>(get_enum_values<E_Type>(), std::array<RTTI::metadata, 0>());
         }
 
         template<typename E_Type, typename... Args>
-        static RTTR_INLINE std::unique_ptr<detail::enumeration_wrapper_base> create_custom_enum(Args&&...args)
+        static RTTR_INLINE std::unique_ptr<RTTI::enumeration_wrapper_base> create_custom_enum(Args&&...args)
         {
-            using namespace detail;
+            using namespace RTTI;
 
-            static RTTR_CONSTEXPR_OR_CONST std::size_t enum_count = count_type<enum_data<Enum_Type>, type_list<raw_type_t<Args>...>>::value;
+            static RTTR_CONSTEXPR_OR_CONST std::size_t enum_count = count_type<FEnumData<Enum_Type>, type_list<raw_type_t<Args>...>>::value;
             static RTTR_CONSTEXPR_OR_CONST std::size_t global_enum_count = count_if<is_enum_data, raw_type_t<Args>...>::value;
 
             static_assert(enum_count == global_enum_count, "Invalid 'value' pair for enumeration type provided, please specify values only for enums of type 'Enum_Type'.");
 
-            using metadata_count = count_type<::Auto3D::detail::metadata, type_list<Args...>>;
+            using metadata_count = count_type<::Auto3D::RTTI::metadata, type_list<Args...>>;
 
-            auto enum_wrapper = detail::make_unique<enumeration_wrapper<E_Type,
+            auto enum_wrapper = RTTI::make_unique<enumeration_wrapper<E_Type,
                                                                         enum_count,
                                                                         metadata_count::value>>(get_enum_values<E_Type>(std::forward<Args>(args)...),
                                                                                                 std::move(get_metadata(std::forward<Args>(args)...)));
@@ -795,10 +795,10 @@ class FRegistration::bind<detail::enum_, Class_Type, Enum_Type> : public registr
         }
 
     public:
-        bind(const std::shared_ptr<detail::registration_executer>& reg_exec, string_view name)
+        bind(const std::shared_ptr<RTTI::registration_executer>& reg_exec, string_view name)
         :   registration_derived_t<Class_Type>(reg_exec), m_reg_exec(reg_exec), m_declared_type(type::template get<Class_Type>())
         {
-            using namespace detail;
+            using namespace RTTI;
 
             m_reg_exec->add_registration_func(this);
             auto t = type::template get<Enum_Type>();
@@ -807,7 +807,7 @@ class FRegistration::bind<detail::enum_, Class_Type, Enum_Type> : public registr
 
         ~bind()
         {
-            using namespace detail;
+            using namespace RTTI;
             if (!m_enum.get())
                 m_enum = create_default_enum<Enum_Type>();
 
@@ -815,7 +815,7 @@ class FRegistration::bind<detail::enum_, Class_Type, Enum_Type> : public registr
             // register the underlying type with the following call:
             m_enum->get_type();
 
-            auto wrapper = detail::make_rref(std::move(m_enum));
+            auto wrapper = RTTI::make_rref(std::move(m_enum));
             auto reg_func = [wrapper]()
             {
                 store_item<Class_Type>(std::move(wrapper.m_value));
@@ -830,12 +830,12 @@ class FRegistration::bind<detail::enum_, Class_Type, Enum_Type> : public registr
             return registration_derived_t<Class_Type>(m_reg_exec);
         }
     private:
-        std::shared_ptr<detail::registration_executer> m_reg_exec;
+        std::shared_ptr<RTTI::registration_executer> m_reg_exec;
         type m_declared_type;
-        std::unique_ptr<detail::enumeration_wrapper_base> m_enum;
+        std::unique_ptr<RTTI::enumeration_wrapper_base> m_enum;
 };
 
-} // end namespace rttr
+} 
 
 
 #endif // RTTR_BIND_REFLECTION_IMPL_H_

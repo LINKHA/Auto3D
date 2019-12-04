@@ -49,7 +49,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 template<typename F, typename Declaring_Type, access_levels Acc_Level, typename Policy, typename Default_Args, typename Parameter_Infos, std::size_t Metadata_Count, typename Visitor_List>
@@ -137,7 +137,7 @@ class method_wrapper<F, Declaring_Type, Acc_Level, Policy, default_args<>, param
 template<typename F, typename Declaring_Type, access_levels Acc_Level, typename Policy, typename...Default_Args, typename...Param_Args, std::size_t Metadata_Count, typename Visitor_List>
 class method_wrapper<F, Declaring_Type, Acc_Level, Policy, default_args<Default_Args...>, parameter_infos<Param_Args...>, Metadata_Count, Visitor_List> : public method_wrapper_base, public metadata_handler<Metadata_Count>
 {
-    using method_type = typename detail::method_type<F>::type;
+    using method_type = typename RTTI::method_type<F>::type;
     using arg_index_sequence = make_index_sequence<function_traits<F>::arg_count>;
     using invoker_class = method_invoker<F, Policy, method_type, arg_index_sequence>;
     using invoke_with_defaults = invoke_defaults_helper<invoker_class, F>;
@@ -294,7 +294,7 @@ class method_wrapper<F, Declaring_Type, Acc_Level, Policy, default_args<>, param
 template<typename F, typename Declaring_Type, access_levels Acc_Level, typename Policy, typename...Default_Args, std::size_t Metadata_Count, typename Visitor_List>
 class method_wrapper<F, Declaring_Type, Acc_Level, Policy, default_args<Default_Args...>, parameter_infos<>, Metadata_Count, Visitor_List> : public method_wrapper_base, public metadata_handler<Metadata_Count>
 {
-    using method_type = typename detail::method_type<F>::type;
+    using method_type = typename RTTI::method_type<F>::type;
     using arg_index_sequence = make_index_sequence<function_traits<F>::arg_count>;
     using invoker_class = method_invoker<F, Policy, method_type, arg_index_sequence>;
     using invoke_with_defaults = invoke_defaults_helper<invoker_class, F>;
@@ -372,7 +372,7 @@ class method_wrapper<F, Declaring_Type, Acc_Level, Policy, default_args<Default_
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_METHOD_WRAPPER_H_

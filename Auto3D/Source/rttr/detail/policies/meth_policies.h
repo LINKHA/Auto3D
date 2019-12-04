@@ -33,7 +33,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 struct return_as_ptr;
@@ -48,8 +48,8 @@ struct default_invoke
 
 using method_policy_list    = type_list<discard_return, return_as_ptr>;
 
-} // end namespace detail;
+} ;
 
-} // end namespace rttr
+} 
 
 #endif // RTTR_METH_POLICIES_H_

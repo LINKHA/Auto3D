@@ -35,7 +35,7 @@ namespace Auto3D
 {
 class Method;
 
-namespace detail
+namespace RTTI
 {
 
 struct invalid_type;
@@ -180,7 +180,7 @@ make_property_getter_setter_visitor_invoker(const visitor::property_getter_sette
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_PROPERTY_VISITOR_INVOKER_H_

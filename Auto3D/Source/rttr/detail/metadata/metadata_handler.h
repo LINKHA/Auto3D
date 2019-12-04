@@ -36,7 +36,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 /*!
@@ -80,7 +80,7 @@ class metadata_handler<0>
         RTTR_INLINE variant get_metadata(const variant& key) const  { return variant(); }
 };
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_METADATA_HANDLER_H_

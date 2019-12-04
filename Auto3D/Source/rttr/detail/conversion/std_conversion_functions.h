@@ -33,7 +33,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -101,7 +101,7 @@ RTTR_API double string_to_double(const std::string& source, bool* ok);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_STD_CONVERSION_FUNCTIONS_H_

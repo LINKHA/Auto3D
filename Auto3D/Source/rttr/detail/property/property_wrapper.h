@@ -44,7 +44,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 template<typename Accessor_Type,
@@ -64,7 +64,7 @@ class property_wrapper;
 #include "rttr/detail/property/property_wrapper_member_object.h"
 #include "rttr/detail/property/property_wrapper_object.h"
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_PROPERTY_WRAPPER_H_

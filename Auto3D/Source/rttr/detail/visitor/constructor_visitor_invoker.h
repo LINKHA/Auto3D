@@ -35,7 +35,7 @@ namespace Auto3D
 {
 class Method;
 
-namespace detail
+namespace RTTI
 {
 
 struct invalid_type;
@@ -111,7 +111,7 @@ static constructor_function_visitor_invoker<T> make_ctor_visitor_invoker_func(co
     return constructor_function_visitor_invoker<T>(info);
 }
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_CONSTRUCTOR_VISITOR_INVOKER_H_

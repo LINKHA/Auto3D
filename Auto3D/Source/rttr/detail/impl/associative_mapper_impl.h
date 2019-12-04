@@ -41,7 +41,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 
@@ -407,51 +407,51 @@ struct associative_container_key_base_multi : associative_container_key_base<T>
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
+} 
 
 //////////////////////////////////////////////////////////////////////////////////////
 
 template<typename K>
-struct associative_container_mapper<std::set<K>> : detail::associative_container_key_base<std::set<K>> {};
+struct associative_container_mapper<std::set<K>> : RTTI::associative_container_key_base<std::set<K>> {};
 
 //////////////////////////////////////////////////////////////////////////////////////
 
 template<typename K>
-struct associative_container_mapper<std::multiset<K>> : detail::associative_container_key_base_multi<std::multiset<K>> {};
+struct associative_container_mapper<std::multiset<K>> : RTTI::associative_container_key_base_multi<std::multiset<K>> {};
 
 //////////////////////////////////////////////////////////////////////////////////////
 
 template<typename K, typename T>
-struct associative_container_mapper<std::map<K, T>> : detail::associative_container_map_base<std::map<K, T>> { };
+struct associative_container_mapper<std::map<K, T>> : RTTI::associative_container_map_base<std::map<K, T>> { };
 
 //////////////////////////////////////////////////////////////////////////////////////
 
 template<typename K, typename T>
-struct associative_container_mapper<std::multimap<K, T>> : detail::associative_container_base_multi<std::multimap<K, T>> {};
+struct associative_container_mapper<std::multimap<K, T>> : RTTI::associative_container_base_multi<std::multimap<K, T>> {};
 
 //////////////////////////////////////////////////////////////////////////////////////
 
 template<typename K>
-struct associative_container_mapper<std::unordered_set<K>> : detail::associative_container_key_base<std::unordered_set<K>> {};
+struct associative_container_mapper<std::unordered_set<K>> : RTTI::associative_container_key_base<std::unordered_set<K>> {};
 
 //////////////////////////////////////////////////////////////////////////////////////
 
 template<typename K, typename T>
-struct associative_container_mapper<std::unordered_map<K, T>> : detail::associative_container_map_base<std::unordered_map<K, T>> {};
+struct associative_container_mapper<std::unordered_map<K, T>> : RTTI::associative_container_map_base<std::unordered_map<K, T>> {};
 
 //////////////////////////////////////////////////////////////////////////////////////
 
 template<typename K>
-struct associative_container_mapper<std::unordered_multiset<K>> : detail::associative_container_key_base_multi<std::unordered_multiset<K>> {};
+struct associative_container_mapper<std::unordered_multiset<K>> : RTTI::associative_container_key_base_multi<std::unordered_multiset<K>> {};
 
 //////////////////////////////////////////////////////////////////////////////////////
 
 template<typename K, typename T>
-struct associative_container_mapper<std::unordered_multimap<K, T>> : detail::associative_container_base_multi<std::unordered_multimap<K, T>> {};
+struct associative_container_mapper<std::unordered_multimap<K, T>> : RTTI::associative_container_base_multi<std::unordered_multimap<K, T>> {};
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace detail
+namespace RTTI
 {
 
 struct associative_container_empty
@@ -528,7 +528,7 @@ struct associative_container_empty
     }
 };
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_ASSOCIATIVE_MAPPER_H_

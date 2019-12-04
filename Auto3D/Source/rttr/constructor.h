@@ -46,7 +46,7 @@ class type;
 class argument;
 class visitor;
 
-namespace detail
+namespace RTTI
 {
 class constructor_wrapper_base;
 }
@@ -86,7 +86,7 @@ class constructor_wrapper_base;
  *
  * \see method, property, enumeration, destructor and type
  */
-class RTTR_API Constructor
+class RTTR_API FConstructor
 {
     public:
         /*!
@@ -274,29 +274,29 @@ class RTTR_API Constructor
          *
          * \return True if both constructors are equal, otherwise false.
          */
-        bool operator==(const Constructor& other) const RTTR_NOEXCEPT;
+        bool operator==(const FConstructor& other) const RTTR_NOEXCEPT;
 
         /*!
          * Returns true if this constructor is the not the same like the \p other.
          *
          * \return True if both constructors are different, otherwise false.
          */
-        bool operator!=(const Constructor& other) const RTTR_NOEXCEPT;
+        bool operator!=(const FConstructor& other) const RTTR_NOEXCEPT;
 
     private:
-        Constructor(const detail::constructor_wrapper_base* wrapper) RTTR_NOEXCEPT;
+        FConstructor(const RTTI::constructor_wrapper_base* wrapper) RTTR_NOEXCEPT;
         void visit(visitor& visitor) const RTTR_NOEXCEPT;
 
         template<typename T>
-        friend T detail::create_item(const detail::class_item_to_wrapper_t<T>* wrapper);
+        friend T RTTI::create_item(const RTTI::class_item_to_wrapper_t<T>* wrapper);
         template<typename T>
-        friend T detail::create_invalid_item();
+        friend T RTTI::create_invalid_item();
         friend class visitor;
 
     private:
-        const detail::constructor_wrapper_base* m_wrapper;
+        const RTTI::constructor_wrapper_base* m_wrapper;
 };
 
-} // end namespace rttr
+} 
 
 #endif // RTTR_CONSTRUCTOR_H_

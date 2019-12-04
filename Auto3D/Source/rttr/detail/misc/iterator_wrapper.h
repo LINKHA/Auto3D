@@ -37,7 +37,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 using iterator_data = std::aligned_storage<sizeof(double)>::type;
@@ -152,7 +152,7 @@ struct iterator_wrapper_associative_container : iterator_wrapper_base<Itr>
     }
 };
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_ITERATOR_WRAPPER_H_

@@ -60,7 +60,7 @@ void visitor::visit(type t)
 
 void visitor::visit_impl(const type& t)
 {
-    t.visit(*this, detail::type_of_visit::begin_visit_type);
+    t.visit(*this, RTTI::type_of_visit::begin_visit_type);
     const auto filter = filter_item::instance_item | filter_item::static_item |
                         filter_item::public_access | filter_item::non_public_access |
                         filter_item::declared_only;
@@ -80,7 +80,7 @@ void visitor::visit_impl(const type& t)
         meth.visit(*this);
     }
 
-    t.visit(*this, detail::type_of_visit::end_visit_type);
+    t.visit(*this, RTTI::type_of_visit::end_visit_type);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -92,7 +92,7 @@ void visitor::visit(Method meth)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void visitor::visit(Constructor ctor)
+void visitor::visit(FConstructor ctor)
 {
     ctor.visit(*this);
 }
@@ -106,4 +106,4 @@ void visitor::visit(Property prop)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace rttr
+} 

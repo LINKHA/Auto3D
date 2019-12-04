@@ -36,7 +36,7 @@ using namespace std;
 namespace Auto3D
 {
 
-namespace detail
+namespace RTTI
 {
 template<>
 enumeration create_item(const enumeration_wrapper_base* wrapper)
@@ -51,11 +51,11 @@ enumeration create_invalid_item()
     return enumeration(&invalid_wrapper);
 }
 
-} // end namespace detail
+} 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-enumeration::enumeration(const detail::enumeration_wrapper_base* wrapper) RTTR_NOEXCEPT
+enumeration::enumeration(const RTTI::enumeration_wrapper_base* wrapper) RTTR_NOEXCEPT
 :   m_wrapper(wrapper)
 {
 
@@ -154,4 +154,4 @@ bool enumeration::operator!=(const enumeration& other) const RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace rttr
+} 

@@ -32,22 +32,22 @@ namespace Auto3D
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-const detail::bind_as_ptr policy::prop::bind_as_ptr = {};
+const RTTI::bind_as_ptr policy::prop::bind_as_ptr = {};
 
-const detail::as_reference_wrapper policy::prop::as_reference_wrapper = {};
+const RTTI::as_reference_wrapper policy::prop::as_reference_wrapper = {};
 
-const detail::return_as_ptr policy::meth::return_ref_as_ptr = {};
+const RTTI::return_as_ptr policy::meth::return_ref_as_ptr = {};
 
-const detail::discard_return policy::meth::discard_return = {};
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-const detail::as_raw_pointer policy::ctor::as_raw_ptr = {};
-
-const detail::as_std_shared_ptr policy::ctor::as_std_shared_ptr = {};
-
-const detail::as_object policy::ctor::as_object = {};
+const RTTI::discard_return policy::meth::discard_return = {};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace rttr
+const RTTI::as_raw_pointer policy::ctor::as_raw_ptr = {};
+
+const RTTI::as_std_shared_ptr policy::ctor::as_std_shared_ptr = {};
+
+const RTTI::as_object policy::ctor::as_object = {};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+} 

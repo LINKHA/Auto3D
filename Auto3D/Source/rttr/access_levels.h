@@ -60,6 +60,6 @@ enum class access_levels
     private_access
 };
 
-} // end namespace rttr
+} 
 
 #endif // RTTR_ACCESS_LEVELS_H_

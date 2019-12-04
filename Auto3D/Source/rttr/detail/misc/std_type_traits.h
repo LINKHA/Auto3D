@@ -35,7 +35,7 @@
 namespace Auto3D
 {
 
-namespace detail
+namespace RTTI
 {
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -79,7 +79,7 @@ using add_lvalue_reference_t = typename std::add_lvalue_reference<T>::type;
 
 /////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_STD_TYPE_TRAITS_H_

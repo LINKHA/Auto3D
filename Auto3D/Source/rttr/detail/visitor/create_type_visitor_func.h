@@ -40,7 +40,7 @@ class visitor;
 class type;
 enum class type_of_visit : bool;
 
-namespace detail
+namespace RTTI
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -59,8 +59,8 @@ visit_type(type_of_visit visit_type, visitor& vi, const type& t);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #include "rttr/detail/visitor/create_type_visitor_func_impl.h"
 

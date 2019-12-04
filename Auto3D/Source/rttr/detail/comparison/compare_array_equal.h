@@ -37,7 +37,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -50,8 +50,8 @@ RTTR_INLINE bool compare_array_equal(const ElementType(&lhs)[Count], const Eleme
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #include "rttr/detail/comparison/compare_array_equal_impl.h"
 

@@ -42,7 +42,7 @@ class type;
 class variant;
 class argument;
 
-namespace detail
+namespace RTTI
 {
     class enumeration_wrapper_base;
 }
@@ -216,16 +216,16 @@ class RTTR_API enumeration
         bool operator!=(const enumeration& other) const RTTR_NOEXCEPT;
 
     private:
-        enumeration(const detail::enumeration_wrapper_base* wrapper) RTTR_NOEXCEPT;
+        enumeration(const RTTI::enumeration_wrapper_base* wrapper) RTTR_NOEXCEPT;
 
         template<typename T>
-        friend T detail::create_item(const detail::class_item_to_wrapper_t<T>* wrapper);
+        friend T RTTI::create_item(const RTTI::class_item_to_wrapper_t<T>* wrapper);
         template<typename T>
-        friend T detail::create_invalid_item();
+        friend T RTTI::create_invalid_item();
     private:
-        const detail::enumeration_wrapper_base* m_wrapper;
+        const RTTI::enumeration_wrapper_base* m_wrapper;
 };
 
-} // end namespace rttr
+} 
 
 #endif // RTTR_ENUMERATION_H_

@@ -36,7 +36,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 /*!
  * The \ref registration_executer class will be used to delay the execution of a function call.
@@ -62,7 +62,7 @@ private:
     register_list m_list;
 };
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_REGISTRATION_EXECUTER_H_

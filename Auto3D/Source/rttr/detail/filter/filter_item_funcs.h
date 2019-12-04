@@ -35,7 +35,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -90,7 +90,7 @@ RTTR_INLINE bool filter_member_item(const T& item, const type& t, filter_items f
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename T>
-detail::default_predicate<T> get_filter_predicate(const type& t, filter_items filter)
+RTTI::default_predicate<T> get_filter_predicate(const type& t, filter_items filter)
 {
     if (!is_valid_filter_item(filter))
     {
@@ -108,15 +108,15 @@ detail::default_predicate<T> get_filter_predicate(const type& t, filter_items fi
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<>
-RTTR_INLINE detail::default_predicate<Constructor> get_filter_predicate(const type& t, filter_items filter)
+RTTR_INLINE RTTI::default_predicate<FConstructor> get_filter_predicate(const type& t, filter_items filter)
 {
     if (!is_valid_filter_item(filter))
     {
-        return {[](const Constructor&){ return false; }};
+        return {[](const FConstructor&){ return false; }};
     }
     else
     {
-        return {[filter](const Constructor& item)
+        return {[filter](const FConstructor& item)
         {
             bool result = true;
 
@@ -140,8 +140,8 @@ RTTR_INLINE detail::default_predicate<Constructor> get_filter_predicate(const ty
 }
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 
 #endif // RTTR_FILTER_ITEM_FUNCS_H_

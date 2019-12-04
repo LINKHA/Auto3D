@@ -36,7 +36,7 @@ using namespace std;
 namespace Auto3D
 {
 
-namespace detail
+namespace RTTI
 {
 
 template<>
@@ -48,15 +48,15 @@ Method create_item(const method_wrapper_base* wrapper)
 template<>
 Method create_invalid_item()
 {
-    static const method_wrapper_base invalid_wrapper(string_view(), detail::get_invalid_type());
+    static const method_wrapper_base invalid_wrapper(string_view(), RTTI::get_invalid_type());
     return Method(&invalid_wrapper);
 }
 
-} // end namespace detail;
+} ;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-Method::Method(const detail::method_wrapper_base* wrapper) RTTR_NOEXCEPT
+Method::Method(const RTTI::method_wrapper_base* wrapper) RTTR_NOEXCEPT
 :   m_wrapper(wrapper)
 {
 
@@ -213,4 +213,4 @@ void Method::visit(visitor& visitor) const RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace rttr
+} 

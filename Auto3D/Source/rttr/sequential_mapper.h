@@ -176,7 +176,7 @@ namespace Auto3D
  *         return std::make_pair(container.insert(key, value), true);
  *     }
  * };
- * } // end namespace rttr
+ * } 
  * \endcode
  *
  * \remark
@@ -190,7 +190,7 @@ struct sequential_container_mapper
 #ifndef DOXYGEN
     using is_valid      = std::false_type;
     using container_t   = T;
-    using value_t       = detail::invalid_type;
+    using value_t       = RTTI::invalid_type;
 #else
     using container_t = T;                          //!< An alias declaration to the container type itself.
     using key_t       = typename T::key_type;       //!< An alias to the key type.
@@ -360,7 +360,7 @@ struct sequential_container_mapper
 #endif
 };
 
-} // end namespace rttr
+} 
 
 #include "rttr/detail/impl/sequential_mapper_impl.h"
 

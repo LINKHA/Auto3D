@@ -36,27 +36,27 @@ using namespace std;
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 template<>
-Constructor create_item(const constructor_wrapper_base* wrapper)
+FConstructor create_item(const constructor_wrapper_base* wrapper)
 {
-    return Constructor(wrapper);
+    return FConstructor(wrapper);
 }
 
 template<>
-Constructor create_invalid_item()
+FConstructor create_invalid_item()
 {
     static const constructor_wrapper_base invalid_wrapper;
-    return Constructor(&invalid_wrapper);
+    return FConstructor(&invalid_wrapper);
 }
 
-} // end namespace detail
+} 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-Constructor::Constructor(const detail::constructor_wrapper_base* wrapper) RTTR_NOEXCEPT
+FConstructor::FConstructor(const RTTI::constructor_wrapper_base* wrapper) RTTR_NOEXCEPT
 :   m_wrapper(wrapper)
 {
 
@@ -64,35 +64,35 @@ Constructor::Constructor(const detail::constructor_wrapper_base* wrapper) RTTR_N
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool Constructor::is_valid() const RTTR_NOEXCEPT
+bool FConstructor::is_valid() const RTTR_NOEXCEPT
 {
     return m_wrapper->is_valid();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-Constructor::operator bool() const RTTR_NOEXCEPT
+FConstructor::operator bool() const RTTR_NOEXCEPT
 {
     return m_wrapper->is_valid();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-access_levels Constructor::get_access_level() const RTTR_NOEXCEPT
+access_levels FConstructor::get_access_level() const RTTR_NOEXCEPT
 {
     return m_wrapper->get_access_level();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-type Constructor::get_instantiated_type() const RTTR_NOEXCEPT
+type FConstructor::get_instantiated_type() const RTTR_NOEXCEPT
 {
     return m_wrapper->get_instantiated_type();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-type Constructor::get_declaring_type() const RTTR_NOEXCEPT
+type FConstructor::get_declaring_type() const RTTR_NOEXCEPT
 {
     return m_wrapper->get_declaring_type();
 }
@@ -100,63 +100,63 @@ type Constructor::get_declaring_type() const RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-string_view Constructor::get_signature() const RTTR_NOEXCEPT
+string_view FConstructor::get_signature() const RTTR_NOEXCEPT
 {
     return m_wrapper->get_signature();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-array_range<parameter_info> Constructor::get_parameter_infos() const RTTR_NOEXCEPT
+array_range<parameter_info> FConstructor::get_parameter_infos() const RTTR_NOEXCEPT
 {
     return m_wrapper->get_parameter_infos();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-variant Constructor::get_metadata(const variant& key) const
+variant FConstructor::get_metadata(const variant& key) const
 {
     return m_wrapper->get_metadata(key);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-variant Constructor::invoke() const
+variant FConstructor::invoke() const
 {
     return m_wrapper->invoke();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-variant Constructor::invoke(argument arg1) const
+variant FConstructor::invoke(argument arg1) const
 {
     return m_wrapper->invoke(arg1);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-variant Constructor::invoke(argument arg1, argument arg2) const
+variant FConstructor::invoke(argument arg1, argument arg2) const
 {
     return m_wrapper->invoke(arg1, arg2);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-variant Constructor::invoke(argument arg1, argument arg2, argument arg3) const
+variant FConstructor::invoke(argument arg1, argument arg2, argument arg3) const
 {
     return m_wrapper->invoke(arg1, arg2, arg3);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-variant Constructor::invoke(argument arg1, argument arg2, argument arg3, argument arg4) const
+variant FConstructor::invoke(argument arg1, argument arg2, argument arg3, argument arg4) const
 {
     return m_wrapper->invoke(arg1, arg2, arg3, arg4);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-variant Constructor::invoke(argument arg1, argument arg2, argument arg3, argument arg4,
+variant FConstructor::invoke(argument arg1, argument arg2, argument arg3, argument arg4,
                             argument arg5) const
 {
     return m_wrapper->invoke(arg1, arg2, arg3, arg4, arg5);
@@ -164,7 +164,7 @@ variant Constructor::invoke(argument arg1, argument arg2, argument arg3, argumen
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-variant Constructor::invoke(argument arg1, argument arg2, argument arg3, argument arg4,
+variant FConstructor::invoke(argument arg1, argument arg2, argument arg3, argument arg4,
                             argument arg5, argument arg6) const
 {
     return m_wrapper->invoke(arg1, arg2, arg3, arg4, arg5, arg6);
@@ -172,32 +172,32 @@ variant Constructor::invoke(argument arg1, argument arg2, argument arg3, argumen
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-variant Constructor::invoke_variadic(std::vector<argument> args) const
+variant FConstructor::invoke_variadic(std::vector<argument> args) const
 {
     return m_wrapper->invoke_variadic(args);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool Constructor::operator==(const Constructor& other) const RTTR_NOEXCEPT
+bool FConstructor::operator==(const FConstructor& other) const RTTR_NOEXCEPT
 {
     return (m_wrapper == other.m_wrapper);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool Constructor::operator!=(const Constructor& other) const RTTR_NOEXCEPT
+bool FConstructor::operator!=(const FConstructor& other) const RTTR_NOEXCEPT
 {
     return (m_wrapper != other.m_wrapper);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void Constructor::visit(visitor& visitor) const RTTR_NOEXCEPT
+void FConstructor::visit(visitor& visitor) const RTTR_NOEXCEPT
 {
-    m_wrapper->visit(visitor, Constructor(*this));
+    m_wrapper->visit(visitor, FConstructor(*this));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace rttr
+} 

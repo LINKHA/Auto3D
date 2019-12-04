@@ -43,6 +43,6 @@ struct type_list
 };
 
 
-} // end namespace rttr
+} 
 
 #endif // RTTR_TYPE_LIST_H_

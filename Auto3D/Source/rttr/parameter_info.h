@@ -42,7 +42,7 @@ class variant;
 class type;
 class parameter_info;
 
-namespace detail
+namespace RTTI
 {
     class parameter_info_wrapper_base;
     template<typename T>
@@ -162,13 +162,13 @@ class RTTR_API parameter_info
 
     private:
         template<typename T>
-        friend parameter_info detail::create_param_info(const T&);
+        friend parameter_info RTTI::create_param_info(const T&);
 
-        parameter_info(const detail::parameter_info_wrapper_base* wrapper) RTTR_NOEXCEPT;
+        parameter_info(const RTTI::parameter_info_wrapper_base* wrapper) RTTR_NOEXCEPT;
     private:
-        const detail::parameter_info_wrapper_base* m_wrapper;
+        const RTTI::parameter_info_wrapper_base* m_wrapper;
 };
 
-} // end namespace rttr
+} 
 
 #endif // RTTR_PARAMETER_INFO_H_

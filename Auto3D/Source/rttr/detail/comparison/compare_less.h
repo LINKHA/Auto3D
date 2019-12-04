@@ -39,7 +39,7 @@ namespace Auto3D
 {
 class type;
 
-namespace detail
+namespace RTTI
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -75,8 +75,8 @@ compare_less_than(const T& lhs, const T& rhs, int& result);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #include "rttr/detail/comparison/compare_less_impl.h"
 // the include in this place is necessary, otherwise we get an error during compilation:

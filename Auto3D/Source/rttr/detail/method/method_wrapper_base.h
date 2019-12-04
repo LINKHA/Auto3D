@@ -48,7 +48,7 @@ class instance;
 class Method;
 class visitor;
 
-namespace detail
+namespace RTTI
 {
 
 /*!
@@ -102,7 +102,7 @@ class RTTR_API method_wrapper_base
         std::string m_signature;
 };
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_METHOD_WRAPPER_BASE_H_

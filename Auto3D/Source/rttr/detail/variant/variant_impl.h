@@ -39,7 +39,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 template<typename T>
 using variant_t = remove_cv_t<remove_reference_t<T>>;
@@ -48,7 +48,7 @@ using variant_t = remove_cv_t<remove_reference_t<T>>;
 /////////////////////////////////////////////////////////////////////////////////////////
 
 RTTR_INLINE variant::variant()
-:   m_policy(&detail::variant_data_policy_empty::invoke)
+:   m_policy(&RTTI::variant_data_policy_empty::invoke)
 {
 }
 
@@ -56,19 +56,19 @@ RTTR_INLINE variant::variant()
 
 template<typename T, typename Tp>
 RTTR_INLINE variant::variant(T&& val)
-:   m_policy(&detail::variant_policy<Tp>::invoke)
+:   m_policy(&RTTI::variant_policy<Tp>::invoke)
 {
     static_assert(std::is_copy_constructible<Tp>::value || std::is_array<Tp>::value,
                   "The given value is not copy constructible, try to add a copy constructor to the class.");
 
-    detail::variant_policy<Tp>::create(std::forward<T>(val), m_data);
+    RTTI::variant_policy<Tp>::create(std::forward<T>(val), m_data);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 RTTR_INLINE variant::~variant()
 {
-   m_policy(detail::variant_policy_operation::DESTROY, m_data, detail::argument_wrapper());
+   m_policy(RTTI::variant_policy_operation::DESTROY, m_data, RTTI::argument_wrapper());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -137,7 +137,7 @@ RTTR_INLINE bool variant::operator>(const variant& other) const
 template<typename T>
 RTTR_INLINE T& variant::get_value()
 {
-    using namespace detail;
+    using namespace RTTI;
     auto result = unsafe_variant_cast<variant_t<T>>(this);
 
     return *result;
@@ -148,7 +148,7 @@ RTTR_INLINE T& variant::get_value()
 template<typename T>
 RTTR_INLINE const T& variant::get_value() const
 {
-    using namespace detail;
+    using namespace RTTI;
     auto result = unsafe_variant_cast<variant_t<T>>(this);
 
     return *result;
@@ -159,9 +159,9 @@ RTTR_INLINE const T& variant::get_value() const
 template<typename T>
 RTTR_INLINE const T& variant::get_wrapped_value() const
 {
-    detail::data_address_container result{detail::get_invalid_type(), detail::get_invalid_type(), nullptr, nullptr};
-    m_policy(detail::variant_policy_operation::GET_ADDRESS_CONTAINER, m_data, result);
-    using nonRef = detail::remove_cv_t<T>;
+    RTTI::data_address_container result{RTTI::get_invalid_type(), RTTI::get_invalid_type(), nullptr, nullptr};
+    m_policy(RTTI::variant_policy_operation::GET_ADDRESS_CONTAINER, m_data, result);
+    using nonRef = RTTI::remove_cv_t<T>;
     return *reinterpret_cast<const nonRef*>(result.m_data_address_wrapped_type);
 }
 
@@ -170,7 +170,7 @@ RTTR_INLINE const T& variant::get_wrapped_value() const
 RTTR_INLINE void* variant::get_ptr() const
 {
     void* value;
-    m_policy(detail::variant_policy_operation::GET_PTR, m_data, value);
+    m_policy(RTTI::variant_policy_operation::GET_PTR, m_data, value);
     return value;
 }
 
@@ -178,8 +178,8 @@ RTTR_INLINE void* variant::get_ptr() const
 
 RTTR_INLINE type variant::get_raw_type() const
 {
-    type result = detail::get_invalid_type();
-    m_policy(detail::variant_policy_operation::GET_RAW_TYPE, m_data, result);
+    type result = RTTI::get_invalid_type();
+    m_policy(RTTI::variant_policy_operation::GET_RAW_TYPE, m_data, result);
     return result;
 }
 
@@ -188,16 +188,16 @@ RTTR_INLINE type variant::get_raw_type() const
 RTTR_INLINE void* variant::get_raw_ptr() const
 {
     void* result;
-    m_policy(detail::variant_policy_operation::GET_RAW_PTR, m_data, result);
+    m_policy(RTTI::variant_policy_operation::GET_RAW_PTR, m_data, result);
     return result;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-RTTR_INLINE detail::data_address_container variant::get_data_address_container() const
+RTTR_INLINE RTTI::data_address_container variant::get_data_address_container() const
 {
-    detail::data_address_container result{detail::get_invalid_type(), detail::get_invalid_type(), nullptr, nullptr};
-    m_policy(detail::variant_policy_operation::GET_ADDRESS_CONTAINER, m_data, result);
+    RTTI::data_address_container result{RTTI::get_invalid_type(), RTTI::get_invalid_type(), nullptr, nullptr};
+    m_policy(RTTI::variant_policy_operation::GET_ADDRESS_CONTAINER, m_data, result);
     return result;
 }
 
@@ -206,8 +206,8 @@ RTTR_INLINE detail::data_address_container variant::get_data_address_container()
 template<typename T>
 RTTR_INLINE bool variant::is_type() const
 {
-    type src_type = detail::get_invalid_type();
-    m_policy(detail::variant_policy_operation::GET_TYPE, m_data, src_type);
+    type src_type = RTTI::get_invalid_type();
+    m_policy(RTTI::variant_policy_operation::GET_TYPE, m_data, src_type);
     return (type::get<T>() == src_type);
 }
 
@@ -224,13 +224,13 @@ RTTR_INLINE bool variant::can_convert() const
 template<typename T>
 RTTR_INLINE bool variant::try_basic_type_conversion(T& to) const
 {
-    return m_policy(detail::variant_policy_operation::CONVERT, m_data, argument(to));
+    return m_policy(RTTI::variant_policy_operation::CONVERT, m_data, argument(to));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename T>
-typename std::enable_if<detail::pointer_count<T>::value == 1, bool>::type
+typename std::enable_if<RTTI::pointer_count<T>::value == 1, bool>::type
 RTTR_INLINE variant::try_pointer_conversion(T& to, const type& source_type, const type& target_type) const
 {
     if (!source_type.is_pointer())
@@ -262,7 +262,7 @@ RTTR_INLINE variant::try_pointer_conversion(T& to, const type& source_type, cons
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename T>
-typename std::enable_if<detail::pointer_count<T>::value != 1, bool>::type
+typename std::enable_if<RTTI::pointer_count<T>::value != 1, bool>::type
 RTTR_INLINE variant::try_pointer_conversion(T& to, const type& source_type, const type& target_type) const
 {
     return false;
@@ -272,13 +272,13 @@ RTTR_INLINE variant::try_pointer_conversion(T& to, const type& source_type, cons
 
 RTTR_INLINE bool variant::is_nullptr() const
 {
-    return m_policy(detail::variant_policy_operation::IS_NULLPTR, m_data, detail::argument_wrapper());
+    return m_policy(RTTI::variant_policy_operation::IS_NULLPTR, m_data, RTTI::argument_wrapper());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename T>
-typename std::enable_if<detail::is_nullptr_t<T>::value, bool>::type
+typename std::enable_if<RTTI::is_nullptr_t<T>::value, bool>::type
 static RTTR_INLINE ptr_to_nullptr(T& to)
 {
     to = nullptr;
@@ -288,7 +288,7 @@ static RTTR_INLINE ptr_to_nullptr(T& to)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename T>
-typename std::enable_if<!detail::is_nullptr_t<T>::value, bool>::type
+typename std::enable_if<!RTTI::is_nullptr_t<T>::value, bool>::type
 static RTTR_INLINE ptr_to_nullptr(T& to)
 {
     return false;
@@ -326,7 +326,7 @@ RTTR_INLINE bool variant::convert(T& value) const
     }
     else if (const auto& converter = source_type.get_type_converter(target_type))
     {
-        const auto target_converter = static_cast<const detail::type_converter_target<T>*>(converter);
+        const auto target_converter = static_cast<const RTTI::type_converter_target<T>*>(converter);
         value = target_converter->convert(get_ptr(), ok);
     }
     else if (target_type == type::get<std::nullptr_t>())
@@ -345,7 +345,7 @@ RTTR_INLINE bool variant::convert(T& value) const
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename T>
-RTTR_INLINE detail::enable_if_t<std::is_arithmetic<T>::value, T> variant::convert_impl(bool* ok) const
+RTTR_INLINE RTTI::enable_if_t<std::is_arithmetic<T>::value, T> variant::convert_impl(bool* ok) const
 {
     T result = 0;
     const bool could_convert = convert<T>(result);
@@ -358,7 +358,7 @@ RTTR_INLINE detail::enable_if_t<std::is_arithmetic<T>::value, T> variant::conver
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename T>
-RTTR_INLINE detail::enable_if_t<!std::is_arithmetic<T>::value && !std::is_enum<T>::value, T> variant::convert_impl(bool* ok) const
+RTTR_INLINE RTTI::enable_if_t<!std::is_arithmetic<T>::value && !std::is_enum<T>::value, T> variant::convert_impl(bool* ok) const
 {
     static_assert(std::is_default_constructible<T>::value, "The given type T has no default constructor."
                                                            "You can only convert to a type, with a default constructor.");
@@ -373,7 +373,7 @@ RTTR_INLINE detail::enable_if_t<!std::is_arithmetic<T>::value && !std::is_enum<T
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename T>
-RTTR_INLINE detail::enable_if_t<std::is_enum<T>::value, T> variant::convert_impl(bool* ok) const
+RTTR_INLINE RTTI::enable_if_t<std::is_enum<T>::value, T> variant::convert_impl(bool* ok) const
 {
     const auto target_type = type::get<T>();
     if (get_type() == target_type)
@@ -409,7 +409,7 @@ RTTR_INLINE T variant::convert(bool* ok) const
 /////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
 
-namespace detail
+namespace RTTI
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -418,7 +418,7 @@ template<class T>
 RTTR_INLINE T* unsafe_variant_cast(variant* operand) RTTR_NOEXCEPT
 {
     const void* value;
-    operand->m_policy(detail::variant_policy_operation::GET_VALUE, operand->m_data, value);
+    operand->m_policy(RTTI::variant_policy_operation::GET_VALUE, operand->m_data, value);
     return reinterpret_cast<T*>(const_cast<void*>(value));
 }
 
@@ -430,14 +430,14 @@ RTTR_INLINE const T* unsafe_variant_cast(const variant* operand) RTTR_NOEXCEPT
     return unsafe_variant_cast<const T>(const_cast<variant*>(operand));
 }
 
-} // end namespace detail
+} 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<class T>
 RTTR_INLINE T variant_cast(const variant& operand)
 {
-    using namespace detail;
+    using namespace RTTI;
     static_assert(std::is_constructible<T, const variant_t<T>&>::value,
                   "variant_cast<T>(variant&) requires T to be constructible from const remove_cv_t<remove_reference_t<T>>&");
 
@@ -452,7 +452,7 @@ RTTR_INLINE T variant_cast(const variant& operand)
 template<class T>
 RTTR_INLINE T variant_cast(variant& operand)
 {
-    using namespace detail;
+    using namespace RTTI;
     static_assert(std::is_constructible<T, variant_t<T>&>::value,
                   "variant_cast<T>(variant&) requires T to be constructible from remove_cv_t<remove_reference_t<T>>&");
 
@@ -467,7 +467,7 @@ RTTR_INLINE T variant_cast(variant& operand)
 template<class T>
 RTTR_INLINE T variant_cast(variant&& operand)
 {
-    using namespace detail;
+    using namespace RTTI;
     static_assert(std::is_constructible<T, variant_t<T>>::value,
                   "variant_cast<T>(variant&&) requires T to be constructible from remove_cv_t<remove_reference_t<T>>");
     auto result = unsafe_variant_cast<variant_t<T>>(&operand);
@@ -479,7 +479,7 @@ RTTR_INLINE T variant_cast(variant&& operand)
 template<class T>
 RTTR_INLINE T* variant_cast(variant* operand) RTTR_NOEXCEPT
 {
-    using namespace detail;
+    using namespace RTTI;
     return (type::get<T>() == operand->get_type()) ?
             unsafe_variant_cast<T>(operand) : nullptr;
 }
@@ -494,6 +494,6 @@ RTTR_INLINE const T* variant_cast(const variant* operand) RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace rttr
+} 
 
 #endif // RTTR_VARIANT_IMPL_H_

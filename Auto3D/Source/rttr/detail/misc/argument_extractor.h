@@ -37,7 +37,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 /*!
@@ -152,7 +152,7 @@ std::array<T, count_type<T, type_list<Args...>>::value> forward_to_array(Args&&.
 }
 
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_ARGUMENT_EXTRACTOR_H_

@@ -36,7 +36,7 @@ static RTTR_CONSTEXPR const char* is_const_list[] = {"", " const"};
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -237,5 +237,5 @@ void method_wrapper_base::visit(visitor& visitor, Method m) const RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 

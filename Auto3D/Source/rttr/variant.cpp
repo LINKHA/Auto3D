@@ -45,7 +45,7 @@ namespace Auto3D
 variant::variant(const variant& other)
 :   m_policy(other.m_policy)
 {
-    m_policy(detail::variant_policy_operation::CLONE, other.m_data, m_data);
+    m_policy(RTTI::variant_policy_operation::CLONE, other.m_data, m_data);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -53,8 +53,8 @@ variant::variant(const variant& other)
 variant::variant(variant&& other)
 :   m_policy(other.m_policy)
 {
-    other.m_policy(detail::variant_policy_operation::SWAP, other.m_data, m_data);
-    other.m_policy = &detail::variant_data_policy_empty::invoke;
+    other.m_policy(RTTI::variant_policy_operation::SWAP, other.m_data, m_data);
+    other.m_policy = &RTTI::variant_data_policy_empty::invoke;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -72,23 +72,23 @@ void variant::swap(variant& other)
 
     if (is_this_valid && is_other_valid)
     {
-        detail::variant_data tmp_data;
-        detail::variant_policy_func tmp_policy_func = other.m_policy;
-        other.m_policy(detail::variant_policy_operation::SWAP, other.m_data, tmp_data);
+        RTTI::variant_data tmp_data;
+        RTTI::variant_policy_func tmp_policy_func = other.m_policy;
+        other.m_policy(RTTI::variant_policy_operation::SWAP, other.m_data, tmp_data);
 
-        m_policy(detail::variant_policy_operation::SWAP, m_data, other.m_data);
+        m_policy(RTTI::variant_policy_operation::SWAP, m_data, other.m_data);
         other.m_policy = m_policy;
 
-        tmp_policy_func(detail::variant_policy_operation::SWAP, tmp_data, m_data);
+        tmp_policy_func(RTTI::variant_policy_operation::SWAP, tmp_data, m_data);
         m_policy = tmp_policy_func;
     }
     else
     {
-        detail::variant_data& full_data = is_this_valid ? m_data : other.m_data;
-        detail::variant_data& empty_data = is_this_valid ? other.m_data : m_data;
-        detail::variant_policy_func full_policy_func = is_this_valid ? m_policy : other.m_policy;
+        RTTI::variant_data& full_data = is_this_valid ? m_data : other.m_data;
+        RTTI::variant_data& empty_data = is_this_valid ? other.m_data : m_data;
+        RTTI::variant_policy_func full_policy_func = is_this_valid ? m_policy : other.m_policy;
 
-        full_policy_func(detail::variant_policy_operation::SWAP, full_data, empty_data);
+        full_policy_func(RTTI::variant_policy_operation::SWAP, full_data, empty_data);
 
         std::swap(m_policy, other.m_policy);
     }
@@ -101,8 +101,8 @@ variant& variant::operator=(const variant& other)
     if (this == &other)
         return *this;
 
-    m_policy(detail::variant_policy_operation::DESTROY, m_data, detail::argument_wrapper());
-    other.m_policy(detail::variant_policy_operation::CLONE, other.m_data, m_data);
+    m_policy(RTTI::variant_policy_operation::DESTROY, m_data, RTTI::argument_wrapper());
+    other.m_policy(RTTI::variant_policy_operation::CLONE, other.m_data, m_data);
     m_policy = other.m_policy;
 
     return *this;
@@ -112,10 +112,10 @@ variant& variant::operator=(const variant& other)
 
 variant& variant::operator=(variant&& other)
 {
-    m_policy(detail::variant_policy_operation::DESTROY, m_data, detail::argument_wrapper());
-    other.m_policy(detail::variant_policy_operation::SWAP, other.m_data, m_data);
+    m_policy(RTTI::variant_policy_operation::DESTROY, m_data, RTTI::argument_wrapper());
+    other.m_policy(RTTI::variant_policy_operation::SWAP, other.m_data, m_data);
     m_policy = other.m_policy;
-    other.m_policy = &detail::variant_data_policy_empty::invoke;
+    other.m_policy = &RTTI::variant_data_policy_empty::invoke;
 
     return *this;
 }
@@ -125,58 +125,58 @@ variant& variant::operator=(variant&& other)
 bool variant::compare_equal(const variant& other, bool& ok) const
 {
     ok = false;
-    return m_policy(detail::variant_policy_operation::COMPARE_EQUAL, m_data, std::tie(*this, other, ok));
+    return m_policy(RTTI::variant_policy_operation::COMPARE_EQUAL, m_data, std::tie(*this, other, ok));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 bool variant::compare_less(const variant& other, bool& ok) const
 {
-    return m_policy(detail::variant_policy_operation::COMPARE_LESS, m_data,  std::tie(*this, other, ok));
+    return m_policy(RTTI::variant_policy_operation::COMPARE_LESS, m_data,  std::tie(*this, other, ok));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void variant::clear()
 {
-    m_policy(detail::variant_policy_operation::DESTROY, m_data, detail::argument_wrapper());
-    m_policy = &detail::variant_data_policy_empty::invoke;
+    m_policy(RTTI::variant_policy_operation::DESTROY, m_data, RTTI::argument_wrapper());
+    m_policy = &RTTI::variant_data_policy_empty::invoke;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 bool variant::is_valid() const
 {
-    return m_policy(detail::variant_policy_operation::IS_VALID, m_data, detail::argument_wrapper());
+    return m_policy(RTTI::variant_policy_operation::IS_VALID, m_data, RTTI::argument_wrapper());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 variant::operator bool() const
 {
-    return m_policy(detail::variant_policy_operation::IS_VALID, m_data, detail::argument_wrapper());
+    return m_policy(RTTI::variant_policy_operation::IS_VALID, m_data, RTTI::argument_wrapper());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 bool variant::is_associative_container() const
 {
-    return m_policy(detail::variant_policy_operation::IS_ASSOCIATIVE_CONTAINER, m_data, detail::argument_wrapper());
+    return m_policy(RTTI::variant_policy_operation::IS_ASSOCIATIVE_CONTAINER, m_data, RTTI::argument_wrapper());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 bool variant::is_sequential_container() const
 {
-    return m_policy(detail::variant_policy_operation::IS_SEQUENTIAL_CONTAINER, m_data, detail::argument_wrapper());
+    return m_policy(RTTI::variant_policy_operation::IS_SEQUENTIAL_CONTAINER, m_data, RTTI::argument_wrapper());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 type variant::get_type() const
 {
-    type src_type = detail::get_invalid_type();
-    m_policy(detail::variant_policy_operation::GET_TYPE, m_data, src_type);
+    type src_type = RTTI::get_invalid_type();
+    m_policy(RTTI::variant_policy_operation::GET_TYPE, m_data, src_type);
     return src_type;
 }
 
@@ -185,7 +185,7 @@ type variant::get_type() const
 variant variant::extract_wrapped_value() const
 {
     variant var;
-    m_policy(detail::variant_policy_operation::EXTRACT_WRAPPED_VALUE, m_data, var);
+    m_policy(RTTI::variant_policy_operation::EXTRACT_WRAPPED_VALUE, m_data, var);
     return var;
 }
 
@@ -194,7 +194,7 @@ variant variant::extract_wrapped_value() const
 variant variant::create_wrapped_value(const type& wrapped_type) const
 {
     variant var;
-    m_policy(detail::variant_policy_operation::CREATE_WRAPPED_VALUE, m_data, std::tie(var, wrapped_type));
+    m_policy(RTTI::variant_policy_operation::CREATE_WRAPPED_VALUE, m_data, std::tie(var, wrapped_type));
     return var;
 }
 
@@ -203,7 +203,7 @@ variant variant::create_wrapped_value(const type& wrapped_type) const
 variant_associative_view variant::create_associative_view() const
 {
     variant_associative_view result;
-    m_policy(detail::variant_policy_operation::CREATE_ASSOCIATIV_VIEW, m_data, result.m_view);
+    m_policy(RTTI::variant_policy_operation::CREATE_ASSOCIATIV_VIEW, m_data, result.m_view);
     return result;
 }
 
@@ -212,7 +212,7 @@ variant_associative_view variant::create_associative_view() const
 variant_sequential_view variant::create_sequential_view() const
 {
     variant_sequential_view result;
-    m_policy(detail::variant_policy_operation::CREATE_SEQUENTIAL_VIEW, m_data, result.m_view);
+    m_policy(RTTI::variant_policy_operation::CREATE_SEQUENTIAL_VIEW, m_data, result.m_view);
     return result;
 }
 
@@ -513,4 +513,4 @@ uint64_t variant::to_uint64(bool *ok) const
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace rttr
+} 

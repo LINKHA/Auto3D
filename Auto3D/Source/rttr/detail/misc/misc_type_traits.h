@@ -47,7 +47,7 @@ struct associative_container_mapper;
 template<typename T>
 struct sequential_container_mapper;
 
-namespace detail
+namespace RTTI
 {
     struct derived_info;
     struct invalid_type;
@@ -57,12 +57,12 @@ namespace detail
     template<typename T, typename Enable = void>
     struct raw_type
     {
-        using type = detail::remove_cv_t<T>;
+        using type = RTTI::remove_cv_t<T>;
     };
 
-    template<typename T> struct raw_type<T, enable_if_t<std::is_pointer<T>::value && !detail::is_function_ptr<T>::value>>
+    template<typename T> struct raw_type<T, enable_if_t<std::is_pointer<T>::value && !RTTI::is_function_ptr<T>::value>>
     {
-        using type = typename raw_type< detail::remove_pointer_t<T>>::type;
+        using type = typename raw_type< RTTI::remove_pointer_t<T>>::type;
     };
 
     template<typename T> struct raw_type<T, enable_if_t<std::is_reference<T>::value> >
@@ -894,7 +894,7 @@ namespace detail
      {
      };
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_MISC_TYPE_TRAITS_H_

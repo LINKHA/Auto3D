@@ -34,7 +34,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 template<typename ClassType>
@@ -65,7 +65,7 @@ class destructor_wrapper : public destructor_wrapper_base
         }
 };
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_DESTRUCTOR_WRAPPER_H_

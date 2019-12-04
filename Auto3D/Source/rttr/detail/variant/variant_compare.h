@@ -36,7 +36,7 @@ namespace Auto3D
 class variant;
 class type;
 
-namespace detail
+namespace RTTI
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -49,7 +49,7 @@ RTTR_API bool variant_compare_less(const variant& lhs, const type& lhs_type, con
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_VARIANT_COMPARE_LESS_H_

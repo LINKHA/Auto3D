@@ -35,7 +35,7 @@ namespace Auto3D
 {
 class Method;
 
-namespace detail
+namespace RTTI
 {
 
 struct invalid_type;
@@ -93,7 +93,7 @@ static method_visitor_invoker<T> make_method_visitor_invoker(const visitor::meth
     return method_visitor_invoker<T>(info);
 }
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_METHOD_VISITOR_INVOKER_H_

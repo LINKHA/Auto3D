@@ -612,7 +612,7 @@ RTTR_INLINE std::basic_string<CharT, Traits> operator+(std::basic_string<CharT, 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-namespace detail
+namespace RTTI
 {
 
 template<typename CharT, typename Traits>
@@ -637,7 +637,7 @@ void insert_aligned(std::basic_ostream<CharT, Traits>& os, const basic_string_vi
     const bool align_left = (os.flags() & std::basic_ostream<CharT, Traits>::adjustfield) == std::basic_ostream<CharT, Traits>::left;
     if (!align_left)
     {
-        detail::insert_fill_chars(os, alignment_size);
+        RTTI::insert_fill_chars(os, alignment_size);
         if (os.good())
             os.write(str.data(), size);
     }
@@ -645,11 +645,11 @@ void insert_aligned(std::basic_ostream<CharT, Traits>& os, const basic_string_vi
     {
         os.write(str.data(), size);
         if (os.good())
-            detail::insert_fill_chars(os, alignment_size);
+            RTTI::insert_fill_chars(os, alignment_size);
     }
 }
 
-} // end namespace detail
+} 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -664,7 +664,7 @@ std::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT, Traits>&
         if (w <= size)
             os.write(str.data(), size);
         else
-            detail::insert_aligned(os, str);
+            RTTI::insert_aligned(os, str);
         os.width(0);
     }
 
@@ -673,7 +673,7 @@ std::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT, Traits>&
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-namespace detail
+namespace RTTI
 {
 
 template <>
@@ -686,8 +686,8 @@ public:
     }
 };
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -701,7 +701,7 @@ namespace std
     public:
         size_t operator()(const Auto3D::basic_string_view<CharT, Traits>& value) const
         {
-            return Auto3D::detail::generate_hash(value.data(), value.size());
+            return Auto3D::RTTI::generate_hash(value.data(), value.size());
         }
     };
 } // end namespace std

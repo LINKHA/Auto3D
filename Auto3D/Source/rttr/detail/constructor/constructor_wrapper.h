@@ -49,7 +49,7 @@
 
 namespace Auto3D
 {
-namespace detail
+namespace RTTI
 {
 
 // we have to use this helper traits because MSVC2013 cannot handle 'sizeof...(T)' in std::enable_if statement
@@ -167,7 +167,7 @@ class constructor_wrapper<Class_Type, class_ctor, Acc_Level, Policy,
             return invoke_variadic_impl(arg_list, make_index_sequence<sizeof...(Ctor_Args)>());
         }
 
-        void visit(visitor& visitor, const Constructor& ctor) const RTTR_NOEXCEPT
+        void visit(visitor& visitor, const FConstructor& ctor) const RTTR_NOEXCEPT
         {
             auto obj = make_ctor_info<Class_Type, Policy, Ctor_Args...>(ctor);
             visitor_iterator<Visitor_List>::visit(visitor, make_ctor_visitor_invoker(obj));
@@ -246,7 +246,7 @@ class constructor_wrapper<Class_Type, return_func, Acc_Level, Policy,
             return method_accessor<F, Policy>::invoke_variadic(m_creator_func, instance(), args);
         }
 
-        void visit(visitor& visitor, const Constructor& ctor) const RTTR_NOEXCEPT
+        void visit(visitor& visitor, const FConstructor& ctor) const RTTR_NOEXCEPT
         {
             auto obj = make_ctor_info_func<Class_Type, Policy, F>(ctor, m_creator_func);
             visitor_iterator<Visitor_List>::visit(visitor, make_ctor_visitor_invoker_func(obj));
@@ -356,7 +356,7 @@ class constructor_wrapper<Class_Type, class_ctor, Acc_Level, Policy,
             return invoke_variadic_impl(arg_list, make_index_sequence<sizeof...(Ctor_Args)>());
         }
 
-        void visit(visitor& visitor, const Constructor& ctor) const RTTR_NOEXCEPT
+        void visit(visitor& visitor, const FConstructor& ctor) const RTTR_NOEXCEPT
         {
             auto obj = make_ctor_info<Class_Type, Policy, Ctor_Args...>(ctor);
             visitor_iterator<Visitor_List>::visit(visitor, make_ctor_visitor_invoker(obj));
@@ -428,7 +428,7 @@ class constructor_wrapper<Class_Type, return_func, Acc_Level, Policy,
             return method_accessor<F, Policy>::invoke_variadic(m_creator_func, instance(), args);
         }
 
-        void visit(visitor& visitor, const Constructor& ctor) const RTTR_NOEXCEPT
+        void visit(visitor& visitor, const FConstructor& ctor) const RTTR_NOEXCEPT
         {
             auto obj = make_ctor_info_func<Class_Type, Policy, F>(ctor, m_creator_func);
             visitor_iterator<Visitor_List>::visit(visitor, make_ctor_visitor_invoker_func(obj));
@@ -441,7 +441,7 @@ class constructor_wrapper<Class_Type, return_func, Acc_Level, Policy,
 /////////////////////////////////////////////////////////////////////////////////////////
 
 
-} // end namespace detail
-} // end namespace rttr
+} 
+} 
 
 #endif // RTTR_CONSTRUCTOR_WRAPPER_H_

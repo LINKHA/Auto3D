@@ -337,6 +337,6 @@ namespace Auto3D
 #   pragma message("WARNING: unknown compiler, don't know how to disable deprecated warnings")
 #endif
 
-} // end namespace rttr
+} 
 
 #endif // RTTR_CORE_PREREQUISITES_H_
