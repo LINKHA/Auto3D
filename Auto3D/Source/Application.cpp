@@ -49,16 +49,16 @@ int AApplication::Run()
 
 	{
 		type t = type::get<MyStruct>();
-		for (auto& prop : t.get_properties())
+		for (auto& prop : t.GetProperties())
 			std::cout << "name: " << prop.get_name();
 
-		for (auto& meth : t.get_methods())
+		for (auto& meth : t.GetMethods())
 			std::cout << "name: " << meth.get_name();
 	}
 	std::cout << std::endl;
 
 	{
-		type t = type::get_by_name("MyStruct");
+		type t = type::GetByName("MyStruct");
 		variant var = t.create();    // will invoke the previously registered ctor
 
 		Constructor ctor = t.get_constructor();  // 2nd way with the constructor class

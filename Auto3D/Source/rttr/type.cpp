@@ -264,7 +264,7 @@ bool type::set_property_value(string_view name, argument arg)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-array_range<Property> type::get_properties() const RTTR_NOEXCEPT
+array_range<Property> type::GetProperties() const RTTR_NOEXCEPT
 {
     auto& vec = get_raw_type().m_type_data->m_class_data.m_properties;
     if (!vec.empty())
@@ -281,7 +281,7 @@ array_range<Property> type::get_properties() const RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-array_range<Property> type::get_properties(filter_items filter) const RTTR_NOEXCEPT
+array_range<Property> type::GetProperties(filter_items filter) const RTTR_NOEXCEPT
 {
     const auto raw_t = get_raw_type();
     auto& vec = raw_t.m_type_data->m_class_data.m_properties;
@@ -332,7 +332,7 @@ Method type::get_method(string_view name, const std::vector<type>& type_list) co
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-array_range<Method> type::get_methods() const RTTR_NOEXCEPT
+array_range<Method> type::GetMethods() const RTTR_NOEXCEPT
 {
     const auto raw_t = get_raw_type();
     auto& vec = raw_t.m_type_data->m_class_data.m_methods;
@@ -350,7 +350,7 @@ array_range<Method> type::get_methods() const RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-array_range<Method> type::get_methods(filter_items filter) const RTTR_NOEXCEPT
+array_range<Method> type::GetMethods(filter_items filter) const RTTR_NOEXCEPT
 {
     const auto raw_t = get_raw_type();
     auto& vec = raw_t.m_type_data->m_class_data.m_methods;
@@ -475,7 +475,7 @@ variant type::invoke(string_view name, std::vector<argument> args)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-type type::get_by_name(string_view name) RTTR_NOEXCEPT
+type type::GetByName(string_view name) RTTR_NOEXCEPT
 {
     auto& custom_name_to_id = detail::type_register_private::get_instance().get_custom_name_to_id();
     auto ret = custom_name_to_id.find(name);
@@ -522,7 +522,7 @@ Constructor type::get_constructor(const std::vector<type>& args) const RTTR_NOEX
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-array_range<Constructor> type::get_constructors() const RTTR_NOEXCEPT
+array_range<Constructor> type::GetConstructors() const RTTR_NOEXCEPT
 {
     auto& ctors = m_type_data->m_class_data.m_ctors;
     if (!ctors.empty())
@@ -539,7 +539,7 @@ array_range<Constructor> type::get_constructors() const RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-array_range<Constructor> type::get_constructors(filter_items filter) const RTTR_NOEXCEPT
+array_range<Constructor> type::GetConstructors(filter_items filter) const RTTR_NOEXCEPT
 {
     auto& ctors = m_type_data->m_class_data.m_ctors;
     if (!ctors.empty())

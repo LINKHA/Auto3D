@@ -65,17 +65,17 @@ void visitor::visit_impl(const type& t)
                         filter_item::public_access | filter_item::non_public_access |
                         filter_item::declared_only;
 
-    for (auto ctor : t.get_constructors(filter))
+    for (auto ctor : t.GetConstructors(filter))
     {
         ctor.visit(*this);
     }
 
-    for (auto prop : t.get_properties(filter))
+    for (auto prop : t.GetProperties(filter))
     {
         prop.visit(*this);
     }
 
-    for (auto meth : t.get_methods(filter))
+    for (auto meth : t.GetMethods(filter))
     {
         meth.visit(*this);
     }

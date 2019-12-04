@@ -37,14 +37,16 @@ void MeshSample::Start()
 
 	//Light directional point and spot
 	{
+		// Dir light
 		ALight* lightDir = scene->CreateChild<ALight>();
 		lightDir->SetLightType(ELightType::DIRECTIONAL);
 		lightDir->SetCastShadows(true);
-		lightDir->SetColor(FColor(1.0f, 0.0f, 0.0f));
+		lightDir->SetColor(FColor(1.0f, 1.0f, 1.0f));
 		lightDir->SetDirection(TVector3F(0.0f, -1.0f, 0.5f));
 		lightDir->SetShadowMapSize(2048);
 
-		ALight* lightPoint = scene->CreateChild<ALight>();
+		// Point light
+		/*ALight* lightPoint = scene->CreateChild<ALight>();
 		lightPoint->SetLightType(ELightType::POINT);
 		lightPoint->SetCastShadows(true);
 		lightPoint->SetColor(FColor(0.0f, 1.0f, 0.0f));
@@ -52,6 +54,7 @@ void MeshSample::Start()
 		lightPoint->SetPosition(TVector3F(-10.0f, 10.0f, 0.0f));
 		lightPoint->SetShadowMapSize(2048);
 
+		// Spot light
 		ALight* lightSpot = scene->CreateChild<ALight>();
 		lightSpot->SetLightType(ELightType::SPOT);
 		lightSpot->SetCastShadows(true);
@@ -60,7 +63,7 @@ void MeshSample::Start()
 		lightSpot->SetDirection(TVector3F(-0.5f, -1.0f, 0.0f));
 		lightSpot->SetFov(90.0f);
 		lightSpot->SetRange(20.0f);
-		lightSpot->SetShadowMapSize(2048);
+		lightSpot->SetShadowMapSize(2048);*/
 	}
 	
 

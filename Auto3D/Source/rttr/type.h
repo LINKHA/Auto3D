@@ -332,7 +332,7 @@ class RTTR_API type
          *
          * \return \ref type object with the name \p name.
          */
-        static type get_by_name(string_view name) RTTR_NOEXCEPT;
+        static type GetByName(string_view name) RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a range of all registered type objects.
@@ -618,7 +618,7 @@ class RTTR_API type
          *
          * \return A range of constructors.
          */
-        array_range<Constructor> get_constructors() const RTTR_NOEXCEPT;
+        array_range<Constructor> GetConstructors() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a range of all registered constructors for this type,
@@ -669,7 +669,7 @@ class RTTR_API type
          *
          * \return A range of properties.
          */
-        array_range<Constructor> get_constructors(filter_items filter) const RTTR_NOEXCEPT;
+        array_range<Constructor> GetConstructors(filter_items filter) const RTTR_NOEXCEPT;
 
         /*!
          * \brief Creates an instance of the current type, with the given arguments \p args for the constructor.
@@ -721,7 +721,7 @@ class RTTR_API type
          *
          * \return A range of properties.
          */
-        array_range<Property> get_properties() const RTTR_NOEXCEPT;
+        array_range<Property> GetProperties() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a range of all registered properties for this type,
@@ -776,7 +776,7 @@ class RTTR_API type
          *
          * \return A range of properties.
          */
-        array_range<Property> get_properties(filter_items filter) const RTTR_NOEXCEPT;
+        array_range<Property> GetProperties(filter_items filter) const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a global property with the name \p name.
@@ -861,7 +861,7 @@ class RTTR_API type
          *
          * \return A range of methods.
          */
-        array_range<Method> get_methods() const RTTR_NOEXCEPT;
+        array_range<Method> GetMethods() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a range of all registered methods for this type,
@@ -916,7 +916,7 @@ class RTTR_API type
          *
          * \return A range of methods.
          */
-        array_range<Method> get_methods(filter_items filter) const RTTR_NOEXCEPT;
+        array_range<Method> GetMethods(filter_items filter) const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a global method with the name \p name.
