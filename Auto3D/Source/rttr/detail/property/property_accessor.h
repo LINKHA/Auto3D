@@ -28,9 +28,9 @@
 #ifndef RTTR_PROPERTY_ACCESSOR_H_
 #define RTTR_PROPERTY_ACCESSOR_H_
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -74,7 +74,7 @@ struct property_accessor<T(*)[N]>
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_PROPERTY_ACCESSOR_H_

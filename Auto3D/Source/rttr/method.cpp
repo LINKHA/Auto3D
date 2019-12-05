@@ -33,30 +33,30 @@
 
 using namespace std;
 
-namespace Auto3D
+namespace rttr
 {
 
-namespace RTTI
+namespace detail
 {
 
 template<>
-Method create_item(const method_wrapper_base* wrapper)
+method create_item(const method_wrapper_base* wrapper)
 {
-    return Method(wrapper);
+    return method(wrapper);
 }
 
 template<>
-Method create_invalid_item()
+method create_invalid_item()
 {
-    static const method_wrapper_base invalid_wrapper(string_view(), RTTI::get_invalid_type());
-    return Method(&invalid_wrapper);
+    static const method_wrapper_base invalid_wrapper(string_view(), detail::get_invalid_type());
+    return method(&invalid_wrapper);
 }
 
-} ;
+} // end namespace detail;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-Method::Method(const RTTI::method_wrapper_base* wrapper) RTTR_NOEXCEPT
+method::method(const detail::method_wrapper_base* wrapper) RTTR_NOEXCEPT
 :   m_wrapper(wrapper)
 {
 
@@ -64,112 +64,112 @@ Method::Method(const RTTI::method_wrapper_base* wrapper) RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool Method::is_valid() const RTTR_NOEXCEPT
+bool method::is_valid() const RTTR_NOEXCEPT
 {
     return m_wrapper->is_valid();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-Method::operator bool() const RTTR_NOEXCEPT
+method::operator bool() const RTTR_NOEXCEPT
 {
     return m_wrapper->is_valid();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-string_view Method::get_name() const RTTR_NOEXCEPT
+string_view method::get_name() const RTTR_NOEXCEPT
 {
     return m_wrapper->get_name();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-access_levels Method::get_access_level() const RTTR_NOEXCEPT
+access_levels method::get_access_level() const RTTR_NOEXCEPT
 {
     return m_wrapper->get_access_level();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool Method::is_static() const RTTR_NOEXCEPT
+bool method::is_static() const RTTR_NOEXCEPT
 {
     return m_wrapper->is_static();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-type Method::get_return_type() const RTTR_NOEXCEPT
+type method::get_return_type() const RTTR_NOEXCEPT
 {
     return m_wrapper->get_return_type();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-type Method::get_declaring_type() const RTTR_NOEXCEPT
+type method::get_declaring_type() const RTTR_NOEXCEPT
 {
     return m_wrapper->get_declaring_type();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-array_range<parameter_info> Method::get_parameter_infos() const RTTR_NOEXCEPT
+array_range<parameter_info> method::get_parameter_infos() const RTTR_NOEXCEPT
 {
     return m_wrapper->get_parameter_infos();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-string_view Method::get_signature() const RTTR_NOEXCEPT
+string_view method::get_signature() const RTTR_NOEXCEPT
 {
     return m_wrapper->get_signature();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-variant Method::get_metadata(const variant& key) const
+variant method::get_metadata(const variant& key) const
 {
     return m_wrapper->get_metadata(key);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-variant Method::invoke(instance object) const
+variant method::invoke(instance object) const
 {
     return m_wrapper->invoke(object);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-variant Method::invoke(instance object, argument arg1) const
+variant method::invoke(instance object, argument arg1) const
 {
     return m_wrapper->invoke(object, arg1);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-variant Method::invoke(instance object, argument arg1, argument arg2) const
+variant method::invoke(instance object, argument arg1, argument arg2) const
 {
     return m_wrapper->invoke(object, arg1, arg2);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-variant Method::invoke(instance object, argument arg1, argument arg2, argument arg3) const
+variant method::invoke(instance object, argument arg1, argument arg2, argument arg3) const
 {
     return m_wrapper->invoke(object, arg1, arg2, arg3);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-variant Method::invoke(instance object, argument arg1, argument arg2, argument arg3, argument arg4) const
+variant method::invoke(instance object, argument arg1, argument arg2, argument arg3, argument arg4) const
 {
     return m_wrapper->invoke(object, arg1, arg2, arg3, arg4);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-variant Method::invoke(instance object, argument arg1, argument arg2, argument arg3, argument arg4,
+variant method::invoke(instance object, argument arg1, argument arg2, argument arg3, argument arg4,
                        argument arg5) const
 {
     return m_wrapper->invoke(object, arg1, arg2, arg3, arg4, arg5);
@@ -177,7 +177,7 @@ variant Method::invoke(instance object, argument arg1, argument arg2, argument a
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-variant Method::invoke(instance object, argument arg1, argument arg2, argument arg3, argument arg4,
+variant method::invoke(instance object, argument arg1, argument arg2, argument arg3, argument arg4,
                        argument arg5, argument arg6) const
 {
     return m_wrapper->invoke(object, arg1, arg2, arg3, arg4, arg5, arg6);
@@ -185,32 +185,32 @@ variant Method::invoke(instance object, argument arg1, argument arg2, argument a
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-variant Method::invoke_variadic(instance object, std::vector<argument> args) const
+variant method::invoke_variadic(instance object, std::vector<argument> args) const
 {
     return m_wrapper->invoke_variadic(object, args);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool Method::operator==(const Method& other) const RTTR_NOEXCEPT
+bool method::operator==(const method& other) const RTTR_NOEXCEPT
 {
     return (m_wrapper == other.m_wrapper);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool Method::operator!=(const Method& other) const RTTR_NOEXCEPT
+bool method::operator!=(const method& other) const RTTR_NOEXCEPT
 {
     return (m_wrapper != other.m_wrapper);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void Method::visit(visitor& visitor) const RTTR_NOEXCEPT
+void method::visit(visitor& visitor) const RTTR_NOEXCEPT
 {
-    m_wrapper->visit(visitor, Method(*this));
+    m_wrapper->visit(visitor, method(*this));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
+} // end namespace rttr

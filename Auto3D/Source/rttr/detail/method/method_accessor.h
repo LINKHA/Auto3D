@@ -32,9 +32,9 @@
 #include "rttr/detail/misc/utility.h"
 #include "rttr/detail/method/method_invoker.h"
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -126,13 +126,13 @@ template<typename F, typename Policy>
 struct method_accessor
 {
     static RTTR_CONSTEXPR_OR_CONST std::size_t arg_count = function_traits<F>::arg_count;
-    using method_type = typename RTTI::method_type<F>::type;
+    using method_type = typename detail::method_type<F>::type;
     using arg_index_sequence = make_index_sequence< arg_count >;
     using invoker_class = method_invoker<F, Policy, method_type, arg_index_sequence>;
 
     static bool is_static() RTTR_NOEXCEPT
     {
-        using method_type = typename RTTI::method_type<F>::type;
+        using method_type = typename detail::method_type<F>::type;
         return method_accessor_helper_is_static<method_type>::is_static();
     }
 
@@ -200,7 +200,7 @@ struct method_accessor
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_METHOD_ACCESSOR_H_

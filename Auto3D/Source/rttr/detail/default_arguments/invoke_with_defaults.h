@@ -35,9 +35,9 @@
 
 #include <type_traits>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 template<typename Ctor_Args, typename List1, typename List2>
@@ -176,7 +176,7 @@ struct invoke_variadic_helper<Invoker_Class, index_sequence<>>
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_DEFAULT_ARGUMENTS_H_

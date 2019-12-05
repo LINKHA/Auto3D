@@ -32,9 +32,9 @@
 
 #include <cstring>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -53,5 +53,5 @@ bool compare_types_equal(const void* lhs, const void* rhs, const type& t, bool& 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr

@@ -39,12 +39,12 @@ template class std::basic_string<char>;
 
 RTTR_REGISTRATION
 {
-    using namespace Auto3D;
+    using namespace rttr;
 
     type::get<std::nullptr_t>();
 
     RTTR_REGISTRATION_STANDARD_TYPE_VARIANTS(void)
-    RTTR_REGISTRATION_STANDARD_TYPE_VARIANTS(Auto3D::type)
+    RTTR_REGISTRATION_STANDARD_TYPE_VARIANTS(rttr::type)
     RTTR_REGISTRATION_STANDARD_TYPE_VARIANTS(bool)
     RTTR_REGISTRATION_STANDARD_TYPE_VARIANTS(signed char)
     RTTR_REGISTRATION_STANDARD_TYPE_VARIANTS(unsigned char)
@@ -63,18 +63,18 @@ RTTR_REGISTRATION
     RTTR_REGISTRATION_STANDARD_TYPE_VARIANTS(long double)
     RTTR_REGISTRATION_STANDARD_TYPE_VARIANTS(std::string)
 
-    FRegistration::Class<std::vector<bool>>("std::vector<bool>");
-    FRegistration::Class<std::vector<int>>("std::vector<int>");
-    FRegistration::Class<std::vector<float>>("std::vector<float>");
-    FRegistration::Class<std::vector<double>>("std::vector<double>");
+    registration::class_<std::vector<bool>>("std::vector<bool>");
+    registration::class_<std::vector<int>>("std::vector<int>");
+    registration::class_<std::vector<float>>("std::vector<float>");
+    registration::class_<std::vector<double>>("std::vector<double>");
 
 
-    FRegistration::Class<std::string>("std::string")
-                .Constructor<>()
-                .Constructor<const std::string&>()
-                .Constructor<const std::string&, unsigned int, unsigned int>()
-                .Constructor<const char*>()
-                .Constructor<const char*, unsigned int>()
-                .Constructor<unsigned int, char>()
+    registration::class_<std::string>("std::string")
+                .constructor<>()
+                .constructor<const std::string&>()
+                .constructor<const std::string&, unsigned int, unsigned int>()
+                .constructor<const char*>()
+                .constructor<const char*, unsigned int>()
+                .constructor<unsigned int, char>()
                 ;
 }

@@ -32,12 +32,12 @@
 #include "rttr/string_view.h"
 
 
-namespace Auto3D
+namespace rttr
 {
 class argument;
 class variant;
 
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -80,7 +80,7 @@ RTTR_API bool is_variant_with_enum(const argument& arg);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_ENUMERATION_HELPER_H_

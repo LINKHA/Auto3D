@@ -33,9 +33,9 @@
 #include <memory>
 #include <type_traits>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /*!
@@ -62,7 +62,7 @@ struct argument_wrapper
     void* m_data;
 };
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_ARGUMENT_WRAPPER_H_

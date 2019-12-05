@@ -29,9 +29,9 @@
 #include "rttr/enumeration.h"
 #include "rttr/argument.h"
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -99,5 +99,5 @@ bool is_variant_with_enum(const argument& arg)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr

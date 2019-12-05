@@ -38,17 +38,17 @@
 #include <string>
 #include <vector>
 
-namespace Auto3D
+namespace rttr
 {
 
 class variant;
 class type;
 class instance;
 class argument;
-class Method;
+class method;
 class visitor;
 
-namespace RTTI
+namespace detail
 {
     class method_wrapper_base;
 }
@@ -118,7 +118,7 @@ namespace RTTI
  *
  * \see property, enumeration, constructor and type
  */
-class RTTR_API Method
+class RTTR_API method
 {
     public:
         /*!
@@ -328,30 +328,30 @@ class RTTR_API Method
          *
          * \return True if both methods are equal, otherwise false.
          */
-        bool operator==(const Method& other) const RTTR_NOEXCEPT;
+        bool operator==(const method& other) const RTTR_NOEXCEPT;
 
         /*!
          * Returns true if this method is the not the same like the \p other.
          *
          * \return True if both methods are different, otherwise false.
          */
-        bool operator!=(const Method& other) const RTTR_NOEXCEPT;
+        bool operator!=(const method& other) const RTTR_NOEXCEPT;
 
     private:
-        Method(const RTTI::method_wrapper_base* wrapper) RTTR_NOEXCEPT;
+        method(const detail::method_wrapper_base* wrapper) RTTR_NOEXCEPT;
 
         void visit(visitor& visitor) const RTTR_NOEXCEPT;
 
         template<typename T>
-        friend T RTTI::create_item(const RTTI::class_item_to_wrapper_t<T>* wrapper);
+        friend T detail::create_item(const detail::class_item_to_wrapper_t<T>* wrapper);
         template<typename T>
-        friend T RTTI::create_invalid_item();
+        friend T detail::create_invalid_item();
         friend class visitor;
 
     private:
-        const RTTI::method_wrapper_base* m_wrapper;
+        const detail::method_wrapper_base* m_wrapper;
 };
 
-} 
+} // end namespace rttr
 
 #endif // RTTR_METHOD_H_

@@ -31,9 +31,9 @@
 #include "rttr/detail/base/core_prerequisites.h"
 #include <limits>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -175,7 +175,7 @@ convert_to(const F& from, T& to)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_NUMBER_CONVERSION_H_

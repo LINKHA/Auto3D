@@ -34,10 +34,10 @@
 #include "rttr/argument.h"
 #include <type_traits>
 
-namespace Auto3D
+namespace rttr
 {
 
-namespace RTTI
+namespace detail
 {
 
 using variant_create_func = variant(*)(const argument&);
@@ -74,13 +74,13 @@ struct RTTR_LOCAL create_invalid_variant_policy
  *         we might get infinite recursion for pointer types.
  */
 template<typename T>
-using create_variant_func = conditional_t<RTTI::pointer_count<T>::value == 1,
+using create_variant_func = conditional_t<detail::pointer_count<T>::value == 1,
                                           create_variant_policy<T>,
                                           create_invalid_variant_policy>;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_GET_CREATE_VARIANT_FUNC_H_

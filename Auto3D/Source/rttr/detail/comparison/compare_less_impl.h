@@ -32,9 +32,9 @@
 #include "rttr/detail/comparison/compare_array_less.h"
 #include <type_traits>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -68,7 +68,7 @@ compare_less_than(const T& lhs, const T& rhs, int& result)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_COMPARE_LESS_IMPL_H_

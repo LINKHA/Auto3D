@@ -40,9 +40,9 @@
 #include <vector>
 #include <memory>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /*!
@@ -238,7 +238,7 @@ store_item(Item item)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_REGISTRATION_MANAGER_H_

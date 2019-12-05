@@ -30,13 +30,13 @@
 
 #include "rttr/detail/base/core_prerequisites.h"
 
-namespace Auto3D
+namespace rttr
 {
 
 class variant;
 class type;
 
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -49,7 +49,7 @@ RTTR_API bool variant_compare_less(const variant& lhs, const type& lhs_type, con
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_VARIANT_COMPARE_LESS_H_

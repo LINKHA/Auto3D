@@ -35,9 +35,9 @@
 #include <type_traits>
 #include <cstring>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -50,8 +50,8 @@ RTTR_INLINE bool compare_array_less(const ElementType(&lhs)[Count], const Elemen
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #include "rttr/detail/comparison/compare_array_less_impl.h"
 

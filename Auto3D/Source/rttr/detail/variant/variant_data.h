@@ -31,9 +31,9 @@
 #include "rttr/detail/misc/misc_type_traits.h"
 #include <type_traits>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -54,7 +54,7 @@ using variant_data = std::aligned_storage<max_sizeof_list<variant_basic_types>::
 
 struct RTTR_API void_variant_type {};
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_VARIANT_DATA_H_

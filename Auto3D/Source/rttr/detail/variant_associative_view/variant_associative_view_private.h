@@ -33,10 +33,10 @@
 #include "rttr/instance.h"
 #include "rttr/associative_mapper.h"
 
-namespace Auto3D
+namespace rttr
 {
 
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -179,7 +179,7 @@ class RTTR_LOCAL variant_associative_view_private
         }
 
         RTTR_INLINE void equal_range(argument& key,
-                                     iterator_data& itr_begin, RTTI::iterator_data& itr_end)
+                                     iterator_data& itr_begin, detail::iterator_data& itr_end)
         {
             m_equal_range_func(m_container, key, itr_begin, itr_end);
         }
@@ -219,11 +219,11 @@ class RTTR_LOCAL variant_associative_view_private
         using get_value_func    = variant (*)(const iterator_data& itr);
         using clear_func        = void(*)(void* container);
         using erase_func        = std::size_t(*)(void* container, argument& key);
-        using find_func         = void(*)(void* container, RTTI::iterator_data& itr, argument& key);
+        using find_func         = void(*)(void* container, detail::iterator_data& itr, argument& key);
         using equal_range_func  = void(*)(void* container, argument& key,
-                                          RTTI::iterator_data& itr_begin, RTTI::iterator_data& itr_end);
-        using insert_func_key   = bool(*)(void* container, argument& key, RTTI::iterator_data& itr);
-        using insert_func_key_value = bool(*)(void* container, argument& key, argument& value, RTTI::iterator_data& itr);
+                                          detail::iterator_data& itr_begin, detail::iterator_data& itr_end);
+        using insert_func_key   = bool(*)(void* container, argument& key, detail::iterator_data& itr);
+        using insert_func_key_value = bool(*)(void* container, argument& key, argument& value, detail::iterator_data& itr);
 
         type                    m_type;
         type                    m_key_type;
@@ -247,7 +247,7 @@ class RTTR_LOCAL variant_associative_view_private
         insert_func_key_value   m_insert_func_key_value;
 };
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_VARIANT_ASSOCIATIVE_VIEW_PRIVATE_H_

@@ -36,11 +36,11 @@
 #include <vector>
 #include <tuple>
 
-namespace Auto3D
+namespace rttr
 {
 class type;
 
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -91,7 +91,7 @@ using rank_count = typename count_types< typename sequential_rank_type_list<T>::
 template<typename T, std::size_t N>
 struct get_ranke_type
 {
-    static ::Auto3D::type get_type(std::size_t index)
+    static ::rttr::type get_type(std::size_t index)
     {
         if (N == index)
             return type::get<typename sequential_container_ranke_type<T, N>::type>();
@@ -103,7 +103,7 @@ struct get_ranke_type
 template<typename T>
 struct get_ranke_type<T, 0>
 {
-    static ::Auto3D::type get_type(std::size_t index)
+    static ::rttr::type get_type(std::size_t index)
     {
         return type::get<typename sequential_container_ranke_type<T, 0>::type>();
     }
@@ -111,7 +111,7 @@ struct get_ranke_type<T, 0>
 
 /////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_SEQUENTIAL_CONTAINER_TYPE_TRAITS_H_

@@ -33,9 +33,9 @@
 
 #include <type_traits>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
     /* This is a slightly modified version (>= VS2015 compatible) of the code from Raul Ramos. */
 
@@ -65,8 +65,8 @@ namespace RTTI
 
     template<typename T>
     using is_class_complete = std::integral_constant<bool, is_class_complete_impl<T>::value>;
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #define DECLARE_TL(_name) DECLARE_TL_IMPL(_name, __COUNTER__)
 #define DECLARE_TL_IMPL(_name, _start)\
@@ -75,12 +75,12 @@ namespace RTTI
     struct _name##_history;\
     \
     template<> struct _name##_history<_start> {\
-        using type = Auto3D::type_list<>;\
+        using type = rttr::type_list<>;\
     };\
     \
     /* Check if the entry at "IDX" exists */\
     template <size_t IDX>\
-    using _name##_is_defined = Auto3D::RTTI::is_class_complete<_name##_history<IDX>>;\
+    using _name##_is_defined = rttr::detail::is_class_complete<_name##_history<IDX>>;\
     \
     \
     /* Read from an index IDX */\
@@ -97,7 +97,7 @@ namespace RTTI
         using type = typename std::conditional< \
             (IDX > _start),                     /* Should we stop searching? */\
             typename _name##_read<IDX-1>::type, /* No */\
-            Auto3D::type_list<>                     /* Yes => failed => empty type_list */\
+            rttr::type_list<>                     /* Yes => failed => empty type_list */\
         >::type;\
     }
 
@@ -107,7 +107,7 @@ namespace RTTI
     template<>\
     struct _name##_history<_idx> {\
         using previous = typename _name##_read<_idx - 1>::type;\
-        using type = typename Auto3D::RTTI::push_back<_class, previous>::type;\
+        using type = typename rttr::detail::push_back<_class, previous>::type;\
     }
 #define ADD_TL(_name, _class) ADD_TL_IMPL(_name, _class, __COUNTER__)
 

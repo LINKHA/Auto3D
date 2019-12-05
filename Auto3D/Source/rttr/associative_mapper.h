@@ -30,7 +30,7 @@
 
 #include "rttr/detail/base/core_prerequisites.h"
 
-namespace Auto3D
+namespace rttr
 {
 
 /*!
@@ -176,7 +176,7 @@ namespace Auto3D
  *         return std::make_pair(container.insert(key, value), true);
  *     }
  * };
- * } 
+ * } // end namespace rttr
  * \endcode
  *
  * \remark
@@ -358,7 +358,7 @@ struct associative_container_mapper
 #endif
 };
 
-} 
+} // end namespace rttr
 
 #include "rttr/detail/impl/associative_mapper_impl.h"
 

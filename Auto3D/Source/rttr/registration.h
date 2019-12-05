@@ -37,14 +37,14 @@
 #include "rttr/detail/parameter_info/parameter_names.h"
 #include "rttr/variant.h"
 #include "rttr/detail/visitor/visitor_registration.h"
-namespace Auto3D
+namespace rttr
 {
 
-namespace RTTI
+namespace detail
 {
     class metadata;
     template<typename Enum_Type>
-    class FEnumData;
+    class enum_data;
     struct public_access    {};
     struct protected_access {};
     struct private_access   {};
@@ -116,7 +116,7 @@ namespace RTTI
  *         \ref rttr::value "enum values".
  *
  */
-class RTTR_API FRegistration
+class RTTR_API registration
 {
 public:
     template<typename...T>
@@ -126,7 +126,7 @@ public:
      * The \ref class_ is used to register classes to RTTR.
      */
     template<typename Class_Type, typename Visitor_List = READ_TL(rttr_visitor_list)>
-    class Class
+    class class_
     {
         public:
             /*!
@@ -135,8 +135,8 @@ public:
              * \param name The name of the class as string literal. Can be retrieved later via type::get_name().
              *
              */
-            Class(string_view name);
-            ~Class();
+            class_(string_view name);
+            ~class_();
 
 
             /*!
@@ -144,7 +144,7 @@ public:
              *
              */
             template<typename...Args>
-            Class<Class_Type, Visitor_List>& operator()(Args&&...args);
+            class_<Class_Type, Visitor_List>& operator()(Args&&...args);
 
 
             /*!
@@ -159,8 +159,8 @@ public:
              *
              * \return A \ref bind object, in order to chain more calls.
              */
-            template<typename... Args, typename acc_level = RTTI::public_access, typename Tp = typename std::enable_if<RTTI::contains<acc_level, RTTI::access_levels_list>::value>::type>
-            bind<RTTI::ctor, Class_Type, acc_level, Visitor_List, Args...> Constructor(acc_level level = acc_level());
+            template<typename... Args, typename acc_level = detail::public_access, typename Tp = typename std::enable_if<detail::contains<acc_level, detail::access_levels_list>::value>::type>
+            bind<detail::ctor, Class_Type, acc_level, Visitor_List, Args...> constructor(acc_level level = acc_level());
 
             /*!
              * \brief Register a constructor for this class type which uses a function \p F.
@@ -174,8 +174,8 @@ public:
              *
              * \return A \ref bind object, in order to chain more calls.
              */
-            template<typename F, typename acc_level = RTTI::public_access, typename Tp = typename std::enable_if<!RTTI::contains<F, RTTI::access_levels_list>::value>::type>
-            bind<RTTI::ctor_func, Class_Type, F, acc_level, Visitor_List> Constructor(F func, acc_level level = acc_level());
+            template<typename F, typename acc_level = detail::public_access, typename Tp = typename std::enable_if<!detail::contains<F, detail::access_levels_list>::value>::type>
+            bind<detail::ctor_func, Class_Type, F, acc_level, Visitor_List> constructor(F func, acc_level level = acc_level());
 
 
             /*!
@@ -192,8 +192,8 @@ public:
              *
              * \return A \ref bind object, in order to chain more calls.
              */
-            template<typename A, typename acc_level = RTTI::public_access, typename Tp = typename std::enable_if<RTTI::contains<acc_level, RTTI::access_levels_list>::value>::type>
-            bind<RTTI::prop, Class_Type, A, acc_level, Visitor_List> Property(string_view name, A acc, acc_level level = acc_level());
+            template<typename A, typename acc_level = detail::public_access, typename Tp = typename std::enable_if<detail::contains<acc_level, detail::access_levels_list>::value>::type>
+            bind<detail::prop, Class_Type, A, acc_level, Visitor_List> property(string_view name, A acc, acc_level level = acc_level());
 
             /*!
              * \brief Register a read only property to this class.
@@ -210,8 +210,8 @@ public:
              *
              * \return A \ref bind object, in order to chain more calls.
              */
-            template<typename A, typename acc_level = RTTI::public_access, typename Tp = typename std::enable_if<RTTI::contains<acc_level, RTTI::access_levels_list>::value>::type>
-            bind<RTTI::prop_readonly, Class_Type, A, acc_level, Visitor_List> PropertyReadonly(string_view name, A acc, acc_level level = acc_level());
+            template<typename A, typename acc_level = detail::public_access, typename Tp = typename std::enable_if<detail::contains<acc_level, detail::access_levels_list>::value>::type>
+            bind<detail::prop_readonly, Class_Type, A, acc_level, Visitor_List> property_readonly(string_view name, A acc, acc_level level = acc_level());
 
             /*!
              * \brief Register a property to this class.
@@ -230,8 +230,8 @@ public:
              *
              * \return A \ref bind object, in order to chain more calls.
              */
-            template<typename A1, typename A2, typename acc_level = RTTI::public_access, typename Tp = typename std::enable_if<!RTTI::contains<A2, RTTI::access_levels_list>::value>::type>
-            bind<RTTI::prop, Class_Type, A1, A2, acc_level, Visitor_List> Property(string_view name, A1 getter, A2 setter, acc_level level = acc_level());
+            template<typename A1, typename A2, typename acc_level = detail::public_access, typename Tp = typename std::enable_if<!detail::contains<A2, detail::access_levels_list>::value>::type>
+            bind<detail::prop, Class_Type, A1, A2, acc_level, Visitor_List> property(string_view name, A1 getter, A2 setter, acc_level level = acc_level());
 
 
             /*!
@@ -248,8 +248,8 @@ public:
              *
              * \return A \ref bind object, in order to chain more calls.
              */
-            template<typename F, typename acc_level = RTTI::public_access>
-            bind<RTTI::meth, Class_Type, F, acc_level, Visitor_List> Method(string_view name, F f, acc_level level = acc_level());
+            template<typename F, typename acc_level = detail::public_access>
+            bind<detail::meth, Class_Type, F, acc_level, Visitor_List> method(string_view name, F f, acc_level level = acc_level());
 
 
             /*!
@@ -262,13 +262,13 @@ public:
              * \return A \ref bind object, in order to chain more calls.
              */
             template<typename Enum_Type>
-            bind<RTTI::enum_, Class_Type, Enum_Type> Enumeration(string_view name);
+            bind<detail::enum_, Class_Type, Enum_Type> enumeration(string_view name);
         private:
-            Class(const std::shared_ptr<RTTI::registration_executer>& reg_exec);
-            Class(const Class& other);
-            Class& operator=(const Class& other);
+            class_(const std::shared_ptr<detail::registration_executer>& reg_exec);
+            class_(const class_& other);
+            class_& operator=(const class_& other);
         private:
-            std::shared_ptr<RTTI::registration_executer> m_reg_exec;
+            std::shared_ptr<detail::registration_executer> m_reg_exec;
             template<typename...T>
             friend class bind;
     };
@@ -288,7 +288,7 @@ public:
      * \return A \ref bind object, in order to chain more calls.
      */
     template<typename A, typename Visitor_List = READ_TL(rttr_visitor_list)>
-    static bind<RTTI::prop, RTTI::invalid_type, A, RTTI::public_access, Visitor_List> Property(string_view name, A acc);
+    static bind<detail::prop, detail::invalid_type, A, detail::public_access, Visitor_List> property(string_view name, A acc);
 
     /*!
      * \brief Register a global read only property.
@@ -306,7 +306,7 @@ public:
      * \return A \ref bind object, in order to chain more calls.
      */
     template<typename A, typename Visitor_List = READ_TL(rttr_visitor_list)>
-    static bind<RTTI::prop_readonly, RTTI::invalid_type, A, RTTI::public_access, Visitor_List> property_readonly(string_view name, A acc);
+    static bind<detail::prop_readonly, detail::invalid_type, A, detail::public_access, Visitor_List> property_readonly(string_view name, A acc);
 
     /*!
      * \brief Register a property to this class.
@@ -324,7 +324,7 @@ public:
      * \return A \ref bind object, in order to chain more calls.
      */
     template<typename A1, typename A2, typename Visitor_List = READ_TL(rttr_visitor_list)>
-    static bind<RTTI::prop, RTTI::invalid_type, A1, A2, RTTI::public_access, Visitor_List> Property(string_view name, A1 getter, A2 setter);
+    static bind<detail::prop, detail::invalid_type, A1, A2, detail::public_access, Visitor_List> property(string_view name, A1 getter, A2 setter);
 
     /*!
      * \brief Register a method to this class.
@@ -340,7 +340,7 @@ public:
      * \return A \ref bind object, in order to chain more calls.
      */
     template<typename F, typename Visitor_List = READ_TL(rttr_visitor_list)>
-    static bind<RTTI::meth, RTTI::invalid_type, F, RTTI::public_access, Visitor_List> Method(string_view name, F f);
+    static bind<detail::meth, detail::invalid_type, F, detail::public_access, Visitor_List> method(string_view name, F f);
 
     /*!
      * \brief Register a global enumeration of type \p Enum_Type
@@ -354,7 +354,7 @@ public:
      * \return A \ref bind object, in order to chain more calls.
      */
     template<typename Enum_Type>
-    static bind<RTTI::enum_, RTTI::invalid_type, Enum_Type> enumeration(string_view name);
+    static bind<detail::enum_, detail::invalid_type, Enum_Type> enumeration(string_view name);
 
     /////////////////////////////////////////////////////////////////////////////////////
 
@@ -379,7 +379,7 @@ public:
      *
      * \see access_levels
      */
-    static const RTTI::public_access      public_access;
+    static const detail::public_access      public_access;
 
     /*!
      * This variable can be used to specify during registration of a class member
@@ -405,7 +405,7 @@ public:
      *
      * \see access_levels
      */
-    static const RTTI::protected_access   protected_access;
+    static const detail::protected_access   protected_access;
 
     /*!
      * This variable can be used to specify during registration of a class member
@@ -431,16 +431,16 @@ public:
      *
      * \see access_levels
      */
-    static const RTTI::private_access     private_access;
+    static const detail::private_access     private_access;
 
 private:
-    FRegistration() {}
-    FRegistration(const std::shared_ptr<RTTI::registration_executer>& reg_exec) : m_reg_exec(reg_exec) { }
-    FRegistration(const FRegistration& other);
-    FRegistration& operator=(const FRegistration& other);
+    registration() {}
+    registration(const std::shared_ptr<detail::registration_executer>& reg_exec) : m_reg_exec(reg_exec) { }
+    registration(const registration& other);
+    registration& operator=(const registration& other);
 
 private:
-    std::shared_ptr<RTTI::registration_executer> m_reg_exec;
+    std::shared_ptr<detail::registration_executer> m_reg_exec;
     template<typename...T>
     friend class bind;
 };
@@ -643,7 +643,7 @@ auto select_non_const(ReturnType(ClassType::*func)(Args...) noexcept) -> decltyp
  * registration process of reflection information. Use it in the `()` operator of the returned
  * \ref bind object.
  */
-RTTR_INLINE RTTI::metadata metadata(variant key, variant value);
+RTTR_INLINE detail::metadata metadata(variant key, variant value);
 
 
 /*!
@@ -654,7 +654,7 @@ RTTR_INLINE RTTI::metadata metadata(variant key, variant value);
  * \see \ref registration::enumeration
  */
 template<typename Enum_Type>
-RTTR_INLINE RTTI::FEnumData<Enum_Type> value(string_view, Enum_Type value);
+RTTR_INLINE detail::enum_data<Enum_Type> value(string_view, Enum_Type value);
 
 /*!
  * The \ref default_arguments function should be used add default arguments,
@@ -688,7 +688,7 @@ RTTR_INLINE RTTI::FEnumData<Enum_Type> value(string_view, Enum_Type value);
  *
  */
 template<typename...TArgs>
-RTTR_INLINE RTTI::default_args<TArgs...> default_arguments(TArgs&&...args);
+RTTR_INLINE detail::default_args<TArgs...> default_arguments(TArgs&&...args);
 
 /*!
  * The \ref parameter_names function should be used add human-readable names of the parameters,
@@ -716,7 +716,7 @@ RTTR_INLINE RTTI::default_args<TArgs...> default_arguments(TArgs&&...args);
  *
  */
 template<typename...TArgs>
-RTTR_INLINE RTTI::parameter_names<RTTI::decay_t<TArgs>...> parameter_names(TArgs&&...args);
+RTTR_INLINE detail::parameter_names<detail::decay_t<TArgs>...> parameter_names(TArgs&&...args);
 
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -804,7 +804,7 @@ RTTR_REGISTRATION
  * \remark Do not instantiate this class directly!
 */
 template<typename...T>
-class registration::bind : public RTTI::base_class
+class registration::bind : public detail::base_class
 {
     public:
         /*!
@@ -816,7 +816,7 @@ class registration::bind : public RTTI::base_class
 
 #endif
 
-} 
+} // end namespace rttr
 
 #include "rttr/detail/registration/registration_impl.h"
 

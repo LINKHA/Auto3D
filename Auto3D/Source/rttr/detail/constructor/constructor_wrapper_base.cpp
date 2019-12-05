@@ -32,9 +32,9 @@ using namespace std;
 static RTTR_CONSTEXPR const char* is_ref_list[] = {"", " &"};
 static RTTR_CONSTEXPR const char* is_const_list[] = {"", " const"};
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -210,11 +210,11 @@ variant constructor_wrapper_base::invoke_variadic(std::vector<argument>& args) c
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void constructor_wrapper_base::visit(visitor& visitor, const FConstructor& ctor) const RTTR_NOEXCEPT
+void constructor_wrapper_base::visit(visitor& visitor, const constructor& ctor) const RTTR_NOEXCEPT
 {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr

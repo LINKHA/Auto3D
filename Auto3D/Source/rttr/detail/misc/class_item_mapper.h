@@ -34,16 +34,16 @@
 #include <vector>
 #include <type_traits>
 
-namespace Auto3D
+namespace rttr
 {
 
-class Property;
-class Method;
-class FConstructor;
+class property;
+class method;
+class constructor;
 class enumeration;
 class destructor;
 
-namespace RTTI
+namespace detail
 {
 
 class property_wrapper_base;
@@ -53,11 +53,11 @@ class destructor_wrapper_base;
 class enumeration_wrapper_base;
 
 template<typename T>
-using class_item_to_wrapper_t = conditional_t< std::is_same<T, Property>::value,
+using class_item_to_wrapper_t = conditional_t< std::is_same<T, property>::value,
                                                property_wrapper_base,
-                                               conditional_t< std::is_same<T, Method>::value,
+                                               conditional_t< std::is_same<T, method>::value,
                                                               method_wrapper_base,
-                                                              conditional_t< std::is_same<T, FConstructor>::value,
+                                                              conditional_t< std::is_same<T, constructor>::value,
                                                                              constructor_wrapper_base,
                                                                              conditional_t< std::is_same<T, destructor>::value,
                                                                                             destructor_wrapper_base,
@@ -76,7 +76,7 @@ T create_item(const class_item_to_wrapper_t<T>* wrapper);
 template<typename T>
 T create_invalid_item();
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_CLASS_ITEM_MAPPER_H_

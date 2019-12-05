@@ -31,9 +31,9 @@
 #include "rttr/detail/misc/function_traits.h"
 #include "rttr/detail/misc/utility.h"
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -185,7 +185,7 @@ struct method_invoker<F, return_as_ptr, return_func, index_sequence<ArgCount...>
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_METHOD_INVOKER_H_

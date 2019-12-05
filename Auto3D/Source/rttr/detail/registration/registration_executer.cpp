@@ -29,9 +29,9 @@
 
 #include <algorithm>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -67,5 +67,5 @@ void registration_executer::add_registration_func(const void* key, std::function
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr

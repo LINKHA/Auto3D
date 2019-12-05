@@ -27,27 +27,27 @@
 
 #include "rttr/policy.h"
 
-namespace Auto3D
+namespace rttr
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-const RTTI::bind_as_ptr policy::prop::bind_as_ptr = {};
+const detail::bind_as_ptr policy::prop::bind_as_ptr = {};
 
-const RTTI::as_reference_wrapper policy::prop::as_reference_wrapper = {};
+const detail::as_reference_wrapper policy::prop::as_reference_wrapper = {};
 
-const RTTI::return_as_ptr policy::meth::return_ref_as_ptr = {};
+const detail::return_as_ptr policy::meth::return_ref_as_ptr = {};
 
-const RTTI::discard_return policy::meth::discard_return = {};
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-const RTTI::as_raw_pointer policy::ctor::as_raw_ptr = {};
-
-const RTTI::as_std_shared_ptr policy::ctor::as_std_shared_ptr = {};
-
-const RTTI::as_object policy::ctor::as_object = {};
+const detail::discard_return policy::meth::discard_return = {};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
+const detail::as_raw_pointer policy::ctor::as_raw_ptr = {};
+
+const detail::as_std_shared_ptr policy::ctor::as_std_shared_ptr = {};
+
+const detail::as_object policy::ctor::as_object = {};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+} // end namespace rttr

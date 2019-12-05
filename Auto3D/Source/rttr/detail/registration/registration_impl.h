@@ -49,30 +49,30 @@
 #include <string>
 #include <vector>
 
-namespace Auto3D
+namespace rttr
 {
 
 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-RTTR_INLINE RTTI::metadata metadata(variant key, variant value)
+RTTR_INLINE detail::metadata metadata(variant key, variant value)
 {
-    return RTTI::metadata{std::move(key), std::move(value)};
+    return detail::metadata{std::move(key), std::move(value)};
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename Enum_Type>
-RTTR_INLINE RTTI::FEnumData<Enum_Type> value(string_view name, Enum_Type value)
+RTTR_INLINE detail::enum_data<Enum_Type> value(string_view name, Enum_Type value)
 {
-    return RTTI::FEnumData<Enum_Type>(name, value);
+    return detail::enum_data<Enum_Type>(name, value);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename...TArgs>
-RTTR_INLINE RTTI::default_args<TArgs...> default_arguments(TArgs&&...args)
+RTTR_INLINE detail::default_args<TArgs...> default_arguments(TArgs&&...args)
 {
     static_assert((sizeof...(TArgs) > 0), "Please provide at least one default argument!");
     return { std::forward<TArgs>(args)... };
@@ -81,12 +81,12 @@ RTTR_INLINE RTTI::default_args<TArgs...> default_arguments(TArgs&&...args)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename...TArgs>
-RTTR_INLINE RTTI::parameter_names<RTTI::decay_t<TArgs>...> parameter_names(TArgs&&...args)
+RTTR_INLINE detail::parameter_names<detail::decay_t<TArgs>...> parameter_names(TArgs&&...args)
 {
-    using namespace RTTI;
+    using namespace detail;
     static_assert(static_all_of<is_string_literal<raw_type_t<TArgs>>::value...>::value, "Please use this function only with string literals!");
 
-    return { static_cast<RTTI::decay_t<TArgs>>(std::forward<TArgs>(args))...};
+    return { static_cast<detail::decay_t<TArgs>>(std::forward<TArgs>(args))...};
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -94,17 +94,17 @@ RTTR_INLINE RTTI::parameter_names<RTTI::decay_t<TArgs>...> parameter_names(TArgs
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename Class_Type, typename Visitor_List>
-FRegistration::Class<Class_Type, Visitor_List>::Class(string_view name)
+registration::class_<Class_Type, Visitor_List>::class_(string_view name)
 {
     auto t = type::get<Class_Type>();
-    RTTI::type_register::custom_name(t, name);
-    RTTI::type_register::register_visit_type_func(t, &RTTI::visit_type<Class_Type, Visitor_List>);
+    detail::type_register::custom_name(t, name);
+    detail::type_register::register_visit_type_func(t, &detail::visit_type<Class_Type, Visitor_List>);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename Class_Type, typename Visitor_List>
-FRegistration::Class<Class_Type, Visitor_List>::Class(const std::shared_ptr<RTTI::registration_executer>& reg_exec)
+registration::class_<Class_Type, Visitor_List>::class_(const std::shared_ptr<detail::registration_executer>& reg_exec)
 :   m_reg_exec(reg_exec)
 {
 }
@@ -112,19 +112,19 @@ FRegistration::Class<Class_Type, Visitor_List>::Class(const std::shared_ptr<RTTI
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename Class_Type, typename Visitor_List>
-FRegistration::Class<Class_Type, Visitor_List>::~Class()
+registration::class_<Class_Type, Visitor_List>::~class_()
 {
     // make sure that all base classes are registered
-    RTTI::base_classes<Class_Type>::get_types();
+    detail::base_classes<Class_Type>::get_types();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename Class_Type, typename Visitor_List>
 template<typename...Args>
-FRegistration::Class<Class_Type, Visitor_List>& FRegistration::Class<Class_Type, Visitor_List>::operator()(Args&&...args)
+registration::class_<Class_Type, Visitor_List>& registration::class_<Class_Type, Visitor_List>::operator()(Args&&...args)
 {
-    RTTI::type_register::metadata(type::get<Class_Type>(), RTTI::forward_to_vector<RTTI::metadata>(std::forward<Args>(args)...));
+    detail::type_register::metadata(type::get<Class_Type>(), detail::forward_to_vector<detail::metadata>(std::forward<Args>(args)...));
     return *this;
 }
 
@@ -132,7 +132,7 @@ FRegistration::Class<Class_Type, Visitor_List>& FRegistration::Class<Class_Type,
 
 template<typename Class_Type, typename Visitor_List>
 template<typename... Args, typename acc_level, typename Tp>
-FRegistration::bind<RTTI::ctor, Class_Type, acc_level, Visitor_List, Args...> FRegistration::Class<Class_Type, Visitor_List>::Constructor(acc_level level)
+registration::bind<detail::ctor, Class_Type, acc_level, Visitor_List, Args...> registration::class_<Class_Type, Visitor_List>::constructor(acc_level level)
 {
     return {create_if_empty(m_reg_exec)};
 }
@@ -141,9 +141,9 @@ FRegistration::bind<RTTI::ctor, Class_Type, acc_level, Visitor_List, Args...> FR
 
 template<typename Class_Type, typename Visitor_List>
 template<typename F, typename acc_level, typename Tp>
-FRegistration::bind<RTTI::ctor_func, Class_Type, F, acc_level, Visitor_List> FRegistration::Class<Class_Type, Visitor_List>::Constructor(F func, acc_level level)
+registration::bind<detail::ctor_func, Class_Type, F, acc_level, Visitor_List> registration::class_<Class_Type, Visitor_List>::constructor(F func, acc_level level)
 {
-    using namespace RTTI;
+    using namespace detail;
     static_assert(is_functor<F>::value,
                   "No valid accessor for invoking the constructor provided!");
 
@@ -157,9 +157,9 @@ FRegistration::bind<RTTI::ctor_func, Class_Type, F, acc_level, Visitor_List> FRe
 
 template<typename Class_Type, typename Visitor_List>
 template<typename A, typename acc_level, typename Tp>
-FRegistration::bind<RTTI::prop, Class_Type, A, acc_level, Visitor_List> FRegistration::Class<Class_Type, Visitor_List>::Property(string_view name, A acc, acc_level level)
+registration::bind<detail::prop, Class_Type, A, acc_level, Visitor_List> registration::class_<Class_Type, Visitor_List>::property(string_view name, A acc, acc_level level)
 {
-    using namespace RTTI;
+    using namespace detail;
     static_assert(contains<acc_level, access_levels_list>::value, "The given type of 'level' is not a type of 'rttr::access_levels.'");
     static_assert(std::is_member_object_pointer<A>::value || std::is_pointer<A>::value,
                   "No valid property accessor provided!");
@@ -171,9 +171,9 @@ FRegistration::bind<RTTI::prop, Class_Type, A, acc_level, Visitor_List> FRegistr
 
 template<typename Class_Type, typename Visitor_List>
 template<typename A, typename acc_level, typename Tp>
-FRegistration::bind<RTTI::prop_readonly, Class_Type, A, acc_level, Visitor_List> FRegistration::Class<Class_Type, Visitor_List>::PropertyReadonly(string_view name, A acc, acc_level level)
+registration::bind<detail::prop_readonly, Class_Type, A, acc_level, Visitor_List> registration::class_<Class_Type, Visitor_List>::property_readonly(string_view name, A acc, acc_level level)
 {
-    using namespace RTTI;
+    using namespace detail;
     static_assert(contains<acc_level, access_levels_list>::value, "The given type of 'level' is not a type of 'rttr::access_levels.'");
     static_assert(std::is_pointer<A>::value ||
                   std::is_member_object_pointer<A>::value || std::is_member_function_pointer<A>::value || is_functor<A>::value,
@@ -186,9 +186,9 @@ FRegistration::bind<RTTI::prop_readonly, Class_Type, A, acc_level, Visitor_List>
 
 template<typename Class_Type, typename Visitor_List>
 template<typename A1, typename A2, typename acc_level, typename Tp>
-FRegistration::bind<RTTI::prop, Class_Type, A1, A2, acc_level, Visitor_List> FRegistration::Class<Class_Type, Visitor_List>::Property(string_view name, A1 getter, A2 setter, acc_level level)
+registration::bind<detail::prop, Class_Type, A1, A2, acc_level, Visitor_List> registration::class_<Class_Type, Visitor_List>::property(string_view name, A1 getter, A2 setter, acc_level level)
 {
-    using namespace RTTI;
+    using namespace detail;
     static_assert(contains<acc_level, access_levels_list>::value, "The given type of 'level' is not a type of 'rttr::access_levels.'");
     static_assert(std::is_member_function_pointer<A1>::value || std::is_member_function_pointer<A2>::value ||
                   is_functor<A1>::value || is_functor<A2>::value, "No valid property accessor provided!");
@@ -206,9 +206,9 @@ FRegistration::bind<RTTI::prop, Class_Type, A1, A2, acc_level, Visitor_List> FRe
 
 template<typename Class_Type, typename Visitor_List>
 template<typename F, typename acc_level>
-FRegistration::bind<RTTI::meth, Class_Type, F, acc_level, Visitor_List> FRegistration::Class<Class_Type, Visitor_List>::Method(string_view name, F f, acc_level level)
+registration::bind<detail::meth, Class_Type, F, acc_level, Visitor_List> registration::class_<Class_Type, Visitor_List>::method(string_view name, F f, acc_level level)
 {
-    using namespace RTTI;
+    using namespace detail;
     static_assert(contains<acc_level, access_levels_list>::value, "The given type of 'level' is not a type of 'rttr::access_levels.'");
     static_assert(std::is_member_function_pointer<F>::value || is_functor<F>::value, "No valid method accessor provided!");
 
@@ -219,9 +219,9 @@ FRegistration::bind<RTTI::meth, Class_Type, F, acc_level, Visitor_List> FRegistr
 
 template<typename Class_Type, typename Visitor_List>
 template<typename Enum_Type>
-FRegistration::bind<RTTI::enum_, Class_Type, Enum_Type> FRegistration::Class<Class_Type, Visitor_List>::Enumeration(string_view name)
+registration::bind<detail::enum_, Class_Type, Enum_Type> registration::class_<Class_Type, Visitor_List>::enumeration(string_view name)
 {
-    using namespace RTTI;
+    using namespace detail;
     static_assert(std::is_enum<Enum_Type>::value, "No enum type provided, please call this method with an enum type!");
 
     return {create_if_empty(m_reg_exec), name};
@@ -232,9 +232,9 @@ FRegistration::bind<RTTI::enum_, Class_Type, Enum_Type> FRegistration::Class<Cla
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename A, typename Visitor_List>
-FRegistration::bind<RTTI::prop, RTTI::invalid_type, A, RTTI::public_access, Visitor_List> FRegistration::Property(string_view name, A acc)
+registration::bind<detail::prop, detail::invalid_type, A, detail::public_access, Visitor_List> registration::property(string_view name, A acc)
 {
-    using namespace RTTI;
+    using namespace detail;
     static_assert(std::is_pointer<A>::value, "No valid property accessor provided!");
     return {std::make_shared<registration_executer>(), name, acc};
 }
@@ -242,9 +242,9 @@ FRegistration::bind<RTTI::prop, RTTI::invalid_type, A, RTTI::public_access, Visi
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename A, typename Visitor_List>
-FRegistration::bind<RTTI::prop_readonly, RTTI::invalid_type, A, RTTI::public_access, Visitor_List> FRegistration::property_readonly(string_view name, A acc)
+registration::bind<detail::prop_readonly, detail::invalid_type, A, detail::public_access, Visitor_List> registration::property_readonly(string_view name, A acc)
 {
-    using namespace RTTI;
+    using namespace detail;
     static_assert(std::is_pointer<A>::value || is_functor<A>::value,
                  "No valid property accessor provided!");
 
@@ -254,9 +254,9 @@ FRegistration::bind<RTTI::prop_readonly, RTTI::invalid_type, A, RTTI::public_acc
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename A1, typename A2, typename Visitor_List>
-FRegistration::bind<RTTI::prop, RTTI::invalid_type, A1, A2, RTTI::public_access, Visitor_List> FRegistration::Property(string_view name, A1 getter, A2 setter)
+registration::bind<detail::prop, detail::invalid_type, A1, A2, detail::public_access, Visitor_List> registration::property(string_view name, A1 getter, A2 setter)
 {
-    using namespace RTTI;
+    using namespace detail;
     static_assert(is_functor<A1>::value || is_functor<A2>::value,
                   "No valid property accessor provided!");
 
@@ -266,9 +266,9 @@ FRegistration::bind<RTTI::prop, RTTI::invalid_type, A1, A2, RTTI::public_access,
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename F, typename Visitor_List>
-FRegistration::bind<RTTI::meth, RTTI::invalid_type, F, RTTI::public_access, Visitor_List> FRegistration::Method(string_view name, F f)
+registration::bind<detail::meth, detail::invalid_type, F, detail::public_access, Visitor_List> registration::method(string_view name, F f)
 {
-    using namespace RTTI;
+    using namespace detail;
     static_assert(is_functor<F>::value, "No valid property accessor provided!");
     return {std::make_shared<registration_executer>(), name, f};
 }
@@ -276,16 +276,16 @@ FRegistration::bind<RTTI::meth, RTTI::invalid_type, F, RTTI::public_access, Visi
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename Enum_Type>
-FRegistration::bind<RTTI::enum_, RTTI::invalid_type, Enum_Type> FRegistration::enumeration(string_view name)
+registration::bind<detail::enum_, detail::invalid_type, Enum_Type> registration::enumeration(string_view name)
 {
-    using namespace RTTI;
+    using namespace detail;
     static_assert(std::is_enum<Enum_Type>::value, "No enum type provided, please call this method with an enum type!");
     return {std::make_shared<registration_executer>(), name};
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
+} // end namespace rttr
 
 #define RTTR_REGISTRATION                                                           \
 static void rttr_auto_register_reflection_function_();                              \
@@ -312,7 +312,7 @@ static void rttr_auto_unregister_reflection_function() RTTR_DECLARE_PLUGIN_DTOR;
                                                                                     \
 static void rttr_auto_unregister_reflection_function()                              \
 {                                                                                   \
-    Auto3D::RTTI::get_registration_manager().unregister();                          \
+    rttr::detail::get_registration_manager().unregister();                          \
 }                                                                                   \
 static void rttr_auto_register_reflection_function_()
 #endif

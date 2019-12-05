@@ -34,11 +34,11 @@
 
 #include <type_traits>
 
-namespace Auto3D
+namespace rttr
 {
 template<typename... U> struct type_list;
 
-namespace RTTI
+namespace detail
 {
 
 /*!
@@ -119,7 +119,7 @@ struct reg_wrapper_converter_for_base_classes<T, typename std::enable_if<is_wrap
 
 /////////////////////////////////////////////////////////////////////////////////////
 
-}   
-}   
+}   // end namespace detail
+}   // end namespace rttr
 
 #endif // RTTR_REGISTER_WRAPPER_MAPPER_CONVERSION_H_

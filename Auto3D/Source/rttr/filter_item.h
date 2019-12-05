@@ -31,7 +31,7 @@
 #include "rttr/detail/base/core_prerequisites.h"
 #include "rttr/enum_flags.h"
 
-namespace Auto3D
+namespace rttr
 {
 
 /*!
@@ -81,6 +81,6 @@ enum class filter_item
 RTTR_DECLARE_FLAGS(filter_items, filter_item)
 RTTR_DECLARE_ENUM_FLAGS_OPERATORS(filter_items)
 
-} 
+} // end namespace rttr
 
 #endif // RTTR_FILTER_ITEM_H_

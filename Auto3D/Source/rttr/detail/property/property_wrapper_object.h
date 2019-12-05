@@ -67,7 +67,7 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
             return (variant(*m_accessor));
         }
 
-        void visit(visitor& visitor, Property prop) const RTTR_NOEXCEPT
+        void visit(visitor& visitor, property prop) const RTTR_NOEXCEPT
         {
             auto obj = make_property_info<Declaring_Typ, return_as_copy, C*>(prop, m_accessor);
             visitor_iterator<Visitor_List>::visit(visitor, make_property_visitor_invoker(obj));
@@ -112,7 +112,7 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
             return (variant(*m_accessor));
         }
 
-        void visit(visitor& visitor, Property prop) const RTTR_NOEXCEPT
+        void visit(visitor& visitor, property prop) const RTTR_NOEXCEPT
         {
             auto obj = make_property_info<Declaring_Typ, return_as_copy, C*>(prop, m_accessor);
             visitor_iterator<Visitor_List>::visit(visitor, make_property_visitor_invoker<read_only>(obj));
@@ -167,7 +167,7 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
             return (variant(m_accessor));
         }
 
-        void visit(visitor& visitor, Property prop) const RTTR_NOEXCEPT
+        void visit(visitor& visitor, property prop) const RTTR_NOEXCEPT
         {
             auto obj = make_property_info<Declaring_Typ, return_as_ptr, C*>(prop, m_accessor);
             visitor_iterator<Visitor_List>::visit(visitor, make_property_visitor_invoker(obj));
@@ -212,7 +212,7 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, return_as
             return (variant(m_accessor));
         }
 
-        void visit(visitor& visitor, Property prop) const RTTR_NOEXCEPT
+        void visit(visitor& visitor, property prop) const RTTR_NOEXCEPT
         {
             auto obj = make_property_info<Declaring_Typ, return_as_ptr, C*>(prop, m_accessor);
             visitor_iterator<Visitor_List>::visit(visitor, make_property_visitor_invoker<read_only>(obj));
@@ -262,7 +262,7 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, get_as_re
             return (variant(std::ref(*m_accessor)));
         }
 
-        void visit(visitor& visitor, Property prop) const RTTR_NOEXCEPT
+        void visit(visitor& visitor, property prop) const RTTR_NOEXCEPT
         {
             auto obj = make_property_info<Declaring_Typ, get_as_ref_wrapper, C*>(prop, m_accessor);
             visitor_iterator<Visitor_List>::visit(visitor, make_property_visitor_invoker(obj));
@@ -307,7 +307,7 @@ class property_wrapper<object_ptr, Declaring_Typ, C*, void, Acc_Level, get_as_re
             return (variant(std::cref(*m_accessor)));
         }
 
-        void visit(visitor& visitor, Property prop) const RTTR_NOEXCEPT
+        void visit(visitor& visitor, property prop) const RTTR_NOEXCEPT
         {
             auto obj = make_property_info<Declaring_Typ, get_as_ref_wrapper, C*>(prop, m_accessor);
             visitor_iterator<Visitor_List>::visit(visitor, make_property_visitor_invoker<read_only>(obj));

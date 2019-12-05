@@ -37,11 +37,11 @@
 #include <vector>
 #include <initializer_list>
 
-namespace Auto3D
+namespace rttr
 {
 class argument;
 
-namespace RTTI
+namespace detail
 {
 
 /*!
@@ -79,7 +79,7 @@ class RTTR_API enumeration_wrapper_base
         type m_declaring_type;
 };
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_ENUMERATION_WRAPPER_BASE_H_

@@ -33,9 +33,9 @@
 #include "rttr/constructor.h"
 #include "rttr/array_range.h"
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -90,7 +90,7 @@ RTTR_INLINE bool filter_member_item(const T& item, const type& t, filter_items f
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename T>
-RTTI::default_predicate<T> get_filter_predicate(const type& t, filter_items filter)
+detail::default_predicate<T> get_filter_predicate(const type& t, filter_items filter)
 {
     if (!is_valid_filter_item(filter))
     {
@@ -108,15 +108,15 @@ RTTI::default_predicate<T> get_filter_predicate(const type& t, filter_items filt
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<>
-RTTR_INLINE RTTI::default_predicate<FConstructor> get_filter_predicate(const type& t, filter_items filter)
+RTTR_INLINE detail::default_predicate<constructor> get_filter_predicate(const type& t, filter_items filter)
 {
     if (!is_valid_filter_item(filter))
     {
-        return {[](const FConstructor&){ return false; }};
+        return {[](const constructor&){ return false; }};
     }
     else
     {
-        return {[filter](const FConstructor& item)
+        return {[filter](const constructor& item)
         {
             bool result = true;
 
@@ -140,8 +140,8 @@ RTTR_INLINE RTTI::default_predicate<FConstructor> get_filter_predicate(const typ
 }
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 
 #endif // RTTR_FILTER_ITEM_FUNCS_H_

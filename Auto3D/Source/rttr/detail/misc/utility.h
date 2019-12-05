@@ -44,9 +44,9 @@
 RTTR_BEGIN_DISABLE_EXCEPT_TYPE_WARNING
 #endif
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -119,9 +119,9 @@ struct remove_first_index_impl
 };
 
 template<std::size_t First, std::size_t... I>
-struct remove_first_index_impl<RTTI::index_sequence<First, I...>>
+struct remove_first_index_impl<detail::index_sequence<First, I...>>
 {
-    using type = RTTI::index_sequence<I...>;
+    using type = detail::index_sequence<I...>;
 };
 
 template<typename T>
@@ -401,7 +401,7 @@ struct raw_addressof_impl<T, enable_if_t<is_void_pointer<T>::value> >
  * \brief This function will return from its raw type \p T
  *        its address as pointer.
  *
- * \see RTTI::raw_type
+ * \see detail::raw_type
  *
  * \return The address of the raw type from the given object \p data as pointer.
  */
@@ -526,8 +526,8 @@ static RTTR_INLINE T& identity_func(T& func) { return func; }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #ifdef RTTR_NO_CXX17_NOEXCEPT_FUNC_TYPE
 RTTR_END_DISABLE_EXCEPT_TYPE_WARNING

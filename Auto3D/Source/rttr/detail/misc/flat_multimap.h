@@ -37,9 +37,9 @@
 #include <functional>
 #include <algorithm>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /*!
@@ -232,7 +232,7 @@ class flat_multimap
         std::vector<Value>          m_value_list;
 };
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_FLAT_MULTIMAP_H_

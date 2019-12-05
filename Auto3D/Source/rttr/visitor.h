@@ -37,12 +37,12 @@
 #include <functional>
 #include <tuple>
 
-namespace Auto3D
+namespace rttr
 {
 
-class Property;
-class Method;
-class FConstructor;
+class property;
+class method;
+class constructor;
 
 /*!
  * \brief The class \ref visitor, is used for visiting your registered accessors of a type at compile time.
@@ -121,13 +121,13 @@ public:
      * \brief Calling this function will indirectly call the function \ref visit_method()
      *        for the underlying registered type.
      */
-    void visit(Method meth);
+    void visit(method meth);
 
     /*!
      * \brief Calling this function will indirectly call the function \ref visit_constructor()
      *        or \ref visit_constructor_function() for the underlying registered type.
      */
-    void visit(FConstructor ctor);
+    void visit(constructor ctor);
 
     /*!
      * \brief Calling this function will indirectly call one of the functions:
@@ -137,7 +137,7 @@ public:
      *        - \ref visit_global_readonly_property()
      *         for the underlying registered type.
      */
-    void visit(Property prop);
+    void visit(property prop);
 
 #ifdef DOXYGEN
     /*!
@@ -239,7 +239,7 @@ public:
         using declaring_type    = T;
         using ctor_args         = type_list<Ctor_args...>;
         using policy            = Policy;
-        const FConstructor&      ctor_item;
+        const constructor&      ctor_item;
     };
 
     template<typename T>
@@ -250,7 +250,7 @@ public:
     {
         using declaring_type = T;
         using policy         = Policy;
-        const FConstructor    ctor_item;
+        const constructor    ctor_item;
         Acc                  function_ptr;
     };
 
@@ -262,7 +262,7 @@ public:
     {
         using declaring_type = T;
         using policy         = Policy;
-        const Method         method_item;
+        const method         method_item;
         Acc                  function_ptr;
     };
 
@@ -274,7 +274,7 @@ public:
     {
         using declaring_type = T;
         using policy         = Policy;
-        const Property       property_item;
+        const property       property_item;
         Acc                  property_accessor;
     };
 
@@ -286,7 +286,7 @@ public:
     {
         using declaring_type = T;
         using policy         = Policy;
-        const Property       property_item;
+        const property       property_item;
         Getter               property_getter;
         Setter               property_setter;
     };
@@ -498,7 +498,7 @@ private:
     RTTR_ENABLE();
 };
 
-} 
+} // end namespace rttr
 
 #include "rttr/detail/visitor/visitor_impl.h"
 

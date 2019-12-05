@@ -48,9 +48,9 @@
 #include <utility>
 #include <type_traits>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 template<typename Class_Type, typename Constructor_Type, access_levels Acc_Level, typename Policy,
@@ -135,7 +135,7 @@ class constructor_wrapper<Class_Type, class_ctor, Acc_Level, Policy, Metadata_Co
                 return variant();
         }
 
-        void visit(visitor& visitor, const FConstructor& ctor) const RTTR_NOEXCEPT
+        void visit(visitor& visitor, const constructor& ctor) const RTTR_NOEXCEPT
         {
             auto obj = make_ctor_info<Class_Type, Policy, Ctor_Args...>(ctor);
             visitor_iterator<Visitor_List>::visit(visitor, make_ctor_visitor_invoker(obj));
@@ -156,7 +156,7 @@ class constructor_wrapper<Class_Type, return_func, Acc_Level, Policy,
 :   public constructor_wrapper_base, public metadata_handler<Metadata_Count>
 {
     using instanciated_type = typename function_traits<F>::return_type;
-    using method_type = typename RTTI::method_type<F>::type;
+    using method_type = typename detail::method_type<F>::type;
     using arg_index_sequence = make_index_sequence< function_traits<F>::arg_count >;
     using invoker_class = method_invoker<F, Policy, method_type, arg_index_sequence>;
     using invoke_with_defaults = invoke_defaults_helper<invoker_class, F>;
@@ -221,7 +221,7 @@ class constructor_wrapper<Class_Type, return_func, Acc_Level, Policy,
                 return variant();
         }
 
-        void visit(visitor& visitor, const FConstructor& ctor) const RTTR_NOEXCEPT
+        void visit(visitor& visitor, const constructor& ctor) const RTTR_NOEXCEPT
         {
             auto obj = make_ctor_info_func<Class_Type, Policy, F>(ctor, m_creator_func);
             visitor_iterator<Visitor_List>::visit(visitor, make_ctor_visitor_invoker_func(obj));
@@ -311,7 +311,7 @@ class constructor_wrapper<Class_Type, class_ctor, Acc_Level, Policy, Metadata_Co
                 return variant();
         }
 
-        void visit(visitor& visitor, const FConstructor& ctor) const RTTR_NOEXCEPT
+        void visit(visitor& visitor, const constructor& ctor) const RTTR_NOEXCEPT
         {
             auto obj = make_ctor_info<Class_Type, Policy, Ctor_Args...>(ctor);
             visitor_iterator<Visitor_List>::visit(visitor, make_ctor_visitor_invoker(obj));
@@ -330,7 +330,7 @@ class constructor_wrapper<Class_Type, return_func, Acc_Level, Policy,
 :   public constructor_wrapper_base, public metadata_handler<Metadata_Count>
 {
     using instanciated_type = typename function_traits<F>::return_type;
-    using method_type = typename RTTI::method_type<F>::type;
+    using method_type = typename detail::method_type<F>::type;
     using arg_index_sequence = make_index_sequence< function_traits<F>::arg_count >;
     using invoker_class = method_invoker<F, Policy, method_type, arg_index_sequence>;
     using invoke_with_defaults = invoke_defaults_helper<invoker_class, F>;
@@ -392,7 +392,7 @@ class constructor_wrapper<Class_Type, return_func, Acc_Level, Policy,
                 return variant();
         }
 
-        void visit(visitor& visitor, const FConstructor& ctor) const RTTR_NOEXCEPT
+        void visit(visitor& visitor, const constructor& ctor) const RTTR_NOEXCEPT
         {
             auto obj = make_ctor_info_func<Class_Type, Policy, F>(ctor, m_creator_func);
             visitor_iterator<Visitor_List>::visit(visitor, make_ctor_visitor_invoker_func(obj));
@@ -405,7 +405,7 @@ class constructor_wrapper<Class_Type, return_func, Acc_Level, Policy,
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_CONSTRUCTOR_WRAPPER_DEFAULTS_H_

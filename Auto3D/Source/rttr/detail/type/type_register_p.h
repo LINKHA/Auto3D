@@ -42,13 +42,13 @@
 #include <vector>
 #include <mutex>
 
-namespace Auto3D
+namespace rttr
 {
 class type;
-class Property;
-class Method;
+class property;
+class method;
 
-namespace RTTI
+namespace detail
 {
 
 class constructor_wrapper_base;
@@ -90,13 +90,13 @@ public:
     void register_custom_name(type& t, string_view custom_name);
 
     /////////////////////////////////////////////////////////////////////////////////////
-    flat_multimap<string_view, ::Auto3D::Property>& get_global_property_storage();
-    flat_multimap<string_view, ::Auto3D::Method>& get_global_method_storage();
+    flat_multimap<string_view, ::rttr::property>& get_global_property_storage();
+    flat_multimap<string_view, ::rttr::method>& get_global_method_storage();
     /////////////////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////////////////////////////////
-    std::vector<::Auto3D::Method>& get_global_methods();
-    std::vector<::Auto3D::Property>& get_global_properties();
+    std::vector<::rttr::method>& get_global_methods();
+    std::vector<::rttr::property>& get_global_properties();
 
     /////////////////////////////////////////////////////////////////////////////////////
 
@@ -176,8 +176,8 @@ private:
     static const type_comparator_base* get_type_comparator_impl(const type& t,
                                                                 const std::vector<data_container<const type_comparator_base*>>& comparator_list);
 
-    static ::Auto3D::Property get_type_property(const type& t, string_view name);
-    static ::Auto3D::Method get_type_method(const type& t, string_view name,
+    static ::rttr::property get_type_property(const type& t, string_view name);
+    static ::rttr::method get_type_method(const type& t, string_view name,
                                           const std::vector<type>& type_list);
 
     template<typename T>
@@ -218,10 +218,10 @@ private:
     std::vector<type>                                           m_type_list;
     std::vector<type_data*>                                     m_type_data_storage;
 
-    flat_multimap<string_view, ::Auto3D::Property>                m_global_property_stroage;
-    flat_multimap<string_view, ::Auto3D::Method>                  m_global_method_stroage;
-    std::vector<::Auto3D::Property>                               m_global_properties;
-    std::vector<::Auto3D::Method>                                 m_global_methods;
+    flat_multimap<string_view, ::rttr::property>                m_global_property_stroage;
+    flat_multimap<string_view, ::rttr::method>                  m_global_method_stroage;
+    std::vector<::rttr::property>                               m_global_properties;
+    std::vector<::rttr::method>                                 m_global_methods;
 
     std::vector<data_container<const type_converter_base*>>     m_type_converter_list;
     std::vector<data_container<const type_comparator_base*>>    m_type_equal_cmp_list;
@@ -230,7 +230,7 @@ private:
     std::mutex                                                  m_mutex;
 };
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_TYPE_REGISTER_P_H_

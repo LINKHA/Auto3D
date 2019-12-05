@@ -33,17 +33,17 @@
 #include <type_traits>
 #include <vector>
 
-namespace Auto3D
+namespace rttr
 {
 class type;
 
-namespace RTTI
+namespace detail
 {
 
 template<typename T>
 struct template_type_trait : std::false_type                                                                                                   \
 {
-    static std::vector<::Auto3D::type> get_template_arguments();
+    static std::vector<::rttr::type> get_template_arguments();
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -53,7 +53,7 @@ using is_template_instance = template_type_trait<T>;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-}   
-}   
+}   // end namespace detail
+}   // end namespace rttr
 
 #endif // RTTR_TEMPLATE_TYPE_TRAIT_H_

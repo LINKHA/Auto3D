@@ -28,7 +28,7 @@
 #ifndef RTTR_RTTR_CAST_H_
 #define RTTR_RTTR_CAST_H_
 
-namespace Auto3D
+namespace rttr
 {
 
 /*!

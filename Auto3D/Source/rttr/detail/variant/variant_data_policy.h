@@ -39,9 +39,9 @@
 
 #include <cstdint>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 template<typename T, typename Converter = empty_type_converter<T>>
@@ -997,7 +997,7 @@ template struct RTTR_API variant_data_policy_small<std::int64_t*>;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_VARIANT_DATA_POLICY_H_

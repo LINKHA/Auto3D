@@ -30,9 +30,9 @@
 
 #include "rttr/visitor.h"
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -75,8 +75,8 @@ struct RTTR_LOCAL visitor_iterator<>
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 
 #endif // RTTR_VISITOR_ITAERATOR_H_

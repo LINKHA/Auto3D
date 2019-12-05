@@ -33,9 +33,9 @@
 #include "rttr/detail/visitor/visitor_iterator.h"
 #include "rttr/detail/visitor/type_visitor_invoker.h"
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 
@@ -71,7 +71,7 @@ visit_type(type_of_visit visit_type, visitor& vi, const type& t)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_CREATE_TYPE_VISITOR_FUNC_H_

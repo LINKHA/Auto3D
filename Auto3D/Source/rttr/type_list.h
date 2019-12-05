@@ -30,7 +30,7 @@
 
 #include "rttr/detail/base/core_prerequisites.h"
 
-namespace Auto3D
+namespace rttr
 {
 /*!
  * \brief Contains a list of template parameters.
@@ -43,6 +43,6 @@ struct type_list
 };
 
 
-} 
+} // end namespace rttr
 
 #endif // RTTR_TYPE_LIST_H_

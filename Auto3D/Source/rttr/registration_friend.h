@@ -30,9 +30,9 @@
 
 #include "rttr/detail/base/core_prerequisites.h"
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 template<typename Ctor_Type, typename Policy, typename Accessor, typename Arg_Indexer>
 struct constructor_invoker;
@@ -69,7 +69,7 @@ static void rttr_auto_register_reflection_function_();
 #else
 #define RTTR_REGISTRATION_FRIEND friend void ::rttr_auto_register_reflection_function_();                               \
                                  template<typename Ctor_Type, typename Policy, typename Accessor, typename Arg_Indexer> \
-                                 friend struct Auto3D::RTTI::constructor_invoker;
+                                 friend struct rttr::detail::constructor_invoker;
 #endif
 
 #endif // RTTR_REGISTRATION_FRIEND_H_

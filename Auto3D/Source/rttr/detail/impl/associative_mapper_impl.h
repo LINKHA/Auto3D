@@ -39,9 +39,9 @@
 #include <unordered_map>
 #include <unordered_set>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 
@@ -109,7 +109,7 @@ struct associative_container_mapper_wrapper : iterator_wrapper_base<Tp>
 
     static void find(void* container, iterator_data& itr, argument& key)
     {
-        if (key.get_type() == ::Auto3D::type::get<key_t>())
+        if (key.get_type() == ::rttr::type::get<key_t>())
             itr_wrapper::create(itr, base_class::find(get_container(container), key.get_value<key_t>()));
         else
             end(container, itr);
@@ -134,7 +134,7 @@ struct associative_container_mapper_wrapper : iterator_wrapper_base<Tp>
     static void equal_range(void* container, argument& key,
                             iterator_data& itr_begin, iterator_data& itr_end)
     {
-        if (key.get_type() == ::Auto3D::type::get<key_t>())
+        if (key.get_type() == ::rttr::type::get<key_t>())
         {
             auto ret = base_class::equal_range(get_container(container), key.get_value<key_t>());
             itr_wrapper::create(itr_begin, ret.first);
@@ -152,7 +152,7 @@ struct associative_container_mapper_wrapper : iterator_wrapper_base<Tp>
     template<typename..., typename C = ConstType, enable_if_t<!std::is_const<C>::value, int> = 0>
     static std::size_t erase(void* container, argument& key)
     {
-        if (key.get_type() == ::Auto3D::type::get<key_t>())
+        if (key.get_type() == ::rttr::type::get<key_t>())
         {
             return base_class::erase(get_container(container), key.get_value<key_t>());
         }
@@ -173,7 +173,7 @@ struct associative_container_mapper_wrapper : iterator_wrapper_base<Tp>
     template<typename..., typename V = value_t, enable_if_t<std::is_void<V>::value && !std::is_const<ConstType>::value, int> = 0>
     static bool insert_key(void* container, argument& key, iterator_data& itr)
     {
-        if (key.get_type() == ::Auto3D::type::get<key_t>())
+        if (key.get_type() == ::rttr::type::get<key_t>())
         {
             auto ret = base_class::insert_key(get_container(container), key.get_value<key_t>());
             itr_wrapper::create(itr, ret.first);
@@ -198,8 +198,8 @@ struct associative_container_mapper_wrapper : iterator_wrapper_base<Tp>
     template<typename..., typename V = value_t, enable_if_t<!std::is_void<V>::value && !std::is_const<ConstType>::value, int> = 0>
     static bool insert_key_value(void* container, argument& key, argument& value, iterator_data& itr)
     {
-        if (key.get_type() == ::Auto3D::type::get<key_t>() &&
-            value.get_type() == ::Auto3D::type::get<value_t>())
+        if (key.get_type() == ::rttr::type::get<key_t>() &&
+            value.get_type() == ::rttr::type::get<value_t>())
         {
             auto ret = base_class::insert_key_value(get_container(container), key.get_value<key_t>(), value.get_value<value_t>());
             itr_wrapper::create(itr, ret.first);
@@ -407,51 +407,51 @@ struct associative_container_key_base_multi : associative_container_key_base<T>
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-} 
+} // end namespace detail
 
 //////////////////////////////////////////////////////////////////////////////////////
 
 template<typename K>
-struct associative_container_mapper<std::set<K>> : RTTI::associative_container_key_base<std::set<K>> {};
+struct associative_container_mapper<std::set<K>> : detail::associative_container_key_base<std::set<K>> {};
 
 //////////////////////////////////////////////////////////////////////////////////////
 
 template<typename K>
-struct associative_container_mapper<std::multiset<K>> : RTTI::associative_container_key_base_multi<std::multiset<K>> {};
+struct associative_container_mapper<std::multiset<K>> : detail::associative_container_key_base_multi<std::multiset<K>> {};
 
 //////////////////////////////////////////////////////////////////////////////////////
 
 template<typename K, typename T>
-struct associative_container_mapper<std::map<K, T>> : RTTI::associative_container_map_base<std::map<K, T>> { };
+struct associative_container_mapper<std::map<K, T>> : detail::associative_container_map_base<std::map<K, T>> { };
 
 //////////////////////////////////////////////////////////////////////////////////////
 
 template<typename K, typename T>
-struct associative_container_mapper<std::multimap<K, T>> : RTTI::associative_container_base_multi<std::multimap<K, T>> {};
+struct associative_container_mapper<std::multimap<K, T>> : detail::associative_container_base_multi<std::multimap<K, T>> {};
 
 //////////////////////////////////////////////////////////////////////////////////////
 
 template<typename K>
-struct associative_container_mapper<std::unordered_set<K>> : RTTI::associative_container_key_base<std::unordered_set<K>> {};
+struct associative_container_mapper<std::unordered_set<K>> : detail::associative_container_key_base<std::unordered_set<K>> {};
 
 //////////////////////////////////////////////////////////////////////////////////////
 
 template<typename K, typename T>
-struct associative_container_mapper<std::unordered_map<K, T>> : RTTI::associative_container_map_base<std::unordered_map<K, T>> {};
+struct associative_container_mapper<std::unordered_map<K, T>> : detail::associative_container_map_base<std::unordered_map<K, T>> {};
 
 //////////////////////////////////////////////////////////////////////////////////////
 
 template<typename K>
-struct associative_container_mapper<std::unordered_multiset<K>> : RTTI::associative_container_key_base_multi<std::unordered_multiset<K>> {};
+struct associative_container_mapper<std::unordered_multiset<K>> : detail::associative_container_key_base_multi<std::unordered_multiset<K>> {};
 
 //////////////////////////////////////////////////////////////////////////////////////
 
 template<typename K, typename T>
-struct associative_container_mapper<std::unordered_multimap<K, T>> : RTTI::associative_container_base_multi<std::unordered_multimap<K, T>> {};
+struct associative_container_mapper<std::unordered_multimap<K, T>> : detail::associative_container_base_multi<std::unordered_multimap<K, T>> {};
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace RTTI
+namespace detail
 {
 
 struct associative_container_empty
@@ -528,7 +528,7 @@ struct associative_container_empty
     }
 };
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_ASSOCIATIVE_MAPPER_H_

@@ -31,7 +31,7 @@
 
 #include "rttr/detail/misc/utility.h"
 
-namespace Auto3D
+namespace rttr
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -612,7 +612,7 @@ RTTR_INLINE std::basic_string<CharT, Traits> operator+(std::basic_string<CharT, 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-namespace RTTI
+namespace detail
 {
 
 template<typename CharT, typename Traits>
@@ -637,7 +637,7 @@ void insert_aligned(std::basic_ostream<CharT, Traits>& os, const basic_string_vi
     const bool align_left = (os.flags() & std::basic_ostream<CharT, Traits>::adjustfield) == std::basic_ostream<CharT, Traits>::left;
     if (!align_left)
     {
-        RTTI::insert_fill_chars(os, alignment_size);
+        detail::insert_fill_chars(os, alignment_size);
         if (os.good())
             os.write(str.data(), size);
     }
@@ -645,11 +645,11 @@ void insert_aligned(std::basic_ostream<CharT, Traits>& os, const basic_string_vi
     {
         os.write(str.data(), size);
         if (os.good())
-            RTTI::insert_fill_chars(os, alignment_size);
+            detail::insert_fill_chars(os, alignment_size);
     }
 }
 
-} 
+} // end namespace detail
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -664,7 +664,7 @@ std::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT, Traits>&
         if (w <= size)
             os.write(str.data(), size);
         else
-            RTTI::insert_aligned(os, str);
+            detail::insert_aligned(os, str);
         os.width(0);
     }
 
@@ -673,7 +673,7 @@ std::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT, Traits>&
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-namespace RTTI
+namespace detail
 {
 
 template <>
@@ -686,8 +686,8 @@ public:
     }
 };
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 /////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -696,12 +696,12 @@ public:
 namespace std
 {
     template<typename CharT, typename Traits>
-    struct hash<Auto3D::basic_string_view<CharT, Traits>>
+    struct hash<rttr::basic_string_view<CharT, Traits>>
     {
     public:
-        size_t operator()(const Auto3D::basic_string_view<CharT, Traits>& value) const
+        size_t operator()(const rttr::basic_string_view<CharT, Traits>& value) const
         {
-            return Auto3D::RTTI::generate_hash(value.data(), value.size());
+            return rttr::detail::generate_hash(value.data(), value.size());
         }
     };
 } // end namespace std

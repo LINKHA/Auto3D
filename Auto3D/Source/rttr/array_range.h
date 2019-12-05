@@ -33,20 +33,20 @@
 #include <vector>
 #include <cstddef>
 
-namespace Auto3D
+namespace rttr
 {
-class Property;
-class Method;
-class FConstructor;
+class property;
+class method;
+class constructor;
 class enumeration;
 class parameter_info;
 
-namespace RTTI
+namespace detail
 {
 template<typename T>
 struct default_predicate;
 
-} 
+} // end namespace detail
 
 
 /*!
@@ -59,7 +59,7 @@ struct default_predicate;
  *         its iterators and the range itself will be invalidated.
  */
 
-template<typename T, typename Predicate = RTTI::default_predicate<T>>
+template<typename T, typename Predicate = detail::default_predicate<T>>
 class array_range
 {
 public:
@@ -333,7 +333,7 @@ private:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
+} // end namespace rttr
 
 #include "rttr/detail/impl/array_range_impl.h"
 

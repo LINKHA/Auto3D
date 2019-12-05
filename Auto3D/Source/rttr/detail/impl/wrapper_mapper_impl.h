@@ -35,7 +35,7 @@
 
 #include <memory>
 
-namespace Auto3D
+namespace rttr
 {
 
 class type;
@@ -130,7 +130,7 @@ struct wrapper_mapper<std::weak_ptr<T>>
 
 };
 
-namespace RTTI
+namespace detail
 {
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -199,7 +199,7 @@ using has_create_wrapper_func = std::integral_constant<bool, has_create_wrapper_
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_WRAPPER_MAPPER_IMPL_H_

@@ -47,9 +47,9 @@
 #include <string>
 #include <array>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 template<typename F, typename Declaring_Type, access_levels Acc_Level, typename Policy, typename Default_Args, typename Parameter_Infos, std::size_t Metadata_Count, typename Visitor_List>
@@ -120,7 +120,7 @@ class method_wrapper<F, Declaring_Type, Acc_Level, Policy, default_args<>, param
             return method_accessor<F, Policy>::invoke_variadic(m_func_acc, object, args);
         }
 
-        void visit(visitor& visitor, Method meth) const RTTR_NOEXCEPT
+        void visit(visitor& visitor, method meth) const RTTR_NOEXCEPT
         {
             auto obj = make_method_info<Declaring_Type, Policy, F>(meth, m_func_acc);
             visitor_iterator<Visitor_List>::visit(visitor, make_method_visitor_invoker(obj));
@@ -137,7 +137,7 @@ class method_wrapper<F, Declaring_Type, Acc_Level, Policy, default_args<>, param
 template<typename F, typename Declaring_Type, access_levels Acc_Level, typename Policy, typename...Default_Args, typename...Param_Args, std::size_t Metadata_Count, typename Visitor_List>
 class method_wrapper<F, Declaring_Type, Acc_Level, Policy, default_args<Default_Args...>, parameter_infos<Param_Args...>, Metadata_Count, Visitor_List> : public method_wrapper_base, public metadata_handler<Metadata_Count>
 {
-    using method_type = typename RTTI::method_type<F>::type;
+    using method_type = typename detail::method_type<F>::type;
     using arg_index_sequence = make_index_sequence<function_traits<F>::arg_count>;
     using invoker_class = method_invoker<F, Policy, method_type, arg_index_sequence>;
     using invoke_with_defaults = invoke_defaults_helper<invoker_class, F>;
@@ -206,7 +206,7 @@ class method_wrapper<F, Declaring_Type, Acc_Level, Policy, default_args<Default_
                 return variant();
         }
 
-        void visit(visitor& visitor, Method meth) const RTTR_NOEXCEPT
+        void visit(visitor& visitor, method meth) const RTTR_NOEXCEPT
         {
             auto obj = make_method_info<Declaring_Type, Policy, F>(meth, m_func_acc);
             visitor_iterator<Visitor_List>::visit(visitor, make_method_visitor_invoker(obj));
@@ -279,7 +279,7 @@ class method_wrapper<F, Declaring_Type, Acc_Level, Policy, default_args<>, param
             return method_accessor<F, Policy>::invoke_variadic(m_func_acc, object, args);
         }
 
-        void visit(visitor& visitor, Method meth) const RTTR_NOEXCEPT
+        void visit(visitor& visitor, method meth) const RTTR_NOEXCEPT
         {
             auto obj = make_method_info<Declaring_Type, Policy, F>(meth, m_func_acc);
             visitor_iterator<Visitor_List>::visit(visitor, make_method_visitor_invoker(obj));
@@ -294,7 +294,7 @@ class method_wrapper<F, Declaring_Type, Acc_Level, Policy, default_args<>, param
 template<typename F, typename Declaring_Type, access_levels Acc_Level, typename Policy, typename...Default_Args, std::size_t Metadata_Count, typename Visitor_List>
 class method_wrapper<F, Declaring_Type, Acc_Level, Policy, default_args<Default_Args...>, parameter_infos<>, Metadata_Count, Visitor_List> : public method_wrapper_base, public metadata_handler<Metadata_Count>
 {
-    using method_type = typename RTTI::method_type<F>::type;
+    using method_type = typename detail::method_type<F>::type;
     using arg_index_sequence = make_index_sequence<function_traits<F>::arg_count>;
     using invoker_class = method_invoker<F, Policy, method_type, arg_index_sequence>;
     using invoke_with_defaults = invoke_defaults_helper<invoker_class, F>;
@@ -359,7 +359,7 @@ class method_wrapper<F, Declaring_Type, Acc_Level, Policy, default_args<Default_
                 return variant();
         }
 
-        void visit(visitor& visitor, Method meth) const RTTR_NOEXCEPT
+        void visit(visitor& visitor, method meth) const RTTR_NOEXCEPT
         {
             auto obj = make_method_info<Declaring_Type, Policy, F>(meth, m_func_acc);
             visitor_iterator<Visitor_List>::visit(visitor, make_method_visitor_invoker(obj));
@@ -372,7 +372,7 @@ class method_wrapper<F, Declaring_Type, Acc_Level, Policy, default_args<Default_
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_METHOD_WRAPPER_H_

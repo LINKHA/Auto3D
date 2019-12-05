@@ -29,9 +29,9 @@
 
 #include "rttr/argument.h"
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -118,5 +118,5 @@ variant enumeration_wrapper_base::get_metadata(const variant& key) const
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr

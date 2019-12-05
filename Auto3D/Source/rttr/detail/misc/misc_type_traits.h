@@ -38,7 +38,7 @@
 #include <type_traits>
 #include <memory>
 
-namespace Auto3D
+namespace rttr
 {
 class type;
 
@@ -47,7 +47,7 @@ struct associative_container_mapper;
 template<typename T>
 struct sequential_container_mapper;
 
-namespace RTTI
+namespace detail
 {
     struct derived_info;
     struct invalid_type;
@@ -57,12 +57,12 @@ namespace RTTI
     template<typename T, typename Enable = void>
     struct raw_type
     {
-        using type = RTTI::remove_cv_t<T>;
+        using type = detail::remove_cv_t<T>;
     };
 
-    template<typename T> struct raw_type<T, enable_if_t<std::is_pointer<T>::value && !RTTI::is_function_ptr<T>::value>>
+    template<typename T> struct raw_type<T, enable_if_t<std::is_pointer<T>::value && !detail::is_function_ptr<T>::value>>
     {
-        using type = typename raw_type< RTTI::remove_pointer_t<T>>::type;
+        using type = typename raw_type< detail::remove_pointer_t<T>>::type;
     };
 
     template<typename T> struct raw_type<T, enable_if_t<std::is_reference<T>::value> >
@@ -165,7 +165,7 @@ namespace RTTI
         typedef char YesType[1];
         typedef char NoType[2];
 
-        template <typename U, Auto3D::type (U::*)() const>
+        template <typename U, rttr::type (U::*)() const>
         class check { };
 
         template <typename C>
@@ -894,7 +894,7 @@ namespace RTTI
      {
      };
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_MISC_TYPE_TRAITS_H_

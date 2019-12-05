@@ -30,11 +30,11 @@
 
 #include "rttr/detail/base/core_prerequisites.h"
 
-namespace Auto3D
+namespace rttr
 {
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace RTTI { struct invalid_wrapper_type { }; }
+namespace detail { struct invalid_wrapper_type { }; }
 
 /*!
  * The \ref wrapper_mapper class is a class template to access different wrapper types via one common interface.
@@ -120,7 +120,7 @@ namespace RTTI { struct invalid_wrapper_type { }; }
  *      }
  *  };
  *
- *  } 
+ *  } // end namespace rttr
  * \endcode
  *
  * \remark
@@ -133,7 +133,7 @@ template<typename T>
 struct wrapper_mapper
 {
 #ifndef DOXYGEN
-    using wrapped_type  = RTTI::invalid_wrapper_type;
+    using wrapped_type  = detail::invalid_wrapper_type;
     using type          = T;
 #else
     using wrapped_type  = typename wrapper_type::encapsulated_type;
@@ -159,7 +159,7 @@ struct wrapper_mapper
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-} 
+} // end namespace rttr
 
 #include "rttr/detail/impl/wrapper_mapper_impl.h"
 

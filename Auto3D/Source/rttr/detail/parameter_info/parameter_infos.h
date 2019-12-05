@@ -33,9 +33,9 @@
 #include "rttr/detail/default_arguments/default_arguments.h"
 #include "rttr/parameter_info.h"
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -294,7 +294,7 @@ static RTTR_INLINE void store_default_args_in_param_infos(parameter_infos<Param_
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_PARAMETER_INFOS_H_

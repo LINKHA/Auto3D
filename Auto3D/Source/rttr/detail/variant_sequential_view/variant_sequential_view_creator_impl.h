@@ -30,9 +30,9 @@
 
 #include "rttr/detail/variant_sequential_view/variant_sequential_view_private.h"
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -55,7 +55,7 @@ create_variant_sequential_view(T&& value)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_VARIANT_SEQUENTIAL_CREATOR_IMPL_H_

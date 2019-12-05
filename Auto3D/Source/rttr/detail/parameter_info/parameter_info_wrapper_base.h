@@ -31,9 +31,9 @@
 #include "rttr/detail/base/core_prerequisites.h"
 #include "rttr/type.h"
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 class RTTR_API parameter_info_wrapper_base
@@ -49,7 +49,7 @@ class RTTR_API parameter_info_wrapper_base
         virtual uint32_t get_index() const RTTR_NOEXCEPT = 0;
 };
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_PARAMETER_INFO_WRAPPER_BASE_H_

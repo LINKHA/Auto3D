@@ -44,12 +44,12 @@
 #include "rttr/detail/misc/register_wrapper_mapper_conversion.h"
 
 
-namespace Auto3D
+namespace rttr
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-RTTR_INLINE type::type(RTTI::type_data* data) RTTR_NOEXCEPT
+RTTR_INLINE type::type(detail::type_data* data) RTTR_NOEXCEPT
 :  m_type_data(data)
 {
 }
@@ -185,77 +185,77 @@ RTTR_INLINE std::size_t type::get_pointer_dimension() const RTTR_NOEXCEPT
 
 RTTR_INLINE bool type::is_class() const RTTR_NOEXCEPT
 {
-    return m_type_data->type_trait_value(RTTI::type_trait_infos::is_class);
+    return m_type_data->type_trait_value(detail::type_trait_infos::is_class);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 RTTR_INLINE bool type::is_template_instantiation() const RTTR_NOEXCEPT
 {
-    return m_type_data->type_trait_value(RTTI::type_trait_infos::is_template_instantiation);
+    return m_type_data->type_trait_value(detail::type_trait_infos::is_template_instantiation);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 RTTR_INLINE bool type::is_enumeration() const RTTR_NOEXCEPT
 {
-    return m_type_data->type_trait_value(RTTI::type_trait_infos::is_enum);
+    return m_type_data->type_trait_value(detail::type_trait_infos::is_enum);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 RTTR_INLINE bool type::is_array() const RTTR_NOEXCEPT
 {
-    return m_type_data->type_trait_value(RTTI::type_trait_infos::is_array);
+    return m_type_data->type_trait_value(detail::type_trait_infos::is_array);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 RTTR_INLINE bool type::is_associative_container() const RTTR_NOEXCEPT
 {
-    return m_type_data->type_trait_value(RTTI::type_trait_infos::is_associative_container);
+    return m_type_data->type_trait_value(detail::type_trait_infos::is_associative_container);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 RTTR_INLINE bool type::is_sequential_container() const RTTR_NOEXCEPT
 {
-    return m_type_data->type_trait_value(RTTI::type_trait_infos::is_sequential_container);
+    return m_type_data->type_trait_value(detail::type_trait_infos::is_sequential_container);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 RTTR_INLINE bool type::is_pointer() const RTTR_NOEXCEPT
 {
-    return m_type_data->type_trait_value(RTTI::type_trait_infos::is_pointer);
+    return m_type_data->type_trait_value(detail::type_trait_infos::is_pointer);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 RTTR_INLINE bool type::is_arithmetic() const RTTR_NOEXCEPT
 {
-    return m_type_data->type_trait_value(RTTI::type_trait_infos::is_arithmetic);
+    return m_type_data->type_trait_value(detail::type_trait_infos::is_arithmetic);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 RTTR_INLINE bool type::is_function_pointer() const RTTR_NOEXCEPT
 {
-    return m_type_data->type_trait_value(RTTI::type_trait_infos::is_function_pointer);
+    return m_type_data->type_trait_value(detail::type_trait_infos::is_function_pointer);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 RTTR_INLINE bool type::is_member_object_pointer() const RTTR_NOEXCEPT
 {
-    return m_type_data->type_trait_value(RTTI::type_trait_infos::is_member_object_pointer);
+    return m_type_data->type_trait_value(detail::type_trait_infos::is_member_object_pointer);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 RTTR_INLINE bool type::is_member_function_pointer() const RTTR_NOEXCEPT
 {
-    return m_type_data->type_trait_value(RTTI::type_trait_infos::is_member_function_pointer);
+    return m_type_data->type_trait_value(detail::type_trait_infos::is_member_function_pointer);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -277,7 +277,7 @@ RTTR_INLINE variant type::create_variant(const argument& data) const
 /////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
 
-namespace RTTI
+namespace detail
 {
 
 RTTR_INLINE static type get_invalid_type() RTTR_NOEXCEPT { return create_type(nullptr); }
@@ -322,7 +322,7 @@ create_or_get_type() RTTR_NOEXCEPT
 template<typename T>
 RTTR_LOCAL RTTR_INLINE type get_type_from_instance(const T*) RTTR_NOEXCEPT
 {
-    return RTTI::create_or_get_type<T>();
+    return detail::create_or_get_type<T>();
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -358,7 +358,7 @@ struct type_from_instance<T, true>
 template<typename TargetType, typename SourceType, typename F>
 struct type_converter;
 
-} 
+} // end namespace detail
 
 /////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -368,15 +368,15 @@ template<typename T>
 RTTR_INLINE type type::get() RTTR_NOEXCEPT
 {
     using non_ref_type = typename std::remove_cv<typename std::remove_reference<T>::type>::type;
-    return RTTI::create_or_get_type<non_ref_type>();
+    return detail::create_or_get_type<non_ref_type>();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<>
-RTTR_INLINE type type::get<RTTI::invalid_type>() RTTR_NOEXCEPT
+RTTR_INLINE type type::get<detail::invalid_type>() RTTR_NOEXCEPT
 {
-    return RTTI::get_invalid_type();
+    return detail::get_invalid_type();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -385,7 +385,7 @@ template<typename T>
 RTTR_INLINE type type::get(T&& object) RTTR_NOEXCEPT
 {
     using remove_ref = typename std::remove_reference<T>::type;
-    return RTTI::type_from_instance<T, RTTI::has_get_type_func<T>::value && !std::is_pointer<remove_ref>::value>::get(std::forward<T>(object));
+    return detail::type_from_instance<T, detail::has_get_type_func<T>::value && !std::is_pointer<remove_ref>::value>::get(std::forward<T>(object));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -409,7 +409,7 @@ RTTR_INLINE bool type::is_base_of() const RTTR_NOEXCEPT
 template<typename F>
 RTTR_INLINE void type::register_converter_func(F func)
 {
-    using namespace RTTI;
+    using namespace detail;
 
     using target_type_orig = typename function_traits<F>::return_type;
     using target_type = remove_cv_t<remove_reference_t<target_type_orig>>;
@@ -423,7 +423,7 @@ RTTR_INLINE void type::register_converter_func(F func)
     using source_type_orig = param_types_t<F, 0>;
     using source_type = remove_cv_t<remove_reference_t<source_type_orig>>;
 
-    get_registration_manager().add_item(::Auto3D::RTTI::make_unique<type_converter<target_type, source_type, F>>(func));
+    get_registration_manager().add_item(::rttr::detail::make_unique<type_converter<target_type, source_type, F>>(func));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -431,7 +431,7 @@ RTTR_INLINE void type::register_converter_func(F func)
 template<typename T>
 RTTR_INLINE void type::register_wrapper_converter_for_base_classes()
 {
-    RTTI::reg_wrapper_converter_for_base_classes<T>();
+    detail::reg_wrapper_converter_for_base_classes<T>();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -448,9 +448,9 @@ void type::register_comparators()
 template<typename T>
 void type::register_equal_comparator()
 {
-    static_assert(RTTI::has_equal_operator<T>::value, "No equal operator for given type found.");
+    static_assert(detail::has_equal_operator<T>::value, "No equal operator for given type found.");
 
-    RTTI::get_registration_manager().add_equal_cmp(::Auto3D::RTTI::make_unique<RTTI::type_equal_comparator<T>>());
+    detail::get_registration_manager().add_equal_cmp(::rttr::detail::make_unique<detail::type_equal_comparator<T>>());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -458,25 +458,25 @@ void type::register_equal_comparator()
 template<typename T>
 void type::register_less_than_comparator()
 {
-    static_assert(RTTI::has_less_than_operator<T>::value, "No less-than operator for given type found.");
+    static_assert(detail::has_less_than_operator<T>::value, "No less-than operator for given type found.");
 
-    RTTI::get_registration_manager().add_less_than_cmp(::Auto3D::RTTI::make_unique<RTTI::type_less_than_comparator<T>>());
+    detail::get_registration_manager().add_less_than_cmp(::rttr::detail::make_unique<detail::type_less_than_comparator<T>>());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
+} // end namespace rttr
 
 
 namespace std
 {
     template <>
-    struct hash<Auto3D::type>
+    struct hash<rttr::type>
     {
     public:
-        size_t operator()(const Auto3D::type& info) const
+        size_t operator()(const rttr::type& info) const
         {
-            return hash<Auto3D::type::type_id>()(info.get_id());
+            return hash<rttr::type::type_id>()(info.get_id());
         }
     };
 } // end namespace std
@@ -484,7 +484,7 @@ namespace std
 #define RTTR_CAT_IMPL(a, b) a##b
 #define RTTR_CAT(a, b) RTTR_CAT_IMPL(a, b)
 
-#define RTTR_REGISTRATION_STANDARD_TYPE_VARIANTS(T) Auto3D::type::get<T>();       \
-                                                    Auto3D::type::get<T*>();      \
-                                                    Auto3D::type::get<const T*>();
+#define RTTR_REGISTRATION_STANDARD_TYPE_VARIANTS(T) rttr::type::get<T>();       \
+                                                    rttr::type::get<T*>();      \
+                                                    rttr::type::get<const T*>();
 #endif // RTTR_TYPE_IMPL_H_

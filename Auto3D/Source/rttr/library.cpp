@@ -31,10 +31,10 @@
 #include <map>
 #include <mutex>
 
-namespace Auto3D
+namespace rttr
 {
 
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -109,7 +109,7 @@ class library_manager
 /////////////////////////////////////////////////////////////////////////////////////////
 
 library::library(string_view file_name, string_view version)
-:   m_pimpl(RTTI::library_manager::create_or_find_library(file_name, version)),
+:   m_pimpl(detail::library_manager::create_or_find_library(file_name, version)),
     m_is_loaded(false)
 {
 
@@ -122,7 +122,7 @@ library::~library()
     // the library_manager holds an instance too, so the use_count is always >= 2
     // when 2 are left, it means there exist only one "library" instance
     if (m_pimpl.use_count() == 2 && m_pimpl->get_load_count() == 0)
-        RTTI::library_manager::remove_item(m_pimpl);
+        detail::library_manager::remove_item(m_pimpl);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -182,18 +182,18 @@ array_range<type> library::get_types() const RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-array_range<Property> library::get_global_properties() const RTTR_NOEXCEPT
+array_range<property> library::get_global_properties() const RTTR_NOEXCEPT
 {
     return m_pimpl->get_global_properties();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-array_range<Method> library::get_global_methods() const RTTR_NOEXCEPT
+array_range<method> library::get_global_methods() const RTTR_NOEXCEPT
 {
     return m_pimpl->get_global_methods();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
+} // end namespace rttr

@@ -32,11 +32,11 @@
 #include "rttr/detail/conversion/number_conversion.h"
 #include "rttr/detail/enumeration/enumeration_helper.h"
 
-namespace Auto3D
+namespace rttr
 {
 class argument;
 
-namespace RTTI
+namespace detail
 {
 
 template<typename T>
@@ -1451,7 +1451,7 @@ struct convert_from_enum
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_VARIANT_DATA_CONVERTER_H_

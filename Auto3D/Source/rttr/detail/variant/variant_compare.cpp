@@ -32,9 +32,9 @@
 #include <cmath>
 #include <algorithm>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -105,5 +105,5 @@ bool variant_compare_less(const variant& lhs, const type& lhs_type, const varian
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr

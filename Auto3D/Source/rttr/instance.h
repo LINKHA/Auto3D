@@ -32,7 +32,7 @@
 #include "rttr/detail/misc/misc_type_traits.h"
 #include "rttr/detail/misc/data_address_container.h"
 
-namespace Auto3D
+namespace rttr
 {
 class variant;
 class type;
@@ -46,8 +46,8 @@ class argument;
  */
 class RTTR_API instance
 {
-    template<typename T, typename Tp = RTTI::decay_t<T>>
-    using decay_instance_t = RTTI::enable_if_t<!std::is_same<instance, Tp>::value &&
+    template<typename T, typename Tp = detail::decay_t<T>>
+    using decay_instance_t = detail::enable_if_t<!std::is_same<instance, Tp>::value &&
                                                  !std::is_same<variant, Tp>::value, T>;
 
 public:
@@ -149,10 +149,10 @@ public:
 private:
     instance& operator=(const instance& other) RTTR_NOEXCEPT;
 
-    RTTI::data_address_container m_data_container;
+    detail::data_address_container m_data_container;
 };
 
-} 
+} // end namespace rttr
 
 #include "rttr/detail/impl/instance_impl.h"
 

@@ -37,9 +37,9 @@
 
 /////////////////////////////////////////////////////////////////////////////////
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 RTTR_INLINE void remove_whitespaces(std::string& text)
@@ -115,7 +115,7 @@ RTTR_INLINE void insert_space_before(std::string& text, const std::string& part)
 
 /////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_TYPE_NAME_H_

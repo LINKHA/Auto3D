@@ -27,7 +27,7 @@
 
 #include "rttr/visitor.h"
 
-namespace Auto3D
+namespace rttr
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -60,50 +60,50 @@ void visitor::visit(type t)
 
 void visitor::visit_impl(const type& t)
 {
-    t.visit(*this, RTTI::type_of_visit::begin_visit_type);
+    t.visit(*this, detail::type_of_visit::begin_visit_type);
     const auto filter = filter_item::instance_item | filter_item::static_item |
                         filter_item::public_access | filter_item::non_public_access |
                         filter_item::declared_only;
 
-    for (auto ctor : t.GetConstructors(filter))
+    for (auto ctor : t.get_constructors(filter))
     {
         ctor.visit(*this);
     }
 
-    for (auto prop : t.GetProperties(filter))
+    for (auto prop : t.get_properties(filter))
     {
         prop.visit(*this);
     }
 
-    for (auto meth : t.GetMethods(filter))
+    for (auto meth : t.get_methods(filter))
     {
         meth.visit(*this);
     }
 
-    t.visit(*this, RTTI::type_of_visit::end_visit_type);
+    t.visit(*this, detail::type_of_visit::end_visit_type);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void visitor::visit(Method meth)
+void visitor::visit(method meth)
 {
     meth.visit(*this);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void visitor::visit(FConstructor ctor)
+void visitor::visit(constructor ctor)
 {
     ctor.visit(*this);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void visitor::visit(Property prop)
+void visitor::visit(property prop)
 {
     prop.visit(*this);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
+} // end namespace rttr

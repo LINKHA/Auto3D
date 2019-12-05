@@ -33,14 +33,14 @@
 #include "rttr/detail/type/base_classes.h"
 #include "rttr/detail/misc/std_type_traits.h"
 
-namespace Auto3D
+namespace rttr
 {
 
 class visitor;
 class type;
 enum class type_of_visit : bool;
 
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -59,8 +59,8 @@ visit_type(type_of_visit visit_type, visitor& vi, const type& t);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #include "rttr/detail/visitor/create_type_visitor_func_impl.h"
 

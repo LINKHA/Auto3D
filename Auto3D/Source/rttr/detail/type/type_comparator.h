@@ -31,10 +31,10 @@
 #include "rttr/detail/base/core_prerequisites.h"
 #include "rttr/detail/type/type_register.h"
 
-namespace Auto3D
+namespace rttr
 {
 
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -84,7 +84,7 @@ struct type_less_than_comparator : type_comparator_base
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_TYPE_COMPARATOR_H_

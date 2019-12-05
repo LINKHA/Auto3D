@@ -36,9 +36,9 @@
 
 #include <type_traits>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 template<typename ClassType, typename AccClassType>
@@ -127,7 +127,7 @@ register_accessor_class_type_when_needed()
 /////////////////////////////////////////////////////////////////////////////////////////
 
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_REGISTER_BASE_CLASS_FROM_ACCESSOR_H_

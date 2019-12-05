@@ -33,9 +33,9 @@
 
 #include <vector>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /*!
@@ -82,23 +82,23 @@ class RTTR_LOCAL registration_state_saver
         /*!
          * Returns the list of newly registered global properties in the current state.
          */
-        array_range<Property> get_global_properties() const RTTR_NOEXCEPT;
+        array_range<property> get_global_properties() const RTTR_NOEXCEPT;
 
         /*!
          * Returns the list of newly registered global methods in the current state.
          */
-        array_range<Method> get_global_methods() const RTTR_NOEXCEPT;
+        array_range<method> get_global_methods() const RTTR_NOEXCEPT;
 
     private:
         std::size_t                 m_old_type_size     = 0;
         std::size_t                 m_old_methods_size  = 0;
         std::size_t                 m_old_property_size = 0;
         std::vector<type>           m_types;
-        std::vector<Property>       m_global_properties;
-        std::vector<Method>         m_global_methods;
+        std::vector<property>       m_global_properties;
+        std::vector<method>         m_global_methods;
 };
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_REGISTRATION_STATE_SAVER_H_

@@ -35,9 +35,9 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #define RTTR_REGISTRATION_FUNC_EXTRACT_VARIABLES(begin_skip, end_skip)      \
-namespace Auto3D                                                              \
+namespace rttr                                                              \
 {                                                                           \
-namespace RTTI                                                            \
+namespace detail                                                            \
 {                                                                           \
     RTTR_STATIC_CONSTEXPR std::size_t skip_size_at_begin = begin_skip;      \
     RTTR_STATIC_CONSTEXPR std::size_t skip_size_at_end   = end_skip;        \
@@ -47,7 +47,7 @@ namespace RTTI                                                            \
 /////////////////////////////////////////////////////////////////////////////////
 
 #if RTTR_COMPILER == RTTR_COMPILER_MSVC
-    // sizeof("const char *__cdecl Auto3D::RTTI::f<"), sizeof(">(void)")
+    // sizeof("const char *__cdecl rttr::detail::f<"), sizeof(">(void)")
 #ifdef RTTR_NO_CXX11_NOEXCEPT
     RTTR_REGISTRATION_FUNC_EXTRACT_VARIABLES(36, 7)
 #else
@@ -55,10 +55,10 @@ namespace RTTI                                                            \
 #endif
 
 #elif RTTR_COMPILER == RTTR_COMPILER_GNUC
-    // sizeof("const char* Auto3D::RTTI::f() [with T = "), sizeof("]")
+    // sizeof("const char* rttr::detail::f() [with T = "), sizeof("]")
     RTTR_REGISTRATION_FUNC_EXTRACT_VARIABLES(40, 1)
 #elif RTTR_COMPILER == RTTR_COMPILER_CLANG || RTTR_COMPILER == RTTR_COMPILER_APPLECLANG
-    // sizeof("const char* Auto3D::RTTI::f() [T = "), sizeof("]")
+    // sizeof("const char* rttr::detail::f() [T = "), sizeof("]")
     RTTR_REGISTRATION_FUNC_EXTRACT_VARIABLES(35, 1)
 #else
 #   error "This compiler does not supported extracting a function signature via preprocessor!"
@@ -66,9 +66,9 @@ namespace RTTI                                                            \
 
 /////////////////////////////////////////////////////////////////////////////////
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -76,7 +76,7 @@ namespace RTTI
 RTTR_LOCAL RTTR_INLINE const char* extract_type_signature(const char* signature) RTTR_NOEXCEPT
 {
 //    static_assert(N > skip_size_at_begin + skip_size_at_end, "RTTR is misconfigured for your compiler.")
-    return &signature[Auto3D::RTTI::skip_size_at_begin];
+    return &signature[rttr::detail::skip_size_at_begin];
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -101,7 +101,7 @@ RTTR_LOCAL RTTR_INLINE const char* f() RTTR_NOEXCEPT
 
 RTTR_LOCAL RTTR_INLINE std::size_t get_size(const char* s) RTTR_NOEXCEPT
 {
-    return ( std::char_traits<char>::length(s) - Auto3D::RTTI::skip_size_at_end);
+    return ( std::char_traits<char>::length(s) - rttr::detail::skip_size_at_end);
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -114,7 +114,7 @@ RTTR_LOCAL RTTR_INLINE string_view get_type_name() RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_TYPE_NAME_H_

@@ -40,7 +40,7 @@
 #include <algorithm>
 #include <string>
 
-namespace Auto3D
+namespace rttr
 {
 
 class variant_associative_view;
@@ -50,7 +50,7 @@ class variant;
 class argument;
 class instance;
 
-namespace RTTI
+namespace detail
 {
     template<class T>
     RTTR_INLINE T* unsafe_variant_cast(variant* operand) RTTR_NOEXCEPT;
@@ -209,7 +209,7 @@ class RTTR_API variant
          * \brief Constructs a new variant with the new value \p val.
          *        The value will be copied or moved into the variant.
          */
-        template<typename T, typename Tp = RTTI::decay_variant_t<T>>
+        template<typename T, typename Tp = detail::decay_variant_t<T>>
         variant(T&& val);
 
         /*!
@@ -232,7 +232,7 @@ class RTTR_API variant
          *
          * \return A reference to the variant with the new data.
          */
-        template<typename T, typename Tp = RTTI::decay_variant_t<T>>
+        template<typename T, typename Tp = detail::decay_variant_t<T>>
         variant& operator=(T&& other);
 
         /*!
@@ -970,13 +970,13 @@ class RTTR_API variant
 
         //! Helper function to initialize all arithmetic types
         template<typename T>
-        RTTI::enable_if_t<std::is_arithmetic<T>::value, T> convert_impl(bool* ok = nullptr) const;
+        detail::enable_if_t<std::is_arithmetic<T>::value, T> convert_impl(bool* ok = nullptr) const;
 
         template<typename T>
-        RTTI::enable_if_t<!std::is_arithmetic<T>::value && !std::is_enum<T>::value, T> convert_impl(bool* ok = nullptr) const;
+        detail::enable_if_t<!std::is_arithmetic<T>::value && !std::is_enum<T>::value, T> convert_impl(bool* ok = nullptr) const;
 
         template<typename T>
-        RTTI::enable_if_t<std::is_enum<T>::value, T> convert_impl(bool* ok = nullptr) const;
+        detail::enable_if_t<std::is_enum<T>::value, T> convert_impl(bool* ok = nullptr) const;
 
         /*!
          * \brief Returns a pointer to the underlying object pointer wrapped in a smart_ptr.
@@ -985,7 +985,7 @@ class RTTR_API variant
          *
          * \return Type object of the wrapped pointer object.
          */
-        RTTR_INLINE RTTI::data_address_container get_data_address_container() const;
+        RTTR_INLINE detail::data_address_container get_data_address_container() const;
 
         bool convert(const type& target_type, variant& var) const;
 
@@ -1003,7 +1003,7 @@ class RTTR_API variant
          * \return `True`, when the conversion was successful, otherwise `false`.
          */
         template<typename T>
-        typename std::enable_if<RTTI::pointer_count<T>::value == 1, bool>::type
+        typename std::enable_if<detail::pointer_count<T>::value == 1, bool>::type
         try_pointer_conversion(T& to, const type& source_type, const type& target_type) const;
 
         /*!
@@ -1012,7 +1012,7 @@ class RTTR_API variant
          * \return `False`.
          */
         template<typename T>
-        typename std::enable_if<RTTI::pointer_count<T>::value != 1, bool>::type
+        typename std::enable_if<detail::pointer_count<T>::value != 1, bool>::type
         try_pointer_conversion(T& to, const type& source_type, const type& target_type) const;
 
         /*!
@@ -1048,15 +1048,15 @@ class RTTR_API variant
         friend class instance;
 
         template<typename T, typename Tp, typename Converter>
-        friend struct RTTI::variant_data_base_policy;
-        friend struct RTTI::variant_data_policy_nullptr_t;
-        friend RTTR_API bool RTTI::variant_compare_less(const variant&, const type&, const variant&, const type&, bool& ok);
+        friend struct detail::variant_data_base_policy;
+        friend struct detail::variant_data_policy_nullptr_t;
+        friend RTTR_API bool detail::variant_compare_less(const variant&, const type&, const variant&, const type&, bool& ok);
         template<class T>
-        friend RTTR_INLINE T* RTTI::unsafe_variant_cast(variant* operand) RTTR_NOEXCEPT;
+        friend RTTR_INLINE T* detail::unsafe_variant_cast(variant* operand) RTTR_NOEXCEPT;
 
 
-        RTTI::variant_data            m_data;
-        RTTI::variant_policy_func     m_policy;
+        detail::variant_data            m_data;
+        detail::variant_policy_func     m_policy;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1152,7 +1152,7 @@ const T* variant_cast(const variant* operand) RTTR_NOEXCEPT;
 template<class T>
 T* variant_cast(variant* operand) RTTR_NOEXCEPT;
 
-} 
+} // end namespace rttr
 
 #include "rttr/detail/variant/variant_impl.h"
 

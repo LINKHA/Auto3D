@@ -69,7 +69,7 @@ std::string convert_utf16_to_utf8(const std::wstring& source)
 std::string error_string(int error_code = -1)
 {
     std::string result;
-    Auto3D::string_view std_error_msg;
+    rttr::string_view std_error_msg;
 
     if (error_code == -1)
     {
@@ -190,9 +190,9 @@ bool is_absolute_path(const std::wstring& path)
 } // end namespace anonymous
 
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -269,7 +269,7 @@ bool library_private::unload_native()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_PLATFORM_WINDOWS

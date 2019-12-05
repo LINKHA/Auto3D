@@ -34,9 +34,9 @@
 
 #include <type_traits>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
     /////////////////////////////////////////////////////////////////////////////////////
 
@@ -123,7 +123,7 @@ namespace RTTI
     struct class_ctor
     {};
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_ACCESSOR_TYPE_H_

@@ -34,12 +34,12 @@
 
 #include <memory>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 class library_private;
-} 
+} // end namespace detail
 
 /*!
  * The \ref library class provides a cross platform way of explicit loading shared objects
@@ -199,7 +199,7 @@ public:
       *
       * \see property
       */
-     array_range<Property> get_global_properties() const RTTR_NOEXCEPT;
+     array_range<property> get_global_properties() const RTTR_NOEXCEPT;
 
      /*!
       * \brief A range of all registered global \ref method "methods" in this library.
@@ -208,13 +208,13 @@ public:
       *
       * \see method
       */
-     array_range<Method> get_global_methods() const RTTR_NOEXCEPT;
+     array_range<method> get_global_methods() const RTTR_NOEXCEPT;
 
 private:
-    std::shared_ptr<RTTI::library_private> m_pimpl;
+    std::shared_ptr<detail::library_private> m_pimpl;
     bool                                     m_is_loaded;
 };
 
-} 
+} // end namespace rttr
 
 #endif  // RTTR_LIBRARY_H_

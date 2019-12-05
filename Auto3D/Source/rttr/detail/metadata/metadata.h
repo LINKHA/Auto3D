@@ -31,9 +31,9 @@
 #include "rttr/detail/base/core_prerequisites.h"
 #include "rttr/variant.h"
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /*!
@@ -73,7 +73,7 @@ class RTTR_API metadata
         variant m_value;
 };
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_METADATA_H_

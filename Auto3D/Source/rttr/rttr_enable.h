@@ -77,14 +77,14 @@
 
 #else
 
-#define TYPE_LIST(...)      ::Auto3D::type_list<__VA_ARGS__>
+#define TYPE_LIST(...)      ::rttr::type_list<__VA_ARGS__>
 
 #define RTTR_ENABLE(...) \
 public:\
 RTTR_BEGIN_DISABLE_OVERRIDE_WARNING \
-    virtual RTTR_INLINE ::Auto3D::type get_type() const { return ::Auto3D::RTTI::get_type_from_instance(this); }  \
+    virtual RTTR_INLINE ::rttr::type get_type() const { return ::rttr::detail::get_type_from_instance(this); }  \
     virtual RTTR_INLINE void* get_ptr() { return reinterpret_cast<void*>(this); } \
-    virtual RTTR_INLINE ::Auto3D::RTTI::derived_info get_derived_info() { return {reinterpret_cast<void*>(this), ::Auto3D::RTTI::get_type_from_instance(this)}; } \
+    virtual RTTR_INLINE ::rttr::detail::derived_info get_derived_info() { return {reinterpret_cast<void*>(this), ::rttr::detail::get_type_from_instance(this)}; } \
     using base_class_list = TYPE_LIST(__VA_ARGS__); \
 RTTR_END_DISABLE_OVERRIDE_WARNING \
 private:

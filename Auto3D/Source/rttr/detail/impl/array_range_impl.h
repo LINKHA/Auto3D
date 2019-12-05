@@ -33,7 +33,7 @@
 #include "rttr/type.h"
 #include <memory>
 
-namespace Auto3D
+namespace rttr
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -504,7 +504,7 @@ array_range<T, Predicate>::array_reverse_iterator<DataType>::operator++(int inde
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-namespace RTTI
+namespace detail
 {
 
 template<typename T>
@@ -519,9 +519,9 @@ struct default_predicate
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
+} // end namespace detail
 
-} 
+} // end namespace rttr
 
 
 #endif // RTTR_ITEM_RANGE_IMPL_H_

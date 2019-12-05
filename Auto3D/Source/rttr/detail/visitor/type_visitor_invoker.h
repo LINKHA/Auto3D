@@ -32,9 +32,9 @@
 #include "rttr/visitor.h"
 #include "rttr/detail/visitor/visitor_iterator.h"
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /*!
@@ -98,7 +98,7 @@ static type_visitor_invoker<T> make_type_visitor_invoker(const visitor::type_inf
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_TYPE_VISITOR_INVOKER_H_

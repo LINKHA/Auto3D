@@ -32,9 +32,9 @@
 #include "rttr/detail/misc/utility.h"
 #include "rttr/detail/policies/ctor_policies.h"
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 struct ctor_type { };
@@ -100,7 +100,7 @@ struct constructor_invoker<ctor_type, as_std_shared_ptr, type_list<Class_Type, C
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_CONSTRUCTOR_INVOKER_H_

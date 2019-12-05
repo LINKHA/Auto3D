@@ -31,12 +31,12 @@
 #include "rttr/type.h"
 #include "rttr/variant.h"
 
-namespace Auto3D
+namespace rttr
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-RTTR_INLINE argument::argument() RTTR_NOEXCEPT : m_data(nullptr), m_variant(nullptr), m_type(RTTI::get_invalid_type()) {}
+RTTR_INLINE argument::argument() RTTR_NOEXCEPT : m_data(nullptr), m_variant(nullptr), m_type(detail::get_invalid_type()) {}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -60,7 +60,7 @@ template<typename T, typename Tp>
 argument::argument(const T& data) RTTR_NOEXCEPT
 :   m_data(reinterpret_cast<const void*>(std::addressof(data))),
     m_variant(nullptr),
-    m_type(Auto3D::type::get<T>())
+    m_type(rttr::type::get<T>())
 {
     static_assert(!std::is_same<instance, T>::value, "Don't use the argument class for forwarding an instance!");
 }
@@ -71,7 +71,7 @@ template<typename T, typename Tp>
 argument::argument(T& data) RTTR_NOEXCEPT
 :   m_data(reinterpret_cast<const void*>(std::addressof(data))),
     m_variant(nullptr),
-    m_type(Auto3D::type::get<T>())
+    m_type(rttr::type::get<T>())
 {
     static_assert(!std::is_same<instance, T>::value, "Don't use the argument class for forwarding an instance!");
 }
@@ -81,7 +81,7 @@ argument::argument(T& data) RTTR_NOEXCEPT
 template<typename T>
 RTTR_INLINE argument::ptr_type<T> argument::is_type() const RTTR_NOEXCEPT
 {
-    return ((Auto3D::type::get<T>() == m_type) ||
+    return ((rttr::type::get<T>() == m_type) ||
              m_type == type::get<std::nullptr_t>() ||
              (m_variant && type::get<variant*>() == type::get<T>()));
 }
@@ -91,7 +91,7 @@ RTTR_INLINE argument::ptr_type<T> argument::is_type() const RTTR_NOEXCEPT
 template<typename T>
 RTTR_INLINE argument::non_ptr_type<T> argument::is_type() const RTTR_NOEXCEPT
 {
-    return (Auto3D::type::get<T>() == m_type ||
+    return (rttr::type::get<T>() == m_type ||
             (m_variant && type::get<variant>() == type::get<T>()));
 }
 
@@ -143,13 +143,13 @@ RTTR_INLINE argument::is_variant_ref_t<T>&& argument::get_value() const RTTR_NOE
 RTTR_INLINE argument& argument::operator=(const argument& other) RTTR_NOEXCEPT
 {
     m_data = other.m_data;
-    const_cast<Auto3D::type&>(m_type) = other.m_type;
+    const_cast<rttr::type&>(m_type) = other.m_type;
     m_variant = other.m_variant;
     return *this;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
+} // end namespace rttr
 
 #endif // RTTR_ARGUMENT_IMPL_H_

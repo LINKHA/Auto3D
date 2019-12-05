@@ -40,15 +40,15 @@
 #include <string>
 #include <vector>
 
-namespace Auto3D
+namespace rttr
 {
 class type;
 class argument;
 class instance;
-class Method;
+class method;
 class visitor;
 
-namespace RTTI
+namespace detail
 {
 
 /*!
@@ -89,7 +89,7 @@ class RTTR_API method_wrapper_base
 
         virtual variant invoke_variadic(const instance& object, std::vector<argument>& args) const;
 
-        virtual void visit(visitor& visitor, Method m) const RTTR_NOEXCEPT;
+        virtual void visit(visitor& visitor, method m) const RTTR_NOEXCEPT;
     protected:
         void init() RTTR_NOEXCEPT;
     private:
@@ -102,7 +102,7 @@ class RTTR_API method_wrapper_base
         std::string m_signature;
 };
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_METHOD_WRAPPER_BASE_H_

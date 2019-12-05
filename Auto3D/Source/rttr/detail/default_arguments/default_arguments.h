@@ -35,9 +35,9 @@
 
 #include <tuple>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /*!
@@ -249,7 +249,7 @@ get_default_args(Args&&... arg)
 {
     // default arguments are provided, extract them
     auto result = forward_to_array<typename Default_Type::default_types_provided>(std::forward<Args>(arg)...);
-    // because we knew there is exactly one RTTI::default_argument,
+    // because we knew there is exactly one detail::default_argument,
     // we can extract it without worry to check
     typename Default_Type::default_types_func ret;
     ret.m_args = std::move(result[0].m_args);
@@ -258,7 +258,7 @@ get_default_args(Args&&... arg)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_DEFAULT_ARGUMENTS_H_

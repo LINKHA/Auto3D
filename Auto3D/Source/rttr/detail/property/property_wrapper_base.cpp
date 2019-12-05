@@ -27,9 +27,9 @@
 
 #include "rttr/detail/property/property_wrapper_base.h"
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -125,12 +125,12 @@ variant property_wrapper_base::get_value(instance& object) const
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void property_wrapper_base::visit(visitor& visitor, Property prop) const RTTR_NOEXCEPT
+void property_wrapper_base::visit(visitor& visitor, property prop) const RTTR_NOEXCEPT
 {
 
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr

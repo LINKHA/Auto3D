@@ -28,9 +28,9 @@
 #include "rttr/type.h"
 #include "rttr/detail/type/type_data.h"
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -69,7 +69,7 @@ type_data* get_invalid_type_data() RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 

@@ -29,7 +29,7 @@
 #define RTTR_VISITOR_IMPL_H_
 
 
-namespace Auto3D
+namespace rttr
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -126,7 +126,7 @@ void visitor::visit_global_readonly_property(const property_info<T>& info)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -140,7 +140,7 @@ static visitor::type_info<type_list<T, type_list<Base_Classes...>>> make_type_vi
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename T, typename Policy, typename Acc>
-static visitor::constructor_function_info<type_list<T, Policy, Acc>> make_ctor_info_func(const FConstructor& ctor, const Acc& acc)
+static visitor::constructor_function_info<type_list<T, Policy, Acc>> make_ctor_info_func(const constructor& ctor, const Acc& acc)
 {
     return visitor::constructor_function_info<type_list<T, Policy, Acc>>{ctor, acc};
 }
@@ -148,7 +148,7 @@ static visitor::constructor_function_info<type_list<T, Policy, Acc>> make_ctor_i
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename T, typename Policy, typename...Args>
-static visitor::constructor_info<type_list<T, Policy, type_list<Args...>>> make_ctor_info(const FConstructor& ctor)
+static visitor::constructor_info<type_list<T, Policy, type_list<Args...>>> make_ctor_info(const constructor& ctor)
 {
     return visitor::constructor_info<type_list<T, Policy, type_list<Args...>>>{ctor};
 }
@@ -156,7 +156,7 @@ static visitor::constructor_info<type_list<T, Policy, type_list<Args...>>> make_
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename T, typename Policy, typename Acc>
-static visitor::method_info<type_list<T, Policy, Acc>> make_method_info(const Method& meth, const Acc& acc)
+static visitor::method_info<type_list<T, Policy, Acc>> make_method_info(const method& meth, const Acc& acc)
 {
     return visitor::method_info<type_list<T, Policy, Acc>>{meth, acc};
 }
@@ -164,7 +164,7 @@ static visitor::method_info<type_list<T, Policy, Acc>> make_method_info(const Me
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename T, typename Policy, typename Acc>
-static visitor::property_info<type_list<T, Policy, Acc>> make_property_info(const Property& prop, const Acc& acc)
+static visitor::property_info<type_list<T, Policy, Acc>> make_property_info(const property& prop, const Acc& acc)
 {
     return visitor::property_info<type_list<T, Policy, Acc>>{prop, acc};
 }
@@ -173,7 +173,7 @@ static visitor::property_info<type_list<T, Policy, Acc>> make_property_info(cons
 
 template<typename T, typename Policy, typename Getter, typename Setter>
 static visitor::property_getter_setter_info<type_list<T, Policy, Getter, Setter>>
-make_property_getter_setter_info(const Property& prop,
+make_property_getter_setter_info(const property& prop,
                                  const Getter& getter,
                                  const Setter& setter)
 {
@@ -190,7 +190,7 @@ struct visitor_list_wrapper
 
 struct visitor_defined {};
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_VISITOR_IMPL_H_

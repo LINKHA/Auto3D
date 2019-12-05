@@ -32,9 +32,9 @@
 #include "rttr/detail/destructor/destructor_wrapper_base.h"
 #include "rttr/variant.h"
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 template<typename ClassType>
@@ -65,7 +65,7 @@ class destructor_wrapper : public destructor_wrapper_base
         }
 };
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_DESTRUCTOR_WRAPPER_H_

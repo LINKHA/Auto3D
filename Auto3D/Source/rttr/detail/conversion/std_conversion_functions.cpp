@@ -36,9 +36,9 @@
 #include <climits>
 #include <iomanip>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -334,5 +334,5 @@ double string_to_double(const std::string& source, bool* ok)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr

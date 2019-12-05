@@ -37,7 +37,7 @@
 #include <vector>
 #include <memory>
 
-namespace Auto3D
+namespace rttr
 {
     class type;
     class instance;
@@ -424,21 +424,21 @@ class RTTR_API variant_associative_view
                 bool operator!=(const const_iterator& other) const;
 
             private:
-                const_iterator(const RTTI::variant_associative_view_private* view) RTTR_NOEXCEPT;
+                const_iterator(const detail::variant_associative_view_private* view) RTTR_NOEXCEPT;
                 void swap(const_iterator& other);
 
                 friend class variant_associative_view;
 
-                const RTTI::variant_associative_view_private* m_view;
-                RTTI::iterator_data m_itr;
+                const detail::variant_associative_view_private* m_view;
+                detail::iterator_data m_itr;
         };
     private:
         friend class variant;
         friend class argument;
 
-        RTTI::variant_associative_view_private m_view;
+        detail::variant_associative_view_private m_view;
 };
 
-} 
+} // end namespace rttr
 
 #endif // RTTR_VARIANT_ASSOCIATIVE_VIEW_H_

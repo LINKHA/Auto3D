@@ -50,9 +50,9 @@
 
 using namespace std;
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -152,7 +152,7 @@ void type_register::custom_name(type& t, string_view custom_name)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void type_register::metadata(const type& t, std::vector<::Auto3D::RTTI::metadata> data)
+void type_register::metadata(const type& t, std::vector<::rttr::detail::metadata> data)
 {
     auto& vec_to_insert = t.m_type_data->get_metadata();
 
@@ -301,28 +301,28 @@ void type_register_private::unregister_reg_manager(registration_manager* manager
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-flat_multimap<string_view, ::Auto3D::Method>& type_register_private::get_global_method_storage()
+flat_multimap<string_view, ::rttr::method>& type_register_private::get_global_method_storage()
 {
     return m_global_method_stroage;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-flat_multimap<string_view, ::Auto3D::Property>& type_register_private::get_global_property_storage()
+flat_multimap<string_view, ::rttr::property>& type_register_private::get_global_property_storage()
 {
     return m_global_property_stroage;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-std::vector<Method>& type_register_private::get_global_methods()
+std::vector<method>& type_register_private::get_global_methods()
 {
     return m_global_methods;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-std::vector<Property>& type_register_private::get_global_properties()
+std::vector<property>& type_register_private::get_global_properties()
 {
     return m_global_properties;
 }
@@ -458,7 +458,7 @@ static array_range<T> get_items_for_type(const type& t,
                                          const std::vector<T>& vec)
 {
     return array_range<T>(vec.data(), vec.size(),
-                          RTTI::default_predicate<T>([t](const T& item) { return (item.get_declaring_type() == t); }) );
+                          detail::default_predicate<T>([t](const T& item) { return (item.get_declaring_type() == t); }) );
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -485,7 +485,7 @@ static bool remove_container_item(T& container, const I& item)
 
 type_data* type_register_private::register_name_if_neccessary(type_data* info)
 {
-    using namespace RTTI;
+    using namespace detail;
 
     auto ret = m_orig_name_to_id.find(info->type_name);
     if (ret != m_orig_name_to_id.end())
@@ -548,7 +548,7 @@ type_data* type_register_private::register_type(type_data* info) RTTR_NOEXCEPT
     // this will register the base types
     info->get_base_types();
 
-    using namespace RTTI;
+    using namespace detail;
 
     if (auto t = register_name_if_neccessary(info))
         return t;
@@ -746,7 +746,7 @@ bool type_register_private::register_constructor(const constructor_wrapper_base*
 {
     const auto t = ctor->get_declaring_type();
     auto& class_data = t.m_type_data->m_class_data;
-    class_data.m_ctors.emplace_back(create_item<::Auto3D::FConstructor>(ctor));
+    class_data.m_ctors.emplace_back(create_item<::rttr::constructor>(ctor));
     return true;
 }
 
@@ -762,7 +762,7 @@ bool type_register_private::register_destructor(const destructor_wrapper_base* d
     auto& dtor_type = class_data.m_dtor;
     if (!dtor_type) // when no dtor is set at the moment
     {
-        auto d = create_item<::Auto3D::destructor>(dtor);
+        auto d = create_item<::rttr::destructor>(dtor);
         dtor_type = d;
     }
     return true;
@@ -782,7 +782,7 @@ bool type_register_private::register_property(const property_wrapper_base* prop)
     if (get_type_property(t, name))
         return false;
 
-    auto p = RTTI::create_item<::Auto3D::Property>(prop);
+    auto p = detail::create_item<::rttr::property>(prop);
     property_list.emplace_back(p);
     update_class_list(t, &class_data::m_properties);
     return true;
@@ -798,7 +798,7 @@ bool type_register_private::register_global_property(const property_wrapper_base
      if (t.get_global_property(name))
          return false;
 
-     auto p = RTTI::create_item<::Auto3D::Property>(prop);
+     auto p = detail::create_item<::rttr::property>(prop);
      get_global_properties().emplace_back(p);
      get_global_property_storage().insert(std::move(name), std::move(p));
      return true;
@@ -811,7 +811,7 @@ bool type_register_private::unregister_global_property(const property_wrapper_ba
     auto& g_props   = get_global_property_storage();
     auto result     = g_props.erase(prop->get_name());
 
-    auto result2 = remove_container_item(get_global_properties(), create_item<Auto3D::Property>(prop));
+    auto result2 = remove_container_item(get_global_properties(), create_item<rttr::property>(prop));
     return result && result2;
 }
 
@@ -823,7 +823,7 @@ bool type_register_private::register_method(const method_wrapper_base* meth)
 {
     const auto t    = meth->get_declaring_type();
     const auto name = meth->get_name();
-    auto m          = create_item<::Auto3D::Method>(meth);
+    auto m          = create_item<::rttr::method>(meth);
 
     if (get_type_method(t, name, convert_param_list(meth->get_parameter_infos())))
         return false;
@@ -840,7 +840,7 @@ bool type_register_private::register_global_method(const method_wrapper_base* me
 {
     const auto t    = meth->get_declaring_type();
     const auto name = meth->get_name();
-    auto m          = create_item<::Auto3D::Method>(meth);
+    auto m          = create_item<::rttr::method>(meth);
 
     if (t.get_global_method(name, convert_param_list(meth->get_parameter_infos())))
         return false;
@@ -857,13 +857,13 @@ bool type_register_private::unregister_global_method(const method_wrapper_base* 
     auto& g_meths   = get_global_method_storage();
     auto result     = g_meths.erase(meth->get_name());
 
-    auto result2 = remove_container_item(get_global_methods(), create_item<Auto3D::Method>(meth));
+    auto result2 = remove_container_item(get_global_methods(), create_item<rttr::method>(meth));
     return result && result2;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-Property type_register_private::get_type_property(const type& t, string_view name)
+property type_register_private::get_type_property(const type& t, string_view name)
 {
     for (const auto& prop : get_items_for_type(t, t.m_type_data->m_class_data.m_properties))
     {
@@ -871,12 +871,12 @@ Property type_register_private::get_type_property(const type& t, string_view nam
             return prop;
     }
 
-    return create_invalid_item<::Auto3D::Property>();
+    return create_invalid_item<::rttr::property>();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-Method type_register_private::get_type_method(const type& t, string_view name,
+method type_register_private::get_type_method(const type& t, string_view name,
                                               const std::vector<type>& type_list)
 {
     for (const auto& meth : get_items_for_type(t, t.m_type_data->m_class_data.m_methods))
@@ -888,7 +888,7 @@ Method type_register_private::get_type_method(const type& t, string_view name,
         }
     }
 
-    return RTTI::create_invalid_item<::Auto3D::Method>();
+    return detail::create_invalid_item<::rttr::method>();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -900,7 +900,7 @@ void type_register_private::update_class_list(const type& t, T item_ptr)
 
     // update type "t" with all items from the base classes
     auto item_range = get_items_for_type(t, all_class_items);
-    RTTI::remove_cv_ref_t<decltype(all_class_items)> item_vec(item_range.begin(), item_range.end());
+    detail::remove_cv_ref_t<decltype(all_class_items)> item_vec(item_range.begin(), item_range.end());
     all_class_items.reserve(all_class_items.size() + 1);
     all_class_items.clear(); // this will not reduce the capacity, i.e. new memory allocation may not necessary
     for (const auto& base_type : t.get_base_classes())
@@ -1122,5 +1122,5 @@ flat_map<std::string, type, hash>& type_register_private::get_custom_name_to_id(
 
 /////////////////////////////////////////////////////////////////////////////////////
 
-} 
+} // end namespace detail
 } // end

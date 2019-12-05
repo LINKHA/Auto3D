@@ -38,9 +38,9 @@
 #include <algorithm>
 #include <ciso646> // _LIBCPP_VERSION
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /*!
@@ -260,7 +260,7 @@ class flat_map
         std::vector<Value>          m_value_list;
 };
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_FLAT_MAP_H_

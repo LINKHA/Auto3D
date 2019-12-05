@@ -39,14 +39,14 @@
 #include <memory>
 #include <cstdint>
 
-namespace Auto3D
+namespace rttr
 {
 
 class variant;
-class FConstructor;
+class constructor;
 class destructor;
-class Method;
-class Property;
+class method;
+class property;
 class enumeration;
 class type;
 class instance;
@@ -56,7 +56,7 @@ class visitor;
 template<typename Target_Type, typename Source_Type>
 Target_Type rttr_cast(Source_Type object) RTTR_NOEXCEPT;
 
-namespace RTTI
+namespace detail
 {
 struct derived_info;
 struct base_class_info;
@@ -87,7 +87,7 @@ RTTR_API bool compare_types_equal(const void*, const void*, const type&, bool&);
 
 template<typename T>
 RTTR_LOCAL RTTR_INLINE type get_type_from_instance(const T*) RTTR_NOEXCEPT;
-} 
+} // end namespace detail
 
 /*!
  * The \ref type class holds the type information for any arbitrary object.
@@ -332,7 +332,7 @@ class RTTR_API type
          *
          * \return \ref type object with the name \p name.
          */
-        static type GetByName(string_view name) RTTR_NOEXCEPT;
+        static type get_by_name(string_view name) RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a range of all registered type objects.
@@ -607,7 +607,7 @@ class RTTR_API type
          * \return A valid constructor will be returned when the parameter matches the registered constructor;
          *         otherwise an invalid constructor.
          */
-        FConstructor GetConstructor(const std::vector<type>& params = std::vector<type>() ) const RTTR_NOEXCEPT;
+        constructor get_constructor(const std::vector<type>& params = std::vector<type>() ) const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a range of all registered *public* constructors for this type.
@@ -618,7 +618,7 @@ class RTTR_API type
          *
          * \return A range of constructors.
          */
-        array_range<FConstructor> GetConstructors() const RTTR_NOEXCEPT;
+        array_range<constructor> get_constructors() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a range of all registered constructors for this type,
@@ -669,7 +669,7 @@ class RTTR_API type
          *
          * \return A range of properties.
          */
-        array_range<FConstructor> GetConstructors(filter_items filter) const RTTR_NOEXCEPT;
+        array_range<constructor> get_constructors(filter_items filter) const RTTR_NOEXCEPT;
 
         /*!
          * \brief Creates an instance of the current type, with the given arguments \p args for the constructor.
@@ -709,7 +709,7 @@ class RTTR_API type
          *
          * \return A property with name \p name.
          */
-        Property get_property(string_view name) const RTTR_NOEXCEPT;
+        property get_property(string_view name) const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a range of all registered *public* properties for this type and
@@ -721,7 +721,7 @@ class RTTR_API type
          *
          * \return A range of properties.
          */
-        array_range<Property> GetProperties() const RTTR_NOEXCEPT;
+        array_range<property> get_properties() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a range of all registered properties for this type,
@@ -776,7 +776,7 @@ class RTTR_API type
          *
          * \return A range of properties.
          */
-        array_range<Property> GetProperties(filter_items filter) const RTTR_NOEXCEPT;
+        array_range<property> get_properties(filter_items filter) const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a global property with the name \p name.
@@ -785,7 +785,7 @@ class RTTR_API type
          *
          * \return A property with name \p name.
          */
-        static Property get_global_property(string_view name) RTTR_NOEXCEPT;
+        static property get_global_property(string_view name) RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a range of all registered global properties.
@@ -796,7 +796,7 @@ class RTTR_API type
          *
          * \return A range of properties.
          */
-        static array_range<Property> get_global_properties() RTTR_NOEXCEPT;
+        static array_range<property> get_global_properties() RTTR_NOEXCEPT;
 
 
         /*!
@@ -839,7 +839,7 @@ class RTTR_API type
          *
          * \return A method with name \p name.
          */
-        Method get_method(string_view name) const RTTR_NOEXCEPT;
+        method get_method(string_view name) const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a method with the name \p name which match the given parameter type list \p type_list.
@@ -849,7 +849,7 @@ class RTTR_API type
          *
          * \return A method with name \p name.
          */
-        Method get_method(string_view name, const std::vector<type>& type_list) const RTTR_NOEXCEPT;
+        method get_method(string_view name, const std::vector<type>& type_list) const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a range of all registered *public* methods for this type and
@@ -861,7 +861,7 @@ class RTTR_API type
          *
          * \return A range of methods.
          */
-        array_range<Method> GetMethods() const RTTR_NOEXCEPT;
+        array_range<method> get_methods() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a range of all registered methods for this type,
@@ -916,7 +916,7 @@ class RTTR_API type
          *
          * \return A range of methods.
          */
-        array_range<Method> GetMethods(filter_items filter) const RTTR_NOEXCEPT;
+        array_range<method> get_methods(filter_items filter) const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a global method with the name \p name.
@@ -925,7 +925,7 @@ class RTTR_API type
          *
          * \return A method with name \p name.
          */
-        static Method get_global_method(string_view name) RTTR_NOEXCEPT;
+        static method get_global_method(string_view name) RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a global method with the name \p name which match the given parameter list \p params.
@@ -935,7 +935,7 @@ class RTTR_API type
          *
          * \return A method with name \p name and parameter signature \p params.
          */
-        static Method get_global_method(string_view name, const std::vector<type>& params) RTTR_NOEXCEPT;
+        static method get_global_method(string_view name, const std::vector<type>& params) RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a range of all registered global methods.
@@ -946,7 +946,7 @@ class RTTR_API type
          *
          * \return A range of methods.
          */
-        static array_range<Method> get_global_methods() RTTR_NOEXCEPT;
+        static array_range<method> get_global_methods() RTTR_NOEXCEPT;
 
 
         /*!
@@ -1116,7 +1116,7 @@ class RTTR_API type
          *
          * \param id The unique id of the data type.
          */
-        RTTR_INLINE explicit type(RTTI::type_data* data) RTTR_NOEXCEPT;
+        RTTR_INLINE explicit type(detail::type_data* data) RTTR_NOEXCEPT;
 
         /*!
          * \brief This function try to convert the given pointer \p ptr from the type \p source_type
@@ -1142,7 +1142,7 @@ class RTTR_API type
          *
          * \see register_converter_func()
          */
-        const RTTI::type_converter_base* get_type_converter(const type& target_type) const RTTR_NOEXCEPT;
+        const detail::type_converter_base* get_type_converter(const type& target_type) const RTTR_NOEXCEPT;
 
         /*!
          * \brief When for the current type instance a equal comparator function was registered,
@@ -1151,7 +1151,7 @@ class RTTR_API type
          *
          * \see register_equal_comparator()
          */
-        const RTTI::type_comparator_base* get_equal_comparator() const RTTR_NOEXCEPT;
+        const detail::type_comparator_base* get_equal_comparator() const RTTR_NOEXCEPT;
 
         /*!
          * \brief When for the current type instance a less-than comparator function was registered,
@@ -1160,7 +1160,7 @@ class RTTR_API type
          *
          * \see register_less_than_comparator()
          */
-        const RTTI::type_comparator_base* get_less_than_comparator() const RTTR_NOEXCEPT;
+        const detail::type_comparator_base* get_less_than_comparator() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns the level of indirection for this this type. A.k.a pointer count.
@@ -1195,7 +1195,7 @@ class RTTR_API type
         /*!
          * \brief Visits the current type, with the given visitor \p visitor.
          */
-        void visit(visitor& visitor, RTTI::type_of_visit visit_type) const RTTR_NOEXCEPT;
+        void visit(visitor& visitor, detail::type_of_visit visit_type) const RTTR_NOEXCEPT;
 
         /////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////
@@ -1209,27 +1209,27 @@ class RTTR_API type
         friend Target_Type rttr_cast(Source_Type object) RTTR_NOEXCEPT;
 
         friend class instance;
-        friend class RTTI::type_register;
-        friend class RTTI::type_register_private;
+        friend class detail::type_register;
+        friend class detail::type_register_private;
         friend class visitor;
-        friend struct RTTI::class_data;
+        friend struct detail::class_data;
 
-        friend type RTTI::create_type(RTTI::type_data*) RTTR_NOEXCEPT;
+        friend type detail::create_type(detail::type_data*) RTTR_NOEXCEPT;
 
         template<typename T>
-        friend std::unique_ptr<RTTI::type_data> RTTI::make_type_data();
+        friend std::unique_ptr<detail::type_data> detail::make_type_data();
 
         template<typename T, typename Tp, typename Converter>
-        friend struct RTTI::variant_data_base_policy;
+        friend struct detail::variant_data_base_policy;
 
-        friend RTTR_API bool RTTI::compare_types_less_than(const void*, const void*, const type&, int&);
-        friend RTTR_API bool RTTI::compare_types_equal(const void*, const void*, const type&, bool&);
+        friend RTTR_API bool detail::compare_types_less_than(const void*, const void*, const type&, int&);
+        friend RTTR_API bool detail::compare_types_equal(const void*, const void*, const type&, bool&);
 
     private:
-        RTTI::type_data* m_type_data;
+        detail::type_data* m_type_data;
 };
 
-} 
+} // end namespace rttr
 
 #include "rttr/detail/type/type_impl.h"
 

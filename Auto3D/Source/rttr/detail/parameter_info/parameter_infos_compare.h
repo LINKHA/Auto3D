@@ -36,13 +36,13 @@
 
 #include <vector>
 
-namespace Auto3D
+namespace rttr
 {
 
 class parameter_info;
 class type;
 
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -99,7 +99,7 @@ struct compare_with_arg_list
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_PARAMETER_INFOS_COMPARE_H_

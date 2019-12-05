@@ -28,9 +28,9 @@
 #include "rttr/detail/parameter_info/parameter_info_wrapper_base.h"
 #include "rttr/type.h"
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -47,5 +47,5 @@ parameter_info_wrapper_base::~parameter_info_wrapper_base()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr

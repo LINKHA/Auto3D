@@ -34,7 +34,7 @@
 #include <string>
 #include <ostream>
 
-namespace Auto3D
+namespace rttr
 {
 
 /*!
@@ -493,7 +493,7 @@ std::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT, Traits>&
 using string_view = basic_string_view<char>;
 
 
-} 
+} // end namespace rttr
 
 #include "rttr/detail/impl/string_view_impl.h"
 

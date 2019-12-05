@@ -29,9 +29,9 @@
 #define RTTR_ENUM_FLAGS_IMPL_H_
 
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 /*!
  * The \ref enum_flag class is a wrapper around integer value.
@@ -46,7 +46,7 @@ public:
     private:
         int32_t m_value;
 };
-} 
+} // end namespace detail
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -69,7 +69,7 @@ RTTR_CONSTEXPR RTTR_INLINE enum_flags<Enum>::enum_flags(Enum enum_value) RTTR_NO
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename Enum>
-RTTR_CONSTEXPR RTTR_INLINE enum_flags<Enum>::enum_flags(RTTI::enum_flag f) RTTR_NOEXCEPT
+RTTR_CONSTEXPR RTTR_INLINE enum_flags<Enum>::enum_flags(detail::enum_flag f) RTTR_NOEXCEPT
 :   m_value(f)
 {
 
@@ -229,6 +229,6 @@ RTTR_CONSTEXPR RTTR_INLINE bool enum_flags<Enum>::test_flag(Enum flag) const RTT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
+} // end namespace rttr
 
 #endif // RTTR_ENUM_FLAGS_IMPL_H_

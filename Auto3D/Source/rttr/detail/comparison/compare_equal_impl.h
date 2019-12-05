@@ -36,9 +36,9 @@
 #include <type_traits>
 #include <cstring>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -75,7 +75,7 @@ compare_equal(const T& lhs, const T& rhs, bool& ok)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_COMPARE_EQUAL_IMPL_H_

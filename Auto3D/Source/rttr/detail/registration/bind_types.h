@@ -30,9 +30,9 @@
 
 #include "rttr/detail/base/core_prerequisites.h"
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
     struct ctor { };
 
@@ -45,7 +45,7 @@ namespace RTTI
     struct meth { };
 
     struct enum_{};
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_BIND_H_

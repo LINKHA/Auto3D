@@ -41,9 +41,9 @@
 #include <array>
 #include <initializer_list>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 
@@ -116,7 +116,7 @@ struct sequential_container_mapper_wrapper : iterator_wrapper_base<Tp>
         return rank_count<T>::value;
     }
 
-    static ::Auto3D::type get_rank_type(std::size_t index)
+    static ::rttr::type get_rank_type(std::size_t index)
     {
         if (index <= rank_count<T>::value)
             return get_ranke_type<T, rank_count<T>::value>::get_type(index);
@@ -179,7 +179,7 @@ struct sequential_container_mapper_wrapper : iterator_wrapper_base<Tp>
     template<typename..., typename C = ConstType, enable_if_t<!std::is_const<C>::value, int> = 0>
     static void insert(void* container, argument& value, const iterator_data& itr_pos, iterator_data& itr)
     {
-        if (value.get_type() == ::Auto3D::type::get<value_t>())
+        if (value.get_type() == ::rttr::type::get<value_t>())
         {
             auto ret = base_class::insert(get_container(container), value.get_value<value_t>(), itr_wrapper::get_iterator(itr_pos));
             itr_wrapper::create(itr, ret);
@@ -204,7 +204,7 @@ struct sequential_container_mapper_wrapper : iterator_wrapper_base<Tp>
                          !std::is_const<remove_reference_t<ReturnType>>::value, int> = 0>
     static bool set_value(void* container, std::size_t index, argument& value)
     {
-        if (value.get_type() == ::Auto3D::type::get<value_t>())
+        if (value.get_type() == ::rttr::type::get<value_t>())
         {
             base_class::get_value(get_container(container), index) = value.get_value<value_t>();
             return true;
@@ -221,7 +221,7 @@ struct sequential_container_mapper_wrapper : iterator_wrapper_base<Tp>
                          !std::is_const<remove_reference_t<ReturnType>>::value, int> = 0>
     static bool set_value(void* container, std::size_t index, argument& value)
     {
-        if (value.get_type() == ::Auto3D::type::get<value_t>())
+        if (value.get_type() == ::rttr::type::get<value_t>())
         {
             copy_array(value.get_value<value_t>(), base_class::get_value(get_container(container), index));
             return true;
@@ -502,7 +502,7 @@ struct sequential_container_base_static
     }
 };
 
-} 
+} // end namespace detail
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // direct specialization
@@ -511,9 +511,9 @@ template<typename T, std::size_t N>
 struct sequential_container_mapper<T[N]>
 {
     using container_t   = T[N];
-    using value_t       = ::Auto3D::RTTI::remove_pointer_t<typename std::decay<T[N]>::type>;
+    using value_t       = ::rttr::detail::remove_pointer_t<typename std::decay<T[N]>::type>;
     using itr_t         = typename std::decay<T[N]>::type;
-    using const_itr_t   = typename std::decay<::Auto3D::RTTI::add_const_t<T[N]>>::type;
+    using const_itr_t   = typename std::decay<::rttr::detail::add_const_t<T[N]>>::type;
 
     static bool is_dynamic()
     {
@@ -814,19 +814,19 @@ struct sequential_container_mapper<std::vector<bool>>
 //////////////////////////////////////////////////////////////////////////////////////
 
 template<typename T>
-struct sequential_container_mapper<std::vector<T>> : RTTI::sequential_container_base_dynamic_direct_access<std::vector<T>> {};
+struct sequential_container_mapper<std::vector<T>> : detail::sequential_container_base_dynamic_direct_access<std::vector<T>> {};
 template<typename T>
-struct sequential_container_mapper<std::list<T>> : RTTI::sequential_container_base_dynamic_itr_access<std::list<T>> {};
+struct sequential_container_mapper<std::list<T>> : detail::sequential_container_base_dynamic_itr_access<std::list<T>> {};
 template<typename T>
-struct sequential_container_mapper<std::deque<T>> : RTTI::sequential_container_base_dynamic_direct_access<std::deque<T>> {};
+struct sequential_container_mapper<std::deque<T>> : detail::sequential_container_base_dynamic_direct_access<std::deque<T>> {};
 
 template<typename T, std::size_t N>
-struct sequential_container_mapper<std::array<T, N>> : RTTI::sequential_container_base_static<std::array<T, N>> {};
+struct sequential_container_mapper<std::array<T, N>> : detail::sequential_container_base_static<std::array<T, N>> {};
 
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-namespace RTTI
+namespace detail
 {
 
 struct sequential_container_empty
@@ -912,7 +912,7 @@ struct sequential_container_empty
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_SEQUENTIAL_MAPPER_IMPL_H_

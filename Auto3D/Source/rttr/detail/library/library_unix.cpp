@@ -98,7 +98,7 @@ static rttr::string_view get_error()
 
 namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -173,8 +173,8 @@ bool library_private::unload_native()
 /////////////////////////////////////////////////////////////////////////////////////////
 
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // NOT RTTR_PLATFORM_WINDOWS
 

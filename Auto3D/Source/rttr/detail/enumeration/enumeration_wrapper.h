@@ -38,16 +38,16 @@
 #include <utility>
 #include <type_traits>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 template<typename Enum_Type, std::size_t N, std::size_t Metadata_Count>
 class enumeration_wrapper : public enumeration_wrapper_base, public metadata_handler<Metadata_Count>
 {
     public:
-        enumeration_wrapper(std::array< FEnumData<Enum_Type>, N > data,
+        enumeration_wrapper(std::array< enum_data<Enum_Type>, N > data,
                             std::array<metadata, Metadata_Count> metadata_list) RTTR_NOEXCEPT
         :   metadata_handler<Metadata_Count>(std::move(metadata_list))
         {
@@ -120,7 +120,7 @@ class enumeration_wrapper : public enumeration_wrapper_base, public metadata_han
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_ENUMERATION_WRAPPER_H_

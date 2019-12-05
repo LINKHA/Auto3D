@@ -27,13 +27,13 @@
 
 #include "rttr/registration.h"
 
-namespace Auto3D
+namespace rttr
 {
 
-const RTTI::public_access FRegistration::public_access = {};
+const detail::public_access registration::public_access = {};
 
-const RTTI::protected_access FRegistration::protected_access = {};
+const detail::protected_access registration::protected_access = {};
 
-const RTTI::private_access FRegistration::private_access = {};
+const detail::private_access registration::private_access = {};
 
-} 
+} // end namespace rttr

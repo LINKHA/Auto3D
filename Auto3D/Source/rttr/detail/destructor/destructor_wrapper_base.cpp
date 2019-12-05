@@ -27,9 +27,9 @@
 
 #include "rttr/detail/destructor/destructor_wrapper_base.h"
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -74,5 +74,5 @@ bool destructor_wrapper_base::invoke(variant& obj) const RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr

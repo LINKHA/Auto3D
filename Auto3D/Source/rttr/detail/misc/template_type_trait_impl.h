@@ -30,77 +30,77 @@
 
 #include "rttr/type.h"
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 template<typename T>
-std::vector<::Auto3D::type> template_type_trait<T>::get_template_arguments() { return {}; }
+std::vector<::rttr::type> template_type_trait<T>::get_template_arguments() { return {}; }
 
 template<template <typename... > class T, typename...Args>
 struct template_type_trait<T<Args...>> : std::true_type
 {
-    static std::vector<::Auto3D::type> get_template_arguments() { return { ::Auto3D::type::get<Args>()..., }; }
+    static std::vector<::rttr::type> get_template_arguments() { return { ::rttr::type::get<Args>()..., }; }
 };
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 
 #define RTTR_ADD_TYPE_TRAIT_SPECIALIZATION_1(value_type)                                                                                    \
-namespace Auto3D                                                                                                                              \
+namespace rttr                                                                                                                              \
 {                                                                                                                                           \
-namespace RTTI                                                                                                                            \
+namespace detail                                                                                                                            \
 {                                                                                                                                           \
     template<template <value_type...> class T, value_type...Args>                                                                           \
     struct template_type_trait<T<Args...>> : std::true_type                                                                                 \
     {                                                                                                                                       \
-        static std::vector<::Auto3D::type> get_template_arguments() { return { ::Auto3D::type::get<Args>()..., }; }                             \
+        static std::vector<::rttr::type> get_template_arguments() { return { ::rttr::type::get<Args>()..., }; }                             \
     };                                                                                                                                      \
 }                                                                                                                                           \
 }
 
 #define RTTR_ADD_TYPE_TRAIT_SPECIALIZATION_2(value_type)                                                                                    \
-namespace Auto3D                                                                                                                              \
+namespace rttr                                                                                                                              \
 {                                                                                                                                           \
-namespace RTTI                                                                                                                            \
+namespace detail                                                                                                                            \
 {                                                                                                                                           \
     template<template <typename, value_type > class T, typename T1, value_type N1>                                                          \
     struct template_type_trait<T<T1, N1>> : std::true_type                                                                                  \
     {                                                                                                                                       \
-        static std::vector<::Auto3D::type> get_template_arguments() { return { ::Auto3D::type::get<T1>(), ::Auto3D::type::get<value_type>() }; }  \
+        static std::vector<::rttr::type> get_template_arguments() { return { ::rttr::type::get<T1>(), ::rttr::type::get<value_type>() }; }  \
     };                                                                                                                                      \
                                                                                                                                             \
     template<template <value_type, typename > class T, typename T1, value_type N1>                                                          \
     struct template_type_trait<T<N1, T1>> : std::true_type                                                                                  \
     {                                                                                                                                       \
-        static std::vector<::Auto3D::type> get_template_arguments() { return { ::Auto3D::type::get<value_type>(), ::Auto3D::type::get<T1>() }; }  \
+        static std::vector<::rttr::type> get_template_arguments() { return { ::rttr::type::get<value_type>(), ::rttr::type::get<T1>() }; }  \
     };                                                                                                                                      \
 }                                                                                                                                           \
 }
 
 #define RTTR_ADD_TYPE_TRAIT_SPECIALIZATION_3(value_type)                                                                                                        \
-namespace Auto3D                                                                                                                                                  \
+namespace rttr                                                                                                                                                  \
 {                                                                                                                                                               \
-namespace RTTI                                                                                                                                                \
+namespace detail                                                                                                                                                \
 {                                                                                                                                                               \
     template<template <typename, typename, value_type > class T, typename T1, typename T2, value_type N1>                                                       \
     struct template_type_trait<T<T1, T2, N1>> : std::true_type                                                                                                  \
     {                                                                                                                                                           \
-        static std::vector<::Auto3D::type> get_template_arguments() { return { ::Auto3D::type::get<T1>(), ::Auto3D::type::get<T2>(), ::Auto3D::type::get<N1>() }; }     \
+        static std::vector<::rttr::type> get_template_arguments() { return { ::rttr::type::get<T1>(), ::rttr::type::get<T2>(), ::rttr::type::get<N1>() }; }     \
     };                                                                                                                                                          \
                                                                                                                                                                 \
     template<template <typename, value_type, typename > class T, typename T1, typename T2, value_type N1>                                                       \
     struct template_type_trait<T<T1, N1, T2>> : std::true_type                                                                                                  \
     {                                                                                                                                                           \
-        static std::vector<::Auto3D::type> get_template_arguments() { return { ::Auto3D::type::get<T1>(), ::Auto3D::type::get<N1>(), ::Auto3D::type::get<T2>() }; }     \
+        static std::vector<::rttr::type> get_template_arguments() { return { ::rttr::type::get<T1>(), ::rttr::type::get<N1>(), ::rttr::type::get<T2>() }; }     \
     };                                                                                                                                                          \
                                                                                                                                                                 \
     template<template <value_type, typename, typename > class T, typename T1, typename T2, value_type N1>                                                       \
     struct template_type_trait<T<N1, T1, T2>> : std::true_type                                                                                                  \
     {                                                                                                                                                           \
-        static std::vector<::Auto3D::type> get_template_arguments() { return { ::Auto3D::type::get<N1>(), ::Auto3D::type::get<T1>(), ::Auto3D::type::get<T2>() }; }     \
+        static std::vector<::rttr::type> get_template_arguments() { return { ::rttr::type::get<N1>(), ::rttr::type::get<T1>(), ::rttr::type::get<T2>() }; }     \
     };                                                                                                                                                          \
                                                                                                                                                                 \
                                                                                                                                                                 \
@@ -108,19 +108,19 @@ namespace RTTI                                                                  
     template<template <value_type, value_type, typename > class T, typename T1, value_type N1, value_type N2>                                                   \
     struct template_type_trait<T<N1, N2, T1>> : std::true_type                                                                                                  \
     {                                                                                                                                                           \
-        static std::vector<::Auto3D::type> get_template_arguments() { return { ::Auto3D::type::get<N1>(), ::Auto3D::type::get<N2>(), ::Auto3D::type::get<T1>() }; }     \
+        static std::vector<::rttr::type> get_template_arguments() { return { ::rttr::type::get<N1>(), ::rttr::type::get<N2>(), ::rttr::type::get<T1>() }; }     \
     };                                                                                                                                                          \
                                                                                                                                                                 \
     template<template <value_type, typename, value_type > class T, typename T1, value_type N1, value_type N2>                                                   \
     struct template_type_trait<T<N1, T1, N2>> : std::true_type                                                                                                  \
     {                                                                                                                                                           \
-        static std::vector<::Auto3D::type> get_template_arguments() { return { ::Auto3D::type::get<N1>(), ::Auto3D::type::get<T1>(), ::Auto3D::type::get<N2>() }; }     \
+        static std::vector<::rttr::type> get_template_arguments() { return { ::rttr::type::get<N1>(), ::rttr::type::get<T1>(), ::rttr::type::get<N2>() }; }     \
     };                                                                                                                                                          \
                                                                                                                                                                 \
     template<template <typename, value_type, value_type > class T, typename T1, value_type N1, value_type N2>                                                   \
     struct template_type_trait<T<T1, N1, N2>> : std::true_type                                                                                                  \
     {                                                                                                                                                           \
-        static std::vector<::Auto3D::type> get_template_arguments() { return { ::Auto3D::type::get<T1>(), ::Auto3D::type::get<N1>(), ::Auto3D::type::get<N2>() }; }     \
+        static std::vector<::rttr::type> get_template_arguments() { return { ::rttr::type::get<T1>(), ::rttr::type::get<N1>(), ::rttr::type::get<N2>() }; }     \
     };                                                                                                                                                          \
                                                                                                                                                                 \
 }                                                                                                                                                               \

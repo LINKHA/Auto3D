@@ -37,9 +37,9 @@
 #include <type_traits>
 #include <cstring>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -82,8 +82,8 @@ compare_equal(const T& lhs, const T& rhs, bool& ok);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #include "rttr/detail/comparison/compare_equal_impl.h"
 // the include in this place is necessary, otherwise we get an error during compilation:

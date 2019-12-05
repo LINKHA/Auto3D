@@ -35,14 +35,14 @@
 #include "rttr/access_levels.h"
 #include "rttr/string_view.h"
 
-namespace Auto3D
+namespace rttr
 {
 
 class instance;
 class argument;
 class visitor;
 
-namespace RTTI
+namespace detail
 {
 /*!
  * Base class for an instance of a Property.
@@ -78,7 +78,7 @@ class RTTR_API property_wrapper_base
 
         virtual variant get_value(instance& object) const;
 
-        virtual void visit(visitor& visitor, Property prop) const RTTR_NOEXCEPT;
+        virtual void visit(visitor& visitor, property prop) const RTTR_NOEXCEPT;
 
     protected:
         void init() RTTR_NOEXCEPT;
@@ -88,7 +88,7 @@ class RTTR_API property_wrapper_base
         type        m_declaring_type;
 };
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_PROPERTY_WRAPPER_BASE_H_

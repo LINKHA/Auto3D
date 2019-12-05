@@ -35,17 +35,17 @@
 #include <string>
 #include <vector>
 
-namespace Auto3D
+namespace rttr
 {
 class variant;
 class type;
 class argument;
 
 template<typename T>
-class Class;
+class class_;
 class visitor;
 
-namespace RTTI
+namespace detail
 {
 
 class constructor_wrapper_base;
@@ -130,13 +130,13 @@ private:
 
     friend class type;
     template<typename T>
-    friend class Class;
+    friend class class_;
 
     template<typename T, typename Enable>
-    friend struct RTTI::type_getter;
+    friend struct detail::type_getter;
 };
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_TYPE_REGISTER_H_

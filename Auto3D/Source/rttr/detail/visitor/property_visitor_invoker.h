@@ -31,11 +31,11 @@
 #include "rttr/detail/base/core_prerequisites.h"
 
 
-namespace Auto3D
+namespace rttr
 {
-class Method;
+class method;
 
-namespace RTTI
+namespace detail
 {
 
 struct invalid_type;
@@ -180,7 +180,7 @@ make_property_getter_setter_visitor_invoker(const visitor::property_getter_sette
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_PROPERTY_VISITOR_INVOKER_H_

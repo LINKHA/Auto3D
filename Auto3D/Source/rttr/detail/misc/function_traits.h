@@ -36,16 +36,16 @@
 #include <functional>
 #include <tuple>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
     /////////////////////////////////////////////////////////////////////////////////////
 
     template<typename T>
     struct is_function_ptr : std::integral_constant<bool, std::is_pointer<T>::value &&
-                                                          std::is_function<::Auto3D::RTTI::remove_pointer_t<T>>::value>
+                                                          std::is_function<::rttr::detail::remove_pointer_t<T>>::value>
     {
     };
 
@@ -185,7 +185,7 @@ namespace RTTI
 
     /////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_FUNCTION_TRAITS_H_

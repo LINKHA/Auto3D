@@ -30,7 +30,7 @@
 
 #include "rttr/detail/base/core_prerequisites.h"
 
-namespace Auto3D
+namespace rttr
 {
 
 /*!
@@ -60,6 +60,6 @@ enum class access_levels
     private_access
 };
 
-} 
+} // end namespace rttr
 
 #endif // RTTR_ACCESS_LEVELS_H_

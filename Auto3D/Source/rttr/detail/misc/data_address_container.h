@@ -32,12 +32,12 @@
 
 #include <memory>
 
-namespace Auto3D
+namespace rttr
 {
 
 class type;
 
-namespace RTTI
+namespace detail
 {
 
 /*!
@@ -52,7 +52,7 @@ struct data_address_container
     void*   m_data_address_wrapped_type;
 };
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_DATA_ADDRESS_CONTAINER_H_

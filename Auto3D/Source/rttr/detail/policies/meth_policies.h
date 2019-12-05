@@ -31,9 +31,9 @@
 #include "rttr/detail/base/core_prerequisites.h"
 #include "rttr/detail/misc/misc_type_traits.h"
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 struct return_as_ptr;
@@ -48,8 +48,8 @@ struct default_invoke
 
 using method_policy_list    = type_list<discard_return, return_as_ptr>;
 
-} ;
+} // end namespace detail;
 
-} 
+} // end namespace rttr
 
 #endif // RTTR_METH_POLICIES_H_

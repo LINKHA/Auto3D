@@ -33,7 +33,7 @@
 
 using namespace std;
 
-namespace Auto3D
+namespace rttr
 {
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -214,7 +214,7 @@ variant_associative_view::const_iterator variant_associative_view::end() const
 /////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
 
-variant_associative_view::const_iterator::const_iterator(const RTTI::variant_associative_view_private* view) RTTR_NOEXCEPT
+variant_associative_view::const_iterator::const_iterator(const detail::variant_associative_view_private* view) RTTR_NOEXCEPT
 :   m_view(view)
 {
 }
@@ -368,5 +368,5 @@ bool variant_associative_view::const_iterator::operator!=(const const_iterator& 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
+} // end namespace rttr
 

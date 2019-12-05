@@ -29,11 +29,11 @@
 #define RTTR_BASE_CLASSES_H_
 
 
-namespace Auto3D
+namespace rttr
 {
 template<typename... U> struct type_list;
 
-namespace RTTI
+namespace detail
 {
 
 struct base_class_info
@@ -71,7 +71,7 @@ public:
 template<typename T>
 using has_base_class_list = std::integral_constant<bool, has_base_class_list_impl<T>::value>;
 
-using info_container = std::vector<RTTI::base_class_info>;
+using info_container = std::vector<detail::base_class_info>;
 
 /*!
  * This class fills from a given type_list the corresponding type objects into a std::vector.
@@ -145,7 +145,7 @@ struct RTTR_LOCAL base_classes<T, typename std::enable_if<has_base_class_list<T>
     }
 };
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_BASE_CLASSES_H_

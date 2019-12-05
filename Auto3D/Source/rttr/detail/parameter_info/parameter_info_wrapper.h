@@ -33,9 +33,9 @@
 #include "rttr/detail/parameter_info/parameter_info_wrapper_base.h"
 #include "rttr/parameter_info.h"
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 struct has_param_name {};
 struct no_param_name {};
@@ -125,7 +125,7 @@ class parameter_info_wrapper<Param_Type, Param_Index, no_param_name, void> : pub
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_PARAMETER_INFO_WRAPPER_H_

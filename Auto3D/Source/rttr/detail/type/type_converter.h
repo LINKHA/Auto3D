@@ -32,10 +32,10 @@
 #include "rttr/variant.h"
 #include "rttr/detail/type/type_register.h"
 
-namespace Auto3D
+namespace rttr
 {
 
-namespace RTTI
+namespace detail
 {
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -78,7 +78,7 @@ struct type_converter : type_converter_target<TargetType>
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_TYPE_CONVERTER_H_

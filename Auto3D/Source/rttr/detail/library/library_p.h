@@ -42,9 +42,9 @@
 
 #include <atomic>
 
-namespace Auto3D
+namespace rttr
 {
-namespace RTTI
+namespace detail
 {
 
 /*!
@@ -122,9 +122,9 @@ public:
 
     array_range<type> get_types() const RTTR_NOEXCEPT { return m_state_saver.get_types(); }
 
-    array_range<Property> get_global_properties() const RTTR_NOEXCEPT { return m_state_saver.get_global_properties(); }
+    array_range<property> get_global_properties() const RTTR_NOEXCEPT { return m_state_saver.get_global_properties(); }
 
-    array_range<Method> get_global_methods() const RTTR_NOEXCEPT { return m_state_saver.get_global_methods(); }
+    array_range<method> get_global_methods() const RTTR_NOEXCEPT { return m_state_saver.get_global_methods(); }
 
     int get_load_count() const RTTR_NOEXCEPT { return m_load_count.load(); }
 
@@ -151,7 +151,7 @@ private:
     m_handle;
 };
 
-} 
-} 
+} // end namespace detail
+} // end namespace rttr
 
 #endif // RTTR_LIBRARY_P_H_
