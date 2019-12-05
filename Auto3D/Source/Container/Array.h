@@ -280,9 +280,9 @@ private:
 template <typename _Ty, unsigned _Size> class TArray
 {
 public:
-	using Iterator = tArrayIterator<_Ty, _Size>;
+	using Iterator = TArrayIterator<_Ty, _Size>;
 
-	using ConstIterator = tArrayConstIterator<_Ty, _Size>;
+	using ConstIterator = TArrayConstIterator<_Ty, _Size>;
 public:
 	/// Return element at index
 	_Ty& operator [](unsigned index)
@@ -326,9 +326,9 @@ public:
 		return ConstIterator(_elems, _Size);
 	}
 	/// Swap with another vector
-	void Swap(tArray& rhs)
+	void Swap(TArray& rhs)
 	{
-		KhSTL::Swap(*_elems, *rhs._elems);
+		Swap(*_elems, *rhs._elems);
 	}
 	/// Return array max length
 	constexpr unsigned Size() const noexcept
