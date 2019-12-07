@@ -4,6 +4,9 @@
 
 namespace Auto3D
 {
+namespace RTTI
+{
+
 #define RTTR_CAT_IMPL(a, b) a##b
 #define RTTR_CAT(a, b) RTTR_CAT_IMPL(a, b)
 
@@ -13,7 +16,7 @@ class AUTO_API FRegistration
 	class Class
 	{
 	public:
-		
+
 		/// Construct a class_ object with the given name \p name.
 		Class(FString name);
 
@@ -33,15 +36,16 @@ FRegistration::Class<_ClassType>::Class(FString name)
 static void rttr_auto_register_reflection_function_();                              \
 namespace                                                                           \
 {                                                                                   \
-    struct rttr__auto__register__                                                   \
-    {                                                                               \
-        rttr__auto__register__()                                                    \
-        {                                                                           \
-            rttr_auto_register_reflection_function_();                              \
-        }                                                                           \
-    };                                                                              \
+struct rttr__auto__register__                                                   \
+{                                                                               \
+    rttr__auto__register__()                                                    \
+    {                                                                           \
+        rttr_auto_register_reflection_function_();                              \
+    }                                                                           \
+};                                                                              \
 }                                                                                   \
 static const rttr__auto__register__ RTTR_CAT(auto_register__, __LINE__);            \
 static void rttr_auto_register_reflection_function_()
 
+}
 }

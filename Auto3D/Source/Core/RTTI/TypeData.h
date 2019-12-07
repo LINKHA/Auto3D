@@ -5,11 +5,14 @@
 #include "Container/Vector.h"
 #include "Core/RTTI/GetCreateVariantFunc.h"
 #include "Core/RTTI/WrapperMapper.h"
+#include "Core/RTTI/MiscTypeTraits.h"
 
 #include <type_traits>
 #include <bitset>
 
 namespace Auto3D
+{
+namespace RTTI
 {
 
 enum class TypeTraitInfos : std::size_t
@@ -52,7 +55,7 @@ struct AUTO_API FTypeData : public FRefCounted
 
 	CreateVariantFunc _createVariant;
 	GetBaseTypesFunc _getBaseTypes; // FIXME: this info should not be stored, its just temporarily,
-											  // thats why we store it as function pointer
+												// thats why we store it as function pointer
 
 	enumeration_wrapper_base*  _enumWrapper;
 	GetMetadataFunc    _getMetadata;
@@ -67,9 +70,29 @@ struct AUTO_API FTypeData : public FRefCounted
 	class_data  m_class_data;
 };
 
-inline static FType GetInvalidType() noexcept;
 
-template<typename _Ty, bool = std::is_same<_Ty, typename raw_type<_Ty>::type >::value>
+template<typename T, typename Enable = void>
+struct FGetSizeOf
+{
+	inline constexpr static size_t Value()
+	{
+		return sizeof(T);
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+template<typename T>
+struct FGetSizeOf<T, EnableIf<std::is_same<T, void>::value || std::is_function<T>::value>>
+{
+	inline constexpr static size_t Value()
+	{
+		return 0;
+	}
+};
+
+
+template<typename _Ty, bool = std::is_same<_Ty, typename FRawType<_Ty>::type >::value>
 struct FRawTypeInfo
 {
 	static inline FType GetType() noexcept
@@ -109,7 +132,7 @@ template<typename _Ty>
 struct FArrayRawType<_Ty, false>
 {
 	static inline FType GetType() noexcept
-	{ 
+	{
 		return GetInvalidType();  // we have to return an empty type, so we can stop the recursion
 	}
 };
@@ -124,10 +147,10 @@ TUniquePtr<FTypeData> MakeTypeData()
 				FRawTypeInfo<_Ty>::GetType()._typeData, FWrapperTypeInfo<_Ty>::GetType()._typeData,
 				FArrayRawType<_Ty>::GetType()._typeData,
 
-				::rttr::detail::get_type_name<T>().to_string(), ::rttr::detail::get_type_name<T>(),
+				GetTypeName<T>().CString(), GetTypeName<T>(),
 
-				get_size_of<T>::value(),
-				pointer_count<T>::value,
+				FGetSizeOf<T>::Value(),
+				PointerCount<T>::value,
 
 				&create_variant_func<T>::create_variant,
 				&base_classes<T>::get_types,
@@ -138,21 +161,21 @@ TUniquePtr<FTypeData> MakeTypeData()
 				nullptr,
 				true,
 				type_trait_value{ TYPE_TRAIT_TO_BITSET_VALUE(is_class) |
-								  TYPE_TRAIT_TO_BITSET_VALUE(is_enum) |
-								  TYPE_TRAIT_TO_BITSET_VALUE(is_array) |
-								  TYPE_TRAIT_TO_BITSET_VALUE(is_pointer) |
-								  TYPE_TRAIT_TO_BITSET_VALUE(is_arithmetic) |
-								  TYPE_TRAIT_TO_BITSET_VALUE_2(is_function_ptr, is_function_pointer) |
-								  TYPE_TRAIT_TO_BITSET_VALUE(is_member_object_pointer) |
-								  TYPE_TRAIT_TO_BITSET_VALUE(is_member_function_pointer) |
-								  TYPE_TRAIT_TO_BITSET_VALUE_2(::rttr::detail::is_associative_container, is_associative_container) |
-								  TYPE_TRAIT_TO_BITSET_VALUE_2(::rttr::detail::is_sequential_container, is_sequential_container) |
-								  TYPE_TRAIT_TO_BITSET_VALUE_2(::rttr::detail::template_type_trait, is_template_instantiation)
+									TYPE_TRAIT_TO_BITSET_VALUE(is_enum) |
+									TYPE_TRAIT_TO_BITSET_VALUE(is_array) |
+									TYPE_TRAIT_TO_BITSET_VALUE(is_pointer) |
+									TYPE_TRAIT_TO_BITSET_VALUE(is_arithmetic) |
+									TYPE_TRAIT_TO_BITSET_VALUE_2(is_function_ptr, is_function_pointer) |
+									TYPE_TRAIT_TO_BITSET_VALUE(is_member_object_pointer) |
+									TYPE_TRAIT_TO_BITSET_VALUE(is_member_function_pointer) |
+									TYPE_TRAIT_TO_BITSET_VALUE_2(::rttr::detail::is_associative_container, is_associative_container) |
+									TYPE_TRAIT_TO_BITSET_VALUE_2(::rttr::detail::is_sequential_container, is_sequential_container) |
+									TYPE_TRAIT_TO_BITSET_VALUE_2(::rttr::detail::template_type_trait, is_template_instantiation)
 								},
 				class_data(get_most_derived_info_func<T>(), template_type_trait<T>::get_template_arguments())
 			}
 	);
 	return obj;
 }
-
+}
 }

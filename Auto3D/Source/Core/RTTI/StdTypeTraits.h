@@ -3,6 +3,9 @@
 
 namespace Auto3D
 {
+namespace RTTI
+{
+
 template<typename T>
 using RemoveCV = typename std::remove_cv<T>::type;
 
@@ -14,5 +17,5 @@ using RemoveReference = typename std::remove_reference<T>::type;
 
 template< bool B, class T = void >
 using EnableIf = typename std::enable_if<B, T>::type;
-
+}
 }

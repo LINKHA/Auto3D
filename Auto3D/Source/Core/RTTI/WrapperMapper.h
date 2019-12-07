@@ -3,6 +3,9 @@
 
 namespace Auto3D
 {
+namespace RTTI
+{
+
 struct FInvalidWrapperType { };
 
 template<typename T>
@@ -17,5 +20,5 @@ using WrapperMapper = typename FWrapperMapper<typename std::remove_cv<typename s
 
 template<typename _Ty>
 using IsWrapper = std::integral_constant<bool, !std::is_same<FInvalidWrapperType, WrapperMapper<_Ty>>::value >;
-
+}
 }

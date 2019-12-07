@@ -3,10 +3,8 @@
 
 namespace Auto3D
 {
-inline static FType GetInvalidType() noexcept
+namespace RTTI
 {
-	return CreateType(nullptr);
-}
 
 static FTypeData& GetInvalidTypeDataImpl() noexcept
 {
@@ -39,5 +37,5 @@ FTypeData* GetInvalidTypeData() noexcept
 	static auto instance = &GetInvalidTypeDataImpl();
 	return instance;
 }
-
+}
 }

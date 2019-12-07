@@ -5,6 +5,9 @@
 
 namespace Auto3D
 {
+namespace RTTI
+{
+
 void FTypeRegister::RegisterRegManager(FRegistrationManager* manager)
 {
 	GTypeRegisterPrivate::GetInstance().RegisterRegManager(manager);
@@ -26,5 +29,5 @@ void FTypeRegister::UnregisterType(FTypeData* info) noexcept
 {
 	GTypeRegisterPrivate::GetInstance().UnregisterType(info);
 }
-
+}
 }

@@ -5,6 +5,8 @@
 
 namespace Auto3D
 {
+namespace RTTI
+{
 
 class AUTO_API FType
 {
@@ -28,15 +30,16 @@ using IsCcompleteType = std::integral_constant<bool, !std::is_function<_Ty>::val
 
 template<typename _Ty>inline EnableIf<IsCcompleteType<_Ty>::value, FType>
 	CreateOrGetType() noexcept
-{
-	// when you get an error here, then the type was not completely defined
-	// (a forward declaration is not enough because base_classes will not be found)
-	using TypeMustBeComplete = char[sizeof(_Ty) ? 1 : -1];
-	(void) sizeof(TypeMustBeComplete);
-		
-	static const FType val = create_type(GetRegistrationManager().AddItem(make_type_data<T>()));
-	return val;
-}
+	{
+		// when you get an error here, then the type was not completely defined
+		// (a forward declaration is not enough because base_classes will not be found)
+		using TypeMustBeComplete = char[sizeof(_Ty) ? 1 : -1];
+		(void) sizeof(TypeMustBeComplete);
 
-inline static FType GetInvalidType() noexcept { return CreateType(nullptr); }
+		static const FType val = create_type(GetRegistrationManager().AddItem(make_type_data<T>()));
+		return val;
+	}
+
+	inline static FType GetInvalidType() noexcept { return CreateType(nullptr); }
+}
 }

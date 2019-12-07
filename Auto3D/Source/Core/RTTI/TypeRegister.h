@@ -3,6 +3,8 @@
 
 namespace Auto3D
 {
+namespace RTTI
+{
 
 class FRegistrationManager;
 class FTypeData;
@@ -22,4 +24,5 @@ public:
 	static void UnregisterType(FTypeData* info) noexcept;
 };
 
+}
 }

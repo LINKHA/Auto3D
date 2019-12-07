@@ -4,6 +4,9 @@
 
 namespace Auto3D
 {
+namespace RTTI
+{
+
 class AUTO_API FArgument
 {
 public:
@@ -26,5 +29,5 @@ inline FArgument::FArgument(FArgument&& arg) noexcept : _data(arg._data), _varia
 /////////////////////////////////////////////////////////////////////////////////////////
 
 inline FArgument::FArgument(const FArgument& other) noexcept : _data(other._data), _variant(other._variant), _type(other._type) {}
-
+}
 }

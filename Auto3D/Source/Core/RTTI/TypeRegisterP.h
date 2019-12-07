@@ -4,6 +4,8 @@
 #include "Container/HashSet.h"
 namespace Auto3D
 {
+namespace RTTI
+{
 
 class FRegistrationManager;
 
@@ -22,5 +24,5 @@ public:
 
 	THashSet<FRegistrationManager*>  _registrationManagerList;
 };
-
+}
 }

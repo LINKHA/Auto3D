@@ -9,6 +9,16 @@ namespace Auto3D
 #	pragma warning(disable:4481)
 #endif
 
+#if defined( __clang__ )
+#	define AUTO_CLANG
+#elif defined( __GNUC__ )
+#	define AUTO_GNUC
+#elif defined( _MSC_VER )
+#	define AUTO_MSVC
+#else
+#   error "No known compiler. Abort! Abort!"
+#endif
+
 // Shared library exports
 /* #undef AUTO_SHARED */
 #if defined(_WIN32) && defined(AUTO_SHARED)

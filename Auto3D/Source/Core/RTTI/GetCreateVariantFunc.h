@@ -4,6 +4,9 @@
 
 namespace Auto3D
 {
+namespace RTTI
+{
+
 using VariantCreateFunc = FVariant(*)(const FArgument&);
 
 template<typename _Ty>
@@ -23,5 +26,5 @@ struct FCreateInvalidVariantPolicy
 	}
 };
 
-
+}
 }

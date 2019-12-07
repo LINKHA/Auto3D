@@ -5,6 +5,8 @@
 #include ""
 namespace Auto3D
 {
+namespace RTTI
+{
 
 class AUTO_API FRegistrationManager
 {
@@ -16,7 +18,7 @@ public:
 	}
 	~FRegistrationManager()
 	{
-		
+
 	}
 
 	FTypeData* AddTtem(TUniquePtr<FTypeData> typeData)
@@ -37,5 +39,5 @@ inline FRegistrationManager& GetRegistrationManager() noexcept
 	static FRegistrationManager obj;
 	return obj;
 }
-
+}
 }
