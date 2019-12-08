@@ -1,5 +1,4 @@
-
-#include "rttr/registration.h"
+#include "Core/RTTI/registration.h"
 #include <iostream>
 
 
@@ -50,51 +49,51 @@ AApplication::~AApplication()
 int AApplication::Run()
 {
 
-	{
-		type t = type::get<MyStruct>();
-		for (auto& prop : t.get_properties())
-			std::cout << "name: " << prop.get_name();
+	//{
+	//	type t = type::get<MyStruct>();
+	//	for (auto& prop : t.get_properties())
+	//		std::cout << "name: " << prop.get_name();
 
-		for (auto& meth : t.get_methods())
-			std::cout << "name: " << meth.get_name();
-	}
-	std::cout << std::endl;
+	//	for (auto& meth : t.get_methods())
+	//		std::cout << "name: " << meth.get_name();
+	//}
+	//std::cout << std::endl;
 
-	{
-		type t = type::get_by_name("MyStruct");
-		variant var = t.create();    // will invoke the previously registered ctor
+	//{
+	//	type t = type::get_by_name("MyStruct");
+	//	variant var = t.create();    // will invoke the previously registered ctor
 
-		constructor ctor = t.get_constructor();  // 2nd way with the constructor class
-		var = ctor.invoke();
-		std::cout << var.get_type().get_name(); // prints 'MyStruct'
-
-
-	}
-
-	std::cout << std::endl;
-	{
-		MyStruct obj;
-
-		property prop = type::get(obj).get_property("data");
-		prop.set_value(obj, 23);
-
-		variant var_prop = prop.get_value(obj);
-		std::cout << var_prop.to_int(); // prints '23'
+	//	constructor ctor = t.get_constructor();  // 2nd way with the constructor class
+	//	var = ctor.invoke();
+	//	std::cout << var.get_type().get_name(); // prints 'MyStruct'
 
 
-	}
+	//}
 
-	std::cout << std::endl;
-	{
-		MyStruct obj;
+	//std::cout << std::endl;
+	//{
+	//	MyStruct obj;
 
-		method meth = type::get(obj).get_method("func");
-		meth.invoke(obj, 42.0);
+	//	property prop = type::get(obj).get_property("data");
+	//	prop.set_value(obj, 23);
 
-		variant var = type::get(obj).create();
-		meth.invoke(var, 42.0);
+	//	variant var_prop = prop.get_value(obj);
+	//	std::cout << var_prop.to_int(); // prints '23'
 
-	}
+
+	//}
+
+	//std::cout << std::endl;
+	//{
+	//	MyStruct obj;
+
+	//	method meth = type::get(obj).get_method("func");
+	//	meth.invoke(obj, 42.0);
+
+	//	variant var = type::get(obj).create();
+	//	meth.invoke(var, 42.0);
+
+	//}
 
 	// Make sure the engine is created properly
 	if (_engine.Null())
