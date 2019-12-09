@@ -1,6 +1,9 @@
 #pragma once
-#include "rttr/registration.h"
-#include "rttr/string_view.h"
+#include <rttr/string_view.h>
+#include <rttr/registration.h>
+#include <rttr/type>
+#include <rttr/registration_friend.h>
+
 #include "Container/String.h"
 
 namespace Auto3D
