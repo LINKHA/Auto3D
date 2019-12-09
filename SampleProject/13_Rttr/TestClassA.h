@@ -1,6 +1,9 @@
 #pragma once
 #include "Adapter/AutoRttr.h"
+#include "Container/String.h"
 #include <string.h>
+
+using namespace Auto3D;
 
 namespace ns_3d
 {
@@ -10,13 +13,13 @@ class node
 	RTTR_ENABLE()
 	RTTR_REGISTRATION_FRIEND
 public:
-	node(std::string name, node* parent = nullptr) {}
+	node(FString name, node* parent = nullptr) {}
 	virtual ~node() {}
-	void set_name(const std::string& name)
+	void set_name(const FString& name)
 	{
 		m_name = name;
 	}
-	const std::string& get_name() const
+	const FString& get_name() const
 	{
 		return m_name;
 	}
@@ -28,7 +31,7 @@ public:
 	virtual void render() {}
 protected:
 	node*               m_parent;
-	std::string         m_name;
+	FString         m_name;
 	std::vector<node*>  m_children;
 	
 };

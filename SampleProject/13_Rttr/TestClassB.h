@@ -10,7 +10,7 @@ class mesh : public node
 {
 	RTTR_ENABLE(node) // include the names of all direct base classes
 public:
-	static std::shared_ptr<mesh> create_mesh(std::string file_name)
+	static std::shared_ptr<mesh> create_mesh(FString file_name)
 	{
 		return std::shared_ptr<mesh>(new mesh(file_name));
 	}
@@ -30,7 +30,7 @@ public:
 		return _mode;
 	}
 protected:
-	mesh(std::string name, node* parent = nullptr)
+	mesh(FString name, node* parent = nullptr)
 		:node(name,parent)
 	{
 		m_name = name;

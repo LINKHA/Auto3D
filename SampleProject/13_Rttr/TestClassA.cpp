@@ -5,7 +5,7 @@ AUTO_RTTR_REGISTRATION
 	using namespace rttr;
 	using namespace ns_3d;
 	registration::class_<node>("ns_3d::node")
-		.constructor<std::string, node*>()
+		.constructor<FString, node*>()
 		(
 			policy::ctor::as_std_shared_ptr, // should create an instance of the class as shared_ptr<ns_3d::node>
 			default_arguments(nullptr)       // second argument is optional, so we provide the default value for it

@@ -7,17 +7,19 @@ AUTO_APPLICATION_MAIN(RttrSample)
 
 void PrintClassA()
 {
+	LogString("-----------------------------------------------------------------------");
+
 	Type t = Type::get_by_name("ns_3d::node");
 	
-	Variant var = t.create({ std::string("MyNode") }); // will create an instance of ns_3d::node as std::shared_ptr<ns_3d::node>
+	Variant var = t.create({ FString("MyNode") }); // will create an instance of ns_3d::node as std::shared_ptr<ns_3d::node>
 
 	LogString(RtToStr(var.get_type().get_name()));
 	
 	Property prop = t.get_property("name"); // sets/gets a property
 	
-	prop.set_value(var, std::string("A New Name"));// remark: you can also set a member, although the instance is of type: 'std::shared_ptr<T>'
+	prop.set_value(var, FString("A New Name"));// remark: you can also set a member, although the instance is of type: 'std::shared_ptr<T>'
 
-	LogString(RtToStr(prop.get_value(var).to_string()));
+	LogString(prop.get_value(var).get_value<FString>());
 	LogString("MetaData TOOL_TIP: " + RtToStr(prop.get_metadata("TOOL_TIP").to_string())); // retrieve the stored meta data of the property
 
 	Method meth = t.get_method("set_visible");	// invoke a method
@@ -44,6 +46,7 @@ void PrintClassA()
 }
 void PrintClassB()
 {
+	LogString("-----------------------------------------------------------------------");
 	std::shared_ptr<ns_3d::node> obj = ns_3d::mesh::create_mesh("House.obj");
 	LogString(RtToStr(Type::get(obj).get_name()));						// prints 'std::shared_ptr<ns_3d::node>'         
 	LogString(RtToStr(Type::get(obj).get_wrapped_type().get_name()));// prints 'ns_3d::node*'
@@ -73,7 +76,7 @@ void RttrSample::Init()
 {
 	PrintClassA();
 	PrintClassB();
-
+	LogString("-----------------------------------------------------------------------");
 	Super::Init();
 	auto* graphics = GModuleManager::Get().GraphicsModule();
 	graphics->RenderWindow()->SetTitle("Rttr Sample");
