@@ -31,6 +31,7 @@ include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/FreeType/include)
 include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/LibCpuId)
 include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/Imgui)
 include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/filedialog)
+include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/rttr)
 
 if (AUTO_OPENGL)
 	include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/glad)

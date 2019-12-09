@@ -76,5 +76,6 @@
 #include "Core/Modules/ModuleManager.h"
 #include "Event/EventManager.h"
 #include "Adapter/AutoFileDialog.h"
+#include "Adapter/AutoRttr.h"
 
 #include "Application.h"

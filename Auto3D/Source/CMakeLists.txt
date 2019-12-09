@@ -56,6 +56,9 @@ include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/Imgui)
 target_link_libraries (${TARGET_NAME}  filedialog)
 include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/filedialog)
 
+target_link_libraries (${TARGET_NAME}  rttr)
+include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/rttr)
+
 if (AUTO_OPENGL)
 	target_link_libraries (${TARGET_NAME}  glad)
 	include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/glad)
