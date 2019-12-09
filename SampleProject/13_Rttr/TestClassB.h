@@ -10,9 +10,9 @@ class Mesh : public Node
 {
 	RTTR_ENABLE(Node) // include the names of all direct base classes
 public:
-	static std::shared_ptr<Mesh> CreateMesh(FString file_name)
+	static TSharedPtr<Mesh> CreateMesh(FString file_name)
 	{
-		return std::shared_ptr<Mesh>(new Mesh(file_name));
+		return TSharedPtr<Mesh>(new Mesh(file_name));
 	}
 	virtual void Render() {}
 	enum class RenderMode

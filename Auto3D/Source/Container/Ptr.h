@@ -835,7 +835,7 @@ template <typename _Ty, typename ... _Args> TUniquePtr<_Ty> MakeUnique(_Args&& .
 /// Construct TSharedPtr.
 template <typename _Ty, typename ... _Args> TSharedPtr<_Ty> MakeShared(_Args&& ... args)
 {
-	return TSharedPtr<_Ty>(new T(std::forward<_Args>(args)...));
+	return TSharedPtr<_Ty>(new _Ty(std::forward<_Args>(args)...));
 }
 
 }
