@@ -15,14 +15,14 @@ void PrintClassA()
 
 	LogString(RtToStr(var.get_type().get_name()));
 	
-	Property prop = t.get_property("name"); // sets/gets a property
+	Property prop = t.get_property("_name"); // sets/gets a property
 	
 	prop.set_value(var, FString("A New Name"));// remark: you can also set a member, although the instance is of type: 'std::shared_ptr<T>'
 
 	LogString(prop.get_value(var).get_value<FString>());
 	LogString("MetaData TOOL_TIP: " + RtToStr(prop.get_metadata("TOOL_TIP").to_string())); // retrieve the stored meta data of the property
 
-	Method meth = t.get_method("set_visible");	// invoke a method
+	Method meth = t.get_method("SetVisible");	// invoke a method
 
 	Variant ret = meth.invoke(var, true); //remark: the 2nd argument will be provided automatically, because it has a default argument
 	LogString("invoke of method 'set_visible' was successfully : " + FString(ret.is_valid())); // a valid return value indicates a successful invoke
@@ -47,7 +47,7 @@ void PrintClassA()
 void PrintClassB()
 {
 	LogString("-----------------------------------------------------------------------");
-	std::shared_ptr<Ns3D::Node> obj = Ns3D::Mesh::create_mesh("House.obj");
+	std::shared_ptr<Ns3D::Node> obj = Ns3D::Mesh::CreateMesh("House.obj");
 	LogString(RtToStr(Type::get(obj).get_name()));						// prints 'std::shared_ptr<ns_3d::node>'         
 	LogString(RtToStr(Type::get(obj).get_wrapped_type().get_name()));// prints 'ns_3d::node*'
 	LogString(RtToStr(Type::get(*obj.get()).get_name())); // prints 'ns_3d::mesh'
@@ -61,11 +61,11 @@ void PrintClassB()
 		LogString("  name: " + RtToStr(prop.get_name()));
 		LogString("    type: " + RtToStr(prop.get_type().get_name()));
 	}
-	Property prop = t.get_property("render_mode");
+	Property prop = t.get_property("_renderMode");
 	// set the property of the derived type, although we hold only a shared_ptr of the base class
-	bool ret = prop.set_value(obj, Ns3D::Mesh::render_mode::SOLID); // yields to 'true'; when set was possible
+	bool ret = prop.set_value(obj, Ns3D::Mesh::RenderMode::SOLID); // yields to 'true'; when set was possible
 	LogString("");
-	Method meth = t.get_method("render");
+	Method meth = t.get_method("Render");
 	LogString(RtToStr(meth.get_declaring_type().get_name())); // prints 'ns_3d::node'
 	std::shared_ptr<Ns3D::Mesh> obj_derived = std::dynamic_pointer_cast<Ns3D::Mesh>(obj);
 	// invoke the method, although we have the most derived type now

@@ -10,32 +10,30 @@ class Mesh : public Node
 {
 	RTTR_ENABLE(Node) // include the names of all direct base classes
 public:
-	static std::shared_ptr<Mesh> create_mesh(FString file_name)
+	static std::shared_ptr<Mesh> CreateMesh(FString file_name)
 	{
 		return std::shared_ptr<Mesh>(new Mesh(file_name));
 	}
-	virtual void render() {}
-	enum class render_mode
+	virtual void Render() {}
+	enum class RenderMode
 	{
 		POINTS,
 		WIREFRAME,
 		SOLID
 	};
-	void set_render_mode(render_mode mode)
+	void SetRenderMode(RenderMode mode)
 	{
-		_mode = mode;
+		_renderMode = mode;
 	}
-	render_mode get_render_mode() const
+	RenderMode GetRenderMode() const
 	{
-		return _mode;
+		return _renderMode;
 	}
 protected:
 	Mesh(FString name, Node* parent = nullptr)
 		:Node(name,parent)
 	{
-		_name = name;
-		_parent = parent;
 	}
-	render_mode _mode;
+	RenderMode _renderMode;
 };
 }

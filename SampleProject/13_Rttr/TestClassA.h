@@ -13,22 +13,25 @@ class Node
 	RTTR_ENABLE()
 	RTTR_REGISTRATION_FRIEND
 public:
-	Node(FString name, Node* parent = nullptr) {}
+	Node(FString name, Node* parent = nullptr):
+		_name(name),
+		_parent(parent)
+	{}
 	virtual ~Node() {}
-	void set_name(const FString& name)
+	void SetName(const FString& name)
 	{
 		_name = name;
 	}
-	const FString& get_name() const
+	const FString& GetName() const
 	{
 		return _name;
 	}
-	std::vector<Node*> get_children() const
+	std::vector<Node*> GetChildren() const
 	{
 		return _children;
 	}
-	void set_visible(bool visible, bool cascade = true) {}
-	virtual void render() {}
+	void SetVisible(bool visible, bool cascade = true) {}
+	virtual void Render() {}
 protected:
 	Node* _parent;
 	FString _name;
