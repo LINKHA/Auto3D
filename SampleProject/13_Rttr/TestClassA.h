@@ -1,14 +1,14 @@
 #pragma once
 #include "Adapter/AutoRttr.h"
 #include "Container/String.h"
-#include <string.h>
+#include "Container/Ptr.h"
 
 using namespace Auto3D;
 
 namespace Ns3D
 {
 
-class Node
+class Node : public FRefCounted
 {
 	RTTR_ENABLE()
 	RTTR_REGISTRATION_FRIEND

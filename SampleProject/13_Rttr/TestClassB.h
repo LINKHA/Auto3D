@@ -1,6 +1,6 @@
 #pragma once
 #include "Adapter/AutoRttr.h"
-#include <string.h>
+#include "Container/Ptr.h"
 
 #include "TestClassA.h"
 

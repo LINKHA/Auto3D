@@ -133,14 +133,14 @@ public:
     /// Perform a static cast from a shared pointer of another type.
     template <typename _Oth> void StaticCast(const TSharedPtr<_Oth>& rhs)
     {
-        *this = static_cast<_Ty*>(rhs._ptr);
+        *this = static_cast<_Ty*>(rhs.Get());
     }
 
     /// Perform a dynamic cast from a weak pointer of another type.
-    template <typename _Oth> void DynamicCast(const TWeakPtr<_Oth>& rhs)
+    template <typename _Oth> void DynamicCast(const TSharedPtr<_Oth>& rhs)
     {
         Reset();
-        _Ty* rhsObject = dynamic_cast<_Ty*>(rhs.ptr);
+        _Ty* rhsObject = dynamic_cast<_Ty*>(rhs.Get());
         if (rhsObject)
             *this = rhsObject;
     }
@@ -196,31 +196,31 @@ template <typename _Ty> class TWeakPtr
 public:
     /// Construct a null pointer.
     TWeakPtr() :
-        ptr(nullptr),
-        refCount(nullptr)
+        _ptr(nullptr),
+        _refCount(nullptr)
     {
     }
 
     /// Copy-construct.
     TWeakPtr(const TWeakPtr<_Ty>& ptr_) :
-        ptr(nullptr),
-        refCount(nullptr)
+        _ptr(nullptr),
+        _refCount(nullptr)
     {
         *this = ptr_;
     }
 
     /// Construct from a shared pointer.
     TWeakPtr(const TSharedPtr<_Ty>& ptr_) :
-        ptr(nullptr),
-        refCount(nullptr)
+        _ptr(nullptr),
+        _refCount(nullptr)
     {
         *this = ptr_;
     }
 
     /// Construct from a raw pointer.
     TWeakPtr(_Ty* ptr_) :
-        ptr(nullptr),
-        refCount(nullptr)
+        _ptr(nullptr),
+        _refCount(nullptr)
     {
         *this = ptr_;
     }
@@ -238,10 +238,10 @@ public:
             return *this;
 
         Reset();
-        ptr = rhs.ptr;
-        refCount = rhs.refCount;
-        if (refCount)
-            ++(refCount->_weakRefs);
+        _ptr = rhs._ptr;
+        _refCount = rhs._refCount;
+        if (_refCount)
+            ++(_refCount->_weakRefs);
         return *this;
     }
 
@@ -252,10 +252,10 @@ public:
             return *this;
 
         Reset();
-        ptr = rhs.Get();
-        refCount = ptr ? ptr->RefCountPtr() : nullptr;
-        if (refCount)
-            ++(refCount->_weakRefs);
+        _ptr = rhs.Get();
+        _refCount = _ptr ? _ptr->RefCountPtr() : nullptr;
+        if (_refCount)
+            ++(_refCount->_weakRefs);
         return *this;
     }
 
@@ -266,48 +266,48 @@ public:
             return *this;
 
         Reset();
-        ptr = rhs;
-        refCount = ptr ? ptr->RefCountPtr() : nullptr;
-        if (refCount)
-            ++(refCount->_weakRefs);
+        _ptr = rhs;
+        _refCount = _ptr ? _ptr->RefCountPtr() : nullptr;
+        if (_refCount)
+            ++(_refCount->_weakRefs);
         return *this;
     }
 
     /// Release the weak object reference and reset to null.
     void Reset()
     {
-        if (refCount)
+        if (_refCount)
         {
-            --(refCount->_weakRefs);
+            --(_refCount->_weakRefs);
             // If expired and no more weak references, destroy the reference count
-            if (refCount->_expired && refCount->_weakRefs == 0)
-                delete refCount;
-            ptr = nullptr;
-            refCount = nullptr;
+            if (_refCount->_expired && _refCount->_weakRefs == 0)
+                delete _refCount;
+            _ptr = nullptr;
+            _refCount = nullptr;
         }
     }
 
     /// Perform a static cast from a weak pointer of another type.
     template <typename _Oth> void StaticCast(const TWeakPtr<_Oth>& rhs)
     {
-        *this = static_cast<_Ty*>(rhs.ptr);
+        *this = static_cast<_Ty*>(rhs.Get());
     }
 
     /// Perform a dynamic cast from a weak pointer of another type.
     template <typename _Oth> void DynamicCast(const TWeakPtr<_Oth>& rhs)
     {
         Reset();
-        _Ty* rhsObject = dynamic_cast<_Ty*>(rhs.ptr);
+        _Ty* rhsObject = dynamic_cast<_Ty*>(rhs.Get());
         if (rhsObject)
             *this = rhsObject;
     }
 
     /// Test for equality with another weak pointer.
-    bool operator == (const TWeakPtr<_Ty>& rhs) const { return ptr == rhs.ptr && refCount == rhs.refCount; }
+    bool operator == (const TWeakPtr<_Ty>& rhs) const { return _ptr == rhs._ptr && _refCount == rhs._refCount; }
     /// Test for equality with a shared pointer.
-    bool operator == (const TSharedPtr<_Ty>& rhs) const { return ptr == rhs.Get(); }
+    bool operator == (const TSharedPtr<_Ty>& rhs) const { return _ptr == rhs.Get(); }
     /// Test for equality with a raw pointer.
-    bool operator == (_Ty* rhs) const { return ptr == rhs; }
+    bool operator == (_Ty* rhs) const { return _ptr == rhs; }
     /// Test for inequality with another weak pointer.
     bool operator != (const TWeakPtr<_Ty>& rhs) const { return !(*this == rhs); }
     /// Test for inequality with a shared pointer.
@@ -324,26 +324,26 @@ public:
     /// Return the object or null if it has been destroyed.
     _Ty* Get() const
     {
-        if (refCount && !refCount->_expired)
-            return ptr;
+        if (_refCount && !_refCount->_expired)
+            return _ptr;
         else
             return nullptr;
     }
 
     /// Return the number of strong references.
-    unsigned Refs() const { return refCount ? refCount->_refs : 0; }
+    unsigned Refs() const { return _refCount ? _refCount->_refs : 0; }
     /// Return the number of weak references.
-    unsigned WeakRefs() const { return refCount ? refCount->_weakRefs : 0; }
+    unsigned WeakRefs() const { return _refCount ? _refCount->_weakRefs : 0; }
     /// Return whether is a null pointer.
-    bool IsNull() const { return ptr == nullptr; }
+    bool IsNull() const { return _ptr == nullptr; }
     /// Return whether the object has been destroyed. Returns false if is a null pointer.
-    bool IsExpired() const { return refCount && refCount->_expired; }
+    bool IsExpired() const { return _refCount && _refCount->_expired; }
 
 private:
     /// %AObject pointer.
-    _Ty* ptr;
+    _Ty* _ptr;
     /// The object's weak reference count structure.
-    FRefCount* refCount;
+    FRefCount* _refCount;
 };
 
 /// Perform a static cast between weak pointers of two types.
