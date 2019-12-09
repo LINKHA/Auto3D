@@ -5,34 +5,34 @@
 
 using namespace Auto3D;
 
-namespace ns_3d
+namespace Ns3D
 {
 
-class node
+class Node
 {
 	RTTR_ENABLE()
 	RTTR_REGISTRATION_FRIEND
 public:
-	node(FString name, node* parent = nullptr) {}
-	virtual ~node() {}
+	Node(FString name, Node* parent = nullptr) {}
+	virtual ~Node() {}
 	void set_name(const FString& name)
 	{
-		m_name = name;
+		_name = name;
 	}
 	const FString& get_name() const
 	{
-		return m_name;
+		return _name;
 	}
-	std::vector<node*> get_children() const
+	std::vector<Node*> get_children() const
 	{
-		return m_children;
+		return _children;
 	}
 	void set_visible(bool visible, bool cascade = true) {}
 	virtual void render() {}
 protected:
-	node*               m_parent;
-	FString         m_name;
-	std::vector<node*>  m_children;
+	Node* _parent;
+	FString _name;
+	std::vector<Node*> _children;
 	
 };
 

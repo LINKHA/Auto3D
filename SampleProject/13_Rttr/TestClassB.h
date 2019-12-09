@@ -4,15 +4,15 @@
 
 #include "TestClassA.h"
 
-namespace ns_3d
+namespace Ns3D
 {
-class mesh : public node
+class Mesh : public Node
 {
-	RTTR_ENABLE(node) // include the names of all direct base classes
+	RTTR_ENABLE(Node) // include the names of all direct base classes
 public:
-	static std::shared_ptr<mesh> create_mesh(FString file_name)
+	static std::shared_ptr<Mesh> create_mesh(FString file_name)
 	{
-		return std::shared_ptr<mesh>(new mesh(file_name));
+		return std::shared_ptr<Mesh>(new Mesh(file_name));
 	}
 	virtual void render() {}
 	enum class render_mode
@@ -30,11 +30,11 @@ public:
 		return _mode;
 	}
 protected:
-	mesh(FString name, node* parent = nullptr)
-		:node(name,parent)
+	Mesh(FString name, Node* parent = nullptr)
+		:Node(name,parent)
 	{
-		m_name = name;
-		m_parent = parent;
+		_name = name;
+		_parent = parent;
 	}
 	render_mode _mode;
 };

@@ -9,7 +9,7 @@ void PrintClassA()
 {
 	LogString("-----------------------------------------------------------------------");
 
-	Type t = Type::get_by_name("ns_3d::node");
+	Type t = Type::get_by_name("Ns3D::Node");
 	
 	Variant var = t.create({ FString("MyNode") }); // will create an instance of ns_3d::node as std::shared_ptr<ns_3d::node>
 
@@ -47,7 +47,7 @@ void PrintClassA()
 void PrintClassB()
 {
 	LogString("-----------------------------------------------------------------------");
-	std::shared_ptr<ns_3d::node> obj = ns_3d::mesh::create_mesh("House.obj");
+	std::shared_ptr<Ns3D::Node> obj = Ns3D::Mesh::create_mesh("House.obj");
 	LogString(RtToStr(Type::get(obj).get_name()));						// prints 'std::shared_ptr<ns_3d::node>'         
 	LogString(RtToStr(Type::get(obj).get_wrapped_type().get_name()));// prints 'ns_3d::node*'
 	LogString(RtToStr(Type::get(*obj.get()).get_name())); // prints 'ns_3d::mesh'
@@ -63,11 +63,11 @@ void PrintClassB()
 	}
 	Property prop = t.get_property("render_mode");
 	// set the property of the derived type, although we hold only a shared_ptr of the base class
-	bool ret = prop.set_value(obj, ns_3d::mesh::render_mode::SOLID); // yields to 'true'; when set was possible
+	bool ret = prop.set_value(obj, Ns3D::Mesh::render_mode::SOLID); // yields to 'true'; when set was possible
 	LogString("");
 	Method meth = t.get_method("render");
 	LogString(RtToStr(meth.get_declaring_type().get_name())); // prints 'ns_3d::node'
-	std::shared_ptr<ns_3d::mesh> obj_derived = std::dynamic_pointer_cast<ns_3d::mesh>(obj);
+	std::shared_ptr<Ns3D::Mesh> obj_derived = std::dynamic_pointer_cast<Ns3D::Mesh>(obj);
 	// invoke the method, although we have the most derived type now
 	Variant var = meth.invoke(obj_derived);
 	LogString("invoke of method 'render' was successfully: " + FString(var.is_valid()));

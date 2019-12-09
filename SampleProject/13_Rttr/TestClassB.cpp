@@ -3,15 +3,15 @@
 
 RTTR_REGISTRATION
 {
-	using namespace ns_3d;
+	using namespace Ns3D;
 	using namespace rttr;
-	registration::class_<mesh>("ns_3d::mesh")
-		.constructor(&mesh::create_mesh)
-		.property("render_mode", &mesh::get_render_mode, &mesh::set_render_mode)
-		.enumeration<mesh::render_mode>("ns_3d::render_mode")
+	registration::class_<Mesh>("Ns3D::Mesh")
+		.constructor(&Mesh::create_mesh)
+		.property("render_mode", &Mesh::get_render_mode, &Mesh::set_render_mode)
+		.enumeration<Mesh::render_mode>("Ns3D::render_mode")
 		(
-			value("POINTS",     mesh::render_mode::POINTS),
-			value("WIREFRAME",  mesh::render_mode::WIREFRAME),
-			value("SOLID",      mesh::render_mode::SOLID)
+			value("POINTS", Mesh::render_mode::POINTS),
+			value("WIREFRAME", Mesh::render_mode::WIREFRAME),
+			value("SOLID", Mesh::render_mode::SOLID)
 		);
 }
