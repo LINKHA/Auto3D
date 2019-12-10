@@ -24,7 +24,7 @@ namespace EFontType
 /// %AFont resource.
 class AUTO_API AFont : public AResource
 {
-	REGISTER_OBJECT(AFont, AResource)
+	DECLARE_CLASS(AFont, AResource)
 
 public:
 	/// Construct.

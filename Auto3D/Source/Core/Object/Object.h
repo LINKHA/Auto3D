@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Adapter/AutoRttr.h"
 #include "Container/StringHash.h"
 #include "Event/Event.h"
 #include "Math/AutoMath.h"
@@ -43,8 +43,10 @@ private:
 	const FTypeInfo* _baseTypeInfo;
 };
 
-#define REGISTER_OBJECT(_This,_Base) \
+#define DECLARE_CLASS(_This,_Base) \
 public: \
+	/*RTTR_ENABLE(_Base)*/ \
+	/*RTTR_REGISTRATION_FRIEND*/ \
 	_This& operator=(_This&&) = delete;   \
     _This& operator=(const _This&)= delete;  \
 	using This = _This;\
@@ -60,11 +62,16 @@ private: \
     static const Auto3D::FString typeNameStatic; \
 public: \
 
+#define REGISTER_CLASS RTTR_REGISTRATION
 
 /// Base class for objects with type identification and possibility to create through a factory.
 class AUTO_API AObject : public FRefCounted
 {
 public:
+	/// The base Object does not need to specify a parent class
+	//RTTR_ENABLE()
+	/// Reflected private tag
+	//RTTR_REGISTRATION_FRIEND
 	/// Structure
 	AObject() = default;
 	/// Destructor

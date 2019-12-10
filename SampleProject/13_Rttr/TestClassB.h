@@ -29,11 +29,10 @@ public:
 	{
 		return _renderMode;
 	}
-protected:
+private:
 	Mesh(FString name, Node* parent = nullptr)
 		:Node(name,parent)
-	{
-	}
+	{}
 	RenderMode _renderMode;
 };
 }

@@ -6,7 +6,7 @@ namespace Auto3D
 
 class AUTO_API AGeometryNode2D : public ASpatialNode2D
 {
-	REGISTER_OBJECT(AGeometryNode, AOctreeNode)
+	DECLARE_CLASS(AGeometryNode, AOctreeNode)
 
 public:
 	/// Construct.

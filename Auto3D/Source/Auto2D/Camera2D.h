@@ -22,7 +22,7 @@ namespace EFace2DCameraMode
 
 class AUTO_API ACamera2D : public ASpatialNode2D
 {
-	REGISTER_OBJECT(ACamera2D, ASpatialNode2D)
+	DECLARE_CLASS(ACamera2D, ASpatialNode2D)
 public:
 	ACamera2D();
 	~ACamera2D();

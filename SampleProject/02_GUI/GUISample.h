@@ -5,7 +5,7 @@ using namespace Auto3D;
 
 class GUISample : public Sample
 {
-	REGISTER_OBJECT(GUISample, Sample)
+	DECLARE_CLASS(GUISample, Sample)
 public:
 	void Init()override;
 	void Start()override;

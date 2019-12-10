@@ -19,7 +19,7 @@ namespace EBodyType2D
 
 class AUTO_API ARigidBody2D : public ANode2D
 {
-	REGISTER_OBJECT(ARigidBody2D, ANode2D)
+	DECLARE_CLASS(ARigidBody2D, ANode2D)
 public:
 	/// Construct
 	ARigidBody2D();

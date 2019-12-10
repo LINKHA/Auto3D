@@ -10,7 +10,7 @@ class ARigidBody2D;
 
 class APhysicsWorld2D : public ANode2D, public b2ContactListener
 {
-	REGISTER_OBJECT(APhysicsWorld2D, ANode2D)
+	DECLARE_CLASS(APhysicsWorld2D, ANode2D)
 public:
 	/// Construct
 	APhysicsWorld2D();

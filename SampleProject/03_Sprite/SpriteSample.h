@@ -6,7 +6,7 @@ using namespace Auto3D;
 
 class SpriteSample : public Sample
 {
-	REGISTER_OBJECT(SpriteSample, Sample)
+	DECLARE_CLASS(SpriteSample, Sample)
 public:
 	void Init()override;
 	void Start()override;

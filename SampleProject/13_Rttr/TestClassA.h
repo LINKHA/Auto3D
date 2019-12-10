@@ -2,6 +2,7 @@
 #include "Adapter/AutoRttr.h"
 #include "Container/String.h"
 #include "Container/Ptr.h"
+#include "Container/Vector.h"
 
 using namespace Auto3D;
 
@@ -26,16 +27,16 @@ public:
 	{
 		return _name;
 	}
-	std::vector<Node*> GetChildren() const
+	TVector<Node*> GetChildren() const
 	{
 		return _children;
 	}
 	void SetVisible(bool visible, bool cascade = true) {}
 	virtual void Render() {}
-protected:
+private:
 	Node* _parent;
 	FString _name;
-	std::vector<Node*> _children;
+	TVector<Node*> _children;
 	
 };
 

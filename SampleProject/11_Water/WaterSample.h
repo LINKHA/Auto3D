@@ -5,7 +5,7 @@ using namespace Auto3D;
 
 class WaterSample : public Sample
 {
-	REGISTER_OBJECT(WaterSample, Sample)
+	DECLARE_CLASS(WaterSample, Sample)
 public:
 	void Init()override;
 	void Start()override;

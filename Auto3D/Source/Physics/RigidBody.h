@@ -12,7 +12,7 @@ class APhysicsWorld;
 
 class AUTO_API ARigidBody : public ANode, public btMotionState
 {
-	REGISTER_OBJECT(ARigidBody, ANode)
+	DECLARE_CLASS(ARigidBody, ANode)
 public:
 	/// Construct
 	ARigidBody();

@@ -11,7 +11,7 @@ class FStream;
 /// Base class for resources.
 class AUTO_API AResource : public AObject
 {
-    REGISTER_OBJECT(AResource,AObject)
+    DECLARE_CLASS(AResource,AObject)
 
 public:
     /// Load the resource data from a stream. May be executed outside the main thread, should not access GPU resources. Return true on success.

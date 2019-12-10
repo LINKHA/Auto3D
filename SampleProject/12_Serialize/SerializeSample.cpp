@@ -14,12 +14,12 @@ void SerializeSample::Start()
 
 	scene = AObject::Create<AScene>();
 	/*scene->SetupShadowMap(3, 4096);
-	scene->CreateChild<Octree>();
-	camera = scene->CreateChild<Camera>();
-	camera->SetPosition(Vector3F(0.0f, 5.0f, -15.0f));
-	camera->SetAmbientColor(Color(0.1f, 0.1f, 0.1f));
+	scene->CreateChild<AOctree>();
+	camera = scene->CreateChild<ACamera>();
+	camera->SetPosition(TVector3F(0.0f, 5.0f, -15.0f));
+	camera->SetAmbientColor(FColor(0.1f, 0.1f, 0.1f));*/
 
-	StaticModel* plane = scene->CreateChild<StaticModel>();
+	/*StaticModel* plane = scene->CreateChild<StaticModel>();
 	plane->SetScale(Vector3F(50.0f, 0.1f, 50.0f));
 	plane->SetCastShadows(true);
 	plane->SetModel(cache->LoadResource<Model>("Model/Box.mdl"));
@@ -44,28 +44,29 @@ void SerializeSample::Start()
 	FString fileSavName = "12_Serialize_SerializeFile.sav";
 	// Serialize
 	{
-		//// Serialize scene to json
-		//AutoPtr<Stream> streamJson(new File(exePath + fileJsonName, FileMode::WRITE));
+		// Serialize scene to json
+		TAutoPtr<FStream> streamJson(new FFile(exePath + fileJsonName, EFileMode::WRITE));
 		//scene->SaveJSON(*streamJson);
+		scene->_SaveJSON(*streamJson);
 
-		//// Save data to file
-		//AutoPtr<Stream> streamSave(new File(exePath + fileSavName, FileMode::WRITE));
-		//streamSave->Write<int>(1);
-		//streamSave->Write<float>(1.0f);
-		//streamSave->Write<String>("stringhash");
+		// Save data to file
+		TAutoPtr<FStream> streamSave(new FFile(exePath + fileSavName, EFileMode::WRITE));
+		streamSave->Write<int>(1);
+		streamSave->Write<float>(1.0f);
+		streamSave->Write<FString>("stringhash");
 	}
 
 	// Deserialize
 	{
-		// Serialize scene to json
-		TAutoPtr<FStream> streamJson(new FFile(exePath + fileJsonName, EFileMode::READ));
-		scene->LoadJSON(*streamJson);
+		//// Serialize scene to json
+		//TAutoPtr<FStream> streamJson(new FFile(exePath + fileJsonName, EFileMode::READ));
+		//scene->LoadJSON(*streamJson);
 
-		// Save data to file
-		TAutoPtr<FStream> streamSave(new FFile(exePath + fileSavName, EFileMode::READ));
-		streamSave->Read<int>();
-		streamSave->Read<float>();
-		streamSave->Read<FString>();
+		//// Save data to file
+		//TAutoPtr<FStream> streamSave(new FFile(exePath + fileSavName, EFileMode::READ));
+		//streamSave->Read<int>();
+		//streamSave->Read<float>();
+		//streamSave->Read<FString>();
 	}
 }
 void SerializeSample::Update()

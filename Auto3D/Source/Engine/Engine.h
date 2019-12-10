@@ -22,7 +22,7 @@ class FUIModule;
 
 class AUTO_API AEngine : public AObject
 {
-	REGISTER_OBJECT(AEngine, AObject)
+	DECLARE_CLASS(AEngine, AObject)
 public:
 	/// Construct
 	AEngine();

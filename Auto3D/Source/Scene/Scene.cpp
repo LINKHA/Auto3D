@@ -6,6 +6,8 @@
 #include "Renderer/Renderer.h"
 #include "RegisteredBox/RegisteredBox.h"
 #include "Physics/PhysicsWorld.h"
+#include "Engine/Components/SkyBox.h"
+#include "Engine/Components/Camera.h"
 
 #include "Scene.h"
 #include "SpatialNode.h"
@@ -14,6 +16,17 @@
 
 namespace Auto3D
 {
+
+REGISTER_CLASS
+{
+	using namespace rttr;
+	registration::class_<AScene>("Scene")
+	.constructor<>()
+	.property_readonly("cameras", &AScene::GetCameras)
+	.property("physicsWorld", &AScene::GetPhysicsWorld, &AScene::SetPhysicsWorld)
+	.property("skybox", &AScene::GetSkyBox, &AScene::SetSkyBox)
+	;
+}
 
 AScene::AScene() :
     _nextNodeId(1),
@@ -131,7 +144,17 @@ bool AScene::SaveJSON(FStream& dest)
     ANode::SaveJSON(json.Root());
     return json.Save(dest);
 }
+/// Save scene as JSON text data to a binary stream. Return true on success.
+bool AScene::_SaveJSON(FStream& dest)
+{
+	PROFILE(SaveSceneJSON);
 
+	InfoString("Saving scene to " + dest.GetName());
+
+	AJSONFile json;
+	ANode::_SaveJSON(json.Root());
+	return json.Save(dest);
+}
 ANode* AScene::Instantiate(FStream& source)
 {
     PROFILE(Instantiate);
@@ -189,7 +212,7 @@ ANode* AScene::FindNode(unsigned id) const
     return it != _nodes.End() ? it->_second : nullptr;
 }
 
-TVector<ACamera*>& AScene::GetAllCamera()
+TVector<ACamera*>& AScene::GetCameras()
 {
 	return _cameras;
 }
@@ -245,9 +268,22 @@ void AScene::RemoveNode(ANode* node)
     }
 }
 
+void AScene::AddCamera(ACamera* camera)
+{
+	if(camera)
+		_cameras.Push(camera);
+}
+
+void AScene::RemoveCamera(ACamera* camera)
+{ 
+	if (camera)
+		_cameras.Remove(camera); 
+}
+
 void AScene::SetPhysicsWorld(APhysicsWorld* physicsWorld)
 {
-	_physicsWorld = physicsWorld;
+	if(physicsWorld)
+		_physicsWorld = physicsWorld;
 }
 
 void AScene::SetSkyBox(ASkyBox* skybox)
@@ -279,7 +315,6 @@ void AScene::SetupShadowMap(size_t num, int size)
 {
 	// The scene creates a shadow map by default
 	GModuleManager::Get().RendererModule()->SetupShadowMaps(num, size, EImageFormat::D16);
-
 }
 
 void AScene::SetLayerNamesAttr(FJSONValue names)

@@ -5,7 +5,7 @@ using namespace Auto3D;
 
 class MeshSample : public Sample
 {
-	REGISTER_OBJECT(MeshSample, Sample)
+	DECLARE_CLASS(MeshSample, Sample)
 public:
 	void Init()override;
 	void Start()override;

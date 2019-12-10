@@ -8,7 +8,7 @@ class FAudioModule;
 
 class AUTO_API AAudioListener : public AAudioNode
 {
-	REGISTER_OBJECT(AAudioListener, AAudioNode)
+	DECLARE_CLASS(AAudioListener, AAudioNode)
 
 public:
 	AAudioListener();

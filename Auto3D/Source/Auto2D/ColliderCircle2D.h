@@ -5,7 +5,7 @@ namespace Auto3D {
 
 class AUTO_API AColliderCircle2D : public ACollider2D
 {
-	REGISTER_OBJECT(AColliderCircle2D, ACollider2D)
+	DECLARE_CLASS(AColliderCircle2D, ACollider2D)
 public:
 	/// Construct
 	AColliderCircle2D();

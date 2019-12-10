@@ -190,7 +190,7 @@ const THashMap<unsigned, ANode2D*>& AScene2D::GetAllNode() const
 	return _nodes;
 }
 
-TVector<ACamera2D*>& AScene2D::GetAllCamera()
+TVector<ACamera2D*>& AScene2D::GetCameras()
 {
 	return _cameras;
 }

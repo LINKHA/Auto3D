@@ -7,7 +7,7 @@ RTTR_REGISTRATION
 	using namespace rttr;
 	registration::class_<Mesh>("Ns3D::Mesh")
 		.constructor(&Mesh::CreateMesh)
-		.property("_renderMode", &Mesh::GetRenderMode, &Mesh::SetRenderMode)
+		.property("renderMode", &Mesh::GetRenderMode, &Mesh::SetRenderMode)
 		.enumeration<Mesh::RenderMode>("Ns3D::RenderMode")
 		(
 			value("POINTS", Mesh::RenderMode::POINTS),

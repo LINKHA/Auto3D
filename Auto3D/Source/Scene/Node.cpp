@@ -10,6 +10,19 @@
 namespace Auto3D
 {
 
+REGISTER_CLASS
+{
+	using namespace rttr;
+	Registration::class_<ANode>("Node")
+	.constructor<>()
+		.property("name", &ANode::GetName, &ANode::SetName)
+		.property("enabled", &ANode::IsEnabled, &ANode::SetEnabled)
+		.property("temporary", &ANode::IsTemporary, &ANode::SetTemporary)
+		.property("layer", &ANode::GetLayer, &ANode::SetLayer)
+		.property("tag", &ANode::GetTag, &ANode::SetTag)
+		;
+}
+
 static TVector<TSharedPtr<ANode> > noChildren;
 
 ANode::ANode() :
@@ -125,6 +138,31 @@ void ANode::SaveJSON(FJSONValue& dest)
     }
 }
 
+void ANode::_SaveJSON(FJSONValue& dest)
+{
+	dest["type"] = GetTypeName();
+	dest["id"] = Id();
+	ASerializable::SaveJSON(dest);
+
+	if (NumPersistentChildren())
+	{
+		dest["children"].SetEmptyArray();
+		for (auto it = _children.Begin(); it != _children.End(); ++it)
+		{
+			ANode* child = *it;
+
+			//FString s = RtToStr(Type::get(*child).get_name());
+
+			if (!child->IsTemporary())
+			{
+				FJSONValue childJSON;
+				child->SaveJSON(childJSON);
+				dest["children"].Push(childJSON);
+			}
+		}
+	}
+}
+
 bool ANode::SaveJSON(FStream& dest)
 {
     AJSONFile json;
@@ -135,11 +173,6 @@ bool ANode::SaveJSON(FStream& dest)
 void ANode::SetName(const FString& newName)
 {
     SetName(newName.CString());
-}
-
-void ANode::SetName(const char* newName)
-{
-    _name = newName;
 }
 
 void ANode::SetLayer(unsigned char newLayer)

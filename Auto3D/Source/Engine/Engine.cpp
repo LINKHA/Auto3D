@@ -139,7 +139,7 @@ void AEngine::Render()
 		AScene* scene = _registeredBox->GetActiveScene();
 		if (scene && scene->IsEnabled())
 		{
-			TVector<ACamera*>& cameras = scene->GetAllCamera();
+			TVector<ACamera*>& cameras = scene->GetCameras();
 			for (auto cameraIt = cameras.Begin(); cameraIt != cameras.End(); ++cameraIt)
 			{
 				ACamera* camera = *cameraIt;
@@ -156,7 +156,7 @@ void AEngine::Render()
 		AScene2D* scene2d = _registeredBox->GetActiveScene2D();
 		if (scene2d && scene2d->IsEnabled())
 		{
-			TVector<ACamera2D*>& cameras = scene2d->GetAllCamera();
+			TVector<ACamera2D*>& cameras = scene2d->GetCameras();
 			for (auto cameraIt = cameras.Begin(); cameraIt != cameras.End(); ++cameraIt)
 			{
 				ACamera2D* camera = *cameraIt;

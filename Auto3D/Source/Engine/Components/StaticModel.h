@@ -8,7 +8,7 @@ class AModel;
 /// %AScene node that renders an unanimated model.
 class AUTO_API AStaticModel : public AGeometryNode
 {
-    REGISTER_OBJECT(AStaticModel, AGeometryNode)
+    DECLARE_CLASS(AStaticModel, AGeometryNode)
 
 public:
     /// Construct.

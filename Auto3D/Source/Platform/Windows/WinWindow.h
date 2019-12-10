@@ -48,7 +48,7 @@ public:
 /// Operating system _window, Win32 implementation.
 class AUTO_API AWindow : public AObject
 {
-	REGISTER_OBJECT(AWindow, AObject)
+	DECLARE_CLASS(AWindow, AObject)
 public:
 	/// Construct and register subsystem. The _window is not yet opened.
 	AWindow();

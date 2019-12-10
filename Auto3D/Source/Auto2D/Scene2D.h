@@ -10,7 +10,7 @@ class APhysicsWorld2D;
 /// Location of all components of the Renderer2D
 class AUTO_API AScene2D : public ANode2D
 {
-	REGISTER_OBJECT(AScene2D, ANode2D)
+	DECLARE_CLASS(AScene2D, ANode2D)
 public:
 	/// The constructor
 	AScene2D();
@@ -42,7 +42,7 @@ public:
 	/// Return all 2d node.
 	const THashMap<unsigned, ANode2D*>& GetAllNode() const;
 	/// Return all camera vector
-	TVector<ACamera2D*>& GetAllCamera();
+	TVector<ACamera2D*>& GetCameras();
 	/// Add node to the canvas. This assigns a canvas-unique id to it. Called internally.
 	void AddNode(ANode2D* node);
 	/// Remove node from the canvas. This removes the id mapping but does not destroy the node. Called internally.

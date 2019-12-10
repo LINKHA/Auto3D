@@ -20,7 +20,7 @@ namespace ETransformSpace
 /// Base class for scene nodes with _position in three-dimensional space.
 class AUTO_API ASpatialNode : public ANode
 {
-    REGISTER_OBJECT(ASpatialNode, ANode)
+    DECLARE_CLASS(ASpatialNode, ANode)
 
 public:
     /// Construct.

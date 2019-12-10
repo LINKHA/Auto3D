@@ -25,8 +25,11 @@ static const unsigned LAYERMASK_ALL = 0xffffffff;
 /// Base class for scene nodes.
 class AUTO_API ANode : public ASerializable
 {
-    REGISTER_OBJECT(ANode, ASerializable)
-    
+    DECLARE_CLASS(ANode, ASerializable)
+
+	RTTR_ENABLE()
+	RTTR_REGISTRATION_FRIEND
+
 public:
     /// Construct.
     ANode();
@@ -44,14 +47,14 @@ public:
     void LoadJSON(const FJSONValue& source, FObjectResolver& resolver) override;
     /// Save as JSON data.
     void SaveJSON(FJSONValue& dest) override;
+	/// Save as JSON data.
+	void _SaveJSON(FJSONValue& dest);
     /// Return unique _id within the scene, or 0 if not in a scene.
     unsigned Id() const override { return _id; }
     /// Save as JSON text data to a binary stream. Return true on success.
     bool SaveJSON(FStream& dest);
     /// Set name. Is not required to be unique within the scene.
     void SetName(const FString& newName);
-    /// Set name.
-    void SetName(const char* newName);
     /// Set node's layer. Usage is subclass specific, for example rendering nodes selectively. Default is 0.
     void SetLayer(unsigned char newLayer);
     /// Set node's layer by name. The layer name must have been registered to the scene root beforehand.
@@ -185,6 +188,8 @@ public:
 	virtual void ParentCallBack() { }
     /// Skip the binary data of a node hierarchy, in case the node could not be created.
     static void SkipHierarchy(FStream& source);
+
+public:
 
 protected:
     /// Handle being assigned to a new parent node.

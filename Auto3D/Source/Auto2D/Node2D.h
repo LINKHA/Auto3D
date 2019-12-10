@@ -24,7 +24,7 @@ static const unsigned LAYERMASK_2D_ALL = 0xffffffff;
 /// Renderer2D nodes provide tag and layout
 class AUTO_API ANode2D : public ASerializable
 {
-	REGISTER_OBJECT(ANode2D, ASerializable)
+	DECLARE_CLASS(ANode2D, ASerializable)
 public:
 	/// Construct.
 	ANode2D();

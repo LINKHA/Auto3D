@@ -15,7 +15,7 @@ void PrintClassA()
 
 	LogString(RtToStr(var.get_type().get_name()));
 	
-	Property prop = t.get_property("_name"); // Sets/Gets a property
+	Property prop = t.get_property("name"); // Sets/Gets a property
 	
 	prop.set_value(var, FString("A New Name"));// Remark: you can also set a member, although the instance is of type: 'std::shared_ptr<T>'
 
@@ -60,7 +60,7 @@ void PrintClassB()
 		LogString("  name: " + RtToStr(prop.get_name()));
 		LogString("    type: " + RtToStr(prop.get_type().get_name()));
 	}
-	Property prop = t.get_property("_renderMode");
+	Property prop = t.get_property("renderMode");
 	// Set the property of the derived type, although we hold only a shared_ptr of the base class
 	bool ret = prop.set_value(obj, Ns3D::Mesh::RenderMode::SOLID); // Yields to 'true'; when set was possible
 	LogString("");

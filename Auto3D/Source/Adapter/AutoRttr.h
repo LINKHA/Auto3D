@@ -32,4 +32,3 @@ inline FString RtToStr(rttr::string_view str)
 }
 
 }
-#define AUTO_RTTR_REGISTRATION RTTR_REGISTRATION

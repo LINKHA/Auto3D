@@ -92,7 +92,7 @@ private:
 /// %AMaterial resource, which describes how to render 3D geometry and refers to textures. A material can contain several passes (for example normal rendering, and depth only.)
 class AMaterial : public AResource
 {
-	REGISTER_OBJECT(AMaterial, AResource)
+	DECLARE_CLASS(AMaterial, AResource)
 
 public:
     /// Construct.

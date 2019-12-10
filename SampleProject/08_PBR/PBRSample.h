@@ -5,7 +5,7 @@ using namespace Auto3D;
 
 class PBRSample : public Sample
 {
-	REGISTER_OBJECT(PBRSample, Sample)
+	DECLARE_CLASS(PBRSample, Sample)
 public:
 	void Init()override;
 	void Start()override;

@@ -5,7 +5,7 @@ using namespace Auto3D;
 
 class StartPage : public AObject
 {
-	REGISTER_OBJECT(StartPage, AObject)
+	DECLARE_CLASS(StartPage, AObject)
 public:
 	static void DrawStartPage();
 };

@@ -45,7 +45,7 @@ public:
 /// 3D graphics rendering context. Manages the rendering _window and GPU objects.
 class AUTO_API FGraphicsModule : public ABaseModule
 {
-	REGISTER_OBJECT(FGraphicsModule, ABaseModule)
+	DECLARE_CLASS(FGraphicsModule, ABaseModule)
 
 public:
 	/// Construct and register subsystem. The graphics mode is not set & _window is not opened yet.

@@ -21,7 +21,7 @@ namespace ETransform2DSpace
 /// Base class for scene nodes with _position in three-dimensional space.
 class AUTO_API ASpatialNode2D : public ANode2D
 {
-	REGISTER_OBJECT(ASpatialNode2D, ANode2D)
+	DECLARE_CLASS(ASpatialNode2D, ANode2D)
 
 public:
 	/// Construct.

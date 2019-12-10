@@ -17,7 +17,7 @@ class FAudioModule;
 
 class AUTO_API AAudioNode : public ASpatialNode
 {
-	REGISTER_OBJECT(AAudioNode, ASpatialNode)
+	DECLARE_CLASS(AAudioNode, ASpatialNode)
 
 public:
 	/// Constructor
