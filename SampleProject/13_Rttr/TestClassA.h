@@ -4,6 +4,8 @@
 #include "Container/Ptr.h"
 #include "Container/Vector.h"
 
+#include "Math/AutoMath.h"
+
 using namespace Auto3D;
 
 namespace Ns3D
@@ -37,7 +39,19 @@ private:
 	Node* _parent;
 	FString _name;
 	TVector<Node*> _children;
-	
+
+	bool boolV;
+	char charV;	
+	unsigned unsignedV;	
+	int intV;
+	TVector2I tVector2IV;
+	TRectI tRectIV;
+	float floatV;
+	TVector2F tVector2FV;
+	FQuaternion fQuaternionV;
+	FColor fColorV;
+	TRectF tRectFV;
+
 };
 
 }

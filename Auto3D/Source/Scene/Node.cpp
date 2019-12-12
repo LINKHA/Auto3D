@@ -13,7 +13,7 @@ namespace Auto3D
 REGISTER_CLASS
 {
 	using namespace rttr;
-	Registration::class_<ANode>("Node")
+	FRegistration::class_<ANode>("Node")
 	.constructor<>()
 		.property("name", &ANode::GetName, &ANode::SetName)
 		.property("enabled", &ANode::IsEnabled, &ANode::SetEnabled)
@@ -148,6 +148,117 @@ void ANode::_SaveJSON(FJSONValue& dest)
 	childJSON["a2"] = "asd";
 	childJSON["a3"] = 1.0f;
 	dest["children"].Push(childJSON);
+
+	FJSONValue arrayJSON;
+	arrayJSON.SetEmptyArray();
+	TVector<FString> arrayVec;
+	arrayVec.Push("aaa");
+	arrayVec.Push("bbb");
+	for (auto it = arrayVec.Begin(); it != arrayVec.End(); ++it)
+		arrayJSON.Push(*it);
+	dest["arrayTest2"] = arrayJSON;
+
+	//FResourceRef reourceRef = FResourceRef(AModel::GetTypeStatic(), ResourceName(_model.Get()));
+	FResourceRef reourceRef = FResourceRef(FStringHash("AStaticModel"), "Box/Box.mdl");
+	dest["model"] = reourceRef.ToString();
+
+	//attr->ToJSON(this, dest[attr->GetName()]);->
+	/*void ToJSON(EAttributeType::Type type, FJSONValue& dest, const void* source)
+	{
+		switch (type)
+		{
+		case EAttributeType::BOOL:
+			dest = *(reinterpret_cast<const bool*>(source));
+			break;
+
+		case EAttributeType::BYTE:
+			dest = *(reinterpret_cast<const unsigned char*>(source));
+			break;
+
+		case EAttributeType::UNSIGNED:
+			dest = *(reinterpret_cast<const unsigned*>(source));
+			break;
+
+		case EAttributeType::INT:
+			dest = *(reinterpret_cast<const int*>(source));
+			break;
+
+		case EAttributeType::INTVECTOR2:
+			dest = reinterpret_cast<const TVector2I*>(source)->ToString();
+			break;
+
+		case EAttributeType::INTRECT:
+			dest = reinterpret_cast<const TRectI*>(source)->ToString();
+			break;
+
+		case EAttributeType::FLOAT:
+			dest = *(reinterpret_cast<const float*>(source));
+			break;
+
+		case EAttributeType::VECTOR2:
+			dest = reinterpret_cast<const TVector2<float>*>(source)->ToString();
+			break;
+
+		case EAttributeType::VECTOR3:
+			dest = reinterpret_cast<const TVector3F*>(source)->ToString();
+			break;
+
+		case EAttributeType::VECTOR4:
+			dest = reinterpret_cast<const TVector4F*>(source)->ToString();
+			break;
+
+		case EAttributeType::QUATERNION:
+			dest = reinterpret_cast<const FQuaternion*>(source)->ToString();
+			break;
+
+		case EAttributeType::COLOR:
+			dest = reinterpret_cast<const FColor*>(source)->ToString();
+			break;
+
+		case EAttributeType::RECT:
+			dest = reinterpret_cast<const TRectF*>(source)->ToString();
+			break;
+
+		case EAttributeType::BOUNDINGBOX:
+			dest = reinterpret_cast<const TBoundingBoxF*>(source)->ToString();
+			break;
+
+		case EAttributeType::MATRIX3:
+			dest = reinterpret_cast<const TMatrix3x3F*>(source)->ToString();
+			break;
+
+		case EAttributeType::MATRIX3X4:
+			dest = reinterpret_cast<const TMatrix3x4F*>(source)->ToString();
+			break;
+
+		case EAttributeType::MATRIX4:
+			dest = reinterpret_cast<const TMatrix4x4F*>(source)->ToString();
+			break;
+
+		case EAttributeType::STRING:
+			dest = *(reinterpret_cast<const FString*>(source));
+			break;
+
+		case EAttributeType::RESOURCEREF:
+			dest = reinterpret_cast<const FResourceRef*>(source)->ToString();
+			break;
+
+		case EAttributeType::RESOURCEREFLIST:
+			dest = reinterpret_cast<const FResourceRefList*>(source)->ToString();
+			break;
+
+		case EAttributeType::OBJECTREF:
+			dest = reinterpret_cast<const FObjectRef*>(source)->_id;
+			break;
+
+		case EAttributeType::JSONVALUE:
+			dest = *(reinterpret_cast<const FJSONValue*>(source));
+			break;
+
+		default:
+			break;
+		}
+	}*/
 }
 
 bool ANode::SaveJSON(FStream& dest)

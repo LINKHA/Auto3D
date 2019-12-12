@@ -9,12 +9,12 @@
 namespace Auto3D
 {
 
-using Registration = rttr::registration;
-using Type = rttr::type;
-using Variant = rttr::variant;
-using Constructor = rttr::constructor;
-using Property = rttr::property;
-using Method = rttr::method;
+using FRegistration = rttr::registration;
+using FType = rttr::type;
+using FVariant = rttr::variant;
+using FConstructor = rttr::constructor;
+using FProperty = rttr::property;
+using FMethod = rttr::method;
 
 inline rttr::string_view ToRtStr(const FString& str)
 {

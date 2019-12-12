@@ -13,11 +13,11 @@ void SerializeSample::Start()
 	auto* graphics = GModuleManager::Get().GraphicsModule();
 
 	scene = AObject::Create<AScene>();
-	scene->SetupShadowMap(3, 4096);
-	scene->CreateChild<AOctree>();
-	camera = scene->CreateChild<ACamera>();
-	camera->SetPosition(TVector3F(0.0f, 5.0f, -15.0f));
-	camera->SetAmbientColor(FColor(0.1f, 0.1f, 0.1f));
+	//scene->SetupShadowMap(3, 4096);
+	//scene->CreateChild<AOctree>();
+	//camera = scene->CreateChild<ACamera>();
+	//camera->SetPosition(TVector3F(0.0f, 5.0f, -15.0f));
+	//camera->SetAmbientColor(FColor(0.1f, 0.1f, 0.1f));
 
 	AStaticModel* plane = scene->CreateChild<AStaticModel>();
 	plane->SetScale(TVector3F(50.0f, 0.1f, 50.0f));
