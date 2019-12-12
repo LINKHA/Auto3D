@@ -13,23 +13,23 @@ void SerializeSample::Start()
 	auto* graphics = GModuleManager::Get().GraphicsModule();
 
 	scene = AObject::Create<AScene>();
-	/*scene->SetupShadowMap(3, 4096);
+	scene->SetupShadowMap(3, 4096);
 	scene->CreateChild<AOctree>();
 	camera = scene->CreateChild<ACamera>();
 	camera->SetPosition(TVector3F(0.0f, 5.0f, -15.0f));
-	camera->SetAmbientColor(FColor(0.1f, 0.1f, 0.1f));*/
+	camera->SetAmbientColor(FColor(0.1f, 0.1f, 0.1f));
 
-	/*StaticModel* plane = scene->CreateChild<StaticModel>();
-	plane->SetScale(Vector3F(50.0f, 0.1f, 50.0f));
+	AStaticModel* plane = scene->CreateChild<AStaticModel>();
+	plane->SetScale(TVector3F(50.0f, 0.1f, 50.0f));
 	plane->SetCastShadows(true);
-	plane->SetModel(cache->LoadResource<Model>("Model/Box.mdl"));
-	plane->SetMaterial(cache->LoadResource<Material>("Stone.json"));
+	plane->SetModel(cache->LoadResource<AModel>("Model/Box.mdl"));
+	plane->SetMaterial(cache->LoadResource<AMaterial>("Stone.json"));
 
-	StaticModel* teaPot = scene->CreateChild<StaticModel>();
-	teaPot->SetPosition(Vector3F(0.0f, 0.0f, 0.0f));
+	AStaticModel* teaPot = scene->CreateChild<AStaticModel>();
+	teaPot->SetPosition(TVector3F(0.0f, 0.0f, 0.0f));
 	teaPot->SetScale(10.0f);
-	teaPot->SetModel(cache->LoadResource<Model>("Model/TeaPot.mdl"));
-	teaPot->SetCastShadows(true);*/
+	teaPot->SetModel(cache->LoadResource<AModel>("Model/TeaPot.mdl"));
+	teaPot->SetCastShadows(true);
 
 	//Light* lightDir = scene->CreateChild<Light>();
 	//lightDir->SetLightType(LightType::DIRECTIONAL);
@@ -46,8 +46,8 @@ void SerializeSample::Start()
 	{
 		// Serialize scene to json
 		TAutoPtr<FStream> streamJson(new FFile(exePath + fileJsonName, EFileMode::WRITE));
-		//scene->SaveJSON(*streamJson);
-		scene->_SaveJSON(*streamJson);
+		scene->SaveJSON(*streamJson);
+		//scene->_SaveJSON(*streamJson);
 
 		// Save data to file
 		TAutoPtr<FStream> streamSave(new FFile(exePath + fileSavName, EFileMode::WRITE));

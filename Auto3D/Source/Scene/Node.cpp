@@ -142,25 +142,12 @@ void ANode::_SaveJSON(FJSONValue& dest)
 {
 	dest["type"] = GetTypeName();
 	dest["id"] = Id();
-	ASerializable::SaveJSON(dest);
-
-	if (NumPersistentChildren())
-	{
-		dest["children"].SetEmptyArray();
-		for (auto it = _children.Begin(); it != _children.End(); ++it)
-		{
-			ANode* child = *it;
-
-			//FString s = RtToStr(Type::get(*child).get_name());
-
-			if (!child->IsTemporary())
-			{
-				FJSONValue childJSON;
-				child->SaveJSON(childJSON);
-				dest["children"].Push(childJSON);
-			}
-		}
-	}
+	dest["children"].SetEmptyArray();
+	FJSONValue childJSON;
+	childJSON["a1"] = 1;
+	childJSON["a2"] = "asd";
+	childJSON["a3"] = 1.0f;
+	dest["children"].Push(childJSON);
 }
 
 bool ANode::SaveJSON(FStream& dest)

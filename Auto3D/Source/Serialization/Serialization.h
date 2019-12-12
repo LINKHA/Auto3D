@@ -17,7 +17,7 @@ namespace EPropertyType
 		UNSIGNED,
 		INT,
 		INTVECTOR2,
-		INTRECT,
+		INTRECT, 
 		FLOAT,
 		VECTOR2,
 		VECTOR3,
@@ -37,6 +37,35 @@ namespace EPropertyType
 		JSONVALUE,
 		Count
 	};
+};
+
+struct FPropertyType
+{
+	FPropertyType(const Type& type)
+	{
+		SetType(type);
+	}
+
+	void SetType(const Type& type)
+	{
+		_type = EPropertyType::Count;
+		FString typeStr = RtToStr(type.get_name());
+		if (typeStr == "bool")
+		{
+
+		}
+		else if (typeStr == "char")
+		{
+
+		}
+	}
+
+	EPropertyType::Type	Type()
+	{
+		return _type;
+	}
+
+	EPropertyType::Type _type;
 };
 
 class AUTO_API FSerializationModule : public FRefCounted
@@ -62,6 +91,21 @@ public:
 		//Save the properties
 		SavePropertyJSON(dest, node);
 
+		if (node->NumPersistentChildren())
+		{
+			dest["children"].SetEmptyArray();
+			auto children = node->Children();
+			for (auto it = children.Begin(); it != children.End(); ++it)
+			{
+				ANode* child = *it;
+				if (!child->IsTemporary())
+				{
+					FJSONValue childJSON;
+					SaveJSON(childJSON, child);
+					dest["children"].Push(childJSON);
+				}
+			}
+		}
 	}
 	void SavePropertyJSON(FJSONValue& dest, ANode* node)
 	{
@@ -69,6 +113,7 @@ public:
 
 		for (auto& prop : type.get_properties())
 		{
+
 			dest = *(reinterpret_cast<const FJSONValue*>(prop));
 
 			//LogString("  name: " + RtToStr(prop.get_name()));
