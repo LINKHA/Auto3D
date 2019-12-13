@@ -143,9 +143,9 @@ class AUTO_API FSerializationModule : public FRefCounted
 {
 public:
 	/// Construct and register subsystem.
-	FSerializationModule();
+	FSerializationModule() {}
 	/// Destruct.
-	~FSerializationModule();
+	~FSerializationModule() {}
 
 	bool SaveRootJSON(FStream& dest,ANode* node)
 	{
@@ -181,14 +181,105 @@ public:
 	void SavePropertyJSON(FJSONValue& dest, ANode* node)
 	{
 		FType type = FType::get(*node);
+		
+		FString ss = RtToStr(type.get_name());
+
+		int sizes = type.get_properties().size();
 
 		for (auto& prop : type.get_properties())
 		{
+			//prop.get_value(node).get_value<>();
 
-			dest = *(reinterpret_cast<const FJSONValue*>(prop));
+			SetProperty(dest[RtToStr(prop.get_name())], prop, node);
 
 			//LogString("  name: " + RtToStr(prop.get_name()));
 			//LogString("    type: " + RtToStr(prop.get_type().get_name()));
+		}
+	}
+	void SetProperty(FJSONValue& dest, const FProperty& prop, ANode* node)
+	{
+		FType type = prop.get_type();
+		FPropertyType propertyType(type);
+
+		switch (propertyType._type)
+		{
+		case EPropertyType::BOOL:
+			dest = prop.get_value(node).get_value<bool>();
+			break;
+
+		case EPropertyType::BYTE:
+			dest = prop.get_value(node).get_value<char>();
+			break;
+
+		case EPropertyType::UNSIGNED:
+			dest = prop.get_value(node).get_value<unsigned>();
+			break;
+
+		case EPropertyType::INT:
+			dest = prop.get_value(node).get_value<int>();
+			break;
+
+		case EPropertyType::INTVECTOR2: 
+			dest = prop.get_value(node).get_value<TVector2I>().ToString();
+			break;
+
+		case EPropertyType::INTRECT:
+			dest = prop.get_value(node).get_value<TRectI>().ToString();
+			break;
+
+		case EPropertyType::FLOAT:
+			dest = prop.get_value(node).get_value<float>();
+			break;
+
+		case EPropertyType::VECTOR2:
+			dest = prop.get_value(node).get_value<TVector2F>().ToString();
+			break;
+
+		case EPropertyType::VECTOR3:
+			dest = prop.get_value(node).get_value<TVector3F>().ToString();
+			break;
+
+		case EPropertyType::VECTOR4:
+			dest = prop.get_value(node).get_value<TVector4F>().ToString();
+			break;
+
+		case EPropertyType::QUATERNION:
+			dest = prop.get_value(node).get_value<FQuaternion>().ToString();
+			break;
+
+		case EPropertyType::COLOR:
+			dest = prop.get_value(node).get_value<FColor>().ToString();
+			break;
+
+		case EPropertyType::RECT:
+			dest = prop.get_value(node).get_value<TRectF>().ToString();
+			break;
+
+		case EPropertyType::MATRIX2:
+			dest = prop.get_value(node).get_value<TMatrix2x2F>().ToString();
+			break;
+
+		case EPropertyType::MATRIX3:
+			dest = prop.get_value(node).get_value<TMatrix3x3F>().ToString();
+			break;
+
+		case EPropertyType::MATRIX3X4:
+			dest = prop.get_value(node).get_value<TMatrix3x4F>().ToString();
+			break;
+
+		case EPropertyType::MATRIX4:
+			dest = prop.get_value(node).get_value<TMatrix4x4F>().ToString();
+			break;
+
+		case EPropertyType::STRING:
+			dest = prop.get_value(node).get_value<FString>();
+			break;
+		default:
+			break;
+			/*RESOURCEREF,
+			RESOURCEREFLIST,
+			OBJECTREF,
+			JSONVALUE,*/
 		}
 	}
 };

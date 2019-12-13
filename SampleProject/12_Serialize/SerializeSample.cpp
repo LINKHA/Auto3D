@@ -1,4 +1,5 @@
 #include "SerializeSample.h"
+#include "Serialization/Serialization.h"
 
 void SerializeSample::Init()
 {
@@ -46,7 +47,9 @@ void SerializeSample::Start()
 	{
 		// Serialize scene to json
 		TAutoPtr<FStream> streamJson(new FFile(exePath + fileJsonName, EFileMode::WRITE));
-		scene->SaveJSON(*streamJson);
+		FSerializationModule* ser = new FSerializationModule();
+		ser->SaveRootJSON(*streamJson, scene);
+		//scene->SaveJSON(*streamJson);
 		//scene->_SaveJSON(*streamJson);
 
 		// Save data to file

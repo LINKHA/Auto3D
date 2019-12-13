@@ -14,7 +14,7 @@ class AUTO_API AScene : public ANode
 {
     DECLARE_CLASS(AScene, ANode)
 
-	RTTR_ENABLE()
+	RTTR_ENABLE(ANode)
 	RTTR_REGISTRATION_FRIEND
 
 public:
