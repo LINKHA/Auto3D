@@ -62,16 +62,26 @@ private: \
     static const Auto3D::FString typeNameStatic; \
 public: \
 
+#define DECLARE_BASE_CLASS_NEW(_This) \
+	/*The base Object does not need to specify a parent class*/\
+	RTTR_ENABLE() \
+	/*Reflected private tag*/\
+	RTTR_REGISTRATION_FRIEND \
+
+#define DECLARE_CLASS_NEW(_This,_Base) \
+	/*The base Object does not need to specify a parent class*/\
+	RTTR_ENABLE(_Base) \
+	/*Reflected private tag*/\
+	RTTR_REGISTRATION_FRIEND \
+
+
+
 #define REGISTER_CLASS RTTR_REGISTRATION
 
 /// Base class for objects with type identification and possibility to create through a factory.
 class AUTO_API AObject : public FRefCounted
 {
 public:
-	/// The base Object does not need to specify a parent class
-	//RTTR_ENABLE()
-	/// Reflected private tag
-	//RTTR_REGISTRATION_FRIEND
 	/// Structure
 	AObject() = default;
 	/// Destructor

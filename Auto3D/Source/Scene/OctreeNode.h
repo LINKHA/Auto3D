@@ -17,6 +17,8 @@ class AUTO_API AOctreeNode : public ASpatialNode
 {
 	DECLARE_CLASS(AOctreeNode, ASpatialNode)
 
+	DECLARE_CLASS_NEW(AOctreeNode, ASpatialNode)
+
     friend class AOctree;
 public:
     /// Construct.
@@ -38,7 +40,7 @@ public:
     /// Return world space bounding box. Update if necessary.
     const TBoundingBoxF& WorldBoundingBox() const { if (TestFlag(NF_BOUNDING_BOX_DIRTY)) OnWorldBoundingBoxUpdate(); return _worldBoundingBox; }
     /// Return whether casts shadows.
-    bool CastShadows() const { return TestFlag(NF_CASTSHADOWS); }
+    bool GetCastShadows() const { return TestFlag(NF_CASTSHADOWS); }
     /// Return current octree this node resides in.
     AOctree* GetOctree() const { return _octree; }
     /// Return current octree octant this node resides in.

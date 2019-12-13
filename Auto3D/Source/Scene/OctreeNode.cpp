@@ -6,6 +6,18 @@
 namespace Auto3D
 {
 
+REGISTER_CLASS
+{
+	using namespace rttr;
+	FRegistration::class_<AOctreeNode>("OctreeNode")
+	.constructor<>()
+		.property("castShadows", &AOctreeNode::GetCastShadows, &AOctreeNode::SetCastShadows)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		;
+}
+
 AOctreeNode::AOctreeNode() :
     _octree(nullptr),
     _octant(nullptr),
@@ -23,7 +35,7 @@ AOctreeNode::~AOctreeNode()
 void AOctreeNode::RegisterObject()
 {
     CopyBaseAttributes<AOctreeNode, ASpatialNode>();
-    RegisterAttribute("castShadows", &AOctreeNode::CastShadows, &AOctreeNode::SetCastShadows, false);
+    //RegisterAttribute("castShadows", &AOctreeNode::GetCastShadows, &AOctreeNode::SetCastShadows, false);
 }
 
 void AOctreeNode::SetCastShadows(bool enable)

@@ -7,6 +7,14 @@
 namespace Auto3D
 {
 
+REGISTER_CLASS
+{
+	using namespace rttr;
+	registration::class_<AAudioListener>("AudioListener")
+	.constructor<>()
+	;
+}
+
 AAudioNode::AAudioNode() :
 	_fre(EAudioUsage::STATIC)
 {

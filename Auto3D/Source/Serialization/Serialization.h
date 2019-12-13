@@ -4,6 +4,7 @@
 #include "Resource/JSONFile.h"
 #include "Math/BoundingBox.h"
 #include "Math/AutoMath.h"
+#include "IO/ObjectRef.h"
 
 namespace Auto3D
 {
@@ -127,12 +128,18 @@ struct FPropertyType
 		{
 			_type = EPropertyType::RESOURCEREF;
 		}
-
-
-		/*RESOURCEREFLIST,
-		OBJECTREF,
-		JSONVALUE,*/
-
+		else if (type == FType::get<FResourceRefList>())
+		{
+			_type = EPropertyType::RESOURCEREFLIST;
+		}
+		else if (type == FType::get<FObjectRef>())
+		{
+			_type = EPropertyType::OBJECTREF;
+		}
+		else if (type == FType::get<FJSONValue>())
+		{
+			_type = EPropertyType::JSONVALUE;
+		}
 	}
 
 	EPropertyType::Type	Type()
@@ -186,18 +193,10 @@ public:
 	{
 		FType type = FType::get(*node);
 		
-		FString ss = RtToStr(type.get_name());
-
-		int sizes = type.get_properties().size();
-
 		for (auto& prop : type.get_properties())
 		{
-			//prop.get_value(node).get_value<>();
 			if(prop.get_metadata(SERIALIZABLE))
 				SetProperty(dest, prop, node);
-
-			//LogString("  name: " + RtToStr(prop.get_name()));
-			//LogString("    type: " + RtToStr(prop.get_type().get_name()));
 		}
 	}
 	void SetProperty(FJSONValue& dest, const FProperty& prop, ANode* node)
@@ -283,12 +282,19 @@ public:
 		case EPropertyType::RESOURCEREF:
 			dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<FResourceRef>().ToString();
 			break;
+
+		case EPropertyType::RESOURCEREFLIST:
+			dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<FResourceRefList>().ToString();
+			break;
+
+		case EAttributeType::OBJECTREF:
+			dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<FObjectRef>()._id;
+			break;
+
+		case EAttributeType::JSONVALUE:
+			dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<FJSONValue>();
 		default:
 			break;
-			/*RESOURCEREF,
-			RESOURCEREFLIST,
-			OBJECTREF,
-			JSONVALUE,*/
 		}
 	}
 };

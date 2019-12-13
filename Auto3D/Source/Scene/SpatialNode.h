@@ -22,6 +22,8 @@ class AUTO_API ASpatialNode : public ANode
 {
     DECLARE_CLASS(ASpatialNode, ANode)
 
+	DECLARE_CLASS_NEW(ASpatialNode, ANode)
+
 public:
     /// Construct.
     ASpatialNode();
@@ -37,8 +39,6 @@ public:
     void SetDirection(const TVector3F& newDirection);
     /// Set scale in parent space.
     void SetScale(const TVector3F& newScale);
-    /// Set uniform scale in parent space.
-    void SetScale(float newScale);
     /// Set transform in parent space.
     void SetTransform(const TVector3F& newPosition, const FQuaternion& newRotation);
     /// Set transform in parent space.
@@ -110,6 +110,8 @@ public:
     TVector3F GetWorldToLocal(const TVector3F& point) const { return GetWorldTransform().Inverse() * point; }
     /// Convert a world space vector (either _position or direction) to world space.
     TVector3F GetWorldToLocal(const TVector4F& vector) const { return GetWorldTransform().Inverse() * vector; }
+public:
+
 
 protected:
     /// Handle being assigned to a new parent node.

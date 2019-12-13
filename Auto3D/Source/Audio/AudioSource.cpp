@@ -69,7 +69,7 @@ EAudioSourceState::Type AAudioSource::GetState()
 void AAudioSource::SetSound(ASound* sound)
 {
 	_sound = sound;
-	_buffer = new AAudioBuffer();
+	_buffer = new FAudioBuffer();
 	_buffer->Create(sound);
 	_audio->AddSource(GetBuffer()->Source(), this);
 

@@ -20,7 +20,11 @@ REGISTER_CLASS
 	using namespace rttr;
 	FRegistration::class_<AStaticModel>("StaticModel")
 	.constructor<>()
-		.property("modelAttr", &AStaticModel::ModelAttr, &AStaticModel::SetModelAttr)
+		.property("modelAttr", &AStaticModel::GetModelAttr, &AStaticModel::SetModelAttr)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("lodBias", &AStaticModel::GetLodBias, &AStaticModel::SetLodBias)
 		(
 			metadata(SERIALIZABLE, "")
 		)
@@ -43,9 +47,9 @@ void AStaticModel::RegisterObject()
     // Copy base attributes from AOctreeNode instead of AGeometryNode, as the model attribute needs to be set first so that
     // there is the correct amount of materials to assign
     CopyBaseAttributes<AStaticModel, AOctreeNode>();
-   // RegisterMixedRefAttribute("model", &AStaticModel::ModelAttr, &AStaticModel::SetModelAttr, FResourceRef(AModel::GetTypeStatic()));
+   // RegisterMixedRefAttribute("model", &AStaticModel::GetModelAttr, &AStaticModel::SetModelAttr, FResourceRef(AModel::GetTypeStatic()));
     CopyBaseAttribute<AStaticModel, AGeometryNode>("materials");
-    RegisterAttribute("lodBias", &AStaticModel::LodBias, &AStaticModel::SetLodBias, 1.0f);
+    RegisterAttribute("lodBias", &AStaticModel::GetLodBias, &AStaticModel::SetLodBias, 1.0f);
 }
 
 void AStaticModel::OnPrepareRender(unsigned frameNumber, ACamera* camera)
@@ -116,7 +120,7 @@ void AStaticModel::SetModelAttr(FResourceRef model)
     SetModel(cache->LoadResource<AModel>(model._name));
 }
 
-FResourceRef AStaticModel::ModelAttr() const
+FResourceRef AStaticModel::GetModelAttr() const
 {
     return FResourceRef(AModel::GetTypeStatic(), ResourceName(_model.Get()));
 }

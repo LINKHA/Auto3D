@@ -5,6 +5,26 @@
 namespace Auto3D
 {
 
+REGISTER_CLASS
+{
+	using namespace rttr;
+	FRegistration::class_<ASpatialNode>("SpatialNode")
+	.constructor<>()
+		.property("position", &ASpatialNode::GetPosition, &ASpatialNode::SetPosition)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("rotation", &ASpatialNode::GetRotation, &ASpatialNode::SetRotation)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("scale", &ASpatialNode::GetScale, &ASpatialNode::SetScale)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		;
+}
+
 ASpatialNode::ASpatialNode() :
     _worldTransform(TMatrix3x4F::IDENTITY),
     _position(TVector3F::ZERO),
@@ -53,11 +73,6 @@ void ASpatialNode::SetScale(const TVector3F& newScale)
         _scale._z = M_EPSILON;
 
     OnTransformChanged();
-}
-
-void ASpatialNode::SetScale(float newScale)
-{
-    SetScale(TVector3F(newScale, newScale, newScale));
 }
 
 void ASpatialNode::SetTransform(const TVector3F& newPosition, const FQuaternion& newRotation)

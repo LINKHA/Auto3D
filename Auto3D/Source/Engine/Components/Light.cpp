@@ -248,7 +248,7 @@ float ALight::GetMaxShadowDistance() const
 
 size_t ALight::GetNumShadowViews() const
 {
-    if (!CastShadows())
+    if (!GetCastShadows())
         return 0;
     else if (_lightType == ELightType::DIRECTIONAL)
         return GetNumShadowSplits();
@@ -260,7 +260,7 @@ size_t ALight::GetNumShadowViews() const
 
 size_t ALight::GetNumShadowCoords() const
 {
-    if (!CastShadows() || _lightType == ELightType::POINT)
+    if (!GetCastShadows() || _lightType == ELightType::POINT)
         return 0;
     // Directional light always uses up all the light coordinates and can not share the pass with shadowed spot lights
     else if (_lightType == ELightType::DIRECTIONAL)

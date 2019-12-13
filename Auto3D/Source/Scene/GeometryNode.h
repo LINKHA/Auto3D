@@ -115,6 +115,7 @@ class AUTO_API AGeometryNode : public AOctreeNode
 {
     DECLARE_CLASS(AGeometryNode, AOctreeNode)
 
+	DECLARE_CLASS_NEW(AGeometryNode, AOctreeNode)
 public:
     /// Construct.
     AGeometryNode();
@@ -157,14 +158,15 @@ public:
     void SetLightList(FLightList* list) { _lightList = list; }
     /// Return current light list.
     FLightList* GetLightList() const { return _lightList; }
-
+public:
+	/// Set materials list. Used in serialization.
+	void SetMaterialsAttr(FResourceRefList materials);
+	/// Return materials list. Used in serialization.
+	FResourceRefList GetMaterialsAttr() const;
 protected:
     /// Recalculate the world space bounding box.
     void OnWorldBoundingBoxUpdate() const override;
-    /// Set materials list. Used in serialization.
-    void SetMaterialsAttr(const FResourceRefList& materials);
-    /// Return materials list. Used in serialization.
-    FResourceRefList MaterialsAttr() const;
+
 
     /// %ALight list for rendering.
     FLightList* _lightList;

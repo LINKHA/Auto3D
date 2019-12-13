@@ -10,8 +10,7 @@ class AUTO_API AStaticModel : public AGeometryNode
 {
     DECLARE_CLASS(AStaticModel, AGeometryNode)
 
-	RTTR_ENABLE()
-	RTTR_REGISTRATION_FRIEND
+	DECLARE_CLASS_NEW(AStaticModel, AGeometryNode)
 public:
     /// Construct.
     AStaticModel();
@@ -26,18 +25,21 @@ public:
 
     /// Set the model resource.
     void SetModel(AModel* model);
-    /// Set LOD bias. Values higher than 1 use higher quality LOD (acts if distance is smaller.)
-    void SetLodBias(float bias);
+
 
     /// Return the model resource.
     AModel* GetModel() const;
-    /// Return LOD bias.
-    float LodBias() const { return _lodBias; }
+  
 public:
+	/// Set LOD bias. Values higher than 1 use higher quality LOD (acts if distance is smaller.)
+	void SetLodBias(float bias);
+	/// Return LOD bias.
+	float GetLodBias() const { return _lodBias; }
+
 	/// Set model attribute. Used in serialization.
 	void SetModelAttr(FResourceRef model);
 	/// Return model attribute. Used in serialization.
-	FResourceRef ModelAttr() const;
+	FResourceRef GetModelAttr() const;
 private:
   
 

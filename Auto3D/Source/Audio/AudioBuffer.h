@@ -16,13 +16,13 @@ namespace EAudioSourceUsage
 class FAudioModule;
 class ASound;
 /// AAudio buffer
-class AUTO_API AAudioBuffer : public FRefCounted
+class AUTO_API FAudioBuffer : public FRefCounted
 {
 public:
 	/// Constructor
-	AAudioBuffer();
+	FAudioBuffer();
 	/// Destructor
-	~AAudioBuffer();
+	~FAudioBuffer();
 	/// Create the GPU-side vertex buffer. Return true on success.
 	bool Create(ASound* sound);
 	/// Get buffer.

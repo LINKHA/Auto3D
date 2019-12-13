@@ -6,7 +6,7 @@ namespace Auto3D
 {
 
 class ASound;
-class AAudioBuffer;
+class FAudioBuffer;
 /// Responsible for the operation of 3d sound source
 class AUTO_API AAudioSource : public AAudioNode
 {
@@ -29,14 +29,14 @@ public:
 	/// Attach buffer for point
 	void SetSound(ASound* sound);
 	/// Get audio buffer
-	AAudioBuffer* GetBuffer() { return  _buffer; }
+	FAudioBuffer* GetBuffer() { return  _buffer; }
 	/// Get source state
 	EAudioSourceState::Type GetState();
 private:
 	/// AAudio sound resource
 	TSharedPtr<ASound> _sound;
 	/// AAudio buffer
-	TSharedPtr<AAudioBuffer> _buffer;
+	TSharedPtr<FAudioBuffer> _buffer;
 	/// Pitch
 	float _pitch;
 	/// Gain

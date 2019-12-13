@@ -28,7 +28,7 @@ void SerializeSample::Start()
 
 	AStaticModel* teaPot = scene->CreateChild<AStaticModel>();
 	teaPot->SetPosition(TVector3F(0.0f, 0.0f, 0.0f));
-	teaPot->SetScale(10.0f);
+	teaPot->SetScale(TVector3F(10.0f, 10.0f, 10.0f));
 	teaPot->SetModel(cache->LoadResource<AModel>("Model/TeaPot.mdl"));
 	teaPot->SetCastShadows(true);
 

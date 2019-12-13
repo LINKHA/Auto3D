@@ -19,6 +19,7 @@ class AUTO_API AAudioNode : public ASpatialNode
 {
 	DECLARE_CLASS(AAudioNode, ASpatialNode)
 
+	DECLARE_CLASS_NEW(AAudioNode, ASpatialNode)
 public:
 	/// Constructor
 	AAudioNode();

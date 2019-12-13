@@ -11,19 +11,19 @@
 namespace Auto3D
 {
 
-AAudioBuffer::AAudioBuffer()
+FAudioBuffer::FAudioBuffer()
 {
 	_audio = GModuleManager::Get().AudioModule();
 }
 
-AAudioBuffer::~AAudioBuffer()
+FAudioBuffer::~FAudioBuffer()
 {
 	alSourceStop(_source);
 	alDeleteSources(1, &_source);
 	alDeleteBuffers(1, &_buffer);
 }
 
-bool AAudioBuffer::Create(ASound* sound)
+bool FAudioBuffer::Create(ASound* sound)
 {
 	if (_audio && _audio->IsInitialized())
 	{

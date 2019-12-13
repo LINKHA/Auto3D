@@ -237,7 +237,7 @@ void FRendererModule::CollectLightInteractions()
             break;
         }
 
-        if (!light->CastShadows() || !hasReceivers)
+        if (!light->GetCastShadows() || !hasReceivers)
         {
             light->SetShadowMap(nullptr);
             continue;

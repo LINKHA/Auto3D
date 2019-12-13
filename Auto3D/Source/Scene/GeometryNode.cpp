@@ -15,6 +15,19 @@
 namespace Auto3D
 {
 
+REGISTER_CLASS
+{
+	using namespace rttr;
+	FRegistration::class_<AGeometryNode>("GeometryNode")
+	.constructor<>()
+		.property("modelAttr", &AGeometryNode::GetMaterialsAttr, &AGeometryNode::SetMaterialsAttr)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		;
+}
+
+
 FGeometry::FGeometry() : 
     _primitiveType(EPrimitiveType::TRIANGLE_LIST),
     _drawStart(0),
@@ -74,8 +87,8 @@ void AGeometryNode::RegisterObject()
 {
     RegisterFactory<AGeometryNode>();
     CopyBaseAttributes<AGeometryNode, AOctreeNode>();
-    RegisterMixedRefAttribute("materials", &AGeometryNode::MaterialsAttr, &AGeometryNode::SetMaterialsAttr,
-        FResourceRefList(AMaterial::GetTypeStatic()));
+    //RegisterMixedRefAttribute("materials", &AGeometryNode::GetMaterialsAttr, &AGeometryNode::SetMaterialsAttr,
+    //    FResourceRefList(AMaterial::GetTypeStatic()));
 }
 
 void AGeometryNode::OnPrepareRender(unsigned frameNumber, ACamera* camera)
@@ -160,14 +173,14 @@ void AGeometryNode::OnWorldBoundingBoxUpdate() const
     SetFlag(NF_BOUNDING_BOX_DIRTY, false);
 }
 
-void AGeometryNode::SetMaterialsAttr(const FResourceRefList& materials)
+void AGeometryNode::SetMaterialsAttr(FResourceRefList materials)
 {
 	FResourceModule* cache = GModuleManager::Get().CacheModule();
     for (size_t i = 0; i < materials._names.Size(); ++i)
         SetMaterial(i, cache->LoadResource<AMaterial>(materials._names[i]));
 }
 
-FResourceRefList AGeometryNode::MaterialsAttr() const
+FResourceRefList AGeometryNode::GetMaterialsAttr() const
 {
     FResourceRefList ret(AMaterial::GetTypeStatic());
     
