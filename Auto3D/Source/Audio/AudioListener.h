@@ -30,7 +30,7 @@ public:
 	/// Set direction elements are at.
 	void SetOriAt(const TVector3F& oriAt) { _listenerOriAt = oriAt; }
 	/// Get direction elements are up.
-	TVector3F GetOriUp()const { return _listenerOriUp; }
+	const TVector3F& GetOriUp()const { return _listenerOriUp; }
 	/// Set direction elements are up.
 	void SetOriUp(const TVector3F& oriUp) { _listenerOriUp = oriUp; }
 private:

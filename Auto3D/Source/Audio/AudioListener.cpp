@@ -8,25 +8,25 @@
 namespace Auto3D
 {
 
-REGISTER_CLASS
-{
-	using namespace rttr;
-	registration::class_<AAudioListener>("AudioListener")
-	.constructor<>()
-	.property("vel", &AAudioListener::GetVel, &AAudioListener::SetVel)
-	(
-		metadata(SERIALIZABLE, "")
-	)
-	.property("oriAt", &AAudioListener::GetOriAt, &AAudioListener::SetOriAt)
-	(
-		metadata(SERIALIZABLE, "")
-	)
-	.property("oriUp", &AAudioListener::GetOriUp, &AAudioListener::SetOriUp)
-	(
-		metadata(SERIALIZABLE, "")
-	)
-	;
-}
+//REGISTER_CLASS
+//{
+//	using namespace rttr;
+//	registration::class_<AAudioListener>("AudioListener")
+//	.constructor<>()
+//		.property("vel", &AAudioListener::GetVel, &AAudioListener::SetVel)
+//		(
+//			metadata(SERIALIZABLE, "")
+//			)
+//		.property("oriAt", &AAudioListener::GetOriAt, &AAudioListener::SetOriAt)
+//		(
+//			metadata(SERIALIZABLE, "")
+//			)
+//		.property("oriUp", &AAudioListener::GetOriUp, &AAudioListener::SetOriUp)
+//		(
+//			metadata(SERIALIZABLE, "")
+//			)
+//	;
+//}
 
 AAudioListener::AAudioListener() :
 	_listenerVel(0.0f, 0.0f, 0.0f),

@@ -22,6 +22,74 @@ static const TMatrix4x4F flipMatrix(
     0.0f, 0.0f, 0.0f, 1.0f
     );
 
+//REGISTER_CLASS
+//{
+//	using namespace rttr;
+//	FRegistration::class_<ACamera>("Node")
+//	.constructor<>()
+//		.property("nearClip", &ACamera::GetNearClip, &ACamera::SetNearClip)
+//		(
+//			metadata(SERIALIZABLE, "")
+//		)
+//		.property("farClip", &ACamera::GetFarClip, &ACamera::SetFarClip)
+//		(
+//			metadata(SERIALIZABLE,"")
+//		)
+//		.property("fov", &ACamera::GetFov, &ACamera::SetFov)
+//		(
+//			metadata(SERIALIZABLE, "")
+//		)
+//		.property("aspectRatio", &ACamera::GetAspectRatio, &ACamera::SetAspectRatio)
+//		(
+//			metadata(SERIALIZABLE, "")
+//		)
+//		.property("orthographic", &ACamera::IsOrthographic, &ACamera::SetOrthographic)
+//		(
+//			metadata(SERIALIZABLE, "")
+//		)
+//		.property("orthoSize", &ACamera::GetOrthoSize, static_cast<void(ACamera::*)(float)>(&ACamera::SetOrthoSize))
+//		(
+//			metadata(SERIALIZABLE, "")
+//		)
+//		.property("zoom", &ACamera::GetZoom, &ACamera::SetZoom)
+//		(
+//			metadata(SERIALIZABLE, "")
+//		)
+//		.property("lodBias", &ACamera::GetLodBias, &ACamera::SetLodBias)
+//		(
+//			metadata(SERIALIZABLE, "")
+//		)
+//		.property("viewMask", &ACamera::GetViewMask, &ACamera::SetLayoutMask)
+//		(
+//			metadata(SERIALIZABLE, "")
+//		)
+//		.property("ambientColor", &ACamera::GetAmbientColor, &ACamera::SetAmbientColor)
+//		(
+//			metadata(SERIALIZABLE, "")
+//		)
+//		.property("projectionOffset", &ACamera::GetProjectionOffset, &ACamera::SetProjectionOffset)
+//		(
+//			metadata(SERIALIZABLE, "")
+//		)
+//		.property("reflectionPlane", &ACamera::ReflectionPlaneAttr, &ACamera::SetReflectionPlaneAttr)
+//		(
+//			metadata(SERIALIZABLE, "")
+//		)
+//		.property("clipPlane", &ACamera::ClipPlaneAttr, &ACamera::SetClipPlaneAttr)
+//		(
+//			metadata(SERIALIZABLE, "")
+//		)
+//		.property("useReflection", &ACamera::GetUseReflection, &ACamera::SetUseReflection)
+//		(
+//			metadata(SERIALIZABLE, "")
+//		)
+//		.property("useClipping", &ACamera::GetUseClipping, &ACamera::SetUseClipping)
+//		(
+//			metadata(SERIALIZABLE, "")
+//		)
+//		;
+//}
+
 ACamera::ACamera() :
     _viewMatrix(TMatrix3x4F::IDENTITY),
     _viewMatrixDirty(false),
@@ -61,8 +129,8 @@ void ACamera::RegisterObject()
     RegisterAttribute("viewMask", &ACamera::GetViewMask, &ACamera::SetLayoutMask, M_MAX_UNSIGNED);
     RegisterRefAttribute("ambientColor", &ACamera::GetAmbientColor, &ACamera::SetAmbientColor, DEFAULT_AMBIENT_COLOR);
     RegisterRefAttribute("projectionOffset", &ACamera::GetProjectionOffset, &ACamera::SetProjectionOffset, TVector2F::ZERO);
-    RegisterMixedRefAttribute("reflectionPlane", &ACamera::ReflectionPlaneAttr, &ACamera::SetReflectionPlaneAttr, TVector4F(0.0f, 1.0f, 0.0f, 0.0f));
-    RegisterMixedRefAttribute("clipPlane", &ACamera::ClipPlaneAttr, &ACamera::SetClipPlaneAttr, TVector4F(0.0f, 1.0f, 0.0f, 0.0f));
+  /*  RegisterMixedRefAttribute("reflectionPlane", &ACamera::ReflectionPlaneAttr, &ACamera::SetReflectionPlaneAttr, TVector4F(0.0f, 1.0f, 0.0f, 0.0f));
+    RegisterMixedRefAttribute("clipPlane", &ACamera::ClipPlaneAttr, &ACamera::SetClipPlaneAttr, TVector4F(0.0f, 1.0f, 0.0f, 0.0f));*/
     RegisterAttribute("useReflection", &ACamera::GetUseReflection, &ACamera::SetUseReflection, false);
     RegisterAttribute("useClipping", &ACamera::GetUseClipping, &ACamera::SetUseClipping, false);
 }
@@ -513,12 +581,12 @@ void ACamera::OnTransformChanged()
     _viewMatrixDirty = true;
 }
 
-void ACamera::SetReflectionPlaneAttr(const TVector4F& value)
+void ACamera::SetReflectionPlaneAttr(TVector4F value)
 {
     SetReflectionPlane(FPlane(value));
 }
 
-void ACamera::SetClipPlaneAttr(const TVector4F& value)
+void ACamera::SetClipPlaneAttr(TVector4F value)
 {
     SetClipPlane(FPlane(value));
 }
