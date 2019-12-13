@@ -16,6 +16,8 @@ using FConstructor = rttr::constructor;
 using FProperty = rttr::property;
 using FMethod = rttr::method;
 
+#define SERIALIZABLE "Serializable"
+
 inline rttr::string_view ToRtStr(const FString& str)
 {
 	return rttr::string_view(str.CString());

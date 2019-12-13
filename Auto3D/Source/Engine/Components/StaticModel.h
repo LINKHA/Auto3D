@@ -10,6 +10,8 @@ class AUTO_API AStaticModel : public AGeometryNode
 {
     DECLARE_CLASS(AStaticModel, AGeometryNode)
 
+	RTTR_ENABLE()
+	RTTR_REGISTRATION_FRIEND
 public:
     /// Construct.
     AStaticModel();
@@ -31,12 +33,13 @@ public:
     AModel* GetModel() const;
     /// Return LOD bias.
     float LodBias() const { return _lodBias; }
-
+public:
+	/// Set model attribute. Used in serialization.
+	void SetModelAttr(FResourceRef model);
+	/// Return model attribute. Used in serialization.
+	FResourceRef ModelAttr() const;
 private:
-    /// Set model attribute. Used in serialization.
-    void SetModelAttr(const FResourceRef& model);
-    /// Return model attribute. Used in serialization.
-    FResourceRef ModelAttr() const;
+  
 
     /// Current model resource.
     TSharedPtr<AModel> _model;

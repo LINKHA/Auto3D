@@ -16,10 +16,25 @@ REGISTER_CLASS
 	FRegistration::class_<ANode>("Node")
 	.constructor<>()
 		.property("name", &ANode::GetName, &ANode::SetName)
+		(
+			metadata(SERIALIZABLE, "")
+		)
 		.property("enabled", &ANode::IsEnabled, &ANode::SetEnabled)
+		(
+			metadata(SERIALIZABLE, true)
+		)
 		.property("temporary", &ANode::IsTemporary, &ANode::SetTemporary)
+		(
+			metadata(SERIALIZABLE, true)
+		)
 		.property("layer", &ANode::GetLayer, &ANode::SetLayer)
+		(
+			metadata(SERIALIZABLE, true)
+		)
 		.property("tag", &ANode::GetTag, &ANode::SetTag)
+		(
+			metadata(SERIALIZABLE, true)
+		)
 		;
 }
 

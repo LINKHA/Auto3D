@@ -15,6 +15,18 @@ namespace Auto3D
 
 static TVector3F DOT_SCALE(1 / 3.0f, 1 / 3.0f, 1 / 3.0f);
 
+REGISTER_CLASS
+{
+	using namespace rttr;
+	FRegistration::class_<AStaticModel>("StaticModel")
+	.constructor<>()
+		.property("modelAttr", &AStaticModel::ModelAttr, &AStaticModel::SetModelAttr)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		;
+}
+
 AStaticModel::AStaticModel() :
     _lodBias(1.0f),
     _hasLodLevels(false)
@@ -31,7 +43,7 @@ void AStaticModel::RegisterObject()
     // Copy base attributes from AOctreeNode instead of AGeometryNode, as the model attribute needs to be set first so that
     // there is the correct amount of materials to assign
     CopyBaseAttributes<AStaticModel, AOctreeNode>();
-    RegisterMixedRefAttribute("model", &AStaticModel::ModelAttr, &AStaticModel::SetModelAttr, FResourceRef(AModel::GetTypeStatic()));
+   // RegisterMixedRefAttribute("model", &AStaticModel::ModelAttr, &AStaticModel::SetModelAttr, FResourceRef(AModel::GetTypeStatic()));
     CopyBaseAttribute<AStaticModel, AGeometryNode>("materials");
     RegisterAttribute("lodBias", &AStaticModel::LodBias, &AStaticModel::SetLodBias, 1.0f);
 }
@@ -98,7 +110,7 @@ AModel* AStaticModel::GetModel() const
     return _model.Get();
 }
 
-void AStaticModel::SetModelAttr(const FResourceRef& model)
+void AStaticModel::SetModelAttr(FResourceRef model)
 {
 	FResourceModule* cache = GModuleManager::Get().CacheModule();
     SetModel(cache->LoadResource<AModel>(model._name));

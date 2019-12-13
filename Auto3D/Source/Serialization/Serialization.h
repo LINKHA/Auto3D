@@ -55,7 +55,7 @@ struct FPropertyType
 		{
 			_type = EPropertyType::BOOL;
 		}
-		else if (type == FType::get<char>())
+		else if (type == FType::get<unsigned char>())
 		{
 			_type = EPropertyType::BYTE;
 		}
@@ -123,9 +123,13 @@ struct FPropertyType
 		{
 			_type = EPropertyType::STRING;
 		}
+		else if (type == FType::get<FResourceRef>())
+		{
+			_type = EPropertyType::RESOURCEREF;
+		}
 
-		/*RESOURCEREF,
-		RESOURCEREFLIST,
+
+		/*RESOURCEREFLIST,
 		OBJECTREF,
 		JSONVALUE,*/
 
@@ -189,8 +193,8 @@ public:
 		for (auto& prop : type.get_properties())
 		{
 			//prop.get_value(node).get_value<>();
-
-			SetProperty(dest[RtToStr(prop.get_name())], prop, node);
+			if(prop.get_metadata(SERIALIZABLE))
+				SetProperty(dest, prop, node);
 
 			//LogString("  name: " + RtToStr(prop.get_name()));
 			//LogString("    type: " + RtToStr(prop.get_type().get_name()));
@@ -199,80 +203,85 @@ public:
 	void SetProperty(FJSONValue& dest, const FProperty& prop, ANode* node)
 	{
 		FType type = prop.get_type();
+		FString ss = RtToStr(type.get_name());
 		FPropertyType propertyType(type);
 
 		switch (propertyType._type)
 		{
 		case EPropertyType::BOOL:
-			dest = prop.get_value(node).get_value<bool>();
+			dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<bool>();
 			break;
 
 		case EPropertyType::BYTE:
-			dest = prop.get_value(node).get_value<char>();
+			dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<unsigned char>();
 			break;
 
 		case EPropertyType::UNSIGNED:
-			dest = prop.get_value(node).get_value<unsigned>();
+			dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<unsigned>();
 			break;
 
 		case EPropertyType::INT:
-			dest = prop.get_value(node).get_value<int>();
+			dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<int>();
 			break;
 
 		case EPropertyType::INTVECTOR2: 
-			dest = prop.get_value(node).get_value<TVector2I>().ToString();
+			dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<TVector2I>().ToString();
 			break;
 
 		case EPropertyType::INTRECT:
-			dest = prop.get_value(node).get_value<TRectI>().ToString();
+			dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<TRectI>().ToString();
 			break;
 
 		case EPropertyType::FLOAT:
-			dest = prop.get_value(node).get_value<float>();
+			dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<float>();
 			break;
 
 		case EPropertyType::VECTOR2:
-			dest = prop.get_value(node).get_value<TVector2F>().ToString();
+			dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<TVector2F>().ToString();
 			break;
 
 		case EPropertyType::VECTOR3:
-			dest = prop.get_value(node).get_value<TVector3F>().ToString();
+			dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<TVector3F>().ToString();
 			break;
 
 		case EPropertyType::VECTOR4:
-			dest = prop.get_value(node).get_value<TVector4F>().ToString();
+			dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<TVector4F>().ToString();
 			break;
 
 		case EPropertyType::QUATERNION:
-			dest = prop.get_value(node).get_value<FQuaternion>().ToString();
+			dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<FQuaternion>().ToString();
 			break;
 
 		case EPropertyType::COLOR:
-			dest = prop.get_value(node).get_value<FColor>().ToString();
+			dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<FColor>().ToString();
 			break;
 
 		case EPropertyType::RECT:
-			dest = prop.get_value(node).get_value<TRectF>().ToString();
+			dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<TRectF>().ToString();
 			break;
 
 		case EPropertyType::MATRIX2:
-			dest = prop.get_value(node).get_value<TMatrix2x2F>().ToString();
+			dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<TMatrix2x2F>().ToString();
 			break;
 
 		case EPropertyType::MATRIX3:
-			dest = prop.get_value(node).get_value<TMatrix3x3F>().ToString();
+			dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<TMatrix3x3F>().ToString();
 			break;
 
 		case EPropertyType::MATRIX3X4:
-			dest = prop.get_value(node).get_value<TMatrix3x4F>().ToString();
+			dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<TMatrix3x4F>().ToString();
 			break;
 
 		case EPropertyType::MATRIX4:
-			dest = prop.get_value(node).get_value<TMatrix4x4F>().ToString();
+			dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<TMatrix4x4F>().ToString();
 			break;
 
 		case EPropertyType::STRING:
-			dest = prop.get_value(node).get_value<FString>();
+			dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<FString>();
+			break;
+
+		case EPropertyType::RESOURCEREF:
+			dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<FResourceRef>().ToString();
 			break;
 		default:
 			break;
