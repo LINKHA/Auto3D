@@ -30,7 +30,7 @@ static const char* lightTypeNames[] =
 REGISTER_CLASS
 {
 	using namespace rttr;
-	registration::class_<ALight>("Light")
+	registration::class_<ALight>("ALight")
 	.constructor<>()
 		.property("lightType", &ALight::GetLightTypeAttr, &ALight::SetLightTypeAttr)
 		(

@@ -20,7 +20,7 @@ namespace Auto3D
 REGISTER_CLASS
 {
 	using namespace rttr;
-	registration::class_<AAudioSource>("AudioSource")
+	registration::class_<AAudioSource>("AAudioSource")
 	.constructor<>()
 		.property("sound", &AAudioSource::GetSoundAttr, &AAudioSource::SetSoundAttr)
 		(

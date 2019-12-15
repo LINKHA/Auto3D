@@ -9,7 +9,7 @@ namespace Auto3D
 	REGISTER_CLASS
 {
 	using namespace rttr;
-	registration::class_<AColliderSphere>("ColliderSphere")
+	registration::class_<AColliderSphere>("AColliderSphere")
 		.constructor<>()
 		.property("size", &AColliderSphere::GetSize, &AColliderSphere::SetSize)
 		(

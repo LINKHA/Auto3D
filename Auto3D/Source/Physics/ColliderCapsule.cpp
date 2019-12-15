@@ -9,7 +9,7 @@ namespace Auto3D
 REGISTER_CLASS
 {
 	using namespace rttr;
-	registration::class_<AColliderCapsule>("ColliderCapsule")
+	registration::class_<AColliderCapsule>("AColliderCapsule")
 	.constructor<>()
 		.property("radius", &AColliderCapsule::GetRadius, &AColliderCapsule::SetRadius)
 		(

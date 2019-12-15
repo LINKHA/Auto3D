@@ -9,7 +9,7 @@ namespace Auto3D
 REGISTER_CLASS
 {
 	using namespace rttr;
-	registration::class_<AColliderCone>("ColliderCone")
+	registration::class_<AColliderCone>("AColliderCone")
 	.constructor<>()
 		.property("radius", &AColliderCone::GetRadius, &AColliderCone::SetRadius)
 		(

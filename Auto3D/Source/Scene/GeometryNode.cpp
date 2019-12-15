@@ -18,7 +18,7 @@ namespace Auto3D
 REGISTER_CLASS
 {
 	using namespace rttr;
-	FRegistration::class_<AGeometryNode>("GeometryNode")
+	FRegistration::class_<AGeometryNode>("AGeometryNode")
 	.constructor<>()
 		.property("modelAttr", &AGeometryNode::GetMaterialsAttr, &AGeometryNode::SetMaterialsAttr)
 		(

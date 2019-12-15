@@ -8,7 +8,7 @@ namespace Auto3D
 REGISTER_CLASS
 {
 	using namespace rttr;
-	FRegistration::class_<ASpatialNode>("SpatialNode")
+	FRegistration::class_<ASpatialNode>("ASpatialNode")
 	.constructor<>()
 		.property("position", &ASpatialNode::GetPosition, &ASpatialNode::SetPosition)
 		(

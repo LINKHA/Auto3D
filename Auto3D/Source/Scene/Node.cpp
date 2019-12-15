@@ -13,7 +13,7 @@ namespace Auto3D
 REGISTER_CLASS
 {
 	using namespace rttr;
-	FRegistration::class_<ANode>("Node")
+	FRegistration::class_<ANode>("ANode")
 	.constructor<>()
 		.property("name", &ANode::GetName, &ANode::SetName)
 		(

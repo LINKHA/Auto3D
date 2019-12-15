@@ -20,7 +20,7 @@ namespace Auto3D
 REGISTER_CLASS
 {
 	using namespace rttr;
-	registration::class_<AScene>("Scene")
+	registration::class_<AScene>("AScene")
 	.constructor<>()
 	.property_readonly("cameras", &AScene::GetCameras)
 	.property("physicsWorld", &AScene::GetPhysicsWorld, &AScene::SetPhysicsWorld)

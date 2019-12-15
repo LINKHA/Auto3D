@@ -12,7 +12,7 @@ namespace Auto3D {
 REGISTER_CLASS
 {
 	using namespace rttr;
-	registration::class_<ACollider>("Collider")
+	registration::class_<ACollider>("ACollider")
 	.constructor<>()
 	;
 }

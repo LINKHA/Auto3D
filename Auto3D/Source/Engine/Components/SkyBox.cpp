@@ -130,7 +130,7 @@ static bool isDirty = false;
 REGISTER_CLASS
 {
 	using namespace rttr;
-	registration::class_<ASkyBox>("SkyBox")
+	registration::class_<ASkyBox>("ASkyBox")
 	.constructor<>()
 		.property("mapSize", &ASkyBox::GetMapSize, &ASkyBox::SetMapSize)
 		(

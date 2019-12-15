@@ -62,7 +62,7 @@ bool FOctant::FitBoundingBox(const TBoundingBoxF& box, const TVector3F& boxSize)
 REGISTER_CLASS
 {
 	using namespace rttr;
-	registration::class_<AOctree>("Octree")
+	registration::class_<AOctree>("AOctree")
 	.constructor<>()
 		.property("boundingBox", &AOctree::GetBoundingBoxAttr, &AOctree::SetBoundingBoxAttr)
 		(

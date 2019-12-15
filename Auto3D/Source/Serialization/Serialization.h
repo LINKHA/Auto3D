@@ -382,13 +382,17 @@ public:
 			break;
 
 		case EPropertyType::INTVECTOR2:
-			TVector2F vec2 = source.GetVector2();
-			*reinterpret_cast<TVector2I*>(dest) = TVector2I(vec2._x, vec2._y);
+			{
+				TVector2F vec2 = source.GetVector2();
+				*reinterpret_cast<TVector2I*>(dest) = TVector2I(vec2._x, vec2._y);
+			}
 			break;
 
 		case EPropertyType::INTRECT:
-			TRectI rect = source.GetString();
-			*reinterpret_cast<TRectI*>(dest) = TRectI(rect._min._x, rect._min._y, rect._max._x, rect._max._y);
+			{
+				TRectI rect = source.GetString();
+				*reinterpret_cast<TRectI*>(dest) = TRectI(rect._min._x, rect._min._y, rect._max._x, rect._max._y);
+			}
 			break;
 
 		case EPropertyType::FLOAT:

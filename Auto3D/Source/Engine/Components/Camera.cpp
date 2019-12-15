@@ -25,7 +25,7 @@ static const TMatrix4x4F flipMatrix(
 REGISTER_CLASS
 {
 	using namespace rttr;
-	FRegistration::class_<ACamera>("Camera")
+	FRegistration::class_<ACamera>("ACamera")
 	.constructor<>()
 		.property("nearClip", &ACamera::GetNearClip, &ACamera::SetNearClip)
 		(

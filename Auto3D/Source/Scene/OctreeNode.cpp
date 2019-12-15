@@ -9,7 +9,7 @@ namespace Auto3D
 REGISTER_CLASS
 {
 	using namespace rttr;
-	FRegistration::class_<AOctreeNode>("OctreeNode")
+	FRegistration::class_<AOctreeNode>("AOctreeNode")
 	.constructor<>()
 		.property("castShadows", &AOctreeNode::GetCastShadows, &AOctreeNode::SetCastShadows)
 		(
