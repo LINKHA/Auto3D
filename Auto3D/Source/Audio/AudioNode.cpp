@@ -10,7 +10,7 @@ namespace Auto3D
 REGISTER_CLASS
 {
 	using namespace rttr;
-	registration::class_<AAudioListener>("AudioListener")
+	registration::class_<AAudioNode>("AudioNode")
 	.constructor<>()
 	;
 }

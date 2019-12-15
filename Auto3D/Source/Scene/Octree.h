@@ -67,6 +67,7 @@ class AUTO_API AOctree : public ANode
 {
     DECLARE_CLASS(AOctree, ANode)
 
+	DECLARE_CLASS_NEW(AOctree, ANode)
 public:
     /// Construct.
     AOctree();
@@ -112,15 +113,16 @@ public:
         CollectNodesMemberCallback(&_root, volume, object, callback);
     }
 
+public:
+	/// Set bounding box. Used in serialization.
+	void SetBoundingBoxAttr(const TBoundingBoxF& boundingBox);
+	/// Return bounding box. Used in serialization.
+	const TBoundingBoxF& GetBoundingBoxAttr() const;
+	/// Set number of levels. Used in serialization.
+	void SetNumLevelsAttr(int numLevels);
+	/// Return number of levels. Used in serialization.
+	int GetNumLevelsAttr() const;
 private:
-    /// Set bounding box. Used in serialization.
-    void SetBoundingBoxAttr(const TBoundingBoxF& boundingBox);
-    /// Return bounding box. Used in serialization.
-    const TBoundingBoxF& BoundingBoxAttr() const;
-    /// Set number of levels. Used in serialization.
-    void SetNumLevelsAttr(int numLevels);
-    /// Return number of levels. Used in serialization.
-    int NumLevelsAttr() const;
     /// Add node to a specific octant.
     void AddNode(AOctreeNode* node, FOctant* octant);
     /// Remove node from an octant.

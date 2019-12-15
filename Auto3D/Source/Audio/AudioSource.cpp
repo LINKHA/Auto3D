@@ -3,6 +3,8 @@
 #include "Audio.h"
 #include "Debug/Log.h"
 #include "AudioBuffer.h"
+#include "IO/ResourceRef.h"
+#include "Resource/ResourceCache.h"
 
 #include <AL/al.h>
 #include <AL/alc.h>
@@ -14,6 +16,30 @@
 
 namespace Auto3D 
 {
+
+REGISTER_CLASS
+{
+	using namespace rttr;
+	registration::class_<AAudioSource>("AudioSource")
+	.constructor<>()
+		.property("sound", &AAudioSource::GetSoundAttr, &AAudioSource::SetSoundAttr)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("pitch", &AAudioSource::GetPitch, &AAudioSource::SetPitch)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("gain", &AAudioSource::GetGain, &AAudioSource::SetGain)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("vel", &AAudioSource::GetVel, &AAudioSource::SetVel)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+	;
+}
 
 AAudioSource::AAudioSource() :
 	_pitch(1.0f),
@@ -69,7 +95,7 @@ EAudioSourceState::Type AAudioSource::GetState()
 void AAudioSource::SetSound(ASound* sound)
 {
 	_sound = sound;
-	_buffer = new FAudioBuffer();
+	_buffer = MakeShared<FAudioBuffer>();
 	_buffer->Create(sound);
 	_audio->AddSource(GetBuffer()->Source(), this);
 
@@ -78,4 +104,14 @@ void AAudioSource::SetSound(ASound* sound)
 	_audio->SetVel(GetBuffer()->Source(), _vel);
 }
 
+void AAudioSource::SetSoundAttr(FResourceRef sound)
+{
+	FResourceModule* cache = GModuleManager::Get().CacheModule();
+	SetSound(cache->LoadResource<ASound>(sound._name));
+}
+
+FResourceRef AAudioSource::GetSoundAttr() const
+{
+	return FResourceRef(AAudioSource::GetTypeStatic(), ResourceName(_sound.Get()));
+}
 }

@@ -36,6 +36,8 @@ class APhysicsWorld;
 class ACollider : public ANode
 {
 	DECLARE_CLASS(ACollider, ANode)
+
+	DECLARE_CLASS_NEW(ACollider, ANode)
 public:
 	/// Construct
 	ACollider();

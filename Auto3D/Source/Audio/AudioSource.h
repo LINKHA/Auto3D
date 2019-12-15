@@ -11,6 +11,8 @@ class FAudioBuffer;
 class AUTO_API AAudioSource : public AAudioNode
 {
 	DECLARE_CLASS(AAudioSource, AAudioNode)
+
+	DECLARE_CLASS_NEW(AAudioSource, AAudioNode)
 public:
 	/// The constructor
 	AAudioSource();
@@ -32,6 +34,19 @@ public:
 	FAudioBuffer* GetBuffer() { return  _buffer; }
 	/// Get source state
 	EAudioSourceState::Type GetState();
+
+public:
+	void SetSoundAttr(FResourceRef sound);
+	FResourceRef GetSoundAttr() const;
+
+	void SetPitch(float pitch) { _pitch = pitch; }
+	float GetPitch() { return _pitch; }
+
+	void SetGain(float gain) { _gain = gain; }
+	float GetGain() { return _gain; }
+
+	void SetVel(const TVector3F& vel) { _vel = vel; }
+	const TVector3F& GetVel() { return _vel; }
 private:
 	/// AAudio sound resource
 	TSharedPtr<ASound> _sound;

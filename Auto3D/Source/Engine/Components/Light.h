@@ -30,6 +30,7 @@ class AUTO_API ALight : public AOctreeNode
 {
 	DECLARE_CLASS(ALight, AOctreeNode)
     
+	DECLARE_CLASS_NEW(ALight, AOctreeNode)
 public:
     /// Construct.
     ALight();
@@ -117,15 +118,17 @@ public:
     /// Return point light shadow extra parameters.
     const TVector4F& GetPointShadowParameters() const { return _pointShadowParameters; }
 
+public:
+	/// Set light type as int. Used in serialization.
+	void SetLightTypeAttr(int lightType);
+	/// Return light type as int. Used in serialization.
+	int GetLightTypeAttr() const;
 protected:
     /// Recalculate the world space bounding box.
     virtual void OnWorldBoundingBoxUpdate() const override;
 
 private:
-    /// Set light type as int. Used in serialization.
-    void SetLightTypeAttr(int lightType);
-    /// Return light type as int. Used in serialization.
-    int LightTypeAttr() const;
+
     
     /// ALight type.
     ELightType::Type _lightType;

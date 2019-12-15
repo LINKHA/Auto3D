@@ -9,6 +9,14 @@
 
 namespace Auto3D {
 
+REGISTER_CLASS
+{
+	using namespace rttr;
+	registration::class_<ACollider>("Collider")
+	.constructor<>()
+	;
+}
+
 ACollider::ACollider() :
 	_cachedWorldScale(TVector3F::ONE),
 	_shapeType(EShapeType::DEFAULT)

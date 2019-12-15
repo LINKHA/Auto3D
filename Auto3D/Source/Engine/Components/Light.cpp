@@ -27,6 +27,54 @@ static const char* lightTypeNames[] =
     0
 };
 
+REGISTER_CLASS
+{
+	using namespace rttr;
+	registration::class_<ALight>("Light")
+	.constructor<>()
+		.property("lightType", &ALight::GetLightTypeAttr, &ALight::SetLightTypeAttr)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("color", &ALight::GetColor, &ALight::SetColor)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("range", &ALight::GetRange, &ALight::SetRange)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("fov", &ALight::GetFov, &ALight::SetFov)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("lightMask", &ALight::GetLightMask, &ALight::SetLightMask)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("shadowMapSize", &ALight::GetShadowMapSize, &ALight::SetShadowMapSize)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("shadowSplits", &ALight::GetShadowSplits, &ALight::SetShadowSplits)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("shadowFadeStart", &ALight::GetShadowFadeStart, &ALight::SetShadowFadeStart)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("depthBias", &ALight::GetDepthBias, &ALight::SetDepthBias)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("slopeScaledDepthBias", &ALight::GetSlopeScaledDepthBias, &ALight::SetSlopeScaledDepthBias)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+	;
+}
+
 ALight::ALight() :
     _lightType(DEFAULT_LIGHTTYPE),
     _color(DEFAULT_COLOR),
@@ -52,7 +100,7 @@ void ALight::RegisterObject()
     RegisterFactory<ALight>();
 
     CopyBaseAttributes<ALight, AOctreeNode>();
-    RegisterAttribute("lightType", &ALight::LightTypeAttr, &ALight::SetLightTypeAttr, (int)DEFAULT_LIGHTTYPE, lightTypeNames);
+    RegisterAttribute("lightType", &ALight::GetLightTypeAttr, &ALight::SetLightTypeAttr, (int)DEFAULT_LIGHTTYPE, lightTypeNames);
     RegisterRefAttribute("color", &ALight::GetColor, &ALight::SetColor, DEFAULT_COLOR);
     RegisterAttribute("range", &ALight::GetRange, &ALight::SetRange, DEFAULT_RANGE);
     RegisterAttribute("fov", &ALight::GetFov, &ALight::SetFov, DEFAULT_SPOT_FOV);
@@ -499,7 +547,7 @@ void ALight::SetLightTypeAttr(int type)
         SetLightType((ELightType::Type)type);
 }
 
-int ALight::LightTypeAttr() const
+int ALight::GetLightTypeAttr() const
 {
     return (int)_lightType;
 }

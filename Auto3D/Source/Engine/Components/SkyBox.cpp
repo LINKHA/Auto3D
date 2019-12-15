@@ -125,6 +125,28 @@ static FShaderVariation* brdfVSV = nullptr;
 static FShaderVariation* brdfPSV = nullptr;
 
 static bool isDirty = false;
+
+
+REGISTER_CLASS
+{
+	using namespace rttr;
+	registration::class_<ASkyBox>("SkyBox")
+	.constructor<>()
+		.property("mapSize", &ASkyBox::GetMapSize, &ASkyBox::SetMapSize)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("irradianceSize", &ASkyBox::GetIrradianceSize, &ASkyBox::SetIrradianceSize)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("prefilterSize", &ASkyBox::GetPrefilterSize, &ASkyBox::SetPrefilterSize)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+	;
+}
+
 ASkyBox::ASkyBox():
 	_mapSize(512),
 	_irradianceSize(32),

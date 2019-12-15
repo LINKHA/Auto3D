@@ -6,6 +6,22 @@
 namespace Auto3D
 {
 
+REGISTER_CLASS
+{
+	using namespace rttr;
+	registration::class_<AColliderCone>("ColliderCone")
+	.constructor<>()
+		.property("radius", &AColliderCone::GetRadius, &AColliderCone::SetRadius)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("height", &AColliderCone::GetHeight, &AColliderCone::SetHeight)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+	;
+}
+
 AColliderCone::AColliderCone() :
 	_radius(1.0f),
 	_height(1.0f)

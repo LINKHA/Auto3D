@@ -6,6 +6,18 @@
 namespace Auto3D
 {
 
+	REGISTER_CLASS
+{
+	using namespace rttr;
+	registration::class_<AColliderSphere>("ColliderSphere")
+		.constructor<>()
+		.property("size", &AColliderSphere::GetSize, &AColliderSphere::SetSize)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		;
+}
+
 AColliderSphere::AColliderSphere() :
 	_size(1.0f)
 {

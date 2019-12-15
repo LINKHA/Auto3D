@@ -59,6 +59,22 @@ bool FOctant::FitBoundingBox(const TBoundingBoxF& box, const TVector3F& boxSize)
     return false;
 }
 
+REGISTER_CLASS
+{
+	using namespace rttr;
+	registration::class_<AOctree>("Octree")
+	.constructor<>()
+		.property("boundingBox", &AOctree::GetBoundingBoxAttr, &AOctree::SetBoundingBoxAttr)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("numLevels", &AOctree::GetNumLevelsAttr, &AOctree::SetNumLevelsAttr)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+	;
+}
+
 AOctree::AOctree()
 {
     _root.Initialize(nullptr, TBoundingBoxF(-DEFAULT_OCTREE_SIZE, DEFAULT_OCTREE_SIZE), DEFAULT_OCTREE_LEVELS);
@@ -73,8 +89,8 @@ void AOctree::RegisterObject()
 {
     RegisterFactory<AOctree>();
     CopyBaseAttributes<AOctree, ANode>();
-    RegisterRefAttribute("boundingBox", &AOctree::BoundingBoxAttr, &AOctree::SetBoundingBoxAttr);
-    RegisterAttribute("numLevels", &AOctree::NumLevelsAttr, &AOctree::SetNumLevelsAttr);
+    RegisterRefAttribute("boundingBox", &AOctree::GetBoundingBoxAttr, &AOctree::SetBoundingBoxAttr);
+    RegisterAttribute("numLevels", &AOctree::GetNumLevelsAttr, &AOctree::SetNumLevelsAttr);
 }
 
 void AOctree::Update()
@@ -226,7 +242,7 @@ void AOctree::SetBoundingBoxAttr(const TBoundingBoxF& boundingBox)
     _root._worldBoundingBox = boundingBox;
 }
 
-const TBoundingBoxF& AOctree::BoundingBoxAttr() const
+const TBoundingBoxF& AOctree::GetBoundingBoxAttr() const
 {
     return _root._worldBoundingBox;
 }
@@ -237,7 +253,7 @@ void AOctree::SetNumLevelsAttr(int numLevels)
     Resize(_root._worldBoundingBox, numLevels);
 }
 
-int AOctree::NumLevelsAttr() const
+int AOctree::GetNumLevelsAttr() const
 {
     return _root._level;
 }

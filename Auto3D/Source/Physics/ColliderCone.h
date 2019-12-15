@@ -7,6 +7,8 @@ namespace Auto3D
 class AUTO_API AColliderCone : public ACollider
 {
 	DECLARE_CLASS(AColliderCone, ACollider)
+
+	DECLARE_CLASS_NEW(AColliderCone, ACollider)
 public:
 	/// Construct
 	AColliderCone();
@@ -22,6 +24,8 @@ public:
 	/// Set height with this shape.
 	void SetHeight(float height);
 
+	float GetRadius() { return _radius; }
+	float GetHeight() { return _height; }
 private:
 	/// Resize form TVector3
 	void Resize(float radius, float height);

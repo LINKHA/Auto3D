@@ -18,7 +18,7 @@ REGISTER_CLASS
 		(
 			metadata(SERIALIZABLE, "")
 		)
-		.property("scale", &ASpatialNode::GetScale, &ASpatialNode::SetScale)
+		.property("scale", &ASpatialNode::GetScale, static_cast<void(ASpatialNode::*)(const TVector3F&)>(&ASpatialNode::SetScale))
 		(
 			metadata(SERIALIZABLE, "")
 		)
@@ -59,6 +59,11 @@ void ASpatialNode::SetDirection(const TVector3F& newDirection)
 {
     _rotation = FQuaternion(TVector3F::FORWARD, newDirection);
     OnTransformChanged();
+}
+
+void ASpatialNode::SetScale(float newScale)
+{
+	SetScale(TVector3F(newScale, newScale, newScale));
 }
 
 void ASpatialNode::SetScale(const TVector3F& newScale)

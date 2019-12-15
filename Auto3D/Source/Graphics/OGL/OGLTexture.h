@@ -17,7 +17,6 @@ class FGeometry;
 class AUTO_API ATexture : public AResource, public FGPUObject
 {
 	DECLARE_CLASS(ATexture, AResource)
-
 public:
     /// Construct.
     ATexture();

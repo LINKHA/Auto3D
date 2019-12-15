@@ -7,6 +7,8 @@ namespace Auto3D
 class AUTO_API AColliderBox : public ACollider
 {
 	DECLARE_CLASS(AColliderBox, ACollider)
+
+	DECLARE_CLASS_NEW(AColliderBox, ACollider)
 public:
 	/// Construct
 	AColliderBox();
@@ -20,6 +22,8 @@ public:
 	void SetSize(float x, float y, float z);
 	/// Set size form float
 	void SetSize(float scale);
+
+	const TVector3F& GetSize() { return _size; }
 private:
 	/// Resize form TVector3
 	void Resize(const TVector3F& vec);

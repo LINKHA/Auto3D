@@ -6,6 +6,22 @@
 namespace Auto3D
 {
 
+REGISTER_CLASS
+{
+	using namespace rttr;
+	registration::class_<AColliderCapsule>("ColliderCapsule")
+	.constructor<>()
+		.property("radius", &AColliderCapsule::GetRadius, &AColliderCapsule::SetRadius)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("height", &AColliderCapsule::GetHeight, &AColliderCapsule::SetHeight)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+	;
+}
+
 AColliderCapsule::AColliderCapsule() :
 	_radius(1.0f),
 	_height(1.0f)

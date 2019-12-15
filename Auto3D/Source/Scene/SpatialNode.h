@@ -37,6 +37,8 @@ public:
     void SetRotation(const FQuaternion& newRotation);
     /// Set forward direction in parent space.
     void SetDirection(const TVector3F& newDirection);
+	/// Set scale in parent space.
+	void SetScale(float newScale);
     /// Set scale in parent space.
     void SetScale(const TVector3F& newScale);
     /// Set transform in parent space.

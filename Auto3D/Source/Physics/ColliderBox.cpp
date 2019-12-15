@@ -6,6 +6,17 @@
 namespace Auto3D 
 {
 
+REGISTER_CLASS
+{
+	using namespace rttr;
+	registration::class_<AColliderBox>("ColliderBox")
+	.constructor<>()
+		.property("size", &AColliderBox::GetSize, static_cast<void(AColliderBox::*)(const TVector3F&)>(&AColliderBox::SetSize))
+		(
+			metadata(SERIALIZABLE, "")
+		)
+	;
+}
 
 AColliderBox::AColliderBox(): 
 	_size(TVector3F::ONE)

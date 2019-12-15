@@ -30,7 +30,7 @@ class AUTO_API ACamera : public ASpatialNode
 {
 	DECLARE_CLASS(ACamera, ASpatialNode)
 
-	//DECLARE_CLASS_NEW(ACamera, ASpatialNode)
+	DECLARE_CLASS_NEW(ACamera, ASpatialNode)
 public:
     /// Construct.
     ACamera();

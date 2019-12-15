@@ -8,6 +8,8 @@ namespace Auto3D
 class AUTO_API ASkyBox : public AStaticModel
 {
 	DECLARE_CLASS(ASkyBox, AStaticModel)
+
+	DECLARE_CLASS_NEW(ASkyBox, AStaticModel)
 public:
 	/// Construct
 	ASkyBox();
@@ -23,18 +25,28 @@ public:
 	const TSharedPtr<ATexture>& SetupPrefilterMap();
 	/// Generate a 2D LUT from the BRDF equations used.
 	const TSharedPtr<ATexture>& SetupBrdfLUT();
-	/// Set ibl map size.
-	void SetMapSize(int mapSize) { _mapSize = mapSize; }
-	/// Set irradiance size.
-	void SetIrradianceSize(int irradianceSize) { _irradianceSize = irradianceSize; }
-	/// Set prefilter size.
-	void SetPrefilterSize(int prefilterSize) { _prefilterSize = prefilterSize; }
+	
 	/// Get irradiance map.
 	const TSharedPtr<ATexture>& GetIrradianceMap();
 	/// Get prefilter map.
 	const TSharedPtr<ATexture>& GetPrefilterMap();
 	/// Get Brdf lut.
 	const TSharedPtr<ATexture>& GetBrdfLUT();
+
+public:
+	/// Get ibl map size.
+	int GetMapSize() { return _mapSize; }
+	/// Set ibl map size.
+	void SetMapSize(int mapSize) { _mapSize = mapSize; }
+	/// Get irradiance size.
+	int GetIrradianceSize() { return _irradianceSize; }
+	/// Set irradiance size.
+	void SetIrradianceSize(int irradianceSize) { _irradianceSize = irradianceSize; }
+	/// Get prefilter size.
+	int GetPrefilterSize() { return _prefilterSize; }
+	/// Set prefilter size.
+	void SetPrefilterSize(int prefilterSize) { _prefilterSize = prefilterSize; }
+
 private:
 	/// Recalculate the world-space bounding box.
 	void OnWorldBoundingBoxUpdate();
