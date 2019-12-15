@@ -14,7 +14,7 @@ void SerializeSample::Start()
 	auto* graphics = GModuleManager::Get().GraphicsModule();
 
 	scene = AObject::Create<AScene>();
-	scene->SetupShadowMap(3, 4096);
+	/*scene->SetupShadowMap(3, 4096);
 	scene->CreateChild<AOctree>();
 	camera = scene->CreateChild<ACamera>();
 	camera->SetPosition(TVector3F(0.0f, 5.0f, -15.0f));
@@ -38,32 +38,32 @@ void SerializeSample::Start()
 	lightDir->SetColor(FColor(1.0f, 1.0f, 1.0f));
 	lightDir->SetDirection(TVector3F(0.0f, -1.0f, 0.5f));
 	lightDir->SetShadowMapSize(2048);
-	
+	*/
 
 	FString exePath = ExecutableDir();
 	FString fileJsonName = "12_Serialize_SerializeFile.json";
 	FString fileSavName = "12_Serialize_SerializeFile.sav";
 	// Serialize
 	{
-		// Serialize scene to json
-		TAutoPtr<FStream> streamJson(new FFile(exePath + fileJsonName, EFileMode::WRITE));
-		FSerializationModule* ser = new FSerializationModule();
-		ser->SaveRootJSON(*streamJson, scene);
-		//scene->SaveJSON(*streamJson);
-		//scene->_SaveJSON(*streamJson);
+		//// Serialize scene to json
+		//TAutoPtr<FStream> streamJson(new FFile(exePath + fileJsonName, EFileMode::WRITE));
+		//FSerializationModule* ser = new FSerializationModule();
+		//ser->SaveRootJSON(*streamJson, scene);
+		////scene->SaveJSON(*streamJson);
+		////scene->_SaveJSON(*streamJson);
 
-		// Save data to file
-		TAutoPtr<FStream> streamSave(new FFile(exePath + fileSavName, EFileMode::WRITE));
-		streamSave->Write<int>(1);
-		streamSave->Write<float>(1.0f);
-		streamSave->Write<FString>("stringhash");
+		//// Save data to file
+		//TAutoPtr<FStream> streamSave(new FFile(exePath + fileSavName, EFileMode::WRITE));
+		//streamSave->Write<int>(1);
+		//streamSave->Write<float>(1.0f);
+		//streamSave->Write<FString>("stringhash");
 	}
 
 	// Deserialize
 	{
-		//// Serialize scene to json
-		//TAutoPtr<FStream> streamJson(new FFile(exePath + fileJsonName, EFileMode::READ));
-		//scene->LoadJSON(*streamJson);
+		// Serialize scene to json
+		TAutoPtr<FStream> streamJson(new FFile(exePath + fileJsonName, EFileMode::READ));
+		scene->_LoadJSON(*streamJson);
 
 		//// Save data to file
 		//TAutoPtr<FStream> streamSave(new FFile(exePath + fileSavName, EFileMode::READ));

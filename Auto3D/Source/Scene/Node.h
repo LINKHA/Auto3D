@@ -27,8 +27,7 @@ class AUTO_API ANode : public ASerializable
 {
     DECLARE_CLASS(ANode, ASerializable)
 
-	RTTR_ENABLE()
-	RTTR_REGISTRATION_FRIEND
+	DECLARE_BASE_CLASS_NEW(ANode)
 
 public:
     /// Construct.
@@ -43,12 +42,12 @@ public:
     void Load(FStream& source, FObjectResolver& resolver) override;
     /// Save to binary stream.
     void Save(FStream& dest) override;
+	/// Load from JSON data. Store node references to be resolved later.
+	void _LoadJSON(const FJSONValue& source, FObjectResolver& resolver);
     /// Load from JSON data. Store node references to be resolved later.
     void LoadJSON(const FJSONValue& source, FObjectResolver& resolver) override;
     /// Save as JSON data.
     void SaveJSON(FJSONValue& dest) override;
-	/// Save as JSON data.
-	void _SaveJSON(FJSONValue& dest);
     /// Return unique _id within the scene, or 0 if not in a scene.
     unsigned Id() const override { return _id; }
     /// Save as JSON text data to a binary stream. Return true on success.

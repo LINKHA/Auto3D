@@ -101,6 +101,29 @@ bool AScene::Load(FStream& source)
     return true;
 }
 
+bool AScene::_LoadJSON(const FJSONValue& source)
+{
+	PROFILE(LoadSceneJSON);
+
+	FString ownType = source["type"].GetString();
+	unsigned ownId = (unsigned)source["id"].GetNumber();
+
+	if (ownType != RtToStr(FType::get(*this).get_name()))
+	{
+		ErrorString("Mismatching type of scene root node in scene file");
+		return false;
+	}
+
+	Clear();
+
+	FObjectResolver resolver;
+	resolver.StoreObject(ownId, this);
+	ANode::_LoadJSON(source, resolver);
+	resolver.Resolve();
+
+	return true;
+}
+
 bool AScene::LoadJSON(const FJSONValue& source)
 {
     PROFILE(LoadSceneJSON);
@@ -124,6 +147,17 @@ bool AScene::LoadJSON(const FJSONValue& source)
     return true;
 }
 
+bool AScene::_LoadJSON(FStream& source)
+{
+	InfoString("Loading scene from " + source.GetName());
+
+	AJSONFile json;
+	bool success = json.Load(source);
+	_LoadJSON(json.Root());
+	return success;
+}
+
+
 bool AScene::LoadJSON(FStream& source)
 {
     InfoString("Loading scene from " + source.GetName());
@@ -144,17 +178,7 @@ bool AScene::SaveJSON(FStream& dest)
     ANode::SaveJSON(json.Root());
     return json.Save(dest);
 }
-/// Save scene as JSON text data to a binary stream. Return true on success.
-bool AScene::_SaveJSON(FStream& dest)
-{
-	PROFILE(SaveSceneJSON);
 
-	InfoString("Saving scene to " + dest.GetName());
-
-	AJSONFile json;
-	ANode::_SaveJSON(json.Root());
-	return json.Save(dest);
-}
 ANode* AScene::Instantiate(FStream& source)
 {
     PROFILE(Instantiate);

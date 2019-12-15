@@ -30,14 +30,16 @@ public:
     void Save(FStream& dest) override;
     /// Load scene from a binary stream. Existing nodes will be destroyed. Return true on success.
     bool Load(FStream& source);
+	/// Load scene from JSON data. Existing nodes will be destroyed. Return true on success.
+	bool _LoadJSON(const FJSONValue& source);
     /// Load scene from JSON data. Existing nodes will be destroyed. Return true on success.
     bool LoadJSON(const FJSONValue& source);
+	/// Load scene from JSON text data read from a binary stream. Existing nodes will be destroyed. Return true if the JSON was correctly parsed; otherwise the data may be partial.
+	bool _LoadJSON(FStream& source);
     /// Load scene from JSON text data read from a binary stream. Existing nodes will be destroyed. Return true if the JSON was correctly parsed; otherwise the data may be partial.
     bool LoadJSON(FStream& source);
     /// Save scene as JSON text data to a binary stream. Return true on success.
     bool SaveJSON(FStream& dest);
-	/// Save scene as JSON text data to a binary stream. Return true on success.
-	bool _SaveJSON(FStream& dest);
     /// Instantiate node(s) from binary stream and return the root node.
     ANode* Instantiate(FStream& source);
     /// Instantiate node(s) from JSON data and return the root node.
