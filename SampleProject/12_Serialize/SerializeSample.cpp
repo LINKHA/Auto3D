@@ -14,17 +14,17 @@ void SerializeSample::Start()
 	auto* graphics = GModuleManager::Get().GraphicsModule();
 
 	scene = AObject::Create<AScene>();
-	/*scene->SetupShadowMap(3, 4096);
+	//scene->SetupShadowMap(3, 4096);
 	scene->CreateChild<AOctree>();
 	camera = scene->CreateChild<ACamera>();
 	camera->SetPosition(TVector3F(0.0f, 5.0f, -15.0f));
 	camera->SetAmbientColor(FColor(0.1f, 0.1f, 0.1f));
 
-	AStaticModel* plane = scene->CreateChild<AStaticModel>();
+	/*AStaticModel* plane = scene->CreateChild<AStaticModel>();
 	plane->SetScale(TVector3F(50.0f, 0.1f, 50.0f));
 	plane->SetCastShadows(true);
 	plane->SetModel(cache->LoadResource<AModel>("Model/Box.mdl"));
-	plane->SetMaterial(cache->LoadResource<AMaterial>("Stone.json"));
+	plane->SetMaterial(cache->LoadResource<AMaterial>("Stone.json"));*/
 
 	AStaticModel* teaPot = scene->CreateChild<AStaticModel>();
 	teaPot->SetPosition(TVector3F(0.0f, 0.0f, 0.0f));
@@ -32,7 +32,7 @@ void SerializeSample::Start()
 	teaPot->SetModel(cache->LoadResource<AModel>("Model/TeaPot.mdl"));
 	teaPot->SetCastShadows(true);
 
-	ALight* lightDir = scene->CreateChild<ALight>();
+	/*ALight* lightDir = scene->CreateChild<ALight>();
 	lightDir->SetLightType(ELightType::DIRECTIONAL);
 	lightDir->SetCastShadows(true);
 	lightDir->SetColor(FColor(1.0f, 1.0f, 1.0f));
@@ -46,11 +46,11 @@ void SerializeSample::Start()
 	// Serialize
 	{
 		//// Serialize scene to json
-		//TAutoPtr<FStream> streamJson(new FFile(exePath + fileJsonName, EFileMode::WRITE));
-		//FSerializationModule* ser = new FSerializationModule();
-		//ser->SaveRootJSON(*streamJson, scene);
-		////scene->SaveJSON(*streamJson);
-		////scene->_SaveJSON(*streamJson);
+		TAutoPtr<FStream> streamJson(new FFile(exePath + fileJsonName, EFileMode::WRITE));
+		FSerializationModule* ser = new FSerializationModule();
+		ser->SaveRootJSON(*streamJson, scene);
+		//scene->SaveJSON(*streamJson);
+
 
 		//// Save data to file
 		//TAutoPtr<FStream> streamSave(new FFile(exePath + fileSavName, EFileMode::WRITE));
@@ -62,8 +62,11 @@ void SerializeSample::Start()
 	// Deserialize
 	{
 		// Serialize scene to json
-		TAutoPtr<FStream> streamJson(new FFile(exePath + fileJsonName, EFileMode::READ));
-		scene->_LoadJSON(*streamJson);
+		//TAutoPtr<FStream> streamJson(new FFile(exePath + fileJsonName, EFileMode::READ));
+		//FSerializationModule* ser = new FSerializationModule();
+		//ser->LoadRootJSON(*streamJson, scene);
+
+		//scene->_LoadJSON(*streamJson);
 
 		//// Save data to file
 		//TAutoPtr<FStream> streamSave(new FFile(exePath + fileSavName, EFileMode::READ));

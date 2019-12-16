@@ -185,7 +185,8 @@ bool ANode::SaveJSON(FStream& dest)
 
 void ANode::SetName(const FString& newName)
 {
-    SetName(newName.CString());
+	if(!newName.IsEmpty())
+		SetName(newName.CString());
 }
 
 void ANode::SetLayer(unsigned char newLayer)

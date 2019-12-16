@@ -201,6 +201,7 @@ public:
     const JSONArray& GetArray() const { return _type == EJSONType::ARRAY ? *(reinterpret_cast<const JSONArray*>(&_data)) : emptyJSONArray; }
     /// Return value as an object, or empty on type mismatch.
     const JSONObject& GetObject() const { return _type == EJSONType::OBJECT ? *(reinterpret_cast<const JSONObject*>(&_data)) : emptyJSONObject; }
+
     /// Return whether has an associative value.
     bool Contains(const FString& key) const;
     
