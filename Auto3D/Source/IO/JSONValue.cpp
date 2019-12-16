@@ -370,9 +370,18 @@ void FJSONValue::ToString(FString& dest, int spacing, int indent) const
         return;
         
     case EJSONType::NUMBER:
+	{
+		// It is prevented from exceeding the maximum range due to the accuracy problem
+		if (_data.numberValue > 4.29496e9)
+		{
+			FString tempStr(_data.numberValue);
+			dest += tempStr;
+			return;
+		}
+
         dest += _data.numberValue;
         return;
-        
+	}
     case EJSONType::STRING:
         WriteJSONString(dest, *(reinterpret_cast<const FString*>(&_data)));
         return;

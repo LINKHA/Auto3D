@@ -368,7 +368,7 @@ public:
 	{
 		FType type = prop.get_type();
 		FPropertyType propertyType(type);
-		FString ss = RtToStr(prop.get_name());
+
 		switch (propertyType._type)
 		{
 		case EPropertyType::BOOL:
@@ -406,48 +406,84 @@ public:
 			break;
 
 		case EPropertyType::VECTOR2:
-			prop.set_value(node, source.GetVector2());
+			{
+				TVector2F vec;
+				vec.FromString(source.GetString());
+				prop.set_value(node, vec);
+			}
 			break;
 
 		case EPropertyType::VECTOR3:
-		{
-			TVector3F vec3 = source.GetVector3();
-
-			prop.set_value(node, source.GetVector3());
-		}
-			
+			{
+				TVector3F vec;
+				vec.FromString(source.GetString());
+				prop.set_value(node, vec);
+			}
 			break;
 
 		case EPropertyType::VECTOR4:
-			prop.set_value(node, source.GetVector4());
+			{
+				TVector4F vec;
+				vec.FromString(source.GetString());
+				prop.set_value(node, vec);
+			}
 			break;
 
 		case EPropertyType::QUATERNION:
-			prop.set_value(node, TVector4F().FromString(source.GetString()));
+			{
+				TVector4F vec;
+				vec.FromString(source.GetString());
+				FQuaternion quaternion(vec._x, vec._y, vec._z, vec._w);
+				prop.set_value(node, quaternion);
+			}
 			break;
 
 		case EPropertyType::COLOR:
-			prop.set_value(node, FColor().FromString(source.GetString()));
+			{
+				FColor color;
+				color.FromString(source.GetString());
+				prop.set_value(node, color);
+			}
 			break;
 
 		case EPropertyType::RECT:
-			prop.set_value(node, TRectF().FromString(source.GetString()));
+			{
+				TRectF rect;
+				rect.FromString(source.GetString());
+				prop.set_value(node, rect);
+			}
 			break;
 
 		case EPropertyType::MATRIX2:
-			prop.set_value(node, TMatrix2x2F().FromString(source.GetString()));
+			{
+				TMatrix2x2F matrix;
+				matrix.FromString(source.GetString());
+				prop.set_value(node, matrix);
+			}
 			break;
 
 		case EPropertyType::MATRIX3:
-			prop.set_value(node, TMatrix3x3F().FromString(source.GetString()));
+			{
+				TMatrix3x3F matrix;
+				matrix.FromString(source.GetString());
+				prop.set_value(node, matrix);
+			}
 			break;
 
 		case EPropertyType::MATRIX3X4:
-			prop.set_value(node, TMatrix3x4F().FromString(source.GetString()));
+			{
+				TMatrix3x4F matrix;
+				matrix.FromString(source.GetString());
+				prop.set_value(node, matrix);
+			}
 			break;
 
 		case EPropertyType::MATRIX4:
-			prop.set_value(node, TMatrix4x4F().FromString(source.GetString()));
+		{
+			TMatrix4x4F matrix;
+			matrix.FromString(source.GetString());
+			prop.set_value(node, matrix);
+		}
 			break;
 
 		case EPropertyType::STRING:
@@ -455,11 +491,19 @@ public:
 			break;
 
 		case EPropertyType::RESOURCEREF:
-			prop.set_value(node, FResourceRef().FromString(source.GetString()));
+		{
+			FResourceRef resourceRef;
+			resourceRef.FromString(source.GetString());
+			prop.set_value(node, resourceRef);
+		}
 			break;
 
 		case EPropertyType::RESOURCEREFLIST:
-			prop.set_value(node, FResourceRefList().FromString(source.GetString()));
+		{
+			FResourceRefList resourceRef;
+			resourceRef.FromString(source.GetString());
+			prop.set_value(node, resourceRef);
+		}
 			break;
 
 		case EAttributeType::OBJECTREF:
