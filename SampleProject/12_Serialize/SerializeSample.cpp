@@ -14,31 +14,31 @@ void SerializeSample::Start()
 	auto* graphics = GModuleManager::Get().GraphicsModule();
 
 	scene = AObject::Create<AScene>();
-	////scene->SetupShadowMap(3, 4096);
-	//scene->CreateChild<AOctree>();
-	//camera = scene->CreateChild<ACamera>();
-	//camera->SetPosition(TVector3F(0.0f, 5.0f, -15.0f));
-	//camera->SetAmbientColor(FColor(0.1f, 0.1f, 0.1f));
+	scene->SetupShadowMap(3, 4096);
+	/*scene->CreateChild<AOctree>();
+	camera = scene->CreateChild<ACamera>();
+	camera->SetPosition(TVector3F(0.0f, 5.0f, -15.0f));
+	camera->SetAmbientColor(FColor(0.1f, 0.1f, 0.1f));
 
-	///*AStaticModel* plane = scene->CreateChild<AStaticModel>();
-	//plane->SetScale(TVector3F(50.0f, 0.1f, 50.0f));
-	//plane->SetCastShadows(true);
-	//plane->SetModel(cache->LoadResource<AModel>("Model/Box.mdl"));
-	//plane->SetMaterial(cache->LoadResource<AMaterial>("Stone.json"));*/
+	AStaticModel* plane = scene->CreateChild<AStaticModel>();
+	plane->SetScale(TVector3F(50.0f, 0.1f, 50.0f));
+	plane->SetCastShadows(true);
+	plane->SetModel(cache->LoadResource<AModel>("Model/Box.mdl"));
+	plane->SetMaterial(cache->LoadResource<AMaterial>("Stone.json"));
 
-	//AStaticModel* teaPot = scene->CreateChild<AStaticModel>();
-	//teaPot->SetPosition(TVector3F(0.0f, 0.0f, 0.0f));
-	//teaPot->SetScale(TVector3F(10.0f, 10.0f, 10.0f));
-	//teaPot->SetModel(cache->LoadResource<AModel>("Model/TeaPot.mdl"));
-	//teaPot->SetCastShadows(true);
+	AStaticModel* teaPot = scene->CreateChild<AStaticModel>();
+	teaPot->SetPosition(TVector3F(0.0f, 0.0f, 0.0f));
+	teaPot->SetScale(TVector3F(10.0f, 10.0f, 10.0f));
+	teaPot->SetModel(cache->LoadResource<AModel>("Model/TeaPot.mdl"));
+	teaPot->SetCastShadows(true);
 
-	///*ALight* lightDir = scene->CreateChild<ALight>();
-	//lightDir->SetLightType(ELightType::DIRECTIONAL);
-	//lightDir->SetCastShadows(true);
-	//lightDir->SetColor(FColor(1.0f, 1.0f, 1.0f));
-	//lightDir->SetDirection(TVector3F(0.0f, -1.0f, 0.5f));
-	//lightDir->SetShadowMapSize(2048);
-	//*/
+	ALight* lightDir = scene->CreateChild<ALight>();
+	lightDir->SetLightType(ELightType::DIRECTIONAL);
+	lightDir->SetCastShadows(true);
+	lightDir->SetColor(FColor(1.0f, 1.0f, 1.0f));
+	lightDir->SetDirection(TVector3F(0.0f, -1.0f, 0.5f));
+	lightDir->SetShadowMapSize(2048);*/
+	
 
 	FString exePath = ExecutableDir();
 	FString fileJsonName = "12_Serialize_SerializeFile.json";
@@ -49,7 +49,7 @@ void SerializeSample::Start()
 		//TAutoPtr<FStream> streamJson(new FFile(exePath + fileJsonName, EFileMode::WRITE));
 		//FSerializationModule* ser = new FSerializationModule();
 		//ser->SaveRootJSON(*streamJson, scene);
-		////scene->SaveJSON(*streamJson);
+		//////scene->SaveJSON(*streamJson);
 
 
 		//// Save data to file
@@ -66,7 +66,7 @@ void SerializeSample::Start()
 		FSerializationModule* ser = new FSerializationModule();
 		ser->LoadRootJSON(*streamJson, scene);
 
-		//scene->_LoadJSON(*streamJson);
+		//////scene->_LoadJSON(*streamJson);
 
 		//// Save data to file
 		//TAutoPtr<FStream> streamSave(new FFile(exePath + fileSavName, EFileMode::READ));

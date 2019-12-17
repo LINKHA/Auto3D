@@ -374,8 +374,7 @@ void FJSONValue::ToString(FString& dest, int spacing, int indent) const
 		// It is prevented from exceeding the maximum range due to the accuracy problem
 		if (_data.numberValue > 4.29496e9)
 		{
-			FString tempStr(_data.numberValue);
-			dest += tempStr;
+			dest += FString(_data.numberValue);
 			return;
 		}
 

@@ -19,12 +19,12 @@ REGISTER_CLASS
 {
 	using namespace rttr;
 	FRegistration::class_<AGeometryNode>("AGeometryNode")
-	.constructor<>()
-		.property("modelAttr", &AGeometryNode::GetMaterialsAttr, &AGeometryNode::SetMaterialsAttr)
+		.constructor<>()
+		.property("materialsAttr", &AGeometryNode::GetMaterialsAttr, &AGeometryNode::SetMaterialsAttr)
 		(
 			metadata(SERIALIZABLE, "")
 		)
-		;
+	;
 }
 
 
