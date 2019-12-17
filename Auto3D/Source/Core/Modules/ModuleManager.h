@@ -21,7 +21,7 @@ class FPhysicsModule;
 class FFileModule;
 class FUIModule;
 class FAudioModule;
-
+class FSerializationModule;
 
 class AUTO_API GModuleManager 
 {
@@ -63,6 +63,8 @@ public:
 	void RecreateUiModule(FUIModule* ui = nullptr);
 	/// Recreate component management of all audio.(Assign values when the component is first created)
 	void RecreateAudioModule(FAudioModule* audio = nullptr);
+	/// Recreate serialization module
+	void RecreateSerializationModule(FSerializationModule* serialization = nullptr);
 
 	/// Return resource loads.
 	FResourceModule* CacheModule() { return _cache.Get(); }
@@ -90,6 +92,8 @@ public:
 	FUIModule* UiModule() { return _ui.Get(); }
 	/// Return component management of all audio.(Assign values when the component is first created)
 	FAudioModule* AudioModule() { return _audio.Get(); }
+	/// Return serialization module.
+	FSerializationModule* SerializationModule() { return _serialization.Get(); }
 private:
 	/// Manage the subsystem of all resource loads
 	TUniquePtr<FResourceModule> _cache;
@@ -117,6 +121,8 @@ private:
 	TUniquePtr<FUIModule> _ui;
 	/// Component management of all audio.(Assign values when the component is first created)
 	TUniquePtr<FAudioModule> _audio;
+	/// Serialization module.
+	TUniquePtr<FSerializationModule> _serialization;
 };
 
 }

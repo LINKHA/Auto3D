@@ -77,5 +77,6 @@
 #include "Event/EventManager.h"
 #include "Adapter/AutoFileDialog.h"
 #include "Adapter/AutoRttr.h"
+#include "Serialization/Serialization.h"
 
 #include "Application.h"

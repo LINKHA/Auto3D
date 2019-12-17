@@ -155,7 +155,9 @@ class AUTO_API FSerializationModule : public FRefCounted
 {
 public:
 	/// Construct and register subsystem.
-	FSerializationModule() {}
+	FSerializationModule():
+		_modelMaterialsFlag(false)
+	{}
 	/// Destruct.
 	~FSerializationModule() {}
 
@@ -359,7 +361,7 @@ public:
 				//Materials and models have context that require special treatment
 				if (RtToStr(prop.get_name()) == "materialsAttr")
 				{
-					modelMaterialsFlag = true;
+					_modelMaterialsFlag = true;
 					continue;
 				}
 				if (prop.get_metadata(SERIALIZABLE))
@@ -372,9 +374,9 @@ public:
 
 				}
 				//Materials and models have context that require special treatment
-				if (RtToStr(prop.get_name()) == "modelAttr" && modelMaterialsFlag)
+				if (RtToStr(prop.get_name()) == "modelAttr" && _modelMaterialsFlag)
 				{
-					modelMaterialsFlag = false;
+					_modelMaterialsFlag = false;
 					auto jsonIt = object.Find("materialsAttr");
 					if (jsonIt != object.End())
 					{
@@ -399,7 +401,7 @@ public:
 			}
 
 		}
-		modelMaterialsFlag = false;
+		_modelMaterialsFlag = false;
 	}
 
 	void LoadProperty(const FJSONValue& source, const FProperty& prop, ANode* node)
@@ -563,7 +565,7 @@ public:
 private:
 	///The model Materials relation falg citation serialization needs to keep the first model Materials member to record whether a 
 	///JSONValue came first for materialsAttr, which becomes false after a single JSONValue is read
-	bool modelMaterialsFlag = false;
+	bool _modelMaterialsFlag = false;
 };
 
 }

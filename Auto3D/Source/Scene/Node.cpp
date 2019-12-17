@@ -108,29 +108,6 @@ void ANode::Save(FStream& dest)
     }
 }
 
-void ANode::_LoadJSON(const FJSONValue& source, FObjectResolver& resolver)
-{
-	// Type and _id has been read by the parent
-	ASerializable::LoadJSON(source, resolver);
-
-	const JSONArray& children = source["children"].GetArray();
-	if (children.Size())
-	{
-		for (auto it = children.Begin(); it != children.End(); ++it)
-		{
-			const FJSONValue& childJSON = *it;
-			FStringHash childType(childJSON["type"].GetString());
-			unsigned childId = (unsigned)childJSON["id"].GetNumber();
-			ANode* child = CreateChild(childType);
-			if (child)
-			{
-				resolver.StoreObject(childId, child);
-				child->LoadJSON(childJSON, resolver);
-			}
-		}
-	}
-}
-
 void ANode::LoadJSON(const FJSONValue& source, FObjectResolver& resolver)
 {
     // Type and _id has been read by the parent

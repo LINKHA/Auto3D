@@ -30,12 +30,8 @@ public:
     void Save(FStream& dest) override;
     /// Load scene from a binary stream. Existing nodes will be destroyed. Return true on success.
     bool Load(FStream& source);
-	/// Load scene from JSON data. Existing nodes will be destroyed. Return true on success.
-	bool _LoadJSON(const FJSONValue& source);
     /// Load scene from JSON data. Existing nodes will be destroyed. Return true on success.
     bool LoadJSON(const FJSONValue& source);
-	/// Load scene from JSON text data read from a binary stream. Existing nodes will be destroyed. Return true if the JSON was correctly parsed; otherwise the data may be partial.
-	bool _LoadJSON(FStream& source);
     /// Load scene from JSON text data read from a binary stream. Existing nodes will be destroyed. Return true if the JSON was correctly parsed; otherwise the data may be partial.
     bool LoadJSON(FStream& source);
     /// Save scene as JSON text data to a binary stream. Return true on success.
@@ -65,6 +61,10 @@ public:
     using ANode::LoadJSON;
     using ANode::SaveJSON;
 public:
+	/// Get shadow map attr serialization.
+	TVector2F GetShadowMapAttr();
+	/// Set up shadow map attr serialization.
+	void SetupShadowMapAttr(TVector2F numAndSize);
 	/// Return all camera vector
 	TVector<ACamera*>& GetCameras();
 	/// Get 3D physics world.
@@ -97,6 +97,10 @@ private:
 	/// Skybox in this scene.
 	ASkyBox* _skybox;
 
+	/// Shadow map num.I'm going to implement it in the Renderer and I'm just going to store it.
+	size_t _shadowMapNum;
+	/// Shadow map size.I'm going to implement it in the Renderer and I'm just going to store it.
+	int _shadowMapSize;
 };
 
 /// Register AScene related object factories and attributes.

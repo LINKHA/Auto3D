@@ -1,5 +1,8 @@
 #include "SerializeSample.h"
-#include "Serialization/Serialization.h"
+//#include "Serialization/Serialization.h"
+
+FString fileJsonName = "12_Serialize_SerializeFile.json";
+FString fileSavName = "12_Serialize_SerializeFile.sav";
 
 void SerializeSample::Init()
 {
@@ -12,84 +15,84 @@ void SerializeSample::Start()
 	Super::Start();
 	auto* cache = GModuleManager::Get().CacheModule();
 	auto* graphics = GModuleManager::Get().GraphicsModule();
+	auto* ui = GModuleManager::Get().UiModule();
 
+	AFont* msyh = cache->LoadResource<AFont>("Font/msyh.ttc");
+	ui->AddFont(msyh, 26, "Msyh_26");
 	scene = AObject::Create<AScene>();
-	scene->SetupShadowMap(3, 4096);
-	/*scene->CreateChild<AOctree>();
-	camera = scene->CreateChild<ACamera>();
-	camera->SetPosition(TVector3F(0.0f, 5.0f, -15.0f));
-	camera->SetAmbientColor(FColor(0.1f, 0.1f, 0.1f));
 
-	AStaticModel* plane = scene->CreateChild<AStaticModel>();
-	plane->SetScale(TVector3F(50.0f, 0.1f, 50.0f));
-	plane->SetCastShadows(true);
-	plane->SetModel(cache->LoadResource<AModel>("Model/Box.mdl"));
-	plane->SetMaterial(cache->LoadResource<AMaterial>("Stone.json"));
-
-	AStaticModel* teaPot = scene->CreateChild<AStaticModel>();
-	teaPot->SetPosition(TVector3F(0.0f, 0.0f, 0.0f));
-	teaPot->SetScale(TVector3F(10.0f, 10.0f, 10.0f));
-	teaPot->SetModel(cache->LoadResource<AModel>("Model/TeaPot.mdl"));
-	teaPot->SetCastShadows(true);
-
-	ALight* lightDir = scene->CreateChild<ALight>();
-	lightDir->SetLightType(ELightType::DIRECTIONAL);
-	lightDir->SetCastShadows(true);
-	lightDir->SetColor(FColor(1.0f, 1.0f, 1.0f));
-	lightDir->SetDirection(TVector3F(0.0f, -1.0f, 0.5f));
-	lightDir->SetShadowMapSize(2048);*/
-	
-
-	FString exePath = ExecutableDir();
-	FString fileJsonName = "12_Serialize_SerializeFile.json";
-	FString fileSavName = "12_Serialize_SerializeFile.sav";
-	// Serialize
+	//If no scenario has been created,create it.
+	TAutoPtr<FFile> jsonFile(new FFile());
+	if (jsonFile->Open(ExecutableDir() + fileJsonName, EFileMode::READ) == false)
 	{
-		////// Serialize scene to json
-		//TAutoPtr<FStream> streamJson(new FFile(exePath + fileJsonName, EFileMode::WRITE));
-		//FSerializationModule* ser = new FSerializationModule();
-		//ser->SaveRootJSON(*streamJson, scene);
-		//////scene->SaveJSON(*streamJson);
+		scene->SetupShadowMap(1, 4096);
+		scene->CreateChild<AOctree>();
+		camera = scene->CreateChild<ACamera>();
+		camera->SetPosition(TVector3F(0.0f, 5.0f, -15.0f));
+		camera->SetAmbientColor(FColor(0.1f, 0.1f, 0.1f));
 
+		AStaticModel* plane = scene->CreateChild<AStaticModel>();
+		plane->SetScale(TVector3F(50.0f, 0.1f, 50.0f));
+		plane->SetCastShadows(true);
+		plane->SetModel(cache->LoadResource<AModel>("Model/Box.mdl"));
+		plane->SetMaterial(cache->LoadResource<AMaterial>("Stone.json"));
 
-		//// Save data to file
-		//TAutoPtr<FStream> streamSave(new FFile(exePath + fileSavName, EFileMode::WRITE));
-		//streamSave->Write<int>(1);
-		//streamSave->Write<float>(1.0f);
-		//streamSave->Write<FString>("stringhash");
-	}
+		AStaticModel* teaPot = scene->CreateChild<AStaticModel>();
+		teaPot->SetPosition(TVector3F(0.0f, 0.0f, 0.0f));
+		teaPot->SetScale(TVector3F(10.0f, 10.0f, 10.0f));
+		teaPot->SetModel(cache->LoadResource<AModel>("Model/TeaPot.mdl"));
+		teaPot->SetCastShadows(true);
 
-	// Deserialize
-	{
-		//Serialize scene to json
-		TAutoPtr<FStream> streamJson(new FFile(exePath + fileJsonName, EFileMode::READ));
-		FSerializationModule* ser = new FSerializationModule();
-		ser->LoadRootJSON(*streamJson, scene);
-
-		//////scene->_LoadJSON(*streamJson);
-
-		//// Save data to file
-		//TAutoPtr<FStream> streamSave(new FFile(exePath + fileSavName, EFileMode::READ));
-		//streamSave->Read<int>();
-		//streamSave->Read<float>();
-		//streamSave->Read<FString>();
+		ALight* lightDir = scene->CreateChild<ALight>();
+		lightDir->SetLightType(ELightType::DIRECTIONAL);
+		lightDir->SetCastShadows(true);
+		lightDir->SetColor(FColor(1.0f, 1.0f, 1.0f));
+		lightDir->SetDirection(TVector3F(0.0f, -1.0f, 0.5f));
+		lightDir->SetShadowMapSize(2048);
 	}
 }
 void SerializeSample::Update()
 {
 	Super::Update();
+	auto* serialization = GModuleManager::Get().SerializationModule();
 
-	//GUI::Begin("Hello, world!");
+	GUI::Begin("Serialization");
+	GUI::Text(FString(FString("JSON File : ") + ExecutableDir() + fileJsonName).CString());
+	GUI::Text(FString(FString("Sav File : ") + ExecutableDir() + fileSavName).CString());
 
-	//if (GUI::Button("counter+"))
-	//	counter++;
-	//GUI::SameLine();
+	if (GUI::Button("Save scene to JSON"))
+	{
+		// Serialize scene to json
+		TAutoPtr<FStream> streamJson(new FFile(ExecutableDir() + fileJsonName, EFileMode::WRITE));
+		serialization->SaveRootJSON(*streamJson, scene);
+	}
 
-	//GUI::Text("counter = %d", counter);
+	if (GUI::Button("Load scene from JSON"))
+	{
+		// Deserialization scene to json
+		TAutoPtr<FStream> streamJson(new FFile(ExecutableDir() + fileJsonName, EFileMode::READ));
+		serialization->LoadRootJSON(*streamJson, scene);
+	}
 
-	//GUI::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-	//GUI::End();
+	if (GUI::Button("Save file test"))
+	{
+		// Save data to file
+		TAutoPtr<FStream> streamSave(new FFile(ExecutableDir() + fileSavName, EFileMode::WRITE));
+		streamSave->Write<int>(1);
+		streamSave->Write<float>(1.0f);
+		streamSave->Write<FString>("stringhash");
+	}
 
+	if (GUI::Button("Load file test"))
+	{
+		// Save data to file
+		TAutoPtr<FStream> streamSave(new FFile(ExecutableDir() + fileSavName, EFileMode::READ));
+		streamSave->Read<int>();
+		streamSave->Read<float>();
+		streamSave->Read<FString>();
+	}
+
+	GUI::End();
 }
 
 void SerializeSample::Stop()

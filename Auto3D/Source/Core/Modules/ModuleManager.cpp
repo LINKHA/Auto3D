@@ -16,6 +16,8 @@
 #include "Auto2D/Renderer2D.h"
 #include "Scene/Scene.h"
 #include "Auto2D/Scene2D.h"
+#include "Serialization/Serialization.h"
+
 #include "Core/ProcessUtils.h"
 
 #include "Debug/DebugNew.h"
@@ -68,6 +70,7 @@ void GModuleManager::CreateModules()
 	_physics = TUniquePtr<FPhysicsModule>(new FPhysicsModule());
 	_fileSystem = TUniquePtr<FFileModule>(new FFileModule());
 	_ui = TUniquePtr<FUIModule>(new FUIModule());
+	_serialization = TUniquePtr<FSerializationModule>(new FSerializationModule());
 }
 
 void GModuleManager::RecreateCacheModule(FResourceModule* cache)
@@ -211,6 +214,17 @@ void GModuleManager::RecreateAudioModule(FAudioModule* audio)
 		_audio = audio;
 	else
 		_audio = TUniquePtr<FAudioModule>(new FAudioModule());
+}
+
+void GModuleManager::RecreateSerializationModule(FSerializationModule* serialization)
+{
+	if (_serialization)
+		_serialization.Reset();
+
+	if (serialization)
+		_serialization = serialization;
+	else
+		_serialization = TUniquePtr<FSerializationModule>(new FSerializationModule());
 }
 
 }

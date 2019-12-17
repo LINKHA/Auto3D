@@ -42,8 +42,6 @@ public:
     void Load(FStream& source, FObjectResolver& resolver) override;
     /// Save to binary stream.
     void Save(FStream& dest) override;
-	/// Load from JSON data. Store node references to be resolved later.
-	void _LoadJSON(const FJSONValue& source, FObjectResolver& resolver);
     /// Load from JSON data. Store node references to be resolved later.
     void LoadJSON(const FJSONValue& source, FObjectResolver& resolver) override;
     /// Save as JSON data.

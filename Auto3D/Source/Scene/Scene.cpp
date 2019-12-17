@@ -25,13 +25,19 @@ REGISTER_CLASS
 	.property_readonly("cameras", &AScene::GetCameras)
 	.property("physicsWorld", &AScene::GetPhysicsWorld, &AScene::SetPhysicsWorld)
 	.property("skybox", &AScene::GetSkyBox, &AScene::SetSkyBox)
+	.property("shadowMapAttr",&AScene::GetShadowMapAttr,&AScene::SetupShadowMapAttr)
+	(
+		metadata(SERIALIZABLE,"")
+	)
 	;
 }
 
 AScene::AScene() :
     _nextNodeId(1),
 	_physicsWorld(nullptr),
-	_skybox(nullptr)
+	_skybox(nullptr),
+	_shadowMapNum(0),
+	_shadowMapSize(0)
 {
     // Register self to allow finding by ID
     AddNode(this);
@@ -72,43 +78,20 @@ void AScene::Save(FStream& dest)
 
 bool AScene::Load(FStream& source)
 {
-    PROFILE(LoadScene);
-    
-    InfoString("Loading scene from " + source.GetName());
-    
-    FString fileId = source.ReadFileID();
-    if (fileId != "SCNE")
-    {
-        ErrorString("File is not a binary scene file");
-        return false;
-    }
+	PROFILE(LoadScene);
 
-    FStringHash ownType = source.Read<FStringHash>();
-    unsigned ownId = source.Read<unsigned>();
-    if (ownType != GetTypeStatic())
-    {
-        ErrorString("Mismatching type of scene root node in scene file");
-        return false;
-    }
+	InfoString("Loading scene from " + source.GetName());
 
-    Clear();
+	FString fileId = source.ReadFileID();
+	if (fileId != "SCNE")
+	{
+		ErrorString("File is not a binary scene file");
+		return false;
+	}
 
-    FObjectResolver resolver;
-    resolver.StoreObject(ownId, this);
-    ANode::Load(source, resolver);
-    resolver.Resolve();
-
-    return true;
-}
-
-bool AScene::_LoadJSON(const FJSONValue& source)
-{
-	PROFILE(LoadSceneJSON);
-
-	FString ownType = source["type"].GetString();
-	unsigned ownId = (unsigned)source["id"].GetNumber();
-
-	if (ownType != RtToStr(FType::get(*this).get_name()))
+	FStringHash ownType = source.Read<FStringHash>();
+	unsigned ownId = source.Read<unsigned>();
+	if (ownType != GetTypeStatic())
 	{
 		ErrorString("Mismatching type of scene root node in scene file");
 		return false;
@@ -118,7 +101,7 @@ bool AScene::_LoadJSON(const FJSONValue& source)
 
 	FObjectResolver resolver;
 	resolver.StoreObject(ownId, this);
-	ANode::_LoadJSON(source, resolver);
+	ANode::Load(source, resolver);
 	resolver.Resolve();
 
 	return true;
@@ -146,17 +129,6 @@ bool AScene::LoadJSON(const FJSONValue& source)
 
     return true;
 }
-
-bool AScene::_LoadJSON(FStream& source)
-{
-	InfoString("Loading scene from " + source.GetName());
-
-	AJSONFile json;
-	bool success = json.Load(source);
-	_LoadJSON(json.Root());
-	return success;
-}
-
 
 bool AScene::LoadJSON(FStream& source)
 {
@@ -304,6 +276,16 @@ void AScene::RemoveCamera(ACamera* camera)
 		_cameras.Remove(camera); 
 }
 
+TVector2F AScene::GetShadowMapAttr()
+{
+	return TVector2F(_shadowMapNum, _shadowMapSize);
+}
+
+void AScene::SetupShadowMapAttr(TVector2F numAndSize)
+{
+	SetupShadowMap(numAndSize._x, numAndSize._y);
+}
+
 void AScene::SetPhysicsWorld(APhysicsWorld* physicsWorld)
 {
 	if(physicsWorld)
@@ -337,6 +319,8 @@ ASkyBox* AScene::GetSkyBox()
 
 void AScene::SetupShadowMap(size_t num, int size)
 {
+	_shadowMapNum = num;
+	_shadowMapSize = size;
 	// The scene creates a shadow map by default
 	GModuleManager::Get().RendererModule()->SetupShadowMaps(num, size, EImageFormat::D16);
 }
