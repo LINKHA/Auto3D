@@ -1,5 +1,4 @@
 #include "SerializeSample.h"
-//#include "Serialization/Serialization.h"
 
 FString fileJsonName = "12_Serialize_SerializeFile.json";
 FString fileSavName = "12_Serialize_SerializeFile.sav";

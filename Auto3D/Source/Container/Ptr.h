@@ -202,19 +202,19 @@ public:
     }
 
     /// Copy-construct.
-    TWeakPtr(const TWeakPtr<_Ty>& ptr_) :
+    TWeakPtr(const TWeakPtr<_Ty>& ptr) :
         _ptr(nullptr),
         _refCount(nullptr)
     {
-        *this = ptr_;
+        *this = ptr;
     }
 
     /// Construct from a shared pointer.
-    TWeakPtr(const TSharedPtr<_Ty>& ptr_) :
+    TWeakPtr(const TSharedPtr<_Ty>& ptr) :
         _ptr(nullptr),
         _refCount(nullptr)
     {
-        *this = ptr_;
+        *this = ptr;
     }
 
     /// Construct from a raw pointer.
