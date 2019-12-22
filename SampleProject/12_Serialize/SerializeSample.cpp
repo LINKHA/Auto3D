@@ -1,6 +1,7 @@
 #include "SerializeSample.h"
 
 FString fileJsonName = "12_Serialize_SerializeFile.json";
+FString fileDataName = "12_Serialize_SerializeFile.dat";
 FString fileSavName = "12_Serialize_SerializeFile.sav";
 
 void SerializeSample::Init()
@@ -55,6 +56,14 @@ void SerializeSample::Start()
 		lightDir->SetDirection(TVector3F(0.0f, -1.0f, 0.5f));
 		lightDir->SetShadowMapSize(2048);
 	}
+
+	//If no scenario has been created,create it.
+	TAutoPtr<FFile> dataFile(new FFile());
+	if (dataFile->Open(ExecutableDir() + fileDataName, EFileMode::READ) == false)
+	{
+		
+	}
+
 }
 void SerializeSample::Update()
 {
@@ -77,6 +86,20 @@ void SerializeSample::Update()
 		// Deserialization scene to json
 		TAutoPtr<FStream> streamJson(new FFile(ExecutableDir() + fileJsonName, EFileMode::READ));
 		serialization->LoadRootJSON(*streamJson, scene);
+	}
+
+	if (GUI::Button("Save scene to data"))
+	{
+		// Serialize scene to json
+		TAutoPtr<FStream> streamJson(new FFile(ExecutableDir() + fileDataName, EFileMode::WRITE));
+		serialization->SaveRoot(*streamJson, scene);
+	}
+
+	if (GUI::Button("Load scene from data"))
+	{
+		// Deserialization scene to json
+		TAutoPtr<FStream> streamJson(new FFile(ExecutableDir() + fileDataName, EFileMode::READ));
+		serialization->LoadRoot(*streamJson, scene);
 	}
 
 	if (GUI::Button("Save file test"))

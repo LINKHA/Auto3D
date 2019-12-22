@@ -2,7 +2,9 @@ Build/
 Bin/imgui.ini
 Bin/12_Serialize_SerializeFile.json
 Bin/12_Serialize_SerializeFile.sav
+Bin/12_Serialize_SerializeFile.dat
 *.pdb
 *.ilk
 *.exe
 *.dll
+
