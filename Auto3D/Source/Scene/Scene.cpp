@@ -29,6 +29,14 @@ REGISTER_CLASS
 	(
 		metadata(SERIALIZABLE,"")
 	)
+	.property("layerNames", &AScene::GetLayerNamesAttr, &AScene::SetLayerNamesAttr)
+	(
+		metadata(SERIALIZABLE, "")
+	)
+	.property("tagNames", &AScene::GetTagNamesAttr, &AScene::SetTagNamesAttr)
+	(
+		metadata(SERIALIZABLE, "")
+	)
 	;
 }
 
@@ -62,8 +70,8 @@ void AScene::RegisterObject()
 {
     RegisterFactory<AScene>();
     CopyBaseAttributes<AScene, ANode>();
-    RegisterAttribute("layerNames", &AScene::LayerNamesAttr, &AScene::SetLayerNamesAttr);
-    RegisterAttribute("tagNames", &AScene::TagNamesAttr, &AScene::SetTagNamesAttr);
+    RegisterAttribute("layerNames", &AScene::GetLayerNamesAttr, &AScene::SetLayerNamesAttr);
+    RegisterAttribute("tagNames", &AScene::GetTagNamesAttr, &AScene::SetTagNamesAttr);
 }
 
 void AScene::Save(FStream& dest)
@@ -297,6 +305,26 @@ void AScene::SetSkyBox(ASkyBox* skybox)
 	_skybox = skybox;
 }
 
+void AScene::DefineLayer(unsigned char index, const FString& name)
+{
+	if (index >= 32)
+	{
+		ErrorString("Can not define more than 32 layers");
+		return;
+	}
+	_defineLayers[name] = index;
+}
+
+void AScene::DefineTag(unsigned char index, const FString& name)
+{
+	if (index >= 32)
+	{
+		ErrorString("Can not define more than 32 layers");
+		return;
+	}
+	_defineTags[name] = index;
+}
+
 APhysicsWorld* AScene::GetPhysicsWorld()
 {
 	if (_physicsWorld)
@@ -327,50 +355,46 @@ void AScene::SetupShadowMap(size_t num, int size)
 
 void AScene::SetLayerNamesAttr(FJSONValue names)
 {
-    _layerNames.Clear();
-    _layers.Clear();
+    _defineLayers.Clear();
 
     const JSONArray& array = names.GetArray();
     for (size_t i = 0; i < array.Size(); ++i)
     {
         const FString& name = array[i].GetString();
-        _layerNames.Push(name);
-        _layers[name] = (unsigned char)i;
+		_defineLayers[name] = (unsigned char)i;
     }
 }
 
-FJSONValue AScene::LayerNamesAttr() const
+FJSONValue AScene::GetLayerNamesAttr() const
 {
     FJSONValue ret;
 
     ret.SetEmptyArray();
-    for (auto it = _layerNames.Begin(); it != _layerNames.End(); ++it)
-        ret.Push(*it);
+    for (auto it = _defineLayers.Begin(); it != _defineLayers.End(); ++it)
+        ret.Push(it->_first);
     
     return ret;
 }
 
 void AScene::SetTagNamesAttr(FJSONValue names)
 {
-    _tagNames.Clear();
-    _tags.Clear();
+    _defineTags.Clear();
 
     const JSONArray& array = names.GetArray();
     for (size_t i = 0; i < array.Size(); ++i)
     {
         const FString& name = array[i].GetString();
-        _tagNames.Push(name);
-        _tags[name] = (unsigned char)i;
+        _defineTags[name] = (unsigned char)i;
     }
 }
 
-FJSONValue AScene::TagNamesAttr() const
+FJSONValue AScene::GetTagNamesAttr() const
 {
     FJSONValue ret;
 
     ret.SetEmptyArray();
-    for (auto it = _tagNames.Begin(); it != _tagNames.End(); ++it)
-        ret.Push(*it);
+    for (auto it = _defineTags.Begin(); it != _defineTags.End(); ++it)
+		ret.Push(it->_first);
 
     return ret;
 }

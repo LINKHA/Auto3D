@@ -16,20 +16,26 @@ void MeshSample::Start()
 	graphics->RenderWindow()->SetMouseHide(true);
 
 	scene = AObject::Create<AScene>();
+	scene->DefineLayer(1,"StaticModel");
+	scene->DefineTag(1, "StaticModelTag");
 	scene->SetupShadowMap(3, 4096);
 	scene->CreateChild<AOctree>();
+
 	camera = scene->CreateChild<ACamera>();
 	camera->SetPosition(TVector3F(0.0f, 5.0f, -15.0f));
 	camera->SetAmbientColor(FColor(0.1f, 0.1f, 0.1f));
-
+	camera->SetLayoutMaskName("StaticModel"); // The default mask contains all the bits, and this does not change the mask bit, only if the mask view is missing
+	//camera->SetLayoutMaskOutName("StaticModel"); //Remove the bits for the view mask
 
 	AStaticModel* plane = scene->CreateChild<AStaticModel>();
+	plane->SetTagName("StaticModelTag");
 	plane->SetScale(TVector3F(50.0f, 0.1f, 50.0f));
 	plane->SetCastShadows(true);
 	plane->SetModel(cache->LoadResource<AModel>("Model/Box.mdl"));
 	plane->SetMaterial(cache->LoadResource<AMaterial>("Stone.json"));
 
 	AStaticModel* teaPot = scene->CreateChild<AStaticModel>();
+	teaPot->SetLayerName("StaticModel");
 	teaPot->SetPosition(TVector3F(0.0f, 0.0f, 0.0f));
 	teaPot->SetScale(10.0f);
 	teaPot->SetModel(cache->LoadResource<AModel>("Model/TeaPot.mdl"));

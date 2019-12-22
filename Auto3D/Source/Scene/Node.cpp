@@ -179,30 +179,35 @@ void ANode::SetLayerName(const FString& newLayerName)
     if (!_scenes)
         return;
     
-    const THashMap<FString, unsigned char>& layers = _scenes->Layers();
-    auto it = layers.Find(newLayerName);
-    if (it != layers.End())
+	const THashMap<FString, unsigned char>& layers = _scenes->Layers();
+
+	auto it = layers.Find(newLayerName);
+	if (it != layers.End())
 		SetLayer(it->_second);
-    else
-        ErrorString("Layer " + newLayerName + " not defined in the scene");
+	else
+		ErrorString("Layer " + newLayerName + " not defined in the scene");
 }
 
 void ANode::SetTag(unsigned char newTag)
 {
-    _tag = newTag;
+	if (_tag < 32)
+		_tag = newTag;
+	else
+		ErrorString("Can not set tag 32 or higher");
 }
 
 void ANode::SetTagName(const FString& newTagName)
 {
-    if (!_scenes)
-        return;
+	if (!_scenes)
+		return;
 
-    const THashMap<FString, unsigned char>& tags = _scenes->Tags();
-    auto it = tags.Find(newTagName);
-    if (it != tags.End())
-        SetTag(it->_second);
-    else
-        ErrorString("Tag " + newTagName + " not defined in the scene");
+	const THashMap<FString, unsigned char>& tags = _scenes->Tags();
+
+	auto it = tags.Find(newTagName);
+	if (it != tags.End())
+		SetTag(it->_second);
+	else
+		ErrorString("Tag " + newTagName + " not defined in the scene");
 }
 
 void ANode::SetEnabled(bool enable)
@@ -232,28 +237,6 @@ void ANode::SetParent(ANode* newParent)
         newParent->AddChild(this);
     else
         ErrorString("Could not set null parent");
-}
-
-void ANode::DefineLayer(unsigned char index, const FString& name)
-{
-	if (index >= 32)
-	{
-		ErrorString("Can not define more than 32 layers");
-		return;
-	}
-
-	if (_layerNames.Size() <= index)
-		_layerNames.Resize(index + 1);
-	_layerNames[index] = name;
-	_layers[name] = index;
-}
-
-void ANode::DefineTag(unsigned char index, const FString& name)
-{
-	if (_tagNames.Size() <= index)
-		_tagNames.Resize(index + 1);
-	_tagNames[index] = name;
-	_tags[name] = index;
 }
 
 ANode* ANode::CreateChild(FStringHash childType)
@@ -385,20 +368,42 @@ void ANode::RemoveSelf()
 
 const FString& ANode::GetLayerName() const
 {
-    if (!_scenes)
-        return FString::EMPTY;
+	if (!_scenes)
+		return FString::EMPTY;
 
-    const TVector<FString>& layerNames = _scenes->LayerNames();
-    return _layer < layerNames.Size() ? layerNames[_layer] : FString::EMPTY;
+	const THashMap<FString, unsigned char>& layers = _scenes->Layers();
+
+	// Find value with layouts.
+	for (auto it = layers.Begin(); it != layers.End(); ++it)
+	{
+		if (it->_second == _layer)
+		{
+			return it->_first;
+		}
+	}
+
+	ErrorString("Fail find this layer from scene define layers");
+	return FString::EMPTY;
 }
 
 const FString& ANode::GetTagName() const
 {
-    if (!_scenes)
-        return FString::EMPTY;
+	if (!_scenes)
+		return FString::EMPTY;
 
-    const TVector<FString>& tagNames = _scenes->TagNames();
-    return _tag < tagNames.Size() ? tagNames[_layer] : FString::EMPTY;
+	const THashMap<FString, unsigned char>& tags = _scenes->Tags();
+
+	// Find value with tags.
+	for (auto it = tags.Begin(); it != tags.End(); ++it)
+	{
+		if (it->_second == _tag)
+		{
+			return it->_first;
+		}
+	}
+
+	ErrorString("Fail find this tag from scene define tags");
+	return FString::EMPTY;
 }
 
 size_t ANode::NumPersistentChildren() const

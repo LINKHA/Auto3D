@@ -183,7 +183,7 @@ void ACamera::SetLayoutMask(unsigned mask)
 
 void ACamera::SetLayoutMaskIndex(unsigned maskIndex)
 {
-	_viewLayoutMask &= ~(1 << maskIndex);
+	_viewLayoutMask |= 1 << maskIndex;
 }
 
 void ACamera::SetLayoutMaskName(const FString& name)
@@ -196,14 +196,17 @@ void ACamera::SetLayoutMaskName(const FString& name)
 
 	auto it = layous.Find(name);
 	if (it != layous.End())
-		_viewLayoutMask &= ~(1 << it->_second);
+		SetLayoutMaskIndex(it->_second);
 	else
 		ErrorString("Layer" + name + " not defined in the scene");
 }
 
 void ACamera::SetLayoutMaskOutIndex(unsigned maskIndex)
 {
-	_viewLayoutMask |= 1 << maskIndex;
+	int tempViewLayoutMask = _viewLayoutMask;
+
+	tempViewLayoutMask &= ~(1 << maskIndex);
+	_viewLayoutMask &= tempViewLayoutMask;
 }
 
 void ACamera::SetLayoutMaskOutName(const FString& name)
@@ -216,14 +219,14 @@ void ACamera::SetLayoutMaskOutName(const FString& name)
 
 	auto it = layous.Find(name);
 	if (it != layous.End())
-		_viewLayoutMask |= 1 << it->_second;
+		SetLayoutMaskOutIndex(it->_second);
 	else
 		ErrorString("Layer" + name + " not defined in the scene");
 }
 
 void ACamera::SetLayoutMaskAll()
 {
-	_viewLayoutMask = 0;
+	_viewLayoutMask = M_MAX_UNSIGNED;
 }
 
 void ACamera::SetOrthographic(bool enable)

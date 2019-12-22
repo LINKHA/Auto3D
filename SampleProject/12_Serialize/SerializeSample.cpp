@@ -7,7 +7,7 @@ void SerializeSample::Init()
 {
 	Super::Init();
 	auto* graphics = GModuleManager::Get().GraphicsModule();
-	graphics->RenderWindow()->SetTitle("Mesh Sample");
+	graphics->RenderWindow()->SetTitle("Serialize Sample");
 }
 void SerializeSample::Start()
 {
@@ -19,6 +19,10 @@ void SerializeSample::Start()
 	AFont* msyh = cache->LoadResource<AFont>("Font/msyh.ttc");
 	ui->AddFont(msyh, 26, "Msyh_26");
 	scene = AObject::Create<AScene>();
+	scene->DefineLayer(1, "Layer1");
+	scene->DefineLayer(2, "Layer2");
+	scene->DefineTag(1, "Tag1");
+	scene->DefineTag(2, "Tag2");
 
 	//If no scenario has been created,create it.
 	TAutoPtr<FFile> jsonFile(new FFile());
@@ -31,12 +35,14 @@ void SerializeSample::Start()
 		camera->SetAmbientColor(FColor(0.1f, 0.1f, 0.1f));
 
 		AStaticModel* plane = scene->CreateChild<AStaticModel>();
+		plane->SetTagName("Tag1");
 		plane->SetScale(TVector3F(50.0f, 0.1f, 50.0f));
 		plane->SetCastShadows(true);
 		plane->SetModel(cache->LoadResource<AModel>("Model/Box.mdl"));
 		plane->SetMaterial(cache->LoadResource<AMaterial>("Stone.json"));
 
 		AStaticModel* teaPot = scene->CreateChild<AStaticModel>();
+		teaPot->SetLayerName("Layer1");
 		teaPot->SetPosition(TVector3F(0.0f, 0.0f, 0.0f));
 		teaPot->SetScale(TVector3F(10.0f, 10.0f, 10.0f));
 		teaPot->SetModel(cache->LoadResource<AModel>("Model/TeaPot.mdl"));
