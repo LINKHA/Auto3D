@@ -26,7 +26,7 @@ public:
     static void RegisterObject();
 
     /// Save scene to binary stream.
-    void Save(FStream& dest) override;
+    bool Save(FStream& dest);
     /// Load scene from a binary stream. Existing nodes will be destroyed. Return true on success.
     bool Load(FStream& source);
     /// Load scene from JSON data. Existing nodes will be destroyed. Return true on success.
@@ -35,12 +35,7 @@ public:
     bool LoadJSON(FStream& source);
     /// Save scene as JSON text data to a binary stream. Return true on success.
     bool SaveJSON(FStream& dest);
-    /// Instantiate node(s) from binary stream and return the root node.
-    ANode* Instantiate(FStream& source);
-    /// Instantiate node(s) from JSON data and return the root node.
-    ANode* InstantiateJSON(const FJSONValue& source);
-    /// Load JSON data as text from a binary stream, then instantiate node(s) from it and return the root node.
-    ANode* InstantiateJSON(FStream& source);
+
     /// Destroy child nodes recursively, leaving the scene empty.
     void Clear();
     /// Find node by _id.
@@ -55,10 +50,6 @@ public:
 	void AddCamera(ACamera* camera);
 	/// Remove camera from the scene.
 	void RemoveCamera(ACamera* camera);
-
-    using ANode::Load;
-    using ANode::LoadJSON;
-    using ANode::SaveJSON;
 public:
 	/// Get shadow map attr serialization.
 	TVector2F GetShadowMapAttr();

@@ -88,9 +88,6 @@ AOctree::~AOctree()
 void AOctree::RegisterObject()
 {
     RegisterFactory<AOctree>();
-    CopyBaseAttributes<AOctree, ANode>();
-    RegisterRefAttribute("boundingBox", &AOctree::GetBoundingBoxAttr, &AOctree::SetBoundingBoxAttr);
-    RegisterAttribute("numLevels", &AOctree::GetNumLevelsAttr, &AOctree::SetNumLevelsAttr);
 }
 
 void AOctree::Update()

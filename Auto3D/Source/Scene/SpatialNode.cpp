@@ -37,10 +37,6 @@ ASpatialNode::ASpatialNode() :
 void ASpatialNode::RegisterObject()
 {
     RegisterFactory<ASpatialNode>();
-    CopyBaseAttributes<ASpatialNode, ANode>();
-    RegisterRefAttribute("position", &ASpatialNode::GetPosition, &ASpatialNode::SetPosition, TVector3F::ZERO);
-    RegisterRefAttribute("rotation", &ASpatialNode::GetRotation, &ASpatialNode::SetRotation, FQuaternion::IDENTITY);
-    RegisterRefAttribute("scale", &ASpatialNode::GetScale, &ASpatialNode::SetScale, TVector3F::ONE);
 }
 
 void ASpatialNode::SetPosition(const TVector3F& newPosition)

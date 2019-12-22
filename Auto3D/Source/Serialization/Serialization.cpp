@@ -1,5 +1,6 @@
 #include "Serialization.h"
 #include "Debug/Log.h"
+#include "Debug/Profiler.h"
 
 namespace Auto3D
 {
@@ -104,6 +105,10 @@ void FPropertyType::SetType(const FType& type)
 
 bool FSerializationModule::SaveRootJSON(FStream& dest, AScene* scene)
 {
+	PROFILE(SaveSceneJSON);
+
+	InfoString("Saving scene to " + dest.GetName());
+
 	AJSONFile json;
 	SaveJSON(json.Root(), scene);
 	return json.Save(dest);
@@ -246,6 +251,9 @@ void FSerializationModule::SavePropertyJSON(FJSONValue& dest, const FProperty& p
 
 bool FSerializationModule::LoadRootJSON(FStream& source, AScene* scene)
 {
+	PROFILE(LoadSceneJSON);
+	InfoString("Loading scene from " + source.GetName());
+
 	AJSONFile json;
 	bool success = json.Load(source);
 	LoadRootJSON(json.Root(), scene);
@@ -518,6 +526,10 @@ void FSerializationModule::LoadPropertyJSON(const FJSONValue& source, const FPro
 
 bool FSerializationModule::SaveRoot(FStream& dest, AScene* scene)
 {
+	PROFILE(SaveScene);
+
+	InfoString("Saving scene to " + dest.GetName());
+
 	dest.WriteFileID("SCNE");
 	Save(dest, scene);
 
@@ -671,6 +683,10 @@ void FSerializationModule::SaveProperty(FStream& dest, const FProperty& prop, AN
 
 bool FSerializationModule::LoadRoot(FStream& source, AScene* scene)
 {
+	PROFILE(LoadScene);
+
+	InfoString("Loading scene from " + source.GetName());
+
 	FString fileId = source.ReadFileID();
 	if (fileId != "SCNE")
 	{

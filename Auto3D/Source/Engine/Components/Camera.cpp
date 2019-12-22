@@ -116,23 +116,6 @@ ACamera::ACamera() :
 void ACamera::RegisterObject()
 {
     RegisterFactory<ACamera>();
-    CopyBaseAttributes<ACamera, ASpatialNode>();
-
-    RegisterAttribute("nearClip", &ACamera::GetNearClip, &ACamera::SetNearClip, DEFAULT_NEARCLIP);
-    RegisterAttribute("farClip", &ACamera::GetFarClip, &ACamera::SetFarClip, DEFAULT_FARCLIP);
-    RegisterAttribute("fov", &ACamera::GetFov, &ACamera::SetFov, DEFAULT_FOV);
-    RegisterAttribute("aspectRatio", &ACamera::GetAspectRatio, &ACamera::SetAspectRatio, 1.0f);
-    RegisterAttribute("orthographic", &ACamera::IsOrthographic, &ACamera::SetOrthographic, false);
-    RegisterAttribute("orthoSize", &ACamera::GetOrthoSize, &ACamera::SetOrthoSize, DEFAULT_ORTHOSIZE);
-    RegisterAttribute("zoom", &ACamera::GetZoom, &ACamera::SetZoom, 1.0f);
-    RegisterAttribute("lodBias", &ACamera::GetLodBias, &ACamera::SetLodBias, 1.0f);
-    RegisterAttribute("viewMask", &ACamera::GetViewMask, &ACamera::SetLayoutMask, M_MAX_UNSIGNED);
-    RegisterRefAttribute("ambientColor", &ACamera::GetAmbientColor, &ACamera::SetAmbientColor, DEFAULT_AMBIENT_COLOR);
-    RegisterRefAttribute("projectionOffset", &ACamera::GetProjectionOffset, &ACamera::SetProjectionOffset, TVector2F::ZERO);
-  /*  RegisterMixedRefAttribute("reflectionPlane", &ACamera::ReflectionPlaneAttr, &ACamera::SetReflectionPlaneAttr, TVector4F(0.0f, 1.0f, 0.0f, 0.0f));
-    RegisterMixedRefAttribute("clipPlane", &ACamera::ClipPlaneAttr, &ACamera::SetClipPlaneAttr, TVector4F(0.0f, 1.0f, 0.0f, 0.0f));*/
-    RegisterAttribute("useReflection", &ACamera::GetUseReflection, &ACamera::SetUseReflection, false);
-    RegisterAttribute("useClipping", &ACamera::GetUseClipping, &ACamera::SetUseClipping, false);
 }
 void ACamera::SetNearClip(float nearClip)
 {

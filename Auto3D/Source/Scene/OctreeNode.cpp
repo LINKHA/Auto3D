@@ -34,8 +34,7 @@ AOctreeNode::~AOctreeNode()
 
 void AOctreeNode::RegisterObject()
 {
-    CopyBaseAttributes<AOctreeNode, ASpatialNode>();
-    //RegisterAttribute("castShadows", &AOctreeNode::GetCastShadows, &AOctreeNode::SetCastShadows, false);
+	RegisterFactory<AOctreeNode>();
 }
 
 void AOctreeNode::SetCastShadows(bool enable)

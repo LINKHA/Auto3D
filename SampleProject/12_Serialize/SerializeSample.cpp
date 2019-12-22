@@ -56,14 +56,6 @@ void SerializeSample::Start()
 		lightDir->SetDirection(TVector3F(0.0f, -1.0f, 0.5f));
 		lightDir->SetShadowMapSize(2048);
 	}
-
-	//If no scenario has been created,create it.
-	TAutoPtr<FFile> dataFile(new FFile());
-	if (dataFile->Open(ExecutableDir() + fileDataName, EFileMode::READ) == false)
-	{
-		
-	}
-
 }
 void SerializeSample::Update()
 {
@@ -72,12 +64,13 @@ void SerializeSample::Update()
 
 	GUI::Begin("Serialization");
 	GUI::Text(FString(FString("JSON File : ") + ExecutableDir() + fileJsonName).CString());
+	GUI::Text(FString(FString("Data File : ") + ExecutableDir() + fileDataName).CString());
 	GUI::Text(FString(FString("Sav File : ") + ExecutableDir() + fileSavName).CString());
 
-	if (GUI::Button("Clear scene"))
-	{
-		scene->Clear();
-	}
+	//if (GUI::Button("Clear scene"))
+	//{
+	//	scene->Clear();
+	//}
 
 	if (GUI::Button("Save scene to JSON"))
 	{

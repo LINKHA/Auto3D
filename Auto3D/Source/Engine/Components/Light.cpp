@@ -98,18 +98,6 @@ ALight::~ALight()
 void ALight::RegisterObject()
 {
     RegisterFactory<ALight>();
-
-    CopyBaseAttributes<ALight, AOctreeNode>();
-    RegisterAttribute("lightType", &ALight::GetLightTypeAttr, &ALight::SetLightTypeAttr, (int)DEFAULT_LIGHTTYPE, lightTypeNames);
-    RegisterRefAttribute("color", &ALight::GetColor, &ALight::SetColor, DEFAULT_COLOR);
-    RegisterAttribute("range", &ALight::GetRange, &ALight::SetRange, DEFAULT_RANGE);
-    RegisterAttribute("fov", &ALight::GetFov, &ALight::SetFov, DEFAULT_SPOT_FOV);
-    RegisterAttribute("lightMask", &ALight::GetLightMask, &ALight::SetLightMask, M_MAX_UNSIGNED);
-    RegisterAttribute("shadowMapSize", &ALight::GetShadowMapSize, &ALight::SetShadowMapSize, DEFAULT_SHADOWMAP_SIZE);
-    RegisterRefAttribute("shadowSplits", &ALight::GetShadowSplits, &ALight::SetShadowSplits, DEFAULT_SHADOW_SPLITS);
-    RegisterAttribute("shadowFadeStart", &ALight::GetShadowFadeStart, &ALight::SetShadowFadeStart, DEFAULT_FADE_START);
-    RegisterAttribute("depthBias", &ALight::GetDepthBias, &ALight::SetDepthBias, DEFAULT_DEPTH_BIAS);
-    RegisterAttribute("slopeScaledDepthBias", &ALight::GetSlopeScaledDepthBias, &ALight::SetSlopeScaledDepthBias, DEFAULT_SLOPE_SCALED_DEPTH_BIAS);
 }
 
 

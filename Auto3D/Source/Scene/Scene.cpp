@@ -8,6 +8,7 @@
 #include "Physics/PhysicsWorld.h"
 #include "Engine/Components/SkyBox.h"
 #include "Engine/Components/Camera.h"
+#include "Serialization/Serialization.h"
 
 #include "Scene.h"
 #include "SpatialNode.h"
@@ -69,139 +70,36 @@ AScene::~AScene()
 void AScene::RegisterObject()
 {
     RegisterFactory<AScene>();
-    CopyBaseAttributes<AScene, ANode>();
-    RegisterAttribute("layerNames", &AScene::GetLayerNamesAttr, &AScene::SetLayerNamesAttr);
-    RegisterAttribute("tagNames", &AScene::GetTagNamesAttr, &AScene::SetTagNamesAttr);
 }
 
-void AScene::Save(FStream& dest)
+bool AScene::Save(FStream& dest)
 {
-    PROFILE(SaveScene);
-    
-    InfoString("Saving scene to " + dest.GetName());
-    
-    dest.WriteFileID("SCNE");
-    ANode::Save(dest);
+	auto* serialization = GModuleManager::Get().SerializationModule();
+	return serialization->SaveRoot(dest, this);
 }
 
 bool AScene::Load(FStream& source)
 {
-	PROFILE(LoadScene);
-
-	InfoString("Loading scene from " + source.GetName());
-
-	FString fileId = source.ReadFileID();
-	if (fileId != "SCNE")
-	{
-		ErrorString("File is not a binary scene file");
-		return false;
-	}
-
-	FStringHash ownType = source.Read<FStringHash>();
-	unsigned ownId = source.Read<unsigned>();
-	if (ownType != GetTypeStatic())
-	{
-		ErrorString("Mismatching type of scene root node in scene file");
-		return false;
-	}
-
-	Clear();
-
-	FObjectResolver resolver;
-	resolver.StoreObject(ownId, this);
-	ANode::Load(source, resolver);
-	resolver.Resolve();
-
-	return true;
+	auto* serialization = GModuleManager::Get().SerializationModule();
+	return serialization->LoadRoot(source, this);
 }
 
 bool AScene::LoadJSON(const FJSONValue& source)
 {
-    PROFILE(LoadSceneJSON);
-    
-    FStringHash ownType(source["type"].GetString());
-    unsigned ownId = (unsigned)source["id"].GetNumber();
-
-    if (ownType != GetTypeStatic())
-    {
-        ErrorString("Mismatching type of scene root node in scene file");
-        return false;
-    }
-
-    Clear();
-
-    FObjectResolver resolver;
-    resolver.StoreObject(ownId, this);
-    ANode::LoadJSON(source, resolver);
-    resolver.Resolve();
-
-    return true;
+	auto* serialization = GModuleManager::Get().SerializationModule();
+	return serialization->LoadRootJSON(source, this);
 }
 
 bool AScene::LoadJSON(FStream& source)
 {
-    InfoString("Loading scene from " + source.GetName());
-    
-    AJSONFile json;
-    bool success = json.Load(source);
-    LoadJSON(json.Root());
-    return success;
+	auto* serialization = GModuleManager::Get().SerializationModule();
+	return serialization->LoadRootJSON(source, this);
 }
 
 bool AScene::SaveJSON(FStream& dest)
 {
-    PROFILE(SaveSceneJSON);
-    
-    InfoString("Saving scene to " + dest.GetName());
-    
-    AJSONFile json;
-    ANode::SaveJSON(json.Root());
-    return json.Save(dest);
-}
-
-ANode* AScene::Instantiate(FStream& source)
-{
-    PROFILE(Instantiate);
-    
-    FObjectResolver resolver;
-    FStringHash childType(source.Read<FStringHash>());
-    unsigned childId = source.Read<unsigned>();
-
-    ANode* child = CreateChild(childType);
-    if (child)
-    {
-        resolver.StoreObject(childId, child);
-        child->Load(source, resolver);
-        resolver.Resolve();
-    }
-
-    return child;
-}
-
-ANode* AScene::InstantiateJSON(const FJSONValue& source)
-{
-    PROFILE(InstantiateJSON);
-    
-    FObjectResolver resolver;
-    FStringHash childType(source["type"].GetString());
-    unsigned childId = (unsigned)source["id"].GetNumber();
-
-    ANode* child = CreateChild(childType);
-    if (child)
-    {
-        resolver.StoreObject(childId, child);
-        child->LoadJSON(source, resolver);
-        resolver.Resolve();
-    }
-
-    return child;
-}
-
-ANode* AScene::InstantiateJSON(FStream& source)
-{
-    AJSONFile json;
-    json.Load(source);
-    return InstantiateJSON(json.Root());
+	auto* serialization = GModuleManager::Get().SerializationModule();
+	return serialization->SaveRootJSON(dest, this);
 }
 
 void AScene::Clear()

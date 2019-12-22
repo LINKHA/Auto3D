@@ -44,12 +44,7 @@ AStaticModel::~AStaticModel()
 void AStaticModel::RegisterObject()
 {
     RegisterFactory<AStaticModel>();
-    // Copy base attributes from AOctreeNode instead of AGeometryNode, as the model attribute needs to be set first so that
-    // there is the correct amount of materials to assign
-    CopyBaseAttributes<AStaticModel, AOctreeNode>();
-   // RegisterMixedRefAttribute("model", &AStaticModel::GetModelAttr, &AStaticModel::SetModelAttr, FResourceRef(AModel::GetTypeStatic()));
-    CopyBaseAttribute<AStaticModel, AGeometryNode>("materials");
-    RegisterAttribute("lodBias", &AStaticModel::GetLodBias, &AStaticModel::SetLodBias, 1.0f);
+
 }
 
 void AStaticModel::OnPrepareRender(unsigned frameNumber, ACamera* camera)

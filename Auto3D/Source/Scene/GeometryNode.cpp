@@ -86,9 +86,6 @@ AGeometryNode::~AGeometryNode()
 void AGeometryNode::RegisterObject()
 {
     RegisterFactory<AGeometryNode>();
-    CopyBaseAttributes<AGeometryNode, AOctreeNode>();
-    //RegisterMixedRefAttribute("materials", &AGeometryNode::GetMaterialsAttr, &AGeometryNode::SetMaterialsAttr,
-    //    FResourceRefList(AMaterial::GetTypeStatic()));
 }
 
 void AGeometryNode::OnPrepareRender(unsigned frameNumber, ACamera* camera)
