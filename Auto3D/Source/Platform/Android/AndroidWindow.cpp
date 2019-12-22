@@ -7,6 +7,7 @@
 #include "Graphics/Graphics.h"
 #include "UI/UI.h"
 #include "Core/Modules/ModuleManager.h"
+#include "Event/EventManager.h"
 
 #include "AndroidInput.h"
 #include "AndroidWindow.h"
@@ -350,11 +351,11 @@ bool AWindow::OnWindowMessage(void* sdlEvent)
 		switch (evt.window.event)
 		{
 		case SDL_WINDOWEVENT_MINIMIZED:
-			SendEvent(_minimizeEvent);
+			GEventManager::Get().SendEvent(this, _minimizeEvent);
 			_minimized = true;
 			break;
 		case SDL_WINDOWEVENT_MAXIMIZED:
-			SendEvent(_maximizeEvent);
+			GEventManager::Get().SendEvent(this, _maximizeEvent);
 		case SDL_WINDOWEVENT_RESTORED:
 			_minimized = false;
 			break;
@@ -367,7 +368,7 @@ bool AWindow::OnWindowMessage(void* sdlEvent)
 				_rect.Right() = _rect.Left() + newWidth;
 				_rect.Bottom() = _rect.Top() + newHeight;
 				_resizeEvent._size = TVector2I(newWidth, newHeight);
-				SendEvent(_resizeEvent);
+				GEventManager::Get().SendEvent(this, _resizeEvent);
 			}
 			break;
 		case SDL_WINDOWEVENT_MOVED:
@@ -378,7 +379,7 @@ bool AWindow::OnWindowMessage(void* sdlEvent)
 	}
 	break;
 	case SDL_QUIT:
-		SendEvent(_closeRequestEvent);
+		GEventManager::Get().SendEvent(this, _closeRequestEvent);
 		Close();
 		break;
 	}

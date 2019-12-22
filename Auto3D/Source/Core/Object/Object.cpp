@@ -61,26 +61,6 @@ bool AObject::IsInstanceOf(const FTypeInfo* typeInfo) const
 	return GetTypeInfo()->IsTypeOf(typeInfo);
 }
 
-void AObject::SubscribeToEvent(FEvent& event, FEventHandler* handler)
-{
-    event.Subscribe(handler);
-}
-
-void AObject::UnsubscribeFromEvent(FEvent& event)
-{
-    event.Unsubscribe(this);
-}
-
-void AObject::SendEvent(FEvent& event)
-{
-    event.Send(this);
-}
-
-bool AObject::IsSubscribedToEvent(const FEvent& event) const
-{
-    return event.HasReceiver(this);
-}
-
 void AObject::RegisterObjectModule(AObject* subsystem)
 {
     if (!subsystem)

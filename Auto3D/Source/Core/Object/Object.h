@@ -107,22 +107,6 @@ public:
 	/// Cast the object to specified most derived class.
 	template<typename _Ty> const _Ty* Cast() const { return IsInstanceOf<_Ty>() ? static_cast<const _Ty*>(this) : nullptr; }
 
-	/// Subscribe to an _event.
-    void SubscribeToEvent(FEvent& event, FEventHandler* handler);
-    /// Unsubscribe from an _event.
-    void UnsubscribeFromEvent(FEvent& event);
-    /// Send an _event.
-    void SendEvent(FEvent& event);
-    
-    /// Subscribe to an _event, template version.
-    template <typename _Ty, typename _Event> void SubscribeToEvent(_Event& event, void (_Ty::*handlerFunction)(_Event&))
-    {
-        SubscribeToEvent(event, new TEventHandlerImpl<_Ty, _Event>(this, handlerFunction));
-    }
-
-    /// Return whether is subscribed to an event.
-    bool IsSubscribedToEvent(const FEvent& event) const;
-    
     /// Register an object as a module that can be accessed globally. Note that the modules container does not own the objects.
     static void RegisterObjectModule(AObject* module);
     /// Remove a module by object pointer.
