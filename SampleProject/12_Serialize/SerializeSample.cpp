@@ -74,6 +74,11 @@ void SerializeSample::Update()
 	GUI::Text(FString(FString("JSON File : ") + ExecutableDir() + fileJsonName).CString());
 	GUI::Text(FString(FString("Sav File : ") + ExecutableDir() + fileSavName).CString());
 
+	if (GUI::Button("Clear scene"))
+	{
+		scene->Clear();
+	}
+
 	if (GUI::Button("Save scene to JSON"))
 	{
 		// Serialize scene to json
