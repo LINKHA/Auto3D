@@ -60,6 +60,10 @@ void FPropertyType::SetType(const FType& type)
 	{
 		_type = EPropertyType::RECT;
 	}
+	else if (type == FType::get<TBoundingBoxF>())
+	{
+		_type = EPropertyType::BOUNDINGBOX;
+	}
 	else if (type == FType::get<TMatrix2x2F>())
 	{
 		_type = EPropertyType::MATRIX2;
@@ -195,6 +199,10 @@ void FSerializationModule::SavePropertyJSON(FJSONValue& dest, const FProperty& p
 
 	case EPropertyType::RECT:
 		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<TRectF>().ToString();
+		break;
+
+	case EPropertyType::BOUNDINGBOX:
+		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<TBoundingBoxF>().ToString();
 		break;
 
 	case EPropertyType::MATRIX2:
@@ -430,6 +438,14 @@ void FSerializationModule::LoadPropertyJSON(const FJSONValue& source, const FPro
 		TRectF rect;
 		rect.FromString(source.GetString());
 		prop.set_value(node, rect);
+	}
+	break;
+
+	case EPropertyType::BOUNDINGBOX:
+	{
+		TBoundingBoxF box;
+		box.FromString(source.GetString());
+		prop.set_value(node, box);
 	}
 	break;
 

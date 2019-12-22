@@ -92,6 +92,7 @@ public:
 	void Save(FStream& dest, ANode* node)
 	{
 		// Write type and ID first, followed by attributes and child nodes
+		FString SS = RtToStr(FType::get(*node).get_name());
 		dest.Write(RtToStr(FType::get(*node).get_name()));
 		dest.Write(node->Id());
 
@@ -133,7 +134,7 @@ public:
 		FType type = prop.get_type();
 		FPropertyType propertyType(type);
 		
-		dest.Write<unsigned char>((unsigned)propertyType._type);
+		dest.Write<FString>(RtToStr(prop.get_name()));
 		switch (propertyType._type)
 		{
 		case EPropertyType::BOOL:
@@ -186,6 +187,10 @@ public:
 
 		case EPropertyType::RECT:	
 			dest.Write<FString>(prop.get_value(node).get_value<TRectF>().ToString());
+			break;
+
+		case EPropertyType::BOUNDINGBOX:
+			dest.Write<FString>(prop.get_value(node).get_value<TBoundingBoxF>().ToString());
 			break;
 
 		case EPropertyType::MATRIX2:	
@@ -277,8 +282,11 @@ public:
 		FType type = FType::get(*node);
 		
 		size_t numAttrs = source.ReadVLE();
-		for (auto& prop : type.get_properties())
+		for (int i = 0; i < numAttrs; ++i)
 		{
+			FString propTypeName = source.Read<FString>();
+			FProperty prop = type.get_property(ToRtStr(propTypeName));
+
 			if (RtToStr(prop.get_name()) == "materialsAttr" || RtToStr(prop.get_name()) == "modelAttr")
 			{
 				continue;
@@ -286,7 +294,6 @@ public:
 
 			if (prop.get_metadata(SERIALIZABLE))
 			{
-				FString propertyTypeName = source.Read<FString>();
 				LoadProperty(source, prop, node);
 			}
 		}
@@ -384,6 +391,13 @@ public:
 		}
 		break;
 
+		case EPropertyType::BOUNDINGBOX:
+		{
+			TBoundingBoxF box;
+			box.FromString(source.Read<FString>());
+			prop.set_value(node, box);
+		}
+
 		case EPropertyType::MATRIX2:
 		{
 			TMatrix2x2F matrix;
@@ -445,7 +459,7 @@ public:
 		break;
 
 		case EAttributeType::JSONVALUE:
-			prop.set_value(node, source);
+			prop.set_value(node, source.Read<FJSONValue>());
 		default:
 			break;
 		}
