@@ -64,7 +64,8 @@ void ANode2D::RegisterObject()
 
 void ANode2D::SetName(const FString& newName)
 {
-	SetName(newName.CString());
+	if(!newName.IsEmpty())
+		SetName(newName.CString());
 }
 
 void ANode2D::SetLayer(unsigned char newLayer)
@@ -90,7 +91,10 @@ void ANode2D::SetLayerName(const FString& newLayerName)
 
 void ANode2D::SetTag(unsigned char newTag)
 {
-	_tag = newTag;
+	if (_tag < 32)
+		_tag = newTag;
+	else
+		ErrorString("Can not set tag 32 or higher");
 }
 
 void ANode2D::SetTagName(const FString& newTagName)
@@ -101,7 +105,7 @@ void ANode2D::SetTagName(const FString& newTagName)
 	const THashMap<FString, unsigned char>& tags = _scene2D->Tags();
 	auto it = tags.Find(newTagName);
 	if (it != tags.End())
-		_tag = it->_second;
+		SetTag(it->_second);
 	else
 		ErrorString("Tag " + newTagName + " not defined in the scene");
 }
@@ -133,28 +137,6 @@ void ANode2D::SetParent(ANode2D* newParent)
 		newParent->AddChild(this);
 	else
 		ErrorString("Could not set null parent");
-}
-
-void ANode2D::DefineLayer(unsigned char index, const FString& name)
-{
-	if (index >= 32)
-	{
-		ErrorString("Can not define more than 32 layers");
-		return;
-	}
-
-	if (_layerNames.Size() <= index)
-		_layerNames.Resize(index + 1);
-	_layerNames[index] = name;
-	_layers[name] = index;
-}
-
-void ANode2D::DefineTag(unsigned char index, const FString& name)
-{
-	if (_tagNames.Size() <= index)
-		_tagNames.Resize(index + 1);
-	_tagNames[index] = name;
-	_tags[name] = index;
 }
 
 ANode2D* ANode2D::CreateChild(FStringHash childType)
@@ -289,8 +271,19 @@ const FString& ANode2D::GetLayerName() const
 	if (!_scene2D)
 		return FString::EMPTY;
 
-	const TVector<FString>& layerNames = _scene2D->LayerNames();
-	return _layer < layerNames.Size() ? layerNames[_layer] : FString::EMPTY;
+	const THashMap<FString, unsigned char>& layers = _scene2D->Layers();
+
+	// Find value with layouts.
+	for (auto it = layers.Begin(); it != layers.End(); ++it)
+	{
+		if (it->_second == _layer)
+		{
+			return it->_first;
+		}
+	}
+
+	ErrorString("Fail find this layer from scene define layers");
+	return FString::EMPTY;
 }
 
 const FString& ANode2D::GetTagName() const
@@ -298,8 +291,19 @@ const FString& ANode2D::GetTagName() const
 	if (!_scene2D)
 		return FString::EMPTY;
 
-	const TVector<FString>& tagNames = _scene2D->TagNames();
-	return _tag < tagNames.Size() ? tagNames[_layer] : FString::EMPTY;
+	const THashMap<FString, unsigned char>& tags = _scene2D->Tags();
+
+	// Find value with tags.
+	for (auto it = tags.Begin(); it != tags.End(); ++it)
+	{
+		if (it->_second == _tag)
+		{
+			return it->_first;
+		}
+	}
+
+	ErrorString("Fail find this tag from scene define tags");
+	return FString::EMPTY;
 }
 
 size_t ANode2D::NumPersistentChildren() const

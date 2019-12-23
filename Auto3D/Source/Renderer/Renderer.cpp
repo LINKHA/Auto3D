@@ -70,7 +70,7 @@ inline bool CompareLights(ALight* lhs, ALight* rhs)
 FRendererModule::FRendererModule() :
 	_camera(nullptr),
 	_octree(nullptr),
-	_scenes(nullptr),
+	_scene(nullptr),
 	_usedShadowViews(0),
 	_viewLayoutMask(NULL),
     _frameNumber(0),
@@ -146,10 +146,10 @@ bool FRendererModule::CollectObjects(AScene* scene, ACamera* camera)
         it->Clear();
     _usedShadowViews = 0;
 
-    _scenes = scene;
+    _scene = scene;
     _camera = camera;
-    _octree = _scenes ? _scenes->FindChild<AOctree>() : nullptr;
-    if (!_scenes || !_camera || !_octree)
+    _octree = _scene ? _scene->FindChild<AOctree>() : nullptr;
+    if (!_scene || !_camera || !_octree)
         return false;
 
     // Increment frame number. Never use 0, as that is the default for objects that have never been rendered

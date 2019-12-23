@@ -52,15 +52,26 @@ public:
 	/// Get 2D physics world.
 	APhysicsWorld2D* GetPhysicsWorld();
 
-private:
+	/// Define a layer name. There can be 32 different layers (indices 0-31.)
+	void DefineLayer(unsigned char index, const FString& name);
+	/// Define a tag name.
+	void DefineTag(unsigned char index, const FString& name);
+
+	/// Return the layer name-to-index map.
+	const THashMap<FString, unsigned char>& Layers() const { return _defineLayers; }
+	/// Return the tag name-to-index map.
+	const THashMap<FString, unsigned char>& Tags() const { return _defineTags; }
+public:
 	/// Set layer names. Used in serialization.
 	void SetLayerNamesAttr(FJSONValue names);
 	/// Return layer names. Used in serialization.
-	FJSONValue LayerNamesAttr() const;
+	FJSONValue GetLayerNamesAttr() const;
 	/// Set tag names. Used in serialization.
 	void SetTagNamesAttr(FJSONValue names);
 	/// Return tag names. Used in serialization.
-	FJSONValue TagNamesAttr() const;
+	FJSONValue GetTagNamesAttr() const;
+private:
+	
 
 	/// Map from id to nodes.
 	THashMap<unsigned, ANode2D*> _nodes;
@@ -71,6 +82,11 @@ private:
 
 	/// APhysics world 2D custom assign this variable
 	APhysicsWorld2D* _physicsWorld;
+
+	/// Map from layer names to indices.
+	THashMap<FString, unsigned char> _defineLayers;
+	/// Map from tag names to indices.
+	THashMap<FString, unsigned char> _defineTags;
 };
 
 

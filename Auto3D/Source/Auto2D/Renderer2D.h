@@ -62,7 +62,7 @@ private:
 	/// Renderer2D rendering batches.
 	TVector<FBatch2D> _batches;
 	/// Current scene.
-	AScene2D* _scenes;
+	AScene2D* _scene;
 	/// Current 2d camera.
 	ACamera2D* _camera;
 	/// FGeometry nodes

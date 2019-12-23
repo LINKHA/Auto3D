@@ -56,10 +56,6 @@ public:
 	void SetTemporary(bool enable);
 	/// Reparent the node.
 	void SetParent(ANode2D* newParent);
-	/// Define a layer name. There can be 32 different layers (indices 0-31.)
-	void DefineLayer(unsigned char index, const FString& name);
-	/// Define a tag name.
-	void DefineTag(unsigned char index, const FString& name);
 	/// Create child node of specified type. A registered object factory for the type is required.
 	ANode2D* CreateChild(FStringHash childType);
 	/// Create named child node of specified type.
@@ -160,14 +156,6 @@ public:
 	void SetScene2D(AScene2D* newScene);
 	/// Assign new _id. Called internally.
 	void SetId(unsigned newId);
-	/// Return the layer names.
-	const TVector<FString>& LayerNames() const { return _layerNames; }
-	/// Return the layer name-to-index map.
-	const THashMap<FString, unsigned char>& Layers() const { return _layers; }
-	/// Return the tag names.
-	const TVector<FString>& TagNames() const { return _tagNames; }
-	/// Return the tag name-to-index map.
-	const THashMap<FString, unsigned char>& Tags() const { return _tags; }
 
 	/// This function is called when the parent node of this class is assigned.
 	virtual void ParentCallBack() { }
@@ -181,16 +169,6 @@ protected:
 	virtual void OnScene2DSet(AScene2D* newScene, AScene2D* oldScene);
 	/// Handle the enabled status changing.
 	virtual void OnSetEnabled(bool newEnabled);
-
-	/// TList of layer names by index.
-	TVector<FString> _layerNames;
-	/// Map from layer names to indices.
-	THashMap<FString, unsigned char> _layers;
-	/// TList of tag names by index.
-	TVector<FString> _tagNames;
-	/// Map from tag names to indices.
-	THashMap<FString, unsigned char> _tags;
-
 private:
 	/// Parent node.
 	ANode2D* _parent;

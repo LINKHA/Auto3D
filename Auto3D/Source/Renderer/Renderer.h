@@ -117,7 +117,7 @@ private:
     /// AGraphics subsystem pointer.
     TWeakPtr<FGraphicsModule> _graphics;
     /// Current scene.
-    AScene* _scenes;
+    AScene* _scene;
     /// Current scene camera.
     ACamera* _camera;
     /// Current octree.

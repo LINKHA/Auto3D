@@ -45,7 +45,7 @@ ANode::ANode() :
     _layer(LAYER_DEFAULT),
     _tag(TAG_NONE),
     _parent(nullptr),
-    _scenes(nullptr),
+    _scene(nullptr),
     _id(0)
 {
 }
@@ -55,7 +55,7 @@ ANode::~ANode()
     RemoveAllChildren();
     // At the time of destruction the node should not have a parent, or be in a scene
     assert(!_parent);
-    assert(!_scenes);
+    assert(!_scene);
 }
 
 void ANode::RegisterObject()
@@ -79,10 +79,10 @@ void ANode::SetLayer(unsigned char newLayer)
 
 void ANode::SetLayerName(const FString& newLayerName)
 {
-    if (!_scenes)
+    if (!_scene)
         return;
     
-	const THashMap<FString, unsigned char>& layers = _scenes->Layers();
+	const THashMap<FString, unsigned char>& layers = _scene->Layers();
 
 	auto it = layers.Find(newLayerName);
 	if (it != layers.End())
@@ -101,10 +101,10 @@ void ANode::SetTag(unsigned char newTag)
 
 void ANode::SetTagName(const FString& newTagName)
 {
-	if (!_scenes)
+	if (!_scene)
 		return;
 
-	const THashMap<FString, unsigned char>& tags = _scenes->Tags();
+	const THashMap<FString, unsigned char>& tags = _scene->Tags();
 
 	auto it = tags.Find(newTagName);
 	if (it != tags.End())
@@ -206,12 +206,12 @@ void ANode::AddChild(ANode* child)
     _children.Push(child);
     child->_parent = this;
     child->OnParentSet(this, oldParent);
-	if (_scenes)
+	if (_scene)
 	{
-		_scenes->AddNode(child);
+		_scene->AddNode(child);
 		if (child->GetType() == ACamera::GetTypeStatic())
 		{
-			_scenes->AddCamera(dynamic_cast<ACamera*>(child));
+			_scene->AddCamera(dynamic_cast<ACamera*>(child));
 		}
 	}
         
@@ -241,8 +241,8 @@ void ANode::RemoveChild(size_t index)
     // Detach from both the parent and the scene (removes _id assignment)
     child->_parent = nullptr;
     child->OnParentSet(this, nullptr);
-    if (_scenes)
-        _scenes->RemoveNode(child);
+    if (_scene)
+        _scene->RemoveNode(child);
     _children.Erase(index);
 }
 
@@ -253,8 +253,8 @@ void ANode::RemoveAllChildren()
         ANode* child = *it;
         child->_parent = nullptr;
         child->OnParentSet(this, nullptr);
-        if (_scenes)
-            _scenes->RemoveNode(child);
+        if (_scene)
+            _scene->RemoveNode(child);
         it->Reset();
     }
 
@@ -271,10 +271,10 @@ void ANode::RemoveSelf()
 
 const FString& ANode::GetLayerName() const
 {
-	if (!_scenes)
+	if (!_scene)
 		return FString::EMPTY;
 
-	const THashMap<FString, unsigned char>& layers = _scenes->Layers();
+	const THashMap<FString, unsigned char>& layers = _scene->Layers();
 
 	// Find value with layouts.
 	for (auto it = layers.Begin(); it != layers.End(); ++it)
@@ -291,10 +291,10 @@ const FString& ANode::GetLayerName() const
 
 const FString& ANode::GetTagName() const
 {
-	if (!_scenes)
+	if (!_scene)
 		return FString::EMPTY;
 
-	const THashMap<FString, unsigned char>& tags = _scenes->Tags();
+	const THashMap<FString, unsigned char>& tags = _scene->Tags();
 
 	// Find value with tags.
 	for (auto it = tags.Begin(); it != tags.End(); ++it)
@@ -511,9 +511,9 @@ void ANode::FindChildrenByTag(TVector<ANode*>& result, const char* tagName, bool
 
 void ANode::SetScene(AScene* newScene)
 {
-    AScene* oldScene = _scenes;
-    _scenes = newScene;
-    OnSceneSet(_scenes, oldScene);
+    AScene* oldScene = _scene;
+    _scene = newScene;
+    OnSceneSet(_scene, oldScene);
 }
 
 void ANode::SetId(unsigned newId)

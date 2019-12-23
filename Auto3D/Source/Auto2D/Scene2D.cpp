@@ -23,14 +23,14 @@ REGISTER_CLASS
 	.constructor<>()
 	.property_readonly("cameras", &AScene2D::GetCameras)
 	.property("physicsWorld", &AScene2D::GetPhysicsWorld, &AScene2D::SetPhysicsWorld)
-	//.property("layerNames", &AScene2D::GetLayerNamesAttr, &AScene2D::SetLayerNamesAttr)
-	//(
-	//	metadata(SERIALIZABLE, "")
-	//)
-	//.property("tagNames", &AScene2D::GetTagNamesAttr, &AScene2D::SetTagNamesAttr)
-	//(
-	//	metadata(SERIALIZABLE, "")
-	//)
+	.property("layerNames", &AScene2D::GetLayerNamesAttr, &AScene2D::SetLayerNamesAttr)
+	(
+		metadata(SERIALIZABLE, "")
+	)
+	.property("tagNames", &AScene2D::GetTagNamesAttr, &AScene2D::SetTagNamesAttr)
+	(
+		metadata(SERIALIZABLE, "")
+	)
 	;
 }
 
@@ -177,52 +177,68 @@ APhysicsWorld2D* AScene2D::GetPhysicsWorld()
 	return nullptr;
 }
 
+void AScene2D::DefineLayer(unsigned char index, const FString& name)
+{
+	if (index >= 32)
+	{
+		ErrorString("Can not define more than 32 layers");
+		return;
+	}
+	_defineLayers[name] = index;
+}
+
+void AScene2D::DefineTag(unsigned char index, const FString& name)
+{
+	if (index >= 32)
+	{
+		ErrorString("Can not define more than 32 layers");
+		return;
+	}
+	_defineTags[name] = index;
+}
+
 void AScene2D::SetLayerNamesAttr(FJSONValue names)
 {
-	_layerNames.Clear();
-	_layers.Clear();
+	_defineLayers.Clear();
 
 	const JSONArray& array = names.GetArray();
 	for (size_t i = 0; i < array.Size(); ++i)
 	{
 		const FString& name = array[i].GetString();
-		_layerNames.Push(name);
-		_layers[name] = (unsigned char)i;
+		_defineLayers[name] = (unsigned char)i;
 	}
 }
 
-FJSONValue AScene2D::LayerNamesAttr() const
+FJSONValue AScene2D::GetLayerNamesAttr() const
 {
 	FJSONValue ret;
 
 	ret.SetEmptyArray();
-	for (auto it = _layerNames.Begin(); it != _layerNames.End(); ++it)
-		ret.Push(*it);
+	for (auto it = _defineLayers.Begin(); it != _defineLayers.End(); ++it)
+		ret.Push(it->_first);
 
 	return ret;
 }
 
 void AScene2D::SetTagNamesAttr(FJSONValue names)
 {
-	_tagNames.Clear();
-	_tags.Clear();
+	_defineTags.Clear();
 
 	const JSONArray& array = names.GetArray();
 	for (size_t i = 0; i < array.Size(); ++i)
 	{
 		const FString& name = array[i].GetString();
-		_tagNames.Push(name);
-		_tags[name] = (unsigned char)i;
+		_defineTags[name] = (unsigned char)i;
 	}
 }
 
-FJSONValue AScene2D::TagNamesAttr() const
+FJSONValue AScene2D::GetTagNamesAttr() const
 {
 	FJSONValue ret;
 
 	ret.SetEmptyArray();
-	for (auto it = _tagNames.Begin(); it != _tagNames.End(); ++it)
-		ret.Push(*it);
+	for (auto it = _defineTags.Begin(); it != _defineTags.End(); ++it)
+		ret.Push(it->_first);
 
 	return ret;
 }

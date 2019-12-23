@@ -108,7 +108,7 @@ bool FRenderer2DModule::Collect2dObjects(AScene2D* scend2d, ACamera2D* camera)
 	_geometryNode.Clear();
 	_batchQueue.Clear();
 	_instanceTransforms.Clear();
-	_scenes = scend2d;
+	_scene = scend2d;
 	_camera = camera;
 	//Classify Renderer2D nodes to remove nodes that are not in the view
 	//\note TEMP Temporarily all join

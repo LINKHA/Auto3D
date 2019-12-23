@@ -101,7 +101,7 @@ public:
     /// Return parent node.
     ANode* Parent() const { return _parent; }
     /// Return the scene that the node belongs to.
-    AScene* ParentScene() const { return _scenes; }
+    AScene* ParentScene() const { return _scene; }
     /// Return number of immediate child nodes.
     size_t NumChildren() const { return _children.Size(); }
     /// Return number of immediate child nodes that are not temporary.
@@ -178,7 +178,7 @@ private:
     /// Parent node.
     ANode* _parent;
     /// Parent scene (If in the scene)
-    AScene* _scenes;
+    AScene* _scene;
     /// Child nodes.
     TVector<TSharedPtr<ANode> > _children;
     /// Id within the scene.
