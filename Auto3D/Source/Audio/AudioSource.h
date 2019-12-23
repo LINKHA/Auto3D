@@ -1,6 +1,7 @@
 #pragma once
 #include "AudioNode.h"
 #include "Audio.h"
+#include "IO/ResourceRef.h"
 
 namespace Auto3D 
 {

@@ -1,6 +1,5 @@
 #include "Debug/Log.h"
 #include "IO/Stream.h"
-#include "Core/ObjectResolver.h"
 #include "Resource/JSONFile.h"
 #include "Scene2D.h"
 #include "Node2D.h"
@@ -516,31 +515,6 @@ void ANode2D::SetScene2D(AScene2D* newScene2D)
 void ANode2D::SetId(unsigned newId)
 {
 	_id = newId;
-}
-
-void ANode2D::SkipHierarchy(FStream& source)
-{
-	ASerializable::Skip(source);
-
-	size_t numChildren = source.ReadVLE();
-	for (size_t i = 0; i < numChildren; ++i)
-	{
-		source.Read<FStringHash>(); // FStringHash childType
-		source.Read<unsigned>(); // unsigned childId
-		SkipHierarchy(source);
-	}
-}
-
-void ANode2D::OnParentSet(ANode2D*, ANode2D*)
-{
-}
-
-void ANode2D::OnScene2DSet(AScene2D*, AScene2D*)
-{
-}
-
-void ANode2D::OnSetEnabled(bool)
-{
 }
 
 }

@@ -7,7 +7,6 @@
 #include "Container/List.h"
 #include "Container/Ptr.h"
 #include "Core/ProcessUtils.h"
-#include "Core/Serializable.h"
 #include "Debug/Log.h"
 #include "Debug/Profiler.h"
 #include "Graphics/ConstantBuffer.h"

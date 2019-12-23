@@ -6,6 +6,7 @@
 #include "Scene/GeometryNode.h"
 #include "Material.h"
 #include "Model.h"
+#include "IO/Stream.h"
 
 #include "Debug/DebugNew.h"
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/Serializable.h"
+#include "Core/Object/Object.h"
 
 namespace Auto3D
 {
@@ -161,19 +161,14 @@ public:
     void SetId(unsigned newId);
 
 	/// This function is called when the parent node of this class is assigned.
-	virtual void ParentCallBack() { }
-    /// Skip the binary data of a node hierarchy, in case the node could not be created.
-    static void SkipHierarchy(FStream& source);
-
-public:
-
+	virtual void ParentCallBack() {}
 protected:
     /// Handle being assigned to a new parent node.
-    virtual void OnParentSet(ANode* newParent, ANode* oldParent);
+	virtual void OnParentSet(ANode* newParent, ANode* oldParent) {}
     /// Handle being assigned to a new scene.
-    virtual void OnSceneSet(AScene* newScene, AScene* oldScene);
+    virtual void OnSceneSet(AScene* newScene, AScene* oldScene) {}
     /// Handle the enabled status changing.
-    virtual void OnSetEnabled(bool newEnabled);
+    virtual void OnSetEnabled(bool newEnabled) {}
 private:
     /// Parent node.
     ANode* _parent;

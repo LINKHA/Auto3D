@@ -1,6 +1,7 @@
 #include "Serialization.h"
 #include "Debug/Log.h"
 #include "Debug/Profiler.h"
+#include "IO/Stream.h"
 
 namespace Auto3D
 {
@@ -385,11 +386,11 @@ void FSerializationModule::SavePropertyJSON(FJSONValue& dest, const FProperty& p
 		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<FResourceRefList>().ToString();
 		break;
 
-	case EAttributeType::OBJECTREF:
+	case EPropertyType::OBJECTREF:
 		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<FObjectRef>()._id;
 		break;
 
-	case EAttributeType::JSONVALUE:
+	case EPropertyType::JSONVALUE:
 		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<FJSONValue>();
 	default:
 		break;
@@ -628,7 +629,7 @@ void FSerializationModule::LoadPropertyJSON(const FJSONValue& source, const FPro
 	}
 	break;
 
-	case EAttributeType::OBJECTREF:
+	case EPropertyType::OBJECTREF:
 	{
 		FObjectRef objectRef;
 		objectRef._id = (unsigned)source.GetNumber();
@@ -636,7 +637,7 @@ void FSerializationModule::LoadPropertyJSON(const FJSONValue& source, const FPro
 	}
 	break;
 
-	case EAttributeType::JSONVALUE:
+	case EPropertyType::JSONVALUE:
 		prop.set_value(node, source);
 	default:
 		break;
@@ -775,11 +776,11 @@ void FSerializationModule::SaveProperty(FStream& dest, const FProperty& prop, AN
 		dest.Write<FString>(prop.get_value(node).get_value<FResourceRefList>().ToString());
 		break;
 
-	case EAttributeType::OBJECTREF:
+	case EPropertyType::OBJECTREF:
 		dest.Write<unsigned>(prop.get_value(node).get_value<FObjectRef>()._id);
 		break;
 
-	case EAttributeType::JSONVALUE:
+	case EPropertyType::JSONVALUE:
 		dest.Write<FJSONValue>(prop.get_value(node).get_value<FJSONValue>());
 		break;
 
@@ -1007,7 +1008,7 @@ void FSerializationModule::LoadProperty(FStream& source, const FProperty& prop, 
 	}
 	break;
 
-	case EAttributeType::OBJECTREF:
+	case EPropertyType::OBJECTREF:
 	{
 		FObjectRef objectRef;
 		objectRef._id = (unsigned)source.Read<unsigned>();
@@ -1015,7 +1016,7 @@ void FSerializationModule::LoadProperty(FStream& source, const FProperty& prop, 
 	}
 	break;
 
-	case EAttributeType::JSONVALUE:
+	case EPropertyType::JSONVALUE:
 		prop.set_value(node, source.Read<FJSONValue>());
 	default:
 		break;
@@ -1148,11 +1149,11 @@ void FSerializationModule::SavePropertyJSON(FJSONValue& dest, const FProperty& p
 		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<FResourceRefList>().ToString();
 		break;
 
-	case EAttributeType::OBJECTREF:
+	case EPropertyType::OBJECTREF:
 		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<FObjectRef>()._id;
 		break;
 
-	case EAttributeType::JSONVALUE:
+	case EPropertyType::JSONVALUE:
 		dest[RtToStr(prop.get_name())] = prop.get_value(node).get_value<FJSONValue>();
 	default:
 		break;
@@ -1391,7 +1392,7 @@ void FSerializationModule::LoadPropertyJSON(const FJSONValue& source, const FPro
 	}
 	break;
 
-	case EAttributeType::OBJECTREF:
+	case EPropertyType::OBJECTREF:
 	{
 		FObjectRef objectRef;
 		objectRef._id = (unsigned)source.GetNumber();
@@ -1399,7 +1400,7 @@ void FSerializationModule::LoadPropertyJSON(const FJSONValue& source, const FPro
 	}
 	break;
 
-	case EAttributeType::JSONVALUE:
+	case EPropertyType::JSONVALUE:
 		prop.set_value(node, source);
 	default:
 		break;
@@ -1538,11 +1539,11 @@ void FSerializationModule::SaveProperty(FStream& dest, const FProperty& prop, AN
 		dest.Write<FString>(prop.get_value(node).get_value<FResourceRefList>().ToString());
 		break;
 
-	case EAttributeType::OBJECTREF:
+	case EPropertyType::OBJECTREF:
 		dest.Write<unsigned>(prop.get_value(node).get_value<FObjectRef>()._id);
 		break;
 
-	case EAttributeType::JSONVALUE:
+	case EPropertyType::JSONVALUE:
 		dest.Write<FJSONValue>(prop.get_value(node).get_value<FJSONValue>());
 		break;
 
@@ -1770,7 +1771,7 @@ void FSerializationModule::LoadProperty(FStream& source, const FProperty& prop, 
 	}
 	break;
 
-	case EAttributeType::OBJECTREF:
+	case EPropertyType::OBJECTREF:
 	{
 		FObjectRef objectRef;
 		objectRef._id = (unsigned)source.Read<unsigned>();
@@ -1778,7 +1779,7 @@ void FSerializationModule::LoadProperty(FStream& source, const FProperty& prop, 
 	}
 	break;
 
-	case EAttributeType::JSONVALUE:
+	case EPropertyType::JSONVALUE:
 		prop.set_value(node, source.Read<FJSONValue>());
 	default:
 		break;

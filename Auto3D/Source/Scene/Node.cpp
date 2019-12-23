@@ -1,6 +1,5 @@
 #include "Debug/Log.h"
 #include "IO/Stream.h"
-#include "Core/ObjectResolver.h"
 #include "Resource/JSONFile.h"
 #include "Engine/Components/Camera.h"
 #include "Scene.h"
@@ -521,29 +520,5 @@ void ANode::SetId(unsigned newId)
     _id = newId;
 }
 
-void ANode::SkipHierarchy(FStream& source)
-{
-    ASerializable::Skip(source);
-
-    size_t numChildren = source.ReadVLE();
-    for (size_t i = 0; i < numChildren; ++i)
-    {
-        source.Read<FStringHash>(); // FStringHash childType
-        source.Read<unsigned>(); // unsigned childId
-        SkipHierarchy(source);
-    }
-}
-
-void ANode::OnParentSet(ANode*, ANode*)
-{
-}
-
-void ANode::OnSceneSet(AScene*, AScene*)
-{
-}
-
-void ANode::OnSetEnabled(bool)
-{
-}
 
 }
