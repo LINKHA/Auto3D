@@ -7,6 +7,7 @@
 #include "Math/AutoMath.h"
 #include "IO/ObjectRef.h"
 #include "Debug/Log.h"
+#include "Auto2D/Scene2D.h"
 
 namespace Auto3D
 {
@@ -80,6 +81,17 @@ public:
 	bool SaveRoot(FStream& dest, AScene* scene);
 	/// Load all nodes under scene as a binary format file.
 	bool LoadRoot(FStream& source, AScene* scene);
+
+	/// Save all nodes under the scene as a JSON format file.
+	bool SaveRootJSON(FStream& dest, AScene2D* scene);
+	/// Load all nodes under the scene as a JSON format file.
+	bool LoadRootJSON(FStream& source, AScene2D* scene);
+	/// Load all nodes under the scene as a JSON format file.
+	bool LoadRootJSON(const FJSONValue& source, AScene2D* scene);
+	/// Save all nodes under scene as a binary format file.
+	bool SaveRoot(FStream& dest, AScene2D* scene);
+	/// Load all nodes under scene as a binary format file.
+	bool LoadRoot(FStream& source, AScene2D* scene);
 private:
 	/// Save node and child to JSON.
 	void SaveJSON(FJSONValue& dest, ANode* node);
@@ -105,6 +117,31 @@ private:
 	void LoadPropertys(FStream& source, ANode* node);
 	/// Load property to binary.
 	void LoadProperty(FStream& source, const FProperty& prop, ANode* node);
+
+	/// Save node and child to JSON.
+	void SaveJSON(FJSONValue& dest, ANode2D* node);
+	/// Save node all property to JSON.
+	void SavePropertyJSONs(FJSONValue& dest, ANode2D* node);
+	/// Save property to JSON.
+	void SavePropertyJSON(FJSONValue& dest, const FProperty& prop, ANode2D* node);
+	/// Load node and child from JSON.
+	void LoadJSON(const FJSONValue& source, ANode2D* node);
+	/// Load node all property to JSON.
+	void LoadPropertyJSONs(const FJSONValue& source, ANode2D* node);
+	/// Load property to JSON.
+	void LoadPropertyJSON(const FJSONValue& source, const FProperty& prop, ANode2D* node);
+	/// Save node and child to binary.
+	void Save(FStream& dest, ANode2D* node);
+	/// Save node all property to binary.
+	void SavePropertys(FStream& dest, ANode2D* node);
+	/// Save property to binary.
+	void SaveProperty(FStream& dest, const FProperty& prop, ANode2D* node);
+	/// Load node and child from binary.
+	void Load(FStream& source, ANode2D* node);
+	/// Load node all property to binary.
+	void LoadPropertys(FStream& source, ANode2D* node);
+	/// Load property to binary.
+	void LoadProperty(FStream& source, const FProperty& prop, ANode2D* node);
 
 	///The model Materials relation falg citation serialization needs to keep the first model Materials member to record whether a 
 	///JSONValue came first for materialsAttr, which becomes false after a single JSONValue is read

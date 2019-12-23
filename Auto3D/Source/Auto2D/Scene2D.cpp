@@ -7,13 +7,32 @@
 #include "RegisteredBox/RegisteredBox.h"
 #include "Core/Modules/ModuleManager.h"
 #include "Auto2D/PhysicsWorld2D.h"
-
+#include "Serialization/Serialization.h"
+#include "Auto2D/Camera2D.h"
 #include "Scene2D.h"
 
 #include "Debug/DebugNew.h"
 
 namespace Auto3D
 {
+
+REGISTER_CLASS
+{
+	using namespace rttr;
+	registration::class_<AScene2D>("AScene2D")
+	.constructor<>()
+	.property_readonly("cameras", &AScene2D::GetCameras)
+	.property("physicsWorld", &AScene2D::GetPhysicsWorld, &AScene2D::SetPhysicsWorld)
+	//.property("layerNames", &AScene2D::GetLayerNamesAttr, &AScene2D::SetLayerNamesAttr)
+	//(
+	//	metadata(SERIALIZABLE, "")
+	//)
+	//.property("tagNames", &AScene2D::GetTagNamesAttr, &AScene2D::SetTagNamesAttr)
+	//(
+	//	metadata(SERIALIZABLE, "")
+	//)
+	;
+}
 
 AScene2D::AScene2D() :
 	_nextNodeId(1)
@@ -37,140 +56,37 @@ AScene2D::~AScene2D()
 void AScene2D::RegisterObject()
 {
 	RegisterFactory<AScene2D>();
-	CopyBaseAttributes<AScene2D, ANode2D>();
-	RegisterAttribute("layerNames", &AScene2D::LayerNamesAttr, &AScene2D::SetLayerNamesAttr);
-	RegisterAttribute("tagNames", &AScene2D::TagNamesAttr, &AScene2D::SetTagNamesAttr);
 }
 
 
-void AScene2D::Save(FStream& dest)
+bool AScene2D::Save(FStream& dest)
 {
-	PROFILE(SaveScene);
-
-	InfoString("Saving scene to " + dest.GetName());
-
-	dest.WriteFileID("SCNE");
-	ANode2D::Save(dest);
+	auto* serialization = GModuleManager::Get().SerializationModule();
+	return serialization->SaveRoot(dest, this);
 }
 
 bool AScene2D::Load(FStream& source)
 {
-	PROFILE(LoadScene);
-
-	InfoString("Loading scene from " + source.GetName());
-
-	FString fileId = source.ReadFileID();
-	if (fileId != "SCNE")
-	{
-		ErrorString("File is not a binary scene file");
-		return false;
-	}
-
-	FStringHash ownType = source.Read<FStringHash>();
-	unsigned ownId = source.Read<unsigned>();
-	if (ownType != GetTypeStatic())
-	{
-		ErrorString("Mismatching type of scene root node in scene file");
-		return false;
-	}
-
-	Clear();
-
-	FObjectResolver resolver;
-	resolver.StoreObject(ownId, this);
-	ANode2D::Load(source, resolver);
-	resolver.Resolve();
-
-	return true;
+	auto* serialization = GModuleManager::Get().SerializationModule();
+	return serialization->LoadRoot(source, this);
 }
 
 bool AScene2D::LoadJSON(const FJSONValue& source)
 {
-	PROFILE(LoadSceneJSON);
-
-	FStringHash ownType(source["type"].GetString());
-	unsigned ownId = (unsigned)source["id"].GetNumber();
-
-	if (ownType != GetTypeStatic())
-	{
-		ErrorString("Mismatching type of scene root node in scene file");
-		return false;
-	}
-
-	Clear();
-
-	FObjectResolver resolver;
-	resolver.StoreObject(ownId, this);
-	ANode2D::LoadJSON(source, resolver);
-	resolver.Resolve();
-
-	return true;
+	auto* serialization = GModuleManager::Get().SerializationModule();
+	return serialization->LoadRootJSON(source, this);
 }
 
 bool AScene2D::LoadJSON(FStream& source)
 {
-	InfoString("Loading scene from " + source.GetName());
-
-	AJSONFile json;
-	bool success = json.Load(source);
-	LoadJSON(json.Root());
-	return success;
+	auto* serialization = GModuleManager::Get().SerializationModule();
+	return serialization->LoadRootJSON(source, this);
 }
 
 bool AScene2D::SaveJSON(FStream& dest)
 {
-	PROFILE(SaveSceneJSON);
-
-	InfoString("Saving scene to " + dest.GetName());
-
-	AJSONFile json;
-	ANode2D::SaveJSON(json.Root());
-	return json.Save(dest);
-}
-
-ANode2D* AScene2D::Instantiate(FStream& source)
-{
-	PROFILE(Instantiate);
-
-	FObjectResolver resolver;
-	FStringHash childType(source.Read<FStringHash>());
-	unsigned childId = source.Read<unsigned>();
-
-	ANode2D* child = CreateChild(childType);
-	if (child)
-	{
-		resolver.StoreObject(childId, child);
-		child->Load(source, resolver);
-		resolver.Resolve();
-	}
-
-	return child;
-}
-
-ANode2D* AScene2D::InstantiateJSON(const FJSONValue& source)
-{
-	PROFILE(InstantiateJSON);
-
-	FObjectResolver resolver;
-	FStringHash childType(source["type"].GetString());
-	unsigned childId = (unsigned)source["id"].GetNumber();
-
-	ANode2D* child = CreateChild(childType);
-	if (child)
-	{
-		resolver.StoreObject(childId, child);
-		child->LoadJSON(source, resolver);
-		resolver.Resolve();
-	}
-
-	return child;
-}
-
-ANode2D* AScene2D::InstantiateJSON(FStream& source)
-{
-	AJSONFile json;
-	json.Load(source);
-	return InstantiateJSON(json.Root());
+	auto* serialization = GModuleManager::Get().SerializationModule();
+	return serialization->SaveRootJSON(dest, this);
 }
 
 void AScene2D::Clear()

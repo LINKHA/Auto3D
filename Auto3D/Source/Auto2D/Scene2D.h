@@ -11,6 +11,8 @@ class APhysicsWorld2D;
 class AUTO_API AScene2D : public ANode2D
 {
 	DECLARE_CLASS(AScene2D, ANode2D)
+
+	DECLARE_CLASS_NEW(AScene2D, ANode2D)
 public:
 	/// The constructor
 	AScene2D();
@@ -20,7 +22,7 @@ public:
 	static void RegisterObject();
 
 	/// Save canvas to binary stream.
-	void Save(FStream& dest) override;
+	bool Save(FStream& dest);
 	/// Load canvas from a binary stream. Existing Nodes will be destroyed. Return true on success.
 	bool Load(FStream& source);
 	/// Load canvas from JSON data. Existing Nodes will be destroyed. Return true on success.
@@ -29,12 +31,6 @@ public:
 	bool LoadJSON(FStream& source);
 	/// Save canvas as JSON text data to a binary stream. Return true on success.
 	bool SaveJSON(FStream& dest);
-	/// Instantiate ANode2D(s) from binary stream and return the root ANode2D.
-	ANode2D* Instantiate(FStream& source);
-	/// Instantiate ANode2D(s) from JSON data and return the root ANode2D.
-	ANode2D* InstantiateJSON(const FJSONValue& source);
-	/// Load JSON data as text from a binary stream, then instantiate ANode2D(s) from it and return the root ANode2D.
-	ANode2D* InstantiateJSON(FStream& source);
 	/// Destroy child nodes recursively, leaving the canvas empty.
 	void Clear();
 	/// Find ANode2D by id.
@@ -56,9 +52,6 @@ public:
 	/// Get 2D physics world.
 	APhysicsWorld2D* GetPhysicsWorld();
 
-	using ANode2D::Load;
-	using ANode2D::LoadJSON;
-	using ANode2D::SaveJSON;
 private:
 	/// Set layer names. Used in serialization.
 	void SetLayerNamesAttr(FJSONValue names);

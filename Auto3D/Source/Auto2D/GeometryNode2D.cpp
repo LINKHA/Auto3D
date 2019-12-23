@@ -18,7 +18,6 @@ AGeometryNode2D::~AGeometryNode2D()
 void AGeometryNode2D::RegisterObject()
 {
 	RegisterFactory<AGeometryNode2D>();
-	CopyBaseAttributes<AGeometryNode2D, ASpatialNode2D>();
 }
 
 void AGeometryNode2D::SetGeometryType(EGeometryType::Type type)

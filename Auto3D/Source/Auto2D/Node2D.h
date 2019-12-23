@@ -22,9 +22,11 @@ static const unsigned char TAG_2D_NONE = 0x0;
 static const unsigned LAYERMASK_2D_ALL = 0xffffffff;
 
 /// Renderer2D nodes provide tag and layout
-class AUTO_API ANode2D : public ASerializable
+class AUTO_API ANode2D : public AObject
 {
-	DECLARE_CLASS(ANode2D, ASerializable)
+	DECLARE_CLASS(ANode2D, AObject)
+
+	DECLARE_BASE_CLASS_NEW(ANode2D)
 public:
 	/// Construct.
 	ANode2D();
@@ -34,22 +36,10 @@ public:
 	/// Register factory and attributes.
 	static void RegisterObject();
 
-	/// Load from binary stream. Store node references to be resolved later.
-	void Load(FStream& source, FObjectResolver& resolver) override;
-	/// Save to binary stream.
-	void Save(FStream& dest) override;
-	/// Load from JSON data. Store node references to be resolved later.
-	void LoadJSON(const FJSONValue& source, FObjectResolver& resolver) override;
-	/// Save as JSON data.
-	void SaveJSON(FJSONValue& dest) override;
 	/// Return unique _id within the scene, or 0 if not in a scene.
-	unsigned Id() const override { return _id; }
-	/// Save as JSON text data to a binary stream. Return true on success.
-	bool SaveJSON(FStream& dest);
+	unsigned Id() const { return _id; }
 	/// Set name. Is not required to be unique within the scene.
 	void SetName(const FString& newName);
-	/// Set name.
-	void SetName(const char* newName);
 	/// Set node's layer. Usage is subclass specific, for example rendering nodes selectively. Default is 0.
 	void SetLayer(unsigned char newLayer);
 	/// Set node's layer by name. The layer name must have been registered to the scene root beforehand.

@@ -23,6 +23,8 @@ namespace EFace2DCameraMode
 class AUTO_API ACamera2D : public ASpatialNode2D
 {
 	DECLARE_CLASS(ACamera2D, ASpatialNode2D)
+
+	DECLARE_CLASS_NEW(ACamera2D, ASpatialNode2D)
 public:
 	ACamera2D();
 	~ACamera2D();
@@ -141,20 +143,20 @@ public:
 	/// Return if projection parameters are _valid for rendering and raycasting.
 	bool IsProjectionValid() const;
 
+public:
+	/// Set reflection plane as vector. Used in serialization.
+	void SetReflectionPlaneAttr(const TVector4F& value);
+	/// Return reflection plane as vector. Used in serialization.
+	const TVector4F& ReflectionPlaneAttr() const;
+	/// Set clipping plane attribute as vector. Used in serialization.
+	void SetClipPlaneAttr(const TVector4F& value);
+	/// Return clipping plane attribute as vector. Used in serialization.
+	const TVector4F& ClipPlaneAttr() const;
 protected:
 	/// Handle the transform matrix changing.
 	void OnTransformChanged() override;
 
 private:
-	/// Set reflection plane as vector. Used in serialization.
-	void SetReflectionPlaneAttr(const TVector4F& value);
-	/// Return reflection plane as vector. Used in serialization.
-	TVector4F ReflectionPlaneAttr() const;
-	/// Set clipping plane attribute as vector. Used in serialization.
-	void SetClipPlaneAttr(const TVector4F& value);
-	/// Return clipping plane attribute as vector. Used in serialization.
-	TVector4F ClipPlaneAttr() const;
-
 	/// Cached view matrix.
 	mutable TMatrix3x4F _viewMatrix;
 	/// View matrix dirty flag.

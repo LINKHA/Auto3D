@@ -18,6 +18,74 @@ static const TMatrix4x4F flipMatrix(
 	0.0f, 0.0f, 0.0f, 1.0f
 );
 
+REGISTER_CLASS
+{
+	using namespace rttr;
+	FRegistration::class_<ACamera2D>("ACamera2D")
+	.constructor<>()
+		.property("nearClip", &ACamera2D::GetNearClip, &ACamera2D::SetNearClip)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("farClip", &ACamera2D::GetFarClip, &ACamera2D::SetFarClip)
+		(
+			metadata(SERIALIZABLE,"")
+		)
+		.property("fov", &ACamera2D::GetFov, &ACamera2D::SetFov)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("aspectRatio", &ACamera2D::GetAspectRatio, &ACamera2D::SetAspectRatio)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("orthographic", &ACamera2D::IsOrthographic, &ACamera2D::SetOrthographic)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("orthoSize", &ACamera2D::GetOrthoSize, static_cast<void(ACamera2D::*)(float)>(&ACamera2D::SetOrthoSize))
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("zoom", &ACamera2D::GetZoom, &ACamera2D::SetZoom)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("lodBias", &ACamera2D::GetLodBias, &ACamera2D::SetLodBias)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("viewMask", &ACamera2D::GetViewMask, &ACamera2D::SetLayoutMask)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("ambientColor", &ACamera2D::GetAmbientColor, &ACamera2D::SetAmbientColor)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("projectionOffset", &ACamera2D::GetProjectionOffset, &ACamera2D::SetProjectionOffset)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("reflectionPlane", &ACamera2D::ReflectionPlaneAttr, &ACamera2D::SetReflectionPlaneAttr)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("clipPlane", &ACamera2D::ClipPlaneAttr, &ACamera2D::SetClipPlaneAttr)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("useReflection", &ACamera2D::GetUseReflection, &ACamera2D::SetUseReflection)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("useClipping", &ACamera2D::GetUseClipping, &ACamera2D::SetUseClipping)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		;
+}
+
 ACamera2D::ACamera2D() :
 	_viewMatrix(TMatrix3x4F::IDENTITY),
 	_viewMatrixDirty(false),
@@ -49,23 +117,6 @@ ACamera2D::~ACamera2D()
 void ACamera2D::RegisterObject()
 {
 	RegisterFactory<ACamera2D>();
-	CopyBaseAttributes<ACamera2D, ASpatialNode2D>();
-
-	RegisterAttribute("nearClip", &ACamera2D::GetNearClip, &ACamera2D::SetNearClip, DEFAULT_NEARCLIP);
-	RegisterAttribute("farClip", &ACamera2D::GetFarClip, &ACamera2D::SetFarClip, DEFAULT_FARCLIP);
-	RegisterAttribute("fov", &ACamera2D::GetFov, &ACamera2D::SetFov, DEFAULT_FOV);
-	RegisterAttribute("aspectRatio", &ACamera2D::GetAspectRatio, &ACamera2D::SetAspectRatio, 1.0f);
-	RegisterAttribute("orthographic", &ACamera2D::IsOrthographic, &ACamera2D::SetOrthographic, false);
-	RegisterAttribute("orthoSize", &ACamera2D::GetOrthoSize, &ACamera2D::SetOrthoSize, DEFAULT_ORTHOSIZE);
-	RegisterAttribute("zoom", &ACamera2D::GetZoom, &ACamera2D::SetZoom, 1.0f);
-	RegisterAttribute("lodBias", &ACamera2D::GetLodBias, &ACamera2D::SetLodBias, 1.0f);
-	RegisterAttribute("viewMask", &ACamera2D::GetViewMask, &ACamera2D::SetLayoutMask, M_MAX_UNSIGNED);
-	RegisterRefAttribute("ambientColor", &ACamera2D::GetAmbientColor, &ACamera2D::SetAmbientColor, DEFAULT_AMBIENT_COLOR);
-	RegisterRefAttribute("projectionOffset", &ACamera2D::GetProjectionOffset, &ACamera2D::SetProjectionOffset, TVector2F::ZERO);
-	RegisterMixedRefAttribute("reflectionPlane", &ACamera2D::ReflectionPlaneAttr, &ACamera2D::SetReflectionPlaneAttr, TVector4F(0.0f, 1.0f, 0.0f, 0.0f));
-	RegisterMixedRefAttribute("clipPlane", &ACamera2D::ClipPlaneAttr, &ACamera2D::SetClipPlaneAttr, TVector4F(0.0f, 1.0f, 0.0f, 0.0f));
-	RegisterAttribute("useReflection", &ACamera2D::GetUseReflection, &ACamera2D::SetUseReflection, false);
-	RegisterAttribute("useClipping", &ACamera2D::GetUseClipping, &ACamera2D::SetUseClipping, false);
 }
 
 
@@ -526,12 +577,12 @@ void ACamera2D::SetClipPlaneAttr(const TVector4F& value)
 	SetClipPlane(FPlane(value));
 }
 
-TVector4F ACamera2D::ReflectionPlaneAttr() const
+const TVector4F& ACamera2D::ReflectionPlaneAttr() const
 {
 	return _reflectionPlane.ToVector4();
 }
 
-TVector4F ACamera2D::ClipPlaneAttr() const
+const TVector4F& ACamera2D::ClipPlaneAttr() const
 {
 	return _clipPlane.ToVector4();
 }

@@ -10,6 +10,34 @@
 namespace Auto3D
 {
 
+REGISTER_CLASS
+{
+	using namespace rttr;
+	FRegistration::class_<ANode2D>("ANode2D")
+	.constructor<>()
+		.property("name", &ANode2D::GetName, &ANode2D::SetName)
+		(
+			metadata(SERIALIZABLE, "")
+		)
+		.property("enabled", &ANode2D::IsEnabled, &ANode2D::SetEnabled)
+		(
+			metadata(SERIALIZABLE, true)
+		)
+		.property("temporary", &ANode2D::IsTemporary, &ANode2D::SetTemporary)
+		(
+			metadata(SERIALIZABLE, true)
+		)
+		.property("layer", &ANode2D::GetLayer, &ANode2D::SetLayer)
+		(
+			metadata(SERIALIZABLE, true)
+		)
+		.property("tag", &ANode2D::GetTag, &ANode2D::SetTag)
+		(
+			metadata(SERIALIZABLE, true)
+		)
+		;
+}
+
 ANode2D::ANode2D():
 	_flags(NF_2D_ENABLED),
 	_layer(LAYER_2D_DEFAULT),
@@ -34,107 +62,9 @@ void ANode2D::RegisterObject()
 	RegisterFactory<ANode2D>();
 }
 
-
-void ANode2D::Load(FStream& source, FObjectResolver& resolver)
-{
-	// Type and _id has been read by the parent
-	ASerializable::Load(source, resolver);
-
-	size_t numChildren = source.ReadVLE();
-	for (size_t i = 0; i < numChildren; ++i)
-	{
-		FStringHash childType(source.Read<FStringHash>());
-		unsigned childId = source.Read<unsigned>();
-		ANode2D* child = CreateChild(childType);
-		if (child)
-		{
-			resolver.StoreObject(childId, child);
-			child->Load(source, resolver);
-		}
-		else
-		{
-			// If child is unknown type, skip all its attributes and children
-			SkipHierarchy(source);
-		}
-	}
-}
-
-void ANode2D::Save(FStream& dest)
-{
-	// Write type and ID first, followed by attributes and child nodes
-	dest.Write(GetType());
-	dest.Write(Id());
-	ASerializable::Save(dest);
-	dest.WriteVLE(NumPersistentChildren());
-
-	for (auto it = _children.Begin(); it != _children.End(); ++it)
-	{
-		ANode2D* child = *it;
-		if (!child->IsTemporary())
-			child->Save(dest);
-	}
-}
-
-void ANode2D::LoadJSON(const FJSONValue& source, FObjectResolver& resolver)
-{
-	// Type and _id has been read by the parent
-	ASerializable::LoadJSON(source, resolver);
-
-	const JSONArray& children = source["children"].GetArray();
-	if (children.Size())
-	{
-		for (auto it = children.Begin(); it != children.End(); ++it)
-		{
-			const FJSONValue& childJSON = *it;
-			FStringHash childType(childJSON["type"].GetString());
-			unsigned childId = (unsigned)childJSON["id"].GetNumber();
-			ANode2D* child = CreateChild(childType);
-			if (child)
-			{
-				resolver.StoreObject(childId, child);
-				child->LoadJSON(childJSON, resolver);
-			}
-		}
-	}
-}
-
-void ANode2D::SaveJSON(FJSONValue& dest)
-{
-	dest["type"] = GetTypeName();
-	dest["id"] = Id();
-	ASerializable::SaveJSON(dest);
-
-	if (NumPersistentChildren())
-	{
-		dest["children"].SetEmptyArray();
-		for (auto it = _children.Begin(); it != _children.End(); ++it)
-		{
-			ANode2D* child = *it;
-			if (!child->IsTemporary())
-			{
-				FJSONValue childJSON;
-				child->SaveJSON(childJSON);
-				dest["children"].Push(childJSON);
-			}
-		}
-	}
-}
-
-bool ANode2D::SaveJSON(FStream& dest)
-{
-	AJSONFile json;
-	SaveJSON(json.Root());
-	return json.Save(dest);
-}
-
 void ANode2D::SetName(const FString& newName)
 {
 	SetName(newName.CString());
-}
-
-void ANode2D::SetName(const char* newName)
-{
-	_name = newName;
 }
 
 void ANode2D::SetLayer(unsigned char newLayer)
