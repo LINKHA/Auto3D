@@ -53,7 +53,7 @@ inline const FString& ResourceName(AResource* resource)
 /// Return type from a resource pointer, or default type if null.
 inline FStringHash ResourceType(AResource* resource, FStringHash defaultType)
 {
-    return resource ? resource->GetType() : defaultType;
+    return resource ? resource->GetTypeHash() : defaultType;
 }
 
 /// Make a resource ref from a resource pointer.

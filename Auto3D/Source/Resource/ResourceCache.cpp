@@ -62,7 +62,7 @@ bool FResourceModule::AddManualResource(AResource* resource)
         return false;
     }
 
-    _resources[MakePair(resource->GetType(), FStringHash(resource->GetName()))] = resource;
+    _resources[MakePair(resource->GetTypeHash(), FStringHash(resource->GetName()))] = resource;
     return true;
 }
 
@@ -278,7 +278,7 @@ void FResourceModule::ResourcesByType(TVector<AResource*>& result, FStringHash t
 
     for (auto it = _resources.Begin(); it != _resources.End(); ++it)
     {
-        if (it->_second->GetType() == type)
+        if (it->_second->GetTypeHash() == type)
             result.Push(it->_second);
     }
 }

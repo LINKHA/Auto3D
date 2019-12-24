@@ -42,9 +42,9 @@ public:
     /// Reload an existing resource. Return true on success.
     bool ReloadResource(AResource* resource);
     /// Load and return a resource, template version.
-    template <typename _Ty> _Ty* LoadResource(const FString& name) { return static_cast<_Ty*>(LoadResource(_Ty::GetTypeStatic(), name)); }
+    template <typename _Ty> _Ty* LoadResource(const FString& name) { return static_cast<_Ty*>(LoadResource(_Ty::GetTypeHashStatic(), name)); }
     /// Load and return a resource, template version.
-    template <typename _Ty> _Ty* LoadResource(const char* name) { return static_cast<_Ty*>(LoadResource(_Ty::GetTypeStatic(), name)); }
+    template <typename _Ty> _Ty* LoadResource(const char* name) { return static_cast<_Ty*>(LoadResource(_Ty::GetTypeHashStatic(), name)); }
 
     /// Return resources by type.
     void ResourcesByType(TVector<AResource*>& result, FStringHash type) const;

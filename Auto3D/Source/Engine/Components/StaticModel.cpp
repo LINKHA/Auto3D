@@ -117,7 +117,7 @@ void AStaticModel::SetModelAttr(FResourceRef model)
 
 FResourceRef AStaticModel::GetModelAttr() const
 {
-    return FResourceRef(AModel::GetTypeStatic(), ResourceName(_model.Get()));
+    return FResourceRef(AModel::GetTypeHashStatic(), ResourceName(_model.Get()));
 }
 
 }

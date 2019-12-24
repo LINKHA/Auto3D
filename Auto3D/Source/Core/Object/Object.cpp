@@ -20,7 +20,7 @@ bool FTypeInfo::IsTypeOf(FStringHash type) const
 	const FTypeInfo* current = this;
 	while (current)
 	{
-		if (current->GetType() == type)
+		if (current->GetTypeHash() == type)
 			return true;
 
 		current = current->GetBaseTypeInfo();
@@ -66,7 +66,7 @@ void AObject::RegisterObjectModule(AObject* subsystem)
     if (!subsystem)
         return;
     
-    _objectModules[subsystem->GetType()] = subsystem;
+    _objectModules[subsystem->GetTypeHash()] = subsystem;
 }
 
 void AObject::RemoveObjectModule(AObject* subsystem)
@@ -74,7 +74,7 @@ void AObject::RemoveObjectModule(AObject* subsystem)
     if (!subsystem)
         return;
     
-    auto it = _objectModules.Find(subsystem->GetType());
+    auto it = _objectModules.Find(subsystem->GetTypeHash());
     if (it != _objectModules.End() && it->_second == subsystem)
 		_objectModules.Erase(it);
 }
@@ -95,7 +95,7 @@ void AObject::RegisterFactory(FObjectFactory* factory)
     if (!factory)
         return;
     
-    _factories[factory->GetType()] = factory;
+    _factories[factory->GetTypeHash()] = factory;
 }
 
 AObject* AObject::Create(FStringHash type)

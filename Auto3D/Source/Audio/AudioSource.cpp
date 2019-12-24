@@ -112,6 +112,6 @@ void AAudioSource::SetSoundAttr(FResourceRef sound)
 
 FResourceRef AAudioSource::GetSoundAttr() const
 {
-	return FResourceRef(AAudioSource::GetTypeStatic(), ResourceName(_sound.Get()));
+	return FResourceRef(AAudioSource::GetTypeHashStatic(), ResourceName(_sound.Get()));
 }
 }

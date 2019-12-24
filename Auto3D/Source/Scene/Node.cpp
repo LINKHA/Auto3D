@@ -208,7 +208,7 @@ void ANode::AddChild(ANode* child)
 	if (_scene)
 	{
 		_scene->AddNode(child);
-		if (child->GetType() == ACamera::GetTypeStatic())
+		if (child->GetTypeHash() == ACamera::GetTypeHashStatic())
 		{
 			_scene->AddCamera(dynamic_cast<ACamera*>(child));
 		}
@@ -360,7 +360,7 @@ ANode* ANode::FindChild(FStringHash childType, bool recursive) const
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         ANode* child = *it;
-        if (child->GetType() == childType)
+        if (child->GetTypeHash() == childType)
             return child;
         else if (recursive && child->_children.Size())
         {
@@ -383,7 +383,7 @@ ANode* ANode::FindChild(FStringHash childType, const char* childName, bool recur
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         ANode* child = *it;
-        if (child->GetType() == childType && child->_name == childName)
+        if (child->GetTypeHash() == childType && child->_name == childName)
             return child;
         else if (recursive && child->_children.Size())
         {
@@ -460,7 +460,7 @@ void ANode::FindChildren(TVector<ANode*>& result, FStringHash childType, bool re
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
         ANode* child = *it;
-        if (child->GetType() == childType)
+        if (child->GetTypeHash() == childType)
             result.Push(child);
         if (recursive && child->_children.Size())
             child->FindChildren(result, childType, recursive);

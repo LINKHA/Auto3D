@@ -179,7 +179,7 @@ void AGeometryNode::SetMaterialsAttr(FResourceRefList materials)
 
 FResourceRefList AGeometryNode::GetMaterialsAttr() const
 {
-    FResourceRefList ret(AMaterial::GetTypeStatic());
+    FResourceRefList ret(AMaterial::GetTypeHashStatic());
     
     ret._names.Resize(_batches.Size());
     for (size_t i = 0; i < _batches.Size(); ++i)

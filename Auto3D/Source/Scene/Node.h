@@ -76,11 +76,11 @@ public:
     /// Remove self immediately. As this will delete the node (if no other strong references exist) no operations on the node are permitted after calling this.
     void RemoveSelf();
     /// Create child node of the specified type, template version.
-    template <typename _Ty> _Ty* CreateChild() { return static_cast<_Ty*>(CreateChild(_Ty::GetTypeStatic())); }
+    template <typename _Ty> _Ty* CreateChild() { return static_cast<_Ty*>(CreateChild(_Ty::GetTypeHashStatic())); }
     /// Create named child node of the specified type, template version.
-    template <typename _Ty> _Ty* CreateChild(const FString& childName) { return static_cast<_Ty*>(CreateChild(_Ty::GetTypeStatic(), childName)); }
+    template <typename _Ty> _Ty* CreateChild(const FString& childName) { return static_cast<_Ty*>(CreateChild(_Ty::GetTypeHashStatic(), childName)); }
     /// Create named child node of the specified type, template version.
-    template <typename _Ty> _Ty* CreateChild(const char* childName) { return static_cast<_Ty*>(CreateChild(_Ty::GetTypeStatic(), childName)); }
+    template <typename _Ty> _Ty* CreateChild(const char* childName) { return static_cast<_Ty*>(CreateChild(_Ty::GetTypeHashStatic(), childName)); }
 
     /// Return name.
     const FString& GetName() const { return _name; }
@@ -141,13 +141,13 @@ public:
     /// Find child nodes that match tag name.
     void FindChildrenByTag(TVector<ANode*>& result, const char* tagName, bool recursive = false) const;
     /// Return first child node of specified type, template version.
-    template <typename _Ty> _Ty* FindChild(bool recursive = false) const { return static_cast<_Ty*>(FindChild(_Ty::GetTypeStatic(), recursive)); }
+    template <typename _Ty> _Ty* FindChild(bool recursive = false) const { return static_cast<_Ty*>(FindChild(_Ty::GetTypeHashStatic(), recursive)); }
     /// Return first child node that matches type and name, template version.
-    template <typename _Ty> _Ty* FindChild(const FString& childName, bool recursive = false) const { return static_cast<_Ty*>(FindChild(_Ty::GetTypeStatic(), childName, recursive)); }
+    template <typename _Ty> _Ty* FindChild(const FString& childName, bool recursive = false) const { return static_cast<_Ty*>(FindChild(_Ty::GetTypeHashStatic(), childName, recursive)); }
     /// Return first child node that matches type and name, template version.
-    template <typename _Ty> _Ty* FindChild(const char* childName, bool recursive = false) const { return static_cast<_Ty*>(FindChild(_Ty::GetTypeStatic(), childName, recursive)); }
+    template <typename _Ty> _Ty* FindChild(const char* childName, bool recursive = false) const { return static_cast<_Ty*>(FindChild(_Ty::GetTypeHashStatic(), childName, recursive)); }
     /// Find child nodes of specified type, template version.
-    template <typename _Ty> void FindChildren(TVector<_Ty*>& result, bool recursive = false) const { return FindChildren(reinterpret_cast<TVector<ANode*>&>(result), _Ty::GetTypeStatic(), recursive); }
+    template <typename _Ty> void FindChildren(TVector<_Ty*>& result, bool recursive = false) const { return FindChildren(reinterpret_cast<TVector<ANode*>&>(result), _Ty::GetTypeHashStatic(), recursive); }
     
     /// Set bit flag. Called internally.
     void SetFlag(unsigned short bit, bool set) const { if (set) _flags |= bit; else _flags &= ~bit; }

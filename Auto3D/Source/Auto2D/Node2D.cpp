@@ -206,7 +206,7 @@ void ANode2D::AddChild(ANode2D* child)
 	if (_scene2D)
 	{
 		_scene2D->AddNode(child);
-		if (child->GetType() == ACamera2D::GetTypeStatic())
+		if (child->GetTypeHash() == ACamera2D::GetTypeHashStatic())
 		{
 			_scene2D->AddCamera(dynamic_cast<ACamera2D*>(child));
 		}
@@ -357,7 +357,7 @@ ANode2D* ANode2D::FindChild(FStringHash childType, bool recursive) const
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
 		ANode2D* child = *it;
-		if (child->GetType() == childType)
+		if (child->GetTypeHash() == childType)
 			return child;
 		else if (recursive && child->_children.Size())
 		{
@@ -380,7 +380,7 @@ ANode2D* ANode2D::FindChild(FStringHash childType, const char* childName, bool r
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
 		ANode2D* child = *it;
-		if (child->GetType() == childType && child->_name == childName)
+		if (child->GetTypeHash() == childType && child->_name == childName)
 			return child;
 		else if (recursive && child->_children.Size())
 		{
@@ -457,7 +457,7 @@ void ANode2D::FindChildren(TVector<ANode2D*>& result, FStringHash childType, boo
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
 		ANode2D* child = *it;
-		if (child->GetType() == childType)
+		if (child->GetTypeHash() == childType)
 			result.Push(child);
 		if (recursive && child->_children.Size())
 			child->FindChildren(result, childType, recursive);

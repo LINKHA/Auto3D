@@ -28,7 +28,7 @@ public:
 	template<typename _Ty> bool IsTypeOf() const { return IsTypeOf(_Ty::GetTypeInfoStatic()); }
 
 	/// Return type.
-	FStringHash GetType() const { return _type; }
+	FStringHash GetTypeHash() const { return _type; }
 	/// Return type name.
 	const FString& GetTypeName() const { return _typeName; }
 	/// Return base type info.
@@ -51,15 +51,12 @@ public: \
     _This& operator=(const _This&)= delete;  \
 	using This = _This;\
 	using Super = _Base;\
-	virtual Auto3D::FStringHash GetType() const override { return GetTypeStatic(); } \
+	virtual Auto3D::FStringHash GetTypeHash() const override { return GetTypeHashStatic(); } \
 	virtual const Auto3D::FString& GetTypeName() const override { return GetTypeNameStatic(); } \
     virtual const Auto3D::FTypeInfo* GetTypeInfo() const override { return GetTypeInfoStatic(); } \
-	static Auto3D::FStringHash GetTypeStatic() { static const Auto3D::FStringHash type(#_This); return type; } \
+	static Auto3D::FStringHash GetTypeHashStatic() { static const Auto3D::FStringHash type(#_This); return type; } \
     static const Auto3D::FString& GetTypeNameStatic() { static const Auto3D::FString type(#_This); return type; } \
 	static const Auto3D::FTypeInfo* GetTypeInfoStatic() { static const Auto3D::FTypeInfo typeInfoStatic(#_This, _Base::GetTypeInfoStatic()); return &typeInfoStatic; } \
-private: \
-    static const Auto3D::FStringHash typeStatic; \
-    static const Auto3D::FString typeNameStatic; \
 public: \
 
 #define DECLARE_BASE_CLASS_NEW(_This) \
@@ -88,7 +85,7 @@ public:
 	virtual ~AObject() = default;
 
     /// Return hash of the type name.
-    virtual FStringHash GetType() const = 0;
+    virtual FStringHash GetTypeHash() const = 0;
     /// Return type name.
     virtual const FString& GetTypeName() const = 0;
 	/// Return type info.
@@ -122,11 +119,11 @@ public:
     /// Return a type name from hash, or empty if not known. Requires a registered object factory.
     static const FString& TypeNameFromType(FStringHash type);
     /// Return a subsystem, template version.
-    template <typename _Ty> static _Ty* ObjectModule() { return static_cast<_Ty*>(ObjectModule(_Ty::GetTypeStatic())); }
+    template <typename _Ty> static _Ty* ObjectModule() { return static_cast<_Ty*>(ObjectModule(_Ty::GetTypeHashStatic())); }
     /// Register an object factory, template version.
     template <typename _Ty> static void RegisterFactory() { RegisterFactory(new TObjectFactoryImpl<_Ty>()); }
     /// Create and return an object through a factory, template version.
-    template <typename _Ty> static _Ty* Create() { return static_cast<_Ty*>(Create(_Ty::GetTypeStatic())); }
+    template <typename _Ty> static _Ty* Create() { return static_cast<_Ty*>(Create(_Ty::GetTypeHashStatic())); }
     
 private:
     /// Registered modules.
@@ -146,7 +143,7 @@ public:
     virtual AObject* Create() = 0;
 
     /// Return type name hash of the objects created by this factory.
-    FStringHash GetType() const { return _type; }
+    FStringHash GetTypeHash() const { return _type; }
     /// Return type name of the objects created by this factory.
     const FString& GetTypeName() const { return _typeName; }
 
@@ -164,7 +161,7 @@ public:
     /// Construct.
     TObjectFactoryImpl()
     {
-        _type = _Ty::GetTypeStatic();
+        _type = _Ty::GetTypeHashStatic();
         _typeName = _Ty::GetTypeNameStatic();
     }
 

@@ -1,7 +1,6 @@
 #include "Debug/Log.h"
 #include "Debug/Profiler.h"
 #include "IO/Stream.h"
-#include "Core/ObjectResolver.h"
 #include "Resource/JSONFile.h"
 #include "Renderer/Renderer.h"
 #include "RegisteredBox/RegisteredBox.h"
