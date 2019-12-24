@@ -14,9 +14,8 @@ namespace Auto3D
 
 REGISTER_CLASS
 {
-	using namespace rttr;
-	FRegistration::class_<AApplication>("AApplication")
-		.constructor<>()
+	REGISTER_CALSS_IMP(AApplication)
+	.constructor<>()
 	;
 }
 

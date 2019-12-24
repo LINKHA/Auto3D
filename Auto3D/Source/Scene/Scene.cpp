@@ -19,8 +19,7 @@ namespace Auto3D
 
 REGISTER_CLASS
 {
-	using namespace rttr;
-	registration::class_<AScene>("AScene")
+	REGISTER_CALSS_FACTORY_IMP(AScene)
 	.constructor<>()
 	.property_readonly("cameras", &AScene::GetCameras)
 	.property("physicsWorld", &AScene::GetPhysicsWorld, &AScene::SetPhysicsWorld)
@@ -39,6 +38,7 @@ REGISTER_CLASS
 	)
 	;
 }
+
 
 AScene::AScene() :
     _nextNodeId(1),
@@ -68,7 +68,7 @@ AScene::~AScene()
 
 void AScene::RegisterObject()
 {
-    RegisterFactory<AScene>();
+   // RegisterFactory<AScene>();
 }
 
 bool AScene::Save(FStream& dest)

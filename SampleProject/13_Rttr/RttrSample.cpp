@@ -101,6 +101,16 @@ void PrintClassA()
 }
 void PrintClassB()
 {
+	FType class_type = FType::get_by_name("Ns3D::Node");
+	if (class_type)
+	{
+		FVariant obj = class_type.create({ FString("MyNode") });
+		auto t = obj.get_value<Ns3D::Node*>();
+		t->Render();
+		if (obj.get_type().is_pointer())
+			class_type.destroy(obj);
+	}
+
 	LogString("-----------------------------------------------------------------------");
 	TSharedPtr<Ns3D::Node> obj = Ns3D::Mesh::CreateMesh("House.obj");
 	LogString(RtToStr(FType::get(obj).get_name()));						// Prints 'Auto::TSharedPtr<Ns3D::Node>'         

@@ -72,9 +72,30 @@ public: \
 	DECLARE_RTTR_CLASS(_This, _Base) \
 public: \
 
+#define REGISTER_CLASS \
+	static void RttrAutoRegisterReflectionFunction_();\
+	namespace\
+	{\
+	struct RttrAutoRegister_\
+	{\
+		RttrAutoRegister_()\
+		{ \
+			RttrAutoRegisterReflectionFunction_();\
+		}\
+	};\
+}\
+static const RttrAutoRegister_ RTTR_CAT(autoRegister, __LINE__);\
+static void RttrAutoRegisterReflectionFunction_()
 
 
-#define REGISTER_CLASS RTTR_REGISTRATION
+#define REGISTER_CALSS_FACTORY_IMP(_Class) \
+	AObject::RegisterFactory<_Class>();\
+	using namespace rttr;\
+	registration::class_<_Class>(#_Class)
+
+#define REGISTER_CALSS_IMP(_Class) \
+	using namespace rttr;\
+	registration::class_<_Class>(#_Class)
 
 /// Base class for objects with type identification and possibility to create through a factory.
 class AUTO_API AObject : public FRefCounted
