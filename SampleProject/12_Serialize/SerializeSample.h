@@ -5,6 +5,8 @@ using namespace Auto3D;
 
 class SerializeSample : public Sample
 {
+	DECLARE_CLASS(SerializeSample, Sample)
+
 public:
 	void Init()override;
 	void Start()override;
