@@ -115,7 +115,7 @@ class AUTO_API AGeometryNode : public AOctreeNode
 {
     DECLARE_CLASS(AGeometryNode, AOctreeNode)
 
-	DECLARE_CLASS_NEW(AGeometryNode, AOctreeNode)
+	DECLARE_RTTR_CLASS(AGeometryNode, AOctreeNode)
 public:
     /// Construct.
     AGeometryNode();

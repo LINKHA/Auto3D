@@ -27,7 +27,7 @@ class AUTO_API ANode : public AObject
 {
     DECLARE_CLASS(ANode, AObject)
 
-	DECLARE_BASE_CLASS_NEW(ANode)
+	DECLARE_RTTR_CLASS(ANode,AObject)
 
 public:
     /// Construct.

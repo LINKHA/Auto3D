@@ -24,7 +24,7 @@ class AUTO_API ACamera2D : public ASpatialNode2D
 {
 	DECLARE_CLASS(ACamera2D, ASpatialNode2D)
 
-	DECLARE_CLASS_NEW(ACamera2D, ASpatialNode2D)
+	DECLARE_RTTR_CLASS(ACamera2D, ASpatialNode2D)
 public:
 	ACamera2D();
 	~ACamera2D();

@@ -12,6 +12,14 @@
 namespace Auto3D
 {
 
+REGISTER_CLASS
+{
+	using namespace rttr;
+	FRegistration::class_<AApplication>("AApplication")
+		.constructor<>()
+	;
+}
+
 AApplication::AApplication() :
 	_exitCode(EXIT_SUCCESS)
 {

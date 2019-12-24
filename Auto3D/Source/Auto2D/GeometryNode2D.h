@@ -8,7 +8,7 @@ class AUTO_API AGeometryNode2D : public ASpatialNode2D
 {
 	DECLARE_CLASS(AGeometryNode2D, ASpatialNode2D)
 
-	DECLARE_CLASS_NEW(AGeometryNode2D, ASpatialNode2D)
+	DECLARE_RTTR_CLASS(AGeometryNode2D, ASpatialNode2D)
 public:
 	/// Construct.
 	AGeometryNode2D();

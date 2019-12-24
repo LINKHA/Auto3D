@@ -8,7 +8,7 @@ class AUTO_API AColliderBox : public ACollider
 {
 	DECLARE_CLASS(AColliderBox, ACollider)
 
-	DECLARE_CLASS_NEW(AColliderBox, ACollider)
+	DECLARE_RTTR_CLASS(AColliderBox, ACollider)
 public:
 	/// Construct
 	AColliderBox();

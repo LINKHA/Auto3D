@@ -4,21 +4,11 @@
 namespace Auto3D
 {
 
-class AUTO_API AGameManager : public AObject
+class AUTO_API FGameManager 
 {
-	DECLARE_CLASS(AGameManager, AObject)
-
 public:
-	AGameManager() = default;
-	virtual ~AGameManager() = default;
-};
-
-class AUTO_API ABaseModule : public AGameManager
-{
-	DECLARE_CLASS(ABaseModule, AGameManager)
-public:
-	ABaseModule() = default;
-	virtual ~ABaseModule() = default;
+	FGameManager() = default;
+	virtual ~FGameManager() = default;
 };
 
 }

@@ -51,6 +51,16 @@ FObjectFactory::~FObjectFactory()
 {
 }
 
+
+REGISTER_CLASS
+{
+	using namespace rttr;
+	FRegistration::class_<AObject>("AObject")
+		.constructor<>()
+	;
+}
+
+
 bool AObject::IsInstanceOf(FStringHash type) const
 {
 	return GetTypeInfo()->IsTypeOf(type);

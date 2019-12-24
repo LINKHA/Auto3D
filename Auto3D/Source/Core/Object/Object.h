@@ -59,13 +59,13 @@ public: \
 	static const Auto3D::FTypeInfo* GetTypeInfoStatic() { static const Auto3D::FTypeInfo typeInfoStatic(#_This, _Base::GetTypeInfoStatic()); return &typeInfoStatic; } \
 public: \
 
-#define DECLARE_BASE_CLASS_NEW(_This) \
+#define DECLARE_RTTR_BASE_CLASS(_This) \
 	/*The base Object does not need to specify a parent class*/\
 	RTTR_ENABLE() \
 	/*Reflected private tag*/\
 	RTTR_REGISTRATION_FRIEND \
 
-#define DECLARE_CLASS_NEW(_This,_Base) \
+#define DECLARE_RTTR_CLASS(_This,_Base) \
 	/*The base Object does not need to specify a parent class*/\
 	RTTR_ENABLE(_Base) \
 	/*Reflected private tag*/\
@@ -78,21 +78,26 @@ public: \
 /// Base class for objects with type identification and possibility to create through a factory.
 class AUTO_API AObject : public FRefCounted
 {
+	DECLARE_RTTR_BASE_CLASS(AObject)
 public:
 	/// Structure
 	AObject() = default;
 	/// Destructor
 	virtual ~AObject() = default;
 
-    /// Return hash of the type name.
-    virtual FStringHash GetTypeHash() const = 0;
-    /// Return type name.
-    virtual const FString& GetTypeName() const = 0;
+	/// Return hash of the type name.
+	virtual FStringHash GetTypeHash() const  { return GetTypeHashStatic(); } 
+	/// Return type name.
+	virtual const FString& GetTypeName() const  { return GetTypeNameStatic(); } 
 	/// Return type info.
-	virtual const FTypeInfo* GetTypeInfo() const = 0;
-
+	virtual const FTypeInfo* GetTypeInfo() const  { return GetTypeInfoStatic(); } 
+	/// Return type hash static.
+	static FStringHash GetTypeHashStatic() { static const Auto3D::FStringHash type("AObject"); return type; } 
+	/// Return type name static.
+	static const FString& GetTypeNameStatic() { static const Auto3D::FString type("AObject"); return type; } 
 	/// Return type info static.
-	static const FTypeInfo* GetTypeInfoStatic() { return nullptr; }
+	static const FTypeInfo* GetTypeInfoStatic() { return nullptr; } 
+
 	/// Check current instance is type of specified type.
 	bool IsInstanceOf(FStringHash type) const;
 	/// Check current instance is type of specified type.

@@ -22,7 +22,7 @@ class AUTO_API ASpatialNode : public ANode
 {
     DECLARE_CLASS(ASpatialNode, ANode)
 
-	DECLARE_CLASS_NEW(ASpatialNode, ANode)
+	DECLARE_RTTR_CLASS(ASpatialNode, ANode)
 
 public:
     /// Construct.

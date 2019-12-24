@@ -26,7 +26,7 @@ class AUTO_API ANode2D : public AObject
 {
 	DECLARE_CLASS(ANode2D, AObject)
 
-	DECLARE_BASE_CLASS_NEW(ANode2D)
+	DECLARE_RTTR_CLASS(ANode2D, AObject)
 public:
 	/// Construct.
 	ANode2D();

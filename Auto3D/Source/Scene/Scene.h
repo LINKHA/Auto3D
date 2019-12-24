@@ -14,7 +14,7 @@ class AUTO_API AScene : public ANode
 {
     DECLARE_CLASS(AScene, ANode)
 
-	DECLARE_CLASS_NEW(AScene, ANode)
+	DECLARE_RTTR_CLASS(AScene, ANode)
 
 public:
     /// Construct.

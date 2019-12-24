@@ -23,6 +23,8 @@ class FUIModule;
 class AUTO_API AEngine : public AObject
 {
 	DECLARE_CLASS(AEngine, AObject)
+
+	DECLARE_RTTR_CLASS(AEngine, AObject)
 public:
 	/// Construct
 	AEngine();

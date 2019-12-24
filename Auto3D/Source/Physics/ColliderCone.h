@@ -8,7 +8,7 @@ class AUTO_API AColliderCone : public ACollider
 {
 	DECLARE_CLASS(AColliderCone, ACollider)
 
-	DECLARE_CLASS_NEW(AColliderCone, ACollider)
+	DECLARE_RTTR_CLASS(AColliderCone, ACollider)
 public:
 	/// Construct
 	AColliderCone();

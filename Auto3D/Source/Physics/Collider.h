@@ -37,7 +37,7 @@ class ACollider : public ANode
 {
 	DECLARE_CLASS(ACollider, ANode)
 
-	DECLARE_CLASS_NEW(ACollider, ANode)
+	DECLARE_RTTR_CLASS(ACollider, ANode)
 public:
 	/// Construct
 	ACollider();

@@ -17,6 +17,8 @@ class AEngine;
 class AUTO_API AApplication : public AObject
 {
 	DECLARE_CLASS(AApplication, AObject)
+
+	DECLARE_RTTR_CLASS(AApplication, AObject)
 public:
 	/// Create engine
 	AApplication();

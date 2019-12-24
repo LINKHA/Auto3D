@@ -28,6 +28,14 @@
 namespace Auto3D
 {
 
+REGISTER_CLASS
+{
+	using namespace rttr;
+	FRegistration::class_<AEngine>("AEngine")
+		.constructor<>()
+	;
+}
+
 AEngine::AEngine() :
 	_exiting(false),
 	_initialized(false),

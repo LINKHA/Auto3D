@@ -4,14 +4,13 @@
 namespace Auto3D {
 
 /// AScript sub system 
-class AUTO_API AScript : public ABaseModule
+class AUTO_API FScriptModule
 {
-	DECLARE_CLASS(AScript, ABaseModule)
 public:
 	/// Construct
-	AScript();
+	FScriptModule();
 
-	~AScript();
+	~FScriptModule();
 
 };
 

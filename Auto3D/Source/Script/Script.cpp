@@ -3,12 +3,12 @@
 namespace Auto3D
 {
 
-AScript::AScript()
+FScriptModule::FScriptModule()
 {
 
 }
 
-AScript::~AScript()
+FScriptModule::~FScriptModule()
 {
 
 }

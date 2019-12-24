@@ -10,7 +10,7 @@ class AUTO_API AAudioListener : public AAudioNode
 {
 	DECLARE_CLASS(AAudioListener, AAudioNode)
 
-	DECLARE_CLASS_NEW(AAudioListener, AAudioNode)
+	DECLARE_RTTR_CLASS(AAudioListener, AAudioNode)
 public:
 	/// Constructor
 	AAudioListener();

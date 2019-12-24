@@ -9,7 +9,7 @@ class AUTO_API ASkyBox : public AStaticModel
 {
 	DECLARE_CLASS(ASkyBox, AStaticModel)
 
-	DECLARE_CLASS_NEW(ASkyBox, AStaticModel)
+	DECLARE_RTTR_CLASS(ASkyBox, AStaticModel)
 public:
 	/// Construct
 	ASkyBox();
