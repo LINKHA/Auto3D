@@ -19,8 +19,7 @@ namespace Auto3D
 
 REGISTER_CLASS
 {
-	using namespace rttr;
-	registration::class_<AAudioSource>("AAudioSource")
+	REGISTER_CALSS_FACTORY_IMP(AAudioSource)
 	.constructor<>()
 		.property("sound", &AAudioSource::GetSoundAttr, &AAudioSource::SetSoundAttr)
 		(
@@ -55,7 +54,7 @@ AAudioSource::~AAudioSource()
 
 void AAudioSource::RegisterObject()
 {
-	RegisterFactory<AAudioSource>();
+	//RegisterFactory<AAudioSource>();
 }
 
 void AAudioSource::Play(int delayTime)

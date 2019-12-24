@@ -129,21 +129,20 @@ static bool isDirty = false;
 
 REGISTER_CLASS
 {
-	using namespace rttr;
-	registration::class_<ASkyBox>("ASkyBox")
+	REGISTER_CALSS_FACTORY_IMP(ASkyBox)
 	.constructor<>()
-		.property("mapSize", &ASkyBox::GetMapSize, &ASkyBox::SetMapSize)
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		.property("irradianceSize", &ASkyBox::GetIrradianceSize, &ASkyBox::SetIrradianceSize)
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		.property("prefilterSize", &ASkyBox::GetPrefilterSize, &ASkyBox::SetPrefilterSize)
-		(
-			metadata(SERIALIZABLE, "")
-		)
+	.property("mapSize", &ASkyBox::GetMapSize, &ASkyBox::SetMapSize)
+	(
+		metadata(SERIALIZABLE, "")
+	)
+	.property("irradianceSize", &ASkyBox::GetIrradianceSize, &ASkyBox::SetIrradianceSize)
+	(
+		metadata(SERIALIZABLE, "")
+	)
+	.property("prefilterSize", &ASkyBox::GetPrefilterSize, &ASkyBox::SetPrefilterSize)
+	(
+		metadata(SERIALIZABLE, "")
+	)
 	;
 }
 
@@ -166,7 +165,7 @@ ASkyBox::~ASkyBox() = default;
 
 void ASkyBox::RegisterObject()
 {
-	RegisterFactory<ASkyBox>();
+	//RegisterFactory<ASkyBox>();
 }
 
 void ASkyBox::SetupIBLMap()

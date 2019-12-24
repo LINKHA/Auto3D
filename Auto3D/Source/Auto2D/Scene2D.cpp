@@ -17,8 +17,7 @@ namespace Auto3D
 
 REGISTER_CLASS
 {
-	using namespace rttr;
-	registration::class_<AScene2D>("AScene2D")
+	REGISTER_CALSS_FACTORY_IMP(AScene2D)
 	.constructor<>()
 	.property_readonly("cameras", &AScene2D::GetCameras)
 	.property("physicsWorld", &AScene2D::GetPhysicsWorld, &AScene2D::SetPhysicsWorld)
@@ -54,7 +53,7 @@ AScene2D::~AScene2D()
 
 void AScene2D::RegisterObject()
 {
-	RegisterFactory<AScene2D>();
+	//RegisterFactory<AScene2D>();
 }
 
 

@@ -54,9 +54,8 @@ FObjectFactory::~FObjectFactory()
 
 REGISTER_CLASS
 {
-	using namespace rttr;
-	FRegistration::class_<AObject>("AObject")
-		.constructor<>()
+	REGISTER_CALSS_IMP(AObject)
+	.constructor<>()
 	;
 }
 

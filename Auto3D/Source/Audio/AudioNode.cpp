@@ -9,8 +9,7 @@ namespace Auto3D
 
 REGISTER_CLASS
 {
-	using namespace rttr;
-	registration::class_<AAudioNode>("AAudioNode")
+	REGISTER_CALSS_FACTORY_IMP(AAudioNode)
 	.constructor<>()
 	;
 }
@@ -33,7 +32,7 @@ AAudioNode::~AAudioNode()
 
 void AAudioNode::RegisterObject()
 {
-	RegisterFactory<AAudioNode>();
+	//RegisterFactory<AAudioNode>();
 }
 
 	

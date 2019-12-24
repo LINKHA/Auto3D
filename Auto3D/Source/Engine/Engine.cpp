@@ -30,8 +30,8 @@ namespace Auto3D
 
 REGISTER_CLASS
 {
-	using namespace rttr;
-	FRegistration::class_<AEngine>("AEngine")
+
+	REGISTER_CALSS_IMP(AEngine)
 		.constructor<>()
 	;
 }

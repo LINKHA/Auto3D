@@ -17,13 +17,12 @@ namespace Auto3D
 
 REGISTER_CLASS
 {
-	using namespace rttr;
-	FRegistration::class_<AGeometryNode>("AGeometryNode")
-		.constructor<>()
-		.property("materialsAttr", &AGeometryNode::GetMaterialsAttr, &AGeometryNode::SetMaterialsAttr)
-		(
-			metadata(SERIALIZABLE, "")
-		)
+	REGISTER_CALSS_FACTORY_IMP(AGeometryNode)
+	.constructor<>()
+	.property("materialsAttr", &AGeometryNode::GetMaterialsAttr, &AGeometryNode::SetMaterialsAttr)
+	(
+		metadata(SERIALIZABLE, "")
+	)
 	;
 }
 
@@ -85,7 +84,7 @@ AGeometryNode::~AGeometryNode()
 
 void AGeometryNode::RegisterObject()
 {
-    RegisterFactory<AGeometryNode>();
+   // RegisterFactory<AGeometryNode>();
 }
 
 void AGeometryNode::OnPrepareRender(unsigned frameNumber, ACamera* camera)

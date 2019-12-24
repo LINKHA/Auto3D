@@ -8,13 +8,12 @@ namespace Auto3D
 
 REGISTER_CLASS
 {
-	using namespace rttr;
-	registration::class_<AColliderBox>("AColliderBox")
+	REGISTER_CALSS_FACTORY_IMP(AColliderBox)
 	.constructor<>()
-		.property("size", &AColliderBox::GetSize, static_cast<void(AColliderBox::*)(const TVector3F&)>(&AColliderBox::SetSize))
-		(
-			metadata(SERIALIZABLE, "")
-		)
+	.property("size", &AColliderBox::GetSize, static_cast<void(AColliderBox::*)(const TVector3F&)>(&AColliderBox::SetSize))
+	(
+		metadata(SERIALIZABLE, "")
+	)
 	;
 }
 
@@ -30,7 +29,7 @@ AColliderBox::~AColliderBox()
 
 void AColliderBox::RegisterObject()
 {
-	RegisterFactory<AColliderBox>();
+	//RegisterFactory<AColliderBox>();
 }
 
 void AColliderBox::SetSize(const TVector3F& vec)

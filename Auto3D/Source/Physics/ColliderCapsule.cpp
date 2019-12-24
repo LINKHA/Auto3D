@@ -8,17 +8,16 @@ namespace Auto3D
 
 REGISTER_CLASS
 {
-	using namespace rttr;
-	registration::class_<AColliderCapsule>("AColliderCapsule")
+	REGISTER_CALSS_FACTORY_IMP(AColliderCapsule)
 	.constructor<>()
-		.property("radius", &AColliderCapsule::GetRadius, &AColliderCapsule::SetRadius)
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		.property("height", &AColliderCapsule::GetHeight, &AColliderCapsule::SetHeight)
-		(
-			metadata(SERIALIZABLE, "")
-		)
+	.property("radius", &AColliderCapsule::GetRadius, &AColliderCapsule::SetRadius)
+	(
+		metadata(SERIALIZABLE, "")
+	)
+	.property("height", &AColliderCapsule::GetHeight, &AColliderCapsule::SetHeight)
+	(
+		metadata(SERIALIZABLE, "")
+	)
 	;
 }
 
@@ -36,7 +35,7 @@ AColliderCapsule::~AColliderCapsule()
 
 void AColliderCapsule::RegisterObject()
 {
-	RegisterFactory<AColliderCapsule>();
+	//RegisterFactory<AColliderCapsule>();
 }
 
 void AColliderCapsule::SetSize(float radius, float height)

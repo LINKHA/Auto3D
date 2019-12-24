@@ -61,17 +61,16 @@ bool FOctant::FitBoundingBox(const TBoundingBoxF& box, const TVector3F& boxSize)
 
 REGISTER_CLASS
 {
-	using namespace rttr;
-	registration::class_<AOctree>("AOctree")
+	REGISTER_CALSS_FACTORY_IMP(AOctree)
 	.constructor<>()
-		.property("boundingBox", &AOctree::GetBoundingBoxAttr, &AOctree::SetBoundingBoxAttr)
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		.property("numLevels", &AOctree::GetNumLevelsAttr, &AOctree::SetNumLevelsAttr)
-		(
-			metadata(SERIALIZABLE, "")
-		)
+	.property("boundingBox", &AOctree::GetBoundingBoxAttr, &AOctree::SetBoundingBoxAttr)
+	(
+		metadata(SERIALIZABLE, "")
+	)
+	.property("numLevels", &AOctree::GetNumLevelsAttr, &AOctree::SetNumLevelsAttr)
+	(
+		metadata(SERIALIZABLE, "")
+	)
 	;
 }
 
@@ -87,7 +86,7 @@ AOctree::~AOctree()
 
 void AOctree::RegisterObject()
 {
-    RegisterFactory<AOctree>();
+   // RegisterFactory<AOctree>();
 }
 
 void AOctree::Update()

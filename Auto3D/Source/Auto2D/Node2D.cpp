@@ -11,30 +11,29 @@ namespace Auto3D
 
 REGISTER_CLASS
 {
-	using namespace rttr;
-	FRegistration::class_<ANode2D>("ANode2D")
+	REGISTER_CALSS_FACTORY_IMP(ANode2D)
 	.constructor<>()
-		.property("name", &ANode2D::GetName, &ANode2D::SetName)
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		.property("enabled", &ANode2D::IsEnabled, &ANode2D::SetEnabled)
-		(
-			metadata(SERIALIZABLE, true)
-		)
-		.property("temporary", &ANode2D::IsTemporary, &ANode2D::SetTemporary)
-		(
-			metadata(SERIALIZABLE, true)
-		)
-		.property("layer", &ANode2D::GetLayer, &ANode2D::SetLayer)
-		(
-			metadata(SERIALIZABLE, true)
-		)
-		.property("tag", &ANode2D::GetTag, &ANode2D::SetTag)
-		(
-			metadata(SERIALIZABLE, true)
-		)
-		;
+	.property("name", &ANode2D::GetName, &ANode2D::SetName)
+	(
+		metadata(SERIALIZABLE, "")
+	)
+	.property("enabled", &ANode2D::IsEnabled, &ANode2D::SetEnabled)
+	(
+		metadata(SERIALIZABLE, true)
+	)
+	.property("temporary", &ANode2D::IsTemporary, &ANode2D::SetTemporary)
+	(
+		metadata(SERIALIZABLE, true)
+	)
+	.property("layer", &ANode2D::GetLayer, &ANode2D::SetLayer)
+	(
+		metadata(SERIALIZABLE, true)
+	)
+	.property("tag", &ANode2D::GetTag, &ANode2D::SetTag)
+	(
+		metadata(SERIALIZABLE, true)
+	)
+	;
 }
 
 ANode2D::ANode2D():
@@ -58,7 +57,7 @@ ANode2D::~ANode2D()
 
 void ANode2D::RegisterObject()
 {
-	RegisterFactory<ANode2D>();
+	//RegisterFactory<ANode2D>();
 }
 
 void ANode2D::SetName(const FString& newName)

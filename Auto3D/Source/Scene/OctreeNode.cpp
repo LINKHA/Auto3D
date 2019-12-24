@@ -8,14 +8,13 @@ namespace Auto3D
 
 REGISTER_CLASS
 {
-	using namespace rttr;
-	FRegistration::class_<AOctreeNode>("AOctreeNode")
+	REGISTER_CALSS_FACTORY_IMP(AOctreeNode)
 	.constructor<>()
-		.property("castShadows", &AOctreeNode::GetCastShadows, &AOctreeNode::SetCastShadows)
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		;
+	.property("castShadows", &AOctreeNode::GetCastShadows, &AOctreeNode::SetCastShadows)
+	(
+		metadata(SERIALIZABLE, "")
+	)
+	;
 }
 
 AOctreeNode::AOctreeNode() :
@@ -34,7 +33,7 @@ AOctreeNode::~AOctreeNode()
 
 void AOctreeNode::RegisterObject()
 {
-	RegisterFactory<AOctreeNode>();
+	//RegisterFactory<AOctreeNode>();
 }
 
 void AOctreeNode::SetCastShadows(bool enable)

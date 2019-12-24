@@ -29,49 +29,48 @@ static const char* lightTypeNames[] =
 
 REGISTER_CLASS
 {
-	using namespace rttr;
-	registration::class_<ALight>("ALight")
+	REGISTER_CALSS_FACTORY_IMP(ALight)
 	.constructor<>()
-		.property("lightType", &ALight::GetLightTypeAttr, &ALight::SetLightTypeAttr)
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		.property("color", &ALight::GetColor, &ALight::SetColor)
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		.property("range", &ALight::GetRange, &ALight::SetRange)
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		.property("fov", &ALight::GetFov, &ALight::SetFov)
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		.property("lightMask", &ALight::GetLightMask, &ALight::SetLightMask)
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		.property("shadowMapSize", &ALight::GetShadowMapSize, &ALight::SetShadowMapSize)
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		.property("shadowSplits", &ALight::GetShadowSplits, &ALight::SetShadowSplits)
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		.property("shadowFadeStart", &ALight::GetShadowFadeStart, &ALight::SetShadowFadeStart)
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		.property("depthBias", &ALight::GetDepthBias, &ALight::SetDepthBias)
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		.property("slopeScaledDepthBias", &ALight::GetSlopeScaledDepthBias, &ALight::SetSlopeScaledDepthBias)
-		(
-			metadata(SERIALIZABLE, "")
-		)
+	.property("lightType", &ALight::GetLightTypeAttr, &ALight::SetLightTypeAttr)
+	(
+		metadata(SERIALIZABLE, "")
+	)
+	.property("color", &ALight::GetColor, &ALight::SetColor)
+	(
+		metadata(SERIALIZABLE, "")
+	)
+	.property("range", &ALight::GetRange, &ALight::SetRange)
+	(
+		metadata(SERIALIZABLE, "")
+	)
+	.property("fov", &ALight::GetFov, &ALight::SetFov)
+	(
+		metadata(SERIALIZABLE, "")
+	)
+	.property("lightMask", &ALight::GetLightMask, &ALight::SetLightMask)
+	(
+		metadata(SERIALIZABLE, "")
+	)
+	.property("shadowMapSize", &ALight::GetShadowMapSize, &ALight::SetShadowMapSize)
+	(
+		metadata(SERIALIZABLE, "")
+	)
+	.property("shadowSplits", &ALight::GetShadowSplits, &ALight::SetShadowSplits)
+	(
+		metadata(SERIALIZABLE, "")
+	)
+	.property("shadowFadeStart", &ALight::GetShadowFadeStart, &ALight::SetShadowFadeStart)
+	(
+		metadata(SERIALIZABLE, "")
+	)
+	.property("depthBias", &ALight::GetDepthBias, &ALight::SetDepthBias)
+	(
+		metadata(SERIALIZABLE, "")
+	)
+	.property("slopeScaledDepthBias", &ALight::GetSlopeScaledDepthBias, &ALight::SetSlopeScaledDepthBias)
+	(
+		metadata(SERIALIZABLE, "")
+	)
 	;
 }
 
@@ -97,7 +96,7 @@ ALight::~ALight()
 
 void ALight::RegisterObject()
 {
-    RegisterFactory<ALight>();
+   // RegisterFactory<ALight>();
 }
 
 

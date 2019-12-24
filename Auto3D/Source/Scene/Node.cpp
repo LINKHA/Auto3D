@@ -11,30 +11,29 @@ namespace Auto3D
 
 REGISTER_CLASS
 {
-	using namespace rttr;
-	FRegistration::class_<ANode>("ANode")
+	REGISTER_CALSS_FACTORY_IMP(ANode)
 	.constructor<>()
-		.property("name", &ANode::GetName, &ANode::SetName)
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		.property("enabled", &ANode::IsEnabled, &ANode::SetEnabled)
-		(
-			metadata(SERIALIZABLE, true)
-		)
-		.property("temporary", &ANode::IsTemporary, &ANode::SetTemporary)
-		(
-			metadata(SERIALIZABLE, true)
-		)
-		.property("layer", &ANode::GetLayer, &ANode::SetLayer)
-		(
-			metadata(SERIALIZABLE, true)
-		)
-		.property("tag", &ANode::GetTag, &ANode::SetTag)
-		(
-			metadata(SERIALIZABLE, true)
-		)
-		;
+	.property("name", &ANode::GetName, &ANode::SetName)
+	(
+		metadata(SERIALIZABLE, "")
+	)
+	.property("enabled", &ANode::IsEnabled, &ANode::SetEnabled)
+	(
+		metadata(SERIALIZABLE, true)
+	)
+	.property("temporary", &ANode::IsTemporary, &ANode::SetTemporary)
+	(
+		metadata(SERIALIZABLE, true)
+	)
+	.property("layer", &ANode::GetLayer, &ANode::SetLayer)
+	(
+		metadata(SERIALIZABLE, true)
+	)
+	.property("tag", &ANode::GetTag, &ANode::SetTag)
+	(
+		metadata(SERIALIZABLE, true)
+	)
+	;
 }
 
 static TVector<TSharedPtr<ANode> > noChildren;
@@ -59,7 +58,7 @@ ANode::~ANode()
 
 void ANode::RegisterObject()
 {
-    RegisterFactory<ANode>();
+    //RegisterFactory<ANode>();
 }
 
 void ANode::SetName(const FString& newName)

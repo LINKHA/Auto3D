@@ -17,18 +17,17 @@ static TVector3F DOT_SCALE(1 / 3.0f, 1 / 3.0f, 1 / 3.0f);
 
 REGISTER_CLASS
 {
-	using namespace rttr;
-	FRegistration::class_<AStaticModel>("AStaticModel")
+	REGISTER_CALSS_FACTORY_IMP(AStaticModel)
 	.constructor<>()
-		.property("modelAttr", &AStaticModel::GetModelAttr, &AStaticModel::SetModelAttr)
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		.property("lodBias", &AStaticModel::GetLodBias, &AStaticModel::SetLodBias)
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		;
+	.property("modelAttr", &AStaticModel::GetModelAttr, &AStaticModel::SetModelAttr)
+	(
+		metadata(SERIALIZABLE, "")
+	)
+	.property("lodBias", &AStaticModel::GetLodBias, &AStaticModel::SetLodBias)
+	(
+		metadata(SERIALIZABLE, "")
+	)
+	;
 }
 
 AStaticModel::AStaticModel() :
@@ -43,8 +42,7 @@ AStaticModel::~AStaticModel()
 
 void AStaticModel::RegisterObject()
 {
-    RegisterFactory<AStaticModel>();
-
+   // RegisterFactory<AStaticModel>();
 }
 
 void AStaticModel::OnPrepareRender(unsigned frameNumber, ACamera* camera)

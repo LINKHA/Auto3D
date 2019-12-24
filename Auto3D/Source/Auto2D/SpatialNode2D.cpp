@@ -7,22 +7,21 @@ namespace Auto3D
 
 REGISTER_CLASS
 {
-	using namespace rttr;
-	FRegistration::class_<ASpatialNode2D>("ASpatialNode")
+	REGISTER_CALSS_FACTORY_IMP(ASpatialNode2D)
 	.constructor<>()
-		.property("position", &ASpatialNode2D::GetPosition, &ASpatialNode2D::SetPosition)
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		.property("rotation", &ASpatialNode2D::GetRotation, &ASpatialNode2D::SetRotation)
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		.property("scale", &ASpatialNode2D::GetScale, static_cast<void(ASpatialNode2D::*)(const TVector3F&)>(&ASpatialNode2D::SetScale))
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		;
+	.property("position", &ASpatialNode2D::GetPosition, &ASpatialNode2D::SetPosition)
+	(
+		metadata(SERIALIZABLE, "")
+	)
+	.property("rotation", &ASpatialNode2D::GetRotation, &ASpatialNode2D::SetRotation)
+	(
+		metadata(SERIALIZABLE, "")
+	)
+	.property("scale", &ASpatialNode2D::GetScale, static_cast<void(ASpatialNode2D::*)(const TVector3F&)>(&ASpatialNode2D::SetScale))
+	(
+		metadata(SERIALIZABLE, "")
+	)
+	;
 }
 
 ASpatialNode2D::ASpatialNode2D() :
@@ -36,7 +35,7 @@ ASpatialNode2D::ASpatialNode2D() :
 
 void ASpatialNode2D::RegisterObject()
 {
-	RegisterFactory<ASpatialNode2D>();
+	//RegisterFactory<ASpatialNode2D>();
 }
 
 void ASpatialNode2D::SetPosition(const TVector3F& newPosition)

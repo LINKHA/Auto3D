@@ -8,17 +8,16 @@ namespace Auto3D
 
 REGISTER_CLASS
 {
-	using namespace rttr;
-	registration::class_<AColliderCone>("AColliderCone")
+	REGISTER_CALSS_FACTORY_IMP(AColliderCone)
 	.constructor<>()
-		.property("radius", &AColliderCone::GetRadius, &AColliderCone::SetRadius)
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		.property("height", &AColliderCone::GetHeight, &AColliderCone::SetHeight)
-		(
-			metadata(SERIALIZABLE, "")
-		)
+	.property("radius", &AColliderCone::GetRadius, &AColliderCone::SetRadius)
+	(
+		metadata(SERIALIZABLE, "")
+	)
+	.property("height", &AColliderCone::GetHeight, &AColliderCone::SetHeight)
+	(
+		metadata(SERIALIZABLE, "")
+	)
 	;
 }
 
@@ -36,7 +35,7 @@ AColliderCone::~AColliderCone()
 
 void AColliderCone::RegisterObject()
 {
-	RegisterFactory<AColliderCone>();
+	//RegisterFactory<AColliderCone>();
 }
 
 void AColliderCone::SetSize(float radius, float height)

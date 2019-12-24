@@ -7,22 +7,21 @@ namespace Auto3D
 
 REGISTER_CLASS
 {
-	using namespace rttr;
-	FRegistration::class_<ASpatialNode>("ASpatialNode")
+	REGISTER_CALSS_FACTORY_IMP(ASpatialNode)
 	.constructor<>()
-		.property("position", &ASpatialNode::GetPosition, &ASpatialNode::SetPosition)
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		.property("rotation", &ASpatialNode::GetRotation, &ASpatialNode::SetRotation)
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		.property("scale", &ASpatialNode::GetScale, static_cast<void(ASpatialNode::*)(const TVector3F&)>(&ASpatialNode::SetScale))
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		;
+	.property("position", &ASpatialNode::GetPosition, &ASpatialNode::SetPosition)
+	(
+		metadata(SERIALIZABLE, "")
+	)
+	.property("rotation", &ASpatialNode::GetRotation, &ASpatialNode::SetRotation)
+	(
+		metadata(SERIALIZABLE, "")
+	)
+	.property("scale", &ASpatialNode::GetScale, static_cast<void(ASpatialNode::*)(const TVector3F&)>(&ASpatialNode::SetScale))
+	(
+		metadata(SERIALIZABLE, "")
+	)
+	;
 }
 
 ASpatialNode::ASpatialNode() :
@@ -36,7 +35,7 @@ ASpatialNode::ASpatialNode() :
 
 void ASpatialNode::RegisterObject()
 {
-    RegisterFactory<ASpatialNode>();
+    //RegisterFactory<ASpatialNode>();
 }
 
 void ASpatialNode::SetPosition(const TVector3F& newPosition)

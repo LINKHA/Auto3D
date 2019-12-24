@@ -11,8 +11,7 @@ namespace Auto3D {
 
 REGISTER_CLASS
 {
-	using namespace rttr;
-	registration::class_<ACollider>("ACollider")
+	REGISTER_CALSS_FACTORY_IMP(ACollider)
 	.constructor<>()
 	;
 }
@@ -30,7 +29,7 @@ ACollider::~ACollider()
 
 void ACollider::RegisterObject()
 {
-	RegisterFactory<ACollider>();
+	//RegisterFactory<ACollider>();
 }
 
 void ACollider::ReleaseShape()
