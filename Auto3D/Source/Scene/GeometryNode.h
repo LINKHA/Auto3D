@@ -114,8 +114,6 @@ struct AUTO_API FSourceBatch
 class AUTO_API AGeometryNode : public AOctreeNode
 {
     DECLARE_CLASS(AGeometryNode, AOctreeNode)
-
-	DECLARE_RTTR_CLASS(AGeometryNode, AOctreeNode)
 public:
     /// Construct.
     AGeometryNode();

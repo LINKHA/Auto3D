@@ -9,8 +9,6 @@ class AModel;
 class AUTO_API AStaticModel : public AGeometryNode
 {
     DECLARE_CLASS(AStaticModel, AGeometryNode)
-
-	DECLARE_RTTR_CLASS(AStaticModel, AGeometryNode)
 public:
     /// Construct.
     AStaticModel();

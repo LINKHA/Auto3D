@@ -8,7 +8,6 @@ class AUTO_API AColliderCapsule : public ACollider
 {
 	DECLARE_CLASS(AColliderCapsule, ACollider)
 
-	DECLARE_RTTR_CLASS(AColliderCapsule, ACollider)
 public:
 	/// Construct
 	AColliderCapsule();

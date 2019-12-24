@@ -8,8 +8,6 @@ namespace Auto3D
 class AUTO_API ASkyBox : public AStaticModel
 {
 	DECLARE_CLASS(ASkyBox, AStaticModel)
-
-	DECLARE_RTTR_CLASS(ASkyBox, AStaticModel)
 public:
 	/// Construct
 	ASkyBox();

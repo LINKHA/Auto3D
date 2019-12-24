@@ -11,8 +11,6 @@ class APhysicsWorld2D;
 class AUTO_API AScene2D : public ANode2D
 {
 	DECLARE_CLASS(AScene2D, ANode2D)
-
-	DECLARE_RTTR_CLASS(AScene2D, ANode2D)
 public:
 	/// The constructor
 	AScene2D();

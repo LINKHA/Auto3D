@@ -25,8 +25,6 @@ static const unsigned LAYERMASK_2D_ALL = 0xffffffff;
 class AUTO_API ANode2D : public AObject
 {
 	DECLARE_CLASS(ANode2D, AObject)
-
-	DECLARE_RTTR_CLASS(ANode2D, AObject)
 public:
 	/// Construct.
 	ANode2D();

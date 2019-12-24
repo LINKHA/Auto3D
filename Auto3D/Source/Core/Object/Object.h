@@ -43,22 +43,6 @@ private:
 	const FTypeInfo* _baseTypeInfo;
 };
 
-#define DECLARE_CLASS(_This,_Base) \
-public: \
-	/*RTTR_ENABLE(_Base)*/ \
-	/*RTTR_REGISTRATION_FRIEND*/ \
-	_This& operator=(_This&&) = delete;   \
-    _This& operator=(const _This&)= delete;  \
-	using This = _This;\
-	using Super = _Base;\
-	virtual Auto3D::FStringHash GetTypeHash() const override { return GetTypeHashStatic(); } \
-	virtual const Auto3D::FString& GetTypeName() const override { return GetTypeNameStatic(); } \
-    virtual const Auto3D::FTypeInfo* GetTypeInfo() const override { return GetTypeInfoStatic(); } \
-	static Auto3D::FStringHash GetTypeHashStatic() { static const Auto3D::FStringHash type(#_This); return type; } \
-    static const Auto3D::FString& GetTypeNameStatic() { static const Auto3D::FString type(#_This); return type; } \
-	static const Auto3D::FTypeInfo* GetTypeInfoStatic() { static const Auto3D::FTypeInfo typeInfoStatic(#_This, _Base::GetTypeInfoStatic()); return &typeInfoStatic; } \
-public: \
-
 #define DECLARE_RTTR_BASE_CLASS(_This) \
 	/*The base Object does not need to specify a parent class*/\
 	RTTR_ENABLE() \
@@ -70,6 +54,23 @@ public: \
 	RTTR_ENABLE(_Base) \
 	/*Reflected private tag*/\
 	RTTR_REGISTRATION_FRIEND \
+
+#define DECLARE_CLASS(_This,_Base) \
+public: \
+	_This& operator=(_This&&) = delete;   \
+    _This& operator=(const _This&)= delete;  \
+	using This = _This;\
+	using Super = _Base;\
+	virtual Auto3D::FType GetType()const override{return GetTypeStatic();}\
+	virtual Auto3D::FStringHash GetTypeHash() const override { return GetTypeHashStatic(); } \
+	virtual const Auto3D::FString& GetTypeName() const override { return GetTypeNameStatic(); } \
+    virtual const Auto3D::FTypeInfo* GetTypeInfo() const override { return GetTypeInfoStatic(); } \
+	static Auto3D::FType GetTypeStatic(){ return FType::get<_This>();}\
+	static Auto3D::FStringHash GetTypeHashStatic() { static const Auto3D::FStringHash type(#_This); return type; } \
+    static const Auto3D::FString& GetTypeNameStatic() { static const Auto3D::FString type(#_This); return type; } \
+	static const Auto3D::FTypeInfo* GetTypeInfoStatic() { static const Auto3D::FTypeInfo typeInfoStatic(#_This, _Base::GetTypeInfoStatic()); return &typeInfoStatic; } \
+	DECLARE_RTTR_CLASS(_This, _Base) \
+public: \
 
 
 
@@ -84,13 +85,16 @@ public:
 	AObject() = default;
 	/// Destructor
 	virtual ~AObject() = default;
-
+	/// Return type.
+	virtual Auto3D::FType GetType()const  { return GetTypeStatic(); }
 	/// Return hash of the type name.
 	virtual FStringHash GetTypeHash() const  { return GetTypeHashStatic(); } 
 	/// Return type name.
 	virtual const FString& GetTypeName() const  { return GetTypeNameStatic(); } 
 	/// Return type info.
 	virtual const FTypeInfo* GetTypeInfo() const  { return GetTypeInfoStatic(); } 
+	/// Return type with hash.
+	static Auto3D::FType GetTypeStatic() { return FType::get<AObject>(); }
 	/// Return type hash static.
 	static FStringHash GetTypeHashStatic() { static const Auto3D::FStringHash type("AObject"); return type; } 
 	/// Return type name static.

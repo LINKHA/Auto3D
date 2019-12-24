@@ -7,8 +7,6 @@ namespace Auto3D
 class AUTO_API AColliderSphere : public ACollider
 {
 	DECLARE_CLASS(AColliderSphere, ACollider)
-
-	DECLARE_RTTR_CLASS(AColliderSphere, ACollider)
 public:
 	/// Construct
 	AColliderSphere();

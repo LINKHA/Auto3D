@@ -66,8 +66,6 @@ struct AUTO_API FOctant
 class AUTO_API AOctree : public ANode
 {
     DECLARE_CLASS(AOctree, ANode)
-
-	DECLARE_RTTR_CLASS(AOctree, ANode)
 public:
     /// Construct.
     AOctree();

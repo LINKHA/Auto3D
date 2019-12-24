@@ -22,8 +22,6 @@ namespace ETransform2DSpace
 class AUTO_API ASpatialNode2D : public ANode2D
 {
 	DECLARE_CLASS(ASpatialNode2D, ANode2D)
-
-	DECLARE_RTTR_CLASS(ASpatialNode2D, ANode2D)
 public:
 	/// Construct.
 	ASpatialNode2D();

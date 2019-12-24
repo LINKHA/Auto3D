@@ -29,8 +29,6 @@ namespace ELightType
 class AUTO_API ALight : public AOctreeNode
 {
 	DECLARE_CLASS(ALight, AOctreeNode)
-    
-	DECLARE_RTTR_CLASS(ALight, AOctreeNode)
 public:
     /// Construct.
     ALight();

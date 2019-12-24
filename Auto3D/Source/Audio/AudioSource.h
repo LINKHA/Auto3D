@@ -12,8 +12,6 @@ class FAudioBuffer;
 class AUTO_API AAudioSource : public AAudioNode
 {
 	DECLARE_CLASS(AAudioSource, AAudioNode)
-
-	DECLARE_RTTR_CLASS(AAudioSource, AAudioNode)
 public:
 	/// The constructor
 	AAudioSource();

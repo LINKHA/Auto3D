@@ -27,8 +27,6 @@ class AUTO_API ANode : public AObject
 {
     DECLARE_CLASS(ANode, AObject)
 
-	DECLARE_RTTR_CLASS(ANode,AObject)
-
 public:
     /// Construct.
     ANode();

@@ -29,8 +29,6 @@ class ATexture;
 class AUTO_API ACamera : public ASpatialNode
 {
 	DECLARE_CLASS(ACamera, ASpatialNode)
-
-	DECLARE_RTTR_CLASS(ACamera, ASpatialNode)
 public:
     /// Construct.
     ACamera();

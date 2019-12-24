@@ -18,8 +18,6 @@ class FAudioModule;
 class AUTO_API AAudioNode : public ASpatialNode
 {
 	DECLARE_CLASS(AAudioNode, ASpatialNode)
-
-	DECLARE_RTTR_CLASS(AAudioNode, ASpatialNode)
 public:
 	/// Constructor
 	AAudioNode();

@@ -17,8 +17,6 @@ class AUTO_API AOctreeNode : public ASpatialNode
 {
 	DECLARE_CLASS(AOctreeNode, ASpatialNode)
 
-	DECLARE_RTTR_CLASS(AOctreeNode, ASpatialNode)
-
     friend class AOctree;
 public:
     /// Construct.
