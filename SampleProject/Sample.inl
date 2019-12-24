@@ -30,7 +30,7 @@ void Sample::Start()
 	logoCamera->SetOrthographic(true);
 	logoCamera->SetPosition(TVector3F(0.0f, 0.0f, -100.0f));
 	logoCamera->SetLayoutMaskAll();
-	logoCamera->SetLayoutMaskOutName("UI");
+	//logoCamera->SetLayoutMaskOutName("UI");
 
 	CreateLogo();
 }
