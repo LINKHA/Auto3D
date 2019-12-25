@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Container/Ptr.h"
+#include "Container/AutoPtr.h"
+
 
 namespace Auto3D
 {
