@@ -20,9 +20,6 @@ public:
     /// Destruct. The whole node tree is destroyed.
     ~AScene();
 
-    /// Register factory and attributes.
-    static void RegisterObject();
-
     /// Save scene to binary stream.
     bool Save(FStream& dest);
     /// Load scene from a binary stream. Existing nodes will be destroyed. Return true on success.
@@ -105,8 +102,6 @@ private:
 	THashMap<FString, unsigned char> _defineTags;
 };
 
-/// Register AScene related object factories and attributes.
-AUTO_API void RegisterSceneLibrary();
 
 }
 

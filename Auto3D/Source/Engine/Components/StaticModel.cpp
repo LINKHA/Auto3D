@@ -40,11 +40,6 @@ AStaticModel::~AStaticModel()
 {
 }
 
-void AStaticModel::RegisterObject()
-{
-   // RegisterFactory<AStaticModel>();
-}
-
 void AStaticModel::OnPrepareRender(unsigned frameNumber, ACamera* camera)
 {
     _lastFrameNumber = frameNumber;

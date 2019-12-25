@@ -97,7 +97,4 @@ private:
 	FShaderVariation* _ipsv;
 };
 
-/// Register Renderer2D related object factories and attributes.
-AUTO_API void RegisterRenderer2DLibrary();
-
 }

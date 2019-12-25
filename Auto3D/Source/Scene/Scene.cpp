@@ -66,11 +66,6 @@ AScene::~AScene()
     assert(_nodes.IsEmpty());
 }
 
-void AScene::RegisterObject()
-{
-   // RegisterFactory<AScene>();
-}
-
 bool AScene::Save(FStream& dest)
 {
 	auto* serialization = GModuleManager::Get().SerializationModule();
@@ -294,18 +289,6 @@ FJSONValue AScene::GetTagNamesAttr() const
 		ret.Push(it->_first);
 
     return ret;
-}
-
-void RegisterSceneLibrary()
-{
-    static bool registered = false;
-    if (registered)
-        return;
-    registered = true;
-
-    ANode::RegisterObject();
-    AScene::RegisterObject();
-    ASpatialNode::RegisterObject();
 }
 
 }

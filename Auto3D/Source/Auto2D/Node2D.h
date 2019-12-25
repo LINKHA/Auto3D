@@ -31,9 +31,6 @@ public:
 	/// Destruct. Destroy any child nodes.
 	~ANode2D();
 
-	/// Register factory and attributes.
-	static void RegisterObject();
-
 	/// Return unique _id within the scene, or 0 if not in a scene.
 	unsigned Id() const { return _id; }
 	/// Set name. Is not required to be unique within the scene.

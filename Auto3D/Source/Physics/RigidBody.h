@@ -18,8 +18,7 @@ public:
 	ARigidBody();
 	/// Destructor
 	~ARigidBody();
-	/// Register object factory.
-	static void RegisterObject();
+
 	/// Return initial world transform to Bullet.
 	void getWorldTransform(btTransform& worldTrans) const override;
 	/// Update world transform from Bullet.

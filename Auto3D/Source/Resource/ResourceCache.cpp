@@ -351,14 +351,4 @@ FString FResourceModule::SanitateResourceDirName(const FString& nameIn) const
     return fixedPath.Trimmed();
 }
 
-void RegisterResourceLibrary()
-{
-    static bool registered = false;
-    if (registered)
-        return;
-    registered = true;
-
-    AJSONFile::RegisterObject();
-}
-
 }

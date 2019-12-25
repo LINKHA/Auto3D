@@ -45,17 +45,6 @@ GModuleManager::GModuleManager() :
 GModuleManager::~GModuleManager()
 {}
 
-void GModuleManager::RegisterMoudleLibrary()
-{
-	RegisterGraphicsLibrary();
-	RegisterResourceLibrary();
-	RegisterRendererLibrary();
-	RegisterRenderer2DLibrary();
-	RegisterAudioLibrary();
-	RegisterUILibrary();
-	RegisterPhysicsLibrary();
-}
-
 void GModuleManager::CreateModules()
 {
 	_cache = TUniquePtr<FResourceModule>(new FResourceModule());

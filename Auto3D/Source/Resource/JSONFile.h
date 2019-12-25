@@ -18,9 +18,6 @@ public:
     bool BeginLoad(FStream& source) override;
     /// Save to a stream as text. Return true on success.
     bool Save(FStream& dest) override;
-    
-    /// Register object factory.
-    static void RegisterObject();
 
     /// Return the root value.
     FJSONValue& Root() { return _root; }

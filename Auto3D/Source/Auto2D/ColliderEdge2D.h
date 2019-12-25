@@ -11,9 +11,6 @@ public:
 	AColliderEdge2D();
 	/// Destructor
 	virtual ~AColliderEdge2D();
-	/// Register object factory.
-	static void RegisterObject();
-	
 
 	/// Set vertex 1.
 	void SetVertex1(const TVector2F& vertex);

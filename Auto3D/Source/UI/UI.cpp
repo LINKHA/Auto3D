@@ -204,14 +204,6 @@ void FUIModule::ProcessEvent(const SDL_Event* event)
 #endif
 }
 
-void RegisterUILibrary()
-{
-	static bool registered = false;
-	if (registered)
-		return;
-	registered = true;
-}
-
 namespace GUI
 {
 // Context creation and access

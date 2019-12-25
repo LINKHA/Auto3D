@@ -56,11 +56,6 @@ ANode::~ANode()
     assert(!_scene);
 }
 
-void ANode::RegisterObject()
-{
-    //RegisterFactory<ANode>();
-}
-
 void ANode::SetName(const FString& newName)
 {
 	if(!newName.IsEmpty())

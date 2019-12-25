@@ -13,8 +13,8 @@ public:
 	ASprite2D();
 	/// Destructor
 	~ASprite2D();
-	/// Register factory and attributes.
-	static void RegisterObject();
+
+	static void DoNothing();
 };
 
 }

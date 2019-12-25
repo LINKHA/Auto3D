@@ -16,8 +16,6 @@ public:
 	AScene2D();
 	/// The destructor
 	~AScene2D();
-	/// Register factory and attributes.
-	static void RegisterObject();
 
 	/// Save canvas to binary stream.
 	bool Save(FStream& dest);

@@ -11,8 +11,6 @@ public:
 	ACoiiliderChain2D();
 	/// Destructor
 	virtual ~ACoiiliderChain2D();
-	/// Register object factory.
-	static void RegisterObject();
 
 	/// Set loop.
 	void SetLoop(bool loop);

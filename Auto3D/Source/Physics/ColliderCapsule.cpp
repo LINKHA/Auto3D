@@ -33,11 +33,6 @@ AColliderCapsule::~AColliderCapsule()
 {
 }
 
-void AColliderCapsule::RegisterObject()
-{
-	//RegisterFactory<AColliderCapsule>();
-}
-
 void AColliderCapsule::SetSize(float radius, float height)
 {
 	_radius = radius;

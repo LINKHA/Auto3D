@@ -14,6 +14,15 @@
 namespace Auto3D
 {
 
+// Font cpp fail,Initializes the global constructor so apply here
+// Apply in Material CPP
+//REGISTER_CLASS
+//{
+//	REGISTER_CALSS_FACTORY_IMP(AIBLMaterial)
+//	.constructor<>()
+//	;
+//}
+
 AIBLMaterial::AIBLMaterial():
 	_iblCubeMap(nullptr)
 {
@@ -25,10 +34,6 @@ AIBLMaterial::~AIBLMaterial()
 
 }
 
-void AIBLMaterial::RegisterObject()
-{
-	RegisterFactory<AIBLMaterial>();
-}
 bool AIBLMaterial::EndLoad()
 {
 	bool flag = false;

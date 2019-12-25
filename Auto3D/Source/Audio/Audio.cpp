@@ -315,19 +315,6 @@ void FAudioModule::CallSourceRewind(unsigned source, int delay)
 		alSourceRewind(source);
 	else
 		GModuleManager::Get().TimeModule()->OneShotTimer(std::bind(&FAudioModule::CallSourceRewind, this, source, 0), delay);
-}
-
-void RegisterAudioLibrary()
-{
-	static bool registered = false;
-	if (registered)
-		return;
-	registered = true;
-
-	AAudioListener::RegisterObject();
-	AAudioSource::RegisterObject();
-	ASound::RegisterObject();
-	AAudioNode::RegisterObject();
 
 }
 

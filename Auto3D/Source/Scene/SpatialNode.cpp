@@ -33,11 +33,6 @@ ASpatialNode::ASpatialNode() :
     SetFlag(NF_SPATIAL, true);
 }
 
-void ASpatialNode::RegisterObject()
-{
-    //RegisterFactory<ASpatialNode>();
-}
-
 void ASpatialNode::SetPosition(const TVector3F& newPosition)
 {
     _position = newPosition;

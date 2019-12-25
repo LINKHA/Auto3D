@@ -31,11 +31,6 @@ AOctreeNode::~AOctreeNode()
     RemoveFromOctree();
 }
 
-void AOctreeNode::RegisterObject()
-{
-	//RegisterFactory<AOctreeNode>();
-}
-
 void AOctreeNode::SetCastShadows(bool enable)
 {
     SetFlag(NF_CASTSHADOWS, enable);

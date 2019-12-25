@@ -95,7 +95,6 @@ private:
 	/// Source array of hash
 	THashMap<unsigned, AAudioSource*> _sources;
 };
-/// Register AAudio related object factories and attributes.
-AUTO_API void RegisterAudioLibrary();
+
 
 }

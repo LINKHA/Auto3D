@@ -27,11 +27,6 @@ AColliderBox::~AColliderBox()
 {
 }
 
-void AColliderBox::RegisterObject()
-{
-	//RegisterFactory<AColliderBox>();
-}
-
 void AColliderBox::SetSize(const TVector3F& vec)
 {
 	_size = vec;

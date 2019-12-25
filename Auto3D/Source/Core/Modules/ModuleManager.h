@@ -32,8 +32,7 @@ protected:
 	/// Destructor
 	~GModuleManager();
 public:
-	/// Register all moudle library.
-	void RegisterMoudleLibrary();
+
 	/// Create all modules.
 	void CreateModules();
 

@@ -17,9 +17,6 @@ public:
 	/// Destruct.
 	~ADynamicModel();
 
-	/// Register factory and attributes.
-	static void RegisterObject();
-
 	/// Prepare object for rendering. Reset framenumber and light list and calculate distance from camera.
 	//void OnPrepareRender(unsigned frameNumber, ACamera* camera) override;
 

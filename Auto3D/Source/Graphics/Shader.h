@@ -19,9 +19,6 @@ public:
     /// Destruct.
     ~AShader();
 
-    /// Register object factory.
-    static void RegisterObject();
-
     /// Load shader code from a stream. Return true on success.
     bool BeginLoad(FStream& source) override;
     /// Finish shader loading in the main thread. Return true on success.

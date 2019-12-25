@@ -24,9 +24,6 @@ public:
     /// Destruct. Remove self from the octree.
     ~AOctreeNode();
 
-    /// Register attributes.
-    static void RegisterObject();
-
     /// Prepare object for rendering. Reset framenumber and calculate distance from camera. Called by ARenderer.
     virtual void OnPrepareRender(unsigned frameNumber, ACamera* camera);
     /// Perform ray test on self and add possible hit to the result vector.

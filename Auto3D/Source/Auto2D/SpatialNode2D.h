@@ -27,8 +27,6 @@ public:
 	ASpatialNode2D();
 	/// The destructor
 	~ASpatialNode2D() = default;
-	/// Register factory and attributes.
-	static void RegisterObject();
 
 	/// Set position in parent space.
 	void SetPosition(const TVector3F& newPosition);

@@ -83,9 +83,6 @@ public:
     /// Destruct.
     ~AImage();
 
-    /// Register object factory.
-    static void RegisterObject();
-
     /// Load image from a stream. Return true on success.
     bool BeginLoad(FStream& source) override;
     /// Save the image to a stream. Regardless of original format, the image is saved as png. Compressed image data is not supported. Return true on success.

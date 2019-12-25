@@ -4,6 +4,13 @@
 #include "RigidBody2D.h"
 
 namespace Auto3D {
+	
+REGISTER_CLASS
+{
+	REGISTER_CALSS_FACTORY_IMP(ACollider2D)
+	.constructor<>()
+	;
+}
 
 ACollider2D::ACollider2D():
 	_fixture(nullptr)
@@ -14,11 +21,6 @@ ACollider2D::ACollider2D():
 ACollider2D::~ACollider2D()
 {
 	ReleaseFixture();
-}
-
-void ACollider2D::RegisterObject()
-{
-	RegisterFactory<ACollider2D>();
 }
 
 void ACollider2D::SetDensity(float density)

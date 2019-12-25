@@ -5,8 +5,6 @@
 
 namespace Auto3D
 {
-static const int FONT_TEXTURE_MIN_SIZE = 128;
-static const int FONT_DPI = 96;
 
 /// %AFont file type.
 namespace EFontType
@@ -31,8 +29,6 @@ public:
 	AFont();
 	/// Destruct.
 	~AFont() override;
-	/// Register object factory.
-	static void RegisterObject();
 
 	/// Load resource from stream. May be called from a worker thread. Return true if successful.
 	bool BeginLoad(FStream& source) override;
@@ -59,7 +55,7 @@ public:
 	/// Return font data.
 	unsigned char* Data() { return _fontData.Get(); }
 	/// Return font data size.
-	unsigned unsigned GetDataSize() { return _fontDataSize; }
+	unsigned GetDataSize() { return _fontDataSize; }
 private:
 	/// AFont data.
 	TSharedArrayPtr<unsigned char> _fontData;

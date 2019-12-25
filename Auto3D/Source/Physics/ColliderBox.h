@@ -12,8 +12,7 @@ public:
 	AColliderBox();
 	/// Destructer
 	~AColliderBox();
-	/// Register object factory.
-	static void RegisterObject();
+
 	/// Set size form TVector3
 	void SetSize(const TVector3F& vec);
 	/// Set size form float x y z

@@ -20,7 +20,8 @@ void Physics2DSample::Start()
 	camera2d->SetOrthoSize(50);
 	camera2d->SetOrthographic(true);
 	camera2d->SetPosition(TVector3F(0.0f, 0.0f, -100.0f));
-	camera2d->SetLayoutMaskName("UI");
+	camera2d->SetLayoutMaskAll();
+	camera2d->SetLayoutMaskOutName("UI");
 
 	{
 		ASprite2D* plane = scene2d->CreateChild<ASprite2D>();

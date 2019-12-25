@@ -129,9 +129,6 @@ private:
 	TWeakPtr<AWindow> _window;
 };
 
-/// Register AUIModule related object factories and attributes.
-AUTO_API void RegisterUILibrary();
-
 namespace GUI
 {
 

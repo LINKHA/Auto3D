@@ -162,8 +162,5 @@ private:
     TAutoPtr<ATexture> _faceSelectionTexture2;
 };
 
-/// Register ARenderer related object factories and attributes.
-AUTO_API void RegisterRendererLibrary();
-
 }
 

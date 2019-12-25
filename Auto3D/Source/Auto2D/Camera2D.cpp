@@ -113,12 +113,6 @@ ACamera2D::~ACamera2D()
 
 }
 
-void ACamera2D::RegisterObject()
-{
-	//RegisterFactory<ACamera2D>();
-}
-
-
 void ACamera2D::SetNearClip(float nearClip)
 {
 	_nearClip = Max(nearClip, M_EPSILON);

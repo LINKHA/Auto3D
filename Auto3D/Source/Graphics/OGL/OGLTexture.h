@@ -23,9 +23,6 @@ public:
     /// Destruct.
     ~ATexture();
 
-    /// Register object factory.
-    static void RegisterObject();
-
     /// Load the texture image data from a stream. Return true on success.
     bool BeginLoad(FStream& source) override;
     /// Finish texture loading by uploading to the GPU. Return true on success.

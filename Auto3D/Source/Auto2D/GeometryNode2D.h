@@ -1,4 +1,5 @@
 #pragma once
+#include "SpatialNode2D.h"
 #include "Scene/GeometryNode.h"
 
 namespace Auto3D
@@ -12,8 +13,7 @@ public:
 	AGeometryNode2D();
 	/// Destruct.
 	~AGeometryNode2D();
-	/// Register factory and attributes.
-	static void RegisterObject();
+
 	/// Set geometry type, which is shared by all geometries.
 	void SetGeometryType(EGeometryType::Type type);
 	/// Set geometry at index.

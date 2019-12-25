@@ -98,25 +98,4 @@ void FPhysicsModule::SetActivePhysicsWrold2D(APhysicsWorld2D* physicsWorld2d)
 		_activeWorld2d = physicsWorld2d;
 }
 
-AUTO_API void RegisterPhysicsLibrary()
-{
-	static bool registered = false;
-	if (registered)
-		return;
-	registered = true;
-
-	APhysicsWorld::RegisterObject();
-	ARigidBody::RegisterObject();
-	ACollider::RegisterObject();
-	AColliderBox::RegisterObject();
-	AColliderSphere::RegisterObject();
-	AColliderCapsule::RegisterObject;
-	AColliderCone::RegisterObject;
-	APhysicsWorld2D::RegisterObject();
-	ARigidBody2D::RegisterObject();
-	ACollider2D::RegisterObject();
-	AColliderBox2D::RegisterObject();
-	AColliderCircle2D::RegisterObject();
-}
-
 }

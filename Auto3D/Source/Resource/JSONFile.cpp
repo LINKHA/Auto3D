@@ -9,9 +9,11 @@
 namespace Auto3D
 {
 
-void AJSONFile::RegisterObject()
+REGISTER_CLASS
 {
-    RegisterFactory<AJSONFile>();
+	REGISTER_CALSS_FACTORY_IMP(AJSONFile)
+	.constructor<>()
+	;
 }
 
 bool AJSONFile::BeginLoad(FStream& source)

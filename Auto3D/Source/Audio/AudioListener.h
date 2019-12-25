@@ -15,9 +15,6 @@ public:
 	/// Destructor
 	~AAudioListener();
 
-	/// Register factory and attributes.
-	static void RegisterObject();
-
 public:
 	/// Get listener vel.
 	const TVector3F& GetVel()const { return _listenerVel; }

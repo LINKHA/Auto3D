@@ -321,8 +321,5 @@ private:
 	bool _vsync;
 };
 
-/// Register AGraphics related object factories and attributes.
-AUTO_API void RegisterGraphicsLibrary();
-
 }
 #endif

@@ -12,8 +12,6 @@ public:
 	AColliderCone();
 	/// Destructer
 	~AColliderCone();
-	/// Register object factory.
-	static void RegisterObject();
 
 	/// Set size radius and height
 	void SetSize(float radius, float height);

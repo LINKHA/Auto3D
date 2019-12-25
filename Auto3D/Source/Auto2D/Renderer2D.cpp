@@ -253,19 +253,4 @@ void FRenderer2DModule::RenderBatches(const TVector<FBatch2D>& batches, ACamera2
 	}
 }
 
-void RegisterRenderer2DLibrary()
-{
-	static bool registered = false;
-	if (registered)
-		return;
-	registered = true;
-
-	AScene2D::RegisterObject();
-	ASprite2D::RegisterObject();
-	ASpatialNode2D::RegisterObject();
-	ACamera2D::RegisterObject();
-	ANode2D::RegisterObject();
-	AGeometryNode2D::RegisterObject();
-}
-
 }

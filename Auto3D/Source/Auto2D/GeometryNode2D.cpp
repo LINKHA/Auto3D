@@ -1,9 +1,22 @@
 #include "GeometryNode2D.h"
 #include "Debug/Log.h"
 #include "Graphics/Texture.h"
+#include "Auto2D/Sprite2D.h"
 
 namespace Auto3D
 {
+
+REGISTER_CLASS
+{
+	REGISTER_CALSS_FACTORY_IMP(AGeometryNode2D)
+	.constructor<>()
+	;
+
+	// Sprite2D cpp fail,Initializes the global constructor so apply here
+	REGISTER_CALSS_FACTORY_IMP(ASprite2D)
+	.constructor<>()
+	;
+}
 
 AGeometryNode2D::AGeometryNode2D() :
 	_geometryType(EGeometryType::STATIC)
@@ -13,11 +26,6 @@ AGeometryNode2D::AGeometryNode2D() :
 
 AGeometryNode2D::~AGeometryNode2D()
 {
-}
-
-void AGeometryNode2D::RegisterObject()
-{
-	RegisterFactory<AGeometryNode2D>();
 }
 
 void AGeometryNode2D::SetGeometryType(EGeometryType::Type type)

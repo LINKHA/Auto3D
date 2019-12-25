@@ -72,9 +72,6 @@ public:
     /// Destruct. Delete all child octants and detach the nodes.
     ~AOctree();
 
-    /// Register factory and attributes.
-    static void RegisterObject();
-    
     /// Process the queue of nodes to be reinserted.
     void Update();
     /// Resize octree.

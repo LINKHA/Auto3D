@@ -27,11 +27,6 @@ ACollider::~ACollider()
 {
 }
 
-void ACollider::RegisterObject()
-{
-	//RegisterFactory<ACollider>();
-}
-
 void ACollider::ReleaseShape()
 {
 	btCompoundShape* compound = GetParentCompoundShape();

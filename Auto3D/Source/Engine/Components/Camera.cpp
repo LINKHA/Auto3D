@@ -112,10 +112,6 @@ ACamera::ACamera() :
     _reflectionMatrix = _reflectionPlane.ReflectionMatrix();
 }
 
-void ACamera::RegisterObject()
-{
-   // RegisterFactory<ACamera>();
-}
 void ACamera::SetNearClip(float nearClip)
 {
     _nearClip = Max(nearClip, M_EPSILON);

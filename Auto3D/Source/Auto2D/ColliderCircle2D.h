@@ -11,8 +11,6 @@ public:
 	AColliderCircle2D();
 	/// Destructor
 	virtual ~AColliderCircle2D();
-	/// Register object factory.
-	static void RegisterObject();
 
 	/// Set radius.
 	void SetRadius(float radius);

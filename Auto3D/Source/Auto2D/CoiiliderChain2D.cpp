@@ -5,6 +5,13 @@
 
 namespace Auto3D {
 
+REGISTER_CLASS
+{
+	REGISTER_CALSS_FACTORY_IMP(ACoiiliderChain2D)
+	.constructor<>()
+	;
+}
+
 ACoiiliderChain2D::ACoiiliderChain2D() :
 	_loop(false)
 {
@@ -12,11 +19,6 @@ ACoiiliderChain2D::ACoiiliderChain2D() :
 }
 
 ACoiiliderChain2D::~ACoiiliderChain2D() = default;
-
-void ACoiiliderChain2D::RegisterObject()
-{
-	RegisterFactory<ACoiiliderChain2D>();
-}
 
 
 void ACoiiliderChain2D::SetLoop(bool loop)

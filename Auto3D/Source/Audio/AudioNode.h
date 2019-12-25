@@ -23,8 +23,6 @@ public:
 	AAudioNode();
 	/// Destructor
 	~AAudioNode();
-	/// Register factory and attributes.
-	static void RegisterObject();
 	/// Set audio Usage
 	void SetUsage(EAudioUsage::Type fre) { _fre = fre; }
 	/// Get audio Usage

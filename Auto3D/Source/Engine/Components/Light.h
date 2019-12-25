@@ -35,9 +35,6 @@ public:
     /// Destruct.
     virtual ~ALight();
 
-    /// Register factory and attributes.
-    static void RegisterObject();
-
     /// Prepare object for rendering. Reset framenumber and calculate distance from camera. Called by ARenderer.
     void OnPrepareRender(unsigned frameNumber, ACamera* camera) override;
     /// Perform ray test on self and add possible hit to the result vector.

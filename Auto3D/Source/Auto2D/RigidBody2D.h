@@ -25,8 +25,7 @@ public:
 	ARigidBody2D();
 	/// Destructor
 	~ARigidBody2D();
-	/// Register object factory.
-	static void RegisterObject();
+
 	/// Get box2d body.
 	b2Body* GetBody() { return _body; }
 

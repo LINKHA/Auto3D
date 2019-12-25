@@ -80,7 +80,4 @@ private:
     TVector<FString> _resourceDirs;
 };
 
-/// Register AResource related object factories and attributes.
-AUTO_API void RegisterResourceLibrary();
-
 }

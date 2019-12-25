@@ -10,6 +10,12 @@
 namespace Auto3D
 {
 
+static const int FONT_TEXTURE_MIN_SIZE = 128;
+static const int FONT_DPI = 96;
+
+static const float MIN_POINT_SIZE = 1;
+static const float MAX_POINT_SIZE = 96;
+
 namespace
 {
 	/// Convert float to 26.6 fixed-point (as used internally by FreeType)
@@ -19,8 +25,15 @@ namespace
 	}
 }
 
-static const float MIN_POINT_SIZE = 1;
-static const float MAX_POINT_SIZE = 96;
+// Font cpp fail,Initializes the global constructor so apply here
+// Apply in Resource CPP
+//REGISTER_CLASS
+//{
+//	REGISTER_CALSS_FACTORY_IMP(AFont)
+//	.constructor<>()
+//	.property_readonly("sdfFont",&AFont::IsSDFFont)
+//	;
+//}
 
 AFont::AFont() :
 	_fontDataSize(0),
@@ -34,11 +47,6 @@ AFont::AFont() :
 AFont::~AFont()
 {
 	_fontData.Reset();
-}
-
-void AFont::RegisterObject()
-{
-	RegisterFactory<AFont>();
 }
 
 bool AFont::BeginLoad(FStream& source)

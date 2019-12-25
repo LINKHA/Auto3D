@@ -27,12 +27,6 @@ AColliderSphere::~AColliderSphere()
 {
 }
 
-void AColliderSphere::RegisterObject()
-{
-	//RegisterFactory<AColliderSphere>();
-}
-
-
 void AColliderSphere::SetSize(float scale)
 {
 	_size = scale;

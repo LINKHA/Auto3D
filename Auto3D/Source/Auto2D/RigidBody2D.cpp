@@ -10,6 +10,13 @@
 
 namespace Auto3D {
 
+REGISTER_CLASS
+{
+	REGISTER_CALSS_FACTORY_IMP(ARigidBody2D)
+	.constructor<>()
+	;
+}
+
 ARigidBody2D::ARigidBody2D():
 	_body(nullptr),
 	_useFixtureMass(true)
@@ -24,11 +31,6 @@ ARigidBody2D::ARigidBody2D():
 ARigidBody2D::~ARigidBody2D()
 {
 	RemoveBodyFromWorld();
-}
-
-void ARigidBody2D::RegisterObject()
-{
-	RegisterFactory<ARigidBody2D>();
 }
 
 void ARigidBody2D::SetBodyType(EBodyType2D::Type type)

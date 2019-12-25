@@ -46,7 +46,4 @@ private:
 
 };
 
-/// Register physics related object factories and attributes.
-AUTO_API void RegisterPhysicsLibrary();
-
 }

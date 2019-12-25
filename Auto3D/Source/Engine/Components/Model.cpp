@@ -29,17 +29,19 @@ FBone::~FBone()
 {
 }
 
+REGISTER_CLASS
+{
+	REGISTER_CALSS_FACTORY_IMP(AModel)
+	.constructor<>()
+	;
+}
+
 AModel::AModel()
 {
 }
 
 AModel::~AModel()
 {
-}
-
-void AModel::RegisterObject()
-{
-    RegisterFactory<AModel>();
 }
 
 bool AModel::BeginLoad(FStream& source)

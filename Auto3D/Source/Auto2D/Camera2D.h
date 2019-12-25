@@ -26,9 +26,6 @@ class AUTO_API ACamera2D : public ASpatialNode2D
 public:
 	ACamera2D();
 	~ACamera2D();
-	/// Register factory and attributes.
-	static void RegisterObject();
-
 	/// Set near clip distance.
 	void SetNearClip(float nearClip);
 	/// Set far clip distance.

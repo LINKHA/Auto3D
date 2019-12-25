@@ -25,9 +25,6 @@ public:
     /// Construct.
     ASpatialNode();
 
-    /// Register factory and attributes.
-    static void RegisterObject();
-
     /// Set _position in parent space.
     void SetPosition(const TVector3F& newPosition);
     /// Set rotation in parent space.

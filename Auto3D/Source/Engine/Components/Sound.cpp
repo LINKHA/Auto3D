@@ -28,6 +28,14 @@ struct WavHeader
 };
 
 static const unsigned IP_SAFETY = 4;
+// Font cpp fail,Initializes the global constructor so apply here
+// Apply in Resource CPP
+//REGISTER_CLASS
+//{
+//	REGISTER_CALSS_FACTORY_IMP(ASound)
+//	.constructor<>()
+//	;
+//}
 
 ASound::ASound()
 {
@@ -37,11 +45,6 @@ ASound::ASound()
 ASound::~ASound()
 {
 
-}
-
-void ASound::RegisterObject()
-{
-	RegisterFactory<ASound>();
 }
 
 bool ASound::BeginLoad(FStream& source)

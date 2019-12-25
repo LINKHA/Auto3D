@@ -32,9 +32,6 @@ public:
     ANode();
     /// Destruct. Destroy any child nodes.
     virtual ~ANode();
-    
-    /// Register factory and attributes.
-    static void RegisterObject();
 
     /// Return unique _id within the scene, or 0 if not in a scene.
     unsigned Id() const { return _id; }

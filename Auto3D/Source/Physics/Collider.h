@@ -41,8 +41,6 @@ public:
 	ACollider();
 	/// Destructor
 	virtual ~ACollider();
-	/// Register object factory.
-	static void RegisterObject();
 
 	/// Get shape
 	btCollisionShape* GetShape() { return _shape.Get(); }

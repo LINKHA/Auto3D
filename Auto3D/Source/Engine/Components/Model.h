@@ -54,9 +54,6 @@ public:
     /// Destruct.
     ~AModel();
 
-    /// Register object factory.
-    static void RegisterObject();
-
     /// Load model from a stream. Return true on success.
     bool BeginLoad(FStream& source) override;
     /// Finalize model loading in the main thread. Return true on success.

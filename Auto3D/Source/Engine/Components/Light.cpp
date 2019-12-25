@@ -94,12 +94,6 @@ ALight::~ALight()
 {
 }
 
-void ALight::RegisterObject()
-{
-   // RegisterFactory<ALight>();
-}
-
-
 void ALight::OnPrepareRender(unsigned frameNumber, ACamera* camera)
 {
     _lastFrameNumber = frameNumber;

@@ -15,8 +15,6 @@ public:
 	ACollider2D();
 	/// Destructor
 	virtual ~ACollider2D();
-	/// Register object factory.
-	static void RegisterObject();
 	/// Set density.
 	void SetDensity(float density);
 	/// Set friction.

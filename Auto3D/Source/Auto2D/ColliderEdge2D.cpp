@@ -6,6 +6,22 @@ namespace Auto3D {
 static const TVector2F DEFAULT_VERTEX1(-0.01f, 0.0f);
 static const TVector2F DEFAULT_VERTEX2(0.01f, 0.0f);
 
+struct AAA
+{
+	AAA()
+	{
+		int i = 0;
+	}
+};
+static AAA a;
+
+REGISTER_CLASS
+{
+	REGISTER_CALSS_FACTORY_IMP(AColliderEdge2D)
+	.constructor<>()
+	;
+}
+
 AColliderEdge2D::AColliderEdge2D() :
 	_vertex1(DEFAULT_VERTEX1),
 	_vertex2(DEFAULT_VERTEX2)
@@ -16,11 +32,6 @@ AColliderEdge2D::AColliderEdge2D() :
 }
 
 AColliderEdge2D::~AColliderEdge2D() = default;
-
-void AColliderEdge2D::RegisterObject()
-{
-	RegisterFactory<AColliderEdge2D>();
-}
 
 void AColliderEdge2D::SetVertex1(const TVector2F& vertex)
 {

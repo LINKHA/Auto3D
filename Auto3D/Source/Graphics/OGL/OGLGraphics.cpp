@@ -1534,16 +1534,5 @@ void FGraphicsModule::ResetState()
 	_renderState = _glRenderState;
 }
 
-void RegisterGraphicsLibrary()
-{
-	static bool registered = false;
-	if (registered)
-		return;
-	registered = true;
-
-	AShader::RegisterObject();
-	ATexture::RegisterObject();
-}
-
 }
 #endif

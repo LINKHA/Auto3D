@@ -13,9 +13,6 @@ public:
 	/// Destruct.
 	virtual ~AWater();
 
-	/// Register factory and attributes.
-	static void RegisterObject();
-
 
 };
 

@@ -219,6 +219,13 @@ struct FDDSurfaceDesc2
 };
 /// \endcond
 
+REGISTER_CLASS
+{
+	REGISTER_CALSS_FACTORY_IMP(AImage)
+	.constructor<>()
+	;
+}
+
 AImage::AImage() :
     _size(TVector2I::ZERO),
     _format(EImageFormat::NONE),
@@ -228,11 +235,6 @@ AImage::AImage() :
 
 AImage::~AImage()
 {
-}
-
-void AImage::RegisterObject()
-{
-    RegisterFactory<AImage>();
 }
 
 bool AImage::BeginLoad(FStream& source)

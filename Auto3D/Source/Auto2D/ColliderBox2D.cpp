@@ -4,6 +4,13 @@ namespace Auto3D {
 
 static const TVector2F DEFAULT_BOX_SIZE(0.01f, 0.01f);
 
+REGISTER_CLASS
+{
+	REGISTER_CALSS_FACTORY_IMP(AColliderBox2D)
+	.constructor<>()
+	;
+}
+
 AColliderBox2D::AColliderBox2D() :
 	_size(DEFAULT_BOX_SIZE)
 {
@@ -14,11 +21,6 @@ AColliderBox2D::AColliderBox2D() :
 }
 
 AColliderBox2D::~AColliderBox2D() = default;
-
-void AColliderBox2D::RegisterObject()
-{
-	RegisterFactory<AColliderBox2D>();
-}
 
 void AColliderBox2D::SetSize(const TVector2F& size)
 {

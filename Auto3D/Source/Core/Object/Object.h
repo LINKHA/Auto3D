@@ -3,6 +3,7 @@
 #include "Container/StringHash.h"
 #include "Event/Event.h"
 #include "Math/AutoMath.h"
+#include "Debug/Log.h"
 
 namespace Auto3D
 {

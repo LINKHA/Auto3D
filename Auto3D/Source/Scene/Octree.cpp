@@ -84,11 +84,6 @@ AOctree::~AOctree()
     DeleteChildOctants(&_root, true);
 }
 
-void AOctree::RegisterObject()
-{
-   // RegisterFactory<AOctree>();
-}
-
 void AOctree::Update()
 {
     PROFILE(UpdateOctree);

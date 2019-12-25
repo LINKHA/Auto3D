@@ -1,10 +1,28 @@
 #include "Debug/Log.h"
 #include "Resource.h"
-
+#include "Engine/Components/Font.h"
+#include "Engine/Components/Sound.h"
 #include "Debug/DebugNew.h"
 
 namespace Auto3D
 {
+	
+REGISTER_CLASS
+{
+	REGISTER_CALSS_FACTORY_IMP(AResource)
+	.constructor<>()
+	;
+
+	// Font cpp fail,Initializes the global constructor so apply here
+	REGISTER_CALSS_FACTORY_IMP(AFont)
+	.constructor<>()
+	.property_readonly("sdfFont", &AFont::IsSDFFont)
+	;
+
+	REGISTER_CALSS_FACTORY_IMP(ASound)
+	.constructor<>()
+	;
+}
 
 bool AResource::BeginLoad(FStream&)
 {

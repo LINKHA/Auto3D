@@ -5,6 +5,7 @@
 #include "Graphics/Texture.h"
 #include "Resource/JSONFile.h"
 #include "Resource/ResourceCache.h"
+#include "Engine/Components/IBLMaterial.h"
 
 #include "Material.h"
 
@@ -186,17 +187,23 @@ void FPass::OnShadersChanged()
         _combinedShaderDefines[EShaderStage::PS]).Value();
 }
 
+REGISTER_CLASS
+{
+	REGISTER_CALSS_FACTORY_IMP(AMaterial)
+	.constructor<>()
+	;
+
+	REGISTER_CALSS_FACTORY_IMP(AIBLMaterial)
+	.constructor<>()
+	;
+}
+
 AMaterial::AMaterial()
 {
 }
 
 AMaterial::~AMaterial()
 {
-}
-
-void AMaterial::RegisterObject()
-{
-    RegisterFactory<AMaterial>();
 }
 
 bool AMaterial::BeginLoad(FStream& source)

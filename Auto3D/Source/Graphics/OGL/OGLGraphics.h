@@ -349,8 +349,5 @@ private:
 	unsigned _vertexArrayObject;
 };
 
-/// Register AGraphics related object factories and attributes.
-AUTO_API void RegisterGraphicsLibrary();
-
 }
 #endif

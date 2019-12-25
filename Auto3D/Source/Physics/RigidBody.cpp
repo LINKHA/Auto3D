@@ -10,6 +10,13 @@
 namespace Auto3D 
 {
 
+REGISTER_CLASS
+{
+	REGISTER_CALSS_FACTORY_IMP(ARigidBody)
+	.constructor<>()
+	;
+}
+
 ARigidBody::ARigidBody() :
 	_mass(0.0f),
 	_isDynamic(false),
@@ -27,11 +34,6 @@ ARigidBody::~ARigidBody()
 
 	if (_physicsWorld)
 		_physicsWorld->RemoveRigidBody(this);
-}
-
-void ARigidBody::RegisterObject()
-{
-	RegisterFactory<ARigidBody>();
 }
 
 void ARigidBody::getWorldTransform(btTransform& worldTrans) const

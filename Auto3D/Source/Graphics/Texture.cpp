@@ -10,11 +10,6 @@
 namespace Auto3D
 {
 
-void ATexture::RegisterObject()
-{
-    RegisterFactory<ATexture>();
-}
-
 bool ATexture::BeginLoad(FStream& source)
 {
     _loadImages.Clear();

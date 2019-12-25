@@ -54,7 +54,7 @@ AEngine::AEngine() :
 	_autoExit(true)
 {
 	GModuleManager& moduleManager = GModuleManager::Get();
-	moduleManager.RegisterMoudleLibrary();
+
 	moduleManager.CreateModules();
 
 	// Assign a value to this class

@@ -17,8 +17,7 @@ public:
 	AAudioSource();
 	/// The destructor
 	~AAudioSource();
-	/// Register object factory.
-	static void RegisterObject();
+
 	/// Plays the active audioclip at (future) scheduled time. If time < 0 it specifies a delay
 	void Play(int delayTime = 0);
 	/// Pauses the active audioclip

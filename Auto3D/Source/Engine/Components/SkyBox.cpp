@@ -163,11 +163,6 @@ ASkyBox::ASkyBox():
 ASkyBox::~ASkyBox() = default;
 
 
-void ASkyBox::RegisterObject()
-{
-	//RegisterFactory<ASkyBox>();
-}
-
 void ASkyBox::SetupIBLMap()
 {
 	if (!isDirty)

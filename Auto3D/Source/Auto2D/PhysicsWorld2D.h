@@ -16,8 +16,6 @@ public:
 	APhysicsWorld2D();
 	/// Destructor
 	~APhysicsWorld2D();
-	/// Register factory and attributes.
-	static void RegisterObject();
 
 	/// APhysics world update step simulation.
 	void Update();

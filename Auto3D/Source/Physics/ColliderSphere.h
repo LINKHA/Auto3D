@@ -12,8 +12,7 @@ public:
 	AColliderSphere();
 	/// Destructer
 	~AColliderSphere();
-	/// Register object factory.
-	static void RegisterObject();
+
 	/// Set size form float
 	void SetSize(float scale);
 

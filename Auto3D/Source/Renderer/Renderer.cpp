@@ -1063,27 +1063,4 @@ FShaderVariation* FRendererModule::FindShaderVariation(EShaderStage::Type stage,
     }
 }
 
-void RegisterRendererLibrary()
-{
-    static bool registered = false;
-    if (registered)
-        return;
-    registered = true;
-
-    // AScene node base attributes are needed
-    RegisterSceneLibrary();
-    AOctree::RegisterObject();
-    ACamera::RegisterObject();
-    AOctreeNode::RegisterObject();
-    AGeometryNode::RegisterObject();
-    AStaticModel::RegisterObject();
-    ALight::RegisterObject();
-    AMaterial::RegisterObject();
-	AIBLMaterial::RegisterObject();
-    AModel::RegisterObject();
-	ASkyBox::RegisterObject();
-	AImage::RegisterObject();
-	AFont::RegisterObject();
-}
-
 }

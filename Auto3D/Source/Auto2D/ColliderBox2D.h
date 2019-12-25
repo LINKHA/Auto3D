@@ -11,8 +11,6 @@ public:
 	AColliderBox2D();
 	/// Destructor
 	virtual ~AColliderBox2D();
-	/// Register object factory.
-	static void RegisterObject();
 	/// Set size form TVector2
 	void SetSize(const TVector2F& size);
 	/// Set size form float x y z

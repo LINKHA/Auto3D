@@ -13,8 +13,7 @@ public:
 	ASkyBox();
 	/// Destruct
 	~ASkyBox();
-	/// Register factory and attributes.
-	static void RegisterObject();
+
 	/// Create ibl map,irradiance prefilter and brdf lut.
 	void SetupIBLMap();
 	/// Create an irradiance cubemap, and re-scale capture FBO to irradiance scale.

@@ -100,9 +100,6 @@ public:
     /// Destruct.
 	virtual ~AMaterial();
 
-    /// Register object factory.
-    static void RegisterObject();
-
     /// Load material from a stream. Return true on success.
 	virtual bool BeginLoad(FStream& source);
     /// Finalize material loading in the main thread. Return true on success.

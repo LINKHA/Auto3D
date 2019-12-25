@@ -82,11 +82,6 @@ AGeometryNode::~AGeometryNode()
 {
 }
 
-void AGeometryNode::RegisterObject()
-{
-   // RegisterFactory<AGeometryNode>();
-}
-
 void AGeometryNode::OnPrepareRender(unsigned frameNumber, ACamera* camera)
 {
     _lastFrameNumber = frameNumber;

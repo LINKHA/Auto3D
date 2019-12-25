@@ -55,11 +55,6 @@ ANode2D::~ANode2D()
 	assert(!_scene2D);
 }
 
-void ANode2D::RegisterObject()
-{
-	//RegisterFactory<ANode2D>();
-}
-
 void ANode2D::SetName(const FString& newName)
 {
 	if(!newName.IsEmpty())

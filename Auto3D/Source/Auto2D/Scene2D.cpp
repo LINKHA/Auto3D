@@ -51,12 +51,6 @@ AScene2D::~AScene2D()
 	assert(_nodes.IsEmpty());
 }
 
-void AScene2D::RegisterObject()
-{
-	//RegisterFactory<AScene2D>();
-}
-
-
 bool AScene2D::Save(FStream& dest)
 {
 	auto* serialization = GModuleManager::Get().SerializationModule();

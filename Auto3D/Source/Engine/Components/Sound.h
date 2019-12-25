@@ -11,8 +11,7 @@ public:
 	ASound();
 
 	~ASound();
-	/// Register object factory
-	static void RegisterObject();
+
 	/// Load resource from stream.May be called from a worker thread.Return true if successful
 	bool BeginLoad(FStream& source)override;
 	/// Load raw sound data.

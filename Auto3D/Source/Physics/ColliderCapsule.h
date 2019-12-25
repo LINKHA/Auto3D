@@ -13,8 +13,6 @@ public:
 	AColliderCapsule();
 	/// Destructer
 	~AColliderCapsule();
-	/// Register object factory.
-	static void RegisterObject();
 
 	/// Set size radius and height
 	void SetSize(float radius,float height);

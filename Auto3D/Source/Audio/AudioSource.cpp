@@ -52,11 +52,6 @@ AAudioSource::~AAudioSource()
 {
 }
 
-void AAudioSource::RegisterObject()
-{
-	//RegisterFactory<AAudioSource>();
-}
-
 void AAudioSource::Play(int delayTime)
 {
 	if (!_audio)

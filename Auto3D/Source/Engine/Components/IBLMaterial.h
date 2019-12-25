@@ -15,8 +15,6 @@ public:
 	/// Destruct.
 	virtual ~AIBLMaterial();
 
-	/// Register object factory.
-	static void RegisterObject();
 	/// End load reousrce.
 	virtual bool EndLoad();
 	/// Set up ibl map.

@@ -33,11 +33,6 @@ AColliderCone::~AColliderCone()
 {
 }
 
-void AColliderCone::RegisterObject()
-{
-	//RegisterFactory<AColliderCone>();
-}
-
 void AColliderCone::SetSize(float radius, float height)
 {
 	_radius = radius;
