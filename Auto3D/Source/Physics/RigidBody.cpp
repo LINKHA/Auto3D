@@ -3,7 +3,7 @@
 #include "PhysicsWorld.h"
 #include "PhysicsUtils.h"
 
-#include "Scene/SpatialNode.h"
+#include "Scene/Transform.h"
 #include "Scene/Scene.h"
 
 
@@ -40,7 +40,7 @@ void ARigidBody::getWorldTransform(btTransform& worldTrans) const
 {
 	if (Parent())
 	{
-		ASpatialNode* parentNode = dynamic_cast<ASpatialNode*>(Parent());
+		ATransform* parentNode = dynamic_cast<ATransform*>(Parent());
 		worldTrans.setOrigin(ToBtVector3(parentNode->GetPosition()));
 		worldTrans.setRotation(ToBtQuaternion(parentNode->GetRotation()));
 	}
@@ -55,7 +55,7 @@ void ARigidBody::setWorldTransform(const btTransform& worldTrans)
 	
 	if (Parent())
 	{
-		ASpatialNode* parentNode = dynamic_cast<ASpatialNode*>(Parent());
+		ATransform* parentNode = dynamic_cast<ATransform*>(Parent());
 		parentNode->SetPosition(newWorldPosition);
 		parentNode->SetRotation(newWorldRotation);
 	}
@@ -106,13 +106,14 @@ void ARigidBody::ReleaseBody()
 	}
 }
 
-void ARigidBody::ParentCallBack()
+void ARigidBody::OnSceneSet(AScene* newScene, AScene* oldScene)
 {
-	_physicsWorld = ParentScene()->GetPhysicsWorld();
-
-	_physicsWorld->AddRigidBody(this);
-
-	AddBodyToWorld();
+	if (newScene)
+	{
+		_physicsWorld = ParentScene()->GetPhysicsWorld();
+		_physicsWorld->AddRigidBody(this);
+		AddBodyToWorld();
+	}
 }
 
 void ARigidBody::AddBodyToWorld()

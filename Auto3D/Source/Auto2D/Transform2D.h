@@ -19,14 +19,14 @@ namespace ETransform2DSpace
 
 
 /// Base class for scene nodes with _position in three-dimensional space.
-class AUTO_API ASpatialNode2D : public ANode2D
+class AUTO_API ATransform2D : public ANode2D
 {
-	DECLARE_CLASS(ASpatialNode2D, ANode2D)
+	DECLARE_CLASS(ATransform2D, ANode2D)
 public:
 	/// Construct.
-	ASpatialNode2D();
+	ATransform2D();
 	/// The destructor
-	~ASpatialNode2D() = default;
+	~ATransform2D() = default;
 
 	/// Set position in parent space.
 	void SetPosition(const TVector3F& newPosition);
@@ -89,7 +89,7 @@ public:
 	void ApplyScale(float delta);
 
 	/// Return the parent spatial node, or null if it is not spatial.
-	ASpatialNode2D* GetSpatialParent() const { return TestFlag(NF_2D_SPATIAL_PARENT) ? static_cast<ASpatialNode2D*>(Parent()) : nullptr; }
+	ATransform2D* GetSpatialParent() const { return TestFlag(NF_2D_SPATIAL_PARENT) ? static_cast<ATransform2D*>(Parent()) : nullptr; }
 	/// Return _position in parent space.
 	const TVector3F& GetPosition() const { return _position; }
 	/// Return rotation in parent space.

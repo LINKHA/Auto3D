@@ -1,4 +1,4 @@
-#include "SpatialNode2D.h"
+#include "Transform2D.h"
 
 #include "Debug/DebugNew.h"
 
@@ -7,24 +7,24 @@ namespace Auto3D
 
 REGISTER_CLASS
 {
-	REGISTER_CALSS_FACTORY_IMP(ASpatialNode2D)
+	REGISTER_CALSS_FACTORY_IMP(ATransform2D)
 	.constructor<>()
-	.property("position", &ASpatialNode2D::GetPosition, &ASpatialNode2D::SetPosition)
+	.property("position", &ATransform2D::GetPosition, &ATransform2D::SetPosition)
 	(
 		metadata(SERIALIZABLE, "")
 	)
-	.property("rotation", &ASpatialNode2D::GetRotation, &ASpatialNode2D::SetRotation)
+	.property("rotation", &ATransform2D::GetRotation, &ATransform2D::SetRotation)
 	(
 		metadata(SERIALIZABLE, "")
 	)
-	.property("scale", &ASpatialNode2D::GetScale, static_cast<void(ASpatialNode2D::*)(const TVector3F&)>(&ASpatialNode2D::SetScale))
+	.property("scale", &ATransform2D::GetScale, static_cast<void(ATransform2D::*)(const TVector3F&)>(&ATransform2D::SetScale))
 	(
 		metadata(SERIALIZABLE, "")
 	)
 	;
 }
 
-ASpatialNode2D::ASpatialNode2D() :
+ATransform2D::ATransform2D() :
 	_worldTransform(TMatrix3x4F::IDENTITY),
 	_position(TVector3F::ZERO),
 	_rotation(FQuaternion::IDENTITY),
@@ -33,25 +33,25 @@ ASpatialNode2D::ASpatialNode2D() :
 	SetFlag(NF_2D_SPATIAL, true);
 }
 
-void ASpatialNode2D::SetPosition(const TVector3F& newPosition)
+void ATransform2D::SetPosition(const TVector3F& newPosition)
 {
 	_position = newPosition;
 	OnTransformChanged();
 }
 
-void ASpatialNode2D::SetRotation(const FQuaternion& newRotation)
+void ATransform2D::SetRotation(const FQuaternion& newRotation)
 {
 	_rotation = newRotation;
 	OnTransformChanged();
 }
 
-void ASpatialNode2D::SetDirection(const TVector3F& newDirection)
+void ATransform2D::SetDirection(const TVector3F& newDirection)
 {
 	_rotation = FQuaternion(TVector3F::FORWARD, newDirection);
 	OnTransformChanged();
 }
 
-void ASpatialNode2D::SetScale(const TVector3F& newScale)
+void ATransform2D::SetScale(const TVector3F& newScale)
 {
 	_scale = newScale;
 	// Make sure scale components never go to exactly zero, to prevent problems with decomposing the world matrix
@@ -65,19 +65,19 @@ void ASpatialNode2D::SetScale(const TVector3F& newScale)
 	OnTransformChanged();
 }
 
-void ASpatialNode2D::SetScale(float newScale)
+void ATransform2D::SetScale(float newScale)
 {
 	SetScale(TVector3F(newScale, newScale, newScale));
 }
 
-void ASpatialNode2D::SetTransform(const TVector3F& newPosition, const FQuaternion& newRotation)
+void ATransform2D::SetTransform(const TVector3F& newPosition, const FQuaternion& newRotation)
 {
 	_position = newPosition;
 	_rotation = newRotation;
 	OnTransformChanged();
 }
 
-void ASpatialNode2D::SetTransform(const TVector3F& newPosition, const FQuaternion& newRotation, const TVector3F& newScale)
+void ATransform2D::SetTransform(const TVector3F& newPosition, const FQuaternion& newRotation, const TVector3F& newScale)
 {
 	_position = newPosition;
 	_rotation = newRotation;
@@ -85,43 +85,43 @@ void ASpatialNode2D::SetTransform(const TVector3F& newPosition, const FQuaternio
 	OnTransformChanged();
 }
 
-void ASpatialNode2D::SetTransform(const TVector3F& newPosition, const FQuaternion& newRotation, float newScale)
+void ATransform2D::SetTransform(const TVector3F& newPosition, const FQuaternion& newRotation, float newScale)
 {
 	SetTransform(newPosition, newRotation, TVector3F(newScale, newScale, newScale));
 }
 
-void ASpatialNode2D::SetWorldPosition(const TVector3F& newPosition)
+void ATransform2D::SetWorldPosition(const TVector3F& newPosition)
 {
-	ASpatialNode2D* parentNode = GetSpatialParent();
+	ATransform2D* parentNode = GetSpatialParent();
 	SetPosition(parentNode ? parentNode->GetWorldTransform().Inverse() * newPosition : newPosition);
 }
 
-void ASpatialNode2D::SetWorldRotation(const FQuaternion& newRotation)
+void ATransform2D::SetWorldRotation(const FQuaternion& newRotation)
 {
-	ASpatialNode2D* parentNode = GetSpatialParent();
+	ATransform2D* parentNode = GetSpatialParent();
 	SetRotation(parentNode ? parentNode->GetWorldRotation().Inverse() * newRotation : newRotation);
 }
 
-void ASpatialNode2D::SetWorldDirection(const TVector3F& newDirection)
+void ATransform2D::SetWorldDirection(const TVector3F& newDirection)
 {
-	ASpatialNode2D* parentNode = GetSpatialParent();
+	ATransform2D* parentNode = GetSpatialParent();
 	SetDirection(parentNode ? parentNode->GetWorldRotation().Inverse() * newDirection : newDirection);
 }
 
-void ASpatialNode2D::SetWorldScale(const TVector3F& newScale)
+void ATransform2D::SetWorldScale(const TVector3F& newScale)
 {
-	ASpatialNode2D* parentNode = GetSpatialParent();
+	ATransform2D* parentNode = GetSpatialParent();
 	SetScale(parentNode ? newScale / parentNode->GetWorldScale() : newScale);
 }
 
-void ASpatialNode2D::SetWorldScale(float newScale)
+void ATransform2D::SetWorldScale(float newScale)
 {
 	SetWorldScale(TVector3F(newScale, newScale, newScale));
 }
 
-void ASpatialNode2D::SetWorldTransform(const TVector3F& newPosition, const FQuaternion& newRotation)
+void ATransform2D::SetWorldTransform(const TVector3F& newPosition, const FQuaternion& newRotation)
 {
-	ASpatialNode2D* parentNode = GetSpatialParent();
+	ATransform2D* parentNode = GetSpatialParent();
 	if (parentNode)
 	{
 		TVector3F localPosition = parentNode->GetWorldTransform().Inverse() * newPosition;
@@ -132,9 +132,9 @@ void ASpatialNode2D::SetWorldTransform(const TVector3F& newPosition, const FQuat
 		SetTransform(newPosition, newRotation);
 }
 
-void ASpatialNode2D::SetWorldTransform(const TVector3F& newPosition, const FQuaternion& newRotation, const TVector3F& newScale)
+void ATransform2D::SetWorldTransform(const TVector3F& newPosition, const FQuaternion& newRotation, const TVector3F& newScale)
 {
-	ASpatialNode2D* parentNode = GetSpatialParent();
+	ATransform2D* parentNode = GetSpatialParent();
 	if (parentNode)
 	{
 		TVector3F localPosition = parentNode->GetWorldTransform().Inverse() * newPosition;
@@ -146,14 +146,14 @@ void ASpatialNode2D::SetWorldTransform(const TVector3F& newPosition, const FQuat
 		SetTransform(newPosition, newRotation);
 }
 
-void ASpatialNode2D::SetWorldTransform(const TVector3F& newPosition, const FQuaternion& newRotation, float newScale)
+void ATransform2D::SetWorldTransform(const TVector3F& newPosition, const FQuaternion& newRotation, float newScale)
 {
 	SetWorldTransform(newPosition, newRotation, TVector3F(newScale, newScale, newScale));
 }
 
-void ASpatialNode2D::Translate(const TVector3F& delta, ETransform2DSpace::Type space)
+void ATransform2D::Translate(const TVector3F& delta, ETransform2DSpace::Type space)
 {
-	ASpatialNode2D* parentNode = GetSpatialParent();
+	ATransform2D* parentNode = GetSpatialParent();
 
 	switch (space)
 	{
@@ -174,9 +174,9 @@ void ASpatialNode2D::Translate(const TVector3F& delta, ETransform2DSpace::Type s
 	OnTransformChanged();
 }
 
-void ASpatialNode2D::Rotate(const FQuaternion& delta, ETransform2DSpace::Type space)
+void ATransform2D::Rotate(const FQuaternion& delta, ETransform2DSpace::Type space)
 {
-	ASpatialNode2D* parentNode = GetSpatialParent();
+	ATransform2D* parentNode = GetSpatialParent();
 
 	switch (space)
 	{
@@ -202,9 +202,9 @@ void ASpatialNode2D::Rotate(const FQuaternion& delta, ETransform2DSpace::Type sp
 	OnTransformChanged();
 }
 
-void ASpatialNode2D::RotateAround(const TVector3F& point, const FQuaternion& delta, ETransform2DSpace::Type space)
+void ATransform2D::RotateAround(const TVector3F& point, const FQuaternion& delta, ETransform2DSpace::Type space)
 {
-	ASpatialNode2D* parentNode = GetSpatialParent();
+	ATransform2D* parentNode = GetSpatialParent();
 	TVector3F parentSpacePoint;
 	FQuaternion oldRotation = _rotation;
 
@@ -241,24 +241,24 @@ void ASpatialNode2D::RotateAround(const TVector3F& point, const FQuaternion& del
 	OnTransformChanged();
 }
 
-void ASpatialNode2D::Yaw(float angle, ETransform2DSpace::Type space)
+void ATransform2D::Yaw(float angle, ETransform2DSpace::Type space)
 {
 	Rotate(FQuaternion(angle, TVector3F::UP), space);
 }
 
-void ASpatialNode2D::Pitch(float angle, ETransform2DSpace::Type space)
+void ATransform2D::Pitch(float angle, ETransform2DSpace::Type space)
 {
 	Rotate(FQuaternion(angle, TVector3F::RIGHT), space);
 }
 
-void ASpatialNode2D::Roll(float angle, ETransform2DSpace::Type space)
+void ATransform2D::Roll(float angle, ETransform2DSpace::Type space)
 {
 	Rotate(FQuaternion(angle, TVector3F::FORWARD), space);
 }
 
-bool ASpatialNode2D::LookAt(const TVector3F& target, const TVector3F& up, ETransform2DSpace::Type space)
+bool ATransform2D::LookAt(const TVector3F& target, const TVector3F& up, ETransform2DSpace::Type space)
 {
-	ASpatialNode2D* parentNode = GetSpatialParent();
+	ATransform2D* parentNode = GetSpatialParent();
 	TVector3F worldSpaceTarget;
 
 	switch (space)
@@ -289,24 +289,24 @@ bool ASpatialNode2D::LookAt(const TVector3F& target, const TVector3F& up, ETrans
 	return true;
 }
 
-void ASpatialNode2D::ApplyScale(float delta)
+void ATransform2D::ApplyScale(float delta)
 {
 	ApplyScale(TVector3F(delta, delta, delta));
 }
 
-void ASpatialNode2D::ApplyScale(const TVector3F& delta)
+void ATransform2D::ApplyScale(const TVector3F& delta)
 {
 	_scale *= delta;
 	OnTransformChanged();
 }
 
-void ASpatialNode2D::OnParentSet(ANode2D* newParent, ANode2D*)
+void ATransform2D::OnParentSet(ANode2D* newParent, ANode2D*)
 {
-	SetFlag(NF_2D_SPATIAL_PARENT, dynamic_cast<ASpatialNode2D*>(newParent) != 0);
+	SetFlag(NF_2D_SPATIAL_PARENT, dynamic_cast<ATransform2D*>(newParent) != 0);
 	OnTransformChanged();
 }
 
-void ASpatialNode2D::OnTransformChanged()
+void ATransform2D::OnTransformChanged()
 {
 	SetFlag(NF_2D_WORLD_TRANSFORM_DIRTY, true);
 
@@ -315,14 +315,14 @@ void ASpatialNode2D::OnTransformChanged()
 	{
 		ANode2D* child = *it;
 		if (child->TestFlag(NF_2D_SPATIAL))
-			static_cast<ASpatialNode2D*>(child)->OnTransformChanged();
+			static_cast<ATransform2D*>(child)->OnTransformChanged();
 	}
 }
 
-void ASpatialNode2D::UpdateWorldTransform() const
+void ATransform2D::UpdateWorldTransform() const
 {
 	if (TestFlag(NF_2D_SPATIAL_PARENT))
-		_worldTransform = static_cast<ASpatialNode2D*>(Parent())->GetWorldTransform() * TMatrix3x4F(_position, _rotation, _scale);
+		_worldTransform = static_cast<ATransform2D*>(Parent())->GetWorldTransform() * TMatrix3x4F(_position, _rotation, _scale);
 	else
 		_worldTransform = TMatrix3x4F(_position, _rotation, _scale);
 	SetFlag(NF_2D_WORLD_TRANSFORM_DIRTY, false);

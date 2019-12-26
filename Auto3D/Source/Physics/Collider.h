@@ -48,9 +48,9 @@ public:
 	void ReleaseShape();
 	/// Update the new collision shape to the ARigidBody.
 	void NotifyRigidBody(bool updateMass = true);
-	/// This function is called when the parent node of this class is assigned.
-	virtual void ParentCallBack() override;
 
+	/// This function is called when the parent node of this class is assigned.
+	virtual void OnSceneSet(AScene* newScene, AScene* oldScene) override;
 protected:
 	/// Find the parent rigid body component and return its compound collision shape.
 	btCompoundShape* GetParentCompoundShape();

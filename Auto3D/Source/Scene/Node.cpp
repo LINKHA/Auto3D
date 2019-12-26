@@ -151,7 +151,6 @@ ANode* ANode::CreateChild(FStringHash childType)
     }
 
     AddChild(child);
-	child->ParentCallBack();
 
     return child;
 }
@@ -196,18 +195,13 @@ void ANode::AddChild(ANode* child)
     ANode* oldParent = child->_parent;
     if (oldParent)
         oldParent->_children.Remove(child);
+
     _children.Push(child);
     child->_parent = this;
     child->OnParentSet(this, oldParent);
+
 	if (_scene)
-	{
 		_scene->AddNode(child);
-		if (child->GetTypeHash() == ACamera::GetTypeHashStatic())
-		{
-			_scene->AddCamera(dynamic_cast<ACamera*>(child));
-		}
-	}
-        
 }
 
 void ANode::RemoveChild(ANode* child)

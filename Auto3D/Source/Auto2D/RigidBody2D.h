@@ -45,7 +45,7 @@ public:
 	void ApplyWorldTransform(const TVector3F& newWorldPosition,const FQuaternion& newWorldRotation);
 
 	/// This function is called when the parent node of this class is assigned.
-	virtual void ParentCallBack()override;
+	virtual void OnScene2DSet(AScene2D* newScene, AScene2D* oldScene) override;
 private:
 	/// Create the rigid body, or re-add to the physics world with changed flags. Calls UpdateMass().
 	void AddBodyToWorld();

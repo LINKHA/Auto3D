@@ -1,7 +1,7 @@
 #pragma once
 #include "AutoConfig.h"
 
-#include "SpatialNode2D.h"
+#include "Transform2D.h"
 
 namespace Auto3D
 {
@@ -20,9 +20,9 @@ namespace EFace2DCameraMode
 };
 
 
-class AUTO_API ACamera2D : public ASpatialNode2D
+class AUTO_API ACamera2D : public ATransform2D
 {
-	DECLARE_CLASS(ACamera2D, ASpatialNode2D)
+	DECLARE_CLASS(ACamera2D, ATransform2D)
 public:
 	ACamera2D();
 	~ACamera2D();

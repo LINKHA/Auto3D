@@ -105,10 +105,4 @@ void APhysicsWorld::ClearColliders()
 	_rigidBody.Clear();
 }
 
-void APhysicsWorld::ParentCallBack()
-{
-	// Get active scene to set physics world
-	ParentScene()->SetPhysicsWorld(this);
-}
-
 }

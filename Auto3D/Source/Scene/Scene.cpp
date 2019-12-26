@@ -10,7 +10,7 @@
 #include "Serialization/Serialization.h"
 
 #include "Scene.h"
-#include "SpatialNode.h"
+#include "Transform.h"
 
 #include "Debug/DebugNew.h"
 
@@ -117,6 +117,16 @@ void AScene::AddNode(ANode* node)
 {
     if (!node || node->ParentScene() == this)
         return;
+
+	if (node->GetTypeHash() == ACamera::GetTypeHashStatic())
+	{
+		AddCamera(dynamic_cast<ACamera*>(node));
+	}
+
+	if (node->GetTypeHash() == APhysicsWorld::GetTypeHashStatic())
+	{
+		SetPhysicsWorld(dynamic_cast<APhysicsWorld*>(node));
+	}
 
     while (_nodes.Contains(_nextNodeId))
     {

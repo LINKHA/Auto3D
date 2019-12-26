@@ -41,8 +41,7 @@ public:
 
 	/// Get colliders with current physics world.
 	TVector<ARigidBody*> GetColliders() { return _rigidBody; }
-	/// This function is called when the parent node of this class is assigned.
-	virtual void ParentCallBack()override;
+
 	/// Overrides of the internal configuration
 	static struct FPhysicsWorldConfig config;
 private:

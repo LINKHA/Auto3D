@@ -29,9 +29,6 @@ public:
 	void RemoveRigidBody(ARigidBody2D* rigidbody);
 	/// Get colliders with current physics world.
 	TVector<ARigidBody2D*> GetColliders() { return _rigidBodies; }
-
-	/// This function is called when the parent node of this class is assigned.
-	virtual void ParentCallBack()override;
 private:
 
 	unsigned int _fps;

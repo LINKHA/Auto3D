@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Math/BoundingBox.h"
-#include "Scene/SpatialNode.h"
+#include "Scene/Transform.h"
 
 namespace Auto3D
 {
@@ -13,9 +13,9 @@ struct FOctant;
 struct FRaycastResult;
 
 /// Base class for scene nodes that insert themselves to the octree for rendering.
-class AUTO_API AOctreeNode : public ASpatialNode
+class AUTO_API AOctreeNode : public ATransform
 {
-	DECLARE_CLASS(AOctreeNode, ASpatialNode)
+	DECLARE_CLASS(AOctreeNode, ATransform)
 
     friend class AOctree;
 public:

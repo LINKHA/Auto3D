@@ -84,10 +84,4 @@ void APhysicsWorld2D::RemoveRigidBody(ARigidBody2D* rigidbody)
 	_rigidBodies.Remove(rigidbody);
 }
 
-void APhysicsWorld2D::ParentCallBack()
-{
-	// Get active scene to set physics world
-	ParentScene2D()->SetPhysicsWorld(this);
-}
-
 }

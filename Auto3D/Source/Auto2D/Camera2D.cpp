@@ -558,7 +558,7 @@ bool ACamera2D::IsProjectionValid() const
 
 void ACamera2D::OnTransformChanged()
 {
-	ASpatialNode2D::OnTransformChanged();
+	ATransform2D::OnTransformChanged();
 
 	_viewMatrixDirty = true;
 }

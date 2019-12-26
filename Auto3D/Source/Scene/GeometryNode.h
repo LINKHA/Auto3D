@@ -3,7 +3,7 @@
 #include "Graphics/GraphicsDefs.h"
 #include "IO/ResourceRef.h"
 #include "OctreeNode.h"
-#include "Auto2D/SpatialNode2D.h"
+#include "Auto2D/Transform2D.h"
 
 namespace Auto3D
 {

@@ -1,7 +1,7 @@
 #include "Debug/Log.h"
 #include "Debug/Profiler.h"
 #include "IO/Stream.h"
-#include "Scene/SpatialNode.h"
+#include "Scene/Transform.h"
 #include "Resource/JSONFile.h"
 #include "RegisteredBox/RegisteredBox.h"
 #include "Core/Modules/ModuleManager.h"
@@ -107,6 +107,16 @@ void AScene2D::AddNode(ANode2D* node)
 {
 	if (!node || node->ParentScene2D() == this)
 		return;
+
+	if (node->GetTypeHash() == ACamera2D::GetTypeHashStatic())
+	{
+		AddCamera(dynamic_cast<ACamera2D*>(node));
+	}
+
+	if (node->GetTypeHash() == APhysicsWorld2D::GetTypeHashStatic())
+	{
+		SetPhysicsWorld(dynamic_cast<APhysicsWorld2D*>(node));
+	}
 
 	while (_nodes.Contains(_nextNodeId))
 	{

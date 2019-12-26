@@ -18,12 +18,12 @@ namespace ETransformSpace
 
 
 /// Base class for scene nodes with _position in three-dimensional space.
-class AUTO_API ASpatialNode : public ANode
+class AUTO_API ATransform : public ANode
 {
-    DECLARE_CLASS(ASpatialNode, ANode)
+    DECLARE_CLASS(ATransform, ANode)
 public:
     /// Construct.
-    ASpatialNode();
+    ATransform();
 
     /// Set _position in parent space.
     void SetPosition(const TVector3F& newPosition);
@@ -77,7 +77,7 @@ public:
     void ApplyScale(float delta);
 
     /// Return the parent spatial node, or null if it is not spatial.
-    ASpatialNode* GetSpatialParent() const { return TestFlag(NF_SPATIAL_PARENT) ? static_cast<ASpatialNode*>(Parent()) : nullptr; }
+    ATransform* GetSpatialParent() const { return TestFlag(NF_SPATIAL_PARENT) ? static_cast<ATransform*>(Parent()) : nullptr; }
     /// Return _position in parent space.
     const TVector3F& GetPosition() const { return _position; }
     /// Return rotation in parent space.

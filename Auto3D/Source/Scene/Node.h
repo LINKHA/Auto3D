@@ -155,8 +155,6 @@ public:
     /// Assign new _id. Called internally.
     void SetId(unsigned newId);
 
-	/// This function is called when the parent node of this class is assigned.
-	virtual void ParentCallBack() {}
 protected:
     /// Handle being assigned to a new parent node.
 	virtual void OnParentSet(ANode* newParent, ANode* oldParent) {}

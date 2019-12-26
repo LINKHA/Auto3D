@@ -1,6 +1,6 @@
 #include "RigidBody2D.h"
 #include "PhysicsWorld2D.h"
-#include "SpatialNode2D.h"
+#include "Transform2D.h"
 #include "Scene2D.h"
 
 #include "Core/Modules/ModuleManager.h"
@@ -95,7 +95,7 @@ void ARigidBody2D::ApplyWorldTransform()
 	if (!_body)
 		return;
 
-	ASpatialNode2D* node = dynamic_cast<ASpatialNode2D*>(Parent());
+	ATransform2D* node = dynamic_cast<ATransform2D*>(Parent());
 
 	const b2Transform& transform = _body->GetTransform();
 	TVector3F newWorldPosition = node->GetPosition();
@@ -108,7 +108,7 @@ void ARigidBody2D::ApplyWorldTransform()
 
 void ARigidBody2D::ApplyWorldTransform(const TVector3F& newWorldPosition, const FQuaternion& newWorldRotation)
 {
-	ASpatialNode2D* node = dynamic_cast<ASpatialNode2D*>(Parent());
+	ATransform2D* node = dynamic_cast<ATransform2D*>(Parent());
 
 	if (newWorldPosition != node->GetPosition() || newWorldRotation!= node->GetRotation())
 	{
@@ -117,13 +117,13 @@ void ARigidBody2D::ApplyWorldTransform(const TVector3F& newWorldPosition, const 
 	}
 }
 
-void ARigidBody2D::ParentCallBack()
+void ARigidBody2D::OnScene2DSet(AScene2D* newScene, AScene2D* oldScene)
 {
-	_physicsWorld2d = ParentScene2D()->GetPhysicsWorld();
-
-	
-
-	AddBodyToWorld();
+	if (newScene)
+	{
+		_physicsWorld2d = ParentScene2D()->GetPhysicsWorld();
+		AddBodyToWorld();
+	}
 }
 
 void ARigidBody2D::AddBodyToWorld()
@@ -139,7 +139,7 @@ void ARigidBody2D::AddBodyToWorld()
 	}
 	else
 	{
-		ASpatialNode2D* parentNode = dynamic_cast<ASpatialNode2D*>(Parent());
+		ATransform2D* parentNode = dynamic_cast<ATransform2D*>(Parent());
 		TVector3F nodePosition = parentNode->GetPosition();
 		float nodeAngle = parentNode->GetRotation().RollAngle() * M_DEGTORAD;;
 

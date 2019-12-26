@@ -148,7 +148,6 @@ ANode2D* ANode2D::CreateChild(FStringHash childType)
 	}
 
 	AddChild(child);
-	child->ParentCallBack();
 
 	return child;
 }
@@ -198,13 +197,7 @@ void ANode2D::AddChild(ANode2D* child)
 	child->OnParentSet(this, oldParent);
 
 	if (_scene2D)
-	{
 		_scene2D->AddNode(child);
-		if (child->GetTypeHash() == ACamera2D::GetTypeHashStatic())
-		{
-			_scene2D->AddCamera(dynamic_cast<ACamera2D*>(child));
-		}
-	}
 }
 
 void ANode2D::RemoveChild(ANode2D* child)

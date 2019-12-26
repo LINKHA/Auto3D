@@ -111,9 +111,10 @@ void ACollider2D::ReleaseFixture()
 	_fixture = nullptr;
 }
 
-void ACollider2D::ParentCallBack()
+void ACollider2D::OnScene2DSet(AScene2D* newScene, AScene2D* oldScene)
 {
-	_physicsWorld = ParentScene2D()->GetPhysicsWorld();
+	if(newScene)
+		_physicsWorld = ParentScene2D()->GetPhysicsWorld();
 }
 
 }

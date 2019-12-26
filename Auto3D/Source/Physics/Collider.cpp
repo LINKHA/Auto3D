@@ -3,7 +3,7 @@
 #include "PhysicsUtils.h"
 
 #include "Debug/Log.h"
-#include "Scene/SpatialNode.h"
+#include "Scene/Transform.h"
 #include "RegisteredBox/RegisteredBox.h"
 #include "Scene/Scene.h"
 
@@ -48,7 +48,7 @@ void ACollider::NotifyRigidBody(bool updateMass)
 		// Remove the shape first to ensure it is not added twice
 		compound->removeChildShape(_shape.Get());
 
-		ASpatialNode* parentNode = dynamic_cast<ASpatialNode*>(Parent());
+		ATransform* parentNode = dynamic_cast<ATransform*>(Parent());
 		btTransform offset;
 		offset.setOrigin(ToBtVector3(parentNode->GetPosition()));
 		offset.setRotation(ToBtQuaternion(parentNode->GetRotation()));
@@ -62,9 +62,10 @@ void ACollider::NotifyRigidBody(bool updateMass)
 	}
 }
 
-void ACollider::ParentCallBack()
+void ACollider::OnSceneSet(AScene* newScene, AScene* oldScene)
 {
-	_physicsWorld = ParentScene()->GetPhysicsWorld();
+	if(newScene)
+		_physicsWorld = ParentScene()->GetPhysicsWorld();
 }
 
 btCompoundShape* ACollider::GetParentCompoundShape()

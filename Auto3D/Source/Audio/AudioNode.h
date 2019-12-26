@@ -1,5 +1,5 @@
 #pragma once
-#include "Scene/SpatialNode.h"
+#include "Scene/Transform.h"
 
 namespace Auto3D
 {
@@ -15,9 +15,9 @@ namespace EAudioUsage
 
 class FAudioModule;
 
-class AUTO_API AAudioNode : public ASpatialNode
+class AUTO_API AAudioNode : public ATransform
 {
-	DECLARE_CLASS(AAudioNode, ASpatialNode)
+	DECLARE_CLASS(AAudioNode, ATransform)
 public:
 	/// Constructor
 	AAudioNode();

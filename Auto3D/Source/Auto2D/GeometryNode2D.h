@@ -1,13 +1,13 @@
 #pragma once
-#include "SpatialNode2D.h"
+#include "Transform2D.h"
 #include "Scene/GeometryNode.h"
 
 namespace Auto3D
 {
 
-class AUTO_API AGeometryNode2D : public ASpatialNode2D
+class AUTO_API AGeometryNode2D : public ATransform2D
 {
-	DECLARE_CLASS(AGeometryNode2D, ASpatialNode2D)
+	DECLARE_CLASS(AGeometryNode2D, ATransform2D)
 public:
 	/// Construct.
 	AGeometryNode2D();

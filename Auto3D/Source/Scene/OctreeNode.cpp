@@ -74,7 +74,7 @@ void AOctreeNode::OnSceneSet(AScene* newScene, AScene*)
 
 void AOctreeNode::OnTransformChanged()
 {
-    ASpatialNode::OnTransformChanged();
+    ATransform::OnTransformChanged();
     SetFlag(NF_BOUNDING_BOX_DIRTY, true);
 
     if (!TestFlag(NF_OCTREE_UPDATE_QUEUED) && _octree)

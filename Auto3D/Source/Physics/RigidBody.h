@@ -36,9 +36,9 @@ public:
 	btCompoundShape* GetCompoundShape() { return _compoundShape.Get(); }
 	/// Remove the rigid body.
 	void ReleaseBody();
-	/// This function is called when the parent node of this class is assigned.
-	virtual void ParentCallBack()override;
 
+	/// This function is called when the parent node of this class is assigned.
+	virtual void OnSceneSet(AScene* newScene, AScene* oldScene) override;
 private:
 	/// Create the rigid body, or re-add to the physics world with changed flags. Calls UpdateMass().
 	void AddBodyToWorld();

@@ -26,7 +26,7 @@ public:
 	/// Release fixture.
 	void ReleaseFixture();
 	/// This function is called when the parent node of this class is assigned.
-	virtual void ParentCallBack() override;
+	virtual void OnScene2DSet(AScene2D* newScene, AScene2D* oldScene) override;
 protected:
 	/// APhysics world form this collider
 	TWeakPtr<APhysicsWorld2D> _physicsWorld;
