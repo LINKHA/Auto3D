@@ -1,7 +1,7 @@
 #include "PhysicsWorld.h"
 #include "PhysicsUtils.h"
 #include "RegisteredBox/RegisteredBox.h"
-#include "Scene/Scene.h"
+#include "Scene/World.h"
 #include "Physics/Physics.h"
 #include "Core/Modules/ModuleManager.h"
 

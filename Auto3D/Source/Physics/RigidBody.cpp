@@ -4,7 +4,7 @@
 #include "PhysicsUtils.h"
 
 #include "Scene/Transform.h"
-#include "Scene/Scene.h"
+#include "Scene/World.h"
 
 
 namespace Auto3D 
@@ -106,11 +106,11 @@ void ARigidBody::ReleaseBody()
 	}
 }
 
-void ARigidBody::OnSceneSet(AScene* newScene, AScene* oldScene)
+void ARigidBody::OnWorldSet(AWorld* newWorld, AWorld* oldWorld)
 {
-	if (newScene)
+	if (newWorld)
 	{
-		_physicsWorld = ParentScene()->GetPhysicsWorld();
+		_physicsWorld = GetWorld()->GetPhysicsWorld();
 		_physicsWorld->AddRigidBody(this);
 		AddBodyToWorld();
 	}

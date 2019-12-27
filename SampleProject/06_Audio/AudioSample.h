@@ -12,7 +12,7 @@ public:
 	void Stop()override;
 	void UIDraw()override;
 
-	TSharedPtr<AScene> scene;
+	TSharedPtr<AWorld> scene;
 	AAudioListener* listener;
 	AAudioSource* source1;
 	AAudioSource* source2;

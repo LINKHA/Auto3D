@@ -17,7 +17,7 @@
 #include "IO/FileSystem.h"
 #include "UI/UI.h"
 #include "Auto2D/Renderer2D.h"
-#include "Scene/Scene.h"
+#include "Scene/World.h"
 #include "Auto2D/Scene2D.h"
 #include "Core/ProcessUtils.h"
 #include "Debug/DebugNew.h"
@@ -140,18 +140,18 @@ void AEngine::Render()
 		return;
 	}
 	_graphics->Prepare();
-	// Render scene
+	// Render world
 	{
-		PROFILE(RenderScene);
+		PROFILE(RenderWorld);
 
-		AScene* scene = _registeredBox->GetActiveScene();
-		if (scene && scene->IsEnabled())
+		AWorld* world = _registeredBox->GetActiveWorld();
+		if (world && world->IsEnabled())
 		{
-			TVector<ACamera*>& cameras = scene->GetCameras();
+			TVector<ACamera*>& cameras = world->GetCameras();
 			for (auto cameraIt = cameras.Begin(); cameraIt != cameras.End(); ++cameraIt)
 			{
 				ACamera* camera = *cameraIt;
-				_renderer->Render(scene, camera);
+				_renderer->Render(world, camera);
 				// Update camera aspect ratio based on window size
 				camera->SetAspectRatio((float)_graphics->GetWidth() / (float)_graphics->GetHeight());
 			}

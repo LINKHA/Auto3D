@@ -1,5 +1,5 @@
 #include "Math/Ray.h"
-#include "Scene/Scene.h"
+#include "Scene/World.h"
 #include "Engine/Components/Camera.h"
 #include "Scene/Octree.h"
 
@@ -57,7 +57,7 @@ void AOctreeNode::OnRaycast(TVector<FRaycastResult>& dest, const FRay& ray, floa
     }
 }
 
-void AOctreeNode::OnSceneSet(AScene* newScene, AScene*)
+void AOctreeNode::OnWorldSet(AWorld* newScene, AWorld*)
 {
     /// Remove from current octree if any
     RemoveFromOctree();

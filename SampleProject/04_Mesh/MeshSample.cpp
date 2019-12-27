@@ -15,7 +15,7 @@ void MeshSample::Start()
 	graphics->RenderWindow()->SetMouseLock(true);
 	graphics->RenderWindow()->SetMouseHide(true);
 
-	scene = AObject::Create<AScene>();
+	scene = AObject::Create<AWorld>();
 	scene->DefineLayer(1,"StaticModel");
 	scene->DefineTag(1, "StaticModelTag");
 	scene->SetupShadowMap(3, 4096);

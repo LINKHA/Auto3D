@@ -1,7 +1,7 @@
 #include "AutoConfig.h"
 #include "IO/JSONValue.h"
 #include "Scene/Node.h"
-#include "Scene/Scene.h"
+#include "Scene/World.h"
 #include "Resource/JSONFile.h"
 #include "Math/BoundingBox.h"
 #include "Math/AutoMath.h"
@@ -72,15 +72,15 @@ public:
 	~FSerializationModule() {}
 	
 	/// Save all nodes under the scene as a JSON format file.
-	bool SaveRootJSON(FStream& dest, AScene* scene);
+	bool SaveRootJSON(FStream& dest, AWorld* scene);
 	/// Load all nodes under the scene as a JSON format file.
-	bool LoadRootJSON(FStream& source, AScene* scene);
+	bool LoadRootJSON(FStream& source, AWorld* scene);
 	/// Load all nodes under the scene as a JSON format file.
-	bool LoadRootJSON(const FJSONValue& source, AScene* scene);
+	bool LoadRootJSON(const FJSONValue& source, AWorld* scene);
 	/// Save all nodes under scene as a binary format file.
-	bool SaveRoot(FStream& dest, AScene* scene);
+	bool SaveRoot(FStream& dest, AWorld* scene);
 	/// Load all nodes under scene as a binary format file.
-	bool LoadRoot(FStream& source, AScene* scene);
+	bool LoadRoot(FStream& source, AWorld* scene);
 
 	/// Save all nodes under the scene as a JSON format file.
 	bool SaveRootJSON(FStream& dest, AScene2D* scene);

@@ -5,7 +5,7 @@
 #include "Debug/Log.h"
 #include "Scene/Transform.h"
 #include "RegisteredBox/RegisteredBox.h"
-#include "Scene/Scene.h"
+#include "Scene/World.h"
 
 namespace Auto3D {
 
@@ -62,10 +62,10 @@ void ACollider::NotifyRigidBody(bool updateMass)
 	}
 }
 
-void ACollider::OnSceneSet(AScene* newScene, AScene* oldScene)
+void ACollider::OnWorldSet(AWorld* newWorld, AWorld* oldWorld)
 {
-	if(newScene)
-		_physicsWorld = ParentScene()->GetPhysicsWorld();
+	if(newWorld)
+		_physicsWorld = GetWorld()->GetPhysicsWorld();
 }
 
 btCompoundShape* ACollider::GetParentCompoundShape()

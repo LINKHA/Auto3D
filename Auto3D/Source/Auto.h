@@ -39,7 +39,7 @@
 #include "Engine/Components/SkyBox.h"
 #include "Engine/Components/Water.h"
 #include "Engine/Components/IBLMaterial.h"
-#include "Scene/Scene.h"
+#include "Scene/World.h"
 #include "RegisteredBox/RegisteredBox.h"
 #include "Thread/Condition.h"
 #include "Thread/Mutex.h"
@@ -77,5 +77,9 @@
 #include "Adapter/AutoFileDialog.h"
 #include "Adapter/AutoRttr.h"
 #include "Serialization/Serialization.h"
+#include "GameFramework/Actor.h"
+#include "GameFramework/Controller.h"
+#include "Engine/Components/Component.h"
+
 
 #include "Application.h"

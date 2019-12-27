@@ -5,7 +5,7 @@
 namespace Auto3D
 {
 
-class AScene;
+class AWorld;
 class FObjectResolver;
 
 static const unsigned short NF_ENABLED = 0x1;
@@ -96,7 +96,7 @@ public:
     /// Return parent node.
     ANode* Parent() const { return _parent; }
     /// Return the scene that the node belongs to.
-    AScene* ParentScene() const { return _scene; }
+    AWorld* GetWorld() const { return _scene; }
     /// Return number of immediate child nodes.
     size_t NumChildren() const { return _children.Size(); }
     /// Return number of immediate child nodes that are not temporary.
@@ -151,7 +151,7 @@ public:
     /// Return bit flags. Used internally eg. by octree queries.
     unsigned short Flags() const { return _flags; }
     /// Assign node to a new scene. Called internally.
-    void SetScene(AScene* newScene);
+    void SetScene(AWorld* newScene);
     /// Assign new _id. Called internally.
     void SetId(unsigned newId);
 
@@ -159,14 +159,14 @@ protected:
     /// Handle being assigned to a new parent node.
 	virtual void OnParentSet(ANode* newParent, ANode* oldParent) {}
     /// Handle being assigned to a new scene.
-    virtual void OnSceneSet(AScene* newScene, AScene* oldScene) {}
+    virtual void OnWorldSet(AWorld* newScene, AWorld* oldScene) {}
     /// Handle the enabled status changing.
     virtual void OnSetEnabled(bool newEnabled) {}
-private:
+protected:
     /// Parent node.
     ANode* _parent;
     /// Parent scene (If in the scene)
-    AScene* _scene;
+    AWorld* _scene;
     /// Child nodes.
     TVector<TSharedPtr<ANode> > _children;
     /// Id within the scene.

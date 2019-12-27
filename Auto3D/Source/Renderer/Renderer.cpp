@@ -7,7 +7,7 @@
 #include "Graphics/Texture.h"
 #include "Graphics/VertexBuffer.h"
 #include "Resource/ResourceCache.h"
-#include "Scene/Scene.h"
+#include "Scene/World.h"
 #include "Math/Matrix4x4.h"
 #include "Math/Matrix3x4.h"
 
@@ -82,7 +82,7 @@ FRendererModule::~FRendererModule()
 {
 }
 
-void FRendererModule::Render(AScene* scene, ACamera* camera)
+void FRendererModule::Render(AWorld* scene, ACamera* camera)
 {
 	PROFILE(RenderScene);
 	TVector<FRenderPassDesc> passes;
@@ -117,7 +117,7 @@ void FRendererModule::SetupShadowMaps(size_t num, int size, EImageFormat::Type f
     }
 }
 
-bool FRendererModule::PrepareView(AScene* scene, ACamera* camera, const TVector<FRenderPassDesc>& passes)
+bool FRendererModule::PrepareView(AWorld* scene, ACamera* camera, const TVector<FRenderPassDesc>& passes)
 {
 	if (!_graphics)
 		Initialize();
@@ -130,7 +130,7 @@ bool FRendererModule::PrepareView(AScene* scene, ACamera* camera, const TVector<
     return true;
 }
 
-bool FRendererModule::CollectObjects(AScene* scene, ACamera* camera)
+bool FRendererModule::CollectObjects(AWorld* scene, ACamera* camera)
 {
     PROFILE(CollectObjects);
 

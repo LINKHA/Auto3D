@@ -9,41 +9,41 @@ class ACamera;
 class APhysicsWorld;
 class ASkyBox;
 
-/// %AScene root node, which also represents the whole scene.
-class AUTO_API AScene : public ANode
+/// %AWorld root node, which also represents the whole world.
+class AUTO_API AWorld : public ANode
 {
-    DECLARE_CLASS(AScene, ANode)
+    DECLARE_CLASS(AWorld, ANode)
 
 public:
     /// Construct.
-    AScene();
+    AWorld();
     /// Destruct. The whole node tree is destroyed.
-    ~AScene();
+    ~AWorld();
 
-    /// Save scene to binary stream.
+    /// Save world to binary stream.
     bool Save(FStream& dest);
-    /// Load scene from a binary stream. Existing nodes will be destroyed. Return true on success.
+    /// Load world from a binary stream. Existing nodes will be destroyed. Return true on success.
     bool Load(FStream& source);
-    /// Load scene from JSON data. Existing nodes will be destroyed. Return true on success.
+    /// Load world from JSON data. Existing nodes will be destroyed. Return true on success.
     bool LoadJSON(const FJSONValue& source);
-    /// Load scene from JSON text data read from a binary stream. Existing nodes will be destroyed. Return true if the JSON was correctly parsed; otherwise the data may be partial.
+    /// Load world from JSON text data read from a binary stream. Existing nodes will be destroyed. Return true if the JSON was correctly parsed; otherwise the data may be partial.
     bool LoadJSON(FStream& source);
-    /// Save scene as JSON text data to a binary stream. Return true on success.
+    /// Save world as JSON text data to a binary stream. Return true on success.
     bool SaveJSON(FStream& dest);
 
-    /// Destroy child nodes recursively, leaving the scene empty.
+    /// Destroy child nodes recursively, leaving the world empty.
     void Clear();
     /// Find node by _id.
     ANode* FindNode(unsigned id) const;
 	/// Setup shadow maps.
 	void SetupShadowMap(size_t num, int size);
-	/// Add node to the scene. This assigns a scene-unique id to it. Called internally.
+	/// Add node to the world. This assigns a world-unique id to it. Called internally.
 	void AddNode(ANode* node);
-	/// Remove node from the scene. This removes the id mapping but does not destroy the node. Called internally.
+	/// Remove node from the world. This removes the id mapping but does not destroy the node. Called internally.
 	void RemoveNode(ANode* node);
-	/// Add camera to the scene. 
+	/// Add camera to the world. 
 	void AddCamera(ACamera* camera);
-	/// Remove camera from the scene.
+	/// Remove camera from the world.
 	void RemoveCamera(ACamera* camera);
 public:
 	/// Get shadow map attr serialization.
@@ -89,7 +89,7 @@ private:
     unsigned _nextNodeId;
 	/// APhysics world custom assign this variable
 	APhysicsWorld* _physicsWorld;
-	/// Skybox in this scene.
+	/// Skybox in this world.
 	ASkyBox* _skybox;
 	/// Shadow map num.I'm going to implement it in the Renderer and I'm just going to store it.
 	size_t _shadowMapNum;

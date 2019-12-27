@@ -16,7 +16,7 @@ void PhysicsSample::Start()
 	graphics->RenderWindow()->SetMouseLock(true);
 	graphics->RenderWindow()->SetMouseHide(true);
 
-	scene = AObject::Create<AScene>();
+	scene = AObject::Create<AWorld>();
 	scene->SetupShadowMap(1, 4096);
 	scene->CreateChild<AOctree>();
 	scene->CreateChild<APhysicsWorld>();

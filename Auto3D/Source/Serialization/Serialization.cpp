@@ -104,7 +104,7 @@ void FPropertyType::SetType(const FType& type)
 	}
 }
 
-bool FSerializationModule::SaveRootJSON(FStream& dest, AScene* scene)
+bool FSerializationModule::SaveRootJSON(FStream& dest, AWorld* scene)
 {
 	PROFILE(SaveSceneJSON);
 
@@ -115,7 +115,7 @@ bool FSerializationModule::SaveRootJSON(FStream& dest, AScene* scene)
 	return json.Save(dest);
 }
 
-bool FSerializationModule::LoadRootJSON(FStream& source, AScene* scene)
+bool FSerializationModule::LoadRootJSON(FStream& source, AWorld* scene)
 {
 	PROFILE(LoadSceneJSON);
 	InfoString("Loading scene from " + source.GetName());
@@ -126,7 +126,7 @@ bool FSerializationModule::LoadRootJSON(FStream& source, AScene* scene)
 	return success;
 }
 
-bool FSerializationModule::LoadRootJSON(const FJSONValue& source, AScene* scene)
+bool FSerializationModule::LoadRootJSON(const FJSONValue& source, AWorld* scene)
 {
 	FString ownType = source["type"].GetString();
 	unsigned ownId = (unsigned)source["id"].GetNumber();
@@ -143,7 +143,7 @@ bool FSerializationModule::LoadRootJSON(const FJSONValue& source, AScene* scene)
 	return true;
 }
 
-bool FSerializationModule::SaveRoot(FStream& dest, AScene* scene)
+bool FSerializationModule::SaveRoot(FStream& dest, AWorld* scene)
 {
 	PROFILE(SaveScene);
 
@@ -155,7 +155,7 @@ bool FSerializationModule::SaveRoot(FStream& dest, AScene* scene)
 	return true;
 }
 
-bool FSerializationModule::LoadRoot(FStream& source, AScene* scene)
+bool FSerializationModule::LoadRoot(FStream& source, AWorld* scene)
 {
 	PROFILE(LoadScene);
 

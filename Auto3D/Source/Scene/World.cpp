@@ -9,7 +9,7 @@
 #include "Engine/Components/Camera.h"
 #include "Serialization/Serialization.h"
 
-#include "Scene.h"
+#include "Scene/World.h"
 #include "Transform.h"
 
 #include "Debug/DebugNew.h"
@@ -19,20 +19,20 @@ namespace Auto3D
 
 REGISTER_CLASS
 {
-	REGISTER_CALSS_FACTORY_IMP(AScene)
+	REGISTER_CALSS_FACTORY_IMP(AWorld)
 	.constructor<>()
-	.property_readonly("cameras", &AScene::GetCameras)
-	.property("physicsWorld", &AScene::GetPhysicsWorld, &AScene::SetPhysicsWorld)
-	.property("skybox", &AScene::GetSkyBox, &AScene::SetSkyBox)
-	.property("shadowMapAttr",&AScene::GetShadowMapAttr,&AScene::SetupShadowMapAttr)
+	.property_readonly("cameras", &AWorld::GetCameras)
+	.property("physicsWorld", &AWorld::GetPhysicsWorld, &AWorld::SetPhysicsWorld)
+	.property("skybox", &AWorld::GetSkyBox, &AWorld::SetSkyBox)
+	.property("shadowMapAttr",&AWorld::GetShadowMapAttr,&AWorld::SetupShadowMapAttr)
 	(
 		metadata(SERIALIZABLE,"")
 	)
-	.property("layerNames", &AScene::GetLayerNamesAttr, &AScene::SetLayerNamesAttr)
+	.property("layerNames", &AWorld::GetLayerNamesAttr, &AWorld::SetLayerNamesAttr)
 	(
 		metadata(SERIALIZABLE, "")
 	)
-	.property("tagNames", &AScene::GetTagNamesAttr, &AScene::SetTagNamesAttr)
+	.property("tagNames", &AWorld::GetTagNamesAttr, &AWorld::SetTagNamesAttr)
 	(
 		metadata(SERIALIZABLE, "")
 	)
@@ -40,7 +40,7 @@ REGISTER_CLASS
 }
 
 
-AScene::AScene() :
+AWorld::AWorld() :
     _nextNodeId(1),
 	_physicsWorld(nullptr),
 	_skybox(nullptr),
@@ -54,10 +54,10 @@ AScene::AScene() :
     DefineTag(TAG_NONE, "None");
 
 	// Register scene to scene system use to render
-	GModuleManager::Get().RegisteredBoxModule()->RegisterScene(this);
+	GModuleManager::Get().RegisteredBoxModule()->RegisterWorld(this);
 }
 
-AScene::~AScene()
+AWorld::~AWorld()
 {
     // ANode destructor will also remove children. But at that point the node<>_id maps have been destroyed 
     // so must tear down the scene tree already here
@@ -66,56 +66,56 @@ AScene::~AScene()
     assert(_nodes.IsEmpty());
 }
 
-bool AScene::Save(FStream& dest)
+bool AWorld::Save(FStream& dest)
 {
 	auto* serialization = GModuleManager::Get().SerializationModule();
 	return serialization->SaveRoot(dest, this);
 }
 
-bool AScene::Load(FStream& source)
+bool AWorld::Load(FStream& source)
 {
 	auto* serialization = GModuleManager::Get().SerializationModule();
 	return serialization->LoadRoot(source, this);
 }
 
-bool AScene::LoadJSON(const FJSONValue& source)
+bool AWorld::LoadJSON(const FJSONValue& source)
 {
 	auto* serialization = GModuleManager::Get().SerializationModule();
 	return serialization->LoadRootJSON(source, this);
 }
 
-bool AScene::LoadJSON(FStream& source)
+bool AWorld::LoadJSON(FStream& source)
 {
 	auto* serialization = GModuleManager::Get().SerializationModule();
 	return serialization->LoadRootJSON(source, this);
 }
 
-bool AScene::SaveJSON(FStream& dest)
+bool AWorld::SaveJSON(FStream& dest)
 {
 	auto* serialization = GModuleManager::Get().SerializationModule();
 	return serialization->SaveRootJSON(dest, this);
 }
 
-void AScene::Clear()
+void AWorld::Clear()
 {
     RemoveAllChildren();
     _nextNodeId = 1;
 }
 
-ANode* AScene::FindNode(unsigned id) const
+ANode* AWorld::FindNode(unsigned id) const
 {
     auto it = _nodes.Find(id);
     return it != _nodes.End() ? it->_second : nullptr;
 }
 
-TVector<ACamera*>& AScene::GetCameras()
+TVector<ACamera*>& AWorld::GetCameras()
 {
 	return _cameras;
 }
 
-void AScene::AddNode(ANode* node)
+void AWorld::AddNode(ANode* node)
 {
-    if (!node || node->ParentScene() == this)
+    if (!node || node->GetWorld() == this)
         return;
 
 	if (node->GetTypeHash() == ACamera::GetTypeHashStatic())
@@ -135,7 +135,7 @@ void AScene::AddNode(ANode* node)
             ++_nextNodeId;
     }
 
-    AScene* oldScene = node->ParentScene();
+    AWorld* oldScene = node->GetWorld();
     if (oldScene)
     {
         unsigned oldId = node->Id();
@@ -156,9 +156,9 @@ void AScene::AddNode(ANode* node)
     }
 }
 
-void AScene::RemoveNode(ANode* node)
+void AWorld::RemoveNode(ANode* node)
 {
-    if (!node || node->ParentScene() != this)
+    if (!node || node->GetWorld() != this)
         return;
 
     _nodes.Erase(node->Id());
@@ -174,40 +174,40 @@ void AScene::RemoveNode(ANode* node)
     }
 }
 
-void AScene::AddCamera(ACamera* camera)
+void AWorld::AddCamera(ACamera* camera)
 {
 	if(camera)
 		_cameras.Push(camera);
 }
 
-void AScene::RemoveCamera(ACamera* camera)
+void AWorld::RemoveCamera(ACamera* camera)
 { 
 	if (camera)
 		_cameras.Remove(camera); 
 }
 
-TVector2F AScene::GetShadowMapAttr()
+TVector2F AWorld::GetShadowMapAttr()
 {
 	return TVector2F(_shadowMapNum, _shadowMapSize);
 }
 
-void AScene::SetupShadowMapAttr(TVector2F numAndSize)
+void AWorld::SetupShadowMapAttr(TVector2F numAndSize)
 {
 	SetupShadowMap(numAndSize._x, numAndSize._y);
 }
 
-void AScene::SetPhysicsWorld(APhysicsWorld* physicsWorld)
+void AWorld::SetPhysicsWorld(APhysicsWorld* physicsWorld)
 {
 	if(physicsWorld)
 		_physicsWorld = physicsWorld;
 }
 
-void AScene::SetSkyBox(ASkyBox* skybox)
+void AWorld::SetSkyBox(ASkyBox* skybox)
 {
 	_skybox = skybox;
 }
 
-void AScene::DefineLayer(unsigned char index, const FString& name)
+void AWorld::DefineLayer(unsigned char index, const FString& name)
 {
 	if (index >= 32)
 	{
@@ -217,7 +217,7 @@ void AScene::DefineLayer(unsigned char index, const FString& name)
 	_defineLayers[name] = index;
 }
 
-void AScene::DefineTag(unsigned char index, const FString& name)
+void AWorld::DefineTag(unsigned char index, const FString& name)
 {
 	if (index >= 32)
 	{
@@ -227,7 +227,7 @@ void AScene::DefineTag(unsigned char index, const FString& name)
 	_defineTags[name] = index;
 }
 
-APhysicsWorld* AScene::GetPhysicsWorld()
+APhysicsWorld* AWorld::GetPhysicsWorld()
 {
 	if (_physicsWorld)
 	{
@@ -237,7 +237,7 @@ APhysicsWorld* AScene::GetPhysicsWorld()
 	return nullptr;
 }
 
-ASkyBox* AScene::GetSkyBox()
+ASkyBox* AWorld::GetSkyBox()
 {
 	if (_skybox)
 	{
@@ -247,7 +247,7 @@ ASkyBox* AScene::GetSkyBox()
 	return nullptr;
 }
 
-void AScene::SetupShadowMap(size_t num, int size)
+void AWorld::SetupShadowMap(size_t num, int size)
 {
 	_shadowMapNum = num;
 	_shadowMapSize = size;
@@ -255,7 +255,7 @@ void AScene::SetupShadowMap(size_t num, int size)
 	GModuleManager::Get().RendererModule()->SetupShadowMaps(num, size, EImageFormat::D16);
 }
 
-void AScene::SetLayerNamesAttr(FJSONValue names)
+void AWorld::SetLayerNamesAttr(FJSONValue names)
 {
     _defineLayers.Clear();
 
@@ -267,7 +267,7 @@ void AScene::SetLayerNamesAttr(FJSONValue names)
     }
 }
 
-FJSONValue AScene::GetLayerNamesAttr() const
+FJSONValue AWorld::GetLayerNamesAttr() const
 {
     FJSONValue ret;
 
@@ -278,7 +278,7 @@ FJSONValue AScene::GetLayerNamesAttr() const
     return ret;
 }
 
-void AScene::SetTagNamesAttr(FJSONValue names)
+void AWorld::SetTagNamesAttr(FJSONValue names)
 {
     _defineTags.Clear();
 
@@ -290,7 +290,7 @@ void AScene::SetTagNamesAttr(FJSONValue names)
     }
 }
 
-FJSONValue AScene::GetTagNamesAttr() const
+FJSONValue AWorld::GetTagNamesAttr() const
 {
     FJSONValue ret;
 

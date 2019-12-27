@@ -491,13 +491,13 @@ public:
     /** Returns the scene loaded by the last successful call to ReadFile()
      *
      * @return Current scene or NULL if there is currently no scene loaded */
-    const aiScene* GetScene() const;
+    const aiScene* GetWorld() const;
 
     // -------------------------------------------------------------------
     /** Returns the scene loaded by the last successful call to ReadFile()
      *  and releases the scene from the ownership of the Importer
      *  instance. The application is now responsible for deleting the
-     *  scene. Any further calls to GetScene() or GetOrphanedScene()
+     *  scene. Any further calls to GetWorld() or GetOrphanedScene()
      *  will return NULL - until a new scene has been loaded via ReadFile().
      *
      * @return Current scene or NULL if there is currently no scene loaded

@@ -66,7 +66,7 @@ struct AUTO_API FGeometryDesc
 	unsigned _drawCount;
 };
 
-/// Description of geometry to be rendered. %AScene nodes that render the same object can share these to reduce memory load and allow instancing.
+/// Description of geometry to be rendered. %AWorld nodes that render the same object can share these to reduce memory load and allow instancing.
 class AUTO_API FGeometry : public FRefCounted
 {
 public:

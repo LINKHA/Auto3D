@@ -50,7 +50,7 @@ public:
 	void NotifyRigidBody(bool updateMass = true);
 
 	/// This function is called when the parent node of this class is assigned.
-	virtual void OnSceneSet(AScene* newScene, AScene* oldScene) override;
+	virtual void OnWorldSet(AWorld* newWorld, AWorld* oldWorld) override;
 protected:
 	/// Find the parent rigid body component and return its compound collision shape.
 	btCompoundShape* GetParentCompoundShape();

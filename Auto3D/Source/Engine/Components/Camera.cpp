@@ -3,7 +3,7 @@
 #include "Engine/Components/Image.h"
 #include "Graphics/Texture.h"
 #include "Debug/Log.h"
-#include "Scene/Scene.h"
+#include "Scene/World.h"
 #include "Debug/DebugNew.h"
 
 namespace Auto3D
@@ -166,17 +166,17 @@ void ACamera::SetLayoutMaskIndex(unsigned maskIndex)
 
 void ACamera::SetLayoutMaskName(const FString& name)
 {
-	AScene* scene = ParentScene();
-	if (!scene)
+	AWorld* world = GetWorld();
+	if (!world)
 		return;
 
-	const THashMap<FString, unsigned char>& layous = scene->Layers();
+	const THashMap<FString, unsigned char>& layous = world->Layers();
 
 	auto it = layous.Find(name);
 	if (it != layous.End())
 		SetLayoutMaskIndex(it->_second);
 	else
-		ErrorString("Layer" + name + " not defined in the scene");
+		ErrorString("Layer" + name + " not defined in the world");
 }
 
 void ACamera::SetLayoutMaskOutIndex(unsigned maskIndex)
@@ -189,17 +189,17 @@ void ACamera::SetLayoutMaskOutIndex(unsigned maskIndex)
 
 void ACamera::SetLayoutMaskOutName(const FString& name)
 {
-	AScene* scene = ParentScene();
-	if (!scene)
+	AWorld* world = GetWorld();
+	if (!world)
 		return;
 
-	const THashMap<FString, unsigned char>& layous = scene->Layers();
+	const THashMap<FString, unsigned char>& layous = world->Layers();
 
 	auto it = layous.Find(name);
 	if (it != layous.End())
 		SetLayoutMaskOutIndex(it->_second);
 	else
-		ErrorString("Layer" + name + " not defined in the scene");
+		ErrorString("Layer" + name + " not defined in the world");
 }
 
 void ACamera::SetLayoutMaskAll()

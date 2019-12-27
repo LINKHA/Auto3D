@@ -300,7 +300,7 @@ void ATransform::ApplyScale(const TVector3F& delta)
     OnTransformChanged();
 }
 
-void ATransform::OnParentSet(ANode* newParent, ANode*)
+void ATransform::OnParentSet(ANode* newParent, ANode* oldParent)
 {
     SetFlag(NF_SPATIAL_PARENT, dynamic_cast<ATransform*>(newParent) != 0);
     OnTransformChanged();

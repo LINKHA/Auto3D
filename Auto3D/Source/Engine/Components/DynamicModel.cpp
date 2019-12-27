@@ -7,7 +7,7 @@
 #include "Renderer/Renderer.h"
 #include "Graphics/Graphics.h"
 #include "Core/Modules/ModuleManager.h"
-#include "Scene/Scene.h"
+#include "Scene/World.h"
 #include "Platform/Context.h"
 #include "Graphics/Texture.h"
 #include "Engine/Components/Material.h"
@@ -212,7 +212,7 @@ bool ADynamicModel::init()
 	free(indices);
 
 
-	ATexture* cubeMap = GModuleManager::Get().RegisteredBoxModule()->GetActiveScene()->GetSkyBox()->GetMaterial(0)->GetTexture(0);
+	ATexture* cubeMap = GModuleManager::Get().RegisteredBoxModule()->GetActiveWorld()->GetSkyBox()->GetMaterial(0)->GetTexture(0);
 	g_cubemap = cubeMap->GetGLTexture();
 	//
 

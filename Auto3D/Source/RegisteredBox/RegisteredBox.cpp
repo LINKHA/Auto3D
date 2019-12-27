@@ -5,7 +5,7 @@ namespace Auto3D
 {
 
 FRegisteredBoxModule::FRegisteredBoxModule() :
-	_activeScene(nullptr),
+	_activeWorld(nullptr),
 	_activeScene2d(nullptr)
 {
 }
@@ -13,15 +13,15 @@ FRegisteredBoxModule::~FRegisteredBoxModule()
 {
 }
 
-void FRegisteredBoxModule::SetActiveScene(AScene* scene)
+void FRegisteredBoxModule::SetActiveWorld(AWorld* world)
 { 
-	if (scene)
+	if (world)
 	{
-		_activeScene = scene;
+		_activeWorld = world;
 	}
 	else
 	{
-		WarningString("File set active scene.");
+		WarningString("File set active world.");
 	}
 }
 
@@ -37,9 +37,9 @@ void FRegisteredBoxModule::SetActiveScene2D(AScene2D* scene2d)
 	}
 }
 
-AScene* FRegisteredBoxModule::GetActiveScene()
+AWorld* FRegisteredBoxModule::GetActiveWorld()
 {
-	return _activeScene;
+	return _activeWorld;
 }
 
 AScene2D* FRegisteredBoxModule::GetActiveScene2D()

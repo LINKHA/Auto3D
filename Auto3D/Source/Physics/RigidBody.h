@@ -38,7 +38,7 @@ public:
 	void ReleaseBody();
 
 	/// This function is called when the parent node of this class is assigned.
-	virtual void OnSceneSet(AScene* newScene, AScene* oldScene) override;
+	virtual void OnWorldSet(AWorld* newWorld, AWorld* oldWorld) override;
 private:
 	/// Create the rigid body, or re-add to the physics world with changed flags. Calls UpdateMass().
 	void AddBodyToWorld();

@@ -2,7 +2,7 @@
 #include "IO/Stream.h"
 #include "Resource/JSONFile.h"
 #include "Engine/Components/Camera.h"
-#include "Scene.h"
+#include "Scene/World.h"
 
 #include "Debug/DebugNew.h"
 
@@ -496,11 +496,11 @@ void ANode::FindChildrenByTag(TVector<ANode*>& result, const char* tagName, bool
     }
 }
 
-void ANode::SetScene(AScene* newScene)
+void ANode::SetScene(AWorld* newScene)
 {
-    AScene* oldScene = _scene;
+    AWorld* oldScene = _scene;
     _scene = newScene;
-    OnSceneSet(_scene, oldScene);
+    OnWorldSet(_scene, oldScene);
 }
 
 void ANode::SetId(unsigned newId)

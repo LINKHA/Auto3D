@@ -19,7 +19,7 @@ void SerializeSample::Start()
 
 	AFont* msyh = cache->LoadResource<AFont>("Font/msyh.ttc");
 	ui->AddFont(msyh, 26, "Msyh_26");
-	scene = AObject::Create<AScene>();
+	scene = AObject::Create<AWorld>();
 	scene->DefineLayer(1, "Layer1");
 	scene->DefineLayer(2, "Layer2");
 	scene->DefineTag(1, "Tag1");

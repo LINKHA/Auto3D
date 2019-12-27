@@ -421,7 +421,7 @@ void Importer::SetExtraVerbose(bool bDo)
 
 // ------------------------------------------------------------------------------------------------
 // Get the current scene
-const aiScene* Importer::GetScene() const
+const aiScene* Importer::GetWorld() const
 {
     return pimpl->mScene;
 }

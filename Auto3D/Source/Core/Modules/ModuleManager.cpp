@@ -14,7 +14,7 @@
 #include "IO/FileSystem.h"
 #include "UI/UI.h"
 #include "Auto2D/Renderer2D.h"
-#include "Scene/Scene.h"
+#include "Scene/World.h"
 #include "Auto2D/Scene2D.h"
 #include "Serialization/Serialization.h"
 

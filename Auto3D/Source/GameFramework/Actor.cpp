@@ -9,5 +9,14 @@ REGISTER_CLASS
 	.constructor<>()
 	;
 }
+void AActor::BeginPlay()
+{
+
+}
+
+void AActor::Tick(float DeltaSeconds)
+{
+
+}
 
 }
