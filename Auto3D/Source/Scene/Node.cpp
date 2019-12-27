@@ -320,12 +320,12 @@ void ANode::AllChildren(TVector<ANode*>& result) const
     }
 }
 
-ANode* ANode::FindChild(const FString& childName, bool recursive) const
+ANode* ANode::FindChildNode(const FString& childName, bool recursive) const
 {
-    return FindChild(childName.CString(), recursive);
+    return FindChildNode(childName.CString(), recursive);
 }
 
-ANode* ANode::FindChild(const char* childName, bool recursive) const
+ANode* ANode::FindChildNode(const char* childName, bool recursive) const
 {
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
@@ -334,7 +334,7 @@ ANode* ANode::FindChild(const char* childName, bool recursive) const
             return child;
         else if (recursive && child->_children.Size())
         {
-            ANode* childResult = child->FindChild(childName, recursive);
+            ANode* childResult = child->FindChildNode(childName, recursive);
             if (childResult)
                 return childResult;
         }
@@ -343,7 +343,7 @@ ANode* ANode::FindChild(const char* childName, bool recursive) const
     return nullptr;
 }
 
-ANode* ANode::FindChild(FStringHash childType, bool recursive) const
+ANode* ANode::FindChildNode(FStringHash childType, bool recursive) const
 {
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
@@ -352,7 +352,7 @@ ANode* ANode::FindChild(FStringHash childType, bool recursive) const
             return child;
         else if (recursive && child->_children.Size())
         {
-            ANode* childResult = child->FindChild(childType, recursive);
+            ANode* childResult = child->FindChildNode(childType, recursive);
             if (childResult)
                 return childResult;
         }
@@ -361,12 +361,12 @@ ANode* ANode::FindChild(FStringHash childType, bool recursive) const
     return nullptr;
 }
 
-ANode* ANode::FindChild(FStringHash childType, const FString& childName, bool recursive) const
+ANode* ANode::FindChildNode(FStringHash childType, const FString& childName, bool recursive) const
 {
-    return FindChild(childType, childName.CString(), recursive);
+    return FindChildNode(childType, childName.CString(), recursive);
 }
 
-ANode* ANode::FindChild(FStringHash childType, const char* childName, bool recursive) const
+ANode* ANode::FindChildNode(FStringHash childType, const char* childName, bool recursive) const
 {
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
@@ -375,7 +375,7 @@ ANode* ANode::FindChild(FStringHash childType, const char* childName, bool recur
             return child;
         else if (recursive && child->_children.Size())
         {
-            ANode* childResult = child->FindChild(childType, childName, recursive);
+            ANode* childResult = child->FindChildNode(childType, childName, recursive);
             if (childResult)
                 return childResult;
         }
@@ -384,7 +384,7 @@ ANode* ANode::FindChild(FStringHash childType, const char* childName, bool recur
     return nullptr;
 }
 
-ANode* ANode::FindChildByLayer(unsigned layerMask, bool recursive) const
+ANode* ANode::FindChildNodeByLayer(unsigned layerMask, bool recursive) const
 {
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
@@ -393,7 +393,7 @@ ANode* ANode::FindChildByLayer(unsigned layerMask, bool recursive) const
             return child;
         else if (recursive && child->_children.Size())
         {
-            ANode* childResult = child->FindChildByLayer(layerMask, recursive);
+            ANode* childResult = child->FindChildNodeByLayer(layerMask, recursive);
             if (childResult)
                 return childResult;
         }
@@ -402,7 +402,7 @@ ANode* ANode::FindChildByLayer(unsigned layerMask, bool recursive) const
     return nullptr;
 }
 
-ANode* ANode::FindChildByTag(unsigned char tag, bool recursive) const
+ANode* ANode::FindChildNodeByTag(unsigned char tag, bool recursive) const
 {
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
@@ -411,7 +411,7 @@ ANode* ANode::FindChildByTag(unsigned char tag, bool recursive) const
             return child;
         else if (recursive && child->_children.Size())
         {
-            ANode* childResult = child->FindChildByTag(tag, recursive);
+            ANode* childResult = child->FindChildNodeByTag(tag, recursive);
             if (childResult)
                 return childResult;
         }
@@ -420,12 +420,12 @@ ANode* ANode::FindChildByTag(unsigned char tag, bool recursive) const
     return nullptr;
 }
 
-ANode* ANode::FindChildByTag(const FString& tagName, bool recursive) const
+ANode* ANode::FindChildNodeByTag(const FString& tagName, bool recursive) const
 {
-    return FindChildByTag(tagName.CString(), recursive);
+    return FindChildNodeByTag(tagName.CString(), recursive);
 }
 
-ANode* ANode::FindChildByTag(const char* tagName, bool recursive) const
+ANode* ANode::FindChildNodeByTag(const char* tagName, bool recursive) const
 {
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
@@ -434,7 +434,7 @@ ANode* ANode::FindChildByTag(const char* tagName, bool recursive) const
             return child;
         else if (recursive && child->_children.Size())
         {
-            ANode* childResult = child->FindChildByTag(tagName, recursive);
+            ANode* childResult = child->FindChildNodeByTag(tagName, recursive);
             if (childResult)
                 return childResult;
         }
@@ -443,7 +443,7 @@ ANode* ANode::FindChildByTag(const char* tagName, bool recursive) const
     return nullptr;
 }
 
-void ANode::FindChildren(TVector<ANode*>& result, FStringHash childType, bool recursive) const
+void ANode::FindChildrenNode(TVector<ANode*>& result, FStringHash childType, bool recursive) const
 {
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
@@ -451,11 +451,11 @@ void ANode::FindChildren(TVector<ANode*>& result, FStringHash childType, bool re
         if (child->GetTypeHash() == childType)
             result.Push(child);
         if (recursive && child->_children.Size())
-            child->FindChildren(result, childType, recursive);
+            child->FindChildrenNode(result, childType, recursive);
     }
 }
 
-void ANode::FindChildrenByLayer(TVector<ANode*>& result, unsigned layerMask, bool recursive) const
+void ANode::FindChildrenNodeByLayer(TVector<ANode*>& result, unsigned layerMask, bool recursive) const
 {
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
@@ -463,11 +463,11 @@ void ANode::FindChildrenByLayer(TVector<ANode*>& result, unsigned layerMask, boo
         if (child->GetLayerMask() & layerMask)
             result.Push(child);
         if (recursive && child->_children.Size())
-            child->FindChildrenByLayer(result, layerMask, recursive);
+            child->FindChildrenNodeByLayer(result, layerMask, recursive);
     }
 }
 
-void ANode::FindChildrenByTag(TVector<ANode*>& result, unsigned char tag, bool recursive) const
+void ANode::FindChildrenNodeByTag(TVector<ANode*>& result, unsigned char tag, bool recursive) const
 {
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
@@ -475,16 +475,16 @@ void ANode::FindChildrenByTag(TVector<ANode*>& result, unsigned char tag, bool r
         if (child->_tag == tag)
             result.Push(child);
         if (recursive && child->_children.Size())
-            child->FindChildrenByTag(result, tag, recursive);
+            child->FindChildrenNodeByTag(result, tag, recursive);
     }
 }
 
-void ANode::FindChildrenByTag(TVector<ANode*>& result, const FString& tagName, bool recursive) const
+void ANode::FindChildrenNodeByTag(TVector<ANode*>& result, const FString& tagName, bool recursive) const
 {
-    FindChildrenByTag(result, tagName.CString(), recursive);
+    FindChildrenNodeByTag(result, tagName.CString(), recursive);
 }
 
-void ANode::FindChildrenByTag(TVector<ANode*>& result, const char* tagName, bool recursive) const
+void ANode::FindChildrenNodeByTag(TVector<ANode*>& result, const char* tagName, bool recursive) const
 {
     for (auto it = _children.Begin(); it != _children.End(); ++it)
     {
@@ -492,7 +492,7 @@ void ANode::FindChildrenByTag(TVector<ANode*>& result, const char* tagName, bool
         if (!FString::Compare(child->GetTagName().CString(), tagName))
             result.Push(child);
         if (recursive && child->_children.Size())
-            child->FindChildrenByTag(result, tagName, recursive);
+            child->FindChildrenNodeByTag(result, tagName, recursive);
     }
 }
 

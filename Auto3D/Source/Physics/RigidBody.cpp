@@ -140,7 +140,7 @@ void ARigidBody::AddBodyToWorld()
 		// Check if CollisionShapes already exist in the node and add them to the compound shape.
 		// Do not update mass yet, but do it once all shapes have been added.
 		TVector<ACollider*> shapes;
-		Parent()->FindChildren<ACollider>(shapes, false);
+		Parent()->FindChildrenNode<ACollider>(shapes, false);
 		for (auto it = shapes.Begin(); it != shapes.End(); ++it)
 		{
 			(*it)->NotifyRigidBody(false);

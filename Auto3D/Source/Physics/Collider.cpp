@@ -71,7 +71,7 @@ void ACollider::OnWorldSet(AWorld* newWorld, AWorld* oldWorld)
 btCompoundShape* ACollider::GetParentCompoundShape()
 {
 	if (!_rigidBody)
-		_rigidBody = Parent()->FindChild<ARigidBody>();
+		_rigidBody = Parent()->FindChildNode<ARigidBody>();
 
 	return _rigidBody ? _rigidBody->GetCompoundShape() : nullptr;
 }

@@ -66,7 +66,7 @@ void ACollider2D::CreateFixture()
 
 	if (!_rigidBody)
 	{
-		_rigidBody = Parent()->FindChild<ARigidBody2D>();
+		_rigidBody = Parent()->FindChildNode<ARigidBody2D>();
 		if (!_rigidBody)
 			return;
 	}

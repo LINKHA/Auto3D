@@ -316,12 +316,12 @@ void ANode2D::AllChildren(TVector<ANode2D*>& result) const
 	}
 }
 
-ANode2D* ANode2D::FindChild(const FString& childName, bool recursive) const
+ANode2D* ANode2D::FindChildNode(const FString& childName, bool recursive) const
 {
-	return FindChild(childName.CString(), recursive);
+	return FindChildNode(childName.CString(), recursive);
 }
 
-ANode2D* ANode2D::FindChild(const char* childName, bool recursive) const
+ANode2D* ANode2D::FindChildNode(const char* childName, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
@@ -330,7 +330,7 @@ ANode2D* ANode2D::FindChild(const char* childName, bool recursive) const
 			return child;
 		else if (recursive && child->_children.Size())
 		{
-			ANode2D* childResult = child->FindChild(childName, recursive);
+			ANode2D* childResult = child->FindChildNode(childName, recursive);
 			if (childResult)
 				return childResult;
 		}
@@ -339,7 +339,7 @@ ANode2D* ANode2D::FindChild(const char* childName, bool recursive) const
 	return nullptr;
 }
 
-ANode2D* ANode2D::FindChild(FStringHash childType, bool recursive) const
+ANode2D* ANode2D::FindChildNode(FStringHash childType, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
@@ -348,7 +348,7 @@ ANode2D* ANode2D::FindChild(FStringHash childType, bool recursive) const
 			return child;
 		else if (recursive && child->_children.Size())
 		{
-			ANode2D* childResult = child->FindChild(childType, recursive);
+			ANode2D* childResult = child->FindChildNode(childType, recursive);
 			if (childResult)
 				return childResult;
 		}
@@ -357,12 +357,12 @@ ANode2D* ANode2D::FindChild(FStringHash childType, bool recursive) const
 	return nullptr;
 }
 
-ANode2D* ANode2D::FindChild(FStringHash childType, const FString& childName, bool recursive) const
+ANode2D* ANode2D::FindChildNode(FStringHash childType, const FString& childName, bool recursive) const
 {
-	return FindChild(childType, childName.CString(), recursive);
+	return FindChildNode(childType, childName.CString(), recursive);
 }
 
-ANode2D* ANode2D::FindChild(FStringHash childType, const char* childName, bool recursive) const
+ANode2D* ANode2D::FindChildNode(FStringHash childType, const char* childName, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
@@ -371,7 +371,7 @@ ANode2D* ANode2D::FindChild(FStringHash childType, const char* childName, bool r
 			return child;
 		else if (recursive && child->_children.Size())
 		{
-			ANode2D* childResult = child->FindChild(childType, childName, recursive);
+			ANode2D* childResult = child->FindChildNode(childType, childName, recursive);
 			if (childResult)
 				return childResult;
 		}
@@ -380,7 +380,7 @@ ANode2D* ANode2D::FindChild(FStringHash childType, const char* childName, bool r
 	return nullptr;
 }
 
-ANode2D* ANode2D::FindChildByLayer(unsigned layerMask, bool recursive) const
+ANode2D* ANode2D::FindChildNodeByLayer(unsigned layerMask, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
@@ -389,7 +389,7 @@ ANode2D* ANode2D::FindChildByLayer(unsigned layerMask, bool recursive) const
 			return child;
 		else if (recursive && child->_children.Size())
 		{
-			ANode2D* childResult = child->FindChildByLayer(layerMask, recursive);
+			ANode2D* childResult = child->FindChildNodeByLayer(layerMask, recursive);
 			if (childResult)
 				return childResult;
 		}
@@ -398,7 +398,7 @@ ANode2D* ANode2D::FindChildByLayer(unsigned layerMask, bool recursive) const
 	return nullptr;
 }
 
-ANode2D* ANode2D::FindChildByTag(unsigned char tag, bool recursive) const
+ANode2D* ANode2D::FindChildNodeByTag(unsigned char tag, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
@@ -407,7 +407,7 @@ ANode2D* ANode2D::FindChildByTag(unsigned char tag, bool recursive) const
 			return child;
 		else if (recursive && child->_children.Size())
 		{
-			ANode2D* childResult = child->FindChildByTag(tag, recursive);
+			ANode2D* childResult = child->FindChildNodeByTag(tag, recursive);
 			if (childResult)
 				return childResult;
 		}
@@ -416,12 +416,12 @@ ANode2D* ANode2D::FindChildByTag(unsigned char tag, bool recursive) const
 	return nullptr;
 }
 
-ANode2D* ANode2D::FindChildByTag(const FString& tagName, bool recursive) const
+ANode2D* ANode2D::FindChildNodeByTag(const FString& tagName, bool recursive) const
 {
-	return FindChildByTag(tagName.CString(), recursive);
+	return FindChildNodeByTag(tagName.CString(), recursive);
 }
 
-ANode2D* ANode2D::FindChildByTag(const char* tagName, bool recursive) const
+ANode2D* ANode2D::FindChildNodeByTag(const char* tagName, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
@@ -430,7 +430,7 @@ ANode2D* ANode2D::FindChildByTag(const char* tagName, bool recursive) const
 			return child;
 		else if (recursive && child->_children.Size())
 		{
-			ANode2D* childResult = child->FindChildByTag(tagName, recursive);
+			ANode2D* childResult = child->FindChildNodeByTag(tagName, recursive);
 			if (childResult)
 				return childResult;
 		}
@@ -439,7 +439,7 @@ ANode2D* ANode2D::FindChildByTag(const char* tagName, bool recursive) const
 	return nullptr;
 }
 
-void ANode2D::FindChildren(TVector<ANode2D*>& result, FStringHash childType, bool recursive) const
+void ANode2D::FindChildrenNode(TVector<ANode2D*>& result, FStringHash childType, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
@@ -447,11 +447,11 @@ void ANode2D::FindChildren(TVector<ANode2D*>& result, FStringHash childType, boo
 		if (child->GetTypeHash() == childType)
 			result.Push(child);
 		if (recursive && child->_children.Size())
-			child->FindChildren(result, childType, recursive);
+			child->FindChildrenNode(result, childType, recursive);
 	}
 }
 
-void ANode2D::FindChildrenByLayer(TVector<ANode2D*>& result, unsigned layerMask, bool recursive) const
+void ANode2D::FindChildrenNodeByLayer(TVector<ANode2D*>& result, unsigned layerMask, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
@@ -459,11 +459,11 @@ void ANode2D::FindChildrenByLayer(TVector<ANode2D*>& result, unsigned layerMask,
 		if (child->GetLayerMask() & layerMask)
 			result.Push(child);
 		if (recursive && child->_children.Size())
-			child->FindChildrenByLayer(result, layerMask, recursive);
+			child->FindChildrenNodeByLayer(result, layerMask, recursive);
 	}
 }
 
-void ANode2D::FindChildrenByTag(TVector<ANode2D*>& result, unsigned char tag, bool recursive) const
+void ANode2D::FindChildrenNodeByTag(TVector<ANode2D*>& result, unsigned char tag, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
@@ -471,16 +471,16 @@ void ANode2D::FindChildrenByTag(TVector<ANode2D*>& result, unsigned char tag, bo
 		if (child->_tag == tag)
 			result.Push(child);
 		if (recursive && child->_children.Size())
-			child->FindChildrenByTag(result, tag, recursive);
+			child->FindChildrenNodeByTag(result, tag, recursive);
 	}
 }
 
-void ANode2D::FindChildrenByTag(TVector<ANode2D*>& result, const FString& tagName, bool recursive) const
+void ANode2D::FindChildrenNodeByTag(TVector<ANode2D*>& result, const FString& tagName, bool recursive) const
 {
-	FindChildrenByTag(result, tagName.CString(), recursive);
+	FindChildrenNodeByTag(result, tagName.CString(), recursive);
 }
 
-void ANode2D::FindChildrenByTag(TVector<ANode2D*>& result, const char* tagName, bool recursive) const
+void ANode2D::FindChildrenNodeByTag(TVector<ANode2D*>& result, const char* tagName, bool recursive) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
@@ -488,7 +488,7 @@ void ANode2D::FindChildrenByTag(TVector<ANode2D*>& result, const char* tagName, 
 		if (!FString::Compare(child->GetTagName().CString(), tagName))
 			result.Push(child);
 		if (recursive && child->_children.Size())
-			child->FindChildrenByTag(result, tagName, recursive);
+			child->FindChildrenNodeByTag(result, tagName, recursive);
 	}
 }
 

@@ -148,7 +148,7 @@ bool FRendererModule::CollectObjects(AWorld* scene, ACamera* camera)
 
     _scene = scene;
     _camera = camera;
-    _octree = _scene ? _scene->FindChild<AOctree>() : nullptr;
+    _octree = _scene ? _scene->FindChildNode<AOctree>() : nullptr;
     if (!_scene || !_camera || !_octree)
         return false;
 

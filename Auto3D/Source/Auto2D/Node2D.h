@@ -105,41 +105,41 @@ public:
 	/// Return child nodes recursively.
 	void AllChildren(TVector<ANode2D*>& result) const;
 	/// Return first child node that matches name.
-	ANode2D* FindChild(const FString& childName, bool recursive = false) const;
+	ANode2D* FindChildNode(const FString& childName, bool recursive = false) const;
 	/// Return first child node that matches name.
-	ANode2D* FindChild(const char* childName, bool recursive = false) const;
+	ANode2D* FindChildNode(const char* childName, bool recursive = false) const;
 	/// Return first child node of specified type.
-	ANode2D* FindChild(FStringHash childType, bool recursive = false) const;
+	ANode2D* FindChildNode(FStringHash childType, bool recursive = false) const;
 	/// Return first child node that matches type and name.
-	ANode2D* FindChild(FStringHash childType, const FString& childName, bool recursive = false) const;
+	ANode2D* FindChildNode(FStringHash childType, const FString& childName, bool recursive = false) const;
 	/// Return first child node that matches type and name.
-	ANode2D* FindChild(FStringHash childType, const char* childName, bool recursive = false) const;
+	ANode2D* FindChildNode(FStringHash childType, const char* childName, bool recursive = false) const;
 	/// Return first child node that matches layer mask.
-	ANode2D* FindChildByLayer(unsigned layerMask, bool recursive = false) const;
+	ANode2D* FindChildNodeByLayer(unsigned layerMask, bool recursive = false) const;
 	/// Return first child node that matches tag.
-	ANode2D* FindChildByTag(unsigned char tag, bool recursive = false) const;
+	ANode2D* FindChildNodeByTag(unsigned char tag, bool recursive = false) const;
 	/// Return first child node that matches tag name.
-	ANode2D* FindChildByTag(const FString& tagName, bool recursive = false) const;
+	ANode2D* FindChildNodeByTag(const FString& tagName, bool recursive = false) const;
 	/// Return first child node that matches tag name.
-	ANode2D* FindChildByTag(const char* tagName, bool recursive = false) const;
+	ANode2D* FindChildNodeByTag(const char* tagName, bool recursive = false) const;
 	/// Find child nodes of specified type.
-	void FindChildren(TVector<ANode2D*>& result, FStringHash childType, bool recursive = false) const;
+	void FindChildrenNode(TVector<ANode2D*>& result, FStringHash childType, bool recursive = false) const;
 	/// Find child nodes that match layer mask.
-	void FindChildrenByLayer(TVector<ANode2D*>& result, unsigned layerMask, bool recursive = false) const;
+	void FindChildrenNodeByLayer(TVector<ANode2D*>& result, unsigned layerMask, bool recursive = false) const;
 	/// Find child nodes that match tag.
-	void FindChildrenByTag(TVector<ANode2D*>& result, unsigned char tag, bool recursive = false) const;
+	void FindChildrenNodeByTag(TVector<ANode2D*>& result, unsigned char tag, bool recursive = false) const;
 	/// Find child nodes that match tag name.
-	void FindChildrenByTag(TVector<ANode2D*>& result, const FString& tagName, bool recursive = false) const;
+	void FindChildrenNodeByTag(TVector<ANode2D*>& result, const FString& tagName, bool recursive = false) const;
 	/// Find child nodes that match tag name.
-	void FindChildrenByTag(TVector<ANode2D*>& result, const char* tagName, bool recursive = false) const;
+	void FindChildrenNodeByTag(TVector<ANode2D*>& result, const char* tagName, bool recursive = false) const;
 	/// Return first child node of specified type, template version.
-	template <typename _Ty> _Ty* FindChild(bool recursive = false) const { return static_cast<_Ty*>(FindChild(_Ty::GetTypeHashStatic(), recursive)); }
+	template <typename _Ty> _Ty* FindChildNode(bool recursive = false) const { return static_cast<_Ty*>(FindChildNode(_Ty::GetTypeHashStatic(), recursive)); }
 	/// Return first child node that matches type and name, template version.
-	template <typename _Ty> _Ty* FindChild(const FString& childName, bool recursive = false) const { return static_cast<_Ty*>(FindChild(_Ty::GetTypeHashStatic(), childName, recursive)); }
+	template <typename _Ty> _Ty* FindChildNode(const FString& childName, bool recursive = false) const { return static_cast<_Ty*>(FindChildNode(_Ty::GetTypeHashStatic(), childName, recursive)); }
 	/// Return first child node that matches type and name, template version.
-	template <typename _Ty> _Ty* FindChild(const char* childName, bool recursive = false) const { return static_cast<_Ty*>(FindChild(_Ty::GetTypeHashStatic(), childName, recursive)); }
+	template <typename _Ty> _Ty* FindChildNode(const char* childName, bool recursive = false) const { return static_cast<_Ty*>(FindChildNode(_Ty::GetTypeHashStatic(), childName, recursive)); }
 	/// Find child nodes of specified type, template version.
-	template <typename _Ty> void FindChildren(TVector<_Ty*>& result, bool recursive = false) const { return FindChildren(reinterpret_cast<TVector<_Ty*>&>(result), recursive); }
+	template <typename _Ty> void FindChildrenNode(TVector<_Ty*>& result, bool recursive = false) const { return FindChildrenNode(reinterpret_cast<TVector<_Ty*>&>(result), recursive); }
 
 	/// Set bit flag. Called internally.
 	void SetFlag(unsigned short bit, bool set) const { if (set) _flags |= bit; else _flags &= ~bit; }

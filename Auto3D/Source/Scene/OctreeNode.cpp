@@ -65,7 +65,7 @@ void AOctreeNode::OnWorldSet(AWorld* newScene, AWorld*)
     if (newScene)
     {
         // AOctree must be attached to the scene root as a child
-        _octree = newScene->FindChild<AOctree>();
+        _octree = newScene->FindChildNode<AOctree>();
         // Transform may not be final yet. Schedule update but do not insert into octree yet
         if (_octree)
             _octree->QueueUpdate(this);
