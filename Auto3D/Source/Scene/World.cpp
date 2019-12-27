@@ -61,7 +61,7 @@ AWorld::~AWorld()
 {
     // ANode destructor will also remove children. But at that point the node<>_id maps have been destroyed 
     // so must tear down the scene tree already here
-    RemoveAllChildren();
+    RemoveAllChildrenNode();
     RemoveNode(this);
     assert(_nodes.IsEmpty());
 }
@@ -98,7 +98,7 @@ bool AWorld::SaveJSON(FStream& dest)
 
 void AWorld::Clear()
 {
-    RemoveAllChildren();
+    RemoveAllChildrenNode();
     _nextNodeId = 1;
 }
 
@@ -150,7 +150,7 @@ void AWorld::AddNode(ANode* node)
     // If node has children, add them to the scene as well
     if (node->NumChildren())
     {
-        const TVector<TSharedPtr<ANode> >& children = node->Children();
+        const TVector<TSharedPtr<ANode> >& children = node->GetChildrenNode();
         for (auto it = children.Begin(); it != children.End(); ++it)
             AddNode(*it);
     }
@@ -168,7 +168,7 @@ void AWorld::RemoveNode(ANode* node)
     // If node has children, remove them from the scene as well
     if (node->NumChildren())
     {
-        const TVector<TSharedPtr<ANode> >& children = node->Children();
+        const TVector<TSharedPtr<ANode> >& children = node->GetChildrenNode();
         for (auto it = children.Begin(); it != children.End(); ++it)
             RemoveNode(*it);
     }

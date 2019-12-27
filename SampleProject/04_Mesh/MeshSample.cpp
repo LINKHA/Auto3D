@@ -19,22 +19,22 @@ void MeshSample::Start()
 	scene->DefineLayer(1,"StaticModel");
 	scene->DefineTag(1, "StaticModelTag");
 	scene->SetupShadowMap(3, 4096);
-	scene->CreateChild<AOctree>();
+	scene->CreateChildNode<AOctree>();
 
-	camera = scene->CreateChild<ACamera>();
+	camera = scene->CreateChildNode<ACamera>();
 	camera->SetPosition(TVector3F(0.0f, 5.0f, -15.0f));
 	camera->SetAmbientColor(FColor(0.1f, 0.1f, 0.1f));
 	camera->SetLayoutMaskName("StaticModel"); // The default mask contains all the bits, and this does not change the mask bit, only if the mask view is missing
 	//camera->SetLayoutMaskOutName("StaticModel"); //Remove the bits for the view mask
 
-	AStaticModel* plane = scene->CreateChild<AStaticModel>();
+	AStaticModel* plane = scene->CreateChildNode<AStaticModel>();
 	plane->SetTagName("StaticModelTag");
 	plane->SetScale(TVector3F(50.0f, 0.1f, 50.0f));
 	plane->SetCastShadows(true);
 	plane->SetModel(cache->LoadResource<AModel>("Model/Box.mdl"));
 	plane->SetMaterial(cache->LoadResource<AMaterial>("Stone.json"));
 
-	AStaticModel* teaPot = scene->CreateChild<AStaticModel>();
+	AStaticModel* teaPot = scene->CreateChildNode<AStaticModel>();
 	teaPot->SetLayerName("StaticModel");
 	teaPot->SetPosition(TVector3F(0.0f, 0.0f, 0.0f));
 	teaPot->SetScale(10.0f);
@@ -44,7 +44,7 @@ void MeshSample::Start()
 	//Light directional point and spot
 	{
 		// Dir light
-		ALight* lightDir = scene->CreateChild<ALight>();
+		ALight* lightDir = scene->CreateChildNode<ALight>();
 		lightDir->SetLightType(ELightType::DIRECTIONAL);
 		lightDir->SetCastShadows(true);
 		lightDir->SetColor(FColor(1.0f, 1.0f, 1.0f));
@@ -52,7 +52,7 @@ void MeshSample::Start()
 		lightDir->SetShadowMapSize(2048);
 
 		// Point light
-		/*ALight* lightPoint = scene->CreateChild<ALight>();
+		/*ALight* lightPoint = scene->CreateChildNode<ALight>();
 		lightPoint->SetLightType(ELightType::POINT);
 		lightPoint->SetCastShadows(true);
 		lightPoint->SetColor(FColor(0.0f, 1.0f, 0.0f));
@@ -61,7 +61,7 @@ void MeshSample::Start()
 		lightPoint->SetShadowMapSize(2048);
 
 		// Spot light
-		ALight* lightSpot = scene->CreateChild<ALight>();
+		ALight* lightSpot = scene->CreateChildNode<ALight>();
 		lightSpot->SetLightType(ELightType::SPOT);
 		lightSpot->SetCastShadows(true);
 		lightSpot->SetColor(FColor(1.0f, 1.0f, 1.0f));

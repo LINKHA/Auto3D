@@ -43,17 +43,17 @@ ANode::ANode() :
     _layer(LAYER_DEFAULT),
     _tag(TAG_NONE),
     _parent(nullptr),
-    _scene(nullptr),
+    _world(nullptr),
     _id(0)
 {
 }
 
 ANode::~ANode()
 {
-    RemoveAllChildren();
+    RemoveAllChildrenNode();
     // At the time of destruction the node should not have a parent, or be in a scene
     assert(!_parent);
-    assert(!_scene);
+    assert(!_world);
 }
 
 void ANode::SetName(const FString& newName)
@@ -72,10 +72,10 @@ void ANode::SetLayer(unsigned char newLayer)
 
 void ANode::SetLayerName(const FString& newLayerName)
 {
-    if (!_scene)
+    if (!_world)
         return;
     
-	const THashMap<FString, unsigned char>& layers = _scene->Layers();
+	const THashMap<FString, unsigned char>& layers = _world->Layers();
 
 	auto it = layers.Find(newLayerName);
 	if (it != layers.End())
@@ -94,10 +94,10 @@ void ANode::SetTag(unsigned char newTag)
 
 void ANode::SetTagName(const FString& newTagName)
 {
-	if (!_scene)
+	if (!_world)
 		return;
 
-	const THashMap<FString, unsigned char>& tags = _scene->Tags();
+	const THashMap<FString, unsigned char>& tags = _world->Tags();
 
 	auto it = tags.Find(newTagName);
 	if (it != tags.End())
@@ -115,7 +115,7 @@ void ANode::SetEnabled(bool enable)
 void ANode::SetEnabledRecursive(bool enable)
 {
     SetEnabled(enable);
-    for (auto it = _children.Begin(); it != _children.End(); ++it)
+    for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
     {
         ANode* child = *it;
         child->SetEnabledRecursive(enable);
@@ -127,15 +127,15 @@ void ANode::SetTemporary(bool enable)
     SetFlag(NF_TEMPORARY, enable);
 }
 
-void ANode::SetParent(ANode* newParent)
+void ANode::SetParentNode(ANode* newParent)
 {
     if (newParent)
-        newParent->AddChild(this);
+        newParent->AddChildNode(this);
     else
         ErrorString("Could not set null parent");
 }
 
-ANode* ANode::CreateChild(FStringHash childType)
+ANode* ANode::CreateChildNode(FStringHash childType)
 {
     TSharedPtr<AObject> newObject = Create(childType);
     if (!newObject)
@@ -150,25 +150,25 @@ ANode* ANode::CreateChild(FStringHash childType)
         return nullptr;
     }
 
-    AddChild(child);
+    AddChildNode(child);
 
     return child;
 }
 
-ANode* ANode::CreateChild(FStringHash childType, const FString& childName)
+ANode* ANode::CreateChildNode(FStringHash childType, const FString& childName)
 {
-    return CreateChild(childType, childName.CString());
+    return CreateChildNode(childType, childName.CString());
 }
 
-ANode* ANode::CreateChild(FStringHash childType, const char* childName)
+ANode* ANode::CreateChildNode(FStringHash childType, const char* childName)
 {
-    ANode* child = CreateChild(childType);
+    ANode* child = CreateChildNode(childType);
     if (child)
         child->SetName(childName);
     return child;
 }
 
-void ANode::AddChild(ANode* child)
+void ANode::AddChildNode(ANode* child)
 {
     // Check for illegal or redundant parent assignment
     if (!child || child->_parent == this)
@@ -194,74 +194,74 @@ void ANode::AddChild(ANode* child)
 
     ANode* oldParent = child->_parent;
     if (oldParent)
-        oldParent->_children.Remove(child);
+        oldParent->_childrenNode.Remove(child);
 
-    _children.Push(child);
+    _childrenNode.Push(child);
     child->_parent = this;
     child->OnParentSet(this, oldParent);
 
-	if (_scene)
-		_scene->AddNode(child);
+	if (_world)
+		_world->AddNode(child);
 }
 
-void ANode::RemoveChild(ANode* child)
+void ANode::RemoveChildNode(ANode* child)
 {
     if (!child || child->_parent != this)
         return;
 
-    for (size_t i = 0; i < _children.Size(); ++i)
+    for (size_t i = 0; i < _childrenNode.Size(); ++i)
     {
-        if (_children[i] == child)
+        if (_childrenNode[i] == child)
         {
-            RemoveChild(i);
+            RemoveChildNode(i);
             break;
         }
     }
 }
 
-void ANode::RemoveChild(size_t index)
+void ANode::RemoveChildNode(size_t index)
 {
-    if (index >= _children.Size())
+    if (index >= _childrenNode.Size())
         return;
 
-    ANode* child = _children[index];
+    ANode* child = _childrenNode[index];
     // Detach from both the parent and the scene (removes _id assignment)
     child->_parent = nullptr;
     child->OnParentSet(this, nullptr);
-    if (_scene)
-        _scene->RemoveNode(child);
-    _children.Erase(index);
+    if (_world)
+        _world->RemoveNode(child);
+    _childrenNode.Erase(index);
 }
 
-void ANode::RemoveAllChildren()
+void ANode::RemoveAllChildrenNode()
 {
-    for (auto it = _children.Begin(); it != _children.End(); ++it)
+    for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
     {
         ANode* child = *it;
         child->_parent = nullptr;
         child->OnParentSet(this, nullptr);
-        if (_scene)
-            _scene->RemoveNode(child);
+        if (_world)
+            _world->RemoveNode(child);
         it->Reset();
     }
 
-    _children.Clear();
+    _childrenNode.Clear();
 }
 
 void ANode::RemoveSelf()
 {
     if (_parent)
-        _parent->RemoveChild(this);
+        _parent->RemoveChildNode(this);
     else
         delete this;
 }
 
 const FString& ANode::GetLayerName() const
 {
-	if (!_scene)
+	if (!_world)
 		return FString::EMPTY;
 
-	const THashMap<FString, unsigned char>& layers = _scene->Layers();
+	const THashMap<FString, unsigned char>& layers = _world->Layers();
 
 	// Find value with layouts.
 	for (auto it = layers.Begin(); it != layers.End(); ++it)
@@ -278,10 +278,10 @@ const FString& ANode::GetLayerName() const
 
 const FString& ANode::GetTagName() const
 {
-	if (!_scene)
+	if (!_world)
 		return FString::EMPTY;
 
-	const THashMap<FString, unsigned char>& tags = _scene->Tags();
+	const THashMap<FString, unsigned char>& tags = _world->Tags();
 
 	// Find value with tags.
 	for (auto it = tags.Begin(); it != tags.End(); ++it)
@@ -300,7 +300,7 @@ size_t ANode::NumPersistentChildren() const
 {
     size_t ret = 0;
 
-    for (auto it = _children.Begin(); it != _children.End(); ++it)
+    for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
     {
         ANode* child = *it;
         if (!child->IsTemporary())
@@ -310,13 +310,13 @@ size_t ANode::NumPersistentChildren() const
     return ret;
 }
 
-void ANode::AllChildren(TVector<ANode*>& result) const
+void ANode::GetAllChildrenNode(TVector<ANode*>& result) const
 {
-    for (auto it = _children.Begin(); it != _children.End(); ++it)
+    for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
     {
         ANode* child = *it;
         result.Push(child);
-        child->AllChildren(result);
+        child->GetAllChildrenNode(result);
     }
 }
 
@@ -327,12 +327,12 @@ ANode* ANode::FindChildNode(const FString& childName, bool recursive) const
 
 ANode* ANode::FindChildNode(const char* childName, bool recursive) const
 {
-    for (auto it = _children.Begin(); it != _children.End(); ++it)
+    for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
     {
         ANode* child = *it;
         if (child->_name == childName)
             return child;
-        else if (recursive && child->_children.Size())
+        else if (recursive && child->_childrenNode.Size())
         {
             ANode* childResult = child->FindChildNode(childName, recursive);
             if (childResult)
@@ -345,12 +345,12 @@ ANode* ANode::FindChildNode(const char* childName, bool recursive) const
 
 ANode* ANode::FindChildNode(FStringHash childType, bool recursive) const
 {
-    for (auto it = _children.Begin(); it != _children.End(); ++it)
+    for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
     {
         ANode* child = *it;
         if (child->GetTypeHash() == childType)
             return child;
-        else if (recursive && child->_children.Size())
+        else if (recursive && child->_childrenNode.Size())
         {
             ANode* childResult = child->FindChildNode(childType, recursive);
             if (childResult)
@@ -368,12 +368,12 @@ ANode* ANode::FindChildNode(FStringHash childType, const FString& childName, boo
 
 ANode* ANode::FindChildNode(FStringHash childType, const char* childName, bool recursive) const
 {
-    for (auto it = _children.Begin(); it != _children.End(); ++it)
+    for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
     {
         ANode* child = *it;
         if (child->GetTypeHash() == childType && child->_name == childName)
             return child;
-        else if (recursive && child->_children.Size())
+        else if (recursive && child->_childrenNode.Size())
         {
             ANode* childResult = child->FindChildNode(childType, childName, recursive);
             if (childResult)
@@ -386,12 +386,12 @@ ANode* ANode::FindChildNode(FStringHash childType, const char* childName, bool r
 
 ANode* ANode::FindChildNodeByLayer(unsigned layerMask, bool recursive) const
 {
-    for (auto it = _children.Begin(); it != _children.End(); ++it)
+    for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
     {
         ANode* child = *it;
         if (child->GetLayerMask() && layerMask)
             return child;
-        else if (recursive && child->_children.Size())
+        else if (recursive && child->_childrenNode.Size())
         {
             ANode* childResult = child->FindChildNodeByLayer(layerMask, recursive);
             if (childResult)
@@ -404,12 +404,12 @@ ANode* ANode::FindChildNodeByLayer(unsigned layerMask, bool recursive) const
 
 ANode* ANode::FindChildNodeByTag(unsigned char tag, bool recursive) const
 {
-    for (auto it = _children.Begin(); it != _children.End(); ++it)
+    for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
     {
         ANode* child = *it;
         if (child->_tag == tag)
             return child;
-        else if (recursive && child->_children.Size())
+        else if (recursive && child->_childrenNode.Size())
         {
             ANode* childResult = child->FindChildNodeByTag(tag, recursive);
             if (childResult)
@@ -427,12 +427,12 @@ ANode* ANode::FindChildNodeByTag(const FString& tagName, bool recursive) const
 
 ANode* ANode::FindChildNodeByTag(const char* tagName, bool recursive) const
 {
-    for (auto it = _children.Begin(); it != _children.End(); ++it)
+    for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
     {
         ANode* child = *it;
         if (!FString::Compare(child->GetTagName().CString(), tagName))
             return child;
-        else if (recursive && child->_children.Size())
+        else if (recursive && child->_childrenNode.Size())
         {
             ANode* childResult = child->FindChildNodeByTag(tagName, recursive);
             if (childResult)
@@ -445,36 +445,36 @@ ANode* ANode::FindChildNodeByTag(const char* tagName, bool recursive) const
 
 void ANode::FindChildrenNode(TVector<ANode*>& result, FStringHash childType, bool recursive) const
 {
-    for (auto it = _children.Begin(); it != _children.End(); ++it)
+    for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
     {
         ANode* child = *it;
         if (child->GetTypeHash() == childType)
             result.Push(child);
-        if (recursive && child->_children.Size())
+        if (recursive && child->_childrenNode.Size())
             child->FindChildrenNode(result, childType, recursive);
     }
 }
 
 void ANode::FindChildrenNodeByLayer(TVector<ANode*>& result, unsigned layerMask, bool recursive) const
 {
-    for (auto it = _children.Begin(); it != _children.End(); ++it)
+    for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
     {
         ANode* child = *it;
         if (child->GetLayerMask() & layerMask)
             result.Push(child);
-        if (recursive && child->_children.Size())
+        if (recursive && child->_childrenNode.Size())
             child->FindChildrenNodeByLayer(result, layerMask, recursive);
     }
 }
 
 void ANode::FindChildrenNodeByTag(TVector<ANode*>& result, unsigned char tag, bool recursive) const
 {
-    for (auto it = _children.Begin(); it != _children.End(); ++it)
+    for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
     {
         ANode* child = *it;
         if (child->_tag == tag)
             result.Push(child);
-        if (recursive && child->_children.Size())
+        if (recursive && child->_childrenNode.Size())
             child->FindChildrenNodeByTag(result, tag, recursive);
     }
 }
@@ -486,21 +486,21 @@ void ANode::FindChildrenNodeByTag(TVector<ANode*>& result, const FString& tagNam
 
 void ANode::FindChildrenNodeByTag(TVector<ANode*>& result, const char* tagName, bool recursive) const
 {
-    for (auto it = _children.Begin(); it != _children.End(); ++it)
+    for (auto it = _childrenNode.Begin(); it != _childrenNode.End(); ++it)
     {
         ANode* child = *it;
         if (!FString::Compare(child->GetTagName().CString(), tagName))
             result.Push(child);
-        if (recursive && child->_children.Size())
+        if (recursive && child->_childrenNode.Size())
             child->FindChildrenNodeByTag(result, tagName, recursive);
     }
 }
 
 void ANode::SetScene(AWorld* newScene)
 {
-    AWorld* oldScene = _scene;
-    _scene = newScene;
-    OnWorldSet(_scene, oldScene);
+    AWorld* oldScene = _world;
+    _world = newScene;
+    OnWorldSet(_world, oldScene);
 }
 
 void ANode::SetId(unsigned newId)

@@ -19,15 +19,15 @@ void WaterSample::Start()
 	graphics->RenderWindow()->SetMouseHide(true);
 
 	scene = AObject::Create<AWorld>();
-	scene->CreateChild<AOctree>();
-	//camera = scene->CreateChild<Camera>();
+	scene->CreateChildNode<AOctree>();
+	//camera = scene->CreateChildNode<Camera>();
 	//camera->SetPosition(Vector3F(0.0f, 0.0f, 0.0f));
 	//camera->SetAmbientColor(Color(0.1f, 0.1f, 0.1f));
 
-	ASkyBox* skybox = scene->CreateChild<ASkyBox>();
+	ASkyBox* skybox = scene->CreateChildNode<ASkyBox>();
 	skybox->SetMaterial(cache->LoadResource<AMaterial>("SkyBox.json"));
 	
-	//DynamicModel* water = scene->CreateChild<DynamicModel>();
+	//DynamicModel* water = scene->CreateChildNode<DynamicModel>();
 
 	water = new ADynamicModel();
 

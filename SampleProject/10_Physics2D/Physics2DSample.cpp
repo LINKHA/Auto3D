@@ -14,9 +14,9 @@ void Physics2DSample::Start()
 	auto squareTexture = cache->LoadResource<ATexture>("Texture/Box.png");
 	auto circleTexture = cache->LoadResource<ATexture>("Texture/Ball.png");
 
-	APhysicsWorld2D* physicsWorld2d = scene2d->CreateChild<APhysicsWorld2D>();
+	APhysicsWorld2D* physicsWorld2d = scene2d->CreateChildNode<APhysicsWorld2D>();
 
-	camera2d = scene2d->CreateChild<ACamera2D>();
+	camera2d = scene2d->CreateChildNode<ACamera2D>();
 	camera2d->SetOrthoSize(50);
 	camera2d->SetOrthographic(true);
 	camera2d->SetPosition(TVector3F(0.0f, 0.0f, -100.0f));
@@ -24,61 +24,61 @@ void Physics2DSample::Start()
 	camera2d->SetLayoutMaskOutName("UI");
 
 	{
-		ASprite2D* plane = scene2d->CreateChild<ASprite2D>();
+		ASprite2D* plane = scene2d->CreateChildNode<ASprite2D>();
 		plane->SetTexture(squareTexture);
 		plane->SetPosition(TVector2F(0.0f, -24.0f));
 		plane->SetScale(TVector3F(24.0f, 1.0f));
-		ARigidBody2D* planeRigidBody = plane->CreateChild<ARigidBody2D>();
+		ARigidBody2D* planeRigidBody = plane->CreateChildNode<ARigidBody2D>();
 		planeRigidBody->SetBodyType(EBodyType2D::STATIC);
-		AColliderBox2D* planeColliderBox = plane->CreateChild<AColliderBox2D>();
+		AColliderBox2D* planeColliderBox = plane->CreateChildNode<AColliderBox2D>();
 		planeColliderBox->SetSize(TVector2F(24.0f, 1.0f));
 		planeColliderBox->SetFriction(0.5f);
 
 		//Wall right
-		ASprite2D* wallRight = scene2d->CreateChild<ASprite2D>();
+		ASprite2D* wallRight = scene2d->CreateChildNode<ASprite2D>();
 		wallRight->SetTexture(squareTexture);
 		wallRight->SetPosition(TVector2F(23.0f, 0.0f));
 		wallRight->SetScale(TVector3F(1.0f, 25.0f));
-		ARigidBody2D* wallRightRigidBody = wallRight->CreateChild<ARigidBody2D>();
+		ARigidBody2D* wallRightRigidBody = wallRight->CreateChildNode<ARigidBody2D>();
 		wallRightRigidBody->SetBodyType(EBodyType2D::STATIC);
-		AColliderBox2D* wallRightColliderBox = wallRight->CreateChild<AColliderBox2D>();
+		AColliderBox2D* wallRightColliderBox = wallRight->CreateChildNode<AColliderBox2D>();
 		wallRightColliderBox->SetSize(TVector2F(1.0f, 25.0f));
 		wallRightColliderBox->SetFriction(0.5f);
 
 		//Wall left
-		ASprite2D* wallLeft = scene2d->CreateChild<ASprite2D>();
+		ASprite2D* wallLeft = scene2d->CreateChildNode<ASprite2D>();
 		wallLeft->SetTexture(squareTexture);
 		wallLeft->SetPosition(TVector2F(-24.0f,0.0f));
 		wallLeft->SetScale(TVector3F(1.0f, 25.0f));
-		ARigidBody2D* wallLeftRigidBody = wallLeft->CreateChild<ARigidBody2D>();
+		ARigidBody2D* wallLeftRigidBody = wallLeft->CreateChildNode<ARigidBody2D>();
 		wallLeftRigidBody->SetBodyType(EBodyType2D::STATIC);
-		AColliderBox2D* wallLeftColliderBox = wallLeft->CreateChild<AColliderBox2D>();
+		AColliderBox2D* wallLeftColliderBox = wallLeft->CreateChildNode<AColliderBox2D>();
 		wallLeftColliderBox->SetSize(TVector2F(1.0f, 25.0f));
 		wallLeftColliderBox->SetFriction(0.5f);
 	}
 
 	{
 		//Line left
-		ASprite2D* lineLeft = scene2d->CreateChild<ASprite2D>();
+		ASprite2D* lineLeft = scene2d->CreateChildNode<ASprite2D>();
 		lineLeft->SetTexture(squareTexture);
 		lineLeft->SetPosition(TVector2F(-15.0f, 0.0f));
 		lineLeft->Rotate(FQuaternion(0.0f, 0.0f, 45.0f));
 		lineLeft->SetScale(TVector3F(1.0f, 13.0f));
-		ARigidBody2D* lineLeftRigidBody = lineLeft->CreateChild<ARigidBody2D>();
+		ARigidBody2D* lineLeftRigidBody = lineLeft->CreateChildNode<ARigidBody2D>();
 		lineLeftRigidBody->SetBodyType(EBodyType2D::STATIC);
-		AColliderBox2D* lineLeftColliderBox = lineLeft->CreateChild<AColliderBox2D>();
+		AColliderBox2D* lineLeftColliderBox = lineLeft->CreateChildNode<AColliderBox2D>();
 		lineLeftColliderBox->SetSize(TVector2F(1.0f, 15.0f));
 		lineLeftColliderBox->SetFriction(0.5f);
 
 		//Line right
-		ASprite2D* lineRight = scene2d->CreateChild<ASprite2D>();
+		ASprite2D* lineRight = scene2d->CreateChildNode<ASprite2D>();
 		lineRight->SetTexture(squareTexture);
 		lineRight->SetPosition(TVector2F(15.0f, 0.0f));
 		lineRight->Rotate(FQuaternion(0.0f, 0.0f, -45.0f));
 		lineRight->SetScale(TVector3F(1.0f, 13.0f));
-		ARigidBody2D* lineRightRigidBody = lineRight->CreateChild<ARigidBody2D>();
+		ARigidBody2D* lineRightRigidBody = lineRight->CreateChildNode<ARigidBody2D>();
 		lineRightRigidBody->SetBodyType(EBodyType2D::STATIC);
-		AColliderBox2D* lineRightColliderBox = lineRight->CreateChild<AColliderBox2D>();
+		AColliderBox2D* lineRightColliderBox = lineRight->CreateChildNode<AColliderBox2D>();
 		lineRightColliderBox->SetSize(TVector2F(1.0f, 15.0f));
 		lineRightColliderBox->SetFriction(0.5f);
 	}
@@ -92,14 +92,14 @@ void Physics2DSample::Start()
 		if (i % 2 == 0)
 		{
 
-			ASprite2D* node = scene2d->CreateChild<ASprite2D>();
+			ASprite2D* node = scene2d->CreateChildNode<ASprite2D>();
 			node->SetPosition(TVector2F(-10.0f, 20.0f + i * 3.0f));
 			node->SetScale(TVector2F(1.0f, 1.0f));
 			node->SetTexture(squareTexture);
-			ARigidBody2D* nodeRigidBody = node->CreateChild<ARigidBody2D>();
+			ARigidBody2D* nodeRigidBody = node->CreateChildNode<ARigidBody2D>();
 			nodeRigidBody->SetBodyType(EBodyType2D::DYNAMIC);
 
-			AColliderBox2D* squareColliderBox = node->CreateChild<AColliderBox2D>();
+			AColliderBox2D* squareColliderBox = node->CreateChildNode<AColliderBox2D>();
 			squareColliderBox->SetSize(TVector2F(1.0f, 1.0f));
 			squareColliderBox->SetDensity(1.0f);
 			squareColliderBox->SetFriction(0.5f);
@@ -108,15 +108,15 @@ void Physics2DSample::Start()
 		}
 		else
 		{
-			ASprite2D* node = scene2d->CreateChild<ASprite2D>();
+			ASprite2D* node = scene2d->CreateChildNode<ASprite2D>();
 			node->SetPosition(TVector2F(10.0f, 20.0f + i * 3.0f));
 			node->SetScale(TVector2F(1.0f, 1.0f));
 			node->SetTexture(circleTexture);
-			ARigidBody2D* nodeRigidBody = node->CreateChild<ARigidBody2D>();
+			ARigidBody2D* nodeRigidBody = node->CreateChildNode<ARigidBody2D>();
 			nodeRigidBody->SetBodyType(EBodyType2D::DYNAMIC);
 
 
-			AColliderCircle2D* squareColliderBox = node->CreateChild<AColliderCircle2D>();
+			AColliderCircle2D* squareColliderBox = node->CreateChildNode<AColliderCircle2D>();
 			squareColliderBox->SetRadius(1.0f);
 			squareColliderBox->SetDensity(1.0f);
 			squareColliderBox->SetFriction(0.5f);

@@ -18,21 +18,21 @@ void PhysicsSample::Start()
 
 	scene = AObject::Create<AWorld>();
 	scene->SetupShadowMap(1, 4096);
-	scene->CreateChild<AOctree>();
-	scene->CreateChild<APhysicsWorld>();
-	camera = scene->CreateChild<ACamera>();
+	scene->CreateChildNode<AOctree>();
+	scene->CreateChildNode<APhysicsWorld>();
+	camera = scene->CreateChildNode<ACamera>();
 	camera->SetPosition(TVector3F(0.0f, 10.0f, -60.0f));
 
 	//Plane
 	{
-		AStaticModel* plane = scene->CreateChild<AStaticModel>();
+		AStaticModel* plane = scene->CreateChildNode<AStaticModel>();
 		plane->SetModel(cache->LoadResource<AModel>("Model/Box.mdl"));
 		plane->SetPosition(TVector3F(0.0f, -20.0f, 0.0f));
 		plane->SetScale(TVector3F(100.0f, 1.0f, 100.0f));
 		plane->SetMaterial(cache->LoadResource<AMaterial>("Stone.json"));
-		ARigidBody* planeRigidBody = plane->CreateChild<ARigidBody>();
+		ARigidBody* planeRigidBody = plane->CreateChildNode<ARigidBody>();
 		planeRigidBody->SetMass(0.0f);
-		AColliderBox* planeColliderBox = plane->CreateChild<AColliderBox>();
+		AColliderBox* planeColliderBox = plane->CreateChildNode<AColliderBox>();
 		planeColliderBox->SetSize(TVector3F(50.0f, 0.5f, 50.0f));
 	}
 
@@ -40,51 +40,51 @@ void PhysicsSample::Start()
 	{
 		//Right
 		{
-			AStaticModel* fence = scene->CreateChild<AStaticModel>();
+			AStaticModel* fence = scene->CreateChildNode<AStaticModel>();
 			fence->SetModel(cache->LoadResource<AModel>("Model/Box.mdl"));
 			fence->SetPosition(TVector3F(50.0f, -20.0f, 0.0f));
 			fence->SetScale(TVector3F(1.0f, 10.0f, 100.0f));
 			fence->SetMaterial(cache->LoadResource<AMaterial>("Stone.json"));
-			ARigidBody* fenceRigidBody = fence->CreateChild<ARigidBody>();
+			ARigidBody* fenceRigidBody = fence->CreateChildNode<ARigidBody>();
 			fenceRigidBody->SetMass(0.0f);
-			AColliderBox* fenceColliderBox = fence->CreateChild<AColliderBox>();
+			AColliderBox* fenceColliderBox = fence->CreateChildNode<AColliderBox>();
 			fenceColliderBox->SetSize(TVector3F(0.5f, 5.0f, 50.0f));
 		}
 		//Left
 		{
-			AStaticModel* fence = scene->CreateChild<AStaticModel>();
+			AStaticModel* fence = scene->CreateChildNode<AStaticModel>();
 			fence->SetModel(cache->LoadResource<AModel>("Model/Box.mdl"));
 			fence->SetPosition(TVector3F(-50.0f, -20.0f, 0.0f));
 			fence->SetScale(TVector3F(1.0f, 10.0f, 100.0f));
 			fence->SetMaterial(cache->LoadResource<AMaterial>("Stone.json"));
-			ARigidBody* fenceRigidBody = fence->CreateChild<ARigidBody>();
+			ARigidBody* fenceRigidBody = fence->CreateChildNode<ARigidBody>();
 			fenceRigidBody->SetMass(0.0f);
-			AColliderBox* fenceColliderBox = fence->CreateChild<AColliderBox>();
+			AColliderBox* fenceColliderBox = fence->CreateChildNode<AColliderBox>();
 			fenceColliderBox->SetSize(TVector3F(0.5f, 5.0f, 50.0f));
 		}
 		//Back
 		{
-			AStaticModel* fence = scene->CreateChild<AStaticModel>();
+			AStaticModel* fence = scene->CreateChildNode<AStaticModel>();
 			fence->SetModel(cache->LoadResource<AModel>("Model/Box.mdl"));
 			fence->SetPosition(TVector3F(0.0f, -20.0f, 50.0f));
 			fence->SetScale(TVector3F(100.0f, 10.0f, 1.0f));
 			fence->SetMaterial(cache->LoadResource<AMaterial>("Stone.json"));
-			ARigidBody* fenceRigidBody = fence->CreateChild<ARigidBody>();
+			ARigidBody* fenceRigidBody = fence->CreateChildNode<ARigidBody>();
 			fenceRigidBody->SetMass(0.0f);
-			AColliderBox* fenceColliderBox = fence->CreateChild<AColliderBox>();
+			AColliderBox* fenceColliderBox = fence->CreateChildNode<AColliderBox>();
 			fenceColliderBox->SetSize(TVector3F(50.0f, 5.0f, 0.5f));
 		}
 
 		//Front
 		{
-			AStaticModel* fence = scene->CreateChild<AStaticModel>();
+			AStaticModel* fence = scene->CreateChildNode<AStaticModel>();
 			fence->SetModel(cache->LoadResource<AModel>("Model/Box.mdl"));
 			fence->SetPosition(TVector3F(0.0f, -20.0f, -50.0f));
 			fence->SetScale(TVector3F(100.0f, 10.0f, 1.0f));
 			fence->SetMaterial(cache->LoadResource<AMaterial>("Stone.json"));
-			ARigidBody* fenceRigidBody = fence->CreateChild<ARigidBody>();
+			ARigidBody* fenceRigidBody = fence->CreateChildNode<ARigidBody>();
 			fenceRigidBody->SetMass(0.0f);
-			AColliderBox* fenceColliderBox = fence->CreateChild<AColliderBox>();
+			AColliderBox* fenceColliderBox = fence->CreateChildNode<AColliderBox>();
 			fenceColliderBox->SetSize(TVector3F(50.0f, 5.0f, 0.5f));
 		}
 	}
@@ -95,15 +95,15 @@ void PhysicsSample::Start()
 		{
 			for (int k = 0; k < 5; ++k)
 			{
-				AStaticModel* box = scene->CreateChild<AStaticModel>();
+				AStaticModel* box = scene->CreateChildNode<AStaticModel>();
 				box->SetModel(cache->LoadResource<AModel>("Model/Sphere.mdl"));
 				//box->SetMaterial(cache->LoadResource<Material>("Stone.json"));
 				box->SetPosition(TVector3F(i, 10.f + j * 2, k));
 				box->SetScale(TVector3F(2.0f, 2.0f, 2.0f));
 				box->SetCastShadows(true);
-				ARigidBody* boxRigidBody = box->CreateChild<ARigidBody>();
+				ARigidBody* boxRigidBody = box->CreateChildNode<ARigidBody>();
 				boxRigidBody->SetMass(1.0f);
-				AColliderSphere* boxcolliderBox = box->CreateChild<AColliderSphere>();
+				AColliderSphere* boxcolliderBox = box->CreateChildNode<AColliderSphere>();
 				boxcolliderBox->SetSize(1.0f);
 			}
 		}
@@ -115,22 +115,22 @@ void PhysicsSample::Start()
 		{
 			for (int k = 0; k < 5; ++k)
 			{
-				AStaticModel* box = scene->CreateChild<AStaticModel>();
+				AStaticModel* box = scene->CreateChildNode<AStaticModel>();
 				box->SetModel(cache->LoadResource<AModel>("Model/Box.mdl"));
 				//box->SetMaterial(cache->LoadResource<Material>("Stone.json"));
 				box->SetPosition(TVector3F(i, 11.f + j * 2, k));
 				box->SetScale(TVector3F(2.0f, 2.0f, 2.0f));
 				box->SetCastShadows(true);
-				ARigidBody* boxRigidBody = box->CreateChild<ARigidBody>();
+				ARigidBody* boxRigidBody = box->CreateChildNode<ARigidBody>();
 				boxRigidBody->SetMass(1.0f);
-				AColliderBox* boxcolliderBox = box->CreateChild<AColliderBox>();
+				AColliderBox* boxcolliderBox = box->CreateChildNode<AColliderBox>();
 				boxcolliderBox->SetSize(TVector3F(1.0f, 1.0f, 1.0f));
 			}
 		}
 	}
 
 
-	ALight* lightDir = scene->CreateChild<ALight>();
+	ALight* lightDir = scene->CreateChildNode<ALight>();
 	lightDir->SetLightType(ELightType::DIRECTIONAL);
 	lightDir->SetCastShadows(true);
 	lightDir->SetColor(FColor(1.0f, 1.0f, 1.0f));

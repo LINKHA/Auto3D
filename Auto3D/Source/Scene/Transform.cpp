@@ -310,7 +310,7 @@ void ATransform::OnTransformChanged()
 {
     SetFlag(NF_WORLD_TRANSFORM_DIRTY, true);
 
-    const TVector<TSharedPtr<ANode> >& children = Children();
+    const TVector<TSharedPtr<ANode> >& children = GetChildrenNode();
     for (auto it = children.Begin(); it != children.End(); ++it)
     {
         ANode* child = *it;

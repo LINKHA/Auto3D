@@ -87,7 +87,7 @@ public:
         }
         
         /// Assign from a non-const iterator.
-        ConstIterator& operator = (const Iterator& rhs) { _ptr = rhs.ptr; return *this; }
+        ConstIterator& operator = (const Iterator& rhs) { _ptr = rhs._ptr; return *this; }
         /// Preincrement the pointer.
         ConstIterator& operator ++ () { GotoNext(); return *this; }
         /// Postincrement the pointer.
@@ -98,9 +98,9 @@ public:
         ConstIterator operator -- (int) { ConstIterator it = *this; GotoPrev(); return it; }
         
         /// Point to the _key.
-        const _Ty* operator -> () const { return &(static_cast<ANode*>(_ptr))->key; }
+        const _Ty* operator -> () const { return &(static_cast<ANode*>(_ptr))->_key; }
         /// Dereference the _key.
-        const _Ty& operator * () const { return (static_cast<ANode*>(_ptr))->key; }
+        const _Ty& operator * () const { return (static_cast<ANode*>(_ptr))->_key; }
     };
     
     /// Construct empty.
@@ -219,9 +219,9 @@ public:
             return false;
         
         if (previous)
-            previous->down = node->down;
+            previous->_down = node->_down;
         else
-            Ptrs()[hashKey] = node->down;
+            Ptrs()[hashKey] = node->_down;
         
         EraseNode(node);
         return true;
@@ -418,7 +418,7 @@ private:
         ANode* node = static_cast<ANode*>(Ptrs()[hashKey]);
         while (node)
         {
-            if (node->key == key)
+            if (node->_key == key)
                 return node;
             previous = node;
             node = node->Down();
@@ -464,8 +464,8 @@ private:
         ANode* prev = node->Prev();
         ANode* next = node->Next();
         if (prev)
-            prev->next = next;
-        next->prev = prev;
+            prev->_next = next;
+        next->_prev = prev;
         
         // Reassign the head node if necessary
         if (node == Head())

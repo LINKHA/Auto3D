@@ -52,30 +52,30 @@ public:
     /// Set temporary mode. Temporary scene nodes are not saved.
     void SetTemporary(bool enable);
     /// Reparent the node.
-    void SetParent(ANode* newParent);
+    void SetParentNode(ANode* newParent);
 
     /// Create child node of specified type. A registered object factory for the type is required.
-    ANode* CreateChild(FStringHash childType);
+    ANode* CreateChildNode(FStringHash childType);
     /// Create named child node of specified type.
-    ANode* CreateChild(FStringHash childType, const FString& childName);
+    ANode* CreateChildNode(FStringHash childType, const FString& childName);
     /// Create named child node of specified type.
-    ANode* CreateChild(FStringHash childType, const char* childName);
-    /// Add node as a child. Same as calling SetParent for the child node.
-    void AddChild(ANode* child);
+    ANode* CreateChildNode(FStringHash childType, const char* childName);
+    /// Add node as a child. Same as calling SetParentNode for the child node.
+    void AddChildNode(ANode* child);
     /// Remove child node. Will delete it if there are no other strong references to it.
-    void RemoveChild(ANode* child);
+    void RemoveChildNode(ANode* child);
     /// Remove child node by index.
-    void RemoveChild(size_t index);
+    void RemoveChildNode(size_t index);
     /// Remove all child nodes.
-    void RemoveAllChildren();
+    void RemoveAllChildrenNode();
     /// Remove self immediately. As this will delete the node (if no other strong references exist) no operations on the node are permitted after calling this.
     void RemoveSelf();
     /// Create child node of the specified type, template version.
-    template <typename _Ty> _Ty* CreateChild() { return static_cast<_Ty*>(CreateChild(_Ty::GetTypeHashStatic())); }
+    template <typename _Ty> _Ty* CreateChildNode() { return static_cast<_Ty*>(CreateChildNode(_Ty::GetTypeHashStatic())); }
     /// Create named child node of the specified type, template version.
-    template <typename _Ty> _Ty* CreateChild(const FString& childName) { return static_cast<_Ty*>(CreateChild(_Ty::GetTypeHashStatic(), childName)); }
+    template <typename _Ty> _Ty* CreateChildNode(const FString& childName) { return static_cast<_Ty*>(CreateChildNode(_Ty::GetTypeHashStatic(), childName)); }
     /// Create named child node of the specified type, template version.
-    template <typename _Ty> _Ty* CreateChild(const char* childName) { return static_cast<_Ty*>(CreateChild(_Ty::GetTypeHashStatic(), childName)); }
+    template <typename _Ty> _Ty* CreateChildNode(const char* childName) { return static_cast<_Ty*>(CreateChildNode(_Ty::GetTypeHashStatic(), childName)); }
 
     /// Return name.
     const FString& GetName() const { return _name; }
@@ -96,17 +96,17 @@ public:
     /// Return parent node.
     ANode* Parent() const { return _parent; }
     /// Return the scene that the node belongs to.
-    AWorld* GetWorld() const { return _scene; }
+    AWorld* GetWorld() const { return _world; }
     /// Return number of immediate child nodes.
-    size_t NumChildren() const { return _children.Size(); }
+    size_t NumChildren() const { return _childrenNode.Size(); }
     /// Return number of immediate child nodes that are not temporary.
     size_t NumPersistentChildren() const;
     /// Return immediate child node by index.
-    ANode* Child(size_t index) const { return index < _children.Size() ? _children[index].Get() : nullptr; }
+    ANode* Child(size_t index) const { return index < _childrenNode.Size() ? _childrenNode[index].Get() : nullptr; }
     /// Return all immediate child nodes.
-    const TVector<TSharedPtr<ANode> >& Children() const { return _children; }
+    const TVector<TSharedPtr<ANode> >& GetChildrenNode() const { return _childrenNode; }
     /// Return child nodes recursively.
-    void AllChildren(TVector<ANode*>& result) const;
+    void GetAllChildrenNode(TVector<ANode*>& result) const;
     /// Return first child node that matches name.
     ANode* FindChildNode(const FString& childName, bool recursive = false) const;
     /// Return first child node that matches name.
@@ -166,9 +166,9 @@ protected:
     /// Parent node.
     ANode* _parent;
     /// Parent scene (If in the scene)
-    AWorld* _scene;
+    AWorld* _world;
     /// Child nodes.
-    TVector<TSharedPtr<ANode> > _children;
+    TVector<TSharedPtr<ANode> > _childrenNode;
     /// Id within the scene.
     unsigned _id;
     /// %ANode name.

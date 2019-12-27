@@ -1016,7 +1016,7 @@ void OgreBinarySerializer::ReadBoneParent(Skeleton *skeleton)
     Bone *parent = skeleton->BoneById(parentId);
 
     if (child && parent)
-        parent->AddChild(child);
+        parent->AddChildNode(child);
     else
         throw DeadlyImportError(Formatter::format() << "Failed to find bones for parenting: Child id " << childId << " for parent id " << parentId);
 }

@@ -901,7 +901,7 @@ void OgreXmlSerializer::ReadBoneHierarchy(Skeleton *skeleton)
         Bone *parent = skeleton->BoneByName(parentName);
 
         if (bone && parent)
-            parent->AddChild(bone);
+            parent->AddChildNode(bone);
         else
             throw DeadlyImportError("Failed to find bones for parenting: Child " + name + " for parent " + parentName);
     }

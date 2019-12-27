@@ -17,12 +17,12 @@ void SkyboxSample::Start()
 	graphics->RenderWindow()->SetMouseHide(true);
 
 	scene = AObject::Create<AWorld>();
-	scene->CreateChild<AOctree>();
-	camera = scene->CreateChild<ACamera>();
+	scene->CreateChildNode<AOctree>();
+	camera = scene->CreateChildNode<ACamera>();
 	camera->SetPosition(TVector3F(0.0f, 0.0f, 0.0f));
 	camera->SetAmbientColor(FColor(0.1f, 0.1f, 0.1f));
 
-	ASkyBox* skybox = scene->CreateChild<ASkyBox>();
+	ASkyBox* skybox = scene->CreateChildNode<ASkyBox>();
 	skybox->SetMaterial(cache->LoadResource<AMaterial>("SkyBox.json"));
 }
 void SkyboxSample::Update()

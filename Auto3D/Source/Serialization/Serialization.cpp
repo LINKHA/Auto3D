@@ -271,7 +271,7 @@ void FSerializationModule::SaveJSON(FJSONValue& dest, ANode* node)
 	if (node->NumPersistentChildren())
 	{
 		dest["children"].SetEmptyArray();
-		auto children = node->Children();
+		auto children = node->GetChildrenNode();
 		for (auto it = children.Begin(); it != children.End(); ++it)
 		{
 			ANode* child = *it;
@@ -410,7 +410,7 @@ void FSerializationModule::LoadJSON(const FJSONValue& source, ANode* node)
 			const FJSONValue& childJSON = *it;
 			FStringHash childType(childJSON["type"].GetString());
 			unsigned childId = (unsigned)childJSON["id"].GetNumber();
-			ANode* child = node->CreateChild(childType);
+			ANode* child = node->CreateChildNode(childType);
 			if (child)
 			{
 				LoadJSON(childJSON, child);
@@ -656,7 +656,7 @@ void FSerializationModule::Save(FStream& dest, ANode* node)
 
 	dest.WriteVLE(node->NumPersistentChildren());
 
-	for (auto it = node->Children().Begin(); it != node->Children().End(); ++it)
+	for (auto it = node->GetChildrenNode().Begin(); it != node->GetChildrenNode().End(); ++it)
 	{
 		ANode* child = *it;
 		if (!child->IsTemporary())
@@ -801,7 +801,7 @@ void FSerializationModule::Load(FStream& source, ANode* node)
 		FStringHash childType(source.Read<FString>());
 		unsigned childId = source.Read<unsigned>();
 
-		ANode* child = node->CreateChild(childType);
+		ANode* child = node->CreateChildNode(childType);
 		if (child)
 		{
 			Load(source, child);
@@ -1173,7 +1173,7 @@ void FSerializationModule::LoadJSON(const FJSONValue& source, ANode2D* node)
 			const FJSONValue& childJSON = *it;
 			FStringHash childType(childJSON["type"].GetString());
 			unsigned childId = (unsigned)childJSON["id"].GetNumber();
-			ANode2D* child = node->CreateChild(childType);
+			ANode2D* child = node->CreateChildNode(childType);
 			if (child)
 			{
 				LoadJSON(childJSON, child);
@@ -1564,7 +1564,7 @@ void FSerializationModule::Load(FStream& source, ANode2D* node)
 		FStringHash childType(source.Read<FString>());
 		unsigned childId = source.Read<unsigned>();
 
-		ANode2D* child = node->CreateChild(childType);
+		ANode2D* child = node->CreateChildNode(childType);
 		if (child)
 		{
 			Load(source, child);

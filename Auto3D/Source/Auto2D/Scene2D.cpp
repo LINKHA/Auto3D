@@ -46,7 +46,7 @@ AScene2D::~AScene2D()
 {
 	// ANode destructor will also remove children. But at that point the node<>_id maps have been destroyed 
    // so must tear down the scene tree already here
-	RemoveAllChildren();
+	RemoveAllChildrenNode();
 	RemoveNode(this);
 	assert(_nodes.IsEmpty());
 }
@@ -83,7 +83,7 @@ bool AScene2D::SaveJSON(FStream& dest)
 
 void AScene2D::Clear()
 {
-	RemoveAllChildren();
+	RemoveAllChildrenNode();
 	_nextNodeId = 1;
 }
 

@@ -17,57 +17,57 @@ void PBRSample::Start()
 	graphics->RenderWindow()->SetMouseHide(true);
 
 	scene = AObject::Create<AWorld>();
-	scene->CreateChild<AOctree>();
-	camera = scene->CreateChild<ACamera>();
+	scene->CreateChildNode<AOctree>();
+	camera = scene->CreateChildNode<ACamera>();
 	camera->SetPosition(TVector3F(0.0f, 5.0f, -5.0f));
 	camera->SetAmbientColor(FColor(0.5f, 0.5f, 0.5f));
 
-	ASkyBox* skybox = scene->CreateChild<ASkyBox>();
+	ASkyBox* skybox = scene->CreateChildNode<ASkyBox>();
 	skybox->SetMaterial(cache->LoadResource<AMaterial>("HdrSkyBox.json"));
 	skybox->SetupIBLMap();
 
-	AStaticModel* teaPot = scene->CreateChild<AStaticModel>();
+	AStaticModel* teaPot = scene->CreateChildNode<AStaticModel>();
 	teaPot->SetPosition(TVector3F(0.0f, 0.5f, 0.0f));
 	teaPot->SetScale(10);
 	teaPot->SetModel(cache->LoadResource<AModel>("Model/TeaPot.mdl"));
 	teaPot->SetMaterial(cache->LoadResource<AIBLMaterial>("PBRTitanium.json"));
 
-	AStaticModel* sphere = scene->CreateChild<AStaticModel>();
+	AStaticModel* sphere = scene->CreateChildNode<AStaticModel>();
 	sphere->SetPosition(TVector3F(6.0f, 1.5f, 0.0f));
 	sphere->SetScale(2);
 	sphere->SetCastShadows(true);
 	sphere->SetModel(cache->LoadResource<AModel>("Model/Sphere.mdl"));
 	sphere->SetMaterial(cache->LoadResource<AIBLMaterial>("PBRGold.json"));
 
-	AStaticModel* plane = scene->CreateChild<AStaticModel>();
+	AStaticModel* plane = scene->CreateChildNode<AStaticModel>();
 	plane->SetScale(TVector3F(100.0f, 1.0f, 100.0f));
 	plane->SetCastShadows(true);
 	plane->SetModel(cache->LoadResource<AModel>("Model/Box.mdl"));
 	plane->SetMaterial(cache->LoadResource<AIBLMaterial>("PBRWood.json"));
 
 
-	ALight* light = scene->CreateChild<ALight>();
+	ALight* light = scene->CreateChildNode<ALight>();
 	light->SetLightType(ELightType::POINT);
 	light->SetCastShadows(true);
 	light->SetColor(FColor(500.0f, 500.0f, 500.0f));
 	light->SetRange(100.0f);
 	light->SetPosition(TVector3F(-10.0f, 10.0f, 10.0f));
 
-	ALight* light2 = scene->CreateChild<ALight>();
+	ALight* light2 = scene->CreateChildNode<ALight>();
 	light2->SetLightType(ELightType::POINT);
 	light2->SetCastShadows(true);
 	light2->SetColor(FColor(500.0f, 500.0f, 500.0f));
 	light2->SetRange(100.0f);
 	light2->SetPosition(TVector3F(10.0f, 10.0f, 10.0f));
 
-	ALight* light3 = scene->CreateChild<ALight>();
+	ALight* light3 = scene->CreateChildNode<ALight>();
 	light3->SetLightType(ELightType::POINT);
 	light3->SetCastShadows(true);
 	light3->SetColor(FColor(500.0f, 500.0f, 500.0f));
 	light3->SetRange(100.0f);
 	light3->SetPosition(TVector3F(-10.0f, -10.0f, 10.0f));
 
-	ALight* light4 = scene->CreateChild<ALight>();
+	ALight* light4 = scene->CreateChildNode<ALight>();
 	light4->SetLightType(ELightType::POINT);
 	light4->SetCastShadows(true);
 	light4->SetColor(FColor(500.0f, 500.0f, 500.0f));

@@ -18,8 +18,8 @@ void FirstPersonSample::Start()
 
 	scene = AObject::Create<AWorld>();
 	scene->SetupShadowMap(1, 4096);
-	scene->CreateChild<AOctree>();
-	camera = scene->CreateChild<ACamera>();
+	scene->CreateChildNode<AOctree>();
+	camera = scene->CreateChildNode<ACamera>();
 	//camera->SetPosition(Vector3F(0.0f, 20.0f, -75.0f));
 	camera->SetAmbientColor(FColor(0.1f, 0.1f, 0.1f));
 
@@ -27,7 +27,7 @@ void FirstPersonSample::Start()
 	{
 		for (int x = -5; x <= 5; ++x)
 		{
-			AStaticModel* object = scene->CreateChild<AStaticModel>();
+			AStaticModel* object = scene->CreateChildNode<AStaticModel>();
 			object->SetPosition(TVector3F(10.5f * x, -0.1f, 10.5f * y));
 			object->SetScale(TVector3F(10.0f, 0.1f, 10.0f));
 			object->SetModel(cache->LoadResource<AModel>("Model/Box.mdl"));
@@ -37,7 +37,7 @@ void FirstPersonSample::Start()
 
 	for (unsigned i = 0; i < 435; ++i)
 	{
-		AStaticModel* object = scene->CreateChild<AStaticModel>();
+		AStaticModel* object = scene->CreateChildNode<AStaticModel>();
 		object->SetPosition(TVector3F(Random() * 100.0f - 50.0f, 0.0f, Random() * 100.0f - 50.0f));
 		object->SetScale(1.5f);
 		object->SetModel(cache->LoadResource<AModel>("Model/Mushroom.mdl"));
@@ -48,7 +48,7 @@ void FirstPersonSample::Start()
 
 	for (unsigned i = 0; i < 20; ++i)
 	{
-		ALight* light = scene->CreateChild<ALight>();
+		ALight* light = scene->CreateChildNode<ALight>();
 		light->SetLightType(ELightType::POINT);
 		light->SetCastShadows(true);
 		TVector3F colorVec = 2.0f * TVector3F(Random(), Random(), Random()).Normalized();

@@ -82,7 +82,7 @@ struct RigidBody {
 	/// Type of joint
 	JointType m_joint_type;
 	/// Position of joint frame (body-fixed frame at q=0) relative to the parent frame
-	/// Components are in body-fixed frame of the parent
+	/// GetComponents are in body-fixed frame of the parent
 	vec3 m_parent_pos_parent_body_ref;
 	/// Orientation of joint frame (body-fixed frame at q=0) relative to the parent frame
 	mat33 m_body_T_parent_ref;

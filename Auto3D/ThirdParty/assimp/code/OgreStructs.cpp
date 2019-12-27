@@ -1058,7 +1058,7 @@ uint16_t Bone::ParentId() const
     return static_cast<uint16_t>(parentId);
 }
 
-void Bone::AddChild(Bone *bone)
+void Bone::AddChildNode(Bone *bone)
 {
     if (!bone)
         return;

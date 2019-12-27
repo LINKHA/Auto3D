@@ -49,7 +49,7 @@ ANode2D::ANode2D():
 
 ANode2D::~ANode2D()
 {
-	RemoveAllChildren();
+	RemoveAllChildrenNode();
 	// At the time of destruction the node should not have a parent, or be in a scene
 	assert(!_parent);
 	assert(!_scene2D);
@@ -124,15 +124,15 @@ void ANode2D::SetTemporary(bool enable)
 	SetFlag(NF_2D_TEMPORARY, enable);
 }
 
-void ANode2D::SetParent(ANode2D* newParent)
+void ANode2D::SetParentNode(ANode2D* newParent)
 {
 	if (newParent)
-		newParent->AddChild(this);
+		newParent->AddChildNode(this);
 	else
 		ErrorString("Could not set null parent");
 }
 
-ANode2D* ANode2D::CreateChild(FStringHash childType)
+ANode2D* ANode2D::CreateChildNode(FStringHash childType)
 {
 	TSharedPtr<AObject> newObject = Create(childType);
 	if (!newObject)
@@ -147,25 +147,25 @@ ANode2D* ANode2D::CreateChild(FStringHash childType)
 		return nullptr;
 	}
 
-	AddChild(child);
+	AddChildNode(child);
 
 	return child;
 }
 
-ANode2D* ANode2D::CreateChild(FStringHash childType, const FString& childName)
+ANode2D* ANode2D::CreateChildNode(FStringHash childType, const FString& childName)
 {
-	return CreateChild(childType, childName.CString());
+	return CreateChildNode(childType, childName.CString());
 }
 
-ANode2D* ANode2D::CreateChild(FStringHash childType, const char* childName)
+ANode2D* ANode2D::CreateChildNode(FStringHash childType, const char* childName)
 {
-	ANode2D* child = CreateChild(childType);
+	ANode2D* child = CreateChildNode(childType);
 	if (child)
 		child->SetName(childName);
 	return child;
 }
 
-void ANode2D::AddChild(ANode2D* child)
+void ANode2D::AddChildNode(ANode2D* child)
 {
 	// Check for illegal or redundant parent assignment
 	if (!child || child->_parent == this)
@@ -200,7 +200,7 @@ void ANode2D::AddChild(ANode2D* child)
 		_scene2D->AddNode(child);
 }
 
-void ANode2D::RemoveChild(ANode2D* child)
+void ANode2D::RemoveChildNode(ANode2D* child)
 {
 	if (!child || child->_parent != this)
 		return;
@@ -209,13 +209,13 @@ void ANode2D::RemoveChild(ANode2D* child)
 	{
 		if (_children[i] == child)
 		{
-			RemoveChild(i);
+			RemoveChildNode(i);
 			break;
 		}
 	}
 }
 
-void ANode2D::RemoveChild(size_t index)
+void ANode2D::RemoveChildNode(size_t index)
 {
 	if (index >= _children.Size())
 		return;
@@ -229,7 +229,7 @@ void ANode2D::RemoveChild(size_t index)
 	_children.Erase(index);
 }
 
-void ANode2D::RemoveAllChildren()
+void ANode2D::RemoveAllChildrenNode()
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
@@ -247,7 +247,7 @@ void ANode2D::RemoveAllChildren()
 void ANode2D::RemoveSelf()
 {
 	if (_parent)
-		_parent->RemoveChild(this);
+		_parent->RemoveChildNode(this);
 	else
 		delete this;
 }
@@ -306,13 +306,13 @@ size_t ANode2D::NumPersistentChildren() const
 	return ret;
 }
 
-void ANode2D::AllChildren(TVector<ANode2D*>& result) const
+void ANode2D::GetAllChildrenNode(TVector<ANode2D*>& result) const
 {
 	for (auto it = _children.Begin(); it != _children.End(); ++it)
 	{
 		ANode2D* child = *it;
 		result.Push(child);
-		child->AllChildren(result);
+		child->GetAllChildrenNode(result);
 	}
 }
 

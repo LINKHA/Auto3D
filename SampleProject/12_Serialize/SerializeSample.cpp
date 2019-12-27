@@ -30,26 +30,26 @@ void SerializeSample::Start()
 	if (jsonFile->Open(ExecutableDir() + fileJsonName, EFileMode::READ) == false)
 	{
 		scene->SetupShadowMap(1, 4096);
-		scene->CreateChild<AOctree>();
-		camera = scene->CreateChild<ACamera>();
+		scene->CreateChildNode<AOctree>();
+		camera = scene->CreateChildNode<ACamera>();
 		camera->SetPosition(TVector3F(0.0f, 5.0f, -15.0f));
 		camera->SetAmbientColor(FColor(0.1f, 0.1f, 0.1f));
 
-		AStaticModel* plane = scene->CreateChild<AStaticModel>();
+		AStaticModel* plane = scene->CreateChildNode<AStaticModel>();
 		plane->SetTagName("Tag1");
 		plane->SetScale(TVector3F(50.0f, 0.1f, 50.0f));
 		plane->SetCastShadows(true);
 		plane->SetModel(cache->LoadResource<AModel>("Model/Box.mdl"));
 		plane->SetMaterial(cache->LoadResource<AMaterial>("Stone.json"));
 
-		AStaticModel* teaPot = scene->CreateChild<AStaticModel>();
+		AStaticModel* teaPot = scene->CreateChildNode<AStaticModel>();
 		teaPot->SetLayerName("Layer1");
 		teaPot->SetPosition(TVector3F(0.0f, 0.0f, 0.0f));
 		teaPot->SetScale(TVector3F(10.0f, 10.0f, 10.0f));
 		teaPot->SetModel(cache->LoadResource<AModel>("Model/TeaPot.mdl"));
 		teaPot->SetCastShadows(true);
 
-		ALight* lightDir = scene->CreateChild<ALight>();
+		ALight* lightDir = scene->CreateChildNode<ALight>();
 		lightDir->SetLightType(ELightType::DIRECTIONAL);
 		lightDir->SetCastShadows(true);
 		lightDir->SetColor(FColor(1.0f, 1.0f, 1.0f));

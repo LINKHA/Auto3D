@@ -430,7 +430,7 @@ public:
     uint16_t ParentId() const;
 
     /// Add child bone.
-    void AddChild(Bone *bone);
+    void AddChildNode(Bone *bone);
 
     /// Calculates the world matrix for bone and its children.
     void CalculateWorldMatrixAndDefaultPose(Skeleton *skeleton);

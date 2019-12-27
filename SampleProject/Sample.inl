@@ -26,7 +26,7 @@ void Sample::Start()
 	scene2d->DefineTag(1, "Player");
 	scene2d->DefineTag(2, "Enemy");
 
-	logoCamera = scene2d->CreateChild<ACamera2D>();
+	logoCamera = scene2d->CreateChildNode<ACamera2D>();
 	logoCamera->SetOrthographic(true);
 	logoCamera->SetPosition(TVector3F(0.0f, 0.0f, -100.0f));
 	logoCamera->SetLayoutMaskAll();
@@ -50,7 +50,7 @@ void Sample::Stop()
 void Sample::CreateLogo()
 {
 	auto* cache = GModuleManager::Get().CacheModule();
-	ASprite2D* logoLong = scene2d->CreateChild<ASprite2D>();
+	ASprite2D* logoLong = scene2d->CreateChildNode<ASprite2D>();
 	logoLong->SetTexture(cache->LoadResource<ATexture>("Texture/logoLong.png"));
 	logoLong->SetScale(TVector3F(3.0f, 0.8f, 1.0f));
 	logoLong->SetPosition(TVector3F(7.0f, -9.2f, -10.0f));

@@ -10,7 +10,7 @@ void SpriteSample::Start()
 {
 	Super::Start();
 
-	camera2d = scene2d->CreateChild<ACamera2D>();
+	camera2d = scene2d->CreateChildNode<ACamera2D>();
 	camera2d->SetOrthographic(true);
 	camera2d->SetPosition(TVector3F(0.0f, 0.0f, -100.0f));
 	camera2d->SetLayoutMaskName("UI");
@@ -20,7 +20,7 @@ void SpriteSample::Start()
 
 	for (int i = 0; i < flowerNum; i++)
 	{
-		ASprite2D* flower = scene2d->CreateChild<ASprite2D>();
+		ASprite2D* flower = scene2d->CreateChildNode<ASprite2D>();
 		flower->SetTexture(flowerTexture);
 		flower->SetPosition(TVector3F(RandomSignedFloat()*10.0f, RandomSignedFloat()*10.0f, -0.1f));
 		flower->SetScale(TVector3F(1.0f, 1.0f, 1.0f));

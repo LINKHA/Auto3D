@@ -50,29 +50,29 @@ public:
 	/// Set temporary mode. Temporary scene nodes are not saved.
 	void SetTemporary(bool enable);
 	/// Reparent the node.
-	void SetParent(ANode2D* newParent);
+	void SetParentNode(ANode2D* newParent);
 	/// Create child node of specified type. A registered object factory for the type is required.
-	ANode2D* CreateChild(FStringHash childType);
+	ANode2D* CreateChildNode(FStringHash childType);
 	/// Create named child node of specified type.
-	ANode2D* CreateChild(FStringHash childType, const FString& childName);
+	ANode2D* CreateChildNode(FStringHash childType, const FString& childName);
 	/// Create named child node of specified type.
-	ANode2D* CreateChild(FStringHash childType, const char* childName);
-	/// Add node as a child. Same as calling SetParent for the child node.
-	void AddChild(ANode2D* child);
+	ANode2D* CreateChildNode(FStringHash childType, const char* childName);
+	/// Add node as a child. Same as calling SetParentNode for the child node.
+	void AddChildNode(ANode2D* child);
 	/// Remove child node. Will delete it if there are no other strong references to it.
-	void RemoveChild(ANode2D* child);
+	void RemoveChildNode(ANode2D* child);
 	/// Remove child node by index.
-	void RemoveChild(size_t index);
+	void RemoveChildNode(size_t index);
 	/// Remove all child nodes.
-	void RemoveAllChildren();
+	void RemoveAllChildrenNode();
 	/// Remove self immediately. As this will delete the node (if no other strong references exist) no operations on the node are permitted after calling this.
 	void RemoveSelf();
 	/// Create child node of the specified type, template version.
-	template <typename _Ty> _Ty* CreateChild() { return static_cast<_Ty*>(CreateChild(_Ty::GetTypeHashStatic())); }
+	template <typename _Ty> _Ty* CreateChildNode() { return static_cast<_Ty*>(CreateChildNode(_Ty::GetTypeHashStatic())); }
 	/// Create named child node of the specified type, template version.
-	template <typename _Ty> _Ty* CreateChild(const FString& childName) { return static_cast<_Ty*>(CreateChild(_Ty::GetTypeHashStatic(), childName)); }
+	template <typename _Ty> _Ty* CreateChildNode(const FString& childName) { return static_cast<_Ty*>(CreateChildNode(_Ty::GetTypeHashStatic(), childName)); }
 	/// Create named child node of the specified type, template version.
-	template <typename _Ty> _Ty* CreateChild(const char* childName) { return static_cast<_Ty*>(CreateChild(_Ty::GetTypeHashStatic(), childName)); }
+	template <typename _Ty> _Ty* CreateChildNode(const char* childName) { return static_cast<_Ty*>(CreateChildNode(_Ty::GetTypeHashStatic(), childName)); }
 
 	/// Return name.
 	const FString& GetName() const { return _name; }
@@ -103,7 +103,7 @@ public:
 	/// Return all immediate child nodes.
 	const TVector<TSharedPtr<ANode2D> >& Children() const { return _children; }
 	/// Return child nodes recursively.
-	void AllChildren(TVector<ANode2D*>& result) const;
+	void GetAllChildrenNode(TVector<ANode2D*>& result) const;
 	/// Return first child node that matches name.
 	ANode2D* FindChildNode(const FString& childName, bool recursive = false) const;
 	/// Return first child node that matches name.
