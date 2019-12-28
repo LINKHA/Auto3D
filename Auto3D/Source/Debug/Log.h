@@ -166,3 +166,6 @@ private:
 	#define Print(message) LogString(message)
 	#define print(message) LogString(message)
 #endif
+
+#define Check(expr) do{if (!expr)ErrorStringF("Check point %s an error", #expr);}while(0)
+#define Assert(expr) assert(expr)

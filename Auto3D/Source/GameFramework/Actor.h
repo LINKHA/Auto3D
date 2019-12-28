@@ -10,7 +10,9 @@ class AUTO_API AActor : public AOctreeNode
 {
 	DECLARE_CLASS(AActor, AOctreeNode)
 public:
-	
+	AActor();
+	~AActor();
+
 	virtual void BeginPlay();
 
 	virtual void Tick(float DeltaSeconds);
@@ -116,11 +118,14 @@ public:
 	/// Find Childs of specified type, template version.
 	template <typename _Ty> void FindChildren(TVector<_Ty*>& result, bool recursive = false) const { return FindChildren(reinterpret_cast<TVector<AActor*>&>(result), _Ty::GetTypeHashStatic(), recursive); }
 
-
+	/// Has actor begun play.
+	bool HasBegunPlay() { return _actorHasBegunPlay; }
 private:
 	/// Actor child actors.
 	TVector<AActor*> _children;
 	/// This actor all components.
 	THashSet<AComponent*> _ownedComponents;
+
+	bool _actorHasBegunPlay;
 };
 }

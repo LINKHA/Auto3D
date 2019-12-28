@@ -11,6 +11,24 @@ REGISTER_CLASS
 	;
 }
 
+AComponent::AComponent():
+	_hasBegunPlay(false)
+{}
+
+AComponent::~AComponent()
+{}
+
+void AComponent::BeginPlay()
+{
+	Check(!_hasBegunPlay);
+	_hasBegunPlay = true;
+}
+
+void AComponent::TickComponent(float deltaTime)
+{
+
+}
+
 AActor* AComponent::GetOwner()const
 {
 	return _owner;

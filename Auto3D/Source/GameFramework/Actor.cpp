@@ -9,12 +9,26 @@ REGISTER_CLASS
 	.constructor<>()
 	;
 }
+
+AActor::AActor():
+	_actorHasBeginPlay(false)
+{
+
+}
+
+AActor::~AActor()
+{
+
+}
 void AActor::BeginPlay()
 {
 	for (auto it = _ownedComponents.Begin(); it != _ownedComponents.End(); ++it)
 	{
-		(*it)->BeginPlay();
+		AComponent* comp = *it;
+		if(comp->IsEnabled() && !comp->HasBegunPlay())
+			comp->BeginPlay();
 	}
+	_actorHasBeginPlay = true;
 }
 
 void AActor::Tick(float DeltaSeconds)
@@ -35,7 +49,7 @@ AComponent* AActor::CreateComponent(FStringHash childType)
 		ErrorString("Failed to create component, perhaps the input parameter component");
 		return nullptr;
 	}
-		
+	component->OnActorSet(this);
 	return component;
 }
 
@@ -57,7 +71,7 @@ AComponent* AActor::CreateComponent(FStringHash childType, const char* childName
 		ErrorString("Failed to create component, perhaps the input parameter component");
 		return nullptr;
 	}
-
+	component->OnActorSet(this);
 	return component;
 }
 
@@ -73,6 +87,7 @@ void AActor::AddComponent(AComponent* component)
 		return;
 	}
 	AddChildNode(component);
+	component->OnActorSet(this);
 }
 
 void AActor::RemoveComponent(AComponent* component)
