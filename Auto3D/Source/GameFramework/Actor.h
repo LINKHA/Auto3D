@@ -125,7 +125,7 @@ private:
 	TVector<AActor*> _children;
 	/// This actor all components.
 	THashSet<AComponent*> _ownedComponents;
-
+	/// Actor has begin palu.
 	bool _actorHasBegunPlay;
 };
 }
