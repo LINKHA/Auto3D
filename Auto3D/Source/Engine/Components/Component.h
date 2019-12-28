@@ -1,14 +1,14 @@
 #pragma once
-#include "Scene/Transform.h"
+#include "Scene/OctreeNode.h"
 
 namespace Auto3D
 {
 class AActor;
 class AWorld;
 
-class AUTO_API AComponent : public ATransform
+class AUTO_API AComponent : public AOctreeNode
 {
-	DECLARE_CLASS(AComponent, ATransform)
+	DECLARE_CLASS(AComponent, AOctreeNode)
 public:
 	AComponent();
 	~AComponent();

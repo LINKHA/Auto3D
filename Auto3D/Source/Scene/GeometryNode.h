@@ -2,7 +2,7 @@
 
 #include "Graphics/GraphicsDefs.h"
 #include "IO/ResourceRef.h"
-#include "OctreeNode.h"
+#include "Engine/Components/Component.h"
 #include "Auto2D/Transform2D.h"
 
 namespace Auto3D
@@ -111,9 +111,9 @@ struct AUTO_API FSourceBatch
 };
 
 /// Base class for scene nodes that contain geometry to be rendered.
-class AUTO_API AGeometryNode : public AOctreeNode
+class AUTO_API AGeometryNode : public AComponent
 {
-    DECLARE_CLASS(AGeometryNode, AOctreeNode)
+    DECLARE_CLASS(AGeometryNode, AComponent)
 public:
     /// Construct.
     AGeometryNode();

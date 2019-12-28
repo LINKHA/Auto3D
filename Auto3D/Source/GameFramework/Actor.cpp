@@ -11,7 +11,7 @@ REGISTER_CLASS
 }
 
 AActor::AActor():
-	_actorHasBeginPlay(false)
+	_actorHasBegunPlay(false)
 {
 
 }
@@ -28,7 +28,7 @@ void AActor::BeginPlay()
 		if(comp->IsEnabled() && !comp->HasBegunPlay())
 			comp->BeginPlay();
 	}
-	_actorHasBeginPlay = true;
+	_actorHasBegunPlay = true;
 }
 
 void AActor::Tick(float DeltaSeconds)

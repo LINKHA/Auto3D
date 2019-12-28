@@ -5,7 +5,7 @@
 #include "Math/Rect.h"
 #include "Math/Vector2.h"
 #include "Math/Sphere.h"
-#include "Scene/OctreeNode.h"
+#include "Engine/Components/Component.h"
 
 namespace Auto3D
 {
@@ -26,9 +26,9 @@ namespace ELightType
 
 
 /// Dynamic light scene node.
-class AUTO_API ALight : public AOctreeNode
+class AUTO_API ALight : public AComponent
 {
-	DECLARE_CLASS(ALight, AOctreeNode)
+	DECLARE_CLASS(ALight, AComponent)
 public:
     /// Construct.
     ALight();

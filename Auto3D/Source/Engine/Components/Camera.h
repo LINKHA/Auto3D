@@ -4,7 +4,7 @@
 #include "Math/Frustum.h"
 #include "Math/Plane.h"
 #include "Math/Ray.h"
-#include "Scene/Transform.h"
+#include "Engine/Components/Component.h"
 
 
 namespace Auto3D
@@ -26,9 +26,9 @@ namespace EFaceCameraMode
 class ATexture;
 
 /// ACamera scene node.
-class AUTO_API ACamera : public ATransform
+class AUTO_API ACamera : public AComponent
 {
-	DECLARE_CLASS(ACamera, ATransform)
+	DECLARE_CLASS(ACamera, AComponent)
 public:
     /// Construct.
     ACamera();
