@@ -3,6 +3,7 @@
 
 namespace Auto3D
 {
+class AController;
 
 class AUTO_API APawn : public AActor
 {
@@ -10,6 +11,16 @@ class AUTO_API APawn : public AActor
 public:
 	APawn() {}
 	~APawn() {}
+
+	/// Called when this Pawn is possessed. Only called on the server (or in standalone).
+	virtual void PossessedBy(AController* newController);
+	/// Called when our Controller no longer possesses us. 
+	virtual void UnPossessed();
+
+	/// Returns controller for this actor.
+	AController* GetController() const;
+private:
+	AController* _controller;
 };
 
 }
