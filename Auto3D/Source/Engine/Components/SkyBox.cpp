@@ -3,7 +3,7 @@
 #include "Graphics/Texture.h"
 #include "Resource/ResourceCache.h"
 #include "Core/Modules/ModuleManager.h"
-#include "RegisteredBox/RegisteredBox.h"
+#include "Scene/WorldContext.h"
 #include "Scene/World.h"
 #include "Graphics/Graphics.h"
 #include "Graphics/Shader.h"
@@ -157,7 +157,7 @@ ASkyBox::ASkyBox():
 	auto cache = GModuleManager::Get().CacheModule();
 	SetModel(cache->LoadResource<AModel>("Model/Box.mdl"));
 	OnWorldBoundingBoxUpdate();
-	GModuleManager::Get().RegisteredBoxModule()->GetActiveWorld()->SetSkyBox(this);
+	GWorldContext::Get().GetActiveWorld()->SetSkyBox(this);
 }
 
 ASkyBox::~ASkyBox() = default;

@@ -8,7 +8,6 @@
 #include "Debug/Log.h"
 #include "Debug/Profiler.h"
 #include "Time/Time.h"
-#include "RegisteredBox/RegisteredBox.h"
 #include "Script/Script.h"
 #include "Physics/Physics.h"
 #include "IO/FileSystem.h"
@@ -34,7 +33,6 @@ GModuleManager::GModuleManager() :
 	_log(nullptr),
 	_profiler(nullptr),
 	_time(nullptr),
-	_registeredBox(nullptr),
 	_renderer2d(nullptr),
 	_physics(nullptr),
 	_fileSystem(nullptr),
@@ -54,7 +52,6 @@ void GModuleManager::CreateModules()
 	_graphics = TUniquePtr<FGraphicsModule>(new FGraphicsModule());
 	_renderer = TUniquePtr<FRendererModule>(new FRendererModule());
 	_time = TUniquePtr<FTimeModule>(new FTimeModule());
-	_registeredBox = TUniquePtr<FRegisteredBoxModule>(new FRegisteredBoxModule());
 	_renderer2d = TUniquePtr<FRenderer2DModule>(new FRenderer2DModule());
 	_physics = TUniquePtr<FPhysicsModule>(new FPhysicsModule());
 	_fileSystem = TUniquePtr<FFileModule>(new FFileModule());
@@ -137,17 +134,6 @@ void GModuleManager::RecreateTimeModule(FTimeModule* time)
 		_time = time;
 	else
 		_time = TUniquePtr<FTimeModule>(new FTimeModule());
-}
-
-void GModuleManager::RecreateRegisteredBoxModule(FRegisteredBoxModule* registeredBox)
-{
-	if (_registeredBox)
-		_registeredBox.Reset();
-
-	if (registeredBox)
-		_registeredBox = registeredBox;
-	else
-		_registeredBox = TUniquePtr<FRegisteredBoxModule>(new FRegisteredBoxModule());
 }
 
 void GModuleManager::RecreateRenderer2dModule(FRenderer2DModule* renderer2d)

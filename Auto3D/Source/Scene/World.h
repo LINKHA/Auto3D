@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Node.h"
+#include "GameFramework/Actor.h"
 
 namespace Auto3D
 {
@@ -10,15 +10,18 @@ class APhysicsWorld;
 class ASkyBox;
 
 /// %AWorld root node, which also represents the whole world.
-class AUTO_API AWorld : public ANode
+class AUTO_API AWorld : public AActor
 {
-    DECLARE_CLASS(AWorld, ANode)
+    DECLARE_CLASS(AWorld, AActor)
 
 public:
     /// Construct.
     AWorld();
     /// Destruct. The whole node tree is destroyed.
     ~AWorld();
+
+	/// Start gameplay. This will cause the game mode to transition to the correct state and call BeginPlay on all actors.
+	void BeginPlay();
 
     /// Save world to binary stream.
     bool Save(FStream& dest);

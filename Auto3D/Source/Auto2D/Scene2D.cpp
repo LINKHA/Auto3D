@@ -3,7 +3,7 @@
 #include "IO/Stream.h"
 #include "Scene/Transform.h"
 #include "Resource/JSONFile.h"
-#include "RegisteredBox/RegisteredBox.h"
+#include "Scene/WorldContext.h"
 #include "Core/Modules/ModuleManager.h"
 #include "Auto2D/PhysicsWorld2D.h"
 #include "Serialization/Serialization.h"
@@ -40,7 +40,7 @@ AScene2D::AScene2D() :
 
 	DefineLayer(LAYER_DEFAULT, "Default");
 	DefineTag(TAG_NONE, "None");
-	GModuleManager::Get().RegisteredBoxModule()->RegisterScene2D(this);
+	GWorldContext::Get().RegisterScene2D(this);
 }
 AScene2D::~AScene2D()
 {

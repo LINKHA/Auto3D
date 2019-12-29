@@ -40,7 +40,7 @@
 #include "Engine/Components/Water.h"
 #include "Engine/Components/IBLMaterial.h"
 #include "Scene/World.h"
-#include "RegisteredBox/RegisteredBox.h"
+#include "Scene/WorldContext.h"
 #include "Thread/Condition.h"
 #include "Thread/Mutex.h"
 #include "Thread/Thread.h"

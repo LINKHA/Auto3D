@@ -13,7 +13,7 @@ class FInputModule;
 class FLogModule;
 class FProfilerModule;
 class FTimeModule;
-class FRegisteredBoxModule;
+class GWorldContext;
 class AScript;
 class FRenderer2DModule;
 class FPhysicsModule;
@@ -115,8 +115,6 @@ private:
 	FProfilerModule* _profiler;
 	/// Process all engine time, calculate FPS, etc
 	FTimeModule* _time;
-	/// The message management mechanism for the underlying interaction between the game project and the engine
-	FRegisteredBoxModule* _registeredBox;
 	/// 2d-related operations and rendering capabilities
 	FRenderer2DModule* _renderer2d;
 	/// Physical world and functional storage

@@ -1,19 +1,21 @@
-#include "RegisteredBox.h"
+#include "Scene/WorldContext.h"
 #include "Debug/Log.h"
 
 namespace Auto3D
 {
 
-FRegisteredBoxModule::FRegisteredBoxModule() :
+IMPLEMENT_SINGLETON(GWorldContext)
+
+GWorldContext::GWorldContext() :
 	_activeWorld(nullptr),
 	_activeScene2d(nullptr)
 {
 }
-FRegisteredBoxModule::~FRegisteredBoxModule()
+GWorldContext::~GWorldContext()
 {
 }
 
-void FRegisteredBoxModule::SetActiveWorld(AWorld* world)
+void GWorldContext::SetActiveWorld(AWorld* world)
 { 
 	if (world)
 	{
@@ -25,7 +27,7 @@ void FRegisteredBoxModule::SetActiveWorld(AWorld* world)
 	}
 }
 
-void FRegisteredBoxModule::SetActiveScene2D(AScene2D* scene2d)
+void GWorldContext::SetActiveScene2D(AScene2D* scene2d)
 {
 	if (scene2d)
 	{
@@ -37,12 +39,12 @@ void FRegisteredBoxModule::SetActiveScene2D(AScene2D* scene2d)
 	}
 }
 
-AWorld* FRegisteredBoxModule::GetActiveWorld()
+AWorld* GWorldContext::GetActiveWorld()
 {
 	return _activeWorld;
 }
 
-AScene2D* FRegisteredBoxModule::GetActiveScene2D()
+AScene2D* GWorldContext::GetActiveScene2D()
 {
 	return _activeScene2d;
 }

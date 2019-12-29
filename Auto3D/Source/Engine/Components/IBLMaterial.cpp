@@ -5,7 +5,7 @@
 #include "Graphics/Texture.h"
 #include "Engine/Components/SkyBox.h"
 #include "Scene/World.h"
-#include "RegisteredBox/RegisteredBox.h"
+#include "Scene/WorldContext.h"
 #include "Debug/Log.h"
 
 #include "Debug/DebugNew.h"
@@ -38,7 +38,7 @@ bool AIBLMaterial::EndLoad()
 {
 	bool flag = false;
 	flag = Super::EndLoad();
-	auto scene = GModuleManager::Get().RegisteredBoxModule()->GetActiveWorld();
+	auto scene = GWorldContext::Get().GetActiveWorld();
 	if (scene)
 		flag &= SetupIBL(scene->GetSkyBox());
 	return flag;

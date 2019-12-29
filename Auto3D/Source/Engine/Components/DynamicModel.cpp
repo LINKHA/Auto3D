@@ -11,7 +11,7 @@
 #include "Platform/Context.h"
 #include "Graphics/Texture.h"
 #include "Engine/Components/Material.h"
-#include "RegisteredBox/RegisteredBox.h"
+#include "Scene/WorldContext.h"
 #include "Engine/Components/SkyBox.h"
 #include "Graphics/Shader.h"
 
@@ -212,7 +212,7 @@ bool ADynamicModel::init()
 	free(indices);
 
 
-	ATexture* cubeMap = GModuleManager::Get().RegisteredBoxModule()->GetActiveWorld()->GetSkyBox()->GetMaterial(0)->GetTexture(0);
+	ATexture* cubeMap = GWorldContext::Get().GetActiveWorld()->GetSkyBox()->GetMaterial(0)->GetTexture(0);
 	g_cubemap = cubeMap->GetGLTexture();
 	//
 

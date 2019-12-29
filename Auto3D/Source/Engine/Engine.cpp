@@ -11,7 +11,7 @@
 #include "Debug/Log.h"
 #include "Debug/Profiler.h"
 #include "Time/Time.h"
-#include "RegisteredBox/RegisteredBox.h"
+#include "Scene/WorldContext.h"
 #include "Script/Script.h"
 #include "Physics/Physics.h"
 #include "IO/FileSystem.h"
@@ -65,7 +65,6 @@ AEngine::AEngine() :
 	_log = moduleManager.LogModule();
 	_profiler = moduleManager.ProfilerModule();
 	_time = moduleManager.TimeModule();
-	_registeredBox = moduleManager.RegisteredBoxModule();
 	_renderer2d = moduleManager.Renderer2dModule();
 	_physics = moduleManager.PhysicsModule();
 	_fileSystem = moduleManager.FileSystemModule();
@@ -144,7 +143,7 @@ void AEngine::Render()
 	{
 		PROFILE(RenderWorld);
 
-		AWorld* world = _registeredBox->GetActiveWorld();
+		AWorld* world = GWorldContext::Get().GetActiveWorld();
 		if (world && world->IsEnabled())
 		{
 			TVector<ACamera*>& cameras = world->GetCameras();
@@ -161,7 +160,7 @@ void AEngine::Render()
 	{
 		PROFILE(RenderScene2D);
 
-		AScene2D* scene2d = _registeredBox->GetActiveScene2D();
+		AScene2D* scene2d = GWorldContext::Get().GetActiveScene2D();
 		if (scene2d && scene2d->IsEnabled())
 		{
 			TVector<ACamera2D*>& cameras = scene2d->GetCameras();

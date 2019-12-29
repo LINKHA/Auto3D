@@ -1,6 +1,5 @@
 #pragma once
-
-#include "Container/Ptr.h"
+#include "Container/Singleton.h"
 #include "Container/Vector.h"
 
 namespace Auto3D
@@ -12,13 +11,15 @@ class AScene2D;
 class ACamera2D;
 
 /// Manages messaging between the user and the engine
-class AUTO_API FRegisteredBoxModule : public FRefCounted
+class AUTO_API GWorldContext
 {
-public:
+	REGISTER_SINGLETON(GWorldContext)
+protected:
 	/// Construct.
-	FRegisteredBoxModule();
+	GWorldContext();
 	/// Destructor
-	~FRegisteredBoxModule();
+	~GWorldContext();
+public:
 	/// Register world
 	void RegisterWorld(AWorld* world) { SetActiveWorld(world);  _worlds.Push(world); }
 	/// Register scene2d

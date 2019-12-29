@@ -3,7 +3,7 @@
 #include "IO/Stream.h"
 #include "Resource/JSONFile.h"
 #include "Renderer/Renderer.h"
-#include "RegisteredBox/RegisteredBox.h"
+#include "Scene/WorldContext.h"
 #include "Physics/PhysicsWorld.h"
 #include "Engine/Components/SkyBox.h"
 #include "Engine/Components/Camera.h"
@@ -54,7 +54,7 @@ AWorld::AWorld() :
     DefineTag(TAG_NONE, "None");
 
 	// Register scene to scene system use to render
-	GModuleManager::Get().RegisteredBoxModule()->RegisterWorld(this);
+	GWorldContext::Get().RegisterWorld(this);
 }
 
 AWorld::~AWorld()
@@ -64,6 +64,19 @@ AWorld::~AWorld()
     RemoveAllChildrenNode();
     RemoveNode(this);
     assert(_nodes.IsEmpty());
+}
+
+void AWorld::BeginPlay()
+{
+	//Get all current world actors
+	TVector<AActor*> children;
+	GetChildren(children,true);
+	for (auto it = children.Begin(); it != children.End(); ++it)
+	{
+		AActor* child = *it;
+		if(!child->HasBegunPlay())
+			child->BeginPlay();
+	}
 }
 
 bool AWorld::Save(FStream& dest)

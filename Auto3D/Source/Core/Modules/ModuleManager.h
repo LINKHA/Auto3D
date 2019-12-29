@@ -13,7 +13,6 @@ class FInputModule;
 class FLogModule;
 class FProfilerModule;
 class FTimeModule;
-class FRegisteredBoxModule;
 class AScript;
 class FRenderer2DModule;
 class FPhysicsModule;
@@ -49,8 +48,6 @@ public:
 	void RecreateProfilerModule(FProfilerModule* profiler = nullptr);
 	/// Recreate process all engine time, calculate FPS, etc
 	void RecreateTimeModule(FTimeModule* time = nullptr);
-	/// Recreate the message management mechanism for the underlying interaction between the game project and the engine
-	void RecreateRegisteredBoxModule(FRegisteredBoxModule* registeredBox = nullptr);
 	/// Recreate 2d-related operations and rendering capabilities
 	void RecreateRenderer2dModule(FRenderer2DModule* renderer2d = nullptr);
 	/// Recreate physical world and functional storage
@@ -78,8 +75,6 @@ public:
 	FProfilerModule* ProfilerModule() { return _profiler.Get(); }
 	/// Return process all engine time, calculate FPS, etc
 	FTimeModule* TimeModule() { return _time.Get(); }
-	/// Return the message management mechanism for the underlying interaction between the game project and the engine
-	FRegisteredBoxModule* RegisteredBoxModule() { return _registeredBox.Get(); }
 	/// Return 2d-related operations and rendering capabilities
 	FRenderer2DModule* Renderer2dModule() { return _renderer2d.Get(); }
 	/// Return physical world and functional storage
@@ -107,8 +102,6 @@ private:
 	TUniquePtr<FProfilerModule> _profiler;
 	/// Process all engine time, calculate FPS, etc
 	TUniquePtr<FTimeModule> _time;
-	/// The message management mechanism for the underlying interaction between the game project and the engine
-	TUniquePtr<FRegisteredBoxModule> _registeredBox;
 	/// 2d-related operations and rendering capabilities
 	TUniquePtr<FRenderer2DModule> _renderer2d;
 	/// Physical world and functional storage

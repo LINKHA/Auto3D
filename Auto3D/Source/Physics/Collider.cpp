@@ -4,7 +4,7 @@
 
 #include "Debug/Log.h"
 #include "Scene/Transform.h"
-#include "RegisteredBox/RegisteredBox.h"
+#include "Scene/WorldContext.h"
 #include "Scene/World.h"
 
 namespace Auto3D {
