@@ -68,15 +68,7 @@ AWorld::~AWorld()
 
 void AWorld::BeginPlay()
 {
-	//Get all current world actors
-	TVector<AActor*> children;
-	GetChildren(children,true);
-	for (auto it = children.Begin(); it != children.End(); ++it)
-	{
-		AActor* child = *it;
-		if(!child->HasBegunPlay())
-			child->BeginPlay();
-	}
+	Super::BeginPlay();
 }
 
 bool AWorld::Save(FStream& dest)

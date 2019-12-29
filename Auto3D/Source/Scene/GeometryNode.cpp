@@ -82,6 +82,15 @@ AGeometryNode::~AGeometryNode()
 {
 }
 
+void AGeometryNode::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
+void AGeometryNode::TickComponent(float deltaTime)
+{
+	Super::TickComponent(deltaTime);
+}
 void AGeometryNode::OnPrepareRender(unsigned frameNumber, ACamera* camera)
 {
     _lastFrameNumber = frameNumber;

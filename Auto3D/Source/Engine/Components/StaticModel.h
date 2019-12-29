@@ -14,7 +14,10 @@ public:
     AStaticModel();
     /// Destruct.
     ~AStaticModel();
-
+	/// BeginPlay
+	virtual void BeginPlay() override;
+	/// Called every frame.
+	virtual void TickComponent(float deltaTime) override;
     /// Prepare object for rendering. Reset framenumber and light list and calculate distance from camera, and check for LOD level changes. Called by ARenderer.
     void OnPrepareRender(unsigned frameNumber, ACamera* camera) override;
 

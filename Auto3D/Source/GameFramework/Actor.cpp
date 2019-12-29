@@ -28,12 +28,44 @@ void AActor::BeginPlay()
 		if(comp->IsEnabled() && !comp->HasBegunPlay())
 			comp->BeginPlay();
 	}
+
+	//Get all current world actors
+	TVector<AActor*> children;
+	GetChildren(children, true);
+	for (auto it = children.Begin(); it != children.End(); ++it)
+	{
+		AActor* child = *it;
+		if (child->IsEnabled() && !child->HasBegunPlay())
+			child->BeginPlay();
+	}
+
 	_actorHasBegunPlay = true;
 }
 
-void AActor::Tick(float DeltaSeconds)
+void AActor::Tick(float deltaSeconds)
 {
+	for (auto it = _ownedComponents.Begin(); it != _ownedComponents.End(); ++it)
+	{
+		AComponent* comp = *it;
+		if (comp->IsEnabled() && !comp->HasBegunPlay())
+			comp->BeginPlay();
 
+		if (comp->IsEnabled())
+			comp->TickComponent(deltaSeconds);
+	}
+
+	//Get all current world actors
+	TVector<AActor*> children;
+	GetChildren(children, true);
+	for (auto it = children.Begin(); it != children.End(); ++it)
+	{
+		AActor* child = *it;
+		if (child->IsEnabled() && !child->HasBegunPlay())
+			child->BeginPlay();
+
+		if (child->IsEnabled())
+			child->Tick(deltaSeconds);
+	}
 }
 
 AComponent* AActor::CreateComponent(FStringHash childType)

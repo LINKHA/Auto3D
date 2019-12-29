@@ -176,6 +176,11 @@ void AEngine::Render()
 
 bool AEngine::Update()
 {
+	// Begin is still dirty if you manually replace the world 
+	auto world = GWorldContext::Get().GetActiveWorld();
+	if (world && !world->HasBegunPlay())
+		world->BeginPlay();
+
 	_profiler->BeginFrame();
 	_time->Update();
 	_input->Update();

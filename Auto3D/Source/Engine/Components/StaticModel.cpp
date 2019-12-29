@@ -40,6 +40,16 @@ AStaticModel::~AStaticModel()
 {
 }
 
+void AStaticModel::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
+void AStaticModel::TickComponent(float deltaTime)
+{
+	Super::TickComponent(deltaTime);
+}
+
 void AStaticModel::OnPrepareRender(unsigned frameNumber, ACamera* camera)
 {
     _lastFrameNumber = frameNumber;
