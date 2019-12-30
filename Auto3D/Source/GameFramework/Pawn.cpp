@@ -16,6 +16,8 @@ void APawn::PossessedBy(AController* newController)
 	const AController*  oldController = _controller;
 
 	_controller = newController;
+
+	_isPossess = true;
 }
 
 void APawn::UnPossessed()
@@ -23,7 +25,7 @@ void APawn::UnPossessed()
 	const AController* oldController = _controller;
 
 	_controller = nullptr;
-
+	_isPossess = false;
 }
 
 AController* APawn::GetController() const

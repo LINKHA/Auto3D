@@ -19,8 +19,12 @@ public:
 
 	/// Returns controller for this actor.
 	AController* GetController() const;
+	/// Is possess by controller;
+	bool IsPossess() { return _isPossess; }
 private:
 	AController* _controller;
+
+	bool _isPossess;
 };
 
 }

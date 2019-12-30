@@ -43,12 +43,12 @@ void ACollider::NotifyRigidBody(bool updateMass)
 	// Get this component rigidBody
 	btCompoundShape* compound = GetParentCompoundShape();
 	
-	if (Parent() && _shape && compound)
+	if (GetParentNode() && _shape && compound)
 	{
 		// Remove the shape first to ensure it is not added twice
 		compound->removeChildShape(_shape.Get());
 
-		ATransform* parentNode = dynamic_cast<ATransform*>(Parent());
+		ATransform* parentNode = dynamic_cast<ATransform*>(GetParentNode());
 		btTransform offset;
 		offset.setOrigin(ToBtVector3(parentNode->GetPosition()));
 		offset.setRotation(ToBtQuaternion(parentNode->GetRotation()));
@@ -71,7 +71,7 @@ void ACollider::OnWorldSet(AWorld* newWorld, AWorld* oldWorld)
 btCompoundShape* ACollider::GetParentCompoundShape()
 {
 	if (!_rigidBody)
-		_rigidBody = Parent()->FindChildNode<ARigidBody>();
+		_rigidBody = GetParentNode()->FindChildNode<ARigidBody>();
 
 	return _rigidBody ? _rigidBody->GetCompoundShape() : nullptr;
 }

@@ -34,6 +34,10 @@ public:
     ACamera();
 	/// Destructor
 	~ACamera() = default;
+	/// BeginPlay
+	virtual void BeginPlay();
+	/// Called every frame.
+	virtual void TickComponent(float deltaTime);
 
     /// Set near clip distance.
     void SetNearClip(float nearClip);

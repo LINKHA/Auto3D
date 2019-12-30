@@ -77,7 +77,7 @@ public:
     void ApplyScale(float delta);
 
     /// Return the parent spatial node, or null if it is not spatial.
-    ATransform* GetSpatialParent() const { return TestFlag(NF_SPATIAL_PARENT) ? static_cast<ATransform*>(Parent()) : nullptr; }
+    ATransform* GetSpatialParent() const { return TestFlag(NF_SPATIAL_PARENT) ? static_cast<ATransform*>(GetParentNode()) : nullptr; }
     /// Return _position in parent space.
     const TVector3F& GetPosition() const { return _position; }
     /// Return rotation in parent space.

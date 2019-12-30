@@ -12,11 +12,12 @@ class AUTO_API AActor : public AOctreeNode
 public:
 	AActor();
 	~AActor();
-
+	/// Overridable native event for when play begins for this actor. 
 	virtual void BeginPlay();
-
+	/// Function called every frame on this Actor.Override this function to implement custom logic to be executed every frame.
 	virtual void Tick(float DeltaSeconds);
-
+	/// Get parent actor.
+	AActor* GetParent();
 	/// Add component and create child node of specified type. A registered object factory for the type is required.
 	AComponent* CreateComponent(FStringHash childType);
 	/// Add component and create named child node of specified type.

@@ -1,4 +1,5 @@
 #include "MeshSample.h"
+#include "GameFramework/DefaultController.h"
 
 void MeshSample::Init()
 {
@@ -23,6 +24,7 @@ void MeshSample::Start()
 
 	
 	AActor* player = Create<AActor>();
+	player->CreateComponent<ADefaultController>();
 	camera = player->CreateComponent<ACamera>();
 	camera->SetPosition(TVector3F(0.0f, 5.0f, -15.0f));
 	camera->SetAmbientColor(FColor(0.1f, 0.1f, 0.1f));
@@ -80,7 +82,7 @@ void MeshSample::Start()
 void MeshSample::Update()
 {
 	Super::Update();
-	auto input = GModuleManager::Get().InputModule();
+	/*auto input = GModuleManager::Get().InputModule();
 	auto graphics = GModuleManager::Get().GraphicsModule();
 	auto renderer = GModuleManager::Get().RendererModule();
 	auto time = GModuleManager::Get().TimeModule();
@@ -99,7 +101,7 @@ void MeshSample::Update()
 	if (input->IsKeyDown(KEY_A))
 		camera->Translate(TVector3F::LEFT * time->GetDeltaTime() * moveSpeed);
 	if (input->IsKeyDown(KEY_D))
-		camera->Translate(TVector3F::RIGHT * time->GetDeltaTime() * moveSpeed);
+		camera->Translate(TVector3F::RIGHT * time->GetDeltaTime() * moveSpeed);*/
 }
 
 void MeshSample::Stop()

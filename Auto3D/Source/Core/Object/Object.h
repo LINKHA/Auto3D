@@ -155,7 +155,6 @@ public:
     template <typename _Ty> static void RegisterFactory() { RegisterFactory(new TObjectFactoryImpl<_Ty>()); }
     /// Create and return an object through a factory, template version.
     template <typename _Ty> static _Ty* Create() { return static_cast<_Ty*>(Create(_Ty::GetTypeHashStatic())); }
-    
 private:
     /// Registered modules.
     static THashMap<FStringHash, AObject*> _objectModules;

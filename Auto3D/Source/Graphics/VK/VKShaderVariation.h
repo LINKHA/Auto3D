@@ -26,7 +26,7 @@ public:
 	bool Compile();
 
 	/// Return the parent shader resource.
-	AShader* Parent() const;
+	AShader* GetParentNode() const;
 	/// Return full name combined from parent resource name and compilation defines.
 	FString FullName() const;
 	/// Return shader stage.

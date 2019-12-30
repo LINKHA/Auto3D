@@ -322,7 +322,7 @@ void ATransform::OnTransformChanged()
 void ATransform::UpdateWorldTransform() const
 {
     if (TestFlag(NF_SPATIAL_PARENT))
-        _worldTransform = static_cast<ATransform*>(Parent())->GetWorldTransform() * TMatrix3x4F(_position, _rotation, _scale);
+        _worldTransform = static_cast<ATransform*>(GetParentNode())->GetWorldTransform() * TMatrix3x4F(_position, _rotation, _scale);
     else
         _worldTransform = TMatrix3x4F(_position, _rotation, _scale);
     SetFlag(NF_WORLD_TRANSFORM_DIRTY, false);

@@ -68,6 +68,11 @@ void AActor::Tick(float deltaSeconds)
 	}
 }
 
+AActor* AActor::GetParent()
+{
+	return dynamic_cast<AActor*>(GetParentNode());
+}
+
 AComponent* AActor::CreateComponent(FStringHash childType)
 {
 	AComponent* component = dynamic_cast<AComponent*>(CreateChildNode(childType));
@@ -124,7 +129,7 @@ void AActor::AddComponent(AComponent* component)
 
 void AActor::RemoveComponent(AComponent* component)
 {
-	if (!component || component->Parent() != this)
+	if (!component || component->GetParentNode() != this)
 		return;
 
 	if (_ownedComponents.Find(component) != _ownedComponents.End())
@@ -305,7 +310,7 @@ void AActor::AddChild(AActor* childActor)
 
 void AActor::RemoveChild(AActor* childActor)
 {
-	if (!childActor || childActor->Parent() != this)
+	if (!childActor || childActor->GetParentNode() != this)
 		return;
 
 	for (size_t i = 0; i < _children.Size(); ++i)

@@ -200,6 +200,7 @@ bool AEngine::Update()
 	_physics->Update();
 	_ui->BeginUI();
 
+	world->Tick(_time->GetDeltaTime());
 	return true;
 }
 void AEngine::FrameFinish()

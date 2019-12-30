@@ -94,7 +94,7 @@ public:
     /// Return whether is temporary.
     bool IsTemporary() const { return TestFlag(NF_TEMPORARY); }
     /// Return parent node.
-    ANode* Parent() const { return _parent; }
+    ANode* GetParentNode() const { return _parent; }
     /// Return the scene that the node belongs to.
     AWorld* GetWorld() const { return _world; }
     /// Return number of immediate child nodes.
@@ -102,7 +102,7 @@ public:
     /// Return number of immediate child nodes that are not temporary.
     size_t NumPersistentChildren() const;
     /// Return immediate child node by index.
-    ANode* Child(size_t index) const { return index < _childrenNode.Size() ? _childrenNode[index].Get() : nullptr; }
+    ANode* FindChildNodeByIndex(size_t index) const { return index < _childrenNode.Size() ? _childrenNode[index].Get() : nullptr; }
     /// Return all immediate child nodes.
     const TVector<TSharedPtr<ANode> >& GetChildrenNode() const { return _childrenNode; }
     /// Return child nodes recursively.

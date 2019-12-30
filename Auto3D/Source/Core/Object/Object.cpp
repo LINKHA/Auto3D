@@ -43,7 +43,8 @@ bool FTypeInfo::IsTypeOf(const FTypeInfo* typeInfo) const
 	return false;
 }
 
-
+#pragma warning(disable: 4074)
+#pragma init_seg(lib)
 THashMap<FStringHash, AObject*> AObject::_objectModules;
 THashMap<FStringHash, TAutoPtr<FObjectFactory> > AObject::_factories;
 

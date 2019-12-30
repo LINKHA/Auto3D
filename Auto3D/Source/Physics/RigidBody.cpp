@@ -38,9 +38,9 @@ ARigidBody::~ARigidBody()
 
 void ARigidBody::getWorldTransform(btTransform& worldTrans) const
 {
-	if (Parent())
+	if (GetParentNode())
 	{
-		ATransform* parentNode = dynamic_cast<ATransform*>(Parent());
+		ATransform* parentNode = dynamic_cast<ATransform*>(GetParentNode());
 		worldTrans.setOrigin(ToBtVector3(parentNode->GetPosition()));
 		worldTrans.setRotation(ToBtQuaternion(parentNode->GetRotation()));
 	}
@@ -53,9 +53,9 @@ void ARigidBody::setWorldTransform(const btTransform& worldTrans)
 	TVector3F newWorldPosition = BtToVector3(worldTrans.getOrigin());
 	ARigidBody* parentRigidBody = nullptr;
 	
-	if (Parent())
+	if (GetParentNode())
 	{
-		ATransform* parentNode = dynamic_cast<ATransform*>(Parent());
+		ATransform* parentNode = dynamic_cast<ATransform*>(GetParentNode());
 		parentNode->SetPosition(newWorldPosition);
 		parentNode->SetRotation(newWorldRotation);
 	}
@@ -140,7 +140,7 @@ void ARigidBody::AddBodyToWorld()
 		// Check if CollisionShapes already exist in the node and add them to the compound shape.
 		// Do not update mass yet, but do it once all shapes have been added.
 		TVector<ACollider*> shapes;
-		Parent()->FindChildrenNode<ACollider>(shapes, false);
+		GetParentNode()->FindChildrenNode<ACollider>(shapes, false);
 		for (auto it = shapes.Begin(); it != shapes.End(); ++it)
 		{
 			(*it)->NotifyRigidBody(false);

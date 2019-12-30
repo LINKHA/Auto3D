@@ -112,6 +112,16 @@ ACamera::ACamera() :
     _reflectionMatrix = _reflectionPlane.ReflectionMatrix();
 }
 
+void ACamera::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
+void ACamera::TickComponent(float deltaTime)
+{
+	Super::TickComponent(deltaTime);
+}
+
 void ACamera::SetNearClip(float nearClip)
 {
     _nearClip = Max(nearClip, M_EPSILON);
