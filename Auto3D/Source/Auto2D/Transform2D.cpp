@@ -5,7 +5,7 @@
 namespace Auto3D
 {
 
-REGISTER_CLASS
+REGISTER_CLASS(ATransform2D)
 {
 	REGISTER_CALSS_FACTORY_IMP(ATransform2D)
 	.constructor<>()

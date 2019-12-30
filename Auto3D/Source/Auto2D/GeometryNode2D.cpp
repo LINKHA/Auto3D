@@ -6,7 +6,7 @@
 namespace Auto3D
 {
 
-REGISTER_CLASS
+REGISTER_CLASS(AGeometryNode2D)
 {
 	REGISTER_CALSS_FACTORY_IMP(AGeometryNode2D)
 	.constructor<>()

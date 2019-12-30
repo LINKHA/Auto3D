@@ -18,7 +18,7 @@ static const TMatrix4x4F flipMatrix(
 	0.0f, 0.0f, 0.0f, 1.0f
 );
 
-REGISTER_CLASS
+REGISTER_CLASS(ACamera2D)
 {
 	REGISTER_CALSS_FACTORY_IMP(ACamera2D)
 	.constructor<>()

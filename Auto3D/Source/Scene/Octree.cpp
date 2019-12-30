@@ -59,7 +59,7 @@ bool FOctant::FitBoundingBox(const TBoundingBoxF& box, const TVector3F& boxSize)
     return false;
 }
 
-REGISTER_CLASS
+REGISTER_CLASS(AOctree)
 {
 	REGISTER_CALSS_FACTORY_IMP(AOctree)
 	.constructor<>()

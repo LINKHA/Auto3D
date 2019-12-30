@@ -7,7 +7,7 @@ namespace Auto3D
 
 // Font cpp fail,Initializes the global constructor so apply here
 // Apply in GeometryNode2D CPP
-//REGISTER_CLASS
+//REGISTER_CLASS(ASprite2D)
 //{
 //	REGISTER_CALSS_FACTORY_IMP(ASprite2D)
 //	.constructor<>()

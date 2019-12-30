@@ -12,7 +12,7 @@
 namespace Auto3D
 {
 
-REGISTER_CLASS
+REGISTER_CLASS(AApplication)
 {
 	REGISTER_CALSS_IMP(AApplication)
 	.constructor<>()

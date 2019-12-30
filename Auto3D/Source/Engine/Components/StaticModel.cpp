@@ -15,7 +15,7 @@ namespace Auto3D
 
 static TVector3F DOT_SCALE(1 / 3.0f, 1 / 3.0f, 1 / 3.0f);
 
-REGISTER_CLASS
+REGISTER_CLASS(AStaticModel)
 {
 	REGISTER_CALSS_FACTORY_IMP(AStaticModel)
 	.constructor<>()

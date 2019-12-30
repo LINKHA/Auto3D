@@ -9,7 +9,7 @@
 
 namespace Auto3D {
 
-REGISTER_CLASS
+REGISTER_CLASS(ACollider)
 {
 	REGISTER_CALSS_FACTORY_IMP(ACollider)
 	.constructor<>()

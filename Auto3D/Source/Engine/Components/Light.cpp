@@ -27,7 +27,7 @@ static const char* lightTypeNames[] =
     0
 };
 
-REGISTER_CLASS
+REGISTER_CLASS(ALight)
 {
 	REGISTER_CALSS_FACTORY_IMP(ALight)
 	.constructor<>()

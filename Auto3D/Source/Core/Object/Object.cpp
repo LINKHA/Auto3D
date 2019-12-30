@@ -53,7 +53,7 @@ FObjectFactory::~FObjectFactory()
 }
 
 
-REGISTER_CLASS
+REGISTER_CLASS(AObject)
 {
 	REGISTER_CALSS_IMP(AObject)
 	.constructor<>()

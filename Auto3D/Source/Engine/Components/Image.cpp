@@ -219,7 +219,7 @@ struct FDDSurfaceDesc2
 };
 /// \endcond
 
-REGISTER_CLASS
+REGISTER_CLASS(AImage)
 {
 	REGISTER_CALSS_FACTORY_IMP(AImage)
 	.constructor<>()

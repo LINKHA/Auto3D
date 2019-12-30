@@ -127,7 +127,7 @@ static FShaderVariation* brdfPSV = nullptr;
 static bool isDirty = false;
 
 
-REGISTER_CLASS
+REGISTER_CLASS(ASkyBox)
 {
 	REGISTER_CALSS_FACTORY_IMP(ASkyBox)
 	.constructor<>()

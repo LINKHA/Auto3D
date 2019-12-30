@@ -14,7 +14,7 @@ static const TVector2F DEFAULT_GRAVITY = TVector2F(0.0f, -9.81f);
 static const int DEFAULT_VELOCITY_ITERATIONS = 8;
 static const int DEFAULT_POSITION_ITERATIONS = 3;
 
-REGISTER_CLASS
+REGISTER_CLASS(APhysicsWorld2D)
 {
 	REGISTER_CALSS_FACTORY_IMP(APhysicsWorld2D)
 	.constructor<>()

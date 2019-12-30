@@ -140,7 +140,7 @@ static const unsigned glWrapModes[] =
 #endif
 };
 
-REGISTER_CLASS
+REGISTER_CLASS(ATexture)
 {
 	REGISTER_CALSS_FACTORY_IMP(ATexture)
 	.constructor<>()

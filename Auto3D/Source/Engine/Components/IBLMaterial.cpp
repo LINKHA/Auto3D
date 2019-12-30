@@ -16,7 +16,7 @@ namespace Auto3D
 
 // Font cpp fail,Initializes the global constructor so apply here
 // Apply in Material CPP
-//REGISTER_CLASS
+//REGISTER_CLASS(AIBLMaterial)
 //{
 //	REGISTER_CALSS_FACTORY_IMP(AIBLMaterial)
 //	.constructor<>()

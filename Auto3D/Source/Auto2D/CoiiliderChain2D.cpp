@@ -5,7 +5,7 @@
 
 namespace Auto3D {
 
-REGISTER_CLASS
+REGISTER_CLASS(ACoiiliderChain2D)
 {
 	REGISTER_CALSS_FACTORY_IMP(ACoiiliderChain2D)
 	.constructor<>()

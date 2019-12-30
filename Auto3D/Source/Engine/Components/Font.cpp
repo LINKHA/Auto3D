@@ -27,7 +27,7 @@ namespace
 
 // Font cpp fail,Initializes the global constructor so apply here
 // Apply in Resource CPP
-//REGISTER_CLASS
+//REGISTER_CLASS(AFont)
 //{
 //	REGISTER_CALSS_FACTORY_IMP(AFont)
 //	.constructor<>()

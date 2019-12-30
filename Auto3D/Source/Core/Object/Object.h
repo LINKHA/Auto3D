@@ -73,21 +73,22 @@ public: \
 	DECLARE_RTTR_CLASS(_This, _Base) \
 public: \
 
-#define REGISTER_CLASS \
-	static void RttrAutoRegisterReflectionFunction_();\
+
+#define REGISTER_CLASS(_Class)\
+static void RttrAutoRegisterReflectionFunction_##_Class();\
 	namespace\
 	{\
-	struct RttrAutoRegister_\
+	struct RttrAutoRegister_##_Class\
 	{\
-		RttrAutoRegister_()\
+		RttrAutoRegister_##_Class()\
 		{ \
-			RttrAutoRegisterReflectionFunction_();\
+			RttrAutoRegisterReflectionFunction_##_Class();\
 		}\
+		inline void DoNothing() const { }\
 	};\
 }\
-static const RttrAutoRegister_ RTTR_CAT(autoRegister, __LINE__);\
-static void RttrAutoRegisterReflectionFunction_()
-
+static struct RttrAutoRegister_##_Class RTTR_CAT(autoRegister##_Class, __LINE__);\
+static void RttrAutoRegisterReflectionFunction_##_Class()
 
 #define REGISTER_CALSS_FACTORY_IMP(_Class) \
 	AObject::RegisterFactory<_Class>();\

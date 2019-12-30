@@ -15,7 +15,7 @@
 namespace Auto3D
 {
 
-REGISTER_CLASS
+REGISTER_CLASS(AScene2D)
 {
 	REGISTER_CALSS_FACTORY_IMP(AScene2D)
 	.constructor<>()

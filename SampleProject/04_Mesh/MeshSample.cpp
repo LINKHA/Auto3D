@@ -24,9 +24,10 @@ void MeshSample::Start()
 
 	
 	AActor* player = Create<AActor>();
+	player->SetPosition(TVector3F(0.0f, 5.0f, -15.0f));
 	player->CreateComponent<ADefaultController>();
 	camera = player->CreateComponent<ACamera>();
-	camera->SetPosition(TVector3F(0.0f, 5.0f, -15.0f));
+	//camera->SetPosition(TVector3F(0.0f, 5.0f, -15.0f));
 	camera->SetAmbientColor(FColor(0.1f, 0.1f, 0.1f));
 	camera->SetLayoutMaskName("StaticModel"); // The default mask contains all the bits, and this does not change the mask bit, only if the mask view is missing
 	//camera->SetLayoutMaskOutName("StaticModel"); //Remove the bits for the view mask

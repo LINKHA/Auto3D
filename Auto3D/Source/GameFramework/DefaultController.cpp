@@ -8,13 +8,7 @@
 
 namespace Auto3D
 {
-REGISTER_CLASS
-{
-	REGISTER_CALSS_FACTORY_IMP(ADefaultController)
-	.constructor<>()
-	;
-}
-
+	
 ADefaultController::ADefaultController() :
 	yaw(0.0f),
 	pitch(20.0f)

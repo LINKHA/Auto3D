@@ -15,7 +15,7 @@ struct AAA
 };
 static AAA a;
 
-REGISTER_CLASS
+REGISTER_CLASS(AColliderEdge2D)
 {
 	REGISTER_CALSS_FACTORY_IMP(AColliderEdge2D)
 	.constructor<>()

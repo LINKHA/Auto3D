@@ -18,6 +18,7 @@ class FAudioModule;
 class AUTO_API AAudioNode : public AComponent
 {
 	DECLARE_CLASS(AAudioNode, AComponent)
+	static void DoNothing();
 public:
 	/// Constructor
 	AAudioNode();

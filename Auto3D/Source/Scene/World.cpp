@@ -17,7 +17,7 @@
 namespace Auto3D
 {
 
-REGISTER_CLASS
+REGISTER_CLASS(AWorld)
 {
 	REGISTER_CALSS_FACTORY_IMP(AWorld)
 	.constructor<>()

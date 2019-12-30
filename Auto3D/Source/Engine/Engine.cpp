@@ -28,7 +28,7 @@
 namespace Auto3D
 {
 
-REGISTER_CLASS
+REGISTER_CLASS(AEngine)
 {
 
 	REGISTER_CALSS_IMP(AEngine)

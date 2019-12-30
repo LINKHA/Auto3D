@@ -9,7 +9,7 @@
 namespace Auto3D
 {
 
-REGISTER_CLASS
+REGISTER_CLASS(AJSONFile)
 {
 	REGISTER_CALSS_FACTORY_IMP(AJSONFile)
 	.constructor<>()

@@ -4,7 +4,7 @@
 namespace Auto3D
 {
 
-REGISTER_CLASS
+REGISTER_CLASS(APawn)
 {
 	REGISTER_CALSS_FACTORY_IMP(APawn)
 	.constructor<>()

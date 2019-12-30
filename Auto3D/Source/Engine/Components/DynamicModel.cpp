@@ -48,7 +48,7 @@ static GLuint g_indicesVBO;
 //
 static GLuint g_cubemap;
 
-REGISTER_CLASS
+REGISTER_CLASS(ADynamicModel)
 {
 	REGISTER_CALSS_FACTORY_IMP(ADynamicModel)
 	.constructor<>()

@@ -9,7 +9,7 @@
 namespace Auto3D
 {
 
-REGISTER_CLASS
+REGISTER_CLASS(ANode2D)
 {
 	REGISTER_CALSS_FACTORY_IMP(ANode2D)
 	.constructor<>()
