@@ -6,17 +6,6 @@
 namespace Auto3D
 {
 
-REGISTER_CLASS(AOctreeNode)
-{
-	REGISTER_CALSS_FACTORY_IMP(AOctreeNode)
-	.constructor<>()
-	.property("castShadows", &AOctreeNode::GetCastShadows, &AOctreeNode::SetCastShadows)
-	(
-		metadata(SERIALIZABLE, "")
-	)
-	;
-}
-
 AOctreeNode::AOctreeNode() :
     _octree(nullptr),
     _octant(nullptr),

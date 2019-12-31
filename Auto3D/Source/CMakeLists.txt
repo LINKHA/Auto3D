@@ -13,6 +13,7 @@ source_group_by_dir(SOURCE_ALL_FILES)
 
 include_directories (${AUTO_ROOT_PATH}/Auto3D/Source)
 
+add_compile_options(-bigobj)
 # Define the Auto3D library target
 add_library (${TARGET_NAME} ${AUTO_LIB_TYPE} ${SOURCE_ALL_FILES})
 

@@ -9,13 +9,6 @@
 
 namespace Auto3D {
 
-REGISTER_CLASS(ACollider)
-{
-	REGISTER_CALSS_FACTORY_IMP(ACollider)
-	.constructor<>()
-	;
-}
-
 ACollider::ACollider() :
 	_cachedWorldScale(TVector3F::ONE),
 	_shapeType(EShapeType::DEFAULT)

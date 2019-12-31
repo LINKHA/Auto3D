@@ -48,13 +48,6 @@ static GLuint g_indicesVBO;
 //
 static GLuint g_cubemap;
 
-REGISTER_CLASS(ADynamicModel)
-{
-	REGISTER_CALSS_FACTORY_IMP(ADynamicModel)
-	.constructor<>()
-	;
-}
-
 ADynamicModel::ADynamicModel()
 {
 	//GModuleManager::Get().RendererModule()->SetupWaterTextures(1, 1024, EImageFormat::RGB32F);

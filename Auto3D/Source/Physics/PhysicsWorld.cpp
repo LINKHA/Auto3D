@@ -17,13 +17,6 @@ static const float DEFAULT_MAX_NETWORK_ANGULAR_VELOCITY = 100.0f;
 
 FPhysicsWorldConfig APhysicsWorld::config;
 
-REGISTER_CLASS(APhysicsWorld)
-{
-	REGISTER_CALSS_FACTORY_IMP(APhysicsWorld)
-	.constructor<>()
-	;
-}
-
 APhysicsWorld::APhysicsWorld():
 	_fps(DEFAULT_FPS),
 	_maxSubSteps(0)

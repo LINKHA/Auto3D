@@ -3,14 +3,14 @@
 
 namespace Auto3D {
 
-class AUTO_API ACoiiliderChain2D : public ACollider2D
+class AUTO_API AColliderChain2D : public ACollider2D
 {
-	DECLARE_CLASS(ACoiiliderChain2D, ACollider2D)
+	DECLARE_CLASS(AColliderChain2D, ACollider2D)
 public:
 	/// Construct
-	ACoiiliderChain2D();
+	AColliderChain2D();
 	/// Destructor
-	virtual ~ACoiiliderChain2D();
+	virtual ~AColliderChain2D();
 
 	/// Set loop.
 	void SetLoop(bool loop);

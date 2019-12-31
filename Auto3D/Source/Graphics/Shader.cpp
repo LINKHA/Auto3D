@@ -11,13 +11,6 @@
 namespace Auto3D
 {
 
-REGISTER_CLASS(AShader)
-{
-	REGISTER_CALSS_FACTORY_IMP(AShader)
-	.constructor<>()
-	;
-}
-
 AShader::AShader() :
     _stage(EShaderStage::VS)
 {

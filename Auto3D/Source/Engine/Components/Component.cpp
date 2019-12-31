@@ -4,13 +4,6 @@
 namespace Auto3D
 {
 
-REGISTER_CLASS(AComponent)
-{
-	REGISTER_CALSS_FACTORY_IMP(AComponent)
-	.constructor<>()
-	;
-}
-
 AComponent::AComponent():
 	_hasBegunPlay(false)
 {}

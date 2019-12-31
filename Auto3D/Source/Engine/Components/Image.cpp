@@ -219,13 +219,6 @@ struct FDDSurfaceDesc2
 };
 /// \endcond
 
-REGISTER_CLASS(AImage)
-{
-	REGISTER_CALSS_FACTORY_IMP(AImage)
-	.constructor<>()
-	;
-}
-
 AImage::AImage() :
     _size(TVector2I::ZERO),
     _format(EImageFormat::NONE),

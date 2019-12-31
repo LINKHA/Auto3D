@@ -4,20 +4,13 @@
 #include "Thread/Thread.h"
 #include "Core/ProcessUtils.h"
 #include "Engine/Engine.h"
-
+#include "Core/ClassRegister.h"
 
 #include "Debug/DebugNew.h"
 
 
 namespace Auto3D
 {
-
-REGISTER_CLASS(AApplication)
-{
-	REGISTER_CALSS_IMP(AApplication)
-	.constructor<>()
-	;
-}
 
 AApplication::AApplication() :
 	_exitCode(EXIT_SUCCESS)
@@ -35,8 +28,9 @@ int AApplication::Run()
 	// Make sure the engine is created properly
 	if (_engine.Null())
 		_engine = MakeUnique<AEngine>();
-	
-		
+	// Class register.
+	FClassRegister classRegister;
+
 #if !defined(__GNUC__) || __EXCEPTIONS
 	try
 	{

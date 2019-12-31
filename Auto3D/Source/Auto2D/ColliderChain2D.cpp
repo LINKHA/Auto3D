@@ -1,27 +1,20 @@
-#include "CoiiliderChain2D.h"
+#include "ColliderChain2D.h"
 #include "IO/MemoryBuffer.h"
 #include "IO/VectorBuffer.h"
 #include "Physics/PhysicsUtils.h"
 
 namespace Auto3D {
 
-REGISTER_CLASS(ACoiiliderChain2D)
-{
-	REGISTER_CALSS_FACTORY_IMP(ACoiiliderChain2D)
-	.constructor<>()
-	;
-}
-
-ACoiiliderChain2D::ACoiiliderChain2D() :
+AColliderChain2D::AColliderChain2D() :
 	_loop(false)
 {
 	_fixtureDef.shape = &_chainShape;
 }
 
-ACoiiliderChain2D::~ACoiiliderChain2D() = default;
+AColliderChain2D::~AColliderChain2D() = default;
 
 
-void ACoiiliderChain2D::SetLoop(bool loop)
+void AColliderChain2D::SetLoop(bool loop)
 {
 	if (loop == _loop)
 		return;
@@ -31,12 +24,12 @@ void ACoiiliderChain2D::SetLoop(bool loop)
 	RecreateFixture();
 }
 
-void ACoiiliderChain2D::SetVertexCount(unsigned count)
+void AColliderChain2D::SetVertexCount(unsigned count)
 {
 	_vertices.Resize(count);
 }
 
-void ACoiiliderChain2D::SetVertex(unsigned index, const TVector2F& vertex)
+void AColliderChain2D::SetVertex(unsigned index, const TVector2F& vertex)
 {
 	if (index >= _vertices.Size())
 		return;
@@ -49,14 +42,14 @@ void ACoiiliderChain2D::SetVertex(unsigned index, const TVector2F& vertex)
 	}
 }
 
-void ACoiiliderChain2D::SetVertices(const TVector<TVector2F>& vertices)
+void AColliderChain2D::SetVertices(const TVector<TVector2F>& vertices)
 {
 	_vertices = vertices;
 
 	RecreateFixture();
 }
 
-void ACoiiliderChain2D::SetVerticesAttr(const TVector<unsigned char>& value)
+void AColliderChain2D::SetVerticesAttr(const TVector<unsigned char>& value)
 {
 	if (value.IsEmpty())
 		return;
@@ -70,7 +63,7 @@ void ACoiiliderChain2D::SetVerticesAttr(const TVector<unsigned char>& value)
 	SetVertices(vertices);
 }
 
-TVector<unsigned char> ACoiiliderChain2D::GetVerticesAttr() const
+TVector<unsigned char> AColliderChain2D::GetVerticesAttr() const
 {
 	FVectorBuffer ret;
 
@@ -80,7 +73,7 @@ TVector<unsigned char> ACoiiliderChain2D::GetVerticesAttr() const
 	return ret.Buffer();
 }
 
-void ACoiiliderChain2D::RecreateFixture()
+void AColliderChain2D::RecreateFixture()
 {
 	ReleaseFixture();
 

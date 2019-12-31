@@ -28,14 +28,6 @@
 namespace Auto3D
 {
 
-REGISTER_CLASS(AEngine)
-{
-
-	REGISTER_CALSS_IMP(AEngine)
-		.constructor<>()
-	;
-}
-
 AEngine::AEngine() :
 	_exiting(false),
 	_initialized(false),

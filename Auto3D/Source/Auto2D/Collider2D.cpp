@@ -4,13 +4,6 @@
 #include "RigidBody2D.h"
 
 namespace Auto3D {
-	
-REGISTER_CLASS(ACollider2D)
-{
-	REGISTER_CALSS_FACTORY_IMP(ACollider2D)
-	.constructor<>()
-	;
-}
 
 ACollider2D::ACollider2D():
 	_fixture(nullptr)

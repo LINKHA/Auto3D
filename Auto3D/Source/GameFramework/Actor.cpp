@@ -3,14 +3,6 @@
 namespace Auto3D
 {
 
-
-REGISTER_CLASS(AActor)
-{
-	REGISTER_CALSS_FACTORY_IMP(AActor)
-	.constructor<>()
-	;
-}
-
 AActor::AActor():
 	_actorHasBegunPlay(false)
 {

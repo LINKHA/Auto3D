@@ -15,21 +15,6 @@ namespace Auto3D
 
 static TVector3F DOT_SCALE(1 / 3.0f, 1 / 3.0f, 1 / 3.0f);
 
-REGISTER_CLASS(AStaticModel)
-{
-	REGISTER_CALSS_FACTORY_IMP(AStaticModel)
-	.constructor<>()
-	.property("modelAttr", &AStaticModel::GetModelAttr, &AStaticModel::SetModelAttr)
-	(
-		metadata(SERIALIZABLE, "")
-	)
-	.property("lodBias", &AStaticModel::GetLodBias, &AStaticModel::SetLodBias)
-	(
-		metadata(SERIALIZABLE, "")
-	)
-	;
-}
-
 AStaticModel::AStaticModel() :
     _lodBias(1.0f),
     _hasLodLevels(false)

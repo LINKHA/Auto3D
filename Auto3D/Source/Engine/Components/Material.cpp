@@ -187,17 +187,6 @@ void FPass::OnShadersChanged()
         _combinedShaderDefines[EShaderStage::PS]).Value();
 }
 
-REGISTER_CLASS(AMaterial)
-{
-	REGISTER_CALSS_FACTORY_IMP(AMaterial)
-	.constructor<>()
-	;
-
-	REGISTER_CALSS_FACTORY_IMP(AIBLMaterial)
-	.constructor<>()
-	;
-}
-
 AMaterial::AMaterial()
 {
 }

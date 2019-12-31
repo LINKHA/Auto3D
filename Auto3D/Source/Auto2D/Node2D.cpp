@@ -9,33 +9,6 @@
 namespace Auto3D
 {
 
-REGISTER_CLASS(ANode2D)
-{
-	REGISTER_CALSS_FACTORY_IMP(ANode2D)
-	.constructor<>()
-	.property("name", &ANode2D::GetName, &ANode2D::SetName)
-	(
-		metadata(SERIALIZABLE, "")
-	)
-	.property("enabled", &ANode2D::IsEnabled, &ANode2D::SetEnabled)
-	(
-		metadata(SERIALIZABLE, true)
-	)
-	.property("temporary", &ANode2D::IsTemporary, &ANode2D::SetTemporary)
-	(
-		metadata(SERIALIZABLE, true)
-	)
-	.property("layer", &ANode2D::GetLayer, &ANode2D::SetLayer)
-	(
-		metadata(SERIALIZABLE, true)
-	)
-	.property("tag", &ANode2D::GetTag, &ANode2D::SetTag)
-	(
-		metadata(SERIALIZABLE, true)
-	)
-	;
-}
-
 ANode2D::ANode2D():
 	_flags(NF_2D_ENABLED),
 	_layer(LAYER_2D_DEFAULT),

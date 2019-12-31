@@ -52,15 +52,6 @@ FObjectFactory::~FObjectFactory()
 {
 }
 
-
-REGISTER_CLASS(AObject)
-{
-	REGISTER_CALSS_IMP(AObject)
-	.constructor<>()
-	;
-}
-
-
 bool AObject::IsInstanceOf(FStringHash type) const
 {
 	return GetTypeInfo()->IsTypeOf(type);

@@ -6,17 +6,6 @@
 namespace Auto3D 
 {
 
-REGISTER_CLASS(AColliderBox)
-{
-	REGISTER_CALSS_FACTORY_IMP(AColliderBox)
-	.constructor<>()
-	.property("size", &AColliderBox::GetSize, static_cast<void(AColliderBox::*)(const TVector3F&)>(&AColliderBox::SetSize))
-	(
-		metadata(SERIALIZABLE, "")
-	)
-	;
-}
-
 AColliderBox::AColliderBox(): 
 	_size(TVector3F::ONE)
 {

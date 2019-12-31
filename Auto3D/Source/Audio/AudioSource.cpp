@@ -17,28 +17,6 @@
 namespace Auto3D 
 {
 
-REGISTER_CLASS(AAudioSource)
-{
-	REGISTER_CALSS_FACTORY_IMP(AAudioSource)
-	.constructor<>()
-		.property("sound", &AAudioSource::GetSoundAttr, &AAudioSource::SetSoundAttr)
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		.property("pitch", &AAudioSource::GetPitch, &AAudioSource::SetPitch)
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		.property("gain", &AAudioSource::GetGain, &AAudioSource::SetGain)
-		(
-			metadata(SERIALIZABLE, "")
-		)
-		.property("vel", &AAudioSource::GetVel, &AAudioSource::SetVel)
-		(
-			metadata(SERIALIZABLE, "")
-		)
-	;
-}
 
 AAudioSource::AAudioSource() :
 	_pitch(1.0f),

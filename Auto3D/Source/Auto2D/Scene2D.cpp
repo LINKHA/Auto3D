@@ -15,23 +15,6 @@
 namespace Auto3D
 {
 
-REGISTER_CLASS(AScene2D)
-{
-	REGISTER_CALSS_FACTORY_IMP(AScene2D)
-	.constructor<>()
-	.property_readonly("cameras", &AScene2D::GetCameras)
-	.property("physicsWorld", &AScene2D::GetPhysicsWorld, &AScene2D::SetPhysicsWorld)
-	.property("layerNames", &AScene2D::GetLayerNamesAttr, &AScene2D::SetLayerNamesAttr)
-	(
-		metadata(SERIALIZABLE, "")
-	)
-	.property("tagNames", &AScene2D::GetTagNamesAttr, &AScene2D::SetTagNamesAttr)
-	(
-		metadata(SERIALIZABLE, "")
-	)
-	;
-}
-
 AScene2D::AScene2D() :
 	_nextNodeId(1)
 {

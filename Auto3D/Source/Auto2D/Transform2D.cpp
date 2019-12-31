@@ -5,24 +5,6 @@
 namespace Auto3D
 {
 
-REGISTER_CLASS(ATransform2D)
-{
-	REGISTER_CALSS_FACTORY_IMP(ATransform2D)
-	.constructor<>()
-	.property("position", &ATransform2D::GetPosition, &ATransform2D::SetPosition)
-	(
-		metadata(SERIALIZABLE, "")
-	)
-	.property("rotation", &ATransform2D::GetRotation, &ATransform2D::SetRotation)
-	(
-		metadata(SERIALIZABLE, "")
-	)
-	.property("scale", &ATransform2D::GetScale, static_cast<void(ATransform2D::*)(const TVector3F&)>(&ATransform2D::SetScale))
-	(
-		metadata(SERIALIZABLE, "")
-	)
-	;
-}
 
 ATransform2D::ATransform2D() :
 	_worldTransform(TMatrix3x4F::IDENTITY),

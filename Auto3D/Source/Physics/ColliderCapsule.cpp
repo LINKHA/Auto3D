@@ -6,21 +6,6 @@
 namespace Auto3D
 {
 
-REGISTER_CLASS(AColliderCapsule)
-{
-	REGISTER_CALSS_FACTORY_IMP(AColliderCapsule)
-	.constructor<>()
-	.property("radius", &AColliderCapsule::GetRadius, &AColliderCapsule::SetRadius)
-	(
-		metadata(SERIALIZABLE, "")
-	)
-	.property("height", &AColliderCapsule::GetHeight, &AColliderCapsule::SetHeight)
-	(
-		metadata(SERIALIZABLE, "")
-	)
-	;
-}
-
 AColliderCapsule::AColliderCapsule() :
 	_radius(1.0f),
 	_height(1.0f)

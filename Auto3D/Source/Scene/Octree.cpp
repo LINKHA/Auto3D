@@ -59,21 +59,6 @@ bool FOctant::FitBoundingBox(const TBoundingBoxF& box, const TVector3F& boxSize)
     return false;
 }
 
-REGISTER_CLASS(AOctree)
-{
-	REGISTER_CALSS_FACTORY_IMP(AOctree)
-	.constructor<>()
-	.property("boundingBox", &AOctree::GetBoundingBoxAttr, &AOctree::SetBoundingBoxAttr)
-	(
-		metadata(SERIALIZABLE, "")
-	)
-	.property("numLevels", &AOctree::GetNumLevelsAttr, &AOctree::SetNumLevelsAttr)
-	(
-		metadata(SERIALIZABLE, "")
-	)
-	;
-}
-
 AOctree::AOctree()
 {
     _root.Initialize(nullptr, TBoundingBoxF(-DEFAULT_OCTREE_SIZE, DEFAULT_OCTREE_SIZE), DEFAULT_OCTREE_LEVELS);

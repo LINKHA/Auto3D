@@ -126,26 +126,6 @@ static FShaderVariation* brdfPSV = nullptr;
 
 static bool isDirty = false;
 
-
-REGISTER_CLASS(ASkyBox)
-{
-	REGISTER_CALSS_FACTORY_IMP(ASkyBox)
-	.constructor<>()
-	.property("mapSize", &ASkyBox::GetMapSize, &ASkyBox::SetMapSize)
-	(
-		metadata(SERIALIZABLE, "")
-	)
-	.property("irradianceSize", &ASkyBox::GetIrradianceSize, &ASkyBox::SetIrradianceSize)
-	(
-		metadata(SERIALIZABLE, "")
-	)
-	.property("prefilterSize", &ASkyBox::GetPrefilterSize, &ASkyBox::SetPrefilterSize)
-	(
-		metadata(SERIALIZABLE, "")
-	)
-	;
-}
-
 ASkyBox::ASkyBox():
 	_mapSize(512),
 	_irradianceSize(32),

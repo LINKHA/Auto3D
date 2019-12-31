@@ -6,17 +6,6 @@
 namespace Auto3D
 {
 
-REGISTER_CLASS(AColliderSphere)
-{
-	REGISTER_CALSS_FACTORY_IMP(AColliderSphere)
-	.constructor<>()
-	.property("size", &AColliderSphere::GetSize, &AColliderSphere::SetSize)
-	(
-		metadata(SERIALIZABLE, "")
-	)
-	;
-}
-
 AColliderSphere::AColliderSphere() :
 	_size(1.0f)
 {

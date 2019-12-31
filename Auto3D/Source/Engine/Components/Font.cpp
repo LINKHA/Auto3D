@@ -25,16 +25,6 @@ namespace
 	}
 }
 
-// Font cpp fail,Initializes the global constructor so apply here
-// Apply in Resource CPP
-//REGISTER_CLASS(AFont)
-//{
-//	REGISTER_CALSS_FACTORY_IMP(AFont)
-//	.constructor<>()
-//	.property_readonly("sdfFont",&AFont::IsSDFFont)
-//	;
-//}
-
 AFont::AFont() :
 	_fontDataSize(0),
 	_absoluteOffset(TVector2I::ZERO),

@@ -3,12 +3,6 @@
 
 namespace Auto3D
 {
-REGISTER_CLASS(AController)
-{
-	REGISTER_CALSS_FACTORY_IMP(AController)
-	.constructor<>()
-	;
-}
 
 AController::AController():
 	_isAttachToActor(false),

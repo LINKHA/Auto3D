@@ -10,13 +10,6 @@
 namespace Auto3D 
 {
 
-REGISTER_CLASS(ARigidBody)
-{
-	REGISTER_CALSS_FACTORY_IMP(ARigidBody)
-	.constructor<>()
-	;
-}
-
 ARigidBody::ARigidBody() :
 	_mass(0.0f),
 	_isDynamic(false),

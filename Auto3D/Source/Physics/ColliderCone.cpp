@@ -6,21 +6,6 @@
 namespace Auto3D
 {
 
-REGISTER_CLASS(AColliderCone)
-{
-	REGISTER_CALSS_FACTORY_IMP(AColliderCone)
-	.constructor<>()
-	.property("radius", &AColliderCone::GetRadius, &AColliderCone::SetRadius)
-	(
-		metadata(SERIALIZABLE, "")
-	)
-	.property("height", &AColliderCone::GetHeight, &AColliderCone::SetHeight)
-	(
-		metadata(SERIALIZABLE, "")
-	)
-	;
-}
-
 AColliderCone::AColliderCone() :
 	_radius(1.0f),
 	_height(1.0f)

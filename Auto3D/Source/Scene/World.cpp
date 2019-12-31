@@ -17,29 +17,6 @@
 namespace Auto3D
 {
 
-REGISTER_CLASS(AWorld)
-{
-	REGISTER_CALSS_FACTORY_IMP(AWorld)
-	.constructor<>()
-	.property_readonly("cameras", &AWorld::GetCameras)
-	.property("physicsWorld", &AWorld::GetPhysicsWorld, &AWorld::SetPhysicsWorld)
-	.property("skybox", &AWorld::GetSkyBox, &AWorld::SetSkyBox)
-	.property("shadowMapAttr",&AWorld::GetShadowMapAttr,&AWorld::SetupShadowMapAttr)
-	(
-		metadata(SERIALIZABLE,"")
-	)
-	.property("layerNames", &AWorld::GetLayerNamesAttr, &AWorld::SetLayerNamesAttr)
-	(
-		metadata(SERIALIZABLE, "")
-	)
-	.property("tagNames", &AWorld::GetTagNamesAttr, &AWorld::SetTagNamesAttr)
-	(
-		metadata(SERIALIZABLE, "")
-	)
-	;
-}
-
-
 AWorld::AWorld() :
     _nextNodeId(1),
 	_physicsWorld(nullptr),

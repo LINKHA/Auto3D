@@ -15,18 +15,6 @@
 namespace Auto3D
 {
 
-REGISTER_CLASS(AGeometryNode)
-{
-	REGISTER_CALSS_FACTORY_IMP(AGeometryNode)
-	.constructor<>()
-	.property("materialsAttr", &AGeometryNode::GetMaterialsAttr, &AGeometryNode::SetMaterialsAttr)
-	(
-		metadata(SERIALIZABLE, "")
-	)
-	;
-}
-
-
 FGeometry::FGeometry() : 
     _primitiveType(EPrimitiveType::TRIANGLE_LIST),
     _drawStart(0),

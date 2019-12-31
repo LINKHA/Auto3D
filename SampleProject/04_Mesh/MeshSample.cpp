@@ -1,5 +1,4 @@
 #include "MeshSample.h"
-#include "GameFramework/DefaultController.h"
 
 void MeshSample::Init()
 {

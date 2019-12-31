@@ -6,23 +6,6 @@
 
 namespace Auto3D
 {
-	
-REGISTER_CLASS(AResource)
-{
-	REGISTER_CALSS_FACTORY_IMP(AResource)
-	.constructor<>()
-	;
-
-	// Font cpp fail,Initializes the global constructor so apply here
-	REGISTER_CALSS_FACTORY_IMP(AFont)
-	.constructor<>()
-	.property_readonly("sdfFont", &AFont::IsSDFFont)
-	;
-
-	REGISTER_CALSS_FACTORY_IMP(ASound)
-	.constructor<>()
-	;
-}
 
 bool AResource::BeginLoad(FStream&)
 {

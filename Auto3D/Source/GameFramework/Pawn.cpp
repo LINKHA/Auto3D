@@ -4,13 +4,6 @@
 namespace Auto3D
 {
 
-REGISTER_CLASS(APawn)
-{
-	REGISTER_CALSS_FACTORY_IMP(APawn)
-	.constructor<>()
-	;
-}
-
 void APawn::PossessedBy(AController* newController)
 {
 	const AController*  oldController = _controller;

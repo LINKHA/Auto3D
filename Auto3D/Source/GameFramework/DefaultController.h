@@ -18,11 +18,5 @@ public:
 
 	float pitch;
 };
-REGISTER_CLASS(ADefaultController)
-{
-	REGISTER_CALSS_FACTORY_IMP(ADefaultController)
-		.constructor<>()
-		;
-}
 
 }

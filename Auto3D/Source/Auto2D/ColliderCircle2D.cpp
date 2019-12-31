@@ -5,13 +5,6 @@ namespace Auto3D {
 
 static const float DEFAULT_CLRCLE_RADIUS(0.01f);
 
-REGISTER_CLASS(AColliderCircle2D)
-{
-	REGISTER_CALSS_FACTORY_IMP(AColliderCircle2D)
-	.constructor<>()
-	;
-}
-
 AColliderCircle2D::AColliderCircle2D() :
 	_radius(DEFAULT_CLRCLE_RADIUS),
 	_center(TVector2F::ZERO)

@@ -24,6 +24,7 @@
 #include "Math/Polyhedron.h"
 #include "Math/Random.h"
 #include "Math/Ray.h"
+#include "Engine/Engine.h"
 #include "Engine/Components/Camera.h"
 #include "Engine/Components/Light.h"
 #include "Engine/Components/Material.h"
@@ -63,6 +64,7 @@
 #include "Auto2D/Collider2D.h"
 #include "Auto2D/ColliderBox2D.h"
 #include "Auto2D/ColliderCircle2D.h"
+#include "Auto2D/ColliderChain2D.h"
 #include "UI/UI.h"
 #include "UI/AppLog.h"
 #include "Physics/Physics.h"
@@ -79,7 +81,11 @@
 #include "Serialization/Serialization.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/Controller.h"
+#include "GameFramework/DefaultController.h"
 #include "Engine/Components/Component.h"
-
+#include "Physics/ColliderCapsule.h"
+#include "Physics/ColliderCone.h"
+#include "Auto2D/ColliderEdge2D.h"
+#include "GameFramework/Pawn.h"
 
 #include "Application.h"

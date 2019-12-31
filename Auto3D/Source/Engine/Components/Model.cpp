@@ -29,13 +29,6 @@ FBone::~FBone()
 {
 }
 
-REGISTER_CLASS(AModel)
-{
-	REGISTER_CALSS_FACTORY_IMP(AModel)
-	.constructor<>()
-	;
-}
-
 AModel::AModel()
 {
 }
