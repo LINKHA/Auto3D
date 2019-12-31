@@ -21,7 +21,6 @@ add_executable (${TARGET_NAME} ${SOURCE_FILES} ${HANDER_DIR} ${INLINE_DIR})
 target_link_libraries (${TARGET_NAME} Auto3D)
 
 include_directories (${AUTO_ROOT_PATH}/Auto3D/Source)
-
 include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/SDL2/include)
 include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/STB)
 include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/assimp/include)

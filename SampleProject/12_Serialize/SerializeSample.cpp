@@ -31,25 +31,25 @@ void SerializeSample::Start()
 	{
 		scene->SetupShadowMap(1, 4096);
 		scene->CreateChildNode<AOctree>();
-		camera = scene->CreateChildNode<ACamera>();
+		camera = scene->CreateComponent<ACamera>();
 		camera->SetPosition(TVector3F(0.0f, 5.0f, -15.0f));
 		camera->SetAmbientColor(FColor(0.1f, 0.1f, 0.1f));
 
-		AStaticModel* plane = scene->CreateChildNode<AStaticModel>();
+		AStaticModel* plane = scene->CreateComponent<AStaticModel>();
 		plane->SetTagName("Tag1");
 		plane->SetScale(TVector3F(50.0f, 0.1f, 50.0f));
 		plane->SetCastShadows(true);
 		plane->SetModel(cache->LoadResource<AModel>("Model/Box.mdl"));
 		plane->SetMaterial(cache->LoadResource<AMaterial>("Stone.json"));
 
-		AStaticModel* teaPot = scene->CreateChildNode<AStaticModel>();
+		AStaticModel* teaPot = scene->CreateComponent<AStaticModel>();
 		teaPot->SetLayerName("Layer1");
 		teaPot->SetPosition(TVector3F(0.0f, 0.0f, 0.0f));
 		teaPot->SetScale(TVector3F(10.0f, 10.0f, 10.0f));
 		teaPot->SetModel(cache->LoadResource<AModel>("Model/TeaPot.mdl"));
 		teaPot->SetCastShadows(true);
 
-		ALight* lightDir = scene->CreateChildNode<ALight>();
+		ALight* lightDir = scene->CreateComponent<ALight>();
 		lightDir->SetLightType(ELightType::DIRECTIONAL);
 		lightDir->SetCastShadows(true);
 		lightDir->SetColor(FColor(1.0f, 1.0f, 1.0f));
