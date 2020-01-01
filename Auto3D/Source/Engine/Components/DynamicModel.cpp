@@ -57,6 +57,17 @@ ADynamicModel::~ADynamicModel()
 {
 }
 
+void ADynamicModel::BeginPlay()
+{
+	Super::BeginPlay();
+	AAA();
+}
+
+void ADynamicModel::TickComponent(float deltaTime)
+{
+	Super::TickComponent(deltaTime);
+	BBB();
+}
 /*
 void ADynamicModel::OnPrepareRender(unsigned frameNumber, ACamera* camera)
 {
@@ -235,7 +246,7 @@ bool ADynamicModel::init()
 
 
 	glBindVertexArray(0);
-	//initBackground();
+	initBackground();
 
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -254,7 +265,7 @@ void ADynamicModel::reshape(unsigned width,unsigned height)
 
 	glusMatrix4x4Perspectivef(g_projectionMatrix, 40.0f, (GLfloat)width / (GLfloat)height, 1.0f, 1000.0f);
 
-	//reshapeBackground(g_projectionMatrix);
+	reshapeBackground(g_projectionMatrix);
 
 	reshapeWaterTexture(width, height);
 
@@ -333,7 +344,7 @@ void ADynamicModel::renderWater(float passedTime)
 bool ADynamicModel::update(float time)
 {
 	time = 0.01f;
-
+	glDepthMask(true);
 
 	static GLfloat passedTime = 0.0f;
 
@@ -346,10 +357,10 @@ bool ADynamicModel::update(float time)
 	glusMatrix4x4Copyf(inverseViewMatrix, g_viewMatrix, true);
 	glusMatrix4x4InverseRigidBodyf(inverseViewMatrix);
 	glusMatrix4x4ExtractMatrix3x3f(g_inverseViewNormalMatrix, inverseViewMatrix);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Render the background
-	//renderBackground(g_viewMatrix);
+	renderBackground(g_viewMatrix);
 
 	// Render the water texture
 	renderWaterTexture(passedTime);
@@ -361,7 +372,8 @@ bool ADynamicModel::update(float time)
 
 	angle += 2.0f * GLUS_PI / 120.0f * time;
 
-
+	auto graphics = GModuleManager::Get().GraphicsModule();
+	//graphics->Clear(CLEAR_COLOR | CLEAR_DEPTH | CLEAR_STENCIL, FColor::BLACK);
 
 	return true;
 }

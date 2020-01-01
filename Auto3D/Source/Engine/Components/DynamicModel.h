@@ -17,6 +17,11 @@ public:
 	/// Destruct.
 	~ADynamicModel();
 
+	/// BeginPlay
+	virtual void BeginPlay();
+	/// Called every frame.
+	virtual void TickComponent(float deltaTime);
+
 	/// Prepare object for rendering. Reset framenumber and light list and calculate distance from camera.
 	//void OnPrepareRender(unsigned frameNumber, ACamera* camera) override;
 

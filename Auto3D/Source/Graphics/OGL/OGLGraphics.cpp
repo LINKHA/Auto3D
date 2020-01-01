@@ -185,8 +185,10 @@ FGraphicsModule::FGraphicsModule() :
 	_graphicsVersion(EGraphicsVersion::OPENGL_ES_3_0),
 	_graphicsSLVersion(EGraphicsSLVersion::GLSL_ES_300),
 #endif
-
-	_vsync(false)
+	_vsync(false),
+	_colorWrite(false),
+	_depthWrite(false),
+	_stencilWriteMask(0)
 {
 	_window = TSharedPtr<AWindow>(new AWindow());
 	GEventManager::Get().SubscribeToEvent(this, _window->_resizeEvent, &FGraphicsModule::HandleResize);
@@ -626,6 +628,28 @@ void FGraphicsModule::SetStencilTest(bool stencilEnable, const FStencilTestDesc&
 	_depthStateDirty = true;
 }
 
+void FGraphicsModule::SetColorWrite(bool enable)
+{
+	if (enable != _colorWrite)
+	{
+		if (enable)
+			glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+		else
+			glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+
+		_colorWrite = enable;
+	}
+}
+
+void FGraphicsModule::SetDepthWrite(bool enable)
+{
+	if (enable != _depthWrite)
+	{
+		glDepthMask(enable ? GL_TRUE : GL_FALSE);
+		_depthWrite = enable;
+	}
+}
+
 void FGraphicsModule::SetGraphicsDebug(EGraphicsDebugType::Type debugTpye)
 {
 	switch (debugTpye)
@@ -693,6 +717,16 @@ void FGraphicsModule::ResetGraphics()
 void FGraphicsModule::Clear(unsigned clearFlags, const FColor& clearColor, float clearDepth, unsigned char clearStencil)
 {
 	PrepareFramebuffer();
+
+	bool oldColorWrite = _colorWrite;
+	bool oldDepthWrite = _depthWrite;
+
+	if (clearFlags & CLEAR_COLOR && !oldColorWrite)
+		SetColorWrite(true);
+	if (clearFlags & CLEAR_DEPTH && !oldDepthWrite)
+		SetDepthWrite(true);
+	if (clearFlags & CLEAR_STENCIL && _stencilWriteMask != M_MAX_UNSIGNED)
+		glStencilMask(M_MAX_UNSIGNED);
 
 	unsigned glFlags = 0;
 	if (clearFlags & CLEAR_COLOR)

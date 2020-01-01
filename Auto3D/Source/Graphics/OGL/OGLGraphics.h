@@ -112,6 +112,10 @@ public:
     void SetScissorTest(bool scissorEnable = false, const TRectI& scissorRect = TRectI::ZERO);
     /// Set stencil test.
     void SetStencilTest(bool stencilEnable, const FStencilTestDesc& stencilTest = FStencilTestDesc(), unsigned char stencilRef = 0);
+	/// Set color write on/off.
+	void SetColorWrite(bool enable);
+	/// Set depth write on/off.
+	void SetDepthWrite(bool enable);
 	/// Set graphics debug type,defaault is fill.
 	void SetGraphicsDebug(EGraphicsDebugType::Type debugTpye);
 	/// Reset rendertarget and depth stencil buffer to the backbuffer.
@@ -347,6 +351,12 @@ private:
 	TVector<FString> _extensions;
 	/// OpenGL vertex array object;
 	unsigned _vertexArrayObject;
+	/// Color write enable.
+	bool _colorWrite;
+	/// Depth write enable flag.
+	bool _depthWrite;
+	/// Stencil write bitmask.
+	unsigned _stencilWriteMask;
 };
 
 }
