@@ -83,7 +83,7 @@ public:
     /// Present the contents of the backbuffer.
     void Present();
 	/// Prepare render.
-	void Prepare();
+	void Prepare(unsigned vaoBuffer = -1);
     /// Set the color rendertarget and depth stencil buffer.
     void SetRenderTarget(ATexture* renderTarget, ATexture* stencilBuffer);
     /// Set multiple color rendertargets and the depth stencil buffer.

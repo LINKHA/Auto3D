@@ -61,6 +61,9 @@ GLUSuint initWaterTexture(GLUSfloat waterPlaneLength)
 	waterTextureVSV = cache->LoadResource<AShader>("Shader/Water/WaterTexture.vert")->CreateVariation();
 	waterTexturePSV = cache->LoadResource<AShader>("Shader/Water/WaterTexture.frag")->CreateVariation();
 
+	glGenVertexArrays(1, &g_vaoWaterTexture);
+	glBindVertexArray(g_vaoWaterTexture);
+
 	glGenTextures(1, &g_mirrorTexture);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, g_mirrorTexture);
@@ -109,6 +112,8 @@ GLUSuint initWaterTexture(GLUSfloat waterPlaneLength)
 
 	glBindVertexArray(0);
 
+	//glGenVertexArrays(1, &g_vaoWaterTexture);
+	glBindVertexArray(g_vaoWaterTexture);
 	//
 
 	glusShapeCreatePlanef(&plane, TEXTURE_SIZE / 2.0f);
@@ -149,16 +154,14 @@ GLUSuint initWaterTexture(GLUSfloat waterPlaneLength)
 	waterTextureProgram->SetMat4("u_projectionMatrix", projectionMatrixWaterTexture);
 	waterTextureProgram->SetFloat("u_waterPlaneLength", WATER_PLANE_LENGTH);
 
-	glGenVertexArrays(1, &g_vaoWaterTexture);
+	//glGenVertexArrays(1, &g_vaoWaterTexture);
 	glBindVertexArray(g_vaoWaterTexture);
 
 	glBindBuffer(GL_ARRAY_BUFFER, g_verticesWaterTextureVBO);
-
 	glVertexAttribPointer(glGetAttribLocation(waterTextureProgram->GLProgram(), "a_vertex"), 4, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(glGetAttribLocation(waterTextureProgram->GLProgram(), "a_vertex"));
 
 	glBindBuffer(GL_ARRAY_BUFFER, g_texCoordsWaterTextureVBO);
-
 	glVertexAttribPointer(glGetAttribLocation(waterTextureProgram->GLProgram(), "a_texCoord"), 2, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(glGetAttribLocation(waterTextureProgram->GLProgram(), "a_texCoord"));
 

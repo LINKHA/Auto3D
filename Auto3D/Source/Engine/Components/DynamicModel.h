@@ -32,9 +32,6 @@ public:
 	void renderWater(float passedTime);
 	bool update(float time);
 
-
-	void AAA();
-	void BBB();
 };
 
 }

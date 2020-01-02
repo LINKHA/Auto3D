@@ -163,6 +163,7 @@ void AEngine::Render()
 			}
 		}
 	}
+	_graphics->Prepare(0);
 }
 
 

@@ -32,21 +32,21 @@
 
 namespace Auto3D
 {
-static GLfloat g_projectionMatrix[16];
+static float g_projectionMatrix[16];
 
-static GLfloat g_viewMatrix[16];
+static float g_viewMatrix[16];
 
-static GLfloat g_inverseViewNormalMatrix[9];
+static float g_inverseViewNormalMatrix[9];
 
 //
 
-static GLuint g_vao;
+static unsigned g_vao;
 
-static GLuint g_verticesVBO;
+static unsigned g_verticesVBO;
 
-static GLuint g_indicesVBO;
+static unsigned g_indicesVBO;
 //
-static GLuint g_cubemap;
+static unsigned g_cubemap;
 
 ADynamicModel::ADynamicModel()
 {
@@ -60,13 +60,23 @@ ADynamicModel::~ADynamicModel()
 void ADynamicModel::BeginPlay()
 {
 	Super::BeginPlay();
-	AAA();
+
+	auto window = GModuleManager::Get().GraphicsModule()->RenderWindow();
+	init();
+	reshape(window->GetWidth(), window->GetHeight());
 }
 
 void ADynamicModel::TickComponent(float deltaTime)
 {
 	Super::TickComponent(deltaTime);
-	BBB();
+
+	glEnable(GL_DEPTH_TEST);
+
+	glEnable(GL_CULL_FACE);
+
+	//glDepthFunc(GL_LESS);
+	Sleep(10);
+	update(0);
 }
 /*
 void ADynamicModel::OnPrepareRender(unsigned frameNumber, ACamera* camera)
@@ -159,20 +169,20 @@ bool ADynamicModel::init()
 	auto* graphics = GModuleManager::Get().GraphicsModule();
 	//graphics->SetGraphicsDebug(EGraphicsDebugType::LINE);
 
-	GLfloat* points = (GLfloat*)malloc(WATER_PLANE_LENGTH * WATER_PLANE_LENGTH * 4 * sizeof(GLfloat));
-	GLuint* indices = (GLuint*)malloc(WATER_PLANE_LENGTH * (WATER_PLANE_LENGTH - 1) * 2 * sizeof(GLuint));
+	float* points = (float*)malloc(WATER_PLANE_LENGTH * WATER_PLANE_LENGTH * 4 * sizeof(float));
+	unsigned* indices = (unsigned*)malloc(WATER_PLANE_LENGTH * (WATER_PLANE_LENGTH - 1) * 2 * sizeof(unsigned));
 
-	GLuint x, z, i, k;
+	unsigned x, z, i, k;
 
-	GLuint waterTexture;
+	unsigned waterTexture;
 
 	for (z = 0; z < WATER_PLANE_LENGTH; z++)
 	{
 		for (x = 0; x < WATER_PLANE_LENGTH; x++)
 		{
-			points[(x + z * (WATER_PLANE_LENGTH)) * 4 + 0] = -(GLfloat)WATER_PLANE_LENGTH / 2 + 0.5f + (GLfloat)x;
+			points[(x + z * (WATER_PLANE_LENGTH)) * 4 + 0] = -(float)WATER_PLANE_LENGTH / 2 + 0.5f + (float)x;
 			points[(x + z * (WATER_PLANE_LENGTH)) * 4 + 1] = 0.0f;
-			points[(x + z * (WATER_PLANE_LENGTH)) * 4 + 2] = +(GLfloat)WATER_PLANE_LENGTH / 2 - 0.5f - (GLfloat)z;
+			points[(x + z * (WATER_PLANE_LENGTH)) * 4 + 2] = +(float)WATER_PLANE_LENGTH / 2 - 0.5f - (float)z;
 			points[(x + z * (WATER_PLANE_LENGTH)) * 4 + 3] = 1.0f;
 		}
 	}
@@ -199,16 +209,19 @@ bool ADynamicModel::init()
 	waterPSV = cache->LoadResource<AShader>("Shader/Water/Water.frag")->CreateVariation();
 
 
-	glGenBuffers(1, &g_verticesVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
-	glBufferData(GL_ARRAY_BUFFER, WATER_PLANE_LENGTH * WATER_PLANE_LENGTH * 4 * sizeof(GLfloat), (GLfloat*)points, GL_STATIC_DRAW);
 
+	glGenVertexArrays(1, &g_vao);
+	glGenBuffers(1, &g_verticesVBO);
+	glGenBuffers(1, &g_indicesVBO);
+
+	glBindVertexArray(g_vao);
+
+	glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
+	glBufferData(GL_ARRAY_BUFFER, WATER_PLANE_LENGTH * WATER_PLANE_LENGTH * 4 * sizeof(float), (float*)points, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glGenBuffers(1, &g_indicesVBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesVBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, WATER_PLANE_LENGTH * (WATER_PLANE_LENGTH - 1) * 2 * sizeof(GLuint), (GLuint*)indices, GL_STATIC_DRAW);
-
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, WATER_PLANE_LENGTH * (WATER_PLANE_LENGTH - 1) * 2 * sizeof(unsigned), (unsigned*)indices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 
@@ -234,7 +247,6 @@ bool ADynamicModel::init()
 	glBindTexture(GL_TEXTURE_2D, waterTexture);
 	waterProgram->SetInt("u_waterTexture", 1);
 
-	glGenVertexArrays(1, &g_vao);
 	glBindVertexArray(g_vao);
 
 	glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
@@ -246,7 +258,7 @@ bool ADynamicModel::init()
 
 
 	glBindVertexArray(0);
-	initBackground();
+	//initBackground();
 
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -263,9 +275,9 @@ void ADynamicModel::reshape(unsigned width,unsigned height)
 {
 	glViewport(0, 0, width, height);
 
-	glusMatrix4x4Perspectivef(g_projectionMatrix, 40.0f, (GLfloat)width / (GLfloat)height, 1.0f, 1000.0f);
+	glusMatrix4x4Perspectivef(g_projectionMatrix, 40.0f, (float)width / (float)height, 1.0f, 1000.0f);
 
-	reshapeBackground(g_projectionMatrix);
+	//reshapeBackground(g_projectionMatrix);
 
 	reshapeWaterTexture(width, height);
 
@@ -281,7 +293,7 @@ void ADynamicModel::renderWater(float passedTime)
 	static WaveParameters waveParameters[NUMBERWAVES];
 	static WaveDirections waveDirections[NUMBERWAVES];
 
-	static GLfloat overallSteepness = 0.2f;
+	static float overallSteepness = 0.2f;
 
 	memset(waveParameters, 0, sizeof(waveParameters));
 	memset(waveDirections, 0, sizeof(waveDirections));
@@ -292,7 +304,7 @@ void ADynamicModel::renderWater(float passedTime)
 	waveParameters[0].speed = 1.0f;
 	waveParameters[0].amplitude = 0.01f;
 	waveParameters[0].wavelength = 4.0f;
-	waveParameters[0].steepness = overallSteepness / (waveParameters[0].wavelength * waveParameters[0].amplitude * (GLfloat)NUMBERWAVES);
+	waveParameters[0].steepness = overallSteepness / (waveParameters[0].wavelength * waveParameters[0].amplitude * (float)NUMBERWAVES);
 	waveDirections[0].x = +1.0f;
 	waveDirections[0].z = +1.0f;
 
@@ -300,7 +312,7 @@ void ADynamicModel::renderWater(float passedTime)
 	waveParameters[1].speed = 0.5f;
 	waveParameters[1].amplitude = 0.02f;
 	waveParameters[1].wavelength = 3.0f;
-	waveParameters[1].steepness = overallSteepness / (waveParameters[1].wavelength * waveParameters[1].amplitude * (GLfloat)NUMBERWAVES);
+	waveParameters[1].steepness = overallSteepness / (waveParameters[1].wavelength * waveParameters[1].amplitude * (float)NUMBERWAVES);
 	waveDirections[1].x = +1.0f;
 	waveDirections[1].z = +0.0f;
 
@@ -308,7 +320,7 @@ void ADynamicModel::renderWater(float passedTime)
 	waveParameters[2].speed = 0.1f;
 	waveParameters[2].amplitude = 0.015f;
 	waveParameters[2].wavelength = 2.0f;
-	waveParameters[2].steepness = overallSteepness / (waveParameters[1].wavelength * waveParameters[1].amplitude * (GLfloat)NUMBERWAVES);
+	waveParameters[2].steepness = overallSteepness / (waveParameters[1].wavelength * waveParameters[1].amplitude * (float)NUMBERWAVES);
 	waveDirections[2].x = -0.1f;
 	waveDirections[2].z = -0.2f;
 
@@ -316,7 +328,7 @@ void ADynamicModel::renderWater(float passedTime)
 	waveParameters[3].speed = 1.1f;
 	waveParameters[3].amplitude = 0.008f;
 	waveParameters[3].wavelength = 1.0f;
-	waveParameters[3].steepness = overallSteepness / (waveParameters[1].wavelength * waveParameters[1].amplitude * (GLfloat)NUMBERWAVES);
+	waveParameters[3].steepness = overallSteepness / (waveParameters[1].wavelength * waveParameters[1].amplitude * (float)NUMBERWAVES);
 	waveDirections[3].x = -0.2f;
 	waveDirections[3].z = -0.1f;
 
@@ -346,13 +358,13 @@ bool ADynamicModel::update(float time)
 	time = 0.01f;
 	glDepthMask(true);
 
-	static GLfloat passedTime = 0.0f;
+	static float passedTime = 0.0f;
 
 	static GLUSfloat angle = 0.0f;
 
-	GLfloat inverseViewMatrix[16];
+	float inverseViewMatrix[16];
 
-	glusMatrix4x4LookAtf(g_viewMatrix, 0.0f, 1.0f, 0.0f, (GLfloat)0.5f * sinf(angle), 1.0f, -(GLfloat)0.5f * cosf(angle), 0.0f, 1.0f, 0.0f);
+	glusMatrix4x4LookAtf(g_viewMatrix, 0.0f, 1.0f, 0.0f, (float)0.5f * sinf(angle), 1.0f, -(float)0.5f * cosf(angle), 0.0f, 1.0f, 0.0f);
 
 	glusMatrix4x4Copyf(inverseViewMatrix, g_viewMatrix, true);
 	glusMatrix4x4InverseRigidBodyf(inverseViewMatrix);
@@ -360,7 +372,7 @@ bool ADynamicModel::update(float time)
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Render the background
-	renderBackground(g_viewMatrix);
+	//renderBackground(g_viewMatrix);
 
 	// Render the water texture
 	renderWaterTexture(passedTime);
@@ -376,21 +388,6 @@ bool ADynamicModel::update(float time)
 	//graphics->Clear(CLEAR_COLOR | CLEAR_DEPTH | CLEAR_STENCIL, FColor::BLACK);
 
 	return true;
-}
-
-
-void ADynamicModel::AAA()
-{
-	auto window = GModuleManager::Get().GraphicsModule()->RenderWindow();
-	init();
-	reshape(window->GetWidth(), window->GetHeight());
-}
-
-void ADynamicModel::BBB()
-{
-	Sleep(10);
-	update(0);
-	//graphics->RenderContext()->Present();
 }
 
 }

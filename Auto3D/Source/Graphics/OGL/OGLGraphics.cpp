@@ -380,11 +380,14 @@ void FGraphicsModule::Present()
 	glBindVertexArray(0);
 }
 
-void FGraphicsModule::Prepare()
+void FGraphicsModule::Prepare(unsigned vaoBuffer)
 {
 	PROFILE(Prepare);
 
-	glBindVertexArray(_vertexArrayObject);
+	if (vaoBuffer == -1)
+		glBindVertexArray(_vertexArrayObject);
+	else
+		glBindVertexArray(vaoBuffer);
 }
 
 void FGraphicsModule::SetRenderTarget(ATexture* renderTarget, ATexture* depthStencil)
