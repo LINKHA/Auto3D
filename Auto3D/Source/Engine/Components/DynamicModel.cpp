@@ -14,6 +14,7 @@
 #include "Scene/WorldContext.h"
 #include "Engine/Components/SkyBox.h"
 #include "Graphics/Shader.h"
+#include "Engine/Components/Camera.h"
 
 #include <Windows.h>
 
@@ -74,6 +75,7 @@ void ADynamicModel::TickComponent(float deltaTime)
 
 	glEnable(GL_CULL_FACE);
 
+	glDepthMask(true);
 	//glDepthFunc(GL_LESS);
 	Sleep(10);
 	update(0);
@@ -275,8 +277,26 @@ void ADynamicModel::reshape(unsigned width,unsigned height)
 {
 	glViewport(0, 0, width, height);
 
+	ACamera* camera = GWorldContext::Get().GetActiveWorld()->GetCameras()[0];
+	TMatrix4x4F projectionMatrix = camera->GetProjectionMatrix();
+
+	
 	glusMatrix4x4Perspectivef(g_projectionMatrix, 40.0f, (float)width / (float)height, 1.0f, 1000.0f);
 
+	ErrorString("g_projectionMatrix " + FString(g_projectionMatrix[0]) + "  " + FString(g_projectionMatrix[1]) + "  " + FString(g_projectionMatrix[2]) + "  " + FString(g_projectionMatrix[3]));
+	ErrorString("					" + FString(g_projectionMatrix[4]) + "  " + FString(g_projectionMatrix[5]) + "  " + FString(g_projectionMatrix[6]) + "  " + FString(g_projectionMatrix[7]));
+	ErrorString("					" + FString(g_projectionMatrix[8]) + "  " + FString(g_projectionMatrix[9]) + "  " + FString(g_projectionMatrix[10]) + "  " + FString(g_projectionMatrix[11]));
+	ErrorString("					" + FString(g_projectionMatrix[12]) + "  " + FString(g_projectionMatrix[13]) + "  " + FString(g_projectionMatrix[14]) + "  " + FString(g_projectionMatrix[15]));
+
+	/*for (int i = 0; i < 16; ++i)
+	{
+		g_projectionMatrix[i] = projectionMatrix.Data()[i];
+	}*/
+
+	ErrorString("projectionMatrix	" + FString(g_projectionMatrix[0]) + "  " + FString(g_projectionMatrix[1]) + "  " + FString(g_projectionMatrix[2]) + "  " + FString(g_projectionMatrix[3]));
+	ErrorString("					" + FString(g_projectionMatrix[4]) + "  " + FString(g_projectionMatrix[5]) + "  " + FString(g_projectionMatrix[6]) + "  " + FString(g_projectionMatrix[7]));
+	ErrorString("					" + FString(g_projectionMatrix[8]) + "  " + FString(g_projectionMatrix[9]) + "  " + FString(g_projectionMatrix[10]) + "  " + FString(g_projectionMatrix[11]));
+	ErrorString("					" + FString(g_projectionMatrix[12]) + "  " + FString(g_projectionMatrix[13]) + "  " + FString(g_projectionMatrix[14]) + "  " + FString(g_projectionMatrix[15]));
 	//reshapeBackground(g_projectionMatrix);
 
 	reshapeWaterTexture(width, height);
@@ -356,7 +376,7 @@ void ADynamicModel::renderWater(float passedTime)
 bool ADynamicModel::update(float time)
 {
 	time = 0.01f;
-	glDepthMask(true);
+	
 
 	static float passedTime = 0.0f;
 
@@ -364,7 +384,29 @@ bool ADynamicModel::update(float time)
 
 	float inverseViewMatrix[16];
 
+	ACamera* camera = GWorldContext::Get().GetActiveWorld()->GetCameras()[0];
+	TMatrix3x4F viewMatrix = camera->GetViewMatrix();
 	glusMatrix4x4LookAtf(g_viewMatrix, 0.0f, 1.0f, 0.0f, (float)0.5f * sinf(angle), 1.0f, -(float)0.5f * cosf(angle), 0.0f, 1.0f, 0.0f);
+
+	ErrorString("g_viewMatrix" + FString(g_viewMatrix[0]) + "  " + FString(g_viewMatrix[1]) + "  " + FString(g_viewMatrix[2]) + "  " + FString(g_viewMatrix[3]));
+	ErrorString("            " + FString(g_viewMatrix[4]) + "  " + FString(g_viewMatrix[5]) + "  " + FString(g_viewMatrix[6]) + "  " + FString(g_viewMatrix[7]));
+	ErrorString("            " + FString(g_viewMatrix[8]) + "  " + FString(g_viewMatrix[9]) + "  " + FString(g_viewMatrix[10]) + "  " + FString(g_viewMatrix[11]));
+	ErrorString("            " + FString(g_viewMatrix[12]) + "  " + FString(g_viewMatrix[13]) + "  " + FString(g_viewMatrix[14]) + "  " + FString(g_viewMatrix[15]));
+	for (int i = 0; i < 12; ++i)
+	{
+
+		g_viewMatrix[i] = viewMatrix.Data()[i];
+	}
+	g_viewMatrix[12] = 0;
+	g_viewMatrix[13] = -1;
+	g_viewMatrix[14] = 0;
+	g_viewMatrix[15] = 1;
+
+	
+	ErrorString("viewMatrix  " + FString(g_viewMatrix[0]) + "  " + FString(g_viewMatrix[1]) + "  " + FString(g_viewMatrix[2]) + "  " + FString(g_viewMatrix[3]));
+	ErrorString("            " + FString(g_viewMatrix[4]) + "  " + FString(g_viewMatrix[5]) + "  " + FString(g_viewMatrix[6]) + "  " + FString(g_viewMatrix[7]));
+	ErrorString("            " + FString(g_viewMatrix[8]) + "  " + FString(g_viewMatrix[9]) + "  " + FString(g_viewMatrix[10]) + "  " + FString(g_viewMatrix[11]));
+	ErrorString("            " + FString(g_viewMatrix[12]) + "  " + FString(g_viewMatrix[13]) + "  " + FString(g_viewMatrix[14]) + "  " + FString(g_viewMatrix[15]));
 
 	glusMatrix4x4Copyf(inverseViewMatrix, g_viewMatrix, true);
 	glusMatrix4x4InverseRigidBodyf(inverseViewMatrix);

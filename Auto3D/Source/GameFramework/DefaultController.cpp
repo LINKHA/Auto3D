@@ -11,7 +11,7 @@ namespace Auto3D
 	
 ADefaultController::ADefaultController() :
 	yaw(0.0f),
-	pitch(20.0f)
+	pitch(0.0f)
 {
 
 }

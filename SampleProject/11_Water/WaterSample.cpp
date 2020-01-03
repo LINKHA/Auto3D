@@ -27,7 +27,7 @@ void WaterSample::Start()
 	camera->SetPosition(TVector3F(0.0f, 0.0f, 0.0f));
 	camera->SetAmbientColor(FColor(0.1f, 0.1f, 0.1f));
 
-	AStaticModel* plane = scene->CreateComponent<AStaticModel>();
+	/*AStaticModel* plane = scene->CreateComponent<AStaticModel>();
 	plane->SetPosition(TVector3F(0.0f, -5.1f, 0.0f));
 	plane->SetTagName("StaticModelTag");
 	plane->SetScale(TVector3F(50.0f, 0.1f, 50.0f));
@@ -40,7 +40,7 @@ void WaterSample::Start()
 	teaPot->SetPosition(TVector3F(0.0f, 0.0f, 0.0f));
 	teaPot->SetScale(10.0f);
 	teaPot->SetModel(cache->LoadResource<AModel>("Model/TeaPot.mdl"));
-	teaPot->SetCastShadows(true);
+	teaPot->SetCastShadows(true);*/
 
 	ASkyBox* skybox = scene->CreateChildNode<ASkyBox>();
 	skybox->SetMaterial(cache->LoadResource<AMaterial>("SkyBox.json"));
