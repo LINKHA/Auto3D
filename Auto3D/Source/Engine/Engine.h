@@ -8,7 +8,7 @@ namespace Auto3D
 class GModuleManager;
 class FResourceModule;
 class FGraphicsModule;
-class FRendererModule;
+class FForwardShadingRenderer;
 class FInputModule;
 class FLogModule;
 class FProfilerModule;
@@ -106,7 +106,7 @@ private:
 	/// ADAPTS the low-level rendering interface as well as the form's rendering function
 	FGraphicsModule* _graphics;
 	/// 3D rendering of the scene
-	FRendererModule* _renderer;
+	FForwardShadingRenderer* _renderer;
 	/// User input management events
 	FInputModule* _input;
 	/// AEngine ALog

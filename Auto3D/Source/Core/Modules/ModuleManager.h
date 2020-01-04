@@ -8,7 +8,7 @@ namespace Auto3D {
 
 class FResourceModule;
 class FGraphicsModule;
-class FRendererModule;
+class FForwardShadingRenderer;
 class FInputModule;
 class FLogModule;
 class FProfilerModule;
@@ -39,7 +39,7 @@ public:
 	/// Recreate graphics moudle if not null.
 	void RecreateGraphicsModule(FGraphicsModule* graphics = nullptr);
 	/// Recreate 3d render module if not null.
-	void RecreateRendererModule(FRendererModule* renderer = nullptr);
+	void RecreateRendererModule(FForwardShadingRenderer* renderer = nullptr);
 	/// Recreate input management events module if not null.
 	void RecreateInputModule(FInputModule* input = nullptr);
 	/// Recreate AEngine ALog
@@ -66,7 +66,7 @@ public:
 	/// Return graphics.
 	FGraphicsModule* GraphicsModule() { return _graphics.Get(); }
 	/// Return 3D render.
-	FRendererModule* RendererModule() { return _renderer.Get(); }
+	FForwardShadingRenderer* RendererModule() { return _renderer.Get(); }
 	/// Return input management events
 	FInputModule* InputModule() { return _input.Get(); }
 	/// AEngine ALog
@@ -93,7 +93,7 @@ private:
 	/// ADAPTS the low-level rendering interface as well as the form's rendering function
 	TUniquePtr<FGraphicsModule> _graphics;
 	/// 3D rendering of the scene
-	TUniquePtr<FRendererModule> _renderer;
+	TUniquePtr<FForwardShadingRenderer> _renderer;
 	/// User input management events
 	TUniquePtr<FInputModule> _input;
 	/// AEngine ALog

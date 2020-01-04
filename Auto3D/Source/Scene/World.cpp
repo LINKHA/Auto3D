@@ -2,7 +2,7 @@
 #include "Debug/Profiler.h"
 #include "IO/Stream.h"
 #include "Resource/JSONFile.h"
-#include "Renderer/Renderer.h"
+#include "Renderer/ForwardShadingRenderer.h"
 #include "Scene/WorldContext.h"
 #include "Physics/PhysicsWorld.h"
 #include "Engine/Components/SkyBox.h"

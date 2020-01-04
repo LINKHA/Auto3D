@@ -3,7 +3,7 @@
 #include "Audio/Audio.h"
 #include "Resource/ResourceCache.h"
 #include "Graphics/Graphics.h"
-#include "Renderer/Renderer.h"
+#include "Renderer/ForwardShadingRenderer.h"
 #include "Platform/Input.h"
 #include "Debug/Log.h"
 #include "Debug/Profiler.h"
@@ -50,7 +50,7 @@ void GModuleManager::CreateModules()
 	_input = TUniquePtr<FInputModule>(new FInputModule());
 	_profiler = TUniquePtr<FProfilerModule>(new FProfilerModule());
 	_graphics = TUniquePtr<FGraphicsModule>(new FGraphicsModule());
-	_renderer = TUniquePtr<FRendererModule>(new FRendererModule());
+	_renderer = TUniquePtr<FForwardShadingRenderer>(new FForwardShadingRenderer());
 	_time = TUniquePtr<FTimeModule>(new FTimeModule());
 	_renderer2d = TUniquePtr<FRenderer2DModule>(new FRenderer2DModule());
 	_physics = TUniquePtr<FPhysicsModule>(new FPhysicsModule());
@@ -81,7 +81,7 @@ void GModuleManager::RecreateGraphicsModule(FGraphicsModule* graphics)
 		_graphics = TUniquePtr<FGraphicsModule>(new FGraphicsModule());
 }
 
-void GModuleManager::RecreateRendererModule(FRendererModule* renderer)
+void GModuleManager::RecreateRendererModule(FForwardShadingRenderer* renderer)
 {
 	if (_renderer)
 		_renderer.Reset();
@@ -89,7 +89,7 @@ void GModuleManager::RecreateRendererModule(FRendererModule* renderer)
 	if (renderer)
 		_renderer = renderer;
 	else
-		_renderer = TUniquePtr<FRendererModule>(new FRendererModule());
+		_renderer = TUniquePtr<FForwardShadingRenderer>(new FForwardShadingRenderer());
 }
 
 void GModuleManager::RecreateInputModule(FInputModule* input)

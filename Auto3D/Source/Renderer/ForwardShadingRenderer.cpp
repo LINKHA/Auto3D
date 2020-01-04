@@ -17,7 +17,7 @@
 #include "Engine/Components/IBLMaterial.h"
 #include "Engine/Components/Model.h"
 #include "Scene/Octree.h"
-#include "Renderer.h"
+#include "ForwardShadingRenderer.h"
 #include "Engine/Components/StaticModel.h"
 #include "Engine/Components/SkyBox.h"
 #include "Engine/Components/Font.h"
@@ -67,7 +67,7 @@ inline bool CompareLights(ALight* lhs, ALight* rhs)
     return lhs->Distance() < rhs->Distance();
 }
 
-FRendererModule::FRendererModule() :
+FForwardShadingRenderer::FForwardShadingRenderer() :
 	_camera(nullptr),
 	_octree(nullptr),
 	_world(nullptr),
@@ -78,11 +78,11 @@ FRendererModule::FRendererModule() :
 {
 }
 
-FRendererModule::~FRendererModule()
+FForwardShadingRenderer::~FForwardShadingRenderer()
 {
 }
 
-void FRendererModule::Render(AWorld* scene, ACamera* camera)
+void FForwardShadingRenderer::Render(AWorld* scene, ACamera* camera)
 {
 	PROFILE(RenderScene);
 	TVector<FRenderPassDesc> passes;
@@ -100,7 +100,7 @@ void FRendererModule::Render(AWorld* scene, ACamera* camera)
 	RenderBatches(passes);
 
 }
-void FRendererModule::SetupShadowMaps(size_t num, int size, EImageFormat::Type format)
+void FForwardShadingRenderer::SetupShadowMaps(size_t num, int size, EImageFormat::Type format)
 {
     if (size < 1)
         size = 1;
@@ -117,7 +117,7 @@ void FRendererModule::SetupShadowMaps(size_t num, int size, EImageFormat::Type f
     }
 }
 
-bool FRendererModule::PrepareView(AWorld* scene, ACamera* camera, const TVector<FRenderPassDesc>& passes)
+bool FForwardShadingRenderer::PrepareView(AWorld* scene, ACamera* camera, const TVector<FRenderPassDesc>& passes)
 {
 	if (!_graphics)
 		Initialize();
@@ -130,7 +130,7 @@ bool FRendererModule::PrepareView(AWorld* scene, ACamera* camera, const TVector<
     return true;
 }
 
-bool FRendererModule::CollectObjects(AWorld* scene, ACamera* camera)
+bool FForwardShadingRenderer::CollectObjects(AWorld* scene, ACamera* camera)
 {
     PROFILE(CollectObjects);
 
@@ -162,12 +162,12 @@ bool FRendererModule::CollectObjects(AWorld* scene, ACamera* camera)
 
     _frustum = _camera->GetWorldFrustum();
     _viewLayoutMask = _camera->GetViewMask();
-    _octree->FindNodes(_frustum, this, &FRendererModule::CollectGeometriesAndLights);
+    _octree->FindNodes(_frustum, this, &FForwardShadingRenderer::CollectGeometriesAndLights);
 
     return true;
 }
 
-void FRendererModule::CollectLightInteractions()
+void FForwardShadingRenderer::CollectLightInteractions()
 {
     PROFILE(CollectLightInteractions);
 
@@ -449,7 +449,7 @@ void FRendererModule::CollectLightInteractions()
     }
 }
 
-void FRendererModule::CollectBatches(const TVector<FRenderPassDesc>& passes)
+void FForwardShadingRenderer::CollectBatches(const TVector<FRenderPassDesc>& passes)
 {
     PROFILE(CollectBatches);
 
@@ -543,14 +543,14 @@ void FRendererModule::CollectBatches(const TVector<FRenderPassDesc>& passes)
         _instanceTransformsDirty = true;
 }
 
-void FRendererModule::CollectBatches(const FRenderPassDesc& pass)
+void FForwardShadingRenderer::CollectBatches(const FRenderPassDesc& pass)
 {
     static TVector<FRenderPassDesc> passDescs(1);
     passDescs[0] = pass;
     CollectBatches(passDescs);
 }
 
-void FRendererModule::RenderShadowMaps()
+void FForwardShadingRenderer::RenderShadowMaps()
 {
     PROFILE(RenderShadowMaps);
 
@@ -575,7 +575,7 @@ void FRendererModule::RenderShadowMaps()
     }
 }
 
-void FRendererModule::RenderBatches(const TVector<FRenderPassDesc>& passes)
+void FForwardShadingRenderer::RenderBatches(const TVector<FRenderPassDesc>& passes)
 {
     PROFILE(RenderBatches);
 
@@ -590,7 +590,7 @@ void FRendererModule::RenderBatches(const TVector<FRenderPassDesc>& passes)
     }
 }
 
-void FRendererModule::RenderBatches(const FString& pass)
+void FForwardShadingRenderer::RenderBatches(const FString& pass)
 {
     PROFILE(RenderBatches);
 
@@ -602,7 +602,7 @@ void FRendererModule::RenderBatches(const FString& pass)
     /*RenderBatches(batchQueue._additiveBatches, _camera, false);*/
 }
 
-void FRendererModule::Initialize()
+void FForwardShadingRenderer::Initialize()
 {
 	_graphics = GModuleManager::Get().GraphicsModule();
     assert(_graphics && _graphics->IsInitialized());
@@ -660,7 +660,7 @@ void FRendererModule::Initialize()
     DefineFaceSelectionTextures();
 }
 
-void FRendererModule::DefineFaceSelectionTextures()
+void FForwardShadingRenderer::DefineFaceSelectionTextures()
 {
     PROFILE(DefineFaceSelectionTextures);
 
@@ -703,7 +703,7 @@ void FRendererModule::DefineFaceSelectionTextures()
     _faceSelectionTexture2->SetDataLost(false);
 }
 
-void FRendererModule::CollectGeometriesAndLights(TVector<AOctreeNode*>::ConstIterator begin, TVector<AOctreeNode*>::ConstIterator end,
+void FForwardShadingRenderer::CollectGeometriesAndLights(TVector<AOctreeNode*>::ConstIterator begin, TVector<AOctreeNode*>::ConstIterator end,
     bool inside)
 {
     if (inside)
@@ -755,7 +755,7 @@ void FRendererModule::CollectGeometriesAndLights(TVector<AOctreeNode*>::ConstIte
     }
 }
 
-void FRendererModule::AddLightToNode(AGeometryNode* node, ALight* light, FLightList* lightList)
+void FForwardShadingRenderer::AddLightToNode(AGeometryNode* node, ALight* light, FLightList* lightList)
 {
     FLightList* oldList = node->GetLightList();
 
@@ -790,7 +790,7 @@ void FRendererModule::AddLightToNode(AGeometryNode* node, ALight* light, FLightL
     }
 }
 
-void FRendererModule::CollectShadowBatches(const TVector<AGeometryNode*>& nodes, FRenderQueue& batchQueue, const FFrustum& frustum,
+void FForwardShadingRenderer::CollectShadowBatches(const TVector<AGeometryNode*>& nodes, FRenderQueue& batchQueue, const FFrustum& frustum,
     bool checkShadowCaster, bool checkFrustum)
 {
     FBatch newBatch;
@@ -829,7 +829,7 @@ void FRendererModule::CollectShadowBatches(const TVector<AGeometryNode*>& nodes,
     }
 }
 
-void FRendererModule::RenderBatches(const TVector<FBatch>& batches, ACamera* camera, bool setPerFrameConstants, bool overrideDepthBias,
+void FForwardShadingRenderer::RenderBatches(const TVector<FBatch>& batches, ACamera* camera, bool setPerFrameConstants, bool overrideDepthBias,
 	int depthBias, float slopeScaledDepthBias)
 {
     if (_faceSelectionTexture1->IsDataLost() || _faceSelectionTexture2->IsDataLost())
@@ -1004,7 +1004,7 @@ void FRendererModule::RenderBatches(const TVector<FBatch>& batches, ACamera* cam
     #endif
 }
 
-void FRendererModule::LoadPassShaders(FPass* pass)
+void FForwardShadingRenderer::LoadPassShaders(FPass* pass)
 {
     PROFILE(LoadPassShaders);
 
@@ -1021,7 +1021,7 @@ void FRendererModule::LoadPassShaders(FPass* pass)
     pass->_shadersLoaded = true;
 }
 
-FShaderVariation* FRendererModule::FindShaderVariation(EShaderStage::Type stage, FPass* pass, unsigned short bits)
+FShaderVariation* FForwardShadingRenderer::FindShaderVariation(EShaderStage::Type stage, FPass* pass, unsigned short bits)
 {
     /// \todo Evaluate whether the hash lookup is worth the memory save vs using just straightforward vectors
     THashMap<unsigned short, TWeakPtr<FShaderVariation> >& variations = pass->_shaderVariations[stage];

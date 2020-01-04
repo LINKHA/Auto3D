@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Renderer/SceneRenderer.h"
 #include "Container/AutoPtr.h"
 #include "Graphics/Texture.h"
 #include "Math/Color.h"
@@ -54,13 +55,13 @@ static const size_t INSTANCE_TEXCOORD = 4;
 
 
 /// High-level rendering subsystem. Performs rendering of 3D scenes.
-class AUTO_API FRendererModule : public FRefCounted
+class AUTO_API FForwardShadingRenderer : public FSceneRenderer
 {
 public:
     /// Construct and register subsystem.
-    FRendererModule();
+    FForwardShadingRenderer();
     /// Destruct.
-    ~FRendererModule();
+    ~FForwardShadingRenderer();
 
 	/// Render scene
 	void Render(AWorld* scene, ACamera* camera);
@@ -74,7 +75,7 @@ public:
     void CollectLightInteractions();
     /// Collect and sort batches from the visible objects. To not go through the objects several times, all the passes should be specified at once instead of multiple calls to CollectBatches().
     void CollectBatches(const TVector<FRenderPassDesc>& passes);
-    /// Collect and sort batches from the visible objects. Convenience function for one pass only.
+    /// Collect and sort±êÍ· batches from the visible objects. Convenience function for one pass only.
     void CollectBatches(const FRenderPassDesc& pass);
 	/// Render shadow maps. Should be called after all CollectBatches() calls but before RenderBatches(). Note that you must reassign your rendertarget and viewport after calling this.
     void RenderShadowMaps();

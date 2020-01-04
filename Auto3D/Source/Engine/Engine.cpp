@@ -6,7 +6,7 @@
 #include "Audio/Audio.h"
 #include "Resource/ResourceCache.h"
 #include "Graphics/Graphics.h"
-#include "Renderer/Renderer.h"
+#include "Renderer/ForwardShadingRenderer.h"
 #include "Platform/Input.h"
 #include "Debug/Log.h"
 #include "Debug/Profiler.h"

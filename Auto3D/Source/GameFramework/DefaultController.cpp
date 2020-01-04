@@ -3,7 +3,7 @@
 #include "Platform/Input.h"
 #include "Core/Modules/ModuleManager.h"
 #include "Graphics/Graphics.h"
-#include "Renderer/Renderer.h"
+#include "Renderer/ForwardShadingRenderer.h"
 #include "Time/Time.h"
 
 namespace Auto3D

@@ -2,7 +2,7 @@
 #include "Math/Ray.h"
 #include "Light.h"
 #include "Scene/Octree.h"
-#include "Renderer/Renderer.h"
+#include "Renderer/ForwardShadingRenderer.h"
 
 #include "Debug/DebugNew.h"
 

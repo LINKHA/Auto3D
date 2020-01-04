@@ -30,7 +30,7 @@
 #include "Engine/Components/Material.h"
 #include "Engine/Components/Model.h"
 #include "Scene/Octree.h"
-#include "Renderer/Renderer.h"
+#include "Renderer/ForwardShadingRenderer.h"
 #include "Engine/Components/StaticModel.h"
 #include "Engine/Components/DynamicModel.h"
 #include "Engine/Components/Image.h"
