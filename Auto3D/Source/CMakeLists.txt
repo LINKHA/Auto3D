@@ -6,9 +6,16 @@ set (TARGET_NAME Auto3D)
 configure_file (AutoConfig.h.in ${CMAKE_CURRENT_SOURCE_DIR}/AutoConfig.h)
 
 
+# Get all source files
 file(GLOB_RECURSE SOURCE_HEADER *.h)
 file(GLOB_RECURSE SOURCE_SRC *.cpp)
-set(SOURCE_ALL_FILES ${SOURCE_HEADER} ${SOURCE_SRC})
+file(GLOB_RECURSE SOURCE_SHADER *.sc )
+if( APPLE )
+	file( GLOB SOURCE_MM *.mm )
+	list( APPEND SOURCE_SRC ${SOURCE_MM} )
+endif()
+		
+set(SOURCE_ALL_FILES ${SOURCE_HEADER} ${SOURCE_SRC} ${SOURCE_SHADER})
 source_group_by_dir(SOURCE_ALL_FILES)
 
 include_directories (${AUTO_ROOT_PATH}/Auto3D/Source)
@@ -45,20 +52,46 @@ include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/LZ4)
 target_link_libraries (${TARGET_NAME}  OpenAL)
 include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/OpenAL/include)
 
-target_link_libraries (${TARGET_NAME}  FreeType)
-include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/FreeType/include)
+#target_link_libraries (${TARGET_NAME}  FreeType)
+#include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/FreeType/include)
 
 target_link_libraries (${TARGET_NAME}  LibCpuId)
 include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/LibCpuId)
 
-target_link_libraries (${TARGET_NAME}  Imgui)
-include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/Imgui)
+#target_link_libraries (${TARGET_NAME}  Imgui)
+
+target_link_libraries (${TARGET_NAME}  dear-imgui)
+include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/bgfx/bgfx/3rdparty/dear-imgui)
 
 target_link_libraries (${TARGET_NAME}  filedialog)
 include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/filedialog)
 
 target_link_libraries (${TARGET_NAME}  rttr)
 include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/rttr)
+
+#target_link_libraries (${TARGET_NAME}  example-commonEng)
+#include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/bgfx/bgfx/include)
+
+target_link_libraries(${TARGET_NAME} bgfx  )
+
+target_link_libraries(${TARGET_NAME} meshoptimizer)
+
+target_compile_definitions(${TARGET_NAME} PRIVATE "-D_CRT_SECURE_NO_WARNINGS" "-D__STDC_FORMAT_MACROS" "-DENTRY_CONFIG_IMPLEMENT_MAIN=1" )
+
+if (IOS OR WIN32)
+	# on iOS we need to build a bundle so have to copy the data rather than symlink
+	# and on windows we can't create symlinks
+	add_custom_command( TARGET ${TARGET_NAME} COMMAND ${CMAKE_COMMAND} -E copy_directory ${AUTO_ROOT_PATH}/Auto3D/Runtime/ $<TARGET_FILE_DIR:${TARGET_NAME}>)
+else()
+	# For everything else symlink some folders into our output directory
+	add_custom_command( TARGET ${TARGET_NAME} COMMAND ${CMAKE_COMMAND} -E create_symlink ${AUTO_ROOT_PATH}/Auto3D/Runtime/font $<TARGET_FILE_DIR:${TARGET_NAME}>/font)
+	add_custom_command( TARGET ${TARGET_NAME} COMMAND ${CMAKE_COMMAND} -E create_symlink ${AUTO_ROOT_PATH}/Auto3D/Runtime/images $<TARGET_FILE_DIR:${TARGET_NAME}>/images)
+	add_custom_command( TARGET ${TARGET_NAME} COMMAND ${CMAKE_COMMAND} -E create_symlink ${AUTO_ROOT_PATH}/Auto3D/Runtime/meshes $<TARGET_FILE_DIR:${TARGET_NAME}>/meshes)
+	add_custom_command( TARGET ${TARGET_NAME} COMMAND ${CMAKE_COMMAND} -E create_symlink ${AUTO_ROOT_PATH}/Auto3D/Runtime/shaders $<TARGET_FILE_DIR:${TARGET_NAME}>/shaders)
+	add_custom_command( TARGET ${TARGET_NAME} COMMAND ${CMAKE_COMMAND} -E create_symlink ${AUTO_ROOT_PATH}/Auto3D/Runtime/text $<TARGET_FILE_DIR:${TARGET_NAME}>/text)
+	add_custom_command( TARGET ${TARGET_NAME} COMMAND ${CMAKE_COMMAND} -E create_symlink ${AUTO_ROOT_PATH}/Auto3D/Runtime/textures $<TARGET_FILE_DIR:${TARGET_NAME}>/textures)
+endif()
+	
 
 if (AUTO_OPENGL)
 	target_link_libraries (${TARGET_NAME}  glad)

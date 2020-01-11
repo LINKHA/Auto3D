@@ -8,3 +8,13 @@ Bin/12_Serialize_SerializeFile.dat
 *.exe
 *.dll
 
+Bin/textures/
+Bin/shaders/
+Bin/meshes/
+Bin/images/
+Bin/font/
+Bin/text/
+Bin/tvos-info.plist
+Bin/osx-info.plist
+Bin/ios-info.plist
+Bin/gamecontrollerdb.txt

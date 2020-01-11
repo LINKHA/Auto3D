@@ -118,7 +118,7 @@ public:
 	void Present();
 
 	/// Add font from font.
-	void AddFont(AFont* font, int pixels = 24, FString fontname = "Default", EUIFontLanguage::Data languageType = EUIFontLanguage::DEFAULT);
+	//void AddFont(AFont* font, int pixels = 24, FString fontname = "Default", EUIFontLanguage::Data languageType = EUIFontLanguage::DEFAULT);
 
 	/// Get gui IO.
 	ImGuiIO& IO() { return ImGui::GetIO(); }
@@ -220,7 +220,7 @@ AUTO_API void          SetScrollHereY(float center_y_ratio = 0.5f);             
 AUTO_API void          SetScrollFromPosY(float local_y, float center_y_ratio = 0.5f);  // adjust scrolling amount to make given position visible. Generally GetCursorStartPos() + offset to compute a valid position.
 
 // Parameters stacks (shared)
-AUTO_API void		   PushFont(const FString& font);
+//AUTO_API void		   PushFont(const FString& font);
 AUTO_API void          PushFont(AFont* font);                                           // use NULL as a shortcut to push default font
 AUTO_API void          PopFont();
 AUTO_API void          PushStyleColor(Col idx, unsigned col);
@@ -410,7 +410,7 @@ AUTO_API bool          TreeNodeExV(const void* ptr_id, TreeNodeFlags flags, cons
 AUTO_API void          TreePush(const char* str_id);                                       // ~ Indent()+PushId(). Already called by TreeNode() when returning true, but you can call TreePush/TreePop yourself if desired.
 AUTO_API void          TreePush(const void* ptr_id = NULL);                                // "
 AUTO_API void          TreePop();                                                          // ~ Unindent()+PopId()
-AUTO_API void          TreeAdvanceToLabelPos();                                            // advance cursor x position by GetTreeNodeToLabelSpacing()
+//AUTO_API void          TreeAdvanceToLabelPos();                                            // advance cursor x position by GetTreeNodeToLabelSpacing()
 AUTO_API float         GetTreeNodeToLabelSpacing();                                        // horizontal distance preceding label when using TreeNode*() or Bullet() == (g.FontSize + style.FramePadding.x*2) for a regular unframed TreeNode
 AUTO_API bool          CollapsingHeader(const char* label, TreeNodeFlags flags = 0);       // if returning 'true' the header is open. doesn't indent nor push on ID stack. user doesn't have to call TreePop().
 AUTO_API bool          CollapsingHeader(const char* label, bool* p_open, TreeNodeFlags flags = 0); // when 'p_open' isn't NULL, display an additional small close button on upper right of the header
@@ -611,8 +611,8 @@ AUTO_API void*		   MemAlloc(size_t size);
 AUTO_API void          MemFree(void* ptr);
 
 
-static inline float GetContentRegionAvailWidth() { return ImGui::GetContentRegionAvailWidth(); }
-static inline DrawList* GetOverlayDrawList() { return ImGui::GetOverlayDrawList(); }
+//static inline float GetContentRegionAvailWidth() { return ImGui::GetContentRegionAvailWidth(); }
+//static inline DrawList* GetOverlayDrawList() { return ImGui::GetOverlayDrawList(); }
 static inline void  SetScrollHere(float center_ratio = 0.5f) { ImGui::SetScrollHereY(center_ratio); }
 
 }

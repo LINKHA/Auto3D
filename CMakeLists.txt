@@ -64,7 +64,14 @@ if(AUTO_VULKAN)
 		link_directories(${AUTO_ROOT_PATH}/Auto3D/ThirdParty/Vulkan/Lib/x86)
 	endif()
 endif()
-	
+
+include( CMakeParseArguments )
+include( ${AUTO_ROOT_PATH}/Auto3D/ThirdParty/bgfx/cmake/util/ConfigureDebugging.cmake )
+include( ${AUTO_ROOT_PATH}/Auto3D/ThirdParty/bgfx/cmake/3rdparty/dear-imgui.cmake )
+include( ${AUTO_ROOT_PATH}/Auto3D/ThirdParty/bgfx/cmake/3rdparty/meshoptimizer.cmake )
+
+include( ${AUTO_ROOT_PATH}/CMake/AddProject.cmake)
+
 add_subdirectory (Auto3D)
 add_subdirectory (AutoEditor)
 add_subdirectory (SampleProject)

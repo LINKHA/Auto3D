@@ -3,7 +3,7 @@
 #include "Core/Modules/ModuleManager.h"
 
 #include <imgui.h>
-#include <imgui_user/imgui_user.h>
+//#include <imgui_user/imgui_user.h>
 
 
 #if defined(AUTO_WIN32)
@@ -38,7 +38,7 @@ FUIModule::FUIModule() :
 	//IO().ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls
 
 	// Setup Dear ImGui style
-	ImGui::StyleColorsYellow();
+	//ImGui::StyleColorsYellow();
 
 	ImFontConfig config;
 	config.FontDataOwnedByAtlas = false;
@@ -148,52 +148,52 @@ void FUIModule::Present()
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 #	endif
 }
-
-void FUIModule::AddFont(AFont* font, int pixels, FString fontname, EUIFontLanguage::Data languageType)
-{
-	if (fontname == "Default")
-		fontname = "Default" + FUIFont::DefaultSize++;
-
-	// Ignore if you have the same AFont
-	if (ImGui::GetFont(fontname.CString()))
-		return;
-
-	const ImWchar* laType;
-	switch (languageType)
-	{
-	case Auto3D::EUIFontLanguage::DEFAULT:
-		laType = IO().Fonts->GetGlyphRangesDefault();
-		break;
-	case Auto3D::EUIFontLanguage::CN:
-		laType = IO().Fonts->GetGlyphRangesChineseSimplifiedCommon();
-		break;
-	case Auto3D::EUIFontLanguage::CNF:
-		laType = IO().Fonts->GetGlyphRangesChineseFull();
-		break;
-	case Auto3D::EUIFontLanguage::JP:
-		laType = IO().Fonts->GetGlyphRangesJapanese();
-		break;
-	case Auto3D::EUIFontLanguage::KR:
-		laType = IO().Fonts->GetGlyphRangesKorean();
-		break;
-	case Auto3D::EUIFontLanguage::THA:
-		laType = IO().Fonts->GetGlyphRangesThai();
-		break;
-	case Auto3D::EUIFontLanguage::RUS:
-		laType = IO().Fonts->GetGlyphRangesCyrillic();
-		break;
-	case Auto3D::EUIFontLanguage::VIE:
-		laType = IO().Fonts->GetGlyphRangesVietnamese();
-		break;
-	default:
-		WarningString("Fail to add font,language type is non-standard,Automatic generation becomes default.");
-		laType = IO().Fonts->GetGlyphRangesDefault();
-		break;
-	}
-
-	ImFont* tFont = IO().Fonts->AddFontFromMemoryTTF(font->Data(), font->GetDataSize(), pixels, &ImFontConfig(), laType);
-	ImGui::AddFont(FUIFont::Data[fontname] = fontname.CString(), tFont);
-}
+//
+//void FUIModule::AddFont(AFont* font, int pixels, FString fontname, EUIFontLanguage::Data languageType)
+//{
+//	if (fontname == "Default")
+//		fontname = "Default" + FUIFont::DefaultSize++;
+//
+//	// Ignore if you have the same AFont
+//	if (ImGui::GetFont(fontname.CString()))
+//		return;
+//
+//	const ImWchar* laType;
+//	switch (languageType)
+//	{
+//	case Auto3D::EUIFontLanguage::DEFAULT:
+//		laType = IO().Fonts->GetGlyphRangesDefault();
+//		break;
+//	case Auto3D::EUIFontLanguage::CN:
+//		laType = IO().Fonts->GetGlyphRangesChineseSimplifiedCommon();
+//		break;
+//	case Auto3D::EUIFontLanguage::CNF:
+//		laType = IO().Fonts->GetGlyphRangesChineseFull();
+//		break;
+//	case Auto3D::EUIFontLanguage::JP:
+//		laType = IO().Fonts->GetGlyphRangesJapanese();
+//		break;
+//	case Auto3D::EUIFontLanguage::KR:
+//		laType = IO().Fonts->GetGlyphRangesKorean();
+//		break;
+//	case Auto3D::EUIFontLanguage::THA:
+//		laType = IO().Fonts->GetGlyphRangesThai();
+//		break;
+//	case Auto3D::EUIFontLanguage::RUS:
+//		laType = IO().Fonts->GetGlyphRangesCyrillic();
+//		break;
+//	case Auto3D::EUIFontLanguage::VIE:
+//		laType = IO().Fonts->GetGlyphRangesVietnamese();
+//		break;
+//	default:
+//		WarningString("Fail to add font,language type is non-standard,Automatic generation becomes default.");
+//		laType = IO().Fonts->GetGlyphRangesDefault();
+//		break;
+//	}
+//
+//	ImFont* tFont = IO().Fonts->AddFontFromMemoryTTF(font->Data(), font->GetDataSize(), pixels, &ImFontConfig(), laType);
+//	ImGui::AddFont(FUIFont::Data[fontname] = fontname.CString(), tFont);
+//}
 
 void FUIModule::ProcessEvent(const SDL_Event* event)
 {
@@ -474,11 +474,11 @@ void SetScrollFromPosY(float local_y, float center_y_ratio)
 	ImGui::SetScrollFromPosY(local_y, center_y_ratio);
 }
 
-// Parameters stacks (shared)
-void PushFont(const FString& font)
-{
-	ImGui::PushFont(font.CString());
-}
+//// Parameters stacks (shared)
+//void PushFont(const FString& font)
+//{
+//	ImGui::PushFont(font.CString());
+//}
 void PushFont(AFont* font)
 {
 	ImGui::PushFont(font);
@@ -1139,10 +1139,10 @@ void TreePop()
 {
 	ImGui::TreePop();
 }
-void TreeAdvanceToLabelPos()
-{
-	ImGui::TreeAdvanceToLabelPos();
-}
+//void TreeAdvanceToLabelPos()
+//{
+//	ImGui::TreeAdvanceToLabelPos();
+//}
 float GetTreeNodeToLabelSpacing()
 {
 	return ImGui::GetTreeNodeToLabelSpacing();
