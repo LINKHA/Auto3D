@@ -362,9 +362,17 @@ namespace
 
 } // namespace
 
-ENTRY_IMPLEMENT_MAIN(
-	ExampleCubes
-	, "01-cubes"
+int _main_(int _argc, char** _argv)                 
+{                                                   
+	ExampleCubes app("01-cubes"
 	, "Rendering simple static mesh."
-	, "https://bkaradzic.github.io/bgfx/examples.html#cubes"
-);
+	, "https://bkaradzic.github.io/bgfx/examples.html#cubes");                      
+	return entry::runApp(&app, _argc, _argv);   
+}
+//
+//ENTRY_IMPLEMENT_MAIN(
+//	ExampleCubes
+//	, "01-cubes"
+//	, "Rendering simple static mesh."
+//	, "https://bkaradzic.github.io/bgfx/examples.html#cubes"
+//);

@@ -9,7 +9,7 @@ configure_file (AutoConfig.h.in ${CMAKE_CURRENT_SOURCE_DIR}/AutoConfig.h)
 # Get all source files
 file(GLOB_RECURSE SOURCE_HEADER *.h)
 file(GLOB_RECURSE SOURCE_SRC *.cpp)
-file(GLOB_RECURSE SOURCE_SHADER *.sc )
+file(GLOB_RECURSE SOURCE_SHADER *.sh )
 if( APPLE )
 	file( GLOB SOURCE_MM *.mm )
 	list( APPEND SOURCE_SRC ${SOURCE_MM} )
