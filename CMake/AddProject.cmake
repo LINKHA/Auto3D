@@ -120,6 +120,9 @@ function( add_example ARG_NAME )
 	endif()
 	#target_link_libraries( ${ARG_NAME} commonEng )
 	target_link_libraries( ${ARG_NAME} Auto3D )
+	
+	include_directories (${AUTO_ROOT_PATH}/Auto3D/Source)
+	
 	configure_debugging( ${ARG_NAME} WORKING_DIR ${AUTO_ROOT_PATH}/Auto3D/Runtime )
 	if( MSVC )
 		set_target_properties( ${ARG_NAME} PROPERTIES LINK_FLAGS "/ENTRY:\"mainCRTStartup\"" )

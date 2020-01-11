@@ -5,7 +5,7 @@ $input v_color0
  * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
  */
 
-#include "../../Auto3D/Source/commonEng/common.sh"
+#include "../common.sh"
 
 void main()
 {

@@ -6,10 +6,10 @@
 #include <vector>
 #include <string>
 
-#include "../../Auto3D/Source/commonEng/common.h"
-#include "../../Auto3D/Source/commonEng/bgfx_utils.h"
-#include "../../Auto3D/Source/commonEng/imgui/imgui.h"
-#include "../../Auto3D/Source/commonEng/nanovg/nanovg.h"
+#include "RHI/common.h"
+#include "RHI/bgfx_utils.h"
+#include "RHI/imgui/imgui.h"
+#include "RHI/nanovg/nanovg.h"
 
 #include <bx/readerwriter.h>
 #include <bx/string.h>

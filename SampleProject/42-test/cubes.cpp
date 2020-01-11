@@ -3,9 +3,9 @@
  * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
  */
 
-#include "../../Auto3D/Source/commonEng/common.h"
-#include "../../Auto3D/Source/commonEng/bgfx_utils.h"
-#include "../../Auto3D/Source/commonEng/imgui/imgui.h"
+#include "RHI/common.h"
+#include "RHI/bgfx_utils.h"
+#include "RHI/imgui/imgui.h"
 
 namespace
 {
