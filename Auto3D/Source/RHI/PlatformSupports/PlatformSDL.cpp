@@ -3,7 +3,7 @@
  * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
  */
 
-#include "entry_p.h"
+#include "PlatformDef.h"
 
 #if ENTRY_CONFIG_USE_SDL
 

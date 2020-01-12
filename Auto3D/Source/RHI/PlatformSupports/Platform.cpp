@@ -14,7 +14,7 @@
 #	include <emscripten.h>
 #endif // BX_PLATFORM_EMSCRIPTEN
 
-#include "entry_p.h"
+#include "PlatformDef.h"
 #include "cmd.h"
 #include "input.h"
 

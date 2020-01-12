@@ -1,8 +1,3 @@
-/*
- * Copyright 2010-2019 Branimir Karadzic. All rights reserved.
- * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
- */
-
 #ifndef CMD_H_HEADER_GUARD
 #define CMD_H_HEADER_GUARD
 

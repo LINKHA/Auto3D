@@ -6,7 +6,7 @@
 #include <vector>
 #include <string>
 
-#include "RHI/common.h"
+#include "RHI/RHI.h"
 #include "RHI/bgfx_utils.h"
 #include "RHI/imgui/imgui.h"
 #include "RHI/nanovg/nanovg.h"

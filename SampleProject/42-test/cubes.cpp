@@ -3,7 +3,7 @@
  * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
  */
 
-#include "RHI/common.h"
+#include "RHI/RHI.h"
 #include "RHI/bgfx_utils.h"
 #include "RHI/imgui/imgui.h"
 
@@ -362,12 +362,12 @@ namespace
 
 } // namespace
 
-int _main_(int _argc, char** _argv)                 
-{                                                   
+int _main_(int _argc, char** _argv)
+{
 	ExampleCubes app("01-cubes"
 	, "Rendering simple static mesh."
-	, "https://bkaradzic.github.io/bgfx/examples.html#cubes");                      
-	return entry::runApp(&app, _argc, _argv);   
+	, "https://bkaradzic.github.io/bgfx/examples.html#cubes");
+	return entry::runApp(&app, _argc, _argv);
 }
 //
 //ENTRY_IMPLEMENT_MAIN(

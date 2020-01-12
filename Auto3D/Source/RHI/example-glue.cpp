@@ -4,9 +4,9 @@
  */
 
 #include "imgui/imgui.h"
-#include "entry/entry.h"
-#include "entry/cmd.h"
-#include "entry/dialog.h"
+#include "PlatformSupports/Platform.h"
+#include "PlatformSupports/cmd.h"
+#include "PlatformSupports/dialog.h"
 #include <bx/string.h>
 #include <bx/timer.h>
 #include <bx/math.h>

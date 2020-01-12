@@ -11,7 +11,7 @@
 #include <bx/spscqueue.h>
 #include <bx/filepath.h>
 
-#include "entry.h"
+#include "Platform.h"
 
 #ifndef ENTRY_CONFIG_USE_NOOP
 #	define ENTRY_CONFIG_USE_NOOP 0

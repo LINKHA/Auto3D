@@ -6,7 +6,7 @@
 #ifndef INPUT_H_HEADER_GUARD
 #define INPUT_H_HEADER_GUARD
 
-#include "entry.h"
+#include "Platform.h"
 
 typedef void (*InputBindingFn)(const void* _userData);
 

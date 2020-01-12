@@ -5,7 +5,7 @@
 
 #include <memory.h>
 
-#include "entry_p.h"
+#include "PlatformDef.h"
 #include "input.h"
 #include "cmd.h"
 

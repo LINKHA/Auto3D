@@ -9,6 +9,6 @@
 #include <bx/timer.h>
 #include <bx/math.h>
 
-#include "entry/entry.h"
+#include "PlatformSupports/Platform.h"
 
 #endif // COMMON_H_HEADER_GUARD

@@ -10,7 +10,7 @@
 
 #include "dbg.h"
 #include "cmd.h"
-#include "entry_p.h"
+#include "PlatformDef.h"
 
 #include <tinystl/allocator.h>
 #include <tinystl/string.h>
