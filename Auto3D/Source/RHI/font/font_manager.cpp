@@ -22,7 +22,7 @@ BX_PRAGMA_DIAGNOSTIC_IGNORED_MSVC(4611) // warning C4611 : interaction between '
 #endif
 BX_PRAGMA_DIAGNOSTIC_POP();
 
-#include "../common.h"
+#include "../RHI.h"
 
 #include <bgfx/bgfx.h>
 

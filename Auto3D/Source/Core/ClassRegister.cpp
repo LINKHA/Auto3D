@@ -183,9 +183,9 @@ void FClassRegister::AutoClassRegister()
 		.constructor<>()
 		;
 
-	REGISTER_CALSS_IMP(AApplication)
+	/*REGISTER_CALSS_IMP(AApplication)
 		.constructor<>()
-		;
+		;*/
 
 	REGISTER_CALSS_FACTORY_IMP(ACollider)
 		.constructor<>()

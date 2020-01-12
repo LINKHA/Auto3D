@@ -3,7 +3,7 @@
 * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
 */
 
-#include "common.h"
+#include "RHI.h"
 #include <bgfx/bgfx.h>
 
 #include <limits.h> // INT_MAX
