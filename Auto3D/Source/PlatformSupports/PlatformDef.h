@@ -6,7 +6,7 @@
 #ifndef ENTRY_PRIVATE_H_HEADER_GUARD
 #define ENTRY_PRIVATE_H_HEADER_GUARD
 
-#define TINYSTL_ALLOCATOR entry::TinyStlAllocator
+#define TINYSTL_ALLOCATOR Auto3D::TinyStlAllocator
 
 #include <bx/spscqueue.h>
 #include <bx/filepath.h>
@@ -64,7 +64,7 @@
 #define ENTRY_IMPLEMENT_EVENT(_class, _type) \
 			_class(WindowHandle _handle) : Event(_type, _handle) {}
 
-namespace entry
+namespace Auto3D
 {
 	struct TinyStlAllocator
 	{
@@ -325,6 +325,6 @@ namespace entry
 		bx::SpScUnboundedQueueT<Event> m_queue;
 	};
 
-} // namespace entry
+} // namespace Auto3D
 
 #endif // ENTRY_PRIVATE_H_HEADER_GUARD

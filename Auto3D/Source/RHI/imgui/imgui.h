@@ -33,8 +33,8 @@ void imguiDestroy();
 void imguiBeginFrame(int32_t _mx, int32_t _my, uint8_t _button, int32_t _scroll, uint16_t _width, uint16_t _height, int _inputChar = -1, bgfx::ViewId _view = 255);
 void imguiEndFrame();
 
-namespace entry { class AppI; }
-void showExampleDialog(entry::AppI* _app, const char* _errorText = NULL);
+namespace Auto3D { class AppI; }
+void showExampleDialog(Auto3D::AppI* _app, const char* _errorText = NULL);
 
 namespace ImGui
 {

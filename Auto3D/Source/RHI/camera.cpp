@@ -57,18 +57,18 @@ static void cmd(const void* _userData)
 
 static const InputBinding s_camBindings[] =
 {
-	{ entry::Key::KeyW,             entry::Modifier::None, 0, cmd, "move forward"  },
-	{ entry::Key::GamepadUp,        entry::Modifier::None, 0, cmd, "move forward"  },
-	{ entry::Key::KeyA,             entry::Modifier::None, 0, cmd, "move left"     },
-	{ entry::Key::GamepadLeft,      entry::Modifier::None, 0, cmd, "move left"     },
-	{ entry::Key::KeyS,             entry::Modifier::None, 0, cmd, "move backward" },
-	{ entry::Key::GamepadDown,      entry::Modifier::None, 0, cmd, "move backward" },
-	{ entry::Key::KeyD,             entry::Modifier::None, 0, cmd, "move right"    },
-	{ entry::Key::GamepadRight,     entry::Modifier::None, 0, cmd, "move right"    },
-	{ entry::Key::KeyQ,             entry::Modifier::None, 0, cmd, "move down"     },
-	{ entry::Key::GamepadShoulderL, entry::Modifier::None, 0, cmd, "move down"     },
-	{ entry::Key::KeyE,             entry::Modifier::None, 0, cmd, "move up"       },
-	{ entry::Key::GamepadShoulderR, entry::Modifier::None, 0, cmd, "move up"       },
+	{ Auto3D::Key::KeyW,             Auto3D::Modifier::None, 0, cmd, "move forward"  },
+	{ Auto3D::Key::GamepadUp,        Auto3D::Modifier::None, 0, cmd, "move forward"  },
+	{ Auto3D::Key::KeyA,             Auto3D::Modifier::None, 0, cmd, "move left"     },
+	{ Auto3D::Key::GamepadLeft,      Auto3D::Modifier::None, 0, cmd, "move left"     },
+	{ Auto3D::Key::KeyS,             Auto3D::Modifier::None, 0, cmd, "move backward" },
+	{ Auto3D::Key::GamepadDown,      Auto3D::Modifier::None, 0, cmd, "move backward" },
+	{ Auto3D::Key::KeyD,             Auto3D::Modifier::None, 0, cmd, "move right"    },
+	{ Auto3D::Key::GamepadRight,     Auto3D::Modifier::None, 0, cmd, "move right"    },
+	{ Auto3D::Key::KeyQ,             Auto3D::Modifier::None, 0, cmd, "move down"     },
+	{ Auto3D::Key::GamepadShoulderL, Auto3D::Modifier::None, 0, cmd, "move down"     },
+	{ Auto3D::Key::KeyE,             Auto3D::Modifier::None, 0, cmd, "move up"       },
+	{ Auto3D::Key::GamepadShoulderR, Auto3D::Modifier::None, 0, cmd, "move up"       },
 
 	INPUT_BINDING_END
 };
@@ -84,7 +84,7 @@ struct Camera
 	Camera()
 	{
 		reset();
-		entry::MouseState mouseState;
+		Auto3D::MouseState mouseState;
 		update(0.0f, mouseState);
 
 		cmdAdd("move", cmdMove);
@@ -126,7 +126,7 @@ struct Camera
 		m_keys |= _down ? _key : 0;
 	}
 
-	void update(float _deltaTime, const entry::MouseState& _mouseState)
+	void update(float _deltaTime, const Auto3D::MouseState& _mouseState)
 	{
 		if (!m_mouseDown)
 		{
@@ -134,7 +134,7 @@ struct Camera
 			m_mouseLast.m_my = _mouseState.m_my;
 		}
 
-		m_mouseDown = !!_mouseState.m_buttons[entry::MouseButton::Right];
+		m_mouseDown = !!_mouseState.m_buttons[Auto3D::MouseButton::Right];
 
 		if (m_mouseDown)
 		{
@@ -154,11 +154,11 @@ struct Camera
 			m_mouseLast.m_my = m_mouseNow.m_my;
 		}
 
-		entry::GamepadHandle handle = { 0 };
-		m_horizontalAngle += m_gamepadSpeed * inputGetGamepadAxis(handle, entry::GamepadAxis::RightX)/32768.0f;
-		m_verticalAngle   -= m_gamepadSpeed * inputGetGamepadAxis(handle, entry::GamepadAxis::RightY)/32768.0f;
-		const int32_t gpx = inputGetGamepadAxis(handle, entry::GamepadAxis::LeftX);
-		const int32_t gpy = inputGetGamepadAxis(handle, entry::GamepadAxis::LeftY);
+		Auto3D::GamepadHandle handle = { 0 };
+		m_horizontalAngle += m_gamepadSpeed * inputGetGamepadAxis(handle, Auto3D::GamepadAxis::RightX)/32768.0f;
+		m_verticalAngle   -= m_gamepadSpeed * inputGetGamepadAxis(handle, Auto3D::GamepadAxis::RightY)/32768.0f;
+		const int32_t gpx = inputGetGamepadAxis(handle, Auto3D::GamepadAxis::LeftX);
+		const int32_t gpy = inputGetGamepadAxis(handle, Auto3D::GamepadAxis::LeftY);
 		m_keys |= gpx < -16834 ? CAMERA_KEY_LEFT     : 0;
 		m_keys |= gpx >  16834 ? CAMERA_KEY_RIGHT    : 0;
 		m_keys |= gpy < -16834 ? CAMERA_KEY_FORWARD  : 0;
@@ -279,12 +279,12 @@ static Camera* s_camera = NULL;
 
 void cameraCreate()
 {
-	s_camera = BX_NEW(entry::getAllocator(), Camera);
+	s_camera = BX_NEW(Auto3D::getAllocator(), Camera);
 }
 
 void cameraDestroy()
 {
-	BX_DELETE(entry::getAllocator(), s_camera);
+	BX_DELETE(Auto3D::getAllocator(), s_camera);
 	s_camera = NULL;
 }
 
@@ -323,7 +323,7 @@ bx::Vec3 cameraGetAt()
 	return s_camera->m_at;
 }
 
-void cameraUpdate(float _deltaTime, const entry::MouseState& _mouseState)
+void cameraUpdate(float _deltaTime, const Auto3D::MouseState& _mouseState)
 {
 	s_camera->update(_deltaTime, _mouseState);
 }

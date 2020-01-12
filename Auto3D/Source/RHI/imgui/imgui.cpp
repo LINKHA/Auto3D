@@ -188,49 +188,49 @@ struct OcornutImguiContext
 		setupStyle(true);
 
 #if USE_ENTRY
-		io.KeyMap[ImGuiKey_Tab]        = (int)entry::Key::Tab;
-		io.KeyMap[ImGuiKey_LeftArrow]  = (int)entry::Key::Left;
-		io.KeyMap[ImGuiKey_RightArrow] = (int)entry::Key::Right;
-		io.KeyMap[ImGuiKey_UpArrow]    = (int)entry::Key::Up;
-		io.KeyMap[ImGuiKey_DownArrow]  = (int)entry::Key::Down;
-		io.KeyMap[ImGuiKey_PageUp]     = (int)entry::Key::PageUp;
-		io.KeyMap[ImGuiKey_PageDown]   = (int)entry::Key::PageDown;
-		io.KeyMap[ImGuiKey_Home]       = (int)entry::Key::Home;
-		io.KeyMap[ImGuiKey_End]        = (int)entry::Key::End;
-		io.KeyMap[ImGuiKey_Insert]     = (int)entry::Key::Insert;
-		io.KeyMap[ImGuiKey_Delete]     = (int)entry::Key::Delete;
-		io.KeyMap[ImGuiKey_Backspace]  = (int)entry::Key::Backspace;
-		io.KeyMap[ImGuiKey_Space]      = (int)entry::Key::Space;
-		io.KeyMap[ImGuiKey_Enter]      = (int)entry::Key::Return;
-		io.KeyMap[ImGuiKey_Escape]     = (int)entry::Key::Esc;
-		io.KeyMap[ImGuiKey_A]          = (int)entry::Key::KeyA;
-		io.KeyMap[ImGuiKey_C]          = (int)entry::Key::KeyC;
-		io.KeyMap[ImGuiKey_V]          = (int)entry::Key::KeyV;
-		io.KeyMap[ImGuiKey_X]          = (int)entry::Key::KeyX;
-		io.KeyMap[ImGuiKey_Y]          = (int)entry::Key::KeyY;
-		io.KeyMap[ImGuiKey_Z]          = (int)entry::Key::KeyZ;
+		io.KeyMap[ImGuiKey_Tab]        = (int)Auto3D::Key::Tab;
+		io.KeyMap[ImGuiKey_LeftArrow]  = (int)Auto3D::Key::Left;
+		io.KeyMap[ImGuiKey_RightArrow] = (int)Auto3D::Key::Right;
+		io.KeyMap[ImGuiKey_UpArrow]    = (int)Auto3D::Key::Up;
+		io.KeyMap[ImGuiKey_DownArrow]  = (int)Auto3D::Key::Down;
+		io.KeyMap[ImGuiKey_PageUp]     = (int)Auto3D::Key::PageUp;
+		io.KeyMap[ImGuiKey_PageDown]   = (int)Auto3D::Key::PageDown;
+		io.KeyMap[ImGuiKey_Home]       = (int)Auto3D::Key::Home;
+		io.KeyMap[ImGuiKey_End]        = (int)Auto3D::Key::End;
+		io.KeyMap[ImGuiKey_Insert]     = (int)Auto3D::Key::Insert;
+		io.KeyMap[ImGuiKey_Delete]     = (int)Auto3D::Key::Delete;
+		io.KeyMap[ImGuiKey_Backspace]  = (int)Auto3D::Key::Backspace;
+		io.KeyMap[ImGuiKey_Space]      = (int)Auto3D::Key::Space;
+		io.KeyMap[ImGuiKey_Enter]      = (int)Auto3D::Key::Return;
+		io.KeyMap[ImGuiKey_Escape]     = (int)Auto3D::Key::Esc;
+		io.KeyMap[ImGuiKey_A]          = (int)Auto3D::Key::KeyA;
+		io.KeyMap[ImGuiKey_C]          = (int)Auto3D::Key::KeyC;
+		io.KeyMap[ImGuiKey_V]          = (int)Auto3D::Key::KeyV;
+		io.KeyMap[ImGuiKey_X]          = (int)Auto3D::Key::KeyX;
+		io.KeyMap[ImGuiKey_Y]          = (int)Auto3D::Key::KeyY;
+		io.KeyMap[ImGuiKey_Z]          = (int)Auto3D::Key::KeyZ;
 
 		io.ConfigFlags |= 0
 			| ImGuiConfigFlags_NavEnableGamepad
 			| ImGuiConfigFlags_NavEnableKeyboard
 			;
 
-		io.NavInputs[ImGuiNavInput_Activate]    = (int)entry::Key::GamepadA;
-		io.NavInputs[ImGuiNavInput_Cancel]      = (int)entry::Key::GamepadB;
-//		io.NavInputs[ImGuiNavInput_Input]       = (int)entry::Key::;
-//		io.NavInputs[ImGuiNavInput_Menu]        = (int)entry::Key::;
-		io.NavInputs[ImGuiNavInput_DpadLeft]    = (int)entry::Key::GamepadLeft;
-		io.NavInputs[ImGuiNavInput_DpadRight]   = (int)entry::Key::GamepadRight;
-		io.NavInputs[ImGuiNavInput_DpadUp]      = (int)entry::Key::GamepadUp;
-		io.NavInputs[ImGuiNavInput_DpadDown]    = (int)entry::Key::GamepadDown;
-//		io.NavInputs[ImGuiNavInput_LStickLeft]  = (int)entry::Key::;
-//		io.NavInputs[ImGuiNavInput_LStickRight] = (int)entry::Key::;
-//		io.NavInputs[ImGuiNavInput_LStickUp]    = (int)entry::Key::;
-//		io.NavInputs[ImGuiNavInput_LStickDown]  = (int)entry::Key::;
-//		io.NavInputs[ImGuiNavInput_FocusPrev]   = (int)entry::Key::;
-//		io.NavInputs[ImGuiNavInput_FocusNext]   = (int)entry::Key::;
-//		io.NavInputs[ImGuiNavInput_TweakSlow]   = (int)entry::Key::;
-//		io.NavInputs[ImGuiNavInput_TweakFast]   = (int)entry::Key::;
+		io.NavInputs[ImGuiNavInput_Activate]    = (int)Auto3D::Key::GamepadA;
+		io.NavInputs[ImGuiNavInput_Cancel]      = (int)Auto3D::Key::GamepadB;
+//		io.NavInputs[ImGuiNavInput_Input]       = (int)Auto3D::Key::;
+//		io.NavInputs[ImGuiNavInput_Menu]        = (int)Auto3D::Key::;
+		io.NavInputs[ImGuiNavInput_DpadLeft]    = (int)Auto3D::Key::GamepadLeft;
+		io.NavInputs[ImGuiNavInput_DpadRight]   = (int)Auto3D::Key::GamepadRight;
+		io.NavInputs[ImGuiNavInput_DpadUp]      = (int)Auto3D::Key::GamepadUp;
+		io.NavInputs[ImGuiNavInput_DpadDown]    = (int)Auto3D::Key::GamepadDown;
+//		io.NavInputs[ImGuiNavInput_LStickLeft]  = (int)Auto3D::Key::;
+//		io.NavInputs[ImGuiNavInput_LStickRight] = (int)Auto3D::Key::;
+//		io.NavInputs[ImGuiNavInput_LStickUp]    = (int)Auto3D::Key::;
+//		io.NavInputs[ImGuiNavInput_LStickDown]  = (int)Auto3D::Key::;
+//		io.NavInputs[ImGuiNavInput_FocusPrev]   = (int)Auto3D::Key::;
+//		io.NavInputs[ImGuiNavInput_FocusNext]   = (int)Auto3D::Key::;
+//		io.NavInputs[ImGuiNavInput_TweakSlow]   = (int)Auto3D::Key::;
+//		io.NavInputs[ImGuiNavInput_TweakFast]   = (int)Auto3D::Key::;
 #endif // USE_ENTRY
 
 		bgfx::RendererType::Enum type = bgfx::getRendererType();
@@ -369,12 +369,12 @@ struct OcornutImguiContext
 
 #if USE_ENTRY
 		uint8_t modifiers = inputGetModifiersState();
-		io.KeyShift = 0 != (modifiers & (entry::Modifier::LeftShift | entry::Modifier::RightShift) );
-		io.KeyCtrl  = 0 != (modifiers & (entry::Modifier::LeftCtrl  | entry::Modifier::RightCtrl ) );
-		io.KeyAlt   = 0 != (modifiers & (entry::Modifier::LeftAlt   | entry::Modifier::RightAlt  ) );
-		for (int32_t ii = 0; ii < (int32_t)entry::Key::Count; ++ii)
+		io.KeyShift = 0 != (modifiers & (Auto3D::Modifier::LeftShift | Auto3D::Modifier::RightShift) );
+		io.KeyCtrl  = 0 != (modifiers & (Auto3D::Modifier::LeftCtrl  | Auto3D::Modifier::RightCtrl ) );
+		io.KeyAlt   = 0 != (modifiers & (Auto3D::Modifier::LeftAlt   | Auto3D::Modifier::RightAlt  ) );
+		for (int32_t ii = 0; ii < (int32_t)Auto3D::Key::Count; ++ii)
 		{
-			io.KeysDown[ii] = inputGetKeyState(entry::Key::Enum(ii) );
+			io.KeysDown[ii] = inputGetKeyState(Auto3D::Key::Enum(ii) );
 		}
 #endif // USE_ENTRY
 

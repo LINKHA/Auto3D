@@ -20,7 +20,7 @@
 
 extern "C" int32_t _main_(int32_t _argc, char** _argv);
 
-namespace entry
+namespace Auto3D
 {
 	static uint32_t s_debug = BGFX_DEBUG_NONE;
 	static uint32_t s_reset = BGFX_RESET_NONE;
@@ -342,26 +342,26 @@ BX_PRAGMA_DIAGNOSTIC_POP();
 
 	static const InputBinding s_bindings[] =
 	{
-		{ entry::Key::KeyQ,         entry::Modifier::LeftCtrl,  1, NULL, "exit"                              },
-		{ entry::Key::KeyQ,         entry::Modifier::RightCtrl, 1, NULL, "exit"                              },
-		{ entry::Key::KeyF,         entry::Modifier::LeftCtrl,  1, NULL, "graphics fullscreen"               },
-		{ entry::Key::KeyF,         entry::Modifier::RightCtrl, 1, NULL, "graphics fullscreen"               },
-		{ entry::Key::Return,       entry::Modifier::RightAlt,  1, NULL, "graphics fullscreen"               },
-		{ entry::Key::F1,           entry::Modifier::None,      1, NULL, "graphics stats"                    },
-		{ entry::Key::F1,           entry::Modifier::LeftCtrl,  1, NULL, "graphics ifh"                      },
-		{ entry::Key::GamepadStart, entry::Modifier::None,      1, NULL, "graphics stats"                    },
-		{ entry::Key::F1,           entry::Modifier::LeftShift, 1, NULL, "graphics stats 0\ngraphics text 0" },
-		{ entry::Key::F3,           entry::Modifier::None,      1, NULL, "graphics wireframe"                },
-		{ entry::Key::F4,           entry::Modifier::None,      1, NULL, "graphics hmd"                      },
-		{ entry::Key::F4,           entry::Modifier::LeftShift, 1, NULL, "graphics hmdrecenter"              },
-		{ entry::Key::F4,           entry::Modifier::LeftCtrl,  1, NULL, "graphics hmddbg"                   },
-		{ entry::Key::F6,           entry::Modifier::None,      1, NULL, "graphics profiler"                 },
-		{ entry::Key::F7,           entry::Modifier::None,      1, NULL, "graphics vsync"                    },
-		{ entry::Key::F8,           entry::Modifier::None,      1, NULL, "graphics msaa"                     },
-		{ entry::Key::F9,           entry::Modifier::None,      1, NULL, "graphics flush"                    },
-		{ entry::Key::F10,          entry::Modifier::None,      1, NULL, "graphics hidpi"                    },
-		{ entry::Key::Print,        entry::Modifier::None,      1, NULL, "graphics screenshot"               },
-		{ entry::Key::KeyP,         entry::Modifier::LeftCtrl,  1, NULL, "graphics screenshot"               },
+		{ Auto3D::Key::KeyQ,         Auto3D::Modifier::LeftCtrl,  1, NULL, "exit"                              },
+		{ Auto3D::Key::KeyQ,         Auto3D::Modifier::RightCtrl, 1, NULL, "exit"                              },
+		{ Auto3D::Key::KeyF,         Auto3D::Modifier::LeftCtrl,  1, NULL, "graphics fullscreen"               },
+		{ Auto3D::Key::KeyF,         Auto3D::Modifier::RightCtrl, 1, NULL, "graphics fullscreen"               },
+		{ Auto3D::Key::Return,       Auto3D::Modifier::RightAlt,  1, NULL, "graphics fullscreen"               },
+		{ Auto3D::Key::F1,           Auto3D::Modifier::None,      1, NULL, "graphics stats"                    },
+		{ Auto3D::Key::F1,           Auto3D::Modifier::LeftCtrl,  1, NULL, "graphics ifh"                      },
+		{ Auto3D::Key::GamepadStart, Auto3D::Modifier::None,      1, NULL, "graphics stats"                    },
+		{ Auto3D::Key::F1,           Auto3D::Modifier::LeftShift, 1, NULL, "graphics stats 0\ngraphics text 0" },
+		{ Auto3D::Key::F3,           Auto3D::Modifier::None,      1, NULL, "graphics wireframe"                },
+		{ Auto3D::Key::F4,           Auto3D::Modifier::None,      1, NULL, "graphics hmd"                      },
+		{ Auto3D::Key::F4,           Auto3D::Modifier::LeftShift, 1, NULL, "graphics hmdrecenter"              },
+		{ Auto3D::Key::F4,           Auto3D::Modifier::LeftCtrl,  1, NULL, "graphics hmddbg"                   },
+		{ Auto3D::Key::F6,           Auto3D::Modifier::None,      1, NULL, "graphics profiler"                 },
+		{ Auto3D::Key::F7,           Auto3D::Modifier::None,      1, NULL, "graphics vsync"                    },
+		{ Auto3D::Key::F8,           Auto3D::Modifier::None,      1, NULL, "graphics msaa"                     },
+		{ Auto3D::Key::F9,           Auto3D::Modifier::None,      1, NULL, "graphics flush"                    },
+		{ Auto3D::Key::F10,          Auto3D::Modifier::None,      1, NULL, "graphics hidpi"                    },
+		{ Auto3D::Key::Print,        Auto3D::Modifier::None,      1, NULL, "graphics screenshot"               },
+		{ Auto3D::Key::KeyP,         Auto3D::Modifier::LeftCtrl,  1, NULL, "graphics screenshot"               },
 
 		INPUT_BINDING_END
 	};
@@ -586,13 +586,13 @@ BX_PRAGMA_DIAGNOSTIC_POP();
 		inputInit();
 		inputAddBindings("bindings", s_bindings);
 
-		entry::WindowHandle defaultWindow = { 0 };
+		Auto3D::WindowHandle defaultWindow = { 0 };
 
 		bx::FilePath fp(_argv[0]);
 		char title[bx::kMaxFilePath];
 		bx::strCopy(title, BX_COUNTOF(title), fp.getBaseName() );
 
-		entry::setWindowTitle(defaultWindow, title);
+		Auto3D::setWindowTitle(defaultWindow, title);
 		setWindowSize(defaultWindow, ENTRY_DEFAULT_WIDTH, ENTRY_DEFAULT_HEIGHT);
 
 		sortApps();
@@ -994,9 +994,9 @@ restart:
 		}
 	}
 
-} // namespace entry
+} // namespace Auto3D
 
 extern "C" bool entry_process_events(uint32_t* _width, uint32_t* _height, uint32_t* _debug, uint32_t* _reset)
 {
-	return entry::processEvents(*_width, *_height, *_debug, *_reset, NULL);
+	return Auto3D::processEvents(*_width, *_height, *_debug, *_reset, NULL);
 }

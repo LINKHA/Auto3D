@@ -92,12 +92,12 @@ static CmdContext* s_cmdContext;
 
 void cmdInit()
 {
-	s_cmdContext = BX_NEW(entry::getAllocator(), CmdContext);
+	s_cmdContext = BX_NEW(Auto3D::getAllocator(), CmdContext);
 }
 
 void cmdShutdown()
 {
-	BX_DELETE(entry::getAllocator(), s_cmdContext);
+	BX_DELETE(Auto3D::getAllocator(), s_cmdContext);
 }
 
 void cmdAdd(const char* _name, ConsoleFn _fn, void* _userData)

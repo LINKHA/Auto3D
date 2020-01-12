@@ -122,7 +122,7 @@ static void resourceBar(const char* _name, const char* _tooltip, uint32_t _num, 
 
 static bool s_showStats = false;
 
-void showExampleDialog(entry::AppI* _app, const char* _errorText)
+void showExampleDialog(Auto3D::AppI* _app, const char* _errorText)
 {
 	char temp[1024];
 	bx::snprintf(temp, BX_COUNTOF(temp), "Example: %s", _app->getName() );
@@ -177,12 +177,12 @@ void showExampleDialog(entry::AppI* _app, const char* _errorText)
 	}
 
 	{
-		uint32_t num = entry::getNumApps();
+		uint32_t num = Auto3D::getNumApps();
 		const char** items = (const char**)alloca(num*sizeof(void*) );
 
 		uint32_t ii = 0;
 		int32_t current = 0;
-		for (entry::AppI* app = entry::getFirstApp(); NULL != app; app = app->getNext() )
+		for (Auto3D::AppI* app = Auto3D::getFirstApp(); NULL != app; app = app->getNext() )
 		{
 			if (app == _app)
 			{
@@ -214,7 +214,7 @@ void showExampleDialog(entry::AppI* _app, const char* _errorText)
 			cmdExec("app restart");
 		}
 
-		if (1 < entry::getNumApps() )
+		if (1 < Auto3D::getNumApps() )
 		{
 			ImGui::SameLine();
 			if (ImGui::Button(ICON_KI_PREVIOUS " Prev") )

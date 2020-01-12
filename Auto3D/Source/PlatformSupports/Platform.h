@@ -28,14 +28,14 @@ extern "C" int _main_(int _argc, char** _argv);
 	int _main_(int _argc, char** _argv)                 \
 	{                                                   \
 			_app app(__VA_ARGS__);                      \
-			return entry::runApp(&app, _argc, _argv);   \
+			return Auto3D::runApp(&app, _argc, _argv);   \
 	}
 #else
 #define ENTRY_IMPLEMENT_MAIN(_app, ...) \
 	_app s_ ## _app ## App(__VA_ARGS__)
 #endif // ENTRY_CONFIG_IMPLEMENT_MAIN
 
-namespace entry
+namespace Auto3D
 {
 	struct WindowHandle  { uint16_t idx; };
 	inline bool isValid(WindowHandle _handle)  { return UINT16_MAX != _handle.idx; }
@@ -220,16 +220,16 @@ namespace entry
 			, m_my(0)
 			, m_mz(0)
 		{
-			for (uint32_t ii = 0; ii < entry::MouseButton::Count; ++ii)
+			for (uint32_t ii = 0; ii < Auto3D::MouseButton::Count; ++ii)
 			{
-				m_buttons[ii] = entry::MouseButton::None;
+				m_buttons[ii] = Auto3D::MouseButton::None;
 			}
 		}
 
 		int32_t m_mx;
 		int32_t m_my;
 		int32_t m_mz;
-		uint8_t m_buttons[entry::MouseButton::Count];
+		uint8_t m_buttons[Auto3D::MouseButton::Count];
 	};
 
 	struct GamepadState
@@ -239,7 +239,7 @@ namespace entry
 			bx::memSet(m_axis, 0, sizeof(m_axis) );
 		}
 
-		int32_t m_axis[entry::GamepadAxis::Count];
+		int32_t m_axis[Auto3D::GamepadAxis::Count];
 	};
 
 	bool processEvents(uint32_t& _width, uint32_t& _height, uint32_t& _debug, uint32_t& _reset, MouseState* _mouse = NULL);
@@ -325,6 +325,6 @@ namespace entry
 	///
 	int runApp(AppI* _app, int _argc, const char* const* _argv);
 
-} // namespace entry
+} // namespace Auto3D
 
 #endif // ENTRY_H_HEADER_GUARD

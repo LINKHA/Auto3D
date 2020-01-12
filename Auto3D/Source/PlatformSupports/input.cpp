@@ -54,7 +54,7 @@ struct InputMouse
 		m_norm[2] = float(_mz)/float(m_wheelDelta);
 	}
 
-	void setButtonState(entry::MouseButton::Enum _button, uint8_t _state)
+	void setButtonState(Auto3D::MouseButton::Enum _button, uint8_t _state)
 	{
 		m_buttons[_button] = _state;
 	}
@@ -62,7 +62,7 @@ struct InputMouse
 	int32_t m_absolute[3];
 	float m_norm[3];
 	int32_t m_wheel;
-	uint8_t m_buttons[entry::MouseButton::Count];
+	uint8_t m_buttons[Auto3D::MouseButton::Count];
 	uint16_t m_width;
 	uint16_t m_height;
 	uint16_t m_wheelDelta;
@@ -96,13 +96,13 @@ struct InputKeyboard
 		return 0 != ( (_state>> 8)&0xff);
 	}
 
-	void setKeyState(entry::Key::Enum _key, uint8_t _modifiers, bool _down)
+	void setKeyState(Auto3D::Key::Enum _key, uint8_t _modifiers, bool _down)
 	{
 		m_key[_key] = encodeKeyState(_modifiers, _down);
 		m_once[_key] = false;
 	}
 
-	bool getKeyState(entry::Key::Enum _key, uint8_t* _modifiers)
+	bool getKeyState(Auto3D::Key::Enum _key, uint8_t* _modifiers)
 	{
 		uint8_t modifiers;
 		_modifiers = NULL == _modifiers ? &modifiers : _modifiers;
@@ -113,7 +113,7 @@ struct InputKeyboard
 	uint8_t getModifiersState()
 	{
 		uint8_t modifiers = 0;
-		for (uint32_t ii = 0; ii < entry::Key::Count; ++ii)
+		for (uint32_t ii = 0; ii < Auto3D::Key::Count; ++ii)
 		{
 			modifiers |= (m_key[ii]>>16)&0xff;
 		}
@@ -172,17 +172,17 @@ struct Gamepad
 		bx::memSet(m_axis, 0, sizeof(m_axis) );
 	}
 
-	void setAxis(entry::GamepadAxis::Enum _axis, int32_t _value)
+	void setAxis(Auto3D::GamepadAxis::Enum _axis, int32_t _value)
 	{
 		m_axis[_axis] = _value;
 	}
 
-	int32_t getAxis(entry::GamepadAxis::Enum _axis)
+	int32_t getAxis(Auto3D::GamepadAxis::Enum _axis)
 	{
 		return m_axis[_axis];
 	}
 
-	int32_t m_axis[entry::GamepadAxis::Count];
+	int32_t m_axis[Auto3D::GamepadAxis::Count];
 };
 
 struct Input
@@ -212,7 +212,7 @@ struct Input
 
 	void process(const InputBinding* _bindings)
 	{
-		for (const InputBinding* binding = _bindings; binding->m_key != entry::Key::None; ++binding)
+		for (const InputBinding* binding = _bindings; binding->m_key != Auto3D::Key::None; ++binding)
 		{
 			uint8_t modifiers;
 			bool down = InputKeyboard::decodeKeyState(m_keyboard.m_key[binding->m_key], modifiers);
@@ -287,12 +287,12 @@ static Input* s_input;
 
 void inputInit()
 {
-	s_input = BX_NEW(entry::getAllocator(), Input);
+	s_input = BX_NEW(Auto3D::getAllocator(), Input);
 }
 
 void inputShutdown()
 {
-	BX_DELETE(entry::getAllocator(), s_input);
+	BX_DELETE(Auto3D::getAllocator(), s_input);
 }
 
 void inputAddBindings(const char* _name, const InputBinding* _bindings)
@@ -315,12 +315,12 @@ void inputSetMouseResolution(uint16_t _width, uint16_t _height)
 	s_input->m_mouse.setResolution(_width, _height);
 }
 
-void inputSetKeyState(entry::Key::Enum _key, uint8_t _modifiers, bool _down)
+void inputSetKeyState(Auto3D::Key::Enum _key, uint8_t _modifiers, bool _down)
 {
 	s_input->m_keyboard.setKeyState(_key, _modifiers, _down);
 }
 
-bool inputGetKeyState(entry::Key::Enum _key, uint8_t* _modifiers)
+bool inputGetKeyState(Auto3D::Key::Enum _key, uint8_t* _modifiers)
 {
 	return s_input->m_keyboard.getKeyState(_key, _modifiers);
 }
@@ -350,7 +350,7 @@ void inputSetMousePos(int32_t _mx, int32_t _my, int32_t _mz)
 	s_input->m_mouse.setPos(_mx, _my, _mz);
 }
 
-void inputSetMouseButtonState(entry::MouseButton::Enum _button, uint8_t _state)
+void inputSetMouseButtonState(Auto3D::MouseButton::Enum _button, uint8_t _state)
 {
 	s_input->m_mouse.setButtonState(_button, _state);
 }
@@ -375,8 +375,8 @@ void inputSetMouseLock(bool _lock)
 	if (s_input->m_mouse.m_lock != _lock)
 	{
 		s_input->m_mouse.m_lock = _lock;
-		entry::WindowHandle defaultWindow = { 0 };
-		entry::setMouseLock(defaultWindow, _lock);
+		Auto3D::WindowHandle defaultWindow = { 0 };
+		Auto3D::setMouseLock(defaultWindow, _lock);
 		if (_lock)
 		{
 			s_input->m_mouse.m_norm[0] = 0.0f;
@@ -386,12 +386,12 @@ void inputSetMouseLock(bool _lock)
 	}
 }
 
-void inputSetGamepadAxis(entry::GamepadHandle _handle, entry::GamepadAxis::Enum _axis, int32_t _value)
+void inputSetGamepadAxis(Auto3D::GamepadHandle _handle, Auto3D::GamepadAxis::Enum _axis, int32_t _value)
 {
 	s_input->m_gamepad[_handle.idx].setAxis(_axis, _value);
 }
 
-int32_t inputGetGamepadAxis(entry::GamepadHandle _handle, entry::GamepadAxis::Enum _axis)
+int32_t inputGetGamepadAxis(Auto3D::GamepadHandle _handle, Auto3D::GamepadAxis::Enum _axis)
 {
 	return s_input->m_gamepad[_handle.idx].getAxis(_axis);
 }

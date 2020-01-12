@@ -57,7 +57,7 @@ void FApplication::Run()
 }
 
 }
-namespace entry
+namespace Auto3D
 {
 
 static void* SDLNativeWindowHandle(SDL_Window* _window)
@@ -1201,11 +1201,11 @@ int32_t MainThreadEntry::threadFunc(bx::Thread* _thread, void* _userData)
 	return result;
 }
 
-} // namespace entry
+} // namespace Auto3D
 
 int main(int _argc, char** _argv)
 {
-	using namespace entry;
+	using namespace Auto3D;
 	return platfromContext.run(_argc, _argv);
 }
 

@@ -52,12 +52,12 @@ void* load(bx::FileReaderI* _reader, bx::AllocatorI* _allocator, const char* _fi
 
 void* load(const char* _filePath, uint32_t* _size)
 {
-	return load(entry::getFileReader(), entry::getAllocator(), _filePath, _size);
+	return load(Auto3D::getFileReader(), Auto3D::getAllocator(), _filePath, _size);
 }
 
 void unload(void* _ptr)
 {
-	BX_FREE(entry::getAllocator(), _ptr);
+	BX_FREE(Auto3D::getAllocator(), _ptr);
 }
 
 static const bgfx::Memory* loadMem(bx::FileReaderI* _reader, const char* _filePath)
@@ -132,7 +132,7 @@ static bgfx::ShaderHandle loadShader(bx::FileReaderI* _reader, const char* _name
 
 bgfx::ShaderHandle loadShader(const char* _name)
 {
-	return loadShader(entry::getFileReader(), _name);
+	return loadShader(Auto3D::getFileReader(), _name);
 }
 
 bgfx::ProgramHandle loadProgram(bx::FileReaderI* _reader, const char* _vsName, const char* _fsName)
@@ -149,7 +149,7 @@ bgfx::ProgramHandle loadProgram(bx::FileReaderI* _reader, const char* _vsName, c
 
 bgfx::ProgramHandle loadProgram(const char* _vsName, const char* _fsName)
 {
-	return loadProgram(entry::getFileReader(), _vsName, _fsName);
+	return loadProgram(Auto3D::getFileReader(), _vsName, _fsName);
 }
 
 static void imageReleaseCb(void* _ptr, void* _userData)
@@ -165,10 +165,10 @@ bgfx::TextureHandle loadTexture(bx::FileReaderI* _reader, const char* _filePath,
 	bgfx::TextureHandle handle = BGFX_INVALID_HANDLE;
 
 	uint32_t size;
-	void* data = load(_reader, entry::getAllocator(), _filePath, &size);
+	void* data = load(_reader, Auto3D::getAllocator(), _filePath, &size);
 	if (NULL != data)
 	{
-		bimg::ImageContainer* imageContainer = bimg::imageParse(entry::getAllocator(), data, size);
+		bimg::ImageContainer* imageContainer = bimg::imageParse(Auto3D::getAllocator(), data, size);
 
 		if (NULL != imageContainer)
 		{
@@ -247,15 +247,15 @@ bgfx::TextureHandle loadTexture(bx::FileReaderI* _reader, const char* _filePath,
 
 bgfx::TextureHandle loadTexture(const char* _name, uint64_t _flags, uint8_t _skip, bgfx::TextureInfo* _info, bimg::Orientation::Enum* _orientation)
 {
-	return loadTexture(entry::getFileReader(), _name, _flags, _skip, _info, _orientation);
+	return loadTexture(Auto3D::getFileReader(), _name, _flags, _skip, _info, _orientation);
 }
 
 bimg::ImageContainer* imageLoad(const char* _filePath, bgfx::TextureFormat::Enum _dstFormat)
 {
 	uint32_t size = 0;
-	void* data = loadMem(entry::getFileReader(), entry::getAllocator(), _filePath, &size);
+	void* data = loadMem(Auto3D::getFileReader(), Auto3D::getAllocator(), _filePath, &size);
 
-	return bimg::imageParse(entry::getAllocator(), data, size, bimg::TextureFormat::Enum(_dstFormat) );
+	return bimg::imageParse(Auto3D::getAllocator(), data, size, bimg::TextureFormat::Enum(_dstFormat) );
 }
 
 void calcTangents(void* _vertices, uint16_t _numVertices, bgfx::VertexLayout _layout, const uint16_t* _indices, uint32_t _numIndices)
@@ -391,7 +391,7 @@ void Mesh::load(bx::ReaderSeekerI* _reader, bool _ramcopy)
 	
 	Group group;
 	
-	bx::AllocatorI* allocator = entry::getAllocator();
+	bx::AllocatorI* allocator = Auto3D::getAllocator();
 	
 	uint32_t chunk;
 	bx::Error err;
@@ -544,7 +544,7 @@ void Mesh::load(bx::ReaderSeekerI* _reader, bool _ramcopy)
 
 void Mesh::unload()
 {
-	bx::AllocatorI* allocator = entry::getAllocator();
+	bx::AllocatorI* allocator = Auto3D::getAllocator();
 	
 	for (GroupArray::const_iterator it = m_groups.begin(), itEnd = m_groups.end(); it != itEnd; ++it)
 	{
@@ -637,7 +637,7 @@ Mesh* meshLoad(bx::ReaderSeekerI* _reader, bool _ramcopy)
 
 Mesh* meshLoad(const char* _filePath, bool _ramcopy)
 {
-	bx::FileReaderI* reader = entry::getFileReader();
+	bx::FileReaderI* reader = Auto3D::getFileReader();
 	if (bx::open(reader, _filePath) )
 	{
 		Mesh* mesh = meshLoad(reader, _ramcopy);
@@ -656,13 +656,13 @@ void meshUnload(Mesh* _mesh)
 
 MeshState* meshStateCreate()
 {
-	MeshState* state = (MeshState*)BX_ALLOC(entry::getAllocator(), sizeof(MeshState) );
+	MeshState* state = (MeshState*)BX_ALLOC(Auto3D::getAllocator(), sizeof(MeshState) );
 	return state;
 }
 
 void meshStateDestroy(MeshState* _meshState)
 {
-	BX_FREE(entry::getAllocator(), _meshState);
+	BX_FREE(Auto3D::getAllocator(), _meshState);
 }
 
 void meshSubmit(const Mesh* _mesh, bgfx::ViewId _id, bgfx::ProgramHandle _program, const float* _mtx, uint64_t _state)
