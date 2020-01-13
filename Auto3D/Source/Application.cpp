@@ -6,6 +6,21 @@
 namespace Auto3D
 {
 
+int32_t FMainThreadEntry::ThreadFunc(bx::Thread* thread, void* userData)
+{
+	BX_UNUSED(thread);
+
+	FMainThreadEntry* self = (FMainThreadEntry*)userData;
+	int32_t result = RunMain(self->_argc, self->_argv);
+
+	SDL_Event event;
+	SDL_QuitEvent& qev = event.quit;
+	qev.type = SDL_QUIT;
+	SDL_PushEvent(&event);
+	return result;
+}
+
+
 FApplication::FApplication(int argc, char** argv) :
 	_argc(argc),
 	_argv(argv),
@@ -29,10 +44,21 @@ int FApplication::Run()
 	try
 	{
 #endif
-		if (!PlatfromContext::Get().Run(_argc, _argv))
+		PlatfromContext& platfromContext = PlatfromContext::Get();
+
+		platfromContext.Init(_argc, _argv);
+		_mainThreadEntry._argc = _argc;
+		_mainThreadEntry._argv = _argv;
+		_mainThread.init(FMainThreadEntry::ThreadFunc, &_mainThreadEntry);
+
+		if (!platfromContext.Run(_argc, _argv))
 		{
 			ErrorExit();
 		}
+
+		_mainThread.shutdown();
+		platfromContext.DestoryContext();
+
 		return _exitCode;
 #if !defined(__GNUC__) || __EXCEPTIONS
 	}

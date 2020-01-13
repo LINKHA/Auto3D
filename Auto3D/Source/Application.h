@@ -2,12 +2,22 @@
 #include "AutoConfig.h"
 #include "Container/String.h"
 
+#include <bx/mutex.h>
+#include <bx/thread.h>
+
 #include <memory>
 
 namespace Auto3D
 {
 
-class AEngine;
+struct FMainThreadEntry
+{
+	int _argc;
+	char** _argv;
+
+	static int32_t ThreadFunc(bx::Thread* thread, void* userData);
+};
+
 /// The superclass implementation of the project space, where the engine is implemented
 class AUTO_API FApplication
 {
@@ -30,6 +40,11 @@ private:
 	FString _startupErrors;
 	/// AApplication exit code.
 	int _exitCode;
+
+	FMainThreadEntry _mainThreadEntry;
+
+	bx::Thread _mainThread;
+
 };
 
 }

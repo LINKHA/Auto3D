@@ -20,20 +20,6 @@ BX_PRAGMA_DIAGNOSTIC_POP()
 namespace Auto3D
 {
 
-int32_t FMainThreadEntry::ThreadFunc(bx::Thread* thread, void* userData)
-{
-	BX_UNUSED(thread);
-
-	FMainThreadEntry* self = (FMainThreadEntry*)userData;
-	int32_t result = RunMain(self->_argc, self->_argv);
-
-	SDL_Event event;
-	SDL_QuitEvent& qev = event.quit;
-	qev.type = SDL_QUIT;
-	SDL_PushEvent(&event);
-	return result;
-}
-
 
 uint8_t PlatfromContext::s_translateKey[256] = { 0 };
 uint8_t PlatfromContext::s_translateGamepad[256] = { 0 };
@@ -163,10 +149,8 @@ PlatfromContext::PlatfromContext()
 	initTranslateGamepadAxis(SDL_CONTROLLER_AXIS_TRIGGERRIGHT, GamepadAxis::RightZ);
 }
 
-int PlatfromContext::Run(int _argc, char** _argv)
+void PlatfromContext::Init(int _argc, char** _argv)
 {
-	m_mte._argc = _argc;
-	m_mte._argv = _argv;
 
 	SDL_Init(0
 		| SDL_INIT_GAMECONTROLLER
@@ -192,7 +176,11 @@ int PlatfromContext::Run(int _argc, char** _argv)
 	sdlSetWindow(m_window[0]);
 	bgfx::renderFrame();
 
-	m_thread.init(FMainThreadEntry::ThreadFunc, &m_mte);
+}
+
+int PlatfromContext::Run(int _argc, char** _argv)
+{
+	
 
 	// Force window resolution...
 	
@@ -660,14 +648,18 @@ int PlatfromContext::Run(int _argc, char** _argv)
 	}
 
 	while (bgfx::RenderFrame::NoContext != bgfx::renderFrame()) {};
-	m_thread.shutdown();
 
+
+	return true;
+}
+
+bool PlatfromContext::DestoryContext()
+{
 	sdlDestroyWindow(m_window[0]);
 	SDL_Quit();
 
-	return m_thread.getExitCode();
+	return true;
 }
-
 WindowHandle PlatfromContext::FindHandle(uint32_t _windowId)
 {
 	SDL_Window* window = SDL_GetWindowFromID(_windowId);

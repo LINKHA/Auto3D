@@ -8,14 +8,14 @@
 #include <SDL.h>
 #include <SDL_syswm.h>
 
-#include <bx/mutex.h>
-#include <bx/thread.h>
 #include <bx/handlealloc.h>
 #include <bx/readerwriter.h>
 
 #include <thread>
 
 #include <bx/os.h>
+#include <bx/mutex.h>
+#include <bx/thread.h>
 
 #include <bgfx/platform.h>
 #if defined(None) // X11 defines this...
@@ -50,20 +50,15 @@ struct PlatformMsg
 	bool _flagsEnabled;
 };
 
-struct FMainThreadEntry
-{
-	int _argc;
-	char** _argv;
-
-	static int32_t ThreadFunc(bx::Thread* thread, void* userData);
-};
-
 struct PlatfromContext
 {
 	REGISTER_SINGLETON(PlatfromContext)
 	PlatfromContext();
+	void Init(int _argc, char** _argv);
 
 	int Run(int _argc, char** _argv);
+
+	bool DestoryContext();
 
 	WindowHandle FindHandle(uint32_t _windowId);
 
@@ -233,9 +228,6 @@ struct PlatfromContext
 	}
 
 	static WindowHandle _defaultWindow;
-
-	FMainThreadEntry m_mte;
-	bx::Thread m_thread;
 
 	EventQueue m_eventQueue;
 	bx::Mutex m_lock;
