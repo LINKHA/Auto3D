@@ -53,7 +53,9 @@ struct PlatformMsg
 struct PlatfromContext
 {
 	REGISTER_SINGLETON(PlatfromContext)
+
 	PlatfromContext();
+
 	void Init(int _argc, char** _argv);
 
 	int Run(int _argc, char** _argv);
@@ -68,30 +70,28 @@ struct PlatfromContext
 
 	GamepadHandle FindGamepad(SDL_JoystickID _jid);
 
-
-
-
-	inline void initTranslateKey(uint16_t _sdl, Key::Enum _key)
+private:
+	inline void InitTranslateKey(uint16_t sdl, Key::Enum key)
 	{
-		BX_CHECK(_sdl < BX_COUNTOF(s_translateKey), "Out of bounds %d.", _sdl);
-		PlatfromContext::s_translateKey[_sdl & 0xff] = (uint8_t)_key;
+		BX_CHECK(sdl < BX_COUNTOF(_translateKey), "Out of bounds %d.", sdl);
+		PlatfromContext::_translateKey[sdl & 0xff] = (uint8_t)key;
 	}
 
-	inline void initTranslateGamepad(uint8_t _sdl, Key::Enum _button)
+	inline void InitTranslateGamepad(uint8_t sdl, Key::Enum button)
 	{
-		s_translateGamepad[_sdl] = _button;
+		_translateGamepad[sdl] = button;
 	}
 
-	inline void initTranslateGamepadAxis(uint8_t _sdl, GamepadAxis::Enum _axis)
+	inline void InitTranslateGamepadAxis(uint8_t sdl, GamepadAxis::Enum axis)
 	{
-		s_translateGamepadAxis[_sdl] = uint8_t(_axis);
+		_translateGamepadAxis[sdl] = uint8_t(axis);
 	}
 
-	bool sdlSetWindow(SDL_Window* _window)
+	bool SDLSetWindow(SDL_Window* window)
 	{
 		SDL_SysWMinfo wmi;
 		SDL_VERSION(&wmi.version);
-		if (!SDL_GetWindowWMInfo(_window, &wmi))
+		if (!SDL_GetWindowWMInfo(window, &wmi))
 		{
 			return false;
 		}
@@ -110,7 +110,7 @@ struct PlatfromContext
 #	elif BX_PLATFORM_STEAMLINK
 		pd.ndt = wmi.info.vivante.display;
 #	endif // BX_PLATFORM_
-		pd.nwh = SDLNativeWindowHandle(_window);
+		pd.nwh = SDLNativeWindowHandle(window);
 
 		pd.context = NULL;
 		pd.backBuffer = NULL;
@@ -155,62 +155,7 @@ struct PlatfromContext
 #	endif // BX_PLATFORM_
 	}
 
-	static uint8_t translateKeyModifiers(uint16_t _sdl)
-	{
-		uint8_t modifiers = 0;
-		modifiers |= _sdl & KMOD_LALT ? Modifier::LeftAlt : 0;
-		modifiers |= _sdl & KMOD_RALT ? Modifier::RightAlt : 0;
-		modifiers |= _sdl & KMOD_LCTRL ? Modifier::LeftCtrl : 0;
-		modifiers |= _sdl & KMOD_RCTRL ? Modifier::RightCtrl : 0;
-		modifiers |= _sdl & KMOD_LSHIFT ? Modifier::LeftShift : 0;
-		modifiers |= _sdl & KMOD_RSHIFT ? Modifier::RightShift : 0;
-		modifiers |= _sdl & KMOD_LGUI ? Modifier::LeftMeta : 0;
-		modifiers |= _sdl & KMOD_RGUI ? Modifier::RightMeta : 0;
-		return modifiers;
-	}
-
-	static uint8_t translateKeyModifierPress(uint16_t _key)
-	{
-		uint8_t modifier;
-		switch (_key)
-		{
-		case SDL_SCANCODE_LALT: { modifier = Modifier::LeftAlt;    } break;
-		case SDL_SCANCODE_RALT: { modifier = Modifier::RightAlt;   } break;
-		case SDL_SCANCODE_LCTRL: { modifier = Modifier::LeftCtrl;   } break;
-		case SDL_SCANCODE_RCTRL: { modifier = Modifier::RightCtrl;  } break;
-		case SDL_SCANCODE_LSHIFT: { modifier = Modifier::LeftShift;  } break;
-		case SDL_SCANCODE_RSHIFT: { modifier = Modifier::RightShift; } break;
-		case SDL_SCANCODE_LGUI: { modifier = Modifier::LeftMeta;   } break;
-		case SDL_SCANCODE_RGUI: { modifier = Modifier::RightMeta;  } break;
-		default: { modifier = 0;                    } break;
-		}
-
-		return modifier;
-	}
-
-	static Key::Enum translateKey(SDL_Scancode _sdl)
-	{
-		return (Key::Enum)s_translateKey[_sdl & 0xff];
-	}
-
-	static GamepadAxis::Enum translateGamepadAxis(uint8_t _sdl)
-	{
-		return GamepadAxis::Enum(s_translateGamepadAxis[_sdl]);
-	}
-
-	static Key::Enum translateGamepad(uint8_t _sdl)
-	{
-		return Key::Enum(s_translateGamepad[_sdl]);
-	}
-
-	static WindowHandle getWindowHandle(const SDL_UserEvent& _uev)
-	{
-		union { void* p; WindowHandle h; } cast;
-		cast.p = _uev.data1;
-		return cast.h;
-	}
-
-	static void sdlDestroyWindow(SDL_Window* _window)
+	void SDLDestroyWindow(SDL_Window* _window)
 	{
 		if (!_window)
 			return;
@@ -227,34 +172,89 @@ struct PlatfromContext
 		SDL_DestroyWindow(_window);
 	}
 
-	static WindowHandle _defaultWindow;
+	WindowHandle GetWindowHandle(const SDL_UserEvent& _uev)
+	{
+		union { void* p; WindowHandle h; } cast;
+		cast.p = _uev.data1;
+		return cast.h;
+	}
 
-	EventQueue m_eventQueue;
-	bx::Mutex m_lock;
+	uint8_t TranslateKeyModifiers(uint16_t sdl)
+	{
+		uint8_t modifiers = 0;
+		modifiers |= sdl & KMOD_LALT ? Modifier::LeftAlt : 0;
+		modifiers |= sdl & KMOD_RALT ? Modifier::RightAlt : 0;
+		modifiers |= sdl & KMOD_LCTRL ? Modifier::LeftCtrl : 0;
+		modifiers |= sdl & KMOD_RCTRL ? Modifier::RightCtrl : 0;
+		modifiers |= sdl & KMOD_LSHIFT ? Modifier::LeftShift : 0;
+		modifiers |= sdl & KMOD_RSHIFT ? Modifier::RightShift : 0;
+		modifiers |= sdl & KMOD_LGUI ? Modifier::LeftMeta : 0;
+		modifiers |= sdl & KMOD_RGUI ? Modifier::RightMeta : 0;
+		return modifiers;
+	}
+
+	uint8_t TranslateKeyModifierPress(uint16_t key)
+	{
+		uint8_t modifier;
+		switch (key)
+		{
+		case SDL_SCANCODE_LALT: { modifier = Modifier::LeftAlt;    } break;
+		case SDL_SCANCODE_RALT: { modifier = Modifier::RightAlt;   } break;
+		case SDL_SCANCODE_LCTRL: { modifier = Modifier::LeftCtrl;   } break;
+		case SDL_SCANCODE_RCTRL: { modifier = Modifier::RightCtrl;  } break;
+		case SDL_SCANCODE_LSHIFT: { modifier = Modifier::LeftShift;  } break;
+		case SDL_SCANCODE_RSHIFT: { modifier = Modifier::RightShift; } break;
+		case SDL_SCANCODE_LGUI: { modifier = Modifier::LeftMeta;   } break;
+		case SDL_SCANCODE_RGUI: { modifier = Modifier::RightMeta;  } break;
+		default: { modifier = 0;                    } break;
+		}
+
+		return modifier;
+	}
+
+	Key::Enum TranslateKey(SDL_Scancode sdl)
+	{
+		return (Key::Enum)_translateKey[sdl & 0xff];
+	}
+
+	GamepadAxis::Enum TranslateGamepadAxis(uint8_t sdl)
+	{
+		return GamepadAxis::Enum(_translateGamepadAxis[sdl]);
+	}
+
+	Key::Enum TranslateGamepad(uint8_t _sdl)
+	{
+		return Key::Enum(_translateGamepad[_sdl]);
+	}
+public:
+	
+	EventQueue _eventQueue;
+	bx::Mutex _lock;
 
 	bx::HandleAllocT<ENTRY_CONFIG_MAX_WINDOWS> _windowAlloc;
-	SDL_Window* m_window[ENTRY_CONFIG_MAX_WINDOWS];
-	uint32_t m_flags[ENTRY_CONFIG_MAX_WINDOWS];
+	SDL_Window* _window[ENTRY_CONFIG_MAX_WINDOWS];
+	uint32_t _flags[ENTRY_CONFIG_MAX_WINDOWS];
 
-	bx::HandleAllocT<ENTRY_CONFIG_MAX_GAMEPADS> m_gamepadAlloc;
-	FGamepad m_gamepad[ENTRY_CONFIG_MAX_GAMEPADS];
+	bx::HandleAllocT<ENTRY_CONFIG_MAX_GAMEPADS> _gamepadAlloc;
+	FGamepad _gamepad[ENTRY_CONFIG_MAX_GAMEPADS];
 
-	uint32_t m_width;
-	uint32_t m_height;
-	float m_aspectRatio;
+	uint32_t _width;
+	uint32_t _height;
+	float _aspectRatio;
 
-	int32_t m_mx;
-	int32_t m_my;
-	int32_t m_mz;
-	bool m_mouseLock;
-	bool m_fullscreen;
+	int32_t _mx;
+	int32_t _my;
+	int32_t _mz;
+	bool _mouseLock;
+	bool _fullscreen;
 
 	
+	static WindowHandle _defaultWindow;
 
-	static uint8_t s_translateKey[256];
-	static uint8_t s_translateGamepad[256];
-	static uint32_t s_userEventStart;
-	static uint8_t s_translateGamepadAxis[256];
+	static uint8_t _translateKey[256];
+	static uint8_t _translateGamepad[256];
+	static uint32_t _userEventStart;
+	static uint8_t _translateGamepadAxis[256];
 };
 
 

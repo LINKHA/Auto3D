@@ -14,18 +14,18 @@
 #include "input.h"
 
 #include "PlatformSupports/PlatformContext.h"
+#include "Application.h"
 
 #include <SDL.h>
 #include <SDL_syswm.h>
 
-extern "C" int32_t _main_(int32_t _argc, char** _argv);
+//extern "C" int32_t Auto3D_main(int32_t _argc, char** _argv);
 
 namespace Auto3D
 {
 	static uint32_t s_debug = BGFX_DEBUG_NONE;
 	static uint32_t s_reset = BGFX_RESET_NONE;
-	static uint32_t s_width = ENTRY_DEFAULT_WIDTH;
-	static uint32_t s_height = ENTRY_DEFAULT_HEIGHT;
+	
 	static bool s_exit = false;
 
 	static bx::FileReaderI* s_fileReader = NULL;
@@ -43,17 +43,17 @@ namespace Auto3D
 
 	const Event* poll()
 	{
-		return PlatfromContext::Get().m_eventQueue.poll();
+		return PlatfromContext::Get()._eventQueue.poll();
 	}
 
 	const Event* poll(WindowHandle _handle)
 	{
-		return PlatfromContext::Get().m_eventQueue.poll(_handle);
+		return PlatfromContext::Get()._eventQueue.poll(_handle);
 	}
 
 	void release(const Event* _event)
 	{
-		PlatfromContext::Get().m_eventQueue.release(_event);
+		PlatfromContext::Get()._eventQueue.release(_event);
 	}
 
 
@@ -61,7 +61,7 @@ namespace Auto3D
 	{
 		SDL_Event event;
 		SDL_UserEvent& uev = event.user;
-		uev.type = PlatfromContext::s_userEventStart + _type;
+		uev.type = PlatfromContext::_userEventStart + _type;
 
 		union { void* p; WindowHandle h; } cast;
 		cast.h = _handle;
@@ -75,7 +75,7 @@ namespace Auto3D
 
 	WindowHandle FPlatform::CreateWindowHandle(int32_t _x, int32_t _y, uint32_t _width, uint32_t _height, uint32_t _flags, const char* _title)
 	{
-		bx::MutexScope scope(PlatfromContext::Get().m_lock);
+		bx::MutexScope scope(PlatfromContext::Get()._lock);
 		WindowHandle handle = { PlatfromContext::Get()._windowAlloc.alloc() };
 
 		if (UINT16_MAX != handle.idx)
@@ -100,7 +100,7 @@ namespace Auto3D
 		{
 			sdlPostEvent(SDL_USER_WINDOW_DESTROY, _handle);
 
-			bx::MutexScope scope(PlatfromContext::Get().m_lock);
+			bx::MutexScope scope(PlatfromContext::Get()._lock);
 			PlatfromContext::Get()._windowAlloc.free(_handle.idx);
 		}
 	}
@@ -487,35 +487,31 @@ BX_PRAGMA_DIAGNOSTIC_POP();
 	}
 #endif // BX_PLATFORM_EMSCRIPTEN
 
-	static AppI*    s_currentApp = NULL;
-	static AppI*    s_apps       = NULL;
-	static uint32_t s_numApps    = 0;
 
-	static char s_restartArgs[1024] = { '\0' };
 
-	static AppI* getCurrentApp(AppI* _set = NULL)
+	static IAppInstance* getCurrentApp(IAppInstance* _set = NULL)
 	{
 		if (NULL != _set)
 		{
-			s_currentApp = _set;
+			IAppInstance::s_currentApp = _set;
 		}
-		else if (NULL == s_currentApp)
+		else if (NULL == IAppInstance::s_currentApp)
 		{
-			s_currentApp = getFirstApp();
+			IAppInstance::s_currentApp = IAppInstance::getFirstApp();
 		}
 
-		return s_currentApp;
+		return IAppInstance::s_currentApp;
 	}
 
-	static AppI* getNextWrap(AppI* _app)
+	static IAppInstance* getNextWrap(IAppInstance* _app)
 	{
-		AppI* next = _app->getNext();
+		IAppInstance* next = _app->getNext();
 		if (NULL != next)
 		{
 			return next;
 		}
 
-		return getFirstApp();
+		return IAppInstance::getFirstApp();
 	}
 
 	int cmdApp(CmdContext* /*_context*/, void* /*_userData*/, int _argc, char const* const* _argv)
@@ -524,33 +520,33 @@ BX_PRAGMA_DIAGNOSTIC_POP();
 		{
 			if (2 == _argc)
 			{
-				bx::strCopy(s_restartArgs, BX_COUNTOF(s_restartArgs), getCurrentApp()->getName() );
+				bx::strCopy(IAppInstance::s_restartArgs, BX_COUNTOF(IAppInstance::s_restartArgs), getCurrentApp()->getName() );
 				return bx::kExitSuccess;
 			}
 
 			if (0 == bx::strCmp(_argv[2], "next") )
 			{
-				AppI* next = getNextWrap(getCurrentApp() );
-				bx::strCopy(s_restartArgs, BX_COUNTOF(s_restartArgs), next->getName() );
+				IAppInstance* next = getNextWrap(getCurrentApp() );
+				bx::strCopy(IAppInstance::s_restartArgs, BX_COUNTOF(IAppInstance::s_restartArgs), next->getName() );
 				return bx::kExitSuccess;
 			}
 			else if (0 == bx::strCmp(_argv[2], "prev") )
 			{
-				AppI* prev = getCurrentApp();
-				for (AppI* app = getNextWrap(prev); app != getCurrentApp(); app = getNextWrap(app) )
+				IAppInstance* prev = getCurrentApp();
+				for (IAppInstance* app = getNextWrap(prev); app != getCurrentApp(); app = getNextWrap(app) )
 				{
 					prev = app;
 				}
 
-				bx::strCopy(s_restartArgs, BX_COUNTOF(s_restartArgs), prev->getName() );
+				bx::strCopy(IAppInstance::s_restartArgs, BX_COUNTOF(IAppInstance::s_restartArgs), prev->getName() );
 				return bx::kExitSuccess;
 			}
 
-			for (AppI* app = getFirstApp(); NULL != app; app = app->getNext() )
+			for (IAppInstance* app = IAppInstance::getFirstApp(); NULL != app; app = app->getNext() )
 			{
 				if (0 == bx::strCmp(_argv[2], app->getName() ) )
 				{
-					bx::strCopy(s_restartArgs, BX_COUNTOF(s_restartArgs), app->getName() );
+					bx::strCopy(IAppInstance::s_restartArgs, BX_COUNTOF(IAppInstance::s_restartArgs), app->getName() );
 					return bx::kExitSuccess;
 				}
 			}
@@ -559,130 +555,42 @@ BX_PRAGMA_DIAGNOSTIC_POP();
 		return bx::kExitFailure;
 	}
 
-	AppI::AppI(const char* _name, const char* _description, const char* _url)
-	{
-		m_name        = _name;
-		m_description = _description;
-		m_url         = _url;
-		m_next        = s_apps;
-
-		s_apps = this;
-		s_numApps++;
-	}
-
-	AppI::~AppI()
-	{
-		for (AppI* prev = NULL, *app = s_apps, *next = app->getNext()
-			; NULL != app
-			; prev = app, app = next, next = app->getNext() )
-		{
-			if (app == this)
-			{
-				if (NULL != prev)
-				{
-					prev->m_next = next;
-				}
-				else
-				{
-					s_apps = next;
-				}
-
-				--s_numApps;
-
-				break;
-			}
-		}
-	}
-
-	const char* AppI::getName() const
-	{
-		return m_name;
-	}
-
-	const char* AppI::getDescription() const
-	{
-		return m_description;
-	}
-
-	const char* AppI::getUrl() const
-	{
-		return m_url;
-	}
-
-	AppI* AppI::getNext()
-	{
-		return m_next;
-	}
-
-	AppI* getFirstApp()
-	{
-		return s_apps;
-	}
-
-	uint32_t getNumApps()
-	{
-		return s_numApps;
-	}
-
-	int runApp(AppI* _app, int _argc, const char* const* _argv)
-	{
-		_app->init(_argc, _argv, s_width, s_height);
-		bgfx::frame();
-
-		FPlatform::SetWindowSize(PlatfromContext::_defaultWindow, s_width, s_height);
-
-#if BX_PLATFORM_EMSCRIPTEN
-		s_app = _app;
-		emscripten_set_main_loop(&updateApp, -1, 1);
-#else
-		while (_app->update() )
-		{
-			if (0 != bx::strLen(s_restartArgs) )
-			{
-				break;
-			}
-		}
-#endif // BX_PLATFORM_EMSCRIPTEN
-
-		return _app->shutdown();
-	}
-
 	static int32_t sortApp(const void* _lhs, const void* _rhs)
 	{
-		const AppI* lhs = *(const AppI**)_lhs;
-		const AppI* rhs = *(const AppI**)_rhs;
+		const IAppInstance* lhs = *(const IAppInstance**)_lhs;
+		const IAppInstance* rhs = *(const IAppInstance**)_rhs;
 
 		return bx::strCmpI(lhs->getName(), rhs->getName() );
 	}
 
 	static void sortApps()
 	{
-		if (2 > s_numApps)
+		if (2 > IAppInstance::s_numApps)
 		{
 			return;
 		}
 
-		AppI** apps = (AppI**)BX_ALLOC(g_allocator, s_numApps*sizeof(AppI*) );
+		IAppInstance** apps = (IAppInstance**)BX_ALLOC(g_allocator, IAppInstance::s_numApps*sizeof(IAppInstance*) );
 
 		uint32_t ii = 0;
-		for (AppI* app = getFirstApp(); NULL != app; app = app->getNext() )
+		for (IAppInstance* app = IAppInstance::getFirstApp(); NULL != app; app = app->getNext() )
 		{
 			apps[ii++] = app;
 		}
-		bx::quickSort(apps, s_numApps, sizeof(AppI*), sortApp);
+		bx::quickSort(apps, IAppInstance::s_numApps, sizeof(IAppInstance*), sortApp);
 
-		s_apps = apps[0];
-		for (ii = 1; ii < s_numApps; ++ii)
+		IAppInstance::s_apps = apps[0];
+		for (ii = 1; ii < IAppInstance::s_numApps; ++ii)
 		{
-			AppI* app = apps[ii-1];
+			IAppInstance* app = apps[ii-1];
 			app->m_next = apps[ii];
 		}
-		apps[s_numApps-1]->m_next = NULL;
+		apps[IAppInstance::s_numApps-1]->m_next = NULL;
 
 		BX_FREE(g_allocator, apps);
 	}
 
-	int RunMain(int _argc, const char* const* _argv)
+	int RunMain(int argc, const char* const* argv)
 	{
 		//DBG(BX_COMPILER_NAME " / " BX_CPU_NAME " / " BX_ARCH_NAME " / " BX_PLATFORM_NAME);
 
@@ -698,7 +606,7 @@ BX_PRAGMA_DIAGNOSTIC_POP();
 		inputInit();
 		inputAddBindings("bindings", s_bindings);
 
-		bx::FilePath fp(_argv[0]);
+		bx::FilePath fp(argv[0]);
 		char title[bx::kMaxFilePath];
 		bx::strCopy(title, BX_COUNTOF(title), fp.getBaseName() );
 
@@ -708,15 +616,15 @@ BX_PRAGMA_DIAGNOSTIC_POP();
 		sortApps();
 
 		const char* find = "";
-		if (1 < _argc)
+		if (1 < argc)
 		{
-			find = _argv[_argc-1];
+			find = argv[argc-1];
 		}
 
 restart:
-		AppI* selected = NULL;
+		IAppInstance* selected = NULL;
 
-		for (AppI* app = getFirstApp(); NULL != app; app = app->getNext() )
+		for (IAppInstance* app = IAppInstance::getFirstApp(); NULL != app; app = app->getNext() )
 		{
 			if (NULL == selected
 			&&  !bx::strFindI(app->getName(), find).isEmpty() )
@@ -733,19 +641,19 @@ restart:
 		}
 
 		int32_t result = bx::kExitSuccess;
-		s_restartArgs[0] = '\0';
-		if (0 == s_numApps)
+		IAppInstance::s_restartArgs[0] = '\0';
+		if (0 == IAppInstance::s_numApps)
 		{
-			result = ::_main_(_argc, (char**)_argv);
+			result = ::Auto3D_main(argc, (char**)argv);
 		}
 		else
 		{
-			result = runApp(getCurrentApp(selected), _argc, _argv);
+			result = runApp(getCurrentApp(selected), argc, argv);
 		}
 
-		if (0 != bx::strLen(s_restartArgs) )
+		if (0 != bx::strLen(IAppInstance::s_restartArgs) )
 		{
-			find = s_restartArgs;
+			find = IAppInstance::s_restartArgs;
 			goto restart;
 		}
 
@@ -891,8 +799,8 @@ restart:
 
 		_debug = s_debug;
 
-		s_width = _width;
-		s_height = _height;
+		IAppInstance::s_width = _width;
+		IAppInstance::s_height = _height;
 
 		return s_exit;
 	}

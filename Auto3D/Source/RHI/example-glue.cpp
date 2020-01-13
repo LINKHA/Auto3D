@@ -11,6 +11,10 @@
 #include <bx/timer.h>
 #include <bx/math.h>
 
+#include "Application.h"
+
+using namespace Auto3D;
+
 struct SampleData
 {
 	static constexpr uint32_t kNumSamples = 100;
@@ -122,7 +126,7 @@ static void resourceBar(const char* _name, const char* _tooltip, uint32_t _num, 
 
 static bool s_showStats = false;
 
-void showExampleDialog(Auto3D::AppI* _app, const char* _errorText)
+void showExampleDialog(Auto3D::IAppInstance* _app, const char* _errorText)
 {
 	char temp[1024];
 	bx::snprintf(temp, BX_COUNTOF(temp), "Example: %s", _app->getName() );
@@ -177,12 +181,12 @@ void showExampleDialog(Auto3D::AppI* _app, const char* _errorText)
 	}
 
 	{
-		uint32_t num = Auto3D::getNumApps();
+		uint32_t num = IAppInstance::getNumApps();
 		const char** items = (const char**)alloca(num*sizeof(void*) );
 
 		uint32_t ii = 0;
 		int32_t current = 0;
-		for (Auto3D::AppI* app = Auto3D::getFirstApp(); NULL != app; app = app->getNext() )
+		for (Auto3D::IAppInstance* app = IAppInstance::getFirstApp(); NULL != app; app = app->getNext() )
 		{
 			if (app == _app)
 			{
@@ -214,7 +218,7 @@ void showExampleDialog(Auto3D::AppI* _app, const char* _errorText)
 			cmdExec("app restart");
 		}
 
-		if (1 < Auto3D::getNumApps() )
+		if (1 < IAppInstance::getNumApps() )
 		{
 			ImGui::SameLine();
 			if (ImGui::Button(ICON_KI_PREVIOUS " Prev") )

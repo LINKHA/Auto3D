@@ -21,132 +21,132 @@ namespace Auto3D
 {
 
 
-uint8_t PlatfromContext::s_translateKey[256] = { 0 };
-uint8_t PlatfromContext::s_translateGamepad[256] = { 0 };
-uint32_t PlatfromContext::s_userEventStart = { 0 };
-uint8_t PlatfromContext::s_translateGamepadAxis[256] = { 0 };
+uint8_t PlatfromContext::_translateKey[256] = { 0 };
+uint8_t PlatfromContext::_translateGamepad[256] = { 0 };
+uint32_t PlatfromContext::_userEventStart = { 0 };
+uint8_t PlatfromContext::_translateGamepadAxis[256] = { 0 };
 WindowHandle PlatfromContext::_defaultWindow = { 0 };
 
 IMPLEMENT_SINGLETON(PlatfromContext)
 
 PlatfromContext::PlatfromContext()
-	: m_width(ENTRY_DEFAULT_WIDTH)
-	, m_height(ENTRY_DEFAULT_HEIGHT)
-	, m_aspectRatio(16.0f / 9.0f)
-	, m_mx(0)
-	, m_my(0)
-	, m_mz(0)
-	, m_mouseLock(false)
-	, m_fullscreen(false)
+	: _width(ENTRY_DEFAULT_WIDTH)
+	, _height(ENTRY_DEFAULT_HEIGHT)
+	, _aspectRatio(16.0f / 9.0f)
+	, _mx(0)
+	, _my(0)
+	, _mz(0)
+	, _mouseLock(false)
+	, _fullscreen(false)
 {
-	bx::memSet(s_translateKey, 0, sizeof(s_translateKey));
-	initTranslateKey(SDL_SCANCODE_ESCAPE, Key::Esc);
-	initTranslateKey(SDL_SCANCODE_RETURN, Key::Return);
-	initTranslateKey(SDL_SCANCODE_TAB, Key::Tab);
-	initTranslateKey(SDL_SCANCODE_BACKSPACE, Key::Backspace);
-	initTranslateKey(SDL_SCANCODE_SPACE, Key::Space);
-	initTranslateKey(SDL_SCANCODE_UP, Key::Up);
-	initTranslateKey(SDL_SCANCODE_DOWN, Key::Down);
-	initTranslateKey(SDL_SCANCODE_LEFT, Key::Left);
-	initTranslateKey(SDL_SCANCODE_RIGHT, Key::Right);
-	initTranslateKey(SDL_SCANCODE_PAGEUP, Key::PageUp);
-	initTranslateKey(SDL_SCANCODE_PAGEDOWN, Key::PageDown);
-	initTranslateKey(SDL_SCANCODE_HOME, Key::Home);
-	initTranslateKey(SDL_SCANCODE_END, Key::End);
-	initTranslateKey(SDL_SCANCODE_PRINTSCREEN, Key::Print);
-	initTranslateKey(SDL_SCANCODE_KP_PLUS, Key::Plus);
-	initTranslateKey(SDL_SCANCODE_EQUALS, Key::Plus);
-	initTranslateKey(SDL_SCANCODE_KP_MINUS, Key::Minus);
-	initTranslateKey(SDL_SCANCODE_MINUS, Key::Minus);
-	initTranslateKey(SDL_SCANCODE_GRAVE, Key::Tilde);
-	initTranslateKey(SDL_SCANCODE_KP_COMMA, Key::Comma);
-	initTranslateKey(SDL_SCANCODE_COMMA, Key::Comma);
-	initTranslateKey(SDL_SCANCODE_KP_PERIOD, Key::Period);
-	initTranslateKey(SDL_SCANCODE_PERIOD, Key::Period);
-	initTranslateKey(SDL_SCANCODE_SLASH, Key::Slash);
-	initTranslateKey(SDL_SCANCODE_F1, Key::F1);
-	initTranslateKey(SDL_SCANCODE_F2, Key::F2);
-	initTranslateKey(SDL_SCANCODE_F3, Key::F3);
-	initTranslateKey(SDL_SCANCODE_F4, Key::F4);
-	initTranslateKey(SDL_SCANCODE_F5, Key::F5);
-	initTranslateKey(SDL_SCANCODE_F6, Key::F6);
-	initTranslateKey(SDL_SCANCODE_F7, Key::F7);
-	initTranslateKey(SDL_SCANCODE_F8, Key::F8);
-	initTranslateKey(SDL_SCANCODE_F9, Key::F9);
-	initTranslateKey(SDL_SCANCODE_F10, Key::F10);
-	initTranslateKey(SDL_SCANCODE_F11, Key::F11);
-	initTranslateKey(SDL_SCANCODE_F12, Key::F12);
-	initTranslateKey(SDL_SCANCODE_KP_0, Key::NumPad0);
-	initTranslateKey(SDL_SCANCODE_KP_1, Key::NumPad1);
-	initTranslateKey(SDL_SCANCODE_KP_2, Key::NumPad2);
-	initTranslateKey(SDL_SCANCODE_KP_3, Key::NumPad3);
-	initTranslateKey(SDL_SCANCODE_KP_4, Key::NumPad4);
-	initTranslateKey(SDL_SCANCODE_KP_5, Key::NumPad5);
-	initTranslateKey(SDL_SCANCODE_KP_6, Key::NumPad6);
-	initTranslateKey(SDL_SCANCODE_KP_7, Key::NumPad7);
-	initTranslateKey(SDL_SCANCODE_KP_8, Key::NumPad8);
-	initTranslateKey(SDL_SCANCODE_KP_9, Key::NumPad9);
-	initTranslateKey(SDL_SCANCODE_0, Key::Key0);
-	initTranslateKey(SDL_SCANCODE_1, Key::Key1);
-	initTranslateKey(SDL_SCANCODE_2, Key::Key2);
-	initTranslateKey(SDL_SCANCODE_3, Key::Key3);
-	initTranslateKey(SDL_SCANCODE_4, Key::Key4);
-	initTranslateKey(SDL_SCANCODE_5, Key::Key5);
-	initTranslateKey(SDL_SCANCODE_6, Key::Key6);
-	initTranslateKey(SDL_SCANCODE_7, Key::Key7);
-	initTranslateKey(SDL_SCANCODE_8, Key::Key8);
-	initTranslateKey(SDL_SCANCODE_9, Key::Key9);
-	initTranslateKey(SDL_SCANCODE_A, Key::KeyA);
-	initTranslateKey(SDL_SCANCODE_B, Key::KeyB);
-	initTranslateKey(SDL_SCANCODE_C, Key::KeyC);
-	initTranslateKey(SDL_SCANCODE_D, Key::KeyD);
-	initTranslateKey(SDL_SCANCODE_E, Key::KeyE);
-	initTranslateKey(SDL_SCANCODE_F, Key::KeyF);
-	initTranslateKey(SDL_SCANCODE_G, Key::KeyG);
-	initTranslateKey(SDL_SCANCODE_H, Key::KeyH);
-	initTranslateKey(SDL_SCANCODE_I, Key::KeyI);
-	initTranslateKey(SDL_SCANCODE_J, Key::KeyJ);
-	initTranslateKey(SDL_SCANCODE_K, Key::KeyK);
-	initTranslateKey(SDL_SCANCODE_L, Key::KeyL);
-	initTranslateKey(SDL_SCANCODE_M, Key::KeyM);
-	initTranslateKey(SDL_SCANCODE_N, Key::KeyN);
-	initTranslateKey(SDL_SCANCODE_O, Key::KeyO);
-	initTranslateKey(SDL_SCANCODE_P, Key::KeyP);
-	initTranslateKey(SDL_SCANCODE_Q, Key::KeyQ);
-	initTranslateKey(SDL_SCANCODE_R, Key::KeyR);
-	initTranslateKey(SDL_SCANCODE_S, Key::KeyS);
-	initTranslateKey(SDL_SCANCODE_T, Key::KeyT);
-	initTranslateKey(SDL_SCANCODE_U, Key::KeyU);
-	initTranslateKey(SDL_SCANCODE_V, Key::KeyV);
-	initTranslateKey(SDL_SCANCODE_W, Key::KeyW);
-	initTranslateKey(SDL_SCANCODE_X, Key::KeyX);
-	initTranslateKey(SDL_SCANCODE_Y, Key::KeyY);
-	initTranslateKey(SDL_SCANCODE_Z, Key::KeyZ);
+	bx::memSet(_translateKey, 0, sizeof(_translateKey));
+	InitTranslateKey(SDL_SCANCODE_ESCAPE, Key::Esc);
+	InitTranslateKey(SDL_SCANCODE_RETURN, Key::Return);
+	InitTranslateKey(SDL_SCANCODE_TAB, Key::Tab);
+	InitTranslateKey(SDL_SCANCODE_BACKSPACE, Key::Backspace);
+	InitTranslateKey(SDL_SCANCODE_SPACE, Key::Space);
+	InitTranslateKey(SDL_SCANCODE_UP, Key::Up);
+	InitTranslateKey(SDL_SCANCODE_DOWN, Key::Down);
+	InitTranslateKey(SDL_SCANCODE_LEFT, Key::Left);
+	InitTranslateKey(SDL_SCANCODE_RIGHT, Key::Right);
+	InitTranslateKey(SDL_SCANCODE_PAGEUP, Key::PageUp);
+	InitTranslateKey(SDL_SCANCODE_PAGEDOWN, Key::PageDown);
+	InitTranslateKey(SDL_SCANCODE_HOME, Key::Home);
+	InitTranslateKey(SDL_SCANCODE_END, Key::End);
+	InitTranslateKey(SDL_SCANCODE_PRINTSCREEN, Key::Print);
+	InitTranslateKey(SDL_SCANCODE_KP_PLUS, Key::Plus);
+	InitTranslateKey(SDL_SCANCODE_EQUALS, Key::Plus);
+	InitTranslateKey(SDL_SCANCODE_KP_MINUS, Key::Minus);
+	InitTranslateKey(SDL_SCANCODE_MINUS, Key::Minus);
+	InitTranslateKey(SDL_SCANCODE_GRAVE, Key::Tilde);
+	InitTranslateKey(SDL_SCANCODE_KP_COMMA, Key::Comma);
+	InitTranslateKey(SDL_SCANCODE_COMMA, Key::Comma);
+	InitTranslateKey(SDL_SCANCODE_KP_PERIOD, Key::Period);
+	InitTranslateKey(SDL_SCANCODE_PERIOD, Key::Period);
+	InitTranslateKey(SDL_SCANCODE_SLASH, Key::Slash);
+	InitTranslateKey(SDL_SCANCODE_F1, Key::F1);
+	InitTranslateKey(SDL_SCANCODE_F2, Key::F2);
+	InitTranslateKey(SDL_SCANCODE_F3, Key::F3);
+	InitTranslateKey(SDL_SCANCODE_F4, Key::F4);
+	InitTranslateKey(SDL_SCANCODE_F5, Key::F5);
+	InitTranslateKey(SDL_SCANCODE_F6, Key::F6);
+	InitTranslateKey(SDL_SCANCODE_F7, Key::F7);
+	InitTranslateKey(SDL_SCANCODE_F8, Key::F8);
+	InitTranslateKey(SDL_SCANCODE_F9, Key::F9);
+	InitTranslateKey(SDL_SCANCODE_F10, Key::F10);
+	InitTranslateKey(SDL_SCANCODE_F11, Key::F11);
+	InitTranslateKey(SDL_SCANCODE_F12, Key::F12);
+	InitTranslateKey(SDL_SCANCODE_KP_0, Key::NumPad0);
+	InitTranslateKey(SDL_SCANCODE_KP_1, Key::NumPad1);
+	InitTranslateKey(SDL_SCANCODE_KP_2, Key::NumPad2);
+	InitTranslateKey(SDL_SCANCODE_KP_3, Key::NumPad3);
+	InitTranslateKey(SDL_SCANCODE_KP_4, Key::NumPad4);
+	InitTranslateKey(SDL_SCANCODE_KP_5, Key::NumPad5);
+	InitTranslateKey(SDL_SCANCODE_KP_6, Key::NumPad6);
+	InitTranslateKey(SDL_SCANCODE_KP_7, Key::NumPad7);
+	InitTranslateKey(SDL_SCANCODE_KP_8, Key::NumPad8);
+	InitTranslateKey(SDL_SCANCODE_KP_9, Key::NumPad9);
+	InitTranslateKey(SDL_SCANCODE_0, Key::Key0);
+	InitTranslateKey(SDL_SCANCODE_1, Key::Key1);
+	InitTranslateKey(SDL_SCANCODE_2, Key::Key2);
+	InitTranslateKey(SDL_SCANCODE_3, Key::Key3);
+	InitTranslateKey(SDL_SCANCODE_4, Key::Key4);
+	InitTranslateKey(SDL_SCANCODE_5, Key::Key5);
+	InitTranslateKey(SDL_SCANCODE_6, Key::Key6);
+	InitTranslateKey(SDL_SCANCODE_7, Key::Key7);
+	InitTranslateKey(SDL_SCANCODE_8, Key::Key8);
+	InitTranslateKey(SDL_SCANCODE_9, Key::Key9);
+	InitTranslateKey(SDL_SCANCODE_A, Key::KeyA);
+	InitTranslateKey(SDL_SCANCODE_B, Key::KeyB);
+	InitTranslateKey(SDL_SCANCODE_C, Key::KeyC);
+	InitTranslateKey(SDL_SCANCODE_D, Key::KeyD);
+	InitTranslateKey(SDL_SCANCODE_E, Key::KeyE);
+	InitTranslateKey(SDL_SCANCODE_F, Key::KeyF);
+	InitTranslateKey(SDL_SCANCODE_G, Key::KeyG);
+	InitTranslateKey(SDL_SCANCODE_H, Key::KeyH);
+	InitTranslateKey(SDL_SCANCODE_I, Key::KeyI);
+	InitTranslateKey(SDL_SCANCODE_J, Key::KeyJ);
+	InitTranslateKey(SDL_SCANCODE_K, Key::KeyK);
+	InitTranslateKey(SDL_SCANCODE_L, Key::KeyL);
+	InitTranslateKey(SDL_SCANCODE_M, Key::KeyM);
+	InitTranslateKey(SDL_SCANCODE_N, Key::KeyN);
+	InitTranslateKey(SDL_SCANCODE_O, Key::KeyO);
+	InitTranslateKey(SDL_SCANCODE_P, Key::KeyP);
+	InitTranslateKey(SDL_SCANCODE_Q, Key::KeyQ);
+	InitTranslateKey(SDL_SCANCODE_R, Key::KeyR);
+	InitTranslateKey(SDL_SCANCODE_S, Key::KeyS);
+	InitTranslateKey(SDL_SCANCODE_T, Key::KeyT);
+	InitTranslateKey(SDL_SCANCODE_U, Key::KeyU);
+	InitTranslateKey(SDL_SCANCODE_V, Key::KeyV);
+	InitTranslateKey(SDL_SCANCODE_W, Key::KeyW);
+	InitTranslateKey(SDL_SCANCODE_X, Key::KeyX);
+	InitTranslateKey(SDL_SCANCODE_Y, Key::KeyY);
+	InitTranslateKey(SDL_SCANCODE_Z, Key::KeyZ);
 
-	bx::memSet(s_translateGamepad, uint8_t(Key::Count), sizeof(s_translateGamepad));
-	initTranslateGamepad(SDL_CONTROLLER_BUTTON_A, Key::GamepadA);
-	initTranslateGamepad(SDL_CONTROLLER_BUTTON_B, Key::GamepadB);
-	initTranslateGamepad(SDL_CONTROLLER_BUTTON_X, Key::GamepadX);
-	initTranslateGamepad(SDL_CONTROLLER_BUTTON_Y, Key::GamepadY);
-	initTranslateGamepad(SDL_CONTROLLER_BUTTON_LEFTSTICK, Key::GamepadThumbL);
-	initTranslateGamepad(SDL_CONTROLLER_BUTTON_RIGHTSTICK, Key::GamepadThumbR);
-	initTranslateGamepad(SDL_CONTROLLER_BUTTON_LEFTSHOULDER, Key::GamepadShoulderL);
-	initTranslateGamepad(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER, Key::GamepadShoulderR);
-	initTranslateGamepad(SDL_CONTROLLER_BUTTON_DPAD_UP, Key::GamepadUp);
-	initTranslateGamepad(SDL_CONTROLLER_BUTTON_DPAD_DOWN, Key::GamepadDown);
-	initTranslateGamepad(SDL_CONTROLLER_BUTTON_DPAD_LEFT, Key::GamepadLeft);
-	initTranslateGamepad(SDL_CONTROLLER_BUTTON_DPAD_RIGHT, Key::GamepadRight);
-	initTranslateGamepad(SDL_CONTROLLER_BUTTON_BACK, Key::GamepadBack);
-	initTranslateGamepad(SDL_CONTROLLER_BUTTON_START, Key::GamepadStart);
-	initTranslateGamepad(SDL_CONTROLLER_BUTTON_GUIDE, Key::GamepadGuide);
+	bx::memSet(_translateGamepad, uint8_t(Key::Count), sizeof(_translateGamepad));
+	InitTranslateGamepad(SDL_CONTROLLER_BUTTON_A, Key::GamepadA);
+	InitTranslateGamepad(SDL_CONTROLLER_BUTTON_B, Key::GamepadB);
+	InitTranslateGamepad(SDL_CONTROLLER_BUTTON_X, Key::GamepadX);
+	InitTranslateGamepad(SDL_CONTROLLER_BUTTON_Y, Key::GamepadY);
+	InitTranslateGamepad(SDL_CONTROLLER_BUTTON_LEFTSTICK, Key::GamepadThumbL);
+	InitTranslateGamepad(SDL_CONTROLLER_BUTTON_RIGHTSTICK, Key::GamepadThumbR);
+	InitTranslateGamepad(SDL_CONTROLLER_BUTTON_LEFTSHOULDER, Key::GamepadShoulderL);
+	InitTranslateGamepad(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER, Key::GamepadShoulderR);
+	InitTranslateGamepad(SDL_CONTROLLER_BUTTON_DPAD_UP, Key::GamepadUp);
+	InitTranslateGamepad(SDL_CONTROLLER_BUTTON_DPAD_DOWN, Key::GamepadDown);
+	InitTranslateGamepad(SDL_CONTROLLER_BUTTON_DPAD_LEFT, Key::GamepadLeft);
+	InitTranslateGamepad(SDL_CONTROLLER_BUTTON_DPAD_RIGHT, Key::GamepadRight);
+	InitTranslateGamepad(SDL_CONTROLLER_BUTTON_BACK, Key::GamepadBack);
+	InitTranslateGamepad(SDL_CONTROLLER_BUTTON_START, Key::GamepadStart);
+	InitTranslateGamepad(SDL_CONTROLLER_BUTTON_GUIDE, Key::GamepadGuide);
 
-	bx::memSet(s_translateGamepadAxis, uint8_t(GamepadAxis::Count), sizeof(s_translateGamepadAxis));
-	initTranslateGamepadAxis(SDL_CONTROLLER_AXIS_LEFTX, GamepadAxis::LeftX);
-	initTranslateGamepadAxis(SDL_CONTROLLER_AXIS_LEFTY, GamepadAxis::LeftY);
-	initTranslateGamepadAxis(SDL_CONTROLLER_AXIS_TRIGGERLEFT, GamepadAxis::LeftZ);
-	initTranslateGamepadAxis(SDL_CONTROLLER_AXIS_RIGHTX, GamepadAxis::RightX);
-	initTranslateGamepadAxis(SDL_CONTROLLER_AXIS_RIGHTY, GamepadAxis::RightY);
-	initTranslateGamepadAxis(SDL_CONTROLLER_AXIS_TRIGGERRIGHT, GamepadAxis::RightZ);
+	bx::memSet(_translateGamepadAxis, uint8_t(GamepadAxis::Count), sizeof(_translateGamepadAxis));
+	InitTranslateGamepadAxis(SDL_CONTROLLER_AXIS_LEFTX, GamepadAxis::LeftX);
+	InitTranslateGamepadAxis(SDL_CONTROLLER_AXIS_LEFTY, GamepadAxis::LeftY);
+	InitTranslateGamepadAxis(SDL_CONTROLLER_AXIS_TRIGGERLEFT, GamepadAxis::LeftZ);
+	InitTranslateGamepadAxis(SDL_CONTROLLER_AXIS_RIGHTX, GamepadAxis::RightX);
+	InitTranslateGamepadAxis(SDL_CONTROLLER_AXIS_RIGHTY, GamepadAxis::RightY);
+	InitTranslateGamepadAxis(SDL_CONTROLLER_AXIS_TRIGGERRIGHT, GamepadAxis::RightZ);
 }
 
 void PlatfromContext::Init(int _argc, char** _argv)
@@ -157,34 +157,32 @@ void PlatfromContext::Init(int _argc, char** _argv)
 	);
 
 	_windowAlloc.alloc();
-	m_window[0] = SDL_CreateWindow("bgfx"
+	_window[0] = SDL_CreateWindow("bgfx"
 		, SDL_WINDOWPOS_UNDEFINED
 		, SDL_WINDOWPOS_UNDEFINED
-		, m_width
-		, m_height
+		, _width
+		, _height
 		, SDL_WINDOW_SHOWN
 		| SDL_WINDOW_RESIZABLE
 	);
 
-	m_flags[0] = 0
+	_flags[0] = 0
 		| ENTRY_WINDOW_FLAG_ASPECT_RATIO
 		| ENTRY_WINDOW_FLAG_FRAME
 		;
 
-	s_userEventStart = SDL_RegisterEvents(7);
+	_userEventStart = SDL_RegisterEvents(7);
 
-	sdlSetWindow(m_window[0]);
+	SDLSetWindow(_window[0]);
 	bgfx::renderFrame();
 
 }
 
 int PlatfromContext::Run(int _argc, char** _argv)
 {
-	
-
 	// Force window resolution...
 	
-	SetWindowSize(_defaultWindow, m_width, m_height, true);
+	SetWindowSize(_defaultWindow, _width, _height, true);
 
 	SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
 
@@ -222,20 +220,20 @@ int PlatfromContext::Run(int _argc, char** _argv)
 			switch (event.type)
 			{
 			case SDL_QUIT:
-				m_eventQueue.postExitEvent();
+				_eventQueue.postExitEvent();
 				exit = true;
 				break;
 
 			case SDL_MOUSEMOTION:
 			{
 				const SDL_MouseMotionEvent& mev = event.motion;
-				m_mx = mev.x;
-				m_my = mev.y;
+				_mx = mev.x;
+				_my = mev.y;
 
 				WindowHandle handle = FindHandle(mev.windowID);
 				if (isValid(handle))
 				{
-					m_eventQueue.postMouseEvent(handle, m_mx, m_my, m_mz);
+					_eventQueue.postMouseEvent(handle, _mx, _my, _mz);
 				}
 			}
 			break;
@@ -256,10 +254,10 @@ int PlatfromContext::Run(int _argc, char** _argv)
 					case SDL_BUTTON_RIGHT:  button = MouseButton::Right;  break;
 					}
 
-					m_eventQueue.postMouseEvent(handle
+					_eventQueue.postMouseEvent(handle
 						, mev.x
 						, mev.y
-						, m_mz
+						, _mz
 						, button
 						, mev.type == SDL_MOUSEBUTTONDOWN
 					);
@@ -270,12 +268,12 @@ int PlatfromContext::Run(int _argc, char** _argv)
 			case SDL_MOUSEWHEEL:
 			{
 				const SDL_MouseWheelEvent& mev = event.wheel;
-				m_mz += mev.y;
+				_mz += mev.y;
 
 				WindowHandle handle = FindHandle(mev.windowID);
 				if (isValid(handle))
 				{
-					m_eventQueue.postMouseEvent(handle, m_mx, m_my, m_mz);
+					_eventQueue.postMouseEvent(handle, _mx, _my, _mz);
 				}
 			}
 			break;
@@ -286,7 +284,7 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				WindowHandle handle = FindHandle(tev.windowID);
 				if (isValid(handle))
 				{
-					m_eventQueue.postCharEvent(handle, 1, (const uint8_t*)tev.text);
+					_eventQueue.postCharEvent(handle, 1, (const uint8_t*)tev.text);
 				}
 			}
 			break;
@@ -297,8 +295,8 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				WindowHandle handle = FindHandle(kev.windowID);
 				if (isValid(handle))
 				{
-					uint8_t modifiers = translateKeyModifiers(kev.keysym.mod);
-					Key::Enum key = translateKey(kev.keysym.scancode);
+					uint8_t modifiers = TranslateKeyModifiers(kev.keysym.mod);
+					Key::Enum key = TranslateKey(kev.keysym.scancode);
 
 #if 0
 					DBG("SDL scancode %d, key %d, name %s, key name %s"
@@ -313,29 +311,29 @@ int PlatfromContext::Run(int _argc, char** _argv)
 					/// Further along, pressing 'shift' + 'ctrl' would be: key == 'shift', modifier == 'ctrl.
 					if (0 == key && 0 == modifiers)
 					{
-						modifiers = translateKeyModifierPress(kev.keysym.scancode);
+						modifiers = TranslateKeyModifierPress(kev.keysym.scancode);
 					}
 
 					if (Key::Esc == key)
 					{
 						uint8_t pressedChar[4];
 						pressedChar[0] = 0x1b;
-						m_eventQueue.postCharEvent(handle, 1, pressedChar);
+						_eventQueue.postCharEvent(handle, 1, pressedChar);
 					}
 					else if (Key::Return == key)
 					{
 						uint8_t pressedChar[4];
 						pressedChar[0] = 0x0d;
-						m_eventQueue.postCharEvent(handle, 1, pressedChar);
+						_eventQueue.postCharEvent(handle, 1, pressedChar);
 					}
 					else if (Key::Backspace == key)
 					{
 						uint8_t pressedChar[4];
 						pressedChar[0] = 0x08;
-						m_eventQueue.postCharEvent(handle, 1, pressedChar);
+						_eventQueue.postCharEvent(handle, 1, pressedChar);
 					}
 
-					m_eventQueue.postKeyEvent(handle, key, modifiers, kev.state == SDL_PRESSED);
+					_eventQueue.postKeyEvent(handle, key, modifiers, kev.state == SDL_PRESSED);
 				}
 			}
 			break;
@@ -346,9 +344,9 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				WindowHandle handle = FindHandle(kev.windowID);
 				if (isValid(handle))
 				{
-					uint8_t modifiers = translateKeyModifiers(kev.keysym.mod);
-					Key::Enum key = translateKey(kev.keysym.scancode);
-					m_eventQueue.postKeyEvent(handle, key, modifiers, kev.state == SDL_PRESSED);
+					uint8_t modifiers = TranslateKeyModifiers(kev.keysym.mod);
+					Key::Enum key = TranslateKey(kev.keysym.scancode);
+					_eventQueue.postKeyEvent(handle, key, modifiers, kev.state == SDL_PRESSED);
 				}
 			}
 			break;
@@ -384,7 +382,7 @@ int PlatfromContext::Run(int _argc, char** _argv)
 					WindowHandle handle = FindHandle(wev.windowID);
 					if (0 == handle.idx)
 					{
-						m_eventQueue.postExitEvent();
+						_eventQueue.postExitEvent();
 						exit = true;
 					}
 				}
@@ -399,8 +397,8 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				GamepadHandle handle = FindGamepad(jev.which);
 				if (isValid(handle))
 				{
-					GamepadAxis::Enum axis = translateGamepadAxis(jev.axis);
-					m_gamepad[handle.idx].update(m_eventQueue, _defaultWindow, handle, axis, jev.value);
+					GamepadAxis::Enum axis = TranslateGamepadAxis(jev.axis);
+					_gamepad[handle.idx].update(_eventQueue, _defaultWindow, handle, axis, jev.value);
 				}
 			}
 			break;
@@ -411,8 +409,8 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				GamepadHandle handle = FindGamepad(aev.which);
 				if (isValid(handle))
 				{
-					GamepadAxis::Enum axis = translateGamepadAxis(aev.axis);
-					m_gamepad[handle.idx].update(m_eventQueue, _defaultWindow, handle, axis, aev.value);
+					GamepadAxis::Enum axis = TranslateGamepadAxis(aev.axis);
+					_gamepad[handle.idx].update(_eventQueue, _defaultWindow, handle, axis, aev.value);
 				}
 			}
 			break;
@@ -425,10 +423,10 @@ int PlatfromContext::Run(int _argc, char** _argv)
 
 				if (isValid(handle))
 				{
-					Key::Enum key = translateGamepad(bev.button);
+					Key::Enum key = TranslateGamepad(bev.button);
 					if (Key::Count != key)
 					{
-						m_eventQueue.postKeyEvent(_defaultWindow, key, 0, event.type == SDL_JOYBUTTONDOWN);
+						_eventQueue.postKeyEvent(_defaultWindow, key, 0, event.type == SDL_JOYBUTTONDOWN);
 					}
 				}
 			}
@@ -441,10 +439,10 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				GamepadHandle handle = FindGamepad(bev.which);
 				if (isValid(handle))
 				{
-					Key::Enum key = translateGamepad(bev.button);
+					Key::Enum key = TranslateGamepad(bev.button);
 					if (Key::Count != key)
 					{
-						m_eventQueue.postKeyEvent(_defaultWindow, key, 0, event.type == SDL_CONTROLLERBUTTONDOWN);
+						_eventQueue.postKeyEvent(_defaultWindow, key, 0, event.type == SDL_CONTROLLERBUTTONDOWN);
 					}
 				}
 			}
@@ -452,12 +450,12 @@ int PlatfromContext::Run(int _argc, char** _argv)
 
 			case SDL_JOYDEVICEADDED:
 			{
-				GamepadHandle handle = { m_gamepadAlloc.alloc() };
+				GamepadHandle handle = { _gamepadAlloc.alloc() };
 				if (isValid(handle))
 				{
 					const SDL_JoyDeviceEvent& jev = event.jdevice;
-					m_gamepad[handle.idx].create(jev);
-					m_eventQueue.postGamepadEvent(_defaultWindow, handle, true);
+					_gamepad[handle.idx].create(jev);
+					_eventQueue.postGamepadEvent(_defaultWindow, handle, true);
 				}
 			}
 			break;
@@ -468,21 +466,21 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				GamepadHandle handle = FindGamepad(jev.which);
 				if (isValid(handle))
 				{
-					m_gamepad[handle.idx].destroy();
-					m_gamepadAlloc.free(handle.idx);
-					m_eventQueue.postGamepadEvent(_defaultWindow, handle, false);
+					_gamepad[handle.idx].destroy();
+					_gamepadAlloc.free(handle.idx);
+					_eventQueue.postGamepadEvent(_defaultWindow, handle, false);
 				}
 			}
 			break;
 
 			case SDL_CONTROLLERDEVICEADDED:
 			{
-				GamepadHandle handle = { m_gamepadAlloc.alloc() };
+				GamepadHandle handle = { _gamepadAlloc.alloc() };
 				if (isValid(handle))
 				{
 					const SDL_ControllerDeviceEvent& cev = event.cdevice;
-					m_gamepad[handle.idx].create(cev);
-					m_eventQueue.postGamepadEvent(_defaultWindow, handle, true);
+					_gamepad[handle.idx].create(cev);
+					_eventQueue.postGamepadEvent(_defaultWindow, handle, true);
 				}
 			}
 			break;
@@ -499,9 +497,9 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				GamepadHandle handle = FindGamepad(cev.which);
 				if (isValid(handle))
 				{
-					m_gamepad[handle.idx].destroy();
-					m_gamepadAlloc.free(handle.idx);
-					m_eventQueue.postGamepadEvent(_defaultWindow, handle, false);
+					_gamepad[handle.idx].destroy();
+					_gamepadAlloc.free(handle.idx);
+					_eventQueue.postGamepadEvent(_defaultWindow, handle, false);
 				}
 			}
 			break;
@@ -512,7 +510,7 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				WindowHandle handle = _defaultWindow; //findHandle(dev.windowID);
 				if (isValid(handle))
 				{
-					m_eventQueue.postDropFileEvent(handle, dev.file);
+					_eventQueue.postDropFileEvent(handle, dev.file);
 					SDL_free(dev.file);
 				}
 			}
@@ -521,14 +519,14 @@ int PlatfromContext::Run(int _argc, char** _argv)
 			default:
 			{
 				const SDL_UserEvent& uev = event.user;
-				switch (uev.type - s_userEventStart)
+				switch (uev.type - _userEventStart)
 				{
 				case SDL_USER_WINDOW_CREATE:
 				{
-					WindowHandle handle = getWindowHandle(uev);
+					WindowHandle handle = GetWindowHandle(uev);
 					PlatformMsg* msg = (PlatformMsg*)uev.data2;
 
-					m_window[handle.idx] = SDL_CreateWindow(msg->_title.CString()
+					_window[handle.idx] = SDL_CreateWindow(msg->_title.CString()
 						, msg->_x
 						, msg->_y
 						, msg->_width
@@ -537,13 +535,13 @@ int PlatfromContext::Run(int _argc, char** _argv)
 						| SDL_WINDOW_RESIZABLE
 					);
 
-					m_flags[handle.idx] = msg->_flags;
+					_flags[handle.idx] = msg->_flags;
 
-					void* nwh = SDLNativeWindowHandle(m_window[handle.idx]);
+					void* nwh = SDLNativeWindowHandle(_window[handle.idx]);
 					if (NULL != nwh)
 					{
-						m_eventQueue.postSizeEvent(handle, msg->_width, msg->_height);
-						m_eventQueue.postWindowEvent(handle, nwh);
+						_eventQueue.postSizeEvent(handle, msg->_width, msg->_height);
+						_eventQueue.postWindowEvent(handle, nwh);
 					}
 
 					delete msg;
@@ -552,23 +550,23 @@ int PlatfromContext::Run(int _argc, char** _argv)
 
 				case SDL_USER_WINDOW_DESTROY:
 				{
-					WindowHandle handle = getWindowHandle(uev);
+					WindowHandle handle = GetWindowHandle(uev);
 					if (isValid(handle))
 					{
-						m_eventQueue.postWindowEvent(handle);
-						sdlDestroyWindow(m_window[handle.idx]);
-						m_window[handle.idx] = NULL;
+						_eventQueue.postWindowEvent(handle);
+						SDLDestroyWindow(_window[handle.idx]);
+						_window[handle.idx] = NULL;
 					}
 				}
 				break;
 
 				case SDL_USER_WINDOW_SET_TITLE:
 				{
-					WindowHandle handle = getWindowHandle(uev);
+					WindowHandle handle = GetWindowHandle(uev);
 					PlatformMsg* msg = (PlatformMsg*)uev.data2;
 					if (isValid(handle))
 					{
-						SDL_SetWindowTitle(m_window[handle.idx], msg->_title.CString());
+						SDL_SetWindowTitle(_window[handle.idx], msg->_title.CString());
 					}
 					delete msg;
 				}
@@ -576,16 +574,16 @@ int PlatfromContext::Run(int _argc, char** _argv)
 
 				case SDL_USER_WINDOW_SET_FLAGS:
 				{
-					WindowHandle handle = getWindowHandle(uev);
+					WindowHandle handle = GetWindowHandle(uev);
 					PlatformMsg* msg = (PlatformMsg*)uev.data2;
 
 					if (msg->_flagsEnabled)
 					{
-						m_flags[handle.idx] |= msg->_flags;
+						_flags[handle.idx] |= msg->_flags;
 					}
 					else
 					{
-						m_flags[handle.idx] &= ~msg->_flags;
+						_flags[handle.idx] &= ~msg->_flags;
 					}
 
 					delete msg;
@@ -594,16 +592,16 @@ int PlatfromContext::Run(int _argc, char** _argv)
 
 				case SDL_USER_WINDOW_SET_POS:
 				{
-					WindowHandle handle = getWindowHandle(uev);
+					WindowHandle handle = GetWindowHandle(uev);
 					PlatformMsg* msg = (PlatformMsg*)uev.data2;
-					SDL_SetWindowPosition(m_window[handle.idx], msg->_x, msg->_y);
+					SDL_SetWindowPosition(_window[handle.idx], msg->_x, msg->_y);
 					delete msg;
 				}
 				break;
 
 				case SDL_USER_WINDOW_SET_SIZE:
 				{
-					WindowHandle handle = getWindowHandle(uev);
+					WindowHandle handle = GetWindowHandle(uev);
 					PlatformMsg* msg = (PlatformMsg*)uev.data2;
 					if (isValid(handle))
 					{
@@ -615,20 +613,20 @@ int PlatfromContext::Run(int _argc, char** _argv)
 
 				case SDL_USER_WINDOW_TOGGLE_FRAME:
 				{
-					WindowHandle handle = getWindowHandle(uev);
+					WindowHandle handle = GetWindowHandle(uev);
 					if (isValid(handle))
 					{
-						m_flags[handle.idx] ^= ENTRY_WINDOW_FLAG_FRAME;
-						SDL_SetWindowBordered(m_window[handle.idx], (SDL_bool)!!(m_flags[handle.idx] & ENTRY_WINDOW_FLAG_FRAME));
+						_flags[handle.idx] ^= ENTRY_WINDOW_FLAG_FRAME;
+						SDL_SetWindowBordered(_window[handle.idx], (SDL_bool)!!(_flags[handle.idx] & ENTRY_WINDOW_FLAG_FRAME));
 					}
 				}
 				break;
 
 				case SDL_USER_WINDOW_TOGGLE_FULL_SCREEN:
 				{
-					WindowHandle handle = getWindowHandle(uev);
-					m_fullscreen = !m_fullscreen;
-					SDL_SetWindowFullscreen(m_window[handle.idx], m_fullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
+					WindowHandle handle = GetWindowHandle(uev);
+					_fullscreen = !_fullscreen;
+					SDL_SetWindowFullscreen(_window[handle.idx], _fullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
 				}
 				break;
 
@@ -655,7 +653,7 @@ int PlatfromContext::Run(int _argc, char** _argv)
 
 bool PlatfromContext::DestoryContext()
 {
-	sdlDestroyWindow(m_window[0]);
+	SDLDestroyWindow(_window[0]);
 	SDL_Quit();
 
 	return true;
@@ -666,13 +664,13 @@ WindowHandle PlatfromContext::FindHandle(uint32_t _windowId)
 	return FindHandle(window);
 }
 
-WindowHandle PlatfromContext::FindHandle(SDL_Window* _window)
+WindowHandle PlatfromContext::FindHandle(SDL_Window* window)
 {
-	bx::MutexScope scope(m_lock);
+	bx::MutexScope scope(_lock);
 	for (uint32_t ii = 0, num = _windowAlloc.getNumHandles(); ii < num; ++ii)
 	{
 		uint16_t idx = _windowAlloc.getHandleAt(ii);
-		if (_window == m_window[idx])
+		if (window == _window[idx])
 		{
 			WindowHandle handle = { idx };
 			return handle;
@@ -685,24 +683,24 @@ WindowHandle PlatfromContext::FindHandle(SDL_Window* _window)
 
 void PlatfromContext::SetWindowSize(WindowHandle _handle, uint32_t _width, uint32_t _height, bool _force)
 {
-	if (_width != m_width
-		|| _height != m_height
+	if (_width != _width
+		|| _height != _height
 		|| _force)
 	{
-		m_width = _width;
-		m_height = _height;
+		_width = _width;
+		_height = _height;
 
-		SDL_SetWindowSize(m_window[_handle.idx], m_width, m_height);
-		m_eventQueue.postSizeEvent(_handle, m_width, m_height);
+		SDL_SetWindowSize(_window[_handle.idx], _width, _height);
+		_eventQueue.postSizeEvent(_handle, _width, _height);
 	}
 }
 
 GamepadHandle PlatfromContext::FindGamepad(SDL_JoystickID _jid)
 {
-	for (uint32_t ii = 0, num = m_gamepadAlloc.getNumHandles(); ii < num; ++ii)
+	for (uint32_t ii = 0, num = _gamepadAlloc.getNumHandles(); ii < num; ++ii)
 	{
-		uint16_t idx = m_gamepadAlloc.getHandleAt(ii);
-		if (_jid == m_gamepad[idx].m_jid)
+		uint16_t idx = _gamepadAlloc.getHandleAt(ii);
+		if (_jid == _gamepad[idx].m_jid)
 		{
 			GamepadHandle handle = { idx };
 			return handle;

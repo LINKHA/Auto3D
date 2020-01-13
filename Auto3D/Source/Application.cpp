@@ -5,6 +5,91 @@
 
 namespace Auto3D
 {
+uint32_t IAppInstance::s_width = ENTRY_DEFAULT_WIDTH;
+uint32_t IAppInstance::s_height = ENTRY_DEFAULT_HEIGHT;
+
+IAppInstance*    IAppInstance::s_currentApp = NULL;
+IAppInstance*    IAppInstance::s_apps = NULL;
+uint32_t IAppInstance::s_numApps = 0;
+char IAppInstance::s_restartArgs[1024] = { '\0' };
+
+int runApp(IAppInstance* app, int argc, const char* const* argv)
+{
+	app->init(argc, argv, IAppInstance::s_width, IAppInstance::s_height);
+	bgfx::frame();
+
+	FPlatform::SetWindowSize(PlatfromContext::_defaultWindow, IAppInstance::s_width, IAppInstance::s_height);
+
+#if BX_PLATFORM_EMSCRIPTEN
+	s_app = _app;
+	emscripten_set_main_loop(&updateApp, -1, 1);
+#else
+	while (app->update())
+	{
+		if (0 != bx::strLen(IAppInstance::s_restartArgs))
+		{
+			break;
+		}
+	}
+#endif // BX_PLATFORM_EMSCRIPTEN
+
+	return app->shutdown();
+}
+
+IAppInstance::IAppInstance(const char* _name, const char* _description, const char* _url)
+{
+	m_name = _name;
+	m_description = _description;
+	m_url = _url;
+	m_next = s_apps;
+
+	s_apps = this;
+	s_numApps++;
+}
+
+IAppInstance::~IAppInstance()
+{
+	for (IAppInstance* prev = NULL, *app = s_apps, *next = app->getNext()
+		; NULL != app
+		; prev = app, app = next, next = app->getNext())
+	{
+		if (app == this)
+		{
+			if (NULL != prev)
+			{
+				prev->m_next = next;
+			}
+			else
+			{
+				s_apps = next;
+			}
+
+			--s_numApps;
+
+			break;
+		}
+	}
+}
+
+const char* IAppInstance::getName() const
+{
+	return m_name;
+}
+
+const char* IAppInstance::getDescription() const
+{
+	return m_description;
+}
+
+const char* IAppInstance::getUrl() const
+{
+	return m_url;
+}
+
+IAppInstance* IAppInstance::getNext()
+{
+	return m_next;
+}
 
 int32_t FMainThreadEntry::ThreadFunc(bx::Thread* thread, void* userData)
 {
