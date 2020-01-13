@@ -1,11 +1,4 @@
-/*
- * Copyright 2011-2019 Branimir Karadzic. All rights reserved.
- * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
- */
-
-#ifndef ENTRY_H_HEADER_GUARD
-#define ENTRY_H_HEADER_GUARD
-
+#pragma once
 #include "dbg.h"
 #include <bx/bx.h>
 #include <bx/filepath.h>
@@ -339,5 +332,3 @@ namespace Auto3D
 	int runApp(AppI* _app, int _argc, const char* const* _argv);
 
 } // namespace Auto3D
-
-#endif // ENTRY_H_HEADER_GUARD

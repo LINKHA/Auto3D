@@ -62,15 +62,15 @@ struct PlatfromContext
 	REGISTER_SINGLETON(PlatfromContext)
 	PlatfromContext();
 
-	int run(int _argc, char** _argv);
+	int Run(int _argc, char** _argv);
 
-	WindowHandle findHandle(uint32_t _windowId);
+	WindowHandle FindHandle(uint32_t _windowId);
 
-	WindowHandle findHandle(SDL_Window* _window);
+	WindowHandle FindHandle(SDL_Window* _window);
 
-	void setWindowSize(WindowHandle _handle, uint32_t _width, uint32_t _height, bool _force = false);
+	void SetWindowSize(WindowHandle _handle, uint32_t _width, uint32_t _height, bool _force = false);
 
-	GamepadHandle findGamepad(SDL_JoystickID _jid);
+	GamepadHandle FindGamepad(SDL_JoystickID _jid);
 
 
 

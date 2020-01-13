@@ -176,7 +176,7 @@ PlatfromContext::PlatfromContext()
 	initTranslateGamepadAxis(SDL_CONTROLLER_AXIS_TRIGGERRIGHT, GamepadAxis::RightZ);
 }
 
-int PlatfromContext::run(int _argc, char** _argv)
+int PlatfromContext::Run(int _argc, char** _argv)
 {
 	m_mte.m_argc = _argc;
 	m_mte.m_argv = _argv;
@@ -209,7 +209,7 @@ int PlatfromContext::run(int _argc, char** _argv)
 
 	// Force window resolution...
 	WindowHandle defaultWindow = { 0 };
-	setWindowSize(defaultWindow, m_width, m_height, true);
+	SetWindowSize(defaultWindow, m_width, m_height, true);
 
 	SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
 
@@ -257,7 +257,7 @@ int PlatfromContext::run(int _argc, char** _argv)
 				m_mx = mev.x;
 				m_my = mev.y;
 
-				WindowHandle handle = findHandle(mev.windowID);
+				WindowHandle handle = FindHandle(mev.windowID);
 				if (isValid(handle))
 				{
 					m_eventQueue.postMouseEvent(handle, m_mx, m_my, m_mz);
@@ -269,7 +269,7 @@ int PlatfromContext::run(int _argc, char** _argv)
 			case SDL_MOUSEBUTTONUP:
 			{
 				const SDL_MouseButtonEvent& mev = event.button;
-				WindowHandle handle = findHandle(mev.windowID);
+				WindowHandle handle = FindHandle(mev.windowID);
 				if (isValid(handle))
 				{
 					MouseButton::Enum button;
@@ -297,7 +297,7 @@ int PlatfromContext::run(int _argc, char** _argv)
 				const SDL_MouseWheelEvent& mev = event.wheel;
 				m_mz += mev.y;
 
-				WindowHandle handle = findHandle(mev.windowID);
+				WindowHandle handle = FindHandle(mev.windowID);
 				if (isValid(handle))
 				{
 					m_eventQueue.postMouseEvent(handle, m_mx, m_my, m_mz);
@@ -308,7 +308,7 @@ int PlatfromContext::run(int _argc, char** _argv)
 			case SDL_TEXTINPUT:
 			{
 				const SDL_TextInputEvent& tev = event.text;
-				WindowHandle handle = findHandle(tev.windowID);
+				WindowHandle handle = FindHandle(tev.windowID);
 				if (isValid(handle))
 				{
 					m_eventQueue.postCharEvent(handle, 1, (const uint8_t*)tev.text);
@@ -319,7 +319,7 @@ int PlatfromContext::run(int _argc, char** _argv)
 			case SDL_KEYDOWN:
 			{
 				const SDL_KeyboardEvent& kev = event.key;
-				WindowHandle handle = findHandle(kev.windowID);
+				WindowHandle handle = FindHandle(kev.windowID);
 				if (isValid(handle))
 				{
 					uint8_t modifiers = translateKeyModifiers(kev.keysym.mod);
@@ -368,7 +368,7 @@ int PlatfromContext::run(int _argc, char** _argv)
 			case SDL_KEYUP:
 			{
 				const SDL_KeyboardEvent& kev = event.key;
-				WindowHandle handle = findHandle(kev.windowID);
+				WindowHandle handle = FindHandle(kev.windowID);
 				if (isValid(handle))
 				{
 					uint8_t modifiers = translateKeyModifiers(kev.keysym.mod);
@@ -386,8 +386,8 @@ int PlatfromContext::run(int _argc, char** _argv)
 				case SDL_WINDOWEVENT_RESIZED:
 				case SDL_WINDOWEVENT_SIZE_CHANGED:
 				{
-					WindowHandle handle = findHandle(wev.windowID);
-					setWindowSize(handle, wev.data1, wev.data2);
+					WindowHandle handle = FindHandle(wev.windowID);
+					SetWindowSize(handle, wev.data1, wev.data2);
 				}
 				break;
 
@@ -406,7 +406,7 @@ int PlatfromContext::run(int _argc, char** _argv)
 
 				case SDL_WINDOWEVENT_CLOSE:
 				{
-					WindowHandle handle = findHandle(wev.windowID);
+					WindowHandle handle = FindHandle(wev.windowID);
 					if (0 == handle.idx)
 					{
 						m_eventQueue.postExitEvent();
@@ -421,7 +421,7 @@ int PlatfromContext::run(int _argc, char** _argv)
 			case SDL_JOYAXISMOTION:
 			{
 				const SDL_JoyAxisEvent& jev = event.jaxis;
-				GamepadHandle handle = findGamepad(jev.which);
+				GamepadHandle handle = FindGamepad(jev.which);
 				if (isValid(handle))
 				{
 					GamepadAxis::Enum axis = translateGamepadAxis(jev.axis);
@@ -433,7 +433,7 @@ int PlatfromContext::run(int _argc, char** _argv)
 			case SDL_CONTROLLERAXISMOTION:
 			{
 				const SDL_ControllerAxisEvent& aev = event.caxis;
-				GamepadHandle handle = findGamepad(aev.which);
+				GamepadHandle handle = FindGamepad(aev.which);
 				if (isValid(handle))
 				{
 					GamepadAxis::Enum axis = translateGamepadAxis(aev.axis);
@@ -446,7 +446,7 @@ int PlatfromContext::run(int _argc, char** _argv)
 			case SDL_JOYBUTTONUP:
 			{
 				const SDL_JoyButtonEvent& bev = event.jbutton;
-				GamepadHandle handle = findGamepad(bev.which);
+				GamepadHandle handle = FindGamepad(bev.which);
 
 				if (isValid(handle))
 				{
@@ -463,7 +463,7 @@ int PlatfromContext::run(int _argc, char** _argv)
 			case SDL_CONTROLLERBUTTONUP:
 			{
 				const SDL_ControllerButtonEvent& bev = event.cbutton;
-				GamepadHandle handle = findGamepad(bev.which);
+				GamepadHandle handle = FindGamepad(bev.which);
 				if (isValid(handle))
 				{
 					Key::Enum key = translateGamepad(bev.button);
@@ -490,7 +490,7 @@ int PlatfromContext::run(int _argc, char** _argv)
 			case SDL_JOYDEVICEREMOVED:
 			{
 				const SDL_JoyDeviceEvent& jev = event.jdevice;
-				GamepadHandle handle = findGamepad(jev.which);
+				GamepadHandle handle = FindGamepad(jev.which);
 				if (isValid(handle))
 				{
 					m_gamepad[handle.idx].destroy();
@@ -521,7 +521,7 @@ int PlatfromContext::run(int _argc, char** _argv)
 			case SDL_CONTROLLERDEVICEREMOVED:
 			{
 				const SDL_ControllerDeviceEvent& cev = event.cdevice;
-				GamepadHandle handle = findGamepad(cev.which);
+				GamepadHandle handle = FindGamepad(cev.which);
 				if (isValid(handle))
 				{
 					m_gamepad[handle.idx].destroy();
@@ -632,7 +632,7 @@ int PlatfromContext::run(int _argc, char** _argv)
 					Msg* msg = (Msg*)uev.data2;
 					if (isValid(handle))
 					{
-						setWindowSize(handle, msg->m_width, msg->m_height);
+						SetWindowSize(handle, msg->m_width, msg->m_height);
 					}
 					delete msg;
 				}
@@ -681,13 +681,13 @@ int PlatfromContext::run(int _argc, char** _argv)
 	return m_thread.getExitCode();
 }
 
-WindowHandle PlatfromContext::findHandle(uint32_t _windowId)
+WindowHandle PlatfromContext::FindHandle(uint32_t _windowId)
 {
 	SDL_Window* window = SDL_GetWindowFromID(_windowId);
-	return findHandle(window);
+	return FindHandle(window);
 }
 
-WindowHandle PlatfromContext::findHandle(SDL_Window* _window)
+WindowHandle PlatfromContext::FindHandle(SDL_Window* _window)
 {
 	bx::MutexScope scope(m_lock);
 	for (uint32_t ii = 0, num = _windowAlloc.getNumHandles(); ii < num; ++ii)
@@ -704,7 +704,7 @@ WindowHandle PlatfromContext::findHandle(SDL_Window* _window)
 	return invalid;
 }
 
-void PlatfromContext::setWindowSize(WindowHandle _handle, uint32_t _width, uint32_t _height, bool _force)
+void PlatfromContext::SetWindowSize(WindowHandle _handle, uint32_t _width, uint32_t _height, bool _force)
 {
 	if (_width != m_width
 		|| _height != m_height
@@ -718,7 +718,7 @@ void PlatfromContext::setWindowSize(WindowHandle _handle, uint32_t _width, uint3
 	}
 }
 
-GamepadHandle PlatfromContext::findGamepad(SDL_JoystickID _jid)
+GamepadHandle PlatfromContext::FindGamepad(SDL_JoystickID _jid)
 {
 	for (uint32_t ii = 0, num = m_gamepadAlloc.getNumHandles(); ii < num; ++ii)
 	{

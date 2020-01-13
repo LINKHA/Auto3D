@@ -34,8 +34,8 @@ target_link_libraries (${TARGET_NAME}  SDL2main)
 
 include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/SDL2/include)
 
-target_link_libraries (${TARGET_NAME}  STB)
-include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/STB)
+#target_link_libraries (${TARGET_NAME}  STB)
+include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/bgfx/bimg/3rdparty/stb)
 
 target_link_libraries (${TARGET_NAME}  Assimp)
 include_directories (${AUTO_ROOT_PATH}/Auto3D/ThirdParty/assimp/include)
