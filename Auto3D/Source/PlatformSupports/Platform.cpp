@@ -18,6 +18,11 @@
 #include "cmd.h"
 #include "input.h"
 
+#include "PlatformSupports/PlatformContext.h"
+
+#include <SDL.h>
+#include <SDL_syswm.h>
+
 extern "C" int32_t _main_(int32_t _argc, char** _argv);
 
 namespace Auto3D
@@ -37,6 +42,105 @@ namespace Auto3D
 	typedef bx::StringT<&g_allocator> String;
 
 	static String s_currentDir;
+
+
+	
+
+
+
+	static void sdlPostEvent(SDL_USER_WINDOW _type, WindowHandle _handle, Msg* _msg = NULL, uint32_t _code = 0)
+	{
+		SDL_Event event;
+		SDL_UserEvent& uev = event.user;
+		uev.type = PlatfromContext::s_userEventStart + _type;
+
+		union { void* p; WindowHandle h; } cast;
+		cast.h = _handle;
+		uev.data1 = cast.p;
+
+		uev.data2 = _msg;
+		uev.code = _code;
+		SDL_PushEvent(&event);
+	}
+
+
+	WindowHandle createWindow(int32_t _x, int32_t _y, uint32_t _width, uint32_t _height, uint32_t _flags, const char* _title)
+	{
+		bx::MutexScope scope(PlatfromContext::Get().m_lock);
+		WindowHandle handle = { PlatfromContext::Get()._windowAlloc.alloc() };
+
+		if (UINT16_MAX != handle.idx)
+		{
+			Msg* msg = new Msg;
+			msg->m_x = _x;
+			msg->m_y = _y;
+			msg->m_width = _width;
+			msg->m_height = _height;
+			msg->m_title = _title;
+			msg->m_flags = _flags;
+
+			sdlPostEvent(SDL_USER_WINDOW_CREATE, handle, msg);
+		}
+
+		return handle;
+	}
+
+	void destroyWindow(WindowHandle _handle)
+	{
+		if (UINT16_MAX != _handle.idx)
+		{
+			sdlPostEvent(SDL_USER_WINDOW_DESTROY, _handle);
+
+			bx::MutexScope scope(PlatfromContext::Get().m_lock);
+			PlatfromContext::Get()._windowAlloc.free(_handle.idx);
+		}
+	}
+
+	void setWindowPos(WindowHandle _handle, int32_t _x, int32_t _y)
+	{
+		Msg* msg = new Msg;
+		msg->m_x = _x;
+		msg->m_y = _y;
+
+		sdlPostEvent(SDL_USER_WINDOW_SET_POS, _handle, msg);
+	}
+
+	void setWindowSize(WindowHandle _handle, uint32_t _width, uint32_t _height)
+	{
+		Msg* msg = new Msg;
+		msg->m_width = _width;
+		msg->m_height = _height;
+
+		sdlPostEvent(SDL_USER_WINDOW_SET_SIZE, _handle, msg);
+	}
+
+	void setWindowTitle(WindowHandle _handle, const char* _title)
+	{
+		Msg* msg = new Msg;
+		msg->m_title = _title;
+
+		sdlPostEvent(SDL_USER_WINDOW_SET_TITLE, _handle, msg);
+	}
+
+	void setWindowFlags(WindowHandle _handle, uint32_t _flags, bool _enabled)
+	{
+		Msg* msg = new Msg;
+		msg->m_flags = _flags;
+		msg->m_flagsEnabled = _enabled;
+		sdlPostEvent(SDL_USER_WINDOW_SET_FLAGS, _handle, msg);
+	}
+
+	void toggleFullscreen(WindowHandle _handle)
+	{
+		sdlPostEvent(SDL_USER_WINDOW_TOGGLE_FULL_SCREEN, _handle);
+	}
+
+	void setMouseLock(WindowHandle _handle, bool _lock)
+	{
+		sdlPostEvent(SDL_USER_WINDOW_MOUSE_LOCK, _handle, NULL, _lock);
+	}
+
+
 
 	class FileReader : public bx::FileReader
 	{
@@ -570,7 +674,7 @@ BX_PRAGMA_DIAGNOSTIC_POP();
 		BX_FREE(g_allocator, apps);
 	}
 
-	int main(int _argc, const char* const* _argv)
+	int RunMain(int _argc, const char* const* _argv)
 	{
 		//DBG(BX_COMPILER_NAME " / " BX_CPU_NAME " / " BX_ARCH_NAME " / " BX_PLATFORM_NAME);
 
@@ -993,6 +1097,7 @@ restart:
 			BX_FREE(getAllocator(), _ptr);
 		}
 	}
+
 
 } // namespace Auto3D
 

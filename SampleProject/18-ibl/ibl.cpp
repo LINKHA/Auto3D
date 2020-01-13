@@ -832,9 +832,19 @@ public:
 
 } // namespace
 
-ENTRY_IMPLEMENT_MAIN(
-	  ExampleIbl
-	, "18-ibl"
-	, "Image-based lighting."
-	, "https://bkaradzic.github.io/bgfx/examples.html#ibl"
-	);
+int _main_(int _argc, char** _argv)
+{
+	ExampleIbl app(
+		 "18-ibl"
+		, "Image-based lighting."
+		, "https://bkaradzic.github.io/bgfx/examples.html#ibl"
+		);
+	return Auto3D::runApp(&app, _argc, _argv);
+}
+//
+//ENTRY_IMPLEMENT_MAIN(
+//	  ExampleIbl
+//	, "18-ibl"
+//	, "Image-based lighting."
+//	, "https://bkaradzic.github.io/bgfx/examples.html#ibl"
+//	);

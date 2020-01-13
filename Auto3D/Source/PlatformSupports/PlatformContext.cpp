@@ -2,6 +2,7 @@
 #include "PlatformContext.h"
 
 #include "PlatformSupports/PlatformDef.h"
+#include "PlatformSupports/Platform.h"
 
 #if BX_PLATFORM_LINUX || BX_PLATFORM_BSD
 #	if ENTRY_CONFIG_USE_WAYLAND
@@ -19,25 +20,12 @@ BX_PRAGMA_DIAGNOSTIC_POP()
 namespace Auto3D
 {
 
-enum SDL_USER_WINDOW
-{
-	SDL_USER_WINDOW_CREATE,
-	SDL_USER_WINDOW_DESTROY,
-	SDL_USER_WINDOW_SET_TITLE,
-	SDL_USER_WINDOW_SET_FLAGS,
-	SDL_USER_WINDOW_SET_POS,
-	SDL_USER_WINDOW_SET_SIZE,
-	SDL_USER_WINDOW_TOGGLE_FRAME,
-	SDL_USER_WINDOW_TOGGLE_FULL_SCREEN,
-	SDL_USER_WINDOW_MOUSE_LOCK,
-};
-
 int32_t FMainThreadEntry::threadFunc(bx::Thread* thread, void* userData)
 {
 	BX_UNUSED(thread);
 
 	FMainThreadEntry* self = (FMainThreadEntry*)userData;
-	int32_t result = main(self->m_argc, self->m_argv);
+	int32_t result = RunMain(self->m_argc, self->m_argv);
 
 	SDL_Event event;
 	SDL_QuitEvent& qev = event.quit;
@@ -46,6 +34,27 @@ int32_t FMainThreadEntry::threadFunc(bx::Thread* thread, void* userData)
 	return result;
 }
 
+const Event* poll()
+{
+	return PlatfromContext::Get().m_eventQueue.poll();
+}
+
+const Event* poll(WindowHandle _handle)
+{
+	return PlatfromContext::Get().m_eventQueue.poll(_handle);
+}
+
+void release(const Event* _event)
+{
+	PlatfromContext::Get().m_eventQueue.release(_event);
+}
+
+uint8_t PlatfromContext::s_translateKey[256] = { 0 };
+uint8_t PlatfromContext::s_translateGamepad[256] = { 0 };
+uint32_t PlatfromContext::s_userEventStart = { 0 };
+uint8_t PlatfromContext::s_translateGamepadAxis[256] = { 0 };
+
+IMPLEMENT_SINGLETON(PlatfromContext)
 
 PlatfromContext::PlatfromContext()
 	: m_width(ENTRY_DEFAULT_WIDTH)

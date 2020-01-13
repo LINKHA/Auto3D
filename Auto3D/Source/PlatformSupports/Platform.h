@@ -43,6 +43,19 @@ namespace Auto3D
 	struct GamepadHandle { uint16_t idx; };
 	inline bool isValid(GamepadHandle _handle) { return UINT16_MAX != _handle.idx; }
 
+	enum SDL_USER_WINDOW
+	{
+		SDL_USER_WINDOW_CREATE,
+		SDL_USER_WINDOW_DESTROY,
+		SDL_USER_WINDOW_SET_TITLE,
+		SDL_USER_WINDOW_SET_FLAGS,
+		SDL_USER_WINDOW_SET_POS,
+		SDL_USER_WINDOW_SET_SIZE,
+		SDL_USER_WINDOW_TOGGLE_FRAME,
+		SDL_USER_WINDOW_TOGGLE_FULL_SCREEN,
+		SDL_USER_WINDOW_MOUSE_LOCK,
+	};
+
 	struct MouseButton
 	{
 		enum Enum

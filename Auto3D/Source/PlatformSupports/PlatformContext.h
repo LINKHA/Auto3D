@@ -2,6 +2,7 @@
 #include "AutoConfig.h"
 #include "PlatformSupports/PlatformDef.h"
 #include "PlatformSupports/GamePad.h"
+#include "Container/Singleton.h"
 
 #include <SDL.h>
 #include <SDL_syswm.h>
@@ -58,6 +59,7 @@ struct FMainThreadEntry
 
 struct PlatfromContext
 {
+	REGISTER_SINGLETON(PlatfromContext)
 	PlatfromContext();
 
 	int run(int _argc, char** _argv);
@@ -69,7 +71,10 @@ struct PlatfromContext
 	void setWindowSize(WindowHandle _handle, uint32_t _width, uint32_t _height, bool _force = false);
 
 	GamepadHandle findGamepad(SDL_JoystickID _jid);
-private:
+
+
+
+
 	inline void initTranslateKey(uint16_t _sdl, Key::Enum _key)
 	{
 		BX_CHECK(_sdl < BX_COUNTOF(s_translateKey), "Out of bounds %d.", _sdl);
