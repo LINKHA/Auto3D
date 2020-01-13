@@ -254,15 +254,19 @@ namespace Auto3D
 	bx::FileWriterI* getFileWriter();
 	bx::AllocatorI*  getAllocator();
 
-	WindowHandle createWindow(int32_t _x, int32_t _y, uint32_t _width, uint32_t _height, uint32_t _flags = ENTRY_WINDOW_FLAG_NONE, const char* _title = "");
-	void destroyWindow(WindowHandle _handle);
-	void setWindowPos(WindowHandle _handle, int32_t _x, int32_t _y);
-	void setWindowSize(WindowHandle _handle, uint32_t _width, uint32_t _height);
-	void setWindowTitle(WindowHandle _handle, const char* _title);
-	void setWindowFlags(WindowHandle _handle, uint32_t _flags, bool _enabled);
-	void toggleFullscreen(WindowHandle _handle);
-	void setMouseLock(WindowHandle _handle, bool _lock);
-	void setCurrentDir(const char* _dir);
+	struct FPlatform
+	{
+		static WindowHandle CreateWindowHandle(int32_t _x, int32_t _y, uint32_t _width, uint32_t _height, uint32_t _flags = ENTRY_WINDOW_FLAG_NONE, const char* _title = "");
+		static void DestroyWindowHandle(WindowHandle _handle);
+		static void SetWindowPos(WindowHandle _handle, int32_t _x, int32_t _y);
+		static void SetWindowSize(WindowHandle _handle, uint32_t _width, uint32_t _height);
+		static void SetWindowTitle(WindowHandle _handle, const char* _title);
+		static void SetWindowFlags(WindowHandle _handle, uint32_t _flags, bool _enabled);
+		static void ToggleFullscreen(WindowHandle _handle);
+		static void SetMouseLock(WindowHandle _handle, bool _lock);
+		static void SetCurrentDir(const char* _dir);
+	};
+
 
 	struct WindowState
 	{

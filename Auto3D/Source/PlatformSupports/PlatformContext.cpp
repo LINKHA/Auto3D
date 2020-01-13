@@ -20,12 +20,12 @@ BX_PRAGMA_DIAGNOSTIC_POP()
 namespace Auto3D
 {
 
-int32_t FMainThreadEntry::threadFunc(bx::Thread* thread, void* userData)
+int32_t FMainThreadEntry::ThreadFunc(bx::Thread* thread, void* userData)
 {
 	BX_UNUSED(thread);
 
 	FMainThreadEntry* self = (FMainThreadEntry*)userData;
-	int32_t result = RunMain(self->m_argc, self->m_argv);
+	int32_t result = RunMain(self->_argc, self->_argv);
 
 	SDL_Event event;
 	SDL_QuitEvent& qev = event.quit;
@@ -34,25 +34,12 @@ int32_t FMainThreadEntry::threadFunc(bx::Thread* thread, void* userData)
 	return result;
 }
 
-const Event* poll()
-{
-	return PlatfromContext::Get().m_eventQueue.poll();
-}
-
-const Event* poll(WindowHandle _handle)
-{
-	return PlatfromContext::Get().m_eventQueue.poll(_handle);
-}
-
-void release(const Event* _event)
-{
-	PlatfromContext::Get().m_eventQueue.release(_event);
-}
 
 uint8_t PlatfromContext::s_translateKey[256] = { 0 };
 uint8_t PlatfromContext::s_translateGamepad[256] = { 0 };
 uint32_t PlatfromContext::s_userEventStart = { 0 };
 uint8_t PlatfromContext::s_translateGamepadAxis[256] = { 0 };
+WindowHandle PlatfromContext::_defaultWindow = { 0 };
 
 IMPLEMENT_SINGLETON(PlatfromContext)
 
@@ -178,8 +165,8 @@ PlatfromContext::PlatfromContext()
 
 int PlatfromContext::Run(int _argc, char** _argv)
 {
-	m_mte.m_argc = _argc;
-	m_mte.m_argv = _argv;
+	m_mte._argc = _argc;
+	m_mte._argv = _argv;
 
 	SDL_Init(0
 		| SDL_INIT_GAMECONTROLLER
@@ -205,11 +192,11 @@ int PlatfromContext::Run(int _argc, char** _argv)
 	sdlSetWindow(m_window[0]);
 	bgfx::renderFrame();
 
-	m_thread.init(FMainThreadEntry::threadFunc, &m_mte);
+	m_thread.init(FMainThreadEntry::ThreadFunc, &m_mte);
 
 	// Force window resolution...
-	WindowHandle defaultWindow = { 0 };
-	SetWindowSize(defaultWindow, m_width, m_height, true);
+	
+	SetWindowSize(_defaultWindow, m_width, m_height, true);
 
 	SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
 
@@ -425,7 +412,7 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				if (isValid(handle))
 				{
 					GamepadAxis::Enum axis = translateGamepadAxis(jev.axis);
-					m_gamepad[handle.idx].update(m_eventQueue, defaultWindow, handle, axis, jev.value);
+					m_gamepad[handle.idx].update(m_eventQueue, _defaultWindow, handle, axis, jev.value);
 				}
 			}
 			break;
@@ -437,7 +424,7 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				if (isValid(handle))
 				{
 					GamepadAxis::Enum axis = translateGamepadAxis(aev.axis);
-					m_gamepad[handle.idx].update(m_eventQueue, defaultWindow, handle, axis, aev.value);
+					m_gamepad[handle.idx].update(m_eventQueue, _defaultWindow, handle, axis, aev.value);
 				}
 			}
 			break;
@@ -453,7 +440,7 @@ int PlatfromContext::Run(int _argc, char** _argv)
 					Key::Enum key = translateGamepad(bev.button);
 					if (Key::Count != key)
 					{
-						m_eventQueue.postKeyEvent(defaultWindow, key, 0, event.type == SDL_JOYBUTTONDOWN);
+						m_eventQueue.postKeyEvent(_defaultWindow, key, 0, event.type == SDL_JOYBUTTONDOWN);
 					}
 				}
 			}
@@ -469,7 +456,7 @@ int PlatfromContext::Run(int _argc, char** _argv)
 					Key::Enum key = translateGamepad(bev.button);
 					if (Key::Count != key)
 					{
-						m_eventQueue.postKeyEvent(defaultWindow, key, 0, event.type == SDL_CONTROLLERBUTTONDOWN);
+						m_eventQueue.postKeyEvent(_defaultWindow, key, 0, event.type == SDL_CONTROLLERBUTTONDOWN);
 					}
 				}
 			}
@@ -482,7 +469,7 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				{
 					const SDL_JoyDeviceEvent& jev = event.jdevice;
 					m_gamepad[handle.idx].create(jev);
-					m_eventQueue.postGamepadEvent(defaultWindow, handle, true);
+					m_eventQueue.postGamepadEvent(_defaultWindow, handle, true);
 				}
 			}
 			break;
@@ -495,7 +482,7 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				{
 					m_gamepad[handle.idx].destroy();
 					m_gamepadAlloc.free(handle.idx);
-					m_eventQueue.postGamepadEvent(defaultWindow, handle, false);
+					m_eventQueue.postGamepadEvent(_defaultWindow, handle, false);
 				}
 			}
 			break;
@@ -507,7 +494,7 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				{
 					const SDL_ControllerDeviceEvent& cev = event.cdevice;
 					m_gamepad[handle.idx].create(cev);
-					m_eventQueue.postGamepadEvent(defaultWindow, handle, true);
+					m_eventQueue.postGamepadEvent(_defaultWindow, handle, true);
 				}
 			}
 			break;
@@ -526,7 +513,7 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				{
 					m_gamepad[handle.idx].destroy();
 					m_gamepadAlloc.free(handle.idx);
-					m_eventQueue.postGamepadEvent(defaultWindow, handle, false);
+					m_eventQueue.postGamepadEvent(_defaultWindow, handle, false);
 				}
 			}
 			break;
@@ -534,7 +521,7 @@ int PlatfromContext::Run(int _argc, char** _argv)
 			case SDL_DROPFILE:
 			{
 				const SDL_DropEvent& dev = event.drop;
-				WindowHandle handle = defaultWindow; //findHandle(dev.windowID);
+				WindowHandle handle = _defaultWindow; //findHandle(dev.windowID);
 				if (isValid(handle))
 				{
 					m_eventQueue.postDropFileEvent(handle, dev.file);
@@ -551,23 +538,23 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				case SDL_USER_WINDOW_CREATE:
 				{
 					WindowHandle handle = getWindowHandle(uev);
-					Msg* msg = (Msg*)uev.data2;
+					PlatformMsg* msg = (PlatformMsg*)uev.data2;
 
-					m_window[handle.idx] = SDL_CreateWindow(msg->m_title.c_str()
-						, msg->m_x
-						, msg->m_y
-						, msg->m_width
-						, msg->m_height
+					m_window[handle.idx] = SDL_CreateWindow(msg->_title.CString()
+						, msg->_x
+						, msg->_y
+						, msg->_width
+						, msg->_height
 						, SDL_WINDOW_SHOWN
 						| SDL_WINDOW_RESIZABLE
 					);
 
-					m_flags[handle.idx] = msg->m_flags;
+					m_flags[handle.idx] = msg->_flags;
 
 					void* nwh = SDLNativeWindowHandle(m_window[handle.idx]);
 					if (NULL != nwh)
 					{
-						m_eventQueue.postSizeEvent(handle, msg->m_width, msg->m_height);
+						m_eventQueue.postSizeEvent(handle, msg->_width, msg->_height);
 						m_eventQueue.postWindowEvent(handle, nwh);
 					}
 
@@ -590,10 +577,10 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				case SDL_USER_WINDOW_SET_TITLE:
 				{
 					WindowHandle handle = getWindowHandle(uev);
-					Msg* msg = (Msg*)uev.data2;
+					PlatformMsg* msg = (PlatformMsg*)uev.data2;
 					if (isValid(handle))
 					{
-						SDL_SetWindowTitle(m_window[handle.idx], msg->m_title.c_str());
+						SDL_SetWindowTitle(m_window[handle.idx], msg->_title.CString());
 					}
 					delete msg;
 				}
@@ -602,15 +589,15 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				case SDL_USER_WINDOW_SET_FLAGS:
 				{
 					WindowHandle handle = getWindowHandle(uev);
-					Msg* msg = (Msg*)uev.data2;
+					PlatformMsg* msg = (PlatformMsg*)uev.data2;
 
-					if (msg->m_flagsEnabled)
+					if (msg->_flagsEnabled)
 					{
-						m_flags[handle.idx] |= msg->m_flags;
+						m_flags[handle.idx] |= msg->_flags;
 					}
 					else
 					{
-						m_flags[handle.idx] &= ~msg->m_flags;
+						m_flags[handle.idx] &= ~msg->_flags;
 					}
 
 					delete msg;
@@ -620,8 +607,8 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				case SDL_USER_WINDOW_SET_POS:
 				{
 					WindowHandle handle = getWindowHandle(uev);
-					Msg* msg = (Msg*)uev.data2;
-					SDL_SetWindowPosition(m_window[handle.idx], msg->m_x, msg->m_y);
+					PlatformMsg* msg = (PlatformMsg*)uev.data2;
+					SDL_SetWindowPosition(m_window[handle.idx], msg->_x, msg->_y);
 					delete msg;
 				}
 				break;
@@ -629,10 +616,10 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				case SDL_USER_WINDOW_SET_SIZE:
 				{
 					WindowHandle handle = getWindowHandle(uev);
-					Msg* msg = (Msg*)uev.data2;
+					PlatformMsg* msg = (PlatformMsg*)uev.data2;
 					if (isValid(handle))
 					{
-						SetWindowSize(handle, msg->m_width, msg->m_height);
+						SetWindowSize(handle, msg->_width, msg->_height);
 					}
 					delete msg;
 				}

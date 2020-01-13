@@ -14,7 +14,7 @@
 #define CAMERA_KEY_RIGHT     UINT8_C(0x08)
 #define CAMERA_KEY_UP        UINT8_C(0x10)
 #define CAMERA_KEY_DOWN      UINT8_C(0x20)
-
+using namespace Auto3D;
 ///
 void cameraCreate();
 

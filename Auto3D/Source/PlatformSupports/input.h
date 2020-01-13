@@ -1,14 +1,9 @@
-/*
- * Copyright 2010-2019 Branimir Karadzic. All rights reserved.
- * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
- */
-
-#ifndef INPUT_H_HEADER_GUARD
-#define INPUT_H_HEADER_GUARD
-
 #include "Platform.h"
 
-typedef void (*InputBindingFn)(const void* _userData);
+namespace Auto3D
+{
+
+typedef void(*InputBindingFn)(const void* _userData);
 
 struct InputBinding
 {
@@ -16,18 +11,18 @@ struct InputBinding
 	{
 		m_key = _key;
 		m_modifiers = _modifiers;
-		m_flags     = _flags;
-		m_fn        = _fn;
-		m_userData  = _userData;
+		m_flags = _flags;
+		m_fn = _fn;
+		m_userData = _userData;
 	}
 
 	void end()
 	{
 		m_key = Auto3D::Key::None;
 		m_modifiers = Auto3D::Modifier::None;
-		m_flags     = 0;
-		m_fn        = NULL;
-		m_userData  = NULL;
+		m_flags = 0;
+		m_fn = NULL;
+		m_userData = NULL;
 	}
 
 	Auto3D::Key::Enum m_key;
@@ -96,4 +91,4 @@ void inputSetGamepadAxis(Auto3D::GamepadHandle _handle, Auto3D::GamepadAxis::Enu
 ///
 int32_t inputGetGamepadAxis(Auto3D::GamepadHandle _handle, Auto3D::GamepadAxis::Enum _axis);
 
-#endif // INPUT_H_HEADER_GUARD
+}

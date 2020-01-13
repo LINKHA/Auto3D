@@ -41,9 +41,23 @@ namespace Auto3D
 
 	
 
+	const Event* poll()
+	{
+		return PlatfromContext::Get().m_eventQueue.poll();
+	}
+
+	const Event* poll(WindowHandle _handle)
+	{
+		return PlatfromContext::Get().m_eventQueue.poll(_handle);
+	}
+
+	void release(const Event* _event)
+	{
+		PlatfromContext::Get().m_eventQueue.release(_event);
+	}
 
 
-	static void sdlPostEvent(SDL_USER_WINDOW _type, WindowHandle _handle, Msg* _msg = NULL, uint32_t _code = 0)
+	static void sdlPostEvent(SDL_USER_WINDOW _type, WindowHandle _handle, PlatformMsg* _msg = NULL, uint32_t _code = 0)
 	{
 		SDL_Event event;
 		SDL_UserEvent& uev = event.user;
@@ -59,20 +73,20 @@ namespace Auto3D
 	}
 
 
-	WindowHandle createWindow(int32_t _x, int32_t _y, uint32_t _width, uint32_t _height, uint32_t _flags, const char* _title)
+	WindowHandle FPlatform::CreateWindowHandle(int32_t _x, int32_t _y, uint32_t _width, uint32_t _height, uint32_t _flags, const char* _title)
 	{
 		bx::MutexScope scope(PlatfromContext::Get().m_lock);
 		WindowHandle handle = { PlatfromContext::Get()._windowAlloc.alloc() };
 
 		if (UINT16_MAX != handle.idx)
 		{
-			Msg* msg = new Msg;
-			msg->m_x = _x;
-			msg->m_y = _y;
-			msg->m_width = _width;
-			msg->m_height = _height;
-			msg->m_title = _title;
-			msg->m_flags = _flags;
+			PlatformMsg* msg = new PlatformMsg;
+			msg->_x = _x;
+			msg->_y = _y;
+			msg->_width = _width;
+			msg->_height = _height;
+			msg->_title = _title;
+			msg->_flags = _flags;
 
 			sdlPostEvent(SDL_USER_WINDOW_CREATE, handle, msg);
 		}
@@ -80,7 +94,7 @@ namespace Auto3D
 		return handle;
 	}
 
-	void destroyWindow(WindowHandle _handle)
+	void FPlatform::DestroyWindowHandle(WindowHandle _handle)
 	{
 		if (UINT16_MAX != _handle.idx)
 		{
@@ -91,51 +105,55 @@ namespace Auto3D
 		}
 	}
 
-	void setWindowPos(WindowHandle _handle, int32_t _x, int32_t _y)
+	void FPlatform::SetWindowPos(WindowHandle _handle, int32_t _x, int32_t _y)
 	{
-		Msg* msg = new Msg;
-		msg->m_x = _x;
-		msg->m_y = _y;
+		PlatformMsg* msg = new PlatformMsg;
+		msg->_x = _x;
+		msg->_y = _y;
 
 		sdlPostEvent(SDL_USER_WINDOW_SET_POS, _handle, msg);
 	}
 
-	void setWindowSize(WindowHandle _handle, uint32_t _width, uint32_t _height)
+	void FPlatform::SetWindowSize(WindowHandle _handle, uint32_t _width, uint32_t _height)
 	{
-		Msg* msg = new Msg;
-		msg->m_width = _width;
-		msg->m_height = _height;
+		PlatformMsg* msg = new PlatformMsg;
+		msg->_width = _width;
+		msg->_height = _height;
 
 		sdlPostEvent(SDL_USER_WINDOW_SET_SIZE, _handle, msg);
 	}
 
-	void setWindowTitle(WindowHandle _handle, const char* _title)
+	void FPlatform::SetWindowTitle(WindowHandle _handle, const char* _title)
 	{
-		Msg* msg = new Msg;
-		msg->m_title = _title;
+		PlatformMsg* msg = new PlatformMsg;
+		msg->_title = _title;
 
 		sdlPostEvent(SDL_USER_WINDOW_SET_TITLE, _handle, msg);
 	}
 
-	void setWindowFlags(WindowHandle _handle, uint32_t _flags, bool _enabled)
+	void FPlatform::SetWindowFlags(WindowHandle _handle, uint32_t _flags, bool _enabled)
 	{
-		Msg* msg = new Msg;
-		msg->m_flags = _flags;
-		msg->m_flagsEnabled = _enabled;
+		PlatformMsg* msg = new PlatformMsg;
+		msg->_flags = _flags;
+		msg->_flagsEnabled = _enabled;
 		sdlPostEvent(SDL_USER_WINDOW_SET_FLAGS, _handle, msg);
 	}
 
-	void toggleFullscreen(WindowHandle _handle)
+	void FPlatform::ToggleFullscreen(WindowHandle _handle)
 	{
 		sdlPostEvent(SDL_USER_WINDOW_TOGGLE_FULL_SCREEN, _handle);
 	}
 
-	void setMouseLock(WindowHandle _handle, bool _lock)
+	void FPlatform::SetMouseLock(WindowHandle _handle, bool _lock)
 	{
 		sdlPostEvent(SDL_USER_WINDOW_MOUSE_LOCK, _handle, NULL, _lock);
 	}
 
 
+	void FPlatform::SetCurrentDir(const char* _dir)
+	{
+		s_currentDir.set(_dir);
+	}
 
 	class FileReader : public bx::FileReader
 	{
@@ -163,10 +181,6 @@ namespace Auto3D
 		}
 	};
 
-	void setCurrentDir(const char* _dir)
-	{
-		s_currentDir.set(_dir);
-	}
 
 #if ENTRY_CONFIG_IMPLEMENT_DEFAULT_ALLOCATOR
 	bx::AllocatorI* getDefaultAllocator()
@@ -425,7 +439,7 @@ BX_PRAGMA_DIAGNOSTIC_POP();
 			else if (0 == bx::strCmp(_argv[1], "fullscreen") )
 			{
 				WindowHandle window = { 0 };
-				toggleFullscreen(window);
+				FPlatform::ToggleFullscreen(window);
 				return bx::kExitSuccess;
 			}
 		}
@@ -615,8 +629,7 @@ BX_PRAGMA_DIAGNOSTIC_POP();
 		_app->init(_argc, _argv, s_width, s_height);
 		bgfx::frame();
 
-		WindowHandle defaultWindow = { 0 };
-		setWindowSize(defaultWindow, s_width, s_height);
+		FPlatform::SetWindowSize(PlatfromContext::_defaultWindow, s_width, s_height);
 
 #if BX_PLATFORM_EMSCRIPTEN
 		s_app = _app;
@@ -685,14 +698,12 @@ BX_PRAGMA_DIAGNOSTIC_POP();
 		inputInit();
 		inputAddBindings("bindings", s_bindings);
 
-		Auto3D::WindowHandle defaultWindow = { 0 };
-
 		bx::FilePath fp(_argv[0]);
 		char title[bx::kMaxFilePath];
 		bx::strCopy(title, BX_COUNTOF(title), fp.getBaseName() );
 
-		Auto3D::setWindowTitle(defaultWindow, title);
-		setWindowSize(defaultWindow, ENTRY_DEFAULT_WIDTH, ENTRY_DEFAULT_HEIGHT);
+		FPlatform::SetWindowTitle(PlatfromContext::_defaultWindow, title);
+		FPlatform::SetWindowSize(PlatfromContext::_defaultWindow, ENTRY_DEFAULT_WIDTH, ENTRY_DEFAULT_HEIGHT);
 
 		sortApps();
 
@@ -738,7 +749,7 @@ restart:
 			goto restart;
 		}
 
-		setCurrentDir("");
+		FPlatform::SetCurrentDir("");
 
 		inputRemoveBindings("bindings");
 		inputShutdown();

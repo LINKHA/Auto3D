@@ -3,6 +3,7 @@
 #include "PlatformSupports/PlatformDef.h"
 #include "PlatformSupports/GamePad.h"
 #include "Container/Singleton.h"
+#include "Container/String.h"
 
 #include <SDL.h>
 #include <SDL_syswm.h>
@@ -28,33 +29,33 @@
 namespace Auto3D
 {
 
-struct Msg
+struct PlatformMsg
 {
-	Msg()
-		: m_x(0)
-		, m_y(0)
-		, m_width(0)
-		, m_height(0)
-		, m_flags(0)
-		, m_flagsEnabled(false)
+	PlatformMsg()
+		: _x(0)
+		, _y(0)
+		, _width(0)
+		, _height(0)
+		, _flags(0)
+		, _flagsEnabled(false)
 	{
 	}
 
-	int32_t  m_x;
-	int32_t  m_y;
-	uint32_t m_width;
-	uint32_t m_height;
-	uint32_t m_flags;
-	tinystl::string m_title;
-	bool m_flagsEnabled;
+	int32_t  _x;
+	int32_t  _y;
+	uint32_t _width;
+	uint32_t _height;
+	uint32_t _flags;
+	FString _title;
+	bool _flagsEnabled;
 };
 
 struct FMainThreadEntry
 {
-	int m_argc;
-	char** m_argv;
+	int _argc;
+	char** _argv;
 
-	static int32_t threadFunc(bx::Thread* _thread, void* _userData);
+	static int32_t ThreadFunc(bx::Thread* thread, void* userData);
 };
 
 struct PlatfromContext
@@ -230,6 +231,8 @@ struct PlatfromContext
 #	endif
 		SDL_DestroyWindow(_window);
 	}
+
+	static WindowHandle _defaultWindow;
 
 	FMainThreadEntry m_mte;
 	bx::Thread m_thread;
