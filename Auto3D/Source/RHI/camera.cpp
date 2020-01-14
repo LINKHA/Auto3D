@@ -6,7 +6,7 @@
 #include <bx/timer.h>
 #include <bx/math.h>
 #include "camera.h"
-#include "PlatformSupports/Platform.h"
+#include "PlatformSupports/PlatformDef.h"
 #include "PlatformSupports/cmd.h"
 #include "PlatformSupports/input.h"
 #include <bx/allocator.h>
@@ -52,7 +52,7 @@ int cmdMove(CmdContext* /*_context*/, void* /*_userData*/, int _argc, char const
 
 static void cmd(const void* _userData)
 {
-	cmdExec( (const char*)_userData);
+	CmdExec( (const char*)_userData);
 }
 
 static const InputBinding s_camBindings[] =
@@ -87,13 +87,13 @@ struct Camera
 		Auto3D::MouseState mouseState;
 		update(0.0f, mouseState);
 
-		cmdAdd("move", cmdMove);
-		inputAddBindings("camBindings", s_camBindings);
+		CmdAdd("move", cmdMove);
+		InputAddBindings("camBindings", s_camBindings);
 	}
 
 	~Camera()
 	{
-		inputRemoveBindings("camBindings");
+		InputRemoveBindings("camBindings");
 	}
 
 	void reset()
@@ -130,16 +130,16 @@ struct Camera
 	{
 		if (!m_mouseDown)
 		{
-			m_mouseLast.m_mx = _mouseState.m_mx;
-			m_mouseLast.m_my = _mouseState.m_my;
+			m_mouseLast.m_mx = _mouseState._mx;
+			m_mouseLast.m_my = _mouseState._my;
 		}
 
-		m_mouseDown = !!_mouseState.m_buttons[Auto3D::MouseButton::Right];
+		m_mouseDown = !!_mouseState._buttons[Auto3D::MouseButton::Right];
 
 		if (m_mouseDown)
 		{
-			m_mouseNow.m_mx = _mouseState.m_mx;
-			m_mouseNow.m_my = _mouseState.m_my;
+			m_mouseNow.m_mx = _mouseState._mx;
+			m_mouseNow.m_my = _mouseState._my;
 		}
 
 		if (m_mouseDown)
@@ -155,10 +155,10 @@ struct Camera
 		}
 
 		Auto3D::GamepadHandle handle = { 0 };
-		m_horizontalAngle += m_gamepadSpeed * inputGetGamepadAxis(handle, Auto3D::GamepadAxis::RightX)/32768.0f;
-		m_verticalAngle   -= m_gamepadSpeed * inputGetGamepadAxis(handle, Auto3D::GamepadAxis::RightY)/32768.0f;
-		const int32_t gpx = inputGetGamepadAxis(handle, Auto3D::GamepadAxis::LeftX);
-		const int32_t gpy = inputGetGamepadAxis(handle, Auto3D::GamepadAxis::LeftY);
+		m_horizontalAngle += m_gamepadSpeed * InputGetGamepadAxis(handle, Auto3D::GamepadAxis::RightX)/32768.0f;
+		m_verticalAngle   -= m_gamepadSpeed * InputGetGamepadAxis(handle, Auto3D::GamepadAxis::RightY)/32768.0f;
+		const int32_t gpx = InputGetGamepadAxis(handle, Auto3D::GamepadAxis::LeftX);
+		const int32_t gpy = InputGetGamepadAxis(handle, Auto3D::GamepadAxis::LeftY);
 		m_keys |= gpx < -16834 ? CAMERA_KEY_LEFT     : 0;
 		m_keys |= gpx >  16834 ? CAMERA_KEY_RIGHT    : 0;
 		m_keys |= gpy < -16834 ? CAMERA_KEY_FORWARD  : 0;

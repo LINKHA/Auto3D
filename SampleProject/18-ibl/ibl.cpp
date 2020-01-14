@@ -10,6 +10,7 @@
 #include "RHI/bgfx_utils.h"
 #include "RHI/imgui/imgui.h"
 #include "RHI/nanovg/nanovg.h"
+#include "Application.h"
 
 #include <bx/readerwriter.h>
 #include <bx/string.h>
@@ -395,11 +396,11 @@ struct Settings
 	int32_t m_meshSelection;
 };
 
-class ExampleIbl : public Auto3D::AppI
+class ExampleIbl : public Auto3D::IAppInstance
 {
 public:
 	ExampleIbl(const char* _name, const char* _description, const char* _url)
-		: Auto3D::AppI(_name, _description, _url)
+		: Auto3D::IAppInstance(_name, _description, _url)
 	{
 	}
 
@@ -497,12 +498,12 @@ public:
 	{
 		if (!Auto3D::processEvents(m_width, m_height, m_debug, m_reset, &m_mouseState) )
 		{
-			imguiBeginFrame(m_mouseState.m_mx
-				,  m_mouseState.m_my
-				, (m_mouseState.m_buttons[Auto3D::MouseButton::Left  ] ? IMGUI_MBUT_LEFT   : 0)
-				| (m_mouseState.m_buttons[Auto3D::MouseButton::Right ] ? IMGUI_MBUT_RIGHT  : 0)
-				| (m_mouseState.m_buttons[Auto3D::MouseButton::Middle] ? IMGUI_MBUT_MIDDLE : 0)
-				,  m_mouseState.m_mz
+			imguiBeginFrame(m_mouseState._mx
+				,  m_mouseState._my
+				, (m_mouseState._buttons[Auto3D::MouseButton::Left  ] ? IMGUI_MBUT_LEFT   : 0)
+				| (m_mouseState._buttons[Auto3D::MouseButton::Right ] ? IMGUI_MBUT_RIGHT  : 0)
+				| (m_mouseState._buttons[Auto3D::MouseButton::Middle] ? IMGUI_MBUT_MIDDLE : 0)
+				,  m_mouseState._mz
 				, uint16_t(m_width)
 				, uint16_t(m_height)
 				);
@@ -682,18 +683,18 @@ public:
 
 			// Camera.
 			const bool mouseOverGui = ImGui::MouseOverArea();
-			m_mouse.update(float(m_mouseState.m_mx), float(m_mouseState.m_my), m_mouseState.m_mz, m_width, m_height);
+			m_mouse.update(float(m_mouseState._mx), float(m_mouseState._my), m_mouseState._mz, m_width, m_height);
 			if (!mouseOverGui)
 			{
-				if (m_mouseState.m_buttons[Auto3D::MouseButton::Left])
+				if (m_mouseState._buttons[Auto3D::MouseButton::Left])
 				{
 					m_camera.orbit(m_mouse.m_dx, m_mouse.m_dy);
 				}
-				else if (m_mouseState.m_buttons[Auto3D::MouseButton::Right])
+				else if (m_mouseState._buttons[Auto3D::MouseButton::Right])
 				{
 					m_camera.dolly(m_mouse.m_dx + m_mouse.m_dy);
 				}
-				else if (m_mouseState.m_buttons[Auto3D::MouseButton::Middle])
+				else if (m_mouseState._buttons[Auto3D::MouseButton::Middle])
 				{
 					m_settings.m_envRotDest += m_mouse.m_dx*2.0f;
 				}
@@ -832,7 +833,7 @@ public:
 
 } // namespace
 
-int _main_(int _argc, char** _argv)
+int Auto3D_main(int _argc, char** _argv)
 {
 	ExampleIbl app(
 		 "18-ibl"

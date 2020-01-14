@@ -1,6 +1,5 @@
 #pragma once
 #include "AutoConfig.h"
-#include "PlatformSupports/Platform.h"
 #include "PlatformSupports/PlatformDef.h"
 
 #include <SDL.h>
@@ -14,23 +13,23 @@ struct FGamepad
 {
 	FGamepad();
 
-	void create(const SDL_JoyDeviceEvent& _jev);
+	void Create(const SDL_JoyDeviceEvent& _jev);
 
-	void create(const SDL_ControllerDeviceEvent& _cev);
+	void Create(const SDL_ControllerDeviceEvent& _cev);
 
-	void update(EventQueue& _eventQueue, WindowHandle _handle, GamepadHandle _gamepad, GamepadAxis::Enum _axis, int32_t _value);
+	void Update(EventQueue& _eventQueue, WindowHandle _handle, GamepadHandle _gamepad, GamepadAxis::Enum _axis, int32_t _value);
 
-	void destroy();
+	void Destroy();
 
-	bool filter(GamepadAxis::Enum _axis, int32_t* _value);
+	bool Filter(GamepadAxis::Enum _axis, int32_t* _value);
 
-	int32_t m_value[GamepadAxis::Count];
-	int32_t m_deadzone[GamepadAxis::Count];
+	int32_t _value[GamepadAxis::Count];
+	int32_t _deadzone[GamepadAxis::Count];
 
-	SDL_Joystick*       m_joystick;
-	SDL_GameController* m_controller;
+	SDL_Joystick*       _joystick;
+	SDL_GameController* _controller;
 	//		SDL_Haptic*         m_haptic;
-	SDL_JoystickID      m_jid;
+	SDL_JoystickID      _jid;
 
 	
 

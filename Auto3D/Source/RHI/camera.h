@@ -6,7 +6,7 @@
 #ifndef CAMERA_H_HEADER_GUARD
 #define CAMERA_H_HEADER_GUARD
 
-#include "PlatformSupports/Platform.h"
+#include "PlatformSupports/PlatformDef.h"
 
 #define CAMERA_KEY_FORWARD   UINT8_C(0x01)
 #define CAMERA_KEY_BACKWARD  UINT8_C(0x02)

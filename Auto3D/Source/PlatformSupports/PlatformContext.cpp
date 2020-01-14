@@ -1,9 +1,6 @@
 #pragma once
 #include "PlatformContext.h"
 
-#include "PlatformSupports/PlatformDef.h"
-#include "PlatformSupports/Platform.h"
-
 #if BX_PLATFORM_LINUX || BX_PLATFORM_BSD
 #	if ENTRY_CONFIG_USE_WAYLAND
 #		include <wayland-egl.h>
@@ -11,6 +8,23 @@
 #elif BX_PLATFORM_WINDOWS
 #	define SDL_MAIN_HANDLED
 #endif
+
+#include <bx/bx.h>
+#include <bx/file.h>
+#include <bx/sort.h>
+#include <bgfx/bgfx.h>
+
+#include <time.h>
+
+#if BX_PLATFORM_EMSCRIPTEN
+#	include <emscripten.h>
+#endif // BX_PLATFORM_EMSCRIPTEN
+
+#include "cmd.h"
+#include "input.h"
+#include "dbg.h"
+
+#include "Application.h"
 
 BX_PRAGMA_DIAGNOSTIC_PUSH()
 BX_PRAGMA_DIAGNOSTIC_IGNORED_CLANG("-Wextern-c-compat")
@@ -220,7 +234,7 @@ int PlatfromContext::Run(int _argc, char** _argv)
 			switch (event.type)
 			{
 			case SDL_QUIT:
-				_eventQueue.postExitEvent();
+				_eventQueue.PostExitEvent();
 				exit = true;
 				break;
 
@@ -233,7 +247,7 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				WindowHandle handle = FindHandle(mev.windowID);
 				if (isValid(handle))
 				{
-					_eventQueue.postMouseEvent(handle, _mx, _my, _mz);
+					_eventQueue.PostMouseEvent(handle, _mx, _my, _mz);
 				}
 			}
 			break;
@@ -254,7 +268,7 @@ int PlatfromContext::Run(int _argc, char** _argv)
 					case SDL_BUTTON_RIGHT:  button = MouseButton::Right;  break;
 					}
 
-					_eventQueue.postMouseEvent(handle
+					_eventQueue.PostMouseEvent(handle
 						, mev.x
 						, mev.y
 						, _mz
@@ -273,7 +287,7 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				WindowHandle handle = FindHandle(mev.windowID);
 				if (isValid(handle))
 				{
-					_eventQueue.postMouseEvent(handle, _mx, _my, _mz);
+					_eventQueue.PostMouseEvent(handle, _mx, _my, _mz);
 				}
 			}
 			break;
@@ -284,7 +298,7 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				WindowHandle handle = FindHandle(tev.windowID);
 				if (isValid(handle))
 				{
-					_eventQueue.postCharEvent(handle, 1, (const uint8_t*)tev.text);
+					_eventQueue.PostCharEvent(handle, 1, (const uint8_t*)tev.text);
 				}
 			}
 			break;
@@ -318,22 +332,22 @@ int PlatfromContext::Run(int _argc, char** _argv)
 					{
 						uint8_t pressedChar[4];
 						pressedChar[0] = 0x1b;
-						_eventQueue.postCharEvent(handle, 1, pressedChar);
+						_eventQueue.PostCharEvent(handle, 1, pressedChar);
 					}
 					else if (Key::Return == key)
 					{
 						uint8_t pressedChar[4];
 						pressedChar[0] = 0x0d;
-						_eventQueue.postCharEvent(handle, 1, pressedChar);
+						_eventQueue.PostCharEvent(handle, 1, pressedChar);
 					}
 					else if (Key::Backspace == key)
 					{
 						uint8_t pressedChar[4];
 						pressedChar[0] = 0x08;
-						_eventQueue.postCharEvent(handle, 1, pressedChar);
+						_eventQueue.PostCharEvent(handle, 1, pressedChar);
 					}
 
-					_eventQueue.postKeyEvent(handle, key, modifiers, kev.state == SDL_PRESSED);
+					_eventQueue.PostKeyEvent(handle, key, modifiers, kev.state == SDL_PRESSED);
 				}
 			}
 			break;
@@ -346,7 +360,7 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				{
 					uint8_t modifiers = TranslateKeyModifiers(kev.keysym.mod);
 					Key::Enum key = TranslateKey(kev.keysym.scancode);
-					_eventQueue.postKeyEvent(handle, key, modifiers, kev.state == SDL_PRESSED);
+					_eventQueue.PostKeyEvent(handle, key, modifiers, kev.state == SDL_PRESSED);
 				}
 			}
 			break;
@@ -382,7 +396,7 @@ int PlatfromContext::Run(int _argc, char** _argv)
 					WindowHandle handle = FindHandle(wev.windowID);
 					if (0 == handle.idx)
 					{
-						_eventQueue.postExitEvent();
+						_eventQueue.PostExitEvent();
 						exit = true;
 					}
 				}
@@ -398,7 +412,7 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				if (isValid(handle))
 				{
 					GamepadAxis::Enum axis = TranslateGamepadAxis(jev.axis);
-					_gamepad[handle.idx].update(_eventQueue, _defaultWindow, handle, axis, jev.value);
+					_gamepad[handle.idx].Update(_eventQueue, _defaultWindow, handle, axis, jev.value);
 				}
 			}
 			break;
@@ -410,7 +424,7 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				if (isValid(handle))
 				{
 					GamepadAxis::Enum axis = TranslateGamepadAxis(aev.axis);
-					_gamepad[handle.idx].update(_eventQueue, _defaultWindow, handle, axis, aev.value);
+					_gamepad[handle.idx].Update(_eventQueue, _defaultWindow, handle, axis, aev.value);
 				}
 			}
 			break;
@@ -426,7 +440,7 @@ int PlatfromContext::Run(int _argc, char** _argv)
 					Key::Enum key = TranslateGamepad(bev.button);
 					if (Key::Count != key)
 					{
-						_eventQueue.postKeyEvent(_defaultWindow, key, 0, event.type == SDL_JOYBUTTONDOWN);
+						_eventQueue.PostKeyEvent(_defaultWindow, key, 0, event.type == SDL_JOYBUTTONDOWN);
 					}
 				}
 			}
@@ -442,7 +456,7 @@ int PlatfromContext::Run(int _argc, char** _argv)
 					Key::Enum key = TranslateGamepad(bev.button);
 					if (Key::Count != key)
 					{
-						_eventQueue.postKeyEvent(_defaultWindow, key, 0, event.type == SDL_CONTROLLERBUTTONDOWN);
+						_eventQueue.PostKeyEvent(_defaultWindow, key, 0, event.type == SDL_CONTROLLERBUTTONDOWN);
 					}
 				}
 			}
@@ -454,8 +468,8 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				if (isValid(handle))
 				{
 					const SDL_JoyDeviceEvent& jev = event.jdevice;
-					_gamepad[handle.idx].create(jev);
-					_eventQueue.postGamepadEvent(_defaultWindow, handle, true);
+					_gamepad[handle.idx].Create(jev);
+					_eventQueue.PostGamepadEvent(_defaultWindow, handle, true);
 				}
 			}
 			break;
@@ -466,9 +480,9 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				GamepadHandle handle = FindGamepad(jev.which);
 				if (isValid(handle))
 				{
-					_gamepad[handle.idx].destroy();
+					_gamepad[handle.idx].Destroy();
 					_gamepadAlloc.free(handle.idx);
-					_eventQueue.postGamepadEvent(_defaultWindow, handle, false);
+					_eventQueue.PostGamepadEvent(_defaultWindow, handle, false);
 				}
 			}
 			break;
@@ -479,8 +493,8 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				if (isValid(handle))
 				{
 					const SDL_ControllerDeviceEvent& cev = event.cdevice;
-					_gamepad[handle.idx].create(cev);
-					_eventQueue.postGamepadEvent(_defaultWindow, handle, true);
+					_gamepad[handle.idx].Create(cev);
+					_eventQueue.PostGamepadEvent(_defaultWindow, handle, true);
 				}
 			}
 			break;
@@ -497,9 +511,9 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				GamepadHandle handle = FindGamepad(cev.which);
 				if (isValid(handle))
 				{
-					_gamepad[handle.idx].destroy();
+					_gamepad[handle.idx].Destroy();
 					_gamepadAlloc.free(handle.idx);
-					_eventQueue.postGamepadEvent(_defaultWindow, handle, false);
+					_eventQueue.PostGamepadEvent(_defaultWindow, handle, false);
 				}
 			}
 			break;
@@ -510,7 +524,7 @@ int PlatfromContext::Run(int _argc, char** _argv)
 				WindowHandle handle = _defaultWindow; //findHandle(dev.windowID);
 				if (isValid(handle))
 				{
-					_eventQueue.postDropFileEvent(handle, dev.file);
+					_eventQueue.PostDropFileEvent(handle, dev.file);
 					SDL_free(dev.file);
 				}
 			}
@@ -540,8 +554,8 @@ int PlatfromContext::Run(int _argc, char** _argv)
 					void* nwh = SDLNativeWindowHandle(_window[handle.idx]);
 					if (NULL != nwh)
 					{
-						_eventQueue.postSizeEvent(handle, msg->_width, msg->_height);
-						_eventQueue.postWindowEvent(handle, nwh);
+						_eventQueue.PostSizeEvent(handle, msg->_width, msg->_height);
+						_eventQueue.PostWindowEvent(handle, nwh);
 					}
 
 					delete msg;
@@ -553,7 +567,7 @@ int PlatfromContext::Run(int _argc, char** _argv)
 					WindowHandle handle = GetWindowHandle(uev);
 					if (isValid(handle))
 					{
-						_eventQueue.postWindowEvent(handle);
+						_eventQueue.PostWindowEvent(handle);
 						SDLDestroyWindow(_window[handle.idx]);
 						_window[handle.idx] = NULL;
 					}
@@ -691,7 +705,7 @@ void PlatfromContext::SetWindowSize(WindowHandle _handle, uint32_t _width, uint3
 		_height = _height;
 
 		SDL_SetWindowSize(_window[_handle.idx], _width, _height);
-		_eventQueue.postSizeEvent(_handle, _width, _height);
+		_eventQueue.PostSizeEvent(_handle, _width, _height);
 	}
 }
 
@@ -700,7 +714,7 @@ GamepadHandle PlatfromContext::FindGamepad(SDL_JoystickID _jid)
 	for (uint32_t ii = 0, num = _gamepadAlloc.getNumHandles(); ii < num; ++ii)
 	{
 		uint16_t idx = _gamepadAlloc.getHandleAt(ii);
-		if (_jid == _gamepad[idx].m_jid)
+		if (_jid == _gamepad[idx]._jid)
 		{
 			GamepadHandle handle = { idx };
 			return handle;
@@ -710,4 +724,7 @@ GamepadHandle PlatfromContext::FindGamepad(SDL_JoystickID _jid)
 	GamepadHandle invalid = { UINT16_MAX };
 	return invalid;
 }
-}
+
+
+
+} // namespace Auto3D

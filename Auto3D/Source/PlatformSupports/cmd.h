@@ -1,19 +1,20 @@
-#ifndef CMD_H_HEADER_GUARD
-#define CMD_H_HEADER_GUARD
-
+#pragma once
+namespace Auto3D
+{
 struct CmdContext;
-typedef int (*ConsoleFn)(CmdContext* _context, void* _userData, int _argc, char const* const* _argv);
+typedef int(*ConsoleFn)(CmdContext* context, void* userData, int argc, char const* const* _rgv);
 
 ///
-void cmdInit();
+void CmdInit();
 
 ///
-void cmdShutdown();
+void CmdShutdown();
 
 ///
-void cmdAdd(const char* _name, ConsoleFn _fn, void* _userData = NULL);
+void CmdAdd(const char* name, ConsoleFn fn, void* userData = NULL);
 
 ///
-void cmdExec(const char* _format, ...);
+void CmdExec(const char* format, ...);
 
-#endif // CMD_H_HEADER_GUARD
+
+}

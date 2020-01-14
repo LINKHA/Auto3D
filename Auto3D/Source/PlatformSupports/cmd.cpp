@@ -1,8 +1,3 @@
-/*
- * Copyright 2010-2019 Branimir Karadzic. All rights reserved.
- * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
- */
-
 #include <bx/allocator.h>
 #include <bx/commandline.h>
 #include <bx/hash.h>
@@ -17,6 +12,9 @@
 #include <tinystl/unordered_map.h>
 namespace stl = tinystl;
 
+namespace Auto3D
+{
+
 struct CmdContext
 {
 	CmdContext()
@@ -27,17 +25,17 @@ struct CmdContext
 	{
 	}
 
-	void add(const char* _name, ConsoleFn _fn, void* _userData)
+	void Add(const char* name, ConsoleFn fn, void* userData)
 	{
-		uint32_t cmd = bx::hash<bx::HashMurmur2A>(_name, (uint32_t)bx::strLen(_name) );
-		BX_CHECK(m_lookup.end() == m_lookup.find(cmd), "Command \"%s\" already exist.", _name);
-		Func fn = { _fn, _userData };
-		m_lookup.insert(stl::make_pair(cmd, fn) );
+		uint32_t cmd = bx::hash<bx::HashMurmur2A>(name, (uint32_t)bx::strLen(name));
+		BX_CHECK(m_lookup.end() == m_lookup.find(cmd), "Command \"%s\" already exist.", name);
+		Func func = { fn, userData };
+		m_lookup.insert(stl::make_pair(cmd, func));
 	}
 
 	void exec(const char* _cmd)
 	{
-		for (bx::StringView next(_cmd); !next.isEmpty(); _cmd = next.getPtr() )
+		for (bx::StringView next(_cmd); !next.isEmpty(); _cmd = next.getPtr())
 		{
 			char commandLine[1024];
 			uint32_t size = sizeof(commandLine);
@@ -47,9 +45,9 @@ struct CmdContext
 			if (argc > 0)
 			{
 				int err = -1;
-				uint32_t cmd = bx::hash<bx::HashMurmur2A>(argv[0], (uint32_t)bx::strLen(argv[0]) );
+				uint32_t cmd = bx::hash<bx::HashMurmur2A>(argv[0], (uint32_t)bx::strLen(argv[0]));
 				CmdLookup::iterator it = m_lookup.find(cmd);
-				if (it != m_lookup.end() )
+				if (it != m_lookup.end())
 				{
 					Func& fn = it->second;
 					err = fn.m_fn(this, fn.m_userData, argc, argv);
@@ -61,18 +59,18 @@ struct CmdContext
 					break;
 
 				case -1:
-					{
-						stl::string tmp(_cmd, next.getPtr()-_cmd - (next.isEmpty() ? 0 : 1) );
-						DBG("Command '%s' doesn't exist.", tmp.c_str() );
-					}
-					break;
+				{
+					stl::string tmp(_cmd, next.getPtr() - _cmd - (next.isEmpty() ? 0 : 1));
+					DBG("Command '%s' doesn't exist.", tmp.c_str());
+				}
+				break;
 
 				default:
-					{
-						stl::string tmp(_cmd, next.getPtr()-_cmd - (next.isEmpty() ? 0 : 1) );
-						DBG("Failed '%s' err: %d.", tmp.c_str(), err);
-					}
-					break;
+				{
+					stl::string tmp(_cmd, next.getPtr() - _cmd - (next.isEmpty() ? 0 : 1));
+					DBG("Failed '%s' err: %d.", tmp.c_str(), err);
+				}
+				break;
 				}
 			}
 		}
@@ -88,31 +86,32 @@ struct CmdContext
 	CmdLookup m_lookup;
 };
 
-static CmdContext* s_cmdContext;
+static CmdContext* cmdContext;
 
-void cmdInit()
+void CmdInit()
 {
-	s_cmdContext = BX_NEW(Auto3D::getAllocator(), CmdContext);
+	cmdContext = BX_NEW(Auto3D::getAllocator(), CmdContext);
 }
 
-void cmdShutdown()
+void CmdShutdown()
 {
-	BX_DELETE(Auto3D::getAllocator(), s_cmdContext);
+	BX_DELETE(Auto3D::getAllocator(), cmdContext);
 }
 
-void cmdAdd(const char* _name, ConsoleFn _fn, void* _userData)
+void CmdAdd(const char* name, ConsoleFn fn, void* userData)
 {
-	s_cmdContext->add(_name, _fn, _userData);
+	cmdContext->Add(name, fn, userData);
 }
 
-void cmdExec(const char* _format, ...)
+void CmdExec(const char* format, ...)
 {
 	char tmp[2048];
 
 	va_list argList;
-	va_start(argList, _format);
-	bx::vsnprintf(tmp, BX_COUNTOF(tmp), _format, argList);
+	va_start(argList, format);
+	bx::vsnprintf(tmp, BX_COUNTOF(tmp), format, argList);
 	va_end(argList);
 
-	s_cmdContext->exec(tmp);
+	cmdContext->exec(tmp);
+}
 }

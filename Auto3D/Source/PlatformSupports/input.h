@@ -1,4 +1,4 @@
-#include "Platform.h"
+#include "PlatformDef.h"
 
 namespace Auto3D
 {
@@ -7,88 +7,88 @@ typedef void(*InputBindingFn)(const void* _userData);
 
 struct InputBinding
 {
-	void set(Auto3D::Key::Enum _key, uint8_t _modifiers, uint8_t _flags, InputBindingFn _fn, const void* _userData = NULL)
+	void Set(Auto3D::Key::Enum key, uint8_t modifiers, uint8_t flags, InputBindingFn fn, const void* userData = NULL)
 	{
-		m_key = _key;
-		m_modifiers = _modifiers;
-		m_flags = _flags;
-		m_fn = _fn;
-		m_userData = _userData;
+		_key = key;
+		_modifiers = modifiers;
+		_flags = flags;
+		_fn = fn;
+		_userData = userData;
 	}
 
-	void end()
+	void End()
 	{
-		m_key = Auto3D::Key::None;
-		m_modifiers = Auto3D::Modifier::None;
-		m_flags = 0;
-		m_fn = NULL;
-		m_userData = NULL;
+		_key = Auto3D::Key::None;
+		_modifiers = Auto3D::Modifier::None;
+		_flags = 0;
+		_fn = NULL;
+		_userData = NULL;
 	}
 
-	Auto3D::Key::Enum m_key;
-	uint8_t m_modifiers;
-	uint8_t m_flags;
-	InputBindingFn m_fn;
-	const void* m_userData;
+	Auto3D::Key::Enum _key;
+	uint8_t _modifiers;
+	uint8_t _flags;
+	InputBindingFn _fn;
+	const void* _userData;
 };
 
 #define INPUT_BINDING_END { Auto3D::Key::None, Auto3D::Modifier::None, 0, NULL, NULL }
 
 ///
-void inputInit();
+void InputInit();
 
 ///
-void inputShutdown();
+void InputShutdown();
 
 ///
-void inputAddBindings(const char* _name, const InputBinding* _bindings);
+void InputAddBindings(const char* name, const InputBinding* bindings);
 
 ///
-void inputRemoveBindings(const char* _name);
+void InputRemoveBindings(const char* name);
 
 ///
-void inputProcess();
+void InputProcess();
 
 ///
-void inputSetKeyState(Auto3D::Key::Enum  _key, uint8_t _modifiers, bool _down);
+void InputSetKeyState(Auto3D::Key::Enum  key, uint8_t modifiers, bool down);
 
 ///
-bool inputGetKeyState(Auto3D::Key::Enum _key, uint8_t* _modifiers = NULL);
+bool InputGetKeyState(Auto3D::Key::Enum key, uint8_t* modifiers = NULL);
 
 ///
-uint8_t inputGetModifiersState();
+uint8_t InputGetModifiersState();
 
 /// Adds single UTF-8 encoded character into input buffer.
-void inputChar(uint8_t _len, const uint8_t _char[4]);
+void InputChar(uint8_t len, const uint8_t chars[4]);
 
 /// Returns single UTF-8 encoded character from input buffer.
-const uint8_t* inputGetChar();
+const uint8_t* InputGetChar();
 
 /// Flush internal input buffer.
-void inputCharFlush();
+void InputCharFlush();
 
 ///
-void inputSetMouseResolution(uint16_t _width, uint16_t _height);
+void InputSetMouseResolution(uint16_t width, uint16_t height);
 
 ///
-void inputSetMousePos(int32_t _mx, int32_t _my, int32_t _mz);
+void InputSetMousePos(int32_t mx, int32_t my, int32_t mz);
 
 ///
-void inputSetMouseButtonState(Auto3D::MouseButton::Enum _button, uint8_t _state);
+void InputSetMouseButtonState(Auto3D::MouseButton::Enum button, uint8_t state);
 
 ///
-void inputSetMouseLock(bool _lock);
+void InputSetMouseLock(bool lock);
 
 ///
-void inputGetMouse(float _mouse[3]);
+void InputGetMouse(float mouse[3]);
 
 ///
-bool inputIsMouseLocked();
+bool InputIsMouseLocked();
 
 ///
-void inputSetGamepadAxis(Auto3D::GamepadHandle _handle, Auto3D::GamepadAxis::Enum _axis, int32_t _value);
+void InputSetGamepadAxis(Auto3D::GamepadHandle handle, Auto3D::GamepadAxis::Enum axis, int32_t value);
 
 ///
-int32_t inputGetGamepadAxis(Auto3D::GamepadHandle _handle, Auto3D::GamepadAxis::Enum _axis);
+int32_t InputGetGamepadAxis(Auto3D::GamepadHandle handle, Auto3D::GamepadAxis::Enum axis);
 
 }

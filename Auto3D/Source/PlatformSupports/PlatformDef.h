@@ -1,17 +1,9 @@
-/*
- * Copyright 2011-2019 Branimir Karadzic. All rights reserved.
- * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
- */
-
-#ifndef ENTRY_PRIVATE_H_HEADER_GUARD
-#define ENTRY_PRIVATE_H_HEADER_GUARD
+#pragma once
 
 #define TINYSTL_ALLOCATOR Auto3D::TinyStlAllocator
 
 #include <bx/spscqueue.h>
 #include <bx/filepath.h>
-
-#include "Platform.h"
 
 #ifndef ENTRY_CONFIG_USE_NOOP
 #	define ENTRY_CONFIG_USE_NOOP 0
@@ -64,267 +56,527 @@
 #define ENTRY_IMPLEMENT_EVENT(_class, _type) \
 			_class(WindowHandle _handle) : Event(_type, _handle) {}
 
+namespace bx { struct FileReaderI; struct FileWriterI; struct AllocatorI; }
+
+#define ENTRY_WINDOW_FLAG_NONE         UINT32_C(0x00000000)
+#define ENTRY_WINDOW_FLAG_ASPECT_RATIO UINT32_C(0x00000001)
+#define ENTRY_WINDOW_FLAG_FRAME        UINT32_C(0x00000002)
+
 namespace Auto3D
 {
-	struct TinyStlAllocator
+struct WindowHandle { uint16_t idx; };
+inline bool isValid(WindowHandle _handle) { return UINT16_MAX != _handle.idx; }
+
+
+struct GamepadHandle { uint16_t idx; };
+inline bool isValid(GamepadHandle _handle) { return UINT16_MAX != _handle.idx; }
+
+enum SDL_USER_WINDOW
+{
+	SDL_USER_WINDOW_CREATE,
+	SDL_USER_WINDOW_DESTROY,
+	SDL_USER_WINDOW_SET_TITLE,
+	SDL_USER_WINDOW_SET_FLAGS,
+	SDL_USER_WINDOW_SET_POS,
+	SDL_USER_WINDOW_SET_SIZE,
+	SDL_USER_WINDOW_TOGGLE_FRAME,
+	SDL_USER_WINDOW_TOGGLE_FULL_SCREEN,
+	SDL_USER_WINDOW_MOUSE_LOCK,
+};
+
+struct MouseButton
+{
+	enum Enum
 	{
-		static void* static_allocate(size_t _bytes);
-		static void static_deallocate(void* _ptr, size_t /*_bytes*/);
+		None,
+		Left,
+		Middle,
+		Right,
+
+		Count
 	};
+};
 
-	int RunMain(int _argc, const char* const* _argv);
-
-	char keyToAscii(Key::Enum _key, uint8_t _modifiers);
-
-	struct Event
+struct GamepadAxis
+{
+	enum Enum
 	{
-		enum Enum
-		{
-			Axis,
-			Char,
-			Exit,
-			Gamepad,
-			Key,
-			Mouse,
-			Size,
-			Window,
-			Suspend,
-			DropFile,
-		};
+		LeftX,
+		LeftY,
+		LeftZ,
+		RightX,
+		RightY,
+		RightZ,
 
-		Event(Enum _type)
-			: m_type(_type)
+		Count
+	};
+};
+
+struct Modifier
+{
+	enum Enum
+	{
+		None = 0,
+		LeftAlt = 0x01,
+		RightAlt = 0x02,
+		LeftCtrl = 0x04,
+		RightCtrl = 0x08,
+		LeftShift = 0x10,
+		RightShift = 0x20,
+		LeftMeta = 0x40,
+		RightMeta = 0x80,
+	};
+};
+
+struct Key
+{
+	enum Enum
+	{
+		None = 0,
+		Esc,
+		Return,
+		Tab,
+		Space,
+		Backspace,
+		Up,
+		Down,
+		Left,
+		Right,
+		Insert,
+		Delete,
+		Home,
+		End,
+		PageUp,
+		PageDown,
+		Print,
+		Plus,
+		Minus,
+		LeftBracket,
+		RightBracket,
+		Semicolon,
+		Quote,
+		Comma,
+		Period,
+		Slash,
+		Backslash,
+		Tilde,
+		F1,
+		F2,
+		F3,
+		F4,
+		F5,
+		F6,
+		F7,
+		F8,
+		F9,
+		F10,
+		F11,
+		F12,
+		NumPad0,
+		NumPad1,
+		NumPad2,
+		NumPad3,
+		NumPad4,
+		NumPad5,
+		NumPad6,
+		NumPad7,
+		NumPad8,
+		NumPad9,
+		Key0,
+		Key1,
+		Key2,
+		Key3,
+		Key4,
+		Key5,
+		Key6,
+		Key7,
+		Key8,
+		Key9,
+		KeyA,
+		KeyB,
+		KeyC,
+		KeyD,
+		KeyE,
+		KeyF,
+		KeyG,
+		KeyH,
+		KeyI,
+		KeyJ,
+		KeyK,
+		KeyL,
+		KeyM,
+		KeyN,
+		KeyO,
+		KeyP,
+		KeyQ,
+		KeyR,
+		KeyS,
+		KeyT,
+		KeyU,
+		KeyV,
+		KeyW,
+		KeyX,
+		KeyY,
+		KeyZ,
+
+		GamepadA,
+		GamepadB,
+		GamepadX,
+		GamepadY,
+		GamepadThumbL,
+		GamepadThumbR,
+		GamepadShoulderL,
+		GamepadShoulderR,
+		GamepadUp,
+		GamepadDown,
+		GamepadLeft,
+		GamepadRight,
+		GamepadBack,
+		GamepadStart,
+		GamepadGuide,
+
+		Count
+	};
+};
+
+struct Suspend
+{
+	enum Enum
+	{
+		WillSuspend,
+		DidSuspend,
+		WillResume,
+		DidResume,
+
+		Count
+	};
+};
+struct MouseState
+{
+	MouseState()
+		: _mx(0)
+		, _my(0)
+		, _mz(0)
+	{
+		for (uint32_t ii = 0; ii < Auto3D::MouseButton::Count; ++ii)
 		{
-			m_handle.idx = UINT16_MAX;
+			_buttons[ii] = Auto3D::MouseButton::None;
 		}
+	}
 
-		Event(Enum _type, WindowHandle _handle)
-			: m_type(_type)
-			, m_handle(_handle)
+	int32_t _mx;
+	int32_t _my;
+	int32_t _mz;
+	uint8_t _buttons[Auto3D::MouseButton::Count];
+};
+
+struct GamepadState
+{
+	GamepadState()
+	{
+		bx::memSet(_axis, 0, sizeof(_axis));
+	}
+
+	int32_t _axis[Auto3D::GamepadAxis::Count];
+};
+
+bool processEvents(uint32_t& _width, uint32_t& _height, uint32_t& _debug, uint32_t& _reset, MouseState* _mouse = NULL);
+
+bx::FileReaderI* getFileReader();
+bx::FileWriterI* getFileWriter();
+bx::AllocatorI*  getAllocator();
+
+struct FPlatform
+{
+	static WindowHandle CreateWindowHandle(int32_t _x, int32_t _y, uint32_t _width, uint32_t _height, uint32_t _flags = ENTRY_WINDOW_FLAG_NONE, const char* _title = "");
+	static void DestroyWindowHandle(WindowHandle _handle);
+	static void SetWindowPos(WindowHandle _handle, int32_t _x, int32_t _y);
+	static void SetWindowSize(WindowHandle _handle, uint32_t _width, uint32_t _height);
+	static void SetWindowTitle(WindowHandle _handle, const char* _title);
+	static void SetWindowFlags(WindowHandle _handle, uint32_t _flags, bool _enabled);
+	static void ToggleFullscreen(WindowHandle _handle);
+	static void SetMouseLock(WindowHandle _handle, bool _lock);
+	static void SetCurrentDir(const char* _dir);
+};
+
+
+struct WindowState
+{
+	WindowState()
+		: _width(0)
+		, _height(0)
+		, _nwh(NULL)
+	{
+		_handle.idx = UINT16_MAX;
+	}
+
+	WindowHandle _handle;
+	uint32_t     _width;
+	uint32_t     _height;
+	MouseState   _mouse;
+	void*        _nwh;
+	bx::FilePath _dropFile;
+};
+
+bool processWindowEvents(WindowState& state, uint32_t& debug, uint32_t& reset);
+
+struct TinyStlAllocator
+{
+	static void* static_allocate(size_t bytes);
+	static void static_deallocate(void* ptr, size_t /*_bytes*/);
+};
+
+int RunMain(int argc, const char* const* argv);
+
+char keyToAscii(Key::Enum key, uint8_t modifiers);
+
+struct Event
+{
+	enum Enum
+	{
+		Axis,
+		Char,
+		Exit,
+		Gamepad,
+		Key,
+		Mouse,
+		Size,
+		Window,
+		Suspend,
+		DropFile,
+	};
+
+	Event(Enum type)
+		: _type(type)
+	{
+		_handle.idx = UINT16_MAX;
+	}
+
+	Event(Enum _type, WindowHandle _handle)
+		: _type(_type)
+		, _handle(_handle)
+	{
+	}
+
+	Event::Enum _type;
+	WindowHandle _handle;
+};
+
+struct AxisEvent : public Event
+{
+	ENTRY_IMPLEMENT_EVENT(AxisEvent, Event::Axis);
+
+	GamepadAxis::Enum _axis;
+	int32_t _value;
+	GamepadHandle _gamepad;
+};
+
+struct CharEvent : public Event
+{
+	ENTRY_IMPLEMENT_EVENT(CharEvent, Event::Char);
+
+	uint8_t _len;
+	uint8_t _char[4];
+};
+
+struct GamepadEvent : public Event
+{
+	ENTRY_IMPLEMENT_EVENT(GamepadEvent, Event::Gamepad);
+
+	GamepadHandle _gamepad;
+	bool _connected;
+};
+
+struct KeyEvent : public Event
+{
+	ENTRY_IMPLEMENT_EVENT(KeyEvent, Event::Key);
+
+	Key::Enum _key;
+	uint8_t _modifiers;
+	bool _down;
+};
+
+struct MouseEvent : public Event
+{
+	ENTRY_IMPLEMENT_EVENT(MouseEvent, Event::Mouse);
+
+	int32_t _mx;
+	int32_t _my;
+	int32_t _mz;
+	MouseButton::Enum _button;
+	bool _down;
+	bool _move;
+};
+
+struct SizeEvent : public Event
+{
+	ENTRY_IMPLEMENT_EVENT(SizeEvent, Event::Size);
+
+	uint32_t _width;
+	uint32_t _height;
+};
+
+struct WindowEvent : public Event
+{
+	ENTRY_IMPLEMENT_EVENT(WindowEvent, Event::Window);
+
+	void* _nwh;
+};
+
+struct SuspendEvent : public Event
+{
+	ENTRY_IMPLEMENT_EVENT(SuspendEvent, Event::Suspend);
+
+	Suspend::Enum _state;
+};
+
+struct DropFileEvent : public Event
+{
+	ENTRY_IMPLEMENT_EVENT(DropFileEvent, Event::DropFile);
+
+	bx::FilePath _filePath;
+};
+
+const Event* Poll();
+const Event* Poll(WindowHandle handle);
+void Release(const Event* event);
+
+class EventQueue
+{
+public:
+	EventQueue()
+		: _queue(getAllocator() )
+	{
+	}
+
+	~EventQueue()
+	{
+		for (const Event* ev = Poll(); NULL != ev; ev = Poll() )
 		{
+			Release(ev);
 		}
+	}
 
-		Event::Enum m_type;
-		WindowHandle m_handle;
-	};
-
-	struct AxisEvent : public Event
+	void PostAxisEvent(WindowHandle _handle, GamepadHandle _gamepad, GamepadAxis::Enum _axis, int32_t _value)
 	{
-		ENTRY_IMPLEMENT_EVENT(AxisEvent, Event::Axis);
+		AxisEvent* ev = BX_NEW(getAllocator(), AxisEvent)(_handle);
+		ev->_gamepad = _gamepad;
+		ev->_axis    = _axis;
+		ev->_value   = _value;
+		_queue.push(ev);
+	}
 
-		GamepadAxis::Enum m_axis;
-		int32_t m_value;
-		GamepadHandle m_gamepad;
-	};
-
-	struct CharEvent : public Event
+	void PostCharEvent(WindowHandle _handle, uint8_t _len, const uint8_t _char[4])
 	{
-		ENTRY_IMPLEMENT_EVENT(CharEvent, Event::Char);
+		CharEvent* ev = BX_NEW(getAllocator(), CharEvent)(_handle);
+		ev->_len = _len;
+		bx::memCopy(ev->_char, _char, 4);
+		_queue.push(ev);
+	}
 
-		uint8_t m_len;
-		uint8_t m_char[4];
-	};
-
-	struct GamepadEvent : public Event
+	void PostExitEvent()
 	{
-		ENTRY_IMPLEMENT_EVENT(GamepadEvent, Event::Gamepad);
+		Event* ev = BX_NEW(getAllocator(), Event)(Event::Exit);
+		_queue.push(ev);
+	}
 
-		GamepadHandle m_gamepad;
-		bool m_connected;
-	};
-
-	struct KeyEvent : public Event
+	void PostGamepadEvent(WindowHandle _handle, GamepadHandle _gamepad, bool _connected)
 	{
-		ENTRY_IMPLEMENT_EVENT(KeyEvent, Event::Key);
+		GamepadEvent* ev = BX_NEW(getAllocator(), GamepadEvent)(_handle);
+		ev->_gamepad   = _gamepad;
+		ev->_connected = _connected;
+		_queue.push(ev);
+	}
 
-		Key::Enum m_key;
-		uint8_t m_modifiers;
-		bool m_down;
-	};
-
-	struct MouseEvent : public Event
+	void PostKeyEvent(WindowHandle handle, Key::Enum key, uint8_t modifiers, bool down)
 	{
-		ENTRY_IMPLEMENT_EVENT(MouseEvent, Event::Mouse);
+		KeyEvent* ev = BX_NEW(getAllocator(), KeyEvent)(handle);
+		ev->_key       = key;
+		ev->_modifiers = modifiers;
+		ev->_down      = down;
+		_queue.push(ev);
+	}
 
-		int32_t m_mx;
-		int32_t m_my;
-		int32_t m_mz;
-		MouseButton::Enum m_button;
-		bool m_down;
-		bool m_move;
-	};
-
-	struct SizeEvent : public Event
+	void PostMouseEvent(WindowHandle handle, int32_t mx, int32_t my, int32_t mz)
 	{
-		ENTRY_IMPLEMENT_EVENT(SizeEvent, Event::Size);
+		MouseEvent* ev = BX_NEW(getAllocator(), MouseEvent)(handle);
+		ev->_mx     = mx;
+		ev->_my     = my;
+		ev->_mz     = mz;
+		ev->_button = MouseButton::None;
+		ev->_down   = false;
+		ev->_move   = true;
+		_queue.push(ev);
+	}
 
-		uint32_t m_width;
-		uint32_t m_height;
-	};
-
-	struct WindowEvent : public Event
+	void PostMouseEvent(WindowHandle _handle, int32_t _mx, int32_t _my, int32_t _mz, MouseButton::Enum _button, bool _down)
 	{
-		ENTRY_IMPLEMENT_EVENT(WindowEvent, Event::Window);
+		MouseEvent* ev = BX_NEW(getAllocator(), MouseEvent)(_handle);
+		ev->_mx     = _mx;
+		ev->_my     = _my;
+		ev->_mz     = _mz;
+		ev->_button = _button;
+		ev->_down   = _down;
+		ev->_move   = false;
+		_queue.push(ev);
+	}
 
-		void* m_nwh;
-	};
-
-	struct SuspendEvent : public Event
+	void PostSizeEvent(WindowHandle _handle, uint32_t _width, uint32_t _height)
 	{
-		ENTRY_IMPLEMENT_EVENT(SuspendEvent, Event::Suspend);
+		SizeEvent* ev = BX_NEW(getAllocator(), SizeEvent)(_handle);
+		ev->_width  = _width;
+		ev->_height = _height;
+		_queue.push(ev);
+	}
 
-		Suspend::Enum m_state;
-	};
-
-	struct DropFileEvent : public Event
+	void PostWindowEvent(WindowHandle handle, void* nwh = NULL)
 	{
-		ENTRY_IMPLEMENT_EVENT(DropFileEvent, Event::DropFile);
+		WindowEvent* ev = BX_NEW(getAllocator(), WindowEvent)(handle);
+		ev->_nwh = nwh;
+		_queue.push(ev);
+	}
 
-		bx::FilePath m_filePath;
-	};
-
-	const Event* poll();
-	const Event* poll(WindowHandle _handle);
-	void release(const Event* _event);
-
-	class EventQueue
+	void PostSuspendEvent(WindowHandle handle, Suspend::Enum state)
 	{
-	public:
-		EventQueue()
-			: m_queue(getAllocator() )
+		SuspendEvent* ev = BX_NEW(getAllocator(), SuspendEvent)(handle);
+		ev->_state = state;
+		_queue.push(ev);
+	}
+
+	void PostDropFileEvent(WindowHandle handle, const bx::FilePath& filePath)
+	{
+		DropFileEvent* ev = BX_NEW(getAllocator(), DropFileEvent)(handle);
+		ev->_filePath = filePath;
+		_queue.push(ev);
+	}
+
+	const Event* Poll()
+	{
+		return _queue.pop();
+	}
+
+	const Event* Poll(WindowHandle handle)
+	{
+		if (isValid(handle) )
 		{
-		}
-
-		~EventQueue()
-		{
-			for (const Event* ev = poll(); NULL != ev; ev = poll() )
+			Event* ev = _queue.peek();
+			if (NULL == ev
+			||  ev->_handle.idx != handle.idx)
 			{
-				release(ev);
+				return NULL;
 			}
 		}
 
-		void postAxisEvent(WindowHandle _handle, GamepadHandle _gamepad, GamepadAxis::Enum _axis, int32_t _value)
-		{
-			AxisEvent* ev = BX_NEW(getAllocator(), AxisEvent)(_handle);
-			ev->m_gamepad = _gamepad;
-			ev->m_axis    = _axis;
-			ev->m_value   = _value;
-			m_queue.push(ev);
-		}
+		return Poll();
+	}
 
-		void postCharEvent(WindowHandle _handle, uint8_t _len, const uint8_t _char[4])
-		{
-			CharEvent* ev = BX_NEW(getAllocator(), CharEvent)(_handle);
-			ev->m_len = _len;
-			bx::memCopy(ev->m_char, _char, 4);
-			m_queue.push(ev);
-		}
+	void Release(const Event* _event) const
+	{
+		BX_DELETE(getAllocator(), const_cast<Event*>(_event) );
+	}
 
-		void postExitEvent()
-		{
-			Event* ev = BX_NEW(getAllocator(), Event)(Event::Exit);
-			m_queue.push(ev);
-		}
-
-		void postGamepadEvent(WindowHandle _handle, GamepadHandle _gamepad, bool _connected)
-		{
-			GamepadEvent* ev = BX_NEW(getAllocator(), GamepadEvent)(_handle);
-			ev->m_gamepad   = _gamepad;
-			ev->m_connected = _connected;
-			m_queue.push(ev);
-		}
-
-		void postKeyEvent(WindowHandle _handle, Key::Enum _key, uint8_t _modifiers, bool _down)
-		{
-			KeyEvent* ev = BX_NEW(getAllocator(), KeyEvent)(_handle);
-			ev->m_key       = _key;
-			ev->m_modifiers = _modifiers;
-			ev->m_down      = _down;
-			m_queue.push(ev);
-		}
-
-		void postMouseEvent(WindowHandle _handle, int32_t _mx, int32_t _my, int32_t _mz)
-		{
-			MouseEvent* ev = BX_NEW(getAllocator(), MouseEvent)(_handle);
-			ev->m_mx     = _mx;
-			ev->m_my     = _my;
-			ev->m_mz     = _mz;
-			ev->m_button = MouseButton::None;
-			ev->m_down   = false;
-			ev->m_move   = true;
-			m_queue.push(ev);
-		}
-
-		void postMouseEvent(WindowHandle _handle, int32_t _mx, int32_t _my, int32_t _mz, MouseButton::Enum _button, bool _down)
-		{
-			MouseEvent* ev = BX_NEW(getAllocator(), MouseEvent)(_handle);
-			ev->m_mx     = _mx;
-			ev->m_my     = _my;
-			ev->m_mz     = _mz;
-			ev->m_button = _button;
-			ev->m_down   = _down;
-			ev->m_move   = false;
-			m_queue.push(ev);
-		}
-
-		void postSizeEvent(WindowHandle _handle, uint32_t _width, uint32_t _height)
-		{
-			SizeEvent* ev = BX_NEW(getAllocator(), SizeEvent)(_handle);
-			ev->m_width  = _width;
-			ev->m_height = _height;
-			m_queue.push(ev);
-		}
-
-		void postWindowEvent(WindowHandle _handle, void* _nwh = NULL)
-		{
-			WindowEvent* ev = BX_NEW(getAllocator(), WindowEvent)(_handle);
-			ev->m_nwh = _nwh;
-			m_queue.push(ev);
-		}
-
-		void postSuspendEvent(WindowHandle _handle, Suspend::Enum _state)
-		{
-			SuspendEvent* ev = BX_NEW(getAllocator(), SuspendEvent)(_handle);
-			ev->m_state = _state;
-			m_queue.push(ev);
-		}
-
-		void postDropFileEvent(WindowHandle _handle, const bx::FilePath& _filePath)
-		{
-			DropFileEvent* ev = BX_NEW(getAllocator(), DropFileEvent)(_handle);
-			ev->m_filePath = _filePath;
-			m_queue.push(ev);
-		}
-
-		const Event* poll()
-		{
-			return m_queue.pop();
-		}
-
-		const Event* poll(WindowHandle _handle)
-		{
-			if (isValid(_handle) )
-			{
-				Event* ev = m_queue.peek();
-				if (NULL == ev
-				||  ev->m_handle.idx != _handle.idx)
-				{
-					return NULL;
-				}
-			}
-
-			return poll();
-		}
-
-		void release(const Event* _event) const
-		{
-			BX_DELETE(getAllocator(), const_cast<Event*>(_event) );
-		}
-
-	private:
-		bx::SpScUnboundedQueueT<Event> m_queue;
-	};
+private:
+	bx::SpScUnboundedQueueT<Event> _queue;
+};
 
 } // namespace Auto3D
-
-#endif // ENTRY_PRIVATE_H_HEADER_GUARD

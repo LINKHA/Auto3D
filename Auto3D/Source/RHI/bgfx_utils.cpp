@@ -16,7 +16,8 @@ namespace stl = tinystl;
 #include <bx/math.h>
 #include <bx/readerwriter.h>
 #include <bx/string.h>
-#include "PlatformSupports/Platform.h"
+#include "PlatformSupports/PlatformDef.h"
+#include "PlatformSupports/dbg.h"
 #include <meshoptimizer/src/meshoptimizer.h>
 
 #include "bgfx_utils.h"

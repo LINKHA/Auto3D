@@ -12,6 +12,7 @@
 #include "PlatformDef.h"
 #include "cmd.h"
 #include "input.h"
+#include "dbg.h"
 
 #include "PlatformSupports/PlatformContext.h"
 #include "Application.h"
@@ -41,19 +42,19 @@ namespace Auto3D
 
 	
 
-	const Event* poll()
+	const Event* Poll()
 	{
-		return PlatfromContext::Get()._eventQueue.poll();
+		return PlatfromContext::Get()._eventQueue.Poll();
 	}
 
-	const Event* poll(WindowHandle _handle)
+	const Event* Poll(WindowHandle _handle)
 	{
-		return PlatfromContext::Get()._eventQueue.poll(_handle);
+		return PlatfromContext::Get()._eventQueue.Poll(_handle);
 	}
 
-	void release(const Event* _event)
+	void Release(const Event* _event)
 	{
-		PlatfromContext::Get()._eventQueue.release(_event);
+		PlatfromContext::Get()._eventQueue.Release(_event);
 	}
 
 
@@ -378,11 +379,11 @@ BX_PRAGMA_DIAGNOSTIC_POP();
 			if (2 < _argc)
 			{
 				bx::fromString(&set, _argv[1]);
-				inputSetMouseLock(set);
+				InputSetMouseLock(set);
 			}
 			else
 			{
-				inputSetMouseLock(!inputIsMouseLocked() );
+				InputSetMouseLock(!InputIsMouseLocked() );
 			}
 
 			return bx::kExitSuccess;
@@ -597,14 +598,14 @@ BX_PRAGMA_DIAGNOSTIC_POP();
 		s_fileReader = BX_NEW(g_allocator, FileReader);
 		s_fileWriter = BX_NEW(g_allocator, FileWriter);
 
-		cmdInit();
-		cmdAdd("mouselock", cmdMouseLock);
-		cmdAdd("graphics",  cmdGraphics );
-		cmdAdd("exit",      cmdExit     );
-		cmdAdd("app",       cmdApp      );
+		CmdInit();
+		CmdAdd("mouselock", cmdMouseLock);
+		CmdAdd("graphics",  cmdGraphics );
+		CmdAdd("exit",      cmdExit     );
+		CmdAdd("app",       cmdApp      );
 
-		inputInit();
-		inputAddBindings("bindings", s_bindings);
+		InputInit();
+		InputAddBindings("bindings", s_bindings);
 
 		bx::FilePath fp(argv[0]);
 		char title[bx::kMaxFilePath];
@@ -659,10 +660,10 @@ restart:
 
 		FPlatform::SetCurrentDir("");
 
-		inputRemoveBindings("bindings");
-		inputShutdown();
+		InputRemoveBindings("bindings");
+		InputShutdown();
 
-		cmdShutdown();
+		CmdShutdown();
 
 		BX_DELETE(g_allocator, s_fileReader);
 		s_fileReader = NULL;
@@ -682,29 +683,29 @@ restart:
 
 		WindowHandle handle = { UINT16_MAX };
 
-		bool mouseLock = inputIsMouseLocked();
+		bool mouseLock = InputIsMouseLocked();
 
 		const Event* ev;
 		do
 		{
-			struct SE { const Event* m_ev; SE() : m_ev(poll() ) {} ~SE() { if (NULL != m_ev) { release(m_ev); } } } scopeEvent;
+			struct SE { const Event* m_ev; SE() : m_ev(Poll() ) {} ~SE() { if (NULL != m_ev) { Release(m_ev); } } } scopeEvent;
 			ev = scopeEvent.m_ev;
 
 			if (NULL != ev)
 			{
-				switch (ev->m_type)
+				switch (ev->_type)
 				{
 				case Event::Axis:
 					{
 						const AxisEvent* axis = static_cast<const AxisEvent*>(ev);
-						inputSetGamepadAxis(axis->m_gamepad, axis->m_axis, axis->m_value);
+						InputSetGamepadAxis(axis->_gamepad, axis->_axis, axis->_value);
 					}
 					break;
 
 				case Event::Char:
 					{
 						const CharEvent* chev = static_cast<const CharEvent*>(ev);
-						inputChar(chev->m_len, chev->m_char);
+						InputChar(chev->_len, chev->_char);
 					}
 					break;
 
@@ -721,23 +722,23 @@ restart:
 				case Event::Mouse:
 					{
 						const MouseEvent* mouse = static_cast<const MouseEvent*>(ev);
-						handle = mouse->m_handle;
+						handle = mouse->_handle;
 
-						inputSetMousePos(mouse->m_mx, mouse->m_my, mouse->m_mz);
-						if (!mouse->m_move)
+						InputSetMousePos(mouse->_mx, mouse->_my, mouse->_mz);
+						if (!mouse->_move)
 						{
-							inputSetMouseButtonState(mouse->m_button, mouse->m_down);
+							InputSetMouseButtonState(mouse->_button, mouse->_down);
 						}
 
 						if (NULL != _mouse
 						&&  !mouseLock)
 						{
-							_mouse->m_mx = mouse->m_mx;
-							_mouse->m_my = mouse->m_my;
-							_mouse->m_mz = mouse->m_mz;
-							if (!mouse->m_move)
+							_mouse->_mx = mouse->_mx;
+							_mouse->_my = mouse->_my;
+							_mouse->_mz = mouse->_mz;
+							if (!mouse->_move)
 							{
-								_mouse->m_buttons[mouse->m_button] = mouse->m_down;
+								_mouse->_buttons[mouse->_button] = mouse->_down;
 							}
 						}
 					}
@@ -746,9 +747,9 @@ restart:
 				case Event::Key:
 					{
 						const KeyEvent* key = static_cast<const KeyEvent*>(ev);
-						handle = key->m_handle;
+						handle = key->_handle;
 
-						inputSetKeyState(key->m_key, key->m_modifiers, key->m_down);
+						InputSetKeyState(key->_key, key->_modifiers, key->_down);
 					}
 					break;
 
@@ -756,13 +757,13 @@ restart:
 					{
 						const SizeEvent* size = static_cast<const SizeEvent*>(ev);
 						WindowState& win = s_window[0];
-						win.m_handle = size->m_handle;
-						win.m_width  = size->m_width;
-						win.m_height = size->m_height;
+						win._handle = size->_handle;
+						win._width  = size->_width;
+						win._height = size->_height;
 
-						handle  = size->m_handle;
-						_width  = size->m_width;
-						_height = size->m_height;
+						handle  = size->_handle;
+						_width  = size->_width;
+						_height = size->_height;
 						_reset  = !s_reset; // force reset
 					}
 					break;
@@ -776,7 +777,7 @@ restart:
 				case Event::DropFile:
 					{
 						const DropFileEvent* drop = static_cast<const DropFileEvent*>(ev);
-						DBG("%s", drop->m_filePath.getCPtr() );
+						DBG("%s", drop->_filePath.getCPtr() );
 					}
 					break;
 
@@ -785,7 +786,7 @@ restart:
 				}
 			}
 
-			inputProcess();
+			InputProcess();
 
 		} while (NULL != ev);
 
@@ -794,7 +795,7 @@ restart:
 		{
 			_reset = s_reset;
 			bgfx::reset(_width, _height, _reset);
-			inputSetMouseResolution(uint16_t(_width), uint16_t(_height) );
+			InputSetMouseResolution(uint16_t(_width), uint16_t(_height) );
 		}
 
 		_debug = s_debug;
@@ -812,7 +813,7 @@ restart:
 
 		WindowHandle handle = { UINT16_MAX };
 
-		bool mouseLock = inputIsMouseLocked();
+		bool mouseLock = InputIsMouseLocked();
 		bool clearDropFile = true;
 
 		const Event* ev;
@@ -821,7 +822,7 @@ restart:
 			struct SE
 			{
 				SE(WindowHandle _handle)
-					: m_ev(poll(_handle) )
+					: m_ev(Poll(_handle) )
 				{
 				}
 
@@ -829,7 +830,7 @@ restart:
 				{
 					if (NULL != m_ev)
 					{
-						release(m_ev);
+						Release(m_ev);
 					}
 				}
 
@@ -840,23 +841,23 @@ restart:
 
 			if (NULL != ev)
 			{
-				handle = ev->m_handle;
+				handle = ev->_handle;
 				WindowState& win = s_window[handle.idx];
 
-				switch (ev->m_type)
+				switch (ev->_type)
 				{
 				case Event::Axis:
 					{
 						const AxisEvent* axis = static_cast<const AxisEvent*>(ev);
-						inputSetGamepadAxis(axis->m_gamepad, axis->m_axis, axis->m_value);
+						InputSetGamepadAxis(axis->_gamepad, axis->_axis, axis->_value);
 					}
 					break;
 
 				case Event::Char:
 					{
 						const CharEvent* chev = static_cast<const CharEvent*>(ev);
-						win.m_handle = chev->m_handle;
-						inputChar(chev->m_len, chev->m_char);
+						win._handle = chev->_handle;
+						InputChar(chev->_len, chev->_char);
 					}
 					break;
 
@@ -866,35 +867,35 @@ restart:
 				case Event::Gamepad:
 					{
 						const GamepadEvent* gev = static_cast<const GamepadEvent*>(ev);
-						DBG("gamepad %d, %d", gev->m_gamepad.idx, gev->m_connected);
+						DBG("gamepad %d, %d", gev->_gamepad.idx, gev->_connected);
 					}
 					break;
 
 				case Event::Mouse:
 					{
 						const MouseEvent* mouse = static_cast<const MouseEvent*>(ev);
-						win.m_handle = mouse->m_handle;
+						win._handle = mouse->_handle;
 
-						if (mouse->m_move)
+						if (mouse->_move)
 						{
-							inputSetMousePos(mouse->m_mx, mouse->m_my, mouse->m_mz);
+							InputSetMousePos(mouse->_mx, mouse->_my, mouse->_mz);
 						}
 						else
 						{
-							inputSetMouseButtonState(mouse->m_button, mouse->m_down);
+							InputSetMouseButtonState(mouse->_button, mouse->_down);
 						}
 
 						if (!mouseLock)
 						{
-							if (mouse->m_move)
+							if (mouse->_move)
 							{
-								win.m_mouse.m_mx = mouse->m_mx;
-								win.m_mouse.m_my = mouse->m_my;
-								win.m_mouse.m_mz = mouse->m_mz;
+								win._mouse._mx = mouse->_mx;
+								win._mouse._my = mouse->_my;
+								win._mouse._mz = mouse->_mz;
 							}
 							else
 							{
-								win.m_mouse.m_buttons[mouse->m_button] = mouse->m_down;
+								win._mouse._buttons[mouse->_button] = mouse->_down;
 							}
 						}
 					}
@@ -903,19 +904,19 @@ restart:
 				case Event::Key:
 					{
 						const KeyEvent* key = static_cast<const KeyEvent*>(ev);
-						win.m_handle = key->m_handle;
+						win._handle = key->_handle;
 
-						inputSetKeyState(key->m_key, key->m_modifiers, key->m_down);
+						InputSetKeyState(key->_key, key->_modifiers, key->_down);
 					}
 					break;
 
 				case Event::Size:
 					{
 						const SizeEvent* size = static_cast<const SizeEvent*>(ev);
-						win.m_handle = size->m_handle;
-						win.m_width  = size->m_width;
-						win.m_height = size->m_height;
-						_reset  = win.m_handle.idx == 0
+						win._handle = size->_handle;
+						win._width  = size->_width;
+						win._height = size->_height;
+						_reset  = win._handle.idx == 0
 								? !s_reset
 								: _reset
 								; // force reset
@@ -925,8 +926,8 @@ restart:
 				case Event::Window:
 					{
 						const WindowEvent* window = static_cast<const WindowEvent*>(ev);
-						win.m_handle = window->m_handle;
-						win.m_nwh    = window->m_nwh;
+						win._handle = window->_handle;
+						win._nwh    = window->_nwh;
 						ev = NULL;
 					}
 					break;
@@ -937,7 +938,7 @@ restart:
 				case Event::DropFile:
 					{
 						const DropFileEvent* drop = static_cast<const DropFileEvent*>(ev);
-						win.m_dropFile = drop->m_filePath;
+						win._dropFile = drop->_filePath;
 						clearDropFile = false;
 					}
 					break;
@@ -947,7 +948,7 @@ restart:
 				}
 			}
 
-			inputProcess();
+			InputProcess();
 
 		} while (NULL != ev);
 
@@ -956,22 +957,22 @@ restart:
 			WindowState& win = s_window[handle.idx];
 			if (clearDropFile)
 			{
-				win.m_dropFile.clear();
+				win._dropFile.clear();
 			}
 
 			_state = win;
 
 			if (handle.idx == 0)
 			{
-				inputSetMouseResolution(uint16_t(win.m_width), uint16_t(win.m_height) );
+				InputSetMouseResolution(uint16_t(win._width), uint16_t(win._height) );
 			}
 		}
 
 		if (_reset != s_reset)
 		{
 			_reset = s_reset;
-			bgfx::reset(s_window[0].m_width, s_window[0].m_height, _reset);
-			inputSetMouseResolution(uint16_t(s_window[0].m_width), uint16_t(s_window[0].m_height) );
+			bgfx::reset(s_window[0]._width, s_window[0]._height, _reset);
+			InputSetMouseResolution(uint16_t(s_window[0]._width), uint16_t(s_window[0]._height) );
 		}
 
 		_debug = s_debug;

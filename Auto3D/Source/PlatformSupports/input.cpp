@@ -15,7 +15,7 @@
 #include <tinystl/allocator.h>
 #include <tinystl/unordered_map.h>
 
-#include "PlatformSupports/Platform.h"
+#include "PlatformSupports/PlatformDef.h"
 #include "PlatformSupports/PlatformContext.h"
 
 namespace stl = tinystl;
@@ -26,70 +26,70 @@ namespace Auto3D
 struct InputMouse
 {
 	InputMouse()
-		: m_width(1280)
-		, m_height(720)
-		, m_wheelDelta(120)
-		, m_lock(false)
+		: _width(1280)
+		, _height(720)
+		, _wheelDelta(120)
+		, _lock(false)
 	{
 	}
 
-	void reset()
+	void Reset()
 	{
-		if (m_lock)
+		if (_lock)
 		{
-			m_norm[0] = 0.0f;
-			m_norm[1] = 0.0f;
-			m_norm[2] = 0.0f;
+			_norm[0] = 0.0f;
+			_norm[1] = 0.0f;
+			_norm[2] = 0.0f;
 		}
 
-		bx::memSet(m_buttons, 0, sizeof(m_buttons));
+		bx::memSet(_buttons, 0, sizeof(_buttons));
 	}
 
-	void setResolution(uint16_t _width, uint16_t _height)
+	void SetResolution(uint16_t width, uint16_t height)
 	{
-		m_width = _width;
-		m_height = _height;
+		_width = width;
+		_height = height;
 	}
 
-	void setPos(int32_t _mx, int32_t _my, int32_t _mz)
+	void SetPos(int32_t mx, int32_t my, int32_t mz)
 	{
-		m_absolute[0] = _mx;
-		m_absolute[1] = _my;
-		m_absolute[2] = _mz;
-		m_norm[0] = float(_mx) / float(m_width);
-		m_norm[1] = float(_my) / float(m_height);
-		m_norm[2] = float(_mz) / float(m_wheelDelta);
+		_absolute[0] = mx;
+		_absolute[1] = my;
+		_absolute[2] = mz;
+		_norm[0] = float(mx) / float(_width);
+		_norm[1] = float(my) / float(_height);
+		_norm[2] = float(mz) / float(_wheelDelta);
 	}
 
-	void setButtonState(Auto3D::MouseButton::Enum _button, uint8_t _state)
+	void SetButtonState(Auto3D::MouseButton::Enum button, uint8_t state)
 	{
-		m_buttons[_button] = _state;
+		_buttons[button] = state;
 	}
 
-	int32_t m_absolute[3];
-	float m_norm[3];
-	int32_t m_wheel;
-	uint8_t m_buttons[Auto3D::MouseButton::Count];
-	uint16_t m_width;
-	uint16_t m_height;
-	uint16_t m_wheelDelta;
-	bool m_lock;
+	int32_t _absolute[3];
+	float _norm[3];
+	int32_t _wheel;
+	uint8_t _buttons[Auto3D::MouseButton::Count];
+	uint16_t _width;
+	uint16_t _height;
+	uint16_t _wheelDelta;
+	bool _lock;
 };
 
 struct InputKeyboard
 {
 	InputKeyboard()
-		: m_ring(BX_COUNTOF(m_char) - 4)
+		: _ring(BX_COUNTOF(m_char) - 4)
 	{
 	}
 
-	void reset()
+	void Reset()
 	{
 		bx::memSet(m_key, 0, sizeof(m_key));
 		bx::memSet(m_once, 0xff, sizeof(m_once));
 	}
 
-	static uint32_t encodeKeyState(uint8_t _modifiers, bool _down)
+	static uint32_t EncodeKeyState(uint8_t _modifiers, bool _down)
 	{
 		uint32_t state = 0;
 		state |= uint32_t(_down ? _modifiers : 0) << 16;
@@ -97,7 +97,7 @@ struct InputKeyboard
 		return state;
 	}
 
-	static bool decodeKeyState(uint32_t _state, uint8_t& _modifiers)
+	static bool DecodeKeyState(uint32_t _state, uint8_t& _modifiers)
 	{
 		_modifiers = (_state >> 16) & 0xff;
 		return 0 != ((_state >> 8) & 0xff);
@@ -105,7 +105,7 @@ struct InputKeyboard
 
 	void setKeyState(Auto3D::Key::Enum _key, uint8_t _modifiers, bool _down)
 	{
-		m_key[_key] = encodeKeyState(_modifiers, _down);
+		m_key[_key] = EncodeKeyState(_modifiers, _down);
 		m_once[_key] = false;
 	}
 
@@ -114,7 +114,7 @@ struct InputKeyboard
 		uint8_t modifiers;
 		_modifiers = NULL == _modifiers ? &modifiers : _modifiers;
 
-		return decodeKeyState(m_key[_key], *_modifiers);
+		return DecodeKeyState(m_key[_key], *_modifiers);
 	}
 
 	uint8_t getModifiersState()
@@ -129,24 +129,24 @@ struct InputKeyboard
 
 	void pushChar(uint8_t _len, const uint8_t _char[4])
 	{
-		for (uint32_t len = m_ring.reserve(4)
+		for (uint32_t len = _ring.reserve(4)
 			; len < _len
-			; len = m_ring.reserve(4)
+			; len = _ring.reserve(4)
 			)
 		{
 			popChar();
 		}
 
-		bx::memCopy(&m_char[m_ring.m_current], _char, 4);
-		m_ring.commit(4);
+		bx::memCopy(&m_char[_ring.m_current], _char, 4);
+		_ring.commit(4);
 	}
 
 	const uint8_t* popChar()
 	{
-		if (0 < m_ring.available())
+		if (0 < _ring.available())
 		{
-			uint8_t* utf8 = &m_char[m_ring.m_read];
-			m_ring.consume(4);
+			uint8_t* utf8 = &m_char[_ring.m_read];
+			_ring.consume(4);
 			return utf8;
 		}
 
@@ -155,15 +155,15 @@ struct InputKeyboard
 
 	void charFlush()
 	{
-		m_ring.m_current = 0;
-		m_ring.m_write = 0;
-		m_ring.m_read = 0;
+		_ring.m_current = 0;
+		_ring.m_write = 0;
+		_ring.m_read = 0;
 	}
 
 	uint32_t m_key[256];
 	bool m_once[256];
 
-	bx::RingBufferControl m_ring;
+	bx::RingBufferControl _ring;
 	uint8_t m_char[256];
 };
 
@@ -219,46 +219,46 @@ struct Input
 
 	void process(const InputBinding* _bindings)
 	{
-		for (const InputBinding* binding = _bindings; binding->m_key != Auto3D::Key::None; ++binding)
+		for (const InputBinding* binding = _bindings; binding->_key != Auto3D::Key::None; ++binding)
 		{
 			uint8_t modifiers;
-			bool down = InputKeyboard::decodeKeyState(m_keyboard.m_key[binding->m_key], modifiers);
+			bool down = InputKeyboard::DecodeKeyState(m_keyboard.m_key[binding->_key], modifiers);
 
-			if (binding->m_flags == 1)
+			if (binding->_flags == 1)
 			{
 				if (down)
 				{
-					if (modifiers == binding->m_modifiers
-						&& !m_keyboard.m_once[binding->m_key])
+					if (modifiers == binding->_modifiers
+						&& !m_keyboard.m_once[binding->_key])
 					{
-						if (NULL == binding->m_fn)
+						if (NULL == binding->_fn)
 						{
-							cmdExec((const char*)binding->m_userData);
+							CmdExec((const char*)binding->_userData);
 						}
 						else
 						{
-							binding->m_fn(binding->m_userData);
+							binding->_fn(binding->_userData);
 						}
-						m_keyboard.m_once[binding->m_key] = true;
+						m_keyboard.m_once[binding->_key] = true;
 					}
 				}
 				else
 				{
-					m_keyboard.m_once[binding->m_key] = false;
+					m_keyboard.m_once[binding->_key] = false;
 				}
 			}
 			else
 			{
 				if (down
-					&&  modifiers == binding->m_modifiers)
+					&&  modifiers == binding->_modifiers)
 				{
-					if (NULL == binding->m_fn)
+					if (NULL == binding->_fn)
 					{
-						cmdExec((const char*)binding->m_userData);
+						CmdExec((const char*)binding->_userData);
 					}
 					else
 					{
-						binding->m_fn(binding->m_userData);
+						binding->_fn(binding->_userData);
 					}
 				}
 			}
@@ -275,8 +275,8 @@ struct Input
 
 	void reset()
 	{
-		m_mouse.reset();
-		m_keyboard.reset();
+		m_mouse.Reset();
+		m_keyboard.Reset();
 		for (uint32_t ii = 0; ii < BX_COUNTOF(m_gamepad); ++ii)
 		{
 			m_gamepad[ii].reset();
@@ -292,114 +292,114 @@ struct Input
 
 static Input* s_input;
 
-void inputInit()
+void InputInit()
 {
 	s_input = BX_NEW(Auto3D::getAllocator(), Input);
 }
 
-void inputShutdown()
+void InputShutdown()
 {
 	BX_DELETE(Auto3D::getAllocator(), s_input);
 }
 
-void inputAddBindings(const char* _name, const InputBinding* _bindings)
+void InputAddBindings(const char* _name, const InputBinding* _bindings)
 {
 	s_input->addBindings(_name, _bindings);
 }
 
-void inputRemoveBindings(const char* _name)
+void InputRemoveBindings(const char* _name)
 {
 	s_input->removeBindings(_name);
 }
 
-void inputProcess()
+void InputProcess()
 {
 	s_input->process();
 }
 
-void inputSetMouseResolution(uint16_t _width, uint16_t _height)
+void InputSetMouseResolution(uint16_t _width, uint16_t _height)
 {
-	s_input->m_mouse.setResolution(_width, _height);
+	s_input->m_mouse.SetResolution(_width, _height);
 }
 
-void inputSetKeyState(Auto3D::Key::Enum _key, uint8_t _modifiers, bool _down)
+void InputSetKeyState(Auto3D::Key::Enum _key, uint8_t _modifiers, bool _down)
 {
 	s_input->m_keyboard.setKeyState(_key, _modifiers, _down);
 }
 
-bool inputGetKeyState(Auto3D::Key::Enum _key, uint8_t* _modifiers)
+bool InputGetKeyState(Auto3D::Key::Enum _key, uint8_t* _modifiers)
 {
 	return s_input->m_keyboard.getKeyState(_key, _modifiers);
 }
 
-uint8_t inputGetModifiersState()
+uint8_t InputGetModifiersState()
 {
 	return s_input->m_keyboard.getModifiersState();
 }
 
-void inputChar(uint8_t _len, const uint8_t _char[4])
+void InputChar(uint8_t len, const uint8_t chars[4])
 {
-	s_input->m_keyboard.pushChar(_len, _char);
+	s_input->m_keyboard.pushChar(len, chars);
 }
 
-const uint8_t* inputGetChar()
+const uint8_t* InputGetChar()
 {
 	return s_input->m_keyboard.popChar();
 }
 
-void inputCharFlush()
+void InputCharFlush()
 {
 	s_input->m_keyboard.charFlush();
 }
 
-void inputSetMousePos(int32_t _mx, int32_t _my, int32_t _mz)
+void InputSetMousePos(int32_t _mx, int32_t _my, int32_t _mz)
 {
-	s_input->m_mouse.setPos(_mx, _my, _mz);
+	s_input->m_mouse.SetPos(_mx, _my, _mz);
 }
 
-void inputSetMouseButtonState(Auto3D::MouseButton::Enum _button, uint8_t _state)
+void InputSetMouseButtonState(Auto3D::MouseButton::Enum _button, uint8_t _state)
 {
-	s_input->m_mouse.setButtonState(_button, _state);
+	s_input->m_mouse.SetButtonState(_button, _state);
 }
 
-void inputGetMouse(float _mouse[3])
+void InputGetMouse(float _mouse[3])
 {
-	_mouse[0] = s_input->m_mouse.m_norm[0];
-	_mouse[1] = s_input->m_mouse.m_norm[1];
-	_mouse[2] = s_input->m_mouse.m_norm[2];
-	s_input->m_mouse.m_norm[0] = 0.0f;
-	s_input->m_mouse.m_norm[1] = 0.0f;
-	s_input->m_mouse.m_norm[2] = 0.0f;
+	_mouse[0] = s_input->m_mouse._norm[0];
+	_mouse[1] = s_input->m_mouse._norm[1];
+	_mouse[2] = s_input->m_mouse._norm[2];
+	s_input->m_mouse._norm[0] = 0.0f;
+	s_input->m_mouse._norm[1] = 0.0f;
+	s_input->m_mouse._norm[2] = 0.0f;
 }
 
-bool inputIsMouseLocked()
+bool InputIsMouseLocked()
 {
-	return s_input->m_mouse.m_lock;
+	return s_input->m_mouse._lock;
 }
 
-void inputSetMouseLock(bool _lock)
+void InputSetMouseLock(bool _lock)
 {
-	if (s_input->m_mouse.m_lock != _lock)
+	if (s_input->m_mouse._lock != _lock)
 	{
-		s_input->m_mouse.m_lock = _lock;
+		s_input->m_mouse._lock = _lock;
 		Auto3D::WindowHandle defaultWindow = { 0 };
 		FPlatform::SetMouseLock(PlatfromContext::_defaultWindow, _lock);
 
 		if (_lock)
 		{
-			s_input->m_mouse.m_norm[0] = 0.0f;
-			s_input->m_mouse.m_norm[1] = 0.0f;
-			s_input->m_mouse.m_norm[2] = 0.0f;
+			s_input->m_mouse._norm[0] = 0.0f;
+			s_input->m_mouse._norm[1] = 0.0f;
+			s_input->m_mouse._norm[2] = 0.0f;
 		}
 	}
 }
 
-void inputSetGamepadAxis(Auto3D::GamepadHandle _handle, Auto3D::GamepadAxis::Enum _axis, int32_t _value)
+void InputSetGamepadAxis(Auto3D::GamepadHandle _handle, Auto3D::GamepadAxis::Enum _axis, int32_t _value)
 {
 	s_input->m_gamepad[_handle.idx].setAxis(_axis, _value);
 }
 
-int32_t inputGetGamepadAxis(Auto3D::GamepadHandle _handle, Auto3D::GamepadAxis::Enum _axis)
+int32_t InputGetGamepadAxis(Auto3D::GamepadHandle _handle, Auto3D::GamepadAxis::Enum _axis)
 {
 	return s_input->m_gamepad[_handle.idx].getAxis(_axis);
 }

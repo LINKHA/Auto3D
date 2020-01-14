@@ -4,7 +4,7 @@
  */
 
 #include "imgui/imgui.h"
-#include "PlatformSupports/Platform.h"
+#include "PlatformSupports/PlatformDef.h"
 #include "PlatformSupports/cmd.h"
 #include "PlatformSupports/dialog.h"
 #include <bx/string.h>
@@ -201,7 +201,7 @@ void showExampleDialog(Auto3D::IAppInstance* _app, const char* _errorText)
 		{
 			char command[1024];
 			bx::snprintf(command, BX_COUNTOF(command), "app restart %s", items[current]);
-			cmdExec(command);
+			CmdExec(command);
 		}
 
 		const bgfx::Caps* caps = bgfx::getCaps();
@@ -215,7 +215,7 @@ void showExampleDialog(Auto3D::IAppInstance* _app, const char* _errorText)
 
 		if (ImGui::Button(ICON_FA_REPEAT " Restart" ) )
 		{
-			cmdExec("app restart");
+			CmdExec("app restart");
 		}
 
 		if (1 < IAppInstance::getNumApps() )
@@ -223,20 +223,20 @@ void showExampleDialog(Auto3D::IAppInstance* _app, const char* _errorText)
 			ImGui::SameLine();
 			if (ImGui::Button(ICON_KI_PREVIOUS " Prev") )
 			{
-				cmdExec("app restart prev");
+				CmdExec("app restart prev");
 			}
 
 			ImGui::SameLine();
 			if (ImGui::Button(ICON_KI_NEXT " Next") )
 			{
-				cmdExec("app restart next");
+				CmdExec("app restart next");
 			}
 		}
 
 		ImGui::SameLine();
 		if (ImGui::Button(ICON_KI_EXIT " Exit") )
 		{
-			cmdExec("exit");
+			CmdExec("exit");
 		}
 
 		ImGui::SameLine();

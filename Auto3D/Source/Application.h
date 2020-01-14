@@ -1,6 +1,7 @@
 #pragma once
 #include "AutoConfig.h"
 #include "Container/String.h"
+#include "PlatformSupports/PlatformDef.h"
 
 #include <bx/mutex.h>
 #include <bx/thread.h>

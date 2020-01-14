@@ -19,50 +19,50 @@ static AxisDpadRemap s_axisDpad[] =
 };
 
 FGamepad::FGamepad()
-	: m_controller(NULL)
-	, m_jid(INT32_MAX)
+	: _controller(NULL)
+	, _jid(INT32_MAX)
 {
-	bx::memSet(m_value, 0, sizeof(m_value));
+	bx::memSet(_value, 0, sizeof(_value));
 
 	// Deadzone values from xinput.h
-	m_deadzone[GamepadAxis::LeftX] =
-		m_deadzone[GamepadAxis::LeftY] = 7849;
-	m_deadzone[GamepadAxis::RightX] =
-		m_deadzone[GamepadAxis::RightY] = 8689;
-	m_deadzone[GamepadAxis::LeftZ] =
-		m_deadzone[GamepadAxis::RightZ] = 30;
+	_deadzone[GamepadAxis::LeftX] =
+		_deadzone[GamepadAxis::LeftY] = 7849;
+	_deadzone[GamepadAxis::RightX] =
+		_deadzone[GamepadAxis::RightY] = 8689;
+	_deadzone[GamepadAxis::LeftZ] =
+		_deadzone[GamepadAxis::RightZ] = 30;
 }
 
-void FGamepad::create(const SDL_JoyDeviceEvent& _jev)
+void FGamepad::Create(const SDL_JoyDeviceEvent& _jev)
 {
-	m_joystick = SDL_JoystickOpen(_jev.which);
-	SDL_Joystick* joystick = m_joystick;
-	m_jid = SDL_JoystickInstanceID(joystick);
+	_joystick = SDL_JoystickOpen(_jev.which);
+	SDL_Joystick* joystick = _joystick;
+	_jid = SDL_JoystickInstanceID(joystick);
 }
 
-void FGamepad::create(const SDL_ControllerDeviceEvent& _cev)
+void FGamepad::Create(const SDL_ControllerDeviceEvent& _cev)
 {
-	m_controller = SDL_GameControllerOpen(_cev.which);
-	SDL_Joystick* joystick = SDL_GameControllerGetJoystick(m_controller);
-	m_jid = SDL_JoystickInstanceID(joystick);
+	_controller = SDL_GameControllerOpen(_cev.which);
+	SDL_Joystick* joystick = SDL_GameControllerGetJoystick(_controller);
+	_jid = SDL_JoystickInstanceID(joystick);
 }
 
-void FGamepad::update(EventQueue& _eventQueue, WindowHandle _handle, GamepadHandle _gamepad, GamepadAxis::Enum _axis, int32_t _value)
+void FGamepad::Update(EventQueue& _eventQueue, WindowHandle _handle, GamepadHandle _gamepad, GamepadAxis::Enum _axis, int32_t _value)
 {
-	if (filter(_axis, &_value))
+	if (Filter(_axis, &_value))
 	{
-		_eventQueue.postAxisEvent(_handle, _gamepad, _axis, _value);
+		_eventQueue.PostAxisEvent(_handle, _gamepad, _axis, _value);
 
 		if (Key::None != s_axisDpad[_axis].first)
 		{
 			if (_value == 0)
 			{
-				_eventQueue.postKeyEvent(_handle, s_axisDpad[_axis].first, 0, false);
-				_eventQueue.postKeyEvent(_handle, s_axisDpad[_axis].second, 0, false);
+				_eventQueue.PostKeyEvent(_handle, s_axisDpad[_axis].first, 0, false);
+				_eventQueue.PostKeyEvent(_handle, s_axisDpad[_axis].second, 0, false);
 			}
 			else
 			{
-				_eventQueue.postKeyEvent(_handle
+				_eventQueue.PostKeyEvent(_handle
 					, 0 > _value ? s_axisDpad[_axis].first : s_axisDpad[_axis].second
 					, 0
 					, true
@@ -72,30 +72,30 @@ void FGamepad::update(EventQueue& _eventQueue, WindowHandle _handle, GamepadHand
 	}
 }
 
-void FGamepad::destroy()
+void FGamepad::Destroy()
 {
-	if (NULL != m_controller)
+	if (NULL != _controller)
 	{
-		SDL_GameControllerClose(m_controller);
-		m_controller = NULL;
+		SDL_GameControllerClose(_controller);
+		_controller = NULL;
 	}
 
-	if (NULL != m_joystick)
+	if (NULL != _joystick)
 	{
-		SDL_JoystickClose(m_joystick);
-		m_joystick = NULL;
+		SDL_JoystickClose(_joystick);
+		_joystick = NULL;
 	}
 
-	m_jid = INT32_MAX;
+	_jid = INT32_MAX;
 }
 
-bool FGamepad::filter(GamepadAxis::Enum _axis, int32_t* _value)
+bool FGamepad::Filter(GamepadAxis::Enum _axis, int32_t* _value)
 {
-	const int32_t old = m_value[_axis];
-	const int32_t deadzone = m_deadzone[_axis];
+	const int32_t old = _value[_axis];
+	const int32_t deadzone = _deadzone[_axis];
 	int32_t value = *_value;
 	value = value > deadzone || value < -deadzone ? value : 0;
-	m_value[_axis] = value;
+	_value[_axis] = value;
 	*_value = value;
 	return old != value;
 }
