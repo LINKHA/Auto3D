@@ -16,9 +16,10 @@ public:
 	/// Destruct.
 	~FForwardShadingRenderer();
 
-	void Init(int32_t argc, const char* const* argv, uint32_t width, uint32_t height)override;
+	void Init(uint32_t width, uint32_t height)override;
 	/// Render scene
 	void Render()override;
+	void ShutDowm();
 private:
 	uint32_t _backbufferWidth;
 	uint32_t _backbufferHeight;

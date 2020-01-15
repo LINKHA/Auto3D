@@ -3,10 +3,20 @@
 
 namespace Auto3D
 {
-FArgs::FArgs(int argc, const char* const* argv)
+
+IMPLEMENT_SINGLETON(FArgs)
+
+FArgs::FArgs()
 	: _type(bgfx::RendererType::Count)
 	, _pciId(BGFX_PCI_ID_NONE)
 {
+}
+
+void FArgs::Init(int argc, char** argv)
+{
+	_argc = argc;
+	_argv = argv;
+
 	bx::CommandLine cmdLine(argc, (const char**)argv);
 
 	if (cmdLine.hasArg("gl"))

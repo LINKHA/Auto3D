@@ -1,24 +1,24 @@
 #include "Application.h"
 #include "Platform/PlatformContext.h"
+#include "Platform/Args.h"
+
 //#include "Core/ProcessUtils.h"
 //#include "Core/ClassRegister.h"
 
 namespace Auto3D
 {
-uint32_t IAppInstance::s_width = AUTO_DEFAULT_WIDTH;
-uint32_t IAppInstance::s_height = AUTO_DEFAULT_HEIGHT;
 
 IAppInstance*    IAppInstance::s_currentApp = NULL;
 IAppInstance*    IAppInstance::s_apps = NULL;
 uint32_t IAppInstance::s_numApps = 0;
 char IAppInstance::s_restartArgs[1024] = { '\0' };
 
-int RunApp(IAppInstance* app, int argc, const char* const* argv)
+int RunAppInstance(IAppInstance* app, int argc, const char* const* argv)
 {
-	app->init(argc, argv, IAppInstance::s_width, IAppInstance::s_height);
+	app->init(AUTO_DEFAULT_WIDTH, AUTO_DEFAULT_HEIGHT);
 	bgfx::frame();
 
-	FPlatform::SetWindowSize(PlatfromContext::_defaultWindow, IAppInstance::s_width, IAppInstance::s_height);
+	FPlatform::SetWindowSize(PlatfromContext::_defaultWindow, AUTO_DEFAULT_WIDTH, AUTO_DEFAULT_HEIGHT);
 
 #if BX_PLATFORM_EMSCRIPTEN
 	s_app = _app;
@@ -91,24 +91,7 @@ IAppInstance* IAppInstance::getNext()
 	return m_next;
 }
 
-int32_t FMainThreadEntry::ThreadFunc(bx::Thread* thread, void* userData)
-{
-	BX_UNUSED(thread);
-
-	FMainThreadEntry* self = (FMainThreadEntry*)userData;
-	int32_t result = RunMain(self->_argc, self->_argv);
-
-	SDL_Event event;
-	SDL_QuitEvent& qev = event.quit;
-	qev.type = SDL_QUIT;
-	SDL_PushEvent(&event);
-	return result;
-}
-
-
-FApplication::FApplication(int argc, char** argv) :
-	_argc(argc),
-	_argv(argv),
+FApplication::FApplication() :
 	_exitCode(EXIT_SUCCESS)
 {
 
@@ -131,12 +114,13 @@ int FApplication::Run()
 #endif
 		PlatfromContext& platfromContext = PlatfromContext::Get();
 
-		platfromContext.Init(_argc, _argv);
-		_mainThreadEntry._argc = _argc;
-		_mainThreadEntry._argv = _argv;
-		_mainThread.init(FMainThreadEntry::ThreadFunc, &_mainThreadEntry);
+		FArgs& args = FArgs::Get();
 
-		if (!platfromContext.Run(_argc, _argv))
+		platfromContext.Init();
+
+		_mainThread.init(FApplication::MainThreadFunc);
+
+		if (!platfromContext.Run())
 		{
 			ErrorExit();
 		}
@@ -170,12 +154,28 @@ void FApplication::ErrorExit(const FString& message)
 	else {}
 		//ErrorDialog("Error", message);
 }
+
+int32_t FApplication::MainThreadFunc(bx::Thread* thread,void* userData)
+{
+	BX_UNUSED(thread);
+	FArgs& args = FArgs::Get();
+	int32_t result = RunMain(args._argc, args._argv);
+
+	SDL_Event event;
+	SDL_QuitEvent& qev = event.quit;
+	qev.type = SDL_QUIT;
+	SDL_PushEvent(&event);
+	return result;
+}
+
+
 }
 
 int main(int argc, char** argv)
 {
 	using namespace Auto3D;
-	FApplication app(argc, argv);
+	FArgs::Get().Init(argc, argv);
+
+	FApplication app;
 	return app.Run();
 }
-

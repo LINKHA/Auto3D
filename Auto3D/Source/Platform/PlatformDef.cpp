@@ -612,7 +612,7 @@ BX_PRAGMA_DIAGNOSTIC_POP();
 		bx::strCopy(title, BX_COUNTOF(title), fp.getBaseName() );
 
 		FPlatform::SetWindowTitle(PlatfromContext::_defaultWindow, title);
-		FPlatform::SetWindowSize(PlatfromContext::_defaultWindow, ENTRY_DEFAULT_WIDTH, ENTRY_DEFAULT_HEIGHT);
+		FPlatform::SetWindowSize(PlatfromContext::_defaultWindow, AUTO_DEFAULT_WIDTH, AUTO_DEFAULT_HEIGHT);
 
 		sortApps();
 
@@ -649,7 +649,7 @@ restart:
 		}
 		else
 		{
-			result = RunApp(getCurrentApp(selected), argc, argv);
+			result = RunAppInstance(getCurrentApp(selected), argc, argv);
 		}
 
 		if (0 != bx::strLen(IAppInstance::s_restartArgs) )
@@ -799,9 +799,6 @@ restart:
 		}
 
 		_debug = s_debug;
-
-		IAppInstance::s_width = _width;
-		IAppInstance::s_height = _height;
 
 		return s_exit;
 	}

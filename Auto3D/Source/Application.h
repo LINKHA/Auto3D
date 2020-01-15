@@ -2,6 +2,7 @@
 #include "AutoConfig.h"
 #include "Container/String.h"
 #include "Platform/PlatformDef.h"
+#include "Engine/Engine.h"
 
 #include <bx/mutex.h>
 #include <bx/thread.h>
@@ -30,7 +31,7 @@ public:
 	virtual ~IAppInstance() = 0;
 
 	///
-	virtual void init(int32_t _argc, const char* const* _argv, uint32_t _width, uint32_t _height) = 0;
+	virtual void init(uint32_t _width, uint32_t _height) = 0;
 
 	///
 	virtual int  shutdown() = 0;
@@ -68,9 +69,6 @@ public:
 
 
 	static char s_restartArgs[1024];
-
-	static uint32_t s_width;
-	static uint32_t s_height;
 private:
 	const char* m_name;
 	const char* m_description;
@@ -78,21 +76,14 @@ private:
 };
 
 ///
-int RunApp(IAppInstance* app, int argc, const char* const* argv);
+int RunAppInstance(IAppInstance* app, int argc, const char* const* argv);
 
-struct FMainThreadEntry
-{
-	int _argc;
-	char** _argv;
-
-	static int32_t ThreadFunc(bx::Thread* thread, void* userData);
-};
 
 /// The superclass implementation of the project space, where the engine is implemented
 class AUTO_API FApplication
 {
 public:
-	FApplication(int argc, char** argv);
+	FApplication();
 	~FApplication();
 
 	/// This is AEngine important funcation init awake runloop and finish run
@@ -102,19 +93,16 @@ public:
 
 private:
 	/// Auto3D AEngine
-	//std::unique_ptr<AEngine> _engine;
-	int _argc;
+	std::unique_ptr<FEngine> _engine;
 
-	char** _argv;
 	/// Collected startup error log messages.
 	FString _startupErrors;
 	/// AApplication exit code.
 	int _exitCode;
 
-	FMainThreadEntry _mainThreadEntry;
+	static int32_t MainThreadFunc(bx::Thread* thread, void* userData);
 
 	bx::Thread _mainThread;
-
 };
 
 }

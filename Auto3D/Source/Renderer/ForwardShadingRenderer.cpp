@@ -22,9 +22,9 @@ FForwardShadingRenderer::~FForwardShadingRenderer()
 
 }
 
-void FForwardShadingRenderer::Init(int32_t argc, const char* const* argv, uint32_t width, uint32_t height)
+void FForwardShadingRenderer::Init(uint32_t width, uint32_t height)
 {
-	FArgs args(argc, argv);
+	FArgs& args = FArgs::Get();
 
 	_backbufferWidth = width;
 	_backbufferHeight = height;
@@ -58,6 +58,16 @@ void FForwardShadingRenderer::Init(int32_t argc, const char* const* argv, uint32
 void FForwardShadingRenderer::Render()
 {
 
+	// Advance to next frame. Rendering thread will be kicked to
+		// process submitted rendering primitives.
+	bgfx::frame();
+}
+
+void FForwardShadingRenderer::ShutDowm()
+{
+
+	// Shutdown bgfx.
+	bgfx::shutdown();
 }
 
 }

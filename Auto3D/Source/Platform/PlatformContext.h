@@ -56,9 +56,9 @@ struct PlatfromContext
 
 	PlatfromContext();
 
-	void Init(int _argc, char** _argv);
+	void Init();
 
-	int Run(int _argc, char** _argv);
+	int Run();
 
 	bool DestoryContext();
 

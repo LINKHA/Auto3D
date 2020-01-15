@@ -1,10 +1,4 @@
-/*
- * Copyright 2011-2019 Branimir Karadzic. All rights reserved.
- * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
- */
-
-#ifndef IMGUI_H_HEADER_GUARD
-#define IMGUI_H_HEADER_GUARD
+#pragma once
 
 #include <bgfx/bgfx.h>
 #include <dear-imgui/imgui.h>
@@ -117,5 +111,3 @@ namespace ImGui
 	}
 
 } // namespace ImGui
-
-#endif // IMGUI_H_HEADER_GUARD

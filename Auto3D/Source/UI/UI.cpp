@@ -1,8 +1,3 @@
-/*
- * Copyright 2014-2015 Daniel Collin. All rights reserved.
- * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
- */
-
 #include <bgfx/bgfx.h>
 #include <bgfx/embedded_shader.h>
 #include <bx/allocator.h>
@@ -10,8 +5,8 @@
 #include <bx/timer.h>
 #include <dear-imgui/imgui.h>
 
-#include "imgui.h"
-#include "../bgfx_utils.h"
+#include "UI/UI.h"
+#include "RHI/bgfx_utils.h"
 
 //#define USE_ENTRY 1
 

@@ -44,8 +44,8 @@ WindowHandle PlatfromContext::_defaultWindow = { 0 };
 IMPLEMENT_SINGLETON(PlatfromContext)
 
 PlatfromContext::PlatfromContext()
-	: _width(ENTRY_DEFAULT_WIDTH)
-	, _height(ENTRY_DEFAULT_HEIGHT)
+	: _width(AUTO_DEFAULT_WIDTH)
+	, _height(AUTO_DEFAULT_HEIGHT)
 	, _aspectRatio(16.0f / 9.0f)
 	, _mx(0)
 	, _my(0)
@@ -163,7 +163,7 @@ PlatfromContext::PlatfromContext()
 	InitTranslateGamepadAxis(SDL_CONTROLLER_AXIS_TRIGGERRIGHT, GamepadAxis::RightZ);
 }
 
-void PlatfromContext::Init(int _argc, char** _argv)
+void PlatfromContext::Init()
 {
 
 	SDL_Init(0
@@ -192,7 +192,7 @@ void PlatfromContext::Init(int _argc, char** _argv)
 
 }
 
-int PlatfromContext::Run(int _argc, char** _argv)
+int PlatfromContext::Run()
 {
 	// Force window resolution...
 	

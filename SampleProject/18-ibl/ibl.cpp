@@ -8,7 +8,7 @@
 
 #include "RHI/RHI.h"
 #include "RHI/bgfx_utils.h"
-#include "RHI/imgui/imgui.h"
+#include "UI/UI.h"
 #include "RHI/nanovg/nanovg.h"
 #include "Application.h"
 
@@ -406,9 +406,9 @@ public:
 	{
 	}
 
-	void init(int32_t _argc, const char* const* _argv, uint32_t _width, uint32_t _height) override
+	void init(uint32_t _width, uint32_t _height) override
 	{
-		FArgs args(_argc, _argv);
+		FArgs& args = FArgs::Get();
 
 		m_width  = _width;
 		m_height = _height;
@@ -842,7 +842,7 @@ int Auto3D_main(int _argc, char** _argv)
 		, "Image-based lighting."
 		, "https://bkaradzic.github.io/bgfx/examples.html#ibl"
 		);
-	return Auto3D::RunApp(&app, _argc, _argv);
+	return Auto3D::RunAppInstance(&app, _argc, _argv);
 }
 //
 //ENTRY_IMPLEMENT_MAIN(
