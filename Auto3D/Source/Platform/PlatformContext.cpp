@@ -672,9 +672,9 @@ bool PlatfromContext::DestoryContext()
 
 	return true;
 }
-WindowHandle PlatfromContext::FindHandle(uint32_t _windowId)
+WindowHandle PlatfromContext::FindHandle(uint32_t windowId)
 {
-	SDL_Window* window = SDL_GetWindowFromID(_windowId);
+	SDL_Window* window = SDL_GetWindowFromID(windowId);
 	return FindHandle(window);
 }
 
@@ -695,26 +695,26 @@ WindowHandle PlatfromContext::FindHandle(SDL_Window* window)
 	return invalid;
 }
 
-void PlatfromContext::SetWindowSize(WindowHandle _handle, uint32_t _width, uint32_t _height, bool _force)
+void PlatfromContext::SetWindowSize(WindowHandle handle, uint32_t width, uint32_t height, bool force)
 {
-	if (_width != _width
-		|| _height != _height
-		|| _force)
+	if (width != _width
+		|| height != _height
+		|| force)
 	{
-		_width = _width;
-		_height = _height;
+		_width = width;
+		_height = height;
 
-		SDL_SetWindowSize(_window[_handle.idx], _width, _height);
-		_eventQueue.PostSizeEvent(_handle, _width, _height);
+		SDL_SetWindowSize(_window[handle.idx], _width, _height);
+		_eventQueue.PostSizeEvent(handle, _width, _height);
 	}
 }
 
-GamepadHandle PlatfromContext::FindGamepad(SDL_JoystickID _jid)
+GamepadHandle PlatfromContext::FindGamepad(SDL_JoystickID jid)
 {
 	for (uint32_t ii = 0, num = _gamepadAlloc.getNumHandles(); ii < num; ++ii)
 	{
 		uint16_t idx = _gamepadAlloc.getHandleAt(ii);
-		if (_jid == _gamepad[idx]._jid)
+		if (jid == _gamepad[idx]._jid)
 		{
 			GamepadHandle handle = { idx };
 			return handle;

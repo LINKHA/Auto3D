@@ -3,7 +3,7 @@
  * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
  */
 
-#include "imgui/imgui.h"
+#include "UI/UI.h"
 #include "Platform/PlatformDef.h"
 #include "Platform/cmd.h"
 #include "Platform/dialog.h"
