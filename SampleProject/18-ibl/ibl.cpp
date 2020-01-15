@@ -15,6 +15,8 @@
 #include <bx/readerwriter.h>
 #include <bx/string.h>
 
+using namespace Auto3D;
+
 namespace
 {
 
@@ -406,7 +408,7 @@ public:
 
 	void init(int32_t _argc, const char* const* _argv, uint32_t _width, uint32_t _height) override
 	{
-		Args args(_argc, _argv);
+		FArgs args(_argc, _argv);
 
 		m_width  = _width;
 		m_height = _height;
@@ -417,8 +419,8 @@ public:
 			;
 
 		bgfx::Init init;
-		init.type     = args.m_type;
-		init.vendorId = args.m_pciId;
+		init.type     = args._type;
+		init.vendorId = args._pciId;
 		init.resolution.width  = m_width;
 		init.resolution.height = m_height;
 		init.resolution.reset  = m_reset;
@@ -840,7 +842,7 @@ int Auto3D_main(int _argc, char** _argv)
 		, "Image-based lighting."
 		, "https://bkaradzic.github.io/bgfx/examples.html#ibl"
 		);
-	return Auto3D::runApp(&app, _argc, _argv);
+	return Auto3D::RunApp(&app, _argc, _argv);
 }
 //
 //ENTRY_IMPLEMENT_MAIN(

@@ -1,7 +1,7 @@
 #pragma once
 #include "AutoConfig.h"
 #include "Container/String.h"
-#include "PlatformSupports/PlatformDef.h"
+#include "Platform/PlatformDef.h"
 
 #include <bx/mutex.h>
 #include <bx/thread.h>
@@ -19,7 +19,6 @@ int Auto3D_main(int argc, char** argv)\
 
 namespace Auto3D
 {
-
 
 class __declspec(novtable) IAppInstance
 {
@@ -79,7 +78,7 @@ private:
 };
 
 ///
-int runApp(IAppInstance* app, int argc, const char* const* argv);
+int RunApp(IAppInstance* app, int argc, const char* const* argv);
 
 struct FMainThreadEntry
 {

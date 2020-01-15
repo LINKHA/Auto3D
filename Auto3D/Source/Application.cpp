@@ -1,19 +1,19 @@
 #include "Application.h"
-#include "PlatformSupports/PlatformContext.h"
+#include "Platform/PlatformContext.h"
 //#include "Core/ProcessUtils.h"
 //#include "Core/ClassRegister.h"
 
 namespace Auto3D
 {
-uint32_t IAppInstance::s_width = ENTRY_DEFAULT_WIDTH;
-uint32_t IAppInstance::s_height = ENTRY_DEFAULT_HEIGHT;
+uint32_t IAppInstance::s_width = AUTO_DEFAULT_WIDTH;
+uint32_t IAppInstance::s_height = AUTO_DEFAULT_HEIGHT;
 
 IAppInstance*    IAppInstance::s_currentApp = NULL;
 IAppInstance*    IAppInstance::s_apps = NULL;
 uint32_t IAppInstance::s_numApps = 0;
 char IAppInstance::s_restartArgs[1024] = { '\0' };
 
-int runApp(IAppInstance* app, int argc, const char* const* argv)
+int RunApp(IAppInstance* app, int argc, const char* const* argv)
 {
 	app->init(argc, argv, IAppInstance::s_width, IAppInstance::s_height);
 	bgfx::frame();

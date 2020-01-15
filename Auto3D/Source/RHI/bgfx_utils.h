@@ -1,8 +1,3 @@
-/*
- * Copyright 2011-2019 Branimir Karadzic. All rights reserved.
- * License: https://github.com/bkaradzic/bgfx#license-bsd-2-clause
- */
-
 #ifndef BGFX_UTILS_H_HEADER_GUARD
 #define BGFX_UTILS_H_HEADER_GUARD
 
@@ -13,6 +8,8 @@
 
 #include <tinystl/allocator.h>
 #include <tinystl/vector.h>
+#include "Platform/Args.h"
+
 namespace stl = tinystl;
 
 
@@ -144,14 +141,5 @@ void meshSubmit(const Mesh* _mesh, bgfx::ViewId _id, bgfx::ProgramHandle _progra
 
 ///
 void meshSubmit(const Mesh* _mesh, const MeshState*const* _state, uint8_t _numPasses, const float* _mtx, uint16_t _numMatrices = 1);
-
-///
-struct Args
-{
-	Args(int _argc, const char* const* _argv);
-
-	bgfx::RendererType::Enum m_type;
-	uint16_t m_pciId;
-};
 
 #endif // BGFX_UTILS_H_HEADER_GUARD

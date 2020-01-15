@@ -1,7 +1,7 @@
 #pragma once
 #include "AutoConfig.h"
-#include "PlatformSupports/PlatformDef.h"
-#include "PlatformSupports/GamePad.h"
+#include "Platform/PlatformDef.h"
+#include "Platform/GamePad.h"
 #include "Container/Singleton.h"
 #include "Container/String.h"
 

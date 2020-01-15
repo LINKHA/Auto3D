@@ -14,7 +14,7 @@
 #include "input.h"
 #include "dbg.h"
 
-#include "PlatformSupports/PlatformContext.h"
+#include "Platform/PlatformContext.h"
 #include "Application.h"
 
 #include <SDL.h>
@@ -649,7 +649,7 @@ restart:
 		}
 		else
 		{
-			result = runApp(getCurrentApp(selected), argc, argv);
+			result = RunApp(getCurrentApp(selected), argc, argv);
 		}
 
 		if (0 != bx::strLen(IAppInstance::s_restartArgs) )

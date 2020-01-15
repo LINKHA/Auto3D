@@ -1,6 +1,6 @@
 #pragma once
 #include "AutoConfig.h"
-#include "PlatformSupports/PlatformDef.h"
+#include "Platform/PlatformDef.h"
 
 #include <SDL.h>
 #include <SDL_syswm.h>

@@ -15,8 +15,8 @@
 #include <tinystl/allocator.h>
 #include <tinystl/unordered_map.h>
 
-#include "PlatformSupports/PlatformDef.h"
-#include "PlatformSupports/PlatformContext.h"
+#include "Platform/PlatformDef.h"
+#include "Platform/PlatformContext.h"
 
 namespace stl = tinystl;
 

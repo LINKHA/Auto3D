@@ -6,9 +6,9 @@
 #include <bx/timer.h>
 #include <bx/math.h>
 #include "camera.h"
-#include "PlatformSupports/PlatformDef.h"
-#include "PlatformSupports/cmd.h"
-#include "PlatformSupports/input.h"
+#include "Platform/PlatformDef.h"
+#include "Platform/cmd.h"
+#include "Platform/input.h"
 #include <bx/allocator.h>
 
 int cmdMove(CmdContext* /*_context*/, void* /*_userData*/, int _argc, char const* const* _argv)
