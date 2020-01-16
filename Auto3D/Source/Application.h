@@ -78,6 +78,8 @@ private:
 ///
 int RunAppInstance(IAppInstance* app, int argc, const char* const* argv);
 
+int RunMain(int argc, const char* const* argv);
+
 
 /// The superclass implementation of the project space, where the engine is implemented
 class AUTO_API FApplication
@@ -91,6 +93,7 @@ public:
 	/// Show an error message (last log message if empty), terminate the main loop, and set failure exit code.
 	void ErrorExit(const FString& message = FString::EMPTY);
 
+	static FString _currentDir;
 private:
 	/// Auto3D AEngine
 	std::unique_ptr<FEngine> _engine;

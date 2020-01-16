@@ -326,8 +326,6 @@ struct TinyStlAllocator
 	static void static_deallocate(void* ptr, size_t /*_bytes*/);
 };
 
-int RunMain(int argc, const char* const* argv);
-
 char keyToAscii(Key::Enum key, uint8_t modifiers);
 
 struct Event
