@@ -93,19 +93,21 @@ public:
 	/// Show an error message (last log message if empty), terminate the main loop, and set failure exit code.
 	void ErrorExit(const FString& message = FString::EMPTY);
 
+	static IAppInstance* getCurrentApp(IAppInstance* set = NULL);
+
 	static FString _currentDir;
 private:
+	/// Application main thread.Including engine workflow, app workflow
+	static int32_t MainThreadFunc(bx::Thread* thread, void* userData);
+	bx::Thread _mainThread;
+
 	/// Auto3D AEngine
 	std::unique_ptr<FEngine> _engine;
-
 	/// Collected startup error log messages.
 	FString _startupErrors;
 	/// AApplication exit code.
 	int _exitCode;
 
-	static int32_t MainThreadFunc(bx::Thread* thread, void* userData);
-
-	bx::Thread _mainThread;
 };
 
 }

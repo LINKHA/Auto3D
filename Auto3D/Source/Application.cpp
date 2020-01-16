@@ -17,10 +17,10 @@
 namespace Auto3D
 {
 
-	extern bx::AllocatorI* getDefaultAllocator();
-	bx::AllocatorI* g_allocator = getDefaultAllocator();
+extern bx::AllocatorI* getDefaultAllocator();
+bx::AllocatorI* g_allocator = getDefaultAllocator();
 
-	typedef bx::StringT<&g_allocator> String;
+typedef bx::StringT<&g_allocator> String;
 
 FString FApplication::_currentDir;
 
@@ -118,11 +118,11 @@ public:
 
 
 
-static IAppInstance* getCurrentApp(IAppInstance* _set = NULL)
+IAppInstance* FApplication::getCurrentApp(IAppInstance* set)
 {
-	if (NULL != _set)
+	if (NULL != set)
 	{
-		IAppInstance::s_currentApp = _set;
+		IAppInstance::s_currentApp = set;
 	}
 	else if (NULL == IAppInstance::s_currentApp)
 	{
@@ -267,20 +267,20 @@ int cmdApp(CmdContext* /*_context*/, void* /*_userData*/, int _argc, char const*
 	{
 		if (2 == _argc)
 		{
-			bx::strCopy(IAppInstance::s_restartArgs, BX_COUNTOF(IAppInstance::s_restartArgs), getCurrentApp()->getName());
+			bx::strCopy(IAppInstance::s_restartArgs, BX_COUNTOF(IAppInstance::s_restartArgs),FApplication::getCurrentApp()->getName());
 			return bx::kExitSuccess;
 		}
 
 		if (0 == bx::strCmp(_argv[2], "next"))
 		{
-			IAppInstance* next = getNextWrap(getCurrentApp());
+			IAppInstance* next = getNextWrap(FApplication::getCurrentApp());
 			bx::strCopy(IAppInstance::s_restartArgs, BX_COUNTOF(IAppInstance::s_restartArgs), next->getName());
 			return bx::kExitSuccess;
 		}
 		else if (0 == bx::strCmp(_argv[2], "prev"))
 		{
-			IAppInstance* prev = getCurrentApp();
-			for (IAppInstance* app = getNextWrap(prev); app != getCurrentApp(); app = getNextWrap(app))
+			IAppInstance* prev = FApplication::getCurrentApp();
+			for (IAppInstance* app = getNextWrap(prev); app != FApplication::getCurrentApp(); app = getNextWrap(app))
 			{
 				prev = app;
 			}
@@ -581,7 +581,7 @@ restart:
 	}
 	else
 	{
-		result = RunAppInstance(getCurrentApp(selected), argc, argv);
+		result = RunAppInstance(FApplication::getCurrentApp(selected), argc, argv);
 	}
 
 	if (0 != bx::strLen(IAppInstance::s_restartArgs))
