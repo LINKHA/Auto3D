@@ -129,7 +129,7 @@ static bool s_showStats = false;
 void showExampleDialog(Auto3D::IAppInstance* _app, const char* _errorText)
 {
 	char temp[1024];
-	bx::snprintf(temp, BX_COUNTOF(temp), "Example: %s", _app->getName() );
+	bx::snprintf(temp, BX_COUNTOF(temp), "Example: %s", _app->getName());
 
 	ImGui::SetNextWindowPos(
 		  ImVec2(10.0f, 50.0f)

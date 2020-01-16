@@ -4,9 +4,7 @@
 #include "Platform/PlatformDef.h"
 #include "Engine/Engine.h"
 
-#include <bx/mutex.h>
-#include <bx/thread.h>
-
+#include <thread>
 #include <memory>
 
 extern "C" int Auto3D_main(int argc, char** argv);
@@ -28,7 +26,7 @@ public:
 	IAppInstance(const char* _name, const char* _description, const char* _url = "https://bkaradzic.github.io/bgfx/index.html");
 
 	///
-	virtual ~IAppInstance() = 0;
+	virtual ~IAppInstance();
 
 	///
 	virtual void init(uint32_t _width, uint32_t _height) = 0;
@@ -40,45 +38,43 @@ public:
 	virtual bool update() = 0;
 
 	///
-	const char* getName() const;
+	const char* getName() const { return _name; }
 
 	///
-	const char* getDescription() const;
+	const char* getDescription() const { return _description; }
 
 	///
-	const char* getUrl() const;
+	const char* getUrl() const { return _url; }
 
 	///
-	IAppInstance* getNext();
+	IAppInstance* getNext() { return _next; }
 
-	IAppInstance* m_next;
+	static void sortApps();
 
-	static IAppInstance* getFirstApp()
-	{
-		return s_apps;
-	}
+	static IAppInstance* getFirstApp() { return _apps; }
 
-	static uint32_t getNumApps()
-	{
-		return s_numApps;
-	}
+	static uint32_t getNumApps() { return _numApps; }
 
-	static IAppInstance*    s_currentApp;
-	static IAppInstance*    s_apps;
-	static uint32_t s_numApps;
+	static IAppInstance* getNextWrap(IAppInstance* app);
 
+	static IAppInstance* getCurrentApp(IAppInstance* set = NULL);
 
-	static char s_restartArgs[1024];
+	IAppInstance* _next;
+
+	static IAppInstance*    _currentApp;
+	static IAppInstance*    _apps;
+	static uint32_t _numApps;
+
+	static char _restartArgs[1024];
 private:
-	const char* m_name;
-	const char* m_description;
-	const char* m_url;
+	const char* _name;
+	const char* _description;
+	const char* _url;
+
 };
 
 ///
 int RunAppInstance(IAppInstance* app, int argc, const char* const* argv);
-
-int RunMain(int argc, const char* const* argv);
 
 
 /// The superclass implementation of the project space, where the engine is implemented
@@ -93,13 +89,11 @@ public:
 	/// Show an error message (last log message if empty), terminate the main loop, and set failure exit code.
 	void ErrorExit(const FString& message = FString::EMPTY);
 
-	static IAppInstance* getCurrentApp(IAppInstance* set = NULL);
-
 	static FString _currentDir;
 private:
 	/// Application main thread.Including engine workflow, app workflow
-	static int32_t MainThreadFunc(bx::Thread* thread, void* userData);
-	bx::Thread _mainThread;
+	int RunMainThread();
+
 
 	/// Auto3D AEngine
 	std::unique_ptr<FEngine> _engine;

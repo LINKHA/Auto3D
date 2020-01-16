@@ -24,10 +24,10 @@ typedef bx::StringT<&g_allocator> String;
 
 FString FApplication::_currentDir;
 
-IAppInstance*    IAppInstance::s_currentApp = NULL;
-IAppInstance*    IAppInstance::s_apps = NULL;
-uint32_t IAppInstance::s_numApps = 0;
-char IAppInstance::s_restartArgs[1024] = { '\0' };
+IAppInstance* IAppInstance::_currentApp = NULL;
+IAppInstance* IAppInstance::_apps = NULL;
+uint32_t IAppInstance::_numApps = 0;
+char IAppInstance::_restartArgs[1024] = { '\0' };
 
 WindowState s_window[ENTRY_CONFIG_MAX_WINDOWS];
 
@@ -71,7 +71,7 @@ int RunAppInstance(IAppInstance* app, int argc, const char* const* argv)
 #else
 	while (app->update())
 	{
-		if (0 != bx::strLen(IAppInstance::s_restartArgs))
+		if (0 != bx::strLen(IAppInstance::_restartArgs))
 		{
 			break;
 		}
@@ -81,77 +81,12 @@ int RunAppInstance(IAppInstance* app, int argc, const char* const* argv)
 	return app->shutdown();
 }
 
-
 static bx::FileReaderI* s_fileReader = NULL;
 static bx::FileWriterI* s_fileWriter = NULL;
 static uint32_t s_debug = BGFX_DEBUG_NONE;
 static uint32_t s_reset = BGFX_RESET_NONE;
 
 static bool s_exit = false;
-
-class FileReader : public bx::FileReader
-{
-	typedef bx::FileReader super;
-
-public:
-	virtual bool open(const bx::FilePath& _filePath, bx::Error* _err) override
-	{
-		String filePath(FApplication::_currentDir.CString());
-		filePath.append(_filePath);
-		return super::open(filePath.getPtr(), _err);
-	}
-};
-
-class FileWriter : public bx::FileWriter
-{
-	typedef bx::FileWriter super;
-
-public:
-	virtual bool open(const bx::FilePath& _filePath, bool _append, bx::Error* _err) override
-	{
-		String filePath(FApplication::_currentDir.CString());
-		filePath.append(_filePath);
-		return super::open(filePath.getPtr(), _append, _err);
-	}
-};
-
-
-
-
-IAppInstance* FApplication::getCurrentApp(IAppInstance* set)
-{
-	if (NULL != set)
-	{
-		IAppInstance::s_currentApp = set;
-	}
-	else if (NULL == IAppInstance::s_currentApp)
-	{
-		IAppInstance::s_currentApp = IAppInstance::getFirstApp();
-	}
-
-	return IAppInstance::s_currentApp;
-}
-
-static IAppInstance* getNextWrap(IAppInstance* _app)
-{
-	IAppInstance* next = _app->getNext();
-	if (NULL != next)
-	{
-		return next;
-	}
-
-	return IAppInstance::getFirstApp();
-}
-
-bx::AllocatorI* getAllocator()
-{
-	if (NULL == g_allocator)
-	{
-		g_allocator = getDefaultAllocator();
-	}
-
-	return g_allocator;
-}
 
 bool setOrToggle(uint32_t& _flags, const char* _name, uint32_t _bit, int _first, int _argc, char const* const* _argv)
 {
@@ -176,6 +111,16 @@ bool setOrToggle(uint32_t& _flags, const char* _name, uint32_t _bit, int _first,
 	}
 
 	return false;
+}
+
+bx::AllocatorI* getAllocator()
+{
+	if (NULL == g_allocator)
+	{
+		g_allocator = getDefaultAllocator();
+	}
+
+	return g_allocator;
 }
 
 int cmdMouseLock(CmdContext* /*_context*/, void* /*_userData*/, int _argc, char const* const* _argv)
@@ -267,25 +212,25 @@ int cmdApp(CmdContext* /*_context*/, void* /*_userData*/, int _argc, char const*
 	{
 		if (2 == _argc)
 		{
-			bx::strCopy(IAppInstance::s_restartArgs, BX_COUNTOF(IAppInstance::s_restartArgs),FApplication::getCurrentApp()->getName());
+			bx::strCopy(IAppInstance::_restartArgs, BX_COUNTOF(IAppInstance::_restartArgs), IAppInstance::getCurrentApp()->getName());
 			return bx::kExitSuccess;
 		}
 
 		if (0 == bx::strCmp(_argv[2], "next"))
 		{
-			IAppInstance* next = getNextWrap(FApplication::getCurrentApp());
-			bx::strCopy(IAppInstance::s_restartArgs, BX_COUNTOF(IAppInstance::s_restartArgs), next->getName());
+			IAppInstance* next = IAppInstance::getNextWrap(IAppInstance::getCurrentApp());
+			bx::strCopy(IAppInstance::_restartArgs, BX_COUNTOF(IAppInstance::_restartArgs), next->getName());
 			return bx::kExitSuccess;
 		}
 		else if (0 == bx::strCmp(_argv[2], "prev"))
 		{
-			IAppInstance* prev = FApplication::getCurrentApp();
-			for (IAppInstance* app = getNextWrap(prev); app != FApplication::getCurrentApp(); app = getNextWrap(app))
+			IAppInstance* prev = IAppInstance::getCurrentApp();
+			for (IAppInstance* app = IAppInstance::getNextWrap(prev); app != IAppInstance::getCurrentApp(); app = IAppInstance::getNextWrap(app))
 			{
 				prev = app;
 			}
 
-			bx::strCopy(IAppInstance::s_restartArgs, BX_COUNTOF(IAppInstance::s_restartArgs), prev->getName());
+			bx::strCopy(IAppInstance::_restartArgs, BX_COUNTOF(IAppInstance::_restartArgs), prev->getName());
 			return bx::kExitSuccess;
 		}
 
@@ -293,13 +238,65 @@ int cmdApp(CmdContext* /*_context*/, void* /*_userData*/, int _argc, char const*
 		{
 			if (0 == bx::strCmp(_argv[2], app->getName()))
 			{
-				bx::strCopy(IAppInstance::s_restartArgs, BX_COUNTOF(IAppInstance::s_restartArgs), app->getName());
+				bx::strCopy(IAppInstance::_restartArgs, BX_COUNTOF(IAppInstance::_restartArgs), app->getName());
 				return bx::kExitSuccess;
 			}
 		}
 	}
 
 	return bx::kExitFailure;
+}
+
+class FileReader : public bx::FileReader
+{
+	typedef bx::FileReader super;
+
+public:
+	virtual bool open(const bx::FilePath& _filePath, bx::Error* _err) override
+	{
+		String filePath(FApplication::_currentDir.CString());
+		filePath.append(_filePath);
+		return super::open(filePath.getPtr(), _err);
+	}
+};
+
+class FileWriter : public bx::FileWriter
+{
+	typedef bx::FileWriter super;
+
+public:
+	virtual bool open(const bx::FilePath& _filePath, bool _append, bx::Error* _err) override
+	{
+		String filePath(FApplication::_currentDir.CString());
+		filePath.append(_filePath);
+		return super::open(filePath.getPtr(), _append, _err);
+	}
+};
+
+
+IAppInstance* IAppInstance::getNextWrap(IAppInstance* app)
+{
+	IAppInstance* next = app->getNext();
+	if (NULL != next)
+	{
+		return next;
+	}
+
+	return getFirstApp();
+}
+
+IAppInstance* IAppInstance::getCurrentApp(IAppInstance* set)
+{
+	if (NULL != set)
+	{
+		_currentApp = set;
+	}
+	else if (NULL == _currentApp)
+	{
+		_currentApp = getFirstApp();
+	}
+
+	return _currentApp;
 }
 
 static int32_t sortApp(const void* _lhs, const void* _rhs)
@@ -310,38 +307,10 @@ static int32_t sortApp(const void* _lhs, const void* _rhs)
 	return bx::strCmpI(lhs->getName(), rhs->getName());
 }
 
-static void sortApps()
+bool processWindowEvents(WindowState& state, uint32_t& debug, uint32_t& reset)
 {
-	if (2 > IAppInstance::s_numApps)
-	{
-		return;
-	}
-
-	IAppInstance** apps = (IAppInstance**)BX_ALLOC(g_allocator, IAppInstance::s_numApps * sizeof(IAppInstance*));
-
-	uint32_t ii = 0;
-	for (IAppInstance* app = IAppInstance::getFirstApp(); NULL != app; app = app->getNext())
-	{
-		apps[ii++] = app;
-	}
-	bx::quickSort(apps, IAppInstance::s_numApps, sizeof(IAppInstance*), sortApp);
-
-	IAppInstance::s_apps = apps[0];
-	for (ii = 1; ii < IAppInstance::s_numApps; ++ii)
-	{
-		IAppInstance* app = apps[ii - 1];
-		app->m_next = apps[ii];
-	}
-	apps[IAppInstance::s_numApps - 1]->m_next = NULL;
-
-	BX_FREE(g_allocator, apps);
-}
-
-
-bool processWindowEvents(WindowState& _state, uint32_t& _debug, uint32_t& _reset)
-{
-	s_debug = _debug;
-	s_reset = _reset;
+	s_debug = debug;
+	s_reset = reset;
 
 	WindowHandle handle = { UINT16_MAX };
 
@@ -448,9 +417,9 @@ bool processWindowEvents(WindowState& _state, uint32_t& _debug, uint32_t& _reset
 				win._handle = size->_handle;
 				win._width = size->_width;
 				win._height = size->_height;
-				_reset = win._handle.idx == 0
+				reset = win._handle.idx == 0
 					? !s_reset
-					: _reset
+					: reset
 					; // force reset
 			}
 			break;
@@ -492,7 +461,7 @@ bool processWindowEvents(WindowState& _state, uint32_t& _debug, uint32_t& _reset
 			win._dropFile.clear();
 		}
 
-		_state = win;
+		state = win;
 
 		if (handle.idx == 0)
 		{
@@ -500,14 +469,14 @@ bool processWindowEvents(WindowState& _state, uint32_t& _debug, uint32_t& _reset
 		}
 	}
 
-	if (_reset != s_reset)
+	if (reset != s_reset)
 	{
-		_reset = s_reset;
-		bgfx::reset(s_window[0]._width, s_window[0]._height, _reset);
+		reset = s_reset;
+		bgfx::reset(s_window[0]._width, s_window[0]._height, reset);
 		InputSetMouseResolution(uint16_t(s_window[0]._width), uint16_t(s_window[0]._height));
 	}
 
-	_debug = s_debug;
+	debug = s_debug;
 
 	return s_exit;
 }
@@ -523,93 +492,10 @@ bx::FileWriterI* getFileWriter()
 }
 
 
-int RunMain(int argc, const char* const* argv)
+bool processEvents(uint32_t& width, uint32_t& height, uint32_t& debug, uint32_t& reset, MouseState* mouse)
 {
-	//DBG(BX_COMPILER_NAME " / " BX_CPU_NAME " / " BX_ARCH_NAME " / " BX_PLATFORM_NAME);
-
-	s_fileReader = BX_NEW(g_allocator, FileReader);
-	s_fileWriter = BX_NEW(g_allocator, FileWriter);
-
-	CmdInit();
-	CmdAdd("mouselock", cmdMouseLock);
-	CmdAdd("graphics", cmdGraphics);
-	CmdAdd("exit", cmdExit);
-	CmdAdd("app", cmdApp);
-
-	InputInit();
-	InputAddBindings("bindings", s_bindings);
-
-	bx::FilePath fp(argv[0]);
-	char title[bx::kMaxFilePath];
-	bx::strCopy(title, BX_COUNTOF(title), fp.getBaseName());
-
-	FPlatform::SetWindowTitle(PlatfromContext::_defaultWindow, title);
-	FPlatform::SetWindowSize(PlatfromContext::_defaultWindow, AUTO_DEFAULT_WIDTH, AUTO_DEFAULT_HEIGHT);
-
-	sortApps();
-
-	const char* find = "";
-	if (1 < argc)
-	{
-		find = argv[argc - 1];
-	}
-
-restart:
-	IAppInstance* selected = NULL;
-
-	for (IAppInstance* app = IAppInstance::getFirstApp(); NULL != app; app = app->getNext())
-	{
-		if (NULL == selected
-			&& !bx::strFindI(app->getName(), find).isEmpty())
-		{
-			selected = app;
-		}
-#if 0
-		DBG("%c %s, %s"
-			, app == selected ? '>' : ' '
-			, app->getName()
-			, app->getDescription()
-		);
-#endif // 0
-	}
-
-	int32_t result = bx::kExitSuccess;
-	IAppInstance::s_restartArgs[0] = '\0';
-	if (0 == IAppInstance::s_numApps)
-	{
-		result = ::Auto3D_main(argc, (char**)argv);
-	}
-	else
-	{
-		result = RunAppInstance(FApplication::getCurrentApp(selected), argc, argv);
-	}
-
-	if (0 != bx::strLen(IAppInstance::s_restartArgs))
-	{
-		find = IAppInstance::s_restartArgs;
-		goto restart;
-	}
-
-	FPlatform::SetCurrentDir("");
-
-	InputRemoveBindings("bindings");
-	InputShutdown();
-
-	CmdShutdown();
-
-	BX_DELETE(g_allocator, s_fileReader);
-	s_fileReader = NULL;
-
-	BX_DELETE(g_allocator, s_fileWriter);
-	s_fileWriter = NULL;
-
-	return result;
-}
-
-bool processEvents(uint32_t& _width, uint32_t& _height, uint32_t& _debug, uint32_t& _reset, MouseState* _mouse)
-{
-	s_debug = _debug;
-	s_reset = _reset;
+	s_debug = debug;
+	s_reset = reset;
 
 	WindowHandle handle = { UINT16_MAX };
 
@@ -651,24 +537,24 @@ bool processEvents(uint32_t& _width, uint32_t& _height, uint32_t& _debug, uint32
 
 			case Event::Mouse:
 			{
-				const MouseEvent* mouse = static_cast<const MouseEvent*>(ev);
-				handle = mouse->_handle;
+				const MouseEvent* mouseEvent = static_cast<const MouseEvent*>(ev);
+				handle = mouseEvent->_handle;
 
-				InputSetMousePos(mouse->_mx, mouse->_my, mouse->_mz);
-				if (!mouse->_move)
+				InputSetMousePos(mouseEvent->_mx, mouseEvent->_my, mouseEvent->_mz);
+				if (!mouseEvent->_move)
 				{
-					InputSetMouseButtonState(mouse->_button, mouse->_down);
+					InputSetMouseButtonState(mouseEvent->_button, mouseEvent->_down);
 				}
 
-				if (NULL != _mouse
+				if (NULL != mouseEvent
 					&& !mouseLock)
 				{
-					_mouse->_mx = mouse->_mx;
-					_mouse->_my = mouse->_my;
-					_mouse->_mz = mouse->_mz;
-					if (!mouse->_move)
+					mouse->_mx = mouseEvent->_mx;
+					mouse->_my = mouseEvent->_my;
+					mouse->_mz = mouseEvent->_mz;
+					if (!mouseEvent->_move)
 					{
-						_mouse->_buttons[mouse->_button] = mouse->_down;
+						mouse->_buttons[mouseEvent->_button] = mouseEvent->_down;
 					}
 				}
 			}
@@ -692,9 +578,9 @@ bool processEvents(uint32_t& _width, uint32_t& _height, uint32_t& _debug, uint32
 				win._height = size->_height;
 
 				handle = size->_handle;
-				_width = size->_width;
-				_height = size->_height;
-				_reset = !s_reset; // force reset
+				width = size->_width;
+				height = size->_height;
+				reset = !s_reset; // force reset
 			}
 			break;
 
@@ -721,32 +607,32 @@ bool processEvents(uint32_t& _width, uint32_t& _height, uint32_t& _debug, uint32
 	} while (NULL != ev);
 
 	if (handle.idx == 0
-		&& _reset != s_reset)
+		&& reset != s_reset)
 	{
-		_reset = s_reset;
-		bgfx::reset(_width, _height, _reset);
-		InputSetMouseResolution(uint16_t(_width), uint16_t(_height));
+		reset = s_reset;
+		bgfx::reset(width, height, reset);
+		InputSetMouseResolution(uint16_t(width), uint16_t(height));
 	}
 
-	_debug = s_debug;
+	debug = s_debug;
 
 	return s_exit;
 }
 
-IAppInstance::IAppInstance(const char* _name, const char* _description, const char* _url)
+IAppInstance::IAppInstance(const char* name, const char* description, const char* url)
 {
-	m_name = _name;
-	m_description = _description;
-	m_url = _url;
-	m_next = s_apps;
+	_name = name;
+	_description = description;
+	_url = url;
+	_next = _apps;
 
-	s_apps = this;
-	s_numApps++;
+	_apps = this;
+	_numApps++;
 }
 
 IAppInstance::~IAppInstance()
 {
-	for (IAppInstance* prev = NULL, *app = s_apps, *next = app->getNext()
+	for (IAppInstance* prev = NULL, *app = _apps, *next = app->getNext()
 		; NULL != app
 		; prev = app, app = next, next = app->getNext())
 	{
@@ -754,38 +640,45 @@ IAppInstance::~IAppInstance()
 		{
 			if (NULL != prev)
 			{
-				prev->m_next = next;
+				prev->_next = next;
 			}
 			else
 			{
-				s_apps = next;
+				_apps = next;
 			}
 
-			--s_numApps;
+			--_numApps;
 
 			break;
 		}
 	}
 }
 
-const char* IAppInstance::getName() const
+void IAppInstance::sortApps()
 {
-	return m_name;
-}
+	if (2 > IAppInstance::_numApps)
+	{
+		return;
+	}
 
-const char* IAppInstance::getDescription() const
-{
-	return m_description;
-}
+	IAppInstance** apps = (IAppInstance**)BX_ALLOC(g_allocator, IAppInstance::_numApps * sizeof(IAppInstance*));
 
-const char* IAppInstance::getUrl() const
-{
-	return m_url;
-}
+	uint32_t ii = 0;
+	for (IAppInstance* app = IAppInstance::getFirstApp(); NULL != app; app = app->getNext())
+	{
+		apps[ii++] = app;
+	}
+	bx::quickSort(apps, IAppInstance::_numApps, sizeof(IAppInstance*), sortApp);
 
-IAppInstance* IAppInstance::getNext()
-{
-	return m_next;
+	IAppInstance::_apps = apps[0];
+	for (ii = 1; ii < IAppInstance::_numApps; ++ii)
+	{
+		IAppInstance* app = apps[ii - 1];
+		app->_next = apps[ii];
+	}
+	apps[IAppInstance::_numApps - 1]->_next = NULL;
+
+	BX_FREE(g_allocator, apps);
 }
 
 FApplication::FApplication() :
@@ -809,20 +702,21 @@ int FApplication::Run()
 	try
 	{
 #endif
-		PlatfromContext& platfromContext = PlatfromContext::Get();
-
 		FArgs& args = FArgs::Get();
 
+		PlatfromContext& platfromContext = PlatfromContext::Get();
 		platfromContext.Init();
 
-		_mainThread.init(FApplication::MainThreadFunc);
-
-		if (!platfromContext.Run())
 		{
-			ErrorExit();
+			// Main threa the main operations are implemented here.
+			std::thread mainThread(&FApplication::RunMainThread, this);
+			mainThread.detach();
+
+			if (!platfromContext.Run())
+				ErrorExit();
 		}
 
-		_mainThread.shutdown();
+		// Make sure the main thread is released before you do this.
 		platfromContext.DestoryContext();
 
 		return _exitCode;
@@ -852,19 +746,95 @@ void FApplication::ErrorExit(const FString& message)
 		//ErrorDialog("Error", message);
 }
 
-int32_t FApplication::MainThreadFunc(bx::Thread* thread,void* userData)
+int FApplication::RunMainThread()
 {
-	BX_UNUSED(thread);
 	FArgs& args = FArgs::Get();
-	int32_t result = RunMain(args._argc, args._argv);
+	//DBG(BX_COMPILER_NAME " / " BX_CPU_NAME " / " BX_ARCH_NAME " / " BX_PLATFORM_NAME);
+
+	s_fileReader = BX_NEW(g_allocator, FileReader);
+	s_fileWriter = BX_NEW(g_allocator, FileWriter);
+
+	CmdInit();
+	CmdAdd("mouselock", cmdMouseLock);
+	CmdAdd("graphics", cmdGraphics);
+	CmdAdd("exit", cmdExit);
+	CmdAdd("app", cmdApp);
+
+	InputInit();
+	InputAddBindings("bindings", s_bindings);
+
+	bx::FilePath fp(args._argv[0]);
+	char title[bx::kMaxFilePath];
+	bx::strCopy(title, BX_COUNTOF(title), fp.getBaseName());
+
+	FPlatform::SetWindowTitle(PlatfromContext::_defaultWindow, title);
+	FPlatform::SetWindowSize(PlatfromContext::_defaultWindow, AUTO_DEFAULT_WIDTH, AUTO_DEFAULT_HEIGHT);
+
+	IAppInstance::sortApps();
+
+	const char* find = "";
+	if (1 < args._argc)
+	{
+		find = args._argv[args._argc - 1];
+	}
+
+restart:
+	IAppInstance* selected = NULL;
+
+	for (IAppInstance* app = IAppInstance::getFirstApp(); NULL != app; app = app->getNext())
+	{
+		if (NULL == selected
+			&& !bx::strFindI(app->getName(), find).isEmpty())
+		{
+			selected = app;
+		}
+#if 0
+		DBG("%c %s, %s"
+			, app == selected ? '>' : ' '
+			, app->getName()
+			, app->getDescription()
+		);
+#endif // 0
+	}
+
+	int32_t result = bx::kExitSuccess;
+	IAppInstance::_restartArgs[0] = '\0';
+	if (0 == IAppInstance::_numApps)
+	{
+		result = ::Auto3D_main(args._argc, (char**)args._argv);
+	}
+	else
+	{
+		result = RunAppInstance(IAppInstance::getCurrentApp(selected), args._argc, args._argv);
+	}
+
+	if (0 != bx::strLen(IAppInstance::_restartArgs))
+	{
+		find = IAppInstance::_restartArgs;
+		goto restart;
+	}
+
+	FPlatform::SetCurrentDir("");
+
+	InputRemoveBindings("bindings");
+	InputShutdown();
+
+	CmdShutdown();
+
+	BX_DELETE(g_allocator, s_fileReader);
+	s_fileReader = NULL;
+
+	BX_DELETE(g_allocator, s_fileWriter);
+	s_fileWriter = NULL;
+
 
 	SDL_Event event;
 	SDL_QuitEvent& qev = event.quit;
 	qev.type = SDL_QUIT;
 	SDL_PushEvent(&event);
+
 	return result;
 }
-
 
 }
 

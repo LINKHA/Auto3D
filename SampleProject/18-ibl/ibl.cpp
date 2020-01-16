@@ -401,17 +401,17 @@ struct Settings
 class ExampleIbl : public Auto3D::IAppInstance
 {
 public:
-	ExampleIbl(const char* _name, const char* _description, const char* _url)
-		: Auto3D::IAppInstance(_name, _description, _url)
+	ExampleIbl(const char* name, const char* description, const char* url)
+		: Auto3D::IAppInstance(name, description, url)
 	{
 	}
 
-	void init(uint32_t _width, uint32_t _height) override
+	void init(uint32_t width, uint32_t height) override
 	{
 		FArgs& args = FArgs::Get();
 
-		m_width  = _width;
-		m_height = _height;
+		m_width  = width;
+		m_height = height;
 		m_debug = BGFX_DEBUG_NONE;
 		m_reset  = 0
 			| BGFX_RESET_VSYNC
