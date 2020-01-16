@@ -659,6 +659,7 @@ int PlatfromContext::Run()
 		}
 	}
 
+	// Make sure that the render delete exits
 	while (bgfx::RenderFrame::NoContext != bgfx::renderFrame()) {};
 
 

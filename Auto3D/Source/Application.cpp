@@ -58,29 +58,6 @@ static const InputBinding s_bindings[] =
 	INPUT_BINDING_END
 };
 
-int RunAppInstance(IAppInstance* app, int argc, const char* const* argv)
-{
-	app->init(AUTO_DEFAULT_WIDTH, AUTO_DEFAULT_HEIGHT);
-	bgfx::frame();
-
-	FPlatform::SetWindowSize(PlatfromContext::_defaultWindow, AUTO_DEFAULT_WIDTH, AUTO_DEFAULT_HEIGHT);
-
-#if BX_PLATFORM_EMSCRIPTEN
-	s_app = _app;
-	emscripten_set_main_loop(&updateApp, -1, 1);
-#else
-	while (app->update())
-	{
-		if (0 != bx::strLen(IAppInstance::_restartArgs))
-		{
-			break;
-		}
-	}
-#endif // BX_PLATFORM_EMSCRIPTEN
-
-	return app->shutdown();
-}
-
 static bx::FileReaderI* s_fileReader = NULL;
 static bx::FileWriterI* s_fileWriter = NULL;
 static uint32_t s_debug = BGFX_DEBUG_NONE;
@@ -681,10 +658,12 @@ void IAppInstance::sortApps()
 	BX_FREE(g_allocator, apps);
 }
 
+IMPLEMENT_SINGLETON(FApplication)
+
 FApplication::FApplication() :
 	_exitCode(EXIT_SUCCESS)
 {
-
+	_engine = std::make_unique<FEngine>();
 }
 
 FApplication::~FApplication()
@@ -693,10 +672,6 @@ FApplication::~FApplication()
 
 int FApplication::Run()
 {
-	// Make sure the engine is created properly
-	/*if (_engine.Null())
-		_engine = MakeUnique<AEngine>();
-*/
 	//FClassRegister();
 #if !defined(__GNUC__) || __EXCEPTIONS
 	try
@@ -744,6 +719,46 @@ void FApplication::ErrorExit(const FString& message)
 	}
 	else {}
 		//ErrorDialog("Error", message);
+}
+
+int FApplication::RunAppInstance(IAppInstance* app, int argc, const char* const* argv)
+{
+	// Make sure the engine is created properly
+	if (!_engine.get())
+		_engine = std::make_unique<FEngine>();
+
+	_engine->Init();
+	app->init(AUTO_DEFAULT_WIDTH, AUTO_DEFAULT_HEIGHT);
+
+
+	bgfx::frame();
+
+	FPlatform::SetWindowSize(PlatfromContext::_defaultWindow, AUTO_DEFAULT_WIDTH, AUTO_DEFAULT_HEIGHT);
+
+#if BX_PLATFORM_EMSCRIPTEN
+	s_app = _app;
+	emscripten_set_main_loop(&updateApp, -1, 1);
+#else
+	for (;;)
+	{
+		if (_engine->Update())
+		{
+			if (!app->update())
+				break;
+			_engine->Render();
+			_engine->FrameFinish();
+		}
+
+		if (0 != bx::strLen(IAppInstance::_restartArgs))
+		{
+			break;
+		}
+	}
+#endif // BX_PLATFORM_EMSCRIPTEN
+	app->shutdown();
+	_engine->Exit();
+
+	return 1;
 }
 
 int FApplication::RunMainThread()
@@ -801,6 +816,7 @@ restart:
 	IAppInstance::_restartArgs[0] = '\0';
 	if (0 == IAppInstance::_numApps)
 	{
+		// Application instance creates the location.
 		result = ::Auto3D_main(args._argc, (char**)args._argv);
 	}
 	else
@@ -843,6 +859,5 @@ int main(int argc, char** argv)
 	using namespace Auto3D;
 	FArgs::Get().Init(argc, argv);
 
-	FApplication app;
-	return app.Run();
+	return FApplication::Get().Run();
 }

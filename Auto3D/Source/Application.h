@@ -3,6 +3,7 @@
 #include "Container/String.h"
 #include "Platform/PlatformDef.h"
 #include "Engine/Engine.h"
+#include "Container/Singleton.h"
 
 #include <thread>
 #include <memory>
@@ -23,7 +24,7 @@ class __declspec(novtable) IAppInstance
 {
 public:
 	///
-	IAppInstance(const char* _name, const char* _description, const char* _url = "https://bkaradzic.github.io/bgfx/index.html");
+	IAppInstance(const char* name, const char* description, const char* url = "https://bkaradzic.github.io/bgfx/index.html");
 
 	///
 	virtual ~IAppInstance();
@@ -73,13 +74,14 @@ private:
 
 };
 
-///
-int RunAppInstance(IAppInstance* app, int argc, const char* const* argv);
+
 
 
 /// The superclass implementation of the project space, where the engine is implemented
 class AUTO_API FApplication
 {
+	REGISTER_SINGLETON(FApplication)
+
 public:
 	FApplication();
 	~FApplication();
@@ -88,6 +90,9 @@ public:
 	int Run();
 	/// Show an error message (last log message if empty), terminate the main loop, and set failure exit code.
 	void ErrorExit(const FString& message = FString::EMPTY);
+	
+	///
+	int RunAppInstance(IAppInstance* app, int argc, const char* const* argv);
 
 	static FString _currentDir;
 private:

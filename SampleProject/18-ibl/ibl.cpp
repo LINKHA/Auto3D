@@ -418,27 +418,27 @@ public:
 			| BGFX_RESET_MSAA_X16
 			;
 
-		bgfx::Init init;
-		init.type     = args._type;
-		init.vendorId = args._pciId;
-		init.resolution.width  = m_width;
-		init.resolution.height = m_height;
-		init.resolution.reset  = m_reset;
-		bgfx::init(init);
+		//bgfx::Init init;
+		//init.type     = args._type;
+		//init.vendorId = args._pciId;
+		//init.resolution.width  = m_width;
+		//init.resolution.height = m_height;
+		//init.resolution.reset  = m_reset;
+		//bgfx::init(init);
 
-		// Enable debug text.
-		bgfx::setDebug(m_debug);
+		//// Enable debug text.
+		//bgfx::setDebug(m_debug);
 
-		// Set views  clear state.
-		bgfx::setViewClear(0
-			, BGFX_CLEAR_COLOR|BGFX_CLEAR_DEPTH
-			, 0x303030ff
-			, 1.0f
-			, 0
-			);
+		//// Set views  clear state.
+		//bgfx::setViewClear(0
+		//	, BGFX_CLEAR_COLOR|BGFX_CLEAR_DEPTH
+		//	, 0x303030ff
+		//	, 1.0f
+		//	, 0
+		//	);
 
-		// Imgui.
-		imguiCreate();
+		//// Imgui.
+		//imguiCreate();
 
 		// Uniforms.
 		m_uniforms.init();
@@ -488,10 +488,10 @@ public:
 
 		m_uniforms.destroy();
 
-		imguiDestroy();
+		//imguiDestroy();
 
-		// Shutdown bgfx.
-		bgfx::shutdown();
+		//// Shutdown bgfx.
+		//bgfx::shutdown();
 
 		return 0;
 	}
@@ -796,7 +796,7 @@ public:
 
 			// Advance to next frame. Rendering thread will be kicked to
 			// process submitted rendering primitives.
-			bgfx::frame();
+			//bgfx::frame();
 
 			return true;
 		}
@@ -842,7 +842,7 @@ int Auto3D_main(int _argc, char** _argv)
 		, "Image-based lighting."
 		, "https://bkaradzic.github.io/bgfx/examples.html#ibl"
 		);
-	return Auto3D::RunAppInstance(&app, _argc, _argv);
+	return FApplication::Get().RunAppInstance(&app, _argc, _argv);
 }
 //
 //ENTRY_IMPLEMENT_MAIN(
