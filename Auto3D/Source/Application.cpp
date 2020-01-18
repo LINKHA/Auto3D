@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "Platform/PlatformContext.h"
 #include "Platform/Args.h"
+#include "Core/ClassRegister.h"
 
 #include <bx/bx.h>
 #include <bx/file.h>
@@ -672,7 +673,7 @@ FApplication::~FApplication()
 
 int FApplication::Run()
 {
-	//FClassRegister();
+	FClassRegister();
 #if !defined(__GNUC__) || __EXCEPTIONS
 	try
 	{

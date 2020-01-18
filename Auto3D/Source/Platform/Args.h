@@ -9,7 +9,7 @@ namespace Auto3D
 {
 struct AUTO_API FArgs
 {
-	REGISTER_SINGLETON(FArgs);
+	REGISTER_SINGLETON(FArgs)
 
 	FArgs();
 	void Init(int argc, char** argv);

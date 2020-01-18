@@ -140,7 +140,7 @@ struct AUTO_API FHashIteratorBase
             _ptr = _ptr->_prev;
     }
     
-    /// %ANode pointer.
+    /// %AActor pointer.
     FHashNodeBase* _ptr;
 };
 
@@ -197,7 +197,7 @@ protected:
     
     /// Bucket head pointers.
     FHashNodeBase** _ptrs;
-    /// %ANode allocator.
+    /// %AActor allocator.
     FAllocatorBlock* _allocator;
 };
 

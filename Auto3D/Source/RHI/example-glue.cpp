@@ -10,6 +10,7 @@
 #include <bx/string.h>
 #include <bx/timer.h>
 #include <bx/math.h>
+#include "Container/String.h"
 
 #include "Application.h"
 
@@ -144,18 +145,18 @@ void showExampleDialog(Auto3D::IAppInstance* _app, const char* _errorText)
 
 	ImGui::TextWrapped("%s", _app->getDescription() );
 
-	bx::StringView url = _app->getUrl();
-	if (!url.isEmpty() )
+	FString url = _app->getUrl();
+	if (!url.IsEmpty() )
 	{
 		ImGui::SameLine();
 		if (ImGui::SmallButton(ICON_FA_LINK) )
 		{
-			openUrl(url);
+			OpenUrl(url);
 		}
 		else if (ImGui::IsItemHovered() )
 		{
 			char tmp[1024];
-			bx::snprintf(tmp, BX_COUNTOF(tmp), "Documentation: %.*s", url.getLength(), url.getPtr() );
+			bx::snprintf(tmp, BX_COUNTOF(tmp), "Documentation: %.*s", url.Length(), url.CString() );
 			ImGui::SetTooltip(tmp);
 		}
 	}

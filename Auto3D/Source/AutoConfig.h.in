@@ -1,4 +1,5 @@
 #pragma once
+#include <stdint.h>
 
 /// %Auto3D engine namespace.
 namespace Auto3D

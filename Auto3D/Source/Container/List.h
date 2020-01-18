@@ -56,7 +56,7 @@ struct AUTO_API FListIteratorBase
             _ptr = _ptr->_prev;
     }
     
-    /// %ANode pointer.
+    /// %AActor pointer.
     FListNodeBase* _ptr;
 };
 
@@ -106,7 +106,7 @@ protected:
 
     /// Head & tail pointers and list _size.
     FListNodeBase** _ptrs;
-    /// %ANode allocator.
+    /// %AActor allocator.
     FAllocatorBlock* _allocator;
 };
 
@@ -115,26 +115,26 @@ template <typename _Ty> class TList : public FListBase
 {
 public:
     /// %TList node.
-    struct ANode : public FListNodeBase
+    struct Node : public FListNodeBase
     {
         /// Construct undefined.
-        ANode()
+        Node()
         {
         }
         
         /// Construct with value.
-        ANode(const _Ty& value) :
+        Node(const _Ty& value) :
             _value(value)
         {
         }
         
-        /// %ANode value.
+        /// %AActor value.
         _Ty _value;
         
         /// Return next node.
-        ANode* Next() const { return static_cast<ANode*>(_next); }
+        Node* Next() const { return static_cast<Node*>(_next); }
         /// Return previous node.
-        ANode* Prev() { return static_cast<ANode*>(_prev); }
+        Node* Prev() { return static_cast<Node*>(_prev); }
     };
     
     /// %TList iterator.
@@ -146,7 +146,7 @@ public:
         }
         
         /// Construct with a node pointer.
-        explicit Iterator(ANode* ptr) :
+        explicit Iterator(Node* ptr) :
             FListIteratorBase(ptr)
         {
         }
@@ -161,9 +161,9 @@ public:
         Iterator operator -- (int) { Iterator it = *this; GotoPrev(); return it; }
         
         /// Point to the node value.
-        _Ty* operator -> () const { return &(static_cast<ANode*>(_ptr))->_value; }
+        _Ty* operator -> () const { return &(static_cast<Node*>(_ptr))->_value; }
         /// Dereference the node value.
-        _Ty& operator * () const { return (static_cast<ANode*>(_ptr))->_value; }
+        _Ty& operator * () const { return (static_cast<Node*>(_ptr))->_value; }
     };
     
     /// %TList const iterator.
@@ -175,7 +175,7 @@ public:
         }
         
         /// Construct with a node pointer.
-        explicit ConstIterator(ANode* ptr) :
+        explicit ConstIterator(Node* ptr) :
             FListIteratorBase(ptr)
         {
         }
@@ -198,9 +198,9 @@ public:
         ConstIterator operator -- (int) { ConstIterator it = *this; GotoPrev(); return it; }
         
         /// Point to the node value.
-        const _Ty* operator -> () const { return &(static_cast<ANode*>(_ptr))->value; }
+        const _Ty* operator -> () const { return &(static_cast<Node*>(_ptr))->value; }
         /// Dereference the node value.
-        const _Ty& operator * () const { return (static_cast<ANode*>(_ptr))->value; }
+        const _Ty& operator * () const { return (static_cast<Node*>(_ptr))->value; }
     };
 
     /// Construct empty.
@@ -279,12 +279,12 @@ public:
     /// Insert an element to the beginning.
     void PushFront(const _Ty& value) { InsertNode(Head(), value); }
     /// Insert an element at _position.
-    void Insert(const Iterator& dest, const _Ty& value) { InsertNode(static_cast<ANode*>(dest.ptr_), value); }
+    void Insert(const Iterator& dest, const _Ty& value) { InsertNode(static_cast<Node*>(dest.ptr_), value); }
     
     /// Insert a list at _position.
     void Insert(const Iterator& dest, const TList<_Ty>& list)
     {
-        ANode* destNode = static_cast<ANode*>(dest.ptr);
+        Node* destNode = static_cast<Node*>(dest.ptr);
         for (ConstIterator it = list.Begin(); it != list.End(); ++it)
             destNode = InsertNode(destNode, *it)->Next();
     }
@@ -292,7 +292,7 @@ public:
     /// Insert elements by iterators.
     void Insert(const Iterator& dest, const ConstIterator& start, const ConstIterator& end)
     {
-        ANode* destNode = static_cast<ANode*>(dest.ptr);
+        Node* destNode = static_cast<Node*>(dest.ptr);
         ConstIterator it = start;
         while (it != end)
             destNode = InsertNode(destNode, *it++)->Next();
@@ -301,7 +301,7 @@ public:
     /// Insert elements.
     void Insert(const Iterator& dest, const _Ty* start, const _Ty* end)
     {
-        ANode* destNode = static_cast<ANode*>(dest.ptr);
+        Node* destNode = static_cast<Node*>(dest.ptr);
         const _Ty* ptr = start;
         while (ptr != end)
             destNode = InsertNode(destNode, *ptr++)->Next();
@@ -324,7 +324,7 @@ public:
     /// Erase an element by iterator. Return iterator to the next element.
     Iterator Erase(Iterator it)
     {
-        return Iterator(EraseNode(static_cast<ANode*>(it._ptr)));
+        return Iterator(EraseNode(static_cast<Node*>(it._ptr)));
     }
     
     /// Erase a range by iterators. Return an iterator to the next element.
@@ -332,7 +332,7 @@ public:
     {
         Iterator it = start;
         while (it != end)
-            it = EraseNode(static_cast<ANode*>(it.ptr));
+            it = EraseNode(static_cast<Node*>(it.ptr));
         
         return it;
     }
@@ -343,9 +343,9 @@ public:
         if (Size())
         {
             for (Iterator it = Begin(); it != End(); )
-                FreeNode(static_cast<ANode*>(it++._ptr));
+                FreeNode(static_cast<Node*>(it++._ptr));
             
-            ANode* tail = Tail();
+            Node* tail = Tail();
             tail->_prev = nullptr;
             SetHead(tail);
             SetSize(0);
@@ -401,22 +401,22 @@ public:
     
 private:
     /// Return the head node.
-    ANode* Head() const { return static_cast<ANode*>(FListBase::Head()); }
+    Node* Head() const { return static_cast<Node*>(FListBase::Head()); }
     /// Return the tail node.
-    ANode* Tail() const { return static_cast<ANode*>(FListBase::Tail()); }
+    Node* Tail() const { return static_cast<Node*>(FListBase::Tail()); }
     
     /// Reserve the tail node and initial node capacity.
     void Initialize(size_t numNodes)
     {
         AllocatePtrs();
-        _allocator = AllocatorInitialize(sizeof(ANode), numNodes);
-        ANode* tail = AllocateNode();
+        _allocator = AllocatorInitialize(sizeof(Node), numNodes);
+        Node* tail = AllocateNode();
         SetHead(tail);
         SetTail(tail);
     }
 
     /// Allocate and insert a node into the list. Return the new node.
-    ANode* InsertNode(ANode* dest, const _Ty& value)
+    Node* InsertNode(Node* dest, const _Ty& value)
     {
         if (!dest)
         {
@@ -430,8 +430,8 @@ private:
                 return nullptr;
         }
         
-        ANode* newNode = AllocateNode(value);
-        ANode* prev = dest->Prev();
+        Node* newNode = AllocateNode(value);
+        Node* prev = dest->Prev();
         newNode->_next = dest;
         newNode->_prev = prev;
         if (prev)
@@ -447,14 +447,14 @@ private:
     }
     
     /// Erase and free a node. Return pointer to the next node, or to the end if could not erase.
-    ANode* EraseNode(ANode* node)
+    Node* EraseNode(Node* node)
     {
         // The tail node can not be removed
         if (!node || node == Tail())
             return Tail();
         
-        ANode* prev = node->Prev();
-        ANode* next = node->Next();
+        Node* prev = node->Prev();
+        Node* next = node->Next();
         if (prev)
             prev->_next = next;
         next->_prev = prev;
@@ -470,17 +470,17 @@ private:
     }
     
     /// Reserve a node with optionally specified value.
-    ANode* AllocateNode(const _Ty& value = _Ty())
+    Node* AllocateNode(const _Ty& value = _Ty())
     {
-        ANode* newNode = static_cast<ANode*>(AllocatorGet(_allocator));
-        new(newNode) ANode(value);
+        Node* newNode = static_cast<Node*>(AllocatorGet(_allocator));
+        new(newNode) Node(value);
         return newNode;
     }
     
     /// Free a node.
-    void FreeNode(ANode* node)
+    void FreeNode(Node* node)
     {
-        (node)->~ANode();
+        (node)->~Node();
         AllocatorFree(_allocator, node);
     }
 };
